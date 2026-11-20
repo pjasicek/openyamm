@@ -1,0 +1,37 @@
+{
+  "material": "sandstone",
+  "status": "candidate_visual_review_required",
+  "method": "Native-scale crop plus smooth periodic boundary-component removal; no detail-strip averaging",
+  "raw_sha256": "8021f352507d551e49d3062baa7e4b9b5330b09d18406e46bb3882049d734eed",
+  "prompt_sha256": "6e6a6a109eb1a1567a9d8394a06283b9f6b52258bcda49045b553a30cf88f933",
+  "native_sha256": "25921c20b552b5bc8b0c98ca1bfda93e12c3aa2579ea651808d213a2cc05e0df",
+  "authoring_sha256": "df67d1f2588709995722f84dd1e80c57b48c833f76f368aa4f2f5e23dae051a6",
+  "runtime_sha256": "b32da80c7f399695ce1c8764dfc6fc7b21719aacd533b5cb84237eea93c7f91a",
+  "native_mean_rgb": [
+    115.18771362304688,
+    61.2720832824707,
+    30.741195678710938
+  ],
+  "runtime_mean_rgb": [
+    115.18907165527344,
+    61.27458190917969,
+    30.742385864257812
+  ],
+  "seams": {
+    "E": {
+      "boundary_p95": 1.4322988694682552,
+      "boundary_max": 1.8977065189988678,
+      "interior_p95": 1.5904959745212572,
+      "interior_p999": 2.0599179557457505,
+      "passed": true
+    },
+    "S": {
+      "boundary_p95": 0.7205392304637659,
+      "boundary_max": 0.830388869368485,
+      "interior_p95": 1.8948612677061283,
+      "interior_p999": 2.881962429426659,
+      "passed": true
+    }
+  },
+  "source_framing": "Resize raw768, retain top-left512; restores native feature scale"
+}

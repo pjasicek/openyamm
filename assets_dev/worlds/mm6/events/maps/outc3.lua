@@ -62,6 +62,9 @@ SetMapMetadata({
     [223] = { kind = "obelisk", source = "title" },
     [261] = { kind = "shrine", source = "title" },
     },
+    learnedEffect = {
+    [100] = { autonote = 417, effect = "+2 Endurance permenant" },
+    },
     textureNames = {},
     spriteNames = {"ped04"},
     castSpellIds = {},
@@ -621,7 +624,6 @@ end, "House")
 
 RegisterEvent(68, "House", function()
     evt.EnterHouse(1436) -- House
-    evt.EnterHouse(1445) -- House
 end, "House")
 
 RegisterEvent(70, "House", function()

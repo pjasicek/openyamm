@@ -1,0 +1,44 @@
+# Fridleif Gjukissen's Gladiator labours (RUDE 61, Sturmford City). In MM9's dialogue "We've completed all the labors."
+# is only on the page a labour's hand-in leads to, and the hand-in rows go once used: a "Thanks." after the third
+# hand-in lost the promotion for good (found 2026-11-08). worlds/mm9/dialogue/promotions.yml `added_rows` offers the
+# row on his first page too (row 63, after MM9's 63) until it is done (key 26).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/gladiator_labours_completion.yml --scenario-no-color
+id: mm9.gladiator_labours_completion
+title: "Fridleif's labours: after a Thanks. past the last hand-in, his first page still offers the completion; it pays and promotes"
+world: mm9
+mode: faithful
+tags: [mm9, promotions, dialogue]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Cav, class: Cavalier, level: 20, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.SetQuestBit(90214) evt.SetQuestBit(90215) evt.SetQuestBit(90216) evt.SetQuestBit(90217)"}
+  - interact_actor: {actor_index: 31}
+  - assert:
+      dialog: {active: true, source_id: 61, action_label_absent: "We've completed all the labors."}
+  - select_topic: {action_id: 59, match_label: "We have the Basilisk Skin"}
+  - select_topic: {action_id: 29, match_label: "Thanks."}
+  - select_topic: {action_id: 60, match_label: "We have Kira's Shield"}
+  - select_topic: {action_id: 29, match_label: "Thanks."}
+  - select_topic: {action_id: 61, match_label: "We have won in the Arena."}
+  # The player answers "Thanks." instead of the completion, and leaves.
+  - select_topic: {action_id: 29, match_label: "Thanks."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90218, 90219, 90220], qbit_clear: [90026, 90221]}
+  - interact_actor: {actor_index: 31}
+  - assert:
+      dialog: {active: true, source_id: 61, action_label_present: "We've completed all the labors."}
+  - select_topic: {action_id: 63, match_label: "We've completed all the labors."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {gold: 5000, qbit_set: [90026, 90221]}
+  - lua_event: {source: "if GetPlayerClassName(0) ~= 'Champion' then error('not promoted: ' .. GetPlayerClassName(0)) end"}
+  - interact_actor: {actor_index: 31}
+  - assert:
+      dialog: {active: true, source_id: 61, action_label_absent: "We've completed all the labors.", action_label_present: "Promote our eligible characters."}

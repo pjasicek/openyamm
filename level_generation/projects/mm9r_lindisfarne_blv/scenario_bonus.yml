@@ -1,0 +1,34 @@
+# MM9's bonus props (devdocs/mm9_rework/MM9_BONUS_PROPS_RE.md): the well (Dark resistance +5 for good, 4 doses a
+# day), the cauldron (Spirit resistance +5 for the party, once), a cook pot (Elemental resistance +10, 16 a day) and a
+# clover (item 590, once).
+id: mm9r.lindisfarne_bonus
+title: 'Lindisfarne (native BLV): the well, cauldron, cook pot and clover'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: lindisfarne.blv
+- execute_event: {id: 30318}
+- execute_event: {id: 30318}
+- execute_event: {id: 30318}
+- execute_event: {id: 30318}
+- execute_event: {id: 30318}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    state_dump_named_map_var: {name: MM9.Bonus.318.Doses, value: 5}
+- execute_event: {id: 30375}
+- execute_event: {id: 30375}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    state_dump_named_map_var: {name: MM9.Bonus.375.Used, value: 1}
+- execute_event: {id: 30334}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    state_dump_named_map_var: {name: MM9.Bonus.334.Doses, value: 1}
+- execute_event: {id: 30385}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    state_dump_named_map_var: {name: MM9.Bonus.385.Used, value: 1}

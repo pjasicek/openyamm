@@ -1,0 +1,24 @@
+[
+  {
+    "name": "dirt1",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-75a549e3-f290-40fb-882b-dfed2be834a7.png",
+    "raw_sha256": "e4da1886281f7a220a4181bcdf58f3c03e517bb39541988726524a8c73fc5f30",
+    "prompt_sha256": "69d764a0aa3874992cacac18664684266e58c0bcbdb3b29c58b1d8778e7d6dfc",
+    "inputs": {
+      "level_generation/terrain/mm8/references/dirt1.png": "6c07a3be83256c740fb2da0b12a21fd3070673659b8d150d88110d1e97314abe",
+      "level_generation/terrain/mm8/masters/v1/materials/dirt.png": "88f9379ecad45e35a4b3888654abb972f428809e9f101d8c4321f7926d669dea"
+    }
+  },
+  {
+    "name": "dirt2",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-18ac1f36-39d3-41cc-bacc-ac1b9f13c9a1.png",
+    "raw_sha256": "e772b9e1e524b4786d4103ac62e8214bfa8ee8894df311a1db0ed625c1228435",
+    "prompt_sha256": "36179c9a22bce84ce3df17102ab74d89017a12e75e3f118ae340ddee23f0b9ec",
+    "inputs": {
+      "level_generation/terrain/mm8/references/dirt2.png": "17541bcf234fbe9609eccf021af76ffe60378ba7e625f8ff6a3f4c5289da7b50",
+      "level_generation/terrain/mm8/masters/v1/materials/dirt.png": "88f9379ecad45e35a4b3888654abb972f428809e9f101d8c4321f7926d669dea"
+    }
+  }
+]

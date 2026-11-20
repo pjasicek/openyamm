@@ -1,0 +1,114 @@
+{
+  "map": "hes_d10.blv",
+  "faces": 1328,
+  "vertices": 906,
+  "sectors": 13,
+  "portals": 24,
+  "doors": 3,
+  "lights": 17,
+  "decorations": 45,
+  "events": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    19,
+    20,
+    21,
+    22,
+    700,
+    701,
+    702,
+    703,
+    704,
+    705,
+    706,
+    707,
+    708,
+    709,
+    710,
+    711,
+    750,
+    751,
+    752,
+    753,
+    754,
+    755,
+    756,
+    757,
+    758,
+    759
+  ],
+  "actors": 19,
+  "ground_items": [
+    {
+      "item": 11372,
+      "position": [
+        3900,
+        1500,
+        115
+      ],
+      "label": "Founders Charter on the reading lectern",
+      "sector": 8
+    },
+    {
+      "item": 11420,
+      "position": [
+        3120,
+        -3000,
+        -400
+      ],
+      "label": "Founders Repeater on its shelf",
+      "sector": 1
+    },
+    {
+      "item": 189,
+      "amount": 20000,
+      "position": [
+        3300,
+        -3000,
+        -400
+      ],
+      "label": "Armoury gold on its shelf",
+      "sector": 1
+    }
+  ],
+  "outdoor_return": {
+    "position": [
+      -8640,
+      18747,
+      1152
+    ],
+    "direction_degrees": 270
+  },
+  "plan_budget": {
+    "map": "d10_colony_archive",
+    "extent": [
+      9700,
+      6600
+    ],
+    "floor_area_m_units": 26.3,
+    "floors": 2,
+    "rooms": 7,
+    "sectors": 12,
+    "doors": 3,
+    "monsters": 11,
+    "chests": 3,
+    "interactables": 8,
+    "houses": 0,
+    "lights": 13,
+    "max_lights_at_a_point": 3
+  },
+  "outdoor_return_source": "hesper_out1/source: archive_dome event 13 exported face"
+}

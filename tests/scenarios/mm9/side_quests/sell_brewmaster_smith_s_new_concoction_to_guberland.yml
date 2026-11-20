@@ -1,0 +1,112 @@
+# MM9 side quest "Sell Brewmaster Smith's new concoction to Guberland" (guide: Side quests, Frosgard,
+# sell-brewmaster-smith-s-new-concoction-to-guberland; tools/mm9_site/story/side_c.yml). Played from a new game in
+# Frosgard City. Brewmaster Smith (actor 14, RUDE 184) in the tavern takes the errand (key 302); his talk's close
+# gives the Keg of Strange Brew (item 249, key 303; frosgardcity.lua handler 50560). The Racing Fire sails to
+# Guberland (Thursdays, six days; `travel`), the party walks into Guberland City by its gate and sells the keg to Aklai
+# Dorka at Akl'ai's Spirits (actor 33, RUDE 141) as the Brewmaster's own (key 304); her close takes the keg and pays
+# (key 306: 500 gold, 5 000 experience; guberlandcity.lua handler 50836). Back by the Flying Bird (Fridays, six days),
+# the Brewmaster hears "500 gold." (key 307) and his close pays 12 500 experience (key 308; MM9's 20 000 on the
+# rework's profile). The party is placed beside each person (cities) and walks into each gate.
+# Research: prep/B_guberland_frosgard_honk.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py sell_brewmaster
+id: mm9.side_quests.sell_brewmaster_smith_s_new_concoction_to_guberland
+title: "MM9 side quest: Sell Brewmaster Smith's new concoction to Guberland (Brewmaster Smith, Aklai Dorka)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: frosgardcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  # Story state: Frosgard's harbour freed in Chapter I (key 72, the ice broken; key 73, Tryygva told). Every boat out
+  # of and into Frosgard needs key 73 (transport_routes.txt RequiredRawKeys); without it the party would walk to
+  # Thronheim (five days) and sail from there. The Brewmaster's and Aklai's lines need no story key.
+  - lua_event: {source: "evt.SetQuestBit(90072) evt.SetQuestBit(90073)"}
+  - assert: {map: frosgardcity.blv, gold: 10000, qbit_clear: [90302, 90303, 90304, 90305, 90306, 90307, 90308]}
+
+  # Brewmaster Smith in the Great White North tavern.
+  - set_pose: {map: frosgardcity.blv, x: 400, y: -3441, z: 45, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 14}
+  - select_topic: {match_label: "Is there anything we can do for you?"}
+  - select_topic: {match_label: "What do you want us to do?"}
+  - select_topic: {match_label: "We will be happy to do that for you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  # The close gives the Keg of Strange Brew (on the cursor).
+  - assert: {qbit_set: [90302, 90303], qbit_clear: [90304]}
+  - play_lua:
+      source: |
+        if not has_item(10249) then error("no Keg of Strange Brew from the Brewmaster") end
+        log("the Keg of Strange Brew (on the cursor: " .. tostring(held() == 10249) .. ")")
+
+  # The Racing Fire to Guberland's dock; the road up to the city gate (ExitTriggerGuberland). The keg stays on the
+  # cursor through the map moves.
+  - travel: {map: guberland.blv, days: 6}
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+
+  # Aklai Dorka at Akl'ai's Spirits: the Brewmaster's own brew, 500 gold.
+  - set_pose: {map: guberlandcity.blv, x: -1782, y: -4050, z: 1, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 33}
+  - select_topic: {match_label: "We have some beer we'd like to sell."}
+  - select_topic: {match_label: "It's a special brew from Frosgard."}
+  - select_topic: {match_label: "Er,..Yes."}
+  - select_topic: {match_label: "Sounds good."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      qbit_set: [90304, 90306]
+      qbit_clear: [90305]
+      gold: 10500
+      runtime_event_variable: {id: 13, member_index: 0, value: 5000}
+  - play_lua:
+      source: |
+        if has_item(10249) then error("Aklai did not take the keg") end
+        log("Aklai bought the keg")
+
+  # Out by the city gate; the Flying Bird to Frosgard's dock.
+  - set_pose: {map: guberlandcity.blv, x: -655, y: -600, z: -9, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -655, y: -41, z: -9, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberland.blv}
+  - travel: {map: frosgardcity.blv, days: 6}
+
+  # The Brewmaster lets the party keep the 500 gold and pays experience.
+  - set_pose: {map: frosgardcity.blv, x: 400, y: -3441, z: 45, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 14}
+  - select_topic: {match_label: "We sold the beer."}
+  - select_topic: {match_label: "500 gold."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      qbit_set: [90307, 90308]
+      qbit_clear: [90309, 90310]
+      gold: 10500
+      runtime_event_variable: {id: 13, member_index: 0, value: 17500}
+  - interact_actor: {actor_index: 14}
+  - assert: {dialog: {active: true, source_id: 184, action_label_absent: "We sold the beer."}}
+  - press_action: {action: cancel_dialog}

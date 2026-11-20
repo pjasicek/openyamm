@@ -1,0 +1,137 @@
+id: lmroll.thearena_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: thearena.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: thearena.blv
+      x: -758
+      y: -2458
+      z: 943
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: thearena.blv
+      x: -758
+      y: -2621
+      z: 1025
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: thearena.blv
+      x: 225
+      y: -2458
+      z: 902
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: thearena.blv
+      x: 225
+      y: -2621
+      z: 984
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: thearena.blv
+      x: -2765
+      y: 492
+      z: 1025
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: thearena.blv
+      x: -2601
+      y: 492
+      z: 943
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id007
+      map: thearena.blv
+      x: -758
+      y: 2621
+      z: 1025
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id007
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id008
+      map: thearena.blv
+      x: 225
+      y: 2621
+      z: 984
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id008
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

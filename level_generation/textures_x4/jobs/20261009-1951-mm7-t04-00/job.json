@@ -1,0 +1,868 @@
+{
+ "id": "20261009-1951-mm7-t04-00",
+ "world": "mm7",
+ "maps": [
+  "t04.blv",
+  "out12.odm",
+  "7nwc.blv",
+  "mdr05.blv",
+  "7d37.blv",
+  "7d18.blv",
+  "7out03.odm",
+  "mdt05.blv",
+  "7out04.odm",
+  "mdr03.blv",
+  "7out06.odm",
+  "7d20.blv",
+  "7d24.blv",
+  "mdk02.blv",
+  "out10.odm",
+  "7d29.blv"
+ ],
+ "created": "2026-10-09T17:51:26+00:00",
+ "textures": [
+  "mm7/7gt002c",
+  "mm7/7t1books1",
+  "mm7/t5s1er",
+  "mm7/t5bs",
+  "mm7/hwp1b",
+  "mm7/t5s1be",
+  "mm7/ch003f",
+  "mm7/ch003b",
+  "mm7/t5s1c",
+  "mm7/chb1dr",
+  "mm7/7ch002h",
+  "mm7/7ch002j",
+  "mm7/hem1elw",
+  "mm7/hwp1bwall",
+  "mm7/cnb1er",
+  "mm7/hwr1wall",
+  "mm7/ch003c",
+  "mm7/hdm1elw",
+  "mm7/hdm1el",
+  "mm7/hdm1erw",
+  "mm7/hdm1b",
+  "mm7/hkm3er",
+  "mm7/hkm3b",
+  "mm7/tfb09r1b"
+ ],
+ "requests": {
+  "mm7/7gt002c": {
+   "name": "7gt002c",
+   "versions": [
+    1
+   ],
+   "material": "wooden crate face of horizontal reddish-brown planks inside a dark riveted iron frame, with a square iron lock plate with a rectangular slot in the centre; every plank and joint runs straight and unbroken; copy the composition exactly",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7t1books1": {
+   "name": "7t1books1",
+   "versions": [
+    1
+   ],
+   "material": "plain worn brown wooden boards with long straight grain and a few faint scratches; one continuous surface with no patches or outlines",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t5s1er": {
+   "name": "t5s1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a carved golden-tan zigzag-lattice pilaster along the right edge; copy the composition exactly",
+   "notes": {
+    "3": "copy the composition exactly: immediately left of the carved column runs a narrow carved golden-tan stone strip whose left edge is a sawtooth of eight triangular teeth pointing into the granite; the granite panel ends at those teeth",
+    "4": "copy the composition exactly: immediately left of the carved column runs a narrow carved golden-tan stone strip whose left edge is a sawtooth of eight triangular teeth pointing into the granite; the granite panel is one even tone with no darker vertical stripe",
+    "5": "copy the composition exactly: left of the carved column a narrow golden-tan stone strip with a sawtooth of eight teeth pointing into the granite; the granite panel is one even tone with no darker vertical band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el",
+      "mm7/t5elr"
+     ],
+     "fraction": 0.91
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.775
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.775
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.775
+    },
+    "5": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.775
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/t5s1b",
+     "right": "mm7/t5s1el"
+    },
+    "3": {
+     "left": "mm7/t5s1b",
+     "right": "mm7/t5s1el"
+    },
+    "4": {
+     "left": "mm7/t5s1b",
+     "right": "mm7/t5s1el"
+    },
+    "5": {
+     "left": "mm7/t5s1b",
+     "right": "mm7/t5s1el"
+    }
+   }
+  },
+  "mm7/t5bs": {
+   "name": "t5bs",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "smooth grey speckled granite panel, one plain continuous slab with no joints, seams or lines",
+   "notes": {
+    "3": "the soft strip between the sharp areas is filled with exactly the same fine speckled granite as the sharp areas: same grain size, same softness and contrast, same tone, so no band or strip is visible anywhere",
+    "4": "one plain continuous granite slab: the soft areas are filled with exactly the same fine speckled granite as the sharp areas, same grain, contrast and tone; no stripe, band, teeth or ornament anywhere",
+    "5": "one plain continuous granite slab: the soft areas are filled with exactly the same fine speckled granite as the sharp areas, same grain size, contrast and tone, keeping every sharp area exactly in place; no stripe, band, teeth or ornament anywhere",
+    "6": "one plain continuous granite slab of even tone: the soft areas are filled with exactly the same fine speckled granite as the sharp areas, same grain, contrast and brightness; no stripe, band or line anywhere",
+    "7": "one plain continuous granite slab of even tone: the soft areas are filled with exactly the same fine speckled granite as the sharp areas; no stripe, band or line anywhere",
+    "8": "one plain continuous slab of fine grey speckled granite of even tone and grain everywhere; no lines, bands, stripes or patches"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el",
+      "mm7/t5elr"
+     ],
+     "fraction": 0.872
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.802
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.834
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.802
+    },
+    "5": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.834
+    },
+    "6": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.802
+    },
+    "7": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.834
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   },
+   "ref_blur": {
+    "4": 2.5,
+    "8": 2.5
+   },
+   "standalone": true,
+   "match_neighbor": true
+  },
+  "mm7/hwp1b": {
+   "name": "hwp1b",
+   "versions": [
+    1
+   ],
+   "material": "pale cream speckled marble wall with a grey stone moulding across the top and a dark grey stone base along the bottom; the marble is one continuous slab with no vertical line or joint",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp1b1s2",
+      "mm7/hwp1b1s1"
+     ],
+     "fraction": 0.715
+    }
+   }
+  },
+  "mm7/t5s1be": {
+   "name": "t5s1be",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a hung painting of a grey stone ruin in a silver frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.606
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.606
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/ch003f": {
+   "name": "ch003f",
+   "versions": [
+    1
+   ],
+   "material": "mottled blue-grey brushed steel chest panel with faint rust flecks, plain, with two small dark rusty iron keyhole plates at the top centre and bottom centre edges; copy the composition exactly",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch003b": {
+   "name": "ch003b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mottled blue-grey brushed steel chest panel with faint rust flecks, plain, no fittings",
+   "notes": {
+    "2": "the panel's surface is the same even blue-grey steel right up to all four edges: no dark border, rim, shadow or vignette along any edge"
+   },
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t5s1c": {
+   "name": "t5s1c",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "square carved golden-tan stone frame around a grey speckled granite panel bearing a large raised golden-tan X-shaped cross emblem; copy the composition exactly",
+   "notes": {
+    "3": "copy the carved cross exactly as in the reference: four broad golden-tan arms with notched V-shaped ends, separated by plain grey granite gaps; nothing in the centre and no extra stems or lines; the outer golden-tan frame has a thin bright moulding along the top and bottom edges that runs straight past the edges with no dark line",
+    "4": "copy the carved cross exactly: four broad golden-tan arms with notched V-shaped ends separated by plain grey granite gaps, nothing in the centre; the frame mouldings keep the reference's exact positions",
+    "5": "copy the carved cross exactly: four broad golden-tan arms with notched V-shaped ends separated by plain grey granite gaps, nothing in the centre; the frame mouldings keep the reference's exact positions",
+    "6": "the square golden-tan frame is symmetric: the left and right frame bars are equally wide and meet the top and bottom bars in clean mitred corners, so the frame continues seamlessly into the next tile on every side; the bottom frame bar ends in the same dark shadow line as in the reference, with no pale line on the bottom edge",
+    "7": "copy the carved cross exactly: four broad golden-tan arms with notched V-shaped ends separated by plain grey granite gaps, nothing in the centre; the frame mouldings keep the reference's exact positions and brightness, including the thin bright highlight along the top edge",
+    "8": "copy the carved cross exactly: four broad golden-tan arms with notched V-shaped ends separated by plain grey granite gaps, nothing in the centre; the frame keeps the reference's exact moulding positions: the dark shadow groove of the bottom frame bar lies on the very last rows at the bottom edge, and the bright highlight on the very first row at the top",
+    "9": "copy the carved cross exactly: four broad golden-tan arms with notched V-shaped ends separated by plain grey granite gaps, nothing in the centre; the four golden-tan frame bars are plain smooth bevelled stone with no grooves or slots; the top frame bar is lit, its uppermost rows are the brightest of the frame"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.269
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.257
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.269
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.257
+    },
+    "5": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.257
+    },
+    "6": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.269
+    },
+    "7": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.257
+    },
+    "8": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.269
+    },
+    "9": {
+     "sources": [
+      "mm7/t5bs"
+     ],
+     "fraction": 0.269
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {}
+   },
+   "roll": {
+    "4": [
+     0,
+     33
+    ],
+    "7": [
+     0,
+     33
+    ],
+    "8": [
+     0,
+     33
+    ],
+    "9": [
+     0,
+     33
+    ]
+   }
+  },
+  "mm7/chb1dr": {
+   "name": "chb1dr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with an arch of dressed stones over the right half of a dark wooden plank double door with a riveted dark greenish iron band across its top and iron hinges; copy the composition exactly",
+   "notes": {
+    "2": "the bottom-most rows and the left-most columns keep the reference's colours right to the edge: the left edge is the middle of the double door, where these planks continue straight into the other door half, so no dark gap, shadow or black line along the left edge; no dark rim along the bottom edge",
+    "3": "the left-most pixel columns (the door's middle gap) are medium dark brown exactly as in the reference, not black, and the bottom rows are the iron-banded threshold as bright as the reference, not a black rim",
+    "4": "the left-most pixel columns (the door's middle gap) are medium dark brown exactly as in the reference, not black, and the bottom rows are the iron-banded threshold as bright as the reference, not a black rim"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    },
+    "4": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/7ch002h": {
+   "name": "7ch002h",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered brown oak chest planks with dark seams, vertical planks inside a square frame of dark riveted iron bands with diagonal iron braces running to each corner; copy the composition exactly",
+   "notes": {
+    "2": "the top-most and right-most pixel rows/columns are the plank wood and iron exactly as bright as the reference, with no dark rim, shadow or outline line along any edge"
+   },
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7ch002j": {
+   "name": "7ch002j",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown oak chest planks with dark seams, vertical planks with studded dark iron bands along the top and bottom edges; copy the composition exactly",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hem1elw": {
+   "name": "hem1elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with a curved dark brown wooden rib sweeping across in a broken arch, a dark wooden post on the left edge, small green ivy leaves on the left and part of a small arched dark wooden window at the right edge; copy the composition exactly",
+   "notes": {
+    "2": "the pale cream planks keep one even tone everywhere: no darker beige shadow patches or stains under the curved ribs or around the window, and no outlined blotches"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1b"
+     ],
+     "fraction": 0.867
+    },
+    "2": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1b"
+     ],
+     "fraction": 0.867
+    }
+   }
+  },
+  "mm7/hwp1bwall": {
+   "name": "hwp1bwall",
+   "versions": [
+    1
+   ],
+   "material": "pale cream speckled marble wall, one continuous slab with no vertical line, joint, band or outline",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp1b"
+     ],
+     "fraction": 0.65
+    }
+   }
+  },
+  "mm7/cnb1er": {
+   "name": "cnb1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with a column of large tan sandstone corner blocks along the right edge",
+   "notes": {
+    "2": "the right edge continues straight into the neighbouring cnb1el wall: the tan sandstone corner blocks at the right edge must line up with the neighbour's blocks shown in the margin, with the same mortar line heights, colour and brightness, so each block reads as one stone across the edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb1ser",
+      "mm7/cnb"
+     ],
+     "fraction": 0.86
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb1ser",
+      "mm7/cnb"
+     ],
+     "fraction": 0.86
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/cnb1el"
+    }
+   }
+  },
+  "mm7/hwr1wall": {
+   "name": "hwr1wall",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale yellow weathered vertical wooden planks with fine grain, small knots and dark seams between boards; every board runs straight and unbroken from top to bottom",
+   "notes": {
+    "2": "the boards run edge to edge so that the left-most and right-most pixel columns are the middle of a pale board, as bright as the reference: no dark seam, gap or rim line on the left or right edge",
+    "3": "the board seam on the tile edge is split: one or two medium-brown pixel columns at the left edge and one or two at the right edge, together as wide and as dark as the other seams, never black; every other column is pale board"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.316
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.316
+    },
+    "3": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.316
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm7/ch003c": {
+   "name": "ch003c",
+   "versions": [
+    1
+   ],
+   "material": "mottled blue-grey brushed steel chest panel with faint rust flecks, with dark riveted rusty iron strips along the left and right edges, round domed rivets in a vertical row on each; copy the composition exactly",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdm1elw": {
+   "name": "hdm1elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a tall carved pointed gothic arch relief with a narrow window of crossed dark bars over dim amber-lit glass inside it, and a thin pale stone frame on the left edge; copy the composition exactly",
+   "notes": {
+    "2": "the right-most pixel columns keep the reference's grey-brown stone tone, with no pale or bright line along the right edge",
+    "3": "the right edge is plain grey-brown stone of even tone to the last pixel column: no dark or bright line, groove or shadow in the last few columns",
+    "4": "the right edge is plain grey-brown stone of even tone to the last pixel column: no dark or bright line, groove or shadow in the last few columns"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1bw",
+      "mm7/hdm1er",
+      "mm7/hdm1d"
+     ],
+     "fraction": 0.372
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm1bw",
+      "mm7/hdm1er",
+      "mm7/hdm1d"
+     ],
+     "fraction": 0.372
+    },
+    "3": {
+     "sources": [
+      "mm7/hdm1bw",
+      "mm7/hdm1er",
+      "mm7/hdm1d"
+     ],
+     "fraction": 0.372
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hdm1d"
+    }
+   }
+  },
+  "mm7/hdm1el": {
+   "name": "hdm1el",
+   "versions": [
+    1
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a tall carved pointed gothic arch relief with a carved interlaced ribbon ornament inside it, and a thin pale stone frame on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1elw",
+      "mm7/hdm1er"
+     ],
+     "fraction": 0.993
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm7/hdm1erw": {
+   "name": "hdm1erw",
+   "versions": [
+    1
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a tall carved pointed gothic arch relief with a narrow window of crossed dark bars over dim amber-lit glass inside it, and a thin pale stone frame on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1er",
+      "mm7/hdm1elw"
+     ],
+     "fraction": 0.847
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hdm1d"
+    }
+   }
+  },
+  "mm7/hdm1b": {
+   "name": "hdm1b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a shallow carved round-arched recess of plain smooth stone and a narrow stone ledge near the bottom; no pointed arch or ribs inside the recess",
+   "notes": {
+    "2": "below the shallow carved arch rim at the top the wall is plain worn grey-brown dressed stone with faint block joints only: no carved niche, pointed arch, window, frame or relief in the middle"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1bw",
+      "mm7/hdm1el",
+      "mm7/hdm1er",
+      "mm7/hdm1d"
+     ],
+     "fraction": 0.763
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm1bw",
+      "mm7/hdm1el",
+      "mm7/hdm1er",
+      "mm7/hdm1d"
+     ],
+     "fraction": 0.763
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hdm1erw",
+     "left": "mm7/hdm1elw"
+    },
+    "2": {
+     "right": "mm7/hdm1erw",
+     "left": "mm7/hdm1elw"
+    }
+   }
+  },
+  "mm7/hkm3er": {
+   "name": "hkm3er",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber frame with a carved wooden lintel and small skull ornaments along the top, with a timber post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.538
+    }
+   }
+  },
+  "mm7/hkm3b": {
+   "name": "hkm3b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber lintel with small skull ornaments along the top; the slate continues straight across the left and right edges with no post or vertical line",
+   "notes": {
+    "3": "the carved frieze on the top beam carries three small skull ornaments exactly as in the reference: one at the far left touching the left edge, one in the centre and one near the right edge, with blue iron fittings between them",
+    "4": "the skull frieze has a skull right at the left edge of the picture, immediately beside the neighbouring skull shown in the left margin, so two skulls sit almost touching across the left edge; then blue iron fittings, a second skull in the centre and a third near the right edge: three skulls inside the picture"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3er",
+      "mm7/hkm3el"
+     ],
+     "fraction": 0.668
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm3er",
+      "mm7/hkm3el"
+     ],
+     "fraction": 0.668
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm3er",
+      "mm7/hkm3el"
+     ],
+     "fraction": 0.668
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm3er",
+      "mm7/hkm3el"
+     ],
+     "fraction": 0.668
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hkm3er",
+     "left": "mm7/hkm3dr"
+    },
+    "2": {
+     "right": "mm7/hkm3er",
+     "left": "mm7/hkm3dr"
+    },
+    "3": {
+     "right": "mm7/hkm3er",
+     "left": "mm7/hkm3dr"
+    },
+    "4": {
+     "right": "mm7/hkm3er",
+     "left": "mm7/hkm3dr"
+    }
+   }
+  },
+  "mm7/tfb09r1b": {
+   "name": "tfb09r1b",
+   "versions": [
+    1
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb09r1a",
+      "mm7/tfb09r1c",
+      "mm7/tfb09b-g"
+     ],
+     "fraction": 0.558
+    }
+   }
+  }
+ }
+}

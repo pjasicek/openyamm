@@ -87,6 +87,9 @@ SetMapMetadata({
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "d47.blv", targetName = "Old Loeb's Cave" },
     [506] = { kind = "enter_dungeon", source = "opcode", targetMap = "d33.blv", targetName = "Passage Under Regna" },
     },
+    learnedEffect = {
+    [101] = { autonote = 232, effect = "Speed +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {6, 9, 18, 43},
@@ -411,7 +414,7 @@ RegisterEvent(452, nil, function()
         evt.MoveNPC(64, 899) -- Derrin Delver -> Hostel
         evt.MoveNPC(20, 900) -- Queen Catherine -> Hostel
         evt.MoveNPC(21, 900) -- King Roland -> Hostel
-        AddValue(History(15), 0)
+        AddValue(History(13), 0)
         SetValue(MapVar(41), 0)
         evt.SetFacetBit(31, FacetBits.Invisible, 0)
         evt.SetFacetBit(31, FacetBits.Untouchable, 0)

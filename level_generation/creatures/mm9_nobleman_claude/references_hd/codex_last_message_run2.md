@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png` at 1024×1536 using built-in image generation, plus raw returns, prompts/hashes in `generation_runs.json`, and the [review sheet](level_generation/creatures/mm9_nobleman_claude/references_hd/selected_views_review.png).
+
+Stopped at one correction per view. Background haze, overlapping fingers, and slight profile/pose deviations remain; the outputs do not fully meet the brief. No builds or Meshy calls.

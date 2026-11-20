@@ -1,0 +1,172 @@
+{
+  "7item064": {
+    "status": "installed",
+    "name": "Blaster",
+    "baseline": {
+      "source": "e116c2838d7fcfaf93ff4739cc0fb6cc46d27d55eaeadbe41ff1c9f2b6224d56",
+      "runtime": "77d1346ca11660b5381036a8a562fa6d05f7fa0949a14bd3473bcb86bd09c6d2"
+    },
+    "binding_length": 54.9,
+    "remaining_defects": [],
+    "baseline_sha256": "e116c2838d7fcfaf93ff4739cc0fb6cc46d27d55eaeadbe41ff1c9f2b6224d56",
+    "source_export": "work/meshy/7item064_export.glb",
+    "route": "Icon-specific imagegen master + Meshy Smart Topology + explicit PBR",
+    "mesh_job": "7item064_textured_v1",
+    "credits": 15,
+    "triangles": 4738,
+    "texture_size": 1024,
+    "validation": "receipts/validation.json",
+    "defects": [],
+    "runtime_triangles": 4738,
+    "runtime_back_copies": 0,
+    "source_sha256": "d43c7151b0bfc1c1e16862aa43b1f6051d811cc77774d60d3fbe9acf48482ce8",
+    "runtime_sha256": "2f9245783885d0cf2baff00d9d58c7dacd9f945b2584b524fe7a6b3b0a1678ab",
+    "mesh_task_id": "01a14f19-29b7-7124-825d-3993246a889b",
+    "mesh_cost": 15,
+    "native_review": "passed",
+    "native_outdoor": [
+      "review/native_outdoor/01-7item064_normal.png",
+      "review/native_outdoor/02-7item064_low.png"
+    ],
+    "native_indoor": [
+      "review/native_indoor/01-7item064_dim.png",
+      "review/native_indoor/02-7item064_dim_low.png"
+    ]
+  },
+  "7item065": {
+    "status": "installed",
+    "name": "Blaster Rifle",
+    "baseline": {
+      "source": "7caef58e5d91586e014966b9ec7fee040b448cd152328aa4970a1547720b3afe",
+      "runtime": "1aedff85790bc272cd61558000b775c7f9ea213784673d05b1cc8688c841084a"
+    },
+    "binding_length": 111.6,
+    "remaining_defects": [],
+    "baseline_sha256": "7caef58e5d91586e014966b9ec7fee040b448cd152328aa4970a1547720b3afe",
+    "source_export": "work/meshy/7item065_export.glb",
+    "route": "Icon-specific imagegen master + Meshy Smart Topology + explicit PBR",
+    "mesh_job": "7item065_textured_v1",
+    "credits": 15,
+    "triangles": 4900,
+    "texture_size": 1024,
+    "validation": "receipts/validation.json",
+    "defects": [],
+    "runtime_triangles": 4900,
+    "runtime_back_copies": 0,
+    "source_sha256": "1b65cc027229691ac492717e293800f7605bedc60935eeef600fc7f0f2f77e0a",
+    "runtime_sha256": "f3d1de3f67f328e98859546ffd7a79353b6d3d4b7b34dbbaec6a0c2d80ea1986",
+    "mesh_task_id": "01a14f1a-d934-7236-8c99-58c27c3860e4",
+    "mesh_cost": 15,
+    "native_review": "passed",
+    "native_outdoor": [
+      "review/native_outdoor/03-7item065_normal.png",
+      "review/native_outdoor/04-7item065_low.png"
+    ],
+    "native_indoor": [
+      "review/native_indoor/03-7item065_dim.png",
+      "review/native_indoor/04-7item065_dim_low.png"
+    ]
+  },
+  "raygun1": {
+    "status": "installed",
+    "name": "Blaster",
+    "baseline": {
+      "source": "6911d11223f57fc8b65c23a8af9d1136efb99cb88d956fc15b948056cabf3f04",
+      "runtime": "b000ef575259fdd6a647eecf0684eb5bdf0fa8ed8a453608cdef7f7fbf1b1407"
+    },
+    "binding_length": 92.7,
+    "remaining_defects": [],
+    "baseline_sha256": "6911d11223f57fc8b65c23a8af9d1136efb99cb88d956fc15b948056cabf3f04",
+    "source_export": "work/meshy/raygun1_export.glb",
+    "route": "Icon-specific imagegen master + Meshy Smart Topology + explicit PBR",
+    "mesh_job": "raygun1_textured_v1",
+    "credits": 15,
+    "triangles": 4786,
+    "texture_size": 1024,
+    "validation": "receipts/validation.json",
+    "defects": [],
+    "runtime_triangles": 4786,
+    "runtime_back_copies": 0,
+    "source_sha256": "c95b03752deea1fc8279c806de7664dce99da75678c32b70db194f6b29f160eb",
+    "runtime_sha256": "bc3d212c607e374d9b9e88c1e2bb17b583e7c6c5686c008e65267142e9d1ebe5",
+    "mesh_task_id": "01a14f1a-e1bb-734e-8ead-12ad0fa50dae",
+    "mesh_cost": 15,
+    "native_review": "passed",
+    "native_outdoor": [
+      "review/native_outdoor/07-raygun1_normal.png",
+      "review/native_outdoor/08-raygun1_low.png"
+    ],
+    "native_indoor": [
+      "review/native_indoor/07-raygun1_dim.png",
+      "review/native_indoor/08-raygun1_dim_low.png"
+    ]
+  },
+  "raygun2": {
+    "status": "installed",
+    "name": "Blaster Rifle",
+    "baseline": {
+      "source": "531f859a6c29582d1841906bc7f931104a40dbe0a28607d0bb16feb82099f296",
+      "runtime": "3e703df3f660208283d517f7546fc80564eacc581f51bf7781caf69e29c1234f"
+    },
+    "binding_length": 211.5,
+    "remaining_defects": [],
+    "baseline_sha256": "531f859a6c29582d1841906bc7f931104a40dbe0a28607d0bb16feb82099f296",
+    "source_export": "work/meshy/raygun2_export.glb",
+    "route": "Icon-specific imagegen master + Meshy Smart Topology + explicit PBR",
+    "mesh_job": "raygun2_textured_v1",
+    "credits": 15,
+    "triangles": 4856,
+    "texture_size": 1024,
+    "validation": "receipts/validation.json",
+    "defects": [],
+    "runtime_triangles": 4856,
+    "runtime_back_copies": 0,
+    "source_sha256": "17d703f70d2f840d4d380799afee378cb65022dc5dcb8bca808479e60200ab9e",
+    "runtime_sha256": "e75be6187b8463b652a40a544ee7bd59b7613a03b910f011e7db98a9e61dcff2",
+    "mesh_task_id": "01a14f1a-ea64-7169-a1c0-f12989d4b8ca",
+    "mesh_cost": 15,
+    "native_review": "passed",
+    "native_outdoor": [
+      "review/native_outdoor/09-raygun2_normal.png",
+      "review/native_outdoor/10-raygun2_low.png"
+    ],
+    "native_indoor": [
+      "review/native_indoor/09-raygun2_dim.png",
+      "review/native_indoor/10-raygun2_dim_low.png"
+    ]
+  },
+  "blastsg": {
+    "status": "installed",
+    "name": "Blaster Shotgun",
+    "baseline": {
+      "source": "0b927ef37ee7905cbf94d6293a35398e3837689ff8aae138da91e45492f1f631",
+      "runtime": "9ab0f11b08a2faba1516d297cf2dce53cb8ac06f85815be8ad3116339ef1a880"
+    },
+    "binding_length": 167.4,
+    "remaining_defects": [],
+    "baseline_sha256": "0b927ef37ee7905cbf94d6293a35398e3837689ff8aae138da91e45492f1f631",
+    "source_export": "work/meshy/blastsg_export.glb",
+    "route": "Icon-specific imagegen master + Meshy Smart Topology + explicit PBR + authored seven-emitter bank",
+    "mesh_job": "blastsg_textured_v1",
+    "credits": 15,
+    "triangles": 4114,
+    "texture_size": 1024,
+    "validation": "receipts/validation.json",
+    "defects": [],
+    "runtime_triangles": 4114,
+    "runtime_back_copies": 0,
+    "source_sha256": "9a220cfbc50c78b81c9ba811cdc3c70f276c30aee061836e3b9804e6515114ad",
+    "runtime_sha256": "9c348f1fb295b651a7fad0bf79a42ca327823ca34df76343962adfc7f66e9033",
+    "mesh_task_id": "01a14f1b-5ce3-7638-aeb0-7ca8596c315f",
+    "mesh_cost": 15,
+    "native_review": "passed",
+    "native_outdoor": [
+      "review/native_outdoor/05-blastsg_normal.png",
+      "review/native_outdoor/06-blastsg_low.png"
+    ],
+    "native_indoor": [
+      "review/native_indoor/05-blastsg_dim.png",
+      "review/native_indoor/06-blastsg_dim_low.png"
+    ]
+  }
+}

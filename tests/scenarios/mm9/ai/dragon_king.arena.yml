@@ -1,0 +1,32 @@
+# AI arena: the Dragon King (MM9_MONSTER_AI_PLAN.md phase 5, worlds/mm9/behaviors/dragon_king.lua) on his own map.
+# Monster 0, the Dragon King, stands at his DAT place in the bowl, hidden until the map's trigger (a dormant start):
+# woken at 1 s he lands (5.8 s) and taunts (2.2 s), then takes the party, which stands within his fire-bolt range.
+# Monster 1, a Winged Mutant, hovers over the bowl within its sight (MM9's default 1 320 LT, 3 379) of him and beyond
+# it of the party: it notices him at once (MM9's IsFriend asks both sides: he hates every AI, worlds/mm9/relations.yml)
+# and fights him; after 3 s on the party he switches to it. MutantMarker0 (3141, -1669, 3259), where the map spawns
+# its mutants, lies 4 370 from him, beyond the mutant's sight: MM9 sets those on him with GetMe (Dragon.scr
+# SpawnMutants), which the map's Lua does not reproduce, so a mutant placed there never fights him. The scenario
+# steps the party in close (wing buffet and breath), hits him, and walks off beyond his 1 800 LT (TargetTooFar).
+name: mm9_dragon_king
+world: mm9
+map: dragonstadium.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [1864, -1800, -163]
+  yaw_degrees: 90
+  pitch_degrees: 8
+  invulnerable: true
+# MM9's own perception of the party (the boss sequence), not the world's actorAwareness.
+party_awareness: mm9
+trace: true
+monsters:
+  - monster_id: 9212
+    position: [1864, 737, -163]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, dormant: {until: trigger, pose: hidden}}
+  - monster_id: 9160
+    position: [2400, 300, 2700]
+    yaw_degrees: 180
+    mm9_ai: {runaway_chance: 0}
+events:
+  - {at: 1, wake: 0, note: DragonTrigger's Trigger (the map's evt.WakeActor)}

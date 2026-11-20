@@ -1,0 +1,36 @@
+{
+  "material": "volcano",
+  "status": "candidate_visual_review_required",
+  "method": "Periodic donor quilting; central384 square protected",
+  "raw_sha256": "b2d09f4bdb29f623c8c1df3014be7e24afeeeb977301f1b0d012314836d297f7",
+  "prompt_sha256": "81b6bda2b67e2b1b388ccdf0645f61f8a36d2ea3dc8b6f1375092f867f4b6e3f",
+  "native_sha256": "d15873a490d480b1a5d98c9a8b9b2159025df536c9eabedb164981f4001fde87",
+  "authoring_sha256": "8590b47c129c271ba459df9d4ca0fbe2431b5dd6f8e706882b7cfc48d707d547",
+  "runtime_sha256": "44a9a3254593982b35ae26c99f1660129fc55052166c7a12cf8d8e6c5cb93815",
+  "native_mean_rgb": [
+    38.305213928222656,
+    38.296443939208984,
+    38.24063491821289
+  ],
+  "runtime_mean_rgb": [
+    38.11595153808594,
+    38.11595153808594,
+    38.05000305175781
+  ],
+  "seams": {
+    "E": {
+      "boundary_p95": 1.2828120288828793,
+      "boundary_max": 1.5241793538189954,
+      "interior_p95": 1.4262392897273186,
+      "interior_p999": 1.7912015760954731,
+      "passed": true
+    },
+    "S": {
+      "boundary_p95": 1.3908506170290962,
+      "boundary_max": 1.4884728191062748,
+      "interior_p95": 1.5038558455235547,
+      "interior_p999": 2.0339636428483283,
+      "passed": true
+    }
+  }
+}

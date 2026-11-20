@@ -1,0 +1,449 @@
+# Explicit conversion choices for MM9's Thousand Terrors (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: 1000terrors
+  display_name: Thousand Terrors
+  starts: [StartPoint0]               # start 0: by the Arslegard exit (ArslegardCity ExitTrigger1 arrives here)
+  monster_classes: [DesertTerror, LesserDemon, Oculus, Orbus, ReptilianTerror, Eye, SeaMonsterMale, GreaterDemon,
+                    AmphibiousTerror, FlyingIcky, NjamtheMeddler]
+  offset: [0, 0, 0]                   # the old map's frame fits int16
+  ambient: 31                         # sector minimum light 31: no frame ambient is subtracted from the decorations' light
+  model_lighting: {light_scale: 1.2}  # MM9's model lighting for props and actors (brief "Prop lighting"): the old path drew
+                                      # the skull head black (review/ml_new_compare.jpg); BLV lights carry colour x
+                                      # BrightScale (0.75-0.9 on the blue lights), so light_scale about 1/0.85
+  split_minor_rooms: true
+  thin_walls: true
+  # Forced arrivals (pack growth, ../mm9r_common/dungeon/density.py): where the party is put down keeps MM9's monsters
+  # plus at most `copies` grown ones within `radius` (height counted double), so a party is not set down among a grown
+  # pack (user, 2026-11-09). The map has no teleporters: the walk-in from Arslegard City (StartPoint0) and the drop
+  # through the trap doors into the water pit (Rotating Lever 17; the doors' boxes span x 937-1920, y -12396..-11412).
+  density_arrivals:
+  - {name: StartPoint0, at: [5202, -16630, -142], radius: 2400, copies: 2}
+  - {name: TrapDoorPit, at: [1428, -11904, -2946], radius: 2400, copies: 1}
+models:
+  BoardObj1: static   # WorldObject, 6 polys
+  BoardObj0: static   # WorldObject, 6 polys
+  BoardObj2: static   # WorldObject, 6 polys
+  BoardObj3: static   # WorldObject, 6 polys
+  BoardObj4: static   # WorldObject, 6 polys
+  BoardObj5: static   # WorldObject, 6 polys
+  BoardObj6: static   # WorldObject, 6 polys
+  BoardObj7: static   # WorldObject, 6 polys
+  BoardObj8: static   # WorldObject, 6 polys
+  BoardObj9: static   # WorldObject, 6 polys
+  BoardObj10: static   # WorldObject, 6 polys
+  BoardObj11: static   # WorldObject, 6 polys
+  BoardObj12: static   # WorldObject, 6 polys
+  BoardObj13: static   # WorldObject, 6 polys
+  BoardObj14: static   # WorldObject, 6 polys
+  BoardObj15: static   # WorldObject, 6 polys
+  BoardObj16: static   # WorldObject, 6 polys
+  BoardObj17: static   # WorldObject, 6 polys
+  BoardObj18: static   # WorldObject, 6 polys
+  BoardObj19: static   # WorldObject, 6 polys
+  BoardObj20: static   # WorldObject, 6 polys
+  BoardObj21: static   # WorldObject, 6 polys
+  BoardObj22: static   # WorldObject, 6 polys
+  BoardObj23: static   # WorldObject, 6 polys
+  BoardObj24: static   # WorldObject, 6 polys
+  BoardObj25: static   # WorldObject, 6 polys
+  BoardObj26: static   # WorldObject, 6 polys
+  BoardObj27: static   # WorldObject, 6 polys
+  BoardObj28: static   # WorldObject, 6 polys
+  BoardObj29: static   # WorldObject, 6 polys
+  BoardObj30: static   # WorldObject, 6 polys
+  BoardObj31: static   # WorldObject, 6 polys
+  BoardObj32: static   # WorldObject, 6 polys
+  BoardObj33: static   # WorldObject, 6 polys
+  BoardObj34: static   # WorldObject, 6 polys
+  BoardObj35: static   # WorldObject, 6 polys
+  BoardObj36: static   # WorldObject, 6 polys
+  BoardObj37: static   # WorldObject, 6 polys
+  BoardObj38: static   # WorldObject, 6 polys
+  BoardObj39: static   # WorldObject, 6 polys
+  BoardObj40: static   # WorldObject, 6 polys
+  BoardObj41: static   # WorldObject, 6 polys
+  BoardObj42: static   # WorldObject, 6 polys
+  BoardObj43: static   # WorldObject, 6 polys
+  BoardObj44: static   # WorldObject, 6 polys
+  BoardObj45: static   # WorldObject, 6 polys
+  BoardObj46: static   # WorldObject, 6 polys
+  BoardObj47: static   # WorldObject, 6 polys
+  BoardObj48: static   # WorldObject, 6 polys
+  BoardObj49: static   # WorldObject, 6 polys
+  BoardObj50: static   # WorldObject, 6 polys
+  BoardObj51: static   # WorldObject, 6 polys
+  BoardObj52: static   # WorldObject, 6 polys
+  BoardObj53: static   # WorldObject, 6 polys
+  BoardObj54: static   # WorldObject, 6 polys
+  BoardObj55: static   # WorldObject, 6 polys
+  BoardObj56: static   # WorldObject, 6 polys
+  BoardObj57: static   # WorldObject, 6 polys
+  BoardObj58: static   # WorldObject, 6 polys
+  BoardObj59: static   # WorldObject, 6 polys
+  BoardObj60: static   # WorldObject, 6 polys
+  BoardObj61: static   # WorldObject, 6 polys
+  BoardObj62: static   # WorldObject, 6 polys
+  BoardObj63: static   # WorldObject, 6 polys
+  ChessPiece4: static   # WorldObject, 61 polys
+  ChessPiece2: static   # WorldObject, 92 polys
+  ChessPiece5: static   # WorldObject, 61 polys
+  ChessPiece1: static   # WorldObject, 79 polys
+  ChessPiece0: static   # WorldObject, 79 polys
+  ChessPiece3: static   # WorldObject, 87 polys
+  PawnObject0: static   # WorldObject, 80 polys
+  BishopObject0: static   # WorldObject, 61 polys
+  KnightObject0: static   # DestructableBrush, 92 polys
+  InvisibleBrush1: static   # InvisibleBrush, 16 polys
+  InvisibleBrush0: static   # InvisibleBrush, 16 polys
+  WorldObject11: static   # WorldObject, 18 polys
+  WorldObject12: static   # WorldObject, 18 polys
+  SpawnPiece1: static   # DestructableBrush, 79 polys
+  SpawnPiece0: static   # DestructableBrush, 79 polys
+  SpawnPiece2: static   # DestructableBrush, 92 polys
+  SpawnPiece3: static   # DestructableBrush, 79 polys
+  TrapTrigger0: {group: TrapTrigger0, motion: rotate, click: false}   # the west sorceress room's hidden pivot: TrigSorcStatueOn 'Use' swings it, its open sets the statues going
+  TrapTrigger1: {group: TrapTrigger1, motion: rotate, click: false}
+  TrapTrigger2: {group: TrapTrigger2, motion: rotate, click: false}
+  TrapTrigger3: {group: TrapTrigger3, motion: rotate, click: false}
+  TrapTrigger4: {group: TrapTrigger4, motion: rotate, click: false}
+  TrapTrigger5: {group: TrapTrigger5, motion: rotate, click: false}
+  WorldObject20: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject21: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject22: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject32: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject33: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject37: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject38: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject39: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject40: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject41: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject42: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject43: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject44: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject45: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject46: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject47: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject48: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject49: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject50: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject51: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject52: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject53: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject54: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject55: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject61: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject60: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject80: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject81: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject82: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject83: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject84: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject85: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject86: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject87: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject88: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject89: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject90: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject91: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject92: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject93: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject94: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject95: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject103: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject104: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject105: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject106: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject107: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject108: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject111: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject112: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject113: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject114: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject138: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject139: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject140: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject141: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject142: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject143: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject149: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject150: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject151: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject152: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject153: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject154: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject155: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject156: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject157: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject158: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject159: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject162: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject163: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject167: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject168: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject169: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject170: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject171: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject172: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject173: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject174: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject175: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject176: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject177: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject178: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject179: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject180: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject181: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject182: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject183: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject187: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject186: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject195: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject194: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject193: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject192: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject191: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject190: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject189: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject188: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject197: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject198: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject199: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject200: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject201: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject202: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject203: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject204: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject205: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject206: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject211: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject212: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject213: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject214: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject215: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject216: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject217: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject218: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject219: skip   # translucent water123.spr orb over a candle: a decoration (mm9_deco_waterorb, props project)
+  WorldObject3: static   # WorldObject, 24 polys
+  WorldObject4: static   # WorldObject, 12 polys
+  WorldObject5: static   # WorldObject, 12 polys
+  WorldObject6: static   # WorldObject, 12 polys
+  WorldObject7: static   # WorldObject, 12 polys
+  WorldObject8: static   # WorldObject, 12 polys
+  WorldObject9: static   # WorldObject, 12 polys
+  WorldObject10: static   # WorldObject, 12 polys
+  BlueWater0: skip   # BlueWater, 30 polys
+  WorldObject0: static   # WorldObject, 30 polys
+  BlueWater2: skip   # BlueWater, 16 polys
+  WorldObject2: static   # WorldObject, 28 polys
+  BlueWater6: skip   # BlueWater, 10 polys
+  BlueWater5: skip   # BlueWater, 10 polys
+  BlueWater4: skip   # BlueWater, 6 polys
+  BlueWater1: skip   # BlueWater, 6 polys
+  MiddleDoor5: {group: MiddleDoor5, motion: rotate, doorway: true, portal: MiddleDoorPortal5}
+  MiddleDoor4: {group: MiddleDoor4, motion: rotate, doorway: true, portal: MiddleDoorPortal4}
+  SecretDoor2: {group: SecretDoor2, motion: rotate}   # RotatingDoor, 6 polys
+  HiddenButton1: {group: HiddenButton1, motion: dat}   # Button: 3 LT in; its open opens TreasureDoor and TreasureDoor0
+  TreasureDoor: {group: TreasureDoor, motion: rotate, click: false}
+  TreasureDoor0: {group: TreasureDoor0, motion: rotate, click: false}
+  SBrick0: {group: SBrick, motion: dat, doorway: true, portal: SBrickPortal}
+  SBrick1: {group: SBrick, motion: dat, doorway: true, portal: SBrickPortal}
+  WeightedLift0: {group: WeightedLift0, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift1: {group: WeightedLift1, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift3: {group: WeightedLift3, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift5: {group: WeightedLift5, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift7: {group: WeightedLift7, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift8: {group: WeightedLift8, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift11: {group: WeightedLift11, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift13: {group: WeightedLift13, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift14: {group: WeightedLift14, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift9: {group: WeightedLift9, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift6: {group: WeightedLift6, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift4: {group: WeightedLift4, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift10: {group: WeightedLift10, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  WeightedLift15: {group: WeightedLift15, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
+  CoffinGate1: {group: CoffinGate1, motion: dat, doorway: true, portal: CoffinGatePortal1}
+  # MM9 names no sound for the coffin gates; CoffinGate2 sounds like ToLowerTombGate (the play-test of 2026-11-10)
+  CoffinGate2: {group: CoffinGate2, motion: dat, doorway: true, portal: CoffinGatePortal2,
+                sounds: {open_start: Ambient/metalcreak01.wav, close_stop: Door/doorslammetal02.wav}}
+  ToWindMazeGate: {group: ToWindMazeGate, motion: dat, doorway: true, portal: ToWindMazePortal}
+  StairGate: {group: StairGate, motion: dat, doorway: true, portal: StairGate}
+  StairGate0: {group: StairGate0, motion: dat}   # Door, 6 polys
+  WaterGate0: {group: WaterGate0, motion: dat, doorway: true, portal: WGPortal0}
+  WaterGate1: {group: WaterGate1, motion: dat, doorway: true, portal: WGPortal1}
+  WaterGate2: {group: WaterGate2, motion: dat}   # WGPortal2 has the water hall on both sides (a loop round the hall)
+  Pull1: {group: Pull1, motion: dat}   # the button puzzle's reset pull
+  PuzzleDoor0: {group: PuzzleDoor0, motion: dat, click: false}
+  PuzzleDoor1: {group: PuzzleDoor1, motion: dat, click: false}
+  PuzzleDoor10: {group: PuzzleDoor10, motion: dat, click: false}
+  PuzzleDoor11: {group: PuzzleDoor11, motion: dat, click: false}
+  PuzzleDoor12: {group: PuzzleDoor12, motion: dat, click: false}
+  PuzzleDoor13: {group: PuzzleDoor13, motion: dat, click: false}
+  PuzzleDoor14: {group: PuzzleDoor14, motion: dat, click: false}
+  PuzzleDoor15: {group: PuzzleDoor15, motion: dat, click: false}
+  PuzzleDoor2: {group: PuzzleDoor2, motion: dat, click: false}
+  PuzzleDoor3: {group: PuzzleDoor3, motion: dat, click: false}
+  PuzzleDoor4: {group: PuzzleDoor4, motion: dat, click: false}
+  PuzzleDoor5: {group: PuzzleDoor5, motion: dat, click: false}
+  PuzzleDoor6: {group: PuzzleDoor6, motion: dat, click: false}
+  PuzzleDoor7: {group: PuzzleDoor7, motion: dat, click: false}
+  PuzzleDoor8: {group: PuzzleDoor8, motion: dat, click: false}
+  PuzzleDoor9: {group: PuzzleDoor9, motion: dat, click: false}
+  PuzzleDoorB0: {group: PuzzleDoorB0, motion: dat, click: false}
+  PuzzleDoorB1: {group: PuzzleDoorB1, motion: dat, click: false}
+  PuzzleDoorB10: {group: PuzzleDoorB10, motion: dat, click: false}
+  PuzzleDoorB11: {group: PuzzleDoorB11, motion: dat, click: false}
+  PuzzleDoorB12: {group: PuzzleDoorB12, motion: dat, click: false}
+  PuzzleDoorB13: {group: PuzzleDoorB13, motion: dat, click: false}
+  PuzzleDoorB14: {group: PuzzleDoorB14, motion: dat, click: false}
+  PuzzleDoorB15: {group: PuzzleDoorB15, motion: dat, click: false}
+  PuzzleDoorB2: {group: PuzzleDoorB2, motion: dat, click: false}
+  PuzzleDoorB3: {group: PuzzleDoorB3, motion: dat, click: false}
+  PuzzleDoorB4: {group: PuzzleDoorB4, motion: dat, click: false}
+  PuzzleDoorB5: {group: PuzzleDoorB5, motion: dat, click: false}
+  PuzzleDoorB6: {group: PuzzleDoorB6, motion: dat, click: false}
+  PuzzleDoorB7: {group: PuzzleDoorB7, motion: dat, click: false}
+  PuzzleDoorB8: {group: PuzzleDoorB8, motion: dat, click: false}
+  PuzzleDoorB9: {group: PuzzleDoorB9, motion: dat, click: false}
+  Pull2: {group: Pull2, motion: dat}   # the button puzzle's reset pull
+  Pull3: {group: Pull3, motion: dat}   # the button puzzle's reset pull
+  PuzzleDoorC0: {group: PuzzleDoorC0, motion: dat, click: false}
+  PuzzleDoorC1: {group: PuzzleDoorC1, motion: dat, click: false}
+  PuzzleDoorC10: {group: PuzzleDoorC10, motion: dat, click: false}
+  PuzzleDoorC11: {group: PuzzleDoorC11, motion: dat, click: false}
+  PuzzleDoorC12: {group: PuzzleDoorC12, motion: dat, click: false}
+  PuzzleDoorC13: {group: PuzzleDoorC13, motion: dat, click: false}
+  PuzzleDoorC14: {group: PuzzleDoorC14, motion: dat, click: false}
+  PuzzleDoorC15: {group: PuzzleDoorC15, motion: dat, click: false}
+  PuzzleDoorC2: {group: PuzzleDoorC2, motion: dat, click: false}
+  PuzzleDoorC3: {group: PuzzleDoorC3, motion: dat, click: false}
+  PuzzleDoorC4: {group: PuzzleDoorC4, motion: dat, click: false}
+  PuzzleDoorC5: {group: PuzzleDoorC5, motion: dat, click: false}
+  PuzzleDoorC6: {group: PuzzleDoorC6, motion: dat, click: false}
+  PuzzleDoorC7: {group: PuzzleDoorC7, motion: dat, click: false}
+  PuzzleDoorC8: {group: PuzzleDoorC8, motion: dat, click: false}
+  PuzzleDoorC9: {group: PuzzleDoorC9, motion: dat, click: false}
+  LowerDoor3: {group: LowerDoor3, motion: rotate, doorway: true, portal: LowerPortal2}
+  LowerDoor4: {group: LowerDoor3, motion: rotate, doorway: true, portal: LowerPortal2}
+  LowerDoor5: {group: LowerDoor5, motion: rotate, doorway: true, portal: LowerPortal3}
+  LowerDoor6: {group: LowerDoor5, motion: rotate, doorway: true, portal: LowerPortal3}
+  LowerDoor7: {group: LowerDoor7, motion: rotate, doorway: true, portal: LowerPortal4}
+  LowerDoor8: {group: LowerDoor7, motion: rotate, doorway: true, portal: LowerPortal4}
+  LowerDoor9: {group: LowerDoor9, motion: rotate, doorway: true, portal: LowerPortal5}
+  LowerDoor10: {group: LowerDoor9, motion: rotate, doorway: true, portal: LowerPortal5}
+  LowerDoor13: {group: LowerDoor13, motion: rotate, doorway: true, portal: LowerPortal7}
+  LowerDoor14: {group: LowerDoor13, motion: rotate, doorway: true, portal: LowerPortal7}
+  LowerDoor15: {group: LowerDoor15, motion: rotate, doorway: true, portal: LowerPortal8}
+  LowerDoor16: {group: LowerDoor15, motion: rotate, doorway: true, portal: LowerPortal8}
+  LowerDoor17: {group: LowerDoor17, motion: rotate, doorway: true, portal: LowerPortal9}
+  LowerDoor18: {group: LowerDoor17, motion: rotate, doorway: true, portal: LowerPortal9}
+  IronDoor0: {group: IronDoor0, motion: dat}
+  ToLowerTombGate: {group: ToLowerTombGate, motion: dat, doorway: true, portal: ToLowerTombPortal}
+  WorldObject16: static   # WorldObject, 8 polys
+  WorldObject15: static   # WorldObject, 6 polys
+  WorldObject14: static   # WorldObject, 8 polys
+  WorldObject17: static   # WorldObject, 6 polys
+  WorldObject18: static   # WorldObject, 8 polys
+  WorldObject19: static   # WorldObject, 6 polys
+  WorldObject23: static   # WorldObject, 6 polys
+  WorldObject24: static   # WorldObject, 6 polys
+  WorldObject25: static   # WorldObject, 6 polys
+  WorldObject27: static   # WorldObject, 6 polys
+  WorldObject28: static   # WorldObject, 6 polys
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true, portal: TreasurePortal_1}
+  RotatingDoor1: {group: RotatingDoor1, motion: rotate, doorway: true, portal: TreasurePortal_2}
+  'Rotating Lever 17': {group: Lever17, motion: rotate}   # RotatingDoor, 6 polys
+  'Rotating Lever 16': {group: Lever16, motion: rotate}   # RotatingDoor, 6 polys
+  'Rotating Lever 18': {group: Lever18, motion: rotate}   # RotatingDoor, 6 polys
+  TrapDoor2: {group: TrapDoor, motion: rotate, click: false, bodies: push, carry: true, owner_lt: [558, -1000, -4650]}
+  TrapDoor1: {group: TrapDoor, motion: rotate, click: false, bodies: push, carry: true, owner_lt: [558, -1000, -4650]}   # Lever17 drops the party into the water pit
+  DestructableBrush0: static   # DestructableBrush, 28 polys
+  DestructableBrush1: static   # DestructableBrush, 14 polys
+  DestructableBrush2: static   # DestructableBrush, 42 polys
+  DestructableBrush3: static   # DestructableBrush, 42 polys
+  ShooterPlate1: {group: ShooterPlate1, motion: dat, click: false}
+  ShooterPlate2: {group: ShooterPlate2, motion: dat, click: false}
+  ShooterPlate3: {group: ShooterPlate3, motion: dat, click: false}
+  ShooterPlate4: {group: ShooterPlate4, motion: dat, click: false}
+  ShooterPlate5: {group: ShooterPlate5, motion: dat, click: false}
+  ShooterPlate6: {group: ShooterPlate6, motion: dat, click: false}
+  ShooterPlate7: {group: ShooterPlate7, motion: dat, click: false}
+  ShooterPlate8: {group: ShooterPlate8, motion: dat, click: false}
+  ShooterPlate9: {group: ShooterPlate9, motion: dat, click: false}
+  ShooterPlate10: {group: ShooterPlate10, motion: dat, click: false}
+  ShooterPlate11: {group: ShooterPlate11, motion: dat, click: false}
+  ShooterPlate12: {group: ShooterPlate12, motion: dat, click: false}
+  ShooterPlate14: {group: ShooterPlate14, motion: dat, click: false}
+  FireballPlate: {group: FireballPlate, motion: dat, click: false}
+  FireballPlate2: {group: FireballPlate2, motion: dat, click: false}
+  DestructableBrush4: static   # DestructableBrush, 15 polys
+  Door1: {group: Door1, motion: dat}   # Door, 22 polys
+  Door0: {group: Door0, motion: dat}   # Door, 22 polys
+  FoyerDoorSouth1: {group: FoyerDoorSouth, motion: rotate, doorway: true, portal: FoyerSouthPortal}
+  FoyerDoorSouth2: {group: FoyerDoorSouth, motion: rotate, doorway: true, portal: FoyerSouthPortal}
+  FoyerShooterPlate: {group: FoyerShooterPlate, motion: dat, click: false}
+  EDoor3: {group: EDoor, motion: rotate}   # double door without a UserPortal
+  EDoor4: {group: EDoor, motion: rotate}
+  LowerLever: {group: LowerLever, motion: rotate}   # the gear elevator's levers (bottom and top): a click toggles the lift
+  LowerLever0: {group: LowerLever0, motion: rotate}
+  ElevatorGear1: {group: GearElevator, motion: dat, click: false}   # RotatingBrush AttachTo GearElevator: rides the lift, spins while it moves (mover spin)
+  ElevatorGear2: {group: GearElevator, motion: dat, click: false}
+  GearElevator: {group: GearElevator, motion: dat, click: false}   # Lift: 912 LT up at 200 LT/s, toggled by the levers
+  TOD_Sky0: skip   # TOD_Sky, 12 polys
+  SkyBox0: skip   # DemoSkyWorldModel, 12 polys
+  InvisibleBrush3: static   # InvisibleBrush, 10 polys
+  InvisibleBrush2: static   # InvisibleBrush, 11 polys
+  InvisibleBrush4: static   # InvisibleBrush, 6 polys
+  InvisibleBrush5: static   # InvisibleBrush, 6 polys
+  BlueWater3: skip   # BlueWater, 16 polys
+  WorldObject1: static   # WorldObject, 16 polys
+model_patterns: {}
+exits:
+  ExitTrigger0: {}
+  ExitTrigger1: {}
+textures:
+  'TEXTURES\Skybox\SkyMarker.dtx': {alias: sky04, width: 512, height: 512}
+seed_exclude:                         # seeds outside the built air (work/leaks.py): touch boxes centred in the void above a
+  - TrigSorcStatueOff                 # ceiling or behind a wall, and a column of lights sealed in a pillar
+  - TrigSorcStatueOff0
+  - TrigSorcStatueOff1
+  - TrigSorcStatueOff2
+  - TriggerFlyingCritters0
+  - FoyerShooterTrigger2
+  - Trigger19Close
+  - Trigger19Open
+  - DirLight498
+  - DirLight499
+  - DirLight500
+  - DirLight501
+  - DirLight502
+  - DirLight503
+  - DirLight504
+  - DirLight505
+  - Light470
+  - Light471
+  - Light472
+  - Light473
+  - Light474
+  - Light475
+  - Light476
+  - Light477
+plan_levels:
+  lower: [-1400, -500]                # the crypts and catacombs (floors about -1100 .. -750)
+  main: [-500, 500]                   # the entrance level (floor 0)
+  upper: [500, 1800]                  # the foyer, the demon hall and Njam's hall (floors about 900 .. 1200)
+skip_user_portals: [TrapDoorPortal, WGPortal2]
+# MM9's Ladder volumes (dungeon/rotation.py ladder_records; facing_lt: (x, z) toward the rungs, surface_lt: the rung
+# face along it, top_exit_lt: where the climber steps off), measured against the static geometry (2026-11-05).
+ladders:
+  Ladder7: {facing_lt: [0, -1], surface_lt: -1147, top_exit_lt: [-880, -904, -1027]}   # the pit's north wall: off onto the rim behind
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [GreaterDemon1, LesserDemon13, LesserDemon14, HiddenButton1]
+  themed_near: [Coffin0, Coffin5, Coffin10, Coffin15, Coffin20, Coffin25]
+  avoid_near:
+    - {name: NJamMarker, radius: 1500}

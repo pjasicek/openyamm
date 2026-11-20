@@ -1,0 +1,43 @@
+format: 0
+variables: [gate_raised]
+events:
+  - id: evt:exit
+    preset: exit
+    source: exit:door
+    title: Leave the cellars
+  - id: evt:gate
+    preset: text
+    source: door:gate
+    title: Gate
+    text: The gate will not move. Something must raise it from elsewhere.
+  - id: evt:gate_lever
+    preset: switch
+    source: switch:gate_lever
+    title: Lever
+    opens: [door:gate]
+    once: true
+    sets: {map_var: gate_raised}
+    text: Chains rattle and a gate grinds open in the hall.
+  - id: evt:guard_door
+    preset: door
+    source: door:guard
+    title: Guard room door
+  - id: evt:store_chest
+    preset: chest
+    source: chest:store
+    title: Chest
+  - id: evt:store_door
+    preset: door
+    source: door:store
+    title: Store room door
+  - id: evt:vault_chest
+    preset: chest
+    source: chest:vault
+    title: Chest
+  - id: evt:vault_door
+    preset: door
+    source: door:vault
+    title: Strong room door
+    condition: {item: vault_key}
+    locked_text: The strong room door is locked.
+    action: open

@@ -1,0 +1,29 @@
+# Integrator capture: party feet, fresh map. D15 has no stat containers; its storeroom holds satchels.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d11/review/pickups/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: serum_hold
+  position:
+  - 1800
+  - 1450
+  - 2016
+  yaw: -1.5707963267948966
+  pitch: -0.35
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: gantry_bundle
+  position:
+  - 520
+  - 3350
+  - 0
+  yaw: 2.59
+  pitch: -0.25
+- name: sensorium_bundle
+  position:
+  - 1150
+  - 10250
+  - 2560
+  yaw: -2.2
+  pitch: -0.25

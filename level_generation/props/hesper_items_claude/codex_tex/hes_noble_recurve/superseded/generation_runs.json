@@ -1,0 +1,457 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "none; unresized tool returns",
+  "status": "incomplete",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic albedo texture-source painting of the Hesper item hes_noble_recurve, a Noble's hunting bow of polished chitin.\nInput image 1, design_reference.png: ONLY the authority for surface design, colours and materials.\nInput image 2, GUIDE: the exact edit target and absolute authority for geometry, silhouette, every part edge, projection, position and scale.\nOUTPUT: one 1024 x 1024 RGBA PNG with genuinely transparent background; keep image 2's canvas and original alpha silhouette EXACTLY. Change ONLY the RGB surface appearance of the existing guide object. No added geometry or enlarged details; do not crop, zoom, reposition, rotate or change the silhouette. All empty areas including gaps must remain transparent. Preserve every thin component and anti-aliased boundary.\nPaint the design reference's appropriate materials over each corresponding guide material: near-black violet polished chitin/resin on the limbs, warm ivory-white ceramic/bone with delicate fine wear on bone surfaces, brushed muted antique gold on gold fittings, fine dark wine-black fibrous bowstring. Guide tints are segmentation hints only, NOT target colours. Carry the reference's fine engraved flowing lines, subtle seams, panel joins and small non-letter markings onto the available surfaces without thickening them. Continue unseen surfaces plausibly. If an orange light inset is represented, paint its bright orange base colour without bloom; do not invent additional components. Do not add spikes, hooks, blades or ornaments beyond the exact simple guide silhouette.\nLIGHTING: TEXTURE SOURCE / albedo. Even flat shadowless illumination from the viewer, no cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no rim light. Gold has its base colour and at most a faint sheen. No floor, background colour, checkerboard pixels, text, letters, labels or watermark.\nCRITICAL: Reference 1 is much more ornate than this model. Transfer its material appearance INSIDE image 2's existing silhouette only; never replace image 2 with reference 1's shape.\nVIEW AND FRAME: FRONT end-on view. The entire tiny horizontal object occupies only x=460..563 and y=498..525 on the 1024-square canvas. Pale bone end face on the LEFT near (476,512), thin resin piece extends rightwards to a small gold end cap near (558,512). Retain the huge transparent margins. Do not enlarge this tiny end-on view.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_front.png",
+          "sha256": "edec8d810f1f7751889f78c86c7ec07fa5d13ff3d49e5f72dca7817afb93e63f"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16de9-b8b9-7e61-9213-628f904961c7/exec-6fff565b-2aff-4568-8d0a-5ffb4288a093.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favour of attempt 2: excessive end-face expansion; normalized silhouette overlap 0.620160 versus 0.809608.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "1f74259511240031f056ed742854267c614d9a91a250fb961d88c79ba57241b9",
+      "alpha_bbox": [
+        556,
+        570,
+        798,
+        652
+      ],
+      "opaque_bbox": [
+        559,
+        606,
+        696,
+        648
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "requested_1024_square": false,
+        "no_text_or_letters": "pass_visual",
+        "flat_even_light": "fail_visual: visible relief shading and highlights",
+        "colours_and_materials": "reference ivory, gold and black-violet palette present; surface details differ"
+      },
+      "diagnostics": {
+        "normalized_silhouette_iou_alpha128": 0.62016,
+        "normalized_foreground_outside_guide": 1138,
+        "normalized_guide_foreground_missing": 0,
+        "normalization": "Guide mask resampled in memory to output dimensions for comparison only; output file unchanged."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic albedo texture-source painting of the Hesper item hes_noble_recurve, a Noble's hunting bow of polished chitin.\nInput image 1, design_reference.png: ONLY the authority for surface design, colours and materials.\nInput image 2, GUIDE: the exact edit target and absolute authority for geometry, silhouette, every part edge, projection, position and scale.\nOUTPUT: one 1024 x 1024 RGBA PNG with genuinely transparent background; keep image 2's canvas and original alpha silhouette EXACTLY. Change ONLY the RGB surface appearance of the existing guide object. No added geometry or enlarged details; do not crop, zoom, reposition, rotate or change the silhouette. All empty areas including gaps must remain transparent. Preserve every thin component and anti-aliased boundary.\nPaint the design reference's appropriate materials over each corresponding guide material: near-black violet polished chitin/resin on the limbs, warm ivory-white ceramic/bone with delicate fine wear on bone surfaces, brushed muted antique gold on gold fittings, fine dark wine-black fibrous bowstring. Guide tints are segmentation hints only, NOT target colours. Carry the reference's fine engraved flowing lines, subtle seams, panel joins and small non-letter markings onto the available surfaces without thickening them. Continue unseen surfaces plausibly. If an orange light inset is represented, paint its bright orange base colour without bloom; do not invent additional components. Do not add spikes, hooks, blades or ornaments beyond the exact simple guide silhouette.\nLIGHTING: TEXTURE SOURCE / albedo. Even flat shadowless illumination from the viewer, no cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no rim light. Gold has its base colour and at most a faint sheen. No floor, background colour, checkerboard pixels, text, letters, labels or watermark.\nCRITICAL: Reference 1 is much more ornate than this model. Transfer its material appearance INSIDE image 2's existing silhouette only; never replace image 2 with reference 1's shape.\nVIEW AND FRAME: BACK end-on view. The entire tiny horizontal object occupies only x=460..563 and y=498..525 on the 1024-square canvas. Small gold end cap on the LEFT near (466,512), thin resin piece extends rightwards to the pale bone end face on the RIGHT near (548,512). Retain the huge transparent margins. Do not enlarge this tiny end-on view.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_back.png",
+          "sha256": "868eebecc371008c518f8219e06536ef11358563260399247fc101987c0ede36"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16de9-b8b9-7e61-9213-628f904961c7/exec-8a36de7a-847c-4c29-a56c-c6b1dd74f0ea.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Only generated back return; corrective call was blocked by the image tool violence filter. Still fails exact silhouette and flat-albedo requirements; retained unresized for review.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "bf55497e73792ffe4cd23ff87ea583375e5344f9033caba34c9b0e5ca584176a",
+      "alpha_bbox": [
+        79,
+        55,
+        1210,
+        1214
+      ],
+      "opaque_bbox": [
+        564,
+        609,
+        691,
+        644
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "requested_1024_square": false,
+        "no_text_or_letters": "pass_visual",
+        "flat_even_light": "fail_visual: visible relief shading and highlights",
+        "colours_and_materials": "reference ivory, gold and black-violet palette present; surface details differ"
+      },
+      "diagnostics": {
+        "normalized_silhouette_iou_alpha128": 0.820309,
+        "normalized_foreground_outside_guide": 407,
+        "normalized_guide_foreground_missing": 0,
+        "normalization": "Guide mask resampled in memory to output dimensions for comparison only; output file unchanged."
+      },
+      "raw_return": "paint_back_attempt1.png",
+      "accepted_against_brief": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic albedo texture-source painting of the Hesper item hes_noble_recurve, a Noble's hunting bow of polished chitin.\nInput image 1, design_reference.png: ONLY the authority for surface design, colours and materials.\nInput image 2, GUIDE: the exact edit target and absolute authority for geometry, silhouette, every part edge, projection, position and scale.\nOUTPUT: one 1024 x 1024 RGBA PNG with genuinely transparent background; keep image 2's canvas and original alpha silhouette EXACTLY. Change ONLY the RGB surface appearance of the existing guide object. No added geometry or enlarged details; do not crop, zoom, reposition, rotate or change the silhouette. All empty areas including gaps must remain transparent. Preserve every thin component and anti-aliased boundary.\nPaint the design reference's appropriate materials over each corresponding guide material: near-black violet polished chitin/resin on the limbs, warm ivory-white ceramic/bone with delicate fine wear on bone surfaces, brushed muted antique gold on gold fittings, fine dark wine-black fibrous bowstring. Guide tints are segmentation hints only, NOT target colours. Carry the reference's fine engraved flowing lines, subtle seams, panel joins and small non-letter markings onto the available surfaces without thickening them. Continue unseen surfaces plausibly. If an orange light inset is represented, paint its bright orange base colour without bloom; do not invent additional components. Do not add spikes, hooks, blades or ornaments beyond the exact simple guide silhouette.\nLIGHTING: TEXTURE SOURCE / albedo. Even flat shadowless illumination from the viewer, no cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no rim light. Gold has its base colour and at most a faint sheen. No floor, background colour, checkerboard pixels, text, letters, labels or watermark.\nCRITICAL: Reference 1 is much more ornate than this model. Transfer its material appearance INSIDE image 2's existing silhouette only; never replace image 2 with reference 1's shape.\nVIEW AND FRAME: LEFT edge-on view. The entire extremely slender horizontal bow lies at y=512, occupying x=66..957 and y=498..525. Small gold tips at both ends, very thin resin limbs, a pale bone central rectangular grip housing at x=457..566. Preserve its almost straight horizontal edge-on projection exactly, including any barely visible string. No rotation and no side-profile bow curve.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_left.png",
+          "sha256": "43e5454a9670d12ef86b65dbae3cb1f33f8863ff56576cd1e2fd6af6e4324033"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16de9-b8b9-7e61-9213-628f904961c7/exec-33a04d34-0eb4-4053-a1f7-959128e96150.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favour of attempt 2: wrong canvas aspect ratio and enlarged ornament geometry.",
+      "status": "generated",
+      "returned_size": [
+        1774,
+        887
+      ],
+      "output_sha256": "a1dd4561512d69d21c66ad75b90b10fb553fc0602a6537eb32a4a89dc036fef5",
+      "alpha_bbox": [
+        47,
+        198,
+        1744,
+        782
+      ],
+      "opaque_bbox": [
+        87,
+        429,
+        1688,
+        474
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "requested_1024_square": false,
+        "no_text_or_letters": "pass_visual",
+        "flat_even_light": "fail_visual: visible relief shading and highlights",
+        "colours_and_materials": "reference ivory, gold and black-violet palette present; surface details differ"
+      },
+      "diagnostics": {
+        "normalized_silhouette_iou_alpha128": 0.332281,
+        "normalized_foreground_outside_guide": 17628,
+        "normalized_guide_foreground_missing": 4792,
+        "normalization": "Guide mask resampled in memory to output dimensions for comparison only; output file unchanged."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic albedo texture-source painting of the Hesper item hes_noble_recurve, a Noble's hunting bow of polished chitin.\nInput image 1, design_reference.png: ONLY the authority for surface design, colours and materials.\nInput image 2, GUIDE: the exact edit target and absolute authority for geometry, silhouette, every part edge, projection, position and scale.\nOUTPUT: one 1024 x 1024 RGBA PNG with genuinely transparent background; keep image 2's canvas and original alpha silhouette EXACTLY. Change ONLY the RGB surface appearance of the existing guide object. No added geometry or enlarged details; do not crop, zoom, reposition, rotate or change the silhouette. All empty areas including gaps must remain transparent. Preserve every thin component and anti-aliased boundary.\nPaint the design reference's appropriate materials over each corresponding guide material: near-black violet polished chitin/resin on the limbs, warm ivory-white ceramic/bone with delicate fine wear on bone surfaces, brushed muted antique gold on gold fittings, fine dark wine-black fibrous bowstring. Guide tints are segmentation hints only, NOT target colours. Carry the reference's fine engraved flowing lines, subtle seams, panel joins and small non-letter markings onto the available surfaces without thickening them. Continue unseen surfaces plausibly. If an orange light inset is represented, paint its bright orange base colour without bloom; do not invent additional components. Do not add spikes, hooks, blades or ornaments beyond the exact simple guide silhouette.\nLIGHTING: TEXTURE SOURCE / albedo. Even flat shadowless illumination from the viewer, no cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no rim light. Gold has its base colour and at most a faint sheen. No floor, background colour, checkerboard pixels, text, letters, labels or watermark.\nCRITICAL: Reference 1 is much more ornate than this model. Transfer its material appearance INSIDE image 2's existing silhouette only; never replace image 2 with reference 1's shape.\nVIEW AND FRAME: RIGHT edge-on view. The entire extremely slender horizontal bow lies at y=512, occupying x=66..957 and y=498..525. Small gold tips at both ends, very thin resin limbs, a pale bone central rectangular grip housing at x=457..566; the very thin string overlaps the limb line in this view. Preserve its almost straight horizontal edge-on projection exactly. No rotation and no side-profile bow curve.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_right.png",
+          "sha256": "261d269b997c299f0aa013fe0fa6d81beecb871cd1be3c4fa3b75dd4951973cb"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Tool invocation rejected without a returned image; rejection text was not retained.",
+      "status": "failed"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic albedo texture-source painting of the Hesper item hes_noble_recurve, a Noble's hunting bow of polished chitin.\nInput image 1, design_reference.png: ONLY the authority for surface design, colours and materials.\nInput image 2, GUIDE: the exact edit target and absolute authority for geometry, silhouette, every part edge, projection, position and scale.\nOUTPUT: one 1024 x 1024 RGBA PNG with genuinely transparent background; keep image 2's canvas and original alpha silhouette EXACTLY. Change ONLY the RGB surface appearance of the existing guide object. No added geometry or enlarged details; do not crop, zoom, reposition, rotate or change the silhouette. All empty areas including gaps must remain transparent. Preserve every thin component and anti-aliased boundary.\nPaint the design reference's appropriate materials over each corresponding guide material: near-black violet polished chitin/resin on the limbs, warm ivory-white ceramic/bone with delicate fine wear on bone surfaces, brushed muted antique gold on gold fittings, fine dark wine-black fibrous bowstring. Guide tints are segmentation hints only, NOT target colours. Carry the reference's fine engraved flowing lines, subtle seams, panel joins and small non-letter markings onto the available surfaces without thickening them. Continue unseen surfaces plausibly. If an orange light inset is represented, paint its bright orange base colour without bloom; do not invent additional components. Do not add spikes, hooks, blades or ornaments beyond the exact simple guide silhouette.\nLIGHTING: TEXTURE SOURCE / albedo. Even flat shadowless illumination from the viewer, no cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no rim light. Gold has its base colour and at most a faint sheen. No floor, background colour, checkerboard pixels, text, letters, labels or watermark.\nCRITICAL: Reference 1 is much more ornate than this model. Transfer its material appearance INSIDE image 2's existing silhouette only; never replace image 2 with reference 1's shape.\nVIEW AND FRAME: TOP view directly above the model. The entire tall slender curved bow occupies only x=460..563 and y=66..957. The taut straight string runs vertically near x=558 from the upper to lower tip. The resin limbs curve to the LEFT of the string toward the central bone housing at x=460..493, y=457..566. Gold end tips near (558,82) and (558,941). Keep this narrow bow, its curve, its straight thin string, and all these exact proportions and coordinates.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_top.png",
+          "sha256": "1898594a1028cb6488c23a98f2a03ea6ee3c5ebc8431ced15e17640d57f8f376"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16de9-b8b9-7e61-9213-628f904961c7/exec-e8f0b301-159e-467a-8c61-0c8ed013433c.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available return: closer guide silhouette and material-region placement than attempt 2; normalized silhouette overlap 0.614228 versus 0.546728. Still fails exact silhouette and flat-albedo requirements; retained unresized for review.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "5f2dc24be4416477452d4a549b2fe1d97f5a407ccd9b8f16e20468cfee0e998e",
+      "alpha_bbox": [
+        87,
+        53,
+        1127,
+        1178
+      ],
+      "opaque_bbox": [
+        563,
+        80,
+        694,
+        1175
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "requested_1024_square": false,
+        "no_text_or_letters": "pass_visual",
+        "flat_even_light": "fail_visual: visible relief shading and highlights",
+        "colours_and_materials": "reference ivory, gold and black-violet palette present; surface details differ"
+      },
+      "diagnostics": {
+        "normalized_silhouette_iou_alpha128": 0.614228,
+        "normalized_foreground_outside_guide": 13730,
+        "normalized_guide_foreground_missing": 27,
+        "normalization": "Guide mask resampled in memory to output dimensions for comparison only; output file unchanged."
+      },
+      "raw_return": "paint_top_attempt1.png",
+      "accepted_against_brief": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit the FIRST attached image (guide_front.png) in place. Return ONE SQUARE 1024 by 1024 image, aspect ratio 1:1, matching the first image's original canvas exactly. This is a corrective texture paint pass for hes_noble_recurve, a physical polished-chitin hunting bow.\nIMAGE 1 is the guide and edit target: preserve its exact alpha mask, every object boundary, every part boundary, position, scale, orientation and large empty margins. Image 2 (design_reference.png) supplies ONLY the surface colours and fine engraved pattern vocabulary. The second image must never control the shape or framing.\nThe previous attempt changed boundaries, added volumetric shading, and did not preserve the square 1024 canvas. Correct those defects. Do not enlarge the tiny visible object. Do not crop the transparent margins. Paint ONLY the existing guide pixels, retaining the guide's exact transparency including its original edge coverage. Completely transparent elsewhere; no stray pixels, aura, noise, halo or shadow outside that mask.\nApply FLAT ALBEDO, uniform viewer-facing shadowless light: the thin gray-purple limb regions become near-black violet chitin/resin with extremely fine subdued engraved grain; pale bone regions become warm ivory-white ceramic/bone with fine wear; gold regions become muted brushed antique gold; the string becomes dark wine-black fiber. All material colours are uniform in value across each part, except tiny surface texture. No shading around edges or seams, no ambient occlusion, no gradients simulating volume, no bright specular streaks, metallic reflections or dark cast shadows. Gold is a muted ochre base colour with only the faintest sheen. Any ornament is flat surface painting fully within existing parts; no extra geometry, bulges, collars, hooks or blades. No fabricated glowing parts. Continue unseen material surfaces plausibly.\nGeometry and framing: FRONT end-on view. The entire tiny horizontal object occupies only x=460..563 and y=498..525 on the 1024-square canvas. Pale bone end face on the LEFT near (476,512), thin resin piece extends rightwards to a small gold end cap near (558,512). Retain the huge transparent margins. Do not enlarge this tiny end-on view.\nOutput is a texture source, not a lit product rendering. No letters, text, labels, frame, floor, solid background or checkerboard artwork. True RGBA transparency. Keep the full SQUARE canvas from image 1. Use case: style-transfer.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_front.png",
+          "sha256": "edec8d810f1f7751889f78c86c7ec07fa5d13ff3d49e5f72dca7817afb93e63f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16de9-b8b9-7e61-9213-628f904961c7/exec-8119669a-5f75-43c3-a4e4-7dcc4d69f43d.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available return: tighter end-view silhouette than attempt 1. Still fails exact silhouette and flat-albedo requirements; retained unresized for review.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "54a365d97c44dac997ff184f1903a1221651d169572ac7e33de4e6700ac16874",
+      "alpha_bbox": [
+        559,
+        71,
+        1162,
+        1181
+      ],
+      "opaque_bbox": [
+        562,
+        609,
+        692,
+        646
+      ],
+      "diagnostics": {
+        "normalized_silhouette_iou_alpha128": 0.809608,
+        "normalized_foreground_outside_guide": 411,
+        "normalized_guide_foreground_missing": 21,
+        "normalization": "Guide mask resampled in memory to output dimensions for comparison only; output file unchanged."
+      },
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "requested_1024_square": false,
+        "no_text_or_letters": "pass_visual",
+        "flat_even_light": "fail_visual: visible relief shading and highlights",
+        "colours_and_materials": "reference ivory, gold and black-violet palette present; surface details differ"
+      },
+      "raw_return": "paint_front_attempt2.png",
+      "accepted_against_brief": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit the FIRST attached image (guide_back.png) in place. Return ONE SQUARE 1024 by 1024 image, aspect ratio 1:1, matching the first image's original canvas exactly. This is a corrective texture paint pass for hes_noble_recurve, a physical polished-chitin hunting bow.\nIMAGE 1 is the guide and edit target: preserve its exact alpha mask, every object boundary, every part boundary, position, scale, orientation and large empty margins. Image 2 (design_reference.png) supplies ONLY the surface colours and fine engraved pattern vocabulary. The second image must never control the shape or framing.\nThe previous attempt changed boundaries, added volumetric shading, and did not preserve the square 1024 canvas. Correct those defects. Do not enlarge the tiny visible object. Do not crop the transparent margins. Paint ONLY the existing guide pixels, retaining the guide's exact transparency including its original edge coverage. Completely transparent elsewhere; no stray pixels, aura, noise, halo or shadow outside that mask.\nApply FLAT ALBEDO, uniform viewer-facing shadowless light: the thin gray-purple limb regions become near-black violet chitin/resin with extremely fine subdued engraved grain; pale bone regions become warm ivory-white ceramic/bone with fine wear; gold regions become muted brushed antique gold; the string becomes dark wine-black fiber. All material colours are uniform in value across each part, except tiny surface texture. No shading around edges or seams, no ambient occlusion, no gradients simulating volume, no bright specular streaks, metallic reflections or dark cast shadows. Gold is a muted ochre base colour with only the faintest sheen. Any ornament is flat surface painting fully within existing parts; no extra geometry, bulges, collars, hooks or blades. No fabricated glowing parts. Continue unseen material surfaces plausibly.\nGeometry and framing: BACK end-on view. The entire tiny horizontal object occupies only x=460..563 and y=498..525 on the 1024-square canvas. Small gold end cap on the LEFT near (466,512), thin resin piece extends rightwards to the pale bone end face on the RIGHT near (548,512). Retain the huge transparent margins. Do not enlarge this tiny end-on view.\nOutput is a texture source, not a lit product rendering. No letters, text, labels, frame, floor, solid background or checkerboard artwork. True RGBA transparency. Keep the full SQUARE canvas from image 1. Use case: style-transfer.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_back.png",
+          "sha256": "868eebecc371008c518f8219e06536ef11358563260399247fc101987c0ede36"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 72e6ca85-90bf-40fd-af12-a147b0644adf. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+      "status": "failed"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit the FIRST attached image (guide_left.png) in place. Return ONE SQUARE 1024 by 1024 image, aspect ratio 1:1, matching the first image's original canvas exactly. This is a corrective texture paint pass for hes_noble_recurve, a physical polished-chitin hunting bow.\nIMAGE 1 is the guide and edit target: preserve its exact alpha mask, every object boundary, every part boundary, position, scale, orientation and large empty margins. Image 2 (design_reference.png) supplies ONLY the surface colours and fine engraved pattern vocabulary. The second image must never control the shape or framing.\nThe previous attempt changed boundaries, added volumetric shading, and did not preserve the square 1024 canvas. Correct those defects. Do not enlarge the tiny visible object. Do not crop the transparent margins. Paint ONLY the existing guide pixels, retaining the guide's exact transparency including its original edge coverage. Completely transparent elsewhere; no stray pixels, aura, noise, halo or shadow outside that mask.\nApply FLAT ALBEDO, uniform viewer-facing shadowless light: the thin gray-purple limb regions become near-black violet chitin/resin with extremely fine subdued engraved grain; pale bone regions become warm ivory-white ceramic/bone with fine wear; gold regions become muted brushed antique gold; the string becomes dark wine-black fiber. All material colours are uniform in value across each part, except tiny surface texture. No shading around edges or seams, no ambient occlusion, no gradients simulating volume, no bright specular streaks, metallic reflections or dark cast shadows. Gold is a muted ochre base colour with only the faintest sheen. Any ornament is flat surface painting fully within existing parts; no extra geometry, bulges, collars, hooks or blades. No fabricated glowing parts. Continue unseen material surfaces plausibly.\nGeometry and framing: LEFT edge-on view. The entire extremely slender horizontal bow lies at y=512, occupying x=66..957 and y=498..525. Small gold tips at both ends, very thin resin limbs, a pale bone central rectangular grip housing at x=457..566. Preserve its almost straight horizontal edge-on projection exactly, including any barely visible string. No rotation and no side-profile bow curve.\nOutput is a texture source, not a lit product rendering. No letters, text, labels, frame, floor, solid background or checkerboard artwork. True RGBA transparency. Keep the full SQUARE canvas from image 1. Use case: style-transfer.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_left.png",
+          "sha256": "43e5454a9670d12ef86b65dbae3cb1f33f8863ff56576cd1e2fd6af6e4324033"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16de9-b8b9-7e61-9213-628f904961c7/exec-0b32429b-f971-456f-9035-ad1c53a03e38.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available return: restores square canvas, removes orange bulges and improves normalized silhouette overlap to 0.829142. Still fails exact silhouette and flat-albedo requirements; retained unresized for review.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "007041c251dd408db56978f76ffe8ce413247db1b0638654a36b33b3e483f122",
+      "alpha_bbox": [
+        63,
+        39,
+        1177,
+        1101
+      ],
+      "opaque_bbox": [
+        81,
+        611,
+        1173,
+        642
+      ],
+      "diagnostics": {
+        "normalized_silhouette_iou_alpha128": 0.829142,
+        "normalized_foreground_outside_guide": 2021,
+        "normalized_guide_foreground_missing": 941,
+        "normalization": "Guide mask resampled in memory to output dimensions for comparison only; output file unchanged."
+      },
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "requested_1024_square": false,
+        "no_text_or_letters": "pass_visual",
+        "flat_even_light": "fail_visual: visible relief shading and highlights",
+        "colours_and_materials": "reference ivory, gold and black-violet palette present; surface details differ"
+      },
+      "raw_return": "paint_left_attempt2.png",
+      "accepted_against_brief": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit the FIRST attached image (guide_right.png) in place. Return ONE SQUARE 1024 by 1024 image, aspect ratio 1:1, matching the first image's original canvas exactly. This is a corrective texture paint pass for hes_noble_recurve, a physical polished-chitin hunting bow.\nIMAGE 1 is the guide and edit target: preserve its exact alpha mask, every object boundary, every part boundary, position, scale, orientation and large empty margins. Image 2 (design_reference.png) supplies ONLY the surface colours and fine engraved pattern vocabulary. The second image must never control the shape or framing.\nThe previous attempt changed boundaries, added volumetric shading, and did not preserve the square 1024 canvas. Correct those defects. Do not enlarge the tiny visible object. Do not crop the transparent margins. Paint ONLY the existing guide pixels, retaining the guide's exact transparency including its original edge coverage. Completely transparent elsewhere; no stray pixels, aura, noise, halo or shadow outside that mask.\nApply FLAT ALBEDO, uniform viewer-facing shadowless light: the thin gray-purple limb regions become near-black violet chitin/resin with extremely fine subdued engraved grain; pale bone regions become warm ivory-white ceramic/bone with fine wear; gold regions become muted brushed antique gold; the string becomes dark wine-black fiber. All material colours are uniform in value across each part, except tiny surface texture. No shading around edges or seams, no ambient occlusion, no gradients simulating volume, no bright specular streaks, metallic reflections or dark cast shadows. Gold is a muted ochre base colour with only the faintest sheen. Any ornament is flat surface painting fully within existing parts; no extra geometry, bulges, collars, hooks or blades. No fabricated glowing parts. Continue unseen material surfaces plausibly.\nGeometry and framing: RIGHT edge-on view. The entire extremely slender horizontal bow lies at y=512, occupying x=66..957 and y=498..525. Small gold tips at both ends, very thin resin limbs, a pale bone central rectangular grip housing at x=457..566; the very thin string overlaps the limb line in this view. Preserve its almost straight horizontal edge-on projection exactly. No rotation and no side-profile bow curve.\nOutput is a texture source, not a lit product rendering. No letters, text, labels, frame, floor, solid background or checkerboard artwork. True RGBA transparency. Keep the full SQUARE canvas from image 1. Use case: style-transfer.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_right.png",
+          "sha256": "261d269b997c299f0aa013fe0fa6d81beecb871cd1be3c4fa3b75dd4951973cb"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 45b9dced-d93f-437e-9395-3a5eea5decc1. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+      "status": "failed"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Edit the FIRST attached image (guide_top.png) in place. Return ONE SQUARE 1024 by 1024 image, aspect ratio 1:1, matching the first image's original canvas exactly. This is a corrective texture paint pass for hes_noble_recurve, a physical polished-chitin hunting bow.\nIMAGE 1 is the guide and edit target: preserve its exact alpha mask, every object boundary, every part boundary, position, scale, orientation and large empty margins. Image 2 (design_reference.png) supplies ONLY the surface colours and fine engraved pattern vocabulary. The second image must never control the shape or framing.\nThe previous attempt changed boundaries, added volumetric shading, and did not preserve the square 1024 canvas. Correct those defects. Do not enlarge the tiny visible object. Do not crop the transparent margins. Paint ONLY the existing guide pixels, retaining the guide's exact transparency including its original edge coverage. Completely transparent elsewhere; no stray pixels, aura, noise, halo or shadow outside that mask.\nApply FLAT ALBEDO, uniform viewer-facing shadowless light: the thin gray-purple limb regions become near-black violet chitin/resin with extremely fine subdued engraved grain; pale bone regions become warm ivory-white ceramic/bone with fine wear; gold regions become muted brushed antique gold; the string becomes dark wine-black fiber. All material colours are uniform in value across each part, except tiny surface texture. No shading around edges or seams, no ambient occlusion, no gradients simulating volume, no bright specular streaks, metallic reflections or dark cast shadows. Gold is a muted ochre base colour with only the faintest sheen. Any ornament is flat surface painting fully within existing parts; no extra geometry, bulges, collars, hooks or blades. No fabricated glowing parts. Continue unseen material surfaces plausibly.\nGeometry and framing: TOP view directly above the model. The entire tall slender curved bow occupies only x=460..563 and y=66..957. The taut straight string runs vertically near x=558 from the upper to lower tip. The resin limbs curve to the LEFT of the string toward the central bone housing at x=460..493, y=457..566. Gold end tips near (558,82) and (558,941). Keep this narrow bow, its curve, its straight thin string, and all these exact proportions and coordinates.\nOutput is a texture source, not a lit product rendering. No letters, text, labels, frame, floor, solid background or checkerboard artwork. True RGBA transparency. Keep the full SQUARE canvas from image 1. Use case: style-transfer.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/guide_top.png",
+          "sha256": "1898594a1028cb6488c23a98f2a03ea6ee3c5ebc8431ced15e17640d57f8f376"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_recurve/design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16de9-b8b9-7e61-9213-628f904961c7/exec-d59d2b0b-45c1-4ec2-b315-0ff816c7d661.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: tip length and limb silhouette diverge further from the guide, with additional ivory/gold regions and visible relief shading.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "07e874b2cacc37b45dbebb1a7d817837a9b8998f15d1dcd34f0841f536d29569",
+      "alpha_bbox": [
+        97,
+        55,
+        1176,
+        1254
+      ],
+      "opaque_bbox": [
+        565,
+        72,
+        695,
+        1181
+      ],
+      "diagnostics": {
+        "normalized_silhouette_iou_alpha128": 0.546728,
+        "normalized_foreground_outside_guide": 17756,
+        "normalized_guide_foreground_missing": 233,
+        "normalization": "Guide mask resampled in memory to output dimensions for comparison only; output file unchanged."
+      },
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "requested_1024_square": false,
+        "no_text_or_letters": "pass_visual",
+        "flat_even_light": "fail_visual: visible relief shading and highlights",
+        "colours_and_materials": "reference ivory, gold and black-violet palette present; surface details differ"
+      }
+    }
+  ],
+  "missing_outputs": [
+    "paint_right.png"
+  ],
+  "selection_note": "Selected means best available raw return, not acceptance. No selected image passes all required checks.",
+  "limitations": [
+    "No right-view image was returned. Two tool calls were attempted; the second explicitly failed with moderation_blocked / violence. No further calls were made.",
+    "Back corrective generation failed with moderation_blocked / violence; the original back painting was retained.",
+    "Every selected return is 1254 x 1254, preserved without resizing as instructed.",
+    "All selected returns differ from the exact guide silhouettes and retain visible material relief shading/highlights. They are review candidates, not validated texture sources.",
+    "No pixel editing, alpha-mask replacement, geometry changes, builds or game checks were performed."
+  ]
+}

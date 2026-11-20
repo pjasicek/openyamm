@@ -1,0 +1,100 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b ONLY.
+# Verify the full hash before loading. Research labels, not recovered original names or signatures.
+# Evidence and scope: INDOOR_EXPLORATION_AND_ACTIVATION.md. No executable bytes are changed.
+f+ research.mm8rel.BuildIndoorActorAiList @ 0x40172e
+f+ research.mm8rel.UpdateActorAi @ 0x401ad8
+f+ research.mm8rel.DetectObjectsThroughPortals @ 0x407be3
+f+ research.mm8rel.PortalContainsProjectedPoint @ 0x4080d8
+f+ research.mm8rel.ActorCanAct @ 0x4093f1
+f+ research.mm8rel.InitializeActorsOnMapEntry @ 0x40928c
+f+ research.mm8rel.ActorsShareAlertFaction @ 0x4391ca
+f+ research.mm8rel.AlertNearbyActorFaction @ 0x439278
+f+ research.mm8rel.CollectCurrentVisibleSectors @ 0x43cfde
+f+ research.mm8rel.StartIndoorPortalTraversal @ 0x43d61a
+f+ research.mm8rel.BuildIndoorActorBillboards @ 0x43db2a
+f+ research.mm8rel.VisitIndoorRenderSector @ 0x43e3aa
+f+ research.mm8rel.VisitIndoorRenderBsp @ 0x43e42b
+f+ research.mm8rel.PrepareIndoorRenderParameters @ 0x43e540
+f+ research.mm8rel.DispatchIndoorQueuedFaces @ 0x43e896
+f+ research.mm8rel.DrawHudMinimap @ 0x43f7f4
+f+ research.mm8rel.DrawBookMap @ 0x440450
+f+ research.mm8rel.LoadGame @ 0x45ddb0
+f+ research.mm8rel.SaveGameAndMapDelta @ 0x45e3d2
+f+ research.mm8rel.PrepareIndoorMap @ 0x45f895
+f+ research.mm8rel.LoadIndoorMapAndDelta @ 0x498050
+f+ research.mm8rel.UpdateIndoorActorPhysics @ 0x46fb6d
+f+ research.mm8rel.SubmitIndoorFaceSoftware @ 0x4b002a
+f+ research.mm8rel.RenderIndoorFaceSoftware @ 0x4b0427
+f+ research.mm8rel.RenderIndoorFaceD3D @ 0x4b0ef5
+f+ research.mm8rel.SubmitIndoorFaceD3D @ 0x4b137c
+f+ research.mm8rel.ProjectAndClipIndoorPortal @ 0x422778
+f+ research.mm8rel.IntersectPortalScanlineWindows @ 0x42347e
+f+ research.mm8rel.IndoorVisibleSectorCount @ 0x580568
+f+ research.mm8rel.IndoorVisibleSectorIds @ 0x58056c
+f+ research.mm8rel.IndoorOutlineBlockPointer @ 0x6f3bc8
+f+ research.mm8rel.IndoorDiscoveredOutlineBits @ 0x6f3c44
+CC "Resolve party feet sector for same-sector actor additions. No automap/visited-sector input." @ 0x401755
+CC "Clear FullAI 0x400 per actor each selection, not a permanent activation bit." @ 0x401776
+CC "Approximate feet distance minus radius must be below 10240 for the distance candidate pass." @ 0x401820
+CC "Clear actor Active 0x4000 when unable to act or outside candidate range, retain Nearby 0x8000." @ 0x401828
+CC "Cached Nearby 0x8000 bypasses fresh object detection." @ 0x40194c
+CC "Detection pass accepts at most 30 actors before same-sector and cached additions." @ 0x401988
+CC "Same party sector additions set actor Active 0x4000, no separate distance test in this pass." @ 0x4019df
+CC "Append in-range actors with either Active or Nearby, not necessarily both." @ 0x401a20
+CC "Final full-AI count capped at 30 independently of render nodes, exploration or audio range." @ 0x401a78
+CC "Set FullAI 0x400 only on retained actors." @ 0x401ac0
+CC "Turn-based scheduler bypasses the real-time background actor loop." @ 0x401c82
+CC "Background loop traverses all actors, not visible or previously visited sectors." @ 0x401c9a
+CC "Background action expiry can enter StandOrBored and produce a voice in an unexplored room." @ 0x401e9d
+CC "Full-AI processing also sets Nearby, so this bit is not exclusively evidence of visual detection." @ 0x4020de
+CC "Detection party endpoint uses eye-height Z and resolves its sector separately." @ 0x407cf3
+CC "Separate detection distance cutoff: reject greater than 5120, not the 10240 approximate candidate range." @ 0x407dc0
+CC "Equal endpoint sectors succeed after range check. No camera facing or exploration condition." @ 0x407e4c
+CC "At most 30 portal transitions. Traversal checks portal geometry, not renderer-visible sectors." @ 0x407e55
+CC "Enumerate sector portal list at +0x28/+0x2c, not ordinary walls or door states." @ 0x407e6f
+CC "Portal intersection point-in-polygon test." @ 0x408077
+CC "Switch ray traversal to opposite portal sector, then compare with target sector." @ 0x40809b
+CC "Reset current visible-sector count and deduplicate this frame's portal view nodes." @ 0x43cfea
+CC "Actor billboard sector visibility gate, not actor AI activation." @ 0x43dcbf
+CC "Clear actor Visible 0x8 on each billboard build. Not persistent encounter history." @ 0x43db53
+CC "Set actor Visible 0x8 when submitting this frame's billboard." @ 0x43dd7e
+CC "Sector bit 0x10 selects BSP traversal, not persistent exploration/AI activation." @ 0x43e417
+CC "HUD outline requires both faces not Invisible and either remembered outline or a SeenByParty face." @ 0x43f904
+CC "Latch outline discovered flag 1, then packed bit in the shared 875-byte discovery array." @ 0x43f93f
+CC "HUD discovery array write, MSB-first outline bits. No actor activation write." @ 0x43f95e
+CC "Map-book discovery array write, same state as HUD minimap." @ 0x4405e6
+CC "Wizard Eye living actor marker requires Nearby 0x8000; dead actors bypass this. No explored-sector or Z gate." @ 0x44012b
+CC "Faction alert requires approximate 3D distance strictly below 4096; no LOS test in this routine." @ 0x439345
+CC "Faction alert sets hostility type 4; does not set Nearby, Active or FullAI." @ 0x439354
+CC "Faction alert sets Aggressor 0x80000 when requested; this byte is actor +0x26, not Nearby byte +0x25." @ 0x43935a
+CC "Save 875 bytes of outline discovery, followed by individual face attributes." @ 0x45ea65
+CC "LoadGame sets skip map-entry actor reset flag 0x2000, alongside skip-world-update bit 1." @ 0x45e320
+CC "Save all actor records verbatim, count times 0x3cc bytes, including Active/Nearby/FullAI/Visible bits." @ 0x45eb06
+CC "Skip actor and sprite-object map-entry initialization when loading a save; consume flag afterward." @ 0x45fa3e
+CC "Prepare actor sprites and disabled/dead states without clearing Nearby or Active." @ 0x45fd63
+CC "Map-entry reset clears 0x80000 here, not Nearby 0x8000." @ 0x409304
+CC "Map-entry reset clears 0x800000 here, not Nearby 0x8000." @ 0x409308
+CC "Physics traverses full actor array, no visited-sector or FullAI entry gate." @ 0x46fb77
+CC "Actor collision candidates come from selected actor list, not all actor pairs." @ 0x470063
+CC "Load packed exploration bytes into indoor object +0x324." @ 0x4999fa
+CC "Loading-save flag extends indoor refill interval to 0x1baf800." @ 0x499874
+CC "Restore outline flag 1 from the packed saved bit, not sector visitation." @ 0x499a69
+CC "Restore each face's 32-bit attributes, including SeenByParty." @ 0x499aac
+CC "Restore full actor array, including saved Nearby encounter flags and current position/HP/AI state." @ 0x499b8e
+CC "Ordinary software face path sets SeenByParty before projection/clipping, after texture lookup." @ 0x4b04b3
+CC "D3D sets SeenByParty before texture/facing/clipping, after basic face and Invisible guards." @ 0x4b0fbf
+CC "Normal D3D portal expansion checks 150 view nodes, not 150 permanent active sectors." @ 0x4b18b6
+CC "D3D nonportal face queue capped at 1000 independently of AI." @ 0x4b18e7
+CC "Portal flag dispatch. Ordinary opaque walls/doors are queued, not subtracted from portal visibility." @ 0x4b13a8
+CC "Nonportal branch only appends face and view-node IDs. No opaque coverage update here." @ 0x4b18e5
+CC "Child portal scanline bounds intersect the parent portal window, not an opaque-face occlusion buffer." @ 0x4237d4
+CC "D3D clips portal polygon to four ancestor portal planes before deriving its child view." @ 0x4b1845
+CC "Accepted portal recurses into adjacent sector; no door-state or exploration-bit gate in this path." @ 0x4b18c7
+CC "Initial-node near-portal exception: bbox margin 16 and absolute fixed-point plane distance <= 9 units." @ 0x4b1474
+CC "Read actual live portal vertex; no synthesized rectangle from adjoining sector bounds." @ 0x4b1586
+CC "Ordinary portal requires oriented plane side < 0 before projection succeeds." @ 0x4b15e1
+CC "Reject portal whose integer projected minY equals maxY; no nonzero scanline extent." @ 0x4234f3
+CC "Intersected portal scanline Y bounds require strict positive extent before accepting child window." @ 0x42388a
+CC "D3D child portal path selects extrema from clipped vertices before constructing four child planes." @ 0x49b92f
+CC "Build portal-oriented quad from vertex extrema and authored face axes, not neighboring sector bounds." @ 0x49bd40
+CC "Portal polygon half-space clipping compares to the supplied plane distance; no five-unit expansion." @ 0x497848

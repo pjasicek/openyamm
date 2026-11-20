@@ -1,0 +1,10 @@
+output_dir: /tmp/obsidian-native-mm7
+exit: true
+steps:
+  - wait: 2
+  - capture: gameplay
+  - action: quest
+  - capture: inventory
+  - key: Escape
+  - action: map_book
+  - capture: map

@@ -1,0 +1,29 @@
+id: mm8.monster_death_explosion
+title: A dying Gog explodes - the party takes its Attack 1, a party ally the explode dice, its own kind nothing
+world: mm8
+mode: faithful
+tags: [mm8, actors, combat, regression]
+steps:
+  - note:
+      text: >-
+        Monsters whose Special is "explode" (Gogs, Boulders, Light Elementals, Golems) burst when they die: MM8 drops
+        object 600 at three quarters of the corpse's height, and it hits everything within 512 in sight (0x404a90,
+        0x46c002). The party takes the monster's Attack 1; other actors not friendly to it take the explode dice.
+  - new_game_flow:
+      start_map: out01.odm
+  # Fire Gogs (162, Attack 1 2D10+8 fire, explode 4D5 fire): the one to kill, one of its kind and one fighting for
+  # the party.
+  - spawn_actor: {monster_id: 162, near_party: true}
+  - spawn_actor: {monster_id: 162, near_party: true}
+  - spawn_actor: {monster_id: 162, near_party: true, party_ally: true}
+  - damage_actor: {actor_index: last-2, amount: 100000}
+  # The blast goes off on the next actor update, well before anyone's own attack lands.
+  - advance_runtime: {seconds: 0.2}
+  # The party heals too fast to stay hurt; the combat log keeps the hit.
+  - assert:
+      actor_visible: {actor_index: last-2, current_hp: 0}
+      combat_log: {taken_min: 1}
+  - assert:
+      actor_count: {monster_id: 162, hostile: true, hurt: false, min: 1, max: 1}
+  - assert:
+      actor_count: {monster_id: 162, hostile: false, hurt: true, min: 1, max: 1}

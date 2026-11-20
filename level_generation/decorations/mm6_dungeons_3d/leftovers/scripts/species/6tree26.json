@@ -1,0 +1,152 @@
+{
+ "sprite": "6tree26",
+ "output": "mm6_deco_tree26.glb",
+ "height_m": 1.57,
+ "note": "Small flat-topped tree: a wide flat crown in the upper half on a twisted trunk splitting in two.",
+ "sapling": {
+  "scale": 1.11,
+  "baseSplits": 1,
+  "splitHeight": 0.42,
+  "splitAngle": [
+   30,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.42,
+  "seed": 261,
+  "ratio": 0.035,
+  "curveRes": [
+   12,
+   4,
+   3,
+   1
+  ],
+  "curve": [
+   0,
+   -20,
+   0,
+   0
+  ],
+  "curveV": [
+   40,
+   40,
+   0,
+   0
+  ],
+  "attractUp": [
+   0,
+   0.2,
+   0.3,
+   0
+  ],
+  "downAngle": [
+   90,
+   55,
+   45,
+   45
+  ],
+  "rootFlare": 1.4,
+  "scaleV": 0.0,
+  "segSplits": [
+   0.05,
+   0.25,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.46,
+  "centre": 0.76,
+  "clumps": 90,
+  "inner_clumps": 10,
+  "outer_radius": [
+   0.11,
+   0.17
+  ],
+  "inner_radius": [
+   0.1,
+   0.14
+  ],
+  "card": [
+   0.18,
+   0.24
+  ],
+  "flatten": 0.8,
+  "lobes": {
+   "fraction": 0.3,
+   "slack": 1.15
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   92,
+   76,
+   56
+  ],
+  "min_thickness": [
+   0.008,
+   0.016,
+   0.03
+  ],
+  "root_reach": 0.1,
+  "roots": 3,
+  "clip_below_crown": true,
+  "root_radius": 0.35
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "lod2_card_scale": 0.95,
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.05,
+    1.05,
+    1.05
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   135,
+   215,
+   70
+  ],
+  "seeds": [
+   261,
+   273,
+   287,
+   291
+  ],
+  "value": [
+   0.8,
+   1.5
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "impostor_dilate": 6,
+ "impostor_edge_fill": true,
+ "transparent_bounces": 64,
+ "impostor_tone": [
+  0.8,
+  0.74,
+  0.92
+ ],
+ "albedo_tint": [
+  0.413,
+  0.544,
+  0.741
+ ]
+}

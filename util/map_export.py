@@ -593,7 +593,7 @@ def parse_blv_file(input_path: Path) -> dict:
         texture_us = []
         texture_vs = []
         if vertex_per_face_count > 0:
-            vertex_stream = reader.i16_array(face_data_cursor + stream_stride * 0, vertex_per_face_count + 1)
+            vertex_stream = reader.u16_array(face_data_cursor + stream_stride * 0, vertex_per_face_count + 1)
             stream1 = reader.i16_array(face_data_cursor + stream_stride * 1, vertex_per_face_count + 1)
             stream2 = reader.i16_array(face_data_cursor + stream_stride * 2, vertex_per_face_count + 1)
             stream3 = reader.i16_array(face_data_cursor + stream_stride * 3, vertex_per_face_count + 1)

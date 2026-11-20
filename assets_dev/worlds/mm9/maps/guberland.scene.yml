@@ -1,0 +1,8168 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "guberland.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 1682,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1683,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1684,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 23086,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23087,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23088,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23089,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23090,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23091,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23092,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23093,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23094,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23095,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23096,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23097,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23098,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23099,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23100,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23101,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23102,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23103,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23104,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23105,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23106,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23107,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23108,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23109,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23110,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23111,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23112,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23113,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23114,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23115,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23116,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23117,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23118,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23119,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23120,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23121,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23122,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23123,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23124,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23125,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23126,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23127,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23128,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23129,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23130,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23131,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23132,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23133,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23134,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23135,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23136,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23137,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23138,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23139,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23140,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23141,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23142,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23143,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23144,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23145,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23146,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23147,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23148,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23149,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23150,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23151,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23152,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23153,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23154,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23155,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23156,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23157,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23158,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23159,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23160,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23161,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23162,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23163,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23164,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23165,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23166,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23167,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23168,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23169,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23170,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23171,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23172,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23173,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23174,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23175,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23176,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23177,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23178,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23179,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23180,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23181,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23182,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23183,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23184,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23185,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23186,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23187,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23188,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23189,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23190,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23191,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23192,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23193,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23194,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23195,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23196,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23197,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23198,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23199,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23200,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23201,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23202,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23203,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23204,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23205,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23206,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23207,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23208,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23209,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23210,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23211,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23212,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23213,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23214,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23215,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23216,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23217,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23218,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23219,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23220,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23221,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23222,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23223,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23224,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23225,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23226,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23227,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23228,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23229,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23230,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23231,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23232,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23233,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23234,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23235,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23236,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23237,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23238,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23239,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23240,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23241,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23242,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23243,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24370,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24371,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24372,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24373,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24374,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24375,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24376,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24377,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24378,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24379,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24380,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24381,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24382,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24383,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24384,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24385,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24386,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24387,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24388,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24389,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24390,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24391,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24392,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24393,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24394,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24395,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24396,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24397,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24398,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24399,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24400,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24401,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24402,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24403,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24404,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24405,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24406,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24407,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24408,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24409,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24410,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24411,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24412,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24413,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24414,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24415,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24416,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24417,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24418,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24419,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24420,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24421,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24422,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24423,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24424,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24425,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24426,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24427,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24428,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24429,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24430,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24431,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24432,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24433,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24434,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24435,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24436,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24437,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24438,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24439,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24440,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24441,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24442,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24443,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24444,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24445,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24446,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24447,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24448,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24449,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24450,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24451,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24452,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24453,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24454,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24455,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24456,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24457,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24458,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24459,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24460,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24461,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24462,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24463,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24464,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24465,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24466,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24467,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24468,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24469,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24470,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24471,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24472,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24473,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24474,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24475,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24476,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24477,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24478,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24479,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24480,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24481,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24482,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24483,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24484,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24485,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24486,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24487,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24488,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24489,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24490,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24491,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24492,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24493,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24494,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24495,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24496,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24497,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24498,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24499,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24500,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24501,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24502,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24503,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24504,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24505,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24506,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24507,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24508,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24509,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24510,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24511,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24512,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24513,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24514,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24515,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24516,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24517,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24518,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24519,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24520,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24521,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24522,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24523,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24524,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24525,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24526,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24527,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24528,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24529,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24530,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24531,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24532,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24533,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24534,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24535,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24536,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24537,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24538,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24539,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24540,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24541,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24542,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24543,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24544,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24545,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24546,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24547,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24548,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24549,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24550,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24551,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24552,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24553,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24554,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24555,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24556,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24557,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24558,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24559,
+    "texture_name": "lqseamm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -2855,
+     "y": 6171,
+     "z": 121
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -3702,
+     "y": 6596,
+     "z": 121
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -3674,
+     "y": 6007,
+     "z": 121
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -3347,
+     "y": 5679,
+     "z": 121
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -8917,
+     "y": 12233,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -8753,
+     "y": 12069,
+     "z": 121
+    },
+    "initial_yaw_units": 1947,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Nettle Spore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9170,
+    "monster_id": 9170,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 22212,
+     "y": -19224,
+     "z": -305
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 23195,
+     "y": -17914,
+     "z": -305
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Nettle Spore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9170,
+    "monster_id": 9170,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 24506,
+     "y": -3496,
+     "z": -305
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 8960,
+     "hearing": 2560,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Nettle Spore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9170,
+    "monster_id": 9170,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 22868,
+     "y": 12888,
+     "z": -305
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -16290,
+     "y": 4696,
+     "z": 259
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -15143,
+     "y": 2894,
+     "z": 327
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -12030,
+     "y": 6662,
+     "z": 180
+    },
+    "initial_yaw_units": 1796,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -13177,
+     "y": 3877,
+     "z": 190
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -16126,
+     "y": -2349,
+     "z": 408
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -14324,
+     "y": -1366,
+     "z": 366
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -15962,
+     "y": -3987,
+     "z": 429
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -14488,
+     "y": -9230,
+     "z": 506
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -14324,
+     "y": -9066,
+     "z": 503
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -14160,
+     "y": -9722,
+     "z": 508
+    },
+    "initial_yaw_units": 1672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -13669,
+     "y": -9066,
+     "z": 491
+    },
+    "initial_yaw_units": 1157,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 21,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -12849,
+     "y": -12015,
+     "z": 526
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 22,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -12685,
+     "y": -12179,
+     "z": 528
+    },
+    "initial_yaw_units": 2036,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -12358,
+     "y": -12179,
+     "z": 528
+    },
+    "initial_yaw_units": 1734,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -13013,
+     "y": -12507,
+     "z": 528
+    },
+    "initial_yaw_units": 1690,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 25,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -7934,
+     "y": -18078,
+     "z": 701
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 26,
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -6460,
+     "y": -19224,
+     "z": 781
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 27,
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 31,
+    "height": 92,
+    "move_speed": 320,
+    "position": {
+     "x": -9409,
+     "y": -19388,
+     "z": 592
+    },
+    "initial_yaw_units": 114,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 28,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -9900,
+     "y": -14145,
+     "z": 588
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 29,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -9900,
+     "y": -14801,
+     "z": 635
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 30,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -9081,
+     "y": -14637,
+     "z": 639
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 31,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -9573,
+     "y": -15128,
+     "z": 663
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 32,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -13013,
+     "y": -21846,
+     "z": 351
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 33,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -13013,
+     "y": -22501,
+     "z": 341
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 34,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -12194,
+     "y": -22337,
+     "z": 359
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 35,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -12685,
+     "y": -22829,
+     "z": 290
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 36,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 749,
+     "y": 5515,
+     "z": 114
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 37,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -70,
+     "y": 6007,
+     "z": 121
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 38,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -70,
+     "y": 5352,
+     "z": 116
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 39,
+    "name": "Cutpurse",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 34,
+    "hostility_type": 4,
+    "monster_info_id": 9099,
+    "monster_id": 9099,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 258,
+     "y": 5024,
+     "z": 92
+    },
+    "initial_yaw_units": 908,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 40,
+    "name": "Hjordisa the Hag",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13693,
+     "y": -21027,
+     "z": 103
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc132.scr"
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 20,
+    "mm9_rude_id": 132
+   },
+   {
+    "actor_index": 41,
+    "name": "Thorir Mouth",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11727,
+     "y": 16984,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc133.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 21,
+    "mm9_rude_id": 133
+   },
+   {
+    "actor_index": 42,
+    "name": "Ivan the Smart",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11563,
+     "y": 18131,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc130.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 22,
+    "mm9_rude_id": 130
+   },
+   {
+    "actor_index": 43,
+    "name": "Scandlan the Long-tounged",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12300,
+     "y": 14035,
+     "z": 121
+    },
+    "initial_yaw_units": 1796,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc150.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 47,
+    "mm9_rude_id": 150
+   },
+   {
+    "actor_index": 44,
+    "name": "Broccan A'Norta a'bre",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12382,
+     "y": 13871,
+     "z": 121
+    },
+    "initial_yaw_units": 792,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "guard_refuge": false
+     },
+     "script": "npc151.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 48,
+    "mm9_rude_id": 151
+   },
+   {
+    "actor_index": 45,
+    "name": "Bragi the Toothloose",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15987,
+     "y": 14527,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 49,
+    "mm9_rude_id": 149
+   },
+   {
+    "actor_index": 46,
+    "name": "Fyrie the Forgettable",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12054,
+     "y": 19606,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 50,
+    "mm9_rude_id": 162
+   },
+   {
+    "actor_index": 47,
+    "name": "Gabriel Dullard",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9044,
+    "monster_id": 9044,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 9433,
+     "y": 19442,
+     "z": 125
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 51,
+    "mm9_rude_id": 163
+   },
+   {
+    "actor_index": 48,
+    "name": "Gabriel Dullard",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9044,
+    "monster_id": 9044,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 9597,
+     "y": 17148,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 52,
+    "mm9_rude_id": 163
+   },
+   {
+    "actor_index": 49,
+    "name": "Davin the Ample",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 44,
+    "height": 110,
+    "move_speed": 0,
+    "position": {
+     "x": 9105,
+     "y": 17803,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 53,
+    "mm9_rude_id": 165
+   },
+   {
+    "actor_index": 50,
+    "name": "Denby Badbreath",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 44,
+    "height": 110,
+    "move_speed": 0,
+    "position": {
+     "x": 9761,
+     "y": 15673,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 54,
+    "mm9_rude_id": 166
+   },
+   {
+    "actor_index": 51,
+    "name": "Lina Friggdotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9029,
+    "monster_id": 9029,
+    "radius": 43,
+    "height": 100,
+    "move_speed": 0,
+    "position": {
+     "x": 14512,
+     "y": 18786,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 55,
+    "mm9_rude_id": 167
+   },
+   {
+    "actor_index": 52,
+    "name": "Gregusk Mazo",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9057,
+    "monster_id": 9057,
+    "radius": 53,
+    "height": 131,
+    "move_speed": 0,
+    "position": {
+     "x": 10907,
+     "y": 21244,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 56,
+    "mm9_rude_id": 168
+   },
+   {
+    "actor_index": 53,
+    "name": "Olaf Ullson",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9047,
+    "monster_id": 9047,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 17953,
+     "y": 4409,
+     "z": -122
+    },
+    "initial_yaw_units": 1103,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "guard_refuge": false
+     },
+     "script": "npcshopkeeper.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 78,
+    "mm9_rude_id": 144
+   },
+   {
+    "actor_index": 54,
+    "name": "Atli Sigmundssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9052,
+    "monster_id": 9052,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11563,
+     "y": 11577,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc186.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 85,
+    "mm9_rude_id": 186
+   },
+   {
+    "actor_index": 55,
+    "name": "Hungerda Atlidotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9030,
+    "monster_id": 9030,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11727,
+     "y": 11414,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc187.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 86,
+    "mm9_rude_id": 187
+   },
+   {
+    "actor_index": 56,
+    "name": "Guard",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9111,
+    "monster_id": 9111,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 0,
+    "position": {
+     "x": 18116,
+     "y": 4860,
+     "z": -122
+    },
+    "initial_yaw_units": 1894,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "atlipromo.scr"
+    },
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 87
+   },
+   {
+    "actor_index": 57,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11850,
+     "y": 19442,
+     "z": 121
+    },
+    "initial_yaw_units": 0,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 6144,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "stonesplayer.scr",
+     "script_params": "Square 6"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 267,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 58,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12157,
+     "y": 19217,
+     "z": 121
+    },
+    "initial_yaw_units": 681,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 268,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 59,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12157,
+     "y": 19647,
+     "z": 121
+    },
+    "initial_yaw_units": 1477,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 269,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 60,
+    "name": "Huckster",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9052,
+    "monster_id": 9052,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14072,
+     "y": 18868,
+     "z": 121
+    },
+    "initial_yaw_units": 1593,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "huckstermod.scr",
+     "script_params": "1"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 324,
+    "mm9_rude_id": 429
+   },
+   {
+    "actor_index": 61,
+    "name": "Mata Abyomi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9057,
+    "monster_id": 9057,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15823,
+     "y": 18786,
+     "z": 121
+    },
+    "initial_yaw_units": 1024,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "armwrestle.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 330,
+    "mm9_rude_id": 148
+   },
+   {
+    "actor_index": 62,
+    "name": "Nicolai Ironfist",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13857,
+     "y": 19278,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc414.scr",
+     "script_params": "Guberland"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 344,
+    "mm9_rude_id": 414
+   },
+   {
+    "actor_index": 63,
+    "name": "Alvar the Clumsy",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13529,
+     "y": 19442,
+     "z": 121
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "retainer.scr",
+     "script_params": "voices\\NPC\\NPC_178.wav 458"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 345,
+    "mm9_rude_id": 178
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 922,
+    "open_speed": 896,
+    "close_speed": 947,
+    "state": 2,
+    "vertex_ids": [
+     17551,
+     17552,
+     17553,
+     17554,
+     17555,
+     17556,
+     17557,
+     17558,
+     17559,
+     17560,
+     17561,
+     17562,
+     17563,
+     17564,
+     17565,
+     17566,
+     17567,
+     17568,
+     17569,
+     17570,
+     17571,
+     17572,
+     17573,
+     17574,
+     17575,
+     17576,
+     17577,
+     17578,
+     17579,
+     17580,
+     17581,
+     17582
+    ],
+    "face_ids": [
+     24606,
+     24607,
+     24608,
+     24609,
+     24610,
+     24611,
+     24612,
+     24613,
+     24614,
+     24615,
+     24616,
+     24617,
+     24618,
+     24619,
+     24620,
+     24621,
+     24622,
+     24623,
+     24624,
+     24625,
+     24626,
+     24627,
+     24628,
+     24629,
+     24630,
+     24631,
+     24632,
+     24633,
+     24634,
+     24635,
+     24636,
+     24637,
+     24638,
+     24639,
+     24640,
+     24641,
+     24642,
+     24643,
+     24644,
+     24645,
+     24646,
+     24647
+    ],
+    "sector_ids": [
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     15946,
+     15946,
+     15956,
+     15956,
+     15946,
+     15946,
+     15956,
+     15956,
+     15958,
+     15958,
+     15961,
+     15961,
+     15961,
+     15961,
+     15958,
+     15958,
+     15956,
+     15956,
+     15946,
+     15946,
+     15943,
+     15943,
+     15940,
+     15940,
+     15940,
+     15940,
+     15943,
+     15943,
+     15946,
+     15946,
+     15956,
+     15956
+    ],
+    "y_offsets": [
+     20107,
+     20087,
+     20087,
+     20107,
+     20113,
+     20113,
+     20113,
+     20113,
+     20110,
+     20110,
+     20107,
+     20107,
+     20087,
+     20087,
+     20084,
+     20084,
+     20082,
+     20082,
+     20082,
+     20082,
+     20084,
+     20084,
+     20087,
+     20087,
+     20107,
+     20107,
+     20110,
+     20110,
+     20087,
+     20107,
+     20107,
+     20087
+    ],
+    "z_offsets": [
+     1124,
+     1124,
+     1124,
+     1124,
+     1109,
+     1119,
+     1119,
+     1109,
+     1106,
+     1122,
+     1119,
+     1109,
+     1119,
+     1109,
+     1106,
+     1122,
+     1119,
+     1109,
+     1119,
+     1109,
+     1106,
+     1122,
+     1119,
+     1109,
+     1119,
+     1109,
+     1106,
+     1122,
+     1104,
+     1104,
+     1104,
+     1104
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 13,
+    "open_speed": 512,
+    "close_speed": 51,
+    "state": 2,
+    "vertex_ids": [
+     17583,
+     17584,
+     17585,
+     17586,
+     17587,
+     17588,
+     17589,
+     17590
+    ],
+    "face_ids": [
+     24648,
+     24649,
+     24650,
+     24651,
+     24652,
+     24653
+    ],
+    "sector_ids": [
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     15925,
+     15925,
+     15884,
+     15884,
+     15884,
+     15884,
+     15925,
+     15925
+    ],
+    "y_offsets": [
+     20056,
+     20056,
+     20056,
+     20056,
+     20138,
+     20138,
+     20138,
+     20138
+    ],
+    "z_offsets": [
+     148,
+     169,
+     169,
+     148,
+     148,
+     169,
+     169,
+     148
+    ],
+    "ai_open": [
+     2
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 31,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     17591,
+     17592,
+     17593,
+     17594,
+     17595,
+     17596,
+     17597,
+     17598,
+     17599,
+     17600,
+     17601,
+     17602,
+     17603,
+     17604,
+     17605,
+     17606,
+     17607,
+     17608,
+     17609,
+     17610,
+     17611,
+     17612,
+     17613,
+     17614
+    ],
+    "face_ids": [
+     24654,
+     24655,
+     24656,
+     24657,
+     24658,
+     24659,
+     24660,
+     24661,
+     24662,
+     24663,
+     24664,
+     24665,
+     24666,
+     24667,
+     24668,
+     24669
+    ],
+    "sector_ids": [
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     12725,
+     12730,
+     12730,
+     12725,
+     12725,
+     12730,
+     12730,
+     12725,
+     12730,
+     12730,
+     12689,
+     12689,
+     12689,
+     12689,
+     12689,
+     12689,
+     12730,
+     12730,
+     12694,
+     12694,
+     12689,
+     12689,
+     12694,
+     12694
+    ],
+    "y_offsets": [
+     17281,
+     17281,
+     17302,
+     17302,
+     17302,
+     17302,
+     17281,
+     17281,
+     17276,
+     17281,
+     17281,
+     17276,
+     17276,
+     17281,
+     17281,
+     17281,
+     17281,
+     17276,
+     17281,
+     17302,
+     17302,
+     17302,
+     17302,
+     17281
+    ],
+    "z_offsets": [
+     294,
+     294,
+     294,
+     294,
+     284,
+     284,
+     284,
+     284,
+     299,
+     299,
+     299,
+     299,
+     279,
+     294,
+     284,
+     279,
+     279,
+     279,
+     294,
+     294,
+     294,
+     284,
+     284,
+     284
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 600,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17615,
+     17616,
+     17617,
+     17618,
+     17619,
+     17620,
+     17621,
+     17622,
+     17623,
+     17624,
+     17625,
+     17626,
+     17627,
+     17628,
+     17629,
+     17630,
+     17631,
+     17632,
+     17633,
+     17634,
+     17635,
+     17636,
+     17637,
+     17638
+    ],
+    "face_ids": [
+     24670,
+     24671,
+     24672,
+     24673,
+     24674,
+     24675,
+     24676,
+     24677,
+     24678,
+     24679,
+     24680,
+     24681,
+     24682,
+     24683,
+     24684
+    ],
+    "sector_ids": [
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     13841,
+     13841,
+     13841,
+     13841,
+     13841,
+     13841,
+     13841,
+     13841,
+     13851,
+     13851,
+     13851,
+     13851,
+     13851,
+     13851,
+     13851,
+     13851,
+     13846,
+     13846,
+     13851,
+     13851,
+     13851,
+     13851,
+     13846,
+     13846
+    ],
+    "y_offsets": [
+     20799,
+     20788,
+     20788,
+     20799,
+     20809,
+     20819,
+     20819,
+     20809,
+     20799,
+     20809,
+     20788,
+     20788,
+     20799,
+     20809,
+     20819,
+     20819,
+     20806,
+     20801,
+     20801,
+     20806,
+     20806,
+     20801,
+     20801,
+     20806
+    ],
+    "z_offsets": [
+     192,
+     202,
+     212,
+     223,
+     223,
+     212,
+     202,
+     192,
+     223,
+     223,
+     212,
+     202,
+     192,
+     192,
+     202,
+     212,
+     264,
+     264,
+     264,
+     264,
+     223,
+     223,
+     223,
+     223
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       13851.48,
+       20803.72,
+       207.36
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "open_degrees": 60.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {}
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    22003,
+    4558,
+    -122
+   ],
+   "direction_degrees": 180
+  },
+  {
+   "start_index": 1,
+   "source_name": "GuberlandCityExit",
+   "position": [
+    6151,
+    -10359,
+    1412
+   ],
+   "direction_degrees": 270
+  },
+  {
+   "start_index": 2,
+   "source_name": "DooksCastleExit",
+   "position": [
+    -13341,
+    16820,
+    121
+   ],
+   "direction_degrees": 336
+  },
+  {
+   "start_index": 3,
+   "source_name": "TempleOfHonkExit",
+   "position": [
+    -19567,
+    -18733,
+    165
+   ],
+   "direction_degrees": 270
+  }
+ ],
+ "loot_containers": [],
+ "static_lights": {
+  "sides": "both"
+ },
+ "opaque_faces": [
+  24560,
+  24561,
+  24562,
+  24563,
+  24564
+ ],
+ "actor_barriers": {
+  "faces": [
+   24565,
+   24566,
+   24567,
+   24568,
+   24569,
+   24570,
+   24571,
+   24572,
+   24573,
+   24574
+  ]
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       14020.4,
+       31569.0
+      ],
+      [
+       14020.4,
+       36481.2
+      ],
+      [
+       18932.6,
+       36481.2
+      ],
+      [
+       18932.6,
+       31569.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       26653.8
+      ],
+      [
+       14020.4,
+       31569.0
+      ],
+      [
+       18932.6,
+       31569.0
+      ],
+      [
+       18932.6,
+       26653.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       31569.0
+      ],
+      [
+       18932.6,
+       36481.2
+      ],
+      [
+       23847.8,
+       36481.2
+      ],
+      [
+       23847.8,
+       31569.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       21738.6
+      ],
+      [
+       14020.4,
+       26653.8
+      ],
+      [
+       18932.6,
+       26653.8
+      ],
+      [
+       18932.6,
+       21738.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       26653.8
+      ],
+      [
+       18932.6,
+       31569.0
+      ],
+      [
+       23847.8,
+       31569.0
+      ],
+      [
+       23847.8,
+       26653.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       31569.0
+      ],
+      [
+       23847.8,
+       36481.2
+      ],
+      [
+       28763.0,
+       36481.2
+      ],
+      [
+       28763.0,
+       31569.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       16823.4
+      ],
+      [
+       14020.4,
+       21738.6
+      ],
+      [
+       18932.6,
+       21738.6
+      ],
+      [
+       18932.6,
+       16823.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       21738.6
+      ],
+      [
+       18932.6,
+       26653.8
+      ],
+      [
+       23847.8,
+       26653.8
+      ],
+      [
+       23847.8,
+       21738.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       26653.8
+      ],
+      [
+       23847.8,
+       31569.0
+      ],
+      [
+       28763.0,
+       31569.0
+      ],
+      [
+       28763.0,
+       26653.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       31569.0
+      ],
+      [
+       28763.0,
+       36481.2
+      ],
+      [
+       33678.2,
+       36481.2
+      ],
+      [
+       33678.2,
+       31569.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       11908.2
+      ],
+      [
+       14020.4,
+       16823.4
+      ],
+      [
+       18932.6,
+       16823.4
+      ],
+      [
+       18932.6,
+       11908.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       16823.4
+      ],
+      [
+       18932.6,
+       21738.6
+      ],
+      [
+       23847.8,
+       21738.6
+      ],
+      [
+       23847.8,
+       16823.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       21738.6
+      ],
+      [
+       23847.8,
+       26653.8
+      ],
+      [
+       28763.0,
+       26653.8
+      ],
+      [
+       28763.0,
+       21738.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       26653.8
+      ],
+      [
+       28763.0,
+       31569.0
+      ],
+      [
+       33678.2,
+       31569.0
+      ],
+      [
+       33678.2,
+       26653.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       31569.0
+      ],
+      [
+       33678.2,
+       36481.2
+      ],
+      [
+       38593.4,
+       36481.2
+      ],
+      [
+       38593.4,
+       31569.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       36481.2
+      ],
+      [
+       40234.8,
+       31890.6
+      ],
+      [
+       40234.8,
+       31569.0
+      ],
+      [
+       38593.4,
+       31569.0
+      ],
+      [
+       38593.4,
+       36481.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       6993.0
+      ],
+      [
+       14020.4,
+       11908.2
+      ],
+      [
+       18932.6,
+       11908.2
+      ],
+      [
+       18932.6,
+       6993.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       11908.2
+      ],
+      [
+       18932.6,
+       16823.4
+      ],
+      [
+       23847.8,
+       16823.4
+      ],
+      [
+       23847.8,
+       11908.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       16823.4
+      ],
+      [
+       23847.8,
+       21738.6
+      ],
+      [
+       28763.0,
+       21738.6
+      ],
+      [
+       28763.0,
+       16823.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       21738.6
+      ],
+      [
+       28763.0,
+       26653.8
+      ],
+      [
+       33678.2,
+       26653.8
+      ],
+      [
+       33678.2,
+       21738.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       26653.8
+      ],
+      [
+       33678.2,
+       31569.0
+      ],
+      [
+       38593.4,
+       31569.0
+      ],
+      [
+       38593.4,
+       26653.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       31569.0
+      ],
+      [
+       40234.8,
+       26975.4
+      ],
+      [
+       40234.8,
+       26653.8
+      ],
+      [
+       38593.4,
+       26653.8
+      ],
+      [
+       38593.4,
+       31569.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       2077.8
+      ],
+      [
+       14020.4,
+       6993.0
+      ],
+      [
+       18932.6,
+       6993.0
+      ],
+      [
+       18932.6,
+       2077.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       6993.0
+      ],
+      [
+       18932.6,
+       11908.2
+      ],
+      [
+       23847.8,
+       11908.2
+      ],
+      [
+       23847.8,
+       6993.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       11908.2
+      ],
+      [
+       23847.8,
+       16823.4
+      ],
+      [
+       28763.0,
+       16823.4
+      ],
+      [
+       28763.0,
+       11908.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       16823.4
+      ],
+      [
+       28763.0,
+       21738.6
+      ],
+      [
+       33678.2,
+       21738.6
+      ],
+      [
+       33678.2,
+       16823.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       21738.6
+      ],
+      [
+       33678.2,
+       26653.8
+      ],
+      [
+       38593.4,
+       26653.8
+      ],
+      [
+       38593.4,
+       21738.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       26653.8
+      ],
+      [
+       40234.8,
+       22060.2
+      ],
+      [
+       40234.8,
+       21738.6
+      ],
+      [
+       38593.4,
+       21738.6
+      ],
+      [
+       38593.4,
+       26653.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       -2837.4
+      ],
+      [
+       14020.4,
+       2077.8
+      ],
+      [
+       18932.6,
+       2077.8
+      ],
+      [
+       18932.6,
+       -2837.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       2077.8
+      ],
+      [
+       18932.6,
+       6993.0
+      ],
+      [
+       23847.8,
+       6993.0
+      ],
+      [
+       23847.8,
+       2077.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       6993.0
+      ],
+      [
+       23847.8,
+       11908.2
+      ],
+      [
+       28763.0,
+       11908.2
+      ],
+      [
+       28763.0,
+       6993.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       11908.2
+      ],
+      [
+       28763.0,
+       16823.4
+      ],
+      [
+       33678.2,
+       16823.4
+      ],
+      [
+       33678.2,
+       11908.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       16823.4
+      ],
+      [
+       33678.2,
+       21738.6
+      ],
+      [
+       38593.4,
+       21738.6
+      ],
+      [
+       38593.4,
+       16823.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       21738.6
+      ],
+      [
+       40234.8,
+       17145.0
+      ],
+      [
+       40234.8,
+       16823.4
+      ],
+      [
+       38593.4,
+       16823.4
+      ],
+      [
+       38593.4,
+       21738.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       -7752.6
+      ],
+      [
+       14020.4,
+       -2837.4
+      ],
+      [
+       18932.6,
+       -2837.4
+      ],
+      [
+       18932.6,
+       -7752.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -2837.4
+      ],
+      [
+       18932.6,
+       2077.8
+      ],
+      [
+       23847.8,
+       2077.8
+      ],
+      [
+       23847.8,
+       -2837.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       2077.8
+      ],
+      [
+       23847.8,
+       6993.0
+      ],
+      [
+       28763.0,
+       6993.0
+      ],
+      [
+       28763.0,
+       2077.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       6993.0
+      ],
+      [
+       28763.0,
+       11908.2
+      ],
+      [
+       33678.2,
+       11908.2
+      ],
+      [
+       33678.2,
+       6993.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       11908.2
+      ],
+      [
+       33678.2,
+       16823.4
+      ],
+      [
+       38593.4,
+       16823.4
+      ],
+      [
+       38593.4,
+       11908.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       16823.4
+      ],
+      [
+       40234.8,
+       12229.8
+      ],
+      [
+       40234.8,
+       11908.2
+      ],
+      [
+       38593.4,
+       11908.2
+      ],
+      [
+       38593.4,
+       16823.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       -12667.8
+      ],
+      [
+       14020.4,
+       -7752.6
+      ],
+      [
+       18932.6,
+       -7752.6
+      ],
+      [
+       18932.6,
+       -12667.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -7752.6
+      ],
+      [
+       18932.6,
+       -2837.4
+      ],
+      [
+       23847.8,
+       -2837.4
+      ],
+      [
+       23847.8,
+       -7752.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -2837.4
+      ],
+      [
+       23847.8,
+       2077.8
+      ],
+      [
+       28763.0,
+       2077.8
+      ],
+      [
+       28763.0,
+       -2837.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       2077.8
+      ],
+      [
+       28763.0,
+       6993.0
+      ],
+      [
+       33678.2,
+       6993.0
+      ],
+      [
+       33678.2,
+       2077.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       6993.0
+      ],
+      [
+       33678.2,
+       11908.2
+      ],
+      [
+       38593.4,
+       11908.2
+      ],
+      [
+       38593.4,
+       6993.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       11908.2
+      ],
+      [
+       40234.8,
+       7314.6
+      ],
+      [
+       40234.8,
+       6993.0
+      ],
+      [
+       38593.4,
+       6993.0
+      ],
+      [
+       38593.4,
+       11908.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       -17583.0
+      ],
+      [
+       14020.4,
+       -12667.8
+      ],
+      [
+       18932.6,
+       -12667.8
+      ],
+      [
+       18932.6,
+       -17583.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -12667.8
+      ],
+      [
+       18932.6,
+       -7752.6
+      ],
+      [
+       23847.8,
+       -7752.6
+      ],
+      [
+       23847.8,
+       -12667.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -7752.6
+      ],
+      [
+       23847.8,
+       -2837.4
+      ],
+      [
+       28763.0,
+       -2837.4
+      ],
+      [
+       28763.0,
+       -7752.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -2837.4
+      ],
+      [
+       28763.0,
+       2077.8
+      ],
+      [
+       33678.2,
+       2077.8
+      ],
+      [
+       33678.2,
+       -2837.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       2077.8
+      ],
+      [
+       33678.2,
+       6993.0
+      ],
+      [
+       38593.4,
+       6993.0
+      ],
+      [
+       38593.4,
+       2077.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       6993.0
+      ],
+      [
+       40234.8,
+       2399.4
+      ],
+      [
+       40234.8,
+       2077.8
+      ],
+      [
+       38593.4,
+       2077.8
+      ],
+      [
+       38593.4,
+       6993.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       -22498.2
+      ],
+      [
+       14020.4,
+       -17583.0
+      ],
+      [
+       18932.6,
+       -17583.0
+      ],
+      [
+       18932.6,
+       -22498.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -17583.0
+      ],
+      [
+       18932.6,
+       -12667.8
+      ],
+      [
+       23847.8,
+       -12667.8
+      ],
+      [
+       23847.8,
+       -17583.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -12667.8
+      ],
+      [
+       23847.8,
+       -7752.6
+      ],
+      [
+       28763.0,
+       -7752.6
+      ],
+      [
+       28763.0,
+       -12667.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -7752.6
+      ],
+      [
+       28763.0,
+       -2837.4
+      ],
+      [
+       33678.2,
+       -2837.4
+      ],
+      [
+       33678.2,
+       -7752.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -2837.4
+      ],
+      [
+       33678.2,
+       2077.8
+      ],
+      [
+       38593.4,
+       2077.8
+      ],
+      [
+       38593.4,
+       -2837.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       2077.8
+      ],
+      [
+       40234.8,
+       -2515.8
+      ],
+      [
+       40234.8,
+       -2837.4
+      ],
+      [
+       38593.4,
+       -2837.4
+      ],
+      [
+       38593.4,
+       2077.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       -27413.4
+      ],
+      [
+       14020.4,
+       -22498.2
+      ],
+      [
+       18932.6,
+       -22498.2
+      ],
+      [
+       18932.6,
+       -27413.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -22498.2
+      ],
+      [
+       18932.6,
+       -17583.0
+      ],
+      [
+       23847.8,
+       -17583.0
+      ],
+      [
+       23847.8,
+       -22498.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -17583.0
+      ],
+      [
+       23847.8,
+       -12667.8
+      ],
+      [
+       28763.0,
+       -12667.8
+      ],
+      [
+       28763.0,
+       -17583.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -12667.8
+      ],
+      [
+       28763.0,
+       -7752.6
+      ],
+      [
+       33678.2,
+       -7752.6
+      ],
+      [
+       33678.2,
+       -12667.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -7752.6
+      ],
+      [
+       33678.2,
+       -2837.4
+      ],
+      [
+       38593.4,
+       -2837.4
+      ],
+      [
+       38593.4,
+       -7752.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       -2837.4
+      ],
+      [
+       40234.8,
+       -7431.0
+      ],
+      [
+       40234.8,
+       -7752.6
+      ],
+      [
+       38593.4,
+       -7752.6
+      ],
+      [
+       38593.4,
+       -2837.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       14020.4,
+       -32328.6
+      ],
+      [
+       14020.4,
+       -27413.4
+      ],
+      [
+       18932.6,
+       -27413.4
+      ],
+      [
+       18932.6,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -36919.2
+      ],
+      [
+       14020.4,
+       -36919.2
+      ],
+      [
+       14020.4,
+       -32328.6
+      ],
+      [
+       18932.6,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -27413.4
+      ],
+      [
+       18932.6,
+       -22498.2
+      ],
+      [
+       23847.8,
+       -22498.2
+      ],
+      [
+       23847.8,
+       -27413.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -22498.2
+      ],
+      [
+       23847.8,
+       -17583.0
+      ],
+      [
+       28763.0,
+       -17583.0
+      ],
+      [
+       28763.0,
+       -22498.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -17583.0
+      ],
+      [
+       28763.0,
+       -12667.8
+      ],
+      [
+       33678.2,
+       -12667.8
+      ],
+      [
+       33678.2,
+       -17583.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -12667.8
+      ],
+      [
+       33678.2,
+       -7752.6
+      ],
+      [
+       38593.4,
+       -7752.6
+      ],
+      [
+       38593.4,
+       -12667.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       -7752.6
+      ],
+      [
+       40234.8,
+       -12346.2
+      ],
+      [
+       40234.8,
+       -12667.8
+      ],
+      [
+       38593.4,
+       -12667.8
+      ],
+      [
+       38593.4,
+       -7752.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       18932.6,
+       -32328.6
+      ],
+      [
+       18932.6,
+       -27413.4
+      ],
+      [
+       23847.8,
+       -27413.4
+      ],
+      [
+       23847.8,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -36919.2
+      ],
+      [
+       18932.6,
+       -36919.2
+      ],
+      [
+       18932.6,
+       -32328.6
+      ],
+      [
+       23847.8,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -27413.4
+      ],
+      [
+       23847.8,
+       -22498.2
+      ],
+      [
+       28763.0,
+       -22498.2
+      ],
+      [
+       28763.0,
+       -27413.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -22498.2
+      ],
+      [
+       28763.0,
+       -17583.0
+      ],
+      [
+       33678.2,
+       -17583.0
+      ],
+      [
+       33678.2,
+       -22498.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -17583.0
+      ],
+      [
+       33678.2,
+       -12667.8
+      ],
+      [
+       38593.4,
+       -12667.8
+      ],
+      [
+       38593.4,
+       -17583.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       -12667.8
+      ],
+      [
+       40234.8,
+       -17261.4
+      ],
+      [
+       40234.8,
+       -17583.0
+      ],
+      [
+       38593.4,
+       -17583.0
+      ],
+      [
+       38593.4,
+       -12667.8
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       23847.8,
+       -32328.6
+      ],
+      [
+       23847.8,
+       -27413.4
+      ],
+      [
+       28763.0,
+       -27413.4
+      ],
+      [
+       28763.0,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -36919.2
+      ],
+      [
+       23847.8,
+       -36919.2
+      ],
+      [
+       23847.8,
+       -32328.6
+      ],
+      [
+       28763.0,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -27413.4
+      ],
+      [
+       28763.0,
+       -22498.2
+      ],
+      [
+       33678.2,
+       -22498.2
+      ],
+      [
+       33678.2,
+       -27413.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -22498.2
+      ],
+      [
+       33678.2,
+       -17583.0
+      ],
+      [
+       38593.4,
+       -17583.0
+      ],
+      [
+       38593.4,
+       -22498.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       -17583.0
+      ],
+      [
+       40234.8,
+       -22176.6
+      ],
+      [
+       40234.8,
+       -22498.2
+      ],
+      [
+       38593.4,
+       -22498.2
+      ],
+      [
+       38593.4,
+       -17583.0
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       28763.0,
+       -32328.6
+      ],
+      [
+       28763.0,
+       -27413.4
+      ],
+      [
+       33678.2,
+       -27413.4
+      ],
+      [
+       33678.2,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -36919.2
+      ],
+      [
+       28763.0,
+       -36919.2
+      ],
+      [
+       28763.0,
+       -32328.6
+      ],
+      [
+       33678.2,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -27413.4
+      ],
+      [
+       33678.2,
+       -22498.2
+      ],
+      [
+       38593.4,
+       -22498.2
+      ],
+      [
+       38593.4,
+       -27413.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       -22498.2
+      ],
+      [
+       40234.8,
+       -27091.8
+      ],
+      [
+       40234.8,
+       -27413.4
+      ],
+      [
+       38593.4,
+       -27413.4
+      ],
+      [
+       38593.4,
+       -22498.2
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       33678.2,
+       -32328.6
+      ],
+      [
+       33678.2,
+       -27413.4
+      ],
+      [
+       38593.4,
+       -27413.4
+      ],
+      [
+       38593.4,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       38593.4,
+       -36919.2
+      ],
+      [
+       33678.2,
+       -36919.2
+      ],
+      [
+       33678.2,
+       -32328.6
+      ],
+      [
+       38593.4,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       -27413.4
+      ],
+      [
+       40234.8,
+       -32007.0
+      ],
+      [
+       40234.8,
+       -32328.6
+      ],
+      [
+       38593.4,
+       -32328.6
+      ],
+      [
+       38593.4,
+       -27413.4
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    },
+    {
+     "polygon": [
+      [
+       40234.8,
+       -32328.6
+      ],
+      [
+       40234.8,
+       -36919.2
+      ],
+      [
+       38593.4,
+       -36919.2
+      ],
+      [
+       38593.4,
+       -32328.6
+      ]
+     ],
+     "bottom": -819.2,
+     "top": -163.8
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     94
+    ],
+    "near_distance": 1280.0,
+    "far_distance": 7680.0
+   }
+  }
+ ],
+ "world_items": [
+  {
+   "source_id": "guberland:obj_Prop1",
+   "source_object_index": 229,
+   "source_name": "obj_Prop1",
+   "position": {
+    "x": 14066,
+    "y": -21412,
+    "z": 160
+   },
+   "item_id": 10240,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  }
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    24575,
+    24576,
+    24577,
+    24578,
+    24579,
+    24580,
+    24581,
+    24582,
+    24583,
+    24584,
+    24585,
+    24586,
+    24587,
+    24588,
+    24589,
+    24590,
+    24591,
+    24592,
+    24593,
+    24594,
+    24595,
+    24596,
+    24597,
+    24598,
+    24599,
+    24600,
+    24601,
+    24602,
+    24603,
+    24604,
+    24605
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 169,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    21393,
+    4696,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 170,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    18936,
+    3549,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 171,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    16970,
+    1911,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 172,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    15331,
+    109,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 173,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    15331,
+    -2513,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 174,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    15987,
+    -5626,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 175,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    15659,
+    -8411,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 176,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    14512,
+    -11196,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 177,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    16478,
+    -12999,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 178,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    18116,
+    -15292,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 179,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    19263,
+    -18078,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 180,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    20083,
+    -20699,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 181,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    22376,
+    -22501,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 182,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    17461,
+    7973,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 183,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    16314,
+    10758,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 184,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    18936,
+    11905,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 185,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    21066,
+    13544,
+    328
+   ],
+   "inner_radius": 1024,
+   "outer_radius": 5120,
+   "volume": 0.394,
+   "loop": true
+  },
+  {
+   "key": 186,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    18936,
+    16329,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 187,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    19591,
+    19442,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 188,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    20083,
+    22555,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 189,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    22704,
+    24849,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 190,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    18936,
+    5679,
+    328
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.472,
+   "loop": true
+  },
+  {
+   "key": 191,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    10416,
+    -874,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 192,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    7303,
+    3385,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 193,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    9761,
+    1747,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 194,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    4190,
+    -8083,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 195,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    7958,
+    -7756,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 196,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    9761,
+    -5790,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 197,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    10416,
+    -3168,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 198,
+   "sound": "ambient/insects/buzzling insects 01.wav",
+   "position": [
+    -12358,
+    -10869,
+    1311
+   ],
+   "inner_radius": 768,
+   "outer_radius": 4608,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.5,
+    1.5
+   ],
+   "day_only": true
+  },
+  {
+   "key": 199,
+   "sound": "ambient/animals/horse03.wav",
+   "position": [
+    10580,
+    -3496,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    1.0,
+    12.0
+   ]
+  },
+  {
+   "key": 200,
+   "sound": "ambient/hammer hitting anvil 02.wav",
+   "position": [
+    5337,
+    -8411,
+    1638
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 201,
+   "sound": "ambient/single_cricket.wav",
+   "position": [
+    -1708,
+    11741,
+    1311
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.2,
+    1.2
+   ]
+  },
+  {
+   "key": 202,
+   "sound": "ambient/insects/buzzling insects 02.wav",
+   "position": [
+    -6787,
+    12561,
+    983
+   ],
+   "inner_radius": 768,
+   "outer_radius": 4608,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.5,
+    1.5
+   ],
+   "day_only": true
+  },
+  {
+   "key": 211,
+   "sound": "ambient/birds/woodpecker02.wav",
+   "position": [
+    -13832,
+    15182,
+    983
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.472,
+   "loop": true,
+   "wait": [
+    0.7,
+    2.1
+   ],
+   "day_only": true
+  },
+  {
+   "key": 217,
+   "sound": "ambient/birds/seagulls 02b.wav",
+   "position": [
+    18116,
+    -16767,
+    983
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    2.1,
+    6.0
+   ]
+  },
+  {
+   "key": 218,
+   "sound": "ambient/birds/seagulls 02b.wav",
+   "position": [
+    18280,
+    18786,
+    983
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    2.1,
+    6.0
+   ]
+  },
+  {
+   "key": 219,
+   "sound": "ambient/birds/owl02.wav",
+   "position": [
+    -10064,
+    -16767,
+    1475
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.472,
+   "loop": true,
+   "wait": [
+    0.7,
+    2.1
+   ],
+   "night_only": true
+  },
+  {
+   "key": 220,
+   "sound": "ambient/birds/owl02.wav",
+   "position": [
+    -16454,
+    -2277,
+    983
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.472,
+   "loop": true,
+   "wait": [
+    0.7,
+    2.1
+   ],
+   "night_only": true
+  },
+  {
+   "key": 221,
+   "sound": "ambient/birds/owl02.wav",
+   "position": [
+    4354,
+    7973,
+    983
+   ],
+   "inner_radius": 768,
+   "outer_radius": 3840,
+   "volume": 0.472,
+   "loop": true,
+   "wait": [
+    0.7,
+    2.1
+   ],
+   "night_only": true
+  },
+  {
+   "key": 222,
+   "sound": "ambient/animals/goose honk.wav",
+   "position": [
+    -19567,
+    -17914,
+    492
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3072,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.05,
+    2.5
+   ]
+  },
+  {
+   "key": 223,
+   "sound": "ambient/animals/goose honk.wav",
+   "position": [
+    -19403,
+    -17750,
+    492
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3072,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.05,
+    2.5
+   ]
+  },
+  {
+   "key": 224,
+   "sound": "ambient/animals/goose honk.wav",
+   "position": [
+    -19731,
+    -17750,
+    492
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3072,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.05,
+    2.5
+   ]
+  },
+  {
+   "key": 225,
+   "sound": "ambient/animals/goose honk.wav",
+   "position": [
+    -19731,
+    -17586,
+    492
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3072,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.05,
+    2.5
+   ]
+  },
+  {
+   "key": 226,
+   "sound": "ambient/animals/goose honk.wav",
+   "position": [
+    -19567,
+    -17750,
+    492
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3072,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.05,
+    2.5
+   ]
+  },
+  {
+   "key": 227,
+   "sound": "ambient/animals/goose honk.wav",
+   "position": [
+    -19403,
+    -17586,
+    492
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3072,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    0.05,
+    2.5
+   ]
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   60,
+   60,
+   60
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   121,
+   133,
+   180
+  ],
+  "sun_gain": 4.0
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "blac2dkl75",
+    "cawnkbfjwl",
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "ashc08t3g2",
+    "ashrqc2588",
+    "ashwnzu3n5",
+    "ropecjzjh7",
+    "sand3yuxai"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "ashro4zhnj",
+    "sand3ddj3x"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "ashcqby3u6"
+   ],
+   "walk_sound_id": 95,
+   "run_sound_id": 56
+  },
+  {
+   "texture_names": [
+    "cfawdnxynt",
+    "cwawa77oyy",
+    "dooko8ih77",
+    "dookqci0is",
+    "dookt25hyo",
+    "dookzo5hay",
+    "honkblexjc",
+    "honkwptqzm",
+    "invizvjn7n",
+    "irony8mopq",
+    "lqseamm9",
+    "meta8rctzy",
+    "metak2vphu",
+    "oute4tbwzn",
+    "percp5yuwn",
+    "plas78dphz",
+    "rive8tpfdj",
+    "sky04",
+    "steeiybti4",
+    "xeen8mc4qj"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "ashfhzuch2"
+   ],
+   "walk_sound_id": 101,
+   "run_sound_id": 62
+  },
+  {
+   "texture_names": [
+    "abanomvw9p",
+    "abnd5ur5fj",
+    "grbrfhshi0"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": -20832,
+    "y": -18016,
+    "z": 120
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -13536,
+    "y": -22880,
+    "z": 292
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -13664,
+    "y": -22752,
+    "z": 300
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -13536,
+    "y": -22624,
+    "z": 313
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": 1184,
+    "y": 5664,
+    "z": 112
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 1,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": -3040,
+    "y": 4768,
+    "z": 120
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 1,
+   "attributes": 0,
+   "group": 0
+  }
+ ],
+ "terrain": {
+  "materials": "guberland_blv.yml",
+  "textures": [
+   "ashc08t3g2",
+   "ashro4zhnj",
+   "ashrqc2588",
+   "sand3ddj3x",
+   "sand3yuxai"
+  ],
+  "exclude_faces": [
+   1143,
+   1144,
+   1145,
+   1146,
+   1147,
+   1148,
+   1149,
+   1150,
+   1192,
+   1194,
+   1195,
+   1196,
+   1197,
+   1202,
+   1210,
+   1213,
+   1214,
+   1310,
+   1320,
+   1321,
+   1325,
+   1352,
+   1353,
+   1359,
+   1361,
+   1367,
+   1377,
+   1378,
+   1386,
+   1392,
+   1393,
+   1447,
+   1461,
+   1462,
+   1470,
+   1473,
+   1476,
+   1477,
+   1478,
+   1479,
+   1480,
+   1481,
+   1482,
+   1483,
+   1484,
+   1485,
+   1487,
+   1488,
+   1495,
+   1496,
+   1506,
+   1516,
+   1523
+  ],
+  "grass": "worlds/mm9/terrain_decorations/guberland_blv.yml"
+ }
+}

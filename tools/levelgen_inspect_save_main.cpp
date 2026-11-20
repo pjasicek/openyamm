@@ -1,6 +1,7 @@
 #include "game/maps/SaveGame.h"
 
 #include <iostream>
+#include <set>
 
 #include <yaml-cpp/yaml.h>
 
@@ -118,6 +119,13 @@ int main(int argc, char **argv)
     result["house_stock_seed"] = save->party.houseStockSeed;
     result["held_item_active"] = save->heldInventoryItemActive;
     result["held_item_id"] = save->heldInventoryItem.objectDescriptionId;
+    const std::set<uint32_t> questBits(save->party.questBits.begin(), save->party.questBits.end());
+    result["quest_bits"] = YAML::Node(YAML::NodeType::Sequence);
+    result["quest_bits"].SetStyle(YAML::EmitterStyle::Flow);
+    for (const uint32_t questBit : questBits)
+    {
+        result["quest_bits"].push_back(questBit);
+    }
     for (const Character &member : save->party.members)
     {
         YAML::Node entry;
@@ -140,6 +148,26 @@ int main(int argc, char **argv)
         result["outdoor"] = worldNode(save->outdoorWorld);
         result["outdoor"]["projectile_count"] = save->outdoorWorld.projectiles.size();
         result["outdoor"]["actor_count"] = save->outdoorWorld.mapActors.size();
+        YAML::Node actors(YAML::NodeType::Sequence);
+        for (const OutdoorWorldRuntime::MapActorState &actor : save->outdoorWorld.mapActors)
+        {
+            YAML::Node entry;
+            entry["actor_id"] = actor.actorId;
+            entry["monster_id"] = actor.monsterId;
+            entry["name"] = actor.displayName;
+            entry["position"] = std::vector<int>{actor.x, actor.y, actor.z};
+            entry["home"] = std::vector<int>{actor.homeX, actor.homeY, actor.homeZ};
+            entry["hp"] = actor.currentHp;
+            entry["max_hp"] = actor.maxHp;
+            entry["dead"] = actor.isDead;
+            entry["invisible"] = actor.isInvisible;
+            entry["hostile"] = actor.hostileToParty;
+            entry["ai_state"] = int(actor.aiState);
+            entry["spawned_at_runtime"] = actor.spawnedAtRuntime;
+            entry["summoner_member"] = actor.summonerMemberIndex;
+            actors.push_back(entry);
+        }
+        result["outdoor"]["actors"] = actors;
         result["outdoor"]["timer_count"] = save->outdoorWorld.timers.size();
         YAML::Node timers(YAML::NodeType::Sequence);
         for (const ScriptedEventTimerState &timer : save->outdoorWorld.timers)
@@ -160,6 +188,38 @@ int main(int argc, char **argv)
         result["indoor"] = worldNode(save->indoorScene.worldRuntime);
         result["indoor"]["projectiles"] = projectilesNode(save->indoorScene.worldRuntime.projectileState);
         result["indoor"]["projectile_count"] = save->indoorScene.worldRuntime.projectileState.projectiles.size();
+        const IndoorMoveState &movement = save->indoorScene.partyRuntime.movementState;
+        result["indoor"]["party_position"] = std::vector<float>{movement.x, movement.y, movement.footZ};
+        if (save->indoorScene.mapDeltaData)
+        {
+            const std::vector<IndoorWorldRuntime::MapActorAiState> &aiStates =
+                save->indoorScene.worldRuntime.mapActorAiStates;
+            YAML::Node actors(YAML::NodeType::Sequence);
+            for (size_t index = 0; index < save->indoorScene.mapDeltaData->actors.size(); ++index)
+            {
+                const MapDeltaActor &actor = save->indoorScene.mapDeltaData->actors[index];
+                YAML::Node entry;
+                entry["index"] = index;
+                entry["monster_id"] = actor.monsterId;
+                entry["name"] = actor.name;
+                entry["position"] = std::vector<int>{actor.x, actor.y, actor.z};
+                entry["sector"] = actor.sectorId;
+                entry["hp"] = actor.hp;
+                entry["attributes"] = actor.attributes;
+                entry["spawned_after_fill"] = actor.spawnedAfterFill;
+                entry["summoner_member"] = actor.summonerMemberIndex;
+                if (index < aiStates.size())
+                {
+                    const IndoorWorldRuntime::MapActorAiState &ai = aiStates[index];
+                    entry["ai_name"] = ai.displayName;
+                    entry["ai_position"] = std::vector<float>{ai.preciseX, ai.preciseY, ai.preciseZ};
+                    entry["hostile"] = ai.hostileToParty;
+                    entry["motion_state"] = int(ai.motionState);
+                }
+                actors.push_back(entry);
+            }
+            result["indoor"]["actors"] = actors;
+        }
     }
     std::cout << result << '\n';
     return 0;

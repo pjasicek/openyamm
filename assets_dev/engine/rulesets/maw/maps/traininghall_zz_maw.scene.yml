@@ -1,0 +1,12 @@
+# MAW's pack reserve for MM9's traininghall (tools/maw/mm9_pack_reserve.py writes this file; do not edit): copies of
+# its packs' members for MAW's denser difficulties, by rising from_factor (devdocs/maw/MM9_BALANCE_DESIGN.md).
+format_version: 1
+kind: indoor_scene_overlay
+initial_state:
+  pack_reserve:
+    scene_actors: 31
+    scene_check: "cc5d09fded965f33"
+    max_factor: 2.0
+    monsters: 31
+    actors:
+      - {"from_factor":1.0323,"actor":{"actor_index":31,"name":"Ghoul","npc_id":0,"attributes":524288,"hp":191,"hostility_type":4,"monster_info_id":9175,"monster_id":9175,"radius":36,"height":189,"move_speed":256,"position":{"x":351,"y":-7967,"z":-1833},"initial_yaw_units":512,"immobile":false,"sprite_ids":[0,0,0,0],"sector_id":1,"current_action_animation":0,"carried_item_id":0,"group":0,"ally":0,"unique_name_index":0,"draw_scale":1.0,"mm9_ai":{"sight":1638,"hearing":655,"runaway_chance":0.25}}}

@@ -1,0 +1,10035 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "yorwick.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 2362,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2363,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2364,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2365,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2366,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2367,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 20798,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20799,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20800,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20801,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20802,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20803,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20804,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20805,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20806,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20807,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20808,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20809,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20810,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20811,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20812,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20813,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20814,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20815,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20816,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20817,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20818,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20819,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20820,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20821,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20822,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20823,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20824,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20825,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20826,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20827,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20828,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20829,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20830,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20831,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20832,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20833,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20834,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20835,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20836,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20837,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20838,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20839,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20840,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20841,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20842,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20843,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20844,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20845,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20846,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20847,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20848,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20849,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20850,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20851,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20852,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20853,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20854,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20855,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20856,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20857,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20858,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20859,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20860,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20861,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20862,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20863,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20864,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20865,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20866,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20867,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20868,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20869,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20870,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20871,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20872,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20873,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20874,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20875,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20876,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20877,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20878,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20879,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20880,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20881,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20882,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20883,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20884,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20885,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20886,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20887,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20888,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20889,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20890,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20891,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20892,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20893,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20894,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20895,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20896,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20897,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20898,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20899,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20900,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20901,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20902,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20903,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20904,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20905,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20906,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20907,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20908,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20909,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20910,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20911,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20912,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20913,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20914,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20915,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20916,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20917,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20918,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20919,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20920,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20921,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20922,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20923,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20924,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20925,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20926,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20927,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20928,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20929,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20930,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20931,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20932,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20933,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20934,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20935,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20936,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20937,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20938,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20939,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20940,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20941,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20942,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20943,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20944,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20945,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20946,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20947,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20948,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20949,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20950,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20951,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20952,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20953,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20954,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20955,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20956,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20957,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20958,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20959,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20960,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20961,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20962,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20963,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20964,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20965,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 20966,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22747,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22748,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22749,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22750,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22751,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22752,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22753,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22754,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22755,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22756,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22757,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22758,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22759,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22760,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22761,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22762,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22763,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22764,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22765,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22766,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22767,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22768,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22769,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22770,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22771,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22772,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22773,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22774,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22775,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22776,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22777,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22778,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22779,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22780,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22781,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22782,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22783,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22784,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22785,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22786,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22787,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22788,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22789,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22790,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22791,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22792,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22793,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22794,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22795,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22796,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22797,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22798,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22799,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22800,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22801,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22802,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22803,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22804,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22805,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22806,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22807,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22808,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22809,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22810,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22811,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22812,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22813,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22814,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22815,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22816,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22817,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22818,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22819,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22820,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22821,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22822,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22823,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22824,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22825,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22826,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22827,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22828,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22829,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22830,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22831,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22832,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22833,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22834,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22835,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22836,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22837,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22838,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22839,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22840,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22841,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22842,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22843,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22844,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22845,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22846,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22847,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22848,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22849,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22850,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22851,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22852,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22853,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22854,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22855,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22856,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22857,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22858,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22859,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22860,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22861,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22862,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22863,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22864,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22865,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22866,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22867,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22868,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22869,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22870,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22871,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22872,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22873,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22874,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22875,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22876,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22877,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22878,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22879,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22880,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22881,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22882,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22883,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22884,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22885,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22886,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22887,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22888,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22889,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22890,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22891,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22892,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22893,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22894,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22895,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22896,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22897,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22898,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22899,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22900,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22901,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22902,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22903,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22904,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22905,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22906,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22907,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22908,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22909,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22910,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22911,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22912,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22913,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22914,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22915,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22916,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22917,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22918,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22919,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22920,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22921,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22922,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22923,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22924,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22925,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22926,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22927,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22928,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22929,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22930,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22931,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22932,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22933,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22934,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22935,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22936,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22937,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22938,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22939,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22940,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22941,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22942,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22943,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22944,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22945,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22946,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22947,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22948,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22949,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22950,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22951,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22952,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22953,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22954,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22955,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22956,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22957,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22958,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22959,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22960,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22961,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22962,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22963,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22964,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22965,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22966,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22967,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22968,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22969,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22970,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22971,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22972,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22973,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22974,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22975,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22976,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22977,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22978,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22979,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22980,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22981,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22982,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22983,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22984,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22985,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22986,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22987,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22988,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22989,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22990,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22991,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22992,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22993,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22994,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22995,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22996,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22997,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22998,
+    "texture_name": "lqseamm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 8416,
+     "y": -13632,
+     "z": 1051
+    },
+    "initial_yaw_units": 579,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 7597,
+     "y": -13140,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 8416,
+     "y": -12649,
+     "z": 1051
+    },
+    "initial_yaw_units": 650,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 4976,
+     "y": -5604,
+     "z": 1051
+    },
+    "initial_yaw_units": 1876,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 5303,
+     "y": -4621,
+     "z": 1051
+    },
+    "initial_yaw_units": 148,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -6002,
+     "y": -5604,
+     "z": 1051
+    },
+    "initial_yaw_units": 1663,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -7149,
+     "y": -6914,
+     "z": 1051
+    },
+    "initial_yaw_units": 1752,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -4691,
+     "y": -9863,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -11900,
+     "y": 5701,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -9115,
+     "y": 5046,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -8623,
+     "y": 5046,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -8459,
+     "y": 5701,
+     "z": 1051
+    },
+    "initial_yaw_units": 721,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Vampir",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 466,
+    "hostility_type": 4,
+    "monster_info_id": 9197,
+    "monster_id": 9197,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 17591,
+     "y": -17728,
+     "z": 1051
+    },
+    "initial_yaw_units": 1911,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 18410,
+     "y": -17564,
+     "z": 1051
+    },
+    "initial_yaw_units": 802,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 21523,
+     "y": -17400,
+     "z": 1051
+    },
+    "initial_yaw_units": 1254,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Vampir",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 466,
+    "hostility_type": 4,
+    "monster_info_id": 9197,
+    "monster_id": 9197,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 20704,
+     "y": -19530,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Vampir",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 466,
+    "hostility_type": 4,
+    "monster_info_id": 9197,
+    "monster_id": 9197,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 15625,
+     "y": -13140,
+     "z": 1051
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 15789,
+     "y": -12485,
+     "z": 1051
+    },
+    "initial_yaw_units": 1859,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 16117,
+     "y": -13632,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 17919,
+     "y": -17236,
+     "z": 1051
+    },
+    "initial_yaw_units": 1743,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 18902,
+     "y": 6193,
+     "z": 1051
+    },
+    "initial_yaw_units": 1947,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 21,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19721,
+     "y": 6684,
+     "z": 1051
+    },
+    "initial_yaw_units": 1228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 22,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19721,
+     "y": 5701,
+     "z": 1051
+    },
+    "initial_yaw_units": 579,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 20049,
+     "y": 6521,
+     "z": 1051
+    },
+    "initial_yaw_units": 1228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19066,
+     "y": 6684,
+     "z": 1051
+    },
+    "initial_yaw_units": 1947,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 25,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -17962,
+     "y": -5112,
+     "z": 1051
+    },
+    "initial_yaw_units": 1334,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 26,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -20092,
+     "y": -8553,
+     "z": 1189
+    },
+    "initial_yaw_units": 1290,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 27,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -21403,
+     "y": -4293,
+     "z": 1051
+    },
+    "initial_yaw_units": 1609,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 28,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -14521,
+     "y": 1114,
+     "z": 1051
+    },
+    "initial_yaw_units": 1254,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 29,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -22713,
+     "y": -8389,
+     "z": 1042
+    },
+    "initial_yaw_units": 1876,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 30,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -14194,
+     "y": -1016,
+     "z": 1051
+    },
+    "initial_yaw_units": 1014,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 31,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -3544,
+     "y": 19300,
+     "z": 1051
+    },
+    "initial_yaw_units": 1388,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 32,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -4527,
+     "y": 17498,
+     "z": 1051
+    },
+    "initial_yaw_units": 775,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 33,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 14314,
+     "y": -5440,
+     "z": 1051
+    },
+    "initial_yaw_units": 1290,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 34,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 13004,
+     "y": -1180,
+     "z": 1051
+    },
+    "initial_yaw_units": 1609,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 35,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 19885,
+     "y": 4227,
+     "z": 1051
+    },
+    "initial_yaw_units": 1254,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 36,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 11693,
+     "y": -5276,
+     "z": 1051
+    },
+    "initial_yaw_units": 1876,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 37,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 20213,
+     "y": 2097,
+     "z": 1051
+    },
+    "initial_yaw_units": 1014,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 38,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 16444,
+     "y": -1999,
+     "z": 1051
+    },
+    "initial_yaw_units": 1334,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 39,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -20256,
+     "y": -10355,
+     "z": 1198
+    },
+    "initial_yaw_units": 1281,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 40,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -19273,
+     "y": -2818,
+     "z": 1049
+    },
+    "initial_yaw_units": 1672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 41,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 14151,
+     "y": -7242,
+     "z": 1051
+    },
+    "initial_yaw_units": 1281,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 42,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 15134,
+     "y": 295,
+     "z": 1051
+    },
+    "initial_yaw_units": 1672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 43,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 9543,
+     "y": 21471,
+     "z": 1275
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 44,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 9911,
+     "y": 22618,
+     "z": 1086
+    },
+    "initial_yaw_units": 1911,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 45,
+    "name": "Specter",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 588,
+    "hostility_type": 4,
+    "monster_info_id": 9140,
+    "monster_id": 9140,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10280,
+     "y": 21840,
+     "z": 1214
+    },
+    "initial_yaw_units": 1894,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 46,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10587,
+     "y": 22700,
+     "z": 1186
+    },
+    "initial_yaw_units": 1911,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 47,
+    "name": "Specter",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 588,
+    "hostility_type": 4,
+    "monster_info_id": 9140,
+    "monster_id": 9140,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10956,
+     "y": 21922,
+     "z": 1359
+    },
+    "initial_yaw_units": 1894,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 48,
+    "name": "Bran A'Norta a'leipshi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -17225,
+     "y": -21619,
+     "z": 1056
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 224,
+    "mm9_rude_id": 322
+   },
+   {
+    "actor_index": 49,
+    "name": "Caitir A'Klindor",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -16733,
+     "y": -21865,
+     "z": 1056
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 225,
+    "mm9_rude_id": 324
+   },
+   {
+    "actor_index": 50,
+    "name": "Mary Sheepherder",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9071,
+    "monster_id": 9071,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -15300,
+     "y": -19571,
+     "z": 1040
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc312.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 226,
+    "mm9_rude_id": 312
+   },
+   {
+    "actor_index": 51,
+    "name": "Broccan A'Ghrie",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9023,
+    "monster_id": 9023,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12637,
+     "y": -18957,
+     "z": 1071
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 227,
+    "mm9_rude_id": 323
+   },
+   {
+    "actor_index": 52,
+    "name": "Halvar Davinssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9044,
+    "monster_id": 9044,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12965,
+     "y": -21660,
+     "z": 1056
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 228,
+    "mm9_rude_id": 327
+   },
+   {
+    "actor_index": 53,
+    "name": "Laina Wilan",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12555,
+     "y": -19735,
+     "z": 1071
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 229,
+    "mm9_rude_id": 409
+   },
+   {
+    "actor_index": 54,
+    "name": "Ragfreid Manslayer",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9008,
+    "monster_id": 9008,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -14358,
+     "y": -18957,
+     "z": 1047
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 230,
+    "mm9_rude_id": 410
+   },
+   {
+    "actor_index": 55,
+    "name": "Jenn Harrise",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9029,
+    "monster_id": 9029,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -15627,
+     "y": -18137,
+     "z": 1056
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 231,
+    "mm9_rude_id": 411
+   },
+   {
+    "actor_index": 56,
+    "name": "Stev Palac",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9051,
+    "monster_id": 9051,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -15013,
+     "y": -18219,
+     "z": 1056
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 232,
+    "mm9_rude_id": 412
+   },
+   {
+    "actor_index": 57,
+    "name": "Brighde A'Endlar",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9016,
+    "monster_id": 9016,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -16283,
+     "y": -19530,
+     "z": 1040
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 233,
+    "mm9_rude_id": 413
+   },
+   {
+    "actor_index": 58,
+    "name": "Searlaid A'Endlar",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -14972,
+     "y": -21988,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 234,
+    "mm9_rude_id": 325
+   },
+   {
+    "actor_index": 59,
+    "name": "Eskil Bodilssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -14235,
+     "y": -21250,
+     "z": 1067
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 235,
+    "mm9_rude_id": 326
+   },
+   {
+    "actor_index": 60,
+    "name": "Asvald Hrrappssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12924,
+     "y": -20554,
+     "z": 1040
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 236,
+    "mm9_rude_id": 328
+   },
+   {
+    "actor_index": 61,
+    "name": "Snora Hreidrardotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9036,
+    "monster_id": 9036,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -13006,
+     "y": -20677,
+     "z": 1040
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 237,
+    "mm9_rude_id": 330
+   },
+   {
+    "actor_index": 62,
+    "name": "Kenward Mason",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12064,
+     "y": -20554,
+     "z": 1040
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 238,
+    "mm9_rude_id": 331
+   },
+   {
+    "actor_index": 63,
+    "name": "Lane the Framish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12105,
+     "y": -21168,
+     "z": 1050
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 239,
+    "mm9_rude_id": 332
+   },
+   {
+    "actor_index": 64,
+    "name": "Marshall Hanford",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12883,
+     "y": -21250,
+     "z": 1056
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 240,
+    "mm9_rude_id": 333
+   },
+   {
+    "actor_index": 65,
+    "name": "Bren Haukdotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9030,
+    "monster_id": 9030,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -15648,
+     "y": -21373,
+     "z": 1051
+    },
+    "initial_yaw_units": 873,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 241,
+    "mm9_rude_id": 329
+   },
+   {
+    "actor_index": 66,
+    "name": "Forbhlaith A'Mor",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9016,
+    "monster_id": 9016,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -16815,
+     "y": -20349,
+     "z": 1040
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_313.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 242,
+    "mm9_rude_id": 313
+   },
+   {
+    "actor_index": 67,
+    "name": "Huber Henden",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -17798,
+     "y": -19366,
+     "z": 1056
+    },
+    "initial_yaw_units": 1316,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 243,
+    "mm9_rude_id": 315
+   },
+   {
+    "actor_index": 68,
+    "name": "Derbforgaill A'Ghrie",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -17757,
+     "y": -19530,
+     "z": 1056
+    },
+    "initial_yaw_units": 1041,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 244,
+    "mm9_rude_id": 316
+   },
+   {
+    "actor_index": 69,
+    "name": "Skuli Gizurssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -16487,
+     "y": -20718,
+     "z": 1040
+    },
+    "initial_yaw_units": 1316,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 245,
+    "mm9_rude_id": 317
+   },
+   {
+    "actor_index": 70,
+    "name": "Carina Asgarddotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9030,
+    "monster_id": 9030,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -16528,
+     "y": -21045,
+     "z": 1046
+    },
+    "initial_yaw_units": 1316,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 246,
+    "mm9_rude_id": 318
+   },
+   {
+    "actor_index": 71,
+    "name": "Fiachra A'Lanth",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -16856,
+     "y": -20882,
+     "z": 1042
+    },
+    "initial_yaw_units": 1316,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 247,
+    "mm9_rude_id": 319
+   },
+   {
+    "actor_index": 72,
+    "name": "Giorsal A'Velsi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9037,
+    "monster_id": 9037,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -14480,
+     "y": -19981,
+     "z": 1040
+    },
+    "initial_yaw_units": 1316,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 248,
+    "mm9_rude_id": 321
+   },
+   {
+    "actor_index": 73,
+    "name": "Ewe",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9272,
+    "monster_id": 9272,
+    "radius": 64,
+    "height": 40,
+    "move_speed": 0,
+    "position": {
+     "x": -22550,
+     "y": -20185,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 655,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "profile": {
+      "archetype": "civilian"
+     },
+     "script": "marysheep.scr"
+    },
+    "mm9_source_object_index": 249
+   },
+   {
+    "actor_index": 74,
+    "name": "Ulf the Unmemorable",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9008,
+    "monster_id": 9008,
+    "radius": 42,
+    "height": 85,
+    "move_speed": 0,
+    "position": {
+     "x": -15054,
+     "y": -21086,
+     "z": 1163
+    },
+    "initial_yaw_units": 1019,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_314.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 415,
+    "mm9_rude_id": 314
+   },
+   {
+    "actor_index": 75,
+    "name": "Sven Svenssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9249,
+    "monster_id": 9249,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15042,
+     "y": 19666,
+     "z": 1065
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_source_object_index": 500
+   },
+   {
+    "actor_index": 76,
+    "name": "Hallvard Ormssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9047,
+    "monster_id": 9047,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -13150,
+     "y": -19720,
+     "z": 1051
+    },
+    "initial_yaw_units": 1075,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr"
+    },
+    "mm9_can_receive_damage": false,
+    "mm9_rude_id": 500,
+    "mm9_civilian": true
+   },
+   {
+    "actor_index": 77,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 7534,
+     "y": -13243,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 78,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 8395,
+     "y": -13751,
+     "z": 1051
+    },
+    "initial_yaw_units": 579,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 79,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 8305,
+     "y": -12601,
+     "z": 1051
+    },
+    "initial_yaw_units": 650,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 80,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 7680,
+     "y": -13228,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 81,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 4866,
+     "y": -5554,
+     "z": 1051
+    },
+    "initial_yaw_units": 1876,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 82,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 5240,
+     "y": -4724,
+     "z": 1051
+    },
+    "initial_yaw_units": 148,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 83,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 5030,
+     "y": -5712,
+     "z": 1051
+    },
+    "initial_yaw_units": 1876,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 84,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -5950,
+     "y": -5472,
+     "z": 1051
+    },
+    "initial_yaw_units": 1663,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 85,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -5827,
+     "y": -5735,
+     "z": 1051
+    },
+    "initial_yaw_units": 1663,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 86,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -7289,
+     "y": -6893,
+     "z": 1051
+    },
+    "initial_yaw_units": 1752,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 87,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -7134,
+     "y": -6773,
+     "z": 1051
+    },
+    "initial_yaw_units": 1752,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 88,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -4613,
+     "y": -9744,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 89,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -4565,
+     "y": -9929,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 90,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -11759,
+     "y": 5716,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 91,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -11880,
+     "y": 5842,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 92,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -9224,
+     "y": 5098,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 93,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -8356,
+     "y": 5637,
+     "z": 1051
+    },
+    "initial_yaw_units": 721,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 94,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -8504,
+     "y": 5066,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 95,
+    "name": "Evil Apprentice",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 169,
+    "hostility_type": 4,
+    "monster_info_id": 9156,
+    "monster_id": 9156,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -9171,
+     "y": 4939,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 96,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 18349,
+     "y": -17459,
+     "z": 1051
+    },
+    "initial_yaw_units": 802,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 97,
+    "name": "Vampir",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 466,
+    "hostility_type": 4,
+    "monster_info_id": 9197,
+    "monster_id": 9197,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 17596,
+     "y": -17849,
+     "z": 1051
+    },
+    "initial_yaw_units": 1911,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 98,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 17809,
+     "y": -17286,
+     "z": 1051
+    },
+    "initial_yaw_units": 1743,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 99,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 18456,
+     "y": -17452,
+     "z": 1051
+    },
+    "initial_yaw_units": 802,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 100,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 21500,
+     "y": -17281,
+     "z": 1051
+    },
+    "initial_yaw_units": 1254,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 101,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 21412,
+     "y": -17352,
+     "z": 1051
+    },
+    "initial_yaw_units": 1254,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 102,
+    "name": "Vampir",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 466,
+    "hostility_type": 4,
+    "monster_info_id": 9197,
+    "monster_id": 9197,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 20792,
+     "y": -19447,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 103,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 15688,
+     "y": -12551,
+     "z": 1051
+    },
+    "initial_yaw_units": 1859,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 104,
+    "name": "Vampir",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 466,
+    "hostility_type": 4,
+    "monster_info_id": 9197,
+    "monster_id": 9197,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 15576,
+     "y": -13029,
+     "z": 1051
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 105,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 16053,
+     "y": -13530,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 106,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 15897,
+     "y": -12540,
+     "z": 1051
+    },
+    "initial_yaw_units": 1859,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 107,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 18979,
+     "y": 6100,
+     "z": 1051
+    },
+    "initial_yaw_units": 1947,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 108,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19709,
+     "y": 5821,
+     "z": 1051
+    },
+    "initial_yaw_units": 579,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 109,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19699,
+     "y": 6565,
+     "z": 1051
+    },
+    "initial_yaw_units": 1228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 110,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19164,
+     "y": 6755,
+     "z": 1051
+    },
+    "initial_yaw_units": 1947,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 111,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19984,
+     "y": 6623,
+     "z": 1051
+    },
+    "initial_yaw_units": 1228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 112,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 18997,
+     "y": 6268,
+     "z": 1051
+    },
+    "initial_yaw_units": 1947,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 113,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": 19608,
+     "y": 5744,
+     "z": 1051
+    },
+    "initial_yaw_units": 579,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 114,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -18027,
+     "y": -4986,
+     "z": 1051
+    },
+    "initial_yaw_units": 1334,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 115,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -20026,
+     "y": -8679,
+     "z": 1189
+    },
+    "initial_yaw_units": 1290,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 116,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -21421,
+     "y": -4152,
+     "z": 1051
+    },
+    "initial_yaw_units": 1609,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 117,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -14663,
+     "y": 1106,
+     "z": 1051
+    },
+    "initial_yaw_units": 1254,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 118,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -22683,
+     "y": -8250,
+     "z": 1051
+    },
+    "initial_yaw_units": 1876,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 119,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -14161,
+     "y": -878,
+     "z": 1051
+    },
+    "initial_yaw_units": 1014,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 120,
+    "name": "Evil Grand Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9158,
+    "monster_id": 9158,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -3427,
+     "y": 19331,
+     "z": 1051
+    },
+    "initial_yaw_units": 1388,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 121,
+    "name": "Evil Sorcerer",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9157,
+    "monster_id": 9157,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 224,
+    "position": {
+     "x": -4422,
+     "y": 17437,
+     "z": 1051
+    },
+    "initial_yaw_units": 775,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 122,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 14430,
+     "y": -5358,
+     "z": 1051
+    },
+    "initial_yaw_units": 1290,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 123,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 13115,
+     "y": -1268,
+     "z": 1051
+    },
+    "initial_yaw_units": 1609,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 124,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 19926,
+     "y": 4363,
+     "z": 1051
+    },
+    "initial_yaw_units": 1254,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 125,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 11604,
+     "y": -5166,
+     "z": 1051
+    },
+    "initial_yaw_units": 1876,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 126,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 20091,
+     "y": 2170,
+     "z": 1051
+    },
+    "initial_yaw_units": 1014,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 127,
+    "name": "Shadow",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9138,
+    "monster_id": 9138,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 16311,
+     "y": -2050,
+     "z": 1051
+    },
+    "initial_yaw_units": 1334,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 128,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -20388,
+     "y": -10408,
+     "z": 1189
+    },
+    "initial_yaw_units": 1281,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 129,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": -19364,
+     "y": -2709,
+     "z": 1051
+    },
+    "initial_yaw_units": 1672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 130,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 14196,
+     "y": -7377,
+     "z": 1051
+    },
+    "initial_yaw_units": 1281,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 131,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 15265,
+     "y": 349,
+     "z": 1046
+    },
+    "initial_yaw_units": 1672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 132,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 9406,
+     "y": 21434,
+     "z": 1271
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 133,
+    "name": "Specter",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 588,
+    "hostility_type": 4,
+    "monster_info_id": 9140,
+    "monster_id": 9140,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10422,
+     "y": 21834,
+     "z": 1217
+    },
+    "initial_yaw_units": 1894,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 134,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10021,
+     "y": 22528,
+     "z": 1096
+    },
+    "initial_yaw_units": 1911,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 135,
+    "name": "Specter",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 588,
+    "hostility_type": 4,
+    "monster_info_id": 9140,
+    "monster_id": 9140,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10837,
+     "y": 21844,
+     "z": 1353
+    },
+    "initial_yaw_units": 1894,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 136,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10497,
+     "y": 22501,
+     "z": 1184
+    },
+    "initial_yaw_units": 1911,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 137,
+    "name": "Apparition",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 402,
+    "hostility_type": 4,
+    "monster_info_id": 9139,
+    "monster_id": 9139,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 9642,
+     "y": 21573,
+     "z": 1259
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 138,
+    "name": "Specter",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 588,
+    "hostility_type": 4,
+    "monster_info_id": 9140,
+    "monster_id": 9140,
+    "radius": 55,
+    "height": 295,
+    "move_speed": 320,
+    "position": {
+     "x": 10214,
+     "y": 21966,
+     "z": 1200
+    },
+    "initial_yaw_units": 1894,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 830,
+    "open_speed": 400,
+    "close_speed": 450,
+    "state": 2,
+    "vertex_ids": [
+     19677,
+     19678,
+     19679,
+     19680,
+     19681,
+     19682,
+     19683,
+     19684,
+     19685,
+     19686,
+     19687,
+     19688,
+     19689,
+     19690,
+     19691,
+     19692,
+     19693,
+     19694,
+     19695,
+     19696,
+     19697,
+     19698,
+     19699,
+     19700,
+     19701,
+     19702,
+     19703,
+     19704,
+     19705,
+     19706,
+     19707,
+     19708,
+     19709,
+     19710,
+     19711,
+     19712,
+     19713,
+     19714,
+     19715,
+     19716,
+     19717,
+     19718,
+     19719,
+     19720,
+     19721,
+     19722,
+     19723,
+     19724,
+     19725,
+     19726,
+     19727,
+     19728,
+     19729,
+     19730,
+     19731,
+     19732,
+     19733,
+     19734,
+     19735,
+     19736,
+     19737,
+     19738,
+     19739,
+     19740,
+     19741,
+     19742,
+     19743,
+     19744,
+     19745,
+     19746,
+     19747,
+     19748,
+     19749,
+     19750,
+     19751,
+     19752,
+     19753,
+     19754,
+     19755,
+     19756,
+     19757,
+     19758,
+     19759,
+     19760,
+     19761,
+     19762,
+     19763,
+     19764
+    ],
+    "face_ids": [
+     23061,
+     23062,
+     23063,
+     23064,
+     23065,
+     23066,
+     23067,
+     23068,
+     23069,
+     23070,
+     23071,
+     23072,
+     23073,
+     23074,
+     23075,
+     23076,
+     23077,
+     23078,
+     23079,
+     23080,
+     23081,
+     23082,
+     23083,
+     23084,
+     23085,
+     23086,
+     23087,
+     23088,
+     23089,
+     23090,
+     23091,
+     23092,
+     23093,
+     23094,
+     23095,
+     23096,
+     23097,
+     23098,
+     23099,
+     23100,
+     23101,
+     23102,
+     23103,
+     23104,
+     23105,
+     23106,
+     23107,
+     23108,
+     23109,
+     23110,
+     23111,
+     23112,
+     23113
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -22601,
+     -22601,
+     -22601,
+     -22601,
+     -22606,
+     -22606,
+     -22606,
+     -22606,
+     -22601,
+     -22601,
+     -22601,
+     -22601,
+     -22606,
+     -22606,
+     -22606,
+     -22606,
+     -22598,
+     -22598,
+     -22598,
+     -22598,
+     -22598,
+     -22598,
+     -22608,
+     -22608,
+     -22608,
+     -22608,
+     -22608,
+     -22608,
+     -22598,
+     -22598,
+     -22598,
+     -22598,
+     -22608,
+     -22608,
+     -22608,
+     -22608,
+     -22601,
+     -22601,
+     -22601,
+     -22601,
+     -22606,
+     -22606,
+     -22606,
+     -22606,
+     -22598,
+     -22598,
+     -22598,
+     -22598,
+     -22598,
+     -22598,
+     -22608,
+     -22608,
+     -22608,
+     -22608,
+     -22608,
+     -22608,
+     -22601,
+     -22601,
+     -22601,
+     -22601,
+     -22606,
+     -22606,
+     -22606,
+     -22606,
+     -22601,
+     -22601,
+     -22601,
+     -22601,
+     -22606,
+     -22606,
+     -22606,
+     -22606,
+     -22601,
+     -22601,
+     -22601,
+     -22601,
+     -22606,
+     -22606,
+     -22606,
+     -22606,
+     -22601,
+     -22601,
+     -22601,
+     -22601,
+     -22606,
+     -22606,
+     -22606,
+     -22606
+    ],
+    "y_offsets": [
+     -21120,
+     -21120,
+     -21125,
+     -21125,
+     -21125,
+     -21125,
+     -21120,
+     -21120,
+     -21263,
+     -21263,
+     -21268,
+     -21268,
+     -21268,
+     -21268,
+     -21263,
+     -21263,
+     -21301,
+     -21312,
+     -21312,
+     -21301,
+     -21301,
+     -21301,
+     -21312,
+     -21312,
+     -21301,
+     -21301,
+     -21301,
+     -21301,
+     -21015,
+     -21048,
+     -21048,
+     -21015,
+     -21015,
+     -21048,
+     -21048,
+     -21015,
+     -21191,
+     -21191,
+     -21197,
+     -21197,
+     -21197,
+     -21197,
+     -21191,
+     -21191,
+     -21005,
+     -21005,
+     -21015,
+     -21015,
+     -21015,
+     -21015,
+     -21015,
+     -21015,
+     -21015,
+     -21015,
+     -21005,
+     -21005,
+     -21084,
+     -21084,
+     -21089,
+     -21089,
+     -21089,
+     -21089,
+     -21084,
+     -21084,
+     -21227,
+     -21227,
+     -21232,
+     -21232,
+     -21232,
+     -21232,
+     -21227,
+     -21227,
+     -21156,
+     -21156,
+     -21161,
+     -21161,
+     -21161,
+     -21161,
+     -21156,
+     -21156,
+     -21048,
+     -21048,
+     -21053,
+     -21053,
+     -21053,
+     -21053,
+     -21048,
+     -21048
+    ],
+    "z_offsets": [
+     1080,
+     1336,
+     1336,
+     1080,
+     1336,
+     1080,
+     1336,
+     1080,
+     1080,
+     1336,
+     1336,
+     1080,
+     1336,
+     1080,
+     1336,
+     1080,
+     1347,
+     1347,
+     1070,
+     1070,
+     1080,
+     1336,
+     1070,
+     1347,
+     1347,
+     1336,
+     1070,
+     1080,
+     1203,
+     1203,
+     1162,
+     1162,
+     1162,
+     1162,
+     1203,
+     1203,
+     1080,
+     1336,
+     1336,
+     1080,
+     1336,
+     1080,
+     1336,
+     1080,
+     1070,
+     1347,
+     1347,
+     1336,
+     1080,
+     1070,
+     1347,
+     1336,
+     1080,
+     1070,
+     1347,
+     1070,
+     1080,
+     1336,
+     1336,
+     1080,
+     1336,
+     1080,
+     1336,
+     1080,
+     1080,
+     1336,
+     1336,
+     1080,
+     1336,
+     1080,
+     1336,
+     1080,
+     1080,
+     1336,
+     1336,
+     1080,
+     1336,
+     1080,
+     1336,
+     1080,
+     1080,
+     1336,
+     1336,
+     1080,
+     1336,
+     1080,
+     1336,
+     1080
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -22603.28,
+       -21306.6,
+       1203.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": 83.0,
+      "open_away": false
+     },
+     "easing": "sine",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     19765,
+     19766,
+     19767,
+     19768,
+     19769,
+     19770,
+     19771,
+     19772
+    ],
+    "face_ids": [
+     23114,
+     23115,
+     23116,
+     23117,
+     23118,
+     23119
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -15435,
+     -15446,
+     -15446,
+     -15435,
+     -15435,
+     -15446,
+     -15446,
+     -15435
+    ],
+    "y_offsets": [
+     -20923,
+     -20923,
+     -21045,
+     -21045,
+     -21045,
+     -21045,
+     -20923,
+     -20923
+    ],
+    "z_offsets": [
+     1306,
+     1306,
+     1306,
+     1306,
+     1060,
+     1060,
+     1060,
+     1060
+    ],
+    "ai_open": [
+     2,
+     3
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -15440.4,
+       -20927.72,
+       1182.72
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 2.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/door06close.wav"
+    }
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     19773,
+     19774,
+     19775,
+     19776,
+     19777,
+     19778,
+     19779,
+     19780
+    ],
+    "face_ids": [
+     23120,
+     23121,
+     23122,
+     23123,
+     23124,
+     23125
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -15435,
+     -15446,
+     -15446,
+     -15435,
+     -15435,
+     -15446,
+     -15446,
+     -15435
+    ],
+    "y_offsets": [
+     -21045,
+     -21045,
+     -21168,
+     -21168,
+     -21168,
+     -21168,
+     -21045,
+     -21045
+    ],
+    "z_offsets": [
+     1306,
+     1306,
+     1306,
+     1306,
+     1060,
+     1060,
+     1060,
+     1060
+    ],
+    "ai_open": [
+     2,
+     3
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -15440.4,
+       -21163.24,
+       1182.72
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 2.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/door06close.wav"
+    }
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     19781,
+     19782,
+     19783,
+     19784,
+     19785,
+     19786,
+     19787,
+     19788
+    ],
+    "face_ids": [
+     23126,
+     23127,
+     23128,
+     23129,
+     23130,
+     23131
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -13067,
+     -13067,
+     -12944,
+     -12944,
+     -12944,
+     -12944,
+     -13067,
+     -13067
+    ],
+    "y_offsets": [
+     -20979,
+     -20979,
+     -20979,
+     -20979,
+     -20989,
+     -20989,
+     -20989,
+     -20989
+    ],
+    "z_offsets": [
+     1050,
+     1275,
+     1275,
+     1050,
+     1050,
+     1275,
+     1275,
+     1050
+    ],
+    "ai_open": [
+     4
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -13062.16,
+       -20984.04,
+       1162.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 2.0
+    },
+    "sounds": {
+     "open_start": "Door/door02open.wav",
+     "close_stop": "Door/door02close.wav"
+    }
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 450,
+    "close_speed": 300,
+    "state": 2,
+    "vertex_ids": [
+     19789,
+     19790,
+     19791,
+     19792,
+     19793,
+     19794,
+     19795,
+     19796
+    ],
+    "face_ids": [
+     23132,
+     23133,
+     23134,
+     23135,
+     23136,
+     23137
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -16958,
+     -16958,
+     -17081,
+     -17081,
+     -17081,
+     -17081,
+     -16958,
+     -16958
+    ],
+    "y_offsets": [
+     -21501,
+     -21491,
+     -21491,
+     -21501,
+     -21501,
+     -21491,
+     -21491,
+     -21501
+    ],
+    "z_offsets": [
+     1275,
+     1275,
+     1275,
+     1275,
+     1055,
+     1055,
+     1055,
+     1055
+    ],
+    "ai_open": [
+     5
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -16963.6,
+       -21496.04,
+       1164.8
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 2.0
+    },
+    "sounds": {
+     "open_start": "Door/door02open.wav",
+     "close_stop": "Door/door02close.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     19797,
+     19798,
+     19799,
+     19800,
+     19801,
+     19802,
+     19803,
+     19804
+    ],
+    "face_ids": [
+     23138,
+     23139,
+     23140,
+     23141,
+     23142,
+     23143
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -15433,
+     -15433,
+     -15310,
+     -15310,
+     -15310,
+     -15310,
+     -15433,
+     -15433
+    ],
+    "y_offsets": [
+     -18583,
+     -18593,
+     -18593,
+     -18583,
+     -18593,
+     -18583,
+     -18593,
+     -18583
+    ],
+    "z_offsets": [
+     1275,
+     1275,
+     1275,
+     1275,
+     1055,
+     1055,
+     1055,
+     1055
+    ],
+    "ai_open": [
+     6
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -15427.6,
+       -18587.88,
+       1164.8
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 2.0
+    },
+    "sounds": {
+     "open_start": "Door/door02open.wav",
+     "close_stop": "Door/door02close.wav"
+    }
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     19805,
+     19806,
+     19807,
+     19808,
+     19809,
+     19810,
+     19811,
+     19812
+    ],
+    "face_ids": [
+     23144,
+     23145,
+     23146,
+     23147,
+     23148,
+     23149
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -17253,
+     -17243,
+     -17243,
+     -17253,
+     -17243,
+     -17253,
+     -17243,
+     -17253
+    ],
+    "y_offsets": [
+     -19300,
+     -19300,
+     -19177,
+     -19177,
+     -19177,
+     -19177,
+     -19300,
+     -19300
+    ],
+    "z_offsets": [
+     1275,
+     1275,
+     1275,
+     1275,
+     1055,
+     1055,
+     1055,
+     1055
+    ],
+    "ai_open": [
+     7
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -17247.76,
+       -19294.713,
+       1164.8
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 2.0
+    },
+    "sounds": {
+     "open_start": "Door/door02open.wav",
+     "close_stop": "Door/door02close.wav"
+    }
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400,
+    "state": 2,
+    "vertex_ids": [
+     19813,
+     19814,
+     19815,
+     19816,
+     19817,
+     19818,
+     19819,
+     19820
+    ],
+    "face_ids": [
+     23150,
+     23151,
+     23152,
+     23153,
+     23154,
+     23155
+    ],
+    "sector_ids": [
+     2,
+     1
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -13252,
+     -13252,
+     -13374,
+     -13374,
+     -13374,
+     -13374,
+     -13252,
+     -13252
+    ],
+    "y_offsets": [
+     -19458,
+     -19443,
+     -19443,
+     -19458,
+     -19458,
+     -19443,
+     -19443,
+     -19458
+    ],
+    "z_offsets": [
+     1316,
+     1316,
+     1316,
+     1316,
+     1070,
+     1070,
+     1070,
+     1070
+    ],
+    "ai_open": [
+     8
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -13256.72,
+       -19453.16,
+       1192.96
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door02open.wav",
+     "close_stop": "Door/door02close.wav",
+     "jiggle": "Door/locked_door01.wav"
+    }
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    -23702,
+    -13197,
+    1054
+   ],
+   "direction_degrees": 90
+  },
+  {
+   "start_index": 1,
+   "source_name": "WizardLabExit",
+   "position": [
+    -6125,
+    17744,
+    1051
+   ],
+   "direction_degrees": 358
+  },
+  {
+   "start_index": 2,
+   "source_name": "LichLabExit",
+   "position": [
+    16332,
+    -20257,
+    1051
+   ],
+   "direction_degrees": 45
+  },
+  {
+   "start_index": 3,
+   "source_name": "YorwickExit1",
+   "position": [
+    -23768,
+    -13565,
+    1052
+   ],
+   "direction_degrees": 90
+  },
+  {
+   "start_index": 4,
+   "source_name": "YorwickExit2",
+   "position": [
+    -22826,
+    -21158,
+    1051
+   ],
+   "direction_degrees": 0
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:yorwick:object:160",
+   "source_object_index": 160,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    5056.0,
+    512.0,
+    -5312.0
+   ],
+   "position": {
+    "x": 15461,
+    "y": -13632,
+    "z": 1311
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 4,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:yorwick:object:161",
+   "source_object_index": 161,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    2304.0,
+    512.0,
+    -5504.0
+   ],
+   "position": {
+    "x": 8416,
+    "y": -14123,
+    "z": 1311
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 4,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "both"
+ },
+ "opaque_faces": [
+  22686,
+  22687,
+  22688,
+  22689,
+  22690,
+  22691,
+  22692,
+  22693,
+  22694,
+  22695,
+  22696,
+  22697,
+  22698,
+  22699,
+  22700,
+  22701,
+  22702,
+  22703,
+  22704,
+  22705,
+  22706,
+  22707,
+  22708,
+  22709,
+  22710,
+  22711,
+  22712,
+  22713,
+  22714,
+  22715,
+  22716,
+  22717,
+  22718,
+  22719,
+  22720,
+  22721,
+  22722,
+  22723,
+  22724,
+  22725,
+  22726,
+  22727,
+  22728,
+  22729,
+  22730,
+  22731,
+  22732,
+  22733,
+  22734,
+  22735,
+  22736,
+  22737,
+  22738,
+  22739,
+  22740,
+  22741,
+  22742,
+  22743
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    21306
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    21307,
+    21308
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    23031,
+    23032,
+    23033,
+    23034,
+    23035,
+    23036,
+    23037,
+    23038,
+    23039,
+    23040,
+    23041,
+    23042,
+    23043,
+    23044,
+    23045,
+    23046,
+    23047,
+    23048,
+    23049,
+    23050,
+    23051,
+    23052,
+    23053,
+    23054,
+    23055,
+    23056,
+    23057,
+    23058,
+    23059,
+    23060
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  },
+  {
+   "faces": [
+    22746
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater1",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -40080.4,
+       36011.8
+      ],
+      [
+       -4035.6,
+       36011.8
+      ],
+      [
+       -4035.6,
+       -39190.8
+      ],
+      [
+       -40080.4,
+       -39190.8
+      ]
+     ],
+     "bottom": 0.0,
+     "top": 803.8
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     94
+    ],
+    "near_distance": 1280.0,
+    "far_distance": 6400.0
+   }
+  }
+ ],
+ "destructibles": [
+  {
+   "id": 18,
+   "name": "board0",
+   "hp": 10,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 1.5,
+   "center": [
+    -23151,
+    -21163,
+    1321
+   ],
+   "cog": 20018
+  },
+  {
+   "id": 19,
+   "name": "board1",
+   "hp": 10,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 1.5,
+   "center": [
+    -23151,
+    -21173,
+    1234
+   ],
+   "cog": 20019
+  },
+  {
+   "id": 20,
+   "name": "board2",
+   "hp": 10,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 1.5,
+   "center": [
+    -23151,
+    -21168,
+    1121
+   ],
+   "cog": 20020
+  },
+  {
+   "id": 21,
+   "name": "board3",
+   "hp": 10,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 1.23,
+   "center": [
+    -23141,
+    -21209,
+    1224
+   ],
+   "cog": 20021
+  },
+  {
+   "id": 22,
+   "name": "board4",
+   "hp": 10,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 1.23,
+   "center": [
+    -23141,
+    -21081,
+    1224
+   ],
+   "cog": 20022
+  },
+  {
+   "id": 23,
+   "name": "gateboard",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 1.5,
+   "center": [
+    -22578,
+    -21163,
+    1234
+   ],
+   "cog": 20023,
+   "destroyed_event": 360
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 257,
+   "sound": "weapons/eqhammerpostimpactloop.wav",
+   "position": [
+    14151,
+    -19694,
+    1203
+   ],
+   "inner_radius": 1664,
+   "outer_radius": 4480,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 258,
+   "sound": "weapons/eqhammerpostimpactloop.wav",
+   "position": [
+    16117,
+    -21496,
+    1203
+   ],
+   "inner_radius": 1664,
+   "outer_radius": 4480,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 259,
+   "sound": "magic/wizardeyeloop.wav",
+   "position": [
+    -6575,
+    17744,
+    1203
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 260,
+   "sound": "ambient/magic-loop.wav",
+   "position": [
+    -8746,
+    17744,
+    1203
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 261,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -27014,
+    -14123,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 262,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -24598,
+    -9618,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 263,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -23410,
+    -4211,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 264,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -20788,
+    1032,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 265,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -19887,
+    7135,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 266,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -15873,
+    10043,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 267,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -10917,
+    11927,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 268,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -10794,
+    18727,
+    492
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 7680,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 269,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -21689,
+    -12485,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 270,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -20256,
+    -8020,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 271,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -16897,
+    -4989,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 272,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -12678,
+    213,
+    2294
+   ],
+   "inner_radius": 3200,
+   "outer_radius": 6400,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 273,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -19109,
+    2670,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 274,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -18699,
+    9142,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 275,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -14153,
+    8896,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 276,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -8664,
+    4677,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 277,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -9278,
+    10207,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 278,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -5305,
+    12132,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 279,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -7927,
+    15900,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 280,
+   "sound": "ambient/wind/gusty_wind.wav",
+   "position": [
+    -3954,
+    21020,
+    2294
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 8448,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 281,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    -1660,
+    12009,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 282,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    2313,
+    12255,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 283,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    20295,
+    19792,
+    2294
+   ],
+   "inner_radius": 7680,
+   "outer_radius": 15360,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 284,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    8334,
+    5906,
+    2294
+   ],
+   "inner_radius": 7680,
+   "outer_radius": 15360,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 285,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    3829,
+    15696,
+    2294
+   ],
+   "inner_radius": 1920,
+   "outer_radius": 5120,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 286,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    20868,
+    -6873,
+    2294
+   ],
+   "inner_radius": 7680,
+   "outer_radius": 15360,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 287,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    17059,
+    -27435,
+    2294
+   ],
+   "inner_radius": 7680,
+   "outer_radius": 15360,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 288,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    4238,
+    -8798,
+    2294
+   ],
+   "inner_radius": 7680,
+   "outer_radius": 15360,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 289,
+   "sound": "ambient/birds/birds03.wav",
+   "position": [
+    -20583,
+    -18342,
+    1311
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    15.0,
+    45.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 290,
+   "sound": "ambient/birds/birds05.wav",
+   "position": [
+    -14439,
+    -17072,
+    1311
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    15.0,
+    45.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 291,
+   "sound": "ambient/birds/birds13.wav",
+   "position": [
+    -16283,
+    -21824,
+    1311
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    15.0,
+    45.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 292,
+   "sound": "ambient/birds/birds18.wav",
+   "position": [
+    -12064,
+    -17318,
+    1311
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    15.0,
+    45.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 293,
+   "sound": "ambient/birds/birds03.wav",
+   "position": [
+    -9729,
+    -20882,
+    1311
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    15.0,
+    45.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 294,
+   "sound": "ambient/birds/birds09.wav",
+   "position": [
+    -5019,
+    -19776,
+    1311
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    15.0,
+    45.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 295,
+   "sound": "ambient/birds/owl02.wav",
+   "position": [
+    -5060,
+    -19776,
+    2294
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 296,
+   "sound": "ambient/birds/owl01.wav",
+   "position": [
+    -20624,
+    -18342,
+    2294
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 297,
+   "sound": "ambient/birds/owl02.wav",
+   "position": [
+    -14480,
+    -17072,
+    2294
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 298,
+   "sound": "ambient/birds/owl01.wav",
+   "position": [
+    -16324,
+    -21824,
+    2294
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 299,
+   "sound": "ambient/birds/owl02.wav",
+   "position": [
+    -12105,
+    -17318,
+    2294
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 300,
+   "sound": "ambient/birds/owl01.wav",
+   "position": [
+    -9770,
+    -20882,
+    2294
+   ],
+   "inner_radius": 896,
+   "outer_radius": 3840,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 178,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    8150,
+    -13284,
+    1069
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 326,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -12760,
+    -21588,
+    1070
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   50,
+   50,
+   50
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   121,
+   133,
+   180
+  ],
+  "sun_gain": 4.0
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "craczvb4pr",
+    "sand3yuxai",
+    "thjo8gh81b",
+    "thjomkoqrr"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "thjojiwgib"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "bron1mi6y6",
+    "bron37kwgf",
+    "bronfthtre",
+    "bronmcs3xc",
+    "cavesmm1lp",
+    "defar33vfj",
+    "flooi1cebi",
+    "invizvjn7n",
+    "ironn7dmbs",
+    "lqseamm9",
+    "marbga5jqp",
+    "percp5yuwn",
+    "refi2vhorh",
+    "refie74u7w",
+    "refifv6o2k",
+    "refikj0cwd",
+    "shinmea4a3",
+    "sky04",
+    "stur6vev4j",
+    "thjov1t87k",
+    "wind41jopq",
+    "worny0s6pn"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "fanc4bkxq5",
+    "fortc2a63r",
+    "oldwbgvrwh",
+    "ruste87tzk",
+    "thjom1vt9b",
+    "wood7ehu0b",
+    "woodh8w4vv",
+    "woodj4b5cr",
+    "woodv944p9"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": 20768,
+    "y": 6176,
+    "z": 1050
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -2912,
+    "y": 19360,
+    "z": 1050
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -2912,
+    "y": 19488,
+    "z": 1050
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": 8096,
+    "y": -13664,
+    "z": 1050
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": 10272,
+    "y": 23584,
+    "z": 1172
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": 21024,
+    "y": 1952,
+    "z": 1050
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": -20576,
+    "y": -11104,
+    "z": 1188
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": -22752,
+    "y": -7648,
+    "z": 1050
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 3,
+   "attributes": 0,
+   "group": 0
+  }
+ ],
+ "terrain": {
+  "materials": "yorwick_blv.yml",
+  "textures": [
+   "refi2vhorh",
+   "refie74u7w",
+   "refifv6o2k",
+   "refikj0cwd",
+   "thjo8gh81b",
+   "thjomkoqrr"
+  ],
+  "exclude_faces": [
+   1652
+  ],
+  "grass": "worlds/mm9/terrain_decorations/yorwick_blv.yml"
+ }
+}

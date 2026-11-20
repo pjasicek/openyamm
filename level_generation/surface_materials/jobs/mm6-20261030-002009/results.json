@@ -1,0 +1,61 @@
+{
+ "mm6/cbeam2": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.393,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/elem-all": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.598,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/self-all": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.35,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/t1swbd": {
+  "problems": [
+   "height misaligned by (2, 2) texels"
+  ],
+  "family": [],
+  "correlation": 0.084,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/rblst1": {
+  "problems": [],
+  "family": [
+   "mm6/rblst",
+   "mm6/rblle"
+  ],
+  "correlation": 0.832,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/sidert32": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.85,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ }
+}

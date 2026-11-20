@@ -1,0 +1,507 @@
+{
+ "id": "20261009-1628-mm6-outc1-39",
+ "world": "mm6",
+ "maps": [
+  "outc1.odm",
+  "6t6.blv",
+  "pyramid.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/glstrde",
+  "mm6/sglstrde",
+  "mm6/sgstrlew",
+  "mm6/sgstrle",
+  "mm6/sgstrre",
+  "mm6/sgstrwn1",
+  "mm6/sgstrrew",
+  "mm6/sgstrwde",
+  "mm6/gstrrf",
+  "mm6/sgstrrf",
+  "mm6/sdkwsde",
+  "mm6/sdkwwn1",
+  "mm6/sdkwrew",
+  "mm6/sdkwlew",
+  "mm6/sgstrsbw",
+  "mm6/elem-all",
+  "mm6/sdkdorb",
+  "mm6/sdkwwnde",
+  "mm6/vlcwl2re",
+  "mm6/oflrl64",
+  "mm6/orflr164",
+  "mm6/vh5trmf",
+  "mm6/vlcwl2le",
+  "mm6/swceilf"
+ ],
+ "requests": {
+  "mm6/glstrde": {
+   "name": "glstrde",
+   "versions": [
+    1
+   ],
+   "material": "log cabin house wall of horizontal reddish-brown round logs above a grey fieldstone foundation, grey fieldstone corner quoins on both edges, no snow",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sglstrde": {
+   "name": "sglstrde",
+   "versions": [
+    1
+   ],
+   "material": "snowy log cabin house wall of horizontal reddish-brown round logs with snow along each log, above a grey fieldstone foundation hung with icicles and snow drifted at the base, grey fieldstone corner quoins on both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/glstrde"
+     ],
+     "fraction": 0.59
+    }
+   }
+  },
+  "mm6/sgstrlew": {
+   "name": "sgstrlew",
+   "versions": [
+    1
+   ],
+   "material": "snowy log cabin house wall of horizontal reddish-brown round logs with snow along each log, above a grey fieldstone foundation hung with icicles and snow drifted at the base, a frosted square multi-pane window with icicles, grey fieldstone corner quoins on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrlew",
+      "mm6/gstrle",
+      "mm6/sgstrst"
+     ],
+     "fraction": 0.489
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/sgstrst"
+    }
+   }
+  },
+  "mm6/sgstrle": {
+   "name": "sgstrle",
+   "versions": [
+    1
+   ],
+   "material": "snowy log cabin house wall of horizontal reddish-brown round logs with snow along each log, above a grey fieldstone foundation hung with icicles and snow drifted at the base, grey fieldstone corner quoins on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrle"
+     ],
+     "fraction": 0.47
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/sgstrst"
+    }
+   }
+  },
+  "mm6/sgstrre": {
+   "name": "sgstrre",
+   "versions": [
+    1
+   ],
+   "material": "snowy log cabin house wall of horizontal reddish-brown round logs with snow along each log, above a grey fieldstone foundation hung with icicles and snow drifted at the base, grey fieldstone corner quoins on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrre"
+     ],
+     "fraction": 0.426
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/sgstrst"
+    }
+   }
+  },
+  "mm6/sgstrwn1": {
+   "name": "sgstrwn1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "snowy log cabin house wall of horizontal reddish-brown round logs with snow along each log, above a grey fieldstone foundation hung with icicles and snow drifted at the base, a frosted square multi-pane window with icicles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrwn1",
+      "mm6/sgstrst"
+     ],
+     "fraction": 0.402
+    },
+    "2": {
+     "sources": [
+      "mm6/gstrwn1",
+      "mm6/sgstrst"
+     ],
+     "fraction": 0.402
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/sgstrle",
+     "right": "mm6/sgstrre"
+    },
+    "2": {
+     "left": "mm6/sgstrle",
+     "right": "mm6/sgstrre"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/sgstrrew": {
+   "name": "sgstrrew",
+   "versions": [
+    1
+   ],
+   "material": "snowy log cabin house wall of horizontal reddish-brown round logs with snow along each log, above a grey fieldstone foundation hung with icicles and snow drifted at the base, a frosted square multi-pane window with icicles, grey fieldstone corner quoins on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrrew"
+     ],
+     "fraction": 0.423
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/sgstrst"
+    }
+   }
+  },
+  "mm6/sgstrwde": {
+   "name": "sgstrwde",
+   "versions": [
+    1
+   ],
+   "material": "snowy log cabin house wall of horizontal reddish-brown round logs with snow along each log, above a grey fieldstone foundation hung with icicles and snow drifted at the base, a frosted square multi-pane window with icicles, grey fieldstone corner quoins on both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrwde"
+     ],
+     "fraction": 0.42
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/gstrrf": {
+   "name": "gstrrf",
+   "versions": [
+    1
+   ],
+   "material": "log cabin roof of horizontal reddish-brown round logs with dark gaps, no snow",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sgstrrf": {
+   "name": "sgstrrf",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "snowy log cabin roof of horizontal reddish-brown round logs with snow lying along each log and small icicles",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Bottom row continues the logs and snow."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrrf"
+     ],
+     "fraction": 0.6
+    },
+    "2": {
+     "sources": [
+      "mm6/gstrrf"
+     ],
+     "fraction": 0.6
+    }
+   }
+  },
+  "mm6/sdkwsde": {
+   "name": "sdkwsde",
+   "versions": [
+    1
+   ],
+   "material": "snowy house wall of dark weathered vertical wooden planks in an orange-brown timber frame with horizontal rails, snow drifts and icicles along the rails, frame posts on both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkwwn1": {
+   "name": "sdkwwn1",
+   "versions": [
+    1
+   ],
+   "material": "snowy house wall of dark weathered vertical wooden planks in an orange-brown timber frame with horizontal rails, snow drifts and icicles along the rails, a small square window with a pale diamond lattice under a snowy sill",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/sdkwst"
+     ],
+     "fraction": 0.156
+    }
+   }
+  },
+  "mm6/sdkwrew": {
+   "name": "sdkwrew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "snowy house wall of dark weathered vertical wooden planks in an orange-brown timber frame with horizontal rails, snow drifts and icicles along the rails, a small square window with an amber-lit diamond lattice, frame post on the right edge",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Bottom row continues the wall and snow."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/sdkwsde"
+     ],
+     "fraction": 0.128
+    },
+    "2": {
+     "sources": [
+      "mm6/sdkwsde"
+     ],
+     "fraction": 0.128
+    }
+   }
+  },
+  "mm6/sdkwlew": {
+   "name": "sdkwlew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "snowy house wall of dark weathered vertical wooden planks in an orange-brown timber frame with horizontal rails, snow drifts and icicles along the rails, a small square window with an amber-lit diamond lattice, frame post on the left edge",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Bottom row continues the wall and snow."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/sdkwsde"
+     ],
+     "fraction": 0.068
+    },
+    "2": {
+     "sources": [
+      "mm6/sdkwsde"
+     ],
+     "fraction": 0.068
+    }
+   }
+  },
+  "mm6/sgstrsbw": {
+   "name": "sgstrsbw",
+   "versions": [
+    1
+   ],
+   "material": "snow-dusted grey fieldstone foundation wall of rounded irregular stones with pale frosted highlights and dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrsbw"
+     ],
+     "fraction": 0.655
+    }
+   }
+  },
+  "mm6/elem-all": {
+   "name": "elem-all",
+   "versions": [
+    1
+   ],
+   "material": "elemental guild sign: a pale blue scroll showing three wavy lines in brown, blue and red, on dark wooden boards between riveted iron side bands, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkdorb": {
+   "name": "sdkdorb",
+   "versions": [
+    1
+   ],
+   "material": "snowy double door of weathered reddish-brown vertical planks with an iron bar latch across the middle, a timber lintel above hung with icicles and snow on the ledges, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkwwnde": {
+   "name": "sdkwwnde",
+   "versions": [
+    1
+   ],
+   "material": "snowy house wall of dark weathered vertical wooden planks in an orange-brown timber frame with horizontal rails, snow drifts and icicles along the rails, a small square window with an amber-lit diamond lattice, frame posts on both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcwl2re": {
+   "name": "vlcwl2re",
+   "versions": [
+    1
+   ],
+   "material": "dark basalt cave wall of tall vertical hexagonal columns with faint olive mineral flecks, a broad weathered brown stone pillar in front, glowing orange lava and dark rubble at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl2b"
+     ],
+     "fraction": 0.42
+    }
+   }
+  },
+  "mm6/oflrl64": {
+   "name": "oflrl64",
+   "versions": [
+    1
+   ],
+   "material": "pink-red speckled granite floor with fine dark and pale flecks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orflr164": {
+   "name": "orflr164",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pinkish granite floor with large dark blue-grey mottled patches",
+   "notes": {
+    "2": "Keep the thin teal-grey joint line along all four edges as in the reference. Natural polished granite with irregular grain: no net of fine cracks, no mosaic of cells or scales."
+   },
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh5trmf": {
+   "name": "vh5trmf",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark charcoal rounded cobble stones packed close together, pale grey weathered tops, black gaps between the stones",
+   "notes": {
+    "2": "Copy the stone positions and sizes from the reference; crisp rounded stones with real grain, not soft cloudy noise."
+   },
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcwl2le": {
+   "name": "vlcwl2le",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark basalt cave wall of tall vertical hexagonal columns with faint olive mineral flecks, a broad weathered brown stone pillar in front, glowing orange lava and dark rubble at the base, left-hand piece",
+   "notes": {
+    "2": "Copy the composition exactly: keep the rubble band at the bottom as low and thin as in the reference, and the column edges and glowing lava cracks at the same positions."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swceilf": {
+   "name": "swceilf",
+   "versions": [
+    1
+   ],
+   "material": "ceiling panel of rusty red-brown diagonal iron mesh grating with a fallen dark iron bar across it, inside a riveted teal-green metal pipe frame with corner brackets, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

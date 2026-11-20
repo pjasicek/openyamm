@@ -1,0 +1,26 @@
+{
+  "prompt": "Paint the provided paint_mask_guide.png precisely following this specification. Image 1 is the guide/edit target; Image 2 is the approved material/detail reference; Image 3 is original palette reference (ignore magenta).\nOutput ONE transparent PNG at 1536x2048 or nearest 3:4 size. Preserve exactly the guide's three columns FOUR rows of equal square cells and every object's position, scale, outline, pose, gaps and openings. Do not redesign or move anything. Rows 1-2 and 3-4 repeat five orthographic views FRONT BACK LEFT / RIGHT TOP empty. Column 3 rows 2 and 4 remain fully transparent.\nUpper two rows: paint ONLY grey object surfaces in unlit base colours, warm brown leather gloves with steel back-of-hand round plate and steel wrist plate matching references. Leather fingers, thumb, cuff, stitching and leather underside, consistent materials in every view. Preserve the guide geometry even where reference differs. Fine leather grain and stitching, subtle steel surface wear in base colour, no lighting/shadows/AO/hot highlights/reflections. Source-faithful pair vertical cuffs-down is the brief's object description; preserve the actual five single glove guide views exactly.\nLower two rows: MATERIAL SEGMENTATION MASK, same five silhouettes and same material boundaries as above, filled FLAT PURE COLOURS ONLY. Metal every kind = #FF0000; leather/padding/hide/suede/fur = #00FF00; cloth/lining/cords/ribbons/hair = #0000FF; gemstone/crystal/glass/pearl/enamel/liquid = #000000. Every interior pixel exactly one pure colour. No shading, texture, outlines or antialiased colour blends inside. These gloves are brown leather and steel; use green for leather and red for steel, other colours only if actually applicable. Keep cuff openings/gaps transparent exactly as guide.\nNo background, ground, text, outlines, halos, glow, sparkles, aura. Texture painting upper half only, flat segmentation lower half. Exact guide registration is critical for projection onto an existing 3D mesh.\nCORRECTION: All TEN objects must be present. In BOTH row 2 column 2 AND row 4 column 2 there is a LARGE upright full glove, fingers up and cuff down, thumb left, large round steel plate on the hand and small steel wrist plate. These central views MUST NOT be omitted. Total FIVE painted objects upper half and FIVE mask objects lower half. Keep exact guide layout. Mask edges must be CLEAN, no scattered pixels outside silhouettes; lower mask interiors SOLID flat green leather and SOLID flat red metal, absolutely no lighting or linework. Reproduce ALL guide silhouettes including the central upright views.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10136/paint_mask_guide.png",
+      "sha256": "e907f89830ef5d72a23ad0438774729a6a0e27baa3032178051787a2c2069121"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10136/design_reference.png",
+      "sha256": "2b7e13660029e0540111c292acda9d8f4c0ed98c8ffe07eb434f1dbaa738692f"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10136/icon_x8.png",
+      "sha256": "36248fcae7cef13f2daef0c83791fc5b1e0480702c45d3b37fc3d14724d6eaa6"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-be8b-7a71-98f3-c97e5d3c2073/exec-70412bac-1d4f-406d-8d80-4926d40f784e.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10136/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "All ten views present, but mask has stray pixels outside silhouettes and non-flat interior colours; fails exact-mask requirements. Raw tool output preserved unchanged."
+}

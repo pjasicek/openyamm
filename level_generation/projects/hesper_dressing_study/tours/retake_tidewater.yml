@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/retake_tidewater
+settle_seconds: 2.0
+exit: true
+shots:
+- name: huge_s5
+  position:
+  - -772
+  - 8801
+  - 385
+  yaw: 4.123
+  pitch: -0.2
+- name: huge_s9_b
+  position:
+  - -3090
+  - 4589
+  - 193
+  yaw: 2.749
+  pitch: -0.15
+- name: hall_s2_b
+  position:
+  - 1674
+  - 1560
+  - 86
+  yaw: 3.731
+  pitch: -0.1

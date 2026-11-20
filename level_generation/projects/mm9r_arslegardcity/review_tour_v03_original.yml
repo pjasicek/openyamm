@@ -1,0 +1,228 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_arslegardcity/review/v03_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_gate_start
+  position:
+  - 14400
+  - -17613
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+- name: s02_great_gate
+  position:
+  - 14400
+  - -18304
+  - -491
+  yaw: 1.5708
+  pitch: 0.2094
+- name: s03_north_street_west
+  position:
+  - 6912
+  - -18944
+  - -491
+  yaw: 3.1416
+  pitch: 0.0
+- name: s04_north_street_east
+  position:
+  - 11520
+  - -18688
+  - -491
+  yaw: 0.4266
+  pitch: 0.0
+- name: s05_bank_square
+  position:
+  - 6400
+  - -21248
+  - -491
+  yaw: 0.8961
+  pitch: 0.0
+- name: s06_main_street_south
+  position:
+  - 11264
+  - -18944
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+- name: s07_tavern_street
+  position:
+  - 12800
+  - -20480
+  - -491
+  yaw: 0.0
+  pitch: 0.0
+- name: s08_temple_square
+  position:
+  - 5120
+  - -20352
+  - -286
+  yaw: 3.1416
+  pitch: 0.1396
+- name: s09_temple_front
+  position:
+  - 5888
+  - -21760
+  - -491
+  yaw: 2.718
+  pitch: 0.1396
+- name: s10_west_street
+  position:
+  - 5120
+  - -22784
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+- name: s11_park
+  position:
+  - 3840
+  - -23808
+  - -471
+  yaw: -2.0701
+  pitch: 0.0
+- name: s12_park_cliffs
+  position:
+  - 768
+  - -32256
+  - -424
+  yaw: 1.2015
+  pitch: 0.0
+- name: s13_fountain_well
+  position:
+  - 13174
+  - -26624
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: s14_east_street
+  position:
+  - 16128
+  - -23552
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: s15_library_street
+  position:
+  - 5888
+  - -22784
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+- name: s16_south_street
+  position:
+  - 12800
+  - -31744
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: s17_south_west
+  position:
+  - 5120
+  - -32512
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: s18_hall_court
+  position:
+  - 17408
+  - -31744
+  - 329
+  yaw: 0.0
+  pitch: 0.0
+- name: s19_njam_lane
+  position:
+  - 5888
+  - -28928
+  - -491
+  yaw: -0.3805
+  pitch: 0.0
+- name: s20_gate_path
+  position:
+  - 14418
+  - -15104
+  - -900
+  yaw: 1.5708
+  pitch: 0.0
+- name: i01_tavern
+  position:
+  - 15360
+  - -21248
+  - -491
+  yaw: -0.4636
+  pitch: 0.0
+- name: i02_bank
+  position:
+  - 7680
+  - -19328
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: i03_magic_shop
+  position:
+  - 7782
+  - -21376
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+- name: i04_temple
+  position:
+  - 2304
+  - -20398
+  - 85
+  yaw: 3.1416
+  pitch: 0.0
+- name: i05_library
+  position:
+  - 5120
+  - -25887
+  - -491
+  yaw: 0.0
+  pitch: 0.0
+- name: i06_weapons
+  position:
+  - 11597
+  - -24806
+  - -491
+  yaw: -2.2294
+  pitch: 0.0
+- name: i07_armour
+  position:
+  - 9882
+  - -27699
+  - -491
+  yaw: 2.3562
+  pitch: 0.0
+- name: i08_general_store
+  position:
+  - 14213
+  - -26752
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+- name: i09_general_store_south
+  position:
+  - 11592
+  - -29440
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: i10_training_hall
+  position:
+  - 16896
+  - -25887
+  - -491
+  yaw: 0.0
+  pitch: 0.0
+- name: i11_njam_house
+  position:
+  - 7680
+  - -29824
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: i12_sven_court
+  position:
+  - 15616
+  - -31130
+  - 1
+  yaw: -3.1274
+  pitch: 0.0

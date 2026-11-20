@@ -3,6 +3,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/ChestRuntime.h"
+#include "game/gameplay/TreasureRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
@@ -20,6 +21,7 @@
 #include <fstream>
 #include <optional>
 #include <random>
+#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -615,11 +617,13 @@ TEST_CASE("chest level seven random placeholder generates a guaranteed rare item
             gameData.itemTable,
             gameData.standardItemEnchantTable,
             gameData.specialItemEnchantTable,
+            // Artifacts roll only in their own world (World:<id>); the regression data is MM8's.
             OpenYAMM::Game::ItemGenerationRequest{
                 6,
                 OpenYAMM::Game::ItemGenerationMode::ChestLoot,
                 true,
-                true},
+                true,
+                "mm8"},
             nullptr,
             directRng);
     REQUIRE(directRare.has_value());
@@ -741,6 +745,93 @@ TEST_CASE("New Sorpigal tavern storage policy preserves relocated inventories tw
         "    - {chest_index: 200, preserve_on_refill: true}\n";
     CHECK_FALSE(loader.applyOverlayFromText(scene, invalidOverlay, error));
     CHECK(error == "chest policy override chest_index is out of range");
+}
+
+TEST_CASE("a level seven slot's artifact takes a random cell, not the slot's top-left anchor")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeChestTestParty(gameData);
+    OpenYAMM::Game::ChestTable chestTable = makeChestTable(9, 9);
+    std::set<std::pair<int, int>> cells;
+
+    for (uint32_t chestId = 0; chestId < 12; ++chestId)
+    {
+        OpenYAMM::Game::MapDeltaChest chest = {};
+        chest.inventoryMatrix.assign(140, 0);
+        chest.inventoryMatrix[0] = 1;
+        writeRawChestItemId(chest, 0, -7);
+        const OpenYAMM::Game::GameplayChestViewState view =
+            OpenYAMM::Game::buildMaterializedChestView(
+                chestId, chest, 6, 0, 4321, &chestTable, &gameData.itemTable, &party, "mm8");
+        REQUIRE_EQ(view.items.size(), 1u);
+        cells.insert({view.items.front().gridX, view.items.front().gridY});
+    }
+
+    CHECK_GT(cells.size(), 3u);
+}
+
+TEST_CASE("a chest-artifacts-only world rolls no artifact at level six and refills an exhausted level-seven slot")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::ItemTable itemTable = gameData.itemTable;
+    itemTable.setChestArtifactsOnlyWorlds({"mm8"});
+    int rareAtLevelSix = 0;
+
+    for (uint32_t seed = 1; seed <= 400; ++seed)
+    {
+        std::mt19937 rng(seed);
+        const std::optional<OpenYAMM::Game::InventoryItem> item =
+            OpenYAMM::Game::ItemGenerator::generateRandomInventoryItem(
+                itemTable,
+                gameData.standardItemEnchantTable,
+                gameData.specialItemEnchantTable,
+                OpenYAMM::Game::ItemGenerationRequest{
+                    .treasureLevel = 6,
+                    .mode = OpenYAMM::Game::ItemGenerationMode::ChestLoot,
+                    .worldId = "mm8",
+                },
+                nullptr,
+                rng);
+        const OpenYAMM::Game::ItemDefinition *pDefinition =
+            item.has_value() ? itemTable.get(item->objectDescriptionId) : nullptr;
+        rareAtLevelSix += pDefinition != nullptr && OpenYAMM::Game::ItemRuntime::isArtifact(*pDefinition) ? 1 : 0;
+    }
+
+    CHECK_EQ(rareAtLevelSix, 0);
+
+    OpenYAMM::Game::Party party = makeChestTestParty(gameData);
+
+    for (const OpenYAMM::Game::ItemDefinition &entry : itemTable.entries())
+    {
+        if (OpenYAMM::Game::ItemRuntime::isUniquelyGeneratedRareItem(entry))
+        {
+            party.markArtifactItemFound(entry.itemId);
+        }
+    }
+
+    OpenYAMM::Game::ChestTable chestTable = makeChestTable(9, 9);
+    OpenYAMM::Game::MapDeltaChest chest = {};
+    chest.inventoryMatrix.assign(140, 0);
+    chest.inventoryMatrix[0] = 1;
+    writeRawChestItemId(chest, 0, -7);
+    const OpenYAMM::Game::GameplayChestViewState view =
+        OpenYAMM::Game::buildMaterializedChestView(0, chest, 6, 0, 4321, &chestTable, &itemTable, &party, "mm8");
+    bool hasGold = false;
+    bool hasItem = false;
+
+    for (const OpenYAMM::Game::GameplayChestItemState &item : view.items)
+    {
+        hasGold = hasGold || item.isGold;
+        const OpenYAMM::Game::ItemDefinition *pDefinition = item.isGold ? nullptr : itemTable.get(item.itemId);
+        if (pDefinition != nullptr)
+        {
+            hasItem = true;
+            CHECK_FALSE(OpenYAMM::Game::ItemRuntime::isArtifact(*pDefinition));
+        }
+    }
+
+    CHECK(hasGold);
+    CHECK(hasItem);
 }
 
 TEST_CASE("Ravenshore hidden tree chest retains its guaranteed artifact")
@@ -1026,4 +1117,81 @@ TEST_CASE("chest open requests are one-shot transient event outputs")
     OpenYAMM::Game::clearTransientEventRuntimeState(runtimeState);
 
     CHECK(runtimeState.openedChestIds.empty());
+}
+
+TEST_CASE("treasure marker gold follows the marker level, or the item tier in a groundGoldByItemTier world")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::ItemTable itemTable = gameData.itemTable;
+    itemTable.setGroundGoldByItemTierWorlds({"mm9"});
+
+    // A level-3 marker on a treasure level 1 map gives T2 items: MM8's gold heaps are level 3's (200-500), MM9's T2's
+    // (100-200).
+    for (const std::string worldId : {"mm8", "mm9"})
+    {
+        const uint32_t lowest = worldId == "mm9" ? 100u : 200u;
+        const uint32_t highest = worldId == "mm9" ? 200u : 500u;
+        int heaps = 0;
+
+        for (uint32_t spawnIndex = 0; spawnIndex < 300; ++spawnIndex)
+        {
+            const std::optional<OpenYAMM::Game::GameplayTreasureSpawnResult> marker =
+                OpenYAMM::Game::generateTreasureSpawnItem(
+                    3, 1, 4321, 0, spawnIndex, itemTable, gameData.standardItemEnchantTable,
+                    gameData.specialItemEnchantTable, nullptr, worldId, {});
+
+            if (marker && marker->isGold)
+            {
+                INFO("world=" << worldId << " gold=" << marker->goldAmount);
+                CHECK(marker->goldAmount >= lowest);
+                CHECK(marker->goldAmount <= highest);
+                ++heaps;
+            }
+        }
+
+        CHECK(heaps > 80);
+    }
+}
+
+TEST_CASE("treasure markers give nothing, a gold heap or an item, as MM6-MM8, in every world")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    for (const std::string worldId : {"mm8", "mm9"})
+    {
+        int nothing = 0;
+        int gold = 0;
+        int items = 0;
+
+        for (uint32_t spawnIndex = 0; spawnIndex < 1000; ++spawnIndex)
+        {
+            const std::optional<OpenYAMM::Game::GameplayTreasureSpawnResult> marker =
+                OpenYAMM::Game::generateTreasureSpawnItem(
+                    3, 3, 4321, 0, spawnIndex, gameData.itemTable, gameData.standardItemEnchantTable,
+                    gameData.specialItemEnchantTable, nullptr, worldId, {});
+
+            if (!marker)
+            {
+                ++nothing;
+            }
+            else if (marker->isGold)
+            {
+                CHECK_GT(marker->goldAmount, 0u);
+                ++gold;
+            }
+            else
+            {
+                CHECK_NE(marker->item.objectDescriptionId, 0u);
+                ++items;
+            }
+        }
+
+        // 20% / 40% / 40% over 1000 rolls.
+        CHECK(nothing > 140);
+        CHECK(nothing < 260);
+        CHECK(gold > 340);
+        CHECK(gold < 460);
+        CHECK(items > 340);
+        CHECK(items < 460);
+    }
 }

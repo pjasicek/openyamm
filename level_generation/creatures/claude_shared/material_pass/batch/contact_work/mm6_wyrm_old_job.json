@@ -1,0 +1,39 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_wyrm_old.glb",
+ "patch_materials": {
+  "Wyrm_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Wyrm_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Wyrm_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "WyrmHead_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "WyrmHead_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "WyrmHead_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_wyrm_old",
+ "size": 300,
+ "front": "-y"
+}

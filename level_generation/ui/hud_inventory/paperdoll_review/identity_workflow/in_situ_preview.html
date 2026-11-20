@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC01 limb diagnosis and unapproved trials</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #162125; color: #e9f1ee; }
+    body { margin: 0 auto; max-width: 1250px; padding: 20px; }
+    a { color: #9ce4d3; }
+    h1 { margin: 0 0 8px; }
+    h2 { margin-top: 28px; }
+    p { max-width: 950px; line-height: 1.45; }
+    figure { margin: 14px 0; padding: 12px; border: 1px solid #526667; border-radius: 8px; background: #223137; }
+    figure img { display: block; max-width: 100%; height: auto; }
+    figcaption { margin-top: 7px; color: #c2d3cf; }
+    .status { color: #ffd0a7; font-weight: 700; }
+    .sprite-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .sprite-row figure { flex: 1 1 250px; }
+    .sprite-row img { width: auto; height: 496px; max-width: 100%; image-rendering: pixelated; margin: auto; }
+    .light { background: #e0e4de; }
+    .dark { background: #203035; }
+    .notice { border: 1px solid #b77d4d; border-radius: 8px; padding: 0 16px; background: #342a25; }
+    .notice li { margin: 8px 0; line-height: 1.45; }
+    details { margin: 28px 0; border-top: 1px solid #526667; padding-top: 12px; }
+    summary { cursor: pointer; font-size: 1.2rem; font-weight: 700; }
+    .clipped img { border-bottom: 3px solid #ff956d; }
+  </style>
+</head>
+<body>
+  <p><a href="../index.html?doll=1">← Full paperdoll browser</a> · <a href="pilot.html">Earlier full-sheet trials</a></p>
+  <h1>PC01 limb diagnosis and trials</h1>
+  <p class="status">Review trials only. Nothing here is approved or installed.</p>
+  <div class="notice">
+    <p class="status">The open-hand pose remains visibly incomplete despite its 2× size and alpha-registration pass.</p>
+    <ul>
+      <li><strong>2036, screen-left hand:</strong> This is the separate <code>pc01rhd</code> sprite, unchanged in
+        both dolls. Its <a href="../raw_prepared/engine--icons--pc01rhd.bmp__162e325f70ee494fbb3ffe2870651e6b.png">raw prepared 2× cutout</a>
+        has jagged fingers and colored edges. A prior <a href="prepared/doll_01/pilot_v1/pc01rhd.png">generated attempt</a>
+        changed the shape too much and was rejected. There is no usable restored replacement yet.</li>
+      <li><strong>2036, screen-right hand:</strong> This <code>pc01lhu</code> v2 hand was generated in place and
+        reduced to its exact 52×108 canvas. Its soft fingers are in the asset, not a browser blur. The later
+        red-bracer trial keeps those same hand pixels.</li>
+      <li><strong>2037, left:</strong> The <code>pc01lhu</code> hand is cut by its canvas bottom. The native
+        26×54 sprite already has 11 opaque pixels on its final row; the v2 52×108 trial has 32. The extraction
+        kept that source boundary. This is a visual failure needing a finger and canvas/placement fix.</li>
+      <li><strong>2037, middle:</strong> This is the older batch-generated <code>pc01lho</code> candidate.
+        Its blocky detail and colored edge artifacts are real. The rightmost shared-bracer version is a newer,
+        still unapproved trial.</li>
+      <li><strong>2037, missing opposite arm:</strong> That three-panel diagnostic composited only the body and
+        the tested arm. It was an isolated arm comparison, not a complete doll preview.</li>
+    </ul>
+  </div>
+  <p><a href="#current-trials">Jump to the current red-bracer trials</a>.</p>
+  <details>
+    <summary>Earlier diagnostic images shown in 2036 and 2037</summary>
+
+  <h2>Hanging open hand · <code>pc01lhu</code></h2>
+  <p>Only <code>pc01lhu</code> changes between these dolls. The opposite <code>pc01rhd</code> remains unfinished
+    in both. The right-side hand is soft and cut at its canvas bottom; this version is not visually acceptable.</p>
+  <figure><img src="prepared/doll_01/in_situ_left_open/old_vs_in_situ_v2.png"
+               alt="Old open forearm on left, in-place restored open forearm on right">
+    <figcaption>Left: previous candidate. Right: first in-place edit. The screen-left hand is the same unfinished
+      cutout in both dolls.</figcaption></figure>
+  <div class="sprite-row">
+    <figure class="dark"><img src="prepared/doll_01/in_situ_left_open/pc01lhu_in_situ_v2.png"
+                             alt="Open-hand limb over dark background"><figcaption>Cutout over dark</figcaption></figure>
+    <figure class="light"><img src="prepared/doll_01/in_situ_left_open/pc01lhu_in_situ_v2.png"
+                              alt="Open-hand limb over light background"><figcaption>Cutout over light</figcaption></figure>
+  </div>
+
+  <h2>Shield hand with shared bracer · <code>pc01lho</code></h2>
+  <p>This isolates one arm; the other arm is omitted from all three panels. The first 48 rows of the bracer were
+    transferred at the table offsets. Imagegen refined only the cuff and
+    changed hand pose. The combined sprite passes whole-sprite registration; its hand region also retains the
+    original footprint. Inspect the cuff join, fingers, shield clearance, and edges before judging the art.</p>
+  <figure><img src="prepared/doll_01/shared_bracer_shield/canonical_open_vs_old_and_new_shield.png"
+               alt="Restored open arm, old shield arm, and shared-bracer shield arm side by side">
+    <figcaption>Left: open arm cut at its lower canvas edge. Middle: artifacted old shield-hand candidate.
+      Right: shared-bracer shield-hand trial. The opposite arm is absent in all three panels.</figcaption></figure>
+  <div class="sprite-row">
+    <figure class="dark"><img src="prepared/doll_01/shared_bracer_shield/pc01lho_shared_bracer_v1.png"
+                             alt="Shield-hand trial over dark background"><figcaption>Cutout over dark</figcaption></figure>
+    <figure class="light"><img src="prepared/doll_01/shared_bracer_shield/pc01lho_shared_bracer_v1.png"
+                              alt="Shield-hand trial over light background"><figcaption>Cutout over light</figcaption></figure>
+  </div>
+  <figure><img src="prepared/doll_01/shared_bracer_shield/old_vs_shared_bracer_with_item099.png"
+               alt="Old and new shield-hand poses with Trollish Shield at the game's item offset">
+    <figcaption>With Trollish Shield at its table offset. This opaque shield hides most of the hand; the unshielded
+      comparison above is needed to judge its shape and seam. The shield icon is native 1× context.</figcaption></figure>
+  <p>The earlier whole-limb shield edit is retained in
+    <a href="prepared/doll_01/in_situ_left_closed/canonical_open_vs_old_and_new_shield.png">this comparison</a>;
+    it failed registration because the hand became narrow.</p>
+  <h2>Full-context red-bracer retest · rejected</h2>
+  <p>Using the complete restored doll and the original arm as references made imagegen match the red bracer's
+    material more closely. It still curled the relaxed fingers and enlarged the low-alpha footprint by 12.4%,
+    beyond the 10% registration limit. The body in this assembly is unchanged. This version is a method test,
+    not a new candidate.</p>
+  <figure><img src="prepared/doll_01/in_situ_left_open/old_vs_in_situ_v3.png"
+               alt="Existing arm on the left and rejected red-bracer imagegen edit on the right">
+    <figcaption>Left: current candidate. Right: full-context red-bracer trial, rejected for hand pose and footprint.
+      <a href="prepared/doll_01/in_situ_left_open/raw_arm_only_v3.png">Raw imagegen return</a> ·
+      <a href="prepared/doll_01/in_situ_left_open/return_report_v3.json">measurements</a></figcaption></figure>
+  </details>
+
+  <h2 id="current-trials">Fixed-geometry red-bracer trials · visual review pending</h2>
+  <p>The red paint from the rejected whole-arm return covers the solid bracer in the earlier registered open arm.
+    The open-hand trial uses that paint but retains the registered arm alpha and its relaxed fingers. The shield
+    state then reuses the same bracer at the game's offset while keeping its already registered shield hand.
+    Both new sprite files pass the registration guard. The open hand still has the clipped bottom edge, and
+    the full-doll panels still use the unfinished opposite arm. These visual faults block approval.</p>
+  <figure><img src="prepared/doll_01/red_bracer_open/old_registered_red_and_combined_v3.png"
+               alt="Original candidate, registered arm, full red edit, and geometry-preserving red-bracer trial">
+    <figcaption>Left to right: current candidate; registered brown arm; rejected full red edit;
+      <a href="prepared/doll_01/red_bracer_open/pc01lhu_red_bracer_trial_v3.png">red open-hand trial</a>.
+      <a href="prepared/doll_01/red_bracer_open/report_v3.json">Open-hand measurements</a>.
+      The screen-left hand is the same unfinished <code>pc01rhd</code> in every doll.</figcaption></figure>
+  <figure><img src="prepared/doll_01/red_bracer_open/forearm_join_closeups_v3.png"
+               alt="Four enlarged PC01 cuff, bracer, and hand joins">
+    <figcaption>The same four states enlarged around the elbow cuff and wrist.</figcaption></figure>
+  <figure><img src="prepared/doll_01/red_bracer_shield/forearm_join_closeups.png"
+               alt="Red open arm, prior brown shield arm, and shared red shield arm">
+    <figcaption>Open and shield poses share the red bracer pixels wherever their original placement overlaps.
+      <a href="prepared/doll_01/red_bracer_shield/pc01lho_red_bracer_trial.png">Red shield-hand trial</a> ·
+      <a href="prepared/doll_01/red_bracer_shield/report.json">Shield-hand measurements</a></figcaption></figure>
+  <figure><img src="prepared/doll_01/red_bracer_shield/red_open_brown_shield_red_shield.png"
+               alt="Body and isolated open, old shield, and red shield arms; opposite arm omitted">
+    <figcaption>Isolated arm comparison: the opposite arm is intentionally absent from every panel. The open arm
+      still touches the bottom of its sprite canvas.</figcaption></figure>
+  <figure><img src="prepared/doll_01/red_bracer_shield/brown_vs_red_with_sword_and_shield.png"
+               alt="Prior and red shield-hand states with a sword and shield at table offsets">
+    <figcaption>Both shield-hand states with item #1 and shield #99 at the game-table positions.
+      The right-hand grip sprites remain unfinished prepared cutouts.</figcaption></figure>
+  <div class="sprite-row">
+    <figure class="dark clipped"><img src="prepared/doll_01/red_bracer_open/pc01lhu_red_bracer_trial_v3.png"
+      alt="Open-arm trial with the cut bottom visible on dark"><figcaption>Open-arm cutout on dark; orange line
+      marks the clipped canvas bottom.</figcaption></figure>
+    <figure class="light clipped"><img src="prepared/doll_01/red_bracer_open/pc01lhu_red_bracer_trial_v3.png"
+      alt="Open-arm trial with the cut bottom visible on light"><figcaption>Same unfinished hand on light.</figcaption></figure>
+  </div>
+  <p><a href="README.md">Method, metrics, and files</a></p>
+</body>
+</html>

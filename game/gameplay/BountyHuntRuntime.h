@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/rules/ActorRulesetFacts.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/MergedBaseTables.h"
 
@@ -16,6 +17,19 @@ struct BountyHuntEntry
     int16_t monsterId = 0;
     bool done = false;
     bool claimed = false;
+    // The affix of the boss the rules spawned (MAW), which the bounty texts name; 0 for a plain target.
+    uint8_t bossAffix = 0;
+    // Posted by another map's office and not placed yet: the target appears when the party next enters the map
+    // (spawnPendingBountyHunt).
+    bool pending = false;
+};
+
+// The map a bounty office posts its hunt on when that is not the office's own (an MM9 Jarl's region): its name, which
+// keys the hunt as a town's own does (MMerge.BountyHunt.<name>), and its file.
+struct BountyHuntRemoteMap
+{
+    std::string mapName;
+    std::string mapFileName;
 };
 
 struct BountyHuntClaimResult
@@ -58,15 +72,24 @@ BountyHuntClaimResult claimBountyHuntReward(
     uint32_t currentMonth,
     bool awardGold);
 bool markRuntimeBountyHuntMonsterKilled(IGameplayWorldRuntime &worldRuntime, int16_t monsterId);
+// The rules may require more of the kill than the monster's id (MAW: the boss) and that a party member struck the
+// killing blow (MAW: any other death of the target drops the bounty).
 bool markRuntimeBountyHuntMonsterKilled(
     IGameplayWorldRuntime &worldRuntime,
     int16_t monsterId,
-    const MonsterTable *pMonsterTable);
+    const MonsterTable *pMonsterTable,
+    const ActorRulesetFacts &facts = {},
+    bool killedByParty = true);
+// The office of the current map, or with pRemoteMap of that map: a new hunt there is posted with its target chosen
+// and placed when the party next enters it.
 BountyHuntInteractionResult performBountyHuntInteraction(
     IGameplayWorldRuntime &worldRuntime,
     Party *pParty,
     bool awardGold,
-    const NpcDialogTable *pNpcDialogTable = nullptr);
+    const NpcDialogTable *pNpcDialogTable = nullptr,
+    const BountyHuntRemoteMap *pRemoteMap = nullptr);
+// On entering a map: places the target of this month's hunt another office posted on it (BountyHuntEntry::pending).
+void spawnPendingBountyHunt(IGameplayWorldRuntime &worldRuntime, Party *pParty);
 std::string bountyHuntTargetText(
     const MonsterTable::MonsterStatsEntry &stats,
     const NpcDialogTable *pNpcDialogTable = nullptr);

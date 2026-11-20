@@ -35,6 +35,92 @@ elements:
           align_y: middle
           scale: 1.0
 
+      # Continent buttons, one per continent with towns in this installation (Chedian only with MM9), always shown;
+      # a continent with no unlocked town shows its map with nothing to choose.
+      - id: TownPortalContinentButton1
+        anchor: bottom_left
+        offset_x: 6
+        offset_y: -5
+        width: 82
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.41666665625
+
+      - id: TownPortalContinentButton2
+        anchor: bottom_left
+        offset_x: 91
+        offset_y: -5
+        width: 82
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.41666665625
+
+      - id: TownPortalContinentButton3
+        anchor: bottom_left
+        offset_x: 176
+        offset_y: -5
+        width: 82
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.41666665625
+
+      - id: TownPortalContinentButton4
+        anchor: bottom_left
+        offset_x: 261
+        offset_y: -5
+        width: 82
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.41666665625
+
       - id: TownPortalCloseButton
         anchor: bottom_right
         offset_x: -3

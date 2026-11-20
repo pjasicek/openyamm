@@ -1,0 +1,13 @@
+Use case: precise-object-edit. Asset type: ONE six-view albedo texture-source atlas of the SAME prop.
+Image 1 is the exact grey 3D mesh guide atlas and is the edit target. Image 2 is its HD material/identity reference.
+Paint directly over image 1, retaining EXACT canvas aspect 1024 wide by 1536 tall and the exact two-column,
+three-row arrangement. Six equal square cells. Row 1: front, back. Row 2: left, right. Row 3: top, bottom.
+Keep every guide view's silhouette, position, size, angle, cavities and parts EXACTLY unchanged. Do not move,
+rotate, enlarge, shrink or redesign anything. Each cell shows the same mesh from the specified side.
+Subject identity: One brown leather roll-top/drawstring pouch standing on its rounded bottom, holding a small set of lock-picking tools projecting from the open mouth. Several thin steel picks and gold-brass rods at different heights, including one large curved steel hook at the RIGHT and a thin hooked pick at the LEFT. A distinctive small silver three-loop knot emblem decorates the front of the pouch. The body is supple worn leather with folds and visible seams. No hand, separate tools on the floor or stand.
+Surface materials: Warm ochre-brown worn leather pouch and drawstring; dark silver steel hook and picks; brass tool handles; silver three-loop knot emblem. Separate metal from leather.
+This is a PBR BASE-COLOUR source: flat shadowless illumination, NO cast shadows, ambient occlusion, reflections,
+metallic hot spots, lighting gradients, rim light or shiny white highlights. Paint real intrinsic surface colour,
+fine wear, grain and ornament. Shapes and recesses come from the mesh; do not bake illumination into them.
+No background, floor, scene, text, labels, separators or added objects. Outside every silhouette is genuine
+transparency. Do not paint labels or stray marks in the cell margins. Materials must agree across all six views.

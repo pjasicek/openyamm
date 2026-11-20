@@ -1,0 +1,42 @@
+{
+ "id": "20261010-1028-mm7-7d24-00",
+ "world": "mm7",
+ "maps": [
+  "7d24.blv"
+ ],
+ "created": "2026-10-10T08:28:29+00:00",
+ "textures": [
+  "mm7/hdr1erw"
+ ],
+ "requests": {
+  "mm7/hdr1erw": {
+   "name": "hdr1erw",
+   "versions": [
+    1
+   ],
+   "material": "polished reddish-brown wooden wall panel with fine vertical grain, a carved moulded cornice with a row of small triangular dentils across the top and a thin moulded skirting strip along the bottom, with a turned wooden column on the right edge and a carved wooden window shutter in the centre pierced by a cross-shaped lattice of small square openings; copy the composition exactly",
+   "notes": {
+    "1": "the shutter and the wood around it share one even tone: no darker halo, band or tide line around the shutter"
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hdr1b"
+    }
+   }
+  }
+ }
+}

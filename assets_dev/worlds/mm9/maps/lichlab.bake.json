@@ -1,0 +1,106 @@
+{
+  "base": {
+    "bake": "output/mm9_rework/bakes/lichlab",
+    "carried_over": false,
+    "geometry_hash": "97a60d2484c134cf",
+    "lighting_sha256": "442e717c8bd301c1055207303731c7794d5034961e58000431965cf2037688db",
+    "recipe": {
+      "backend": "5.3.0",
+      "extra_lights": [],
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
+      "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
+      "profile": {
+        "ambient_colour": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "ambient_scale": 0.655,
+        "blur_radius": 2,
+        "bounce_scale": 6.0,
+        "bounces": 3,
+        "direct_scale": 1.65,
+        "dirlights": true,
+        "emitters": [
+          {
+            "colour": [
+              0.85,
+              0.92,
+              1.0
+            ],
+            "display": 0.35,
+            "outward": false,
+            "strength": 1.0,
+            "textures": [
+              "CLOUVKSJD0"
+            ]
+          },
+          {
+            "colour": [
+              0.85,
+              0.92,
+              1.0
+            ],
+            "display": 0.35,
+            "outward": true,
+            "strength": 1.0,
+            "textures": [
+              "LICHZDHKT1"
+            ]
+          }
+        ],
+        "glass": [
+          {
+            "colour": [
+              0.85,
+              0.92,
+              1.0
+            ],
+            "display": 0.45,
+            "textures": [
+              "LICHZDHKT1",
+              "YANMLEOXZQ"
+            ]
+          }
+        ],
+        "layout_only": true,
+        "light_size": 24,
+        "map": "lichlab.blv",
+        "max_lighting": 1.0,
+        "outward_distance": 4096,
+        "padding": 2,
+        "page_size": 4096,
+        "samples": 64,
+        "shadowless_faces": [],
+        "sky_bounce_scale": 6.0,
+        "sky_scale": 0.05,
+        "texture_lights": {
+          "offset_lt": 8,
+          "per_polygon": true,
+          "scale": 0.33
+        },
+        "units_per_texel": 40.96,
+        "world": "mm9"
+      }
+    }
+  },
+  "dat": "mm9/extracted/WORLDS/WORLDS/LICHLAB.dat",
+  "dat_sha256": "07b32ea60787cc97e3e3f68eb364d65b9873ff2eb1d76565ac3a3cc7d51a4fbe",
+  "daylight_pages": false,
+  "encoding": "display",
+  "fallback_models": [],
+  "min_light": 0.0,
+  "parameters": {
+    "fallback_cells": [
+      2,
+      8
+    ],
+    "fallback_voxel_lt": 64.0,
+    "inside_eps_lt": 4.5,
+    "normal_dot": 0.998,
+    "outside_reach_lt": 24.0,
+    "plane_tolerance_lt": 1.5
+  },
+  "producer": "mm9r_common/lightmap_transfer.py",
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
+}

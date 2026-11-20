@@ -1,0 +1,16 @@
+# AI arena: the MM6-MM8 regression anchor. An MM8 melee monster (Regnan Bandit, 10) against a party standing still on
+# Dagger Wound (out01.odm, an outdoor map: the outdoor runtime). It must pursue and strike with MM8's AI and never
+# show MM9's footwork.
+name: mm8_melee_out01
+world: mm8
+map: out01.odm
+party:
+  position: [3760, 7696, 0]
+  yaw_degrees: 0
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 10
+    position: [4960, 7696, 0]
+    yaw_degrees: 180

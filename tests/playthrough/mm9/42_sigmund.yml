@@ -1,0 +1,50 @@
+# MM9 playthrough, segment 42: Sigmund (guide: Chapter II, "Peace between Sturmford and Drangheim"). Out of Sturmford City
+# by the north gate, the road north to Drangheim (two days on foot; outdoors the party is moved to each exit), the
+# city gate, Sigmund: Sturmford did not raid his prison, the party did, and he too will sign a treaty (87). Out again.
+#   python3 tests/playthrough/mm9/run.py 42
+id: mm9.playthrough.42_sigmund
+title: "MM9 playthrough 42: Sigmund will sign a treaty too"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/41_thorolf_bjarni.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: sturmfordcity.blv, qbit_set: [90084, 90086], qbit_clear: [90087]}
+
+  - set_pose: {map: sturmfordcity.blv, x: 11141, y: 14541, z: 19723, yaw: 0, pitch: 0}
+  - walk_to: {x: 11600, y: 14541, z: 19900, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+  - set_pose: {map: sturmford.blv, x: -3397, y: 20609, z: 712, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -3300, y: 21800, z: 900, z_tolerance: 700, radius: 10, plan: false, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 758, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12200, y: -4164, z: 900, z_tolerance: 700, radius: 10, plan: false, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+
+  - set_pose: {map: drangheimcity.blv, x: 19005, y: -5730, z: 1476, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "Why have you gone to war with Sturmford?!"}
+  - select_topic: {match_label: "Sturmford didn't do it.  We did."}
+  - select_topic: {match_label: "Bjarni said he needed his general.  We gave it to him."}
+  - select_topic: {match_label: "What if we got him to sign a treaty?"}
+  - select_topic: {match_label: "We will get you a treaty."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90087]}
+
+  - set_pose: {map: drangheimcity.blv, x: 10240, y: -4178, z: 1002, yaw: 3.1416, pitch: 0}
+  - walk_to: {x: 9400, y: -4178, z: 1200, z_tolerance: 600, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - save_game: {name: "42 Sigmund wants a treaty", path: output/playthrough/mm9/checkpoints/42_sigmund.oysav}

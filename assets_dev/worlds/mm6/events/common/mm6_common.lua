@@ -52,9 +52,6 @@ MM6.SeerRecoverableItems = {
     {Item = 2160, QBit = 1258}, -- Communication Officer's Code
 }
 
-function MM6.ApplyLocalMonsterRelations(relations)
-    ApplyLocalMonsterRelations(relations)
-end
 
 function MM6.RecoverLostItem()
     support.tryRecoverLostItem(MM6.SeerRecoverableItems)
@@ -65,9 +62,7 @@ function MM6.StartNicolaiQuest()
     evt.MoveNPC(MM6.NicolaiNpcId, 0)
     SetQBit(QBit(MM6.NicolaiQuestQBit))
     SetQBit(QBit(MM6.NicolaiFollowerQBit))
-    SetPartyVariable(
-        MM6.NicolaiKidnapDeadlineVariable,
-        CurrentGameMinutes() + math.floor(MM6.NicolaiKidnapInitialDelaySeconds / 60))
+    MM6.SetNicolaiKidnapDeadline()
     evt.SetNPCTopic(MM6.NicolaiNpcId, 0, 1332)
 end
 
@@ -99,30 +94,31 @@ function MM6.RecoverNicolaiAtCircus()
     evt.SetNPCTopic(MM6.NicolaiNpcId, 0, 1335)
 end
 
-function MM6.NormalizeNicolaiState()
+function MM6.SetNicolaiKidnapDeadline()
+    SetPartyVariable(
+        MM6.NicolaiKidnapDeadlineVariable,
+        CurrentGameMinutes() + math.floor(MM6.NicolaiKidnapInitialDelaySeconds / 60))
+end
+
+-- Like MMerge, a map load restarts the one-hour countdown, so travel does not make Nicolai vanish on arrival.
+function MM6.NormalizeNicolaiState(restartKidnapCountdown)
     local hasFollower = HasFollowerNpc(MM6.NicolaiNpcId)
     local legacyFollowerFlag = IsQBitSet(QBit(MM6.NicolaiFollowerQBit))
 
     if IsQBitSet(QBit(MM6.NicolaiQuestQBit)) then
         local deadline = GetPartyVariable(MM6.NicolaiKidnapDeadlineVariable)
-        if deadline > 0 and CurrentGameMinutes() >= deadline then
+        if not restartKidnapCountdown and deadline > 0 and CurrentGameMinutes() >= deadline then
             MM6.KidnapNicolai(false, true)
             return
         end
 
-        if hasFollower then
-            SetQBit(QBit(MM6.NicolaiFollowerQBit))
-            if deadline == 0 then
-                SetPartyVariable(
-                    MM6.NicolaiKidnapDeadlineVariable,
-                    CurrentGameMinutes() + math.floor(MM6.NicolaiKidnapInitialDelaySeconds / 60))
+        if hasFollower or legacyFollowerFlag then
+            if not hasFollower then
+                AddFollowerNpc(MM6.NicolaiNpcId)
             end
-        elseif legacyFollowerFlag then
-            AddFollowerNpc(MM6.NicolaiNpcId)
-            if deadline == 0 then
-                SetPartyVariable(
-                    MM6.NicolaiKidnapDeadlineVariable,
-                    CurrentGameMinutes() + math.floor(MM6.NicolaiKidnapInitialDelaySeconds / 60))
+            SetQBit(QBit(MM6.NicolaiFollowerQBit))
+            if restartKidnapCountdown or deadline == 0 then
+                MM6.SetNicolaiKidnapDeadline()
             end
         else
             MM6.KidnapNicolai(false, true)
@@ -188,7 +184,11 @@ function MM6.RegisterNicolaiKidnapTimer()
         MM6.NicolaiKidnapTimerEventId,
         MM6.NicolaiKidnapTimerIntervalSeconds,
         function()
-            MM6.KidnapNicolai(false)
+            -- The map timer runs from map load; Nicolai leaves only once his own deadline has passed.
+            local deadline = GetPartyVariable(MM6.NicolaiKidnapDeadlineVariable)
+            if deadline > 0 and CurrentGameMinutes() >= deadline then
+                MM6.KidnapNicolai(false)
+            end
         end,
         "Nicolai Kidnap",
         nil,
@@ -197,7 +197,7 @@ end
 
 function MM6.RegisterNicolaiStateOnLoad()
     RegisterMapOnLoadEvent(MM6.NicolaiStateOnLoadEventId, "Nicolai State", function()
-        MM6.NormalizeNicolaiState()
+        MM6.NormalizeNicolaiState(true)
     end)
 end
 
@@ -368,16 +368,6 @@ function MM6.RepairStoneTemple()
     evt.EnterHouse(1442)
 end
 
-function MM6.OpenDimensionDoor()
-    if CrossContinents ~= nil
-        and CrossContinents.TryDimensionDoorContact ~= nil
-        and CrossContinents.TryDimensionDoorContact() then
-        return
-    end
-
-    evt.OpenDimensionDoor()
-end
-
 function MM6.RunNewSorpigalVolcanoSequence()
     evt.PlaySound(18090)
 
@@ -410,3 +400,70 @@ end
 
 MM6.RegisterNicolaiStateOnLoad()
 MM6.RegisterNicolaiKidnapTimer()
+
+-- Monthly stat shrines (the Seer's pilgrimage). A shrine rewards only in its own month (MonthIs is zero-based),
+-- +10 on the party's first blessing there and +3 afterwards. Any blessing sets the shared pilgrimage QBit, which
+-- holds every shrine silent until the Seer's Pilgrimage topic clears it (once per month); the original gave the
+-- same "You pray" text for that case and for the wrong month, so the party could not tell them apart.
+-- The original Shrine of Magic raised MM6 magic resistance, which MMerge converted to fire (already given by the
+-- Shrine of Fire); the merged party resists magic through Mind, Body and Spirit, so the shrine raises those.
+MM6.ShrinePilgrimageQBit = 1230
+MM6.ShrinePrayMessage = "You pray at the shrine."
+MM6.ShrineSilentMessage = "The shrine is silent. Ask the Seer about your next pilgrimage."
+
+MM6.Shrines = {
+    Might = {month = 0, blessedQBit = 1231, stats = {BaseMight}, reward = "Might"},
+    Intellect = {month = 1, blessedQBit = 1232, stats = {BaseIntellect}, reward = "Intellect"},
+    Personality = {month = 2, blessedQBit = 1233, stats = {BasePersonality}, reward = "Personality"},
+    Endurance = {month = 3, blessedQBit = 1234, stats = {BaseEndurance}, reward = "Endurance"},
+    Accuracy = {month = 4, blessedQBit = 1235, stats = {BaseAccuracy}, reward = "Accuracy"},
+    Speed = {month = 5, blessedQBit = 1236, stats = {BaseSpeed}, reward = "Speed"},
+    Luck = {month = 6, blessedQBit = 1237, stats = {BaseLuck}, reward = "Luck"},
+    Fire = {month = 7, blessedQBit = 1238, stats = {FireResistance}, reward = "Fire resistance"},
+    Electricity = {month = 8, blessedQBit = 1239, stats = {AirResistance}, reward = "Electricity resistance"},
+    Cold = {month = 9, blessedQBit = 1240, stats = {WaterResistance}, reward = "Cold resistance"},
+    Poison = {month = 10, blessedQBit = 1241, stats = {EarthResistance}, reward = "Poison resistance"},
+    Magic = {
+        month = 11,
+        blessedQBit = 1242,
+        stats = {MindResistance, BodyResistance, SpiritResistance},
+        reward = "Mind, Body and Spirit resistance",
+    },
+}
+
+function MM6.PrayAtShrine(shrine)
+    if not IsAtLeast(MonthIs, shrine.month) then
+        evt.StatusText(MM6.ShrinePrayMessage)
+        return
+    end
+
+    if IsQBitSet(QBit(MM6.ShrinePilgrimageQBit)) then
+        evt.StatusText(MM6.ShrineSilentMessage)
+        return
+    end
+
+    SetQBit(QBit(MM6.ShrinePilgrimageQBit))
+    local amount = 3
+
+    if not IsQBitSet(QBit(shrine.blessedQBit)) then
+        SetQBit(QBit(shrine.blessedQBit))
+        amount = 10
+    end
+
+    evt.ForPlayer(Players.All)
+
+    for _, stat in ipairs(shrine.stats) do
+        AddValue(stat, amount)
+    end
+
+    evt.StatusText(tr("+{amount} {stat} permanent", {amount = amount, stat = tr(shrine.reward)}))
+end
+
+function MM6.ReplaceShrineEvent(eventId, shrineName)
+    local shrine = MM6.Shrines[shrineName]
+    local title = tr("Shrine of {name}", {name = tr(shrineName)})
+
+    ReplaceMapEvent(eventId, title, function()
+        MM6.PrayAtShrine(shrine)
+    end, title)
+end

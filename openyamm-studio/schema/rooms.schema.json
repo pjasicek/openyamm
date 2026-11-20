@@ -1,0 +1,2091 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "rooms.yml: the indoor shell (rooms and the openings between them), schema v0",
+  "description": "A dungeon is drawn as rooms (an outline of any simple shape, or a corridor path; floors may slope or step); sectors, portals and wall faces are derived by the build. Rooms are separated by the thickness of their walls: two rooms that an opening joins have parallel facing walls with a gap between them (the wall's thickness, 0 to 512 units), and the opening's doorway runs through that gap.",
+  "type": "object",
+  "required": [
+    "format",
+    "rooms"
+  ],
+  "properties": {
+    "format": {
+      "description": "Version of the rooms file's format: 1 has keys on the rooms' sub-objects (the core writes 1 whenever it writes the file); 0, the same without keys, is read as before.",
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "themes": {
+      "description": "Surface sets rooms are painted with. Until the asset catalogue exists (milestone S2) a theme names its textures and their sizes directly.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "wall",
+          "floor",
+          "ceiling"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "theme"
+            ]
+          },
+          "wall": {
+            "$ref": "#/$defs/surface"
+          },
+          "bands": {
+            "description": "Bands of the walls from the floor up, each with its own surface: a brick dado, a frieze, plaster above. `height` is where the band ends, above the room's floor; above the last band the wall has its own surface. A band's texture hangs from the band's top, so a frieze as tall as its texture sits whole. Needs a level floor.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "height",
+                "surface"
+              ],
+              "x-flow": true,
+              "properties": {
+                "height": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "surface": {
+                  "$ref": "#/$defs/surface"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "ends": {
+            "description": "A strip of another surface over the whole height of the wall at both of its ends: the corner strips of a room (a pilaster or a dark edge in every corner). `length` is each strip's length along the wall. On a theme: for every wall of every room with the theme that is long enough (two strips and 16 of wall between them; shorter walls go without). A room's own `ends` and a `walls` entry's `ends` take its place. Example: ends: {length: 32, surface: {texture: D8wlBLE, size: [128, 128]}}.",
+            "type": "object",
+            "required": [
+              "length",
+              "surface"
+            ],
+            "x-flow": true,
+            "properties": {
+              "length": {
+                "description": "Length of each strip along the wall.",
+                "type": "number",
+                "minimum": 1,
+                "x-unit": "map"
+              },
+              "surface": {
+                "$ref": "#/$defs/surface"
+              }
+            },
+            "additionalProperties": false
+          },
+          "floor": {
+            "$ref": "#/$defs/surface"
+          },
+          "ceiling": {
+            "$ref": "#/$defs/surface"
+          },
+          "reveal": {
+            "description": "The sides, top and threshold of a doorway (an opening's `threshold` gives its floor a surface of its own). Default: the wall surface.",
+            "$ref": "#/$defs/surface"
+          },
+          "door": {
+            "description": "A door leaf. Default: the wall surface.",
+            "$ref": "#/$defs/surface"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "defaults": {
+      "description": "Values a room takes when it does not give its own.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "theme": {
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "theme"
+          ]
+        },
+        "ambient": {
+          "$ref": "#/$defs/ambient"
+        }
+      },
+      "additionalProperties": false
+    },
+    "rooms": {
+      "type": "array",
+      "minItems": 1,
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "floor",
+          "ceiling"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "space": {
+            "description": "The plan.yml space this room realises (default: the space with the same id).",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space"
+            ]
+          },
+          "outline": {
+            "description": "The floor outline seen from above: corner points [x, y] in whole map units, counter-clockwise. It may bend inward (an L, a U, a cave) and may have points in a line, but must not cross or touch itself. A rectangle is four points. Give this or `path`.",
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 64,
+            "items": {
+              "$ref": "common.schema.json#/$defs/point2"
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "polygon",
+              "space": "map"
+            }
+          },
+          "path": {
+            "description": "Instead of an outline, for a corridor: the points of its centre line. The room is the line widened by `width`, with mitred bends and square ends. Two bends must be further apart than half the width. With `slope: {to}` the corridor climbs along its path (a tunnel that winds upward): see `slope`. Points [x, y, z] give the floor's height at each point instead (every point then has one, the first equal to `floor`, and the room takes no `slope`): the floor is level across the corridor at each point and a ramp between two points, so one room holds a tunnel that runs level, climbs and levels out again: `path: [[0, 0, 0], [512, 0, 0], [1024, 0, 128], [1024, 512, 128]], floor: 0, ceiling: 256`. The ceiling keeps its height above the floor (or runs to `ceiling_slope: {to}`), and what holds for a path that climbs with `slope` holds here (each stretch at most 0.9 up for each unit of way). With `smooth` the heights are smoothed with the line. With `section` the corridor is a tunnel with a cross-section of its own instead of a rectangle.",
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 64,
+            "items": {
+              "description": "[x, y], or [x, y, z] with the floor's height at the point.",
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 3
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "polyline",
+              "space": "map"
+            }
+          },
+          "width": {
+            "description": "Width of a `path` room. Default 256. Not with `section` (the section's points give the width).",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
+          "section": {
+            "description": "For a `path` room: the tunnel's cross-section, in place of the rectangle that `width` and the ceiling make. The section stands upright across the way at every point of the path (at a bend on the line that halves the bend, drawn out along it so the tunnel keeps its width: a mitre, as the shipped tunnels have it) and its sides run straight from one point of the path to the next. The Hive's tunnels: `path: [[0, 0], [768, 0], [768, 768]], floor: 0, ceiling: 256, section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]]}`; the Control Center's tube (banks, upright walls, chamfers): `outline: [[-64, 0], [64, 0], [154, 74], [154, 228], [64, 305], [-64, 305], [-154, 228], [-154, 74]]`. The room's `ceiling` is `floor` plus the section's height. The tunnel may climb (`slope: {to}`, or path points [x, y, z]): the section keeps its heights above the floor at each point of the path; with `ceiling_slope: {to}` only the section's top points follow the ceiling and the sides under them stretch. A side that is not flat once its corners stand on whole units (on a stretch that climbs between two bends, or runs askew) is built as two triangles, as in the shipped maps. Walking: the party walks the flat floor. A lower side that rises less than about its run (a face whose normal points at least 0.71 upward: a bank of 90 out and 74 up) is floor too and can be walked up; a steeper one (the Hive's 64 out and 128 up) is a wall that keeps the party on the flat floor, so leave about 80 of floor for the party's body. The tunnel opens at its two ends through openings with `shape: section` (an end without one is closed by a wall of the section's shape), through a square end (`start`, `end`: a plain doorway, also with a door), and in its sides through plain rectangular openings: over a side doorway's width the side is an upright wall on the line of the section's widest place, from the floor to the ceiling, with the doorway in it (wall under a `sill` and over a doorway lower than the tunnel), floor and ceiling reach out to it, and the leaning sides run to its two jambs in triangles from the section at the two points of the path the stretch lies between, as the shipped tunnels do at their side passages. Such a doorway keeps 32 clear of those two points; each side of each stretch takes one (add a point to the path to make two stretches), and none in the stretch that runs to a square end. In a tunnel that climbs it stands level on the floor at its higher jamb, as in any climbing path. A tunnel takes chests, decorations, spawns and the start on its flat floor, lights anywhere in it, a `floors` entry, a step event on the room, plates across its flat floor and `platforms` standing on its flat floor with every corner under its roof (a pad, a step, a ramp with `top_heights`: solid and drawn; since 2026-11-15); and no `width`, `bands`, `walls`, `ends`, `rough`, `pillars`, `stalactites`, `levels`, `ceiling_levels`, `flights`, `parapets`, `beams`, lifts, movers, or switches and exits on its sides.",
+            "type": "object",
+            "required": [
+              "outline"
+            ],
+            "x-flow": true,
+            "properties": {
+              "outline": {
+                "description": "The tunnel cut across its way: points [across, up] on whole units, `across` from the path's line (negative to the left of the way, positive to the right), `up` from the floor. It begins with the flat floor, from its left end to its right end (both at up 0, the path's line between them), goes up the right side, back over the ceiling and down the left side, and bends the same way at every point (convex). The highest points are the ceiling: two for a flat one, or a single point for a vault's crown (a tunnel with such a top takes no square end and no doorway in its sides).",
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 12,
+                "items": {
+                  "$ref": "common.schema.json#/$defs/point2"
+                },
+                "x-flow": true,
+                "x-geom": {
+                  "shape": "polygon",
+                  "space": "section"
+                }
+              },
+              "floor": {
+                "description": "The surface of the flat floor. Default: the theme's floor.",
+                "$ref": "#/$defs/surface"
+              },
+              "lower": {
+                "description": "The surface of the sides that lean outward as they rise (the banks beside the floor). Default: the theme's wall.",
+                "$ref": "#/$defs/surface"
+              },
+              "wall": {
+                "description": "The surface of the upright sides, and of the wall that closes an end without an opening. Default: the theme's wall.",
+                "$ref": "#/$defs/surface"
+              },
+              "upper": {
+                "description": "The surface of the sides that lean inward as they rise (the chamfers under the ceiling). Default: the theme's wall.",
+                "$ref": "#/$defs/surface"
+              },
+              "ceiling": {
+                "description": "The surface of the flat ceiling. Default: the theme's ceiling. Textures: floor and ceiling lie as in any room; on the sides the texture runs along the tunnel with its rows level, one texel for each unit of height, as in the shipped tunnels (so on a leaning side it is drawn out a little down the slope).",
+                "$ref": "#/$defs/surface"
+              },
+              "start": {
+                "description": "A square end at the path's first point: there the tunnel ends in a plain upright rectangle instead of its section, and over the last `length` of the way its sides run from the section to that rectangle (flat floor and ceiling pieces, and for each side a lower triangle, an upright wall and an upper triangle), as the shipped tunnels do in front of their doors and side passages (136 long in the Hive). The square end is all doorway: it takes one plain rectangular opening that is exactly the rectangle (`width: full, height: full`), which may carry a door, into a wall of the next room that is at least as wide and high. Needs a section with a flat ceiling.",
+                "$ref": "#/$defs/section_end"
+              },
+              "end": {
+                "description": "A square end at the path's last point: see `start`.",
+                "$ref": "#/$defs/section_end"
+              }
+            },
+            "additionalProperties": false
+          },
+          "smooth": {
+            "description": "For a `path`: rounds its bends. Each round cuts the corners of the centre line, so 2 turns sharp bends into curves. Default 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3,
+            "x-unit": "count"
+          },
+          "bend_radius": {
+            "description": "For a `path`: rounds each bend of the centre line into an arc of this radius (on the centre line), tangent to the two stretches it joins, in `bend_pieces` straight pieces with their points on whole units; the stretches keep their line (unlike `smooth`, which moves the whole line). A bend whose stretches are shorter than the arc needs takes the largest arc that half of each allows. Heights given at the path's points ([x, y, z]) run on along the arc. With `section` too: a cave tunnel's round corners (XD-05's back tunnel, drawn point by point before this word). Applied after `smooth`; the path's limit of 64 points counts the arcs' points. At least 16.",
+            "type": "number",
+            "minimum": 16,
+            "x-unit": "map"
+          },
+          "bend_pieces": {
+            "description": "With `bend_radius`: how many straight pieces each arc has, 2 to 16. Default 4.",
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 16,
+            "x-unit": "count"
+          },
+          "floor": {
+            "description": "Floor height (absolute z). With `slope`, the height at the side of the room away from the wall `slope.toward`; `slope.to` is the height at that wall. Stairs going down from 0 to -200 toward the north wall: floor 0, slope {to: -200, toward: north, steps: 8}.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "slope": {
+            "description": "A floor that rises or falls. With `toward`, for a ramp or a flight of stairs: from `floor` at the side away from the wall `toward` to `to` at that wall. Without `steps` it is a ramp. With `steps` it is that many steps of equal rise (at most 40 units each, which the party climbs); the last riser stands in the `toward` wall, so the doorway there begins at `to`. The room must be convex (a rectangle for stairs), and openings belong in the walls at its two ends, where the floor is level. A stepped room takes `ceiling_levels` and no `pillars` or `levels`. A room with an `outline` needs `toward`. In a `path` room, `slope: {to: <height>}` without `toward` makes the corridor climb along its path: the floor is at `floor` at the path's first point and at `to` at its last, and between them at the height that the distance along the centre line gives (after `smooth`), level across the corridor at every point of the path and a ramp between two points. Example, a tunnel that climbs 256 round a bend: `path: [[0, 0], [768, 0], [768, 768]], width: 192, smooth: 1, floor: 0, slope: {to: 256}, ceiling: 256`. The ceiling keeps its height above the floor (`ceiling` is its height at the first point) unless `ceiling_slope: {to: <height at the last point>}` says another (`to` equal to `ceiling`: a level ceiling). Openings stand in the two end walls (the first at `floor`, the last at `to`) and, since 2026-11-13, in the side walls: there the floor rises along the doorway, so the doorway stands level on the floor at its higher side (plus `sill`) and the wall under it fills the wedge down to the floor at its lower side; the party steps up into it from the lower side (at most about 40: keep the doorway narrow where the path is steep), and it may reach only as high as the ceiling at its lower side. A junction is a side doorway into the room or tunnel that branches off. The floor may rise at most 0.9 for each unit of way, measured on the inside of bends, where the way is shorter: the build names the stretch that is too steep. A climbing path takes platforms, parapets, beams and wall `panels` over the walls' whole height, and no `steps`, `bands` (a theme's are left off), `pillars`, `levels`, `ceiling_levels` or `rough`. A plate (objects.yml) lies across its whole floor between two lines square across the way.",
+            "type": "object",
+            "required": [
+              "to"
+            ],
+            "x-flow": true,
+            "properties": {
+              "to": {
+                "description": "The floor's height (absolute z) at the wall `toward`; in a `path` room, at the path's last point.",
+                "type": "number",
+                "x-unit": "map"
+              },
+              "toward": {
+                "description": "The wall the floor reaches `to` at: a compass side or an outline edge number. Needed in a room with an `outline`; a `path` room without it climbs along its path.",
+                "type": [
+                  "string",
+                  "integer"
+                ],
+                "x-geom": {
+                  "shape": "wall",
+                  "space": "room"
+                },
+                "x-labels": [
+                  "compass side",
+                  "outline edge"
+                ]
+              },
+              "steps": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64,
+                "x-unit": "count"
+              },
+              "riser": {
+                "description": "With `steps`: the surface of the risers (the upright faces of the steps). Default: the room's wall.",
+                "$ref": "#/$defs/surface"
+              },
+              "tread": {
+                "description": "With `steps`: the surface of the treads (the walked tops of the steps). Default: the room's floor. Stone steps down into a lava room: slope: {to: -128, toward: north, steps: 8, tread: {texture: oflr, size: [128, 128]}}.",
+                "$ref": "#/$defs/surface"
+              }
+            },
+            "additionalProperties": false
+          },
+          "floor_points": {
+            "description": "An uneven floor, as cave floors are made: heights at points, and the floor runs in flat triangles between them. Each point is [x, y, height] (absolute z, whole units), at a corner of the outline, on a wall or inside the room. A corner of the outline without a point stands at `floor` (or on `floor_plane`). The triangles run between neighbouring points, the shortest lines first; where four points are not in one plane the line between them decides whether the floor has a ridge or a valley there: say it with `floor_lines`. Triangles that lie in one plane are built as one face, so a level part stays a few large faces. In place of `slope`, in a room with an `outline`. Walls follow the floor (their feet run from point to point; a point on a wall puts a corner there), also rough ones. An opening stands on a level sill: where the floor is not level along an opening, the build names the two places (the opening's sides) that need points of one height. Objects, chests, spawns and blocks stand on the floor under them (a block reaches down to the lowest floor under its corners); a level, a plate or a pillar may stand where the floor round it is level (a pillar anywhere). The party walks up at most 0.9 for each unit of run: a steeper triangle is refused with its corners, unless the room says `steep_floor: true` (rock banks; then up to 2). `floor` stays the height that bands, panels and `levels` are measured from. Example, a cave floor that rises to its north-east corner with a dip in the middle: `outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, floor_points: [[1024, 1024, 160], [1024, 0, 64], [0, 1024, 64], [512, 512, -32]]`.",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 192,
+            "items": {
+              "$ref": "common.schema.json#/$defs/point3"
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "points3",
+              "space": "map"
+            }
+          },
+          "floor_plane": {
+            "description": "A floor that is one plane in any direction (a cavern whose rise is not square to any wall): three points [x, y, height] the plane passes through, anywhere on the plan, not in one line. Every corner of the outline stands on the plane (on whole units; the floor is built as triangles between the corners where they are then not exactly in one plane). With `floor_points` as well: the corners without a point of their own stand on the plane, and the points bend the floor (a level sill in front of a mouth, a hollow). Example, a floor rising 128 toward the north-east over a room 1024 square: `floor_plane: [[0, 0, 0], [1024, 0, 64], [0, 1024, 64]]`. Limits as for `floor_points`.",
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "$ref": "common.schema.json#/$defs/point3"
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "plane3",
+              "space": "map"
+            }
+          },
+          "floor_lines": {
+            "description": "Lines the uneven floor's triangles keep as edges: where two planes of the floor meet (the foot of a bank, a ridge, the edge of a level part). Each line is a list of [x, y] points, every one of them a point of `floor_points` or a corner of the outline; a line with more than two points runs through them in order (close a ring by repeating its first point). Lines meet at points and do not cross. Example, the foot of a bank round a level floor: `floor_lines: [[[128, 128], [896, 128], [896, 896], [128, 896], [128, 128]]]`.",
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 32,
+              "items": {
+                "$ref": "common.schema.json#/$defs/point2"
+              },
+              "x-flow": true
+            },
+            "x-geom": {
+              "shape": "polylines",
+              "space": "map"
+            }
+          },
+          "floor_surfaces": {
+            "description": "Parts of an uneven floor (`floor_points`, `floor_plane`) that take a surface of their own; the rest takes the room's floor surface. An entry says its part in one of two ways. `steeper_than: <rise for each unit of run>`: every triangle of the floor that rises more than that (the rock banks round a tiled floor: `steeper_than: 0.1`; of two such entries the steeper takes what it covers). `at: [x, y]`: the region that holds the point and is closed off by `floor_lines` and the room's walls (flagstones laid across a cave floor); a region takes its surface whatever its steepness. Example: floor_surfaces: [{steeper_than: 0.2, surface: {texture: d2ceil3, size: [256, 256]}}].",
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "$ref": "#/$defs/meshSurface"
+            },
+            "x-key": "key",
+            "x-key-prefix": "floor_part"
+          },
+          "steep_floor": {
+            "description": "true: floors of this room that are too steep to walk are meant (rock banks, a pit's sides, a console's top): triangles of an uneven floor, banks of `levels` and sloping tops of `platforms` that rise between 0.9 and 2 for each unit of run are built instead of refused. The party does not walk up them. Steeper than 2 is a wall and is refused in any case.",
+            "type": "boolean"
+          },
+          "rough": {
+            "description": "Rough walls, for caves: every solid stretch of wall is broken into faces about `step` long whose joints are pushed up to `depth` into the room, by amounts that depend only on where they are (the same project always builds the same cave). Walls never move outward, so rooms keep their distance. Needs a level floor, or an uneven one by `floor_points` (the walls' feet follow it); not a `slope`.",
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "step": {
+                "description": "Length of the faces. Default 192.",
+                "type": "number",
+                "minimum": 64,
+                "x-unit": "map"
+              },
+              "depth": {
+                "description": "How far a joint may be pushed in; at most half the step. Default 48.",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "map"
+              }
+            },
+            "additionalProperties": false
+          },
+          "ceiling": {
+            "description": "Ceiling height as an absolute z, like `floor` (a room 384 high with its floor at -200 has ceiling 184). It must be above the floor's highest point. With `ceiling_slope`: the ceiling's height at the side away from that slope's `toward` wall.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "ceiling_slope": {
+            "description": "A ceiling that is one sloping plane instead of a level one: from `ceiling` at the side away from the wall `toward` to `to` at that wall, the way `slope` says it for the floor. The walls end at the ceiling's line (their tops rake). For a ramp or stair room whose ceiling runs parallel to its floor, name the same wall as `slope` and add the same clear height to both ends: `floor: 0, slope: {to: 256, toward: north}, ceiling: 320, ceiling_slope: {to: 576, toward: north}`. For a lean-to ceiling in a level room: `ceiling: 512, ceiling_slope: {to: 256, toward: east}`. The ceiling must stay at least 16 above the floor at every corner, and rise at most twice its run (nothing walks on a ceiling, so the ramp's limit does not hold; a ceiling that rises more than its run takes its texture like a leaning wall: rows level, at its true size down the slope). An opening in a wall the ceiling rakes along may reach only as high as the ceiling at the opening's lower side; wall bands must end at or below the ceiling's low side. Ceiling levels and pillars follow the slope. A beam or platform must end under the ceiling at its place. In a `path` room that climbs (`slope: {to}`), `ceiling_slope: {to: <height>}` alone gives the ceiling's height at the path's last point, reached along the path like the floor's; without it the ceiling keeps its height above the floor.",
+            "type": "object",
+            "required": [
+              "to"
+            ],
+            "x-flow": true,
+            "properties": {
+              "to": {
+                "description": "The ceiling's height (absolute z) at the wall `toward`; in a `path` room that climbs, at the path's last point.",
+                "type": "number",
+                "x-unit": "map"
+              },
+              "toward": {
+                "description": "The wall the ceiling reaches `to` at: a compass side or an outline edge number. Needed except in a `path` room that climbs.",
+                "type": [
+                  "string",
+                  "integer"
+                ],
+                "x-geom": {
+                  "shape": "wall",
+                  "space": "room"
+                },
+                "x-labels": [
+                  "compass side",
+                  "outline edge"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "ceiling_points": {
+            "description": "An uneven ceiling, as cave ceilings are made: heights at points, flat triangles between them, the way `floor_points` says it for the floor ([x, y, height] at corners of the outline, on walls or inside the room; a corner without a point stands at `ceiling` or on `ceiling_plane`; `ceiling_lines` for ridges and valleys). In place of `ceiling_slope` and `ceiling_levels`, in a room with an `outline`. The walls end at the ceiling's line. The ceiling stays at least 16 above the floor everywhere and rises at most 4 for each unit of run (a cave's roof comes down to its walls steeply; a triangle that rises more than 2 is filed as a wall by the map, and is drawn and solid all the same). Up to 192 points. An opening may reach as high as the ceiling's lowest point over it; wall bands end at or below the ceiling's lowest point. Pillars end at the ceiling over them; a beam or platform must end under it. Example, a cave roof that comes down to 192 along its west wall and has its crown off centre: `ceiling: 448, ceiling_points: [[0, 0, 192], [0, 1024, 192], [640, 384, 576]]`.",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 192,
+            "items": {
+              "$ref": "common.schema.json#/$defs/point3"
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "points3",
+              "space": "map"
+            }
+          },
+          "ceiling_plane": {
+            "description": "A ceiling that is one plane in any direction: three points [x, y, height] it passes through, as `floor_plane` for the floor. With `ceiling_points` as well: the corners without a point stand on the plane.",
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "$ref": "common.schema.json#/$defs/point3"
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "plane3",
+              "space": "map"
+            }
+          },
+          "ceiling_lines": {
+            "description": "Lines the uneven ceiling's triangles keep as edges, as `floor_lines` for the floor: each a list of [x, y] points of `ceiling_points` or corners of the outline.",
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 32,
+              "items": {
+                "$ref": "common.schema.json#/$defs/point2"
+              },
+              "x-flow": true
+            },
+            "x-geom": {
+              "shape": "polylines",
+              "space": "map"
+            }
+          },
+          "ceiling_surfaces": {
+            "description": "Parts of an uneven ceiling (`ceiling_points`, `ceiling_plane`) that take a surface of their own, as `floor_surfaces` for the floor: by `steeper_than` (the roof where it leans down to the walls) or by `at` (the region round a point, closed off by `ceiling_lines` and the walls: the ridge tops of a vault in a second texture). Example: ceiling_surfaces: [{at: [512, 512], surface: {texture: d2ceil4, size: [256, 256]}}].",
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "$ref": "#/$defs/meshSurface"
+            },
+            "x-key": "key",
+            "x-key-prefix": "ceiling_part"
+          },
+          "theme": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "theme"
+            ]
+          },
+          "walls": {
+            "description": "Walls of this room that differ from the theme's: another `surface` for the wall (a bookcase wall, a lighter stone; above the room's bands unless the entry says `bands: false`), `panels` (rectangles of the wall with a surface of their own: one carved panel, a sign over a door, a plaque) and `ends` (a strip at both ends). An entry gives at least one of the three. A wall's start corner is its first corner going counter-clockwise round the room: the right-hand end seen from inside. Example, a carved panel 256 long in the middle of the north wall from 64 to 320 above the floor, and corner strips on the east wall: walls: [{wall: north, panels: [{at: centre, length: 256, bottom: 64, height: 256, surface: {texture: t1cl1, size: [128, 128]}}]}, {wall: east, ends: {length: 32, surface: {texture: D8wlBLE, size: [128, 128]}}}].",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "wall"
+              ],
+              "properties": {
+                "wall": {
+                  "description": "A compass side or an outline edge number.",
+                  "type": [
+                    "string",
+                    "integer"
+                  ],
+                  "x-geom": {
+                    "shape": "wall",
+                    "space": "room"
+                  },
+                  "x-labels": [
+                    "compass side",
+                    "outline edge"
+                  ]
+                },
+                "surface": {
+                  "description": "The surface of the wall above the room's bands (of the whole wall where the room has none, or with `bands: false`). Default: the theme's.",
+                  "$ref": "#/$defs/surface"
+                },
+                "bands": {
+                  "description": "false: the wall takes none of the room's bands, its `surface` runs from the floor to the ceiling (a view out over a gorge, a tower's outer wall). Left out: the bands lie under the wall's surface (S8g).",
+                  "type": "boolean"
+                },
+                "panels": {
+                  "description": "Panels: rectangles of this wall with a surface of their own. They are cut into the wall's faces (nothing overlaps, nothing stands out), take the place of the wall bands over their area, and may lie beside, over or under openings (where an opening is, there is no panel). Two panels of one wall may not overlap. On a wall whose foot or top rakes (a ramp's side, under a sloped ceiling, over an arch) a panel either covers the whole height (no `bottom`, no `height`) or keeps its level bottom and top clear of the raking edge: the build says the allowed heights. A panel on a rough wall is flat. Its texture begins at the panel's left side seen from inside and hangs from its top; with `fit` it is drawn once over the whole panel.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "length",
+                      "surface"
+                    ],
+                    "x-flow": true,
+                    "properties": {
+                      "key": {
+                        "$ref": "common.schema.json#/$defs/key"
+                      },
+                      "id": {
+                        "description": "Names the panel so that a wiring event can have it as its `source`: the panel is then clicked like a switch (a sign to read, a carving to press) and runs the event. Example: id: panel:sign.",
+                        "$ref": "common.schema.json#/$defs/id",
+                        "x-id-kinds": [
+                          "panel"
+                        ]
+                      },
+                      "offset": {
+                        "description": "Distance along the wall from its start corner to the panel's near side (with `from: end`: from the end corner back to the panel's near side; with `at: centre`: how far the centred panel is moved toward the end corner). Default 0.",
+                        "type": "number",
+                        "x-unit": "map"
+                      },
+                      "from": {
+                        "description": "Which corner `offset` is measured from. Default start.",
+                        "enum": [
+                          "start",
+                          "end"
+                        ]
+                      },
+                      "at": {
+                        "description": "`centre`: the panel sits in the middle of the wall. Not together with `from`.",
+                        "enum": [
+                          "centre"
+                        ]
+                      },
+                      "length": {
+                        "description": "The panel's length along the wall.",
+                        "type": "number",
+                        "minimum": 1,
+                        "x-unit": "map"
+                      },
+                      "bottom": {
+                        "description": "Height of the panel's bottom above the room's `floor`. Default: the wall's foot.",
+                        "type": "number",
+                        "minimum": 0,
+                        "x-unit": "map"
+                      },
+                      "height": {
+                        "description": "The panel's height above its bottom. Default: up to the wall's top.",
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "x-unit": "map"
+                      },
+                      "surface": {
+                        "$ref": "#/$defs/surface"
+                      },
+                      "secret": {
+                        "description": "true: the panel's faces carry the engine's secret flag, so the game makes them pulse for a party whose Perception finds secrets (the Temple of the Moon's rock-face chests, the Abandoned Temple's clues). Needs an `id`. Default false.",
+                        "type": "boolean"
+                      },
+                      "notes": {
+                        "$ref": "common.schema.json#/$defs/notes"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "x-groups": [
+                      [
+                        "Panel",
+                        [
+                          "key",
+                          "id",
+                          "notes"
+                        ]
+                      ],
+                      [
+                        "Place",
+                        [
+                          "at",
+                          "from",
+                          "offset",
+                          "length",
+                          "bottom",
+                          "height"
+                        ]
+                      ],
+                      [
+                        "Look",
+                        [
+                          "surface",
+                          "secret"
+                        ]
+                      ]
+                    ]
+                  },
+                  "x-key": "key",
+                  "x-key-prefix": "panel"
+                },
+                "ends": {
+                  "description": "A strip of another surface over the whole height of the wall at both of its ends: the corner strips of a room (a pilaster or a dark edge in every corner). `length` is each strip's length along the wall. For this wall alone (instead of the room's or theme's `ends`); the wall must have room for both strips and 16 of wall between them.",
+                  "type": "object",
+                  "required": [
+                    "length",
+                    "surface"
+                  ],
+                  "x-flow": true,
+                  "properties": {
+                    "length": {
+                      "description": "Length of each strip along the wall.",
+                      "type": "number",
+                      "minimum": 1,
+                      "x-unit": "map"
+                    },
+                    "surface": {
+                      "$ref": "#/$defs/surface"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-key": "wall"
+          },
+          "bands": {
+            "description": "This room's own wall bands, instead of its theme's. Bands of the walls from the floor up, each with its own surface: a brick dado, a frieze, plaster above. `height` is where the band ends, above the room's floor; above the last band the wall has its own surface. A band's texture hangs from the band's top, so a frieze as tall as its texture sits whole. Needs a level floor.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "height",
+                "surface"
+              ],
+              "x-flow": true,
+              "properties": {
+                "height": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "surface": {
+                  "$ref": "#/$defs/surface"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "ends": {
+            "description": "A strip of another surface over the whole height of the wall at both of its ends: the corner strips of a room (a pilaster or a dark edge in every corner). `length` is each strip's length along the wall. On a room: for every wall of the room that is long enough (two strips and 16 of wall between them; shorter walls go without), instead of the theme's. Example: ends: {length: 24, surface: {texture: D8wlBLE, size: [128, 128]}}.",
+            "type": "object",
+            "required": [
+              "length",
+              "surface"
+            ],
+            "x-flow": true,
+            "properties": {
+              "length": {
+                "description": "Length of each strip along the wall.",
+                "type": "number",
+                "minimum": 1,
+                "x-unit": "map"
+              },
+              "surface": {
+                "$ref": "#/$defs/surface"
+              }
+            },
+            "additionalProperties": false
+          },
+          "pillars": {
+            "description": "Solid blocks from floor to ceiling that the party walks round: columns, and the rock islands of caves. A column is `at` (its centre) and `size` (width and depth); a rock island is an `outline` of its own (points counter-clockwise, any simple shape, at least 32 units clear of the room's walls). Not in a room with a stepped floor (`slope` with `steps`): a pillar is cut out of the floor and treads cannot be cut.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [],
+              "x-flow": true,
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "at": {
+                  "$ref": "common.schema.json#/$defs/point2",
+                  "x-geom": {
+                    "shape": "point",
+                    "space": "map"
+                  }
+                },
+                "size": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "x-geom": {
+                    "shape": "size",
+                    "space": "map"
+                  }
+                },
+                "facing": {
+                  "description": "Turn in degrees. Default 0.",
+                  "type": "number",
+                  "x-unit": "deg"
+                },
+                "surface": {
+                  "$ref": "#/$defs/surface"
+                },
+                "outline": {
+                  "description": "The block's shape, instead of `at` and `size`.",
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 24,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "x-flow": true,
+                  "x-geom": {
+                    "shape": "polygon",
+                    "space": "map"
+                  }
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-key": "key",
+            "x-key-prefix": "pillar"
+          },
+          "platforms": {
+            "description": "Blocks standing on the floor: a dais, a plinth, and furniture such as a bookcase or an altar. `rise` is the height (up to 40 is stepped onto; higher is a ledge or a piece of furniture). A rectangular block (`at`, `size`) takes `surface` on its long sides, `end_surface` on its two short ends and `top_surface` on top: a bookcase is a tall narrow block with books on its sides and a carved panel on its ends. A platform may stand against the room's walls (a balcony along a wall); a pillar may not. A platform's top (floor plus `base` plus `rise`) must lie under the ceiling at its place.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "rise"
+              ],
+              "x-flow": true,
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "id": {
+                  "description": "Names the platform so that a wiring event or a `floors` entry of objects.yml (its `of`) can refer to it. As the `source` of an event with `trigger: step` its top is walked onto; as the `source` of an event without `trigger` the whole block is clicked (its sides, top and underside run the event): a podium, a book on a stand, a hanging panel that is used and does not move. One platform runs one event. Example: id: platform:altar.",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "platform"
+                  ]
+                },
+                "at": {
+                  "$ref": "common.schema.json#/$defs/point2",
+                  "x-geom": {
+                    "shape": "point",
+                    "space": "map"
+                  }
+                },
+                "size": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "x-geom": {
+                    "shape": "size",
+                    "space": "map"
+                  }
+                },
+                "rise": {
+                  "description": "The block's height above its foot; more than 0, except with `top_slope` or `top_heights` (a top that slopes up from the floor).",
+                  "type": "number",
+                  "minimum": 0,
+                  "x-unit": "map"
+                },
+                "facing": {
+                  "type": "number",
+                  "x-unit": "deg"
+                },
+                "surface": {
+                  "$ref": "#/$defs/surface"
+                },
+                "outline": {
+                  "description": "The platform's shape, instead of `at` and `size`.",
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 24,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "x-flow": true,
+                  "x-geom": {
+                    "shape": "polygon",
+                    "space": "map"
+                  }
+                },
+                "end_surface": {
+                  "description": "Surface of the two short sides, stretched to fit unless it says `fit: false` (then laid at its size, as the long sides are). Default: `surface`.",
+                  "$ref": "#/$defs/surface"
+                },
+                "top_surface": {
+                  "description": "Surface of the top. Default: `surface` when given, else the room's floor.",
+                  "$ref": "#/$defs/surface"
+                },
+                "bottom_surface": {
+                  "description": "Surface of the underside of a block that shows one (a block with `base`: a balcony, a walkway, a bridge; a slab with `thickness`). Default: the top's surface.",
+                  "$ref": "#/$defs/surface"
+                },
+                "solid": {
+                  "description": "`false`: the platform is drawn and nothing touches it: the party, monsters and missiles pass through it (the engine's `untouchable` flag on all its faces). A false floor: a slab at the doors' height over a pit, which the party falls through (`{at: [512, 512], size: [1024, 1024], base: 256, rise: 16, solid: false}` in a room whose floor is the pit's); a wall that is walked through. Nothing stands on it (no object's `floor_height`, no flight's `to`), and `oymap solve` and `audit --reach` do not walk on it. Not with `visible: false`. Default true.",
+                  "type": "boolean"
+                },
+                "visible": {
+                  "description": "`false`: the platform is not drawn and stands as solid as any (the engine's `invisible` flag on all its faces): an unseen floor across a pit, an unseen wall that keeps the party off an edge (`{at: [512, 256], size: [512, 8], rise: 256, visible: false}`). The floor under it is drawn whole. `oymap solve` and `audit --reach` walk on it and stop at it as the party does; `oymap compare` looks through it. With an `id` it may run a step event like any platform. Not with `solid: false`. Default true.",
+                  "type": "boolean"
+                },
+                "thickness": {
+                  "description": "With `top_slope` or `top_heights`: the block is a slab this thick, its underside sloping with its top (measured straight down at every corner), instead of a wedge that reaches down to a level foot. A ramp that hangs between two landings: `rise` is the top's height at its low end and `top_slope.to` at its high end, both above the block's foot (the floor plus `base`), and the room's floor runs on under it. The underside takes `bottom_surface`. The slab's lowest underside must not lie under the floor. Example, a ramp 16 thick from a landing at 128 up to one at 256: {at: [512, 256], size: [128, 384], rise: 128, top_slope: {to: 256, toward: north}, thickness: 16}.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "base": {
+                  "description": "How far above the floor the block begins. Default 0. A block with a base stands on another (give the lower one's `rise`) or hangs free; its underside is drawn. The floor is the room's own, or, for a platform whose middle lies in a sunken level, that level's floor: every platform there (plain, with `base`, with `top_size`, with an outline) is measured from the sunken floor, so a slab level with the room's floor over a pit 256 deep has `base: 240, rise: 16`.",
+                  "type": "number",
+                  "minimum": 0,
+                  "x-unit": "map"
+                },
+                "top_size": {
+                  "description": "For a rectangular block: the width and depth of its top, when they differ from `size`: smaller for a block that tapers, larger for one that flares (a bowl on a stem is a narrow block with a flaring block on top).",
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "x-geom": {
+                    "shape": "size",
+                    "space": "map"
+                  }
+                },
+                "top_slope": {
+                  "description": "A top that slopes as one plane: a wedge, a ramp that is not a room, a raking buttress, a console's top. `rise` is the top's rise at the side away from `toward` (0 for a wedge that begins at the floor) and `to` its rise at the side toward it, both above the block's foot (the floor plus `base`). Example, a ramp 512 long up to a ledge 128 high in the north: `{at: [512, 256], size: [192, 512], rise: 0, top_slope: {to: 128, toward: north}}`. Its sides rake with it; what stands on it stands on the slope, and a flight may begin or end on it (the floor at the flight's point). The party walks up at most 0.9 for each unit of run; a steeper top needs `steep_floor: true` on the room (up to 2). With an `outline` the footprint must be convex. A block with `base` (a sloping slab, hanging or standing on another) shows its level underside.",
+                  "type": "object",
+                  "required": [
+                    "to",
+                    "toward"
+                  ],
+                  "x-flow": true,
+                  "properties": {
+                    "to": {
+                      "description": "The top's rise above the block's foot at the side `toward`.",
+                      "type": "number",
+                      "minimum": 0,
+                      "x-unit": "map"
+                    },
+                    "toward": {
+                      "description": "The direction the top rises (or, with `to` under `rise`, falls) toward: north, east, south, west, ne, nw, se, sw, or degrees (0 east, 90 north).",
+                      "type": [
+                        "string",
+                        "number"
+                      ],
+                      "x-unit": "deg",
+                      "x-labels": [
+                        "compass direction",
+                        "degrees"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "top_heights": {
+                  "description": "A top with a rise of its own at each corner of the footprint, in place of `top_slope` where the top is not one plane (it is then built as triangles from the first corner): one number for each corner, above the block's foot. For a block by `at` and `size` the corners are those at low x and low y, high x and low y, high x and high y, low x and high y (before `facing` turns the block); for an `outline`, its points. `rise` is not used then (give the lowest). Example: `{at: [0, 0], size: [256, 256], rise: 0, top_heights: [0, 0, 96, 64]}`.",
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 24,
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "x-flow": true,
+                  "x-geom": false,
+                  "x-unit": "map"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false,
+              "x-groups": [
+                [
+                  "Platform",
+                  [
+                    "key",
+                    "id",
+                    "notes"
+                  ]
+                ],
+                [
+                  "Shape",
+                  [
+                    "at",
+                    "size",
+                    "facing",
+                    "outline"
+                  ]
+                ],
+                [
+                  "Heights",
+                  [
+                    "base",
+                    "rise",
+                    "thickness",
+                    "top_size",
+                    "top_slope",
+                    "top_heights"
+                  ]
+                ],
+                [
+                  "Surfaces",
+                  [
+                    "surface",
+                    "end_surface",
+                    "top_surface",
+                    "bottom_surface"
+                  ]
+                ],
+                [
+                  "Touch",
+                  [
+                    "solid",
+                    "visible"
+                  ]
+                ]
+              ]
+            },
+            "x-key": "key",
+            "x-key-prefix": "platform"
+          },
+          "levels": {
+            "description": "Parts of the floor at another height: a gallery or dais of any shape (higher than the room's floor) or a sunken floor (lower). The wall between the two heights is built, and what stands inside the outline stands on the level (objects stand on the highest floor at their place: see `floor_height` in objects.yml). Keep each outline inside the room, clear of its walls and of the other levels; join levels with `flights`. Needs a level room floor, or in a room whose floor is uneven (`floor_points`) one of two things: a level part of that floor all along the level's rim (a sunken level, a level with a `bank`), or a level that stands higher than the uneven floor everywhere under it (a loft over a floor that sags toward a gutter: the floor runs on under it and the level's sides reach down to it).",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "outline",
+                "floor"
+              ],
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "id": {
+                  "description": "Names the level's floor so that a wiring event with `trigger: step` (its `source`) or a `floors` entry of objects.yml (its `of`) can refer to it. Example: id: level:pit.",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "level"
+                  ]
+                },
+                "outline": {
+                  "description": "Counter-clockwise points.",
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 32,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "x-flow": true,
+                  "x-geom": {
+                    "shape": "polygon",
+                    "space": "map"
+                  }
+                },
+                "floor": {
+                  "description": "The level's floor height (absolute z).",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "bank": {
+                  "description": "Banks: the level's sides slope instead of standing upright (a trench with sloping sides, a lake's edge, a funnel, a mound). `outline` stays the level's flat floor; each side leans outward from it over this run, up to the room's floor for a sunken level, down to it for a raised one, with mitred corners. One number is the run of every side; a list gives one run for each side of the outline (side 0 runs from the outline's first point to its second), 0 for a side that stays upright: a trench with banks on its two long sides is `{outline: [[0, 0], [1024, 0], [1024, 256], [0, 256]], floor: -128, bank: [160, 0, 160, 0]}`, a funnel `{outline: [...], floor: -256, bank: 320}`. The outline grown by the runs must still lie inside the room, clear of its walls and other levels. A bank rises at most 0.9 for each unit of run to be walked (the build says the run that is needed); a steeper one needs `steep_floor: true` on the room (up to twice the run). What stands over a bank stands on it. A bank takes the `edge` surface when given, else the room's floor.",
+                  "type": [
+                    "number",
+                    "array"
+                  ],
+                  "minimum": 0,
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "minItems": 3,
+                  "maxItems": 32,
+                  "x-flow": true,
+                  "x-unit": "map",
+                  "x-labels": [
+                    "every side",
+                    "each side"
+                  ]
+                },
+                "edge": {
+                  "description": "Surface of the wall between the two heights. Default: the room's wall (for sides with a `bank`: the room's floor).",
+                  "$ref": "#/$defs/surface"
+                },
+                "solid": {
+                  "description": "On a level that stands higher than the floor round it. `false`: the level is drawn and nothing touches it (the engine's `untouchable` flag on its top and sides): a false floor, which the party walks into and through at the height of the room's floor, which runs on whole under it. Nothing stands on it, and `oymap solve` and `audit --reach` do not walk on it. A sunken level takes neither word (it is the floor itself there: the build refuses it and says what to write instead). Not with `visible: false`. Default true.",
+                  "type": "boolean"
+                },
+                "visible": {
+                  "description": "On a level that stands higher than the floor round it. `false`: the level is not drawn and stands as solid as any (the engine's `invisible` flag on its top and sides): an unseen floor, an unseen step. The room's floor is drawn whole under it. Not with `solid: false`. Default true.",
+                  "type": "boolean"
+                },
+                "surface": {
+                  "description": "Surface of the level's floor. Default: the room's floor.",
+                  "$ref": "#/$defs/surface"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false,
+              "x-groups": [
+                [
+                  "Level",
+                  [
+                    "key",
+                    "id",
+                    "notes"
+                  ]
+                ],
+                [
+                  "Shape",
+                  [
+                    "outline",
+                    "floor",
+                    "bank"
+                  ]
+                ],
+                [
+                  "Surfaces",
+                  [
+                    "surface",
+                    "edge"
+                  ]
+                ],
+                [
+                  "Touch",
+                  [
+                    "solid",
+                    "visible"
+                  ]
+                ]
+              ]
+            },
+            "x-key": "key",
+            "x-key-prefix": "level"
+          },
+          "ceiling_levels": {
+            "description": "Parts of the ceiling that lie higher than the room's: the drum of a dome, a lantern, a coffer. The wall between the two heights is built. With `top_scale` or `top_outline` the part narrows as it rises (its sides lean in): a pyramid roof, a hipped ceiling, a dome's leaning sides. Without `outline` the level is the room's whole ceiling, standing on the room's walls: `ceiling: 384, ceiling_levels: [{ceiling: 896, top_scale: 0}]` is a pyramid roof from 384 at the walls to a point at 896. A level may stand on the flat top of another that is listed before it, to any depth (a lantern drum on a pyramid, the rings of a dome): `ceiling_levels: [{ceiling: 704, top_outline: [[192, 192], [576, 192], [576, 576], [192, 576]]}, {outline: [[192, 192], [576, 192], [576, 576], [192, 576]], ceiling: 832}]`. They are built over a stepped floor as over a level one. A leaning side takes its texture at its true size down the slope, rows level.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "ceiling"
+              ],
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "outline": {
+                  "description": "Counter-clockwise points, inside the room and clear of its walls and of other levels; or, to stand on the flat top of a level listed before this one, that top's own points (the whole top) or points inside it at least 1 unit from its edges (the level is then cut out of that top, not out of the room's ceiling, and `ceiling` is above that top). Leave `outline` out for the room's whole ceiling (the level then stands on the walls; every other ceiling level of the room must stand on a level's flat top, the room has no pillars and no rough walls, and `top_scale` or `top_outline` need a convex room). Where a side of such a whole-ceiling level is upright (the gable end under a ridge: both of that wall's `top_outline` points lie on the wall), an opening in the wall may rise above the room's `ceiling` into it.",
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 32,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "x-flow": true,
+                  "x-geom": {
+                    "shape": "polygon",
+                    "space": "map"
+                  }
+                },
+                "ceiling": {
+                  "description": "The raised ceiling's height (absolute z), above the room's ceiling everywhere along the level's outline (above the flat top it stands on, for a level on another): the height of the flat top, the ridge or the point.",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "top_scale": {
+                  "description": "The level narrows as it rises: the size of its top as a share of its outline, about the middle of the outline's bounding box. 0: a point (a pyramid); 0.5: a top half as wide and deep (a frustum, a dome's leaning sides: `{outline: [...], ceiling: 896, top_scale: 0.5}`); a pair [x, y] scales the two directions apart ([1, 0] over a rectangle is a ridge along x: a gabled ceiling). The outline must be convex. Not together with `top_outline`.",
+                  "type": [
+                    "number",
+                    "array"
+                  ],
+                  "minimum": 0,
+                  "maximum": 1,
+                  "items": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "x-flow": true,
+                  "x-unit": "ratio",
+                  "x-geom": false,
+                  "x-labels": [
+                    "both ways",
+                    "[across, along]"
+                  ]
+                },
+                "top_outline": {
+                  "description": "The level narrows as it rises to a top of its own shape: one point for each point of the outline, in the same order, saying where that corner rises to. Each must lie inside the outline or on it. Repeat a point to make a ridge or a point: over the outline [[0, 0], [512, 0], [512, 256], [0, 256]], `top_outline: [[128, 128], [384, 128], [384, 128], [128, 128]]` is a hipped ceiling with a ridge from [128, 128] to [384, 128]. The outline must be convex. Not together with `top_scale`. A side whose top edge does not run in the direction of its foot edge (one top corner stays over its foot corner while the next leans in) is not flat: it is built as two triangles.",
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 32,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "x-flow": true,
+                  "x-geom": {
+                    "shape": "polygon",
+                    "space": "map"
+                  }
+                },
+                "edge": {
+                  "description": "The surface of the level's sides. Default: the room's ceiling for sides that lean (`top_scale`, `top_outline`), the room's wall for upright ones.",
+                  "$ref": "#/$defs/surface"
+                },
+                "surface": {
+                  "description": "The surface of the level's flat top. Default: the room's ceiling.",
+                  "$ref": "#/$defs/surface"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-key": "key",
+            "x-key-prefix": "ceiling_level"
+          },
+          "flights": {
+            "description": "Steps inside the room, from a point on a lower floor up to a point on a higher one (the room's floor, a level, a platform). The first step begins at `from` and the last ends at `to`, where it is level with the higher floor: the highest floor at `to`, which may lie on the edge of the platform or level the flight climbs to (also a platform that hangs, with a `base`), or the one `to_height` names. Steps that hang over a lower floor show their underside.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "from",
+                "to"
+              ],
+              "x-flow": true,
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "from": {
+                  "$ref": "common.schema.json#/$defs/point2",
+                  "description": "A point on the lower floor: the highest floor at that point (inside a level or platform, not on its edge).",
+                  "x-geom": {
+                    "shape": "point",
+                    "space": "map"
+                  }
+                },
+                "to": {
+                  "$ref": "common.schema.json#/$defs/point2",
+                  "description": "A point on the higher floor, inside it or on its edge.",
+                  "x-geom": {
+                    "shape": "point",
+                    "space": "map"
+                  }
+                },
+                "from_height": {
+                  "description": "The height (absolute z) of the floor the flight begins on, where several lie one above the other at `from` (a landing under another, a block under a gallery); the point may then also lie on that floor's edge. Default: the highest floor at `from`. Steps that have no floor at that height under them show their underside.",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "open_below": {
+                  "description": "The flight is open underneath: a slab under the steps' line with a raking underside, instead of steps that are solid down to the floor the flight begins on. `true` is a slab 32 thick; a number is the thickness. The first steps, where the slab would reach under the flight's foot, stay solid. (Side walls, `sides`, are not opened.)",
+                  "type": [
+                    "boolean",
+                    "number"
+                  ],
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map",
+                  "x-labels": [
+                    "open",
+                    "slab thickness"
+                  ]
+                },
+                "to_height": {
+                  "description": "The height (absolute z) of the floor the flight ends on, where several lie one above the other at `to` (a pier under a gallery, a hanging platform over a level). Default: the highest. A flight that ends in a doorway, on the next room's floor: put `to` on the room's wall and give `to_height` the sill of the opening there (the next room's floor). The flight then runs square to that wall, its last riser stands in the wall under the sill and the top step is the next room's floor: `steps` counts the risers, and one tread fewer is built in this room. An opening of that wall must have its sill at that height over the flight's whole width, or the build refuses the flight and lists the wall's openings. Example, a nave at -544 up to an apse at -416 behind its west wall: `{from: [640, 160], to: [0, 160], to_height: -416, width: 256, steps: 6}`.",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "width": {
+                  "description": "Default 192.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "steps": {
+                  "description": "Default: as many as keep each step at 32 or less.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "x-unit": "count"
+                },
+                "sides": {
+                  "description": "Side walls whose tops rake in a straight line with the flight. A number is how far they stand above the floor at both ends (above the lower floor at the foot, above the upper at the head); or {height, thickness, surface, top_surface}. Omit for open sides.",
+                  "type": [
+                    "number",
+                    "object"
+                  ],
+                  "properties": {
+                    "height": {
+                      "type": "number",
+                      "minimum": 0,
+                      "x-unit": "map"
+                    },
+                    "thickness": {
+                      "description": "Default 16.",
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "x-unit": "map"
+                    },
+                    "surface": {
+                      "$ref": "#/$defs/surface"
+                    },
+                    "top_surface": {
+                      "description": "The surface of the side walls' raking tops (a coping). Default: `surface`. Example: sides: {height: 32, thickness: 24, top_surface: {texture: t1trima, size: [32, 32], scale: 2}}.",
+                      "$ref": "#/$defs/surface"
+                    }
+                  },
+                  "x-unit": "map",
+                  "x-labels": [
+                    "height",
+                    "side walls in detail"
+                  ]
+                },
+                "riser": {
+                  "description": "The surface of the steps' upright faces and sides. Default: the room's wall.",
+                  "$ref": "#/$defs/surface"
+                },
+                "tread": {
+                  "description": "The surface of the steps' walked tops. Default: the room's floor (in a room whose floor is lava or water, give the steps their own: `{from: [512, -512], to: [512, -320], steps: 4, riser: {texture: t1w11a, size: [128, 256]}, tread: {texture: oflr, size: [128, 128]}}`).",
+                  "$ref": "#/$defs/surface"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false,
+              "x-groups": [
+                [
+                  "Flight",
+                  [
+                    "key",
+                    "notes"
+                  ]
+                ],
+                [
+                  "Line",
+                  [
+                    "from",
+                    "to",
+                    "from_height",
+                    "to_height",
+                    "width",
+                    "steps"
+                  ]
+                ],
+                [
+                  "Build",
+                  [
+                    "sides",
+                    "open_below"
+                  ]
+                ],
+                [
+                  "Surfaces",
+                  [
+                    "riser",
+                    "tread"
+                  ]
+                ]
+              ]
+            },
+            "x-key": "key",
+            "x-key-prefix": "flight"
+          },
+          "parapets": {
+            "description": "Low walls standing on the floor along a line: the rim of a gallery, a balustrade, a counter.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "path": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 24,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "x-flow": true,
+                  "x-geom": {
+                    "shape": "polyline",
+                    "space": "map"
+                  }
+                },
+                "height": {
+                  "description": "Default 48.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "thickness": {
+                  "description": "Default 16.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "surface": {
+                  "$ref": "#/$defs/surface"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-key": "key",
+            "x-key-prefix": "parapet"
+          },
+          "beams": {
+            "description": "Bars that hang in the room clear of the floor: the ribs and the ring of a dome's opening, a lintel, a rafter. A bar runs along `path`, `width` wide, from `bottom` (absolute z) up `depth` (or up to a level `top`). With `bottom_end` the bar rakes: a rib running from a ring up the inside of a dome, a rafter under a sloped ceiling. A beam ends under the ceiling at its place (the room's, a ceiling level's flat top, a leaning side): one whose top is above it everywhere, or passes through a level ceiling, is refused with the heights; a raking beam that meets a level ceiling (the room's, or a ceiling level's flat top over the whole beam) with one end and would rise through it with the other is cut level at the ceiling (the haunch of an arch); a corner that only touches a leaning side is a warning.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "path",
+                "bottom"
+              ],
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "path": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 24,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "x-flow": true,
+                  "x-geom": {
+                    "shape": "polyline",
+                    "space": "map"
+                  }
+                },
+                "width": {
+                  "description": "Default 32.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "depth": {
+                  "description": "Default 32.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "bottom": {
+                  "description": "The underside's height (absolute z).",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "bottom_end": {
+                  "description": "A raking beam: the underside's height (absolute z) at the far end of `path`, `bottom` being its height at the near end. The path then has exactly two points (one beam for each straight stretch): `{path: [[256, 0], [64, 0]], width: 32, depth: 32, bottom: 480, bottom_end: 800}` is a rib climbing from 480 to 800.",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "top": {
+                  "description": "The top's height (absolute z), level along the whole beam, in place of `depth` (refused with it): with `bottom_end` the underside rakes while the top stays level, so the beam is deeper at its low end (the Abandoned Temple's box walls over its ramps, their tops level with the roof at 2432: `{path: [[-3336, -1408], [-3336, -1152]], width: 16, bottom: 1904, bottom_end: 2032, top: 2432}`). It must stand at least 1 over the underside at both ends. A raking beam with `depth` whose top meets a level ceiling at one end and would rise through it at the other is cut level there anyway (the room's ceiling or a ceiling level's flat top).",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "surface": {
+                  "$ref": "#/$defs/surface"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-key": "key",
+            "x-key-prefix": "beam"
+          },
+          "stalactites": {
+            "description": "Rock hanging from the roof, as the shipped caves' stalactites are built when the world has no stalactite picture (MM7 draws none: MM6's `stltite1-3` show nothing there): three stacked blocks of `sides` sides, each narrower than the one above (half widths `radius`, 0.7 and 0.36 of it; lengths 0.35, 0.35 and 0.3 of `length`), the top one's top following the room's own ceiling at each of its corners (a sloping roof or one by points), from its lowest corner the length down to the tip. Not drawn under a ceiling level, and not in a tunnel with a `section`. The tip stays at least 16 over the floor. Example (XD-05's): `stalactites: [{at: [330, 560], radius: 96, length: 272}]`.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "at"
+              ],
+              "x-flow": true,
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "at": {
+                  "$ref": "common.schema.json#/$defs/point2",
+                  "x-geom": {
+                    "shape": "point",
+                    "space": "map"
+                  },
+                  "description": "Its middle on the plan."
+                },
+                "radius": {
+                  "description": "Half its width at the roof, 16 to 512 (from the middle to the middle of a side). Default 96.",
+                  "type": "number",
+                  "minimum": 16,
+                  "maximum": 512,
+                  "x-unit": "map"
+                },
+                "length": {
+                  "description": "From the roof's lowest point over its top to its tip, 48 to 4096. Default 272.",
+                  "type": "number",
+                  "minimum": 48,
+                  "maximum": 4096,
+                  "x-unit": "map"
+                },
+                "sides": {
+                  "description": "How many sides each block has, 6 to 16. Default 8 (flat sides square to x and y).",
+                  "type": "integer",
+                  "minimum": 6,
+                  "maximum": 16,
+                  "x-unit": "count"
+                },
+                "surface": {
+                  "$ref": "#/$defs/surface",
+                  "description": "Its sides, undersides and top. Default the room's wall."
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-key": "key",
+            "x-key-prefix": "stalactite"
+          },
+          "ambient": {
+            "$ref": "#/$defs/ambient"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-variant": [
+          {
+            "label": "Room",
+            "when": {
+              "present": "outline"
+            },
+            "props": [
+              "outline"
+            ]
+          },
+          {
+            "label": "Corridor",
+            "when": {
+              "present": "path"
+            },
+            "props": [
+              "path",
+              "width",
+              "section",
+              "smooth",
+              "bend_radius",
+              "bend_pieces"
+            ]
+          }
+        ],
+        "x-groups": [
+          [
+            "Room",
+            [
+              "id",
+              "name",
+              "space",
+              "theme",
+              "notes"
+            ]
+          ],
+          [
+            "Shape",
+            [
+              "outline",
+              "path",
+              "width",
+              "section",
+              "smooth",
+              "bend_radius",
+              "bend_pieces"
+            ]
+          ],
+          [
+            "Floor",
+            [
+              "floor",
+              "slope",
+              "floor_points",
+              "floor_plane",
+              "floor_lines",
+              "floor_surfaces",
+              "steep_floor"
+            ]
+          ],
+          [
+            "Ceiling",
+            [
+              "ceiling",
+              "ceiling_slope",
+              "ceiling_points",
+              "ceiling_plane",
+              "ceiling_lines",
+              "ceiling_surfaces"
+            ]
+          ],
+          [
+            "Walls",
+            [
+              "walls",
+              "bands",
+              "ends",
+              "rough"
+            ]
+          ],
+          [
+            "Inside",
+            [
+              "levels",
+              "ceiling_levels",
+              "platforms",
+              "pillars",
+              "flights",
+              "parapets",
+              "beams",
+              "stalactites"
+            ]
+          ],
+          [
+            "Light",
+            [
+              "ambient"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "openings": {
+      "description": "Doorways and open passages between two rooms. The build finds the pair of facing walls, cuts the hole in both, builds the doorway through the wall's thickness and places the portal. Openings of one wall stand side by side with at least 16 units of wall between them, or one above the other (a gallery door over a hall door, a lift shaft's doorway on each deck: give the upper one a `sill`, or let its room's higher floor lift it) with at least 16 units of wall between the lower one's top and the upper one's sill. With `in: floor` the opening is a hole in a floor onto the room below.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "from",
+          "to"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "opening"
+            ],
+            "x-kinds": "all"
+          },
+          "from": {
+            "description": "The room whose side the doorway is built on. With `in: floor`: the upper room, whose floor the hole is cut in.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ],
+            "x-kinds": "all"
+          },
+          "to": {
+            "description": "The other room. With `in: floor`: the lower room, whose ceiling the hole opens.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ],
+            "x-kinds": "all"
+          },
+          "in": {
+            "description": "`wall` (the default): a doorway in the pair of facing walls, with `width` and `height`. `floor`: a hole in the floor of `from` onto the room `to` under it (a shaft between two decks, a stairwell, a pit into the room below): the two rooms lie one above the other in plan, the upper room's level floor at or above the lower room's level ceiling (at most 512 above: the gap is the floor's thickness, and the hole's sides are built through it with the upper room's `reveal` surface). The party falls or flies through and each room is seen from the other. Give the hole by `outline`, or by `at` and `size`: `{id: open:shaft, from: room:upper_hall, to: room:lower_hall, in: floor, at: [-1920, -2048], size: [448, 448]}`. With neither, the hole is the lower room's whole ceiling: a stair room open to the hall above it (`{id: open:well, from: room:hall, to: room:well_stairs, in: floor}`; the stair's top step is one rise under the hall's floor when the stair room's `slope.to` and `ceiling` equal the hall's `floor`). The hole must lie inside both rooms with its corners at least 16 from their walls (16 is enough), in the upper room's own floor (not under a level or platform) and clear of the lower room's pillars. Where the lower room has ceiling levels, the hole lies clear of them or wholly inside the flat top of one (16 from its edges): it then opens into that top, the upper room's floor at or above it (a lantern room standing on a pyramid's flat top: the upper room's `floor` is the level's `ceiling`). A whole-ceiling hole has one point for each corner, doorway side and step end of the lower room, at most 64. No `width`, `height`, `along`, `sill`, `shape`, and no door.",
+            "enum": [
+              "wall",
+              "floor"
+            ],
+            "x-kinds": "all"
+          },
+          "outline": {
+            "description": "With `in: floor`: the hole's shape, counter-clockwise points on whole units; it must be convex.",
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 20,
+            "items": {
+              "$ref": "common.schema.json#/$defs/point2"
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "polygon",
+              "space": "map"
+            },
+            "x-kinds": [
+              "floor"
+            ]
+          },
+          "at": {
+            "description": "With `in: floor`, instead of `outline`: the centre of a rectangular hole (with `size`).",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            },
+            "x-kinds": [
+              "floor"
+            ]
+          },
+          "size": {
+            "description": "With `in: floor` and `at`: the hole's [width, depth] along x and y.",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-flow": true,
+            "x-geom": {
+              "shape": "size",
+              "space": "map"
+            },
+            "x-kinds": [
+              "floor"
+            ]
+          },
+          "from_wall": {
+            "type": [
+              "string",
+              "integer"
+            ],
+            "description": "The wall of the `from` room the opening is in: a compass side or an outline edge number. Give it (and `to_wall`) when the two rooms face each other across more than one pair of walls; otherwise the pair with the longest shared stretch is taken.",
+            "x-geom": {
+              "shape": "wall",
+              "space": "room"
+            },
+            "x-labels": [
+              "compass side",
+              "outline edge"
+            ],
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "to_wall": {
+            "type": [
+              "string",
+              "integer"
+            ],
+            "description": "The wall of the `to` room, likewise.",
+            "x-geom": {
+              "shape": "wall",
+              "space": "room"
+            },
+            "x-labels": [
+              "compass side",
+              "outline edge"
+            ],
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "link": {
+            "description": "The plan.yml link this opening realises.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "link"
+            ],
+            "x-kinds": "all"
+          },
+          "along": {
+            "description": "Where the opening's centre sits on the stretch of wall the two rooms share: 0 at its start, 1 at its end (counter-clockwise along the `from` room). Default 0.5.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "x-unit": "ratio",
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "width": {
+            "description": "Width of the hole, or `full` for an open mouth: the whole stretch of wall the two rooms share, with no wall left beside it (how caves run into each other, and a nave open to its aisle). Needed for an opening in a wall.",
+            "type": [
+              "number",
+              "string"
+            ],
+            "x-unit": "map",
+            "x-labels": [
+              "width",
+              "full"
+            ],
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "height": {
+            "description": "Height of the hole above its sill, or `full` to reach the lower of the two ceilings (under a sloped ceiling: the ceiling at the hole's lower side). A number may rise above the ceiling where the wall goes on above it: as the upright end of a whole-ceiling level (the gable end under a ridge, the end of a hipped ceiling) and of the levels standing on that level's flat top in the same plane (a dome's rings against a wall). The opening's outline, with its gable or arch, must stay inside that end wall at every height, each corner of its top at least 16 under the end's top line or exactly on it; it may also begin above the ceiling (`sill`), as a window high in the end wall. Needed for an opening in a wall. Through uneven ground and under uneven roofs (`floor_points`, `ceiling_points` in either room) the opening follows them: its sill is the higher of the two floors along the wall (plus `sill`) and rakes with it, a number is then measured from the sill's lowest point to a level top, and `full` makes the top the lower of the two roofs along the wall, point by point, so that `width: full, height: full` is a cave's whole section, bank and leaning roof included, and `height: full` under a vault given by points is the vault's own line. With `shape: gable` or `arch` and a number, the gable or arch stands on the uneven sill (`height` and `apex` measured from the sill's lowest point) and may rise as far as the two roofs let it at each place along the wall, also up to a roof given by points (an arch that is a vault's own profile); `height: full` takes no `shape`. Such a mouth takes no door; it is built as flat strips side by side between the places where a floor, a roof or the shape's line has a point on the wall. With `trim_to_wall: true` the same holds for the upright ends of ceiling levels over the two walls (see there).",
+            "type": [
+              "number",
+              "string"
+            ],
+            "x-unit": "map",
+            "x-labels": [
+              "height",
+              "full"
+            ],
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "shape": {
+            "description": "`gable`: a pointed opening with two straight slopes. `arch`: a pointed arch with shoulders (from each side it rises steeply, then runs shallower to the point), the usual doorway and niche shape of the temples. `height` is where the two sides end and `apex` the height of the point, in the middle. Default: a rectangle. A door leaf needs a rectangle. `section`: the mouth of a tunnel (a `path` room with a `section`) at the first or the last point of its path: the opening is the tunnel's whole section there, with no lintel and no jambs beside it, and takes no `width`, `height`, `sill`, `along` or `threshold` (`{id: open:tunnel_hall, from: room:tunnel, to: room:hall, shape: section}`). Into a room with upright walls, the mouth is cut out of that room's wall in the section's shape (the tunnel's floor there at or above the room's floor, its top at or under the room's ceiling); through a wall with thickness the section goes on to the far side. Two tunnels joined end to end are open over their whole section: both must end in the same section at the same heights on one line (where the two paths run against each other, one section is drawn the other way round). The tunnel's last stretch must run along x or y (or so that the section's points land on whole units), because the map holds a mouth as one flat face.",
+            "enum": [
+              "gable",
+              "arch",
+              "section"
+            ],
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "apex": {
+            "description": "With `shape: gable` or `arch`: the height of the point above the sill, at least 16 above `height`. It stays 16 under each room's ceiling, or rises into the upright end of ceiling levels over the wall (see `height`); with the point on the ridge and `width: full, height: full`, two rooms under one ridge ceiling are open to each other over their whole section.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map",
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "shoulders": {
+            "description": "With `shape: arch`: the arch's shoulders from a side toward the point, each [in, up]: how far in from the side as a share of the width (under 0.5), and how far up from where the sides end toward the point as a share of that rise. Default [[0.25, 0.667]] (a temple doorway 256 wide: sides, a shoulder 64 in and 64 up, the point 96 up). A wide flat arch takes more: [[0.14, 0.43], [0.2, 0.54], [0.4, 0.865]]. An `up` of 1 puts a shoulder at the point's own height, a level top between the two shoulders: [[0.25, 1]] is the outline of a hipped ceiling's end whose flat is half the wall's width.",
+            "type": "array",
+            "maxItems": 4,
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "x-geom": false
+            },
+            "x-unit": "ratio",
+            "x-geom": false,
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "sill": {
+            "description": "Height of the opening's bottom above the higher of the two floors (in the side of a `path` room that climbs: the floor at the doorway's higher side). Default 0. A window, or the upper of two openings one above the other in one wall: `{id: open:hall_window, from: room:lounge, to: room:hall, width: 256, height: 128, sill: 400}` over a door 256 high. Two openings one above the other keep 16 units of wall between them, or none: when both join the same two rooms through the same walls, the lower one is a rectangle and the upper one begins exactly at its top (`sill` equal to the lower one's `sill` plus `height`) within its width, they are one mouth in two parts, wide below and narrower above, with no bar between (a hall's mouth open from wall to wall under an arch that rises into the vault's end).",
+            "type": "number",
+            "minimum": 0,
+            "x-unit": "map",
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "trim_to_wall": {
+            "description": "`true`: each of the two walls is taken with the upright ends of the ceiling levels over it (the end of a vault, the end of a hipped ceiling beside a side that leans), and the opening is cut off where it would leave either wall instead of being refused: a doorway that reaches into the corner under a neighbouring side's lean loses that corner along the lean's line (`{id: open:stair_flight, from: room:stair, to: room:flight, width: full, height: 384, trim_to_wall: true}`). With `height: full` the opening is everything under the lower of the two walls' lines, so `width: full, height: full, trim_to_wall: true` at a vault's end is the vault's whole profile as an open mouth. `height` and `apex` are measured from the sill as usual. The opening takes no door and is built as flat strips side by side between the corners of that outline (one portal each, no reveals between them). Where neither wall goes on above its room's ceiling the word does nothing, and the build says so. Default false: an opening that leaves a wall is refused with the place and the height.",
+            "type": "boolean",
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "threshold": {
+            "description": "The surface of the doorway's floor through the wall's thickness (a worn stone sill, a metal strip between two rooms with different floors). Through a mouth that follows uneven ground the sill is the higher floor running on and takes that floor's surface (the part's own where `floor_surfaces` gives the floor parts), the top likewise the lower roof's. Default: the opening's `reveal` (its `back_reveal` beyond the wall's middle), like the doorway's sides and top. Needs a wall with thickness (rooms at least 16 apart there). Example: {id: open:hall_cell, from: room:hall, to: room:cell, width: 128, height: 256, threshold: {texture: oflr, size: [128, 128]}}.",
+            "$ref": "#/$defs/surface",
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "lintel": {
+            "description": "The surface of the doorway's top through the wall's thickness, its lintel (the Lab's GNecStpT over GNecStpV jambs), and of the undersides of a gabled or arched top. Default: the opening's `reveal` (its `back_reveal` beyond the wall's middle), like the doorway's sides. A doorway in a room's wall only (not a hole in a floor, a tunnel's mouth or end, or a mouth that follows uneven floors and roofs, whose top is the lower roof); needs a wall with thickness. Example: {id: open:hall_stair, from: room:hall, to: room:stair, width: 128, height: 256, reveal: {texture: GNecStpV, size: [128, 256]}, lintel: {texture: GNecStpT, size: [128, 128]}}.",
+            "$ref": "#/$defs/surface",
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "reveal": {
+            "description": "The surface of this doorway's sides (the jambs) and top through the wall's thickness, and of its floor unless `threshold` says otherwise: a trim round a door (the Hive's hvtrim1 jambs, Control Center's swgirder recess sides), in place of the `from` room's theme `reveal`. Also the sides of a hole in a floor and of a tunnel's mouth where the tunnel's own sides do not run through. It is also the default of a door leaf's `edge_surface`. Needs a wall with thickness. Example: {id: open:hall_cell, from: room:hall, to: room:cell, width: 128, height: 256, reveal: {texture: hvtrim1, size: [32, 128]}}.",
+            "$ref": "#/$defs/surface",
+            "x-kinds": "all"
+          },
+          "back_reveal": {
+            "description": "A two-sided frame: the surface of the half of the doorway's sides, top and floor that lies toward the `to` room, beyond the middle of the wall (where a door's leaf stands: with the leaf shut each room sees its own frame, open the frame changes at the middle). `reveal` (or the theme's) stays on the half toward the `from` room. Each face of the way through is cut at the middle, on a whole unit. For a doorway in a room's wall only: a hole in a floor, a tunnel's mouth or end and a mouth that follows uneven ground are refused it. Example: Control Center's east porch, swankdk toward the hall and swhz3dk toward the porch: {id: open:hall_porch, from: room:hall, to: room:porch, width: 256, height: 256, reveal: {texture: swankdk, size: [64, 128]}, back_reveal: {texture: swhz3dk, size: [64, 128]}}.",
+            "$ref": "#/$defs/surface",
+            "x-kinds": [
+              "wall"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes",
+            "x-kinds": "all"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": {
+          "property": "in",
+          "default": "wall"
+        },
+        "x-groups": [
+          [
+            "Opening",
+            [
+              "id",
+              "from",
+              "to",
+              "in",
+              "link",
+              "notes"
+            ]
+          ],
+          [
+            "In a wall",
+            [
+              "from_wall",
+              "to_wall",
+              "along",
+              "width",
+              "height",
+              "sill",
+              "trim_to_wall"
+            ]
+          ],
+          [
+            "Shape",
+            [
+              "shape",
+              "apex",
+              "shoulders"
+            ]
+          ],
+          [
+            "In a floor",
+            [
+              "outline",
+              "at",
+              "size"
+            ]
+          ],
+          [
+            "Surfaces",
+            [
+              "threshold",
+              "lintel",
+              "reveal",
+              "back_reveal"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/notes"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "meshSurface": {
+      "description": "A part of an uneven floor or ceiling with a surface of its own (`floor_surfaces`, `ceiling_surfaces`): `surface`, and either `steeper_than` or `at`; with an `id` or `secret: true` its faces are a node of their own (an object: secret faces, a region an effect changes). A region of a level floor or ceiling is drawn with `floor_points`/`ceiling_points` all at its height and `floor_lines`/`ceiling_lines` round it.",
+      "type": "object",
+      "required": [
+        "surface"
+      ],
+      "x-flow": true,
+      "properties": {
+        "key": {
+          "$ref": "common.schema.json#/$defs/key"
+        },
+        "steeper_than": {
+          "description": "The part is every triangle that rises more than this for each unit of run (0.1: all that is not level; 0.9: what the party cannot walk up).",
+          "type": "number",
+          "minimum": 0,
+          "x-unit": "ratio"
+        },
+        "at": {
+          "description": "The part is the region that holds this point [x, y]: all that is reached from it without crossing a line of `floor_lines` (`ceiling_lines`) or a wall. The lines must close the region off, by themselves or with the walls.",
+          "$ref": "common.schema.json#/$defs/point2",
+          "x-geom": {
+            "shape": "point",
+            "space": "map"
+          }
+        },
+        "surface": {
+          "$ref": "#/$defs/surface"
+        },
+        "id": {
+          "description": "Makes the part an object: its faces are a node of their own that effects name by this id (wiring `secret`, `clear_secret`, `set_texture`, `show`, `hide`, `passable`, `solid`), as a platform's or a wall panel's. Unique among the ids of regions, panels, levels, platforms and objects. Example: {at: [3000, 1700], id: region:walk_trace, surface: {texture: t65a04, size: [128, 128]}}.",
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "region"
+          ]
+        },
+        "secret": {
+          "description": "true: the part's faces carry the engine's secret flag from the start, so the game makes them pulse for a party whose Perception finds secrets (the map card's perception difficulty) and counts them among the map's secrets (`oymap metrics` `secret_faces`): the Abandoned Temple's hidden walkway traced on hall 8's ceiling. An effect sets or clears the flag later (`secret`, `clear_secret`, by the part's `id`). Default false.",
+          "type": "boolean"
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes"
+        }
+      },
+      "additionalProperties": false,
+      "x-variant": [
+        {
+          "label": "by steepness",
+          "when": {
+            "present": "steeper_than"
+          },
+          "props": [
+            "steeper_than"
+          ]
+        },
+        {
+          "label": "region round a point",
+          "when": {
+            "present": "at"
+          },
+          "props": [
+            "at"
+          ]
+        }
+      ]
+    },
+    "section_end": {
+      "description": "A square end of a tunnel (a `path` room with a `section`).",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "length": {
+          "description": "The way over which the tunnel's sides run from the section to the square end, along the path's first (last) stretch: at least 16, and at least 16 shorter than that stretch (keep it clear of the next bend by about half the section's width). Default: that whole stretch, the sides running from the section as it stands at the path's next point (at a bend, on its mitre), which is how the shipped tunnels do it.",
+          "type": "number",
+          "minimum": 16,
+          "x-unit": "map"
+        },
+        "width": {
+          "description": "The square end's width, about the section's middle. Default: the section's widest part. The end is as high as the section.",
+          "type": "number",
+          "minimum": 32,
+          "x-unit": "map"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ambient": {
+      "description": "The room's base darkness, 0 (bright) to 31 (dark): the BLV sector's minimum ambient light level.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 31,
+      "x-unit": "none"
+    },
+    "surface": {
+      "type": "object",
+      "x-flow": true,
+      "required": [
+        "texture"
+      ],
+      "properties": {
+        "texture": {
+          "description": "Texture name, at most 10 characters (the BLV limit): letters, digits, `_` and `-` (`sign01-1`).",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,10}$"
+        },
+        "size": {
+          "description": "The texture's [width, height] in texels (`oymap assets` gives them). Needed for every texture with a picture; a liquid (`oymap assets` lists them: water, tar and lava, which the game's liquid shader draws on a face of that name with no picture, such as `7wtrtyl`) may leave it out. A build with an asset root refuses a missing size on anything else; without one it is taken as [128, 128].",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "x-unit": "texel",
+          "x-geom": false
+        },
+        "scale": {
+          "description": "Map units covered by one texel. Default 1.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "x-unit": "ratio"
+        },
+        "fit": {
+          "description": "Stretch the texture once over each face instead of tiling it.",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "[u, v] texels added to the texture coordinates of every corner of every face the surface lies on, as a shipped map's face `texture_delta_u` and `texture_delta_v` are added to its stored coordinates: the picture slides u texels back along the way it runs (on a wall seen from the room: to the left) and v texels up. Where the texture starts without it: on a wall at the wall's left end seen from the room and at its top (or its band's), on a panel at the panel's left end, on a floor or ceiling at the map's x = 0, y = 0, on a door's leaf where `tile` says (stretched: at the leaf's edge), on a side of a level or platform at its corner. Whole repeats change nothing (an offset of [128, 0] on a texture 128 wide is no offset). `oymap compare` finds the offset a rebuilt face needs where the original's picture lies at another phase (`offsets` in its report, and points that differ say `offset by [u, v]`). Works on every surface: walls, bands, panels, floors and ceilings, levels and platforms, door leaves and their pictures, movers, lifts, chests. Example: {texture: DESKTOP, size: [128, 128], offset: [32, 0]}.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "x-unit": "texel",
+          "x-geom": false
+        },
+        "uneven": {
+          "description": "true: the picture is meant squashed or far from its own size where this surface lies (a stretched sign, a picture fitted to a face of another shape): the build does not warn of it (`texture.squashed` and the build's squash warning name this word). Default false.",
+          "type": "boolean"
+        },
+        "liquid": {
+          "description": "The surface is a liquid: every face laid with it carries the engine's fluid bit (`water` and `liquid`: the same bit; `lava` also the burning bit, which hurts the party standing on it), as the shipped maps' water, slime and lava faces of pools, troughs, tubs and channels carry it (measured on every MM6-8 BLV: 1234 of the 1456 floor faces of liquid textures carry it). The game draws a picture that is no liquid of its shader (engine/liquids/liquids.yml) rippling and swirling slowly where the bit is set (the feeding trough's green brew); a texture the shader draws (`oymap assets` lists them) is drawn by it whatever the bit. For a whole room's floor or a level `floors[].kind` says the same. The build warns of faces of a shader liquid, or of a texture the project lays as a liquid elsewhere, without the bit. Example: top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid}.",
+          "enum": [
+            "water",
+            "liquid",
+            "lava"
+          ]
+        },
+        "flow": {
+          "description": "The picture flows one way, 62.5 texels a second, as the shipped channels and falls do (the engine's flow bits): `down` and `up` along the picture's v (on a wall: down is down the wall), `left` and `right` along its u. With or without `liquid`: the shipped falls carry `down` alone, their channels the fluid bit and a direction. Example: surface: {texture: 7wtrtyl, size: [128, 128], flow: down}.",
+          "enum": [
+            "down",
+            "up",
+            "left",
+            "right"
+          ]
+        },
+        "sky": {
+          "description": "The faces of this surface are where the sky shows: on a map open to the sky (atmosphere.yml `open_sky`) the game draws the sky there instead of the picture (the faces stay solid). Default false.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

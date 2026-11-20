@@ -1,0 +1,17 @@
+# data/object.lto SHA256 b1271f37e5314281035efe6425dd59051bb8a9b0271de0d75a5926a7bc37f162
+# Preferred VA base 0x10000000. Verify hash and read MELEE_HIT_EFFECTS.md first.
+f+ mm9hit.melee_class 1 @ 0x101a2910
+f+ mm9hit.melee_ctor 1 @ 0x100578c0
+f+ mm9hit.melee_attack 1 @ 0x10057900
+f+ mm9hit.melee_contact 1 @ 0x10057c10
+f+ mm9hit.segment_contact 1 @ 0x10059b70
+f+ mm9hit.resolve_surface 1 @ 0x10059dc0
+f+ mm9hit.send_contact_effect 1 @ 0x10059e90
+f+ mm9hit.send_special_effect 1 @ 0x100d8be0
+f+ mm9hit.preload_blood 1 @ 0x100d0740
+CC MeleeWeapon vtable slot 0x244 points to attack function 0x10057900. @ 0x1016f7f0
+CC Damage call precedes contact feedback. @ 0x10057cfe
+CC Damage-state flag can override surface selector with 21, flag meaning unresolved. @ 0x10057dcd
+CC Sends target handle, contact position, contact normal and surface-result selector. @ 0x10057ddc
+CC Hardcoded special-effect type 33 with 32-byte payload. @ 0x10059e9f
+CC Surface-name table index 1 is Flesh. @ 0x101a1680

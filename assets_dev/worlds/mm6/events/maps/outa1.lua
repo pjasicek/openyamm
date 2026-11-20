@@ -18,6 +18,9 @@ SetMapMetadata({
     [205] = { kind = "enter_house", source = "opcode", houseId = 1231, targetName = "House" },
     [210] = { kind = "obelisk", source = "title" },
     },
+    learnedEffect = {
+    [102] = { autonote = 441, effect = "+50 Seven Statistic temporary" },
+    },
     textureNames = {},
     spriteNames = {"ped02"},
     castSpellIds = {},

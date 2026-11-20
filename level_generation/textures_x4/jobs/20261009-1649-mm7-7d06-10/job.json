@@ -1,0 +1,680 @@
+{
+ "id": "20261009-1649-mm7-7d06-10",
+ "world": "mm7",
+ "maps": [
+  "7d06.blv",
+  "d03.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/7t1butt",
+  "mm7/7tws1g",
+  "mm7/cws1",
+  "mm7/cws1d",
+  "mm7/t1s1fl1",
+  "mm7/tfs1",
+  "mm7/trim2_16a",
+  "mm7/trim3_32a",
+  "mm7/twb3d",
+  "mm7/tws1c",
+  "mm7/cnb1sel",
+  "mm7/cnbport-3",
+  "mm7/necro-b",
+  "mm7/cnbport-4",
+  "mm7/cnbport-2",
+  "mm7/tfb1r4b",
+  "mm7/tfb1r4l",
+  "mm7/tfb1r4m",
+  "mm7/tfb1r4h",
+  "mm7/tfb1r4e",
+  "mm7/tfb1r4g",
+  "mm7/tfb1r4c",
+  "mm7/tfb1r4a",
+  "mm7/tfb1r4d"
+ ],
+ "requests": {
+  "mm7/7t1butt": {
+   "name": "7t1butt",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small square carved brown stone button tile with a raised rune relief in a recessed square; copy the composition exactly",
+   "notes": {
+    "3": "the light outer stone border runs right to all four edges at full brightness, with no dark line along the top or right edge; keep the recessed square and the rune exactly where the native has them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7tws1g": {
+   "name": "7tws1g",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small pale stone moulding tile: two plain flat round discs of rough brown sandstone set side by side in a dark recessed band between plain horizontal stone ledges at top and bottom; copy the composition exactly",
+   "notes": {
+    "2": "the discs are plain flat rough stone, no petals or rosette carving; keep the top and bottom ledges as bright as the native, no dark or bright rim"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cws1": {
+   "name": "cws1",
+   "versions": [
+    1
+   ],
+   "material": "rough dark reddish-brown rock wall with a narrow deep vertical slot niche holding a pale carved bone figure; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cws1d": {
+   "name": "cws1d",
+   "versions": [
+    1
+   ],
+   "material": "rough dark reddish-brown rock wall with a rusted iron grate set in a dark recess; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t1s1fl1": {
+   "name": "t1s1fl1",
+   "versions": [
+    1
+   ],
+   "material": "smooth worn tan sandstone floor, dusty with soft mottled stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfs1": {
+   "name": "tfs1",
+   "versions": [
+    1
+   ],
+   "material": "large worn brown sandstone flagstones with thin dark joints, giving way to cracked broken paving along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim2_16a": {
+   "name": "trim2_16a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of brown oak plank with straight wood grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim2_16",
+    "k": 3
+   }
+  },
+  "mm7/trim3_32a": {
+   "name": "trim3_32a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of brown oak plank with straight wood grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim3_32",
+    "k": 3
+   }
+  },
+  "mm7/twb3d": {
+   "name": "twb3d",
+   "versions": [
+    1
+   ],
+   "material": "worn brown stone wall with a dark round-topped arched niche holding a carved dark stone demon-face shield relief; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tws1c": {
+   "name": "tws1c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth worn brown sandstone plaster wall with a pale carved stone moulding along the top edge and a rough cracked stone edge on the right side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/twb1"
+    }
+   }
+  },
+  "mm7/cnb1sel": {
+   "name": "cnb1sel",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough grey-tan fieldstone blocks with dark mortar joints, forming an inside corner with a column of stacked stones on the left",
+   "notes": {
+    "2": "the top beam of tan stone and the left column of tan stones run right up to the top and left edges at full brightness; no dark rim, shadow or outline along the top or left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb"
+     ],
+     "fraction": 0.756
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb"
+     ],
+     "fraction": 0.756
+    }
+   }
+  },
+  "mm7/cnbport-3": {
+   "name": "cnbport-3",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-tan fieldstone blocks with dark mortar joints, with a hung portrait of a pale bald gaunt man in a dark frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.471
+    }
+   }
+  },
+  "mm7/necro-b": {
+   "name": "necro-b",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-tan fieldstone blocks with dark mortar joints, with a hanging dark red cloth banner with a gold stripe and gold tassels; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.339
+    }
+   }
+  },
+  "mm7/cnbport-4": {
+   "name": "cnbport-4",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-tan fieldstone blocks with dark mortar joints, with a hung portrait of a grim warrior in a plumed helmet in a carved wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.38
+    }
+   }
+  },
+  "mm7/cnbport-2": {
+   "name": "cnbport-2",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-tan fieldstone blocks with dark mortar joints, with a hung portrait of an armoured warrior in a horned helmet in a carved wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.382
+    }
+   }
+  },
+  "mm7/tfb1r4b": {
+   "name": "tfb1r4b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/tfb1r4l": {
+   "name": "tfb1r4l",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {
+    "3": "the damask tile field runs straight off the right edge with no dark line or joint on the outermost column; keep the edge as bright as the tiles beside it",
+    "4": "the navy band carries crisp pale-white scrollwork on deep navy exactly like the neighbouring floor pieces, not mottled green blobs; the damask tile field runs straight off the right edge with no dark line",
+    "5": "the navy band carries crisp pale-white scrollwork on deep navy exactly like the neighbouring floor pieces, not mottled green blobs; the damask tile field runs straight off the right edge with no dark line",
+    "6": "the navy band carries crisp pale-white scrollwork on deep navy; no grout line, joint or hairline along the bottom edge: the band, stones and damask tiles run straight off the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4b"
+     ],
+     "fraction": 0.388
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.394
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.394
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.394
+    },
+    "5": {
+     "sources": [
+      "mm7/tfb1r4b"
+     ],
+     "fraction": 0.388
+    },
+    "6": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.394
+    }
+   },
+   "context": {
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "6": [
+     0,
+     55
+    ]
+   }
+  },
+  "mm7/tfb1r4m": {
+   "name": "tfb1r4m",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4b"
+     ],
+     "fraction": 0.238
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4b"
+     ],
+     "fraction": 0.238
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/tfb1r4h": {
+   "name": "tfb1r4h",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {
+    "3": "the band, stripes, damask tiles and flagstones run straight off the left and right edges; no vertical dark line or mortar joint on the outermost columns at either side",
+    "4": "the band, stripes and damask tiles run straight off the left and right edges with no vertical dark line, grout joint or shadow on the outermost columns; the damask motif continues seamlessly from the right edge into the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.375
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.375
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.375
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.375
+    }
+   }
+  },
+  "mm7/tfb1r4e": {
+   "name": "tfb1r4e",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.193
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.193
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.193
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm7/tfb1r4g": {
+   "name": "tfb1r4g",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {
+    "3": "the pale green stripe and the blue band run straight off the left edge at full brightness; the outermost pixel column on the left is the same colour as the column beside it, with no dark hairline",
+    "4": "the pale green stripe and the blue band run straight off the left edge at full brightness; the outermost pixel column on the left is the same colour as the column beside it, with no dark hairline"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4h",
+      "mm7/tfb1r4e",
+      "mm7/tfb1r4l"
+     ],
+     "fraction": 0.59
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4e",
+      "mm7/tfb1r4l"
+     ],
+     "fraction": 0.372
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r4e",
+      "mm7/tfb1r4l"
+     ],
+     "fraction": 0.372
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb1r4h",
+      "mm7/tfb1r4e",
+      "mm7/tfb1r4l"
+     ],
+     "fraction": 0.59
+    }
+   },
+   "context": {
+    "4": {}
+   }
+  },
+  "mm7/tfb1r4c": {
+   "name": "tfb1r4c",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {
+    "2": "the leftmost column of the texture is the face of a brown flagstone, as bright as the native; no dark joint line or shadow along the left edge",
+    "3": "the leftmost column of the texture is the face of a brown flagstone, as bright as the native; no dark joint line or shadow along the left edge",
+    "4": "the two leftmost pixel columns are plain brown flagstone face at the same brightness as the stone just right of them; the mortar joint must sit further in, never on the outermost columns"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4e"
+     ],
+     "fraction": 0.664
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4e"
+     ],
+     "fraction": 0.664
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4e"
+     ],
+     "fraction": 0.664
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4e"
+     ],
+     "fraction": 0.664
+    }
+   }
+  },
+  "mm7/tfb1r4a": {
+   "name": "tfb1r4a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {
+    "3": "the two leftmost pixel columns are plain brown flagstone face at the same brightness as the stone just right of them; no dark joint line or shadow on the outermost columns"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4h",
+      "mm7/tfb1r4b"
+     ],
+     "fraction": 0.708
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4g"
+     ],
+     "fraction": 0.51
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4g"
+     ],
+     "fraction": 0.51
+    }
+   }
+  },
+  "mm7/tfb1r4d": {
+   "name": "tfb1r4d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {
+    "2": "the damask medallion that straddles the left and right edges must continue seamlessly across the horizontal wrap as one symmetric motif; no dark vertical line at the left or right edge and no dark line along the top edge",
+    "3": "the damask medallion that straddles the left and right edges must continue seamlessly across the horizontal wrap as one symmetric motif; no dark vertical line at the left or right edge and no dark line along the top edge",
+    "4": "the damask medallion that straddles the left and right edges must continue seamlessly across the horizontal wrap as one symmetric motif; no dark vertical line at the left or right edge and no dark line along the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4l",
+      "mm7/tfb1r4e",
+      "mm7/tfb1r4c"
+     ],
+     "fraction": 0.669
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r4l",
+      "mm7/tfb1r4e",
+      "mm7/tfb1r4c"
+     ],
+     "fraction": 0.669
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r4l",
+      "mm7/tfb1r4e"
+     ],
+     "fraction": 0.605
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb1r4l",
+      "mm7/tfb1r4e",
+      "mm7/tfb1r4c"
+     ],
+     "fraction": 0.669
+    }
+   },
+   "context": {
+    "4": {
+     "right": "mm7/tfb1r4e"
+    }
+   }
+  }
+ }
+}

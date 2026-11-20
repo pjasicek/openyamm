@@ -3,7 +3,7 @@
 #include "engine/AssetScaleTier.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/ParallelFor.h"
-#include "engine/Utf8.h"
+#include "engine/Utf8Text.h"
 #include "game/maps/MapIdentity.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <optional>
 #include <cmath>
 #include <cstdio>
 #include <cstring>
@@ -292,6 +293,7 @@ std::optional<GameplayHudFontData> buildColumnSeparatedHudFont(
     font.mainAtlasPixels = std::vector<uint8_t>();
     return font;
 }
+
 } // namespace
 
 GameplayUiViewportRect GameplayHudCommon::computeUiViewportRect(int screenWidth, int screenHeight)
@@ -1267,11 +1269,19 @@ const GameplayHudFontData *GameplayHudCommon::findHudFont(
     const std::vector<GameplayHudFontData> &fonts,
     const std::string &fontName)
 {
-    const std::string normalizedFontName = toLowerCopy(fontName);
+    // Stored names are lower case; this runs for every text line drawn, so compare in place.
+    const auto sameName = [&fontName](const std::string &stored)
+    {
+        return stored.size() == fontName.size()
+            && std::equal(stored.begin(), stored.end(), fontName.begin(), [](char left, char right)
+               {
+                   return left == char(std::tolower(static_cast<unsigned char>(right)));
+               });
+    };
 
     for (const GameplayHudFontData &fontHandle : fonts)
     {
-        if (fontHandle.fontName == normalizedFontName)
+        if (sameName(fontHandle.fontName))
         {
             return &fontHandle;
         }
@@ -1288,6 +1298,12 @@ struct FontSource
     std::string fontName;
     int pixelHeight = 0;
     bool independentFont = false;
+    // A Unicode face's atlas, shared by the sizes and faces that raster the same font file and characters at the same
+    // height; empty for other faces.
+    std::string unicodeAtlasKey;
+    // The face's baseline at that raster height: faces sharing an atlas differ only in it.
+    int unicodeBaseline = 0;
+    int displayHeight = 0;
     std::optional<std::vector<uint8_t>> fntBytes;
     std::optional<GameplayHudFontData> bitmapFont;
 };
@@ -1298,6 +1314,8 @@ struct PreparedFont
     std::string fontName;
     int pixelHeight = 0;
     bool independentFont = false;
+    std::string unicodeAtlasKey;
+    int unicodeBaseline = 0;
     std::optional<Engine::FontAtlasImage> image;
     std::string error;
     PreparedBgraTexture main;
@@ -1314,6 +1332,8 @@ std::string sharedFontKey(const std::string &fontName, int pixelHeight)
 struct SharedFontStore
 {
     std::unordered_map<std::string, std::unique_ptr<GameplayHudFontData>> fonts;
+    // The atlases of Unicode faces, owning their textures; the fonts that draw from one copy its handles.
+    std::unordered_map<std::string, std::unique_ptr<GameplayHudFontData>> unicodeAtlases;
     std::unordered_set<std::string> failed;
 };
 
@@ -1325,16 +1345,21 @@ SharedFontStore &sharedFontStore()
 
 void destroyFontTextures(const GameplayHudFontData &font)
 {
+    if (font.sharedTextures)
+    {
+        return;
+    }
     if (bgfx::isValid(font.tintTextureHandle) && font.tintTextureHandle.idx != font.mainTextureHandle.idx)
     {
         bgfx::destroy(font.tintTextureHandle);
     }
-    for (const bgfx::TextureHandle handle : {font.mainTextureHandle, font.shadowTextureHandle})
+    if (bgfx::isValid(font.shadowTextureHandle) && font.shadowTextureHandle.idx != font.mainTextureHandle.idx)
     {
-        if (bgfx::isValid(handle))
-        {
-            bgfx::destroy(handle);
-        }
+        bgfx::destroy(font.shadowTextureHandle);
+    }
+    if (bgfx::isValid(font.mainTextureHandle))
+    {
+        bgfx::destroy(font.mainTextureHandle);
     }
 }
 
@@ -1355,6 +1380,24 @@ std::optional<FontSource> resolveFontSource(
         {
             const YAML::Node descriptor = YAML::Load(*descriptorText);
             source.independentFont = descriptor["metrics"].as<std::string>("legacy") == "freetype";
+            if (source.independentFont && descriptor["encoding"].as<std::string>("") == "utf-8")
+            {
+                const int logicalHeight = descriptor["logical_height"].as<int>(0);
+                const int rasterHeight = Engine::unicodeRasterHeight(
+                    pixelHeight, logicalHeight, descriptor["max_raster_height"].as<int>(0));
+                source.displayHeight = pixelHeight > 0 ? pixelHeight : logicalHeight;
+                source.unicodeBaseline = logicalHeight > 0
+                    ? int(std::lround(float(descriptor["baseline"].as<int>(0)) * rasterHeight / logicalHeight))
+                    : 0;
+                // The atlas's pixels depend on the font file, its characters and weight and the raster height, not
+                // on the face (a CJK pack draws every face with one font). Logical and display sizes are released
+                // apart (releaseRasterSizes), so they never share an atlas.
+                source.unicodeAtlasKey = descriptor["file"].as<std::string>("") + "|"
+                    + descriptor["characters_file"].as<std::string>("") + "|"
+                    + descriptor["weight"].as<std::string>("") + "|"
+                    + descriptor["glyph_scale"].as<std::string>("1") + (pixelHeight > 0 ? "|pixels|" : "|logical|")
+                    + std::to_string(rasterHeight);
+            }
         }
         catch (const YAML::Exception &exception)
         {
@@ -1424,6 +1467,8 @@ PreparedFont prepareFont(const Engine::AssetFileSystem &assetFileSystem, const F
     font.fontName = source.fontName;
     font.pixelHeight = source.pixelHeight;
     font.independentFont = source.independentFont;
+    font.unicodeAtlasKey = source.unicodeAtlasKey;
+    font.unicodeBaseline = source.unicodeBaseline;
     font.image = source.independentFont
         ? Engine::loadTrueTypeFontAtlas(assetFileSystem, source.fontName, font.error, source.pixelHeight)
         : Engine::loadFontAtlas(assetFileSystem, *source.fntBytes, source.fontName, font.error);
@@ -1432,14 +1477,11 @@ PreparedFont prepareFont(const Engine::AssetFileSystem &assetFileSystem, const F
         return font;
     }
 
-    const Engine::FontAtlas &atlas = font.image->atlas;
+    Engine::FontAtlas &atlas = font.image->atlas;
     const TextureFilterProfile filter = fontFilter(atlas, font.independentFont);
     const uint16_t width = static_cast<uint16_t>(atlas.atlasWidth);
     const uint16_t height = static_cast<uint16_t>(atlas.atlasHeight);
-    const std::vector<uint8_t> &mainPixels = atlas.mainAtlasPixels;
-    const std::vector<uint8_t> &shadowPixels = font.image->shadowPixels;
-    font.main = prepareBgraTexture2D(width, height, mainPixels.data(), uint32_t(mainPixels.size()), filter);
-    font.shadow = prepareBgraTexture2D(width, height, shadowPixels.data(), uint32_t(shadowPixels.size()), filter);
+    std::vector<uint8_t> &mainPixels = atlas.mainAtlasPixels;
 
     // Tinting multiplies the atlas, so coloured or black glyphs need one white copy; most atlases already are white.
     bool whiteGlyphs = true;
@@ -1458,7 +1500,14 @@ PreparedFont prepareFont(const Engine::AssetFileSystem &assetFileSystem, const F
             whitePixels[pixelIndex + 1] = 255;
             whitePixels[pixelIndex + 2] = 255;
         }
-        font.tint = prepareBgraTexture2D(width, height, whitePixels.data(), uint32_t(whitePixels.size()), filter);
+        font.tint = prepareBgraTexture2D(width, height, std::move(whitePixels), filter);
+    }
+    // The atlas pixels only feed these textures (the outline atlases are 10-40 MB each), so they move into them.
+    font.main = prepareBgraTexture2D(width, height, std::move(mainPixels), filter);
+    // A Unicode atlas's shadow mask is the glyph itself, offset when drawn: it draws from the main texture.
+    if (!atlas.unicode)
+    {
+        font.shadow = prepareBgraTexture2D(width, height, std::move(font.image->shadowPixels), filter);
     }
     return font;
 }
@@ -1478,10 +1527,12 @@ std::optional<GameplayHudFontData> finishFont(PreparedFont &prepared)
     fontHandle.rasterPixelHeight = prepared.pixelHeight;
     fontHandle.smooth = fontHandle.atlasScale > 1 || prepared.independentFont;
     const TextureFilterProfile filter = fontFilter(fontHandle, prepared.independentFont);
-    fontHandle.mainTextureHandle = createPreparedBgraTexture2D(prepared.main, filter);
-    fontHandle.shadowTextureHandle = createPreparedBgraTexture2D(prepared.shadow, filter);
+    fontHandle.mainTextureHandle = createPreparedBgraTexture2D(std::move(prepared.main), filter);
+    fontHandle.shadowTextureHandle = fontHandle.unicode
+        ? fontHandle.mainTextureHandle : createPreparedBgraTexture2D(std::move(prepared.shadow), filter);
+    fontHandle.unicodeBaseline = prepared.unicodeBaseline;
     fontHandle.tintTextureHandle = prepared.tint
-        ? createPreparedBgraTexture2D(*prepared.tint, filter) : fontHandle.mainTextureHandle;
+        ? createPreparedBgraTexture2D(std::move(*prepared.tint), filter) : fontHandle.mainTextureHandle;
 
     if (!bgfx::isValid(fontHandle.mainTextureHandle) || !bgfx::isValid(fontHandle.shadowTextureHandle)
         || !bgfx::isValid(fontHandle.tintTextureHandle))
@@ -1492,10 +1543,32 @@ std::optional<GameplayHudFontData> finishFont(PreparedFont &prepared)
         return std::nullopt;
     }
 
-    // The atlas pixels only feed the textures above; the TrueType atlases are 10-15 MB each.
-    fontHandle.mainAtlasPixels = std::vector<uint8_t>();
     return fontHandle;
 }
+}
+
+// A font that draws from a Unicode atlas at its own size and baseline: the atlas's glyphs, laid out at displayHeight.
+std::unique_ptr<GameplayHudFontData> unicodeFontFromAtlas(
+    const GameplayHudFontData &atlas,
+    const FontSource &source)
+{
+    const std::string &fontName = source.fontName;
+    const int pixelHeight = source.pixelHeight;
+    const int displayHeight = source.displayHeight;
+    auto pFont = std::make_unique<GameplayHudFontData>(atlas);
+    // Another face of the same font sits its glyphs lower or higher on the line by its baseline.
+    const int baselineShift = source.unicodeBaseline - atlas.unicodeBaseline;
+    for (Engine::FontGlyphPlacement &placement : pFont->unicodeGlyphPlacements)
+    {
+        placement.top += baselineShift;
+    }
+    pFont->unicodeBaseline = source.unicodeBaseline;
+    pFont->fontName = toLowerCopy(fontName);
+    pFont->rasterPixelHeight = pixelHeight;
+    pFont->fontHeight = displayHeight;
+    pFont->layoutScale = float(displayHeight) / float(pFont->rasterHeight);
+    pFont->sharedTextures = true;
+    return pFont;
 }
 
 void SharedFontCache::ensure(const Engine::AssetFileSystem &assetFileSystem, const std::vector<Request> &requests)
@@ -1503,6 +1576,8 @@ void SharedFontCache::ensure(const Engine::AssetFileSystem &assetFileSystem, con
     SharedFontStore &store = sharedFontStore();
     std::vector<FontSource> sources;
     std::unordered_set<std::string> pending;
+    // Unicode fonts waiting for an atlas this call loads, by its key.
+    std::unordered_map<std::string, std::vector<FontSource>> unicodeWaiting;
     for (const Request &request : requests)
     {
         const std::string key = sharedFontKey(request.fontName, request.pixelHeight);
@@ -1522,6 +1597,21 @@ void SharedFontCache::ensure(const Engine::AssetFileSystem &assetFileSystem, con
             store.fonts.emplace(key, std::make_unique<GameplayHudFontData>(std::move(*source->bitmapFont)));
             continue;
         }
+        if (!source->unicodeAtlasKey.empty())
+        {
+            const auto atlas = store.unicodeAtlases.find(source->unicodeAtlasKey);
+            if (atlas != store.unicodeAtlases.end())
+            {
+                store.fonts.emplace(key, unicodeFontFromAtlas(*atlas->second, *source));
+                continue;
+            }
+            std::vector<FontSource> &waiting = unicodeWaiting[source->unicodeAtlasKey];
+            waiting.push_back(*source);
+            if (waiting.size() > 1)
+            {
+                continue;
+            }
+        }
         sources.push_back(std::move(*source));
     }
 
@@ -1535,13 +1625,34 @@ void SharedFontCache::ensure(const Engine::AssetFileSystem &assetFileSystem, con
     {
         const std::string key = sharedFontKey(font.fontName, font.pixelHeight);
         std::optional<GameplayHudFontData> finished = finishFont(font);
+        if (font.unicodeAtlasKey.empty())
+        {
+            if (finished)
+            {
+                store.fonts.emplace(key, std::make_unique<GameplayHudFontData>(std::move(*finished)));
+            }
+            else
+            {
+                store.failed.insert(key);
+            }
+            continue;
+        }
+        for (const FontSource &waiting : unicodeWaiting[font.unicodeAtlasKey])
+        {
+            const std::string waitingKey = sharedFontKey(waiting.fontName, waiting.pixelHeight);
+            if (finished)
+            {
+                store.fonts.emplace(waitingKey,
+                    unicodeFontFromAtlas(*finished, waiting));
+            }
+            else
+            {
+                store.failed.insert(waitingKey);
+            }
+        }
         if (finished)
         {
-            store.fonts.emplace(key, std::make_unique<GameplayHudFontData>(std::move(*finished)));
-        }
-        else
-        {
-            store.failed.insert(key);
+            store.unicodeAtlases.emplace(font.unicodeAtlasKey, std::make_unique<GameplayHudFontData>(std::move(*finished)));
         }
     }
 }
@@ -1564,6 +1675,15 @@ void SharedFontCache::releaseRasterSizes()
         destroyFontTextures(*entry.second);
         return true;
     });
+    std::erase_if(sharedFontStore().unicodeAtlases, [](const auto &entry)
+    {
+        if (entry.second->rasterPixelHeight == 0)
+        {
+            return false;
+        }
+        destroyFontTextures(*entry.second);
+        return true;
+    });
 }
 
 void SharedFontCache::release(bool destroyGpu)
@@ -1575,8 +1695,13 @@ void SharedFontCache::release(bool destroyGpu)
         {
             destroyFontTextures(*pFont);
         }
+        for (const auto &[key, pAtlas] : store.unicodeAtlases)
+        {
+            destroyFontTextures(*pAtlas);
+        }
     }
     store.fonts.clear();
+    store.unicodeAtlases.clear();
     store.failed.clear();
 }
 
@@ -1585,6 +1710,12 @@ bool GameplayHudCommon::loadHudFont(
     const std::string &fontName,
     std::vector<GameplayHudFontData> &fonts)
 {
+    // Asked for every text line drawn: a font already loaded needs no request list.
+    if (!fontName.empty() && findHudFont(fonts, fontName) != nullptr)
+    {
+        return true;
+    }
+
     return loadHudFonts(pAssetFileSystem, {fontName}, fonts);
 }
 
@@ -1710,34 +1841,87 @@ GameplayHudFontLayer GameplayHudCommon::hudFontMainLayer(const GameplayHudFontDa
         : GameplayHudFontLayer(font.tintTextureHandle, colorAbgr | 0xff000000u);
 }
 
-float GameplayHudCommon::measureHudTextWidth(const GameplayHudFontData &font, const std::string &text)
+bool GameplayHudCommon::readTextColorCode(const std::string &text, size_t index, std::optional<uint32_t> &colorAbgr)
 {
-    float widthPixels = 0.0f;
-    uint16_t previous = 0;
-
-    size_t utf8Offset = 0;
-    while (utf8Offset < text.size())
+    if (index + TextColorCodeLength > text.size() || text[index] != '\f')
     {
-        const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, utf8Offset);
-        if (point.value == '\r' || point.value == '\n')
+        return false;
+    }
+
+    uint32_t value = 0;
+
+    for (size_t digit = index + 1; digit < index + TextColorCodeLength; ++digit)
+    {
+        if (!std::isdigit(static_cast<unsigned char>(text[digit])))
+        {
+            return false;
+        }
+
+        value = value * 10 + uint32_t(text[digit] - '0');
+    }
+
+    if (value == 0)
+    {
+        colorAbgr.reset();
+        return true;
+    }
+
+    const uint32_t red = ((value >> 11) & 31u) * 255u / 31u;
+    const uint32_t green = ((value >> 5) & 63u) * 255u / 63u;
+    const uint32_t blue = (value & 31u) * 255u / 31u;
+    colorAbgr = 0xff000000u | (blue << 16) | (green << 8) | red;
+    return true;
+}
+
+namespace
+{
+// Walks a line of text to its first line break, character by character in UTF-8 with colour codes skipped: draw gets
+// each glyph the font has with its pen position (the glyph's origin) and colour run, in the font's raster pixels. A
+// character with no glyph advances a cell. Returns the line's advance.
+template <typename DrawGlyph>
+float walkHudLine(const GameplayHudFontData &font, const std::string &text, const DrawGlyph &drawGlyph)
+{
+    float pen = 0.0f;
+    uint32_t previous = 0;
+    std::optional<uint32_t> runColor;
+
+    for (size_t index = 0; index < text.size();)
+    {
+        if (GameplayHudCommon::readTextColorCode(text, index, runColor))
+        {
+            index += GameplayHudCommon::TextColorCodeLength;
+            continue;
+        }
+
+        const uint32_t character = Engine::Utf8::next(text, index);
+
+        if (character == '\r' || character == '\n')
         {
             break;
         }
 
-        const std::optional<uint16_t> resolvedGlyph = font.glyphForCodePoint(point.value);
-        if (!resolvedGlyph)
+        const int glyph = font.glyphIndex(character);
+
+        if (glyph < 0)
         {
-            widthPixels += static_cast<float>(font.atlasCellWidth);
+            pen += static_cast<float>(font.atlasCellWidth);
             continue;
         }
-        const uint16_t character = *resolvedGlyph;
 
-        const GameplayHudFontGlyphMetricsData &glyphMetrics = font.glyphMetrics[character];
-        widthPixels += font.kerning(previous, character) + glyphMetrics.advance();
+        pen += font.kerning(previous, character);
+        drawGlyph(glyph, pen, runColor);
+        pen += font.glyph(glyph).advance();
         previous = character;
     }
 
-    return std::max(0.0f, widthPixels);
+    return pen;
+}
+}
+
+float GameplayHudCommon::measureHudTextWidth(const GameplayHudFontData &font, const std::string &text)
+{
+    const float width = walkHudLine(font, text, [](int, float, const std::optional<uint32_t> &) {});
+    return std::max(0.0f, width * font.layoutScale);
 }
 
 std::string GameplayHudCommon::clampHudTextToWidth(
@@ -1747,12 +1931,11 @@ std::string GameplayHudCommon::clampHudTextToWidth(
 {
     std::string clampedText = text;
 
-    // Content-sized labels round-trip through scaling and padding before reaching this comparison.
-    // A few float rounding errors must not remove an entire glyph from an otherwise exact fit.
+    // Scaling and padding can round an exact fit down by a few floating-point units.
     const float widthTolerance = std::max(1.0f, std::abs(maxWidth)) * 4 * std::numeric_limits<float>::epsilon();
     while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth + widthTolerance)
     {
-        Engine::eraseLastUtf8CodePoint(clampedText);
+        Engine::Utf8::popBack(clampedText);
     }
 
     return clampedText;
@@ -1763,87 +1946,36 @@ std::vector<std::string> GameplayHudCommon::wrapHudTextToWidth(
     const std::string &text,
     float maxWidth)
 {
-    if (text.empty())
-    {
-        return {""};
-    }
-
-    if (maxWidth <= 0.0f)
-    {
-        return {text};
-    }
-
-    std::vector<std::string> lines;
-    std::string currentLine;
-    std::string currentWord;
-
-    const auto flushLine =
-        [&lines, &currentLine]()
+    std::vector<std::string> lines = Engine::Utf8::wrap(text, maxWidth,
+        [&font](const std::string &line)
         {
-            lines.push_back(currentLine);
-            currentLine.clear();
-        };
-
-    const auto appendWord =
-        [&font, &currentLine, &flushLine, maxWidth](const std::string &word)
-        {
-            if (word.empty())
-            {
-                return;
-            }
-
-            if (currentLine.empty())
-            {
-                currentLine = word;
-                return;
-            }
-
-            const std::string candidate = currentLine + " " + word;
-
-            if (measureHudTextWidth(font, candidate) <= maxWidth)
-            {
-                currentLine = candidate;
-            }
-            else
-            {
-                flushLine();
-                currentLine = word;
-            }
-        };
-
-    for (char character : text)
-    {
-        if (character == '\r')
-        {
-            continue;
-        }
-
-        if (character == '\n')
-        {
-            appendWord(currentWord);
-            currentWord.clear();
-            flushLine();
-            continue;
-        }
-
-        if (character == ' ')
-        {
-            appendWord(currentWord);
-            currentWord.clear();
-            continue;
-        }
-
-        currentWord.push_back(character);
-    }
-
-    appendWord(currentWord);
-
-    if (!currentLine.empty() || lines.empty())
-    {
-        lines.push_back(currentLine);
-    }
-
+            return measureHudTextWidth(font, line);
+        });
+    carryTextColorsAcrossLines(lines);
     return lines;
+}
+
+void GameplayHudCommon::carryTextColorsAcrossLines(std::vector<std::string> &lines)
+{
+    std::optional<uint32_t> openColor;
+    std::string openCode;
+
+    for (std::string &line : lines)
+    {
+        if (!openCode.empty())
+        {
+            line.insert(0, openCode);
+        }
+
+        for (size_t index = 0; index < line.size(); ++index)
+        {
+            if (readTextColorCode(line, index, openColor))
+            {
+                openCode = openColor ? line.substr(index, TextColorCodeLength) : std::string();
+                index += TextColorCodeLength - 1;
+            }
+        }
+    }
 }
 
 void GameplayHudCommon::renderHudFontLayer(
@@ -1860,59 +1992,38 @@ void GameplayHudCommon::renderHudFontLayer(
         return;
     }
 
-    float penX = textX;
-    uint16_t previous = 0;
+    // Glyph geometry is in raster pixels; a Unicode face's raster differs from its layout height.
+    const float scale = fontScale * font.layoutScale;
+    const float atlasWidth = static_cast<float>(font.atlasWidth / font.atlasScale);
+    const float atlasHeight = static_cast<float>(font.atlasHeight / font.atlasScale);
+    // Colour codes recolour the main layer through the tint atlas; the shadow stays as it is.
+    const bool shadow = layer.textureHandle.idx == font.shadowTextureHandle.idx;
 
-    size_t utf8Offset = 0;
-    while (utf8Offset < text.size())
-    {
-        const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, utf8Offset);
-        if (point.value == '\r' || point.value == '\n')
+    walkHudLine(font, text,
+        [&](int glyph, float pen, const std::optional<uint32_t> &runColor)
         {
-            break;
-        }
+            const GameplayHudFontGlyphMetricsData &metrics = font.glyph(glyph);
 
-        const std::optional<uint16_t> resolvedGlyph = font.glyphForCodePoint(point.value);
-        if (!resolvedGlyph)
-        {
-            penX += static_cast<float>(font.atlasCellWidth) * fontScale;
-            continue;
-        }
-        const uint16_t character = *resolvedGlyph;
+            if (metrics.width <= 0)
+            {
+                return;
+            }
 
-        const GameplayHudFontGlyphMetricsData &glyphMetrics = font.glyphMetrics[character];
-        penX += (font.kerning(previous, character) + glyphMetrics.leftSpacing) * fontScale;
-
-        if (glyphMetrics.width > 0)
-        {
-            const int cellX = (character % font.atlasColumns) * (font.atlasCellWidth + 2 * font.atlasPadding);
-            const int cellY = (character / font.atlasColumns) * (font.fontHeight + 2 * font.atlasPadding);
-            const float u0 = static_cast<float>(cellX) / static_cast<float>(font.atlasWidth / font.atlasScale);
-            const float v0 = static_cast<float>(cellY) / static_cast<float>(font.atlasHeight / font.atlasScale);
-            const float u1 = static_cast<float>(cellX + glyphMetrics.width + 2 * font.atlasPadding)
-                / static_cast<float>(font.atlasWidth / font.atlasScale);
-            const float v1 = static_cast<float>(cellY + font.fontHeight + 2 * font.atlasPadding)
-                / static_cast<float>(font.atlasHeight / font.atlasScale);
-            const float glyphWidth = static_cast<float>(glyphMetrics.width + 2 * font.atlasPadding) * fontScale;
-            const float glyphHeight = static_cast<float>(font.fontHeight + 2 * font.atlasPadding) * fontScale;
-
+            const Engine::FontGlyphPlacement place = font.placement(glyph);
+            const bool recolored = runColor && !shadow && bgfx::isValid(font.tintTextureHandle);
             submitTexturedQuad(
-                layer.textureHandle,
-                penX - font.atlasPadding * fontScale,
-                textY - font.atlasPadding * fontScale,
-                glyphWidth,
-                glyphHeight,
-                u0,
-                v0,
-                u1,
-                v1,
+                recolored ? font.tintTextureHandle : layer.textureHandle,
+                textX + (pen + metrics.leftSpacing - font.atlasPadding) * scale,
+                textY + place.top * scale,
+                static_cast<float>(place.width) * scale,
+                static_cast<float>(place.height) * scale,
+                static_cast<float>(place.x) / atlasWidth,
+                static_cast<float>(place.y) / atlasHeight,
+                static_cast<float>(place.x + place.width) / atlasWidth,
+                static_cast<float>(place.y + place.height) / atlasHeight,
                 font.smooth ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text,
-                layer.tintAbgr);
-        }
-
-        penX += (glyphMetrics.advance() - glyphMetrics.leftSpacing) * fontScale;
-        previous = character;
-    }
+                recolored ? *runColor : layer.tintAbgr);
+        });
 }
 
 void GameplayHudCommon::renderLayoutLabel(
@@ -1952,7 +2063,6 @@ void GameplayHudCommon::renderLayoutLabel(
         const float snappedScale = snappedHudFontScale(fontScale);
         const float textWidth = measureHudTextWidth(*pFont, label);
         const float paddedTextWidth = textWidth + std::abs(layout.textPadX) * 2.0f;
-        // Keep a fitted label intact when snapping up would cut off its final glyphs.
         if (paddedTextWidth * snappedScale <= resolved.width)
         {
             fontScale = snappedScale;

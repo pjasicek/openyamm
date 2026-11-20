@@ -1,0 +1,30 @@
+id: mm9.ai.marker_stops
+title: MM9 path marker stops - the marker's facing, own wait and looped clip
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, animation]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The guard walks its path in turn. At marker 1 it stops, turns to the
+        marker's facing (south) at 360 degrees a second, plays the marker's clip looped (Fidget2) and waits the
+        marker's own 4 s instead of the placement's 1-1.5 s; the next walk ends the clip. Marker 0 has no stop: the
+        placement's wait and no clip.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: marker_stops.arena.yml}
+  # At marker 1 since 6 s: turned south, the marker's facing.
+  - advance_runtime: {seconds: 8}
+  - assert:
+      actor_visible: {actor_index: 5, faces: {x: 300, y: -1000, within_degrees: 5}}
+  - advance_runtime: {seconds: 22}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: marker_reached, detail: "marker 1", min_count: 2}
+  # The marker's own wait (4 s) after marker 1; the placement's (1-1.5 s) after marker 0.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: wander_wait, detail: "seconds 4.00", min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: wander_wait, detail: "seconds 1.", min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: main=Fidget2, min_count: 2}

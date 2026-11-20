@@ -1,0 +1,231 @@
+screen: QuickReference
+
+elements:
+  - id: QuickReferenceRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 8.0
+    children:
+      - id: QuickReferenceBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 367
+        z_index: 0
+        asset:
+          default: quikref
+
+      - id: QuickReferenceExitButton
+        anchor: top_left
+        offset_x: 557
+        offset_y: 322
+        width: 75
+        height: 26
+        z_index: 20
+        interactive: true
+        asset:
+          default: but24u
+          highlighted: but24h
+          pressed: but24d
+
+      - id: QuickReferenceNameLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 18
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Name"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceLevelLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 47
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Level"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceClassLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 67
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Class"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceHpLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 87
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "HP"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceSpLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 107
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "SP"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceAcLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 127
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "AC"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceAttackLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 147
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Attack"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceMeleeDamageLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 167
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Dmg"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceShootLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 187
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Shoot"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceRangedDamageLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 207
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Dmg"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceSkillsLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 227
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Skills"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferencePointsLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 247
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Points"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceConditionLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 267
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "Cond"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: QuickReferenceQuickSpellLabel
+        anchor: top_left
+        offset_x: 22
+        offset_y: 287
+        width: 60
+        height: 13
+        z_index: 10
+        text:
+          value: "QSpell"
+          font: Arrus
+          color: white
+          align_x: left
+          align_y: top

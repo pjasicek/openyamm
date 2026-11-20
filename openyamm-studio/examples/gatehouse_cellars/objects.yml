@@ -1,0 +1,136 @@
+format: 0
+start:
+  room: room:entry
+  offset: [0, -128]
+  facing: n
+doors:
+  - id: door:gate
+    opening: open:hall_passage
+    speed: 96
+    notes: Raised by the lever in the guard room.
+  - id: door:guard
+    opening: open:hall_guard
+  - id: door:store
+    opening: open:hall_store
+  - id: door:vault
+    opening: open:passage_vault
+lights:
+  - id: light:entry
+    room: room:entry
+    radius: 900
+    color: [255, 190, 120]
+  - id: light:guard
+    room: room:guard
+    radius: 900
+    color: [255, 190, 120]
+  - id: light:hall_east
+    room: room:hall
+    offset: [320, 0]
+    radius: 1100
+    color: [255, 190, 120]
+  - id: light:hall_west
+    room: room:hall
+    offset: [-320, 0]
+    radius: 1100
+    color: [255, 190, 120]
+  - id: light:passage
+    room: room:passage
+    radius: 700
+    color: [255, 170, 100]
+  - id: light:store
+    room: room:store
+    radius: 800
+    color: [255, 170, 100]
+  - id: light:vault
+    room: room:vault
+    radius: 1000
+    color: [255, 210, 150]
+switches:
+  - id: switch:gate_lever
+    room: room:guard
+    wall: east
+    height: 112
+    size: [48, 48]
+    off: {texture: t1swdd, size: [16, 16]}
+    on: t1swdu
+chests:
+  - id: chest:store
+    room: room:store
+    offset: [-192, 192]
+    kind: ch1
+    facing: 315
+    treasure_level: 1
+    random_items: 2
+    gold: 60
+    items: [vault_key]
+  - id: chest:vault
+    room: room:vault
+    offset: [0, 224]
+    kind: ch1
+    treasure_level: 2
+    random_items: 4
+    gold: 400
+spawns:
+  - id: spawn:guard_a
+    room: room:guard
+    offset: [128, 128]
+    slot: 2
+  - id: spawn:guard_b
+    room: room:guard
+    offset: [160, -160]
+    slot: 2
+  - id: spawn:hall
+    room: room:hall
+    offset: [0, 256]
+    slot: 2
+  - id: spawn:store_a
+    room: room:store
+    offset: [128, -128]
+    slot: 1
+  - id: spawn:store_b
+    room: room:store
+    offset: [96, 160]
+    slot: 1
+decorations:
+  - id: deco:torch_entry_e
+    room: room:entry
+    decoration: 6torch01
+    wall: east
+    height: 176
+  - id: deco:torch_entry_w
+    room: room:entry
+    decoration: 6torch01
+    wall: west
+    height: 176
+  - id: deco:torch_guard
+    room: room:guard
+    decoration: 6torch01
+    wall: north
+    height: 176
+  - id: deco:torch_hall_n1
+    room: room:hall
+    decoration: 6torch01
+    wall: north
+    along: 0.25
+    height: 208
+  - id: deco:torch_hall_n2
+    room: room:hall
+    decoration: 6torch01
+    wall: north
+    along: 0.75
+    height: 208
+  - id: deco:torch_vault_e
+    room: room:vault
+    decoration: 6torch01
+    wall: east
+    height: 176
+  - id: deco:torch_vault_w
+    room: room:vault
+    decoration: 6torch01
+    wall: west
+    height: 176
+exits:
+  - id: exit:door
+    room: room:entry
+    wall: south
+    to: exit:new_sorpigal

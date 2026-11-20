@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talents v2 · A</title>
+<!-- Talent tree v2, mockup A (2026-11-14, revised the same day): the built layout A extended. Design only; values
+     are simulated. Points come from levels only (one per 15); the trees are Arms, Archery and Arcana, and keystones
+     are gated by 10 points in a tree; Multishot replaces Volley; Archery is bows only; Lichborne is removed and the
+     Death Knight has no Oath (user, 2026-11-14).
+     ?tip=<key> keeps an entry in the detail card (e.g. row:sweeping, row:cleave, ks:3, points, lone);
+     ?slot3=open leaves keystone slot 3 to choose. -->
+<style>
+@font-face { font-family: Fondamento; src: url(fonts/fondamento_regular.ttf); font-display: block; }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(fonts/openyamm_lucida_faithful.ttf); font-display: block; }
+@font-face { font-family: Smallnum; src: url(fonts/openyamm_smallnum_faithful.ttf); font-display: block; }
+@font-face { font-family: Create; src: url(fonts/openyamm_create_faithful.ttf); font-display: block; }
+
+:root {
+  color-scheme: dark;
+  --ivory: #efe0bc; --body: #c8c7a7; --gold: #f2d27a; --brass: #b29a64; --muted: #8f978a; --grey: #6f746c;
+  --teal: #59d2c8; --jade: #85df8b; --refusal: #e49a8c; --rule: #5a5446;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+#fit { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.stage { position: relative; width: 1024px; height: 768px; overflow: hidden; color: var(--ivory);
+  background: #070b0c url(art/character_screen.jpg) 0 0 / 1024px 768px; font: 13px Smallnum, monospace;
+  user-select: none; cursor: default; }
+.abs { position: absolute; }
+.page { position: absolute; left: 0; top: 38px; width: 747px; height: 552px;
+  background: #0d1314 url(art/skills_surface.jpg) 0 0 / 747px 552px; box-shadow: inset -1px 0 0 #000; }
+.portrait { position: absolute; left: 54px; top: 629px; width: 61px; height: 91px; border-radius: 50%;
+  background: #0b0f10 url(art/portrait_lich.png) center 42% / 112% auto no-repeat; }
+.rule { position: absolute; height: 1px; background: linear-gradient(90deg, #6a604a, #4a4a3e 70%, transparent); }
+
+/* type */
+.title { font: 30px Create, serif; letter-spacing: .5px; color: var(--ivory); }
+.who { font: 12px Smallnum, monospace; color: var(--muted); letter-spacing: .3px; }
+.grp { font: 21px Create, serif; color: var(--gold); white-space: nowrap; }
+.grp small { font: 12px Smallnum, monospace; color: var(--muted); margin-left: 8px; }
+.sub { font: 11px Smallnum, monospace; color: var(--muted); }
+
+/* the Skills switch: Obsidian tab art with a live Fondamento label */
+.switch { position: absolute; display: grid; place-items: center; font: 19px Fondamento, serif; color: #e8d1a4;
+  background: url(art/tab_normal.png) 0 0 / 100% 100%; text-shadow: 0 1px 2px #000; }
+.switch:hover { background-image: url(art/tab_hover.png); color: #fff3d0; }
+.btn { position: absolute; display: grid; place-items: center; font: 15px Fondamento, serif; color: #e8d1a4;
+  background: url(art/tab_normal.png) 0 0 / 100% 100%; text-shadow: 0 1px 2px #000; }
+.btn:hover { background-image: url(art/tab_hover.png); color: #fff3d0; }
+
+/* points */
+.pts { position: absolute; display: flex; align-items: flex-end; gap: 10px; white-space: nowrap; }
+.pts .n { font: 22px Create, serif; color: var(--ivory); line-height: 1; text-align: center; }
+.pts .n small { display: block; font: 10px Smallnum, monospace; color: var(--muted); margin-top: 3px; letter-spacing: .3px; }
+.pts .op { font: 18px Create, serif; color: var(--brass); padding-bottom: 14px; }
+.pts .free .n, .pts .free { color: var(--jade); }
+.pts .hot { padding: 2px 6px; border-radius: 2px; }
+.pts .hot:hover { background: #e3c18522; }
+
+/* talent rows */
+.row { position: absolute; height: 28px; display: flex; align-items: center; gap: 6px; padding: 0 4px; border-radius: 2px; }
+.row:hover, .row.pin { background: #e3c18522; }
+.ic { position: relative; flex: none; width: 22px; height: 22px; background: #151b1c center / 90% no-repeat;
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px #6f6448; overflow: hidden; }
+.ic.item { background-size: contain; }
+.ic u { position: absolute; left: 50%; top: 50%; width: 36%; height: 135%; transform: translate(-50%, -50%) rotate(45deg);
+  background: center / contain no-repeat; }
+.active .ic { border-radius: 50%; box-shadow: 0 0 0 1px #000, 0 0 0 2px #6f6448, 0 0 0 3px #000, 0 0 0 4px #6f6448; }
+.learned .ic { box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--gold); }
+.active.learned .ic { box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--gold), 0 0 0 3px #000, 0 0 0 4px var(--gold); }
+.learnable .ic { box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--teal); }
+.active.learnable .ic { box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--teal), 0 0 0 3px #000, 0 0 0 4px var(--teal); }
+.locked .ic { filter: grayscale(1) brightness(.4); }
+.nm { flex: 1; min-width: 0; font: 13.5px Lucida, sans-serif; color: var(--ivory); white-space: nowrap; overflow: hidden; }
+.learnable .nm { color: var(--teal); }
+.locked .nm { color: var(--grey); }
+.pips { display: flex; gap: 3px; flex: none; }
+.pips b { width: 7px; height: 7px; background: #3a3428; box-shadow: 0 0 0 1px #000; }
+.pips b.on { background: var(--gold); }
+.pips b.next { background: #123331; box-shadow: 0 0 0 1px var(--teal); }
+.nmax { flex: none; width: 24px; text-align: right; font: 11px Smallnum, monospace; color: var(--muted); }
+.full .nmax { color: var(--gold); }
+.key { position: absolute; left: -3px; top: -4px; font: 9px Smallnum, monospace; line-height: 10px; padding: 0 2px;
+  color: var(--ivory); background: #0d1314; box-shadow: 0 0 0 1px #6f6448; z-index: 2; }
+.needs { position: absolute; width: 8px; height: 15px; border-left: 1px solid #6f6448; border-bottom: 1px solid #6f6448; }
+.innate .ic { box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--brass), 0 0 0 3px #000, 0 0 6px #b29a6488; }
+.innate .nm { color: var(--body); }
+.tag { flex: none; font: 10px Smallnum, monospace; color: #0d1314; background: var(--brass); padding: 0 4px; line-height: 13px;
+  border-radius: 2px; letter-spacing: .3px; }
+
+/* keystone strip */
+.ks { position: absolute; width: 124px; height: 46px; display: flex; align-items: center; gap: 5px; padding: 0 3px;
+  border-radius: 3px; }
+.ks:hover, .ks.pin { background: #e3c18522; }
+.sock { position: relative; flex: none; width: 40px; height: 40px; background: url(art/socket.png) 0 0 / 100% 100%; }
+.sock i { position: absolute; left: 22%; top: 22%; width: 56%; height: 56%; border-radius: 50%;
+  background: #0d1314 center / cover no-repeat; }
+.ks.filled .sock i { box-shadow: 0 0 0 1px #000, 0 0 8px #f2d27a88; }
+.ks.open .sock i { background: radial-gradient(#1f5d58, #0d1314 70%); box-shadow: 0 0 0 1px var(--teal), 0 0 10px #59d2c8aa;
+  animation: glow 1.6s ease-in-out infinite alternate; }
+.ks.open .sock i::after { content: "+"; position: absolute; inset: 0; display: grid; place-items: center;
+  font: 18px Create, serif; color: var(--teal); }
+.ks.locked .sock { filter: grayscale(.8) brightness(.55); }
+.ks.locked .sock i { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Crect x='3' y='5.5' width='6' height='4.5' rx='.6' fill='%238f8a74'/%3E%3Cpath d='M4.3 5.5V4.2a1.7 1.7 0 0 1 3.4 0v1.3' fill='none' stroke='%238f8a74' stroke-width='1.1'/%3E%3C/svg%3E");
+  background-size: 70%; }
+.ks .t { min-width: 0; line-height: 1.15; white-space: nowrap; overflow: hidden; }
+.ks .t b { display: block; font: 14px Lucida, sans-serif; font-weight: normal; color: var(--ivory); white-space: nowrap; }
+.ks.open .t b { color: var(--teal); }
+.ks.locked .t b { color: var(--grey); }
+.ks .t span { font: 10px Smallnum, monospace; color: var(--muted); white-space: nowrap; }
+.ks.filled .t span.kind { color: var(--gold); }
+@keyframes glow { from { box-shadow: 0 0 0 1px var(--teal), 0 0 4px #59d2c855; } to { box-shadow: 0 0 0 1px var(--teal), 0 0 12px #59d2c8cc; } }
+
+/* detail card: the built page's fixed card under the trees (frame9), for the hovered or clicked entry */
+#detail { position: absolute; left: 16px; top: 456px; width: 716px; height: 132px; padding: 1px 8px 0;
+  border: 14px solid transparent; border-image: url(art/frame9.png) 82 / 14px stretch;
+  background: #0b1112ea padding-box; box-shadow: 0 4px 14px #0009; overflow: hidden; }
+#detail .dh { display: flex; align-items: center; gap: 9px; margin: 0 0 4px; height: 28px; }
+#detail .dh .ic { width: 24px; height: 24px; }
+#detail .dh .sock { width: 32px; height: 32px; margin: -4px 0; }
+#detail h3 { margin: 0; font: 22px Create, serif; font-weight: normal; color: var(--ivory); white-space: nowrap; }
+#detail .kind { min-width: 0; font: 11px Smallnum, monospace; color: var(--gold); letter-spacing: .4px; white-space: nowrap;
+  overflow: hidden; padding-top: 5px; }
+#detail p { margin: 2px 0; font: 12px/1.35 Smallnum, monospace; color: var(--body); }
+#detail .now { color: var(--ivory); }
+#detail .next { color: var(--jade); }
+#detail .ksx { color: var(--gold); }
+#detail .no { color: var(--refusal); }
+#detail .hint { color: var(--muted); font-size: 11px; }
+#detail .k { color: var(--muted); }
+#status { position: absolute; left: 110px; top: 596px; width: 572px; height: 20px; text-align: center;
+  font: 13px Lucida, sans-serif; color: var(--ivory); white-space: nowrap; overflow: hidden; text-shadow: 0 1px 2px #000; }
+</style>
+</head>
+<body>
+<div id="fit"><div class="stage" id="stage"></div></div>
+<script>
+'use strict';
+// ---------- the character (TALENT_TREE_V2.md, simulated) ----------
+// Points come from levels only: 1 per 15 levels (user, 2026-11-14).
+const PER_POINT = 15;
+const HERO = { name: 'Vardis', cls: 'Death Knight · Lich King', level: 500, difficulty: 'Beyond Madness',
+  levelPoints: 0, weaponSkill: 'Sword 120', twoHanded: true, className: 'Death Knight' };
+HERO.levelPoints = Math.floor(HERO.level / PER_POINT);
+const params = new URLSearchParams(location.search);
+const SLOT3_OPEN = params.get('slot3') === 'open';
+
+const A = (n) => `art/${n}.png`;
+const ARC = 'the 120° arc in front (±60°)';
+// rank_(r): the effect text at rank r (1-based). lock: an unmet requirement. warn: why a rank does nothing for him.
+// key: action-bar key of a learned active.
+const TREES = [
+  { id: 'arms', name: 'Arms', rows: [
+    { id: 'wt', name: 'Weapon Training', kind: 'passive', max: 5, rank: 5, art: 'item_sword', rot: true,
+      rank_: (r) => `+${2 * r} % Might, Endurance and Speed` },
+    { id: 'cleave', name: 'Cleave', kind: 'active', max: 3, rank: 3, art: 'item_axe', rot: true, key: '1',
+      rank_: (r) => `a burst: 150 % to everything in ${ARC} and a 1 s stagger, cooldown ${[12, 10, 8][r - 1]} s` },
+    { id: 'sweeping', name: 'Sweeping Blows', kind: 'passive', max: 3, rank: 3, art: 'spell_flyingfist', isNew: true,
+      needs: 'cleave',
+      rank_: (r) => `every swing also strikes ${[1, 2, 3][r - 1]} more in the same arc as Cleave, ${ARC}, at 50 % (30 % + 0.25 % per point of ${HERO.weaponSkill}, at most 50 %)`,
+      keystone: () => 'Warlord: always 50 %, and 4 more monsters instead of 3' },
+    { id: 'frenzy', name: 'Onslaught', kind: 'passive', max: 3, rank: 3, art: 'buff_sbf08a',
+      rank_: (r) => `when you kill a monster, gain a stack of +1 % attack speed, up to ${10 * r} stacks (+${10 * r} %); the stacks last 30 s, every kill refreshes them` },
+    { id: 'charge', name: 'Charge', kind: 'active', max: 3, rank: 3, art: 'item_boots', item: true, key: '2',
+      rank_: (r) => `dash to the target, a blow, stagger 1.5 s, cooldown ${[25, 22, 19][r - 1]} s` },
+    { id: 'shieldwall', name: 'Shield Wall', kind: 'active', max: 3, rank: 0, art: 'item_tower_shield', item: true,
+      warn: 'He fights with a two-handed sword: no shield, so no Shield Wall.',
+      rank_: (r) => `with a shield: 50 % less damage for 6 s, cooldown ${[60, 50, 40][r - 1]} s` },
+  ] },
+  { id: 'archery', name: 'Archery', only: 'bows only', rows: [
+    { id: 'marksman', name: 'Marksman', kind: 'passive', max: 5, rank: 0, art: 'item_longbow', rot: true,
+      rank_: (r) => `+${2 * r} % Accuracy and Speed` },
+    { id: 'multishot', name: 'Multishot', kind: 'active', max: 3, rank: 0, art: 'spell_shrapmetal', isNew: true,
+      rank_: (r) => `${r + 1} bow attacks at once across a ±30° cone, 75 % each (with Grandmaster Bow each carries its extra arrow); every arrow hits the first monster in its line: point-blank all land on the target, against a spread group they split. Cooldown ${[12, 10, 8][r - 1]} s` },
+    { id: 'disengage', name: 'Disengage', kind: 'active', max: 3, rank: 0, art: 'buff_sba02a',
+      rank_: (r) => `leap back 420, cooldown ${[15, 13, 11][r - 1]} s` },
+    { id: 'pinning', name: 'Pinning Shot', kind: 'active', max: 3, rank: 0, art: 'spell_paralyze',
+      rank_: (r) => `a shot that halves the target's speed for ${[4, 5, 6][r - 1]} s, cooldown 10 s` },
+    { id: 'steady', name: 'Steady Aim', kind: 'passive', max: 3, rank: 0, art: 'buff_sbb09a',
+      rank_: (r) => `+${5 * r} % Luck while standing still` },
+    { id: 'piercing', name: 'Piercing Arrows', kind: 'passive', max: 3, rank: 0, art: 'spell_lightbolt', isNew: true,
+      rank_: (r) => `each arrow continues to ${r} monster${r > 1 ? 's' : ''} behind the target at 50 %` },
+  ] },
+  { id: 'arcana', name: 'Arcana', rows: [
+    { id: 'attune', name: 'Attunement', kind: 'passive', max: 5, rank: 5, art: 'buff_sbv02a',
+      rank_: (r) => `+${2 * r} % Intellect, Personality, Endurance, spell damage and healing` },
+    { id: 'blink', name: 'Blink', kind: 'active', max: 3, rank: 3, art: 'buff_sba10a', key: '3',
+      rank_: (r) => `teleport 1600 forward, cooldown ${[15, 13, 11][r - 1]} s` },
+    { id: 'surge', name: 'Spell Surge', kind: 'active', max: 3, rank: 0, art: 'spell_incinerate',
+      lock: 'Needs a magic school at Master (Dark: Expert)',
+      rank_: (r) => `the next spell is free and hits 50 % harder, cooldown ${[45, 40, 35][r - 1]} s` },
+    { id: 'resolve', name: 'Resolve', kind: 'passive', max: 5, rank: 5, art: 'buff_sbl08a',
+      rank_: (r) => `+${2 * r} % to all resistances` },
+    { id: 'overload', name: 'Overload', kind: 'passive', max: 3, rank: 0, art: 'spell_lightningbolt', isNew: true,
+      rank_: (r) => `area spells +${10 * r} % per monster hit beyond the first (at most 3 more)` },
+    { id: 'binding', name: 'Binding Circle', kind: 'active', max: 3, rank: 0, art: 'debuff_dark_grasp', isNew: true,
+      rank_: (r) => `roots every monster within 500 for ${[2, 2.5, 3][r - 1]} s, cooldown ${[20, 18, 16][r - 1]} s` },
+  ] },
+];
+const SHARED = { id: 'bloodthirst', name: 'Bloodthirst', kind: 'passive', max: 3, rank: 3, art: 'spell_lifedrain', isNew: true,
+  rank_: (r) => `+${2 * r} % leech on melee, ranged and spells; the leech floor's ÷5 becomes ÷${[4, 3, 2.5][r - 1]}, once per swing or cast` };
+const INNATE = { id: 'lone', name: 'Lone Discipline', art: 'buff_sbe05a' };
+
+// Keystones are gated by tree points, not by class (user, 2026-11-14): Warlord, Deadeye and Archon each need 10
+// points in their tree; Unbroken is for anyone. Every other class also has an Oath of its own; the Death Knight has
+// none since Lichborne was removed (user, 2026-11-14). short: the strip's label. weak, idle: why it does little for him.
+const GATE = 10;
+const NO_OATH = `Oath: the ${HERO.className} has none (the other classes each have their own).`;
+const KEYSTONES = {
+  unbroken: { name: 'Unbroken', short: 'Anyone', kind: 'Anyone', art: 'spell_stoneskin',
+    text: 'The part of one landed hit above 30 % of max HP is halved.',
+    now: 'A hit of 50 % of your max HP lands as 40 %; 100 % lands as 65 %.' },
+  warlord: { name: 'Warlord', short: 'Arms', kind: '10 in Arms', gate: 'arms', art: 'spell_heroism',
+    text: 'Sweeping Blows always at its 50 % cap with one more monster.',
+    now: 'Sweeping Blows 3 more at 50 % → 4 more at 50 %.' },
+  deadeye: { name: 'Deadeye', short: 'Archery', kind: '10 in Archery', gate: 'archery', art: 'buff_sbm03a',
+    text: '+30 % bow damage (not a Dragon\'s breath); Piercing Arrows at 75 %.' },
+  archon: { name: 'Archon', short: 'Arcana', kind: '10 in Arcana', gate: 'arcana', art: 'spell_dayofthegods',
+    text: 'Mana Shield absorbs 10 HP per SP instead of 5 once the skill is at its cap of 50.',
+    now: 'nothing: it works only through Mana Shield, which a Death Knight does not train.',
+    weak: 'In practice a weak pick for him; it costs no points.', idle: 'it does nothing without Mana Shield' },
+};
+const SLOTS = [
+  { level: 150, ks: 'unbroken' },
+  { level: 300, ks: 'warlord' },
+  { level: 450, ks: SLOT3_OPEN ? null : 'archon' },
+  { level: 600, ks: null },
+  { level: 750, ks: null },
+];
+const ORDER = ['unbroken', 'warlord', 'deadeye', 'archon'];
+
+const ALL_ROWS = TREES.flatMap((t) => t.rows).concat([SHARED]);
+const TOTAL = HERO.levelPoints;
+const SPENT = ALL_ROWS.reduce((s, r) => s + r.rank, 0);
+const FREE = TOTAL - SPENT;
+const NEXT_POINT = (TOTAL + 1) * PER_POINT;
+const ALL_COST = ALL_ROWS.reduce((s, r) => s + r.max, 0);
+const slotsOpen = SLOTS.filter((s) => s.level <= HERO.level).length;
+const treeSpent = (t) => t.rows.reduce((s, r) => s + r.rank, 0);
+const boundAt = (id) => SLOTS.findIndex((x) => x.ks === id);
+
+// A keystone's requirement for this character. need: what it asks and what he has; more: the points still missing.
+function req(id)
+{
+  const k = KEYSTONES[id];
+  if (!k.gate) return { met: true, need: 'for anyone' };
+  const t = TREES.find((x) => x.id === k.gate);
+  const have = treeSpent(t);
+  const more = Math.max(0, GATE - have);
+  return { met: more === 0, have, more, tree: t.name, need: `needs ${GATE} points in ${t.name}: you have ${have}` };
+}
+// The requirement and whether it is met, e.g. "needs 10 points in Arcana: you have 13 — available".
+function reqLine(id)
+{
+  const r = req(id);
+  const at = boundAt(id);
+  const state = at >= 0 ? `bound in slot ${at + 1}` : r.met ? 'available' : `needs ${r.more} more points`;
+  return `${r.need} — ${state}`;
+}
+const cap = (s) => s[0].toUpperCase() + s.slice(1);
+
+function stateOf(r)
+{
+  if (r.lock && r.rank === 0) return 'locked';
+  if (r.rank === r.max) return 'learned full';
+  if (r.rank > 0) return FREE > 0 ? 'learned more' : 'learned';
+  return FREE > 0 ? 'learnable' : '';
+}
+
+// ---------- drawing ----------
+function icon(r)
+{
+  const bg = r.rot ? '' : `background-image:url(${A(r.art)})`;
+  return `<span class="ic ${r.item ? 'item' : ''}" style="${bg}">`
+    + (r.rot ? `<u style="background-image:url(${A(r.art)})"></u>` : '') + '</span>';
+}
+function pips(r)
+{
+  let s = '<span class="pips">';
+  const st = stateOf(r);
+  for (let i = 0; i < r.max; ++i)
+  {
+    s += `<b class="${i < r.rank ? 'on' : i === r.rank && st !== 'locked' && FREE > 0 ? 'next' : ''}"></b>`;
+  }
+  return s + '</span>';
+}
+function rowHtml(r, x, y, w, extra = '')
+{
+  const st = stateOf(r);
+  return `<div class="row ${r.kind} ${st}" data-tip="row:${r.id}" style="left:${x}px;top:${y}px;width:${w}px">
+    <span style="position:relative;display:flex">${icon(r)}${r.key && r.rank ? `<span class="key">${r.key}</span>` : ''}</span>
+    <span class="nm">${r.name}</span>${extra}${pips(r)}<span class="nmax">${r.rank}/${r.max}</span></div>`;
+}
+function treeHeader(t, x, y)
+{
+  const max = t.rows.reduce((s, r) => s + r.max, 0);
+  return `<div class="grp abs" style="left:${x}px;top:${y}px">${t.name}<small>${treeSpent(t)} / ${max}${t.only ? ` · ${t.only}` : ''}</small></div>`;
+}
+function socketIcon(art) { return `<span class="sock"><i style="${art ? `background-image:url(${A(art)})` : ''}"></i></span>`; }
+function slotHtml(s, i, x, y)
+{
+  const open = s.level <= HERO.level;
+  const k = s.ks && KEYSTONES[s.ks];
+  const cls = k ? 'filled' : open ? 'open' : 'locked';
+  const name = k ? k.name : open ? 'Choose' : 'Locked';
+  const sub = k ? `<span class="kind">${k.short}</span> <span>· ${s.level}</span>`
+    : `<span>level ${s.level}</span>`;
+  return `<div class="ks ${cls}" data-tip="ks:${i}" style="left:${x}px;top:${y}px">${socketIcon(k && k.art)}
+    <span class="t"><b>${name}</b>${sub}</span></div>`;
+}
+
+function render()
+{
+  let s = '<div class="page"></div><div class="portrait"></div>';
+  // header: one source of points (levels), what is spent and what is left
+  s += `<div class="title abs" style="left:22px;top:44px">Talents</div>`;
+  s += `<div class="who abs" style="left:146px;top:52px;line-height:16px">${HERO.name} · ${HERO.cls}<br>level ${HERO.level} · ${HERO.difficulty}</div>`;
+  s += `<div class="pts" data-tip="points" style="left:376px;top:47px">
+      <span class="hot"><span class="n">${TOTAL}<small>from levels</small></span></span><span class="op">·</span>
+      <span class="hot"><span class="n">${SPENT}<small>spent</small></span></span><span class="op">·</span>
+      <span class="hot free"><span class="n">${FREE}<small style="color:var(--jade)">to spend</small></span></span></div>`;
+  s += `<div class="switch" style="left:610px;top:48px;width:118px;height:34px">Skills</div>`;
+  s += `<div class="rule" style="left:22px;top:100px;width:706px"></div>`;
+  // keystones: a label column and five sockets in one strip
+  s += `<div class="grp abs" style="left:22px;top:108px;font-size:18px;line-height:19px">Keystones<br>
+    <small style="margin:0">${SLOTS.filter((x) => x.ks).length} of 5 bound</small></div>`;
+  SLOTS.forEach((sl, i) => { s += slotHtml(sl, i, 106 + i * 124, 104); });
+  s += `<div class="rule" style="left:22px;top:154px;width:706px"></div>`;
+  // trees
+  const colX = [18, 256, 494], colW = 238, top = 158;
+  TREES.forEach((t, c) =>
+  {
+    s += treeHeader(t, colX[c] + 2, top);
+    s += `<div class="rule" style="left:${colX[c]}px;top:${top + 26}px;width:${colW - 6}px"></div>`;
+    t.rows.forEach((r, i) =>
+    {
+      const y = top + 30 + i * 28;
+      if (r.needs)
+      {
+        s += `<div class="needs" style="left:${colX[c] + 15}px;top:${y - 3}px"></div>`;
+        s += rowHtml(r, colX[c] + 8, y, colW - 10);
+      }
+      else
+      {
+        s += rowHtml(r, colX[c], y, colW - 2);
+      }
+    });
+  });
+  // any tree + innate
+  s += `<div class="rule" style="left:22px;top:418px;width:706px"></div>`;
+  s += `<div class="grp abs" style="left:24px;top:425px;font-size:16px">Any tree</div>`;
+  s += rowHtml(SHARED, 112, 422, 226);
+  s += `<div class="row innate passive" data-tip="lone" style="left:372px;top:422px;width:356px">${icon(INNATE)}
+    <span class="nm">${INNATE.name}</span><span class="sub" style="color:var(--body)">Bodybuilding Grandmaster</span>
+    <span class="tag">INNATE</span></div>`;
+  // the detail card (the hovered or clicked entry; the points when nothing is)
+  s += `<div id="detail"></div><div id="status"></div>`;
+  document.getElementById('stage').innerHTML = s;
+}
+
+// ---------- the detail card ----------
+function head(iconHtml, name, kind)
+{
+  return `<div class="dh">${iconHtml}<h3>${name}</h3><span class="kind">${kind}</span></div>`;
+}
+function rowDetail(r, tree)
+{
+  const st = stateOf(r);
+  // Archery is bows only: none of its rows touches a Dragon's breath (user, 2026-11-14)
+  const tr = TREES.find((x) => x.name === tree);
+  const kind = [tr && tr.only ? `${tree} (${tr.only}, never a Dragon's breath)` : tree, r.kind === 'active' ? 'Active' : 'Passive', `rank ${r.rank}/${r.max}`,
+    r.rank === r.max ? 'fully learned' : '', r.key && r.rank ? `action bar key ${r.key}` : '',
+    r.needs ? 'needs Cleave (learned)' : '', r.isNew ? 'new in v2' : ''].filter(Boolean).join(' · ');
+  let s = head(`<span class="dh ${r.kind} ${st}" style="margin:0">${icon(r)}</span>`, r.name, kind);
+  if (r.rank > 0) s += `<p class="now"><span class="k">Now (rank ${r.rank}):</span> ${r.rank_(r.rank)}</p>`;
+  if (r.rank < r.max) s += `<p class="next"><span class="k">Next (rank ${r.rank + 1}):</span> ${r.rank_(r.rank + 1)}</p>`;
+  if (r.keystone && r.keystone()) s += `<p class="ksx">◆ ${r.keystone()}</p>`;
+  if (st === 'locked') s += `<p class="no">${r.lock}</p>`;
+  if (r.warn) s += `<p class="no">${r.warn}</p>`;
+  const hint = (st === 'locked' ? '' : r.rank < r.max ? (FREE > 0 ? `Click: learn rank ${r.rank + 1} (1 point). ` : `No points left: the next at level ${NEXT_POINT}. `) : '')
+    + (r.kind === 'active' ? 'Right click: put on the action bar.' : '');
+  if (hint) s += `<p class="hint">${hint}</p>`;
+  return s;
+}
+function slotDetail(i)
+{
+  const sl = SLOTS[i];
+  const k = sl.ks && KEYSTONES[sl.ks];
+  if (k)
+  {
+    return head(socketIcon(k.art), k.name, `Keystone · slot ${i + 1} · level ${sl.level} · ${k.kind}`)
+      + `<p>${k.text}</p><p class="${k.weak ? 'no' : 'now'}"><span class="k">For you:</span> ${k.now}</p>
+      ${k.weak ? `<p class="no">${k.weak}</p>` : ''}<p class="k">${cap(reqLine(sl.ks))}.</p>
+      <p class="hint">Keystones cost no points and are not refunded by Forget talents (rule open).</p>`;
+  }
+  // the keystones not yet bound, the available ones first
+  const left = ORDER.filter((id) => boundAt(id) < 0).sort((a, b) => req(b).met - req(a).met);
+  const lines = left.map((id) => `<p class="${req(id).met ? 'next' : 'no'}">${KEYSTONES[id].name}: ${reqLine(id)}${KEYSTONES[id].idle ? `, but ${KEYSTONES[id].idle}` : ''}.</p>`).join('')
+    + `<p class="k">${NO_OATH}</p>`;
+  if (sl.level <= HERO.level)
+  {
+    return head(socketIcon(null), `Keystone slot ${i + 1}`, `Open since level ${sl.level} · choose one`)
+      + lines + `<p class="hint">Click: open the keystone list.</p>`;
+  }
+  return head(socketIcon(null), `Keystone slot ${i + 1}`, `Opens at level ${sl.level} · ${sl.level - HERO.level} levels to go`)
+    + `<p>Slots open one per 150 levels; one keystone per slot, each once. Warlord, Deadeye and Archon need ${GATE} points in Arms, Archery or Arcana.</p>`
+    + lines;
+}
+function detailHtml(key)
+{
+  const [kind, id] = key.split(':');
+  if (kind === 'row')
+  {
+    for (const t of TREES)
+    {
+      const r = t.rows.find((x) => x.id === id);
+      if (r) return rowDetail(r, t.name);
+    }
+    return rowDetail(SHARED, 'Any tree');
+  }
+  if (kind === 'ks') return slotDetail(Number(id));
+  if (kind === 'lone')
+  {
+    return head(`<span class="dh innate" style="margin:0">${icon(INNATE)}</span>`, 'Lone Discipline',
+      'Innate · no points · every solo character')
+      + `<p>A solo character trains Bodybuilding one mastery above its class cap after its first promotion, and to
+      Grandmaster after its final one.</p><p class="now"><span class="k">Now:</span> Bodybuilding may reach
+      Grandmaster (Lich King is the final promotion).</p>`;
+  }
+  // points (also the card when nothing is hovered)
+  const byTree = TREES.map((t) => `${t.name} ${treeSpent(t)}`).join(', ');
+  return head('', 'Talent points', `${TOTAL} from levels · ${SPENT} spent · ${FREE} to spend`)
+    + `<p><span class="k">Levels:</span> 1 point per ${PER_POINT} levels = ${TOTAL}. The next at level ${NEXT_POINT}.</p>
+    <p><span class="k">Spent:</span> ${byTree}, Bloodthirst ${SHARED.rank}. All rows cost ${ALL_COST} (level ${ALL_COST * PER_POINT}).</p>
+    <p><span class="k">Keystones:</span> ${slotsOpen} of 5 slots open (one per 150 levels), the next at level 600. They cost no points.</p>
+    <p class="hint">Hover a talent, a keystone or Lone Discipline to see it here; click to keep it.</p>`;
+}
+const STATUS = {
+  row: (id) => { const r = ALL_ROWS.find((x) => x.id === id); return r.rank < r.max && stateOf(r) !== 'locked' && FREE > 0 ? `${r.name}: click to learn rank ${r.rank + 1}` : r.name; },
+  ks: (i) => `Keystone slot ${Number(i) + 1} · level ${SLOTS[i].level}`,
+  lone: () => 'Lone Discipline: innate, no points',
+  points: () => `${FREE} points to spend`,
+};
+const DEFAULT_STATUS = 'Click: learn a rank · Right click: put an active on the action bar';
+
+let pinned = params.get('tip');
+function showDetail(key, el)
+{
+  document.querySelectorAll('.pin').forEach((x) => x.classList.remove('pin'));
+  if (el) el.classList.add('pin');
+  document.getElementById('detail').innerHTML = detailHtml(key || 'points');
+  const [kind, id] = (key || '').split(':');
+  document.getElementById('status').textContent = key && STATUS[kind] ? STATUS[kind](id) : DEFAULT_STATUS;
+}
+function keyOf(el) { return el && el.closest('[data-tip]'); }
+
+function fit()
+{
+  const f = document.getElementById('fit');
+  const s = Math.min(innerWidth / 1024, innerHeight / 768);
+  f.style.transform = `translate(${(innerWidth - 1024 * s) / 2}px, ${(innerHeight - 768 * s) / 2}px) scale(${s})`;
+}
+
+render();
+fit();
+addEventListener('resize', fit);
+const stageEl = document.getElementById('stage');
+stageEl.addEventListener('mouseover', (e) =>
+{
+  const el = keyOf(e.target);
+  if (el) showDetail(el.dataset.tip, el);
+  else if (pinned) showDetail(pinned, document.querySelector(`[data-tip="${pinned}"]`));
+  else showDetail(null);
+});
+stageEl.addEventListener('click', (e) =>
+{
+  const el = keyOf(e.target);
+  pinned = el && pinned !== el.dataset.tip ? el.dataset.tip : null;
+  showDetail(pinned, pinned && el);
+});
+stageEl.addEventListener('contextmenu', (e) => e.preventDefault());
+showDetail(pinned, pinned && document.querySelector(`[data-tip="${pinned}"]`));
+</script>
+</body>
+</html>

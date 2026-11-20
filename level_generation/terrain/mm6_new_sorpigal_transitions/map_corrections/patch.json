@@ -1,0 +1,89 @@
+{
+  "source": "assets_dev/worlds/mm6/maps/oute3.odm",
+  "source_sha256": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4",
+  "output_sha256": "732542cf6ab16257723c1fae7d6ad9f9cb69c2755928cb67f70b9cae505c2134",
+  "changes": [
+    {
+      "column": 16,
+      "row": 98,
+      "world_x": -24576,
+      "world_y": -17408,
+      "before": "6grdrte",
+      "after": "6grdrtxne",
+      "before_raw_id": 106,
+      "after_raw_id": 110,
+      "byte_offset": 29124
+    },
+    {
+      "column": 17,
+      "row": 99,
+      "world_x": -24064,
+      "world_y": -17920,
+      "before": "6grdrtne",
+      "after": "6grdrte",
+      "before_raw_id": 102,
+      "after_raw_id": 106,
+      "byte_offset": 29253
+    },
+    {
+      "column": 18,
+      "row": 86,
+      "world_x": -23552,
+      "world_y": -11264,
+      "before": "6grdrtse",
+      "after": "6grdrts",
+      "before_raw_id": 103,
+      "after_raw_id": 109,
+      "byte_offset": 27590
+    },
+    {
+      "column": 54,
+      "row": 90,
+      "world_x": -5120,
+      "world_y": -13312,
+      "before": "6grdrtxsw",
+      "after": "6grdrts",
+      "before_raw_id": 113,
+      "after_raw_id": 109,
+      "byte_offset": 28138
+    },
+    {
+      "column": 54,
+      "row": 91,
+      "world_x": -5120,
+      "world_y": -13824,
+      "before": "6grdrtw",
+      "after": "6dirttyl",
+      "before_raw_id": 107,
+      "after_raw_id": 1,
+      "byte_offset": 28266
+    },
+    {
+      "column": 54,
+      "row": 92,
+      "world_x": -5120,
+      "world_y": -14336,
+      "before": "6grdrtsw",
+      "after": "6dirttyl",
+      "before_raw_id": 105,
+      "after_raw_id": 1,
+      "byte_offset": 28394
+    },
+    {
+      "column": 57,
+      "row": 95,
+      "world_x": -3584,
+      "world_y": -15872,
+      "before": "6grdrtxnw",
+      "after": "6grastyl",
+      "before_raw_id": 112,
+      "after_raw_id": 90,
+      "byte_offset": 28781
+    }
+  ],
+  "changed_cells": 7,
+  "land_corner_conflicts_after": 0,
+  "water_tiles_changed": 0,
+  "production_map_modified": false,
+  "method": "Exhaustive 32 assignments at five ambiguous land vertices; minimize changed cells; keep all other corners."
+}

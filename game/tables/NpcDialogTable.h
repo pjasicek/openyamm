@@ -101,6 +101,9 @@ public:
         uint32_t houseId,
         const std::unordered_map<uint32_t, uint32_t> *pHouseOverrides = nullptr
     ) const;
+    // Houses where an NPC is present besides its own (a ruleset's, MAW's moved teachers), by NPC id.
+    void setExtraHouses(std::unordered_map<uint32_t, std::vector<uint32_t>> extraHouses);
+    const std::unordered_map<uint32_t, std::vector<uint32_t>> &extraHouses() const;
     std::optional<std::string> getText(uint32_t textId) const;
     std::optional<std::string> getNewsTopic(uint32_t newsId) const;
     std::optional<std::string> getNewsText(uint32_t newsId) const;
@@ -115,6 +118,7 @@ private:
     std::unordered_map<uint32_t, RosterJoinOffer> m_rosterJoinOffersByTopicId;
     std::unordered_map<uint32_t, GuildMembershipOffer> m_guildMembershipOffersByTopicId;
     std::unordered_map<uint32_t, NpcEntry> m_npcs;
+    std::unordered_map<uint32_t, std::vector<uint32_t>> m_extraHouses;
     std::unordered_map<uint32_t, NpcGreetingEntry> m_greetings;
     std::unordered_map<uint32_t, NpcTopicEntry> m_topicsById;
     std::unordered_map<uint32_t, std::string> m_texts;

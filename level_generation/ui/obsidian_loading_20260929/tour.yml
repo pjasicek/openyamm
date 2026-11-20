@@ -1,0 +1,10 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_loading_20260929/native
+exit: true
+steps:
+- wait: 2
+- capture: entrance-dialogue
+- click:
+  - 1240
+  - 754
+- wait: 4
+- capture: after-enter

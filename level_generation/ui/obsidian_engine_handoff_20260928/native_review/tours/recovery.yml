@@ -1,0 +1,17 @@
+output_dir: /tmp/obsidian-native-recovery-final
+exit: true
+steps:
+- wait: 2
+- capture: all-recovering
+- right_down: &id001
+  - 1545
+  - 237
+- click: *id001
+- capture: zoom-in
+- click:
+  - 1368
+  - 237
+- capture: zoom-out
+- right_up:
+  - 600
+  - 400

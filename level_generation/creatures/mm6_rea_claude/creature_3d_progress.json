@@ -1,0 +1,63 @@
+{
+ "creature": "mm6:rea",
+ "descriptors": [
+  "zReactor (647, 648, 652)"
+ ],
+ "scope": "FULL (user, 2026-10-13: 'do the 3D MM6 reactor your way')",
+ "route": "hand-built hard-surface model in Blender (surfaces of revolution measured from the native front frames), own rigid rig, procedural clips, procedural textures; no Meshy",
+ "meshy": {
+  "credit_limit": 1,
+  "jobs": {}
+ },
+ "stages": {
+  "references": "done",
+  "model": "done (v1, hand-built, quality budget 8.4k + glass)",
+  "rig": "done (64 rigid bones)",
+  "clips": "done (Standing, Attack, Hit, Death, Dead)",
+  "textures": "procedural; unlit with baked chrome (native-level transfer) - engine-driven deviation in README",
+  "runtime": "installed + bound (actors.yml zReactor)",
+  "regression": "mm6_reactor_actor_model_binds_the_hive_reactor passes",
+  "ingame_review": "done 2026-10-13 (review/ingame_final)",
+  "lods": "authored (build(lod=k)), wired by author_lods.py"
+ },
+ "creature_3d_identity": "mm6:rea",
+ "references_hd": {
+  "00_three_quarter.png": "295b0bd0504eff9338efeebbef148f0114ac467bc93bddf1b3797feadadf37da",
+  "01_front.png": "64197f1895751ba3dd1d34874bb57881924fce2a6d4ef739cd7218f163c0fac9",
+  "02_back.png": "b4e8cf8dd5f9fa817f7cb13bdf1e929f85be89178c96f6b54f55fd627d987974",
+  "03_left.png": "3f75b25eaac93fca16d5eba2ff4aa3de7eaf206790996af459ceb209ea27519a",
+  "04_right.png": "a6a46a2fafef61ead1b9433710070ec3633df220bea7cd2c4002878c09e775cf"
+ },
+ "references_hd_note": "Codex HD masters (2026-10-13), gated against native reasta00; used as back/side design reference (the native sprite is front-only). No Meshy job: geometry is measured from the native silhouette.",
+ "required_components": [
+  {
+   "id": "body",
+   "artifact_role": "body",
+   "required": true
+  },
+  {
+   "id": "arms_x4",
+   "artifact_role": "rig parts",
+   "required": true
+  },
+  {
+   "id": "wreck",
+   "artifact_role": "death state",
+   "required": true
+  }
+ ],
+ "installed": {
+  "source": "assets_source/worlds/mm6/models/mm6_rea.glb",
+  "sha256": "37b5220f450e8131e0ebfc1c7fd2d55c3cd78ef8fde51e3b16be7aac5cfacc4a",
+  "runtime": "assets_dev/worlds/mm6/models/mm6_rea.glb",
+  "binding": "assets_dev/worlds/mm6/models/actors.yml (zReactor)"
+ },
+ "next_action": {
+  "owner": null,
+  "action": "none"
+ },
+ "user_acceptance": {
+  "date": "2026-10-13",
+  "verdict": "accepted (\"good for me now, accepted\")"
+ }
+}

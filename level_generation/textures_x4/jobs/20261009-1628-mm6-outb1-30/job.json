@@ -1,0 +1,452 @@
+{
+ "id": "20261009-1628-mm6-outb1-30",
+ "world": "mm6",
+ "maps": [
+  "outb1.odm",
+  "zddb02.blv",
+  "outb3.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/vh3door",
+  "mm6/vh3le",
+  "mm6/vh3re",
+  "mm6/vh3roofb",
+  "mm6/vh3trimb",
+  "mm6/vh4door",
+  "mm6/vh4roof",
+  "mm6/vh4trimb",
+  "mm6/vh4winre",
+  "mm6/vh4wnlex",
+  "mm6/swplft3",
+  "mm6/swprt1a",
+  "mm6/swplft1a",
+  "mm6/swprt3",
+  "mm6/stcwal1",
+  "mm6/stcwal2",
+  "mm6/stc2re",
+  "mm6/stc2le",
+  "mm6/stc2rea",
+  "mm6/stc1le",
+  "mm6/stc1re",
+  "mm6/stc2lea",
+  "mm6/stc2128",
+  "mm6/stc2trm"
+ ],
+ "requests": {
+  "mm6/vh3door": {
+   "name": "vh3door",
+   "versions": [
+    1
+   ],
+   "material": "tall dark brown wooden house door with a pointed arched top, studded with iron rivets in a cross pattern and dark panels, under a red-brown timber lintel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh3le": {
+   "name": "vh3le",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown timber posts and rails with tan mud-brick infill panels, a vertical timber post on the left edge with a small carved bracket",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh3re": {
+   "name": "vh3re",
+   "versions": [],
+   "material": "half-timbered house facade of dark red-brown timber posts and rails with tan mud-brick infill panels, a vertical timber post on the right edge with a small carved bracket",
+   "notes": {}
+  },
+  "mm6/vh3roofb": {
+   "name": "vh3roofb",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown horizontal wooden roof boards with dark grooves between overlapping planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh3trimb": {
+   "name": "vh3trimb",
+   "versions": [
+    1
+   ],
+   "material": "plain strip of brown mud-brick with tan mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh4door": {
+   "name": "vh4door",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown wooden house door of vertical planks with a rounded top, Z-shaped braces and black iron strap hinges and ring handle, under a timber lintel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm6/vh4ctr",
+     "right": "mm6/vh4re",
+     "left": "mm6/vh4le"
+    }
+   }
+  },
+  "mm6/vh4roof": {
+   "name": "vh4roof",
+   "versions": [
+    1
+   ],
+   "material": "glossy orange-red clay barrel roof tiles in overlapping rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh4trimb": {
+   "name": "vh4trimb",
+   "versions": [
+    1
+   ],
+   "material": "plain strip of dark grey stone bricks with pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh4winre": {
+   "name": "vh4winre",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade with dark red-brown timber posts and diagonal braces, pale cream plaster upper infill, dark grey stone brick lower infill, a lit amber leaded window with a green wooden shutter on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh4wnlex": {
+   "name": "vh4wnlex",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade with dark red-brown timber posts and diagonal braces, pale cream plaster upper infill, dark grey stone brick lower infill, a closed green wooden shutter on the left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swplft3": {
+   "name": "swplft3",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough panel framed by weathered grey wooden boards with rusty iron corner brackets, frame on the left side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend3",
+      "mm6/swpend3a"
+     ],
+     "fraction": 0.405
+    }
+   }
+  },
+  "mm6/swprt1a": {
+   "name": "swprt1a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey vertical wooden plank wall with horizontal rails and a small dark red window in a grey wood frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swprt1"
+     ],
+     "fraction": 0.422
+    },
+    "2": {
+     "sources": [
+      "mm6/swprt1"
+     ],
+     "fraction": 0.422
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/swpdr1"
+    }
+   }
+  },
+  "mm6/swplft1a": {
+   "name": "swplft1a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey vertical wooden plank wall with horizontal rails and a small dark red window in a grey wood frame, mirrored",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swplft1",
+      "mm6/swpend1",
+      "mm6/swpend1a"
+     ],
+     "fraction": 0.401
+    },
+    "2": {
+     "sources": [
+      "mm6/swplft1",
+      "mm6/swpend1",
+      "mm6/swpend1a"
+     ],
+     "fraction": 0.401
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/swpdr1"
+    }
+   }
+  },
+  "mm6/swprt3": {
+   "name": "swprt3",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough panel framed by weathered grey wooden boards with rusty iron corner brackets, frame on the right side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend3a",
+      "mm6/swpend3"
+     ],
+     "fraction": 0.136
+    }
+   }
+  },
+  "mm6/stcwal1": {
+   "name": "stcwal1",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with a row of round rust-red wooden beam ends along the top and a recessed arched doorway shape; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/stcwal2": {
+   "name": "stcwal2",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with a row of round rust-red wooden beam ends along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/stc2re": {
+   "name": "stc2re",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with round rust-red wooden beam ends along the top and a dark vertical recessed groove near the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stcwal2"
+     ],
+     "fraction": 0.548
+    }
+   }
+  },
+  "mm6/stc2le": {
+   "name": "stc2le",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with round rust-red wooden beam ends along the top and a dark vertical recessed groove near the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stcwal2"
+     ],
+     "fraction": 0.541
+    }
+   }
+  },
+  "mm6/stc2rea": {
+   "name": "stc2rea",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with round rust-red wooden beam ends along the top and a dark vertical recessed groove near the right edge, with fine cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stc2re"
+     ],
+     "fraction": 0.974
+    }
+   }
+  },
+  "mm6/stc1le": {
+   "name": "stc1le",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with round rust-red wooden beam ends along the top and the left half of a recessed arched doorway shape",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stcwal1"
+     ],
+     "fraction": 0.974
+    }
+   }
+  },
+  "mm6/stc1re": {
+   "name": "stc1re",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with round rust-red wooden beam ends along the top and the right half of a recessed arched doorway shape",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stcwal1"
+     ],
+     "fraction": 0.973
+    }
+   }
+  },
+  "mm6/stc2lea": {
+   "name": "stc2lea",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall with round rust-red wooden beam ends along the top and a dark vertical recessed groove near the left edge, with fine cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stc2le",
+      "mm6/stcwal2"
+     ],
+     "fraction": 0.943
+    }
+   }
+  },
+  "mm6/stc2128": {
+   "name": "stc2128",
+   "versions": [
+    1
+   ],
+   "material": "sandy tan adobe stucco wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stcwal2"
+     ],
+     "fraction": 0.998
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/stc2trm": {
+   "name": "stc2trm",
+   "versions": [
+    1
+   ],
+   "material": "plain strip of sandy tan adobe stucco with a row of round rust-red wooden beam ends",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

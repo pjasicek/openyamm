@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, the exact 3D geometry texture guide for Alvar Cloak; image 2 supplies original icon appearance. Keep EXACT 3:4 transparent canvas with 3 columns and 4 rows, all five model silhouettes and positions duplicated top and bottom. DO NOT ENLARGE the objects; exact registration is critical. No redesigned geometry, added parts, text, floor, glow or shadow. TOP TWO ROWS: FRONT/BACK/LEFT then RIGHT/TOP/EMPTY. Paint realistic UNLIT BASE COLOUR on the gray surfaces with no baked highlights, directional lighting or ambient occlusion. Charcoal black supple leather folded low, with fine leather grain and a single gold round wheel clasp. Black leather interior folds; no extra embellishment. Preserve every gap and opaque solid edge exactly. BOTTOM TWO ROWS: Same five objects at corresponding identical positions become flat material class masks with NO texture or shading: ALL leather GREEN #00ff00. ONLY the real gold wheel clasp METAL RED #ff0000. Transparent backgrounds everywhere outside objects, empty last slot in rows 2 and 4. Maintain guide size or up to 1% smaller; NEVER bigger. Output one 1536x2048 PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_item124/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/item124.png"
+  ],
+  "selected": false,
+  "reason": "Awaiting exact registration and PBR review",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-484bbd9e-4fb4-4a65-b63e-24f0b190b4ba.png",
+  "raw_sha256": "18b77494851fa04a7ebf509b49f672ec06a335b0db06bb826ea6a857106afbcb",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_item124/paint_mask_guide.png": "e3e963ce4e4e9a547d5ce13d130e0ee5104650e344c36398eebcb8979e89a166",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/item124.png": "4351d1fdeaf51f90df2794709cc584ed63de584c2036cd3f914153ed004bc6a3"
+  },
+  "prepared_scene_sha256": "56607d23914e52558baae725c18fc427af315be5f5d0d997391e9c4b08103087"
+}

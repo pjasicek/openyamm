@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Brackenford terrain lab</title>
+<style>
+body{background:#191e19;color:#e3dfcf;font:16px system-ui;max-width:1150px;margin:35px auto;padding:0 24px}
+h1{font-size:27px}p{max-width:950px;line-height:1.55}select,input,button{font:inherit;accent-color:#a7bd78}
+.controls{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:25px 0}
+.samples{display:flex;gap:24px;flex-wrap:wrap}figure{margin:0}canvas{width:320px;height:320px;background:#315668}
+figcaption{margin:12px 0;color:#c8ceb6}.muted{color:#a4ad9b;font-size:14px}a{color:#d1e6a2}
+.game{position:relative;width:100%;max-width:1000px;aspect-ratio:4/3}.game img{position:absolute;width:100%;height:100%}
+</style>
+<h1>Brackenford · terrain lab</h1>
+<p>The same map and grid, with three terrain treatments. The AI pilot changes only the main grass tile;
+other tiles provide a smoothing control. The samples below are enlarged, not screenshots of gameplay.</p>
+<div class="controls">
+<label>Tile <select id="tile">
+<option value="grastyl">Grass — AI pilot</option><option value="grastyl2">Grass variant</option>
+<option value="dirttyl">Dirt</option><option value="dirt1">Dirt variant</option>
+<option value="grdrtn">Grass / dirt edge</option><option value="grdrtne">Grass / dirt corner</option>
+<option value="rdtyl">Rock</option><option value="rde">Rock / dirt edge</option>
+<option value="drsrns">Road</option><option value="drsrne1">Diagonal road</option>
+<option value="wtrdrn">Shore edge</option><option value="wtrdrne">Shore corner</option>
+<option value="hdwtr000">Water animation frame 0</option>
+</select></label>
+<label>Repeat <select id="repeat"><option>1</option><option>2</option><option>3</option></select></label>
+<label><input id="nearest" type="checkbox"> Show individual pixels</label>
+</div>
+<div class="samples">
+<figure><canvas id="native" width="640" height="640"></canvas><figcaption>Original · 128×128</figcaption></figure>
+<figure><canvas id="smooth2x" width="640" height="640"></canvas><figcaption>Smooth control · 256×256</figcaption></figure>
+<figure><canvas id="ai2x" width="640" height="640"></canvas><figcaption>AI grass pilot · 256×256</figcaption></figure>
+</div>
+<p class="muted">Blue behind a shore tile represents its transparent water area. The actual game animates water beneath it.
+The water frame source is already 256×256, although the native game atlas reduces it to 128×128.
+Repeating a transition tile deliberately stresses its boundaries; a real map uses matched neighbouring tiles.</p>
+<p><a href="README.md">Launch instructions and scope</a> · <a href="reference/grass_ai_prompt.txt">Exact AI prompt</a>
+· <a href="manifest.json">Source hashes and tile inventory</a></p>
+<h2>In the game</h2>
+<p>Matching camera position on the grass west of town. Slide between the original (left)
+and AI pilot (right). The actors and water continue animating between captures.</p>
+<label>Comparison split <input id="split" type="range" min="0" max="100" value="50"></label>
+<div class="game">
+<img src="review/gameplay/terrain_lab_grass_ai2x.png" alt="Brackenford with the AI grass pilot">
+<img id="originalGame" src="review/gameplay/terrain_lab_grass_native.png" alt="Brackenford with original terrain"
+style="clip-path:inset(0 50% 0 0)">
+</div>
+<p class="muted">Both captures use the frozen executable and terrain filtering set to anisotropic 8×.
+Thin grid seams at some distances are visible in the 2× runtime; this remains an experimental rendering comparison.</p>
+<script>
+let revision=0;
+async function draw(){
+ const request=++revision, name=document.querySelector('#tile').value;
+ const count=Number(document.querySelector('#repeat').value);
+ await Promise.all(['native','smooth2x','ai2x'].map(async mode=>{
+  const img=new Image(); img.src=`tiles/${mode}/${name}.png`;
+  try{await img.decode()}catch(e){return}
+  if(request!==revision)return;
+  const canvas=document.getElementById(mode),ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,640,640);ctx.imageSmoothingEnabled=!document.getElementById('nearest').checked;
+  ctx.imageSmoothingQuality='high';
+  for(let y=0;y<count;y++)for(let x=0;x<count;x++)ctx.drawImage(img,x*640/count,y*640/count,640/count,640/count);
+ }));
+}
+document.querySelectorAll('select,input').forEach(el=>el.addEventListener('change',draw));draw();
+document.getElementById('split').addEventListener('input',e=>{
+ document.getElementById('originalGame').style.clipPath=`inset(0 ${100-Number(e.target.value)}% 0 0)`;
+});
+</script>
+</html>

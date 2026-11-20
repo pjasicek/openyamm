@@ -1,0 +1,3 @@
+Saved `01_front.png` through `04_right.png` using built-in image generation, plus [the five-view review sheet](level_generation/creatures/mm7_m274_claude/references_hd/selected_views_review.png).
+
+All are unresized 1024 × 1536 RGBA. Raw returns, prompts and residual faults are recorded in `generation_runs.json`. Transparency halos and some pose/profile imperfections remain after the permitted corrections. `00_three_quarter.png` is unchanged.

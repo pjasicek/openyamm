@@ -1,0 +1,741 @@
+{
+ "id": "20261009-1649-mm8-out03-17",
+ "world": "mm8",
+ "maps": [
+  "out03.odm",
+  "d21.blv",
+  "out04.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t05fstep",
+  "mm8/t05tstep",
+  "mm8/cdb",
+  "mm8/gcsteg1l",
+  "mm8/gcsteg1r",
+  "mm8/gcstwal1",
+  "mm8/hhr1bs2",
+  "mm8/gkp103a",
+  "mm8/gkp103b",
+  "mm8/t6502",
+  "mm8/t13a01b",
+  "mm8/t13a01a",
+  "mm8/t13a12b",
+  "mm8/t13a01c",
+  "mm8/t13b06",
+  "mm8/t13a07",
+  "mm8/t13a04a",
+  "mm8/t13b04b",
+  "mm8/t13a02",
+  "mm8/t13b07",
+  "mm8/t13a04b",
+  "mm8/t13b08",
+  "mm8/t13a06",
+  "mm8/t13b04a"
+ ],
+ "requests": {
+  "mm8/t05fstep": {
+   "name": "t05fstep",
+   "versions": [
+    1
+   ],
+   "material": "horizontal row of dark grey-brown stone step blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05tstep": {
+   "name": "t05tstep",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown stone step edge carved with a row of short vertical grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/cdb": {
+   "name": "cdb",
+   "versions": [
+    1
+   ],
+   "material": "olive-grey stone blocks in staggered courses with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcsteg1l": {
+   "name": "gcsteg1l",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale pink-grey granite ashlar blocks with dark mortar beside a stone pilaster edge with a small carved ornament at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcsteg1r": {
+   "name": "gcsteg1r",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "material": "pale pink-grey granite ashlar blocks with dark mortar beside a stone pilaster edge with a small carved ornament at the base",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "9": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "10": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "11": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcsteg1l"
+     ],
+     "fraction": 0.513
+    },
+    "2": {
+     "sources": [
+      "mm8/gcsteg1l"
+     ],
+     "fraction": 0.513
+    },
+    "3": {
+     "sources": [
+      "mm8/gcsteg2l"
+     ],
+     "fraction": 0.521
+    },
+    "4": {
+     "sources": [
+      "mm8/gcsteg1l"
+     ],
+     "fraction": 0.513
+    },
+    "5": {
+     "sources": [
+      "mm8/gcsteg2l"
+     ],
+     "fraction": 0.521
+    },
+    "6": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.984
+    },
+    "7": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.984
+    },
+    "8": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.984
+    },
+    "9": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.984
+    },
+    "10": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.984
+    },
+    "11": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.984
+    }
+   },
+   "context": {
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {},
+    "10": {},
+    "11": {}
+   }
+  },
+  "mm8/gcstwal1": {
+   "name": "gcstwal1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale pink-grey granite ashlar blocks with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm8/hhr1bs2": {
+   "name": "hhr1bs2",
+   "versions": [
+    1
+   ],
+   "material": "pale cream sandstone plaster between thin dark wooden beams at top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gkp103a": {
+   "name": "gkp103a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "reddish-brown vertical plank door with two horizontal battens and a dark iron handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm8/gkp103b"
+     ],
+     "fraction": 0.688
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gkp1-rt",
+     "right": "mm8/gkp103b",
+     "top": "mm8/gkp1-ts"
+    }
+   }
+  },
+  "mm8/gkp103b": {
+   "name": "gkp103b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "reddish-brown vertical plank door with two horizontal battens and a dark iron handle",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp103a"
+     ],
+     "fraction": 0.688
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/gkp1-lt",
+     "top": "mm8/gkp1-ts"
+    },
+    "3": {
+     "right": "mm8/gkp1-lt",
+     "top": "mm8/gkp1-ts"
+    }
+   }
+  },
+  "mm8/t6502": {
+   "name": "t6502",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded grey-brown fieldstones set in dark earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t13a01b": {
+   "name": "t13a01b",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t13a01a": {
+   "name": "t13a01a",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01b"
+     ],
+     "fraction": 0.641
+    }
+   }
+  },
+  "mm8/t13a12b": {
+   "name": "t13a12b",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface, with a small weathered human skull embedded among them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01a",
+      "mm8/t13a01b"
+     ],
+     "fraction": 0.817
+    }
+   }
+  },
+  "mm8/t13a01c": {
+   "name": "t13a01c",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01a"
+     ],
+     "fraction": 0.343
+    }
+   }
+  },
+  "mm8/t13b06": {
+   "name": "t13b06",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface beside a dark wooden post of brick-like stacked logs, under a wooden beam",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01c"
+     ],
+     "fraction": 0.339
+    },
+    "2": {
+     "sources": [
+      "mm8/t13a01c",
+      "mm8/t13b04b"
+     ],
+     "fraction": 0.46
+    },
+    "3": {
+     "sources": [
+      "mm8/t13a01c",
+      "mm8/t13b04b"
+     ],
+     "fraction": 0.46
+    },
+    "4": {
+     "sources": [
+      "mm8/t13a01c",
+      "mm8/t13b04b",
+      "mm8/t13b03l"
+     ],
+     "fraction": 0.463
+    },
+    "5": {
+     "sources": [
+      "mm8/t13a01c"
+     ],
+     "fraction": 0.339
+    },
+    "6": {
+     "sources": [
+      "mm8/t13a01c"
+     ],
+     "fraction": 0.339
+    },
+    "7": {
+     "sources": [
+      "mm8/t13a01c"
+     ],
+     "fraction": 0.339
+    },
+    "8": {
+     "sources": [
+      "mm8/t13a01c"
+     ],
+     "fraction": 0.339
+    }
+   },
+   "context": {
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   }
+  },
+  "mm8/t13a07": {
+   "name": "t13a07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface beside a dark wooden post of brick-like stacked logs",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01a"
+     ],
+     "fraction": 0.495
+    },
+    "2": {
+     "sources": [
+      "mm8/t13a01a"
+     ],
+     "fraction": 0.495
+    },
+    "3": {
+     "sources": [
+      "mm8/t13a01a"
+     ],
+     "fraction": 0.495
+    }
+   }
+  },
+  "mm8/t13a04a": {
+   "name": "t13a04a",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface around a small window of green-blue glass panes in a dark wooden frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01b"
+     ],
+     "fraction": 0.408
+    }
+   }
+  },
+  "mm8/t13b04b": {
+   "name": "t13b04b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface around a tall double window of green-blue glass panes in a dark wooden frame, under a wooden beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a04a",
+      "mm8/t13a01b",
+      "mm8/t13b06"
+     ],
+     "fraction": 0.279
+    },
+    "2": {
+     "sources": [
+      "mm8/t13a04a",
+      "mm8/t13a01b",
+      "mm8/t13b06"
+     ],
+     "fraction": 0.247
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t13b07",
+     "right": "mm8/t13b06"
+    }
+   }
+  },
+  "mm8/t13a02": {
+   "name": "t13a02",
+   "versions": [
+    1
+   ],
+   "material": "large rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01a"
+     ],
+     "fraction": 0.778
+    }
+   }
+  },
+  "mm8/t13b07": {
+   "name": "t13b07",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface beside a dark wooden post, under a wooden beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01b"
+     ],
+     "fraction": 0.284
+    }
+   }
+  },
+  "mm8/t13a04b": {
+   "name": "t13a04b",
+   "versions": [
+    1
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface around a tall double window of green-blue glass panes in a dark wooden frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t13b08": {
+   "name": "t13b08",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface around a small window of green-blue glass panes in a dark wooden frame, under a wooden beam",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a01a",
+      "mm8/t13b06"
+     ],
+     "fraction": 0.184
+    },
+    "2": {
+     "sources": [
+      "mm8/t13a01a",
+      "mm8/t13b06"
+     ],
+     "fraction": 0.184
+    },
+    "3": {
+     "sources": [
+      "mm8/t13a01a",
+      "mm8/t13b06"
+     ],
+     "fraction": 0.157
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t13b04b",
+     "bottom": "mm8/t13b07"
+    }
+   }
+  },
+  "mm8/t13a06": {
+   "name": "t13a06",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface beside a dark wooden post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a04b"
+     ],
+     "fraction": 0.152
+    },
+    "2": {
+     "sources": [
+      "mm8/t13a04b"
+     ],
+     "fraction": 0.152
+    }
+   }
+  },
+  "mm8/t13b04a": {
+   "name": "t13b04a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough rounded tan-brown sandstone boulders set in dark mortar, porous pitted surface around a small window of green-blue glass panes in a dark wooden frame, under a wooden beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t13a04b",
+      "mm8/t13a06"
+     ],
+     "fraction": 0.162
+    },
+    "2": {
+     "sources": [
+      "mm8/t13a04b",
+      "mm8/t13a06"
+     ],
+     "fraction": 0.162
+    },
+    "3": {
+     "sources": [
+      "mm8/t13a04b",
+      "mm8/t13a06"
+     ],
+     "fraction": 0.162
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t13b04b",
+     "left": "mm8/t13b04b",
+     "bottom": "mm8/t13b04b"
+    }
+   }
+  }
+ }
+}

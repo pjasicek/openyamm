@@ -1,0 +1,91 @@
+{
+  "tool": "built-in image_gen",
+  "view": "back",
+  "runs": [
+    {
+      "prompt": "Use case: precise-object-edit. Produce exactly one 1024 x 1024 transparent PNG, unresized texture-source painting called paint_back.png. Input 1 guide_back.png is the EDIT TARGET and absolute geometric authority: paint directly onto its exact orthographic back-view model, preserving pixel-exact silhouette, alpha boundary, position, scale, framing, every shape edge, opening, four shelf shapes, twisted trunk and planter. Do not reinterpret or smooth its polygonal outline. Input 2 design_reference.png is ONLY the colour and material authority, never the camera or shape authority. Apply pale cream fibrous fungus flesh with tan growth rings on the visible upper shelf surfaces; ochre-orange fine radial gills on shelf undersides transitioning to the cream trunk; white prefab composite planter with a broad teal horizontal band and thin orange stripe through it, subtle worn flecks; dark soil only where visible in the guide. Preserve the guide's low back view: planter front wall is nearly rectangular, with vertical ribs and almost no soil visible; shelf undersides face the viewer. All surface pattern must remain inside existing geometry. LIGHTING: flat even shadowless viewer-facing illumination, albedo texture source, no cast shadows, no ambient occlusion darkening, no directional light gradients, no strong highlights or reflections, no rim light. Fine material colour detail is welcome but no baked lighting. Real transparent background with clean alpha, no backdrop, floor, checkerboard, text or watermark. Keep all empty areas transparent. Do not crop, resize, center anew, add geometry, change camera, or copy the three-quarter composition of the design reference.",
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d44a-7552-b052-2574ef0b0fe7/exec-ac6cf856-24f0-4716-aaa0-ecc9a59713f2.png",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by allowed correction: wrong native dimensions, silhouette drift, stray alpha pixels and shaded gills.",
+      "view": "back",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "c2bf76c3034588c3c409a2f5cae675561b862ae586f431a3fc50bf535c832a60"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          15,
+          1242,
+          1254
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_colours": "Visually match cream, ochre, teal, orange and white palette.",
+        "flat_even_light": "Correction flatter than first return; some gill/rim shading remains.",
+        "unresized": true
+      },
+      "output_sha256": "18f8c3cfdbfcee1f56336ed4e67a2d37127660544619ec928fe8184ad971a099"
+    },
+    {
+      "prompt": "CORRECTIVE REGENERATION, final allowed attempt. Use case precise-object-edit. Output MUST be native 1024x1024 pixels, square PNG with genuine transparent background. Do not output 1254x1254 or any other resolution. Image 1 (guide_back.png) is the exact 1024x1024 edit canvas. KEEP ITS ALPHA MASK UNCHANGED: occupied silhouette bounds x=213 through 810, y=66 through 957. Copy this guide silhouette exactly, including its angular polygon edges and all gaps. Paint only its existing opaque pixels. Keep camera, object scale, position, four shelf shapes, trunk, planter ribs and all edges unchanged. Do not round the shelf edges or move the shelves. Image 2 (design_reference.png) provides surface material colours ONLY. Paint cream fibrous fungus flesh, restrained tan growth rings on the narrow visible upper surfaces, ochre-orange radial gills beneath the shelves fading into pale cream trunk, white composite planter with broad teal horizontal band and thin orange stripe, lightly worn material flecks, dark soil only where guide geometry exposes it. Planter is viewed from low back angle with a nearly flat rectangular front, as in the guide. CRITICAL ALBEDO: remove all directional shading, all glossy highlights and all ambient-occlusion shadows; even flat shadowless colours, evenly illuminated from viewer. Fine gill and fibre lines are colour markings, not deep shadowed grooves. NO background, floor, shadow, glow, halos, stray pixels or disconnected flecks outside the guide silhouette. A prior attempt failed by enlarging the canvas, rounding geometry and adding fringe pixels: prevent these specific defects. Deliver one native unresized 1024x1024 transparent painting.",
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d44a-7552-b052-2574ef0b0fe7/exec-2e5834ec-1911-447f-9e08-7bab7af542a7.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the flatter-lit of two returns, preserved unresized. Still fails exact silhouette and required 1024x1024 dimensions; no more regeneration permitted by brief.",
+      "view": "back",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "c2bf76c3034588c3c409a2f5cae675561b862ae586f431a3fc50bf535c832a60"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          17,
+          31,
+          1248,
+          1254
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_colours": "Visually match cream, ochre, teal, orange and white palette.",
+        "flat_even_light": "Correction flatter than first return; some gill/rim shading remains.",
+        "unresized": true
+      },
+      "output_sha256": "0daaf9c40bb7cdc4be62ea093d3001b1bbaa3a39968359790f761aae204d2394"
+    }
+  ],
+  "status": "Generated and saved; strict brief validation failed. Two attempts exhausted."
+}

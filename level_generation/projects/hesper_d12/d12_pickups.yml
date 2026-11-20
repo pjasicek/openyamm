@@ -1,0 +1,102 @@
+# Click every placed pickup. Shared reward/refill rules: hesper_pickups_test/pickups.yml.
+id: hesper.d12.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d12.blv
+    party:
+      food: 200
+      members:
+      - name: Pickup inspector
+        class: Knight
+        level: 1000
+        endurance: 500
+        skills: []
+        equipment: {}
+- assert: {state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}}
+- set_pose: {map: hes_d12.blv, x: -3660, y: 4080, z: 0, yaw: -1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 92}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -3460, y: 4080, z: 0, yaw: -1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 93}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.702, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -3260, y: 4080, z: 0, yaw: -1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 94}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.703, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -3060, y: 4080, z: 0, yaw: -1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 95}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.704, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -2860, y: 4040, z: 0, yaw: -1.57079633, pitch: -0.49734272}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 96}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -2660, y: 4080, z: 0, yaw: -1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 97}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.706, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -2460, y: 4080, z: 0, yaw: -1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 98}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -3650, y: 11420, z: 768, yaw: 1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 99}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.708, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -3450, y: 11420, z: 768, yaw: 1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 100}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.709, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -3250, y: 11420, z: 768, yaw: 1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 101}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.710, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -3050, y: 11420, z: 768, yaw: 1.57079633, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 102}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.711, value: 8}}
+- set_pose: {map: hes_d12.blv, x: 3500, y: 9800, z: 768, yaw: 3.14159265, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 103}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.712, value: 8}}
+- set_pose: {map: hes_d12.blv, x: 3500, y: 10040, z: 768, yaw: 3.14159265, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 104}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.713, value: 8}}
+- set_pose: {map: hes_d12.blv, x: 3500, y: 10280, z: 768, yaw: 3.14159265, pitch: -0.39951549}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 105}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.714, value: 8}}
+- set_pose: {map: hes_d12.blv, x: -420, y: 900, z: 0, yaw: 3.14159265, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 78}}
+- set_pose: {map: hes_d12.blv, x: 420, y: 900, z: 0, yaw: 0.0, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 79}}
+- set_pose: {map: hes_d12.blv, x: -2130, y: 1650, z: 0, yaw: 0.0, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 80}}
+- set_pose: {map: hes_d12.blv, x: -2130, y: 3350, z: 0, yaw: 0.0, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 81}}
+- set_pose: {map: hes_d12.blv, x: -1120, y: 3900, z: 0, yaw: 3.14159265, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 82}}
+- set_pose: {map: hes_d12.blv, x: 1120, y: 5900, z: 0, yaw: 0.0, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 83}}
+- set_pose: {map: hes_d12.blv, x: -3600, y: 5620, z: 0, yaw: 1.57079633, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 84}}
+- set_pose: {map: hes_d12.blv, x: 2800, y: 4130, z: 0, yaw: -1.57079633, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 85}}
+- set_pose: {map: hes_d12.blv, x: 3800, y: 5670, z: 0, yaw: 1.57079633, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 86}}
+- set_pose: {map: hes_d12.blv, x: -3920, y: 6500, z: 0, yaw: 3.14159265, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 87}}
+- set_pose: {map: hes_d12.blv, x: 2080, y: 7150, z: 0, yaw: 3.14159265, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 88}}
+- set_pose: {map: hes_d12.blv, x: -2280, y: 11550, z: 768, yaw: 0.0, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 89}}
+- set_pose: {map: hes_d12.blv, x: 5150, y: 9980, z: 768, yaw: -1.57079633, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 90}}
+- set_pose: {map: hes_d12.blv, x: -3820, y: 16600, z: 2304, yaw: 3.14159265, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 91}}
+- set_pose: {map: hes_d12.blv, x: 6500, y: 1360, z: -1536, yaw: -1.57079633, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 3}}
+- set_pose: {map: hes_d12.blv, x: 8020, y: 3240, z: -1536, yaw: 0.0, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 4}}
+- set_pose: {map: hes_d12.blv, x: 5580, y: -350, z: -1536, yaw: 3.14159265, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 5}}
+- set_pose: {map: hes_d12.blv, x: 8000, y: -1220, z: -1536, yaw: 0.0, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 6}}
+- set_pose: {map: hes_d12.blv, x: 8680, y: 1980, z: -1536, yaw: -1.57079633, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 7}}
+- set_pose: {map: hes_d12.blv, x: 8020, y: 4170, z: -1536, yaw: 3.14159265, pitch: -0.67474094}
+- press_interact: {expect: {kind: event_target, target_kind: 2, target_index: 8}}
+- save_game: d12_pickups
+- load_game: d12_pickups
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}

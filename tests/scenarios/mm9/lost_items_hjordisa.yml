@@ -1,0 +1,48 @@
+# Hjordisa the Hag gives back a lost quest item (devdocs/mm9_rework/PLACED_ITEMS_PLAN.md section 4,
+# worlds/mm9/dialogue/lost_items.yml). The party owned Ragnheid's herbs (item 372) and lost them: her first page offers
+# "We've lost something." and gives them back, once. Handed in by a script (MM9.takeItem), they are not lost: she has
+# nothing to give.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/lost_items_hjordisa.yml --scenario-no-color
+id: mm9.lost_items_hjordisa
+title: "MM9 lost items: Hjordisa the Hag gives back the lost herbs, not a handed-in item"
+world: mm9
+mode: faithful
+tags: [mm9, dialogue, items]
+steps:
+  - load_map: {map: guberland.blv}
+  - advance_runtime: {seconds: 1}
+  # The herbs owned, then lost (dropped in a lake: gone from every pack).
+  - grant_item: {item_id: 10372, member_index: 0}
+  - assert:
+      inventory_any_member: [{item_id: 10372, count: 1}]
+  - lua_event: {source: "RemoveItem(10372)"}
+  - advance_runtime: {seconds: 0.2}
+  - lua_event: {source: "if HasItemAnywhere(10372) then error('still held') end"}
+  - interact_actor: {actor_index: 40}
+  - assert:
+      dialog:
+        active: true
+        source_id: 132
+        action_label_present: We've lost something.
+  - select_topic: {match_label: "We've lost something."}
+  - assert:
+      dialog:
+        active: true
+        text_contains: Here is your
+      inventory_any_member: [{item_id: 10372, count: 1}]
+  # Held again: nothing more to give back.
+  - select_topic: {match_label: "We've lost something."}
+  - assert:
+      dialog:
+        text_contains: You never had anything I could give back.
+      inventory_any_member: [{item_id: 10372, count: 1}]
+  - press_action: {action: cancel_dialog}
+  # Handed in to its owner: a script's MM9.takeItem (mm9_common.lua, not loaded in a scenario's Lua) removes the item
+  # and records the hand-in. Not lost: she has nothing to give.
+  - lua_event: {source: "RemoveItem(10372); evt.SetGlobalVar('MM9.HandedIn.372', 1)"}
+  - interact_actor: {actor_index: 40}
+  - select_topic: {match_label: "We've lost something."}
+  - assert:
+      dialog:
+        text_contains: You never had anything I could give back.
+  - lua_event: {source: "if HasItemAnywhere(10372) then error('the handed-in herbs came back') end"}

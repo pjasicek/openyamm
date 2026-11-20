@@ -20,6 +20,9 @@ struct OutdoorMeadowField
 };
 
 OutdoorMeadowField buildOutdoorMeadowField(const OutdoorMapData &map);
+// The same from any ground in the outdoor map frame (an open-air BLV's terrain faces): heights per grid corner
+// (TerrainWidth squared, row 0 north) and per cell (the same indexing, last row and column unused) nonzero for water.
+OutdoorMeadowField buildMeadowField(const std::vector<float> &heights, const std::vector<uint8_t> &waterCells);
 
 // The colour multiplier at a meadow value: towards dry above 0, towards lush below, scaled by strength.
 std::array<float, 3> outdoorMeadowTint(float meadow, const std::array<float, 3> &dry, const std::array<float, 3> &lush,

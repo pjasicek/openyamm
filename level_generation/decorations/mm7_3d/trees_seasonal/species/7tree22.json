@@ -1,0 +1,138 @@
+{
+ "sprite": "7tree22_p120",
+ "output": "mm7_deco_7tree22.glb",
+ "height_m": 7.83,
+ "note": "Summer state of the 7tree22/7tree24 pair (14 placements): trunk forking at a third of the height into a leader and long side limbs, lobed crown.",
+ "sapling": {
+  "autoTaper": false,
+  "taper": [
+   0.85,
+   0.85,
+   0.85,
+   1.0
+  ],
+  "closeTip": true,
+  "ratioPower": 1.0,
+  "curveRes": [
+   12,
+   4,
+   3,
+   1
+  ],
+  "downAngleV": [
+   0,
+   18,
+   10,
+   10
+  ],
+  "curveV": [
+   15,
+   40,
+   50,
+   0
+  ],
+  "scale": 6.34,
+  "baseSplits": 0,
+  "splitHeight": 0.27,
+  "segSplits": [
+   0.02,
+   0.2,
+   0.2,
+   0
+  ],
+  "splitAngle": [
+   22,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.35,
+  "branches": [
+   0,
+   16,
+   9,
+   8
+  ],
+  "length": [
+   1.0,
+   0.48,
+   0.4,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   58,
+   45,
+   45
+  ],
+  "seed": 722,
+  "ratio": 0.036,
+  "attractUp": [
+   0,
+   0.4,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.3,
+  "centre": 0.62,
+  "clumps": 105,
+  "inner_clumps": 14,
+  "gap": 0.95,
+  "lobes": {
+   "fraction": 0.35,
+   "slack": 1.15
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   110,
+   76,
+   44
+  ],
+  "budget": [
+   1500,
+   540,
+   220
+  ],
+  "clip_below_crown": true,
+  "roots": 3,
+  "root_radius": 0.5,
+  "root_reach": 0.2
+ },
+ "leaves": {
+  "target_srgb": [
+   92,
+   204,
+   72
+  ],
+  "seeds": [
+   922,
+   938,
+   954,
+   970
+  ],
+  "value": [
+   0.85,
+   1.6
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "occlusion": {
+  "floor": 0.36,
+  "range": 0.64,
+  "power": 1.1
+ },
+ "lod": {
+  "triangles": [
+   7000,
+   2700,
+   950
+  ]
+ },
+ "transparent_bounces": 64
+}

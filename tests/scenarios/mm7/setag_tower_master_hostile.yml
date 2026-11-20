@@ -1,0 +1,12 @@
+id: mm7.setag_tower_master_hostile
+title: MM7 - the Master of the Sword in William Setag's Tower fights the party (OY-364)
+world: mm7
+mode: faithful
+tags: [mm7, hostility, regression]
+steps:
+  - new_game_flow:
+      start_map: 7out02.odm
+  - load_map: {map: mdt10.blv}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {monster_id: 261, hostile: true, min: 1}

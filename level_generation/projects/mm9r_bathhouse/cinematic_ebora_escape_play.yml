@@ -1,0 +1,33 @@
+# Ebora's escape (ebora_escape, bathhouse.cinematics.yml) played through from its real trigger, the third concubine's
+# death, on Gostaf's errand (key 348): no save while it plays, the column (key 349) at 2.4 s and not before, Ebora
+# hidden at 3.4 s (:ClearMe). See README "Cinematics".
+id: mm9r.bathhouse.cinematic_ebora_escape_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: bathhouse.blv}
+- set_pose: {map: bathhouse.blv, x: 6754, y: -3507, z: -242, yaw: 1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90348}
+- console: {line: cinematic list, expect_contains: ebora_escape}
+- damage_actor: {actor_index: 10, amount: 100000}
+- damage_actor: {actor_index: 8, amount: 100000}
+- advance_runtime: {seconds: 0.3}
+- assert: {state_dump_named_map_var: {name: DeadConcubines, value: 2}}
+- note: {text: "the third concubine's death (EboraBath.scr :DeadConcubine) starts the cinematic"}
+- damage_actor: {actor_index: 9, amount: 100000}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing ebora_escape}
+- assert: {qbit_clear: [90349, 90350]}
+- assert: {actor_visible: {actor_index: 7, hidden: false}}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 2.0}
+- note: {text: ":DitchTheJoint (2.4 s): key 349 and the experience"}
+- assert: {qbit_set: [90349]}
+- assert: {qbit_clear: [90350]}
+- assert: {state_dump_named_map_var: {name: EboraGone, value: 1}}
+- assert: {actor_visible: {actor_index: 7, hidden: false}}
+- advance_runtime: {seconds: 1.0}
+- note: {text: ":ClearMe (3.4 s): Ebora gone"}
+- assert: {actor_visible: {actor_index: 7, hidden: true}}
+- advance_runtime: {seconds: 1.5}
+- save_game: {name: after_cinematic}

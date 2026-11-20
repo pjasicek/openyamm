@@ -1,0 +1,358 @@
+# MM9 quest XP balance profile (devdocs/mm9_rework/BALANCE_PLAN.md section 5.4, QUEST_XP_AUDIT.md).
+# mm9_scr_to_lua.py emits MM9.giveExperience with `xp` for a GiveExp of `original` in `routine` of `script`;
+# `key` is the MM9 quest key the award sets, for converters that know the quest rather than the script.
+# Built by devdocs/mm9_rework/balance_prototypes/quest_xp_profile.py; edit the rule there, or an entry here.
+# Rule: at most 1.5 levels' worth in chapters 1-2 and 0.5 from chapter 3 (promotions 1.5) at the chapter's
+# monster level, never below 2,000.
+format_version: 1
+awards:
+- script: bjarni.scr
+  routine: Anskram
+  original: 20000
+  xp: 10500
+  key: 149
+  # sturmfordcity, Bjarni; chapter 1, level 7
+- script: ludwigvan.scr
+  routine: OnRude
+  original: 12000
+  xp: 10500
+  key: 116
+  # sturmfordcity, Ludwig; chapter 1, level 7
+- script: npc87.scr
+  routine: FortStenig
+  original: 32000
+  xp: 16500
+  key: 171
+  # drangheimcity, SigmundtheStressed0; chapter 2, level 11
+- script: npc89.scr
+  routine: crusaderpromo
+  original: 24500
+  xp: 16500
+  key: 137
+  # drangheimcity, CommonerHuman2MaleA0; chapter 2, level 11, promotion
+- script: npc186.scr
+  routine: Mercpromo
+  original: 24000
+  xp: 16500
+  key: 127
+  # guberland, Atli; chapter 2, level 11, promotion
+- script: npc133.scr
+  routine: Nicolai
+  original: 20000
+  xp: 16500
+  key: 122
+  # guberland, RUDEProp10; chapter 2, level 11
+- script: npc127.scr
+  routine: Ivan
+  original: 26000
+  xp: 16500
+  key: 165
+  # guberlandcity, MarkeltheGreat0; chapter 2, level 11
+- script: npc128.scr
+  routine: Nurtigan
+  original: 24500
+  xp: 16500
+  key: 213
+  # guberlandcity, ShopkeeperHuman2MaleA1; chapter 2, level 11, promotion
+- script: bjarni.scr
+  routine: Ivsar
+  original: 42000
+  xp: 16500
+  key: 117
+  # sturmfordcity, Bjarni; chapter 2, level 11
+- script: npc161.scr
+  routine: ToScholar
+  original: 24500
+  xp: 16500
+  key: 205
+  # thjorgardcity, Tymon; chapter 2, level 11, promotion
+- script: united.inc
+  routine: United
+  original: 26500
+  xp: 12500
+  key: 179
+  # arslegardcity, united.inc; chapter 3, level 25
+- script: npc88.scr
+  routine: promo
+  original: 63000
+  xp: 37500
+  key: 227
+  # drangheimcity, CommonerElfMaleA0; chapter 3, level 25, promotion
+- script: npc87.scr
+  routine: CronaKiga
+  original: 52000
+  xp: 12500
+  key: 170
+  # drangheimcity, SigmundtheStressed0; chapter 3, level 25
+- script: bankorb.inc
+  routine: CheckAll
+  original: 20000
+  xp: 12500
+  key: 337
+  # drangheimcity, ShopkeeperHumanFemaleA4; chapter 3, level 25
+- script: bankorb.scr
+  routine: CheckAll
+  original: 20000
+  xp: 12500
+  key: 337
+  # drangheimcity, ShopkeeperHumanFemaleA4; chapter 3, level 25
+- script: npc221.scr
+  routine: Promo
+  original: 63000
+  xp: 37500
+  key: 280
+  # frosgard, GreenMan0; chapter 3, level 25, promotion
+- script: npc181.scr
+  routine: Ranger
+  original: 63000
+  xp: 37500
+  key: 249
+  # frosgardcity, 181; chapter 3, level 25, promotion
+- script: npc180.scr
+  routine: Breakice
+  original: 30000
+  xp: 12500
+  key: 175
+  # frosgardcity, TryggvaRavenlocks0; chapter 3, level 25
+- script: npc184.scr
+  routine: Reward
+  original: 20000
+  xp: 12500
+  key: 308
+  # frosgardcity, 184; chapter 3, level 25
+- script: npc129.scr
+  routine: priest
+  original: 63000
+  xp: 37500
+  key: 261
+  # guberlandcity, ShopkeeperHuman2MaleA2; chapter 3, level 25, promotion
+- script: npc127.scr
+  routine: Dook
+  original: 40000
+  xp: 12500
+  key: 168
+  # guberlandcity, MarkeltheGreat0; chapter 3, level 25
+- script: npc283.scr
+  routine: MissingRelic
+  original: 80000
+  xp: 12500
+  key: 342
+  # lindisfarnemonastery, Abbot Leffery; chapter 3, level 25
+- script: npc282.scr
+  routine: paladins
+  original: 63000
+  xp: 37500
+  key: 237
+  # lindisfarnemonastery, Grehgknak; chapter 3, level 25, promotion
+- script: mountainpass.scr
+  routine: OnAward
+  original: 14000
+  xp: 12500
+  key: 80
+  # mountainpass, Mountain; chapter 3, level 25
+- script: npc61.scr
+  routine: Gladiator
+  original: 63000
+  xp: 37500
+  key: 221
+  # sturmfordcity, Clerk; chapter 3, level 25, promotion
+- script: bjarni.scr
+  routine: loveletter2
+  original: 15200
+  xp: 12500
+  key: 151
+  # sturmfordcity, Bjarni; chapter 3, level 25
+- script: npc4.scr
+  routine: Reward
+  original: 63000
+  xp: 37500
+  key: 294
+  # thjorgardcity, Johannes; chapter 3, level 25, promotion
+- script: npc244.scr
+  routine: Prize
+  original: 53000
+  xp: 12500
+  key: 186
+  # thronheim, CommonerHumanFemaleA0; chapter 3, level 25
+- script: npc239.scr
+  routine: MountainPass
+  original: 120000
+  xp: 12500
+  key: 152
+  # thronheimcity, KiraCold; chapter 3, level 25
+- script: npc239.scr
+  routine: honkys
+  original: 40000
+  xp: 12500
+  key: 146
+  # thronheimcity, KiraCold; chapter 3, level 25
+- script: argument.scr
+  routine: War
+  original: 26500
+  xp: 12500
+  key: 85
+  # thronheimcity, Argueman; chapter 3, level 25
+- script: fateman.scr
+  routine: ExitIN
+  original: 46000
+  xp: 18500
+  # arslegardcity, Fateman; chapter 4, level 37
+- script: eborabath.scr
+  routine: DitchTheJoint
+  original: 80000
+  xp: 18500
+  key: 349
+  # bathhouse, eborabath.scr; chapter 4, level 37
+- script: capstone.scr
+  routine: firsttime
+  original: 146000
+  xp: 18500
+  key: 188
+  # darkpassageway, WyrdeoftheUnknown0; chapter 4, level 37
+- script: npc133.scr
+  routine: Capstone
+  original: 146000
+  xp: 18500
+  key: 188
+  # darkpassageway, WyrdeoftheUnknown0; chapter 4, level 37
+- script: npc338.scr
+  routine: darkpass
+  original: 146000
+  xp: 18500
+  key: 188
+  # darkpassageway, WyrdeoftheUnknown0; chapter 4, level 37
+- script: npc338.scr
+  routine: darkpass
+  original: 92000
+  xp: 18500
+  key: 187
+  # darkpassageway, WyrdeoftheUnknown0; chapter 4, level 37
+- script: forad.scr
+  routine: OnDeath
+  original: 194000
+  xp: 18500
+  key: 494
+  # frosgardcity, ForadDarre; chapter 4, level 37
+- script: npc180.scr
+  routine: Yanmir
+  original: 58000
+  xp: 18500
+  key: 172
+  # frosgardcity, TryggvaRavenlocks0; chapter 4, level 37
+- script: ilshealerroom.scr
+  routine: OnPromo
+  original: 63000
+  xp: 55500
+  # lichlab, PromoTrigger; chapter 4, level 37, promotion
+- script: trainingenter.scr
+  routine: OnBreak
+  original: 20000
+  xp: 18500
+  key: 301
+  # thjorgard, ScriptObject1; chapter 4, level 37
+- script: traininghallexit.scr
+  routine: OnTouch
+  original: 20000
+  xp: 18500
+  key: 301
+  # thjorgard, ScriptObject1; chapter 4, level 37
+- script: npc241.scr
+  routine: BlackOrb
+  original: 50000
+  xp: 18500
+  key: 315
+  # thronheimcity, Ealusaid; chapter 4, level 37
+- script: writ.scr
+  routine: Onuse
+  original: 162000
+  xp: 18500
+  key: 100
+  # verhoffinruins, writ; chapter 4, level 37
+- script: capstone.scr
+  routine: OnPlace
+  original: 154000
+  xp: 18500
+  key: 99
+  # verhoffinruins, Capstone; chapter 4, level 37
+- script: svenspeech.scr
+  routine: Award
+  original: 114000
+  xp: 18500
+  key: 97
+  # yorwick, Sven; chapter 4, level 37
+- script: npc312.scr
+  routine: OnRude
+  original: 20000
+  xp: 18500
+  key: 468
+  # yorwick, CommonerChildHuman2ChildA0; chapter 4, level 37
+- script: winman.scr
+  routine: OnUse
+  original: 234000
+  xp: 22500
+  # 1000terrors, WinMan; chapter 5, level 45
+- script: npc336.scr
+  routine: sixfires
+  original: 52000
+  xp: 22500
+  key: 189
+  # afterworld, Skraelos0; chapter 5, level 45
+- script: npc336.scr
+  routine: OnUse
+  original: 52000
+  xp: 22500
+  key: 383
+  # afterworld, Skraelos0; chapter 5, level 45
+- script: npc336.scr
+  routine: OnReborn
+  original: 52000
+  xp: 22500
+  key: 391
+  # afterworld, Skraelos0; chapter 5, level 45
+- script: sixfires.inc
+  routine: Suffering
+  original: 52000
+  xp: 22500
+  key: 491
+  # afterworld, sixfires.inc; chapter 5, level 45
+- script: sixfires.inc
+  routine: Absolution
+  original: 52000
+  xp: 22500
+  key: 492
+  # afterworld, sixfires.inc; chapter 5, level 45
+- script: njamchase.scr
+  routine: OnChase
+  original: 226000
+  xp: 22500
+  key: 470
+  # arslegardcity, NjamtheMeddler0; chapter 5, level 45
+- script: writman.scr
+  routine: FadeOut
+  original: 170000
+  xp: 22500
+  # arslegardcity, Writman; chapter 5, level 45
+- script: npc3.scr
+  routine: Refinery
+  original: 68004
+  xp: 22500
+  key: 177
+  # arslegardcity, SvenSvenssen0; chapter 5, level 45
+- script: npc309.scr
+  routine: StopTamur
+  original: 412000
+  xp: 22500
+  key: 190
+  # frosgardcity, TamurLeng0; chapter 5, level 45
+- script: npc335.scr
+  routine: StopNjam
+  original: 218000
+  xp: 22500
+  key: 191
+  # hallofthegods, Krohn0; chapter 5, level 45
+- script: npc337.scr
+  routine: GoldenHonk
+  original: 80000
+  xp: 22500
+  key: 347
+  # hallofthegods, Fre; chapter 5, level 45

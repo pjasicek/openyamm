@@ -1,27 +1,27 @@
 AnimationId	Name	Expressions
-1	KillSmallEnemy	Smile, WideSmile
-2	KillBigEnemy	Smile, WideSmile
+1	KillSmallEnemy	Smile, WideSmile, Portrait45
+2	KillBigEnemy	Portrait47, Portrait53
 3	StoreClosed	No
-4	DisarmTrap	Smile
-5	TrapExploded	DamageReceivedMajor
+4	DisarmTrap	Portrait47
+5	TrapExploded	Portrait41, Portrait42
 6	AvoidDamage	AvoidDamage
-7	IdentifyUseless	Portrait48
-8	IdentifyGreat	Smile, WideSmile
-9	IdentifyFail	Portrait48
-10	RepairItem	Smile
-11	RepairFail	Portrait48
-12	SetQuickSpell	Smile
+7	IdentifyUseless	Talk, MouthOpenWide, MouthOpenA, MouthOpenO, Portrait45
+8	IdentifyGreat	Portrait47
+9	IdentifyFail	Portrait43, Portrait48
+10	RepairItem	WideSmile
+11	RepairFail	Sad
+12	SetQuickSpell	Smile, WideSmile
 13	CantRestHere	No
-14	SkillIncreased	Smile, WideSmile
+14	SkillIncreased	Smile, WideSmile, Portrait45
 15	CantCarry	No
-16	MixPotion	Smile
-17	PotionExplode	DamageReceivedMajor
+16	MixPotion	WideSmile, Portrait47
+17	PotionExplode	Portrait41, Portrait42
 18	DoorLocked	No
-19	WontBudge	Portrait48
+19	WontBudge	Portrait51
 20	CantLearnSpell	No
 21	LearnSpell	Yes
 22	Hello	Smile, WideSmile
-23	HelloNight	Smile
+23	HelloNight	Portrait53
 24	Damaged	DamageReceivedMinor, DamageReceivedModerate, DamageReceivedMajor
 25	Weak	Weak
 26	Afraid	Fear
@@ -36,67 +36,67 @@ AnimationId	Name	Expressions
 35	Eradicated	Eradicated
 36	DrinkPotion	Smile
 37	ReadScroll	Portrait49
-38	NotEnoughGold	Sad
+38	NotEnoughGold	No
 39	CantEquip	No
-40	ItemBrokenStolen	Sad
-41	SpellPointsDrained	Sad
-42	Aged	Sad
+40	ItemBrokenStolen	Portrait41, Portrait42
+41	SpellPointsDrained	Sad, Portrait48
+42	Aged	Scared
 43	SpellFailed	Sad, Portrait48
 44	DamagedParty	Portrait41, Portrait42
-45	Tired	Sleep
-46	EnterDungeon	Smile
-47	LeaveDungeon	Smile
-48	AlmostDead	DamageReceivedMajor
+45	Tired	Sad, Portrait48
+46	EnterDungeon	Talk
+47	LeaveDungeon	Talk
+48	AlmostDead	Scared
 49	CastSpell	CastSpell
 50	Shoot	Sad
 51	AttackHit	Smile, WideSmile
 52	AttackMiss	Portrait48, Portrait49, Portrait50
-53	Beg	Sad, Talk
-54	BegFail	No, Sad
-55	Threat	MouthOpenWide, Talk
-56	ThreatFail	No, Portrait48
-57	Bribe	Smile, WideSmile
-58	BribeFail	No, Sad
-59	NpcDontTalk	No
+53	Beg	Portrait44
+54	BegFail	Portrait48
+55	Threat	Smile, WideSmile, Portrait45
+56	ThreatFail	Portrait41, Portrait42
+57	Bribe	Portrait47
+58	BribeFail	Sad, Portrait48
+59	NpcDontTalk	Sad, Portrait48
 60	FoundItem	Smile, WideSmile
 61	HireNpc	Smile, WideSmile
-63	LookUp	LookUp
-64	LookDown	LookDown
-65	Yell	MouthOpenWide, Talk
-66	Falling	DamageReceivedMajor
+63	LookUp	PurseLips3
+64	LookDown	Portrait32
+65	Yell	Scared
+66	Falling	Fear
 67	TavernPacksFull	No
 68	TavernDrink	Smile
-69	TavernGotDrunk	Drunk
-70	TavernTip	Smile, WideSmile
+69	TavernGotDrunk	Portrait52
+70	TavernTip	Portrait45
 71	TravelHorse	Yes
-72	TravelBoat	Yes
+72	TravelBoat	Smile, WideSmile
 73	ShopIdentify	Portrait49
-74	ShopRepair	Smile
-75	ShopItemBought	Smile, WideSmile
+74	ShopRepair	Portrait48
+75	ShopItemBought	Smile, WideSmile, Portrait45
 76	ShopAlreadyIdentified	Portrait48
 77	ShopItemSold	Smile, WideSmile, Portrait45
-78	SkillLearned	Smile, WideSmile
+78	SkillLearned	Portrait47
 79	ShopWrongShop	Portrait48
-80	ShopRude	No, Portrait48
-81	BankDeposit	Smile
-82	TempleHeal	Smile, WideSmile
-83	TempleDonate	Smile, WideSmile
-84	HelloHouse	Smile
+80	ShopRude	Sad, Portrait48
+81	BankDeposit	Portrait48, Portrait49
+82	TempleHeal	WideSmile
+83	TempleDonate	PurseLips3
+84	HelloHouse	Smile, WideSmile
 85	SkillMasteryIncreased	Smile, WideSmile
 86	JoinedGuild	Smile, WideSmile
-87	LevelUp	Smile, WideSmile
-91	StatBonusIncreased	Smile, WideSmile
-92	StatBaseIncreased	Smile, WideSmile
-93	QuestGot	Smile, WideSmile
-96	AwardGot	Smile, WideSmile
+87	LevelUp	Portrait47
+91	StatBonusIncreased	WideSmile
+92	StatBaseIncreased	Portrait47
+93	QuestGot	WideSmile
+96	AwardGot	WideSmile
 98	AfraidSilent	Fear
-99	CheatedDeath	Smile
-100	InPrison	Sad
+99	CheatedDeath	Smile, WideSmile
+100	InPrison	Portrait44
 102	ChooseMe	Smile, WideSmile
 103	Awaken	WakeUp
-104	IdentifyMonsterWeak	Smile
-105	IdentifyMonsterBig	Smile, WideSmile
-106	IdentifyMonsterFail	Portrait48
-107	LastManStanding	MouthOpenWide, Talk
-108	NotEnoughFood	Sad
+104	IdentifyMonsterWeak	Portrait45
+105	IdentifyMonsterBig	Portrait47
+106	IdentifyMonsterFail	Portrait43, Portrait48
+107	LastManStanding	Portrait48
+108	NotEnoughFood	Portrait48
 109	DeathBlow	Smile, WideSmile

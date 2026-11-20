@@ -1,0 +1,818 @@
+format: 0
+themes:
+  - id: theme:rough_cave
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    notes: "The plan's mm7_rough_cave: the shared MM7 rough cave set (rock on walls and ceilings, rock floor). The plan's few cws1 rock variants on edges and the dark exit panel are not part of the theme."
+  - id: theme:temple_inner
+    wall: {texture: 7tws2, size: [128, 256]}
+    bands:
+      - {height: 256, surface: {texture: twb1, size: [128, 256]}}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: wall, size: [128, 256]}
+    reveal: {texture: twb3d, size: [128, 256]}
+    notes: "The plan's mm7_temple_masonry as the wings' inner rooms wear it (dormitory and its alcove, library, hidden passage, hidden study), measured from the original's wall faces: a twb1 dressed-stone dado 256 high (its frieze along its top), the 7tws2 brick above it to the ceiling (its own frieze under the ceiling), 7tfb11 floor, the plain 'wall' stone overhead, twb3d edging in doorways."
+  - id: theme:temple_masonry
+    wall: {texture: tws2b, size: [128, 256]}
+    bands:
+      - {height: 256, surface: {texture: twb1, size: [128, 256]}}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: wall, size: [128, 256]}
+    reveal: {texture: twb3d, size: [128, 256]}
+    notes: "The plan's mm7_temple_masonry as the wings' halls wear it (corridors, door halls, anterooms), measured from the original's wall faces: a twb1 dressed-stone dado 256 high (its frieze along its top), above it to the ceiling the tws2b brick with its ram skulls and the frieze under the ceiling; 7tfb11 patterned stone floor, the plain 'wall' stone on the flat ceilings (the original's wing ceilings are 'wall'; twb2 is only on their vaults), twb3d edging in doorways. The original's few tws2a faces (the skull frieze without the brick below it) on the vault ends are not drawn."
+  - id: theme:temple_nave
+    wall: {texture: twb1, size: [128, 256]}
+    bands:
+      - {height: 256, surface: {texture: 7tws2, size: [128, 256]}}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: twb3d, size: [128, 256]}
+    notes: "The plan's mm7_temple_masonry as the nave, the aisles, the apse and the passages wear it (the stair's flight takes its floor, ceiling and edging, with its own twb2 walls), measured from the original's wall faces: the 7tws2 brick dado 256 above the rim floor (its frieze along its top), the twb1 plaster above it to the ceiling (its frieze under the ceiling), 7tfb11 patterned stone floor, twb2 overhead, twb3d edging. The nave sets its own bands from its sunken floor (the twb3 arcade band below the same dado and plaster, at the same heights); its gallery's ledge wears twb3 and the dome twb1a, set on the nave's level and ceiling level; the columns wear tfb2; the passages wear their own band."
+  - id: theme:temple_stair
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: twb3d, size: [128, 256]}
+    notes: "The temple stair's level run, measured from the original's wall faces: the twb1 plaster 256 high on every wall (one face from the floor up, its frieze along the top), the rough cwb1 rock above it, where the original's rock vault springs from the walls' tops (256 above the floor) and rises 128 to its flat crown, the 7tfb1 stone floor and the cwb1 rock overhead. The run's own bands give the plaster; the theme's wall is the vault's rock above them."
+defaults: {theme: theme:rough_cave}
+rooms:
+  - id: room:aisle_n
+    name: North aisle
+    outline: [[-2240, 6912], [-960, 6912], [-960, 7104], [-1088, 7232], [-2112, 7232], [-2240, 7104]]
+    floor: -416
+    ceiling: 96
+    theme: theme:temple_nave
+    pillars:
+      - {surface: {texture: tfb2, size: [128, 128]}, outline: [[-1940, 6974], [-1940, 7010], [-1966, 7036], [-2002, 7036], [-2028, 7010], [-2028, 6974], [-2002, 6948], [-1966, 6948]]}
+      - {surface: {texture: tfb2, size: [128, 128]}, outline: [[-1556, 6974], [-1556, 7010], [-1582, 7036], [-1618, 7036], [-1644, 7010], [-1644, 6974], [-1618, 6948], [-1582, 6948]]}
+      - {surface: {texture: tfb2, size: [128, 128]}, outline: [[-1204, 6974], [-1204, 7010], [-1230, 7036], [-1266, 7036], [-1292, 7010], [-1292, 6974], [-1266, 6948], [-1230, 6948]]}
+    notes: "The colonnade behind the nave's north rim, 320 deep, open along its whole south side (1,280) to the rim, the nave's gallery. 3 round columns, 88 across (8-sided, tfb2 like the original's 96-wide shafts), on the original's centres in x, standing 36 clear of the open side (16 further from it than the original's: an island keeps 32 clear of the walls) (the original's stand on the line; their square plinths and capitals are not drawable: a pillar is one shape). Ceiling 512 above the floor, level with the nave's. 2 violet torches on the north wall."
+  - id: room:aisle_s
+    name: South aisle
+    outline: [[-2240, 4800], [-2112, 4672], [-1088, 4672], [-960, 4800], [-960, 4992], [-2240, 4992]]
+    floor: -416
+    ceiling: 96
+    theme: theme:temple_nave
+    pillars:
+      - {surface: {texture: tfb2, size: [128, 128]}, outline: [[-1940, 4894], [-1940, 4930], [-1966, 4956], [-2002, 4956], [-2028, 4930], [-2028, 4894], [-2002, 4868], [-1966, 4868]]}
+      - {surface: {texture: tfb2, size: [128, 128]}, outline: [[-1556, 4894], [-1556, 4930], [-1582, 4956], [-1618, 4956], [-1644, 4930], [-1644, 4894], [-1618, 4868], [-1582, 4868]]}
+      - {surface: {texture: tfb2, size: [128, 128]}, outline: [[-1204, 4894], [-1204, 4930], [-1230, 4956], [-1266, 4956], [-1292, 4930], [-1292, 4894], [-1266, 4868], [-1230, 4868]]}
+    notes: Mirror of the north aisle across the temple axis (y 5952).
+  - id: room:anteroom_n
+    name: North anteroom
+    outline: [[-4768, 6592], [-3776, 6592], [-3776, 7104], [-4288, 7104], [-4288, 6976], [-4768, 6976]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_masonry
+    notes: "An L: the square behind the double door and an arm 384 wide running west to the dormitory. The door wall to the door hall is 64 thick; the arm's mouth into the dormitory 32 (the original's is one-sided, thickness 0). Still not drawable: the arm's barrel vault (R3-K5)."
+  - id: room:anteroom_s
+    name: South anteroom
+    outline: [[-4768, 4928], [-4288, 4928], [-4288, 4800], [-3776, 4800], [-3776, 5312], [-4768, 5312]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_masonry
+    notes: "Mirror of the north anteroom; its arm leads west to the library through a mouth 32 thick. 128 of solid wall separate it from the hidden passage to the north, which must give no hint. Still not drawable: the arm's barrel vault (R3-K5)."
+  - id: room:apse
+    name: Apse
+    space: zone:apse
+    outline: [[-2752, 4992], [-2496, 4992], [-2496, 6912], [-2752, 6912], [-2752, 6656], [-3008, 6656], [-3264, 6528], [-3392, 6272], [-3392, 5632], [-3264, 5376], [-3008, 5248], [-2752, 5248]]
+    floor: -416
+    ceiling: 96
+    theme: theme:temple_nave
+    platforms:
+      - {at: [-2960, 5952], size: [128, 256], rise: 32, surface: {texture: 7tws1g, size: [32, 32]}, top_surface: {texture: 7tws1f, size: [128, 128]}}
+      - {at: [-2960, 5952], size: [64, 128], rise: 96, surface: {texture: twb1a, size: [128, 256]}, base: 32, top_size: [128, 256]}
+      - {at: [-2960, 5952], size: [160, 320], rise: 16, surface: {texture: 7tws1g, size: [32, 32]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 128}
+    notes: "The octagonal west lobe with the altar dais on the temple axis, and the strip in front of it (x -2752 to -2496) that runs from passage to passage: the fire-bolt lane (x about -2624). The strip's whole east side (1,920) is open to the nave's rim, level with it; the steps up from the nave's sunken floor arrive there on the axis. The moon altar, measured from the original's visible faces, is three parts on one centre, its long axis across the temple axis: a plinth 128 by 256 from the floor to 32 (7tws1g sides, 7tws1f top); a bowl on it with a foot of 64 by 128 at 32 flaring to 128 by 256 at 128 (twb1a sides); and a lip of 160 by 320 from 128 to 144 (7tws1g sides, 7tws1f top). The original's outer twb2 shell does not show. The original's 32-high plinth (128 by 256) stands wholly inside the flare and is not drawn; its basin is covered by the lip. 1 violet torch behind the altar."
+  - id: room:cave_mouth
+    name: Cave mouth
+    outline: [[-1216, -4672], [-896, -4672], [-928, -4096], [-1440, -4096], [-1376, -4384]]
+    floor: 0
+    slope: {to: 256, toward: 0}
+    ceiling: 352
+    ceiling_slope: {to: 640, toward: 0}
+    notes: "A ramp: the party arrives at its foot (the north end, 0) facing north up the cave; the exit panel (about +256 to +640, centred near +450) is the south wall at its top. Its north end is the tunnel's full mouth (512). Smooth walls: a ramp must be convex and level-floored rooms alone take rough walls, so the original's pinch halfway up (about 320 across) is not drawn. Its ceiling slopes with the climb, as the original's does: +352 over the foot (352 above the floor) to +640 over the panel at the top (the original's falls from about +550 there to about +350 at the foot). Still not drawable: the rock relief of the floor."
+  - id: room:descent_bend
+    name: "Descent bend, upper floor"
+    outline: [[-256, -2288], [256, -2288], [288, -2048], [256, -1760], [224, -1552], [-480, -1552], [-352, -1728], [-256, -1920], [-288, -2112]]
+    floor: 0
+    rough: {step: 128, depth: 40}
+    ceiling: 384
+    notes: "The bend's first leg, level at the tunnel's height (the original's floor stays within about 25 of it here). The bend is four rooms (this level floor, the ramp north, the level turn, the foot falling east) because a slope room must be straight and convex. Rough rock walls. Still not drawable: a slope that follows a curve (new)."
+  - id: room:descent_bend_foot
+    name: "Descent bend, foot"
+    space: room:descent_bend
+    outline: [[-384, -1024], [-96, -1024], [128, -896], [128, -128], [-128, -256], [-384, -480]]
+    floor: -160
+    slope: {to: -320, toward: 2}
+    ceiling: 160
+    ceiling_slope: {to: 64, toward: 2}
+    notes: "The foot of the bend: a ramp falling east from the level turn (-160) to the south cavern's floor (-320), entered from the turn on the west and opening into the cavern on the east, as the original's floor falls both north and east here. Its south side stands against the ramp's north end: the original's floor is one twisting slope through the turn. Its ceiling falls east with the floor, +160 at the turn to +64 at the cavern, as the original's (about +145 to +65). Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:descent_bend_lower
+    name: "Descent bend, ramp"
+    space: room:descent_bend
+    outline: [[-480, -1536], [224, -1536], [-96, -1024], [-704, -1024], [-704, -1280]]
+    floor: 0
+    slope: {to: -160, toward: 2}
+    ceiling: 384
+    ceiling_slope: {to: 224, toward: 2}
+    notes: "The bend's ramp north from the upper floor to the level turn (0 to -160 over 512, as the original's floor falls here), one room under a ceiling that falls with the floor (+384 to +224, about 384 above it), as the original's does. Smooth walls (a ramp is convex and cannot be rough): its east side cuts straight across the original's inner bulge. See the upper floor."
+  - id: room:descent_bend_turn
+    name: "Descent bend, turn"
+    space: room:descent_bend
+    outline: [[-704, -1008], [-400, -1008], [-400, -640], [-576, -640], [-704, -832]]
+    floor: -160
+    rough: {step: 128, depth: 40}
+    ceiling: 176
+    ceiling_slope: {to: 256, toward: south}
+    notes: "The level corner where the bend turns from north to east, between the ramp down from the upper floor and the foot. In the original the floor keeps falling through the turn (about -110 to -200); a slope room is straight, so the turn is level. Its ceiling falls north with the original's, +256 at the ramp to +176 at the far side. Rough rock walls."
+  - id: room:door_hall_n
+    name: North door hall
+    outline: [[-4288, 7168], [-3776, 7168], [-3776, 7936], [-4288, 7936]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_masonry
+    notes: "The corner at the corridor's west end, turning south; the double door is in its south wall, framed by the two clickable buttresses. Still not drawable: the buttresses' look beside the door (R3-K11, per-opening look)."
+  - id: room:door_hall_s
+    name: South door hall
+    outline: [[-4288, 3968], [-3776, 3968], [-3776, 4736], [-4288, 4736]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_masonry
+    notes: "Mirror of the north door hall; the double door is in its north wall."
+  - id: room:dormitory
+    name: Dormitory
+    outline: [[-5824, 6208], [-4800, 6208], [-4800, 7360], [-5824, 7360]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_inner
+    platforms:
+      - {at: [-5536, 6400], size: [256, 320], rise: 96, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds2, size: [128, 256]}}
+      - {at: [-5088, 6400], size: [256, 320], rise: 96, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds2, size: [128, 256]}}
+      - {at: [-5536, 7168], size: [256, 320], rise: 96, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds2, size: [128, 256]}}
+      - {at: [-5088, 7168], size: [256, 320], rise: 96, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds2, size: [128, 256]}}
+    notes: "Entered at the middle of its east wall; two rows of built beds against the north and south walls, the walk down the middle to the alcove in the west wall. Still not drawable: the beds' frames and pillows (a bed is one block here)."
+  - id: room:dormitory_alcove
+    name: Dormitory alcove
+    space: room:dormitory
+    outline: [[-6272, 6528], [-5888, 6528], [-5888, 7040], [-6272, 7040]]
+    floor: -416
+    ceiling: -64
+    theme: theme:temple_inner
+    platforms:
+      - {at: [-6144, 6564], size: [128, 64], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}}
+      - {at: [-5952, 6564], size: [128, 64], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}}
+      - {at: [-6236, 6784], size: [64, 128], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}}
+      - {at: [-6144, 7004], size: [128, 64], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}}
+      - {at: [-5952, 7004], size: [128, 64], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}}
+    notes: "The niche behind a 256-wide arch in the dormitory's west wall (64 thick), floor level with the room. The five cabinet chests stand round its walls; one holds the wealthy hat. Still not drawable: its barrel vault (R3-K5)."
+  - id: room:east_climb
+    name: "East climb, lower passage"
+    outline: [[2256, 384], [2464, 384], [2688, 256], [2800, 256], [2800, 672], [2560, 768], [2304, 896], [2256, 896]]
+    floor: -320
+    rough: {step: 128, depth: 40}
+    ceiling: 64
+    notes: "The climb's first leg, east-south-east out of the south cavern at the cavern's own level, as in the original (the rise starts about 600 along it). The climb is five rooms (this level passage, a short ramp, the rise east, the level landing at the turn, the ramp south) because a slope room must be straight and convex; in the original it is one spiral slope. Rough rock walls. Still not drawable: a slope that follows a curve (new)."
+  - id: room:east_climb_bend
+    name: "East climb, bend"
+    space: room:east_climb
+    outline: [[3856, -496], [4224, -496], [4288, -384], [4288, -128], [4160, 0], [3968, 160], [3856, 224]]
+    floor: 160
+    rough: {step: 128, depth: 40}
+    ceiling: 544
+    notes: "The level landing at the turn from east to south (+160), against the outer wall of the bend, where the original's floor flattens (about +115 to +190) between the rise east and the climb south. Rough rock walls."
+  - id: room:east_climb_ramp
+    name: "East climb, first ramp"
+    space: room:east_climb
+    outline: [[2816, 256], [3264, -192], [3264, 448], [3040, 592], [2816, 672]]
+    floor: -320
+    slope: {to: -128, toward: 1}
+    ceiling: 32
+    ceiling_slope: {to: 224, toward: 1}
+    notes: "The short rise east from the lower passage (192 over 448, as steep as the original's); the rise east continues at the same pitch to the landing. Its ceiling rises east with the floor, +32 to +224 (the original's about +20 to +205). Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:east_climb_rise
+    name: "East climb, rise east"
+    space: room:east_climb
+    outline: [[3282, -222], [3456, -512], [3840, -512], [3840, 224], [3282, 441]]
+    floor: -119
+    slope: {to: 160, toward: 2}
+    ceiling: 192
+    ceiling_slope: {to: 480, toward: 2}
+    notes: "The climb keeps rising east past the first ramp at the same pitch to the landing at the turn (-119 to +160 over 558), one room under a ceiling that rises with it (+192 to +480, as the original's, about +195 to +465). Smooth walls (a ramp is convex and cannot be rough). Its south side stands against the upper ramp's foot: in the original the inner corner of the turn is one twisting slope, which straight ramps cannot follow."
+  - id: room:east_climb_upper
+    name: "East climb, upper ramp"
+    space: room:east_climb
+    outline: [[3040, -1216], [4032, -1216], [4224, -512], [3456, -512]]
+    floor: 160
+    slope: {to: 448, toward: 0}
+    ceiling: 544
+    ceiling_slope: {to: 832, toward: 0}
+    notes: "The climb south from the landing to the high east pocket (+160 to +448 over 704, as in the original), one room under a ceiling that rises with it (+544 to +832, as the original's, about +530 to +815). Its west side follows the original's lip toward the pocket's north-west lobe; it opens full width onto the pocket. Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:entry_tunnel
+    name: Entry tunnel
+    outline: [[-1440, -4080], [-928, -4080], [-800, -3904], [-736, -3776], [-544, -3584], [-416, -3456], [-288, -3264], [-192, -3072], [0, -2880], [192, -2688], [160, -2560], [256, -2304], [-256, -2304], [-352, -2496], [-448, -2688], [-640, -3072], [-832, -3264], [-1056, -3488], [-1280, -3776], [-1376, -3936]]
+    floor: 0
+    rough: {step: 128, depth: 40}
+    ceiling: 352
+    notes: "About 2,200 long, 384 to 576 across, north-north-east from the mouth, opening full width into the mouth (512) and the descent bend (512). Rough rock walls. Still not drawable: its gentle dips and humps (about -100 to 0 along it), built level at 0 (uneven relief)."
+  - id: room:hidden_passage
+    name: Hidden passage
+    path: [[-4768, 5568], [-4544, 5568], [-4544, 6080], [-4320, 6080]]
+    width: 256
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_inner
+    notes: "A 256-wide passage: east out of the library's lifting wall (the library's east wall is 32 thick here, the wall's slot), north, then east into the study through a mouth 32 thick (the original's is one-sided, thickness 0). 2 violet torches, one each side of the elbow. Still not drawable: the vault over its last leg (R3-K5)."
+  - id: room:hidden_study
+    name: Hidden study
+    outline: [[-4224, 5696], [-3648, 5696], [-3648, 6464], [-4288, 6464], [-4288, 5760]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_inner
+    platforms:
+      - {at: [-3936, 5729], size: [576, 64], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-3968, 6431], size: [640, 64], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-3681, 6080], size: [640, 64], rise: 256, facing: 90, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-4255, 5856], size: [192, 64], rise: 256, facing: 90, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-4255, 6304], size: [192, 64], rise: 256, facing: 90, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-3968, 6080], size: [64, 64], rise: 144, surface: {texture: 7t1books1, size: [128, 128]}}
+    notes: "A dead end entered at the middle of its west wall (y 5952 to 6208, the passage's end, as in the original); the moon floor tile lies on its floor; unlit. 128 of wall separate it from the north anteroom. Bookcases 64 deep and 256 high line every wall (the west wall's either side of the 256-wide doorway), measured from the original; above them the walls wear the 7tws2 brick (the inner rooms' bands). The five cases are platforms (searchable at L4). The reading stand in the middle is a block 64 square and 144 high. The south-west corner is cut off behind the cases (64 by 64, out of sight): otherwise the passage's north leg, which faces the study's west wall across 128 of wall for as long a stretch as its end does, would take the doorway. Still not drawable: the stand's sloping top and the thin trim band over the cases."
+  - id: room:high_east_pocket
+    name: High east pocket
+    outline: [[3040, -1232], [2880, -1280], [2688, -1408], [2720, -1664], [2848, -1856], [3072, -2048], [3328, -2048], [3584, -1920], [3776, -1952], [3968, -2048], [4352, -2048], [4608, -1920], [4672, -1696], [4608, -1408], [4448, -1248], [4224, -1152], [4032, -1232]]
+    floor: 448
+    rough: {step: 128, depth: 40}
+    ceiling: 784
+    ceiling_slope: {to: 960, toward: 0}
+    notes: "A dead-end ledge cave south of the climb's top, the map's highest floor and ceiling, two lobes on its south side; the climb comes in full width (about 1,000) on its north side at y -1216, where the original's floor levels out. Rough rock walls. Its ceiling rises toward the mouth, +784 at the back to +960 over the climb, the original's slope (about +780 to +955). Still not drawable: the rock relief (its floor rises gently from the mouth to the back, and a raised shelf on its south side)."
+  - id: room:library
+    name: Library
+    outline: [[-5824, 4544], [-4800, 4544], [-4800, 5696], [-5824, 5696]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_inner
+    platforms:
+      - {at: [-5596, 4577], size: [456, 64], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-5596, 5663], size: [456, 64], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-5791, 4832], size: [448, 64], rise: 256, facing: 90, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-5791, 5408], size: [448, 64], rise: 256, facing: 90, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-5628, 5120], size: [392, 128], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-5120, 4740], size: [392, 128], rise: 256, facing: 90, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+      - {at: [-5120, 5500], size: [392, 128], rise: 256, facing: 90, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1books2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}}
+    notes: "Entered from the anteroom at the south half of its east wall; the north half of that wall (32 thick) is the secret lifting wall into the hidden passage, in the same dressed stone. The bookcases, measured from the original, all 256 high under the 384 ceiling (the brick band shows above them): a U of cases 64 deep along the west wall and the west halves of the north and south walls (each arm 456 long, ending 544 from the east wall), a case 128 thick and 392 long jutting east from the middle of the west wall, and two more, 128 by 392, jutting from the north and south walls 640 from the west wall, which leave a 368 gap between them across the room. Books on their long faces, the carved panel on their ends, plain wood on top. The cases stand against the walls as in the original (there is no gap behind them; here 1 unit, since a block may not touch a wall). Ten of their faces are searchable (objects at L4). Every wall wears the inner rooms' bands: twb1 behind the cases, the 7tws2 brick above them. Still not drawable: the thin 7t1books1 frames at the case ends."
+  - id: room:moon_nave
+    name: Moon nave
+    outline: [[-2496, 4992], [-960, 4992], [-960, 5120], [-576, 5632], [-576, 6272], [-960, 6784], [-960, 6912], [-2496, 6912]]
+    floor: -544
+    ceiling: 96
+    theme: theme:temple_nave
+    bands:
+      - {height: 128, surface: {texture: twb3, size: [128, 256]}}
+      - {height: 384, surface: {texture: 7tws2, size: [128, 256]}}
+    levels:
+      - outline: [[-2496, 4992], [-960, 4992], [-960, 5120], [-2240, 5120], [-2464, 5680], [-2464, 6224], [-2240, 6784], [-960, 6784], [-960, 6912], [-2496, 6912]]
+        floor: -416
+        edge: {texture: twb3, size: [128, 256]}
+        notes: "The gallery (the rim), 128 above the sunken floor and level with the aisles and the apse: one level that runs round the octagon against the nave's walls, the 128 strips along the north and south walls (open to the aisles), the wedges either side of the west steps and a 32 strip between them along the apse's open side, where the west flight ends. It is open on the east: from where the walls turn diagonal the sunken floor runs to the east walls, as in the original. Its inner edge is the original's open ledge, twb3 (the arcade band). The west diagonals are one face each where the original's bend once, and the original's sunken floor reaches the apse's line beside the steps, where the 32 strip here keeps the gallery in one piece."
+    ceiling_levels:
+      - outline: [[-1056, 5952], [-1120, 6224], [-1328, 6432], [-1600, 6496], [-1872, 6432], [-2080, 6224], [-2144, 5952], [-2080, 5680], [-1872, 5472], [-1600, 5408], [-1328, 5472], [-1120, 5680]]
+        ceiling: 800
+        top_scale: 0.5
+        edge: {texture: twb1a, size: [128, 256]}
+        surface: {texture: twb1a, size: [128, 256]}
+        notes: "The dome: a 12-sided opening 1,088 across over the octagon's centre (x -1600), rising from the ceiling (+96, 640 above the sunken floor) to a flat cap at +800, its sides leaning in to a top half as wide (544, top_scale 0.5). The original's, measured: a plain 'wall' collar 128 high on the opening's edge (+96 to +224), then the twb1a dome closing inward, about 490 from the centre at +480, 270 at +736 and the 'wall' cap (about 100 from the centre) at +800, so its sides lean little to +480 and then close fast. Here the sides lean in one straight line from the ceiling and the flat top is twb1a like them (the original's small dark cap is the block where the ribs meet, among the nave's beams); the collar is a ring of beams just inside the edge, and the original's curve is one slope."
+    flights:
+      - {from: [-1856, 5952], to: [-2480, 5952], width: 320, steps: 6, sides: {height: 64, thickness: 32, surface: {texture: 7tfb11, size: [128, 128]}}, riser: {texture: trim3_32a, size: [64, 32]}}
+    beams:
+      - path: [[-1097, 5952], [-1156, 6204], [-1348, 6396], [-1600, 6455], [-1852, 6396], [-2044, 6204], [-2103, 5952]]
+        width: 48
+        depth: 32
+        bottom: 96
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-2103, 5952], [-2044, 5700], [-1852, 5508], [-1600, 5449], [-1348, 5508], [-1156, 5700], [-1097, 5952]]
+        width: 48
+        depth: 32
+        bottom: 96
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1102, 5952], [-1328, 5952]]
+        width: 64
+        depth: 64
+        bottom: 128
+        bottom_end: 712
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1328, 5952], [-1520, 5952]]
+        width: 64
+        depth: 64
+        bottom: 736
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-2098, 5952], [-1872, 5952]]
+        width: 64
+        depth: 64
+        bottom: 128
+        bottom_end: 712
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1872, 5952], [-1680, 5952]]
+        width: 64
+        depth: 64
+        bottom: 736
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1600, 6450], [-1600, 6224]]
+        width: 64
+        depth: 64
+        bottom: 128
+        bottom_end: 712
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1600, 6224], [-1600, 6032]]
+        width: 64
+        depth: 64
+        bottom: 736
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1600, 5454], [-1600, 5680]]
+        width: 64
+        depth: 64
+        bottom: 128
+        bottom_end: 712
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1600, 5680], [-1600, 5872]]
+        width: 64
+        depth: 64
+        bottom: 736
+        surface: {texture: wall, size: [128, 256]}
+      - path: [[-1680, 5952], [-1520, 5952]]
+        width: 160
+        depth: 64
+        bottom: 736
+        surface: {texture: wall, size: [128, 256]}
+    notes: "One room on the sunken floor (-544) with the gallery round it as a raised level at the rim's height (-416, level with the aisles and the apse) against its north, west and south walls; on the east the sunken floor runs to the walls, as in the original. The steps up to the apse: 6 steps 320 wide on the axis, the first riser 640 in from the apse (x -1856, as in the original), between side walls that rake down with the flight (the flight's `sides`, 64 above the steps: the original's parapets, 32 thick, stand 64 above the sunken floor at the foot and 64 above the rim at the head, 192 above the sunken floor; here they are 85 above the floor at the foot, since the flight's sides stand as high above its first step as above its head), the last step level with the gallery and ending 16 into its 32 strip (a flight's head must stand on the higher floor). The temple stair comes down its 9 steps through the pointed arch in the middle of the east wall straight onto the sunken floor. Ceiling at +96 (640 above the sunken floor) with the dome opening over the centre. The dome is a ceiling level that narrows as it rises (see its notes). Its collar is a ring of beams 48 wide and 32 deep just inside the opening's edge (16 to 64 inside it, +96 to +128), in two halves, 'wall' as in the original (whose collar is an upright band 128 high, +96 to +224, which a leaning side cannot keep). Its ribs, measured: four half-ribs 64 wide on the temple axis and the cross axis (two ribs crossing under the crown), each climbing from the collar up the dome's side to a small dark 'wall' cap about 200 across; here each is a raking beam 64 wide and 64 deep under the leaning side, from the collar's top (+128, about 500 from the centre) up to +712 at the cap's edge (272 from it), then a beam under the cap (+736 to +800) to a block 160 square at the centre, the original's small cap. The original has no parapet along the gallery's open ledges. The nave itself has no torches. Walls: the nave's own bands, measured from the sunken floor so that they keep the original's heights: the twb3 arcade band to -416 (the ledge's height; behind the gallery it lies below the gallery's floor and does not show), the 7tws2 brick dado to -160 (256 above the gallery, as on the aisles and the apse) and the theme's twb1 plaster above. Still not drawable: the 128 ledge's arcade relief; the stair walls' 'wall' tops (the sides take one surface, 7tfb11); the dome's curve (its side is one straight slope from the ceiling, without the upright collar) and the ribs' curve with it (each is one straight rake)."
+  - id: room:ne_chamber
+    name: Northeast chamber
+    outline: [[1232, 3072], [1568, 3200], [1792, 3072], [1920, 2944], [2304, 2816], [2432, 2560], [2816, 2432], [2880, 2432], [2880, 2944], [2944, 3168], [2944, 3584], [2816, 3968], [2560, 4288], [2176, 4480], [1792, 4288], [1536, 4096], [1408, 3712], [1232, 3584]]
+    floor: -128
+    rough: {step: 128, depth: 40}
+    ceiling: 288
+    notes: "A rounded cave about 1,500 across, entered by its ramp from the north cavern on the west and left by the neck to the northeast pocket at its south-east, both full-width mouths. Rough rock walls. Still not drawable: the rock relief."
+  - id: room:ne_chamber_entry
+    name: "Northeast chamber, entry ramp"
+    space: room:ne_chamber
+    outline: [[832, 3072], [1216, 3072], [1216, 3584], [832, 3648]]
+    floor: -256
+    slope: {to: -128, toward: 1}
+    ceiling: 96
+    ceiling_slope: {to: 176, toward: 1}
+    notes: "The ramp up from the north cavern's upper floor into the chamber, full width at both ends. Its ceiling rises with the floor, +96 to +176 (the original's about +100 to +170). Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:ne_pocket
+    name: Northeast pocket
+    outline: [[4608, 3328], [4224, 3264], [3968, 2944], [3408, 2816], [3408, 2432], [3584, 2304], [3840, 1952], [4224, 1856], [4736, 1888], [5120, 2240], [5248, 2528], [5120, 3008], [4864, 3072]]
+    floor: 0
+    rough: {step: 128, depth: 40}
+    ceiling: 336
+    ceiling_slope: {to: 640, toward: 9}
+    notes: "A round dead-end cave at the map's east edge, entered up the neck at its west side. Rough rock walls. Its ceiling rises toward its east side, +336 in the west to +640 at the east wall, as the original's roughly does (about +335 to +635). Still not drawable: the rock relief (a raised nook in its south wall)."
+  - id: room:ne_pocket_neck
+    name: "Northeast pocket, neck"
+    space: room:ne_pocket
+    outline: [[2880, 2432], [3392, 2432], [3392, 2816], [3072, 2912], [2880, 2944]]
+    floor: -128
+    slope: {to: 0, toward: 1}
+    ceiling: 288
+    notes: "The short rise from the chamber's floor to the pocket's, widening toward the chamber; full width at both ends (384 at the pocket). Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:north_cavern
+    name: North cavern
+    outline: [[-1280, 1424], [-768, 1424], [-640, 1280], [-400, 1184], [-400, 1856], [-512, 2176], [-384, 2560], [-140, 2868], [-652, 3380], [-1024, 3328], [-1344, 3296], [-1664, 3200], [-1856, 2944], [-1920, 2688], [-1920, 2304], [-1664, 2048], [-1408, 1792], [-1280, 1536]]
+    floor: -512
+    rough: {step: 128, depth: 40}
+    ceiling: -128
+    pillars:
+      - {outline: [[-1024, 2944], [-1216, 2816], [-1344, 2528], [-1152, 2176], [-1024, 2048], [-896, 2048], [-896, 2176], [-1024, 2304], [-1024, 2432], [-896, 2560], [-896, 2816]]}
+    notes: "The cavern's low western body: a broad ring round its rock island, a long rock with a notch in its east side. The ramp from the south cavern comes in at its east, the west descent leaves its south side, and the rise to the upper floor leaves its north-east. The cavern is four rooms (this body, the ramp from the south cavern, the rise, the upper floor at the stair). Rough rock walls. Still not drawable: the rock relief."
+  - id: room:north_cavern_rise
+    name: "North cavern, rise"
+    space: room:north_cavern
+    outline: [[-128, 2880], [384, 2944], [832, 3072], [-64, 3968], [-640, 3392]]
+    floor: -512
+    slope: {to: -256, toward: 2}
+    ceiling: -80
+    ceiling_slope: {to: 64, toward: 2}
+    notes: "The broad slope on the diagonal from the cavern's body up north-east to its upper floor (-512 to -256 over about 1,150), one room under a ceiling that rises with it (-80 to +64, the original's). Smooth walls (a ramp is convex and cannot be rough). In the original the rise is one plane, longer and gentler (about 1,500, rising east-north-east); drawn so, its north side walls off the arm to the temple stair, which meets the slope on its side."
+  - id: room:north_cavern_se_ramp
+    name: "North cavern, south-east ramp"
+    space: room:north_cavern
+    outline: [[-384, 1184], [0, 1152], [384, 1152], [384, 1664], [0, 1792], [-384, 1856]]
+    floor: -512
+    slope: {to: -320, toward: 2}
+    ceiling: -96
+    ceiling_slope: {to: 0, toward: 2}
+    notes: "The arm the party enters by from the south cavern (a full-width mouth, 512), falling west into the body. Its ceiling falls west with the floor, 0 at the mouth to -96 (the original's about +10 to -100). Smooth walls (a ramp is convex and cannot be rough): the rock bulge in the original's south wall is not drawn."
+  - id: room:north_cavern_upper
+    name: "North cavern, upper floor"
+    space: room:north_cavern
+    outline: [[-52, 3980], [816, 3112], [816, 3648], [768, 3712], [640, 3936], [640, 4096], [768, 4448], [768, 4736], [128, 4736], [0, 4160]]
+    floor: -256
+    rough: {step: 128, depth: 40}
+    ceiling: 128
+    notes: "The landing at the top of the rise and the arm north to the temple stair, where rough rock turns to cut stone (open the stair's whole width); the ramp to the northeast chamber leaves its east side. Rough rock walls."
+  - id: room:passage_n
+    name: North passage
+    outline: [[-2752, 6944], [-2496, 6944], [-2496, 7392], [-2752, 7392]]
+    floor: -416
+    ceiling: -64
+    theme: theme:temple_nave
+    bands:
+      - {height: 256, surface: {texture: twb3d, size: [128, 256]}}
+    notes: "256 wide and 448 long, from the apse's strip north to the corridor, with a wall 32 thick at each end (the original's walls there have no thickness: only the apse and the corridor own the face round each arch, which rooms cannot say, and two rooms' walls in one plane show through each other); the fire-bolt lane runs along it. Its side walls are a band of twb3d to 256 (the original's dark arched niches with the carved demon leaf, the 'niches' seen from the nave through the passage mouths) under the twb1 plaster; the original has a niche at each end of each side wall (128) with twb1 and a tws1a relief panel between them, which one band repeats as four niches a side. The mouths are the original's pointed arches (256 at the sides, 352 at the apex; here 336, 16 under the flat ceiling). Still not drawable: its barrel vault (R3-K5) and openings as wide as the passage itself (R3-K9: 224 of its 256)."
+  - id: room:passage_s
+    name: South passage
+    outline: [[-2752, 4512], [-2496, 4512], [-2496, 4960], [-2752, 4960]]
+    floor: -416
+    ceiling: -64
+    theme: theme:temple_nave
+    bands:
+      - {height: 256, surface: {texture: twb3d, size: [128, 256]}}
+    notes: "Mirror of the north passage, with the same twb3d niche band and the same 32 walls at its ends."
+  - id: room:south_cavern
+    name: South cavern
+    outline: [[1088, 1920], [640, 1792], [400, 1664], [400, 1152], [640, 896], [768, 640], [1152, 512], [1280, 192], [1184, -160], [896, -352], [512, -256], [384, -128], [144, -128], [144, -896], [640, -960], [960, -1248], [1600, -1472], [1920, -1408], [2112, -1088], [2432, -768], [2560, -480], [2528, -64], [2208, -32], [1952, -128], [1792, 32], [1888, 224], [2240, 384], [2240, 896], [2016, 1088], [1792, 1536], [1472, 1824]]
+    floor: -320
+    rough: {step: 128, depth: 40}
+    ceiling: 32
+    pillars:
+      - {outline: [[976, 1472], [896, 1408], [896, 1248], [1056, 1120], [1280, 768], [1440, 768], [1664, 896], [1760, 800], [1696, 1024], [1536, 1152], [1152, 1280], [1152, 1440]]}
+      - {outline: [[1440, -512], [1248, -736], [1248, -928], [1312, -1056], [1568, -1152], [1728, -1056], [1728, -896], [1920, -640], [1792, -512]]}
+    notes: "The first hub: two loops of cave joined at a waist, each round a rock island (a long blade in the northern loop with a fin at its east end, a rounded block in the southern), and the bay cut into its east side between the climb and the southern loop. Entered from the descent's foot on the west, left to the east climb on the east and to the north cavern at the north-west, all through full-width mouths. The secret wall chest is a rock-face panel in its south-east wall. 31 points, more than the usual budget: the two loops, the waist and the bay are each a bulge or a neck of the original. Rough rock walls. Still not drawable: the rock relief of the floor (the original rises about 170 in places)."
+  - id: room:spider_sinkhole
+    name: Spider sinkhole
+    outline: [[-3456, 3712], [-3712, 3584], [-3840, 3328], [-3840, 2880], [-3776, 2560], [-3584, 2400], [-3328, 2304], [-3072, 2064], [-2560, 2064], [-2560, 2304], [-2432, 2560], [-2272, 2720], [-2240, 3072], [-2304, 3328], [-2432, 3456], [-2752, 3648], [-3072, 3712]]
+    floor: -896
+    rough: {step: 128, depth: 40}
+    ceiling: -496
+    ceiling_slope: {to: -336, toward: south}
+    notes: "A round basin about 1,600 across, the map's lowest floor, entered at the foot of the neck in its south side (a full-width mouth, 512). The secret wall chest is a rock-face panel in its north-west wall. Rough rock walls. Its ceiling rises toward the mouth in its south side, -496 at the north wall to -336 (the original's slope, about -575 to -405, set 80 higher as the level ceiling was). Still not drawable: the rock relief."
+  - id: room:temple_stair
+    name: "Temple stair, level run"
+    outline: [[128, 4736], [768, 4736], [768, 6272], [128, 6272]]
+    floor: -256
+    ceiling: 128
+    theme: theme:temple_stair
+    bands:
+      - {height: 256, surface: {texture: twb1, size: [128, 256]}}
+    notes: "The first cut stone: a level run 640 wide north out of the north cavern, turning west at its north end into the flight. Walls as the original's: the twb1 plaster 256 high on all three walls (its frieze along the top), and above it, up to the ceiling 384 above the floor, the cwb1 rock of the original's vault, which springs from the walls' tops and leans in 128 to a flat crown; here the rock stands upright on the walls. Still not drawable: the vault's lean (R3-K5); the sequence along the walls (the original sets tws1a carved panels, 128 wide, into the plaster: two in the east wall, one in the west, one in the north end; and at the cave mouth the first 128 of each side wall is plaster broken by rock, tws1c on the east, c1t1b1 on the west, over a tfs1 sill strip 128 deep across the floor)."
+  - id: room:temple_stair_flight
+    name: "Temple stair, flight"
+    space: room:temple_stair
+    outline: [[-544, 5632], [128, 5632], [128, 6272], [-544, 6272]]
+    floor: -544
+    slope: {to: -256, toward: east, steps: 9, riser: {texture: trim3_32a, size: [64, 32]}}
+    ceiling: 24
+    ceiling_slope: {to: 128, toward: east}
+    theme: theme:temple_nave
+    walls:
+      - wall: north
+        surface: {texture: twb2, size: [128, 256]}
+      - wall: south
+        surface: {texture: twb2, size: [128, 256]}
+      - wall: west
+        surface: {texture: twb2, size: [128, 256]}
+      - wall: east
+        surface: {texture: trim3_32a, size: [64, 32]}
+    bands: []
+    notes: "Walls as the original's: the dark twb2 brick from the steps to the ceiling on both side walls and round the arch (no dado and no plaster: the flight sets no bands, and its walls take twb2), with the nave theme's twb2 overhead, 7tfb11 treads and trim3_32a risers (the east wall's only solid face is the top riser under the run's floor, so it takes the riser's trim3_32a, as in the original). The original's flight: 9 steps of 32 down westward from the run (-256) to the nave's sunken floor (-544) at its east wall, 640 wide (the original's flight and its arch are 640 wide), the dome and the altar ahead; the arch at its foot opens straight onto the sunken floor. Its foot stands 32 back from the nave's east wall, so the arch has a reveal 32 deep (the original's arch is a face of the nave alone, thickness 0, which rooms cannot say). The steps here are 75 deep where the original's are 64 with a 192 landing at the foot (one slope room divides its length evenly). The ceiling slopes down with the flight toward the arch, +128 at the run to +24 over the arch (whose apex is +8), the brick wedge over the arch seen from the nave: the original's is a pointed vault whose crown falls from about +116 at the run to +8 at the arch. Still not drawable: the vault's cross-section (its sides come down to about -290 at the arch)."
+  - id: room:west_descent
+    name: West descent
+    outline: [[-2560, 1008], [-2528, 640], [-2304, 64], [-2048, -256], [-1664, -384], [-1408, -256], [-1344, 0], [-1088, 256], [-768, 384], [-704, 608], [-704, 896], [-800, 1072], [-1344, 1072], [-1600, 1008]]
+    floor: -640
+    rough: {step: 128, depth: 40}
+    ceiling: -256
+    pillars:
+      - {outline: [[-1344, 832], [-1536, 576], [-1696, 640], [-1920, 576], [-2048, 448], [-2048, 320], [-1696, 192], [-1536, 256], [-1376, 416], [-1152, 608], [-1152, 768], [-1216, 832]]}
+    notes: "A cave looping round a long, bent rock island south-west of the north cavern, entered down its short ramp at the north-east and left to the neck at its north-west through a full-width mouth (768). Rough rock walls. Still not drawable: the rock relief."
+  - id: room:west_descent_ramp
+    name: "West descent, ramp"
+    space: room:west_descent
+    outline: [[-1344, 1088], [-800, 1088], [-896, 1408], [-1280, 1408]]
+    floor: -640
+    slope: {to: -512, toward: 2}
+    ceiling: -192
+    notes: "The short slope down from the north cavern's floor, full width at both ends (384 at the cavern). Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:west_neck
+    name: West neck
+    outline: [[-2560, 1024], [-1856, 1024], [-1856, 1312], [-2112, 1600], [-2624, 1600]]
+    floor: -640
+    slope: {to: -736, toward: 3}
+    ceiling: -256
+    ceiling_slope: {to: -336, toward: 3}
+    notes: "The neck's gentle upper half, north-west from the west descent (full width, 768) to where it narrows; its west wall follows the rock that bulges in from the west. The neck is two ramps of their own pitch because a slope room is convex: the original's west wall bends inward halfway. Its ceiling falls with the floor, -256 to -336 (the original's about -260 to -340). Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:west_neck_lower
+    name: "West neck, lower ramp"
+    space: room:west_neck
+    outline: [[-2720, 1628], [-2140, 1628], [-2560, 2048], [-3072, 2048], [-2944, 1824]]
+    floor: -746
+    slope: {to: -896, toward: 2}
+    ceiling: -352
+    ceiling_slope: {to: -480, toward: 2}
+    notes: "The neck's steeper lower half down into the sinkhole (160 over 448), full width at both ends (512 at the sinkhole); its ceiling falls with it, as in the original (-352 to -480; the original's about -345 to -490). Smooth walls (a ramp is convex and cannot be rough)."
+  - id: room:wing_corridor_n
+    name: North corridor
+    outline: [[-3776, 7424], [-2368, 7424], [-2368, 7936], [-3776, 7936]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_masonry
+    notes: "Straight, 512 wide, running west from above the north passage to the door hall (with the door hall, about 1,900 long). 3 violet torches about 640 apart; the first marks the fire-bolt emitter in its east end wall's corner above the passage."
+  - id: room:wing_corridor_s
+    name: South corridor
+    outline: [[-3776, 3968], [-2368, 3968], [-2368, 4480], [-3776, 4480]]
+    floor: -416
+    ceiling: -32
+    theme: theme:temple_masonry
+    notes: Mirror of the north corridor.
+openings:
+  - id: open:anteroom_n_dormitory
+    from: room:anteroom_n
+    to: room:dormitory
+    link: link:anteroom_n_dormitory
+    width: full
+    height: 352
+    notes: "The arm's whole width (384), 352 high under its vault, as in the original."
+  - id: open:anteroom_s_library
+    from: room:anteroom_s
+    to: room:library
+    link: link:anteroom_s_library
+    width: full
+    height: 352
+    notes: "The arm's whole width (384), 352 high under its vault, as in the original."
+  - id: open:apse_passage_n
+    from: room:apse
+    to: room:passage_n
+    link: link:apse_passage_n
+    width: full
+    height: 256
+    shape: arch
+    apex: 336
+    shoulders:
+      - [0.25, 0.667]
+    notes: "The passage's mouth, the original's pointed arch over the whole end of the passage (256 wide), measured: its sides end 256 above the sill (the floor, -416 on both sides) and its point is 352 above it, under the passage's vault. Here the point is 336, 16 under the passage's flat ceiling (-64, 352 above the sill), the lowest a gable may reach."
+  - id: open:apse_passage_s
+    from: room:apse
+    to: room:passage_s
+    link: link:apse_passage_s
+    width: full
+    height: 256
+    shape: arch
+    apex: 336
+    shoulders:
+      - [0.25, 0.667]
+    notes: "The passage's mouth, the original's pointed arch over the whole end of the passage (256 wide), measured: its sides end 256 above the sill (the floor, -416 on both sides) and its point is 352 above it, under the passage's vault. Here the point is 336, 16 under the passage's flat ceiling (-64, 352 above the sill), the lowest a gable may reach."
+  - id: open:corridor_n_door_hall_n
+    from: room:wing_corridor_n
+    to: room:door_hall_n
+    link: link:corridor_n_door_hall_n
+    width: full
+    height: full
+    notes: "Open the corridor's whole width (512) and height, as in the original (there a diagonal across the corner)."
+  - id: open:corridor_s_door_hall_s
+    from: room:wing_corridor_s
+    to: room:door_hall_s
+    link: link:corridor_s_door_hall_s
+    width: full
+    height: full
+    notes: "Open the corridor's whole width (512) and height, as in the original (there a diagonal across the corner)."
+  - id: open:descent_bend_foot_south_cavern
+    from: room:descent_bend_foot
+    to: room:south_cavern
+    link: link:descent_bend_south_cavern
+    width: full
+    height: full
+  - id: open:descent_bend_lower_turn
+    from: room:descent_bend_lower
+    to: room:descent_bend_turn
+    width: full
+    height: full
+  - id: open:descent_bend_turn_foot
+    from: room:descent_bend_turn
+    to: room:descent_bend_foot
+    width: full
+    height: full
+  - id: open:descent_bend_upper_lower
+    from: room:descent_bend
+    to: room:descent_bend_lower
+    width: full
+    height: full
+  - id: open:door_hall_n_anteroom_n
+    from: room:door_hall_n
+    to: room:anteroom_n
+    link: link:door_hall_n_anteroom_n
+    width: 320
+    height: 320
+    notes: The double sliding door (two leaves of 160 and a seam strip) in a wall 64 thick.
+  - id: open:door_hall_s_anteroom_s
+    from: room:door_hall_s
+    to: room:anteroom_s
+    link: link:door_hall_s_anteroom_s
+    width: 320
+    height: 320
+    notes: The double sliding door (two leaves of 160 and a seam strip) in a wall 64 thick.
+  - id: open:dormitory_alcove
+    from: room:dormitory
+    to: room:dormitory_alcove
+    width: 256
+    height: 256
+    notes: The alcove's arch.
+  - id: open:east_climb_bend
+    from: room:east_climb_rise
+    to: room:east_climb_bend
+    width: full
+    height: full
+  - id: open:east_climb_bend_upper
+    from: room:east_climb_bend
+    to: room:east_climb_upper
+    width: full
+    height: full
+  - id: open:east_climb_high_east_pocket
+    from: room:east_climb_upper
+    to: room:high_east_pocket
+    link: link:east_climb_high_east_pocket
+    width: full
+    height: full
+  - id: open:east_climb_ramp
+    from: room:east_climb
+    to: room:east_climb_ramp
+    width: full
+    height: full
+  - id: open:east_climb_rise
+    from: room:east_climb_ramp
+    to: room:east_climb_rise
+    width: full
+    height: full
+  - id: open:entry_tunnel_descent_bend
+    from: room:entry_tunnel
+    to: room:descent_bend
+    link: link:entry_tunnel_descent_bend
+    width: full
+    height: full
+  - id: open:hidden_passage_hidden_study
+    from: room:hidden_passage
+    to: room:hidden_study
+    link: link:hidden_passage_hidden_study
+    width: full
+    height: 352
+    notes: "The passage's whole width (256), 352 high, as in the original."
+  - id: open:library_hidden_passage
+    from: room:library
+    to: room:hidden_passage
+    link: link:library_hidden_passage
+    width: full
+    height: 256
+    notes: "The secret lifting wall: a panel 256 wide (the passage's whole width) that rises 256 into a slot in the wall's thickness (32 here). Still not drawable: its look as plain library wall (R3-K11)."
+  - id: open:mouth_entry_tunnel
+    from: room:cave_mouth
+    to: room:entry_tunnel
+    link: link:mouth_entry_tunnel
+    width: full
+    height: full
+  - id: open:nave_aisle_n
+    from: room:moon_nave
+    to: room:aisle_n
+    link: link:nave_aisle_n
+    width: full
+    height: full
+    notes: "The aisle's whole side (1,280), open up to the ceiling. The nave's gallery runs along this wall level with the aisle's floor (-416), and the hole's bottom is the higher of the two floors, so it needs no `sill`. The aisle's columns stand just behind it; the sunken floor lies a 128 ledge below the gallery."
+  - id: open:nave_aisle_s
+    from: room:moon_nave
+    to: room:aisle_s
+    link: link:nave_aisle_s
+    width: full
+    height: full
+    notes: "The aisle's whole side (1,280), open up to the ceiling. The nave's gallery runs along this wall level with the aisle's floor (-416), and the hole's bottom is the higher of the two floors, so it needs no `sill`. The aisle's columns stand just behind it; the sunken floor lies a 128 ledge below the gallery."
+  - id: open:nave_apse
+    from: room:moon_nave
+    to: room:apse
+    link: link:nave_apse
+    width: full
+    height: full
+    notes: "The nave's whole west side (1,920) opens onto the apse's strip at the gallery's height (-416, the higher of the two floors, so no `sill`), as in the original, where the nave, its rim and the apse are one space; the gallery runs along it and the steps from the sunken floor arrive on the axis at its 32 strip."
+  - id: open:ne_chamber_entry
+    from: room:ne_chamber_entry
+    to: room:ne_chamber
+    width: full
+    height: full
+  - id: open:ne_chamber_ne_pocket
+    from: room:ne_chamber
+    to: room:ne_pocket_neck
+    link: link:ne_chamber_ne_pocket
+    width: full
+    height: full
+  - id: open:ne_pocket_neck
+    from: room:ne_pocket_neck
+    to: room:ne_pocket
+    width: full
+    height: full
+  - id: open:north_cavern_ne_chamber
+    from: room:north_cavern_upper
+    to: room:ne_chamber_entry
+    link: link:north_cavern_ne_chamber
+    width: full
+    height: full
+  - id: open:north_cavern_rise
+    from: room:north_cavern
+    to: room:north_cavern_rise
+    width: full
+    height: full
+  - id: open:north_cavern_rise_upper
+    from: room:north_cavern_rise
+    to: room:north_cavern_upper
+    width: full
+    height: full
+  - id: open:north_cavern_se_ramp
+    from: room:north_cavern_se_ramp
+    to: room:north_cavern
+    width: full
+    height: full
+  - id: open:north_cavern_temple_stair
+    from: room:north_cavern_upper
+    to: room:temple_stair
+    link: link:north_cavern_temple_stair
+    width: full
+    height: full
+    notes: "Rough rock turns to cut stone here; open the whole width of the stair's run, as in the original."
+  - id: open:north_cavern_west_descent
+    from: room:north_cavern
+    to: room:west_descent_ramp
+    link: link:north_cavern_west_descent
+    width: full
+    height: full
+  - id: open:passage_n_corridor_n
+    from: room:passage_n
+    to: room:wing_corridor_n
+    link: link:passage_n_corridor_n
+    width: full
+    height: 256
+    shape: arch
+    apex: 336
+    shoulders:
+      - [0.25, 0.667]
+    notes: "The passage's other end, the same pointed arch as its mouth on the apse (original: sides 256 above the sill, point 352); here the point is 336, 16 under the passage's flat ceiling."
+  - id: open:passage_s_corridor_s
+    from: room:passage_s
+    to: room:wing_corridor_s
+    link: link:passage_s_corridor_s
+    width: full
+    height: 256
+    shape: arch
+    apex: 336
+    shoulders:
+      - [0.25, 0.667]
+    notes: "The passage's other end, the same pointed arch as its mouth on the apse (original: sides 256 above the sill, point 352); here the point is 336, 16 under the passage's flat ceiling."
+  - id: open:south_cavern_east_climb
+    from: room:south_cavern
+    to: room:east_climb
+    link: link:south_cavern_east_climb
+    width: full
+    height: full
+  - id: open:south_cavern_north_cavern
+    from: room:south_cavern
+    to: room:north_cavern_se_ramp
+    link: link:south_cavern_north_cavern
+    width: full
+    height: full
+  - id: open:temple_stair_flight
+    from: room:temple_stair
+    to: room:temple_stair_flight
+    width: full
+    height: full
+    notes: "Inside the plan's one stair space: the turn from the level run into the top of the flight."
+  - id: open:temple_stair_nave
+    from: room:temple_stair_flight
+    to: room:moon_nave
+    link: link:temple_stair_nave
+    width: full
+    height: 256
+    shape: arch
+    apex: 552
+    shoulders:
+      - [0.14, 0.43]
+      - [0.2, 0.54]
+      - [0.4, 0.865]
+    notes: "The foot of the stair's flight on the nave's east axis, straight onto the sunken floor, which runs to the east wall as in the original: the original's pointed doorway, measured: 640 wide (the flight's whole width, the whole east wall), its sides ending 256 above its sill (the sunken floor, -544: at -288) and its apex 552 above it (+8, 88 under the nave's ceiling). The original's arch curves from the sides to the apex; the arch here rises steeply from each side, then runs shallower to the point."
+  - id: open:west_descent_ramp
+    from: room:west_descent_ramp
+    to: room:west_descent
+    width: full
+    height: full
+  - id: open:west_descent_west_neck
+    from: room:west_descent
+    to: room:west_neck
+    link: link:west_descent_west_neck
+    width: full
+    height: full
+  - id: open:west_neck_lower
+    from: room:west_neck
+    to: room:west_neck_lower
+    width: full
+    height: full
+  - id: open:west_neck_spider_sinkhole
+    from: room:west_neck_lower
+    to: room:spider_sinkhole
+    link: link:west_neck_spider_sinkhole
+    width: full
+    height: full
+notes: "The to-scale sketch of the plan, in whole map units (every corner on a 32 grid): x east and y north in the original's frame, heights from the plan's datum, the arrival floor (0). Cave outlines are designer's simplifications measured from the original, not traces, and their heights were refitted by compare-and-fix rounds against the original (2026-11-12): the level caves have 8 to 31 points and rough walls (step 128, depth 40, so every solid stretch of 256 or more is broken up; the default 192 would leave most of these shorter walls straight), the ramps 4 to 6 points and smooth walls (a ramp must be convex, and only level floors take rough walls). The temple's axis is the line y 5952; the south wing mirrors the north wing across it, except the library and the hidden rooms. Walls have their real thickness where the original has walls: 64 at the double doors and the alcove arch, 32 at the lifting wall, 128 to 192 between the wing rooms and the corridors. Where the original's opening is a face of one space alone (thickness 0: the temple's arches into the passages, the stair's arch into the nave, the anterooms' mouths into the dormitory and the library, the hidden passage's mouth into the study), the rooms stand 32 apart, and where caves meet with different ceilings they stand 16 apart: two rooms' walls in one plane show through each other, and rooms cannot give a wall to one side only. Caves run into each other through full-width mouths that deep. The north cavern's mouth into the temple stair and the nave's mouths into its aisles and its apse still touch (each takes the whole wall, up to both ceilings). A plan space is one room except where a ramp or a flight must be its own straight, convex room: the descent bend (4 rooms), the east climb (5), the north cavern (4), the west descent, the west neck, the northeast chamber and the northeast pocket (2 each), and the temple stair (2); the extra rooms name their space. Ramps take a ceiling that slopes with the floor, where the original's cave ceilings rise and fall with it (each long ramp is one room), and a few level caves take the lean of the original's ceiling. The nave is one room on its sunken floor with the gallery round it as a raised level against its walls, open on the east where the temple stair comes down onto the sunken floor; the west steps are a flight with raking side walls; the dome (void:dome) as a raised ceiling level that narrows to its cap, not a room, with raking beams for its ribs; the temple stair's flight has a ceiling that slopes down to its arch; the altar is two stacked platforms. Every floor change between the arrival and the goals is a ramp, a flight or a level doorway, so the whole map is walkable both ways; the only drops are the 128 ledges from the nave's gallery onto its sunken floor, which the steps bypass. Rock islands are outlines of their own, cut out of the floor (the original's four: two in the south cavern, one each in the north cavern and the west descent); the aisles' columns are 8-sided pillars; furniture is platforms. Rooms set no ambient level: the original's sectors use the default, and the plan's darkness comes from the map's own ambient level and its lights."

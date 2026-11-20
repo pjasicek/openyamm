@@ -1,9 +1,12 @@
+#include "game/ui/GameplayMapProgressBar.h"
 #include "game/ui/GameplayHudRenderer.h"
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/ui/GameplayMm9TalkBar.h"
 #include "game/ui/GameplayUiSkin.h"
-#include "engine/Utf8.h"
 
 #include <algorithm>
 #include <cmath>
@@ -84,9 +87,9 @@ std::string fitContextActionLabel(
 
     std::string fitted = text;
 
-    while (Engine::utf8Length(fitted) > 4)
+    while (fitted.size() > 4)
     {
-        Engine::eraseLastUtf8CodePoint(fitted);
+        fitted.pop_back();
         const std::string candidate = fitted + "...";
 
         if (context.measureHudTextWidth(fontName, candidate) * textScale <= maxWidth)
@@ -335,11 +338,41 @@ void renderContextAction(GameplayScreenRuntime &context, int width, int height)
             fitContextActionLabelLines(
                 context,
                 labelLayout.fontName,
-                context.localizeHudText(action.label),
+                action.label,
                 std::max(1.0f, labelRect.width - 6.0f * labelRect.scale),
                 labelLayout.textScale * labelRect.scale);
         renderCenteredContextActionLabelLines(context, labelLayout, labelRect, labelLines);
     }
+}
+
+// The hovered ground item's name on a status plate above the pointer, in its rarity colour (MAW).
+void renderWorldItemHoverLabel(GameplayScreenRuntime &context, int width, int height)
+{
+    const GameplayUiController::StatusBarState &statusBar = context.statusBarState();
+    const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement("OutdoorGameplayStatusBar");
+    const std::optional<GameplayResolvedHudLayoutElement> statusRect =
+        context.resolveHudLayoutElement("OutdoorGameplayStatusBar", width, height, 0, 0);
+
+    if (statusBar.worldItemLabel.empty() || pLayout == nullptr || !statusRect)
+    {
+        return;
+    }
+
+    UiLayoutManager::LayoutElement label = *pLayout;
+    label.textColorAbgr = statusBar.worldItemLabelColorAbgr;
+    label.textAlignX = UiLayoutManager::TextAlignX::Center;
+    label.textAlignY = UiLayoutManager::TextAlignY::Middle;
+    const float scale = statusRect->scale;
+    const float textWidth = context.measureHudTextWidth(label.fontName, statusBar.worldItemLabel) * scale
+        * label.textScale;
+    GameplayResolvedHudLayoutElement rect = {};
+    rect.width = textWidth + 16 * scale;
+    rect.height = 18 * scale;
+    rect.x = std::clamp(statusBar.worldItemLabelX - rect.width * 0.5f, 0.0f, std::max(0.0f, width - rect.width));
+    rect.y = std::max(0.0f, statusBar.worldItemLabelY - rect.height - 14 * scale);
+    rect.scale = scale;
+    GameplayUiSkin::renderTexture(context, "obsidian_hud_status_plate", rect);
+    context.renderLayoutLabel(label, rect, statusBar.worldItemLabel);
 }
 
 void renderPassTurnButton(GameplayScreenRuntime &context, int width, int height)
@@ -365,8 +398,9 @@ void renderPassTurnButton(GameplayScreenRuntime &context, int width, int height)
     labelLayout.textScale = 0.3333333f;
     const std::vector<std::string> labelLines =
         context.turnBasedCombatRuntime().stage() == TurnBasedCombatStage::Movement
-            ? std::vector<std::string>{"End", "Move"}
-            : std::vector<std::string>{"Pass"};
+            ? std::vector<std::string>{
+                  Engine::trc("turn-based button", "End"), Engine::trc("turn-based button", "Move")}
+            : std::vector<std::string>{Engine::trc("turn-based button", "Pass")};
     renderCenteredContextActionLabelLines(context, labelLayout, *buttonRect, labelLines);
 }
 
@@ -386,9 +420,10 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
     std::string status;
     if (context.houseBankState().inputActive())
     {
-        status = std::string(context.houseBankState().inputMode
-            == GameplayUiController::HouseBankInputMode::Deposit ? "Deposit: " : "Withdraw: ")
-            + context.houseBankState().inputText + "_";
+        const std::string &amount = context.houseBankState().inputText;
+        status = context.houseBankState().inputMode == GameplayUiController::HouseBankInputMode::Deposit
+            ? Engine::tr("Deposit: {amount}_", {{"amount", amount}})
+            : Engine::tr("Withdraw: {amount}_", {{"amount", amount}});
     }
     else if (context.statusBarEventRemainingSeconds() > 0 && !context.statusBarEventText().empty())
     {
@@ -402,8 +437,6 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
     {
         status = context.interactionState().dialogueStatusHint;
     }
-    // Measure and wrap the same localized text that renderLayoutLabel draws.
-    status = context.localizeHudText(status);
     if (!status.empty() && (state == GameplayHudScreenState::Gameplay || state == GameplayHudScreenState::Character
         || state == GameplayHudScreenState::Dialogue || state == GameplayHudScreenState::Chest
         || state == GameplayHudScreenState::Spellbook))
@@ -445,7 +478,11 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                 if (font)
                 {
                     const float bottom = rect->y + rect->height;
-                    const float scale = rect->scale * pLayout->textScale;
+                    // Measured at the scale the label draws at: a pixel face's scale rounds up near a whole number
+                    // (snappedHudFontScale), and a plate measured smaller cut the last letter ("Ur", OY-488).
+                    const float layoutScale = rect->scale * pLayout->textScale;
+                    const float scale =
+                        layoutScale >= 1.0f ? GameplayHudCommon::snappedHudFontScale(layoutScale) : layoutScale;
                     const float maxWidth = 330.666667f * rect->scale;
                     std::vector<std::string> lines = context.wrapHudTextToWidth(*font, status,
                         (maxWidth - 16 * rect->scale) / scale);
@@ -474,12 +511,33 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                     {
                         rect->y = dock->y - rect->height - 8 * rect->scale;
                     }
+                    // In an MM9 talk the conversation bar stands where the basebar was: the plate goes above it.
+                    const std::optional<float> talkTop = activeEventDialogHidesPartyFrame(context.activeEventDialog())
+                        ? GameplayMm9TalkBar::panelTop(context, width, height)
+                        : std::nullopt;
+                    if (talkTop)
+                    {
+                        rect->y = std::min(rect->y, *talkTop - rect->height - 6 * rect->scale);
+                    }
+                    // MAW's progress tab under a wide plate: the plate goes above it (a solo HUD keeps the tab at
+                    // the unit frame, top left, out of the plate's way).
+                    if (context.soloHud())
+                    {
+                        if (const std::optional<std::array<float, 4>> tab =
+                                GameplayMapProgressBar::tabBounds(context, width, height);
+                            tab && (*tab)[0] < rect->x + rect->width && (*tab)[2] > rect->x
+                            && (*tab)[1] > float(height) * 0.5f)
+                        {
+                            rect->y = std::min(rect->y, (*tab)[1] - rect->height - 4 * rect->scale);
+                        }
+                    }
                     GameplayUiSkin::renderTexture(context, "obsidian_hud_status_plate", *rect);
                     for (size_t i = 0; i < lines.size(); ++i)
                     {
-                        context.renderLayoutLabel(*pLayout, {rect->x + 8 * rect->scale,
+                        // Centred on the plate in the widest box it may have, so the label never trims a wrapped line.
+                        context.renderLayoutLabel(*pLayout, {rect->x + (rect->width - maxWidth) * 0.5f,
                             rect->y + 6 * rect->scale + i * lineHeight,
-                            rect->width - 16 * rect->scale, lineHeight, rect->scale}, lines[i]);
+                            maxWidth, lineHeight, rect->scale}, lines[i]);
                     }
                 }
             }
@@ -498,6 +556,10 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                 context.renderLayoutLabel(*pLayout, *rect, std::to_string(gold ? pParty->gold() : pParty->food()));
             }
         }
+    }
+    if (state == GameplayHudScreenState::Gameplay)
+    {
+        renderWorldItemHoverLabel(context, width, height);
     }
     if (context.settingsSnapshot().contextActionPopup && state == GameplayHudScreenState::Gameplay)
     {

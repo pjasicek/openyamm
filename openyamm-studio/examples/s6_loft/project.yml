@@ -1,0 +1,12 @@
+format: 0
+id: studio07
+name: The Leaning Ladder
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9400
+  reference: 6d01.blv
+  encounter_chance: 0
+  treasure_level: 1
+notes: "S6's second run (devdocs/map_studio/S6_PLAN.md item L): a hall with a loft along its north wall, reached by a ladder that leans against the loft's edge (objects.yml ladders `top_at`). Its scenario climbs it in the game."

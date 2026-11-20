@@ -1,0 +1,832 @@
+{
+ "version": 1,
+ "map_file": "isleofashes.odm",
+ "bmodels": [
+  {
+   "geometry_id": "mm9r_isleofashes:structure00",
+   "runtime_bmodel_index": 0,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure00.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHFSL6IRY",
+    "remaps": {
+     "ASHFSL6IRY": "ASHFSL6IRY",
+     "ASHRPOKF0H": "ASHRPOKF0H",
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure01",
+   "runtime_bmodel_index": 1,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure01.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHFSL6IRY",
+    "remaps": {
+     "ASHFSL6IRY": "ASHFSL6IRY",
+     "ASHRPOKF0H": "ASHRPOKF0H"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure02",
+   "runtime_bmodel_index": 2,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure02.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure03",
+   "runtime_bmodel_index": 3,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure03.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHC8RLG33",
+    "remaps": {
+     "ASHC8RLG33": "ASHC8RLG33",
+     "ASHFSL6IRY": "ASHFSL6IRY",
+     "ASHFYUWMHI": "ASHFYUWMHI",
+     "ASHRUN2EFS": "ASHRUN2EFS",
+     "ASHW5WT0XI": "ASHW5WT0XI",
+     "ASHWEU97AC": "ASHWEU97AC",
+     "FORTC2A63R": "FORTC2A63R",
+     "STURIQRKZT": "STURIQRKZT",
+     "WOODV944P9": "WOODV944P9"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure04",
+   "runtime_bmodel_index": 4,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure04.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHC08T3G2",
+    "remaps": {
+     "ASHC08T3G2": "ASHC08T3G2",
+     "ASHDWMJ1TS": "ASHDWMJ1TS",
+     "ASHRO4ZHNJ": "ASHRO4ZHNJ",
+     "ASHW5WT0XI": "ASHW5WT0XI",
+     "ASHWNZU3N5": "ASHWNZU3N5",
+     "MAINAKFOKI": "MAINAKFOKI",
+     "NWROB199J1": "NWROB199J1",
+     "OLDW0R6Y0D": "OLDW0R6Y0D"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure05",
+   "runtime_bmodel_index": 5,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure05.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure06",
+   "runtime_bmodel_index": 6,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure06.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI",
+     "ROUG0YOT2X": "ROUG0YOT2X"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure07",
+   "runtime_bmodel_index": 7,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure07.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW2E0ADW",
+    "remaps": {
+     "ASHW2E0ADW": "ASHW2E0ADW",
+     "ASHWAHX503": "ASHWAHX503",
+     "ASHWC9K8KR": "ASHWC9K8KR",
+     "VERSYQMXYR": "VERSYQMXYR"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure08",
+   "runtime_bmodel_index": 8,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure08.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHRPOKF0H",
+    "remaps": {
+     "ASHRPOKF0H": "ASHRPOKF0H"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure09",
+   "runtime_bmodel_index": 9,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure09.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHRPOKF0H",
+    "remaps": {
+     "ASHRPOKF0H": "ASHRPOKF0H"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure10",
+   "runtime_bmodel_index": 10,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure10.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure11",
+   "runtime_bmodel_index": 11,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure11.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHRPOKF0H",
+    "remaps": {
+     "ASHRPOKF0H": "ASHRPOKF0H"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure12",
+   "runtime_bmodel_index": 12,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure12.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHFSL6IRY",
+    "remaps": {
+     "ASHFSL6IRY": "ASHFSL6IRY"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure13",
+   "runtime_bmodel_index": 13,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure13.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure14",
+   "runtime_bmodel_index": 14,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure14.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure15",
+   "runtime_bmodel_index": 15,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure15.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW2E0ADW",
+    "remaps": {
+     "ASHW2E0ADW": "ASHW2E0ADW"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure16",
+   "runtime_bmodel_index": 16,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure16.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW2E0ADW",
+    "remaps": {
+     "ASHW2E0ADW": "ASHW2E0ADW"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure17",
+   "runtime_bmodel_index": 17,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure17.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW2E0ADW",
+    "remaps": {
+     "ASHW2E0ADW": "ASHW2E0ADW"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure18",
+   "runtime_bmodel_index": 18,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure18.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW2E0ADW",
+    "remaps": {
+     "ASHW2E0ADW": "ASHW2E0ADW"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure19",
+   "runtime_bmodel_index": 19,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure19.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure20",
+   "runtime_bmodel_index": 20,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure20.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure21",
+   "runtime_bmodel_index": 21,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure21.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure22",
+   "runtime_bmodel_index": 22,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure22.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHFSL6IRY",
+    "remaps": {
+     "ASHFSL6IRY": "ASHFSL6IRY",
+     "ASHRPOKF0H": "ASHRPOKF0H"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure23",
+   "runtime_bmodel_index": 23,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure23.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure24",
+   "runtime_bmodel_index": 24,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure24.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure25",
+   "runtime_bmodel_index": 25,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure25.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure26",
+   "runtime_bmodel_index": 26,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure26.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure27",
+   "runtime_bmodel_index": 27,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure27.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure28",
+   "runtime_bmodel_index": 28,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure28.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure29",
+   "runtime_bmodel_index": 29,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure29.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure30",
+   "runtime_bmodel_index": 30,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure30.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure31",
+   "runtime_bmodel_index": 31,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure31.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure32",
+   "runtime_bmodel_index": 32,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure32.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure33",
+   "runtime_bmodel_index": 33,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure33.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ROUG0YOT2X",
+    "remaps": {
+     "ROUG0YOT2X": "ROUG0YOT2X"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure34",
+   "runtime_bmodel_index": 34,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure34.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure35",
+   "runtime_bmodel_index": 35,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure35.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure36",
+   "runtime_bmodel_index": 36,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure36.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure37",
+   "runtime_bmodel_index": 37,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure37.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure38",
+   "runtime_bmodel_index": 38,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure38.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW5WT0XI",
+    "remaps": {
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure39",
+   "runtime_bmodel_index": 39,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure39.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHFSL6IRY",
+    "remaps": {
+     "ASHFSL6IRY": "ASHFSL6IRY"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:structure40",
+   "runtime_bmodel_index": 40,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/structure40.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": true,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHFSL6IRY",
+    "remaps": {
+     "ASHFSL6IRY": "ASHFSL6IRY"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:colliders",
+   "runtime_bmodel_index": 41,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/colliders.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHRPOKF0H",
+    "remaps": {
+     "ASHRPOKF0H": "ASHRPOKF0H"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:BunkerDoor1",
+   "runtime_bmodel_index": 42,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/BunkerDoor1.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHD3KPT9W",
+    "remaps": {
+     "ASHD3KPT9W": "ASHD3KPT9W"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:BunkerDoor2",
+   "runtime_bmodel_index": 43,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/BunkerDoor2.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHD3KPT9W",
+    "remaps": {
+     "ASHD3KPT9W": "ASHD3KPT9W"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:RotatingDoor8",
+   "runtime_bmodel_index": 44,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/RotatingDoor8.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHD3KPT9W",
+    "remaps": {
+     "ASHD3KPT9W": "ASHD3KPT9W",
+     "ASHW5WT0XI": "ASHW5WT0XI"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:FortWall",
+   "runtime_bmodel_index": 45,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/FortWall.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHRPOKF0H",
+    "remaps": {
+     "ASHRPOKF0H": "ASHRPOKF0H"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:FortWall0",
+   "runtime_bmodel_index": 46,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/FortWall0.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "ASHW2E0ADW",
+    "remaps": {
+     "ASHW2E0ADW": "ASHW2E0ADW",
+     "ASHWAHX503": "ASHWAHX503",
+     "ASHWC9K8KR": "ASHWC9K8KR"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:chest_475",
+   "runtime_bmodel_index": 47,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/chest_475.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "CHESYQ7TBZ",
+    "remaps": {
+     "CHESYQ7TBZ": "CHESYQ7TBZ"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:chest_476",
+   "runtime_bmodel_index": 48,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/chest_476.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "CHESYQ7TBZ",
+    "remaps": {
+     "CHESYQ7TBZ": "CHESYQ7TBZ"
+    }
+   }
+  },
+  {
+   "geometry_id": "mm9r_isleofashes:chest_772",
+   "runtime_bmodel_index": 49,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/source/models/chest_772.obj",
+    "scale": 128.0,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "CHESYQ7TBZ",
+    "remaps": {
+     "CHESYQ7TBZ": "CHESYQ7TBZ"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png as the exact locked image target. design_reference.png is the material/detail reference; icon_x8.png is the original colour reference (ignore magenta background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact three-column FOUR-row layout of 512-square cells and every object's position, size, outline, gaps and openings. Do not redraw, enlarge, move or redesign the geometry. Five views in rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty; repeated same five views in rows 3-4. Rows 1-2: paint only the objects with unlit base colour, source-faithful upright golden bird statue on its gold pedestal, matching the warm gold colour and finely mottled worked gold surface of the design reference and icon. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Rows 3-4 are MATERIAL MASK, NOT painted gold: fill every entire bird AND pedestal silhouette FLAT pure red #FF0000 because the entire statue and base are metal gold. No shading, texture, outlines, antialiased colour blends inside, or other colours in these mask silhouettes. Every silhouette pixel gets exactly one pure material colour. Nothing outside silhouettes. Keep all gaps/openings fully transparent. Column 3 of rows 2 and 4 stays empty transparent. Preserve exact guide silhouette registration. This is a texture projection atlas, not a presentation illustration.\nCRITICAL CORRECTION: The previous attempt had extensive red and yellow spray/noise OUTSIDE the silhouettes. No spray, speckles, noise, fringes, or stray pixels whatsoever outside the original grey guide objects. Background is perfectly empty alpha=0. Mask shapes must be clean solid pure red cutouts with absolutely clean boundaries. Use the original grey guide as strict silhouette masks, not approximate inspiration. Gold paint must be flat unlit albedo without bright rim lighting.",
+  "initial_prompt": "Edit paint_mask_guide.png as the exact locked image target. design_reference.png is the material/detail reference; icon_x8.png is the original colour reference (ignore magenta background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact three-column FOUR-row layout of 512-square cells and every object's position, size, outline, gaps and openings. Do not redraw, enlarge, move or redesign the geometry. Five views in rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty; repeated same five views in rows 3-4. Rows 1-2: paint only the objects with unlit base colour, source-faithful upright golden bird statue on its gold pedestal, matching the warm gold colour and finely mottled worked gold surface of the design reference and icon. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Rows 3-4 are MATERIAL MASK, NOT painted gold: fill every entire bird AND pedestal silhouette FLAT pure red #FF0000 because the entire statue and base are metal gold. No shading, texture, outlines, antialiased colour blends inside, or other colours in these mask silhouettes. Every silhouette pixel gets exactly one pure material colour. Nothing outside silhouettes. Keep all gaps/openings fully transparent. Column 3 of rows 2 and 4 stays empty transparent. Preserve exact guide silhouette registration. This is a texture projection atlas, not a presentation illustration.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1abd5-7874-7f31-ad10-0f754475306e/exec-fe1a171a-c464-4e6a-90ea-012ceecb0683.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10369/paint_mask_raw_v1.png",
+  "validation": "Corrective generation still contains visible stray colour outside silhouettes; raw tool output retained unchanged as requested.",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10369/paint_mask_guide.png",
+      "sha256": "848406887a7abacecd3c1b819a4ba1fba1b0acd2958b784aca36440231515dc7"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10369/design_reference.png",
+      "sha256": "f84a8cc5fa5203909459071daa034c9fe3b25bc1a9ee01aaccf00ffb7c1c4baa"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10369/icon_x8.png",
+      "sha256": "76c1692de399901485f7f5d981ac8f7c77981eef8f0899398fd1880c6ecce770"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

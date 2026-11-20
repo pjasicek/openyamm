@@ -1,0 +1,30 @@
+id: mm7.heart_of_the_wood_trapped_chest
+title: "MM7 - a trapped quest chest that stays shut can be opened again (Heart of the Wood, Mercenary Guild)"
+world: mm7
+mode: faithful
+tags: [mm7, chests, events, regression]
+steps:
+  - note:
+      text: >-
+        Bug report 2026-11-18 (Ranger Lord quest): 7d20 event 178 opens chest 3 once and then sets QBit 729. A trap
+        the party could not disarm went off and kept the chest shut, but the event went on and set the bit, so the
+        chest never opened again. As in the original's interpreter, a chest that stays shut now ends the event.
+  - new_game_flow:
+      start_map: 7out01.odm
+  - load_map: {map: 7d20.blv}
+  - advance_runtime: {seconds: 1}
+  # The scenario party disarms every trap; nobody who can act is left to try.
+  - setup_shortcut: {kind: set_condition, member_index: 0, condition: paralyzed}
+  - lua_event:
+      source: evt.SetChestBit(3, 1, 1)
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        click(178)
+        wait(1)
+        if qbit(729) then error("the trap kept the chest shut but the event set QBit 729") end
+        click(178)
+        wait(1)
+        if not qbit(729) then error("the chest did not open on the second click") end
+        take_chest()
+        if not has_item(1402) then error("no Heart of the Wood from the chest") end

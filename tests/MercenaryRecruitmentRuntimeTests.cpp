@@ -292,3 +292,20 @@ TEST_CASE("Generated mercenary recruits persist in event runtime saves")
     CHECK_EQ(saveData.outdoorWorld.eventRuntimeState->generatedMercenaryRecruitsByNpcId.at(recruit.npcId)
         .character.name, recruit.character.name);
 }
+
+TEST_CASE("Mercenary recruitment finds the tavern of an MM7 map whose house map was corrected")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    OpenYAMM::Game::MapStatsEntry celeste = {};
+    celeste.id = 99;
+    celeste.worldId = "mm7";
+    celeste.name = "Celeste";
+    celeste.fileName = "7d25.blv";
+
+    // The Blessed Brew was listed on Evenmorn Island (68) until the house_data.txt map fix of 2026-10-23.
+    const std::optional<uint32_t> houseId =
+        OpenYAMM::Game::findMercenaryRecruitmentHouseId(celeste, gameData.houseTable);
+    REQUIRE(houseId.has_value());
+    CHECK_EQ(*houseId, 245u);
+}

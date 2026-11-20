@@ -1,0 +1,281 @@
+format: 0
+variables: [drums_burnt, drum_signal, drum_spirit, drum_great, dm_dead, ladder_down]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "Vertigo has not slept for a week: war drums boom out of the north hills every night, and every night orc raiders fall on another farm. Mayor Gunther asked you to silence them. The drums are in these caves: burn all three (the signal drum on the palisade's firing step, the shaman's spirit drum in the warren, and the great drum in the Drum Hall, where the Drum-Master beats it), and look for Tam, Oslo's boy, whom they carried off from his father's farm."
+    notes: "Say why the party is here (a one-shot timer: a load event's window is not shown)."
+  - id: evt:boulder
+    preset: door
+    source: door:boulder
+    title: Boulder
+    action: open
+    text: "You put your shoulders to the boulder: it grinds aside and down into a hollow, and a low cave opens behind it."
+    notes: "link:hollows_loot_cache: the secret boulder (pulses for a party that spots secrets; clicked open by anyone)."
+  - id: evt:cage_gate
+    preset: switch
+    source: door:cage_gate
+    title: Cage gate
+    condition: {not: {map_var: ladder_down}}
+    opens: [door:cage_gate]
+    sets: {map_var: ladder_down}
+    else_effects:
+      - text: "The cage gate is up; the rope ladder hangs down into the pit."
+    text: You cut the lashings and heave the pole gate up. A rope ladder hangs down into the pit.
+    notes: "set:captive: one click lifts the gate over the pit's rim; the ladder hangs ready (link:hollows_prisoner_pit)."
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:cache
+    title: Chest
+  - id: evt:chest_hollows
+    preset: chest
+    source: chest:hollows
+    title: Chest
+  - id: evt:chest_pool
+    preset: chest
+    source: chest:pool
+    title: Chest
+  - id: evt:chest_shaman
+    preset: chest
+    source: chest:shaman
+    title: Chest
+  - id: evt:den_seen
+    preset: text
+    source: room:shaman_steps
+    trigger: step
+    once: true
+    text: "Behind a curtain of hides a smaller drum rattles: the shaman's spirit drum."
+  - id: evt:drag_marks
+    preset: text
+    source: plate:drag_1
+    trigger: step
+    sources: [plate:drag_2]
+    once: true
+    text: Fresh drag marks run across the straw to a big boulder by the west wall.
+    notes: "The clue to the plunder cache: the marks lead to the boulder."
+  - id: evt:drum_great
+    preset: script
+    source: platform:drum_great
+    title: Great war drum
+    condition: {map_var: {name: drum_great, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: drum_great
+          value: 1
+      - add:
+          var:
+            map_var: drums_burnt
+          value: 1
+      - set_texture:
+          of: platform:drum_great
+          to: xoburn
+      - lights_on: light:burn_great
+      - add:
+          var: Experience
+          value: 250
+      - lua: "evt.SetMapVar('AmbientSound1', 2)"
+    else_effects:
+      - text: Nothing is left of the great war drum but a charred frame.
+    text: "The dry hide catches at once: the great war drum goes up in flames, and its beat drops out of the din."
+    notes: "poi:drums / set:drums_fade: a click sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+  - id: evt:drum_great_out
+    preset: script
+    trigger: timer
+    every: 4
+    condition: {map_var: {name: drum_great, equals: 1}}
+    effects:
+      - set:
+          var:
+            map_var: drum_great
+          value: 2
+      - set_texture:
+          of: platform:drum_great
+          to: xochar
+      - lights_off: light:burn_great
+      - lights_on: light:ember_great
+    notes: A few seconds later the fire has burnt the drum down to a charred frame with a few embers.
+  - id: evt:drum_master_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:drum_master}}
+    once: true
+    effects:
+      - set:
+          var:
+            map_var: dm_dead
+          value: 1
+      - lua: "evt.SetMapVar('AmbientSound1', 2)"
+    text: "The Drum-Master falls and the great drum's beat breaks off. The drum itself still stands on the scaffold: burn it."
+    notes: "set:drum_master: his death stops the great drum's beat; burning the drum is still needed for the quest."
+  - id: evt:drum_signal
+    preset: script
+    source: platform:drum_signal
+    title: Signal drum
+    condition: {map_var: {name: drum_signal, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: drum_signal
+          value: 1
+      - add:
+          var:
+            map_var: drums_burnt
+          value: 1
+      - set_texture:
+          of: platform:drum_signal
+          to: xoburn
+      - lights_on: light:burn_signal
+      - add:
+          var: Experience
+          value: 250
+      - lua: "evt.SetMapVar('AmbientSound2', 2)"
+    else_effects:
+      - text: Nothing is left of the signal drum but a charred frame.
+    text: "The dry hide catches at once: the signal drum goes up in flames, and its beat drops out of the din."
+    notes: "poi:drums / set:drums_fade: a click sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+  - id: evt:drum_signal_out
+    preset: script
+    trigger: timer
+    every: 4
+    condition: {map_var: {name: drum_signal, equals: 1}}
+    effects:
+      - set:
+          var:
+            map_var: drum_signal
+          value: 2
+      - set_texture:
+          of: platform:drum_signal
+          to: xochar
+      - lights_off: light:burn_signal
+      - lights_on: light:ember_signal
+    notes: A few seconds later the fire has burnt the drum down to a charred frame with a few embers.
+  - id: evt:drum_spirit
+    preset: script
+    source: platform:drum_spirit
+    title: Spirit drum
+    condition: {map_var: {name: drum_spirit, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: drum_spirit
+          value: 1
+      - add:
+          var:
+            map_var: drums_burnt
+          value: 1
+      - set_texture:
+          of: platform:drum_spirit
+          to: xoburn
+      - lights_on: light:burn_spirit
+      - add:
+          var: Experience
+          value: 250
+      - lua: "evt.SetMapVar('AmbientSound3', 2)"
+    else_effects:
+      - text: Nothing is left of the spirit drum but a charred frame.
+    text: "The dry hide catches at once: the spirit drum goes up in flames, and its beat drops out of the din."
+    notes: "poi:drums / set:drums_fade: a click sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+  - id: evt:drum_spirit_out
+    preset: script
+    trigger: timer
+    every: 4
+    condition: {map_var: {name: drum_spirit, equals: 1}}
+    effects:
+      - set:
+          var:
+            map_var: drum_spirit
+          value: 2
+      - set_texture:
+          of: platform:drum_spirit
+          to: xochar
+      - lights_off: light:burn_spirit
+      - lights_on: light:ember_spirit
+    notes: A few seconds later the fire has burnt the drum down to a charred frame with a few embers.
+  - id: evt:drums_all
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {map_var: {name: drums_burnt, at_least: 3}}
+    once: true
+    effects:
+      - qbit: war_drums_burned
+      - add:
+          var: Experience
+          value: 750
+      - message: "The last drum burns, and the caves fall silent but for dripping water. Without their drums the warband's raiders will not ride out again; Mayor Gunther will want to hear of it."
+    notes: "goal:war_drums: all three drums burnt (war_drums_burned); a larger sum for the last."
+  - id: evt:exit_x1
+    preset: exit
+    source: exit:x1
+    title: Leave the Orc Caves
+  - id: evt:exit_x7
+    preset: exit
+    source: exit:x7
+    title: Back gate
+    condition: {qbit: orc_back_gate_open}
+    else_effects:
+      - message: "The gate is barred from inside: a heavy timber bar lies across it in two iron brackets. Lift the bar first."
+  - id: evt:gate_bar
+    preset: switch
+    source: mover:gate_bar
+    title: Gate bar
+    condition: {not: {qbit: orc_back_gate_open}}
+    opens: [mover:gate_bar]
+    effects:
+      - qbit: orc_back_gate_open
+    else_effects:
+      - text: "The bar is up; the back gate opens on Mount Firestone's slopes."
+    text: "You heave the heavy bar up out of its brackets. The back gate is free: it opens on the slopes of Mount Firestone."
+    notes: "set:back_gate / poi:back_gate_bar: the bar lifts from the inside only; then the gate is a two-way door to X7."
+  - id: evt:gate_e
+    preset: door
+    source: door:gate_e
+    title: Palisade gate
+    action: open
+    opens: [door:gate_w]
+  - id: evt:gate_w
+    preset: door
+    source: door:gate_w
+    title: Palisade gate
+    action: open
+    opens: [door:gate_e]
+    notes: "link:palisade_gate: a plain click opens both leaves; nothing locks it."
+  - id: evt:hall_seen
+    preset: text
+    source: room:drum_hall_entry
+    trigger: step
+    once: true
+    text: "Across the hall, on a timber scaffold, the Drum-Master pounds the great war drum. Its gangway climbs from the west shelf."
+    seconds: 6
+  - id: evt:hollows_voice
+    preset: text
+    source: room:sleeping_hollows
+    trigger: step
+    once: true
+    text: "From a pit by the south wall a thin voice calls: \"Help! Please, get me out of here!\""
+    seconds: 6
+  - id: evt:palisade_seen
+    preset: text
+    source: room:palisade_cave
+    trigger: step
+    once: true
+    text: "A palisade of logs blocks the cave. Orc archers on its firing steps!"
+  - id: evt:tam
+    preset: script
+    source: room:prisoner_pit
+    trigger: step
+    once: true
+    effects:
+      - message: "A skinny farm boy scrambles to his feet. \"You came! I'm Tam, Oslo's son. They were going to sell me back to Pa for every cow he's got. I can climb out myself now - I'll run straight home and tell him!\" He swarms up the rope ladder and is gone."
+      - qbit: captive_freed
+      - hide_actors: 20
+      - add:
+          var: Experience
+          value: 300
+    notes: "goal:captive: reaching Tam in the pit frees him; he climbs out and runs home (hidden). His father Oslo rewards the party on X1."

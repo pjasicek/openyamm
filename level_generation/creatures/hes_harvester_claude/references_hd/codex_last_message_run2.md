@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png`, updated `generation_runs.json` with prompts/hashes, and created [selected_views_review.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_harvester_claude/references_hd/selected_views_review.png) using built-in image generation. `00_three_quarter.png` is unchanged.
+
+Stopped after one correction per view. Remaining camera, framing, and design discrepancies are recorded; no Meshy or builds run.

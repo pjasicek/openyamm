@@ -19,6 +19,7 @@
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
+#include "game/ui/CombatFloatingText.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayUiController.h"
@@ -88,6 +89,7 @@ public:
         const std::string &spellName) override;
     GameSettings &mutableSettings();
     bool requestTravelAutosave();
+    bool savePreviewCapturePending() const;
     bool trySaveToSelectedGameSlot() override;
     const GameSettings &settingsSnapshot() const;
     GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const;
@@ -101,27 +103,13 @@ private:
     void updateItemInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void updateFootstepAudio(float deltaSeconds);
-    void updateDialogueVideoPlayback(float deltaSeconds);
+    void updateWaterAudio();
     void updateCombatFeedback(float deltaSeconds);
     void renderCombatFeedbackOverlay(int width, int height);
     bool beginSaveWithPreview(
         const std::filesystem::path &path,
         const std::string &saveName,
         bool closeUiOnSuccess);
-
-    struct CombatFloatingText
-    {
-        size_t actorIndex = 0;
-        int amount = 0;
-        std::string text;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float remainingSeconds = 0.0f;
-        float durationSeconds = 0.0f;
-        uint32_t colorAbgr = 0xffffffffu;
-        float fontScale = 1.0f;
-    };
 
 
 
@@ -153,6 +141,8 @@ private:
     float m_lastFootstepY = 0.0f;
     float m_walkingMotionHoldSeconds = 0.0f;
     std::optional<uint32_t> m_activeWalkingSoundId;
-    std::vector<CombatFloatingText> m_combatFloatingTexts;
+    // MM9's under-water loop while the eye is under a scene water volume (0: not playing).
+    uint64_t m_underwaterLoopInstanceId = 0;
+    CombatFloatingText m_combatFloatingText;
 };
 } // namespace OpenYAMM::Game

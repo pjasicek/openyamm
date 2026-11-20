@@ -18,7 +18,6 @@
 namespace OpenYAMM::Game
 {
 class Party;
-class LocalizationCatalog;
 class MergedNpcProfessionTable;
 class MergedNewsProfessionTopicTable;
 class MergedNpcBtbTable;
@@ -34,6 +33,7 @@ enum class EventDialogActionKind
     HouseExtraExit,
     HouseResident,
     NpcTopic,
+    NpcOfferLodging,
     ArenaChallenge,
     NpcProfessionNews,
     NpcProfessionAction,
@@ -44,6 +44,8 @@ enum class EventDialogActionKind
     NpcDismiss,
     NpcBtb,
     MapTransitionConfirm,
+    // Enter a completed dungeon reset to its first state, harder (MAW).
+    MapTransitionReset,
     MapTransitionCancel,
     RosterJoinOffer,
     RosterJoinAccept,
@@ -54,12 +56,33 @@ enum class EventDialogActionKind
     GuildMembershipJoin,
     GeneratedMercenaryJoinOffer,
     Mm9RudeTopic,
+    // An MM9 trainer's topic (id its RUDE row): its skills, or with one skill that skill's member rows.
     Mm9RudeSkillTrainerOffer,
+    // One skill of a trainer that teaches several (id the row, secondaryId the skill): its member rows.
+    Mm9RudeSkillTrainerSkill,
+    // One member's lesson (id the row, secondaryId the skill, memberIndex the member).
     Mm9RudeSkillTrainerLearn,
     Mm9RudeSkillTrainerBack,
+    // An MM9 dock's boat: argument its route's canonical id; secondaryId 0 for today's, else the weekday it waits for
+    // plus one (a departure chosen in the Schedule popup).
     Mm9RudeTransportRoute,
     Mm9RudeTransportBack,
-    NpcOfferLodging,
+    // An MM9 dock's Schedule: the week's boats in the transport Schedule popup.
+    Mm9RudeTransportSchedule,
+    // An MM9 promoter's standing topic (Mm9PromotionService): promote the members eligible now.
+    Mm9RudePromotionService,
+    // An MM9 lost-item keeper's standing topic (Mm9RudeDialogueTable::isLostItemKeeper): give back a lost item.
+    Mm9RudeLostItemService,
+    // An MM9 racial trainer's standing topic (Mm9RacialTrainer): a racial-ability lesson row per party member.
+    Mm9RudeRacialTrainerOffer,
+    // One member's racial-ability lesson (memberIndex the member).
+    Mm9RudeRacialTrainerLearn,
+    // A ruleset's row on an MM9 person (Mm9RulesetRow): id the global event it runs.
+    Mm9RudeRulesetEvent,
+    // A ruleset's bounty office on an MM9 person (Mm9RulesetRow): argument the map file the hunt is on.
+    Mm9RudeBountyOffice,
+    // An event's choice box (AskChoiceWithAnswerSteps): id is the answer's index.
+    EventChoice,
 };
 
 enum class EventDialogParticipantVisual
@@ -86,11 +109,25 @@ enum class NpcFollowerActionTopicId : uint32_t
     CastHeroism = 1720,
 };
 
+// How the MM9 conversation bar marks a choice (level_generation/ui/mm9_talk_dialogue_study_20261102, A): a quest row
+// the party has not chosen yet, one it has, or the row that ends the talk.
+enum class EventDialogChoiceMark
+{
+    None,
+    New,
+    Visited,
+    Exit,
+    // A row that says why it cannot be taken (an MM9 trainer's member who cannot learn): shown muted.
+    Locked,
+};
+
 struct EventDialogAction
 {
     EventDialogActionKind kind = EventDialogActionKind::None;
     uint32_t id = 0;
     uint32_t secondaryId = 0;
+    // The party member a per-member row acts on (an MM9 trainer's lesson).
+    size_t memberIndex = 0;
     uint32_t participantPictureId = 0;
     EventDialogParticipantVisual participantVisual = EventDialogParticipantVisual::Portrait;
     std::string label;
@@ -98,6 +135,9 @@ struct EventDialogAction
     bool enabled = true;
     bool textOnly = false;
     std::string disabledReason;
+    EventDialogChoiceMark choiceMark = EventDialogChoiceMark::None;
+    // A service row's tag on the conversation bar ("Shop", "Train · Expert").
+    std::string choiceTag;
 };
 
 struct EventDialogContent
@@ -118,8 +158,17 @@ struct EventDialogContent
     std::string houseTitle;
     std::string title;
     std::vector<std::string> lines;
+    // The party's sentence the reply in `lines` answers (MM9 talk): quoted above it on the conversation bar.
+    std::string echo;
     std::vector<EventDialogAction> actions;
+    // The rules' offer to reset the cleared dungeon on the way in (MAW): a transition shows it in a popup over the
+    // scene with its MapTransitionReset action and Cancel, before the ordinary OK and Close.
+    std::string resetPrompt;
 };
+
+bool transitionResetPopupOpen(const EventDialogContent &dialog);
+// Cancel of the reset popup: the dialog goes on as an ordinary transition without the reset.
+void dismissTransitionResetPopup(EventDialogContent &dialog);
 
 std::vector<uint32_t> collectSelectableResidentNpcIds(
     const HouseEntry &houseEntry,
@@ -134,8 +183,7 @@ std::string formatNpcProfessionText(
     const Party *pParty,
     int effectiveReputation = 0,
     std::optional<int> requiredReputation = std::nullopt,
-    float currentGameMinutes = 0.0f,
-    const LocalizationCatalog *pLocalizationCatalog = nullptr);
+    float currentGameMinutes = 0.0f);
 
 uint32_t npcBtbDialogueAccessVariableKey(uint32_t npcId);
 uint32_t npcBtbDialogueAccessDay(float currentGameMinutes);
@@ -165,7 +213,6 @@ EventDialogContent buildEventDialogContent(
     const MergedNewsProfessionTopicTable *pNewsProfessionTopicTable = nullptr,
     const MergedNpcBtbTable *pNpcBtbTable = nullptr,
     const MergedTeacherTopicTable *pTeacherTopicTable = nullptr,
-    const MergedContinentSettingTable *pContinentSettingTable = nullptr,
-    const LocalizationCatalog *pLocalizationCatalog = nullptr
+    const MergedContinentSettingTable *pContinentSettingTable = nullptr
 );
 }

@@ -19,6 +19,15 @@ class NpcDialogTable;
 class Mm9MapTransitionTable;
 class Mm9TeacherScheduleTable;
 
+// The map move for walking off an outdoor map edge from (x, y, footZ) while facing yawRadians.
+EventRuntimeState::PendingMapMove buildBoundaryTravelMapMove(
+    const MapEdgeTransition &transition,
+    MapBoundaryEdge edge,
+    float x,
+    float y,
+    float footZ,
+    float yawRadians);
+
 class OutdoorSceneRuntime : public IMapSceneRuntime
 {
 public:

@@ -1,0 +1,110 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thronheimcity_shops
+title: 'Thronheim City (native BLV) - walk-in shops: the shopkeepers'' dialogues open by real clicks and their service rows
+  open the shops'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thronheimcity.blv
+- advance_runtime:
+    seconds: 1.5
+- note:
+    text: 'ShopkeeperHuman2MaleA0 (RUDE 247) in the shop: a click opens the dialogue; "We''d like to look at your wares."
+      opens the shop.'
+- set_pose:
+    map: thronheimcity.blv
+    x: 1126
+    y: 5076
+    z: 3152
+    yaw: -1.5708
+    pitch: -0.6172
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 247
+- assert:
+    dialog:
+      active: true
+      source_id: 247
+- select_topic:
+    action_id: 2
+    match_label: We'd like to look at your wares.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'ShopkeeperHuman2MaleA4 (RUDE 255) in the shop: a click opens the dialogue; "We''d like to see your wares." opens
+      the shop.'
+- set_pose:
+    map: thronheimcity.blv
+    x: 14090
+    y: 5055
+    z: 3124
+    yaw: -1.5708
+    pitch: -0.6165
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 255
+- assert:
+    dialog:
+      active: true
+      source_id: 255
+- select_topic:
+    action_id: 2
+    match_label: We'd like to see your wares.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'Bjarni (a council RUDEProp, RUDE 45: an actor seated on his HD model since 2026-11-08, rude_props.py): with keys
+      90 and 91 the load shows the council; a click opens his dialogue.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90090
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90091
+    value: true
+- execute_event:
+    id: 1
+- interact_actor:
+    actor_index: 49
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 45
+- press_action:
+    action: cancel_dialog

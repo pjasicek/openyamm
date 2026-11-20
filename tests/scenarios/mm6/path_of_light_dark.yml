@@ -1,0 +1,43 @@
+id: mm6.path_of_light_dark
+title: MM6 - Ki Lo Nee's Path of Light turns a High Priest light, then Su Lang Manchu's Path of Dark turns them dark
+world: mm6
+mode: faithful
+tags: [mm6, promotions, dialogue]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Healer
+            class: HighPriest
+            level: 30
+            skills:
+              - {name: LightMagic, level: 6, mastery: 2}
+              - {name: DarkMagic, level: 8, mastery: 3}
+            equipment: {}
+  # The first click shows the advert, the second asks; "yes" changes the path. Once changed, the class is no longer
+  # in that path's table, so two more clicks ask nothing. The new classes, the skill merge and the spells are
+  # checked by the unit test "mm6 path of light and dark topics change the class and merge the magic schools".
+  - speak_npc: {source_id: 1057}
+  - select_topic: {action_id: 10001}
+  - select_topic: {action_id: 10001}
+  - answer_input:
+      text: "yes"
+      expect_before:
+        input_prompt: {event_id: 10001}
+  - select_topic: {action_id: 10001}
+  - select_topic: {action_id: 10001}
+  - assert:
+      input_prompt: {active: false}
+  - press_action: {action: cancel_dialog}
+  - speak_npc: {source_id: 1040}
+  - select_topic: {action_id: 10002}
+  - select_topic: {action_id: 10002}
+  - answer_input:
+      text: "yes"
+  - select_topic: {action_id: 10002}
+  - select_topic: {action_id: 10002}
+  - assert:
+      input_prompt: {active: false}

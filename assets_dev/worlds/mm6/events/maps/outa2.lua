@@ -38,6 +38,9 @@ SetMapMetadata({
     [100] = { kind = "fountain", source = "title" },
     [200] = { kind = "obelisk", source = "title" },
     },
+    learnedEffect = {
+    [100] = { autonote = 440, effect = "+100 Power temporary" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},
@@ -138,7 +141,6 @@ end, "House")
 
 RegisterEvent(65, "House", function()
     evt.EnterHouse(1406) -- House
-    evt.EnterHouse(1416) -- House
 end, "House")
 
 RegisterEvent(75, "Chest", function()

@@ -1,0 +1,483 @@
+{
+ "id": "20261031-1457-mm9-drangheimprison-00",
+ "world": "mm9",
+ "maps": [
+  "drangheimprison.blv"
+ ],
+ "created": "2026-10-31T13:57:38+00:00",
+ "textures": [
+  "mm9/pris138aj1",
+  "mm9/prishcta0t",
+  "mm9/pris1577ie",
+  "mm9/prisjoubmg",
+  "mm9/pris03by94",
+  "mm9/prisfycbjq",
+  "mm9/prisekew9i",
+  "mm9/prisy0g214",
+  "mm9/prmepnpkeg",
+  "mm9/prmeccybx3",
+  "mm9/prmec33zu9",
+  "mm9/prmeiswq32",
+  "mm9/prmevfca7g",
+  "mm9/prisz7b3ja",
+  "mm9/prisw7ksfc",
+  "mm9/priseiaohj",
+  "mm9/prisf0tmf1",
+  "mm9/woodacnoo5",
+  "mm9/prisxpogak",
+  "mm9/prisvhwmst",
+  "mm9/prisd46kdz",
+  "mm9/abnds9xhul",
+  "mm9/cratlwnmz2",
+  "mm9/ropecjzjh7"
+ ],
+ "requests": {
+  "mm9/pris138aj1": {
+   "name": "pris138aj1",
+   "versions": [
+    1
+   ],
+   "material": "a damp prison wall: rough grey-olive weathered plaster above, mossy green grass and weeds growing along the bottom over a row of grey-green stone base blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prishcta0t": {
+   "name": "prishcta0t",
+   "versions": [
+    1
+   ],
+   "material": "a prison wall of rounded mossy green-olive cobble stones set in dark grout, a row of grey-blue stone base blocks along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/pris1577ie": {
+   "name": "pris1577ie",
+   "versions": [
+    1
+   ],
+   "material": "a damp prison wall: rough grey-olive weathered plaster above, mossy green grass and weeds growing along the bottom over a row of grey-green stone base blocks, with a small rectangular iron drain grate with vertical bars in the bottom centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pris138aj1"
+     ],
+     "fraction": 0.836
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisjoubmg": {
+   "name": "prisjoubmg",
+   "versions": [
+    1
+   ],
+   "material": "a prison wall of rounded mossy green-olive cobble stones set in dark grout, a row of grey-blue stone base blocks along the bottom, with a small rectangular iron drain grate with vertical bars in the bottom centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prishcta0t"
+     ],
+     "fraction": 0.847
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/pris03by94": {
+   "name": "pris03by94",
+   "versions": [
+    1
+   ],
+   "material": "a prison wall of rounded mossy green-olive cobble stones set in dark grout, a row of grey-blue stone base blocks along the bottom, with a round dark drain hole in a stone ring at the bottom centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prishcta0t"
+     ],
+     "fraction": 0.807
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisfycbjq": {
+   "name": "prisfycbjq",
+   "versions": [
+    1
+   ],
+   "material": "a damp prison wall: rough grey-olive weathered plaster above, mossy green grass and weeds growing along the bottom over a row of grey-green stone base blocks, with crude dark runic letters scratched into the plaster on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pris138aj1"
+     ],
+     "fraction": 0.67
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisekew9i": {
+   "name": "prisekew9i",
+   "versions": [
+    1
+   ],
+   "material": "a damp prison wall: rough grey-olive weathered plaster above, mossy green grass and weeds growing along the bottom over a row of grey-green stone base blocks, with a round iron drain grate with vertical bars in a stone ring at the bottom centre",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pris138aj1"
+     ],
+     "fraction": 0.701
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm9/pris138aj1",
+     "right": "mm9/pris138aj1"
+    }
+   }
+  },
+  "mm9/prisy0g214": {
+   "name": "prisy0g214",
+   "versions": [
+    1
+   ],
+   "material": "a prison wall of rounded mossy green-olive cobble stones set in dark grout, a row of grey-blue stone base blocks along the bottom, with a round iron drain grate with vertical bars in a stone ring at the bottom centre",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prishcta0t"
+     ],
+     "fraction": 0.661
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm9/prishcta0t"
+    }
+   }
+  },
+  "mm9/prmepnpkeg": {
+   "name": "prmepnpkeg",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown rusty iron plate with mottled corrosion and fine pitting, rows of round rivet heads in a regular grid",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prmeccybx3": {
+   "name": "prmeccybx3",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown rusty iron plate with mottled corrosion and fine pitting, faint horizontal streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prmepnpkeg"
+     ],
+     "fraction": 0.39
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prmec33zu9": {
+   "name": "prmec33zu9",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown rusty iron plate with mottled corrosion and fine pitting",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prmeiswq32": {
+   "name": "prmeiswq32",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown rusty iron plate with mottled corrosion and fine pitting, rows of round rivet heads in a regular grid",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prmec33zu9"
+     ],
+     "fraction": 0.393
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prmevfca7g": {
+   "name": "prmevfca7g",
+   "versions": [
+    1
+   ],
+   "material": "dark olive-grey worn metal plate with rows of round rivet heads in a regular grid, mottled grime",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prmed9biyc"
+     ],
+     "fraction": 0.381
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisz7b3ja": {
+   "name": "prisz7b3ja",
+   "versions": [
+    1
+   ],
+   "material": "a damp prison wall: rough grey-olive weathered plaster above, mossy green grass and weeds growing along the bottom over a row of grey-green stone base blocks, with dark grimy streaks and scratch marks over the plaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pris138aj1"
+     ],
+     "fraction": 0.294
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisw7ksfc": {
+   "name": "prisw7ksfc",
+   "versions": [
+    1
+   ],
+   "material": "a prison wall of rounded mossy green-olive cobble stones set in dark grout, a row of grey-blue stone base blocks along the bottom, smeared with dark red blood stains across the stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prishcta0t"
+     ],
+     "fraction": 0.129
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/priseiaohj": {
+   "name": "priseiaohj",
+   "versions": [
+    1
+   ],
+   "material": "dark olive-green rough plaster ceiling with fine fibrous streaks and soft mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisf0tmf1": {
+   "name": "prisf0tmf1",
+   "versions": [
+    1
+   ],
+   "material": "a dark green-grey stone floor of diamond and triangle slabs separated by dark cracks, mossy damp surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/woodacnoo5": {
+   "name": "woodacnoo5",
+   "versions": [
+    1
+   ],
+   "material": "dark olive-brown weathered vertical wooden floor planks with deep grain and cracks, narrow dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisxpogak": {
+   "name": "prisxpogak",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown rough plaster ceiling with faint vertical streaks and soft mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisvhwmst": {
+   "name": "prisvhwmst",
+   "versions": [
+    1
+   ],
+   "material": "a mossy olive-green stone floor engraved with a pattern of interlocking triangles and a six-pointed star, worn and dirty",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisd46kdz": {
+   "name": "prisd46kdz",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone stair edge: a pale stone tread nosing on top, a dark shadowed riser and the next mossy dark tread below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abnds9xhul": {
+   "name": "abnds9xhul",
+   "versions": [
+    1
+   ],
+   "material": "a wooden crate face: dark brown vertical planks inside a dark wooden frame with a horizontal board across the top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/cratlwnmz2": {
+   "name": "cratlwnmz2",
+   "versions": [
+    1
+   ],
+   "material": "a wooden crate face: three weathered light-brown vertical planks inside a pale grey metal-cornered frame with small rivets at each corner",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ropecjzjh7": {
+   "name": "ropecjzjh7",
+   "versions": [
+    1
+   ],
+   "material": "three thick twisted grey hemp ropes hanging vertically side by side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

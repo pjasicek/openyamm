@@ -1,0 +1,138 @@
+{
+  "map": "7d23.blv",
+  "world": "mm7",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 42,
+    "links": 46,
+    "components": 1,
+    "loops": 5
+  },
+  "scale": {
+    "floor_area_millions": 85.79,
+    "sector_floor_area": {
+      "count": 40,
+      "min": 6112,
+      "q1": 157632,
+      "median": 847840,
+      "q3": 2344384,
+      "max": 13412064
+    },
+    "sector_height": {
+      "count": 40,
+      "min": 266,
+      "q1": 266,
+      "median": 378,
+      "q3": 618,
+      "max": 1498
+    },
+    "doorway_width": {
+      "count": 44,
+      "min": 191,
+      "q1": 191,
+      "median": 254,
+      "q3": 254,
+      "max": 5888
+    },
+    "doorway_height": {
+      "count": 44,
+      "min": 96,
+      "q1": 256,
+      "median": 256,
+      "q3": 256,
+      "max": 1216
+    },
+    "floor_level": {
+      "count": 791,
+      "min": -348,
+      "q1": 1036,
+      "median": 1176,
+      "q3": 1548,
+      "max": 1995
+    }
+  },
+  "mechanisms": {
+    "doors": 72,
+    "bound_events": 79,
+    "door_events": 61,
+    "trap_events": 0,
+    "local_teleports": 2,
+    "exits": 1,
+    "summon_events": 0,
+    "chest_events": 4,
+    "text_events": 2,
+    "secret_faces": 0,
+    "pressure_plates": 42,
+    "clickable_faces": 161
+  },
+  "density": {
+    "spawn_points": 32,
+    "fixed_actors": 17,
+    "unique_actors": 0,
+    "lights": 267,
+    "decorations": 1,
+    "spawn_points_per_area": 0.37,
+    "lights_per_area": 3.11,
+    "decorations_per_area": 0.01
+  },
+  "palette": {
+    "textures": 31,
+    "by_area": [{
+        "name": "sfw7a",
+        "share": 0.547
+      },
+      {
+        "name": "a3b",
+        "share": 0.185
+      },
+      {
+        "name": "a2j",
+        "share": 0.049
+      },
+      {
+        "name": "a2d",
+        "share": 0.037
+      },
+      {
+        "name": "a2b",
+        "share": 0.036
+      },
+      {
+        "name": "a1b",
+        "share": 0.034
+      },
+      {
+        "name": "sfw1b",
+        "share": 0.027
+      },
+      {
+        "name": "a3bs",
+        "share": 0.016
+      },
+      {
+        "name": "sfw3",
+        "share": 0.01
+      },
+      {
+        "name": "sfw2",
+        "share": 0.009
+      },
+      {
+        "name": "sfw1a",
+        "share": 0.008
+      },
+      {
+        "name": "lightmap",
+        "share": 0.007
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 35,
+    "reached_at_start": 2,
+    "reached_doors_clear": 26,
+    "walkable_area_millions": 65.07,
+    "unreached_spawn_points": 7
+  }
+}

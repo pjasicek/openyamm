@@ -1,0 +1,401 @@
+[
+  {
+    "icon": "6coinlg",
+    "item_ids": [
+      1801
+    ],
+    "status": "installed",
+    "coins": 30,
+    "triangles": 7080,
+    "lod_triangles": [
+      3480,
+      2040,
+      1320
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "6coinlg",
+    "binding_length": 78.3,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/6coinlg.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_6coinlg.glb",
+    "export": "work/exports/6coinlg_export.glb",
+    "editable": "blends/6coinlg.blend",
+    "review_sheet": "review/comparison_1.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "3c85757d8ac1ca7a8430c9ea3946dfaa00f6add662b3866ce99d0a5adab9859b",
+      "previous_sha256": "655973db03b7203ff56c22bf1a235a5cf1edc2ee7bb160d384f66e2e2e6b56e8",
+      "runtime_sha256": "d28358fa6c75157267ec8889ffa69e8e3778870a0bf6db3a555aa6d7a3b0d910",
+      "binding_length_preserved": 78.3,
+      "install_log": "work/install_logs/6coinlg.log"
+    },
+    "export_sha256": "3c85757d8ac1ca7a8430c9ea3946dfaa00f6add662b3866ce99d0a5adab9859b",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "6coinmid",
+    "item_ids": [
+      1800
+    ],
+    "status": "installed",
+    "coins": 20,
+    "triangles": 4720,
+    "lod_triangles": [
+      2320,
+      1360,
+      880
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "6coinmid",
+    "binding_length": 70.2,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/6coinmid.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_6coinmid.glb",
+    "export": "work/exports/6coinmid_export.glb",
+    "editable": "blends/6coinmid.blend",
+    "review_sheet": "review/comparison_1.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "77fe0958a17725ec7dfb62f68b33a0a1696c9b6aa1281be2c15b0c9e46e50055",
+      "previous_sha256": "80e93bac1ca2a36b905c45c085c58e1a9d76fcb9b37f4f7877506fdc95f91842",
+      "runtime_sha256": "9290996c4a7f59e62fb0ddb47f02c286184327f5f0455c936689010ff2f29d3c",
+      "binding_length_preserved": 70.2,
+      "install_log": "work/install_logs/6coinmid.log"
+    },
+    "export_sha256": "77fe0958a17725ec7dfb62f68b33a0a1696c9b6aa1281be2c15b0c9e46e50055",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "6coinsm",
+    "item_ids": [
+      1799
+    ],
+    "status": "installed",
+    "coins": 10,
+    "triangles": 2360,
+    "lod_triangles": [
+      1160,
+      680,
+      440
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "6coinsm",
+    "binding_length": 46.8,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/6coinsm.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_6coinsm.glb",
+    "export": "work/exports/6coinsm_export.glb",
+    "editable": "blends/6coinsm.blend",
+    "review_sheet": "review/comparison_1.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "bd86a65e68ff780ec877af77500e6adfe4aa2112c370af3d68359e60cee1b3c8",
+      "previous_sha256": "be5f2b12108aa920de86029144478e61513ce1d3614b8f5949c10d339007a2f9",
+      "runtime_sha256": "16a45cd53c58259e28fcce82363b35e70370f7397be0e3673a7979ad8e5bfa11",
+      "binding_length_preserved": 46.8,
+      "install_log": "work/install_logs/6coinsm.log"
+    },
+    "export_sha256": "bd86a65e68ff780ec877af77500e6adfe4aa2112c370af3d68359e60cee1b3c8",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "7item187",
+    "item_ids": [
+      197,
+      999
+    ],
+    "status": "installed",
+    "coins": 10,
+    "triangles": 2360,
+    "lod_triangles": [
+      1160,
+      680,
+      440
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "6coinsm",
+    "binding_length": 46.8,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/7item187.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_7item187.glb",
+    "export": "work/exports/7item187_export.glb",
+    "editable": "blends/7item187.blend",
+    "review_sheet": "review/comparison_1.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "e4e97b6df3c9e25dcd26b884051936da4e0c20be6a0743cb2dcb5022ce1da8cd",
+      "previous_sha256": "fa11a7f07c350e1eae73d9b92a2bae0ca2cd303d6863421d600f1cf840df47e4",
+      "runtime_sha256": "a83752976f64e2d59164ef4e01a649d2598fb2758e1d2ceb192616a9250c2cb7",
+      "binding_length_preserved": 46.8,
+      "install_log": "work/install_logs/7item187.log"
+    },
+    "export_sha256": "e4e97b6df3c9e25dcd26b884051936da4e0c20be6a0743cb2dcb5022ce1da8cd",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "7item188",
+    "item_ids": [
+      198,
+      1000
+    ],
+    "status": "installed",
+    "coins": 20,
+    "triangles": 4720,
+    "lod_triangles": [
+      2320,
+      1360,
+      880
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "6coinmid",
+    "binding_length": 69.8,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/7item188.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_7item188.glb",
+    "export": "work/exports/7item188_export.glb",
+    "editable": "blends/7item188.blend",
+    "review_sheet": "review/comparison_1.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "3f23bc1a146ceb528bee7b0bbc1d184ffdef138846016caf1cf2db2e240412c9",
+      "previous_sha256": "b8fcb11d83ac8fd3db924c236fb693600350ff6b6930ab1987d7322edf64d195",
+      "runtime_sha256": "dd6e1f315d788ef22690f5e158ef814ee453a361c4dbde65325bdce139b41a40",
+      "binding_length_preserved": 69.8,
+      "install_log": "work/install_logs/7item188.log"
+    },
+    "export_sha256": "3f23bc1a146ceb528bee7b0bbc1d184ffdef138846016caf1cf2db2e240412c9",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "7item189",
+    "item_ids": [
+      199,
+      1001
+    ],
+    "status": "installed",
+    "coins": 30,
+    "triangles": 7080,
+    "lod_triangles": [
+      3480,
+      2040,
+      1320
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "6coinlg",
+    "binding_length": 77.0,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/7item189.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_7item189.glb",
+    "export": "work/exports/7item189_export.glb",
+    "editable": "blends/7item189.blend",
+    "review_sheet": "review/comparison_2.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "a4cfdaea9fddb2e34191958c2aa714448c691369de2d6444bd9965d896a72d4b",
+      "previous_sha256": "997236a9a6a03b89498bd05d364c04e12f7d755cb759fea283549fbdc4700a35",
+      "runtime_sha256": "870efde1f23a0bbc1ecfbc74a60a00280e3bb903c73b8a66a80c5938a61994f3",
+      "binding_length_preserved": 77.0,
+      "install_log": "work/install_logs/7item189.log"
+    },
+    "export_sha256": "a4cfdaea9fddb2e34191958c2aa714448c691369de2d6444bd9965d896a72d4b",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "item204",
+    "item_ids": [
+      187
+    ],
+    "status": "installed",
+    "coins": 8,
+    "triangles": 1888,
+    "lod_triangles": [
+      928,
+      544,
+      352
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "item204",
+    "binding_length": 42.3,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/item204.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_item204.glb",
+    "export": "work/exports/item204_export.glb",
+    "editable": "blends/item204.blend",
+    "review_sheet": "review/comparison_2.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "d33383d0a54b2e47bc4ea8ad3cfeb753c0a126cf3eb52b82669922de0b4038b2",
+      "previous_sha256": "0a2ef0924a49645cc811e8c1bcc86ec7ce3f7dd7a28238f506ff68e1b6bf9462",
+      "runtime_sha256": "f54c3d80cab2ddfc9128044f3d83616676051bef6c04f0048dc9772d15462f9c",
+      "binding_length_preserved": 42.3,
+      "install_log": "work/install_logs/item204.log"
+    },
+    "export_sha256": "d33383d0a54b2e47bc4ea8ad3cfeb753c0a126cf3eb52b82669922de0b4038b2",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "item205",
+    "item_ids": [
+      188
+    ],
+    "status": "installed",
+    "coins": 13,
+    "triangles": 3068,
+    "lod_triangles": [
+      1508,
+      884,
+      572
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "item205",
+    "binding_length": 58.1,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/item205.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_item205.glb",
+    "export": "work/exports/item205_export.glb",
+    "editable": "blends/item205.blend",
+    "review_sheet": "review/comparison_2.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "f0236afd592391e69ae11ef8d5bcc89eea3c0200618c232eeb63f7c5ed8c6748",
+      "previous_sha256": "9c34924704a049058d9e68a04bcf01408257bbf981a10a8bf9940d7e328ff4bc",
+      "runtime_sha256": "8aa6959874a6573c85a18a2310298d711b26603642eab88f3827654dfe175e7c",
+      "binding_length_preserved": 58.1,
+      "install_log": "work/install_logs/item205.log"
+    },
+    "export_sha256": "f0236afd592391e69ae11ef8d5bcc89eea3c0200618c232eeb63f7c5ed8c6748",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  },
+  {
+    "icon": "item206",
+    "item_ids": [
+      189
+    ],
+    "status": "installed",
+    "coins": 32,
+    "triangles": 7552,
+    "lod_triangles": [
+      3712,
+      2176,
+      1408
+    ],
+    "route": "authored_closed_coins_and_sprite_specific_stacks",
+    "design_group": "item206",
+    "binding_length": 59.9,
+    "materials": 1,
+    "texture_size": [
+      512,
+      512
+    ],
+    "texture_maps": [
+      "base_colour",
+      "metallic_roughness",
+      "tangent_normal"
+    ],
+    "colour_reference": "references/icons/item206.png",
+    "metallic": 0.7,
+    "source": "assets_source/engine/world_items/models/item_item206.glb",
+    "export": "work/exports/item206_export.glb",
+    "editable": "blends/item206.blend",
+    "review_sheet": "review/comparison_2.jpg",
+    "remaining_defects": [],
+    "installation": {
+      "source_sha256": "f6a2768cf2b275db8de00598d98496698ad2057ca0bbcd0c3a4e9237bc928ae8",
+      "previous_sha256": "8516d8f6f396429cb0eb83e7cd75b0d7f5a5c6a4c8302a499069227072f70a3e",
+      "runtime_sha256": "7fd23408c11d4b86030974ac25cd5c10154d59a706084fc8d7a9dabd4c305029",
+      "binding_length_preserved": 59.9,
+      "install_log": "work/install_logs/item206.log"
+    },
+    "export_sha256": "f6a2768cf2b275db8de00598d98496698ad2057ca0bbcd0c3a4e9237bc928ae8",
+    "native_review": "passed",
+    "lod_review": "review/lod_comparison.jpg"
+  }
+]

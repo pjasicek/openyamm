@@ -1,0 +1,53 @@
+id: mm9.ai.holder
+title: MM9 ranged holders keep their places and shoot or cast, then strike a party that walks up to them
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Both holders keep their places and shoot or cast at their checks (every
+        0.2-0.4 s, a shot once their attack is ready). At 12 s the party stands in the Bandit's reach: it strikes (Att%
+        100) and closes in between its blows; at 18 s, the party a long step back, it follows the target it struck
+        (within 3 x its range); at 24 s the party stands in the Evil Apprentice's reach: it strikes (in reach MM9's
+        Attack is always a blow, whatever Att% says: MM9_AI_NATIVE_RE.md section 7.2.3; EvilSorcerer.scr calls no
+        RangeAttack of its own), evades and casts again from where its evade leaves it; it never chases.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: holder.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - set_pose: {map: thearena.blv, x: 400, y: 570, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 6.5}
+  - set_pose: {map: thearena.blv, x: 400, y: 100, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 5.5}
+  - set_pose: {map: thearena.blv, x: -400, y: 570, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 6}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: hold, target: party, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: shot_check, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, min_count: 6}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, after: 24, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, before: 24, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, after: 24, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: hold, target: party, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_ranged, before: 12, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, before: 12, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, after: 12, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, after: 18, before: 24, min_count: 1}
+  # Beyond 3 x its range it holds again and shoots.
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_ranged, after: 24, min_count: 1}

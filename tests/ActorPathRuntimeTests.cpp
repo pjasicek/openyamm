@@ -597,6 +597,7 @@ TEST_CASE("actor path runtime can finish blocked route planning on a worker thre
 
     const ActorPathResolveResult queued = runtime.resolveWaypoint(map, request);
     CHECK(queued.queued);
+    CHECK(queued.requested);
     CHECK(queued.deferred);
     CHECK_FALSE(queued.planned);
     CHECK_FALSE(queued.pathActive);
@@ -616,6 +617,8 @@ TEST_CASE("actor path runtime can finish blocked route planning on a worker thre
     }
 
     CHECK(completed.planned);
+    // Taking up the finished plan starts none: the AI's per-step plan budget counts only started plans.
+    CHECK_FALSE(completed.requested);
     CHECK(completed.pathActive);
 }
 
@@ -935,6 +938,48 @@ TEST_CASE("actor path runtime keeps a reached waypoint when the next waypoint wo
     CHECK(active.waypoint.z == doctest::Approx(firstWaypoint.z));
 }
 
+TEST_CASE("actor path runtime drops a route held near its waypoint and plans it again")
+{
+    PathMap map;
+    map.setFacets({
+        makeRuntimeFloor(-32.0f, 80.0f, -16.0f, 16.0f, 0.0f),
+        makeRuntimeFloor(48.0f, 80.0f, -16.0f, 160.0f, 0.0f)
+    });
+
+    ActorPathResolveRequest request = makeRuntimeRequest();
+    request.object.stepLength = 64.0f;
+    request.waypointReachDistance = 24.0f;
+    request.source = {0.0f, 0.0f, 0.0f};
+    request.target = {64.0f, 128.0f, 0.0f};
+    request.mapRevision = map.revision();
+    request.allowDirect = false;
+    request.directCheckIntervalSeconds = 100.0;
+    request.shortcutCheckIntervalSeconds = 100.0;
+
+    ActorPathRuntime runtime;
+    const ActorPathResolveResult planned = runtime.resolveWaypoint(map, request);
+    REQUIRE(planned.pathActive);
+    REQUIRE(planned.waypointCount >= 2u);
+
+    // Held 20 short of its first waypoint, where the second is out of a straight line's reach (Hjarrand at Thjorad
+    // Mine's ramp): it keeps the waypoint a while, then drops the route and plans it again from where it stands.
+    const PathPoint firstWaypoint = planned.waypoint;
+    request.source = {firstWaypoint.x - 20.0f, firstWaypoint.y, firstWaypoint.z};
+    REQUIRE(map.canReachDirectly(request.source, firstWaypoint, request.object));
+    const ActorPathResolveResult held = runtime.resolveWaypoint(map, request);
+    REQUIRE(held.pathActive);
+    request.nowSeconds = 1.0;
+    const ActorPathResolveResult stillHeld = runtime.resolveWaypoint(map, request);
+    REQUIRE(stillHeld.pathActive);
+    CHECK_EQ(stillHeld.stalledWaypointCount, 0u);
+    CHECK_EQ(stillHeld.waypointIndex, planned.waypointIndex);
+    request.nowSeconds = 2.5;
+    const ActorPathResolveResult replanned = runtime.resolveWaypoint(map, request);
+    CHECK_EQ(replanned.stalledWaypointCount, 1u);
+    CHECK(replanned.planned);
+    CHECK(replanned.pathActive);
+}
+
 TEST_CASE("actor path runtime skips a reached waypoint when the next waypoint remains directly reachable")
 {
     PathMap map;
@@ -1156,6 +1201,33 @@ TEST_CASE("actor path runtime follows valid routes while a direct check waits fo
     CHECK_FALSE(deferred.directChecked);
     CHECK_FALSE(deferred.failed);
     CHECK_FALSE(deferred.planned);
+}
+
+TEST_CASE("actor path runtime passes a reached waypoint without waiting for the reachability budget")
+{
+    // Crowded indoor maps spend the frame's budget early; an actor on a reached waypoint must still head on to the next
+    // one instead of jittering on it until a check is granted.
+    PathMap map;
+    map.setFacets({
+        makeRuntimeFloor(-48.0f, 192.0f, -120.0f, 120.0f, 0.0f),
+        makeRuntimeWall(72.0f, -60.0f, 60.0f, 0.0f, 120.0f)
+    });
+    ActorPathResolveRequest request = makeRuntimeRequest();
+    request.target = {144.0f, 0.0f, 0.0f};
+    request.mapRevision = map.revision();
+    request.allowDirect = false;
+    ActorPathRuntime runtime;
+    const ActorPathResolveResult planned = runtime.resolveWaypoint(map, request);
+    REQUIRE(planned.pathActive);
+    REQUIRE(planned.waypointCount > planned.waypointIndex + 1);
+
+    request.source = planned.waypoint;
+    request.nowSeconds = 0.01;
+    runtime.beginReachabilityFrame(0);
+    const ActorPathResolveResult advanced = runtime.resolveWaypoint(map, request);
+    CHECK(advanced.pathActive);
+    CHECK(advanced.reachedWaypointCount > 0);
+    CHECK(advanced.waypointIndex > planned.waypointIndex);
 }
 
 TEST_CASE("actor path runtime discards inactive reachability requests without starving later actors")

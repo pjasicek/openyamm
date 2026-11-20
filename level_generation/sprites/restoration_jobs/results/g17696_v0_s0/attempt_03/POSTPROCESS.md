@@ -1,0 +1,1 @@
+Built-in pixel_steps repair retained as raw.png with exact submitted prompt. Common --adjust 0.97 0 10 corrects returned placement. Native opaque RGB gamma applied without alpha changes; see tone.json and restore_native_tone.py. Full master, reference and final light/dark proofs inspected. Registration report retains zero clipping.

@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_evilsorcerer_claude/references_hd/00_three_quarter.png), unresized at 1024×1536, using built-in image generation. Both raw attempts and prompts/input hashes are recorded in `generation_runs.json`.
+
+Stopped after the permitted correction; run 2 was not started. Residual faults: coloured halo, narrower arm pose, and overly long panels—the result does not fully meet the brief.

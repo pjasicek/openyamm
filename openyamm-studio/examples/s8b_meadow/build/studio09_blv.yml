@@ -1,0 +1,86 @@
+# Written by oymap build for studio09.blv's ground faces
+# (cgrajnkrow, thjob3xi6b, thjodbs7wo).
+version: 1
+texels_per_cell: 16
+weights: [studio09_blv_weights0.png]
+weighted_layers: 3
+fringe:
+  strength: 1.6
+  scale: 2048
+layers:
+  - name: grass
+    library: grass_meadow
+    tint: [0.6576, 0.6576, 0.4967]
+    repeat: 360
+    height_contrast: 0.45
+    normal_strength: 1
+    cavity: 0.3
+    macro_brightness: 0.15
+    macro_tint: [1.1, 1.05, 0.85]
+    fringe: 1
+    meadow: 1
+    variant: 4
+    variant_amount: 0.25
+    cliff_tint: [0.6613, 1.0384, 0.4874]
+  - name: dirt
+    library: soil
+    tint: [0.9224, 0.9224, 0.7843]
+    repeat: 520
+    height_contrast: 0.4
+    normal_strength: 1.5
+    cavity: 0.6
+    macro_brightness: 0.18
+    macro_tint: [0.9, 0.86, 0.86]
+    fringe: 1
+    variant: 5
+    variant_amount: 0.12
+    cliff_tint: [0.806, 0.8365, 0.8123]
+  - name: rock
+    library: rock_ground
+    tint: [0.7962, 0.7843, 0.7861]
+    repeat: 640
+    height_contrast: 0.5
+    normal_strength: 1.5
+    cavity: 0.5
+    macro_brightness: 0.15
+    macro_tint: [1, 1, 1]
+    fringe: 1
+    cliff_tint: [0.992, 1.2115, 1.4622]
+  - name: cliff
+    library: rock_cliff
+    tint: [1, 1, 1]
+    repeat: 640
+    height_contrast: 0.5
+    normal_strength: 1.3
+    cavity: 0.4
+    macro_brightness: 0.15
+    macro_tint: [1, 1, 1]
+    fringe: 1
+  - name: grass_patches
+    library: grass_patchy
+    tint: [0.4515, 0.4774, 0.298]
+    repeat: 640
+    height_contrast: 0.25
+    normal_strength: 1
+    cavity: 0.35
+    macro_brightness: 0.15
+    macro_tint: [1, 1, 1]
+    fringe: 1
+    meadow: 0.8
+  - name: dirt_stones
+    library: soil_stony
+    tint: [0.5291, 0.4564, 0.3765]
+    repeat: 640
+    height_contrast: 0.5
+    normal_strength: 1.8
+    cavity: 0.8
+    macro_brightness: 0.15
+    macro_tint: [1, 1, 1]
+    fringe: 1
+meadow:
+  dry: [1.2, 1.06, 0.64]
+  lush: [0.78, 0.94, 0.82]
+slope:
+  layer: 3
+  start: 0.36
+  end: 0.56

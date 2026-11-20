@@ -1,0 +1,7688 @@
+{
+ "00 hello": {
+  "result": {
+   "core_version": "0.1.0",
+   "rpc_version": 1,
+   "asset_root": true,
+   "formats": {
+    "project.yml": 0,
+    "plan.yml": 0,
+    "sketch.yml": 0,
+    "rooms.yml": 0,
+    "objects.yml": 0,
+    "wiring.yml": 0,
+    "atmosphere.yml": 0,
+    "review/pins.yml": 1,
+    "ids.lock.yml": 0
+   },
+   "methods": [
+    "assets.script_reference",
+    "assets.search",
+    "build.install",
+    "build.run",
+    "check.audit",
+    "check.flow_event",
+    "check.metrics",
+    "check.probe",
+    "check.solve",
+    "check.things",
+    "check.validate",
+    "compare.run",
+    "edit.apply",
+    "edit.history",
+    "edit.redo",
+    "edit.revert",
+    "edit.undo",
+    "mod.list",
+    "mod.map_number",
+    "mod.pack",
+    "pins.accept",
+    "pins.add",
+    "pins.claim",
+    "pins.decline",
+    "pins.import_inbox",
+    "pins.keep",
+    "pins.list",
+    "pins.reopen",
+    "pins.reply",
+    "pins.resolve",
+    "pins.tour",
+    "project.fmt",
+    "project.import",
+    "project.lock_prune",
+    "project.migrate",
+    "project.new",
+    "project.open",
+    "project.protect",
+    "project.query",
+    "project.read",
+    "project.record",
+    "project.resolve",
+    "project.status",
+    "session.configure",
+    "session.hello",
+    "session.release",
+    "session.schema",
+    "view.layout",
+    "view.layout_at",
+    "view.mesh",
+    "view.original_mesh",
+    "view.overlay",
+    "view.render",
+    "view.render_sketch",
+    "view.terrain_query",
+    "walk.load",
+    "walk.place",
+    "walk.replay",
+    "walk.step",
+    "walk.toggle",
+    "world.view"
+   ]
+  }
+ },
+ "01 hello with an unknown param": {
+  "error": {
+   "code": -32602,
+   "message": "the params do not match session.hello: x: unknown key",
+   "data": {
+    "kind": "invalid_params",
+    "issues": [
+     {
+      "path": "x",
+      "message": "unknown key"
+     }
+    ]
+   }
+  }
+ },
+ "02 unknown method": {
+  "error": {
+   "code": -32601,
+   "message": "unknown method 'project.nonexistent'",
+   "data": {
+    "kind": "unknown_method"
+   }
+  }
+ },
+ "03 open": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "files": {
+    "project.yml": {
+     "tree": {
+      "format": 0,
+      "id": "studio01",
+      "name": "The Gatehouse Cellars",
+      "world": "mm6",
+      "kind": "indoor",
+      "profile": "dungeon",
+      "units": {
+       "plan_grid": 512,
+       "snap": 64
+      },
+      "map_stats": {
+       "id": 9301,
+       "reference": "6d01.blv",
+       "encounter_chance": 10,
+       "treasure_level": 1
+      },
+      "neighbours": [
+       {
+        "id": "exit:new_sorpigal",
+        "to": "oute3.odm",
+        "kind": "door",
+        "arrival": [
+         -18400,
+         -14982,
+         1600
+        ],
+        "direction": 90,
+        "notes": "Arrives where Goblinwatch's own exit door does, until the cellars get a door of their own on the surface."
+       }
+      ],
+      "items": {
+       "vault_key": 2177
+      },
+      "notes": "The vertical slice of milestone S0 (devdocs/map_studio/PLAN.md section 12): the first map written as a Map Studio project and built by oymap. Plain on purpose. It exists to exercise the project format end to end: rooms, openings, a click door, a lever-operated gate, a keyed door, chests, spawns, lights and an exit."
+     }
+    },
+    "plan.yml": {
+     "tree": {
+      "format": 0,
+      "level": "L2",
+      "pitch": "The cellars under a ruined gatehouse outside New Sorpigal: a square entry, a tall hall with a store room and a guard room off it, and a short passage north to the strong room. Rats in the store, goblins in the guard room. The passage is shut by a gate worked from the guard room, and the strong room by a locked door whose key lies in the store room chest. A first, ten-minute dungeon.",
+      "purpose": "A small starter dungeon that teaches the three ways a door opens (a push, a lever elsewhere, a key).",
+      "mood": "Damp grey masonry, torchlight, low ceilings except in the hall.",
+      "spaces": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "Arrival and exit; safe."
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "Holds the lever that raises the passage gate; the dungeon's fight.",
+        "population": [
+         {
+          "slot": 2,
+          "groups": 2,
+          "strength": "pack"
+         }
+        ]
+       },
+       {
+        "id": "room:hall",
+        "name": "Hall",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 512,
+        "purpose": "The hub; every other room opens off it.",
+        "population": [
+         {
+          "slot": 2,
+          "groups": 1,
+          "strength": "light"
+         }
+        ]
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "kind": "corridor",
+        "size": "S",
+        "floor": 0,
+        "clear_height": 320,
+        "purpose": "Short run between the gate and the strong room door."
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "kind": "room",
+        "size": "S",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "Holds the strong room key.",
+        "population": [
+         {
+          "slot": 1,
+          "groups": 2,
+          "strength": "pack"
+         }
+        ],
+        "treasure": [
+         {
+          "kind": "chest",
+          "count": 1,
+          "tier": 1,
+          "item": "vault_key"
+         }
+        ]
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "The goal.",
+        "treasure": [
+         {
+          "kind": "chest",
+          "count": 1,
+          "tier": 2
+         }
+        ]
+       }
+      ],
+      "links": [
+       {
+        "id": "link:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "kind": "open"
+       },
+       {
+        "id": "link:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "kind": "door"
+       },
+       {
+        "id": "link:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "kind": "door",
+        "condition": {
+         "map_var": "gate_raised"
+        },
+        "opened_by": "poi:gate_lever"
+       },
+       {
+        "id": "link:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "kind": "door"
+       },
+       {
+        "id": "link:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "kind": "door",
+        "condition": {
+         "item": "vault_key"
+        }
+       }
+      ],
+      "entrances": [
+       {
+        "id": "entrance:door",
+        "space": "room:entry",
+        "kind": "both",
+        "neighbour": "exit:new_sorpigal",
+        "facing": "n"
+       }
+      ],
+      "critical_path": [
+       "room:entry",
+       "room:hall",
+       "room:store",
+       "room:hall",
+       "room:guard",
+       "room:hall",
+       "room:passage",
+       "room:vault"
+      ],
+      "goals": [
+       {
+        "id": "goal:vault_chest",
+        "space": "room:vault",
+        "kind": "use",
+        "what": "Open the strong room chest."
+       }
+      ],
+      "keys": [
+       {
+        "id": "key:gate_lever",
+        "grants": {
+         "map_var": "gate_raised"
+        },
+        "found_in": "room:guard",
+        "how": "lever"
+       },
+       {
+        "id": "key:vault_key",
+        "grants": {
+         "item": "vault_key"
+        },
+        "found_in": "room:store",
+        "how": "chest"
+       }
+      ],
+      "points_of_interest": [
+       {
+        "id": "poi:gate_lever",
+        "space": "room:guard",
+        "kind": "lever",
+        "behaviour": "Raises the passage gate for good."
+       }
+      ],
+      "mechanisms": [
+       {
+        "kind": "click door",
+        "count": 2
+       },
+       {
+        "kind": "lever-operated gate",
+        "count": 1
+       },
+       {
+        "kind": "keyed door",
+        "count": 1
+       },
+       {
+        "kind": "lever",
+        "count": 1
+       }
+      ],
+      "totals": {
+       "chests": 2,
+       "doors": 4,
+       "rooms": 6,
+       "spawn_points": 5
+      }
+     }
+    },
+    "rooms.yml": {
+     "tree": {
+      "format": 0,
+      "themes": [
+       {
+        "id": "theme:masonry",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ]
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        },
+        "door": {
+         "texture": "t1d2",
+         "size": [
+          256,
+          256
+         ],
+         "fit": true
+        }
+       }
+      ],
+      "defaults": {
+       "theme": "theme:masonry",
+       "ambient": 14
+      },
+      "rooms": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "outline": [
+         [
+          0,
+          0
+         ],
+         [
+          768,
+          0
+         ],
+         [
+          768,
+          768
+         ],
+         [
+          0,
+          768
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "outline": [
+         [
+          1088,
+          960
+         ],
+         [
+          1856,
+          960
+         ],
+         [
+          1856,
+          1728
+         ],
+         [
+          1088,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:hall",
+        "name": "Hall",
+        "outline": [
+         [
+          -256,
+          832
+         ],
+         [
+          1024,
+          832
+         ],
+         [
+          1024,
+          1856
+         ],
+         [
+          -256,
+          1856
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 512
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "outline": [
+         [
+          256,
+          1920
+         ],
+         [
+          512,
+          1920
+         ],
+         [
+          512,
+          2688
+         ],
+         [
+          256,
+          2688
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 320
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "outline": [
+         [
+          -960,
+          1088
+         ],
+         [
+          -320,
+          1088
+         ],
+         [
+          -320,
+          1728
+         ],
+         [
+          -960,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "outline": [
+         [
+          -64,
+          2752
+         ],
+         [
+          832,
+          2752
+         ],
+         [
+          832,
+          3520
+         ],
+         [
+          -64,
+          3520
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       }
+      ],
+      "openings": [
+       {
+        "id": "open:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "link": "link:entry_hall",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "link": "link:hall_guard",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "link": "link:hall_passage",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "link": "link:hall_store",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "link": "link:passage_vault",
+        "width": 160,
+        "height": 256
+       }
+      ]
+     }
+    },
+    "objects.yml": {
+     "tree": {
+      "format": 0,
+      "start": {
+       "room": "room:entry",
+       "offset": [
+        0,
+        -128
+       ],
+       "facing": "n"
+      },
+      "doors": [
+       {
+        "id": "door:gate",
+        "opening": "open:hall_passage",
+        "speed": 96,
+        "notes": "Raised by the lever in the guard room."
+       },
+       {
+        "id": "door:guard",
+        "opening": "open:hall_guard"
+       },
+       {
+        "id": "door:store",
+        "opening": "open:hall_store"
+       },
+       {
+        "id": "door:vault",
+        "opening": "open:passage_vault"
+       }
+      ],
+      "lights": [
+       {
+        "id": "light:entry",
+        "room": "room:entry",
+        "radius": 900,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:guard",
+        "room": "room:guard",
+        "radius": 900,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:hall_east",
+        "room": "room:hall",
+        "offset": [
+         320,
+         0
+        ],
+        "radius": 1100,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:hall_west",
+        "room": "room:hall",
+        "offset": [
+         -320,
+         0
+        ],
+        "radius": 1100,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:passage",
+        "room": "room:passage",
+        "radius": 700,
+        "color": [
+         255,
+         170,
+         100
+        ]
+       },
+       {
+        "id": "light:store",
+        "room": "room:store",
+        "radius": 800,
+        "color": [
+         255,
+         170,
+         100
+        ]
+       },
+       {
+        "id": "light:vault",
+        "room": "room:vault",
+        "radius": 1000,
+        "color": [
+         255,
+         210,
+         150
+        ]
+       }
+      ],
+      "switches": [
+       {
+        "id": "switch:gate_lever",
+        "room": "room:guard",
+        "wall": "east",
+        "height": 112,
+        "size": [
+         48,
+         48
+        ],
+        "off": {
+         "texture": "t1swdd",
+         "size": [
+          16,
+          16
+         ]
+        },
+        "on": "t1swdu"
+       }
+      ],
+      "chests": [
+       {
+        "id": "chest:store",
+        "room": "room:store",
+        "offset": [
+         -192,
+         192
+        ],
+        "kind": "ch1",
+        "facing": 315,
+        "treasure_level": 1,
+        "random_items": 2,
+        "gold": 60,
+        "items": [
+         "vault_key"
+        ]
+       },
+       {
+        "id": "chest:vault",
+        "room": "room:vault",
+        "offset": [
+         0,
+         224
+        ],
+        "kind": "ch1",
+        "treasure_level": 2,
+        "random_items": 4,
+        "gold": 400
+       }
+      ],
+      "spawns": [
+       {
+        "id": "spawn:guard_a",
+        "room": "room:guard",
+        "offset": [
+         128,
+         128
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:guard_b",
+        "room": "room:guard",
+        "offset": [
+         160,
+         -160
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:hall",
+        "room": "room:hall",
+        "offset": [
+         0,
+         256
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:store_a",
+        "room": "room:store",
+        "offset": [
+         128,
+         -128
+        ],
+        "slot": 1
+       },
+       {
+        "id": "spawn:store_b",
+        "room": "room:store",
+        "offset": [
+         96,
+         160
+        ],
+        "slot": 1
+       }
+      ],
+      "decorations": [
+       {
+        "id": "deco:torch_entry_e",
+        "room": "room:entry",
+        "decoration": "6torch01",
+        "wall": "east",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_entry_w",
+        "room": "room:entry",
+        "decoration": "6torch01",
+        "wall": "west",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_guard",
+        "room": "room:guard",
+        "decoration": "6torch01",
+        "wall": "north",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_hall_n1",
+        "room": "room:hall",
+        "decoration": "6torch01",
+        "wall": "north",
+        "along": 0.25,
+        "height": 208
+       },
+       {
+        "id": "deco:torch_hall_n2",
+        "room": "room:hall",
+        "decoration": "6torch01",
+        "wall": "north",
+        "along": 0.75,
+        "height": 208
+       },
+       {
+        "id": "deco:torch_vault_e",
+        "room": "room:vault",
+        "decoration": "6torch01",
+        "wall": "east",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_vault_w",
+        "room": "room:vault",
+        "decoration": "6torch01",
+        "wall": "west",
+        "height": 176
+       }
+      ],
+      "exits": [
+       {
+        "id": "exit:door",
+        "room": "room:entry",
+        "wall": "south",
+        "to": "exit:new_sorpigal"
+       }
+      ]
+     }
+    },
+    "wiring.yml": {
+     "tree": {
+      "format": 0,
+      "variables": [
+       "gate_raised"
+      ],
+      "events": [
+       {
+        "id": "evt:exit",
+        "preset": "exit",
+        "source": "exit:door",
+        "title": "Leave the cellars"
+       },
+       {
+        "id": "evt:gate",
+        "preset": "text",
+        "source": "door:gate",
+        "title": "Gate",
+        "text": "The gate will not move. Something must raise it from elsewhere."
+       },
+       {
+        "id": "evt:gate_lever",
+        "preset": "switch",
+        "source": "switch:gate_lever",
+        "title": "Lever",
+        "opens": [
+         "door:gate"
+        ],
+        "once": true,
+        "sets": {
+         "map_var": "gate_raised"
+        },
+        "text": "Chains rattle and a gate grinds open in the hall."
+       },
+       {
+        "id": "evt:guard_door",
+        "preset": "door",
+        "source": "door:guard",
+        "title": "Guard room door"
+       },
+       {
+        "id": "evt:store_chest",
+        "preset": "chest",
+        "source": "chest:store",
+        "title": "Chest"
+       },
+       {
+        "id": "evt:store_door",
+        "preset": "door",
+        "source": "door:store",
+        "title": "Store room door"
+       },
+       {
+        "id": "evt:vault_chest",
+        "preset": "chest",
+        "source": "chest:vault",
+        "title": "Chest"
+       },
+       {
+        "id": "evt:vault_door",
+        "preset": "door",
+        "source": "door:vault",
+        "title": "Strong room door",
+        "condition": {
+         "item": "vault_key"
+        },
+        "locked_text": "The strong room door is locked.",
+        "action": "open"
+       }
+      ]
+     }
+    },
+    "ids.lock.yml": {
+     "tree": {
+      "format": 0,
+      "sectors": {
+       "room:entry": 1,
+       "room:guard": 2,
+       "room:hall": 3,
+       "room:passage": 4,
+       "room:store": 5,
+       "room:vault": 6
+      },
+      "events": {
+       "evt:exit": 1,
+       "evt:gate": 2,
+       "evt:gate_lever": 3,
+       "evt:guard_door": 4,
+       "evt:store_chest": 5,
+       "evt:store_door": 6,
+       "evt:vault_chest": 7,
+       "evt:vault_door": 8
+      },
+      "doors": {
+       "door:gate": 1,
+       "door:guard": 2,
+       "door:store": 3,
+       "door:vault": 4
+      },
+      "containers": {
+       "chest:store": 0,
+       "chest:vault": 1
+      },
+      "cogs": {
+       "switch:gate_lever": 1
+      },
+      "map_vars": {
+       "gate_raised": 1,
+       "once.gate_lever": 0
+      },
+      "decorations": {
+       "deco:torch_entry_e": 0,
+       "deco:torch_entry_w": 1,
+       "deco:torch_guard": 2,
+       "deco:torch_hall_n1": 3,
+       "deco:torch_hall_n2": 4,
+       "deco:torch_vault_e": 5,
+       "deco:torch_vault_w": 6
+      }
+     }
+    }
+   },
+   "ids": [
+    {
+     "id": "exit:new_sorpigal",
+     "file": "project.yml",
+     "list": "neighbours"
+    },
+    {
+     "id": "room:entry",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:guard",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:hall",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:passage",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:store",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:vault",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "link:entry_hall",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:hall_guard",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:hall_passage",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:hall_store",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:passage_vault",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "entrance:door",
+     "file": "plan.yml",
+     "list": "entrances"
+    },
+    {
+     "id": "goal:vault_chest",
+     "file": "plan.yml",
+     "list": "goals"
+    },
+    {
+     "id": "key:gate_lever",
+     "file": "plan.yml",
+     "list": "keys"
+    },
+    {
+     "id": "key:vault_key",
+     "file": "plan.yml",
+     "list": "keys"
+    },
+    {
+     "id": "poi:gate_lever",
+     "file": "plan.yml",
+     "list": "points_of_interest"
+    },
+    {
+     "id": "theme:masonry",
+     "file": "rooms.yml",
+     "list": "themes"
+    },
+    {
+     "id": "room:entry",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:guard",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:hall",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:passage",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:vault",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "open:entry_hall",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:hall_guard",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:hall_passage",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:hall_store",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:passage_vault",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "door:gate",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "door:guard",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "door:store",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "door:vault",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "light:entry",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:guard",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:hall_east",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:hall_west",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:passage",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:store",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:vault",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "switch:gate_lever",
+     "file": "objects.yml",
+     "list": "switches"
+    },
+    {
+     "id": "chest:store",
+     "file": "objects.yml",
+     "list": "chests"
+    },
+    {
+     "id": "chest:vault",
+     "file": "objects.yml",
+     "list": "chests"
+    },
+    {
+     "id": "spawn:guard_a",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:guard_b",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:hall",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:store_a",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:store_b",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "deco:torch_entry_e",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_entry_w",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_guard",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_hall_n1",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_hall_n2",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_vault_e",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_vault_w",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "exit:door",
+     "file": "objects.yml",
+     "list": "exits"
+    },
+    {
+     "id": "evt:exit",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:gate",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:gate_lever",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:guard_door",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:store_chest",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:store_door",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:vault_chest",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:vault_door",
+     "file": "wiring.yml",
+     "list": "events"
+    }
+   ],
+   "issues": [],
+   "keys": []
+  }
+ },
+ "04 layout": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "view_revision": "642d90046c35fe8133d02112cc81caeb",
+   "stale": false,
+   "kind": "indoor",
+   "world": "mm6",
+   "bounds": {
+    "min": [
+     -960,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     3520,
+     512
+    ]
+   },
+   "rooms": [
+    {
+     "id": "room:entry",
+     "sector": 1,
+     "outline": [
+      [
+       0,
+       0
+      ],
+      [
+       768,
+       0
+      ],
+      [
+       768,
+       768
+      ],
+      [
+       0,
+       768
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384
+    },
+    {
+     "id": "room:guard",
+     "sector": 2,
+     "outline": [
+      [
+       1088,
+       960
+      ],
+      [
+       1856,
+       960
+      ],
+      [
+       1856,
+       1728
+      ],
+      [
+       1088,
+       1728
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384
+    },
+    {
+     "id": "room:hall",
+     "sector": 3,
+     "outline": [
+      [
+       -256,
+       832
+      ],
+      [
+       1024,
+       832
+      ],
+      [
+       1024,
+       1856
+      ],
+      [
+       -256,
+       1856
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 512
+    },
+    {
+     "id": "room:passage",
+     "sector": 4,
+     "outline": [
+      [
+       256,
+       1920
+      ],
+      [
+       512,
+       1920
+      ],
+      [
+       512,
+       2688
+      ],
+      [
+       256,
+       2688
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 320
+    },
+    {
+     "id": "room:store",
+     "sector": 5,
+     "outline": [
+      [
+       -960,
+       1088
+      ],
+      [
+       -320,
+       1088
+      ],
+      [
+       -320,
+       1728
+      ],
+      [
+       -960,
+       1728
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384
+    },
+    {
+     "id": "room:vault",
+     "sector": 6,
+     "outline": [
+      [
+       -64,
+       2752
+      ],
+      [
+       832,
+       2752
+      ],
+      [
+       832,
+       3520
+      ],
+      [
+       -64,
+       3520
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384
+    }
+   ],
+   "openings": [
+    {
+     "id": "open:entry_hall",
+     "from": "room:entry",
+     "to": "room:hall",
+     "a": [
+      480,
+      768
+     ],
+     "b": [
+      288,
+      768
+     ],
+     "bottom": 0,
+     "top": 256
+    },
+    {
+     "id": "open:hall_guard",
+     "from": "room:hall",
+     "to": "room:guard",
+     "a": [
+      1024,
+      1264
+     ],
+     "b": [
+      1024,
+      1424
+     ],
+     "bottom": 0,
+     "top": 256
+    },
+    {
+     "id": "open:hall_passage",
+     "from": "room:hall",
+     "to": "room:passage",
+     "a": [
+      480,
+      1856
+     ],
+     "b": [
+      288,
+      1856
+     ],
+     "bottom": 0,
+     "top": 256
+    },
+    {
+     "id": "open:hall_store",
+     "from": "room:hall",
+     "to": "room:store",
+     "a": [
+      -256,
+      1488
+     ],
+     "b": [
+      -256,
+      1328
+     ],
+     "bottom": 0,
+     "top": 256
+    },
+    {
+     "id": "open:passage_vault",
+     "from": "room:passage",
+     "to": "room:vault",
+     "a": [
+      464,
+      2688
+     ],
+     "b": [
+      304,
+      2688
+     ],
+     "bottom": 0,
+     "top": 256
+    }
+   ],
+   "doors": [
+    {
+     "id": "door:gate",
+     "opening": "open:hall_passage",
+     "hinged": false,
+     "leaves": 1,
+     "starts_open": false,
+     "moves": [
+      {
+       "at": [
+        384,
+        1888,
+        128
+       ],
+       "by": [
+        0,
+        0,
+        256
+       ]
+      }
+     ]
+    },
+    {
+     "id": "door:guard",
+     "opening": "open:hall_guard",
+     "hinged": false,
+     "leaves": 1,
+     "starts_open": false,
+     "moves": [
+      {
+       "at": [
+        1056,
+        1344,
+        128
+       ],
+       "by": [
+        0,
+        0,
+        256
+       ]
+      }
+     ]
+    },
+    {
+     "id": "door:store",
+     "opening": "open:hall_store",
+     "hinged": false,
+     "leaves": 1,
+     "starts_open": false,
+     "moves": [
+      {
+       "at": [
+        -288,
+        1408,
+        128
+       ],
+       "by": [
+        0,
+        0,
+        256
+       ]
+      }
+     ]
+    },
+    {
+     "id": "door:vault",
+     "opening": "open:passage_vault",
+     "hinged": false,
+     "leaves": 1,
+     "starts_open": false,
+     "moves": [
+      {
+       "at": [
+        384,
+        2720,
+        128
+       ],
+       "by": [
+        0,
+        0,
+        256
+       ]
+      }
+     ]
+    }
+   ],
+   "lifts": [],
+   "things": [
+    {
+     "id": "chest:store",
+     "kind": "chest",
+     "at": [
+      -832,
+      1600,
+      0
+     ]
+    },
+    {
+     "id": "chest:vault",
+     "kind": "chest",
+     "at": [
+      384,
+      3360,
+      0
+     ]
+    },
+    {
+     "id": "switch:gate_lever",
+     "kind": "switch",
+     "at": [
+      1856,
+      1344,
+      112
+     ],
+     "name": "plate",
+     "facing": 180
+    },
+    {
+     "id": "exit:door",
+     "kind": "exit",
+     "at": [
+      384,
+      0,
+      128
+     ],
+     "facing": 90
+    },
+    {
+     "id": "light:entry",
+     "kind": "light",
+     "at": [
+      384,
+      384,
+      288
+     ]
+    },
+    {
+     "id": "light:guard",
+     "kind": "light",
+     "at": [
+      1472,
+      1344,
+      288
+     ]
+    },
+    {
+     "id": "light:hall_east",
+     "kind": "light",
+     "at": [
+      704,
+      1344,
+      384
+     ]
+    },
+    {
+     "id": "light:hall_west",
+     "kind": "light",
+     "at": [
+      64,
+      1344,
+      384
+     ]
+    },
+    {
+     "id": "light:passage",
+     "kind": "light",
+     "at": [
+      384,
+      2304,
+      240
+     ]
+    },
+    {
+     "id": "light:store",
+     "kind": "light",
+     "at": [
+      -640,
+      1408,
+      288
+     ]
+    },
+    {
+     "id": "light:vault",
+     "kind": "light",
+     "at": [
+      384,
+      3136,
+      288
+     ]
+    },
+    {
+     "id": "spawn:guard_a",
+     "kind": "spawn",
+     "at": [
+      1600,
+      1472,
+      0
+     ]
+    },
+    {
+     "id": "spawn:guard_b",
+     "kind": "spawn",
+     "at": [
+      1632,
+      1184,
+      0
+     ]
+    },
+    {
+     "id": "spawn:hall",
+     "kind": "spawn",
+     "at": [
+      384,
+      1600,
+      0
+     ]
+    },
+    {
+     "id": "spawn:store_a",
+     "kind": "spawn",
+     "at": [
+      -512,
+      1280,
+      0
+     ]
+    },
+    {
+     "id": "spawn:store_b",
+     "kind": "spawn",
+     "at": [
+      -544,
+      1568,
+      0
+     ]
+    },
+    {
+     "id": "deco:torch_entry_e",
+     "kind": "decoration",
+     "at": [
+      756,
+      384,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_entry_w",
+     "kind": "decoration",
+     "at": [
+      12,
+      384,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_guard",
+     "kind": "decoration",
+     "at": [
+      1472,
+      1716,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_hall_n1",
+     "kind": "decoration",
+     "at": [
+      704,
+      1844,
+      208
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_hall_n2",
+     "kind": "decoration",
+     "at": [
+      64,
+      1844,
+      208
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_vault_e",
+     "kind": "decoration",
+     "at": [
+      820,
+      3136,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_vault_w",
+     "kind": "decoration",
+     "at": [
+      -52,
+      3136,
+      176
+     ],
+     "name": "6torch01"
+    }
+   ],
+   "start": {
+    "at": [
+     384,
+     256,
+     0
+    ],
+    "facing": 90
+   }
+  }
+ },
+ "05 mesh": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "view_revision": "642d90046c35fe8133d02112cc81caeb",
+   "stale": false,
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "kind": "indoor",
+   "world": "mm6",
+   "file": ".oymap/view/642d90046c35fe8133d02112cc81caeb-d5bfa319-a62be0edce73.mesh",
+   "bytes": 20592,
+   "counts": {
+    "vertices": 492,
+    "triangles": 276,
+    "faces": 108
+   },
+   "sections": {
+    "positions": {
+     "offset": 0,
+     "count": 1476
+    },
+    "normals": {
+     "offset": 5904,
+     "count": 1476
+    },
+    "uvs": {
+     "offset": 11808,
+     "count": 984
+    },
+    "indices": {
+     "offset": 15744,
+     "count": 828
+    },
+    "triangle_faces": {
+     "offset": 19056,
+     "count": 276
+    },
+    "face_owners": {
+     "offset": 20160,
+     "count": 108
+    }
+   },
+   "groups": [
+    {
+     "texture": "ch1frle",
+     "first": 0,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frntb",
+     "first": 24,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frre",
+     "first": 48,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1side",
+     "first": 72,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topb",
+     "first": 96,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1tople",
+     "first": 108,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topre",
+     "first": 120,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "d2ceil4",
+     "first": 132,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "oflr",
+     "first": 228,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 324,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1swdd",
+     "first": 330,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1trima",
+     "first": 336,
+     "count": 120,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1w11a",
+     "first": 456,
+     "count": 324,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 780,
+     "count": 48,
+     "uv_unit": "texel",
+     "kind": "moving"
+    }
+   ],
+   "owners": [
+    {
+     "id": ""
+    },
+    {
+     "id": "room:entry/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "switch:gate_lever",
+     "file": "objects.yml"
+    },
+    {
+     "id": "exit:door",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:vault",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:gate",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:guard",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:vault",
+     "file": "objects.yml"
+    }
+   ],
+   "bounds": {
+    "min": [
+     -960,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     3520,
+     512
+    ]
+   }
+  },
+  "mesh_sha256": "a62be0edce739d19ad05c3dcd03bcb35eba6cb295d4b67fffcde4e1dae117cea",
+  "mesh_bytes_match": true
+ },
+ "06 mesh again: kept": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "view_revision": "642d90046c35fe8133d02112cc81caeb",
+   "stale": false,
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "kind": "indoor",
+   "world": "mm6",
+   "file": ".oymap/view/642d90046c35fe8133d02112cc81caeb-d5bfa319-a62be0edce73.mesh",
+   "bytes": 20592,
+   "counts": {
+    "vertices": 492,
+    "triangles": 276,
+    "faces": 108
+   },
+   "sections": {
+    "positions": {
+     "offset": 0,
+     "count": 1476
+    },
+    "normals": {
+     "offset": 5904,
+     "count": 1476
+    },
+    "uvs": {
+     "offset": 11808,
+     "count": 984
+    },
+    "indices": {
+     "offset": 15744,
+     "count": 828
+    },
+    "triangle_faces": {
+     "offset": 19056,
+     "count": 276
+    },
+    "face_owners": {
+     "offset": 20160,
+     "count": 108
+    }
+   },
+   "groups": [
+    {
+     "texture": "ch1frle",
+     "first": 0,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frntb",
+     "first": 24,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frre",
+     "first": 48,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1side",
+     "first": 72,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topb",
+     "first": 96,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1tople",
+     "first": 108,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topre",
+     "first": 120,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "d2ceil4",
+     "first": 132,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "oflr",
+     "first": 228,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 324,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1swdd",
+     "first": 330,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1trima",
+     "first": 336,
+     "count": 120,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1w11a",
+     "first": 456,
+     "count": 324,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 780,
+     "count": 48,
+     "uv_unit": "texel",
+     "kind": "moving"
+    }
+   ],
+   "owners": [
+    {
+     "id": ""
+    },
+    {
+     "id": "room:entry/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "switch:gate_lever",
+     "file": "objects.yml"
+    },
+    {
+     "id": "exit:door",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:vault",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:gate",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:guard",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:vault",
+     "file": "objects.yml"
+    }
+   ],
+   "bounds": {
+    "min": [
+     -960,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     3520,
+     512
+    ]
+   }
+  },
+  "mesh_sha256": "a62be0edce739d19ad05c3dcd03bcb35eba6cb295d4b67fffcde4e1dae117cea",
+  "mesh_bytes_match": true
+ },
+ "07 open a missing folder": {
+  "error": {
+   "code": -32000,
+   "message": "not a project folder (no such folder)",
+   "data": {
+    "kind": "not_a_project",
+    "issues": [
+     {
+      "severity": "error",
+      "code": "project",
+      "file": "",
+      "path": "",
+      "message": "not a project folder (no such folder)"
+     }
+    ]
+   }
+  }
+ },
+ "08 layout of a missing folder": {
+  "error": {
+   "code": -32000,
+   "message": "not a project folder (no such folder)",
+   "data": {
+    "kind": "not_a_project",
+    "issues": [
+     {
+      "severity": "error",
+      "code": "project",
+      "file": "",
+      "path": "",
+      "message": "not a project folder (no such folder)"
+     }
+    ]
+   }
+  }
+ },
+ "09 read rooms.yml": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "file": "rooms.yml",
+   "text": "format: 0\nthemes:\n  - id: theme:masonry\n    wall: {texture: t1w11a, size: [128, 256]}\n    floor: {texture: oflr, size: [128, 128]}\n    ceiling: {texture: d2ceil4, size: [256, 256]}\n    reveal: {texture: t1trima, size: [32, 32], scale: 2}\n    door: {texture: t1d2, size: [256, 256], fit: true}\ndefaults: {theme: theme:masonry, ambient: 14}\nrooms:\n  - id: room:entry\n    name: Entry\n    outline: [[0, 0], [768, 0], [768, 768], [0, 768]]\n    floor: 0\n    ceiling: 384\n  - id: room:guard\n    name: Guard room\n    outline: [[1088, 960], [1856, 960], [1856, 1728], [1088, 1728]]\n    floor: 0\n    ceiling: 384\n  - id: room:hall\n    name: Hall\n    outline: [[-256, 832], [1024, 832], [1024, 1856], [-256, 1856]]\n    floor: 0\n    ceiling: 512\n  - id: room:passage\n    name: Passage\n    outline: [[256, 1920], [512, 1920], [512, 2688], [256, 2688]]\n    floor: 0\n    ceiling: 320\n  - id: room:store\n    name: Store room\n    outline: [[-960, 1088], [-320, 1088], [-320, 1728], [-960, 1728]]\n    floor: 0\n    ceiling: 384\n  - id: room:vault\n    name: Strong room\n    outline: [[-64, 2752], [832, 2752], [832, 3520], [-64, 3520]]\n    floor: 0\n    ceiling: 384\nopenings:\n  - id: open:entry_hall\n    from: room:entry\n    to: room:hall\n    link: link:entry_hall\n    width: 192\n    height: 256\n  - id: open:hall_guard\n    from: room:hall\n    to: room:guard\n    link: link:hall_guard\n    width: 160\n    height: 256\n  - id: open:hall_passage\n    from: room:hall\n    to: room:passage\n    link: link:hall_passage\n    width: 192\n    height: 256\n  - id: open:hall_store\n    from: room:hall\n    to: room:store\n    link: link:hall_store\n    width: 160\n    height: 256\n  - id: open:passage_vault\n    from: room:passage\n    to: room:vault\n    link: link:passage_vault\n    width: 160\n    height: 256\n",
+   "canonical": true,
+   "tree": {
+    "format": 0,
+    "themes": [
+     {
+      "id": "theme:masonry",
+      "wall": {
+       "texture": "t1w11a",
+       "size": [
+        128,
+        256
+       ]
+      },
+      "floor": {
+       "texture": "oflr",
+       "size": [
+        128,
+        128
+       ]
+      },
+      "ceiling": {
+       "texture": "d2ceil4",
+       "size": [
+        256,
+        256
+       ]
+      },
+      "reveal": {
+       "texture": "t1trima",
+       "size": [
+        32,
+        32
+       ],
+       "scale": 2
+      },
+      "door": {
+       "texture": "t1d2",
+       "size": [
+        256,
+        256
+       ],
+       "fit": true
+      }
+     }
+    ],
+    "defaults": {
+     "theme": "theme:masonry",
+     "ambient": 14
+    },
+    "rooms": [
+     {
+      "id": "room:entry",
+      "name": "Entry",
+      "outline": [
+       [
+        0,
+        0
+       ],
+       [
+        768,
+        0
+       ],
+       [
+        768,
+        768
+       ],
+       [
+        0,
+        768
+       ]
+      ],
+      "floor": 0,
+      "ceiling": 384
+     },
+     {
+      "id": "room:guard",
+      "name": "Guard room",
+      "outline": [
+       [
+        1088,
+        960
+       ],
+       [
+        1856,
+        960
+       ],
+       [
+        1856,
+        1728
+       ],
+       [
+        1088,
+        1728
+       ]
+      ],
+      "floor": 0,
+      "ceiling": 384
+     },
+     {
+      "id": "room:hall",
+      "name": "Hall",
+      "outline": [
+       [
+        -256,
+        832
+       ],
+       [
+        1024,
+        832
+       ],
+       [
+        1024,
+        1856
+       ],
+       [
+        -256,
+        1856
+       ]
+      ],
+      "floor": 0,
+      "ceiling": 512
+     },
+     {
+      "id": "room:passage",
+      "name": "Passage",
+      "outline": [
+       [
+        256,
+        1920
+       ],
+       [
+        512,
+        1920
+       ],
+       [
+        512,
+        2688
+       ],
+       [
+        256,
+        2688
+       ]
+      ],
+      "floor": 0,
+      "ceiling": 320
+     },
+     {
+      "id": "room:store",
+      "name": "Store room",
+      "outline": [
+       [
+        -960,
+        1088
+       ],
+       [
+        -320,
+        1088
+       ],
+       [
+        -320,
+        1728
+       ],
+       [
+        -960,
+        1728
+       ]
+      ],
+      "floor": 0,
+      "ceiling": 384
+     },
+     {
+      "id": "room:vault",
+      "name": "Strong room",
+      "outline": [
+       [
+        -64,
+        2752
+       ],
+       [
+        832,
+        2752
+       ],
+       [
+        832,
+        3520
+       ],
+       [
+        -64,
+        3520
+       ]
+      ],
+      "floor": 0,
+      "ceiling": 384
+     }
+    ],
+    "openings": [
+     {
+      "id": "open:entry_hall",
+      "from": "room:entry",
+      "to": "room:hall",
+      "link": "link:entry_hall",
+      "width": 192,
+      "height": 256
+     },
+     {
+      "id": "open:hall_guard",
+      "from": "room:hall",
+      "to": "room:guard",
+      "link": "link:hall_guard",
+      "width": 160,
+      "height": 256
+     },
+     {
+      "id": "open:hall_passage",
+      "from": "room:hall",
+      "to": "room:passage",
+      "link": "link:hall_passage",
+      "width": 192,
+      "height": 256
+     },
+     {
+      "id": "open:hall_store",
+      "from": "room:hall",
+      "to": "room:store",
+      "link": "link:hall_store",
+      "width": 160,
+      "height": 256
+     },
+     {
+      "id": "open:passage_vault",
+      "from": "room:passage",
+      "to": "room:vault",
+      "link": "link:passage_vault",
+      "width": 160,
+      "height": 256
+     }
+    ]
+   }
+  }
+ },
+ "10 read a file the project lacks": {
+  "error": {
+   "code": -32000,
+   "message": "the project has no review/pins.yml",
+   "data": {
+    "kind": "no_such_file",
+    "file": "review/pins.yml"
+   }
+  }
+ },
+ "11 read a file the format lacks": {
+  "error": {
+   "code": -32602,
+   "message": "the params do not match project.read: file: must be one of: project.yml, plan.yml, sketch.yml, rooms.yml, objects.yml, wiring.yml, atmosphere.yml, review/pins.yml, ids.lock.yml",
+   "data": {
+    "kind": "invalid_params",
+    "issues": [
+     {
+      "path": "file",
+      "message": "must be one of: project.yml, plan.yml, sketch.yml, rooms.yml, objects.yml, wiring.yml, atmosphere.yml, review/pins.yml, ids.lock.yml"
+     }
+    ]
+   }
+  }
+ },
+ "12 status, first sight": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "outside_changes": []
+  }
+ },
+ "13 pins, none": {
+  "result": {
+   "counter": 0,
+   "pins": []
+  }
+ },
+ "14 add a pin": {
+  "result": {
+   "counter": 1,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The gate reads as a wall.",
+    "on": "door:gate",
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      512.5,
+      256,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -3,
+     "heading_yaw_units": 512
+    },
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "open"
+   }
+  }
+ },
+ "15 a pin on an id the project lacks": {
+  "error": {
+   "code": -32000,
+   "message": "nothing in the project has the id door:nothing",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "16 a pin on an id two files share": {
+  "error": {
+   "code": -32000,
+   "message": "the id room:entry is in plan.yml and rooms.yml: name the one meant with `file`",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "17 a pin on a point, by an agent": {
+  "result": {
+   "counter": 2,
+   "pin": {
+    "id": "pin:p2",
+    "text": "A dark corner.",
+    "at": [
+     100,
+     200,
+     0
+    ],
+    "source": "agent",
+    "author": "agent:contract",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "open"
+   }
+  }
+ },
+ "18 status: pins leave the revision": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "outside_changes": []
+  }
+ },
+ "19 pins, open": {
+  "result": {
+   "counter": 2,
+   "pins": [
+    {
+     "id": "pin:p1",
+     "text": "The gate reads as a wall.",
+     "on": "door:gate",
+     "source": "studio",
+     "world": "mm6",
+     "map": "studio01.blv",
+     "pose": {
+      "position": [
+       512.5,
+       256,
+       0
+      ],
+      "yaw_radians": 1.5708,
+      "pitch_degrees": -3,
+      "heading_yaw_units": 512
+     },
+     "author": "user",
+     "revision": "642d90046c35fe8133d02112cc81caeb",
+     "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+     "status": "open"
+    },
+    {
+     "id": "pin:p2",
+     "text": "A dark corner.",
+     "at": [
+      100,
+      200,
+      0
+     ],
+     "source": "agent",
+     "author": "agent:contract",
+     "revision": "642d90046c35fe8133d02112cc81caeb",
+     "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+     "status": "open"
+    }
+   ]
+  }
+ },
+ "20 pins, resolved": {
+  "result": {
+   "counter": 2,
+   "pins": []
+  }
+ },
+ "21 claim a pin": {
+  "result": {
+   "counter": 3,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The gate reads as a wall.",
+    "on": "door:gate",
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      512.5,
+      256,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -3,
+     "heading_yaw_units": 512
+    },
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "claimed",
+    "claimed_by": "agent:contract"
+   }
+  }
+ },
+ "22 claim it from another agent": {
+  "error": {
+   "code": -32000,
+   "message": "pin:p1 is claimed by agent:contract (take it over with force)",
+   "data": {
+    "kind": "wrong_state",
+    "status": "claimed"
+   }
+  }
+ },
+ "23 claim a pin that is not there": {
+  "error": {
+   "code": -32000,
+   "message": "the project has no pin pin:p9",
+   "data": {
+    "kind": "no_such_pin"
+   }
+  }
+ },
+ "24 accept a pin not resolved": {
+  "error": {
+   "code": -32000,
+   "message": "pin:p1 is claimed: only a resolved pin is accepted",
+   "data": {
+    "kind": "wrong_state",
+    "status": "claimed"
+   }
+  }
+ },
+ "25 patch a corner, dry run": {
+  "result": {
+   "applied": false,
+   "revision_before": "642d90046c35fe8133d02112cc81caeb",
+   "revision_after": "5be58965f787c322a39f84732d888dac",
+   "changes": [
+    "rooms.yml: room:entry changed outline"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "rooms.yml": {
+     "tree": {
+      "format": 1,
+      "themes": [
+       {
+        "id": "theme:masonry",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ]
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        },
+        "door": {
+         "texture": "t1d2",
+         "size": [
+          256,
+          256
+         ],
+         "fit": true
+        }
+       }
+      ],
+      "defaults": {
+       "theme": "theme:masonry",
+       "ambient": 14
+      },
+      "rooms": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "outline": [
+         [
+          0,
+          0
+         ],
+         [
+          832,
+          0
+         ],
+         [
+          768,
+          768
+         ],
+         [
+          0,
+          768
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "outline": [
+         [
+          1088,
+          960
+         ],
+         [
+          1856,
+          960
+         ],
+         [
+          1856,
+          1728
+         ],
+         [
+          1088,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:hall",
+        "name": "Hall",
+        "outline": [
+         [
+          -256,
+          832
+         ],
+         [
+          1024,
+          832
+         ],
+         [
+          1024,
+          1856
+         ],
+         [
+          -256,
+          1856
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 512
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "outline": [
+         [
+          256,
+          1920
+         ],
+         [
+          512,
+          1920
+         ],
+         [
+          512,
+          2688
+         ],
+         [
+          256,
+          2688
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 320
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "outline": [
+         [
+          -960,
+          1088
+         ],
+         [
+          -320,
+          1088
+         ],
+         [
+          -320,
+          1728
+         ],
+         [
+          -960,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "outline": [
+         [
+          -64,
+          2752
+         ],
+         [
+          832,
+          2752
+         ],
+         [
+          832,
+          3520
+         ],
+         [
+          -64,
+          3520
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       }
+      ],
+      "openings": [
+       {
+        "id": "open:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "link": "link:entry_hall",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "link": "link:hall_guard",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "link": "link:hall_passage",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "link": "link:hall_store",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "link": "link:passage_vault",
+        "width": 160,
+        "height": 256
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ "26 patch an id two files share": {
+  "error": {
+   "code": -32000,
+   "message": "operation 0: the id room:entry is in plan.yml and rooms.yml: name the one meant with `file`, e.g. file: plan.yml",
+   "data": {
+    "kind": "bad_operation",
+    "index": 0,
+    "reason": "the id room:entry is in plan.yml and rooms.yml: name the one meant with `file`, e.g. file: plan.yml"
+   }
+  }
+ },
+ "27 patch whose test fails": {
+  "error": {
+   "code": -32000,
+   "message": "operation 0: test failed: the value at /outline/0 is not the one expected",
+   "data": {
+    "kind": "bad_operation",
+    "index": 0,
+    "step": 1,
+    "reason": "test failed: the value at /outline/0 is not the one expected"
+   }
+  }
+ },
+ "28 patch an id": {
+  "error": {
+   "code": -32000,
+   "message": "operation 0: an object's id is not changed by a patch: use op rename",
+   "data": {
+    "kind": "bad_operation",
+    "index": 0,
+    "step": 0,
+    "reason": "an object's id is not changed by a patch: use op rename"
+   }
+  }
+ },
+ "29 patch the pins file": {
+  "error": {
+   "code": -32000,
+   "message": "operation 0: review/pins.yml is not a project file an operation may change (pins: oymap pins, or the pins methods)",
+   "data": {
+    "kind": "bad_operation",
+    "index": 0,
+    "reason": "review/pins.yml is not a project file an operation may change (pins: oymap pins, or the pins methods)"
+   }
+  }
+ },
+ "30 stale revision": {
+  "error": {
+   "code": -32000,
+   "message": "the project is at revision 642d90046c35fe8133d02112cc81caeb, not 0123456789abcdef0123456789abcdef: read it again and send the operations against the new revision",
+   "data": {
+    "kind": "stale_revision",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "since": []
+   }
+  }
+ },
+ "31 a change that adds errors": {
+  "error": {
+   "code": -32000,
+   "message": "the change introduces 7 validation issue(s); nothing was written (fix the operations, or allow new issues)",
+   "data": {
+    "kind": "new_errors",
+    "new_issues": [
+     {
+      "severity": "error",
+      "code": "reference",
+      "file": "objects.yml",
+      "path": "decorations[0].room",
+      "message": "there is no room room:entry in rooms.yml"
+     },
+     {
+      "severity": "error",
+      "code": "reference",
+      "file": "objects.yml",
+      "path": "decorations[1].room",
+      "message": "there is no room room:entry in rooms.yml"
+     },
+     {
+      "severity": "error",
+      "code": "reference",
+      "file": "objects.yml",
+      "path": "exits[0].room",
+      "message": "there is no room room:entry in rooms.yml"
+     },
+     {
+      "severity": "error",
+      "code": "reference",
+      "file": "objects.yml",
+      "path": "lights[0].room",
+      "message": "there is no room room:entry in rooms.yml"
+     },
+     {
+      "severity": "error",
+      "code": "project",
+      "file": "objects.yml",
+      "path": "start",
+      "message": "the map needs a party start: objects.yml start, or an arrival in plan.yml entrances whose space a room realises"
+     },
+     {
+      "severity": "error",
+      "code": "reference",
+      "file": "objects.yml",
+      "path": "start.room",
+      "message": "there is no room room:entry in rooms.yml"
+     },
+     {
+      "severity": "error",
+      "code": "reference",
+      "file": "rooms.yml",
+      "path": "openings[0].from",
+      "message": "there is no room room:entry in rooms.yml"
+     }
+    ],
+    "revision_after": "9b7aa14bad572429f406409dbc55fa8e"
+   }
+  }
+ },
+ "32 no operations": {
+  "error": {
+   "code": -32602,
+   "message": "the params do not match edit.apply: ops: needs at least 1 items",
+   "data": {
+    "kind": "invalid_params",
+    "issues": [
+     {
+      "path": "ops",
+      "message": "needs at least 1 items"
+     }
+    ]
+   }
+  }
+ },
+ "33 an operation the list does not have": {
+  "error": {
+   "code": -32602,
+   "message": "the params do not match edit.apply: ops[0]: matches none of the allowed forms (oneOf)",
+   "data": {
+    "kind": "invalid_params",
+    "issues": [
+     {
+      "path": "ops[0]",
+      "message": "matches none of the allowed forms (oneOf)"
+     },
+     {
+      "path": "ops[0].op",
+      "message": "must be remove"
+     },
+     {
+      "path": "ops[0].to",
+      "message": "unknown key"
+     }
+    ]
+   }
+  }
+ },
+ "34 patch the ceiling and a list by key": {
+  "result": {
+   "applied": true,
+   "revision_before": "642d90046c35fe8133d02112cc81caeb",
+   "revision_after": "a3f7e88fb43917100ca526b8a60f45ff",
+   "changes": [
+    "project.yml: changed name",
+    "rooms.yml: room:entry changed ceiling (384 -> 400)",
+    "rooms.yml: room:hall changed name (Hall -> Great hall), notes (none -> Renamed by the contract suite.)"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "project.yml": {
+     "tree": {
+      "format": 0,
+      "id": "studio01",
+      "name": "The Gatehouse",
+      "world": "mm6",
+      "kind": "indoor",
+      "profile": "dungeon",
+      "units": {
+       "plan_grid": 512,
+       "snap": 64
+      },
+      "map_stats": {
+       "id": 9301,
+       "reference": "6d01.blv",
+       "encounter_chance": 10,
+       "treasure_level": 1
+      },
+      "neighbours": [
+       {
+        "id": "exit:new_sorpigal",
+        "to": "oute3.odm",
+        "kind": "door",
+        "arrival": [
+         -18400,
+         -14982,
+         1600
+        ],
+        "direction": 90,
+        "notes": "Arrives where Goblinwatch's own exit door does, until the cellars get a door of their own on the surface."
+       }
+      ],
+      "items": {
+       "vault_key": 2177
+      },
+      "notes": "The vertical slice of milestone S0 (devdocs/map_studio/PLAN.md section 12): the first map written as a Map Studio project and built by oymap. Plain on purpose. It exists to exercise the project format end to end: rooms, openings, a click door, a lever-operated gate, a keyed door, chests, spawns, lights and an exit."
+     }
+    },
+    "rooms.yml": {
+     "tree": {
+      "format": 1,
+      "themes": [
+       {
+        "id": "theme:masonry",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ]
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        },
+        "door": {
+         "texture": "t1d2",
+         "size": [
+          256,
+          256
+         ],
+         "fit": true
+        }
+       }
+      ],
+      "defaults": {
+       "theme": "theme:masonry",
+       "ambient": 14
+      },
+      "rooms": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "outline": [
+         [
+          0,
+          0
+         ],
+         [
+          768,
+          0
+         ],
+         [
+          768,
+          768
+         ],
+         [
+          0,
+          768
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 400
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "outline": [
+         [
+          1088,
+          960
+         ],
+         [
+          1856,
+          960
+         ],
+         [
+          1856,
+          1728
+         ],
+         [
+          1088,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:hall",
+        "name": "Great hall",
+        "outline": [
+         [
+          -256,
+          832
+         ],
+         [
+          1024,
+          832
+         ],
+         [
+          1024,
+          1856
+         ],
+         [
+          -256,
+          1856
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 512,
+        "notes": "Renamed by the contract suite."
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "outline": [
+         [
+          256,
+          1920
+         ],
+         [
+          512,
+          1920
+         ],
+         [
+          512,
+          2688
+         ],
+         [
+          256,
+          2688
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 320
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "outline": [
+         [
+          -960,
+          1088
+         ],
+         [
+          -320,
+          1088
+         ],
+         [
+          -320,
+          1728
+         ],
+         [
+          -960,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "outline": [
+         [
+          -64,
+          2752
+         ],
+         [
+          832,
+          2752
+         ],
+         [
+          832,
+          3520
+         ],
+         [
+          -64,
+          3520
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       }
+      ],
+      "openings": [
+       {
+        "id": "open:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "link": "link:entry_hall",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "link": "link:hall_guard",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "link": "link:hall_passage",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "link": "link:hall_store",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "link": "link:passage_vault",
+        "width": 160,
+        "height": 256
+       }
+      ]
+     }
+    }
+   },
+   "sequence": 1
+  }
+ },
+ "35 move and copy": {
+  "result": {
+   "applied": true,
+   "revision_before": "a3f7e88fb43917100ca526b8a60f45ff",
+   "revision_after": "cf761b6f546aba4451e9589f1abced8f",
+   "changes": [
+    "rooms.yml: room:hall changed notes (Renamed by the contract suite. -> Great hall)"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "rooms.yml": {
+     "tree": {
+      "format": 1,
+      "themes": [
+       {
+        "id": "theme:masonry",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ]
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        },
+        "door": {
+         "texture": "t1d2",
+         "size": [
+          256,
+          256
+         ],
+         "fit": true
+        }
+       }
+      ],
+      "defaults": {
+       "theme": "theme:masonry",
+       "ambient": 14
+      },
+      "rooms": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "outline": [
+         [
+          0,
+          0
+         ],
+         [
+          768,
+          0
+         ],
+         [
+          768,
+          768
+         ],
+         [
+          0,
+          768
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 400
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "outline": [
+         [
+          1088,
+          960
+         ],
+         [
+          1856,
+          960
+         ],
+         [
+          1856,
+          1728
+         ],
+         [
+          1088,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:hall",
+        "name": "Great hall",
+        "outline": [
+         [
+          -256,
+          832
+         ],
+         [
+          1024,
+          832
+         ],
+         [
+          1024,
+          1856
+         ],
+         [
+          -256,
+          1856
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 512,
+        "notes": "Great hall"
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "outline": [
+         [
+          256,
+          1920
+         ],
+         [
+          512,
+          1920
+         ],
+         [
+          512,
+          2688
+         ],
+         [
+          256,
+          2688
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 320
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "outline": [
+         [
+          -960,
+          1088
+         ],
+         [
+          -320,
+          1088
+         ],
+         [
+          -320,
+          1728
+         ],
+         [
+          -960,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "outline": [
+         [
+          -64,
+          2752
+         ],
+         [
+          832,
+          2752
+         ],
+         [
+          832,
+          3520
+         ],
+         [
+          -64,
+          3520
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       }
+      ],
+      "openings": [
+       {
+        "id": "open:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "link": "link:entry_hall",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "link": "link:hall_guard",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "link": "link:hall_passage",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "link": "link:hall_store",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "link": "link:passage_vault",
+        "width": 160,
+        "height": 256
+       }
+      ]
+     }
+    }
+   },
+   "sequence": 2
+  }
+ },
+ "36 set": {
+  "result": {
+   "applied": true,
+   "revision_before": "cf761b6f546aba4451e9589f1abced8f",
+   "revision_after": "0a18c097ed61247815b73a62049cf84f",
+   "changes": [
+    "rooms.yml: room:hall changed notes (Great hall -> Set by the contract suite.)"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "rooms.yml": {
+     "tree": {
+      "format": 1,
+      "themes": [
+       {
+        "id": "theme:masonry",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ]
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        },
+        "door": {
+         "texture": "t1d2",
+         "size": [
+          256,
+          256
+         ],
+         "fit": true
+        }
+       }
+      ],
+      "defaults": {
+       "theme": "theme:masonry",
+       "ambient": 14
+      },
+      "rooms": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "outline": [
+         [
+          0,
+          0
+         ],
+         [
+          768,
+          0
+         ],
+         [
+          768,
+          768
+         ],
+         [
+          0,
+          768
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 400
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "outline": [
+         [
+          1088,
+          960
+         ],
+         [
+          1856,
+          960
+         ],
+         [
+          1856,
+          1728
+         ],
+         [
+          1088,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:hall",
+        "name": "Great hall",
+        "outline": [
+         [
+          -256,
+          832
+         ],
+         [
+          1024,
+          832
+         ],
+         [
+          1024,
+          1856
+         ],
+         [
+          -256,
+          1856
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 512,
+        "notes": "Set by the contract suite."
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "outline": [
+         [
+          256,
+          1920
+         ],
+         [
+          512,
+          1920
+         ],
+         [
+          512,
+          2688
+         ],
+         [
+          256,
+          2688
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 320
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "outline": [
+         [
+          -960,
+          1088
+         ],
+         [
+          -320,
+          1088
+         ],
+         [
+          -320,
+          1728
+         ],
+         [
+          -960,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "outline": [
+         [
+          -64,
+          2752
+         ],
+         [
+          832,
+          2752
+         ],
+         [
+          832,
+          3520
+         ],
+         [
+          -64,
+          3520
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       }
+      ],
+      "openings": [
+       {
+        "id": "open:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "link": "link:entry_hall",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "link": "link:hall_guard",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "link": "link:hall_passage",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "link": "link:hall_store",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "link": "link:passage_vault",
+        "width": 160,
+        "height": 256
+       }
+      ]
+     }
+    }
+   },
+   "sequence": 3
+  }
+ },
+ "37 mesh after the edits: the new revision": {
+  "result": {
+   "revision": "0a18c097ed61247815b73a62049cf84f",
+   "view_revision": "0a18c097ed61247815b73a62049cf84f",
+   "stale": false,
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "kind": "indoor",
+   "world": "mm6",
+   "file": ".oymap/view/0a18c097ed61247815b73a62049cf84f-d5bfa319-9cadc1938838.mesh",
+   "bytes": 20592,
+   "counts": {
+    "vertices": 492,
+    "triangles": 276,
+    "faces": 108
+   },
+   "sections": {
+    "positions": {
+     "offset": 0,
+     "count": 1476
+    },
+    "normals": {
+     "offset": 5904,
+     "count": 1476
+    },
+    "uvs": {
+     "offset": 11808,
+     "count": 984
+    },
+    "indices": {
+     "offset": 15744,
+     "count": 828
+    },
+    "triangle_faces": {
+     "offset": 19056,
+     "count": 276
+    },
+    "face_owners": {
+     "offset": 20160,
+     "count": 108
+    }
+   },
+   "groups": [
+    {
+     "texture": "ch1frle",
+     "first": 0,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frntb",
+     "first": 24,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frre",
+     "first": 48,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1side",
+     "first": 72,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topb",
+     "first": 96,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1tople",
+     "first": 108,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topre",
+     "first": 120,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "d2ceil4",
+     "first": 132,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "oflr",
+     "first": 228,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 324,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1swdd",
+     "first": 330,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1trima",
+     "first": 336,
+     "count": 120,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1w11a",
+     "first": 456,
+     "count": 324,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 780,
+     "count": 48,
+     "uv_unit": "texel",
+     "kind": "moving"
+    }
+   ],
+   "owners": [
+    {
+     "id": ""
+    },
+    {
+     "id": "room:entry/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "switch:gate_lever",
+     "file": "objects.yml"
+    },
+    {
+     "id": "exit:door",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:vault",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:gate",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:guard",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:vault",
+     "file": "objects.yml"
+    }
+   ],
+   "bounds": {
+    "min": [
+     -960,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     3520,
+     512
+    ]
+   }
+  },
+  "mesh_sha256": "9cadc19388388a911329b3e05cba29d4077e7f13b0250b18df1d2ef1dc71ee07",
+  "mesh_bytes_match": true
+ },
+ "38 open after the edits: the trees read back": {
+  "result": {
+   "revision": "0a18c097ed61247815b73a62049cf84f",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "files": {
+    "project.yml": {
+     "tree": {
+      "format": 0,
+      "id": "studio01",
+      "name": "The Gatehouse",
+      "world": "mm6",
+      "kind": "indoor",
+      "profile": "dungeon",
+      "units": {
+       "plan_grid": 512,
+       "snap": 64
+      },
+      "map_stats": {
+       "id": 9301,
+       "reference": "6d01.blv",
+       "encounter_chance": 10,
+       "treasure_level": 1
+      },
+      "neighbours": [
+       {
+        "id": "exit:new_sorpigal",
+        "to": "oute3.odm",
+        "kind": "door",
+        "arrival": [
+         -18400,
+         -14982,
+         1600
+        ],
+        "direction": 90,
+        "notes": "Arrives where Goblinwatch's own exit door does, until the cellars get a door of their own on the surface."
+       }
+      ],
+      "items": {
+       "vault_key": 2177
+      },
+      "notes": "The vertical slice of milestone S0 (devdocs/map_studio/PLAN.md section 12): the first map written as a Map Studio project and built by oymap. Plain on purpose. It exists to exercise the project format end to end: rooms, openings, a click door, a lever-operated gate, a keyed door, chests, spawns, lights and an exit."
+     }
+    },
+    "plan.yml": {
+     "tree": {
+      "format": 0,
+      "level": "L2",
+      "pitch": "The cellars under a ruined gatehouse outside New Sorpigal: a square entry, a tall hall with a store room and a guard room off it, and a short passage north to the strong room. Rats in the store, goblins in the guard room. The passage is shut by a gate worked from the guard room, and the strong room by a locked door whose key lies in the store room chest. A first, ten-minute dungeon.",
+      "purpose": "A small starter dungeon that teaches the three ways a door opens (a push, a lever elsewhere, a key).",
+      "mood": "Damp grey masonry, torchlight, low ceilings except in the hall.",
+      "spaces": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "Arrival and exit; safe."
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "Holds the lever that raises the passage gate; the dungeon's fight.",
+        "population": [
+         {
+          "slot": 2,
+          "groups": 2,
+          "strength": "pack"
+         }
+        ]
+       },
+       {
+        "id": "room:hall",
+        "name": "Hall",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 512,
+        "purpose": "The hub; every other room opens off it.",
+        "population": [
+         {
+          "slot": 2,
+          "groups": 1,
+          "strength": "light"
+         }
+        ]
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "kind": "corridor",
+        "size": "S",
+        "floor": 0,
+        "clear_height": 320,
+        "purpose": "Short run between the gate and the strong room door."
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "kind": "room",
+        "size": "S",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "Holds the strong room key.",
+        "population": [
+         {
+          "slot": 1,
+          "groups": 2,
+          "strength": "pack"
+         }
+        ],
+        "treasure": [
+         {
+          "kind": "chest",
+          "count": 1,
+          "tier": 1,
+          "item": "vault_key"
+         }
+        ]
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "kind": "room",
+        "size": "M",
+        "floor": 0,
+        "clear_height": 384,
+        "purpose": "The goal.",
+        "treasure": [
+         {
+          "kind": "chest",
+          "count": 1,
+          "tier": 2
+         }
+        ]
+       }
+      ],
+      "links": [
+       {
+        "id": "link:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "kind": "open"
+       },
+       {
+        "id": "link:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "kind": "door"
+       },
+       {
+        "id": "link:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "kind": "door",
+        "condition": {
+         "map_var": "gate_raised"
+        },
+        "opened_by": "poi:gate_lever"
+       },
+       {
+        "id": "link:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "kind": "door"
+       },
+       {
+        "id": "link:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "kind": "door",
+        "condition": {
+         "item": "vault_key"
+        }
+       }
+      ],
+      "entrances": [
+       {
+        "id": "entrance:door",
+        "space": "room:entry",
+        "kind": "both",
+        "neighbour": "exit:new_sorpigal",
+        "facing": "n"
+       }
+      ],
+      "critical_path": [
+       "room:entry",
+       "room:hall",
+       "room:store",
+       "room:hall",
+       "room:guard",
+       "room:hall",
+       "room:passage",
+       "room:vault"
+      ],
+      "goals": [
+       {
+        "id": "goal:vault_chest",
+        "space": "room:vault",
+        "kind": "use",
+        "what": "Open the strong room chest."
+       }
+      ],
+      "keys": [
+       {
+        "id": "key:gate_lever",
+        "grants": {
+         "map_var": "gate_raised"
+        },
+        "found_in": "room:guard",
+        "how": "lever"
+       },
+       {
+        "id": "key:vault_key",
+        "grants": {
+         "item": "vault_key"
+        },
+        "found_in": "room:store",
+        "how": "chest"
+       }
+      ],
+      "points_of_interest": [
+       {
+        "id": "poi:gate_lever",
+        "space": "room:guard",
+        "kind": "lever",
+        "behaviour": "Raises the passage gate for good."
+       }
+      ],
+      "mechanisms": [
+       {
+        "kind": "click door",
+        "count": 2
+       },
+       {
+        "kind": "lever-operated gate",
+        "count": 1
+       },
+       {
+        "kind": "keyed door",
+        "count": 1
+       },
+       {
+        "kind": "lever",
+        "count": 1
+       }
+      ],
+      "totals": {
+       "chests": 2,
+       "doors": 4,
+       "rooms": 6,
+       "spawn_points": 5
+      }
+     }
+    },
+    "rooms.yml": {
+     "tree": {
+      "format": 1,
+      "themes": [
+       {
+        "id": "theme:masonry",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ]
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        },
+        "door": {
+         "texture": "t1d2",
+         "size": [
+          256,
+          256
+         ],
+         "fit": true
+        }
+       }
+      ],
+      "defaults": {
+       "theme": "theme:masonry",
+       "ambient": 14
+      },
+      "rooms": [
+       {
+        "id": "room:entry",
+        "name": "Entry",
+        "outline": [
+         [
+          0,
+          0
+         ],
+         [
+          768,
+          0
+         ],
+         [
+          768,
+          768
+         ],
+         [
+          0,
+          768
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 400
+       },
+       {
+        "id": "room:guard",
+        "name": "Guard room",
+        "outline": [
+         [
+          1088,
+          960
+         ],
+         [
+          1856,
+          960
+         ],
+         [
+          1856,
+          1728
+         ],
+         [
+          1088,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:hall",
+        "name": "Great hall",
+        "outline": [
+         [
+          -256,
+          832
+         ],
+         [
+          1024,
+          832
+         ],
+         [
+          1024,
+          1856
+         ],
+         [
+          -256,
+          1856
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 512,
+        "notes": "Set by the contract suite."
+       },
+       {
+        "id": "room:passage",
+        "name": "Passage",
+        "outline": [
+         [
+          256,
+          1920
+         ],
+         [
+          512,
+          1920
+         ],
+         [
+          512,
+          2688
+         ],
+         [
+          256,
+          2688
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 320
+       },
+       {
+        "id": "room:store",
+        "name": "Store room",
+        "outline": [
+         [
+          -960,
+          1088
+         ],
+         [
+          -320,
+          1088
+         ],
+         [
+          -320,
+          1728
+         ],
+         [
+          -960,
+          1728
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       },
+       {
+        "id": "room:vault",
+        "name": "Strong room",
+        "outline": [
+         [
+          -64,
+          2752
+         ],
+         [
+          832,
+          2752
+         ],
+         [
+          832,
+          3520
+         ],
+         [
+          -64,
+          3520
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384
+       }
+      ],
+      "openings": [
+       {
+        "id": "open:entry_hall",
+        "from": "room:entry",
+        "to": "room:hall",
+        "link": "link:entry_hall",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_guard",
+        "from": "room:hall",
+        "to": "room:guard",
+        "link": "link:hall_guard",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:hall_passage",
+        "from": "room:hall",
+        "to": "room:passage",
+        "link": "link:hall_passage",
+        "width": 192,
+        "height": 256
+       },
+       {
+        "id": "open:hall_store",
+        "from": "room:hall",
+        "to": "room:store",
+        "link": "link:hall_store",
+        "width": 160,
+        "height": 256
+       },
+       {
+        "id": "open:passage_vault",
+        "from": "room:passage",
+        "to": "room:vault",
+        "link": "link:passage_vault",
+        "width": 160,
+        "height": 256
+       }
+      ]
+     }
+    },
+    "objects.yml": {
+     "tree": {
+      "format": 0,
+      "start": {
+       "room": "room:entry",
+       "offset": [
+        0,
+        -128
+       ],
+       "facing": "n"
+      },
+      "doors": [
+       {
+        "id": "door:gate",
+        "opening": "open:hall_passage",
+        "speed": 96,
+        "notes": "Raised by the lever in the guard room."
+       },
+       {
+        "id": "door:guard",
+        "opening": "open:hall_guard"
+       },
+       {
+        "id": "door:store",
+        "opening": "open:hall_store"
+       },
+       {
+        "id": "door:vault",
+        "opening": "open:passage_vault"
+       }
+      ],
+      "lights": [
+       {
+        "id": "light:entry",
+        "room": "room:entry",
+        "radius": 900,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:guard",
+        "room": "room:guard",
+        "radius": 900,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:hall_east",
+        "room": "room:hall",
+        "offset": [
+         320,
+         0
+        ],
+        "radius": 1100,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:hall_west",
+        "room": "room:hall",
+        "offset": [
+         -320,
+         0
+        ],
+        "radius": 1100,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:passage",
+        "room": "room:passage",
+        "radius": 700,
+        "color": [
+         255,
+         170,
+         100
+        ]
+       },
+       {
+        "id": "light:store",
+        "room": "room:store",
+        "radius": 800,
+        "color": [
+         255,
+         170,
+         100
+        ]
+       },
+       {
+        "id": "light:vault",
+        "room": "room:vault",
+        "radius": 1000,
+        "color": [
+         255,
+         210,
+         150
+        ]
+       }
+      ],
+      "switches": [
+       {
+        "id": "switch:gate_lever",
+        "room": "room:guard",
+        "wall": "east",
+        "height": 112,
+        "size": [
+         48,
+         48
+        ],
+        "off": {
+         "texture": "t1swdd",
+         "size": [
+          16,
+          16
+         ]
+        },
+        "on": "t1swdu"
+       }
+      ],
+      "chests": [
+       {
+        "id": "chest:store",
+        "room": "room:store",
+        "offset": [
+         -192,
+         192
+        ],
+        "kind": "ch1",
+        "facing": 315,
+        "treasure_level": 1,
+        "random_items": 2,
+        "gold": 60,
+        "items": [
+         "vault_key"
+        ]
+       },
+       {
+        "id": "chest:vault",
+        "room": "room:vault",
+        "offset": [
+         0,
+         224
+        ],
+        "kind": "ch1",
+        "treasure_level": 2,
+        "random_items": 4,
+        "gold": 400
+       }
+      ],
+      "spawns": [
+       {
+        "id": "spawn:guard_a",
+        "room": "room:guard",
+        "offset": [
+         128,
+         128
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:guard_b",
+        "room": "room:guard",
+        "offset": [
+         160,
+         -160
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:hall",
+        "room": "room:hall",
+        "offset": [
+         0,
+         256
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:store_a",
+        "room": "room:store",
+        "offset": [
+         128,
+         -128
+        ],
+        "slot": 1
+       },
+       {
+        "id": "spawn:store_b",
+        "room": "room:store",
+        "offset": [
+         96,
+         160
+        ],
+        "slot": 1
+       }
+      ],
+      "decorations": [
+       {
+        "id": "deco:torch_entry_e",
+        "room": "room:entry",
+        "decoration": "6torch01",
+        "wall": "east",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_entry_w",
+        "room": "room:entry",
+        "decoration": "6torch01",
+        "wall": "west",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_guard",
+        "room": "room:guard",
+        "decoration": "6torch01",
+        "wall": "north",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_hall_n1",
+        "room": "room:hall",
+        "decoration": "6torch01",
+        "wall": "north",
+        "along": 0.25,
+        "height": 208
+       },
+       {
+        "id": "deco:torch_hall_n2",
+        "room": "room:hall",
+        "decoration": "6torch01",
+        "wall": "north",
+        "along": 0.75,
+        "height": 208
+       },
+       {
+        "id": "deco:torch_vault_e",
+        "room": "room:vault",
+        "decoration": "6torch01",
+        "wall": "east",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_vault_w",
+        "room": "room:vault",
+        "decoration": "6torch01",
+        "wall": "west",
+        "height": 176
+       }
+      ],
+      "exits": [
+       {
+        "id": "exit:door",
+        "room": "room:entry",
+        "wall": "south",
+        "to": "exit:new_sorpigal"
+       }
+      ]
+     }
+    },
+    "wiring.yml": {
+     "tree": {
+      "format": 0,
+      "variables": [
+       "gate_raised"
+      ],
+      "events": [
+       {
+        "id": "evt:exit",
+        "preset": "exit",
+        "source": "exit:door",
+        "title": "Leave the cellars"
+       },
+       {
+        "id": "evt:gate",
+        "preset": "text",
+        "source": "door:gate",
+        "title": "Gate",
+        "text": "The gate will not move. Something must raise it from elsewhere."
+       },
+       {
+        "id": "evt:gate_lever",
+        "preset": "switch",
+        "source": "switch:gate_lever",
+        "title": "Lever",
+        "opens": [
+         "door:gate"
+        ],
+        "once": true,
+        "sets": {
+         "map_var": "gate_raised"
+        },
+        "text": "Chains rattle and a gate grinds open in the hall."
+       },
+       {
+        "id": "evt:guard_door",
+        "preset": "door",
+        "source": "door:guard",
+        "title": "Guard room door"
+       },
+       {
+        "id": "evt:store_chest",
+        "preset": "chest",
+        "source": "chest:store",
+        "title": "Chest"
+       },
+       {
+        "id": "evt:store_door",
+        "preset": "door",
+        "source": "door:store",
+        "title": "Store room door"
+       },
+       {
+        "id": "evt:vault_chest",
+        "preset": "chest",
+        "source": "chest:vault",
+        "title": "Chest"
+       },
+       {
+        "id": "evt:vault_door",
+        "preset": "door",
+        "source": "door:vault",
+        "title": "Strong room door",
+        "condition": {
+         "item": "vault_key"
+        },
+        "locked_text": "The strong room door is locked.",
+        "action": "open"
+       }
+      ]
+     }
+    },
+    "ids.lock.yml": {
+     "tree": {
+      "format": 0,
+      "sectors": {
+       "room:entry": 1,
+       "room:guard": 2,
+       "room:hall": 3,
+       "room:passage": 4,
+       "room:store": 5,
+       "room:vault": 6
+      },
+      "events": {
+       "evt:exit": 1,
+       "evt:gate": 2,
+       "evt:gate_lever": 3,
+       "evt:guard_door": 4,
+       "evt:store_chest": 5,
+       "evt:store_door": 6,
+       "evt:vault_chest": 7,
+       "evt:vault_door": 8
+      },
+      "doors": {
+       "door:gate": 1,
+       "door:guard": 2,
+       "door:store": 3,
+       "door:vault": 4
+      },
+      "containers": {
+       "chest:store": 0,
+       "chest:vault": 1
+      },
+      "cogs": {
+       "switch:gate_lever": 1
+      },
+      "map_vars": {
+       "gate_raised": 1,
+       "once.gate_lever": 0
+      },
+      "decorations": {
+       "deco:torch_entry_e": 0,
+       "deco:torch_entry_w": 1,
+       "deco:torch_guard": 2,
+       "deco:torch_hall_n1": 3,
+       "deco:torch_hall_n2": 4,
+       "deco:torch_vault_e": 5,
+       "deco:torch_vault_w": 6
+      }
+     }
+    }
+   },
+   "ids": [
+    {
+     "id": "exit:new_sorpigal",
+     "file": "project.yml",
+     "list": "neighbours"
+    },
+    {
+     "id": "room:entry",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:guard",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:hall",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:passage",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:store",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:vault",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "link:entry_hall",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:hall_guard",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:hall_passage",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:hall_store",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:passage_vault",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "entrance:door",
+     "file": "plan.yml",
+     "list": "entrances"
+    },
+    {
+     "id": "goal:vault_chest",
+     "file": "plan.yml",
+     "list": "goals"
+    },
+    {
+     "id": "key:gate_lever",
+     "file": "plan.yml",
+     "list": "keys"
+    },
+    {
+     "id": "key:vault_key",
+     "file": "plan.yml",
+     "list": "keys"
+    },
+    {
+     "id": "poi:gate_lever",
+     "file": "plan.yml",
+     "list": "points_of_interest"
+    },
+    {
+     "id": "theme:masonry",
+     "file": "rooms.yml",
+     "list": "themes"
+    },
+    {
+     "id": "room:entry",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:guard",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:hall",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:passage",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:vault",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "open:entry_hall",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:hall_guard",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:hall_passage",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:hall_store",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "open:passage_vault",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "door:gate",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "door:guard",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "door:store",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "door:vault",
+     "file": "objects.yml",
+     "list": "doors"
+    },
+    {
+     "id": "light:entry",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:guard",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:hall_east",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:hall_west",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:passage",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:store",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:vault",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "switch:gate_lever",
+     "file": "objects.yml",
+     "list": "switches"
+    },
+    {
+     "id": "chest:store",
+     "file": "objects.yml",
+     "list": "chests"
+    },
+    {
+     "id": "chest:vault",
+     "file": "objects.yml",
+     "list": "chests"
+    },
+    {
+     "id": "spawn:guard_a",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:guard_b",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:hall",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:store_a",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "spawn:store_b",
+     "file": "objects.yml",
+     "list": "spawns"
+    },
+    {
+     "id": "deco:torch_entry_e",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_entry_w",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_guard",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_hall_n1",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_hall_n2",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_vault_e",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "deco:torch_vault_w",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "exit:door",
+     "file": "objects.yml",
+     "list": "exits"
+    },
+    {
+     "id": "evt:exit",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:gate",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:gate_lever",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:guard_door",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:store_chest",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:store_door",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:vault_chest",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:vault_door",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "pin:p1",
+     "file": "review/pins.yml",
+     "list": "pins"
+    },
+    {
+     "id": "pin:p2",
+     "file": "review/pins.yml",
+     "list": "pins"
+    }
+   ],
+   "issues": [],
+   "keys": []
+  }
+ },
+ "39 resolve the pin after the change": {
+  "result": {
+   "counter": 4,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The gate reads as a wall.",
+    "on": "door:gate",
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      512.5,
+      256,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -3,
+     "heading_yaw_units": 512
+    },
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "resolved",
+    "claimed_by": "agent:contract",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Gave the gate a frame.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "resolved"
+     }
+    ]
+   }
+  }
+ },
+ "40 resolve it without saying what was done": {
+  "error": {
+   "code": -32602,
+   "message": "the params do not match pins.resolve: text: must not be empty",
+   "data": {
+    "kind": "invalid_params",
+    "issues": [
+     {
+      "path": "text",
+      "message": "must not be empty"
+     }
+    ]
+   }
+  }
+ },
+ "41 reopen it": {
+  "result": {
+   "counter": 5,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The gate reads as a wall.",
+    "on": "door:gate",
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      512.5,
+      256,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -3,
+     "heading_yaw_units": 512
+    },
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "open",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Gave the gate a frame.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "resolved"
+     },
+     {
+      "author": "user",
+      "text": "It still reads as a wall from the hall.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "open"
+     }
+    ]
+   }
+  }
+ },
+ "42 reply without a status change": {
+  "result": {
+   "counter": 6,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The gate reads as a wall.",
+    "on": "door:gate",
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      512.5,
+      256,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -3,
+     "heading_yaw_units": 512
+    },
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "open",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Gave the gate a frame.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "resolved"
+     },
+     {
+      "author": "user",
+      "text": "It still reads as a wall from the hall.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "open"
+     },
+     {
+      "author": "agent:contract",
+      "text": "Looking at it from the hall.",
+      "revision": "0a18c097ed61247815b73a62049cf84f"
+     }
+    ]
+   }
+  }
+ },
+ "43 resolve again": {
+  "result": {
+   "counter": 7,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The gate reads as a wall.",
+    "on": "door:gate",
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      512.5,
+      256,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -3,
+     "heading_yaw_units": 512
+    },
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "resolved",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Gave the gate a frame.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "resolved"
+     },
+     {
+      "author": "user",
+      "text": "It still reads as a wall from the hall.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "open"
+     },
+     {
+      "author": "agent:contract",
+      "text": "Looking at it from the hall.",
+      "revision": "0a18c097ed61247815b73a62049cf84f"
+     },
+     {
+      "author": "agent:contract",
+      "text": "A lintel over it now.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "resolved"
+     }
+    ]
+   }
+  }
+ },
+ "44 accept": {
+  "result": {
+   "counter": 8,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The gate reads as a wall.",
+    "on": "door:gate",
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      512.5,
+      256,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -3,
+     "heading_yaw_units": 512
+    },
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "accepted",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Gave the gate a frame.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "resolved"
+     },
+     {
+      "author": "user",
+      "text": "It still reads as a wall from the hall.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "open"
+     },
+     {
+      "author": "agent:contract",
+      "text": "Looking at it from the hall.",
+      "revision": "0a18c097ed61247815b73a62049cf84f"
+     },
+     {
+      "author": "agent:contract",
+      "text": "A lintel over it now.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "resolved"
+     },
+     {
+      "author": "user",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "accepted"
+     }
+    ]
+   }
+  }
+ },
+ "45 decline the other": {
+  "result": {
+   "counter": 9,
+   "pin": {
+    "id": "pin:p2",
+    "text": "A dark corner.",
+    "at": [
+     100,
+     200,
+     0
+    ],
+    "source": "agent",
+    "author": "agent:contract",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "declined",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "The corner is lit by the torch.",
+      "revision": "0a18c097ed61247815b73a62049cf84f",
+      "status": "declined"
+     }
+    ]
+   }
+  }
+ },
+ "46 status, nothing outside": {
+  "result": {
+   "revision": "0a18c097ed61247815b73a62049cf84f",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "outside_changes": []
+  }
+ },
+ "48 status, the outside edit": {
+  "result": {
+   "revision": "374011d3e253b252a1f60e76f0b9c435",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "outside_changes": [
+    "rooms.yml: room:store changed name (Store room -> Larder)"
+   ],
+   "outside_sequence": 4
+  }
+ },
+ "49 record the outside edit": {
+  "result": {
+   "revision": "374011d3e253b252a1f60e76f0b9c435",
+   "recorded": [
+    {
+     "sequence": 4,
+     "changes": [
+      "rooms.yml: room:store changed name (Store room -> Larder)"
+     ]
+    }
+   ]
+  }
+ },
+ "50 record again: nothing new": {
+  "result": {
+   "revision": "374011d3e253b252a1f60e76f0b9c435",
+   "recorded": []
+  }
+ },
+ "51 record as nobody": {
+  "error": {
+   "code": -32602,
+   "message": "the params do not match project.record: author: 'outside' does not match ^(user|agent(:[A-Za-z0-9_.-]+)?)$",
+   "data": {
+    "kind": "invalid_params",
+    "issues": [
+     {
+      "path": "author",
+      "message": "'outside' does not match ^(user|agent(:[A-Za-z0-9_.-]+)?)$"
+     }
+    ]
+   }
+  }
+ },
+ "52 prune the lock, dry run": {
+  "result": {
+   "dropped": [],
+   "lock_hash_before": "d5bfa3193bdec18e86e9d468fe593d00",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00"
+  }
+ },
+ "53 validate without assets": {
+  "result": {
+   "ok": false,
+   "with_assets": false,
+   "issues": [
+    {
+     "severity": "error",
+     "code": "reference",
+     "file": "objects.yml",
+     "path": "decorations[0].decoration",
+     "message": "decorations need the decoration table: pass --assets <asset root> to the build"
+    },
+    {
+     "severity": "error",
+     "code": "reference",
+     "file": "objects.yml",
+     "path": "decorations[1].decoration",
+     "message": "decorations need the decoration table: pass --assets <asset root> to the build"
+    },
+    {
+     "severity": "error",
+     "code": "reference",
+     "file": "objects.yml",
+     "path": "decorations[2].decoration",
+     "message": "decorations need the decoration table: pass --assets <asset root> to the build"
+    },
+    {
+     "severity": "error",
+     "code": "reference",
+     "file": "objects.yml",
+     "path": "decorations[3].decoration",
+     "message": "decorations need the decoration table: pass --assets <asset root> to the build"
+    },
+    {
+     "severity": "error",
+     "code": "reference",
+     "file": "objects.yml",
+     "path": "decorations[4].decoration",
+     "message": "decorations need the decoration table: pass --assets <asset root> to the build"
+    },
+    {
+     "severity": "error",
+     "code": "reference",
+     "file": "objects.yml",
+     "path": "decorations[5].decoration",
+     "message": "decorations need the decoration table: pass --assets <asset root> to the build"
+    },
+    {
+     "severity": "error",
+     "code": "reference",
+     "file": "objects.yml",
+     "path": "decorations[6].decoration",
+     "message": "decorations need the decoration table: pass --assets <asset root> to the build"
+    }
+   ],
+   "notes": []
+  }
+ },
+ "54 validate": {
+  "result": {
+   "ok": true,
+   "with_assets": true,
+   "issues": [],
+   "notes": []
+  }
+ },
+ "55 build, dry run": {
+  "result": {
+   "map": "studio01.blv",
+   "kind": "indoor",
+   "counts": {
+    "sectors": 7,
+    "faces": 113,
+    "vertices": 180,
+    "portals": 5,
+    "doors": 4,
+    "lights": 7,
+    "spawns": 5,
+    "entities": 7,
+    "events": 8,
+    "chests": 2
+   },
+   "files": [],
+   "warnings": [],
+   "ids_lock_changed": false
+  }
+ },
+ "56 things": {
+  "result": {
+   "map": "studio01.blv",
+   "world": "mm6",
+   "things": [
+    {
+     "event": 1,
+     "id": "evt:exit",
+     "title": "Leave the cellars",
+     "kind": "exit",
+     "sector": 1,
+     "room": "room:entry",
+     "textures": {
+      "t1d2": 1
+     },
+     "faces": [
+      82
+     ],
+     "own_doors": [],
+     "low": [
+      288,
+      2,
+      0
+     ],
+     "high": [
+      480,
+      2,
+      256
+     ],
+     "middle": [
+      384,
+      2,
+      128
+     ],
+     "stand": [
+      384,
+      178,
+      0
+     ],
+     "yaw": -1.5708,
+     "pitch": -0.1799,
+     "safe_to_use": false,
+     "effects": [
+      "leave to oute3.odm at -18400, -14982, 1600 (direction, look, speed, house, icon: 512, 0, 0, 0, 0)"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 2,
+     "id": "evt:gate",
+     "title": "Gate",
+     "kind": "panel",
+     "sector": 3,
+     "room": "room:hall",
+     "textures": {
+      "t1d2": 2
+     },
+     "faces": [
+      105,
+      106
+     ],
+     "own_doors": [
+      1
+     ],
+     "low": [
+      288,
+      1880,
+      0
+     ],
+     "high": [
+      480,
+      1896,
+      256
+     ],
+     "middle": [
+      384,
+      1888,
+      128
+     ],
+     "stand": [
+      508,
+      2012,
+      0
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.1805,
+     "safe_to_use": true,
+     "effects": [
+      "StatusText(\"The gate will not move. Something must raise it from elsewhere.\", 6)"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 3,
+     "id": "evt:gate_lever",
+     "title": "Lever",
+     "kind": "switch",
+     "sector": 2,
+     "room": "room:guard",
+     "textures": {
+      "t1swdd": 1
+     },
+     "faces": [
+      81
+     ],
+     "own_doors": [],
+     "low": [
+      1854,
+      1320,
+      88
+     ],
+     "high": [
+      1854,
+      1368,
+      136
+     ],
+     "middle": [
+      1854,
+      1344,
+      112
+     ],
+     "stand": [
+      1678,
+      1344,
+      0
+     ],
+     "yaw": 0,
+     "pitch": -0.2663,
+     "safe_to_use": true,
+     "effects": [
+      "door 1 open",
+      "SetTexture(1, \"t1swdu\")",
+      "set map_var 0 = 1",
+      "set map_var 1 = 1",
+      "StatusText(\"Chains rattle and a gate grinds open in the hall.\", 5)"
+     ],
+     "changes": [
+      "door 1 open (door:gate): 2 faces (t1d2 2)",
+      "SetTexture(1, \"t1swdu\"): 1 faces (t1swdd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 4,
+     "id": "evt:guard_door",
+     "title": "Guard room door",
+     "kind": "door",
+     "sector": 3,
+     "room": "room:hall",
+     "textures": {
+      "t1d2": 2
+     },
+     "faces": [
+      107,
+      108
+     ],
+     "own_doors": [
+      2
+     ],
+     "low": [
+      1048,
+      1264,
+      0
+     ],
+     "high": [
+      1064,
+      1424,
+      256
+     ],
+     "middle": [
+      1056,
+      1344,
+      128
+     ],
+     "stand": [
+      1232,
+      1344,
+      0
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1799,
+     "safe_to_use": true,
+     "effects": [
+      "door 2 toggle"
+     ],
+     "changes": [
+      "door 2 toggle (door:guard): 2 faces (t1d2 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 5,
+     "id": "evt:store_chest",
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 5,
+     "room": "room:store",
+     "textures": {
+      "ch1frle": 2,
+      "ch1frntb": 2,
+      "ch1frre": 2,
+      "ch1side": 2,
+      "ch1topb": 1,
+      "ch1tople": 1,
+      "ch1topre": 1
+     },
+     "faces": [
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93
+     ],
+     "own_doors": [],
+     "low": [
+      -889,
+      1543,
+      0
+     ],
+     "high": [
+      -775,
+      1657,
+      64
+     ],
+     "middle": [
+      -832,
+      1600,
+      32
+     ],
+     "stand": [
+      -656,
+      1600,
+      0
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.6288,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 0"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 6,
+     "id": "evt:store_door",
+     "title": "Store room door",
+     "kind": "door",
+     "sector": 3,
+     "room": "room:hall",
+     "textures": {
+      "t1d2": 2
+     },
+     "faces": [
+      109,
+      110
+     ],
+     "own_doors": [
+      3
+     ],
+     "low": [
+      -296,
+      1328,
+      0
+     ],
+     "high": [
+      -280,
+      1488,
+      256
+     ],
+     "middle": [
+      -288,
+      1408,
+      128
+     ],
+     "stand": [
+      -112,
+      1408,
+      0
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1799,
+     "safe_to_use": true,
+     "effects": [
+      "door 3 toggle"
+     ],
+     "changes": [
+      "door 3 toggle (door:store): 2 faces (t1d2 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 7,
+     "id": "evt:vault_chest",
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 6,
+     "room": "room:vault",
+     "textures": {
+      "ch1frle": 2,
+      "ch1frntb": 2,
+      "ch1frre": 2,
+      "ch1side": 2,
+      "ch1topb": 1,
+      "ch1tople": 1,
+      "ch1topre": 1
+     },
+     "faces": [
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104
+     ],
+     "own_doors": [],
+     "low": [
+      336,
+      3328,
+      0
+     ],
+     "high": [
+      432,
+      3392,
+      64
+     ],
+     "middle": [
+      384,
+      3360,
+      32
+     ],
+     "stand": [
+      560,
+      3360,
+      0
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.6288,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 1"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 8,
+     "id": "evt:vault_door",
+     "title": "Strong room door",
+     "kind": "panel",
+     "sector": 4,
+     "room": "room:passage",
+     "textures": {
+      "t1d2": 2
+     },
+     "faces": [
+      111,
+      112
+     ],
+     "own_doors": [
+      4
+     ],
+     "low": [
+      304,
+      2712,
+      0
+     ],
+     "high": [
+      464,
+      2728,
+      256
+     ],
+     "middle": [
+      384,
+      2720,
+      128
+     ],
+     "stand": [
+      508,
+      2844,
+      0
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.1805,
+     "safe_to_use": true,
+     "effects": [
+      "StatusText(\"The strong room door is locked.\", 4)"
+     ],
+     "changes": [],
+     "overlaps": []
+    }
+   ]
+  }
+ },
+ "57 pins after": {
+  "result": {
+   "counter": 9,
+   "pins": [
+    {
+     "id": "pin:p1",
+     "text": "The gate reads as a wall.",
+     "on": "door:gate",
+     "source": "studio",
+     "world": "mm6",
+     "map": "studio01.blv",
+     "pose": {
+      "position": [
+       512.5,
+       256,
+       0
+      ],
+      "yaw_radians": 1.5708,
+      "pitch_degrees": -3,
+      "heading_yaw_units": 512
+     },
+     "author": "user",
+     "revision": "642d90046c35fe8133d02112cc81caeb",
+     "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+     "status": "accepted",
+     "replies": [
+      {
+       "author": "agent:contract",
+       "text": "Gave the gate a frame.",
+       "revision": "0a18c097ed61247815b73a62049cf84f",
+       "status": "resolved"
+      },
+      {
+       "author": "user",
+       "text": "It still reads as a wall from the hall.",
+       "revision": "0a18c097ed61247815b73a62049cf84f",
+       "status": "open"
+      },
+      {
+       "author": "agent:contract",
+       "text": "Looking at it from the hall.",
+       "revision": "0a18c097ed61247815b73a62049cf84f"
+      },
+      {
+       "author": "agent:contract",
+       "text": "A lintel over it now.",
+       "revision": "0a18c097ed61247815b73a62049cf84f",
+       "status": "resolved"
+      },
+      {
+       "author": "user",
+       "revision": "0a18c097ed61247815b73a62049cf84f",
+       "status": "accepted"
+      }
+     ]
+    },
+    {
+     "id": "pin:p2",
+     "text": "A dark corner.",
+     "at": [
+      100,
+      200,
+      0
+     ],
+     "source": "agent",
+     "author": "agent:contract",
+     "revision": "642d90046c35fe8133d02112cc81caeb",
+     "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+     "status": "declined",
+     "replies": [
+      {
+       "author": "agent:contract",
+       "text": "The corner is lit by the torch.",
+       "revision": "0a18c097ed61247815b73a62049cf84f",
+       "status": "declined"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "59 import the inbox, dry run": {
+  "result": {
+   "imported": [
+    {
+     "file": "20261114-190000-studio01.yml",
+     "project": "$PROJECT",
+     "matched_by": "studio_file",
+     "picture": true
+    }
+   ],
+   "skipped": [
+    {
+     "file": "20261114-190100-6d01.yml",
+     "reason": "no project builds or overlays 6d01.blv (the map had no <stem>.studio.yml: install it with oymap install, or name the project with --project)"
+    }
+   ]
+  }
+ },
+ "60 import the inbox": {
+  "result": {
+   "imported": [
+    {
+     "file": "20261114-190000-studio01.yml",
+     "project": "$PROJECT",
+     "pin": "pin:p3",
+     "matched_by": "studio_file",
+     "picture": true
+    }
+   ],
+   "skipped": [
+    {
+     "file": "20261114-190100-6d01.yml",
+     "reason": "no project builds or overlays 6d01.blv (the map had no <stem>.studio.yml: install it with oymap install, or name the project with --project)"
+    }
+   ]
+  }
+ },
+ "61 import it again: nothing new": {
+  "result": {
+   "imported": [],
+   "skipped": [
+    {
+     "file": "20261114-190100-6d01.yml",
+     "reason": "no project builds or overlays 6d01.blv (the map had no <stem>.studio.yml: install it with oymap install, or name the project with --project)"
+    }
+   ]
+  }
+ },
+ "62 import from no inbox": {
+  "error": {
+   "code": -32000,
+   "message": "no inbox folder there",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "63 the game pin, open": {
+  "result": {
+   "counter": 10,
+   "pins": [
+    {
+     "id": "pin:p3",
+     "text": "The lever is hard to see.",
+     "source": "game",
+     "world": "mm6",
+     "map": "studio01.blv",
+     "pose": {
+      "position": [
+       1024,
+       256.5,
+       0
+      ],
+      "yaw_radians": 1.571,
+      "pitch_degrees": -3,
+      "heading_yaw_units": 512
+     },
+     "picture": ".oymap/pins/pictures/p3.png",
+     "author": "user",
+     "created": "2026-11-14T19:00:00",
+     "revision": "0123456789abcdef0123456789abcdef",
+     "lock_hash": "none",
+     "status": "open",
+     "from": "20261114-190000-studio01.yml"
+    }
+   ]
+  }
+ },
+ "65 validate: an error": {
+  "result": {
+   "ok": false,
+   "with_assets": true,
+   "issues": [
+    {
+     "severity": "error",
+     "code": "geometry",
+     "file": "rooms.yml",
+     "path": "rooms[3].ceiling",
+     "message": "the ceiling must be above the floor"
+    }
+   ],
+   "notes": []
+  }
+ },
+ "66 layout: the last one, stale": {
+  "result": {
+   "revision": "c64fe89b38ac02a378c3a5d20e974cb1",
+   "view_revision": "c64fe89b38ac02a378c3a5d20e974cb1",
+   "stale": false,
+   "skipped": [
+    "door:gate",
+    "door:vault",
+    "evt:gate",
+    "evt:gate_lever",
+    "evt:vault_door",
+    "light:passage",
+    "open:hall_passage",
+    "open:passage_vault",
+    "room:passage"
+   ],
+   "skipped_issues": [
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "objects.yml",
+     "path": "doors[0]",
+     "message": "door:gate is left out of the view until the errors of open:hall_passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "objects.yml",
+     "path": "doors[3]",
+     "message": "door:vault is left out of the view until the errors of open:passage_vault are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "wiring.yml",
+     "path": "events[1]",
+     "message": "evt:gate is left out of the view until the errors of door:gate are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "wiring.yml",
+     "path": "events[2]",
+     "message": "evt:gate_lever is left out of the view until the errors of door:gate are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "wiring.yml",
+     "path": "events[7]",
+     "message": "evt:vault_door is left out of the view until the errors of door:vault are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "objects.yml",
+     "path": "lights[4]",
+     "message": "light:passage is left out of the view until the errors of room:passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "rooms.yml",
+     "path": "openings[2]",
+     "message": "open:hall_passage is left out of the view until the errors of room:passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "rooms.yml",
+     "path": "openings[4]",
+     "message": "open:passage_vault is left out of the view until the errors of room:passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "rooms.yml",
+     "path": "rooms[3]",
+     "message": "room:passage is left out of the view until this is fixed: the ceiling must be above the floor"
+    }
+   ],
+   "kind": "indoor",
+   "world": "mm6",
+   "bounds": {
+    "min": [
+     -960,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     3520,
+     512
+    ]
+   },
+   "rooms": [
+    {
+     "id": "room:entry",
+     "sector": 1,
+     "outline": [
+      [
+       0,
+       0
+      ],
+      [
+       768,
+       0
+      ],
+      [
+       768,
+       768
+      ],
+      [
+       0,
+       768
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 400
+    },
+    {
+     "id": "room:guard",
+     "sector": 2,
+     "outline": [
+      [
+       1088,
+       960
+      ],
+      [
+       1856,
+       960
+      ],
+      [
+       1856,
+       1728
+      ],
+      [
+       1088,
+       1728
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384
+    },
+    {
+     "id": "room:hall",
+     "sector": 3,
+     "outline": [
+      [
+       -256,
+       832
+      ],
+      [
+       1024,
+       832
+      ],
+      [
+       1024,
+       1856
+      ],
+      [
+       -256,
+       1856
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 512
+    },
+    {
+     "id": "room:store",
+     "sector": 4,
+     "outline": [
+      [
+       -960,
+       1088
+      ],
+      [
+       -320,
+       1088
+      ],
+      [
+       -320,
+       1728
+      ],
+      [
+       -960,
+       1728
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384
+    },
+    {
+     "id": "room:vault",
+     "sector": 5,
+     "outline": [
+      [
+       -64,
+       2752
+      ],
+      [
+       832,
+       2752
+      ],
+      [
+       832,
+       3520
+      ],
+      [
+       -64,
+       3520
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384
+    }
+   ],
+   "openings": [
+    {
+     "id": "open:entry_hall",
+     "from": "room:entry",
+     "to": "room:hall",
+     "a": [
+      480,
+      768
+     ],
+     "b": [
+      288,
+      768
+     ],
+     "bottom": 0,
+     "top": 256
+    },
+    {
+     "id": "open:hall_guard",
+     "from": "room:hall",
+     "to": "room:guard",
+     "a": [
+      1024,
+      1264
+     ],
+     "b": [
+      1024,
+      1424
+     ],
+     "bottom": 0,
+     "top": 256
+    },
+    {
+     "id": "open:hall_store",
+     "from": "room:hall",
+     "to": "room:store",
+     "a": [
+      -256,
+      1488
+     ],
+     "b": [
+      -256,
+      1328
+     ],
+     "bottom": 0,
+     "top": 256
+    }
+   ],
+   "doors": [
+    {
+     "id": "door:guard",
+     "opening": "open:hall_guard",
+     "hinged": false,
+     "leaves": 1,
+     "starts_open": false,
+     "moves": [
+      {
+       "at": [
+        1056,
+        1344,
+        128
+       ],
+       "by": [
+        0,
+        0,
+        256
+       ]
+      }
+     ]
+    },
+    {
+     "id": "door:store",
+     "opening": "open:hall_store",
+     "hinged": false,
+     "leaves": 1,
+     "starts_open": false,
+     "moves": [
+      {
+       "at": [
+        -288,
+        1408,
+        128
+       ],
+       "by": [
+        0,
+        0,
+        256
+       ]
+      }
+     ]
+    }
+   ],
+   "lifts": [],
+   "things": [
+    {
+     "id": "chest:store",
+     "kind": "chest",
+     "at": [
+      -832,
+      1600,
+      0
+     ]
+    },
+    {
+     "id": "chest:vault",
+     "kind": "chest",
+     "at": [
+      384,
+      3360,
+      0
+     ]
+    },
+    {
+     "id": "switch:gate_lever",
+     "kind": "switch",
+     "at": [
+      1856,
+      1344,
+      112
+     ],
+     "name": "plate",
+     "facing": 180
+    },
+    {
+     "id": "exit:door",
+     "kind": "exit",
+     "at": [
+      384,
+      0,
+      128
+     ],
+     "facing": 90
+    },
+    {
+     "id": "light:entry",
+     "kind": "light",
+     "at": [
+      384,
+      384,
+      300
+     ]
+    },
+    {
+     "id": "light:guard",
+     "kind": "light",
+     "at": [
+      1472,
+      1344,
+      288
+     ]
+    },
+    {
+     "id": "light:hall_east",
+     "kind": "light",
+     "at": [
+      704,
+      1344,
+      384
+     ]
+    },
+    {
+     "id": "light:hall_west",
+     "kind": "light",
+     "at": [
+      64,
+      1344,
+      384
+     ]
+    },
+    {
+     "id": "light:store",
+     "kind": "light",
+     "at": [
+      -640,
+      1408,
+      288
+     ]
+    },
+    {
+     "id": "light:vault",
+     "kind": "light",
+     "at": [
+      384,
+      3136,
+      288
+     ]
+    },
+    {
+     "id": "spawn:guard_a",
+     "kind": "spawn",
+     "at": [
+      1600,
+      1472,
+      0
+     ]
+    },
+    {
+     "id": "spawn:guard_b",
+     "kind": "spawn",
+     "at": [
+      1632,
+      1184,
+      0
+     ]
+    },
+    {
+     "id": "spawn:hall",
+     "kind": "spawn",
+     "at": [
+      384,
+      1600,
+      0
+     ]
+    },
+    {
+     "id": "spawn:store_a",
+     "kind": "spawn",
+     "at": [
+      -512,
+      1280,
+      0
+     ]
+    },
+    {
+     "id": "spawn:store_b",
+     "kind": "spawn",
+     "at": [
+      -544,
+      1568,
+      0
+     ]
+    },
+    {
+     "id": "deco:torch_entry_e",
+     "kind": "decoration",
+     "at": [
+      756,
+      384,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_entry_w",
+     "kind": "decoration",
+     "at": [
+      12,
+      384,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_guard",
+     "kind": "decoration",
+     "at": [
+      1472,
+      1716,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_hall_n1",
+     "kind": "decoration",
+     "at": [
+      704,
+      1844,
+      208
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_hall_n2",
+     "kind": "decoration",
+     "at": [
+      64,
+      1844,
+      208
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_vault_e",
+     "kind": "decoration",
+     "at": [
+      820,
+      3136,
+      176
+     ],
+     "name": "6torch01"
+    },
+    {
+     "id": "deco:torch_vault_w",
+     "kind": "decoration",
+     "at": [
+      -52,
+      3136,
+      176
+     ],
+     "name": "6torch01"
+    }
+   ],
+   "start": {
+    "at": [
+     384,
+     256,
+     0
+    ],
+    "facing": 90
+   }
+  }
+ },
+ "67 mesh: the last one, stale": {
+  "result": {
+   "revision": "c64fe89b38ac02a378c3a5d20e974cb1",
+   "view_revision": "c64fe89b38ac02a378c3a5d20e974cb1",
+   "stale": false,
+   "skipped": [
+    "door:gate",
+    "door:vault",
+    "evt:gate",
+    "evt:gate_lever",
+    "evt:vault_door",
+    "light:passage",
+    "open:hall_passage",
+    "open:passage_vault",
+    "room:passage"
+   ],
+   "skipped_issues": [
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "objects.yml",
+     "path": "doors[0]",
+     "message": "door:gate is left out of the view until the errors of open:hall_passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "objects.yml",
+     "path": "doors[3]",
+     "message": "door:vault is left out of the view until the errors of open:passage_vault are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "wiring.yml",
+     "path": "events[1]",
+     "message": "evt:gate is left out of the view until the errors of door:gate are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "wiring.yml",
+     "path": "events[2]",
+     "message": "evt:gate_lever is left out of the view until the errors of door:gate are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "wiring.yml",
+     "path": "events[7]",
+     "message": "evt:vault_door is left out of the view until the errors of door:vault are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "objects.yml",
+     "path": "lights[4]",
+     "message": "light:passage is left out of the view until the errors of room:passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "rooms.yml",
+     "path": "openings[2]",
+     "message": "open:hall_passage is left out of the view until the errors of room:passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "rooms.yml",
+     "path": "openings[4]",
+     "message": "open:passage_vault is left out of the view until the errors of room:passage are fixed (it names it)"
+    },
+    {
+     "severity": "note",
+     "code": "skipped",
+     "file": "rooms.yml",
+     "path": "rooms[3]",
+     "message": "room:passage is left out of the view until this is fixed: the ceiling must be above the floor"
+    }
+   ],
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "kind": "indoor",
+   "world": "mm6",
+   "file": ".oymap/view/c64fe89b38ac02a378c3a5d20e974cb1-d5bfa319-dc39fcabe399.mesh",
+   "bytes": 15176,
+   "counts": {
+    "vertices": 364,
+    "triangles": 200,
+    "faces": 82
+   },
+   "sections": {
+    "positions": {
+     "offset": 0,
+     "count": 1092
+    },
+    "normals": {
+     "offset": 4368,
+     "count": 1092
+    },
+    "uvs": {
+     "offset": 8736,
+     "count": 728
+    },
+    "indices": {
+     "offset": 11648,
+     "count": 600
+    },
+    "triangle_faces": {
+     "offset": 14048,
+     "count": 200
+    },
+    "face_owners": {
+     "offset": 14848,
+     "count": 82
+    }
+   },
+   "groups": [
+    {
+     "texture": "ch1frle",
+     "first": 0,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frntb",
+     "first": 24,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frre",
+     "first": 48,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1side",
+     "first": 72,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topb",
+     "first": 96,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1tople",
+     "first": 108,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topre",
+     "first": 120,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "d2ceil4",
+     "first": 132,
+     "count": 66,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "oflr",
+     "first": 198,
+     "count": 66,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 264,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1swdd",
+     "first": 270,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1trima",
+     "first": 276,
+     "count": 72,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1w11a",
+     "first": 348,
+     "count": 228,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 576,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "moving"
+    }
+   ],
+   "owners": [
+    {
+     "id": ""
+    },
+    {
+     "id": "room:entry/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "switch:gate_lever",
+     "file": "objects.yml"
+    },
+    {
+     "id": "exit:door",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:vault",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:guard",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:store",
+     "file": "objects.yml"
+    }
+   ],
+   "bounds": {
+    "min": [
+     -960,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     3520,
+     512
+    ]
+   }
+  },
+  "mesh_sha256": "dc39fcabe399fe25a9872867db8fb86b189152b4fcd24e7c14fedd693e64026f",
+  "mesh_bytes_match": true
+ },
+ "68 build: refused": {
+  "error": {
+   "code": -32000,
+   "message": "the project has 1 error(s) and does not build",
+   "data": {
+    "kind": "has_errors",
+    "issues": [
+     {
+      "severity": "error",
+      "code": "geometry",
+      "file": "rooms.yml",
+      "path": "rooms[3].ceiling",
+      "message": "the ceiling must be above the floor"
+     }
+    ]
+   }
+  }
+ }
+}

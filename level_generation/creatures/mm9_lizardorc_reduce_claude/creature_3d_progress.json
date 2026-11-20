@@ -1,0 +1,24 @@
+{
+  "creature_3d_identity": "mm9reduce:lizardorc",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "status": "ready for review (fix pass, chart guard, UV audit 0)",
+  "date": "2026-11-04",
+  "source": "assets_source/worlds/mm9/models/mm9_lizardorc.glb (sha256 9a8b9244cbb7, before/)",
+  "candidate": "export/mm9_lizardorc_f70.glb",
+  "lod0": [
+    13881,
+    11829
+  ],
+  "lods_after": [
+    5894,
+    2106,
+    692
+  ],
+  "ladder": "mp b2 r70",
+  "installed": false,
+  "credits": 0,
+  "superseded": "r85m (installed and rolled back: 67 LOD0 UV escapes)"
+}

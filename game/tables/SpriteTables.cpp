@@ -434,6 +434,7 @@ std::string parseLegacyOptionalTextCell(const std::vector<std::string> &row, siz
 bool DecorationTable::loadRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_entries.clear();
+    m_entryPresent.clear();
     m_entryIndexByInternalName.clear();
     m_entryIndexByMapAlias.clear();
 
@@ -447,10 +448,15 @@ bool DecorationTable::loadRows(const std::vector<std::vector<std::string>> &rows
         const int decorationNumber = std::stoi(trimCopy(row[0]));
         const int decorationId = decorationNumber - 1;
 
-        if (decorationId < 0 || static_cast<size_t>(decorationId) != m_entries.size())
+        if (decorationId < 0 || static_cast<size_t>(decorationId) < m_entries.size()
+            || decorationId > std::numeric_limits<uint16_t>::max())
         {
             return false;
         }
+
+        // Skipped numbers stay empty: no name, no sprite, never resolved.
+        m_entries.resize(static_cast<size_t>(decorationId));
+        m_entryPresent.resize(static_cast<size_t>(decorationId), false);
 
         DecorationEntry entry = {};
         entry.internalName = row.size() > 1 ? toLowerCopy(trimCopy(row[1])) : std::string();
@@ -471,6 +477,7 @@ bool DecorationTable::loadRows(const std::vector<std::vector<std::string>> &rows
         }
 
         m_entries.push_back(std::move(entry));
+        m_entryPresent.push_back(true);
         if (!m_entries.back().internalName.empty())
         {
             m_entryIndexByInternalName[m_entries.back().internalName] = static_cast<uint16_t>(m_entries.size() - 1);
@@ -524,7 +531,7 @@ bool DecorationTable::loadRows(const std::vector<std::vector<std::string>> &rows
 
 const DecorationEntry *DecorationTable::get(uint16_t decorationId) const
 {
-    if (decorationId >= m_entries.size())
+    if (decorationId >= m_entries.size() || !m_entryPresent[decorationId])
     {
         return nullptr;
     }

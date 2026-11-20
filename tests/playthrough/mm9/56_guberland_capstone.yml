@@ -1,0 +1,79 @@
+# MM9 playthrough, segment 6: the Gathering's prizes for Thorir Mouth's Capstone of Order (guide: Chapter III,
+# "Guberland and the Verhoffin Ruins: the Capstone of Order"). The Wyrde's portal left the party on Guberland's dock;
+# the fair lies north-west of it. Outdoors the party is placed beside each person and game. Each win gives one of
+# the six prizes at random (wooden sword 10362, shield 10363, fur cap 10364, cloth gloves 10365, fuzzy slippers
+# 10366, quilted armor 10367); the party plays the bell until it holds all six. The bell reads the selected
+# character's Might (a win when Might + 40..60 beats 60..80), so the strongest member strikes it: Ragnar's 20 wins
+# about half the strikes. It plays with the tickets left over from Thjorgard's Thing.
+# Research, coordinates and risks: prep/06_08_guberland_verhoffin_afterworld.md.
+#   python3 tests/playthrough/mm9/run.py 56
+id: mm9.playthrough.56_guberland_capstone
+title: "MM9 playthrough 56: win the Gathering's six prizes and trade them to Thorir for the Capstone of Order"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/55_dark_passageway.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: guberland.blv, qbit_set: [90098], qbit_clear: [90488, 90188]}
+  - console: {line: "gold get"}
+
+  # Thorir Mouth at the fair asks for the whole set of prizes.
+  - set_pose: {map: guberland.blv, x: 11977, y: 16984, z: 121, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 2000}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "Do you give out any prizes?"}
+  - select_topic: {match_label: "Well if we ever need a Capstone of Order, we'll be by."}
+  - press_action: {action: cancel_dialog}
+
+  # Ding the Bell at the foot of the tower: a ticket a strike, a prize a win, until every prize is in the packs.
+  - set_pose: {map: guberland.blv, x: 15700, y: 19800, z: 121, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua:
+      max_seconds: 600
+      source: |
+        local PRIZES = {10362, 10363, 10364, 10365, 10366, 10367}
+        local function missing()
+          local m = {}
+          for _, k in ipairs(PRIZES) do if not has_item(k) then m[#m + 1] = tostring(k) end end
+          return m
+        end
+        log("prizes missing at the start: " .. table.concat(missing(), ", ") .. "; " .. item_count(10557)
+          .. " tickets; " .. party())
+        for strike = 1, 120 do
+          if #missing() == 0 then break end
+          if not has_item(10557) then error("out of game tickets; still missing " .. table.concat(missing(), ", ")) end
+          click(102); wait(4.5)
+          for _, k in ipairs(PRIZES) do
+            while item_count(k) > 1 and discard(k) do end   -- a duplicate prize is dropped to keep room
+          end
+          log("bell, strike " .. strike .. ": " .. status() .. " (missing " .. table.concat(missing(), ", ") .. ")")
+        end
+        if #missing() > 0 then error("prizes still missing: " .. table.concat(missing(), ", ")) end
+        log("all six prizes in the packs")
+
+  # Back to Thorir: his click sees the six prizes (key 487); the trade line; the close gives the Capstone.
+  - set_pose: {map: guberland.blv, x: 11977, y: 16984, z: 121, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "We've got your set of prizes."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90487, 90488, 90490, 90188]}
+  - play_lua:
+      source: |
+        if not has_item(10396) then error("no Capstone of Order from Thorir") end
+        log("the Capstone of Order is in the pack")
+  # The bell's spare prizes (it hands them out at random, so a set takes duplicates) are dropped to keep room in the
+  # packs: the Afterworld's five swords come one by one through the cursor, and with full packs a sword pushed off the
+  # cursor falls to the ground.
+  - play_lua:
+      source: |
+        local dropped = 0
+        for item = 10362, 10367 do
+          while item_count(item) > 0 and discard(item) do dropped = dropped + 1 end
+        end
+        log("dropped " .. dropped .. " spare prizes")
+  - save_game: {name: "06 Capstone of Order", path: output/playthrough/mm9/checkpoints/56_guberland_capstone.oysav}

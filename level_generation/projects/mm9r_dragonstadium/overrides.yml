@@ -1,0 +1,53 @@
+# Explicit conversion choices for MM9's Dragon Stadium (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: dragonstadium
+  display_name: Dragon Stadium
+  starts: [StartPoint0]               # the only start: the tunnel from Lindisfarne (ExitTrigger0 behind it)
+  # DragonKing: the boss. WingedMutant: WingedMutantCache is CacheOnly (MM9 only preloads the model for Dragon.scr's
+  # :SpawnMutants); it is listed for its monster row and is not placed (convert.py actors).
+  monster_classes: [DragonKing, WingedMutant]
+  offset: [0, 0, 0]                   # the old map's frame (LT x -1 536..3 392, z -3 200..2 464: fits int16)
+  ambient: 20
+  model_lighting: {light_scale: 6.67}   # the BLV lights carry colour x BrightScale 0.15 (convert.py scale_lights)
+  split_minor_rooms: true
+  thin_walls: true
+models:
+  # --- the three ruined pillars (DestructableBrush, HitPoints 200, Stone; each level's DeathTriggerTarget destroys the
+  #     level above, so a broken level brings down everything over it). Built by convert.py as static faces with a cog
+  #     and a click event per level, each a scene destructible (a destroyed level is hidden: it keeps its baked light); a
+  #     mover dropping the top levels out of sight would travel 2 950 native, over the 1 024 baked-mover limit.
+  p1 level 1: skip
+  p1 level 2: skip
+  p1 level 3: skip
+  p1 level 4: skip
+  p1 level 5: skip
+  p1 level 6: skip
+  p1 level 7: skip
+  p2 level 1: skip
+  p2 level 2: skip
+  p2 level 3: skip
+  p2 level 4: skip
+  p2 level 5: skip
+  p2 level 6: skip
+  p2 level 7: skip
+  p3 level 1: skip
+  p3 level 2: skip
+  p3 level 3: skip
+  p3 level 4: skip
+  p3 level 5: skip
+  p3 level 6: skip
+  p3 level 7: skip
+  TOD_Sky0: skip                      # MM9's time-of-day sky box, far outside the map
+  SkyBox0: skip
+  InvisibleBrush0: static             # the invisible box round the exit tunnel's end (ExitTrigger0 inside it)
+portals:   # archway cuts (voxel slices, LT): the entrance tunnel off the arena, the winding side tunnel off the entrance
+  - {name: arena_mouth, axis: z, point: [780, 60, -2000], span: 700}
+  - {name: side_tunnel, axis: x, point: [1100, 40, -2625], span: 200}
+textures:
+  # The open sky over the arena (MM9 draws its Clouds sky box through the skymarker faces): sky04 stretched (Chasm of
+  # the Dead's route; convert.py edit_polygons), the bake's sky emitter (profile).
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+exits: {}
+plan_levels:
+  all: [-200, 2500]

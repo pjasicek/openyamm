@@ -1,0 +1,9 @@
+"""Bake, export, measure and run rig gates for the capped lower LODs."""
+import bpy,os,runpy,sys,json,subprocess,shutil
+from pathlib import Path
+P=Path(__file__).resolve().parents[1];R=P/'review/round3';D=R/'selected_bake';D.mkdir(exist_ok=True);sys.path.insert(0,str(P/'scripts'));import compare_exported_lods as C
+sources={1:R/'far_fit_correct/lod1.blend',2:R/'far_fit_correct/lod2.blend',3:R/'far_repaired/lod3.blend'};reports={}
+for level,path in sources.items():
+ E=D/f'export_lod{level}';os.environ.update(FIGC_EXPORT_SOURCE=str(path),FIGC_EXPORT_DIR=str(E));runpy.run_path(str(P/'scripts/export_runtime.py'),run_name='__main__');os.environ.update(FIGC_BAKE_ROOT='selected_bake',FIGC_BAKE_LEVEL=str(level));runpy.run_path(str(P/'scripts/rebake_textures.py'),run_name='__main__');subprocess.run(['/usr/bin/python3',str(P/'scripts/rebake_review_materials.py'),str(E/'textures')],check=True)
+ C.O=D/'physical';C.O.mkdir(exist_ok=True);C.PHYSICAL=True;C.TIER_DIR=P/'work';reference=C.render(R/'before/export/mm6_figc_lod0.glb',level,'reference');C.TIER_DIR=E/'textures';candidate=C.render(E/'rebaked.glb',level,'selected');mp=C.O/f'metrics_lod{level}.json';subprocess.run(['/usr/bin/python3',str(P/'scripts/measure_reduction.py'),str(reference),str(candidate),str(mp)],check=True)
+ G=D/f'gate_input{level}';G.mkdir(exist_ok=True);shutil.copy2(E/'rebaked.glb',G/'mm6_figc_lod0.glb');shutil.copy2(E/'rebaked_authoring.blend',G/'mm6_figc_authoring.blend');os.environ.update(FIGC_EXPORT_DIR=str(G),FIGC_VALIDATION_DIR=str(D/f'validation{level}'));runpy.run_path(str(P/'scripts/gates_exported.py'),run_name='__main__');m=json.loads(mp.read_text());reports[str(level)]={'source':str(path.relative_to(P)),'image_metrics':m,'gates':json.loads((D/f'validation{level}/export_full_gates.json').read_text())};(D/'reports.json').write_text(json.dumps(reports,indent=2));print('LOWER_LOD_BAKED',level,flush=True)

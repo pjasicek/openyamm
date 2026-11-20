@@ -1,0 +1,9 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §2.3): four monster spawns near the southern arrival in the Plane of Fire are gone.
+format_version: 1
+kind: outdoor_scene_overlay
+removals:
+  spawns:
+    - {position: [2848, -18720, 0], index: 1}
+    - {position: [384, -20416, 0], index: 1}
+    - {position: [-3392, -20640, 0], index: 1}
+    - {position: [4384, -21184, 0], index: 1}

@@ -1,0 +1,36 @@
+{
+  "material": "grass",
+  "status": "candidate_visual_review_required",
+  "method": "Periodic donor quilting; central384 square protected",
+  "raw_sha256": "e02d00d689a7b7b9ecacd6ea32670fc96fbe09acc535a91628b201f7f9082cb3",
+  "prompt_sha256": "57c186e4c161d9dedae2fd2ed01c884dfc293d3e40442a3cd9112f4cb6de53da",
+  "native_sha256": "814284bd5367399b37274046dbf74f4af797e1c81df9cf92f1107bc00cdc69ad",
+  "authoring_sha256": "dc57a23d08b8471a49ba3e00946af3b8c6a112772f101862b3b5d1ecd0a69bf4",
+  "runtime_sha256": "852c340377036427672b3979ad097d51b11bbb730238ee5c5fa96e5ec24bc9d1",
+  "native_mean_rgb": [
+    70.09049606323242,
+    79.86763000488281,
+    33.57318878173828
+  ],
+  "runtime_mean_rgb": [
+    69.75970458984375,
+    79.56234741210938,
+    33.37504577636719
+  ],
+  "seams": {
+    "E": {
+      "boundary_p95": 1.2528958053883246,
+      "boundary_max": 1.2804772267269484,
+      "interior_p95": 1.4218008866628098,
+      "interior_p999": 1.7623220626996694,
+      "passed": true
+    },
+    "S": {
+      "boundary_p95": 1.631418585111068,
+      "boundary_max": 1.643097298204263,
+      "interior_p95": 1.4872218117662983,
+      "interior_p999": 2.0859839813599743,
+      "passed": true
+    }
+  }
+}

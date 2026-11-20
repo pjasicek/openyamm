@@ -1,0 +1,3 @@
+Saved all five images, raw returns, [contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m178_claude/references_head/selected_views_review.png), and [generation records with prompts](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m178_claude/references_head/generation_runs.json) using built-in image generation.
+
+The brief wasn’t fully met: after one correction per view, returns remain **1254 × 1254**, framing is tighter than requested, and profiles remain slightly oblique. Images retain true transparency and were saved unresized.

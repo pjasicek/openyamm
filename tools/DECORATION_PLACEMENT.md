@@ -1,20 +1,9 @@
 # Decoration placement checks
 
-Compare all installed restored PNGs against the archived original indexed BMPs:
-
-```sh
-python3 tools/audit_decoration_placement.py
-python3 -m unittest discover -s tools -p 'test_audit_decoration_placement.py'
-```
-
-The report is `output/decoration_placement/installed-review.json`. It checks native logical canvas size,
-opaque bounds, bottom-margin differences and installed manifest hashes. Coordinates are original pixels;
-positive `bottom_margin_delta` means the restored opaque bottom moved upward. Original BMP palette index
-zero is transparent; restored geometry uses alpha >=192 so faint stray pixels cannot conceal a missing base.
-
-Flags are review candidates, including effects, suspended props and intentional animation. Compare each
-frame with its own original; do not automatically lower sprites or crop away their original empty margins.
-The tool requires the development pack and `assets_dev/_legacy/sprites_original/`, not runtime ZIPs.
+The restored 2x sprite pack `assets_dev/engine/decorations_x2/` and its audit tool
+(`tools/audit_decoration_placement.py`) were removed on 2026-10-19: decorations draw 3D models, items on the ground
+draw 3D models and projectiles draw effects, so nothing drew the pack any more. Both remain in git history; the
+original BMPs remain in `assets_dev/_legacy/sprites_original/`. The notes below are kept as history.
 
 ## Emerald Island regression, 2026-10-07
 

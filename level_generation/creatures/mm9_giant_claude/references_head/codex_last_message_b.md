@@ -1,0 +1,3 @@
+Saved all seven tier B PNGs, 14 raw returns, and the [review sheet](level_generation/creatures/mm9_giant_claude/references_head/selected_views_review_b.png). Built-in generation prompts and input hashes are in [generation_runs_b.json](level_generation/creatures/mm9_giant_claude/references_head/generation_runs_b.json).
+
+The brief is not fully satisfied: returns are transparent but 1254×1254, with geometry drift despite corrections. Preserved unresized; no builds or Meshy work performed.

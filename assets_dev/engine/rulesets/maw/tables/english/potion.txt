@@ -1,0 +1,1146 @@
+	Name	Description	Effect																																																																																																																							
+200	Widowsweep Berries	Reagent	+ Bottle = Red Potion +1																																																																																																																							
+201	Crushed Rose Petals	Reagent	+ Bottle = Red Potion +5																																																																																																																							
+202	Vial of Troll Blood	Reagent	+ Bottle = Red Potion +10																																																																																																																							
+203	Ruby	Reagent	+ Bottle = Red Potion +20																																																																																																																							
+204	Dragon's Eye	Reagent	+ Bottle = Red Potion +50																																																																																																																							
+205	Phirna Root	Reagent	+ Bottle = Blue Potion +1																																																																																																																							
+206	Meteorite Fragment	Reagent	+ Bottle = Blue Potion +5																																																																																																																							
+207	Harpy Feather	Reagent	+ Bottle = Blue Potion +10																																																																																																																							
+208	Moonstone	Reagent	+ Bottle = Blue Potion +20																																																																																																																							
+209	Elvish Toadstool	Reagent	+ Bottle = Blue Potion +50																																																																																																																							
+210	Poppysnaps	Reagent	+ Bottle = Yellow Potion +1																																																																																																																							
+211	Fae Dust	Reagent	+ Bottle = Yellow Potion +5																																																																																																																							
+212	Sulfur	Reagent	+ Bottle = Yellow Potion +10																																																																																																																							
+213	Garnet	Reagent	+ Bottle = Yellow Potion +20																																																																																																																							
+214	Vial of Devil Ichor	Reagent	+ Bottle = Yellow Potion +50																																																																																																																							
+215	Mushroom	Reagent	+ Bottle = Gray Potion +1																																																																																																																							
+216	Obsidian	Reagent	+ Bottle = Gray Potion +5																																																																																																																							
+217	Vial of Ooze Endoplasm	Reagent	+ Bottle = Gray Potion +10																																																																																																																							
+218	Mercury	Reagent	+ Bottle = Gray Potion +20																																																																																																																							
+219	Philosopher's Stone	Reagent	+ Bottle = Gray Potion +75																																																																																																																							
+220	Potion Bottle	Empty Bottle	None				222	223	224	225	226	227	228	229	230	231	232	233	234	235	236	237	238	239	240	241	242	243	244	245	246	247	248	249	250	251	252	253	254	255	256	257	258	259	260	261	262	263	264	265	266	267	268	269	270	271	272	273	274	275	276	277	278	279	280	281	282	283	284	285	286	287	288	289	290	806	1041	1042	1043	1044	1045	1046	1047	1048	1049	1050	1051	1052	1053	1054	1055	1056	1057	1058	1059	1060	1061	1062	1063	1064	1065	1066	1067	1068	1069	1070																
+221	Catalyst	Gray Potion	Boost Potion				Red	Blue	Yel	Ora	Pur	Grn	R/O	R/P	R/G	B/O	B/P	B/G	Y/O	Y/P	Y/G	O/P	P/G	O/G	W1	W2	W3	W4	W5	W6	W7	W8	W9	W10	W11	W12	B1	B2	B3	B4	B5	B6	B7	B8	B9	B10	B11	B12																												W23	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+222	Cure Wounds	Red Potion	Heal 10+skill HP	1	0	0	no	226	225	228	229	230	no	no	no	no	no	no	no	no	no	no	no	no	252	252	252	257	257	257	258	258	258	261	261	261	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+223	Magic Potion	Blue Potion	Restore 10+skill MP	0	1	0	226	no	227	231	232	233	no	no	no	no	no	no	no	no	no	no	no	no	253	253	253	256	256	256	260	260	260	263	263	263	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+224	Energy Potion	Yellow Potion	Remove Weak cond	0	0	1	225	227	no	234	235	236	no	no	no	no	no	no	no	no	no	no	no	no	254	254	254	255	255	255	259	259	259	262	262	262	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+225	Antidote	Orange Potion	Remove Disease 1,2,3 cond	1	0	1	228	231	234	no	237	239	245	245	245	243	243	243	244	244	244	250	250	250	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+226	Hexbane	Purple Potion	Remove Poison 1,2,3 cond	1	1	0	229	232	235	237	no	238	240	240	240	241	241	241	242	242	242	249	249	249	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+227	Lucidity	Green Potion	Remove Sleep cond	0	1	1	230	233	236	239	238	no	247	247	247	248	248	248	246	246	246	251	251	251	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+228	Haste	Red and Orange Potion	Cast Haste	2	0	1	no	no	no	245	240	247	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+229	Heroism	Red and Purple Potion	Cast Heroism	2	1	0	no	no	no	245	240	247	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+230	Bless	Red and Green Potion	Cast Bless	1	1	1	no	no	no	245	240	247	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+231	Protection	Blue and Orange Potion	Cast Preservation	1	1	1	no	no	no	243	241	248	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+232	Meditation	Blue and Purple Potion	Cast Shield	1	2	0	no	no	no	243	241	248	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+233	Regeneration	Blue and Green Potion	Cast Protection	0	2	1	no	no	no	243	241	248	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+234	Stone Skin	Yellow and Orange Potion	Cast Stoneskin	1	0	2	no	no	no	244	242	246	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+235	Water Breathing	Yellow and Purple Potion	Prevents drowning damage	1	1	1	no	no	no	244	242	246	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+236	Harden Item	Yellow and Green Potion	Add strength to toughness of item	0	1	2	no	no	no	244	242	246	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+237	Magic Protection	Orange and Purple Potion	Remove Fear cond	2	1	1	no	no	no	250	249	251	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+238	Enchant Item	Purple and Green Potion	Remove Curse cond	1	2	1	no	no	no	250	249	251	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+239	Stone to Flesh	Orange and Green Potion	Remove Insanity cond	1	1	2	no	no	no	250	249	251	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+240	Power Boost	White Potion	Set Might Temp to 3xstrength for 30 min per strength	3	2	0	252	253	254	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+241	Wisdom Boost	White Potion	Set Intellect Temp to 3xstrength for 30 min per strength	0	2	3	252	253	254	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+242	Resilience Boost	White Potion	Set Personality Temp to 3xstrength for 30 min per strength	0	3	2	252	253	254	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+243	Lesser Element	White Potion	Set Endurance Temp to 3xstrength for 30 min per strength	2	3	0	257	256	255	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+244	Swiftness	White Potion	Set Speed Temp to 3xstrength for 30 min per strength	3	0	2	257	256	255	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+245	Champion's Potion	White Potion	Set Accuracy Temp to 3xstrength for 30 min per strength	2	0	3	257	256	255	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+246	Divine Restoration	White Potion	Add 'of flame' to weapon for 30 min per strength	2	1	2	258	260	259	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+247	Divine Cure	White Potion	Add 'of frost' to weapon for 30 min per strength	2	2	1	258	260	259	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+248	Divine Magic	White Potion	Add 'of poison' to weapon for 30 min per strength	1	2	2	258	260	259	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+249	Elemental Resistance	White Potion	Add 'of sparks' to weapon for 30 min per strength	3	1	1	261	263	262	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+250	Self Resistance	White Potion	Add 'of swiftness' to weapon for 30 min per strength	1	3	1	261	263	262	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+251	Paladin's Potion	White Potion	Remove Paralyze cond	1	1	3	261	263	262	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+252	Pure Power	Black Potion	Remove all cond (not dead/stone/errad)	2	2	2	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+253	Pure Wisdom	Black Potion	Heal 10xskill HP	3	0	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+254	Pure Resilience	Black Potion	Restore 10xskill MP	0	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+255	Greater Element	Black Potion	Set Luck Temp to 3xstrength for 30 min per strength	3	3	0	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+256	Darkness	Black Potion	Set Fire Resist Temp to 3xskill for 30 min per skill	2	1	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+257	Divine Blessing	Black Potion	Set Air Resist Temp to 3xskill for 30 min per skill	3	2	1	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+258	Twilight	Black Potion	Set Water Resist Temp to 3xskill for 30 min per skill	1	3	2	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+259	Transcendence	Black Potion	Set Earth Resist Temp to 3xskill for 30 min per skill	3	1	2	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+260	Dawn	Black Potion	Set Mind Resist Temp to 3xskill for 30 min per skill	2	3	1	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+261	Pure Elemental Resistance	Black Potion	Set Body Resist Temp to 3xskill for 30 min per skill	1	2	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+262	Pure Self Resistance	Black Potion	Remove Stone cond	3	2	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+263	Divine Resistance	Black Potion	Add 'of dragon slaying' to weapon	3	3	2	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+264	Pure Luck	Black Potion	+50 to Perm Luck	2	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+265	Pure Speed	Black Potion	+50 to Perm Speed	4	1	2	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+266	Pure Intellect	Black Potion	+50 to Perm Intellect	1	2	4	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+267	Pure Endurance	Black Potion	+50 to Perm Endurance	2	4	1	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+268	Pure Personality	Black Potion	+50 to Perm Personality	1	4	2	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+269	Pure Accuracy	Black Potion	+50 to Perm Accuracy	2	1	4	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+270	Pure Might	Black Potion	+50 to Perm Might	4	2	1	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+271	Rejuvenation	Black Potion	Set Age Temp to 0	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+272	Essence of Might	White Potion	Permanently raises Might by 15 while reducing Intellect by 15	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+273	Essence of Intellect	White Potion	Permanently raises Intellect by 15 while reducing Might by 15	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+274	Essence of Personality	White Potion	Permanently raises Personality by 15 while reducing Speed by 15	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+275	Essence of Endurance	White Potion	Permanently raises Endurance by 15 while reducing all other attributes by 2	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+276	Essence of Accuracy	White Potion	Permanently raises Accuracy by 15 while reducing Luck by 15	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+277	Essence of Speed	White Potion	Permanently raises Speed by 15 while reducing Personality by 15	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+278	Essence of Luck	White Potion	Permanently raises Luck by 15 while reducing Accuracy by 15	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+279	Potion of Doom 	White Potion	Permanently adds 1 to all seven stats, HP, SP, AC and resistances at the cost of 5 years of magical aging	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+280	Divine Boost 	Black Potion	Increases all Seven Statistics temporarily by (3 x Power) for (30 x Power) minutes	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+281	Divine Protection	Black Potion	Increases Fire, Air, Water, Earth, Mind and Body resistances temporarily by (3 x Power) for (30 x Power) minutes	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+282	Divine Transcendence	Black Potion	Increases the character�s level by 20 for (30 x Power) minutes
+	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+283	Potion of the Gods 	Black Potion	Permanently raises all seven stats by 20 at the cost of 10 years of magical aging, single-use
+	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+284	Pure Fire Resistance	Black Potion	Permanently adds 40 to Fire Resistance, single-use	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+285	Pure Air Resistance	Black Potion	Permanently adds 40 to Air Resistance, single-use	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+286	Pure Water Resistance	Black Potion	Permanently adds 40 to Water Resistance, single-use	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+287	Pure Earth Resistance	Black Potion	Permanently adds 40 to Earth Resistance, single-use	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+288	Pure Mind Resistance	Black Potion	Permanently adds 40 to Mind Resistance, single-use	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+289	Pure Body Resistance	Black Potion	Permanently adds 40 to Body Resistance, single-use	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+290	Protection from Magic	White Potion	Grants Protection from Magic (as a spell) for 30 minutes per point of potion strength.	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+806	Strange potion	White Potion	Strange potion	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1041	Strange potion	White Potion	Moonstone	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1042	Strange potion	White Potion	Topaz	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1043	Strange potion	White Potion	Amethyst	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1044	Strange potion	White Potion	Emerald	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1045	Strange potion	White Potion	Purple Topaz	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1046	Strange potion	White Potion	Ruby	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1047	Strange potion	White Potion	Sunstone	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1048	Strange potion	White Potion	Emerald	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1049	Strange potion	White Potion	Sapphire	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1050	Strange potion	White Potion	Diamond	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1051	Strange potion	White Potion	Moonstone	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1052	Strange potion	White Potion	Topaz	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1053	Strange potion	White Potion	Amethyst	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1054	Strange potion	White Potion	Emerald	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1055	Strange potion	White Potion	Purple Topaz	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1056	Strange potion	White Potion	Ruby	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1057	Strange potion	White Potion	Sunstone	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1058	Strange potion	White Potion	Emerald	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1059	Strange potion	White Potion	Sapphire	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1060	Strange potion	White Potion	Diamond	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1061	Strange potion	White Potion	The Third Eye	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1062	Strange potion	White Potion	Hourglass of Time	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1063	Strange potion	White Potion	Control Cube	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1064	Strange potion	White Potion	Enchanted Amulet	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1065	Strange potion	White Potion	Enchanted Amulet	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1066	Strange potion	White Potion	Enchanted Amulet	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1067	Strange potion	White Potion	Enchanted Amulet	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1068	Strange potion	White Potion	Enchanted Amulet	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1069	Strange potion	White Potion	Enchanted Amulet	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+1070	Strange potion	White Potion	Enchanted Amulet	3	3	3	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no	no																
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+	Might Boost	White Potion	Set Might Temp to 3xstrength for 30 min per strength																																																																																																																							
+	Intellect Boost	White Potion	Set Intellect Temp to 3xstrength for 30 min per strength																																																																																																																							
+	Personality Boost	White Potion	Set Personality Temp to 3xstrength for 30 min per strength																																																																																																																							
+	Endurance Boost	White Potion	Set Endurance Temp to 3xstrength for 30 min per strength																																																																																																																							
+	Speed Boost	White Potion	Set Speed Temp to 3xstrength for 30 min per strength																																																																																																																							
+	Accuracy Boost	White Potion	Set Accuracy Temp to 3xstrength for 30 min per strength																																																																																																																							
+	Flaming Potion	White Potion	Add 'of flame' to weapon for 30 min per strength																																																																																																																							
+	Freezing Potion	White Potion	Add 'of frost' to weapon for 30 min per strength																																																																																																																							
+	Noxious Potion	White Potion	Add 'of poison' to weapon for 30 min per strength																																																																																																																							
+	Shocking Potion	White Potion	Add 'of sparks' to weapon for 30 min per strength																																																																																																																							
+	Swift Potion	White Potion	Add 'of swiftness' to weapon for 30 min per strength																																																																																																																							
+	Cure Paralysis	White Potion	Remove Paralyze cond																																																																																																																							
+	Divine Restoration	White Potion	Remove all cond (not dead/stone/errad)																																																																																																																							
+	Divine Cure	White Potion	Heal 10xskill HP																																																																																																																							
+	Divine Power	White Potion	Restore 10xskill MP																																																																																																																							
+	Luck Boost	White Potion	Set Luck Temp to 3xstrength for 30 min per strength																																																																																																																							
+	Fire Resistance	White Potion	Set Fire Resist Temp to 3xskill for 30 min per skill																																																																																																																							
+	Air Resistance	White Potion	Set Air Resist Temp to 3xskill for 30 min per skill																																																																																																																							
+	Water Resistance	White Potion	Set Water Resist Temp to 3xskill for 30 min per skill																																																																																																																							
+	Earth Resistance	White Potion	Set Earth Resist Temp to 3xskill for 30 min per skill																																																																																																																							
+	Mind Resistance	White Potion	Set Mind Resist Temp to 3xskill for 30 min per skill																																																																																																																							
+	Body Resistance	White Potion	Set Body Resist Temp to 3xskill for 30 min per skill																																																																																																																							
+	Stone to Flesh	Black Potion	Remove Stone cond																																																																																																																							
+	Slaying Potion	Black Potion	Add 'of dragon slaying' to weapon																																																																																																																							
+	Pure Luck	Black Potion	+50 to Perm Luck																																																																																																																							
+	Pure Speed	Black Potion	+50 to Perm Speed																																																																																																																							
+	Pure Intellect	Black Potion	+50 to Perm Intellect																																																																																																																							
+	Pure Endurance	Black Potion	+50 to Perm Endurance																																																																																																																							
+	Pure Personality	Black Potion	+50 to Perm Personality																																																																																																																							
+	Pure Accuracy	Black Potion	+50 to Perm Accuracy																																																																																																																							
+	Pure Might	Black Potion	+50 to Perm Might																																																																																																																							
+	Rejuvenation	Black Potion	Set Age Temp to 0																																																																																																																							
+																																																																																																																											
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+																																																																																																																										
+
+
+
+
+
+

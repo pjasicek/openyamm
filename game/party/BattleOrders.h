@@ -1,0 +1,142 @@
+#pragma once
+
+#include "game/party/QuickItemSlot.h"
+
+#include <cstddef>
+#include <cstdint>
+#include <optional>
+#include <string>
+#include <vector>
+
+namespace OpenYAMM::Game
+{
+// Battle orders (devdocs/BATTLE_ORDERS.md): what a member's Attack does. The orders are tried top to bottom and the
+// first whose conditions all hold and that can be carried out now is done; when none can, the fallback. Set in the
+// Battle Orders window (the spellbook's button, the Battle Orders key); the same in every ruleset.
+// A member's upkeep list (Character::upkeepOrders) is made of the same orders, spells and potions: the Upkeep key casts
+// or drinks the first that is due (PartySpellSystem::upkeepNeed, PotionUpkeep::potionDue).
+enum class BattleOrderKind : uint8_t
+{
+    Spell,
+    // A blow; only with a target in the weapon's reach.
+    Melee,
+    // The ranged weapon (bow, crossbow, wand, blaster; a dragon's breath); only with one.
+    Shoot,
+    // A solo run's active talent (MAW solo, devdocs/solo_action/TALENTS.md); only when learned and off cooldown, and
+    // not in turn-based combat.
+    Talent,
+    // Upkeep only: a potion the member drinks while one of its timed effects is gone or running out
+    // (game/items/PotionUpkeep.h).
+    Potion,
+};
+
+// What Attack does when no order applies.
+enum class BattleOrderFallback : uint8_t
+{
+    // The weapon as before orders: a blow in reach, the ranged weapon beyond.
+    Weapon,
+    // Nothing: in real time the press goes to the next ready member and the holder stays ready; in turn-based mode the
+    // holder passes (its melee recovery, as the Pass key).
+    Hold,
+};
+
+// Where an order applies, as the spells tell the places apart: a map open to the sky is outdoors.
+enum class BattleOrderPlace : uint8_t
+{
+    Anywhere,
+    Indoors,
+    Outdoors,
+};
+
+// Distances in game units. The melee reach stands for the blow's exact reach (CharacterMeleeAttackDistance, 407.2).
+constexpr uint16_t BattleOrderMeleeReach = 407;
+// The ranged attack distance; as an order's maximum it means no limit.
+constexpr uint16_t BattleOrderMaximumDistance = 5120;
+// The most orders in a member's attack list, and in their upkeep list.
+constexpr size_t BattleOrderLimit = 16;
+// The most drinks of a potion its upkeep order keeps in stock (BattleOrder::stockDrinks).
+constexpr uint8_t UpkeepStockMaximumDrinks = 50;
+// An upkeep order's "renew when under" time, in game minutes.
+constexpr uint16_t UpkeepRenewMinimumMinutes = 5;
+constexpr uint16_t UpkeepRenewMaximumMinutes = 120;
+constexpr uint16_t UpkeepRenewDefaultMinutes = 30;
+
+struct BattleOrderDistance
+{
+    uint16_t minimum = 0;
+    uint16_t maximum = BattleOrderMaximumDistance;
+
+    bool operator==(const BattleOrderDistance &) const = default;
+};
+
+struct BattleOrder
+{
+    BattleOrderKind kind = BattleOrderKind::Spell;
+    // The spell's table name (BattleOrderKind::Spell).
+    std::string spellName;
+    // The talent's id in talents.yml (BattleOrderKind::Talent).
+    std::string talentId;
+    // Off: skipped, its settings kept.
+    bool enabled = true;
+    // The target's distance from the party, in game units; no target fails it.
+    std::optional<BattleOrderDistance> distance;
+    // Some member (the caster included) is below this share of their HP, in percent; with ownHealth, the acting
+    // member alone.
+    std::optional<uint8_t> allyHealthBelowPercent;
+    // The HP condition reads the acting member's own HP instead of the lowest ally's (OY-645).
+    bool ownHealth = false;
+    // The cast must leave at least this share of the caster's SP, in percent.
+    std::optional<uint8_t> keepSpellPointsPercent;
+    BattleOrderPlace place = BattleOrderPlace::Anywhere;
+    // Upkeep only: the buff is cast again while fewer game minutes of it are left (upkeepBuffDue); unset, only once
+    // it is gone.
+    std::optional<uint16_t> renewBelowMinutes;
+    // The potion's item id (BattleOrderKind::Potion), and which carried bottle is drunk.
+    uint32_t potionItemId = 0;
+    QuickItemBottleRule bottleRule = QuickItemBottleRule::Strongest;
+    // The drinks of the potion the party keeps: with the Upkeep auto-brew setting on, a press first brews the missing
+    // ones (game/items/PotionUpkeep.h). 0 brews none.
+    uint8_t stockDrinks = 0;
+    // The power the brewed potions have at least, from the weakest ingredients that reach it; unset, the strongest the
+    // ingredients make. Only bottles of at least this power count toward the stock.
+    std::optional<uint16_t> brewPower;
+
+    bool operator==(const BattleOrder &) const = default;
+};
+
+// What the conditions are checked against at the press.
+struct BattleOrderSituation
+{
+    // The attack's target's distance from the party (edge to edge); none without a target.
+    std::optional<float> targetDistance;
+    // The lowest share of HP among the members who can still be healed (0..1).
+    float lowestAllyHealthShare = 1.0f;
+    // The acting member's own share of HP (0..1).
+    float ownHealthShare = 1.0f;
+    int spellPoints = 0;
+    int maximumSpellPoints = 0;
+    // The map follows the indoor spell rules (not open to the sky).
+    bool indoors = false;
+};
+
+// A bound as a distance: the melee reach is the blow's exact reach.
+float battleOrderDistanceBound(uint16_t units);
+bool battleOrderDistanceHolds(const BattleOrderDistance &distance, std::optional<float> targetDistance);
+// The order's own conditions (distance, an ally's or the member's own HP, SP kept after the cast's manaCost, the place); not whether the
+// spell or weapon can be used.
+bool battleOrderConditionsHold(const BattleOrder &order, const BattleOrderSituation &situation, uint32_t manaCost = 0);
+
+// Whether an upkeep cast that gives castSeconds of a buff is due with remainingSeconds of it left (game seconds): the
+// buff is gone, or less is left than both the order's renew time and half of what the cast gives. The half keeps a
+// short buff from being cast again at every press, since a cast never shortens a buff.
+bool upkeepBuffDue(float remainingSeconds, float castSeconds, std::optional<uint16_t> renewBelowMinutes);
+
+// The single attack spell of a save from before battle orders and of the spellbook's Attack Spell button: the orders
+// become that one unconditional order, or none for an empty name (the weapon). A spell for a member (Heal, a cure)
+// holds when nobody needs it, as the attack spell did (OY-190).
+void setAttackSpell(const std::string &attackSpellName, std::vector<BattleOrder> &orders,
+    BattleOrderFallback &fallback);
+// Whether the orders and fallback are exactly what setAttackSpell makes of this spell.
+bool isAttackSpell(const std::string &attackSpellName, const std::vector<BattleOrder> &orders,
+    BattleOrderFallback fallback);
+}

@@ -1,0 +1,34 @@
+id: npcs.ore_smith_topics
+title: "Smith topics Make Weapon/Armor/Item turn the party's best ore into a random item (MMerge StdQuestsFunctions)"
+world: mm8
+mode: faithful
+tags: [npcs, items, regression]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+  # No ore: the smith refuses and nothing changes hands.
+  - speak_npc: {source_id: 522} # Robert Sourbrow, Sourbrow Home
+  - select_topic: {action_id: 502}
+  - assert:
+      dialog: {text_contains: "You need ore for me to create armor"}
+  # The best ore goes first; the weaker one stays.
+  - grant_item: {item_id: 686, member_index: 0}
+  - grant_item: {item_id: 690, member_index: 0}
+  - select_topic: {action_id: 502}
+  - assert:
+      dialog: {text_contains: "Here's your armor"}
+      inventory_any_member: [{item_id: 690, count: 0}, {item_id: 686, count: 1}]
+  # MM7's smith topics use the same handler with MM7's ore ids and texts.
+  - grant_item: {item_id: 1493, member_index: 0}
+  - press_action: {action: cancel_dialog}
+  - speak_npc: {source_id: 223} # Turgon Bombah, Bombah Hall
+  - select_topic: {action_id: 594}
+  - assert:
+      dialog: {text_contains: "Here's your weapon"}
+      inventory_any_member: [{item_id: 1493, count: 0}, {item_id: 686, count: 1}]
+  - press_action: {action: cancel_dialog}
+  - speak_npc: {source_id: 523} # Cloud Agraynel
+  - select_topic: {action_id: 503}
+  - assert:
+      dialog: {text_contains: "Here is your item"}
+      inventory_any_member: [{item_id: 686, count: 0}]

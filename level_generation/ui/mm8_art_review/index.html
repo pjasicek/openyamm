@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM art review · spells, UI and NPCs</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="catalog.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header>
+    <div class="heading">
+      <div>
+        <p class="eyebrow">OpenYAMM · visual review</p>
+        <h1>Spells, loading art, buttons &amp; NPC portraits</h1>
+        <p class="intro">Native originals and individual 2× restoration candidates. Loading screens, NPC portraits,
+          spell icons, and all 12 spellbook pages have recorded visual approvals. Later flags and notes remain in
+          this browser until you export them.</p>
+        <p class="intro"><a href="spell_foreground_stage_v2/index.html">Open the rebuilt transparent spell foreground stage</a>
+          to compare all 111 approved color/sepia pairs against the native art and prior candidates.</p>
+      </div>
+      <div class="actions">
+        <button id="download" type="button">Download review JSON</button>
+        <button id="copy" type="button">Copy review</button>
+        <label class="import-button">Import review JSON<input id="import" type="file" accept="application/json,.json"></label>
+      </div>
+    </div>
+    <div class="toolbar">
+      <label>Search <input id="search" type="search" placeholder="Name, ID, screen…"></label>
+      <label>Category <select id="category"></select></label>
+      <label>World <select id="world"></select></label>
+      <label>Artwork <select id="artwork">
+        <option value="">All artwork</option>
+        <option value="candidate" selected>Candidate available</option>
+        <option value="missing">Awaiting 2× candidate</option>
+        <option value="pipeline">Pipeline accepted</option>
+        <option value="edge">Purple edge review</option>
+        <option value="council">MM6 council identity repairs</option>
+      </select></label>
+      <label>My review <select id="decision">
+        <option value="">All decisions</option>
+        <option value="unreviewed">Unreviewed</option>
+        <option value="approve">Approved</option>
+        <option value="flag">Flagged</option>
+      </select></label>
+      <label>Display scale <select id="zoom">
+        <option value="fit" selected>Fit · up to 2×</option>
+        <option value="1">2× native</option>
+        <option value="1.5">3× native</option>
+        <option value="2">4× native</option>
+      </select></label>
+      <label>Backdrop <select id="backdrop">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+        <option value="checker">Checker</option>
+      </select></label>
+    </div>
+    <div id="summary" aria-live="polite"></div>
+  </header>
+  <main id="cards"></main>
+  <div class="more-wrap"><button id="more" type="button">Show next 48</button></div>
+  <dialog id="large"><button id="close-large" type="button" aria-label="Close">Close ✕</button><div id="large-content"></div></dialog>
+  <footer>
+    Art review approvals bind exact source and candidate hashes; they do not change the restoration checkpoint or game assets.
+    <a href="README.md">Scope and provenance</a>
+  </footer>
+</body>
+</html>

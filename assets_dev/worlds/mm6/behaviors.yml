@@ -1,5 +1,0 @@
-# MM6 actor behaviour attachments (engine/behaviors/behaviors.yml has the scripts).
-schema: openyamm.actorBehaviors.v1
-monsters:
-  # Necromancer A appears on no MM6 map; it is the boss mage demo (actors.yml), spawned with `actor spawn 307`.
-  307: bosses/necro_mage

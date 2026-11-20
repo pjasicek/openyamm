@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m246_claude/references_hd/00_three_quarter.png): unresized 1024 × 1536 RGBA with transparency, generated using the built-in tool.
+
+Both raw returns and exact prompts are preserved in [generation_runs.json](level_generation/creatures/mm7_m246_claude/references_hd/generation_runs.json). After the one allowed correction, residual faults remain: curled fingers, low arm angle, and a plume-like crest.

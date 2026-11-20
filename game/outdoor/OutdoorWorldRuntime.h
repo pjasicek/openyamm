@@ -2,18 +2,25 @@
 
 #include "game/gameplay/ActorBehaviorRuntime.h"
 #include "game/gameplay/ActorInspectPreviewAnimation.h"
+#include "game/gameplay/ArmageddonSpell.h"
 #include "game/gameplay/GameplayActorHitFeedback.h"
+#include "game/gameplay/GameplayActorModifiers.h"
+#include "game/gameplay/GameplayActorShields.h"
 
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/GameplayActionController.h"
 #include "game/gameplay/GameplayActorAiSystem.h"
+#include "game/gameplay/GameplayBolsterRuntime.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/gameplay/MonsterDeathExplosion.h"
 #include "game/gameplay/SearchableLootPropRuntime.h"
+#include "game/gameplay/WorldItemSpotter.h"
+#include "game/maps/ActorModelManifest.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/pathfinding/ActorPathRuntime.h"
@@ -27,6 +34,7 @@
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/outdoor/OutdoorWeatherProfile.h"
 #include "game/party/Party.h"
+#include "game/rules/CorpseLoot.h"
 #include "game/tables/SpellTable.h"
 
 #include <array>
@@ -40,6 +48,8 @@
 
 namespace OpenYAMM::Game
 {
+struct ItemModelBinding;
+struct WorldItemSphereChain;
 class ItemTable;
 class ChestTable;
 struct ChestTrapOpenResult;
@@ -94,7 +104,13 @@ public:
         float windX = 0.0f;
         float windY = 0.0f;
         bool storm = false;
+        // Lightning without rain (weather.yml dry_lightning).
+        bool dryLightning = false;
         float wetness = 0.0f;
+        // Haze of falling flakes that have one (ash), not saved: the fog closes to at most these distances while
+        // it lasts. A strong distance of 0 is no haze.
+        int32_t hazeWeakDistance = 0;
+        int32_t hazeStrongDistance = 0;
         float ambientBrightness = 0.69f;
         float visibilityDistance = 200000.0f;
         float darknessOverlayAlpha = 0.0f;
@@ -110,6 +126,32 @@ public:
         std::string weatherSkyTextureName;
         int mergedWeatherState = -1;
         int mergedWeatherStateCount = 0;
+
+        struct ShownFog
+        {
+            bool foggy = false;
+            int32_t weakDistance = 0;
+            int32_t strongDistance = 0;
+        };
+
+        // The fog the world is drawn with: the map's fog weather (flag bit 1 and its distances), closed further by
+        // any precipitation haze. Without a haze it is exactly the map's fog.
+        ShownFog shownFog() const
+        {
+            const bool mapFoggy = (weatherFlags & 1) != 0;
+
+            if (hazeStrongDistance <= 0)
+            {
+                return {mapFoggy, fogWeakDistance, fogStrongDistance};
+            }
+
+            if (!mapFoggy || fogWeakDistance < 0 || fogStrongDistance <= fogWeakDistance)
+            {
+                return {true, hazeWeakDistance, hazeStrongDistance};
+            }
+
+            return {true, std::min(fogWeakDistance, hazeWeakDistance), std::min(fogStrongDistance, hazeStrongDistance)};
+        }
     };
 
     enum class ActorAiState
@@ -184,6 +226,8 @@ public:
     struct MapActorState
     {
         uint32_t actorId = 0;
+        // The monster that last hit it; it fights that one back (not saved).
+        std::optional<uint32_t> lastActorAttackerId;
         int16_t monsterId = 0;
         int16_t npcId = 0;
         int32_t mm9RudeId = 0;
@@ -191,23 +235,38 @@ public:
         bool canReceiveDamage = true;
         bool mm9Civilian = false;
         bool mm9Guard = false;
+        // The scene actor's draw_scale (MapDeltaActor::drawScale); 0: none.
+        float drawScale = 0.0f;
+        // The items it holds (MapDeltaActor::heldItems; evt.AttachActorItem, evt.DetachActorItem).
+        std::vector<MapDeltaHeldItem> heldItems;
         bool mm9FleeingFromParty = false;
         float mm9FleeRemainingSeconds = 0.0f;
+        // A villager the party yelled at runs from it until this runs out (scareNearbyPeasants); not saved.
+        float yellFleeRemainingSeconds = 0.0f;
         float mm9HelpCooldownSeconds = 0.0f;
         uint8_t mm9PlayerHitCount = 0;
         std::string displayName;
         uint32_t uniqueNameId = 0;
         bool spawnedAtRuntime = false;
+        // A runtime spawn's MM9 placement (an arena's mm9_ai, a death spawn's ScriptParams 1); a map actor's is the
+        // map's (MapDeltaActor::mm9Ai, OutdoorWorldRuntime::mm9Placement).
+        std::optional<Mm9AiPlacementRecord> mm9Ai;
+        // A runtime spawn's patrol (evt.SummonMonstersById patrol); a map actor's is the map's
+        // (MapDeltaActor::patrolPoints).
+        std::vector<std::array<int32_t, 3>> patrolPoints;
         bool fromSpawnPoint = false;
         size_t spawnPointIndex = static_cast<size_t>(-1);
         uint32_t group = 0;
         uint32_t ally = 0;
+        // The party member whose spell summoned it, -1 for none (MM8's Summoner field).
+        int32_t summonerMemberIndex = -1;
         uint8_t hostilityType = 0;
         uint32_t specialItemId = 0;
         bool proceduralDeathLoot = true;
         int currentHp = 0;
         int maxHp = 0;
         float bolsterRewardMultiplier = 1.0f;
+        ActorRulesetFacts rulesetFacts;
         int x = 0;
         int y = 0;
         int z = 0;
@@ -223,9 +282,13 @@ public:
         uint16_t radius = 0;
         uint16_t height = 0;
         uint16_t moveSpeed = 0;
+        // The rules' speed while not hostile to the party (0: moveSpeed).
+        uint16_t calmMoveSpeed = 0;
         GameplayActorAiType aiType = GameplayActorAiType::Normal;
         int armorClass = 0;
         bool immobile = false;
+        // Resting until hurt or woken (the placement's dormant; MapDeltaActor::dormant).
+        bool dormant = false;
         bool canFly = false;
         CombatDamageType attack1DamageType = CombatDamageType::Physical;
         CombatDamageType attack2DamageType = CombatDamageType::Physical;
@@ -258,10 +321,25 @@ public:
         bool useStaticSpriteFrame = false;
         bool hostileToParty = false;
         bool isDead = false;
+        // Runtime: the killing blow came from a party member (their weapons and spells), read when the death settles.
+        bool killedByParty = false;
         bool isInvisible = false;
         bool alertStatusBit = false;
         bool bloodSplatSpawned = false;
         bool hasDetectedParty = false;
+        // MM's Nearby attribute, which indoor actors keep in their attributes: set for good once the party's AI range
+        // (5632) reaches it or the party hits it, whether or not it noticed the party. Wizard Eye shows it from then on.
+        bool nearby = false;
+        // The party made it hostile (hit it or its faction), so a hit on it still alerts its friendly faction; an
+        // actor hostile on its own (map, template, event) alerts none.
+        bool angeredByParty = false;
+        // A party hit woke it: it acts out to the engagement range until it comes within the full-AI range or loses
+        // the party, so backing off after a shot does not leave it standing beyond the full-AI range as in MM8.
+        bool provokedByParty = false;
+        // MM's Aggressor attribute (indoor actors keep it in their attributes): a party hit or its faction's alert set
+        // it (MM8 0x439278), and the map can author it. It notices the party at the engagement range, not only within
+        // its relation's (GameplayActorService::partyNoticeRange), until it is made friendly.
+        bool aggressor = false;
         ActorAiState aiState = ActorAiState::Standing;
         ActorAnimation animation = ActorAnimation::Standing;
         float animationTimeTicks = 0.0f;
@@ -275,6 +353,8 @@ public:
         float velocityX = 0.0f;
         float velocityY = 0.0f;
         float velocityZ = 0.0f;
+        // Horizontal speed the AI's movement asked for before collision; 0 when it did not try to move.
+        float intendedSpeed = 0.0f;
         float yawRadians = 0.0f;
         float slowRemainingSeconds = 0.0f;
         float slowMoveMultiplier = 1.0f;
@@ -290,6 +370,11 @@ public:
         float shrinkArmorClassMultiplier = 1.0f;
         float armorClassHalvedRemainingSeconds = 0.0f;
         float darkGraspRemainingSeconds = 0.0f;
+        // A solo run's talents (GameplayActorSpellEffectState): cannot shoot or cast, movement alone slowed, deals less.
+        float silenceRemainingSeconds = 0.0f;
+        float moveSlowRemainingSeconds = 0.0f;
+        float moveSlowMultiplier = 1.0f;
+        float demoralizeRemainingSeconds = 0.0f;
         float dayOfProtectionRemainingSeconds = 0.0f;
         int dayOfProtectionPower = 0;
         float hourOfPowerRemainingSeconds = 0.0f;
@@ -311,6 +396,14 @@ public:
         uint32_t pursueDecisionCount = 0;
         uint32_t attackDecisionCount = 0;
         bool attackImpactTriggered = false;
+        // A skirmisher's footwork (ActorRuntimeFacts::skirmishPhase); runtime only, not saved.
+        ActorSkirmishPhase skirmishPhase = ActorSkirmishPhase::None;
+        float skirmishSeconds = 0.0f;
+        int8_t skirmishSide = 1;
+        // An MM9 walker's loop (ActorRuntimeFacts::mm9) and what the world knows for it (ActorAiFacts::mm9World);
+        // runtime only, not saved.
+        ActorMm9State mm9;
+        ActorMm9WorldFacts mm9World;
         MonsterAttackAbility queuedAttackAbility = MonsterAttackAbility::Attack1;
         OutdoorMoveState movementState = {};
         bool movementStateInitialized = false;
@@ -451,6 +544,8 @@ public:
         bool isExpired = false;
         std::string semanticSourceId;
         bool semanticPlacedPickup = false;
+        // A placed item's authored pose (MapWorldItemSource::poseDegrees), radians.
+        std::optional<WorldItemPose> semanticPose;
         uint32_t semanticLootContainerId = 0;
         bool semanticLootContainer = false;
     };
@@ -493,23 +588,6 @@ public:
         bool positional = true;
     };
 
-    struct ArmageddonState
-    {
-        float remainingSeconds = 0.0f;
-        uint32_t skillLevel = 0;
-        SkillMastery skillMastery = SkillMastery::None;
-        uint32_t casterMemberIndex = 0;
-        uint32_t shakeStepsRemaining = 0;
-        uint32_t shakeSequence = 0;
-        float cameraShakeYawRadians = 0.0f;
-        float cameraShakePitchRadians = 0.0f;
-
-        bool active() const
-        {
-            return remainingSeconds > 0.0f;
-        }
-    };
-
     struct BloodSplatState
     {
         struct Vertex
@@ -547,6 +625,7 @@ public:
         uint32_t sessionChestSeed = 0;
         uint32_t nextActorId = 0;
         std::vector<std::optional<CorpseViewState>> mapActorCorpseViews;
+        std::vector<std::optional<CorpseViewState>> mapActorRevealedLoot;
         std::optional<CorpseViewState> activeCorpseView;
         std::vector<WorldItemState> worldItems;
         uint32_t nextWorldItemId = 1;
@@ -568,6 +647,9 @@ public:
         std::vector<std::string> searchedLootPropSourceIds;
         ActorBehaviorRuntime::Snapshot actorBehaviors;
         bool hasOutdoorRuntimeSaveParityFields = false;
+        // The map's layout this state belongs to (MapAssetInfo::layoutIdentity), stamped by GameSession when it is
+        // captured; 0 in saves before version 160. Entering a map of another layout resets its state.
+        uint64_t mapLayoutIdentity = 0;
     };
 
     void initialize(
@@ -602,19 +684,38 @@ public:
     );
 
     bool isInitialized() const;
+    // Per map entity: whether the decoration is hidden now (evt.SetSprite, the map's invisible flag, a cleared
+    // interactive decoration); hidden decorations neither draw nor collide.
+    std::vector<bool> hiddenDecorationEntities() const;
+    // Recomputes hiddenDecorationEntities for this frame's actor movement and returns it.
+    const std::vector<bool> &refreshHiddenDecorationEntities();
     void setBolsterMonstersEnabled(bool enabled);
     void setPartyCollisionDimensions(float radius, float height);
     void bindInteractionView(OutdoorGameView *pView);
-    void bindGlobalEventProgram(const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
+    void bindEventPrograms(
+        const std::optional<ScriptedEventProgram> *pLocalEventProgram,
+        const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
     void bindActorBehaviorCatalog(const ActorBehaviorCatalog *pCatalog);
     ActorBehaviorRuntime *actorBehaviorRuntime() override;
     const ActorBehaviorRuntime *actorBehaviorRuntime() const override;
+    GameplayActorShields *actorShields() override
+    {
+        return &m_actorShields;
+    }
+    const GameplayActorShields *actorShields() const override
+    {
+        return &m_actorShields;
+    }
+    bool stunActor(size_t actorIndex, float seconds) override;
+    bool debuffActor(size_t actorIndex, GameplayActorHitDebuff debuff, float seconds, float power) override;
     bool setMapActorBehavior(size_t actorIndex, const std::string &behaviorId) override;
+    bool triggerMapActor(size_t actorIndex, const std::string &message) override;
 
     struct MonsterKilledEvent
     {
         uint32_t actorIndex = 0;
         uint32_t monsterId = 0;
+        bool byParty = false;   // the party dealt the killing blow (MapActorState::killedByParty)
     };
 
     void setMonsterKilledHooksEnabled(bool enabled);
@@ -625,13 +726,16 @@ public:
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
     GameplayWorldPoint chooseBountyHuntSpawnPoint(uint32_t seed) const override;
     bool isIndoorMap() const override;
-    bool isUnderwaterMap() const override;
+    bool isUnderwaterMap() const;
     bool allowsLloydsBeacon() const override;
+    bool allowsTownPortal() const override;
     bool allowsRest() const override;
+    bool allowsSpellcasting() const override;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     void stampLastVisitTime();
     void applyMapReentryReset() override;
+    void refreshRulesetMonsters() override;
     float currentGameMinutes() const override;
     float gameMinutes() const override;
     int currentHour() const override;
@@ -643,6 +747,8 @@ public:
     const DebugSkyOverrides &debugSkyOverrides() const;
     // The weather rules this map uses, and its rolled weather (no event or debug overrides) at a game time.
     const WeatherRules &weatherRules() const;
+    // The map's weather.yml settings (chances, ash look, dry lightning, rain colour).
+    WeatherMapSettings weatherMapSettings() const;
     WeatherSample rolledWeatherAt(double gameMinutes) const;
     void advanceGameMinutes(float minutes) override;
     void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
@@ -665,6 +771,7 @@ public:
     bool isChestOpened(uint32_t chestId) const;
     size_t mapActorCount() const override;
     bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const override;
+    bool actorRulesView(size_t actorIndex, GameplayActorRulesView &view) const override;
     GameplayActorHitFeedback &actorHitFeedback() override
     {
         return m_actorHitFeedback;
@@ -674,8 +781,13 @@ public:
         return m_actorHitFeedback;
     }
     std::optional<uint32_t> corpseLootValue(size_t actorIndex) const override;
+    std::optional<CorpseViewState> revealActorLoot(size_t actorIndex) override;
     bool setMapActorPosition(size_t actorIndex, float x, float y, float z) override;
+    bool attachMapActorItem(size_t actorIndex, const std::string &model, const std::string &node) override;
+    bool detachMapActorItem(size_t actorIndex, const std::string &node) override;
+    bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage) override;
     bool isMapActorHostile(size_t actorIndex) const override;
+    bool isMapActorDead(size_t actorIndex) const override;
     bool isMapActorWithinPartyDistance(size_t actorIndex, float distance) const override;
     bool searchLootProp(const std::string &sourceId) override;
     bool useMm9Barrel(const std::string &sourceId) override;
@@ -701,11 +813,15 @@ public:
         CombatDamageType damageType,
         uint32_t sourcePartyMemberIndex) override;
     const MapActorState *mapActorState(size_t actorIndex) const;
-    std::optional<GameplayWorldPoint> partyAttackFallbackProjectionPoint(size_t actorIndex) const;
+    // Where the party aims at a map actor, above its feet (actorTargetHeight).
+    float mapActorTargetHeight(const MapActorState &actor) const;
     std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
         size_t actorIndex,
         bool visibleForFallback) const override;
     bool partyAttackActorHasLineOfSight(size_t actorIndex) const;
+    // Where a party shot aims at the actor, above its feet: its target height, raised toward its top when terrain or a
+    // model blocks the line there (GameMechanics::clearPartyShotAimHeight); none without a clear line.
+    std::optional<float> partyShotAimHeight(size_t actorIndex) const;
     std::vector<GameplayPartyAttackActorFacts> collectPartyAttackFallbackActors(
         const GameplayPartyAttackFallbackQuery &query) const override;
     std::optional<GameplayWorldPoint> partyAttackActorContactPoint(
@@ -727,11 +843,18 @@ public:
         float targetZ);
     bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
     bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
-    bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
+    // hitReaction false: no flinch and no knockback (IGameplayWorldRuntime::applyPartyAttackMeleeDamage).
+    bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ,
+        ShieldAttackTier shieldTier = ShieldAttackTier::Physical, const ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false, bool hitReaction = true);
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
-        const GameplayWorldPoint &source) override;
+        const GameplayWorldPoint &source,
+        ShieldAttackTier shieldTier,
+        const ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false,
+        bool hitReaction = true) override;
     void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,
@@ -742,7 +865,8 @@ public:
     void recordPartyAttackWorldResult(
         std::optional<size_t> actorIndex,
         bool attacked,
-        bool actionPerformed) override;
+        bool actionPerformed,
+        bool missed) override;
     bool worldInteractionReady() const override;
     bool worldInspectModeActive() const override;
     GameplayWorldPickRequest buildWorldPickRequest(const GameplayWorldPickRequestInput &input) const override;
@@ -750,7 +874,7 @@ public:
     GameplayPartyAttackFrameInput buildPartyAttackFrameInput(
         const GameplayWorldPickRequest &pickRequest) const override;
     std::optional<size_t> spellActionHoveredActorIndex() const override;
-    std::optional<size_t> spellActionClosestVisibleHostileActorIndex() const override;
+    std::vector<size_t> spellActionVisibleHostileActorIndices() const override;
     std::optional<bx::Vec3> spellActionActorTargetPoint(size_t actorIndex) const override;
     std::optional<bx::Vec3> spellActionGroundTargetPoint(float screenX, float screenY) const override;
     bool applyPartySpellToActor(
@@ -762,7 +886,8 @@ public:
         float partyX,
         float partyY,
         float partyZ,
-        uint32_t sourcePartyMemberIndex = 0) override;
+        uint32_t sourcePartyMemberIndex = 0,
+        bool critical = false) override;
     bool applyPartySpellToMapActor(
         size_t actorIndex,
         uint32_t spellId,
@@ -772,7 +897,8 @@ public:
         float partyX,
         float partyY,
         float partyZ,
-        uint32_t sourcePartyMemberIndex = 0);
+        uint32_t sourcePartyMemberIndex = 0,
+        bool critical = false);
     bool applyDirectSpellImpactToMapActor(
         size_t actorIndex,
         uint32_t spellId,
@@ -780,8 +906,10 @@ public:
         float partyY,
         float partyZ,
         uint32_t sourcePartyMemberIndex,
-        const GameplayActorService::DirectSpellImpactResult &impact);
-    bool healMapActor(size_t actorIndex, int amount);
+        const GameplayActorService::DirectSpellImpactResult &impact,
+        bool critical = false);
+    bool healMapActor(size_t actorIndex, int amount) override;
+    ActorRulesetFacts *mutableActorRulesetFacts(size_t actorIndex) override;
     bool resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty);
     bool clearMapActorSpellEffects(size_t actorIndex);
     int effectiveMapActorArmorClass(size_t actorIndex) const;
@@ -794,6 +922,7 @@ public:
         float sourceX,
         float sourceY,
         float sourceZ) const override;
+    bool hasClearLineBetween(const GameplayWorldPoint &from, const GameplayWorldPoint &to) const override;
     std::vector<size_t> collectVisibleMapActorIndicesWithinRadius(
         float centerX,
         float centerY,
@@ -809,7 +938,13 @@ public:
         float viewPitchRadians,
         float viewAspectRatio) const override;
     bool faceMapActorTowardPoint(size_t actorIndex, float targetX, float targetY);
+    // The party talks to an actor: it faces the party (faceMapActorTowardPoint) and an MM9 one keeps the facing it
+    // turns back to afterwards (ActorMm9State::beginTalk).
+    bool faceMapActorForTalk(size_t actorIndex, float partyX, float partyY);
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
+    // Whether this map actor is solid to the party's movement: a hostile one always, a friendly one in a world with
+    // friendlyActorsBlockParty (GameplayActorService::actorBlocksPartyMovement). Callers leave out dead and hidden ones.
+    bool mapActorBlocksPartyMovement(const MapActorState &actor) const;
     float sampleSupportFloorHeight(float x, float y, float z, float maxRise, float xySlack) const;
     size_t spawnPointCount() const;
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
@@ -828,12 +963,23 @@ public:
     void commitActiveCorpseView() override;
     // Rolls the actor's corpse loot once (at death, before a steal, or after loading) into its corpse view.
     bool ensureMapActorCorpseView(size_t actorIndex);
+    std::vector<uint32_t> mapActorGuaranteedItemIds(size_t actorIndex) const;
+    // What the actor carries as the rules size it; nothing for an actor without random loot.
+    CorpseLoot mapActorCorpseLoot(
+        size_t actorIndex,
+        const MonsterTable::MonsterStatsEntry &stats,
+        CorpseLootPart part = CorpseLootPart::All) const;
     // After a load: dead actors whose corpse loot was never rolled (older saves, map deltas) get it on the first update,
     // once the event state that adds guaranteed items is bound.
     void rollPendingCorpseLoot();
+    // An actor whose HP reached 0: its dying animation, killed event, corpse physics, drops and death blast.
+    void beginOutdoorActorDeath(size_t actorIndex);
+    void detonatePendingDeathExplosions();
     bool openMapActorCorpseView(size_t actorIndex);
     bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item) override;
     void closeActiveCorpseView() override;
+    // On the ground a little ahead of the party and in its sight (LootGatherDistances), else at its feet.
+    bx::Vec3 lootGatherSpot() const;
     const std::vector<AudioEvent> &pendingAudioEvents() const;
     void clearPendingAudioEvents();
     const std::vector<CombatEvent> &pendingCombatEvents() const;
@@ -844,8 +990,13 @@ public:
     bool takeWorldItem(size_t worldItemIndex, WorldItemState &item);
     bool hasCustomWorldItemActivation(size_t worldItemIndex) const override;
     bool activateCustomWorldItem(size_t worldItemIndex) override;
-    bool isSemanticWorldItem(size_t worldItemIndex) const;
-    bool activateSemanticWorldItem(size_t worldItemIndex);
+    // A scene's placed world item the party took: recorded, its quest bits set, its pickup event run.
+    void onPlacedWorldItemTaken(const std::string &sourceId);
+    // A scene's placed world item shown but not yet takeable (MapWorldItemSource::pickupQBits).
+    bool placedWorldItemLocked(const WorldItemState &worldItem) const;
+    // Whether the gather key may take a ground item once spotted (worldItemCollectable for a placed one; never one the
+    // loot filter left on the ground).
+    bool spottableWorldItem(const WorldItemState &worldItem) const;
     bool activateSemanticLootContainer(size_t worldItemIndex);
     bool spawnWorldItem(
         const InventoryItem &item,
@@ -856,6 +1007,8 @@ public:
     );
     void collectWorldItemPresentationStates(
         std::vector<GameplayWorldItemPresentationState> &items) const override;
+    // The model a world item is drawn and picked with: a loot container is a bag of loot, not one of the items.
+    static const ItemModelBinding &worldItemModel(const ItemTable &itemTable, const WorldItemState &worldItem);
     void collectFireSpikeTrapPresentationStates(
         std::vector<GameplayProjectilePresentationState> &traps) const override;
     bool spawnPartyFireSpikeTrap(
@@ -918,13 +1071,17 @@ public:
     float partyX() const override;
     float partyY() const override;
     float partyFootZ() const override;
+    void teleportParty(float x, float y, float footZ) override;
     float partyEyeZ() const override;
     float partyEngagementRange() const override;
+    float partyHitReach() const override;
     float gameplayCameraYawRadians() const override;
     float gameplayCameraPitchRadians() const override;
+    float gameplayViewAspectRatio() const override;
     bool partyIsAirborneForRest() const override;
     bool partyIsFlyingForEventChecks() const override;
     bool partyIsActivelyFlyingForHud() const override;
+    bool partyIsWalkingOnWaterForHud() const override;
     bool partyNeedsTurnBasedPhysicsUpdate() const override;
     void syncSpellMovementStatesFromPartyBuffs() override;
     void requestPartyJump(float verticalVelocity = 0.0f, float lift = 1.0f) override;
@@ -938,8 +1095,11 @@ public:
     void updateActorAi(float deltaSeconds) override;
     void updateTurnBasedPausedActorAnimations(float deltaSeconds) override;
     size_t turnBasedPendingWorldActionCount() const override;
+    void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
     void stopTurnBasedActorMovement() override;
+    void advanceTurnBasedWorldTime(float seconds) override;
+    void setGameSpeed(float speed) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
     bool turnBasedActorActionGrantPending() const override;
@@ -970,9 +1130,11 @@ public:
         std::optional<uint8_t> continueStep = std::nullopt) override;
     bool executeEventHooks(EventRuntimeHookKind kind) override;
     const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
+    const std::optional<ScriptedEventProgram> *localEventProgram() const override;
     const MapDeltaData *mapDeltaData() const override;
     MapDeltaData *mapDeltaData() override;
     bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) override;
+    std::optional<uint32_t> decorationSpriteKeyForScriptEvent(uint16_t eventId) const override;
     bool registerOutdoorModelMechanism(
         uint32_t mechanismId,
         const std::string &modelName,
@@ -983,13 +1145,30 @@ public:
         bool closed,
         bool moveParty) override;
     EventRuntimeState *eventRuntimeState() override;
+    ISceneEventContext *sceneEventContext() override
+    {
+        return this;
+    }
     const EventRuntimeState *eventRuntimeState() const override;
+    bool scriptedChestOpens(uint32_t chestId) const override;
+    // evt.DamageDestructible and the rest (ISceneEventContext): an outdoor destructible by its source object index.
+    bool damageDestructible(uint32_t id, int damage) override;
+    bool destroyDestructible(uint32_t id) override;
+    bool setDestructibleDamageEnabled(uint32_t id, bool enabled) override;
     bool damageOutdoorDestructible(uint32_t sourceObjectIndex, int damage);
     bool destroyOutdoorDestructible(uint32_t sourceObjectIndex, bool playEffects = true);
     const RuntimeDestructibleState *outdoorDestructibleState(uint32_t sourceObjectIndex) const;
     bool applyPartyAttackMeleeBModelDamage(size_t bModelIndex, int damage) override;
     bool isPartyAttackMeleeBModelTarget(size_t bModelIndex) const override;
     bool isOutdoorDestructibleBModel(size_t bModelIndex) const;
+    bool fireEventMissile(const EventMissileRequest &request) override;
+    bool turnMapActors(std::optional<size_t> actorIndex, uint32_t group, float seconds) override;
+    bool wakeMapActors(std::optional<size_t> actorIndex, uint32_t group) override;
+    bool setMapActorTarget(size_t actorIndex, std::optional<size_t> targetActorIndex) override;
+    bool setMapActorImmobile(size_t actorIndex, bool immobile) override;
+    bool hasLineOfSight(float fromX, float fromY, float fromZ, float toX, float toY, float toZ) const override;
+    bool summonEventGold(uint32_t amount, int32_t x, int32_t y, int32_t z, int32_t speed) override;
+    bool mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const override;
     bool castEventSpell(
         uint32_t spellId,
         uint32_t skillLevel,
@@ -1023,6 +1202,14 @@ public:
         uint32_t count,
         bool randomRotate
     ) override;
+    bool summonEventInventoryItem(
+        const InventoryItem &item,
+        int32_t x,
+        int32_t y,
+        int32_t z,
+        int32_t speed,
+        bool randomRotate
+    ) override;
     bool summonEventObject(
         uint32_t objectId,
         int32_t x,
@@ -1038,12 +1225,53 @@ public:
         float durationSeconds,
         float x,
         float y,
-        float z
-    ) override;
+        float z,
+        int32_t summonerMemberIndex) override;
     bool debugFireActorProjectile(
         size_t actorIndex,
         GameplayActorAttackAbility ability,
         const GameplayWorldPoint &target) override;
+    bool debugFireActorProjectileAtParty(size_t actorIndex, GameplayActorAttackAbility ability, int damage) override;
+    bool blinkActor(size_t actorIndex) override;
+    bool suspendActorShield(size_t actorIndex, float seconds) override;
+    bool restoreActorShield(size_t actorIndex) override;
+    bool swapActorPlaces(size_t actorIndex, std::optional<size_t> otherActorIndex) override;
+    bool pushActor(size_t actorIndex, float directionX, float directionY, float distance) override;
+    bool launchParty(float headingRadians, float horizontalSpeed, float verticalSpeed) override;
+    bool liftParty(float height) override;
+    bool dashParty(float directionX, float directionY, float distance) override;
+    size_t gatherCorpsesToParty(size_t maxCount) override;
+    size_t gatherWorldItemsToParty(size_t maxCount, const std::function<bool(const InventoryItem &)> &gathers) override;
+    std::vector<size_t> lootableCorpseActorIndices() const override;
+    std::vector<size_t> collectableSpottedWorldItemIndices() const override;
+    bool hasSpottedWorldItems() const override;
+    void unspotWorldItem(size_t worldItemIndex) override;
+    bool openActorCorpseView(size_t actorIndex) override;
+    const GameplayProjectileService *projectileServiceView() const override
+    {
+        return &projectileService();
+    }
+    bool chargeActor(size_t actorIndex) override;
+    bool frenzyActor(size_t actorIndex) override;
+    std::optional<GameplayChargeCounts> chargeCounts() const override;
+    // Moves a living actor to (x, y) for a blink or a charge's step when the spot is free: a floor within
+    // maxHeightChange of its own (no water or steep slope for walkers), no wall, decoration, other actor or the party
+    // in its cylinder, and a clear line from where it stands; with keepSightOf also a clear line from there to that
+    // point. pBlockedByParty (optional) tells that the party's cylinder was in the way.
+    bool blinkMapActorTo(size_t actorIndex, float x, float y, float maxHeightChange,
+        const std::optional<std::array<float, 3>> &keepSightOf = std::nullopt, bool *pBlockedByParty = nullptr);
+    // Stands an actor at a point without any checks, still and keeping its home (swaps, the gather key).
+    void placeMapActor(size_t actorIndex, float x, float y, float z);
+    // Where a living actor could stand at (x, y), its feet's height there: the blink's checks without the move
+    // (blinkMapActorTo). The sight line to keepSightOf starts at its eye eyeBelowTop under the top of its body (MM9's
+    // eye; none: 70 % of its height); pSightChecks (optional) counts the sight lines tested.
+    std::optional<float> checkMapActorSpot(size_t actorIndex, float x, float y, float maxHeightChange,
+        const std::optional<std::array<float, 3>> &keepSightOf, bool *pBlockedByParty,
+        std::optional<float> eyeBelowTop, int *pSightChecks);
+    bool mapKillProgress(MapKillProgress &progress) const override;
+    std::vector<size_t> spawnMonsters(const GameplayMonsterSpawnRequest &request) override;
+    void bindActorAiTrace(ActorAiTrace *pTrace) override;
+    const ActorAiTrace *actorAiTrace() const override;
     bool summonHostileMonsterById(
         int16_t monsterId,
         uint32_t count,
@@ -1074,6 +1302,10 @@ public:
         std::string objectSpriteName;
         std::string impactObjectName;
         std::string impactObjectSpriteName;
+        // A world missile's shield tier (monster_projectiles.yml); unset follows the attack's damage type.
+        std::optional<ShieldAttackTier> shieldTier;
+        // Its impact's sound (monster_projectiles.yml impact_sound_id), 0: none.
+        uint32_t impactSoundId = 0;
     };
 
     enum class RuntimeSpellSourceKind
@@ -1107,6 +1339,12 @@ public:
         uint32_t effectSoundIdOverride = 0;
         uint32_t impactSoundIdOverride = 0;
         bool turnBasedPendingAction = false;
+        // A party spell whose damage was a critical hit (ProjectileState::critical).
+        bool critical = false;
+        // A solo run's Arc talent on a party spell's missile (ProjectileState::chainLeft).
+        uint8_t chainCount = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
     };
 
     struct PartyProjectileRequest
@@ -1114,10 +1352,17 @@ public:
         uint32_t sourcePartyMemberIndex = 0;
         uint32_t objectId = 0;
         uint32_t impactObjectId = 0;
+        uint32_t impactSoundId = 0;
         int damage = 0;
         int attackBonus = 0;
         bool useActorHitChance = false;
         CombatDamageType damageType = CombatDamageType::Physical;
+        std::optional<ShieldAttackTier> shieldTier;
+        ShieldHitModifiers shieldModifiers;
+        bool weakerOfPhysicalAndFire = false;
+        float explosionRadius = 0.0f;
+        int blastMinimumDamage = 0;
+        int blastMaximumDamage = 0;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
@@ -1125,6 +1370,14 @@ public:
         float targetY = 0.0f;
         float targetZ = 0.0f;
         bool turnBasedPendingAction = false;
+        // Its damage was a critical hit (ProjectileState::critical).
+        bool critical = false;
+        // ProjectileState::chainLeft, chainShare, chainRadius, hitCredit and quietBlast.
+        uint8_t chainCount = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
+        std::shared_ptr<bool> hitCredit;
+        bool quietBlast = false;
     };
 
     struct MonsterVisualState
@@ -1141,6 +1394,8 @@ public:
         float maxY,
         std::vector<size_t> &indices) const;
     const OutdoorFaceGeometryData *outdoorFace(size_t faceIndex) const;
+    // Its model's scale for a shrink and the ruleset (GameplayRuntimeActorState::visualScale).
+    float mapActorVisualScale(const MapActorState &actor) const;
     bool hasClearOutdoorLineOfSight(
         const bx::Vec3 &start, const bx::Vec3 &end, bool includeWalkableFaces = false) const;
     size_t bloodSplatCount() const;
@@ -1148,6 +1403,23 @@ public:
     uint64_t bloodSplatRevision() const;
 
 private:
+    void hideExpiredSummons();
+    MonsterKillReward killReward(const MapActorState &actor, const MonsterTable::MonsterStatsEntry &stats) const;
+    // After a kill: the ruleset's reward for clearing the map, if it has one.
+    void rewardRulesetMapProgress();
+    // Homing for the missiles a party member just fired at an actor, when the rules make them home (MAW).
+    // The ruleset's homing (MAW), or a weapon's (weaponHoming: an Energy Guns Grandmaster's shot, 360 degrees a second
+    // for 1.5 s). aimZ: the height the shot aimed at, which it keeps homing on (ProjectileHoming::targetAimHeight).
+    void attachPartyMissileHoming(
+        uint32_t firstProjectileId,
+        uint32_t sourcePartyMemberIndex,
+        std::optional<size_t> targetActorIndex,
+        float aimZ,
+        bool weaponHoming = false);
+    GameplayBolsterRuntimeContext monsterRulesContext() const;
+    // The ruleset's map-wide choices when the map's monsters are first placed (MAW bosses).
+    void placeRulesetMapMonsters();
+    void refreshRulesetMonster(MapActorState &actor);
     bool summonEventPayload(
         uint32_t payloadId,
         bool payloadIsObjectId,
@@ -1169,8 +1441,31 @@ private:
         size_t actorIndex,
         int damage,
         uint32_t sourceActorId,
+        ShieldAttackTier shieldTier,
         bool emitAudio = true,
         bool allowZeroDamageHit = false);
+    // Energy shields: regeneration and presentation per actor step, and the QBit-switched relations of the world
+    // add-on (MonsterRelationAddOns) applied to the map's actors whenever they change and after every load.
+    void updateActorShields(float deltaSeconds);
+    void refreshConditionalMonsterRelations();
+    // A hit through the actor's shield (GameplayActorShields::applyHit), the ripple at the source's side of the body.
+    GameplayActorShieldHit applyActorShieldHit(size_t actorIndex, int damage, ShieldAttackTier shieldTier,
+        float sourceX, float sourceY, float sourceZ, const ShieldHitModifiers &shieldModifiers = {});
+    // Monster modifiers (MonsterModifiers): blinks per actor step, a true_aim monster's shots, never_staggers.
+    void updateActorModifiers(float deltaSeconds);
+    bool blinkMapActor(const GameplayActorModifiers::BlinkRequest &request);
+    // Charges (GameplayActorModifiers) per fixed actor step after the AI, and what a charge does in this world.
+    void updateActorCharges(float deltaSeconds);
+    GameplayActorModifiers::ChargeWorld chargeWorld();
+    GameplayActorModifiers::ChargeActorFacts chargeActorFacts(size_t actorIndex) const;
+    void handleChargeEvent(const GameplayActorModifiers::ChargeEvent &event);
+    // A monster's missile homes: a true_aim monster's at its target, the rules' cone at the party (MAW).
+    void attachTrueAim(uint32_t firstProjectileId, const MapActorState &actor, ActorAiTargetKind targetKind,
+        size_t targetActorIndex, uint32_t spellId);
+    // One step of a homing projectile toward its target's current position; true when it is to expire.
+    bool steerOutdoorHomingProjectile(ProjectileState &projectile, float deltaSeconds, float partyX, float partyY,
+        float partyZ);
+    bool monsterNeverStaggers(int16_t monsterId) const;
     bool spawnEncounterFromResolvedData(
         int encounterSlot,
         char fixedTier,
@@ -1186,14 +1481,20 @@ private:
         size_t spawnPointIndex,
         bool aggro);
     bool setMapActorHostileToParty(size_t actorIndex, float partyX, float partyY, float partyZ, bool resetActionState);
-    void aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ);
+    void aggroNearbyMapActorFaction(
+        size_t actorIndex,
+        bool alertsFriendlyActors,
+        float partyX,
+        float partyY,
+        float partyZ);
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
     bool attemptOpenChest(uint32_t chestId, bool openedByTelekinesis = false);
     GameplayWorldPoint chestTrapSourcePoint() const;
     GameplayWorldPoint chestTrapVisualPoint(const GameplayWorldPoint &sourcePoint) const;
     void applyChestTrapState(uint32_t chestId, const ChestTrapOpenResult &trapResult);
-    void spawnChestTrapVisual(const GameplayWorldPoint &point, const ChestTrapOpenResult &trapResult);
+    // The impact of object objectId at point, with the fireball's sound: a chest trap or a monster's death blast.
+    void spawnObjectBurstVisual(const GameplayWorldPoint &point, uint16_t objectId, CombatDamageType damageType);
     void pushAudioEvent(
         uint32_t soundId,
         uint32_t sourceId,
@@ -1205,6 +1506,12 @@ private:
         SoundScope soundScope = SoundScope::Engine);
     void pushOutdoorMonsterSound(size_t actorIndex, uint32_t soundId, const char *pReason);
     bool beginMapActorHitReaction(size_t actorIndex, bool force = false, bool emitAudio = true);
+    // A hit on an MM9 walker (ActorMm9WorldFacts): its attacker (the party, or the actor at attackerActorIndex), the
+    // largest hit and the count its AI reacts to. Nothing for any other actor.
+    void noteMm9ActorHit(size_t actorIndex, ActorAiTargetKind attackerKind, size_t attackerActorIndex, int damage);
+    // A reaction turn (hit, alert, stun) toward a point; skipped for a monster that turns at a tactics traverse rate
+    // (a turret), whose AI turns it there at that rate instead.
+    void faceMapActorReaction(MapActorState &actor, float deltaX, float deltaY) const;
     void pushProjectileAudioEvent(const GameplayProjectileService::ProjectileAudioRequest &request);
     bool spawnProjectileFromMapActor(
         const MapActorState &actor,
@@ -1223,6 +1530,9 @@ private:
     // The world point a model actor launches its missile or spell from (its actors.yml release point); empty for
     // sprite actors and models without one, which launch from the body (mapActorBodyLaunchPoint).
     std::optional<std::array<float, 3>> mapActorModelLaunchPoint(const MapActorState &actor, bool spell) const;
+    // An attack role's timing: the actor's sprite's, or its 3D model's clip where that times it
+    // (resolveActorAttackTiming).
+    ActorAttackTiming mapActorAttackTiming(const MapActorState &actor, ActorModelManifest::AttackRole role) const;
     static std::array<float, 3> mapActorBodyLaunchPoint(const MapActorState &actor);
     bool castSpellFromMapActor(
         const MapActorState &actor,
@@ -1273,11 +1583,14 @@ private:
     void initializeOutdoorModelMechanismsFromMapData();
     void initializeOutdoorDestructiblesFromMapData();
     void updateOutdoorTriggerVolumes();
+    // evt.MoveActorTo arrivals (EventRuntimeState::pendingActorArrivals): their events, each with its actor.
+    void runPendingScriptedActorArrivals();
     void applyOutdoorDestructibleStates(bool playEffects);
     void projectOutdoorDestructibleGeometry(const OutdoorDestructible &definition, bool destroyed);
     void applyOutdoorDestructibleDeathOutput(const OutdoorDestructible &definition);
     void updateOutdoorMechanismOpenAwayDirections();
     void refreshOutdoorModelMechanismGeometry();
+    void resyncOutdoorModelMechanismGeometry();
     bool setOutdoorFaceGeometry(const OutdoorFaceGeometryData &geometry);
     bool materializeTreasureSpawnFromSpawnPoint(size_t spawnPointIndex);
     bool resolveWorldItemVisual(
@@ -1297,7 +1610,7 @@ private:
     void groundMm9LoadedPlacements(bool updateActorHomes, bool includeRuntimeActors);
     void removeDepletedSemanticLootContainer(uint32_t containerId);
     void spawnMonsterDeathDropsForActor(size_t actorIndex, const MapActorState &actor);
-    void queueMonsterKilledEvent(size_t actorIndex, int16_t monsterId);
+    void queueMonsterKilledEvent(size_t actorIndex, int16_t monsterId, bool byParty);
     bool spawnMonsterDeathDropWorldItem(
         const InventoryItem &item,
         float x,
@@ -1310,7 +1623,26 @@ private:
         float maximumZ,
         std::vector<size_t> &candidateFaceIndices) const;
     void updateWorldItems(float deltaSeconds);
+    // Lowers resting items that hover above their floor (map data placed some in the air) onto it, as the original
+    // lets them fall; items at rest never run the fall step.
+    void settleRestingWorldItems();
+    // One sub-step of a moving item: gravity, its sphere chain against walls (none: it moves as a point), its floor,
+    // water.
+    void stepWorldItem(
+        WorldItemState &worldItem,
+        float deltaSeconds,
+        const WorldItemSphereChain *pChain,
+        std::vector<size_t> &candidateFaceIndices);
+    // The nearest BModel wall an item's sphere chain meets moving from start to end: the distance travelled to it and
+    // the wall's normal.
+    std::optional<std::pair<float, bx::Vec3>> sweepWorldItemAgainstWalls(
+        const WorldItemSphereChain &chain,
+        const bx::Vec3 &start,
+        const bx::Vec3 &end,
+        std::vector<size_t> &candidateFaceIndices) const;
     void updateImmolation(float deltaSeconds);
+    // Spots the ground items the party passes (ItemRules::worldItemSpotting, WorldItemSpotter).
+    void updateWorldItemSpotting(float deltaSeconds);
     void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
     void applyFireSpikeTrapTriggerResult(
         FireSpikeTrapState &trap,
@@ -1346,6 +1678,13 @@ private:
         float partyZ) const;
     GameplayProjectileService::ProjectileBounceSurfaceFacts buildProjectileBounceSurfaceFacts(
         const ProjectileCollisionFacts &collision) const;
+    // A blast reaches only the party and monsters in its line of sight, as indoors and in MM8.
+    void removeAreaImpactHitsBehindCover(
+        GameplayProjectileService::ProjectileFrameResult &frameResult,
+        const ProjectileCollisionFacts &collision,
+        float partyX,
+        float partyY,
+        float partyZ) const;
     void applyProjectileFrameResult(
         ProjectileState &projectile,
         const ProjectileCollisionFacts &collision,
@@ -1435,9 +1774,13 @@ private:
     std::vector<MapActorState> m_mapActors;
     bool m_monsterKilledHooksEnabled = false;
     std::vector<MonsterKilledEvent> m_pendingMonsterKilledEvents;
+    // Deaths of exploding monsters, detonated on the next actor update (MonsterDeathExplosion.h).
+    std::vector<PendingMonsterDeathExplosion> m_pendingDeathExplosions;
     std::vector<size_t> m_mm9FoundPlayerActorIndices;
     std::vector<bool> m_mm9FoundPlayerEventAttempted;
     std::vector<size_t> m_mm9CivilianActorIndices;
+    // Villagers still fleeing a yell (yellFleeRemainingSeconds > 0).
+    std::vector<size_t> m_yellFleeingActorIndices;
     std::vector<size_t> m_mm9GuardActorIndices;
     std::vector<SpawnPointState> m_spawnPoints;
     std::vector<MapDeltaChest> m_chests;
@@ -1475,9 +1818,21 @@ private:
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;
     GameplayProjectileService m_fallbackGameplayProjectileService;
     ActorBehaviorRuntime m_actorBehaviors;
+    // The AI arena's decision trace (GameApplication owns it), null while off.
+    ActorAiTrace *m_pActorAiTrace = nullptr;
+    ActorPartyVelocityTracker m_actorAiPartyVelocity;
     GameplayActorHitFeedback m_actorHitFeedback;
+    GameplayActorShields m_actorShields;
+    GameplayActorModifiers m_actorModifiers;
+    // Decoration cylinders a blink must not land in; filled only when some monster blinks.
+    std::vector<OutdoorDecorationCollision> m_blinkDecorationColliders;
+    std::vector<DecorationClearRule> m_decorationClearRules;
+    std::vector<bool> m_hiddenDecorationEntities;
+    // MonsterRelationAddOns::revision() last applied to the actors; UINT64_MAX after a load.
+    uint64_t m_appliedRelationRevision = UINT64_MAX;
     GameplayCombatController *m_pGameplayCombatController = nullptr;
     GameplayFxService *m_pGameplayFxService = nullptr;
+    const std::optional<ScriptedEventProgram> *m_pLocalEventProgram = nullptr;
     const std::optional<ScriptedEventProgram> *m_pGlobalEventProgram = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
@@ -1513,8 +1868,8 @@ private:
     };
     mutable std::unordered_map<uint64_t, ActorSightCacheEntry> m_actorSightCache;
     size_t m_actorPathPlansThisStep = 0;
-    double m_nextActorPathPlanSeconds = 0.0;
     float m_outdoorMechanismGeometryRefreshAccumulatorSeconds = 0.0f;
+    WorldItemSpotter m_worldItemSpotter;
     std::unordered_map<uint32_t, std::array<int32_t, 3>> m_outdoorMechanismOffsets;
     std::unordered_map<uint32_t, bool> m_outdoorNavigationMechanismMovingStates;
     std::unordered_map<uint32_t, size_t> m_outdoorDestructibleDefinitionBySourceObject;
@@ -1525,6 +1880,10 @@ private:
     float m_mm9FoundPlayerAccumulatorSeconds = 0.0f;
     float m_actorAiTraceAccumulatorSeconds = 0.0f;
     float m_projectileUpdateAccumulatorSeconds = 0.0f;
+    // The party's position at the previous projectile update, for homing between frames (partyPositionAtStep).
+    std::optional<GameplayWorldPoint> m_projectilePreviousFramePartyPosition;
+    // setGameSpeed: the catch-up limits above are this many times their real-time length.
+    float m_gameSpeed = 1.0f;
     float m_immolationTickAccumulatorGameMinutes = 0.0f;
     uint32_t m_immolationTickSequence = 0;
     bool m_actorAiUpdateQueued = false;
@@ -1536,6 +1895,8 @@ private:
     uint32_t m_sessionChestSeed = 0;
     uint32_t m_nextActorId = 0;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
+    // Gold and random item that Telepathy rolled for a living actor; its corpse takes them at death.
+    std::vector<std::optional<CorpseViewState>> m_mapActorRevealedLoot;
     bool m_corpseLootPending = false;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<size_t> m_actorCorpsePhysicsActorIndices;
@@ -1561,19 +1922,27 @@ private:
     bool logOutdoorPathfindingEnabled() const;
     void updateGameplayScreenOverlay(float deltaSeconds);
     void updateActorFrameGlobalEffects(float deltaSeconds, float partyX, float partyY, float partyZ);
-    std::vector<bool> selectOutdoorActiveActors(float partyX, float partyY, float partyZ) const;
+    std::vector<bool> selectOutdoorActiveActors(float partyX, float partyY, float partyZ);
     ActorAiFrameFacts collectOutdoorActorAiFrameFacts(
         float deltaSeconds,
         float partyX,
         float partyY,
         float partyZ,
         const std::vector<bool> &activeActorMask) const;
+    // Each patrolling actor's place in its round (MapDeltaActor::patrolPoints); advanced as the AI facts are read, not
+    // saved (a load starts the round at its first waypoint).
+    mutable std::unordered_map<size_t, size_t> m_actorPatrolIndices;
     std::optional<ActorAiFacts> collectOutdoorActorAiFacts(
         size_t actorIndex,
         bool active,
         float partyX,
         float partyY,
         float partyZ) const;
+    // An actor's MM9 placement: a map actor's from the map, a runtime spawn's its own; none for MM9's defaults.
+    const Mm9AiPlacementRecord *mm9PlacementRecord(size_t actorIndex) const;
+    // How far an MM9 monster on its loop senses the party (its placement's sight and hearing, doubled after contact);
+    // 0 for every other actor.
+    float mm9PerceptionRangeOf(size_t actorIndex) const;
     bool cachedActorLineOfSight(size_t startActorIndex, size_t endActorIndex, const bx::Vec3 &start,
         const bx::Vec3 &end) const;
     void applyOutdoorActorAiFrameResult(
@@ -1581,9 +1950,13 @@ private:
         const std::vector<bool> &activeActorMask,
         const GameplayActorAiSystem &actorAiSystem);
     void applyOutdoorActorRequests(const ActorAiFrameResult &result, const std::vector<bool> &activeActorMask);
+    // The reposition modifier's query (ActorMm9Request::reposition): the first of its spots that passes, answered in
+    // the actor's ActorMm9WorldFacts (repositionSerial).
+    void answerRepositionQuery(size_t actorIndex, const ActorRepositionQuery &query);
     void applyOutdoorActorProjectileRequests(
         const std::vector<ActorProjectileRequest> &projectileRequests,
         const std::vector<bool> &activeActorMask);
+    void applyOutdoorActorProjectileRequest(const ActorProjectileRequest &projectileRequest);
     void applyOutdoorActorAudioRequests(const std::vector<ActorAudioRequest> &audioRequests);
     void applyOutdoorActorFxRequests(const std::vector<ActorFxRequest> &fxRequests);
     bool hasOutdoorActorBehaviorUpdate(const ActorAiUpdate &update) const;
@@ -1639,6 +2012,7 @@ private:
     void updateOutdoorInactiveAndInvalidActors(const std::vector<bool> &activeActorMask);
     void applyActorFrameSideEffects(float deltaSeconds, float partyX, float partyY, float partyZ);
     void updateMm9ActorReactions(float deltaSeconds, float partyX, float partyY, float partyZ);
+    void updateYellFleeing(float deltaSeconds);
     void startMm9CivilianFlee(MapActorState &actor);
     void advanceGameMinutesInternal(float minutes);
     void initializeTimers(
@@ -1650,7 +2024,6 @@ private:
     int cachedMergedWeatherState(const OutdoorWeatherProfile &profile);
     int mergedLadderState(const OutdoorWeatherProfile &profile, const WeatherSample &sample);
     bool isMergedWeatherMap() const;
-    WeatherMapSettings weatherMapSettings() const;
     // The weather now, with scene, event and debug overrides applied.
     WeatherSample currentWeatherSample();
     void applyPrecipitationState(const WeatherSample &sample);
@@ -1661,7 +2034,7 @@ private:
     int weatherDayIndexForMinutes(float gameMinutes) const;
     void resetDailySpellCounters();
     void updateArmageddon(float deltaSeconds, float partyX, float partyY, float partyZ);
-    void spawnArmageddonStrikes(float elapsedBefore, float elapsedAfter, float partyX, float partyY, float partyZ);
+    void spawnArmageddonStrikes(const ArmageddonStep &step, float partyX, float partyY, float partyZ);
     void resolveArmageddonDetonation(float partyX, float partyY, float partyZ);
     void refreshAtmosphereState();
 };

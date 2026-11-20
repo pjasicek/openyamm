@@ -1,0 +1,251 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "generator": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "status": "Saved closest unresized returns; not fully compliant with the brief.",
+  "postprocessing": "None. Selected PNGs are copied byte for byte; no resizing, masking, alpha cleanup or repainting.",
+  "correction_limit_per_view": 1,
+  "correction_limit_reached": true,
+  "checks_note": "Normalized silhouette IoU is a read-only diagnostic comparing alpha >= 128 at corresponding normalized coordinates. It does not establish pixel-identical outlines and no resized image was saved.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nAsset type: orthographic albedo texture-paint source for an existing 3D game prop.\nEdit image 1, guide_left.png: replace ONLY the grey surface colours with the Colony satchel materials. Image 1 is the EXACT immutable shape/geometry/alpha/placement target. Image 2, design_reference.png, is the approved colour and material authority ONLY. Image 3, concept_crop.png, supports the original design ONLY. Do not adopt the camera, outline, framing, lighting, or extra geometry of images 2 or 3.\n\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background, native unresized return. Preserve every alpha edge and opening of image 1 EXACTLY, pixel for pixel. Object occupies precisely x=271 through 752 and y=298 through 725 on the 1024 square canvas. Keep the large transparent margins. No auto-zoom, recentering, cropping, rotation, expansion or silhouette smoothing. Preserve the orthographic left-side view, all polygon edges, flap and piping boundaries, existing buckle geometry and exact strap curve.\nThe long side strap starts at the buckle near the upper centre and descends toward the lower LEFT, ending at the guide's protruding tip at the lower left.\n\nPaint the exact existing surfaces with the design reference's worn faded deep-blue woven canvas, sand canvas and light sand seam piping, fine stitching and restrained dust/scuffs, tan leather straps, and muted brass buckle hardware. The large rounded triangular end gusset is deep blue; the broad hanging diagonal strap is tan leather; existing upper buckle is brass; existing narrow perimeter binding is sand canvas. Preserve the design's red cloth band with gold embroidered circle-and-stem sigil only on the appropriate front-flap surface if actually visible in this strict side projection; do not relocate front decorations onto the side gusset or expose front faces that the guide does not show. Do not add straps, buckles, folds, pockets, rivets or new shapes.\n\nLIGHTING IS ALBEDO: even, flat, shadowless illumination from the viewer. Keep material pigment and fine material texture without modelling illumination: no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no directional lighting, no background, no floor, no glow cast onto neighbouring surfaces. Brass should be a matte brass pigment, not shiny rendered metal. All visible canvas remains evenly exposed including seams and under the strap. Keep the guide's silhouette, size, position, edges, openings and details EXACTLY; only paint its surface materials.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/guide_left.png",
+          "sha256": "3e56da2308290206ea7691066451edfb314c93f9e5c5c00f82804894c94a589f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/design_reference.png",
+          "sha256": "7fcb067d6d1f0858c68b39388d207fd02bdbbcab6291874aa0fc7ef0eb18cd8c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/concept_crop.png",
+          "sha256": "5748e87c95da3b5875f06915307ba03771b6718c84b759673390663c10613392"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/paint_left.png",
+      "selected": true,
+      "reason": "Retained as the closer of the two unresized tool returns; normalized silhouette overlap is higher than in the correction and geometry is closer to the guide. Selected for saving only, not accepted as conforming: native dimensions, exact silhouette and flat lighting requirements fail.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ac9-2362-7833-9e0a-9b3301e0c194/exec-4e8e5273-dcfd-44e9-873a-8dd80d03d8b7.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          0,
+          1224,
+          1254
+        ],
+        "opaque_bbox": [
+          336,
+          367,
+          924,
+          890
+        ],
+        "alpha_zero_pixels": 1356670,
+        "alpha_partial_pixels": 215665,
+        "normalized_silhouette_iou_diagnostic_only": 0.9864516410996023,
+        "silhouette_identical": false,
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "materials_and_colours": "The visible side materials broadly match: faded navy canvas, sand binding, tan leather and brass. Front red band/sigil are not exposed in these side projections.",
+        "flat_even_light": false,
+        "lighting_note": "Residual shaded folds, dark seam/strap borders and brass highlights remain.",
+        "transparent_background": true,
+        "clean_background_alpha": false,
+        "transparency_note": "RGBA with a mostly zero-alpha background, but faint nonzero alpha extends beyond the main silhouette.",
+        "meets_brief": false
+      },
+      "output_sha256": "e9290a080957c5c75e871ed8b6ee49e98e04ba5ed7fcf57453e4a5ca17b93840"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nAsset type: orthographic albedo texture-paint source for an existing 3D game prop.\nEdit image 1, guide_right.png: replace ONLY the grey surface colours with the Colony satchel materials. Image 1 is the EXACT immutable shape/geometry/alpha/placement target. Image 2, design_reference.png, is the approved colour and material authority ONLY. Image 3, concept_crop.png, supports the original design ONLY. Do not adopt the camera, outline, framing, lighting, or extra geometry of images 2 or 3.\n\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background, native unresized return. Preserve every alpha edge and opening of image 1 EXACTLY, pixel for pixel. Object occupies precisely x=271 through 752 and y=298 through 725 on the 1024 square canvas. Keep the large transparent margins. No auto-zoom, recentering, cropping, rotation, expansion or silhouette smoothing. Preserve the orthographic right-side view, all polygon edges, flap and piping boundaries, existing buckle geometry and exact strap curve.\nThe long side strap starts at the buckle near the upper centre and descends toward the lower RIGHT, ending at the guide's protruding tip at the lower right.\n\nPaint the exact existing surfaces with the design reference's worn faded deep-blue woven canvas, sand canvas and light sand seam piping, fine stitching and restrained dust/scuffs, tan leather straps, and muted brass buckle hardware. The large rounded triangular end gusset is deep blue; the broad hanging diagonal strap is tan leather; existing upper buckle is brass; existing narrow perimeter binding is sand canvas. Preserve the design's red cloth band with gold embroidered circle-and-stem sigil only on the appropriate front-flap surface if actually visible in this strict side projection; do not relocate front decorations onto the side gusset or expose front faces that the guide does not show. Do not add straps, buckles, folds, pockets, rivets or new shapes.\n\nLIGHTING IS ALBEDO: even, flat, shadowless illumination from the viewer. Keep material pigment and fine material texture without modelling illumination: no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no directional lighting, no background, no floor, no glow cast onto neighbouring surfaces. Brass should be a matte brass pigment, not shiny rendered metal. All visible canvas remains evenly exposed including seams and under the strap. Keep the guide's silhouette, size, position, edges, openings and details EXACTLY; only paint its surface materials.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/guide_right.png",
+          "sha256": "00bb31632ebacd4741cea598701335f86b8ab3a9f9b1b07ecac6ea1bfd580e8f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/design_reference.png",
+          "sha256": "7fcb067d6d1f0858c68b39388d207fd02bdbbcab6291874aa0fc7ef0eb18cd8c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/concept_crop.png",
+          "sha256": "5748e87c95da3b5875f06915307ba03771b6718c84b759673390663c10613392"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/paint_right.png",
+      "selected": true,
+      "reason": "Retained as the closer of the two unresized tool returns; normalized silhouette overlap is higher than in the correction and geometry is closer to the guide. Selected for saving only, not accepted as conforming: native dimensions, exact silhouette and flat lighting requirements fail.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ac9-2362-7833-9e0a-9b3301e0c194/exec-80e40e8b-9832-483c-a47a-32b753fbed3b.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          28,
+          1226,
+          1206
+        ],
+        "opaque_bbox": [
+          332,
+          369,
+          922,
+          889
+        ],
+        "alpha_zero_pixels": 1357791,
+        "alpha_partial_pixels": 214601,
+        "normalized_silhouette_iou_diagnostic_only": 0.9872833129049203,
+        "silhouette_identical": false,
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "materials_and_colours": "The visible side materials broadly match: faded navy canvas, sand binding, tan leather and brass. Front red band/sigil are not exposed in these side projections.",
+        "flat_even_light": false,
+        "lighting_note": "Residual shaded folds, dark seam/strap borders and brass highlights remain.",
+        "transparent_background": true,
+        "clean_background_alpha": false,
+        "transparency_note": "RGBA with a mostly zero-alpha background, but faint nonzero alpha extends beyond the main silhouette.",
+        "meets_brief": false
+      },
+      "output_sha256": "a94198c77abc72403ce741405f41714eb3ee647091a3072b4476384bcb365a8f"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Corrective generation of a technical ALBEDO TEXTURE SOURCE.\nEdit the FIRST input image, guide_left.png, IN PLACE AT ITS ORIGINAL 1024 x 1024 RESOLUTION. Return exactly 1024 x 1024 pixels, native output, transparent PNG. The previous attempt incorrectly returned 1254 x 1254 and changed the silhouette. This correction MUST retain the 1024-square canvas without resampling. Copy the original guide's alpha mask exactly: every background pixel stays fully transparent, every silhouette edge and internal opening stays in its original position. Paint RGB only inside the guide mask. Do not create faint stray opaque pixels in the empty background.\n\nImage 1 is the absolute authority for silhouette, geometry, framing and surface boundaries. Image 2 is design_reference.png, the colour/material reference, and image 3 is concept_crop.png, secondary design reference. Do not adopt their lighting, camera, composition or geometry.\n\nThe satchel must stay at the same small size in the middle of the 1024-square canvas, bounded by x=271..752, y=298..725. It is a strict orthographic left end view, not a front or three-quarter view. Preserve the low-poly outline and exact corners instead of smoothing or reshaping. Preserve every visible flap lip, perimeter seam, buckle, tiny side protrusion, opening and strap edge. The broad side strap curves down toward the lower left, precisely as shown in the guide.\n\nApply worn faded deep-blue canvas to the main end gusset, pale sand canvas to the existing narrow perimeter binding, tan leather to the broad diagonal hanging strap, muted brass to the existing upper buckle. Fine weave, stitching, light dust and restrained wear should match the approved design. Keep the red cloth band and gold embroidered sigil on the front flap in the same design location, only if visible in this strict side view; do not invent a side emblem or show additional front surfaces.\n\nCRITICAL LIGHTING CORRECTION: this is unlit base colour, not a shaded product illustration. Flat diffuse colours under even shadowless frontal light. No ambient occlusion or dark crevice halos, no dark cast shadow behind the strap, no broad fold shading, no rim light, no reflective brass highlights. Surface colour variation comes only from pigment, weave, wear and dust. Do not transfer the guide's grey lighting into the texture. No background, floor, contact shadow, labels or added objects. Return one native 1024 x 1024 transparent image with the EXACT unchanged guide silhouette.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/guide_left.png",
+          "sha256": "3e56da2308290206ea7691066451edfb314c93f9e5c5c00f82804894c94a589f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/design_reference.png",
+          "sha256": "7fcb067d6d1f0858c68b39388d207fd02bdbbcab6291874aa0fc7ef0eb18cd8c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/concept_crop.png",
+          "sha256": "5748e87c95da3b5875f06915307ba03771b6718c84b759673390663c10613392"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16ac9-2362-7833-9e0a-9b3301e0c194/exec-dd3288d9-aa0f-4ca3-924d-a29a8f4aa737.png",
+      "selected": false,
+      "reason": "Not selected: the correction still returns 1254 x 1254, does not preserve the exact silhouette, retains shading and has lower normalized silhouette overlap than the first return.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ac9-2362-7833-9e0a-9b3301e0c194/exec-dd3288d9-aa0f-4ca3-924d-a29a8f4aa737.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          30,
+          1230,
+          1231
+        ],
+        "opaque_bbox": [
+          339,
+          370,
+          924,
+          889
+        ],
+        "alpha_zero_pixels": 1360700,
+        "alpha_partial_pixels": 211634,
+        "normalized_silhouette_iou_diagnostic_only": 0.9790486604702023,
+        "silhouette_identical": false,
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "materials_and_colours": "The visible side materials broadly match: faded navy canvas, sand binding, tan leather and brass. Front red band/sigil are not exposed in these side projections.",
+        "flat_even_light": false,
+        "lighting_note": "Residual shaded folds, dark seam/strap borders and brass highlights remain.",
+        "transparent_background": true,
+        "clean_background_alpha": false,
+        "transparency_note": "RGBA with a mostly zero-alpha background, but faint nonzero alpha extends beyond the main silhouette.",
+        "meets_brief": false
+      },
+      "output_sha256": "61aeeabd80b719e7c4b311aab823e8acccd44eeb6b5ba2fc7279c39e1e838d11"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Corrective generation of a technical ALBEDO TEXTURE SOURCE.\nEdit the FIRST input image, guide_right.png, IN PLACE AT ITS ORIGINAL 1024 x 1024 RESOLUTION. Return exactly 1024 x 1024 pixels, native output, transparent PNG. The previous attempt incorrectly returned 1254 x 1254 and changed the silhouette. This correction MUST retain the 1024-square canvas without resampling. Copy the original guide's alpha mask exactly: every background pixel stays fully transparent, every silhouette edge and internal opening stays in its original position. Paint RGB only inside the guide mask. Do not create faint stray opaque pixels in the empty background.\n\nImage 1 is the absolute authority for silhouette, geometry, framing and surface boundaries. Image 2 is design_reference.png, the colour/material reference, and image 3 is concept_crop.png, secondary design reference. Do not adopt their lighting, camera, composition or geometry.\n\nThe satchel must stay at the same small size in the middle of the 1024-square canvas, bounded by x=271..752, y=298..725. It is a strict orthographic right end view, not a front or three-quarter view. Preserve the low-poly outline and exact corners instead of smoothing or reshaping. Preserve every visible flap lip, perimeter seam, buckle, tiny side protrusion, opening and strap edge. The broad side strap curves down toward the lower right, precisely as shown in the guide.\n\nApply worn faded deep-blue canvas to the main end gusset, pale sand canvas to the existing narrow perimeter binding, tan leather to the broad diagonal hanging strap, muted brass to the existing upper buckle. Fine weave, stitching, light dust and restrained wear should match the approved design. Keep the red cloth band and gold embroidered sigil on the front flap in the same design location, only if visible in this strict side view; do not invent a side emblem or show additional front surfaces.\n\nCRITICAL LIGHTING CORRECTION: this is unlit base colour, not a shaded product illustration. Flat diffuse colours under even shadowless frontal light. No ambient occlusion or dark crevice halos, no dark cast shadow behind the strap, no broad fold shading, no rim light, no reflective brass highlights. Surface colour variation comes only from pigment, weave, wear and dust. Do not transfer the guide's grey lighting into the texture. No background, floor, contact shadow, labels or added objects. Return one native 1024 x 1024 transparent image with the EXACT unchanged guide silhouette.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/guide_right.png",
+          "sha256": "00bb31632ebacd4741cea598701335f86b8ab3a9f9b1b07ecac6ea1bfd580e8f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/design_reference.png",
+          "sha256": "7fcb067d6d1f0858c68b39388d207fd02bdbbcab6291874aa0fc7ef0eb18cd8c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel/concept_crop.png",
+          "sha256": "5748e87c95da3b5875f06915307ba03771b6718c84b759673390663c10613392"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16ac9-2362-7833-9e0a-9b3301e0c194/exec-e4dbc755-5d8b-4c10-994a-017432dee72f.png",
+      "selected": false,
+      "reason": "Not selected: the correction still returns 1254 x 1254, does not preserve the exact silhouette, retains shading and has lower normalized silhouette overlap than the first return.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ac9-2362-7833-9e0a-9b3301e0c194/exec-e4dbc755-5d8b-4c10-994a-017432dee72f.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          33,
+          25,
+          1190,
+          1214
+        ],
+        "opaque_bbox": [
+          333,
+          367,
+          919,
+          887
+        ],
+        "alpha_zero_pixels": 1359283,
+        "alpha_partial_pixels": 213071,
+        "normalized_silhouette_iou_diagnostic_only": 0.982436161359555,
+        "silhouette_identical": false,
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "materials_and_colours": "The visible side materials broadly match: faded navy canvas, sand binding, tan leather and brass. Front red band/sigil are not exposed in these side projections.",
+        "flat_even_light": false,
+        "lighting_note": "Residual shaded folds, dark seam/strap borders and brass highlights remain.",
+        "transparent_background": true,
+        "clean_background_alpha": false,
+        "transparency_note": "RGBA with a mostly zero-alpha background, but faint nonzero alpha extends beyond the main silhouette.",
+        "meets_brief": false
+      },
+      "output_sha256": "0d1a2893d8f468b6d559074749eb02a858ed8879a2558150261b3c40a0c70cfd"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+ "creature_3d_identity": "mm7:m322",
+ "meshy": {
+  "jobs": {},
+  "credit_limit": 100
+ },
+ "scope": "MM7 batch J reduction (user 2026-10-20: reduce tris count now); no-retexture route, not installed",
+ "source": {
+  "body": "../mm7_m322_claude/export/mm7_m322.glb",
+  "staff": "../mm7_m322_claude/export/mm7_m322_staff.glb",
+  "rollback": "work/mm7_m322_source_pre_reduce.glb"
+ },
+ "selected": {
+  "export/mm7_m322.glb": "da27dd46173f8efc2672829b9df48e9ccb60f43d670a910e484fa373bfc60bd2",
+  "export/mm7_m322_staff.glb": "1375fd1497a636bf6bb110e2b6b1289243a76057823a50898faf8e7e5be602dd",
+  "work/mm7_m322_source_pre_reduce.glb": "4ae5b02e3dfe3fe962bc076d4bd71f671a249ba3c44cd9f87eb67271989c7ff1"
+ },
+ "status": {
+  "stage": "exported",
+  "lod0": "11188 -> 9202",
+  "lods": "4600 / 1897 / 588",
+  "pick": "set m r82",
+  "install": "not done (batch rule)",
+  "user_review": "pending"
+ }
+}

@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png exactly according to this production brief. Input roles: paint_mask_guide.png is the edit target and authoritative pixel geometry/layout; design_reference.png is material/detail reference only; icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. The guide has 3 columns and FOUR rows of equal 512x512 cells. Rows 1-2 and rows 3-4 contain identical five orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Keep every object at exactly its guide position, size, outline and camera. Paint existing objects only, never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour. Tall flat-topped great helm of silver steel with bold polished gold cross on front framing horizontal eye slit, and rows of small round breathing holes on both sides of cross below slit. Follow approved design_reference details and icon colours, but strictly preserve guide geometry. Facets, engravings, scrollwork and inner swirls follow reference scaled to each view. Unlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, halos, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: precisely the SAME silhouettes as corresponding paint views 1024 pixels above, filled FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 all metal including steel and gold; green #00FF00 leather/padding/hide/suede/fur; blue #0000FF cloth/linings/cords/hair; black #000000 gems/crystal/glass/pearl/enamel/liquid through glass; yellow #FFFF00 matte non-metal solid wood/bone/horn/stone/paper/wax. This helm is metal, so its mask is solid pure red throughout all visible shell/trim surfaces. Every silhouette pixel gets one material colour, nothing outside.\nKeep every gap/opening exactly as in guide and fully transparent. Empty column 3 row 2 and column 3 row 4 remain entirely transparent.\nCRITICAL CORRECTION: Previous mask FRONT and BACK were shifted and stretched. Every lower mask silhouette MUST match the exact shape, size and position of its corresponding painted view above, and the grey guide. Do not independently recompose masks. Maintain the guide's four-row arrangement precisely.\nCORRECTIVE REGENERATION: Start from the clean grey guide supplied, not the defective prior output. Absolutely no scattered pixels or red spill outside objects. Background must have zero alpha everywhere outside the exact guide silhouettes. Lower BACK view includes the complete solid pointed lower section shown in the guide: fill it pure red too; do not cut it out. All lower mask surfaces are uniform solid #FF0000, with crisp clean silhouette boundaries, no texture/noise anywhere. Upper paint should have fine steel surface detail from the master but no baked lighting. Preserve exact guide alpha silhouette layout.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10124/paint_mask_guide.png",
+      "sha256": "8ebe5c0df3ba5827cb8dbcf2b6e345034107aaa356122ff913a63a9b0a47b0a3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10124/design_reference.png",
+      "sha256": "0b5518fccaae03e1da6671f9664b7525ca8ecc68ff3968c13055d59cbebe451b"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10124/icon_x8.png",
+      "sha256": "b33866b4177f4d8d0f2bb8b951ec56fd00cb696154be50e2311ba201878956e9"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1abea-4310-77e1-85a9-ace2b8592536/exec-00853fc4-66bf-4cb9-81b2-6103721624fb.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10124/paint_mask_raw_v2.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout present, but visible red spill outside mask silhouettes remains; not production-ready."
+}

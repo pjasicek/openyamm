@@ -1,0 +1,29 @@
+[
+  {
+    "name": "sculpture_skull",
+    "prompt": "Use case: precise-object-edit. Repaint Image 1 ONLY as a six-view FLAT DIFFUSE ALBEDO painting for a game model. Image 1 is the exact mesh/silhouette authority. It is a 1536x1024 transparent atlas with THREE columns and TWO rows, six 512px cells. Preserve the position, scale, outline, interior gaps, silhouette and camera direction of EVERY view exactly. Do not rotate or reinterpret any view even when the first view is lateral. Cell order FRONT/BACK/LEFT on top, RIGHT/TOP/BOTTOM below. Image 2 defines the named item's colours and fine appearance only; ignore ALL lighting and reflections in it. Paint: Ethric's specific skull, grey ivory facial bones and teeth, dark weathered brown rear cranium matching the original; fine hairline fissures and natural tiny pores, restrained wear. Keep the guide's exact skull shape. Materials: weathered grey ivory bone; dark brown cranium. Perfectly even MATTE diffuse illumination: no specular reflections, highlights, directional shading, shadows, ambient occlusion, gradients, glow or halo. Paint material grain and pigment detail only. All six views stay in their exact original cells and framing. True transparent empty background, no floor, labels, borders, extra objects or ornamental additions. Return ONE 3:2 atlas.",
+    "generated_path": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-5133083b-16cf-4712-ba07-2c2c3b037ef6.png",
+    "tool": "built-in image_gen",
+    "selected": true,
+    "output_sha256": "86342b299c5c34d0002215982f54ba6bd63bde1d41038227fc962df32c5684bc",
+    "output_size": [
+      1536,
+      1024
+    ],
+    "mesh_guide": "guide_atlas.png (regenerated during seam cleanup; registration uses final guides)",
+    "material_reference": "level_generation/props/items_wip_sculpture/meshy/sculpture_skull/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "04288a5715441d8f5cca60f9eead16cd139c538593929ce39cc4e5787feb830f",
+    "status": "superseded"
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. Repaint Image 1 ONLY as a six-view FLAT DIFFUSE ALBEDO painting for a game model. Image 1 is the exact mesh/silhouette authority. It is a 1536x1024 transparent atlas with THREE columns and TWO rows, six 512px cells. Preserve the position, scale, outline, interior gaps, silhouette and camera direction of EVERY view exactly. Do not rotate or reinterpret any view even when the first view is lateral. Cell order FRONT/BACK/LEFT on top, RIGHT/TOP/BOTTOM below. Image 2 defines the named item's colours and fine appearance only; ignore ALL lighting and reflections in it. Paint: Ethric's specific skull, grey ivory facial bones and teeth, dark weathered brown rear cranium matching the original; fine hairline fissures and natural tiny pores, restrained wear. Keep the guide's exact skull shape. Materials: weathered grey ivory bone; dark brown cranium. Perfectly even MATTE diffuse illumination: no specular reflections, highlights, directional shading, shadows, ambient occlusion, gradients, glow or halo. Paint material grain and pigment detail only. All six views stay in their exact original cells and framing. True transparent empty background, no floor, labels, borders, extra objects or ornamental additions. Return ONE 3:2 atlas.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-5133083b-16cf-4712-ba07-2c2c3b037ef6.png",
+    "raw_sha256": "86342b299c5c34d0002215982f54ba6bd63bde1d41038227fc962df32c5684bc",
+    "selected_atlas_sha256": "86342b299c5c34d0002215982f54ba6bd63bde1d41038227fc962df32c5684bc",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_skull/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "04288a5715441d8f5cca60f9eead16cd139c538593929ce39cc4e5787feb830f",
+    "guide_input_note": "Exact earlier guide revision was not retained; final mesh guides are retained. Repaired geometry used for final bake."
+  }
+]

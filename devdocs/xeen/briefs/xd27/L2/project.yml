@@ -1,0 +1,35 @@
+format: 0
+id: xeen_xd27
+name: Ogre Lair
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-27
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 18], climbs: n}
+map_stats:
+  id: 9138
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 2
+  refill_days: 672
+  music: cave
+  environment: cave
+  lock_difficulty: 4
+  slots:
+    - {monster: Ogres, tier: 1, per_marker: [2, 3], weight: 60}
+    - {monster: Wolves and cats, tier: 1, per_marker: [2, 3], weight: 25}
+    - {monster: Ogres, tier: 2, per_marker: [1, 2], weight: 15}
+neighbours:
+  - id: exit:x2_hills
+    to: X2
+    kind: door
+    arrival_hint: "In the hills south-west of Rivercity above the river, in front of the ogre lair's bone-strewn mouth, facing away from it."
+    notes: "The lair's only way in and out. X2 owns the door (door:xd27 in X2's project, its arrival in devdocs/xeen/briefs/x2/DOORS.md)."
+qbits:
+  ogre_boulders_dumped: 110341
+  ogre_lair_destroyed: 110340
+items:
+  larder_key: 12170
+notes: "Xeen design brief, level L2, for a new map (no original to rebuild). Side quest Q-C23 The Ogre Boulders (devdocs/xeen/QUESTS.md): Captain Nystor of Rivercity wants the lair of the ogres who throw boulders at his boats destroyed; his reward is the boat route upriver. Class S (MAPS.md: at most 15 sectors and 20 M units^2, 15-30 monsters; section 0: 28 monsters, levels 12-20, groups 2-3, treasure level 2). Encounter slots are Xeen families from devdocs/xeen/MONSTERS_AND_ITEMS.md: slot 1 Ogres at their dungeon tiers (15 and 20, below the X2 crossings' 18-30 as section 0 asks), slot 2 the ogres' dogs from Wolves and cats (Dark Wolf 14 / 19 here, the family's levels pulled into the map's band), slot 3 the ogres' shamans (an Ogres tier that casts). No boss row: section 0 names none; the Ogre Chieftain is the family's rank b (20) with a name. Provisional ids: map_stats row 9138, qbits 110340-110379, items 12170-12189 (devdocs/xeen/ACT2_BUILD.md); none registered."

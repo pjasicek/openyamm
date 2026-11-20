@@ -3,6 +3,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
+from functools import lru_cache
+from pathlib import Path
+
+import yaml
 
 
 MM9_RUDE_EXIT_EVENT_ID_BASE = 50000
@@ -13,8 +17,28 @@ MM9_RUDE_FOUND_PLAYER_EVENT_ID_BASE = 56000
 MM9_RUDE_FOUND_PLAYER_EVENT_ID_MAX = 58999
 
 
+QUEST_XP_PROFILE_PATH = Path(__file__).with_name("mm9_quest_xp_profile.yml")
+
+
 class ScrCompileError(RuntimeError):
     pass
+
+
+QuestXpProfile = dict[tuple[str, str, int], int]
+
+
+@lru_cache(maxsize=None)
+def load_quest_xp_profile(path: Path = QUEST_XP_PROFILE_PATH) -> QuestXpProfile:
+    """The balanced amount of each original GiveExp, by (script file, routine, original amount), all lower case
+    (devdocs/mm9_rework/BALANCE_PLAN.md section 5.4)."""
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    profile: QuestXpProfile = {}
+    for award in data.get("awards") or []:
+        key = (str(award["script"]).lower(), str(award["routine"]).lower(), int(award["original"]))
+        if key in profile:
+            raise ValueError(f"{path}: duplicate quest XP award {key}")
+        profile[key] = int(award["xp"])
+    return profile
 
 
 @dataclass
@@ -29,6 +53,7 @@ class ScrProgram:
     declarations: dict[str, str] = field(default_factory=dict)
     declaration_kinds: dict[str, str] = field(default_factory=dict)
     routines: dict[str, list[ScrLine]] = field(default_factory=dict)
+    routine_sources: dict[str, str] = field(default_factory=dict)  # routine -> include file it came from
     rude_exit_routine: str = ""
     use_routine: str = ""
     found_player_routine: str = ""
@@ -85,6 +110,15 @@ SHARED_CONVERSATION_OPERATIONS = {
     "faceobject",
     "getplayerhandle",
     "target",
+}
+
+# A DoRude object's Use routine also stops the actor, reads the user's handle and plays a greeting animation before the
+# engine opens its dialogue; the shared conversation path owns that presentation (MM9_RUDE_SCR_INTEGRATION.md).
+DORUDE_USE_PRESENTATION_OPERATIONS = {
+    "getparam",
+    "loopanim",
+    "playanim",
+    "stop",
 }
 
 EXCLUDED_EXTERNAL_ROUTINE_PREFIXES = (
@@ -184,7 +218,9 @@ def merge_include_program(program: ScrProgram, include_program: ScrProgram) -> N
     for name, declaration_kind in include_program.declaration_kinds.items():
         program.declaration_kinds.setdefault(name, declaration_kind)
     for routine, body in include_program.routines.items():
-        program.routines.setdefault(routine, body)
+        if routine not in program.routines:
+            program.routines[routine] = body
+            program.routine_sources[routine] = include_program.source_name
 
 
 def source_object_event_id(source_object_index: int, event_id_base: int, event_id_maximum: int) -> int:
@@ -306,15 +342,20 @@ class RudeExitCompiler:
         script_params: list[str],
         actor_handles: dict[str, int],
         source_actor_handle: int | None,
+        dorude_id: int | None = None,
+        quest_xp_profile: QuestXpProfile | None = None,
     ):
         self.program = program
+        self.quest_xp_profile = load_quest_xp_profile() if quest_xp_profile is None else quest_xp_profile
         self.source_object_index = source_object_index
         self.script_params = script_params
         self.actor_handles = {name.lower(): handle for name, handle in actor_handles.items()}
         self.source_actor_handle = source_actor_handle
+        self.dorude_id = dorude_id
         self.reachable_routines: list[str] = []
         self.excluded_operations: list[str] = []
         self.root_routine = ""
+        self.callback_kind = ""
 
     def compile(self) -> CompiledRudeExit | None:
         callback_specs: list[tuple[str, str, int, str]] = []
@@ -327,6 +368,13 @@ class RudeExitCompiler:
         if self.program.use_routine and self._routine_opens_rude(self.program.use_routine, set()):
             callback_specs.append((
                 "Use",
+                self.program.use_routine,
+                rude_use_event_id(self.source_object_index),
+                "RegisterEvent"))
+        elif self.program.use_routine and self.dorude_id is not None:
+            # The object's DoRude property opens dialogue NPCNbr on use after its script's Use trigger ran.
+            callback_specs.append((
+                "DoRudeUse",
                 self.program.use_routine,
                 rude_use_event_id(self.source_object_index),
                 "RegisterEvent"))
@@ -360,7 +408,7 @@ class RudeExitCompiler:
             event_id=event_ids.get("OnRudeExit"),
             callback_routine=exit_callback,
             lua_lines=lines,
-            use_event_id=event_ids.get("Use"),
+            use_event_id=event_ids.get("Use", event_ids.get("DoRudeUse")),
             found_player_event_id=event_ids.get("OnFoundPlayer"),
             excluded_operations=sorted(set(self.excluded_operations)),
         )
@@ -368,8 +416,9 @@ class RudeExitCompiler:
     def _compile_event(self, callback_kind: str, callback: str, event_id: int, registration: str) -> list[str]:
         self.reachable_routines = []
         self.root_routine = callback
+        self.callback_kind = callback_kind
         self._collect_routine(callback, set())
-        title = f"MM9 RUDE {callback_kind} {self.source_object_index}"
+        title = f"MM9 RUDE {'Use' if callback_kind == 'DoRudeUse' else callback_kind} {self.source_object_index}"
         lines = [
             f"-- {self.program.source_name}: compiled {callback_kind} :{callback}",
             f'{registration}({event_id}, "{title}", function()',
@@ -380,8 +429,21 @@ class RudeExitCompiler:
                 "        return",
                 "    end",
             ])
+        body = []
+        for routine in self.reachable_routines:
+            body.append(f"    routine_{routine} = function()")
+            body.extend(self._compile_routine(routine, "        "))
+            body.append("    end")
+            body.append("")
+        # Only the variables the compiled routines read or write (the includes' AI globals, baseMelee.inc's ~100,
+        # are never touched by a dialogue routine): an unused one would only be read and dropped.
+        used = set(re.findall(r'state\["([^"]+)"\]', "\n".join(body)))
         lines.append("    local state = {}")
+        declared = False
         for declaration, initializer in sorted(self.program.declarations.items()):
+            if declaration not in used:
+                continue
+            declared = True
             if self._persistent_declaration(declaration):
                 lines.append(
                     f'    state["{declaration}"] = '
@@ -389,23 +451,21 @@ class RudeExitCompiler:
             else:
                 lines.append(f'    state["{declaration}"] = {initializer}')
         for parameter_index, target in self._parameter_bindings():
-            if parameter_index < len(self.script_params):
+            if parameter_index < len(self.script_params) and target in used:
+                declared = True
                 lines.append(
                     f'    state["{target}"] = {lua_parameter_value(self.script_params[parameter_index])}')
-        if self.program.declarations:
+        if declared:
             lines.append("")
 
         for routine in self.reachable_routines:
             lines.append(f"    local routine_{routine}")
         lines.append("")
-
-        for routine in self.reachable_routines:
-            lines.append(f"    routine_{routine} = function()")
-            lines.extend(self._compile_routine(routine, "        "))
-            lines.append("    end")
-            lines.append("")
+        lines.extend(body)
 
         lines.append(f"    routine_{callback}()")
+        if callback_kind == "DoRudeUse":
+            lines.append(f"    MM9.openRude({self.dorude_id})")
         lines.append(f'end, "{title}")')
         return lines
 
@@ -517,7 +577,7 @@ class RudeExitCompiler:
                 if not values:
                     raise self._error(line, f"{command} requires a routine")
                 target = values[0].lower()
-                if target not in self.program.routines:
+                if target not in self.reachable_routines:
                     output.append(
                         f'{statement_indent}MM9.excludedActorOperation("external routine {target}")')
                 else:
@@ -562,7 +622,13 @@ class RudeExitCompiler:
                     "takegold": "takeGold",
                     "giveexp": "giveExperience",
                 }[command]
-                output.append(f"{statement_indent}MM9.{operation}({lua_value(values[0])})")
+                balanced = self._balanced_experience(routine, values[0]) if command == "giveexp" else None
+                if balanced is not None:
+                    output.append(
+                        f"{statement_indent}MM9.giveExperience({balanced}) "
+                        f"-- MM9 GiveExp {values[0]}, mm9_quest_xp_profile.yml")
+                else:
+                    output.append(f"{statement_indent}MM9.{operation}({lua_value(values[0])})")
             elif command in {"giveitem", "takeitem"}:
                 if len(values) != 1:
                     raise self._error(line, f"{command} requires one argument")
@@ -643,7 +709,8 @@ class RudeExitCompiler:
                 output.append(f"{statement_indent}MM9.removeActor({self.source_actor_handle})")
             elif command == "onfoundplayer" and not values:
                 output.append(f"{statement_indent}MM9.disableFoundPlayer({self.source_object_index})")
-            elif command in SHARED_CONVERSATION_OPERATIONS:
+            elif command in SHARED_CONVERSATION_OPERATIONS or (
+                    self.callback_kind == "DoRudeUse" and command in DORUDE_USE_PRESENTATION_OPERATIONS):
                 self.excluded_operations.append(f"shared conversation operation {command} at line {line.number}")
                 output.append(f"{statement_indent}-- {code} is handled by shared conversation behavior")
             elif command in UNSUPPORTED_ACTOR_OPERATIONS:
@@ -657,6 +724,13 @@ class RudeExitCompiler:
             output.append(f"{indent}return")
         return output
 
+    def _balanced_experience(self, routine: str, value: str) -> int | None:
+        if not value.isdigit():
+            return None
+        source = self.program.routine_sources.get(routine, self.program.source_name)
+        key = (Path(source).name.lower(), routine.lower(), int(value))
+        return self.quest_xp_profile.get(key)
+
     def _error(self, line: ScrLine, message: str) -> ScrCompileError:
         return ScrCompileError(f"{self.program.source_name}:{line.number}: {message}: {line.code}")
 
@@ -669,7 +743,11 @@ def compile_rude_exit(
     script_params: list[str] | None = None,
     actor_handles: dict[str, int] | None = None,
     source_actor_handle: int | None = None,
+    dorude_id: int | None = None,
+    quest_xp_profile: QuestXpProfile | None = None,
 ) -> CompiledRudeExit | None:
+    """dorude_id: the object's DoRude dialogue (its NPCNbr). When given, a Use routine that does not open dialogue
+    itself still compiles, as the Use event, followed by opening that dialogue."""
     program = parse_scr(source_text, source_name)
     for include_name, include_text in include_sources or []:
         merge_include_program(program, parse_scr(include_text, include_name, discover_rude_exit=False))
@@ -679,4 +757,6 @@ def compile_rude_exit(
         script_params or [],
         actor_handles or {},
         source_actor_handle,
+        dorude_id,
+        quest_xp_profile,
     ).compile()

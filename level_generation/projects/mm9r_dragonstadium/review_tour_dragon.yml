@@ -1,0 +1,32 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dragonstadium/review/dragon
+settle_seconds: 3.0
+exit: true
+shots:
+- name: trigger_box
+  position:
+  - 1802
+  - -4690
+  - -48
+  yaw: 1.5594
+  pitch: 0.0
+- name: dragon_from_south
+  position:
+  - 1864
+  - -1800
+  - -163
+  yaw: 1.5708
+  pitch: 0.12
+- name: dragon_from_east
+  position:
+  - 4300
+  - 700
+  - -163
+  yaw: 3.1264
+  pitch: 0.12
+- name: dragon_from_north
+  position:
+  - 1900
+  - 3000
+  - -163
+  yaw: -1.5867
+  pitch: 0.12

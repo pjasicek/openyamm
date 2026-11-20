@@ -6,7 +6,9 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <cmath>
 #include <exception>
+#include <limits>
 #include <optional>
 
 namespace OpenYAMM::Game
@@ -159,6 +161,52 @@ bool LiquidTable::loadFromYaml(const std::string &yamlText, std::string &errorMe
         }
         liquid.terrainTransitionOverlay = liquidNode["terrain_transition_overlay"].as<bool>(false);
 
+        if (!readStrings(liquidNode["worlds"], liquid.worlds))
+        {
+            errorMessage = context + ": worlds must be a list of world ids";
+            return false;
+        }
+
+        liquid.reflects = liquidNode["reflections"].as<bool>(true);
+
+        if (const YAML::Node depthNode = liquidNode["depth"]; depthNode)
+        {
+            const std::string depth = depthNode.IsScalar() ? toLowerCopy(depthNode.as<std::string>()) : std::string();
+
+            if (depth != "deep" && depth != "shallow")
+            {
+                errorMessage = context + ": depth must be deep or shallow";
+                return false;
+            }
+
+            liquid.shallow = depth == "shallow";
+        }
+
+        liquid.wadeSpeed = liquidNode["wade_speed"].as<float>(1.0f);
+
+        if (!(liquid.wadeSpeed > 0.0f && liquid.wadeSpeed <= 1.0f) || (liquid.wadeSpeed < 1.0f && !liquid.shallow))
+        {
+            errorMessage = context + ": wade_speed must lie in (0, 1] and needs depth: shallow";
+            return false;
+        }
+
+        if (const YAML::Node opacityNode = liquidNode["opacity"]; opacityNode)
+        {
+            liquid.opacity = opacityNode.as<float>(std::numeric_limits<float>::quiet_NaN());
+        }
+
+        if (!(liquid.opacity > 0.0f && liquid.opacity <= 1.0f))
+        {
+            errorMessage = context + ": opacity must lie in (0, 1]";
+            return false;
+        }
+
+        if (liquid.opacity < 1.0f && (liquid.kind == LiquidKind::Lava || liquid.appliesToTerrain))
+        {
+            errorMessage = context + ": opacity below 1 needs a water or tar liquid of faces only";
+            return false;
+        }
+
         const YAML::Node matchNode = liquidNode["match"];
         std::vector<std::string> attributes;
         if (!matchNode || !matchNode.IsMap()
@@ -183,6 +231,42 @@ bool LiquidTable::loadFromYaml(const std::string &yamlText, std::string &errorMe
         m_liquids.push_back(std::move(liquid));
     }
     return true;
+}
+
+uint32_t liquidFaceColorAbgr(const LiquidDefinition &liquid)
+{
+    // At least 1: a zero tint would read as no liquid at all.
+    const uint32_t alpha = uint32_t(std::clamp(std::lround(liquid.opacity * 255.0f), 1L, 255L));
+    return (liquid.colorAbgr & 0x00ffffffu) | (alpha << 24);
+}
+
+LiquidTable LiquidTable::forWorld(std::string_view worldId) const
+{
+    const std::string normalizedWorldId = toLowerCopy(std::string(worldId));
+    LiquidTable table;
+
+    for (const LiquidDefinition &liquid : m_liquids)
+    {
+        if (std::find(liquid.worlds.begin(), liquid.worlds.end(), normalizedWorldId) != liquid.worlds.end())
+        {
+            table.m_liquids.push_back(liquid);
+        }
+    }
+
+    for (const LiquidDefinition &liquid : m_liquids)
+    {
+        if (liquid.worlds.empty())
+        {
+            table.m_liquids.push_back(liquid);
+        }
+    }
+
+    return table;
+}
+
+bool LiquidTable::hasShallowLiquids() const
+{
+    return std::any_of(m_liquids.begin(), m_liquids.end(), [](const LiquidDefinition &liquid) { return liquid.shallow; });
 }
 
 const LiquidDefinition *LiquidTable::findMatch(std::string_view textureName, uint32_t faceAttributes,

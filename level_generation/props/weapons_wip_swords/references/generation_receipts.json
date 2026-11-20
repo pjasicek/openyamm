@@ -1,0 +1,44 @@
+[
+  {
+    "tool": "image_gen.imagegen",
+    "images": 1,
+    "prompt": "references/surface_prompt.txt",
+    "guide": "references/surface_uv_template.png",
+    "output": "references/surface_painted.png",
+    "sha256": "eec659edaebd3f8295dc30b768121e2a1b5aa4cd1002da8c5bcdf201421bacb2",
+    "size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "output": "references/iron_feather_hilt_hd.png",
+    "prompt": "references/iron_feather_hilt_prompt.txt",
+    "sha256": "1ca0d473e4904e0b37e98dfcf50ad5601fa47072f16feb4e2f60a7f3c8783438",
+    "size": [
+      1024,
+      1536
+    ]
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "output": "references/bone_hilt_hd.png",
+    "prompt": "references/bone_hilt_prompt.txt",
+    "sha256": "14be47232daba73d3dd34793d75880380f65dad4f53b6199aaed601d6af4b8eb",
+    "size": [
+      1024,
+      1536
+    ]
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "output": "references/dragon_hilt_hd.png",
+    "prompt": "references/dragon_hilt_prompt.txt",
+    "sha256": "41d00f2e3257b685e109162670d305cb561cc1056869bf2a2b4d1891c1cc45b0",
+    "size": [
+      1024,
+      1536
+    ]
+  }
+]

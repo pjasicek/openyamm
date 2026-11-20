@@ -84,6 +84,26 @@ struct SkyHorizonRing
     float height = 0.08f;
 };
 
+// A planetary ring along the moon's path, so the moon always hangs in it, and small lights orbiting in it
+// (orbit_ring in sky.yml). Off (opacity 0, no lights) unless a preset asks for it; no shipped MM preset does.
+struct SkyOrbitRing
+{
+    // Brightness at full star visibility; the ring fades with the stars, to a pale ghost by day.
+    float opacity = 0.0f;
+    float widthDegrees = 4.0f;
+    SkyColor color = {0.85f, 0.82f, 0.9f};
+    // Extra brightness of the debris clumps near the moon (the fragments trailing from it).
+    float fragments = 1.0f;
+    // Lights orbiting in the ring (gun platforms, stations): count, angular radius, game minutes per orbit.
+    int lightCount = 0;
+    float lightSizeDegrees = 0.12f;
+    std::array<float, 2> lightOrbitMinutes = {60.0f, 180.0f};
+    SkyColor lightColor = {1.0f, 0.86f, 0.62f};
+    float lightBrightness = 2.0f;
+};
+
+constexpr int MaxSkyOrbitLights = 8;
+
 struct SkyStarField
 {
     std::string texture;
@@ -98,11 +118,16 @@ struct SkyPreset
     std::array<SkyTrack, SkyValueCount> tracks;
     float sunDiscDegrees = 1.6f;
     float moonDiscDegrees = 2.2f;
+    // The moon disc's texture (engine/rendering/sky/<name>.oytex): a world's preset may draw its own moon.
+    std::string moonTexture = "moon";
+    // Added to the calendar's moon phase (0 = new, 0.5 = full): where in its cycle a world's moon starts.
+    float moonPhaseOffset = 0.0f;
     SkyBelowHorizon belowHorizon = SkyBelowHorizon::Fog;
     // Sky share of world fog colour when the map authors a fog colour or tint.
     float fogTintSkyMix = 0.25f;
     SkyHorizonRing horizonRing;
     SkyStarField stars;
+    SkyOrbitRing orbitRing;
     std::vector<SkyCloudLayer> clouds;
     // A storm sky keeps its own look in rain instead of switching to the generic rain preset.
     bool storm = false;

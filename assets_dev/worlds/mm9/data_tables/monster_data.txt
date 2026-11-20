@@ -1,0 +1,256 @@
+Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 2			    Spell Attack		    Spell Attack 2		Resistances										Misc
+#	Name	Picture	LVL	 HP 	AC	 EXP 	Treasure	Blood	Fly	Move	AI Type	Hst	Spd	Rec	Pref	Bonus	Type	Damage	Miss	Att%	Type	Damage	Miss	Use%	Spl,Mas,Skil	Use%	Spl,Mas,Skil	Fire	Air	Water	Earth	Mind	Spirit	Body	Light	Dark	Phys	Special
+																																						
+	A		0																																			
+9001	Commoner	MM9 1 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9002	Commoner	MM9 2 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9003	Town	MM9 3 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9004	Town	MM9 4 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9005	Shopkeeper	MM9 5 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9006	Shopkeeper	MM9 6 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9007	Prisoner	MM9 7 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9008	Commoner	MM9 8 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9009	Commoner	MM9 9 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9010	Town	MM9 10 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9011	Town	MM9 11 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9012	Shopkeeper	MM9 12 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9013	Shopkeeper	MM9 13 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9014	Shopkeeper	MM9 14 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9015	Commoner	MM9 15 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9016	Commoner	MM9 16 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9017	Town	MM9 17 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9018	Town	MM9 18 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9019	Shopkeeper	MM9 19 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9020	Shopkeeper	MM9 20 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9021	Prisoner	MM9 21 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9022	Commoner	MM9 22 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9023	Commoner	MM9 23 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9024	Town	MM9 24 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9025	Town	MM9 25 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9026	Shopkeeper	MM9 26 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9027	Shopkeeper	MM9 27 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9028	Prisoner	MM9 28 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9029	Commoner	MM9 29 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9030	Commoner	MM9 30 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9031	Town	MM9 31 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9032	Town	MM9 32 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9033	Shopkeeper	MM9 33 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9034	Shopkeeper	MM9 34 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9035	Prisoner	MM9 35 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9036	Commoner	MM9 36 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9037	Commoner	MM9 37 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9038	Town	MM9 38 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9039	Town	MM9 39 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9040	Shopkeeper	MM9 40 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9041	Shopkeeper	MM9 41 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9042	Prisoner	MM9 42 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9043	Commoner	MM9 43 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9044	Commoner	MM9 44 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9045	Town	MM9 45 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9046	Town	MM9 46 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9047	Shopkeeper	MM9 47 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9048	Shopkeeper	MM9 48 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9049	Prisoner	MM9 49 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9050	Commoner	MM9 50 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9051	Commoner	MM9 51 Commoner	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9052	Town	MM9 52 Town	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9053	Town	MM9 53 Town	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9054	Shopkeeper	MM9 54 Shopkeeper	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9055	Shopkeeper	MM9 55 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9056	Prisoner	MM9 56 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9057	Commoner	MM9 57 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9058	Town	MM9 58 Town	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9059	Shopkeeper	MM9 59 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9060	Prisoner	MM9 60 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9061	Commoner	MM9 61 Commoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9062	Town	MM9 62 Town	2	7	5	36	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9063	Shopkeeper	MM9 63 Shopkeeper	3	11	6	59	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9064	Prisoner	MM9 64 Prisoner	1	4	3	17	0	1	N	Short	Aggress	4	192	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9067	Commoner Child	MM9 67 Commoner Child	1	4	3	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9068	Townsfolk Child	MM9 68 Townsfolk Child	1	4	5	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9069	Commoner Child	MM9 69 Commoner Child	1	4	3	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9070	Townsfolk Child	MM9 70 Townsfolk Child	1	4	5	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9071	Commoner Child	MM9 71 Commoner Child	1	4	5	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9072	Townsfolk Child	MM9 72 Townsfolk Child	1	4	5	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9073	Commoner Child	MM9 73 Commoner Child	1	4	3	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9074	Townsfolk Child	MM9 74 Townsfolk Child	1	4	5	17	0	1	N	Short	Aggress	4	160	20	0	0	Phys	2D2	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9075	Dragonfly Mite	MM9 Dragonfly A	2	7	4	36	1%2d6+L1	1	Y	Long	Aggress	4	320	75	0	0	Phys	2D1	Water	50	Water	2D1	0	20	Ice Bolt,N,1	0	0	0	20	0	0	0	0	0	0	0	0	0
+9076	Dragonfly	MM9 Dragonfly B	3	11	8	59	2%4d6+L1	1	Y	Long	Aggress	4	320	75	0	0	Phys	3D2	Elec	50	Air	3D2	0	20	Lightning Bolt,N,1	0	0	0	20	0	0	0	0	0	0	0	0	0
+9077	Fire Dragonfly	MM9 Dragonfly C	5	19	12	113	3%8d6+L1	1	Y	Long	Aggress	4	320	75	0	0	Phys	4D2+1	Fire	50	Fire	4D2+1	0	20	Fire Bolt,N,4	0	0	Imm	0	0	0	0	0	0	0	0	0	0
+9078	Imply	MM9 Imp A	4	15	6	84	2%6d6+L1	1	N	Short	Aggress	4	192	75	0	0	Phys	1D6	MM9Axe	100	Phys	4D1	0	0	0	0	0	Imm	0	0	0	0	0	0	5	5	10	0
+9079	Imp	MM9 Imp B	6	24	10	144	6%10d6+L1	1	N	Short	Aggress	4	192	75	0	0	Phys	1D9+2	MM9Axe	100	Phys	4D2+2	0	0	0	0	0	Imm	0	0	0	0	0	0	5	5	15	0
+9080	Imp Elder	MM9 Imp C	10	45	14	300	12%13d10+L2Weapon	1	N	Short	Aggress	4	192	75	0	0	Phys	1D9+4	MM9Axe	100	Phys	4D2+4	0	0	0	0	0	Imm	0	0	0	0	0	0	10	10	20	0
+9081	Nagate Hatchling	MM9 Nagate A	6	24	12	144	6%10d6+L1	1	N	Short	Aggress	4	192	79	0	0	Phys	3D3	0	0	Phys	3D2	0	0	0	0	0	0	0	20	0	0	0	0	5	5	20	0
+9082	Nagate	MM9 Nagate B	10	45	15	300	12%13d10+L2	1	N	Short	Aggress	4	192	79	0	0	Phys	3D3+4	0	0	Phys	3D2+3	0	0	0	0	0	0	0	20	0	0	0	0	5	5	20	0
+9083	Nagate Elder	MM9 Nagate C	14	72	20	504	13%16d10+L2	1	N	Short	Aggress	4	192	79	0	0	Phys	3D3+8	Fire	50	Fire	3D2+6	0	0	0	0	0	5	0	30	5	5	5	5	5	5	20	0
+9084	Lobber Pod	MM9 Lobber A	1	4	3	17	1d6	0	N	Med	Aggress	4	288	75	0	0	Phys	2D2+1	0	0	Dark	2D2+1	0	0	0	0	0	0	0	0	20	0	0	0	0	0	0	0
+9085	Lobber Pod	MM9 Lobber B	2	7	5	36	1%2d6+L1	0	N	Med	Aggress	4	288	75	0	0	Phys	2D2+3	0	0	Dark	2D2+3	0	0	0	0	0	0	0	0	20	0	0	0	0	0	0	0
+9086	Lobber	MM9 Lobber C	7	29	10	179	7%8d10+L1	0	N	Stationary	Normal	4	0	75	0	0	Phys	2D7+10	Body	0	Dark	2D4+1	0	40	Poison Spray,N,1	0	0	0	0	0	20	0	0	0	0	0	0	0
+9087	Airborne Icky	MM9 Icky A	7	29	9	179	7%8d10+L1	1	Y	Long	Aggress	4	384	75	0	0	Phys	2D5+2	0	0	Phys	1D5+2	0	0	0	0	0	0	20	0	0	0	0	0	0	0	0	0
+9088	Flying Icky	MM9 Icky B	11	52	14	347	9%11d10+L2	1	Y	Long	Aggress	4	384	75	0	0	Phys	2D5+4	0	0	Phys	1D5+4	0	0	0	0	0	5	30	5	0	5	5	5	0	0	0	0
+9089	Astral Icky	MM9 Icky C	18	103	17	756	19%27d10+L3	1	Y	Long	Aggress	4	384	75	0	0	Phys	2D5+8	0	0	Phys	1D5+8	Fire	0	0	0	0	5	30	5	0	5	5	5	0	0	0	0
+9090	Field Thrall	MM9 Thrall A	8	34	8	216	9%9d10+L2	1	N	Short	Aggress	4	256	75	0	0	Phys	3D4+3	MM9Knife	100	Phys	3D4+1	0	0	0	0	0	0	0	0	0	0	0	0	5	5	10	0
+9091	Thrall	MM9 Thrall B	12	58	14	396	10%13d10+L2	1	N	Short	Aggress	4	256	75	0	0	Phys	3D4+6	MM9Knife	100	Phys	3D4+3	0	0	0	0	0	5	5	5	5	5	5	5	10	10	20	0
+9092	Thrall Master	MM9 Thrall C	18	103	20	756	19%27d10+L3Armor	1	N	Short	Aggress	4	256	75	0	0	Phys	3D4+12	MM9Knife	100	Phys	3D4+6	0	0	0	0	0	5	5	5	5	5	5	5	15	15	30	0
+9093	Bird	MM9 Bird A	9	40	4	257	10%11d10+L2	1	Y	Med	Aggress	4	256	75	0	0	Phys	1D8	0	0	Phys	1D8	0	0	0	0	0	0	20	0	0	0	0	0	0	0	0	0
+9094	Bird	MM9 Bird B	13	65	5	449	12%14d10+L2	1	Y	Med	Aggress	4	256	75	0	0	Phys	1D8+2	0	0	Phys	1D8+2	Air	0	0	0	0	5	30	5	0	5	5	5	0	0	0	0
+9095	Bird	MM9 Bird C	17	95	8	689	17%24d10+L3	1	Y	Med	Aggress	4	256	75	0	0	Phys	1D8+6	0	0	Phys	1D8+6	Fire	0	0	0	0	5	30	5	0	5	5	5	0	0	0	0
+9096	Troglodyte	MM9 Troglodyte A	10	45	10	300	12%13d10+L2	1	N	Short	Aggress	4	192	75	0	0	Phys	3D7+4	Earth	100	Spirit	3D7+2	0	0	0	0	0	0	0	0	0	0	0	0	10	10	5	0
+9097	Troglodyte Wren	MM9 Troglodyte B	17	95	15	689	17%24d10+L3	1	N	Short	Aggress	4	192	75	0	0	Phys	3D7+6	Earth	50	Earth	3D7+3	0	20	Poison Spray,N,4	0	0	5	5	5	5	5	5	5	20	20	10	0
+9098	Troglodyte Gnoll	MM9 Troglodyte C	24	159	20	1224	16%21d20+L3	1	N	Short	Aggress	4	192	59	0	0	Earth	3D7+8	Earth	50	Dark	3D7+4	0	20	Toxic Cloud,E,1	0	0	15	15	15	15	15	15	15	30	30	15	0
+9099	Cutpurse	MM9 Highwayman A	8	34	12	216	9%9d10+L2	1	N	Med	Aggress	4	320	75	0	0	Phys	2D4+1	MM9Knife	100	Phys	2D4+1	0	0	0	0	0	0	0	0	0	0	0	0	5	5	5	0
+9100	Burglar	MM9 Highwayman B	14	72	14	504	13%16d10+L2	1	N	Med	Aggress	4	320	75	0	0	Phys	2D4+5	MM9Knife	100	Phys	2D4+5	0	0	0	0	0	5	5	5	5	5	5	5	10	10	10	0
+9101	Bandit	MM9 Highwayman C	22	139	16	1056	14%18d20+L3	1	N	Med	Aggress	4	320	59	0	0	Phys	2D4+10	MM9Knife	100	Phys	2D4+10	0	0	0	0	0	15	15	15	15	15	15	15	15	15	15	0
+9102	Half Orc Recruit	MM9 Half Orc A	14	72	18	504	13%16d10+L2Weapon	1	N	Med	Aggress	4	320	75	0	0	Phys	3D3+6	MM9Knife	100	Phys	3D3+3	0	0	0	0	0	5	5	5	5	5	5	5	10	10	5	0
+9103	Half Orc Soldier	MM9 Half Orc B	24	159	24	1224	16%21d20+L3Weapon	1	N	Med	Aggress	4	320	59	0	0	Phys	3D3+10	MM9Knife	100	Phys	3D3+5	0	0	0	0	0	15	15	15	15	15	15	15	15	15	10	0
+9104	Half Orc Captain	MM9 Half Orc C	35	289	32	2363	20%39d20+L4Weapon	1	N	Med	Aggress	4	320	59	0	0	Phys	3D3+14	MM9Knife	100	Phys	3D3+7	0	0	0	0	0	15	15	15	15	15	15	15	20	20	15	0
+9105	Ice Lobbercicle	MM9 Ice Lobber A	13	65	8	449	12%14d10+L2	0	N	Med	Aggress	4	288	75	0	0	Phys	2D7+5	0	100	Water	2D7+5	0	0	0	0	0	0	5	Imm	5	5	5	5	0	0	0	0
+9106	Ice Lobber	MM9 Ice Lobber B	20	120	10	900	22%17d20+L3	0	N	Stationary	Normal	4	0	75	0	0	Water	2D7+10	Cold	50	Water	2D7+10	0	20	Ice Bolt,E,8	0	0	0	5	Imm	5	5	5	5	0	0	0	0
+9107	Town Guard	MM9 107 Town Guard	20	120	18	900	22%17d20+L3Weapon	1	N	Med	Aggress	4	320	75	0	0	Phys	3D3+6	0	0	Phys	3D3+6	0	0	0	0	0	5	5	5	5	5	5	5	10	10	10	0
+9108	Town Guard	MM9 108 Town Guard	14	72	15	504	13%16d10+L2Weapon	1	N	Med	Aggress	4	320	75	0	0	Phys	2D4+4	0	0	Phys	2D4+4	0	0	0	0	0	5	5	5	5	5	5	5	10	10	5	0
+9109	Town Guard	MM9 109 Town Guard	37	317	30	2609	22%43d20+L4Armor	1	N	Med	Aggress	4	320	59	0	0	Phys	3D3+14	0	0	Phys	3D3+14	0	0	0	0	0	18	18	18	18	18	18	18	30	30	30	0
+9110	Town Guard	MM9 110 Town Guard	34	276	16	2244	19%37d20+L4Armor	1	N	Med	Aggress	4	320	59	0	0	Phys	2D8+4	0	0	Phys	2D8+4	0	0	0	0	0	15	15	15	15	15	15	15	5	5	5	0
+9111	Guard	MM9 Guard A	11	52	16	347	9%11d10+L2Weapon	1	N	Med	Normal	4	320	75	0	0	Phys	3D3+5	0	0	Phys	3D3+3	0	0	0	0	0	5	5	5	5	5	5	5	10	10	10	0
+9112	Guard Segeant	MM9 Guard B	19	112	24	827	21%15d20+L3Weapon	1	N	Med	Normal	4	320	75	0	0	Phys	3D3+10	0	0	Phys	3D3+5	0	0	0	0	0	5	5	5	5	5	5	5	20	20	20	0
+9113	Guard Captain	MM9 Guard C	33	263	36	2129	18%35d20+L4Armor	1	N	Med	Normal	4	320	59	0	0	Phys	3D3+20	0	0	Phys	3D3+10	0	0	0	0	0	15	15	15	15	15	15	15	30	30	30	0
+9114	Grey Wolf	MM9 Wolf A	20	120	20	900	22%17d20+L3	1	N	Med	Aggress	4	371	79	0	0	Phys	2D12+12	0	0	Phys	1D10+2	0	0	0	0	0	5	5	5	5	0	5	30	10	10	10	0
+9115	Red Wolf	MM9 Wolf B	30	225	25	1800	24%31d20+L3	1	N	Med	Aggress	4	384	79	0	0	Phys	2D12+16	0	0	Phys	1D10+6	0	0	0	0	0	15	15	15	15	0	15	50	15	15	15	0
+9116	Black Wolf	MM9 Wolf C	40	360	30	3000	25%50d20+L4	1	N	Med	Aggress	4	384	79	0	0	Phys	2D12+20	0	0	Phys	2D10+8	0	0	0	0	0	18	18	18	18	0	18	56	20	20	20	0
+9120	Dwarven Guard	MM9 Dwarf A	10	45	6	300	12%13d10+L2Armor	1	N	Med	Aggress	4	192	75	0	0	Phys	4D2+4	MM9Axe	100	Phys	4D2+2	0	0	0	0	0	0	0	0	0	0	0	0	30	20	30	0
+9121	Dwarven Soldier	MM9 Dwarf B	20	120	12	900	22%17d20+L3Weapon	1	N	Med	Aggress	4	192	75	0	0	Phys	4D2+8	MM9Axe	100	Phys	4D2+4	0	0	0	0	0	5	5	5	5	5	5	5	40	30	40	0
+9122	Dwarven Commander	MM9 Dwarf C	30	225	20	1800	24%31d20+L3Weapon	1	N	Med	Aggress	4	192	59	0	0	Phys	4D2+16	MM9Axe	100	Phys	4D2+8	0	0	0	0	0	15	15	15	15	15	15	15	50	40	50	0
+9123	Initiate	MM9 Monk A	25	169	14	1313	18%23d20+L3	1	N	Med	Normal	4	256	59	0	0	Light	9D4	0	0	0	0	0	40	Sparks,E,4	0	0	15	15	15	15	50	15	0	5	5	10	0
+9124	Monk	MM9 Monk B	35	289	18	2363	20%39d20+L4	1	N	Med	Normal	4	256	59	0	0	Light	12D4	0	0	0	0	0	38	Sparks,M,6	40	Bless,E,7	15	15	15	15	50	15	0	10	10	15	0
+9125	Reverend Monk	MM9 Monk C	50	499	30	4500	40%30d50+L5	1	N	Med	Normal	4	256	59	0	0	Light	16D4	0	0	0	0	0	0	0	0	0	18	18	18	18	56	18	0	15	15	20	0
+9129	Horde Grunt	MM9 Horde A	34	276	20	2244	19%37d20+L4Weapon	1	N	Med	Suicidal	4	256	59	0	0	Phys	2D6+2	0	100	Phys	2D6+2	0	0	0	0	0	15	15	15	15	15	15	15	5	5	5	0
+9130	Horde Warrior	MM9 Horde B	44	402	35	3564	31%57d20+L4Weapon	1	N	Med	Suicidal	4	256	59	0	0	Phys	3D6+3	0	100	Phys	3D6+3	0	0	0	0	0	18	18	18	18	18	18	18	10	10	10	0
+9131	Horde Leader	MM9 Horde C	54	570	40	5184	46%34d50+L5Armor	1	N	Med	Suicidal	4	256	59	0	0	Phys	3D7+3	0	100	Phys	3D7+3	0	0	0	0	0	18	18	18	18	18	18	18	15	15	15	0
+9132	Clan Soldier	MM9 132 Clan Soldier	34	276	20	2244	19%37d20+L4Armor	1	N	Med	Suicidal	4	256	59	0	0	Phys	2D8+4	MM9Axe	100	Phys	2D8+4	0	0	0	0	0	15	15	15	15	15	15	15	5	5	5	0
+9133	Clan Corporal	MM9 133 Clan Corporal	44	402	35	3564	31%57d20+L4Armor	1	N	Med	Suicidal	4	256	59	0	0	Phys	2D8+12	MM9Axe	100	Phys	2D8+12	0	0	0	0	0	18	18	18	18	18	18	18	10	10	10	0
+9134	Clan Sergeant	MM9 134 Clan Sergeant	54	570	38	5184	46%34d50+L5Weapon	1	N	Med	Suicidal	4	256	59	0	0	Phys	2D8+20	MM9Axe	100	Phys	2D8+20	0	0	0	0	0	18	18	18	18	18	18	18	15	15	15	0
+9135	Skeleton	MM9 Skeleton C	16	87	12	624	16%22d10+L3Weapon	0	N	Med	Aggress	4	256	75	0	0	Phys	2D12	MM9Axe	100	Phys	2D12	0	0	0	0	0	5	5	5	5	Imm	0	30	0	90	5	0
+9136	Skeleton Warrior	MM9 Skeleton Warrior A	22	139	20	1056	14%18d20+L3Weapon	0	N	Med	Aggress	4	256	59	0	0	Phys	2D12+4	MM9Knife	100	Phys	2D12+2	0	0	0	0	0	15	15	15	15	Imm	0	50	0	90	5	0
+9137	Skeleton Master	MM9 Skeleton Warrior B	33	263	25	2129	18%35d20+L4Weapon	0	N	Med	Aggress	4	256	59	0	0	Phys	2D12+8	MM9Axe	100	Phys	2D12+4	0	0	0	0	0	15	15	15	15	Imm	0	50	0	90	5	0
+9138	Shadow	MM9 Ghost A	33	263	25	2129	18%35d20+L4	0	Y	Long	Aggress	4	320	59	0	0	Dark	8D4+8	0	0	Dark	1D6+6	0	0	0	0	0	15	15	15	15	Imm	0	50	10	100	40	0
+9139	Apparition	MM9 Ghost B	44	402	30	3564	31%57d20+L4	0	Y	Long	Aggress	4	320	59	0	0	Dark	10D4+10	0	0	Dark	2D6+6	0	0	0	0	0	18	18	18	18	Imm	0	56	15	100	50	0
+9140	Specter	MM9 Ghost C	55	588	35	5363	47%35d50+L5	0	Y	Long	Aggress	4	320	59	0	0	Dark	12D4+12	0	0	Dark	3D6+6	0	40	Dark Grasp,M,10	0	0	18	18	18	18	Imm	0	56	20	100	60	0
+9144	Canopic Mummy	MM9 Mummy A	20	120	16	900	22%17d20+L3	0	N	Med	Aggress	4	224	79	0	0	Dark	3D7+6	0	0	Dark	9D4	0	0	0	0	0	5	5	5	5	Imm	0	30	20	20	10	0
+9145	Embalmed Mummy	MM9 Mummy B	30	225	22	1800	24%31d20+L3	0	N	Med	Aggress	4	224	79	0	0	Dark	3D7+12	0	0	Dark	12D4	0	0	0	0	0	15	15	15	15	Imm	0	50	30	30	20	0
+9146	Petrified Mummy	MM9 Mummy C	40	360	34	3000	25%50d20+L4	0	N	Med	Aggress	4	224	59	0	0	Dark	3D7+18	0	0	Dark	16D4	0	38	Dark Grasp,M,12	25	Paralyze,M,10	18	18	18	18	Imm	0	56	40	40	30	0
+9147	Dagrell	MM9 Dagrell A	39	346	30	2867	24%47d20+L4	0	N	Long	Suicidal	4	512	59	0	0	Phys	3D7+25	0	0	Phys	1D6	0	0	0	0	0	18	18	18	18	Imm	0	56	50	90	20	0
+9148	Venomous Dagrell	MM9 Dagrell B	59	665	35	6107	51%65d50+L5	0	N	Long	Suicidal	4	512	59	0	0	Phys	3D7+40	0	0	Phys	3D6	0	0	0	0	0	30	30	30	30	Imm	0	80	50	90	30	0
+9149	Spectre Dagrell	MM9 Dagrell C	79	1057	40	10547	75%113d50+L6	0	N	Long	Suicidal	4	512	59	0	0	Phys	3D7+60	0	0	Phys	5D6	0	0	0	0	0	30	30	30	30	Imm	0	80	50	90	40	0
+9150	Basilisk	MM9 Basilisk A	15	79	25	563	15%18d10+L2	1	N	Long	Aggress	4	192	79	0	0	Phys	2D8+2	Body	50	Phys	2D8+2	0	20	Poison Spray,N,2	0	0	5	0	5	30	5	5	5	10	10	10	0
+9151	Fibrase Basilisk	MM9 Basilisk B	23	149	35	1139	15%20d20+L3	1	N	Long	Aggress	4	192	79	0	0	Phys	2D8+6	Body	50	Phys	2D8+6	0	20	Poison Spray,N,7	0	0	15	0	15	50	15	15	15	20	20	20	0
+9152	King Basilisk	MM9 Basilisk C	30	225	40	1800	24%31d20+L3	1	N	Long	Aggress	4	192	79	0	0	Phys	3D8+10	Body	50	Dark	2D8+10	0	20	Poison Spray,E,17	0	0	15	0	15	50	15	15	15	30	30	30	0
+9153	Baron	MM9 Nobleman A	45	417	30	3713	33%24d50+L5	1	N	Med	Suicidal	4	224	59	0	0	Phys	9D4	0	0	Phys	9D4	0	0	0	0	0	18	18	18	18	Imm	0	56	20	20	10	0
+9154	Viscount	MM9 Nobleman B	55	588	35	5363	47%35d50+L5	1	N	Med	Suicidal	4	224	59	0	0	Phys	12D4	0	0	Phys	12D4	0	0	0	0	0	18	18	18	18	Imm	0	56	30	30	20	0
+9155	Count	MM9 Nobleman C	65	746	40	7313	61%78d50+L6	1	N	Med	Suicidal	4	224	59	0	0	Phys	16D4	0	0	Phys	16D4	0	0	0	0	0	30	30	30	30	Imm	0	80	40	40	30	0
+9156	Evil Apprentice	MM9 Evil Sorcerer A	25	169	25	1313	18%23d20+L3	1	N	Med	Aggress	4	224	59	0	0	Air	9D4	0	0	Phys	2D8+10	0	40	Fire Bolt,E,11	0	0	50	15	15	15	15	15	0	20	20	20	0
+9157	Evil Sorcerer	MM9 Evil Sorcerer B	35	289	35	2363	20%39d20+L4	1	N	Med	Aggress	4	224	59	0	0	Dark	12D4	0	0	Phys	2D8+15	0	40	Fire Bolt,E,14	0	0	50	15	15	15	15	15	0	30	30	20	0
+9158	Evil Grand Sorcerer	MM9 Evil Sorcerer C	50	499	45	4500	40%30d50+L5	1	N	Med	Aggress	4	224	59	0	0	Spirit	16D4	0	0	Phys	2D8+20	0	32	Lightning Bolt,M,10	40	Dispel Magic,M,8	56	18	18	18	18	18	0	40	40	20	0
+9159	Winged Oddity	MM9 Winged Mutant A	27	191	20	1499	20%26d20+L3	1	Y	Long	Aggress	4	448	59	0	0	Phys	3D10+20	0	0	Phys	3D10+20	0	20	Sparks,E,3	40	Lightning Bolt,E,3	15	50	15	0	15	15	15	10	10	20	0
+9160	Winged Mutant	MM9 Winged Mutant B	39	346	30	2867	24%47d20+L4	1	Y	Long	Aggress	4	448	59	0	0	Phys	4D10+25	0	0	Phys	4D10+25	0	20	Sparks,M,6	40	Lightning Bolt,E,5	18	56	18	0	18	18	18	20	20	30	0
+9161	Winged Aberration	MM9 Winged Mutant C	51	517	40	4667	41%31d50+L5	1	Y	Long	Aggress	4	448	59	0	0	Phys	5D10+30	0	0	Phys	5D10+30	0	20	Sparks,G,9	40	Lightning Bolt,E,6	18	56	18	0	18	18	18	30	30	40	0
+9162	Fright	MM9 Banshee A	35	289	40	2363	20%39d20+L4	0	Y	Long	Aggress	4	448	59	0	0	Dark	3D6+20	0	0	Dark	3D12	0	25	Fear,E,4	0	0	15	15	15	15	Imm	0	50	10	100	50	0
+9163	Dread	MM9 Banshee B	55	588	50	5363	47%35d50+L5	0	Y	Long	Aggress	4	448	59	0	0	Dark	3D6+35	0	0	Dark	4D12	0	25	Fear,E,8	0	0	18	18	18	18	Imm	0	56	15	100	60	0
+9164	Terror	MM9 Banshee C	65	746	60	7313	61%78d50+L6	0	Y	Long	Aggress	4	448	59	0	0	Dark	3D6+50	0	0	Dark	6D12	0	25	Fear,M,10	0	0	30	30	30	30	Imm	0	80	20	100	70	0
+9165	Trellborg	MM9 Trellborg A	22	139	40	1056	14%18d20+L3Weapon	1	N	Med	Aggress	4	256	59	0	0	Phys	5D6+20	Fire	100	Phys	3D10+5	0	0	0	0	0	0	15	15	15	15	15	50	100	50	30	0
+9166	Kin Trellborg	MM9 Trellborg B	35	289	60	2363	20%39d20+L4Weapon	1	N	Med	Aggress	4	256	59	0	0	Phys	7D6+25	Fire	100	Phys	4D10+10	0	0	0	0	0	0	15	15	15	15	15	50	100	50	30	0
+9167	Ancient Trellborg	MM9 Trellborg C	50	499	80	4500	40%30d50+L5Weapon	1	N	Med	Aggress	4	256	59	0	0	Fire	9D6+30	Fire	100	Phys	5D10+15	0	0	0	0	0	0	18	18	18	18	18	56	100	50	30	0
+9168	Jellyspore	MM9 Jellyspore A	15	79	9	563	15%18d10+L2	1	YS	Med	Aggress	4	256	75	0	0	Phys	3D6	0	0	Phys	2D4	0	0	0	0	0	0	5	5	30	5	5	5	5	5	10	0
+9169	Gelatinous Spore	MM9 Jellyspore B	20	120	15	900	22%17d20+L3	1	YS	Long	Aggress	4	256	75	0	0	Phys	3D6+2	0	0	Phys	2D6	0	0	0	0	0	0	5	5	30	5	5	5	15	10	30	0
+9170	Nettle Spore	MM9 Jellyspore C	25	169	21	1313	18%23d20+L3	1	YS	Long	Aggress	4	256	59	0	0	Phys	3D6+4	0	0	Phys	2D6+3	0	0	0	0	0	0	15	15	50	15	15	15	15	10	45	0
+9171	Gezzamptling	MM9 Gezzampt A	15	79	12	563	15%18d10+L2	1	N	Med	Aggress	4	256	75	0	0	Phys	2D5+10	Elec	0	Phys	2D5+5	0	0	0	0	0	0	5	5	30	5	5	5	30	30	20	0
+9172	Gezzampt	MM9 Gezzampt B	20	120	14	900	22%17d20+L3	1	N	Med	Aggress	4	256	75	0	0	Phys	2D5+15	Elec	0	Phys	2D5+10	0	0	0	0	0	0	5	5	30	5	5	5	40	40	25	0
+9173	Gezzampt Elder	MM9 Gezzampt C	28	202	16	1596	21%27d20+L3	1	N	Med	Aggress	4	256	59	0	0	Air	2D5+25	Elec	0	Phys	2D5+15	0	0	0	0	0	0	15	15	50	15	15	15	50	50	30	0
+9174	Ghast	MM9 Ghoul A	20	120	20	900	22%17d20+L3	1	N	Long	Aggress	4	256	75	0	0	Dark	5D13	0	0	Phys	1D7	0	25	Fear,N,2	0	0	5	5	5	5	Imm	0	30	50	100	30	0
+9175	Ghoul	MM9 Ghoul B	27	191	25	1499	20%26d20+L3	1	N	Long	Aggress	4	256	59	0	0	Dark	6D13	0	0	Phys	2D7+2	0	0	0	40	Toxic Cloud,E,1	15	15	15	15	Imm	0	50	50	100	30	0
+9176	Revenant	MM9 Ghoul C	38	331	30	2736	23%45d20+L4	1	N	Long	Aggress	4	256	59	0	0	Dark	7D13	0	0	Phys	3D7+4	0	25	Fear,M,10	0	0	18	18	18	18	Imm	0	56	50	100	30	0
+9177	Sea Monster Male	MM9 Sea Monster A	50	499	60	4500	40%30d50+L5	0	S	Free	Aggress	4	256	59	0	0	Phys	5D15	0	0	Phys	2d6	0	0	0	0	0	18	0	56	18	18	18	18	0	15	10	0
+9178	Sea Monster Female	MM9 Sea Monster B	70	850	80	8400	70%90d50+L6	0	S	Free	Aggress	4	256	59	0	0	Phys	6D15	0	0	Phys	4d6	0	0	0	0	0	30	0	80	30	30	30	30	0	35	20	0
+9180	Rotter	MM9 Zombie A	9	40	8	257	10%11d10+L2	0	N	Med	Aggress	4	192	75	0	0	Phys	2D7+2	Body	100	Phys	2D6+2	0	0	0	0	0	0	0	0	0	Imm	0	20	20	20	20	0
+9181	Dripper	MM9 Zombie B	13	65	14	449	12%14d10+L2	0	N	Med	Aggress	4	192	75	0	0	Phys	2D7+4	Body	100	Phys	2D6+4	0	0	0	0	0	5	5	5	5	Imm	0	30	30	30	30	0
+9182	Zombie	MM9 Zombie C	17	95	20	689	17%24d10+L3	0	N	Med	Aggress	4	192	75	0	0	Dark	3D7+8	0	0	Phys	2D6+8	0	4	Dispel Magic,M,10	40	Harm,M,20	5	5	5	5	Imm	0	30	40	40	40	0
+9183	Skeletoid	MM9 Skeleton A	3	11	8	59	2%4d6+L1	0	N	Med	Suicidal	4	192	75	0	0	Phys	2D3	0	0	Phys	2D3	0	0	0	0	0	0	0	0	0	Imm	0	20	10	90	5	0
+9184	Bone Thrasher	MM9 Skeleton B	3	11	8	59	2%4d6+L1	0	N	Med	Suicidal	4	192	75	0	0	Phys	2D3	0	0	Phys	2D3	0	0	0	0	0	0	0	0	0	Imm	0	20	10	90	5	0
+9185	Skull Thrower	MM9 185 Skull Thrower	2	7	8	36	1%2d6+L1	0	N	Med	Aggress	4	192	75	0	0	Phys	2D3	MM9Skull	100	Phys	2D3	0	0	0	0	0	0	0	0	0	Imm	0	20	10	90	5	0
+9186	Honk	MM9 Honk Female A	70	850	60	8400	70%90d50+L6	1	N	Med	Aggress	4	256	59	0	0	Spirit	10D5+10	MM9Egg	75	Spirit	10D5+10	0	10	Dispel Magic,M,10	0	0	30	30	30	30	80	0	30	70	70	70	0
+9187	Elder Honk	MM9 Honk B	75	962	80	9563	75%102d50+L6	1	N	Med	Aggress	4	256	59	0	0	Spirit	15D5+15	MM9Egg	100	Spirit	15D5+15	0	0	0	0	0	30	30	30	30	80	0	30	70	70	70	0
+9188	Honk Seer	MM9 Honk C	85	1205	100	12113	75%148d50+L6	1	N	Med	Aggress	4	256	59	0	0	Spirit	20D5+20	MM9Egg	100	Spirit	20D5+20	0	0	0	0	0	30	30	30	30	80	0	30	70	70	70	0
+9189	Lizard-Orc	MM9 Lizard-Orc A	40	360	45	3000	25%50d20+L4Weapon	1	N	Med	Aggress	4	256	59	0	0	Phys	4D5+20	Rock	100	Phys	4D5+10	Earth	0	0	0	0	18	18	0	56	18	18	18	100	70	70	0
+9190	Lizard-Orc Warrior	MM9 Lizard-Orc B	60	684	65	6300	52%67d50+L5Weapon	1	N	Med	Aggress	4	256	59	0	0	Phys	4D5+30	Fire	100	Phys	4D5+15	Earth	0	0	0	0	30	30	0	80	30	30	30	100	70	70	0
+9191	Lizard-Orc Mage	MM9 Lizard-Orc C	80	1080	85	10800	75%116d50+L6Weapon	1	N	Med	Aggress	4	256	59	0	0	Phys	4D5+40	Fire	100	Phys	4D5+20	Earth	0	0	0	0	30	30	0	80	30	30	30	100	70	70	0
+9192	Skeleton	MM9 192 Skeleton	40	360	30	3000	25%50d20+L4Weapon	0	N	Med	Aggress	4	256	59	0	0	Phys	3D4	MM9Skull	100	Phys	3D4	0	0	0	0	0	18	18	18	18	Imm	0	56	50	90	5	0
+9195	Bloodsucker	MM9 Nosferatu A	20	120	25	900	22%17d20+L3	1	N	Med	Aggress	4	256	75	0	0	Dark	3D8+15	0	0	Dark	3D8	0	40	Harm,E,15	0	0	5	5	5	5	Imm	0	30	10	100	10	0
+9196	Annelid	MM9 Nosferatu B	33	263	35	2129	18%35d20+L4	1	N	Med	Aggress	4	256	59	0	0	Dark	3D8+25	0	0	Dark	3D8+25	0	20	Dark Grasp,M,7	40	Harm,E,20	0	15	15	50	15	15	15	20	100	20	0
+9197	Vampir	MM9 Nosferatu C	48	466	45	4176	37%27d50+L5	1	N	Med	Aggress	4	256	59	0	0	Spirit	3D8+35	0	0	Dark	3D8+35	0	18	Dragon Breath,G,6	40	Harm,M,20	18	18	18	18	Imm	0	56	30	100	30	0
+9198	Bigfoot	MM9 Bigfoot A	18	103	18	756	19%27d10+L3	1	N	Med	Aggress	4	384	75	0	0	Phys	2D10+4	Rock	100	Phys	4D5+2	0	0	0	0	0	5	5	5	5	0	5	30	100	20	20	0
+9199	Sasquatch	MM9 Bigfoot B	28	202	28	1596	21%27d20+L3	1	N	Med	Aggress	4	384	59	0	0	Phys	3D10+6	Rock	100	Phys	5D5+4	0	0	0	0	0	15	15	15	15	0	15	50	100	30	20	0
+9200	Yeti	MM9 Bigfoot C	38	331	38	2736	23%45d20+L4	1	N	Med	Aggress	4	384	59	0	0	Phys	4D10+10	Rock	100	Phys	6D5+8	0	0	0	0	0	0	18	Imm	18	18	18	18	100	40	20	0
+9204	Plain Giant	MM9 Giant A	50	499	30	4500	40%30d50+L5	1	N	Long	Suicidal	4	384	59	0	0	Air	1D20+25	Elec	100	Air	1D20+25	0	0	0	0	0	18	18	18	56	0	18	18	0	100	30	0
+9205	Forest Giant	MM9 Giant B	60	684	35	6300	52%67d50+L5	1	N	Long	Suicidal	4	384	59	0	0	Air	1D20+35	Elec	100	Air	1D20+35	0	0	0	0	0	30	30	30	80	0	30	30	0	100	40	0
+9206	Yanmir	MM9 206 Yanmir	70	850	70	8400	70%90d50+L6	1	N	Long	Suicidal	4	384	59	0	0	Water	1D20+45	Cold	50	Water	1D20+45	0	0	0	0	0	0	30	Imm	30	30	30	30	Imm	Imm	Imm	0
+9207	Lich	MM9 Lich A	45	417	15	3713	33%24d50+L5	0	N	Med	Aggress	4	256	59	0	0	Dark	3D8+6	0	0	Spirit	3D8+6	0	25	Fear,E,6	0	0	18	18	18	18	Imm	0	56	20	100	20	0
+9208	Power Lich	MM9 Lich B	55	588	20	5363	47%35d50+L5	0	N	Med	Aggress	4	256	59	0	0	Dark	4D8+12	0	0	Dark	4D8+12	0	40	Dark Grasp,E,7	0	0	18	18	18	18	Imm	0	56	25	100	25	0
+9209	Lich King	MM9 209 Lich King	65	746	25	7313	61%78d50+L6	0	N	Med	Aggress	4	256	59	0	0	Dark	5D8+20	0	0	Dark	5D8+20	0	20	Dark Grasp,M,10	40	Dark Grasp,M,8	30	30	30	30	Imm	0	80	30	100	30	0
+9212	Dragon King	MM9 212 Dragon King	500	35100	300	20000	100%245d50+L6	1	Y	Free	Suicidal	4	640	59	0	0	Fire	24D8+100	Fire	50	Fire	24d10+100	Fire	18	Incinerate,G,8	4	Paralyze,E,5	Imm	30	0	30	30	30	30	120	120	120	0
+9216	Honk	MM9 Honk A	70	850	80	8400	70%90d50+L6	1	N	Med	Aggress	4	192	59	0	0	Spirit	10D5+10	MM9Egg	75	Spirit	10D5+10	0	10	Dispel Magic,M,10	0	0	30	30	30	30	80	0	30	70	70	70	0
+9217	Elder Honk	MM9 Honk Female B	85	1205	100	12113	75%148d50+L6	1	N	Med	Aggress	4	192	59	0	0	Spirit	15D5+15	MM9Egg	100	Spirit	15D5+15	0	0	0	0	0	30	30	30	30	80	0	30	70	70	70	0
+9227	Fish	MM9 227 Fish	1	4	1	17	0	0	S	Short	Aggress	4	38	59	0	0	0		0		0		0	0	0	0	0	25	25	25	25	0	0	0	0	0	0	0
+9228	Eye	MM9 Eye A	35	289	20	2363	20%39d20+L4	1	Y	Free	Aggress	4	320	59	0	0	Spirit	8D4+5	Dark	50	Spirit	8D4+5	0	20	Fear,E,4	0	0	15	15	15	15	Imm	15	0	30	20	30	0
+9229	Orbus	MM9 Eye B	45	417	30	3713	33%24d50+L5	1	Y	Free	Aggress	4	320	59	0	0	Spirit	10D4+10	Water	50	Spirit	10D4+10	0	20	Fear,E,7	0	0	18	18	18	18	Imm	18	0	40	30	40	0
+9230	Oculus	MM9 Eye C	50	499	40	4500	40%30d50+L5	1	Y	Free	Aggress	4	320	59	0	0	Spirit	14D4+15	Water	50	Spirit	14D4+15	0	5	Paralyze,E,10	17	Dark Grasp,M,8	18	18	18	18	Imm	18	0	50	40	50	0
+9234	Colloidal Soldier	MM9 Colloidal A	50	499	30	4500	40%30d50+L5Weapon	1	N	Med	Aggress	4	256	59	0	0	Phys	15D3	Body	0	Phys	3D7+25	0	0	0	0	0	18	0	18	56	Imm	18	18	10	10	40	0
+9235	Colloidal Warrior	MM9 Colloidal B	60	684	35	6300	52%67d50+L5Weapon	1	N	Long	Aggress	4	256	59	0	0	Air	20D3	Body	0	Phys	3D7+40	0	0	0	0	0	30	0	30	80	Imm	30	30	20	20	50	0
+9236	Colloidal Guardian	MM9 Colloidal C	70	850	40	8400	70%90d50+L6Armor	1	N	Long	Aggress	4	256	59	0	0	Spirit	25D3	Body	0	Phys	3D7+60	0	0	0	0	0	30	0	30	80	Imm	30	30	30	30	60	0
+9237	Amphibious Terror	MM9 Terror A	45	417	40	3713	33%24d50+L5	1	N	Med	Suicidal	4	192	59	0	0	Spirit	10D6	0	0	Phys	2D12	0	0	0	0	0	18	0	56	18	18	18	18	100	100	30	0
+9238	Desert Terror	MM9 Terror B	50	499	50	4500	40%30d50+L5Weapon	1	N	Med	Suicidal	4	192	59	0	0	Spirit	12D6	0	0	Phys	2D12+4	0	0	0	0	0	56	18	0	18	18	18	18	100	100	40	0
+9239	Reptilian Terror	MM9 Terror C	60	684	60	6300	52%67d50+L5Armor	1	N	Long	Suicidal	4	192	59	0	0	Spirit	14D6	0	0	Phys	2D12+8	0	0	0	0	0	30	30	0	80	30	30	30	100	100	45	0
+9241	Lesser Demon	MM9 Demon A	70	850	60	8400	70%90d50+L6	1	N	Long	Suicidal	4	256	59	0	0	Light	10D5+10	Light	100	Fire	10D5+10	0	0	0	0	0	Imm	30	0	30	30	30	30	70	70	40	0
+9242	Greater Demon	MM9 Demon B	75	962	80	9563	75%102d50+L6	1	N	Free	Suicidal	4	256	59	0	0	Light	12D5+15	Light	100	Fire	12D5+15	0	0	0	0	0	Imm	30	0	30	30	30	30	80	80	45	0
+9244	MagreebBaby	MM9 244 MagreebBaby	50	95	18	100	1%5d6+L5	0	N	Short	Aggress	4	192	59	0	0	Phys	4D10	0	0	Phys	4D6	0	0	0	0	0	0	18	18	56	18	18	18	0	0	0	0
+9245	Old Hag	MM9 245 Old Hag	20	120	18	900	22%17d20+L3	1	N	Short	Suicidal	4	96	75	0	0	Phys	0	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	0	0	0	0
+9246	Bjarni Thorvaldssen	MM9 246 Bjarni Thorvaldssen	80	1200	80	10800	0	1	N	Short	Aggress	4	192	59	0	0	Phys	5D5	0	0	0	0	0	0	0	0	0	60	60	60	60	60	60	60	60	60	60	0
+9247	Sigmund the Stressed	MM9 247 Sigmund the Stressed	80	1200	80	10800	0	1	N	Short	Aggress	4	192	59	0	0	Phys	5D5	0	0	0	0	0	0	0	0	0	60	60	60	60	60	60	60	60	60	60	0
+9248	Markel the Great	MM9 248 Markel the Great	80	1200	80	10800	0	1	N	Short	Aggress	4	192	59	0	0	Phys	5D5	0	0	0	0	0	0	0	0	0	60	60	60	60	60	60	60	60	60	60	0
+9249	Sven Svenssen	MM9 249 Sven Svenssen	100	1800	100	16500	0	1	N	Short	Aggress	4	192	59	0	0	Phys	20D8	0	0	0	0	0	0	0	0	0	100	100	100	100	70	70	70	70	70	70	0
+9250	Tryggva Ravenlocks	MM9 250 Tryggva Ravenlocks	100	1800	100	16500	0	1	N	Short	Aggress	4	192	59	0	0	Phys	20D8	0	0	0	0	0	0	0	0	0	100	100	100	100	70	70	70	70	70	70	0
+9251	Kira the Cold	MM9 251 Kira the Cold	110	2145	100	19800	0	1	N	Short	Aggress	4	192	59	0	0	Phys	20D8	0	0	0	0	0	0	0	0	0	100	100	100	100	70	70	70	70	70	70	0
+9252	Forad Darre	MM9 252 Forad Darre	50	525	50	4500	100%30d50+L6	1	N	Short	Suicidal	4	192	89	0	0	Phys	9d3	0	0	0	0	0	0	0	0	0	40	40	40	40	40	40	40	30	40	30	0
+9254	Yrsa the Troll	MM9 254 Yrsa the Troll	1	4	3	17	0	1	N	Short	Aggress	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9255	Krohn	MM9 255 Krohn	1	4	3	17	0	0	N	Short	Aggress	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9256	Fre	MM9 256 Fre	1	4	3	17	0	1	N	Short	Aggress	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9257	Skraelos	MM9 257 Skraelos	1	4	3	17	0	0	N	Short	Aggress	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9258	Bori	MM9 258 Bori	1	4	3	17	0	1	N	Short	Aggress	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9259	Ratatosk	MM9 259 Ratatosk	1	4	3	17	0	1	N	Short	Suicidal	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9260	Hanndl	MM9 260 Hanndl	1	4	3	17	0	1	N	Short	Suicidal	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9261	Njam the Meddler	MM9 261 Njam the Meddler	200	6600	200	63000	100%772d50+L6	1	N	Short	Aggress	4	256	59	0	0	Spirit	20d5	Light	15	Dark	10D5+10	0	17	Spirit Lash,G,11	82	Toxic Cloud,G,15	100	100	100	100	100	100	100	100	100	100	0
+9262	The Great Honk	MM9 262 The Great Honk	100	1620	3	16500	75%202d50+L6	1	N	Short	Suicidal	4	192	59	0	0	Phys	10d100	0	0	0	0	0	0	0	0	0	30	30	30	30	80	0	30	0	0	0	0
+9263	Wyrde of the Known (Igrid)	MM9 263 Wyrde of the Known (Igrid)	1	4	3	17	0	1	N	Short	Suicidal	4	192	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9264	Wyrde of the Knowing (Verdandi)	MM9 264 Wyrde of the Knowing (Verdandi)	0	0	0	0	0	1	N	Short	Suicidal	4	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9265	Wyrde of the Unknown (Morgan)	MM9 265 Wyrde of the Unknown (Morgan)	0	0	0	0	0	1	N	Short	Suicidal	4	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9266	Green Man	MM9 266 Green Man	0	0	0	0	0	0	N	Short	Aggress	4	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9267	Cow	MM9 267 Cow	1	4	3	17	0	1	N	Med	Wimp	0	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9268	Goat	MM9 268 Goat	1	4	3	17	0	1	N	Med	Wimp	0	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9269	Hen	MM9 269 Hen	1	4	3	17	0	1	N	Med	Wimp	0	154	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9270	Rooster	MM9 270 Rooster	1	4	3	17	0	1	N	Med	Wimp	0	166	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9271	Pig	MM9 271 Pig	1	4	3	17	0	1	N	Med	Wimp	0	154	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9272	Ewe	MM9 272 Ewe	1	4	1	17	0	1	N	Med	Wimp	0	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9273	Ram	MM9 273 Ram	1	4	3	17	0	1	N	Med	Wimp	0	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9274	Scholar	MM9 274 Scholar	20	120	18	900	22%17d20+L3	1	N	Short	Aggress	4	192	75	0	0	Phys	2D4	0	0	Phys	2D4	0	0	0	0	0	30	5	5	5	5	5	0	0	0	0	0
+9275	Master Scholar	MM9 275 Master Scholar	28	202	24	1596	21%27d20+L3	1	N	Short	Aggress	4	192	59	0	0	Phys	2D4+4	0	0	Phys	2D4+4	0	0	0	0	0	50	15	15	15	15	15	0	0	0	0	0
+9276	Magreeb Spawn	MM9 Magreeb A	16	87	10	624	16%22d10+L3	0	N	Short	Aggress	4	192	79	0	0	Phys	3D6	0	0	Phys	2D6	0	0	0	0	0	0	5	5	30	5	5	5	10	10	10	0
+9277	Magreeb	MM9 Magreeb B	22	139	12	1056	14%18d20+L3	0	N	Short	Aggress	4	192	79	0	0	Phys	5D6	0	0	Phys	4D6	0	0	0	0	0	0	15	15	50	15	15	15	20	20	20	0
+9278	Armored Magreeb	MM9 Magreeb C	33	263	14	2129	18%35d20+L4	0	N	Short	Aggress	4	192	79	0	0	Phys	8D6	0	0	Phys	6D6	0	0	0	0	0	0	15	15	50	15	15	15	30	30	30	0
+9292	Tamur Leng	MM9 292 Tamur Leng	60	720	30	6300	100%67d50+L6	1	N	Short	Suicidal	4	192	89	0	0	Phys	4D3+30	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9293	Goose	MM9 293 Goose	90	1485	1	13500	25%L5	1	N	Med	Wimp	0	256	59	0	0	Spirit	24d6	0	0	0	0	0	0	0	0	0	70	70	70	70	70	70	70	70	70	70	0
+9294	cat	MM9 294 cat	1	4	1	17	0	1	N	Med	Wimp	0	224	0	0	0	Phys	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9295	dog	MM9 295 dog	1	4	1	17	0	1	N	Med	Wimp	0	256	0	0	0	Phys	3	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9296	RailTest	MM9 296 RailTest	1	4	900	17	0	1	N	Short	Aggress	4	256	59	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9297	Brown Cow	MM9 297 Brown Cow	1	4	3	17	0	1	N	Med	Wimp	0	192	59	0	0	Phys	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9299	mouse	MM9 299 mouse	1	4	1	17	0	1	N	Med	Wimp	0	224	0	0	0	Phys	2D3	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9300	evil mouse	MM9 300 evil mouse	1	4	1	17	0	0	N	Short	Aggress	4	224	0	0	0	Phys	2D4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+9301	Ebora	MM9 301 Ebora	99	1591	99	16187	75%198d50+L6	1	N	Short	Aggress	4	576	59	0	0	Phys	6D6+66	0	0	0	0	0	24	Incinerate,G,8	40	Dragon Breath,G,6	Imm	30	0	30	30	30	30	60	30	60	0
+9302	Concubine	MM9 302 Concubine	60	684	18	6300	52%67d50+L5	1	N	Short	Aggress	4	576	59	0	0	Phys	6D6+66	0	0	0	0	0	20	Sparks,E,3	40	Lightning Bolt,N,2	Imm	30	0	30	30	30	30	60	30	60	0
+9303	Phantom Fighter	MM9 303 Phantom Fighter	20	120	18	900	22%17d20+L3	1	N	Med	Aggress	4	192	89	0	0	Phys	3D3+6	0	0	Phys	3D3+6	0	0	0	0	0	5	5	5	5	Imm	0	30	10	10	10	0

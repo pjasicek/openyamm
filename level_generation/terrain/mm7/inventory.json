@@ -1,0 +1,4854 @@
+{
+  "table": "assets_dev/engine/data_tables/terrain_tile_data_2.txt",
+  "table_sha256": "3d99cfea60cf6325e946cd93d054f50e12de10bbf62fc80d987d7dad799356e2",
+  "rendered_size": [
+    127,
+    127
+  ],
+  "groups": {
+    "dirt": [
+      "7dirttyl",
+      null
+    ],
+    "grass": [
+      "7grastyl",
+      "7grdrt"
+    ],
+    "sand": [
+      "7sand",
+      "7sddrt"
+    ],
+    "snow": [
+      "7snow",
+      "7sndrt"
+    ],
+    "swamp": [
+      "7swtyl",
+      "7swdrt"
+    ],
+    "waste": [
+      "7wastetile",
+      "7wstdrt"
+    ],
+    "roads": [
+      null,
+      "7drsr"
+    ],
+    "shore": [
+      null,
+      "7hwtrdr"
+    ],
+    "water": [
+      "7wtrtyl",
+      "7hdwtr"
+    ]
+  },
+  "maps": [
+    {
+      "id": "7out01",
+      "title": "Emerald Island",
+      "source": "assets_dev/worlds/mm7/maps/7out01.odm",
+      "sha256": "4831451676c04299f4620d051b5acf4e41fe33b345f49f53471a6fc1b17f4d1c",
+      "master_tile": 1,
+      "lookup": [
+        90,
+        126,
+        270,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 8,
+        "7dirt2": 6,
+        "7dirttyl": 93,
+        "7drsrew": 19,
+        "7drsrew_s": 1,
+        "7drsrn_e": 5,
+        "7drsrn_w": 1,
+        "7drsrncap": 1,
+        "7drsrne1": 8,
+        "7drsrne2": 6,
+        "7drsrns": 19,
+        "7drsrns_w": 1,
+        "7drsrs_w": 3,
+        "7drsrscap": 1,
+        "7drsrwcap": 2,
+        "7grastyl": 415,
+        "7grdrte": 39,
+        "7grdrtn": 56,
+        "7grdrtne": 25,
+        "7grdrtnw": 16,
+        "7grdrts": 50,
+        "7grdrtse": 16,
+        "7grdrtsw": 29,
+        "7grdrtw": 35,
+        "7grdrtxne": 24,
+        "7grdrtxnw": 16,
+        "7grdrtxse": 16,
+        "7grdrtxsw": 29,
+        "7hwtrdre": 14,
+        "7hwtrdrn": 19,
+        "7hwtrdrne": 19,
+        "7hwtrdrnw": 14,
+        "7hwtrdrs": 24,
+        "7hwtrdrse": 13,
+        "7hwtrdrsw": 15,
+        "7hwtrdrw": 17,
+        "7hwtrdrxne": 19,
+        "7hwtrdrxnw": 14,
+        "7hwtrdrxse": 13,
+        "7hwtrdrxsw": 15,
+        "7swdrte": 4,
+        "7swdrtn": 3,
+        "7swdrtne": 3,
+        "7swdrtnw": 2,
+        "7swdrts": 2,
+        "7swdrtse": 4,
+        "7swdrtsw": 2,
+        "7swdrtw": 7,
+        "7swdrtxne": 2,
+        "7swdrtxnw": 1,
+        "7swdrtxse": 3,
+        "7swdrtxsw": 1,
+        "7swtyl": 20,
+        "7swtylv2": 1,
+        "7wtrtyl": 14938
+      }
+    },
+    {
+      "id": "7out02",
+      "title": "Harmondale",
+      "source": "assets_dev/worlds/mm7/maps/7out02.odm",
+      "sha256": "3b54ef3206dfcfe24412ef29834081340ab5a37424291a90b0a87285a90289e5",
+      "master_tile": 1,
+      "lookup": [
+        90,
+        126,
+        342,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 758,
+        "7dirt2": 505,
+        "7dirttyl": 4147,
+        "7drsrecap": 1,
+        "7drsrew": 90,
+        "7drsrew_s": 4,
+        "7drsrn_e": 2,
+        "7drsrn_w": 3,
+        "7drsrncap": 1,
+        "7drsrne1": 29,
+        "7drsrne2": 30,
+        "7drsrns": 106,
+        "7drsrns_e": 1,
+        "7drsrnw1": 32,
+        "7drsrnw2": 33,
+        "7drsrs_e": 2,
+        "7drsrs_w": 3,
+        "7drsrscap": 3,
+        "7drsrwcap": 2,
+        "7grastyl": 5167,
+        "7grdrte": 276,
+        "7grdrtn": 369,
+        "7grdrtne": 184,
+        "7grdrtnw": 221,
+        "7grdrts": 310,
+        "7grdrtse": 231,
+        "7grdrtsw": 196,
+        "7grdrtw": 274,
+        "7grdrtxne": 160,
+        "7grdrtxnw": 215,
+        "7grdrtxse": 214,
+        "7grdrtxsw": 186,
+        "7hwtrdre": 20,
+        "7hwtrdrn": 26,
+        "7hwtrdrne": 13,
+        "7hwtrdrnw": 30,
+        "7hwtrdrs": 28,
+        "7hwtrdrse": 31,
+        "7hwtrdrsw": 10,
+        "7hwtrdrw": 24,
+        "7hwtrdrxne": 10,
+        "7hwtrdrxnw": 27,
+        "7hwtrdrxse": 28,
+        "7hwtrdrxsw": 7,
+        "7sndrte": 107,
+        "7sndrtn": 110,
+        "7sndrtne": 80,
+        "7sndrtnw": 89,
+        "7sndrts": 101,
+        "7sndrtse": 95,
+        "7sndrtsw": 83,
+        "7sndrtw": 110,
+        "7sndrtxne": 55,
+        "7sndrtxnw": 64,
+        "7sndrtxse": 71,
+        "7sndrtxsw": 58,
+        "7snow": 849,
+        "7wtrtyl": 248
+      }
+    },
+    {
+      "id": "7out03",
+      "title": "Erathia",
+      "source": "assets_dev/worlds/mm7/maps/7out03.odm",
+      "sha256": "80fd769c3192028d26f4105df3daf798cd3d8f769f3507f2b0894e528cf56af4",
+      "master_tile": 1,
+      "lookup": [
+        90,
+        126,
+        342,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 28,
+        "7dirt2": 25,
+        "7dirttyl": 547,
+        "7drsrcros": 9,
+        "7drsrecap": 6,
+        "7drsrew": 140,
+        "7drsrew_n": 5,
+        "7drsrew_s": 7,
+        "7drsrn_e": 4,
+        "7drsrn_w": 9,
+        "7drsrncap": 2,
+        "7drsrne1": 14,
+        "7drsrne2": 15,
+        "7drsrns": 148,
+        "7drsrns_e": 7,
+        "7drsrns_w": 4,
+        "7drsrnw1": 16,
+        "7drsrnw2": 15,
+        "7drsrs_e": 9,
+        "7drsrs_w": 4,
+        "7drsrscap": 1,
+        "7drsrwcap": 2,
+        "7grastyl": 9269,
+        "7grdrte": 325,
+        "7grdrtn": 313,
+        "7grdrtne": 133,
+        "7grdrtnw": 134,
+        "7grdrts": 275,
+        "7grdrtse": 88,
+        "7grdrtsw": 102,
+        "7grdrtw": 314,
+        "7grdrtxne": 123,
+        "7grdrtxnw": 129,
+        "7grdrtxse": 80,
+        "7grdrtxsw": 102,
+        "7hwtrdre": 74,
+        "7hwtrdrn": 19,
+        "7hwtrdrne": 32,
+        "7hwtrdrnw": 12,
+        "7hwtrdrs": 55,
+        "7hwtrdrse": 55,
+        "7hwtrdrsw": 58,
+        "7hwtrdrw": 91,
+        "7hwtrdrxne": 36,
+        "7hwtrdrxnw": 16,
+        "7hwtrdrxse": 58,
+        "7hwtrdrxsw": 62,
+        "7sndrte": 40,
+        "7sndrtn": 31,
+        "7sndrtne": 26,
+        "7sndrtnw": 29,
+        "7sndrts": 25,
+        "7sndrtse": 31,
+        "7sndrtsw": 30,
+        "7sndrtw": 38,
+        "7sndrtxne": 13,
+        "7sndrtxnw": 16,
+        "7sndrtxse": 18,
+        "7sndrtxsw": 17,
+        "7snow": 188,
+        "7wtrtyl": 2655
+      }
+    },
+    {
+      "id": "7out04",
+      "title": "The Tularean Forest",
+      "source": "assets_dev/worlds/mm7/maps/7out04.odm",
+      "sha256": "d6e93aea66b195889726769f611160013465b3c8c8944d64023b9bbe5dc2ca5e",
+      "master_tile": 1,
+      "lookup": [
+        90,
+        126,
+        162,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 14,
+        "7dirt2": 18,
+        "7dirttyl": 267,
+        "7drsrecap": 1,
+        "7drsrew": 82,
+        "7drsrn_e": 12,
+        "7drsrn_w": 9,
+        "7drsrncap": 1,
+        "7drsrne1": 5,
+        "7drsrne2": 6,
+        "7drsrns": 87,
+        "7drsrns_w": 2,
+        "7drsrnw1": 13,
+        "7drsrnw2": 16,
+        "7drsrs_e": 12,
+        "7drsrs_w": 12,
+        "7drsrwcap": 2,
+        "7grastyl": 7133,
+        "7grdrte": 230,
+        "7grdrtn": 230,
+        "7grdrtne": 108,
+        "7grdrtnw": 76,
+        "7grdrts": 200,
+        "7grdrtse": 93,
+        "7grdrtsw": 68,
+        "7grdrtw": 174,
+        "7grdrtxne": 114,
+        "7grdrtxnw": 85,
+        "7grdrtxse": 103,
+        "7grdrtxsw": 79,
+        "7hwtrdre": 36,
+        "7hwtrdrn": 51,
+        "7hwtrdrne": 40,
+        "7hwtrdrnw": 56,
+        "7hwtrdrs": 71,
+        "7hwtrdrse": 36,
+        "7hwtrdrsw": 85,
+        "7hwtrdrw": 98,
+        "7hwtrdrxne": 29,
+        "7hwtrdrxnw": 45,
+        "7hwtrdrxse": 25,
+        "7hwtrdrxsw": 74,
+        "7wtrtyl": 6231
+      }
+    },
+    {
+      "id": "7out05",
+      "title": "Deyja",
+      "source": "assets_dev/worlds/mm7/maps/7out05.odm",
+      "sha256": "409541fe43fc470735fa859f659dd076fd27b031acecca32e2b60780107ae0f5",
+      "master_tile": 1,
+      "lookup": [
+        306,
+        126,
+        234,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 41,
+        "7dirt2": 38,
+        "7dirttyl": 663,
+        "7drsrecap": 2,
+        "7drsrew": 87,
+        "7drsrew_s": 2,
+        "7drsrn_e": 3,
+        "7drsrn_w": 4,
+        "7drsrncap": 1,
+        "7drsrne1": 1,
+        "7drsrne2": 1,
+        "7drsrns": 48,
+        "7drsrnw1": 9,
+        "7drsrnw2": 9,
+        "7drsrs_e": 4,
+        "7drsrs_w": 1,
+        "7drsrscap": 1,
+        "7hwtrdre": 2,
+        "7hwtrdrnw": 6,
+        "7hwtrdrs": 43,
+        "7hwtrdrse": 22,
+        "7hwtrdrsw": 33,
+        "7hwtrdrw": 22,
+        "7hwtrdrxnw": 6,
+        "7hwtrdrxse": 22,
+        "7hwtrdrxsw": 32,
+        "7sand": 1994,
+        "7sddrte": 107,
+        "7sddrtn": 85,
+        "7sddrtne": 66,
+        "7sddrtnw": 56,
+        "7sddrts": 114,
+        "7sddrtse": 59,
+        "7sddrtsw": 64,
+        "7sddrtw": 68,
+        "7sddrtxne": 62,
+        "7sddrtxnw": 53,
+        "7sddrtxse": 57,
+        "7sddrtxsw": 62,
+        "7wastetile": 7890,
+        "7wstdrte": 153,
+        "7wstdrtn": 227,
+        "7wstdrtne": 113,
+        "7wstdrtnw": 98,
+        "7wstdrts": 139,
+        "7wstdrtse": 50,
+        "7wstdrtsw": 77,
+        "7wstdrtw": 180,
+        "7wstdrtxne": 99,
+        "7wstdrtxnw": 68,
+        "7wstdrtxse": 37,
+        "7wstdrtxsw": 59,
+        "7wtrtyl": 2989
+      }
+    },
+    {
+      "id": "7out06",
+      "title": "The Bracada Desert",
+      "source": "assets_dev/worlds/mm7/maps/7out06.odm",
+      "sha256": "f02faf24cb5cb9f3c6545795cfc488948eed83c625c90deaa8bdc61c586182b9",
+      "master_tile": 1,
+      "lookup": [
+        306,
+        126,
+        234,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 165,
+        "7dirt2": 169,
+        "7dirttyl": 3821,
+        "7drsrecap": 1,
+        "7drsrew": 42,
+        "7drsrew_s": 1,
+        "7drsrn_e": 2,
+        "7drsrncap": 1,
+        "7drsrne1": 7,
+        "7drsrne2": 9,
+        "7drsrns": 26,
+        "7drsrnw1": 5,
+        "7drsrnw2": 5,
+        "7drsrs_w": 2,
+        "7hwtrdre": 6,
+        "7hwtrdrn": 27,
+        "7hwtrdrne": 6,
+        "7hwtrdrnw": 31,
+        "7hwtrdrs": 8,
+        "7hwtrdrse": 3,
+        "7hwtrdrsw": 6,
+        "7hwtrdrw": 14,
+        "7hwtrdrxne": 5,
+        "7hwtrdrxnw": 29,
+        "7hwtrdrxse": 2,
+        "7hwtrdrxsw": 5,
+        "7sand": 5618,
+        "7sddrte": 60,
+        "7sddrtn": 111,
+        "7sddrtne": 52,
+        "7sddrtnw": 85,
+        "7sddrts": 108,
+        "7sddrtse": 58,
+        "7sddrtsw": 45,
+        "7sddrtw": 87,
+        "7sddrtxne": 49,
+        "7sddrtxnw": 83,
+        "7sddrtxse": 58,
+        "7sddrtxsw": 43,
+        "7wastetile": 1246,
+        "7wstdrte": 318,
+        "7wstdrtn": 371,
+        "7wstdrtne": 199,
+        "7wstdrtnw": 215,
+        "7wstdrts": 350,
+        "7wstdrtse": 234,
+        "7wstdrtsw": 193,
+        "7wstdrtw": 320,
+        "7wstdrtxne": 166,
+        "7wstdrtxnw": 201,
+        "7wstdrtxse": 198,
+        "7wstdrtxsw": 181,
+        "7wtrtyl": 1082
+      }
+    },
+    {
+      "id": "7out13",
+      "title": "Tatalia",
+      "source": "assets_dev/worlds/mm7/maps/7out13.odm",
+      "sha256": "b2a7e4ebc54ee8155a1721756bab4305c7de0ab4091b7dd1a04db4c045ae046c",
+      "master_tile": 1,
+      "lookup": [
+        126,
+        342,
+        270,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 247,
+        "7dirt2": 237,
+        "7dirttyl": 4578,
+        "7drsrcros": 1,
+        "7drsrecap": 2,
+        "7drsrew": 56,
+        "7drsrew_n": 4,
+        "7drsrew_s": 1,
+        "7drsrn_e": 2,
+        "7drsrn_w": 1,
+        "7drsrncap": 2,
+        "7drsrne1": 4,
+        "7drsrne2": 3,
+        "7drsrns": 54,
+        "7drsrs_e": 3,
+        "7drsrs_w": 1,
+        "7drsrscap": 1,
+        "7drsrwcap": 1,
+        "7hwtrdre": 48,
+        "7hwtrdrn": 43,
+        "7hwtrdrne": 49,
+        "7hwtrdrnw": 7,
+        "7hwtrdrs": 23,
+        "7hwtrdrse": 30,
+        "7hwtrdrsw": 9,
+        "7hwtrdrw": 10,
+        "7hwtrdrxne": 48,
+        "7hwtrdrxnw": 7,
+        "7hwtrdrxse": 30,
+        "7hwtrdrxsw": 9,
+        "7sndrte": 127,
+        "7sndrtn": 138,
+        "7sndrtne": 49,
+        "7sndrtnw": 58,
+        "7sndrts": 137,
+        "7sndrtse": 55,
+        "7sndrtsw": 53,
+        "7sndrtw": 120,
+        "7sndrtxne": 44,
+        "7sndrtxnw": 56,
+        "7sndrtxse": 53,
+        "7sndrtxsw": 50,
+        "7snow": 3341,
+        "7swdrte": 136,
+        "7swdrtn": 199,
+        "7swdrtne": 107,
+        "7swdrtnw": 119,
+        "7swdrts": 186,
+        "7swdrtse": 94,
+        "7swdrtsw": 95,
+        "7swdrtw": 145,
+        "7swdrtxne": 107,
+        "7swdrtxnw": 111,
+        "7swdrtxse": 91,
+        "7swdrtxsw": 105,
+        "7swtyl": 528,
+        "7swtylv1": 31,
+        "7swtylv2": 47,
+        "7wtrtyl": 4236
+      }
+    },
+    {
+      "id": "7out15",
+      "title": "Shoals",
+      "source": "assets_dev/worlds/mm7/maps/7out15.odm",
+      "sha256": "6e135a9058ef51181742a3e5d2a235ecc619062cbe69b014d746005c306e1dfb",
+      "master_tile": 1,
+      "lookup": [
+        234,
+        90,
+        342,
+        414
+      ],
+      "tiles": {
+        "7sand": 16129
+      }
+    },
+    {
+      "id": "out09",
+      "title": "Evenmorn Island",
+      "source": "assets_dev/worlds/mm7/maps/out09.odm",
+      "sha256": "57ee77de5b2c7ade8545778f46cfd34bb560e1ad6aa1e30b4be9809dd9f98e4f",
+      "master_tile": 1,
+      "lookup": [
+        126,
+        90,
+        234,
+        414
+      ],
+      "tiles": {
+        "7dirttyl": 1,
+        "7grastyl": 1497,
+        "7grdrte": 46,
+        "7grdrtn": 38,
+        "7grdrtne": 43,
+        "7grdrtnw": 38,
+        "7grdrts": 37,
+        "7grdrtse": 35,
+        "7grdrtsw": 45,
+        "7grdrtw": 43,
+        "7grdrtxne": 35,
+        "7grdrtxnw": 32,
+        "7grdrtxse": 32,
+        "7grdrtxsw": 38,
+        "7hwtrdre": 54,
+        "7hwtrdrn": 42,
+        "7hwtrdrne": 39,
+        "7hwtrdrnw": 34,
+        "7hwtrdrs": 45,
+        "7hwtrdrse": 33,
+        "7hwtrdrsw": 37,
+        "7hwtrdrw": 55,
+        "7hwtrdrxne": 45,
+        "7hwtrdrxnw": 40,
+        "7hwtrdrxse": 39,
+        "7hwtrdrxsw": 43,
+        "7sand": 16,
+        "7sddrte": 2,
+        "7sddrtn": 4,
+        "7sddrtne": 1,
+        "7sddrtnw": 3,
+        "7sddrts": 3,
+        "7sddrtse": 4,
+        "7sddrtsw": 1,
+        "7sddrtw": 3,
+        "7sddrtxnw": 2,
+        "7sddrtxse": 3,
+        "7wtrtyl": 13621
+      }
+    },
+    {
+      "id": "out10",
+      "title": "Mount Nighon",
+      "source": "assets_dev/worlds/mm7/maps/out10.odm",
+      "sha256": "26731efbd73b6a22093b423f8820177723516806f7d2ad39702bfd9c6aa9b4c5",
+      "master_tile": 1,
+      "lookup": [
+        342,
+        126,
+        234,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 516,
+        "7dirt2": 519,
+        "7dirttyl": 9399,
+        "7drsrew": 14,
+        "7drsrn_w": 4,
+        "7drsrncap": 2,
+        "7drsrns": 12,
+        "7drsrs_e": 3,
+        "7drsrs_w": 1,
+        "7drsrscap": 1,
+        "7drsrwcap": 2,
+        "7hwtrdre": 16,
+        "7hwtrdrn": 14,
+        "7hwtrdrne": 12,
+        "7hwtrdrnw": 4,
+        "7hwtrdrs": 58,
+        "7hwtrdrse": 26,
+        "7hwtrdrsw": 36,
+        "7hwtrdrw": 14,
+        "7hwtrdrxne": 11,
+        "7hwtrdrxnw": 3,
+        "7hwtrdrxse": 24,
+        "7hwtrdrxsw": 34,
+        "7sand": 761,
+        "7sddrte": 9,
+        "7sddrtn": 38,
+        "7sddrtne": 15,
+        "7sddrtnw": 15,
+        "7sddrts": 36,
+        "7sddrtse": 16,
+        "7sddrtsw": 16,
+        "7sddrtw": 9,
+        "7sddrtxne": 14,
+        "7sddrtxnw": 14,
+        "7sddrtxse": 15,
+        "7sddrtxsw": 15,
+        "7sndrte": 216,
+        "7sndrtn": 166,
+        "7sndrtne": 98,
+        "7sndrtnw": 96,
+        "7sndrts": 160,
+        "7sndrtse": 101,
+        "7sndrtsw": 96,
+        "7sndrtw": 223,
+        "7sndrtxne": 85,
+        "7sndrtxnw": 90,
+        "7sndrtxse": 84,
+        "7sndrtxsw": 93,
+        "7snow": 1225,
+        "7wtrtyl": 1698
+      }
+    },
+    {
+      "id": "out11",
+      "title": "The Barrow Downs",
+      "source": "assets_dev/worlds/mm7/maps/out11.odm",
+      "sha256": "b4bb61f8b89ecfa8167a6cdd1418381616005bca3b5ef4b3dc728f1428b592fe",
+      "master_tile": 1,
+      "lookup": [
+        90,
+        126,
+        90,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 958,
+        "7dirt2": 654,
+        "7dirttyl": 7013,
+        "7drsrecap": 2,
+        "7drsrew": 38,
+        "7drsrn_e": 1,
+        "7drsrn_w": 2,
+        "7drsrncap": 4,
+        "7drsrne1": 5,
+        "7drsrne2": 5,
+        "7drsrns": 31,
+        "7drsrnw1": 9,
+        "7drsrnw2": 9,
+        "7drsrs_e": 2,
+        "7drsrscap": 3,
+        "7drsrwcap": 1,
+        "7grastyl": 1364,
+        "7grdrte": 231,
+        "7grdrtn": 369,
+        "7grdrtne": 313,
+        "7grdrtnw": 258,
+        "7grdrts": 378,
+        "7grdrtse": 269,
+        "7grdrtsw": 310,
+        "7grdrtw": 256,
+        "7grdrtxne": 257,
+        "7grdrtxnw": 204,
+        "7grdrtxse": 215,
+        "7grdrtxsw": 253,
+        "7hwtrdre": 73,
+        "7hwtrdrn": 147,
+        "7hwtrdrne": 124,
+        "7hwtrdrnw": 84,
+        "7hwtrdrs": 141,
+        "7hwtrdrse": 82,
+        "7hwtrdrsw": 117,
+        "7hwtrdrw": 75,
+        "7hwtrdrxne": 125,
+        "7hwtrdrxnw": 86,
+        "7hwtrdrxse": 84,
+        "7hwtrdrxsw": 121,
+        "7wtrtyl": 1456
+      }
+    },
+    {
+      "id": "out12",
+      "title": "The Land of the Giants",
+      "source": "assets_dev/worlds/mm7/maps/out12.odm",
+      "sha256": "b42a5600cb7aca9d6a21b50a6e8fd087311eb19507a77917eb2971e47c537574",
+      "master_tile": 1,
+      "lookup": [
+        306,
+        126,
+        342,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 55,
+        "7dirt2": 56,
+        "7dirttyl": 908,
+        "7drsrecap": 1,
+        "7drsrew": 3,
+        "7drsrn_e": 1,
+        "7drsrne1": 1,
+        "7drsrne2": 1,
+        "7drsrns": 3,
+        "7drsrs_w": 1,
+        "7drsrwcap": 1,
+        "7hwtrdrn": 77,
+        "7hwtrdrnw": 47,
+        "7hwtrdrs": 32,
+        "7hwtrdrse": 2,
+        "7hwtrdrsw": 46,
+        "7hwtrdrw": 28,
+        "7hwtrdrxnw": 48,
+        "7hwtrdrxse": 2,
+        "7hwtrdrxsw": 46,
+        "7sndrte": 84,
+        "7sndrtn": 84,
+        "7sndrtne": 44,
+        "7sndrtnw": 27,
+        "7sndrts": 65,
+        "7sndrtse": 30,
+        "7sndrtsw": 59,
+        "7sndrtw": 72,
+        "7sndrtxne": 43,
+        "7sndrtxnw": 28,
+        "7sndrtxse": 33,
+        "7sndrtxsw": 63,
+        "7snow": 1392,
+        "7wastetile": 4827,
+        "7wstdrte": 128,
+        "7wstdrtn": 152,
+        "7wstdrtne": 120,
+        "7wstdrtnw": 61,
+        "7wstdrts": 205,
+        "7wstdrtse": 88,
+        "7wstdrtsw": 76,
+        "7wstdrtw": 105,
+        "7wstdrtxne": 103,
+        "7wstdrtxnw": 44,
+        "7wstdrtxse": 87,
+        "7wstdrtxsw": 72,
+        "7wtrtyl": 6678
+      }
+    },
+    {
+      "id": "out14",
+      "title": "Avlee",
+      "source": "assets_dev/worlds/mm7/maps/out14.odm",
+      "sha256": "2cd52833f94b87754e419be9660d5316ec4f4364ae26f9ef6ac4a6c956d8e98b",
+      "master_tile": 1,
+      "lookup": [
+        126,
+        90,
+        342,
+        414
+      ],
+      "tiles": {
+        "7dirt1": 7,
+        "7dirt2": 8,
+        "7dirttyl": 200,
+        "7drsrew": 41,
+        "7drsrn_w": 1,
+        "7drsrne1": 10,
+        "7drsrne2": 10,
+        "7drsrns": 14,
+        "7drsrns_e": 1,
+        "7drsrns_w": 1,
+        "7drsrnw1": 3,
+        "7drsrnw2": 2,
+        "7drsrwcap": 1,
+        "7grastyl": 9469,
+        "7grdrte": 84,
+        "7grdrtn": 156,
+        "7grdrtne": 60,
+        "7grdrtnw": 75,
+        "7grdrts": 142,
+        "7grdrtse": 39,
+        "7grdrtsw": 89,
+        "7grdrtw": 111,
+        "7grdrtxne": 49,
+        "7grdrtxnw": 68,
+        "7grdrtxse": 39,
+        "7grdrtxsw": 88,
+        "7hwtrdre": 80,
+        "7hwtrdrn": 103,
+        "7hwtrdrne": 72,
+        "7hwtrdrnw": 20,
+        "7hwtrdrs": 115,
+        "7hwtrdrse": 53,
+        "7hwtrdrsw": 43,
+        "7hwtrdrw": 51,
+        "7hwtrdrxne": 77,
+        "7hwtrdrxnw": 26,
+        "7hwtrdrxse": 58,
+        "7hwtrdrxsw": 49,
+        "7wtrtyl": 4614
+      }
+    }
+  ],
+  "tiles": [
+    {
+      "name": "7dirt1",
+      "family": "dirt",
+      "kind": "variant",
+      "source": "assets_dev/worlds/mm7/textures/7dirt1.bmp",
+      "sha256": "e341c1c4b1924a98a01af514a1085263ca22228c1eedcf75a01af763942d18ca",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 8,
+        "7out02": 758,
+        "7out03": 28,
+        "7out04": 14,
+        "7out05": 41,
+        "7out06": 165,
+        "7out13": 247,
+        "out10": 516,
+        "out11": 958,
+        "out12": 55,
+        "out14": 7
+      },
+      "descriptors": [
+        {
+          "index": "2",
+          "texture_name": "7dirt1",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "1",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7dirt2",
+      "family": "dirt",
+      "kind": "variant",
+      "source": "assets_dev/worlds/mm7/textures/7dirt2.bmp",
+      "sha256": "f3e4c8219871122c26dad13ff902cd24e7a7aad2ea7636cc1a3a40d70f51cedf",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 6,
+        "7out02": 505,
+        "7out03": 25,
+        "7out04": 18,
+        "7out05": 38,
+        "7out06": 169,
+        "7out13": 237,
+        "out10": 519,
+        "out11": 654,
+        "out12": 56,
+        "out14": 8
+      },
+      "descriptors": [
+        {
+          "index": "4",
+          "texture_name": "7dirt2",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "3",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7dirttyl",
+      "family": "dirt",
+      "kind": "base",
+      "source": "assets_dev/worlds/mm7/textures/7dirttyl.bmp",
+      "sha256": "3df9ff9bde783ae6a63afe140c08154dac8e6a2a616809f41ad6bc568f98b07e",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 93,
+        "7out02": 4147,
+        "7out03": 547,
+        "7out04": 267,
+        "7out05": 663,
+        "7out06": 3821,
+        "7out13": 4578,
+        "out09": 1,
+        "out10": 9399,
+        "out11": 7013,
+        "out12": 908,
+        "out14": 200
+      },
+      "descriptors": [
+        {
+          "index": "1",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "3",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "11",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "10",
+          "flags": "0x0000"
+        },
+        {
+          "index": "12",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "8",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "5",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "9",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "10",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "6",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "7",
+          "texture_name": "7dirttyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "4",
+          "variant": "6",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrcros",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrcros.bmp",
+      "sha256": "4a257ad13f0d7800d2ac1b9352ca51f302aa8272f9ca2bda65fb706792e94203",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out03": 9,
+        "7out13": 1
+      },
+      "descriptors": [
+        {
+          "index": "414",
+          "texture_name": "7drsrcros",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "0",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrecap",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrecap.bmp",
+      "sha256": "e431717600c04059e2385a906e55fc41a108a53fedb5a4f8ea52cf7600781ef2",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 1,
+        "7out03": 6,
+        "7out04": 1,
+        "7out05": 2,
+        "7out06": 1,
+        "7out13": 2,
+        "out11": 2,
+        "out12": 1
+      },
+      "descriptors": [
+        {
+          "index": "426",
+          "texture_name": "7drsrecap",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrew",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrew.bmp",
+      "sha256": "5de47e8c4d8f7c912a5866f705453ccbbf373aab669a62db7772a36909d69589",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 19,
+        "7out02": 90,
+        "7out03": 140,
+        "7out04": 82,
+        "7out05": 87,
+        "7out06": 42,
+        "7out13": 56,
+        "out10": 14,
+        "out11": 38,
+        "out12": 3,
+        "out14": 41
+      },
+      "descriptors": [
+        {
+          "index": "416",
+          "texture_name": "7drsrew",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "2",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrew_n",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrew_n.bmp",
+      "sha256": "212da3975873f018562d8a2c13a3ab9e81f9d298e7cd42ca6d1ad64e752adab7",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out03": 5,
+        "7out13": 4
+      },
+      "descriptors": [
+        {
+          "index": "423",
+          "texture_name": "7drsrew_n",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "9",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrew_s",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrew_s.bmp",
+      "sha256": "0999736392403b61d5f2b303cb454f2b3941cf17dc31a8e54d3630a286b391fc",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out02": 4,
+        "7out03": 7,
+        "7out05": 2,
+        "7out06": 1,
+        "7out13": 1
+      },
+      "descriptors": [
+        {
+          "index": "424",
+          "texture_name": "7drsrew_s",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "10",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrn_e",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrn_e.bmp",
+      "sha256": "5ef0cc98fe0f03d7b669ea8ad6e165e9cc4dfa06b3e99900af1e34ce20d182d3",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 5,
+        "7out02": 2,
+        "7out03": 4,
+        "7out04": 12,
+        "7out05": 3,
+        "7out06": 2,
+        "7out13": 2,
+        "out11": 1,
+        "out12": 1
+      },
+      "descriptors": [
+        {
+          "index": "417",
+          "texture_name": "7drsrn_e",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "3",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrn_w",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrn_w.bmp",
+      "sha256": "6fdd7acd0dfdd51f1f0df3a969cefe4a104627951798f5edef4ffc30c23a3852",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out02": 3,
+        "7out03": 9,
+        "7out04": 9,
+        "7out05": 4,
+        "7out13": 1,
+        "out10": 4,
+        "out11": 2,
+        "out14": 1
+      },
+      "descriptors": [
+        {
+          "index": "418",
+          "texture_name": "7drsrn_w",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "4",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrncap",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrncap.bmp",
+      "sha256": "09b54f8a50118a48a322023aaf369bb0f190649a6ead307a6d2728307f39f9a6",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out02": 1,
+        "7out03": 2,
+        "7out04": 1,
+        "7out05": 1,
+        "7out06": 1,
+        "7out13": 2,
+        "out10": 2,
+        "out11": 4
+      },
+      "descriptors": [
+        {
+          "index": "425",
+          "texture_name": "7drsrncap",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "11",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrne1",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrne1.bmp",
+      "sha256": "369ae5681fa548d8032f5c61c9832df169175817c90684a22127e34ca18c31c8",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 8,
+        "7out02": 29,
+        "7out03": 14,
+        "7out04": 5,
+        "7out05": 1,
+        "7out06": 7,
+        "7out13": 4,
+        "out11": 5,
+        "out12": 1,
+        "out14": 10
+      },
+      "descriptors": [
+        {
+          "index": "433",
+          "texture_name": "7drsrne1",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": [
+        "7drsrne1"
+      ]
+    },
+    {
+      "name": "7drsrne2",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrne2.bmp",
+      "sha256": "de68beda2d1b8c5175cf11cc4dc8488f4b6805661a1219aa6eb404d9d12a179b",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 6,
+        "7out02": 30,
+        "7out03": 15,
+        "7out04": 6,
+        "7out05": 1,
+        "7out06": 9,
+        "7out13": 3,
+        "out11": 5,
+        "out12": 1,
+        "out14": 10
+      },
+      "descriptors": [
+        {
+          "index": "434",
+          "texture_name": "7drsrne2",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": [
+        "7drsrne2"
+      ]
+    },
+    {
+      "name": "7drsrns",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrns.bmp",
+      "sha256": "323eda84b89ea5f372587c9822089cf8125aefa5aba26f0d744aa1acbf75d775",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 19,
+        "7out02": 106,
+        "7out03": 148,
+        "7out04": 87,
+        "7out05": 48,
+        "7out06": 26,
+        "7out13": 54,
+        "out10": 12,
+        "out11": 31,
+        "out12": 3,
+        "out14": 14
+      },
+      "descriptors": [
+        {
+          "index": "415",
+          "texture_name": "7drsrns",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "1",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrns_e",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrns_e.bmp",
+      "sha256": "0663f68151645772df1514f05017d055ad3685db91d4a83128ca931bbce79d6c",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 1,
+        "7out03": 7,
+        "out14": 1
+      },
+      "descriptors": [
+        {
+          "index": "421",
+          "texture_name": "7drsrns_e",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "7",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrns_w",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrns_w.bmp",
+      "sha256": "6ae952523d606d92d69d141bdeebe13386720edada5b3421d68f189f8ea1122a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out03": 4,
+        "7out04": 2,
+        "out14": 1
+      },
+      "descriptors": [
+        {
+          "index": "422",
+          "texture_name": "7drsrns_w",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "8",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrnw1",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrnw1.bmp",
+      "sha256": "e3a02e976b1af0f32a442f793036b43ff803dca5d532bb6870621d1dda5edf72",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 32,
+        "7out03": 16,
+        "7out04": 13,
+        "7out05": 9,
+        "7out06": 5,
+        "out11": 9,
+        "out14": 3
+      },
+      "descriptors": [
+        {
+          "index": "435",
+          "texture_name": "7drsrnw1",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "21",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": [
+        "7drsrnw1"
+      ]
+    },
+    {
+      "name": "7drsrnw2",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrnw2.bmp",
+      "sha256": "da915e94fc662fd8ebd0d5a671124ca134530c31f94bdb852f6bcb6e8ed60ff1",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 33,
+        "7out03": 15,
+        "7out04": 16,
+        "7out05": 9,
+        "7out06": 5,
+        "out11": 9,
+        "out14": 2
+      },
+      "descriptors": [
+        {
+          "index": "436",
+          "texture_name": "7drsrnw2",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": [
+        "7drsrnw2"
+      ]
+    },
+    {
+      "name": "7drsrs_e",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrs_e.bmp",
+      "sha256": "26bc52244a7b46ffde0dce7d9f0dc11c86255a374f1b710135a37253f8875721",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 2,
+        "7out03": 9,
+        "7out04": 12,
+        "7out05": 4,
+        "7out13": 3,
+        "out10": 3,
+        "out11": 2
+      },
+      "descriptors": [
+        {
+          "index": "419",
+          "texture_name": "7drsrs_e",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "5",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrs_w",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrs_w.bmp",
+      "sha256": "0fce14ad06223a2031b41f0a896f9fd32a825461094357d4e08bb431f0c1cb8b",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 3,
+        "7out02": 3,
+        "7out03": 4,
+        "7out04": 12,
+        "7out05": 1,
+        "7out06": 2,
+        "7out13": 1,
+        "out10": 1,
+        "out12": 1
+      },
+      "descriptors": [
+        {
+          "index": "420",
+          "texture_name": "7drsrs_w",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "6",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrscap",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrscap.bmp",
+      "sha256": "29092568516f63e35235e92222d9e5a691cb9b19dc3a78458b73212b1c98d2f5",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out02": 3,
+        "7out03": 1,
+        "7out05": 1,
+        "7out13": 1,
+        "out10": 1,
+        "out11": 3
+      },
+      "descriptors": [
+        {
+          "index": "427",
+          "texture_name": "7drsrscap",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "13",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7drsrwcap",
+      "family": "roads",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7drsrwcap.bmp",
+      "sha256": "220ef680cb896d176b78f66c2101e5ae197b89ab90ebe297ffef7cecb6ba1cb0",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 2,
+        "7out02": 2,
+        "7out03": 2,
+        "7out04": 2,
+        "7out13": 1,
+        "out10": 2,
+        "out11": 1,
+        "out12": 1,
+        "out14": 1
+      },
+      "descriptors": [
+        {
+          "index": "428",
+          "texture_name": "7drsrwcap",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "10",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grastyl",
+      "family": "grass",
+      "kind": "base",
+      "source": "assets_dev/worlds/mm7/textures/7grastyl.bmp",
+      "sha256": "a63aa46855fb76a7beef4fe98a73c7bd9e52dfab6ad40033780d39b836b5f56d",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 415,
+        "7out02": 5167,
+        "7out03": 9269,
+        "7out04": 7133,
+        "out09": 1497,
+        "out11": 1364,
+        "out14": 9469
+      },
+      "descriptors": [
+        {
+          "index": "90",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "92",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "91",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "93",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "101",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "99",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "97",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "98",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "96",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "95",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "94",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "100",
+          "texture_name": "7grastyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "10",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrte",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrte.bmp",
+      "sha256": "4985279823048ff30f41dff90e05c1ae889b943dfc054372b4d208ad11203771",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 39,
+        "7out02": 276,
+        "7out03": 325,
+        "7out04": 230,
+        "out09": 46,
+        "out11": 231,
+        "out14": 84
+      },
+      "descriptors": [
+        {
+          "index": "106",
+          "texture_name": "7grdrte",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtn",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtn.bmp",
+      "sha256": "aee76bb41607f02a94a84a0b129b6a8348ab8b73d472d93616f6c1b9cde18f1f",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 56,
+        "7out02": 369,
+        "7out03": 313,
+        "7out04": 230,
+        "out09": 38,
+        "out11": 369,
+        "out14": 156
+      },
+      "descriptors": [
+        {
+          "index": "108",
+          "texture_name": "7grdrtn",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtne",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtne.bmp",
+      "sha256": "c2da973795b0c4bdce0ec46596776ec81575b09aacdf3e736a9b9cb99d4636cb",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 25,
+        "7out02": 184,
+        "7out03": 133,
+        "7out04": 108,
+        "out09": 43,
+        "out11": 313,
+        "out14": 60
+      },
+      "descriptors": [
+        {
+          "index": "102",
+          "texture_name": "7grdrtne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtnw",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtnw.bmp",
+      "sha256": "c31865727870248805cc161dcb840670caa176d810acc8ad828a4d34c7f7aec5",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 16,
+        "7out02": 221,
+        "7out03": 134,
+        "7out04": 76,
+        "out09": 38,
+        "out11": 258,
+        "out14": 75
+      },
+      "descriptors": [
+        {
+          "index": "104",
+          "texture_name": "7grdrtnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrts",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrts.bmp",
+      "sha256": "8b82ddec96b0d721bbcc9d5617e1460cd286f47511c891c6bdb5398f981d58dd",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 50,
+        "7out02": 310,
+        "7out03": 275,
+        "7out04": 200,
+        "out09": 37,
+        "out11": 378,
+        "out14": 142
+      },
+      "descriptors": [
+        {
+          "index": "109",
+          "texture_name": "7grdrts",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtse",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtse.bmp",
+      "sha256": "1ed5babcc5b34c54cd815c96ab803c9fa5f3cfebfba75d4d54ffd6bf74074e75",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 16,
+        "7out02": 231,
+        "7out03": 88,
+        "7out04": 93,
+        "out09": 35,
+        "out11": 269,
+        "out14": 39
+      },
+      "descriptors": [
+        {
+          "index": "103",
+          "texture_name": "7grdrtse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtsw",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtsw.bmp",
+      "sha256": "f210a7bf46463e90b7faab3cd00578b071982c84a664ce37ff4a4588cbe80804",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 29,
+        "7out02": 196,
+        "7out03": 102,
+        "7out04": 68,
+        "out09": 45,
+        "out11": 310,
+        "out14": 89
+      },
+      "descriptors": [
+        {
+          "index": "105",
+          "texture_name": "7grdrtsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtw",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtw.bmp",
+      "sha256": "abe7881b6f4463b4cbf4eb188a256ed88e0ee9ecb4834d566d609f017fef790e",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 35,
+        "7out02": 274,
+        "7out03": 314,
+        "7out04": 174,
+        "out09": 43,
+        "out11": 256,
+        "out14": 111
+      },
+      "descriptors": [
+        {
+          "index": "107",
+          "texture_name": "7grdrtw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtxne",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtxne.bmp",
+      "sha256": "f98bdb6aa6e1f5194de976a8b574a9148907bfda96cdb081bb725ca7d414bfde",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 24,
+        "7out02": 160,
+        "7out03": 123,
+        "7out04": 114,
+        "out09": 35,
+        "out11": 257,
+        "out14": 49
+      },
+      "descriptors": [
+        {
+          "index": "110",
+          "texture_name": "7grdrtxne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtxnw",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtxnw.bmp",
+      "sha256": "5cb2cd98f819437aa45da7033f18ac59addb806faa17022f4f7448a754c02078",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 16,
+        "7out02": 215,
+        "7out03": 129,
+        "7out04": 85,
+        "out09": 32,
+        "out11": 204,
+        "out14": 68
+      },
+      "descriptors": [
+        {
+          "index": "112",
+          "texture_name": "7grdrtxnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtxse",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtxse.bmp",
+      "sha256": "2df5a2481eaeef53df4994791ca9c5e2afd999e3a29cb70de411958a8ddf4b51",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 16,
+        "7out02": 214,
+        "7out03": 80,
+        "7out04": 103,
+        "out09": 32,
+        "out11": 215,
+        "out14": 39
+      },
+      "descriptors": [
+        {
+          "index": "111",
+          "texture_name": "7grdrtxse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7grdrtxsw",
+      "family": "grass",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7grdrtxsw.bmp",
+      "sha256": "7745df9a1232a0ae6ed7f808a1edff08c2e8248abed9cd7d60aaddd6ee74678f",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 29,
+        "7out02": 186,
+        "7out03": 102,
+        "7out04": 79,
+        "out09": 38,
+        "out11": 253,
+        "out14": 88
+      },
+      "descriptors": [
+        {
+          "index": "113",
+          "texture_name": "7grdrtxsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "0",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr000",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr000.bmp",
+      "sha256": "478831d03218d9e9c9a1779298782e107447ab0eae61147cdb8bdd12eae04e5d",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr001",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr001.bmp",
+      "sha256": "abf797821c872c7edaf7021ad193024c5f9b452ab0801fbf326b19c38792bc8a",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr002",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr002.bmp",
+      "sha256": "3d4e69a0e38fe1e6f52484d493d888dd447165a0d86eaf77448c1d11db0b7157",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr003",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr003.bmp",
+      "sha256": "60790cb1a323578d91eeff70a816a96ca300cd32d53793fd9adfde8344d1e852",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr004",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr004.bmp",
+      "sha256": "22f303e72229c766e0c60e78b9669679abd3caaa42342f2406e1de8379d9fa05",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr005",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr005.bmp",
+      "sha256": "7ccfd60cbd4ff2c87b146acd6d83e8d1a75846536e6eee08d603e1ea56c9fc86",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr006",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr006.bmp",
+      "sha256": "3a5e98089d479c77ae48b54baa14e27e91574a566e6459fd0bd0d8245d808a22",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr007",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr007.bmp",
+      "sha256": "b1b7a48233237b5f7f73c5dbab97dec88b1165ffe4c620ac703ce3b524655905",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr008",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr008.bmp",
+      "sha256": "e3b39d6c18676aa4f61834e1ece8dede8c302bc954620c803239a95619eacd28",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr009",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr009.bmp",
+      "sha256": "6b8c889137d26b9597671fd3131c69bf88043ff0b49d017dd0ea0c68b193c20a",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr010",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr010.bmp",
+      "sha256": "587b04a17f688031c2df992b6fbce4e7c5f76427abcb5c6ad93d8c2e2297a4ac",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr011",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr011.bmp",
+      "sha256": "c0aabe9e8ca952f6ad8099440e487adef67b4bd5e3c9334f19994e6e1ec02744",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr012",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr012.bmp",
+      "sha256": "e863c3616a79890be091dbfab51689e4e58a63fa4747d5efe2a0781d745fae80",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hdwtr013",
+      "family": "water",
+      "kind": "animation",
+      "source": "assets_dev/engine/terrain/7hdwtr013.bmp",
+      "sha256": "c153779c27f780b787724e3587f0bffee9baf775dcef72f7fd4a7a8184cb1efb",
+      "size": [
+        256,
+        256
+      ],
+      "maps": {},
+      "descriptors": [],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdre",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdre.bmp",
+      "sha256": "7f688c7642c70d0c446367a86c0d8e202b1be7dd56f712ab411fc92c17591ec4",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 14,
+        "7out02": 20,
+        "7out03": 74,
+        "7out04": 36,
+        "7out05": 2,
+        "7out06": 6,
+        "7out13": 48,
+        "out09": 54,
+        "out10": 16,
+        "out11": 73,
+        "out14": 80
+      },
+      "descriptors": [
+        {
+          "index": "142",
+          "texture_name": "7hwtrdre",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "16",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrn",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrn.bmp",
+      "sha256": "81a1b6cffbc67af7685f2b01798dd4b64b76506fa0bfb77ced427abb6907371a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 19,
+        "7out02": 26,
+        "7out03": 19,
+        "7out04": 51,
+        "7out06": 27,
+        "7out13": 43,
+        "out09": 42,
+        "out10": 14,
+        "out11": 147,
+        "out12": 77,
+        "out14": 103
+      },
+      "descriptors": [
+        {
+          "index": "144",
+          "texture_name": "7hwtrdrn",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "18",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrne",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrne.bmp",
+      "sha256": "a742383dfdf7ee5053a26bdb32a143530cbb8471fd6af82139d32fd81cae7274",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 19,
+        "7out02": 13,
+        "7out03": 32,
+        "7out04": 40,
+        "7out06": 6,
+        "7out13": 49,
+        "out09": 39,
+        "out10": 12,
+        "out11": 124,
+        "out14": 72
+      },
+      "descriptors": [
+        {
+          "index": "138",
+          "texture_name": "7hwtrdrne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "12",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrnw",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrnw.bmp",
+      "sha256": "e0222f7eb83c94cb745b6da1f342bb2d68aa8195dc9c5bb506c11534d7ad2a08",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 14,
+        "7out02": 30,
+        "7out03": 12,
+        "7out04": 56,
+        "7out05": 6,
+        "7out06": 31,
+        "7out13": 7,
+        "out09": 34,
+        "out10": 4,
+        "out11": 84,
+        "out12": 47,
+        "out14": 20
+      },
+      "descriptors": [
+        {
+          "index": "140",
+          "texture_name": "7hwtrdrnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "14",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrs",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrs.bmp",
+      "sha256": "67153d168762ccf26a6514c99dc07b61174c6077c72d27efcfdcf138502f5b81",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 24,
+        "7out02": 28,
+        "7out03": 55,
+        "7out04": 71,
+        "7out05": 43,
+        "7out06": 8,
+        "7out13": 23,
+        "out09": 45,
+        "out10": 58,
+        "out11": 141,
+        "out12": 32,
+        "out14": 115
+      },
+      "descriptors": [
+        {
+          "index": "145",
+          "texture_name": "7hwtrdrs",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "19",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrse",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrse.bmp",
+      "sha256": "f5e16142bbc532566d62d027b4098c91eaa88bdc43c3a33b0c9905db89a6d74b",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 13,
+        "7out02": 31,
+        "7out03": 55,
+        "7out04": 36,
+        "7out05": 22,
+        "7out06": 3,
+        "7out13": 30,
+        "out09": 33,
+        "out10": 26,
+        "out11": 82,
+        "out12": 2,
+        "out14": 53
+      },
+      "descriptors": [
+        {
+          "index": "139",
+          "texture_name": "7hwtrdrse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "12",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrsw",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrsw.bmp",
+      "sha256": "8d3f048bb1620352fda1141a31d7a33794eac43021d9f3eb43bfa6cc5cbe7161",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 15,
+        "7out02": 10,
+        "7out03": 58,
+        "7out04": 85,
+        "7out05": 33,
+        "7out06": 6,
+        "7out13": 9,
+        "out09": 37,
+        "out10": 36,
+        "out11": 117,
+        "out12": 46,
+        "out14": 43
+      },
+      "descriptors": [
+        {
+          "index": "141",
+          "texture_name": "7hwtrdrsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "14",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrw",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrw.bmp",
+      "sha256": "0dbcd65ef3bf7d823a6e26cceff3ea7ac7e8429fa20b8e44ec406c0f1f20a12a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 17,
+        "7out02": 24,
+        "7out03": 91,
+        "7out04": 98,
+        "7out05": 22,
+        "7out06": 14,
+        "7out13": 10,
+        "out09": 55,
+        "out10": 14,
+        "out11": 75,
+        "out12": 28,
+        "out14": 51
+      },
+      "descriptors": [
+        {
+          "index": "143",
+          "texture_name": "7hwtrdrw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "17",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrxne",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrxne.bmp",
+      "sha256": "a6478f4387efac1ebd1ed2768018129ca0abe6377a00a351faff39e9fa9860c7",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 19,
+        "7out02": 10,
+        "7out03": 36,
+        "7out04": 29,
+        "7out06": 5,
+        "7out13": 48,
+        "out09": 45,
+        "out10": 11,
+        "out11": 125,
+        "out14": 77
+      },
+      "descriptors": [
+        {
+          "index": "146",
+          "texture_name": "7hwtrdrxne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "20",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrxnw",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrxnw.bmp",
+      "sha256": "12f537fbf0042c5ce38bf58cd439f33509544c49791f5365bb99d0b4eb9d4791",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 14,
+        "7out02": 27,
+        "7out03": 16,
+        "7out04": 45,
+        "7out05": 6,
+        "7out06": 29,
+        "7out13": 7,
+        "out09": 40,
+        "out10": 3,
+        "out11": 86,
+        "out12": 48,
+        "out14": 26
+      },
+      "descriptors": [
+        {
+          "index": "148",
+          "texture_name": "7hwtrdrxnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "22",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrxse",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrxse.bmp",
+      "sha256": "9dddfca4c56abe8ed7f11222c35572ad10488965f0690e975551e4c36114509f",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 13,
+        "7out02": 28,
+        "7out03": 58,
+        "7out04": 25,
+        "7out05": 22,
+        "7out06": 2,
+        "7out13": 30,
+        "out09": 39,
+        "out10": 24,
+        "out11": 84,
+        "out12": 2,
+        "out14": 58
+      },
+      "descriptors": [
+        {
+          "index": "147",
+          "texture_name": "7hwtrdrxse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "20",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7hwtrdrxsw",
+      "family": "shore",
+      "kind": "shore",
+      "source": "assets_dev/worlds/mm7/textures/7hwtrdrxsw.bmp",
+      "sha256": "c5400189be7077be52af9ae545020fa6ab341b21888bf76294270812dbf8c0dc",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 15,
+        "7out02": 7,
+        "7out03": 62,
+        "7out04": 74,
+        "7out05": 32,
+        "7out06": 5,
+        "7out13": 9,
+        "out09": 43,
+        "out10": 34,
+        "out11": 121,
+        "out12": 46,
+        "out14": 49
+      },
+      "descriptors": [
+        {
+          "index": "149",
+          "texture_name": "7hwtrdrxsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "22",
+          "flags": "0x0300"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sand",
+      "family": "sand",
+      "kind": "base",
+      "source": "assets_dev/worlds/mm7/textures/7sand.bmp",
+      "sha256": "5037f97744aa5ebdcc1a813bf00f6ee053a2522b934430d8dc31f51de3d6ab63",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 1994,
+        "7out06": 5618,
+        "7out15": 16129,
+        "out09": 16,
+        "out10": 761
+      },
+      "descriptors": [
+        {
+          "index": "234",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "237",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "236",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "240",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "244",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "10",
+          "flags": "0x0000"
+        },
+        {
+          "index": "235",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "238",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "241",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "243",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "242",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "239",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "245",
+          "texture_name": "7sand",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "11",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrte",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrte.bmp",
+      "sha256": "8f2128f0ca8fd93fb0eed6c7749cc5ce55fe910a3820e51435f5024b5782670a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 107,
+        "7out06": 60,
+        "out09": 2,
+        "out10": 9
+      },
+      "descriptors": [
+        {
+          "index": "250",
+          "texture_name": "7sddrte",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtn",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtn.bmp",
+      "sha256": "7cadd5a6e613ccf5969fdd9741c180a99fdb955fb286adba854a59266e4f57f2",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 85,
+        "7out06": 111,
+        "out09": 4,
+        "out10": 38
+      },
+      "descriptors": [
+        {
+          "index": "252",
+          "texture_name": "7sddrtn",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtne",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtne.bmp",
+      "sha256": "3e09c5dd0db6388277a4f757660dc65ba9f23f5bbba3981e82d0993e130eb191",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 66,
+        "7out06": 52,
+        "out09": 1,
+        "out10": 15
+      },
+      "descriptors": [
+        {
+          "index": "246",
+          "texture_name": "7sddrtne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtnw",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtnw.bmp",
+      "sha256": "b51d8ab5ab04aa50317c2c9fa34def3b8d387e539bea3ff97f9856e829847d35",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 56,
+        "7out06": 85,
+        "out09": 3,
+        "out10": 15
+      },
+      "descriptors": [
+        {
+          "index": "248",
+          "texture_name": "7sddrtnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrts",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrts.bmp",
+      "sha256": "4cabf15d978da44dbb0ee44ea24c5c082144ffeeee04b842fc64d8c16a130d09",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 114,
+        "7out06": 108,
+        "out09": 3,
+        "out10": 36
+      },
+      "descriptors": [
+        {
+          "index": "253",
+          "texture_name": "7sddrts",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtse",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtse.bmp",
+      "sha256": "b44b465dd596e6f0620ca7e85488d5b338015bb2cb6ffbc0531ff7939418c529",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 59,
+        "7out06": 58,
+        "out09": 4,
+        "out10": 16
+      },
+      "descriptors": [
+        {
+          "index": "247",
+          "texture_name": "7sddrtse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtsw",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtsw.bmp",
+      "sha256": "76ddf8dfbd0bd9b887778db188ca7c9475ae337a688a86eb628fcc3cb5a1381e",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 64,
+        "7out06": 45,
+        "out09": 1,
+        "out10": 16
+      },
+      "descriptors": [
+        {
+          "index": "249",
+          "texture_name": "7sddrtsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtw",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtw.bmp",
+      "sha256": "53faf16fd31de648077b58b8bfa2c445028d2d802a2b1eb74d9d20384a9b41a8",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 68,
+        "7out06": 87,
+        "out09": 3,
+        "out10": 9
+      },
+      "descriptors": [
+        {
+          "index": "251",
+          "texture_name": "7sddrtw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtxne",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtxne.bmp",
+      "sha256": "56c66975c1641d0485b70218001cf0c79c2ec46e2434549682618da4c5844271",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 62,
+        "7out06": 49,
+        "out10": 14
+      },
+      "descriptors": [
+        {
+          "index": "254",
+          "texture_name": "7sddrtxne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtxnw",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtxnw.bmp",
+      "sha256": "aa3c50854dc50f8fb35b9a03c9358ff80505424a14d7a0799d1ff10b1124816c",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 53,
+        "7out06": 83,
+        "out09": 2,
+        "out10": 14
+      },
+      "descriptors": [
+        {
+          "index": "256",
+          "texture_name": "7sddrtxnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtxse",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtxse.bmp",
+      "sha256": "1bc998db7390153899a32e9ffefe18098e857b94e296bb6a04ad33cd95f67ba4",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 57,
+        "7out06": 58,
+        "out09": 3,
+        "out10": 15
+      },
+      "descriptors": [
+        {
+          "index": "255",
+          "texture_name": "7sddrtxse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sddrtxsw",
+      "family": "sand",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sddrtxsw.bmp",
+      "sha256": "f9e8a2ae71485c4b9ae4142e1fd6ca8cda5f537601e30e8b80fbb534fe0c2eac",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 62,
+        "7out06": 43,
+        "out10": 15
+      },
+      "descriptors": [
+        {
+          "index": "257",
+          "texture_name": "7sddrtxsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrte",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrte.bmp",
+      "sha256": "5e7c055d65694e2fb14ef92bcbc43f60b62a5be0e8369d2a921da3a717cb6529",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 107,
+        "7out03": 40,
+        "7out13": 127,
+        "out10": 216,
+        "out12": 84
+      },
+      "descriptors": [
+        {
+          "index": "358",
+          "texture_name": "7sndrte",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtn",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtn.bmp",
+      "sha256": "c39f9836de6c0e46344bb022b7061573aea42fc5c0b1673834fa2d6e663184e1",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 110,
+        "7out03": 31,
+        "7out13": 138,
+        "out10": 166,
+        "out12": 84
+      },
+      "descriptors": [
+        {
+          "index": "360",
+          "texture_name": "7sndrtn",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtne",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtne.bmp",
+      "sha256": "8604387a3e8a0e341d81ab0bf7ff4ded9798c31056c2d608ab84d82dd1941fa2",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 80,
+        "7out03": 26,
+        "7out13": 49,
+        "out10": 98,
+        "out12": 44
+      },
+      "descriptors": [
+        {
+          "index": "354",
+          "texture_name": "7sndrtne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtnw",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtnw.bmp",
+      "sha256": "485df18dfb9627597a410ac3bce86573ea8e1510b93788045b34406faab5139a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 89,
+        "7out03": 29,
+        "7out13": 58,
+        "out10": 96,
+        "out12": 27
+      },
+      "descriptors": [
+        {
+          "index": "356",
+          "texture_name": "7sndrtnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrts",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrts.bmp",
+      "sha256": "5bf9b321ddd1020f15cf93e171a6cbd84dbf7c6e2683e22911669bc96f1e3b4a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 101,
+        "7out03": 25,
+        "7out13": 137,
+        "out10": 160,
+        "out12": 65
+      },
+      "descriptors": [
+        {
+          "index": "361",
+          "texture_name": "7sndrts",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtse",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtse.bmp",
+      "sha256": "1c0ba21971649d08720122fcc82ca07cff4e96181c16107cf631d6f603a45527",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 95,
+        "7out03": 31,
+        "7out13": 55,
+        "out10": 101,
+        "out12": 30
+      },
+      "descriptors": [
+        {
+          "index": "355",
+          "texture_name": "7sndrtse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtsw",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtsw.bmp",
+      "sha256": "104cbd560073e087f300c8a86e186076aa7d063417a4c8a1dc077c08371662e4",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 83,
+        "7out03": 30,
+        "7out13": 53,
+        "out10": 96,
+        "out12": 59
+      },
+      "descriptors": [
+        {
+          "index": "357",
+          "texture_name": "7sndrtsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtw",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtw.bmp",
+      "sha256": "3a8ab97c8497ffce03fb25d86099cb48a50cbdfcb5199eb19a7a4303bb16a8a1",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 110,
+        "7out03": 38,
+        "7out13": 120,
+        "out10": 223,
+        "out12": 72
+      },
+      "descriptors": [
+        {
+          "index": "359",
+          "texture_name": "7sndrtw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtxne",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtxne.bmp",
+      "sha256": "770ea31c97b1fd60dd0f3f33b9df15f6a1d9908df88b6487ded60fb440ad596a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 55,
+        "7out03": 13,
+        "7out13": 44,
+        "out10": 85,
+        "out12": 43
+      },
+      "descriptors": [
+        {
+          "index": "362",
+          "texture_name": "7sndrtxne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtxnw",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtxnw.bmp",
+      "sha256": "54aea3dff0e46af7bf616d79ee04a40bd393f690863ade8d1eff5704dc1e5f96",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 64,
+        "7out03": 16,
+        "7out13": 56,
+        "out10": 90,
+        "out12": 28
+      },
+      "descriptors": [
+        {
+          "index": "364",
+          "texture_name": "7sndrtxnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtxse",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtxse.bmp",
+      "sha256": "8698265549ae32678b1569e20b2a96d676c9efe8f944a49f3874761f5973fadc",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 71,
+        "7out03": 18,
+        "7out13": 53,
+        "out10": 84,
+        "out12": 33
+      },
+      "descriptors": [
+        {
+          "index": "363",
+          "texture_name": "7sndrtxse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7sndrtxsw",
+      "family": "snow",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7sndrtxsw.bmp",
+      "sha256": "3cc49d897e8ff9a8a060af8d8693b26590484805978dfc45fb4645c520f5bd3f",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 58,
+        "7out03": 17,
+        "7out13": 50,
+        "out10": 93,
+        "out12": 63
+      },
+      "descriptors": [
+        {
+          "index": "365",
+          "texture_name": "7sndrtxsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7snow",
+      "family": "snow",
+      "kind": "base",
+      "source": "assets_dev/worlds/mm7/textures/7snow.bmp",
+      "sha256": "544e4f99393e0c2c13f789d06afc3a87462f2d89a70bb630a3260c9568a2cec1",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out02": 849,
+        "7out03": 188,
+        "7out13": 3341,
+        "out10": 1225,
+        "out12": 1392
+      },
+      "descriptors": [
+        {
+          "index": "342",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "343",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "349",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "345",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "344",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "348",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "352",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "10",
+          "flags": "0x0000"
+        },
+        {
+          "index": "350",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "353",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "347",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "346",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "351",
+          "texture_name": "7snow",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "9",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrte",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrte.bmp",
+      "sha256": "4d95b9c6af992126e566c5fefd67c5b478edfe08b96ef66d0ca169af7131b959",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 4,
+        "7out13": 136
+      },
+      "descriptors": [
+        {
+          "index": "286",
+          "texture_name": "7swdrte",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtn",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtn.bmp",
+      "sha256": "cf4ba403585fde1eb4acc1dc91051ef184acee8eca643384b66ed330529f0cd2",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 3,
+        "7out13": 199
+      },
+      "descriptors": [
+        {
+          "index": "288",
+          "texture_name": "7swdrtn",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtne",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtne.bmp",
+      "sha256": "5e40e1323c3c9dd0c98c3402bdc9c3ffbe7996c18d9e25b20fa334c5927b5f47",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 3,
+        "7out13": 107
+      },
+      "descriptors": [
+        {
+          "index": "282",
+          "texture_name": "7swdrtne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtnw",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtnw.bmp",
+      "sha256": "2f4a795df8a8abed936bdc1449552dc64fa7d103bb76b52f6e05c3d7d1249625",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 2,
+        "7out13": 119
+      },
+      "descriptors": [
+        {
+          "index": "284",
+          "texture_name": "7swdrtnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrts",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrts.bmp",
+      "sha256": "e9a8c446bf3dc0e70900f9d8f0542fa3eb6e37206af004f41ce32a8b1ed132b1",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 2,
+        "7out13": 186
+      },
+      "descriptors": [
+        {
+          "index": "289",
+          "texture_name": "7swdrts",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtse",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtse.bmp",
+      "sha256": "8538ae3123b5f30e5052d8dfb54ad6049a4ae42cdada223d8644413823af76bf",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 4,
+        "7out13": 94
+      },
+      "descriptors": [
+        {
+          "index": "283",
+          "texture_name": "7swdrtse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtsw",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtsw.bmp",
+      "sha256": "7136500ae96d09a199433e527a0771c3a1081a8944ff88927b995e4d7d70e574",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 2,
+        "7out13": 95
+      },
+      "descriptors": [
+        {
+          "index": "285",
+          "texture_name": "7swdrtsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtw",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtw.bmp",
+      "sha256": "bbcd249ebec3796ac93beeabfb151d0e3d4c5af67f3d3ba8ede2962fbbd31c70",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 7,
+        "7out13": 145
+      },
+      "descriptors": [
+        {
+          "index": "287",
+          "texture_name": "7swdrtw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtxne",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtxne.bmp",
+      "sha256": "ecdd590f6a6272c352716815f1bd677977b650fce26cc3c1aebf3de1fb266710",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 2,
+        "7out13": 107
+      },
+      "descriptors": [
+        {
+          "index": "290",
+          "texture_name": "7swdrtxne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtxnw",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtxnw.bmp",
+      "sha256": "49b00009e47d5e239dc89aa232132eb0799d163157a44a04ca7c18f36b6e2f9c",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out13": 111
+      },
+      "descriptors": [
+        {
+          "index": "292",
+          "texture_name": "7swdrtxnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtxse",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtxse.bmp",
+      "sha256": "c39c0a476ed534b3429d19f9ec5ae07fda0ad489d8eadbad6f05aebbaac202b2",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 3,
+        "7out13": 91
+      },
+      "descriptors": [
+        {
+          "index": "291",
+          "texture_name": "7swdrtxse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swdrtxsw",
+      "family": "swamp",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7swdrtxsw.bmp",
+      "sha256": "5d89672aa31cfe63fef9c6087b47cda214b693e304c7314522c63ec677300337",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out13": 105
+      },
+      "descriptors": [
+        {
+          "index": "293",
+          "texture_name": "7swdrtxsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swtyl",
+      "family": "swamp",
+      "kind": "base",
+      "source": "assets_dev/worlds/mm7/textures/7swtyl.bmp",
+      "sha256": "fe31f0943d1bcc1896d642af22b664dcd592a436c7f74cbc71d0fdb2cfc589af",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 20,
+        "7out13": 528
+      },
+      "descriptors": [
+        {
+          "index": "270",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "280",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "10",
+          "flags": "0x0000"
+        },
+        {
+          "index": "281",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "276",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "273",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "274",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "278",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "279",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "275",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "277",
+          "texture_name": "7swtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "7",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swtylv1",
+      "family": "swamp",
+      "kind": "variant",
+      "source": "assets_dev/worlds/mm7/textures/7swtylv1.bmp",
+      "sha256": "9a7eb611fc2987ab904109d1fdea5ecda15494d038666262f9f5ae45e7aa2e64",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out13": 31
+      },
+      "descriptors": [
+        {
+          "index": "271",
+          "texture_name": "7swtylv1",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "1",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7swtylv2",
+      "family": "swamp",
+      "kind": "variant",
+      "source": "assets_dev/worlds/mm7/textures/7swtylv2.bmp",
+      "sha256": "edcae77babc12ca6078fc5aa1eabda8d00795395b22ae54c37298eda4b6902dc",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 1,
+        "7out13": 47
+      },
+      "descriptors": [
+        {
+          "index": "272",
+          "texture_name": "7swtylv2",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "2",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wastetile",
+      "family": "waste",
+      "kind": "base",
+      "source": "assets_dev/worlds/mm7/textures/7wastetile.bmp",
+      "sha256": "fbe9da824e6a5aa9a15f71f680f4909d4a8a5fbf9b51303cb87255407c73234f",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 7890,
+        "7out06": 1246,
+        "out12": 4827
+      },
+      "descriptors": [
+        {
+          "index": "309",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "306",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "308",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "315",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "307",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "317",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "314",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "312",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "313",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "310",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "311",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "316",
+          "texture_name": "7wastetile",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "10",
+          "flags": "0x0000"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrte",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrte.bmp",
+      "sha256": "e247ab30889546f1dfc03e6d0c255329b1d9e5ac1aa8396b019786b3bed948df",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 153,
+        "7out06": 318,
+        "out12": 128
+      },
+      "descriptors": [
+        {
+          "index": "322",
+          "texture_name": "7wstdrte",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtn",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtn.bmp",
+      "sha256": "662eeac88f56636120a824819584b05f31c6f3221658d7969efad625c73197f9",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 227,
+        "7out06": 371,
+        "out12": 152
+      },
+      "descriptors": [
+        {
+          "index": "324",
+          "texture_name": "7wstdrtn",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtne",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtne.bmp",
+      "sha256": "1e41c616e95be65a81f2bd123b35522c8e6d9cb879c7e11fea3db2f160362727",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 113,
+        "7out06": 199,
+        "out12": 120
+      },
+      "descriptors": [
+        {
+          "index": "318",
+          "texture_name": "7wstdrtne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtnw",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtnw.bmp",
+      "sha256": "9e333c780ed6dae1337544665cd887cb156faa82216144431e840d81d7ff6e08",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 98,
+        "7out06": 215,
+        "out12": 61
+      },
+      "descriptors": [
+        {
+          "index": "320",
+          "texture_name": "7wstdrtnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrts",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrts.bmp",
+      "sha256": "b4e70a784de33f1e853b4e3a354f40241eaa059b3b1ed53c96573c432129a9ce",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 139,
+        "7out06": 350,
+        "out12": 205
+      },
+      "descriptors": [
+        {
+          "index": "325",
+          "texture_name": "7wstdrts",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtse",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtse.bmp",
+      "sha256": "25f17d31438ba0f83c8770440eca8b53476c9d364b86e107729bbc03b7fcf1cb",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 50,
+        "7out06": 234,
+        "out12": 88
+      },
+      "descriptors": [
+        {
+          "index": "319",
+          "texture_name": "7wstdrtse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtsw",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtsw.bmp",
+      "sha256": "dcd494f3b23496781e11c84a42abd0a1283d134e191076870f9ae8788273f9eb",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 77,
+        "7out06": 193,
+        "out12": 76
+      },
+      "descriptors": [
+        {
+          "index": "321",
+          "texture_name": "7wstdrtsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtw",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtw.bmp",
+      "sha256": "05b692b8fbb4609a16b5ae4ff4afd8e2b82d6205838835ae288183f432f4ed6e",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 180,
+        "7out06": 320,
+        "out12": 105
+      },
+      "descriptors": [
+        {
+          "index": "323",
+          "texture_name": "7wstdrtw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtxne",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtxne.bmp",
+      "sha256": "9ef042324993549b535e48829fc1ec72de08c16fcbed29df50cf8875de76ae47",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 99,
+        "7out06": 166,
+        "out12": 103
+      },
+      "descriptors": [
+        {
+          "index": "326",
+          "texture_name": "7wstdrtxne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtxnw",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtxnw.bmp",
+      "sha256": "050593ec7726df2fe052ac4b70a0b5e2fe1587e35231815ce317bf2397dd44f8",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 68,
+        "7out06": 201,
+        "out12": 44
+      },
+      "descriptors": [
+        {
+          "index": "328",
+          "texture_name": "7wstdrtxnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtxse",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtxse.bmp",
+      "sha256": "66010ca32426a5ce58e4bda710e4cf432347d91ccfaa3df5f882c01b1bba3faa",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 37,
+        "7out06": 198,
+        "out12": 87
+      },
+      "descriptors": [
+        {
+          "index": "327",
+          "texture_name": "7wstdrtxse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wstdrtxsw",
+      "family": "waste",
+      "kind": "transition",
+      "source": "assets_dev/worlds/mm7/textures/7wstdrtxsw.bmp",
+      "sha256": "65fe3569c53e37c144e9e5147f2b90d3597fc8c53b4c8c86f0d48d3ee1bf1c3a",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out05": 59,
+        "7out06": 181,
+        "out12": 72
+      },
+      "descriptors": [
+        {
+          "index": "329",
+          "texture_name": "7wstdrtxsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "identical_mm6": []
+    },
+    {
+      "name": "7wtrtyl",
+      "family": "water",
+      "kind": "base",
+      "source": "assets_dev/engine/terrain/7wtrtyl.bmp",
+      "sha256": "bc93d58e7893ceb8876fe915e7e5a3ae245642e4c97b17a31a9a31fd48236ab3",
+      "size": [
+        128,
+        128
+      ],
+      "maps": {
+        "7out01": 14938,
+        "7out02": 248,
+        "7out03": 2655,
+        "7out04": 6231,
+        "7out05": 2989,
+        "7out06": 1082,
+        "7out13": 4236,
+        "out09": 13621,
+        "out10": 1698,
+        "out11": 1456,
+        "out12": 6678,
+        "out14": 4614
+      },
+      "descriptors": [
+        {
+          "index": "127",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "1",
+          "flags": "0x0002"
+        },
+        {
+          "index": "126",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "0",
+          "flags": "0x0002"
+        },
+        {
+          "index": "129",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "3",
+          "flags": "0x0002"
+        },
+        {
+          "index": "128",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "2",
+          "flags": "0x0002"
+        },
+        {
+          "index": "136",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "10",
+          "flags": "0x0002"
+        },
+        {
+          "index": "131",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "5",
+          "flags": "0x0002"
+        },
+        {
+          "index": "135",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "9",
+          "flags": "0x0002"
+        },
+        {
+          "index": "134",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "8",
+          "flags": "0x0002"
+        },
+        {
+          "index": "137",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "11",
+          "flags": "0x0002"
+        },
+        {
+          "index": "130",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "4",
+          "flags": "0x0002"
+        },
+        {
+          "index": "132",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "6",
+          "flags": "0x0002"
+        },
+        {
+          "index": "133",
+          "texture_name": "7wtrtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "5",
+          "variant": "7",
+          "flags": "0x0002"
+        }
+      ],
+      "identical_mm6": []
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>New Sorpigal — terrain master study</title><style>
+body{background:#121921;color:#e9e3d4;font:17px/1.5 system-ui;margin:0 auto;max-width:1600px;padding:24px}
+a{color:#a7d9fa}h1,h2,h3{line-height:1.2}.note{border-left:4px solid #d3ad67;background:#29302c;padding:14px 20px}
+section{margin:48px 0}.comparison{position:relative;line-height:0}.comparison img{width:100%;display:block}
+.before{position:absolute;inset:0;clip-path:inset(0 50% 0 0)}.divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff}
+input[type=range]{width:100%;margin:14px 0;accent-color:#d3ad67}.materials{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+article img{width:100%;max-width:512px}pre{white-space:pre-wrap}.caption{color:#c9cbbf}details{font-size:14px}
+</style><h1>New Sorpigal — terrain master study</h1>
+<p>Selected materials, compared in OpenYAMM at your saved cameras. Built-in image generation;
+256×256 runtime tiles from preserved 512×512 authoring masters, original buildings and sprites,
+anisotropic terrain filtering at 8×.</p>
+<div class="note"><strong>Material study; transitions are pending.</strong> Grass, dirt and rock replace their pure base tiles.
+<strong>Cobbles are a masked overlay material over dirt.</strong> The final road tile uses its road mask to expose cobbles,
+leaving dirt visible outside it. These x2 captures retain the original road tiles until their masks are ready.
+Mixed land tiles remain original. Water uses original imagery.
+The supplied grass and dirt cameras are identical and show grass; use the cobbles camera to assess dirt.</div>
+<p><a href="README.md">Review notes / reproduction</a> · <a href="review/masters_original_vs_candidates.png">Original/master sheet</a> ·
+<a href="runtime_x2/README.md">256px runtime export</a> ·
+<a href="references/pose_verification.png">Original camera verification</a> ·
+<a href="../mm6_new_sorpigal/index.html">Terrain catalogue</a></p>
+<p>Grass v1 and cobbles v1 are accepted. Rock v2 remains tentative: the original was lighter.
+Dirt v4 is selected for the master stage and used in the x2 screenshots below. Road masks remain pending.
+<a href="#dirt-revision">Compare the dirt revision</a>.</p>
+<section id="dirt-revision"><h2>Dirt revision: repeat check</h2>
+<p class="caption">Left: earlier chunky dirt v1 · Right: selected dirt master v4. Both repeat 3×3.</p>
+<p>Dirt v4 is accepted for the master stage. Keep this version for subsequent mask and compositing work.</p>
+<div class="comparison"><img src="review/dirt_v4_repeat_3x3.png" alt="Selected dirt v4 repeated nine times">
+<img class="before" src="review/dirt_v1_repeat_3x3.png" alt="Earlier dirt with recurring bands">
+<div class="divider"></div></div>
+<input type="range" min="0" max="100" value="50" aria-label="Earlier dirt coverage">
+<p><a href="review/dirt_v1_repeat_3x3.png">Earlier repeat sheet</a> ·
+<a href="review/dirt_v4_repeat_3x3.png">Selected dirt repeat sheet</a> · <a href="prompts/dirt_v4.txt">Generation prompt</a> ·
+<a href="review/dirt_v3_repeat_3x3.png">Earlier fine-grained revision (not preferred)</a></p>
+</section>
+<section><h2>Town overview</h2>
+<p class="caption">Left: original · Right: selected masters at x2 (256px). Drag to compare.</p>
+<div class="comparison"><img src="review/runtime_x2/terrain_runtime_x2_fixed_overview.png" alt="Town overview, x2 runtime materials">
+<img class="before" src="review/original/terrain_original_fixed_overview.png" alt="Town overview, original"><div class="divider"></div></div>
+<input type="range" min="0" max="100" value="50" aria-label="Original image coverage: Town overview">
+<p><a href="review/original/terrain_original_fixed_overview.png">Original full screenshot</a> · <a href="review/runtime_x2/terrain_runtime_x2_fixed_overview.png">Trial full screenshot</a> ·
+<a href="review/runtime_x2/terrain_runtime_x2_fixed_overview_pose.png">Trial camera verification</a></p>
+<details><summary>Camera coordinates</summary><pre>{
+  &quot;x&quot;: -11825.771,
+  &quot;y&quot;: -12076.673,
+  &quot;z&quot;: 1733.715,
+  &quot;heading_degrees&quot;: 41.27,
+  &quot;pitch_degrees&quot;: -28.963
+}</pre></details></section>
+<section><h2>Cobbles and dirt</h2>
+<p class="caption">Left: original · Right: selected masters at x2 (256px). Drag to compare.</p>
+<div class="comparison"><img src="review/runtime_x2/terrain_runtime_x2_fixed_cobbles.png" alt="Cobbles and dirt, x2 runtime materials">
+<img class="before" src="review/original/terrain_original_fixed_cobbles.png" alt="Cobbles and dirt, original"><div class="divider"></div></div>
+<input type="range" min="0" max="100" value="50" aria-label="Original image coverage: Cobbles and dirt">
+<p><a href="review/original/terrain_original_fixed_cobbles.png">Original full screenshot</a> · <a href="review/runtime_x2/terrain_runtime_x2_fixed_cobbles.png">Trial full screenshot</a> ·
+<a href="review/runtime_x2/terrain_runtime_x2_fixed_cobbles_pose.png">Trial camera verification</a></p>
+<details><summary>Camera coordinates</summary><pre>{
+  &quot;x&quot;: -9247.492,
+  &quot;y&quot;: -10485.38,
+  &quot;z&quot;: 161.0,
+  &quot;heading_degrees&quot;: 1.822,
+  &quot;pitch_degrees&quot;: -19.423
+}</pre></details></section>
+<section><h2>Grass</h2>
+<p class="caption">Left: original · Right: selected masters at x2 (256px). Drag to compare.</p>
+<div class="comparison"><img src="review/runtime_x2/terrain_runtime_x2_fixed_grass_dirt.png" alt="Grass, x2 runtime materials">
+<img class="before" src="review/original/terrain_original_fixed_grass_dirt.png" alt="Grass, original"><div class="divider"></div></div>
+<input type="range" min="0" max="100" value="50" aria-label="Original image coverage: Grass">
+<p><a href="review/original/terrain_original_fixed_grass_dirt.png">Original full screenshot</a> · <a href="review/runtime_x2/terrain_runtime_x2_fixed_grass_dirt.png">Trial full screenshot</a> ·
+<a href="review/runtime_x2/terrain_runtime_x2_fixed_grass_dirt_pose.png">Trial camera verification</a></p>
+<details><summary>Camera coordinates</summary><pre>{
+  &quot;x&quot;: -9429.897,
+  &quot;y&quot;: -11473.65,
+  &quot;z&quot;: 161.0,
+  &quot;heading_degrees&quot;: 272.871,
+  &quot;pitch_degrees&quot;: -12.977
+}</pre></details></section>
+<section><h2>Volcanic slopes</h2>
+<p class="caption">Left: original · Right: selected masters at x2 (256px). Drag to compare.</p>
+<div class="comparison"><img src="review/runtime_x2/terrain_runtime_x2_fixed_volcano.png" alt="Volcanic slopes, x2 runtime materials">
+<img class="before" src="review/original/terrain_original_fixed_volcano.png" alt="Volcanic slopes, original"><div class="divider"></div></div>
+<input type="range" min="0" max="100" value="50" aria-label="Original image coverage: Volcanic slopes">
+<p><a href="review/original/terrain_original_fixed_volcano.png">Original full screenshot</a> · <a href="review/runtime_x2/terrain_runtime_x2_fixed_volcano.png">Trial full screenshot</a> ·
+<a href="review/runtime_x2/terrain_runtime_x2_fixed_volcano_pose.png">Trial camera verification</a></p>
+<details><summary>Camera coordinates</summary><pre>{
+  &quot;x&quot;: -12919.706,
+  &quot;y&quot;: 13123.153,
+  &quot;z&quot;: 1069.94,
+  &quot;heading_degrees&quot;: 88.466,
+  &quot;pitch_degrees&quot;: -21.918
+}</pre></details></section><h2>Material candidates</h2><div class="materials"><article><h3>Grass v1</h3><img src="generated/v1/grass_512.png" alt="Generated grass master"><p><a href="generated/v1/grass_512.png">512px PNG</a> · <a href="runtime_x2/materials/grass.png">256px runtime PNG</a> · <a href="generated/v1/grass_raw.png">Raw output</a> · <a href="review/grass_repeat_3x3.png">3×3 repeat</a> · <a href="prompts/grass_v1.txt">Prompt</a></p></article>
+<article><h3>Dirt v4</h3><img src="generated/v4/dirt_512.png" alt="Generated dirt master"><p><a href="generated/v4/dirt_512.png">512px PNG</a> · <a href="runtime_x2/materials/dirt.png">256px runtime PNG</a> · <a href="generated/v4/dirt_raw.png">Raw output</a> · <a href="review/dirt_repeat_3x3.png">3×3 repeat</a> · <a href="prompts/dirt_v4.txt">Prompt</a></p></article>
+<article><h3>Cobbles v1</h3><img src="generated/v1/cobbles_512.png" alt="Generated cobbles master"><p><a href="generated/v1/cobbles_512.png">512px PNG</a> · <a href="runtime_x2/materials/cobbles.png">256px runtime PNG</a> · <a href="generated/v1/cobbles_raw.png">Raw output</a> · <a href="review/cobbles_repeat_3x3.png">3×3 repeat</a> · <a href="prompts/cobbles_v1.txt">Prompt</a></p></article>
+<article><h3>Volcano v2</h3><img src="generated/v2/volcano_512.png" alt="Generated volcano master"><p><a href="generated/v2/volcano_512.png">512px PNG</a> · <a href="runtime_x2/materials/volcano.png">256px runtime PNG</a> · <a href="generated/v2/volcano_raw.png">Raw output</a> · <a href="review/volcano_repeat_3x3.png">3×3 repeat</a> · <a href="prompts/volcano_v2.txt">Prompt</a></p></article></div>
+<p>Earlier rock trial: <a href="review/v1/terrain_v1_fixed_volcano.png">In-game v1</a> ·
+<a href="generated/v1/volcano_512.png">Rock v1 master</a>.</p>
+<script>document.querySelectorAll('section').forEach(s=>{const slider=s.querySelector('input');
+slider.addEventListener('input',()=>{s.querySelector('.before').style.clipPath=`inset(0 ${100-slider.value}% 0 0)`;
+s.querySelector('.divider').style.left=slider.value+'%';});});</script></html>

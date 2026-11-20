@@ -1,0 +1,195 @@
+# Explicit conversion choices for MM9's Anskram Keep (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: anskramkeep
+  display_name: Anskram Keep
+  starts: [Anskramkeepback, Anskramkeepfront]    # start 0: the south entrance from Sturmford; the north entrance
+  monster_classes: [Imply, Imp, ImpElder, NagateHatchling, NagateElder, AirBorneIcky, GuardSegeant]
+  offset: [0, 0, 0]                   # the old map's frame: x -6881..6922, y -696..16015, z -1137..573 fit int16
+  ambient: 20
+  model_lighting: false               # re-light 2026-10-31: tried (AmbientLight 40, ModelAdd 30): draws the wardrobes and beds near black; work/relight/model_lighting_props.txt
+  split_minor_rooms: true             # 2026-11-06: off left the doorway floors of 19 door and archway portals reaching
+                                      # past the portal into the next room (the engine put a party there in the wrong
+                                      # sector: black views, user report); every polygon is split at a portal it crosses
+
+# models: what each DAT world model becomes. static: its faces join the room geometry as they are
+# (authored pose); skip: left out; a mover: {group, motion}. motion dat: MM9's own linear Door motion
+# (MoveDir, MoveDist, Speed); rotate: MM9's own swing, one rotating mover per leaf (RotationPoint, RotationAngles,
+# Speed, CloseWaitTime; devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md); sink: a breakable wall plug drops under the floor in
+# front of it (the cages). bodies/carry: what the mover does to the party and monsters in its way.
+# falls/falls_point: the trap's trigger, which its open swing must take down (the build checks the sign); rises: a hatch.
+# doorway: the mover closes a doorway (a portal), with a click event unless click: false (the gate's leaves open
+# only by its switches, the cages by their triggers; convert.py wires those). authored_open: MM9 authors the
+# leaves apart and its open slides them shut; built shut and starting open (the outer gate). slide: move_lt, speed
+# (native units/s): the Floordoor slabs, which MM9 destroys, drop through the Giant Imp's shaft out of sight.
+models:
+  ExitStairs: {group: ExitStairs, motion: dat}
+  ShooterPlate8: {group: ShooterPlate8, motion: dat}
+  ShooterPlate7: {group: ShooterPlate7, motion: dat}
+  ShooterPlate6: {group: ShooterPlate6, motion: dat}
+  ShooterPlate5: {group: ShooterPlate5, motion: dat}
+  ShooterPlate9: {group: ShooterPlate9, motion: dat}
+  ShooterPlate10: {group: ShooterPlate10, motion: dat}
+  WorldObject0: static            # WorldObject
+  CeilingCrush3: {group: CeilingCrush3, motion: dat}
+  CeilingCrushPlate3: {group: CeilingCrushPlate3, motion: dat}
+  CeilingCrush2: {group: CeilingCrush2, motion: dat}
+  CeilingCrushPlate2: {group: CeilingCrushPlate2, motion: dat}
+  CeilingCrush1: {group: CeilingCrush1, motion: dat}
+  CeilingCrushPlate1: {group: CeilingCrushPlate1, motion: dat}
+  PivotWallTrap1: {group: PivotWallTrap1, motion: rotate, bodies: push, carry: true, owner_lt: [1344, -150, 708], falls: PivotWallTrapTrigger1, falls_point: [1344.0, -170.0, 708.0]}
+  TrapExitDoor1: {group: TrapExitDoor1, motion: rotate, rises: true}
+  LadderBlocker3: static            # WorldObject
+  PivotButton1: {group: PivotButton1, motion: dat}
+  PivotTreasurePanel1: {group: PivotTreasurePanel1, motion: dat}
+  PivotWallTrap2: {group: PivotWallTrap2, motion: rotate, bodies: push, carry: true, owner_lt: [-1732, -150, 1340], falls: PivotWallTrapTrigger2, falls_point: [-1732.0, -170.0, 1340.0]}
+  TrapExitDoor2: {group: TrapExitDoor2, motion: rotate, rises: true}
+  LadderBlocker4: static            # WorldObject
+  PivotButton2: {group: PivotButton2, motion: dat}
+  PivotWallTrap3: {group: PivotWallTrap3, motion: rotate, bodies: push, carry: true, owner_lt: [-1732, -150, 3218], falls: PivotWallTrapTrigger3, falls_point: [-1732.0, -170.0, 3218.0]}
+  TrapExitDoor3: {group: TrapExitDoor3, motion: rotate, rises: true}
+  LadderBlocker5: static            # WorldObject
+  PivotButton3: {group: PivotButton3, motion: dat}
+  RoundDoorRight2: {group: RoundDoor2, motion: dat, doorway: true, portal: RoundDoorPortal2}
+  RoundDoorLeft2: {group: RoundDoor2, motion: dat, doorway: true, portal: RoundDoorPortal2}
+  RoundDoorRight1: {group: RoundDoor1, motion: dat, doorway: true, portal: RoundDoorPortal1}
+  RoundDoorLeft1: {group: RoundDoor1, motion: dat, doorway: true, portal: RoundDoorPortal1}
+  RoundDoorRight0: {group: RoundDoor0, motion: dat, doorway: true, portal: RoundDoorPortal0}
+  RoundDoorLeft0: {group: RoundDoor0, motion: dat, doorway: true, portal: RoundDoorPortal0}
+  RoundDoorRight3: {group: RoundDoor3, motion: dat, doorway: true, portal: RoundDoorPortal3}
+  RoundDoorLeft3: {group: RoundDoor3, motion: dat, doorway: true, portal: RoundDoorPortal3}
+  LeverPanel: {group: LeverPanel, motion: dat}
+  Innerdoor0: {group: Innerdoor, motion: dat, doorway: true, portal: Innerdoorportal, click: false}
+  Innerdoor1: {group: Innerdoor, motion: dat, doorway: true, portal: Innerdoorportal, click: false}
+  Outerdoor0: {group: Outerdoor, motion: dat, doorway: true, portal: Outerdoorportal, click: false, authored_open: true}
+  Outerdoor1: {group: Outerdoor, motion: dat, doorway: true, portal: Outerdoorportal, click: false, authored_open: true}
+  DoubleDoorL1: {group: DoubleDoor1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorR1: {group: DoubleDoor1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorL2: {group: DoubleDoor2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorR2: {group: DoubleDoor2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorL3: {group: DoubleDoor3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorR3: {group: DoubleDoor3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorL4: {group: DoubleDoor4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorR4: {group: DoubleDoor4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorL5: {group: DoubleDoor5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}
+  DoubleDoorR5: {group: DoubleDoor5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}
+  DoubleDoorL6: {group: DoubleDoor6, motion: rotate, doorway: true, portal: DoubleDoorPortal6}
+  DoubleDoorR6: {group: DoubleDoor6, motion: rotate, doorway: true, portal: DoubleDoorPortal6}
+  DoubleDoorL7: {group: DoubleDoor7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorR7: {group: DoubleDoor7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorL8: {group: DoubleDoor8, motion: rotate, doorway: true, portal: DoubleDoorPortal8}
+  DoubleDoorR8: {group: DoubleDoor8, motion: rotate, doorway: true, portal: DoubleDoorPortal8}
+  DoubleDoorL9: {group: DoubleDoor9, motion: rotate, doorway: true, portal: DoubleDoorPortal9}
+  DoubleDoorR9: {group: DoubleDoor9, motion: rotate, doorway: true, portal: DoubleDoorPortal9}
+  DoubleDoorL10: {group: DoubleDoor10, motion: rotate, doorway: true, portal: DoubleDoorPortal10}
+  DoubleDoorR10: {group: DoubleDoor10, motion: rotate, doorway: true, portal: DoubleDoorPortal10}
+  DoubleDoorL11: {group: DoubleDoor11, motion: rotate, doorway: true, portal: DoubleDoorPortal11}
+  DoubleDoorR11: {group: DoubleDoor11, motion: rotate, doorway: true, portal: DoubleDoorPortal11}
+  DoubleDoorL12: {group: DoubleDoor12, motion: rotate, doorway: true, portal: DoubleDoorPortal12}
+  DoubleDoorR12: {group: DoubleDoor12, motion: rotate, doorway: true, portal: DoubleDoorPortal12}
+  DoubleDoorL13: {group: DoubleDoor13, motion: rotate, doorway: true, portal: DoubleDoorPortal13}
+  DoubleDoorR13: {group: DoubleDoor13, motion: rotate, doorway: true, portal: DoubleDoorPortal13}
+  DoubleDoorL14: {group: DoubleDoor14, motion: rotate, doorway: true, portal: DoubleDoorPortal14}
+  DoubleDoorR14: {group: DoubleDoor14, motion: rotate, doorway: true, portal: DoubleDoorPortal14}
+  DoubleDoorL15: {group: DoubleDoor15, motion: rotate, doorway: true, portal: DoubleDoorPortal15}
+  DoubleDoorR15: {group: DoubleDoor15, motion: rotate, doorway: true, portal: DoubleDoorPortal15}
+  DoubleDoorL16: {group: DoubleDoor16, motion: rotate, doorway: true, portal: DoubleDoorPortal16}
+  DoubleDoorR16: {group: DoubleDoor16, motion: rotate, doorway: true, portal: DoubleDoorPortal16}
+  DoubleDoorL17: {group: DoubleDoor17, motion: rotate, doorway: true, portal: DoubleDoorPortal17}
+  DoubleDoorR17: {group: DoubleDoor17, motion: rotate, doorway: true, portal: DoubleDoorPortal17}
+  DoubleDoorL18: {group: DoubleDoor18, motion: rotate, doorway: true, portal: DoubleDoorPortal18}
+  DoubleDoorR18: {group: DoubleDoor18, motion: rotate, doorway: true, portal: DoubleDoorPortal18}
+  DoubleDoorL19: {group: DoubleDoor19, motion: rotate, doorway: true, portal: DoubleDoorPortal19}
+  DoubleDoorR19: {group: DoubleDoor19, motion: rotate, doorway: true, portal: DoubleDoorPortal19}
+  DoubleDoorL20: {group: DoubleDoor20, motion: rotate, doorway: true, portal: DoubleDoorPortal20}
+  DoubleDoorR20: {group: DoubleDoor20, motion: rotate, doorway: true, portal: DoubleDoorPortal20}
+  DoubleDoorL21: {group: DoubleDoor21, motion: rotate, doorway: true, portal: DoubleDoorPortal21}
+  DoubleDoorR21: {group: DoubleDoor21, motion: rotate, doorway: true, portal: DoubleDoorPortal21}
+  DoubleDoorL22: {group: DoubleDoor22, motion: rotate, doorway: true, portal: DoubleDoorPortal22}
+  DoubleDoorR22: {group: DoubleDoor22, motion: rotate, doorway: true, portal: DoubleDoorPortal22}
+  DoubleDoorL23: {group: DoubleDoor23, motion: rotate, doorway: true, portal: DoubleDoorPortal23}
+  DoubleDoorR23: {group: DoubleDoor23, motion: rotate, doorway: true, portal: DoubleDoorPortal23}
+  DoubleDoorL24: {group: DoubleDoor24, motion: rotate, doorway: true, portal: DoubleDoorPortal24}
+  DoubleDoorR24: {group: DoubleDoor24, motion: rotate, doorway: true, portal: DoubleDoorPortal24}
+  DoubleDoorL25: {group: DoubleDoor25, motion: rotate, doorway: true, portal: DoubleDoorPortal25}
+  DoubleDoorR25: {group: DoubleDoor25, motion: rotate, doorway: true, portal: DoubleDoorPortal25}
+  DoubleDoorL26: {group: DoubleDoor26, motion: rotate, doorway: true, portal: DoubleDoorPortal26}
+  DoubleDoorR26: {group: DoubleDoor26, motion: rotate, doorway: true, portal: DoubleDoorPortal26}
+  DoubleDoorL27: {group: DoubleDoor27, motion: rotate, doorway: true, portal: DoubleDoorPortal27}
+  DoubleDoorR27: {group: DoubleDoor27, motion: rotate, doorway: true, portal: DoubleDoorPortal27}
+  DoubleDoorL28: {group: DoubleDoor28, motion: rotate, doorway: true, portal: DoubleDoorPortal28}
+  DoubleDoorR28: {group: DoubleDoor28, motion: rotate, doorway: true, portal: DoubleDoorPortal28}
+  Floordoor2: {group: Floordoor2, motion: slide, move_lt: [0, -216, 0], speed: 1024}   # DestructableBrush
+  Floordoor3: {group: Floordoor3, motion: slide, move_lt: [0, -216, 0], speed: 1024}   # DestructableBrush
+  Floordoor1: {group: Floordoor1, motion: slide, move_lt: [0, -216, 0], speed: 1024}   # DestructableBrush
+  Floordoor4: {group: Floordoor4, motion: slide, move_lt: [0, -216, 0], speed: 1024}   # DestructableBrush
+  SwitchLever0: {group: SwitchLever0, motion: rotate}
+  PanelLever: {group: PanelLever, motion: rotate}
+  Switch0: {group: Switch0, motion: rotate}
+  Switch1: {group: Switch1, motion: rotate}
+  LeverPanel0: {group: LeverPanel0, motion: dat}
+  InvisibleBrush0: static            # InvisibleBrush
+  InvisibleBrush1: static            # InvisibleBrush
+  InvisibleBrush2: static            # InvisibleBrush
+  InvisibleBrush3: static            # InvisibleBrush
+  InvisibleBrush4: static            # InvisibleBrush
+  InvisibleBrush5: static            # InvisibleBrush
+  InvisibleBrush6: static            # InvisibleBrush
+  InvisibleBrush7: static            # InvisibleBrush
+  CritterBreakOut0: {group: CritterBreakOut0, motion: sink, doorway: true, click: false}   # DestructableBrush
+  CritterBreakOut1: {group: CritterBreakOut1, motion: sink, doorway: true, click: false}   # DestructableBrush
+  Carpet28: static            # WorldObject
+  Carpet29: static            # WorldObject
+model_patterns: {}
+# Archway portals beyond the doorways: a cut through the air of the voxel slice perpendicular to `axis` (x or z) at
+# `point` (LithTech units), sealing the opening the point stands in, at most `span` (default 256) to either side
+# along the cut. Chosen on work/rooms_large.png.
+portals:
+  - {name: north_hall_5140, axis: z, points: [[-800, -150, 5140], [0, -150, 5140], [800, -150, 5140]], span: 600}  # north of the stair pit
+  - {name: north_hall_5650, axis: z, points: [[-560, -150, 5650], [0, -150, 5650], [560, -150, 5650]], span: 200}
+  - {name: central_hall_2700, axis: z, point: [0, -150, 2700], span: 600}
+  - {name: south_hall_600, axis: z, point: [0, -150, 600], span: 500}
+  - {name: hall_south_passage, axis: z, point: [0, -150, 1600]}
+  - {name: west_corridor_north, axis: z, point: [-1730, -150, 2700]}
+  - {name: west_corridor_hall, axis: x, point: [-1280, -150, 2496]}
+  - {name: west_corridor_south, axis: z, point: [-1730, -150, 1150]}
+  - {name: west_diagonal, axis: x, point: [-1500, -150, 1060]}
+  - {name: south_corridor_west, axis: x, point: [-1300, -150, 704]}
+  - {name: south_vestibule_west, axis: x, point: [-330, -150, 64]}
+  - {name: south_vestibule_east, axis: x, point: [330, -150, 64]}
+  - {name: south_corridor_east, axis: x, point: [1180, -150, 704]}
+  - {name: east_diagonal, axis: x, point: [1500, -150, 1068]}
+  - {name: east_corridor_south, axis: z, point: [1728, -150, 1150]}
+# Exit volumes (map_transitions.txt rows of this map): MM9's spiral stair to Sturmford has risers of 24 (61 native),
+# more than the party climbs (50), so the exit volume reaches down to the foot of the stair.
+exits:
+  Sturmfordexit: {bottom_lt: -196}
+
+# Explicit portal rectangles: the traps' floor openings and the hatches' holes, which the rotating covers close (the
+# portals stand in the floors' plane; the movers keep their faces in both rooms); the Giant Imp's shaft, just under the
+# Floordoor slabs, so they stay in the hall's room; and the airlock's two barred windows: their bars fill a 16-LT voxel
+# column, so the air pass sees a wall there and the rooms on either side had no portal (black behind the bars).
+rect_portals:
+  - {name: TrapPit1, min_lt: [1272, -196, 504], max_lt: [1416, -196, 768]}
+  - {name: TrapPit2, min_lt: [-1792, -196, 1268], max_lt: [-1528, -196, 1412]}
+  - {name: TrapPit3, min_lt: [-1792, -196, 3146], max_lt: [-1528, -196, 3290]}
+  - {name: TrapHatch1, min_lt: [1208, -196, 672], max_lt: [1272, -196, 736]}
+  - {name: TrapHatch2, min_lt: [-1760, -196, 1204], max_lt: [-1696, -196, 1268]}
+  - {name: TrapHatch3, min_lt: [-1760, -196, 3082], max_lt: [-1696, -196, 3146]}
+  - {name: GiantImpPit, min_lt: [-128, -210, 4856], max_lt: [128, -210, 5128]}
+  - {name: AirlockWindowWest, min_lt: [-280, -144, 3424], max_lt: [-280, -96, 3472]}
+  - {name: AirlockWindowEast, min_lt: [288, -144, 3568], max_lt: [288, -96, 3616]}
+
+# MM9's Ladder volumes. facing_lt: (x, z) toward the ladder; surface_lt: where a climber stops along it (the
+# LadderBlocker's face); top_exit_lt: where the party stands after climbing out through the hatch.
+ladders:
+  Ladder4: {facing_lt: [-1, 0], surface_lt: 1220, top_exit_lt: [1240, -192, 752]}
+  Ladder5: {facing_lt: [0, -1], surface_lt: 1216, top_exit_lt: [-1678, -192, 1240]}
+  Ladder6: {facing_lt: [0, -1], surface_lt: 3094, top_exit_lt: [-1678, -192, 3118]}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [GiantImp, PivotTreasurePanel1]
+  themed_near: [Bookcase57, Bookcase58, Bookcase59, Bookcase60, Crate0, Crate10, Crate20, BonePile0, BonePile1, BonePile2, BonePile3]

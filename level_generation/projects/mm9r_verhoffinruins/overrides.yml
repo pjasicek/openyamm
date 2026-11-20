@@ -1,0 +1,165 @@
+# Explicit conversion choices for MM9's Verhoffin Ruins (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: verhoffinruins
+  display_name: Verhoffin Ruins
+  starts: [StartPoint0]               # the only start: ExitTrigger0's stair from the Isle of Ashes (VRStartPoint there)
+  monster_classes: [Zombie, Fright, Terror, Dread, SkeletonWarrior, SkeletonMaster]
+  offset: [0, 0, 0]                   # the old map's frame: x -7 500..3 800, y -6 200..700, z -1 000..300 fit int16
+  ambient: 20
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  split_retry: true                   # floors and ceilings over rows of cells: try every wall split, not only the widest
+  thin_walls: true                    # cell partitions and door frames under a voxel thick keep their far face
+  split_floors_between_rooms: false   # its hook cuts the trap room's floor (edit_polygons); the shared rule (build.py) cut the
+                                      # hall's floor 148 times for 500 LT² less floor under other rooms (2026-11-08)
+  swim: true                          # MM9's water volumes, swum and dived in (scene water_volumes, dungeon/water.py):
+                                      # the crevasse and the pit non-solid over their beds, the trap water a volume
+models:
+  # --- MM9 rotating double doors with a UserPortal: one rotating mover per leaf, a click toggles the pair
+  DoubleDoorL1: {group: DD1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorR1: {group: DD1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorL2: {group: DD2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorR2: {group: DD2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorL3: {group: DD3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorR3: {group: DD3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorL4: {group: DD4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorR4: {group: DD4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorL5: {group: DD5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}   # the water trap room's door
+  DoubleDoorR5: {group: DD5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}
+  DoubleDoorL6: {group: DD6, motion: rotate, doorway: true, portal: DoubleDoorPortal6}
+  DoubleDoorR6: {group: DD6, motion: rotate, doorway: true, portal: DoubleDoorPortal6}
+  DoubleDoorL7: {group: DD7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorR7: {group: DD7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorL8: {group: DD8, motion: rotate, doorway: true, portal: DoubleDoorPortal8}
+  DoubleDoorR8: {group: DD8, motion: rotate, doorway: true, portal: DoubleDoorPortal8}
+  DoubleDoorL9: {group: DD9, motion: rotate}     # no doorway: the corridor behind joins the ruin round its south end
+  DoubleDoorR9: {group: DD9, motion: rotate}
+  DoubleDoorL10: {group: DD10, motion: rotate}  # Locked in MM9, nothing opens it; rock behind it (no doorway)
+  DoubleDoorR10: {group: DD10, motion: rotate}
+  DDoorL11: {group: DD11, motion: rotate, doorway: true, portal: DDPortal11}
+  DDoorR11: {group: DD11, motion: rotate, doorway: true, portal: DDPortal11}
+  DDoorL12: {group: DD12, motion: rotate, doorway: true, portal: DDPortal12}
+  DDoorR12: {group: DD12, motion: rotate, doorway: true, portal: DDPortal12}
+  DDoorL13: {group: DD13, motion: rotate, doorway: true, portal: DDPortal13}
+  DDoorR13: {group: DD13, motion: rotate, doorway: true, portal: DDPortal13}
+  DDoorL14: {group: DD14, motion: rotate, doorway: true}
+  DDoorR14: {group: DD14, motion: rotate, doorway: true}
+  # the torture chamber's double door: closed and locked by the pentagram puzzle (PentagramPuzzle.scr) until solved
+  TortureChamberDoor0: {group: TortureDoor, motion: rotate, doorway: true, portal: TortureChamberPortal}
+  TortureChamberDoor1: {group: TortureDoor, motion: rotate, doorway: true, portal: TortureChamberPortal}
+  # the torture chamber's two side doors: Locked in MM9 with nothing to open them (their PortalName is a copy)
+  TortureChamberDoor6: {group: TortureSide6, motion: rotate}   # rock behind it
+  TortureChamberDoor7: {group: TortureSide7, motion: rotate}   # the chamber's own air behind it
+  # --- single rotating doors
+  PrisonDoor1: {group: PrisonDoor14, motion: rotate}     # a pair with PrisonDoor4 (DoubleDoorName); the ruin's
+                                                        # broken walls join both sides: no doorway
+  PrisonDoor4: {group: PrisonDoor14, motion: rotate}
+  PrisonDoor2: {group: PrisonDoor2, motion: rotate, doorway: true, portal: PrisonDoorPortal2}   # bolted: DestructableBrush12
+  PrisonDoor3: {group: PrisonDoor3, motion: rotate, doorway: true, portal: PrisonDoorPortal3}
+  Door5: {group: Door5, motion: rotate, doorway: true, portal: DoorPortal5}                     # DoorLock.scr: key 559
+  FallingDoor: {group: FallingDoor, motion: rotate}     # falls flat once (its OpenTrigger2 locks it)
+  BrokenDoor1: static                 # StartOpen, a 10 degree swing at speed 5: a broken leaf hanging ajar (never moved)
+  # --- the cells: the barred leaf (CellBars, see-through) and its frame (CellDoor) swing on one hinge: one group each
+  CellBars4: {group: Cell4, motion: rotate, doorway: true}
+  CellDoor4: {group: Cell4, motion: rotate, doorway: true}
+  CellBars5: {group: Cell5, motion: rotate, doorway: true}
+  CellDoor5: {group: Cell5, motion: rotate, doorway: true}
+  CellBars6: {group: Cell6, motion: rotate, doorway: true}
+  CellDoor6: {group: Cell6, motion: rotate, doorway: true}
+  CellBars7: {group: Cell7, motion: rotate, doorway: true}
+  CellDoor7: {group: Cell7, motion: rotate, doorway: true}
+  CellBars8: {group: Cell8, motion: rotate}     # a ruined cell: its walls are broken (no doorway)
+  CellDoor8: {group: Cell8, motion: rotate}
+  CellBars10: {group: Cell10, motion: rotate, doorway: true}
+  CellDoor10: {group: Cell10, motion: rotate, doorway: true}
+  CellBars11: {group: Cell11, motion: rotate, doorway: true}
+  CellDoor11: {group: Cell11, motion: rotate, doorway: true}
+  CellBars12: {group: Cell12, motion: rotate, doorway: true}
+  CellDoor12: {group: Cell12, motion: rotate, doorway: true}
+  CellBars13: {group: Cell13, motion: rotate, doorway: true}
+  CellDoor13: {group: Cell13, motion: rotate, doorway: true}
+  CellBars14: {group: Cell14, motion: rotate, doorway: true}
+  CellDoor14: {group: Cell14, motion: rotate, doorway: true}
+  CellBars15: {group: Cell15, motion: rotate, doorway: true}
+  CellDoor15: {group: Cell15, motion: rotate, doorway: true}
+  CellBars16: {group: Cell16, motion: rotate, doorway: true}
+  CellDoor16: {group: Cell16, motion: rotate, doorway: true}
+  CellBars17: {group: Cell17, motion: rotate, doorway: true}
+  CellDoor17: {group: Cell17, motion: rotate, doorway: true}
+  # --- the water trap room (DrainWater.scr): four nozzles, the drain button and a dummy button
+  WaterNozzle0: {group: WaterNozzle0, motion: rotate}
+  WaterNozzle1: {group: WaterNozzle1, motion: rotate}
+  WaterNozzle2: {group: WaterNozzle2, motion: rotate}
+  WaterNozzle3: {group: WaterNozzle3, motion: rotate}
+  WaterRoomButton1: {group: WaterRoomButton1, motion: dat}     # Locked, nothing unlocks it: a dummy
+  WaterRoomButton2: {group: WaterRoomButton2, motion: dat}     # the drain, unlocked while the room is full
+  # --- the torture chamber's paddle over the electrified pit (PaddleTrigger): it swings out and back
+  Paddle: {group: Paddle, motion: rotate, bodies: push}   # it sweeps what stands on the plate toward the pit
+  PaddlePlate: {group: PaddlePlate, motion: dat}               # the floor plate under the paddle's trigger
+  SwingPaddle: skip                   # an invisible 4 LT helper that swings the paddle back (CloseTrigger toggle)
+  PaddleMesh: static                  # the grill above the paddle (a Door that never moves: no MoveDist)
+  # --- the saw blade in the west corridor (SawBladeTrigger1): blade and arm slide out 112 LT and back
+  SawBladeArm1: {group: Saw, motion: dat}
+  SawBlade1: {group: Saw, motion: slide, move_lt: [112, 0, 0], speed: 256}  # RotatingBrush AttachTo SawBladeArm1: rides
+                                      # the arm (the group's first member sets both: MM9's Speed 100 LT/s)
+  TriggerTimer1: skip                 # an invisible Door used as the saw's re-arm timer (convert.py's timer)
+  saw blade ai barrier: skip          # AI volume
+  saw damage: skip                    # the saw's DamageBrush volume (convert.py: damage by the map script)
+  # --- static brushes
+  InvisibleBrush0: static
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  InvisibleBrush3: static
+  InvisibleBrush4: static
+  InvisibleBrush5: static
+  InvisibleBrush6: static
+  WaterSurface: static                # the electrified pit's surface (water125, non-solid)
+  TransGate: static                   # stained glass gates in the torture chamber (Alpha 0.5: `glass`)
+  TransGate0: static
+  TransGate1: static
+  TransGate2: static
+  # the two ceiling slabs the busts break (KingKong.scr ForceFall; DestructableBrush, HitPoints 100, CanDamage, stone):
+  # scene destructibles with a doorway into the pocket over each, where the busts wait; broken (by the bust or by the
+  # party's weapons), the pocket's monsters fall through (convert.py)
+  BreakOut0: {group: BreakOut0, motion: break, doorway: true, click: false}
+  BreakOut1: {group: BreakOut1, motion: break, doorway: true, click: false}
+  DestructableBrush12: {group: Bolt, motion: break}   # the bolt on PrisonDoor2 (a scene destructible, 2026-11-06): breaking it unlocks the door
+  # --- water volumes and the trap's water
+  ElectricWater1: skip                # the pit's water volume (its surface is WaterSurface)
+  ElectricDamager1: skip              # the pit's damage volume (convert.py: the map script)
+  WorldObject0: skip                  # one Ocean3 quad at -176 over the whole map (convert.py: the channel surfaces)
+  BlueWater0: skip
+  BlueWater1: skip
+  # the trap room's water (DrainWater.scr): its top face only (convert.py), built at the full height and starting
+  # lowered under the floor; a fill closes it (rises 162 LT at MM9's 10 LT a second), the drain opens it
+  WaterTrap: {group: WaterTrap, motion: slide, move_lt: [0, -162, 0], speed: 26, start_open: true, click: false}
+  PerceptionLightWaterTrap: skip      # a PerceptionBrush (convert.py: perception hints)
+  # --- sky
+  SkyBox0: skip
+  TOD_Sky0: skip
+textures:
+  # the sky over the ruin's open core: sky04 stretched (convert.py edit_polygons, as the Chasm's); the bake's sky emitter
+  'textures\leveltextures\area1\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  "water:pool": {alias: WATEQOBX0Z, width: 128, height: 128}      # Water115.spr, first frame (as the Temple's pool)
+  'textures\leveltextures\terrain\watermarker.dtx': {alias: WATEQOBX0Z, width: 128, height: 128}   # the volumes' marker (convert.py retextures)
+glass:
+  staind_a_glass.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# Seeds outside the built air: the relay triggers MM9 parks above the roof or inside walls. (The busts seed the two
+# pockets over the corridor's ceiling slabs, where they wait: KingKong.scr.)
+seed_exclude: [saw damage trigger 1, saw damage trigger 2, TriggerWaterLock, TriggerWaterUnlock, TriggerPuzzleOn,
+               TriggerPuzzleOff]
+exits:
+  ExitTrigger0: {}
+plan_levels:
+  low: [-400, -110]
+  main: [-110, 200]
+# UserPortals whose doors are no doorway (above): DD9's corridor joins the ruin round its south end, DD10 has rock behind
+skip_user_portals: [DoubleDoorPortal9, DoubleDoorPortal10]
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [Terror0, Terror4]
+  avoid_near:
+    - {name: TreasureChest3, radius: 1200}

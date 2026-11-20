@@ -79,11 +79,13 @@ void WeatherPresentation::update(const WeatherRules &rules, const WeatherSample 
     const float dt = std::max(realDeltaSeconds, 0.0f);
     const float rainTarget = target.precipitation == PrecipitationKind::Rain ? target.intensity : 0.0f;
     const float snowTarget = target.precipitation == PrecipitationKind::Snow ? target.intensity : 0.0f;
+    const float ashTarget = target.precipitation == PrecipitationKind::Ash ? target.intensity : 0.0f;
 
     if (m_snapPending)
     {
         m_rainLevel = rainTarget;
         m_snowLevel = snowTarget;
+        m_ashLevel = ashTarget;
         m_cloudCover = target.cloudCover;
         m_wetness = target.wetness;
         m_baseWindX = target.windX;
@@ -96,21 +98,29 @@ void WeatherPresentation::update(const WeatherRules &rules, const WeatherSample 
     }
     else
     {
-        // Rain and snow never overlap: the old kind fades out completely before the new one starts.
+        // Rain, snow and ash never overlap: the old kind fades out completely before the new one starts.
         const float step = rules.fadeSeconds > 0.0f ? dt / rules.fadeSeconds : 1.0f;
 
-        if (snowTarget > 0.0f && m_rainLevel > 0.0f)
+        if (snowTarget > 0.0f && (m_rainLevel > 0.0f || m_ashLevel > 0.0f))
         {
             m_rainLevel = approach(m_rainLevel, 0.0f, step);
+            m_ashLevel = approach(m_ashLevel, 0.0f, step);
         }
-        else if (rainTarget > 0.0f && m_snowLevel > 0.0f)
+        else if (rainTarget > 0.0f && (m_snowLevel > 0.0f || m_ashLevel > 0.0f))
         {
+            m_snowLevel = approach(m_snowLevel, 0.0f, step);
+            m_ashLevel = approach(m_ashLevel, 0.0f, step);
+        }
+        else if (ashTarget > 0.0f && (m_rainLevel > 0.0f || m_snowLevel > 0.0f))
+        {
+            m_rainLevel = approach(m_rainLevel, 0.0f, step);
             m_snowLevel = approach(m_snowLevel, 0.0f, step);
         }
         else
         {
             m_rainLevel = approach(m_rainLevel, rainTarget, step);
             m_snowLevel = approach(m_snowLevel, snowTarget, step);
+            m_ashLevel = approach(m_ashLevel, ashTarget, step);
         }
 
         m_cloudCover = follow(m_cloudCover, target.cloudCover, dt, CloudFollowSeconds);
@@ -131,19 +141,22 @@ void WeatherPresentation::update(const WeatherRules &rules, const WeatherSample 
     m_gust = follow(m_gust, m_gustTarget, dt, GustFollowSeconds);
     m_gustAngle = follow(m_gustAngle, m_gustAngleTarget, dt, GustFollowSeconds);
 
-    // Storms build and fade with the shown rain, not the instant game-time target.
+    // Storms build and fade with the shown rain, not the instant game-time target. Dry lightning strikes without rain
+    // at a storm's slowest rate, mostly far off.
     m_storm = target.storm && m_rainLevel >= rules.stormThreshold * 0.9f;
+    const bool dryLightning = !m_storm && target.dryLightning && m_rainLevel <= 0.0f;
 
-    if (m_storm)
+    if (m_storm || dryLightning)
     {
-        const float strength = std::clamp(
-            (m_rainLevel - rules.stormThreshold) / std::max(1.0f - rules.stormThreshold, 0.05f), 0.0f, 1.0f);
+        const float strength = m_storm ? std::clamp(
+            (m_rainLevel - rules.stormThreshold) / std::max(1.0f - rules.stormThreshold, 0.05f), 0.0f, 1.0f) : 0.0f;
         m_strikeCountdown -= dt;
 
         if (m_strikeCountdown <= 0.0f)
         {
             const float roll = nextRandom();
-            const LightningDistance distance = roll < 0.15f + 0.15f * strength ? LightningDistance::Near
+            const LightningDistance distance = roll < (dryLightning ? 0.05f : 0.15f + 0.15f * strength)
+                ? LightningDistance::Near
                 : roll < 0.5f + 0.1f * strength ? LightningDistance::Middle : LightningDistance::Far;
             startStrike(distance);
             const float meanInterval = rules.strikeIntervalSeconds[1]
@@ -189,6 +202,11 @@ float WeatherPresentation::rainLevel() const
 float WeatherPresentation::snowLevel() const
 {
     return m_snowLevel;
+}
+
+float WeatherPresentation::ashLevel() const
+{
+    return m_ashLevel;
 }
 
 float WeatherPresentation::cloudCover() const

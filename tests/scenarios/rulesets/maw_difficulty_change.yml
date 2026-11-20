@@ -1,0 +1,25 @@
+id: rulesets.maw_difficulty_change
+title: Ruleset - a mid-game MAW difficulty change re-sizes the map's monsters and survives save and load
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal
+  - assert:
+      actor_visible: {actor_index: 0, max_hp: 68}
+  - set_ruleset: {options: easy}
+  - assert:
+      actor_visible: {actor_index: 0, max_hp: 22}
+  - save_game: maw_easy
+  - load_game: maw_easy
+  - assert:
+      actor_visible: {actor_index: 0, max_hp: 22}
+      ruleset:
+        id: maw
+        difficulty: easy
+        progression: horizontal

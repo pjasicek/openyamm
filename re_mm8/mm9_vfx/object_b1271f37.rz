@@ -1,0 +1,10 @@
+# data/object.lto SHA256 b1271f37e5314281035efe6425dd59051bb8a9b0271de0d75a5926a7bc37f162
+# Preferred image base 0x10000000. Read README first.
+f mm9fx.script_command_factory 1 @ 0x1009f920
+f mm9fx.doclientfx_ctor 1 @ 0x100b02b0
+f mm9fx.doclientfx_parse 1 @ 0x100b0320
+f mm9fx.doclientfx_execute 1 @ 0x100b0410
+f mm9fx.cache_effect_assets 1 @ 0x100b90a0
+f mm9fx.send_effect_at_object 1 @ 0x100b9200
+CC First boolean sets flags1, second boolean ORs2. Target handle is converted to server object. @ 0x100b0498
+CC Sends message0x2d with effect name, flags, position and parent object handle. @ 0x100b9235

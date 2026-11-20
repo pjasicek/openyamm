@@ -1,0 +1,180 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "status": "Saved best available raw return; exact brief requirements were not met.",
+  "corrective_regenerations": 1,
+  "postprocessing": "None. Original PNG bytes copied without resizing, alpha changes or colour edits.",
+  "guide": {
+    "path": "level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/guide_back.png",
+    "sha256": "5f06775eed7bfa5b9f3164a136ad8f2bd1b1e2392b5dc28dd4531e5f6eb0ed93",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "alpha_bbox": [
+      66,
+      139,
+      958,
+      885
+    ],
+    "alpha_128_bbox": [
+      67,
+      140,
+      957,
+      884
+    ],
+    "fully_transparent_pixels": 512971,
+    "fully_opaque_pixels": 527384
+  },
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture source for the BACK of the Graft-serum vat 3D model.\nOutput: exactly ONE 1024 x 1024 RGBA PNG, genuinely transparent background.\n\nInput roles, in supplied order:\n1. guide_back.png — EDIT TARGET and absolute geometry authority. This plain grey orthographic back render fixes every silhouette pixel, shape edge, opening, object size, position, and camera.\n2. design_reference.png — approved design, colour, and material authority only. Its three-quarter angle and lighting must NOT replace the guide.\n3. concept_crop.png — supporting original concept for material identity only.\n\nPaint ONLY the existing surface shapes of image 1. Preserve its EXACT 1024-square canvas and unmodified silhouette/alpha boundary: object bounds x=66..957, y=139..884. No scaling, translation, rotation, perspective change, edge rounding, silhouette smoothing, cropping, added protrusions, or missing pieces. Keep all internal faceted shape boundaries in precisely the same locations, including the central downward-pointed upper bone, the surrounding angular oval cage, the paired side hooks, the narrow visible top rim, the bottom central pointed piece and all lower feet. The back view must remain the back view. Do not redraw the three-quarter reference.\n\nSurface paint: glossy black-violet Kreegan resin cage and base with fine organic ridges and faint orange seams; pale warm ivory bone claws and bone points matching the approved design; vivid saturated green serum and membrane visible within the cage and at the narrow top, evenly lit from inside, with darker green branching veins. Use the grey guide to locate the actual shapes, and the design reference to identify their materials. Preserve the guide's geometry while replacing grey with these detailed surface colours. Faint orange glowing seams/sacs have their intrinsic glowing colour, with no light cast on neighbours.\n\nLIGHTING OVERRIDE: this is a texture-paint albedo source, not a beauty render. Even, flat, shadowless illumination from the viewer across all surfaces. Remove the guide's baked shadows/AO. Convey material identity through base colour and fine texture, without strong specular highlights, white reflective streaks, environmental reflections, directional gradients, cast shadows, ambient-occlusion darkening, rim lighting, bloom or light spill. Green membrane stays bright and evenly saturated throughout; dark veins are pigment texture, not black shading. Ivory has even pale colour without bright highlights or shaded sides. Black-violet resin has readable ridges and faint seams but no dramatic lighting.\n\nThe empty area stays genuine alpha transparency. No black background, checkerboard pixels, floor, shadow, halo, text, labels, borders or extra objects. Keep every edge and opening fixed to the edit target. Return at native 1024 x 1024 without resizing.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "5f06775eed7bfa5b9f3164a136ad8f2bd1b1e2392b5dc28dd4531e5f6eb0ed93"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept; supporting material reference",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7"
+        }
+      ],
+      "output": "paint_back_run1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16abe-d59d-7233-b4a8-69cce2cc88ab/exec-b267ce8c-fef4-49cc-9b91-fa46503f5e8d.png",
+      "output_sha256": "96f26dccab74042bfbd60a8be242889a55e49c3a4f0c46a72fedd19c6d1d928e",
+      "selected": false,
+      "accepted_as_brief_compliant": false,
+      "reason": "Not selected: wrong native dimensions, strong specular highlights, bright instead of dark green veins, and geometry/alpha differences from the guide.",
+      "checks": {
+        "dimensions": {
+          "required": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette_identical": {
+          "pass": false,
+          "note": "Native dimensions differ; raw alpha and shape edges do not exactly match the guide.",
+          "alpha_bbox": [
+            0,
+            0,
+            1234,
+            1254
+          ],
+          "alpha_128_bbox": [
+            80,
+            169,
+            1174,
+            1082
+          ]
+        },
+        "materials_and_colours": {
+          "pass": false,
+          "note": "Green, black-violet and ivory palette broadly matches. Veins are bright rather than darker green, and ivory also appears on the central cage."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "note": "Strong highlights and shaded regions remain."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "fully_transparent_pixels": 753299,
+          "note": "Genuine alpha channel; low-alpha stray pixels and edge fringe remain outside the intended silhouette."
+        },
+        "unresized_return": {
+          "pass": true
+        }
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, the only retry allowed. Use case: precise-object-edit. Repaint the FIRST input image, guide_back.png, without changing its geometry.\nDELIVER A NATIVE 1024 x 1024 RGBA PNG. The previous attempt was incorrectly 1254 x 1254. The canvas must actually be 1024 pixels wide and 1024 pixels high, matching the edit target exactly; do not enlarge or reframe it.\n\nInputs:\n1 guide_back.png: exact edit target. This 1024 x 1024 transparent grey ORTHOGRAPHIC BACK VIEW is authoritative for every shape, all internal edges and the alpha silhouette.\n2 design_reference.png: colour/material reference ONLY.\n3 concept_crop.png: secondary material reference ONLY.\n\nTask: replace grey with albedo material paint. Keep the first image pixel-aligned, with its exact angular/faceted silhouette, identical openings, foot shapes, protrusions, rim, object width, height and position. The object occupies x=66..957 and y=139..884; preserve the surrounding transparent margins exactly. Preserve the upper central downward bone point, all side horns, bottom central point, top narrow ellipse, and every frame edge. Do not use the three-quarter reference's perspective, roundness, shape, scale or framing. Do not add trim, bulges, spikes, rim thickness or details that change any geometry edge.\n\nMaterial mapping: the organic cage, thick angular ring around the central membrane, supporting ribs and base are black-violet Kreegan resin, with subtle fine ridges and FAINT thin orange seams. Pale warm ivory belongs only on the actual bone claws/horns and pointed bone plates indicated by the design, not across the entire thick structural cage around the membrane. Serum/membrane panels and the narrow visible top liquid surface are bright SATURATED GREEN, uniformly luminous in intrinsic base colour, crossed by DARKER GREEN veins. No bright white or yellow lightning veins.\n\nCRITICAL ALBEDO CORRECTION: every material is evenly, flatly and shadowlessly lit from the viewer. Do not reproduce the design reference's painted lighting. No white specular highlights, no reflective streaks, no bevel highlight lines, no bright edge outlining, no rim light, no AO darkening, no contact or cast shadow, no dark gradient at panel edges. Ivory is pale even ivory with subtle pores/cracks but no highlights/shadows. Resin is uniformly black-violet with fine texture, with orange seams painted their own faint orange colour and NO illumination cast onto adjacent parts. Green panels are bright even green with DARK green branching veins, without hot spots or bloom. The glossy resin identity comes from the material design, not baked specular lighting. Do not leave any grey guide regions unpainted.\n\nKeep the exact original alpha silhouette and geometry of guide_back.png. Empty pixels outside the guide must be truly transparent alpha=0, no stray speckles or glow. No background, floor, checkerboard, shadow, text, border or watermark. Native output resolution MUST BE 1024 x 1024, matching image 1 exactly. One image only.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "5f06775eed7bfa5b9f3164a136ad8f2bd1b1e2392b5dc28dd4531e5f6eb0ed93"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept; supporting material reference",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16abe-d59d-7233-b4a8-69cce2cc88ab/exec-44b92a62-121f-4061-a981-fef15eee69cf.png",
+      "output_sha256": "bd5eead8aade95447b4db7d1c5f29cd165fa10ea66eb362c99d369d303ee9ed5",
+      "selected": true,
+      "accepted_as_brief_compliant": false,
+      "reason": "Selected as the better of the two permitted returns because it reduces strong highlights and follows the guide's back-view layout more closely. Still fails native dimensions, exact silhouette/internal-edge preservation, completely flat lighting and darker-green-vein requirements; no further regeneration allowed by the brief.",
+      "checks": {
+        "dimensions": {
+          "required": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette_identical": {
+          "pass": false,
+          "note": "Native dimensions differ; raw alpha and shape edges do not exactly match the guide.",
+          "alpha_bbox": [
+            0,
+            0,
+            1185,
+            1254
+          ],
+          "alpha_128_bbox": [
+            81,
+            170,
+            1174,
+            1085
+          ]
+        },
+        "materials_and_colours": {
+          "pass": false,
+          "note": "Green, black-violet and ivory palette broadly matches. Veins are bright rather than darker green, and ivory also appears on the central cage."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "note": "Strong highlights reduced, but facet and recess shading remains."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "fully_transparent_pixels": 749071,
+          "note": "Genuine alpha channel; low-alpha stray pixels and edge fringe remain outside the intended silhouette."
+        },
+        "unresized_return": {
+          "pass": true
+        }
+      }
+    }
+  ]
+}

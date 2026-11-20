@@ -1,0 +1,90 @@
+# The clover patches of Guberland City, Sturmford City and Thronheim City (two each, placed 2026-11-12: their props
+# projects had left the Clover class out, so the maps had nothing to click). Each gives one Clover (item 10590) to the
+# cursor, once.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/city_clovers.yml --scenario-no-color
+id: mm9.city_clovers
+title: 'MM9 cities: the clover patches of Guberland, Sturmford and Thronheim give a Clover each, once'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: guberlandcity.blv
+- execute_event: {id: 30899}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: true, item_id: 10590}
+    state_dump_named_map_var: {name: MM9.Bonus.899.Used, value: 1}
+# stows the Clover; picked a second time, the patch gives nothing
+- assert: {held_item: {active: false}}
+- execute_event: {id: 30899}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: false}
+    inventory_any_member: [{item_id: 10590, count: 1}]
+- execute_event: {id: 30900}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: true, item_id: 10590}
+    state_dump_named_map_var: {name: MM9.Bonus.900.Used, value: 1}
+# stows the Clover; picked a second time, the patch gives nothing
+- assert: {held_item: {active: false}}
+- execute_event: {id: 30900}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: false}
+    inventory_any_member: [{item_id: 10590, count: 2}]
+- load_map:
+    map: sturmfordcity.blv
+- execute_event: {id: 31390}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: true, item_id: 10590}
+    state_dump_named_map_var: {name: MM9.Bonus.1390.Used, value: 1}
+# stows the Clover; picked a second time, the patch gives nothing
+- assert: {held_item: {active: false}}
+- execute_event: {id: 31390}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: false}
+    inventory_any_member: [{item_id: 10590, count: 3}]
+- execute_event: {id: 31391}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: true, item_id: 10590}
+    state_dump_named_map_var: {name: MM9.Bonus.1391.Used, value: 1}
+# stows the Clover; picked a second time, the patch gives nothing
+- assert: {held_item: {active: false}}
+- execute_event: {id: 31391}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: false}
+    inventory_any_member: [{item_id: 10590, count: 4}]
+- load_map:
+    map: thronheimcity.blv
+- execute_event: {id: 30951}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: true, item_id: 10590}
+    state_dump_named_map_var: {name: MM9.Bonus.951.Used, value: 1}
+# stows the Clover; picked a second time, the patch gives nothing
+- assert: {held_item: {active: false}}
+- execute_event: {id: 30951}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: false}
+    inventory_any_member: [{item_id: 10590, count: 5}]
+- execute_event: {id: 30952}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: true, item_id: 10590}
+    state_dump_named_map_var: {name: MM9.Bonus.952.Used, value: 1}
+# stows the Clover; picked a second time, the patch gives nothing
+- assert: {held_item: {active: false}}
+- execute_event: {id: 30952}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    held_item: {active: false}
+    inventory_any_member: [{item_id: 10590, count: 6}]

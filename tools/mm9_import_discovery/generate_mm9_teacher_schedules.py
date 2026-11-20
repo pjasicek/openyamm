@@ -188,7 +188,7 @@ def main() -> int:
     parser.add_argument("--trainer-audit", type=Path,
                         default=root / "assets_dev/worlds/mm9/import/skill_trainer_audit.yml")
     parser.add_argument("--scripts-dir", type=Path, default=root / "mm9/extracted/SCRIPTS/SCRIPTS")
-    parser.add_argument("--maps-dir", type=Path, default=root / "assets_dev/worlds/mm9/maps")
+    parser.add_argument("--maps-dir", type=Path, default=root / "assets_editor_dev/worlds/mm9/maps")
     parser.add_argument("--overrides", type=Path,
                         default=root / "tools/mm9_import_discovery/mm9_teacher_schedule_overrides.yml")
     parser.add_argument("--output", type=Path,

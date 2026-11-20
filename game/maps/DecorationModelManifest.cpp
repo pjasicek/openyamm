@@ -168,7 +168,8 @@ bool modelledDecorationNames(const Engine::AssetFileSystem &assets, const std::s
 std::unordered_set<std::string> mapEventSpriteNames(const Engine::AssetFileSystem &assets, const std::string &worldId,
     const std::string &mapFile)
 {
-    // The map's script and its overlays (<map>_*.lua), as the event runtime loads them.
+    // The map's script and its overlays (<map>_*.lua), as the event runtime loads them, and the world's common scripts
+    // (events/common/*.lua), which every map of the world runs (Hesper's pickups swap their sprites there).
     const std::string directory = "worlds/" + worldId + "/events/maps";
     const std::string stem = toLowerCopy(std::filesystem::path(mapFile).stem().string());
     std::vector<std::string> scripts = {directory + "/" + stem + ".lua"};
@@ -178,6 +179,14 @@ std::unordered_set<std::string> mapEventSpriteNames(const Engine::AssetFileSyste
         if (lowerEntry.starts_with(stem + "_") && lowerEntry.ends_with(".lua"))
         {
             scripts.push_back(directory + "/" + entry);
+        }
+    }
+    const std::string commonDirectory = "worlds/" + worldId + "/events/common";
+    for (const std::string &entry : assets.enumerate(commonDirectory))
+    {
+        if (toLowerCopy(entry).ends_with(".lua"))
+        {
+            scripts.push_back(commonDirectory + "/" + entry);
         }
     }
     std::unordered_set<std::string> names;

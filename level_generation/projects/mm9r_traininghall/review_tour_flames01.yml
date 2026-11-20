@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_traininghall/review/flames01
+settle_seconds: 2.5
+exit: true
+shots:
+- name: f01_walltorch_side
+  position:
+  - -2022
+  - -3200
+  - -695
+  yaw: -1.7101
+  pitch: 0.1396
+- name: f02_walltorch_front
+  position:
+  - -1664
+  - -3748
+  - -695
+  yaw: 3.1416
+  pitch: 0.1745
+- name: f03_lobby_firebowl_from_nest
+  position:
+  - -655
+  - -655
+  - 1107
+  yaw: 2.1678
+  pitch: -0.4363
+- name: f04_brazier_side
+  position:
+  - -1638
+  - -1766
+  - -695
+  yaw: -2.735
+  pitch: -0.0873
+- name: f05_hanging_bowl
+  position:
+  - -2785
+  - -461
+  - 1
+  yaw: -1.5708
+  pitch: 0.6981
+- name: f06_fire_bowls_from_nest
+  position:
+  - -655
+  - -655
+  - 1107
+  yaw: -0.597
+  pitch: -0.4363

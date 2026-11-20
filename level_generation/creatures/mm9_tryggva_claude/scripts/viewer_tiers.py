@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+"""Review-viewer GLBs: three.js has no region ramps, so each tier's ramps are baked into its base colours with the
+engine rule (claude_shared/tier_textures.py) and written into a copy of the delivered export GLB (same mesh, clips and
+floor pass). mm9_peasantm7 copy of mm9_lobber_claude/scripts/viewer_tiers.py. Usage: viewer_tiers.py -> review/viewer/<variant>.glb;
+also work/tier_<variant>_<material>.png."""
+import io, json, struct, sys
+from pathlib import Path
+import numpy as np
+from PIL import Image
+
+HERE = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(HERE.parent / 'claude_shared'))
+import tier_textures as TT
+
+BODY = 'try'
+R = json.load(open(HERE / 'textures' / f'{BODY}_ramps.json'))
+SOURCES = {'Tryggva': 'try_tp_basecolor_graded.png', 'TryggvaHead': 'try_tp_head_basecolor.png'}
+GLB = 'mm9_try.glb'
+VIEW = HERE / 'review' / 'viewer'
+
+
+def read_glb(path):
+    raw = path.read_bytes()
+    n = struct.unpack_from('<I', raw, 12)[0]
+    return json.loads(raw[20:20 + n]), bytearray(raw[28 + n:])
+
+
+def write_glb(path, doc, binary):
+    binary += b'\0' * (-len(binary) % 4)
+    doc['buffers'][0]['byteLength'] = len(binary)
+    enc = json.dumps(doc, separators=(',', ':')).encode()
+    enc += b' ' * (-len(enc) % 4)
+    path.write_bytes(struct.pack('<III', 0x46546c67, 2, 28 + len(enc) + len(binary))
+                     + struct.pack('<II', len(enc), 0x4e4f534a) + enc
+                     + struct.pack('<II', len(binary), 0x004e4942) + binary)
+
+
+baked = {}
+for entry in R['materials']:
+    base = np.asarray(Image.open(HERE / 'textures' / SOURCES[entry['base']]).convert('RGB'), np.float64) / 255
+    # per channel: resizing an RGBA image premultiplies by alpha (the mouth channel), zeroing the other regions
+    mask = np.stack([np.asarray(ch.resize((base.shape[1], base.shape[0]), Image.BILINEAR), np.float64) / 255
+                     for ch in Image.open(HERE / 'textures' / entry['mask']).convert('RGBA').split()], -1)
+    for variant in R['variants']:
+        out = TT.apply(base, mask, entry['ramps'][variant])
+        img = Image.fromarray((np.clip(out, 0, 1) * 255).astype(np.uint8))
+        img.save(HERE / 'work' / f'tier_{variant}_{entry["base"]}.png')
+        buf = io.BytesIO()
+        img.save(buf, 'PNG')
+        baked[(variant, entry['prefix'])] = buf.getvalue()
+for variant in R['variants']:
+    doc, binary = read_glb(HERE / 'export' / GLB)
+    suffix = variant.split('_')[1].upper()
+    names = {m['name']: i for i, m in enumerate(doc['materials'])}
+    for mesh in doc['meshes']:
+        for prim in mesh['primitives']:
+            mname = doc['materials'][prim['material']]['name']
+            prefix = mname.rsplit('_', 1)[0]
+            prim['material'] = names[f'{prefix}_{suffix}']
+            prim.get('extensions', {}).pop('KHR_materials_variants', None)
+            if not prim.get('extensions'):
+                prim.pop('extensions', None)
+    for (v, prefix), data in baked.items():
+        if v != variant:
+            continue
+        mat = doc['materials'][names[f'{prefix}_{suffix}']]
+        binary += b'\0' * (-len(binary) % 4)
+        doc['bufferViews'].append({'buffer': 0, 'byteOffset': len(binary), 'byteLength': len(data)})
+        binary += data
+        doc['images'].append({'bufferView': len(doc['bufferViews']) - 1, 'mimeType': 'image/png',
+                              'name': f'{prefix}_{variant}'})
+        doc['textures'].append({'source': len(doc['images']) - 1,
+                                'sampler': doc['textures'][mat['pbrMetallicRoughness']['baseColorTexture']['index']]
+                                .get('sampler', 0)})
+        mat['pbrMetallicRoughness']['baseColorTexture'] = {'index': len(doc['textures']) - 1}
+    doc.get('extensions', {}).pop('KHR_materials_variants', None)
+    if 'extensionsUsed' in doc:
+        doc['extensionsUsed'] = [e for e in doc['extensionsUsed'] if e != 'KHR_materials_variants']
+        if not doc['extensionsUsed']:
+            doc.pop('extensionsUsed')
+    out = VIEW / f'{variant}.glb'
+    write_glb(out, doc, binary)
+    print('viewer', out.name)

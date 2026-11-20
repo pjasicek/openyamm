@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m332_claude/references_hd/00_three_quarter.png) using built-in image generation, unresized at 1024×1536 with verified transparency.
+
+Prompts, input hashes and remaining pose deviations are recorded in [generation_runs.json](level_generation/creatures/mm7_m332_claude/references_hd/generation_runs.json). Stopped after Run 1’s single corrective regeneration.

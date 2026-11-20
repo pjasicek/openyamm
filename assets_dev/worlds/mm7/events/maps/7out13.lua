@@ -93,6 +93,11 @@ SetMapMetadata({
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d18.blv", targetName = "Lord Markham's Manor" },
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "mdt09.blv", targetName = "Wromthrax's Cave" },
     },
+    learnedEffect = {
+    [202] = { autonote = 285, effect = "+20 AC (Temporary)" },
+    [203] = { autonote = 284, effect = "+20 Air Resistance (Temporary)" },
+    [204] = { autonote = 283, effect = "+2 Speed (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {"0"},
     castSpellIds = {},

@@ -1,0 +1,3 @@
+Saved four unresized 1536×1024 transparent PNGs in [d2](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantdf_claude/references_hd/d2), plus raw returns, prompts/input hashes in `generation_runs.json`, and `selected_views_review.png`. Used the built-in image generator.
+
+No builds or Meshy calls. Exact outlines and the front’s closed-mouth requirement remain unmet after the permitted corrections; deviations are documented.

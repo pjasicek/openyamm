@@ -1,0 +1,3 @@
+Selected and saved [00_three_quarter.png](level_generation/creatures/hes_villager_m_claude/references_hd/00_three_quarter.png), unresized 1024×1536 with verified transparency. Built-in imagegen prompts and checks are recorded in [generation_runs.json](level_generation/creatures/hes_villager_m_claude/references_hd/generation_runs.json).
+
+Stopped after one correction; no later runs started. Remaining deviations: arms narrower than 40° and fingers insufficiently separated.

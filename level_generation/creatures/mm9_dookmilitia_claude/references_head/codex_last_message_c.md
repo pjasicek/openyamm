@@ -1,0 +1,3 @@
+Saved seven tier C images at 1254 × 1254 with transparency, plus raw returns, prompts/input hashes in `generation_runs_c.json`, and the [review sheet](level_generation/creatures/mm9_dookmilitia_claude/references_head/selected_views_review_c.png). Used the built-in image tool.
+
+Exact geometry preservation failed despite one correction per view; the top view retains extra horns. No builds or Meshy work performed.

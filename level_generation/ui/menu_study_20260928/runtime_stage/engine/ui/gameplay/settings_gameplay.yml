@@ -1,0 +1,917 @@
+screen: SettingsGameplay
+elements:
+- id: SettingsGameplayRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Integration draft. Fit the complete 16:9 canvas; see contracts/theme.yml. The current menu resolver does
+    not yet honor this reference width.
+  children:
+  - id: SettingsGameplayBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_title_backdrop
+    notes: Use the live dimmed game view instead when entered from Pause.
+  - id: SettingsGameplayPanel
+    anchor: top_left
+    offset_x: 62.9333
+    offset_y: 48.5333
+    width: 727.4667
+    height: 417.0667
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_frame
+  - id: SettingsGameplaySeal
+    anchor: top_left
+    offset_x: 75.2
+    offset_y: 14.4501
+    width: 24.0
+    height: 24.0
+    z_index: 8
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_seal
+  - id: SettingsGameplayWordmark
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 13.3333
+    width: 136.1584
+    height: 16.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: OpenYAMM
+      font: fondamento
+      color: '#e9d4a6'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsGameplaySubtitle
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 32.5333
+    width: 136.1584
+    height: 7.0336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Universe of Might and Magic
+      font: arrus
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.37053
+      pad_x: 0.0
+  - id: SettingsGameplayTitle
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 73.0667
+    width: 77.4917
+    height: 27.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Settings
+      font: fondamento
+      color: '#efe0bc'
+      align_x: left
+      align_y: middle
+      scale: 0.71667
+      pad_x: 0.0
+  - id: SettingsGameplayHeadRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 111.2501
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsGameplayFooterRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 403.7333
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsGameplayTabGameplay
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 124.5835
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Gameplay
+      font: fondamento
+      color: '#f5dfae'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayTabVideo
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Video
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayTabAudio
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 203.5168
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Audio
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayTabControls
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 242.9835
+    width: 97.6
+    height: 53.3333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Mouse & Controls
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayTabKeyboard
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 301.6501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Keyboard
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayHeading
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 124.5835
+    width: 70.5168
+    height: 19.8336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Gameplay
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsGameplayDescription
+    anchor: top_left
+    offset_x: 299.3168
+    offset_y: 131.5168
+    width: 178.7835
+    height: 10.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Information, feedback, and exploration
+      font: lucida
+      color: '#aeb5a6'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+  - id: SettingsGameplayDefaultsButton
+    anchor: top_left
+    offset_x: 661.9003
+    offset_y: 76.6917
+    width: 99.7003
+    height: 20.2667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_small_default
+      highlighted: omenu_button_small_hover
+      pressed: omenu_button_small_pressed
+    text:
+      value: Restore Defaults
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.33333
+      pad_x: 11.7333
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsGameplayBackButton
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 414.4
+    width: 54.7669
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_quiet_default
+      highlighted: omenu_button_quiet_hover
+      pressed: omenu_button_quiet_pressed
+    text:
+      value: Back
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsGameplayRevertButton
+    anchor: top_left
+    offset_x: 573.7333
+    offset_y: 414.4
+    width: 65.9248
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_quiet_default
+      highlighted: omenu_button_quiet_hover
+      pressed: omenu_button_quiet_pressed
+    text:
+      value: Revert
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsGameplayApplyButton
+    anchor: top_left
+    offset_x: 646.0581
+    offset_y: 414.4
+    width: 115.5419
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_primary_default
+      highlighted: omenu_button_primary_hover
+      pressed: omenu_button_primary_pressed
+    text:
+      value: Apply Changes
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsGameplayDirtyStatus
+    anchor: top_left
+    offset_x: 293.0
+    offset_y: 421.7083
+    width: 134.2416
+    height: 11.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{settings_status}'
+      font: lucida
+      color: '#b8b9a8'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: SettingsGameplayScrollViewport
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 152.4165
+    width: 540.8
+    height: 241.7168
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: Clip all descendant rendering and pointer hits to this viewport. Scroll offset is controller-owned; YAML
+      has no clipping/scroll primitive.
+    children:
+    - id: SettingsGameplayGroup0
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 0.0
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Challenge
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsGameplayGroup1
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 68.792
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Exploration
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsGameplayGroup2
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 137.5835
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Combat feedback
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsGameplayGroup3
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 323.1504
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Interaction
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsGameplayGroup4
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 391.9419
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Story
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsGameplayBolsterMonstersLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 25.6
+      width: 281.7248
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Monster scaling
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayBolsterMonstersDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 41.8085
+      width: 281.7248
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Scale monsters with the party. Apply when entering an area.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayBolsterMonstersControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 29.3253
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{bolster_monsters}'
+        font: lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to features.bolster_monsters; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsGameplayQuestMarkersLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 94.392
+      width: 242.5915
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Quest markers
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayQuestMarkersDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 110.6
+      width: 242.5915
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Show quest markers where the game provides them.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayQuestMarkersControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 98.1168
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{quest_markers}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to gameplay.quest_markers; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsGameplayCombatTextLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 163.1835
+      width: 229.3499
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Floating combat text
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayCombatTextDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 179.392
+      width: 229.3499
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Show damage and combat messages in the world.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayCombatTextControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 166.9083
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{combat_text}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to gameplay.combat_text; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsGameplayCombatActorHpBarsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 202.1083
+      width: 167.9499
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Enemy health bars
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayCombatActorHpBarsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 218.3168
+      width: 167.9499
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Show health bars on combat actors.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayCombatActorHpBarsControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 205.8336
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{combat_actor_hp_bars}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to gameplay.combat_actor_hp_bars; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsGameplayCombatTargetPanelLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 241.0336
+      width: 143.2752
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Target information
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayCombatTargetPanelDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 257.2416
+      width: 143.2752
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Show the combat target panel.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayCombatTargetPanelControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 244.7584
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{combat_target_panel}'
+        font: lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to gameplay.combat_target_panel; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsGameplayShowHitsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 279.9584
+      width: 155.9083
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Hit messages
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayShowHitsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 296.1669
+      width: 155.9083
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Report attacks in the status text.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayShowHitsControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 283.6837
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{show_hits}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to controls.show_hits; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsGameplayContextActionPopupLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 348.7504
+      width: 267.8752
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Context action menu
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayContextActionPopupDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 364.9584
+      width: 267.8752
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Offer contextual actions for the object under the pointer.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayContextActionPopupControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 352.4752
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{context_action_popup}'
+        font: lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to gameplay.context_action_popup; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsGameplaySkipEventCutscenesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 417.5419
+      width: 234.7669
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Skip event cutscenes
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplaySkipEventCutscenesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 433.7504
+      width: 234.7669
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Skip event movies. Leave off for a first adventure.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplaySkipEventCutscenesControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 421.2667
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{skip_event_cutscenes}'
+        font: lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.skip_event_cutscenes; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.

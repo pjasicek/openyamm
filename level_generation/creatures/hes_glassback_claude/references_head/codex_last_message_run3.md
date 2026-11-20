@@ -1,0 +1,3 @@
+RUN 3 saved in `references_head/`: four 1254×1254 RGBA views, `generation_runs.json` with prompts and hashes, and [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_glassback_claude/references_head/selected_views_review.png). Used built-in image generation; `references_hd/` untouched.
+
+Stopped here. Recorded limitations: fine plate variation, narrow margins and faint alpha residue.

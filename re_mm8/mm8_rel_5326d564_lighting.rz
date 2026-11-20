@@ -1,0 +1,86 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b ONLY.
+# Verify the full hash before loading. Research names, not original symbols or recovered signatures.
+# Evidence and qualifications: LIGHTING.md. These commands do not modify executable bytes.
+f+ research.mm8rel.AddMobileLight @ 0x467750
+f+ research.mm8rel.AddStationaryLight @ 0x4ad866
+f+ research.mm8rel.MobileLightRecords @ 0x52b17c
+f+ research.mm8rel.MobileLightCount @ 0x52cd9c
+f+ research.mm8rel.StationaryLightRecords @ 0x529eb4
+f+ research.mm8rel.StationaryLightCount @ 0x52b174
+f+ research.mm8rel.IndoorMapLightArrayPointer @ 0x6f3bb4
+f+ research.mm8rel.IndoorRoomArrayPointer @ 0x6f3bac
+f+ research.mm8rel.SelectedSurfaceLightCount @ 0xffcf54
+f+ research.mm8rel.SelectedSurfaceLightRadii @ 0xffcf58
+f+ research.mm8rel.SelectedSurfaceLightInverseRadii @ 0xffcfa8
+f+ research.mm8rel.SelectedSurfaceLightTypes @ 0xffd278
+f+ research.mm8rel.LightTypeTable @ 0x4faf98
+f+ research.mm8rel.ChooseBillboardBaseAndSampleLight @ 0x43d224
+f+ research.mm8rel.SamplePointShade @ 0x43d28b
+f+ research.mm8rel.UpdateIndoorBillboardShades @ 0x43d1da
+f+ research.mm8rel.SelectIndoorFaceLights @ 0x45b962
+f+ research.mm8rel.TestIndoorFaceLight @ 0x45ba81
+f+ research.mm8rel.SelectOutdoorModelFaceLights @ 0x45bf2e
+f+ research.mm8rel.TestOutdoorModelFaceLight @ 0x45bfc7
+f+ research.mm8rel.SelectTerrainPolygonLights @ 0x45c1e9
+f+ research.mm8rel.TestTerrainPolygonLight @ 0x45c288
+f+ research.mm8rel.AdjustOutdoorLightTypeForFog @ 0x45c181
+f+ research.mm8rel.AdjustOutdoorLightColorForFog @ 0x45c1a5
+f+ research.mm8rel.BuildSurfaceLightPolygons @ 0x45ad85
+f+ research.mm8rel.BuildSingleLightPolygon @ 0x45affd
+f+ research.mm8rel.ConstructSurfaceLightBasis @ 0x434d08
+f+ research.mm8rel.DrawSurfaceLightPolygons @ 0x45c8ba
+f+ research.mm8rel.DrawLateLightPolygons @ 0x45ce1e
+f+ research.mm8rel.IterateLateLightPolygons @ 0x45cbb6
+f+ research.mm8rel.SubmitLightPolygonD3D @ 0x45cc44
+f+ research.mm8rel.ShadeSoftwareOutdoorVertices @ 0x45bbf4
+f+ research.mm8rel.SampleSoftwareOutdoorLight @ 0x45bd7c
+f+ research.mm8rel.PrepareSoftwareOutdoorSpanLighting @ 0x45c53d
+f+ research.mm8rel.InterpolateSoftwareSpanLighting @ 0x45c59c
+f+ research.mm8rel.SetupSoftwareIndoorFaceLighting @ 0x4aeaa2
+f+ research.mm8rel.SampleSoftwareIndoorSurfaceShade @ 0x4ae943
+f+ research.mm8rel.RasterizeSoftwareIndoorFace @ 0x4b0427
+f+ research.mm8rel.RenderIndoorFaceD3D @ 0x4b0ef5
+f+ research.mm8rel.UpdateSunDirection @ 0x48a779
+f+ research.mm8rel.NightTwilightDimming @ 0x48a274
+f+ research.mm8rel.UpdateNightTwilightDimming @ 0x48a854
+f+ research.mm8rel.RefreshCachedPolygonShading @ 0x479d20
+f+ research.mm8rel.ResolveDepthAndTimeShadeColor @ 0x47d384
+f+ research.mm8rel.SelectShadePalette @ 0x41f1bd
+f+ research.mm8rel.PrepareFrameAndLightingInvalidation @ 0x44d8ea
+f+ research.mm8rel.LoadIndoorAndRegisterDecorationLights @ 0x45f895
+f+ research.mm8rel.LoadIndoorMapAndRoomLightLists @ 0x498050
+f+ research.mm8rel.PrepareIndoorFrameAndMobileLights @ 0x43d049
+f+ research.mm8rel.DispatchVisibleIndoorFaces @ 0x43e896
+f+ research.mm8rel.ProjectDecalPolygons @ 0x49a89a
+CC "Pool cap 400, mobile record stride 18 bytes. Extra fields include signed strength and radius squared shifted by five." @ 0x467750
+CC "Pool cap 400, record stride 12 bytes. Overflow reports failure, no strongest-light replacement." @ 0x4ad866
+CC "Mobile, then enabled room lights, then stationary. Scalar linear attenuation, approximate distance, clamp 0..31." @ 0x43d28b
+CC "20 accepted lights total. Order mobile, enabled room lights, stationary. Verify checks in assembly." @ 0x45b962
+CC "Radius-expanded face AABB then plane distance. Mobile flag bypasses lower-bound facing test. No occlusion ray." @ 0x45ba81
+CC "20 accepted lights, mobile before stationary. First accepted, no intensity/distance sorting." @ 0x45bf2e
+CC "Terrain triangle/quad selector shares 20-light scratch arrays." @ 0x45c1e9
+CC "D3D plus fog-active state: type bit 4 is replaced with table value 6." @ 0x45c181
+CC "Related fog branch scales RGB by 0.33." @ 0x45c1a5
+CC "Sphere-plane intersection radius sqrt(r*r-d*d), projected textured patch, receiving-face clipping." @ 0x45affd
+CC "First list counter capped at 511, second at 767. Physical capacities are 512 and 768 records." @ 0x45b62f
+CC "Native indoor clipping diagnostic is a flag-specific branch, not absence of receiving-face clipping." @ 0x45b60a
+CC "SetRenderState SRCBLEND=ONE. DESTBLEND=ONE follows at 0x45c9f2." @ 0x45c9d0
+CC "Late additive list, depth writes disabled, 0.0005 depth bias through draw helper, then state restoration." @ 0x45ce1e
+CC "Pretransformed triangle fan FVF 0x1c4. CPU supplies patch RGB and texture coordinates." @ 0x45cc44
+CC "Software vertex sample: approximate linear distance falloff, type 4 absolute normal dot, type 8 angle-independent." @ 0x45bd7c
+CC "Interpolate lighting from polygon edges onto visible span endpoints, clamp 0..1." @ 0x45c59c
+CC "Room darkness plus face-extra shade, then bounded runtime light selection using fixed-point face planes." @ 0x4aeaa2
+CC "Software indoor surface-coordinate shade, reciprocal-radius falloff and optional authored gradient, clamp 0..31<<16." @ 0x4ae943
+CC "XOR and upper-word mask compare integer endpoint shades. Equal shade branches to constant-palette segment." @ 0x4b09b3
+CC "Render flag also chooses constant-palette segment. Endpoint equality branch is at 0x4b09c4." @ 0x4b09ce
+CC "Hours 05..20 only. Fixed daily arc and triangular base shade. Minute cache written only in daylight branch." @ 0x48a779
+CC "Night before 05 and from 21, twilight ramps 05..06 and 20..21. This routine is not weather fog generation." @ 0x48a274
+CC "Software outdoor mobile lights force rebuild now and next frame. Stationary-light count change also invalidates." @ 0x44da4a
+CC "Adjacent PolyProjector code builds decals, not another light-source pool." @ 0x49a89a
+CC "Actual sqrt instruction beyond auto-discovered wrapper boundary. Do not trust truncated wrapper decompilation." @ 0x4dc3ec
+CC "Load-time stationary pool reset. Indoor frame preparation clears mobile sources, retaining stationary decorations." @ 0x45f9a2
+CC "Register enabled drawable decoration light at XY, Z plus half descriptor height. Ordinary indoor load path." @ 0x45fc90
+CC "Read precompiled room-light-index block, then relocate per-room pointers. See INDOOR_STATIC_LIGHTS.md." @ 0x498692
+CC "Room light pointer +0x5c uses loaded block offset, advanced by twice room light count +0x58." @ 0x4986f3
+CC "D3D dispatch loops current portal face list before per-face selection and projected-light construction." @ 0x43e8f4
+CC "Reset first light-polygon list per receiving face. Static illumination patches are rebuilt during drawing." @ 0x4b115a

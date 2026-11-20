@@ -1,0 +1,86 @@
+id: rulesets.maw_dimension_map_repeat
+title: Ruleset - MAW's Dimensional Maps NPC closes an unfinished quest rift for the same map again once 80 % is slain
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Seer
+            class: Knight
+            level: 120
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  - ruleset_banks: {mm6: 0, completed_maps: [6d01.blv]}
+  # The Seer gives the first tier's map. Asked again she offers to repeat it, but its rift is not open yet.
+  - speak_npc: {source_id: 794}
+  - select_topic: {action_id: 10040}
+  - select_topic: {action_id: 10040}
+  - select_topic: {action_id: 10041}
+  - assert:
+      input_prompt: {active: false}
+      inventory_any_member: [{item_id: 290, count: 1}]
+  - press_action: {action: cancel_dialog}
+  - use_item: {item_id: 290}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: 6d01.blv
+      inventory_any_member: [{item_id: 1071, count: 1}]
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: false, min_family_actors: 5}}
+  # All but ten of some 240 slain (a clear may leave four): the rift stands. Inside it she closes nothing.
+  - damage_actor: {all: true, spare: 10, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - speak_npc: {source_id: 794}
+  - select_topic: {action_id: 10040}
+  - select_topic: {action_id: 10041}
+  - assert:
+      input_prompt: {active: false}
+      dialog: {text_contains: "Leave it"}
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: false}}
+  - press_action: {action: cancel_dialog}
+  # Out by the portal, back where the map was used: she asks before closing the rift. Anything but "yes" leaves it.
+  - use_item: {item_id: 1071}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: oute3.odm
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: false, completed: false}}
+  - speak_npc: {source_id: 794}
+  - select_topic: {action_id: 10040}
+  - select_topic: {action_id: 10041}
+  - answer_input:
+      text: "no"
+      expect_before:
+        input_prompt: {event_id: 10041}
+  - assert:
+      inventory_any_member: [{item_id: 290, count: 0}, {item_id: 1071, count: 1}]
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, completed: false}}
+  # "yes": the same tier's map again, the rift and its portal gone, the quest still open.
+  - select_topic: {action_id: 10040}
+  - select_topic: {action_id: 10041}
+  - answer_input:
+      text: "yes"
+  - assert:
+      inventory_any_member: [{item_id: 290, count: 1}, {item_id: 1071, count: 0}]
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, none: true}}
+  - assert:
+      ruleset: {id: maw, dimension_quest: {tier: 80, given: true, cleared: false, done: false}}
+  - press_action: {action: cancel_dialog}
+  # The new map opens the rift afresh, through a save too, and clearing it counts for the quest.
+  - save_game: maw_dimension_map_repeat
+  - load_game: maw_dimension_map_repeat
+  - use_item: {item_id: 290}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: 6d01.blv
+      inventory_any_member: [{item_id: 1071, count: 1}]
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: false, min_family_actors: 5}}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      ruleset: {id: maw, dimension_quest: {tier: 80, given: true, cleared: true}}

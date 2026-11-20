@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><title>MM8 Will-o'-Wisp restoration</title>
+<style>body{background:#222727;color:#eee;font:16px system-ui;margin:24px}select,button,input{font:inherit;padding:5px;margin:5px}canvas{border:1px solid #657;max-width:100%}a{color:#ace}</style>
+<h1>MM8 Will-o'-Wisp</h1><p id="state"></p>
+<label>Actor <select id="descriptor"></select></label><label>Action <select id="action"></select></label><label>View <select id="view"></select></label>
+<label>Stored pose <select id="stored"><option value="">Native animation</option></select></label><label>Background <select id="bg"><option value="#252929">Dark</option><option value="#ededed">Light</option></select></label>
+<button id="play">Pause</button><label>Frame <input type="range" id="frame" min="0" value="0"></label><p id="caption"></p>
+<canvas id="canvas" width="1100" height="600"></canvas>
+<p>Native palette reference (left), restored runtime atlas (right), both at the same logical scale. A/B/C share palette 528 and differ in native scale and glow radius. Glow radius is preserved as metadata; this viewer shows the sprite artwork without simulated scene lighting. Unused poses have no assigned playback timing.</p>
+<p><a href="draft_manifest.json">Placement, animation and variants</a> · <a href="review/export_checks.json">Export checks</a> · <a href="review/edge_audit.json">Edge audit</a></p>
+<script>
+const DATA=__DATA__,M=DATA.manifest,$=id=>document.getElementById(id),params=new URLSearchParams(location.search),cache=new Map(),atlasCache=new Map();
+function image(path){if(!cache.has(path)){const im=new Image();im.src=path;cache.set(path,im)}return cache.get(path)}
+function atlasFrame(n,pal){if(+pal!==528)throw Error('Unknown palette '+pal);if(atlasCache.has(n))return atlasCache.get(n);const f=M.frames[n],p=M.pages[f.page],im=image(p.base),mask=image(p.mask);if(!im.complete||!mask.complete||!im.naturalWidth||!mask.naturalWidth)return null;const [x,y,w,h]=f.atlas_xywh,out=document.createElement('canvas');out.width=w;out.height=h;out.getContext('2d').drawImage(im,x,y,w,h,0,0,w,h);atlasCache.set(n,out);return out}
+for(const [id,d] of Object.entries(M.animations))$('descriptor').add(new Option(d.label,id));for(let v=0;v<8;v++)$('view').add(new Option(v,v));for(const n of Object.keys(M.frames).sort())$('stored').add(new Option(n+(M.frames[n].referenced?'':' (unused)'),n));
+let playing=!params.has('t'),start=performance.now(),selected=0;
+function reset(){start=performance.now();selected=0;$('frame').value=0}
+function actions(){const old=$('action').value;$('action').innerHTML='';for(const a of Object.keys(M.animations[$('descriptor').value].actions))$('action').add(new Option(a,a));$('action').value=old||'standing';reset()}
+$('descriptor').onchange=actions;actions();if(params.has('descriptor')){$('descriptor').value=params.get('descriptor');actions()}for(const key of ['action','view','stored','bg'])if(params.has(key))$(key).value=params.get(key);
+for(const key of ['action','view','stored'])$(key).onchange=reset;$('frame').oninput=()=>{params.delete('t');playing=false;selected=+$('frame').value;$('play').textContent='Play'};$('play').onclick=()=>{params.delete('t');playing=!playing;reset();$('play').textContent=playing?'Pause':'Play'};$('play').textContent=playing?'Pause':'Play';
+$('state').textContent=Object.keys(M.frames).length+' / '+Object.keys(DATA.sources).length+' native frames restored — '+M.status;
+function choose(g,steps,time){const total=steps.reduce((sum,s)=>sum+s.duration_ms,0);if(total<=0)return 0;let t=g.playback==='loop'?time%total:Math.min(time,total-.001);let i=0;while(i<steps.length-1&&t>=steps[i].duration_ms){t-=steps[i].duration_ms;i++}return i}
+function render(now){const d=M.animations[$('descriptor').value],g=d.actions[$('action').value],steps=g.views[$('view').value];if(playing||params.has('t'))selected=choose(g,steps,params.has('t')?+params.get('t'):now-start);selected=Math.min(selected,steps.length-1);$('frame').max=steps.length-1;$('frame').value=selected;
+ const step=$('stored').value?{...d.actions.standing.views['0'][0],frame:$('stored').value,mirrored:false,duration_ms:null}:steps[selected],n=step.frame,c=$('canvas').getContext('2d');c.fillStyle=$('bg').value;c.fillRect(0,0,1100,600);c.fillStyle='#aaa';c.font='18px system-ui';c.fillText('Native',30,28);c.fillText('Restored 2×',580,28);
+ if(n){const s=DATA.sources[n],f=M.frames[n],pivot=[s.size[0]/2,step.anchor==='center'?s.size[1]/2:s.size[1]],zoom=2*step.scale;for(let col=0;col<2;col++){const px=275+550*col,py=300;c.strokeStyle='#a66';c.beginPath();c.moveTo(px-10,py);c.lineTo(px+10,py);c.moveTo(px,py-10);c.lineTo(px,py+10);c.stroke();const im=col===0?image('native_variants/'+n+'_528.png'):atlasFrame(n,step.palette);if(!im||(col===0&&(!im.complete||!im.naturalWidth)))continue;const origin=col===0?[0,0]:f.crop_origin_px.map(v=>v/2),tier=col===0?1:2;c.save();c.translate(px,py);if(step.mirrored)c.scale(-1,1);c.imageSmoothingEnabled=col!==0;c.drawImage(im,(origin[0]-pivot[0])*zoom,(origin[1]-pivot[1])*zoom,im.width/tier*zoom,im.height/tier*zoom);c.restore()}}
+ $('caption').textContent=(n||'Native empty frame')+($('stored').value?' · stored native pose; no assigned playback timing':' · frame '+(selected+1)+'/'+steps.length+' · '+step.duration_ms+' ms')+' · scale '+step.scale+' · glow radius '+step.glow_radius;
+}
+function tick(now){render(now);requestAnimationFrame(tick)}requestAnimationFrame(tick);
+</script>

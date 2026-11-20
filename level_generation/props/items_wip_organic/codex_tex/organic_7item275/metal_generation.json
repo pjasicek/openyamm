@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset: binary METALLIC MATERIAL MASK SHEET for a six-view PBR projection bake. Image1 is the exact edit target, a 3-column by 2-row sheet of SIX orthographic views of ONE exact game mesh Wealthy Hat. Keep the exact sheet proportions, every panel boundary at thirds and halves, and ALL SIX existing object shapes in precisely the same position, angle and scale. Panel order: top FRONT, BACK, LEFT; bottom RIGHT, TOP, BOTTOM. Never rearrange or turn any panel. Other images are design/colour references only. Brown broad-brimmed felt hat, rounded crown, a narrow gold band and one large curved magenta-pink feather. Empty hat with real depth.  Replace every gray object surface in Image1 with SOLID BLACK except actual exposed metal hardware, which must be SOLID WHITE. Gold bands, gold fringe, gold socket/rings/prongs, gold clasp/pendant loops or silver diamond buckle are white where appropriate to THIS item. All leather, cloth, feathers, ivory teeth, organic scales and crystal are black. The entire object must remain opaque even where black. Transparent empty background and holes. No highlights, shadows, shading, reflections, gradients, texture, outlines, text or labels. White means metal, black means non-metal. Keep all six whole-object silhouettes EXACT; do not draw only the metal pieces. Return this one binary six-view mask sheet in landscape 3:2.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_7item275/guide_sheet.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_7item275/references_hd/00_three_quarter.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_7item275/references_hd/icon_x8.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_7item275/metal_sheet_raw.png",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-8d7b5d9a-147d-46e6-9898-b8a332c0410b.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "selected": true,
+  "output_sha256": "06da4b8fe1e1b09c8f9e5df11df8bafbb5ce770277eccf6ee7ef02f96eaa922c",
+  "guide_sha256": "d3dffa8224fb5f9248eab74ba1414a08675ac8853eb7e786840a0606877a028d"
+}

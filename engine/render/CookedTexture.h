@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/ImageMipmaps.h"
+#include "engine/render/CookedTextureHeader.h"
 #include "engine/render/TextureBlockCodec.h"
 
 #include <array>
@@ -19,9 +20,6 @@ namespace OpenYAMM::Engine
 // Version 3 has the version 2 header (source statistics, content size) and verifies the payload with the zstd frame
 // checksum while decompressing, instead of a byte-wise hash of the blocks; older versions are re-cooked
 // (openyamm_model_texture_cook --rewrap migrates a version 2 file without re-encoding it).
-constexpr uint32_t CookedTextureVersion = 3;
-constexpr size_t CookedTextureHeaderBytes = 120;
-constexpr int CookedTextureSizeLimit = 8192;
 
 enum class CookedTextureAlphaUse : uint8_t
 {
@@ -64,7 +62,6 @@ struct CookedTexture
     std::vector<uint8_t> blocks;
 };
 
-bool hasCookedTextureSignature(std::span<const uint8_t> bytes);
 uint8_t cookedTextureFullChainLevels(uint16_t width, uint16_t height);
 size_t cookedTextureBlockBytes(TextureBlockCodec codec, uint16_t width, uint16_t height, uint8_t levels);
 std::vector<uint8_t> encodeCookedTexture(const CookedTexture &texture);

@@ -1,0 +1,3 @@
+Saved only [00_three_quarter.png](level_generation/creatures/mm7_m382_claude/references_hd/00_three_quarter.png) and [generation_runs.json](level_generation/creatures/mm7_m382_claude/references_hd/generation_runs.json).
+
+Built-in generation returned an unresized 1536×1024 PNG. Four feet are readable after the single correction, but a soft exterior halo remains; the record flags it as not fully passing or frozen. Prompts and input hashes are recorded.

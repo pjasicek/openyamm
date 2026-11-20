@@ -1,0 +1,62 @@
+{
+ "id": "20261009-1715-mm8-d24-00",
+ "world": "mm8",
+ "maps": [
+  "d24.blv"
+ ],
+ "created": "2026-10-09T15:15:30+00:00",
+ "textures": [
+  "mm8/alphanume",
+  "mm8/alphanumj"
+ ],
+ "requests": {
+  "mm8/alphanume": {
+   "name": "alphanume",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter E, bevelled edges, clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanumj": {
+   "name": "alphanumj",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter J, bevelled edges, clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

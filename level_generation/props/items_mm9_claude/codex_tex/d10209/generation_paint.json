@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png exactly. The guide is the edit target; design_reference.png is the approved material/detail reference and icon_x8.png is the original colour reference (ignore magenta background).\nOutput ONE transparent PNG, 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve the guide's three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 repeat five exact orthographic model views FRONT, BACK, LEFT / RIGHT, TOP, empty. Keep every object exactly at the guide position, size, outline and orientation. Paint only the existing grey objects; do not redraw, enlarge, move or redesign geometry. Preserve all openings and gaps as transparent. Empty cells column 3 rows 2 and 4 remain transparent.\nObject: Weregild gold ring with a deep red round cabochon, source-faithful upright hoop plane. Use the gold and red materials of the design reference and native icon, but retain the guide's thin hoop and exact model structure.\nRows 1-2 PAINT: unlit base colours only. Gold metal band and bezel, red gemstone; fine material detail following reference, scaled per view. No lighting, shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: identical five guide silhouettes filled with FLAT pure colours only. All metal including band, bezel and back of setting = pure red #FF0000. Only visible gemstone surfaces = pure black #000000. No shading, texture, outlines or antialiased colour blends inside. Every silhouette pixel one of these colours and nothing outside. Gemstone may be occluded behind metal in some views: respect the exact guide's visible surfaces.\nPreserve transparent background and exact layout with no extra objects.",
+  "corrective_prompt": "Edit the supplied paint_mask_guide.png exactly. The guide is the edit target; design_reference.png is the approved material/detail reference and icon_x8.png is the original colour reference (ignore magenta background).\nOutput ONE transparent PNG, 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve the guide's three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 repeat five exact orthographic model views FRONT, BACK, LEFT / RIGHT, TOP, empty. Keep every object exactly at the guide position, size, outline and orientation. Paint only the existing grey objects; do not redraw, enlarge, move or redesign geometry. Preserve all openings and gaps as transparent. Empty cells column 3 rows 2 and 4 remain transparent.\nObject: Weregild gold ring with a deep red round cabochon, source-faithful upright hoop plane. Use the gold and red materials of the design reference and native icon, but retain the guide's thin hoop and exact model structure.\nRows 1-2 PAINT: unlit base colours only. Gold metal band and bezel, red gemstone; fine material detail following reference, scaled per view. No lighting, shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: identical five guide silhouettes filled with FLAT pure colours only. All metal including band, bezel and back of setting = pure red #FF0000. Only visible gemstone surfaces = pure black #000000. No shading, texture, outlines or antialiased colour blends inside. Every silhouette pixel one of these colours and nothing outside. Gemstone may be occluded behind metal in some views: respect the exact guide's visible surfaces.\nPreserve transparent background and exact layout with no extra objects.\nCORRECTION REQUIREMENT: The previous attempt had widespread red/gold speckle outside objects and inside empty holes. Use the ORIGINAL clean grey guide alpha silhouettes strictly. Absolutely zero stray pixels anywhere: background and holes fully transparent, clean exact boundaries. Preserve original geometry, placement and scale. Keep base colour matte and unlit with no bright edge highlights. Lower mask areas must be solid pure red or black only.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3e-f4e7-7742-a394-72d1a0cb71b9/exec-cfb99aa5-f7d5-404e-9c41-b89fe451057d.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10209/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "note": "First output retained; one corrective generation did not improve stray pixels outside silhouettes. Raw output is not fully compliant.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10209/paint_mask_guide.png",
+      "sha256": "dfa89a9355dae23f45cae6a532356d1279da3a278ce886df757fc07dcdd657fa"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10209/design_reference.png",
+      "sha256": "4106359566a6546b53e31ad62f88cf240996bc0817ba3b19ca7b437fdb6caed6"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10209/icon_x8.png",
+      "sha256": "893ef7c54917b99086b35053b32dfa413615f2a35195a881efdf0f45d92dbbdf"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ]
+}

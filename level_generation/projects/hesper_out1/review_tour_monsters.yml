@@ -1,0 +1,410 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/monsters
+settle_seconds: 1.5
+exit: true
+shots:
+- name: apron_patrol_west
+  position:
+  - -1758
+  - 3077
+  - 1660
+  yaw: 2.0899
+  pitch: -0.4115
+- name: apron_patrol_east
+  position:
+  - -608
+  - 2173
+  - 1660
+  yaw: 1.8435
+  pitch: -0.4115
+- name: pass_road
+  position:
+  - 2668
+  - 13609
+  - 2428
+  yaw: 1.3772
+  pitch: -0.4356
+- name: Landfalls_walls_west
+  position:
+  - -13992
+  - -6996
+  - 1596
+  yaw: -2.6779
+  pitch: -0.4115
+- name: Landfalls_walls_east
+  position:
+  - -11754
+  - -7747
+  - 1404
+  yaw: -2.5589
+  pitch: -0.4356
+- name: crater_rim
+  position:
+  - -7848
+  - -1519
+  - 1404
+  yaw: -2.9504
+  pitch: -0.4115
+- name: hangar_ruins_north
+  position:
+  - -7862
+  - 7862
+  - 1340
+  yaw: 2.3562
+  pitch: -0.4115
+- name: hangar_ruins_lockers
+  position:
+  - -6711
+  - 1740
+  - 1436
+  yaw: 2.8879
+  pitch: -0.4356
+- name: canyon_by_D2
+  position:
+  - 13630
+  - -13903
+  - 988
+  yaw: -0.7953
+  pitch: -0.4115
+- name: Pumping_Station_hatch
+  position:
+  - 13149
+  - -7245
+  - 1372
+  yaw: -0.5036
+  pitch: -0.4824
+- name: old_hangars
+  position:
+  - -1989
+  - 5846
+  - 1500
+  yaw: 1.8987
+  pitch: -0.5049
+- name: gantries
+  position:
+  - 1481
+  - 6416
+  - 1564
+  yaw: 1.344
+  pitch: -0.4115
+- name: Terminal_doors_north
+  position:
+  - 5687
+  - 4040
+  - 2620
+  yaw: 0.6176
+  pitch: -0.4115
+- name: Terminal_doors_south
+  position:
+  - 4975
+  - 883
+  - 1660
+  yaw: 0.1756
+  pitch: -0.5049
+- name: service_road_bend
+  position:
+  - -1396
+  - -1557
+  - 1436
+  yaw: -2.3017
+  pitch: -0.4356
+- name: canyon_wreck
+  position:
+  - 7613
+  - -8401
+  - 1500
+  yaw: -0.8345
+  pitch: -0.4115
+- name: south_dunes
+  position:
+  - 8623
+  - -13474
+  - 1788
+  yaw: -1.0015
+  pitch: -0.4115
+- name: north_flats
+  position:
+  - 7527
+  - 13440
+  - 2140
+  yaw: 1.0603
+  pitch: -0.4115
+- name: Archive_dome
+  position:
+  - -6805
+  - 17693
+  - 1596
+  yaw: 1.938
+  pitch: -0.4593
+- name: Spinefall_Pass_mouth
+  position:
+  - 1635
+  - 19352
+  - 1564
+  yaw: 1.4865
+  pitch: -0.4115
+- name: road_to_the_Scour
+  position:
+  - 19665
+  - -4643
+  - 1500
+  yaw: -0.2319
+  pitch: -0.4356
+- name: apron_north
+  position:
+  - 217
+  - 3035
+  - 1660
+  yaw: 1.4993
+  pitch: -0.4115
+- name: crater_rim_south
+  position:
+  - -8964
+  - -2349
+  - 1436
+  yaw: -2.8853
+  pitch: -0.4115
+- name: pass_road_north
+  position:
+  - 2031
+  - 14898
+  - 2300
+  yaw: 1.4353
+  pitch: -0.5693
+- name: north_flats_east
+  position:
+  - 8784
+  - 14165
+  - 2108
+  yaw: 1.0157
+  pitch: -0.4115
+- name: gantries_east
+  position:
+  - 2727
+  - 6964
+  - 1532
+  yaw: 1.1976
+  pitch: -0.4356
+- name: old_hangars_north
+  position:
+  - -2567
+  - 7053
+  - 1404
+  yaw: 1.9198
+  pitch: -0.4356
+- name: hangar_ruins_west
+  position:
+  - -7863
+  - 2970
+  - 1404
+  yaw: 2.7804
+  pitch: -0.4115
+- name: Archive_approach
+  position:
+  - -5386
+  - 18066
+  - 1628
+  yaw: 1.8605
+  pitch: -0.4593
+- name: Archive_south
+  position:
+  - -7446
+  - 16418
+  - 1916
+  yaw: 1.9966
+  pitch: -0.5897
+- name: canyon_mouth
+  position:
+  - 7823
+  - -6832
+  - 764
+  yaw: -0.7179
+  pitch: -0.4115
+- name: south_dunes_west
+  position:
+  - 7188
+  - -13135
+  - 1756
+  yaw: -1.0701
+  pitch: -0.4115
+- name: Scour_road
+  position:
+  - 18159
+  - -3772
+  - 1500
+  yaw: -0.2048
+  pitch: -0.4115
+- name: east_flats
+  position:
+  - 18788
+  - -5963
+  - 1500
+  yaw: -0.3073
+  pitch: -0.4356
+- name: G2_nest_pups
+  position:
+  - 13070
+  - 13887
+  - 2268
+  yaw: 0.8157
+  pitch: -0.4356
+- name: G2_nest_glassbacks
+  position:
+  - 14283
+  - 13193
+  - 2300
+  yaw: 0.7457
+  pitch: -0.4115
+- name: H1_nest
+  position:
+  - 18952
+  - 18901
+  - 2396
+  yaw: 0.7841
+  pitch: -0.4115
+- name: H3_pups
+  position:
+  - 18276
+  - 7365
+  - 2076
+  yaw: 0.3831
+  pitch: -0.4115
+- name: H2_locker
+  position:
+  - 19858
+  - 13494
+  - 2364
+  yaw: 0.5968
+  pitch: -0.4115
+- name: G1_glass
+  position:
+  - 13749
+  - 19658
+  - 2396
+  yaw: 0.9605
+  pitch: -0.4356
+- name: G3_glass
+  position:
+  - 16805
+  - 8098
+  - 2108
+  yaw: 0.4491
+  pitch: -0.4115
+- name: F1_glass
+  position:
+  - 12209
+  - 19230
+  - 2396
+  yaw: 1.0051
+  pitch: -0.4115
+- name: G2_glass_west
+  position:
+  - 11714
+  - 15256
+  - 2268
+  yaw: 0.916
+  pitch: -0.4593
+- name: H2_glass_north
+  position:
+  - 17887
+  - 15410
+  - 2332
+  yaw: 0.7112
+  pitch: -0.4115
+- name: G1_glass_east
+  position:
+  - 15745
+  - 20441
+  - 2332
+  yaw: 0.9144
+  pitch: -0.4115
+- name: H3_glass_east
+  position:
+  - 20598
+  - 9338
+  - 2172
+  yaw: 0.4256
+  pitch: -0.4115
+- name: apron_Hunter
+  position:
+  - -1147
+  - 2293
+  - 1730
+  yaw: 2.0344
+  pitch: -0.4002
+- name: pass_road_Hunters
+  position:
+  - 3061
+  - 12935
+  - 2626
+  yaw: 1.3384
+  pitch: -0.4002
+- name: canyon_Hunter
+  position:
+  - 14030
+  - -13220
+  - 994
+  yaw: -0.7557
+  pitch: -0.4002
+- name: H1_Bull
+  position:
+  - 19503
+  - 18404
+  - 2434
+  yaw: 0.7564
+  pitch: -0.4002
+- name: Ashrunner_camp
+  position:
+  - -13285
+  - 7971
+  - 1538
+  yaw: 2.6012
+  pitch: -0.4002
+- name: north_dune_patrol
+  position:
+  - -13126
+  - 18477
+  - 1986
+  yaw: 2.1885
+  pitch: -0.4612
+- name: west_dune_patrol
+  position:
+  - -13181
+  - -2670
+  - 1858
+  yaw: -2.9418
+  pitch: -0.4002
+- name: scrapyard_fire_team
+  position:
+  - 12511
+  - 1977
+  - 1474
+  yaw: 0.1567
+  pitch: -0.4209
+- name: forward_outpost
+  position:
+  - 18596
+  - 2047
+  - 1474
+  yaw: 0.1096
+  pitch: -0.4002
+- name: aerial_apron_ruins
+  position:
+  - -4000
+  - 500
+  - 6780
+  yaw: 1.5708
+  pitch: -0.95
+- name: aerial_glassfields
+  position:
+  - 16000
+  - 9500
+  - 7420
+  yaw: 1.5708
+  pitch: -0.95
+- name: aerial_scrapyard_outpost
+  position:
+  - 17000
+  - -2000
+  - 6492
+  yaw: 1.5708
+  pitch: -0.95

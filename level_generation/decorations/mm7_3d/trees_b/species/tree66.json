@@ -1,0 +1,97 @@
+{
+ "sprite": "tree66_p120",
+ "output": "mm7_deco_tree66.glb",
+ "height_m": 7.5,
+ "note": "Emerald Island: tall narrow crown of drooping light-green sprays from a fifth of the height, single straight pale mottled trunk.",
+ "sapling": {
+  "scale": 5.3,
+  "baseSplits": 0,
+  "baseSize": 0.3,
+  "splitHeight": 0.35,
+  "attractUp": [
+   0,
+   0.5,
+   0.1,
+   0
+  ],
+  "downAngle": [
+   90,
+   55,
+   50,
+   45
+  ],
+  "seed": 661,
+  "ratio": 0.028,
+  "segSplits": [
+   0,
+   0.2,
+   0.3,
+   0
+  ],
+  "curve": [
+   0,
+   -30,
+   -20,
+   0
+  ],
+  "rootFlare": 1.0
+ },
+ "crown": {
+  "canopy_low": 0.2,
+  "centre": 0.55,
+  "clumps": 90,
+  "inner_clumps": 12,
+  "gap": 0.85,
+  "outer_radius": [
+   0.35,
+   0.55
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   104,
+   96,
+   78
+  ],
+  "clip_below_crown": true,
+  "root_reach": 0.25,
+  "roots": 0
+ },
+ "leaves": {
+  "target_srgb": [
+   162,
+   194,
+   117
+  ],
+  "seeds": [
+   661,
+   673,
+   683,
+   691
+  ],
+  "value": [
+   0.9,
+   1.6
+  ]
+ },
+ "lod": {
+  "triangles": [
+   7000,
+   2700,
+   900
+  ],
+  "tone": [
+   1.0,
+   0.92,
+   0.99
+  ]
+ },
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.55,
+  "range": 0.45,
+  "power": 1.0,
+  "local_floor": 0.45,
+  "core_floor": 0.72
+ }
+}

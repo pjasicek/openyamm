@@ -1,0 +1,488 @@
+{
+ "id": "20261009-1628-mm6-sci-fi-48",
+ "world": "mm6",
+ "maps": [
+  "sci-fi.blv",
+  "zdwj02.blv"
+ ],
+ "created": "2026-10-09T14:28:28+00:00",
+ "textures": [
+  "mm6/swildk",
+  "mm6/swildk2",
+  "mm6/swll2dk",
+  "mm6/swll3dk",
+  "mm6/swll4",
+  "mm6/swll5dk",
+  "mm6/swor",
+  "mm6/swor2",
+  "mm6/swpipes",
+  "mm6/swqur3",
+  "mm6/swr1dk",
+  "mm6/swr3",
+  "mm6/swr4",
+  "mm6/swr4dk",
+  "mm6/swrdk2",
+  "mm6/swrt2",
+  "mm6/swrt3dk",
+  "mm6/swvert3dk",
+  "mm6/t3ll4le",
+  "mm6/descnr4",
+  "mm6/deslft4",
+  "mm6/desrt4",
+  "mm6/stcplan"
+ ],
+ "requests": {
+  "mm6/swildk": {
+   "name": "swildk",
+   "versions": [
+    1
+   ],
+   "material": "square teal-green rusted metal hatch panel with bevelled raised border, radial ribs and a dark domed metal sphere in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swildk2": {
+   "name": "swildk2",
+   "versions": [
+    1
+   ],
+   "material": "square teal-green rusted metal hatch panel with bevelled raised border, radial ribs and a dark domed metal sphere in the centre, darker and more shadowed edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swll2dk": {
+   "name": "swll2dk",
+   "versions": [
+    1
+   ],
+   "material": "dark alien metal panel with a vertical spine of black segmented ribbed armour plates over red chevron stripes; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swll3dk": {
+   "name": "swll3dk",
+   "versions": [
+    1
+   ],
+   "material": "dark metal wall panel holding three glossy teal-green coolant cylinders strapped with dark metal bands and thin red pipes; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swll4": {
+   "name": "swll4",
+   "versions": [
+    1
+   ],
+   "material": "pale teal-blue stained metal wall panel with recessed angular seam lines, rivets, a round port and a vertical slot panel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swll5dk": {
+   "name": "swll5dk",
+   "versions": [
+    1
+   ],
+   "material": "dark teal metal wall with vertical blue-grey pipes crossed by horizontal conduits and a small round red light in a housing; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swor": {
+   "name": "swor",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-green rusted machinery wall with bolted round gauges, copper pipes, a central round hub and ribbed vertical vents; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swor2": {
+   "name": "swor2",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-green rusted machinery wall with bolted round gauges, copper pipes, coloured wiring and a small dark hatch; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swpipes": {
+   "name": "swpipes",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "two large vertical metal pipes, one dull grey-blue steel and one dark red, with bolted flange collars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "right": "mm6/swall1",
+     "left": "mm6/swall1"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/swqur3": {
+   "name": "swqur3",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale grey metal panel with a bevelled square border, a vertical centre seam and a large engraved circle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swr1dk": {
+   "name": "swr1dk",
+   "versions": [
+    1
+   ],
+   "material": "dark metal strip with horizontal teal rails, rows of orange-red light segments and diagonal teal slanted bars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swr3": {
+   "name": "swr3",
+   "versions": [
+    1
+   ],
+   "material": "dark metal strip of grey-brown mechanical clamps in a row over vertical support rods",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swr4": {
+   "name": "swr4",
+   "versions": [
+    1
+   ],
+   "material": "dark metal panel with rows of slanted teal-green louvre fins framed by copper pipes with round portholes at the lower corners; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swr4dk": {
+   "name": "swr4dk",
+   "versions": [
+    1
+   ],
+   "material": "dark metal panel with rows of slanted teal-green louvre fins framed by copper pipes with round portholes at the lower corners, darker shading; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swrdk2": {
+   "name": "swrdk2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark teal riveted metal frame holding vertical steel bars over a red and black striped glowing grille; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge.",
+    "3": "No dark outline or shadow along the left edge; the teal frame keeps the same brightness to the border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     53,
+     0
+    ],
+    "3": [
+     53,
+     0
+    ]
+   }
+  },
+  "mm6/swrt2": {
+   "name": "swrt2",
+   "versions": [
+    1
+   ],
+   "material": "dark metal strip with a vertical column of bronze segmented organic nodes between thin teal and red vertical rails",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swrt3dk": {
+   "name": "swrt3dk",
+   "versions": [
+    1
+   ],
+   "material": "dark teal mottled metal panel with diagonal red-copper conduits in a chevron pattern and a central column of orange connectors and green lights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swvert3dk": {
+   "name": "swvert3dk",
+   "versions": [
+    1
+   ],
+   "material": "dark teal mottled metal panel with diagonal red-copper conduits, a horizontal row of orange connectors and green lights, red rails top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/t3ll4le": {
+   "name": "t3ll4le",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden wall panel with a riveted plank frame, a recessed rough brown panel with an iron ring handle, horizontal planks below, dark wood post on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll4",
+      "mm6/t3ll4re"
+     ],
+     "fraction": 0.529
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/descnr4": {
+   "name": "descnr4",
+   "versions": [
+    1
+   ],
+   "material": "tan-brown rough irregular fieldstone wall with deep dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/deslft4": {
+   "name": "deslft4",
+   "versions": [
+    1
+   ],
+   "material": "tan-brown rough irregular fieldstone wall with deep dark joints, shadowed towards the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/desrt4": {
+   "name": "desrt4",
+   "versions": [
+    1
+   ],
+   "material": "tan-brown rough irregular fieldstone wall with deep dark joints, shadowed towards the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/stcplan": {
+   "name": "stcplan",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "sandy tan rough sand plaster surface",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "top": "mm6/t3dwal1"
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   }
+  }
+ }
+}

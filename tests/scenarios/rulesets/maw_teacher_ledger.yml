@@ -1,0 +1,29 @@
+id: rulesets.maw_teacher_ledger
+title: "Ruleset - MAW's taverns sell the Ledger of Teachers too, and a MAW save keeps it"
+world: mm8
+mode: faithful
+tags: [rulesets, maw, houses, journal, trainers]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - execute_event: {id: 191}
+  - select_topic: {action_id: 228}
+  - select_topic: {action_id: 33, match_label: Ledger of Teachers}
+  - assert:
+      dialog:
+        text_contains: Every master who teaches a craft on Jadame
+  - console: {line: gold set 3000}
+  - select_topic: {action_id: 34, match_label: "Buy the ledger: 2000 gold"}
+  - assert:
+      gold: 1000
+      teacher_ledger: {continent: 1}
+      autonote: {id: 128}
+      dialog:
+        action_label_absent: Ledger of Teachers
+  - save_game: maw_ledger
+  - load_game: maw_ledger
+  - assert:
+      ruleset: {id: maw}
+      teacher_ledger: {continent: 1}
+      autonote: {id: 130}

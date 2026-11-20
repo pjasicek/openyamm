@@ -1,0 +1,5373 @@
+{
+  "schema_version": 1,
+  "schema_status": "staged asset contract; not an engine-supported loader schema",
+  "creature": "mm7:creature/m230",
+  "installed": false,
+  "pixels_per_logical_pixel": 2,
+  "logical_canvas": [
+    256,
+    256
+  ],
+  "logical_pivot": [
+    128,
+    128
+  ],
+  "anchor": "Center",
+  "native_frame_scale": 0.899994,
+  "coordinate_rule": "local_x=(crop_origin_x+u)/2-128; local_up=128-(crop_origin_y+v)/2; mirror local_x and UV together",
+  "pages": [
+    {
+      "base": "atlas/base_0.png",
+      "mask": "atlas/mask_0.png",
+      "size": [
+        2049,
+        1741
+      ],
+      "base_format": "RGBA8",
+      "mask_format": "R8",
+      "variant_previews": {
+        "54": "atlas/base_0.png",
+        "55": "previews/palette_55_page_0.png",
+        "233": "previews/palette_233_page_0.png"
+      },
+      "mask_overlay": "previews/mask_overlay_0.png"
+    },
+    {
+      "base": "atlas/base_1.png",
+      "mask": "atlas/mask_1.png",
+      "size": [
+        2037,
+        1672
+      ],
+      "base_format": "RGBA8",
+      "mask_format": "R8",
+      "variant_previews": {
+        "54": "atlas/base_1.png",
+        "55": "previews/palette_55_page_1.png",
+        "233": "previews/palette_233_page_1.png"
+      },
+      "mask_overlay": "previews/mask_overlay_1.png"
+    },
+    {
+      "base": "atlas/base_2.png",
+      "mask": "atlas/mask_2.png",
+      "size": [
+        1953,
+        2013
+      ],
+      "base_format": "RGBA8",
+      "mask_format": "R8",
+      "variant_previews": {
+        "54": "atlas/base_2.png",
+        "55": "previews/palette_55_page_2.png",
+        "233": "previews/palette_233_page_2.png"
+      },
+      "mask_overlay": "previews/mask_overlay_2.png"
+    },
+    {
+      "base": "atlas/base_3.png",
+      "mask": "atlas/mask_3.png",
+      "size": [
+        1966,
+        968
+      ],
+      "base_format": "RGBA8",
+      "mask_format": "R8",
+      "variant_previews": {
+        "54": "atlas/base_3.png",
+        "55": "previews/palette_55_page_3.png",
+        "233": "previews/palette_233_page_3.png"
+      },
+      "mask_overlay": "previews/mask_overlay_3.png"
+    }
+  ],
+  "frames": {
+    "m230sa0": {
+      "crop_origin_px": [
+        147,
+        110
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        147,
+        110,
+        358,
+        517
+      ],
+      "source": "m230sa0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        849,
+        2,
+        211,
+        407
+      ]
+    },
+    "m230sa1": {
+      "crop_origin_px": [
+        153,
+        110
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        153,
+        110,
+        383,
+        517
+      ],
+      "source": "m230sa1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        615,
+        2,
+        230,
+        407
+      ]
+    },
+    "m230sa2": {
+      "crop_origin_px": [
+        156,
+        110
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        156,
+        110,
+        357,
+        517
+      ],
+      "source": "m230sa2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1064,
+        2,
+        201,
+        407
+      ]
+    },
+    "m230sa3": {
+      "crop_origin_px": [
+        174,
+        101
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        174,
+        101,
+        330,
+        519
+      ],
+      "source": "m230sa3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        477,
+        1321,
+        156,
+        418
+      ]
+    },
+    "m230sa4": {
+      "crop_origin_px": [
+        150,
+        101
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        150,
+        101,
+        372,
+        519
+      ],
+      "source": "m230sa4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        251,
+        1321,
+        222,
+        418
+      ]
+    },
+    "m230aa0": {
+      "crop_origin_px": [
+        125,
+        83
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        125,
+        83,
+        340,
+        519
+      ],
+      "source": "m230aa0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1237,
+        2,
+        215,
+        436
+      ]
+    },
+    "m230ab0": {
+      "crop_origin_px": [
+        175,
+        104
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        175,
+        104,
+        394,
+        519
+      ],
+      "source": "m230ab0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        2,
+        422,
+        219,
+        415
+      ]
+    },
+    "m230ac0": {
+      "crop_origin_px": [
+        118,
+        100
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        118,
+        100,
+        393,
+        519
+      ],
+      "source": "m230ac0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1411,
+        895,
+        275,
+        419
+      ]
+    },
+    "m230ad0": {
+      "crop_origin_px": [
+        113,
+        115
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        113,
+        115,
+        407,
+        519
+      ],
+      "source": "m230ad0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        315,
+        414,
+        294,
+        404
+      ]
+    },
+    "m230ae0": {
+      "crop_origin_px": [
+        196,
+        122
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        196,
+        122,
+        437,
+        519
+      ],
+      "source": "m230ae0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1258,
+        822,
+        241,
+        397
+      ]
+    },
+    "m230af0": {
+      "crop_origin_px": [
+        187,
+        119
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        187,
+        119,
+        407,
+        519
+      ],
+      "source": "m230af0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        501,
+        822,
+        220,
+        400
+      ]
+    },
+    "m230aa1": {
+      "crop_origin_px": [
+        144,
+        59
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        144,
+        59,
+        320,
+        517
+      ],
+      "source": "m230aa1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        2,
+        176,
+        458
+      ]
+    },
+    "m230ab1": {
+      "crop_origin_px": [
+        106,
+        109
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        106,
+        109,
+        310,
+        517
+      ],
+      "source": "m230ab1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        407,
+        2,
+        204,
+        408
+      ]
+    },
+    "m230ac1": {
+      "crop_origin_px": [
+        83,
+        114
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        83,
+        114,
+        426,
+        517
+      ],
+      "source": "m230ac1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        613,
+        414,
+        343,
+        403
+      ]
+    },
+    "m230ad1": {
+      "crop_origin_px": [
+        165,
+        104
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        165,
+        104,
+        384,
+        519
+      ],
+      "source": "m230ad1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        225,
+        422,
+        219,
+        415
+      ]
+    },
+    "m230ae1": {
+      "crop_origin_px": [
+        165,
+        140
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        520,
+        519
+      ],
+      "crop_in_aligned_px": [
+        165,
+        140,
+        520,
+        519
+      ],
+      "source": "m230ae1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        809,
+        1626,
+        355,
+        379
+      ]
+    },
+    "m230af1": {
+      "crop_origin_px": [
+        172,
+        109
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        172,
+        109,
+        475,
+        519
+      ],
+      "source": "m230af1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1225,
+        1258,
+        303,
+        410
+      ]
+    },
+    "m230aa3": {
+      "crop_origin_px": [
+        106,
+        101
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        106,
+        101,
+        351,
+        519
+      ],
+      "source": "m230aa3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        1321,
+        245,
+        418
+      ]
+    },
+    "m230ab3": {
+      "crop_origin_px": [
+        10,
+        104
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        10,
+        104,
+        295,
+        519
+      ],
+      "source": "m230ab3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1515,
+        2,
+        285,
+        415
+      ]
+    },
+    "m230ac3": {
+      "crop_origin_px": [
+        96,
+        106
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        96,
+        106,
+        376,
+        518
+      ],
+      "source": "m230ac3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1382,
+        841,
+        280,
+        412
+      ]
+    },
+    "m230ad3": {
+      "crop_origin_px": [
+        112,
+        110
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        513,
+        518
+      ],
+      "crop_in_aligned_px": [
+        112,
+        110,
+        513,
+        518
+      ],
+      "source": "m230ad3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        2,
+        2,
+        401,
+        408
+      ]
+    },
+    "m230ae3": {
+      "crop_origin_px": [
+        125,
+        140
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        125,
+        140,
+        360,
+        518
+      ],
+      "source": "m230ae3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1168,
+        1626,
+        235,
+        378
+      ]
+    },
+    "m230af3": {
+      "crop_origin_px": [
+        201,
+        116
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        201,
+        116,
+        343,
+        519
+      ],
+      "source": "m230af3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        960,
+        414,
+        142,
+        403
+      ]
+    },
+    "m230aa4": {
+      "crop_origin_px": [
+        172,
+        95
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        172,
+        95,
+        382,
+        517
+      ],
+      "source": "m230aa4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        895,
+        210,
+        422
+      ]
+    },
+    "m230ab4": {
+      "crop_origin_px": [
+        115,
+        104
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        115,
+        104,
+        338,
+        517
+      ],
+      "source": "m230ab4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        715,
+        841,
+        223,
+        413
+      ]
+    },
+    "m230ac4": {
+      "crop_origin_px": [
+        121,
+        101
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        121,
+        101,
+        370,
+        517
+      ],
+      "source": "m230ac4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        271,
+        2,
+        249,
+        416
+      ]
+    },
+    "m230ad4": {
+      "crop_origin_px": [
+        95,
+        113
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        95,
+        113,
+        404,
+        517
+      ],
+      "source": "m230ad4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        2,
+        414,
+        309,
+        404
+      ]
+    },
+    "m230ae4": {
+      "crop_origin_px": [
+        84,
+        141
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        84,
+        141,
+        313,
+        517
+      ],
+      "source": "m230ae4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1407,
+        1626,
+        229,
+        376
+      ]
+    },
+    "m230af4": {
+      "crop_origin_px": [
+        110,
+        120
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        517
+      ],
+      "crop_in_aligned_px": [
+        110,
+        120,
+        322,
+        517
+      ],
+      "source": "m230af4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1503,
+        822,
+        212,
+        397
+      ]
+    },
+    "m230na1": {
+      "crop_origin_px": [
+        78,
+        80
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        78,
+        80,
+        345,
+        518
+      ],
+      "source": "m230na1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        966,
+        2,
+        267,
+        438
+      ]
+    },
+    "m230nb1": {
+      "crop_origin_px": [
+        -1,
+        170
+      ],
+      "aligned_canvas_origin_px": [
+        -1,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        513,
+        518
+      ],
+      "crop_in_aligned_px": [
+        0,
+        170,
+        333,
+        518
+      ],
+      "source": "m230nb1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        1467,
+        2,
+        333,
+        348
+      ]
+    },
+    "m230nc1": {
+      "crop_origin_px": [
+        30,
+        192
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        30,
+        192,
+        335,
+        518
+      ],
+      "source": "m230nc1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        1326,
+        381,
+        305,
+        326
+      ]
+    },
+    "m230nd1": {
+      "crop_origin_px": [
+        92,
+        131
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        92,
+        131,
+        338,
+        519
+      ],
+      "source": "m230nd1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1175,
+        1227,
+        246,
+        388
+      ]
+    },
+    "m230ne1": {
+      "crop_origin_px": [
+        101,
+        120
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        101,
+        120,
+        359,
+        519
+      ],
+      "source": "m230ne1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        725,
+        822,
+        258,
+        399
+      ]
+    },
+    "m230nf1": {
+      "crop_origin_px": [
+        120,
+        113
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        120,
+        113,
+        398,
+        519
+      ],
+      "source": "m230nf1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1269,
+        2,
+        278,
+        406
+      ]
+    },
+    "m230na4": {
+      "crop_origin_px": [
+        110,
+        81
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        110,
+        81,
+        413,
+        519
+      ],
+      "source": "m230na4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        659,
+        2,
+        303,
+        438
+      ]
+    },
+    "m230nb4": {
+      "crop_origin_px": [
+        148,
+        158
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        148,
+        158,
+        412,
+        519
+      ],
+      "source": "m230nb4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        878,
+        2,
+        264,
+        361
+      ]
+    },
+    "m230nc4": {
+      "crop_origin_px": [
+        141,
+        186
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        141,
+        186,
+        504,
+        519
+      ],
+      "source": "m230nc4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        959,
+        381,
+        363,
+        333
+      ]
+    },
+    "m230nd4": {
+      "crop_origin_px": [
+        147,
+        133
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        147,
+        133,
+        379,
+        518
+      ],
+      "source": "m230nd4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        273,
+        1626,
+        232,
+        385
+      ]
+    },
+    "m230ne4": {
+      "crop_origin_px": [
+        160,
+        132
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        160,
+        132,
+        373,
+        518
+      ],
+      "source": "m230ne4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1682,
+        1227,
+        213,
+        386
+      ]
+    },
+    "m230nf4": {
+      "crop_origin_px": [
+        162,
+        127
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        162,
+        127,
+        382,
+        518
+      ],
+      "source": "m230nf4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        710,
+        1227,
+        220,
+        391
+      ]
+    },
+    "m230fa0": {
+      "crop_origin_px": [
+        147,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        147,
+        105,
+        365,
+        518
+      ],
+      "source": "m230fa0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        942,
+        841,
+        218,
+        413
+      ]
+    },
+    "m230fb0": {
+      "crop_origin_px": [
+        150,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        150,
+        105,
+        364,
+        518
+      ],
+      "source": "m230fb0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1164,
+        841,
+        214,
+        413
+      ]
+    },
+    "m230fc0": {
+      "crop_origin_px": [
+        154,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        154,
+        105,
+        390,
+        518
+      ],
+      "source": "m230fc0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        243,
+        841,
+        236,
+        413
+      ]
+    },
+    "m230fd0": {
+      "crop_origin_px": [
+        155,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        155,
+        105,
+        400,
+        518
+      ],
+      "source": "m230fd0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1700,
+        422,
+        245,
+        413
+      ]
+    },
+    "m230aa2": {
+      "crop_origin_px": [
+        92,
+        74
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        92,
+        74,
+        306,
+        521
+      ],
+      "source": "m230aa2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        182,
+        2,
+        214,
+        447
+      ]
+    },
+    "m230ab2": {
+      "crop_origin_px": [
+        20,
+        94
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        20,
+        94,
+        305,
+        521
+      ],
+      "source": "m230ab2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        464,
+        285,
+        427
+      ]
+    },
+    "m230ac2": {
+      "crop_origin_px": [
+        52,
+        118
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        52,
+        118,
+        406,
+        519
+      ],
+      "source": "m230ac2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1350,
+        414,
+        354,
+        401
+      ]
+    },
+    "m230ad2": {
+      "crop_origin_px": [
+        174,
+        103
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        174,
+        103,
+        504,
+        518
+      ],
+      "source": "m230ad2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1181,
+        2,
+        330,
+        415
+      ]
+    },
+    "m230ae2": {
+      "crop_origin_px": [
+        170,
+        144
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        170,
+        144,
+        479,
+        519
+      ],
+      "source": "m230ae2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1640,
+        1626,
+        309,
+        375
+      ]
+    },
+    "m230af2": {
+      "crop_origin_px": [
+        167,
+        121
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        167,
+        121,
+        434,
+        519
+      ],
+      "source": "m230af2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        987,
+        822,
+        267,
+        398
+      ]
+    },
+    "m230na0": {
+      "crop_origin_px": [
+        87,
+        95
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        524
+      ],
+      "crop_in_aligned_px": [
+        87,
+        95,
+        404,
+        524
+      ],
+      "source": "m230na0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1728,
+        2,
+        317,
+        429
+      ]
+    },
+    "m230nb0": {
+      "crop_origin_px": [
+        96,
+        160
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        526
+      ],
+      "crop_in_aligned_px": [
+        96,
+        160,
+        360,
+        526
+      ],
+      "source": "m230nb0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        610,
+        2,
+        264,
+        366
+      ]
+    },
+    "m230nc0": {
+      "crop_origin_px": [
+        6,
+        188
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        524
+      ],
+      "crop_in_aligned_px": [
+        6,
+        188,
+        369,
+        524
+      ],
+      "source": "m230nc0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        342,
+        381,
+        363,
+        336
+      ]
+    },
+    "m230nd0": {
+      "crop_origin_px": [
+        131,
+        130
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        131,
+        130,
+        368,
+        519
+      ],
+      "source": "m230nd0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        934,
+        1227,
+        237,
+        389
+      ]
+    },
+    "m230ne0": {
+      "crop_origin_px": [
+        128,
+        123
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        128,
+        123,
+        354,
+        519
+      ],
+      "source": "m230ne0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1719,
+        822,
+        226,
+        396
+      ]
+    },
+    "m230nf0": {
+      "crop_origin_px": [
+        125,
+        118
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        125,
+        118,
+        351,
+        519
+      ],
+      "source": "m230nf0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1708,
+        414,
+        226,
+        401
+      ]
+    },
+    "m230na2": {
+      "crop_origin_px": [
+        58,
+        89
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        524
+      ],
+      "crop_in_aligned_px": [
+        58,
+        89,
+        326,
+        524
+      ],
+      "source": "m230na2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1456,
+        2,
+        268,
+        435
+      ]
+    },
+    "m230nb2": {
+      "crop_origin_px": [
+        12,
+        163
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        12,
+        163,
+        329,
+        521
+      ],
+      "source": "m230nb2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        1146,
+        2,
+        317,
+        358
+      ]
+    },
+    "m230nc2": {
+      "crop_origin_px": [
+        82,
+        189
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        525
+      ],
+      "crop_in_aligned_px": [
+        82,
+        189,
+        328,
+        525
+      ],
+      "source": "m230nc2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        709,
+        381,
+        246,
+        336
+      ]
+    },
+    "m230nd2": {
+      "crop_origin_px": [
+        136,
+        127
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        136,
+        127,
+        399,
+        519
+      ],
+      "source": "m230nd2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        443,
+        1227,
+        263,
+        392
+      ]
+    },
+    "m230ne2": {
+      "crop_origin_px": [
+        153,
+        123
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        153,
+        123,
+        418,
+        518
+      ],
+      "source": "m230ne2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        2,
+        1227,
+        265,
+        395
+      ]
+    },
+    "m230nf2": {
+      "crop_origin_px": [
+        160,
+        108
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        160,
+        108,
+        398,
+        518
+      ],
+      "source": "m230nf2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1532,
+        1258,
+        238,
+        410
+      ]
+    },
+    "m230na3": {
+      "crop_origin_px": [
+        111,
+        75
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        520
+      ],
+      "crop_in_aligned_px": [
+        111,
+        75,
+        366,
+        520
+      ],
+      "source": "m230na3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        400,
+        2,
+        255,
+        445
+      ]
+    },
+    "m230nb3": {
+      "crop_origin_px": [
+        63,
+        144
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        63,
+        144,
+        316,
+        519
+      ],
+      "source": "m230nb3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        2,
+        2,
+        253,
+        375
+      ]
+    },
+    "m230nc3": {
+      "crop_origin_px": [
+        70,
+        178
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        524
+      ],
+      "crop_in_aligned_px": [
+        70,
+        178,
+        406,
+        524
+      ],
+      "source": "m230nc3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        2,
+        381,
+        336,
+        346
+      ]
+    },
+    "m230nd3": {
+      "crop_origin_px": [
+        129,
+        140
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        522
+      ],
+      "crop_in_aligned_px": [
+        129,
+        140,
+        425,
+        522
+      ],
+      "source": "m230nd3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        509,
+        1626,
+        296,
+        382
+      ]
+    },
+    "m230ne3": {
+      "crop_origin_px": [
+        149,
+        136
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        522
+      ],
+      "crop_in_aligned_px": [
+        149,
+        136,
+        402,
+        522
+      ],
+      "source": "m230ne3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1425,
+        1227,
+        253,
+        386
+      ]
+    },
+    "m230nf3": {
+      "crop_origin_px": [
+        163,
+        128
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        522
+      ],
+      "crop_in_aligned_px": [
+        163,
+        128,
+        331,
+        522
+      ],
+      "source": "m230nf3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        271,
+        1227,
+        168,
+        394
+      ]
+    },
+    "m230wa0": {
+      "crop_origin_px": [
+        162,
+        106
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        162,
+        106,
+        330,
+        518
+      ],
+      "source": "m230wa0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        492,
+        1258,
+        168,
+        412
+      ]
+    },
+    "m230wb0": {
+      "crop_origin_px": [
+        148,
+        101
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        148,
+        101,
+        343,
+        521
+      ],
+      "source": "m230wb0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        920,
+        895,
+        195,
+        420
+      ]
+    },
+    "m230wc0": {
+      "crop_origin_px": [
+        143,
+        101
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        143,
+        101,
+        358,
+        521
+      ],
+      "source": "m230wc0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        701,
+        895,
+        215,
+        420
+      ]
+    },
+    "m230wd0": {
+      "crop_origin_px": [
+        128,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        128,
+        105,
+        365,
+        518
+      ],
+      "source": "m230wd0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        2,
+        841,
+        237,
+        413
+      ]
+    },
+    "m230we0": {
+      "crop_origin_px": [
+        108,
+        106
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        108,
+        106,
+        362,
+        518
+      ],
+      "source": "m230we0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1666,
+        841,
+        254,
+        412
+      ]
+    },
+    "m230wf0": {
+      "crop_origin_px": [
+        132,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        132,
+        105,
+        367,
+        521
+      ],
+      "source": "m230wf0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        524,
+        2,
+        235,
+        416
+      ]
+    },
+    "m230wg0": {
+      "crop_origin_px": [
+        132,
+        114
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        132,
+        114,
+        365,
+        519
+      ],
+      "source": "m230wg0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1551,
+        2,
+        233,
+        405
+      ]
+    },
+    "m230wh0": {
+      "crop_origin_px": [
+        134,
+        118
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        134,
+        118,
+        355,
+        519
+      ],
+      "source": "m230wh0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        2,
+        822,
+        221,
+        401
+      ]
+    },
+    "m230wa1": {
+      "crop_origin_px": [
+        142,
+        107
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        142,
+        107,
+        403,
+        518
+      ],
+      "source": "m230wa1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        960,
+        1258,
+        261,
+        411
+      ]
+    },
+    "m230wb1": {
+      "crop_origin_px": [
+        153,
+        106
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        153,
+        106,
+        381,
+        519
+      ],
+      "source": "m230wb1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        483,
+        841,
+        228,
+        413
+      ]
+    },
+    "m230wc1": {
+      "crop_origin_px": [
+        158,
+        99
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        522
+      ],
+      "crop_in_aligned_px": [
+        158,
+        99,
+        360,
+        522
+      ],
+      "source": "m230wc1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1513,
+        464,
+        202,
+        423
+      ]
+    },
+    "m230wd1": {
+      "crop_origin_px": [
+        130,
+        108
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        520
+      ],
+      "crop_in_aligned_px": [
+        130,
+        108,
+        380,
+        520
+      ],
+      "source": "m230wd1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        2,
+        1258,
+        250,
+        412
+      ]
+    },
+    "m230we1": {
+      "crop_origin_px": [
+        115,
+        106
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        115,
+        106,
+        381,
+        519
+      ],
+      "source": "m230we1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1430,
+        422,
+        266,
+        413
+      ]
+    },
+    "m230wf1": {
+      "crop_origin_px": [
+        115,
+        101
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        115,
+        101,
+        373,
+        519
+      ],
+      "source": "m230wf1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1690,
+        895,
+        258,
+        418
+      ]
+    },
+    "m230wa2": {
+      "crop_origin_px": [
+        131,
+        110
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        131,
+        110,
+        423,
+        521
+      ],
+      "source": "m230wa2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        664,
+        1258,
+        292,
+        411
+      ]
+    },
+    "m230wb2": {
+      "crop_origin_px": [
+        144,
+        104
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        520
+      ],
+      "crop_in_aligned_px": [
+        144,
+        104,
+        409,
+        520
+      ],
+      "source": "m230wb2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        2,
+        2,
+        265,
+        416
+      ]
+    },
+    "m230wc2": {
+      "crop_origin_px": [
+        168,
+        104
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        524
+      ],
+      "crop_in_aligned_px": [
+        168,
+        104,
+        406,
+        524
+      ],
+      "source": "m230wc2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        459,
+        895,
+        238,
+        420
+      ]
+    },
+    "m230wd2": {
+      "crop_origin_px": [
+        146,
+        102
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        146,
+        102,
+        424,
+        519
+      ],
+      "source": "m230wd2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        934,
+        1321,
+        278,
+        417
+      ]
+    },
+    "m230we2": {
+      "crop_origin_px": [
+        138,
+        106
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        522
+      ],
+      "crop_in_aligned_px": [
+        138,
+        106,
+        409,
+        522
+      ],
+      "source": "m230we2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1678,
+        1321,
+        271,
+        416
+      ]
+    },
+    "m230wf2": {
+      "crop_origin_px": [
+        137,
+        102
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        524
+      ],
+      "crop_in_aligned_px": [
+        137,
+        102,
+        409,
+        524
+      ],
+      "source": "m230wf2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1719,
+        464,
+        272,
+        422
+      ]
+    },
+    "m230wg2": {
+      "crop_origin_px": [
+        172,
+        98
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        172,
+        98,
+        439,
+        521
+      ],
+      "source": "m230wg2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1242,
+        464,
+        267,
+        423
+      ]
+    },
+    "m230wh2": {
+      "crop_origin_px": [
+        149,
+        98
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        149,
+        98,
+        420,
+        521
+      ],
+      "source": "m230wh2.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        967,
+        464,
+        271,
+        423
+      ]
+    },
+    "m230wa3": {
+      "crop_origin_px": [
+        150,
+        103
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        150,
+        103,
+        374,
+        519
+      ],
+      "source": "m230wa3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        763,
+        2,
+        224,
+        416
+      ]
+    },
+    "m230wb3": {
+      "crop_origin_px": [
+        149,
+        102
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        149,
+        102,
+        377,
+        519
+      ],
+      "source": "m230wb3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1216,
+        1321,
+        228,
+        417
+      ]
+    },
+    "m230wc3": {
+      "crop_origin_px": [
+        151,
+        99
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        520
+      ],
+      "crop_in_aligned_px": [
+        151,
+        99,
+        390,
+        520
+      ],
+      "source": "m230wc3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        216,
+        895,
+        239,
+        421
+      ]
+    },
+    "m230wd3": {
+      "crop_origin_px": [
+        153,
+        106
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        520
+      ],
+      "crop_in_aligned_px": [
+        153,
+        106,
+        446,
+        520
+      ],
+      "source": "m230wd3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        658,
+        422,
+        293,
+        414
+      ]
+    },
+    "m230we3": {
+      "crop_origin_px": [
+        140,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        522
+      ],
+      "crop_in_aligned_px": [
+        140,
+        105,
+        433,
+        522
+      ],
+      "source": "m230we3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        637,
+        1321,
+        293,
+        417
+      ]
+    },
+    "m230wf3": {
+      "crop_origin_px": [
+        137,
+        102
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        137,
+        102,
+        425,
+        521
+      ],
+      "source": "m230wf3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1119,
+        895,
+        288,
+        419
+      ]
+    },
+    "m230wg3": {
+      "crop_origin_px": [
+        164,
+        96
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        523
+      ],
+      "crop_in_aligned_px": [
+        164,
+        96,
+        414,
+        523
+      ],
+      "source": "m230wg3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        291,
+        464,
+        250,
+        427
+      ]
+    },
+    "m230wh3": {
+      "crop_origin_px": [
+        151,
+        96
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        151,
+        96,
+        397,
+        521
+      ],
+      "source": "m230wh3.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        717,
+        464,
+        246,
+        425
+      ]
+    },
+    "m230da0": {
+      "crop_origin_px": [
+        69,
+        135
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        512
+      ],
+      "crop_in_aligned_px": [
+        69,
+        135,
+        416,
+        505
+      ],
+      "source": "m230da0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        259,
+        2,
+        347,
+        370
+      ]
+    },
+    "m230db0": {
+      "crop_origin_px": [
+        111,
+        138
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        523
+      ],
+      "crop_in_aligned_px": [
+        111,
+        138,
+        378,
+        523
+      ],
+      "source": "m230db0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        2,
+        1626,
+        267,
+        385
+      ]
+    },
+    "m230dc0": {
+      "crop_origin_px": [
+        81,
+        214
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        520
+      ],
+      "crop_in_aligned_px": [
+        81,
+        214,
+        408,
+        520
+      ],
+      "source": "m230dc0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        1635,
+        381,
+        327,
+        306
+      ]
+    },
+    "m230dd0": {
+      "crop_origin_px": [
+        12,
+        289
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        524
+      ],
+      "crop_in_aligned_px": [
+        12,
+        289,
+        438,
+        524
+      ],
+      "source": "m230dd0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        2,
+        731,
+        426,
+        235
+      ]
+    },
+    "m230xa0": {
+      "crop_origin_px": [
+        26,
+        419
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        26,
+        419,
+        448,
+        519
+      ],
+      "source": "m230xa0.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 3,
+      "atlas_xywh": [
+        432,
+        731,
+        422,
+        100
+      ]
+    },
+    "m230wg1": {
+      "crop_origin_px": [
+        138,
+        117
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        138,
+        117,
+        378,
+        519
+      ],
+      "source": "m230wg1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        1106,
+        414,
+        240,
+        402
+      ]
+    },
+    "m230wh1": {
+      "crop_origin_px": [
+        158,
+        119
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        158,
+        119,
+        428,
+        519
+      ],
+      "source": "m230wh1.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 2,
+      "atlas_xywh": [
+        227,
+        822,
+        270,
+        400
+      ]
+    },
+    "m230wa4": {
+      "crop_origin_px": [
+        176,
+        96
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        522
+      ],
+      "crop_in_aligned_px": [
+        176,
+        96,
+        344,
+        522
+      ],
+      "source": "m230wa4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        545,
+        464,
+        168,
+        426
+      ]
+    },
+    "m230wb4": {
+      "crop_origin_px": [
+        167,
+        102
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        167,
+        102,
+        353,
+        518
+      ],
+      "source": "m230wb4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        991,
+        2,
+        186,
+        416
+      ]
+    },
+    "m230wc4": {
+      "crop_origin_px": [
+        155,
+        103
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        518
+      ],
+      "crop_in_aligned_px": [
+        155,
+        103,
+        361,
+        518
+      ],
+      "source": "m230wc4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        448,
+        422,
+        206,
+        415
+      ]
+    },
+    "m230wd4": {
+      "crop_origin_px": [
+        152,
+        102
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        152,
+        102,
+        378,
+        519
+      ],
+      "source": "m230wd4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 0,
+      "atlas_xywh": [
+        1448,
+        1321,
+        226,
+        417
+      ]
+    },
+    "m230we4": {
+      "crop_origin_px": [
+        153,
+        107
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        153,
+        107,
+        385,
+        519
+      ],
+      "source": "m230we4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        256,
+        1258,
+        232,
+        412
+      ]
+    },
+    "m230wf4": {
+      "crop_origin_px": [
+        149,
+        104
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        149,
+        104,
+        378,
+        519
+      ],
+      "source": "m230wf4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1804,
+        2,
+        229,
+        415
+      ]
+    },
+    "m230wg4": {
+      "crop_origin_px": [
+        145,
+        107
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        521
+      ],
+      "crop_in_aligned_px": [
+        145,
+        107,
+        389,
+        521
+      ],
+      "source": "m230wg4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        955,
+        422,
+        244,
+        414
+      ]
+    },
+    "m230wh4": {
+      "crop_origin_px": [
+        151,
+        105
+      ],
+      "aligned_canvas_origin_px": [
+        0,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        512,
+        519
+      ],
+      "crop_in_aligned_px": [
+        151,
+        105,
+        374,
+        519
+      ],
+      "source": "m230wh4.bmp",
+      "source_palette": 54,
+      "anchor": "Center",
+      "page": 1,
+      "atlas_xywh": [
+        1203,
+        422,
+        223,
+        414
+      ]
+    }
+  },
+  "animations": {
+    "attack": {
+      "views": {
+        "0": [
+          {
+            "frame": "m230aa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ab0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ac0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ad0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ae0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230af0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m230aa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ab1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ac1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ad1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ae1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230af1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m230aa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ab2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ac2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ad2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ae2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230af2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m230aa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ab3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ac3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ad3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ae3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230af3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m230aa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ab4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ac4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ad4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ae4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230af4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m230aa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ab3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ac3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ad3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ae3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230af3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m230aa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ab2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ac2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ad2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ae2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230af2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m230aa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ab1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ac1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ad1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ae1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230af1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "single_view": false,
+      "native_length_raw": 12,
+      "sequence_ms": 750.0,
+      "playback": "once",
+      "next_action": "standing"
+    },
+    "death": {
+      "views": {
+        "0": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "6": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "7": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ]
+      },
+      "single_view": true,
+      "native_length_raw": 12,
+      "sequence_ms": 750.0,
+      "playback": "once",
+      "next_action": "corpse"
+    },
+    "fidget": {
+      "views": {
+        "0": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "6": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "7": [
+          {
+            "frame": "m230fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fd0",
+            "duration_ms": 375.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ]
+      },
+      "single_view": true,
+      "native_length_raw": 16,
+      "sequence_ms": 1000.0,
+      "playback": "once",
+      "next_action": "standing"
+    },
+    "hit": {
+      "views": {
+        "0": [
+          {
+            "frame": "m230na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ne0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nf0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m230na1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nc1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nd1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ne1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nf1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m230na2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nc2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nd2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ne2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nf2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m230na3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nc3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nd3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ne3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nf3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m230na4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nb4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nc4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nd4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230ne4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230nf4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m230na3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nb3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nc3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nd3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ne3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nf3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m230na2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nb2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nc2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nd2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ne2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nf2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m230na1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nb1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nc1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nd1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230ne1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230nf1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "single_view": false,
+      "native_length_raw": 12,
+      "sequence_ms": 750.0,
+      "playback": "once",
+      "next_action": "standing"
+    },
+    "standing": {
+      "views": {
+        "0": [
+          {
+            "frame": "m230sa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m230sa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m230sa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m230sa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m230sa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m230sa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m230sa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m230sa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "single_view": false,
+      "native_length_raw": 2,
+      "sequence_ms": 125.0,
+      "playback": "loop",
+      "next_action": null
+    },
+    "walk": {
+      "views": {
+        "0": [
+          {
+            "frame": "m230wa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230we0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wf0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wg0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wh0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m230wa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wb1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wc1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wd1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230we1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wf1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wg1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wh1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m230wa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wb2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wc2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wd2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230we2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wf2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wg2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wh2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m230wa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wb3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wc3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wd3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230we3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wf3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wg3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wh3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m230wa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wb4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wc4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wd4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230we4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wf4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wg4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m230wh4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m230wa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wb3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wc3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wd3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230we3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wf3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wg3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wh3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m230wa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wb2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wc2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wd2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230we2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wf2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wg2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wh2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m230wa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wb1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wc1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wd1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230we1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wf1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wg1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m230wh1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "single_view": false,
+      "native_length_raw": 16,
+      "sequence_ms": 1000.0,
+      "playback": "loop",
+      "next_action": null
+    },
+    "corpse": {
+      "views": {
+        "0": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "6": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "7": [
+          {
+            "frame": "m230xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ]
+      },
+      "single_view": true,
+      "native_length_raw": 2,
+      "sequence_ms": 125.0,
+      "playback": "hold",
+      "next_action": null
+    }
+  },
+  "native_group_bindings": {
+    "m231": {
+      "m231a": {
+        "action": "attack",
+        "sprite_id": 10463,
+        "palette_id": 54,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m231d": {
+        "action": "death",
+        "sprite_id": 10469,
+        "palette_id": 54,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Image1",
+          "Center"
+        ]
+      },
+      "m231f": {
+        "action": "fidget",
+        "sprite_id": 10475,
+        "palette_id": 54,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Image1",
+          "Center"
+        ]
+      },
+      "m231n": {
+        "action": "hit",
+        "sprite_id": 10481,
+        "palette_id": 54,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m231s": {
+        "action": "standing",
+        "sprite_id": 10487,
+        "palette_id": 54,
+        "scale": 0.899994,
+        "flags": [
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m231w": {
+        "action": "walk",
+        "sprite_id": 10488,
+        "palette_id": 54,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m231x": {
+        "action": "corpse",
+        "sprite_id": 10496,
+        "palette_id": 54,
+        "scale": 0.899994,
+        "flags": [
+          "First",
+          "Image1",
+          "Center"
+        ]
+      }
+    },
+    "m232": {
+      "m232a": {
+        "action": "attack",
+        "sprite_id": 10497,
+        "palette_id": 55,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m232d": {
+        "action": "death",
+        "sprite_id": 10503,
+        "palette_id": 55,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Image1",
+          "Center"
+        ]
+      },
+      "m232f": {
+        "action": "fidget",
+        "sprite_id": 10509,
+        "palette_id": 55,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Image1",
+          "Center"
+        ]
+      },
+      "m232n": {
+        "action": "hit",
+        "sprite_id": 10515,
+        "palette_id": 55,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m232s": {
+        "action": "standing",
+        "sprite_id": 10521,
+        "palette_id": 55,
+        "scale": 0.899994,
+        "flags": [
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m232w": {
+        "action": "walk",
+        "sprite_id": 10522,
+        "palette_id": 55,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m232x": {
+        "action": "corpse",
+        "sprite_id": 10530,
+        "palette_id": 55,
+        "scale": 0.899994,
+        "flags": [
+          "First",
+          "Image1",
+          "Center"
+        ]
+      }
+    },
+    "m233": {
+      "m233a": {
+        "action": "attack",
+        "sprite_id": 10531,
+        "palette_id": 233,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m233d": {
+        "action": "death",
+        "sprite_id": 10537,
+        "palette_id": 233,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Image1",
+          "Center"
+        ]
+      },
+      "m233f": {
+        "action": "fidget",
+        "sprite_id": 10543,
+        "palette_id": 233,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Image1",
+          "Center"
+        ]
+      },
+      "m233n": {
+        "action": "hit",
+        "sprite_id": 10549,
+        "palette_id": 233,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m233s": {
+        "action": "standing",
+        "sprite_id": 10555,
+        "palette_id": 233,
+        "scale": 0.899994,
+        "flags": [
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m233w": {
+        "action": "walk",
+        "sprite_id": 10556,
+        "palette_id": 233,
+        "scale": 0.899994,
+        "flags": [
+          "HasMore",
+          "First",
+          "Center",
+          "Mirror5",
+          "Mirror6",
+          "Mirror7"
+        ]
+      },
+      "m233x": {
+        "action": "corpse",
+        "sprite_id": 10564,
+        "palette_id": 233,
+        "scale": 0.899994,
+        "flags": [
+          "First",
+          "Image1",
+          "Center"
+        ]
+      }
+    }
+  },
+  "variants": {
+    "54": {
+      "name": "Initiate of the Sword / green",
+      "exact_base_bypass": true
+    },
+    "55": {
+      "name": "Champion of the Sword / blue",
+      "chroma_vector": [
+        0.2,
+        0.18,
+        1.0
+      ]
+    },
+    "233": {
+      "name": "Master of the Sword / red",
+      "chroma_vector": [
+        1.0,
+        0.12,
+        0.27
+      ]
+    }
+  },
+  "regions": {
+    "mask_r": "soft green textile/plume coverage; excludes neutral heraldry, metals and warm leather"
+  },
+  "recolor": {
+    "color_space": "sRGB encoded RGB normalized 0..1; mask is linear coverage",
+    "operation": "n=min(R,B); c=max(0,G-n); target=n+c*chroma_vector; output=lerp(base,target,mask); alpha unchanged",
+    "shading": "fixed chromatic ramp over retained neutral component; no per-frame normalization",
+    "reference_implementation": "process.py:recolor"
+  },
+  "filtering": {
+    "alpha": "straight RGBA PNG; premultiply for resampling",
+    "transparent_color_extrusion_px": 3,
+    "crop_padding_px": 4,
+    "atlas_gutter_px": 2,
+    "mipmaps": false,
+    "mask_color_space": "linear"
+  },
+  "memory_bytes": {
+    "original_all_frames_rgba_one_palette": 29884416,
+    "enhanced_tight_base": 46315588,
+    "enhanced_atlas_base": 51230600,
+    "enhanced_atlas_mask_r8": 12807650,
+    "enhanced_shared_base_and_mask": 64038250,
+    "baked_variant_preview_pages_excluded": true
+  },
+  "limits": [
+    "AI artwork interprets low-resolution detail; microdetails may vary across poses.",
+    "Masks and ramps approximate native palette appearances on new artwork, not indexed-pixel identity.",
+    "2x is the export tier; raw batches have differing per-pose detail. No renderer integration in this package."
+  ]
+}

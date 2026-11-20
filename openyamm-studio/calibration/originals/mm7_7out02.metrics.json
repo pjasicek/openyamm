@@ -1,0 +1,185 @@
+{
+  "map": "7out02.odm",
+  "world": "mm7",
+  "kind": "outdoor",
+  "structure": {
+    "bmodels": 114,
+    "bmodel_faces": 5639,
+    "exits": 3
+  },
+  "scale": {
+    "building_footprint": {
+      "count": 114,
+      "min": 2660,
+      "q1": 36864,
+      "median": 286720,
+      "q3": 700416,
+      "max": 24920064
+    },
+    "building_height": {
+      "count": 114,
+      "min": 32,
+      "q1": 256,
+      "median": 400,
+      "q3": 608,
+      "max": 2176
+    },
+    "nearest_building_gap": {
+      "count": 114,
+      "min": 0,
+      "q1": 121,
+      "median": 646,
+      "q3": 815,
+      "max": 9428
+    },
+    "relief_range": 4000
+  },
+  "mechanisms": {
+    "bound_events": 97,
+    "door_events": 0,
+    "trap_events": 5,
+    "local_teleports": 0,
+    "chest_events": 12,
+    "fixed_actors": 142
+  },
+  "density": {
+    "spawn_points": 43,
+    "decorations": 570
+  },
+  "palette": {
+    "textures": 137,
+    "textures_by_faces": [{
+        "name": "ch1b1",
+        "share": 0.077
+      },
+      {
+        "name": "trim2_32a",
+        "share": 0.073
+      },
+      {
+        "name": "ch1b1s",
+        "share": 0.06
+      },
+      {
+        "name": "trim2_32",
+        "share": 0.057
+      },
+      {
+        "name": "chb1",
+        "share": 0.056
+      },
+      {
+        "name": "hhm3ch",
+        "share": 0.054
+      },
+      {
+        "name": "trim11_32",
+        "share": 0.054
+      },
+      {
+        "name": "7t1books1",
+        "share": 0.044
+      },
+      {
+        "name": "chb1s",
+        "share": 0.039
+      },
+      {
+        "name": "7trimd",
+        "share": 0.029
+      },
+      {
+        "name": "7t1butts",
+        "share": 0.024
+      },
+      {
+        "name": "dirt",
+        "share": 0.021
+      }
+    ],
+    "decoration_kinds": 27,
+    "decorations_by_count": [{
+        "name": "7tree16",
+        "share": 0.275
+      },
+      {
+        "name": "flower01",
+        "share": 0.256
+      },
+      {
+        "name": "7tree13",
+        "share": 0.179
+      },
+      {
+        "name": "flower06",
+        "share": 0.089
+      },
+      {
+        "name": "flower02",
+        "share": 0.06
+      },
+      {
+        "name": "7rock09",
+        "share": 0.035
+      },
+      {
+        "name": "7tree22",
+        "share": 0.025
+      },
+      {
+        "name": "7rock01",
+        "share": 0.019
+      },
+      {
+        "name": "7rock02",
+        "share": 0.012
+      },
+      {
+        "name": "tree38",
+        "share": 0.012
+      },
+      {
+        "name": "7rock08",
+        "share": 0.005
+      },
+      {
+        "name": "dec24x",
+        "share": 0.005
+      }
+    ],
+    "tile_kinds": 99,
+    "tiles_by_cells": [{
+        "name": "1",
+        "share": 0.188
+      },
+      {
+        "name": "90",
+        "share": 0.186
+      },
+      {
+        "name": "3",
+        "share": 0.057
+      },
+      {
+        "name": "2",
+        "share": 0.049
+      },
+      {
+        "name": "91",
+        "share": 0.043
+      },
+      {
+        "name": "92",
+        "share": 0.042
+      },
+      {
+        "name": "162",
+        "share": 0.038
+      },
+      {
+        "name": "93",
+        "share": 0.036
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "family": "nobl",
+  "title": "MM6 Nobleman",
+  "descriptor_ids": [
+    586,
+    587,
+    588
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 778,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original MM6 nobleman B, an older fair-skinned male with a short grey moustache with shoulder-length grey hair. Native dark almost-black close-fitting sleeves and trousers, blue-violet long pointed front tabard, brighter deep-blue shoulder mantle and long blue cape, silver braid edging on the shoulder mantle, gold belt buckle and a second diagonal belt, original small gold chest chain/pendant. Gold-trimmed silver greaves and kneecaps, dark shoes, gold wrist details. Original broad straight silver sword with gold edging and large angular gold crossguard held at his side when the source shows it. Preserve native regal but ordinary face, shoulder width, armor arrangement, dark clothing, sword position and all details visible in the reference. Do not invent a crown, full beard, new armor plates, weapons or decoration.",
+  "regions": "Generate ONLY blue palette B: blue cape/mantle and blue-violet tabard, with dark neutral sleeves/trousers. Keep silver/gold equipment and natural face/grey hair distinct and protected.",
+  "variant_names": {
+    "777": "Nobleman A / olive and burgundy",
+    "778": "Nobleman B / blue",
+    "779": "Nobleman C / magenta and dark tabard"
+  },
+  "material_module": "materials.py"
+}

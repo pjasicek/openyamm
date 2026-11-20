@@ -1,0 +1,1734 @@
+[
+ {
+  "name": "6torch01",
+  "count": 3441,
+  "maps": 37,
+  "hint": "torch",
+  "flags": "FlickerAverage",
+  "light": "256",
+  "frames": 10,
+  "anim": 10,
+  "scale": 1.0,
+  "tex": "torch01",
+  "file": "torch01_p546.png",
+  "logical": [
+   64,
+   128
+  ],
+  "sprite": "6torch01"
+ },
+ {
+  "name": "trchb00",
+  "count": 755,
+  "maps": 13,
+  "hint": "torch",
+  "flags": "FlickerAverage",
+  "light": "256",
+  "frames": 6,
+  "anim": 6,
+  "scale": 1.0,
+  "tex": "trchb00",
+  "file": "trchb00_p546.png",
+  "logical": [
+   26,
+   130
+  ],
+  "sprite": "trchb00"
+ },
+ {
+  "name": "smlbarel",
+  "count": 152,
+  "maps": 17,
+  "hint": "keg",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "smlbarel",
+  "file": "smlbarel_p547.png",
+  "logical": [
+   65,
+   89
+  ],
+  "sprite": "smlbarel"
+ },
+ {
+  "name": "bigbarel",
+  "count": 135,
+  "maps": 13,
+  "hint": "barrel",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 0.799988,
+  "tex": "bigbarel",
+  "file": "bigbarel_p547.png",
+  "logical": [
+   111,
+   146
+  ],
+  "sprite": "bigbarel"
+ },
+ {
+  "name": "bag_a",
+  "count": 123,
+  "maps": 14,
+  "hint": "bag",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 0.599991,
+  "tex": "bag_a",
+  "file": "bag_a_p547.png",
+  "logical": [
+   86,
+   79
+  ],
+  "sprite": "bag_a"
+ },
+ {
+  "name": "brazir2f",
+  "count": 111,
+  "maps": 2,
+  "hint": "brazier",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "brazir2f",
+  "file": "brazir2f_p546.png",
+  "logical": [
+   50,
+   150
+  ],
+  "sprite": "brazir2f"
+ },
+ {
+  "name": "brnrock0",
+  "count": 106,
+  "maps": 5,
+  "hint": "burning rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": 6,
+  "scale": 1.0,
+  "tex": "brnrock0",
+  "file": "brnrock0_p546.png",
+  "logical": [
+   126,
+   169
+  ],
+  "sprite": "brnrock0"
+ },
+ {
+  "name": "sklplrev",
+  "count": 86,
+  "maps": 10,
+  "hint": "skull pile",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "sklplrev",
+  "file": "sklplrev_p547.png",
+  "logical": [
+   214,
+   153
+  ],
+  "sprite": "sklplrev"
+ },
+ {
+  "name": "torch01",
+  "count": 75,
+  "maps": 2,
+  "hint": "torch",
+  "flags": "0",
+  "light": "512",
+  "frames": 8,
+  "anim": 16,
+  "scale": 1.0,
+  "tex": "torch01a",
+  "file": "torch01a_p1.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "torch01"
+ },
+ {
+  "name": "bag01",
+  "count": 74,
+  "maps": 14,
+  "hint": "bag",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "bag01",
+  "file": "bag01_p547.png",
+  "logical": [
+   69,
+   92
+  ],
+  "sprite": "bag01"
+ },
+ {
+  "name": "floursac",
+  "count": 65,
+  "maps": 9,
+  "hint": "sack",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "floursac",
+  "file": "floursac_p547.png",
+  "logical": [
+   92,
+   82
+  ],
+  "sprite": "floursac"
+ },
+ {
+  "name": "party start",
+  "count": 50,
+  "maps": 50,
+  "hint": "null",
+  "flags": "DontDraw",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 0.0,
+  "tex": "null",
+  "file": null,
+  "logical": null,
+  "sprite": "null"
+ },
+ [
+  "",
+  49,
+  null
+ ],
+ {
+  "name": "cauld00",
+  "count": 39,
+  "maps": 5,
+  "hint": "Cauldron",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": 6,
+  "scale": 1.0,
+  "tex": "cauld00",
+  "file": "cauld00_p546.png",
+  "logical": [
+   101,
+   96
+  ],
+  "sprite": "cauld00"
+ },
+ {
+  "name": "flamb00",
+  "count": 33,
+  "maps": 5,
+  "hint": "flambeaux",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": 6,
+  "scale": 1.0,
+  "tex": "flamb00",
+  "file": "flamb00_p546.png",
+  "logical": [
+   58,
+   199
+  ],
+  "sprite": "flamb00"
+ },
+ {
+  "name": "corinth",
+  "count": 32,
+  "maps": 2,
+  "hint": "column",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.799988,
+  "tex": "corinth",
+  "file": "corinth_p546.png",
+  "logical": [
+   56,
+   253
+  ],
+  "sprite": "corinth"
+ },
+ {
+  "name": "crystl0",
+  "count": 32,
+  "maps": 7,
+  "hint": "crystal",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": 33,
+  "scale": 1.0,
+  "tex": "crystl0",
+  "file": "crystl0_p549.png",
+  "logical": [
+   113,
+   92
+  ],
+  "sprite": "crystl0"
+ },
+ {
+  "name": "dec04",
+  "count": 30,
+  "maps": 7,
+  "hint": "campfire",
+  "flags": "0",
+  "light": "128",
+  "frames": 8,
+  "anim": 16,
+  "scale": 1.0,
+  "tex": "dec04a",
+  "file": "dec04a_p8.png",
+  "logical": [
+   171,
+   128
+  ],
+  "sprite": "dec04"
+ },
+ {
+  "name": "torchnf",
+  "count": 29,
+  "maps": 3,
+  "hint": "torch",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "torchnf",
+  "file": "torchnf_p546.png",
+  "logical": [
+   23,
+   74
+  ],
+  "sprite": "torchnf"
+ },
+ {
+  "name": "bucket",
+  "count": 28,
+  "maps": 11,
+  "hint": "bucket",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "bucket",
+  "file": "bucket_p547.png",
+  "logical": [
+   63,
+   67
+  ],
+  "sprite": "bucket"
+ },
+ {
+  "name": "trasheap",
+  "count": 28,
+  "maps": 4,
+  "hint": "trash heap",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "trasheap",
+  "file": "trasheap_p547.png",
+  "logical": [
+   256,
+   138
+  ],
+  "sprite": "trasheap"
+ },
+ {
+  "name": "crclstr",
+  "count": 21,
+  "maps": 5,
+  "hint": "crystal",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 3,
+  "scale": 1.0,
+  "tex": "crclstr",
+  "file": "crclstr_p142.png",
+  "logical": [
+   159,
+   128
+  ],
+  "sprite": "crclstr"
+ },
+ {
+  "name": "scon200",
+  "count": 20,
+  "maps": 1,
+  "hint": "sconce",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": 12,
+  "scale": 1.0,
+  "tex": "scon200",
+  "file": "scon200_p546.png",
+  "logical": [
+   54,
+   127
+  ],
+  "sprite": "scon200"
+ },
+ {
+  "name": "bonecage",
+  "count": 19,
+  "maps": 4,
+  "hint": "bone cage",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "bonecage",
+  "file": "bonecage_p546.png",
+  "logical": [
+   141,
+   250
+  ],
+  "sprite": "bonecage"
+ },
+ {
+  "name": "crys6",
+  "count": 17,
+  "maps": 5,
+  "hint": "crystal",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "crys6",
+  "file": "crys6_p142.png",
+  "logical": [
+   150,
+   98
+  ],
+  "sprite": "crys6"
+ },
+ {
+  "name": "6rock01",
+  "count": 17,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok1",
+  "file": "rok1_p142.png",
+  "logical": [
+   123,
+   99
+  ],
+  "sprite": "rok1"
+ },
+ {
+  "name": "crys5",
+  "count": 15,
+  "maps": 5,
+  "hint": "crystal",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "crys5",
+  "file": "crys5_p142.png",
+  "logical": [
+   188,
+   77
+  ],
+  "sprite": "crys5"
+ },
+ {
+  "name": "stlmite2",
+  "count": 9,
+  "maps": 1,
+  "hint": "stalagmite",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "stlmite2",
+  "file": "stlmite2_p142.png",
+  "logical": [
+   89,
+   190
+  ],
+  "sprite": "stlmite2"
+ },
+ {
+  "name": "hngncge2",
+  "count": 8,
+  "maps": 4,
+  "hint": "hanging cage",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "hngncge2",
+  "file": "hngncge2_p546.png",
+  "logical": [
+   133,
+   249
+  ],
+  "sprite": "hngncge2"
+ },
+ {
+  "name": "ckfyr00",
+  "count": 7,
+  "maps": 4,
+  "hint": "fire",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": 18,
+  "scale": 1.0,
+  "tex": "ckfyr00",
+  "file": "ckfyr00_p546.png",
+  "logical": [
+   132,
+   222
+  ],
+  "sprite": "ckfyr00"
+ },
+ {
+  "name": "mushrm02",
+  "count": 6,
+  "maps": 2,
+  "hint": "mushroom",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "mushrm02",
+  "file": "mushrm02_p547.png",
+  "logical": [
+   62,
+   87
+  ],
+  "sprite": "mushrm02"
+ },
+ {
+  "name": "torch03",
+  "count": 6,
+  "maps": 1,
+  "hint": "torch",
+  "flags": "0",
+  "light": "512",
+  "frames": 8,
+  "anim": 16,
+  "scale": 1.0,
+  "tex": "torch03a",
+  "file": "torch03a_p1.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "torch03"
+ },
+ {
+  "name": "6rock08",
+  "count": 6,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok8",
+  "file": "rok8_p142.png",
+  "logical": [
+   128,
+   85
+  ],
+  "sprite": "rok8"
+ },
+ {
+  "name": "cndlab0",
+  "count": 6,
+  "maps": 1,
+  "hint": "candle",
+  "flags": "0",
+  "light": "0",
+  "frames": 4,
+  "anim": 4,
+  "scale": 0.599991,
+  "tex": "cndlab0",
+  "file": "cndlab0_p546.png",
+  "logical": [
+   60,
+   60
+  ],
+  "sprite": "cndlab0"
+ },
+ {
+  "name": "stlmite1",
+  "count": 5,
+  "maps": 1,
+  "hint": "stalagmite",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "stlmite1",
+  "file": "stlmite1_p142.png",
+  "logical": [
+   101,
+   208
+  ],
+  "sprite": "stlmite1"
+ },
+ [
+  "floursack",
+  5,
+  null
+ ],
+ {
+  "name": "6tree29",
+  "count": 5,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "6tree29",
+  "file": "6tree29_p140.png",
+  "logical": [
+   72,
+   117
+  ],
+  "sprite": "6tree29"
+ },
+ {
+  "name": "6rock09",
+  "count": 5,
+  "maps": 2,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok9",
+  "file": "rok9_p142.png",
+  "logical": [
+   126,
+   63
+  ],
+  "sprite": "rok9"
+ },
+ {
+  "name": "6rock12",
+  "count": 5,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok12",
+  "file": "rok12_p142.png",
+  "logical": [
+   111,
+   87
+  ],
+  "sprite": "rok12"
+ },
+ {
+  "name": "crysdisc",
+  "count": 5,
+  "maps": 2,
+  "hint": "Crystal Disk",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "crysdisc",
+  "file": "crysdisc_p549.png",
+  "logical": [
+   40,
+   15
+  ],
+  "sprite": "crysdisc"
+ },
+ {
+  "name": "6tree09",
+  "count": 5,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.599991,
+  "tex": "6tree09",
+  "file": "6tree09_p140.png",
+  "logical": [
+   200,
+   320
+  ],
+  "sprite": "6tree09"
+ },
+ [
+  "torch2",
+  4,
+  null
+ ],
+ {
+  "name": "mcryst01",
+  "count": 4,
+  "maps": 4,
+  "hint": "Memory Crystal",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": 24,
+  "scale": 1.0,
+  "tex": "mcryst01",
+  "file": "mcryst01_p549.png",
+  "logical": [
+   44,
+   65
+  ],
+  "sprite": "mcryst01"
+ },
+ {
+  "name": "empty",
+  "count": 4,
+  "maps": 2,
+  "hint": "empty cage",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "empty",
+  "file": "empty_p546.png",
+  "logical": [
+   133,
+   249
+  ],
+  "sprite": "empty"
+ },
+ {
+  "name": "6rock06",
+  "count": 3,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok6",
+  "file": "rok6_p142.png",
+  "logical": [
+   128,
+   92
+  ],
+  "sprite": "rok6"
+ },
+ {
+  "name": "stlmite3",
+  "count": 3,
+  "maps": 1,
+  "hint": "stalagmite",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "stlmite3",
+  "file": "stlmite3_p142.png",
+  "logical": [
+   137,
+   210
+  ],
+  "sprite": "stlmite3"
+ },
+ {
+  "name": "corpse16",
+  "count": 3,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.699997,
+  "tex": "corpse16",
+  "file": "corpse16_p143.png",
+  "logical": [
+   130,
+   198
+  ],
+  "sprite": "corpse16"
+ },
+ {
+  "name": "chndlir0",
+  "count": 3,
+  "maps": 1,
+  "hint": "chandelier",
+  "flags": "0",
+  "light": "0",
+  "frames": 6,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "chndlir0",
+  "file": "chndlir0_p546.png",
+  "logical": [
+   249,
+   181
+  ],
+  "sprite": "chndlir0"
+ },
+ {
+  "name": "rock02",
+  "count": 3,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "rock02",
+  "file": "rock02_p336.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "rock02"
+ },
+ {
+  "name": "mushrm03",
+  "count": 3,
+  "maps": 1,
+  "hint": "mushroom",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "mushrm03",
+  "file": "mushrm03_p547.png",
+  "logical": [
+   62,
+   79
+  ],
+  "sprite": "mushrm03"
+ },
+ {
+  "name": "6rock02",
+  "count": 2,
+  "maps": 2,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok2",
+  "file": "rok2_p142.png",
+  "logical": [
+   175,
+   116
+  ],
+  "sprite": "rok2"
+ },
+ {
+  "name": "mushrm05",
+  "count": 2,
+  "maps": 1,
+  "hint": "mushroom",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "mushrm05",
+  "file": "mushrm05_p547.png",
+  "logical": [
+   107,
+   88
+  ],
+  "sprite": "mushrm05"
+ },
+ [
+  "barrel",
+  2,
+  null
+ ],
+ {
+  "name": "corpse09",
+  "count": 2,
+  "maps": 2,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.399994,
+  "tex": "corpse09",
+  "file": "corpse09_p143.png",
+  "logical": [
+   92,
+   256
+  ],
+  "sprite": "corpse09"
+ },
+ {
+  "name": "torskul0",
+  "count": 2,
+  "maps": 2,
+  "hint": "torch",
+  "flags": "0",
+  "light": "256",
+  "frames": 9,
+  "anim": 9,
+  "scale": 1.0,
+  "tex": "torskul0",
+  "file": "torskul0_p546.png",
+  "logical": [
+   72,
+   179
+  ],
+  "sprite": "torskul0"
+ },
+ {
+  "name": "6tree25",
+  "count": 2,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "6tree25",
+  "file": "6tree25_p140.png",
+  "logical": [
+   148,
+   287
+  ],
+  "sprite": "6tree25"
+ },
+ {
+  "name": "6rock03",
+  "count": 2,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok3",
+  "file": "rok3_p142.png",
+  "logical": [
+   162,
+   53
+  ],
+  "sprite": "rok3"
+ },
+ {
+  "name": "6tree03",
+  "count": 2,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.5,
+  "tex": "6tree03",
+  "file": "6tree03_p140.png",
+  "logical": [
+   236,
+   242
+  ],
+  "sprite": "6tree03"
+ },
+ {
+  "name": "6flower01",
+  "count": 2,
+  "maps": 1,
+  "hint": "flowers",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.599991,
+  "tex": "6flower01",
+  "file": "6flower01_p140.png",
+  "logical": [
+   78,
+   55
+  ],
+  "sprite": "6flower01"
+ },
+ {
+  "name": "6tree28",
+  "count": 2,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "6tree28",
+  "file": "6tree28_p140.png",
+  "logical": [
+   152,
+   287
+  ],
+  "sprite": "6tree28"
+ },
+ {
+  "name": "corpse07",
+  "count": 2,
+  "maps": 2,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.799988,
+  "tex": "corpse07",
+  "file": "corpse07_p143.png",
+  "logical": [
+   64,
+   255
+  ],
+  "sprite": "corpse07"
+ },
+ {
+  "name": "corpse",
+  "count": 2,
+  "maps": 2,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.799988,
+  "tex": "corpse",
+  "file": "corpse_p143.png",
+  "logical": [
+   53,
+   256
+  ],
+  "sprite": "corpse"
+ },
+ {
+  "name": "scon100",
+  "count": 2,
+  "maps": 1,
+  "hint": "sconce",
+  "flags": "0",
+  "light": "0",
+  "frames": 7,
+  "anim": 14,
+  "scale": 1.0,
+  "tex": "scon100",
+  "file": "scon100_p546.png",
+  "logical": [
+   61,
+   98
+  ],
+  "sprite": "scon100"
+ },
+ {
+  "name": "corpse18",
+  "count": 2,
+  "maps": 2,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.799988,
+  "tex": "corpse18",
+  "file": "corpse18_p143.png",
+  "logical": [
+   105,
+   254
+  ],
+  "sprite": "corpse18"
+ },
+ {
+  "name": "6rock05",
+  "count": 2,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok5",
+  "file": "rok5_p142.png",
+  "logical": [
+   209,
+   107
+  ],
+  "sprite": "rok5"
+ },
+ {
+  "name": "foodbowl",
+  "count": 2,
+  "maps": 2,
+  "hint": "bowl",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "foodbowl",
+  "file": "foodbowl_p547.png",
+  "logical": [
+   54,
+   32
+  ],
+  "sprite": "foodbowl"
+ },
+ {
+  "name": "rock01",
+  "count": 2,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "rock01",
+  "file": "rock01_p336.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "rock01"
+ },
+ {
+  "name": "rock04",
+  "count": 2,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "rock04",
+  "file": "rock04_p336.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "rock04"
+ },
+ {
+  "name": "rock03",
+  "count": 2,
+  "maps": 1,
+  "hint": "boulder",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "rock03",
+  "file": "rock03_p336.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "rock03"
+ },
+ {
+  "name": "6rock04",
+  "count": 1,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok4",
+  "file": "rok4_p142.png",
+  "logical": [
+   169,
+   111
+  ],
+  "sprite": "rok4"
+ },
+ {
+  "name": "mushrm01",
+  "count": 1,
+  "maps": 1,
+  "hint": "mushroom",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 1.0,
+  "tex": "mushrm01",
+  "file": "mushrm01_p547.png",
+  "logical": [
+   77,
+   106
+  ],
+  "sprite": "mushrm01"
+ },
+ [
+  "keg",
+  1,
+  null
+ ],
+ {
+  "name": "6flower07",
+  "count": 1,
+  "maps": 1,
+  "hint": "flowers",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.899994,
+  "tex": "6flower07",
+  "file": "6flower07_p140.png",
+  "logical": [
+   102,
+   84
+  ],
+  "sprite": "6flower07"
+ },
+ {
+  "name": "corpse01",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": null,
+  "scale": 0.399994,
+  "tex": "corpse01",
+  "file": "corpse01_p143.png",
+  "logical": [
+   158,
+   118
+  ],
+  "sprite": "corpse01"
+ },
+ {
+  "name": "6tree19",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.5,
+  "tex": "6tree19",
+  "file": "6tree19_p140.png",
+  "logical": [
+   205,
+   208
+  ],
+  "sprite": "6tree19"
+ },
+ {
+  "name": "6flower08",
+  "count": 1,
+  "maps": 1,
+  "hint": "flowers",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.599991,
+  "tex": "6flower08",
+  "file": "6flower08_p140.png",
+  "logical": [
+   213,
+   146
+  ],
+  "sprite": "6flower08"
+ },
+ {
+  "name": "6tree22",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "6tree22",
+  "file": "6tree22_p140.png",
+  "logical": [
+   200,
+   211
+  ],
+  "sprite": "6tree22"
+ },
+ {
+  "name": "6tree26",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "6tree26",
+  "file": "6tree26_p140.png",
+  "logical": [
+   133,
+   128
+  ],
+  "sprite": "6tree26"
+ },
+ {
+  "name": "6tree07",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.799988,
+  "tex": "6tree07",
+  "file": "6tree07_p140.png",
+  "logical": [
+   202,
+   193
+  ],
+  "sprite": "6tree07"
+ },
+ {
+  "name": "6tree17",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 2.0,
+  "tex": "6tree17",
+  "file": "6tree17_p140.png",
+  "logical": [
+   221,
+   220
+  ],
+  "sprite": "6tree17"
+ },
+ {
+  "name": "sta1a",
+  "count": 1,
+  "maps": 1,
+  "hint": "Statue",
+  "flags": "0",
+  "light": "0",
+  "frames": 3,
+  "anim": 9,
+  "scale": 1.0,
+  "tex": "fount1",
+  "file": "fount1_p873.png",
+  "logical": [
+   200,
+   266
+  ],
+  "sprite": "sta1a"
+ },
+ {
+  "name": "6rock13",
+  "count": 1,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "rok13",
+  "file": "rok13_p142.png",
+  "logical": [
+   124,
+   52
+  ],
+  "sprite": "rok13"
+ },
+ {
+  "name": "6flower11",
+  "count": 1,
+  "maps": 1,
+  "hint": "flowers",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.599991,
+  "tex": "6flower11",
+  "file": "6flower11_p140.png",
+  "logical": [
+   74,
+   59
+  ],
+  "sprite": "6flower11"
+ },
+ {
+  "name": "6flower02",
+  "count": 1,
+  "maps": 1,
+  "hint": "flowers",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.599991,
+  "tex": "6flower02",
+  "file": "6flower02_p140.png",
+  "logical": [
+   164,
+   111
+  ],
+  "sprite": "6flower02"
+ },
+ {
+  "name": "6tree27",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "6tree27",
+  "file": "6tree27_p140.png",
+  "logical": [
+   168,
+   292
+  ],
+  "sprite": "6tree27"
+ },
+ {
+  "name": "swptree3",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.599991,
+  "tex": "swptree3",
+  "file": "swptree3_p120.png",
+  "logical": [
+   210,
+   193
+  ],
+  "sprite": "swptree3"
+ },
+ {
+  "name": "swptree1",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.799988,
+  "tex": "swptree1",
+  "file": "swptree1_p120.png",
+  "logical": [
+   112,
+   211
+  ],
+  "sprite": "swptree1"
+ },
+ {
+  "name": "6tree30",
+  "count": 1,
+  "maps": 1,
+  "hint": "tree",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 1.0,
+  "tex": "6tree30",
+  "file": "6tree30_p140.png",
+  "logical": [
+   41,
+   60
+  ],
+  "sprite": "6tree30"
+ },
+ {
+  "name": "corpse03",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.699997,
+  "tex": "corpse03",
+  "file": "corpse03_p143.png",
+  "logical": [
+   151,
+   236
+  ],
+  "sprite": "corpse03"
+ },
+ {
+  "name": "corpse04",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.699997,
+  "tex": "corpse04",
+  "file": "corpse04_p143.png",
+  "logical": [
+   195,
+   253
+  ],
+  "sprite": "corpse04"
+ },
+ {
+  "name": "corpse05",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.699997,
+  "tex": "corpse05",
+  "file": "corpse05_p143.png",
+  "logical": [
+   187,
+   199
+  ],
+  "sprite": "corpse05"
+ },
+ {
+  "name": "corpse08",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.699997,
+  "tex": "corpse08",
+  "file": "corpse08_p143.png",
+  "logical": [
+   93,
+   255
+  ],
+  "sprite": "corpse08"
+ },
+ {
+  "name": "corpse15",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.699997,
+  "tex": "corpse15",
+  "file": "corpse15_p143.png",
+  "logical": [
+   57,
+   253
+  ],
+  "sprite": "corpse15"
+ },
+ {
+  "name": "corpse10",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.399994,
+  "tex": "corpse10",
+  "file": "corpse10_p143.png",
+  "logical": [
+   117,
+   317
+  ],
+  "sprite": "corpse10"
+ },
+ {
+  "name": "corpse11",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.699997,
+  "tex": "corpse11",
+  "file": "corpse11_p143.png",
+  "logical": [
+   55,
+   317
+  ],
+  "sprite": "corpse11"
+ },
+ {
+  "name": "corpse14",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.799988,
+  "tex": "corpse14",
+  "file": "corpse14_p143.png",
+  "logical": [
+   145,
+   254
+  ],
+  "sprite": "corpse14"
+ },
+ {
+  "name": "corpse02",
+  "count": 1,
+  "maps": 1,
+  "hint": "corpse",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 1,
+  "scale": 0.849991,
+  "tex": "corpse02",
+  "file": "corpse02_p143.png",
+  "logical": [
+   253,
+   150
+  ],
+  "sprite": "corpse02"
+ },
+ {
+  "name": "rock06",
+  "count": 1,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "rock06",
+  "file": "rock06_p336.png",
+  "logical": [
+   64,
+   64
+  ],
+  "sprite": "rock06"
+ },
+ {
+  "name": "rock11",
+  "count": 1,
+  "maps": 1,
+  "hint": "rock",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "rock11",
+  "file": "rock11_p336.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "rock11"
+ },
+ {
+  "name": "rock10",
+  "count": 1,
+  "maps": 1,
+  "hint": "boulder",
+  "flags": "0",
+  "light": "0",
+  "frames": 1,
+  "anim": 2,
+  "scale": 1.0,
+  "tex": "rock10",
+  "file": "rock10_p336.png",
+  "logical": [
+   128,
+   128
+  ],
+  "sprite": "rock10"
+ }
+]

@@ -1,0 +1,39 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- capture: touch-wide
+- click:
+  - 1575.62
+  - 298.12
+- capture: touch-wide-followers
+- click:
+  - 1575.62
+  - 298.12
+- click:
+  - 106.11
+  - 807.15
+- capture: touch-wide-turn
+- click:
+  - 106.11
+  - 807.15
+- pointer_down:
+  - 1281.66
+  - 598.89
+- capture: touch-wide-attack-held
+- pointer_up:
+  - 1281.66
+  - 598.89
+- click:
+  - 258.65
+  - 807.15
+- wait: 0.5
+- capture: touch-wide-inventory
+- right_down:
+  - 1298.75
+  - 22.5
+- capture: touch-wide-inspect-held
+- right_up:
+  - 1298.75
+  - 22.5
+- key: Escape

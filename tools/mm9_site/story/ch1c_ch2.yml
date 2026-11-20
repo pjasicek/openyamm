@@ -1,0 +1,205 @@
+chapters:
+  - id: 1
+    title: "I: The Six Clans of the Chedian"
+    sections:
+      - title: "Frosgard: Jarl Tryygva Ravenlocks"
+        intro: "Frosgard's harbour is frozen, so the first visit is on foot: walk north from Thronheim (5 days) or from Thjorgard (8 days). Tryygva is in the City Hall on the east side of Frosgard City and wants two things done before he joins."
+        giver: {map: frosgardcity, npc: "Tryygva Ravenlocks"}
+        quests:
+          - quest: defeat-yanmir-the-frost-giant
+            steps:
+              - "Ask Tryygva \"We need your help\", then \"But without your help, the Chedian will perish!\", \"Perhaps we could help?\", \"Tell us about the frost giant\", \"What can we do to help?\" and \"We will do this for you\"."
+              - "Leave Frosgard City by its south road. Take the winding road east and north-east up to the shore below the floating Sky Fort. The teleporter there drops you at the fort's west gate."
+              - "No blow can hurt Yanmir, and he wakes as soon as you walk in. Go up into the north-west wing. The chest in the far west room holds the Sage's Diary, which says the support beams under the hallway to the feast room are rotten."
+              - "The hallway runs south from the feast hall (the big central hall with two pillars and long tables) to the long curved corridor. To reach the basement under it, go to the wedge-shaped room south of the curved corridor (thralls live there). Click the bookcase on its west wall (a secret door that stays open), then take the spiral stair down."
+              - "In the basement, break all six wooden supports. One hit from any weapon or a click on each one does it. They glow until they break. Climb back up."
+              - "Let Yanmir see you in the feast hall, then run south through the hallway's north door and out of its south door without stopping. When he follows you onto the weakened floor, it gives way and he falls (cutscene, 8,000 experience)."
+              - "Return to Tryygva: \"Yanmir the Frost Giant is dead.\""
+            tips:
+              - "Yanmir kicks open any closed door near him. The narrow eastern corridors are the safest place to break line of sight."
+              - "Do not stand in the hallway when the floor drops. A party that falls down the shaft lands on the harbour ice in Frosgard City."
+              - "Optional: Yanmir's Key lies on the floor of the room north-east of the feast hall, on the upper level. It unlocks the seven children's cages (click a child to send it to safety) and the locked doors in front of the second teleporter."
+              - "With Perception 10, the secret bookcase and the hallway's floor glow too."
+              - "Four Forest Giants (level 60) appear in the fort on your next visit after Yanmir's fall."
+            reward: "8,000 experience at the trap; Tryygva pays 18,500 experience and 10,000 gold."
+            maps:
+              - map: yanmirsfort
+                show: [exit, chest, secret, breakable, npc]
+                focus: "Secretdoor"
+                caption: "West gate (entrance); the Sage's Diary chest in the far west room; the secret bookcase south of the curved corridor; the six supports under the hallway south of the feast hall."
+              - map: frosgard
+                show: [exit]
+                focus: "To Yanmir's Fort"
+                caption: "The teleporter to Yanmir's Fort is on the shore east of Frosgard City."
+          - quest: break-up-the-ice-that-surrounds-the-docks
+            steps:
+              - "Ask Tryygva \"Tell us about the frozen sea\", \"What can we do?\" and \"We will do this for you\"."
+              - "Bodvar Elvissen, who makes powder barrels, stands at the west edge of the town. First ask him \"What do you do all the way out here?\", or the delivery topic will not appear."
+              - "Then choose \"Say, you wouldn't mind making a delivery would you?\", \"On the ice just outside the dock.\" and \"Thanks for the tip.\" When the conversation ends, the barrel is on the ice next to the pier."
+              - "Walk to the pier and shoot the barrel (a click also sets it off). It blows up, a cannon under the ice opens up, and the floes break (cutscene, 8,000 experience)."
+              - "Return to Tryygva: \"The ice has been cleared from the docks.\" Once both tasks are reported he offers \"Now that we have done as you asked, will you join us?\" for his pledge (on a later visit: \"We have done as you asked. Will you help us now?\")."
+            tips:
+              - "Both of Bodvar's barrels burst for 100 fire damage to anyone within a few steps. Shoot them from range. You do not need to shoot his demonstration barrel."
+              - "Once the docks are free, boats sail to Frosgard. The dockmaster gives you a boat schedule."
+            reward: "8,000 experience when the ice breaks; Tryygva pays 12,500 experience and 3,000 gold; both tasks done: his pledge."
+            maps:
+              - map: frosgardcity
+                show: [quest, objective, transport, exit]
+                focus: "Powder barrel"
+                caption: "Bodvar on the west edge, Tryygva in the City Hall on the east side, and the barrel's spot on the ice by the pier."
+      - title: "Thronheim: Kira the Cold"
+        intro: "Kira's palace is in the corner of Thronheim City farthest from the land gate, beyond the dock gate. She joins once the Honkies are gone and the Mountain Pass is open."
+        giver: {map: thronheimcity, npc: "Kira the Cold"}
+        quests:
+          - quest: rid-thronheim-of-honk-worshippers
+            steps:
+              - "To get Kira's tasks, say \"There is an army marching towards Thronheim\", \"They are too strong for you\", \"We've been to see Yrsa\", \"Yrsa sent us to unite the Six Clans\", \"We will\" and \"Name your task\". Then choose \"What is the first task?\", \"How?\" and \"We will do this for you\". She only asks you not to kill them."
+              - "Leave by the dock gate. Moenach A'Tryht, the dockmaster, is on the pier just outside. Ask \"We'd like to ask you a favor\", \"We need to send some people away\" and \"Perhaps\", then pick any destination (Beldonia, Guberland or Mendossus)."
+              - "Find the three white-robed Honkies in the north part of the city, near the land gate. Each leaves for the docks when his conversation ends:"
+              - "Muiredach A'Lanth: \"We'd like you to tell us about the Great Honk\", \"Great! Why don't you meet us at the docks?\", \"Some friends of ours also want to hear\"."
+              - "Comgghan A'Feslo: \"We want to know more about the Honkies\", \"Our friends also would like to hear\", \"They work on the docks\"."
+              - "Yoltzin Tor: \"We need your help\", \"We have friends at the docks who would like to hear about you\". The third Honky to leave gives 8,000 experience."
+              - "Report to Kira: \"The Honkies have left.\""
+            tips:
+              - "The Honkies' lines only appear after Moenach has agreed. Do not attack them."
+            reward: "8,000 experience for the third Honky; Kira pays 12,500 experience and 7,000 gold."
+            maps:
+              - map: thronheimcity
+                show: [quest, npc, exit]
+                focus: "Comgghan"
+                caption: "The three Honkies near the land gate; the dock gate leads out to Moenach's pier."
+              - map: thronheim
+                show: [transport, exit]
+                focus: "Moenach"
+                caption: "Moenach stands on the pier west of the city."
+          - quest: find-the-mountain-pass
+            steps:
+              - "Ask Kira \"What is the second task?\" and \"We will find the Mountain Pass for you\"."
+              - "Leave Thronheim City by its land gate and take the exit on the east side of the Thronheim map (3 days' travel)."
+              - "Walk the whole pass. From the entrance in the north-west, go south and around the loop at the bottom, then north up the long eastern branch toward the Thjorgard exit. The quest completes once you have walked past both the start of the pass and a point about two thirds of the way up the eastern branch (12,500 experience)."
+              - "Return to Kira: \"We have found the Mountain Pass.\" Then ask \"We've done as you asked. Now will you join us?\" for her pledge."
+            tips:
+              - "Expect wolves, imps (many Imp Elders), winged mutants, Gezzampts and a few Bigfoots. Killing them all is not required."
+              - "Bone piles in the pass can be searched for loot but may give disease; the stat barrels give a random stat."
+              - "The pass is also a land route between Thronheim and Thjorgard (3 days from each side)."
+            reward: "12,500 experience in the pass; Kira pays 12,500 experience and 12,000 gold; both tasks done: her pledge."
+            maps:
+              - map: mountainpass
+                show: [exit, chest]
+                focus: "To Thjorgard"
+                caption: "Thronheim entrance at the top left, Thjorgard exit at the top right: walk the full route between them."
+              - map: thronheim
+                show: [exit]
+                focus: "To Mountain Pass"
+                caption: "The Mountain Pass exit is on the east side of Thronheim."
+      - title: "The war council"
+        quests:
+          - quest: go-to-thronheim-for-the-war-council
+            requires: "All six pledges: Bjarni, Sigmund, Sven, Markel, Tryygva and Kira."
+            steps:
+              - "Talk to any of the six Jarls and choose \"The clans are united. It is time for the war council.\" The council is set for two weeks from now in Kira's palace in Thronheim."
+              - "You do not have to wait. The next time you enter a Jarl's town (Sturmford, Drangheim, Thjorgard, Guberland, Frosgard or Thronheim City), Kira's messenger Thorolf Ratatoskssen is waiting with bad news, which starts Chapter II."
+              - "The council does not meet until Sturmford and Drangheim have both signed a peace treaty (Chapter II), and this journal note closes then."
+            reward: "The Jarl you tell pays experience and gold (Tryygva or Kira: 12,500 experience and 6,000 gold)."
+  - id: 2
+    title: "II: The Battlefield"
+    intro: "Sturmford and Drangheim go to war with each other before the council can meet. Get them to sign a peace treaty, run Yrsa's errand at the Thing, then follow the Jarls' army to Yorwick."
+    sections:
+      - title: "Peace between Sturmford and Drangheim"
+        intro: "Kira's messenger Thorolf brings the news. Both Jarls blame each other for what you did for them in Chapter I."
+        quests:
+          - quest: stop-the-war-between-sturmford-and-drangheim
+            steps:
+              - "Talk to Thorolf Ratatoskssen in any Jarl's town: \"What is it?\", \"What?! Why?\" and \"We must stop this! Tell Kira we'll find a way to stop the war!\""
+              - "In Sturmford City, ask Jarl Bjarni \"What is the meaning of this?!\", \"Kira has told us you have gone to war with Drangheim!!\" and \"You must stop this war immediately!\". Admit it was your doing (\"They didn't do that, we did!\", \"Sigmund wouldn't join the coalition unless we did\", \"It wasn't their fault\"), then choose \"What would convince you to withdraw your army?\" and \"We will get you that treaty!\""
+              - "In Drangheim City, ask Sigmund the Stressed \"Why have you gone to war with Sturmford?!\", then \"Sturmford didn't do it. We did.\", \"Bjarni said he needed his general\", \"What if we got him to sign a treaty?\" and \"We will get you a treaty.\""
+              - "Neither Jarl will write the treaty, so go to Kira in Thronheim (only after both have agreed): \"We need your help\", \"We need someone to write a peace treaty\" and \"Thank you\"."
+              - "Come back after 6:00 the next morning (resting in town is enough) and ask \"We've returned for the treaty.\" When the conversation ends she gives you the Peace Treaty and 12,000 experience. She advises a neutral place to sign: her palace."
+              - "Show the treaty to both Jarls: Bjarni (\"We have a peace treaty written by Kira herself\", \"You and Sigmund will sign it together in Thronheim\") and Sigmund (\"We have a peace treaty written by Kira the Cold\", \"You and Bjarni will both sign it in Thronheim\")."
+              - "Return to Thronheim City and open the double doors of Kira's hall. The war council convenes (cutscene): the treaty is signed, Kira kills Markel the Great of Guberland, and Forad Darre leaves your party."
+            tips:
+              - "The order between the two Jarls does not matter, but Kira only offers to write the treaty once both have agreed to sign one."
+            reward: "12,000 experience from Kira with the treaty; 12,500 experience when the council convenes (the treaty is taken)."
+            maps:
+              - map: thronheimcity
+                show: [quest, npc, objective, exit]
+                focus: "Kira the Cold"
+                caption: "Kira's hall, with Dain Swordstrong at its door, in the far corner beyond the dock gate."
+              - map: drangheimcity
+                show: [quest, exit]
+                focus: "Sigmund"
+                caption: "Sigmund the Stressed in Drangheim City."
+      - title: "Yrsa's errand: the Thing"
+        intro: "Right after the council, Yrsa the Troll appears in Kira's hall to claim the favour you promised her in the prologue."
+        giver: {map: thronheimcity, npc: "Yrsa the Troll"}
+        quests:
+          - quest: win-a-prize-at-the-thing-for-yrsa-s-daughter
+            steps:
+              - "Talk to Yrsa: \"Yrsa? What do you want?\", \"What? We're a little busy right now.\", \"Alright, what do you need done?\", \"What? You're interrupting us so we can go win some prize?!\" and \"Alright. We will get this prize for you.\" She vanishes when you leave."
+              - "There are two ways to get the prize. You can win it at the Thing in Thjorgard (the steps below), or you can take one from Markel the Great's palace in Guberland City. Markel won six of these dragons at the Thing, and they stand on the shelf under the sign \"Awards Won by Markel\". Kira killed him at the council, so they now sparkle and can be picked up. Taking one counts as winning the prize, but gives none of the Thing's 10,000 experience. Then skip to Bikki in the last step."
+              - "Travel to Thjorgard (by boat, or on foot through the Mountain Pass). From Thjorgard City, follow the road north-west and then west to the clearing around a small pond. That is the Thing."
+              - "Buy tickets from the Huckster by the bell tower: one for 5 gold or ten for 40 gold. The first purchase includes the Game Instructions. Every attempt costs a ticket, and you must win all six games."
+              - "Ding the Bell: click the strike plate at the foot of the bell tower. It uses the selected character's Might, and Might 41 or more always rings the bell. Strongarm the Half-orc: click the half-orc next to the tower. This also uses the selected character's Might, and Might 33 or more always wins."
+              - "Whack-a-Honky: pull the lever, wait for the count of five, then click the geese as they pop up one at a time. You need 8 hits in 10 seconds, so click each one the moment it rises."
+              - "Stones: click a square on the board to start. You place yellow stones and may only place one next to one of your own stones (diagonals count). You win when the opponent has no legal square left. He plays at random, so build a line toward his blue stones and wall him in."
+              - "Runestones: pick one of the five colours (red, blue, yellow, orange, green) from the buttons, click one of the four stones to paint it, set all four, then pull the lever. Flames mark the stones that are right. Keep those and change the others. One ticket gives four checks, and you get a new code after a loss."
+              - "Boat Race: talk to the second Huckster at the pond (\"What sort of game is this?\", \"Sure!\") with a ticket. After the countdown, click your boat. It moves one of ten lengths per click; click again each time it stops, and follow it along the shore. The sixth win gives the Dragon (10,000 experience). Then take it to Bikki Yrsadotir, who stands just outside Thronheim City's land gate: \"We've got all the stuff you asked for.\""
+            tips:
+              - "Select your strongest character before the bell and the half-orc. Might-raising spells and items help."
+              - "Each win counts permanently, so you can play over several visits. The prize is handed over only on a win while Yrsa's errand is active."
+              - "Markel's dragons are on the shelf from the start, but they cannot be taken (and do not sparkle) while he is alive. Only one is needed; Bikki takes one, and any others you take are just keepsakes."
+              - "The Runestones code also changes every time the map loads, so finish a round before you leave."
+              - "Bandits leap from the cliffs the first time you walk the road between the city and the Thing, and thieves come for the party at night near the city."
+            reward: "The Dragon and 10,000 experience at the Thing (none when you take Markel's); Bikki gives 12,500 experience."
+            maps:
+              - map: thjorgard
+                show: [npc, lever, exit]
+                focus: "Huckster"
+                caption: "The Thing in the clearing west of Thjorgard City: ticket seller and bell tower to the north, the stones board in the middle, the Runestones lever to the west, the boat-race judge by the pond."
+              - map: guberlandcity
+                show: [objective, exit]
+                focus: "Markel's awards"
+                caption: "The other way: Markel's awards on the shelf of his palace in Guberland City, free to take after the council."
+              - map: thronheim
+                show: [quest, exit]
+                focus: "Bikki"
+                caption: "Bikki stands just outside the city's land gate."
+          - quest: return-to-war-council
+            steps:
+              - "Once Bikki has the Dragon, go back to Kira's hall in Thronheim City. The Jarls are gone."
+              - "Ask Dain Swordstrong at the door \"Where have they gone?\" and \"Which way were they headed?\" Forad Darre told the Jarls the Beldonian army was camped near Yorwick and led them there. Dain points you to the Connecting Tunnels."
+              - "Talking to Dain only updates the journal. Once Bikki has her prize, entering Yorwick plays the next scene anyway."
+            maps:
+              - map: thronheimcity
+                show: [quest, exit]
+                focus: "Dain Swordstrong"
+                caption: "Dain Swordstrong guards the door of Kira's hall."
+      - title: "To Yorwick"
+        intro: "The Connecting Tunnels under the mountains are the fast way from Thronheim to Yorwick."
+        giver: {map: thronheimcity, npc: "Dain Swordstrong"}
+        quests:
+          - quest: meet-army-in-yorwick
+            steps:
+              - "Leave Thronheim City and take the Connecting Tunnel exit north-west of the city (1 day's travel)."
+              - "Fight through the tunnels, which are full of skeletons, annelids, bloodsuckers, vampires and dagrells. The Spectre Dagrells (level 79) are the most dangerous. The tunnels have two exits to Yorwick; the main one is easiest to reach."
+              - "As you enter Yorwick, a cutscene plays: Sven Forkbeard lies dying on the battlefield. The Jarls' armies were betrayed and slaughtered (18,500 experience)."
+            tips:
+              - "A rock fall blocks the climb to the tunnels' upper exit. One weapon hit or a click clears it."
+              - "In the blue-lit hall, click the grave's two lids to open them. The black chest inside holds the mace Spencer's Obedience."
+            reward: "18,500 experience when the cutscene plays."
+            maps:
+              - map: thronheim
+                show: [exit]
+                focus: "To Connecting Tunnel"
+                caption: "The Connecting Tunnel entrance north-west of Thronheim City."
+          - quest: get-your-army-back
+            steps:
+              - "Sven's last words: the dead warriors are in Arslegard, and only the god Skraelos can let them return to the Chedian."
+              - "Arslegard is the home of the dead, and the only way there is to die."
+              - "Let your party be defeated in any fight. Instead of the game ending, the party wakes in Arslegard City, where Chapter III begins. (Before Sven's death a defeat ends the game, and your autosave loads.)"
+              - "The defeat takes all the gold you carry; banked gold is kept. Deposit your gold at a town bank first: Chapter III needs it for Guberland's game tickets and boats, and Guberland City's bank pays it out."
+            maps:
+              - map: yorwick
+                show: [exit]
+                focus: "To Connecting Tunnel"
+                caption: "You arrive at the Connecting Tunnel exits on Yorwick's east side."

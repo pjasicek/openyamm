@@ -8,6 +8,7 @@
 #include "game/scene/IndoorSceneRuntime.h"
 
 #include <array>
+#include <cmath>
 #include <filesystem>
 #include <utility>
 
@@ -178,6 +179,64 @@ TEST_CASE("Tsantsa pit floor carries the monsters standing on it and resting loo
         CAPTURE(actorIndex);
         CHECK_EQ(world.mapActorAiState(actorIndex)->preciseZ, doctest::Approx(RaisedPitFloorZ).epsilon(0.001));
     }
+}
+
+TEST_CASE("indoor mechanisms advance without the world simulation (turn-based)")
+{
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm6"));
+    GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assets));
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "6t3.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    REQUIRE(loaded.indoorMapData);
+    IndoorMapData map = *loaded.indoorMapData;
+    map.spawns.clear();
+    std::optional<MapDeltaData> delta = loaded.indoorMapDeltaData;
+    REQUIRE(delta);
+    delta->actors.clear();
+
+    Party party;
+    party.setItemTable(&data.getItemTable());
+    GameplayActorService actorService;
+    actorService.bindTables(&data.getMonsterTable(), &data.getSpellTable());
+    IndoorSceneRuntime scene(loaded.map.fileName, loaded.map, map,
+        data.getMonsterTable(), data.getMonsterProjectileTable(), data.getObjectTable(), data.getSpellTable(),
+        data.getItemTable(), data.getChestTable(), party, delta, loaded.eventRuntimeState,
+        loaded.localEventProgram, std::nullopt, &actorService, nullptr);
+    IndoorWorldRuntime &world = scene.worldRuntime();
+    MapDeltaData *pDelta = world.mapDeltaData();
+    REQUIRE(pDelta != nullptr);
+    const MapDeltaDoor *pDoor = nullptr;
+
+    for (const MapDeltaDoor &door : pDelta->doors)
+    {
+        if (door.doorId == 19)
+        {
+            pDoor = &door;
+        }
+    }
+
+    REQUIRE(pDoor != nullptr);
+    EventRuntimeState *pEventState = world.eventRuntimeState();
+    REQUIRE(pEventState != nullptr);
+    EventRuntime::applyMechanismAction(pEventState->mechanisms[19], pDoor, MechanismAction::Trigger);
+    const float initialDistance = pEventState->mechanisms[19].currentDistance;
+    const float initialGameMinutes = world.gameMinutes();
+
+    CHECK(scene.advanceMechanisms(1000.0f / 60.0f));
+
+    for (int step = 1; step < 8 * 60; ++step)
+    {
+        scene.advanceMechanisms(1000.0f / 60.0f);
+    }
+
+    // Door 19 travels its full 496 units while game time stays frozen.
+    CHECK_EQ(std::abs(pEventState->mechanisms[19].currentDistance - initialDistance), doctest::Approx(496.0f));
+    CHECK_FALSE(pEventState->mechanisms[19].isMoving);
+    CHECK_EQ(world.gameMinutes(), doctest::Approx(initialGameMinutes));
+    CHECK_FALSE(scene.advanceMechanisms(1000.0f / 60.0f));
 }
 
 TEST_CASE("Tsantsa safe path keeps the party on the tile under its centre near a trap tile")

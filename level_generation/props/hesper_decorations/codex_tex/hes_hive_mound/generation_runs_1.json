@@ -1,0 +1,235 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: style-transfer.\nAsset type: orthographic FRONT-view albedo texture projection source for the existing Hive mound 3D model.\nProduce one 1024 x 1024 PNG with a genuinely transparent background. This is a precise surface repaint of input image 1, NOT a redesign or new camera view.\nINPUT ROLES: image 1 guide_front.png is the edit target and absolute geometry authority. Image 2 design_reference.png is the approved colour/material/design authority ONLY, not the camera or silhouette. Image 3 concept_crop.png is supporting original concept reference.\nGEOMETRY INVARIANTS: keep guide_front.png's exact 1024 x 1024 canvas, pixel-aligned silhouette/alpha boundary, position, size, orthographic front camera, and every existing shape edge, opening and detail. The silhouette bounds are x=66..957 and y=212..811. Leave all existing surrounding transparent margin unchanged. Preserve the exact jagged outline, spike tips, low polygon geometry, resin ribs, every vent, the large front egg, and the smaller eggs where the guide places them. Never round, smooth, move, resize, add, delete or reinterpret any geometry; do not add little spikes, sacs, holes, tendrils or stones. Nothing outside the guide silhouette and nothing cropped.\nPAINT ONLY THE EXISTING SURFACES: black-violet resin lattice with the reference's rich purple resin colour and organic material detail; orange interior surfaces inside the guide's vents; translucent glowing amber eggs with organic dark branching veins painted within their exact guide-defined surfaces; ivory bone on the existing spikes, with subtle warm bone mottling. Maintain the reference palette, material assignments and biological character without importing its three-quarter composition.\nLIGHTING: texture-source ALBEDO. Even flat shadowless light from the viewer. NO cast shadows, NO ambient-occlusion darkening, NO directional shading, NO strong specular highlights, NO reflections, NO rim light. Convey glossy resin and translucent amber through intrinsic material colour and fine organic pigment variation, not baked lighting. Orange sacs, vents and seams have their glowing colour painted locally with NO bloom, halo, glow spill or light cast onto surrounding materials. No background, no floor, no contact shadow, no text.\nReturn only this single painted FRONT view, not a sheet or comparison. Exact guide silhouette and flat albedo illumination take precedence over the beauty lighting of the reference.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/guide_front.png",
+        "sha256": "384feedbe397473ff15ba52414fdf851aa43a224dc90f53b36d2bc1b53dedc0a"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/design_reference.png",
+        "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/concept_crop.png",
+        "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60"
+      }
+    ],
+    "output": "paint_front_attempt1.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16883-7c8a-7002-8f0c-57cabdc1b9b3/exec-7bc064ee-b42c-478e-9eba-8cf840ce0903.png",
+    "selected": false,
+    "reason": "Not selected: initial return has bright baked specular highlights on amber, wrong native resolution, and a nonidentical silhouette. The sole corrective return reduces highlights.",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_and_colours": "Reference palette present",
+      "flat_even_light": false,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1240,
+        1254
+      ],
+      "guide_alpha_bbox": [
+        66,
+        212,
+        958,
+        812
+      ],
+      "alpha_identical": false,
+      "unresized_return": true
+    },
+    "postprocessing": "None; raw unresized tool return.",
+    "brief_compliant": false,
+    "output_sha256": "fe0d0ff63a4100566efe330098bdc49ae1267be4cb0a5bbdf1b6e9c9d623c74a"
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. The prior attempt was wrong because it returned 1254x1254, altered the exact guide silhouette, and painted strong white glossy highlights. Correct all three. REQUIRED NATIVE OUTPUT SIZE: 1024 x 1024 pixels, the SAME resolution as input image 1. Do not rescale or reframe.\nUse case: style-transfer. Edit target image 1 is guide_front.png, a 1024x1024 RGBA image. It is an immutable geometry stencil. Image 2 design_reference.png gives ONLY intrinsic material colours; image 3 concept_crop.png gives supporting colour reference. DO NOT copy their lighting or rounded shapes.\nPaint strictly inside image 1's existing alpha, retaining its alpha pixel for pixel, every jagged outline pixel and transparent hole; keep the original 1024x1024 canvas unchanged. Object bounds remain x66 through957, y212 through811. Keep all guide edges and feature positions, including angular lattice ribs, exact horn tips, vents and egg outlines. No smoothing, extra parts, geometry interpretation or camera change.\nPaint black-violet resin on the lattice, amber orange and dark branching veins on the eggs, orange inside the vents, and mottled ivory on the spikes. Match the reference's material identity through pigment colour and fine pattern only.\nTHIS IS UNLIT BASE COLOUR / ALBEDO: completely uniform flat shadowless exposure, no baked lighting of any kind. In particular NO WHITE PATCHES or glints on the amber eggs or purple ribs, no specular streaks, reflections, rim lighting, ambient occlusion or cast shadows. Amber is uniformly luminous orange under its dark veins, never shaded to black at the bottom or white at the top. Purple resin maintains an even intrinsic purple-black material colour, without bright white/light-pink edge highlights. Bone is ivory pigment, not a bright reflected gleam. Orange glow does not illuminate neighbours, and has no aura, bloom or halo.\nTrue transparent background; no floor, no background pixels, no shadows outside the guide, no text. Return ONE 1024x1024 RGBA front texture painting with exactly the guide's alpha/geometry.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/guide_front.png",
+        "sha256": "384feedbe397473ff15ba52414fdf851aa43a224dc90f53b36d2bc1b53dedc0a"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/design_reference.png",
+        "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/concept_crop.png",
+        "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60"
+      }
+    ],
+    "output": "paint_front.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16883-7c8a-7002-8f0c-57cabdc1b9b3/exec-fb4c6a53-3632-4d11-9353-447b6e7f784e.png",
+    "selected": true,
+    "brief_compliant": false,
+    "reason": "Selected as the better of the two permitted unresized front returns: substantially reduced white specular highlights and correct material palette. NOT a compliant final: native output remains 1254x1254, alpha/silhouette is not identical to the 1024x1024 guide, some internal edges/details differ, and cavity shading/bright edges remain. Corrective regeneration limit reached.",
+    "checks": {
+      "materials_and_colours": "Black-violet resin, orange/amber sacs and ivory bone match the design palette.",
+      "flat_even_light": false,
+      "lighting_note": "Improved, but still contains cavity shading, uneven sac values and bright rib edges.",
+      "geometry_note": "Broad front layout follows guide; exact silhouette and internal feature identity fail.",
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1240,
+        1234
+      ],
+      "guide_alpha_bbox": [
+        66,
+        212,
+        958,
+        812
+      ],
+      "silhouette_identical": false,
+      "alpha_identical": false,
+      "unresized_return": true
+    },
+    "postprocessing": "None; raw unresized tool return.",
+    "output_sha256": "72aadef95c74c93ad46e828810568f478d6f2abfb0cd13e9905b4c3d7a2946e0"
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: style-transfer.\nAsset type: orthographic TOP-view albedo texture projection source for the existing Hive mound 3D model.\nOutput exactly one 1024 x 1024 PNG with actual transparent background, at native generation resolution. Repaint input image 1 in place. This is NOT a redesign, beauty render or change of camera.\nINPUT ROLES: image 1 guide_top.png is the edit target and absolute geometry/layout authority. Image 2 design_reference.png supplies only approved materials and colours. Image 3 concept_crop.png is supporting original concept reference.\nGEOMETRY LOCK: preserve the guide's exact 1024 x 1024 canvas, alpha boundary, jagged silhouette, overhead orthographic camera, size, placement and every visible edge, opening, ridge, spike and sac. Nontransparent bounds are x=66..957, y=69..954. Maintain every triangular angular outline and all gaps. The broad interlocking lattice ribs, openings, central crown spikes, outer spikes and lower-edge bulges must stay precisely where the TOP guide places them. Paint on the guide's existing surfaces without changing its geometry or their shapes. No added/removed/repositioned/smoothed elements. Do not reconstruct the front view. Do not add a large front-facing egg in the centre. Nothing outside the guide silhouette, nothing cropped; retain surrounding transparent margin.\nSURFACE COLOURS: glossy black-violet resin lattice, glowing orange inside the existing vents, translucent glowing amber eggs/sacs with intrinsic dark organic branching vein patterns, ivory bone on the existing spikes. Use the design reference palette and materials, not its lighting. This is the same object as the reference seen from directly overhead; the TOP guide controls where all material regions lie.\nSTRICT FLAT ALBEDO LIGHTING: uniform, even, shadowless light from viewer. Surface colours only. No cast shadows, no ambient occlusion, no directional light-to-dark shading, no strong specular highlights or bright white gleams, no reflections, no rim light. Resin gloss and amber translucency are suggested by intrinsic fine material pattern, never baked shine. Paint orange components at their glowing colour without light cast on neighbours, bloom, aura or halo. Keep even material values on all sides. No background, floor, scene, text, panels or labels.\nReturn only the single exact-guide painted TOP view. Pixel-aligned geometry and unlit albedo take priority over the three-quarter design reference's beauty lighting.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/guide_top.png",
+        "sha256": "9a6ccd1bfb539662646bfba058a3608103bdfba2ee97ec07010680fb50103be2"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/design_reference.png",
+        "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/concept_crop.png",
+        "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60"
+      }
+    ],
+    "output": "paint_top_attempt1.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16883-7c8a-7002-8f0c-57cabdc1b9b3/exec-01177c3a-a32e-47e1-873b-80488db3c741.png",
+    "selected": false,
+    "brief_compliant": false,
+    "reason": "Not selected: wrong native resolution, nonidentical silhouette and internal details, and baked shiny edges/cavity shading. Sole corrective generation reduces surface shine.",
+    "checks": {
+      "materials_and_colours": "Reference palette present.",
+      "flat_even_light": false,
+      "geometry_note": "Overhead layout broadly follows guide, but exact shape/detail identity fails.",
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1245,
+        1254
+      ],
+      "guide_alpha_bbox": [
+        66,
+        69,
+        958,
+        955
+      ],
+      "silhouette_identical": false,
+      "alpha_identical": false,
+      "unresized_return": true
+    },
+    "postprocessing": "None; raw unresized tool return.",
+    "output_sha256": "e08609d1a6fe88c5b79ab89b713225a7068b594a0bbda20dd88294d313c2bc6e"
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE TOP VIEW REPAINT. Required output: ONE PNG of exactly 1024 x 1024 native pixels with actual transparency. The previous return incorrectly changed resolution and retained baked highlights and cavity shadows.\nInput 1 guide_top.png is a 1024x1024 RGBA image to paint directly. Preserve its canvas and EXACT pixel-for-pixel alpha, outline, size, position, every spike, every lattice edge and every opening. The guide silhouette spans x66..957 and y69..954. Never rescale, reframe, rotate, round edges or change the geometry. This is the orthographic TOP of the mound; retain exactly that viewpoint.\nInput 2 design_reference.png is colour/material reference only, NOT lighting or layout authority. Input 3 concept_crop.png supports the palette. Paint the existing guide surfaces as black-violet resin lattice, orange within the vents, glowing amber sacs with dark organic branching veins, and ivory bone spikes. Do not add or remove a spike, vent, egg, rib, hole or detail.\nFLAT UNLIT ALBEDO, NOT A BEAUTY RENDER: even intrinsic base colour and organic pigment texture only. No bright white gleams, no specular spots, no shiny edge lines, no reflections, no rim light; no dark cast shadows beneath ribs, no ambient occlusion, no directional shading. Keep all resin faces similar black-violet base colour independent of their orientation. Keep sacs locally orange amber without illumination cast onto the ribs and without bloom. Bone is mottled ivory pigment. Remove the reference's lighting completely while preserving its colours and material identity.\nKeep the guide's original jagged low polygon boundaries precisely. Do not replace the guide geometry with a more detailed spherical hive. No new background, no floor, no cast shadow and no text.\nReturn this precise TOP albedo painting at exactly 1024x1024, using the guide's unchanged transparency mask.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/guide_top.png",
+        "sha256": "9a6ccd1bfb539662646bfba058a3608103bdfba2ee97ec07010680fb50103be2"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/design_reference.png",
+        "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_hive_mound/concept_crop.png",
+        "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60"
+      }
+    ],
+    "output": "paint_top.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16883-7c8a-7002-8f0c-57cabdc1b9b3/exec-7df23e9c-6afd-4340-861b-80649eefe306.png",
+    "selected": true,
+    "brief_compliant": false,
+    "reason": "Selected as the better of the two permitted unresized top returns for flatter surface appearance. NOT a compliant final: native output remains larger than requested, silhouette and internal edges/details are not identical to the guide, additional painted openings appear, and cavity shading/bright rib edges remain. Corrective regeneration limit reached.",
+    "checks": {
+      "materials_and_colours": "Black-violet resin, orange/amber sacs and ivory bone match the design palette.",
+      "flat_even_light": false,
+      "lighting_note": "Reduced shine, but cavity shading, bright edge accents and uneven sac values remain.",
+      "geometry_note": "Broad overhead arrangement follows guide; some material boundaries differ and additional small openings appear.",
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        23,
+        1236,
+        1254
+      ],
+      "guide_alpha_bbox": [
+        66,
+        69,
+        958,
+        955
+      ],
+      "silhouette_identical": false,
+      "alpha_identical": false,
+      "unresized_return": true
+    },
+    "postprocessing": "None; raw unresized tool return.",
+    "output_sha256": "c0a60b893a8d00cdaad59ce13c743da86675a64d965df57e737079e22ce67143"
+  }
+]

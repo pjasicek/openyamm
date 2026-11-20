@@ -1,0 +1,512 @@
+[
+  {
+    "id": "bear_three_quarter_v1",
+    "family": "bear_statuette",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+        "sha256": "091aeb6c86d2d476d79625c4386c00578fa1daaabf26806db6e37dec371c0d2b",
+        "size": [
+          632,
+          288
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+        "sha256": "5753da9fb2ee9531455fa60db6338d2071fe1d2f3c4d668cf35480ff325371b6",
+        "size": [
+          291,
+          750
+        ],
+        "mode": "RGB"
+      }
+    ],
+    "tool_mode": "built-in image_gen",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png",
+    "reason": "Superseded: camera remained too close to the native left profile; ears are too tall and pointed, and the rump rises above the shoulders.",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-0965351c-f74f-4c05-85b7-18ea9fb366f7.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/raw/bear_three_quarter_v1.png",
+    "raw_sha256": "4523b890d544d5e161946b850b336287d06c3be23a4b2cfd18e253cc15c96f19",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "visible_bbox_alpha_128": [
+      99,
+      117,
+      1415,
+      938
+    ],
+    "alpha_zero_fraction": 0.5736821492513021,
+    "export_resize_or_padding": "None; raw PNG is a byte-identical copy of the built-in return.",
+    "superseded_by": "bear_three_quarter_v2",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Bear Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\n\nInput 1: native_statuette_x8.png — the ORIGINAL native MM6 sprite's gold statuette, cropped and enlarged 8x with nearest neighbour. This is the design, pose, proportions and silhouette authority. Magenta is background only; the grey strip at the bottom is the top of the pedestal, NOT part of the statuette.\nInput 2: native_full_x3.png — the whole native sprite, enlarged 3x, for context and the complete paw/leg shapes only. The sprite shows the statuette from its anatomical LEFT side, head toward the left of the image. Do not include its marble pedestal.\n\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text. The four feet end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\n\nIdentity from the native sprite: a stocky bear standing square on all four legs in the native walking stance, heavy rounded body, short neck, head held level and low, small round ears, short muzzle, short stubby tail; the shoulders slightly higher than the hips. Keep the sprite's proportions and pose exactly. Sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal. Preserve the low head, broad torso, stout planted legs and the native front/hind paw placement. Use genuinely reconstructed smooth three-dimensional contours and coherent gold shading, not enlarged source pixel blocks.\n\nCamera for this PRIMARY view: FRONT-LEFT THREE-QUARTER, turned exactly about 40 degrees from the sprite's left side profile toward the animal's face (about 50 degrees from straight front), elevated slightly above at about 20 degrees. Show the face and anatomical left flank together, nose points diagonally SCREEN-LEFT toward the viewer. Rotate the camera around the whole fixed statuette; do not turn only the head. Whole figure from ears to all four complete paws and short tail inside frame with generous transparent margins on every side.\n\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. No painted checkerboard, magenta spill, floor or cast shadow.\nTransparency is essential: all pixels outside the single statuette's silhouette have alpha 0 except a narrow antialiased edge. Soft studio light illuminates the object only, with no visible environment, haze, glow or gradient.\nChecks: one statuette; pose, proportions and silhouette as the native sprite; exactly four legs with the visible paws separated as the view permits; short tail present; transparent background; nothing cropped. This selected primary establishes the SAME statuette and pose for two later camera rotations."
+  },
+  {
+    "id": "bear_three_quarter_v2",
+    "family": "bear_statuette",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+        "sha256": "091aeb6c86d2d476d79625c4386c00578fa1daaabf26806db6e37dec371c0d2b",
+        "size": [
+          632,
+          288
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+        "sha256": "5753da9fb2ee9531455fa60db6338d2071fe1d2f3c4d668cf35480ff325371b6",
+        "size": [
+          291,
+          750
+        ],
+        "mode": "RGB"
+      }
+    ],
+    "tool_mode": "built-in image_gen",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png",
+    "reason": "Superseded: small rounded ears and casting improved, but camera still too close to the native left profile rather than the required front-left three-quarter.",
+    "supersedes": [
+      "bear_three_quarter_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-2dc5c6e8-fcd8-46e1-8980-68c544340a33.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/raw/bear_three_quarter_v2.png",
+    "raw_sha256": "78a00dfc40274476d5d4d297400a43501cb13e01b62f8e8991a8cab7885d6b37",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "visible_bbox_alpha_128": [
+      84,
+      111,
+      1413,
+      927
+    ],
+    "alpha_zero_fraction": 0.568230946858724,
+    "export_resize_or_padding": "None; raw PNG is a byte-identical copy of the built-in return.",
+    "superseded_by": "bear_three_quarter_v3",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Bear Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\n\nInput 1: native_statuette_x8.png — ORIGINAL native MM6 sprite, cropped and enlarged 8x. Design, pose, proportions and silhouette authority. Magenta is background; grey strip at bottom belongs to the pedestal and is not the statuette.\nInput 2: native_full_x3.png — whole ORIGINAL native sprite for context and complete feet. The sprite shows the bear's anatomical LEFT side, head SCREEN-LEFT. Exclude the marble pedestal entirely.\n\nReconstruct ONE small solid cast-gold bear figurine. Stocky, heavy rounded body, short neck, head held level and low, small ROUND ears, short muzzle, short stubby tail. Shoulders slightly higher than hips. Same native walking stance: all four stout legs planted squarely on an invisible flat ground plane. Keep exactly the sprite's proportions and paw placement; sculpted, slightly stylised cast-figurine forms, not a photograph of a live bear.\n\nCRITICAL CAMERA: this must be a true FRONT-LEFT THREE-QUARTER modelling view, NOT the supplied sprite's side profile. Orbit the camera 40 degrees from the anatomical LEFT side TOWARD the animal's FACE, equivalent to 50 degrees from straight FRONT. Elevate the camera about 20 degrees above the level of the body. Show a substantial frontal view of the muzzle, forehead and chest together with the bear's LEFT flank. The face points diagonally toward the viewer and to screen-left. There must be obvious depth separation between the near and far shoulders, forelegs and paws; the body's long axis recedes diagonally into the image, rather than lying flat horizontally across the image. Rotate the camera around the entire fixed bear, not just its head. This primary view alone will be sent to a 3D generator.\n\nEars are small rounded semicircular bear ears as in the original sprite, NOT tall pointed ears, not dog ears. Shoulders remain subtly higher than the rump, with a heavy rounded barrel body. Match the native low head and short neck. Do not turn the bear into a dog, a boar, or a realistic furry animal.\n\nPolished, slightly worn yellow gold with crisp sculpted detail, like a museum bronze-casting rendered in gold. Smooth reconstructed contours with coherent subtle casting surface detail, no enlarged pixel blocks. Even soft neutral studio light illuminates the statuette only, no dramatic lighting.\n\nONE complete statuette centred, near-orthographic projection, generous empty transparent margins on all four sides, entire ears, all four feet and short tail in frame. NO base, NO plinth, NO pedestal, NO floor, NO shadow, NO text. Feet end on an invisible flat ground plane.\nDo NOT add gems, armour, saddle, extra limbs or animals; do not change the pose; do not colour anything other than gold; do not crop it.\nGenuine alpha transparency: every exterior pixel alpha 0 except narrow antialiasing. No visible environment, backdrop, painted checkerboard, haze, glow, gradient, magenta spill or cast shadow.\nChecks: one bear figurine; native identity, pose and silhouette; four complete planted legs with paws separated as the camera permits; short stubby tail; true front-left three-quarter camera at 20-degree elevation; transparent background and nothing cropped."
+  },
+  {
+    "id": "bear_three_quarter_v3",
+    "family": "bear_statuette",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+        "sha256": "091aeb6c86d2d476d79625c4386c00578fa1daaabf26806db6e37dec371c0d2b",
+        "size": [
+          632,
+          288
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+        "sha256": "5753da9fb2ee9531455fa60db6338d2071fe1d2f3c4d668cf35480ff325371b6",
+        "size": [
+          291,
+          750
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-2dc5c6e8-fcd8-46e1-8980-68c544340a33.png",
+        "sha256": "78a00dfc40274476d5d4d297400a43501cb13e01b62f8e8991a8cab7885d6b37"
+      }
+    ],
+    "tool_mode": "built-in image_gen",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png",
+    "reason": "Superseded: camera now clearly front-left three-quarter, but solid silhouette has only 49 pixels above ears and 41 below paws; reframe with more generous margins.",
+    "supersedes": [
+      "bear_three_quarter_v1",
+      "bear_three_quarter_v2"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-37575730-4a82-47d2-9866-b823d68e2b9c.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/raw/bear_three_quarter_v3.png",
+    "raw_sha256": "8050c501c1fbd75cda43c5df9ec32999bb5348638ee60145210c6153990ec91d",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "visible_bbox_alpha_128": [
+      204,
+      49,
+      1396,
+      983
+    ],
+    "nonzero_alpha_bbox": [
+      57,
+      19,
+      1518,
+      996
+    ],
+    "alpha_zero_fraction": 0.5421148935953776,
+    "export_resize_or_padding": "None; raw PNG is a byte-identical copy of the built-in return.",
+    "superseded_by": "bear_three_quarter_v4",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithfully reconstruct the EXISTING Might and Magic VI quest item \"Bear Statuette\" as a high-definition 3D modelling reference. Not a new design.\nUse case: identity-preserve / faithful modelling reference.\nReturn exactly ONE LANDSCAPE 1536 x 1024 genuine transparent PNG, unresized.\n\nInput 1 is the ORIGINAL native gold statuette enlarged 8x: design, proportions, silhouette and pose authority. Magenta and bottom grey strip are NOT statuette.\nInput 2 is the original complete sprite enlarged 3x: context and complete feet; exclude all pedestal geometry.\nInput 3 is the current HD reconstruction: preserve the smooth slightly worn solid yellow-gold casting, heavy rounded body, low short-necked head, small rounded ears, short muzzle, short stubby tail, and the exact four planted paw placements. Its camera is still too close to a side profile; replace that camera.\n\nCAMERA ROTATION IS THE REQUIRED CHANGE. Render an UNMISTAKABLE FRONT-LEFT THREE-QUARTER view. Camera is 50 degrees to the bear's anatomical LEFT from straight FRONT (40 degrees from the sprite's side toward its face), raised 20 degrees above the body. The camera must look substantially into the FRONT of the bear: broad frontal muzzle and nose, both eye positions, the chest between the forelegs, together with its LEFT flank. Foreshorten the long torso diagonally into the depth of the image; the rump recedes behind the chest. The near left foreleg is closer to the camera than the far right foreleg. Rotate around the entire unchanged statuette; do not turn only its head or move any legs. Do not reproduce the nearly horizontal side silhouette of input 3.\n\nIdentity: stocky bear standing square on all four legs in the original walking stance; heavy rounded barrel body, stout legs, shoulders slightly higher than hips. Sculpted, slightly stylised small cast figurine, not a real furry animal. Keep native proportions and stance.\nEven soft neutral studio lighting, polished slightly worn yellow gold, crisp sculpted detail. ONE statuette centered with generous transparent margins, near-orthographic projection, whole ears, four complete paws and tail within frame. Feet terminate on an invisible flat ground plane.\nGenuine alpha transparency outside its silhouette; no environment, base, plinth, pedestal, floor, shadow, haze, glow, painted checkerboard or text. No gems, armour, saddle, extra limbs, extra animals, colour change or cropping.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-2dc5c6e8-fcd8-46e1-8980-68c544340a33.png"
+    ]
+  },
+  {
+    "id": "bear_three_quarter_v4",
+    "family": "bear_statuette",
+    "role": "primary",
+    "selected": true,
+    "selected_filename": "00_three_quarter.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+        "sha256": "091aeb6c86d2d476d79625c4386c00578fa1daaabf26806db6e37dec371c0d2b",
+        "size": [
+          632,
+          288
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+        "sha256": "5753da9fb2ee9531455fa60db6338d2071fe1d2f3c4d668cf35480ff325371b6",
+        "size": [
+          291,
+          750
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-37575730-4a82-47d2-9866-b823d68e2b9c.png",
+        "sha256": "8050c501c1fbd75cda43c5df9ec32999bb5348638ee60145210c6153990ec91d"
+      }
+    ],
+    "tool_mode": "built-in image_gen",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png",
+    "reason": "Selected: clear front-left three-quarter view with slight elevated camera, complete stocky gold bear, four separate planted paws, round ears, short tail, and generous 154/123-pixel vertical margins. Clean light/dark composites and genuine alpha.",
+    "supersedes": [
+      "bear_three_quarter_v1",
+      "bear_three_quarter_v2",
+      "bear_three_quarter_v3"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-46a3f8d0-540c-466a-9b72-8ad46fa0b544.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/raw/bear_three_quarter_v4.png",
+    "raw_sha256": "ff26df55c3e3db660e0f998012cd3ec234f6ea8af7dcad812e520374a089d5e0",
+    "output_sha256": "ff26df55c3e3db660e0f998012cd3ec234f6ea8af7dcad812e520374a089d5e0",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "visible_bbox_alpha_128": [
+      296,
+      154,
+      1267,
+      901
+    ],
+    "nonzero_alpha_bbox": [
+      141,
+      9,
+      1482,
+      1024
+    ],
+    "alpha_zero_fraction": 0.7039724985758463,
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "alpha_threshold_bounds": {
+      "8": [
+        295,
+        153,
+        1268,
+        902
+      ],
+      "32": [
+        295,
+        154,
+        1267,
+        902
+      ],
+      "64": [
+        296,
+        154,
+        1267,
+        902
+      ],
+      "128": [
+        296,
+        154,
+        1267,
+        901
+      ],
+      "240": [
+        297,
+        155,
+        1266,
+        901
+      ]
+    },
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual built-in return.",
+    "review": {
+      "method": "Visual comparison to original native sprite and light/dark alpha composites, plus actual dimensions, alpha bounds and byte-identity checks.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "matching_native_identity_pose_proportions": true,
+      "four_legs_and_paws": true,
+      "small_round_ears_and_short_tail": true,
+      "no_pedestal_floor_shadow_or_text": true,
+      "master_detail": "Smooth reconstructed three-dimensional contours and coherent worn gold casting; no enlarged source texels. Frontal muzzle/chest and left flank visible together.",
+      "alpha_note": "Original returned alpha preserved; values 1–7 occur beyond the solid silhouette, but no visible halo or surrounding haze appears on light/dark composites."
+    },
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI \"Bear Statuette\", a small solid cast-gold animal figurine. Not a new design.\nUse case: identity-preserve / faithful 3D modelling reference.\nReturn exactly ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\n\nInput 1: original native statuette enlarged 8x, design/pose/proportion authority; magenta and grey pedestal strip are not statuette.\nInput 2: original full sprite enlarged 3x, complete feet and context only; no pedestal in output.\nInput 3: current front-left three-quarter HD statuette. Preserve this EXACT same bear, identity, proportions, anatomy, pose, casting details, gold colour and camera direction. It is framed too tightly.\n\nCHANGE ONLY CAMERA DISTANCE / FRAMING: zoom the near-orthographic camera out, with the entire bear centered on the canvas and at least 100 completely transparent pixels between the solid statuette and EACH of the four image edges, especially above the ears and below the paws. Fit the entire figure comfortably in frame with generous empty margins. Do not crop, stretch, change its shape, or move any paw.\n\nPreserve the correct FRONT-LEFT THREE-QUARTER view: camera 40 degrees from the native left-side profile toward the bear's face, equivalent to 50 degrees from straight front, elevated 20 degrees above the body. Same muzzle and chest together with the left flank and diagonally receding torso; rotate neither head nor body.\n\nIdentity: stocky bear, heavy rounded body, short neck, head held level and low, small round ears, short muzzle, short stubby tail, shoulders slightly higher than hips, standing squarely on four stout planted legs in the native walking stance. Sculpted, slightly stylised solid cast figurine, not a real animal. Slightly worn polished yellow gold, crisp coherent sculpted detail, even soft neutral studio light.\n\nTransparency: render the object ONLY with genuine alpha; every pixel outside the bear silhouette must be alpha 0 except a very narrow antialias edge. Remove residual faint surrounding haze or glow; lighting illuminates only the gold object and creates no visible surroundings. No base, plinth, pedestal, floor, shadow, environment, text, painted checkerboard or magenta spill. Feet end on an invisible flat ground plane. No gems, armour, saddle, extra limbs, animals, non-gold colour, pose changes or cropping.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-37575730-4a82-47d2-9866-b823d68e2b9c.png"
+    ]
+  },
+  {
+    "id": "bear_left_v1",
+    "family": "bear_statuette",
+    "role": "left",
+    "selected": true,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Bear Statuette\", a small solid cast-gold animal figurine, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve / faithful 3D modelling reference.\nReturn exactly ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\n\nInput 1: native_statuette_x8.png — ORIGINAL native sprite, design/proportions/pose authority. Magenta is background; grey bottom strip belongs to the pedestal.\nInput 2: native_full_x3.png — full ORIGINAL sprite for context and complete feet. The native bear is seen from its anatomical LEFT side with head SCREEN-LEFT. Exclude the pedestal entirely.\nInput 3: 00_three_quarter.png — SELECTED primary HD reconstruction. This is the SAME statuette to photograph from a different camera. Preserve its exact casting, identity, body and head proportions, four-leg stance, small round ears, short muzzle, short stubby tail, paw shapes, and polished slightly worn yellow-gold material. Do not redesign the bear or change its pose.\n\nStocky cast-gold bear, heavy rounded body, short neck, head held level and low, shoulders slightly higher than hips, standing square on four stout planted legs in the native walking stance. Sculpted, slightly stylised cast figurine, not a photo of a real animal. Crisp coherent gold-casting details, no source-grid pixelation. Even soft neutral studio light, no dramatic lighting.\n\nONE complete statuette centred, near-orthographic projection, generous empty transparent margins of at least 100 pixels on every side. Whole ears, feet and tail within frame. Feet end on an invisible flat ground plane. Genuine transparent alpha outside the silhouette except the narrow antialias edge; no visible background, haze, glow or magenta spill.\nNO base, plinth, pedestal, floor, shadow, text, gems, armour, saddle, extra limbs or animals. Do not change the pose or colour; do not crop it.\n\nCHANGE ONLY THE CAMERA: EXACT ANATOMICAL LEFT SIDE PROFILE, matching input 1 and input 2. The camera is precisely perpendicular to the bear's long head-to-tail axis, 90 degrees from straight front, at body height and LEVEL, with zero elevation and no three-quarter yaw. Head toward SCREEN-LEFT, tail toward SCREEN-RIGHT. The whole body and head stay in the selected fixed pose, facing left. Show the true left-side silhouette: one near-side eye, side of the muzzle, left foreleg and left hindleg. Far-side limbs remain present but may naturally align behind the near limbs as in the original sprite; do not move paws merely to expose them. No frontal chest perspective, no view down onto the back, no turning only the head.\nChecks: exact native left profile, same bear and planted pose as selected primary, all four legs accounted for with natural profile occlusion, short tail, complete uncropped silhouette, transparent background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+        "sha256": "091aeb6c86d2d476d79625c4386c00578fa1daaabf26806db6e37dec371c0d2b",
+        "size": [
+          632,
+          288
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+        "sha256": "5753da9fb2ee9531455fa60db6338d2071fe1d2f3c4d668cf35480ff325371b6",
+        "size": [
+          291,
+          750
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png",
+        "sha256": "ff26df55c3e3db660e0f998012cd3ec234f6ea8af7dcad812e520374a089d5e0"
+      }
+    ],
+    "tool_mode": "built-in image_gen",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/01_left.png",
+    "reason": "Selected: left-facing side profile matches the native silhouette, low head and planted stance; same rounded gold casting, ears, short muzzle, stout legs and stubby tail as selected primary. Complete paws, margins and clean light/dark composites.",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-2d991ced-e2d0-4367-8330-edc7829e86c5.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/raw/bear_left_v1.png",
+    "raw_sha256": "9e984de1da475c173c1b2e0151600f1d1a6d9f5ec1f6159963b69fc09ac9d541",
+    "output_sha256": "9e984de1da475c173c1b2e0151600f1d1a6d9f5ec1f6159963b69fc09ac9d541",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "visible_bbox_alpha_128": [
+      80,
+      120,
+      1414,
+      919
+    ],
+    "nonzero_alpha_bbox": [
+      0,
+      21,
+      1522,
+      1006
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "alpha_zero_fraction": 0.6061604817708334,
+    "alpha_threshold_bounds": {
+      "8": [
+        79,
+        119,
+        1415,
+        921
+      ],
+      "32": [
+        80,
+        119,
+        1415,
+        919
+      ],
+      "64": [
+        80,
+        119,
+        1415,
+        919
+      ],
+      "128": [
+        80,
+        120,
+        1414,
+        919
+      ],
+      "240": [
+        81,
+        121,
+        1414,
+        918
+      ]
+    },
+    "solid_components": 1,
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual built-in return.",
+    "review": {
+      "method": "Full-resolution return and native/primary visual comparison, split light/dark contact-sheet review, actual size/alpha bounds, connected silhouette and byte-identity checks.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "four_legs_and_paws": "Four limbs present; far-side legs/paws naturally partly overlap the near-side legs in profile.",
+      "small_round_ears": true,
+      "short_stub_tail": "Visible at the rump; same short cast-gold tail as primary.",
+      "no_pedestal_floor_shadow_or_text": true,
+      "master_detail": "Continuous reconstructed sculpted contours, smoothly coherent three-dimensional gold reflections and casting detail; no enlarged native pixel blocks.",
+      "alpha_note": "Original return alpha preserved; low exterior values 1–7 appear in the PNG encoding, but no visible halo/haze on light/dark composites."
+    }
+  },
+  {
+    "id": "bear_front_v1",
+    "family": "bear_statuette",
+    "role": "front",
+    "selected": true,
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Bear Statuette\", a small solid cast-gold animal figurine, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve / faithful 3D modelling reference.\nReturn exactly ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\n\nInput 1: native_statuette_x8.png — ORIGINAL native sprite, design/proportions/pose authority. Magenta is background; grey bottom strip belongs to the pedestal.\nInput 2: native_full_x3.png — full ORIGINAL sprite for context and complete feet. The native bear is seen from its anatomical LEFT side with head SCREEN-LEFT. Exclude the pedestal entirely.\nInput 3: 00_three_quarter.png — SELECTED primary HD reconstruction. This is the SAME statuette to photograph from a different camera. Preserve its exact casting, identity, body and head proportions, four-leg stance, small round ears, short muzzle, short stubby tail, paw shapes, and polished slightly worn yellow-gold material. Do not redesign the bear or change its pose.\n\nStocky cast-gold bear, heavy rounded body, short neck, head held level and low, shoulders slightly higher than hips, standing square on four stout planted legs in the native walking stance. Sculpted, slightly stylised cast figurine, not a photo of a real animal. Crisp coherent gold-casting details, no source-grid pixelation. Even soft neutral studio light, no dramatic lighting.\n\nONE complete statuette centred, near-orthographic projection, generous empty transparent margins of at least 100 pixels on every side. Whole ears, feet and tail within frame. Feet end on an invisible flat ground plane. Genuine transparent alpha outside the silhouette except the narrow antialias edge; no visible background, haze, glow or magenta spill.\nNO base, plinth, pedestal, floor, shadow, text, gems, armour, saddle, extra limbs or animals. Do not change the pose or colour; do not crop it.\n\nCHANGE ONLY THE CAMERA: STRAIGHT FRONT, looking directly toward the face along the bear's head-to-tail axis, at body height and LEVEL, zero camera yaw and zero elevation. Face and chest point straight toward the viewer. Center the muzzle between the two rounded ears and front shoulders; left and right sides are seen equally, with no flank exposed and no three-quarter body yaw. Keep the exact head position and four planted paw placements from input 3; rotate neither the head nor the animal. Front legs flank the chest; the hind legs stay at their true positions behind, visible only where natural occlusion permits. Preserve the short stubby tail at its rear attachment even if it is naturally occluded from this frontal camera. Do not splay, lift, add or move legs to make hidden anatomy visible.\nChecks: true straight-front view, same bear and fixed native pose as selected primary, four legs present with natural frontal occlusion, complete uncropped ears and paws, transparent background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_statuette_x8.png",
+        "sha256": "091aeb6c86d2d476d79625c4386c00578fa1daaabf26806db6e37dec371c0d2b",
+        "size": [
+          632,
+          288
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/native_full_x3.png",
+        "sha256": "5753da9fb2ee9531455fa60db6338d2071fe1d2f3c4d668cf35480ff325371b6",
+        "size": [
+          291,
+          750
+        ],
+        "mode": "RGB"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/00_three_quarter.png",
+        "sha256": "ff26df55c3e3db660e0f998012cd3ec234f6ea8af7dcad812e520374a089d5e0"
+      }
+    ],
+    "tool_mode": "built-in image_gen",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/02_front.png",
+    "reason": "Selected: centered straight-front face and chest with four legs accounted for, front paws separate and hind paws naturally behind. Same round ears, short muzzle, heavy body, sculpted paw details and worn gold material as primary; complete silhouette and clean light/dark composites.",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7ed3-85f4-4a825b6863da/exec-a8611592-8507-4f5a-b23e-849d1b5533f8.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/bear/references_hd/raw/bear_front_v1.png",
+    "raw_sha256": "a0f2933a271ce88079479585a3e0c7ba5b165374474199b5181d017bc958b089",
+    "output_sha256": "a0f2933a271ce88079479585a3e0c7ba5b165374474199b5181d017bc958b089",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "visible_bbox_alpha_128": [
+      473,
+      141,
+      1063,
+      897
+    ],
+    "nonzero_alpha_bbox": [
+      65,
+      29,
+      1522,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "alpha_zero_fraction": 0.7854735056559244,
+    "alpha_threshold_bounds": {
+      "8": [
+        473,
+        140,
+        1064,
+        897
+      ],
+      "32": [
+        473,
+        140,
+        1064,
+        897
+      ],
+      "64": [
+        473,
+        141,
+        1063,
+        897
+      ],
+      "128": [
+        473,
+        141,
+        1063,
+        897
+      ],
+      "240": [
+        474,
+        141,
+        1062,
+        896
+      ]
+    },
+    "solid_components": 1,
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual built-in return.",
+    "review": {
+      "method": "Full-resolution return and native/primary visual comparison, split light/dark contact-sheet review, actual size/alpha bounds, connected silhouette and byte-identity checks.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "four_legs_and_paws": "Two forelegs and two naturally partly occluded hind legs, with all four paws accounted for.",
+      "small_round_ears": true,
+      "short_stub_tail": "Rear tail naturally occluded in this straight-front view.",
+      "no_pedestal_floor_shadow_or_text": true,
+      "master_detail": "Continuous reconstructed sculpted contours, smoothly coherent three-dimensional gold reflections and casting detail; no enlarged native pixel blocks.",
+      "alpha_note": "Original return alpha preserved; low exterior values 1–7 appear in the PNG encoding, but no visible halo/haze on light/dark composites."
+    }
+  }
+]

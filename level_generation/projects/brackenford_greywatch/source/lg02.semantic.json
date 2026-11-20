@@ -1,0 +1,888 @@
+{
+  "map": "lg02.blv",
+  "arrivals": {
+    "castle": {
+      "position": [
+        0,
+        -512,
+        768
+      ],
+      "direction_degrees": 90
+    },
+    "cave": {
+      "position": [
+        5632,
+        -3200,
+        0
+      ],
+      "direction_degrees": 90
+    }
+  },
+  "fixed_actors": [
+    {
+      "id": "ACTOR_watch_hall_0",
+      "position": [
+        -384,
+        2816,
+        768
+      ],
+      "room": "watch_hall",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_watch_hall_1",
+      "position": [
+        0,
+        2816,
+        768
+      ],
+      "room": "watch_hall",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_watch_hall_2",
+      "position": [
+        384,
+        2816,
+        768
+      ],
+      "room": "watch_hall",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_watch_hall_3",
+      "position": [
+        -384,
+        3328,
+        768
+      ],
+      "room": "watch_hall",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_armory_0",
+      "position": [
+        -3456,
+        2816,
+        768
+      ],
+      "room": "armory",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_armory_1",
+      "position": [
+        -3072,
+        2816,
+        768
+      ],
+      "room": "armory",
+      "monster_id": 193
+    },
+    {
+      "id": "ACTOR_stair_gallery_0",
+      "position": [
+        2944,
+        2816,
+        384
+      ],
+      "room": "stair_gallery",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_stair_gallery_1",
+      "position": [
+        3328,
+        2816,
+        384
+      ],
+      "room": "stair_gallery",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_records_0",
+      "position": [
+        5248,
+        2816,
+        384
+      ],
+      "room": "records",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_records_1",
+      "position": [
+        5632,
+        2816,
+        384
+      ],
+      "room": "records",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_records_2",
+      "position": [
+        6016,
+        2816,
+        384
+      ],
+      "room": "records",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_records_3",
+      "position": [
+        5248,
+        3328,
+        384
+      ],
+      "room": "records",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_barracks_0",
+      "position": [
+        8320,
+        2816,
+        384
+      ],
+      "room": "barracks",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_barracks_1",
+      "position": [
+        8704,
+        2816,
+        384
+      ],
+      "room": "barracks",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_barracks_2",
+      "position": [
+        9088,
+        2816,
+        384
+      ],
+      "room": "barracks",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_barracks_3",
+      "position": [
+        8320,
+        3328,
+        384
+      ],
+      "room": "barracks",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_vault_0",
+      "position": [
+        8832,
+        7424,
+        768
+      ],
+      "room": "vault",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_vault_1",
+      "position": [
+        9216,
+        7424,
+        768
+      ],
+      "room": "vault",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_vault_2",
+      "position": [
+        9600,
+        7424,
+        768
+      ],
+      "room": "vault",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_vault_3",
+      "position": [
+        8832,
+        7936,
+        768
+      ],
+      "room": "vault",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_vault_4",
+      "position": [
+        9216,
+        7936,
+        768
+      ],
+      "room": "vault",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_upper_landing_0",
+      "position": [
+        5248,
+        -256,
+        0
+      ],
+      "room": "lower_passage",
+      "monster_id": 195
+    },
+    {
+      "id": "ACTOR_upper_landing_1",
+      "position": [
+        5632,
+        -256,
+        0
+      ],
+      "room": "lower_passage",
+      "monster_id": 194
+    },
+    {
+      "id": "ACTOR_upper_landing_2",
+      "position": [
+        6016,
+        -256,
+        0
+      ],
+      "room": "lower_passage",
+      "monster_id": 194
+    }
+  ],
+  "rooms": {
+    "castle_arrival": {
+      "id": "castle_arrival",
+      "name": "Upper arrival hall",
+      "center": [
+        0,
+        0,
+        768
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 0,
+      "openings": {
+        "n": 512,
+        "e": 512
+      }
+    },
+    "watch_hall": {
+      "id": "watch_hall",
+      "name": "Watch hall",
+      "center": [
+        0,
+        3072,
+        768
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 4,
+      "openings": {
+        "s": 512,
+        "w": 512,
+        "e": 512
+      }
+    },
+    "armory": {
+      "id": "armory",
+      "name": "Optional west armory",
+      "center": [
+        -3072,
+        3072,
+        768
+      ],
+      "size": [
+        1792,
+        1536
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 2,
+      "openings": {
+        "e": 512
+      }
+    },
+    "stair_gallery": {
+      "id": "stair_gallery",
+      "name": "Descending stair gallery",
+      "center": [
+        3328,
+        3072,
+        384
+      ],
+      "size": [
+        2048,
+        1536
+      ],
+      "shape": "rectangle",
+      "hostile_budget": 2,
+      "openings": {
+        "w": 512,
+        "e": 512
+      }
+    },
+    "records": {
+      "id": "records",
+      "name": "Records chamber",
+      "center": [
+        5632,
+        3072,
+        384
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 4,
+      "openings": {
+        "w": 512,
+        "e": 512,
+        "n": 512,
+        "s": 512
+      }
+    },
+    "barracks": {
+      "id": "barracks",
+      "name": "Optional barracks",
+      "center": [
+        8704,
+        3072,
+        384
+      ],
+      "size": [
+        2048,
+        1792
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 4,
+      "openings": {
+        "w": 512,
+        "n": 512
+      }
+    },
+    "secret": {
+      "id": "secret",
+      "name": "Secret strongroom",
+      "center": [
+        8704,
+        5376,
+        384
+      ],
+      "size": [
+        1536,
+        1280
+      ],
+      "shape": "rectangle",
+      "hostile_budget": 0,
+      "openings": {
+        "s": 512
+      }
+    },
+    "upper_landing": {
+      "id": "upper_landing",
+      "name": "Lift landing",
+      "center": [
+        5632,
+        6144,
+        768
+      ],
+      "size": [
+        1792,
+        1536
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 0,
+      "placement_note": "Keep the lift disembarkation and call controls clear; former sentries moved to lower junction.",
+      "openings": {
+        "s": 512,
+        "e": 512
+      }
+    },
+    "vault": {
+      "id": "vault",
+      "name": "Captain vault",
+      "center": [
+        9216,
+        7680,
+        768
+      ],
+      "size": [
+        2560,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 5,
+      "openings": {
+        "s": 512
+      }
+    },
+    "lower_passage": {
+      "id": "lower_passage",
+      "name": "Lower junction",
+      "center": [
+        5632,
+        0,
+        0
+      ],
+      "size": [
+        1536,
+        1792
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 3,
+      "actor_ids": [
+        "ACTOR_upper_landing_0",
+        "ACTOR_upper_landing_1",
+        "ACTOR_upper_landing_2"
+      ],
+      "placement_note": "Three sentries relocated from lift landing; retain original semantic actor IDs and runtime slots.",
+      "openings": {
+        "n": 512,
+        "s": 512,
+        "w": 512
+      }
+    },
+    "cave_arrival": {
+      "id": "cave_arrival",
+      "name": "Lower cave arrival",
+      "center": [
+        5632,
+        -2816,
+        0
+      ],
+      "size": [
+        2304,
+        2048
+      ],
+      "shape": "irregular sloping cave",
+      "hostile_budget": 0,
+      "openings": {
+        "s": 384,
+        "n": 512
+      }
+    },
+    "vault_bend": {
+      "id": "vault_bend",
+      "center": [
+        9216,
+        6144,
+        768
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "shape": "rectangle",
+      "openings": {
+        "w": 512,
+        "n": 512
+      },
+      "hostile_budget": 0
+    }
+  },
+  "connections": [
+    {
+      "a": "castle_arrival",
+      "b": "watch_hall",
+      "kind": "paired_door",
+      "from_z": 768,
+      "to_z": 768,
+      "clear_width": 512,
+      "start": [
+        0,
+        1024.0,
+        768
+      ],
+      "end": [
+        0,
+        2048.0,
+        768
+      ],
+      "side_a": "n",
+      "side_b": "s",
+      "id": "link_castle_arrival_watch_hall"
+    },
+    {
+      "a": "watch_hall",
+      "b": "armory",
+      "kind": "optional_branch",
+      "from_z": 768,
+      "to_z": 768,
+      "clear_width": 512,
+      "start": [
+        -1024.0,
+        3072,
+        768
+      ],
+      "end": [
+        -2176.0,
+        3072,
+        768
+      ],
+      "side_a": "w",
+      "side_b": "e",
+      "id": "link_watch_hall_armory"
+    },
+    {
+      "a": "watch_hall",
+      "b": "stair_gallery",
+      "kind": "stairs",
+      "from_z": 768,
+      "to_z": 384,
+      "clear_width": 512,
+      "start": [
+        1024.0,
+        3072,
+        768
+      ],
+      "end": [
+        2304.0,
+        3072,
+        384
+      ],
+      "side_a": "e",
+      "side_b": "w",
+      "id": "link_watch_hall_stair_gallery"
+    },
+    {
+      "a": "stair_gallery",
+      "b": "records",
+      "kind": "trap_corridor",
+      "from_z": 384,
+      "to_z": 384,
+      "clear_width": 512,
+      "start": [
+        4352.0,
+        3072,
+        384
+      ],
+      "end": [
+        4608.0,
+        3072,
+        384
+      ],
+      "side_a": "e",
+      "side_b": "w",
+      "id": "link_stair_gallery_records"
+    },
+    {
+      "a": "records",
+      "b": "barracks",
+      "kind": "optional_branch",
+      "from_z": 384,
+      "to_z": 384,
+      "clear_width": 512,
+      "start": [
+        6656.0,
+        3072,
+        384
+      ],
+      "end": [
+        7680.0,
+        3072,
+        384
+      ],
+      "side_a": "e",
+      "side_b": "w",
+      "id": "link_records_barracks"
+    },
+    {
+      "a": "barracks",
+      "b": "secret",
+      "kind": "secret_door",
+      "from_z": 384,
+      "to_z": 384,
+      "clear_width": 512,
+      "start": [
+        8704,
+        3968.0,
+        384
+      ],
+      "end": [
+        8704,
+        4736.0,
+        384
+      ],
+      "side_a": "n",
+      "side_b": "s",
+      "id": "link_barracks_secret"
+    },
+    {
+      "a": "records",
+      "b": "upper_landing",
+      "kind": "button_gate_and_lift",
+      "from_z": 384,
+      "to_z": 768,
+      "clear_width": 512,
+      "start": [
+        5632,
+        4096.0,
+        384
+      ],
+      "end": [
+        5632,
+        5376.0,
+        768
+      ],
+      "side_a": "n",
+      "side_b": "s",
+      "id": "link_records_upper_landing"
+    },
+    {
+      "a": "upper_landing",
+      "b": "vault_bend",
+      "kind": "passage",
+      "start": [
+        6528.0,
+        6144,
+        768
+      ],
+      "end": [
+        8960.0,
+        6144,
+        768
+      ],
+      "side_a": "e",
+      "side_b": "w",
+      "id": "link_upper_landing_vault_bend"
+    },
+    {
+      "a": "vault_bend",
+      "b": "vault",
+      "kind": "passage",
+      "start": [
+        9216,
+        6400.0,
+        768
+      ],
+      "end": [
+        9216,
+        6656.0,
+        768
+      ],
+      "side_a": "n",
+      "side_b": "s",
+      "id": "link_vault_bend_vault"
+    },
+    {
+      "a": "records",
+      "b": "lower_passage",
+      "kind": "stairs",
+      "from_z": 384,
+      "to_z": 0,
+      "clear_width": 512,
+      "start": [
+        5632,
+        2048.0,
+        384
+      ],
+      "end": [
+        5632,
+        896.0,
+        0
+      ],
+      "side_a": "s",
+      "side_b": "n",
+      "id": "link_records_lower_passage"
+    },
+    {
+      "a": "lower_passage",
+      "b": "cave_arrival",
+      "kind": "cave_passage",
+      "from_z": 0,
+      "to_z": 0,
+      "clear_width": 512,
+      "start": [
+        5632,
+        -896.0,
+        0
+      ],
+      "end": [
+        5632,
+        -1792.0,
+        0
+      ],
+      "side_a": "s",
+      "side_b": "n",
+      "id": "link_lower_passage_cave_arrival"
+    },
+    {
+      "a": "lower_passage",
+      "b": "castle_arrival",
+      "kind": "unlockable_shortcut_stairs",
+      "from_z": 0,
+      "to_z": 768,
+      "clear_width": 512,
+      "start": [
+        4864.0,
+        0,
+        0
+      ],
+      "end": [
+        1024.0,
+        0,
+        768
+      ],
+      "side_a": "w",
+      "side_b": "e",
+      "id": "link_lower_passage_castle_arrival"
+    }
+  ],
+  "plates": [
+    {
+      "name": "gallery_plate",
+      "room": "stair_gallery",
+      "cx": 3328,
+      "cy": 3072,
+      "z": 384,
+      "event": 301,
+      "flags": [
+        "secret"
+      ]
+    },
+    {
+      "name": "armory_plate",
+      "room": "link_watch_hall_armory",
+      "cx": -1536,
+      "cy": 3072,
+      "z": 768,
+      "event": 302,
+      "flags": []
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "name": "exit_castle",
+      "kind": "travel"
+    },
+    {
+      "id": 2,
+      "name": "exit_cave",
+      "kind": "travel"
+    },
+    {
+      "id": 101,
+      "name": "watch_paired_door",
+      "doors": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 102,
+      "name": "lift_gate_button",
+      "doors": [
+        3
+      ],
+      "control_room": "records"
+    },
+    {
+      "id": 103,
+      "name": "secret_wall",
+      "doors": [
+        4
+      ],
+      "room": "barracks",
+      "flags": [
+        "secret"
+      ]
+    },
+    {
+      "id": 104,
+      "name": "shortcut_unlock",
+      "doors": [
+        5
+      ],
+      "unlock_side": "records route; cave side can reach records"
+    },
+    {
+      "id": 105,
+      "name": "lift_lower_call",
+      "doors": [
+        6
+      ],
+      "operation": "Native moving platform floor pressure plate and lower button share event105; upper button106 uses the same handler. Entering the floor toggles once, standing on it does not repeat."
+    },
+    {
+      "id": 106,
+      "name": "lift_upper_call",
+      "doors": [
+        6
+      ]
+    },
+    {
+      "id": 201,
+      "name": "armory_chest",
+      "chest_index": 0
+    },
+    {
+      "id": 202,
+      "name": "secret_chest",
+      "chest_index": 1
+    },
+    {
+      "id": 203,
+      "name": "barracks_chest",
+      "chest_index": 2
+    },
+    {
+      "id": 204,
+      "name": "vault_chest",
+      "chest_index": 3
+    },
+    {
+      "id": 301,
+      "name": "gallery_projectile_plate",
+      "flags": [
+        "pressure_plate",
+        "secret"
+      ],
+      "reset": "once per refill"
+    },
+    {
+      "id": 302,
+      "name": "armory_pressure_plate",
+      "flags": [
+        "pressure_plate"
+      ],
+      "reset": "once per refill"
+    },
+    {
+      "id": 107,
+      "name": "records_south_door",
+      "doors": [
+        7
+      ],
+      "operation": "click moving face or fixed control from either side; closed initially",
+      "purpose": "Separate records, barracks and lower-passage fights without changing species or disabling AI"
+    },
+    {
+      "id": 108,
+      "name": "barracks_door",
+      "doors": [
+        8
+      ],
+      "operation": "click moving face or fixed control from either side; closed initially",
+      "purpose": "Separate records, barracks and lower-passage fights without changing species or disabling AI"
+    }
+  ],
+  "status": "geometry authored; gameplay assembly pending"
+}

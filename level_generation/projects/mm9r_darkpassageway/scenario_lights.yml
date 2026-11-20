@@ -1,0 +1,38 @@
+# The PerceptionLights (dungeon/lights.py perception_lights, devdocs/INDOOR_PULSING_LIGHTS.md "Switched lights"):
+# MM9's 61 red trap lights (PerceptionValue 20) shine only for a party whose Perception reaches it.
+id: mm9r.darkpassageway_lights
+title: 'Dark Passageway (native BLV): the PerceptionLights shine for a perceptive party only'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: darkpassageway.blv
+- console:
+    line: skill set Perception 1 B
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    light: {key: 40469, on: false}
+- assert:
+    state_dump_named_map_var: {name: Light40469, value: 1}
+- note:
+    text: A Grandmaster's Perception 30 reaches their 20; the 3 s check lights all of them.
+- console:
+    line: skill set Perception 30 G
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    light: {key: 40469, on: true}
+- assert:
+    light: {key: 40529, on: true}
+- assert:
+    state_dump_named_map_var: {name: Light40480, value: 2}
+- console:
+    line: skill set Perception 1 B
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    light: {key: 40469, on: false}

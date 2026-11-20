@@ -1,0 +1,235 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "completed_with_failed_checks",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer.\nPaint ONE precisely registered 1024 x 1024 RGBA texture-source image of the empty Graft-serum vat, LEFT orthographic view.\n\nINPUTS:\nImage 1 guide_left.png: EDIT TARGET. This is the exact existing 3D model. Keep this image's geometry and alpha mask unchanged.\nImage 2 design_reference.png: approved colour and surface-material reference ONLY.\nImage 3 concept_crop.png: supporting original concept ONLY.\n\nREQUIRED NATIVE CANVAS: 1024 x 1024 pixels, same as Image 1, unresized. Retain Image 1's exact placement: object alpha bounding box x=66..957 and y=150..873. Repaint the existing pixels without changing silhouette, scale, framing, projection, any polygon edge, opening, detail or transparent pixel. Do not use the design reference's three-quarter camera. Keep the orthographic left side view of the guide, including its large opening on the RIGHT side. Do not fill that opening. Keep all existing claw tips, feet, angular ribs and hanging membrane edges in precisely the guide's positions. Do not add protrusions, membrane holes or tears that change the guide geometry. Nothing outside the guide silhouette, nothing cropped.\n\nSURFACE PAINT: Transfer the design reference's dull black-violet Kreegan resin with fine ridges, pale ivory bone claws, torn dry grey-violet membrane flaps, and dark dry hollow interior onto the guide's corresponding existing surfaces. Retain fine painted cracks, fibres and ridges as albedo detail without changing geometry. The vat is empty and dry, no liquid. Existing orange seam details may have their intrinsic orange colour, with no light spill and no added glowing parts.\n\nCRITICAL LIGHTING: this is ALBEDO for texture projection, not a beauty render. Use completely flat, even, shadowless illumination from the viewer. Matte intrinsic surface colours. Remove the guide's grey shading and the design reference's directional lighting: NO cast shadows, NO ambient-occlusion darkening, NO strong specular highlights, NO reflections, NO rim light, NO bright edge streaks. Do not darken creases as lighting; keep only intrinsic material colour and fine texture detail.\n\nBACKGROUND: genuinely transparent RGBA alpha exactly where the guide is transparent, including its opening. No black background, no checkerboard pixels, no floor or ground shadow, no labels or text. Return ONE complete native 1024 x 1024 PNG.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "891739184aaaf410da7b6a8c8840688bd2e8811d401632f8144c781b6633d2ee"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected: wrong native size, altered geometry and stronger glossy highlights than the corrective return.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac4-c3f0-77a3-989f-1ea087349b18/exec-bafc0c57-f6e8-4cd0-ad7c-f9d6db07ee32.png",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "silhouette_identical": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1238,
+          1254
+        ],
+        "alpha_128_bbox": [
+          80,
+          184,
+          1174,
+          1067
+        ],
+        "transparent_background": true,
+        "materials_and_colours": "Black-violet body, ivory claws, grey-violet membranes and dark dry interior are present; resin reads too much like cracked stone and some material boundaries drift.",
+        "flat_even_light": false,
+        "lighting_review": "Bright edges, glossy highlights and contact shading remain.",
+        "geometry_review": "Guide silhouette and internal edges are not exact; claw shapes, membrane boundaries and aperture contour drift.",
+        "passed": false
+      },
+      "output_sha256": "efd2dc043872dff61d5f2d6f3f6f3f73db482bb059438dec73185af77af21a7d"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer.\nPaint ONE precisely registered 1024 x 1024 RGBA texture-source image of the empty Graft-serum vat, RIGHT orthographic view.\n\nINPUTS:\nImage 1 guide_right.png: EDIT TARGET. This is the exact existing 3D model. Keep this image's geometry and alpha mask unchanged.\nImage 2 design_reference.png: approved colour and surface-material reference ONLY.\nImage 3 concept_crop.png: supporting original concept ONLY.\n\nREQUIRED NATIVE CANVAS: 1024 x 1024 pixels, same as Image 1, unresized. Retain Image 1's exact placement: object alpha bounding box x=66..957 and y=150..873. Repaint the existing pixels without changing silhouette, scale, framing, projection, any polygon edge, opening, detail or transparent pixel. Do not use the design reference's three-quarter camera. Keep the orthographic right side view of the guide, including its large opening on the LEFT side. Do not fill that opening. Keep all existing claw tips, feet, angular ribs and hanging membrane edges in precisely the guide's positions. Do not add protrusions, membrane holes or tears that change the guide geometry. Nothing outside the guide silhouette, nothing cropped.\n\nSURFACE PAINT: Transfer the design reference's dull black-violet Kreegan resin with fine ridges, pale ivory bone claws, torn dry grey-violet membrane flaps, and dark dry hollow interior onto the guide's corresponding existing surfaces. Retain fine painted cracks, fibres and ridges as albedo detail without changing geometry. The vat is empty and dry, no liquid. Existing orange seam details may have their intrinsic orange colour, with no light spill and no added glowing parts.\n\nCRITICAL LIGHTING: this is ALBEDO for texture projection, not a beauty render. Use completely flat, even, shadowless illumination from the viewer. Matte intrinsic surface colours. Remove the guide's grey shading and the design reference's directional lighting: NO cast shadows, NO ambient-occlusion darkening, NO strong specular highlights, NO reflections, NO rim light, NO bright edge streaks. Do not darken creases as lighting; keep only intrinsic material colour and fine texture detail.\n\nBACKGROUND: genuinely transparent RGBA alpha exactly where the guide is transparent, including its opening. No black background, no checkerboard pixels, no floor or ground shadow, no labels or text. Return ONE complete native 1024 x 1024 PNG.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "ca63f4f1b9db655c7f2abb8a2e6ccf6171d7d632487e3e6afbcd34d7b24d1c4e"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected: wrong native size, altered geometry and stronger glossy highlights than the corrective return.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac4-c3f0-77a3-989f-1ea087349b18/exec-27c93f59-5477-4a59-8bdf-3f98fdc77101.png",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "silhouette_identical": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          79,
+          183,
+          1175,
+          1073
+        ],
+        "transparent_background": true,
+        "materials_and_colours": "Black-violet body, ivory claws, grey-violet membranes and dark dry interior are present; resin reads too much like cracked stone and some material boundaries drift.",
+        "flat_even_light": false,
+        "lighting_review": "Bright edges, glossy highlights and contact shading remain.",
+        "geometry_review": "Guide silhouette and internal edges are not exact; claw shapes, membrane boundaries and aperture contour drift.",
+        "passed": false
+      },
+      "output_sha256": "2ef7b55dc315b75bbdfc0cbfb62492911b612755af6024548732017aa33c71ca"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Corrective regeneration, LEFT view. The previous return was wrongly 1254x1254 and changed edges and added glossy highlights. Correct those failures.\n\nOutput exactly 1024 x 1024 pixels at native resolution. ONE RGBA PNG with real transparent background. This is a texture-source ALBEDO painting of the empty Graft-serum vat.\n\nImage 1, guide_left.png, is the exact image to EDIT: colour its existing surfaces without redrawing or changing any shape. Preserve its 1024x1024 canvas, exact orthographic camera, original x/y placement, alpha silhouette and every polygon boundary. Object bounds stay x=66..957, y=150..873. Preserve the large transparent opening on the right, the angular outline, every point, claw, foot and hanging shape. No shifting, rounding, resizing, extra holes, added protrusions, reshaping, perspective or cropping.\n\nImage 2, design_reference.png, is ONLY the material and colour reference. Image 3, concept_crop.png, is ONLY the supporting original concept. Apply their dull black-violet Kreegan resin with fine ridges to existing resin surfaces, pale ivory to bone claws, dry grey-violet to torn membrane flaps, and intrinsically dark dry material to the empty interior. Keep subtle fine surface detail; do not turn surfaces into glowing cracked stone.\n\nPaint flat unlit BASE COLOURS. Absolutely NO directional shading, contact darkening, ambient occlusion, cast shadows, shiny highlights, reflected light or rim light. All faces of each material have the same even viewer illumination. Ivory is matte pale ivory, without white highlight streaks. Resin is dull dark black-violet, without bright specular edges. Orange seam colour, if present in the reference, has zero glow spill. No liquid, floor, background, text or checkerboard.\n\nThe guide is a locked registration template. Change only surface colour and fine texture; keep its pixel coordinates, exact geometry and transparent background. Deliver native 1024x1024, not 1254x1254.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "891739184aaaf410da7b6a8c8840688bd2e8811d401632f8144c781b6633d2ee"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the best available raw return because highlights are reduced. NOT brief-compliant: native size remains 1254x1254, silhouette and internal edges drift, and residual shading remains. The one allowed corrective regeneration is exhausted; no resizing, masking or other post-processing was applied.",
+      "output_sha256": "b43801f97fa509373bf53c0bd356a4cb86976e225abcb38cb196992b740336af",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "silhouette_identical": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          8,
+          1234,
+          1254
+        ],
+        "alpha_128_bbox": [
+          80,
+          187,
+          1176,
+          1068
+        ],
+        "transparent_background": true,
+        "materials_and_colours": "Black-violet body, ivory claws, grey-violet membranes and dark dry interior are present; resin reads too much like cracked stone and some material boundaries drift.",
+        "flat_even_light": false,
+        "lighting_review": "Reduced highlights, but residual facet and contact shading remains.",
+        "geometry_review": "Guide silhouette and internal edges are not exact; claw shapes, membrane boundaries and aperture contour drift.",
+        "passed": false
+      },
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac4-c3f0-77a3-989f-1ea087349b18/exec-bb37be67-af29-4d32-86cf-eb9c86e16217.png",
+      "retained_attempt_output": "paint_left_attempt_2.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Corrective regeneration, RIGHT view. The previous return was wrongly 1254x1254 and changed edges and added glossy highlights. Correct those failures.\n\nOutput exactly 1024 x 1024 pixels at native resolution. ONE RGBA PNG with real transparent background. This is a texture-source ALBEDO painting of the empty Graft-serum vat.\n\nImage 1, guide_right.png, is the exact image to EDIT: colour its existing surfaces without redrawing or changing any shape. Preserve its 1024x1024 canvas, exact orthographic camera, original x/y placement, alpha silhouette and every polygon boundary. Object bounds stay x=66..957, y=150..873. Preserve the large transparent opening on the left, the angular outline, every point, claw, foot and hanging shape. No shifting, rounding, resizing, extra holes, added protrusions, reshaping, perspective or cropping.\n\nImage 2, design_reference.png, is ONLY the material and colour reference. Image 3, concept_crop.png, is ONLY the supporting original concept. Apply their dull black-violet Kreegan resin with fine ridges to existing resin surfaces, pale ivory to bone claws, dry grey-violet to torn membrane flaps, and intrinsically dark dry material to the empty interior. Keep subtle fine surface detail; do not turn surfaces into glowing cracked stone.\n\nPaint flat unlit BASE COLOURS. Absolutely NO directional shading, contact darkening, ambient occlusion, cast shadows, shiny highlights, reflected light or rim light. All faces of each material have the same even viewer illumination. Ivory is matte pale ivory, without white highlight streaks. Resin is dull dark black-violet, without bright specular edges. Orange seam colour, if present in the reference, has zero glow spill. No liquid, floor, background, text or checkerboard.\n\nThe guide is a locked registration template. Change only surface colour and fine texture; keep its pixel coordinates, exact geometry and transparent background. Deliver native 1024x1024, not 1254x1254.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "ca63f4f1b9db655c7f2abb8a2e6ccf6171d7d632487e3e6afbcd34d7b24d1c4e"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the best available raw return because highlights are reduced. NOT brief-compliant: native size remains 1254x1254, silhouette and internal edges drift, and residual shading remains. The one allowed corrective regeneration is exhausted; no resizing, masking or other post-processing was applied.",
+      "output_sha256": "39d9244f7c03e366004571e9f97ae1b1b56bcb625db437e69e6cde444ca1b26a",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "silhouette_identical": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          3,
+          1242,
+          1254
+        ],
+        "alpha_128_bbox": [
+          80,
+          185,
+          1174,
+          1069
+        ],
+        "transparent_background": true,
+        "materials_and_colours": "Black-violet body, ivory claws, grey-violet membranes and dark dry interior are present; resin reads too much like cracked stone and some material boundaries drift.",
+        "flat_even_light": false,
+        "lighting_review": "Reduced highlights, but residual facet and contact shading remains.",
+        "geometry_review": "Guide silhouette and internal edges are not exact; claw shapes, membrane boundaries and aperture contour drift.",
+        "passed": false
+      },
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac4-c3f0-77a3-989f-1ea087349b18/exec-abcc9a9b-6d22-4def-b3ad-2ec8b286d747.png",
+      "retained_attempt_output": "paint_right_attempt_2.png"
+    }
+  ],
+  "brief_compliant": false,
+  "selection_note": "Selected means best available raw return, not acceptance of the strict brief checks.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "post_processing": "None. Selected outputs are byte-identical copies of the built-in tool returns."
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Prints the Android versionCode for a build: seconds from 2026-01-01 UTC to the commit's committer time.
-# CI (.github/workflows/nightly.yml) and packaging/build_release_local.sh share it, so any package of a newer
-# commit updates any package of an older one, nightly or tagged; packages of the same commit share a code.
+# Every CI build uses it (.github/workflows/packages.yml), so any package of a newer commit updates any
+# package of an older one, nightly or tagged; packages of the same commit share a code.
 # The commit time comes from OPENYAMM_COMMIT_TIME (Unix seconds) when set, otherwise from HEAD.
 set -euo pipefail
 

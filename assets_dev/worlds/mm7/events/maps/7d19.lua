@@ -84,7 +84,7 @@ SetMapMetadata({
 
 RegisterEvent(1, nil, function()
     SetValue(MapVar(2), 1)
-    evt.SetMonGroupBit(56, MonsterBits.Hostile, 1) -- actor group 56: spawn Cleric Moon A, spawn Wight A
+    evt.SetMonGroupBit(56, MonsterBits.Hostile, 1) -- actor group 56: Priest of the Moon, spawn Cleric Moon A, spawn Wight A
 end)
 
 RegisterEvent(2, nil, function()

@@ -1,0 +1,7 @@
+output_dir: /tmp/obsidian-native-mm8
+exit: true
+steps:
+  - wait: 2
+  - capture: gameplay
+  - action: rest
+  - capture: rest

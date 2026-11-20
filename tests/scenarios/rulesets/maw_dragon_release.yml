@@ -1,0 +1,25 @@
+id: rulesets.maw_dragon_release
+title: "Ruleset - MAW Dragon Hatchling: a released dragon is gone for good, a hatchling too (audit CNT-6)"
+world: mm7
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: 7out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - advance_runtime: {seconds: 1}
+  # A hatchling eats.
+  - execute_event: {id: 789}
+  - assert:
+      state_dump_named_global_var: {name: MMerge.CrossContinents.DragonFood, value: 5}
+  # Released, it flies away for good: no more feeding, no rejoining.
+  - execute_event: {id: 10022}
+  - assert:
+      state_dump_named_global_var: {name: MMerge.CrossContinents.DragonReleased, value: 1}
+  - execute_event: {id: 789}
+  - assert:
+      state_dump_named_global_var: {name: MMerge.CrossContinents.DragonFood, value: 5}
+  - setup_shortcut: {kind: set_global_var, name: MMerge.CrossContinents.DragonJoined, value: 1}
+  - execute_event: {id: 789}
+  - assert:
+      state_dump_named_global_var: {name: MMerge.CrossContinents.DragonFood, value: 5}

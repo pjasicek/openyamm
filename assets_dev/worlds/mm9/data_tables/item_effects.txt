@@ -1,0 +1,64 @@
+item_id	effect_profile	might	intellect	personality	endurance	speed	accuracy	luck	max_health	max_sp	armor_class	melee_attack	ranged_attack	melee_damage	ranged_damage	all_resistances	fire_resistance	air_resistance	water_resistance	earth_resistance	mind_resistance	body_resistance	spirit_resistance	skill_bonuses	weapon_damage	recovery_reduction_ticks	health_regen_per_second	spell_regen_per_second	effect_flags
+10175	mm9:item_effect/175	30																						Armsmaster:5					
+10176	mm9:item_effect/176				15		-5	50																					
+10178	mm9:item_effect/178																												BreakAfterFirstAttack
+10179	mm9:item_effect/179					40	40			-50																			
+10180	mm9:item_effect/180											20		10												10			
+10181	mm9:item_effect/181											20		15											15				PoisonWeaponDamage
+10182	mm9:item_effect/182				30											10													PoisonOnHit40Grandmaster
+10183	mm9:item_effect/183																							Axe:6|Armsmaster:6	10		1.0		
+10184	mm9:item_effect/184																							Bow:5		20			PerfectAccuracy
+10185	mm9:item_effect/185								100																	-20			TripleProjectile
+10186	mm9:item_effect/186	10					30																	RepairItem:5	5				DiseaseWeaponDamage
+10187	mm9:item_effect/187	10	10	10	10	10	10	10																Bow:7					
+10188	mm9:item_effect/188																								15	-20			HalveTargetArmor|BreakChance2SelfDamage
+10189	mm9:item_effect/189																								15				BypassArmorChance20
+10190	mm9:item_effect/190	50			-10						-10													Spear:5					
+10191	mm9:item_effect/191	40																											Vampiric|WeeklyInsanityChance10|WeeklyHealthLossChance10
+10192	mm9:item_effect/192	30			10																								EnrageOnHit5Grandmaster
+10193	mm9:item_effect/193	30			10																								EnrageOnHit5Grandmaster
+10194	mm9:item_effect/194	40			20																			Mace:5					StunOnHit5|SelfKnockoutOnFailedStun70
+10195	mm9:item_effect/195		30	30						80														Mace:5					
+10196	mm9:item_effect/196	80			20	-20																		Staff:3					
+10197	mm9:item_effect/197																								10				KillOnHit10
+10198	mm9:item_effect/198	20				30																							ReelOnHit
+10199	mm9:item_effect/199	50				-20																			20				DisableDivineIntervention
+10200	mm9:item_effect/200		30	30																									
+10201	mm9:item_effect/201					30																					1.0		FearOnHit10
+10202	mm9:item_effect/202																												MeleeArmor40|RangedArmorMinus10
+10203	mm9:item_effect/203															20													MagicArmor20
+10204	mm9:item_effect/204	10	10	10	10	10	10	10																LeatherArmor:10|ChainArmor:10|PlateArmor:10					
+10205	mm9:item_effect/205					10										10											1.0		Amelioration|Everlasting
+10206	mm9:item_effect/206						-20	40																DisarmTraps:10					
+10207	mm9:item_effect/207				30																								MissileArmor30
+10208	mm9:item_effect/208	30			10						20													Armsmaster:5					
+10209	mm9:item_effect/209							30																					WeeklyGold1000|PartyEnduranceMinus40
+10210	mm9:item_effect/210					10				50														LightMagic:5|Meditation:3		10			
+10211	mm9:item_effect/211	10			5				100																				
+10212	mm9:item_effect/212										20													Dodging:5					PhysicalDamageReduction3Percent
+10213	mm9:item_effect/213									20														Meditation:3|LightMagic:5|SpiritMagic:5			1.0		
+10214	mm9:item_effect/214			30																				DarkMagic:5|Perception:3					Amelioration
+10215	mm9:item_effect/215																							FireMagic:3|AirMagic:3|WaterMagic:3|EarthMagic:3|SpiritMagic:3|MindMagic:3|BodyMagic:3|LightMagic:3|DarkMagic:3|Learning:3|Meditation:3					
+10216	mm9:item_effect/216	15					15	-20								10													CarriedPartyEffect|EncounterChancePlus15Percent
+10217	mm9:item_effect/217																							Learning:-3					AllConditionImmunity|ExperienceGainMinus15Percent
+10218	mm9:item_effect/218				30				100	-20																	1.0		
+10219	mm9:item_effect/219																							Bodybuilding:2|Armsmaster:4					
+10220	mm9:item_effect/220	4																						Bodybuilding:2					
+10221	mm9:item_effect/221										2													Bodybuilding:2					
+10222	mm9:item_effect/222																							Bodybuilding:2|Learning:2					
+10223	mm9:item_effect/223																							Bodybuilding:2|Dodging:2					
+10224	mm9:item_effect/224																							Sword:2|Dagger:2|Learning:2					
+10225	mm9:item_effect/225										2													Sword:2|Dagger:2					
+10226	mm9:item_effect/226	2																						Sword:2|Dagger:2					
+10227	mm9:item_effect/227																							Sword:2|Dagger:2|LightMagic:2					
+10228	mm9:item_effect/228																							Sword:2|Dagger:2|Armsmaster:2					
+10229	mm9:item_effect/229																							DarkMagic:2|Armsmaster:2					
+10230	mm9:item_effect/230																							DarkMagic:2|Meditation:2					
+10231	mm9:item_effect/231																							DarkMagic:2|Learning:2					
+10232	mm9:item_effect/232																							DarkMagic:2|FireMagic:2|AirMagic:2|WaterMagic:2|EarthMagic:2					
+10233	mm9:item_effect/233																							DarkMagic:2|IdentifyMonster:2					
+10234	mm9:item_effect/234	2																						LightMagic:2					
+10235	mm9:item_effect/235																							LightMagic:2|SpiritMagic:2					
+10236	mm9:item_effect/236																							LightMagic:2|Meditation:2					
+10237	mm9:item_effect/237																							LightMagic:2|RepairItem:2					
+10238	mm9:item_effect/238					2																		LightMagic:2					

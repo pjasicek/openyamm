@@ -1,0 +1,18 @@
+{
+  "source": "assets_dev/worlds/mm8/maps/d18.blv",
+  "kind": "indoor",
+  "view": "ceiling-free isometric",
+  "camera_position": [
+    64.17890930175781,
+    -58.71406173706055,
+    93.50312042236328
+  ],
+  "camera_target": [
+    22.8125,
+    -1.4375,
+    4.40625
+  ],
+  "scale_game_units_per_blender_unit": 128,
+  "missing_textures": [],
+  "limitations": "Inspection lighting; no actors, decoration billboards, gameplay state, or animated water compositing"
+}

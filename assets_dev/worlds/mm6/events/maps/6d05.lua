@@ -87,29 +87,29 @@ RegisterEvent(10, "Gold vein", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(204, "t3ll6")
+        evt.SetTexture(-204, "t3ll6")
         SetValue(MapVar(13), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 1000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(204, "t3ll6")
+        evt.SetTexture(-204, "t3ll6")
         SetValue(MapVar(13), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 800)
-        evt.SetTexture(204, "t3ll6")
+        evt.SetTexture(-204, "t3ll6")
         SetValue(MapVar(13), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 600)
-        evt.SetTexture(204, "t3ll6")
+        evt.SetTexture(-204, "t3ll6")
         SetValue(MapVar(13), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 400)
-        evt.SetTexture(204, "t3ll6")
+        evt.SetTexture(-204, "t3ll6")
         SetValue(MapVar(13), 1)
         return
     end
@@ -121,29 +121,29 @@ RegisterEvent(11, "Gold vein", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(207, "t3ll6")
+        evt.SetTexture(-207, "t3ll6")
         SetValue(MapVar(14), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 1000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(207, "t3ll6")
+        evt.SetTexture(-207, "t3ll6")
         SetValue(MapVar(14), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 800)
-        evt.SetTexture(207, "t3ll6")
+        evt.SetTexture(-207, "t3ll6")
         SetValue(MapVar(14), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 600)
-        evt.SetTexture(207, "t3ll6")
+        evt.SetTexture(-207, "t3ll6")
         SetValue(MapVar(14), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 400)
-        evt.SetTexture(207, "t3ll6")
+        evt.SetTexture(-207, "t3ll6")
         SetValue(MapVar(14), 1)
         return
     end
@@ -155,29 +155,29 @@ RegisterEvent(12, "Gold vein", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(12, "t3ll6")
+        evt.SetTexture(-12, "t3ll6")
         SetValue(MapVar(15), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 1000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(12, "t3ll6")
+        evt.SetTexture(-12, "t3ll6")
         SetValue(MapVar(15), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 800)
-        evt.SetTexture(12, "t3ll6")
+        evt.SetTexture(-12, "t3ll6")
         SetValue(MapVar(15), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 600)
-        evt.SetTexture(12, "t3ll6")
+        evt.SetTexture(-12, "t3ll6")
         SetValue(MapVar(15), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 400)
-        evt.SetTexture(12, "t3ll6")
+        evt.SetTexture(-12, "t3ll6")
         SetValue(MapVar(15), 1)
         return
     end
@@ -189,29 +189,29 @@ RegisterEvent(13, "Gold vein", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(624, "t3ll6")
+        evt.SetTexture(-624, "t3ll6")
         SetValue(MapVar(16), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 1000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(624, "t3ll6")
+        evt.SetTexture(-624, "t3ll6")
         SetValue(MapVar(16), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 800)
-        evt.SetTexture(624, "t3ll6")
+        evt.SetTexture(-624, "t3ll6")
         SetValue(MapVar(16), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 600)
-        evt.SetTexture(624, "t3ll6")
+        evt.SetTexture(-624, "t3ll6")
         SetValue(MapVar(16), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 400)
-        evt.SetTexture(624, "t3ll6")
+        evt.SetTexture(-624, "t3ll6")
         SetValue(MapVar(16), 1)
         return
     end
@@ -223,29 +223,29 @@ RegisterEvent(14, "Gold vein", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(612, "t3ll6")
+        evt.SetTexture(-612, "t3ll6")
         SetValue(MapVar(17), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 1000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(612, "t3ll6")
+        evt.SetTexture(-612, "t3ll6")
         SetValue(MapVar(17), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 800)
-        evt.SetTexture(612, "t3ll6")
+        evt.SetTexture(-612, "t3ll6")
         SetValue(MapVar(17), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 600)
-        evt.SetTexture(612, "t3ll6")
+        evt.SetTexture(-612, "t3ll6")
         SetValue(MapVar(17), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 400)
-        evt.SetTexture(612, "t3ll6")
+        evt.SetTexture(-612, "t3ll6")
         SetValue(MapVar(17), 1)
         return
     end
@@ -282,29 +282,29 @@ RegisterEvent(26, "Gold vein", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(143, "t3ll6")
+        evt.SetTexture(-143, "t3ll6")
         SetValue(MapVar(21), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 1000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(143, "t3ll6")
+        evt.SetTexture(-143, "t3ll6")
         SetValue(MapVar(21), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 800)
-        evt.SetTexture(143, "t3ll6")
+        evt.SetTexture(-143, "t3ll6")
         SetValue(MapVar(21), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 600)
-        evt.SetTexture(143, "t3ll6")
+        evt.SetTexture(-143, "t3ll6")
         SetValue(MapVar(21), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 400)
-        evt.SetTexture(143, "t3ll6")
+        evt.SetTexture(-143, "t3ll6")
         SetValue(MapVar(21), 1)
         return
     end
@@ -316,29 +316,29 @@ RegisterEvent(28, "Gems", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(124, "t3ll6")
+        evt.SetTexture(-124, "t3ll6")
         SetValue(MapVar(18), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 2000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(124, "t3ll6")
+        evt.SetTexture(-124, "t3ll6")
         SetValue(MapVar(18), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 1200)
-        evt.SetTexture(124, "t3ll6")
+        evt.SetTexture(-124, "t3ll6")
         SetValue(MapVar(18), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 800)
-        evt.SetTexture(124, "t3ll6")
+        evt.SetTexture(-124, "t3ll6")
         SetValue(MapVar(18), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 600)
-        evt.SetTexture(124, "t3ll6")
+        evt.SetTexture(-124, "t3ll6")
         SetValue(MapVar(18), 1)
         return
     end
@@ -350,29 +350,29 @@ RegisterEvent(29, "Gems", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(132, "t3ll6")
+        evt.SetTexture(-132, "t3ll6")
         SetValue(MapVar(19), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 2000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(132, "t3ll6")
+        evt.SetTexture(-132, "t3ll6")
         SetValue(MapVar(19), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 1200)
-        evt.SetTexture(132, "t3ll6")
+        evt.SetTexture(-132, "t3ll6")
         SetValue(MapVar(19), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 800)
-        evt.SetTexture(132, "t3ll6")
+        evt.SetTexture(-132, "t3ll6")
         SetValue(MapVar(19), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 600)
-        evt.SetTexture(132, "t3ll6")
+        evt.SetTexture(-132, "t3ll6")
         SetValue(MapVar(19), 1)
         return
     end
@@ -384,29 +384,29 @@ RegisterEvent(30, "Gems", function()
     if randomStep == 15 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(135, "t3ll6")
+        evt.SetTexture(-135, "t3ll6")
         SetValue(MapVar(20), 1)
         return
     elseif randomStep == 20 then
         evt.DamagePlayer(Players.All, const.Damage.Physical, 20)
         AddValue(Gold, 2000)
         evt.StatusText("Cave-in!")
-        evt.SetTexture(135, "t3ll6")
+        evt.SetTexture(-135, "t3ll6")
         SetValue(MapVar(20), 1)
         return
     elseif randomStep == 11 then
         AddValue(Gold, 1200)
-        evt.SetTexture(135, "t3ll6")
+        evt.SetTexture(-135, "t3ll6")
         SetValue(MapVar(20), 1)
         return
     elseif randomStep == 7 then
         AddValue(Gold, 800)
-        evt.SetTexture(135, "t3ll6")
+        evt.SetTexture(-135, "t3ll6")
         SetValue(MapVar(20), 1)
         return
     elseif randomStep == 3 then
         AddValue(Gold, 600)
-        evt.SetTexture(135, "t3ll6")
+        evt.SetTexture(-135, "t3ll6")
         SetValue(MapVar(20), 1)
         return
     end
@@ -438,93 +438,93 @@ end, "Bones")
 
 RegisterEvent(35, nil, function()
     if IsAtLeast(MapVar(13), 1) then
-        evt.SetTexture(204, "t3ll6")
+        evt.SetTexture(-204, "t3ll6")
     end
     if IsAtLeast(MapVar(14), 1) then
-        evt.SetTexture(207, "t3ll6")
+        evt.SetTexture(-207, "t3ll6")
     end
     if IsAtLeast(MapVar(15), 1) then
         if IsAtLeast(MapVar(16), 1) then
-            evt.SetTexture(624, "t3ll6")
+            evt.SetTexture(-624, "t3ll6")
         end
         if IsAtLeast(MapVar(17), 1) then
-            evt.SetTexture(612, "t3ll6")
+            evt.SetTexture(-612, "t3ll6")
         end
         if IsAtLeast(MapVar(21), 1) then
-            evt.SetTexture(143, "t3ll6")
+            evt.SetTexture(-143, "t3ll6")
         end
         if IsAtLeast(MapVar(18), 1) then
-            evt.SetTexture(124, "t3ll6")
+            evt.SetTexture(-124, "t3ll6")
         end
         if IsAtLeast(MapVar(19), 1) then
-            evt.SetTexture(132, "t3ll6")
+            evt.SetTexture(-132, "t3ll6")
         end
         if IsAtLeast(MapVar(20), 1) then
-            evt.SetTexture(135, "t3ll6")
+            evt.SetTexture(-135, "t3ll6")
         end
         return
     elseif IsAtLeast(MapVar(16), 1) then
-        evt.SetTexture(624, "t3ll6")
+        evt.SetTexture(-624, "t3ll6")
         if IsAtLeast(MapVar(17), 1) then
-            evt.SetTexture(612, "t3ll6")
+            evt.SetTexture(-612, "t3ll6")
         end
         if IsAtLeast(MapVar(21), 1) then
-            evt.SetTexture(143, "t3ll6")
+            evt.SetTexture(-143, "t3ll6")
         end
         if IsAtLeast(MapVar(18), 1) then
-            evt.SetTexture(124, "t3ll6")
+            evt.SetTexture(-124, "t3ll6")
         end
         if IsAtLeast(MapVar(19), 1) then
-            evt.SetTexture(132, "t3ll6")
+            evt.SetTexture(-132, "t3ll6")
         end
         if IsAtLeast(MapVar(20), 1) then
-            evt.SetTexture(135, "t3ll6")
+            evt.SetTexture(-135, "t3ll6")
         end
         return
     elseif IsAtLeast(MapVar(17), 1) then
-        evt.SetTexture(612, "t3ll6")
+        evt.SetTexture(-612, "t3ll6")
         if IsAtLeast(MapVar(21), 1) then
-            evt.SetTexture(143, "t3ll6")
+            evt.SetTexture(-143, "t3ll6")
         end
         if IsAtLeast(MapVar(18), 1) then
-            evt.SetTexture(124, "t3ll6")
+            evt.SetTexture(-124, "t3ll6")
         end
         if IsAtLeast(MapVar(19), 1) then
-            evt.SetTexture(132, "t3ll6")
+            evt.SetTexture(-132, "t3ll6")
         end
         if IsAtLeast(MapVar(20), 1) then
-            evt.SetTexture(135, "t3ll6")
+            evt.SetTexture(-135, "t3ll6")
         end
         return
     elseif IsAtLeast(MapVar(21), 1) then
-        evt.SetTexture(143, "t3ll6")
+        evt.SetTexture(-143, "t3ll6")
         if IsAtLeast(MapVar(18), 1) then
-            evt.SetTexture(124, "t3ll6")
+            evt.SetTexture(-124, "t3ll6")
         end
         if IsAtLeast(MapVar(19), 1) then
-            evt.SetTexture(132, "t3ll6")
+            evt.SetTexture(-132, "t3ll6")
         end
         if IsAtLeast(MapVar(20), 1) then
-            evt.SetTexture(135, "t3ll6")
+            evt.SetTexture(-135, "t3ll6")
         end
         return
     elseif IsAtLeast(MapVar(18), 1) then
-        evt.SetTexture(124, "t3ll6")
+        evt.SetTexture(-124, "t3ll6")
         if IsAtLeast(MapVar(19), 1) then
-            evt.SetTexture(132, "t3ll6")
+            evt.SetTexture(-132, "t3ll6")
         end
         if IsAtLeast(MapVar(20), 1) then
-            evt.SetTexture(135, "t3ll6")
+            evt.SetTexture(-135, "t3ll6")
         end
         return
     elseif IsAtLeast(MapVar(19), 1) then
-        evt.SetTexture(132, "t3ll6")
+        evt.SetTexture(-132, "t3ll6")
         if IsAtLeast(MapVar(20), 1) then
-            evt.SetTexture(135, "t3ll6")
+            evt.SetTexture(-135, "t3ll6")
         end
         return
     elseif IsAtLeast(MapVar(20), 1) then
-        evt.SetTexture(135, "t3ll6")
+        evt.SetTexture(-135, "t3ll6")
     else
         return
     end

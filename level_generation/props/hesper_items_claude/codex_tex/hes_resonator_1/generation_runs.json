@@ -1,0 +1,558 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the EDIT TARGET geometry guide. Input image 2 is the approved DESIGN REFERENCE, authority for materials and colors only, not camera or geometry.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nFRONT view: retain the guide's low horizontal profile, NOT the tall triangular hero image. The ceramic body occupies exactly x=95..928 and y=504..663. The central exposed crystal is the guide's triangle with apex at (512,360) and base near y=504, extending x=358..666. Paint that triangle purple without changing it. Keep the four small hexagonal connector ends exactly at their guide positions around x=407,477,547,617, y=602, paint gold. Remove the four diagonal gray cast shadows beneath these ends: those gray patches are shadows on ceramic, not parts. Preserve thin gold pieces already visible along the upper body edge. Preserve the square rectangular body corners and straight edges.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-be65035a-51c0-40d8-852a-4fcffe86d151.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: invented gold crystal bezel and displaced/enlarged connector geometry; strong highlights and recess shading.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d78aae9740d732b6ab659cc0c60dc552151d87c0e394a4b476fea5eb3d0bec16"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "output_sha256": "c8d06ad161e85b400c94a934bed8081c1ed20dbb256211d1ab477254d6b34a44",
+      "alpha_bbox": [
+        0,
+        45,
+        1242,
+        1212
+      ],
+      "transparent_pixels": 1336935,
+      "partial_alpha_pixels": 235364,
+      "opaque_bbox": [
+        120,
+        439,
+        1135,
+        819
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.9134506599622879,
+        "normalized_mask_different_pixels": 13770,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Added crystal surround, enlarged plugs, dark recesses and bright metal highlights.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available: removes invented crystal bezel and restores small hexagonal connector faces. Selected for improved part fidelity and reduced relief despite remaining alignment error.",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nFRONT view: retain the guide's low horizontal profile, NOT the tall triangular hero image. The ceramic body occupies exactly x=95..928 and y=504..663. The central exposed crystal is the guide's triangle with apex at (512,360) and base near y=504, extending x=358..666. Paint that triangle purple without changing it. Keep the four small hexagonal connector ends exactly at their guide positions around x=407,477,547,617, y=602, paint gold. Remove the four diagonal gray cast shadows beneath these ends: those gray patches are shadows on ceramic, not parts. Preserve thin gold pieces already visible along the upper body edge. Preserve the square rectangular body corners and straight edges.\nCORRECTIVE REGENERATION (the one allowed for FRONT): Repaint the LAST input, the 1024-square GUIDE, as a material color edit with strictly identical geometry. The previous output incorrectly surrounded the triangular crystal with a new gold bezel and enlarged/moved the four plugs. Do not do that. The triangle must be purple all the way to its existing three edges with NO GOLD BORDER. The ceramic front must remain a simple uninterrupted straight rectangle in the same pixel location; restrained fine seam lines only, no deep angular decorative recesses and no corner gold triangles. The four gold hexagonal connector faces retain exactly the guide's small size and position at y=602; do not extend them to the bottom of the rectangle. Keep the straight rectangular lower edge at y=663. Remove all guide cast shadows on the rectangle. Remove specular highlights from gold and crystal. No invented depth. All details are flat material coloration on the guide. The output canvas is 1024x1024 to match the LAST input, not 1254x1254 from the design reference.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-b5a6377f-4ef5-42a8-8838-a4e123c3bf2a.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "d78aae9740d732b6ab659cc0c60dc552151d87c0e394a4b476fea5eb3d0bec16"
+        }
+      ],
+      "resized": false,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "c4dc111dc4699e2e1c1836289ff1029ee0409639f61499dd26bb3e9a8c94122e",
+      "alpha_bbox": [
+        0,
+        21,
+        1198,
+        1214
+      ],
+      "transparent_pixels": 1319042,
+      "partial_alpha_pixels": 253303,
+      "opaque_bbox": [
+        110,
+        449,
+        1144,
+        824
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.8964357767316745,
+        "normalized_mask_different_pixels": 17094,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Exposed crystal and small plugs restored; lower body and port positions drift, ceramic edges are beveled, crystal retains bright facets.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best available: preserves exposed purple triangle without the corrective pass's invented gold border. Normalized silhouette overlap is 97.73%; extra crystal facets and lighting contrast remain.",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nBACK view: retain the low horizontal profile. Ceramic rectangle exactly x=95..928, y=504..663, with central exposed triangle apex (512,360), base x=358..666 at y=504. Paint the two visible crystal faces amethyst purple; remove directional light/shadow difference. Continue ivory ceramic material and restrained seams across the back. No connector ends are visible in this guide, so do not add them. Keep the guide's existing very thin gold pieces at the upper body edge. Preserve square corners, straight edges, and all part boundaries.\nPreserve geometry literally: apply only surface color and fine texture. Do not add the design reference's continuous golden triangle bezel, corner decorations or reliefs to the guide. The purple triangle must reach its guide edges. Ceramic boundaries stay straight, sharp and unchanged. Use the LAST input's 1024 x 1024 output canvas and alpha exactly. No shaded bevels or bright gleams.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-0c2ed89c-97ca-49c6-a1ca-c01fe9e41051.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "d42b812e11e77c3941a27a8647ae2affe831fbe27857ecaa48e8a44977b793ce"
+        }
+      ],
+      "resized": false,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "03198be736869c420f8307513e10cdbaad2150c21bdafcfe7c1ee100130cbe7c",
+      "alpha_bbox": [
+        0,
+        19,
+        1224,
+        1254
+      ],
+      "transparent_pixels": 1323208,
+      "partial_alpha_pixels": 249288,
+      "opaque_bbox": [
+        117,
+        442,
+        1137,
+        815
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.9772790368986927,
+        "normalized_mask_different_pixels": 3601,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Plain ivory back and purple crystal; extra cut facets, subtle edge shading and bright facet contrast remain.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available: substantially better silhouette placement than corrective pass and no added crystal border. Normalized silhouette overlap is 97.36%; crystal facet and gold highlight artifacts remain.",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nLEFT view: exact low horizontal side profile. The ceramic rectangle occupies x=66..787, y=504..663. The exposed purple crystal is an asymmetric triangle from about (369,504) to (548,360) to (636,504). Preserve that apex and outline. Keep the detached-looking horizontal connector at x=816..957, y=581..623 in its exact position and paint it warm brushed gold. The transparent gap separating connector from body is deliberate and MUST remain transparent. Preserve thin existing gold above body. No additional connectors or new geometry.\nPreserve geometry literally: apply only surface color and fine texture. Do not add the design reference's continuous golden triangle bezel, corner decorations or reliefs to the guide. The purple triangle must reach its guide edges. Ceramic boundaries stay straight, sharp and unchanged. Use the LAST input's 1024 x 1024 output canvas and alpha exactly. No shaded bevels or bright gleams.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-e3d4a174-be2b-4d31-bff7-8bd5c2cbbb47.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "ccd5ffcc93e404e49e70b5f90141d9b8162dec8bcc3c6d58d29f6235a613e592"
+        }
+      ],
+      "resized": false,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "6b2080593ae9d141e13c98cbbf2043bb6969e04912f468b4fe49b489bc08bb69",
+      "alpha_bbox": [
+        0,
+        32,
+        1253,
+        1228
+      ],
+      "transparent_pixels": 1343507,
+      "partial_alpha_pixels": 228397,
+      "opaque_bbox": [
+        79,
+        446,
+        1176,
+        814
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.9736472756980958,
+        "normalized_mask_different_pixels": 3774,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Correct broad profile and separate connector; bright polygonal crystal facets and a metal specular stripe remain.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: oversized/shifted parts, invented gold crystal border and vertical ceramic-end bands.",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nRIGHT view: exact low horizontal side profile. The ceramic rectangle occupies x=236..957, y=504..663. The exposed purple crystal is an asymmetric triangle from about (388,504) to (476,360) to (655,504). Preserve that apex and outline. Keep the detached-looking horizontal connector at x=66..207, y=581..623 in its exact position and paint it warm brushed gold. The transparent gap separating connector from body is deliberate and MUST remain transparent. Preserve thin existing gold above body. No additional connectors or new geometry.\nPreserve geometry literally: apply only surface color and fine texture. Do not add the design reference's continuous golden triangle bezel, corner decorations or reliefs to the guide. The purple triangle must reach its guide edges. Ceramic boundaries stay straight, sharp and unchanged. Use the LAST input's 1024 x 1024 output canvas and alpha exactly. No shaded bevels or bright gleams.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-8a7d17ee-6863-4b26-8015-73c6cd566aa2.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "e115fa9b6cd2fab16a5e4ab7c2c2be3fe4bc0d93f36363636c6accaa8c55d533"
+        }
+      ],
+      "resized": false,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "75e16324c52f54309d452efed5003931c4803e297eec655b483a0cd4cdc85b69",
+      "alpha_bbox": [
+        25,
+        43,
+        1234,
+        1228
+      ],
+      "transparent_pixels": 1346219,
+      "partial_alpha_pixels": 226055,
+      "opaque_bbox": [
+        67,
+        459,
+        1191,
+        823
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.8553350987444501,
+        "normalized_mask_different_pixels": 21961,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Added gold framing and body panel relief; shifted dimensions and strong shiny edges.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available: preserves more of the transparent internal separation and guide layout than corrective pass. Connector widths, outer edges, facet contrast and residual gold highlights still differ from the guide/flat-light brief.",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nTOP view, directly overhead, exactly the guide's triangular geometry. Retain outer ceramic triangle apex (512,66), lower corners (95,788) and (929,788); flat bottom at y=788. Central three-faced triangular crystal remains the exact guide shape with its center junction near (512,548); paint rich amethyst purple, each face with restrained purple internal texture. Preserve all the thin transparent gaps between crystal and ceramic. Retain exactly the three small gold arms over the triangle at their guide locations; do NOT replace them with the reference's large continuous gold frame. Retain the four separate vertical gold connector shapes below the body, at x=389..425,459..495,528..564,598..634, y=816..958. Every transparent separation remains transparent. Paint restrained ceramic seams and gold accent lines INSIDE existing ceramic surfaces without changing silhouettes or part edges.\nPreserve geometry literally: apply only surface color and fine texture. Do not add the design reference's continuous golden triangle bezel, corner decorations or reliefs to the guide. The purple triangle must reach its guide edges. Ceramic boundaries stay straight, sharp and unchanged. Use the LAST input's 1024 x 1024 output canvas and alpha exactly. No shaded bevels or bright gleams.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-562e5fc5-ca1c-4548-91a3-f35b88facd87.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "756bd6115aa500bfee0e29ee69b337e2bddc5fc455cadf9c7714b405b3c4588f"
+        }
+      ],
+      "resized": false,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "fc825c4e6144b354a3346a15a3235fee17239f6d2105ae30a21731354710c2b7",
+      "alpha_bbox": [
+        0,
+        23,
+        1230,
+        1254
+      ],
+      "transparent_pixels": 1037629,
+      "partial_alpha_pixels": 534369,
+      "opaque_bbox": [
+        100,
+        77,
+        1153,
+        1180
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.8972997367431366,
+        "normalized_mask_different_pixels": 34135,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Triangular ivory ring, three gold arms and four separated contacts preserved in broad layout; enlarged contacts, extra facets and metal glints remain.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nBACK view: retain the low horizontal profile. Ceramic rectangle exactly x=95..928, y=504..663, with central exposed triangle apex (512,360), base x=358..666 at y=504. Paint the two visible crystal faces amethyst purple; remove directional light/shadow difference. Continue ivory ceramic material and restrained seams across the back. No connector ends are visible in this guide, so do not add them. Keep the guide's existing very thin gold pieces at the upper body edge. Preserve square corners, straight edges, and all part boundaries.\nCORRECTIVE PASS: keep precisely the guide's alpha mask and straight ceramic rectangle edges; eliminate all edge fringing, isolated colored pixels, rounded/beveled corners and exterior trim. The back crystal has exactly TWO broad triangular visible faces divided by the guide's central vertical edge. Do not invent additional polygon cuts. Use very similar mid-amethyst values on both faces with tiny mineral variation, no directional lighting contrast. Gold strip is a uniform muted yellow-gold base, no shiny line. Ceramic uniformly ivory-white with very faint fine grain, not mottled beige marble. No edge highlights or dark bevel shading. Preserve exact placement and alpha with every transparent pixel outside the guide empty.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-cfffbec1-96e1-46c0-ace6-2116dd57e8ad.png",
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: slightly better outer-mask overlap but adds gold along the crystal silhouette and central face edge, violating the guide's part boundaries.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "d42b812e11e77c3941a27a8647ae2affe831fbe27857ecaa48e8a44977b793ce"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "output_sha256": "3e29cb4e6da85eb65607b988e0bfb6281ae25af4a01497a7396f4d7c83e11a1f",
+      "alpha_bbox": [
+        81,
+        37,
+        1224,
+        1166
+      ],
+      "transparent_pixels": 1327708,
+      "partial_alpha_pixels": 244646,
+      "opaque_bbox": [
+        119,
+        447,
+        1135,
+        812
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.9868371375733492,
+        "normalized_mask_different_pixels": 2057,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Smoother broad crystal faces but invented gold triangle edge and center bar; edge shading persists.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nLEFT view: exact low horizontal side profile. The ceramic rectangle occupies x=66..787, y=504..663. The exposed purple crystal is an asymmetric triangle from about (369,504) to (548,360) to (636,504). Preserve that apex and outline. Keep the detached-looking horizontal connector at x=816..957, y=581..623 in its exact position and paint it warm brushed gold. The transparent gap separating connector from body is deliberate and MUST remain transparent. Preserve thin existing gold above body. No additional connectors or new geometry.\nCORRECTIVE PASS: keep precisely the guide's alpha mask, straight edges and part locations. Purple crystal triangle is one broad surface in this view; remove the invented extra crystal polygon cuts and bright white/lavender reflective facet. Use restrained purple internal texture and even mid-amethyst base color. The detached gold connector is exactly the guide's simple rectangular profile, no raised border, no specular stripe, no shadow on its underside. It is muted brushed gold of uniform brightness. Ceramic stays uniform ivory-white with very faint grain, no brown patches, no outer border or rounded corners. Remove all edge fringing and colored pixels outside the guide.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-40186f1c-1147-40b2-9933-5ae43377b13d.png",
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: shifts the object downward and adds an unwanted gold crystal edge; normalized silhouette overlap falls to 77.32%.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "ccd5ffcc93e404e49e70b5f90141d9b8162dec8bcc3c6d58d29f6235a613e592"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "output_sha256": "9bf3d6e89b186e6d527fc16be1590a2447e5ee7b5b7a2b186f7d4bdab41cdfaf",
+      "alpha_bbox": [
+        0,
+        23,
+        1230,
+        1214
+      ],
+      "transparent_pixels": 1356914,
+      "partial_alpha_pixels": 214989,
+      "opaque_bbox": [
+        80,
+        472,
+        1179,
+        833
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.7731881360935354,
+        "normalized_mask_different_pixels": 35345,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Broad crystal face with unwanted gold edge; body displaced down; gold edge highlights remain.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nRIGHT view: exact low horizontal side profile. The ceramic rectangle occupies x=236..957, y=504..663. The exposed purple crystal is an asymmetric triangle from about (388,504) to (476,360) to (655,504). Preserve that apex and outline. Keep the detached-looking horizontal connector at x=66..207, y=581..623 in its exact position and paint it warm brushed gold. The transparent gap separating connector from body is deliberate and MUST remain transparent. Preserve thin existing gold above body. No additional connectors or new geometry.\nCORRECTIVE PASS: geometry correction is critical. Repaint the guide literally. The right ceramic rectangle must remain x=236..957, y=504..663 on the guide's 1024 canvas; NOT enlarged or shifted. Crystal apex must be (476,360), not displaced right/down. Remove the added GOLD BORDER around crystal completely; purple reaches the guide's triangle edges. Remove the added thick gold vertical bands on the ceramic ends; these areas are plain ceramic as the guide shows. Keep ceramic as one simple flat rectangle with only faint restrained hairline seams. Detached left gold connector stays exactly x=66..207, y=581..623, NOT enlarged. No shiny connector border or bevel. Uniform muted gold base, uniform ivory ceramic, mid-amethyst crystal with fine restrained mineral variation, no bright reflective facets. Do not round corners, add depth, shift parts, add surrounding pixels, or change transparent gaps.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-e06e2dd8-9ec7-4216-886c-0d0d17bca184.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available: removes invented gold bands and crystal bezel, substantially improves placement and normalized silhouette overlap to 97.30%. Extra crystal facets and residual highlights remain.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "e115fa9b6cd2fab16a5e4ab7c2c2be3fe4bc0d93f36363636c6accaa8c55d533"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "output_sha256": "555efab6c5a2dea0d3f77915baf715f5184aaaa60a2525df4716a61eb306f2b9",
+      "alpha_bbox": [
+        0,
+        67,
+        1216,
+        1226
+      ],
+      "transparent_pixels": 1344379,
+      "partial_alpha_pixels": 227828,
+      "opaque_bbox": [
+        80,
+        447,
+        1182,
+        812
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.9730439348853492,
+        "normalized_mask_different_pixels": 3850,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Simplified ceramic and exposed crystal; extra crystal facets, connector border sheen and edge shading remain.",
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper resonator game model.\nInput image 1 is the approved DESIGN REFERENCE, authority for colors and materials only. Input image 2 (the LAST input) is the EDIT TARGET geometry guide, absolute authority for layout, silhouette and every part edge. Output a painted version of image 2.\nPaint directly inside the target guide's existing silhouette and existing part boundaries. Preserve the guide's exact 1024 x 1024 canvas, orthographic camera, object location, scale, outline, every part edge and every transparent gap. Keep the original alpha mask exactly. Do not crop, recenter, zoom, rotate, add geometry, or re-design the model to match the reference's perspective. The guide's pale tints identify materials; they are NOT colors to copy.\nMaterials from reference: warm ivory-white ceramic with restrained fine wear and subtle grain; brushed warm yellow gold with fine scratches and only faint sheen; saturated amethyst-purple faceted crystal with restrained internal violet texture; very dark black-violet resin at existing thin seams. Continue the same material language plausibly on unseen faces. Fine engraved lines and panel joins are surface markings only, not raised new geometry. Use only materials actually shown by this reference; do not add cloth, leather, paper, blue crystals, or orange lamps.\nLIGHTING: flat shadowless even frontal illumination, an ALBEDO source. Remove all lighting and cast shadows from the guide. No ambient occlusion, drop shadows, reflected lighting, directional gradients, bright specular hot spots, glossy reflections, rim light, bloom, floor, or background. Paint metal as its base color with faint sheen, crystal facets as purple material colors rather than white specular reflections. Keep the geometry surface opaque; background and all guide gaps are true transparent alpha. No text, letters, numbers, logos, watermark, labels, border, or contact sheet.\nReturn one 1024 x 1024 transparent PNG, just this requested view.\nTOP view, directly overhead, exactly the guide's triangular geometry. Retain outer ceramic triangle apex (512,66), lower corners (95,788) and (929,788); flat bottom at y=788. Central three-faced triangular crystal remains the exact guide shape with its center junction near (512,548); paint rich amethyst purple, each face with restrained purple internal texture. Preserve all the thin transparent gaps between crystal and ceramic. Retain exactly the three small gold arms over the triangle at their guide locations; do NOT replace them with the reference's large continuous gold frame. Retain the four separate vertical gold connector shapes below the body, at x=389..425,459..495,528..564,598..634, y=816..958. Every transparent separation remains transparent. Paint restrained ceramic seams and gold accent lines INSIDE existing ceramic surfaces without changing silhouettes or part edges.\nCORRECTIVE PASS: geometry and flat light correction. Trace the guide pixel-for-pixel. The outer ceramic triangle must keep the exact sharp corners, exact edge slopes, and exact straight bottom; no gold outside its contour, no exterior bevel, no edge fringing. Do not enlarge the four detached connectors: each is exactly 36 pixels wide in the 1024 guide, NOT wider framed bars. Keep each gap around them transparent, with gold base-color texture and no drawn frame. Keep the three gold arms exactly their guide shapes and locations, not thicker or symmetric replacements. Preserve the narrow transparent gaps between ceramic and crystal exactly. The central crystal has exactly THREE large faces meeting at the guide's center, no new small polygon cut facets; use mid-amethyst purple on all three with subtle internal mineral color variation, no luminous white/lavender stripe. Gold is brushed ochre-yellow with only a faint sheen, no hot edges. Ceramic is uniform warm white with fine wear and hairline engraved joins only, no shaded bevels or dark occlusion. Everything is a flat albedo material painting within the original alpha mask.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16df2-f0ee-74f2-9818-a5bae9b86c75/exec-05f03207-57b7-4102-951c-963f4a9b49eb.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: added continuous gold inner frame fills guide gaps, connectors remain enlarged, and silhouette overlap is worse than the first attempt.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "520c81bf5e28b080fb1b253383a44a74eacc8110ee66be9a5ea268c6a1afd8fd"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "756bd6115aa500bfee0e29ee69b337e2bddc5fc455cadf9c7714b405b3c4588f"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "output_sha256": "9ba24ad780b69386dd00bc315a14354fe09ae12090c258093f46073c9c01c2af",
+      "alpha_bbox": [
+        0,
+        0,
+        1234,
+        1244
+      ],
+      "transparent_pixels": 1043521,
+      "partial_alpha_pixels": 528494,
+      "opaque_bbox": [
+        101,
+        74,
+        1149,
+        1176
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou_alpha128": 0.8909461062960322,
+        "normalized_mask_different_pixels": 36854,
+        "measurement_note": "Normalized mask diagnostic samples original images by pixel centers; saved outputs are untouched and unresized.",
+        "requested_1024_square": false,
+        "colours_and_materials_match_reference_palette": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Three broad crystal faces but an invented inner gold frame covers transparent gaps; enlarged contacts and bright metal edges remain.",
+        "overall_brief_pass": false
+      }
+    }
+  ],
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "generation_policy": {
+    "maximum_corrective_regenerations_per_view": 1,
+    "corrective_regenerations_used_per_view": {
+      "front": 1,
+      "back": 1,
+      "left": 1,
+      "right": 1,
+      "top": 1
+    },
+    "all_returns_preserved_unresized": true,
+    "postprocessing": "None; copied original PNG bytes only."
+  },
+  "status": "Five best-available paintings saved; strict silhouette and flat-light checks failed.",
+  "limitations": [
+    "All ten tool returns are 1254 x 1254 instead of 1024 x 1024. Kept unresized as instructed.",
+    "No return has the exact guide alpha silhouette. Normalized mask overlap is diagnostic, not a pass.",
+    "Small edge fringes and residual highlights/shading remain, so these are not certified clean albedo sources.",
+    "One corrective regeneration per view was used; no additional generation or postprocessing was performed."
+  ]
+}

@@ -43,7 +43,7 @@ end, "Small glittering pool.")
 RegisterEvent(3, "Switch.", function()
     if not IsAtLeast(MapVar(4), 1) then
         evt.StatusText("The torches Ignite and so does the swamp gas.")
-        evt.SetTexture(225, "d8s2on")
+        evt.SetTexture(-225, "d8s2on")
         evt.CastSpell(6, 0, 1, -3004, -2315, 120, -3244, -2315, 120) -- Fireball
         evt.DamagePlayer(Players.All, const.Damage.Magic, 20)
         evt.SetSprite(1, 1, "torch01")

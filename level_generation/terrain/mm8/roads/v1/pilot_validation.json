@@ -1,0 +1,37 @@
+{
+  "status": "pilot_screening_not_acceptance",
+  "tiles": [
+    {
+      "name": "drsrew",
+      "runtime_sha256": "ef399dec88106a4ec33e6b928f804110372984fce84fd8fd704020ddcdea42fc",
+      "axis": "E",
+      "self_join": {
+        "boundary_p95": 2.949062204277135,
+        "boundary_max": 3.8172863188715245,
+        "interior_p95": 1.394474074639576,
+        "interior_p999": 1.7378391552200492,
+        "passed": false
+      },
+      "connected_components": 1,
+      "interior_hole_pixels": 0,
+      "visual_acceptance": false,
+      "reason": "Finished border continuity and native road review remain pending"
+    },
+    {
+      "name": "drsrns",
+      "runtime_sha256": "597ed8ade4bb1532019d67a2238a5765b5e3597d95fcac07ff886349092fde50",
+      "axis": "S",
+      "self_join": {
+        "boundary_p95": 2.414815894226142,
+        "boundary_max": 3.3902514161523514,
+        "interior_p95": 1.4845978887658824,
+        "interior_p999": 2.1531371955831196,
+        "passed": false
+      },
+      "connected_components": 1,
+      "interior_hole_pixels": 0,
+      "visual_acceptance": false,
+      "reason": "Finished border continuity and native road review remain pending"
+    }
+  ]
+}

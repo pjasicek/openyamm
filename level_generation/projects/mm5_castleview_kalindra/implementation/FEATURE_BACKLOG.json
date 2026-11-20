@@ -1,0 +1,722 @@
+{
+  "status": "All31 source exterior features exported and locally reviewed; final regional composition accepted.",
+  "source": "layout.json/features",
+  "countsByKind": {
+    "landmark": 1,
+    "spring": 6,
+    "shrine": 1,
+    "sign": 2,
+    "clue": 4,
+    "wreck": 1,
+    "quest_item": 4,
+    "warning": 1,
+    "camp": 1,
+    "entrance": 5,
+    "chest": 5
+  },
+  "records": [
+    {
+      "id": "cross_world",
+      "title": "Cross-world pyramid reserve",
+      "kind": "landmark",
+      "point": [
+        -8304,
+        -4008
+      ],
+      "purpose": "Preserve the recognizable original link as a closed monument for this MM5-only slice. No MM4 travel yet.",
+      "sources": [
+        [
+          29,
+          26,
+          24
+        ]
+      ],
+      "extent": [
+        512,
+        512
+      ],
+      "environmentStatus": "Native local street appearance, real placeholder click and reload reviewed",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/CLOSED_PYRAMID.md"
+    },
+    {
+      "id": "source_3_2_10",
+      "title": "The water is cool and refreshing.",
+      "kind": "spring",
+      "point": [
+        -20736.0,
+        16128.0
+      ],
+      "purpose": "The water is cool and refreshing. Your fingers and toes tingle from the extra magic coursing through your veins. +50 spell points.",
+      "sources": [
+        [
+          3,
+          2,
+          10
+        ]
+      ],
+      "environmentStatus": "Six native well appearances and support checks reviewed; representative real click/reload preserves exposed saved values; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SOURCE_WELLS.md"
+    },
+    {
+      "id": "source_3_3_3",
+      "title": "The water is cool and refreshing.",
+      "kind": "spring",
+      "point": [
+        -19200.0,
+        5376.0
+      ],
+      "purpose": "The water is cool and refreshing. The water magically toughens your skin and strengthens your bones. +50 hit points",
+      "sources": [
+        [
+          3,
+          3,
+          3
+        ]
+      ],
+      "environmentStatus": "Six native well appearances and support checks reviewed; representative real click/reload preserves exposed saved values; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SOURCE_WELLS.md"
+    },
+    {
+      "id": "source_3_8_14",
+      "title": "Only silence answers your supplication.",
+      "kind": "shrine",
+      "point": [
+        -11520.0,
+        22272.0
+      ],
+      "purpose": "Only silence answers your supplication. Recognizing the urgency of your quest, the Gods grant you 3 levels. Will the party pray?",
+      "sources": [
+        [
+          3,
+          8,
+          14
+        ]
+      ],
+      "environmentStatus": "Native geometry and all four local appearances reviewed; shrine passage and representative near clicks/reload verified; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SIGNS_AND_SHRINE.md"
+    },
+    {
+      "id": "source_3_10_9",
+      "title": "West Tower <--",
+      "kind": "sign",
+      "point": [
+        -8448.0,
+        14592.0
+      ],
+      "purpose": "West Tower <--",
+      "sources": [
+        [
+          3,
+          10,
+          9
+        ]
+      ],
+      "environmentStatus": "Native geometry and all four local appearances reviewed; shrine passage and representative near clicks/reload verified; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SIGNS_AND_SHRINE.md"
+    },
+    {
+      "id": "source_3_11_1",
+      "title": "The water is cool and refreshing.",
+      "kind": "spring",
+      "point": [
+        -6912.0,
+        2304.0
+      ],
+      "purpose": "The water is cool and refreshing.",
+      "sources": [
+        [
+          3,
+          11,
+          1
+        ]
+      ],
+      "environmentStatus": "Six native well appearances and support checks reviewed; representative real click/reload preserves exposed saved values; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SOURCE_WELLS.md"
+    },
+    {
+      "id": "source_4_2_2",
+      "title": "Help! I am being held captive in Castle Blackfang! --Queen Kalind",
+      "kind": "clue",
+      "point": [
+        -20736.0,
+        -20736.0
+      ],
+      "purpose": "Help! I am being held captive in Castle Blackfang! --Queen Kalindra, ruler of Darkside",
+      "sources": [
+        [
+          4,
+          2,
+          2
+        ]
+      ],
+      "environmentStatus": "Four native bottle appearances and support checked; representative named click/reload reviewed; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/WATERSIDE_FEATURES.md"
+    },
+    {
+      "id": "source_4_2_7",
+      "title": "The ship is about to break apart under the current...Search?",
+      "kind": "wreck",
+      "point": [
+        -20736.0,
+        -13056.0
+      ],
+      "purpose": "The ship is about to break apart under the current...Search? You find some booty and slip off the ship in the nick of time. The ship sinks beneath the water behind you.",
+      "sources": [
+        [
+          4,
+          2,
+          7
+        ]
+      ],
+      "environmentStatus": "Native bank/shore appearances, support, real click and reload reviewed; regional rim unfinished",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/WATERSIDE_FEATURES.md"
+    },
+    {
+      "id": "source_4_3_1",
+      "title": "Monga Melon patch",
+      "kind": "quest_item",
+      "point": [
+        -19200.0,
+        -22272.0
+      ],
+      "purpose": "Original quest-food pickup, exposed to Electrapedes; no road spur.",
+      "sources": [
+        [
+          4,
+          3,
+          1
+        ]
+      ],
+      "environmentStatus": "Four native patch appearances, grounding and representative real click/reload reviewed; regional composition unfinished",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/MELON_PATCHES.md"
+    },
+    {
+      "id": "source_4_3_10",
+      "title": "The water is cool and refreshing.",
+      "kind": "spring",
+      "point": [
+        -19200.0,
+        -8448.0
+      ],
+      "purpose": "The water is cool and refreshing. Your skin itches briefly, but the feeling passes quickly and you find that your skin seems much thicker and stronger. +10 AC.",
+      "sources": [
+        [
+          4,
+          3,
+          10
+        ]
+      ],
+      "environmentStatus": "Six native well appearances and support checks reviewed; representative real click/reload preserves exposed saved values; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SOURCE_WELLS.md"
+    },
+    {
+      "id": "source_4_8_4",
+      "title": "Monga Melon patch",
+      "kind": "quest_item",
+      "point": [
+        -11520.0,
+        -17664.0
+      ],
+      "purpose": "Original quest-food pickup, exposed to Electrapedes; no road spur.",
+      "sources": [
+        [
+          4,
+          8,
+          4
+        ]
+      ],
+      "environmentStatus": "Four native patch appearances, grounding and representative real click/reload reviewed; regional composition unfinished",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/MELON_PATCHES.md"
+    },
+    {
+      "id": "source_4_8_8",
+      "title": "A note in the bottle reads: Hello, stranger! Please come and visi",
+      "kind": "clue",
+      "point": [
+        -11520.0,
+        -11520.0
+      ],
+      "purpose": "A note in the bottle reads: Hello, stranger! Please come and visit me, Xanthus the Sorcerer. My tent is 25 West of Castle Blackfang.",
+      "sources": [
+        [
+          4,
+          8,
+          8
+        ]
+      ],
+      "environmentStatus": "Four native bottle appearances and support checked; representative named click/reload reviewed; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/WATERSIDE_FEATURES.md"
+    },
+    {
+      "id": "source_4_9_11",
+      "title": "The water is cool and refreshing.",
+      "kind": "spring",
+      "point": [
+        -9984.0,
+        -6912.0
+      ],
+      "purpose": "The water is cool and refreshing. Your muscles swell noticably, and you feel much stronger. +25 Might.",
+      "sources": [
+        [
+          4,
+          9,
+          11
+        ]
+      ],
+      "environmentStatus": "Six native well appearances and support checks reviewed; representative real click/reload preserves exposed saved values; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SOURCE_WELLS.md"
+    },
+    {
+      "id": "source_4_14_3",
+      "title": "Monga Melon patch",
+      "kind": "quest_item",
+      "point": [
+        -2304.0,
+        -19200.0
+      ],
+      "purpose": "Original quest-food pickup, exposed to Electrapedes; no road spur.",
+      "sources": [
+        [
+          4,
+          14,
+          3
+        ]
+      ],
+      "environmentStatus": "Four native patch appearances, grounding and representative real click/reload reviewed; regional composition unfinished",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/MELON_PATCHES.md"
+    },
+    {
+      "id": "source_7_2_13",
+      "title": "No Swimming",
+      "kind": "warning",
+      "point": [
+        3840.0,
+        20736.0
+      ],
+      "purpose": "No Swimming",
+      "sources": [
+        [
+          7,
+          2,
+          13
+        ]
+      ],
+      "environmentStatus": "Native geometry and all four local appearances reviewed; shrine passage and representative near clicks/reload verified; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SIGNS_AND_SHRINE.md"
+    },
+    {
+      "id": "source_7_11_2",
+      "title": "Danger Beware",
+      "kind": "sign",
+      "point": [
+        17664.0,
+        3840.0
+      ],
+      "purpose": "Danger Beware",
+      "sources": [
+        [
+          7,
+          11,
+          2
+        ]
+      ],
+      "environmentStatus": "Native geometry and all four local appearances reviewed; shrine passage and representative near clicks/reload verified; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SIGNS_AND_SHRINE.md"
+    },
+    {
+      "id": "source_7_13_0",
+      "title": "You find a note in the bottle which reads: Help us! The witches o",
+      "kind": "clue",
+      "point": [
+        20736.0,
+        768.0
+      ],
+      "purpose": "You find a note in the bottle which reads: Help us! The witches of Lakeside have taken over the city and are turning the townspeople into monsters!",
+      "sources": [
+        [
+          7,
+          13,
+          0
+        ]
+      ],
+      "environmentStatus": "Four native bottle appearances and support checked; representative named click/reload reviewed; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/WATERSIDE_FEATURES.md"
+    },
+    {
+      "id": "source_7_13_10",
+      "title": "Smoke rises into the sky as you put the camp to the torch. +100,0",
+      "kind": "camp",
+      "point": [
+        20736.0,
+        16128.0
+      ],
+      "purpose": "Smoke rises into the sky as you put the camp to the torch. +100,000 experience. You have found a Barbarian camp. Destroy?",
+      "sources": [
+        [
+          7,
+          13,
+          10
+        ]
+      ],
+      "environmentStatus": "Corrected native cloth/bedding and fire appearance, ordinary approach, real placeholder click and reload reviewed locally; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/BARBARIAN_CAMP.md"
+    },
+    {
+      "id": "source_8_1_4",
+      "title": "Monga Melon patch",
+      "kind": "quest_item",
+      "point": [
+        2304.0,
+        -17664.0
+      ],
+      "purpose": "Original quest-food pickup, exposed to Electrapedes; no road spur.",
+      "sources": [
+        [
+          8,
+          1,
+          4
+        ]
+      ],
+      "environmentStatus": "Four native patch appearances, grounding and representative real click/reload reviewed; regional composition unfinished",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/MELON_PATCHES.md"
+    },
+    {
+      "id": "source_8_2_2",
+      "title": "Fortune smiles upon you. +100 Luck",
+      "kind": "spring",
+      "point": [
+        3840.0,
+        -20736.0
+      ],
+      "purpose": "Fortune smiles upon you. +100 Luck The water is cool and refreshing.",
+      "sources": [
+        [
+          8,
+          2,
+          2
+        ]
+      ],
+      "environmentStatus": "Six native well appearances and support checks reviewed; representative real click/reload preserves exposed saved values; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/SOURCE_WELLS.md"
+    },
+    {
+      "id": "source_8_7_15",
+      "title": "You find a note that reads: Beware the rapids!",
+      "kind": "clue",
+      "point": [
+        11520.0,
+        -768.0
+      ],
+      "purpose": "You find a note that reads: Beware the rapids!",
+      "sources": [
+        [
+          8,
+          7,
+          15
+        ]
+      ],
+      "environmentStatus": "Four native bottle appearances and support checked; representative named click/reload reviewed; final regional review accepted",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/WATERSIDE_FEATURES.md"
+    },
+    {
+      "id": "source_29_1_13",
+      "title": "Sewer access (1, 13)",
+      "kind": "entrance",
+      "point": [
+        1546,
+        842
+      ],
+      "purpose": "Retain this distinct sewer arrival and reciprocal route; it is not interchangeable with the outfall.",
+      "sources": [
+        [
+          29,
+          1,
+          13
+        ]
+      ],
+      "transfers": [
+        {
+          "destination": 30,
+          "arrival": [
+            1,
+            13
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 2033,
+          "line": 2
+        }
+      ],
+      "environmentStatus": "Native geometry and local context view inspected; source retained unchanged",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_SEWERS.md"
+    },
+    {
+      "id": "source_29_2_29",
+      "title": "Sewer access (2, 29)",
+      "kind": "entrance",
+      "point": [
+        446,
+        -4458
+      ],
+      "purpose": "Retain this distinct sewer arrival and reciprocal route; it is not interchangeable with the outfall.",
+      "sources": [
+        [
+          29,
+          2,
+          29
+        ]
+      ],
+      "transfers": [
+        {
+          "destination": 30,
+          "arrival": [
+            2,
+            29
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 2007,
+          "line": 2
+        }
+      ],
+      "environmentStatus": "Native geometry and local context view inspected; source retained unchanged",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_SEWERS.md"
+    },
+    {
+      "id": "source_29_10_29",
+      "title": "Town chest (10, 29)",
+      "kind": "chest",
+      "point": [
+        -804,
+        -4058
+      ],
+      "purpose": "One original ordinary chest, once-only loot. Source give-event bytes retained; rebalance rewards later.",
+      "sources": [
+        [
+          29,
+          10,
+          29
+        ]
+      ],
+      "loot": "source GiveMulti records; no invented contents",
+      "environmentStatus": "Native grounding/bindings and all five local appearances reviewed; representative real click/reload preserves exposed save values",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_CHESTS.md"
+    },
+    {
+      "id": "source_29_10_30",
+      "title": "Town chest (10, 30)",
+      "kind": "chest",
+      "point": [
+        -954,
+        -4608
+      ],
+      "purpose": "One original ordinary chest, once-only loot. Source give-event bytes retained; rebalance rewards later.",
+      "sources": [
+        [
+          29,
+          10,
+          30
+        ]
+      ],
+      "loot": "source GiveMulti records; no invented contents",
+      "environmentStatus": "Native grounding/bindings and all five local appearances reviewed; representative real click/reload preserves exposed save values",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_CHESTS.md"
+    },
+    {
+      "id": "source_29_11_29",
+      "title": "Town chest (11, 29)",
+      "kind": "chest",
+      "point": [
+        -1204,
+        -4008
+      ],
+      "purpose": "One original ordinary chest, once-only loot. Source give-event bytes retained; rebalance rewards later.",
+      "sources": [
+        [
+          29,
+          11,
+          29
+        ]
+      ],
+      "loot": "source GiveMulti records; no invented contents",
+      "environmentStatus": "Native grounding/bindings and all five local appearances reviewed; representative real click/reload preserves exposed save values",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_CHESTS.md"
+    },
+    {
+      "id": "source_29_12_30",
+      "title": "Sewer access (12, 30)",
+      "kind": "entrance",
+      "point": [
+        -1504,
+        -4858
+      ],
+      "purpose": "Retain this distinct sewer arrival and reciprocal route; it is not interchangeable with the outfall.",
+      "sources": [
+        [
+          29,
+          12,
+          30
+        ]
+      ],
+      "transfers": [
+        {
+          "destination": 30,
+          "arrival": [
+            12,
+            30
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 1981,
+          "line": 2
+        }
+      ],
+      "environmentStatus": "Native geometry and local context view inspected; source retained unchanged",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_SEWERS.md"
+    },
+    {
+      "id": "source_29_18_30",
+      "title": "Town chest (18, 30)",
+      "kind": "chest",
+      "point": [
+        -4704,
+        -5108
+      ],
+      "purpose": "One original ordinary chest, once-only loot. Source give-event bytes retained; rebalance rewards later.",
+      "sources": [
+        [
+          29,
+          18,
+          30
+        ]
+      ],
+      "loot": "source GiveMulti records; no invented contents",
+      "environmentStatus": "Native grounding/bindings and all five local appearances reviewed; representative real click/reload preserves exposed save values",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_CHESTS.md"
+    },
+    {
+      "id": "source_29_20_11",
+      "title": "Town chest (20, 11)",
+      "kind": "chest",
+      "point": [
+        -5054,
+        1792
+      ],
+      "purpose": "One original ordinary chest, once-only loot. Source give-event bytes retained; rebalance rewards later.",
+      "sources": [
+        [
+          29,
+          20,
+          11
+        ]
+      ],
+      "loot": "source GiveMulti records; no invented contents",
+      "environmentStatus": "Native grounding/bindings and all five local appearances reviewed; representative real click/reload preserves exposed save values",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_CHESTS.md"
+    },
+    {
+      "id": "source_29_26_1",
+      "title": "Sewer access (26, 1)",
+      "kind": "entrance",
+      "point": [
+        -6604,
+        4942
+      ],
+      "purpose": "Retain this distinct sewer arrival and reciprocal route; it is not interchangeable with the outfall.",
+      "sources": [
+        [
+          29,
+          26,
+          1
+        ]
+      ],
+      "transfers": [
+        {
+          "destination": 30,
+          "arrival": [
+            26,
+            1
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 2059,
+          "line": 2
+        }
+      ],
+      "environmentStatus": "Native geometry and local context view inspected; source retained unchanged",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_SEWERS.md"
+    },
+    {
+      "id": "source_29_30_18",
+      "title": "Sewer access (30, 18)",
+      "kind": "entrance",
+      "point": [
+        -8204,
+        742
+      ],
+      "purpose": "Retain this distinct sewer arrival and reciprocal route; it is not interchangeable with the outfall.",
+      "sources": [
+        [
+          29,
+          30,
+          18
+        ]
+      ],
+      "transfers": [
+        {
+          "destination": 30,
+          "arrival": [
+            30,
+            18
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 1955,
+          "line": 2
+        }
+      ],
+      "environmentStatus": "Corrected native slope/bevel reviewed; ordinary forward passage both ways, real click and reload verified",
+      "gameplayStatus": "placeholder-only required; original effects remain deferred",
+      "evidence": "implementation/TOWN_SEWERS.md"
+    }
+  ],
+  "deferredInteriorCounts": {
+    "puzzleChest": 18,
+    "bed": 11
+  },
+  "notes": [
+    "Five town sewer accesses keep distinct reciprocal routes; none is replaced by the riverside outfall.",
+    "Five ordinary town chests are exterior features. The eighteen lettered/numbered puzzle chests remain attached-interior design.",
+    "Four original Monga Melon sites are separate from the future growing-ground reservation at Nibbler. Retain physical site identity with no item grants.",
+    "A closed cross-world pyramid is required environmental geometry; no MM4 transition.",
+    "The 45 authored premises do not cover these additional features or final courts/signage."
+  ],
+  "sourceAuthoredCount": 31,
+  "notYetSourceAuthoredCount": 0,
+  "regionalEvidence": "review/region_composition_v1/native_review.json"
+}

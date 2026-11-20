@@ -1,0 +1,561 @@
+{
+  "brief": "CODEX_BRIEF.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "comparison_note": "IoU compares alpha >= 128 after scaling only the guide mask in memory to output size. No painting is resized or altered. Pixel identity requires original canvas and exact alpha.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: albedo texture-source painting of the existing Hesper crown-band 3D model, front view.\nEDIT IMAGE 1 (guide_front.png); IMAGE 2 (design_reference.png) is ONLY the approved material/design reference. Produce ONE 1024 x 1024 RGBA painting, transparent background, with exactly the first image's composition. Paint directly inside the guide's existing alpha silhouette: preserve every outer contour, internal hole, edge, part position, size, camera, orientation, and framing. No rebuilding or redesigning the model.\nView-specific geometry: Use guide_front.png exactly, regardless of what a conventional front view of a ring would look like. The near outer band is broad and uninterrupted at the bottom; the inner rear wall is exposed above the small open hole. The setting is on the FAR side at the top, with only a tiny sliver of garnet dome visible behind it. DO NOT move a large gemstone onto the visible front band. Object alpha bounds are x=118..905, y=173..850 on the 1024 square.\nSubject/materials: a thick continuous band of black-violet resin, a restrained low angular crown of brushed gold ribs, and a dark garnet inset, Kreegan noble jewelry. Replace the guide's lavender resin tint with deep black-violet resin with fine irregular purple and subdued wine-red marbling matching the design. Continue this material on the exposed inner wall without added ribs there. Replace cream rails and setting with worn brushed antique gold base colour. Carry the reference's restrained angular gold rib/panel-join motif over the existing exterior band as surface paint, without moving edges or adding geometry. Replace ONLY the guide's pale blue gemstone area with dark wine-red garnet crystal, fine internal red inclusions and restrained facet colour variation. Gold has fine brushed scratches and subtle wear, no lettering. The guide tints are material IDs, not final colours. Unseen sides continue the same materials plausibly. No white ceramic, blue jewel or extra material unsupported by the design.\nLighting: strictly flat, even, shadowless albedo illumination from the viewer. Uniform readable base colour on every side, inside the band and under the setting. REMOVE the guide's cast shadows and ambient occlusion. Do not copy the design reference's specular reflections. Metal gets only a faint diffuse sheen; no bright highlights, white glare, dark lighting gradients, cast shadows, AO, rim light or environmental reflection.\nTransparency/invariants: preserve the guide's transparent background and transparent open hole exactly, with clean alpha. The black displayed behind the guide represents transparency, not a black background to paint. No floor, props, labels, text, letters, watermark, added spikes, cropping, zoom, perspective changes or contact shadows. Return the painted front view only, no collage. Exact 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "geometry/edit target",
+          "sha256": "6674a8eb18bb897183c71454a80b0f86e2e9c0c87895e81933f7563419172f4c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        }
+      ],
+      "output": "attempt1_front.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide alignment.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-b39ccac3-85e3-45c5-9ceb-58024837859e.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          4,
+          1232,
+          1254
+        ],
+        "transparent_pixels": 971473,
+        "normalized_silhouette_iou": 0.8286674585395394,
+        "normalized_silhouette_differing_pixels": 110057,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "lighting": "Visible highlights remain; corrective pass needed.",
+        "materials": "Black-violet resin, brushed gold and garnet; consistent with reference palette."
+      },
+      "output_sha256": "202e55b5412b49a3be33bdf9e41ec763bf70b753216ef49cb1368b83b8fcf24c"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: albedo texture-source painting of the existing Hesper crown-band 3D model, back view.\nEDIT IMAGE 1 (guide_back.png); IMAGE 2 (design_reference.png) is ONLY the approved material/design reference. Produce ONE 1024 x 1024 RGBA painting, transparent background, with exactly the first image's composition. Paint directly inside the guide's existing alpha silhouette: preserve every outer contour, internal hole, edge, part position, size, camera, orientation, and framing. No rebuilding or redesigning the model.\nView-specific geometry: Use guide_back.png exactly, regardless of conventional view names. The garnet dome and angular gold setting face the viewer near the top center, exactly where the pale blue dome and cream block are. The near inner wall occupies the lower part, with the open hole immediately above it. Object alpha bounds are x=118..905, y=173..850 on the 1024 square.\nSubject/materials: a thick continuous band of black-violet resin, a restrained low angular crown of brushed gold ribs, and a dark garnet inset, Kreegan noble jewelry. Replace the guide's lavender resin tint with deep black-violet resin with fine irregular purple and subdued wine-red marbling matching the design. Continue this material on the exposed inner wall without added ribs there. Replace cream rails and setting with worn brushed antique gold base colour. Carry the reference's restrained angular gold rib/panel-join motif over the existing exterior band as surface paint, without moving edges or adding geometry. Replace ONLY the guide's pale blue gemstone area with dark wine-red garnet crystal, fine internal red inclusions and restrained facet colour variation. Gold has fine brushed scratches and subtle wear, no lettering. The guide tints are material IDs, not final colours. Unseen sides continue the same materials plausibly. No white ceramic, blue jewel or extra material unsupported by the design.\nLighting: strictly flat, even, shadowless albedo illumination from the viewer. Uniform readable base colour on every side, inside the band and under the setting. REMOVE the guide's cast shadows and ambient occlusion. Do not copy the design reference's specular reflections. Metal gets only a faint diffuse sheen; no bright highlights, white glare, dark lighting gradients, cast shadows, AO, rim light or environmental reflection.\nTransparency/invariants: preserve the guide's transparent background and transparent open hole exactly, with clean alpha. The black displayed behind the guide represents transparency, not a black background to paint. No floor, props, labels, text, letters, watermark, added spikes, cropping, zoom, perspective changes or contact shadows. Return the painted back view only, no collage. Exact 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "geometry/edit target",
+          "sha256": "81fc48331e53584bd6a75d65b26af7a1ca622c8c6d3956b60d013f95b2736e7d"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        }
+      ],
+      "output": "attempt1_back.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide alignment.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-526bcf8a-93d2-432b-bdc7-3643e90e8569.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          0,
+          1253,
+          1254
+        ],
+        "transparent_pixels": 988583,
+        "normalized_silhouette_iou": 0.8490921748593652,
+        "normalized_silhouette_differing_pixels": 94294,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "lighting": "Visible highlights remain; corrective pass needed.",
+        "materials": "Black-violet resin, brushed gold and garnet; consistent with reference palette."
+      },
+      "output_sha256": "3dd4a0a93499ef1431c99b7aa61eec0e686d20ec6367ce4ffd0d9041bd6795a1"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: albedo texture-source painting of the existing Hesper crown-band 3D model, left view.\nEDIT IMAGE 1 (guide_left.png); IMAGE 2 (design_reference.png) is ONLY the approved material/design reference. Produce ONE 1024 x 1024 RGBA painting, transparent background, with exactly the first image's composition. Paint directly inside the guide's existing alpha silhouette: preserve every outer contour, internal hole, edge, part position, size, camera, orientation, and framing. No rebuilding or redesigning the model.\nView-specific geometry: Use guide_left.png exactly. This is the thin, edge-on side view, slanting from upper left to lower right. The gemstone and setting are at the UPPER LEFT. The broad visible outer band runs diagonally between two thin gold rails. NO ring hole is visible in this projection; do not invent one or turn the ring toward the viewer. Object alpha bounds are x=66..957, y=173..850 on the 1024 square.\nSubject/materials: a thick continuous band of black-violet resin, a restrained low angular crown of brushed gold ribs, and a dark garnet inset, Kreegan noble jewelry. Replace the guide's lavender resin tint with deep black-violet resin with fine irregular purple and subdued wine-red marbling matching the design. Continue this material on the exposed inner wall without added ribs there. Replace cream rails and setting with worn brushed antique gold base colour. Carry the reference's restrained angular gold rib/panel-join motif over the existing exterior band as surface paint, without moving edges or adding geometry. Replace ONLY the guide's pale blue gemstone area with dark wine-red garnet crystal, fine internal red inclusions and restrained facet colour variation. Gold has fine brushed scratches and subtle wear, no lettering. The guide tints are material IDs, not final colours. Unseen sides continue the same materials plausibly. No white ceramic, blue jewel or extra material unsupported by the design.\nLighting: strictly flat, even, shadowless albedo illumination from the viewer. Uniform readable base colour on every side, inside the band and under the setting. REMOVE the guide's cast shadows and ambient occlusion. Do not copy the design reference's specular reflections. Metal gets only a faint diffuse sheen; no bright highlights, white glare, dark lighting gradients, cast shadows, AO, rim light or environmental reflection.\nTransparency/invariants: preserve the guide's transparent background and transparent open hole exactly, with clean alpha. The black displayed behind the guide represents transparency, not a black background to paint. No floor, props, labels, text, letters, watermark, added spikes, cropping, zoom, perspective changes or contact shadows. Return the painted left view only, no collage. Exact 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "geometry/edit target",
+          "sha256": "88c83d0c20db841d9ab8e729e54ba92acf0f25dcfd79fda85b48e61d90b71434"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        }
+      ],
+      "output": "attempt1_left.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide alignment.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-37138f87-35aa-42e5-bc50-72a343a518f9.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          0,
+          1253,
+          1254
+        ],
+        "transparent_pixels": 1152985,
+        "normalized_silhouette_iou": 0.8982025224744273,
+        "normalized_silhouette_differing_pixels": 42713,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "lighting": "Visible highlights remain; corrective pass needed.",
+        "materials": "Black-violet resin, brushed gold and garnet; consistent with reference palette."
+      },
+      "output_sha256": "384f2c7e17dd4f1cd48fc669e833074b332bed8ba5ca981114a24259cf49ea44"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: albedo texture-source painting of the existing Hesper crown-band 3D model, right view.\nEDIT IMAGE 1 (guide_right.png); IMAGE 2 (design_reference.png) is ONLY the approved material/design reference. Produce ONE 1024 x 1024 RGBA painting, transparent background, with exactly the first image's composition. Paint directly inside the guide's existing alpha silhouette: preserve every outer contour, internal hole, edge, part position, size, camera, orientation, and framing. No rebuilding or redesigning the model.\nView-specific geometry: Use guide_right.png exactly. This is the thin, edge-on side view, slanting from lower left to upper right. The gemstone and setting are at the UPPER RIGHT. The broad visible outer band runs diagonally between two thin gold rails. NO ring hole is visible in this projection; do not invent one or turn the ring toward the viewer. Object alpha bounds are x=66..957, y=173..850 on the 1024 square.\nSubject/materials: a thick continuous band of black-violet resin, a restrained low angular crown of brushed gold ribs, and a dark garnet inset, Kreegan noble jewelry. Replace the guide's lavender resin tint with deep black-violet resin with fine irregular purple and subdued wine-red marbling matching the design. Continue this material on the exposed inner wall without added ribs there. Replace cream rails and setting with worn brushed antique gold base colour. Carry the reference's restrained angular gold rib/panel-join motif over the existing exterior band as surface paint, without moving edges or adding geometry. Replace ONLY the guide's pale blue gemstone area with dark wine-red garnet crystal, fine internal red inclusions and restrained facet colour variation. Gold has fine brushed scratches and subtle wear, no lettering. The guide tints are material IDs, not final colours. Unseen sides continue the same materials plausibly. No white ceramic, blue jewel or extra material unsupported by the design.\nLighting: strictly flat, even, shadowless albedo illumination from the viewer. Uniform readable base colour on every side, inside the band and under the setting. REMOVE the guide's cast shadows and ambient occlusion. Do not copy the design reference's specular reflections. Metal gets only a faint diffuse sheen; no bright highlights, white glare, dark lighting gradients, cast shadows, AO, rim light or environmental reflection.\nTransparency/invariants: preserve the guide's transparent background and transparent open hole exactly, with clean alpha. The black displayed behind the guide represents transparency, not a black background to paint. No floor, props, labels, text, letters, watermark, added spikes, cropping, zoom, perspective changes or contact shadows. Return the painted right view only, no collage. Exact 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "geometry/edit target",
+          "sha256": "8bef30c6c0bad4d8c35a8b3bce0151c4bb43d8fc83818109eee5e773f664b2c6"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        }
+      ],
+      "output": "attempt1_right.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide alignment.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-a53d3e9d-5f44-4f69-b1b2-a6403166ef1b.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "transparent_pixels": 1148212,
+        "normalized_silhouette_iou": 0.8272494228746534,
+        "normalized_silhouette_differing_pixels": 75880,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "lighting": "Visible highlights remain; corrective pass needed.",
+        "materials": "Black-violet resin, brushed gold and garnet; consistent with reference palette."
+      },
+      "output_sha256": "a10a2a2195192fc4289484c48f8ab6cc77bd7f5d413f362eef0503d47ab8a6ee"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: albedo texture-source painting of the existing Hesper crown-band 3D model, top view.\nEDIT IMAGE 1 (guide_top.png); IMAGE 2 (design_reference.png) is ONLY the approved material/design reference. Produce ONE 1024 x 1024 RGBA painting, transparent background, with exactly the first image's composition. Paint directly inside the guide's existing alpha silhouette: preserve every outer contour, internal hole, edge, part position, size, camera, orientation, and framing. No rebuilding or redesigning the model.\nView-specific geometry: Use guide_top.png exactly. Preserve its upright near-circular ring projection, broad central open hole, bottom inner wall, and top-center garnet dome on an angular gold setting. Do not reinterpret the named top view, rotate the model, or copy the diagonal design-reference pose. Object alpha bounds are x=118..905, y=66..957 on the 1024 square.\nSubject/materials: a thick continuous band of black-violet resin, a restrained low angular crown of brushed gold ribs, and a dark garnet inset, Kreegan noble jewelry. Replace the guide's lavender resin tint with deep black-violet resin with fine irregular purple and subdued wine-red marbling matching the design. Continue this material on the exposed inner wall without added ribs there. Replace cream rails and setting with worn brushed antique gold base colour. Carry the reference's restrained angular gold rib/panel-join motif over the existing exterior band as surface paint, without moving edges or adding geometry. Replace ONLY the guide's pale blue gemstone area with dark wine-red garnet crystal, fine internal red inclusions and restrained facet colour variation. Gold has fine brushed scratches and subtle wear, no lettering. The guide tints are material IDs, not final colours. Unseen sides continue the same materials plausibly. No white ceramic, blue jewel or extra material unsupported by the design.\nLighting: strictly flat, even, shadowless albedo illumination from the viewer. Uniform readable base colour on every side, inside the band and under the setting. REMOVE the guide's cast shadows and ambient occlusion. Do not copy the design reference's specular reflections. Metal gets only a faint diffuse sheen; no bright highlights, white glare, dark lighting gradients, cast shadows, AO, rim light or environmental reflection.\nTransparency/invariants: preserve the guide's transparent background and transparent open hole exactly, with clean alpha. The black displayed behind the guide represents transparency, not a black background to paint. No floor, props, labels, text, letters, watermark, added spikes, cropping, zoom, perspective changes or contact shadows. Return the painted top view only, no collage. Exact 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "geometry/edit target",
+          "sha256": "103d99fd25eb31103d4f14b878dc2b24f2dc5d7986eec4c1ab050b0e76a48143"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        }
+      ],
+      "output": "attempt1_top.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide alignment.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-45afb53f-4d09-4a1b-8434-884cd5b44c9a.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          58,
+          1240,
+          1254
+        ],
+        "transparent_pixels": 1030516,
+        "normalized_silhouette_iou": 0.8197302157652573,
+        "normalized_silhouette_differing_pixels": 104453,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "lighting": "Visible highlights remain; corrective pass needed.",
+        "materials": "Black-violet resin, brushed gold and garnet; consistent with reference palette."
+      },
+      "output_sha256": "1f47dc0c3c2aa71df9b0683c8b6b4daf59b925c4c3e387237c05617455bba919"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. CORRECTIVE REGENERATION for paint_front.png.\nIMAGE 1 = design_reference.png: MATERIAL COLOURS AND TEXTURE REFERENCE ONLY.\nIMAGE 2 = guide_front.png: THE EXACT IMAGE TO EDIT. Its 1024 x 1024 canvas, alpha mask, object geometry and every material boundary are locked.\nReturn one 1024 x 1024 transparent RGBA image. Change only the surface colours/textures WITHIN IMAGE 2. Treat this as painting on a fixed stencil. Do not regenerate a similar object. Preserve its exact silhouette and transparent pixels, all part edges and widths, camera, scale, framing, gemstone shape, rim shapes and any open hole. The 1254px design-reference canvas is irrelevant: retain the 1024px guide canvas.\nUse guide_front.png exactly, regardless of what a conventional front view of a ring would look like. The near outer band is broad and uninterrupted at the bottom; the inner rear wall is exposed above the small open hole. The setting is on the FAR side at the top, with only a tiny sliver of garnet dome visible behind it. DO NOT move a large gemstone onto the visible front band. Object alpha bounds are x=118..905, y=173..850 on the 1024 square.\nMap the guide materials as follows:\n- Lavender = near-black violet resin with understated irregular violet and burgundy-red mineral marbling from IMAGE 1. Paint the interior wall this same resin at the same brightness as the exterior. Restrained angular antique-gold panel divisions can be painted onto the existing exterior surface, never outside its outline or on the inner wall.\n- Pale cream = brushed antique yellow gold with fine wear scratches, almost uniform diffuse base colour.\n- Pale blue = deep dark garnet red with fine red crystal inclusions. Keep the guide's exact dome silhouette. Facet markings may be painted inside it, without any reflective patch.\nThe previous attempt changed the contour and baked in shine. Correct both by copying IMAGE 2's silhouette exactly and painting strictly UNLIT DIFFUSE ALBEDO. No directional lighting, AO, cast or contact shadows, bright facet glints, white streaks, rim highlights or reflected environment. Keep gold's face-to-face value variation tiny; do not brighten bevels. Suppress the strong white/purple glints and black lighting shadows in IMAGE 1; copy its base materials only. Fine texture supplies detail, not rendered light. No ceramic or blue jewel.\nKeep every empty pixel transparent, including the ring opening when visible. No background colour or checkerboard, floor, text, letters, watermark or new parts. No spikes or added gem supports. Do not crop, rotate, reframe, move, enlarge or shrink anything. This is a direct texture repaint of IMAGE 2, not a new product illustration.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        },
+        {
+          "path": "guide_front.png",
+          "role": "geometry/edit target",
+          "sha256": "6674a8eb18bb897183c71454a80b0f86e2e9c0c87895e81933f7563419172f4c"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer silhouette than first attempt; best available within one corrective regeneration. Not a full brief compliance pass.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-02521f75-eb9b-4ebd-a540-faaed32d356c.png",
+      "output_sha256": "4f3e6e5522b3dca1923278143910a06aeda94a31ed9a68dd65a4bd155e4dfdf0",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          19,
+          1254,
+          1254
+        ],
+        "alpha_128_bbox": [
+          140,
+          209,
+          1115,
+          1032
+        ],
+        "guide_alpha_128_bbox_scaled_for_comparison": [
+          146,
+          213,
+          1108,
+          1041
+        ],
+        "transparent_pixels": 967517,
+        "normalized_silhouette_iou": 0.968366422275311,
+        "normalized_silhouette_differing_pixels": 18816,
+        "silhouette_identical": false,
+        "colours_and_materials": "Black-violet resin, brushed gold and dark garnet match the intended palette; reference rib details are incomplete.",
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Closer to the guide silhouette and flatter than attempt 1. Gold bevel sheen remains, with two unrequested inner-wall gold strips and some alpha fringe."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. CORRECTIVE REGENERATION for paint_back.png.\nIMAGE 1 = design_reference.png: MATERIAL COLOURS AND TEXTURE REFERENCE ONLY.\nIMAGE 2 = guide_back.png: THE EXACT IMAGE TO EDIT. Its 1024 x 1024 canvas, alpha mask, object geometry and every material boundary are locked.\nReturn one 1024 x 1024 transparent RGBA image. Change only the surface colours/textures WITHIN IMAGE 2. Treat this as painting on a fixed stencil. Do not regenerate a similar object. Preserve its exact silhouette and transparent pixels, all part edges and widths, camera, scale, framing, gemstone shape, rim shapes and any open hole. The 1254px design-reference canvas is irrelevant: retain the 1024px guide canvas.\nUse guide_back.png exactly, regardless of conventional view names. The garnet dome and angular gold setting face the viewer near the top center, exactly where the pale blue dome and cream block are. The near inner wall occupies the lower part, with the open hole immediately above it. Object alpha bounds are x=118..905, y=173..850 on the 1024 square.\nMap the guide materials as follows:\n- Lavender = near-black violet resin with understated irregular violet and burgundy-red mineral marbling from IMAGE 1. Paint the interior wall this same resin at the same brightness as the exterior. Restrained angular antique-gold panel divisions can be painted onto the existing exterior surface, never outside its outline or on the inner wall.\n- Pale cream = brushed antique yellow gold with fine wear scratches, almost uniform diffuse base colour.\n- Pale blue = deep dark garnet red with fine red crystal inclusions. Keep the guide's exact dome silhouette. Facet markings may be painted inside it, without any reflective patch.\nThe previous attempt changed the contour and baked in shine. Correct both by copying IMAGE 2's silhouette exactly and painting strictly UNLIT DIFFUSE ALBEDO. No directional lighting, AO, cast or contact shadows, bright facet glints, white streaks, rim highlights or reflected environment. Keep gold's face-to-face value variation tiny; do not brighten bevels. Suppress the strong white/purple glints and black lighting shadows in IMAGE 1; copy its base materials only. Fine texture supplies detail, not rendered light. No ceramic or blue jewel.\nKeep every empty pixel transparent, including the ring opening when visible. No background colour or checkerboard, floor, text, letters, watermark or new parts. No spikes or added gem supports. Do not crop, rotate, reframe, move, enlarge or shrink anything. This is a direct texture repaint of IMAGE 2, not a new product illustration.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        },
+        {
+          "path": "guide_back.png",
+          "role": "geometry/edit target",
+          "sha256": "81fc48331e53584bd6a75d65b26af7a1ca622c8c6d3956b60d013f95b2736e7d"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer silhouette than first attempt; best available within one corrective regeneration. Not a full brief compliance pass.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-9a36b1eb-b0b2-4514-a138-db2cd6c1e938.png",
+      "output_sha256": "40e33c087ceafdd7bd052df511201638c7924bab6716236feead7bac12bb7577",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          21,
+          1186,
+          1254
+        ],
+        "alpha_128_bbox": [
+          144,
+          211,
+          1110,
+          1043
+        ],
+        "guide_alpha_128_bbox_scaled_for_comparison": [
+          146,
+          213,
+          1108,
+          1041
+        ],
+        "transparent_pixels": 967224,
+        "normalized_silhouette_iou": 0.9756666402277572,
+        "normalized_silhouette_differing_pixels": 14419,
+        "silhouette_identical": false,
+        "colours_and_materials": "Black-violet resin, brushed gold and dark garnet match the intended palette; reference rib details are incomplete.",
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Closer to the guide silhouette. Garnet facet highlights and gold bevel sheen remain; an extra gold edge crosses the lower boundary of the hole and some alpha fringe remains."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. CORRECTIVE REGENERATION for paint_left.png.\nIMAGE 1 = design_reference.png: MATERIAL COLOURS AND TEXTURE REFERENCE ONLY.\nIMAGE 2 = guide_left.png: THE EXACT IMAGE TO EDIT. Its 1024 x 1024 canvas, alpha mask, object geometry and every material boundary are locked.\nReturn one 1024 x 1024 transparent RGBA image. Change only the surface colours/textures WITHIN IMAGE 2. Treat this as painting on a fixed stencil. Do not regenerate a similar object. Preserve its exact silhouette and transparent pixels, all part edges and widths, camera, scale, framing, gemstone shape, rim shapes and any open hole. The 1254px design-reference canvas is irrelevant: retain the 1024px guide canvas.\nUse guide_left.png exactly. This is the thin, edge-on side view, slanting from upper left to lower right. The gemstone and setting are at the UPPER LEFT. The broad visible outer band runs diagonally between two thin gold rails. NO ring hole is visible in this projection; do not invent one or turn the ring toward the viewer. Object alpha bounds are x=66..957, y=173..850 on the 1024 square.\nMap the guide materials as follows:\n- Lavender = near-black violet resin with understated irregular violet and burgundy-red mineral marbling from IMAGE 1. Paint the interior wall this same resin at the same brightness as the exterior. Restrained angular antique-gold panel divisions can be painted onto the existing exterior surface, never outside its outline or on the inner wall.\n- Pale cream = brushed antique yellow gold with fine wear scratches, almost uniform diffuse base colour.\n- Pale blue = deep dark garnet red with fine red crystal inclusions. Keep the guide's exact dome silhouette. Facet markings may be painted inside it, without any reflective patch.\nThe previous attempt changed the contour and baked in shine. Correct both by copying IMAGE 2's silhouette exactly and painting strictly UNLIT DIFFUSE ALBEDO. No directional lighting, AO, cast or contact shadows, bright facet glints, white streaks, rim highlights or reflected environment. Keep gold's face-to-face value variation tiny; do not brighten bevels. Suppress the strong white/purple glints and black lighting shadows in IMAGE 1; copy its base materials only. Fine texture supplies detail, not rendered light. No ceramic or blue jewel.\nKeep every empty pixel transparent, including the ring opening when visible. No background colour or checkerboard, floor, text, letters, watermark or new parts. No spikes or added gem supports. Do not crop, rotate, reframe, move, enlarge or shrink anything. This is a direct texture repaint of IMAGE 2, not a new product illustration.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        },
+        {
+          "path": "guide_left.png",
+          "role": "geometry/edit target",
+          "sha256": "88c83d0c20db841d9ab8e729e54ba92acf0f25dcfd79fda85b48e61d90b71434"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer silhouette than first attempt; best available within one corrective regeneration. Not a full brief compliance pass.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-4d7d210b-6176-42e3-accb-56cfbced497b.png",
+      "output_sha256": "822b0d75f5c7bacdd188160999a285693d5b07d774b489d04f7e55ea9ebb3d1f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          16,
+          1250,
+          1254
+        ],
+        "alpha_128_bbox": [
+          82,
+          214,
+          1171,
+          1048
+        ],
+        "guide_alpha_128_bbox_scaled_for_comparison": [
+          82,
+          213,
+          1172,
+          1041
+        ],
+        "transparent_pixels": 1172522,
+        "normalized_silhouette_iou": 0.9729750998266202,
+        "normalized_silhouette_differing_pixels": 10646,
+        "silhouette_identical": false,
+        "colours_and_materials": "Black-violet resin, brushed gold and dark garnet match the intended palette; reference rib details are incomplete.",
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Closer to guide geometry; restrained material palette. Garnet facet highlights, gold bevel sheen and alpha fringe remain. Side surface omits the reference gold rib pattern."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. CORRECTIVE REGENERATION for paint_right.png.\nIMAGE 1 = design_reference.png: MATERIAL COLOURS AND TEXTURE REFERENCE ONLY.\nIMAGE 2 = guide_right.png: THE EXACT IMAGE TO EDIT. Its 1024 x 1024 canvas, alpha mask, object geometry and every material boundary are locked.\nReturn one 1024 x 1024 transparent RGBA image. Change only the surface colours/textures WITHIN IMAGE 2. Treat this as painting on a fixed stencil. Do not regenerate a similar object. Preserve its exact silhouette and transparent pixels, all part edges and widths, camera, scale, framing, gemstone shape, rim shapes and any open hole. The 1254px design-reference canvas is irrelevant: retain the 1024px guide canvas.\nUse guide_right.png exactly. This is the thin, edge-on side view, slanting from lower left to upper right. The gemstone and setting are at the UPPER RIGHT. The broad visible outer band runs diagonally between two thin gold rails. NO ring hole is visible in this projection; do not invent one or turn the ring toward the viewer. Object alpha bounds are x=66..957, y=173..850 on the 1024 square.\nMap the guide materials as follows:\n- Lavender = near-black violet resin with understated irregular violet and burgundy-red mineral marbling from IMAGE 1. Paint the interior wall this same resin at the same brightness as the exterior. Restrained angular antique-gold panel divisions can be painted onto the existing exterior surface, never outside its outline or on the inner wall.\n- Pale cream = brushed antique yellow gold with fine wear scratches, almost uniform diffuse base colour.\n- Pale blue = deep dark garnet red with fine red crystal inclusions. Keep the guide's exact dome silhouette. Facet markings may be painted inside it, without any reflective patch.\nThe previous attempt changed the contour and baked in shine. Correct both by copying IMAGE 2's silhouette exactly and painting strictly UNLIT DIFFUSE ALBEDO. No directional lighting, AO, cast or contact shadows, bright facet glints, white streaks, rim highlights or reflected environment. Keep gold's face-to-face value variation tiny; do not brighten bevels. Suppress the strong white/purple glints and black lighting shadows in IMAGE 1; copy its base materials only. Fine texture supplies detail, not rendered light. No ceramic or blue jewel.\nKeep every empty pixel transparent, including the ring opening when visible. No background colour or checkerboard, floor, text, letters, watermark or new parts. No spikes or added gem supports. Do not crop, rotate, reframe, move, enlarge or shrink anything. This is a direct texture repaint of IMAGE 2, not a new product illustration.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        },
+        {
+          "path": "guide_right.png",
+          "role": "geometry/edit target",
+          "sha256": "8bef30c6c0bad4d8c35a8b3bce0151c4bb43d8fc83818109eee5e773f664b2c6"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer silhouette than first attempt; best available within one corrective regeneration. Not a full brief compliance pass.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-a1e4f1e7-63b3-468b-9793-dd101697545d.png",
+      "output_sha256": "aa05f416ecca80c32aa0df205de9e91a225012bf82a833341da4b69287b314df",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          19,
+          1234,
+          1212
+        ],
+        "alpha_128_bbox": [
+          81,
+          212,
+          1175,
+          1045
+        ],
+        "guide_alpha_128_bbox_scaled_for_comparison": [
+          82,
+          213,
+          1172,
+          1041
+        ],
+        "transparent_pixels": 1162439,
+        "normalized_silhouette_iou": 0.9809944327126128,
+        "normalized_silhouette_differing_pixels": 7524,
+        "silhouette_identical": false,
+        "colours_and_materials": "Black-violet resin, brushed gold and dark garnet match the intended palette; reference rib details are incomplete.",
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Closer to guide geometry; restrained material palette. Garnet facet highlights, gold bevel sheen and alpha fringe remain. Side surface omits the reference gold rib pattern."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. CORRECTIVE REGENERATION for paint_top.png.\nIMAGE 1 = design_reference.png: MATERIAL COLOURS AND TEXTURE REFERENCE ONLY.\nIMAGE 2 = guide_top.png: THE EXACT IMAGE TO EDIT. Its 1024 x 1024 canvas, alpha mask, object geometry and every material boundary are locked.\nReturn one 1024 x 1024 transparent RGBA image. Change only the surface colours/textures WITHIN IMAGE 2. Treat this as painting on a fixed stencil. Do not regenerate a similar object. Preserve its exact silhouette and transparent pixels, all part edges and widths, camera, scale, framing, gemstone shape, rim shapes and any open hole. The 1254px design-reference canvas is irrelevant: retain the 1024px guide canvas.\nUse guide_top.png exactly. Preserve its upright near-circular ring projection, broad central open hole, bottom inner wall, and top-center garnet dome on an angular gold setting. Do not reinterpret the named top view, rotate the model, or copy the diagonal design-reference pose. Object alpha bounds are x=118..905, y=66..957 on the 1024 square.\nMap the guide materials as follows:\n- Lavender = near-black violet resin with understated irregular violet and burgundy-red mineral marbling from IMAGE 1. Paint the interior wall this same resin at the same brightness as the exterior. Restrained angular antique-gold panel divisions can be painted onto the existing exterior surface, never outside its outline or on the inner wall.\n- Pale cream = brushed antique yellow gold with fine wear scratches, almost uniform diffuse base colour.\n- Pale blue = deep dark garnet red with fine red crystal inclusions. Keep the guide's exact dome silhouette. Facet markings may be painted inside it, without any reflective patch.\nThe previous attempt changed the contour and baked in shine. Correct both by copying IMAGE 2's silhouette exactly and painting strictly UNLIT DIFFUSE ALBEDO. No directional lighting, AO, cast or contact shadows, bright facet glints, white streaks, rim highlights or reflected environment. Keep gold's face-to-face value variation tiny; do not brighten bevels. Suppress the strong white/purple glints and black lighting shadows in IMAGE 1; copy its base materials only. Fine texture supplies detail, not rendered light. No ceramic or blue jewel.\nKeep every empty pixel transparent, including the ring opening when visible. No background colour or checkerboard, floor, text, letters, watermark or new parts. No spikes or added gem supports. Do not crop, rotate, reframe, move, enlarge or shrink anything. This is a direct texture repaint of IMAGE 2, not a new product illustration.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "0320a61db7ec409fab48b9f1a14411f744873182ab7206a5b2e15b7971291daa"
+        },
+        {
+          "path": "guide_top.png",
+          "role": "geometry/edit target",
+          "sha256": "103d99fd25eb31103d4f14b878dc2b24f2dc5d7986eec4c1ab050b0e76a48143"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer silhouette than first attempt; best available within one corrective regeneration. Not a full brief compliance pass.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dbb-4519-7441-86d1-335a2942432c/exec-0c486a61-f724-4418-a2e7-900924243751.png",
+      "output_sha256": "6e665c456644d157bca8a513b3d30e4759f0bbd1c9d7a324a2d8157b50970cf8",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          29,
+          1240,
+          1238
+        ],
+        "alpha_128_bbox": [
+          134,
+          74,
+          1119,
+          1176
+        ],
+        "guide_alpha_128_bbox_scaled_for_comparison": [
+          146,
+          82,
+          1108,
+          1172
+        ],
+        "transparent_pixels": 998090,
+        "normalized_silhouette_iou": 0.9378222859985185,
+        "normalized_silhouette_differing_pixels": 34751,
+        "silhouette_identical": false,
+        "colours_and_materials": "Black-violet resin, brushed gold and dark garnet match the intended palette; reference rib details are incomplete.",
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "visual_review": "Closer to guide geometry and more subdued resin texture. Garnet facet highlights, gold bevel sheen, local rim/setting differences and alpha fringe remain."
+      }
+    }
+  ],
+  "status": "Five raw selected paintings saved; exact silhouette and flat-albedo checks remain failed after the allowed single corrective pass per view.",
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "limitations": [
+    "Tool returned 1254 x 1254 for all ten calls despite the 1024 x 1024 request; all outputs preserved unresized.",
+    "No selected output is silhouette-identical to its guide.",
+    "Residual highlights, local material-boundary differences and alpha fringe remain.",
+    "No image post-processing, model changes, baking, installation or builds performed."
+  ]
+}

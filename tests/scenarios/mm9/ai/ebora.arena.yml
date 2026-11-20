@@ -1,0 +1,39 @@
+# AI arena: Ebora and her concubines (MM9_MONSTER_AI_PLAN.md phase 5, worlds/mm9/behaviors/ebora.lua and
+# concubine.lua) on thearena.blv. Monster 0 is the Bathhouse's Ebora (EboraBath.scr): she never fights, no blow hurts
+# her, she launches when she first sees the party, taunts at each concubine's death and escapes at the third.
+# Monsters 1-3 are her concubines (EboraConcubine.scr): they launch on first sight of the party, then fight it.
+# Monster 4 is Thjorad Mine's Ebora (EboraMines.scr): she stands until the FreeAtLast trigger (here at 22 s), then
+# fidgets, taunts, casts and vanishes in a column of fire. See README.md.
+name: mm9_ebora
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -5
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9301
+    position: [0, 700, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, script: eborabath.scr}
+  - monster_id: 9302
+    position: [-300, 400, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, script: eboraconcubine.scr}
+  - monster_id: 9302
+    position: [0, 300, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, script: eboraconcubine.scr}
+  - monster_id: 9302
+    position: [300, 400, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, script: eboraconcubine.scr}
+  - monster_id: 9301
+    position: [-900, 900, 1]
+    yaw_degrees: 300
+    mm9_ai: {runaway_chance: 0, script: eboramines.scr, sight: 400, hearing: 50}
+events:
+  - {at: 22, trigger: [4, FreeAtLast], note: EboraMines.scr's FreeAtLast (the map's trigger)}

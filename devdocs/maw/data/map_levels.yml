@@ -1,0 +1,506 @@
+# draft extracted from MAW ef23ee17
+# Per-map monster level bands (mapLevels), horizontal starter maps and Beyond Madness level progression.
+# Source: Maw-Mod-MMMerge Scripts/General/zzMaw-Monsters.lua
+#   horizontalMaps 946-955, madnessStartingMaps 957-961, mapLevels 963-1592,
+#   mm6/mm7/mm8MapProgression 1594-1785, madnessLevel 1787-1792, madnessMapLevels 1794-1811.
+# MAW keys these tables by map DISPLAY name (Game.MapStats[i].Name, from MAW's own mapstats.txt in
+# Data/zMaw.T.lod). This draft re-keys them by map FILE name. Where several maps share a display name they
+# share one MAW entry; such maps are listed individually here with `shared_key`. Values are the EFFECTIVE
+# ones (a Lua table constructor keeps the last duplicate key); `maw_intended` records an overwritten entry.
+# low/mid/high: the B-tier level the 1st/2nd/3rd native monster family (sorted by base B level) is pinned to.
+# See devdocs/maw/BALANCE_MODEL.md section 7 for how these feed monster levels in each progression mode.
+format: 1
+source: {repo: Maw-Mod-MMMerge, commit: ef23ee17, file: Scripts/General/zzMaw-Monsters.lua}
+
+map_levels:
+  out01.odm: {name: "Dagger Wound Island", mapstats_id: 1, low: 3, mid: 4, high: 4, line: 965}
+  out02.odm: {name: "Ravenshore", mapstats_id: 2, low: 14, mid: 14, high: 17, line: 971}
+  out03.odm: {name: "Alvar", mapstats_id: 3, low: 21, mid: 24, high: 35, line: 983}
+  out04.odm: {name: "Ironsand Desert", mapstats_id: 4, low: 16, mid: 28, high: 36, line: 986}
+  out05.odm: {name: "Garrote Gorge", mapstats_id: 5, low: 38, mid: 45, high: 50, line: 992}
+  out06.odm: {name: "Shadowspire", mapstats_id: 6, low: 28, mid: 35, high: 45, line: 995}
+  out07.odm: {name: "Murmurwoods", mapstats_id: 7, low: 23, mid: 27, high: 35, line: 998}
+  out08.odm: {name: "Ravage Roaming", mapstats_id: 8, low: 28, mid: 28, high: 35, line: 1001}
+  elema.odm: {name: "Plane of Air", mapstats_id: 9, low: 60, mid: 62, high: 65, line: 1004}
+  eleme.blv: {name: "Plane of Earth", mapstats_id: 10, low: 70, mid: 75, high: 80, line: 1007}
+  elemf.odm: {name: "Plane of Fire", mapstats_id: 11, low: 65, mid: 70, high: 75, line: 1010}
+  elemw.odm: {name: "Plane of Water", mapstats_id: 12, low: 60, mid: 65, high: 70, line: 1013}
+  out13.odm: {name: "Regna", mapstats_id: 13, low: 45, mid: 50, high: 55, line: 1016}
+  pbp.odm: {name: "Plane Between Planes", mapstats_id: 14, low: 85, mid: 90, high: 90, line: 1019}
+  out15.odm: {name: "Tutorial", mapstats_id: 15, low: 1, mid: 1, high: 1, line: 1022}
+  d05.blv: {name: "Abandoned Temple", mapstats_id: 16, low: 5, mid: 6, high: 7, line: 968}
+  d06.blv: {name: "Pirate Outpost", mapstats_id: 17, low: 45, mid: 51, high: 51, line: 1025}
+  d07.blv: {name: "Smuggler's Cove", mapstats_id: 18, low: 11, mid: 13, high: 17, line: 974}
+  d08.blv: {name: "Dire Wolf Den", mapstats_id: 19, low: 14, mid: 14, high: 14, line: 977}
+  d09.blv: {name: "Merchant House of Alvar", mapstats_id: 20, low: 1, mid: 1, high: 1, line: 1028}
+  d10.blv: {name: "Escaton's Crystal", mapstats_id: 21, low: 70, mid: 80, high: 90, line: 1031}
+  d11.blv: {name: "Wasp Nest", mapstats_id: 22, low: 18, mid: 18, high: 18, line: 1034}
+  d12.blv: {name: "Ogre Fortress", mapstats_id: 23, low: 20, mid: 24, high: 24, line: 1037}
+  d13.blv: {name: "Troll Tomb", mapstats_id: 24, low: 16, mid: 16, high: 16, line: 989}
+  d14.blv: {name: "Cyclops Larder", mapstats_id: 25, low: 42, mid: 42, high: 42, line: 1040}
+  d15.blv: {name: "Chain of Fire", mapstats_id: 26, low: 31, mid: 40, high: 49, line: 1043}
+  d16.blv: {name: "Dragon Hunter's Camp", mapstats_id: 27, low: 35, mid: 40, high: 45, line: 1046}
+  d17.blv: {name: "Dragon Cave", mapstats_id: 28, low: 35, mid: 60, high: 85, line: 1049}
+  d18.blv: {name: "Naga Vault", mapstats_id: 29, low: 30, mid: 34, high: 38, line: 1052}
+  d19.blv: {name: "Necromancers' Guild", mapstats_id: 30, low: 28, mid: 34, high: 42, line: 1055}
+  d20.blv: {name: "Mad Necromancer's Lab", mapstats_id: 31, low: 37, mid: 42, high: 45, line: 1058}
+  d21.blv: {name: "Vampire Crypt", mapstats_id: 32, low: 42, mid: 42, high: 42, line: 1061}
+  d22.blv:
+    name: "Temple of the Sun"
+    mapstats_id: 33
+    low: 15
+    mid: 24
+    high: 25
+    shared_key: "Temple of the Sun"
+    line: 1493
+    maw_intended: {low: 40, mid: 40, high: 40, line: 1064}
+  d23.blv: {name: "Druid Circle", mapstats_id: 34, low: 45, mid: 49, high: 60, line: 1067}
+  d24.blv: {name: "Balthazar Lair", mapstats_id: 35, low: 35, mid: 47, high: 59, line: 1070}
+  d25.blv: {name: "Barbarian Fortress", mapstats_id: 36, low: 25, mid: 28, high: 36, line: 1073}
+  d26.blv: {name: "The Crypt of Korbu", mapstats_id: 37, low: 32, mid: 36, high: 40, line: 1076}
+  d27.blv: {name: "Castle of Air", mapstats_id: 38, low: 65, mid: 65, high: 65, line: 1079}
+  d28.blv: {name: "Tomb of Lord Brinne", mapstats_id: 39, low: 1, mid: 1, high: 1, line: 1082}
+  d29.blv: {name: "Castle of Fire", mapstats_id: 40, low: 75, mid: 75, high: 75, line: 1085}
+  d30.blv: {name: "War Camp", mapstats_id: 41, low: 65, mid: 70, high: 75, line: 1088}
+  d31.blv: {name: "Pirate Stronghold", mapstats_id: 42, low: 50, mid: 55, high: 55, line: 1091}
+  d32.blv: {name: "Abandoned Pirate Keep", mapstats_id: 43, low: 50, mid: 55, high: 60, line: 1094}
+  d33.blv: {name: "Passage Under Regna", mapstats_id: 44, low: 50, mid: 55, high: 60, line: 1097}
+  d34.blv: {name: "Small Sub Pen", mapstats_id: 45, low: 50, mid: 55, high: 55, line: 1100}
+  d35.blv: {name: "Escaton's Palace", mapstats_id: 46, low: 80, mid: 90, high: 100, line: 1103}
+  d36.blv: {name: "Prison of the Lord of Air", mapstats_id: 47, low: 85, mid: 90, high: 100, line: 1106}
+  d37.blv: {name: "Prison of the Lord of Fire", mapstats_id: 48, low: 85, mid: 90, high: 100, line: 1109}
+  d38.blv: {name: "Prison of the Lord of Water", mapstats_id: 49, low: 85, mid: 90, high: 100, line: 1112}
+  d39.blv: {name: "Prison of the Lord of Earth", mapstats_id: 50, low: 85, mid: 90, high: 100, line: 1115}
+  d40.blv: {name: "Uplifted Library", mapstats_id: 51, low: 30, mid: 35, high: 40, line: 1118}
+  d41.blv: {name: "Dark Dwarf Compound", mapstats_id: 52, low: 20, mid: 22, high: 24, line: 1121}
+  d42.blv: {name: "Arena", mapstats_id: 53, low: 1, mid: 1, high: 1, line: 1124}
+  d43.blv: {name: "Ancient Troll Home", mapstats_id: 54, low: 23, mid: 25, high: 27, line: 1127}
+  d44.blv: {name: "Grand Temple of Eep", mapstats_id: 55, low: 21, mid: 23, high: 27, line: 1130}
+  d45.blv: {name: "Chapel of Eep", mapstats_id: 56, low: 14, mid: 16, high: 20, line: 980}
+  d46.blv: {name: "Church of Eep", mapstats_id: 57, low: 20, mid: 22, high: 26, line: 1133}
+  d47.blv: {name: "Old Loeb's Cave", mapstats_id: 58, low: 35, mid: 60, high: 85, line: 1136}
+  d48.blv: {name: "Ilsingore's Cave", mapstats_id: 59, low: 35, mid: 60, high: 85, line: 1139}
+  d49.blv: {name: "Yaardrake's Cave", mapstats_id: 60, low: 35, mid: 60, high: 85, line: 1142}
+  d50.blv: {name: "NWC", mapstats_id: 61, low: 1, mid: 1, high: 1, line: 1145}
+  7out01.odm: {name: "Emerald Island", mapstats_id: 62, low: 4, mid: 4, high: 4, line: 1150}
+  7out02.odm: {name: "Harmondale", mapstats_id: 63, low: 6, mid: 11.5, high: 17, line: 1162}
+  7out03.odm: {name: "Erathia", mapstats_id: 64, low: 17, mid: 20, high: 23, line: 1240}
+  7out04.odm: {name: "The Tularean Forest", mapstats_id: 65, low: 18, mid: 22, high: 24, line: 1234}
+  7out05.odm: {name: "Deyja", mapstats_id: 66, low: 14, mid: 16, high: 18, line: 1222}
+  7out06.odm: {name: "The Bracada Desert", mapstats_id: 67, low: 25, mid: 29, high: 35, line: 1261}
+  out09.odm: {name: "Evenmorn Island", mapstats_id: 68, low: 24, mid: 27, high: 30, line: 1252}
+  out10.odm: {name: "Mount Nighon", mapstats_id: 69, low: 65, mid: 69, high: 85, line: 1342}
+  out11.odm: {name: "The Barrow Downs", mapstats_id: 70, low: 11, mid: 13, high: 16, line: 1165}
+  out12.odm: {name: "The Land of the Giants", mapstats_id: 71, low: 70, mid: 75, high: 90, line: 1348}
+  7out13.odm: {name: "Tatalia", mapstats_id: 72, low: 19, mid: 23.5, high: 28, line: 1264}
+  out14.odm: {name: "Avlee", mapstats_id: 73, low: 22, mid: 24, high: 28, line: 1267}
+  7out15.odm: {name: "Shoals", mapstats_id: 74, low: 70, mid: 70, high: 70, line: 1339}
+  d01.blv: {name: "The Erathian Sewers", mapstats_id: 75, low: 15, mid: 18.5, high: 22, line: 1228}
+  d02.blv: {name: "The Maze", mapstats_id: 76, low: 75, mid: 85, high: 89, line: 1363}
+  d03.blv: {name: "Castle Gloaming", mapstats_id: 77, low: 53, mid: 57, high: 62, line: 1315}
+  d04.blv: {name: "The Temple of Baa", mapstats_id: 78, low: 38, mid: 44, high: 50, line: 1294}
+  7d05.blv: {name: "The Arena", mapstats_id: 79, low: 1, mid: 1, high: 1, shared_key: "The Arena", line: 1532}
+  7d06.blv: {name: "The Temple of the Moon", mapstats_id: 80, low: 5, mid: 6, high: 8, line: 1153}
+  7d07.blv: {name: "Thunderfist Mountain", mapstats_id: 81, low: 55, mid: 65, high: 75, line: 1333}
+  7d08.blv: {name: "The Tularean Caves", mapstats_id: 82, low: 18, mid: 22, high: 28, line: 1246}
+  7d09.blv: {name: "The Titans' Stronghold", mapstats_id: 83, low: 75, mid: 82.5, high: 90, line: 1357}
+  7d10.blv: {name: "The Breeding Zone", mapstats_id: 84, low: 44, mid: 52, high: 64, line: 1327}
+  7d11.blv: {name: "The Walls of Mist", mapstats_id: 85, low: 42, mid: 55, high: 64, line: 1318}
+  7d12.blv: {name: "Clanker's Laboratory", mapstats_id: 86, low: 50, mid: 55, high: 60, line: 1309}
+  7d13.blv: {name: "Zokarr's Tomb", mapstats_id: 87, low: 17, mid: 18, high: 19, line: 1219}
+  7d14.blv: {name: "The School of Sorcery", mapstats_id: 88, low: 45, mid: 45, high: 45, line: 1297}
+  7d15.blv: {name: "Watchtower 6", mapstats_id: 89, low: 45, mid: 45, high: 50, line: 1303}
+  7d16.blv: {name: "The Wine Cellar", mapstats_id: 90, low: 42, mid: 45, high: 55, line: 1312}
+  7d17.blv: {name: "The Tidewater Caverns", mapstats_id: 91, low: 18, mid: 20, high: 21, line: 1243}
+  7d18.blv: {name: "Lord Markham's Manor", mapstats_id: 92, low: 28, mid: 44, high: 60, line: 1270}
+  7d19.blv: {name: "Grand Temple of the Moon", mapstats_id: 93, low: 29, mid: 31, high: 33, line: 1258}
+  7d20.blv: {name: "The Mercenary Guild", mapstats_id: 94, low: 44, mid: 49, high: 60, line: 1291}
+  7d21.blv: {name: "White Cliff Cave", mapstats_id: 95, low: 14, mid: 16, high: 18, line: 1213}
+  7d22.blv: {name: "The Hall under the Hill", mapstats_id: 96, low: 12, mid: 18, high: 24, line: 1216}
+  7d23.blv: {name: "The Lincoln", mapstats_id: 97, low: 100, mid: 100, high: 100, line: 1372}
+  7d24.blv: {name: "Stone City", mapstats_id: 98, low: 17, mid: 18.5, high: 20, line: 1237}
+  7d25.blv: {name: "Celeste", mapstats_id: 99, low: 35, mid: 39, high: 50, line: 1300}
+  7d26.blv: {name: "The Pit", mapstats_id: 100, low: 50, mid: 53, high: 55, line: 1321}
+  7d27.blv: {name: "Colony Zod", mapstats_id: 101, low: 85, mid: 85, high: 85, line: 1360}
+  7d28.blv: {name: "The Dragon's Lair", mapstats_id: 102, low: 5, mid: 20, high: 35, line: 1156}
+  7d29.blv: {name: "Castle Harmondale", mapstats_id: 103, low: 5, mid: 6, high: 6, line: 1159}
+  7d30.blv: {name: "Castle Lambent", mapstats_id: 104, low: 55, mid: 55, high: 75, line: 1330}
+  7d31.blv: {name: "Fort Riverstride", mapstats_id: 105, low: 30, mid: 32, high: 37, line: 1273}
+  7d32.blv: {name: "Castle Navan", mapstats_id: 106, low: 25, mid: 32, high: 43, line: 1285}
+  7d33.blv: {name: "Castle Gryphonheart", mapstats_id: 107, low: 31, mid: 36, high: 50, line: 1279}
+  7d34.blv: {name: "The Red Dwarf Mines", mapstats_id: 108, low: 18, mid: 23, high: 28, line: 1249}
+  7d35.blv: {name: "Nighon Tunnels", mapstats_id: 109, low: 31, mid: 33, high: 35, line: 1276}
+  7d36.blv: {name: "Tunnels to Eeofol", mapstats_id: 110, low: 60, mid: 70, high: 70, line: 1345}
+  7d37.blv: {name: "The Haunted Mansion", mapstats_id: 111, low: 14, mid: 17, high: 19, line: 1225}
+  mdk01.blv: {name: "Barrow VII", mapstats_id: 112, low: 11, mid: 12, high: 13, line: 1168}
+  mdk02.blv: {name: "Barrow IV", mapstats_id: 113, low: 10, mid: 11.5, high: 13, line: 1171}
+  mdk03.blv: {name: "Barrow II", mapstats_id: 114, low: 13, mid: 15, high: 17, line: 1174}
+  mdk04.blv: {name: "Barrow XIV", mapstats_id: 115, low: 17, mid: 18, high: 19, line: 1177}
+  mdk05.blv: {name: "Barrow III", mapstats_id: 116, low: 17, mid: 18, high: 19, line: 1180}
+  mdt01.blv: {name: "Barrow IX", mapstats_id: 117, low: 10, mid: 10.5, high: 11, line: 1183}
+  mdt02.blv: {name: "Barrow VI", mapstats_id: 118, low: 17, mid: 18, high: 19, line: 1186}
+  mdt03.blv: {name: "Barrow I", mapstats_id: 119, low: 17, mid: 18, high: 19, line: 1189}
+  mdt04.blv: {name: "Barrow VIII", mapstats_id: 120, low: 17, mid: 18, high: 19, line: 1192}
+  mdt05.blv: {name: "Barrow XIII", mapstats_id: 121, low: 17, mid: 18, high: 19, line: 1195}
+  mdr01.blv: {name: "Barrow X", mapstats_id: 122, low: 10, mid: 10.5, high: 11, line: 1198}
+  mdr02.blv: {name: "Barrow XII", mapstats_id: 123, low: 10, mid: 11.5, high: 13, line: 1201}
+  mdr03.blv: {name: "Barrow V", mapstats_id: 124, low: 10, mid: 11.5, high: 13, line: 1204}
+  mdr04.blv: {name: "Barrow XI", mapstats_id: 125, low: 13, mid: 15, high: 17, line: 1207}
+  mdr05.blv: {name: "Barrow XV", mapstats_id: 126, low: 13, mid: 15, high: 17, line: 1210}
+  mdt09.blv: {name: "Wromthrax's Cave", mapstats_id: 127, low: 55, mid: 55, high: 55, line: 1366}
+  mdt10.blv: {name: "William Setag's Tower", mapstats_id: 128, low: 33, mid: 46.5, high: 60, line: 1282}
+  mdt11.blv: {name: "The Hidden Tomb", mapstats_id: 129, low: 65, mid: 67.5, high: 70, line: 1336}
+  mdt12.blv: {name: "The Dragon Caves", mapstats_id: 130, low: 90, mid: 90, high: 90, line: 1369}
+  mdt14.blv: {name: "The Bandit Caves", mapstats_id: 131, low: 15, mid: 16, high: 17, line: 1231}
+  mdt15.blv: {name: "The Small House", mapstats_id: 132, low: 5, mid: 42.5, high: 80, line: 1351}
+  t01.blv: {name: "Temple of the Light", mapstats_id: 133, low: 42, mid: 48, high: 60, line: 1324}
+  t02.blv: {name: "Temple of the Dark", mapstats_id: 134, low: 47, mid: 50, high: 63, line: 1306}
+  t03.blv: {name: "Grand Temple of the Sun", mapstats_id: 135, low: 26, mid: 28, high: 30, line: 1255}
+  t04.blv: {name: "The Hall of the Pit", mapstats_id: 136, low: 33, mid: 37, high: 42, line: 1288}
+  outa1.odm: {name: "Sweet Water", mapstats_id: 137, low: 70, mid: 85, high: 100, line: 1379}
+  outa2.odm: {name: "Paradise Valley", mapstats_id: 138, low: 55, mid: 75, high: 90, line: 1382}
+  outa3.odm: {name: "Hermit's Isle", mapstats_id: 139, low: 36, mid: 55, high: 75, line: 1385}
+  outb1.odm: {name: "Kriegspire", mapstats_id: 140, low: 40, mid: 45, high: 79, line: 1388}
+  outb2.odm: {name: "Blackshire", mapstats_id: 141, low: 40, mid: 44, high: 50, line: 1391}
+  outb3.odm: {name: "Dragonsand", mapstats_id: 142, low: 50, mid: 60, high: 90, line: 1394}
+  outc1.odm: {name: "Frozen Highlands", mapstats_id: 143, low: 17, mid: 19, high: 20, line: 1397}
+  outc2.odm: {name: "Free Haven", mapstats_id: 144, low: 6, mid: 12.5, high: 19, line: 1400}
+  outc3.odm: {name: "Mire of the Damned", mapstats_id: 145, low: 17, mid: 26, high: 29, line: 1403}
+  outd1.odm: {name: "Silver Cove", mapstats_id: 146, low: 30, mid: 31.5, high: 33, line: 1406}
+  outd2.odm: {name: "Bootleg Bay", mapstats_id: 147, low: 7, mid: 12, high: 12, line: 1409}
+  outd3.odm: {name: "Castle Ironfist", mapstats_id: 148, low: 4, mid: 5, high: 7, line: 1412}
+  oute1.odm: {name: "Eel Infested Waters", mapstats_id: 149, low: 24, mid: 35, high: 36, line: 1415}
+  oute2.odm: {name: "Misty Islands", mapstats_id: 150, low: 5, mid: 5, high: 5, line: 1418}
+  oute3.odm: {name: "New Sorpigal", mapstats_id: 151, low: 4, mid: 4, high: 4, line: 1421}
+  6d01.blv: {name: "Goblinwatch", mapstats_id: 152, low: 4, mid: 4, high: 6, line: 1424}
+  6d02.blv:
+    name: "The Abandoned Temple"
+    mapstats_id: 153
+    low: 6
+    mid: 8
+    high: 10
+    line: 1427
+    openyamm_name: "Abandoned Temple"
+  6d03.blv: {name: "Shadow Guild Hideout", mapstats_id: 154, low: 11, mid: 13, high: 15, line: 1430}
+  6d04.blv: {name: "Hall of the Fire Lord", mapstats_id: 155, low: 10, mid: 10, high: 20, line: 1433}
+  6d05.blv: {name: "Snergle's Caverns", mapstats_id: 156, low: 30, mid: 32.5, high: 35, line: 1436}
+  6d06.blv: {name: "Dragoons' Caverns", mapstats_id: 157, low: 18, mid: 20, high: 26, line: 1439}
+  6d07.blv: {name: "Silver Helm Outpost", mapstats_id: 158, low: 10, mid: 12, high: 12, line: 1442}
+  6d08.blv: {name: "Shadow Guild", mapstats_id: 159, low: 12, mid: 20, high: 30, line: 1445}
+  6d09.blv: {name: "Snergle's Iron Mines", mapstats_id: 160, low: 30, mid: 33, high: 40, line: 1448}
+  6d10.blv: {name: "Dragoons' Keep", mapstats_id: 161, low: 26, mid: 30, high: 34, line: 1451}
+  6d11.blv: {name: "Corlagon's Estate", mapstats_id: 162, low: 26, mid: 29, high: 55, line: 1454}
+  6d12.blv: {name: "Silver Helm Stronghold", mapstats_id: 163, low: 26, mid: 40, high: 50, line: 1457}
+  6d13.blv: {name: "The Monolith", mapstats_id: 164, low: 24, mid: 30, high: 40, line: 1460}
+  6d14.blv: {name: "Tomb of Ethric the Mad", mapstats_id: 165, low: 26, mid: 29, high: 55, line: 1463}
+  6d15.blv: {name: "Icewind Keep", mapstats_id: 166, low: 20, mid: 23, high: 26, line: 1466}
+  6d16.blv: {name: "Warlord's Fortress", mapstats_id: 167, low: 34, mid: 40, high: 80, line: 1469}
+  6d17.blv: {name: "Lair of the Wolf", mapstats_id: 168, low: 35, mid: 40, high: 45, line: 1472}
+  6d18.blv: {name: "Gharik's Forge", mapstats_id: 169, low: 39, mid: 39, high: 50, line: 1475}
+  6d19.blv: {name: "Agar's Laboratory", mapstats_id: 170, low: 35, mid: 40, high: 55, line: 1478}
+  6d20.blv: {name: "Caves of the Dragon Riders", mapstats_id: 171, low: 60, mid: 70, high: 80, line: 1481}
+  6t1.blv: {name: "Temple of Baa", mapstats_id: 172, low: 8, mid: 16, high: 26, line: 1484}
+  6t2.blv: {name: "Temple of the Fist", mapstats_id: 173, low: 5, mid: 10, high: 11, line: 1487}
+  6t3.blv: {name: "Temple of Tsantsa", mapstats_id: 174, low: 9, mid: 10, high: 11, line: 1490}
+  6t4.blv:
+    name: "Temple of the Sun"
+    mapstats_id: 175
+    low: 15
+    mid: 24
+    high: 25
+    shared_key: "Temple of the Sun"
+    line: 1493
+  6t5.blv: {name: "Temple of the Moon", mapstats_id: 176, low: 10, mid: 30, high: 45, line: 1496}
+  6t6.blv: {name: "Supreme Temple of Baa", mapstats_id: 177, low: 65, mid: 70, high: 80, line: 1499}
+  6t7.blv: {name: "Superior Temple of Baa", mapstats_id: 178, low: 50, mid: 60, high: 70, line: 1502}
+  6t8.blv: {name: "Temple of the Snake", mapstats_id: 179, low: 45, mid: 67.5, high: 90, line: 1505}
+  cd1.blv: {name: "Castle Alamos", mapstats_id: 180, low: 44, mid: 50, high: 50, line: 1508}
+  cd2.blv: {name: "Castle Darkmoor", mapstats_id: 181, low: 60, mid: 70, high: 80, line: 1511}
+  cd3.blv: {name: "Castle Kriegspire", mapstats_id: 182, low: 59, mid: 69, high: 79, line: 1514}
+  sewer.blv: {name: "Free Haven Sewer", mapstats_id: 183, low: 4, mid: 10, high: 12, line: 1517}
+  pyramid.blv: {name: "Tomb of VARN", mapstats_id: 184, low: 65, mid: 66, high: 90, line: 1520}
+  oracle.blv: {name: "Oracle of Enroth", mapstats_id: 185, low: 1, mid: 1, high: 1, line: 1523}
+  sci-fi.blv: {name: "Control Center", mapstats_id: 186, low: 90, mid: 90, high: 90, line: 1526}
+  hive.blv: {name: "The Hive", mapstats_id: 187, low: 80, mid: 90, high: 100, line: 1529}
+  zarena.blv: {name: "The Arena", mapstats_id: 188, low: 1, mid: 1, high: 1, shared_key: "The Arena", line: 1532}
+  zddb01.blv: {name: "Dragon's Lair", mapstats_id: 189, low: 90, mid: 90, high: 90, line: 1535}
+  zddb02.blv: {name: "pending", mapstats_id: 190, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb03.blv: {name: "pending", mapstats_id: 191, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb04.blv: {name: "pending", mapstats_id: 192, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb05.blv: {name: "pending", mapstats_id: 193, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb06.blv: {name: "pending", mapstats_id: 194, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb07.blv: {name: "pending", mapstats_id: 195, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb08.blv: {name: "pending", mapstats_id: 196, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb09.blv: {name: "pending", mapstats_id: 197, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zddb10.blv: {name: "pending", mapstats_id: 198, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zdtl01.blv: {name: "pending", mapstats_id: 199, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zdtl02.blv:
+    name: "pending"
+    mapstats_id: 200
+    low: 1
+    mid: 1
+    high: 1
+    shared_key: "pending"
+    line: 1571
+    maw_intended: {low: 40, mid: 50, high: 50, line: 1568}
+  zdwj01.blv: {name: "pending", mapstats_id: 201, low: 1, mid: 1, high: 1, shared_key: "pending", line: 1571}
+  zdwj02.blv: {name: "Devil Outpost", mapstats_id: 202, low: 56, mid: 56, high: 56, line: 1574}
+  znwc.blv: {name: "New World Computing", mapstats_id: 203, low: 1, mid: 1, high: 1, line: 1577}
+  Breach.odm:
+    name: "The Breach"
+    mapstats_id: 204
+    low: 100
+    mid: 110
+    high: 120
+    shared_key: "The Breach"
+    line: 1583
+    openyamm: missing
+  BrAlvar.odm:
+    name: "The Breach"
+    mapstats_id: 205
+    low: 100
+    mid: 110
+    high: 120
+    shared_key: "The Breach"
+    line: 1583
+    openyamm: missing
+  BrBase.blv:
+    name: "Basement of the Breach"
+    mapstats_id: 206
+    low: 100
+    mid: 110
+    high: 120
+    line: 1586
+    openyamm: missing
+  7nwc.blv: {name: "The Strange Temple", mapstats_id: 207, low: 1, mid: 1, high: 1, line: 1589}
+
+# Display names in the MAW table that OpenYAMM's map_stats.txt cannot resolve:
+#   "The Breach" -> Breach.odm (204), BrAlvar.odm (205); "Basement of the Breach" -> BrBase.blv (206):
+#     these three maps do not exist in OpenYAMM (map_stats.txt has no rows 204-206).
+#   "The Abandoned Temple" -> 6d02.blv (153): MAW renames row 153 in its mapstats.txt; OpenYAMM still names
+#     both d05.blv and 6d02.blv "Abandoned Temple", so a lookup by display name would give 6d02 the d05 band.
+
+# Horizontal progression starter maps: monsters stay near their vanilla level (zzMaw-Monsters.lua:946-955).
+horizontal_starter_maps:
+  - d05.blv  # Abandoned Temple
+  - 7d29.blv  # Castle Harmondale
+  - out01.odm  # Dagger Wound Island
+  - 7out01.odm  # Emerald Island
+  - 6d01.blv  # Goblinwatch
+  - oute3.odm  # New Sorpigal
+  - 6d02.blv  # The Abandoned Temple
+  - 7d28.blv  # The Dragon's Lair
+  - 7d06.blv  # The Temple of the Moon
+
+madness:
+  # Beyond Madness fixes every listed map at a level along its game's campaign (zzMaw-Monsters.lua:1784-1811).
+  top_level: 500        # MADNESS_TOP_LEVEL
+  curve: 1.2            # MADNESS_CURVE
+  level_formula: "round(top_level * (position / campaign_length) ^ curve)"   # round() = half up
+  campaign_length: {mm6: 54, mm7: 52, mm8: 58}
+  # Maps where the fixed madness level is NOT applied: monsters follow the horizontal starter-map rule
+  # and unique monsters get 3x their base level (zzMaw-Monsters.lua:289-303, 431-433).
+  starting_maps:
+    - out01.odm  # Dagger Wound Island
+    - 7out01.odm  # Emerald Island
+    - oute3.odm  # New Sorpigal
+    - 7d28.blv  # The Dragon's Lair
+    - 7d06.blv  # The Temple of the Moon
+  # Explicit overrides assigned after the formula (lines 1806-1811).
+  fixed_levels:
+    BrBase.blv: 1100   # Basement of the Breach
+    Breach.odm: 1100   # The Breach
+    BrAlvar.odm: 1100   # The Breach
+    7d05.blv: 1   # The Arena
+    zarena.blv: 1   # The Arena
+    d50.blv: 1   # NWC
+    # "Pending" (capital P) = 1 is also set; no map has that name (the placeholder maps are "pending").
+  # position along the campaign -> fixed level. A name in two tables takes the later loop (mm8 after mm6).
+  progression:
+    mm6:
+      oute3.odm: {position: 1, level: 4}   # New Sorpigal
+      6d01.blv: {position: 4, level: 22}   # Goblinwatch
+      6d02.blv: {position: 5, level: 29}   # The Abandoned Temple
+      outd3.odm: {position: 6, level: 36}   # Castle Ironfist
+      6d03.blv: {position: 7, level: 43}   # Shadow Guild Hideout
+      oute2.odm: {position: 8, level: 51}   # Misty Islands
+      outd2.odm: {position: 9, level: 58}   # Bootleg Bay
+      6t2.blv: {position: 10, level: 66}   # Temple of the Fist
+      6t3.blv: {position: 11, level: 74}   # Temple of Tsantsa
+      6d07.blv: {position: 12, level: 82}   # Silver Helm Outpost
+      6d04.blv: {position: 13, level: 91}   # Hall of the Fire Lord
+      outc2.odm: {position: 14, level: 99}   # Free Haven
+      sewer.blv: {position: 15, level: 107}   # Free Haven Sewer
+      6t1.blv: {position: 16, level: 116}   # Temple of Baa
+      6d06.blv: {position: 17, level: 125}   # Dragoons' Caverns
+      outc1.odm: {position: 18, level: 134}   # Frozen Highlands
+      6d08.blv: {position: 19, level: 143}   # Shadow Guild
+      6d15.blv: {position: 20, level: 152}   # Icewind Keep
+      6d10.blv: {position: 21, level: 161}   # Dragoons' Keep
+      6d11.blv: {position: 22, level: 170}   # Corlagon's Estate
+      6d14.blv: {position: 23, level: 180}   # Tomb of Ethric the Mad
+      6t5.blv: {position: 24, level: 189}   # Temple of the Moon
+      outc3.odm: {position: 25, level: 198}   # Mire of the Damned
+      d22.blv: {position: 26, level: 173}   # Temple of the Sun; mm8 entry (24 of 58) wins
+      6t4.blv: {position: 26, level: 173}   # Temple of the Sun; mm8 entry (24 of 58) wins
+      6d05.blv: {position: 27, level: 218}   # Snergle's Caverns
+      6d09.blv: {position: 28, level: 227}   # Snergle's Iron Mines
+      outd1.odm: {position: 29, level: 237}   # Silver Cove
+      6d13.blv: {position: 30, level: 247}   # The Monolith
+      6d12.blv: {position: 31, level: 257}   # Silver Helm Stronghold
+      6d16.blv: {position: 32, level: 267}   # Warlord's Fortress
+      zddb01.blv: {position: 33, level: 277}   # Dragon's Lair
+      outb2.odm: {position: 34, level: 287}   # Blackshire
+      6d17.blv: {position: 35, level: 297}   # Lair of the Wolf
+      6d18.blv: {position: 36, level: 307}   # Gharik's Forge
+      oute1.odm: {position: 37, level: 318}   # Eel Infested Waters
+      6d19.blv: {position: 38, level: 328}   # Agar's Laboratory
+      cd1.blv: {position: 39, level: 338}   # Castle Alamos
+      outb1.odm: {position: 40, level: 349}   # Kriegspire
+      zdwj02.blv: {position: 41, level: 359}   # Devil Outpost
+      6t7.blv: {position: 42, level: 370}   # Superior Temple of Baa
+      cd2.blv: {position: 43, level: 380}   # Castle Darkmoor
+      6t8.blv: {position: 44, level: 391}   # Temple of the Snake
+      outa2.odm: {position: 45, level: 402}   # Paradise Valley
+      cd3.blv: {position: 46, level: 412}   # Castle Kriegspire
+      6d20.blv: {position: 47, level: 423}   # Caves of the Dragon Riders
+      outa3.odm: {position: 48, level: 434}   # Hermit's Isle
+      6t6.blv: {position: 49, level: 445}   # Supreme Temple of Baa
+      outb3.odm: {position: 50, level: 456}   # Dragonsand
+      pyramid.blv: {position: 51, level: 467}   # Tomb of VARN
+      outa1.odm: {position: 52, level: 478}   # Sweet Water
+      sci-fi.blv: {position: 53, level: 489}   # Control Center
+      hive.blv: {position: 54, level: 500}   # The Hive
+    mm7:
+      7out01.odm: {position: 1, level: 4}   # Emerald Island
+      7d28.blv: {position: 1, level: 4}   # The Dragon's Lair
+      7d06.blv: {position: 1, level: 4}   # The Temple of the Moon
+      7d29.blv: {position: 4, level: 23}   # Castle Harmondale
+      7out02.odm: {position: 5, level: 30}   # Harmondale
+      7d21.blv: {position: 6, level: 37}   # White Cliff Cave
+      7out04.odm: {position: 7, level: 45}   # The Tularean Forest
+      7d22.blv: {position: 8, level: 53}   # The Hall under the Hill
+      7out03.odm: {position: 9, level: 61}   # Erathia
+      mdt14.blv: {position: 10, level: 69}   # The Bandit Caves
+      d01.blv: {position: 11, level: 78}   # The Erathian Sewers
+      out11.odm: {position: 12, level: 86}   # The Barrow Downs
+      mdt03.blv: {position: 13, level: 95}   # Barrow I
+      mdk03.blv: {position: 13, level: 95}   # Barrow II
+      mdk05.blv: {position: 13, level: 95}   # Barrow III
+      mdk02.blv: {position: 13, level: 95}   # Barrow IV
+      mdt01.blv: {position: 13, level: 95}   # Barrow IX
+      mdr03.blv: {position: 13, level: 95}   # Barrow V
+      mdt02.blv: {position: 13, level: 95}   # Barrow VI
+      mdk01.blv: {position: 13, level: 95}   # Barrow VII
+      mdt04.blv: {position: 13, level: 95}   # Barrow VIII
+      mdr01.blv: {position: 13, level: 95}   # Barrow X
+      mdr04.blv: {position: 13, level: 95}   # Barrow XI
+      mdr02.blv: {position: 13, level: 95}   # Barrow XII
+      mdt05.blv: {position: 13, level: 95}   # Barrow XIII
+      mdk04.blv: {position: 13, level: 95}   # Barrow XIV
+      mdr05.blv: {position: 13, level: 95}   # Barrow XV
+      7d13.blv: {position: 13, level: 95}   # Zokarr's Tomb
+      7d37.blv: {position: 14, level: 104}   # The Haunted Mansion
+      7d24.blv: {position: 15, level: 112}   # Stone City
+      7out05.odm: {position: 16, level: 122}   # Deyja
+      7d18.blv: {position: 18, level: 140}   # Lord Markham's Manor
+      7d17.blv: {position: 18, level: 140}   # The Tidewater Caverns
+      out09.odm: {position: 19, level: 149}   # Evenmorn Island
+      7out06.odm: {position: 20, level: 159}   # The Bracada Desert
+      7d34.blv: {position: 21, level: 168}   # The Red Dwarf Mines
+      7out13.odm: {position: 22, level: 178}   # Tatalia
+      t03.blv: {position: 23, level: 188}   # Grand Temple of the Sun
+      7d19.blv: {position: 24, level: 198}   # Grand Temple of the Moon
+      out14.odm: {position: 25, level: 208}   # Avlee
+      7d31.blv: {position: 26, level: 218}   # Fort Riverstride
+      7d08.blv: {position: 26, level: 218}   # The Tularean Caves
+      7d35.blv: {position: 27, level: 228}   # Nighon Tunnels
+      mdt09.blv: {position: 29, level: 248}   # Wromthrax's Cave
+      t04.blv: {position: 30, level: 258}   # The Hall of the Pit
+      7d10.blv: {position: 31, level: 269}   # The Breeding Zone
+      7d11.blv: {position: 31, level: 269}   # The Walls of Mist
+      7d32.blv: {position: 32, level: 279}   # Castle Navan
+      7d14.blv: {position: 33, level: 290}   # The School of Sorcery
+      d04.blv: {position: 33, level: 290}   # The Temple of Baa
+      mdt11.blv: {position: 34, level: 300}   # The Hidden Tomb
+      7d33.blv: {position: 35, level: 311}   # Castle Gryphonheart
+      mdt10.blv: {position: 35, level: 311}   # William Setag's Tower
+      7d20.blv: {position: 36, level: 322}   # The Mercenary Guild
+      7d15.blv: {position: 37, level: 332}   # Watchtower 6
+      7d25.blv: {position: 38, level: 343}   # Celeste
+      7d26.blv: {position: 38, level: 343}   # The Pit
+      t02.blv: {position: 39, level: 354}   # Temple of the Dark
+      t01.blv: {position: 39, level: 354}   # Temple of the Light
+      d03.blv: {position: 40, level: 365}   # Castle Gloaming
+      7d30.blv: {position: 40, level: 365}   # Castle Lambent
+      7d12.blv: {position: 41, level: 376}   # Clanker's Laboratory
+      7d16.blv: {position: 41, level: 376}   # The Wine Cellar
+      7d07.blv: {position: 42, level: 387}   # Thunderfist Mountain
+      out10.odm: {position: 43, level: 398}   # Mount Nighon
+      d02.blv: {position: 44, level: 409}   # The Maze
+      mdt15.blv: {position: 45, level: 420}   # The Small House
+      7d36.blv: {position: 46, level: 432}   # Tunnels to Eeofol
+      7d09.blv: {position: 47, level: 443}   # The Titans' Stronghold
+      out12.odm: {position: 48, level: 454}   # The Land of the Giants
+      mdt12.blv: {position: 49, level: 466}   # The Dragon Caves
+      7d27.blv: {position: 50, level: 477}   # Colony Zod
+      7out15.odm: {position: 51, level: 488}   # Shoals
+      7d23.blv: {position: 52, level: 500}   # The Lincoln
+    mm8:
+      out01.odm: {position: 1, level: 4}   # Dagger Wound Island
+      d05.blv: {position: 4, level: 20}   # Abandoned Temple
+      out02.odm: {position: 5, level: 26}   # Ravenshore
+      d08.blv: {position: 6, level: 33}   # Dire Wolf Den
+      d07.blv: {position: 7, level: 40}   # Smuggler's Cove
+      d45.blv: {position: 8, level: 46}   # Chapel of Eep
+      out03.odm: {position: 9, level: 53}   # Alvar
+      d11.blv: {position: 10, level: 61}   # Wasp Nest
+      d12.blv: {position: 11, level: 68}   # Ogre Fortress
+      out04.odm: {position: 12, level: 75}   # Ironsand Desert
+      d13.blv: {position: 13, level: 83}   # Troll Tomb
+      d41.blv: {position: 14, level: 91}   # Dark Dwarf Compound
+      d46.blv: {position: 15, level: 99}   # Church of Eep
+      out08.odm: {position: 16, level: 107}   # Ravage Roaming
+      d25.blv: {position: 17, level: 115}   # Barbarian Fortress
+      d44.blv: {position: 18, level: 123}   # Grand Temple of Eep
+      d24.blv: {position: 19, level: 131}   # Balthazar Lair
+      out07.odm: {position: 20, level: 139}   # Murmurwoods
+      d43.blv: {position: 21, level: 148}   # Ancient Troll Home
+      out06.odm: {position: 22, level: 156}   # Shadowspire
+      d20.blv: {position: 23, level: 165}   # Mad Necromancer's Lab
+      d22.blv: {position: 24, level: 173}   # Temple of the Sun; mm8 entry (24 of 58) wins
+      6t4.blv: {position: 24, level: 173}   # Temple of the Sun; mm8 entry (24 of 58) wins
+      d40.blv: {position: 25, level: 182}   # Uplifted Library
+      d15.blv: {position: 26, level: 191}   # Chain of Fire
+      d26.blv: {position: 27, level: 200}   # The Crypt of Korbu
+      d14.blv: {position: 28, level: 209}   # Cyclops Larder
+      out05.odm: {position: 29, level: 218}   # Garrote Gorge
+      d18.blv: {position: 30, level: 227}   # Naga Vault
+      d16.blv: {position: 31, level: 236}   # Dragon Hunter's Camp
+      d21.blv: {position: 32, level: 245}   # Vampire Crypt
+      d19.blv: {position: 33, level: 254}   # Necromancers' Guild
+      d06.blv: {position: 34, level: 263}   # Pirate Outpost
+      d34.blv: {position: 35, level: 273}   # Small Sub Pen
+      out13.odm: {position: 36, level: 282}   # Regna
+      d31.blv: {position: 37, level: 292}   # Pirate Stronghold
+      d33.blv: {position: 38, level: 301}   # Passage Under Regna
+      d32.blv: {position: 39, level: 311}   # Abandoned Pirate Keep
+      d23.blv: {position: 40, level: 320}   # Druid Circle
+      elema.odm: {position: 41, level: 330}   # Plane of Air
+      d27.blv: {position: 42, level: 339}   # Castle of Air
+      elemw.odm: {position: 43, level: 349}   # Plane of Water
+      elemf.odm: {position: 44, level: 359}   # Plane of Fire
+      d30.blv: {position: 45, level: 369}   # War Camp
+      d29.blv: {position: 46, level: 379}   # Castle of Fire
+      eleme.blv: {position: 47, level: 388}   # Plane of Earth
+      d17.blv: {position: 48, level: 398}   # Dragon Cave
+      d48.blv: {position: 49, level: 408}   # Ilsingore's Cave
+      d47.blv: {position: 50, level: 418}   # Old Loeb's Cave
+      d49.blv: {position: 51, level: 428}   # Yaardrake's Cave
+      d10.blv: {position: 52, level: 439}   # Escaton's Crystal
+      pbp.odm: {position: 53, level: 449}   # Plane Between Planes
+      d35.blv: {position: 54, level: 459}   # Escaton's Palace
+      d36.blv: {position: 55, level: 469}   # Prison of the Lord of Air
+      d39.blv: {position: 56, level: 479}   # Prison of the Lord of Earth
+      d38.blv: {position: 57, level: 490}   # Prison of the Lord of Water
+      d37.blv: {position: 58, level: 500}   # Prison of the Lord of Fire

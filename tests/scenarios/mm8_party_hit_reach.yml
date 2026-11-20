@@ -1,0 +1,39 @@
+# The party's shots and targeted spells reach 5120 from the party in every ruleset, indoors and outdoors (the user,
+# 2026-11-09; GameplayActorService::partyHitReach, re_mm8/PARTY_HIT_AGGRO.md): the yellow alert range, as far as
+# monsters shoot at the party and as turn-based combat keeps shots. Standard used to reach 8192 outdoors and had no
+# limit indoors. A Minotaur Battleleader (861 HP) on Ravenshore's flat south shore: from 5600 Slow is refused and a
+# Fire Bolt vanishes before it; from about 4950 both land. In d12.blv (Slow needs no line of sight there): a
+# monster about 5800 away refuses Slow, one about 4100 away takes it. MM9 has its own shorter reach
+# (mm9/party_hit_reach.yml).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm8_party_hit_reach.yml --scenario-no-color
+id: mm8.party_hit_reach
+title: "MM8: party shots and targeted spells stop at 5120 outdoors and indoors under Standard"
+world: mm8
+mode: faithful
+tags: [mm8, combat, spells, projectiles]
+steps:
+  - new_game_flow:
+      start_map: out02.odm
+  - set_pose: {map: out02.odm, x: 0, y: -4800, z: 81, yaw_degrees: -90, pitch: 0}
+  # Beyond the reach: 5600 south.
+  - spawn_actor: {monster_id: 66, x: 0, y: -10400, z: 1}
+  - cast_spell: {member_index: 0, spell_id: 35, skill: 10, mastery: 3, actor_index: last, expect: refused}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 10, mastery: 3, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {name: Minotaur Battleleader, hurt: true, max: 0}
+  # Within it: about 4950 away.
+  - spawn_actor: {monster_id: 66, x: 1200, y: -9600, z: 1}
+  - cast_spell: {member_index: 0, spell_id: 35, skill: 10, mastery: 3, actor_index: last}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 10, mastery: 3, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {name: Minotaur Battleleader, hurt: true, min: 1, max: 1}
+  # Indoors: spawned monsters stand 96 east of the point asked for, so about 5800 and 4100 from the party.
+  - load_map:
+      map: d12.blv
+  - set_pose: {map: d12.blv, x: -4700, y: -30, z: -896, yaw_degrees: 0, pitch: 0}
+  - spawn_actor: {monster_id: 66, x: 1000, y: -30, z: -896}
+  - cast_spell: {member_index: 0, spell_id: 35, skill: 10, mastery: 3, actor_index: last, expect: refused}
+  - spawn_actor: {monster_id: 66, x: -700, y: -30, z: -896}
+  - cast_spell: {member_index: 0, spell_id: 35, skill: 10, mastery: 3, actor_index: last}

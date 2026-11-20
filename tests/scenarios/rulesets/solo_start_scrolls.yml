@@ -1,0 +1,32 @@
+id: rulesets.solo_start_scrolls
+title: "Ruleset - a new solo run starts with one each of Water Walk, Jump, Town Portal, Fly and Lloyd's Beacon"
+world: mm6
+mode: faithful
+tags: [rulesets, solo]
+steps:
+  - note:
+      text: >-
+        giveSoloRunStartScrolls: every new game path that starts a solo run gives the five travel scrolls once,
+        under any ruleset (user, 2026-11-15).
+  - new_game_flow:
+      start_map: oute3.odm
+      member_count: 1
+      ruleset: "mmerge:solo"
+  - assert:
+      inventory_any_member:
+        - {item_id: 326, count: 1}
+        - {item_id: 315, count: 1}
+        - {item_id: 330, count: 1}
+        - {item_id: 320, count: 1}
+        - {item_id: 332, count: 1}
+  - new_game_flow:
+      start_map: oute3.odm
+      member_count: 1
+      ruleset: "maw:solo"
+  - assert:
+      inventory_any_member:
+        - {item_id: 326, count: 1}
+        - {item_id: 315, count: 1}
+        - {item_id: 330, count: 1}
+        - {item_id: 320, count: 1}
+        - {item_id: 332, count: 1}

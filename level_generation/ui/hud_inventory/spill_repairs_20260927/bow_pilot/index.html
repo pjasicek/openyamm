@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Icon spill repairs</title>
+<style>
+body{margin:18px;background:#17191c;color:#e6e9ed;font:15px system-ui}a{color:#8ecbff}
+button,select,input,textarea{font:inherit;background:#292d33;color:inherit;border:1px solid #68727e;border-radius:4px;padding:6px}
+button{cursor:pointer}button:disabled{opacity:.4}button[aria-pressed=true]{border-color:#6ce6b3;background:#285243}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}h1{font-size:24px;margin:0}h2{font-size:18px}
+#search{width:190px}#target{max-width:600px}#notes{width:min(700px,90vw);height:50px}#message{color:#9aefbf}
+.images{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.view{overflow:auto;height:440px;background:#282828;text-align:center}
+figure{margin:0;min-width:0}figcaption{padding:8px;background:#2c3037}figure img{object-fit:contain;vertical-align:top;max-width:100%;max-height:100%}
+#native{image-rendering:pixelated}.meta{color:#b9c5d2;line-height:1.6;white-space:pre-wrap}#proof{max-width:100%;margin-top:16px}
+#originalFeedback{color:#ffda89}#state{font-weight:bold}details{margin:14px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:800px){.images{grid-template-columns:1fr}.view{height:320px}}
+</style>
+<h1>Icon spill repairs — staged candidates</h1>
+<p>Compare colors and contours on dark and light backgrounds. Canvas, alpha and placement remain unchanged.
+<a href="../../spill_audit_20260926/index.html">Original spill audit and flags</a></p>
+<div id="summary"></div>
+<div class="bar">
+<input id="search" placeholder="Find an asset" aria-label="Find an asset">
+<select id="group" aria-label="Asset group"><option value="all">All asset groups</option><option value="items">Inventory + equipment</option><option value="portraits">Portraits</option><option value="ui">HUD / other</option></select>
+<select id="filter" aria-label="Repair status"><option value="all">All review entries</option><option value="pending">Not reviewed</option><option value="changed">Has repair</option><option value="unresolved">Unresolved pixels / scan</option><option value="oldflag">Flagged in original audit</option><option value="flag">Repair flagged</option><option value="accept">Repair accepted</option></select>
+<button id="export">Export repair decisions</button>
+</div>
+<div class="bar"><button id="prev">↑ Previous</button><span id="position"></span><button id="next">↓ Next</button><select id="target" aria-label="Current asset"></select></div>
+<h2 id="title"></h2><div id="state"></div><div id="originalFeedback"></div>
+<div class="bar"><label>Background <select id="background"><option value="#282828">Dark</option><option value="#ededed">Light</option><option value="#708594">Blue gray</option></select></label>
+<label>Display <select id="zoom"><option value="fit">Fit</option><option value="1">Exact x2 pixels</option><option value="2">200%</option><option value="4">400%</option></select></label></div>
+<div class="images">
+<figure><figcaption>Original game art</figcaption><div class="view"><img id="native" alt="Original reference"></div></figure>
+<figure><figcaption>Currently accepted x2</figcaption><div class="view"><img id="before" alt="Currently accepted art"></div></figure>
+<figure><figcaption>Repair candidate</figcaption><div class="view"><img id="after" alt="Repair candidate"></div></figure>
+</div>
+<div class="bar"><button id="accept">Accept repair (Shift+Space)</button><button id="flag">Flag repair (Space)</button><button id="clear">Clear repair decision</button></div>
+<div class="bar" id="reasons"></div>
+<textarea id="notes" placeholder="Notes for this repair" aria-label="Repair notes"></textarea><span id="message" role="status"></span>
+<p>↑/↓ select item · ←/→ select flag reason · Space flags · Shift+Space accepts. Decisions stay in this browser until exported.</p>
+<div id="facts" class="meta"></div>
+<div class="bar" id="links"></div>
+<img id="proof" alt="Before and after details over dark and light backgrounds">
+<details><summary>Original key / actual master background evidence</summary><pre id="evidence"></pre></details>
+<script src="data.js"></script><script src="review.js"></script>
+</html>

@@ -235,3 +235,36 @@ the fixture restores movement snapshots and preserves the separately owned sessi
 The outdoor hook uses the same policy. The map-entry regression cases above exercise indoor traps; direct
 script execution with Levitate is independently checked in all three worlds to prevent blanket spell
 immunity. Mixed outdoor encounters, gas/debris events, and chest traps were not reclassified.
+
+## Follow-up: lava (2026-10-26)
+
+The spell text promises that Levitate avoids "damage from drowning or lava". In `MM8-Rel.exe`, the per-tick
+environment damage routine `0x494007` tests the party water-damage flag (`0x04` at `0xb7c988`) and the burning
+flag (`0x200`), and calls the Levitate helper `0x43f49f` before each damage (`0x494416`, `0x49451b`); either
+damage is skipped while any member levitates. The indoor movement code sets the burning flag at `0x473f52` from
+face flag `0x40000000` without a Levitate test, so the protection is at damage time and does not depend on the
+world. The other movement-path calls (`0x473e66`, `0x4755d2`) only gate footstep sounds.
+
+OpenYAMM burned a levitating party on every lava floor. `IndoorPartyRuntime` and `OutdoorMovementDriver` now skip
+burning damage (and outdoor water damage) while Levitate is active.
+
+MM6 and MM7 also scripted some lava floors through step events, which Levitate never covered in MMMerge either.
+A scan of the imported BLVs for lava textures and the `0x40000000` flag found:
+
+| Map | Lava floors | Old behaviour |
+| --- | --- | --- |
+| MM6 `6d18` Gharik's Forge | 31 `orfyrlga` | event 51 sets a map variable; timer event 54 deals 25 magic damage per minute |
+| MM6 `6t6` Supreme Temple of Baa | 8 `lavatyl` | event 34: 1000 magic damage per step |
+| MM6 `6t7` Superior Temple of Baa | 2 `vlcceila` ("Lava pool") | event 76: 30 magic damage per step |
+| MM7 `7d07` Thunderfist Mountain | 7 of 14 `lava` | event 451 kills the party; the other 7 already had the flag |
+| MM7 `7d26` The Pit, `d03` Castle Gloaming | flagged native lava | events on two Pit faces are teleports, kept |
+
+Scene overlays (`<map>_1.scene.yml`) now make these floors native lava, as in MM8: they add `0x40000000` and drop the
+step trigger `0x04000000`. The events stay bound, so a save that already holds one of these maps keeps its saved
+face flags, and the scripted lava, until the map resets. Castle Darkmoor's `lavatyl` faces are walls and puzzle
+texture swaps, not floors, and are unchanged.
+
+Validation: the unit tests `indoor lava support applies recurring burning damage` and `outdoor Levitate keeps the
+party off lava and water damage`, and the headless cases `indoor_levitate_lava_floor_*` (`6d18`, `6t6`, `6t7`,
+`7d07`, MM8 `d38`): each loads the map, checks the overlay flags, stands a levitating party on the lava (no burn,
+no step event), then removes the buff (burns, no step event).

@@ -1,0 +1,249 @@
+[
+  {
+    "icon": "6boots1",
+    "family": "boots",
+    "names": [
+      "Old Leather Boots"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 54.5,
+    "model": "engine/world_items/models/item_6boots1.glb",
+    "source_design": "equipment_6boots1",
+    "source_geometry_design": "equipment_6boots1",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_6boots1.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_6boots1",
+    "failure": "Visible triangular punctures across toe leather and open one-sided cuff panels under verified back-face culling.",
+    "baseline_source_sha256": "fb66947603ebfc125dc2819467bd63bb47654e389da8d2cb0bc2c48606a321f1",
+    "baseline_runtime_sha256": "2ef73df42a7919e947bf239a99037b8a89a594bf3746f9c0095d7921c7454106"
+  },
+  {
+    "icon": "6boots5",
+    "family": "boots",
+    "names": [
+      "Ultimate Boots"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 51.3,
+    "model": "engine/world_items/models/item_6boots5.glb",
+    "source_design": "equipment_6boots5",
+    "source_geometry_design": "equipment_6boots5",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_6boots5.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_6boots5",
+    "failure": "Both shafts are filled by flat leather caps near the cuff instead of deep open boot interiors; silhouette/material painting cannot fix this geometry.",
+    "baseline_source_sha256": "fc28249dbb379c084aedb1beb9b447986fdf37a0f32bfb61bdd34b486afdc1da",
+    "baseline_runtime_sha256": "32937444a30a0ecaed8a796000b35e780beb7ddb55a8772be240a4964fce47cc"
+  },
+  {
+    "icon": "6boots6",
+    "family": "boots",
+    "names": [
+      "Lucius"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 51.3,
+    "model": "engine/world_items/models/item_6boots6.glb",
+    "source_design": "equipment_6boots6",
+    "source_geometry_design": "equipment_6boots5",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_6boots6.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_6boots6",
+    "failure": "Canonical shared boot geometry has flat caps filling both shafts near the cuff instead of deep open interiors.",
+    "baseline_source_sha256": "d58e7eece709f6d3e1e1a8fb0cc6e204678ea8929d08fab7a77814c1319de610",
+    "baseline_runtime_sha256": "f341f6373d18dbc154f157fbc0cfa46b78b083d927441120209063946c90aa67"
+  },
+  {
+    "icon": "6boots7",
+    "family": "boots",
+    "names": [
+      "Hermes"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 51.3,
+    "model": "engine/world_items/models/item_6boots7.glb",
+    "source_design": "equipment_6boots7",
+    "source_geometry_design": "equipment_6boots5",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_6boots7.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_6boots7",
+    "failure": "Canonical shared boot geometry has flat caps filling both shafts near the cuff instead of deep open interiors.",
+    "baseline_source_sha256": "811b593e87dae95125471e80e73aeb840558c4de0acbfe071ffd75aefc2f3097",
+    "baseline_runtime_sha256": "918ded070274a8177c3c53c007f2e10cb4deb88cc3f3321c853e8437dc4971de"
+  },
+  {
+    "icon": "7item348",
+    "family": "cloaks",
+    "names": [
+      "Moon Cloak"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 79.4,
+    "model": "engine/world_items/models/item_7item348.glb",
+    "source_design": "equipment_7item348",
+    "source_geometry_design": "equipment_7item348",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_7item348.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_7item348",
+    "failure": "The defining raised crescent-moon clasp is missing from the mesh; a painted mark cannot replace its real brooch geometry.",
+    "baseline_source_sha256": "d49de196ba134dfd06ab84daff03909477a7392d80161be219a0ab26ca719453",
+    "baseline_runtime_sha256": "266ae7c927837b1648443fe54fd6017cba69f3d7a630bc7c6373d25ebe9a838e"
+  },
+  {
+    "icon": "item124",
+    "family": "cloaks",
+    "names": [
+      "Alvar Cloak"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 89.5,
+    "model": "engine/world_items/models/item_item124.glb",
+    "source_design": "equipment_item124",
+    "source_geometry_design": "equipment_item124",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_item124.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_item124",
+    "failure": "Folded cloak becomes a tall hollow hood/tunnel with a broad flat inner patch rather than the low leather fold stack in the source.",
+    "baseline_source_sha256": "4e1a23688eff622eae393c0735b38daa537bfe808bdd0a92c44f0f92147959f6",
+    "baseline_runtime_sha256": "4823a1a954896c0f3119ec7b7fafb8ee3160c12d7c51520156931a96c9bb425d"
+  },
+  {
+    "icon": "item125",
+    "family": "cloaks",
+    "names": [
+      "Necromancer Cloak"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 89.5,
+    "model": "engine/world_items/models/item_item125.glb",
+    "source_design": "equipment_item125",
+    "source_geometry_design": "equipment_item125",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_item125.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_item125",
+    "failure": "Rolled fold remains a stiff open tunnel of angular overlapping sheet walls; the source depicts soft low leather folds and strapped buckles.",
+    "baseline_source_sha256": "f4cb51069614fa4821718c440af46680cd422f13b3205a209905923dbfa332d0",
+    "baseline_runtime_sha256": "ad3bcb9a749f3e90f9c14a44a7cab575362dc3818b4ef17508fc90148b39a7f1"
+  },
+  {
+    "icon": "6crown1",
+    "family": "helms",
+    "names": [
+      "Wreath Crown"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 41.4,
+    "model": "engine/world_items/models/item_6crown1.glb",
+    "source_design": "equipment_6crown1",
+    "source_geometry_design": "equipment_6crown1",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_6crown1.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_6crown1",
+    "failure": "Foliage forms a near-planar partial arc instead of a complete volumetric wreath; missing rear band/leaf volume remains after painting.",
+    "baseline_source_sha256": "284ed5282ef8f7eefab70bce123094faa441b39eabc7ce509bbe4957dc7fbb07",
+    "baseline_runtime_sha256": "c145da77d0347a32d498b02908031a37cd881c9cea69d5ffd4e69e530b513dc3"
+  },
+  {
+    "icon": "6hat1",
+    "family": "helms",
+    "names": [
+      "Cloth Hat"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 53.6,
+    "model": "engine/world_items/models/item_6hat1.glb",
+    "source_design": "equipment_6hat1",
+    "source_geometry_design": "equipment_6hat1",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_6hat1.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_6hat1",
+    "failure": "Crown/fold rises as stiff pointed fins and the brim/band has broad open gaps; it does not reproduce the soft folded feather cap.",
+    "baseline_source_sha256": "aab1e07063d9063211538cd15e85ded55c9dad64e63eefcc7c4645038e78d2cb",
+    "baseline_runtime_sha256": "a75c92cf3b60c21b6b20f92c09c04d8066a8aa12d2a3131db1fe4454eeaeedb9"
+  },
+  {
+    "icon": "6hat3",
+    "family": "helms",
+    "names": [
+      "Wizard Cap"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 53.1,
+    "model": "engine/world_items/models/item_6hat3.glb",
+    "source_design": "equipment_6hat3",
+    "source_geometry_design": "equipment_6hat3",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_6hat3.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_6hat3",
+    "failure": "Tall straight conical source becomes a strongly slouched cone; small triangular fabric punctures remain beside the hatband under culling.",
+    "baseline_source_sha256": "f02fe93859e64a8f0069bc3e65e3b979a63d44cff076530e3a4586315caa572b",
+    "baseline_runtime_sha256": "e8493f7e5c88d5d98779b2f01e2c574e36d6a477769faeef70fade147741ab93"
+  },
+  {
+    "icon": "7item095",
+    "family": "helms",
+    "names": [
+      "Traveller's Hat"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 52.2,
+    "model": "engine/world_items/models/item_7item095.glb",
+    "source_design": "equipment_7item095",
+    "source_geometry_design": "equipment_7item095",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_7item095.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_7item095",
+    "failure": "The beret has transparent triangular tears beside the crown/button and rim under verified culling.",
+    "baseline_source_sha256": "aa538242b1c1eb914992045b01e5c0655717b55b9c473cc2a3f2fd69d165db24",
+    "baseline_runtime_sha256": "b3df3378fe594de76561a6b28b894a2721157744e6ceab90a26572593f239383"
+  },
+  {
+    "icon": "7item096",
+    "family": "helms",
+    "names": [
+      "Fancy Hat"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 37.8,
+    "model": "engine/world_items/models/item_7item096.glb",
+    "source_design": "equipment_7item096",
+    "source_geometry_design": "equipment_7item096",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_7item096.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_7item096",
+    "failure": "Large transparent triangular tears break the turban crown and gathered fabric; baseline retained.",
+    "baseline_source_sha256": "b2346f88767284483ca3cb0202ae0f50a7228bda8c63e9abdb24c31f65296e16",
+    "baseline_runtime_sha256": "926ff7b481741e50c6276c9ee3c00917a22cdf7042bde6b58d8f43dbe053a14d"
+  },
+  {
+    "icon": "7item344",
+    "family": "helms",
+    "names": [
+      "Shadow's Mask"
+    ],
+    "owner": "equipment_geometry_finish",
+    "decision": "repair_existing_candidate",
+    "route": "Smart Topology + UVs + painted PBR",
+    "length": 44.1,
+    "model": "engine/world_items/models/item_7item344.glb",
+    "source_design": "equipment_7item344",
+    "source_geometry_design": "equipment_7item344",
+    "source_scene": "level_generation/props/items_wip_equipment/work/codex_tex/equipment_7item344.blend",
+    "source_paint": "level_generation/props/items_wip_equipment/codex_tex/equipment_7item344",
+    "failure": "One eye opening is capped by leather while the other is open, and strap sections disappear under culling; eye-mask topology remains incomplete.",
+    "baseline_source_sha256": "5c4bd65848a280f6e7a3edf5cfc9ecd176cf4911df00ba4f5d698b2b7c9615b9",
+    "baseline_runtime_sha256": "2c26423a9ecf50a76112d29a9383d9a1954f9bc41c74119b6591a1e9c45e70c7"
+  }
+]

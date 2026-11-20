@@ -1,0 +1,685 @@
+{
+ "id": "20261009-1247-mm6-cd2-04",
+ "world": "mm6",
+ "maps": [
+  "cd2.blv",
+  "cd3.blv"
+ ],
+ "created": "2026-10-09T10:48:23+00:00",
+ "textures": [
+  "mm6/cttrim3",
+  "mm6/bdksh16c",
+  "mm6/bemdk6",
+  "mm6/sign7",
+  "mm6/bigsign",
+  "mm6/desktop",
+  "mm6/d2flor1",
+  "mm6/d1trimle",
+  "mm6/bemvwal1",
+  "mm6/bemh",
+  "mm6/wood013",
+  "mm6/bemv",
+  "mm6/ormrblga",
+  "mm6/mystrya",
+  "mm6/bemh32c",
+  "mm6/orert32",
+  "mm6/d2wlaslt",
+  "mm6/mndora",
+  "mm6/bemsh16c",
+  "mm6/orfyr64b",
+  "mm6/sign128",
+  "mm6/d2trpdor",
+  "mm6/bmdk16c",
+  "mm6/d2lgdore"
+ ],
+ "requests": {
+  "mm6/cttrim3": {
+   "name": "cttrim3",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "carved golden sandstone grotesque face mask surrounded by acanthus leaves",
+   "notes": {
+    "2": "It is a face mask, not a rosette: keep the face in the centre exactly as in the reference.",
+    "3": "It is a face mask, not a rosette: keep the face in the centre exactly as in the reference.",
+    "4": "It is a face mask, not a rosette: keep the face in the centre exactly as in the reference."
+   },
+   "prefill": {
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bdksh16c": {
+   "name": "bdksh16c",
+   "reference": {
+    "pad": [
+     16,
+     46
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     691
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished red-brown mahogany trim with fine grain",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/bemdk1"
+     ],
+     "fraction": 0.938
+    }
+   }
+  },
+  "mm6/bemdk6": {
+   "name": "bemdk6",
+   "reference": {
+    "pad": [
+     0,
+     16
+    ],
+    "copies": 5,
+    "gap": 8,
+    "stack_axis": "u",
+    "size": [
+     683,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished dark red-brown mahogany vertical trim with fine grain",
+   "notes": {}
+  },
+  "mm6/sign7": {
+   "name": "sign7",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     512
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small engraved bronze plaque with raised lettering; copy every letter shape exactly as in the reference",
+   "notes": {
+    "2": "Copy each letter glyph's exact shape, spacing and count from the reference; these are fantasy runes, do not turn them into Latin letters. No added scrollwork or frame.",
+    "3": "Copy each letter glyph's exact shape, spacing and count from the reference; these are fantasy runes, do not turn them into Latin letters. No added scrollwork or frame."
+   }
+  },
+  "mm6/bigsign": {
+   "name": "bigsign",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     512
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "engraved bronze plaque with several lines of raised lettering and a raised rim; copy every letter shape and line exactly as in the reference",
+   "notes": {
+    "2": "Copy each letter glyph's exact shape, spacing, line count and line lengths from the reference; these are fantasy runes, do not turn them into Latin letters or change any numerals.",
+    "3": "Copy each letter glyph's exact shape, spacing, line count and line lengths from the reference; these are fantasy runes, do not turn them into Latin letters or change any numerals."
+   }
+  },
+  "mm6/desktop": {
+   "name": "desktop",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     512
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown mahogany desktop with a small parchment note, a brass inkwell and a quill stand",
+   "notes": {}
+  },
+  "mm6/d2flor1": {
+   "name": "d2flor1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "irregular dark flagstones of brown and rust-red stone with deep black joints",
+   "notes": {}
+  },
+  "mm6/d1trimle": {
+   "name": "d1trimle",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "small smooth weathered olive-grey stone block with soft moss patches",
+   "notes": {
+    "2": "The reference's fine checkered or crosshatch dither is a palette artefact: paint smooth continuous material, never a checker, grid or lace pattern.",
+    "3": "Smooth natural stone only: no lace, net, crosshatch or grid texture anywhere.",
+    "4": "Smooth natural stone only: no lace, net, crosshatch or grid texture anywhere."
+   }
+  },
+  "mm6/bemvwal1": {
+   "name": "bemvwal1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown wood paneling of two vertical boards with a dark groove",
+   "notes": {}
+  },
+  "mm6/bemh": {
+   "name": "bemh",
+   "reference": {
+    "pad": [
+     16,
+     80
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     683
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished orange-brown mahogany horizontal trim with fine grain",
+   "notes": {}
+  },
+  "mm6/wood013": {
+   "name": "wood013",
+   "reference": {
+    "pad": [
+     16,
+     38
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     691
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey-brown wooden beam with fine grain and a dark lower edge",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemv": {
+   "name": "bemv",
+   "reference": {
+    "pad": [
+     80,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     683,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown mahogany vertical trim with fine grain",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/bemv32c"
+     ],
+     "fraction": 0.969
+    }
+   }
+  },
+  "mm6/ormrblga": {
+   "name": "ormrblga",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale white-grey polished marble with soft grey veins",
+   "notes": {}
+  },
+  "mm6/mystrya": {
+   "name": "mystrya",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "real polished dark smoky blue-grey marble slab, glassy smooth, soft cloudy black and silver patches",
+   "notes": {
+    "2": "The reference's fine checkered or crosshatch dither is a palette artefact: paint smooth continuous material, never a checker, grid or lace pattern.",
+    "3": "Smooth polished stone only: no lace, net, crosshatch or grid texture anywhere.",
+    "4": "Smooth polished stone only: no lace, net, crosshatch or grid texture anywhere."
+   }
+  },
+  "mm6/bemh32c": {
+   "name": "bemh32c",
+   "reference": {
+    "pad": [
+     16,
+     80
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     683
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished orange-brown mahogany horizontal trim with small brass nail heads",
+   "notes": {}
+  },
+  "mm6/orert32": {
+   "name": "orert32",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished orange-brown marble with golden veins",
+   "notes": {
+    "2": "The reference's fine checkered or crosshatch dither is a palette artefact: paint smooth continuous material, never a checker, grid or lace pattern.",
+    "3": "The reference's fine checkered or crosshatch dither is a palette artefact: paint smooth continuous material, never a checker, grid or lace pattern."
+   }
+  },
+  "mm6/d2wlaslt": {
+   "name": "d2wlaslt",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark grey-brown rough stone brick wall with a narrow dark arrow slit",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d2wlactr"
+     ],
+     "fraction": 0.64
+    },
+    "4": {
+     "sources": [
+      "mm6/d2wlactr"
+     ],
+     "fraction": 0.64
+    }
+   }
+  },
+  "mm6/mndora": {
+   "name": "mndora",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red-brown wooden cabinet door with a dark frame and a golden lattice grille panel",
+   "notes": {}
+  },
+  "mm6/bemsh16c": {
+   "name": "bemsh16c",
+   "reference": {
+    "pad": [
+     16,
+     46
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     691
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain polished red-brown mahogany trim strip with crisp fine straight grain",
+   "notes": {
+    "3": "Sharp photographic wood grain, no smeared or blurred streaks."
+   }
+  },
+  "mm6/orfyr64b": {
+   "name": "orfyr64b",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "smooth glowing molten lava stone, bright orange-red with soft darker cooling crust patches and an embossed upward chevron",
+   "notes": {
+    "2": "The reference's fine checkered or crosshatch dither is a palette artefact: paint smooth continuous material, never a checker, grid or lace pattern.",
+    "3": "Smooth continuous molten surface only: no lace, net, crosshatch or grid texture anywhere.",
+    "4": "Smooth continuous molten surface only: no lace, net, crosshatch or grid texture anywhere.",
+    "5": "Smooth continuous molten surface only: no lace, net, crosshatch or grid texture anywhere."
+   },
+   "prefill": {
+    "5": {
+     "sources": [
+      "mm6/orfyr64a"
+     ],
+     "fraction": 0.917
+    }
+   }
+  },
+  "mm6/sign128": {
+   "name": "sign128",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     512
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "engraved bronze plaque with three lines of raised lettering and a raised rim; copy every letter shape and line exactly as in the reference",
+   "notes": {}
+  },
+  "mm6/d2trpdor": {
+   "name": "d2trpdor",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark weathered wooden trapdoor of vertical planks with cross battens",
+   "notes": {}
+  },
+  "mm6/bmdk16c": {
+   "name": "bmdk16c",
+   "reference": {
+    "pad": [
+     78,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     688,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished dark red-brown mahogany trim with fine grain",
+   "notes": {
+    "2": "Plain trim only: no carved blocks, rosettes or ornaments; continuous wood grain along its whole length."
+   }
+  },
+  "mm6/d2lgdore": {
+   "name": "d2lgdore",
+   "reference": {
+    "pad": [
+     0,
+     70
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     688
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark iron-studded wooden door edge trim with rivets",
+   "notes": {}
+  }
+ }
+}

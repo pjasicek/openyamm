@@ -1,0 +1,186 @@
+{
+  "creature_3d_identity": "solo:arms_own",
+  "meshy": {
+    "jobs": {
+      "own_human_v1": {
+        "kind": "retexture",
+        "request": {
+          "model_url": "@file:work/own_upload.glb",
+          "ai_model": "meshy-7",
+          "enable_original_uv": true,
+          "enable_pbr": true,
+          "texture_resolution": "4k",
+          "target_formats": [
+            "glb"
+          ],
+          "text_style_prompt": "Photorealistic bare male human forearms and hands of a fantasy warrior, natural light tan skin with fine pores, subtle veins on the back of the hands and forearms, short fine arm hair, clean short fingernails, slight knuckle creases, no gloves, no sleeves, no tattoos, no jewelry, even neutral lighting, high detail skin texture"
+        },
+        "inputs": [
+          {
+            "path": "work/own_upload.glb",
+            "sha256": "c2bebce0431299581d2053303560c8ae4fb5f1f294382e31b577cb3e95ff479f"
+          }
+        ],
+        "fingerprint": "303ddc2cd4a2298034e7e6355f91542c3635436607df04a0a8deadf69d142d24",
+        "account": "primary",
+        "reserved_credits": 10,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-11-13T23:40:33.284041+00:00",
+        "task_id": "01a1d748-c827-7406-baf6-3d07182f0f68",
+        "consumed_credits": 10,
+        "task": {
+          "id": "01a1d748-c827-7406-baf6-3d07182f0f68",
+          "type": "retexture",
+          "name": "",
+          "art_style": "realistic",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "Photorealistic bare male human forearms and hands of a fantasy warrior, natural light tan skin with fine pores, subtle veins on the back of the hands and forearms, short fine arm hair, clean short fingernails, slight knuckle creases, no gloves, no sleeves, no tattoos, no jewelry, even neutral lighting, high detail skin texture",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1794613237997,
+          "progress": 100,
+          "started_at": 1794613238011,
+          "finished_at": 1794613275444,
+          "expires_at": 1794872475444,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d748-c827-7406-baf6-3d07182f0f68/output/model.glb?Expires=1794872475&Signature=fpxQjR2QiBLXX9wrfLsk9KH7R1AJBEPMa7RrYN0KaXyHFo6A9t0x9Xwh9bTqiEkGpxZWuD-XrT2Qu4lhP1BzrEbX2saK5-AweZbtgrGTflQ4z~51tuvC90muVkfZxd33MCFx4r0UdZbIyPfuAq-~T~ib0BSUa9S0g6B0rIsdZVVXauaOSOW0K8Rf6~Kr0-4UX0oLvshR~-k21DCINuQh2qDSdu~BV7vHy5erFGn5g1MY-unkrrJ6lRsQP9bC0hBFuo8dDYLH9XUWV3nxd5DhwgN81ndJC-ot4zvdFpIMphy58YDhD4uVSCi~KQm4RQax5zLehmiFAU~A4zu-CKWf2A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d748-c827-7406-baf6-3d07182f0f68/output/model.glb?Expires=1794872475&Signature=fpxQjR2QiBLXX9wrfLsk9KH7R1AJBEPMa7RrYN0KaXyHFo6A9t0x9Xwh9bTqiEkGpxZWuD-XrT2Qu4lhP1BzrEbX2saK5-AweZbtgrGTflQ4z~51tuvC90muVkfZxd33MCFx4r0UdZbIyPfuAq-~T~ib0BSUa9S0g6B0rIsdZVVXauaOSOW0K8Rf6~Kr0-4UX0oLvshR~-k21DCINuQh2qDSdu~BV7vHy5erFGn5g1MY-unkrrJ6lRsQP9bC0hBFuo8dDYLH9XUWV3nxd5DhwgN81ndJC-ot4zvdFpIMphy58YDhD4uVSCi~KQm4RQax5zLehmiFAU~A4zu-CKWf2A__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d748-c827-7406-baf6-3d07182f0f68/output/preview.png?Expires=1794872475&Signature=CDXTzrDgz3fAEcy1~duXr3aBJECj-Lz5GHU7YisouIfG8Wbqb-mni9NIPNS3RtZ~PUWhsOvN0S2gzSLr3H6LvvbLUSw5e-2PWrLci-VvP32YDAhVhSTHnhS4imRgucW8MepO3vvuB54iV9ouRVCJJrbyJcTciaysurv1gdeLmyS0g9XTK6nGmIGVjPk8eUBRfjv-eLjgKvP7D3BmU0vqvKw1e3QR4jPN-5K4g0CsM0Ys4bVDnpvdKru0gAt2LU4LwQh8zogpduITkN5K7eihv5vvupFR6dNxE40KYNyirdSoNLXGm9yMhELcJ4zBLJ6vst88OWbsC5HkZAKDFAvIDA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [
+            {
+              "base_color": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d748-c827-7406-baf6-3d07182f0f68/output/texture_0.png?Expires=1794872475&Signature=HkjledH8MOeMw1byX800GlN0u32jZGwpKAglCMZQ9IxwuGrCyWeZEEP7PugcyveZhCaI8DtqeON69XiMPZzT6jp55GOMKjogCsgBJi1PmpWr~G78mu8aeoYWw3seDG0Rn-LVMqzMpDrPXMnjFzJdZWzdM1jECQgEDKUogOl1DgXhuceryEbQ59hpPmWuFgFCx3NsfQ8q19ZfFh1s9oChzNELWg~Xvbsz~QJZ7t~yEmiXJily8Q-iE4NoapFOO~QcAYJkwZxsGBMs21i2m0kjQUuip8-PwfwqVrnlcX0dmWdtHiK9DJYouqG3O9zLO-AxbSWVaFbFKvSPqwH4kirgBg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "metallic": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d748-c827-7406-baf6-3d07182f0f68/output/texture_0_metallic.png?Expires=1794872475&Signature=T19HbRcA~NB~YF6hiWCEN5AUPIryi2PPqFMYQjrEpEkqKU3QUpIZR1aLq5~KTLUGRFm~zCUD77HsIs9lEcmaVfqFTP0STttkyOS-9dltHn7UwFKUzj2EHwE0-H~KGCT7durRUCtgF5MwMsbgHk8hjC4HDdaFjRMGV-uXhXJaQV1Twk~YzYD1Yz4Buqds-E4HqsQGjopYQko-WqJsTKF6bI6e4D~gbQpCzJwmDxAdEiUTlk6TfiLt8GrV0h9JaAHAnU42dsARe9I~jjxPuwcrZT-icr6wUi3pH4LI2-o1ERdRWTutix-F9p30RFX78FKaiV-CUxnm-Aj8cw3c1tgzTg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "roughness": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d748-c827-7406-baf6-3d07182f0f68/output/texture_0_roughness.png?Expires=1794872475&Signature=FR-GhEJAYYXE36xdTW1qGe0ERiiu6q9QpB5LFJuAPM-1v6WD3V0d7Xdwst9ww56DmtNvDNvLhWQ69ndk2dGbgyGLkGcSr8Hm72I2Uqc0DQlon8swIsz0aXTLHp8LEEJz1bC3ZMbPX09URRsf3qObJ68fTq~fCpdMhvbrnl~6fmdRIdWU6gv11mmPc4vtCXnii-F7KBjmd1PhpcRnnpxe08Dju3uzmHfvOtUeSASGFLRPrHuh6kZ7Sx28iRwS~rfI2gfRhduHQMRIjGdWrwe7R041KsTR7nYWO6b6e-14U1-mydkNJpf1TWYfpzDsQgzx0y-l5GNli8tkprZhbKnPvw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "normal": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d748-c827-7406-baf6-3d07182f0f68/output/texture_0_normal.png?Expires=1794872475&Signature=HUBIyHLaeE5LpknIPMEI91CWVt6b1uNkW~2qF8gVPHbUAXRZqkLKBYvAbYBQ2G9K2f7sx9iDtkSAJDjp95O7-16OK-h5Wb8pzldcmxIZ3lhPRJ23z-loeLUjx4vhZMo0KjPJEBP9CZBIaR0bnTvyndJsxQHUHeiwwbMVh6OCgnfgQJpsBmFQya604BpmtdB5Q6WEdSKcY7xkGPTH7LXpgoiUfBUxFIcJ4IWLRQZElXvj33C6z7x8bCaH1-C-TCtcalULxBd0ykvroJoH28F4Vv0kZeWY-2yysKLU9N1rGqo6bcJN9RxBC~ldDSx20Hv1nLG9ahsrKPHBF8aaUMgybA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+            }
+          ],
+          "hd_texture": true,
+          "texture_resolution": "4k",
+          "consumed_credits": 10
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/own_human_v1/model_urls_glb.glb",
+            "sha256": "ebc113cefa135f5761ca17cc33787d6cd1577aa23776e96d9bb911543b7fc8c5"
+          },
+          "texture_urls_0_base_color": {
+            "path": "meshy/own_human_v1/texture_urls_0_base_color.png",
+            "sha256": "cd8f23c8a5826c30d2fd236efd34dde108131cf430b7446972f5e68da6b1566b"
+          },
+          "texture_urls_0_metallic": {
+            "path": "meshy/own_human_v1/texture_urls_0_metallic.png",
+            "sha256": "ed6b45a22828c71173c4d7ced0ec027d086c3b355c31b5f54bd7c122789db5b3"
+          },
+          "texture_urls_0_roughness": {
+            "path": "meshy/own_human_v1/texture_urls_0_roughness.png",
+            "sha256": "d1e51467dfdcb57fc5a16900661334a96743bfe0cb69bc9ce6ba0d8ae79dd659"
+          },
+          "texture_urls_0_normal": {
+            "path": "meshy/own_human_v1/texture_urls_0_normal.png",
+            "sha256": "5aa01874d21dd5cd0010fdcfc336073143d6046d72877942a8b27f8d0cbc6866"
+          },
+          "thumbnail_url": {
+            "path": "meshy/own_human_v1/thumbnail_url.png",
+            "sha256": "c6311197fbf85182bd4f4f04534ed643f425979240b4997ef82cf67d8cf24ec1"
+          }
+        }
+      },
+      "own_human_v2": {
+        "kind": "retexture",
+        "request": {
+          "model_url": "@file:work/own_upload_v2.glb",
+          "ai_model": "meshy-7",
+          "enable_original_uv": true,
+          "enable_pbr": true,
+          "texture_resolution": "4k",
+          "target_formats": [
+            "glb"
+          ],
+          "text_style_prompt": "Photorealistic bare male human forearms and hands of a fantasy warrior, natural light tan skin with fine pores, subtle veins on the back of the hands and forearms, short fine arm hair, clean short fingernails, slight knuckle creases, no gloves, no sleeves, no tattoos, no jewelry, even neutral lighting, high detail skin texture"
+        },
+        "inputs": [
+          {
+            "path": "work/own_upload_v2.glb",
+            "sha256": "00ebbf4a621c1d3b8ae743782216132e53f022df8548de5273cb9db5eef3124f"
+          }
+        ],
+        "fingerprint": "ba18b8fb88351b3d1a3b81f1f6d56f8b3294b2852f39eb54cd67058bbabf8f1e",
+        "account": "primary",
+        "reserved_credits": 10,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-11-13T23:52:44.443210+00:00",
+        "task_id": "01a1d753-f026-7434-a0a7-d9d2d4b2e3e0",
+        "consumed_credits": 10,
+        "task": {
+          "id": "01a1d753-f026-7434-a0a7-d9d2d4b2e3e0",
+          "type": "retexture",
+          "name": "",
+          "art_style": "realistic",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "Photorealistic bare male human forearms and hands of a fantasy warrior, natural light tan skin with fine pores, subtle veins on the back of the hands and forearms, short fine arm hair, clean short fingernails, slight knuckle creases, no gloves, no sleeves, no tattoos, no jewelry, even neutral lighting, high detail skin texture",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1794613966940,
+          "progress": 100,
+          "started_at": 1794613966953,
+          "finished_at": 1794614006697,
+          "expires_at": 1794873206697,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d753-f026-7434-a0a7-d9d2d4b2e3e0/output/model.glb?Expires=1794873206&Signature=RGfwL5k1Jyt0OdTJHru6owgmGFuRGjy6suKUQ0jj7ogYu3CvF0E87qmzbRk7XHVxx5m517a2kqqUT6ld2HKHugxxPG312ZpLb~1wRskAhRdBmmkSlBAT~BSqBC6ADt9nfs1n6UwVa4oq7FaZPZx3C3z18L4EdDll2A-2hr64CgoS7cdNU6bO9RcRik0ldogouHQDBFKIhi4DnAtB4OuTTp-qwZ1mXNePhXWFABoVUw3QO6v4H8r591gFDspNTxTKLjWDHiKbwzPJXSmIjdXihRANN2lhWttfJ7Rf9~M0whZGUThGwjn6-O8VAPpRzjleeDw9JqVPWOGiErt137LEkA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d753-f026-7434-a0a7-d9d2d4b2e3e0/output/model.glb?Expires=1794873206&Signature=RGfwL5k1Jyt0OdTJHru6owgmGFuRGjy6suKUQ0jj7ogYu3CvF0E87qmzbRk7XHVxx5m517a2kqqUT6ld2HKHugxxPG312ZpLb~1wRskAhRdBmmkSlBAT~BSqBC6ADt9nfs1n6UwVa4oq7FaZPZx3C3z18L4EdDll2A-2hr64CgoS7cdNU6bO9RcRik0ldogouHQDBFKIhi4DnAtB4OuTTp-qwZ1mXNePhXWFABoVUw3QO6v4H8r591gFDspNTxTKLjWDHiKbwzPJXSmIjdXihRANN2lhWttfJ7Rf9~M0whZGUThGwjn6-O8VAPpRzjleeDw9JqVPWOGiErt137LEkA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d753-f026-7434-a0a7-d9d2d4b2e3e0/output/preview.png?Expires=1794873206&Signature=EQGnvo2-kuBaOKR-JQyEyKoMJyMTxOOwKxQ6zs7zenktvqwyBPPLd52PUoXY10n05Fqyl1FeeUUhJtMlv3n6PurH1jwIGrobawitJbPlGiBM93Cg0XNdOw48AjRiIYHFQVgyvLHbDZ4gdxvqhcRxQw1nPrWzM7-SaEWGXeBnLoqyjc14B-le7ylpyX5qQhLmF-JDS8PFEIkvk2YiIFXfoLn7LV4FYmS2dOU6U4UdYP1ieKsUj9Wro6tR5ZGfUfW3u5Ow2LYT7lTNsSig4UqISxnZQ1jwzMnjXyq3JKwZZaeglirG8hmjQVy-70RvS9WiiHocJyb-nfKdQYt5sWCZhw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [
+            {
+              "base_color": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d753-f026-7434-a0a7-d9d2d4b2e3e0/output/texture_0.png?Expires=1794873206&Signature=kQNVOsO54OmopsJz7s6YN9lgFtHa5wNtDCGyNGW2pjuvfEZ2cFMsqanhA8yZP0MNs4WLefLA3GT-LbL75ZUdkrBUms05c2wwbbaJ8C2Y~-hLv9qfuPQ2LJ7Q8nyV4upGKsOF6BgmJDHC3Tbi7rJCL33rutlPg6h4X7bhwZUo97xEY16CZOzhSLqe9COGE-UxHqQCu2mGcHUGqPNW8mkBbStSN2nBzd283RBc-IBC7Z325a1K3-rMhelo6mCh7FMex9E3-srjv0796WpUViinnOxb638S53QtL8P3sI8mgRX~f~cXipmkrX4AQo3BPL8kUAqN-DbeT08K7lSlbsRmOw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "metallic": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d753-f026-7434-a0a7-d9d2d4b2e3e0/output/texture_0_metallic.png?Expires=1794873206&Signature=lx6KV9sQ2dpCfJE9uIB2WIFi6Zt~o~F5q1va2IrqyckoeEbWI6c0OyfioGI3T29kXnDHv3nUA3qOVo-y3zRTLbr6abJZ3T9g3Nn1tdXUrQw9hxghSOnjZmagZPZ9QAl6nve6BKCD7WHscZJ2I9-AAfoyLS8FVWyt1AmbZi3wt6DUeKH8S8oue19xxPjDgN1d6WzBvjBzHLdYZQLThv-lv2pC~1j1VSVba56IUJHxm4rfIyDO4cSMB-PaQ7vJAt5-Fk0Wb8xKEzddZqBqTBGZwQVif8WR3zSKf9tmsT2FfbB30DubjYn7yxMrjMo4BeblzCjZU0UTzVSl8pTLg-dseA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "roughness": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d753-f026-7434-a0a7-d9d2d4b2e3e0/output/texture_0_roughness.png?Expires=1794873206&Signature=A9j~HC6Vlzd~UV26wlyWIRWpBO2jk~3I2v-d9tlWukGe74lQYbDuiYgIqOC6jCL7l6Bi7f1sky6-wXqrYdYnpxom9qHG3dYPgyJH-ul-hwENPpzJcnYwHrtfwQTEfNiMkuA4d4IvHzv0zpF9gdbtzXPiSbxln5IDcQ973K6D1uEkNQ3HSuADG85TOdQslYqHpeeS3VNgqC6Lr4bb2YTqJgmb7E8vJ9fsBeyY31ilsKUkTgDxk3obcXmc4iS5bLqkzuiVnP0n1jxuU9kAhjeyi09C6lgMDaVX~gsE2FpHSJ0KXR42BPhjQ0lalyQMTBO6A63N8MMNHxucI-CV70zTbA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "normal": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1d753-f026-7434-a0a7-d9d2d4b2e3e0/output/texture_0_normal.png?Expires=1794873206&Signature=Qjft4oc4f-C3ngHhcvdHoUooLaYECY9NB5fXBDpKjT6STZBfu6Zv3ngdMbJWQiHgMnP3yQCiooGBw38H~xkABJYKXEPm38GYMvYgskwG7AjDU5DW-yOjBBXIs8mcAMveVfedoxiXqAySJLQtMk4yMbNxkkd4mzx8BDHcYPxCA0se1WL0m3Fd8iCtWYqsA8NHZcz7zsZgUG70MoDAo-5zE8pcvsZ-PHmwxdsqFFISZcC9p-x2mTeCBhofPTvVCAHOX79hmQzQOXlvUnrrMPxpTplVC-5nQR~nFGIsiqj0E15qOcDf82rUlZkk-E~YRaBzlhjmAJD3Emnrnr0RB7MWOA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+            }
+          ],
+          "hd_texture": true,
+          "texture_resolution": "4k",
+          "consumed_credits": 10
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/own_human_v2/model_urls_glb.glb",
+            "sha256": "b1968f14923b86cb6c2b3c8c9c5e283c5cc6590a38e9f944787758c84bd80b1f"
+          },
+          "texture_urls_0_base_color": {
+            "path": "meshy/own_human_v2/texture_urls_0_base_color.png",
+            "sha256": "7932345a4cf4698805087b8ce31e9f99392065236b239fef63387095164aa8ef"
+          },
+          "texture_urls_0_metallic": {
+            "path": "meshy/own_human_v2/texture_urls_0_metallic.png",
+            "sha256": "0b9737c387564dc714816f2b47680e8af7306bcda899d19038b0655598991531"
+          },
+          "texture_urls_0_roughness": {
+            "path": "meshy/own_human_v2/texture_urls_0_roughness.png",
+            "sha256": "85b2c13608088fede774b60842698aebec6e4da310ce12027413dcd4a9c835bc"
+          },
+          "texture_urls_0_normal": {
+            "path": "meshy/own_human_v2/texture_urls_0_normal.png",
+            "sha256": "8657cb2106f5b5e627393597abaa9fc6b31cdd975ed55a4195e1cffd0439533e"
+          },
+          "thumbnail_url": {
+            "path": "meshy/own_human_v2/thumbnail_url.png",
+            "sha256": "038ea17dde057f8304cf60d440a64c0c29e752a9009b6aec64ae2e7412f182d5"
+          }
+        }
+      }
+    },
+    "credit_limit": 50
+  }
+}

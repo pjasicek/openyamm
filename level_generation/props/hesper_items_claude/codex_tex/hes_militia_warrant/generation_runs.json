@@ -1,0 +1,697 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D game model hes_militia_warrant.\nInput image 1 is the EDIT TARGET guide; its 1024 x 1024 canvas, camera, silhouette, position, scale and every material-part boundary are mandatory and must remain pixel-aligned and unchanged. Input image 2 is design_reference.png, a MATERIAL AND DESIGN reference only; do not copy its perspective, pose, outline, lighting, or shadows.\nPaint only the occupied pixels of input image 1. Replace its diagnostic light/pink/yellow material tints with the approved design's materials: warm off-white folded composite/paper with delicate fine fibres, tiny pale beige wear and subtle fold/layer seams; town-red densely woven cloth ribbon with restrained textile grain and seam detail; muted warm brushed gold with fine grain and only a faint sheen. Clean and official. Continue materials plausibly on unseen faces. No extra materials, parts or decorations.\nLIGHTING: true unlit/albedo appearance, flat even shadowless illumination from the viewer. Remove the guide's directional shading. No cast shadows, no ambient occlusion, no darkening under the gold or ribbon, no strong specular highlights, no white metal glare, no reflections, no rim light, no floor. Material details must be colour variations, not baked lighting.\nOUTPUT: one 1024 x 1024 RGBA PNG, transparent background; preserve the guide's original transparent region and alpha silhouette exactly. Keep all empty margins. Do not enlarge, recenter, rotate, reframe, soften, round off or reshape the object. Do not add outside the silhouette or crop. No text, letters, numbers, watermark, labels, border or checkerboard painted into the image.\nVIEW GEOMETRY:\nFRONT guide: the item is seen exactly edge-on as a VERY THIN HORIZONTAL STRIP, not an envelope face. Overall alpha bounding box is x=66..957, y=447..576 on the 1024 square canvas. Ivory body is x~66..957, y~491..570. Small gold seal is visible only in edge profile at x~416..667, y~447..491. The central cloth patch is x~412..592 with a short lower extension toward x~711. Keep the precise stepped boundaries from the guide. The seal's broad circular face and ring-and-line emblem are not visible in this edge view: paint just its existing gold edge surface. Do not tilt the camera to reveal the top. Preserve the large transparent areas above and below.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "role": "edit_target",
+        "sha256": "26dcf5da6f60a6310a47cb1dc2ea65bef11a9c00065413a1186002ec466d483d"
+      },
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-cac49f39-ade3-4c19-81c3-413344d0cc2b.png",
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Corrective generation required: placement is too low relative to the guide; highlights and shaded bevels are too strong for albedo.",
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false
+    },
+    "output_sha256": "36b369385f3c0225d2879e7165f15ba9d36f8c6cee29e9d33c34304b2849cad2",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        31,
+        31,
+        1240,
+        1143
+      ],
+      "opaque_bbox": [
+        77,
+        600,
+        1178,
+        746
+      ],
+      "guide_alpha_bbox": [
+        66,
+        447,
+        958,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.428302,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": true,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 50690,
+      "outside_guide_alpha_128_or_higher_pixels": 44122,
+      "outside_guide_transparent_fraction": 0.965012,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D game model hes_militia_warrant.\nInput image TWO is the EDIT TARGET guide; its 1024 x 1024 canvas, camera, silhouette, position, scale and every material-part boundary are mandatory and must remain pixel-aligned and unchanged. Input image ONE is design_reference.png, a MATERIAL AND DESIGN reference only; do not copy its perspective, pose, outline, lighting, or shadows.\nPaint only the occupied pixels of input image TWO. Replace its diagnostic light/pink/yellow material tints with the approved design's materials: warm off-white folded composite/paper with delicate fine fibres, tiny pale beige wear and subtle fold/layer seams; town-red densely woven cloth ribbon with restrained textile grain and seam detail; muted warm brushed gold with fine grain and only a faint sheen. Clean and official. Continue materials plausibly on unseen faces. No extra materials, parts or decorations.\nLIGHTING: true unlit/albedo appearance, flat even shadowless illumination from the viewer. Remove the guide's directional shading. No cast shadows, no ambient occlusion, no darkening under the gold or ribbon, no strong specular highlights, no white metal glare, no reflections, no rim light, no floor. Material details must be colour variations, not baked lighting.\nOUTPUT: one 1024 x 1024 RGBA PNG, transparent background; preserve the guide's original transparent region and alpha silhouette exactly. Keep all empty margins. Do not enlarge, recenter, rotate, reframe, soften, round off or reshape the object. Do not add outside the silhouette or crop. No text, letters, numbers, watermark, labels, border or checkerboard painted into the image.\nVIEW GEOMETRY:\nFRONT guide: the item is seen exactly edge-on as a VERY THIN HORIZONTAL STRIP, not an envelope face. Overall alpha bounding box is x=66..957, y=447..576 on the 1024 square canvas. Ivory body is x~66..957, y~491..570. Small gold seal is visible only in edge profile at x~416..667, y~447..491. The central cloth patch is x~412..592 with a short lower extension toward x~711. Keep the precise stepped boundaries from the guide. The seal's broad circular face and ring-and-line emblem are not visible in this edge view: paint just its existing gold edge surface. Do not tilt the camera to reveal the top. Preserve the large transparent areas above and below.\nCORRECTION PRIORITY: This is the one corrective pass. Use the SECOND supplied image guide_front.png as a literal pixel placement template. Output a 1024 x 1024 canvas matching this target, with the long strip at y=447..576, centred at y=512, NOT lower down. Keep the exact flat polygon outline and stepped material boundaries; do not redraw as a different bevelled object. Paint a flat ivory base with subtle fibres, flat rich red textile with fine weave, and flat muted golden base colour. Remove all shiny edge highlights, lower-face shading, contact shadows and raised folds. Material grain is small and low contrast. Do not copy reference lighting. Only colour the guide, preserve its alpha. The first reference is for material colours only.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_front.png",
+        "role": "edit_target",
+        "sha256": "26dcf5da6f60a6310a47cb1dc2ea65bef11a9c00065413a1186002ec466d483d"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-4aab1a94-07c3-4ca0-8754-4723453c7168.png",
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Best of the two permitted attempts: placement is substantially closer to the guide. Raw output retained; exact silhouette equality and fully flat bevel lighting are not achieved.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false,
+      "lighting_note": "Residual bevel shading and gold edge highlight remain."
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "10af75e9f569d67247e1837726a60874b896ccbdd2d18f7e328d45a9c076c7f8",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        57,
+        94,
+        1202,
+        1172
+      ],
+      "opaque_bbox": [
+        80,
+        550,
+        1174,
+        707
+      ],
+      "guide_alpha_bbox": [
+        66,
+        447,
+        958,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.975478,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": true,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 10492,
+      "outside_guide_alpha_128_or_higher_pixels": 863,
+      "outside_guide_transparent_fraction": 0.992758,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D game model hes_militia_warrant.\nInput image TWO is the EDIT TARGET guide; its 1024 x 1024 canvas, camera, silhouette, position, scale and every material-part boundary are mandatory and must remain pixel-aligned and unchanged. Input image ONE is design_reference.png, a MATERIAL AND DESIGN reference only; do not copy its perspective, pose, outline, lighting, or shadows.\nPaint only the occupied pixels of input image TWO. Replace its diagnostic light/pink/yellow material tints with the approved design's materials: warm off-white folded composite/paper with delicate fine fibres, tiny pale beige wear and subtle fold/layer seams; town-red densely woven cloth ribbon with restrained textile grain and seam detail; muted warm brushed gold with fine grain and only a faint sheen. Clean and official. Continue materials plausibly on unseen faces. No extra materials, parts or decorations.\nLIGHTING: true unlit/albedo appearance, flat even shadowless illumination from the viewer. Remove the guide's directional shading. No cast shadows, no ambient occlusion, no darkening under the gold or ribbon, no strong specular highlights, no white metal glare, no reflections, no rim light, no floor. Material details must be colour variations, not baked lighting.\nOUTPUT: one 1024 x 1024 RGBA PNG, transparent background; preserve the guide's original transparent region and alpha silhouette exactly. Keep all empty margins. Do not enlarge, recenter, rotate, reframe, soften, round off or reshape the object. Do not add outside the silhouette or crop. No text, letters, numbers, watermark, labels, border or checkerboard painted into the image.\nVIEW GEOMETRY:\nBACK guide: exact rear edge-on view, a VERY THIN HORIZONTAL STRIP, not an envelope face. Overall alpha bounding box x=66..957, y=447..576. Ivory body x~66..957, y~491..570. Gold seal edge x~356..607, y~447..491. Central red wrap x~352..532, with short lower step extending to x~612. Follow the exact guide for all edges and occlusions. Only the seal's narrow edge is visible, not its ring-and-line face. Do not mirror the front view or tilt the camera.\nTreat the SECOND image as a literal pixel placement template. Only recolour and texture its existing shapes; keep its exact geometry and transparent margin placement. No bright bevel edges or shaded lower faces. Aim for matte base colour throughout.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_back.png",
+        "role": "edit_target",
+        "sha256": "ee7f0ae4f3160dd464028489ba01f8d1582897fda581392cd4ac78d049894e66"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-12062836-47f0-431b-9514-8e04b4f5171c.png",
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Corrective generation required: residual directional bevel shading and contact darkening; exact guide silhouette must be retained.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "0be66213b6d428bb3d2effa769d79fcd6f1566ad537a7595f5ba3192a8a8d47c",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        76,
+        23,
+        1179,
+        1139
+      ],
+      "opaque_bbox": [
+        80,
+        567,
+        1174,
+        716
+      ],
+      "guide_alpha_bbox": [
+        66,
+        447,
+        958,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.805204,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": true,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 20408,
+      "outside_guide_alpha_128_or_higher_pixels": 10969,
+      "outside_guide_transparent_fraction": 0.985914,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D game model hes_militia_warrant.\nInput image TWO is the EDIT TARGET guide; its 1024 x 1024 canvas, camera, silhouette, position, scale and every material-part boundary are mandatory and must remain pixel-aligned and unchanged. Input image ONE is design_reference.png, a MATERIAL AND DESIGN reference only; do not copy its perspective, pose, outline, lighting, or shadows.\nPaint only the occupied pixels of input image TWO. Replace its diagnostic light/pink/yellow material tints with the approved design's materials: warm off-white folded composite/paper with delicate fine fibres, tiny pale beige wear and subtle fold/layer seams; town-red densely woven cloth ribbon with restrained textile grain and seam detail; muted warm brushed gold with fine grain and only a faint sheen. Clean and official. Continue materials plausibly on unseen faces. No extra materials, parts or decorations.\nLIGHTING: true unlit/albedo appearance, flat even shadowless illumination from the viewer. Remove the guide's directional shading. No cast shadows, no ambient occlusion, no darkening under the gold or ribbon, no strong specular highlights, no white metal glare, no reflections, no rim light, no floor. Material details must be colour variations, not baked lighting.\nOUTPUT: one 1024 x 1024 RGBA PNG, transparent background; preserve the guide's original transparent region and alpha silhouette exactly. Keep all empty margins. Do not enlarge, recenter, rotate, reframe, soften, round off or reshape the object. Do not add outside the silhouette or crop. No text, letters, numbers, watermark, labels, border or checkerboard painted into the image.\nVIEW GEOMETRY:\nLEFT guide: exact left edge-on view, a VERY THIN HORIZONTAL STRIP. Overall alpha bounding box x=153..870, y=447..576. Ivory slab profile x~172..736, y~492..570. Red wrapping behind/around it is x~153..755, y~479..576, with a tiny horizontal ribbon tail extending RIGHT to x~870, y~558..570. Gold seal seen only in edge profile x~298..550, y~447..491. Preserve these exact stepped silhouettes, every guide part edge, and huge transparent margins. No visible circular emblem face in this view; no camera tilt.\nTreat the SECOND image as a literal pixel placement template. Only recolour and texture its existing shapes; keep its exact geometry and transparent margin placement. No bright bevel edges or shaded lower faces. Aim for matte base colour throughout.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_left.png",
+        "role": "edit_target",
+        "sha256": "5bfe2f679b331056a4cdd43d3eb362e74e737e0d840b346552424cfaa3213129"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-e248d94c-3072-4739-a1dc-52afc08b4757.png",
+    "output": "paint_left_attempt1.png",
+    "selected": false,
+    "reason": "Corrective generation required: residual directional bevel shading and contact darkening; exact guide silhouette must be retained.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "9854ba3cf593d8fde1bb36d1bfe631b2b9f87adbdc8b82e22dccf750ef4924e1",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        41,
+        53,
+        1184,
+        1230
+      ],
+      "opaque_bbox": [
+        187,
+        548,
+        1068,
+        707
+      ],
+      "guide_alpha_bbox": [
+        153,
+        447,
+        871,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.971657,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": true,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 7798,
+      "outside_guide_alpha_128_or_higher_pixels": 474,
+      "outside_guide_transparent_fraction": 0.994694,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D game model hes_militia_warrant.\nInput image TWO is the EDIT TARGET guide; its 1024 x 1024 canvas, camera, silhouette, position, scale and every material-part boundary are mandatory and must remain pixel-aligned and unchanged. Input image ONE is design_reference.png, a MATERIAL AND DESIGN reference only; do not copy its perspective, pose, outline, lighting, or shadows.\nPaint only the occupied pixels of input image TWO. Replace its diagnostic light/pink/yellow material tints with the approved design's materials: warm off-white folded composite/paper with delicate fine fibres, tiny pale beige wear and subtle fold/layer seams; town-red densely woven cloth ribbon with restrained textile grain and seam detail; muted warm brushed gold with fine grain and only a faint sheen. Clean and official. Continue materials plausibly on unseen faces. No extra materials, parts or decorations.\nLIGHTING: true unlit/albedo appearance, flat even shadowless illumination from the viewer. Remove the guide's directional shading. No cast shadows, no ambient occlusion, no darkening under the gold or ribbon, no strong specular highlights, no white metal glare, no reflections, no rim light, no floor. Material details must be colour variations, not baked lighting.\nOUTPUT: one 1024 x 1024 RGBA PNG, transparent background; preserve the guide's original transparent region and alpha silhouette exactly. Keep all empty margins. Do not enlarge, recenter, rotate, reframe, soften, round off or reshape the object. Do not add outside the silhouette or crop. No text, letters, numbers, watermark, labels, border or checkerboard painted into the image.\nVIEW GEOMETRY:\nRIGHT guide: exact right edge-on view, a VERY THIN HORIZONTAL STRIP. Overall alpha bounding box x=153..870, y=447..576. Ivory slab profile x~287..851, y~492..570. Red wrapping behind/around it x~268..870, y~479..576, with the tiny horizontal ribbon tail extending LEFT to x~153, y~558..570. Gold seal seen only in edge profile x~473..725, y~447..491. Preserve the exact stepped silhouettes and part boundaries. No visible circular emblem face in this view; no camera tilt.\nTreat the SECOND image as a literal pixel placement template. Only recolour and texture its existing shapes; keep its exact geometry and transparent margin placement. No bright bevel edges or shaded lower faces. Aim for matte base colour throughout.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_right.png",
+        "role": "edit_target",
+        "sha256": "087c8eee03de37e97082a0a1c3cfe9c234df06571e637c4feeddde21ca716273"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-10ae921c-295f-4505-a376-22811cb9bde8.png",
+    "output": "paint_right_attempt1.png",
+    "selected": false,
+    "reason": "Corrective generation required: residual directional bevel shading and contact darkening; exact guide silhouette must be retained.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "c7bfa0d99fd8934f303b5326525191944bfafa77b6d5e39d5e3adc534ed0c01e",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        21,
+        1226,
+        1236
+      ],
+      "opaque_bbox": [
+        186,
+        548,
+        1069,
+        708
+      ],
+      "guide_alpha_bbox": [
+        153,
+        447,
+        871,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.958818,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": true,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 8068,
+      "outside_guide_alpha_128_or_higher_pixels": 2040,
+      "outside_guide_transparent_fraction": 0.99451,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D game model hes_militia_warrant.\nInput image TWO is the EDIT TARGET guide; its 1024 x 1024 canvas, camera, silhouette, position, scale and every material-part boundary are mandatory and must remain pixel-aligned and unchanged. Input image ONE is design_reference.png, a MATERIAL AND DESIGN reference only; do not copy its perspective, pose, outline, lighting, or shadows.\nPaint only the occupied pixels of input image TWO. Replace its diagnostic light/pink/yellow material tints with the approved design's materials: warm off-white folded composite/paper with delicate fine fibres, tiny pale beige wear and subtle fold/layer seams; town-red densely woven cloth ribbon with restrained textile grain and seam detail; muted warm brushed gold with fine grain and only a faint sheen. Clean and official. Continue materials plausibly on unseen faces. No extra materials, parts or decorations.\nLIGHTING: true unlit/albedo appearance, flat even shadowless illumination from the viewer. Remove the guide's directional shading. No cast shadows, no ambient occlusion, no darkening under the gold or ribbon, no strong specular highlights, no white metal glare, no reflections, no rim light, no floor. Material details must be colour variations, not baked lighting.\nOUTPUT: one 1024 x 1024 RGBA PNG, transparent background; preserve the guide's original transparent region and alpha silhouette exactly. Keep all empty margins. Do not enlarge, recenter, rotate, reframe, soften, round off or reshape the object. Do not add outside the silhouette or crop. No text, letters, numbers, watermark, labels, border or checkerboard painted into the image.\nVIEW GEOMETRY:\nTOP guide: exact overhead orthographic view with no perspective. Overall alpha bounding box x=66..957, y=153..870. Broad horizontal ivory slab x~66..957, y~171..737 with exactly the guide's bevelled corners. Slightly diagonal broad red ribbon from approximately (493,153) to (670,179) to (589,754) to (413,730), plus the small separate tail shown below, ending at y~870; keep the entire tail shape. The gold seal occupies the exact existing disc silhouette around x~416..665, y~300..549. Paint the reference's gold RING-AND-LINE badge onto this disc: a wide brushed-gold outer annulus, central round gold boss, and the straight slim gold bar crossing the centre along the ribbon axis, with red cloth-coloured fields between boss and outer ring. This is a geometric badge, not a letter. Keep the solid disc alpha; paint the internal red areas as material, not holes. Match all boundaries to the guide. Add the reference's fine angular envelope-fold seam lines on the ivory face without changing its geometry. No shadows under seal or ribbon.\nTreat the SECOND image as a literal pixel placement template. Only recolour and texture its existing shapes; keep its exact geometry and transparent margin placement. No bright bevel edges or shaded lower faces. Aim for matte base colour throughout.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_top.png",
+        "role": "edit_target",
+        "sha256": "203e8ff0597a9c09213af074680693e69b81a8ca564b448fc263ea81bc6bf35c"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-e00503b0-e49c-4792-98cb-57729883575e.png",
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Corrective generation required: visible contact shading beneath badge, ribbon and fold seams; rough alpha edges outside the guide.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "0cde7a5d4e31d0341517d3c388aa97eb222acff2480a6fcd1de74e0110e0018b",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        7,
+        1240,
+        1254
+      ],
+      "opaque_bbox": [
+        80,
+        187,
+        1175,
+        1067
+      ],
+      "guide_alpha_bbox": [
+        66,
+        153,
+        958,
+        871
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.994541,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": false,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 16597,
+      "outside_guide_alpha_128_or_higher_pixels": 1504,
+      "outside_guide_transparent_fraction": 0.978957,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Precise-object-edit. ONE CORRECTIVE PASS for BACK ALBEDO TEXTURE SOURCE.\nImage 1: approved design_reference.png, MATERIAL COLOURS AND PATTERNS ONLY.\nImage 2: guide_back.png, the EXACT EDIT TARGET. Preserve this image's silhouette, transparent alpha, camera, every part boundary, scale and placement. Output 1024 x 1024 transparent PNG matching image 2. Do not reframe or move the object.\n\nThe priority correction is to ELIMINATE BAKED LIGHTING. Paint an UNLIT BASE COLOUR MAP over image 2. Every ivory face, including every bottom bevel and side bevel, has the SAME LIGHT IVORY average colour. Every gold face, including edge faces, has the SAME MUTED GOLD average colour. Every cloth face has the SAME TOWN-RED average colour. No dark bands under anything. No light bands on edges. No gradients making the object look illuminated. No drop shadow, contact shadow, ambient occlusion, metal sparkle, white highlights or rim light. The image must look like a diffuse colour texture map, not a shaded 3D render or product photograph.\n\nPreserve the design's fine matte ivory composite grain, very subtle pale wear, fine red woven textile, and restrained brushed gold grain. These are small low-contrast colour details only. Material grain must not generate an uneven cutout: keep the guide's perfectly clean straight edges and exact alpha silhouette. No stray pixels outside the guide. Do not add folds or raised seams to the silhouette. Clean and official, no text, letters, numbers, background, floor, labels or watermark.\n\nExact geometry to keep:\nBACK guide: exact rear edge-on view, a VERY THIN HORIZONTAL STRIP, not an envelope face. Overall alpha bounding box x=66..957, y=447..576. Ivory body x~66..957, y~491..570. Gold seal edge x~356..607, y~447..491. Central red wrap x~352..532, with short lower step extending to x~612. Follow the exact guide for all edges and occlusions. Only the seal's narrow edge is visible, not its ring-and-line face. Do not mirror the front view or tilt the camera.\nThe thin horizontal strip stays vertically centred at y=512; its highest occupied row is y=447 and lowest is y=576. Huge transparent margins above and below must remain. The tiny seal is viewed edge-on; never show its broad face.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_back.png",
+        "role": "edit_target",
+        "sha256": "ee7f0ae4f3160dd464028489ba01f8d1582897fda581392cd4ac78d049894e66"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-17641126-2d39-4026-b59d-66951256ef8b.png",
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected correction improves vertical alignment and removes the pronounced contact shadows. Residual bevel shading, cutout fringe and non-identical guide alpha remain.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false,
+      "lighting_note": "Selected correction improves vertical alignment and removes the pronounced contact shadows. Residual bevel shading, cutout fringe and non-identical guide alpha remain."
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "a47ed2486fc19a57eee48443c8066f6470e7d729cd7c9cdc4aa6b52472333635",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        49,
+        25,
+        1232,
+        1196
+      ],
+      "opaque_bbox": [
+        82,
+        549,
+        1173,
+        707
+      ],
+      "guide_alpha_bbox": [
+        66,
+        447,
+        958,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.987204,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": true,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 13870,
+      "outside_guide_alpha_128_or_higher_pixels": 10,
+      "outside_guide_transparent_fraction": 0.990427,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Precise-object-edit. ONE CORRECTIVE PASS for LEFT ALBEDO TEXTURE SOURCE.\nImage 1: approved design_reference.png, MATERIAL COLOURS AND PATTERNS ONLY.\nImage 2: guide_left.png, the EXACT EDIT TARGET. Preserve this image's silhouette, transparent alpha, camera, every part boundary, scale and placement. Output 1024 x 1024 transparent PNG matching image 2. Do not reframe or move the object.\n\nThe priority correction is to ELIMINATE BAKED LIGHTING. Paint an UNLIT BASE COLOUR MAP over image 2. Every ivory face, including every bottom bevel and side bevel, has the SAME LIGHT IVORY average colour. Every gold face, including edge faces, has the SAME MUTED GOLD average colour. Every cloth face has the SAME TOWN-RED average colour. No dark bands under anything. No light bands on edges. No gradients making the object look illuminated. No drop shadow, contact shadow, ambient occlusion, metal sparkle, white highlights or rim light. The image must look like a diffuse colour texture map, not a shaded 3D render or product photograph.\n\nPreserve the design's fine matte ivory composite grain, very subtle pale wear, fine red woven textile, and restrained brushed gold grain. These are small low-contrast colour details only. Material grain must not generate an uneven cutout: keep the guide's perfectly clean straight edges and exact alpha silhouette. No stray pixels outside the guide. Do not add folds or raised seams to the silhouette. Clean and official, no text, letters, numbers, background, floor, labels or watermark.\n\nExact geometry to keep:\nLEFT guide: exact left edge-on view, a VERY THIN HORIZONTAL STRIP. Overall alpha bounding box x=153..870, y=447..576. Ivory slab profile x~172..736, y~492..570. Red wrapping behind/around it is x~153..755, y~479..576, with a tiny horizontal ribbon tail extending RIGHT to x~870, y~558..570. Gold seal seen only in edge profile x~298..550, y~447..491. Preserve these exact stepped silhouettes, every guide part edge, and huge transparent margins. No visible circular emblem face in this view; no camera tilt.\nThe thin horizontal strip stays vertically centred at y=512; its highest occupied row is y=447 and lowest is y=576. Huge transparent margins above and below must remain. The tiny seal is viewed edge-on; never show its broad face.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_left.png",
+        "role": "edit_target",
+        "sha256": "5bfe2f679b331056a4cdd43d3eb362e74e737e0d840b346552424cfaa3213129"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-38991244-ecca-438a-a3e5-f7bdd6ea2d2c.png",
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected correction removes the dark contact band beneath the seal and around the ivory slab. Residual bevel shading and non-identical guide alpha remain.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false,
+      "lighting_note": "Selected correction removes the dark contact band beneath the seal and around the ivory slab. Residual bevel shading and non-identical guide alpha remain."
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "4482e26f9dd662733b197015dd229df96ad259cb229a418ca2a4469c47b95e48",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        31,
+        1234,
+        1220
+      ],
+      "opaque_bbox": [
+        189,
+        550,
+        1067,
+        706
+      ],
+      "guide_alpha_bbox": [
+        153,
+        447,
+        871,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.972145,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": false,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 6544,
+      "outside_guide_alpha_128_or_higher_pixels": 649,
+      "outside_guide_transparent_fraction": 0.995547,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Precise-object-edit. ONE CORRECTIVE PASS for RIGHT ALBEDO TEXTURE SOURCE.\nImage 1: approved design_reference.png, MATERIAL COLOURS AND PATTERNS ONLY.\nImage 2: guide_right.png, the EXACT EDIT TARGET. Preserve this image's silhouette, transparent alpha, camera, every part boundary, scale and placement. Output 1024 x 1024 transparent PNG matching image 2. Do not reframe or move the object.\n\nThe priority correction is to ELIMINATE BAKED LIGHTING. Paint an UNLIT BASE COLOUR MAP over image 2. Every ivory face, including every bottom bevel and side bevel, has the SAME LIGHT IVORY average colour. Every gold face, including edge faces, has the SAME MUTED GOLD average colour. Every cloth face has the SAME TOWN-RED average colour. No dark bands under anything. No light bands on edges. No gradients making the object look illuminated. No drop shadow, contact shadow, ambient occlusion, metal sparkle, white highlights or rim light. The image must look like a diffuse colour texture map, not a shaded 3D render or product photograph.\n\nPreserve the design's fine matte ivory composite grain, very subtle pale wear, fine red woven textile, and restrained brushed gold grain. These are small low-contrast colour details only. Material grain must not generate an uneven cutout: keep the guide's perfectly clean straight edges and exact alpha silhouette. No stray pixels outside the guide. Do not add folds or raised seams to the silhouette. Clean and official, no text, letters, numbers, background, floor, labels or watermark.\n\nExact geometry to keep:\nRIGHT guide: exact right edge-on view, a VERY THIN HORIZONTAL STRIP. Overall alpha bounding box x=153..870, y=447..576. Ivory slab profile x~287..851, y~492..570. Red wrapping behind/around it x~268..870, y~479..576, with the tiny horizontal ribbon tail extending LEFT to x~153, y~558..570. Gold seal seen only in edge profile x~473..725, y~447..491. Preserve the exact stepped silhouettes and part boundaries. No visible circular emblem face in this view; no camera tilt.\nThe thin horizontal strip stays vertically centred at y=512; its highest occupied row is y=447 and lowest is y=576. Huge transparent margins above and below must remain. The tiny seal is viewed edge-on; never show its broad face.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_right.png",
+        "role": "edit_target",
+        "sha256": "087c8eee03de37e97082a0a1c3cfe9c234df06571e637c4feeddde21ca716273"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-df20307e-0e2d-4908-ac03-ce317b155c5d.png",
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected correction is flatter than the initial return, with less shiny gold and contact darkening. Residual ivory bevel tones and non-identical guide alpha remain.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false,
+      "lighting_note": "Selected correction is flatter than the initial return, with less shiny gold and contact darkening. Residual ivory bevel tones and non-identical guide alpha remain."
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "beb49ee63ef8c0383c41b237075a8baf50eb29d543ed5cfe25e06963e6103b9a",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        65,
+        41,
+        1218,
+        1214
+      ],
+      "opaque_bbox": [
+        189,
+        550,
+        1066,
+        707
+      ],
+      "guide_alpha_bbox": [
+        153,
+        447,
+        871,
+        577
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.97371,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": true,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 7005,
+      "outside_guide_alpha_128_or_higher_pixels": 447,
+      "outside_guide_transparent_fraction": 0.995234,
+      "transparent_background_clean_to_guide": false
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Precise-object-edit. ONE CORRECTIVE PASS for TOP ALBEDO TEXTURE SOURCE.\nImage 1: approved design_reference.png, MATERIAL COLOURS AND PATTERNS ONLY.\nImage 2: guide_top.png, the EXACT EDIT TARGET. Preserve this image's silhouette, transparent alpha, camera, every part boundary, scale and placement. Output 1024 x 1024 transparent PNG matching image 2. Do not reframe or move the object.\n\nThe priority correction is to ELIMINATE BAKED LIGHTING. Paint an UNLIT BASE COLOUR MAP over image 2. Every ivory face, including every bottom bevel and side bevel, has the SAME LIGHT IVORY average colour. Every gold face, including edge faces, has the SAME MUTED GOLD average colour. Every cloth face has the SAME TOWN-RED average colour. No dark bands under anything. No light bands on edges. No gradients making the object look illuminated. No drop shadow, contact shadow, ambient occlusion, metal sparkle, white highlights or rim light. The image must look like a diffuse colour texture map, not a shaded 3D render or product photograph.\n\nPreserve the design's fine matte ivory composite grain, very subtle pale wear, fine red woven textile, and restrained brushed gold grain. These are small low-contrast colour details only. Material grain must not generate an uneven cutout: keep the guide's perfectly clean straight edges and exact alpha silhouette. No stray pixels outside the guide. Do not add folds or raised seams to the silhouette. Clean and official, no text, letters, numbers, background, floor, labels or watermark.\n\nExact geometry to keep:\nTOP guide: exact overhead orthographic view with no perspective. Overall alpha bounding box x=66..957, y=153..870. Broad horizontal ivory slab x~66..957, y~171..737 with exactly the guide's bevelled corners. Slightly diagonal broad red ribbon from approximately (493,153) to (670,179) to (589,754) to (413,730), plus the small separate tail shown below, ending at y~870; keep the entire tail shape. The gold seal occupies the exact existing disc silhouette around x~416..665, y~300..549. Paint the reference's gold RING-AND-LINE badge onto this disc: a wide brushed-gold outer annulus, central round gold boss, and the straight slim gold bar crossing the centre along the ribbon axis, with red cloth-coloured fields between boss and outer ring. This is a geometric badge, not a letter. Keep the solid disc alpha; paint the internal red areas as material, not holes. Match all boundaries to the guide. Add the reference's fine angular envelope-fold seam lines on the ivory face without changing its geometry. No shadows under seal or ribbon.\nPaint the ring-and-line gold badge and fine envelope-fold seams as FLAT COLOUR PATTERNS only, with no dark outlines, extrusion or shadows. Preserve the reference's complete ring, inner disc and crossing bar motif.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "role": "material_reference",
+        "sha256": "7c8541b3519a6243ce3373581c1993cef655cb46614a067681702b89e282f341"
+      },
+      {
+        "path": "guide_top.png",
+        "role": "edit_target",
+        "sha256": "203e8ff0597a9c09213af074680693e69b81a8ca564b448fc263ea81bc6bf35c"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16de0-28e7-7f20-924d-50e1069a7200/exec-3b64a6a5-968b-4bf1-ab2e-0c87d7c838d1.png",
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected correction gives a flatter badge, ribbon and fold pattern while retaining the overhead geometry. Faint seam/contact shading, cutout fringe and non-identical guide alpha remain.",
+    "visual_checks": {
+      "materials_match": true,
+      "no_text_or_letters": true,
+      "flat_even_light": false,
+      "lighting_note": "Selected correction gives a flatter badge, ribbon and fold pattern while retaining the overhead geometry. Faint seam/contact shading, cutout fringe and non-identical guide alpha remain."
+    },
+    "tool": "built-in image_gen",
+    "transparent_background_requested": true,
+    "brief_fully_satisfied": false,
+    "output_sha256": "d28b290d56e8209cdec47ed9271f1787cc1629eb5022a6864aa00c30fa34c923",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized_raw_return": true,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        12,
+        1224,
+        1220
+      ],
+      "opaque_bbox": [
+        80,
+        188,
+        1175,
+        1067
+      ],
+      "guide_alpha_bbox": [
+        66,
+        153,
+        958,
+        871
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.993612,
+      "comparison_note": "IoU uses coordinate sampling of alpha for analysis only; saved returns are unchanged.",
+      "fully_transparent_canvas_border": false,
+      "has_transparent_alpha_background": true,
+      "outside_guide_nonzero_alpha_pixels": 10306,
+      "outside_guide_alpha_128_or_higher_pixels": 2050,
+      "outside_guide_transparent_fraction": 0.986933,
+      "transparent_background_clean_to_guide": false
+    }
+  }
+]

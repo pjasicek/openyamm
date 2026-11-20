@@ -1,0 +1,39 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/tidewater
+settle_seconds: 2.0
+exit: true
+shots:
+- name: huge_s5
+  position:
+  - 784
+  - 8482
+  - 257
+  yaw: 4.488
+  pitch: -0.2
+- name: huge_s9
+  position:
+  - -3190
+  - 5845
+  - 193
+  yaw: 3.128
+  pitch: -0.15
+- name: hall_s2
+  position:
+  - 435
+  - -608
+  - 1
+  yaw: 1.775
+  pitch: -0.15
+- name: beds_s3
+  position:
+  - 240
+  - 4640
+  - 833
+  yaw: 4.77
+  pitch: -0.12
+- name: room_s6
+  position:
+  - 70
+  - 7834
+  - 641
+  yaw: 4.865
+  pitch: -0.12

@@ -17,6 +17,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 using OpenYAMM::Game::ActorAiAnimationState;
@@ -356,6 +357,163 @@ TEST_CASE("shared actor service lets party controlled actors target party hostil
     CHECK_FALSE(friendlyResult.canTarget);
 }
 
+TEST_CASE("shared actor service makes a berserk monster and every other monster enemies")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(2)}));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState berserkActor = {};
+    berserkActor.monsterId = 1;
+    berserkActor.hostileToParty = true;
+    berserkActor.controlMode = GameplayActorControlMode::Berserk;
+    berserkActor.height = 128;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState otherActor = {};
+    otherActor.monsterId = 1;
+    otherActor.hostileToParty = true;
+    otherActor.height = 128;
+
+    // Same kind, no faction feud: only the berserk spell makes them fight, both ways.
+    const OpenYAMM::Game::GameplayActorTargetPolicyResult attack =
+        service.resolveActorTargetPolicy(berserkActor, otherActor);
+    CHECK(attack.canTarget);
+    CHECK_EQ(attack.relationToTarget, 4);
+    CHECK(attack.engagementRange > 0.0f);
+    CHECK(service.resolveActorTargetPolicy(otherActor, berserkActor).canTarget);
+    CHECK(service.partyEngagementRange(berserkActor) > 0.0f);
+
+    // Without the spell they stay friends.
+    berserkActor.controlMode = GameplayActorControlMode::None;
+    CHECK_FALSE(service.resolveActorTargetPolicy(berserkActor, otherActor).canTarget);
+}
+
+TEST_CASE("shared actor service makes a monster fight back the monster that last hit it")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(4)}));
+    // Evenmorn's one-sided feud (hostile.txt, a column's monster towards a row's): ghosts attack gargoyles, gargoyles
+    // have nothing against ghosts.
+    REQUIRE(monsterTable.loadRelationsFromRows({
+        {"", "Party", "Gargoyle", "Ghost"},
+        {"Party", "0", "4", "4"},
+        {"Gargoyle", "0", "0", "4"},
+        {"Ghost", "0", "0", "0"},
+    }));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState victim = {};
+    victim.monsterId = 1;
+    victim.actorId = 0;
+    victim.hostileToParty = true;
+    victim.height = 128;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState attacker = {};
+    attacker.monsterId = 4;
+    attacker.actorId = 7;
+    attacker.hostileToParty = true;
+    attacker.height = 128;
+
+    // The gargoyle ignores the ghost that hunts it until the ghost hits it.
+    CHECK(service.resolveActorTargetPolicy(attacker, victim).canTarget);
+    CHECK_FALSE(service.resolveActorTargetPolicy(victim, attacker).canTarget);
+
+    victim.lastActorAttackerId = 7;
+    const OpenYAMM::Game::GameplayActorTargetPolicyResult strikeBack =
+        service.resolveActorTargetPolicy(victim, attacker);
+    CHECK(strikeBack.canTarget);
+    CHECK_EQ(strikeBack.relationToTarget, 4);
+
+    // Only that attacker, and never one of its own group.
+    OpenYAMM::Game::GameplayActorTargetPolicyState bystander = attacker;
+    bystander.actorId = 8;
+    CHECK_FALSE(service.resolveActorTargetPolicy(victim, bystander).canTarget);
+
+    victim.group = 3;
+    attacker.group = 3;
+    CHECK_FALSE(service.resolveActorTargetPolicy(victim, attacker).canTarget);
+}
+
+TEST_CASE("shared actor service ends a monster's grudge with the Berserk that caused it")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(2)}));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    // Two monsters of a pack, no feud between them.
+    OpenYAMM::Game::GameplayActorTargetPolicyState berserkActor = {};
+    berserkActor.monsterId = 1;
+    berserkActor.actorId = 3;
+    berserkActor.hostileToParty = true;
+    berserkActor.controlMode = GameplayActorControlMode::Berserk;
+    berserkActor.height = 128;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState packMate = {};
+    packMate.monsterId = 1;
+    packMate.actorId = 4;
+    packMate.hostileToParty = true;
+    packMate.height = 128;
+
+    // They traded blows while the spell lasted.
+    berserkActor.lastActorAttackerId = packMate.actorId;
+    packMate.lastActorAttackerId = berserkActor.actorId;
+    CHECK(service.resolveActorTargetPolicy(berserkActor, packMate).canTarget);
+    CHECK(service.resolveActorTargetPolicy(packMate, berserkActor).canTarget);
+
+    // The spell ends: neither is the other's enemy in its own right, so neither grudge holds.
+    berserkActor.controlMode = GameplayActorControlMode::None;
+    CHECK_FALSE(service.resolveActorTargetPolicy(berserkActor, packMate).canTarget);
+    CHECK_FALSE(service.resolveActorTargetPolicy(packMate, berserkActor).canTarget);
+
+    // A map's relation row keeps a grudge alive as a faction feud does.
+    const std::unordered_map<uint32_t, int32_t> overrides = {{GameplayActorService::relationOverrideKey(1, 1), 4}};
+    CHECK(service.resolveActorTargetPolicy(packMate, berserkActor, &overrides).canTarget);
+}
+
+TEST_CASE("shared actor service notices the party within the relation's range until engaged (OY-605)")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(4)}));
+    // The Emerald Island lair's rats have relation 2 to the party, its dragon 4 (hostile.txt: Rat, ADragon).
+    REQUIRE(monsterTable.loadRelationsFromRows({
+        {"", "Party", "Rat", "Dragon"},
+        {"Party", "0", "2", "4"},
+        {"Rat", "0", "0", "4"},
+        {"Dragon", "0", "0", "0"},
+    }));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState rat = {};
+    rat.monsterId = 1;
+    rat.hostileToParty = true;
+    OpenYAMM::Game::GameplayActorTargetPolicyState dragon = rat;
+    dragon.monsterId = 4;
+
+    CHECK_EQ(service.partyNoticeRange(rat, false), doctest::Approx(2560.0f));
+    CHECK_EQ(service.partyNoticeRange(rat, true), doctest::Approx(service.partyEngagementRange(rat)));
+    CHECK_EQ(service.partyNoticeRange(dragon, false), doctest::Approx(service.partyEngagementRange(dragon)));
+
+    // A map's evt.SetMonsterRelation row to the party replaces the table's.
+    const std::unordered_map<uint32_t, int32_t> overrides = {{GameplayActorService::relationOverrideKey(1, 0), 1}};
+    CHECK_EQ(service.partyNoticeRange(rat, false, &overrides), doctest::Approx(1024.0f));
+
+    // Made hostile without a hostile relation: the engagement range; not hostile: none.
+    OpenYAMM::Game::GameplayActorTargetPolicyState madeHostile = rat;
+    const std::unordered_map<uint32_t, int32_t> calm = {{GameplayActorService::relationOverrideKey(1, 0), 0}};
+    CHECK_EQ(service.partyNoticeRange(madeHostile, false, &calm),
+        doctest::Approx(service.partyEngagementRange(madeHostile)));
+    rat.hostileToParty = false;
+    CHECK_EQ(service.partyNoticeRange(rat, false), 0.0f);
+}
+
 TEST_CASE("shared actor service respects runtime party hostility overrides")
 {
     MonsterTable monsterTable = {};
@@ -527,6 +685,46 @@ TEST_CASE("shared actor AI uses a missile attack outside melee range when the me
     CHECK(*update.animation.animationState == ActorAiAnimationState::AttackRanged);
 }
 
+TEST_CASE("shared actor AI closes in on a far party with only a missile")
+{
+    // A Great Wyrm: one missile attack, no blow to fall back on. Beyond the 5120 missile reach it used to shoot; the
+    // party's hits reach no farther, so a hit never lets it shoot from beyond. A world's shorter party reach (MM9's
+    // 4096) shortens its reach at the party too.
+    const auto updateAt = [](float edgeDistance, float partyHitReach = 5120.0f)
+    {
+        GameplayActorAiSystem system;
+        ActorAiFrameFacts frame = makeFrame();
+        frame.partyHitReach = partyHitReach;
+        ActorAiFacts actor = makeActor(12, 109);
+        actor.world.active = true;
+        actor.identity.hostilityType = 4;
+        actor.status.hostileToParty = true;
+        actor.status.hasDetectedParty = true;
+        actor.stats.attackConstraints.attack1IsRanged = true;
+        actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+        actor.movement.movementAllowed = true;
+        actor.movement.effectiveMoveSpeed = 140.0f;
+        actor.target.currentKind = ActorAiTargetKind::Party;
+        actor.target.currentPosition = {edgeDistance + 132.0f, 200.0f, 64.0f};
+        actor.target.currentDistance = edgeDistance + 32.0f;
+        actor.target.currentEdgeDistance = edgeDistance;
+        actor.target.currentCanSense = true;
+        actor.target.currentHasAttackLineOfSight = true;
+        actor.target.partyCanSenseActor = true;
+        frame.activeActors.push_back(actor);
+        const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+        REQUIRE_EQ(result.actorUpdates.size(), 1u);
+        REQUIRE(result.actorUpdates.front().state.motionState.has_value());
+        return *result.actorUpdates.front().state.motionState;
+    };
+
+    CHECK(updateAt(7000.0f) == ActorAiMotionState::Pursuing);
+    CHECK(updateAt(5200.0f) == ActorAiMotionState::Pursuing);
+    CHECK(updateAt(4000.0f) == ActorAiMotionState::Attacking);
+    CHECK(updateAt(4500.0f, 4096.0f) == ActorAiMotionState::Pursuing);
+    CHECK(updateAt(4000.0f, 4096.0f) == ActorAiMotionState::Attacking);
+}
+
 TEST_CASE("shared actor AI returns to standing presentation when attack impact resolves")
 {
     GameplayActorAiSystem system;
@@ -627,6 +825,76 @@ TEST_CASE("shared actor AI applies an attack at its sprite contact frame and att
     CHECK_FALSE(end.attackRequest.has_value());
     REQUIRE(end.state.motionState.has_value());
     CHECK(*end.state.motionState == ActorAiMotionState::Standing);
+}
+
+TEST_CASE("attack timing: a sprite contact frame wins, else the clip's key; clip-timed models last their clip")
+{
+    using OpenYAMM::Game::ActorAttackTiming;
+    using OpenYAMM::Game::resolveActorAttackTiming;
+    // An MM6-MM8 sprite with an authored contact frame keeps it, whatever the model's key.
+    ActorAttackTiming timing = resolveActorAttackTiming(0.75f, 0.5f, 0.8f, 0.4f, false);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.5f));
+    // Without one, the model's key applies the attack within the sprite's action (any world).
+    timing = resolveActorAttackTiming(0.75f, 0.0f, 0.8f, 0.4f, false);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.4f));
+    // Neither: at the action's end, as MM8 does.
+    timing = resolveActorAttackTiming(0.75f, 0.0f, 0.0f, -1.0f, false);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == 0.0f);
+    // A model whose clips time its attacks (MM9): the action is the clip and the key applies it, over a stand-in
+    // sprite's contact frame; a key outside the clip applies it at the clip's end; an unknown clip length keeps the
+    // sprite.
+    timing = resolveActorAttackTiming(0.75f, 0.5f, 0.8f, 0.4f, true);
+    CHECK(timing.actionSeconds == doctest::Approx(0.8f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.4f));
+    timing = resolveActorAttackTiming(0.75f, 0.5f, 0.8f, 0.9f, true);
+    CHECK(timing.actionSeconds == doctest::Approx(0.8f));
+    CHECK(timing.impactSeconds == 0.0f);
+    timing = resolveActorAttackTiming(0.75f, 0.5f, 0.0f, 0.4f, true);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.5f));
+}
+
+TEST_CASE("shared actor AI casts a spell at its own clip's key where the world times spells apart")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(12, 109);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.runtime.spellAttackAnimationSeconds = 1.2f;
+    actor.runtime.spellAttackImpactSeconds = 0.9f;
+    actor.runtime.attackCooldownSeconds = 0.5f;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Spell1;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {600.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 500.0f;
+    actor.target.currentEdgeDistance = 400.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = true;
+    actor.target.partyCanSenseActor = true;
+    const auto step = [&](float actionSeconds)
+    {
+        frame.activeActors = {actor};
+        frame.activeActors[0].runtime.actionSeconds = actionSeconds;
+        const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+        REQUIRE_EQ(result.actorUpdates.size(), 1u);
+        return result.actorUpdates.front();
+    };
+
+    // 0.4 s into the 1.2 s cast clip: the ranged attack's 0.5 s action would long be over, the cast key (0.9 s) is
+    // not yet due.
+    CHECK_FALSE(step(0.8f).state.attackImpactTriggered.value_or(false));
+    // At the key it casts.
+    CHECK(step(0.3f - 1.0f / 256.0f).state.attackImpactTriggered.value_or(false));
 }
 
 TEST_CASE("shared actor AI plays a delayed attack sound once the action clock passes the delay")
@@ -844,12 +1112,12 @@ TEST_CASE("shared actor AI pursues a remembered party target without attack line
     CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
     CHECK(update.movementIntent.action == ActorAiMovementAction::Pursue);
     CHECK(update.movementIntent.applyMovement);
-    CHECK(update.movementIntent.moveSpeed == doctest::Approx(300.0f));
+    CHECK(update.movementIntent.moveSpeed == doctest::Approx(400.0f));
     CHECK_FALSE(update.movementIntent.inMeleeRange);
     CHECK_FALSE(update.attackRequest.has_value());
 }
 
-TEST_CASE("shared actor AI scales pursuit speed and caps it")
+TEST_CASE("shared actor AI uses the pursuit speed multiplier and cap")
 {
     GameplayActorAiSystem system;
     ActorAiFrameFacts frame = makeFrame();
@@ -881,6 +1149,58 @@ TEST_CASE("shared actor AI scales pursuit speed and caps it")
     CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
     CHECK(update.movementIntent.applyMovement);
     CHECK(update.movementIntent.moveSpeed == doctest::Approx(1000.0f));
+}
+
+TEST_CASE("turn-based wait stage multiplies movement speed by 5/3 before the cap")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::MoveOnly;
+    frame.turnBased.actionGrantActorIndices = {};
+    ActorAiFacts actor = makeActor(25, 125);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {600.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 500.0f;
+    actor.target.currentEdgeDistance = 500.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = false;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult waitResult = system.updateActors(frame);
+    REQUIRE_EQ(waitResult.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &waitUpdate = waitResult.actorUpdates.front();
+    REQUIRE(waitUpdate.state.motionState.has_value());
+    CHECK(*waitUpdate.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(waitUpdate.movementIntent.applyMovement);
+    CHECK(waitUpdate.movementIntent.moveSpeed == doctest::Approx(200.0f * 2.0f * 5.0f / 3.0f));
+
+    frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::RealTime;
+    const OpenYAMM::Game::ActorAiFrameResult realTimeResult = system.updateActors(frame);
+    REQUIRE_EQ(realTimeResult.actorUpdates.size(), 1u);
+    CHECK(realTimeResult.actorUpdates.front().movementIntent.moveSpeed == doctest::Approx(400.0f));
+
+    frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::MoveOnly;
+    frame.activeActors.front().stats.moveSpeed = 700;
+    frame.activeActors.front().movement.effectiveMoveSpeed = 700.0f;
+    const OpenYAMM::Game::ActorAiFrameResult cappedResult = system.updateActors(frame);
+    REQUIRE_EQ(cappedResult.actorUpdates.size(), 1u);
+    CHECK(cappedResult.actorUpdates.front().movementIntent.moveSpeed == doctest::Approx(1000.0f));
+
+    frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::Hold;
+    const OpenYAMM::Game::ActorAiFrameResult heldResult = system.updateActors(frame);
+    REQUIRE_EQ(heldResult.actorUpdates.size(), 1u);
+    CHECK_FALSE(heldResult.actorUpdates.front().movementIntent.applyMovement);
 }
 
 TEST_CASE("shared actor AI emits vertical movement for flying actors pursuing above or below")
@@ -1334,6 +1654,44 @@ TEST_CASE("shared actor AI applies monster self buff when spell attack completes
     CHECK(update.fxRequests.front().spellId == 51u);
     CHECK(result.projectileRequests.empty());
     CHECK(result.audioRequests.empty());
+}
+
+TEST_CASE("shared actor AI gives a monster's Stone Skin its armour power")
+{
+    // The table's "Stone Skin" arrives lowercased with its space (parseMonsterSpellName); it gave +0 AC before.
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(15, 112);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Id = 38;
+    actor.stats.spell1Name = "stone skin";
+    actor.stats.spell1SkillLevel = 5;
+    actor.stats.spell1SkillMastery = OpenYAMM::Game::SkillMastery::Master;
+    actor.stats.spell1UseChance = 100;
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Spell1;
+    actor.runtime.actionSeconds = 0.0f;
+    actor.runtime.attackImpactTriggered = false;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.spellEffects.has_value());
+    CHECK(update.state.spellEffects->stoneskinRemainingSeconds > 0.0f);
+    CHECK_EQ(update.state.spellEffects->stoneskinPower, 10);
 }
 
 TEST_CASE("shared actor AI applies monster heal when spell attack completes")
@@ -1928,7 +2286,7 @@ TEST_CASE("shared actor AI crowd steers while flying")
     CHECK(*update.state.crowdSideSign != 0);
 }
 
-TEST_CASE("shared actor AI continues fleeing with base speed")
+TEST_CASE("shared actor AI continues fleeing with the original flee speed multiplier")
 {
     GameplayActorAiSystem system;
     ActorAiFrameFacts frame = makeFrame();
@@ -1950,7 +2308,7 @@ TEST_CASE("shared actor AI continues fleeing with base speed")
     CHECK(*update.state.motionState == ActorAiMotionState::Fleeing);
     CHECK(update.movementIntent.action == ActorAiMovementAction::Flee);
     CHECK(update.movementIntent.applyMovement);
-    CHECK(update.movementIntent.moveSpeed == doctest::Approx(180.0f));
+    CHECK(update.movementIntent.moveSpeed == doctest::Approx(360.0f));
 }
 
 TEST_CASE("shared actor AI preserves crowd steering instead of overwriting it with contact flee")
@@ -2321,4 +2679,739 @@ TEST_CASE("shared actor AI special pursuit alone can vocalize on entry")
     const OpenYAMM::Game::ActorAiFrameResult direct = system.updateActors(frame);
     CHECK(direct.actorUpdates.front().movementIntent.action == ActorAiMovementAction::Pursue);
     CHECK(direct.audioRequests.empty());
+}
+
+namespace
+{
+using OpenYAMM::Game::ActorTacticsFacts;
+
+constexpr float TacticDegrees = 3.14159265358979323846f / 180.0f;
+
+// A hostile ranged actor at the origin engaging the party, for the tactics tests (ActorTacticsFacts).
+ActorAiFacts makeTacticRangedActor(float targetX, float targetY, float edgeDistance)
+{
+    ActorAiFacts actor = makeActor(20, 120);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.stats.attackConstraints.rangedCommitAllowed = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.runtime.meleeAttackAnimationSeconds = 0.5f;
+    actor.runtime.recoverySeconds = 1.0f;
+    actor.movement.position = {0.0f, 0.0f, 0.0f};
+    actor.movement.homePosition = actor.movement.position;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 250.0f;
+    actor.movement.wanderRadius = 2560.0f;
+    actor.movement.allowIdleWander = true;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {targetX, targetY, 64.0f};
+    actor.target.currentDistance = std::hypot(targetX, targetY);
+    actor.target.currentEdgeDistance = edgeDistance;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = true;
+    actor.target.partyCanSenseActor = true;
+    return actor;
+}
+
+ActorAiFacts makeTacticTurret(float targetX, float targetY)
+{
+    ActorAiFacts actor = makeTacticRangedActor(targetX, targetY, std::hypot(targetX, targetY) - 60.0f);
+    actor.movement.movementAllowed = false;
+    actor.movement.effectiveMoveSpeed = 0.0f;
+    actor.movement.wanderRadius = 0.0f;
+    actor.tactics.traverseRadiansPerSecond = 90.0f * TacticDegrees;
+    actor.tactics.fireToleranceRadians = 5.0f * TacticDegrees;
+    return actor;
+}
+
+OpenYAMM::Game::ActorAiUpdate updateOne(const ActorAiFacts &actor)
+{
+    ActorAiFrameFacts frame = makeFrame();
+    frame.activeActors.push_back(actor);
+    const OpenYAMM::Game::ActorAiFrameResult result = GameplayActorAiSystem().updateActors(frame);
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    return result.actorUpdates.front();
+}
+}
+
+TEST_CASE("actor tactics leave a stationary ranged actor's native snap-and-fire unchanged by default")
+{
+    ActorAiFacts actor = makeTacticTurret(0.0f, 1500.0f);
+    actor.tactics = {};
+    const OpenYAMM::Game::ActorAiUpdate update = updateOne(actor);
+
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Attacking);
+    REQUIRE(update.movementIntent.updateYaw);
+    CHECK(update.movementIntent.yawRadians == doctest::Approx(std::atan2(1500.0f, 0.0f)));
+}
+
+TEST_CASE("actor tactics turn a turret at its traverse rate and fire only once it is on target")
+{
+    ActorAiFacts actor = makeTacticTurret(0.0f, 1500.0f);
+    const OpenYAMM::Game::ActorAiUpdate turning = updateOne(actor);
+
+    CHECK_FALSE(turning.attackRequest.has_value());
+    REQUIRE(turning.state.motionState.has_value());
+    CHECK(*turning.state.motionState == ActorAiMotionState::Standing);
+    REQUIRE(turning.movementIntent.updateYaw);
+    CHECK(turning.movementIntent.yawRadians == doctest::Approx(90.0f * TacticDegrees / 128.0f));
+    CHECK_FALSE(turning.movementIntent.applyMovement);
+
+    actor.runtime.yawRadians = 87.0f * TacticDegrees;
+    const OpenYAMM::Game::ActorAiUpdate firing = updateOne(actor);
+    REQUIRE(firing.state.motionState.has_value());
+    CHECK(*firing.state.motionState == ActorAiMotionState::Attacking);
+    REQUIRE(firing.animation.animationState.has_value());
+    CHECK(*firing.animation.animationState == ActorAiAnimationState::AttackRanged);
+}
+
+TEST_CASE("actor tactics keep a turret tracking its target between shots and through the windup")
+{
+    ActorAiFacts actor = makeTacticTurret(-1500.0f, 0.0f);
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    actor.runtime.yawRadians = 2.5f;
+    const OpenYAMM::Game::ActorAiUpdate waiting = updateOne(actor);
+
+    REQUIRE(waiting.state.motionState.has_value());
+    CHECK(*waiting.state.motionState == ActorAiMotionState::Standing);
+    REQUIRE(waiting.movementIntent.updateYaw);
+    CHECK(waiting.movementIntent.yawRadians == doctest::Approx(2.5f + 90.0f * TacticDegrees / 128.0f));
+
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.actionSeconds = 0.4f;
+    actor.runtime.yawRadians = 3.1f;
+    const OpenYAMM::Game::ActorAiUpdate windup = updateOne(actor);
+    REQUIRE(windup.movementIntent.updateYaw);
+    CHECK(windup.movementIntent.yawRadians > 3.1f);
+    CHECK(windup.movementIntent.yawRadians < 3.1f + 0.02f);
+}
+
+TEST_CASE("actor tactics hold a post: walk home, face the placement, never wander")
+{
+    ActorAiFacts actor = makeTacticRangedActor(0.0f, 0.0f, 0.0f);
+    actor.target = {};
+    actor.status.hostileToParty = false;
+    actor.status.hasDetectedParty = false;
+    actor.tactics.holdPost = true;
+    actor.movement.hasHomeYaw = true;
+    actor.movement.homeYawRadians = 1.0f;
+    actor.movement.homePosition = {600.0f, 0.0f, 0.0f};
+    actor.movement.distanceToParty = 5000.0f;
+    const OpenYAMM::Game::ActorAiUpdate returning = updateOne(actor);
+
+    REQUIRE(returning.state.motionState.has_value());
+    CHECK(*returning.state.motionState == ActorAiMotionState::Wandering);
+    CHECK(returning.movementIntent.applyMovement);
+    CHECK(returning.movementIntent.desiredMoveX == doctest::Approx(1.0f));
+    CHECK(returning.movementIntent.yawRadians == doctest::Approx(0.0f));
+
+    actor.movement.position = actor.movement.homePosition;
+    actor.runtime.motionState = ActorAiMotionState::Wandering;
+    const OpenYAMM::Game::ActorAiUpdate facing = updateOne(actor);
+    REQUIRE(facing.state.motionState.has_value());
+    CHECK(*facing.state.motionState == ActorAiMotionState::Standing);
+    REQUIRE(facing.movementIntent.updateYaw);
+    CHECK(facing.movementIntent.yawRadians == doctest::Approx(1.0f));
+    CHECK_FALSE(facing.movementIntent.applyMovement);
+
+    // At its post and facing the right way, every idle decision stands (the native AI would wander 75 % of them).
+    actor.runtime.motionState = ActorAiMotionState::Standing;
+    actor.runtime.yawRadians = 1.0f;
+    for (uint32_t decision = 0; decision < 16; ++decision)
+    {
+        actor.runtime.idleDecisionCount = decision;
+        const OpenYAMM::Game::ActorAiUpdate idle = updateOne(actor);
+        REQUIRE(idle.state.motionState.has_value());
+        CHECK(*idle.state.motionState == ActorAiMotionState::Standing);
+        CHECK_FALSE(idle.movementIntent.applyMovement);
+    }
+}
+
+TEST_CASE("actor tactics keep a distant post facing its placement instead of the party")
+{
+    ActorAiFacts actor = makeTacticRangedActor(0.0f, 0.0f, 0.0f);
+    actor.target = {};
+    actor.world.active = false;
+    actor.world.listenerPosition = {0.0f, 3000.0f, 0.0f};
+    actor.movement.hasHomeYaw = true;
+    actor.movement.homeYawRadians = -2.0f;
+    ActorAiFrameFacts frame = makeFrame();
+    frame.backgroundActors.push_back(actor);
+    const OpenYAMM::Game::ActorAiFrameResult native = GameplayActorAiSystem().updateActors(frame);
+    REQUIRE_EQ(native.actorUpdates.size(), 1u);
+    CHECK(native.actorUpdates[0].movementIntent.yawRadians == doctest::Approx(std::atan2(3000.0f, 0.0f)));
+
+    frame.backgroundActors[0].tactics.holdPost = true;
+    const OpenYAMM::Game::ActorAiFrameResult post = GameplayActorAiSystem().updateActors(frame);
+    REQUIRE_EQ(post.actorUpdates.size(), 1u);
+    CHECK(post.actorUpdates[0].movementIntent.yawRadians == doctest::Approx(-2.0f));
+}
+
+TEST_CASE("actor tactics ranged band always shoots a non-adjacent target instead of closing to melee")
+{
+    // 400 units: the native roll mostly walks in to melee here.
+    size_t nativeRanged = 0;
+    for (uint32_t decision = 0; decision < 32; ++decision)
+    {
+        ActorAiFacts actor = makeTacticRangedActor(460.0f, 0.0f, 400.0f);
+        actor.stats.attack2Chance = 25;
+        actor.runtime.attackDecisionCount = decision;
+        const OpenYAMM::Game::ActorAiUpdate native = updateOne(actor);
+        nativeRanged += native.animation.animationState == ActorAiAnimationState::AttackRanged ? 1 : 0;
+
+        actor.tactics.rangedMinDistance = 768.0f;
+        actor.tactics.rangedMaxDistance = 2304.0f;
+        const OpenYAMM::Game::ActorAiUpdate band = updateOne(actor);
+        REQUIRE(band.state.motionState.has_value());
+        CHECK(*band.state.motionState == ActorAiMotionState::Attacking);
+        REQUIRE(band.animation.animationState.has_value());
+        CHECK(*band.animation.animationState == ActorAiAnimationState::AttackRanged);
+    }
+    CHECK(nativeRanged < 32);
+}
+
+TEST_CASE("actor tactics ranged band uses melee only against an adjacent target on its melee roll")
+{
+    ActorAiFacts actor = makeTacticRangedActor(150.0f, 0.0f, 90.0f);
+    actor.tactics.rangedMinDistance = 768.0f;
+    actor.tactics.rangedMaxDistance = 2304.0f;
+    actor.stats.attack2Chance = 100;
+    const OpenYAMM::Game::ActorAiUpdate melee = updateOne(actor);
+    REQUIRE(melee.animation.animationState.has_value());
+    CHECK(*melee.animation.animationState == ActorAiAnimationState::AttackMelee);
+
+    actor.stats.attack2Chance = 0;
+    const OpenYAMM::Game::ActorAiUpdate shot = updateOne(actor);
+    REQUIRE(shot.animation.animationState.has_value());
+    CHECK(*shot.animation.animationState == ActorAiAnimationState::AttackRanged);
+}
+
+TEST_CASE("actor tactics ranged band backs off, closes in and circles between shots")
+{
+    ActorAiFacts actor = makeTacticRangedActor(500.0f, 0.0f, 440.0f);
+    actor.tactics.rangedMinDistance = 768.0f;
+    actor.tactics.rangedMaxDistance = 2304.0f;
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    const OpenYAMM::Game::ActorAiUpdate backOff = updateOne(actor);
+    REQUIRE(backOff.state.motionState.has_value());
+    CHECK(*backOff.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(backOff.movementIntent.moveSpeed == doctest::Approx(250.0f));
+    CHECK(backOff.movementIntent.applyMovement);
+    CHECK(backOff.movementIntent.desiredMoveX == doctest::Approx(-1.0f));
+    REQUIRE(backOff.movementIntent.updateYaw);
+    CHECK(backOff.movementIntent.yawRadians == doctest::Approx(0.0f));
+    CHECK(backOff.movementIntent.keepYawWhileMoving);
+
+    actor = makeTacticRangedActor(3000.0f, 0.0f, 2940.0f);
+    actor.tactics.rangedMinDistance = 768.0f;
+    actor.tactics.rangedMaxDistance = 2304.0f;
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    const OpenYAMM::Game::ActorAiUpdate closeIn = updateOne(actor);
+    REQUIRE(closeIn.state.motionState.has_value());
+    CHECK(*closeIn.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(closeIn.movementIntent.desiredMoveX == doctest::Approx(1.0f));
+
+    actor = makeTacticRangedActor(1500.0f, 0.0f, 1440.0f);
+    actor.tactics.rangedMinDistance = 768.0f;
+    actor.tactics.rangedMaxDistance = 2304.0f;
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    const OpenYAMM::Game::ActorAiUpdate circle = updateOne(actor);
+    REQUIRE(circle.state.motionState.has_value());
+    CHECK(*circle.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(std::abs(circle.movementIntent.desiredMoveY) > 0.9f);
+}
+
+TEST_CASE("actor tactics leash a post: it stops moving away from home but keeps facing the target")
+{
+    ActorAiFacts actor = makeTacticRangedActor(4000.0f, 0.0f, 3940.0f);
+    actor.tactics.rangedMinDistance = 768.0f;
+    actor.tactics.rangedMaxDistance = 2304.0f;
+    actor.tactics.holdPost = true;
+    actor.tactics.postLeashRadius = 500.0f;
+    actor.movement.homePosition = {-600.0f, 0.0f, 0.0f};
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    const OpenYAMM::Game::ActorAiUpdate held = updateOne(actor);
+
+    REQUIRE(held.state.motionState.has_value());
+    CHECK(*held.state.motionState == ActorAiMotionState::Standing);
+    CHECK_FALSE(held.movementIntent.applyMovement);
+    REQUIRE(held.movementIntent.updateYaw);
+    CHECK(held.movementIntent.yawRadians == doctest::Approx(0.0f));
+
+    // Within the leash it closes in as usual.
+    actor.movement.homePosition = {-100.0f, 0.0f, 0.0f};
+    const OpenYAMM::Game::ActorAiUpdate free = updateOne(actor);
+    REQUIRE(free.state.motionState.has_value());
+    CHECK(*free.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(free.movementIntent.applyMovement);
+}
+
+TEST_CASE("actor tactics ease a traverse onto its target instead of stopping dead")
+{
+    ActorAiFacts actor = makeTacticTurret(0.0f, 1500.0f);
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    actor.runtime.yawRadians = std::atan2(1500.0f, 0.0f) - 2.0f * TacticDegrees;
+    const OpenYAMM::Game::ActorAiUpdate settling = updateOne(actor);
+
+    REQUIRE(settling.movementIntent.updateYaw);
+    const float step = settling.movementIntent.yawRadians - actor.runtime.yawRadians;
+    CHECK(step > 0.0f);
+    CHECK(step < 0.5f * 90.0f * TacticDegrees / 128.0f);
+}
+
+TEST_CASE("actor tactics aim a turret ahead of its target by the lead, shot included")
+{
+    // Without the lead the turret is 5.7 degrees off its target and turns; with it, it is on the led point and fires.
+    ActorAiFacts actor = makeTacticTurret(0.0f, 1500.0f);
+    actor.runtime.yawRadians = std::atan2(1500.0f, 150.0f);
+    const OpenYAMM::Game::ActorAiUpdate unled = updateOne(actor);
+    REQUIRE(unled.state.motionState.has_value());
+    CHECK(*unled.state.motionState == ActorAiMotionState::Standing);
+
+    actor.tactics.aimLead = {150.0f, 0.0f, 10.0f};
+    const OpenYAMM::Game::ActorAiUpdate led = updateOne(actor);
+    REQUIRE(led.state.motionState.has_value());
+    CHECK(*led.state.motionState == ActorAiMotionState::Attacking);
+
+    // The release aims at the led point too.
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Attack1;
+    actor.runtime.actionSeconds = 0.001f;
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    const OpenYAMM::Game::ActorAiUpdate release = updateOne(actor);
+    REQUIRE(release.attackRequest.has_value());
+    CHECK(release.attackRequest->target.x == doctest::Approx(150.0f));
+    CHECK(release.attackRequest->target.y == doctest::Approx(1500.0f));
+    CHECK(release.attackRequest->target.z == doctest::Approx(74.0f));
+}
+
+TEST_CASE("actor tactics turn an idle post turret to its scan facing, standing without fidgets")
+{
+    ActorAiFacts actor = makeTacticTurret(0.0f, 0.0f);
+    actor.target = {};
+    actor.status.hostileToParty = false;
+    actor.status.hasDetectedParty = false;
+    actor.tactics.holdPost = true;
+    actor.movement.hasHomeYaw = true;
+    actor.movement.homeYawRadians = 1.0f;
+    actor.movement.distanceToParty = 5000.0f;
+    actor.runtime.yawRadians = 1.0f;
+    actor.tactics.idleAimActive = true;
+    actor.tactics.idleAimYawRadians = 1.3f;
+
+    for (uint32_t decision = 0; decision < 16; ++decision)
+    {
+        actor.runtime.idleDecisionCount = decision;
+        const OpenYAMM::Game::ActorAiUpdate idle = updateOne(actor);
+        REQUIRE(idle.state.motionState.has_value());
+        CHECK(*idle.state.motionState == ActorAiMotionState::Standing);
+        REQUIRE(idle.animation.animationState.has_value());
+        CHECK(*idle.animation.animationState == ActorAiAnimationState::Standing);
+        CHECK_FALSE(idle.movementIntent.applyMovement);
+        REQUIRE(idle.movementIntent.updateYaw);
+        CHECK(idle.movementIntent.yawRadians > 1.0f);
+        CHECK(idle.movementIntent.yawRadians <= 1.0f + 90.0f * TacticDegrees / 128.0f + 1.0e-5f);
+    }
+
+    // A background turret scans too, instead of facing its placement.
+    actor.world.active = false;
+    actor.world.listenerPosition = {0.0f, 3000.0f, 0.0f};
+    ActorAiFrameFacts frame = makeFrame();
+    frame.backgroundActors.push_back(actor);
+    const OpenYAMM::Game::ActorAiFrameResult background = GameplayActorAiSystem().updateActors(frame);
+    REQUIRE_EQ(background.actorUpdates.size(), 1u);
+    REQUIRE(background.actorUpdates[0].movementIntent.updateYaw);
+    CHECK(background.actorUpdates[0].movementIntent.yawRadians > 1.0f);
+
+    // Without the scan the post keeps its native stand at the placement facing.
+    actor.world.active = true;
+    actor.tactics.idleAimActive = false;
+    const OpenYAMM::Game::ActorAiUpdate native = updateOne(actor);
+    CHECK((!native.movementIntent.updateYaw || native.movementIntent.yawRadians == doctest::Approx(1.0f)));
+}
+
+TEST_CASE("actor tactics keep a friendly scanning turret tracking a target it senses but does not fight yet")
+{
+    // A friendly turret (hostility type 0) senses a hostile actor beyond its promotion range: no fight yet, but its
+    // facing follows the target at the traverse rate instead of its scan.
+    ActorAiFacts actor = makeTacticTurret(0.0f, 0.0f);
+    actor.status.hostileToParty = false;
+    actor.status.hasDetectedParty = false;
+    actor.identity.hostilityType = 0;
+    actor.tactics.holdPost = true;
+    actor.tactics.scan.radiansPerSecond = 0.2f;
+    actor.tactics.scan.halfWidthRadians = 0.8f;
+    actor.tactics.idleAimActive = false;
+    actor.movement.hasHomeYaw = true;
+    actor.movement.homeYawRadians = 0.0f;
+    actor.movement.distanceToParty = 5000.0f;
+    actor.runtime.yawRadians = 0.0f;
+    actor.target.currentKind = ActorAiTargetKind::Actor;
+    actor.target.currentActorIndex = 4;
+    actor.target.currentPosition = {0.0f, 2400.0f, 300.0f};
+    actor.target.currentDistance = 2400.0f;
+    actor.target.currentEdgeDistance = 2300.0f;
+    actor.target.currentRelationToTarget = 2;     // promoted only within the close range (1 024)
+    actor.target.partyCanSenseActor = false;
+    const OpenYAMM::Game::ActorAiUpdate update = updateOne(actor);
+
+    CHECK_FALSE(update.attackRequest.has_value());
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Standing);
+    REQUIRE(update.movementIntent.updateYaw);
+    CHECK(update.movementIntent.yawRadians == doctest::Approx(90.0f * TacticDegrees / 128.0f));
+
+    // Without the scan the same post does not engage and keeps its placement facing (the native result).
+    actor.tactics.scan = {};
+    const OpenYAMM::Game::ActorAiUpdate native = updateOne(actor);
+    CHECK((!native.movementIntent.updateYaw || native.movementIntent.yawRadians == doctest::Approx(0.0f)));
+}
+
+TEST_CASE("relation overrides replace the faction relation, and a turned actor fights its own faction")
+{
+    OpenYAMM::Game::GameplayActorService service;
+    OpenYAMM::Game::GameplayActorTargetPolicyState kreegan = {};
+    kreegan.monsterId = 10010;
+    kreegan.hostileToParty = true;
+    OpenYAMM::Game::GameplayActorTargetPolicyState turret = kreegan;
+    turret.monsterId = 10102;
+
+    CHECK_FALSE(service.resolveActorTargetPolicy(kreegan, turret).canTarget);
+
+    std::unordered_map<uint32_t, int32_t> overrides;
+    overrides[OpenYAMM::Game::GameplayActorService::relationOverrideKey(10010, 10102)] = 3;
+    const OpenYAMM::Game::GameplayActorTargetPolicyResult overridden =
+        service.resolveActorTargetPolicy(kreegan, turret, &overrides);
+    CHECK(overridden.canTarget);
+    CHECK_EQ(overridden.relationToTarget, 3);
+    CHECK(overridden.engagementRange > 0.0f);
+
+    // A turned turret (evt.TurnActor: enslaved for good) targets the Kreegan.
+    turret.controlMode = OpenYAMM::Game::GameplayActorControlMode::Enslaved;
+    turret.hostileToParty = false;
+    CHECK(service.resolveActorTargetPolicy(turret, kreegan).canTarget);
+}
+
+TEST_CASE("a relation row may name an actor group, which wins over its monsters' rows")
+{
+    using OpenYAMM::Game::GameplayActorService;
+    GameplayActorService service;
+    OpenYAMM::Game::GameplayActorTargetPolicyState barracksGuard = {};
+    barracksGuard.monsterId = 9111;
+    barracksGuard.group = 4;
+    OpenYAMM::Game::GameplayActorTargetPolicyState kitchenGuard = barracksGuard;
+    kitchenGuard.group = 3;
+    OpenYAMM::Game::GameplayActorTargetPolicyState nagate = {};
+    nagate.monsterId = 9081;
+    nagate.hostileToParty = true;
+
+    // Drangheim Prison: only group 4 (GuardToNegate.scr's AddEnemy Nagate) and the Nagate are enemies; the guards'
+    // own monster rows say peace.
+    std::unordered_map<uint32_t, int32_t> overrides;
+    overrides[GameplayActorService::relationOverrideKey(9111, 9081)] = 0;
+    overrides[GameplayActorService::relationOverrideKey(9081, 9111)] = 0;
+    overrides[GameplayActorService::relationOverrideKey(GameplayActorService::relationGroupSide(4), 9081)] = 2;
+    overrides[GameplayActorService::relationOverrideKey(9081, GameplayActorService::relationGroupSide(4))] = 2;
+
+    CHECK(service.resolveActorTargetPolicy(barracksGuard, nagate, &overrides).canTarget);
+    CHECK(service.resolveActorTargetPolicy(nagate, barracksGuard, &overrides).canTarget);
+    CHECK_FALSE(service.resolveActorTargetPolicy(kitchenGuard, nagate, &overrides).canTarget);
+    CHECK_FALSE(service.resolveActorTargetPolicy(nagate, kitchenGuard, &overrides).canTarget);
+}
+
+namespace
+{
+// A hostile melee skirmisher (ActorTacticsFacts::skirmish) fighting the party, which stands targetDistance away along
+// +x (edge distance targetDistance - 64).
+ActorAiFacts makeSkirmisher(float targetDistance)
+{
+    ActorAiFacts actor = makeActor(21, 131);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.runtime.recoverySeconds = 0.8f;
+    actor.runtime.meleeAttackAnimationSeconds = 1.0f;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Attack1;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.movement.distanceToParty = targetDistance;
+    actor.movement.edgeDistanceToParty = std::max(0.0f, targetDistance - 64.0f);
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {100.0f + targetDistance, 200.0f, 64.0f};
+    actor.target.currentDistance = targetDistance;
+    actor.target.currentEdgeDistance = std::max(0.0f, targetDistance - 64.0f);
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    actor.tactics.skirmish = true;
+    actor.tactics.strafeAttackChance = 0.0f;
+    actor.tactics.evadeChance = 0.0f;
+    return actor;
+}
+
+OpenYAMM::Game::ActorAiUpdate updateSkirmisher(const ActorAiFacts &actor, ActorAiFrameFacts frame = makeFrame())
+{
+    GameplayActorAiSystem system;
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    return result.actorUpdates.front();
+}
+}
+
+TEST_CASE("a skirmisher follows a target that steps away while it strikes; a native actor stands")
+{
+    ActorAiFacts actor = makeSkirmisher(344.0f);
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackMelee;
+    actor.runtime.actionSeconds = 0.5f;
+    actor.runtime.attackCooldownSeconds = 1.0f;
+
+    // Beyond 0.9 of its reach before the blow lands, it lunges 1.25x faster than it runs.
+    const OpenYAMM::Game::ActorAiUpdate chase = updateSkirmisher(actor);
+    REQUIRE(chase.state.motionState.has_value());
+    CHECK(*chase.state.motionState == ActorAiMotionState::Attacking);
+    CHECK(chase.movementIntent.applyMovement);
+    CHECK(chase.movementIntent.desiredMoveX == doctest::Approx(1.0f));
+    CHECK(chase.movementIntent.moveSpeed == doctest::Approx(500.0f));
+    CHECK(chase.movementIntent.keepYawWhileMoving);
+    CHECK_FALSE(chase.attackRequest.has_value());
+
+    // Within half its melee range it stands and swings at a standing target.
+    ActorAiFacts close = makeSkirmisher(96.0f);
+    close.runtime = actor.runtime;
+    close.movement.moveDirectionX = 1.0f;
+    CHECK_FALSE(updateSkirmisher(close).movementIntent.applyMovement);
+
+    // A moving target it runs after until within a quarter of its reach, keeping 0.95x the pace of one moving away.
+    ActorAiFacts following = makeSkirmisher(184.0f);
+    following.runtime = actor.runtime;
+    ActorAiFrameFacts fleeing = makeFrame();
+    fleeing.party.velocityX = 300.0f;
+    const OpenYAMM::Game::ActorAiUpdate pace = updateSkirmisher(following, fleeing);
+    CHECK(pace.movementIntent.applyMovement);
+    CHECK(pace.movementIntent.moveSpeed == doctest::Approx(285.0f));
+    CHECK_FALSE(updateSkirmisher(following).movementIntent.applyMovement);
+
+    ActorAiFacts native = actor;
+    native.tactics.skirmish = false;
+    CHECK_FALSE(updateSkirmisher(native).movementIntent.applyMovement);
+
+    // Turn-based combat keeps the native stance.
+    ActorAiFrameFacts turnBased = makeFrame();
+    turnBased.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::MoveOnly;
+    CHECK_FALSE(updateSkirmisher(actor, turnBased).movementIntent.applyMovement);
+}
+
+TEST_CASE("a skirmisher arriving at a still target may run a strafe attack past it")
+{
+    ActorAiFacts actor = makeSkirmisher(96.0f);
+    actor.runtime.motionState = ActorAiMotionState::Pursuing;
+    actor.runtime.animationState = ActorAiAnimationState::Walking;
+    actor.runtime.actionSeconds = 0.2f;
+    actor.movement.moveDirectionX = 1.0f;
+    actor.tactics.strafeAttackChance = 1.0f;
+
+    const OpenYAMM::Game::ActorAiUpdate start = updateSkirmisher(actor);
+    REQUIRE(start.state.motionState.has_value());
+    CHECK(*start.state.motionState == ActorAiMotionState::Attacking);
+    REQUIRE(start.state.skirmishPhase.has_value());
+    CHECK(*start.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::StrafeAttack);
+    CHECK(start.movementIntent.applyMovement);
+    // 45 degrees off the line to the target, at half its running speed until the blow lands.
+    CHECK(start.movementIntent.desiredMoveX == doctest::Approx(std::sqrt(0.5f)));
+    CHECK(std::abs(start.movementIntent.desiredMoveY) == doctest::Approx(std::sqrt(0.5f)));
+    CHECK(start.movementIntent.moveSpeed == doctest::Approx(200.0f));
+    CHECK(start.movementIntent.yawRadians == doctest::Approx(0.0f));
+
+    // A moving target gets a plain strike.
+    ActorAiFrameFacts moving = makeFrame();
+    moving.party.velocityY = 200.0f;
+    const OpenYAMM::Game::ActorAiUpdate plain = updateSkirmisher(actor, moving);
+    CHECK(*plain.state.motionState == ActorAiMotionState::Attacking);
+    CHECK(plain.state.skirmishPhase.value_or(OpenYAMM::Game::ActorSkirmishPhase::None)
+        == OpenYAMM::Game::ActorSkirmishPhase::None);
+
+    // Standing when the attack began, it strikes from where it stands.
+    ActorAiFacts standing = actor;
+    standing.runtime.motionState = ActorAiMotionState::Standing;
+    standing.movement.moveDirectionX = 0.0f;
+    const OpenYAMM::Game::ActorAiUpdate still = updateSkirmisher(standing);
+    CHECK(*still.state.motionState == ActorAiMotionState::Attacking);
+    CHECK_FALSE(still.movementIntent.applyMovement);
+}
+
+TEST_CASE("a skirmisher evades after a strike and does not strike again while evading")
+{
+    ActorAiFacts actor = makeSkirmisher(96.0f);
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackMelee;
+    actor.runtime.actionSeconds = 1.0f / 256.0f;
+    actor.runtime.attackCooldownSeconds = 0.5f;
+    actor.runtime.attackImpactTriggered = true;
+    actor.tactics.evadeChance = 1.0f;
+
+    const OpenYAMM::Game::ActorAiUpdate done = updateSkirmisher(actor);
+    REQUIRE(done.state.motionState.has_value());
+    CHECK(*done.state.motionState == ActorAiMotionState::Pursuing);
+    REQUIRE(done.state.skirmishPhase.has_value());
+    CHECK(*done.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Evade);
+    CHECK(done.state.skirmishSeconds.value_or(0.0f) == doctest::Approx(2.0f));
+    // It backpedals away from the target (5-35 degrees off straight back) while facing it.
+    CHECK(done.movementIntent.applyMovement);
+    CHECK(done.movementIntent.desiredMoveX < -0.8f);
+    CHECK(done.movementIntent.yawRadians == doctest::Approx(0.0f));
+    CHECK(done.movementIntent.keepYawWhileMoving);
+    CHECK(done.movementIntent.moveSpeed == doctest::Approx(200.0f));
+
+    // In melee range with its attack ready it keeps evading instead of striking.
+    ActorAiFacts evading = actor;
+    evading.runtime.motionState = ActorAiMotionState::Pursuing;
+    evading.runtime.animationState = ActorAiAnimationState::Walking;
+    evading.runtime.attackCooldownSeconds = 0.0f;
+    evading.runtime.attackImpactTriggered = false;
+    evading.runtime.actionSeconds = 0.5f;
+    evading.runtime.skirmishPhase = OpenYAMM::Game::ActorSkirmishPhase::Evade;
+    evading.runtime.skirmishSeconds = 1.5f;
+    evading.movement.moveDirectionX = done.movementIntent.desiredMoveX;
+    evading.movement.moveDirectionY = done.movementIntent.desiredMoveY;
+    const OpenYAMM::Game::ActorAiUpdate step = updateSkirmisher(evading);
+    CHECK(*step.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(step.movementIntent.applyMovement);
+    CHECK(step.movementIntent.desiredMoveX == doctest::Approx(evading.movement.moveDirectionX));
+
+    // The step past the backpedal half turns it to circle the target, 65 degrees off the line to it.
+    evading.runtime.skirmishSeconds = 1.0f + 1.0f / 256.0f;
+    const OpenYAMM::Game::ActorAiUpdate circle = updateSkirmisher(evading);
+    CHECK(circle.movementIntent.desiredMoveX == doctest::Approx(std::cos(65.0f * 3.14159265f / 180.0f)).epsilon(0.01));
+
+    // Once over, it fights as usual: in range with the attack ready, it strikes.
+    evading.runtime.skirmishSeconds = 0.0f;
+    const OpenYAMM::Game::ActorAiUpdate over = updateSkirmisher(evading);
+    CHECK(*over.state.motionState == ActorAiMotionState::Attacking);
+
+    // Without the evade roll a plain strike ends standing.
+    ActorAiFacts plain = actor;
+    plain.tactics.evadeChance = 0.0f;
+    CHECK(*updateSkirmisher(plain).state.motionState == ActorAiMotionState::Standing);
+
+    // From a target moving away it only circles, 65 degrees off the line to it.
+    ActorAiFrameFacts away = makeFrame();
+    away.party.velocityX = 300.0f;
+    const OpenYAMM::Game::ActorAiUpdate circling = updateSkirmisher(actor, away);
+    CHECK(*circling.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Circle);
+    CHECK(circling.movementIntent.desiredMoveX
+        == doctest::Approx(std::cos(65.0f * 3.14159265f / 180.0f)).epsilon(0.01));
+}
+
+TEST_CASE("a skirmisher holds off its chase until its attack will be ready as it arrives")
+{
+    ActorAiFacts actor = makeSkirmisher(864.0f);
+
+    // It arrives within its 307 reach: the 493 units beyond it take 1.2 s at 400 a second. With 1.5 s of recovery
+    // left it waits; with 1 s it runs.
+    actor.runtime.attackCooldownSeconds = 1.5f;
+    const OpenYAMM::Game::ActorAiUpdate hold = updateSkirmisher(actor);
+    CHECK(*hold.state.motionState == ActorAiMotionState::Standing);
+    CHECK_FALSE(hold.movementIntent.applyMovement);
+
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    const OpenYAMM::Game::ActorAiUpdate go = updateSkirmisher(actor);
+    CHECK(*go.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(go.movementIntent.applyMovement);
+}
+
+TEST_CASE("a skirmisher taunts when it first notices the party and after a back-off, holding still meanwhile")
+{
+    ActorAiFacts actor = makeSkirmisher(96.0f);
+    actor.status.hasDetectedParty = false;
+    actor.tactics.tauntChance = 1.0f;
+    actor.tactics.tauntSeconds = 1.4f;
+
+    const OpenYAMM::Game::ActorAiUpdate aware = updateSkirmisher(actor);
+    REQUIRE(aware.state.skirmishPhase.has_value());
+    CHECK(*aware.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Taunt);
+    CHECK(aware.state.skirmishSeconds.value_or(0.0f) == doctest::Approx(1.4f));
+    CHECK(*aware.state.motionState == ActorAiMotionState::Standing);
+
+    // A taunt under way holds even with the target in reach and the attack ready.
+    actor.status.hasDetectedParty = true;
+    actor.runtime.skirmishPhase = OpenYAMM::Game::ActorSkirmishPhase::Taunt;
+    actor.runtime.skirmishSeconds = 0.7f;
+    const OpenYAMM::Game::ActorAiUpdate holding = updateSkirmisher(actor);
+    CHECK(*holding.state.motionState == ActorAiMotionState::Standing);
+    CHECK_FALSE(holding.movementIntent.applyMovement);
+
+    // Over, it strikes.
+    actor.runtime.skirmishSeconds = 0.0f;
+    CHECK(*updateSkirmisher(actor).state.motionState == ActorAiMotionState::Attacking);
+
+    // A back-off that runs out ends in a taunt.
+    actor.runtime.motionState = ActorAiMotionState::Pursuing;
+    actor.runtime.skirmishPhase = OpenYAMM::Game::ActorSkirmishPhase::BackOff;
+    actor.runtime.skirmishSeconds = 1.0f / 256.0f;
+    actor.movement.moveDirectionX = -1.0f;
+    const OpenYAMM::Game::ActorAiUpdate afterBackOff = updateSkirmisher(actor);
+    CHECK(*afterBackOff.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Taunt);
+    CHECK(*afterBackOff.state.motionState == ActorAiMotionState::Standing);
+
+    // A model without a taunt never taunts.
+    actor.tactics.tauntSeconds = 0.0f;
+    actor.status.hasDetectedParty = false;
+    actor.runtime = makeSkirmisher(96.0f).runtime;
+    CHECK(*updateSkirmisher(actor).state.motionState == ActorAiMotionState::Attacking);
+}
+
+TEST_CASE("an evt.MoveActorTo walk takes an actor to its point instead of its own fight, also from a post")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    // Adjacent to the party, hostile: by itself it attacks.
+    ActorAiFacts actor = makeEngagedMeleeActor(0.0f);
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiFrameResult fighting = system.updateActors(frame);
+    REQUIRE_EQ(fighting.actorUpdates.size(), 1u);
+    CHECK(fighting.actorUpdates.front().state.motionState.value_or(ActorAiMotionState::Standing)
+        == ActorAiMotionState::Attacking);
+
+    // The walk: no attack, the path planner's pursuit of the point at its walking speed, even placed immobile.
+    actor.movement.movementAllowed = false;
+    actor.movement.scriptedMoveTarget = OpenYAMM::Game::GameplayWorldPoint{900.0f, 200.0f, 0.0f};
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiFrameResult walking = system.updateActors(frame);
+    REQUIRE_EQ(walking.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &walk = walking.actorUpdates.front();
+    CHECK_FALSE(walk.attackRequest.has_value());
+    CHECK(walk.state.motionState == ActorAiMotionState::Wandering);
+    CHECK(walk.movementIntent.action == ActorAiMovementAction::Pursue);
+    CHECK(walk.movementIntent.applyMovement);
+    CHECK(walk.movementIntent.meleePursuitActive);
+    CHECK_EQ(walk.movementIntent.targetPosition.x, doctest::Approx(900.0f));
+    CHECK_EQ(walk.movementIntent.moveSpeed, doctest::Approx(200.0f));
+    CHECK_EQ(walk.movementIntent.moveDirectionX, doctest::Approx(1.0f));
+    REQUIRE(walk.state.decision.has_value());
+    CHECK(walk.state.decision->kind == OpenYAMM::Game::ActorAiDecisionKind::Patrol);
+
+    // A run goes at its pursuit speed.
+    actor.movement.scriptedMoveRun = true;
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiUpdate run = system.updateActors(frame).actorUpdates.front();
+    CHECK(run.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(run.movementIntent.moveSpeed > walk.movementIntent.moveSpeed);
+
+    // Turn-based play holding every actor holds the walker too.
+    frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::Hold;
+    frame.activeActors = {actor};
+    CHECK_FALSE(system.updateActors(frame).actorUpdates.front().movementIntent.applyMovement);
 }

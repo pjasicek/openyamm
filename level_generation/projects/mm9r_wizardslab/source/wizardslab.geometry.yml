@@ -1,0 +1,8588 @@
+{
+ "format_version": 2,
+ "kind": "indoor_geometry",
+ "map_file": "wizardslab.blv",
+ "source": {
+  "authoring_file": "convert.py",
+  "asset_path": "wizardslab.glb",
+  "coordinate_system": "blender_z_up",
+  "unit_scale": 1.0,
+  "import": {
+   "source_format": "glb",
+   "reserve_sector_zero": true,
+   "merge_coplanar_faces": false,
+   "triangulate_ngons": false,
+   "generate_bsp": true,
+   "generate_outlines": true
+  }
+ },
+ "materials": [
+  {
+   "id": "STONSBZSFB",
+   "source_material": "STONSBZSFB",
+   "texture": "STONSBZSFB",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "MARB9XF18F",
+   "source_material": "MARB9XF18F",
+   "texture": "MARB9XF18F",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "EVILKUEGXB",
+   "source_material": "EVILKUEGXB",
+   "texture": "EVILKUEGXB",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BROW24RWRO",
+   "source_material": "BROW24RWRO",
+   "texture": "BROW24RWRO",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "MARBGA5JQP",
+   "source_material": "MARBGA5JQP",
+   "texture": "MARBGA5JQP",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "DUNG5THZ8A",
+   "source_material": "DUNG5THZ8A",
+   "texture": "DUNG5THZ8A",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "SHINMEA4A3",
+   "source_material": "SHINMEA4A3",
+   "texture": "SHINMEA4A3",
+   "texture_width": 32,
+   "texture_height": 32
+  },
+  {
+   "id": "RUSTE87TZK",
+   "source_material": "RUSTE87TZK",
+   "texture": "RUSTE87TZK",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "COLUDIRM07",
+   "source_material": "COLUDIRM07",
+   "texture": "COLUDIRM07",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "INNES5N80O",
+   "source_material": "INNES5N80O",
+   "texture": "INNES5N80O",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BOOKHVCGQB",
+   "source_material": "BOOKHVCGQB",
+   "texture": "BOOKHVCGQB",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BOOK6UR60O",
+   "source_material": "BOOK6UR60O",
+   "texture": "BOOK6UR60O",
+   "texture_width": 64,
+   "texture_height": 128
+  },
+  {
+   "id": "REDM57VD4X",
+   "source_material": "REDM57VD4X",
+   "texture": "REDM57VD4X",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STRAH3BOIS",
+   "source_material": "STRAH3BOIS",
+   "texture": "STRAH3BOIS",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CFAWDNXYNT",
+   "source_material": "CFAWDNXYNT",
+   "texture": "CFAWDNXYNT",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FROSPPGKGO",
+   "source_material": "FROSPPGKGO",
+   "texture": "FROSPPGKGO",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "CGRAJNKROW",
+   "source_material": "CGRAJNKROW",
+   "texture": "CGRAJNKROW",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "SNOWD7SD4X",
+   "source_material": "SNOWD7SD4X",
+   "texture": "SNOWD7SD4X",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WATEPOAUQK",
+   "source_material": "WATEPOAUQK",
+   "texture": "WATEPOAUQK",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FIRE6YTKLQ",
+   "source_material": "FIRE6YTKLQ",
+   "texture": "FIRE6YTKLQ",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "WATEZWECUN",
+   "source_material": "WATEZWECUN",
+   "texture": "WATEZWECUN",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BLAC2DKL75",
+   "source_material": "BLAC2DKL75",
+   "texture": "BLAC2DKL75",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "OCEAWBKXOO",
+   "source_material": "OCEAWBKXOO",
+   "texture": "OCEAWBKXOO",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "MARB94ORUI",
+   "source_material": "MARB94ORUI",
+   "texture": "MARB94ORUI",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CLOUVKSJD0",
+   "source_material": "CLOUVKSJD0",
+   "texture": "CLOUVKSJD0",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "OCEABQH2GY",
+   "source_material": "OCEABQH2GY",
+   "texture": "OCEABQH2GY",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WATE31AMUQ",
+   "source_material": "WATE31AMUQ",
+   "texture": "WATE31AMUQ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "SLIM91P4YN",
+   "source_material": "SLIM91P4YN",
+   "texture": "SLIM91P4YN",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "ABND5UR5FJ",
+   "source_material": "ABND5UR5FJ",
+   "texture": "ABND5UR5FJ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "OCEA8LH6KA",
+   "source_material": "OCEA8LH6KA",
+   "texture": "OCEA8LH6KA",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CLAN4M4WU2",
+   "source_material": "CLAN4M4WU2",
+   "texture": "CLAN4M4WU2",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAVD5SOFY",
+   "source_material": "TRAVD5SOFY",
+   "texture": "TRAVD5SOFY",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "SPID6CSTDH",
+   "source_material": "SPID6CSTDH",
+   "texture": "SPID6CSTDH",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TAPEIDZRKA",
+   "source_material": "TAPEIDZRKA",
+   "texture": "TAPEIDZRKA",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WOODJ4B5CR",
+   "source_material": "WOODJ4B5CR",
+   "texture": "WOODJ4B5CR",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "INVIZVJN7N",
+   "source_material": "INVIZVJN7N",
+   "texture": "INVIZVJN7N",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "WOODV944P9",
+   "source_material": "WOODV944P9",
+   "texture": "WOODV944P9",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CLANGRMJHG",
+   "source_material": "CLANGRMJHG",
+   "texture": "CLANGRMJHG",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CLANWE4UMI",
+   "source_material": "CLANWE4UMI",
+   "texture": "CLANWE4UMI",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRIMC9E3TC",
+   "source_material": "TRIMC9E3TC",
+   "texture": "TRIMC9E3TC",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WOODH8W4VV",
+   "source_material": "WOODH8W4VV",
+   "texture": "WOODH8W4VV",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WOODUUCMPQ",
+   "source_material": "WOODUUCMPQ",
+   "texture": "WOODUUCMPQ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WOODXPYWKR",
+   "source_material": "WOODXPYWKR",
+   "texture": "WOODXPYWKR",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WATE27JPCX",
+   "source_material": "WATE27JPCX",
+   "texture": "WATE27JPCX",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "OUTES7QX3L",
+   "source_material": "OUTES7QX3L",
+   "texture": "OUTES7QX3L",
+   "texture_width": 128,
+   "texture_height": 64
+  },
+  {
+   "id": "BROWP291IS",
+   "source_material": "BROWP291IS",
+   "texture": "BROWP291IS",
+   "texture_width": 128,
+   "texture_height": 64
+  },
+  {
+   "id": "OUTE4TBWZN",
+   "source_material": "OUTE4TBWZN",
+   "texture": "OUTE4TBWZN",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CEILDG7B2T",
+   "source_material": "CEILDG7B2T",
+   "texture": "CEILDG7B2T",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FLOOA5B8NB",
+   "source_material": "FLOOA5B8NB",
+   "texture": "FLOOA5B8NB",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BEAMS1V9U9",
+   "source_material": "BEAMS1V9U9",
+   "texture": "BEAMS1V9U9",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "REFIXBTK8R",
+   "source_material": "REFIXBTK8R",
+   "texture": "REFIXBTK8R",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STONPYYY7Z",
+   "source_material": "STONPYYY7Z",
+   "texture": "STONPYYY7Z",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CAVESMM1LP",
+   "source_material": "CAVESMM1LP",
+   "texture": "CAVESMM1LP",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "DEFAR33VFJ",
+   "source_material": "DEFAR33VFJ",
+   "texture": "DEFAR33VFJ",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "TILENSVQNG",
+   "source_material": "TILENSVQNG",
+   "texture": "TILENSVQNG",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "GUAR7VBBTD",
+   "source_material": "GUAR7VBBTD",
+   "texture": "GUAR7VBBTD",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "sky04",
+   "source_material": "sky04",
+   "texture": "sky04",
+   "texture_width": 512,
+   "texture_height": 512
+  },
+  {
+   "id": "CLANNN4EV8",
+   "source_material": "CLANNN4EV8",
+   "texture": "CLANNN4EV8",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "SPIDV2KU2J",
+   "source_material": "SPIDV2KU2J",
+   "texture": "SPIDV2KU2J",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "METACPPDGA",
+   "source_material": "METACPPDGA",
+   "texture": "METACPPDGA",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WATE1XKSQP",
+   "source_material": "WATE1XKSQP",
+   "texture": "WATE1XKSQP",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "PERCP5YUWN",
+   "source_material": "PERCP5YUWN",
+   "texture": "PERCP5YUWN",
+   "texture_width": 128,
+   "texture_height": 128
+  }
+ ],
+ "rooms": [
+  {
+   "id": "room_r01",
+   "source_nodes": [
+    "ROOM_r01",
+    "TRIGGER_shared_r04_r01",
+    "TRIGGER_shared_r02_r01",
+    "MECH_super eye door_INV",
+    "MECH_super eye door_GLASS0",
+    "LIGHT_Light163",
+    "LIGHT_Light164",
+    "LIGHT_Light165",
+    "LIGHT_Light166",
+    "LIGHT_Light167",
+    "LIGHT_Light168",
+    "LIGHT_Light169",
+    "LIGHT_Light170",
+    "LIGHT_Light171",
+    "LIGHT_Light172",
+    "LIGHT_Light173",
+    "LIGHT_Light174",
+    "LIGHT_Light175",
+    "LIGHT_Light176",
+    "LIGHT_Light177",
+    "LIGHT_Light178",
+    "LIGHT_Light179",
+    "LIGHT_Light180",
+    "LIGHT_Light181",
+    "LIGHT_Light182",
+    "LIGHT_Light183",
+    "LIGHT_Light184",
+    "LIGHT_Light2",
+    "LIGHT_Light20",
+    "LIGHT_Light21",
+    "LIGHT_Light22",
+    "LIGHT_Light23",
+    "LIGHT_Light3",
+    "LIGHT_Light4",
+    "LIGHT_Light44",
+    "LIGHT_Light46",
+    "LIGHT_Light5",
+    "LIGHT_Light41",
+    "LIGHT_Light42",
+    "LIGHT_Light43",
+    "LIGHT_Light53",
+    "LIGHT_Light55",
+    "LIGHT_Light57",
+    "LIGHT_Light59",
+    "LIGHT_Light61",
+    "LIGHT_Light185",
+    "LIGHT_Light186",
+    "LIGHT_Light187",
+    "LIGHT_Light188",
+    "LIGHT_Light189",
+    "LIGHT_Light190",
+    "LIGHT_Light52",
+    "LIGHT_Light54",
+    "LIGHT_Light56",
+    "LIGHT_Light58",
+    "LIGHT_Light60",
+    "LIGHT_Light39",
+    "LIGHT_Light40",
+    "DECOR_CandleProp27",
+    "DECOR_CandleProp28",
+    "DECOR_CandleProp29",
+    "DECOR_CandleProp34",
+    "DECOR_CandleProp35",
+    "DECOR_CandleProp36",
+    "DECOR_CandleProp37",
+    "DECOR_CandleProp38"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r02",
+   "source_nodes": [
+    "ROOM_r02",
+    "TRIGGER_shared_r01_r02",
+    "TRIGGER_shared_r03_r02",
+    "MECH_DoubleDoorL25",
+    "MECH_DoubleDoorR25",
+    "LIGHT_Light131",
+    "LIGHT_Light132",
+    "LIGHT_Light134",
+    "LIGHT_Light153",
+    "LIGHT_Light154",
+    "LIGHT_Light156",
+    "LIGHT_Light158",
+    "LIGHT_Light160",
+    "LIGHT_Light34",
+    "LIGHT_Light35",
+    "LIGHT_Light37",
+    "LIGHT_Light129",
+    "LIGHT_Light130",
+    "LIGHT_Light133",
+    "LIGHT_Light159",
+    "DECOR_CandleProp24",
+    "DECOR_CandleProp25",
+    "DECOR_CandleProp26",
+    "DECOR_CandleProp79",
+    "DECOR_CandleProp80",
+    "DECOR_CandleProp81",
+    "DECOR_CandleProp82",
+    "DECOR_CandleProp83",
+    "DECOR_CandleProp84",
+    "DECOR_CandleProp85",
+    "DECOR_CandleProp86"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r03",
+   "source_nodes": [
+    "ROOM_r03",
+    "TRIGGER_shared_r04_r03",
+    "TRIGGER_shared_r02_r03",
+    "TRIGGER_nonsolid_r03",
+    "TRIGGER_invisible_r03",
+    "MECH_DoubleDoorL21",
+    "MECH_DoubleDoorR21",
+    "MECH_DoubleDoorL27",
+    "MECH_DoubleDoorR27",
+    "MECH_blue3",
+    "MECH_green3",
+    "MECH_purple3",
+    "MECH_white3",
+    "MECH_yellow3",
+    "LIGHT_button blue_721",
+    "LIGHT_button green_718",
+    "LIGHT_button purple_719",
+    "LIGHT_button white_722",
+    "LIGHT_button yellow_720",
+    "LIGHT_Light25",
+    "LIGHT_Light27",
+    "LIGHT_Light29",
+    "LIGHT_Light31",
+    "LIGHT_Light24",
+    "DECOR_CandleProp20",
+    "DECOR_CandleProp21",
+    "DECOR_CandleProp22",
+    "DECOR_CandleProp23"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r04",
+   "source_nodes": [
+    "ROOM_r04",
+    "TRIGGER_shared_r03_r04",
+    "TRIGGER_shared_r01_r04",
+    "TRIGGER_shared_r06_r04",
+    "MECH_DoubleDoorL18",
+    "MECH_DoubleDoorR18",
+    "LIGHT_Light63",
+    "LIGHT_Light65",
+    "LIGHT_Light67",
+    "LIGHT_Light62",
+    "DECOR_CandleProp39",
+    "DECOR_CandleProp40",
+    "DECOR_CandleProp41"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r05",
+   "source_nodes": [
+    "ROOM_r05",
+    "TRIGGER_nonsolid_r05",
+    "TRIGGER_opaque_r05",
+    "TRIGGER_invisible_r05",
+    "MECH_green0",
+    "MECH_purple0",
+    "MECH_red0",
+    "MECH_white0",
+    "MECH_yellow0",
+    "LIGHT_Light200",
+    "LIGHT_Light201",
+    "LIGHT_Light202",
+    "LIGHT_Light203",
+    "LIGHT_Light204",
+    "LIGHT_Light205",
+    "LIGHT_Light206",
+    "LIGHT_Light207",
+    "LIGHT_Light208",
+    "LIGHT_Light209",
+    "LIGHT_Light210",
+    "LIGHT_Light211",
+    "LIGHT_Light212",
+    "LIGHT_Light213",
+    "LIGHT_button green_690",
+    "LIGHT_button purple_688",
+    "LIGHT_button red_689",
+    "LIGHT_button white_692",
+    "LIGHT_button yellow_691",
+    "LIGHT_Light88",
+    "LIGHT_Light89",
+    "LIGHT_Light199",
+    "LIGHT_Light80",
+    "LIGHT_Light81",
+    "LIGHT_Light82",
+    "LIGHT_Light83",
+    "LIGHT_Light84",
+    "LIGHT_Light85",
+    "LIGHT_Light86",
+    "LIGHT_Light90",
+    "LIGHT_Light87"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r06",
+   "source_nodes": [
+    "ROOM_r06",
+    "TRIGGER_shared_r04_r06",
+    "TRIGGER_shared_r07_r06",
+    "MECH_DoubleDoorL17",
+    "MECH_DoubleDoorR17",
+    "LIGHT_Light162",
+    "LIGHT_Light47",
+    "LIGHT_Light161",
+    "LIGHT_Light45",
+    "DECOR_CandleProp31",
+    "DECOR_CandleProp87",
+    "DECOR_Prop37",
+    "DECOR_Prop38",
+    "DECOR_Prop39",
+    "DECOR_Prop40",
+    "DECOR_Prop41",
+    "DECOR_Prop42",
+    "DECOR_Prop43",
+    "DECOR_Prop44",
+    "DECOR_Prop45",
+    "DECOR_Prop46",
+    "DECOR_Prop47",
+    "DECOR_Prop48",
+    "DECOR_Prop49",
+    "DECOR_Prop50",
+    "DECOR_Prop51",
+    "DECOR_Prop52",
+    "DECOR_Prop53",
+    "DECOR_Prop54"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r07",
+   "source_nodes": [
+    "ROOM_r07",
+    "TRIGGER_shared_r06_r07",
+    "MECH_DoubleDoorL12",
+    "MECH_DoubleDoorR12",
+    "LIGHT_Light49",
+    "LIGHT_Light51",
+    "LIGHT_Light70",
+    "LIGHT_Light71",
+    "LIGHT_Light48",
+    "LIGHT_Light50",
+    "DECOR_CandleProp32",
+    "DECOR_CandleProp33",
+    "DECOR_CandleProp42",
+    "DECOR_CandleProp43",
+    "DECOR_Prop1",
+    "DECOR_Prop2",
+    "DECOR_Prop3",
+    "DECOR_Prop4",
+    "DECOR_Prop5",
+    "DECOR_Prop6",
+    "DECOR_Prop9",
+    "DECOR_Prop10",
+    "DECOR_Prop11",
+    "DECOR_Prop55",
+    "DECOR_Prop56",
+    "DECOR_Prop57",
+    "DECOR_Prop58",
+    "DECOR_Prop59",
+    "DECOR_Prop60",
+    "DECOR_Prop61",
+    "DECOR_Prop62",
+    "DECOR_Prop63",
+    "DECOR_Prop64",
+    "DECOR_Prop65",
+    "DECOR_Prop66",
+    "DECOR_Prop67",
+    "DECOR_Prop68",
+    "DECOR_Prop69",
+    "DECOR_Prop70",
+    "DECOR_Prop71",
+    "DECOR_Prop72",
+    "DECOR_Prop75",
+    "DECOR_Prop76",
+    "DECOR_Prop77",
+    "DECOR_Prop79",
+    "DECOR_Prop81",
+    "DECOR_Prop82",
+    "DECOR_Prop83",
+    "DECOR_Prop85",
+    "DECOR_Prop86",
+    "DECOR_Prop87",
+    "DECOR_Prop88",
+    "DECOR_Prop89",
+    "DECOR_Prop92",
+    "DECOR_Prop94",
+    "DECOR_Prop95",
+    "DECOR_Prop74",
+    "DECOR_Prop90",
+    "DECOR_Prop96",
+    "DECOR_Prop97",
+    "DECOR_Prop99",
+    "DECOR_Prop100",
+    "DECOR_Prop101",
+    "DECOR_Prop102",
+    "DECOR_Prop104",
+    "DECOR_Prop105",
+    "DECOR_Prop107",
+    "DECOR_Prop109",
+    "DECOR_Prop111",
+    "DECOR_Prop112",
+    "DECOR_Prop113",
+    "DECOR_Prop84",
+    "DECOR_Prop73",
+    "DECOR_Prop103",
+    "DECOR_Prop106",
+    "DECOR_Prop108",
+    "DECOR_Prop114",
+    "DECOR_Prop80",
+    "DECOR_Prop115",
+    "DECOR_Prop116",
+    "DECOR_Prop117",
+    "DECOR_Prop119",
+    "DECOR_Prop120",
+    "DECOR_Prop121",
+    "DECOR_Prop123",
+    "DECOR_Prop127",
+    "DECOR_Prop130",
+    "DECOR_Prop131",
+    "DECOR_Prop132",
+    "DECOR_Prop133",
+    "DECOR_Prop134",
+    "DECOR_Prop136",
+    "DECOR_Prop137",
+    "DECOR_Prop138",
+    "DECOR_Prop141",
+    "DECOR_Prop142",
+    "DECOR_Prop143",
+    "DECOR_Prop144",
+    "DECOR_Prop145",
+    "DECOR_Barrel0",
+    "DECOR_Barrel1",
+    "DECOR_Prop8"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r08",
+   "source_nodes": [
+    "ROOM_r08",
+    "TRIGGER_nonsolid_r08",
+    "TRIGGER_invisible_r08",
+    "MECH_blue4",
+    "MECH_green4",
+    "MECH_purple4",
+    "MECH_red4",
+    "MECH_yellow4",
+    "LIGHT_button blue_729",
+    "LIGHT_button green_731",
+    "LIGHT_button purple_730",
+    "LIGHT_button red_728",
+    "LIGHT_button yellow_732",
+    "LIGHT_Light12",
+    "LIGHT_Light13",
+    "LIGHT_Light14",
+    "LIGHT_Light15",
+    "LIGHT_Light16",
+    "LIGHT_Light17",
+    "LIGHT_Light18",
+    "LIGHT_Light19",
+    "LIGHT_Light193",
+    "LIGHT_Light195",
+    "LIGHT_Light0",
+    "LIGHT_Light1",
+    "LIGHT_Light10",
+    "LIGHT_Light11",
+    "LIGHT_Light192",
+    "LIGHT_Light7",
+    "DECOR_CandleProp9",
+    "DECOR_CandleProp8",
+    "DECOR_CandleProp14",
+    "DECOR_CandleProp15",
+    "DECOR_CandleProp16",
+    "DECOR_CandleProp17",
+    "DECOR_CandleProp18",
+    "DECOR_CandleProp19",
+    "DECOR_CandleProp10",
+    "DECOR_CandleProp11",
+    "DECOR_Prop7",
+    "DECOR_Cauldron0",
+    "DECOR_Cauldron1",
+    "DECOR_Cauldron2"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r09",
+   "source_nodes": [
+    "ROOM_r09",
+    "TRIGGER_shared_r10_r09",
+    "TRIGGER_shared_r13_r09",
+    "TRIGGER_shared_r12_r09",
+    "TRIGGER_shared_r11_r09",
+    "TRIGGER_nonsolid_r09",
+    "TRIGGER_invisible_r09",
+    "MECH_blue5",
+    "MECH_green5",
+    "MECH_purple5",
+    "MECH_red5",
+    "MECH_white5",
+    "LIGHT_button blue_742",
+    "LIGHT_button green_739",
+    "LIGHT_button purple_740",
+    "LIGHT_button red_741",
+    "LIGHT_button white_738",
+    "LIGHT_Light108",
+    "LIGHT_Light110",
+    "LIGHT_Light112",
+    "LIGHT_Light114",
+    "LIGHT_Light116",
+    "LIGHT_Light118",
+    "LIGHT_Light120",
+    "LIGHT_Light107",
+    "LIGHT_Light109",
+    "LIGHT_Light111",
+    "LIGHT_Light113",
+    "LIGHT_Light117",
+    "LIGHT_Light119",
+    "DECOR_CandleProp56",
+    "DECOR_CandleProp57",
+    "DECOR_CandleProp58",
+    "DECOR_CandleProp59",
+    "DECOR_CandleProp60",
+    "DECOR_CandleProp61",
+    "DECOR_CandleProp62"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r10",
+   "source_nodes": [
+    "ROOM_r10",
+    "TRIGGER_shared_r09_r10",
+    "TRIGGER_nonsolid_r10",
+    "MECH_DoubleDoorL11",
+    "MECH_DoubleDoorR11",
+    "LIGHT_Light122",
+    "LIGHT_Light124",
+    "LIGHT_Light126",
+    "LIGHT_Light128",
+    "LIGHT_Light121",
+    "LIGHT_Light123",
+    "DECOR_CandleProp63",
+    "DECOR_CandleProp64",
+    "DECOR_CandleProp65",
+    "DECOR_CandleProp66",
+    "DECOR_Prop30",
+    "DECOR_Prop31",
+    "DECOR_Prop32",
+    "DECOR_Prop33",
+    "DECOR_Prop34",
+    "DECOR_Prop29",
+    "DECOR_Prop35",
+    "DECOR_Prop36",
+    "DECOR_Prop28",
+    "DECOR_Prop78",
+    "DECOR_Prop91",
+    "DECOR_Prop93",
+    "DECOR_TreasureChest2"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r11",
+   "source_nodes": [
+    "ROOM_r11",
+    "TRIGGER_shared_r09_r11",
+    "TRIGGER_invisible_r11",
+    "TRIGGER_nonsolid_r11",
+    "MECH_Closet2Door1",
+    "MECH_Closet2Door2",
+    "MECH_DoubleDoorL10",
+    "MECH_DoubleDoorR10",
+    "DECOR_CandleProp67",
+    "DECOR_CandleProp68",
+    "DECOR_CandleProp69",
+    "DECOR_CandleProp70",
+    "DECOR_Prop22",
+    "DECOR_Prop23",
+    "DECOR_Prop24",
+    "DECOR_Prop25",
+    "DECOR_Prop26",
+    "DECOR_Prop27",
+    "DECOR_CandleProp0",
+    "LIGHT_lamp_CandleProp0",
+    "DECOR_Prop98",
+    "DECOR_Prop110",
+    "DECOR_Prop118"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r12",
+   "source_nodes": [
+    "ROOM_r12",
+    "TRIGGER_shared_r09_r12",
+    "TRIGGER_nonsolid_r12",
+    "MECH_DoubleDoorL9",
+    "MECH_DoubleDoorR9",
+    "MECH_Drawer3",
+    "MECH_Drawer4",
+    "MECH_DresserDoorR2",
+    "MECH_DresserDoorL2",
+    "LIGHT_Light138",
+    "LIGHT_Light140",
+    "LIGHT_Light142",
+    "LIGHT_Light144",
+    "LIGHT_Light137",
+    "LIGHT_Light139",
+    "DECOR_CandleProp71",
+    "DECOR_CandleProp72",
+    "DECOR_CandleProp73",
+    "DECOR_CandleProp74",
+    "DECOR_Prop18",
+    "DECOR_Prop19",
+    "DECOR_Prop20",
+    "DECOR_Prop21",
+    "DECOR_Prop122",
+    "DECOR_Prop124",
+    "DECOR_Prop125",
+    "DECOR_Prop126",
+    "DECOR_Prop146",
+    "DECOR_Prop149",
+    "DECOR_Prop150",
+    "DECOR_TreasureChest1"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r13",
+   "source_nodes": [
+    "ROOM_r13",
+    "TRIGGER_shared_r09_r13",
+    "TRIGGER_nonsolid_r13",
+    "TRIGGER_invisible_r13",
+    "MECH_Closet1Door1",
+    "MECH_Closet1Door2",
+    "MECH_DoubleDoorL8",
+    "MECH_DoubleDoorR8",
+    "MECH_Drawer1",
+    "MECH_Drawer2",
+    "LIGHT_Light146",
+    "LIGHT_Light148",
+    "LIGHT_Light150",
+    "LIGHT_Light152",
+    "LIGHT_Light149",
+    "LIGHT_Light151",
+    "DECOR_CandleProp75",
+    "DECOR_CandleProp76",
+    "DECOR_CandleProp77",
+    "DECOR_CandleProp78",
+    "DECOR_Prop0",
+    "DECOR_Prop12",
+    "DECOR_Prop14",
+    "DECOR_Prop15",
+    "DECOR_Prop13",
+    "DECOR_Prop16",
+    "DECOR_Prop17",
+    "DECOR_Prop128",
+    "DECOR_Prop129",
+    "DECOR_Prop135",
+    "DECOR_Prop139",
+    "DECOR_Prop140",
+    "DECOR_Prop147",
+    "DECOR_Prop148",
+    "DECOR_TreasureChest0",
+    "TRIGGER_hint_PerceptionBrush0_0"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r14",
+   "source_nodes": [
+    "ROOM_r14",
+    "TRIGGER_nonsolid_r14",
+    "TRIGGER_invisible_r14",
+    "MECH_Cell15",
+    "MECH_Cell16",
+    "MECH_Cell17",
+    "MECH_Cell18",
+    "MECH_Cell19",
+    "MECH_Cell20",
+    "MECH_Cell21",
+    "MECH_Cell22",
+    "MECH_Cell23",
+    "MECH_Cell24",
+    "MECH_Cell25",
+    "MECH_Cell26",
+    "MECH_Cell27",
+    "MECH_Cell28",
+    "MECH_Switch15",
+    "MECH_Switch16",
+    "MECH_Switch17",
+    "MECH_Switch18",
+    "MECH_Switch19",
+    "MECH_Switch20",
+    "MECH_Switch21",
+    "MECH_Switch22",
+    "MECH_Switch23",
+    "MECH_Switch24",
+    "MECH_Switch25",
+    "MECH_Switch26",
+    "MECH_Switch27",
+    "MECH_Switch28",
+    "MECH_blue1",
+    "MECH_purple1",
+    "MECH_red1",
+    "MECH_white1",
+    "MECH_yellow1",
+    "LIGHT_button blue_699",
+    "LIGHT_button purple_700",
+    "LIGHT_button red_698",
+    "LIGHT_button white_702",
+    "LIGHT_button yellow_701",
+    "LIGHT_Light100",
+    "LIGHT_Light101",
+    "LIGHT_Light104",
+    "LIGHT_Light105",
+    "LIGHT_Light197",
+    "LIGHT_Light92",
+    "LIGHT_Light94",
+    "LIGHT_Light96",
+    "LIGHT_Light97",
+    "LIGHT_Light102",
+    "LIGHT_Light103",
+    "LIGHT_Light106",
+    "LIGHT_Light191",
+    "DECOR_CandleProp48",
+    "DECOR_CandleProp49",
+    "DECOR_CandleProp50",
+    "DECOR_CandleProp51",
+    "DECOR_CandleProp52",
+    "DECOR_CandleProp53",
+    "DECOR_CandleProp54",
+    "DECOR_CandleProp55",
+    "DECOR_CandleProp88",
+    "DECOR_BonePile0",
+    "DECOR_BonePile1",
+    "DECOR_BonePile2",
+    "DECOR_BonePile3"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r15",
+   "source_nodes": [
+    "ROOM_r15",
+    "TRIGGER_nonsolid_r15",
+    "TRIGGER_invisible_r15",
+    "MECH_blue2",
+    "MECH_green2",
+    "MECH_red2",
+    "MECH_white2",
+    "MECH_yellow2",
+    "LIGHT_button blue_711",
+    "LIGHT_button green_708",
+    "LIGHT_button red_712",
+    "LIGHT_button white_710",
+    "LIGHT_button yellow_709",
+    "LIGHT_Light73",
+    "LIGHT_Light75",
+    "LIGHT_Light77",
+    "LIGHT_Light79",
+    "LIGHT_Light72",
+    "LIGHT_Light74",
+    "LIGHT_Light76",
+    "LIGHT_Light78",
+    "DECOR_CandleProp44",
+    "DECOR_CandleProp45",
+    "DECOR_CandleProp46",
+    "DECOR_CandleProp47"
+   ],
+   "min_ambient_light_level": 20
+  }
+ ],
+ "portals": [
+  {
+   "id": "DoubleDoorPortal12",
+   "source_node": "PORTAL_DoubleDoorPortal12",
+   "front_room": "room_r07",
+   "back_room": "room_r06"
+  },
+  {
+   "id": "DoubleDoorPortal17",
+   "source_node": "PORTAL_DoubleDoorPortal17",
+   "front_room": "room_r06",
+   "back_room": "room_r04"
+  },
+  {
+   "id": "DoubleDoorPortal18",
+   "source_node": "PORTAL_DoubleDoorPortal18",
+   "front_room": "room_r04",
+   "back_room": "room_r01"
+  },
+  {
+   "id": "DoubleDoorPortal21",
+   "source_node": "PORTAL_DoubleDoorPortal21",
+   "front_room": "room_r03",
+   "back_room": "room_r02"
+  },
+  {
+   "id": "DoubleDoorPortal25",
+   "source_node": "PORTAL_DoubleDoorPortal25",
+   "front_room": "room_r02",
+   "back_room": "room_r01"
+  },
+  {
+   "id": "DoubleDoorPortal27",
+   "source_node": "PORTAL_DoubleDoorPortal27",
+   "front_room": "room_r03",
+   "back_room": "room_r04"
+  },
+  {
+   "id": "DoubleDoorPortal10",
+   "source_node": "PORTAL_DoubleDoorPortal10",
+   "front_room": "room_r11",
+   "back_room": "room_r09"
+  },
+  {
+   "id": "DoubleDoorPortal11",
+   "source_node": "PORTAL_DoubleDoorPortal11",
+   "front_room": "room_r10",
+   "back_room": "room_r09"
+  },
+  {
+   "id": "DoubleDoorPortal8",
+   "source_node": "PORTAL_DoubleDoorPortal8",
+   "front_room": "room_r13",
+   "back_room": "room_r09"
+  },
+  {
+   "id": "DoubleDoorPortal9",
+   "source_node": "PORTAL_DoubleDoorPortal9",
+   "front_room": "room_r12",
+   "back_room": "room_r09"
+  }
+ ],
+ "surfaces": [
+  {
+   "id": "shared_r04_r01",
+   "source_node": "TRIGGER_shared_r04_r01",
+   "flags": [],
+   "back_room": "room_r04"
+  },
+  {
+   "id": "shared_r02_r01",
+   "source_node": "TRIGGER_shared_r02_r01",
+   "flags": [],
+   "back_room": "room_r02"
+  },
+  {
+   "id": "shared_r01_r02",
+   "source_node": "TRIGGER_shared_r01_r02",
+   "flags": [],
+   "back_room": "room_r01"
+  },
+  {
+   "id": "shared_r03_r02",
+   "source_node": "TRIGGER_shared_r03_r02",
+   "flags": [],
+   "back_room": "room_r03"
+  },
+  {
+   "id": "shared_r04_r03",
+   "source_node": "TRIGGER_shared_r04_r03",
+   "flags": [],
+   "back_room": "room_r04"
+  },
+  {
+   "id": "shared_r02_r03",
+   "source_node": "TRIGGER_shared_r02_r03",
+   "flags": [],
+   "back_room": "room_r02"
+  },
+  {
+   "id": "nonsolid_r03",
+   "source_node": "TRIGGER_nonsolid_r03",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "invisible_r03",
+   "source_node": "TRIGGER_invisible_r03",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r03_r04",
+   "source_node": "TRIGGER_shared_r03_r04",
+   "flags": [],
+   "back_room": "room_r03"
+  },
+  {
+   "id": "shared_r01_r04",
+   "source_node": "TRIGGER_shared_r01_r04",
+   "flags": [],
+   "back_room": "room_r01"
+  },
+  {
+   "id": "shared_r06_r04",
+   "source_node": "TRIGGER_shared_r06_r04",
+   "flags": [],
+   "back_room": "room_r06"
+  },
+  {
+   "id": "nonsolid_r05",
+   "source_node": "TRIGGER_nonsolid_r05",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "opaque_r05",
+   "source_node": "TRIGGER_opaque_r05",
+   "flags": []
+  },
+  {
+   "id": "invisible_r05",
+   "source_node": "TRIGGER_invisible_r05",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r04_r06",
+   "source_node": "TRIGGER_shared_r04_r06",
+   "flags": [],
+   "back_room": "room_r04"
+  },
+  {
+   "id": "shared_r07_r06",
+   "source_node": "TRIGGER_shared_r07_r06",
+   "flags": [],
+   "back_room": "room_r07"
+  },
+  {
+   "id": "shared_r06_r07",
+   "source_node": "TRIGGER_shared_r06_r07",
+   "flags": [],
+   "back_room": "room_r06"
+  },
+  {
+   "id": "nonsolid_r08",
+   "source_node": "TRIGGER_nonsolid_r08",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "invisible_r08",
+   "source_node": "TRIGGER_invisible_r08",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r10_r09",
+   "source_node": "TRIGGER_shared_r10_r09",
+   "flags": [],
+   "back_room": "room_r10"
+  },
+  {
+   "id": "shared_r13_r09",
+   "source_node": "TRIGGER_shared_r13_r09",
+   "flags": [],
+   "back_room": "room_r13"
+  },
+  {
+   "id": "shared_r12_r09",
+   "source_node": "TRIGGER_shared_r12_r09",
+   "flags": [],
+   "back_room": "room_r12"
+  },
+  {
+   "id": "shared_r11_r09",
+   "source_node": "TRIGGER_shared_r11_r09",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "nonsolid_r09",
+   "source_node": "TRIGGER_nonsolid_r09",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "invisible_r09",
+   "source_node": "TRIGGER_invisible_r09",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r09_r10",
+   "source_node": "TRIGGER_shared_r09_r10",
+   "flags": [],
+   "back_room": "room_r09"
+  },
+  {
+   "id": "nonsolid_r10",
+   "source_node": "TRIGGER_nonsolid_r10",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r09_r11",
+   "source_node": "TRIGGER_shared_r09_r11",
+   "flags": [],
+   "back_room": "room_r09"
+  },
+  {
+   "id": "invisible_r11",
+   "source_node": "TRIGGER_invisible_r11",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "nonsolid_r11",
+   "source_node": "TRIGGER_nonsolid_r11",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r09_r12",
+   "source_node": "TRIGGER_shared_r09_r12",
+   "flags": [],
+   "back_room": "room_r09"
+  },
+  {
+   "id": "nonsolid_r12",
+   "source_node": "TRIGGER_nonsolid_r12",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r09_r13",
+   "source_node": "TRIGGER_shared_r09_r13",
+   "flags": [],
+   "back_room": "room_r09"
+  },
+  {
+   "id": "nonsolid_r13",
+   "source_node": "TRIGGER_nonsolid_r13",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "invisible_r13",
+   "source_node": "TRIGGER_invisible_r13",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "nonsolid_r14",
+   "source_node": "TRIGGER_nonsolid_r14",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "invisible_r14",
+   "source_node": "TRIGGER_invisible_r14",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "nonsolid_r15",
+   "source_node": "TRIGGER_nonsolid_r15",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "invisible_r15",
+   "source_node": "TRIGGER_invisible_r15",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "Closet1Door1",
+   "source_node": "MECH_Closet1Door1",
+   "flags": [],
+   "trigger": {
+    "event_id": 101,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Closet1Door2",
+   "source_node": "MECH_Closet1Door2",
+   "flags": [],
+   "trigger": {
+    "event_id": 101,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Closet2Door1",
+   "source_node": "MECH_Closet2Door1",
+   "flags": [],
+   "trigger": {
+    "event_id": 102,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Closet2Door2",
+   "source_node": "MECH_Closet2Door2",
+   "flags": [],
+   "trigger": {
+    "event_id": 102,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL10",
+   "source_node": "MECH_DoubleDoorL10",
+   "flags": [],
+   "trigger": {
+    "event_id": 200,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR10",
+   "source_node": "MECH_DoubleDoorR10",
+   "flags": [],
+   "trigger": {
+    "event_id": 200,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL11",
+   "source_node": "MECH_DoubleDoorL11",
+   "flags": [],
+   "trigger": {
+    "event_id": 103,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR11",
+   "source_node": "MECH_DoubleDoorR11",
+   "flags": [],
+   "trigger": {
+    "event_id": 103,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL12",
+   "source_node": "MECH_DoubleDoorL12",
+   "flags": [],
+   "trigger": {
+    "event_id": 104,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR12",
+   "source_node": "MECH_DoubleDoorR12",
+   "flags": [],
+   "trigger": {
+    "event_id": 104,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL17",
+   "source_node": "MECH_DoubleDoorL17",
+   "flags": [],
+   "trigger": {
+    "event_id": 105,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR17",
+   "source_node": "MECH_DoubleDoorR17",
+   "flags": [],
+   "trigger": {
+    "event_id": 105,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL18",
+   "source_node": "MECH_DoubleDoorL18",
+   "flags": [],
+   "trigger": {
+    "event_id": 201,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR18",
+   "source_node": "MECH_DoubleDoorR18",
+   "flags": [],
+   "trigger": {
+    "event_id": 201,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL21",
+   "source_node": "MECH_DoubleDoorL21",
+   "flags": [],
+   "trigger": {
+    "event_id": 106,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR21",
+   "source_node": "MECH_DoubleDoorR21",
+   "flags": [],
+   "trigger": {
+    "event_id": 106,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL25",
+   "source_node": "MECH_DoubleDoorL25",
+   "flags": [],
+   "trigger": {
+    "event_id": 202,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR25",
+   "source_node": "MECH_DoubleDoorR25",
+   "flags": [],
+   "trigger": {
+    "event_id": 202,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL27",
+   "source_node": "MECH_DoubleDoorL27",
+   "flags": [],
+   "trigger": {
+    "event_id": 107,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR27",
+   "source_node": "MECH_DoubleDoorR27",
+   "flags": [],
+   "trigger": {
+    "event_id": 107,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL8",
+   "source_node": "MECH_DoubleDoorL8",
+   "flags": [],
+   "trigger": {
+    "event_id": 108,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR8",
+   "source_node": "MECH_DoubleDoorR8",
+   "flags": [],
+   "trigger": {
+    "event_id": 108,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorL9",
+   "source_node": "MECH_DoubleDoorL9",
+   "flags": [],
+   "trigger": {
+    "event_id": 109,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DoubleDoorR9",
+   "source_node": "MECH_DoubleDoorR9",
+   "flags": [],
+   "trigger": {
+    "event_id": 109,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Drawer1",
+   "source_node": "MECH_Drawer1",
+   "flags": [],
+   "trigger": {
+    "event_id": 110,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Drawer2",
+   "source_node": "MECH_Drawer2",
+   "flags": [],
+   "trigger": {
+    "event_id": 111,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Drawer3",
+   "source_node": "MECH_Drawer3",
+   "flags": [],
+   "trigger": {
+    "event_id": 112,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Drawer4",
+   "source_node": "MECH_Drawer4",
+   "flags": [],
+   "trigger": {
+    "event_id": 113,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DresserDoorR2",
+   "source_node": "MECH_DresserDoorR2",
+   "flags": [],
+   "trigger": {
+    "event_id": 114,
+    "type": "click"
+   }
+  },
+  {
+   "id": "DresserDoorL2",
+   "source_node": "MECH_DresserDoorL2",
+   "flags": [],
+   "trigger": {
+    "event_id": 114,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch15",
+   "source_node": "MECH_Switch15",
+   "flags": [],
+   "trigger": {
+    "event_id": 210,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch16",
+   "source_node": "MECH_Switch16",
+   "flags": [],
+   "trigger": {
+    "event_id": 211,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch17",
+   "source_node": "MECH_Switch17",
+   "flags": [],
+   "trigger": {
+    "event_id": 212,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch18",
+   "source_node": "MECH_Switch18",
+   "flags": [],
+   "trigger": {
+    "event_id": 213,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch19",
+   "source_node": "MECH_Switch19",
+   "flags": [],
+   "trigger": {
+    "event_id": 214,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch20",
+   "source_node": "MECH_Switch20",
+   "flags": [],
+   "trigger": {
+    "event_id": 215,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch21",
+   "source_node": "MECH_Switch21",
+   "flags": [],
+   "trigger": {
+    "event_id": 216,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch22",
+   "source_node": "MECH_Switch22",
+   "flags": [],
+   "trigger": {
+    "event_id": 217,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch23",
+   "source_node": "MECH_Switch23",
+   "flags": [],
+   "trigger": {
+    "event_id": 218,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch24",
+   "source_node": "MECH_Switch24",
+   "flags": [],
+   "trigger": {
+    "event_id": 219,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch25",
+   "source_node": "MECH_Switch25",
+   "flags": [],
+   "trigger": {
+    "event_id": 220,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch26",
+   "source_node": "MECH_Switch26",
+   "flags": [],
+   "trigger": {
+    "event_id": 221,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch27",
+   "source_node": "MECH_Switch27",
+   "flags": [],
+   "trigger": {
+    "event_id": 222,
+    "type": "click"
+   }
+  },
+  {
+   "id": "Switch28",
+   "source_node": "MECH_Switch28",
+   "flags": [],
+   "trigger": {
+    "event_id": 223,
+    "type": "click"
+   }
+  },
+  {
+   "id": "blue1",
+   "source_node": "MECH_blue1",
+   "flags": [],
+   "trigger": {
+    "event_id": 239,
+    "type": "click"
+   }
+  },
+  {
+   "id": "blue2",
+   "source_node": "MECH_blue2",
+   "flags": [],
+   "trigger": {
+    "event_id": 244,
+    "type": "click"
+   }
+  },
+  {
+   "id": "blue3",
+   "source_node": "MECH_blue3",
+   "flags": [],
+   "trigger": {
+    "event_id": 249,
+    "type": "click"
+   }
+  },
+  {
+   "id": "blue4",
+   "source_node": "MECH_blue4",
+   "flags": [],
+   "trigger": {
+    "event_id": 254,
+    "type": "click"
+   }
+  },
+  {
+   "id": "blue5",
+   "source_node": "MECH_blue5",
+   "flags": [],
+   "trigger": {
+    "event_id": 259,
+    "type": "click"
+   }
+  },
+  {
+   "id": "green0",
+   "source_node": "MECH_green0",
+   "flags": [],
+   "trigger": {
+    "event_id": 234,
+    "type": "click"
+   }
+  },
+  {
+   "id": "green2",
+   "source_node": "MECH_green2",
+   "flags": [],
+   "trigger": {
+    "event_id": 243,
+    "type": "click"
+   }
+  },
+  {
+   "id": "green3",
+   "source_node": "MECH_green3",
+   "flags": [],
+   "trigger": {
+    "event_id": 248,
+    "type": "click"
+   }
+  },
+  {
+   "id": "green4",
+   "source_node": "MECH_green4",
+   "flags": [],
+   "trigger": {
+    "event_id": 253,
+    "type": "click"
+   }
+  },
+  {
+   "id": "green5",
+   "source_node": "MECH_green5",
+   "flags": [],
+   "trigger": {
+    "event_id": 258,
+    "type": "click"
+   }
+  },
+  {
+   "id": "purple0",
+   "source_node": "MECH_purple0",
+   "flags": [],
+   "trigger": {
+    "event_id": 233,
+    "type": "click"
+   }
+  },
+  {
+   "id": "purple1",
+   "source_node": "MECH_purple1",
+   "flags": [],
+   "trigger": {
+    "event_id": 238,
+    "type": "click"
+   }
+  },
+  {
+   "id": "purple3",
+   "source_node": "MECH_purple3",
+   "flags": [],
+   "trigger": {
+    "event_id": 247,
+    "type": "click"
+   }
+  },
+  {
+   "id": "purple4",
+   "source_node": "MECH_purple4",
+   "flags": [],
+   "trigger": {
+    "event_id": 252,
+    "type": "click"
+   }
+  },
+  {
+   "id": "purple5",
+   "source_node": "MECH_purple5",
+   "flags": [],
+   "trigger": {
+    "event_id": 257,
+    "type": "click"
+   }
+  },
+  {
+   "id": "red0",
+   "source_node": "MECH_red0",
+   "flags": [],
+   "trigger": {
+    "event_id": 232,
+    "type": "click"
+   }
+  },
+  {
+   "id": "red1",
+   "source_node": "MECH_red1",
+   "flags": [],
+   "trigger": {
+    "event_id": 237,
+    "type": "click"
+   }
+  },
+  {
+   "id": "red2",
+   "source_node": "MECH_red2",
+   "flags": [],
+   "trigger": {
+    "event_id": 242,
+    "type": "click"
+   }
+  },
+  {
+   "id": "red4",
+   "source_node": "MECH_red4",
+   "flags": [],
+   "trigger": {
+    "event_id": 251,
+    "type": "click"
+   }
+  },
+  {
+   "id": "red5",
+   "source_node": "MECH_red5",
+   "flags": [],
+   "trigger": {
+    "event_id": 256,
+    "type": "click"
+   }
+  },
+  {
+   "id": "super eye door_INV",
+   "source_node": "MECH_super eye door_INV",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "white0",
+   "source_node": "MECH_white0",
+   "flags": [],
+   "trigger": {
+    "event_id": 231,
+    "type": "click"
+   }
+  },
+  {
+   "id": "white1",
+   "source_node": "MECH_white1",
+   "flags": [],
+   "trigger": {
+    "event_id": 236,
+    "type": "click"
+   }
+  },
+  {
+   "id": "white2",
+   "source_node": "MECH_white2",
+   "flags": [],
+   "trigger": {
+    "event_id": 241,
+    "type": "click"
+   }
+  },
+  {
+   "id": "white3",
+   "source_node": "MECH_white3",
+   "flags": [],
+   "trigger": {
+    "event_id": 246,
+    "type": "click"
+   }
+  },
+  {
+   "id": "white5",
+   "source_node": "MECH_white5",
+   "flags": [],
+   "trigger": {
+    "event_id": 255,
+    "type": "click"
+   }
+  },
+  {
+   "id": "yellow0",
+   "source_node": "MECH_yellow0",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "yellow1",
+   "source_node": "MECH_yellow1",
+   "flags": [],
+   "trigger": {
+    "event_id": 235,
+    "type": "click"
+   }
+  },
+  {
+   "id": "yellow2",
+   "source_node": "MECH_yellow2",
+   "flags": [],
+   "trigger": {
+    "event_id": 240,
+    "type": "click"
+   }
+  },
+  {
+   "id": "yellow3",
+   "source_node": "MECH_yellow3",
+   "flags": [],
+   "trigger": {
+    "event_id": 245,
+    "type": "click"
+   }
+  },
+  {
+   "id": "yellow4",
+   "source_node": "MECH_yellow4",
+   "flags": [],
+   "trigger": {
+    "event_id": 250,
+    "type": "click"
+   }
+  },
+  {
+   "id": "hint_PerceptionBrush0_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush0_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23682
+  }
+ ],
+ "mechanisms": [
+  {
+   "id": "Cell15",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell15"
+   ],
+   "door": {
+    "door_id": 1,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell16",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell16"
+   ],
+   "door": {
+    "door_id": 2,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell17",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell17"
+   ],
+   "door": {
+    "door_id": 3,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell18",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell18"
+   ],
+   "door": {
+    "door_id": 4,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell19",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell19"
+   ],
+   "door": {
+    "door_id": 5,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell20",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell20"
+   ],
+   "door": {
+    "door_id": 6,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell21",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell21"
+   ],
+   "door": {
+    "door_id": 7,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell22",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell22"
+   ],
+   "door": {
+    "door_id": 8,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell23",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell23"
+   ],
+   "door": {
+    "door_id": 9,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell24",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell24"
+   ],
+   "door": {
+    "door_id": 10,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell25",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell25"
+   ],
+   "door": {
+    "door_id": 11,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell26",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell26"
+   ],
+   "door": {
+    "door_id": 12,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell27",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell27"
+   ],
+   "door": {
+    "door_id": 13,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Cell28",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Cell28"
+   ],
+   "door": {
+    "door_id": 14,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "move_length": 225,
+    "open_speed": 115,
+    "close_speed": 384
+   }
+  },
+  {
+   "id": "Closet1Door1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Closet1Door1"
+   ],
+   "door": {
+    "door_id": 15,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 1100,
+    "open_speed": 800,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "Closet1Door2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Closet1Door2"
+   ],
+   "door": {
+    "door_id": 16,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 1100,
+    "open_speed": 800,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "Closet2Door1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Closet2Door1"
+   ],
+   "door": {
+    "door_id": 17,
+    "initial_state": "open",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 1100,
+    "open_speed": 800,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "Closet2Door2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Closet2Door2"
+   ],
+   "door": {
+    "door_id": 18,
+    "initial_state": "open",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 1100,
+    "open_speed": 800,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "DoubleDoorL10",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL10"
+   ],
+   "door": {
+    "door_id": 19,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR10",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR10"
+   ],
+   "door": {
+    "door_id": 20,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL11",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL11"
+   ],
+   "door": {
+    "door_id": 21,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR11",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR11"
+   ],
+   "door": {
+    "door_id": 22,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL12",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL12"
+   ],
+   "door": {
+    "door_id": 23,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -1.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR12",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR12"
+   ],
+   "door": {
+    "door_id": 24,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     1.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL17",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL17"
+   ],
+   "door": {
+    "door_id": 25,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR17",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR17"
+   ],
+   "door": {
+    "door_id": 26,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL18",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL18"
+   ],
+   "door": {
+    "door_id": 27,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR18",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR18"
+   ],
+   "door": {
+    "door_id": 28,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL21",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL21"
+   ],
+   "door": {
+    "door_id": 29,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR21",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR21"
+   ],
+   "door": {
+    "door_id": 30,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL25",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL25"
+   ],
+   "door": {
+    "door_id": 31,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     1.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR25",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR25"
+   ],
+   "door": {
+    "door_id": 32,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -1.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL27",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL27"
+   ],
+   "door": {
+    "door_id": 33,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     1.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR27",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR27"
+   ],
+   "door": {
+    "door_id": 34,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -1.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL8",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL8"
+   ],
+   "door": {
+    "door_id": 35,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR8",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR8"
+   ],
+   "door": {
+    "door_id": 36,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorL9",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorL9"
+   ],
+   "door": {
+    "door_id": 37,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "DoubleDoorR9",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_DoubleDoorR9"
+   ],
+   "door": {
+    "door_id": 38,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 154,
+    "open_speed": 192,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "Drawer1",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Drawer1"
+   ],
+   "door": {
+    "door_id": 39,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 31,
+    "open_speed": 77,
+    "close_speed": 77
+   }
+  },
+  {
+   "id": "Drawer2",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Drawer2"
+   ],
+   "door": {
+    "door_id": 40,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 31,
+    "open_speed": 77,
+    "close_speed": 77
+   }
+  },
+  {
+   "id": "Drawer3",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Drawer3"
+   ],
+   "door": {
+    "door_id": 41,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 31,
+    "open_speed": 77,
+    "close_speed": 77
+   }
+  },
+  {
+   "id": "Drawer4",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_Drawer4"
+   ],
+   "door": {
+    "door_id": 42,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 31,
+    "open_speed": 77,
+    "close_speed": 77
+   }
+  },
+  {
+   "id": "DresserDoorR2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_DresserDoorR2"
+   ],
+   "door": {
+    "door_id": 43,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "DresserDoorL2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_DresserDoorL2"
+   ],
+   "door": {
+    "door_id": 44,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch15",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch15"
+   ],
+   "door": {
+    "door_id": 45,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch16",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch16"
+   ],
+   "door": {
+    "door_id": 46,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch17",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch17"
+   ],
+   "door": {
+    "door_id": 47,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch18",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch18"
+   ],
+   "door": {
+    "door_id": 48,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch19",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch19"
+   ],
+   "door": {
+    "door_id": 49,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch20",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch20"
+   ],
+   "door": {
+    "door_id": 50,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch21",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch21"
+   ],
+   "door": {
+    "door_id": 51,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch22",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch22"
+   ],
+   "door": {
+    "door_id": 52,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch23",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch23"
+   ],
+   "door": {
+    "door_id": 53,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch24",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch24"
+   ],
+   "door": {
+    "door_id": 54,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch25",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch25"
+   ],
+   "door": {
+    "door_id": 55,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch26",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch26"
+   ],
+   "door": {
+    "door_id": 56,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch27",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch27"
+   ],
+   "door": {
+    "door_id": 57,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "Switch28",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_Switch28"
+   ],
+   "door": {
+    "door_id": 58,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 200,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "blue1",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_blue1"
+   ],
+   "door": {
+    "door_id": 59,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "blue2",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_blue2"
+   ],
+   "door": {
+    "door_id": 60,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "blue3",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_blue3"
+   ],
+   "door": {
+    "door_id": 61,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "blue4",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_blue4"
+   ],
+   "door": {
+    "door_id": 62,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "blue5",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_blue5"
+   ],
+   "door": {
+    "door_id": 63,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "green0",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_green0"
+   ],
+   "door": {
+    "door_id": 64,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "green2",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_green2"
+   ],
+   "door": {
+    "door_id": 65,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "green3",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_green3"
+   ],
+   "door": {
+    "door_id": 66,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "green4",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_green4"
+   ],
+   "door": {
+    "door_id": 67,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "green5",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_green5"
+   ],
+   "door": {
+    "door_id": 68,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "purple0",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_purple0"
+   ],
+   "door": {
+    "door_id": 69,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "purple1",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_purple1"
+   ],
+   "door": {
+    "door_id": 70,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "purple3",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_purple3"
+   ],
+   "door": {
+    "door_id": 71,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "purple4",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_purple4"
+   ],
+   "door": {
+    "door_id": 72,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "purple5",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_purple5"
+   ],
+   "door": {
+    "door_id": 73,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "red0",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_red0"
+   ],
+   "door": {
+    "door_id": 74,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "red1",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_red1"
+   ],
+   "door": {
+    "door_id": 75,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "red2",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_red2"
+   ],
+   "door": {
+    "door_id": 76,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "red4",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_red4"
+   ],
+   "door": {
+    "door_id": 77,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "red5",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_red5"
+   ],
+   "door": {
+    "door_id": 78,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "super eye door_INV",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_super eye door_INV"
+   ],
+   "door": {
+    "door_id": 79,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 655,
+    "open_speed": 256,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "super eye door_GLASS0",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_super eye door_GLASS0"
+   ],
+   "door": {
+    "door_id": 80,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 655,
+    "open_speed": 256,
+    "close_speed": 0
+   }
+  },
+  {
+   "id": "white0",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_white0"
+   ],
+   "door": {
+    "door_id": 81,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "white1",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_white1"
+   ],
+   "door": {
+    "door_id": 82,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "white2",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_white2"
+   ],
+   "door": {
+    "door_id": 83,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "white3",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_white3"
+   ],
+   "door": {
+    "door_id": 84,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "white5",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_white5"
+   ],
+   "door": {
+    "door_id": 85,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "yellow0",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_yellow0"
+   ],
+   "door": {
+    "door_id": 86,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "yellow1",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_yellow1"
+   ],
+   "door": {
+    "door_id": 87,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "yellow2",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_yellow2"
+   ],
+   "door": {
+    "door_id": 88,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "yellow3",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_yellow3"
+   ],
+   "door": {
+    "door_id": 89,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  },
+  {
+   "id": "yellow4",
+   "kind": "linear",
+   "source_nodes": [
+    "MECH_yellow4"
+   ],
+   "door": {
+    "door_id": 90,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    "move_length": 20,
+    "open_speed": 64,
+    "close_speed": 64
+   }
+  }
+ ],
+ "entities": [
+  {
+   "id": "CandleProp48",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp48",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp49",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp49",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp50",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp50",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp51",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp51",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp52",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp52",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp53",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp53",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp54",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp54",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp55",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp55",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp88",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp88",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "BonePile0",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile0",
+   "decoration_list_id": 2120,
+   "event_id_primary": 0,
+   "event_id_secondary": 30217
+  },
+  {
+   "id": "BonePile1",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile1",
+   "decoration_list_id": 2120,
+   "event_id_primary": 0,
+   "event_id_secondary": 30218
+  },
+  {
+   "id": "BonePile2",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile2",
+   "decoration_list_id": 2120,
+   "event_id_primary": 0,
+   "event_id_secondary": 30219
+  },
+  {
+   "id": "BonePile3",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile3",
+   "decoration_list_id": 2120,
+   "event_id_primary": 0,
+   "event_id_secondary": 30220
+  },
+  {
+   "id": "CandleProp20",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp20",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp21",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp21",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp22",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp22",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp23",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp23",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp24",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp24",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp25",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp25",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp26",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp26",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp27",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp27",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp28",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp28",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp29",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp29",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp31",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp31",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp32",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp32",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp33",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp33",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp34",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp34",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp35",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp35",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp36",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp36",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp37",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp37",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp38",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp38",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp39",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp39",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 166
+  },
+  {
+   "id": "CandleProp40",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp40",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 346
+  },
+  {
+   "id": "CandleProp41",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp41",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 166
+  },
+  {
+   "id": "CandleProp42",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp42",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp43",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp43",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp79",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp79",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp80",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp80",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp81",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp81",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp82",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp82",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp83",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp83",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp84",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp84",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp85",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp85",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp86",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp86",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp87",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp87",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop1",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop1",
+   "decoration_list_id": 2745,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Prop2",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop2",
+   "decoration_list_id": 2745,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Prop3",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop3",
+   "decoration_list_id": 2745,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Prop4",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop4",
+   "decoration_list_id": 2745,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Prop5",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop5",
+   "decoration_list_id": 2098,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop6",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop6",
+   "decoration_list_id": 2101,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop9",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop9",
+   "decoration_list_id": 2762,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop10",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop10",
+   "decoration_list_id": 2757,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop11",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop11",
+   "decoration_list_id": 2753,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop37",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop37",
+   "decoration_list_id": 2765,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop38",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop38",
+   "decoration_list_id": 2765,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop39",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop39",
+   "decoration_list_id": 2765,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop40",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop40",
+   "decoration_list_id": 2765,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop41",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop41",
+   "decoration_list_id": 2756,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 160
+  },
+  {
+   "id": "Prop42",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop42",
+   "decoration_list_id": 2080,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 230
+  },
+  {
+   "id": "Prop43",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop43",
+   "decoration_list_id": 2472,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 340
+  },
+  {
+   "id": "Prop44",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop44",
+   "decoration_list_id": 2766,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 350
+  },
+  {
+   "id": "Prop45",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop45",
+   "decoration_list_id": 2047,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 230
+  },
+  {
+   "id": "Prop46",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop46",
+   "decoration_list_id": 2076,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop47",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop47",
+   "decoration_list_id": 2076,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop48",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop48",
+   "decoration_list_id": 2758,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 30
+  },
+  {
+   "id": "Prop49",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop49",
+   "decoration_list_id": 2769,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 330
+  },
+  {
+   "id": "Prop50",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop50",
+   "decoration_list_id": 2760,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 20
+  },
+  {
+   "id": "Prop51",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop51",
+   "decoration_list_id": 2076,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop52",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop52",
+   "decoration_list_id": 2743,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 179
+  },
+  {
+   "id": "Prop53",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop53",
+   "decoration_list_id": 2740,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 350
+  },
+  {
+   "id": "Prop54",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop54",
+   "decoration_list_id": 2093,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop55",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop55",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop56",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop56",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop57",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop57",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop58",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop58",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop59",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop59",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop60",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop60",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop61",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop61",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop62",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop62",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop63",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop63",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop64",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop64",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop65",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop65",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop66",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop66",
+   "decoration_list_id": 2744,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop67",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop67",
+   "decoration_list_id": 2098,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop68",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop68",
+   "decoration_list_id": 2101,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop69",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop69",
+   "decoration_list_id": 2762,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop70",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop70",
+   "decoration_list_id": 2757,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop71",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop71",
+   "decoration_list_id": 2753,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop72",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop72",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop75",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop75",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop76",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop76",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop77",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop77",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop79",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop79",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop81",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop81",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop82",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop82",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop83",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop83",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop85",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop85",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop86",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop86",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop87",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop87",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop88",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop88",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop89",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop89",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop92",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop92",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop94",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop94",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop95",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop95",
+   "decoration_list_id": 2749,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop74",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop74",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop90",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop90",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop96",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop96",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop97",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop97",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop99",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop99",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop100",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop100",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop101",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop101",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop102",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop102",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop104",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop104",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop105",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop105",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop107",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop107",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop109",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop109",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop111",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop111",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop112",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop112",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop113",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop113",
+   "decoration_list_id": 2751,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop84",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop84",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop73",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop73",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop103",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop103",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 250
+  },
+  {
+   "id": "Prop106",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop106",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop108",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop108",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop114",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop114",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 250
+  },
+  {
+   "id": "Prop80",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop80",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop115",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop115",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop116",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop116",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 250
+  },
+  {
+   "id": "Prop117",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop117",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop119",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop119",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 290
+  },
+  {
+   "id": "Prop120",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop120",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 300
+  },
+  {
+   "id": "Prop121",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop121",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 250
+  },
+  {
+   "id": "Prop123",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop123",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 290
+  },
+  {
+   "id": "Prop127",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop127",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 290
+  },
+  {
+   "id": "Prop130",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop130",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 210
+  },
+  {
+   "id": "Prop131",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop131",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop132",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop132",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 330
+  },
+  {
+   "id": "Prop133",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop133",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 130
+  },
+  {
+   "id": "Prop134",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop134",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 210
+  },
+  {
+   "id": "Prop136",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop136",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop137",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop137",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 160
+  },
+  {
+   "id": "Prop138",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop138",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 210
+  },
+  {
+   "id": "Prop141",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop141",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 130
+  },
+  {
+   "id": "Prop142",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop142",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 290
+  },
+  {
+   "id": "Prop143",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop143",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 290
+  },
+  {
+   "id": "Prop144",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop144",
+   "decoration_list_id": 2750,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 290
+  },
+  {
+   "id": "Prop145",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop145",
+   "decoration_list_id": 2752,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 330
+  },
+  {
+   "id": "Barrel0",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel0",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel1",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel1",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp56",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp56",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp57",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp57",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp58",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp58",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp59",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp59",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp60",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp60",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp61",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp61",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp62",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp62",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp63",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp63",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp64",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp64",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp65",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp65",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp66",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp66",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp71",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp71",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp72",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp72",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp73",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp73",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp74",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp74",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp75",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp75",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp76",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp76",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp77",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp77",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp78",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp78",
+   "decoration_list_id": 2767,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp67",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp67",
+   "decoration_list_id": 2768,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp68",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp68",
+   "decoration_list_id": 2768,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp69",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp69",
+   "decoration_list_id": 2768,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp70",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp70",
+   "decoration_list_id": 2768,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Prop0",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop0",
+   "decoration_list_id": 2019,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop12",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop12",
+   "decoration_list_id": 2260,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop14",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop14",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 150
+  },
+  {
+   "id": "Prop15",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop15",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop13",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop13",
+   "decoration_list_id": 2260,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop16",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop16",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop17",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop17",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop18",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop18",
+   "decoration_list_id": 2260,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop19",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop19",
+   "decoration_list_id": 2260,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop20",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop20",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop21",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop21",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop22",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop22",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop23",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop23",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop24",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop24",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop25",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop25",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop26",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop26",
+   "decoration_list_id": 2764,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Prop27",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop27",
+   "decoration_list_id": 2546,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp0",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp0",
+   "decoration_list_id": 2742,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop30",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop30",
+   "decoration_list_id": 2605,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop31",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop31",
+   "decoration_list_id": 2019,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop32",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop32",
+   "decoration_list_id": 2741,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop33",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop33",
+   "decoration_list_id": 2743,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 230
+  },
+  {
+   "id": "Prop34",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop34",
+   "decoration_list_id": 2740,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 40
+  },
+  {
+   "id": "Prop29",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop29",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop35",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop35",
+   "decoration_list_id": 2260,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop36",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop36",
+   "decoration_list_id": 2260,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop28",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop28",
+   "decoration_list_id": 2462,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop78",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop78",
+   "decoration_list_id": 2754,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop91",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop91",
+   "decoration_list_id": 2763,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop93",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop93",
+   "decoration_list_id": 2755,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop98",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop98",
+   "decoration_list_id": 2078,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop110",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop110",
+   "decoration_list_id": 2754,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop118",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop118",
+   "decoration_list_id": 2755,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop122",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop122",
+   "decoration_list_id": 2755,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop124",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop124",
+   "decoration_list_id": 2763,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop125",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop125",
+   "decoration_list_id": 2759,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop126",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop126",
+   "decoration_list_id": 2754,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop128",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop128",
+   "decoration_list_id": 2761,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop129",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop129",
+   "decoration_list_id": 2754,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop135",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop135",
+   "decoration_list_id": 2763,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop139",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop139",
+   "decoration_list_id": 2078,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop140",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop140",
+   "decoration_list_id": 2755,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop146",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop146",
+   "decoration_list_id": 2078,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop147",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop147",
+   "decoration_list_id": 2472,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop148",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop148",
+   "decoration_list_id": 2047,
+   "event_id_primary": 0,
+   "event_id_secondary": 330,
+   "facing": 314
+  },
+  {
+   "id": "Prop149",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop149",
+   "decoration_list_id": 2047,
+   "event_id_primary": 0,
+   "event_id_secondary": 331,
+   "facing": 44
+  },
+  {
+   "id": "Prop150",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop150",
+   "decoration_list_id": 2019,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp9",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp9",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp8",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp8",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp14",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp14",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp15",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp15",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp16",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp16",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp17",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp17",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp18",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp18",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp19",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp19",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "CandleProp10",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp10",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp11",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp11",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "CandleProp44",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp44",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "CandleProp45",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp45",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 314
+  },
+  {
+   "id": "CandleProp46",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp46",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 44
+  },
+  {
+   "id": "CandleProp47",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp47",
+   "decoration_list_id": 2231,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 224
+  },
+  {
+   "id": "Prop7",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop7",
+   "decoration_list_id": 2033,
+   "event_id_primary": 0,
+   "event_id_secondary": 332,
+   "facing": 89
+  },
+  {
+   "id": "Prop8",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop8",
+   "decoration_list_id": 2805,
+   "event_id_primary": 0,
+   "event_id_secondary": 333,
+   "facing": 335
+  },
+  {
+   "id": "TreasureChest0",
+   "kind": "decoration",
+   "source_node": "DECOR_TreasureChest0",
+   "decoration_list_id": 2144,
+   "event_id_primary": 0,
+   "event_id_secondary": 41,
+   "facing": 140
+  },
+  {
+   "id": "TreasureChest1",
+   "kind": "decoration",
+   "source_node": "DECOR_TreasureChest1",
+   "decoration_list_id": 2144,
+   "event_id_primary": 0,
+   "event_id_secondary": 42
+  },
+  {
+   "id": "TreasureChest2",
+   "kind": "decoration",
+   "source_node": "DECOR_TreasureChest2",
+   "decoration_list_id": 2144,
+   "event_id_primary": 0,
+   "event_id_secondary": 43
+  },
+  {
+   "id": "Cauldron0",
+   "kind": "decoration",
+   "source_node": "DECOR_Cauldron0",
+   "decoration_list_id": 2747,
+   "event_id_primary": 0,
+   "event_id_secondary": 30882
+  },
+  {
+   "id": "Cauldron1",
+   "kind": "decoration",
+   "source_node": "DECOR_Cauldron1",
+   "decoration_list_id": 2748,
+   "event_id_primary": 0,
+   "event_id_secondary": 30883
+  },
+  {
+   "id": "Cauldron2",
+   "kind": "decoration",
+   "source_node": "DECOR_Cauldron2",
+   "decoration_list_id": 2748,
+   "event_id_primary": 0,
+   "event_id_secondary": 30884
+  }
+ ],
+ "lights": [
+  {
+   "id": "Light200",
+   "source_node": "LIGHT_Light200",
+   "color": [
+    128,
+    128,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light201",
+   "source_node": "LIGHT_Light201",
+   "color": [
+    13,
+    51,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light202",
+   "source_node": "LIGHT_Light202",
+   "color": [
+    128,
+    128,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light203",
+   "source_node": "LIGHT_Light203",
+   "color": [
+    13,
+    51,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light204",
+   "source_node": "LIGHT_Light204",
+   "color": [
+    128,
+    128,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light205",
+   "source_node": "LIGHT_Light205",
+   "color": [
+    13,
+    51,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light206",
+   "source_node": "LIGHT_Light206",
+   "color": [
+    128,
+    128,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light207",
+   "source_node": "LIGHT_Light207",
+   "color": [
+    13,
+    51,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light208",
+   "source_node": "LIGHT_Light208",
+   "color": [
+    128,
+    128,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light209",
+   "source_node": "LIGHT_Light209",
+   "color": [
+    13,
+    51,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light210",
+   "source_node": "LIGHT_Light210",
+   "color": [
+    128,
+    128,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light211",
+   "source_node": "LIGHT_Light211",
+   "color": [
+    13,
+    51,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light212",
+   "source_node": "LIGHT_Light212",
+   "color": [
+    128,
+    128,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light213",
+   "source_node": "LIGHT_Light213",
+   "color": [
+    13,
+    51,
+    0
+   ],
+   "radius": 51,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button blue_699",
+   "source_node": "LIGHT_button blue_699",
+   "color": [
+    0,
+    0,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button blue_711",
+   "source_node": "LIGHT_button blue_711",
+   "color": [
+    0,
+    0,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button blue_721",
+   "source_node": "LIGHT_button blue_721",
+   "color": [
+    0,
+    0,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button blue_729",
+   "source_node": "LIGHT_button blue_729",
+   "color": [
+    0,
+    0,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button blue_742",
+   "source_node": "LIGHT_button blue_742",
+   "color": [
+    0,
+    0,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button green_690",
+   "source_node": "LIGHT_button green_690",
+   "color": [
+    6,
+    121,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button green_708",
+   "source_node": "LIGHT_button green_708",
+   "color": [
+    6,
+    121,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button green_718",
+   "source_node": "LIGHT_button green_718",
+   "color": [
+    6,
+    121,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button green_731",
+   "source_node": "LIGHT_button green_731",
+   "color": [
+    6,
+    121,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button green_739",
+   "source_node": "LIGHT_button green_739",
+   "color": [
+    0,
+    183,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button purple_688",
+   "source_node": "LIGHT_button purple_688",
+   "color": [
+    128,
+    0,
+    128
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button purple_700",
+   "source_node": "LIGHT_button purple_700",
+   "color": [
+    74,
+    0,
+    74
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button purple_719",
+   "source_node": "LIGHT_button purple_719",
+   "color": [
+    128,
+    0,
+    128
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button purple_730",
+   "source_node": "LIGHT_button purple_730",
+   "color": [
+    128,
+    0,
+    128
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button purple_740",
+   "source_node": "LIGHT_button purple_740",
+   "color": [
+    128,
+    0,
+    128
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button red_689",
+   "source_node": "LIGHT_button red_689",
+   "color": [
+    255,
+    0,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button red_698",
+   "source_node": "LIGHT_button red_698",
+   "color": [
+    255,
+    0,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button red_712",
+   "source_node": "LIGHT_button red_712",
+   "color": [
+    255,
+    0,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button red_728",
+   "source_node": "LIGHT_button red_728",
+   "color": [
+    255,
+    0,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button red_741",
+   "source_node": "LIGHT_button red_741",
+   "color": [
+    255,
+    0,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button white_692",
+   "source_node": "LIGHT_button white_692",
+   "color": [
+    255,
+    255,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button white_702",
+   "source_node": "LIGHT_button white_702",
+   "color": [
+    255,
+    255,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button white_710",
+   "source_node": "LIGHT_button white_710",
+   "color": [
+    255,
+    255,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button white_722",
+   "source_node": "LIGHT_button white_722",
+   "color": [
+    255,
+    255,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button white_738",
+   "source_node": "LIGHT_button white_738",
+   "color": [
+    255,
+    255,
+    255
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button yellow_691",
+   "source_node": "LIGHT_button yellow_691",
+   "color": [
+    255,
+    255,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button yellow_701",
+   "source_node": "LIGHT_button yellow_701",
+   "color": [
+    255,
+    255,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button yellow_709",
+   "source_node": "LIGHT_button yellow_709",
+   "color": [
+    255,
+    255,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button yellow_720",
+   "source_node": "LIGHT_button yellow_720",
+   "color": [
+    255,
+    255,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "button yellow_732",
+   "source_node": "LIGHT_button yellow_732",
+   "color": [
+    255,
+    255,
+    0
+   ],
+   "radius": 90,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light163",
+   "source_node": "LIGHT_Light163",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light164",
+   "source_node": "LIGHT_Light164",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light165",
+   "source_node": "LIGHT_Light165",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light166",
+   "source_node": "LIGHT_Light166",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light167",
+   "source_node": "LIGHT_Light167",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light168",
+   "source_node": "LIGHT_Light168",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light169",
+   "source_node": "LIGHT_Light169",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light170",
+   "source_node": "LIGHT_Light170",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light171",
+   "source_node": "LIGHT_Light171",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light172",
+   "source_node": "LIGHT_Light172",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light173",
+   "source_node": "LIGHT_Light173",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light174",
+   "source_node": "LIGHT_Light174",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light175",
+   "source_node": "LIGHT_Light175",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light176",
+   "source_node": "LIGHT_Light176",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light177",
+   "source_node": "LIGHT_Light177",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light178",
+   "source_node": "LIGHT_Light178",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light179",
+   "source_node": "LIGHT_Light179",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light180",
+   "source_node": "LIGHT_Light180",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light181",
+   "source_node": "LIGHT_Light181",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light182",
+   "source_node": "LIGHT_Light182",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light183",
+   "source_node": "LIGHT_Light183",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light184",
+   "source_node": "LIGHT_Light184",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light2",
+   "source_node": "LIGHT_Light2",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light20",
+   "source_node": "LIGHT_Light20",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light21",
+   "source_node": "LIGHT_Light21",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light22",
+   "source_node": "LIGHT_Light22",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light23",
+   "source_node": "LIGHT_Light23",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light3",
+   "source_node": "LIGHT_Light3",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light4",
+   "source_node": "LIGHT_Light4",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light44",
+   "source_node": "LIGHT_Light44",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light46",
+   "source_node": "LIGHT_Light46",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light5",
+   "source_node": "LIGHT_Light5",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 154,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light100",
+   "source_node": "LIGHT_Light100",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light101",
+   "source_node": "LIGHT_Light101",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light104",
+   "source_node": "LIGHT_Light104",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light105",
+   "source_node": "LIGHT_Light105",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light108",
+   "source_node": "LIGHT_Light108",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light110",
+   "source_node": "LIGHT_Light110",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light112",
+   "source_node": "LIGHT_Light112",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light114",
+   "source_node": "LIGHT_Light114",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light116",
+   "source_node": "LIGHT_Light116",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light118",
+   "source_node": "LIGHT_Light118",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light12",
+   "source_node": "LIGHT_Light12",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light120",
+   "source_node": "LIGHT_Light120",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light122",
+   "source_node": "LIGHT_Light122",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light124",
+   "source_node": "LIGHT_Light124",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light126",
+   "source_node": "LIGHT_Light126",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light128",
+   "source_node": "LIGHT_Light128",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light13",
+   "source_node": "LIGHT_Light13",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light131",
+   "source_node": "LIGHT_Light131",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light132",
+   "source_node": "LIGHT_Light132",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light134",
+   "source_node": "LIGHT_Light134",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light138",
+   "source_node": "LIGHT_Light138",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light14",
+   "source_node": "LIGHT_Light14",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light140",
+   "source_node": "LIGHT_Light140",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light142",
+   "source_node": "LIGHT_Light142",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light144",
+   "source_node": "LIGHT_Light144",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light146",
+   "source_node": "LIGHT_Light146",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light148",
+   "source_node": "LIGHT_Light148",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light15",
+   "source_node": "LIGHT_Light15",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light150",
+   "source_node": "LIGHT_Light150",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light152",
+   "source_node": "LIGHT_Light152",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light153",
+   "source_node": "LIGHT_Light153",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light154",
+   "source_node": "LIGHT_Light154",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light156",
+   "source_node": "LIGHT_Light156",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light158",
+   "source_node": "LIGHT_Light158",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light16",
+   "source_node": "LIGHT_Light16",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light160",
+   "source_node": "LIGHT_Light160",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light162",
+   "source_node": "LIGHT_Light162",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light17",
+   "source_node": "LIGHT_Light17",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light18",
+   "source_node": "LIGHT_Light18",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light19",
+   "source_node": "LIGHT_Light19",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light193",
+   "source_node": "LIGHT_Light193",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light195",
+   "source_node": "LIGHT_Light195",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light197",
+   "source_node": "LIGHT_Light197",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light25",
+   "source_node": "LIGHT_Light25",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light27",
+   "source_node": "LIGHT_Light27",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light29",
+   "source_node": "LIGHT_Light29",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light31",
+   "source_node": "LIGHT_Light31",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light34",
+   "source_node": "LIGHT_Light34",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light35",
+   "source_node": "LIGHT_Light35",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light37",
+   "source_node": "LIGHT_Light37",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light41",
+   "source_node": "LIGHT_Light41",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light42",
+   "source_node": "LIGHT_Light42",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light43",
+   "source_node": "LIGHT_Light43",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light47",
+   "source_node": "LIGHT_Light47",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light49",
+   "source_node": "LIGHT_Light49",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light51",
+   "source_node": "LIGHT_Light51",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light53",
+   "source_node": "LIGHT_Light53",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light55",
+   "source_node": "LIGHT_Light55",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light57",
+   "source_node": "LIGHT_Light57",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light59",
+   "source_node": "LIGHT_Light59",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light61",
+   "source_node": "LIGHT_Light61",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light63",
+   "source_node": "LIGHT_Light63",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light65",
+   "source_node": "LIGHT_Light65",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light67",
+   "source_node": "LIGHT_Light67",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light70",
+   "source_node": "LIGHT_Light70",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light71",
+   "source_node": "LIGHT_Light71",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light73",
+   "source_node": "LIGHT_Light73",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light75",
+   "source_node": "LIGHT_Light75",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light77",
+   "source_node": "LIGHT_Light77",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light79",
+   "source_node": "LIGHT_Light79",
+   "color": [
+    217,
+    217,
+    217
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light92",
+   "source_node": "LIGHT_Light92",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light94",
+   "source_node": "LIGHT_Light94",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light96",
+   "source_node": "LIGHT_Light96",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light97",
+   "source_node": "LIGHT_Light97",
+   "color": [
+    217,
+    214,
+    157
+   ],
+   "radius": 192,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light185",
+   "source_node": "LIGHT_Light185",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 410,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light186",
+   "source_node": "LIGHT_Light186",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 410,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light187",
+   "source_node": "LIGHT_Light187",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 410,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light188",
+   "source_node": "LIGHT_Light188",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 410,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light189",
+   "source_node": "LIGHT_Light189",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 410,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light190",
+   "source_node": "LIGHT_Light190",
+   "color": [
+    196,
+    0,
+    0
+   ],
+   "radius": 410,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light52",
+   "source_node": "LIGHT_Light52",
+   "color": [
+    0,
+    50,
+    64
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light54",
+   "source_node": "LIGHT_Light54",
+   "color": [
+    0,
+    50,
+    64
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light88",
+   "source_node": "LIGHT_Light88",
+   "color": [
+    0,
+    0,
+    217
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light89",
+   "source_node": "LIGHT_Light89",
+   "color": [
+    0,
+    0,
+    255
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light56",
+   "source_node": "LIGHT_Light56",
+   "color": [
+    0,
+    50,
+    64
+   ],
+   "radius": 896,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light199",
+   "source_node": "LIGHT_Light199",
+   "color": [
+    60,
+    150,
+    1
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light80",
+   "source_node": "LIGHT_Light80",
+   "color": [
+    128,
+    0,
+    0
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light81",
+   "source_node": "LIGHT_Light81",
+   "color": [
+    128,
+    0,
+    0
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light82",
+   "source_node": "LIGHT_Light82",
+   "color": [
+    128,
+    0,
+    0
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light83",
+   "source_node": "LIGHT_Light83",
+   "color": [
+    128,
+    0,
+    0
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light84",
+   "source_node": "LIGHT_Light84",
+   "color": [
+    128,
+    0,
+    0
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light85",
+   "source_node": "LIGHT_Light85",
+   "color": [
+    128,
+    0,
+    0
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light86",
+   "source_node": "LIGHT_Light86",
+   "color": [
+    128,
+    0,
+    0
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light90",
+   "source_node": "LIGHT_Light90",
+   "color": [
+    102,
+    102,
+    102
+   ],
+   "radius": 1280,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light58",
+   "source_node": "LIGHT_Light58",
+   "color": [
+    0,
+    54,
+    70
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light60",
+   "source_node": "LIGHT_Light60",
+   "color": [
+    0,
+    54,
+    70
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light0",
+   "source_node": "LIGHT_Light0",
+   "color": [
+    0,
+    90,
+    116
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light1",
+   "source_node": "LIGHT_Light1",
+   "color": [
+    0,
+    90,
+    116
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light10",
+   "source_node": "LIGHT_Light10",
+   "color": [
+    0,
+    90,
+    116
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light102",
+   "source_node": "LIGHT_Light102",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light103",
+   "source_node": "LIGHT_Light103",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light106",
+   "source_node": "LIGHT_Light106",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light107",
+   "source_node": "LIGHT_Light107",
+   "color": [
+    0,
+    45,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light109",
+   "source_node": "LIGHT_Light109",
+   "color": [
+    0,
+    45,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light11",
+   "source_node": "LIGHT_Light11",
+   "color": [
+    0,
+    90,
+    116
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light111",
+   "source_node": "LIGHT_Light111",
+   "color": [
+    0,
+    45,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light113",
+   "source_node": "LIGHT_Light113",
+   "color": [
+    0,
+    45,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light117",
+   "source_node": "LIGHT_Light117",
+   "color": [
+    0,
+    45,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light119",
+   "source_node": "LIGHT_Light119",
+   "color": [
+    0,
+    45,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light121",
+   "source_node": "LIGHT_Light121",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light123",
+   "source_node": "LIGHT_Light123",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light129",
+   "source_node": "LIGHT_Light129",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light130",
+   "source_node": "LIGHT_Light130",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light133",
+   "source_node": "LIGHT_Light133",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light137",
+   "source_node": "LIGHT_Light137",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light139",
+   "source_node": "LIGHT_Light139",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light149",
+   "source_node": "LIGHT_Light149",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light151",
+   "source_node": "LIGHT_Light151",
+   "color": [
+    51,
+    40,
+    16
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light159",
+   "source_node": "LIGHT_Light159",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light161",
+   "source_node": "LIGHT_Light161",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light191",
+   "source_node": "LIGHT_Light191",
+   "color": [
+    0,
+    11,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light192",
+   "source_node": "LIGHT_Light192",
+   "color": [
+    0,
+    90,
+    116
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light24",
+   "source_node": "LIGHT_Light24",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light39",
+   "source_node": "LIGHT_Light39",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light40",
+   "source_node": "LIGHT_Light40",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light45",
+   "source_node": "LIGHT_Light45",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light48",
+   "source_node": "LIGHT_Light48",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light50",
+   "source_node": "LIGHT_Light50",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light62",
+   "source_node": "LIGHT_Light62",
+   "color": [
+    0,
+    45,
+    58
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light7",
+   "source_node": "LIGHT_Light7",
+   "color": [
+    0,
+    90,
+    116
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light72",
+   "source_node": "LIGHT_Light72",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light74",
+   "source_node": "LIGHT_Light74",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light76",
+   "source_node": "LIGHT_Light76",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light78",
+   "source_node": "LIGHT_Light78",
+   "color": [
+    0,
+    99,
+    128
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light87",
+   "source_node": "LIGHT_Light87",
+   "color": [
+    0,
+    0,
+    255
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "LIGHT_lamp_CandleProp0",
+   "source_node": "LIGHT_lamp_CandleProp0",
+   "color": [
+    255,
+    230,
+    160
+   ],
+   "radius": 512,
+   "brightness": 31,
+   "type": "point"
+  }
+ ],
+ "spawns": []
+}

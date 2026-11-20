@@ -1,0 +1,19 @@
+{
+  "status": "offline_context_review_pass_native_capture_pending",
+  "build_sha256": "6bac413eb2eba6c00565e0de69c78b00beb375abdc7adb5af6337489a2353820",
+  "comparison_sha256": "e4293eef087f0e41c66f469228c4b9d14e38754444b3da362a22a384cbef84e9",
+  "observations": [
+    "Native interior dirt patches remain in their original positions. Corrected edges use the volcanic master instead of the previous erroneous dirt profiles.",
+    "18 of19 native adjacency types touching this tile pass. Remaining voltylx E volxsw is a native placement mismatch (one cell in elemf), also failing on the original. Requires contextual review.",
+    "Inspected all three 4x4 native-layout comparisons. The corrected variant removes the previous rectangular dirt frame and preserves the scattered interior patches.",
+    "The remaining voltylx E volxsw placement meets a partial dirt corner against volcanic material in both native and restored layouts. Retain map geometry; this texture cannot make both incompatible materials continuous.",
+    "The separate volxse S voltyl newly failing measurement is also an existing partial dirt corner ending against solid volcano. It is visible in native context_26_96; no texture repair justified by this placement."
+  ],
+  "not_staged": false,
+  "contexts": {
+    "context_26_96.png": "0a2cd6c76d3f1d1379aa127e7459c75a3ff290a6f54fa7d4d3c5859acd84cf1c",
+    "context_27_86.png": "e74fd9b08dd18229e8be9362990d47ff507435c589ad6c111116c4d407edbadc",
+    "context_26_34.png": "7735849da4cda853bc406108f2204e2649931883dc60f5c22ffdf9ad0a2e6390"
+  },
+  "staged_runtime_sha256": "27e91308dda45fe5168da4e16b8252762c133ebc6cae8886ebf633ebd6e86355"
+}

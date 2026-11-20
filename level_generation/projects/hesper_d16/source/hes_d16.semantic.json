@@ -1,0 +1,824 @@
+{
+  "pickups": [
+    {
+      "model": "hes_colony_satchel",
+      "event": 750,
+      "room": "vestibule",
+      "position": [
+        4430,
+        250,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 751,
+      "room": "vestibule",
+      "position": [
+        5170,
+        450,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 752,
+      "room": "guard",
+      "position": [
+        3340,
+        2050,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 753,
+      "room": "guard",
+      "position": [
+        6260,
+        2100,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 754,
+      "room": "guard",
+      "position": [
+        3500,
+        3070,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 755,
+      "room": "guard",
+      "position": [
+        6070,
+        3100,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 756,
+      "room": "galleries",
+      "position": [
+        1950,
+        5760,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 757,
+      "room": "galleries",
+      "position": [
+        4120,
+        5140,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 758,
+      "room": "galleries",
+      "position": [
+        6350,
+        5140,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 759,
+      "room": "galleries",
+      "position": [
+        7800,
+        5760,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 760,
+      "room": "t1",
+      "position": [
+        1900,
+        6180,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 761,
+      "room": "t1",
+      "position": [
+        2920,
+        7180,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 762,
+      "room": "t3",
+      "position": [
+        7680,
+        7790,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 763,
+      "room": "t3",
+      "position": [
+        7700,
+        8830,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 764,
+      "room": "tunnel",
+      "position": [
+        3320,
+        10160,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 765,
+      "room": "tunnel",
+      "position": [
+        3520,
+        11600,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 766,
+      "room": "graft",
+      "position": [
+        9700,
+        6350,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 767,
+      "room": "graft",
+      "position": [
+        11350,
+        7400,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 768,
+      "room": "graft",
+      "position": [
+        9700,
+        8550,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 769,
+      "room": "graft",
+      "position": [
+        10800,
+        5970,
+        -512
+      ]
+    }
+  ],
+  "arrivals": {
+    "blast_door": {
+      "position": [
+        4800,
+        300,
+        0
+      ],
+      "direction_degrees": 90
+    },
+    "service_tunnel": {
+      "position": [
+        3424,
+        12200,
+        -512
+      ],
+      "direction_degrees": 270
+    }
+  },
+  "door_ids": {
+    "inner": 1,
+    "west": 2,
+    "east": 3,
+    "t3": 4,
+    "vault": 5,
+    "service": 6,
+    "t2": 7
+  },
+  "chest_events": {
+    "30": 0,
+    "31": 1,
+    "32": 2,
+    "33": 3
+  },
+  "actors": [
+    {
+      "name": "Court Overseer C \u00d71 and Drudge Hulks \u00d73, the grafting crew's guard",
+      "monster": 10032,
+      "group": 1,
+      "position": [
+        4350,
+        2800,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 11
+    },
+    {
+      "name": "Court Overseer C \u00d71 and Drudge Hulks \u00d73, the grafting crew's guard",
+      "monster": 10002,
+      "group": 1,
+      "position": [
+        5250,
+        2800,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 12
+    },
+    {
+      "name": "Court Overseer C \u00d71 and Drudge Hulks \u00d73, the grafting crew's guard",
+      "monster": 10002,
+      "group": 1,
+      "position": [
+        4350,
+        2920,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 11
+    },
+    {
+      "name": "Court Overseer C \u00d71 and Drudge Hulks \u00d73, the grafting crew's guard",
+      "monster": 10002,
+      "group": 1,
+      "position": [
+        5250,
+        2920,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 12
+    },
+    {
+      "name": "Noble Duellist B \u00d71, the hall's officer",
+      "monster": 10041,
+      "group": 1,
+      "position": [
+        3800,
+        2900,
+        0
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 11
+    },
+    {
+      "name": "Drudge Hulks \u00d73, a grafting gang",
+      "monster": 10002,
+      "group": 2,
+      "position": [
+        2220.0,
+        5300,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 6
+    },
+    {
+      "name": "Drudge Hulks \u00d73, a grafting gang",
+      "monster": 10002,
+      "group": 2,
+      "position": [
+        2400.0,
+        5300,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 6
+    },
+    {
+      "name": "Drudge Hulks \u00d73, a grafting gang",
+      "monster": 10002,
+      "group": 2,
+      "position": [
+        2580.0,
+        5300,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 6
+    },
+    {
+      "name": "Noble Duellists B \u00d72, the galleries' watch (east stretch)",
+      "monster": 10041,
+      "group": 2,
+      "position": [
+        6610.0,
+        5600,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Noble Duellists B \u00d72, the galleries' watch (east stretch)",
+      "monster": 10041,
+      "group": 2,
+      "position": [
+        6790.0,
+        5600,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 1, hidden)",
+      "monster": 10002,
+      "group": 5,
+      "position": [
+        4030.0,
+        5700,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 1, hidden)",
+      "monster": 10002,
+      "group": 5,
+      "position": [
+        4210.0,
+        5700,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 1, hidden)",
+      "monster": 10002,
+      "group": 5,
+      "position": [
+        4390.0,
+        5700,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 1, hidden)",
+      "monster": 10002,
+      "group": 5,
+      "position": [
+        4030.0,
+        5520,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10002,
+      "group": 6,
+      "position": [
+        7230.0,
+        5430,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10002,
+      "group": 6,
+      "position": [
+        7410.0,
+        5430,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10002,
+      "group": 6,
+      "position": [
+        7590.0,
+        5430,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Drudge Hulks \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10002,
+      "group": 6,
+      "position": [
+        7230.0,
+        5610,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T1",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        1960,
+        6650,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 14
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T1",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        2240,
+        6650,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 14
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T3",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        7260,
+        8000,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 16
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T3",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        7540,
+        8000,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 16
+    },
+    {
+      "name": "The Conductor (10109)",
+      "monster": 10109,
+      "group": 9,
+      "position": [
+        4800,
+        6716,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 2
+    },
+    {
+      "name": "Noble Duellists B \u00d72 and a Court Overseer C, the hall's watch",
+      "monster": 10041,
+      "group": 10,
+      "position": [
+        8580,
+        6500,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 1
+    },
+    {
+      "name": "Noble Duellists B \u00d72 and a Court Overseer C, the hall's watch",
+      "monster": 10041,
+      "group": 10,
+      "position": [
+        8760,
+        6500,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 1
+    },
+    {
+      "name": "Noble Duellists B \u00d72 and a Court Overseer C, the hall's watch",
+      "monster": 10032,
+      "group": 10,
+      "position": [
+        8940,
+        6500,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 1
+    },
+    {
+      "name": "Drudge Hulks \u00d75 fusing resin onto the cells",
+      "monster": 10002,
+      "group": 11,
+      "position": [
+        10200,
+        8600,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 10
+    },
+    {
+      "name": "Drudge Hulks \u00d75 fusing resin onto the cells",
+      "monster": 10002,
+      "group": 11,
+      "position": [
+        10430,
+        8710,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 10
+    },
+    {
+      "name": "Drudge Hulks \u00d75 fusing resin onto the cells",
+      "monster": 10002,
+      "group": 11,
+      "position": [
+        10660,
+        8630,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 10
+    },
+    {
+      "name": "Drudge Hulks \u00d75 fusing resin onto the cells",
+      "monster": 10002,
+      "group": 11,
+      "position": [
+        10350,
+        8930,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 10
+    },
+    {
+      "name": "Drudge Hulks \u00d75 fusing resin onto the cells",
+      "monster": 10002,
+      "group": 11,
+      "position": [
+        10880,
+        8900,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 10
+    },
+    {
+      "name": "Court Overseer C and Court Noble C, the graft's masters",
+      "monster": 10032,
+      "group": 12,
+      "position": [
+        10840,
+        6400,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 9
+    },
+    {
+      "name": "Court Overseer C and Court Noble C, the graft's masters",
+      "monster": 10042,
+      "group": 12,
+      "position": [
+        11160,
+        6400,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 9
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T2",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        8160,
+        8600,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 15
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T2",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        8440,
+        8420,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 15
+    },
+    {
+      "name": "Capacitor Column 1 (10142): its living cell",
+      "monster": 10142,
+      "group": 21,
+      "position": [
+        4800,
+        8616,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 0,
+      "sector": 4
+    },
+    {
+      "name": "Capacitor Column 2 (10142): its living cell",
+      "monster": 10142,
+      "group": 22,
+      "position": [
+        5666,
+        7116,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 0,
+      "sector": 3
+    },
+    {
+      "name": "Capacitor Column 3 (10142): its living cell",
+      "monster": 10142,
+      "group": 23,
+      "position": [
+        3934,
+        7116,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 0,
+      "sector": 2
+    }
+  ],
+  "couplings": [
+    [
+      4800,
+      8616
+    ],
+    [
+      5666,
+      7116
+    ],
+    [
+      3934,
+      7116
+    ]
+  ],
+  "arc_light_positions": [
+    [
+      3000,
+      5472,
+      -420
+    ],
+    [
+      5900,
+      5472,
+      -420
+    ],
+    [
+      7300,
+      5472,
+      -420
+    ]
+  ],
+  "provisional_dressing": "Eight wall-side pods and strands on the four specified grafted columns.",
+  "map": "hes_d16.blv",
+  "events": {
+    "51": "inner",
+    "52": "west",
+    "54": "t3",
+    "53": "east",
+    "55": "vault",
+    "56": "service",
+    "58": "t2",
+    "50": "exit_vestibule",
+    "57": "exit_tunnel",
+    "70": "pylon_niche",
+    "10": "duty",
+    "11": "arc_warning",
+    "12": "heart_plate",
+    "71": "arc_0_galleries_0",
+    "72": "arc_1_galleries_1",
+    "73": "arc_2_galleries_2",
+    "80": "terminal_t1",
+    "82": "terminal_t3",
+    "90": "heart_0",
+    "81": "terminal_t2",
+    "15": "graft_glyph",
+    "85": "column_1_core_3",
+    "86": "column_2_core_1",
+    "87": "column_3_core_0"
+  },
+  "decorations": 62,
+  "sectors": [
+    "room_cleanhall",
+    "room_core_0",
+    "room_core_1",
+    "room_core_2",
+    "room_core_3",
+    "room_galleries_0",
+    "room_galleries_1",
+    "room_galleries_2",
+    "room_graft_0",
+    "room_graft_1",
+    "room_guard_0",
+    "room_guard_1",
+    "room_ramp",
+    "room_t1",
+    "room_t2",
+    "room_t3",
+    "room_tunnel_0",
+    "room_tunnel_1",
+    "room_vault",
+    "room_vestibule"
+  ],
+  "doors": {
+    "inner": 1,
+    "west": 2,
+    "t3": 4,
+    "east": 3,
+    "vault": 5,
+    "service": 6,
+    "t2": 7
+  }
+}

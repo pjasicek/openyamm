@@ -1,0 +1,186 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_thearena/review/v04
+settle_seconds: 1.5
+exit: true
+shots:
+- name: h01_start
+  position:
+  - 0
+  - -3686
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: h02_hall_to_front_door
+  position:
+  - 0
+  - -2816
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: h03_counter_master
+  position:
+  - 154
+  - -3441
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: h04_counter_bars
+  position:
+  - -51
+  - -3226
+  - 1
+  yaw: -2.3192
+  pitch: 0.0
+- name: h05_corridor_to_arena_door
+  position:
+  - 0
+  - -2560
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: h06_hall_west_side
+  position:
+  - -102
+  - -3635
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: h07_west_strip
+  position:
+  - -486
+  - -3763
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: h08_stair_up
+  position:
+  - 471
+  - -3174
+  - 32
+  yaw: 1.5708
+  pitch: 0.3142
+- name: s01_stair_down
+  position:
+  - 471
+  - -2560
+  - 493
+  yaw: -1.5708
+  pitch: -0.3491
+- name: s02_south_stand
+  position:
+  - 0
+  - -2381
+  - 861
+  yaw: 1.5708
+  pitch: -0.2094
+- name: a01_arena_north
+  position:
+  - 0
+  - -896
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: a02_arena_east_pen
+  position:
+  - 640
+  - 0
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: a03_arena_west_pen
+  position:
+  - -640
+  - 0
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: a04_arena_door
+  position:
+  - 0
+  - 256
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: a05_arena_diagonal
+  position:
+  - 819
+  - 819
+  - 1
+  yaw: -2.3562
+  pitch: 0.0
+- name: a06_arena_sky
+  position:
+  - 0
+  - -512
+  - 1
+  yaw: 1.5708
+  pitch: 0.6109
+- name: p01_east_pen
+  position:
+  - 1894
+  - 0
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: p02_west_pen
+  position:
+  - -1894
+  - 0
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: b01_box_over_arena
+  position:
+  - 0
+  - 1792
+  - 503
+  yaw: -1.5708
+  pitch: -0.2618
+- name: b02_box_throne
+  position:
+  - -205
+  - 1664
+  - 513
+  yaw: 0.6769
+  pitch: 0.0
+- name: t01_east_stand
+  position:
+  - 2176
+  - -384
+  - 984
+  yaw: 2.9669
+  pitch: -0.2094
+- name: t02_west_stand
+  position:
+  - -2176
+  - 384
+  - 984
+  yaw: -0.1747
+  pitch: -0.2094
+- name: t03_north_stand
+  position:
+  - 896
+  - 2432
+  - 1025
+  yaw: -1.9238
+  pitch: -0.2094
+- name: t04_ne_stand
+  position:
+  - 1382
+  - 1382
+  - 718
+  yaw: -2.3562
+  pitch: -0.1745
+- name: t05_sw_stand
+  position:
+  - -1382
+  - -1382
+  - 718
+  yaw: 0.7854
+  pitch: -0.1745
+- name: t06_se_stand_along
+  position:
+  - 1920
+  - -1536
+  - 1025
+  yaw: 1.176
+  pitch: 0.0

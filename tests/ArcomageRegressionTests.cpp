@@ -232,6 +232,157 @@ TEST_CASE("arcomage mm8 special cards apply expected effects")
     }
 }
 
+namespace
+{
+// Player 1 (the AI) to move with the given hand and plenty of every resource, so each card can be played.
+void prepareAiHand(
+    OpenYAMM::Tests::ArcomageTestHarness &harness,
+    int mastery,
+    const std::vector<std::string> &cardNames)
+{
+    std::vector<uint32_t> cardIds;
+
+    for (const std::string &cardName : cardNames)
+    {
+        const std::optional<uint32_t> cardId = harness.cardIdByName(cardName);
+        REQUIRE_MESSAGE(cardId.has_value(), cardName);
+        cardIds.push_back(*cardId);
+    }
+
+    harness.clearHands();
+    REQUIRE(harness.setHand(1, cardIds));
+    harness.state.aiMastery = mastery;
+    harness.state.currentPlayerIndex = 1;
+    harness.state.needsTurnStart = false;
+
+    for (OpenYAMM::Game::ArcomagePlayerState &player : harness.state.players)
+    {
+        player.tower = 20;
+        player.wall = 10;
+        player.quarry = 2;
+        player.magic = 2;
+        player.dungeon = 2;
+        player.bricks = 30;
+        player.gems = 30;
+        player.recruits = 30;
+    }
+}
+
+std::string chosenCardName(
+    const OpenYAMM::Tests::ArcomageTestHarness &harness,
+    const OpenYAMM::Game::ArcomageLibrary &library)
+{
+    const OpenYAMM::Game::ArcomageAi::Action action = harness.ai.chooseAction(library, harness.state);
+
+    if (action.kind != OpenYAMM::Game::ArcomageAi::ActionKind::PlayCard)
+    {
+        return action.kind == OpenYAMM::Game::ArcomageAi::ActionKind::DiscardCard ? "(discard)" : "(none)";
+    }
+
+    const int cardId = harness.state.players[1].hand[action.handIndex];
+    const OpenYAMM::Game::ArcomageCardDefinition *pCard = library.cardById(static_cast<uint32_t>(cardId));
+    return pCard != nullptr ? pCard->name : "(unknown)";
+}
+}
+
+TEST_CASE("arcomage ai scores the effects a card really has")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::ArcomageLibrary &library = gameData.arcomageLibrary;
+
+    for (const auto &[houseId, rule] : library.tavernRulesByHouseId)
+    {
+        CAPTURE(houseId);
+        CHECK_GE(rule.aiMastery, 0);
+        CHECK_LE(rule.aiMastery, 2);
+    }
+
+    // Mastery 0 plays at random; 1 and 2 are the scored levels the taverns use.
+    for (int mastery = 1; mastery <= 2; ++mastery)
+    {
+        CAPTURE(mastery);
+        OpenYAMM::Tests::ArcomageTestHarness harness = {};
+        REQUIRE(harness.initialize(library, 228));
+
+        {
+            // Shift is played only when the enemy wall is higher.
+            prepareAiHand(harness, mastery, {"Shift", "Amethyst"});
+            harness.state.players[1].wall = 20;
+            harness.state.players[0].wall = 5;
+            CHECK_EQ(chosenCardName(harness, library), "Amethyst");
+
+            harness.state.players[1].wall = 5;
+            harness.state.players[0].wall = 20;
+            CHECK_EQ(chosenCardName(harness, library), "Shift");
+        }
+
+        {
+            // A card that only hurts is discarded.
+            prepareAiHand(harness, mastery, {"Shift"});
+            harness.state.players[1].wall = 20;
+            harness.state.players[0].wall = 5;
+            CHECK_EQ(chosenCardName(harness, library), "(discard)");
+        }
+
+        {
+            // Copping the Tech is played only when the AI quarry is lower.
+            prepareAiHand(harness, mastery, {"Copping the Tech", "Amethyst"});
+            harness.state.players[1].quarry = 5;
+            harness.state.players[0].quarry = 2;
+            CHECK_EQ(chosenCardName(harness, library), "Amethyst");
+
+            harness.state.players[1].quarry = 2;
+            harness.state.players[0].quarry = 5;
+            CHECK_EQ(chosenCardName(harness, library), "Copping the Tech");
+        }
+
+        {
+            // Parity is played only when the AI magic is lower.
+            // With the higher magic, Parity raises the enemy's magic to the AI's.
+            prepareAiHand(harness, mastery, {"Parity", "Amethyst"});
+            harness.state.players[1].magic = 5;
+            harness.state.players[0].magic = 2;
+            CHECK_EQ(chosenCardName(harness, library), "Amethyst");
+
+            harness.state.players[1].magic = 2;
+            harness.state.players[0].magic = 5;
+            CHECK_EQ(chosenCardName(harness, library), "Parity");
+        }
+
+        {
+            // Flood Water is played only when the enemy wall is lower.
+            prepareAiHand(harness, mastery, {"Flood Water", "Amethyst"});
+            harness.state.players[1].wall = 5;
+            harness.state.players[0].wall = 12;
+            CHECK_EQ(chosenCardName(harness, library), "Amethyst");
+
+            harness.state.players[1].wall = 12;
+            harness.state.players[0].wall = 12;
+            CHECK_EQ(chosenCardName(harness, library), "Amethyst");
+
+            harness.state.players[1].wall = 12;
+            harness.state.players[0].wall = 5;
+            CHECK_EQ(chosenCardName(harness, library), "Flood Water");
+        }
+
+        {
+            // A conditional card is scored by the branch its condition selects.
+            // Lightning Shard hits the tower for 8 when the AI tower is above the enemy wall, else the buildings.
+            prepareAiHand(harness, mastery, {"Lightning Shard", "Copping the Tech"});
+            harness.state.players[1].quarry = 2;
+            harness.state.players[0].quarry = 5;
+            harness.state.players[0].tower = 6;
+            harness.state.players[1].tower = 12;
+
+            harness.state.players[0].wall = 4;
+            CHECK_EQ(chosenCardName(harness, library), "Lightning Shard");
+
+            harness.state.players[0].wall = 30;
+            CHECK_EQ(chosenCardName(harness, library), "Copping the Tech");
+        }
+    }
+}
+
 TEST_CASE("arcomage play again refills hand like oe")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -309,4 +460,26 @@ TEST_CASE("arcomage turn change clears previous shown cards")
 
     REQUIRE(harness.playCardById(1, *amethystId));
     CHECK_EQ(OpenYAMM::Tests::arcomageShownCardCount(harness.state), 1);
+}
+
+TEST_CASE("arcomage Barracks builds the wall and production levels stay at 1 (OY-128, OY-168)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::ArcomageCardDefinition *pBarracks = gameData.arcomageLibrary.cardByName("Barracks");
+    REQUIRE(pBarracks != nullptr);
+    CHECK_EQ(pBarracks->primary.playerWall, 6);
+    CHECK_EQ(pBarracks->secondary.playerWall, 6);
+
+    OpenYAMM::Tests::ArcomageTestHarness harness = {};
+    REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
+    const std::optional<uint32_t> earthquakeId = harness.cardIdByName("Earthquake");
+    REQUIRE(earthquakeId.has_value());
+    harness.clearHands();
+    REQUIRE(harness.setHand(0, std::vector<uint32_t>{*earthquakeId}));
+    harness.state.players[0].quarry = 1;
+    harness.state.players[1].quarry = 2;
+
+    REQUIRE(harness.playCardById(0, *earthquakeId));
+    CHECK_EQ(harness.state.players[0].quarry, 1);
+    CHECK_EQ(harness.state.players[1].quarry, 1);
 }

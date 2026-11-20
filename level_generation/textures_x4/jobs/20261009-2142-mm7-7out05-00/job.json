@@ -1,0 +1,79 @@
+{
+ "id": "20261009-2142-mm7-7out05-00",
+ "world": "mm7",
+ "maps": [
+  "7out05.odm"
+ ],
+ "created": "2026-10-09T19:42:52+00:00",
+ "textures": [
+  "mm7/hnp2erw"
+ ],
+ "requests": {
+  "mm7/hnp2erw": {
+   "name": "hnp2erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a broad dark wooden corner post at the right that is cut by the right edge and continues beyond it, and a carved horned demon head with red eyes above a tattered brown cloth hanging over a small window with a wooden sill; copy the composition exactly",
+   "notes": {
+    "2": "the top beam and the right post reach the top and right edges at full brightness, with no dark line or outline along either edge",
+    "3": "keep every element exactly where the reference has it; the right post's wood runs to the last pixel column at full brightness with no dark outline",
+    "4": "keep every element exactly where the reference has it; the bottom wooden beam keeps its full brightness down to the last pixel row; the right post's wood runs to the last column with no outline"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.201
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.201
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.201
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnp2b"
+    },
+    "2": {
+     "left": "mm7/hnp2b"
+    },
+    "3": {
+     "left": "mm7/hnp2b"
+    },
+    "4": {
+     "left": "mm7/hnp2b"
+    }
+   },
+   "border": "edge",
+   "roll": {
+    "3": [
+     0,
+     137
+    ],
+    "4": [
+     0,
+     137
+    ]
+   },
+   "standalone": true,
+   "match_neighbor": true
+  }
+ }
+}

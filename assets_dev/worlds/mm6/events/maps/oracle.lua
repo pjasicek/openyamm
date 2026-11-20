@@ -126,7 +126,7 @@ end)
 
 RegisterEvent(6, nil, function()
     if IsAtLeast(MapVar(8), 1) then
-        evt.SetTexture(436, "trekscon")
+        evt.SetTexture(-436, "trekscon")
         SetValue(MapVar(2), 1)
     end
 end)
@@ -134,7 +134,7 @@ end)
 RegisterEvent(7, nil, function()
     if not IsAtLeast(MapVar(8), 1) then return end
     if IsAtLeast(MapVar(2), 1) then
-        evt.SetTexture(436, "trekscrn")
+        evt.SetTexture(-436, "trekscrn")
         SetValue(MapVar(2), 0)
     end
 end)

@@ -1,0 +1,130 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_darkpassageway/review/lighting01_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_start_room
+  position:
+  - -18995
+  - 1946
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: b01_lake_from_ladder
+  position:
+  - -18995
+  - -1126
+  - 1
+  yaw: -1.526
+  pitch: -0.3491
+- name: b03_lake_end
+  position:
+  - -19323
+  - -10394
+  - -1310
+  yaw: 1.5708
+  pitch: 0.0
+- name: c01_canyon_corridor
+  position:
+  - -19574
+  - -11021
+  - -1310
+  yaw: -2.3908
+  pitch: 0.0
+- name: c03_canyon_plateau
+  position:
+  - -21102
+  - -16512
+  - -1310
+  yaw: -1.4471
+  pitch: 0.0
+- name: c05_canyon_door_ledge
+  position:
+  - -20224
+  - -21504
+  - -327
+  yaw: 1.7127
+  pitch: 0.0
+- name: m01_mountain_room
+  position:
+  - -16896
+  - -21248
+  - -327
+  yaw: 1.0705
+  pitch: 0.0
+- name: f02_forest_middle
+  position:
+  - -15401
+  - -15104
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: p02_path_north
+  position:
+  - -14336
+  - -8448
+  - 1
+  yaw: 0.3218
+  pitch: 0.0
+- name: t01_tube_room
+  position:
+  - -13440
+  - -21248
+  - -695
+  yaw: -0.1049
+  pitch: -0.2618
+- name: o01_ocean_island
+  position:
+  - -7537
+  - -21453
+  - -3304
+  yaw: -1.5708
+  pitch: 0.0
+- name: r01_pillar_room
+  position:
+  - -7864
+  - -18560
+  - -818
+  yaw: 1.5708
+  pitch: 0.0
+- name: d01_desert_entry
+  position:
+  - -7864
+  - -15488
+  - 262
+  yaw: 0.775
+  pitch: 0.0
+- name: d06_desert_wide
+  position:
+  - -1792
+  - -7424
+  - -818
+  yaw: -2.3562
+  pitch: 0.0
+- name: k02_spike_room
+  position:
+  - -5581
+  - -3968
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: e02_exit_room
+  position:
+  - -5243
+  - 845
+  - -1187
+  yaw: 1.5708
+  pitch: 0.0
+- name: w02_curve
+  position:
+  - -3584
+  - 5888
+  - -572
+  yaw: 0.2382
+  pitch: 0.0
+- name: w03_wyrde_room
+  position:
+  - -1152
+  - 6323
+  - -572
+  yaw: 0.0156
+  pitch: 0.0

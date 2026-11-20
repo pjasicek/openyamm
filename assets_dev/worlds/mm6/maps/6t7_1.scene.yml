@@ -1,0 +1,15 @@
+# Superior Temple of Baa: the "Lava pool" floors (vlcceila) dealt 30 magic damage on each step (event 76).
+# They are now native lava, as in MM8: the overrides below add the Lava flag (0x40000000) and drop the step
+# trigger (0x04000000), so the floors burn every second like any lava and Levitate protects. The event stays
+# bound; a save that already holds this map keeps its saved face flags, and so the scripted lava, until the map
+# resets.
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "6t7.blv"
+initial_state:
+  face_attribute_overrides:
+    - face_index: 3208
+      legacy_attributes: 0xc0000110
+    - face_index: 3209
+      legacy_attributes: 0xc0000110

@@ -1,0 +1,69 @@
+# The trainer finder on Dagger Wound Island (MM8, Standard): a third of Jadame's teacher notes found, Enroth's ledger
+# bought. Run: SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated trainers --binary build-b/game/openyamm \
+#   --world mm8 --map out01.odm --seconds 40 --set debug.menu_input_tour_path=$PWD/<this file>
+output_dir: ../images
+exit: true
+steps:
+- wait: 3
+- console: autonote set 89 92 93 94 97 100 103 106 109 113 116 119 122 125 128 131 134 137 140 143 146 149
+- console: ledger set 3
+- action: map_book
+- wait: 0.5
+- click: [1313, 666]
+- wait: 0.3
+- click: [1173, 746]
+- wait: 0.5
+- pointer_move: [760, 460]
+- wait: 0.3
+- capture: 01-finder-list
+- click: [1173, 210]
+- wait: 0.3
+- click: [1173, 210]
+- wait: 0.3
+- capture: 02-finder-list-last-page
+- click: [640, 241]
+- text: sword
+- wait: 0.3
+- pointer_move: [760, 318]
+- wait: 0.3
+- capture: 03-finder-search-sword
+- click: [760, 318]
+- wait: 1.2
+- capture: 04-finder-map
+- click: [1173, 112]
+- wait: 0.3
+- click: [1173, 112]
+- wait: 0.5
+- capture: 05-finder-map-zoomed
+- pointer_down: [700, 500]
+- pointer_move: [760, 560]
+- pointer_move: [820, 600]
+- pointer_up: [820, 600]
+- wait: 0.4
+- capture: 06-finder-map-dragged
+- click: [1004, 191]
+- wait: 0.3
+- capture: 07-finder-back-to-list
+- click: [954, 193]
+- wait: 0.3
+- click: [640, 241]
+- key: Backspace
+- key: Backspace
+- key: Backspace
+- key: Backspace
+- key: Backspace
+- click: [1038, 241]
+- wait: 0.3
+- capture: 08-finder-enroth-ledger-grandmasters
+- click: [1173, 310]
+- wait: 0.3
+- capture: 20-regression-potion-notes
+- click: [1313, 120]
+- wait: 0.5
+- capture: 21-regression-map
+- click: [1313, 300]
+- wait: 0.3
+- capture: 22-regression-quests
+- click: [1313, 485]
+- wait: 0.3
+- capture: 23-regression-story

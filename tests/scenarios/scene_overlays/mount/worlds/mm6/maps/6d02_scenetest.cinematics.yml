@@ -1,0 +1,8 @@
+# Test cinematics overlay (tests/scenarios/scene_overlays/): the Abandoned Temple has no cinematics file of its own;
+# this overlay alone gives it one cinematic.
+format_version: 1
+kind: openyamm_cinematics
+cinematics:
+  overlay_intro:
+    shots:
+      - {duration: 2, position: [-24192, -7300, -2000], look_at: [-24192, -7680, -2201]}

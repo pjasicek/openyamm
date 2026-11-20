@@ -1,0 +1,168 @@
+# The Scour's people (hes_out2; stage.py merges npcs_*.yml with npcs.yml): Thrix the deserter at his cave and stall
+# (house 9300, from S5), Tarro the scout at his lean-to (house 9301), and the ten freed Kept of the five work camps
+# (street actors of rows 10260/10261, shown from their camp's bit). Ansel (9221) is a Grandmaster teacher row of
+# skills.yml; his extra topic (9754) is here. Texts: P4's design/kreegan_world/quests/dialogue/SCOUR.md; places:
+# design/kreegan_world/zone2/THE_SCOUR.md section 16. Placed by level_generation/projects/hesper_out2/build_out2.py.
+#
+# QBits: 100105 S5 done (Thrix's first topic), 100225 S5 given, 100031 Vhorrax's token given (D5); P1's map state
+# 100406 Thrix asked which weapon the token buys, 100407 the token traded (the three choices are topics 9721-9723,
+# MM-style, as the dialogue has no choice buttons); the camps' bits 100115-100119; 100106 S6 done.
+
+npcs:
+  - id: 9509
+    name: Thrix
+    portrait: design/kreegan_world/art/portraits/x2/hes_thrix.png
+    house: 9300
+    greeting:
+      - "Do not shoot. Thrix does not shoot. You are the soft ones from the sky. Thrix heard."
+      - "Friends! Thrix is glad. Trade?"
+    topics: [9718, 9719, 9720, 9721, 9722, 9723]
+  - id: 9514
+    name: Tarro
+    portrait: design/kreegan_world/art/portraits/x2/hes_scout_2.png
+    house: 9301
+    greeting:
+      - "Take the dry path over. The slag beside it is still hot. Tarro's the name; I have supplies from Landfall."
+      - "Still breathing? Good. Buying?"
+    topics: [9739, 9740, 9741]
+  # The freed Kept, two at each camp (the second of a pair shares the first's face, NPCS.md).
+  - {id: 9590, name: Dunn, portrait: design/kreegan_world/art/portraits/x2/hes_dunn.png,
+     greeting: ["The song stopped. Just like that.", "The song stopped. Just like that."], topics: [9836]}
+  - {id: 9591, name: Marra, portrait: design/kreegan_world/art/portraits/x2/hes_dunn.png,
+     greeting: ["We'll stay. Somebody has to keep the road.", "We'll stay. Somebody has to keep the road."], topics: [9837]}
+  - {id: 9592, name: Gorse, portrait: design/kreegan_world/art/portraits/x2/hes_gorse.png,
+     greeting: ["Free. Wire in my hair and nothing round my neck.", "Free. Wire in my hair and nothing round my neck."],
+     topics: [9838]}
+  - {id: 9593, name: Tilde, portrait: design/kreegan_world/art/portraits/x2/hes_gorse.png,
+     greeting: ["The conveyors are still running. Keep your hands clear of the belts.", "The conveyors are still running. Keep your hands clear of the belts."], topics: [9839]}
+  - {id: 9594, name: Ruck, portrait: design/kreegan_world/art/portraits/x2/hes_ruck.png,
+     greeting: ["I could hear it grinding all night. The Harvester.", "I could hear it grinding all night. The Harvester."],
+     topics: [9840]}
+  - {id: 9595, name: Sae, portrait: design/kreegan_world/art/portraits/x2/hes_ruck.png,
+     greeting: ["I have nothing to give you yet. If you come back, I'll try to have food.", "I have nothing to give you yet. If you come back, I'll try to have food."], topics: [9841]}
+  - {id: 9596, name: Harl, portrait: design/kreegan_world/art/portraits/x2/hes_harl.png,
+     greeting: ["Forty years. Forty years in a collar.", "Forty years. Forty years in a collar."], topics: [9842]}
+  - {id: 9597, name: Wenna, portrait: design/kreegan_world/art/portraits/x2/hes_harl.png,
+     greeting: ["We'll be all right now. Go on.", "We'll be all right now. Go on."], topics: [9843]}
+  - {id: 9598, name: Pip, portrait: design/kreegan_world/art/portraits/x2/hes_pip.png,
+     greeting: ["Ansel says you're all right. So you're all right.", "Ansel says you're all right. So you're all right."],
+     topics: [9844]}
+  - {id: 9599, name: Oda, portrait: design/kreegan_world/art/portraits/x2/hes_pip.png,
+     greeting: ["The ring's ours now. We use it for drying cloth.", "The ring's ours now. We use it for drying cloth."],
+     topics: [9845]}
+
+topics:
+  # Thrix (9509), at his cave (row 10263) and his stall (house 9300).
+  - id: 9718
+    title: "Who are you"
+    lua: |
+      -- S5 done: the stall opens; an Engram Core, 20 000 experience, autonote 10415 (P4's SCOUR.md).
+      if IsQBitSet(QBit(100105)) then
+        evt.SetMessage("Thrix is Thrix. That is new.")
+        return
+      end
+      SetQBit(QBit(100105))
+      ClearQBit(QBit(100225))
+      AddValue(InventoryItem(11332), 11332)
+      AddValue(Experience, 20000)
+      SetAutonote(10415)
+      evt.SetMessage("Thrix was a digger: dig, carry, die, the song said. One day the song had a hole in it, and Thrix heard the Kept talking through it. Thrix learned, and walked away. Here, a shiny core from the Overseer's box. It is for friends.")
+  - id: 9719
+    title: "The song"
+    lua: |
+      evt.SetMessage("The black ones hear the song all the time: the Voice in the Crown, singing. Thrix does not hear it much now. Too far. The quiet is strange. Thrix likes it.")
+  - id: 9720
+    title: "Vhorrax's Token"
+    show_after: 100031
+    show_until: 100407
+    lua: |
+      -- With the Token (11482) Thrix asks which weapon it buys: the three answers are topics 9721-9723 (100406).
+      if HasItem(11482) then
+        SetQBit(QBit(100406))
+        evt.SetMessage("A lord's token! Thrix gives a weapon for it, the best Thrix has. Which? A gun, a blade, or a heavy one?")
+      else
+        evt.SetMessage("Lord Vhorrax gives tokens to ones who beat him. Thrix would like to see one. Once.")
+      end
+  - id: 9721
+    title: "A gun"
+    show_after: 100406
+    show_until: 100407
+    lua: |
+      if not HasItem(11482) then
+        evt.SetMessage("The token, friend. Thrix trades for the token.")
+        return
+      end
+      RemoveItem(11482)
+      AddValue(InventoryItem(11003), 11003)
+      SetQBit(QBit(100407))
+      evt.SetMessage("A Lancer Carbine. Thrix will put the token on the wall. Every drudge who walks past will see.")
+  - id: 9722
+    title: "A blade"
+    show_after: 100406
+    show_until: 100407
+    lua: |
+      if not HasItem(11482) then
+        evt.SetMessage("The token, friend. Thrix trades for the token.")
+        return
+      end
+      RemoveItem(11482)
+      AddValue(InventoryItem(11023), 11023)
+      SetQBit(QBit(100407))
+      evt.SetMessage("A Plasma Longblade. Thrix will put the token on the wall. Every drudge who walks past will see.")
+  - id: 9723
+    title: "A heavy one"
+    show_after: 100406
+    show_until: 100407
+    lua: |
+      if not HasItem(11482) then
+        evt.SetMessage("The token, friend. Thrix trades for the token.")
+        return
+      end
+      RemoveItem(11482)
+      AddValue(InventoryItem(11027), 11027)
+      SetQBit(QBit(100407))
+      evt.SetMessage("A Phase Cleaver. Thrix will put the token on the wall. Every drudge who walks past will see.")
+  # Tarro (9514), at his lean-to (house 9301).
+  - id: 9739
+    title: "The Scour"
+    lua: |
+      evt.SetMessage("Strip mines, all of it, from the canyon to the Foundry. Five work camps full of collared Kept, troopers in squads on the roads, Overseers over the pit. The quarry fort on the mesa east of here. The Pens in the pit to the south-east. The Foundry north, by their road to the city. Don't go up that road yet.")
+  - id: 9740
+    title: "The canyon"
+    lua: |
+      evt.SetMessage("Up the west canyon there's a cave, and a black one lives in it who talks like a person. Lorn at the Last Lamp tells it as a tale. It isn't one. I've traded with him, and he's never shot at me.")
+  - id: 9741
+    title: "Tablets"
+    lua: |
+      evt.SetMessage("Three of the colony's log tablets out here that I know of: one by the old mine road past the mesa, one at the edge of the slag field to the east, one among the old survey markers in the south. Pell will want them.")
+  # Ansel (9221, skills.yml's Grandmaster Energy Blades teacher), camp 5.
+  - id: 9754
+    title: "The ring"
+    lua: |
+      evt.SetMessage("I fought their nobles in the ring for years. They like a long fight; I learned to end one. Their shields have a seam. When all five camps are free, come back and I'll show you where to strike.")
+  # The freed Kept of the camps (one topic each).
+  - {id: 9836, title: "The wreck", lua: 'evt.SetMessage("The dead ship by the road. We cut plate off it for the black ones. They would not go inside it themselves.")'}
+  - {id: 9837, title: "Down below", lua: 'evt.SetMessage("One of us has gone down to the old town already. The rest stay till the camps are all free.")'}
+  - {id: 9838, title: "The Foundry", lua: 'evt.SetMessage("Every cart we filled went north up the conveyors to the Foundry. The heat comes off it like a wall.")'}
+  - {id: 9839, title: "Overseers", lua: 'evt.SetMessage("Kill the one on the perch and the collars die with it. They never told us that. We learned it watching.")'}
+  - {id: 9840, title: "The pit", lua: 'evt.SetMessage("Down on the floor there''s a machine bigger than a house, eating the ground. It stops to dig, now and then, and opens up. That''s when you hit it.")'}
+  - {id: 9841, title: "Thrix", lua: 'evt.SetMessage("There''s a black one in a cave up the west canyon that talks. Talks! He threw us food once, over the fence. Don''t kill him.")'}
+  - {id: 9842, title: "The depot", lua: 'evt.SetMessage("The supply depot past the terraces is full of crates and troopers. And a pylon. They''ll ring it if they see you.")'}
+  - {id: 9843, title: "The road north", lua: 'evt.SetMessage("The Kreegan Road goes north to their city. Nobody we sent up it came back down.")'}
+  - {id: 9844, title: "Ansel", lua: 'evt.SetMessage("They made him fight in the ring for the Overseers to watch. He never lost. Not once. Ask him to teach you.")'}
+  - {id: 9845, title: "The camps", lua: 'evt.SetMessage("Five camps on the Scour. Every one you free, the black ones have fewer hands. And we have more.")'}
+
+autonotes:
+  - {id: 10100, category: Misc, text: "The Scour: the Kreegans' strip mines. Five work camps hold the Kept; the Foundry smokes in the north."}
+  - {id: 10101, category: Misc, text: "The Harvester is dead; its core, the lander's Energy Core, lay in the pit."}
+  - {id: 10103, category: Misc, text: "The supply depot's pylon calls drop pods."}
+  - {id: 10105, category: Misc, text: "All five work camps on the Scour are free."}
+
+# Thrix's stall and Tarro's shop (P1's house block 9300-9349): fixed stock, restocked weekly; Thrix adds the Lancer
+# Carbine after 7 objectives (a third element: the objectives done before it is sold). Not staged yet, so not sold:
+# the Ash Cloak (Tarro; it needs its paperdoll art) and the Noble Sidearm (Thrix).
+vendors:
+  - {id: 9300, picture: 9809, name: "Thrix's stall", location: The Scour, merchandise: "Kreegan weapons", restock_days: 7,
+     stock: [[11000, 2], [11002, 1], [11020, 2], [11022, 1], [11026, 1], [11303, 2], [11003, 1, 7]]}
+  - {id: 9301, picture: 9809, name: "Tarro's lean-to", location: The Scour, merchandise: "The scouts' list", restock_days: 7,
+     stock: [[11300, 4], [11302, 4], [11305, 6]]}

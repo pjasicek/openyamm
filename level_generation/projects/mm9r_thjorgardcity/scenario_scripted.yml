@@ -1,0 +1,162 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjorgardcity_scripted
+title: Thjorgard City (native BLV) - the location key, shop hours, the town portal altar, a letter, Sven, Harris, the bank
+  orb
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjorgardcity.blv
+- note:
+    text: 'ForadWorld.scr: the location key 1025 on load; shops close (5017) from 20:00 to 06:00.'
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    qbit_set:
+    - 91025
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_set:
+    - 95017
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_clear:
+    - 95017
+- note:
+    text: 'BookLetter.scr: Prop3 (row 424) shows its text.'
+- execute_event:
+    id: 334
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'NPC3.scr: Sven''s click with the five clans (82, 38, 51, 63, 74) gives 178 and opens RUDE 3; his dialogue''s close
+      with Thjorad Mine done (32) pays 12 000 experience (key 163).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90082
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90038
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90051
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90063
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90074
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90032
+    value: true
+- interact_actor:
+    actor_index: 50
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 3
+- assert:
+    qbit_set:
+    - 90178
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90163
+- note:
+    text: 'BankOrb.scr (Ragnar, RUDE 13): with the orb quest (322) and the orb row taken (330 set by his click when the orb
+      is carried; set here) and this bank''s key 335, the close places the orb: key 323.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90330
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90335
+    value: true
+- interact_actor:
+    actor_index: 3
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 13
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90323
+- assert:
+    qbit_clear:
+    - 90330
+- note:
+    text: 'Harris Willington (DAT CanDamage 0, as in MM9): no damage reaches him, so NPC416.scr :OnDeath''s key 233 is never
+      given (NPC3.scr :Lifesaver pays the same with or without it).'
+- damage_actor:
+    actor_index: 2
+    amount: 100000
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_clear:
+    - 90233
+- note:
+    text: 'TownPortal.scr: TownPortal0 stands dirty (490 shown, its clean twin 491 hidden); the click cleanses it: key 5011,
+      the dirty altar hides, the clean one shows.'
+- assert:
+    qbit_clear:
+    - 95011
+    sprite_shown:
+    - 490
+    sprite_hidden:
+    - 491
+- execute_event:
+    id: 331
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 95011
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491
+- note:
+    text: 'TownPortal.scr :Init (FixCheck): the map loaded again with key 5011 shows the clean altar.'
+- load_map:
+    map: thjorgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    qbit_set:
+    - 95011
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491

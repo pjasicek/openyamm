@@ -1,0 +1,44 @@
+# MM9 playthrough, segment 2: the Stuffed Dragon to Bikki, then Dain at Kira's hall (guide: Chapter II, "Yrsa's
+# errand: the Thing" and "Return to War Council"). Outdoors and in the city the party is placed beside each person.
+#   python3 tests/playthrough/mm9/run.py 52
+id: mm9.playthrough.52_bikki_and_dain
+title: "MM9 playthrough 52: Bikki gets her prize, Dain tells where the Jarls went"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/51_the_thing.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90094], qbit_clear: [90095, 90186]}
+
+  # Thjorgard back to Thronheim (boat or the Mountain Pass).
+  - travel: {map: thronheim.blv, days: 2}
+
+  # Bikki Yrsadotir stands just outside the city's land gate.
+  - set_pose: {map: thronheim.blv, x: -725, y: 4947, z: 1279, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 44}
+  - select_topic: {match_label: "We've got all the stuff you asked for."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90095, 90186]}
+  - play_lua:
+      source: |
+        if has_item(10395) then error("Bikki did not take the Stuffed Dragon") end
+        log("Bikki has her prize")
+
+  # Into Thronheim City through the land gate, then to Kira's hall: Dain Swordstrong at the door.
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+  - set_pose: {map: thronheimcity.blv, x: -9585, y: 15950, z: 3278, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 7}
+  - select_topic: {match_label: "Where have they gone?"}
+  - select_topic: {match_label: "Which way were they headed?"}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "qbit dump active"}
+  - save_game: {name: "02 Bikki and Dain", path: output/playthrough/mm9/checkpoints/52_bikki_and_dain.oysav}

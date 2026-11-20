@@ -1,0 +1,155 @@
+{
+ "sprite": "6tree30",
+ "output": "mm6_deco_tree30.glb",
+ "height_m": 0.73,
+ "note": "Small conifer bush: a dense pale grey-green needle cone from the ground, a short hidden stem.",
+ "sapling": {
+  "scale": 0.52,
+  "scaleV": 0.0,
+  "shape": "0",
+  "baseSplits": 0,
+  "baseSize": 0.05,
+  "splitHeight": 0.5,
+  "seed": 301,
+  "ratio": 0.03,
+  "segSplits": [
+   0,
+   0.1,
+   0.2,
+   0
+  ],
+  "branches": [
+   0,
+   50,
+   10,
+   8
+  ],
+  "downAngle": [
+   90,
+   60,
+   45,
+   45
+  ],
+  "attractUp": [
+   0,
+   0.3,
+   0.3,
+   0
+  ],
+  "length": [
+   1.0,
+   0.35,
+   0.35,
+   0.3
+  ],
+  "curveRes": [
+   8,
+   4,
+   3,
+   1
+  ],
+  "rootFlare": 1.0
+ },
+ "crown": {
+  "canopy_low": 0.03,
+  "centre": 0.45,
+  "clumps": 140,
+  "inner_clumps": 20,
+  "outer_radius": [
+   0.05,
+   0.08
+  ],
+  "inner_radius": [
+   0.05,
+   0.07
+  ],
+  "card": [
+   0.1,
+   0.13
+  ],
+  "gap": 0.9,
+  "radius_by_width": 0.35,
+  "spire": [
+   0.2,
+   1.4
+  ],
+  "lobes": {
+   "fraction": 0.35,
+   "slack": 1.2
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   90,
+   78,
+   66
+  ],
+  "min_thickness": [
+   0.004,
+   0.008,
+   0.016
+  ],
+  "root_reach": 0.05,
+  "roots": 0,
+  "clip_below_crown": true,
+  "budget": [
+   600,
+   240,
+   90
+  ]
+ },
+ "lod": {
+  "triangles": [
+   4000,
+   1600,
+   600
+  ],
+  "lod2_card_scale": 0.9,
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.05,
+    1.05,
+    1.05
+   ]
+  ]
+ },
+ "leaves": {
+  "kind": "needles",
+  "target_srgb": [
+   220,
+   255,
+   170
+  ],
+  "seeds": [
+   301,
+   313,
+   327,
+   331
+  ],
+  "value": [
+   0.75,
+   1.8
+  ],
+  "jitter_blue": [
+   0.9,
+   1.2
+  ]
+ },
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.1,
+  "range": 0.85,
+  "power": 1.4
+ },
+ "albedo_tint": [
+  0.401,
+  0.619,
+  0.43
+ ]
+}

@@ -1,0 +1,21 @@
+# S8b's open-air map with terrain (examples/s8b_meadow): the party walks its ground from the start over the dirt track
+# to the top of the grass hill, then round the rock knoll, by the game's own movement on the built faces.
+id: studio.s8b.meadow
+title: The Hollow Meadow's ground is walked from the track to the hill top and round the knoll
+world: mm9
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: studio09.blv
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      party_position: {x: 1536, y: 1200, radius: 96, z_max: 40}
+  - walk_to: {x: 1536, y: 1536, z: 0, radius: 96, timeout_seconds: 30}
+  - walk_to: {x: 1536, y: 2400, z: 280, radius: 96, timeout_seconds: 60}
+  - assert:
+      party_position: {x: 1536, y: 2400, radius: 128, z_min: 230}
+  - walk_to: {x: 640, y: 1200, z: 0, radius: 96, timeout_seconds: 60}
+  - walk_to: {x: 640, y: 400, z: 0, radius: 96, timeout_seconds: 60}
+  - walk_to: {x: 2432, y: 400, z: 0, radius: 96, timeout_seconds: 60}
+  - assert:
+      party_position: {x: 2432, y: 400, radius: 128, z_max: 40}

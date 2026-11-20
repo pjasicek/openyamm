@@ -1,0 +1,209 @@
+{
+ "sprite": "snotre05",
+ "output": "mm6_deco_snotre05.glb",
+ "height_m": 3.32,
+ "note": "Narrow tall snowy spruce: slim column of short frosted branches from a tenth of the height to a pointed top.",
+ "sapling": {
+  "scale": 2.35,
+  "shape": "3",
+  "baseSplits": 0,
+  "baseSize": 0.1,
+  "splitHeight": 0.5,
+  "seed": 221,
+  "ratio": 0.025,
+  "segSplits": [
+   0,
+   0.1,
+   0.2,
+   0
+  ],
+  "branches": [
+   0,
+   50,
+   8,
+   8
+  ],
+  "downAngle": [
+   90,
+   86,
+   45,
+   45
+  ],
+  "attractUp": [
+   0,
+   -0.05,
+   0.3,
+   0
+  ],
+  "length": [
+   1.0,
+   0.15,
+   0.35,
+   0.3
+  ],
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "rootFlare": 1.2
+ },
+ "crown": {
+  "canopy_low": 0.05,
+  "centre": 0.5,
+  "clumps": 400,
+  "inner_clumps": 10,
+  "outer_radius": [
+   0.08,
+   0.13
+  ],
+  "inner_radius": [
+   0.07,
+   0.1
+  ],
+  "card": [
+   0.18,
+   0.24
+  ],
+  "gap": 0.75,
+  "radius_by_width": 0.5,
+  "spire": [
+   0.15,
+   2.0
+  ],
+  "flatten": 0.5,
+  "card_up": 0.6,
+  "tiers": [
+   [
+    0.05,
+    0.11
+   ],
+   [
+    0.13,
+    0.19
+   ],
+   [
+    0.21,
+    0.27
+   ],
+   [
+    0.29,
+    0.35
+   ],
+   [
+    0.37,
+    0.43
+   ],
+   [
+    0.45,
+    0.51
+   ],
+   [
+    0.53,
+    0.59
+   ],
+   [
+    0.61,
+    0.67
+   ],
+   [
+    0.69,
+    0.75
+   ],
+   [
+    0.77,
+    0.83
+   ],
+   [
+    0.85,
+    1.0
+   ]
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   104,
+   98,
+   94
+  ],
+  "min_thickness": [
+   0.006,
+   0.015,
+   0.02
+  ],
+  "root_reach": 0.1,
+  "roots": 0,
+  "clip_below_crown": true
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    0.949,
+    0.947,
+    0.97
+   ]
+  ],
+  "lod2_card_scale": 1.0
+ },
+ "leaves": {
+  "kind": "needles",
+  "target_srgb": [
+   118,
+   146,
+   128
+  ],
+  "seeds": [
+   221,
+   233,
+   247,
+   257
+  ],
+  "value": [
+   0.75,
+   1.45
+  ],
+  "jitter_blue": [
+   0.9,
+   1.2
+  ],
+  "snow": {
+   "cells": [
+    1,
+    2,
+    3
+   ],
+   "up": 0.4,
+   "cover": 0.55,
+   "radius": [
+    12,
+    26
+   ],
+   "srgb": [
+    238,
+    240,
+    246
+   ],
+   "tilt": 0.3,
+   "lift": 0.6
+  }
+ },
+ "impostor_tone": [
+  0.816,
+  0.832,
+  0.824
+ ],
+ "impostor_dilate": 1,
+ "transparent_bounces": 64
+}

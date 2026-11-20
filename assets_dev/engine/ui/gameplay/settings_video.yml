@@ -139,10 +139,31 @@ elements:
       scale: 0.43333
       pad_x: 8.5333
     notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoTabInterface
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0502
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Interface
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
   - id: SettingsVideoTabVideo
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 164.0501
+    offset_y: 203.5169
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -163,7 +184,7 @@ elements:
   - id: SettingsVideoTabAudio
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 203.5168
+    offset_y: 242.9836
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -184,9 +205,9 @@ elements:
   - id: SettingsVideoTabControls
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 242.9835
+    offset_y: 282.4503
     width: 97.6
-    height: 53.3333
+    height: 34.1333
     z_index: 10
     visible: true
     interactive: true
@@ -194,7 +215,7 @@ elements:
       default: hud_x2/menus/omenu_tab.png
       selected: hud_x2/menus/omenu_tab_selected.png
     text:
-      value: Mouse & Controls
+      value: Controls
       font: fondamento
       color: '#bfc1b2'
       align_x: left
@@ -205,7 +226,7 @@ elements:
   - id: SettingsVideoTabKeyboard
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 301.6501
+    offset_y: 321.917
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -216,6 +237,48 @@ elements:
       selected: hud_x2/menus/omenu_tab_selected.png
     text:
       value: Keyboard
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoTabGame
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Rules
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoTabUpdates
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Updates
       font: fondamento
       color: '#bfc1b2'
       align_x: left
@@ -358,72 +421,10 @@ elements:
     notes: Clip all descendant rendering and pointer hits to this viewport. Scroll offset is controller-owned; YAML has
       no clipping/scroll primitive.
     children:
-    - id: SettingsVideoGraphicsQualityLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 0.0
-      width: 216.7083
-      height: 18.1333
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Graphics quality
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoGraphicsQualityValue
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 0.0
-      width: 522.1333
-      height: 18.1333
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: '{graphics_quality}'
-        font: fondamento
-        color: '#e0c990'
-        align_x: center
-        align_y: middle
-        scale: 0.45
-        pad_x: 0.0
-      notes: Controller supplies live text; Custom when the detail options match no preset.
-    - id: SettingsVideoGraphicsQualityControl
-      anchor: top_left
-      offset_x: 5.6
-      offset_y: 20.5
-      width: 514.1333
-      height: 16.0
-      z_index: 10
-      visible: true
-      interactive: true
-      notes: Bind to video.graphics_quality. A steps slider snapping to Low, Medium and High; no thumb when Custom.
-    - id: SettingsVideoGraphicsQualityDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 40.0
-      width: 522.1333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Set the detail options below at once; changing one of them shows Custom.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
     - id: SettingsVideoGroup0
       anchor: top_left
       offset_x: 0.0
-      offset_y: 67.0000
+      offset_y: 0.0
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -440,14 +441,14 @@ elements:
     - id: SettingsVideoGroup1
       anchor: top_left
       offset_x: 0.0
-      offset_y: 252.5664
+      offset_y: 146.6426
       width: 525.3333
       height: 18.1333
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: World detail
+        value: Quality
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -457,7 +458,58 @@ elements:
     - id: SettingsVideoGroup2
       anchor: top_left
       offset_x: 0.0
-      offset_y: 897.6501
+      offset_y: 356.002
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Textures
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsVideoGroup3
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 463.7193
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Lighting & shadows
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsVideoGroup4
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 713.4877
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Environment
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsVideoGroup5
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 963.2561
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -471,17 +523,51 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsVideoGroup3
+    - id: SettingsVideoGroup6
       anchor: top_left
       offset_x: 0.0
-      offset_y: 1197.6501
+      offset_y: 1187.7493
       width: 525.3333
       height: 18.1333
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Colour & effects
+        value: Post-processing
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsVideoGroup7
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 1384.9423
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Combat effects
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsVideoGroup8
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 1570.5102
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Experimental
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -491,8 +577,8 @@ elements:
     - id: SettingsVideoWindowModeLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 92.6000
-      width: 216.7083
+      offset_y: 25.6
+      width: 395.2
       height: 14.0752
       z_index: 10
       visible: true
@@ -508,8 +594,8 @@ elements:
     - id: SettingsVideoWindowModeDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 108.8085
-      width: 397.2
+      offset_y: 41.8085
+      width: 395.2
       height: 11.5168
       z_index: 10
       visible: true
@@ -525,7 +611,7 @@ elements:
     - id: SettingsVideoWindowModeControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 94.7253
+      offset_y: 27.7293
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -541,13 +627,11 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-      notes: Bind to video.window_mode; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
     - id: SettingsVideoResolutionLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 131.5253
-      width: 186.6085
+      offset_y: 64.5253
+      width: 395.2
       height: 14.0752
       z_index: 10
       visible: true
@@ -563,8 +647,8 @@ elements:
     - id: SettingsVideoResolutionDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 147.7333
-      width: 397.2
+      offset_y: 80.7338
+      width: 395.2
       height: 11.5168
       z_index: 10
       visible: true
@@ -580,7 +664,7 @@ elements:
     - id: SettingsVideoResolutionControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 133.6501
+      offset_y: 66.6546
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -596,13 +680,11 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-      notes: Bind to video.resolution; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
     - id: SettingsVideoVsyncLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 170.4501
-      width: 260.0501
+      offset_y: 103.4506
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -618,14 +700,14 @@ elements:
     - id: SettingsVideoVsyncDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 186.6587
-      width: 437.3333
+      offset_y: 119.6591
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Reduce screen tearing by syncing frames to the display.
+        value: Prevent screen tearing by matching frames to the display.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -635,7 +717,7 @@ elements:
     - id: SettingsVideoVsyncControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 168.2292
+      offset_y: 101.2343
       width: 70.4
       height: 32.158
       z_index: 10
@@ -644,21 +726,71 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoGraphicsQualityLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 172.2426
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
       text:
-        value: '{vsync}'
-        font: menu_lucida
-        color: '#b8b8a9'
+        value: Graphics quality
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoGraphicsQualityValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 172.2426
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{graphics_quality}'
+        font: fondamento
+        color: '#e0c990'
         align_x: center
         align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.vsync; see contracts/settings.yml. Ranges need a track and thumb renderer; selection controls
-        need native dropdown/focus behavior. Controller supplies live text.
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsVideoGraphicsQualityControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 192.7426
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsVideoGraphicsQualityDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 212.2426
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Sets most options below at once; changing one of them shows Custom.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
     - id: SettingsVideoAntialiasingLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 209.3749
-      width: 241.3915
+      offset_y: 234.9594
+      width: 395.2
       height: 14.0752
       z_index: 10
       visible: true
@@ -674,8 +806,8 @@ elements:
     - id: SettingsVideoAntialiasingDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 225.5835
-      width: 397.2
+      offset_y: 251.1679
+      width: 395.2
       height: 11.5168
       z_index: 10
       visible: true
@@ -691,7 +823,7 @@ elements:
     - id: SettingsVideoAntialiasingControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 211.5002
+      offset_y: 237.0887
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -707,13 +839,11 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-      notes: Bind to video.antialiasing; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
     - id: SettingsVideoViewDistanceLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 278.1664
-      width: 241.3915
+      offset_y: 273.8847
+      width: 395.2
       height: 14.0752
       z_index: 10
       visible: true
@@ -729,8 +859,8 @@ elements:
     - id: SettingsVideoViewDistanceDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 294.3749
-      width: 397.2
+      offset_y: 290.0932
+      width: 395.2
       height: 11.5168
       z_index: 10
       visible: true
@@ -746,7 +876,7 @@ elements:
     - id: SettingsVideoViewDistanceControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 280.2917
+      offset_y: 276.014
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -762,13 +892,57 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-      notes: Bind to video.view_distance; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsVideoModelLodsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 312.81
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Distant creature detail
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoModelLodsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 329.0185
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Draw simpler creature shapes far away; nearby creatures keep full detail.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoModelLodsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 310.5936
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsVideoTextureFilteringLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 317.0917
-      width: 266.6752
+      offset_y: 381.602
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -784,14 +958,14 @@ elements:
     - id: SettingsVideoTextureFilteringDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 333.2997
-      width: 437.3333
+      offset_y: 397.8105
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Filter texture pixels instead of showing sharp texel edges.
+        value: Off keeps the sharp, pixelated texels of the original.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -801,7 +975,7 @@ elements:
     - id: SettingsVideoTextureFilteringControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 314.8708
+      offset_y: 379.3856
       width: 70.4
       height: 32.158
       z_index: 10
@@ -810,21 +984,11 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{texture_filtering}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.texture_filtering; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
     - id: SettingsVideoTerrainAnisotropyLabel
       anchor: top_left
-      offset_x: 1.6
-      offset_y: 356.0165
-      width: 288.0
+      offset_x: 13.6
+      offset_y: 420.5273
+      width: 383.2
       height: 14.0752
       z_index: 10
       visible: true
@@ -839,15 +1003,15 @@ elements:
         pad_x: 0.0
     - id: SettingsVideoTerrainAnisotropyDescription
       anchor: top_left
-      offset_x: 1.6
-      offset_y: 372.2251
-      width: 397.2
-      height: 23.0336
+      offset_x: 13.6
+      offset_y: 436.7358
+      width: 383.2
+      height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Keep distant ground textures sharper. Uses anisotropic terrain filtering.
+        value: Keep distant ground textures sharp (anisotropic filtering).
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -857,7 +1021,7 @@ elements:
     - id: SettingsVideoTerrainAnisotropyControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 363.8997
+      offset_y: 422.6566
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -873,67 +1037,11 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-      notes: Bind to video.terrain_anisotropy; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoModelLodsLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 406.4581
-      width: 360.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Scale distant creature detail
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoModelLodsDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 422.6667
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Use simpler creature shapes at a distance while retaining full detail nearby.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoModelLodsControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 404.2378
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{model_lods}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
     - id: SettingsVideoModelShadowQualityLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 462.4581
-      width: 360.0
+      offset_y: 489.3193
+      width: 395.2
       height: 14.0752
       z_index: 10
       visible: true
@@ -949,14 +1057,14 @@ elements:
     - id: SettingsVideoModelShadowQualityDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 478.6667
-      width: 397.2
-      height: 23.0336
+      offset_y: 505.5278
+      width: 395.2
+      height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Animated shadows on creatures and their surroundings. Higher quality improves detail and range.
+        value: Animated shadows of creatures; higher quality adds detail and range.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -966,7 +1074,7 @@ elements:
     - id: SettingsVideoModelShadowQualityControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 470.3413
+      offset_y: 491.4486
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -982,231 +1090,11 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-    - id: SettingsVideoTerrainDecorationsLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 518.4581
-      width: 220.9248
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Terrain details
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoTerrainDecorationsDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 534.6667
-      width: 437.3333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Draw extra terrain decorations where available.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoTerrainDecorationsControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 516.2378
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{terrain_decorations}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.terrain_decorations; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoSkyStyleLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 574.4581
-      width: 241.3915
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Sky
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoSkyStyleDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 590.6667
-      width: 397.2
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Enhanced adds a living sky and fades the distance into it; Classic keeps the original.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoSkyStyleControl
-      anchor: top_left
-      offset_x: 412.8
-      offset_y: 576.5834
-      width: 110.9333
-      height: 23.4667
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_text_field.png
-      text:
-        value: '{sky_style}'
-        font: menu_lucida
-        color: '#e9dcc0'
-        align_x: left
-        align_y: middle
-        scale: 0.71529
-        pad_x: 6.9333
-      notes: Bind to video.sky_style; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoProjectileStyleLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 630.4581
-      width: 241.3915
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Projectiles
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoProjectileStyleDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 646.6667
-      width: 397.2
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Enhanced gives spell bolts glowing heads and flowing trails; Classic keeps the original.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoProjectileStyleControl
-      anchor: top_left
-      offset_x: 412.8
-      offset_y: 632.5834
-      width: 110.9333
-      height: 23.4667
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_text_field.png
-      text:
-        value: '{projectile_style}'
-        font: menu_lucida
-        color: '#e9dcc0'
-        align_x: left
-        align_y: middle
-        scale: 0.71529
-        pad_x: 6.9333
-      notes: Bind to video.projectile_style; see contracts/settings.yml. Selection controls need native dropdown/focus
-        behavior. Controller supplies live text.
-    - id: SettingsVideoWeatherQualityLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 686.4581
-      width: 241.3915
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Weather
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoWeatherQualityDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 702.6667
-      width: 397.2
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Density of falling rain and snow; Off hides them while the weather itself goes on.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoWeatherQualityControl
-      anchor: top_left
-      offset_x: 412.8
-      offset_y: 688.5834
-      width: 110.9333
-      height: 23.4667
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_text_field.png
-      text:
-        value: '{weather_quality}'
-        font: menu_lucida
-        color: '#e9dcc0'
-        align_x: left
-        align_y: middle
-        scale: 0.71529
-        pad_x: 6.9333
-      notes: Bind to video.weather_quality. Controller supplies live text.
     - id: SettingsVideoLightGridLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 742.4581
-      width: 241.3915
+      offset_y: 528.2446
+      width: 395.2
       height: 14.0752
       z_index: 10
       visible: true
@@ -1222,14 +1110,14 @@ elements:
     - id: SettingsVideoLightGridDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 758.6667
-      width: 397.2
-      height: 23.0336
+      offset_y: 544.4531
+      width: 395.2
+      height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: How finely torches, spells and other lights are sorted across the view; Low is lighter on phones.
+        value: How finely torches, spells and other lights are sorted; Low suits phones.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -1239,7 +1127,7 @@ elements:
     - id: SettingsVideoLightGridControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 744.5834
+      offset_y: 530.3739
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -1255,816 +1143,11 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-      notes: Bind to video.light_grid. Controller supplies live text.
-    - id: SettingsVideoWetSurfacesLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 798.4581
-      width: 288.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Wet surfaces
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoWetSurfacesDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 814.6667
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Rain darkens the ground and buildings, which dry slowly after it stops.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoWetSurfacesControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 796.2378
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{wet_surfaces}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Apply the surface setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoTerrainSpecularLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 854.4581
-      width: 288.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Ground highlights
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoTerrainSpecularDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 870.6667
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Smooth rock and rain-wet ground catch the sun and nearby lights.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoTerrainSpecularControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 852.2378
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{terrain_specular}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Apply the surface setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoWaterReflectionsLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 923.2501
-      width: 288.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Scenery reflections
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoWaterReflectionsDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 939.4587
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Reflect sky, ground and buildings. Requires extra rendering.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoWaterReflectionsControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 921.0298
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{water_reflections}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoWaterReflectionSizeLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 979.2501
-      width: 288.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Reflection detail
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoWaterReflectionSizeDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 995.4587
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Sharper scenery reflections cost more rendering time.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoWaterReflectionSizeControl
-      anchor: top_left
-      offset_x: 412.8
-      offset_y: 987.1333
-      width: 110.9333
-      height: 23.4667
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_text_field.png
-      text:
-        value: '{water_reflection_size}'
-        font: menu_lucida
-        color: '#e9dcc0'
-        align_x: left
-        align_y: middle
-        scale: 0.71529
-        pad_x: 6.9333
-      notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoWaterSpriteReflectionsLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1035.2501
-      width: 288.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Reflect nearby objects
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoWaterSpriteReflectionsDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1051.4587
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Reflect nearby creatures, trees and decorations.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoWaterSpriteReflectionsControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 1033.0298
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{water_sprite_reflections}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoWaterMovementRipplesLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1079.2501
-      width: 288.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Movement ripples
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoWaterMovementRipplesDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1095.4587
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Small ripples from creatures moving on water.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoWaterMovementRipplesControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 1077.0298
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{water_movement_ripples}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoRainRipplesLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1135.2501
-      width: 288.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Rain ripples
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoRainRipplesDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1151.4587
-      width: 397.2
-      height: 23.0336
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Raindrop rings on still water while it rains.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoRainRipplesControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 1133.0298
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{rain_ripples}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoAmbientOcclusionLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1223.2501
-      width: 220.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Ambient occlusion
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoAmbientOcclusionDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1239.4581
-      width: 437.3333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Add soft shading where solid surfaces meet.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoAmbientOcclusionControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 1221.0292
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{ambient_occlusion}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.ambient_occlusion; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoAmbientOcclusionStrengthLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1262.1749
-      width: 220.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Occlusion intensity
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoAmbientOcclusionStrengthDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1278.3835
-      width: 384.9333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Adjust the strength of contact shading.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoAmbientOcclusionStrengthControl
-      anchor: top_left
-      offset_x: 400.5333
-      offset_y: 1268.0331
-      width: 88.5333
-      height: 16.0
-      z_index: 10
-      visible: true
-      interactive: true
-      notes: Bind to video.ambient_occlusion_strength; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior.
-    - id: SettingsVideoAmbientOcclusionStrengthValue
-      anchor: top_left
-      offset_x: 497.0667
-      offset_y: 1270.1664
-      width: 26.6667
-      height: 11.7333
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: '{ambient_occlusion_strength}%'
-        font: menu_lucida
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.67765
-        pad_x: 0.0
-      notes: Controller supplies live text.
-    - id: SettingsVideoBloomLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1301.0997
-      width: 220.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Glow
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoBloomDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1317.3077
-      width: 437.3333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Flames, glowing crystals and spell light bloom softly into their surroundings.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoBloomControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 1298.8788
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{bloom}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.bloom; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoBloomStrengthLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1340.0245
-      width: 220.0
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Glow intensity
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoBloomStrengthDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1356.2331
-      width: 384.9333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Adjust how far and how brightly the glow spreads.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoBloomStrengthControl
-      anchor: top_left
-      offset_x: 400.5333
-      offset_y: 1345.8827
-      width: 88.5333
-      height: 16.0
-      z_index: 10
-      visible: true
-      interactive: true
-      notes: Bind to video.bloom_strength; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior.
-    - id: SettingsVideoBloomStrengthValue
-      anchor: top_left
-      offset_x: 497.0667
-      offset_y: 1348.0160
-      width: 26.6667
-      height: 11.7333
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: '{bloom_strength}%'
-        font: menu_lucida
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.67765
-        pad_x: 0.0
-      notes: Controller supplies live text.
-    - id: SettingsVideoCinematicGradingLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1378.9493
-      width: 176.9835
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Cinematic colour
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoCinematicGradingDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1395.1573
-      width: 437.3333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Apply the cinematic colour treatment.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoCinematicGradingControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 1376.7284
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{cinematic_grading}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.cinematic_grading; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoCinematicStrengthLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1417.8741
-      width: 185.4085
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Colour intensity
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoCinematicStrengthDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1434.0827
-      width: 384.9333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Adjust the strength of cinematic colour.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoCinematicStrengthControl
-      anchor: top_left
-      offset_x: 400.5333
-      offset_y: 1423.7323
-      width: 88.5333
-      height: 16.0
-      z_index: 10
-      visible: true
-      interactive: true
-      notes: Bind to video.cinematic_strength; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior.
-    - id: SettingsVideoCinematicStrengthValue
-      anchor: top_left
-      offset_x: 497.0667
-      offset_y: 1425.8656
-      width: 26.6667
-      height: 11.7333
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: '{cinematic_strength}%'
-        font: menu_lucida
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.67765
-        pad_x: 0.0
-      notes: Controller supplies live text.
-    - id: SettingsVideoSharpeningLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1456.7989
-      width: 185.4085
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Sharpening
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoSharpeningDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1473.0075
-      width: 384.9333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Sharpen the 3D view; the interface is unaffected. Zero turns it off.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoSharpeningControl
-      anchor: top_left
-      offset_x: 400.5333
-      offset_y: 1462.6571
-      width: 88.5333
-      height: 16.0
-      z_index: 10
-      visible: true
-      interactive: true
-      notes: Bind to video.sharpening; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior.
-    - id: SettingsVideoSharpeningValue
-      anchor: top_left
-      offset_x: 497.0667
-      offset_y: 1464.7904
-      width: 26.6667
-      height: 11.7333
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: '{sharpening}%'
-        font: menu_lucida
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.67765
-        pad_x: 0.0
-      notes: Controller supplies live text.
     - id: SettingsVideoColoredLightsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1495.7237
-      width: 184.8085
+      offset_y: 567.1699
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -2080,14 +1163,14 @@ elements:
     - id: SettingsVideoColoredLightsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1511.9323
-      width: 437.3333
+      offset_y: 583.3784
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Use the colours of nearby light sources.
+        value: Lights tint their surroundings with their own colour.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -2097,7 +1180,7 @@ elements:
     - id: SettingsVideoColoredLightsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1493.5028
+      offset_y: 564.9536
       width: 70.4
       height: 32.158
       z_index: 10
@@ -2106,54 +1189,44 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{colored_lights}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.colored_lights; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoTintingLabel
+    - id: SettingsVideoWarmTorchLightLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1534.6491
-      width: 151.1003
+      offset_y: 606.0952
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Colour tinting
+        value: Warm torch light
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsVideoTintingDescription
+    - id: SettingsVideoWarmTorchLightDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1550.8571
-      width: 437.3333
+      offset_y: 622.3037
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Retain the original tinting option.
+        value: Torch Light glows firelight orange instead of the original white.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsVideoTintingControl
+    - id: SettingsVideoWarmTorchLightControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1532.4282
+      offset_y: 603.8789
       width: 70.4
       height: 32.158
       z_index: 10
@@ -2162,54 +1235,44 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{tinting}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.tinting; see contracts/settings.yml. Ranges need a track and thumb renderer; selection controls
-        need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoBloodSplatsLabel
+    - id: SettingsVideoAmbientOcclusionLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1573.5739
-      width: 116.7835
+      offset_y: 645.0205
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Blood splats
+        value: Ambient occlusion
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsVideoBloodSplatsDescription
+    - id: SettingsVideoAmbientOcclusionDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1589.7824
-      width: 437.3333
+      offset_y: 661.229
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Show blood splat effects.
+        value: Add soft shading where solid surfaces meet.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsVideoBloodSplatsControl
+    - id: SettingsVideoAmbientOcclusionControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1571.3535
+      offset_y: 642.8042
       width: 70.4
       height: 32.158
       z_index: 10
@@ -2218,54 +1281,104 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{blood_splats}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.blood_splats; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoMeleeHitBloodEffectsLabel
+    - id: SettingsVideoAmbientOcclusionStrengthLabel
       anchor: top_left
-      offset_x: 1.6
-      offset_y: 1612.4992
-      width: 219.1168
+      offset_x: 13.6
+      offset_y: 683.9458
+      width: 370.9333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Melee blood effects
+        value: Intensity
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsVideoMeleeHitBloodEffectsDescription
+    - id: SettingsVideoAmbientOcclusionStrengthDescription
       anchor: top_left
-      offset_x: 1.6
-      offset_y: 1628.7072
-      width: 437.3333
-      height: 11.5168
+      offset_x: 13.6
+      offset_y: 683.9458
+      width: 370.9333
+      height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Add blood effects when melee attacks connect.
+        value: ''
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsVideoMeleeHitBloodEffectsControl
+    - id: SettingsVideoAmbientOcclusionStrengthControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 682.9834
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsVideoAmbientOcclusionStrengthValue
+      anchor: top_left
+      offset_x: 497.0666
+      offset_y: 685.1168
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{ambient_occlusion_strength}%'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
+    - id: SettingsVideoTerrainDecorationsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 739.0877
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Terrain details
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoTerrainDecorationsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 755.2962
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Draw extra ground decorations where available.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoTerrainDecorationsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1610.2783
+      offset_y: 736.8714
       width: 70.4
       height: 32.158
       z_index: 10
@@ -2274,21 +1387,771 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoWeatherQualityLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 778.013
+      width: 395.2
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
       text:
-        value: '{melee_hit_blood_effects}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
+        value: Weather
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
         align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.melee_hit_blood_effects; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWeatherQualityDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 794.2215
+      width: 395.2
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Density of falling rain and snow; Off hides them but the weather goes on.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWeatherQualityControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 780.1423
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{weather_quality}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+    - id: SettingsVideoWetSurfacesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 816.9383
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Wet surfaces
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWetSurfacesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 833.1468
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Rain darkens the ground and buildings, which dry slowly afterwards.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWetSurfacesControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 814.722
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoMistLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 855.8636
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Mist
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoMistDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 872.0721
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Ground mist on the maps that have it.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoMistControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 853.6473
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoMistStrengthLabel
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 894.7889
+      width: 370.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Density
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoMistStrengthDescription
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 894.7889
+      width: 370.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: ''
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoMistStrengthControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 893.8265
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsVideoMistStrengthValue
+      anchor: top_left
+      offset_x: 497.0666
+      offset_y: 895.9599
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{mist_strength}%'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
+    - id: SettingsVideoTerrainSpecularLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 920.0641
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Ground highlights
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoTerrainSpecularDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 936.2726
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Smooth rock and wet ground catch the sun and nearby lights.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoTerrainSpecularControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 917.8478
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoWaterReflectionsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 988.8561
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Reflections
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWaterReflectionsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1005.0646
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Reflect the sky, ground and buildings in water. Costs extra rendering.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWaterReflectionsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 986.6398
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoWaterReflectionSizeLabel
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1027.7814
+      width: 383.2
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Reflection detail
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWaterReflectionSizeDescription
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1043.9899
+      width: 383.2
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Higher detail gives sharper reflections at a higher cost.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWaterReflectionSizeControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 1029.9107
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{water_reflection_size}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+    - id: SettingsVideoWaterSpriteReflectionsLabel
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1066.7067
+      width: 423.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Reflect nearby objects
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWaterSpriteReflectionsDescription
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1082.9152
+      width: 423.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Include nearby creatures, trees and decorations.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWaterSpriteReflectionsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1064.4904
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoWaterMovementRipplesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1105.632
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement ripples
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWaterMovementRipplesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1121.8405
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Small ripples from creatures moving on water.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWaterMovementRipplesControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1103.4157
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoRainRipplesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1144.5573
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Rain ripples
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoRainRipplesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1160.7658
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Raindrop rings on still water while it rains.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoRainRipplesControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1142.341
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoBloomLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1213.3493
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Glow
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoBloomDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1229.5578
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Flames, glowing crystals and spell light bloom softly into their surroundings.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoBloomControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1211.133
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoBloomStrengthLabel
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1252.2746
+      width: 370.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Intensity
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoBloomStrengthDescription
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1252.2746
+      width: 370.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: ''
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoBloomStrengthControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 1251.3122
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsVideoBloomStrengthValue
+      anchor: top_left
+      offset_x: 497.0666
+      offset_y: 1253.4456
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{bloom_strength}%'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
+    - id: SettingsVideoCinematicGradingLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1277.5498
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Cinematic colour
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoCinematicGradingDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1293.7583
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Bring out shadow detail and soften over-saturated earth tones.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoCinematicGradingControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1275.3335
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoCinematicStrengthLabel
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1316.4751
+      width: 370.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Intensity
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoCinematicStrengthDescription
+      anchor: top_left
+      offset_x: 13.6
+      offset_y: 1316.4751
+      width: 370.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: ''
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoCinematicStrengthControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 1315.5127
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsVideoCinematicStrengthValue
+      anchor: top_left
+      offset_x: 497.0666
+      offset_y: 1317.6461
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{cinematic_strength}%'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
+    - id: SettingsVideoSharpeningLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1341.7503
+      width: 382.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Sharpening
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoSharpeningDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1357.9588
+      width: 382.9333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Sharpen the 3D view; the interface is unaffected. Zero turns it off.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoSharpeningControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 1347.613
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsVideoSharpeningValue
+      anchor: top_left
+      offset_x: 497.0666
+      offset_y: 1349.7463
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{sharpening}%'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
     - id: SettingsVideoMeleeHitEffectsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1651.4245
-      width: 219.1168
+      offset_y: 1410.5423
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -2304,8 +2167,8 @@ elements:
     - id: SettingsVideoMeleeHitEffectsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1667.6325
-      width: 437.3333
+      offset_y: 1426.7508
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
@@ -2321,7 +2184,7 @@ elements:
     - id: SettingsVideoMeleeHitEffectsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1649.2036
+      offset_y: 1408.326
       width: 70.4
       height: 32.158
       z_index: 10
@@ -2330,77 +2193,11 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{melee_hit_effects}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.melee_hit_effects; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoMeleeHitFeedbackLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1690.3498
-      width: 219.1168
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Melee impact feedback
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsVideoMeleeHitFeedbackDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 1706.5578
-      width: 437.3333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Play impact sounds by what was struck and briefly hold the struck creature.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsVideoMeleeHitFeedbackControl
-      anchor: top_left
-      offset_x: 453.3333
-      offset_y: 1688.1289
-      width: 70.4
-      height: 32.158
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_toggle_off.png
-        selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{melee_hit_feedback}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.melee_hit_feedback; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
     - id: SettingsVideoMeleeHitFlashLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1729.2751
-      width: 219.1168
+      offset_y: 1449.4676
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -2416,8 +2213,8 @@ elements:
     - id: SettingsVideoMeleeHitFlashDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1745.4831
-      width: 437.3333
+      offset_y: 1465.6761
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
@@ -2433,7 +2230,7 @@ elements:
     - id: SettingsVideoMeleeHitFlashControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1727.0542
+      offset_y: 1447.2513
       width: 70.4
       height: 32.158
       z_index: 10
@@ -2442,54 +2239,44 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{melee_hit_flash}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.melee_hit_flash; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsVideoMeleeCameraKickLabel
+    - id: SettingsVideoMeleeHitBloodEffectsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1768.2004
-      width: 219.1168
+      offset_y: 1488.3929
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Melee camera kick
+        value: Melee blood
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsVideoMeleeCameraKickDescription
+    - id: SettingsVideoMeleeHitBloodEffectsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1784.4084
-      width: 437.3333
+      offset_y: 1504.6014
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Nudge the view along the blow on critical hits and kills.
+        value: Add blood effects when melee attacks connect.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsVideoMeleeCameraKickControl
+    - id: SettingsVideoMeleeHitBloodEffectsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1765.9795
+      offset_y: 1486.1766
       width: 70.4
       height: 32.158
       z_index: 10
@@ -2498,16 +2285,190 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoBloodSplatsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1527.3182
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
       text:
-        value: '{melee_camera_kick}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
+        value: Blood splats
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
         align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.melee_camera_kick; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoBloodSplatsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1543.5267
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Leave a pool of blood beneath slain creatures.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoBloodSplatsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1525.1019
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoSurfaceMaterialsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1596.1102
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Surface materials
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoSurfaceMaterialsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1612.3187
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Walls, floors and doors show their relief, metal, glass and glowing windows. Takes effect on the next map.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoSurfaceMaterialsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1599.6523
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoSurfaceParallaxLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1646.5523
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Surface depth
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoSurfaceParallaxDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1662.7608
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Nearby bricks, stones and carvings show their depth. Costs a little extra rendering.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoSurfaceParallaxControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1644.336
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoSurfaceReflectionsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1685.4776
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Surface reflections
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoSurfaceReflectionsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1701.6861
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Marble, glass, metal and puddles reflect the buildings around them. Needs surface materials.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoSurfaceReflectionsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1683.2613
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
   - id: SettingsVideoNavigationRule
     anchor: top_left
     offset_x: 201.6

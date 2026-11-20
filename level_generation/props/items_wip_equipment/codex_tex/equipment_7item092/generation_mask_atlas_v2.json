@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Phynaxian Helm (7item092). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Dark copper-red helm with narrow eye opening, long pointed cheek guards, central riveted band and two short ivory side horns. Exact material boundaries: Copper steel shell, cheek guards and riveted bands RED. Short ivory horns YELLOW. CORRECTION: the exact grey mesh guide is authoritative for every outline and every hole. The inventory icon supplies colour and materials only. Do not widen or shrink the object, fingers, horns or cloth. Every solid grey surface stays opaque, including inner faces, chainmail panels and tiny fingers. Never make new openings or transparent pattern cutouts. Black gemstones must be opaque black, alpha 255. All five views retain exact guide framing. Copper cheek guards and all solid face/inner panels RED; horns YELLOW. No new eye/cheek openings. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item092/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "4cb3e3a05a4484259b07fd60a3037e3351dfa7683eb8b3ec7e1f755628d9628c",
+  "revision": 2,
+  "input_icon": "7item092",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-2c93ab79-9921-4b4b-af67-3f93c2eaea66.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Awaiting visual review and exact-guide registration",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "fe6b6623a080c9fb30705ccf41bdd2a0c417d17f1e8e2d70fa8a6a9c1716c60f",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item092.png",
+  "input_icon_sha256": "b95bf8e2cd14e01418f3d773f9adec5256293f407bd0e0d6bf97a1da9eced6c5",
+  "active_bytes_match": false,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

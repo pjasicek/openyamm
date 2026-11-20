@@ -1,0 +1,24 @@
+# The quarrel (dwarves_and_humans) skipped at 3 s: its remaining step (the fight's relations) still runs, the two fight,
+# and Hrolf's FoundPlayer never starts it again (README "Cinematics").
+id: mm9r.drangheimcity.cinematic_dwarves_and_humans_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: drangheimcity.blv}
+- set_pose: {map: drangheimcity.blv, x: 16784, y: -3789, z: 431, yaw: 3.1416, pitch: 0.0}
+- advance_runtime: {seconds: 2.5}
+- console: {line: cinematic list, expect_contains: playing dwarves_and_humans}
+- assert: {qbit_set: [95010]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- note: {text: "over: a save works again"}
+- save_game: {name: after_skip}
+- advance_runtime: {seconds: 40}
+- note: {text: "the fight: Alfrigg (3 hit points) falls, Hrolf is hurt"}
+- assert: {actor_count: {monster_id: 9008, min: 2, max: 2}}
+- assert: {actor_count: {monster_id: 9051, hurt: true, min: 1, max: 1}}
+- note: {text: "a second visit: Hrolf perceives the party again, nothing starts (key 5010)"}
+- load_map: {map: drangheimcity.blv}
+- set_pose: {map: drangheimcity.blv, x: 16784, y: -3789, z: 431, yaw: 3.1416, pitch: 0.0}
+- advance_runtime: {seconds: 2.5}
+- save_game: {name: second_visit}

@@ -1,0 +1,81 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d11/review/build02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: 01_arrival
+  position:
+  - 300
+  - 2800
+  - 160
+  yaw: 0.0
+  pitch: 0.0
+- name: 02_breach
+  position:
+  - 1850
+  - 3300
+  - 0
+  yaw: 5.5
+  pitch: 0.15
+- name: 03_gestation
+  position:
+  - 850
+  - 650
+  - 0
+  yaw: 0.1
+  pitch: 0.12
+- name: 04_rib_corridor
+  position:
+  - 320
+  - 4000
+  - 160
+  yaw: 1.57
+  pitch: 0.0
+- name: 05_brain
+  position:
+  - 1800
+  - 4100
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0.92
+- name: 06_gangway
+  position:
+  - 1800
+  - 6900
+  - 1440
+  yaw: 4.71
+  pitch: -0.3490658503988659
+- name: 07_noble_hall
+  position:
+  - 300
+  - 7700
+  - 1440
+  yaw: 0.8
+  pitch: 0.0
+- name: 08_trophies
+  position:
+  - 300
+  - 10000
+  - 1440
+  yaw: 0.8
+  pitch: 0.0
+- name: 09_spine
+  position:
+  - 320
+  - 3500
+  - 2720
+  yaw: 1.57
+  pitch: 0.0
+- name: 10_duel
+  position:
+  - 1800
+  - 2700
+  - 2560
+  yaw: 4.71238898038469
+  pitch: -0.05
+- name: 11_vault
+  position:
+  - 1800
+  - 1600
+  - 1440
+  yaw: 4.71
+  pitch: 0.0

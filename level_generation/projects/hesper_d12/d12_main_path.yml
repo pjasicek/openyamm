@@ -1,0 +1,2056 @@
+id: hesper.d12.d12_main_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d12.blv
+    party:
+      food: 200
+      members:
+      - name: Crown tester 1
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: &id001
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Crown tester 2
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 3
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 4
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 5
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+- assert:
+    map: hes_d12.blv
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 400
+    z: 0
+    yaw: 4.71238898038469
+    pitch: 0
+- press_interact: {}
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- setup_shortcut:
+    kind: set_qbit
+    id: 100603
+- set_pose:
+    map: hes_d12.blv
+    x: -900
+    y: 1450
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.1
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 1000
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.1
+    assert:
+      mechanism:
+        id: 2
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 0
+      y: 1050
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 0
+      y: 1660
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 4
+      value: 1
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 12
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 12
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 13
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 13
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 14
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 14
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 15
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 15
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 17
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 17
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 18
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 18
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 19
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 19
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 20
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 20
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 22
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 22
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 23
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 23
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 24
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 24
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 25
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 25
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 26
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 26
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 27
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 27
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 28
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 28
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 29
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 29
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 30
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 30
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 31
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 31
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 32
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 32
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 33
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 33
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 34
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 34
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 35
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 35
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 36
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 36
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 37
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 37
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 38
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 38
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 39
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 39
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 40
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 40
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 41
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 41
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 42
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 42
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 43
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 43
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 44
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 44
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 45
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 45
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 46
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 46
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 47
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 47
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 48
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 48
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 49
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 49
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 50
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 50
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 51
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 51
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 52
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 52
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 53
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 53
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 54
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 54
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 55
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 55
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 56
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 56
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 57
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 57
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 58
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 58
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 59
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 59
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 60
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 60
+    amount: 1000000
+    tier: kreegan_energy
+- movement_segment:
+    input: forward
+    duration_ms: 500
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: -3064
+      y: 6780
+      z: 112
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: -3064
+      y: 6811
+      z: 112
+      yaw: 1.5707963267948966
+      pitch: 0
+    tolerance_xy: 4
+    tolerance_z: 4
+    actor_collision: false
+    actor_ai: false
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 3450
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.1
+    assert:
+      mechanism:
+        id: 3
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 700
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 0
+      y: 3500
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 0
+      y: 4030
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 2500
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 800
+      y: 4000
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 800
+      y: 5910
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 2500
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 0
+      y: 6000
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 0
+      y: 7910
+      z: 720
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 8000
+    z: 768
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3.1
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 700
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 0
+      y: 8040
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 0
+      y: 8570
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_named_map_var:
+      name: herald
+      value: 1
+- movement_segment:
+    input: forward
+    duration_ms: 500
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 100
+      y: 8600
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 100
+      y: 8980
+      z: 704
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 1
+      value: 0
+- damage_actor:
+    actor_index: 61
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 61
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 62
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 62
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 63
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 63
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 64
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 64
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 65
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 65
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 66
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 66
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 2
+- movement_segment:
+    input: forward
+    duration_ms: 500
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 100
+      y: 8600
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 100
+      y: 8980
+      z: 704
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- advance_runtime:
+    seconds: 2
+- assert:
+    map_var_changed:
+      index: 1
+      value: 1
+- wait_until:
+    timeout_runtime_seconds: 1.6
+    assert:
+      mechanism:
+        id: 6
+        state: open
+- damage_actor:
+    actor_index: 67
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 67
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 6
+- assert:
+    world_item_state:
+      item_id: 11425
+      present: true
+- movement_segment:
+    input: forward
+    duration_ms: 500
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 100
+      y: 8600
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 100
+      y: 8980
+      z: 704
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- advance_runtime:
+    seconds: 2
+- assert:
+    map_var_changed:
+      index: 1
+      value: 2
+- wait_until:
+    timeout_runtime_seconds: 1.6
+    assert:
+      mechanism:
+        id: 7
+        state: open
+- damage_actor:
+    actor_index: 68
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 68
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 6
+- assert:
+    world_item_state:
+      item_id: 11426
+      present: true
+- movement_segment:
+    input: forward
+    duration_ms: 500
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 100
+      y: 8600
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 100
+      y: 8980
+      z: 704
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- advance_runtime:
+    seconds: 2
+- assert:
+    map_var_changed:
+      index: 1
+      value: 3
+- wait_until:
+    timeout_runtime_seconds: 1.6
+    assert:
+      mechanism:
+        id: 8
+        state: open
+- damage_actor:
+    actor_index: 69
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 69
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 6
+- assert:
+    world_item_state:
+      item_id: 11510
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11436
+      present: true
+- assert:
+    map_var_changed:
+      index: 1
+      value: 4
+- assert:
+    map_var_changed:
+      index: 5
+      value: 1
+- set_pose:
+    map: hes_d12.blv
+    x: 340
+    y: 10056
+    z: 704
+    yaw: 3.141592653589793
+    pitch: -0.75
+- press_interact:
+    kind: world_item
+    world_item_index: 13
+    item_id: 11510
+    pose:
+      map: hes_d12.blv
+      x: 340
+      y: 10056
+      z: 704
+      yaw: 3.141592653589793
+      pitch: -0.75
+    expect:
+      kind: world_item
+      item_id: 11510
+- assert:
+    inventory_any_member:
+    - item_id: 11510
+- damage_actor:
+    actor_index: 70
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 70
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 71
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 71
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 72
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 72
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 73
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 73
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 74
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 74
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 75
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 75
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 106
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 106
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 107
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 107
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 108
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 108
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 109
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 109
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 11600
+    z: 768
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 1.6
+    assert:
+      mechanism:
+        id: 20
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 0
+      y: 11700
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 0
+      y: 12310
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d12.blv
+    x: 350
+    y: 12520
+    z: 768
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 6.1
+    assert:
+      mechanism:
+        id: 21
+        state: open
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 121
+      face_index: 6056
+- wait_until:
+    timeout_runtime_seconds: 6.1
+    assert:
+      mechanism:
+        id: 21
+        state: closed
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 121
+      face_index: 6046
+- wait_until:
+    timeout_runtime_seconds: 6.1
+    assert:
+      mechanism:
+        id: 21
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 0
+      y: 12900
+      z: 2304
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 0
+      y: 13510
+      z: 2304
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 6
+      value: 1
+- damage_actor:
+    actor_index: 76
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 76
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 77
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 77
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 110
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 110
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 111
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 111
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 15400
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3.1
+    assert:
+      mechanism:
+        id: 17
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 700
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 0
+      y: 15450
+      z: 2304
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 0
+      y: 15980
+      z: 2304
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- setup_shortcut:
+    kind: set_qbit
+    id: 100023
+- setup_shortcut:
+    kind: set_qbit
+    id: 100215
+- advance_runtime:
+    seconds: 11
+- assert:
+    state_dump_named_map_var:
+      name: phase1_spoken
+      value: 1
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 2
+- assert:
+    qbit_set:
+    - 100608
+- assert:
+    map_var_changed:
+      index: 2
+      value: 2
+- assert:
+    actor_visible:
+      actor_index: 121
+      monster_id: 10120
+      max_hp: 30000
+      report_state: true
+- damage_actor:
+    actor_index: 79
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 79
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 80
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 80
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 81
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 81
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 6
+- assert:
+    actor_visible:
+      actor_index: 4
+      hostile_to_party: false
+      combat_targeting_party: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 121
+      shield_fraction:
+      - 0
+      - 0.999
+      report_state: true
+- damage_actor:
+    actor_index: 121
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 121
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 2
+- assert:
+    map_var_changed:
+      index: 2
+      value: 3
+- assert:
+    actor_visible:
+      actor_index: 122
+      monster_id: 10146
+      max_hp: 30000
+      report_state: true
+- damage_actor:
+    actor_index: 122
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 2
+- assert:
+    qbit_set:
+    - 100032
+- save_game:
+    name: d12_before_choice
+- load_game:
+    name: d12_before_choice
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 13880
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0.5
+- press_interact: {}
+- answer_input:
+    text: Free her
+- assert:
+    qbit_set:
+    - 100033
+    - 100015
+    - 100216
+    - 100052
+    qbit_clear:
+    - 100215
+- press_action:
+    action: cancel_dialog
+- assert:
+    held_item:
+      active: true
+      item_id: 11432
+- assert:
+    held_item:
+      active: false
+- assert:
+    inventory_any_member:
+    - item_id: 11432
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 0
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 1
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 2
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 3
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 4
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 4
+      value: 15
+- set_pose:
+    map: hes_d12.blv
+    x: 1600
+    y: 18700
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    mechanism:
+      id: 19
+      state: closed
+- load_game:
+    name: d12_before_choice
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 13880
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0.5
+- press_interact: {}
+- answer_input:
+    text: Tear it out
+- assert:
+    qbit_set:
+    - 100034
+    - 100015
+    - 100216
+    - 100052
+    qbit_clear:
+    - 100215
+- press_action:
+    action: cancel_dialog
+- assert:
+    held_item:
+      active: true
+      item_id: 11433
+- assert:
+    held_item:
+      active: false
+- assert:
+    inventory_any_member:
+    - item_id: 11433
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 0
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 0
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 0
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 0
+      value: 110
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 0
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 0
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 0
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 1
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 1
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 1
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 1
+      value: 110
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 1
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 1
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 1
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 2
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 2
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 2
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 2
+      value: 110
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 2
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 2
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 2
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 3
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 3
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 3
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 3
+      value: 110
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 3
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 3
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 3
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 4
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 4
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 4
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 4
+      value: 110
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 4
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 4
+      value: 25
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 4
+      value: 25
+- set_pose:
+    map: hes_d12.blv
+    x: 1600
+    y: 18700
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    mechanism:
+      id: 19
+      state: closed
+- load_game:
+    name: d12_before_choice
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 13880
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0.5
+- press_interact: {}
+- answer_input:
+    text: Both survive
+- assert:
+    qbit_set:
+    - 100035
+    - 100015
+    - 100216
+    - 100052
+    qbit_clear:
+    - 100215
+- press_action:
+    action: cancel_dialog
+- assert:
+    held_item:
+      active: true
+      item_id: 11433
+- assert:
+    held_item:
+      active: false
+- assert:
+    inventory_any_member:
+    - item_id: 11432
+    - item_id: 11433
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 0
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 0
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 1
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 1
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 2
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 2
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 3
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 3
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 32
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 33
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 34
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 35
+      member_index: 4
+      value: 100
+- assert:
+    runtime_event_variable:
+      id: 36
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 37
+      member_index: 4
+      value: 15
+- assert:
+    runtime_event_variable:
+      id: 38
+      member_index: 4
+      value: 15
+- set_pose:
+    map: hes_d12.blv
+    x: 1600
+    y: 18700
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    mechanism:
+      id: 19
+      state: closed
+- setup_shortcut:
+    kind: set_qbit
+    id: 100013
+- setup_shortcut:
+    kind: set_qbit
+    id: 100040
+- setup_shortcut:
+    kind: set_qbit
+    id: 100041
+- setup_shortcut:
+    kind: set_qbit
+    id: 100042
+- setup_shortcut:
+    kind: set_qbit
+    id: 100043
+- set_pose:
+    map: hes_d12.blv
+    x: 1600
+    y: 18700
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- answer_input:
+    text: 'No'
+- wait_until:
+    timeout_runtime_seconds: 1.6
+    assert:
+      mechanism:
+        id: 19
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 1600
+      y: 18700
+      z: 2304
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 1600
+      y: 19310
+      z: 2304
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map: hes_d12.blv
+- save_game:
+    name: d12_complete
+- load_game:
+    name: d12_complete
+- assert:
+    qbit_set:
+    - 100015
+    - 100035
+    - 100032
+    - 100608
+- assert:
+    map_var_changed:
+      index: 2
+      value: 4

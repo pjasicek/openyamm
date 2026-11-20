@@ -1,0 +1,181 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generated_with_failed_acceptance_checks",
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: orthographic albedo texture-source painting, FRONT view, 1024 x 1024 transparent PNG.\nImage 1 guide_front.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is only the approved material and colour authority. Image 3 concept_crop.png is supporting original concept.\nPaint ONLY the existing grey surfaces of image 1. Keep its exact orthographic front camera, every silhouette pixel, outline, opening, shape edge, object position and size, framing and empty margins. Do not reconstruct the reference's three-quarter view. Do not improve or reshape the guide. Preserve its geometry even where simpler than the design. Preserve the guide's existing alpha silhouette exactly, including thin poles, ropes, bottom base and all gaps. No cropping or rescaling.\nSubject: Ashrunner crawler-hull home. Apply rust-brown and dark steel to tracks and hull; chipped white ceramic armour with muted gold edges; faded red-brown main upper tarp and grey lower tarps; black cables; weathered wood doorway and steps; worn metal containers. Use the design reference's material distribution on the corresponding existing geometry. Warm lantern orange only on luminous parts in the doorway, without light spill.\nLIGHTING: pure albedo texture source, even flat shadowless light from the viewer. Remove guide shading, cast shadows and ambient occlusion. No darkening under awnings, no directional illumination, no strong specular highlights, no reflections, no rim light. Surface pigment, rust, fabric weave and chipped paint detail only. No background, no new floor or surrounding objects, no smoke, no text.\nReturn one native 1024 x 1024 RGBA image with genuine transparency, unchanged guide outline and no resizing.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2aa-7db2-bd02-613bb91ec880/exec-e6701007-31be-474a-b3ba-ac4238425cff.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available front return: stairs and doorway arrangement closer to the guide than the correction. Does not pass exact geometry, dimensions or flat-light requirements.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "72f0aea3d482bbbe8815f702b9a8046a4ee175570166061cc41d0a9ad87b3a8f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "f6b6a89ef337749e66b6d4a58d65998f30f1f09e747c2d0fc6e0b2730a5b8766",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_count": 976393,
+        "silhouette_identical": false,
+        "geometry_visual_pass": false,
+        "materials_colours": "Broad palette matches; some surface assignments differ from the reference.",
+        "flat_even_light_pass": false,
+        "flat_even_light_notes": "Residual shaded recesses and edge highlights remain."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset: orthographic albedo texture-source painting, FRONT view, 1024 x 1024 transparent PNG.\nImage 1 guide_front.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is only the approved material and colour authority. Image 3 concept_crop.png is supporting original concept.\nPaint ONLY the existing grey surfaces of image 1. Keep its exact orthographic front camera, every silhouette pixel, outline, opening, shape edge, object position and size, framing and empty margins. Do not reconstruct the reference's three-quarter view. Do not improve or reshape the guide. Preserve its geometry even where simpler than the design. Preserve the guide's existing alpha silhouette exactly, including thin poles, ropes, bottom base and all gaps. No cropping or rescaling.\nSubject: Ashrunner crawler-hull home. Apply rust-brown and dark steel to tracks and hull; chipped white ceramic armour with muted gold edges; faded red-brown main upper tarp and grey lower tarps; black cables; weathered wood doorway and steps; worn metal containers. Use the design reference's material distribution on the corresponding existing geometry. Warm lantern orange only on luminous parts in the doorway, without light spill.\nLIGHTING: pure albedo texture source, even flat shadowless light from the viewer. Remove guide shading, cast shadows and ambient occlusion. No darkening under awnings, no directional illumination, no strong specular highlights, no reflections, no rim light. Surface pigment, rust, fabric weave and chipped paint detail only. No background, no new floor or surrounding objects, no smoke, no text.\nReturn one native 1024 x 1024 RGBA image with genuine transparency, unchanged guide outline and no resizing.\nCORRECTIVE ATTEMPT, highest priority: Output must be exactly 1024 pixels wide and 1024 pixels tall, the edit target's native dimensions. The previous attempt incorrectly enlarged/recomposed the object and painted directional shading. Directly colour the supplied guide; preserve its pixel registration. Object bounds in this 1024 square are x=81 through 943 and y=234 through 788. Keep the large empty upper and lower margins exactly. Main mast is at x=373, y=234; chimney top at x=755,y=267; do not move them. Existing triangular angular tarp edges and openings remain unchanged; no new tarp holes, dangling fabric or added parts. All visible surfaces have flat diffuse base colour with no lighting gradients or recessed shadows. Doorway surfaces remain plainly visible, same even lighting as exterior; only lantern glass is orange. Background alpha=0. Preserve exact input silhouette and internal geometry.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2aa-7db2-bd02-613bb91ec880/exec-f8f99d97-d006-4a00-9a7f-a5fe37bb0d92.png",
+      "output": "paint_front_attempt_2.png",
+      "selected": false,
+      "reason": "Corrective attempt still returned wrong dimensions and moved the stairs and containers; rejected in favour of attempt 1.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "72f0aea3d482bbbe8815f702b9a8046a4ee175570166061cc41d0a9ad87b3a8f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "d3fb07c4872818b758177e1562f1e3e1c22ddd913676c13ad76f35bdd2addb81",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_count": 1090530,
+        "silhouette_identical": false,
+        "geometry_visual_pass": false,
+        "materials_colours": "Broad palette matches; some surface assignments differ from the reference.",
+        "flat_even_light_pass": false,
+        "flat_even_light_notes": "Residual shaded recesses and edge highlights remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Create a painted albedo texture-source by editing image 1 guide_top.png. Output exactly 1024 x 1024 RGBA PNG, genuine transparent background.\nINPUT ROLES: Image 1 is the exact TOP-DOWN ORTHOGRAPHIC grey mesh render to colour in place, absolute authority for all geometry, edges, silhouette, placement, orientation and scale. Image 2 design_reference.png is the approved COLOUR AND MATERIAL reference only; image 3 concept_crop.png supports it. Do not copy their three-quarter camera or their silhouette.\nKeep image 1's precise pixel footprint, all shape edges, angular polygonal canopy folds, existing poles/cables and objects, outer base contour, openings and margins. Do not move, add, remove, crop or reshape any geometry. This is straight down from above; do not show a front elevation, tilt the camera, or invent visible walls. Paint within existing shapes only.\nApply the references' weathered rust-brown and dark steel tracks and hull, chipped white ceramic armour with muted gold edging, faded red-brown and charcoal grey canvas tarps, black cables, aged wood, worn metal containers. The broad upper/back roof tarp is faded red-brown with grey sections, the lower/front awnings charcoal grey with the small red-brown side awning. Respect the guide's visibility and occlusion exactly. Fabric wear is surface pigment; no new geometry holes or tears at the silhouette.\nLIGHTING: albedo, flat shadowless even light from viewer. Remove guide shading, no cast shadows or ambient-occlusion darkening, no highlights, no reflections, no rim light. Uniform material brightness regardless of orientation. Warm orange luminous details if visible, no light spill. No background, no new floor, smoke, text or extra objects. Preserve the guide's native 1024 square canvas and transparent alpha footprint exactly.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2aa-7db2-bd02-613bb91ec880/exec-a84f0684-6cb7-411f-9ba6-63c979cc034f.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Wrong dimensions, shaded folds and perimeter rocks incorrectly painted as metal/canvas; correction improved these materials and lighting.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2dedc002a50939f26ce8180177f69f8983c2313e9d1ae45c6f5639208965b5df"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "1845572745b30711cebc78de21fa2afba6424d6c5972263334fe36317a7e1dbb",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_count": 560677,
+        "silhouette_identical": false,
+        "geometry_visual_pass": false,
+        "materials_colours": "Broad palette matches; some surface assignments differ from the reference.",
+        "flat_even_light_pass": false,
+        "flat_even_light_notes": "Residual shaded recesses and edge highlights remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Create a painted albedo texture-source by editing image 1 guide_top.png. Output exactly 1024 x 1024 RGBA PNG, genuine transparent background.\nINPUT ROLES: Image 1 is the exact TOP-DOWN ORTHOGRAPHIC grey mesh render to colour in place, absolute authority for all geometry, edges, silhouette, placement, orientation and scale. Image 2 design_reference.png is the approved COLOUR AND MATERIAL reference only; image 3 concept_crop.png supports it. Do not copy their three-quarter camera or their silhouette.\nKeep image 1's precise pixel footprint, all shape edges, angular polygonal canopy folds, existing poles/cables and objects, outer base contour, openings and margins. Do not move, add, remove, crop or reshape any geometry. This is straight down from above; do not show a front elevation, tilt the camera, or invent visible walls. Paint within existing shapes only.\nApply the references' weathered rust-brown and dark steel tracks and hull, chipped white ceramic armour with muted gold edging, faded red-brown and charcoal grey canvas tarps, black cables, aged wood, worn metal containers. The broad upper/back roof tarp is faded red-brown with grey sections, the lower/front awnings charcoal grey with the small red-brown side awning. Respect the guide's visibility and occlusion exactly. Fabric wear is surface pigment; no new geometry holes or tears at the silhouette.\nLIGHTING: albedo, flat shadowless even light from viewer. Remove guide shading, no cast shadows or ambient-occlusion darkening, no highlights, no reflections, no rim light. Uniform material brightness regardless of orientation. Warm orange luminous details if visible, no light spill. No background, no new floor, smoke, text or extra objects. Preserve the guide's native 1024 square canvas and transparent alpha footprint exactly.\nCORRECTION: Return the native edit target resolution: EXACTLY 1024 by 1024 pixels, not 1254 or 1280. Preserve guide_top.png alpha and object registration at each pixel. Do not enlarge the object or reinterpret the polygon edges. Specifically retain the grey guide's broad smooth angular canopy shapes; texture is colour only, no new seam geometry, folds or holes. Existing perimeter rocks must be ash-grey stone, not red canvas or steel. Remove ALL baked directional shadows and ambient occlusion, including at tarp edges, cables and between objects. This is an unlit base-colour pass for texture projection, not a beauty render. Steel is matte dark grey/rust brown with no highlights. White armour is even off-white with chipped pigment. Flat even fabric colours with worn mottling but zero shaded folds. Do not modify silhouette or internal edges to suit the design reference; it supplies colours only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2aa-7db2-bd02-613bb91ec880/exec-9c273eee-0177-4b92-b50c-d0a6feaca3bf.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available top return: flatter canopy and corrected stone perimeter. Does not pass exact geometry, dimensions or fully shadowless-light requirements.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2dedc002a50939f26ce8180177f69f8983c2313e9d1ae45c6f5639208965b5df"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "d3ac730aba5c3d15b5a28420193fb59e58860130deeb94afc8a576cccd7db194",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_count": 559003,
+        "silhouette_identical": false,
+        "geometry_visual_pass": false,
+        "materials_colours": "Broad palette matches; some surface assignments differ from the reference.",
+        "flat_even_light_pass": false,
+        "flat_even_light_notes": "Residual shaded recesses and edge highlights remain."
+      }
+    }
+  ]
+}

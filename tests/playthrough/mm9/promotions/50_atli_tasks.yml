@@ -1,0 +1,64 @@
+# MM9 promotion playthrough, segment 50: the Assassin's Trial taken, Guaire A'Velsi killed (guide: side_a.yml
+# steal-the-knife, kill-guaire-a-velsi). To Drangheim (outdoors the party is moved), the city gate. The party comes in
+# healthy (healed in segment 01, rested after every journey). Atli the Quick in The Dancing Bard
+# (actor 33, RUDE 88) gives both tasks at once (keys 222, 224); Guaire A'Velsi (actor 38, RUDE 95, a Bandit with
+# 300 HP) then shows by the well west of the tavern (drangheimcity.lua's poll). The party talks to him ("Of course
+# not."), attacks him (a civilian until struck: he turns hostile) and he dies (key 225, his death hook). Last, the
+# party walks into Kluso's House by its front door (ExitTrigger2, its
+# prompt). Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 50
+id: mm9.promotions.50_atli_tasks
+title: "MM9 promotions 50: Atli the Quick's two tasks; Guaire A'Velsi killed; into Kluso's House"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/40_fenja_ranger_done.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_clear: [90222, 90223, 90224, 90225, 90226, 90227]}
+  - play_lua: {source: 'log("CLASSES at the start: " .. classes()); if classes() ~= "Champion PriestLight Rogue Wizard" then error("unexpected classes: " .. classes()) end'}
+
+  # To Drangheim (by road or boat; outdoors the party is moved), the city gate.
+  - travel: {map: drangheim.blv, days: 3}
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 757, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12032, y: -4164, z: 963, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+
+  - play_lua: {source: 'for i = 0, 3 do if conditions(i) ~= "" then error("member " .. i .. " is " .. conditions(i)) end end'}
+
+  # Atli the Quick in The Dancing Bard: both tasks.
+  - set_pose: {map: drangheimcity.blv, x: 16000, y: -3000, z: 431, yaw: -0.6, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 33}
+  - select_topic: {match_label: "We have come seeking promotions."}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "What is the first task?"}
+  - select_topic: {match_label: "What is the Second Task?"}
+  - select_topic: {match_label: "We will do this."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {qbit_set: [90222, 90224], qbit_clear: [90225]}
+
+  # Guaire A'Velsi by the well west of the tavern (shown now): asked, then attacked. Struck, he turns hostile and the
+  # run's rule (enemies near the party die) finishes him.
+  - set_pose: {map: drangheimcity.blv, x: 17590, y: -2867, z: 348, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 38}
+  - select_topic: {match_label: "Of course not."}
+  - press_action: {action: attack, seconds: 4}
+  - clear_hostiles: {radius: 3000, min: 1}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90225]}
+  - play_lua: {source: 'log("Guaire A''Velsi is dead (key 225)")'}
+
+  # Kluso's House: the front door's exit volume takes the party in.
+  - set_pose: {map: drangheimcity.blv, x: 14541, y: -8150, z: 1453, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 14531, y: -8438, z: 1453, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: klusoshouse.blv}
+  - save_game: {name: "50 Atli's tasks", path: output/playthrough/mm9/promotions/checkpoints/50_atli_tasks.oysav}

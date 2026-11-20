@@ -1,0 +1,26 @@
+# MAW in MM9 (rulesets/maw/events/maps/drangheimprison_maw.lua): Drangheim Prison's alarm (MM9 key 5006, QBit 95006)
+# calls the garrison under MAW: four posts away from the party send three guards each at MAW difficulty, all ranks
+# (MM9 Guard A/B/C, rows 9111-9113, by the summon's tier weights 50/35/15). The prison places 17 Guards (A); the
+# twelve called guards hold at least one more Guard A all but once in four thousand runs (0.5^12). Standard calls none.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/maw_prison_garrison.yml --scenario-no-color
+id: mm9.maw_prison_garrison
+title: "MAW in MM9: Drangheim Prison's alarm calls the garrison (MAW), not in Standard"
+world: mm9
+mode: faithful
+tags: [mm9, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: drangheimprison.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - assert:
+      actor_count: {monster_id: 9111, min: 17, max: 17}
+  - setup_shortcut: {kind: set_qbit, id: 95006, value: true}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      actor_count: {monster_id: 9111, min: 18}
+  - new_game_flow:
+      start_map: drangheimprison.blv
+  - setup_shortcut: {kind: set_qbit, id: 95006, value: true}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      actor_count: {monster_id: 9111, min: 17, max: 17}

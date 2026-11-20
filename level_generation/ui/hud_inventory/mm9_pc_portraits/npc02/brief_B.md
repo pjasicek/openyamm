@@ -1,0 +1,61 @@
+# Codex brief: MM9 NPC02 as an MM6-MM8 player portrait sheet, sheet B
+
+Scope: image generation only, with your built-in image generation tool. Write only into
+`level_generation/ui/hud_inventory/mm9_pc_portraits/npc02`. No builds, no other edits, no scripts that alter pixels.
+
+Sheet B holds portrait slots 29-56.
+
+## Inputs (attached in this order)
+
+1. `template_B.png`: LAYOUT, FRAMING AND STYLE TARGET. 28 transparent portraits of existing game characters
+   (not the new character) in 7 columns x 4 rows, read left to right then top to bottom. Sheet 1092x728,
+   slots 156x182, each portrait window 118x158 at inset (19,12). For every slot it defines the head size and
+   position inside its window, the head angle and tilt, how much of the head is visible (partial heads stay
+   partial), the clean cut-out with only a short neck stub and no shoulders, the bright warm pre-rendered
+   lighting, and the state treatment (tints, stone, closed eyes, bruises).
+2. `source_B.png`: IDENTITY AND EXPRESSION SOURCE. The same layout filled with low-resolution frames of
+   the NEW character from another game, one chosen frame per slot. Busts on a coloured background with clothing;
+   background, clothing and shoulders are NOT wanted.
+3. `identity.png`: the new character's neutral face, larger.
+4. `raw_A.png`: the ACCEPTED sheet A of this same character (transparent; view it over a solid colour). It is the
+   identity master for this sheet: the same hair (volume, length, wave, parting, colour; not bigger or curlier),
+   skin tone, face shape, lighting and rendering as sheet A, and the same head size: a frontal head in this sheet
+   fills its window exactly as much as a frontal head in sheet A (an earlier character's sheet B came out 12 %
+   larger, so the head jumped in size between frames).
+
+## What to produce
+
+One image: the NEW character (half-orc man around thirty, dark brown skin with a slight reddish-mauve tone (keep it dark brown in every frame, never lighter tan and never green), head shaved bald with only a faint dark stubble on the crown, no hair, clean-shaven, no beard or moustache; small short ivory-white horns: a pointed horn growing up and outward from the upper forehead on his own LEFT side (the VIEWER'S RIGHT in a frontal view), a smaller horn sticking sideways out of his own RIGHT temple (VIEWER'S LEFT), and a tiny horn nub at his own left temple; a small dark blue-black angular stone or scale stud set in the upper forehead on his own RIGHT side (VIEWER'S LEFT); a ragged dark tribal scar-tattoo line runs across the forehead between the stud and the left horn, and dark mottled tattoo scarring covers the skin around his own LEFT eye and down his own LEFT cheek (VIEWER'S RIGHT); these markings are part of his skin and keep their sides when the head turns or tilts, never mirrored; long gaunt face with high prominent cheekbones and hollow cheeks, heavy brow, broad flat nose, thick lips, slightly pointed ears close to the head, pale glassy grey eyes) drawn into the 28 slots of input 1, so the result can replace the
+template characters in the same game without looking out of place.
+
+- Identity, hair shape and colour, horns, ears, beard, skin colour and face proportions come from inputs 2
+  and 3 and the sheet A identity master. Do not copy the template's face, hair, skin colour or accessories.
+- Framing comes from input 1: same head height in its window, same horizontal centre, same lower cut-off with
+  only a short neck stub, same head angle, tilt and gaze direction, same partial/low position for ducking slots.
+  No shoulders, collar, armour or clothing. Keep hair, horns and ears as close to the head as the native frames
+  allow, so the head is no wider than the template's head plus its hair.
+- Expression: copy the mouth, eyes and brows of the input 2 frame in the same slot, adjusted to the template's
+  head angle. Where input 1 shows a state the source frame does not (sickly green poisoned skin, pustules, grey
+  stone, red straining face, closed eyes, bruise, sleeping tilt, head turns and nods, glances), apply the
+  template's state to the new character.
+- Injury slots (sheet B slots 37-39, the 9th-11th portraits): intact skin with faint bruising and a pained or
+  dazed expression. No blood, cuts or open wounds.
+- Style: finely detailed pre-rendered fantasy-game portrait matching input 1's lighting and colour (warm, evenly
+  lit, natural saturation), not the dark coloured rim lighting of input 2. Fresh high-resolution reconstruction
+  with real fine detail; no pixel-art enlargement, blur-only smoothing or square texels.
+
+## Transparency and layout
+
+- Genuinely transparent RGBA background (alpha 0) outside each head. No checkerboard, painted backdrop,
+  shadow or halo. Clean thin antialiased edges. Transparency can look brown or grey in a preview: check the
+  alpha channel before rejecting a result for its background.
+- EXACTLY 7 columns x 4 rows, 28 separate portraits in reading order, generous uniform transparent gutters so
+  no two portraits touch. Landscape around 1536x1024. No text, labels, borders, rings or guide marks.
+
+## Records
+
+- Copy the exact generated file, unmodified, to `raw_B.png`. If the result has a wrong grid count,
+  touching portraits, no real transparency or the template's face instead of the new one, do ONE corrective
+  regeneration and keep the first as `raw_B_rejected.png`.
+- Write `generation_B.json`: exact prompt(s), input paths with sha256, output path, sha256, size, mode,
+  and a one-paragraph self-check against this brief.

@@ -1,0 +1,171 @@
+{
+  "tool": "built-in image_gen",
+  "status": "failed_brief_validation",
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Edit target: Image 1, guide_left.png, the EXACT left orthographic view of an existing 3D fungus cluster. Image 2, design_reference.png, is ONLY the color/material reference, NOT the camera or shape reference.\nProduce one 1024 x 1024 RGBA PNG with genuinely transparent background, an albedo texture-source painting over Image 1. Preserve Image 1's silhouette EXACTLY pixel for pixel, its framing, size, position, every contour, shape edge, overlap, gap, visible bulb and planter edge. Do not change geometry or smooth/round its angular mesh edges. Do not move, add, remove or reveal objects. This is the LEFT view: retain the tall cap at the upper left/center, flaring toward the right, its large curved foreground stem and the partly occluded smaller caps behind it exactly as in the guide. Keep the low horizontal planter at the exact same pixels.\nPaint only the existing surfaces with the reference's materials: pale ivory and cream fibrous fungus flesh with delicate lavender veins; soft violet cap rims and lavender gills where the guide exposes undersides; small pale blue-white glowing-color bulbs; weathered dark slate grey-green composite planter with ochre horizontal band and existing vertical straps; dark soil only where visible. Fine surface detail is pigment/albedo, not geometric additions. Keep all guide boundaries.\nLighting: flat, even, shadowless viewer illumination, unlit base-color texture source. NO cast shadows, NO ambient occlusion, NO directional shading, NO specular highlights/reflections, NO rim light, NO glow halos/light spill. Bulbs are painted blue-white, not lights. No floor, no background, no text. Do not reproduce the reference's dramatic lighting or three-quarter pose. Output exactly 1024 x 1024, preserving all transparent pixels and edge placement of the guide.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfe-7431-8ba6-a2889d21b6d5/exec-9a0ad1b6-d5b8-403f-92c5-b015a8e35cc5.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available left return; corrective attempt added more bulbs. Not brief-compliant: wrong native dimensions, silhouette drift, edge fringe and baked shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "8c8d3d0c5a446f35390fd00ff6a263d8f94341e32b9f5e223ce5fbb4765da78a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          65,
+          37,
+          1240,
+          1190
+        ],
+        "silhouette_identical": false,
+        "materials_and_colors": "Broadly match reference",
+        "flat_even_light": "Fail: baked gill/edge shading and bulb highlights",
+        "edge_quality": "Fail: fringe pixels around silhouette"
+      },
+      "output_sha256": "54a6b608ccaf8a4d6f05cab8bcda981f196be1a9f8004211a9ac93342e13199c"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Edit target: Image 1, guide_left.png, the EXACT left orthographic view of an existing 3D fungus cluster. Image 2, design_reference.png, is ONLY the color/material reference, NOT the camera or shape reference.\nProduce one 1024 x 1024 RGBA PNG with genuinely transparent background, an albedo texture-source painting over Image 1. Preserve Image 1's silhouette EXACTLY pixel for pixel, its framing, size, position, every contour, shape edge, overlap, gap, visible bulb and planter edge. Do not change geometry or smooth/round its angular mesh edges. Do not move, add, remove or reveal objects. This is the LEFT view: retain the tall cap at the upper left/center, flaring toward the right, its large curved foreground stem and the partly occluded smaller caps behind it exactly as in the guide. Keep the low horizontal planter at the exact same pixels.\nPaint only the existing surfaces with the reference's materials: pale ivory and cream fibrous fungus flesh with delicate lavender veins; soft violet cap rims and lavender gills where the guide exposes undersides; small pale blue-white glowing-color bulbs; weathered dark slate grey-green composite planter with ochre horizontal band and existing vertical straps; dark soil only where visible. Fine surface detail is pigment/albedo, not geometric additions. Keep all guide boundaries.\nLighting: flat, even, shadowless viewer illumination, unlit base-color texture source. NO cast shadows, NO ambient occlusion, NO directional shading, NO specular highlights/reflections, NO rim light, NO glow halos/light spill. Bulbs are painted blue-white, not lights. No floor, no background, no text. Do not reproduce the reference's dramatic lighting or three-quarter pose. Output exactly 1024 x 1024, preserving all transparent pixels and edge placement of the guide.\nCORRECTIVE GENERATION (last permitted attempt): the previous attempt failed with a 1254-square output and changed edge geometry. Start from the original 1024-square guide. Return native 1024 x 1024 pixels, NO upscaling. The output alpha must equal the original guide alpha: object bbox [238,66,786,958], all other pixels fully transparent, no stray faint pixels or colored fringe. Transfer pigment only; keep even the polygonal cap contours and precise bulb count. Keep identical projected geometry. Reduce baked shading in gills and planter. This is a flat albedo map, not a beauty render.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfe-7431-8ba6-a2889d21b6d5/exec-c86fb21a-2187-41ce-891f-45c15c15dc8f.png",
+      "output": "paint_left_attempt_2.png",
+      "selected": false,
+      "reason": "Correction did not fix dimensions or exact silhouette; added bulbs and retained edge fringe and baked shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "8c8d3d0c5a446f35390fd00ff6a263d8f94341e32b9f5e223ce5fbb4765da78a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          18,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_and_colors": "Broadly match reference",
+        "flat_even_light": "Fail: baked gill/edge shading and bulb highlights",
+        "edge_quality": "Fail: fringe pixels around silhouette"
+      },
+      "output_sha256": "18928e9677f7f6f68d5154235a4db72b8cbdfe6fd009a8586c67445d334eefcf"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Image 1 guide_right.png is the EDIT TARGET and absolute shape authority. Image 2 design_reference.png is ONLY a material/color reference.\nOutput one native 1024 x 1024 transparent RGBA PNG; no other dimensions. Repaint the pixels of the grey guide with reference materials. Preserve the guide alpha mask, silhouette, location, scale, camera, outline, every angular edge, gap, overlap, bulb count and stem EXACTLY. The object occupies x=238..785 and y=66..957 in the 1024 square canvas; preserve these pixel coordinates and all interior geometry edges. RIGHT orthographic view: tallest cap on upper right, middle cap in front and below it, smallest cap farther down and left, all flaring left; all stem occlusion stays exactly as in Image 1. Low planter stays at the same pixels. Do not turn this into the three-quarter reference.\nMaterials only: pale ivory and cream fungus flesh with delicate fibrous pigment; sparse lavender veins; soft violet cap rims and gills; existing small bulbs painted blue-white; dark slate grey-green weathered composite planter with ochre horizontal band, existing vertical straps; dark soil where visible. Do not add bolts or bulbs or change silhouette. No gloss.\nLighting is absolutely even, flat, shadowless, unlit albedo. No shading gradient, no cast shadows, no AO darkening, no specular highlights or reflections, no rim light, no glow halos or light spill. Gills get violet pigment, not dark shadows. No background/floor/text. All pixels outside original guide silhouette must be alpha zero, edges clean without colored fringe or white matte. Preserve every boundary and native 1024 x 1024 dimensions.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfe-7431-8ba6-a2889d21b6d5/exec-9de4d8e2-051c-457a-93d9-e29d9644c15c.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available right return; corrective attempt retained failures with stronger cap shading. Not brief-compliant: wrong native dimensions, silhouette drift, edge fringe and baked shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "bcdf235c6a021f023d30e58832307795f56758a89900aca0378405d0c2391ed8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1224
+        ],
+        "silhouette_identical": false,
+        "materials_and_colors": "Broadly match reference",
+        "flat_even_light": "Fail: baked gill/edge shading and bulb highlights",
+        "edge_quality": "Fail: fringe pixels around silhouette"
+      },
+      "output_sha256": "08a2b6e67303eda30a2d93af3c7540e5bacee6016e27e1f46fda566821b7ca59"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Image 1 guide_right.png is the EDIT TARGET and absolute shape authority. Image 2 design_reference.png is ONLY a material/color reference.\nOutput one native 1024 x 1024 transparent RGBA PNG; no other dimensions. Repaint the pixels of the grey guide with reference materials. Preserve the guide alpha mask, silhouette, location, scale, camera, outline, every angular edge, gap, overlap, bulb count and stem EXACTLY. The object occupies x=238..785 and y=66..957 in the 1024 square canvas; preserve these pixel coordinates and all interior geometry edges. RIGHT orthographic view: tallest cap on upper right, middle cap in front and below it, smallest cap farther down and left, all flaring left; all stem occlusion stays exactly as in Image 1. Low planter stays at the same pixels. Do not turn this into the three-quarter reference.\nMaterials only: pale ivory and cream fungus flesh with delicate fibrous pigment; sparse lavender veins; soft violet cap rims and gills; existing small bulbs painted blue-white; dark slate grey-green weathered composite planter with ochre horizontal band, existing vertical straps; dark soil where visible. Do not add bolts or bulbs or change silhouette. No gloss.\nLighting is absolutely even, flat, shadowless, unlit albedo. No shading gradient, no cast shadows, no AO darkening, no specular highlights or reflections, no rim light, no glow halos or light spill. Gills get violet pigment, not dark shadows. No background/floor/text. All pixels outside original guide silhouette must be alpha zero, edges clean without colored fringe or white matte. Preserve every boundary and native 1024 x 1024 dimensions.\nCORRECTION, final permitted attempt: do not recompose, invent anatomy, round the guide contours or show extra gills. Paint the ORIGINAL guide as a strictly registered image edit. Use its native 1024 x 1024 canvas unchanged and preserve its alpha pixel-for-pixel (bbox [238,66,786,958]). Previous return was incorrectly 1254 x 1254 and had colored fringes and changed outlines. Correct those failures. No faint stray pixels outside the silhouette, no matte or colored fringe, no extra bulbs. Reference materials should be flat albedo with no shaded undersides, bevel highlights or specular spots.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfe-7431-8ba6-a2889d21b6d5/exec-2a566cb1-45cc-40dc-b99e-babf9e74d5ea.png",
+      "output": "paint_right_attempt_2.png",
+      "selected": false,
+      "reason": "Correction did not fix dimensions or silhouette; retained edge fringe and strong gill shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "bcdf235c6a021f023d30e58832307795f56758a89900aca0378405d0c2391ed8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          31,
+          1230,
+          1198
+        ],
+        "silhouette_identical": false,
+        "materials_and_colors": "Broadly match reference",
+        "flat_even_light": "Fail: baked gill/edge shading and bulb highlights",
+        "edge_quality": "Fail: fringe pixels around silhouette"
+      },
+      "output_sha256": "75884acb308421c749a75407bb116f18ff7596f9826efd130e1e49101cde913f"
+    }
+  ]
+}

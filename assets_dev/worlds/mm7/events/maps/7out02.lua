@@ -82,6 +82,9 @@ SetMapMetadata({
     [301] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d29.blv", targetName = "Castle Harmondale" },
     [302] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d21.blv", targetName = "White Cliff Cave" },
     },
+    learnedEffect = {
+    [218] = { autonote = 262, effect = "+ 10 Might (Temporary)" },
+    },
     textureNames = {"chb1", "chb1dl", "chb1dr", "chb1el", "chb1er", "chb1s", "chbw"},
     spriteNames = {"0", "7tree01", "7tree07", "7tree13", "7tree14", "7tree15", "7tree16", "7tree17", "7tree18", "7tree22", "7tree24", "7tree30", "tree37", "v77dec24"},
     castSpellIds = {2, 6, 15, 43},
@@ -345,13 +348,13 @@ RegisterEvent(37, "Arbiter", function()
         goto step_24
     end
     ::step_22::
-    AddValue(History(9), 0)
+    AddValue(History(7), 0)
     goto step_27
     ::step_24::
-    AddValue(History(10), 0)
+    AddValue(History(8), 0)
     goto step_27
     ::step_26::
-    AddValue(History(11), 0)
+    AddValue(History(9), 0)
     ::step_27::
     SetQBit(QBit(611)) -- Chose the path of Light
     ClearQBit(QBit(665)) -- Choose a judge to succeed Judge Grey as Arbiter in Harmondale.
@@ -412,13 +415,13 @@ RegisterEvent(37, "Arbiter", function()
         goto step_59
     end
     ::step_57::
-    AddValue(History(16), 0)
+    AddValue(History(14), 0)
     goto step_62
     ::step_59::
-    AddValue(History(17), 0)
+    AddValue(History(15), 0)
     goto step_62
     ::step_61::
-    AddValue(History(18), 0)
+    AddValue(History(16), 0)
     ::step_62::
     SetQBit(QBit(612)) -- Chose the path of Dark
     ClearQBit(QBit(665)) -- Choose a judge to succeed Judge Grey as Arbiter in Harmondale.
@@ -548,8 +551,8 @@ RegisterEvent(110, nil, function()
     evt.SetFacetBit(15, FacetBits.Invisible, 0)
     evt.SetSprite(1, 1, "7tree07")
     evt.SetSprite(2, 1, "7tree01")
-    if IsAtLeast(History(7), 0) then return end
-    AddValue(History(7), 0)
+    if IsAtLeast(History(5), 0) then return end
+    AddValue(History(5), 0)
 end)
 
 RegisterEvent(111, nil, function()
@@ -698,7 +701,7 @@ RegisterEvent(211, nil, function()
     elseif IsQBitSet(QBit(659)) then -- Gave artifact to arbiter
         evt.SpeakNPC(430) -- Messenger
         SetQBit(QBit(665)) -- Choose a judge to succeed Judge Grey as Arbiter in Harmondale.
-        AddValue(History(8), 0)
+        AddValue(History(6), 0)
         evt.MoveNPC(406, 0) -- Ellen Rockway -> removed
         evt.MoveNPC(407, 0) -- Alain Hani -> removed
         evt.MoveNPC(414, 1169) -- Ambassador Wright -> Throne Room
@@ -710,7 +713,7 @@ RegisterEvent(211, nil, function()
     elseif IsQBitSet(QBit(596)) then -- Gave artifact to humans
         evt.SpeakNPC(430) -- Messenger
         SetQBit(QBit(665)) -- Choose a judge to succeed Judge Grey as Arbiter in Harmondale.
-        AddValue(History(8), 0)
+        AddValue(History(6), 0)
         evt.MoveNPC(406, 0) -- Ellen Rockway -> removed
         evt.MoveNPC(407, 0) -- Alain Hani -> removed
         evt.MoveNPC(414, 1169) -- Ambassador Wright -> Throne Room
@@ -722,7 +725,7 @@ RegisterEvent(211, nil, function()
     elseif IsQBitSet(QBit(597)) then -- Gave artifact to elves
         evt.SpeakNPC(430) -- Messenger
         SetQBit(QBit(665)) -- Choose a judge to succeed Judge Grey as Arbiter in Harmondale.
-        AddValue(History(8), 0)
+        AddValue(History(6), 0)
         evt.MoveNPC(406, 0) -- Ellen Rockway -> removed
         evt.MoveNPC(407, 0) -- Alain Hani -> removed
         evt.MoveNPC(414, 1169) -- Ambassador Wright -> Throne Room
@@ -1251,7 +1254,7 @@ end, "Torrent's")
 RegisterEvent(301, "Enter Castle Harmondale", function()
     if not IsQBitSet(QBit(610)) then -- Built Castle to Level 2 (rescued dwarf guy)
         if not IsQBitSet(QBit(644)) then -- Butler only shows up once (area 2)
-            AddValue(History(5), 0)
+            AddValue(History(3), 0)
             evt.SpeakNPC(397) -- Butler
             evt.MoveNPC(397, 240) -- Butler -> On the House
             evt.ForPlayer(Players.All)
@@ -1291,8 +1294,8 @@ RegisterEvent(65535, "", function()
     evt.SetFacetBit(15, FacetBits.Invisible, 0)
     evt.SetSprite(1, 1, "7tree07")
     evt.SetSprite(2, 1, "7tree01")
-    if IsAtLeast(History(7), 0) then return end
-    AddValue(History(7), 0)
+    if IsAtLeast(History(5), 0) then return end
+    AddValue(History(5), 0)
 end)
 
 RegisterEvent(65534, "", function()

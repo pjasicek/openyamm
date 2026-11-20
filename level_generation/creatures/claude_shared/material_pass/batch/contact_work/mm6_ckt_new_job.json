@@ -1,0 +1,31 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_ckt_new.glb",
+ "patch_materials": {
+  "CockatriceHead_A": {
+   "specular": 0.0,
+   "specular_mask": false
+  },
+  "Cockatrice_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Cockatrice_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Cockatrice_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_ckt_new",
+ "size": 300,
+ "front": "-y"
+}

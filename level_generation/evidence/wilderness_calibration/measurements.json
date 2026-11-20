@@ -1,0 +1,5555 @@
+{
+  "sources": [
+    {
+      "path": "assets_dev/engine/data_tables/decoration_data.txt",
+      "sha256": "0ad51cc583a71f2e4255211fb79be965e2adb1a51f7baeb0d603f777073bca7f"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/map_stats.txt",
+      "sha256": "15c97e7fa3a23f1857be2646cf732e89c5000a06b3b3ee252f9a36a4250e5ed6"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/monster_data.txt",
+      "sha256": "ffd1b8b74e49d54cc3ce1f53fd596070d6189d9b28a666e87bedc2b52d39b9e2"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/terrain_tile_data.txt",
+      "sha256": "39beb3bb4c1f91e5e32ee491677b49325579cadfcbe52a34b13a019e4fce253b"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/out02.lua",
+      "sha256": "2a180e57ef93d494e315fc8781ec48318010f3561208106c40353353656abc09"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out02.scene.yml",
+      "sha256": "0d0a2756427354fdd3f9d528f24ce0a71f0d4e90c9542543b776d57d335488b1"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out06.scene.yml",
+      "sha256": "d3b8d69f6ece2ef9d466692dac65555765ee12f81460cf996b0dc7b86fd0f05d"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out08.scene.yml",
+      "sha256": "0481c4a7100fa7bf1fee1ce6b7187abcc9566ba8eec4adeaa689f1ccacf76dc7"
+    },
+    {
+      "path": "level_generation/evidence/mm8/out02_decorations.json",
+      "sha256": "1f008f0a925e87e8e7efee5838764a756b69f5a66525fb970d74b14c2b4f18aa"
+    },
+    {
+      "path": "level_generation/evidence/mm8/out06_decorations.json",
+      "sha256": "c4c7212f632021cb15f306a7b102d1c42a04dff0a2b03dbb5152b32dd85eba5d"
+    },
+    {
+      "path": "level_generation/evidence/mm8/out08_decorations.json",
+      "sha256": "d180de034c855b53ab5edc51e75e2f8517850799f2f1a80c48ba4cfb52cdece0"
+    },
+    {
+      "path": "level_generation/projects/brackenford_greywatch/review/wilderness_revision/before/lg01.decorations.json",
+      "sha256": "27be2437b4b9882a2953f83d21d9f5063474a498089afedb2eb726b3e022c290"
+    },
+    {
+      "path": "level_generation/projects/brackenford_greywatch/review/wilderness_revision/before/lg01.semantic.json",
+      "sha256": "a29099dcf0695cbdf107972c608112387ee23b96645e4fcc66ee10160f13e259"
+    },
+    {
+      "path": "level_generation/projects/brackenford_greywatch/source/lg01.decorations.json",
+      "sha256": "6e1d4ee815758878c25f4ebb8fd87fcb4e7bad177ec4cecc86e2a46ed4126005"
+    },
+    {
+      "path": "level_generation/projects/brackenford_greywatch/source/lg01.semantic.json",
+      "sha256": "35f4c234b277d888c439ee0a102d93fcc2e16494bc81303a7187e13147a019ca"
+    }
+  ],
+  "method": "Spatial calibration from authored encounters, native scenery and actual event faces.\n\nSpawn markers are not actors. Cluster radii are analysis choices, not recovered designer pack IDs.\nDo not count Ravenshore's conditional pirate invasion as its baseline wilderness population.\n",
+  "cluster_radius": 1600,
+  "units": "native map units; 512 per terrain cell",
+  "maps": {
+    "out02": {
+      "source": "assets_dev/worlds/mm8/maps/out02.odm",
+      "sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+      "point_kind": "encounter spawn markers",
+      "fixed_actor_records": 143,
+      "encounter_anchor_count": 59,
+      "families": {
+        "Centaur": {
+          "count": 16,
+          "points": [
+            {
+              "position": [
+                5968,
+                13216
+              ],
+              "family": "Centaur",
+              "id": 2
+            },
+            {
+              "position": [
+                8496,
+                10112
+              ],
+              "family": "Centaur",
+              "id": 10
+            },
+            {
+              "position": [
+                9104,
+                16576
+              ],
+              "family": "Centaur",
+              "id": 15
+            },
+            {
+              "position": [
+                7184,
+                13472
+              ],
+              "family": "Centaur",
+              "id": 16
+            },
+            {
+              "position": [
+                15280,
+                15536
+              ],
+              "family": "Centaur",
+              "id": 18
+            },
+            {
+              "position": [
+                4176,
+                15040
+              ],
+              "family": "Centaur",
+              "id": 19
+            },
+            {
+              "position": [
+                11360,
+                12928
+              ],
+              "family": "Centaur",
+              "id": 24
+            },
+            {
+              "position": [
+                8576,
+                12112
+              ],
+              "family": "Centaur",
+              "id": 27
+            },
+            {
+              "position": [
+                5440,
+                15264
+              ],
+              "family": "Centaur",
+              "id": 35
+            },
+            {
+              "position": [
+                5632,
+                17088
+              ],
+              "family": "Centaur",
+              "id": 38
+            },
+            {
+              "position": [
+                4736,
+                17552
+              ],
+              "family": "Centaur",
+              "id": 41
+            },
+            {
+              "position": [
+                3712,
+                16544
+              ],
+              "family": "Centaur",
+              "id": 42
+            },
+            {
+              "position": [
+                14608,
+                9632
+              ],
+              "family": "Centaur",
+              "id": 44
+            },
+            {
+              "position": [
+                6048,
+                16032
+              ],
+              "family": "Centaur",
+              "id": 46
+            },
+            {
+              "position": [
+                13744,
+                17248
+              ],
+              "family": "Centaur",
+              "id": 54
+            },
+            {
+              "position": [
+                13472,
+                11472
+              ],
+              "family": "Centaur",
+              "id": 58
+            }
+          ],
+          "nearest_neighbor": [
+            1184.2,
+            1691.5,
+            2196.8
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                3
+              ],
+              "count": 2,
+              "center": [
+                6576.0,
+                13344.0
+              ]
+            },
+            {
+              "members": [
+                1
+              ],
+              "count": 1,
+              "center": [
+                8496.0,
+                10112.0
+              ]
+            },
+            {
+              "members": [
+                2
+              ],
+              "count": 1,
+              "center": [
+                9104.0,
+                16576.0
+              ]
+            },
+            {
+              "members": [
+                4
+              ],
+              "count": 1,
+              "center": [
+                15280.0,
+                15536.0
+              ]
+            },
+            {
+              "members": [
+                5,
+                8,
+                9,
+                10,
+                11,
+                13
+              ],
+              "count": 6,
+              "center": [
+                4957.3,
+                16253.3
+              ]
+            },
+            {
+              "members": [
+                6
+              ],
+              "count": 1,
+              "center": [
+                11360.0,
+                12928.0
+              ]
+            },
+            {
+              "members": [
+                7
+              ],
+              "count": 1,
+              "center": [
+                8576.0,
+                12112.0
+              ]
+            },
+            {
+              "members": [
+                12
+              ],
+              "count": 1,
+              "center": [
+                14608.0,
+                9632.0
+              ]
+            },
+            {
+              "members": [
+                14
+              ],
+              "count": 1,
+              "center": [
+                13744.0,
+                17248.0
+              ]
+            },
+            {
+              "members": [
+                15
+              ],
+              "count": 1,
+              "center": [
+                13472.0,
+                11472.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            2162.4,
+            2300.1,
+            2511.2
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 13,
+            "1600": 10,
+            "2400": 5
+          }
+        },
+        "Dire Wolf": {
+          "count": 43,
+          "points": [
+            {
+              "position": [
+                -16224,
+                16576
+              ],
+              "family": "Dire Wolf",
+              "id": 0
+            },
+            {
+              "position": [
+                -15936,
+                16352
+              ],
+              "family": "Dire Wolf",
+              "id": 1
+            },
+            {
+              "position": [
+                -15744,
+                19872
+              ],
+              "family": "Dire Wolf",
+              "id": 3
+            },
+            {
+              "position": [
+                -15648,
+                20480
+              ],
+              "family": "Dire Wolf",
+              "id": 4
+            },
+            {
+              "position": [
+                -11712,
+                18752
+              ],
+              "family": "Dire Wolf",
+              "id": 5
+            },
+            {
+              "position": [
+                -9792,
+                14624
+              ],
+              "family": "Dire Wolf",
+              "id": 6
+            },
+            {
+              "position": [
+                -18112,
+                5504
+              ],
+              "family": "Dire Wolf",
+              "id": 7
+            },
+            {
+              "position": [
+                -10080,
+                15072
+              ],
+              "family": "Dire Wolf",
+              "id": 8
+            },
+            {
+              "position": [
+                -18752,
+                16128
+              ],
+              "family": "Dire Wolf",
+              "id": 9
+            },
+            {
+              "position": [
+                -18368,
+                16256
+              ],
+              "family": "Dire Wolf",
+              "id": 11
+            },
+            {
+              "position": [
+                -11840,
+                18304
+              ],
+              "family": "Dire Wolf",
+              "id": 12
+            },
+            {
+              "position": [
+                -11968,
+                18432
+              ],
+              "family": "Dire Wolf",
+              "id": 13
+            },
+            {
+              "position": [
+                -16352,
+                16320
+              ],
+              "family": "Dire Wolf",
+              "id": 14
+            },
+            {
+              "position": [
+                -17920,
+                5312
+              ],
+              "family": "Dire Wolf",
+              "id": 17
+            },
+            {
+              "position": [
+                -10016,
+                14720
+              ],
+              "family": "Dire Wolf",
+              "id": 20
+            },
+            {
+              "position": [
+                -10944,
+                11456
+              ],
+              "family": "Dire Wolf",
+              "id": 21
+            },
+            {
+              "position": [
+                -17184,
+                11296
+              ],
+              "family": "Dire Wolf",
+              "id": 22
+            },
+            {
+              "position": [
+                -11264,
+                1024
+              ],
+              "family": "Dire Wolf",
+              "id": 23
+            },
+            {
+              "position": [
+                -5824,
+                10464
+              ],
+              "family": "Dire Wolf",
+              "id": 25
+            },
+            {
+              "position": [
+                -19040,
+                16256
+              ],
+              "family": "Dire Wolf",
+              "id": 26
+            },
+            {
+              "position": [
+                -9440,
+                14880
+              ],
+              "family": "Dire Wolf",
+              "id": 28
+            },
+            {
+              "position": [
+                -5536,
+                10624
+              ],
+              "family": "Dire Wolf",
+              "id": 29
+            },
+            {
+              "position": [
+                -16000,
+                20192
+              ],
+              "family": "Dire Wolf",
+              "id": 30
+            },
+            {
+              "position": [
+                -10656,
+                11296
+              ],
+              "family": "Dire Wolf",
+              "id": 31
+            },
+            {
+              "position": [
+                -11136,
+                11328
+              ],
+              "family": "Dire Wolf",
+              "id": 32
+            },
+            {
+              "position": [
+                -12032,
+                18720
+              ],
+              "family": "Dire Wolf",
+              "id": 33
+            },
+            {
+              "position": [
+                -5568,
+                10336
+              ],
+              "family": "Dire Wolf",
+              "id": 34
+            },
+            {
+              "position": [
+                -16160,
+                16064
+              ],
+              "family": "Dire Wolf",
+              "id": 36
+            },
+            {
+              "position": [
+                -17632,
+                11520
+              ],
+              "family": "Dire Wolf",
+              "id": 37
+            },
+            {
+              "position": [
+                -17568,
+                11264
+              ],
+              "family": "Dire Wolf",
+              "id": 39
+            },
+            {
+              "position": [
+                -10656,
+                1280
+              ],
+              "family": "Dire Wolf",
+              "id": 40
+            },
+            {
+              "position": [
+                -10752,
+                11008
+              ],
+              "family": "Dire Wolf",
+              "id": 43
+            },
+            {
+              "position": [
+                -5376,
+                10432
+              ],
+              "family": "Dire Wolf",
+              "id": 45
+            },
+            {
+              "position": [
+                -17632,
+                5600
+              ],
+              "family": "Dire Wolf",
+              "id": 47
+            },
+            {
+              "position": [
+                -9664,
+                15168
+              ],
+              "family": "Dire Wolf",
+              "id": 48
+            },
+            {
+              "position": [
+                -11456,
+                18624
+              ],
+              "family": "Dire Wolf",
+              "id": 49
+            },
+            {
+              "position": [
+                -11168,
+                416
+              ],
+              "family": "Dire Wolf",
+              "id": 50
+            },
+            {
+              "position": [
+                -17984,
+                5792
+              ],
+              "family": "Dire Wolf",
+              "id": 51
+            },
+            {
+              "position": [
+                -17440,
+                11008
+              ],
+              "family": "Dire Wolf",
+              "id": 52
+            },
+            {
+              "position": [
+                -16416,
+                20320
+              ],
+              "family": "Dire Wolf",
+              "id": 53
+            },
+            {
+              "position": [
+                -15552,
+                20288
+              ],
+              "family": "Dire Wolf",
+              "id": 55
+            },
+            {
+              "position": [
+                -10176,
+                800
+              ],
+              "family": "Dire Wolf",
+              "id": 56
+            },
+            {
+              "position": [
+                -10624,
+                480
+              ],
+              "family": "Dire Wolf",
+              "id": 57
+            }
+          ],
+          "nearest_neighbor": [
+            256.9,
+            295.0,
+            375.1
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                12,
+                27
+              ],
+              "count": 4,
+              "center": [
+                -16168.0,
+                16328.0
+              ]
+            },
+            {
+              "members": [
+                2,
+                3,
+                22,
+                39,
+                40
+              ],
+              "count": 5,
+              "center": [
+                -15872.0,
+                20230.4
+              ]
+            },
+            {
+              "members": [
+                4,
+                10,
+                11,
+                25,
+                35
+              ],
+              "count": 5,
+              "center": [
+                -11801.6,
+                18566.4
+              ]
+            },
+            {
+              "members": [
+                5,
+                7,
+                14,
+                20,
+                34
+              ],
+              "count": 5,
+              "center": [
+                -9798.4,
+                14892.8
+              ]
+            },
+            {
+              "members": [
+                6,
+                13,
+                33,
+                37
+              ],
+              "count": 4,
+              "center": [
+                -17912.0,
+                5552.0
+              ]
+            },
+            {
+              "members": [
+                8,
+                9,
+                19
+              ],
+              "count": 3,
+              "center": [
+                -18720.0,
+                16213.3
+              ]
+            },
+            {
+              "members": [
+                15,
+                23,
+                24,
+                31
+              ],
+              "count": 4,
+              "center": [
+                -10872.0,
+                11272.0
+              ]
+            },
+            {
+              "members": [
+                16,
+                28,
+                29,
+                38
+              ],
+              "count": 4,
+              "center": [
+                -17456.0,
+                11272.0
+              ]
+            },
+            {
+              "members": [
+                17,
+                30,
+                36,
+                41,
+                42
+              ],
+              "count": 5,
+              "center": [
+                -10777.6,
+                800.0
+              ]
+            },
+            {
+              "members": [
+                18,
+                21,
+                26,
+                32
+              ],
+              "count": 4,
+              "center": [
+                -5576.0,
+                10464.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            3776.6,
+            4048.9,
+            5293.1
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 10,
+            "1600": 10,
+            "2400": 9
+          }
+        }
+      },
+      "targets": [
+        {
+          "name": "chest_W_3",
+          "model": 0,
+          "event": 81,
+          "xy": [
+            13248.0,
+            19208.0
+          ],
+          "nearest_encounter_anchor": 2021.8,
+          "encounter_anchors_within_2048": 1
+        },
+        {
+          "name": "chest_S",
+          "model": 1,
+          "event": 83,
+          "xy": [
+            -14080.0,
+            15128.0
+          ],
+          "nearest_encounter_anchor": 2223.3,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "chest_S_2",
+          "model": 2,
+          "event": 84,
+          "xy": [
+            -20032.0,
+            16856.0
+          ],
+          "nearest_encounter_anchor": 1159.3,
+          "encounter_anchors_within_2048": 3
+        },
+        {
+          "name": "chest_W",
+          "model": 3,
+          "event": 82,
+          "xy": [
+            11976.0,
+            -9152.0
+          ],
+          "nearest_encounter_anchor": 18967.5,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "chest_W_2",
+          "model": 4,
+          "event": 86,
+          "xy": [
+            22240.0,
+            7384.0
+          ],
+          "nearest_encounter_anchor": 7956.2,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "d08entrance",
+          "model": 7,
+          "event": 502,
+          "xy": [
+            -20421.0,
+            16356.0
+          ],
+          "nearest_encounter_anchor": 1384.6,
+          "encounter_anchors_within_2048": 2
+        },
+        {
+          "name": "d07entrance_E",
+          "model": 64,
+          "event": 501,
+          "xy": [
+            -22527.0,
+            -11243.4
+          ],
+          "nearest_encounter_anchor": 16277.9,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "d45out_S",
+          "model": 70,
+          "event": 507,
+          "xy": [
+            -19968.0,
+            128.0
+          ],
+          "nearest_encounter_anchor": 5573.9,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "3Chests",
+          "model": 93,
+          "event": 87,
+          "xy": [
+            5024.0,
+            16586.7
+          ],
+          "nearest_encounter_anchor": 788.0,
+          "encounter_anchors_within_2048": 6
+        },
+        {
+          "name": "3Chests",
+          "model": 93,
+          "event": 88,
+          "xy": [
+            4864.0,
+            16744.0
+          ],
+          "nearest_encounter_anchor": 818.1,
+          "encounter_anchors_within_2048": 6
+        },
+        {
+          "name": "3Chests",
+          "model": 93,
+          "event": 89,
+          "xy": [
+            4704.0,
+            16584.0
+          ],
+          "nearest_encounter_anchor": 968.5,
+          "encounter_anchors_within_2048": 6
+        },
+        {
+          "name": "chest_W_1",
+          "model": 94,
+          "event": 85,
+          "xy": [
+            20816.0,
+            20648.0
+          ],
+          "nearest_encounter_anchor": 7535.2,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "chest_E",
+          "model": 95,
+          "event": 90,
+          "xy": [
+            -22216.0,
+            18576.0
+          ],
+          "nearest_encounter_anchor": 3933.1,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "Vot",
+          "model": 104,
+          "event": 100,
+          "xy": [
+            20232.0,
+            -4384.0
+          ],
+          "nearest_encounter_anchor": 15102.2,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "chest_S_1",
+          "model": 106,
+          "event": 99,
+          "xy": [
+            16816.0,
+            -800.0
+          ],
+          "nearest_encounter_anchor": 10663.1,
+          "encounter_anchors_within_2048": 0
+        }
+      ],
+      "scenery": {
+        "trees": {
+          "count": 271,
+          "nearest_neighbor": [
+            1020.5,
+            1198.2,
+            1420.7
+          ]
+        },
+        "plants": {
+          "count": 269,
+          "nearest_neighbor": [
+            68.8,
+            105.2,
+            137.6
+          ]
+        },
+        "rocks": {
+          "count": 207,
+          "nearest_neighbor": [
+            258.0,
+            472.7,
+            1337.4
+          ]
+        },
+        "props": {
+          "count": 45,
+          "nearest_neighbor": [
+            739.5,
+            1171.3,
+            2627.2
+          ]
+        },
+        "lights": {
+          "count": 15,
+          "nearest_neighbor": [
+            114.5,
+            132.4,
+            4866.8
+          ]
+        }
+      },
+      "regions": {
+        "northwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 77,
+            "rocks": 13,
+            "lights": 1,
+            "props": 6
+          },
+          "tree_nearest_neighbor": [
+            987.9,
+            1094.6,
+            1222.7
+          ],
+          "encounter_anchor_count": 34
+        },
+        "northeast": {
+          "bounds": [
+            2048,
+            20480,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 40,
+            "rocks": 67,
+            "plants": 16,
+            "lights": 10,
+            "props": 2
+          },
+          "tree_nearest_neighbor": [
+            1245.9,
+            1316.9,
+            1722.1
+          ],
+          "encounter_anchor_count": 16
+        },
+        "southwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "props": 1,
+            "rocks": 1
+          },
+          "tree_nearest_neighbor": null,
+          "encounter_anchor_count": 0
+        },
+        "southeast": {
+          "bounds": [
+            2048,
+            20480,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "plants": 147,
+            "trees": 18,
+            "rocks": 14,
+            "props": 12
+          },
+          "tree_nearest_neighbor": [
+            807.2,
+            993.3,
+            1240.8
+          ],
+          "encounter_anchor_count": 0
+        }
+      },
+      "full_water_components": [
+        {
+          "full_water_cells": 5,
+          "center": [
+            -8243,
+            32102
+          ],
+          "bounds": [
+            -8704,
+            -7680,
+            31232,
+            32768
+          ]
+        },
+        {
+          "full_water_cells": 4,
+          "center": [
+            -9728,
+            29952
+          ],
+          "bounds": [
+            -10240,
+            -9216,
+            29184,
+            30720
+          ]
+        },
+        {
+          "full_water_cells": 72,
+          "center": [
+            -7566,
+            20622
+          ],
+          "bounds": [
+            -11776,
+            -512,
+            14848,
+            28160
+          ]
+        },
+        {
+          "full_water_cells": 25,
+          "center": [
+            9472,
+            26368
+          ],
+          "bounds": [
+            7680,
+            11264,
+            24576,
+            28160
+          ]
+        },
+        {
+          "full_water_cells": 2,
+          "center": [
+            -256,
+            14336
+          ],
+          "bounds": [
+            -512,
+            0,
+            13824,
+            14848
+          ]
+        },
+        {
+          "full_water_cells": 3,
+          "center": [
+            768,
+            13568
+          ],
+          "bounds": [
+            0,
+            1536,
+            13312,
+            13824
+          ]
+        },
+        {
+          "full_water_cells": 4,
+          "center": [
+            2304,
+            12800
+          ],
+          "bounds": [
+            1536,
+            3072,
+            12288,
+            13312
+          ]
+        },
+        {
+          "full_water_cells": 8,
+          "center": [
+            4096,
+            11648
+          ],
+          "bounds": [
+            3072,
+            5120,
+            10752,
+            12288
+          ]
+        },
+        {
+          "full_water_cells": 25,
+          "center": [
+            6318,
+            6932
+          ],
+          "bounds": [
+            4608,
+            9728,
+            5120,
+            10240
+          ]
+        },
+        {
+          "full_water_cells": 6,
+          "center": [
+            11776,
+            6571
+          ],
+          "bounds": [
+            10752,
+            12800,
+            6144,
+            7168
+          ]
+        },
+        {
+          "full_water_cells": 15,
+          "center": [
+            14558,
+            3465
+          ],
+          "bounds": [
+            13312,
+            15360,
+            1024,
+            5632
+          ]
+        },
+        {
+          "full_water_cells": 30,
+          "center": [
+            11435,
+            -1058
+          ],
+          "bounds": [
+            7168,
+            14336,
+            -2048,
+            1024
+          ]
+        },
+        {
+          "full_water_cells": 4,
+          "center": [
+            5632,
+            -3328
+          ],
+          "bounds": [
+            5120,
+            6144,
+            -4096,
+            -2560
+          ]
+        },
+        {
+          "full_water_cells": 5,
+          "center": [
+            4864,
+            -5376
+          ],
+          "bounds": [
+            4608,
+            5120,
+            -6656,
+            -4096
+          ]
+        },
+        {
+          "full_water_cells": 3850,
+          "center": [
+            -4555,
+            -22798
+          ],
+          "bounds": [
+            -32768,
+            32256,
+            -32256,
+            -5120
+          ]
+        }
+      ],
+      "notes": "Standard observation windows are coordinate samples, not inferred city boundaries or walkable-area densities."
+    },
+    "out08": {
+      "source": "assets_dev/worlds/mm8/maps/out08.odm",
+      "sha256": "cff5f790420e728edbbdc87e6bf03f562238c483034efcc682afafdde9b41e47",
+      "point_kind": "encounter spawn markers",
+      "fixed_actor_records": 6,
+      "encounter_anchor_count": 71,
+      "families": {
+        "Gorgon": {
+          "count": 42,
+          "points": [
+            {
+              "position": [
+                -7968,
+                -18400
+              ],
+              "family": "Gorgon",
+              "id": 14
+            },
+            {
+              "position": [
+                -3936,
+                -14528
+              ],
+              "family": "Gorgon",
+              "id": 15
+            },
+            {
+              "position": [
+                -1760,
+                -18080
+              ],
+              "family": "Gorgon",
+              "id": 16
+            },
+            {
+              "position": [
+                1376,
+                -11840
+              ],
+              "family": "Gorgon",
+              "id": 17
+            },
+            {
+              "position": [
+                7264,
+                -7680
+              ],
+              "family": "Gorgon",
+              "id": 18
+            },
+            {
+              "position": [
+                1856,
+                -20384
+              ],
+              "family": "Gorgon",
+              "id": 19
+            },
+            {
+              "position": [
+                -160,
+                -15360
+              ],
+              "family": "Gorgon",
+              "id": 20
+            },
+            {
+              "position": [
+                -8160,
+                -14208
+              ],
+              "family": "Gorgon",
+              "id": 21
+            },
+            {
+              "position": [
+                -15392,
+                -15296
+              ],
+              "family": "Gorgon",
+              "id": 22
+            },
+            {
+              "position": [
+                -22016,
+                -20104
+              ],
+              "family": "Gorgon",
+              "id": 48
+            },
+            {
+              "position": [
+                -21080,
+                -19616
+              ],
+              "family": "Gorgon",
+              "id": 49
+            },
+            {
+              "position": [
+                -19632,
+                -20216
+              ],
+              "family": "Gorgon",
+              "id": 50
+            },
+            {
+              "position": [
+                -18936,
+                -20920
+              ],
+              "family": "Gorgon",
+              "id": 51
+            },
+            {
+              "position": [
+                -20192,
+                -21688
+              ],
+              "family": "Gorgon",
+              "id": 52
+            },
+            {
+              "position": [
+                -21216,
+                -16672
+              ],
+              "family": "Gorgon",
+              "id": 53
+            },
+            {
+              "position": [
+                -19376,
+                -16832
+              ],
+              "family": "Gorgon",
+              "id": 54
+            },
+            {
+              "position": [
+                -17120,
+                -18256
+              ],
+              "family": "Gorgon",
+              "id": 55
+            },
+            {
+              "position": [
+                -16080,
+                -20400
+              ],
+              "family": "Gorgon",
+              "id": 56
+            },
+            {
+              "position": [
+                -17120,
+                -21872
+              ],
+              "family": "Gorgon",
+              "id": 57
+            },
+            {
+              "position": [
+                -13920,
+                -21568
+              ],
+              "family": "Gorgon",
+              "id": 58
+            },
+            {
+              "position": [
+                -12176,
+                -19408
+              ],
+              "family": "Gorgon",
+              "id": 59
+            },
+            {
+              "position": [
+                -12160,
+                -16896
+              ],
+              "family": "Gorgon",
+              "id": 60
+            },
+            {
+              "position": [
+                -13712,
+                -12944
+              ],
+              "family": "Gorgon",
+              "id": 61
+            },
+            {
+              "position": [
+                -19120,
+                -10000
+              ],
+              "family": "Gorgon",
+              "id": 62
+            },
+            {
+              "position": [
+                -21328,
+                -10880
+              ],
+              "family": "Gorgon",
+              "id": 63
+            },
+            {
+              "position": [
+                -18560,
+                -11520
+              ],
+              "family": "Gorgon",
+              "id": 64
+            },
+            {
+              "position": [
+                -3152,
+                -21088
+              ],
+              "family": "Gorgon",
+              "id": 65
+            },
+            {
+              "position": [
+                -10016,
+                -21872
+              ],
+              "family": "Gorgon",
+              "id": 66
+            },
+            {
+              "position": [
+                3344,
+                -17760
+              ],
+              "family": "Gorgon",
+              "id": 67
+            },
+            {
+              "position": [
+                64,
+                -21744
+              ],
+              "family": "Gorgon",
+              "id": 68
+            },
+            {
+              "position": [
+                -2208,
+                -15536
+              ],
+              "family": "Gorgon",
+              "id": 69
+            },
+            {
+              "position": [
+                -4064,
+                -16496
+              ],
+              "family": "Gorgon",
+              "id": 70
+            },
+            {
+              "position": [
+                -2896,
+                -17040
+              ],
+              "family": "Gorgon",
+              "id": 71
+            },
+            {
+              "position": [
+                -2912,
+                -18592
+              ],
+              "family": "Gorgon",
+              "id": 72
+            },
+            {
+              "position": [
+                -3984,
+                -19056
+              ],
+              "family": "Gorgon",
+              "id": 73
+            },
+            {
+              "position": [
+                -4944,
+                -18576
+              ],
+              "family": "Gorgon",
+              "id": 74
+            },
+            {
+              "position": [
+                -5328,
+                -17616
+              ],
+              "family": "Gorgon",
+              "id": 75
+            },
+            {
+              "position": [
+                -5072,
+                -16496
+              ],
+              "family": "Gorgon",
+              "id": 76
+            },
+            {
+              "position": [
+                -6096,
+                -18640
+              ],
+              "family": "Gorgon",
+              "id": 77
+            },
+            {
+              "position": [
+                -4496,
+                -17104
+              ],
+              "family": "Gorgon",
+              "id": 78
+            },
+            {
+              "position": [
+                -1136,
+                -16864
+              ],
+              "family": "Gorgon",
+              "id": 79
+            },
+            {
+              "position": [
+                -5472,
+                -14960
+              ],
+              "family": "Gorgon",
+              "id": 80
+            }
+          ],
+          "nearest_neighbor": [
+            1157.4,
+            1723.4,
+            2381.4
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0
+              ],
+              "count": 1,
+              "center": [
+                -7968.0,
+                -18400.0
+              ]
+            },
+            {
+              "members": [
+                1,
+                2,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41
+              ],
+              "count": 13,
+              "center": [
+                -4007.4,
+                -17234.5
+              ]
+            },
+            {
+              "members": [
+                3
+              ],
+              "count": 1,
+              "center": [
+                1376.0,
+                -11840.0
+              ]
+            },
+            {
+              "members": [
+                4
+              ],
+              "count": 1,
+              "center": [
+                7264.0,
+                -7680.0
+              ]
+            },
+            {
+              "members": [
+                5
+              ],
+              "count": 1,
+              "center": [
+                1856.0,
+                -20384.0
+              ]
+            },
+            {
+              "members": [
+                6
+              ],
+              "count": 1,
+              "center": [
+                -160.0,
+                -15360.0
+              ]
+            },
+            {
+              "members": [
+                7
+              ],
+              "count": 1,
+              "center": [
+                -8160.0,
+                -14208.0
+              ]
+            },
+            {
+              "members": [
+                8
+              ],
+              "count": 1,
+              "center": [
+                -15392.0,
+                -15296.0
+              ]
+            },
+            {
+              "members": [
+                9,
+                10,
+                11,
+                12,
+                13
+              ],
+              "count": 5,
+              "center": [
+                -20371.2,
+                -20508.8
+              ]
+            },
+            {
+              "members": [
+                14
+              ],
+              "count": 1,
+              "center": [
+                -21216.0,
+                -16672.0
+              ]
+            },
+            {
+              "members": [
+                15
+              ],
+              "count": 1,
+              "center": [
+                -19376.0,
+                -16832.0
+              ]
+            },
+            {
+              "members": [
+                16
+              ],
+              "count": 1,
+              "center": [
+                -17120.0,
+                -18256.0
+              ]
+            },
+            {
+              "members": [
+                17
+              ],
+              "count": 1,
+              "center": [
+                -16080.0,
+                -20400.0
+              ]
+            },
+            {
+              "members": [
+                18
+              ],
+              "count": 1,
+              "center": [
+                -17120.0,
+                -21872.0
+              ]
+            },
+            {
+              "members": [
+                19
+              ],
+              "count": 1,
+              "center": [
+                -13920.0,
+                -21568.0
+              ]
+            },
+            {
+              "members": [
+                20
+              ],
+              "count": 1,
+              "center": [
+                -12176.0,
+                -19408.0
+              ]
+            },
+            {
+              "members": [
+                21
+              ],
+              "count": 1,
+              "center": [
+                -12160.0,
+                -16896.0
+              ]
+            },
+            {
+              "members": [
+                22
+              ],
+              "count": 1,
+              "center": [
+                -13712.0,
+                -12944.0
+              ]
+            },
+            {
+              "members": [
+                23
+              ],
+              "count": 1,
+              "center": [
+                -19120.0,
+                -10000.0
+              ]
+            },
+            {
+              "members": [
+                24
+              ],
+              "count": 1,
+              "center": [
+                -21328.0,
+                -10880.0
+              ]
+            },
+            {
+              "members": [
+                25
+              ],
+              "count": 1,
+              "center": [
+                -18560.0,
+                -11520.0
+              ]
+            },
+            {
+              "members": [
+                26
+              ],
+              "count": 1,
+              "center": [
+                -3152.0,
+                -21088.0
+              ]
+            },
+            {
+              "members": [
+                27
+              ],
+              "count": 1,
+              "center": [
+                -10016.0,
+                -21872.0
+              ]
+            },
+            {
+              "members": [
+                28
+              ],
+              "count": 1,
+              "center": [
+                3344.0,
+                -17760.0
+              ]
+            },
+            {
+              "members": [
+                29
+              ],
+              "count": 1,
+              "center": [
+                64.0,
+                -21744.0
+              ]
+            },
+            {
+              "members": [
+                30
+              ],
+              "count": 1,
+              "center": [
+                -2208.0,
+                -15536.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            2055.5,
+            2465.0,
+            3211.7
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 33,
+            "1600": 26,
+            "2400": 15
+          }
+        },
+        "Ogre Warrior": {
+          "count": 13,
+          "points": [
+            {
+              "position": [
+                -15776,
+                10208
+              ],
+              "family": "Ogre Warrior",
+              "id": 0
+            },
+            {
+              "position": [
+                -13248,
+                11328
+              ],
+              "family": "Ogre Warrior",
+              "id": 1
+            },
+            {
+              "position": [
+                -10592,
+                14368
+              ],
+              "family": "Ogre Warrior",
+              "id": 2
+            },
+            {
+              "position": [
+                -11616,
+                8352
+              ],
+              "family": "Ogre Warrior",
+              "id": 3
+            },
+            {
+              "position": [
+                -8256,
+                8128
+              ],
+              "family": "Ogre Warrior",
+              "id": 4
+            },
+            {
+              "position": [
+                -8448,
+                11744
+              ],
+              "family": "Ogre Warrior",
+              "id": 5
+            },
+            {
+              "position": [
+                -6464,
+                13376
+              ],
+              "family": "Ogre Warrior",
+              "id": 6
+            },
+            {
+              "position": [
+                -5184,
+                9888
+              ],
+              "family": "Ogre Warrior",
+              "id": 7
+            },
+            {
+              "position": [
+                -17440,
+                10656
+              ],
+              "family": "Ogre Warrior",
+              "id": 23
+            },
+            {
+              "position": [
+                -18160,
+                10320
+              ],
+              "family": "Ogre Warrior",
+              "id": 24
+            },
+            {
+              "position": [
+                -17752,
+                9680
+              ],
+              "family": "Ogre Warrior",
+              "id": 25
+            },
+            {
+              "position": [
+                -16912,
+                9696
+              ],
+              "family": "Ogre Warrior",
+              "id": 26
+            },
+            {
+              "position": [
+                -16824,
+                10448
+              ],
+              "family": "Ogre Warrior",
+              "id": 27
+            }
+          ],
+          "nearest_neighbor": [
+            759.0,
+            2569.0,
+            3367.5
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                8,
+                9,
+                10,
+                11,
+                12
+              ],
+              "count": 6,
+              "center": [
+                -17144.0,
+                10168.0
+              ]
+            },
+            {
+              "members": [
+                1
+              ],
+              "count": 1,
+              "center": [
+                -13248.0,
+                11328.0
+              ]
+            },
+            {
+              "members": [
+                2
+              ],
+              "count": 1,
+              "center": [
+                -10592.0,
+                14368.0
+              ]
+            },
+            {
+              "members": [
+                3
+              ],
+              "count": 1,
+              "center": [
+                -11616.0,
+                8352.0
+              ]
+            },
+            {
+              "members": [
+                4
+              ],
+              "count": 1,
+              "center": [
+                -8256.0,
+                8128.0
+              ]
+            },
+            {
+              "members": [
+                5
+              ],
+              "count": 1,
+              "center": [
+                -8448.0,
+                11744.0
+              ]
+            },
+            {
+              "members": [
+                6
+              ],
+              "count": 1,
+              "center": [
+                -6464.0,
+                13376.0
+              ]
+            },
+            {
+              "members": [
+                7
+              ],
+              "count": 1,
+              "center": [
+                -5184.0,
+                9888.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            3167.8,
+            3378.0,
+            3430.7
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 8,
+            "1600": 8,
+            "2400": 8
+          }
+        },
+        "Wyvern": {
+          "count": 16,
+          "points": [
+            {
+              "position": [
+                96,
+                10400
+              ],
+              "family": "Wyvern",
+              "id": 8
+            },
+            {
+              "position": [
+                2176,
+                8064
+              ],
+              "family": "Wyvern",
+              "id": 9
+            },
+            {
+              "position": [
+                4640,
+                12192
+              ],
+              "family": "Wyvern",
+              "id": 10
+            },
+            {
+              "position": [
+                6304,
+                16000
+              ],
+              "family": "Wyvern",
+              "id": 11
+            },
+            {
+              "position": [
+                2656,
+                14016
+              ],
+              "family": "Wyvern",
+              "id": 12
+            },
+            {
+              "position": [
+                7456,
+                10048
+              ],
+              "family": "Wyvern",
+              "id": 13
+            },
+            {
+              "position": [
+                96,
+                17760
+              ],
+              "family": "Wyvern",
+              "id": 38
+            },
+            {
+              "position": [
+                -2496,
+                16832
+              ],
+              "family": "Wyvern",
+              "id": 39
+            },
+            {
+              "position": [
+                -2176,
+                14496
+              ],
+              "family": "Wyvern",
+              "id": 40
+            },
+            {
+              "position": [
+                2240,
+                16288
+              ],
+              "family": "Wyvern",
+              "id": 41
+            },
+            {
+              "position": [
+                928,
+                13248
+              ],
+              "family": "Wyvern",
+              "id": 42
+            },
+            {
+              "position": [
+                -640,
+                12992
+              ],
+              "family": "Wyvern",
+              "id": 43
+            },
+            {
+              "position": [
+                -1792,
+                13472
+              ],
+              "family": "Wyvern",
+              "id": 44
+            },
+            {
+              "position": [
+                9344,
+                14560
+              ],
+              "family": "Wyvern",
+              "id": 45
+            },
+            {
+              "position": [
+                6560,
+                11168
+              ],
+              "family": "Wyvern",
+              "id": 46
+            },
+            {
+              "position": [
+                2976,
+                11104
+              ],
+              "family": "Wyvern",
+              "id": 47
+            }
+          ],
+          "nearest_neighbor": [
+            1434.3,
+            1988.1,
+            2624.1
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0
+              ],
+              "count": 1,
+              "center": [
+                96.0,
+                10400.0
+              ]
+            },
+            {
+              "members": [
+                1
+              ],
+              "count": 1,
+              "center": [
+                2176.0,
+                8064.0
+              ]
+            },
+            {
+              "members": [
+                2
+              ],
+              "count": 1,
+              "center": [
+                4640.0,
+                12192.0
+              ]
+            },
+            {
+              "members": [
+                3
+              ],
+              "count": 1,
+              "center": [
+                6304.0,
+                16000.0
+              ]
+            },
+            {
+              "members": [
+                4
+              ],
+              "count": 1,
+              "center": [
+                2656.0,
+                14016.0
+              ]
+            },
+            {
+              "members": [
+                5,
+                14
+              ],
+              "count": 2,
+              "center": [
+                7008.0,
+                10608.0
+              ]
+            },
+            {
+              "members": [
+                6
+              ],
+              "count": 1,
+              "center": [
+                96.0,
+                17760.0
+              ]
+            },
+            {
+              "members": [
+                7
+              ],
+              "count": 1,
+              "center": [
+                -2496.0,
+                16832.0
+              ]
+            },
+            {
+              "members": [
+                8,
+                10,
+                11,
+                12
+              ],
+              "count": 4,
+              "center": [
+                -920.0,
+                13552.0
+              ]
+            },
+            {
+              "members": [
+                9
+              ],
+              "count": 1,
+              "center": [
+                2240.0,
+                16288.0
+              ]
+            },
+            {
+              "members": [
+                13
+              ],
+              "count": 1,
+              "center": [
+                9344.0,
+                14560.0
+              ]
+            },
+            {
+              "members": [
+                15
+              ],
+              "count": 1,
+              "center": [
+                2976.0,
+                11104.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            2309.8,
+            2801.0,
+            3173.8
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 15,
+            "1600": 12,
+            "2400": 7
+          }
+        }
+      },
+      "targets": [],
+      "scenery": {
+        "trees": {
+          "count": 166,
+          "nearest_neighbor": [
+            1608.2,
+            2095.5,
+            2754.0
+          ]
+        },
+        "plants": {
+          "count": 0,
+          "nearest_neighbor": null
+        },
+        "rocks": {
+          "count": 85,
+          "nearest_neighbor": [
+            2840.6,
+            3883.0,
+            4834.4
+          ]
+        },
+        "props": {
+          "count": 7,
+          "nearest_neighbor": [
+            428.3,
+            432.3,
+            1014.5
+          ]
+        },
+        "lights": {
+          "count": 8,
+          "nearest_neighbor": [
+            1271.2,
+            1711.4,
+            4838.8
+          ]
+        }
+      },
+      "regions": {
+        "northwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 9,
+            "rocks": 8,
+            "lights": 6,
+            "props": 5
+          },
+          "tree_nearest_neighbor": [
+            1699.5,
+            1938.6,
+            2499.3
+          ],
+          "encounter_anchor_count": 12
+        },
+        "northeast": {
+          "bounds": [
+            2048,
+            20480,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 17,
+            "rocks": 9
+          },
+          "tree_nearest_neighbor": [
+            1777.2,
+            2554.0,
+            3041.2
+          ],
+          "encounter_anchor_count": 8
+        },
+        "southwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 27,
+            "rocks": 10
+          },
+          "tree_nearest_neighbor": [
+            1661.3,
+            2154.1,
+            2599.4
+          ],
+          "encounter_anchor_count": 27
+        },
+        "southeast": {
+          "bounds": [
+            2048,
+            20480,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 19,
+            "rocks": 8
+          },
+          "tree_nearest_neighbor": [
+            1667.5,
+            2002.8,
+            2191.5
+          ],
+          "encounter_anchor_count": 1
+        }
+      },
+      "full_water_components": [
+        {
+          "full_water_cells": 920,
+          "center": [
+            -2123,
+            -46
+          ],
+          "bounds": [
+            -26624,
+            19456,
+            -9728,
+            9216
+          ]
+        },
+        {
+          "full_water_cells": 1296,
+          "center": [
+            22888,
+            -24135
+          ],
+          "bounds": [
+            7680,
+            32256,
+            -32256,
+            -10240
+          ]
+        }
+      ],
+      "notes": "Standard observation windows are coordinate samples, not inferred city boundaries or walkable-area densities."
+    },
+    "out06": {
+      "source": "assets_dev/worlds/mm8/maps/out06.odm",
+      "sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "point_kind": "encounter spawn markers",
+      "fixed_actor_records": 27,
+      "encounter_anchor_count": 56,
+      "families": {
+        "Bone Dragon": {
+          "count": 8,
+          "points": [
+            {
+              "position": [
+                -21600,
+                21440
+              ],
+              "family": "Bone Dragon",
+              "id": 5
+            },
+            {
+              "position": [
+                -8064,
+                12960
+              ],
+              "family": "Bone Dragon",
+              "id": 12
+            },
+            {
+              "position": [
+                -18368,
+                11328
+              ],
+              "family": "Bone Dragon",
+              "id": 18
+            },
+            {
+              "position": [
+                -5248,
+                21504
+              ],
+              "family": "Bone Dragon",
+              "id": 27
+            },
+            {
+              "position": [
+                -21024,
+                15392
+              ],
+              "family": "Bone Dragon",
+              "id": 33
+            },
+            {
+              "position": [
+                -13120,
+                10304
+              ],
+              "family": "Bone Dragon",
+              "id": 43
+            },
+            {
+              "position": [
+                -8224,
+                14240
+              ],
+              "family": "Bone Dragon",
+              "id": 44
+            },
+            {
+              "position": [
+                -14368,
+                21856
+              ],
+              "family": "Bone Dragon",
+              "id": 54
+            }
+          ],
+          "nearest_neighbor": [
+            3963.7,
+            5101.0,
+            6367.5
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0
+              ],
+              "count": 1,
+              "center": [
+                -21600.0,
+                21440.0
+              ]
+            },
+            {
+              "members": [
+                1,
+                6
+              ],
+              "count": 2,
+              "center": [
+                -8144.0,
+                13600.0
+              ]
+            },
+            {
+              "members": [
+                2
+              ],
+              "count": 1,
+              "center": [
+                -18368.0,
+                11328.0
+              ]
+            },
+            {
+              "members": [
+                3
+              ],
+              "count": 1,
+              "center": [
+                -5248.0,
+                21504.0
+              ]
+            },
+            {
+              "members": [
+                4
+              ],
+              "count": 1,
+              "center": [
+                -21024.0,
+                15392.0
+              ]
+            },
+            {
+              "members": [
+                5
+              ],
+              "count": 1,
+              "center": [
+                -13120.0,
+                10304.0
+              ]
+            },
+            {
+              "members": [
+                7
+              ],
+              "count": 1,
+              "center": [
+                -14368.0,
+                21856.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            5101.0,
+            5968.6,
+            6659.7
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 8,
+            "1600": 7,
+            "2400": 7
+          }
+        },
+        "Skeletons Archer": {
+          "count": 26,
+          "points": [
+            {
+              "position": [
+                -6688,
+                -2688
+              ],
+              "family": "Skeletons Archer",
+              "id": 3
+            },
+            {
+              "position": [
+                -1792,
+                6432
+              ],
+              "family": "Skeletons Archer",
+              "id": 7
+            },
+            {
+              "position": [
+                -13056,
+                -6304
+              ],
+              "family": "Skeletons Archer",
+              "id": 8
+            },
+            {
+              "position": [
+                1024,
+                1856
+              ],
+              "family": "Skeletons Archer",
+              "id": 9
+            },
+            {
+              "position": [
+                -16896,
+                1824
+              ],
+              "family": "Skeletons Archer",
+              "id": 10
+            },
+            {
+              "position": [
+                -7584,
+                -672
+              ],
+              "family": "Skeletons Archer",
+              "id": 11
+            },
+            {
+              "position": [
+                16736,
+                320
+              ],
+              "family": "Skeletons Archer",
+              "id": 14
+            },
+            {
+              "position": [
+                13504,
+                -832
+              ],
+              "family": "Skeletons Archer",
+              "id": 15
+            },
+            {
+              "position": [
+                -4416,
+                2592
+              ],
+              "family": "Skeletons Archer",
+              "id": 17
+            },
+            {
+              "position": [
+                5984,
+                4672
+              ],
+              "family": "Skeletons Archer",
+              "id": 21
+            },
+            {
+              "position": [
+                -16416,
+                -4768
+              ],
+              "family": "Skeletons Archer",
+              "id": 24
+            },
+            {
+              "position": [
+                11456,
+                -3456
+              ],
+              "family": "Skeletons Archer",
+              "id": 25
+            },
+            {
+              "position": [
+                704,
+                8064
+              ],
+              "family": "Skeletons Archer",
+              "id": 30
+            },
+            {
+              "position": [
+                -19424,
+                -2240
+              ],
+              "family": "Skeletons Archer",
+              "id": 31
+            },
+            {
+              "position": [
+                -1344,
+                8096
+              ],
+              "family": "Skeletons Archer",
+              "id": 32
+            },
+            {
+              "position": [
+                -992,
+                7104
+              ],
+              "family": "Skeletons Archer",
+              "id": 37
+            },
+            {
+              "position": [
+                -15424,
+                -1984
+              ],
+              "family": "Skeletons Archer",
+              "id": 41
+            },
+            {
+              "position": [
+                -20864,
+                -7136
+              ],
+              "family": "Skeletons Archer",
+              "id": 42
+            },
+            {
+              "position": [
+                18176,
+                1280
+              ],
+              "family": "Skeletons Archer",
+              "id": 46
+            },
+            {
+              "position": [
+                -8992,
+                -4256
+              ],
+              "family": "Skeletons Archer",
+              "id": 47
+            },
+            {
+              "position": [
+                -17248,
+                7904
+              ],
+              "family": "Skeletons Archer",
+              "id": 49
+            },
+            {
+              "position": [
+                -3040,
+                4320
+              ],
+              "family": "Skeletons Archer",
+              "id": 51
+            },
+            {
+              "position": [
+                18016,
+                -4032
+              ],
+              "family": "Skeletons Archer",
+              "id": 52
+            },
+            {
+              "position": [
+                -18464,
+                4576
+              ],
+              "family": "Skeletons Archer",
+              "id": 56
+            },
+            {
+              "position": [
+                -21536,
+                3584
+              ],
+              "family": "Skeletons Archer",
+              "id": 57
+            },
+            {
+              "position": [
+                9696,
+                -1088
+              ],
+              "family": "Skeletons Archer",
+              "id": 59
+            }
+          ],
+          "nearest_neighbor": [
+            2206.1,
+            2952.9,
+            3489.6
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0
+              ],
+              "count": 1,
+              "center": [
+                -6688.0,
+                -2688.0
+              ]
+            },
+            {
+              "members": [
+                1,
+                14,
+                15
+              ],
+              "count": 3,
+              "center": [
+                -1376.0,
+                7210.7
+              ]
+            },
+            {
+              "members": [
+                2
+              ],
+              "count": 1,
+              "center": [
+                -13056.0,
+                -6304.0
+              ]
+            },
+            {
+              "members": [
+                3
+              ],
+              "count": 1,
+              "center": [
+                1024.0,
+                1856.0
+              ]
+            },
+            {
+              "members": [
+                4
+              ],
+              "count": 1,
+              "center": [
+                -16896.0,
+                1824.0
+              ]
+            },
+            {
+              "members": [
+                5
+              ],
+              "count": 1,
+              "center": [
+                -7584.0,
+                -672.0
+              ]
+            },
+            {
+              "members": [
+                6
+              ],
+              "count": 1,
+              "center": [
+                16736.0,
+                320.0
+              ]
+            },
+            {
+              "members": [
+                7
+              ],
+              "count": 1,
+              "center": [
+                13504.0,
+                -832.0
+              ]
+            },
+            {
+              "members": [
+                8
+              ],
+              "count": 1,
+              "center": [
+                -4416.0,
+                2592.0
+              ]
+            },
+            {
+              "members": [
+                9
+              ],
+              "count": 1,
+              "center": [
+                5984.0,
+                4672.0
+              ]
+            },
+            {
+              "members": [
+                10
+              ],
+              "count": 1,
+              "center": [
+                -16416.0,
+                -4768.0
+              ]
+            },
+            {
+              "members": [
+                11
+              ],
+              "count": 1,
+              "center": [
+                11456.0,
+                -3456.0
+              ]
+            },
+            {
+              "members": [
+                12
+              ],
+              "count": 1,
+              "center": [
+                704.0,
+                8064.0
+              ]
+            },
+            {
+              "members": [
+                13
+              ],
+              "count": 1,
+              "center": [
+                -19424.0,
+                -2240.0
+              ]
+            },
+            {
+              "members": [
+                16
+              ],
+              "count": 1,
+              "center": [
+                -15424.0,
+                -1984.0
+              ]
+            },
+            {
+              "members": [
+                17
+              ],
+              "count": 1,
+              "center": [
+                -20864.0,
+                -7136.0
+              ]
+            },
+            {
+              "members": [
+                18
+              ],
+              "count": 1,
+              "center": [
+                18176.0,
+                1280.0
+              ]
+            },
+            {
+              "members": [
+                19
+              ],
+              "count": 1,
+              "center": [
+                -8992.0,
+                -4256.0
+              ]
+            },
+            {
+              "members": [
+                20
+              ],
+              "count": 1,
+              "center": [
+                -17248.0,
+                7904.0
+              ]
+            },
+            {
+              "members": [
+                21
+              ],
+              "count": 1,
+              "center": [
+                -3040.0,
+                4320.0
+              ]
+            },
+            {
+              "members": [
+                22
+              ],
+              "count": 1,
+              "center": [
+                18016.0,
+                -4032.0
+              ]
+            },
+            {
+              "members": [
+                23
+              ],
+              "count": 1,
+              "center": [
+                -18464.0,
+                4576.0
+              ]
+            },
+            {
+              "members": [
+                24
+              ],
+              "count": 1,
+              "center": [
+                -21536.0,
+                3584.0
+              ]
+            },
+            {
+              "members": [
+                25
+              ],
+              "count": 1,
+              "center": [
+                9696.0,
+                -1088.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            2238.4,
+            2955.5,
+            3581.0
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 24,
+            "1600": 24,
+            "2400": 20
+          }
+        },
+        "Vampire (monster)": {
+          "count": 22,
+          "points": [
+            {
+              "position": [
+                -15232,
+                2304
+              ],
+              "family": "Vampire (monster)",
+              "id": 1
+            },
+            {
+              "position": [
+                11136,
+                18880
+              ],
+              "family": "Vampire (monster)",
+              "id": 2
+            },
+            {
+              "position": [
+                -13056,
+                7872
+              ],
+              "family": "Vampire (monster)",
+              "id": 4
+            },
+            {
+              "position": [
+                6368,
+                14720
+              ],
+              "family": "Vampire (monster)",
+              "id": 6
+            },
+            {
+              "position": [
+                -20992,
+                6560
+              ],
+              "family": "Vampire (monster)",
+              "id": 13
+            },
+            {
+              "position": [
+                256,
+                7264
+              ],
+              "family": "Vampire (monster)",
+              "id": 16
+            },
+            {
+              "position": [
+                -8480,
+                5888
+              ],
+              "family": "Vampire (monster)",
+              "id": 19
+            },
+            {
+              "position": [
+                6944,
+                12992
+              ],
+              "family": "Vampire (monster)",
+              "id": 20
+            },
+            {
+              "position": [
+                -2048,
+                1504
+              ],
+              "family": "Vampire (monster)",
+              "id": 22
+            },
+            {
+              "position": [
+                -5952,
+                12576
+              ],
+              "family": "Vampire (monster)",
+              "id": 26
+            },
+            {
+              "position": [
+                7616,
+                18400
+              ],
+              "family": "Vampire (monster)",
+              "id": 28
+            },
+            {
+              "position": [
+                -18400,
+                -1344
+              ],
+              "family": "Vampire (monster)",
+              "id": 29
+            },
+            {
+              "position": [
+                2368,
+                16512
+              ],
+              "family": "Vampire (monster)",
+              "id": 34
+            },
+            {
+              "position": [
+                -19392,
+                3072
+              ],
+              "family": "Vampire (monster)",
+              "id": 35
+            },
+            {
+              "position": [
+                7296,
+                8672
+              ],
+              "family": "Vampire (monster)",
+              "id": 38
+            },
+            {
+              "position": [
+                3520,
+                2624
+              ],
+              "family": "Vampire (monster)",
+              "id": 39
+            },
+            {
+              "position": [
+                -640,
+                17984
+              ],
+              "family": "Vampire (monster)",
+              "id": 40
+            },
+            {
+              "position": [
+                -18208,
+                7520
+              ],
+              "family": "Vampire (monster)",
+              "id": 50
+            },
+            {
+              "position": [
+                -4000,
+                6272
+              ],
+              "family": "Vampire (monster)",
+              "id": 53
+            },
+            {
+              "position": [
+                -12128,
+                2368
+              ],
+              "family": "Vampire (monster)",
+              "id": 55
+            },
+            {
+              "position": [
+                -224,
+                8128
+              ],
+              "family": "Vampire (monster)",
+              "id": 60
+            },
+            {
+              "position": [
+                13152,
+                13088
+              ],
+              "family": "Vampire (monster)",
+              "id": 61
+            }
+          ],
+          "nearest_neighbor": [
+            2984.8,
+            3552.6,
+            4518.6
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0
+              ],
+              "count": 1,
+              "center": [
+                -15232.0,
+                2304.0
+              ]
+            },
+            {
+              "members": [
+                1
+              ],
+              "count": 1,
+              "center": [
+                11136.0,
+                18880.0
+              ]
+            },
+            {
+              "members": [
+                2
+              ],
+              "count": 1,
+              "center": [
+                -13056.0,
+                7872.0
+              ]
+            },
+            {
+              "members": [
+                3
+              ],
+              "count": 1,
+              "center": [
+                6368.0,
+                14720.0
+              ]
+            },
+            {
+              "members": [
+                4
+              ],
+              "count": 1,
+              "center": [
+                -20992.0,
+                6560.0
+              ]
+            },
+            {
+              "members": [
+                5,
+                20
+              ],
+              "count": 2,
+              "center": [
+                16.0,
+                7696.0
+              ]
+            },
+            {
+              "members": [
+                6
+              ],
+              "count": 1,
+              "center": [
+                -8480.0,
+                5888.0
+              ]
+            },
+            {
+              "members": [
+                7
+              ],
+              "count": 1,
+              "center": [
+                6944.0,
+                12992.0
+              ]
+            },
+            {
+              "members": [
+                8
+              ],
+              "count": 1,
+              "center": [
+                -2048.0,
+                1504.0
+              ]
+            },
+            {
+              "members": [
+                9
+              ],
+              "count": 1,
+              "center": [
+                -5952.0,
+                12576.0
+              ]
+            },
+            {
+              "members": [
+                10
+              ],
+              "count": 1,
+              "center": [
+                7616.0,
+                18400.0
+              ]
+            },
+            {
+              "members": [
+                11
+              ],
+              "count": 1,
+              "center": [
+                -18400.0,
+                -1344.0
+              ]
+            },
+            {
+              "members": [
+                12
+              ],
+              "count": 1,
+              "center": [
+                2368.0,
+                16512.0
+              ]
+            },
+            {
+              "members": [
+                13
+              ],
+              "count": 1,
+              "center": [
+                -19392.0,
+                3072.0
+              ]
+            },
+            {
+              "members": [
+                14
+              ],
+              "count": 1,
+              "center": [
+                7296.0,
+                8672.0
+              ]
+            },
+            {
+              "members": [
+                15
+              ],
+              "count": 1,
+              "center": [
+                3520.0,
+                2624.0
+              ]
+            },
+            {
+              "members": [
+                16
+              ],
+              "count": 1,
+              "center": [
+                -640.0,
+                17984.0
+              ]
+            },
+            {
+              "members": [
+                17
+              ],
+              "count": 1,
+              "center": [
+                -18208.0,
+                7520.0
+              ]
+            },
+            {
+              "members": [
+                18
+              ],
+              "count": 1,
+              "center": [
+                -4000.0,
+                6272.0
+              ]
+            },
+            {
+              "members": [
+                19
+              ],
+              "count": 1,
+              "center": [
+                -12128.0,
+                2368.0
+              ]
+            },
+            {
+              "members": [
+                21
+              ],
+              "count": 1,
+              "center": [
+                13152.0,
+                13088.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": [
+            3104.7,
+            3837.5,
+            4526.0
+          ],
+          "cluster_counts_by_radius": {
+            "1200": 21,
+            "1600": 21,
+            "2400": 20
+          }
+        }
+      },
+      "targets": [],
+      "scenery": {
+        "trees": {
+          "count": 84,
+          "nearest_neighbor": [
+            2195.3,
+            2823.4,
+            3557.1
+          ]
+        },
+        "plants": {
+          "count": 28,
+          "nearest_neighbor": [
+            2368.6,
+            3806.4,
+            4475.6
+          ]
+        },
+        "rocks": {
+          "count": 159,
+          "nearest_neighbor": [
+            1639.4,
+            2191.2,
+            2963.0
+          ]
+        },
+        "props": {
+          "count": 331,
+          "nearest_neighbor": [
+            428.1,
+            853.9,
+            1580.7
+          ]
+        },
+        "lights": {
+          "count": 2,
+          "nearest_neighbor": [
+            39019.6,
+            39019.6,
+            39019.6
+          ]
+        }
+      },
+      "regions": {
+        "northwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "rocks": 20,
+            "trees": 12,
+            "plants": 3,
+            "props": 43,
+            "lights": 1
+          },
+          "tree_nearest_neighbor": [
+            2930.7,
+            3398.8,
+            3759.5
+          ],
+          "encounter_anchor_count": 9
+        },
+        "northeast": {
+          "bounds": [
+            2048,
+            20480,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "rocks": 14,
+            "props": 10,
+            "lights": 1,
+            "trees": 4
+          },
+          "tree_nearest_neighbor": [
+            1663.2,
+            2347.7,
+            3032.2
+          ],
+          "encounter_anchor_count": 7
+        },
+        "southwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "rocks": 17,
+            "plants": 2,
+            "trees": 9,
+            "props": 25
+          },
+          "tree_nearest_neighbor": [
+            2519.9,
+            2999.1,
+            3466.9
+          ],
+          "encounter_anchor_count": 0
+        },
+        "southeast": {
+          "bounds": [
+            2048,
+            20480,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "rocks": 9,
+            "plants": 5,
+            "trees": 7,
+            "props": 67
+          },
+          "tree_nearest_neighbor": [
+            1977.3,
+            2235.4,
+            2790.7
+          ],
+          "encounter_anchor_count": 0
+        }
+      },
+      "full_water_components": [
+        {
+          "full_water_cells": 69,
+          "center": [
+            -13019,
+            15430
+          ],
+          "bounds": [
+            -15360,
+            -10752,
+            13312,
+            17920
+          ]
+        },
+        {
+          "full_water_cells": 3,
+          "center": [
+            -256,
+            11520
+          ],
+          "bounds": [
+            -512,
+            0,
+            10752,
+            12288
+          ]
+        },
+        {
+          "full_water_cells": 4,
+          "center": [
+            -15616,
+            10240
+          ],
+          "bounds": [
+            -16384,
+            -14848,
+            9728,
+            10752
+          ]
+        },
+        {
+          "full_water_cells": 4,
+          "center": [
+            -9600,
+            8960
+          ],
+          "bounds": [
+            -10240,
+            -9216,
+            8192,
+            9728
+          ]
+        },
+        {
+          "full_water_cells": 18,
+          "center": [
+            -8164,
+            3413
+          ],
+          "bounds": [
+            -9728,
+            -6656,
+            2048,
+            4608
+          ]
+        },
+        {
+          "full_water_cells": 7,
+          "center": [
+            -5595,
+            622
+          ],
+          "bounds": [
+            -6656,
+            -4608,
+            0,
+            1536
+          ]
+        },
+        {
+          "full_water_cells": 4,
+          "center": [
+            -12544,
+            -512
+          ],
+          "bounds": [
+            -13312,
+            -11776,
+            -1024,
+            0
+          ]
+        },
+        {
+          "full_water_cells": 22,
+          "center": [
+            -745,
+            -2863
+          ],
+          "bounds": [
+            -2560,
+            1024,
+            -4096,
+            -1536
+          ]
+        },
+        {
+          "full_water_cells": 1489,
+          "center": [
+            -23969,
+            -20867
+          ],
+          "bounds": [
+            -32768,
+            -9728,
+            -32256,
+            -8704
+          ]
+        }
+      ],
+      "notes": "Standard observation windows are coordinate samples, not inferred city boundaries or walkable-area densities."
+    },
+    "brackenford_before": {
+      "source": "level_generation/projects/brackenford_greywatch/review/wilderness_revision/before/lg01.odm",
+      "sha256": "a894ff9e6a4de0da3c85326b4ea1c7c4fa4eba7659fbaa9e37a78a1138fa2b5a",
+      "point_kind": "fixed hostile actors",
+      "fixed_actor_records": 43,
+      "encounter_anchor_count": 14,
+      "families": {
+        "eastern_ogres": {
+          "count": 7,
+          "points": [
+            {
+              "position": [
+                19328,
+                3328,
+                1248
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_01"
+            },
+            {
+              "position": [
+                19712,
+                4352,
+                1264
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_02"
+            },
+            {
+              "position": [
+                20480,
+                4736,
+                1216
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_03"
+            },
+            {
+              "position": [
+                21376,
+                4352,
+                1128
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_04"
+            },
+            {
+              "position": [
+                21504,
+                3072,
+                1088
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_05"
+            },
+            {
+              "position": [
+                20224,
+                2560,
+                1136
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_06"
+            },
+            {
+              "position": [
+                20864,
+                3584,
+                1160
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_07"
+            }
+          ],
+          "nearest_neighbor": [
+            839.1,
+            858.7,
+            1008.3
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "count": 7,
+              "center": [
+                20498.3,
+                3712.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "southern_ogres": {
+          "count": 7,
+          "points": [
+            {
+              "position": [
+                9088,
+                -20992,
+                992
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_01"
+            },
+            {
+              "position": [
+                9472,
+                -19968,
+                928
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_02"
+            },
+            {
+              "position": [
+                10240,
+                -19584,
+                896
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_03"
+            },
+            {
+              "position": [
+                11136,
+                -19968,
+                896
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_04"
+            },
+            {
+              "position": [
+                11264,
+                -21248,
+                960
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_05"
+            },
+            {
+              "position": [
+                9984,
+                -21760,
+                1024
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_06"
+            },
+            {
+              "position": [
+                10624,
+                -20736,
+                944
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_07"
+            }
+          ],
+          "nearest_neighbor": [
+            839.1,
+            858.7,
+            1008.3
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "count": 7,
+              "center": [
+                10258.3,
+                -20608.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        }
+      },
+      "targets": [
+        {
+          "name": "east_cache_chest_1",
+          "event": "east_cache_chest_1",
+          "xy": [
+            21248,
+            3584
+          ],
+          "nearest_encounter_anchor": 384.0,
+          "encounter_anchors_within_2048": 7
+        },
+        {
+          "name": "east_cache_chest_2",
+          "event": "east_cache_chest_2",
+          "xy": [
+            21760,
+            3584
+          ],
+          "nearest_encounter_anchor": 572.4,
+          "encounter_anchors_within_2048": 5
+        },
+        {
+          "name": "south_cache_chest_1",
+          "event": "south_cache_chest_1",
+          "xy": [
+            9984,
+            -22528
+          ],
+          "nearest_encounter_anchor": 768.0,
+          "encounter_anchors_within_2048": 4
+        },
+        {
+          "name": "south_cache_chest_2",
+          "event": "south_cache_chest_2",
+          "xy": [
+            10496,
+            -22528
+          ],
+          "nearest_encounter_anchor": 923.0,
+          "encounter_anchors_within_2048": 3
+        },
+        {
+          "name": "cave",
+          "event": 2,
+          "xy": [
+            15360,
+            -17154
+          ],
+          "nearest_encounter_anchor": 5075.5,
+          "encounter_anchors_within_2048": 0
+        },
+        {
+          "name": "castle",
+          "event": 1,
+          "xy": [
+            15360,
+            15999
+          ],
+          "nearest_encounter_anchor": 12372.1,
+          "encounter_anchors_within_2048": 0
+        }
+      ],
+      "scenery": {
+        "trees": {
+          "count": 285,
+          "nearest_neighbor": [
+            663.8,
+            782.7,
+            941.3
+          ]
+        },
+        "plants": {
+          "count": 336,
+          "nearest_neighbor": [
+            151.8,
+            222.9,
+            401.3
+          ]
+        },
+        "rocks": {
+          "count": 96,
+          "nearest_neighbor": [
+            531.9,
+            826.0,
+            1326.2
+          ]
+        },
+        "props": {
+          "count": 12,
+          "nearest_neighbor": [
+            381.3,
+            506.3,
+            664.7
+          ]
+        },
+        "lights": {
+          "count": 0,
+          "nearest_neighbor": null
+        }
+      },
+      "regions": {
+        "northwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 38,
+            "plants": 14,
+            "rocks": 9
+          },
+          "tree_nearest_neighbor": [
+            740.8,
+            829.2,
+            1172.0
+          ],
+          "encounter_anchor_count": 0
+        },
+        "northeast": {
+          "bounds": [
+            2048,
+            20480,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 37,
+            "plants": 14,
+            "rocks": 10
+          },
+          "tree_nearest_neighbor": [
+            651.3,
+            816.6,
+            933.0
+          ],
+          "encounter_anchor_count": 0
+        },
+        "southwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 43,
+            "plants": 15,
+            "rocks": 13
+          },
+          "tree_nearest_neighbor": [
+            794.4,
+            991.7,
+            1352.1
+          ],
+          "encounter_anchor_count": 0
+        },
+        "southeast": {
+          "bounds": [
+            2048,
+            20480,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "props": 4
+          },
+          "tree_nearest_neighbor": null,
+          "encounter_anchor_count": 7
+        }
+      },
+      "full_water_components": [
+        {
+          "full_water_cells": 199,
+          "center": [
+            4231,
+            243
+          ],
+          "bounds": [
+            2560,
+            6144,
+            -32256,
+            32768
+          ]
+        }
+      ],
+      "notes": "Standard observation windows are coordinate samples, not inferred city boundaries or walkable-area densities."
+    },
+    "brackenford": {
+      "source": "level_generation/projects/brackenford_greywatch/runtime/worlds/mm8/maps/lg01.odm",
+      "sha256": "6d4184a1d34301004417db201b716db4795a5d3cccfd3cba8ef5a320af327236",
+      "point_kind": "fixed hostile actors",
+      "fixed_actor_records": 102,
+      "encounter_anchor_count": 73,
+      "families": {
+        "den_wolves": {
+          "count": 6,
+          "points": [
+            {
+              "position": [
+                16096,
+                -19264,
+                1130
+              ],
+              "family": "den_wolves",
+              "id": "den_wolves_01"
+            },
+            {
+              "position": [
+                16256,
+                -18704,
+                1315
+              ],
+              "family": "den_wolves",
+              "id": "den_wolves_02"
+            },
+            {
+              "position": [
+                16528,
+                -19424,
+                1100
+              ],
+              "family": "den_wolves",
+              "id": "den_wolves_03"
+            },
+            {
+              "position": [
+                16080,
+                -19008,
+                1209
+              ],
+              "family": "den_wolves",
+              "id": "den_wolves_04"
+            },
+            {
+              "position": [
+                15728,
+                -19280,
+                1102
+              ],
+              "family": "den_wolves",
+              "id": "den_wolves_05"
+            },
+            {
+              "position": [
+                16928,
+                -18560,
+                1350
+              ],
+              "family": "den_wolves",
+              "id": "den_wolves_06"
+            }
+          ],
+          "nearest_neighbor": [
+            280.2,
+            359.8,
+            437.6
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "count": 6,
+              "center": [
+                16269.3,
+                -19040.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "east_lowland_patrol": {
+          "count": 5,
+          "points": [
+            {
+              "position": [
+                22848,
+                -6432,
+                910
+              ],
+              "family": "east_lowland_patrol",
+              "id": "east_lowland_patrol_01"
+            },
+            {
+              "position": [
+                23168,
+                -6704,
+                893
+              ],
+              "family": "east_lowland_patrol",
+              "id": "east_lowland_patrol_02"
+            },
+            {
+              "position": [
+                23184,
+                -7072,
+                870
+              ],
+              "family": "east_lowland_patrol",
+              "id": "east_lowland_patrol_03"
+            },
+            {
+              "position": [
+                22160,
+                -6128,
+                928
+              ],
+              "family": "east_lowland_patrol",
+              "id": "east_lowland_patrol_04"
+            },
+            {
+              "position": [
+                22144,
+                -7520,
+                920
+              ],
+              "family": "east_lowland_patrol",
+              "id": "east_lowland_patrol_05"
+            }
+          ],
+          "nearest_neighbor": [
+            368.3,
+            420.0,
+            752.2
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "count": 5,
+              "center": [
+                22700.8,
+                -6771.2
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "east_ridge_patrol": {
+          "count": 6,
+          "points": [
+            {
+              "position": [
+                21344,
+                10384,
+                747
+              ],
+              "family": "east_ridge_patrol",
+              "id": "east_ridge_patrol_01"
+            },
+            {
+              "position": [
+                20592,
+                11040,
+                757
+              ],
+              "family": "east_ridge_patrol",
+              "id": "east_ridge_patrol_02"
+            },
+            {
+              "position": [
+                21824,
+                9936,
+                754
+              ],
+              "family": "east_ridge_patrol",
+              "id": "east_ridge_patrol_03"
+            },
+            {
+              "position": [
+                22400,
+                10032,
+                725
+              ],
+              "family": "east_ridge_patrol",
+              "id": "east_ridge_patrol_04"
+            },
+            {
+              "position": [
+                21008,
+                10416,
+                777
+              ],
+              "family": "east_ridge_patrol",
+              "id": "east_ridge_patrol_05"
+            },
+            {
+              "position": [
+                22176,
+                10064,
+                726
+              ],
+              "family": "east_ridge_patrol",
+              "id": "east_ridge_patrol_06"
+            }
+          ],
+          "nearest_neighbor": [
+            254.1,
+            337.5,
+            365.3
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "count": 6,
+              "center": [
+                21557.3,
+                10312.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "eastern_ogres": {
+          "count": 7,
+          "points": [
+            {
+              "position": [
+                19328,
+                3328,
+                1248
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_01"
+            },
+            {
+              "position": [
+                19712,
+                4352,
+                1264
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_02"
+            },
+            {
+              "position": [
+                20480,
+                4736,
+                1216
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_03"
+            },
+            {
+              "position": [
+                21376,
+                4352,
+                1128
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_04"
+            },
+            {
+              "position": [
+                21504,
+                3072,
+                1088
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_05"
+            },
+            {
+              "position": [
+                20224,
+                2560,
+                1136
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_06"
+            },
+            {
+              "position": [
+                20864,
+                3584,
+                1160
+              ],
+              "family": "eastern_ogres",
+              "id": "eastern_ogres_07"
+            }
+          ],
+          "nearest_neighbor": [
+            839.1,
+            858.7,
+            1008.3
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "count": 7,
+              "center": [
+                20498.3,
+                3712.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "northwood_edge": {
+          "count": 6,
+          "points": [
+            {
+              "position": [
+                -5184,
+                21760,
+                416
+              ],
+              "family": "northwood_edge",
+              "id": "northwood_edge_01"
+            },
+            {
+              "position": [
+                -4864,
+                22016,
+                432
+              ],
+              "family": "northwood_edge",
+              "id": "northwood_edge_02"
+            },
+            {
+              "position": [
+                -5456,
+                22352,
+                416
+              ],
+              "family": "northwood_edge",
+              "id": "northwood_edge_03"
+            },
+            {
+              "position": [
+                -5232,
+                22512,
+                416
+              ],
+              "family": "northwood_edge",
+              "id": "northwood_edge_04"
+            },
+            {
+              "position": [
+                -4784,
+                22704,
+                448
+              ],
+              "family": "northwood_edge",
+              "id": "northwood_edge_05"
+            },
+            {
+              "position": [
+                -5552,
+                21776,
+                416
+              ],
+              "family": "northwood_edge",
+              "id": "northwood_edge_06"
+            }
+          ],
+          "nearest_neighbor": [
+            298.5,
+            368.3,
+            399.4
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "count": 6,
+              "center": [
+                -5178.7,
+                22186.7
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "northwood_hollow": {
+          "count": 7,
+          "points": [
+            {
+              "position": [
+                -14352,
+                20352,
+                1478
+              ],
+              "family": "northwood_hollow",
+              "id": "northwood_hollow_01"
+            },
+            {
+              "position": [
+                -14336,
+                20672,
+                1528
+              ],
+              "family": "northwood_hollow",
+              "id": "northwood_hollow_02"
+            },
+            {
+              "position": [
+                -14560,
+                20624,
+                1480
+              ],
+              "family": "northwood_hollow",
+              "id": "northwood_hollow_03"
+            },
+            {
+              "position": [
+                -15024,
+                20064,
+                1334
+              ],
+              "family": "northwood_hollow",
+              "id": "northwood_hollow_04"
+            },
+            {
+              "position": [
+                -14544,
+                20160,
+                1418
+              ],
+              "family": "northwood_hollow",
+              "id": "northwood_hollow_05"
+            },
+            {
+              "position": [
+                -15280,
+                20336,
+                1318
+              ],
+              "family": "northwood_hollow",
+              "id": "northwood_hollow_06"
+            },
+            {
+              "position": [
+                -15024,
+                20672,
+                1399
+              ],
+              "family": "northwood_hollow",
+              "id": "northwood_hollow_07"
+            }
+          ],
+          "nearest_neighbor": [
+            250.3,
+            271.5,
+            373.5
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "count": 7,
+              "center": [
+                -14731.4,
+                20411.4
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "northwood_ridge": {
+          "count": 8,
+          "points": [
+            {
+              "position": [
+                -8992,
+                19456,
+                822
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_01"
+            },
+            {
+              "position": [
+                -8624,
+                18896,
+                764
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_02"
+            },
+            {
+              "position": [
+                -9088,
+                18752,
+                852
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_03"
+            },
+            {
+              "position": [
+                -9760,
+                19072,
+                966
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_04"
+            },
+            {
+              "position": [
+                -9264,
+                19008,
+                873
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_05"
+            },
+            {
+              "position": [
+                -10048,
+                18816,
+                1028
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_06"
+            },
+            {
+              "position": [
+                -9616,
+                18720,
+                953
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_07"
+            },
+            {
+              "position": [
+                -9552,
+                19408,
+                927
+              ],
+              "family": "northwood_ridge",
+              "id": "northwood_ridge_08"
+            }
+          ],
+          "nearest_neighbor": [
+            362.9,
+            382.8,
+            417.8
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "count": 8,
+              "center": [
+                -9368.0,
+                19016.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "southern_ogres": {
+          "count": 7,
+          "points": [
+            {
+              "position": [
+                9088,
+                -20992,
+                992
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_01"
+            },
+            {
+              "position": [
+                9472,
+                -19968,
+                928
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_02"
+            },
+            {
+              "position": [
+                10240,
+                -19584,
+                896
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_03"
+            },
+            {
+              "position": [
+                11136,
+                -19968,
+                896
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_04"
+            },
+            {
+              "position": [
+                11264,
+                -21248,
+                960
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_05"
+            },
+            {
+              "position": [
+                9984,
+                -21760,
+                1024
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_06"
+            },
+            {
+              "position": [
+                10624,
+                -20736,
+                944
+              ],
+              "family": "southern_ogres",
+              "id": "southern_ogres_07"
+            }
+          ],
+          "nearest_neighbor": [
+            839.1,
+            858.7,
+            1008.3
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "count": 7,
+              "center": [
+                10258.3,
+                -20608.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "southwood_edge": {
+          "count": 6,
+          "points": [
+            {
+              "position": [
+                -4128,
+                -22192,
+                288
+              ],
+              "family": "southwood_edge",
+              "id": "southwood_edge_01"
+            },
+            {
+              "position": [
+                -3920,
+                -21344,
+                320
+              ],
+              "family": "southwood_edge",
+              "id": "southwood_edge_02"
+            },
+            {
+              "position": [
+                -4752,
+                -21984,
+                299
+              ],
+              "family": "southwood_edge",
+              "id": "southwood_edge_03"
+            },
+            {
+              "position": [
+                -5024,
+                -21456,
+                320
+              ],
+              "family": "southwood_edge",
+              "id": "southwood_edge_04"
+            },
+            {
+              "position": [
+                -4448,
+                -22400,
+                288
+              ],
+              "family": "southwood_edge",
+              "id": "southwood_edge_05"
+            },
+            {
+              "position": [
+                -4576,
+                -21440,
+                320
+              ],
+              "family": "southwood_edge",
+              "id": "southwood_edge_06"
+            }
+          ],
+          "nearest_neighbor": [
+            398.3,
+            448.3,
+            498.5
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "count": 6,
+              "center": [
+                -4474.7,
+                -21802.7
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "southwood_hollow": {
+          "count": 7,
+          "points": [
+            {
+              "position": [
+                -17184,
+                -20192,
+                576
+              ],
+              "family": "southwood_hollow",
+              "id": "southwood_hollow_01"
+            },
+            {
+              "position": [
+                -16128,
+                -20880,
+                576
+              ],
+              "family": "southwood_hollow",
+              "id": "southwood_hollow_02"
+            },
+            {
+              "position": [
+                -16528,
+                -21312,
+                576
+              ],
+              "family": "southwood_hollow",
+              "id": "southwood_hollow_03"
+            },
+            {
+              "position": [
+                -16416,
+                -21056,
+                576
+              ],
+              "family": "southwood_hollow",
+              "id": "southwood_hollow_04"
+            },
+            {
+              "position": [
+                -17072,
+                -20928,
+                565
+              ],
+              "family": "southwood_hollow",
+              "id": "southwood_hollow_05"
+            },
+            {
+              "position": [
+                -16768,
+                -20112,
+                576
+              ],
+              "family": "southwood_hollow",
+              "id": "southwood_hollow_06"
+            },
+            {
+              "position": [
+                -15872,
+                -20816,
+                576
+              ],
+              "family": "southwood_hollow",
+              "id": "southwood_hollow_07"
+            }
+          ],
+          "nearest_neighbor": [
+            271.7,
+            279.4,
+            423.6
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "count": 7,
+              "center": [
+                -16566.9,
+                -20756.6
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        },
+        "southwood_slope": {
+          "count": 8,
+          "points": [
+            {
+              "position": [
+                -10256,
+                -18320,
+                313
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_01"
+            },
+            {
+              "position": [
+                -11680,
+                -18144,
+                360
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_02"
+            },
+            {
+              "position": [
+                -11392,
+                -18320,
+                353
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_03"
+            },
+            {
+              "position": [
+                -11456,
+                -17840,
+                327
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_04"
+            },
+            {
+              "position": [
+                -10864,
+                -18192,
+                312
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_05"
+            },
+            {
+              "position": [
+                -11168,
+                -18384,
+                343
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_06"
+            },
+            {
+              "position": [
+                -10208,
+                -17936,
+                287
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_07"
+            },
+            {
+              "position": [
+                -11696,
+                -17552,
+                324
+              ],
+              "family": "southwood_slope",
+              "id": "southwood_slope_08"
+            }
+          ],
+          "nearest_neighbor": [
+            311.4,
+            367.2,
+            377.9
+          ],
+          "clusters_at_1600": [
+            {
+              "members": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "count": 8,
+              "center": [
+                -11090.0,
+                -18086.0
+              ]
+            }
+          ],
+          "cluster_center_nearest_neighbor": null,
+          "cluster_counts_by_radius": {
+            "1200": 1,
+            "1600": 1,
+            "2400": 1
+          }
+        }
+      },
+      "targets": [
+        {
+          "name": "east_cache_chest_1",
+          "event": "east_cache_chest_1",
+          "xy": [
+            21248,
+            3584
+          ],
+          "nearest_encounter_anchor": 384.0,
+          "encounter_anchors_within_2048": 7
+        },
+        {
+          "name": "east_cache_chest_2",
+          "event": "east_cache_chest_2",
+          "xy": [
+            21760,
+            3584
+          ],
+          "nearest_encounter_anchor": 572.4,
+          "encounter_anchors_within_2048": 5
+        },
+        {
+          "name": "south_cache_chest_1",
+          "event": "south_cache_chest_1",
+          "xy": [
+            9984,
+            -22528
+          ],
+          "nearest_encounter_anchor": 768.0,
+          "encounter_anchors_within_2048": 4
+        },
+        {
+          "name": "south_cache_chest_2",
+          "event": "south_cache_chest_2",
+          "xy": [
+            14848,
+            -18432
+          ],
+          "nearest_encounter_anchor": 1222.1,
+          "encounter_anchors_within_2048": 5
+        },
+        {
+          "name": "cave",
+          "event": 2,
+          "xy": [
+            15360,
+            -17154
+          ],
+          "nearest_encounter_anchor": 1790.3,
+          "encounter_anchors_within_2048": 2
+        },
+        {
+          "name": "castle",
+          "event": 1,
+          "xy": [
+            15360,
+            15999
+          ],
+          "nearest_encounter_anchor": 7208.7,
+          "encounter_anchors_within_2048": 0
+        }
+      ],
+      "scenery": {
+        "trees": {
+          "count": 373,
+          "nearest_neighbor": [
+            706.9,
+            861.6,
+            1082.0
+          ]
+        },
+        "plants": {
+          "count": 416,
+          "nearest_neighbor": [
+            170.1,
+            258.2,
+            652.9
+          ]
+        },
+        "rocks": {
+          "count": 173,
+          "nearest_neighbor": [
+            602.3,
+            966.5,
+            1405.5
+          ]
+        },
+        "props": {
+          "count": 12,
+          "nearest_neighbor": [
+            243.7,
+            451.9,
+            640.0
+          ]
+        },
+        "lights": {
+          "count": 0,
+          "nearest_neighbor": null
+        }
+      },
+      "regions": {
+        "northwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 72,
+            "plants": 23,
+            "rocks": 21
+          },
+          "tree_nearest_neighbor": [
+            677.7,
+            841.3,
+            1085.5
+          ],
+          "encounter_anchor_count": 20
+        },
+        "northeast": {
+          "bounds": [
+            2048,
+            20480,
+            8192,
+            22528
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 29,
+            "plants": 9,
+            "rocks": 10
+          },
+          "tree_nearest_neighbor": [
+            730.4,
+            910.2,
+            1073.1
+          ],
+          "encounter_anchor_count": 0
+        },
+        "southwest": {
+          "bounds": [
+            -22528,
+            -4096,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 61,
+            "plants": 25,
+            "rocks": 24
+          },
+          "tree_nearest_neighbor": [
+            781.4,
+            954.9,
+            1143.2
+          ],
+          "encounter_anchor_count": 20
+        },
+        "southeast": {
+          "bounds": [
+            2048,
+            20480,
+            -22528,
+            -8192
+          ],
+          "area": 264241152,
+          "scenery": {
+            "trees": 43,
+            "plants": 19,
+            "rocks": 17,
+            "props": 3
+          },
+          "tree_nearest_neighbor": [
+            853.4,
+            1061.9,
+            1626.6
+          ],
+          "encounter_anchor_count": 13
+        }
+      },
+      "full_water_components": [
+        {
+          "full_water_cells": 199,
+          "center": [
+            4231,
+            243
+          ],
+          "bounds": [
+            2560,
+            6144,
+            -32256,
+            32768
+          ]
+        },
+        {
+          "full_water_cells": 8,
+          "center": [
+            -576,
+            17856
+          ],
+          "bounds": [
+            -1536,
+            512,
+            16896,
+            18432
+          ]
+        }
+      ],
+      "notes": "Standard observation windows are coordinate samples, not inferred city boundaries or walkable-area densities."
+    }
+  },
+  "ravenshore_baseline": {
+    "spawn_markers": 59,
+    "wolves": 43,
+    "centaurs": 16,
+    "count_per_marker": [
+      1,
+      3
+    ],
+    "expected_actor_total": 118,
+    "range": [
+      59,
+      177
+    ],
+    "conditional_hidden_pirates": 78,
+    "fixed_town_population": 65,
+    "event_reference": "assets_dev/worlds/mm8/events/maps/out02.lua: event 4; QBits 6/37/58 and Counter(1)",
+    "warning": "Expected total comes from marker count and the current map-stat range; not a sampled save or a fixed native actor count."
+  }
+}

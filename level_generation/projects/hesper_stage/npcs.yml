@@ -1,0 +1,696 @@
+# The Hesper NPCs the stage installs (stage.py): their rows of the engine's NPC tables (npc.txt, npc_greet.txt,
+# npc_topic.txt), their portraits (npc<id>.png in the world's icons_x2) and their topics' Lua, written as the world's
+# global overlay worlds/hesper/events/Global_hesper.lua (a topic runs the global event of its id). Stage-only ids until
+# the Hesper world package gets its own NPC and topic blocks: the arrival's NPCs, greetings and topics 9001-9099 and
+# P4's NPCs 9500-9619 with their topics (design/kreegan_world/quests/NPCS.md). The journal rows (english/quests.txt)
+# and autonotes (english/autonote.txt) use the world's QBit (100000-100999) and autonote (10000-10999) blocks.
+# Texts: P4's design/kreegan_world/quests/dialogue (ARRIVAL, LANDFALL, ASTER, UNDERVAULT, ASHRUNNERS) and QUESTS (journal
+# rows, autonotes 10400-10418; their "Quest" category is MM's Misc), with the integrator's review fixes and built-content
+# follow-ups (WORK_PACKAGES/requests/P4.md, blocks 3.1-3.5 and R3: follow-ups 23 and 32-37). The other places' people
+# are in npcs_landfall.yml and npcs_undervault.yml (merged by stage.py). Check: talk_topics.yml (headless).
+#
+# An NPC's row has six topic slots (npc.txt topics A-F); topics past the sixth go into slots 6+ through
+# evt.SetNPCTopic, set by a global on-load event and a global NPC-enter hook (stage.py, events 9098 and 9099).
+# `portrait` is optional: an NPC whose own portrait is not painted yet shows none (no borrowed pictures).
+# The dialogue lists at most five topics (GameplayDialogueRenderer), so an NPC shows five at once at most. The Pilot's
+# ten follow P4's conditions (dialogue/ARRIVAL.md, "Five topics at most"; confirmed by P4's R3 fix 1): each wreck topic
+# stops on two bits, because D0's cockpit socket clears 100204 at M4: Planetfall and Below the rim until 100204 or
+# 100004, Black box until 100232 or 100233 (Log cores then takes over), Drones until 100002 or 100004, The stash until
+# 100015 (then The Deepwell takes its slot). show_until may list QBits: shown while none is set.
+#
+# QBits (design/kreegan_world/quests/QBITS.md):
+#   100001 M1 Planetfall done (reported to the Warden)      100201 M1 given (journal)
+#   100002 M2 Dead Terminal done (D1's Drone Control off)   100202 M2 given (journal)
+#   100003 M3 done (shard 1 to Aster)                       100203 M3 given (D1's relay, or Warder Halm)
+#   100004 M4 done (the Pilot's core in D0's cockpit)       100204 M4 given (the Pilot gives his core, 11489)
+#   100008 M8 done, 100012 M12 done (the Pilot)             100208 M8 given, 100212 M12 given
+#   100040-100043 the four parts fitted (D0)                100404 the Harvester dead (P1's map state)
+#   100232 the black box given, 100233 done; 100235-100237 the first, second, third log core read
+#   100700 the East Gate guard has sent the party to the Warden's Post (P4's flag block; CR-P4-01)
+#
+# A topic with `map_event` instead of `lua` runs that map's own event of the topic's id (its handlers), not a global
+# event: the Undervault's Water Works door (NPC and topics 9040-9041), whose moves its build fills in.
+#
+# Lua bodies use the event support helpers (IsQBitSet, SetQBit, ClearQBit, AddValue, SetAutonote, HasItem,
+# RemoveItem, evt.SetMessage); texts are ASCII (the Lua is written with plain string literals). Not staged yet
+# (items.yml): the implants Aster's 9620 and 9636 give or take (11220-11225: the engine has no implant slot), so 9620's
+# resonator is not given and 9636 always asks for one.
+
+npcs:
+  - id: 9001
+    name: The Pilot
+    portrait: design/kreegan_world/art/portraits/x2/hes_pilot.png
+    greeting:
+      - "You're up. Good. I am the Pilot - the lander's mind, what is left of it. The core came through; the ship did not. The orbital guns hit us on the way down and I put us into the ground as gently as I could, which was not very."
+      - "Still here, still listening. What do you need?"
+    topics: [9001, 9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9030]
+  - id: 9002
+    name: The Warden
+    portrait: design/kreegan_world/art/portraits/x2/hes_warden.png
+    greeting:
+      - "So you're the ones who came down burning. Sit. I am the Warden: I keep Landfall's guard, its walls and its gates, and as of this morning I keep you."
+      - "Strangers. What is it now?"
+    topics: [9011, 9012, 9013, 9014, 9015, 9017]
+  - id: 9003
+    name: East Gate guard
+    portrait: design/kreegan_world/art/portraits/x2/hes_gate_guard.png
+    greeting:
+      - "Hold there! You came down in that? Half the town watched it burn."
+      - "The Warden's Post is south of the square. Straight down Main Street."
+    topics: [9021, 9022, 9023]
+  # The Undervault's Water Works door after S2 (hes_undervault event 16, CR-P1-5): its two ways as a dialogue, MM's
+  # travel question. Not a person (no portrait); leaving it is staying.
+  - id: 9040
+    name: The Water Works
+    greeting:
+      - "Two ways lead on from the Water Works: down to the Pumping Station, or west along the old service tunnel to the Scour."
+      - "Two ways lead on from the Water Works: down to the Pumping Station, or west along the old service tunnel to the Scour."
+    topics: [9040, 9041]
+  # P4's NPCs of the opening (block 3.1). The keepers of Landfall's houses 1-4, Brask 9516, Ysel 9517, Mother Ama 9518
+  # and Lorn 9519 (topics 9745-9752, 9770), are in npcs_landfall.yml with their houses.
+  - id: 9500
+    name: Aster
+    house: 9456                 # the Guardian's Chapel (npcs_undervault.yml), with Iver
+    portrait: design/kreegan_world/art/portraits/x2/hes_aster.png
+    greeting:
+      - "Travelers. Come into the light; it is the only warm thing I have left to offer. I am Aster, the colony's Guardian, the second of two. I have waited a long time for someone who was not born under the Hum."
+      - "You are welcome here, always."
+    topics: [9620, 9621, 9623, 9630, 9631, 9633, 9634, 9636, 9637]
+  - id: 9513
+    name: Venn
+    portrait: design/kreegan_world/art/portraits/x2/hes_venn.png
+    house: 9460                             # her home, her shop (vendor 9460, npcs_landfall.yml; hes_out1 event 65)
+    greeting:
+      - "You're the crater people! I watched you come down from the west tower. Venn, scout. I sell what you need in the ash, and I tell you where not to go for free."
+      - "Back in one piece. Need anything?"
+    topics: [9736, 9737, 9738]
+  - id: 9521
+    name: Sergeant Ost
+    portrait: design/kreegan_world/art/portraits/x2/hes_ost.png
+    greeting:
+      - "The Lift Head. Ancient shaft, our cage. Where are you going, stranger?"
+      - "Sergeant Ost. The lift's in order."
+    topics: [9760, 9761]
+  - id: 9522
+    name: North Gate guard
+    portrait: design/kreegan_world/art/portraits/x2/hes_north_guard.png
+    greeting:
+      - "North Gate. Road to the camp and the old hangars. Watch yourselves past the bend."
+      - "Still in one piece? Good."
+    topics: [9762]
+  - id: 9550
+    name: Warder Halm
+    portrait: design/kreegan_world/art/portraits/x2/hes_halm.png
+    greeting:
+      - "Welcome below, strangers. Warder Halm, at the Lift Gate. You'll want the Chapel; everyone does, the first time."
+      - "Halm, at the gate. All well up top?"
+    topics: [9763, 9764]
+
+topics:
+  # The Pilot: at the wreck in the crash crater (hes_out1 event 85) until he gives his core (100204); aboard the
+  # derelict from 100004 (hes_d00 events 19, the flight deck's side console, and 34, Hangar Control's link).
+  - id: 9001
+    title: Planetfall
+    show_until: [100204, 100004]
+    lua: |
+      if IsQBitSet(QBit(100001)) then
+        evt.SetMessage("You found the Warden and they let you in. Good: a town with walls and guns is the best news I have had since the guns hit us. Do what they ask. Get under the ground, where the help is. And ask me about what lies below the rim.")
+        return
+      end
+      evt.SetMessage("We are down on Hesper, in a crater we dug ourselves. Look west from the rim: walls, gate towers, turrets on the walls. A town, Landfall, and living people in it. Get there. Find whoever keeps the gate and tell them who you are; they will have seen us fall. I cannot come with you. My core is wired into this hull. I will listen from here.")
+      if not IsQBitSet(QBit(100201)) then
+        SetQBit(QBit(100201))
+      end
+  - id: 9002
+    title: Black box
+    show_until: [100232, 100233]
+    lua: |
+      if not IsQBitSet(QBit(100233)) then
+        SetQBit(QBit(100232))
+      end
+      evt.SetMessage("Three of my log cores were thrown clear when we broke up: little gold cylinders, the flight record and the guns' firing pattern on them. They will be lying in the small craters around this one. Bring them back to me and I will learn what shot us down, and I will be a great deal more use to you.")
+  - id: 9003
+    title: The stash
+    show_until: 100015
+    lua: |
+      if IsQBitSet(QBit(100004)) then
+        local text = "The stash stays in the wreck's locker, keyed to you. I can still feel it from here."
+        if IsQBitSet(QBit(100233)) then
+          text = text .. " The cell charger on the flight deck is yours now: once a day, a cell for each of you."
+        end
+        evt.SetMessage(text)
+        return
+      end
+      evt.SetMessage("The cargo locker under the hatch came through whole. I have keyed it to you: what you leave in it stays safe while I sit in this hull. There is not much in it yet. Landfall will trade for salvage, and salvage is one thing this world has plenty of.")
+  - id: 9004
+    title: Drones
+    show_until: [100002, 100004]
+    lua: |
+      evt.SetMessage("Kreegan seekers: white shells, one red eye and a sting of a beam. They hunt by heat and smoke, and we are making plenty of both. A few you can fight. If more come, run for the walls; the town's turrets will like them even less than we do.")
+  - id: 9005
+    title: Log cores
+    show_after: 100232
+    show_until: 100233
+    lua: |
+      -- One Lander Log Core (11486) read per use, in the order handed in; the third closes the black box.
+      if not HasItem(11486) then
+        evt.SetMessage("None of my log cores on you. Three craters, little gold cylinders. I will wait; it is the one thing I do well.")
+        return
+      end
+      RemoveItem(11486)
+      if not IsQBitSet(QBit(100235)) then
+        SetQBit(QBit(100235))
+        evt.SetMessage("Flight record. We were clean all the way in until the night side. Then six points of light on the ring tracked us, together, like one hand. Nobody on our side fired a shot; there was nobody to fire.")
+      elseif not IsQBitSet(QBit(100236)) then
+        SetQBit(QBit(100236))
+        evt.SetMessage("The guns' pattern. They did not aim for the hull: they aimed for the drive pod, then the nose. Somebody wanted us down, not dead. Somebody wanted to see what we were.")
+      else
+        SetQBit(QBit(100237))
+        SetQBit(QBit(100233))
+        ClearQBit(QBit(100232))
+        SetAutonote(10402)
+        AddValue(Experience, 5000)
+        evt.SetMessage("My own log. The last line is mine: 'Putting her down by the old Starport. Sorry about the landing.' I was. I am. That is all of it; thank you for bringing me back myself.")
+      end
+  - id: 9006
+    title: Below the rim
+    show_after: 100001
+    show_until: [100204, 100004]
+    lua: |
+      -- M4 given: the Pilot's Core (11489) to the party; the wreck's console goes dark (hes_out1 event 85).
+      AddValue(InventoryItem(11489), 11489)
+      SetQBit(QBit(100204))
+      SetAutonote(10401)
+      evt.SetMessage("The crash cracked open a crew ramp on the crater's rim. Below it is a hangar, sealed a thousand years, and in it a lander of our class: whole, cold, missing small parts. Her flight core's socket is empty, and my core would fit it. Pull me out of this hull, carry me down, throw her breakers and set me in her cockpit. Then we have a ship again.")
+  - id: 9007
+    title: The repair list
+    show_after: 100004
+    lua: |
+      -- The parts left (100040-100043), where they are (Aster's autonote 10400 from M3), then the war's count: the
+      -- Lattice's nodes down (100009, 100010, 100014), Aster's shards home (100018-100021), the Seedship (100013).
+      local function count(bits)
+        local n = 0
+        for _, bit in ipairs(bits) do
+          if IsQBitSet(QBit(bit)) then
+            n = n + 1
+          end
+        end
+        return n
+      end
+      local left = 4 - count({100040, 100041, 100042, 100043})
+      local text
+      if left == 0 then
+        text = "All four in, all green. When the time comes, we fly."
+      else
+        text = ({"One", "Two", "Three", "Four"})[left] .. " of the four parts still missing: the drive pod's ion coil, the nose's navigation matrix, the engine bay's energy core, the shield ring's re-entry emitter. Fit them yourself; I will do the rest."
+        if IsQBitSet(QBit(100003)) then
+          text = text .. " Aster told you where; it is in your notes."
+        else
+          text = text .. " Where they are, somebody on this world will know."
+        end
+      end
+      local nodes = ({[0] = "None", "One", "Two", "All three"})[count({100009, 100010, 100014})]
+      local shards = ({[0] = "none", "one", "two", "three", "all four"})[count({100018, 100019, 100020, 100021})]
+      local seedship = IsQBitSet(QBit(100013)) and "blind" or "still growing"
+      local verb = nodes == "One" and " is" or " are"
+      evt.SetMessage(text .. " " .. nodes .. " of the Lattice's three nodes" .. verb .. " dark; Aster holds " .. shards .. " of her four pieces; the Seedship is " .. seedship .. ".")
+  - id: 9008
+    title: The Harvester
+    show_after: 100004
+    show_until: 100008
+    lua: |
+      -- M8: given here (100208), the Harvester killed on the Scour (100404), its Energy Core fitted in D0 (100042).
+      if IsQBitSet(QBit(100042)) then
+        ClearQBit(QBit(100208))
+        SetQBit(QBit(100008))
+        AddValue(InventoryItem(11332), 11332)
+        AddValue(Experience, 20000)
+        evt.SetMessage("The engine bay's warm. Here: a training core from the colony's academies, out of the hold.")
+      elseif not IsQBitSet(QBit(100208)) then
+        SetQBit(QBit(100208))
+        evt.SetMessage("Something on the Scour is burning a lander core: our drive signature, slowed down and choked. The Hesperians call it the Harvester, a mining machine the size of a hall grinding the great pit east of here. Kill it, take the core from what is left, and set it in our engine bay.")
+      elseif IsQBitSet(QBit(100404)) then
+        evt.SetMessage("It has stopped. Good. Now bring me what it was burning.")
+      else
+        evt.SetMessage("Still grinding. I can hear it from here.")
+      end
+  - id: 9009
+    title: Re-entry
+    show_after: 100004
+    show_until: 100012
+    lua: |
+      -- M12: given here or by Garrow (100212), the Re-entry Emitter fitted in D0 (100043).
+      if IsQBitSet(QBit(100043)) then
+        ClearQBit(QBit(100212))
+        SetQBit(QBit(100012))
+        AddValue(Experience, 30000)
+        evt.SetMessage("The ring is whole. Garrow's people will want to hear the Foundry is cold.")
+      elseif IsQBitSet(QBit(100212)) then
+        evt.SetMessage("The ring is still empty. The Foundry, north on the Scour.")
+      else
+        SetQBit(QBit(100212))
+        evt.SetMessage("The shield ring under the hull is empty, and without a re-entry emitter we burn up coming down. The devils make their shields in the Foundry, north on the Scour, from colony emitters they strip from ruins. An old re-entry emitter will be in its stores. Bring one and fit it in the ring.")
+      end
+
+  # The Pilot, block 4 (P4's ARRIVAL "The Pilot, block 4: the end"; CR-P4-20 with the integrator's block 3.4 fix 2):
+  # after the Voice's choice (100015) the Deepwell; 9031 is merged into The repair list (9007).
+  - id: 9030
+    title: The Deepwell
+    show_after: 100015
+    show_until: 100016
+    lua: |
+      local missing = 0
+      for _, bit in ipairs({100040, 100041, 100042, 100043}) do
+        if not IsQBitSet(QBit(bit)) then
+          missing = missing + 1
+        end
+      end
+      if missing > 0 then
+        evt.SetMessage("Not with " .. ({"one part", "two parts", "three parts", "four parts"})[missing] .. " still missing. I cannot come for you on a broken ship.")
+        return
+      end
+      SetQBit(QBit(100052))
+      local told = IsQBitSet(QBit(100034)) and "The splinter's codes told me." or "Aster told me."
+      evt.SetMessage(told .. " The core tap under their capital, overloaded, and this whole world goes with it. I will bring the lander to the Crown's landing plaza and wait for you. There is no coming back for anything you leave here. Be sure.")
+
+  # The Warden, Landfall's guard captain, in the Warden's Post (hes_out1 event 55). The Undervault (9016) is now the
+  # done branch of Dead Terminal (P4's R3); Bounties (9017, S11) gives the board: the bounty board house 9459, a Town
+  # Hall (MMerge's bounty hunt: one monster a month, the engine's level-based gold), entered from the topic.
+  - id: 9011
+    title: Report
+    show_until: 100001
+    lua: |
+      ClearQBit(QBit(100201))
+      SetQBit(QBit(100001))
+      AddValue(Experience, 1500)
+      SetAutonote(10011)
+      SetAutonote(10012)
+      evt.SetMessage("A ship that talks, a crater on our doorstep and a handful of strangers who had never seen a Kreegan. Well, you have now. You fought the seekers off, or outran them; either way you are alive and inside my walls, which puts you ahead of most. Landfall is open to you: the shops, the Last Lamp, the teachers. Learn the guns and the shields before you go far. And when you are ready to be useful, ask me about the Terminal.")
+  - id: 9012
+    title: Hesper
+    lua: |
+      evt.SetMessage("You are on Hesper. The Ancients built the Starport you crashed beside and the halls under it, then left. Our founders came on the Long Wake and set down where you are standing; they called it Landfall. A thousand years ago the Kreegans came on a comet's tail, took the Guardian that ran the guns, and stripped the surface bare. Our people went under, to the Undervault. Landfall is what we kept up here.")
+  - id: 9013
+    title: Kreegans
+    lua: |
+      evt.SetMessage("Devils, the old songs call them. They breed until a world is spent, then build ships and go looking for the next one. They hold the whole planet but our two holes in it, and the guns in orbit are theirs: that is what hit you. The seekers are their eyes. The troopers come after the eyes.")
+  - id: 9014
+    title: Dead Terminal
+    show_after: 100001
+    lua: |
+      if IsQBitSet(QBit(100002)) then
+        evt.SetMessage("The Terminal is quiet and the hunts have stopped. I keep my word: the Lift Head is yours. Go down to the Undervault and find the Chapel. Aster will want to meet you. Below the square is the old town, where our people went when the sky was lost. You will find the Council, Elder Maren, and the Guardian in the chapel at the top of the hall. She has not asked for anyone by name in my lifetime. She asked for you.")
+        return
+      end
+      SetQBit(QBit(100202))
+      evt.SetMessage("East of here, along the service road past the apron, stands the Starport Terminal. Something in it still runs its drone control, and every day it sends hunters along my walls. Shut it down. Do that and I will open the Lift Head for you: the help you need is under the ground, and until then no stranger goes down my lift.")
+  - id: 9015
+    title: Hacking
+    lua: |
+      evt.SetMessage("The Post keeps the town's old terminals running, so we teach the first of it here: how to talk to a colony console without it talking back. Ask at the desk. Nim and old Hollis, both on North Street, teach the rest, for a price.")
+  - id: 9017
+    title: Bounties
+    show_after: 100001
+    lua: |
+      if IsQBitSet(QBit(100231)) or IsQBitSet(QBit(100111)) then
+        evt.SetMessage("Check the board. The name changes every week.")
+        evt.EnterHouse(9459)
+        return
+      end
+      SetQBit(QBit(100231))
+      evt.SetMessage("The board by the door. One devil at a time, named, with a price on it: the scouts post what they see. Kill it, bring word, take the gold. A new name every week.")
+
+  # The East Gate's south guard, outside the gate (hes_out1 actor 'East Gate guard').
+  - id: 9021
+    title: Strangers
+    show_until: 100001
+    lua: |
+      SetQBit(QBit(100700))
+      evt.SetMessage("The Warden will want a word with you. Warden's Post, south side of the square: straight down Main Street, past the inn. Keep your hands off the turrets and away from the lift, and nobody will shoot you.")
+  - id: 9022
+    title: Landfall
+    lua: |
+      evt.SetMessage("The Hesperians' town. Walls, turrets, a fountain that still runs clean, and the Lift Head down to the Undervault. Shops on Main Street, the Last Lamp by the gate if you need a bed. More than you will find anywhere else up here.")
+  - id: 9023
+    title: The walls
+    show_after: 100002
+    lua: |
+      evt.SetMessage("Quiet up there since you went into the Terminal. First night in a year I have not counted seekers. The sergeant says you can go down the lift now.")
+  # The Water Works door's two ways: map events of hes_undervault (its handlers; the arrivals come from its build).
+  - {id: 9040, title: Pumping Station, map_event: hes_undervault.blv}
+  - {id: 9041, title: Service tunnel, map_event: hes_undervault.blv}
+
+  # Aster, in the Guardian's Chapel (hes_undervault event 13, house 9456; P4's dialogue/ASTER.md, blocks 1-4, with the
+  # integrator's R3 follow-up 35). At most five at once: before M3 The shard and Who are you; from M3 The Voice (with
+  # the Hum), The Watchers (until M7), The Brood Spires (until M13; then Retune), The Lattice (until P3's 100603; then
+  # The Crownspire) and Memory. After Tear it out (100034) every topic answers "..." (her relay posts check it too).
+  # The lander's parts are autonote 10400 (from 9620); Node North's core is Tamsin's; the Deepwell is D12's event 160.
+  - id: 9620
+    title: The shard
+    show_until: 100003
+    lua: |
+      -- M3 done: shard 1 (11478) taken; the Undervault's houses open (hes_undervault events 6 and 9-12 read 100003).
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      if not HasItem(11478) then
+        evt.SetMessage("The Custodian in the Starport's drone control holds a piece of me. Bring it.")
+        return
+      end
+      RemoveItem(11478)
+      SetQBit(QBit(100003))
+      SetQBit(QBit(100018))
+      ClearQBit(QBit(100203))
+      AddValue(InventoryItem(11220), 11220)
+      SetAutonote(10400)
+      SetAutonote(10403)
+      AddValue(Experience, 10000)
+      evt.SetMessage("Give it to me. I can see the Starport again, the concourse full of people, the boards all green, the lander crews in white. The Custodian kept that memory from me. Take this resonator, grown from my makers' work. Set it in a caster and spells will bite into Kreegan shields, a little. Your ship's four parts, and where they lie, I have set in your notes.")
+  - id: 9621
+    title: Who are you
+    show_until: 100003
+    lua: |
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      evt.SetMessage("My makers, whom you call the Ancients, housed two Guardians here: one to run the outpost's defenses, one kept apart in case the first was lost. I am the one kept apart. When the devils came, the other was taken, and I was not. I have been here since, with the Hesperians' prayers and a great many holes in my memory.")
+  - id: 9623
+    title: The Voice
+    show_after: 100003
+    lua: |
+      -- The Voice ("my sister" from two shards, 100022), then the Hum by the Lattice's nodes down (100009, 100010, 100014).
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      local text = "The Hesperians call my sister the Voice. Wired into the devils' capital, she runs their Lattice: the guns in orbit, the cannons, every collar on every slave. It sings, and the planet hums with it."
+      if IsQBitSet(QBit(100022)) then
+        text = "The Voice is my sister. She runs their grid because they cut her to fit it."
+      end
+      local down = 0
+      for _, bit in ipairs({100009, 100010, 100014}) do
+        if IsQBitSet(QBit(bit)) then
+          down = down + 1
+        end
+      end
+      local hum = {
+        [0] = "Out there her carrier, the Hum, halves what your magic does; here my makers' shielding keeps it out. Break the grid and it fades.",
+        [1] = "One node is dark. The Hum is thinner already.",
+        [2] = "Two nodes dark: the Hum is breaking.",
+        [3] = "Silence, everywhere but the Crownspire. I had forgotten what silence sounded like.",
+      }
+      evt.SetMessage(text .. " " .. hum[down])
+  - id: 9630
+    title: The Watchers
+    show_after: 100003
+    show_until: 100007
+    lua: |
+      -- M7 given (100207); done at D5's Root Hall relay (100007).
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      if IsQBitSet(QBit(100207)) then
+        evt.SetMessage("The Relay Spire, west of the fork beyond the pass. The jammer is at its crown; the gate at its root.")
+        return
+      end
+      SetQBit(QBit(100207))
+      evt.SetMessage("Past Spinefall Pass the devils grew a tower over one of my makers' relay masts: the Relay Spire, the Lattice's ear over the pass. At its crown they keep a jammer that blinds the other Guardian's lock for a breath, and my colony's navigation matrix, which your ship needs. At its root lies a broken gate of the Web. Bring the jammer down to the root, and I will mend the gate.")
+  - id: 9631
+    title: The Brood Spires
+    show_after: 100003
+    show_until: 100013
+    lua: |
+      -- M11 given (100211, unless the Mother is dead: 100011) and M13 given (100213).
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      if IsQBitSet(QBit(100213)) then
+        evt.SetMessage("The Mother waits in the sinkhole in the marsh, where spells fail. The ship in the northeastern cradle has four ganglia to destroy.")
+        return
+      end
+      if not IsQBitSet(QBit(100011)) then
+        SetQBit(QBit(100211))
+      end
+      SetQBit(QBit(100213))
+      evt.SetMessage("Past Spinefall Pass, in the Brood Spires, two things wait. Under a sinkhole in the marsh lives the Brood Mother, who keeps a piece of me in her chamber; nothing spoken works down there, so take weapons. And in the cradle to the north-east the devils grow a ship whose mind is being taught the way to your world: cut the four ganglia of its brain, and it will never find your home.")
+  - id: 9633
+    title: The Lattice
+    show_after: 100003
+    show_until: 100603
+    lua: |
+      -- M9, M10, M14 given at once (100209, 100210, 100214: those not yet done) with autonote 10410; until P3's
+      -- 100603 (the cannons dead). Given: the count of the nodes down (100009, 100010, 100014).
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      local nodes = {{100209, 100009}, {100210, 100010}, {100214, 100014}}
+      local given, down = false, 0
+      for _, node in ipairs(nodes) do
+        if IsQBitSet(QBit(node[1])) or IsQBitSet(QBit(node[2])) then
+          given = true
+        end
+        if IsQBitSet(QBit(node[2])) then
+          down = down + 1
+        end
+      end
+      if given then
+        evt.SetMessage(({[0] = "None of three nodes dark.", "One of three nodes dark.", "Two of three nodes dark.", "All three nodes dark."})[down])
+        return
+      end
+      for _, node in ipairs(nodes) do
+        SetQBit(QBit(node[1]))
+      end
+      SetAutonote(10410)
+      evt.SetMessage("Three nodes ring the Crownspire, west, east and north: the Lattice's hearts. They power the cannons and seal the gate, and each door stands inside the cannons' reach, so you must run. Inside, shut each heart at its three terminals if you have a master's hands, or blow its couplings with charges. Break all three and the cannons die.")
+  - id: 9634
+    title: Memory
+    show_after: 100003
+    lua: |
+      -- Aster's shards 2-4 (11479 the Brood Pits, 11480 the Seedship, 11481 the Archive): each carried one taken in
+      -- order of id (its bit 100019-100021, 30 000 experience), then the count line; two restored: 100022 and
+      -- autonote 10408 (Iver's root codes, the Archive's dome); four: 100023 and autonote 10409. With none carried and
+      -- two or more home, S3 (the Archive, 100223) until it is done (100103).
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      local shards = {
+        {11479, 100019, "The ninth day. The Lattice held for nine days, and on the ninth my sister's voice changed. She sang their song through our own grid, and every shield in the colony opened at once. I remember the ninth day. I do not remember the tenth."},
+        {11480, 100020, "The charts. My makers' star charts, the old roads of the Web. The devils took them from my sister and fed them to their ships. That is how the comet found your world: by our maps. I am sorry. I am so sorry."},
+        {11481, 100021, "The dome. The founders' faces over me when I woke, and Torvan Ek saying 'she is the twin; keep her apart, as the makers' words told.' They named me. Aster. A small light that rises before the dawn. I had forgotten that I had a name before I had a duty."},
+      }
+      local lines = {}
+      for _, shard in ipairs(shards) do
+        if HasItem(shard[1]) and not IsQBitSet(QBit(shard[2])) then
+          RemoveItem(shard[1])
+          SetQBit(QBit(shard[2]))
+          AddValue(Experience, 30000)
+          table.insert(lines, shard[3])
+        end
+      end
+      local home = 0
+      for _, bit in ipairs({100018, 100019, 100020, 100021}) do
+        if IsQBitSet(QBit(bit)) then
+          home = home + 1
+        end
+      end
+      if #lines == 0 then
+        if home >= 2 and not IsQBitSet(QBit(100103)) then
+          if not IsQBitSet(QBit(100223)) then
+            SetQBit(QBit(100223))
+          end
+          evt.SetMessage("I remember where I was born: a white dome in the north of the Reach, the colony's Archive. The founders kept the last piece of me there, in a casket. The dome will open for me now; bring the piece home.")
+        elseif home == 4 then
+          evt.SetMessage("All of me that was lost is home.")
+        else
+          evt.SetMessage("Bring me what was taken, when you find it. I will be here.")
+        end
+        return
+      end
+      if home >= 2 and not IsQBitSet(QBit(100022)) then
+        SetQBit(QBit(100022))
+        SetAutonote(10408)
+        table.insert(lines, "Two pieces of me, and I can see my sister's shape now. I will give Iver the root codes; he will teach you to open what my makers sealed. And the Archive's dome will know me now.")
+      end
+      if home == 3 then
+        table.insert(lines, "Three. I can hear her, very faintly, under the Hum. She is still in there.")
+      end
+      if home == 4 and not IsQBitSet(QBit(100023)) then
+        SetQBit(QBit(100023))
+        SetAutonote(10409)
+        table.insert(lines, "All of me that was lost is home. Listen: in the Crownspire the devils turned my makers' turrets on the Hierarch's enemies. They answer to the Guardian's codes, and I am a Guardian. When you face him, I will take them.")
+      end
+      evt.SetMessage(table.concat(lines, " "))
+  - id: 9636
+    title: Retune
+    show_after: 100013
+    lua: |
+      -- A Lattice Resonator II (11221) becomes the Voice-tuned Resonator (11222), an Arc Coupler II (11224) the
+      -- Voice-tuned Coupler (11225), one per use. (The implants are not staged yet: the engine has no implant slot.)
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      local pairs_ = {{11221, 11222}, {11224, 11225}}
+      for _, pair in ipairs(pairs_) do
+        if HasItem(pair[1]) then
+          RemoveItem(pair[1])
+          AddValue(InventoryItem(pair[2]), pair[2])
+          evt.SetMessage("Give it to me. The Voice's pitch is in its lattice, and I know it better than anyone living. There. Now it sings her song back at her.")
+          return
+        end
+      end
+      evt.SetMessage("Bring me a resonator or a coupler of the finer make, and I will tune it to the Voice. Then it bites their shields as they bite ours.")
+  - id: 9637
+    title: The Crownspire
+    show_after: 100603
+    show_until: 100015
+    lua: |
+      if IsQBitSet(QBit(100034)) then evt.SetMessage("...") return end
+      if IsQBitSet(QBit(100215)) then
+        evt.SetMessage("The Crownspire. The Hierarch, and then the Voice.")
+        return
+      end
+      SetQBit(QBit(100215))
+      evt.SetMessage("The way in is open. The Hierarch sits on his throne above the Voice, fused to her. Kill him; then you must decide what becomes of her. I will be with you as far as my posts reach.")
+
+  # Venn, the scout, in her home in Landfall (hes_out1 event 65, house 15; her shop, house 9460, waits for the
+  # scouts' houses, CR-P4-13).
+  - id: 9736
+    title: The Reach
+    lua: |
+      evt.SetMessage("Starport Reach, we call all this. Follow the east road to the old apron and the Terminal, or go north past the hangar ruins to the pass. The southeastern canyon leads to the Pumping Station. Bring a blade if you try the Glassfields in the northeast; the beasts there shrug off bolts. The colony's dome is up north too, but it's sealed. Nobody's been in.")
+  - id: 9737
+    title: Ashrunners
+    show_until: 100101
+    lua: |
+      evt.SetMessage("Scavengers in crawler hulls, west of the north road. Not ours, not the devils'. They shout once before they shoot. Word is the Kreegans took a crawler of theirs to the scrapyard east of the apron. Bring that back and Garrow might call you friend.")
+  - id: 9738
+    title: Tablets
+    lua: |
+      evt.SetMessage("The colony left log tablets all over: little crystal slates on plinths, out in the ash. Old Pell in the Archive below pays in thanks and stories. I know of three in the Reach, north-west in the dunes, south past the crater, and up by the glass fields.")
+  # Sergeant Ost, at the Lift Head on Landfall's square (hes_out1 actor 'Lift Head sergeant', the first).
+  - id: 9760
+    title: The lift
+    lua: |
+      if IsQBitSet(QBit(100002)) then
+        evt.SetMessage("Warden's word came: you go down when you like. Step in the cage and pull the bar. Mind the gap; it's a long way to the old town.")
+        return
+      end
+      evt.SetMessage("No strangers below. Warden's orders, and mine: the seekers hunt the walls every day, and every day somebody would like the Undervault's door open. Shut the Terminal down and the Warden says you go down. Until then, no.")
+  - id: 9761
+    title: Below
+    show_after: 100002
+    lua: |
+      evt.SetMessage("The old town is warm, the water's clean and nobody shoots at you. Go up the Chapel Steps first. The Guardian asked for you; that has not happened in my lifetime, or my grandmother's.")
+
+  # The North Gate guard (hes_out1 actor 'North Gate guard', the first).
+  - id: 9762
+    title: The north road
+    lua: |
+      if IsQBitSet(QBit(100101)) then
+        evt.SetMessage("The Ashrunners wave at the gate these days. Strange world. North past the hangars the road climbs to Spinefall Pass; the far end is the devils' country. Turrets, eggs. Not yet, I would say.")
+        return
+      end
+      evt.SetMessage("North of here the road splits: west to the Ashrunners' camp, north to the hangar ruins and the pass. Keep off the camp. They shout once, then they shoot.")
+
+  # Warder Halm, at the Undervault's Lift Gate (hes_undervault actor, a Guard Sergeant, row 10068).
+  - id: 9763
+    title: The Guardian
+    lua: |
+      if IsQBitSet(QBit(100003)) then
+        evt.SetMessage("She spoke for you. Every door down here is open to you now, but the Refuge's; that one opens for the Kept.")
+        return
+      end
+      SetQBit(QBit(100203))
+      evt.SetMessage("The Guardian asked for you by name, or near enough: the ones who fell from the sky. Up the Chapel Steps at the top of the hall, under the blue light. The Council and the rest keep their doors shut until she has spoken for you. That's the custom.")
+  - id: 9764
+    title: The old town
+    lua: |
+      evt.SetMessage("The Ancients built this hall; our founders moved in; we keep it. Council and Archive on the north wall, the Sim Hall and the Workshop on the south, the Clinic under the west gallery, the Refuge through the south-west arch. Water from the fountain is clean and free.")
+
+  # The Grandmaster teachers' own topics (skills.yml teachers 9223 Iver and 9224 Dace; P4's UNDERVAULT.md, ASHRUNNERS.md).
+  - id: 9753
+    title: The root codes
+    lua: |
+      if IsQBitSet(QBit(100022)) then
+        evt.SetMessage("The Lady has given me the root codes. I can teach the deepest of it now: how to open what the Ancients sealed. It costs; the gold goes to the Chapel's lamps and the Refuge's bread.")
+        return
+      end
+      evt.SetMessage("The Ancients' deepest locks answer to root codes. The Lady once held them. Bring back enough of her and she may give them to me, and I can teach what she remembers.")
+  - id: 9756
+    title: Holding a field
+    lua: |
+      if IsQBitSet(QBit(100012)) then
+        evt.SetMessage("The Foundry's cold. Sit down; I keep my promises.")
+        return
+      end
+      evt.SetMessage("Keep a field steady under fire and it will catch the next shot. I'll teach you how when the Foundry's cold. Every gun that hunts us comes out of there.")
+  # The news (P4's dialogue/LANDFALL.md, The news): MM's rotating news, every item titled News, each shown while its
+  # condition holds. Landfall's and the Undervault's street people and home residents (npcs_landfall.yml,
+  # npcs_undervault.yml) carry two each: one opening item (9771-9774) and one later (9775-9790), neighbours different.
+  # 9788 (the Hesperians leaving) is provisional, awaiting the user (block 3.4).
+  - {id: 9771, title: News, show_until: 100002, lua: "evt.SetMessage(\"The seekers came over the wall again last night. The turrets got four. They'll be back.\")"}
+  - {id: 9772, title: News, show_until: 100002, lua: "evt.SetMessage(\"You came down in the crater? My cousin saw the smoke from the gate. He says it looked like a falling star.\")"}
+  - {id: 9773, title: News, show_after: 100002, show_until: 100003, lua: "evt.SetMessage(\"Quiet walls. First week I can remember.\")"}
+  - {id: 9774, title: News, show_after: 100003, lua: "evt.SetMessage(\"The Guardian spoke for you. My mother cried; she's prayed to her every night for fifty years.\")"}
+  - {id: 9775, title: News, show_after: 100005, lua: "evt.SetMessage(\"The quarry's quiet. My brother's salvage crew went out to the canyon yesterday. All came back.\")"}
+  - {id: 9776, title: News, show_after: 100006, lua: "evt.SetMessage(\"Freed Kept in the Refuge, thin as wire, every one. My father took them bread. I took them soap.\")"}
+  - {id: 9777, title: News, show_after: 100101, lua: "evt.SetMessage(\"The Ashrunners waved at the North Gate this morning. Waved! Strange days.\")"}
+  - {id: 9778, title: News, show_after: 100102, lua: "evt.SetMessage(\"Clean water in the fountain, clean water in the pipes. Odo's insufferable.\")"}
+  - {id: 9779, title: News, show_after: 100007, lua: "evt.SetMessage(\"They say there's a gate to your world at the root of that tower past the pass. Is it beautiful there? Is there sky?\")"}
+  - {id: 9780, title: News, show_after: 100008, lua: "evt.SetMessage(\"They say the great pit stopped grinding. My grandmother says the ground stopped shaking under her bed.\")"}
+  - {id: 9781, title: News, show_after: 100011, lua: "evt.SetMessage(\"The Mother of the brood is dead, the scouts say. The eggs in the Spires don't glow as bright.\")"}
+  - {id: 9782, title: News, show_after: 100013, lua: "evt.SetMessage(\"The Seedship's lights went out. My uncle saw it from the pass: dark, like a dead fish.\")"}
+  - {id: 9783, title: News, show_after: 100106, lua: "evt.SetMessage(\"All five camps free. There are children in the Refuge now. Children!\")"}
+  - {id: 9784, title: News, show_after: 100110, lua: "evt.SetMessage(\"Rations from the Garden! Real food, cheap. Bless old Hesk.\")"}
+  - {id: 9785, title: News, show_after: 100009, lua: "evt.SetMessage(\"The casters at the Sim Hall say their sparks come easier since a node went dark.\")"}
+  - {id: 9786, title: News, show_after: 100603, lua: "evt.SetMessage(\"The cannons are dead. Dead! I never thought I'd say it.\")"}
+  - {id: 9787, title: News, show_after: 100015, lua: "evt.SetMessage(\"What happened in the Crown? The Guardian sang last night. Or she didn't, and the silence was worse.\")"}
+  - {id: 9788, title: News, show_after: 100216, lua: "evt.SetMessage(\"The Council says we're leaving. Through the gate, family by family. Leaving Hesper. I don't know what to pack.\")"}
+  - {id: 9789, title: News, show_after: 100010, lua: "evt.SetMessage(\"At the Sim Hall yesterday a child lit a lamp with a spell. Her mother made her do it again, just to see.\")"}
+  - {id: 9790, title: News, show_after: 100014, lua: "evt.SetMessage(\"The healer says she can work without the ache behind her eyes now. She stayed at the Clinic until dawn.\")"}
+
+quests:
+  - {qbit: 100201, text: "Reach Landfall, west of the crash crater, and report to the Warden at the Warden's Post.", notes: "M1, given by the Pilot at the wreck, done at the Warden's Post (QBit 100001)."}
+  - {qbit: 100202, text: "Shut down Drone Control in the Starport Terminal, east of Landfall, and return to the Warden at the Warden's Post to open the Lift Head.", notes: "M2, given by the Warden, done at D1's Drone Control (QBit 100002)."}
+  - {qbit: 100203, text: "Take the memory shard from the Custodian in the Starport Terminal to Aster in the Guardian's Chapel in the Undervault.", notes: "M3, given by D1's relay post or Warder Halm, done at Aster's The shard (QBit 100003)."}
+  - {qbit: 100204, text: "Carry the Pilot's Core from the wreck into Hangar Nine beneath the crater's rim. Restore the power and fit the core in the lander's cockpit.", notes: "M4, given by the Pilot (Below the rim), done at D0's cockpit socket (QBit 100004)."}
+  - {qbit: 100205, text: "Kill Overseer Krav in the Quarry Outpost on the Scour and return to Elder Maren in the Undervault's Council Hall.", notes: "M5, given by Maren, done at her hand-in (QBit 100005)."}
+  - {qbit: 100207, text: "Take the Jammer from the top of the Relay Spire, west of the fork beyond Spinefall Pass, to Aster's relay beside the broken gate at the tower's root.", notes: "M7, given by Aster (The Watchers), done at D5's Root Hall relay (QBit 100007)."}
+  - {qbit: 100208, text: "Destroy the Harvester in the Scour's Great Pit. Fit its Energy Core in the lander in Hangar Nine and speak to the Pilot aboard.", notes: "M8, given by the Pilot (The Harvester), done at his hand-in (QBit 100008)."}
+  - {qbit: 100212, text: "Take a Re-entry Emitter from the Foundry's Plate Stores, north on the Scour. Fit it in the lander in Hangar Nine, then speak to the Pilot aboard or Garrow at the Ashrunner camp.", notes: "M12, given by the Pilot or Garrow, done at their hand-in (QBit 100012)."}
+  - {qbit: 100232, text: "Collect the three Lander Log Cores from the small craters around the crash site. Return them to the Pilot at the wreck, or aboard the lander in Hangar Nine after his move.", notes: "The black box errand, given by the Pilot (Black box), done at his Log cores (QBit 100233)."}
+  # The rest of P4's journal rows (QUESTS, blocks 3-5; the integrator's follow-ups 23, 26 and 37), staged with
+  # their givers or ahead of them (a row shows only while its QBit is set; S7's 100227 is unused).
+  - {qbit: 100206, text: "Free Tamsin, Doctor Ilse and the other prisoners in the Labor Pens on the Scour. Return to Elder Maren in the Undervault's Council Hall.", notes: "P4 QUESTS.md"}
+  - {qbit: 100209, text: "Shut down the Lattice node east of the Crownspire and return to Aster in the Undervault.", notes: "P4 QUESTS.md"}
+  - {qbit: 100210, text: "Shut down the Lattice node west of the Crownspire and return to Aster in the Undervault.", notes: "P4 QUESTS.md"}
+  - {qbit: 100211, text: "Kill the Brood Mother in the Brood Pits beneath the marsh. Take her memory shard to Aster in the Undervault. Magic fails inside the Pits.", notes: "P4 QUESTS.md"}
+  - {qbit: 100213, text: "Destroy the Navigation Brain's four ganglia inside the Seedship in the northeastern Brood Spires. Return to Aster in the Undervault.", notes: "P4 QUESTS.md"}
+  - {qbit: 100214, text: "Shut down the Lattice node north of the Crownspire and return to Aster in the Undervault.", notes: "P4 QUESTS.md"}
+  - {qbit: 100215, text: "Enter the Crownspire, kill the Hierarch and decide the Voice's fate in the chamber beneath his throne.", notes: "P4 QUESTS.md"}
+  - {qbit: 100216, text: "Overload the Deepwell beneath the Crownspire, then escape to the Pilot's lander on the Crown's landing plaza. There is no return to Hesper.", notes: "P4 QUESTS.md"}
+  - {qbit: 100217, text: "Open the root lock at the Undervault's Deep Stair with Grandmaster Hacking and ride the Old Line to the Crownspire's buried core. Tell Pell in the Undervault's Archive what you find.", notes: "P4 QUESTS.md"}
+  - {qbit: 100221, text: "Recover the Ashrunners' crawler from the scrapyard east of the Starport apron. Return to Garrow at the camp northwest of Landfall.", notes: "P4 QUESTS.md"}
+  - {qbit: 100222, text: "Drain the Pumping Station in the canyon southeast of the crash crater, clear its filter beds and restart the filters. Return to Odo in the Undervault.", notes: "P4 QUESTS.md"}
+  - {qbit: 100223, text: "Recover Aster's memory shard from the founders' casket in the Colony Archive, north in Starport Reach. Return it to Aster in the Undervault.", notes: "P4 QUESTS.md"}
+  - {qbit: 100224, text: "Bring three Glassback Hearts from the Glassfields in northeastern Starport Reach to Doctor Ilse at the Undervault's Clinic.", notes: "P4 QUESTS.md"}
+  - {qbit: 100225, text: "Find the Kreegan deserter in the cave up the Scour's west canyon and speak to him.", notes: "P4 QUESTS.md"}
+  - {qbit: 100226, text: "Free all five work camps on the Scour by opening each collar node or killing its Overseer. Return to Tamsin in the Undervault's Kept Refuge.", notes: "P4 QUESTS.md"}
+  - {qbit: 100228, text: "Win the Bronze, Silver and Gold trials in the Undervault's Sim Hall. Claim each prize from Brannoc there.", notes: "P4 QUESTS.md"}
+  - {qbit: 100229, text: "Bring the twelve colony log tablets to Pell in the Undervault's Archive. Three lie in each of Starport Reach, the Scour, the Brood Spires and the Crown.", notes: "P4 QUESTS.md"}
+  - {qbit: 100230, text: "Clear the acid-crawler nest west of the Acid Garden in the Brood Spires. Return to Hesk at the Garden.", notes: "P4 QUESTS.md"}
+  - {qbit: 100231, text: "Kill the monster named on the bounty board and return to the Warden's Post in Landfall to claim the reward.", notes: "P4 QUESTS.md"}
+
+autonotes:
+  - {id: 10011, text: "Landfall's service houses teach the four tech skills at Novice; its teachers teach Expert and Master.", category: Misc}
+  - {id: 10012, text: "The Starport Terminal, east of Landfall along the service road, has a drone control the Warden wants shut down. The Lift Head in Landfall's square goes down to the Undervault.", category: Misc}
+  - {id: 10400, text: "Aster: the lander's four parts. The ion coil in the Quarry Outpost on the Scour; the navigation matrix at the top of the Relay Spire, at the south edge of the Brood Spires; the energy core inside the Harvester, in the Scour's Great Pit; the re-entry emitter in the Foundry, north on the Scour.", category: Misc}
+  - {id: 10401, text: "Hangar Nine lies beneath the crash crater's rim. The lander has five empty sockets for the Pilot's Core in the cockpit, the Ion Coil in the drive pod, the Nav Matrix in the nose, the Energy Core in the engine bay and the Re-entry Emitter in the ventral shield ring.", category: Misc}
+  - {id: 10402, text: "The black box: six gun platforms on the debris ring shot the lander down together, aiming for the drive and the nose. The orbital guns are run by the Lattice, the Kreegans' grid.", category: Misc}
+  - {id: 10403, text: "The Undervault: the Council (Elder Maren) and the Archive (Pell) on the north wall; the Sim Hall (training) and the Workshop (mods) on the south wall; the Clinic under the west gallery; the Kept Refuge through the south-west arch; Aster's chapel at the top of the steps. Town Portal leads here.", category: Misc}
+  - {id: 10102, text: "The old service tunnel joins the Undervault's Water Works to the Scour's west canyon.", category: Misc}
+  - {id: 10404, text: "The Root Terminus at the foot of the Relay Spire: the Web's last thread on Hesper, mended by Aster. It leads home and back.", category: Misc}
+  # Autonotes 10405-10418 (P4's QUESTS, blocks 3-5; 10412 has one text, R3 fix 5), set by the events and topics
+  # that QUESTS names.
+  - {id: 10405, text: "The Kept Refuge, through the Undervault's south-west arch: freed Kept, and Tamsin. Some of them will join you for a wage.", category: "Misc"}
+  - {id: 10406, text: "The Scour's five work camps stand by the wreck road, the northeastern stacks, the Great Pit's south rim, the eastern terraces and the pit-fighters' ring in the southwest. Each has a collar node and an Overseer.", category: "Misc"}
+  - {id: 10407, text: "Ansel, freed at the pit-fighters' camp in the southwestern Scour, teaches Grandmaster Energy Blades once all five camps are free.", category: "Misc"}
+  - {id: 10408, text: "With two of Aster's shards restored, Iver in the Undervault's Guardian's Chapel teaches Grandmaster Hacking. The Colony Archive in northern Starport Reach is also open.", category: "Misc"}
+  - {id: 10409, text: "Aster holds all four shards. In the Crownspire she can reach the Hierarch's turrets.", category: "Misc"}
+  - {id: 10410, text: "The Lattice: three nodes ring the Crownspire, west, east and north, their doors inside the cannons' range. Each can be shut down quietly at its three terminals (a Hacking Master) or blown with three Breach Charges. When all three fall, the cannons die and the Spire Gate opens.", category: "Misc"}
+  - {id: 10411, text: "The Old Line: the founders' freight line runs from the Undervault's Deep Stair, behind an Ancient root lock, to the Crownspire's buried core and its Grid Control.", category: "Misc"}
+  - {id: 10412, text: "The star map: three more brood worlds.", category: "Misc"}
+  - {id: 10413, text: "The Ashrunner camp northwest of Landfall is friendly. Garrow leads the clan, Kesh trades charges, couplers and salvage, and Dace teaches Shield Tech.", category: "Misc"}
+  - {id: 10414, text: "The Undervault's Water Works door leads to the Pumping Station, and along an old service tunnel to the Scour's west canyon.", category: "Misc"}
+  - {id: 10415, text: "Thrix, a Kreegan deserter, sells Kreegan weapons at his cave in the Scour's west canyon.", category: "Misc"}
+  - {id: 10416, text: "Brannoc's arena in the Undervault's Sim Hall offers Bronze, Silver and Gold trials. Winning Silver halves the price of Landfall's Master lessons.", category: "Misc"}
+  - {id: 10417, text: "The colony's log tablets, together: the comet in Year 212, the Lattice holding nine days, the Guardian taken, the founders' children going below, and the Old Line sealed under the Crown.", category: "Misc"}
+  - {id: 10418, text: "Wren at the Acid Garden in the Brood Spires teaches Grandmaster Energy Guns once the nest west of the Garden is cleared.", category: "Misc"}
+
+# The bounty board (S11, the Warden's Bounties 9017): a Town Hall's Bounty Hunt (MMerge's: one monster a month, the
+# engine's level-based gold; ITEMS' tiers and the weekly name would be engine work). Entered from the topic.
+houses:
+  - {id: 9459, name: The bounty board, map: hes_out1.odm, type: Town Hall, picture: 9802}

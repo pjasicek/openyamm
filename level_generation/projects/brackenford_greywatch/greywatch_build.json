@@ -1,0 +1,413 @@
+{
+  "status": "native content built; final review and limits in ACCEPTANCE.md",
+  "map": "lg02.blv",
+  "sectors": {
+    "armory": 1,
+    "barracks": 2,
+    "castle_arrival": 3,
+    "cave_arrival": 4,
+    "link_barracks_secret": 5,
+    "link_castle_arrival_watch_hall": 6,
+    "link_lower_passage_castle_arrival": 7,
+    "link_lower_passage_cave_arrival": 8,
+    "link_records_barracks": 9,
+    "link_records_lower_passage": 10,
+    "link_records_upper_landing": 11,
+    "link_stair_gallery_records": 12,
+    "link_upper_landing_vault_bend": 13,
+    "link_vault_bend_vault": 14,
+    "link_watch_hall_armory": 15,
+    "link_watch_hall_stair_gallery": 16,
+    "lower_passage": 17,
+    "records": 18,
+    "secret": 19,
+    "stair_gallery": 20,
+    "upper_landing": 21,
+    "vault": 22,
+    "vault_bend": 23,
+    "watch_hall": 24
+  },
+  "bounds": [
+    [
+      -3968,
+      -3840,
+      0
+    ],
+    [
+      10496,
+      8704,
+      1536
+    ]
+  ],
+  "faces": 778,
+  "portals": 24,
+  "bsp_nodes": 406,
+  "outlines": 469,
+  "doors": {
+    "8": {
+      "slot": 0,
+      "faces": [
+        730,
+        731,
+        732,
+        733,
+        734,
+        735
+      ],
+      "vertices": [
+        1013,
+        1014,
+        1015,
+        1016,
+        1017,
+        1018,
+        1019,
+        1020
+      ],
+      "direction": [
+        0,
+        0,
+        -65536
+      ]
+    },
+    "3": {
+      "slot": 1,
+      "faces": [
+        736,
+        737,
+        738,
+        739,
+        740,
+        741
+      ],
+      "vertices": [
+        1021,
+        1022,
+        1023,
+        1024,
+        1025,
+        1026,
+        1027,
+        1028
+      ],
+      "direction": [
+        0,
+        0,
+        -65536
+      ]
+    },
+    "6": {
+      "slot": 2,
+      "faces": [
+        742,
+        743,
+        744,
+        745,
+        746,
+        747
+      ],
+      "vertices": [
+        1029,
+        1030,
+        1031,
+        1032,
+        1033,
+        1034,
+        1035,
+        1036
+      ],
+      "direction": [
+        0,
+        0,
+        -65536
+      ]
+    },
+    "7": {
+      "slot": 3,
+      "faces": [
+        748,
+        749,
+        750,
+        751,
+        752,
+        753
+      ],
+      "vertices": [
+        1037,
+        1038,
+        1039,
+        1040,
+        1041,
+        1042,
+        1043,
+        1044
+      ],
+      "direction": [
+        0,
+        0,
+        -65536
+      ]
+    },
+    "4": {
+      "slot": 4,
+      "faces": [
+        754,
+        755,
+        756,
+        757,
+        758,
+        759
+      ],
+      "vertices": [
+        1045,
+        1046,
+        1047,
+        1048,
+        1049,
+        1050,
+        1051,
+        1052
+      ],
+      "direction": [
+        0,
+        0,
+        -65536
+      ]
+    },
+    "5": {
+      "slot": 5,
+      "faces": [
+        760,
+        761,
+        762,
+        763,
+        764,
+        765
+      ],
+      "vertices": [
+        1053,
+        1054,
+        1055,
+        1056,
+        1057,
+        1058,
+        1059,
+        1060
+      ],
+      "direction": [
+        0,
+        0,
+        -65536
+      ]
+    },
+    "1": {
+      "slot": 6,
+      "faces": [
+        766,
+        767,
+        768,
+        769,
+        770,
+        771
+      ],
+      "vertices": [
+        1061,
+        1062,
+        1063,
+        1064,
+        1065,
+        1066,
+        1067,
+        1068
+      ],
+      "direction": [
+        65536,
+        0,
+        0
+      ]
+    },
+    "2": {
+      "slot": 7,
+      "faces": [
+        772,
+        773,
+        774,
+        775,
+        776,
+        777
+      ],
+      "vertices": [
+        1069,
+        1070,
+        1071,
+        1072,
+        1073,
+        1074,
+        1075,
+        1076
+      ],
+      "direction": [
+        -65536,
+        0,
+        0
+      ]
+    }
+  },
+  "events": {
+    "1": [
+      705
+    ],
+    "2": [
+      706
+    ],
+    "101": [
+      728,
+      729,
+      766,
+      767,
+      768,
+      769,
+      770,
+      771,
+      772,
+      773,
+      774,
+      775,
+      776,
+      777
+    ],
+    "102": [
+      708
+    ],
+    "103": [
+      719,
+      754,
+      755,
+      756,
+      757,
+      758,
+      759
+    ],
+    "104": [
+      720,
+      721,
+      760,
+      761,
+      762,
+      763,
+      764,
+      765
+    ],
+    "105": [
+      709,
+      742,
+      743,
+      744,
+      745,
+      746,
+      747
+    ],
+    "106": [
+      710
+    ],
+    "107": [
+      711,
+      712,
+      748,
+      749,
+      750,
+      751,
+      752,
+      753
+    ],
+    "108": [
+      703,
+      704,
+      730,
+      731,
+      732,
+      733,
+      734,
+      735
+    ],
+    "201": [
+      690,
+      691,
+      692,
+      693,
+      694,
+      695
+    ],
+    "202": [
+      713,
+      714,
+      715,
+      716,
+      717,
+      718
+    ],
+    "203": [
+      697,
+      698,
+      699,
+      700,
+      701,
+      702
+    ],
+    "204": [
+      722,
+      723,
+      724,
+      725,
+      726,
+      727
+    ],
+    "301": [
+      707
+    ],
+    "302": [
+      696
+    ]
+  },
+  "actors": 24,
+  "chests": 4,
+  "lights": 22,
+  "decorations": 34,
+  "lighting_provenance": {
+    "torch": "MM8 d18 dec56; merged decoration row 299 / native index 298",
+    "decoration_light_radius": 96,
+    "static_light_radius": 640,
+    "policy": "dec56 flame light plus larger authored static pool, as separate sources; native lighting evidence: review/lighting_perception.json"
+  },
+  "reuse": {
+    "monsters": {
+      "193": [
+        "Soldier of Fortune",
+        "Human Mercenary A"
+      ],
+      "194": [
+        "Mercenary",
+        "Human Mercenary B"
+      ],
+      "195": [
+        "Mercenary Captain",
+        "Human Mercenary C"
+      ]
+    },
+    "textures": {
+      "GSton1WL": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gston1wl.bmp",
+      "GStn1BOT": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gstn1bot.bmp",
+      "GStn1TP1": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gstn1tp1.bmp",
+      "GSton1FL": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gston1fl.bmp",
+      "TFB11": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/tfb11.bmp",
+      "GCav1flr": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gcav1flr.bmp",
+      "GCav1wal": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gcav1wal.bmp",
+      "gt002a": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gt002a.bmp",
+      "gt002b": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gt002b.bmp",
+      "gt002g": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gt002g.bmp",
+      "gt003a": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/gt003a.bmp",
+      "solid01": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/solid01.bmp",
+      "T1butt": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/textures/t1butt.bmp"
+    }
+  }
+}

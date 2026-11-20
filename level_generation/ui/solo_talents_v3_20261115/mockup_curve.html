@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solo talent tree v3: the party line</title>
+<link rel="stylesheet" href="tree.css">
+<style>
+.chartcard { position: absolute; left: 16px; top: 74px; width: 770px; height: 632px; }
+.budget { position: absolute; left: 798px; top: 74px; width: 466px; height: 632px; }
+.chartcard h3, .budget h3 { font-size: 17px; }
+.keys { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 2px 0 4px; font-size: 11px; }
+.keys span { display: flex; align-items: center; gap: 5px; }
+.keys i { width: 14px; height: 3px; border-radius: 2px; }
+#plot { position: relative; width: 748px; height: 430px; }
+#plot svg { width: 100%; height: 100%; display: block; }
+#plot text { font-family: Smallnum, monospace; font-size: 10.5px; fill: var(--muted); }
+#plot text.lab { font-family: Lucida, sans-serif; font-size: 11px; fill: var(--ivory); }
+#tipbox { position: absolute; pointer-events: none; background: var(--sunk); border: 1px solid var(--brass-dim); border-radius: 3px; padding: 5px 8px;
+  font-size: 11px; line-height: 1.5; white-space: nowrap; }
+#tipbox b { font-family: Smallnum, monospace; font-weight: 400; color: var(--brass); }
+.reading { display: grid; gap: 4px; margin-top: 6px; line-height: 1.4; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { font-weight: 400; font-size: 9.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); text-align: right; padding: 3px 5px;
+  border-bottom: 1px solid var(--line); vertical-align: bottom; }
+td { font-family: Smallnum, monospace; font-size: 12.5px; text-align: right; padding: 3.5px 5px; border-bottom: 1px solid #23282d; }
+th:first-child, td:first-child { text-align: left; }
+td.over { color: var(--bad); } td.under { color: var(--good); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="top">
+    <h1>The party line</h1>
+    <div class="field"><label for="cls">Class</label><select id="cls"></select></div>
+    <div class="field"><label for="diff">Difficulty</label><select id="diff"></select></div>
+    <div class="points" style="max-width:520px;color:var(--muted)">How strong a solo is against the simulated party of five at the same place in the game.
+      1 means as strong: both can face equally strong monsters.</div>
+  </div>
+  <div class="card chartcard">
+    <h3 id="chartTitle"></h3>
+    <div class="keys">
+      <span><i style="background:var(--series-1)"></i>MAW alone, no solo rules</span>
+      <span><i style="background:var(--series-2)"></i>with the early monster cut</span>
+      <span><i style="background:var(--series-3)"></i>with the cut and an ordinary build's talents</span>
+    </div>
+    <div id="plot"><div id="tipbox" hidden></div></div>
+    <div class="reading">
+      <p><span style="color:var(--brass)">The rule the draft is held to:</span> a solo is never stronger than a full party. Under the dashed line it is behind; above it, ahead.</p>
+      <p class="dim">MAW alone crosses the line near level 100 to 150, because a solo gains levels about twice as fast as the monsters grow. The cut (÷2.5 at
+        the start, gone by level 75) lifts the start to the line. Talents then push every class above it, so the last column of the table says how
+        much stronger a solo's monsters would have to be to keep the rule.</p>
+    </div>
+  </div>
+  <div class="card budget">
+    <h3>The budget, level by level</h3>
+    <table id="tbl"></table>
+    <p class="note" style="margin-top:8px">Points: one every 2 levels up to level 20, then one every 5. A keystone slot every 150 levels. Talent strength is the
+      ordinary build of the class in the planner; its node values are estimates until the simulation has them. Levels past the end of the simulated run
+      (about 500, or 800 on Beyond Madness) reuse the last measured stage.</p>
+  </div>
+</div>
+<script src="party_line_data.js"></script>
+<script src="tree_data.js"></script>
+<script src="tree_core.js"></script>
+<script>
+(function () {
+  var C = window.TreeCore, T = C.T, q = new URLSearchParams(location.search);
+  var state = { cls: q.get('class') || 'typical', diff: q.get('diff') || 'nightmare' };
+  var stage = document.getElementById('stage');
+  function fit() {
+    var s = Math.min(innerWidth / 1280, innerHeight / 720);
+    stage.style.transform = 'scale(' + s + ')';
+    stage.style.left = Math.max(0, (innerWidth - 1280 * s) / 2) + 'px';
+    stage.style.top = Math.max(0, (innerHeight - 720 * s) / 2) + 'px';
+  }
+  addEventListener('resize', fit); fit();
+  var clsSel = document.getElementById('cls'), diffSel = document.getElementById('diff');
+  [{ id: 'typical', name: 'Typical build (median of 22)' }].concat(T.classes).forEach(function (c) {
+    var o = document.createElement('option'); o.value = c.id; o.textContent = c.name; clsSel.appendChild(o);
+  });
+  C.DIFFS.forEach(function (d) { var o = document.createElement('option'); o.value = d[0]; o.textContent = d[1]; diffSel.appendChild(o); });
+  clsSel.value = state.cls; diffSel.value = state.diff;
+  clsSel.onchange = function () { state.cls = clsSel.value; render(); };
+  diffSel.onchange = function () { state.diff = diffSel.value; render(); };
+
+  // The ordinary build the talents line uses: the class's own, or a two-handed Champion's for the typical build.
+  function treeAt(level) {
+    var cls = state.cls === 'typical' ? 'knight_2h' : state.cls, b = C.exampleBuild(cls, level);
+    return C.power(b.ranks, b.keystones, C.styleOf(cls)).h;
+  }
+  function at(level) {
+    var base = C.baseRatio(state.cls, state.diff, level), cut = C.cutAt(level), tree = treeAt(level);
+    return { base: base, cut: base * cut, all: base * cut * tree, tree: tree, divisor: cut };
+  }
+  var W = 748, H = 430, M = { l: 44, r: 128, t: 14, b: 34 };
+  var xs = [5, 10, 20, 50, 100, 200, 500, 1000], ys = [0.125, 0.25, 0.5, 1, 2, 4, 8];
+  function X(l) { return M.l + (Math.log(l) - Math.log(5)) / (Math.log(1000) - Math.log(5)) * (W - M.l - M.r); }
+  function Y(v) { return M.t + (Math.log(8) - Math.log(Math.max(0.09, Math.min(v, 11)))) / (Math.log(8) - Math.log(0.125)) * (H - M.t - M.b); }
+  var levels = [];
+  for (var l = 5; l <= 1000; l = Math.ceil(l * 1.06)) { levels.push(l); }
+  if (levels[levels.length - 1] !== 1000) { levels.push(1000); }
+
+  function render() {
+    var name = clsSel.options[clsSel.selectedIndex].textContent, diffName = diffSel.options[diffSel.selectedIndex].textContent;
+    document.getElementById('chartTitle').textContent = 'Solo strength ÷ party strength by character level: ' + name + ', ' + diffName;
+    var pts = levels.map(function (l) { var a = at(l); a.level = l; return a; });
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Solo strength against the party by level">';
+    ys.forEach(function (v) {
+      s += '<line x1="' + M.l + '" x2="' + (W - M.r) + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="#2a3036" stroke-width="1"/>' +
+        '<text x="' + (M.l - 6) + '" y="' + (Y(v) + 3.5) + '" text-anchor="end">' + v + '</text>';
+    });
+    xs.forEach(function (v) {
+      s += '<line x1="' + X(v) + '" x2="' + X(v) + '" y1="' + (H - M.b) + '" y2="' + (H - M.b + 4) + '" stroke="#4a5158"/>' +
+        '<text x="' + X(v) + '" y="' + (H - M.b + 16) + '" text-anchor="middle">' + v + '</text>';
+    });
+    s += '<text x="' + (M.l + (W - M.l - M.r) / 2) + '" y="' + (H - 3) + '" text-anchor="middle">character level</text>';
+    var end = C.lastStageLevel(state.diff);
+    if (end < 1000) {
+      s += '<rect x="' + X(end) + '" y="' + M.t + '" width="' + (X(1000) - X(end)) + '" height="' + (H - M.t - M.b) + '" fill="#0b0d10" fill-opacity=".45"/>' +
+        '<text x="' + (X(end) + 5) + '" y="' + (H - M.b - 6) + '">past the simulated run</text>';
+    }
+    s += '<line x1="' + M.l + '" x2="' + (W - M.r) + '" y1="' + Y(1) + '" y2="' + Y(1) + '" stroke="#ece6d6" stroke-width="1.2" stroke-dasharray="5 4"/>' +
+      '';
+    var series = [['base', 'var(--series-1)', 'MAW alone'], ['cut', 'var(--series-2)', '+ early cut'], ['all', 'var(--series-3)', '+ talents']];
+    series.forEach(function (sr) {
+      s += '<path fill="none" stroke="' + sr[1] + '" stroke-width="2" stroke-linejoin="round" d="' +
+        pts.map(function (p, i) { return (i ? 'L' : 'M') + X(p.level).toFixed(1) + ' ' + Y(p[sr[0]]).toFixed(1); }).join(' ') + '"/>';
+    });
+    // Direct labels at the line ends, pushed apart when they would touch.
+    var last = pts[pts.length - 1], labels = series.map(function (sr) { return { y: Y(last[sr[0]]), text: sr[2] + ' ' + last[sr[0]].toFixed(2), color: sr[1] }; })
+      .concat([{ y: Y(1), text: 'a party of five', color: '#ece6d6' }]).sort(function (a, b) { return a.y - b.y; });
+    for (var i = 1; i < labels.length; i++) { if (labels[i].y - labels[i - 1].y < 13) { labels[i].y = labels[i - 1].y + 13; } }
+    labels.forEach(function (lb) {
+      s += '<circle cx="' + (W - M.r) + '" cy="' + lb.y + '" r="0" fill="none"/><rect x="' + (W - M.r + 6) + '" y="' + (lb.y - 4) + '" width="8" height="8" rx="2" fill="' + lb.color + '"/>' +
+        '<text class="lab" x="' + (W - M.r + 18) + '" y="' + (lb.y + 4) + '">' + lb.text + '</text>';
+    });
+    s += '<line id="cross" x1="0" x2="0" y1="' + M.t + '" y2="' + (H - M.b) + '" stroke="#ece6d6" stroke-opacity=".5" visibility="hidden"/>';
+    s += '<rect id="hit" x="' + M.l + '" y="' + M.t + '" width="' + (W - M.l - M.r) + '" height="' + (H - M.t - M.b) + '" fill="transparent"/></svg>';
+    var plot = document.getElementById('plot'), tip = document.getElementById('tipbox');
+    plot.querySelectorAll('svg').forEach(function (e) { e.remove(); });
+    plot.insertAdjacentHTML('afterbegin', s);
+    var svg = plot.querySelector('svg'), cross = svg.querySelector('#cross');
+    svg.querySelector('#hit').onmousemove = function (ev) {
+      var box = svg.getBoundingClientRect(), px = (ev.clientX - box.left) / box.width * W;
+      var level = Math.round(Math.exp(Math.log(5) + (px - M.l) / (W - M.l - M.r) * (Math.log(1000) - Math.log(5))));
+      level = Math.max(5, Math.min(1000, level));
+      var a = at(level);
+      cross.setAttribute('x1', X(level)); cross.setAttribute('x2', X(level)); cross.setAttribute('visibility', 'visible');
+      tip.hidden = false;
+      tip.innerHTML = 'Level <b>' + level + '</b> · ' + T.points(level) + ' points<br>MAW alone <b>' + a.base.toFixed(2) + '</b><br>with the cut (÷' + a.divisor.toFixed(2) +
+        ') <b>' + a.cut.toFixed(2) + '</b><br>with talents (×' + a.tree.toFixed(2) + ') <b>' + a.all.toFixed(2) + '</b>';
+      var left = X(level) / W * 748 + 12;
+      tip.style.left = (left > 520 ? left - 190 : left) + 'px'; tip.style.top = '24px';
+    };
+    svg.querySelector('#hit').onmouseleave = function () { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); };
+
+    var rows = '<tr><th>Level</th><th>Points</th><th>Key&shy;stones</th><th>Early cut</th><th>Talents</th><th>Solo ÷ party</th><th>Monsters to hold the line</th></tr>';
+    [5, 10, 20, 30, 50, 75, 100, 150, 200, 300, 400, 500, 650, 800, 1000].forEach(function (l) {
+      var a = at(l);
+      rows += '<tr><td>' + l + '</td><td>' + T.points(l) + '</td><td>' + C.keystoneSlots(l) + '</td><td>' + (a.divisor > 1.005 ? '÷' + a.divisor.toFixed(2) : '–') +
+        '</td><td>×' + a.tree.toFixed(2) + '</td><td class="' + (a.all > 1.05 ? 'over' : 'under') + '">' + a.all.toFixed(2) + '</td><td>' +
+        (a.all > 1.05 ? '×' + a.all.toFixed(2) : '–') + '</td></tr>';
+    });
+    document.getElementById('tbl').innerHTML = rows;
+  }
+  render();
+})();
+</script>
+</body>
+</html>

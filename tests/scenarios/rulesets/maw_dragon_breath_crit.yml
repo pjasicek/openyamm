@@ -1,0 +1,31 @@
+id: rulesets.maw_dragon_breath_crit
+title: Ruleset - MAW Flame Blast's crit reaches the combat log where the blast lands
+world: mm6
+mode: faithful
+tags: [rulesets, maw, combat_log]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          # A Dragon with Luck far past MAW's crit cap: its breath and Flame Blast always crit (COMBAT_SPEC §1.2, §7).
+          - name: Wyrm
+            class: Dragon
+            race_id: 5
+            portrait_id: 71
+            level: 60
+            luck: 5000
+            skills:
+              - {name: DragonAbility, level: 30, mastery: 3}
+            equipment: {}
+  # A Chaos Overlord east of the party at (-9728, -11319). The blast flies to it and its crit, rolled at the cast, is
+  # logged when it lands.
+  - spawn_actor: {monster_id: 198, x: -8528, y: -11319, z: 200}
+  - advance_runtime: {seconds: 1}
+  - cast_spell: {member_index: 0, spell_id: 123, skill: 30, mastery: 3, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      combat_log: {dealt_min: 1, critical_min: 1}

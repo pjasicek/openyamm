@@ -1,0 +1,119 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d05/review/walkability/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: 01-root-stair-shallow-flight
+  position:
+  - 900
+  - 920
+  - -1024
+  yaw: 1.5707963267948966
+  pitch: 0.15
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: 02-root-stair-flat-gallery-exit
+  position:
+  - 900
+  - 2530
+  - 0
+  yaw: 0.0
+  pitch: -0.15
+- name: 03-storm-ledge-shallow-flight
+  position:
+  - 5764
+  - 3300
+  - 1024
+  yaw: 1.5707963267948966
+  pitch: 0.15
+- name: 04-storm-stair-shallow-flight
+  position:
+  - 5764
+  - 3000
+  - 3072
+  yaw: 1.5707963267948966
+  pitch: 0.15
+- name: 05-spine-lift-lower-boarding-lip
+  position:
+  - 2200
+  - 3000
+  - 0
+  yaw: 2.8
+  pitch: -0.25
+- name: 06-spine-lift-raised-exit-lip
+  position:
+  - 2200
+  - 3000
+  - 1024
+  yaw: 2.8
+  pitch: -0.25
+- name: 07-upper-lift-lower-boarding-lip
+  position:
+  - 2200
+  - 3000
+  - 2048
+  yaw: 2.8
+  pitch: -0.25
+- name: 08-upper-lift-raised-exit-lip
+  position:
+  - 2200
+  - 3000
+  - 3072
+  yaw: 2.8
+  pitch: -0.25
+- name: 09-cradle-approach-railed-stair
+  position:
+  - 3200
+  - 4300
+  - 4096
+  yaw: 1.5707963267948966
+  pitch: -0.15
+- name: 10-coolant-pack-clear-of-its-root-pillar
+  position:
+  - 4240
+  - 1750
+  - -1024
+  yaw: 0.0
+  pitch: 0.05
+- name: 11-heart-tenders-clear-of-the-core-roots
+  position:
+  - 2850
+  - 3900
+  - -1024
+  yaw: 0.0
+  pitch: 0.05
+- name: 12-barracks-pack-clear-of-the-trestle
+  position:
+  - 2490
+  - 4700
+  - 1024
+  yaw: 3.141592653589793
+  pitch: 0.05
+- name: 13-loom-pack-in-the-open-aisle
+  position:
+  - 3300
+  - 3860
+  - 2048
+  yaw: 0.0
+  pitch: 0.05
+- name: chamfered-crown
+  position:
+  - 4500
+  - 3200
+  - 4096
+  yaw: 3.14
+  pitch: 0.2
+- name: hipped-armoury
+  position:
+  - 2300
+  - 2400
+  - 1024
+  yaw: 3.8
+  pitch: 0.2
+- name: hipped-terminus
+  position:
+  - 3200
+  - 5700
+  - 0
+  yaw: 1.57
+  pitch: 0.2

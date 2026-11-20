@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, the exact edit target. design_reference.png is material/detail reference; icon_x8.png is colour reference (ignore magenta background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact layout, silhouettes, positions, sizes, views and gaps. Three columns FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint only these five grey objects with unlit base colour: a round flat-topped cap of spotted tan and brown fur with a thick fur brim; striped brown-and-cream raccoon tail hangs from back. Follow approved HD reference for fine fur and icon colour. No lighting, cast shadows, ambient occlusion, highlights, reflections, halos, ground, outlines or text. Do not redraw, enlarge, move or redesign objects. Rows 3-4 repeat same five guide silhouettes as MATERIAL MASK: fill every silhouette solid pure green #00FF00 because this entire cap and tail are fur. Absolutely flat green with no shading, texture or interior colour blends. Material rules: metal pure red #FF0000; leather/hide/suede/fur pure green #00FF00; cloth/hair pure blue #0000FF; gemstones/crystal/glass/pearl/enamel/liquid pure black #000000; matte solid wood/bone/horn/stone/paper/wax pure yellow #FFFF00. Nothing outside silhouettes. Empty column 3 in rows 2 and 4 remains transparent. All background and openings truly transparent. Preserve guide silhouette even where fur reference has a different outline.\nCORRECTION: Previous generation had massive green speckled spray outside silhouettes. This is unacceptable. Precisely match the clean smooth outlines of paint_mask_guide.png. Lower five silhouettes must be clean solid green shapes with absolutely NO stray pixels, fuzzy edges, particles, outlines, disconnected marks or spray outside them. All surrounding space transparent. Upper painted silhouettes also clean and confined to guide. Treat this as an exact technical paint atlas, not a decorative image. Maintain original 3:4 sheet.",
+  "initial_prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, the exact edit target. design_reference.png is material/detail reference; icon_x8.png is colour reference (ignore magenta background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact layout, silhouettes, positions, sizes, views and gaps. Three columns FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint only these five grey objects with unlit base colour: a round flat-topped cap of spotted tan and brown fur with a thick fur brim; striped brown-and-cream raccoon tail hangs from back. Follow approved HD reference for fine fur and icon colour. No lighting, cast shadows, ambient occlusion, highlights, reflections, halos, ground, outlines or text. Do not redraw, enlarge, move or redesign objects. Rows 3-4 repeat same five guide silhouettes as MATERIAL MASK: fill every silhouette solid pure green #00FF00 because this entire cap and tail are fur. Absolutely flat green with no shading, texture or interior colour blends. Material rules: metal pure red #FF0000; leather/hide/suede/fur pure green #00FF00; cloth/hair pure blue #0000FF; gemstones/crystal/glass/pearl/enamel/liquid pure black #000000; matte solid wood/bone/horn/stone/paper/wax pure yellow #FFFF00. Nothing outside silhouettes. Empty column 3 in rows 2 and 4 remains transparent. All background and openings truly transparent. Preserve guide silhouette even where fur reference has a different outline.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-80af-7ce3-bb05-8225d7f7d045/exec-59ce9ba7-f9ad-4602-bd9e-80c3908d8611.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10364/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Generated output retains stray pixels outside mask silhouettes; not compliant with exact silhouette requirement.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10364/paint_mask_guide.png",
+      "sha256": "ea159fbc6ea3ed085088eae76a119a2c1271c6cc40709799244c94a568d92645"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10364/design_reference.png",
+      "sha256": "9249bf3b78f913f39cab95df871ace878610af520eb07d392367e7accf26e402"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10364/icon_x8.png",
+      "sha256": "d168818166a2e2835de7fa7f1907fea8784d8cd0085cfe0b0e4136225bb2d978"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

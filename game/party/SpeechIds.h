@@ -94,5 +94,7 @@ enum class SpeechId : uint16_t
     IdentifyMonsterBig,
     IdentifyMonsterFail,
     DeathBlow,
+    DrinkPotion,
+    Tired,
 };
 }

@@ -5,6 +5,17 @@
 
 namespace OpenYAMM::Game
 {
+void attachHeldItem(std::vector<MapDeltaHeldItem> &items, const std::string &model, const std::string &node)
+{
+    detachHeldItem(items, node);
+    items.push_back({model, node});
+}
+
+void detachHeldItem(std::vector<MapDeltaHeldItem> &items, const std::string &node)
+{
+    std::erase_if(items, [&node](const MapDeltaHeldItem &item) { return node.empty() || item.node == node; });
+}
+
 namespace
 {
 constexpr size_t OutdoorRevealMapBytes = 88 * 11 * 2;
@@ -26,7 +37,6 @@ constexpr size_t ChestInventoryMatrixOffset = ChestItemsOffset + ChestItemsSize;
 constexpr size_t ActorNpcIdOffset = 0x20;
 constexpr size_t ActorAttributesOffset = 0x24;
 constexpr size_t ActorHpOffset = 0x28;
-constexpr size_t ActorHostilityTypeOffset = 0x2c;
 constexpr size_t ActorMonsterInfoIdOffset = 0x6a;
 constexpr size_t ActorMonsterIdOffset = 0x7c;
 constexpr size_t ActorRadiusOffset = 0x90;
@@ -105,14 +115,16 @@ bool parseActorVector(const ByteReader &reader, size_t offset, MapDeltaData &map
     for (uint32_t actorIndex = 0; actorIndex < actorCount; ++actorIndex)
     {
         const size_t actorOffset = actorDataOffset + static_cast<size_t>(actorIndex) * ActorRecordSize;
+        // hostilityType stays 0: the saved record holds a pointer at 0x2c and a snapshot of the monster table's Hst
+        // at 0x3d, neither authored. The runtime gives actors hostile to the party their Hst value.
         MapDeltaActor actor = {};
         actor.diagnosticSourceActorIndex = actorIndex;
         actor.name = reader.readFixedString(actorOffset, ActorNameSize);
+        int16_t hitPoints = 0;
 
         if (!reader.readInt16(actorOffset + ActorNpcIdOffset, actor.npcId)
             || !reader.readUInt32(actorOffset + ActorAttributesOffset, actor.attributes)
-            || !reader.readInt16(actorOffset + ActorHpOffset, actor.hp)
-            || !reader.readUInt8(actorOffset + ActorHostilityTypeOffset, actor.hostilityType)
+            || !reader.readInt16(actorOffset + ActorHpOffset, hitPoints)
             || !reader.readInt16(actorOffset + ActorMonsterInfoIdOffset, actor.monsterInfoId)
             || !reader.readInt16(actorOffset + ActorMonsterIdOffset, actor.monsterId)
             || !reader.readUInt16(actorOffset + ActorRadiusOffset, actor.radius)
@@ -139,6 +151,7 @@ bool parseActorVector(const ByteReader &reader, size_t offset, MapDeltaData &map
             return false;
         }
 
+        actor.hp = hitPoints;
         actor.x = coordinateX;
         actor.y = coordinateY;
         actor.z = coordinateZ;
@@ -733,5 +746,58 @@ std::optional<MapDeltaData> MapDeltaDataLoader::loadIndoorFromBytes(
 
     normalizeIndoorDoorTextureDeltas(mapDeltaData, indoorMapData);
     return mapDeltaData;
+}
+
+namespace
+{
+uint32_t nextSpriteObjectKey(const MapDeltaData &mapDeltaData)
+{
+    uint32_t highest = 0;
+    for (const MapDeltaSpriteObject &spriteObject : mapDeltaData.spriteObjects)
+    {
+        highest = std::max(highest, spriteObject.objectKey);
+    }
+    return highest + 1;
+}
+}
+
+void appendSpriteObject(MapDeltaData &mapDeltaData, MapDeltaSpriteObject spriteObject)
+{
+    spriteObject.objectKey = nextSpriteObjectKey(mapDeltaData);
+    mapDeltaData.spriteObjects.push_back(std::move(spriteObject));
+}
+
+void assignSpriteObjectKeys(MapDeltaData &mapDeltaData)
+{
+    uint32_t nextKey = nextSpriteObjectKey(mapDeltaData);
+    for (MapDeltaSpriteObject &spriteObject : mapDeltaData.spriteObjects)
+    {
+        if (spriteObject.objectKey == 0)
+        {
+            spriteObject.objectKey = nextKey++;
+        }
+    }
+}
+
+size_t keepActorsThroughRefill(const MapDeltaData &saved, MapDeltaData &refilled)
+{
+    size_t kept = 0;
+
+    for (size_t index = 0; index < refilled.actors.size() && index < saved.actors.size(); ++index)
+    {
+        MapDeltaActor &actor = refilled.actors[index];
+        const MapDeltaActor &left = saved.actors[index];
+
+        if (actor.respawnsOnRefill || left.name != actor.name || left.monsterInfoId != actor.monsterInfoId)
+        {
+            continue;
+        }
+
+        actor = left;
+        actor.respawnsOnRefill = false;
+        ++kept;
+    }
+
+    return kept;
 }
 }

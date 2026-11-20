@@ -1,0 +1,1 @@
+Common registration: 0.98, 0, 0. Delivered alpha preserved. Separate native foliage/bark RGB tone fit recorded by material_tone.py and material_tone.json; unchanged alpha. Raw master, ungraded pixels and registration checks preserved. Final light/dark proofs inspected.

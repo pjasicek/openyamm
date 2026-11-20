@@ -1,0 +1,29 @@
+# MM9 FoundPlayer greetings (NPC436.scr: OnFoundPlayer DoRude): Ravensford's Grandpa opens his dialogue the first time
+# he perceives the party (mm9Perceives: sight in front, hearing all round, a clear line; searched once a second), and
+# never again (bSpokeTo).
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/found_player_bootcamp.yml --scenario-no-color
+id: mm9.found_player_bootcamp
+title: "MM9 FoundPlayer: Grandpa greets a party that arrives at Bootcamp's StartPoint0 once, not on a second visit"
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, dialogue]
+steps:
+  - load_map:
+      map: bootcamp.blv
+  - advance_runtime:
+      seconds: 2.5
+      present_dialogs: true
+  - assert:
+      dialog:
+        active: true
+        source_id: 436
+        action_label_present: We'd like to start our training.
+  # A second visit: his greeting has run (FoundPlayerDisabled), so he waits to be spoken to.
+  - load_map:
+      map: bootcamp.blv
+  - advance_runtime:
+      seconds: 2.5
+      present_dialogs: true
+  - assert:
+      dialog:
+        active: false

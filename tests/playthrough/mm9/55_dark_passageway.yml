@@ -1,0 +1,241 @@
+# MM9 playthrough, segment 5: Hanndl's refusal and the Dark Passageway (guide: Chapter III, "Arslegard and the Dark
+# Passageway: the Wyrde of the Unknown"). A defeated party wakes at Arslegard's Great Gate; Hanndl's scene plays on its
+# own and drops it at the passage's start. The passage is walked (walk_to) and its puzzles are played by clicks that
+# follow what a player reads: the Scrap of Book's undead order on the bridge, the mirrors' angles on the status line,
+# the plates' marks. Research, coordinates and risks: prep/05_dark_passageway.md.
+# The path's crouch slot into the tube room (123 high in MM9, which crouches) is walked: the converter raises its
+# ceiling (mm9r_darkpassageway README, Deviations; 2026-11-08).
+#   python3 tests/playthrough/mm9/run.py 55
+id: mm9.playthrough.55_dark_passageway
+title: "MM9 playthrough 55: Hanndl sends the party through the Dark Passageway to the Wyrde and Guberland"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/54_death_to_arslegard.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: arslegardcity.blv, qbit_clear: [90098, 90476, 90187]}
+
+  # Hanndl at the peephole (FateMan.scr, cinematic gate_fate, 71 s): key 98, 18 500 experience, then the move to the
+  # Dark Passageway's StartPoint0. Nothing to click: it starts about 3 s after the arrival.
+  - advance_runtime: {seconds: 85, follow_map_move: true}
+  - assert: {map: darkpassageway.blv}
+  - assert: {qbit_set: [90098]}
+
+  # The start room: the scroll on the wall (Scrap of Book, the undead's order in capitals).
+  - walk_to: {x: -18330, y: 95, z: 1, timeout_seconds: 60}
+  # (a world item since the R11 promotion, 2026-11-08: taken with the use key)
+  - pick_up: {item_id: 10483}
+  - play_lua: {source: 'log("the scroll: SKELETON, BANSHEE, LICH, ZOMBIE, BANSHEE, LICH, ZOMBIE, SKELETON")'}
+
+  # Off the end of the start corridor down onto the first bridge section (Bridge0, up): along the corridor's middle
+  # (the planner's route there is partial, the drop not in its map) and straight off its end.
+  - walk_to: {via: [[-19090, -1000, 0]], x: -19100, y: -1550, z: -1228, plan: false, timeout_seconds: 90}
+  - advance_runtime: {seconds: 3}
+
+  # The bridge: the four ice statues ride their sections (north to south Skeleton 201, Zombie 202, Lich 203,
+  # Banshee 204); each touch plays the statue's clip (2-3.7 s) and then raises and sinks sections. The scroll's order.
+  # Stand on each deck's centre line.
+  - walk_to: {x: -19046, y: -1600, z: -1229, plan: false, timeout_seconds: 20}
+  - play_lua: {source: 'click(201); wait(5); log("Skeleton: state " .. mapvar("Puzzle"))'}
+  # Bridge0 sank with the party and Bridge1 rose: over the rail into the lake, south, and up onto Bridge3 (down).
+  - walk_to: {via: [[-19046, -2750, -1638], [-18750, -2750, -1638], [-18200, -3300, -1638], [-18200, -6000, -1638],
+              [-18300, -6500, -1638]], x: -18570, y: -6716, z: -1638, plan: false, timeout_seconds: 120}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: 'click(204); wait(6); log("Banshee: state " .. mapvar("Puzzle"))'}
+  # From here on the party stays on the bridge: it drops onto sunk sections and rides raised ones.
+  - walk_to: {via: [[-18473, -6400, -1638]], x: -18473, y: -5202, z: -1638, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(203); wait(5); log("Lich: state " .. mapvar("Puzzle"))'}
+  - walk_to: {via: [[-18500, -4850, -1229], [-18749, -3932, -1229]], x: -18966, y: -3153, z: -1229, plan: false,
+              timeout_seconds: 60}
+  - play_lua: {source: 'click(202); wait(7); log("Zombie: state " .. mapvar("Puzzle"))'}
+  - walk_to: {via: [[-18749, -3932, -1638], [-18500, -4850, -1638], [-18473, -6400, -1638]], x: -18570, y: -6716,
+              z: -1638, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(204); wait(6); log("Banshee: state " .. mapvar("Puzzle"))'}
+  - walk_to: {via: [[-18473, -6400, -1638]], x: -18473, y: -5202, z: -1638, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(203); wait(5); log("Lich: state " .. mapvar("Puzzle"))'}
+  - walk_to: {via: [[-18500, -4850, -1638], [-18749, -3932, -1638]], x: -18966, y: -3153, z: -1638, plan: false,
+              timeout_seconds: 60}
+  - play_lua: {source: 'click(202); wait(7); log("Zombie: state " .. mapvar("Puzzle"))'}
+  - walk_to: {via: [[-19046, -2800, -1638]], x: -19046, y: -1600, z: -1638, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(201); wait(6); log("Skeleton: state " .. mapvar("Puzzle"))'}
+  - assert: {state_dump_named_map_var: {name: PuzzleSolved, value: 1}}
+  - advance_runtime: {seconds: 3}
+  - assert: {mechanism: {id: 38, state: open}}   # TeleportDoor0 (the map Lua's DOORS)
+
+  # Every section level: across the bridge, through TeleportDoor0 into the lake's crystal (to the canyon corridor).
+  - walk_to: {via: [[-19046, -2800, -1229], [-18749, -3932, -1229], [-18500, -4850, -1229], [-18473, -6400, -1229],
+              [-18898, -7537, -1229], [-19250, -8450, -1229], [-19292, -9500, -1229], [-19292, -9974, -1100]],
+              x: -19323, y: -10500, z: -1309, radius: 200, plan: false, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {state_dump_named_map_var: {name: LastTeleportLakeTeleporter, value: 1}}
+
+  # The canyon: round its west rim to the south shelf in front of the locked doors.
+  - walk_to: {x: -19722, y: -21315, z: -283, timeout_seconds: 240, clear_hostiles: 1500}
+  - play_lua: {source: 'click(219); wait(0.5); log("canyon doors: " .. status())'}
+  # Up the narrow east ramp to the ice statue's ledge (the planner's own route steps off into the pit).
+  - walk_to: {via: [[-19500, -21450, -121], [-19150, -21350, 0], [-19150, -19300, 400], [-19150, -18800, 184],
+              [-19150, -17900, 532], [-19150, -17200, 383], [-19150, -16900, 225], [-19350, -16880, 123]],
+              x: -19598, y: -16860, z: 31, plan: false, timeout_seconds: 120, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 1}
+  # The ice statue: the stone banshees' eyes wake in pairs and shoot; then the canyon doors open.
+  - play_lua: {source: 'click(206); wait(6); log("ice statue: eyes awake " .. mapvar("EyesOn") .. ", doors " .. mapvar("CanyonOpen"))'}
+  - assert: {state_dump_named_map_var: {name: CanyonOpen, value: 1}}
+  # Back down the ramp, through the doors, into the mountain crystal; a step east of the arrival turns the eyes off.
+  - walk_to: {via: [[-19350, -16880, 123], [-19150, -16900, 225], [-19150, -17200, 383], [-19150, -17900, 532],
+              [-19150, -18800, 184], [-19150, -19300, 400], [-19150, -21350, 0], [-19500, -21450, -121],
+              [-20398, -21450, -328], [-20398, -21800, -328], [-19783, -21995, -164]], x: -18700, y: -22036, z: -326,
+              radius: 150, plan: false, timeout_seconds: 120, clear_hostiles: 1500}
+  - assert: {state_dump_named_map_var: {name: LastTeleportMountainTeleporter, value: 1}}
+  - walk_to: {x: -18483, y: -22005, z: -328, plan: false, timeout_seconds: 20, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {state_dump_named_map_var: {name: EyesOff, value: 1}}
+
+  # The mountain room's door north, then into the forest: its door opens as the party comes and slams behind it,
+  # and the Colloidal Warrior strikes the adventurer down.
+  - walk_to: {x: -16056, y: -20400, z: -328, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(104); wait(2)'}
+  - walk_to: {x: -15401, y: -15949, z: -327, timeout_seconds: 120, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 3}
+  - assert: {state_dump_named_map_var: {name: ForestLocked, value: 1}}
+  - assert: {state_dump_named_map_var: {name: AdventurerDead, value: 1}}
+  - play_lua: {source: 'click(218); wait(0.5); log("crystal door before the warrior dies: " .. status())'}
+  # The warrior dies (combat is not tested): his death unlocks the crystal's door.
+  - clear_hostiles: {radius: 3000, min: 1}
+  - advance_runtime: {seconds: 1}
+  - assert: {state_dump_named_map_var: {name: WarriorDead, value: 1}}
+  # The painting on the east wall (clicked from outside its swing) opens the hidden room with three chests.
+  - walk_to: {x: -14950, y: -14746, z: -327, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(208); wait(3)'}
+  - assert: {mechanism: {id: 32, state: open}}   # Painting
+  # The crystal's door, then the forest crystal (to the path).
+  - walk_to: {x: -15401, y: -11450, z: -327, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: 'click(218); wait(3.5)'}
+  - walk_to: {via: [[-15401, -10936, -164]], x: -15401, y: -9600, z: 2, radius: 200, plan: false, timeout_seconds: 30}
+  - assert: {state_dump_named_map_var: {name: LastTeleportForestTeleporter, value: 1}}
+
+  # The path down to the tube room's slot.
+  - walk_to: {x: -13400, y: -21299, z: -696, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -12944, y: -21299, z: -900, plan: false, radius: 60, timeout_seconds: 20}
+  - advance_runtime: {seconds: 2}
+
+  # The tube room: the party falls in and sinks (about 100 a second); swimming level, it keeps the depth it has. It
+  # swims east to the tube's mouth, waits there to sink below the tube's top (-1475), then swims along the flooded
+  # tube into the shaft, whose current carries it down into the ocean hall.
+  - walk_to: {x: -10700, y: -21500, z: -1554, plan: false, radius: 60, timeout_seconds: 60, clear_hostiles: 2000}
+  - advance_runtime: {seconds: 4}
+  - walk_to: {x: -9585, y: -21565, z: -1884, plan: false, radius: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - advance_runtime: {seconds: 6, follow_map_move: true}
+  - assert: {state_dump_named_map_var: {name: ShaftDrops, value: 1}}
+  # Swim to the island's lowest edge and jump out onto the sand.
+  - walk_to: {x: -7858, y: -20989, z: -3491, plan: false, radius: 40, timeout_seconds: 60}
+  - movement_segment: {input: forward, seconds: 1.0, jump: true, actor_collision: false, actor_ai: false,
+      start: {map: darkpassageway.blv, x: -7858, y: -20989, z: -3491, yaw: 5.1051, pitch: 0},
+      expect_stop: {map: darkpassageway.blv, x: -7739, y: -21275, z: -3324, yaw: 5.1051, pitch: 0},
+      loose_tolerance: true, tolerance_xy: 450, tolerance_z: 200}
+  - assert: {water: {state: dry}}
+  # The female sea monster dies: the cage round the island's crystal drops.
+  - clear_hostiles: {radius: 4000, min: 1}
+  - advance_runtime: {seconds: 4}
+  - assert: {state_dump_named_map_var: {name: CageBroken, value: 1}}
+  - assert: {mechanism: {id: 10, state: open}}
+  # Round to the crystal's south side and into it (to the pillared room).
+  - walk_to: {via: [[-7900, -21450, -3300], [-7900, -22000, -3325], [-7537, -22050, -3325]], x: -7864, y: -18678,
+              z: -817, radius: 150, plan: false, timeout_seconds: 60}
+  - assert: {state_dump_named_map_var: {name: LastTeleportTeleporter0, value: 1}}
+
+  # The desert (Njam the Meddler shows himself on the way and vanishes). The gemstone shines at the mirror west of
+  # it; each click turns a mirror 10 degrees and the status line says its angle. In the light's order: 330, 10, 340,
+  # 50 (the hint book), then the gemstone.
+  - walk_to: {x: -3152, y: -13102, z: -306, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: 'click(215); wait(1); log("the gemstone shines; cages open: " .. mapvar("CagesOpen"))'}
+  - walk_to: {x: -6428, y: -13105, z: -306, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        local s = ""
+        for i = 1, 36 do click(210); wait(0.2); s = status(); if s:find("330 degrees") then break end end
+        if not s:find("330 degrees") then error("mirror 1 never showed 330 degrees") end
+        log("mirror 1: " .. s)
+  - walk_to: {x: -3233, y: -11139, z: -306, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        local s = ""
+        for i = 1, 36 do click(211); wait(0.2); s = status(); if s:find("%(10 degrees") then break end end
+        if not s:find("%(10 degrees") then error("mirror 2 never showed 10 degrees") end
+        log("mirror 2: " .. s)
+  - walk_to: {x: -6761, y: -10486, z: -306, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        local s = ""
+        for i = 1, 36 do click(212); wait(0.2); s = status(); if s:find("340 degrees") then break end end
+        if not s:find("340 degrees") then error("mirror 3 never showed 340 degrees") end
+        log("mirror 3: " .. s)
+  - walk_to: {x: -3151, y: -9134, z: -306, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        local s = ""
+        for i = 1, 36 do click(213); wait(0.2); s = status(); if s:find("%(50 degrees") then break end end
+        if not s:find("%(50 degrees") then error("mirror 4 never showed 50 degrees") end
+        log("mirror 4: " .. s)
+  - walk_to: {x: -3152, y: -13102, z: -306, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(215); wait(5); log("the gemstone shines; cages open: " .. mapvar("CagesOpen"))'}
+  - assert: {state_dump_named_map_var: {name: CagesOpen, value: 1}}
+  - assert: {mechanism: {id: 11, state: open}}
+
+  # North through the desert door and the trap corridor; "be righteous": the right-hand door past the spike flaps,
+  # then the crystal (to the exit room).
+  - walk_to: {x: -4915, y: -3800, z: -328, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: 'click(106); wait(2)'}
+  - walk_to: {via: [[-4915, -3400, -328], [-4593, -3128, -328]], x: -5243, y: -1454, z: -754, radius: 150,
+              plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {state_dump_named_map_var: {name: LastTeleportDesertTeleporter, value: 1}}
+  - assert: {state_dump_named_map_var: {name: SpikesOpen, value: 0}}
+
+  # The exit room: its door, then the four floor plates marked III, I, II, IIII (north-east, south-west,
+  # south-east, north-west). The last is a riser: it lifts the party and a ramp runs out to the upper door.
+  - walk_to: {x: -5243, y: 500, z: -1188, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(102); wait(2)'}
+  - walk_to: {x: -5243, y: 900, z: -1188, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - walk_to: {x: -4956, y: 1495, z: -1188, radius: 30, plan: false, timeout_seconds: 20}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {via: [[-5243, 1300, -1188]], x: -5530, y: 1126, z: -1188, radius: 30, plan: false, timeout_seconds: 20}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -4956, y: 1126, z: -1188, radius: 30, plan: false, timeout_seconds: 20}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {state_dump_named_map_var: {name: ExitOn3, value: 1}}
+  - walk_to: {via: [[-5243, 1300, -1188]], x: -5530, y: 1495, z: -1188, radius: 30, plan: false, timeout_seconds: 20}
+  # The riser is up in 4.6 s, the ramp out in 10.4 s; the riser sinks again 15 s after it is up: cross at once.
+  - advance_runtime: {seconds: 11}
+  - assert: {state_dump_named_map_var: {name: RiserUp, value: 1}}
+  - assert: {mechanism: {id: 23, state: open}}
+  - assert: {mechanism: {id: 22, state: open}}
+  - walk_to: {x: -5243, y: 1540, z: -584, plan: false, radius: 30, timeout_seconds: 10}
+  - walk_to: {x: -5243, y: 2450, z: -573, plan: false, radius: 30, timeout_seconds: 10}
+  - play_lua: {source: 'click(103); wait(2)'}
+
+  # Up the curved corridor past the Specters to the Wyrde of the Unknown (Igrid).
+  - walk_to: {x: -550, y: 6513, z: -572, timeout_seconds: 240, clear_hostiles: 1500}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "We've come seeking a Writ of Fate."}
+  - select_topic: {match_label: "What is it?"}
+  - select_topic: {match_label: "Why the Isle of Ashes?"}
+  - select_topic: {match_label: "We will do this."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90098, 90476, 90187], qbit_clear: [90188]}
+  - assert: {state_dump_named_map_var: {name: CageOpen, value: 1}}
+  # The flame cage round the portal behind her sinks (8.6 s); round her and into the portal (Guberland's dock).
+  - advance_runtime: {seconds: 9}
+  - assert: {mechanism: {id: 27, state: open}}
+  - walk_to: {via: [[-348, 6200, -573], [150, 6349, -573]], x: 441, y: 6349, z: -507, plan: false,
+              timeout_seconds: 60, expect_map: guberland.blv}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: guberland.blv}
+  - play_lua:
+      source: |
+        if not has_item(10483) then error("the Scrap of Book is gone") end
+        log("Guberland's dock: keys 98, 476, 187")
+  - save_game: {name: "05 Guberland, after the Wyrde", path: output/playthrough/mm9/checkpoints/55_dark_passageway.oysav}

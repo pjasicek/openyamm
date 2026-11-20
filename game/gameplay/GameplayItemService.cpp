@@ -1,43 +1,45 @@
 #include "game/gameplay/GameplayItemService.h"
+#include "engine/Localization.h"
 
 #include "game/app/GameSession.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/items/AlchemyBenchRuntime.h"
+#include "game/items/CraftingRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
+#include "game/items/InventoryBags.h"
+#include "game/items/PotionUpkeep.h"
+#include "game/items/QuickItemSlots.h"
 #include "game/party/SpellIds.h"
+#include "game/rules/GameRules.h"
+#include "game/rules/ItemRules.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/ObjectTable.h"
 #include "game/tables/PotionNoteTable.h"
+#include "game/tables/SpellTable.h"
+#include "game/ui/GameplayCraftingBenchView.h"
 
 #include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <functional>
 #include <utility>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr const char *IdentifyFailedText = "Identify Failed";
-constexpr const char *RepairFailedText = "Repair Failed";
+constexpr std::string_view IdentifyFailedText = Engine::trNoop("Identify Failed");
+constexpr std::string_view RepairFailedText = Engine::trNoop("Repair Failed");
 constexpr const char *NwcDungeonMapName = "7nwc.blv";
 constexpr const char *TempleInBottleReturnLocationName = "TempleInABottleReturn";
-constexpr const char *ConnectorStoneRechargeGlobalVar = "MMerge.CrossContinents.NextConnectorRecharge";
-constexpr const char *ConnectorStoneImprovedGlobalVar = "MMerge.CrossContinents.ImprovedConnector";
-constexpr const char *ConnectorStoneDivineInterventionGlobalVar = "MMerge.CrossContinents.DivineInterventionLastUsed";
-constexpr uint32_t DimensionDoorScrollItemId = 190;
-constexpr uint32_t ChargedConnectorStoneItemId = 624;
-constexpr uint32_t DischargedConnectorStoneItemId = 625;
-constexpr uint32_t VerdantNpcId = 803;
-constexpr int32_t ConnectorStoneRechargeMinutes = 24 * 60;
-constexpr int32_t ConnectorStoneDivineInterventionCooldownMinutes = 24 * 60;
 constexpr int16_t FireballImpactObjectId = 1051;
 constexpr float PotionExplosionForwardOffset = 64.0f;
 constexpr float PotionExplosionHeightOffset = 96.0f;
@@ -68,7 +70,7 @@ bool applyLootOperation(
 
     if (pItemDefinition == nullptr)
     {
-        statusText = "Unavailable.";
+        statusText = Engine::tr("Unavailable.");
         return false;
     }
 
@@ -77,53 +79,66 @@ bool applyLootOperation(
         case ActiveLootOperation::ForceIdentify:
             if (lootItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
             {
-                statusText = "Already identified.";
+                statusText = Engine::tr("Already identified.");
                 return false;
             }
 
             lootItem.item.identified = true;
-            statusText = "Identified " + ItemRuntime::displayName(lootItem.item, *pItemDefinition) + ".";
+            statusText = Engine::tr("Identified {item}.",
+                {{"item", ItemRuntime::displayName(lootItem.item, *pItemDefinition)}});
             return true;
 
         case ActiveLootOperation::IdentifyWithSkill:
             if (lootItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
             {
-                statusText = "Already identified.";
+                statusText = Engine::tr("Already identified.");
                 return false;
             }
 
             if (pParty == nullptr || !pParty->canIdentifyItem(*pItemDefinition))
             {
-                statusText = IdentifyFailedText;
+                statusText = Engine::tr(IdentifyFailedText);
                 return false;
             }
 
             lootItem.item.identified = true;
-            statusText = "Identified " + ItemRuntime::displayName(lootItem.item, *pItemDefinition) + ".";
+            statusText = Engine::tr("Identified {item}.",
+                {{"item", ItemRuntime::displayName(lootItem.item, *pItemDefinition)}});
             return true;
 
         case ActiveLootOperation::RepairWithSkill:
         {
             if (!lootItem.item.broken)
             {
-                statusText = "Nothing to repair.";
+                statusText = Engine::tr("Nothing to repair.");
                 return false;
             }
 
             if (pParty == nullptr || !pParty->canRepairItem(*pItemDefinition))
             {
-                statusText = RepairFailedText;
+                statusText = Engine::tr(RepairFailedText);
                 return false;
             }
 
             lootItem.item.broken = false;
             lootItem.item.identified = true;
-            statusText = "Repaired " + ItemRuntime::displayName(lootItem.item, *pItemDefinition) + ".";
+            statusText = Engine::tr("Repaired {item}.",
+                {{"item", ItemRuntime::displayName(lootItem.item, *pItemDefinition)}});
             return true;
         }
     }
 
     return false;
+}
+
+// An inspected inventory item's operation, with the item's bag open: MAW's bag overview shows every bag.
+bool withInspectedBagOpen(
+    Party &party,
+    const GameplayUiController::ItemInspectOverlayState &overlay,
+    const std::function<bool()> &operation)
+{
+    return InventoryBags::withBagOpen(
+        party, overlay.sourceMemberIndex, overlay.sourceBag, gameRulesFor(&party).items.bagCount(party), operation);
 }
 
 Party *activeParty(GameSession &session)
@@ -174,63 +189,6 @@ bool isNwcDungeonMapName(const std::string &mapFileName)
     return normalized == NwcDungeonMapName || normalized == std::string("data/games/") + NwcDungeonMapName;
 }
 
-bool openDimensionDoorOverlay(GameplayScreenRuntime &runtime)
-{
-    const Party *pParty = runtime.partyReadOnly();
-    const size_t casterMemberIndex = pParty != nullptr ? pParty->activeMemberIndex() : 0;
-    return runtime.openDimensionDoorOverlay(casterMemberIndex, spellIdValue(SpellId::TownPortal));
-}
-
-bool connectorStoneRechargeReady(const EventRuntimeState &eventRuntimeState, int32_t currentMinutes)
-{
-    const auto rechargeIterator = eventRuntimeState.namedGlobalVars.find(ConnectorStoneRechargeGlobalVar);
-    const int32_t rechargeMinutes = rechargeIterator != eventRuntimeState.namedGlobalVars.end()
-        ? rechargeIterator->second
-        : 0;
-
-    return currentMinutes >= rechargeMinutes;
-}
-
-size_t rechargeConnectorStonesInInventory(Party &party)
-{
-    size_t rechargedCount = 0;
-
-    for (size_t memberIndex = 0; memberIndex < party.memberCount(); ++memberIndex)
-    {
-        Character *pMember = party.member(memberIndex);
-
-        if (pMember == nullptr)
-        {
-            continue;
-        }
-
-        for (InventoryItem &item : pMember->inventory)
-        {
-            if (item.objectDescriptionId == DischargedConnectorStoneItemId)
-            {
-                item.objectDescriptionId = ChargedConnectorStoneItemId;
-                ++rechargedCount;
-            }
-        }
-    }
-
-    return rechargedCount;
-}
-
-bool rechargeHeldConnectorStone(
-    GameplayUiController::HeldInventoryItemState &heldItem,
-    Party &party)
-{
-    if (!heldItem.active || heldItem.item.objectDescriptionId != DischargedConnectorStoneItemId)
-    {
-        return false;
-    }
-
-    heldItem.item.objectDescriptionId = ChargedConnectorStoneItemId;
-    party.setHeldItemForQueries(heldItem.item);
-    return true;
-}
-
 void saveTempleInBottleReturnLocation(GameplayScreenRuntime &runtime)
 {
     IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
@@ -258,8 +216,18 @@ InventoryItemUseContext buildInventoryItemUseContext(const GameplayScreenRuntime
 
     if (pWorldRuntime != nullptr)
     {
-        context.underwater = pWorldRuntime->isUnderwaterMap();
+        context.spellcastingForbidden = !pWorldRuntime->allowsSpellcasting();
         context.gameMinutes = pWorldRuntime->gameMinutes();
+        context.enemiesNear = partyHasYellowAlert(*pWorldRuntime);
+    }
+
+    const TurnBasedCombatRuntime &turnBasedCombat = runtime.turnBasedCombatRuntime();
+    const Party *pParty = runtime.party();
+
+    if (turnBasedCombat.active() && pParty != nullptr)
+    {
+        context.turnBased = true;
+        context.turnBasedReadyMember = turnBasedCombat.readyMemberIndex(*pParty);
     }
 
     return context;
@@ -276,89 +244,111 @@ void closeCharacterInventoryAfterPotionExplosion(GameplayScreenRuntime &runtime)
     runtime.characterDetailOverlay() = {};
 }
 
-bool tryUseConnectorStone(GameplayScreenRuntime &runtime, GameplayUiController::HeldInventoryItemState &heldItem)
+// An item the rules make travel when used (MAW's dimension maps and dimensional portal): the party goes where the
+// rules say, and the item is used up when they say so. A refusal is shown and nothing else happens.
+TravelItemOrigin travelItemOrigin(const IGameplayWorldRuntime &worldRuntime)
 {
-    uint32_t itemId = heldItem.item.objectDescriptionId;
+    TravelItemOrigin from;
+    from.x = int32_t(std::lround(worldRuntime.partyX()));
+    from.y = int32_t(std::lround(worldRuntime.partyY()));
+    from.z = int32_t(std::lround(worldRuntime.partyFootZ()));
+    return from;
+}
 
-    if (itemId != ChargedConnectorStoneItemId && itemId != DischargedConnectorStoneItemId)
+// Where the party carries an item like this one (the same kind with the same ruleset fields: for a dimension map
+// its place, power and affixes), in the members' bags or the pouches.
+std::optional<BagItemRef> findCarriedTravelItem(const Party &party, const InventoryItem &item)
+{
+    const auto matches = [&item](const InventoryItem &carried)
+    {
+        return carried.objectDescriptionId == item.objectDescriptionId && carried.rulesetFields == item.rulesetFields;
+    };
+    const int bagCount = party.rules().items.bagCount(party);
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        for (int bag = 0; bag < bagCount; ++bag)
+        {
+            for (const InventoryItem &carried : InventoryBags::itemsInBag(party.members()[memberIndex], uint8_t(bag)))
+            {
+                if (matches(carried))
+                {
+                    return BagItemRef{memberIndex, uint8_t(bag), carried.gridX, carried.gridY};
+                }
+            }
+        }
+    }
+
+    if (party.members().empty() || !party.rules().items.hasPouches())
+    {
+        return std::nullopt;
+    }
+
+    for (const uint8_t bag :
+        {InventoryBags::CraftingPouchBag, InventoryBags::AlchemyPouchBag, InventoryBags::QuestPouchBag})
+    {
+        for (const InventoryItem &carried : InventoryBags::itemsInBag(party, 0, bag))
+        {
+            if (matches(carried))
+            {
+                return BagItemRef{0, bag, carried.gridX, carried.gridY};
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
+// The held item when the rules make it travel: the move is queued and the item is used only as the party sets off
+// (GameplayItemService::useTravelItemForMove), so the autosave of the map being left holds it unused.
+bool tryUseTravelItem(GameplayScreenRuntime &runtime, GameplayUiController::HeldInventoryItemState &heldItem)
+{
+    Party *pParty = runtime.party();
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+    EventRuntimeState *pEventRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pParty == nullptr || pEventRuntimeState == nullptr)
     {
         return false;
     }
 
-    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
-    EventRuntimeState *pEventRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
-    Party *pParty = runtime.party();
+    const std::optional<TravelItemUse> plan =
+        pParty->rules().items.planTravelItem(*pParty, heldItem.item, travelItemOrigin(*pWorldRuntime));
 
-    if (pEventRuntimeState == nullptr || pParty == nullptr || pWorldRuntime == nullptr)
+    if (!plan)
     {
+        return false;
+    }
+
+    if (!plan->refusal.empty())
+    {
+        if (plan->consumed)
+        {
+            heldItem = {};
+            pParty->clearHeldItemForQueries();
+        }
+
+        runtime.setStatusBarEvent(plan->refusal, 4.0f);
         return true;
     }
 
-    const int32_t currentMinutes = static_cast<int32_t>(std::lround(pWorldRuntime->gameMinutes()));
-    if (connectorStoneRechargeReady(*pEventRuntimeState, currentMinutes))
-    {
-        rechargeConnectorStonesInInventory(*pParty);
-        rechargeHeldConnectorStone(heldItem, *pParty);
-        itemId = heldItem.item.objectDescriptionId;
-    }
-
-    if (itemId == DischargedConnectorStoneItemId)
-    {
-        runtime.setStatusBarEvent("The connector stone is recharging.");
-        return true;
-    }
-
-    const auto improvedIterator = pEventRuntimeState->namedGlobalVars.find(ConnectorStoneImprovedGlobalVar);
-    const bool improved = improvedIterator != pEventRuntimeState->namedGlobalVars.end()
-        && improvedIterator->second != 0;
-    const auto lastInterventionIterator =
-        pEventRuntimeState->namedGlobalVars.find(ConnectorStoneDivineInterventionGlobalVar);
-    const int32_t lastInterventionMinutes = lastInterventionIterator != pEventRuntimeState->namedGlobalVars.end()
-        ? lastInterventionIterator->second
-        : -ConnectorStoneDivineInterventionCooldownMinutes;
-
-    if (improved && currentMinutes >= lastInterventionMinutes + ConnectorStoneDivineInterventionCooldownMinutes)
-    {
-        bool needsRestore = false;
-
-        for (const Character &member : pParty->members())
-        {
-            if (member.health < member.maxHealth || member.spellPoints < member.maxSpellPoints)
-            {
-                needsRestore = true;
-                break;
-            }
-        }
-
-        if (needsRestore)
-        {
-            pParty->restoreAll();
-            pEventRuntimeState->namedGlobalVars[ConnectorStoneDivineInterventionGlobalVar] = currentMinutes;
-        }
-    }
-
-    heldItem.item.objectDescriptionId = DischargedConnectorStoneItemId;
-    pParty->setHeldItemForQueries(heldItem.item);
-    pEventRuntimeState->namedGlobalVars[ConnectorStoneRechargeGlobalVar] =
-        currentMinutes + ConnectorStoneRechargeMinutes;
-
-    const auto mainQuestIterator =
-        pEventRuntimeState->namedGlobalVars.find("MMerge.CrossContinents.GotMainQuest");
-    const bool hasMainQuest = mainQuestIterator != pEventRuntimeState->namedGlobalVars.end()
-        && mainQuestIterator->second != 0;
-    pEventRuntimeState->npcTopicOverrides[VerdantNpcId][0] = hasMainQuest ? 1788u : 1778u;
-
-    EventRuntimeState::PendingDialogueContext dialogueContext = {};
-    dialogueContext.kind = DialogueContextKind::NpcTalk;
-    dialogueContext.sourceId = VerdantNpcId;
-    pEventRuntimeState->pendingDialogueContext = std::move(dialogueContext);
+    EventRuntimeState::PendingMapMove move = {};
+    move.mapName = plan->mapFileName;
+    move.instanceId = plan->instanceId;
+    move.useMapStartPosition = plan->useMapStartPosition;
+    move.x = plan->x;
+    move.y = plan->y;
+    move.z = plan->z;
+    move.traceSourceKind = "item";
+    move.traceSourceId = heldItem.item.objectDescriptionId;
+    move.travelItem = heldItem.item;
+    pEventRuntimeState->pendingMapMove = move;
 
     GameplayUiController::CharacterScreenState &characterScreen = runtime.characterScreen();
     characterScreen.open = false;
     characterScreen.dollJewelryOverlayOpen = false;
     characterScreen.adventurersInnRosterOverlayOpen = false;
     runtime.closeInventoryNestedOverlay();
-    runtime.setStatusBarEvent("The connector stone calls Verdant.");
     return true;
 }
 
@@ -403,6 +393,90 @@ void spawnPotionExplosionImpactVisual(GameSession &session, GameplayScreenRuntim
         false,
         false);
 }
+
+// The EMP grenade (use action throwEmpGrenade): every hostile raised shield within the rules' radius of the party keeps
+// a share of what is left, and the machines among them are stunned (shields.yml rules.emp_grenade).
+void applyEmpGrenade(GameplayScreenRuntime &runtime)
+{
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+    GameplayActorShields *pShields = pWorldRuntime != nullptr ? pWorldRuntime->actorShields() : nullptr;
+
+    if (pShields == nullptr || pShields->table() == nullptr)
+    {
+        return;
+    }
+
+    const EmpGrenadeRules &rules = pShields->table()->empGrenadeRules();
+    const float partyX = pWorldRuntime->partyX();
+    const float partyY = pWorldRuntime->partyY();
+    const float partyZ = pWorldRuntime->partyFootZ();
+
+    for (const size_t actorIndex : pWorldRuntime->collectMapActorIndicesWithinRadius(
+             partyX, partyY, partyZ, rules.radius, false, partyX, partyY, partyZ))
+    {
+        GameplayRuntimeActorState state;
+
+        if (!pWorldRuntime->actorRuntimeState(actorIndex, state) || state.isDead || !state.hostileToParty)
+        {
+            continue;
+        }
+
+        pShields->cutRaisedShield(actorIndex, rules.remainingFraction);
+        const MonsterShieldProfile *pProfile = pShields->profile(actorIndex);
+
+        if (pProfile != nullptr && pProfile->machine)
+        {
+            pWorldRuntime->stunActor(actorIndex, rules.machineStunSeconds);
+        }
+    }
+}
+// The Breach Charge (use action placeBreachCharge): a shaped charge set off at the party's feet; every hostile actor
+// within the blast takes the charge's VarA (300 without) as a heavy physical blow.
+void applyBreachCharge(GameplayScreenRuntime &runtime, const ItemDefinition &item)
+{
+    constexpr float BlastRadius = 384.0f;
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const int damage = item.varA > 0 ? item.varA : 300;
+    const float partyX = pWorldRuntime->partyX();
+    const float partyY = pWorldRuntime->partyY();
+    const float partyZ = pWorldRuntime->partyFootZ();
+
+    for (const size_t actorIndex : pWorldRuntime->collectMapActorIndicesWithinRadius(
+             partyX, partyY, partyZ, BlastRadius, false, partyX, partyY, partyZ))
+    {
+        GameplayRuntimeActorState state;
+
+        if (pWorldRuntime->actorRuntimeState(actorIndex, state) && !state.isDead && state.hostileToParty)
+        {
+            pWorldRuntime->applyPartyAttackMeleeDamage(actorIndex, damage, {partyX, partyY, partyZ + 64.0f},
+                ShieldAttackTier::Physical);
+        }
+    }
+
+    if (EventRuntimeState *pEvents = pWorldRuntime->eventRuntimeState())
+    {
+        EventRuntimeState::PendingSound sound = {};
+        sound.soundScope = SoundScope::World;
+        sound.soundName = "breach_charge_blast";
+        sound.fallbackSoundName = "fire04";
+        sound.x = static_cast<int32_t>(std::lround(partyX));
+        sound.y = static_cast<int32_t>(std::lround(partyY));
+        sound.z = static_cast<int32_t>(std::lround(partyZ));
+        sound.positional = true;
+        sound.hasExplicitZ = true;
+        pEvents->pendingSounds.push_back(std::move(sound));
+        EventRuntimeState::WorldEffectRequest effect = {};
+        effect.id = "openyamm:fx/impact/fireball";
+        effect.position = {partyX, partyY, partyZ + 32.0f};
+        pEvents->worldEffectRequests.push_back(std::move(effect));
+    }
+}
 }
 
 GameplayItemService::GameplayItemService(GameSession &session)
@@ -410,17 +484,63 @@ GameplayItemService::GameplayItemService(GameSession &session)
 {
 }
 
-void GameplayItemService::updateConnectorStoneRecharge(
-    Party &party,
-    EventRuntimeState &eventRuntimeState,
-    float gameMinutes)
+bool GameplayItemService::useTravelItemForMove(GameplayScreenRuntime &runtime, const InventoryItem &item)
 {
-    const int32_t currentMinutes = static_cast<int32_t>(std::lround(gameMinutes));
+    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
+    Party *pParty = runtime.party();
+    const IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
 
-    if (connectorStoneRechargeReady(eventRuntimeState, currentMinutes))
+    if (pParty == nullptr || pWorldRuntime == nullptr)
     {
-        rechargeConnectorStonesInInventory(party);
+        return false;
     }
+
+    // Still in hand, or put back since (a screen that closed, a click): it must be the party's yet.
+    const bool held = heldItem.active && heldItem.item.objectDescriptionId == item.objectDescriptionId
+        && heldItem.item.rulesetFields == item.rulesetFields;
+    const std::optional<BagItemRef> carried = held ? std::nullopt : findCarriedTravelItem(*pParty, item);
+
+    if (!held && !carried)
+    {
+        return false;
+    }
+
+    const std::optional<TravelItemUse> use =
+        pParty->rules().items.useTravelItem(*pParty, item, travelItemOrigin(*pWorldRuntime));
+
+    if (!use)
+    {
+        return false;
+    }
+
+    if (use->consumed)
+    {
+        if (held)
+        {
+            heldItem = {};
+            pParty->clearHeldItemForQueries();
+        }
+        else
+        {
+            InventoryItem taken;
+            InventoryBags::takeFromBag(*pParty, carried->memberIndex, carried->bag,
+                pParty->rules().items.bagCount(*pParty), carried->gridX, carried->gridY, taken);
+        }
+    }
+
+    if (!use->refusal.empty())
+    {
+        runtime.setStatusBarEvent(use->refusal, 4.0f);
+        return false;
+    }
+
+    return true;
+}
+
+bool GameplayItemService::tryUseHeldTravelItem(GameplayScreenRuntime &runtime)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
+    return heldItem.active && tryUseTravelItem(runtime, heldItem);
 }
 
 bool GameplayItemService::tryUseHeldItemOnPartyMember(
@@ -444,11 +564,13 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
         return false;
     }
 
-    if (tryUseConnectorStone(runtime, heldItem))
+    if (tryUseHeldTravelItem(runtime))
     {
         return true;
     }
 
+    // Before the use consumes the held item.
+    const ItemDefinition *heldItemDefinition = pItemTable->get(heldItem.item.objectDescriptionId);
     const InventoryItemUseResult useResult =
         InventoryItemUseRuntime::useItemOnMember(
             *pParty,
@@ -476,26 +598,11 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
         }
         else
         {
-            if (heldItem.item.objectDescriptionId == DimensionDoorScrollItemId)
-            {
-                if (openDimensionDoorOverlay(runtime))
-                {
-                    heldItem = {};
-                    pParty->clearHeldItemForQueries();
-                }
-
-                GameplayUiController::CharacterScreenState &characterScreen =
-                    m_session.gameplayScreenState().characterScreen();
-                characterScreen.open = false;
-                characterScreen.dollJewelryOverlayOpen = false;
-                return true;
-            }
-
             const SpellTable *pSpellTable = m_session.hasDataRepository() ? &m_session.data().spellTable() : nullptr;
 
             if (pSpellTable == nullptr)
             {
-                runtime.setStatusBarEvent("Spell data missing");
+                runtime.setStatusBarEvent(Engine::tr("Spell data missing"));
                 return true;
             }
 
@@ -503,7 +610,7 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
 
             if (pSpellEntry == nullptr)
             {
-                runtime.setStatusBarEvent("Unknown scroll spell");
+                runtime.setStatusBarEvent(Engine::tr("Unknown scroll spell"));
                 return true;
             }
 
@@ -513,6 +620,7 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
             request.skillLevelOverride = useResult.spellSkillLevelOverride;
             request.skillMasteryOverride = useResult.spellSkillMasteryOverride;
             request.bypassRequiredMastery = useResult.spellBypassRequiredMastery;
+            request.fromScroll = true;
             request.spendMana = false;
             request.applyRecovery = true;
 
@@ -521,31 +629,37 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
                 return true;
             }
 
-            heldItem = {};
-            pParty->clearHeldItemForQueries();
-        }
-    }
-    else if (useResult.action == InventoryItemUseAction::UseDimensionDoorScroll)
-    {
-        if (useResult.consumed && openDimensionDoorOverlay(runtime))
-        {
-            heldItem = {};
-            pParty->clearHeldItemForQueries();
-        }
+            // The party's rules may hand the scroll back (MAW: a solo traveller's): it goes back to the caster's bag,
+            // or stays in hand when the bag is full. The character screen closes below either way, so a click on the
+            // spell's destination map cannot reach the inventory under it (Sort, Drop).
+            Character *pCaster = pParty->member(memberIndex);
 
-        GameplayUiController::CharacterScreenState &characterScreen =
-            m_session.gameplayScreenState().characterScreen();
-        characterScreen.open = false;
-        characterScreen.dollJewelryOverlayOpen = false;
-        return true;
+            if (!pParty->rules().spells.keepsScroll(*pParty, useResult.spellId)
+                || (pCaster != nullptr && pCaster->addInventoryItem(heldItem.item)))
+            {
+                heldItem = {};
+                pParty->clearHeldItemForQueries();
+            }
+        }
     }
     else if (useResult.action == InventoryItemUseAction::ReadMessageScroll)
     {
-        GameplayUiController::ReadableScrollOverlayState &overlay = uiController.readableScrollOverlay();
-        overlay.active = true;
-        overlay.title = useResult.readableTitle;
-        overlay.body = useResult.readableBody;
-        learnRecipeScroll(runtime, *pParty, memberIndex, heldItem.item.objectDescriptionId);
+        if (useResult.readableBody.empty())
+        {
+            if (runtime.audioSystem() != nullptr)
+            {
+                runtime.audioSystem()->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
+            }
+        }
+        else
+        {
+            GameplayUiController::ReadableScrollOverlayState &overlay = uiController.readableScrollOverlay();
+            overlay.active = true;
+            overlay.title = useResult.readableTitle;
+            overlay.body = useResult.readableBody;
+            learnRecipeScroll(runtime, *pParty, memberIndex, heldItem.item.objectDescriptionId);
+            runtime.triggerPortraitFaceAnimation(memberIndex, FaceAnimationId::ReadScroll);
+        }
     }
     else
     {
@@ -554,16 +668,33 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
             heldItem = {};
             pParty->clearHeldItemForQueries();
         }
+        else if (useResult.potionUsesLeft)
+        {
+            heldItem.item.currentCharges = static_cast<uint16_t>(*useResult.potionUsesLeft);
+            pParty->setHeldItemForQueries(heldItem.item);
+        }
+
+        // A drink in turn-based combat is the ready member's action (OE Character::useItem: 100 ticks).
+        if (useResult.action == InventoryItemUseAction::ConsumePotion
+            && useResult.recoveryPayer
+            && runtime.turnBasedCombatRuntime().active())
+        {
+            runtime.turnBasedCombatRuntime().applyPlayerAction(
+                *pParty, *useResult.recoveryPayer, useResult.recoverySeconds);
+        }
 
         if (useResult.action == InventoryItemUseAction::ConsumePotion
-            && useResult.consumed
+            && (useResult.consumed || useResult.potionUsesLeft)
             && runtime.audioSystem() != nullptr)
         {
             runtime.audioSystem()->playCommonSound(SoundId::Drink, GameAudioSystem::PlaybackGroup::Ui);
             runtime.triggerPortraitFaceAnimation(memberIndex, FaceAnimationId::DrinkPotion);
         }
 
-        if (useResult.action == InventoryItemUseAction::UseHorseshoe && useResult.consumed)
+        if ((useResult.action == InventoryItemUseAction::UseHorseshoe
+                || useResult.action == InventoryItemUseAction::GrantTechPoints
+                || useResult.action == InventoryItemUseAction::GrantSkillPoints)
+            && useResult.consumed)
         {
             m_session.gameplayFxService().triggerPortraitEventFxWithoutSpeech(
                 runtime,
@@ -590,9 +721,30 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
             runtime.playSpeechReaction(memberIndex, *useResult.speechId, true);
         }
 
-        if (useResult.soundId.has_value() && runtime.audioSystem() != nullptr)
+        // Hesper's item actions play their own sounds by name (AUDIO.md) in place of the native one, which stays for a
+        // world without them.
+        const char *pActionSoundName = useResult.action == InventoryItemUseAction::ThrowEmpGrenade ? "emp_grenade"
+            : useResult.action == InventoryItemUseAction::UseShieldCell
+                || useResult.action == InventoryItemUseAction::UseShieldBurst ? "shield_cell_use"
+            : nullptr;
+        const bool actionSoundPlayed = pActionSoundName != nullptr && useResult.consumed
+            && runtime.audioSystem() != nullptr
+            && runtime.audioSystem()->playSoundByName(pActionSoundName, GameAudioSystem::PlaybackGroup::Ui);
+
+        if (useResult.soundId.has_value() && !actionSoundPlayed && runtime.audioSystem() != nullptr)
         {
             runtime.audioSystem()->playCommonSound(*useResult.soundId, GameAudioSystem::PlaybackGroup::Ui);
+        }
+
+        if (useResult.action == InventoryItemUseAction::ThrowEmpGrenade && useResult.consumed)
+        {
+            applyEmpGrenade(runtime);
+        }
+
+        if (useResult.action == InventoryItemUseAction::PlaceBreachCharge && useResult.consumed
+            && heldItemDefinition != nullptr)
+        {
+            applyBreachCharge(runtime, *heldItemDefinition);
         }
 
         if (useResult.action == InventoryItemUseAction::UseTempleInABottle
@@ -615,7 +767,9 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
     const bool closeCharacterScreen =
         !keepCharacterScreenOpen
         || (useResult.action == InventoryItemUseAction::CastScroll && useResult.consumed)
-        || useResult.action == InventoryItemUseAction::UseTempleInABottle;
+        || useResult.action == InventoryItemUseAction::UseTempleInABottle
+        || (useResult.action == InventoryItemUseAction::ThrowEmpGrenade && useResult.consumed)
+        || (useResult.action == InventoryItemUseAction::PlaceBreachCharge && useResult.consumed);
 
     if (closeCharacterScreen)
     {
@@ -625,6 +779,112 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
     }
 
     return true;
+}
+
+bool GameplayItemService::useQuickItemSlot(GameplayScreenRuntime &runtime, size_t memberIndex, size_t slot)
+{
+    Party *pParty = runtime.party();
+    Character *pMember = pParty != nullptr ? pParty->member(memberIndex) : nullptr;
+
+    if (pMember == nullptr || slot >= QuickItemSlotCount || !m_session.hasDataRepository())
+    {
+        return false;
+    }
+
+    return useQuickItemKind(runtime, memberIndex, pMember->quickItemSlots[slot]);
+}
+
+bool GameplayItemService::useQuickItemKind(GameplayScreenRuntime &runtime, size_t memberIndex,
+    const QuickItemSlot &quickSlot)
+{
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr || pParty->member(memberIndex) == nullptr || !m_session.hasDataRepository())
+    {
+        return false;
+    }
+
+    // Item 0 is no item: the table's row 0 is a placeholder (named "0"), which an unassigned slot must not name.
+    const ItemDefinition *pDefinition =
+        quickSlot.itemId != 0 ? m_session.data().itemTable().get(quickSlot.itemId) : nullptr;
+
+    if (pDefinition == nullptr)
+    {
+        runtime.setStatusBarEvent(Engine::tr("Empty slot"));
+        return false;
+    }
+
+    const int bagCount = std::max(1, pParty->rules().items.bagCount(*pParty));
+    // The owner's bags first, then the rest of the party's.
+    const std::optional<QuickItemSlots::PartyLocation> found =
+        QuickItemSlots::findPartyItem(*pParty, memberIndex, quickSlot, bagCount);
+
+    if (!found)
+    {
+        runtime.setStatusBarEvent(Engine::tr("No {item} left", {{"item", Engine::localize(pDefinition->name)}}));
+        return false;
+    }
+
+    return useCarriedItem(runtime, memberIndex, *found);
+}
+
+bool GameplayItemService::useCarriedItem(
+    GameplayScreenRuntime &runtime,
+    size_t memberIndex,
+    const QuickItemSlots::PartyLocation &location)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr || pParty->member(memberIndex) == nullptr)
+    {
+        return false;
+    }
+
+    // The item is handed over as a held item; one the player holds already would be lost.
+    if (heldItem.active)
+    {
+        runtime.setStatusBarEvent(Engine::tr("Put down the held item first"));
+        return false;
+    }
+
+    const int bagCount = std::max(1, pParty->rules().items.bagCount(*pParty));
+    const size_t carrierIndex = location.memberIndex;
+    const QuickItemSlots::Location &cell = location.location;
+    Character *pCarrier = pParty->member(carrierIndex);
+    InventoryItem item;
+
+    if (pCarrier == nullptr
+        || !InventoryBags::takeFromBag(*pParty, carrierIndex, cell.bag, bagCount, cell.gridX, cell.gridY, item))
+    {
+        return false;
+    }
+
+    heldItem.active = true;
+    heldItem.item = item;
+    pParty->setHeldItemForQueries(item);
+    const bool used = tryUseHeldItemOnPartyMember(runtime, memberIndex, true);
+
+    // A refused item, or a bottle with drinks left, goes back where it lay (else anywhere in its carrier's bags).
+    if (heldItem.active)
+    {
+        std::optional<InventoryItem> replaced;
+
+        if (InventoryBags::placeInBag(*pParty, carrierIndex, cell.bag, bagCount, heldItem.item, cell.gridX,
+                cell.gridY, replaced)
+            && !replaced)
+        {
+            heldItem = {};
+            pParty->clearHeldItemForQueries();
+        }
+        else if (pParty->tryAutoPlaceItemInMemberInventory(carrierIndex, heldItem.item))
+        {
+            heldItem = {};
+            pParty->clearHeldItemForQueries();
+        }
+    }
+
+    return used;
 }
 
 bool GameplayItemService::tryUseHeldItemOnInventoryItem(
@@ -654,6 +914,17 @@ bool GameplayItemService::tryUseHeldItemOnInventoryItem(
         || pPotionNoteTable == nullptr)
     {
         return false;
+    }
+
+    CraftItemRef craftTarget;
+    craftTarget.memberIndex = memberIndex;
+    craftTarget.gridX = targetGridX;
+    craftTarget.gridY = targetGridY;
+    craftTarget.bag = pParty->member(memberIndex) != nullptr ? pParty->member(memberIndex)->rulesetState.currentBag : 0;
+
+    if (openWorkbenchForHeldMaterial(runtime, craftTarget))
+    {
+        return true;
     }
 
     const InventoryItemMixResult mixResult = InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
@@ -749,7 +1020,8 @@ void GameplayItemService::learnRecipeScroll(
     if (learned)
     {
         const ItemDefinition *pPotion = tables.itemTable.get(*potionItemId);
-        runtime.setStatusBarEvent("Learned recipe: " + (pPotion != nullptr ? pPotion->name : std::string("potion")));
+        runtime.setStatusBarEvent(Engine::tr("Learned recipe: {potion}",
+            {{"potion", pPotion != nullptr ? pPotion->name : Engine::tr("potion")}}));
     }
 }
 
@@ -787,6 +1059,19 @@ void GameplayItemService::applyMixResultEffects(
         if (mixResult.success && mixResult.action == InventoryItemMixAction::PotionMix)
         {
             runtime.audioSystem()->playCommonSound(SoundId::MixPotion, GameAudioSystem::PlaybackGroup::Ui);
+        }
+        else if (mixResult.success
+            && (mixResult.action == InventoryItemMixAction::HardenPotion
+                || mixResult.action == InventoryItemMixAction::WeaponEnchantPotion))
+        {
+            const SpellEntry *pEnchantItem = runtime.spellTable() != nullptr
+                ? runtime.spellTable()->findById(static_cast<int>(SpellId::EnchantItem))
+                : nullptr;
+
+            if (pEnchantItem != nullptr && pEnchantItem->effectSoundId > 0)
+            {
+                runtime.audioSystem()->playSound(pEnchantItem->effectSoundId, GameAudioSystem::PlaybackGroup::Ui);
+            }
         }
         else if (potionExplosion)
         {
@@ -829,6 +1114,175 @@ void GameplayItemService::applyMixResultEffects(
     }
 }
 
+bool GameplayItemService::openWorkbenchForHeldMaterial(GameplayScreenRuntime &runtime, const CraftItemRef &target)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
+    Party *pParty = runtime.party();
+    const std::optional<CraftingTables> tables = GameplayCraftingBenchView::tables(runtime);
+
+    if (!heldItem.active || pParty == nullptr || !tables || !gameRulesFor(pParty).crafting.isMaterial(heldItem.item))
+    {
+        return false;
+    }
+
+    // Only items the Crafting tab lists (equipment, refillable potions) open it; anything else mixes as before.
+    const std::vector<CraftTargetEntry> targets = CraftingRuntime::collectTargets(*pParty, *tables);
+
+    if (std::none_of(targets.begin(), targets.end(),
+            [&target](const CraftTargetEntry &entry)
+            {
+                return entry.ref == target;
+            }))
+    {
+        return false;
+    }
+
+    // The material goes back to the party first; nothing is used until Apply.
+    const CraftMaterialKey material = CraftingRuntime::materialKey(heldItem.item);
+
+    if (!pParty->tryAutoPlaceItemInMemberInventory(target.memberIndex, heldItem.item)
+        && !pParty->tryGrantInventoryItem(heldItem.item))
+    {
+        runtime.setStatusBarEvent(Engine::tr("No room to put the material down"));
+        return true;
+    }
+
+    heldItem = {};
+    pParty->clearHeldItemForQueries();
+    GameplayUiController::AlchemyBenchState &bench = runtime.characterScreen().alchemyBench;
+    bench.active = true;
+    bench.craftingTab = true;
+    bench.crafting.target = target;
+    bench.crafting.material = material;
+    bench.crafting.choice = 0;
+    bench.crafting.searchActive = false;
+    bench.crafting.clearResult();
+    runtime.characterScreen().dollJewelryOverlayOpen = false;
+    return true;
+}
+
+bool GameplayItemService::applyCraft(GameplayScreenRuntime &runtime, bool all)
+{
+    Party *pParty = runtime.party();
+    GameplayUiController::CraftingBenchState &bench = runtime.characterScreen().alchemyBench.crafting;
+    const std::optional<CraftingTables> tables = GameplayCraftingBenchView::tables(runtime);
+
+    if (pParty == nullptr || !tables || !bench.target || !bench.material)
+    {
+        return false;
+    }
+
+    const CraftingRules &rules = gameRulesFor(pParty).crafting;
+    CraftPlan applied;
+    std::optional<InventoryItem> overflow;
+    const bool done = CraftingRuntime::apply(*pParty, *bench.target, *bench.material,
+        all ? GameplayCraftingBenchView::MaxBatchApplications : 1, all && bench.cheapestGems, bench.choice, rules,
+        *tables, applied, overflow);
+    bench.confirmPending = false;
+    // The item changed, and so did what there is to pick.
+    bench.choice = 0;
+
+    if (!done)
+    {
+        runtime.setStatusBarEvent(
+            applied.result.reason.empty() ? Engine::tr("Nothing happens.") : applied.result.reason);
+
+        if (runtime.audioSystem() != nullptr)
+        {
+            runtime.audioSystem()->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
+        }
+
+        return false;
+    }
+
+    if (overflow)
+    {
+        // No pack had room (the Mirror's copy, a changed orb); it goes to the cursor and the bench steps back.
+        GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
+        heldItem = {};
+        heldItem.active = true;
+        heldItem.item = *overflow;
+        pParty->setHeldItemForQueries(heldItem.item);
+        runtime.characterScreen().alchemyBench.active = false;
+    }
+
+    const std::string &doneText = applied.result.outcome.empty() ? applied.result.summary : applied.result.outcome;
+    bench.craftedText = applied.applications > 1
+        ? Engine::tr("{count} steps", {{"count", int64_t(applied.applications)}})
+        : doneText;
+    bench.craftedTicks = SDL_GetTicks();
+
+    // A material used up leaves the slot empty when none of it is left.
+    const std::vector<CraftMaterialEntry> materials = CraftingRuntime::collectMaterials(*pParty, rules);
+
+    if (std::none_of(materials.begin(), materials.end(),
+            [&bench](const CraftMaterialEntry &entry)
+            {
+                return entry.key == *bench.material;
+            }))
+    {
+        bench.material.reset();
+    }
+
+    // The Emerald may move an item to another cell.
+    if (!CraftingRuntime::itemAt(*pParty, *bench.target))
+    {
+        bench.target.reset();
+    }
+
+    runtime.setStatusBarEvent(
+        applied.applications > 1
+            ? Engine::tr("Crafted {count} times", {{"count", int64_t(applied.applications)}})
+            : doneText);
+
+    if (runtime.audioSystem() != nullptr)
+    {
+        runtime.audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+    }
+
+    return true;
+}
+
+bool GameplayItemService::combineGems(GameplayScreenRuntime &runtime, bool all)
+{
+    Party *pParty = runtime.party();
+    GameplayUiController::CraftingBenchState &bench = runtime.characterScreen().alchemyBench.crafting;
+
+    if (pParty == nullptr || !m_session.hasDataRepository() || !bench.material)
+    {
+        return false;
+    }
+
+    const CraftingRules &rules = gameRulesFor(pParty).crafting;
+    GemCombinePlan plan = CraftingRuntime::planCombine(*pParty, bench.material->itemId, false, rules);
+
+    if (!all && !plan.steps.empty())
+    {
+        plan.steps.front().merges = 1;
+    }
+
+    if (!CraftingRuntime::combine(*pParty, plan, rules, m_session.data().itemTable()))
+    {
+        runtime.setStatusBarEvent(Engine::tr("Not enough gems to combine"));
+        return false;
+    }
+
+    const GemCombinePlan::Step &last = plan.steps.back();
+    const ItemDefinition *pMade = m_session.data().itemTable().get(last.toItemId);
+    runtime.setStatusBarEvent(Engine::tr("{count} {gems} created",
+        {{"count", int64_t(last.merges)},
+            {"gems", pMade != nullptr ? Engine::localize(pMade->name) : Engine::tr("gems")}}));
+    bench.craftedText = Engine::tr("Combined");
+    bench.craftedTicks = SDL_GetTicks();
+
+    if (runtime.audioSystem() != nullptr)
+    {
+        runtime.audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+    }
+
+    return true;
+}
+
 bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool mixAll)
 {
     Party *pParty = runtime.party();
@@ -850,12 +1304,15 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
     const size_t alchemistIndex = alchemist.memberIndex.value_or(pParty->activeMemberIndex());
     const uint32_t bottleItemId = tables.potionSettingTable.emptyBottleItemId();
     AlchemyRecipe recipe = {bench.targetItemId, bench.heldItemId};
+    // The copies the player chose by power; a choice no carried copy has is dropped, as the bench shows it.
+    const AlchemyPowerChoice choice =
+        AlchemyBenchRuntime::availableChoice(*pParty, recipe, {bench.targetPower, bench.heldPower}, tables);
     // A mix the party had not tried, that records a potion note, is a discovery.
     const bool untried = AlchemyBenchRuntime::preview(*pParty, recipe, tables,
         [&runtime](uint32_t autonoteId)
         {
             return runtime.isAutonoteUnlocked(autonoteId);
-        }).outcome == AlchemyPreviewOutcome::Unknown;
+        }, choice).outcome == AlchemyPreviewOutcome::Unknown;
     InventoryItemMixResult lastResult = {};
     InventoryItem brewedItem = {};
     uint32_t mixedCount = 0;
@@ -863,7 +1320,7 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
 
     while (true)
     {
-        const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(*pParty, recipe, tables);
+        const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(*pParty, recipe, tables, {}, choice);
 
         if (!outcome.result.handled)
         {
@@ -894,6 +1351,17 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
 
         if (!mixAll || bottleOverflow)
         {
+            break;
+        }
+
+        // Chosen powers mix only their own copies: once those are used up, Mix All stops.
+        if (choice.any())
+        {
+            if (AlchemyBenchRuntime::brewableCount(*pParty, recipe, choice, tables) > 0)
+            {
+                continue;
+            }
+
             break;
         }
 
@@ -936,7 +1404,7 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
 
     if (!lastResult.handled)
     {
-        runtime.setStatusBarEvent("Nothing happens.");
+        runtime.setStatusBarEvent(Engine::tr("Nothing happens."));
 
         if (runtime.audioSystem() != nullptr)
         {
@@ -947,30 +1415,35 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
     }
 
     const ItemDefinition *pBrewed = tables.itemTable.get(brewedItem.objectDescriptionId);
-    const std::string brewedName = pBrewed != nullptr ? pBrewed->name : "potion";
+    const std::string brewedName = pBrewed != nullptr ? Engine::localize(pBrewed->name) : Engine::tr("potion");
     const bool discovery = untried && lastResult.success && lastResult.unlockedAutonoteId != 0;
 
     if (bottleOverflow)
     {
-        lastResult.statusText = "No room for the empty bottle.";
+        lastResult.statusText = Engine::tr("No room for the empty bottle.");
     }
     else if (discovery)
     {
-        lastResult.statusText = "Discovered: " + brewedName + "!";
+        lastResult.statusText = Engine::tr("Discovered: {potion}!", {{"potion", brewedName}});
     }
     else if (mixedCount > 1)
     {
-        lastResult.statusText = "Brewed " + std::to_string(mixedCount) + " x " + brewedName;
+        lastResult.statusText =
+            Engine::tr("Brewed {count} x {potion}", {{"count", int64_t(mixedCount)}, {"potion", brewedName}});
     }
     else if (lastResult.success)
     {
-        lastResult.statusText = "Brewed " + brewedName + " (power " + std::to_string(brewedItem.standardEnchantPower)
-            + ")";
+        lastResult.statusText = Engine::tr("Brewed {potion} (power {power})",
+            {{"potion", brewedName}, {"power", int64_t(brewedItem.standardEnchantPower)}});
     }
 
-    // The slots keep the mixed pair, faded once the party runs out, and the result slot shows what was brewed.
+    // The slots keep the mixed pair, faded once the party runs out, and the result slot shows what was brewed. A
+    // chosen power stays while copies of it remain; after the last one the bench picks again.
     bench.targetItemId = recipe.targetItemId;
     bench.heldItemId = recipe.heldItemId;
+    const AlchemyPowerChoice remaining = AlchemyBenchRuntime::availableChoice(*pParty, recipe, choice, tables);
+    bench.targetPower = remaining.targetPower;
+    bench.heldPower = remaining.heldPower;
     bench.clearBrewResult();
     bench.brewedTicks = SDL_GetTicks();
     bench.brewedExploded = lastResult.failureDamageLevel != 0;
@@ -982,6 +1455,7 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
         bench.brewedCount = mixedCount;
         bench.brewedDiscovery = discovery;
         bench.selectedResultItemId = brewedItem.objectDescriptionId;
+        bench.chainPower.reset();
         bench.brewedScrollPending = true;
     }
 
@@ -1018,6 +1492,7 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
         data.mergedReagentSettingTable()};
     GameplayUiController::AlchemyBenchState &bench = runtime.characterScreen().alchemyBench;
     const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(*pParty);
+    const bool keepMixedPotions = runtime.settingsSnapshot().workbenchKeepMixedPotions;
     const AlchemyBook book = AlchemyBenchRuntime::buildBook(
         tables,
         AlchemyBenchRuntime::collectIngredients(*pParty, tables),
@@ -1025,9 +1500,19 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
         [&runtime](uint32_t autonoteId)
         {
             return runtime.isAutonoteUnlocked(autonoteId);
-        });
-    const AlchemyChainPlan plan = AlchemyChainPlanner(*pParty, book, alchemist.level, tables)
-        .plan(bench.selectedResultItemId, brewAll ? MaxChainBrews : 1);
+        },
+        keepMixedPotions);
+    // The power chosen from the result slot's list, while the chain reaches it.
+    const auto chosenAim =
+        [&]() -> std::optional<uint16_t>
+        {
+            return bench.chainPower
+                ? AlchemyChainPlanner(*pParty, book, alchemist, tables, keepMixedPotions)
+                    .aimForPower(bench.selectedResultItemId, *bench.chainPower)
+                : std::nullopt;
+        };
+    const AlchemyChainPlan plan = AlchemyChainPlanner(*pParty, book, alchemist, tables, keepMixedPotions)
+        .plan(bench.selectedResultItemId, brewAll ? MaxChainBrews : 1, chosenAim());
 
     if (plan.brewCount == 0)
     {
@@ -1035,10 +1520,19 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
     }
 
     const AlchemyChainOutcome outcome = AlchemyBenchRuntime::brewChain(*pParty, plan, tables);
+
+    // The choice stays while what is left still brews a potion of that power.
+    if (!chosenAim())
+    {
+        bench.chainPower.reset();
+    }
+
     InventoryItemMixResult result = outcome.lastMix.result;
     const ItemDefinition *pBrewed = tables.itemTable.get(outcome.lastBrewed.objectDescriptionId);
-    const std::string brewedName = pBrewed != nullptr ? pBrewed->name : "potion";
-    const std::string steps = std::to_string(outcome.stepsDone) + (outcome.stepsDone == 1 ? " step" : " steps");
+    const std::string brewedName = pBrewed != nullptr ? Engine::localize(pBrewed->name) : Engine::tr("potion");
+    const std::string steps =
+        Engine::trn("{count} step", "{count} steps", uint64_t(outcome.stepsDone),
+            {{"count", int64_t(outcome.stepsDone)}});
 
     if (outcome.lastMix.overflowItem.has_value())
     {
@@ -1049,20 +1543,21 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
         heldItem.item = *outcome.lastMix.overflowItem;
         pParty->setHeldItemForQueries(heldItem.item);
         bench.active = false;
-        result.statusText = "No room for the empty bottle.";
+        result.statusText = Engine::tr("No room for the empty bottle.");
     }
     else if (outcome.brewedCount == 0)
     {
-        result.statusText = "Brewing stopped after " + steps + ".";
+        result.statusText = Engine::tr("Brewing stopped after {steps}.", {{"steps", steps}});
     }
     else if (outcome.brewedCount > 1)
     {
-        result.statusText = "Brewed " + std::to_string(outcome.brewedCount) + " x " + brewedName + " (" + steps + ")";
+        result.statusText = Engine::tr("Brewed {count} x {potion} ({steps})",
+            {{"count", int64_t(outcome.brewedCount)}, {"potion", brewedName}, {"steps", steps}});
     }
     else
     {
-        result.statusText = "Brewed " + brewedName + " (power "
-            + std::to_string(outcome.lastBrewed.standardEnchantPower) + ", " + steps + ")";
+        result.statusText = Engine::tr("Brewed {potion} (power {power}, {steps})", {{"potion", brewedName},
+            {"power", int64_t(outcome.lastBrewed.standardEnchantPower)}, {"steps", steps}});
     }
 
     bench.clearBrewResult();
@@ -1080,21 +1575,164 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
     return outcome.brewedCount > 0;
 }
 
+std::string GameplayItemService::restockUpkeepPotions(GameplayScreenRuntime &runtime, bool quietWhenFull)
+{
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr || !m_session.hasDataRepository())
+    {
+        return {};
+    }
+
+    const GameDataRepository &data = m_session.data();
+    const AlchemyBenchTables tables = {
+        data.itemTable(),
+        data.potionMixingTable(),
+        data.potionNoteTable(),
+        data.mergedPotionSettingTable(),
+        data.mergedReagentSettingTable()};
+    GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
+
+    // A returned bottle without room goes to the cursor, which must be free for it.
+    if (heldItem.active)
+    {
+        if (quietWhenFull)
+        {
+            return {};
+        }
+
+        const std::string text = Engine::tr("Put down the held item first");
+        runtime.setStatusBarEvent(text);
+        return text;
+    }
+
+    const PotionUpkeep::RestockOutcome outcome = PotionUpkeep::restock(*pParty, tables,
+        data.mergedPotionSettingTable().effects(),
+        [&runtime](uint32_t autonoteId)
+        {
+            return runtime.isAutonoteUnlocked(autonoteId);
+        },
+        runtime.settingsSnapshot().workbenchKeepMixedPotions);
+    const auto potionName = [&tables](uint32_t itemId)
+    {
+        const ItemDefinition *pDefinition = tables.itemTable.get(itemId);
+        return pDefinition != nullptr ? Engine::localize(pDefinition->name) : Engine::tr("potion");
+    };
+    std::vector<std::string> brewed;
+    std::string shortfall;
+
+    for (const PotionUpkeep::RestockLine &line : outcome.lines)
+    {
+        const std::string name = potionName(line.itemId);
+
+        if (line.brewedBottles > 0)
+        {
+            brewed.push_back(line.brewedBottles == 1 ? name
+                    : Engine::tr("{count} x {potion}", {{"count", int64_t(line.brewedBottles)}, {"potion", name}}));
+        }
+
+        if (line.complete || !shortfall.empty())
+        {
+            continue;
+        }
+
+        // The first potion still short, and why.
+        const std::string blockName = potionName(line.blockItemId);
+
+        switch (line.block)
+        {
+            case AlchemyChainBlock::MissingBottle:
+                shortfall = Engine::tr("{potion}: no empty bottle", {{"potion", name}});
+                break;
+            case AlchemyChainBlock::MissingReagent:
+                shortfall = Engine::tr("{potion}: a reagent for {step} is missing",
+                    {{"potion", name}, {"step", blockName}});
+                break;
+            case AlchemyChainBlock::UnknownRecipe:
+                shortfall = Engine::tr("{potion}: the {step} recipe is unknown",
+                    {{"potion", name}, {"step", blockName}});
+                break;
+            case AlchemyChainBlock::NeedsMastery:
+                shortfall = Engine::tr("{potion}: {step} needs more Alchemy", {{"potion", name}, {"step", blockName}});
+                break;
+            case AlchemyChainBlock::None:
+                shortfall = line.powerUnreached
+                    ? Engine::tr("{potion}: the ingredients do not reach its power", {{"potion", name}})
+                    : Engine::tr("{potion}: not enough ingredients", {{"potion", name}});
+                break;
+        }
+    }
+
+    std::string text;
+
+    if (!brewed.empty())
+    {
+        std::string list;
+
+        for (const std::string &part : brewed)
+        {
+            list += (list.empty() ? "" : ", ") + part;
+        }
+
+        text = Engine::tr("Upkeep brewed {potions}", {{"potions", list}});
+    }
+
+    if (!shortfall.empty())
+    {
+        text += (text.empty() ? Engine::tr("Upkeep could not brew") + " " : std::string(". ")) + shortfall;
+    }
+
+    if (outcome.overflowItem)
+    {
+        heldItem = {};
+        heldItem.active = true;
+        heldItem.item = *outcome.overflowItem;
+        pParty->setHeldItemForQueries(heldItem.item);
+        text += (text.empty() ? "" : ". ") + Engine::tr("No room for the empty bottle.");
+    }
+
+    if (text.empty() && !quietWhenFull)
+    {
+        text = PotionUpkeep::stockTargets(*pParty).empty() ? Engine::tr("No upkeep potion keeps a stock")
+                                                           : Engine::tr("The upkeep potions are in stock");
+    }
+
+    if (outcome.brewedAny())
+    {
+        InventoryItemMixResult result = outcome.lastMix.result;
+        result.statusText = text;
+        const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(*pParty);
+        applyMixResultEffects(runtime, *pParty, alchemist.memberIndex.value_or(pParty->activeMemberIndex()), result,
+            true);
+    }
+    else if (!text.empty())
+    {
+        runtime.setStatusBarEvent(text);
+    }
+
+    return text;
+}
+
 void GameplayItemService::updateReadableScrollOverlayForHeldItem(
     GameplayScreenRuntime &runtime,
     size_t memberIndex,
     const GameplayCharacterPointerTarget &pointerTarget,
-    bool isLeftMousePressed)
+    bool isLeftMousePressed,
+    bool isRightMousePressed)
 {
     GameplayUiController &uiController = m_session.gameplayUiController();
     GameplayUiController::ReadableScrollOverlayState &overlay = uiController.readableScrollOverlay();
+
+    if (readableScrollOverlayHeldByRightButton(isRightMousePressed))
+    {
+        return;
+    }
+
     overlay = {};
 
     const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
     Party *pParty = activeParty(m_session);
     const GameplayUiController::HeldInventoryItemState &heldItem = uiController.heldInventoryItem();
-    const ReadableScrollTable *pReadableScrollTable =
-        m_session.hasDataRepository() ? &m_session.data().readableScrollTable() : nullptr;
 
     if (!isLeftMousePressed
         || !heldItem.active
@@ -1106,37 +1744,58 @@ void GameplayItemService::updateReadableScrollOverlayForHeldItem(
         return;
     }
 
+    showReadableScroll(runtime, memberIndex, heldItem.item);
+}
+
+bool GameplayItemService::showReadableScroll(
+    GameplayScreenRuntime &runtime,
+    size_t memberIndex,
+    const InventoryItem &item)
+{
+    const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
+    Party *pParty = activeParty(m_session);
+
+    if (pItemTable == nullptr || pParty == nullptr)
+    {
+        return false;
+    }
+
     const InventoryItemUseAction useAction =
         InventoryItemUseRuntime::classifyItemUse(
-            heldItem.item,
+            item,
             *pItemTable,
             &m_session.data().mergedPotionSettingTable(),
             &m_session.data().mergedReagentSettingTable());
 
     if (useAction != InventoryItemUseAction::ReadMessageScroll)
     {
-        return;
+        return false;
     }
 
     const InventoryItemUseResult useResult =
         InventoryItemUseRuntime::useItemOnMember(
             *pParty,
             memberIndex,
-            heldItem.item,
+            item,
             *pItemTable,
-            pReadableScrollTable,
+            &m_session.data().readableScrollTable(),
             &m_session.data().mergedPotionSettingTable(),
             &m_session.data().mergedReagentSettingTable());
 
-    if (!useResult.handled || useResult.action != InventoryItemUseAction::ReadMessageScroll)
+    if (!useResult.handled
+        || useResult.action != InventoryItemUseAction::ReadMessageScroll
+        || useResult.readableBody.empty())
     {
-        return;
+        return false;
     }
 
+    GameplayUiController::ReadableScrollOverlayState &overlay =
+        m_session.gameplayUiController().readableScrollOverlay();
     overlay.active = true;
     overlay.title = useResult.readableTitle;
     overlay.body = useResult.readableBody;
-    learnRecipeScroll(runtime, *pParty, memberIndex, heldItem.item.objectDescriptionId);
+    learnRecipeScroll(runtime, *pParty, memberIndex, item.objectDescriptionId);
+    return true;
 }
 
 bool GameplayItemService::identifyInspectedItem(
@@ -1156,11 +1815,12 @@ bool GameplayItemService::identifyInspectedItem(
 
     if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Inventory)
     {
-        return pParty->identifyMemberInventoryItem(
-            overlay.sourceMemberIndex,
-            overlay.sourceGridX,
-            overlay.sourceGridY,
-            statusText);
+        return withInspectedBagOpen(*pParty, overlay,
+            [&]()
+            {
+                return pParty->identifyMemberInventoryItem(
+                    overlay.sourceMemberIndex, overlay.sourceGridX, overlay.sourceGridY, statusText);
+            });
     }
 
     if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Equipment)
@@ -1256,12 +1916,12 @@ bool GameplayItemService::tryIdentifyInspectedItem(
 
     if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Inventory)
     {
-        return pParty->tryIdentifyMemberInventoryItem(
-            overlay.sourceMemberIndex,
-            overlay.sourceGridX,
-            overlay.sourceGridY,
-            inspectorMemberIndex,
-            statusText);
+        return withInspectedBagOpen(*pParty, overlay,
+            [&]()
+            {
+                return pParty->tryIdentifyMemberInventoryItem(overlay.sourceMemberIndex, overlay.sourceGridX,
+                    overlay.sourceGridY, inspectorMemberIndex, statusText);
+            });
     }
 
     if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Equipment)
@@ -1333,6 +1993,74 @@ bool GameplayItemService::tryIdentifyInspectedItem(
     return false;
 }
 
+bool GameplayItemService::tryOpenInspectedItem(
+    const GameplayUiController::ItemInspectOverlayState &overlay,
+    size_t inspectorMemberIndex)
+{
+    Party *pParty = activeParty(m_session);
+    IGameplayWorldRuntime *pWorldRuntime = m_session.activeWorldRuntime();
+    const Character *pInspector = pParty != nullptr ? pParty->member(inspectorMemberIndex) : nullptr;
+
+    if (pInspector == nullptr)
+    {
+        return false;
+    }
+
+    const ItemRules &itemRules = gameRulesFor(pParty).items;
+    const auto openLootItem =
+        [&itemRules, pInspector](GameplayChestItemState &entry)
+        {
+            if (!itemRules.openSealedItem(entry.item, *pInspector))
+            {
+                return false;
+            }
+
+            entry.itemId = entry.item.objectDescriptionId;
+            return true;
+        };
+
+    if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Inventory)
+    {
+        return withInspectedBagOpen(*pParty, overlay,
+            [&]()
+            {
+                InventoryItem *pItem = pParty->memberInventoryItemMutable(
+                    overlay.sourceMemberIndex, overlay.sourceGridX, overlay.sourceGridY);
+                return pItem != nullptr && itemRules.openSealedItem(*pItem, *pInspector);
+            });
+    }
+
+    if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Chest && pWorldRuntime != nullptr)
+    {
+        GameplayChestViewState *pChestView = pWorldRuntime->activeChestView();
+
+        if (pChestView == nullptr || overlay.sourceLootItemIndex >= pChestView->items.size()
+            || !openLootItem(pChestView->items[overlay.sourceLootItemIndex]))
+        {
+            return false;
+        }
+
+        pWorldRuntime->commitActiveChestView();
+        return true;
+    }
+
+    if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Corpse && pWorldRuntime != nullptr)
+    {
+        GameplayCorpseViewState *pCorpseView = pWorldRuntime->activeCorpseView();
+
+        if (pCorpseView == nullptr || overlay.sourceLootItemIndex >= pCorpseView->items.size()
+            || !openLootItem(pCorpseView->items[overlay.sourceLootItemIndex]))
+        {
+            return false;
+        }
+
+        pWorldRuntime->commitActiveCorpseView();
+        return true;
+    }
+
+    return false;
+}
+
 bool GameplayItemService::tryRepairInspectedItem(
     const GameplayUiController::ItemInspectOverlayState &overlay,
     size_t inspectorMemberIndex,
@@ -1358,12 +2086,12 @@ bool GameplayItemService::tryRepairInspectedItem(
 
     if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Inventory)
     {
-        return pParty->tryRepairMemberInventoryItem(
-            overlay.sourceMemberIndex,
-            overlay.sourceGridX,
-            overlay.sourceGridY,
-            inspectorMemberIndex,
-            statusText);
+        return withInspectedBagOpen(*pParty, overlay,
+            [&]()
+            {
+                return pParty->tryRepairMemberInventoryItem(overlay.sourceMemberIndex, overlay.sourceGridX,
+                    overlay.sourceGridY, inspectorMemberIndex, statusText);
+            });
     }
 
     if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Equipment)
@@ -1433,6 +2161,13 @@ bool GameplayItemService::tryRepairInspectedItem(
     }
 
     return false;
+}
+
+bool GameplayItemService::readableScrollOverlayHeldByRightButton(bool isRightMousePressed) const
+{
+    const GameplayUiController::ReadableScrollOverlayState &overlay =
+        m_session.gameplayUiController().readableScrollOverlay();
+    return isRightMousePressed && overlay.active && overlay.heldByRightButton;
 }
 
 void GameplayItemService::closeReadableScrollOverlay()

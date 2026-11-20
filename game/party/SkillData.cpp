@@ -1,8 +1,11 @@
 #include "game/party/SkillData.h"
 
+#include "engine/Localization.h"
+
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <string_view>
 #include <unordered_map>
 
 namespace OpenYAMM::Game
@@ -44,7 +47,8 @@ std::string canonicalLookupKey(const std::string &value)
     return result;
 }
 
-const std::array<std::string, 53> CanonicalClassNames = {
+// MMMerge's classes, then MAW's four class lines (ids 53-64), which only a ruleset's class tables make playable.
+const std::array<std::string, 65> CanonicalClassNames = {
     "Archer",
     "WarriorMage",
     "MasterArcher",
@@ -98,9 +102,24 @@ const std::array<std::string, 53> CanonicalClassNames = {
     "HighPriest",
     "MasterWizard",
     "None",
+    "Seraphim",
+    "Angel",
+    "Archangel",
+    "DeathKnight",
+    "DeathLord",
+    "LichKing",
+    "Shaman",
+    "Sekhem",
+    "Marabou",
+    "Elementalist",
+    "ElementalAdept",
+    "MasterOfElements",
 };
 
-const std::array<std::string, 40> CanonicalSkillNames = {
+// Skill ids are positions in this list. The 40 classic skills keep their MMerge ids (teacher topics name skills by
+// id); the technology skills are appended from FirstTechnologySkillId and never renumber the classic ones, and the
+// ruleset skills follow from FirstRulesetSkillId.
+const std::array<std::string, 49> CanonicalSkillNames = {
     "Staff",
     "Sword",
     "Dagger",
@@ -141,6 +160,39 @@ const std::array<std::string, 40> CanonicalSkillNames = {
     "Alchemy",
     "Learning",
     "Throwing",
+    "EnergyGuns",
+    "EnergyBlades",
+    "ShieldTech",
+    "Hacking",
+    "Cover",
+    "ManaShield",
+    "Enlightenment",
+    "Retaliation",
+    "Cybernetics",
+};
+
+const std::vector<std::string> WeaponSheetSkillNames = {
+    "Axe", "Bow", "Throwing", "Dagger", "Mace", "Spear", "Staff", "Sword", "Unarmed", "Blaster",
+};
+
+// The racial abilities are cast like spells and follow the schools, as in MM8.
+const std::vector<std::string> MagicSheetSkillNames = {
+    "FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic", "MindMagic", "BodyMagic", "LightMagic",
+    "DarkMagic", "DarkElfAbility", "VampireAbility", "DragonAbility",
+};
+
+// A ruleset's Cover, Retaliation and Mana Shield follow the armour skills, as in MAW (zzMAW-Skills.lua:2185-2214).
+const std::vector<std::string> ArmorSheetSkillNames = {
+    "LeatherArmor", "ChainArmor", "PlateArmor", "Shield", "Dodging", "Cover", "Retaliation", "ManaShield",
+};
+
+const std::vector<std::string> MiscSheetSkillNames = {
+    "Alchemy", "Armsmaster", "Bodybuilding", "IdentifyItem", "IdentifyMonster", "Learning", "DisarmTraps",
+    "Meditation", "Merchant", "Perception", "RepairItem", "Stealing",
+};
+
+const std::vector<std::string> TechnologySheetSkillNames = {
+    "EnergyGuns", "EnergyBlades", "ShieldTech", "Hacking", "Cybernetics",
 };
 
 const std::unordered_map<std::string, std::string> ClassAliases = {
@@ -194,49 +246,63 @@ const std::unordered_map<std::string, std::string> SkillAliases = {
     {"darkmagic", "DarkMagic"},
 };
 
-const std::unordered_map<std::string, std::string> DisplayClassNames = {
-    {"WarriorMage", "Warrior Mage"},
-    {"MasterArcher", "Master Archer"},
-    {"PriestLight", "Priest of the Light"},
-    {"PriestDark", "Priest of the Dark"},
-    {"DarkElf", "Dark Elf"},
-    {"GreatWyrm", "Great Wyrm"},
-    {"GreatDruid", "Great Druid"},
-    {"ArchDruid", "Arch Druid"},
-    {"BlackKnight", "Black Knight"},
-    {"MinotaurLord", "Minotaur Lord"},
-    {"BountyHunter", "Bounty Hunter"},
-    {"RangerLord", "Ranger Lord"},
-    {"WarTroll", "War Troll"},
-    {"ArchMage", "Arch Mage"},
-    {"DarkArchMage", "Dark ArchMage"},
-    {"HighPriest", "High Priest"},
-    {"MasterWizard", "Master Wizard"},
+const std::unordered_map<std::string, std::string_view> DisplayClassNames = {
+    {"WarriorMage", Engine::trNoop("Warrior Mage")},
+    {"MasterArcher", Engine::trNoop("Master Archer")},
+    {"PriestLight", Engine::trNoop("Priest of the Light")},
+    {"PriestDark", Engine::trNoop("Priest of the Dark")},
+    {"DeathKnight", Engine::trNoop("Death Knight")},
+    {"DeathLord", Engine::trNoop("Death Lord")},
+    {"LichKing", Engine::trNoop("Lich King")},
+    {"ElementalAdept", Engine::trNoop("Elemental Adept")},
+    {"MasterOfElements", Engine::trNoop("Master of Elements")},
+    {"DarkElf", Engine::trNoop("Dark Elf")},
+    {"GreatWyrm", Engine::trNoop("Great Wyrm")},
+    {"GreatDruid", Engine::trNoop("Great Druid")},
+    {"ArchDruid", Engine::trNoop("Arch Druid")},
+    {"BlackKnight", Engine::trNoop("Black Knight")},
+    {"MinotaurLord", Engine::trNoop("Minotaur Lord")},
+    {"BountyHunter", Engine::trNoop("Bounty Hunter")},
+    {"RangerLord", Engine::trNoop("Ranger Lord")},
+    {"WarTroll", Engine::trNoop("War Troll")},
+    {"ArchMage", Engine::trNoop("Arch Mage")},
+    {"DarkArchMage", Engine::trNoop("Dark ArchMage")},
+    {"HighPriest", Engine::trNoop("High Priest")},
+    {"MasterWizard", Engine::trNoop("Master Wizard")},
 };
 
-const std::unordered_map<std::string, std::string> DisplaySkillNames = {
-    {"Throwing", "Throwing Weapons"},
-    {"LeatherArmor", "Leather Armor"},
-    {"ChainArmor", "Chain Armor"},
-    {"PlateArmor", "Plate Armor"},
-    {"FireMagic", "Fire Magic"},
-    {"AirMagic", "Air Magic"},
-    {"WaterMagic", "Water Magic"},
-    {"EarthMagic", "Earth Magic"},
-    {"SpiritMagic", "Spirit Magic"},
-    {"MindMagic", "Mind Magic"},
-    {"BodyMagic", "Body Magic"},
-    {"LightMagic", "Light Magic"},
-    {"DarkMagic", "Dark Magic"},
-    {"DarkElfAbility", "Dark Elf Ability"},
-    {"VampireAbility", "Vampire Ability"},
-    {"DragonAbility", "Dragon Ability"},
-    {"IdentifyItem", "Identify Item"},
-    {"RepairItem", "Repair Item"},
-    {"Bodybuilding", "Body Building"},
-    {"IdentifyMonster", "Identify Monster"},
-    {"DisarmTraps", "Disarm Traps"},
+const std::unordered_map<std::string, std::string_view> DisplaySkillNames = {
+    {"Throwing", Engine::trNoop("Throwing Weapons")},
+    {"LeatherArmor", Engine::trNoop("Leather Armor")},
+    {"ChainArmor", Engine::trNoop("Chain Armor")},
+    {"PlateArmor", Engine::trNoop("Plate Armor")},
+    {"FireMagic", Engine::trNoop("Fire Magic")},
+    {"AirMagic", Engine::trNoop("Air Magic")},
+    {"WaterMagic", Engine::trNoop("Water Magic")},
+    {"EarthMagic", Engine::trNoop("Earth Magic")},
+    {"SpiritMagic", Engine::trNoop("Spirit Magic")},
+    {"MindMagic", Engine::trNoop("Mind Magic")},
+    {"BodyMagic", Engine::trNoop("Body Magic")},
+    {"LightMagic", Engine::trNoop("Light Magic")},
+    {"DarkMagic", Engine::trNoop("Dark Magic")},
+    {"DarkElfAbility", Engine::trNoop("Dark Elf Ability")},
+    {"VampireAbility", Engine::trNoop("Vampire Ability")},
+    {"DragonAbility", Engine::trNoop("Dragon Ability")},
+    {"IdentifyItem", Engine::trNoop("Identify Item")},
+    {"RepairItem", Engine::trNoop("Repair Item")},
+    {"Bodybuilding", Engine::trNoop("Body Building")},
+    {"IdentifyMonster", Engine::trNoop("Identify Monster")},
+    {"DisarmTraps", Engine::trNoop("Disarm Traps")},
+    {"EnergyGuns", Engine::trNoop("Energy Guns")},
+    {"EnergyBlades", Engine::trNoop("Energy Blades")},
+    {"ShieldTech", Engine::trNoop("Shield Tech")},
+    {"ManaShield", Engine::trNoop("Mana Shield")},
+    // Shown under their own names; listed so that the extractor finds them (no table names them).
+    {"Enlightenment", Engine::trNoop("Enlightenment")},
+    {"Retaliation", Engine::trNoop("Retaliation")},
 };
+
+std::map<std::string, std::string> RulesetDisplaySkillNames;
 
 std::unordered_map<std::string, std::string> buildCanonicalClassLookup()
 {
@@ -307,12 +373,12 @@ std::string canonicalSkillName(const std::string &name)
 std::string displayClassName(const std::string &className)
 {
     const std::string canonicalName = canonicalClassName(className);
-    const std::unordered_map<std::string, std::string>::const_iterator displayIt =
+    const std::unordered_map<std::string, std::string_view>::const_iterator displayIt =
         DisplayClassNames.find(canonicalName);
 
     if (displayIt != DisplayClassNames.end())
     {
-        return displayIt->second;
+        return std::string(displayIt->second);
     }
 
     return canonicalName;
@@ -321,15 +387,26 @@ std::string displayClassName(const std::string &className)
 std::string displaySkillName(const std::string &skillName)
 {
     const std::string canonicalName = canonicalSkillName(skillName);
-    const std::unordered_map<std::string, std::string>::const_iterator displayIt =
+    const std::map<std::string, std::string>::const_iterator rulesetIt = RulesetDisplaySkillNames.find(canonicalName);
+
+    if (rulesetIt != RulesetDisplaySkillNames.end())
+    {
+        return rulesetIt->second;
+    }
+    const std::unordered_map<std::string, std::string_view>::const_iterator displayIt =
         DisplaySkillNames.find(canonicalName);
 
     if (displayIt != DisplaySkillNames.end())
     {
-        return displayIt->second;
+        return std::string(displayIt->second);
     }
 
     return canonicalName;
+}
+
+void setSkillDisplayNameOverrides(const std::map<std::string, std::string> &displayNames)
+{
+    RulesetDisplaySkillNames = displayNames;
 }
 
 std::string masteryDisplayName(SkillMastery mastery)
@@ -337,21 +414,76 @@ std::string masteryDisplayName(SkillMastery mastery)
     switch (mastery)
     {
         case SkillMastery::Normal:
-            return "Normal";
+            return std::string(Engine::trNoop("Normal"));
         case SkillMastery::Expert:
-            return "Expert";
+            return std::string(Engine::trNoop("Expert"));
         case SkillMastery::Master:
-            return "Master";
+            return std::string(Engine::trNoop("Master"));
         case SkillMastery::Grandmaster:
-            return "Grandmaster";
+            return std::string(Engine::trNoop("Grandmaster"));
         default:
-            return "None";
+            return std::string(Engine::trNoop("None"));
     }
 }
 
 std::vector<std::string> allCanonicalSkillNames()
 {
     return {CanonicalSkillNames.begin(), CanonicalSkillNames.end()};
+}
+
+std::optional<std::string> skillNameForSkillId(uint32_t skillId)
+{
+    if (skillId >= CanonicalSkillNames.size())
+    {
+        return std::nullopt;
+    }
+
+    return CanonicalSkillNames[skillId];
+}
+
+std::optional<uint32_t> skillIdForSkillName(const std::string &skillName)
+{
+    const std::string canonicalName = canonicalSkillName(skillName);
+    const auto skillIt = std::find(CanonicalSkillNames.begin(), CanonicalSkillNames.end(), canonicalName);
+
+    if (skillIt == CanonicalSkillNames.end())
+    {
+        return std::nullopt;
+    }
+
+    return static_cast<uint32_t>(skillIt - CanonicalSkillNames.begin());
+}
+
+bool isTechnologySkill(const std::string &skillName)
+{
+    const std::optional<uint32_t> skillId = skillIdForSkillName(skillName);
+    return skillId
+        && ((*skillId >= FirstTechnologySkillId && *skillId < FirstRulesetSkillId) || *skillId == CyberneticsSkillId);
+}
+
+bool isRulesetSkill(const std::string &skillName)
+{
+    const std::optional<uint32_t> skillId = skillIdForSkillName(skillName);
+    return skillId && *skillId >= FirstRulesetSkillId && *skillId < CyberneticsSkillId;
+}
+
+const std::vector<std::string> &skillSheetGroupSkillNames(SkillSheetGroup group)
+{
+    switch (group)
+    {
+        case SkillSheetGroup::Weapons:
+            return WeaponSheetSkillNames;
+        case SkillSheetGroup::Magic:
+            return MagicSheetSkillNames;
+        case SkillSheetGroup::Armor:
+            return ArmorSheetSkillNames;
+        case SkillSheetGroup::Misc:
+            return MiscSheetSkillNames;
+        case SkillSheetGroup::Technology:
+            return TechnologySheetSkillNames;
+    }
+
+    return MiscSheetSkillNames;
 }
 
 std::optional<std::string> nextPromotionClassName(const std::string &className)

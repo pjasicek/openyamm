@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/smugglers_cove
+settle_seconds: 2.0
+exit: true
+shots:
+- name: cavern_s9
+  position:
+  - 10359
+  - -14165
+  - 129
+  yaw: 1.598
+  pitch: -0.15
+- name: crates_s6
+  position:
+  - -8366
+  - -10196
+  - 65
+  yaw: 3.005
+  pitch: -0.12
+- name: crates_s7
+  position:
+  - -2949
+  - -11099
+  - 129
+  yaw: 3.482
+  pitch: -0.12
+- name: quarters_s12
+  position:
+  - 1048
+  - -13858
+  - 129
+  yaw: 4.404
+  pitch: -0.12
+- name: cavern_s16
+  position:
+  - 6680
+  - -10095
+  - 129
+  yaw: 2.987
+  pitch: -0.12
+- name: cave_s2
+  position:
+  - -5480
+  - -5095
+  - 481
+  yaw: 4.433
+  pitch: -0.12
+- name: keep_s10
+  position:
+  - 2850
+  - -13752
+  - 129
+  yaw: 4.704
+  pitch: -0.12

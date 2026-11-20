@@ -1,0 +1,53 @@
+{
+  "map": "assets_dev/worlds/mm6/maps/outd1.odm",
+  "base_bmodels": 129,
+  "buildings": [
+    {
+      "name": "auto_22_tavernS",
+      "bmodel": 22,
+      "model_name": "tavernS",
+      "units_per_texel": 12,
+      "original_faces": 63,
+      "original_triangles": 201,
+      "hidden_faces": [
+        1,
+        3,
+        4,
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        25,
+        31,
+        33,
+        38,
+        40,
+        45,
+        47,
+        54,
+        56
+      ],
+      "new_faces": 1182,
+      "new_triangles": 2326,
+      "new_vertices": 1585,
+      "events": [
+        [
+          19,
+          true
+        ],
+        [
+          20,
+          true
+        ],
+        [
+          50,
+          true
+        ]
+      ],
+      "seconds": 0.9
+    }
+  ]
+}

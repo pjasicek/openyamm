@@ -1,0 +1,548 @@
+<meta charset="utf-8">
+<title>Journal Trainers Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: the approved Carved Obsidian journal (640x480 logical at 1.875x on a 1600x900 stage), Notes > Trainers
+   redesigned as a searchable trainer finder; review controls and notes around it. Single dark look by design. */
+:root {
+  color-scheme: dark;
+  --page: #101612;          /* study page around the stage */
+  --page-ink: #d6ddce;
+  --page-muted: #a6b19f;
+  --rule: #3b4436;
+  --brass: #d9bd88;          /* links, focus, selected edges */
+  --ink: #e5dcc7;            /* journal body, soft ivory */
+  --heading: #e4c793;        /* Book2 titles */
+  --dim: #a99f86;            /* secondary journal text */
+  --expert: #f2efe6;         /* mastery colours of the party creation screen */
+  --master: #5fd6cf;
+  --grand: #e7bd52;
+  --marker: #ff5a3c;
+  --display: NativeBook2, Georgia, serif;
+  --body: NativeAutonote, Georgia, serif;
+  --label: NativeCreate, Georgia, serif;
+  --number: NativeSmallnum, Georgia, serif;
+  --button: "Obsidian Fondamento", Georgia, serif;
+  --ui: "Segoe UI", Arial, sans-serif;
+}
+@font-face{font-family:NativeBook2;src:url(assets/fonts/book2.ttf)}
+@font-face{font-family:NativeAutonote;src:url(assets/fonts/autonote.ttf)}
+@font-face{font-family:NativeCreate;src:url(assets/fonts/create.ttf)}
+@font-face{font-family:NativeSmallnum;src:url(assets/fonts/smallnum.ttf)}
+@font-face{font-family:"Obsidian Fondamento";src:url(assets/fonts/fondamento.ttf)}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--page-ink);font:13px/1.6 var(--ui);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--brass)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.study{max-width:1700px;margin:auto;padding-block:20px 36px}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 40px;margin-bottom:14px}
+.eyebrow{font-size:10px;letter-spacing:1.8px;color:#b9af8e;margin:0 0 6px;text-transform:uppercase}
+h1{font:29px/1.2 Georgia,serif;color:#f0e4ce;margin:0;text-wrap:balance}
+.head p{max-width:520px;color:var(--page-muted);margin:0}
+.controls{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:10px 0 14px;font-size:12px;color:#b7c0ad}
+.controls label{display:flex;align-items:center;gap:8px}
+.controls select,.controls button{padding:6px 9px;background:#1c281e;border:1px solid #566044;border-radius:2px}
+.controls button{cursor:pointer}
+.ledgers{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;border:1px solid #3d4636;padding:3px 10px 5px;margin:0}
+.ledgers legend{font-size:10px;letter-spacing:1px;color:#9da98f;text-transform:uppercase;padding:0 4px}
+.ledgers input{accent-color:#c3a770}
+.stage-host{position:relative;width:100%;aspect-ratio:16/9;max-height:calc(100vh - 150px);overflow:hidden;margin:auto;
+  border:1px solid #62664f;box-shadow:0 10px 30px #0007;background:#080f0a}
+.stage{position:absolute;left:0;top:0;width:1600px;height:900px;transform-origin:top left;overflow:hidden;
+  background:linear-gradient(#0c140eed,#0c140eed),url(assets/stone.jpg) center/550px auto}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;margin:22px 0 10px}
+.notes h2{font:21px/1.3 Georgia,serif;color:#e3d7bf;margin:0 0 6px;text-wrap:balance}
+.notes p{color:#a7b39c;line-height:1.7;margin:0;max-width:62ch}
+.caption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;color:#9daa93;font-size:11px;margin-top:8px}
+
+/* The journal, at the approved geometry (stage pixels = logical x 1.875). */
+.journal{position:absolute;left:200px;top:0;width:1200px;height:900px;isolation:isolate;color:var(--ink);
+  background:linear-gradient(100deg,#142019d9,#101a12eb 70%,#101810e0),url(assets/stone.jpg) 0 0/550px auto;
+  box-shadow:0 0 70px #000,inset 0 0 80px #0009}
+.rail{position:absolute;right:0;top:8px;bottom:8px;width:157px;border-left:2px solid #a58f6073;
+  background:linear-gradient(90deg,#090f0ba8,#121b14a0),url(assets/stone.jpg) center/550px auto;box-shadow:inset 4px 0 7px #0009}
+.frame{position:absolute;inset:0;pointer-events:none;z-index:20;--c:58px;--t:90.5366px}
+.frame i{position:absolute;background-size:100% 100%;background-repeat:no-repeat}
+.tl,.tr,.bl,.br{width:var(--c);height:var(--c)}
+.tl{left:0;top:0;background-image:url(assets/frame/frame-tl.png)}.tr{right:0;top:0;background-image:url(assets/frame/frame-tr.png)}
+.bl{left:0;bottom:0;background-image:url(assets/frame/frame-bl.png)}.br{right:0;bottom:0;background-image:url(assets/frame/frame-br.png)}
+.frame .top,.frame .bottom{left:var(--c);right:var(--c);height:var(--c);background-repeat:repeat-x;background-size:var(--t) var(--c)}
+.frame .top{top:0;background-image:url(assets/frame/frame-top.png)}.frame .bottom{bottom:0;background-image:url(assets/frame/frame-bottom.png)}
+.frame .left,.frame .right{top:var(--c);bottom:var(--c);width:var(--c);background-repeat:repeat-y;background-size:var(--c) var(--t)}
+.frame .left{left:0;background-image:url(assets/frame/frame-left.png)}.frame .right{right:0;background-image:url(assets/frame/frame-right.png)}
+.emblem{position:absolute;left:74px;top:52px;width:89px;height:89px;object-fit:contain;filter:drop-shadow(0 3px 4px #000b);opacity:.9}
+.title{position:absolute;left:205px;top:96px;width:636px;height:67px;margin:0;color:var(--heading);
+  font:400 56px/1 var(--display);text-align:center;text-shadow:0 2px 2px #000}
+
+/* Obsidian buttons (approved Fondamento treatment, simplified). */
+.ob{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:4px;border:1px solid #9d875b;
+  background:linear-gradient(#354033b8,#10180edb),url(assets/stone.jpg) center/280px auto;color:#e8d1a4;
+  font:400 25px/1.1 var(--button);cursor:pointer;
+  box-shadow:inset 0 0 0 2px #172015,inset 0 3px 0 2px #d9c49652,inset 0 -3px 0 2px #0008,1px 3px 4px #0009}
+.ob:hover{border-color:#cdb27a;color:#ffe7b8}
+.ob[aria-pressed=true]{border-color:#d2b370;color:#ffe3a8;
+  background:linear-gradient(#7b65314d,#44351bc9),url(assets/stone.jpg) center/280px auto;
+  box-shadow:inset 0 0 0 2px #2e2b19,inset 0 0 0 3px #baa16b83,0 0 14px #d4b57126}
+.ob:disabled{opacity:.42;cursor:default}
+.ob span{pointer-events:none;text-shadow:0 1px 0 #36280e,0 2px 1px #000}
+.mainnav{position:absolute;right:24px;top:45px;display:flex;flex-direction:column;gap:32px;width:126px}
+.mainnav .ob{width:126px;height:150px;flex-direction:column;font-size:25px}
+.mainnav img{width:96px;height:96px;object-fit:contain;filter:drop-shadow(0 3px 3px #0009)}
+.pagectl{position:absolute;left:917px;top:71px;width:113px;display:flex;flex-direction:column;gap:16px}
+.pagectl .ob{width:113px;height:82px;flex-direction:column;font-size:20px}
+.pagectl svg{width:38px;height:30px;fill:none;stroke:currentColor;stroke-width:1.7}
+.cats{position:absolute;left:917px;top:270px;width:113px;display:flex;flex-direction:column;gap:5px}
+.cats .ob{width:113px;height:82px;flex-direction:column;gap:0;font-size:19px}
+.cats img{width:50px;height:50px;object-fit:contain;filter:drop-shadow(0 1px 2px #000)}
+.close{position:absolute;left:1050px;top:803px;width:126px;height:56px}
+
+/* The trainer finder in the text viewport (101,96)-(461,389) logical, widened down to the page counter. */
+.finder{position:absolute;left:189px;top:180px;width:675px;height:612px}
+.continents{display:flex;gap:8px}
+.continents .ob{flex:1;height:48px;font-size:23px}
+.searchrow{display:flex;gap:8px;margin-top:10px;align-items:stretch}
+.search{flex:1;position:relative}
+.search input{width:100%;height:46px;padding:0 44px 0 46px;border:1px solid #9f8d6385;
+  background:linear-gradient(#0b130dee,#101a12f2);color:var(--ink);font:28px/1 var(--label);
+  box-shadow:inset 0 0 0 2px #050d0899,inset 0 3px 6px #000a}
+.search input::placeholder{color:#8f8670}
+.search svg{position:absolute;left:12px;top:11px;width:24px;height:24px;stroke:#bfa772;fill:none;stroke-width:2}
+.search .clear{position:absolute;right:6px;top:7px;width:32px;height:32px;border:0;background:none;color:#bfa772;
+  font:26px/1 var(--ui);cursor:pointer}
+.mastery{display:flex;gap:6px}
+.mastery .ob{width:52px;height:46px;font-size:21px}
+.mastery .ob[data-m=Expert] span{color:var(--expert)}.mastery .ob[data-m=Master] span{color:var(--master)}
+.mastery .ob[data-m="Grand Master"] span{color:var(--grand)}
+.list{position:relative;margin-top:12px;height:488px;overflow:hidden}
+.skill{display:grid;grid-template-columns:142px 1fr;align-items:start;padding:5px 4px 4px;position:relative}
+.skill+.skill:before{content:"";position:absolute;left:12%;right:12%;top:-1px;height:6px;
+  background:url(assets/divbar.png) center/100% 100% no-repeat;opacity:.5;filter:sepia(.45) saturate(.5)}
+.skill h3{margin:0;padding-top:3px;font:400 27px/1.05 var(--body);color:var(--heading);overflow-wrap:anywhere}
+.rows{display:flex;flex-direction:column;gap:0;min-width:0}
+.row{display:grid;grid-template-columns:150px 1fr auto;align-items:baseline;gap:10px;width:100%;padding:2px 8px;
+  border:1px solid transparent;background:none;text-align:left;cursor:pointer;color:var(--ink);font:25px/1.05 var(--body)}
+.row:hover,.row:focus-visible{border-color:#b39a6699;background:linear-gradient(90deg,#c9a85e26,#c9a85e08);outline:none}
+.row.picked{border-color:#d2b370;background:linear-gradient(90deg,#c9a85e3a,#c9a85e10)}
+.row .m{font:21px/1 var(--label);white-space:nowrap}
+.row .m[data-m=Expert]{color:var(--expert)}.row .m[data-m=Master]{color:var(--master)}.row .m[data-m="Grand Master"]{color:var(--grand)}
+.row .who{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.row .where{font:21px/1 var(--label);color:var(--dim);white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis}
+.row.auto{cursor:default}.row.auto .who{color:var(--dim)}
+.empty{padding:60px 20px;text-align:center;font:28px/1.3 var(--body);color:var(--dim)}
+mark{background:#c9a85e55;color:inherit;padding:0 1px}
+.status{position:absolute;left:183px;top:765px;width:683px;height:45px;padding:7px 16px;font:30px/1 var(--label);
+  color:var(--ink);border:1px solid #9f8d6385;background:linear-gradient(#111c13dd,#121c13e8),url(assets/stone.jpg) center/550px auto;
+  box-shadow:inset 0 0 0 2px #050d0899;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pagenum{position:absolute;left:189px;top:820px;width:675px;text-align:center;font:26px var(--number);color:#b4ad95}
+
+/* The trainer's map, in place of the list: the Map view's 300x300 logical viewport. */
+.mapview{position:absolute;left:189px;top:180px;width:675px;height:575px}
+.maphead{display:flex;align-items:center;gap:10px;height:48px}
+.maphead h3{flex:1;margin:0;font:400 30px/1 var(--body);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.maphead h3 b{font-weight:400;color:var(--heading)}
+.maphead .ob{width:126px;height:46px;font-size:22px}
+.mapbox{position:relative;width:520px;height:520px;margin:6px auto 0;background:#040704;border:1px solid #a68f636b;
+  outline:3px solid #090f0b;box-shadow:0 0 0 4px #9c89613b,0 5px 18px #0008;overflow:hidden}
+.mapbox img{position:absolute;left:0;top:0;width:100%;height:100%;image-rendering:auto;filter:saturate(.92) contrast(1.03)}
+.pin{position:absolute;width:0;height:0}
+.pin i{position:absolute;left:-11px;top:-11px;width:22px;height:22px;border-radius:50%;background:var(--marker);
+  border:3px solid #fff4d6;box-shadow:0 0 0 2px #000a,0 2px 6px #000}
+.pin:before{content:"";position:absolute;left:-26px;top:-26px;width:52px;height:52px;border-radius:50%;
+  border:3px solid var(--marker);opacity:.8;animation:ping 1.6s ease-out infinite}
+@keyframes ping{from{transform:scale(.4);opacity:.95}to{transform:scale(1.25);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pin:before{animation:none;opacity:.6}}
+.pinlabel{position:absolute;transform:translate(-50%,-100%);margin-top:-22px;padding:3px 10px;white-space:nowrap;
+  font:24px/1 var(--label);color:var(--ink);background:#0b120dee;border:1px solid #b39a66aa;box-shadow:0 2px 6px #000}
+.continents .ob .count{font:18px/1 var(--number);color:var(--dim);margin-left:6px}
+.continents .ob .seal{width:22px;height:22px;margin-right:4px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#f0cf7a,#a7762c 70%);box-shadow:0 0 0 2px #2b200c,0 1px 2px #000}
+.more{display:block;width:100%;margin-top:6px;padding:10px 14px;border:1px dashed #9f8d6399;background:#0e1710aa;
+  color:var(--dim);font:25px/1.2 var(--body);text-align:left}
+.more b{font-weight:400;color:var(--heading)}
+/* The tavern's house dialogue (approved Carved Obsidian full-screen frame, simplified for the study). */
+.tavern{position:absolute;left:200px;top:0;width:1200px;height:900px;color:var(--ink);
+  background:linear-gradient(100deg,#142019d9,#101a12eb),url(assets/stone.jpg) 0 0/550px auto;box-shadow:0 0 70px #000}
+.scene{position:absolute;left:60px;top:60px;width:640px;height:560px;display:grid;place-items:center;
+  background:radial-gradient(ellipse at 50% 40%,#5a3d1f,#24170c 70%,#120b06);border:1px solid #a68f636b;
+  font:22px var(--label);color:#d8b98088;letter-spacing:1px}
+.talk{position:absolute;left:730px;top:60px;width:410px;height:780px;display:flex;flex-direction:column;gap:10px}
+.house{margin:0;font:400 34px/1.1 var(--display);color:var(--heading);text-align:center}
+.speaker{margin:0;font:24px var(--label);color:var(--dim);text-align:center}
+.speech{min-height:300px;padding:14px 16px;font:26px/1.15 var(--body);border:1px solid #9f8d6366;background:#0b120dcc}
+.speech .price{color:var(--heading)}
+.topics{display:flex;flex-direction:column;gap:8px}
+.topics .ob{height:54px;font-size:24px;padding:0 14px}
+.topics .ob.sub{margin-left:28px;border-style:dashed}
+.nomap{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:40px;font:28px/1.3 var(--body);color:var(--dim)}
+</style>
+
+<div class="study">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Carved Obsidian journal · Notes › Trainers · study</p>
+      <h1>Find any trainer without leaving the game.</h1>
+    </div>
+    <p>The Trainers notes become a finder: pick a continent, type a skill, a mastery, a name or a town, and click a row to
+      see where the trainer stands. Rows come from the game's own tables, for Standard MMMerge and MAW alike.</p>
+  </div>
+
+  <div class="controls">
+    <label for="ruleset">Ruleset
+      <select id="ruleset"><option value="standard">Standard MMMerge</option><option value="maw">MAW</option></select></label>
+    <label for="preset">Show
+      <select id="preset">
+        <option value="list">The list, this continent</option>
+        <option value="search">A search: “sword”</option>
+        <option value="map">A trainer on the map</option>
+        <option value="tavern">Buying the ledger in a tavern</option>
+      </select></label>
+    <fieldset class="ledgers"><legend>Ledger of Teachers bought</legend>
+      <label for="ledger-Jadame"><input type="checkbox" id="ledger-Jadame" data-ledger="Jadame">Jadame</label>
+      <label for="ledger-Antagarich"><input type="checkbox" id="ledger-Antagarich" data-ledger="Antagarich">Antagarich</label>
+      <label for="ledger-Enroth"><input type="checkbox" id="ledger-Enroth" data-ledger="Enroth" checked>Enroth</label>
+    </fieldset>
+    <button id="fullscreen" type="button">Full screen</button>
+  </div>
+
+  <div class="stage-host" id="host">
+    <div class="stage" id="stage">
+      <section class="tavern" id="tavern" aria-label="Tavern" hidden>
+        <div class="frame" aria-hidden="true"><i class="top"></i><i class="bottom"></i><i class="left"></i><i class="right"></i><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+        <div class="scene" aria-hidden="true"><span>Tavern interior</span></div>
+        <div class="talk">
+          <p class="house">The Grog and Grub · New Sorpigal</p>
+          <p class="speaker">Tubrict, Innkeep</p>
+          <div class="speech" id="speech"></div>
+          <div class="topics" id="topics"></div>
+        </div>
+      </section>
+      <section class="journal" id="journalbox" aria-label="Journal">
+        <div class="rail" aria-hidden="true"></div>
+        <div class="frame" aria-hidden="true"><i class="top"></i><i class="bottom"></i><i class="left"></i><i class="right"></i><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+        <img class="emblem" src="assets/journal-trainer.png" alt="">
+        <h2 class="title" id="title">Trainers</h2>
+
+        <div class="finder" id="finder">
+          <div class="continents" id="continents" role="tablist" aria-label="Continent"></div>
+          <div class="searchrow">
+            <div class="search">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="m15.5 15.5 6 6"/></svg>
+              <input id="q" type="search" placeholder="Skill, mastery, trainer or town" autocomplete="off" aria-label="Search trainers">
+              <button class="clear" id="clear" type="button" aria-label="Clear search" hidden>×</button>
+            </div>
+            <div class="mastery" id="mastery" aria-label="Mastery"></div>
+          </div>
+          <div class="list" id="list" tabindex="0" aria-label="Trainers"></div>
+        </div>
+
+        <div class="mapview" id="mapview" hidden>
+          <div class="maphead"><h3 id="maptitle"></h3>
+            <button class="ob" id="back" type="button"><span>Close</span></button></div>
+          <div class="mapbox" id="mapbox"></div>
+        </div>
+
+        <div class="status" id="status"></div>
+        <div class="pagenum" id="pagenum"></div>
+
+        <div class="pagectl">
+          <button class="ob" id="prev" type="button"><svg viewBox="0 0 40 30"><path d="M29 4 11 15l18 11M12 15h25"/></svg><span>Previous</span></button>
+          <button class="ob" id="next" type="button"><svg viewBox="0 0 40 30"><path d="M11 4 29 15 11 26M28 15H3"/></svg><span>Next</span></button>
+        </div>
+        <div class="cats" aria-label="Note category">
+          <button class="ob" type="button" disabled><img src="assets/journal-potion.png" alt=""><span>Potions</span></button>
+          <button class="ob" type="button" disabled><img src="assets/journal-fountain.png" alt=""><span>Fountains</span></button>
+          <button class="ob" type="button" disabled><img src="assets/journal-obelisk.png" alt=""><span>Obelisks</span></button>
+          <button class="ob" type="button" disabled><img src="assets/journal-seer.png" alt=""><span>Seer</span></button>
+          <button class="ob" type="button" disabled><img src="assets/journal-misc.png" alt=""><span>Misc.</span></button>
+          <button class="ob" type="button" aria-pressed="true"><img src="assets/journal-trainer.png" alt=""><span>Trainers</span></button>
+        </div>
+        <nav class="mainnav" aria-label="Journal view">
+          <button class="ob" type="button" disabled><img src="assets/journal-map.png" alt=""><span>Map</span></button>
+          <button class="ob" type="button" disabled><img src="assets/journal-quests.png" alt=""><span>Quests</span></button>
+          <button class="ob" type="button" disabled><img src="assets/journal-story.png" alt=""><span>Story</span></button>
+          <button class="ob" type="button" aria-pressed="true"><img src="assets/journal-notes.png" alt=""><span>Notes</span></button>
+        </nav>
+        <button class="ob close" type="button" disabled><span>Close</span></button>
+      </section>
+    </div>
+  </div>
+  <div class="caption"><span id="caption">Loading the trainer table…</span><span>640 × 480 logical · 1.875× · study, not approved</span></div>
+
+  <div class="notes">
+    <article><h2>One list per continent</h2><p>It opens on the continent the party stands on; the tabs switch to
+      the others. Every skill is one block with its Expert, Master and Grand Master teachers in mastery colours.</p></article>
+    <article><h2>Search as you type</h2><p>Any word narrows the list: a skill (“sword”), a mastery (“grand”), a trainer's
+      name or a town. The E, M and G toggles keep one mastery. Previous and Next turn the pages, the wheel scrolls.</p></article>
+    <article><h2>Click to see where</h2><p>A click shows the trainer's outdoor map with a marker on the house door, or on the
+      entrance of the dungeon or castle they teach in. Close returns to the list where it was.</p></article>
+    <article><h2>The Ledger of Teachers</h2><p>Without it the finder lists the trainers the party has found: the teacher
+      notes from talking to them or to their neighbours. Each continent's taverns sell that continent's ledger for
+      2000 gold as an extra topic; buying it fills every trainer of the continent, and the topic disappears.</p></article>
+    <article><h2>MAW's differences</h2><p>MAW shows its moved trainers where its script places them, and skills it teaches
+      itself read “learned at skill N” with no map. Data rows are generated from the installed tables.</p></article>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const MASTERIES = ["Expert", "Master", "Grand Master"];
+const SHORT = {"Expert": "E", "Master": "M", "Grand Master": "G"};
+const PAGE_HEIGHT = 488;
+const state = {data: null, ruleset: "standard", continent: null, query: "", mastery: null, page: 0, picked: null,
+  ledgers: {Jadame: false, Antagarich: false, Enroth: true}, screen: "journal", tavernStep: "topics"};
+const TAVERN_CONTINENT = "Enroth";
+const LEDGER_PRICE = 2000;
+// Review fixture: the teacher notes this party has found (about a third of the trainers that have one).
+function noteFound(r) {
+  if (!r.autonoteId) return false;
+  let h = 0;
+  for (const c of r.npcName + r.skill) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return h % 3 === 0;
+}
+function known(r) { return Boolean(r.mawAuto) || state.ledgers[r.continent] || noteFound(r); }
+function inRuleset(r) {
+  if (state.ruleset === "standard" && r.mawOnly) return false;
+  if (state.ruleset === "maw" && r.standardOnly) return false;
+  return true;
+}
+let pages = [[]];
+
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+function hl(text) {
+  const words = state.query.toLowerCase().split(/\s+/).filter(Boolean);
+  let html = esc(text);
+  for (const w of words) {
+    const i = html.toLowerCase().indexOf(esc(w));
+    if (i >= 0) html = html.slice(0, i) + "<mark>" + html.slice(i, i + esc(w).length) + "</mark>" + html.slice(i + esc(w).length);
+  }
+  return html;
+}
+function scaleStage() {
+  const host = $("#host"), stage = $("#stage");
+  const scale = Math.min(host.clientWidth / 1600, host.clientHeight / 900);
+  stage.style.transform = `scale(${scale})`;
+  stage.style.left = (host.clientWidth - 1600 * scale) / 2 + "px";
+  stage.style.top = (host.clientHeight - 900 * scale) / 2 + "px";
+}
+function rows() {
+  return (state.data.trainers || []).filter(r => {
+    if (r.continent !== state.continent || !inRuleset(r) || !known(r)) return false;
+    if (state.mastery && r.mastery !== state.mastery) return false;
+    const hay = [r.skill, r.mastery, r.npcName, r.houseName, r.mapName, r.townName].filter(Boolean).join(" ").toLowerCase();
+    return state.query.toLowerCase().split(/\s+/).filter(Boolean).every(w => hay.includes(w));
+  });
+}
+function placeOf(r) {
+  return r;
+}
+function groups(list) {
+  const by = new Map();
+  for (const r of list) {
+    if (!by.has(r.skill)) by.set(r.skill, []);
+    by.get(r.skill).push(r);
+  }
+  return [...by.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([skill, rs]) =>
+    [skill, rs.sort((a, b) => MASTERIES.indexOf(a.mastery) - MASTERIES.indexOf(b.mastery) || a.npcName.localeCompare(b.npcName))]);
+}
+function rowHtml(r) {
+  const p = placeOf(r);
+  if (state.ruleset === "maw" && r.mawAuto) {
+    return `<div class="row auto"><span class="m" data-m="${esc(r.mastery)}">${hl(r.mastery)}</span>` +
+      `<span class="who">learned at skill ${esc(r.mawAuto)}</span><span class="where">no trainer</span></div>`;
+  }
+  return `<button class="row${state.picked === r.id ? " picked" : ""}" type="button" data-id="${esc(r.id)}">` +
+    `<span class="m" data-m="${esc(r.mastery)}">${hl(r.mastery)}</span>` +
+    `<span class="who">${hl(r.npcName)}</span><span class="where">${hl(p.townName || p.mapName)}</span></button>`;
+}
+function paginate() {
+  const list = $("#list");
+  const blocks = groups(rows()).map(([skill, rs]) => `<div class="skill"><h3>${hl(skill)}</h3><div class="rows">${rs.map(rowHtml).join("")}</div></div>`);
+  if (!blocks.length) {
+    blocks.push(state.query || state.mastery
+      ? `<div class="empty">No trainer you know on ${esc(state.continent)} matches.</div>`
+      : `<div class="empty">You have not found any trainer on ${esc(state.continent)} yet.</div>`);
+  }
+  if (!state.ledgers[state.continent]) {
+    const all = state.data.trainers.filter(r => r.continent === state.continent && inRuleset(r) && !r.mawAuto);
+    const have = all.filter(noteFound).length;
+    blocks.push(`<div class="more">You have found ${have} of the ${all.length} trainers on ${esc(state.continent)}. ` +
+      `<b>The Ledger of Teachers</b> names them all: ask for it in any tavern on ${esc(state.continent)}.</div>`);
+  }
+  const out = [[]];
+  let used = 0;
+  list.innerHTML = "";
+  for (const b of blocks) {
+    list.insertAdjacentHTML("beforeend", b);
+    const h = list.lastElementChild.getBoundingClientRect().height / currentScale();
+    if (used + h > PAGE_HEIGHT && out[out.length - 1].length) { out.push([]); used = 0; }
+    out[out.length - 1].push(b);
+    used += h;
+  }
+  return out;
+}
+function currentScale() {
+  const m = /scale\(([\d.]+)\)/.exec($("#stage").style.transform);
+  return m ? parseFloat(m[1]) : 1;
+}
+function renderList() {
+  pages = paginate();
+  state.page = Math.min(state.page, pages.length - 1);
+  $("#list").innerHTML = pages[state.page].join("");
+  $("#pagenum").textContent = pages.length > 1 ? `${state.page + 1} / ${pages.length}` : "";
+  $("#prev").disabled = state.page === 0;
+  $("#next").disabled = state.page >= pages.length - 1;
+  const n = rows().length;
+  setStatus(n ? `${n} trainer${n === 1 ? "" : "s"} on ${state.continent}. Click one to see where.` : "Try another word, or clear the search.");
+}
+function setStatus(text) { $("#status").textContent = text; }
+function renderControls() {
+  const continents = state.data.continents;
+  $("#continents").innerHTML = continents.map(c =>
+    `<button class="ob" type="button" role="tab" aria-pressed="${c === state.continent}" data-c="${esc(c)}"` +
+    ` title="${state.ledgers[c] ? "Ledger of Teachers: every trainer" : "Trainers found so far"}">` +
+    `${state.ledgers[c] ? '<i class="seal" aria-label="Ledger bought"></i>' : ""}<span>${esc(c)}</span></button>`).join("");
+  for (const box of document.querySelectorAll("[data-ledger]")) box.checked = state.ledgers[box.dataset.ledger];
+  $("#mastery").innerHTML = MASTERIES.map(m =>
+    `<button class="ob" type="button" title="${m} only" aria-pressed="${state.mastery === m}" data-m="${m}"><span>${SHORT[m]}</span></button>`).join("");
+  $("#clear").hidden = !state.query;
+}
+function render() {
+  if (!state.data) return;
+  $("#tavern").hidden = state.screen !== "tavern";
+  $("#journalbox").hidden = state.screen === "tavern";
+  if (state.screen === "tavern") { renderTavern(); return; }
+  const showingMap = state.picked !== null;
+  $("#finder").hidden = showingMap;
+  $("#mapview").hidden = !showingMap;
+  $("#prev").disabled = showingMap || state.page === 0;
+  renderControls();
+  if (showingMap) renderMap(); else renderList();
+}
+function renderMap() {
+  const r = state.data.trainers.find(t => t.id === state.picked);
+  const p = placeOf(r);
+  $("#maptitle").innerHTML = `<b>${esc(r.mastery)} ${esc(r.skill)}</b> · ${esc(r.npcName)}`;
+  $("#pagenum").textContent = "";
+  $("#next").disabled = true;
+  const box = $("#mapbox");
+  const place = [p.houseName, p.mapName].filter(Boolean).join(", ");
+  if (!p.outdoorMapFile || !p.marker) {
+    box.innerHTML = `<div class="nomap">${esc(place || "Unknown place")}<br>No map of this place yet.</div>`;
+    setStatus(place);
+    return;
+  }
+  const img = `data/maps_web/${p.outdoorMapFile.replace(/\.odm$/, "")}.jpg`;
+  const x = p.marker.x / p.imageSize[0] * 100, y = p.marker.y / p.imageSize[1] * 100;
+  const label = p.markerKind === "entrance" ? `Entrance: ${p.mapName}` : (p.houseName || p.mapName);
+  box.innerHTML = `<img src="${img}" alt="Map of ${esc(p.outdoorMapName || p.mapName)}">` +
+    `<div class="pin" style="left:${x}%;top:${y}%"><i></i></div>` +
+    `<div class="pinlabel" style="left:${Math.min(Math.max(x, 18), 82)}%;top:${y}%">${esc(label)}</div>`;
+  setStatus(p.markerKind === "entrance" ? `${place} · inside, through the marked entrance on ${p.outdoorMapName}` :
+    `${place}${p.outdoorMapName && p.outdoorMapName !== p.mapName ? " · " + p.outdoorMapName : ""}`);
+}
+function renderTavern() {
+  const bought = state.ledgers[TAVERN_CONTINENT];
+  const speech = {
+    topics: "Welcome, travellers. A room, a meal, or news of the road?",
+    ledger: `Every master who teaches a craft on ${TAVERN_CONTINENT} has a name in this book: where they live, what ` +
+      `they teach and up to which rank. Scholars copy it from the guild rolls each season. ` +
+      `<span class="price">${LEDGER_PRICE} gold</span>, and you will never have to ask around again.`,
+    bought: `There you are. The Ledger of Teachers of ${TAVERN_CONTINENT}: every trainer is now in your journal's notes.`,
+    poor: "That's more gold than you carry, friend.",
+  }[state.tavernStep];
+  $("#speech").innerHTML = speech;
+  const topics = [`<button class="ob" type="button" disabled><span>Rent room</span></button>`,
+    `<button class="ob" type="button" disabled><span>Buy food</span></button>`,
+    `<button class="ob" type="button" disabled><span>Learn skills</span></button>`];
+  if (!bought || state.tavernStep === "bought") {
+    if (!bought) {
+      topics.push(`<button class="ob" type="button" data-t="ledger" aria-pressed="${state.tavernStep === "ledger"}">` +
+        `<span>Ledger of Teachers</span></button>`);
+    }
+    if (state.tavernStep === "bought") {
+      topics.push(`<button class="ob" type="button" data-t="journal"><span>Open the journal's Trainers</span></button>`);
+    }
+    if (state.tavernStep === "ledger" && !bought) {
+      topics.push(`<button class="ob sub" type="button" data-t="buy"><span>Buy the ledger: ${LEDGER_PRICE} gold</span></button>`);
+    }
+  }
+  $("#topics").innerHTML = topics.join("");
+}
+function pick(id) { state.picked = id; render(); }
+function preset(name) {
+  state.query = ""; state.mastery = null; state.page = 0; state.picked = null;
+  state.screen = name === "tavern" ? "tavern" : "journal";
+  if (name === "tavern") { state.ledgers[TAVERN_CONTINENT] = false; state.tavernStep = "topics"; }
+  if (name === "search") state.query = "sword";
+  if (name === "map") {
+    const shown = t => t.continent === state.continent && t.marker && known(t) && inRuleset(t);
+    const r = state.data.trainers.find(t => shown(t) && /sword/i.test(t.skill) && t.mastery === "Master")
+      || state.data.trainers.find(shown);
+    if (r) state.picked = r.id;
+  }
+  $("#q").value = state.query;
+  render();
+}
+
+$("#continents").addEventListener("click", e => {
+  const b = e.target.closest("[data-c]"); if (!b) return;
+  state.continent = b.dataset.c; state.page = 0; render();
+});
+$("#mastery").addEventListener("click", e => {
+  const b = e.target.closest("[data-m]"); if (!b) return;
+  state.mastery = state.mastery === b.dataset.m ? null : b.dataset.m; state.page = 0; render();
+});
+$("#q").addEventListener("input", e => { state.query = e.target.value; state.page = 0; render(); });
+$("#clear").addEventListener("click", () => { state.query = ""; $("#q").value = ""; state.page = 0; render(); $("#q").focus(); });
+$("#list").addEventListener("click", e => { const b = e.target.closest("button.row"); if (b) pick(b.dataset.id); });
+$("#list").addEventListener("mouseover", e => {
+  const b = e.target.closest("button.row"); if (!b) return;
+  const r = state.data.trainers.find(t => t.id === b.dataset.id), p = placeOf(r);
+  setStatus([p.houseName, p.mapName].filter(Boolean).join(", ") + (r.requirement ? ` · ${r.requirement}` : ""));
+});
+$("#list").addEventListener("wheel", e => {
+  e.preventDefault();
+  const step = Math.sign(e.deltaY);
+  state.page = Math.max(0, Math.min(pages.length - 1, state.page + step)); render();
+}, {passive: false});
+$("#prev").addEventListener("click", () => { state.page = Math.max(0, state.page - 1); render(); });
+$("#next").addEventListener("click", () => { state.page = Math.min(pages.length - 1, state.page + 1); render(); });
+$("#back").addEventListener("click", () => { state.picked = null; render(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && state.picked !== null) { state.picked = null; render(); }
+  if (e.target === $("#q")) return;
+  if (e.key === "ArrowRight" && state.picked === null) $("#next").click();
+  if (e.key === "ArrowLeft" && state.picked === null) $("#prev").click();
+});
+$("#topics").addEventListener("click", e => {
+  const b = e.target.closest("[data-t]"); if (!b) return;
+  if (b.dataset.t === "ledger") state.tavernStep = state.tavernStep === "ledger" ? "topics" : "ledger";
+  if (b.dataset.t === "buy") { state.ledgers[TAVERN_CONTINENT] = true; state.tavernStep = "bought"; }
+  if (b.dataset.t === "journal") {
+    state.screen = "journal"; state.continent = TAVERN_CONTINENT; state.page = 0; $("#preset").value = "list";
+  }
+  render();
+});
+document.querySelector(".ledgers").addEventListener("change", e => {
+  const box = e.target.closest("[data-ledger]"); if (!box) return;
+  state.ledgers[box.dataset.ledger] = box.checked; state.page = 0; render();
+});
+$("#ruleset").addEventListener("change", e => { state.ruleset = e.target.value; state.page = 0; render(); });
+$("#preset").addEventListener("change", e => preset(e.target.value));
+$("#fullscreen").addEventListener("click", () => { const h = $("#host"); (h.requestFullscreen ? h.requestFullscreen() : Promise.reject()).catch(() => {}); });
+window.addEventListener("resize", () => { scaleStage(); render(); });
+
+scaleStage();
+fetch("data/finder.json").then(r => r.json()).then(data => {
+  state.data = data;
+  state.continent = data.startContinent || data.trainers[0].continent;
+  const counts = {};
+  for (const t of data.trainers) if (!t.mawOnly) counts[t.continent] = (counts[t.continent] || 0) + 1;
+  $("#caption").textContent = Object.entries(counts).map(([c, n]) => `${c}: ${n} trainers`).join(" · ") +
+    " · from the installed teacher, NPC, house and map tables";
+  document.fonts.ready.then(() => render());
+}).catch(() => { $("#caption").textContent = "The trainer table did not load."; });
+</script>

@@ -1,0 +1,67 @@
+{
+  "request": {
+    "name": "mm6-minimap-ships",
+    "world": "mm6",
+    "map": "oute3.odm",
+    "save": null,
+    "menu": false,
+    "position": [
+      1408.0,
+      -10208.0,
+      161.0
+    ],
+    "yaw_radians": 0.0,
+    "pitch_degrees": 0.0,
+    "settings": "/tmp/sdf-outline-visual-settings.ini",
+    "binary": "/home/pjasicek/github/OpenYAMM/build/game/openyamm",
+    "assets": null,
+    "set": [
+      "video.resolution=1600x900",
+      "video.vsync=true",
+      "gameplay.enemy_health_bars=off",
+      "logging.performance_trace=false",
+      "debug.performance_trace=false",
+      "debug.screenshot_tour_path=",
+      "debug.screenshot_path=",
+      "debug.menu_input_tour_path=/home/pjasicek/github/OpenYAMM/level_generation/minimaps/mm6_ships_20261004/runtime_tour.yml"
+    ],
+    "seconds": 20.0,
+    "warmup": 0.0,
+    "prepare_only": false
+  },
+  "run_directory": "/tmp/openyamm-desktop-mm6-minimap-ships-j2bjbofe",
+  "status": "completed",
+  "timing_note": "FPS log samples include ordinary simulation/rendering; these are not GPU timer results.",
+  "binary_sha256": "e653f8b2e3b6a1e6d6998cf1fdc4a8a5407706f687da5a64315d590e5a4e88f6",
+  "settings_sha256": "eea38d3559234c18044b912b182d0e4896face479bac028039abb5f75b8b5cb6",
+  "save_sha256": "ddefd991525aab568200e259587a6c135e68ab1bd350d226e44cf5a96452686f",
+  "assets": "/home/pjasicek/github/OpenYAMM/assets_dev",
+  "display": ":0",
+  "command": [
+    "/home/pjasicek/github/OpenYAMM/build/game/openyamm",
+    "--world",
+    "mm6"
+  ],
+  "pid": 575935,
+  "loaded_camera": {
+    "x": 1408.0,
+    "y": -10208.0,
+    "z": 161.0,
+    "yaw_radians": 0.0,
+    "pitch_radians": 0.0
+  },
+  "loaded_map": "oute3.odm",
+  "startup_seconds": 5.305797804961912,
+  "measurement_seconds": 7.705808898026589,
+  "fps_samples": [
+    118.887,
+    119.828,
+    119.855,
+    119.844,
+    115.826,
+    57.1278,
+    117.851
+  ],
+  "median_fps": 118.887,
+  "exit_code": 0
+}

@@ -1,0 +1,3 @@
+Saved all four unresized 1254×1254 RGBA images in [references_head](level_generation/creatures/mm9_tryggva_claude/references_head), plus raw returns, prompt/hash records and the [review sheet](level_generation/creatures/mm9_tryggva_claude/references_head/selected_views_review.png).
+
+Used built-in image generation; no builds or Meshy calls. Remaining deviations: tight front margins, mildly reddish eyelids, and a profile slightly short of exact 90°.

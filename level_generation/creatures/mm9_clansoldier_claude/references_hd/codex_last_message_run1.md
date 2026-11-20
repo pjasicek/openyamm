@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_clansoldier_claude/references_hd/00_three_quarter.png), unresized at 1536×1024, using built-in image generation. Both raw returns, prompts and input hashes are recorded in [generation_runs.json](level_generation/creatures/mm9_clansoldier_claude/references_hd/generation_runs.json).
+
+Stopped after run 1 and its one permitted correction. A dark halo remains; clean transparency, top margin and finger separation are not fully satisfied.

@@ -1,0 +1,30 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, the edit target. design_reference.png is the approved material/detail reference; icon_x8.png is original colour reference, magenta is background only.\nOutput ONE transparent PNG, 1536x2048 (3:4). Preserve the guide's exact three columns and FOUR rows of 512x512 cells, object positions, sizes, outlines and geometry. Paint existing grey objects only: do not redraw, enlarge, move or redesign. Row 1 FRONT, BACK, LEFT. Row 2 RIGHT, TOP, EMPTY. Row 3 FRONT, BACK, LEFT. Row 4 RIGHT, TOP, EMPTY. Rows 3-4 repeat precisely the geometry of rows 1-2.\nObject: source-faithful upright banner, rich deep red textile panel with gold tree relief, gold top rim and broad gold base. Follow references for detail and colour while preserving guide geometry, including its tree relief shapes on both faces. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view.\nRows 1-2 PAINT: unlit base colour. Red cloth panel, gold metal tree ornament, gold top rim and gold base. Detailed material colour only, NO lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: fill same five silhouettes with FLAT PURE material colours ONLY. #FF0000 every metal part including gold relief, rim and base; #00FF00 leather and fur; #0000FF cloth and hair (the red banner textile is BLUE in the mask); #FFFF00 matte non-metal solids such as wood/bone/stone/paper; #000000 gemstone/glass/enamel/liquid. Every silhouette pixel exactly one category. NO shading, texture, outlines, antialiased interior colour blends. Only applicable material categories need appear.\nKeep ALL background, gaps and openings exactly as in guide FULLY TRANSPARENT, including the opening in the top views. Empty row2 column3 and row4 column3 remain fully transparent. Preserve silhouette alignment across both halves.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0d-7231-7bb3-9250-ec73e9ee8276/exec-fb15ac17-3319-42c6-bf1d-702582e452b4.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10241/paint_mask_raw_v1.png",
+  "corrective_attempt": {
+    "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, the edit target. design_reference.png is the approved material/detail reference; icon_x8.png is original colour reference, magenta is background only.\nOutput ONE transparent PNG, 1536x2048 (3:4). Preserve the guide's exact three columns and FOUR rows of 512x512 cells, object positions, sizes, outlines and geometry. Paint existing grey objects only: do not redraw, enlarge, move or redesign. Row 1 FRONT, BACK, LEFT. Row 2 RIGHT, TOP, EMPTY. Row 3 FRONT, BACK, LEFT. Row 4 RIGHT, TOP, EMPTY. Rows 3-4 repeat precisely the geometry of rows 1-2.\nObject: source-faithful upright banner, rich deep red textile panel with gold tree relief, gold top rim and broad gold base. Follow references for detail and colour while preserving guide geometry, including its tree relief shapes on both faces. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view.\nRows 1-2 PAINT: unlit base colour. Red cloth panel, gold metal tree ornament, gold top rim and gold base. Detailed material colour only, NO lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: fill same five silhouettes with FLAT PURE material colours ONLY. #FF0000 every metal part including gold relief, rim and base; #00FF00 leather and fur; #0000FF cloth and hair (the red banner textile is BLUE in the mask); #FFFF00 matte non-metal solids such as wood/bone/stone/paper; #000000 gemstone/glass/enamel/liquid. Every silhouette pixel exactly one category. NO shading, texture, outlines, antialiased interior colour blends. Only applicable material categories need appear.\nKeep ALL background, gaps and openings exactly as in guide FULLY TRANSPARENT, including the opening in the top views. Empty row2 column3 and row4 column3 remain fully transparent. Preserve silhouette alignment across both halves.\nCORRECTIVE GENERATION: Previous output had large stray red/blue speckles outside objects and altered tree outlines. Strictly use the ORIGINAL grey guide alpha silhouettes and original raised tree shapes as immutable boundaries. Absolutely no pixels, paint dust, speckles or colour outside guide silhouettes. Clean fully transparent empty space. Material mask must be completely flat solid red/blue with no texture. Remove shading/highlights from paint, use uniform unlit gold base colour with subtle material detail only. Retain exact guide positions and proportions.",
+    "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0d-7231-7bb3-9250-ec73e9ee8276/exec-ffea9bbb-248e-4abd-bd51-f90d134f9dc2.png",
+    "selected": false
+  },
+  "validation": "Raw first output retained; corrective output worsened stray pixels. Does not fully satisfy exact silhouettes, clean transparency, unlit colour or flat mask requirements.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10241/paint_mask_guide.png",
+      "sha256": "33023bb5901fbd025232bc19bf9e4285ac71649c5a93f83ed367a9624764dfeb"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10241/design_reference.png",
+      "sha256": "78b67a3af8d3f842095fa617c1166c12c31f184b3a6c95c589ffacbee45dba4b"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10241/icon_x8.png",
+      "sha256": "a064cdda1b07eec1a796042a9c483e1a6cce4fd2760bb13bb723ba6aac5232f3"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

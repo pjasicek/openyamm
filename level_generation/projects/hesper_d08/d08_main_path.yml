@@ -1,0 +1,224 @@
+# D8 controls, timer, stairs, boss kill, fixed rewards and the Scour round trip.
+id: hesper.d08.main_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d08.blv
+    party:
+      members:
+      - {name: Foundry tester, class: Knight, level: 1000, equipment: {},
+         skills: [{name: Hacking, level: 12, mastery: 3}]}
+- assert: {map: hes_d08.blv, qbit_clear: [100450, 100451]}
+- set_pose: {map: hes_d08.blv, x: 4900, y: 1200, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 4, assert: {mechanism: {id: 60, state: open}}}
+- set_pose: {map: hes_d08.blv, x: 8430, y: 2300, z: 0, yaw: 0, pitch: -0.15}
+- press_interact: {}
+- assert: {map_var_changed: {index: 7, value: 1}}
+- advance_runtime: {seconds: 18}
+- assert: {runtime_event_variable: {id: 130, min: 18, max: 19}}
+- advance_runtime: {seconds: 3}
+- assert: {map_var_changed: {index: 7, value: 0}}
+# The always-safe bridge and the 24-step belt stair use movement, with actors disabled only for these traversals.
+- movement_segment:
+    input: forward
+    duration_ms: 1180
+    delta_game_minutes: 0
+    start: {map: hes_d08.blv, x: 3400, y: 1900, z: 0, yaw: 1.5707963, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 3400, y: 2800, z: 0, yaw: 1.5707963, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 2000
+    delta_game_minutes: 0
+    start: {map: hes_d08.blv, x: 5376, y: 5578, z: 0, yaw: 3.1415927, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 3850, y: 5578, z: 768, yaw: 3.1415927, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+# Clear the belt guards before testing the levers, so actors cannot intercept the click ray.
+- damage_actor: {actor_index: 34, amount: 1000000, tier: kreegan_energy}
+
+- damage_actor: {actor_index: 35, amount: 1000000, tier: kreegan_energy}
+
+- damage_actor: {actor_index: 36, amount: 1000000, tier: kreegan_energy}
+
+- damage_actor: {actor_index: 37, amount: 1000000, tier: kreegan_energy}
+
+- damage_actor: {actor_index: 38, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 38, amount: 1000000, tier: kreegan_energy}
+
+- damage_actor: {actor_index: 39, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 39, amount: 1000000, tier: kreegan_energy}
+
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 34, dead: true}}
+- set_pose: {map: hes_d08.blv, x: 3200, y: 6250, z: 896, yaw: 1.5707963, pitch: -0.4}
+- press_interact: {}
+- save_game: {name: hes_d08_partial}
+- load_game: {name: hes_d08_partial}
+- assert: {map_var_changed: {index: 4, value: 1}}
+- set_pose: {map: hes_d08.blv, x: 3200, y: 6750, z: 896, yaw: 1.5707963, pitch: -0.4}
+- press_interact: {}
+- set_pose: {map: hes_d08.blv, x: 3200, y: 7250, z: 896, yaw: 1.5707963, pitch: -0.4}
+- press_interact: {}
+- assert: {qbit_set: [100451], map_var_changed: {index: 4, value: 3}}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {id: 64, state: open}}}
+- assert: {mechanism: {id: 62, state: open}}
+- assert: {mechanism: {id: 63, state: open}}
+- press_interact: {}
+- assert: {map_var_changed: {index: 4, value: 3}}
+- movement_segment:
+    input: forward
+    duration_ms: 2100
+    start: {map: hes_d08.blv, x: 4900, y: 6420, z: 896, yaw: 0, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 6500, y: 6420, z: 768, yaw: 0, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose: {map: hes_d08.blv, x: 8464, y: 6428, z: 768, yaw: 0, pitch: -0.2}
+- press_interact: {}
+- assert: {chest_opened: {chest_id: 1}, chest_contains_quest_item: {chest_id: 1, item_id: 11008}}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d08.blv, x: 7564, y: 6640, z: 768, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {id: 90, state: open}}}
+- movement_segment:
+    input: forward
+    duration_ms: 680
+    start: {map: hes_d08.blv, x: 7564, y: 6640, z: 768, yaw: 1.5707963, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 7564, y: 7150, z: 768, yaw: 1.5707963, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose: {map: hes_d08.blv, x: 8464, y: 7892, z: 768, yaw: 0, pitch: -0.2}
+- press_interact: {}
+- assert: {chest_opened: {chest_id: 2}, chest_contains_quest_item: {chest_id: 2, item_id: 11375}}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d08.blv, x: 6300, y: 8024, z: 768, yaw: 3.1415927, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {id: 93, state: open}}}
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    start: {map: hes_d08.blv, x: 6300, y: 8024, z: 768, yaw: 3.1415927, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 5700, y: 8024, z: 768, yaw: 3.1415927, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose: {map: hes_d08.blv, x: 2500, y: 8000, z: 1024, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {actor_visible: {actor_index: 59, hostile_to_party: false}}
+- set_pose: {map: hes_d08.blv, x: 5750, y: 8624, z: 768, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {id: 94, state: open}}}
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    start: {map: hes_d08.blv, x: 5750, y: 8624, z: 768, yaw: 0, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 6350, y: 8624, z: 768, yaw: 0, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 2000
+    delta_game_minutes: 0
+    start: {map: hes_d08.blv, x: 6564, y: 8600, z: 768, yaw: 1.5707963, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 6564, y: 10100, z: 0, yaw: 1.5707963, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 160
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- wait_until: {timeout_runtime_seconds: 4, assert: {mechanism: {id: 95, state: open}}}
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    delta_game_minutes: 0
+    start: {map: hes_d08.blv, x: 6300, y: 10250, z: 0, yaw: 3.1415927, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 5700, y: 10250, z: 0, yaw: 3.1415927, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert: {runtime_event_variable: {id: 129, min: 1, max: 2}}
+- assert: {map_var_changed: {index: 12, value: 1}}
+- advance_runtime: {seconds: 32}
+- assert: {runtime_event_variable: {id: 129, min: 33, max: 34}}
+- set_pose: {map: hes_d08.blv, x: 6564, y: 10250, z: 0, yaw: 0, pitch: 0}
+- movement_segment:
+    input: none
+    duration_ms: 100
+    delta_game_minutes: 0
+    start: {map: hes_d08.blv, x: 6564, y: 10250, z: 0, yaw: 0, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 6564, y: 10250, z: 0, yaw: 0, pitch: 0}
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert: {map_var_changed: {index: 6, value: 0}}
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    start: {map: hes_d08.blv, x: 6300, y: 10250, z: 0, yaw: 3.1415927, pitch: 0}
+    expect_stop: {map: hes_d08.blv, x: 5700, y: 10250, z: 0, yaw: 3.1415927, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert: {runtime_event_variable: {id: 129, min: 1, max: 2}}
+- damage_actor: {actor_index: 67, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 67, amount: 7000, tier: kreegan_energy}
+- advance_runtime: {seconds: 0.1}
+- assert: {actor_visible: {actor_index: 67, dead: false, hp_below: 6400}}
+- damage_actor: {actor_index: 67, amount: 1000000, tier: kreegan_energy}
+
+- advance_runtime: {seconds: 3}
+- assert: {qbit_set: [100450], map_var_changed: {index: 6, value: 0}}
+- assert: {mechanism: {id: 67, state: open}}
+- assert: {world_item_spawned: {item_id: 11423}}
+- assert: {world_item_spawned: {item_id: 11332}}
+- set_pose: {map: hes_d08.blv, x: 7464, y: 11764, z: 0, yaw: 0, pitch: -0.2}
+- press_interact: {}
+- assert: {chest_opened: {chest_id: 3}, chest_contains_quest_item: {chest_id: 3, item_id: 11477}}
+- assert: {item_received: {item_id: 11477, source: chest, chest_id: 3, destination: held}}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d08.blv, x: 4900, y: 250, z: 0, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: map_transition_confirm, source_id: 0, action_id: 0, secondary_id: 0,
+                 selection_index: 0, house_dialog: false, enabled: true, label: OK}
+- assert: {map: hes_out2.odm}
+# From out2_build.json arrivals.d08_return, facing the gate on return.
+- movement_segment:
+    input: forward
+    duration_ms: 815
+    delta_game_minutes: 0
+    start: {map: hes_out2.odm, x: 14112, y: 16013, z: 2592, yaw: 1.5707963267948966, pitch: 0}
+    expect_stop: {map: hes_out2.odm, x: 14112, y: 16639, z: 2592, yaw: 1.5707963267948966, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- press_interact: {expect: {triggered_event: 53}}
+- assert: {map: hes_d08.blv, qbit_set: [100450, 100451]}
+- wait_until: {timeout_runtime_seconds: 3, assert: {mechanism: {id: 67, state: open}}}
+

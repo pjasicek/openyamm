@@ -1,0 +1,317 @@
+# Playtest of the Temple of the Moon L4 brief (nave inside out: sunken room floor, raised gallery against the walls; the temple stair lands on the sunken floor): the critical path and both wings, then back out.
+id: calib.temple_moon.l4.walk
+title: Temple of the Moon (L4 brief), start to the dormitory, the library and the moon floor tile
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calib_temple_moon.blv
+  - assert: {map: calib_temple_moon.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert_mechanism: {id: 1, state: closed}
+  - assert_mechanism: {id: 2, state: closed}
+  - assert_mechanism: {id: 3, state: closed}
+  - play_lua: {source: "log('start')"}
+  - walk_to: {x: -1150, y: -3950, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1000, y: -3700, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -600, y: -3300, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -250, y: -2900, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -50, y: -2500, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 0, y: -2200, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -150, y: -1800, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -300, y: -1300, z: -90, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -400, y: -1000, z: -200, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -200, y: -600, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 0, y: -450, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 300, y: -512, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 900, y: -650, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1300, y: -330, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1544, y: 135, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1900, y: 500, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2400, y: 640, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2900, y: 450, z: -300, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3300, y: 200, z: -180, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3700, y: 0, z: -40, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 4000, y: -250, z: 150, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 4000, y: -250, radius: 150, z_min: 110, z_max: 200}}
+  - walk_to: {x: 3900, y: -600, z: 190, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3700, y: -900, z: 290, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3600, y: -1200, z: 400, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3600, y: -1500, z: 448, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 3600, y: -1500, radius: 150, z_min: 430, z_max: 470}}
+  - play_lua: {source: "log('east climb walked to the high east pocket')"}
+  - walk_to: {x: 3600, y: -1200, z: 400, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3700, y: -900, z: 290, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3900, y: -600, z: 190, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 4000, y: -250, z: 150, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3700, y: 0, z: -40, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3300, y: 200, z: -180, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2900, y: 450, z: -300, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2400, y: 640, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1900, y: 500, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1544, y: 135, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1700, y: -250, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2100, y: -300, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2450, y: -250, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        -- round six: the bay's rock face (the original's secret chest face f39, event 27) opens its chest; it is trapped
+        local g = gold()
+        loot_chest(22)
+        log("south cavern rock-face chest looted: gold " .. g .. " -> " .. gold())
+  - walk_to: {x: 2100, y: -300, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1700, y: -250, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1544, y: 135, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1450, y: 450, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1000, y: 700, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 800, y: 900, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 600, y: 1100, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 500, y: 1400, z: -320, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 200, y: 1440, z: -366, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 0, y: 1440, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -500, y: 1450, z: -512, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -700, y: 1700, z: -512, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -900, y: 1500, z: -512, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1100, y: 1250, z: -560, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1100, y: 1000, z: -640, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1700, y: 950, z: -640, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2200, y: 950, z: -640, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2200, y: 1150, z: -670, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2300, y: 1500, z: -704, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2600, y: 1800, z: -790, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2800, y: 2200, z: -896, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -2800, y: 2200, radius: 150, z_min: -905, z_max: -865}}
+  - play_lua: {source: "log('west descent, neck and sinkhole walked')"}
+  - walk_to: {x: -3300, y: 2700, z: -896, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -3700, y: 3136, z: -896, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        -- round six: the rock face in the west wall (the original's secret chest face f2236, event 26) opens its chest
+        local g = gold()
+        loot_chest(21)
+        log("sinkhole rock-face chest looted: gold " .. g .. " -> " .. gold())
+  - walk_to: {x: -3300, y: 2700, z: -896, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2800, y: 2200, z: -896, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2600, y: 1800, z: -790, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2300, y: 1500, z: -704, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2200, y: 1150, z: -670, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2200, y: 950, z: -640, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1700, y: 950, z: -640, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1100, y: 1000, z: -640, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1100, y: 1250, z: -560, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -900, y: 1500, z: -512, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -700, y: 1700, z: -512, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -700, y: 2500, z: -512, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -700, y: 3250, z: -512, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -300, y: 3328, z: -480, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 300, y: 3328, z: -290, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 700, y: 3400, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1000, y: 3328, z: -200, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1500, y: 3400, z: -128, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2200, y: 3500, z: -128, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2700, y: 2700, z: -128, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3200, y: 2600, z: -90, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 3700, y: 2600, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 3700, y: 2600, radius: 150, z_min: -30, z_max: 20}}
+  - play_lua: {source: "log('northeast chamber and pocket walked')"}
+  - walk_to: {x: 3200, y: 2600, z: -90, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2700, y: 2700, z: -128, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2200, y: 3500, z: -128, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1500, y: 3400, z: -128, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1000, y: 3328, z: -200, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 700, y: 3400, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 450, y: 3900, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 450, y: 4600, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 450, y: 5300, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 450, y: 5952, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 50, y: 5952, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -300, y: 5952, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -640, y: 5952, z: -544, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -960, y: 5952, z: -544, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -960, y: 5952, radius: 150, z_min: -552, z_max: -536}}
+  - play_lua: {source: "log('stair foot: on the sunken floor inside the arch')"}
+  - walk_to: {x: -1200, y: 5952, z: -544, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -1600, y: 5952, z: -544, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -1600, y: 5952, radius: 150, z_min: -552, z_max: -536}}
+  - walk_to: {x: -1800, y: 5952, z: -544, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2000, y: 5952, z: -522, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2250, y: 5952, z: -480, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2440, y: 5952, z: -436, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -2440, y: 5952, radius: 128, z_min: -445, z_max: -425}}
+  - play_lua: {source: "log('west steps: on the top tread at -436, the riser of 20 into the apse ahead')"}
+  - walk_to: {x: -2620, y: 5952, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - assert: {party_position: {x: -2620, y: 5952, radius: 150, z_min: -424, z_max: -408}}
+  - play_lua: {source: "log('apse reached: nave crossed, down the temple stair straight onto the sunken floor and up the west flight')"}
+  - walk_to: {x: -2620, y: 6600, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2380, y: 6850, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -1800, y: 6850, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -1800, y: 6850, radius: 150, z_min: -424, z_max: -408}}
+  - walk_to: {x: -1424, y: 7120, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -1800, y: 6850, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2380, y: 6850, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2620, y: 6600, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2620, y: 5952, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2620, y: 5300, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2380, y: 5050, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -1800, y: 5050, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -1424, y: 4784, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -1800, y: 5050, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2380, y: 5050, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2620, y: 5300, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2620, y: 5952, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: "log('rim walked: apse to both aisles and back')"}
+# Round five: the north wing first. The four guards (group 54, the original's actors 0 to 3) are peaceful by the
+# game's tables, as the original's are (their records carry no Aggressor bit), so the walk passes them at their posts
+# and checks that none has died; every walk step's clear_hostiles leaves them alone. (A player who wants the
+# captain's Longbow kills him: round six does, after the alcove.)
+  - walk_to: {x: -2624, y: 6700, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2624, y: 7168, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2624, y: 7680, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3300, y: 7680, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 7680, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 7300, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(1) ~= "closed" or door_state(4) ~= "closed" then error("the north double door is not shut") end
+        click(39); wait(5)
+        if door_state(1) ~= "open" or door_state(4) ~= "open" then error("the button did not open both leaves: " .. door_state(1) .. ", " .. door_state(4)) end
+        log("north double door opened by its button: both leaves open")
+  - walk_to: {x: -4032, y: 6950, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 6784, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4500, y: 6784, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - lua_event:
+      source: |
+        if evt.CheckMonstersKilled(ActorKillCheck.Group, 54, 1, false) then error("a guard of group 54 is dead") end
+  - walk_to: {x: -5000, y: 6784, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5600, y: 6784, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -6000, y: 6784, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - lua_event:
+      source: |
+        if evt.CheckMonstersKilled(ActorKillCheck.Group, 54, 1, false) then error("the dormitory's guard or captain (group 54) was killed by the walk") end
+  # The hat cabinet (event 20, chest 4: the original's chest record 5, 1433 then rolls of levels 3, 2, 1) always holds
+  # the Wealthy Hat: a fixed record is placed before the random ones. What is not guaranteed is room for it: the
+  # scenario's party is one member with one 14 by 9 pack, which the start kit and the random rolls of the two rock-face
+  # chests and cabinet 16 can fill, and take-all leaves in the chest what does not fit ("Inventory full.", nothing on
+  # the cursor or the ground). About one run in twenty the hat stayed in the cabinet that way. So the packs are emptied
+  # first, as a player makes room (as before the library), and the hat cabinet is looted before cabinet 16: its
+  # contents fill at most its 9 by 9 grid, which an empty pack holds.
+  - play_lua:
+      source: |
+        log("packs before the alcove cabinets: " .. pack_items() .. ", held " .. held())
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          while item_count(id) > 0 and discard(id) do end
+        end
+        loot_chest(20)
+        if not has_item(1433) then error("no Wealthy Hat from the alcove cabinet") end
+        loot_chest(16)
+        log("cabinets looted, wealthy hat taken; gold " .. gold())
+  - walk_to: {x: -5800, y: 6784, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+# Round six: a player who wants the Longbow (the scavenger hunt's) kills the captain for it: he carries it (the original's
+# actor 3 holds item 845, now objects.yml `carries`) and the game leaves it in his corpse.
+  - combat_loot: {actor_index: 0, expected_item_id: 845}
+  - play_lua:
+      source: |
+        if not has_item(845) then error("no Longbow from the captain's corpse") end
+        log("captain killed, the Longbow taken from his corpse")
+  - lua_event:
+      source: |
+        if not evt.CheckMonstersKilled(ActorKillCheck.Group, 54, 1, false) then error("the captain is not dead") end
+  - walk_to: {x: -5600, y: 6784, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -5000, y: 6784, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -4500, y: 6784, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 6784, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 6950, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 7300, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 7680, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -3300, y: 7680, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2624, y: 7680, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2624, y: 7168, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2624, y: 6700, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -2620, y: 5952, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+# Round five: then the south wing, the library (its two guards, standing peacefully at their posts), the secret wall and the hidden
+# study, where the walk ends as the map's critical path does: by taking the moon floor tile from the floor.
+  - walk_to: {x: -2624, y: 5200, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2624, y: 4736, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2624, y: 4224, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        status(); wait(11)
+        log("standing in the fire lane for 11 s: " .. status())
+  - walk_to: {x: -3300, y: 4224, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 4224, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 4600, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        open_door(24, 2)
+        if door_state(5) ~= "open" then error("the south double door's second leaf did not open: " .. door_state(5)) end
+        log("south double door: both leaves " .. door_state(2) .. ", " .. door_state(5))
+  - walk_to: {x: -4032, y: 4950, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4032, y: 5120, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4500, y: 5120, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -4500, y: 5120, radius: 150, z_min: -424, z_max: -408}}
+  - play_lua: {source: "log('south anteroom arm under its vault')"}
+  - walk_to: {x: -4950, y: 5120, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4950, y: 5568, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - lua_event:
+      source: |
+        -- round six: the captain's killing turned his group (54) on the party, as in the original; the walk has fought the
+        -- dormitory's guard and the library's two on its way, so the whole group is dead
+        if not evt.CheckMonstersKilled(ActorKillCheck.Group, 54, 0, false) then error("a guard of group 54 still lives after the captain was killed") end
+  # Ninth merge lines (2026-11-13): the packs are emptied of what the chests rolled before the library, as a player
+  # makes room: with full packs a bookcase's scroll stays on the cursor (stow fails) and was counted 0 (the library
+  # and the study bookcase each failed once in four runs, about 35 items carried by then).
+  - play_lua:
+      source: |
+        log("packs before the library: " .. pack_items() .. ", held " .. held())
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1438 then while item_count(id) > 0 and discard(id) do end end
+        end
+  - play_lua:
+      source: |
+        -- round five: the bookcases are the original's clicked faces (events 35 and 36 there), each giving its scroll once
+        local before = item_count(1102)
+        click(1); wait(0.5); if held() ~= 0 then stow() end
+        click(2); wait(0.5); if held() ~= 0 then stow() end
+        click(1); wait(0.5); if held() ~= 0 then stow() end
+        if item_count(1102) ~= before + 2 then error("the south case's two faces did not give one Torch Light scroll each, once: " .. before .. " -> " .. item_count(1102)) end
+        log("library south case searched on both faces: Torch Light scrolls " .. item_count(1102))
+        if door_state(3) ~= "closed" then error("the secret wall is open before it was found") end
+        click(26); wait(7)
+        if door_state(3) ~= "open" then error("the secret wall did not lift: " .. door_state(3)) end
+        log("secret wall: open")
+  - walk_to: {x: -4700, y: 5568, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4544, y: 5568, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4544, y: 6080, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4380, y: 6080, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4150, y: 6080, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4100, y: 6250, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -4100, y: 6250, radius: 300, z_min: -440, z_max: -380}}
+  # Again before the study bookcase (ninth merge lines, as before the library).
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1438 then while item_count(id) > 0 and discard(id) do end end
+        end
+  - play_lua:
+      source: |
+        log("hidden study reached")
+        click(11); wait(0.5); if held() ~= 0 then stow() end
+        local books = item_count(1202)
+        click(11); wait(0.5); if held() ~= 0 then stow() end
+        log("study bookcase: Torch Light books carried " .. books .. " after the first search, " .. item_count(1202) .. " after the second")
+        if books ~= 1 or item_count(1202) ~= 1 then error("the bookcase did not give its book exactly once") end
+  - pick_up: {item_id: 1438}
+  - play_lua:
+      source: |
+        if not has_item(1438) then error("the moon floor tile is not in the packs") end
+        log("goal: the Floor Tile with the moon insignia taken from the hidden study's floor")

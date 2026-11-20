@@ -1,0 +1,355 @@
+{
+  "status": "reviewed_separate_art_candidate",
+  "transition_count": 33,
+  "runtime_tile_count": 36,
+  "runtime_size": [
+    256,
+    256
+  ],
+  "native_size": [
+    128,
+    128
+  ],
+  "unchanged_directional_masks": 33,
+  "protected_material_interiors": 33,
+  "selected_dirt_center_exact": [
+    448,
+    448
+  ],
+  "runtime_matches_separate_play_stage": true,
+  "mask_checks": 398,
+  "unique_rgb_joins": 211,
+  "compatible_placements": 8524,
+  "structural_failures": [],
+  "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+  "visual_review": {
+    "native_references": "All 33 originals, including directional and inward corners, compared against final family sheets.",
+    "assembled_tiles": "Three family sheets, five pair overviews, seven corner overviews, six legal layouts and 5x5 dirt repeat reviewed.",
+    "runtime": "36 successful capture records: six flat top views, 20 directional road views at near/medium/far distances with eight linear comparisons, nine native map views including the supplied camera, and one movement sequence.",
+    "assessment": "Restrained irregular turf fringe, gravel mixing and stone contact shading retain the fuller dirt material. No conspicuous added tile-grid line in the reviewed compatible layouts or road filtering comparisons.",
+    "motion": "All 16 sampled frames reviewed as a contact sheet. This sequence mainly shows repeated dirt with roads distant; it does not qualify road-boundary motion or continuous temporal shimmer."
+  },
+  "limitations": [
+    "Known original map-layout conflicts remain; private playable map is not patched.",
+    "Flat fixture outer pad borders are deliberate hard cuts and are not valid compatible tile joins.",
+    "Some top-view corners are obscured by HUD; complete arrangements are also reviewed in flat image layouts.",
+    "Some native map context views contain actors/projectile effects; grass_dirt and volcano historical poses mainly show pure materials.",
+    "Coarse clod repetition remains visible. Numeric edge continuity does not establish exact visual equivalence to original art.",
+    "No GPU performance or exhaustive temporal filtering qualification was performed."
+  ],
+  "settings": {
+    "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat": {
+      "terrain_filtering": "anisotropic",
+      "terrain_anisotropy": "8x",
+      "terrain": "x2",
+      "settings_copy": "reports/transitions_flat_settings.ini",
+      "current_settings_sha256": "f11f083cd812350941f3787c2c879584e46f1bd953a3e08685eba8f98ad5c86a"
+    },
+    "/tmp/openyamm-sorpigal-dirt-fidelity/transitions": {
+      "terrain_filtering": "anisotropic",
+      "terrain_anisotropy": "8x",
+      "terrain": "x2",
+      "settings_copy": "reports/transitions_settings.ini",
+      "current_settings_sha256": "b92b689693bc8c0392ed8ad8388cdd2bf9016edd24ac0447490a3d47ec6cb3e7"
+    },
+    "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear": {
+      "terrain_filtering": "linear",
+      "terrain_anisotropy": "8x",
+      "terrain": "x2",
+      "settings_copy": "reports/transitions_flat_linear_settings.ini",
+      "current_settings_sha256": "94b1ba8a3afa02f47074438c9ec18281762187092f6d72363130df3e9280bb16"
+    }
+  },
+  "captures": [
+    {
+      "name": "dirt_v1_flat_grass_dirt_island_top",
+      "screenshot_sha256": "b48d513e06af8f661fb8973e82abe7a5fe32ff4abfd9114b7c1f7b91e65733c3",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_grass_dirt_hole_top",
+      "screenshot_sha256": "e24a9aeaac7a8b3b34e3d53b226efc18d8e2d12cae6f5973a2ac2d0cf51b8951",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_rock_dirt_island_top",
+      "screenshot_sha256": "fe5d133a4d9f21c2e0b92ad60f0c14588729560db3676798d59baccc0b8a1623",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_rock_dirt_hole_top",
+      "screenshot_sha256": "8b8fcd178436f54d9a5c0e6d948d3aadbe37811035e588a13ff51c25a0e6576a",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_loop_top",
+      "screenshot_sha256": "4d5abf1ed200be72c6b130d3c7b22514364328b250f88370d4e86b443f16680b",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_branch_top",
+      "screenshot_sha256": "80cb9ca1220cdd9207208a354440ba75e1780c42bfbdccd18e9986c3f8b1c588",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_east_near",
+      "screenshot_sha256": "f50aafa4d0e3342b5b8f89c3aae9f9201600561fada83aa2529dc0c6a757ccd1",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_east_far",
+      "screenshot_sha256": "46bcf9791085437dea763c989e74a76223b505158c4d59c838f570c6379b9d3a",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_north_near",
+      "screenshot_sha256": "d10333fbf63ee1b6256de9f00bad3db189e2706acd89e8b5a40a37282a59e867",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_north_far",
+      "screenshot_sha256": "8e7f08c615a37c5b2f10b0086b0910d5884b7b5763c5559b99d1c7036ac96457",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_west_near",
+      "screenshot_sha256": "21663e7bab3a71d0560c9c7dd341a02e9eff5a74e670a65302f21108117cdb3a",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_west_far",
+      "screenshot_sha256": "db2793c943c2094349f4325bfe432cdfd8b1ec124e3e1e90fca06d15d60d8784",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_south_near",
+      "screenshot_sha256": "a9cd37274ba90c88a2342fa5a20243c8837776ed4a6d950702e5a658c12fee46",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_south_far",
+      "screenshot_sha256": "58c67b8669052190168a772e5f25935aed1e633738e632489f944d1c0c5f3cff",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_map_overview",
+      "screenshot_sha256": "029ca64d685b12639d84e2a36fb1d4e98e26669b4387229f6198b56efdd8a933",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_cobbles",
+      "screenshot_sha256": "37f249cc2d4cb64b2772acc1c6f00b3fca03c5663fd64bf1dd038f1d3d59e692",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_grass_dirt",
+      "screenshot_sha256": "4be0d53656e83c2c31a39e14aaa146cc708170b8d5c5cbc662d50ccd6bcf24e6",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_volcano",
+      "screenshot_sha256": "7ea15c3d6d0937c019310f1ca355b028412ffd8765f294b6a8502d61e3d5414e",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_corrected_1",
+      "screenshot_sha256": "190597ec7db79251032785ba14af0a2ea2902dda63f2b6686879925dd6c0cbf8",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_corrected_2",
+      "screenshot_sha256": "87b5d7ddcca85758dc5c795d2a917c4a5a54845e945ea13d34e8ae170912921b",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_corrected_3",
+      "screenshot_sha256": "de5c5e7b2ffa5985d36e435d32a77f08468d4b38a40105327286b12cb2d04895",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_corrected_4",
+      "screenshot_sha256": "1a67aae01da58cd80db791bfe66dcad287c766a05d83f52e61ed47548ba7b570",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_map_user_dirt",
+      "screenshot_sha256": "17ae72c5605d876b2ba47623f97a63d9c64a9a3111e9531f867a4fdcb3816c63",
+      "capture_settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions"
+    },
+    {
+      "name": "dirt_v1_flat_road_east_near_linear",
+      "screenshot_sha256": "71a8f5577d576d6f14260629bc1ce3c53526d53055f73907b909ac3eff8737a0",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_east_medium",
+      "screenshot_sha256": "8fd3fd9762f2ae20d3b15d1d599093a26ad0a9510599db0b878ff190d33cdf6b",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_east_far_linear",
+      "screenshot_sha256": "96570deeb76744f6b24c6cbae03a3ac99d195a89c949d7c6155e7832ca6c6102",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_north_near_linear",
+      "screenshot_sha256": "045ddd985825032f5a4e9c7173d12e354b9d89a835fc562c27ddbce49fbde932",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_north_medium",
+      "screenshot_sha256": "4ebd33d99c45a3d0aa7f12de67a349c0a799f3769667e2428a8f05a7ff44c5b7",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_north_far_linear",
+      "screenshot_sha256": "0ddf5f7fb6917744259792e165a121a9048e51c0ee55564926112fa0583af9b0",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_west_near_linear",
+      "screenshot_sha256": "7e4541eaaa4c739d2c19942dddaf28f47bec0e7a5276caa35427daa2fccf6025",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_west_medium",
+      "screenshot_sha256": "1ae9552f9b76609d83e633d2b1db8358da545deb5b71ccabbe773260277d44d4",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_west_far_linear",
+      "screenshot_sha256": "4b71b9d805920fd12626b05fd1aeafddad8b0818048f8215b9eed2d0c1044f23",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_south_near_linear",
+      "screenshot_sha256": "55ab6dd4ebb52e690b37dc032e92db57f01ce1cee50cd724737594dfbf68d17e",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_south_medium",
+      "screenshot_sha256": "874a018f14311adb78443e4e75fd22227c6fc08a14ac4359336db5f9034ca20f",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    },
+    {
+      "name": "dirt_v1_flat_road_south_far_linear",
+      "screenshot_sha256": "18d4b25e1b8a7b7801c1d2f296c62ef30f483fe9a11b86a5e9de3f9844f24148",
+      "capture_settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat_linear"
+    },
+    {
+      "name": "dirt_v1_flat_road_motion",
+      "screenshot_sha256": "f7c83874c10fd8b5ccf641d59b2607df836db69ae0d7b16d280c5acef5ccdd32",
+      "capture_settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055",
+      "stage": "/tmp/openyamm-sorpigal-dirt-fidelity/transitions_flat"
+    }
+  ],
+  "asset_hashes": {
+    "6dirttyl.png": "cc01d357b7002c785061d9b4fef1548a62e865c03c024ef329eca53ca4b12a86",
+    "6drsrecap.png": "320ce813737057cb1753cc884fbcb5b6238225346f0ab3886a7143fae72a2965",
+    "6drsrew.png": "17d780d971e5c5492a85837131fd2228f480483c139f845c075bd277dc5e554d",
+    "6drsrew_s.png": "2f95c07b06fae817e1b99621bf5d1f9c011a3f068e746c0330a675610b5650dd",
+    "6drsrn_e.png": "662b7a40ff2d7c95912e924e458ecd8a8d0ec984e31f7f8672573592a973b0fd",
+    "6drsrn_w.png": "6d992e0478d84e0df0edaa0d002d2beadccbc5923649a82c6f5d4c4a91eb50c8",
+    "6drsrns.png": "aab90eef5bdda4f32c960a7480153183e5bc1d0406f49a44f6a0fd005bfeb359",
+    "6drsrs_e.png": "7720292b66f00b5f90b0e309770027182dedc3f3bc5539a119d894a72b4d5979",
+    "6drsrs_w.png": "6cac5bfc5fe776a4dbc67403209447104937fc94c601c3692b97f94309d88db9",
+    "6drsrwcap.png": "4cbb2bd48da301d4e138cdde7201b924429d906e123539df37c07eccb88e3a20",
+    "6grastyl.png": "d9539dc53d9bae0de02a29fd04c435815b4dfd34acde4a1932c51b8313b545d6",
+    "6grdrte.png": "8336a556c681a3e583a977278ef601bbd60d513e389e5556bc3040fa87e60000",
+    "6grdrtn.png": "a459d7efaaf6067733b8210fefee0fb77279220f56b58aad386abd3ce7074287",
+    "6grdrtne.png": "792bcb7ab5145aafc0a81ed1fbed538c271e216fcb076bbee70b445a7453d6cd",
+    "6grdrtnw.png": "afa39e7968ae99b6eaa484c08d8985a77c4b8b65e5ca4ec5516c28d39f2ca140",
+    "6grdrts.png": "feb6237ebbb58642df99c034c2f557a8d536a0038f5332645f328ec667c698a5",
+    "6grdrtse.png": "c7cbc2a4f2f253cf46b8ef3630c8d0574c0f104afedc476b14c32bd9b297646e",
+    "6grdrtsw.png": "eb3add411127310bcedaa7d089d7a9d1456d4d092b449a322f1b21b0ce41c67a",
+    "6grdrtw.png": "f68620953f4c625cb30c8ba2dc8ad5db8367dbb1ce7e4a5c93333cf1772628ff",
+    "6grdrtxne.png": "8cc0e55d4a2ee4a0426db8bb5e0d1ddfea0b724dc5d50368791fe4149ea82c98",
+    "6grdrtxnw.png": "40c617543bdd1558eb5bd8e5de6524233e627fe712a80094110891c5b1ef8972",
+    "6grdrtxse.png": "1abdaa6773aa520236c5df4aeedc7774d3f5061336a926640b57227fbd987816",
+    "6grdrtxsw.png": "9d446ef1d5dcc0fb99ef3522488b50c9e539ff024301c574d911bbd6341a5196",
+    "6voltyl.png": "394b775d7b59f1c3636df95a65df8c638f4ca4a41ad4f337b79149e890125068",
+    "voldrte.png": "6d9494668231c21246e40b9867f64de50c3f4bbddcc222c095494489a8612462",
+    "voldrtn.png": "39adbe8f2cedf2f81a360b4410374ef3fbda650322210def2d7b348019554edc",
+    "voldrtne.png": "79befba09bb7d4ddb89f5580096a06a245aac9dd2a3fab6ab8f20dbd29d8801b",
+    "voldrtnw.png": "e09a0c8887ed60321e94090ac7c57ab382bf5e61bee9000c5745fdb0770f6108",
+    "voldrts.png": "ca6a0439f9183bbb14687beb9a6c5e8204966b58a812cb72f321080ffa7d2f24",
+    "voldrtse.png": "2f1b95497955bc0ed4534d005948f5b6f8867628abc9c2a58f6ffaca7051b0c9",
+    "voldrtsw.png": "c28ddeef60868d29f649de6b29f8263d676d100728b075d951fee607480d2564",
+    "voldrtw.png": "d8cd36af8b224955f2e2a726489e92d031e624a6dd54b979af8f35ad3adb158e",
+    "voldrtxne.png": "77ec52537ed7d47e736a03cb0ef2b184c793c33156546005e01699366b62b4e9",
+    "voldrtxnw.png": "eced914a79fa62d248b1238dcf18b85cf70eefacde8632da6cbe677640749003",
+    "voldrtxse.png": "9808f6b16baded5007c0a74fbd10a0426894eb12c0836a2c1f330f4c5110b112",
+    "voldrtxsw.png": "f4f58b1d99118a9fd3de355cc2b71e427705235427f0385764ea115c622db3ad"
+  }
+}

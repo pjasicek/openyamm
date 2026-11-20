@@ -1,0 +1,17 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Preserve this transparent 1:2 production sheet exactly, with two vertically stacked squares showing the same top-view boot pair. Apply ONE TINY correction: make the boot pair in each square 3% taller, with width and centre unchanged. Keep every oxblood leather, horn and steel detail, and lower flat GREEN/YELLOW/RED mask unchanged. No redesign, lighting, extra margins, shadows or changes to background. Exactly 3% vertical expansion only, both squares. Output 1024x2048 transparent PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/pair_top_raw_v2.png"
+  ],
+  "revision": 3,
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-4ee2416e-ae74-4aa8-a5ad-c1427be5aba7.png",
+  "raw_sha256": "9ad3a60d70ecbbf85d6319824662b9b19a67810d93aaf5ae48166015596c820f",
+  "dimensions": [
+    887,
+    1774
+  ],
+  "derivation": "Unresized top/bottom square extraction",
+  "selected": false,
+  "reason": "Generated trial not selected. Original paintings and masks register after restoring source pair proportions; see reused_original_views.json."
+}

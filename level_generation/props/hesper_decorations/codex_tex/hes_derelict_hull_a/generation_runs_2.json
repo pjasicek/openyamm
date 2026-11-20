@@ -1,0 +1,140 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "status": "Generated and saved; strict brief validation failed.",
+  "selected_output": "paint_back.png",
+  "selected_means": "Best of the two permitted returns, not acceptance of exact brief compliance.",
+  "corrective_regenerations_used": 1,
+  "corrective_regenerations_limit": 1,
+  "guide": {
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha_bbox": [
+      66,
+      324,
+      958,
+      701
+    ]
+  },
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: game prop albedo texture painting, back-view projection.\nCreate ONE 1024 x 1024 RGBA transparent PNG. Edit the first input guide_back.png in place, painting only its existing object pixels.\nINPUT ROLES: Image 1 guide_back.png is the EXACT geometry, alpha/silhouette, back-view orthographic camera, position and scale authority and the edit target. Image 2 design_reference.png is the approved material/design/colour reference only, NOT the composition. Image 3 concept_crop.png is the original concept, secondary material context only; ignore its scenery and lighting.\nThe object is the bow half of a derelict alien swarmship. Keep the guide silhouette EXACTLY: identical outline, size, location, every edge, every opening, every arch and strut, every horn and downward shard, every base fragment. Lock the original 1024-square frame and large transparent upper/lower margins. Guide nontransparent bounds are x=66..957 and y=324..700. Low broken end is at the left; high forked bow is at the right. Keep the broad near-side hull panels, gently curved lower hull and rear row of open arches exactly where the guide places them. Do not rotate, mirror, enlarge, recenter or crop. Do not replace this back view with the design-reference three-quarter view. Preserve all guide holes as transparent, with no invented filling or new cutouts.\nCHANGE ONLY SURFACE COLOUR AND MATERIAL: paint the design reference's weathered grey-brown chitin and bone plates onto this exact guide shape, darker ribs, black-violet resin webbing and drips on existing surfaces, faint dark orange colour deep inside existing seams, dry dust. Paint fine weathered plate seams, scuffs and natural material texture within the existing shapes. Match the reference's restrained earthy grey-brown and muted violet-black colours. Preserve geometry rather than copying geometry or rubble from the reference.\nLIGHTING: pure albedo TEXTURE SOURCE, flat even shadowless viewer-facing illumination across every visible surface. No cast shadows, no ambient-occlusion darkening, no directional shading gradients, no strong specular highlights, no reflections, no rim light. Dark areas represent intrinsic dark resin material only. Tiny orange seams are local painted dark-orange colour with no glow spill, bloom or light on surrounding surfaces.\nBACKGROUND: true alpha transparency outside the guide and through all its openings. No opaque black, no checkerboard artwork, no background, no floor, no ground plane, no added rocks, no scene, no text or labels. Return only the painted view, unresized at 1024 x 1024.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "65a4d3b2a85c98593b514876c20d0832e69ca49cf907d745350c7a2106af4d42"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original concept; supporting reference",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16911-5092-7041-a031-054c22a01ecf/exec-39a8fa07-d5a1-482f-83a4-dec90f0438c1.png",
+      "selected": false,
+      "reason": "Superseded by the one allowed corrective attempt because the return was 1254 x 1254 and did not preserve exact guide alpha.",
+      "output_sha256": "389a61f1d2f87594243911fc74ce877f663fecbf153ce2c280fdc4ad2ff03f1a",
+      "checks": {
+        "required_size": [
+          1024,
+          1024
+        ],
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "silhouette_identical_to_guide": false,
+        "materials_colours": "Visually consistent with the grey-brown chitin/bone and violet-black resin reference.",
+        "lighting": "Broadly even material painting, but some edge highlights and local shading remain; strict shadowless albedo is not fully achieved.",
+        "transparent_background": true,
+        "clean_alpha_pass": false,
+        "alpha_note": "Transparent background is present, but stray low-alpha pixels extend beyond the intended silhouette.",
+        "unresized_return": true,
+        "postprocessing": "None. Original generated PNG bytes retained.",
+        "alpha_bbox": [
+          39,
+          35,
+          1236,
+          1238
+        ],
+        "alpha_128_bbox": [
+          80,
+          397,
+          1174,
+          858
+        ],
+        "fully_transparent_pixels": 1272830
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION — output one PNG exactly 1024 pixels wide by 1024 pixels high, not 1254 x 1254. This is a precision texture projection, and canvas dimensions and pixel alignment are mandatory.\nUse case: style-transfer.\nInput 1 (guide_back.png): EDIT TARGET. Retain its original 1024 x 1024 canvas and copy its alpha/silhouette unchanged. Do not generate a newly composed object. Paint only the visible grey surfaces at their exact original pixel positions.\nInput 2 (design_reference.png): material and colour authority only.\nInput 3 (concept_crop.png): supporting material context only; ignore environment.\nProduce paint_back.png: a flat albedo painting of the back view of the derelict swarmship's bow half.\nThe first attempt enlarged the canvas and had stray nontransparent pixels outside the object. Correct this: exactly 1024 x 1024 pixels, all pixels outside the input guide silhouette fully transparent, no detached specks. Guide object bounds x=66 through 957, y=324 through 700. Preserve that outline, its exact margins and placement, every hole, arch, rib, strut, torn edge, hanging point and fragment. Keep every edge precisely where it is in the guide. Left low broken end, right elevated forked bow. No rotation, zoom, recentering, crop, mirrored view, added geometry, missing pieces or changed openings.\nPaint weathered grey-brown chitin and bone plates, darker ribs, black-violet resin webbing and drips on existing guide surfaces, faint dark orange colour deep in existing seams, and dust. Colour and material match design_reference.png. Fine material texture is allowed only within the existing shapes; geometry comes exclusively from guide_back.png.\nPure albedo texture source: even flat shadowless viewer-facing light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no directional lighting. Orange seams are their local dark orange colour, without illumination of surroundings. No background, no floor, no added rubble, no text, no labels. Genuine alpha transparency outside and through all existing guide openings.\nReturn the native unresized 1024 x 1024 transparent PNG only.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "65a4d3b2a85c98593b514876c20d0832e69ca49cf907d745350c7a2106af4d42"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original concept; supporting reference",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "output": "paint_back.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16911-5092-7041-a031-054c22a01ecf/exec-d12f9eaa-8446-4b8e-a9b2-d7b8197ef463.png",
+      "selected": true,
+      "reason": "Selected for the clearer violet-black resin material and relatively even plate colouring. The tool again returned 1254 x 1254 with alpha deviations; saved byte-for-byte to honor unresized returns. It does not meet the exact size/silhouette requirement. No further generation permitted by the brief.",
+      "output_sha256": "2a3e3ccb9279f7056dad2de0d20edb9c204a90f00043249b639e0825ad718cf1",
+      "checks": {
+        "required_size": [
+          1024,
+          1024
+        ],
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "silhouette_identical_to_guide": false,
+        "materials_colours": "Visually consistent with the grey-brown chitin/bone and violet-black resin reference.",
+        "lighting": "Broadly even material painting, but some edge highlights and local shading remain; strict shadowless albedo is not fully achieved.",
+        "transparent_background": true,
+        "clean_alpha_pass": false,
+        "alpha_note": "Transparent background is present, but stray low-alpha pixels extend beyond the intended silhouette.",
+        "unresized_return": true,
+        "postprocessing": "None. Original generated PNG bytes retained.",
+        "alpha_bbox": [
+          0,
+          57,
+          1230,
+          1220
+        ],
+        "alpha_128_bbox": [
+          81,
+          397,
+          1175,
+          858
+        ],
+        "fully_transparent_pixels": 1268898
+      }
+    }
+  ]
+}

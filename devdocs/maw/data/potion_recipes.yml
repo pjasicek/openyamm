@@ -1,0 +1,175 @@
+# draft extracted from MAW ef23ee17
+# MAW alchemy: the complete mix matrix and the reagent table. Not loaded by anything.
+# Source of the matrix: POTION.TXT inside Data/zMaw.T.lod (extracted with scratch lodx.py; MM8 LOD, zlib entries).
+# Every cell that is not listed below is "no" (the mix is refused, nothing is consumed): 174 directed numeric cells
+# = 87 unordered recipes, 9,826 "no" cells, zero E1-E4 explosion cells (OpenYAMM's current english/potion.txt has
+# 616 numeric, 2,987 E3, 1,153 E4, 42 E2, 30 E1 and 72 "no" directed cells over 70 columns).
+# The matrix is symmetric (a+b == b+a for every recipe).
+# 'mastery' is the Required mastery column of Data/Tables/Potion settings.txt for the RESULT. The engine's own
+# mastery check is not overridden by MAW: mixing a result above the mixer's Alchemy mastery fails as in base
+# MMMerge (OpenYAMM models it as an explosion of level = required mastery, InventoryItemMixingRuntime.cpp:70-85).
+# Power of a mix = engine average of the two inputs (OpenYAMM averagePotionPower, InventoryItemMixingRuntime.cpp:53-56).
+# Colour shorthand: Red 222, Blue 223, Yellow 224, Orange 225, Purple 226, Green 227, Gray/Catalyst 221.
+# Structure: 3 secondary (base x base) + 12 tertiary (9 base x secondary, 3 secondary x secondary)
+#            + 36 white (secondary x tertiary) + 36 black (base x white) = 87.
+
+reagents:
+  # power_base: the value MAW's mawTick_ReagentPower writes into Mod1DiceCount (zzAlchemy.lua:587-599);
+  # items_txt_mod1: the LOD ITEMS.txt Mod1 (used only until the first tick resets it: top tier 50, gray 75).
+  # result: potion made by reagent + empty bottle (220), from Reagent settings (OpenYAMM reagent_settings.txt).
+  power_formula: >-
+    reagentPower = floor(base * (1 + B*0.25/20) + 0.75*B) when B > 0, else base;  B = reagent item Bonus (item level)
+    + 0.5*s at Alchemy Master, + s at Grandmaster (s, m of the CURRENT player); capped at 255; the excess over 255,
+    halved and floored (max 900), is added to that player's Alchemy skill while the reagent is held
+    (zzAlchemy.lua:601-639). Potion power then = reagentPower + the engine's Alchemy skill (GetSkill, clamped to 2x
+    the cap of 60 = 120, plus the hidden excess). Tooltip shows round(...) without the Alchemy part
+    (MawCore/Tooltip.lua:134-139).
+  item_level:
+    generated: "Bonus = min(floor(getPartyLevel()/5), 255); not on map index 0, not Strength 7 (zzAlchemy.lua:641-651)"
+    monster_drop: "Bonus = round(getPartyLevel()/2) (REAGENT_LEVEL_DIVISOR, zzAlchemy.lua:296, 683-684)"
+    party_level: "getPartyLevel() = sum of vars.MMLVL of the OTHER continents (zzzMaw_Experience.lua:278-289)"
+  drops:
+    chance: "best party Alchemy mastery m >= Master: (m-2)%  -> Master 1 %, GM 2 % per kill (zzAlchemy.lua:654-671)"
+    tier: "round(clamp(monsterBaseLevel/20 * (1.75 + rand/2), 1, 5)) (zzAlchemy.lua:673-674)"
+    pick: "uniform among the 8 reagents of that tier (MM8 and MM7 sets), reagentDropTable zzAlchemy.lua:700-705"
+    ready_potion: >-
+      if Bonus + best_s*best_m/2 > 200 the drop becomes a random potion 221-224 with power Bonus + s*m/2
+      (s and m are the best skill and best mastery, possibly from different members; zzAlchemy.lua:677-689)
+    endless_potion: >-
+      best mastery GM: 0.2 % per kill, item 1069, BonusStrength = min(best_s + 10, 100)
+      (zzAlchemy.lua:690-697)
+    none_from: "reanimated monsters (Ally 9999)"
+  list:
+    - {id: 200, name: Widowsweep Berries, result: 222, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 201, name: Wolf's Eye,          result: 222, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 202, name: Phial of Gog Blood,  result: 222, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 203, name: Ruby,                result: 222, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 204, name: Phoenix Feather,     result: 222, tier: 5, power_base: 30, items_txt_mod1: 50}
+    - {id: 205, name: Phima Root,          result: 223, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 206, name: Meteor Fragment,     result: 223, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 207, name: Will O' Wisp Heart,  result: 223, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 208, name: Datura,              result: 223, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 209, name: Dragon Turtle Fang,  result: 223, tier: 5, power_base: 30, items_txt_mod1: 50}
+    - {id: 210, name: Poppy Pod,           result: 224, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 211, name: Thornbark,           result: 224, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 212, name: Sulfur,              result: 224, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 213, name: Garnet,              result: 224, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 214, name: Unicorn Horn,        result: 224, tier: 5, power_base: 30, items_txt_mod1: 50}
+    - {id: 215, name: Mushroom,            result: 221, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 216, name: Obsidian,            result: 221, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 217, name: Wasp Wing,           result: 221, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 218, name: Mercury,             result: 221, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 219, name: Philosopher's Stone, result: 221, tier: 5, power_base: 45, items_txt_mod1: 75}
+    - {id: 1002, name: Widowsweep Berries,     result: 222, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 1003, name: Crushed Rose Petals,    result: 222, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 1004, name: Vial of Troll Blood,    result: 222, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 1005, name: Ruby,                   result: 222, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 1006, name: Dragon's Eye,           result: 222, tier: 5, power_base: 30, items_txt_mod1: 50}
+    - {id: 1007, name: Phirna Root,            result: 223, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 1008, name: Meteorite Fragment,     result: 223, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 1009, name: Harpy Feather,          result: 223, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 1010, name: Moonstone,              result: 223, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 1011, name: Elvish Toadstool,       result: 223, tier: 5, power_base: 30, items_txt_mod1: 50}
+    - {id: 1012, name: Poppysnaps,             result: 224, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 1013, name: Fae Dust,               result: 224, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 1014, name: Sulfur,                 result: 224, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 1015, name: Garnet,                 result: 224, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 1016, name: Vial of Devil Ichor,    result: 224, tier: 5, power_base: 30, items_txt_mod1: 50}
+    - {id: 1017, name: Mushroom,               result: 221, tier: 1, power_base: 1,  items_txt_mod1: 1}
+    - {id: 1018, name: Obsidian,               result: 221, tier: 2, power_base: 5,  items_txt_mod1: 5}
+    - {id: 1019, name: Vial of Ooze Endoplasm, result: 221, tier: 3, power_base: 10, items_txt_mod1: 10}
+    - {id: 1020, name: Mercury,                result: 221, tier: 4, power_base: 20, items_txt_mod1: 20}
+    - {id: 1021, name: Philosopher's Stone,    result: 221, tier: 5, power_base: 45, items_txt_mod1: 75}
+    - {id: 1762, name: Poppysnaps (MM6 herb),  result: 224, tier: 0, power_base: 1,  items_txt_mod1: 1, drops: false}
+    - {id: 1763, name: Phirna Root (MM6 herb), result: 223, tier: 0, power_base: 1,  items_txt_mod1: 1, drops: false}
+    - {id: 1764, name: Widoweeps Berries (MM6 herb), result: 222, tier: 0, power_base: 1, items_txt_mod1: 1,
+       drops: false}
+
+recipes:
+  - {a: 222, b: 224, result: 225, mastery: Novice, tier: secondary}  # Cure Wounds + Energy Potion = Antidote
+  - {a: 222, b: 223, result: 226, mastery: Novice, tier: secondary}  # Cure Wounds + Magic Potion = Hexbane
+  - {a: 223, b: 224, result: 227, mastery: Novice, tier: secondary}  # Magic Potion + Energy Potion = Lucidity
+  - {a: 222, b: 225, result: 228, mastery: Expert, tier: tertiary}  # Cure Wounds + Antidote = Haste
+  - {a: 222, b: 226, result: 229, mastery: Expert, tier: tertiary}  # Cure Wounds + Hexbane = Heroism
+  - {a: 222, b: 227, result: 230, mastery: Expert, tier: tertiary}  # Cure Wounds + Lucidity = Bless
+  - {a: 223, b: 225, result: 231, mastery: Expert, tier: tertiary}  # Magic Potion + Antidote = Protection
+  - {a: 223, b: 226, result: 232, mastery: Expert, tier: tertiary}  # Magic Potion + Hexbane = Meditation
+  - {a: 223, b: 227, result: 233, mastery: Expert, tier: tertiary}  # Magic Potion + Lucidity = Regeneration
+  - {a: 224, b: 225, result: 234, mastery: Expert, tier: tertiary}  # Energy Potion + Antidote = Stone Skin
+  - {a: 224, b: 226, result: 235, mastery: Expert, tier: tertiary}  # Energy Potion + Hexbane = Water Breathing
+  - {a: 224, b: 227, result: 236, mastery: Expert, tier: tertiary}  # Energy Potion + Lucidity = Harden Item
+  - {a: 225, b: 226, result: 237, mastery: Expert, tier: tertiary}  # Antidote + Hexbane = Magic Protection
+  - {a: 226, b: 227, result: 238, mastery: Expert, tier: tertiary}  # Hexbane + Lucidity = Enchant Item
+  - {a: 225, b: 227, result: 239, mastery: Expert, tier: tertiary}  # Antidote + Lucidity = Stone to Flesh
+  - {a: 226, b: 228, result: 240, mastery: Master, tier: white}  # Hexbane + Haste = Power Boost
+  - {a: 226, b: 229, result: 240, mastery: Master, tier: white}  # Hexbane + Heroism = Power Boost
+  - {a: 226, b: 230, result: 240, mastery: Master, tier: white}  # Hexbane + Bless = Power Boost
+  - {a: 226, b: 231, result: 241, mastery: Master, tier: white}  # Hexbane + Protection = Wisdom Boost
+  - {a: 226, b: 232, result: 241, mastery: Master, tier: white}  # Hexbane + Meditation = Wisdom Boost
+  - {a: 226, b: 233, result: 241, mastery: Master, tier: white}  # Hexbane + Regeneration = Wisdom Boost
+  - {a: 226, b: 234, result: 242, mastery: Master, tier: white}  # Hexbane + Stone Skin = Resilience Boost
+  - {a: 226, b: 235, result: 242, mastery: Master, tier: white}  # Hexbane + Water Breathing = Resilience Boost
+  - {a: 226, b: 236, result: 242, mastery: Master, tier: white}  # Hexbane + Harden Item = Resilience Boost
+  - {a: 225, b: 231, result: 243, mastery: Master, tier: white}  # Antidote + Protection = Lesser Element
+  - {a: 225, b: 232, result: 243, mastery: Master, tier: white}  # Antidote + Meditation = Lesser Element
+  - {a: 225, b: 233, result: 243, mastery: Master, tier: white}  # Antidote + Regeneration = Lesser Element
+  - {a: 225, b: 234, result: 244, mastery: Master, tier: white}  # Antidote + Stone Skin = Swiftness
+  - {a: 225, b: 235, result: 244, mastery: Master, tier: white}  # Antidote + Water Breathing = Swiftness
+  - {a: 225, b: 236, result: 244, mastery: Master, tier: white}  # Antidote + Harden Item = Swiftness
+  - {a: 225, b: 228, result: 245, mastery: Master, tier: white}  # Antidote + Haste = Champion's Potion
+  - {a: 225, b: 229, result: 245, mastery: Master, tier: white}  # Antidote + Heroism = Champion's Potion
+  - {a: 225, b: 230, result: 245, mastery: Master, tier: white}  # Antidote + Bless = Champion's Potion
+  - {a: 227, b: 234, result: 246, mastery: Master, tier: white}  # Lucidity + Stone Skin = Divine Restoration
+  - {a: 227, b: 235, result: 246, mastery: Master, tier: white}  # Lucidity + Water Breathing = Divine Restoration
+  - {a: 227, b: 236, result: 246, mastery: Master, tier: white}  # Lucidity + Harden Item = Divine Restoration
+  - {a: 227, b: 228, result: 247, mastery: Master, tier: white}  # Lucidity + Haste = Divine Cure
+  - {a: 227, b: 229, result: 247, mastery: Master, tier: white}  # Lucidity + Heroism = Divine Cure
+  - {a: 227, b: 230, result: 247, mastery: Master, tier: white}  # Lucidity + Bless = Divine Cure
+  - {a: 227, b: 231, result: 248, mastery: Master, tier: white}  # Lucidity + Protection = Divine Magic
+  - {a: 227, b: 232, result: 248, mastery: Master, tier: white}  # Lucidity + Meditation = Divine Magic
+  - {a: 227, b: 233, result: 248, mastery: Master, tier: white}  # Lucidity + Regeneration = Divine Magic
+  - {a: 226, b: 237, result: 249, mastery: Master, tier: white}  # Hexbane + Magic Protection = Elemental Resistance
+  - {a: 226, b: 238, result: 249, mastery: Master, tier: white}  # Hexbane + Enchant Item = Elemental Resistance
+  - {a: 226, b: 239, result: 249, mastery: Master, tier: white}  # Hexbane + Stone to Flesh = Elemental Resistance
+  - {a: 225, b: 237, result: 250, mastery: Master, tier: white}  # Antidote + Magic Protection = Self Resistance
+  - {a: 225, b: 238, result: 250, mastery: Master, tier: white}  # Antidote + Enchant Item = Self Resistance
+  - {a: 225, b: 239, result: 250, mastery: Master, tier: white}  # Antidote + Stone to Flesh = Self Resistance
+  - {a: 227, b: 237, result: 251, mastery: Master, tier: white}  # Lucidity + Magic Protection = Paladin's Potion
+  - {a: 227, b: 238, result: 251, mastery: Master, tier: white}  # Lucidity + Enchant Item = Paladin's Potion
+  - {a: 227, b: 239, result: 251, mastery: Master, tier: white}  # Lucidity + Stone to Flesh = Paladin's Potion
+  - {a: 222, b: 240, result: 252, mastery: Master, tier: black}  # Cure Wounds + Power Boost = Pure Power
+  - {a: 222, b: 241, result: 252, mastery: Master, tier: black}  # Cure Wounds + Wisdom Boost = Pure Power
+  - {a: 222, b: 242, result: 252, mastery: Master, tier: black}  # Cure Wounds + Resilience Boost = Pure Power
+  - {a: 223, b: 240, result: 253, mastery: Master, tier: black}  # Magic Potion + Power Boost = Pure Wisdom
+  - {a: 223, b: 241, result: 253, mastery: Master, tier: black}  # Magic Potion + Wisdom Boost = Pure Wisdom
+  - {a: 223, b: 242, result: 253, mastery: Master, tier: black}  # Magic Potion + Resilience Boost = Pure Wisdom
+  - {a: 224, b: 240, result: 254, mastery: Master, tier: black}  # Energy Potion + Power Boost = Pure Resilience
+  - {a: 224, b: 241, result: 254, mastery: Master, tier: black}  # Energy Potion + Wisdom Boost = Pure Resilience
+  - {a: 224, b: 242, result: 254, mastery: Master, tier: black}  # Energy Potion + Resilience Boost = Pure Resilience
+  - {a: 224, b: 243, result: 255, mastery: Master, tier: black}  # Energy Potion + Lesser Element = Greater Element
+  - {a: 224, b: 244, result: 255, mastery: Master, tier: black}  # Energy Potion + Swiftness = Greater Element
+  - {a: 224, b: 245, result: 255, mastery: Master, tier: black}  # Energy Potion + Champion's Potion = Greater Element
+  - {a: 223, b: 243, result: 256, mastery: Master, tier: black}  # Magic Potion + Lesser Element = Darkness
+  - {a: 223, b: 244, result: 256, mastery: Master, tier: black}  # Magic Potion + Swiftness = Darkness
+  - {a: 223, b: 245, result: 256, mastery: Master, tier: black}  # Magic Potion + Champion's Potion = Darkness
+  - {a: 222, b: 243, result: 257, mastery: Master, tier: black}  # Cure Wounds + Lesser Element = Divine Blessing
+  - {a: 222, b: 244, result: 257, mastery: Master, tier: black}  # Cure Wounds + Swiftness = Divine Blessing
+  - {a: 222, b: 245, result: 257, mastery: Master, tier: black}  # Cure Wounds + Champion's Potion = Divine Blessing
+  - {a: 222, b: 246, result: 258, mastery: Master, tier: black}  # Cure Wounds + Divine Restoration = Twilight
+  - {a: 222, b: 247, result: 258, mastery: Master, tier: black}  # Cure Wounds + Divine Cure = Twilight
+  - {a: 222, b: 248, result: 258, mastery: Master, tier: black}  # Cure Wounds + Divine Magic = Twilight
+  - {a: 224, b: 246, result: 259, mastery: Master, tier: black}  # Energy Potion + Divine Restoration = Transcendence
+  - {a: 224, b: 247, result: 259, mastery: Master, tier: black}  # Energy Potion + Divine Cure = Transcendence
+  - {a: 224, b: 248, result: 259, mastery: Master, tier: black}  # Energy Potion + Divine Magic = Transcendence
+  - {a: 223, b: 246, result: 260, mastery: Master, tier: black}  # Magic Potion + Divine Restoration = Dawn
+  - {a: 223, b: 247, result: 260, mastery: Master, tier: black}  # Magic Potion + Divine Cure = Dawn
+  - {a: 223, b: 248, result: 260, mastery: Master, tier: black}  # Magic Potion + Divine Magic = Dawn
+  - {a: 222, b: 249, result: 261, mastery: Master, tier: black}  # Cure Wounds + Elemental Resistance = Pure Elemental Resistance
+  - {a: 222, b: 250, result: 261, mastery: Master, tier: black}  # Cure Wounds + Self Resistance = Pure Elemental Resistance
+  - {a: 222, b: 251, result: 261, mastery: Master, tier: black}  # Cure Wounds + Paladin's Potion = Pure Elemental Resistance
+  - {a: 224, b: 249, result: 262, mastery: GM, tier: black}  # Energy Potion + Elemental Resistance = Pure Self Resistance
+  - {a: 224, b: 250, result: 262, mastery: GM, tier: black}  # Energy Potion + Self Resistance = Pure Self Resistance
+  - {a: 224, b: 251, result: 262, mastery: GM, tier: black}  # Energy Potion + Paladin's Potion = Pure Self Resistance
+  - {a: 223, b: 249, result: 263, mastery: GM, tier: black}  # Magic Potion + Elemental Resistance = Divine Resistance
+  - {a: 223, b: 250, result: 263, mastery: GM, tier: black}  # Magic Potion + Self Resistance = Divine Resistance
+  - {a: 223, b: 251, result: 263, mastery: GM, tier: black}  # Magic Potion + Paladin's Potion = Divine Resistance

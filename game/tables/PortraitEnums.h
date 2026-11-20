@@ -41,6 +41,7 @@ enum class PortraitId : uint16_t
     PurseLips1 = 29,
     PurseLips2 = 30,
     PurseLips3 = 31,
+    Portrait32 = 32,
     AvoidDamage = 33,
     DamageReceivedMinor = 34,
     DamageReceivedModerate = 35,

@@ -1,0 +1,1104 @@
+{
+  "records": [
+    {
+      "id": "water_well",
+      "semanticId": "mm5:sw/decor/water_well",
+      "title": "Well",
+      "frontOrigin": [
+        -5952,
+        1900
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 832,
+      "radius": 128.0,
+      "palette": "working_props",
+      "purpose": "Discreet shared well north of the bank, between the diviners, workers and Nadia; useful exploration reward.",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/water_well",
+        "name": "mm5:prop/gold_well",
+        "position": [
+          -5952,
+          1900,
+          802.75
+        ],
+        "category": "interactive",
+        "group": "town_interactions",
+        "purpose": "Discreet shared well north of the bank, between the diviners, workers and Nadia; useful exploration reward.",
+        "visualRadius": 128.0,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "interaction": {
+          "status": "specified; not registered in runtime",
+          "condition": "party carried gold < 200",
+          "reward": "add 200 carried gold",
+          "cooldown": "once per game day, party-wide; failed checks consume nothing",
+          "state": "mm5:sw/well/charity/last_day",
+          "bankGold": "ignored",
+          "hint": "Well",
+          "repeatHint": "The bucket comes up empty."
+        },
+        "featureId": "water_well",
+        "terrainSupportRange": [
+          794.75,
+          810.75
+        ],
+        "foundation": {
+          "platformZ": 832,
+          "skirtBottomZ": 736,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -5952,
+        1900,
+        802.75
+      ],
+      "visualRadius": 128.0,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        791.4362915010151,
+        814.0637084989849
+      ],
+      "foundation": {
+        "platformZ": 832,
+        "skirtBottomZ": 736
+      },
+      "behavior": "status-only placeholder",
+      "eventId": 1100,
+      "futureInteraction": {
+        "status": "specified; not registered in runtime",
+        "condition": "party carried gold < 200",
+        "reward": "add 200 carried gold",
+        "cooldown": "once per game day, party-wide; failed checks consume nothing",
+        "state": "mm5:sw/well/charity/last_day",
+        "bankGold": "ignored",
+        "hint": "Well",
+        "repeatHint": "The bucket comes up empty."
+      }
+    },
+    {
+      "id": "source_bench_564",
+      "semanticId": "mm5:sw/decor/source_bench_564",
+      "title": "Bench",
+      "frontOrigin": [
+        -3015,
+        5798
+      ],
+      "frontOutward": [
+        -0.007265330038676125,
+        0.999973607141423
+      ],
+      "frontTangent": [
+        -0.999973607141423,
+        -0.007265330038676125
+      ],
+      "padHeight": 864,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_564",
+        "name": "mm5:prop/bench",
+        "position": [
+          -3015,
+          5798,
+          864.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "temple",
+        "sourceObject": "mm5:source/29/object/129",
+        "sourceCoordinates": [
+          29,
+          14,
+          3
+        ],
+        "terrainSupportRange": [
+          864.0,
+          864.0
+        ],
+        "foundation": {
+          "platformZ": 864,
+          "skirtBottomZ": 832,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -3015,
+        5798,
+        864.0
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        864.0,
+        864.0
+      ],
+      "foundation": {
+        "platformZ": 864,
+        "skirtBottomZ": 832
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_568",
+      "semanticId": "mm5:sw/decor/source_bench_568",
+      "title": "Bench",
+      "frontOrigin": [
+        -1542,
+        -6461
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 608,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_568",
+        "name": "mm5:prop/bench",
+        "position": [
+          -1542,
+          -6205,
+          607.625
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "pass_gate",
+        "sourceObject": "mm5:source/29/object/130",
+        "sourceCoordinates": [
+          29,
+          14,
+          30
+        ],
+        "terrainSupportRange": [
+          596.625,
+          608.0
+        ],
+        "foundation": {
+          "platformZ": 608,
+          "skirtBottomZ": 544,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -1542,
+        -6461,
+        607.625
+      ],
+      "visualRadius": 176,
+      "placementChange": 256.0,
+      "terrainSupportRange": [
+        596.625,
+        608.0
+      ],
+      "foundation": {
+        "platformZ": 608,
+        "skirtBottomZ": 544
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_572",
+      "semanticId": "mm5:sw/decor/source_bench_572",
+      "title": "Bench",
+      "frontOrigin": [
+        -6010,
+        2415
+      ],
+      "frontOutward": [
+        -0.5011822447922644,
+        -0.8653417576339343
+      ],
+      "frontTangent": [
+        0.8653417576339343,
+        -0.5011822447922644
+      ],
+      "padHeight": 864,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_572",
+        "name": "mm5:prop/bench",
+        "position": [
+          -6010,
+          2415,
+          845.875
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "workers",
+        "sourceObject": "mm5:source/29/object/131",
+        "sourceCoordinates": [
+          29,
+          14,
+          5
+        ],
+        "terrainSupportRange": [
+          823.875,
+          864.0
+        ],
+        "foundation": {
+          "platformZ": 864,
+          "skirtBottomZ": 768,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -6010,
+        2415,
+        845.875
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        823.875,
+        864.0
+      ],
+      "foundation": {
+        "platformZ": 864,
+        "skirtBottomZ": 768
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_576",
+      "semanticId": "mm5:sw/decor/source_bench_576",
+      "title": "Bench",
+      "frontOrigin": [
+        -5286,
+        5032
+      ],
+      "frontOutward": [
+        -0.08672088861547325,
+        0.9962326472655585
+      ],
+      "frontTangent": [
+        -0.9962326472655585,
+        -0.08672088861547325
+      ],
+      "padHeight": 864,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_576",
+        "name": "mm5:prop/bench",
+        "position": [
+          -5286,
+          5032,
+          864.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "crafts",
+        "sourceObject": "mm5:source/29/object/132",
+        "sourceCoordinates": [
+          29,
+          16,
+          4
+        ],
+        "terrainSupportRange": [
+          858.5,
+          864.0
+        ],
+        "foundation": {
+          "platformZ": 864,
+          "skirtBottomZ": 800,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -5286,
+        5032,
+        864.0
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        858.5,
+        864.0
+      ],
+      "foundation": {
+        "platformZ": 864,
+        "skirtBottomZ": 800
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_580",
+      "semanticId": "mm5:sw/decor/source_bench_580",
+      "title": "Bench",
+      "frontOrigin": [
+        -5605,
+        -6184
+      ],
+      "frontOutward": [
+        -0.0006234412753494198,
+        -0.9999998056604692
+      ],
+      "frontTangent": [
+        0.9999998056604692,
+        -0.0006234412753494198
+      ],
+      "padHeight": 640,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_580",
+        "name": "mm5:prop/bench",
+        "position": [
+          -5605,
+          -6184,
+          635.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "mayor",
+        "sourceObject": "mm5:source/29/object/133",
+        "sourceCoordinates": [
+          29,
+          21,
+          30
+        ],
+        "terrainSupportRange": [
+          613.0,
+          640.0
+        ],
+        "foundation": {
+          "platformZ": 640,
+          "skirtBottomZ": 576,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -5605,
+        -6184,
+        635.0
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        613.0,
+        640.0
+      ],
+      "foundation": {
+        "platformZ": 640,
+        "skirtBottomZ": 576
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_584",
+      "semanticId": "mm5:sw/decor/source_bench_584",
+      "title": "Bench",
+      "frontOrigin": [
+        -881,
+        996
+      ],
+      "frontOutward": [
+        -0.05814012177443619,
+        0.9983084324195872
+      ],
+      "frontTangent": [
+        -0.9983084324195872,
+        -0.05814012177443619
+      ],
+      "padHeight": 736,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_584",
+        "name": "mm5:prop/bench",
+        "position": [
+          -881,
+          996,
+          672.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "training",
+        "sourceObject": "mm5:source/29/object/134",
+        "sourceCoordinates": [
+          29,
+          10,
+          18
+        ],
+        "terrainSupportRange": [
+          672.0,
+          718.25
+        ],
+        "foundation": {
+          "platformZ": 736,
+          "skirtBottomZ": 640,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -881,
+        996,
+        672.0
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        672.0,
+        718.25
+      ],
+      "foundation": {
+        "platformZ": 736,
+        "skirtBottomZ": 640
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_588",
+      "semanticId": "mm5:sw/decor/source_bench_588",
+      "title": "Bench",
+      "frontOrigin": [
+        357,
+        2458
+      ],
+      "frontOutward": [
+        -0.7566411576750509,
+        0.6538303744184409
+      ],
+      "frontTangent": [
+        -0.6538303744184409,
+        -0.7566411576750509
+      ],
+      "padHeight": 832,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_588",
+        "name": "mm5:prop/bench",
+        "position": [
+          357,
+          2458,
+          832.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "keeper",
+        "sourceObject": "mm5:source/29/object/135",
+        "sourceCoordinates": [
+          29,
+          9,
+          16
+        ],
+        "terrainSupportRange": [
+          832.0,
+          832.0
+        ],
+        "foundation": {
+          "platformZ": 832,
+          "skirtBottomZ": 800,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        357,
+        2458,
+        832.0
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        832.0,
+        832.0
+      ],
+      "foundation": {
+        "platformZ": 832,
+        "skirtBottomZ": 800
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_592",
+      "semanticId": "mm5:sw/decor/source_bench_592",
+      "title": "Bench",
+      "frontOrigin": [
+        -3523,
+        5796
+      ],
+      "frontOutward": [
+        -0.32466015401514053,
+        0.9458307377088487
+      ],
+      "frontTangent": [
+        -0.9458307377088487,
+        -0.32466015401514053
+      ],
+      "padHeight": 864,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_592",
+        "name": "mm5:prop/bench",
+        "position": [
+          -3523,
+          5796,
+          864.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "temple",
+        "sourceObject": "mm5:source/29/object/136",
+        "sourceCoordinates": [
+          29,
+          14,
+          2
+        ],
+        "terrainSupportRange": [
+          864.0,
+          864.0
+        ],
+        "foundation": {
+          "platformZ": 864,
+          "skirtBottomZ": 832,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -3523,
+        5796,
+        864.0
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        864.0,
+        864.0
+      ],
+      "foundation": {
+        "platformZ": 864,
+        "skirtBottomZ": 832
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "source_bench_604",
+      "semanticId": "mm5:sw/decor/source_bench_604",
+      "title": "Bench",
+      "frontOrigin": [
+        -4451,
+        -2161
+      ],
+      "frontOutward": [
+        -0.8163058405874283,
+        0.5776199222870106
+      ],
+      "frontTangent": [
+        -0.5776199222870106,
+        -0.8163058405874283
+      ],
+      "padHeight": 640,
+      "radius": 176,
+      "palette": "working_props",
+      "purpose": "Original non-event bench",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/source_bench_604",
+        "name": "mm5:prop/bench",
+        "position": [
+          -4451,
+          -2161,
+          640.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Original non-event bench",
+        "visualRadius": 176,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "tavern",
+        "sourceObject": "mm5:source/29/object/139",
+        "sourceCoordinates": [
+          29,
+          20,
+          28
+        ],
+        "terrainSupportRange": [
+          640.0,
+          640.0
+        ],
+        "foundation": {
+          "platformZ": 640,
+          "skirtBottomZ": 608,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -4451,
+        -2161,
+        640.0
+      ],
+      "visualRadius": 176,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        640.0,
+        640.0
+      ],
+      "foundation": {
+        "platformZ": 640,
+        "skirtBottomZ": 608
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "working_crates_0",
+      "semanticId": "mm5:sw/decor/working_crates_0",
+      "title": "Service stock",
+      "frontOrigin": [
+        -438,
+        -2406
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 672,
+      "radius": 128,
+      "palette": "working_props",
+      "purpose": "Plain service stock scenery; no loot or interaction",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/working_crates_0",
+        "name": "mm5:prop/crate_stack",
+        "position": [
+          -438,
+          -2406,
+          672.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Plain service stock scenery; no loot or interaction",
+        "visualRadius": 128,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "forge",
+        "sourceObject": null,
+        "sourceCoordinates": null,
+        "terrainSupportRange": [
+          672.0,
+          672.0
+        ],
+        "foundation": {
+          "platformZ": 672,
+          "skirtBottomZ": 640,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -438,
+        -2406,
+        672.0
+      ],
+      "visualRadius": 128,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        672.0,
+        672.0
+      ],
+      "foundation": {
+        "platformZ": 672,
+        "skirtBottomZ": 640
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "working_crates_1",
+      "semanticId": "mm5:sw/decor/working_crates_1",
+      "title": "Service stock",
+      "frontOrigin": [
+        -343,
+        -998
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 672,
+      "radius": 128,
+      "palette": "working_props",
+      "purpose": "Plain service stock scenery; no loot or interaction",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/working_crates_1",
+        "name": "mm5:prop/crate_stack",
+        "position": [
+          -343,
+          -998,
+          672.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Plain service stock scenery; no loot or interaction",
+        "visualRadius": 128,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "forge",
+        "sourceObject": null,
+        "sourceCoordinates": null,
+        "terrainSupportRange": [
+          672.0,
+          672.0
+        ],
+        "foundation": {
+          "platformZ": 672,
+          "skirtBottomZ": 640,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -343,
+        -998,
+        672.0
+      ],
+      "visualRadius": 128,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        672.0,
+        672.0
+      ],
+      "foundation": {
+        "platformZ": 672,
+        "skirtBottomZ": 640
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "working_crates_2",
+      "semanticId": "mm5:sw/decor/working_crates_2",
+      "title": "Service stock",
+      "frontOrigin": [
+        -4026,
+        -2196
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 640,
+      "radius": 128,
+      "palette": "working_props",
+      "purpose": "Plain service stock scenery; no loot or interaction",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/working_crates_2",
+        "name": "mm5:prop/crate_stack",
+        "position": [
+          -4026,
+          -2196,
+          640.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Plain service stock scenery; no loot or interaction",
+        "visualRadius": 128,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "tavern",
+        "sourceObject": null,
+        "sourceCoordinates": null,
+        "terrainSupportRange": [
+          640.0,
+          640.0
+        ],
+        "foundation": {
+          "platformZ": 640,
+          "skirtBottomZ": 608,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -4026,
+        -2196,
+        640.0
+      ],
+      "visualRadius": 128,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        640.0,
+        640.0
+      ],
+      "foundation": {
+        "platformZ": 640,
+        "skirtBottomZ": 608
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "working_crates_3",
+      "semanticId": "mm5:sw/decor/working_crates_3",
+      "title": "Service stock",
+      "frontOrigin": [
+        -6756,
+        -2543
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 640,
+      "radius": 128,
+      "palette": "working_props",
+      "purpose": "Plain service stock scenery; no loot or interaction",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/working_crates_3",
+        "name": "mm5:prop/crate_stack",
+        "position": [
+          -6756,
+          -2543,
+          640.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Plain service stock scenery; no loot or interaction",
+        "visualRadius": 128,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "maps",
+        "sourceObject": null,
+        "sourceCoordinates": null,
+        "terrainSupportRange": [
+          640.0,
+          640.0
+        ],
+        "foundation": {
+          "platformZ": 640,
+          "skirtBottomZ": 608,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -6756,
+        -2543,
+        640.0
+      ],
+      "visualRadius": 128,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        640.0,
+        640.0
+      ],
+      "foundation": {
+        "platformZ": 640,
+        "skirtBottomZ": 608
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "working_crates_4",
+      "semanticId": "mm5:sw/decor/working_crates_4",
+      "title": "Service stock",
+      "frontOrigin": [
+        1050,
+        5142
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 832,
+      "radius": 128,
+      "palette": "working_props",
+      "purpose": "Plain service stock scenery; no loot or interaction",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/working_crates_4",
+        "name": "mm5:prop/crate_stack",
+        "position": [
+          1050,
+          5142,
+          832.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Plain service stock scenery; no loot or interaction",
+        "visualRadius": 128,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "puzzle",
+        "sourceObject": null,
+        "sourceCoordinates": null,
+        "terrainSupportRange": [
+          832.0,
+          832.0
+        ],
+        "foundation": {
+          "platformZ": 832,
+          "skirtBottomZ": 800,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        1050,
+        5142,
+        832.0
+      ],
+      "visualRadius": 128,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        832.0,
+        832.0
+      ],
+      "foundation": {
+        "platformZ": 832,
+        "skirtBottomZ": 800
+      },
+      "behavior": "inert architectural scenery"
+    },
+    {
+      "id": "working_crates_5",
+      "semanticId": "mm5:sw/decor/working_crates_5",
+      "title": "Service stock",
+      "frontOrigin": [
+        -7644,
+        -5346
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 640,
+      "radius": 128,
+      "palette": "working_props",
+      "purpose": "Plain service stock scenery; no loot or interaction",
+      "sourceRecord": {
+        "id": "mm5:sw/decor/working_crates_5",
+        "name": "mm5:prop/crate_stack",
+        "position": [
+          -7644,
+          -5346,
+          640.0
+        ],
+        "category": "props",
+        "group": "working_courts",
+        "purpose": "Plain service stock scenery; no loot or interaction",
+        "visualRadius": 128,
+        "collisionRadius": null,
+        "descriptorId": null,
+        "assetSource": "new independently authored Garrote-style BModel required",
+        "owner": "workyard",
+        "sourceObject": null,
+        "sourceCoordinates": null,
+        "terrainSupportRange": [
+          640.0,
+          640.0
+        ],
+        "foundation": {
+          "platformZ": 640,
+          "skirtBottomZ": 608,
+          "rule": "New BModel stone/timber base must reach through terrain to skirt bottom; fit visible platform to this height. Geometry not generated."
+        }
+      },
+      "position": [
+        -7644,
+        -5346,
+        640.0
+      ],
+      "visualRadius": 128,
+      "placementChange": 0.0,
+      "terrainSupportRange": [
+        640.0,
+        640.0
+      ],
+      "foundation": {
+        "platformZ": 640,
+        "skirtBottomZ": 608
+      },
+      "behavior": "inert architectural scenery"
+    }
+  ],
+  "counts": {
+    "accepted": 16,
+    "moved": 1
+  },
+  "limits": "Initial fitted prop pass; inspect native grounding and paths before acceptance."
+}

@@ -1,0 +1,76 @@
+# Hesper's liquids, put ahead of the shared ones in the stage's copy of engine/liquids/liquids.yml by stage.py (a
+# world's own liquids are matched first in its maps, and never in another world's). Same format as the engine's.
+liquids:
+  # Rust brine (STARPORT_REACH.md, Liquid: rust brine): the colony's old water table, shallow and opaque rust-orange.
+  # Hesper's outdoor maps draw it with the MM8 water tiles (tile set 126, build_out1.py brine_tiles); shallow: the
+  # party wades through it instead of drowning. The D2 cistern's deep, harmful version will be its own entry.
+  - id: rust_brine
+    kind: water
+    color: [118, 50, 22]
+    worlds: [hesper]
+    depth: shallow
+    # Opaque and matte: the sky's response only, never a planar reflection (one look on level pools and the sloping
+    # stream alike, and no reflection pass).
+    reflections: false
+    applies_to: [terrain]
+    match:
+      texture_names: [wtrtyl]
+      texture_prefixes: [wtrdr]
+    terrain_transition_overlay: true
+
+  # D15's black water: visual surface above its solid track floor, harmless; knee-deep, so the party wades at 60 %
+  # of its speed (wade_speed: indoor faces).
+  - id: undercroft_water
+    kind: water
+    color: [24, 34, 30]
+    worlds: [hesper]
+    depth: shallow
+    wade_speed: 0.6
+    reflections: false
+    applies_to: [face]
+    match:
+      texture_names: [htwater]
+
+  # D10's brine pools (hawater, the pale teal brine of the old tanks): shallow, safe, waded at 70 % of the party's
+  # speed, and reflective (the engine's indoor water reflection).
+  - id: tank_brine
+    kind: water
+    color: [44, 92, 86]
+    worlds: [hesper]
+    depth: shallow
+    wade_speed: 0.7
+    applies_to: [face]
+    match:
+      texture_names: [hawater]
+
+  # Molten slag (THE_SCOUR.md section 10, STYLE_KITS K14): the Foundry's spout and its cooling pond on the Scour. The
+  # lava kind (a self-lit crust with glowing cracks) tinted ochre-orange, drawn on the MM8 lava tiles (hes_out2's fourth
+  # tile set, 378) and their lvdr* shores; the map's attribute map burns a party standing in it (TerrainTileBurn).
+  - id: molten_slag
+    kind: lava
+    color: [255, 110, 20]
+    worlds: [hesper]
+    applies_to: [terrain]
+    match:
+      texture_names: [lavtyl]
+      texture_prefixes: [hdlav, lvdr]
+    terrain_transition_overlay: true
+
+  # Acid (BROOD_SPIRES.md section 10, KITS.md K14): the Brood Spires' acid lake and its marsh pools. Bile green, opaque,
+  # no reflections; shallow (waded, never drowned in). Drawn on MM8's tar tiles (hes_out3's fourth tile set, 666) and
+  # their tr* shores: the brine keeps the water tiles, so the two Hesper liquids never match each other's (the design's
+  # "second water tile set" hwtrtyl does not exist in MM8's tile table). The map's attribute map burns a party wading
+  # in it (TerrainTileBurn, engine need E1's workaround); the shore masks are not tinted (E5), the crust ring is.
+  - id: hesper_acid
+    kind: water
+    color: [58, 78, 14]
+    worlds: [hesper]
+    depth: shallow
+    # A liquid surface, not a flat plane (the integrator's review of the Brood Spires' build01): the sky and its
+    # fresnel on a darker bile green.
+    reflections: true
+    applies_to: [terrain]
+    match:
+      texture_names: [tartyl]
+      texture_prefixes: [tr]
+    terrain_transition_overlay: true

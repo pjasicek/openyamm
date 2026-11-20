@@ -1,5 +1,7 @@
 package org.openyamm.android;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,8 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
 import org.libsdl.app.SDLActivity;
+
+import java.io.IOException;
 
 public class OpenYammActivity extends SDLActivity {
     private static final int IMMERSIVE_SYSTEM_UI_FLAGS =
@@ -43,7 +47,15 @@ public class OpenYammActivity extends SDLActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // A release APK starts from content its update screen downloaded. Without it, the update screen comes first;
+        // the engine never starts in this process (SDL allows one activity per process run).
+        boolean contentReady = OpenYammUpdater.prepareContent(this);
         super.onCreate(savedInstanceState);
+        if (!contentReady) {
+            startActivity(new Intent(this, OpenYammUpdateActivity.class));
+            finish();
+            return;
+        }
         applyImmersiveMode();
         installTextInputViewOptions();
     }
@@ -89,7 +101,49 @@ public class OpenYammActivity extends SDLActivity {
 
     @Override
     protected String[] getArguments() {
-        return new String[] {};
+        // A release APK reads the content its update screen downloaded; a development APK bundles it.
+        if (OpenYammUpdater.bundlesContent(this)) {
+            return new String[] {};
+        }
+        return new String[] {"--asset-root", OpenYammUpdater.contentDirectory(this).getAbsolutePath()};
+    }
+
+    // The main menu's update notice (game/app/GameUpdater.cpp): "state|release|bytes|message".
+    private static volatile String updaterResult = "idle|||";
+
+    static String updaterInstalledVersion() {
+        return OpenYammUpdater.installedRelease(getContext());
+    }
+
+    static void updaterStartCheck(String baseUrl) {
+        final Context context = getContext();
+        updaterResult = "checking|||";
+        new Thread(() -> {
+            try {
+                OpenYammUpdater.Manifest manifest = OpenYammUpdater.fetchManifest(baseUrl);
+                String installed = OpenYammUpdater.installedRelease(context);
+                if (!OpenYammUpdater.offersUpdate(context, manifest, installed)) {
+                    updaterResult = "uptodate|" + manifest.release + "||OpenYAMM " + installed + " is up to date.";
+                } else {
+                    long bytes = OpenYammUpdater.downloadSize(context, manifest);
+                    updaterResult = "available|" + manifest.release + "|" + bytes + "|"
+                        + manifest.notes.replace('|', '/');
+                }
+            } catch (IOException exception) {
+                updaterResult = "failed|||" + String.valueOf(exception.getMessage()).replace('|', ' ');
+            }
+        }, "OpenYAMM update check").start();
+    }
+
+    static String updaterCheckResult() {
+        return updaterResult;
+    }
+
+    static void updaterOpen(String baseUrl) {
+        Context context = getContext();
+        context.startActivity(new Intent(context, OpenYammUpdateActivity.class)
+            .putExtra(OpenYammUpdateActivity.EXTRA_URL, baseUrl)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     private void applyImmersiveMode() {

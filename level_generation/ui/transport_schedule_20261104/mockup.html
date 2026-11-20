@@ -1,0 +1,500 @@
+<title>Stable and Ship Schedule</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fondamento&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* Layout: a carved-obsidian house screen (scene + topic panel) with the schedule as an in-frame popup,
+   simulation controls above it, and the feasibility notes below. Single dark look, as in game. */
+:root {
+  --night: #0f1213;
+  --obsidian: #181c1d;
+  --stone: #22282a;
+  --stone-hi: #2c3335;
+  --seam: #3a4244;
+  --brass: #b7975a;
+  --brass-hi: #e3c98c;
+  --ivory: #ebe2cd;
+  --muted: #a49b88;
+  --faint: #6f6a5e;
+  --today: #3a3221;
+  --good: #8db57f;
+  --bad: #d07a68;
+  --wood-1: #5a3a20;
+  --wood-2: #2c1b10;
+  --display: "Fondamento", "Palatino Linotype", Palatino, Georgia, serif;
+  --body: "Alegreya", "Palatino Linotype", Palatino, Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--night);
+  color: var(--ivory);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1020px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; color: var(--brass-hi); }
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.12rem; color: var(--ivory); }
+p { margin: 0; }
+.lede { color: var(--muted); max-width: 68ch; }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+
+/* simulation controls */
+.sim {
+  display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end;
+  padding: 12px 14px; border: 1px dashed var(--seam); border-radius: 4px; background: var(--obsidian);
+}
+.sim .tag { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); width: 100%; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; color: var(--muted); min-width: 0; }
+.field select, .field input[type=number] {
+  font: inherit; font-size: .95rem; color: var(--ivory); background: var(--stone); border: 1px solid var(--seam);
+  border-radius: 3px; padding: 5px 8px; max-width: 100%;
+}
+.field input[type=number] { width: 6.5em; }
+.check { flex-direction: row; align-items: center; gap: 8px; padding-bottom: 6px; }
+.check input { accent-color: var(--brass); width: 16px; height: 16px; }
+
+/* game frame */
+.frame {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 280px;
+  border: 2px solid var(--seam); outline: 1px solid #000; background: var(--obsidian);
+  box-shadow: inset 0 0 0 1px #0007, 0 18px 40px #0009; min-height: 560px;
+}
+.carve { border: 1px solid #000; box-shadow: inset 0 0 0 1px var(--seam), inset 0 0 22px #000c; }
+.scene {
+  position: relative; margin: 10px 0 10px 10px; overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, #0000 0 118px, #0006 118px 126px),
+    linear-gradient(180deg, #3b2412 0 16%, #1a0f08 16% 19%, #0000 19%),
+    radial-gradient(120% 80% at 50% 30%, var(--wood-1), var(--wood-2) 70%, #120b06);
+}
+.scene::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 38%;
+  background: repeating-linear-gradient(0deg, #2a1a0e 0 14px, #22150b 14px 16px);
+  box-shadow: inset 0 18px 30px #000a;
+}
+.say {
+  position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 2;
+  background: #ebe2cddd; color: #2a2116; border: 1px solid #000; box-shadow: inset 0 0 0 2px #b7975a88;
+  padding: 14px 18px; font-size: 1.02rem;
+}
+.say b { font-family: var(--display); font-weight: 400; color: #6b4a1e; font-size: 1.15rem; }
+.panel { margin: 10px; display: flex; flex-direction: column; align-items: center; padding: 16px 12px; gap: 6px;
+  background: linear-gradient(180deg, var(--stone-hi), var(--stone)); }
+.panel .house { font-family: var(--display); color: var(--ivory); font-size: 1.25rem; text-align: center; }
+.portrait {
+  width: 118px; height: 132px; margin-top: 4px; border: 2px solid var(--brass); outline: 1px solid #000;
+  background: radial-gradient(60% 45% at 50% 40%, #9a7656, #4a3020 70%, #23170e);
+  display: grid; place-items: end center; overflow: hidden;
+}
+.portrait svg { width: 92px; height: 104px; display: block; }
+.npc { font-family: var(--display); font-size: 1.05rem; margin-top: 4px; }
+.role { font-size: .82rem; color: var(--muted); margin-top: -4px; }
+.topics { width: 100%; display: flex; flex-direction: column; margin-top: 12px; }
+.topic {
+  font-family: var(--display); font-size: 1.05rem; color: var(--ivory); background: none; border: 0;
+  border-bottom: 1px solid #0007; box-shadow: 0 1px 0 #ffffff0d; padding: 10px 6px; cursor: pointer; text-align: center;
+  line-height: 1.25;
+}
+.topic:hover:not(:disabled), .topic:focus-visible { color: var(--brass-hi); outline: none; }
+.topic:disabled { color: var(--faint); cursor: default; }
+.topic.new { color: var(--brass-hi); }
+.topic .pin { font-family: var(--body); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--night); background: var(--brass); padding: 1px 5px; border-radius: 2px; margin-left: 6px; vertical-align: 2px; }
+.btn {
+  font-family: var(--display); font-size: 1.05rem; color: var(--ivory); cursor: pointer;
+  background: linear-gradient(180deg, #2f3a33, #1b221e); border: 1px solid #000;
+  box-shadow: inset 0 0 0 1px var(--brass), inset 0 0 0 3px #000, inset 0 1px 6px #fff2;
+  padding: 7px 22px;
+}
+.btn:hover:not(:disabled), .btn:focus-visible { color: var(--brass-hi); outline: none; box-shadow: inset 0 0 0 1px var(--brass-hi), inset 0 0 0 3px #000, inset 0 1px 6px #fff3; }
+.btn:disabled { color: var(--faint); cursor: default; box-shadow: inset 0 0 0 1px var(--seam), inset 0 0 0 3px #000; }
+.panel .btn { margin-top: auto; }
+.hud { position: absolute; top: 18px; left: 22px; z-index: 2; display: flex; gap: 18px; font-size: .95rem;
+  background: #0009; padding: 3px 12px; border: 1px solid #0008; }
+.hud span { color: var(--brass-hi); }
+
+/* schedule popup */
+.veil { position: absolute; inset: 0; z-index: 5; background: #0008; display: grid; place-items: center; padding: 18px; }
+.sched {
+  width: min(720px, 100%); max-height: 100%; display: flex; flex-direction: column; overflow: hidden;
+  background: linear-gradient(180deg, #1d2223, #151919); border: 1px solid #000;
+  box-shadow: inset 0 0 0 1px var(--brass), inset 0 0 0 4px #000, inset 0 0 0 5px #b7975a55, 0 20px 50px #000;
+}
+.sched header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding: 16px 22px 12px; position: relative;
+  border-bottom: 1px solid #0009; box-shadow: 0 1px 0 #ffffff0d; }
+.sched header h2 { font-size: 1.55rem; }
+.sched header .sub { color: var(--muted); font-size: .95rem; flex-basis: 100%; }
+.x { position: absolute; top: 12px; right: 14px; width: 32px; height: 32px; font-size: 1.3rem; line-height: 1;
+  background: none; border: 1px solid var(--seam); color: var(--muted); cursor: pointer; }
+.x:hover, .x:focus-visible { color: var(--brass-hi); border-color: var(--brass); outline: none; }
+.grid { padding: 4px 12px 6px; }
+.day {
+  display: grid; grid-template-columns: 9em minmax(0, 1fr); align-items: center; gap: 10px;
+  padding: 4px 10px; border-bottom: 1px solid #ffffff0a; min-height: 40px;
+}
+.day:last-child { border-bottom: 0; }
+.day.today { background: linear-gradient(90deg, var(--today), #3a322155); box-shadow: inset 3px 0 0 var(--brass-hi); }
+.dname { font-family: var(--display); font-size: 1.08rem; display: flex; align-items: baseline; gap: 8px; line-height: 1.15; }
+.dname small { font-family: var(--body); font-size: .74rem; color: var(--brass-hi); letter-spacing: .08em; text-transform: uppercase; }
+.day.has { cursor: pointer; }
+.day.has:hover:not(.sel):not(.today) { background: #ffffff0a; }
+.day.has:focus-visible { outline: 1px dotted var(--brass-hi); outline-offset: -4px; }
+.day.sel { background: linear-gradient(90deg, #5c4a27, #4a3d2266); box-shadow: inset 0 0 0 1px var(--brass-hi); }
+.day.today.sel { box-shadow: inset 3px 0 0 var(--brass-hi), inset 0 0 0 1px var(--brass-hi); }
+.day.sel .dname { color: var(--brass-hi); }
+.dests { display: flex; flex-wrap: wrap; gap: 2px 22px; min-width: 0; font-size: 1rem; }
+.dest { color: var(--ivory); }
+.dest em { font-style: normal; color: var(--muted); font-size: .85rem; margin-left: 6px; }
+.day.sel .dest { color: #fff4d8; }
+.day.sel .dest em { color: var(--ivory); }
+.multi .dest:hover { text-decoration: underline; text-decoration-color: var(--seam); text-underline-offset: 4px; }
+.day.sel.multi .dest:not(.on) { color: var(--muted); }
+.day.sel.multi .dest.on { text-decoration: underline; text-decoration-color: var(--brass-hi); text-underline-offset: 4px; }
+.none { color: var(--faint); font-style: italic; font-size: .95rem; }
+
+.trip {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 20px; align-items: center;
+  padding: 12px 22px 16px; border-top: 1px solid #000; box-shadow: inset 0 1px 0 #ffffff0f; background: #0000002a;
+}
+.trip .hint { color: var(--muted); font-style: italic; grid-column: 1 / -1; }
+.trip h3 { font-size: 1.3rem; color: var(--brass-hi); }
+.facts { display: flex; flex-wrap: wrap; gap: 2px 18px; color: var(--ivory); font-size: .95rem; margin-top: 2px; }
+.facts span { white-space: nowrap; }
+.facts .lbl { color: var(--muted); }
+.facts .bad { color: var(--bad); }
+.facts .ok { color: var(--good); }
+.why { color: var(--bad); font-size: .9rem; margin-top: 4px; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+/* notes */
+.notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; }
+.notes section { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.notes ul, .notes ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 5px; }
+.notes li { color: var(--ivory); }
+.notes li::marker { color: var(--brass); }
+code { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: .82em; color: var(--brass-hi);
+  background: #ffffff0a; padding: 1px 4px; border-radius: 2px; word-break: break-word; }
+.wide { grid-column: 1 / -1; }
+.q { border-left: 2px solid var(--brass); padding-left: 12px; }
+
+@media (max-width: 760px) {
+  .frame { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .scene { margin: 10px 10px 0; min-height: 260px; }
+  .panel { margin: 10px; }
+  .veil { position: fixed; padding: max(10px, env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) max(10px, env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px)); }
+  .day { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .trip { grid-template-columns: minmax(0, 1fr); }
+  .actions { justify-content: flex-start; }
+  .notes { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sched { animation: rise .16s ease-out; }
+  @keyframes rise { from { transform: translateY(8px); opacity: .6; } to { transform: none; opacity: 1; } }
+}
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:6px">
+    <h1>Stable and ship schedule</h1>
+    <p class="lede">Mockup of a <b>Schedule</b> topic for stables and boats. It opens a closable popup listing the week's departures, Monday to Sunday, with today highlighted. Clicking a day's row selects that departure and shows the wait, the trip and the cost, and can wait and travel in one step. Routes and weekdays are the real rows from <code>transport_locations.txt</code>; fares are examples.</p>
+  </header>
+
+  <div class="sim" aria-label="Mockup controls">
+    <div class="tag">Mockup controls (not part of the game UI)</div>
+    <label class="field">House
+      <select id="house"></select>
+    </label>
+    <label class="field">Today
+      <select id="today"></select>
+    </label>
+    <label class="field">Food
+      <input id="food" type="number" min="0" max="99" value="7">
+    </label>
+    <label class="field">Gold
+      <input id="gold" type="number" min="0" max="99999" step="10" value="1250">
+    </label>
+    <label class="field check"><input id="qbit" type="checkbox"> Quest routes unlocked</label>
+  </div>
+
+  <div class="frame" id="frame">
+    <div class="scene carve">
+      <div class="hud num">Gold <span id="hudGold"></span> Food <span id="hudFood"></span></div>
+      <div class="say" id="say"></div>
+    </div>
+    <aside class="panel carve">
+      <div class="house" id="houseName"></div>
+      <div class="portrait" aria-hidden="true">
+        <svg viewBox="0 0 92 104"><ellipse cx="46" cy="40" rx="20" ry="24" fill="#c99872"/><path d="M26 34c2-16 12-22 20-22s19 5 21 22c-6-8-12-10-21-10s-15 2-20 10z" fill="#3b2617"/><path d="M8 104c3-26 18-36 38-36s35 10 38 36z" fill="#4c3a24"/><path d="M34 60c4 8 20 8 24 0 2 6-4 16-12 16s-14-10-12-16z" fill="#5b3c22"/><circle cx="38" cy="40" r="2.2" fill="#22150c"/><circle cx="54" cy="40" r="2.2" fill="#22150c"/></svg>
+      </div>
+      <div class="npc" id="npcName"></div>
+      <div class="role" id="npcRole"></div>
+      <div class="topics" id="topics"></div>
+      <button class="btn" type="button" id="leave">Close</button>
+    </aside>
+    <div class="veil" id="veil" hidden>
+      <div class="sched" role="dialog" aria-modal="true" aria-labelledby="schedTitle">
+        <header>
+          <h2 id="schedTitle"></h2>
+          <div class="sub num" id="schedSub"></div>
+          <button class="x" type="button" id="schedX" aria-label="Close schedule">×</button>
+        </header>
+        <div class="grid" id="grid"></div>
+        <div class="trip" id="trip"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <section>
+      <h2>What the game already has</h2>
+      <ul>
+        <li>Every stable and boat route carries Monday to Sunday flags, a travel time and an optional quest bit, loaded into <code>HouseEntry::TransportRoute</code>.</li>
+        <li>The dialogue already filters routes by today's weekday and quest bit, applies hireling day reductions and prices them (<code>game/gameplay/HouseInteraction.cpp</code>, transport options and the <code>TransportRoute</code> action).</li>
+        <li>Day 0 is Monday, the same weekday the save screen shows. Stables and boats are open 5 or 6 to 18, so waiting whole days keeps the house open.</li>
+        <li>Travel itself costs no food in the originals: the party rests and heals for the trip. Only the new waiting step needs a food rule.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>How it would work</h2>
+      <ol>
+        <li>A new <code>TransportSchedule</code> topic on every stable and boat, listed before today's routes. It stays even when the house says "come back another day".</li>
+        <li>The popup is built from the same route data and checks as the dialogue: overrides from events, quest bits, hireling reductions, price.</li>
+        <li><b>Wait and travel</b> spends the waiting food, advances the clock by whole days (healing like rest), then runs the existing travel action unchanged.</li>
+        <li>One shared overlay with its own layout YAML, used by desktop and Android, indoors and outdoors.</li>
+        <li>A unit test for "next departure" and a headless scenario that waits and arrives on the right map and day.</li>
+      </ol>
+    </section>
+    <section class="wide">
+      <h2>Decisions for you</h2>
+      <ul>
+        <li class="q"><b>Food for waiting.</b> The mockup charges the map's rest cost per day waited (1 on grass, 2 or more on desert or snow), the same as Rest &amp; Heal. Alternatives: one food per day flat, or free.</li>
+        <li class="q"><b>Row order.</b> Monday to Sunday with today highlighted, as you described. Starting the list at today puts the soonest departures first; easy to switch.</li>
+        <li class="q"><b>Quest routes.</b> Locked routes stay hidden, as in the dialogue today. Toggle "Quest routes unlocked" to see them appear.</li>
+        <li class="q"><b>MM9.</b> Its boats and coaches use a separate route system (<code>Mm9TransportRoute</code>); this proposal covers MM6 to MM8 first.</li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  // Real rows from transport_locations.txt via house_rules; weekdays Mon..Sun. Fares are examples (base x house multiplier).
+  const HOUSES = [
+    { id: "fhw", name: "Free Haven Travel West", npc: "Walter", role: "Stablemaster", world: "MM6, Free Haven", boat: false, fare: 50, foodPerDay: 1,
+      routes: [
+        { dest: "Silver Cove", days: "1..1...", travel: 4 },
+        { dest: "Castle Ironfist", days: ".1..1..", travel: 4 },
+        { dest: "Mire of the Damned", days: "..1..1.", travel: 5 } ] },
+    { id: "royal", name: "Royal Lines", npc: "Sean", role: "Stablemaster", world: "MM6, Castle Ironfist", boat: false, fare: 50, foodPerDay: 1,
+      routes: [
+        { dest: "New Sorpigal", days: "1.1.1..", travel: 2 },
+        { dest: "Free Haven", days: ".1...1.", travel: 4, quest: true },
+        { dest: "The Arena", days: "......1", travel: 1 } ] },
+    { id: "lady", name: "Lady Catherine", npc: "Christopher", role: "Captain", world: "MM7", boat: true, fare: 100, foodPerDay: 1,
+      routes: [
+        { dest: "Tatalia", days: ".1.1.1.", travel: 2 },
+        { dest: "Avlee", days: "1...1..", travel: 4 },
+        { dest: "Evenmorn Island", days: "......1", travel: 7, quest: true },
+        { dest: "The Bracada Desert", days: "..1....", travel: 6 } ] },
+    { id: "wayland", name: "Guild Caravans", npc: "Wayland", role: "Stablemaster", world: "MM8, Ravenshore", boat: false, fare: 50, foodPerDay: 1,
+      routes: [
+        { dest: "Alvar", days: "1....1.", travel: 2 },
+        { dest: "Shadowspire", days: "...1...", travel: 2 },
+        { dest: "Garrote Gorge", days: "......1", travel: 2 },
+        { dest: "The Arena", days: "......1", travel: 5 } ] },
+    { id: "dauntless", name: "The Dauntless", npc: "Alinor", role: "Captain", world: "MM8, Ravenshore", boat: true, fare: 100, foodPerDay: 2,
+      routes: [
+        { dest: "Dagger Wound Island", days: ".1.1...", travel: 5 },
+        { dest: "Regna", days: "......1", travel: 8, quest: true } ] }
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const state = { house: HOUSES[0], today: 6, food: 7, gold: 1250, qbit: false, open: false, pick: null, said: null };
+
+  function routes() { return state.house.routes.filter((r) => !r.quest || state.qbit); }
+  function runs(r, d) { return r.days[d] === "1"; }
+  function waitTo(d) { return (d - state.today + 7) % 7; }
+  function daysText(n) { return n + (n === 1 ? " day" : " days"); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  function fillControls() {
+    $("house").innerHTML = HOUSES.map((h) => `<option value="${h.id}">${esc(h.name)} (${esc(h.world)})</option>`).join("");
+    $("today").innerHTML = DAYS.map((d, i) => `<option value="${i}">${d}</option>`).join("");
+    syncControls();
+  }
+  function syncControls() {
+    $("house").value = state.house.id; $("today").value = String(state.today);
+    $("food").value = String(state.food); $("gold").value = String(state.gold); $("qbit").checked = state.qbit;
+  }
+
+  function renderHouse() {
+    const h = state.house;
+    $("houseName").textContent = h.name;
+    $("npcName").textContent = h.npc;
+    $("npcRole").textContent = h.role;
+    $("hudGold").textContent = state.gold.toLocaleString("en-US");
+    $("hudFood").textContent = String(state.food);
+    const todays = routes().filter((r) => runs(r, state.today));
+    let html = `<button type="button" class="topic new" data-act="schedule">Schedule<span class="pin">new</span></button>`;
+    if (todays.length === 0) {
+      html += `<button type="button" class="topic" disabled>Sorry, come back another day</button>`;
+    } else {
+      for (const r of todays) {
+        html += `<button type="button" class="topic" data-act="go" data-dest="${esc(r.dest)}">${daysText(r.travel)} to ${esc(r.dest)} for ${h.fare} gold</button>`;
+      }
+    }
+    $("topics").innerHTML = html;
+    const say = state.said || `<b>${esc(h.npc)}</b> &middot; ${h.boat ? "We sail when the tide and the week allow." : "Coaches leave on their set days."} Today is ${DAYS[state.today]}.`;
+    $("say").innerHTML = say;
+  }
+
+  function renderSchedule() {
+    const h = state.house;
+    $("schedTitle").textContent = h.name + (h.boat ? " sailings" : " departures");
+    $("schedSub").textContent = `Today is ${DAYS[state.today]} · fare ${h.fare} gold · waiting costs ${h.foodPerDay} food a day`;
+    const list = routes();
+    let html = "";
+    {
+      for (let d = 0; d < 7; ++d) {
+        const w = waitTo(d);
+        const deps = list.filter((r) => runs(r, d));
+        const sel = !!state.pick && state.pick.day === d;
+        const dests = deps.length === 0
+          ? `<span class="none">No departures</span>`
+          : deps.map((r) => {
+              const on = sel && state.pick.dest === r.dest;
+              return `<span class="dest${on ? " on" : ""}" data-dest="${esc(r.dest)}">${esc(r.dest)}<em>${daysText(r.travel)}</em></span>`;
+            }).join("");
+        const cls = "day" + (w === 0 ? " today" : "") + (deps.length ? " has" : "") + (deps.length > 1 ? " multi" : "") + (sel ? " sel" : "");
+        const act = deps.length ? ` role="button" tabindex="0" aria-pressed="${sel}"` : "";
+        html += `<div class="${cls}" data-day="${d}"${act}><div class="dname">${DAYS[d]}${w === 0 ? "<small>Today</small>" : ""}</div><div class="dests">${dests}</div></div>`;
+      }
+    }
+    $("grid").innerHTML = html;
+    renderTrip();
+  }
+
+  function tripFor(pick) {
+    const r = routes().find((x) => x.dest === pick.dest);
+    if (!r) return null;
+    const wait = waitTo(pick.day);
+    const food = wait * state.house.foodPerDay;
+    const arrive = (pick.day + r.travel) % 7;
+    let why = "";
+    if (state.gold < state.house.fare) why = "You don't have enough gold.";
+    else if (state.food < food) why = `You need ${food} food to wait ${daysText(wait)}. Buy food at a tavern first.`;
+    return { r, wait, food, arrive, why };
+  }
+
+  function renderTrip() {
+    const el = $("trip");
+    const t = state.pick && tripFor(state.pick);
+    if (!t) {
+      el.innerHTML = `<p class="hint">Click a day to see the wait, the trip and the cost.</p><div></div>`;
+      return;
+    }
+    const foodCls = state.food < t.food ? "bad" : "ok";
+    const goldCls = state.gold < state.house.fare ? "bad" : "ok";
+    const label = t.wait === 0 ? "Travel now" : `Wait ${daysText(t.wait)} and travel`;
+    el.innerHTML = `<div>
+        <h3>${esc(t.r.dest)}</h3>
+        <div class="facts num">
+          <span><span class="lbl">Departs</span> ${DAYS[state.pick.day]}</span>
+          <span><span class="lbl">On the road</span> ${daysText(t.r.travel)}</span>
+          <span><span class="lbl">Arrives</span> ${DAYS[t.arrive]}</span>
+          <span><span class="lbl">Fare</span> <span class="${goldCls}">${state.house.fare} gold</span></span>
+          <span><span class="lbl">Food to wait</span> <span class="${t.wait === 0 ? "" : foodCls}">${t.wait === 0 ? "none" : t.food + " of " + state.food}</span></span>
+        </div>
+        ${t.why ? `<div class="why">${esc(t.why)}</div>` : ""}
+      </div>
+      <div class="actions"><button type="button" class="btn" id="travel" ${t.why ? "disabled" : ""}>${label}</button></div>`;
+  }
+
+  function travel(dest, day) {
+    const t = tripFor({ dest, day });
+    if (!t || t.why) return;
+    state.food -= t.food;
+    state.gold -= state.house.fare;
+    state.today = (day + t.r.travel) % 7;
+    const waited = t.wait === 0 ? "" : `You wait ${daysText(t.wait)} for the ${state.house.boat ? "ship" : "coach"}. `;
+    state.said = `<b>${esc(state.house.npc)}</b> &middot; ${waited}It will take ${daysText(t.r.travel)} to travel to ${esc(t.r.dest)}. <i>(The game would now load ${esc(t.r.dest)} on ${DAYS[state.today]}.)</i>`;
+    closeSchedule();
+    syncControls();
+    renderHouse();
+  }
+
+  function openSchedule() { state.open = true; state.pick = null; $("veil").hidden = false; renderSchedule(); $("schedX").focus(); }
+  function closeSchedule() { state.open = false; $("veil").hidden = true; }
+
+  $("topics").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-act]");
+    if (!b) return;
+    if (b.dataset.act === "schedule") openSchedule();
+    if (b.dataset.act === "go") travel(b.dataset.dest, state.today);
+  });
+  // A row selects its day; with two departures that day, clicking a name picks it and clicking the row cycles.
+  function pickRow(row, destEl) {
+    const day = Number(row.dataset.day);
+    const dests = routes().filter((r) => runs(r, day)).map((r) => r.dest);
+    if (dests.length === 0) return;
+    let dest = destEl ? destEl.dataset.dest : null;
+    if (!dest) {
+      const same = state.pick && state.pick.day === day;
+      dest = same && dests.length > 1 ? dests[(dests.indexOf(state.pick.dest) + 1) % dests.length] : dests[0];
+    }
+    state.pick = { dest, day };
+    renderSchedule();
+    const again = $("grid").querySelector(`.day[data-day="${day}"]`);
+    if (again) again.focus();
+  }
+  $("grid").addEventListener("click", (e) => {
+    const row = e.target.closest(".day.has");
+    if (row) pickRow(row, e.target.closest(".dest"));
+  });
+  $("grid").addEventListener("keydown", (e) => {
+    const row = e.target.closest(".day.has");
+    if (!row) return;
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickRow(row, null); }
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const rows = [...$("grid").querySelectorAll(".day.has")];
+      const i = rows.indexOf(row) + (e.key === "ArrowDown" ? 1 : -1);
+      if (rows[i]) pickRow(rows[i], null);
+    }
+  });
+  $("trip").addEventListener("click", (e) => { if (e.target.id === "travel" && state.pick) travel(state.pick.dest, state.pick.day); });
+  $("schedX").addEventListener("click", closeSchedule);
+  $("veil").addEventListener("click", (e) => { if (e.target.id === "veil") closeSchedule(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && state.open) closeSchedule(); });
+  $("leave").addEventListener("click", () => { state.said = `<b>${esc(state.house.npc)}</b> &middot; Safe roads, travellers.`; renderHouse(); });
+
+  function onControls() {
+    state.house = HOUSES.find((h) => h.id === $("house").value) || HOUSES[0];
+    state.today = Number($("today").value);
+    state.food = Math.max(0, Number($("food").value) || 0);
+    state.gold = Math.max(0, Number($("gold").value) || 0);
+    state.qbit = $("qbit").checked;
+    state.said = null;
+    if (state.pick && !tripFor(state.pick)) state.pick = null;
+    renderHouse();
+    if (state.open) renderSchedule();
+  }
+  ["house", "today", "food", "gold", "qbit"].forEach((id) => $(id).addEventListener("change", onControls));
+  $("food").addEventListener("input", onControls);
+  $("gold").addEventListener("input", onControls);
+
+  fillControls();
+  renderHouse();
+  openSchedule();
+  state.pick = { dest: "Silver Cove", day: 3 };
+  renderSchedule();
+})();
+</script>

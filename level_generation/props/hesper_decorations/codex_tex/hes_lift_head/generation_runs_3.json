@@ -1,0 +1,183 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated and saved unresized; strict acceptance checks failed. No further generation permitted by brief.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture source for an existing 3D model, The Lift Head. Generate exactly ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry authority: plain grey orthographic left-side view. Paint directly over this guide without moving any shape. Preserve its exact silhouette, size, position, camera, every edge, opening, rock and detail. Preserve the original alpha outline and empty pixels. No cropping, rotation, reframing, perspective, additions or invented geometry.\nInput 2 design_reference.png is the approved DESIGN, COLOUR and MATERIAL reference only; do not copy its three-quarter camera or silhouette. Input 3 concept_crop.png is supporting original concept only.\nApply chipped ivory-white ceramic panels with fine natural cracks, warm gold bands and frames, narrow cyan-blue glowing light strips only on matching existing slots, gold-framed glass lift cage with warm amber interior only where actually visible in this guide, and black glass rubble on the existing rocks. Keep all existing guide edges and recesses in place; do not invent a front-facing lift opening on this side. Use the guide to decide visibility and occlusion.\nLIGHTING: flat, even, shadowless frontal illumination, an UNLIT ALBEDO texture painting, not a beauty render. No cast shadows, no ambient occlusion darkening, no directional gradients, no strong specular highlights, no reflections, no rim light. Render gold using its gold base colour and black glass using its dark charcoal base colour, with subdued material detail. Blue and warm emissive parts are painted their glowing colour without bloom or light cast onto nearby surfaces. No background, floor, scenery, text or watermark.\nHighest priority: guide-pixel-aligned geometry and exact silhouette. Retain 1024 x 1024 dimensions and full transparent margins.",
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, guide geometry drift, and pronounced gold highlights.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours": "Ivory ceramic, gold trim, cyan strips and dark rubble are present; details diverge from the guide.",
+        "flat_even_light": "Improved but residual highlights and recess shading remain.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 899547,
+        "partially_transparent_pixels": 672734,
+        "alpha_bounds": [
+          0,
+          0,
+          1224,
+          1180
+        ],
+        "unresized_return": true
+      },
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "5e8ed36abe09d53100283402e4050e645912db5e632d348db86f2ba3d2f0c7a6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "2498cfc66f37df4d44405205d9bc18f32ee8ad0e664dbf5046e21fa4ce7e5e67"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture source for an existing 3D model, The Lift Head. Generate exactly ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry authority: plain grey orthographic left-side view. Paint directly over this guide without moving any shape. Preserve its exact silhouette, size, position, camera, every edge, opening, rock and detail. Preserve the original alpha outline and empty pixels. No cropping, rotation, reframing, perspective, additions or invented geometry.\nInput 2 design_reference.png is the approved DESIGN, COLOUR and MATERIAL reference only; do not copy its three-quarter camera or silhouette. Input 3 concept_crop.png is supporting original concept only.\nApply chipped ivory-white ceramic panels with fine natural cracks, warm gold bands and frames, narrow cyan-blue glowing light strips only on matching existing slots, gold-framed glass lift cage with warm amber interior only where actually visible in this guide, and black glass rubble on the existing rocks. Keep all existing guide edges and recesses in place; do not invent a front-facing lift opening on this side. Use the guide to decide visibility and occlusion.\nLIGHTING: flat, even, shadowless frontal illumination, an UNLIT ALBEDO texture painting, not a beauty render. No cast shadows, no ambient occlusion darkening, no directional gradients, no strong specular highlights, no reflections, no rim light. Render gold using its gold base colour and black glass using its dark charcoal base colour, with subdued material detail. Blue and warm emissive parts are painted their glowing colour without bloom or light cast onto nearby surfaces. No background, floor, scenery, text or watermark.\nHighest priority: guide-pixel-aligned geometry and exact silhouette. Retain 1024 x 1024 dimensions and full transparent margins.\nCORRECTIVE PASS: The previous attempt failed the exact size/shape and flat lighting requirements. Output must be native 1024 by 1024 pixels, matching input 1 exactly, NOT 1254 or any other resolution. The guide's foreground bounds are x=78..945 and y=66..957. Treat input 1 as a locked pixel stencil: paint colour onto it, keeping all rock triangles and recesses exactly as-is. Do not substitute a new rubble arrangement. Keep every opening at the same height; do not lengthen the blue slots. The ceramic should be pale ivory; gold must be flat muted ochre-gold without white glossy streaks, reflections, bright highlights, directional shading or dark contact shading. Match the guide rather than redrawing the design reference. Preserve the full original image canvas and original transparent background.",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the flatter of the two raw returns; NOT brief-compliant: wrong native dimensions, geometry drift and residual surface shading. Corrective regeneration allowance exhausted.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours": "Ivory ceramic, gold trim, cyan strips and dark rubble are present; details diverge from the guide.",
+        "flat_even_light": "Improved but residual highlights and recess shading remain.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 893700,
+        "partially_transparent_pixels": 678704,
+        "alpha_bounds": [
+          0,
+          53,
+          1234,
+          1211
+        ],
+        "unresized_return": true
+      },
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "5e8ed36abe09d53100283402e4050e645912db5e632d348db86f2ba3d2f0c7a6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "3168f0a082cf11c9f46969b938cc4180acb6cea61a159214c3962d59db52d05a"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture source for an existing 3D model, The Lift Head. Generate exactly ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry authority: plain grey orthographic right-side view. Paint directly over this guide without moving any shape. Preserve its exact silhouette, size, position, camera, every edge, opening, rock and detail. Preserve the original alpha outline and empty pixels. No cropping, rotation, reframing, perspective, additions or invented geometry.\nInput 2 design_reference.png is the approved DESIGN, COLOUR and MATERIAL reference only; do not copy its three-quarter camera or silhouette. Input 3 concept_crop.png is supporting original concept only.\nApply chipped ivory-white ceramic panels with fine natural cracks, warm gold bands and frames, narrow cyan-blue glowing light strips only on matching existing slots, gold-framed glass lift cage with warm amber interior only where actually visible in this guide, and black glass rubble on the existing rocks. Keep all existing guide edges and recesses in place; do not invent a front-facing lift opening on this side. Use the guide to decide visibility and occlusion.\nLIGHTING: flat, even, shadowless frontal illumination, an UNLIT ALBEDO texture painting, not a beauty render. No cast shadows, no ambient occlusion darkening, no directional gradients, no strong specular highlights, no reflections, no rim light. Render gold using its gold base colour and black glass using its dark charcoal base colour, with subdued material detail. Blue and warm emissive parts are painted their glowing colour without bloom or light cast onto nearby surfaces. No background, floor, scenery, text or watermark.\nHighest priority: guide-pixel-aligned geometry and exact silhouette. Retain 1024 x 1024 dimensions and full transparent margins.",
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, guide geometry drift, and pronounced gold highlights.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours": "Ivory ceramic, gold trim, cyan strips and dark rubble are present; details diverge from the guide.",
+        "flat_even_light": "Improved but residual highlights and recess shading remain.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 897926,
+        "partially_transparent_pixels": 673972,
+        "alpha_bounds": [
+          0,
+          31,
+          1216,
+          1178
+        ],
+        "unresized_return": true
+      },
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1b5aa800907e57b9e2e7fc1dc791b4786f8e450d053b3600e43da606f328ffc7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "f5e312acf17368016b8ed89bc86693c3addf010d6d3c8ad373813b62de708127"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture source for an existing 3D model, The Lift Head. Generate exactly ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry authority: plain grey orthographic right-side view. Paint directly over this guide without moving any shape. Preserve its exact silhouette, size, position, camera, every edge, opening, rock and detail. Preserve the original alpha outline and empty pixels. No cropping, rotation, reframing, perspective, additions or invented geometry.\nInput 2 design_reference.png is the approved DESIGN, COLOUR and MATERIAL reference only; do not copy its three-quarter camera or silhouette. Input 3 concept_crop.png is supporting original concept only.\nApply chipped ivory-white ceramic panels with fine natural cracks, warm gold bands and frames, narrow cyan-blue glowing light strips only on matching existing slots, gold-framed glass lift cage with warm amber interior only where actually visible in this guide, and black glass rubble on the existing rocks. Keep all existing guide edges and recesses in place; do not invent a front-facing lift opening on this side. Use the guide to decide visibility and occlusion.\nLIGHTING: flat, even, shadowless frontal illumination, an UNLIT ALBEDO texture painting, not a beauty render. No cast shadows, no ambient occlusion darkening, no directional gradients, no strong specular highlights, no reflections, no rim light. Render gold using its gold base colour and black glass using its dark charcoal base colour, with subdued material detail. Blue and warm emissive parts are painted their glowing colour without bloom or light cast onto nearby surfaces. No background, floor, scenery, text or watermark.\nHighest priority: guide-pixel-aligned geometry and exact silhouette. Retain 1024 x 1024 dimensions and full transparent margins.\nCORRECTIVE PASS: The previous attempt failed the exact size/shape and flat lighting requirements. Output must be native 1024 by 1024 pixels, matching input 1 exactly, NOT 1254 or any other resolution. The guide's foreground bounds are x=78..945 and y=66..957. Treat input 1 as a locked pixel stencil: paint colour onto it, keeping all rock triangles and recesses exactly as-is. Do not substitute a new rubble arrangement. Keep every opening at the same height; do not lengthen the blue slots. The ceramic should be pale ivory; gold must be flat muted ochre-gold without white glossy streaks, reflections, bright highlights, directional shading or dark contact shading. Match the guide rather than redrawing the design reference. Preserve the full original image canvas and original transparent background.",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the flatter of the two raw returns; NOT brief-compliant: wrong native dimensions, geometry drift and residual surface shading. Corrective regeneration allowance exhausted.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours": "Ivory ceramic, gold trim, cyan strips and dark rubble are present; details diverge from the guide.",
+        "flat_even_light": "Improved but residual highlights and recess shading remain.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 898842,
+        "partially_transparent_pixels": 672696,
+        "alpha_bounds": [
+          0,
+          21,
+          1226,
+          1178
+        ],
+        "unresized_return": true
+      },
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1b5aa800907e57b9e2e7fc1dc791b4786f8e450d053b3600e43da606f328ffc7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "0f2468d55aa9301abbf8d33eb03989855924be1a28b64f70e277c19994ded808"
+    }
+  ]
+}

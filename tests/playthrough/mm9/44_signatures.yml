@@ -1,0 +1,58 @@
+# MM9 playthrough, segment 44: both Jarls agree to sign (guide: Chapter II, "Peace between Sturmford and Drangheim").
+# Thronheim to Sturmford by sea (four days), Bjarni: he and Sigmund will sign it together in Thronheim (90); north to
+# Drangheim on foot (two days), Sigmund agrees too (91). The council set now waits in Kira's hall.
+#   python3 tests/playthrough/mm9/run.py 44
+id: mm9.playthrough.44_signatures
+title: "MM9 playthrough 44: Bjarni and Sigmund will sign the treaty in Thronheim"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/43_kira_treaty.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thronheimcity.blv, qbit_set: [90089], qbit_clear: [90090, 90091]}
+
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+  - set_pose: {map: sturmfordcity.blv, x: 7011, y: 8192, z: 19723, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "We have a peace treaty written by Kira herself."}
+  - select_topic: {match_label: "You and Sigmund will sign it together in Thronheim."}
+  - select_topic: {match_label: "We shall see you there."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90090]}
+
+  - set_pose: {map: sturmfordcity.blv, x: 11141, y: 14541, z: 19723, yaw: 0, pitch: 0}
+  - walk_to: {x: 11600, y: 14541, z: 19900, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+  - set_pose: {map: sturmford.blv, x: -3397, y: 20609, z: 712, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -3300, y: 21800, z: 900, z_tolerance: 700, radius: 10, plan: false, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 758, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12200, y: -4164, z: 900, z_tolerance: 700, radius: 10, plan: false, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+  - set_pose: {map: drangheimcity.blv, x: 19005, y: -5730, z: 1476, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "We have a peace treaty written by Kira the Cold."}
+  - select_topic: {match_label: "You and Bjarni will both sign it in Thronheim."}
+  - select_topic: {match_label: "We shall see you there."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90090, 90091]}
+  - save_game: {name: "44 both Jarls will sign", path: output/playthrough/mm9/checkpoints/44_signatures.oysav}

@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the provided paint_mask_guide.png, preserving its exact silhouettes, object positions, scale, openings, orientations and 3-column by 4-row layout. Output ONE transparent PNG, 1536x2048 (3:4). Input 1 is the edit target paint_mask_guide.png; input 2 design_reference.png is material/detail reference; input 3 icon_x8.png is color reference only (ignore magenta background).\nRows 1-2 PAINT: unlit base colour of Imperial Scale: a vest of small rounded copper-orange LEATHER scales overlapping in rows, pale white-steel shoulder guards rimmed in brass, three short steel straps across upper chest, brass-edged round collar and brass-edged hem. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. Preserve the existing exact model geometry; only paint grey surfaces.\nRows 3-4 MATERIAL MASK: same five silhouettes and matching material boundaries, filled with FLAT pure colors only: #FF0000 all metal (including steel guards, chest bars and brass borders); #00FF00 every leather part (including copper-orange leather scales, padding, hide, suede) and fur; #0000FF cloth/linings/cords/hair; #000000 gemstones/crystal/glass/pearl/enamel/liquid. No shading, texture, outlines or antialiased color blends inside masks. Every silhouette pixel exactly one of these colors.\nBoth halves have FRONT,BACK,LEFT in first row and RIGHT,TOP,EMPTY in second row, exactly as presented in guide regardless of unusual orientations. Row 2 column 3 and row 4 column 3 remain empty transparent. All outside pixels and all guide holes/gaps fully transparent. Never redraw, enlarge, move, redesign or reorient any view. No text, ground, outlines, glow halo, sparkles, aura. Preserve exact canvas layout.\nCRITICAL CORRECTION: output canvas MUST be 3:4 portrait, not tall 1:2. Precisely copy the guide composition and alpha silhouette. Absolutely NO colored noise, splatter, grain or pixels in transparent background. Lower mask shapes must have completely flat color regions without outlines around scales. Use the guide as the exact edit canvas. Retain all ten objects at their original normalized positions.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac8f-17b4-79f2-baad-7f5eabb40456/exec-3649723e-a301-4a7a-bbe3-bbc71b3702d0.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10091/paint_mask_guide.png",
+      "sha256": "882aec38762442ddd0a77b8fcde899b1b9b3a6dae342e2b63aa0717c45ac8ab0"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10091/design_reference.png",
+      "sha256": "f9816953458076aa16a8225797f87e2e870994063a699c4a76a77c6ccaaea244"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10091/icon_x8.png",
+      "sha256": "0a65ec1d27067b14a742c3929205ed549271520496c372dae575a3910981cfe2"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10091/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Raw output retained unchanged. Visible edge noise and silhouette drift remain after the single permitted correction; not pixel-exact to guide."
+}

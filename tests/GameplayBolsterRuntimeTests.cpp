@@ -266,6 +266,37 @@ TEST_CASE("runtime bolster is disabled by default")
     CHECK_FALSE(bolster.monsterAllowsSummons);
 }
 
+TEST_CASE("a monster of the Immobile kind stays put with bolster off")
+{
+    MonsterTable monsterTable;
+    REQUIRE(monsterTable.loadStatsFromRows({
+        monsterStatsRow(142, "Malevolent Boulder A", 12, 50, 35, "Long", 250),
+        monsterStatsRow(143, "Malevolent Boulder B", 20, 100, 50, "Med", 260),
+    }));
+    MergedBolsterMonsterTable monsterSettingsTable;
+    REQUIRE(monsterSettingsTable.loadFromRows({
+        {"#", "Note", "Type", "ExtraType", "Creed", "Gender", "Style", "PrefMagic", "NoBounty", "Ranged", "Spells",
+         "HPBySize", "Replicate", "Summons", "SummonId", "Extra", "MaxHP"},
+        {"142", "Boulder", "Construct", "Immobile,NoArena", "Neutral", "", "Endurance", "Earth", "-", "-", "-", "-",
+         "-", "-", "", "", "300"},
+        {"143", "Boulder", "Construct", "NoArena", "Neutral", "", "Endurance", "Earth", "-", "-", "-", "-", "-", "-",
+         "", "", "300"},
+    }));
+    REQUIRE(monsterTable.applyKindFlagsFromBolsterMonsterTable(monsterSettingsTable));
+    MapStatsEntry map = {};
+    map.id = 52;
+
+    for (const int monsterId : {142, 143})
+    {
+        CAPTURE(monsterId);
+        const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(monsterId);
+        REQUIRE(pStats != nullptr);
+        const GameplayMonsterBolsterResult bolster = resolveGameplayMonsterBolster(
+            GameplayBolsterRuntimeContext{.pMap = &map, .pMonsterTable = &monsterTable}, *pStats, nullptr);
+        CHECK_EQ(bolster.immobile, monsterId == 142);
+    }
+}
+
 TEST_CASE("runtime bolster keeps summon behavior gated by the map row")
 {
     MonsterTable monsterTable = makeMonsterTable();

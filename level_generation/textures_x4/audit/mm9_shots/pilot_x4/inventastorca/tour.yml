@@ -1,0 +1,35 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_x4/inventastorca
+settle_seconds: 2.0
+exit: true
+shots:
+- name: dung4y77qh-d9-closed-front
+  position:
+  - -614
+  - -2985
+  - -1638
+  yaw: 1.5708
+  pitch: 0.039
+- name: dung4y77qh-d9-joint-graze
+  position:
+  - -494
+  - -2802
+  - -1638
+  yaw: 2.2143
+  pitch: 0.15
+- name: dung4y77qh-d9-closed-back
+  position:
+  - -614
+  - -2299
+  - -1638
+  yaw: -1.5708
+  pitch: 0.039
+- name: dung4y77qh-d9-open-front
+  position:
+  - -614
+  - -2985
+  - -1638
+  yaw: 1.5708
+  pitch: 0.039
+  commands:
+  - event 101
+  settle_seconds: 5.0

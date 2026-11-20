@@ -1,0 +1,74 @@
+[
+  {
+    "view": "back",
+    "prompt": "Use case: style-transfer.\nAsset type: game-model texture projection source, BACK orthographic view, 1024 x 1024 RGBA, truly transparent background.\nInput 1 design_reference.png is ONLY the approved design, colour and material reference. Input 2 guide_back.png is the EDIT TARGET and absolute geometry authority.\nPrimary request: paint the grey surfaces of guide_back.png with the materials of design_reference.png. Preserve the guide camera and BACK view, NOT the three-quarter pose of the design reference. Treat the guide as a locked stencil: exactly the same silhouette, contour coordinates, scale, position, openings, every shape edge and all small protrusions. Retain all empty space in the 1024-square frame. Do not enlarge or recenter the object. Its outline bounds are x=66..957 and y=342..681 in the 1024x1024 canvas.\nSubject: drowned colonist curled up lying on side, viewed from behind as shown in the grey guide. Translate materials to the actual parts visible in THIS guide; don't invent parts occluded in this view. Faded ochre and grey patched canvas coveralls, water-darkened cloth with a little white mineral crust, worn brown leather belt and boots, dull steel wrench where the guide shows it, pale grey visible hand. Use design reference's material colour and weathering, patched seams and canvas weave. Preserve guide's broad rounded back, cloth-covered hip and bent limbs, blocky boot ends and small belt/tool shapes.\nLighting: albedo texture source, evenly flat and shadowless frontal illumination; no cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections or rim light. Material colour and texture only. Do not bake the guide's grey shading into the paint. No lighting gradient.\nConstraints: preserve EXACT original guide geometry and pixel placement. Nothing added outside the silhouette, nothing cropped. Transparent everywhere outside the guide's object, no background, floor, ground, glow, scenery, lettering or watermark. Return one native 1024x1024 image, unresized.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "67afbf89547ea59ecfc9c83df753e9d1c41b71bfde431fe33074d9e9c18dde1a"
+      }
+    ],
+    "output": "paint_back_attempt_1.png",
+    "selected": false,
+    "reason": "Rejected: native return is 1254x1254 rather than 1024x1024; silhouette differs from guide and painted surface contains lighting shading. Used one corrective regeneration.",
+    "source": "/home/pjasicek/.codex/generated_images/01a157dc-89d8-7012-be46-24d4e716868f/exec-ffb5627d-8e98-459e-8e4c-a089594eb488.png",
+    "output_sha256": "18cdb7a9c4d25c18581ed63ccb08e6376bad83ba99fafb822f0eb158b809f37d",
+    "tool": "built-in image_gen",
+    "unresized_return": true
+  },
+  {
+    "view": "back",
+    "prompt": "CORRECTIVE GENERATION \u2014 one final image, exactly 1024 x 1024 pixels, transparent RGBA. Do not return 1254 x 1254.\nUse case: style-transfer. Asset: BACK-view albedo texture source.\nInput image 1 guide_back.png is the base image to EDIT. Its canvas dimensions, camera, geometry, outline and all edges must remain unchanged. Input image 2 design_reference.png supplies surface colours/materials ONLY.\nRepaint only the grey pixels of input 1. Retain its existing transparent alpha silhouette exactly, pixel for pixel. Do not redraw, reshape, rotate, move, enlarge or recenter the body. Keep every original angular contour vertex and cutout. In the 1024-square canvas object occupies x=66 through 957, y=342 through 681; preserve the large empty margins. The grey guide has the boot at LEFT and the hidden head at RIGHT. Maintain precisely that BACK orthographic view and broad back/hips and bent limb geometry. No additional hair strands, fingers, stitches, tools or fabric outside the original silhouette.\nPaint the surfaces as the same drowned colonist as input 2: faded ochre and grey patched canvas coveralls, darkened by water, a LITTLE white mineral crust on cloth, worn brown leather belt and boots, dull steel wrench only on existing tool geometry, pale grey skin only on existing visible hand geometry. Brown hair only within existing head geometry. Match muted material colours in the design. Do not borrow its three-quarter composition.\nCRITICAL LIGHTING: flat unlit ALBEDO, like a base-colour texture map applied to the grey mesh. Even shadowless light directly from viewer. Remove grey guide shading and do not replace it with lighting shading. No ambient occlusion, no shadows in folds, no cast shadows, no directional shading, no highlights or reflections, no rim light. Show canvas/leather surface detail and seams through intrinsic colour variation only.\nBackground: genuine transparent alpha; absolutely no floor, backdrop, black fill, noise, stray nontransparent pixels or shadow. Preserve guide alpha. Return exactly 1024x1024 native image; no resizing or cropping.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "67afbf89547ea59ecfc9c83df753e9d1c41b71bfde431fe33074d9e9c18dde1a"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+      }
+    ],
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Best available after the single permitted corrective regeneration; NOT compliant with every brief requirement. Material palette matches reference and back-view composition broadly follows guide, but tool again returned 1254x1254 and altered contour/details. Preserved original bytes without resizing or masking. No more generations permitted.",
+    "source": "/home/pjasicek/.codex/generated_images/01a157dc-89d8-7012-be46-24d4e716868f/exec-4fdd7d07-0e75-488b-b728-4192846495a2.png",
+    "checks": {
+      "dimensions": {
+        "expected": [
+          1024,
+          1024
+        ],
+        "actual": [
+          1254,
+          1254
+        ],
+        "passed": false
+      },
+      "silhouette_identical": {
+        "passed": false,
+        "reason": "Native dimensions differ, with altered contour and shape details."
+      },
+      "materials_colours": {
+        "passed": true,
+        "reason": "Faded ochre/grey patched cloth, mineral crust, worn brown leather and dull steel visually follow reference."
+      },
+      "flat_even_light": {
+        "passed": false,
+        "reason": "Residual fold and form shading remains."
+      },
+      "transparent_background": {
+        "passed": false,
+        "reason": "RGBA with clear background overall, but stray low-alpha pixels remain outside main object. Nonzero-alpha bounds [0,28,1222,1238]; alpha>127 bounds [80,419,1174,834]."
+      }
+    },
+    "compliant": false,
+    "output_sha256": "93d1760c74e0923e1c836f3728cf82922bff7a7c3f3a4f10cfc7bd29d22cd5fa",
+    "tool": "built-in image_gen",
+    "unresized_return": true
+  }
+]

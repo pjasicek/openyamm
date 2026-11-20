@@ -1,0 +1,116 @@
+# MM9 side quest "Find Out Who Is Spreading Gossip" (guide: Side quests, Drangheim, find-out-who-is-spreading-gossip;
+# tools/mm9_site/story/side_a.yml). From a new game in Drangheim City: no story state is needed (Sigmund's "We'd like
+# to ask you a few questions." is always offered, his news line until key 55). Jarl Sigmund the Stressed (actor 20,
+# RUDE 87) on the town hall's upper floor asks the party to trace the rumours (key 52). Greudach A'Dorad (actor 23,
+# RUDE 96), at the south edge of the city, names Marsaili A'Lanth of Sturmford (key 53). Out of the city, the Black Hammer to
+# Sturmford (1 day), in by the dock gate: Marsaili (actor 2, RUDE 52), east of the town hall, refuses to stop
+# (key 54). Out by the dock gate, the Dragon Passage back to Drangheim (1 day), in by the city gate: Sigmund hears the
+# name (key 55) and pays on the close, 5 000 experience and 5 000 gold (key 300; NPC87.scr). Cities and regions: the
+# party is placed by each person and gate; gates are walked into. Research: prep/A_sturmford_drangheim.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py find_out_who
+id: mm9.side_quests.find_out_who_is_spreading_gossip
+title: "MM9 side quest: Find Out Who Is Spreading Gossip (Sigmund, Greudach, Marsaili)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: drangheimcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - assert: {map: drangheimcity.blv, gold: 10000, qbit_clear: [90052, 90053, 90054, 90055, 90300]}
+
+  # Sigmund on the town hall's upper floor.
+  - set_pose: {map: drangheimcity.blv, x: 19005, y: -5390, z: 1476, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "We'd like to ask you a few questions."}
+  - select_topic: {match_label: "Do you have any news?"}
+  - select_topic: {match_label: "What rumors?"}
+  - select_topic: {match_label: "That is a problem."}
+  - select_topic: {match_label: "We will do this."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90052], qbit_clear: [90053]}
+
+  # Greudach A'Dorad at the south edge of the city.
+  - set_pose: {map: drangheimcity.blv, x: 14418, y: -1019, z: 776, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 23}
+  - select_topic: {match_label: 'We''d like to talk to you about your "news".'}
+  - select_topic: {match_label: "We want to know who you have been hearing it from."}
+  - select_topic: {match_label: "Not everyone.  The people we spoke to said you were the source."}
+  - select_topic: {match_label: "We promise."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90053], qbit_clear: [90054]}
+
+  # Out of the city, the Black Hammer to Sturmford, the city's dock gate.
+  - set_pose: {map: drangheimcity.blv, x: 10000, y: -4178, z: 1010, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9667, y: -4178, z: 1311, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - travel: {map: sturmford.blv, days: 1}
+  - set_pose: {map: sturmford.blv, x: 1014, y: -12900, z: 260, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1014, y: -12589, z: 543, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # Marsaili A'Lanth in the street east of the town hall: she will not stop.
+  - set_pose: {map: sturmfordcity.blv, x: 3650, y: 4764, z: 19723, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 2}
+  - select_topic: {match_label: "We'd like to talk to you about your news."}
+  - select_topic: {match_label: "We understand you've been spreading gossip to Drangheim."}
+  - select_topic: {match_label: "We've come to ask you to stop."}
+  - select_topic: {match_label: "Perhaps we will inform the Jarl."}
+  - select_topic: {match_label: "Not Bjarni.  Sigmund."}
+  - select_topic: {match_label: "Alright.  Should have kept your mouth shut."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90054], qbit_clear: [90055]}
+
+  # Back to Drangheim: the dock gate, the Dragon Passage (1 day), the city gate.
+  - set_pose: {map: sturmfordcity.blv, x: 2089, y: -1065, z: 19723, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 2089, y: -1352, z: 19846, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+  - travel: {map: drangheim.blv, days: 1}
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 757, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12032, y: -4164, z: 963, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+
+  # Sigmund hears the name; the close pays.
+  - set_pose: {map: drangheimcity.blv, x: 19005, y: -5390, z: 1476, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "We've found out who's been spreading the gossip."}
+  - select_topic: {match_label: "A person named Marsaili A'Lanth in Sturmford."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90055, 90300], gold: 15000, runtime_event_variable: {id: 13, member_index: 0, value: 5000}}

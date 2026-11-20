@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise texture atlas. Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve EXACTLY every guide silhouette, position, size, outline and layout. Three columns by FOUR rows of square cells. Rows 1-2 show FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat these five views. The thin horizontal strips are edge-on views of a flat folded letter with a small raised wax seal: do not enlarge them into envelopes. Upper half only: paint grey surfaces with unlit base colour, source-faithful warm tan parchment folded letter and red wax seal, matching design_reference.png details and icon_x8.png palette (magenta is background, never paint magenta). TOP view is the large rectangular letter face: a horizontal folded flap seam through the central red wax seal, parchment fibres and subtle creases. Preserve grey model geometry. No baked lighting, shadows, AO, highlights, reflections, outlines, text or invented emblems. Lower half: fill ALL five matching silhouettes uniformly FLAT pure yellow #FFFF00, because every part is paper/parchment/wax, including the seal. No shading, texture, outlines or interior colour blends in material masks. Everything outside exact silhouettes fully transparent. Rightmost cells of rows 2 and 4 remain fully empty transparent. Input roles: paint_mask_guide.png edit target and absolute geometry/layout authority; design_reference.png material/detail reference; icon_x8.png original colour reference. Paint guide objects only, never move, redraw, enlarge or redesign.\nCORRECTION: previous attempt had paint splatters outside the silhouettes and outlines/gradients on masks. Strictly follow original guide alpha shapes, clean straight edges, absolutely zero stray pixels, noise, splashes, fringes or halos outside. Lower masks must be solid uniform #FFFF00 including all edges, no dark border and no gradient. Preserve original guide seal shapes rather than bulging dome shapes. Output clean production atlas.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0e-75c4-7d21-90c5-611b4157f881/exec-b352856a-edb8-47cc-aca4-f1450ec2e026.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10247/paint_mask_guide.png",
+      "sha256": "f4d8ba80198355fce41fbf68cac689cdf324389162ec3c2d6e40edc870e4fdd5"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10247/design_reference.png",
+      "sha256": "90f944268ac34dce39cd637db6f4dd9139168fdbb68e17ade7ee902bf7e74578"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10247/icon_x8.png",
+      "sha256": "615125e8e9ff2c1d6c943cf363705c170751525761b94027155b87a216896a95"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10247/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; visible stray edge pixels and non-flat material-mask shading remain after the permitted correction. Raw output preserved without editing."
+}

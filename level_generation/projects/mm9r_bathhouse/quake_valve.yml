@@ -1,0 +1,21 @@
+# The EffectsMgr quake (EffectsMgr.scr via TriggerEffects): the gas valve's first opening shakes the camera
+# (evt.CameraShake 0.5 for 18 s) and plays the rumble loop four times; a second opening does not quake again.
+id: mm9r.bathhouse.quake_valve
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: bathhouse.blv}
+- set_pose: {map: bathhouse.blv, x: 3676, y: -5365, z: -81, yaw: 1.5708, pitch: -0.5768}
+- press_interact: {}
+- advance_runtime: {seconds: 1}
+- assert: {state_dump_named_map_var: {name: Furnace, value: 1}}
+- assert: {state_dump_named_map_var: {name: Quaked, value: 1}}
+- advance_runtime: {seconds: 14}
+- assert: {state_dump_named_map_var: {name: FatcBoiled, value: 1}}
+- console: {line: event 90}
+- advance_runtime: {seconds: 1}
+- assert: {state_dump_named_map_var: {name: Furnace, value: 0}}
+- console: {line: event 90}
+- advance_runtime: {seconds: 1}
+- assert: {state_dump_named_map_var: {name: Furnace, value: 1}}
+- assert: {state_dump_named_map_var: {name: Quaked, value: 1}}

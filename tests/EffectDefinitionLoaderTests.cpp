@@ -6,11 +6,11 @@
 #include "game/fx/EffectSystem.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ProjectileEffectBindings.h"
-#include "game/fx/ItemModelBindings.h"
 #include "game/fx/ProjectileModelBindings.h"
 #include "game/fx/SpellAuraEffectBindings.h"
 #include "game/fx/import/EffectDefinitionLoader.h"
 #include "game/fx/import/EffectResourceLibrary.h"
+#include "game/tables/ItemModelBindings.h"
 
 #include <doctest/doctest.h>
 
@@ -42,7 +42,26 @@ TEST_CASE("EffectDefinitionLoader loads shared MM9-derived effects for any activ
         loader.load("engine/effects/mm9/library.yml", error);
     INFO(error);
     REQUIRE(definitions.has_value());
-    REQUIRE_EQ(definitions->size(), 37);
+    // 42 of the 48 FXF groups (the six with visible deforming models are not imported), the melee blood and the
+    // Sparks projectile explosion.
+    REQUIRE_EQ(definitions->size(), 44);
+    for (const std::string id : {"mm9:redyeldots", "mm9:LichKingRes", "mm9:skullcurse", "mm9:explosion_sparks"})
+    {
+        INFO(id);
+        CHECK(std::any_of(definitions->begin(), definitions->end(),
+            [&id](const std::shared_ptr<const Game::EffectDefinition> &definition)
+            {
+                return definition->id == id;
+            }));
+    }
+    // A body-anchored recipe the scripts play (Wizard's Lab): both hand emitters at the effect's origin.
+    const auto blueDotsIterator = std::find_if(definitions->begin(), definitions->end(),
+        [](const std::shared_ptr<const Game::EffectDefinition> &definition)
+        {
+            return definition->id == "mm9:bluedots";
+        });
+    REQUIRE(blueDotsIterator != definitions->end());
+    CHECK_EQ((*blueDotsIterator)->spriteEmitters.size(), 2);
     const auto columnIterator = std::find_if(
         definitions->begin(),
         definitions->end(),
@@ -154,7 +173,7 @@ TEST_CASE("EffectDefinitionLoader loads shared MM9-derived effects for any activ
         *definitions,
         error,
         &modelAssets));
-    CHECK_EQ(resources.spriteCount(), 36);
+    CHECK_EQ(resources.spriteCount(), 37); // The FXF sprites, the melee blood two and the explosion sphere.
     const Game::EffectSpriteResource *pSprite =
         resources.findSprite("mm9:effect-sprite/fire/torchflame4");
     REQUIRE(pSprite != nullptr);
@@ -226,6 +245,26 @@ TEST_CASE("EffectDefinitionLoader loads shared MM9-derived effects for any activ
     REQUIRE(effects.stop(fireflyHandle, Game::EffectStopMode::Immediate));
     CHECK_EQ(models.size(), 0);
     CHECK(effects.fixedSprites().empty());
+
+    // Every imported recipe spawns: its sprites, sounds and model paths resolve (a model path plays the model's own
+    // first clip, which is not always named after the model: pathup.abc's is wormpath).
+    for (const std::shared_ptr<const Game::EffectDefinition> &definition : *definitions)
+    {
+        INFO(definition->id);
+        for (const Game::EffectSpriteEmitterDefinition &emitter : definition->spriteEmitters)
+        {
+            CHECK(resources.findSprite(emitter.spriteResource) != nullptr);
+        }
+        for (const Game::EffectSpriteDefinition &sprite : definition->sprites)
+        {
+            CHECK(resources.findSprite(sprite.spriteResource) != nullptr);
+        }
+        const Game::EffectHandle spawned = effects.spawn(definition->id);
+        CHECK(effects.contains(spawned));
+        effects.update(0.5f);
+        effects.stop(spawned, Game::EffectStopMode::Immediate);
+    }
+    CHECK_EQ(models.size(), 0);
 }
 
 TEST_CASE("EffectDefinitionLoader rejects unsupported components and duplicate ids atomically")
@@ -273,18 +312,31 @@ TEST_CASE("EffectDefinitionLoader composes authored showcase with MM9 for all le
         const auto definitions = loader.load("engine/effects/library.yml", error);
         INFO(world, ": ", error);
         REQUIRE(definitions.has_value());
-        // Seven authored recipes (three showcase, three creature hand/staff emitters, the behaviour ward sparks), the
-        // 122 generated projectile flight, settled, impact and aura effects, the 63 melee effects (nine blows, three
-        // misses, 18 element accents, eleven material contacts in three strengths) and the MM9 library.
-        REQUIRE_EQ(definitions->size(), 229);
+        // Nineteen authored recipes (three showcase, three creature hand/staff emitters, the behaviour ward sparks,
+        // six ground item sparkles, two beams, four destructibles breaking), the 122 generated projectile flight, settled, impact and aura
+        // effects, the 73 melee effects (nine blows, three misses, 18 element accents, eleven material contacts in
+        // three strengths, ten dragon claw rakes), the MM8 wisp stars and the MM9 library.
+        REQUIRE_EQ(definitions->size(), 259);
         Game::EffectLibrary library;
         REQUIRE(library.replace(*definitions, error));
         REQUIRE(library.find("mm9:spell_reaver") != nullptr);
         REQUIRE(library.find("openyamm:fx/creature_dark_staff") != nullptr);
+        REQUIRE(library.find("openyamm:fx/energy_beam") != nullptr);
+        CHECK(library.find("openyamm:fx/arc_beam")->ribbons.front().beam);
         Game::EffectResourceLibrary resources;
         Engine::ModelAssetCache models;
         REQUIRE(resources.load(assets, "engine/effects/resource_bindings.yml", *definitions, error, &models));
         REQUIRE(resources.findSprite("mm9:effect-sprite/fire/torchflame4") != nullptr);
+        // MM9's additive light ignores the texture's alpha (LithTech ONE/ONE); OpenYAMM's effects keep it, also
+        // where they draw MM9's sprites.
+        for (const Game::EffectSpriteDefinition &sprite : library.find("mm9:sparklies")->sprites)
+        {
+            CHECK_FALSE(sprite.additiveTextureAlpha);
+        }
+        const Game::EffectDefinition &fireHand = *library.find("openyamm:fx/creature_fire_hand");
+        CHECK_EQ(fireHand.spriteEmitters.front().spriteResource, "mm9:effect-sprite/weapons/firebolt");
+        CHECK(fireHand.spriteEmitters.front().additiveTextureAlpha);
+        CHECK(fireHand.sprites.front().additiveTextureAlpha);
         const Game::EffectSpriteResource *pFire = resources.findSprite("openyamm:effect-sprite/fireball");
         REQUIRE(pFire != nullptr);
         CHECK_EQ(pFire->framePaths.size(), 16);
@@ -448,6 +500,7 @@ effects:
         erosion: 0.5
         jitter: 6
         jitter_rate: 20
+        beam: true
         width_keys: [{time: 0, value: 1}, {time: 1, value: 0.2}]
         color_keys: [{time: 0, rgb: [255, 200, 100], transparency: 0}]
       - {id: 3, type: sprite_system, start_seconds: 0, end_seconds: 30, sprite_resource: test:flame,
@@ -465,6 +518,7 @@ effects:
     CHECK(ribbon.maxLength == doctest::Approx(200.0f));
     CHECK(ribbon.fill == doctest::Approx(0.0f));
     CHECK(ribbon.jitter == doctest::Approx(6.0f));
+    CHECK(ribbon.beam);
     CHECK_EQ(ribbon.widthKeys.size(), 2);
     REQUIRE_EQ(definition.spriteEmitters.size(), 1);
     CHECK(definition.spriteEmitters[0].emissionDistance == doctest::Approx(12.0f));
@@ -532,7 +586,8 @@ TEST_CASE("Projectile effect bindings name existing effects and resolve monster 
     for (const ProjectileRecipe recipe : {ProjectileRecipe::Implosion, ProjectileRecipe::Inferno,
              ProjectileRecipe::Immolation, ProjectileRecipe::MassDistortion, ProjectileRecipe::SpiritLash,
              ProjectileRecipe::PrismaticLight, ProjectileRecipe::Lifedrain, ProjectileRecipe::ShrinkingRay,
-             ProjectileRecipe::Armageddon})
+             ProjectileRecipe::Armageddon, ProjectileRecipe::FireTrap, ProjectileRecipe::ElecTrap,
+             ProjectileRecipe::ColdTrap, ProjectileRecipe::PoisonTrap})
     {
         INFO(Game::FxRecipes::projectileRecipeName(recipe));
         const Game::ProjectileEffectBinding *pBinding = bindings.find(recipe, "");
@@ -754,20 +809,44 @@ TEST_CASE("Item model bindings parse icons and name installed models")
     std::string error;
     Game::ItemModelBindings bindings;
     REQUIRE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
-        "  - {icon: LSword1, model: engine/models/item_lsword1.glb, length: 129}\n", "test", bindings, error));
+        "  - {icon: LSword1, model: engine/models/item_lsword1.glb, length: 129, bounds: [-9, -64.5, 0, 9, 64.5, 12]}\n",
+        "test", bindings, error));
     REQUIRE(bindings.contains("lsword1"));
     CHECK_EQ(bindings.at("lsword1").length, doctest::Approx(129.0f));
+    CHECK_EQ(bindings.at("lsword1").boundsMin[1], doctest::Approx(-64.5f));
+    CHECK_EQ(bindings.at("lsword1").boundsMax[2], doctest::Approx(12.0f));
     bindings.clear();
     CHECK_FALSE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
-        "  - {icon: a, model: a.glb, length: 1, tint: 2}\n", "test", bindings, error));
+        "  - {icon: a, model: a.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1], tint: 2}\n", "test", bindings, error));
     bindings.clear();
     CHECK_FALSE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
-        "  - {icon: a, model: a.glb, length: 1}\n  - {icon: A, model: b.glb, length: 1}\n", "test", bindings, error));
+        "  - {icon: a, model: a.glb, length: 1}\n", "test", bindings, error));
+    CHECK(error.find("bounds") != std::string::npos);
+    bindings.clear();
+    CHECK_FALSE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: a, model: a.glb, length: 1, bounds: [0, 0, 0, -1, 1, 1]}\n", "test", bindings, error));
+    bindings.clear();
+    CHECK_FALSE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: a, model: a.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n"
+        "  - {icon: A, model: b.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n", "test", bindings, error));
+    CHECK(error.find("bound twice") != std::string::npos);
+    // A world's own bindings (worlds/<id>/world_items/items.yml) add to the engine's; an icon bound in both fails.
+    bindings.clear();
+    REQUIRE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: a, model: a.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n", "engine", bindings, error));
+    REQUIRE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: mm9_item_10002, model: worlds/mm9/world_items/models/b.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n",
+        "world", bindings, error));
+    CHECK(bindings.size() == 2);
+    CHECK_FALSE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: A, model: c.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n", "world", bindings, error));
     CHECK(error.find("bound twice") != std::string::npos);
 
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
     Engine::AssetFileSystem assetFileSystem;
     REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    bindings.clear();
+    CHECK_FALSE(Game::loadItemModelBindings(assetFileSystem, "engine/world_items/missing.yml", bindings, error));
     Game::ItemModelBindings installed;
     REQUIRE_MESSAGE(Game::loadItemModelBindings(assetFileSystem, "engine/world_items/items.yml", installed, error), error);
     for (const auto &[icon, binding] : installed)
@@ -775,4 +854,5 @@ TEST_CASE("Item model bindings parse icons and name installed models")
         INFO(icon << ": " << binding.model);
         CHECK(assetFileSystem.exists(binding.model));
     }
+    CHECK(assetFileSystem.exists(Game::missingItemModelBinding().model));
 }

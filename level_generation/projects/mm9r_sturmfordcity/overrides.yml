@@ -1,0 +1,274 @@
+# Explicit conversion choices for MM9's Sturmford City (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md.
+map:
+  fog: lithtech                      # MM9's own fog model and its WeatherMan night fog (CITY_PLAYBOOK "Daylight and fog")
+  bright_scale_lights: true          # BLV light colour x MM9's BrightScale, as its lightmaps (CITY_PLAYBOOK "Street lights")
+  stem: sturmfordcity
+  display_name: Sturmford City
+  # start index = the old map's: 0 docks, 1-3 sewers, 4 the north gate (from the Sturmford wilderness), 5 Town Portal
+  starts: [SturmfordDocks, SewerS, SewerW, SewerE, Sturmford, TownPortal]
+  monster_classes: [CommonerElfFemaleA, CommonerHumanMaleA, CommonerElfMaleA, CommonerHumanFemaleA, CommonerHuman2MaleA,
+                    CommonerChildHumanChildA, CommonerChildElfChildA, ShopkeeperHuman2MaleA, Dog, Cat,
+                    CommonerElfFemaleB, ShopkeeperElfFemaleA, CommonerHalfOrcMaleA, ShopkeeperHuman2MaleB,
+                    CommonerHalfOrcFemaleA, CommonerChildHuman2ChildA, PrisonerHumanMaleA, ShopKeeperDwarfFemaleB,
+                    ShopkeeperElfMaleA, CommonerDwarfFemaleA, CommonerDwarfMaleB, PoorTownGuard1]
+  # RUDEProps (talking props in a pose: the innkeeper, Ludwig, Bjarni...) are actors looping their MM9 pose on the HD
+  # townsfolk bodies (props.json kind npc, ../mm9r_common/rude_props.py, citylua.py)
+  painted_minimap: true               # MM9's painted city map (catalog entry kept); no outline pass (CITY_PLAYBOOK.md)
+  offset: [0, 0, 0]                   # the old map's frame (x -5 773..16 294, y -1 541..20 145, z 17 746..21 873): fits int16
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  corner_samples: true               # face votes sample over each polygon's corners: the magic shop's ceiling (M11)
+plan_levels:
+  sewers: [6900, 7700]
+  street: [7700, 8000]
+  upper: [8000, 8560]
+models:
+  SkyBox0: skip                       # DemoSkyWorldModel: MM9's sky box (SnowMtns_*), drawn by the sky, not geometry
+  TOD_Sky0: skip                      # TOD_Sky: the night starfield shell
+  Wellwater: skip                     # BlueWater volume in the well shaft: its top face is added by convert.py
+  Tavernzone: skip                    # PortalZone (greenscreen): MM9's renderer zone that opens Tavernportal
+  # --- static world objects
+  WorldObject3: static                # hanging chains (ChainLink in invisible boxes): signs' chains
+  WorldObject23: static
+  WorldObject26: static
+  WorldObject27: static
+  WorldObject28: static
+  WorldObject29: static
+  WorldObject30: static
+  WorldObject31: static
+  WorldObject32: static
+  WorldObject33: static
+  WorldObject36: static
+  WorldObject34: static
+  WorldObject46: static
+  WorldObject14: static
+  WorldObject11: static
+  WorldObject17: static
+  WorldObject21: static
+  WorldObject13: static
+  WorldObject24: static
+  WorldObject16: static
+  WorldObject15: static
+  WorldObject25: static
+  WorldObject35: static
+  WorldObject6: static                # tapestries (tapestry_yellowgreen)
+  WorldObject22: static
+  WorldObject4: static                # the market's awnings (cw_awning, non-solid)
+  WorldObject0: static                # bannisters (bannister_wood_black)
+  WorldObject12: static
+  WorldObject5: static                # ladder rungs (xeenstairs, non-solid) beside Ladder2-6
+  WorldObject8: static
+  WorldObject7: static
+  WorldObject20: static
+  WorldObject9: static
+  Banner3: static
+  Banner4: static
+  Banner5: static
+  Banner6: static
+  Banner7: static
+  Grates0: static                     # sewer grates
+  Grates27: static
+  Grates28: static
+  WaterTop1: static                   # the sewers' slime surfaces (non-solid)
+  WaterTop2: static
+  Tavernwindow: static                # the tavern's iron window (iron_window): glass
+  InvisibleBrush0: static
+  InvisibleBrush2: static
+  InvisibleBrush3: static
+  InvisibleBrush4: static
+  InvisibleBrush5: static
+  InvisibleBrush6: static
+  InvisibleBrush7: static
+  InvisibleBrush8: static
+  InvisibleBrush9: static
+  InvisibleBrush10: static
+  InvisibleBrush11: static
+  # --- DestructableBrush windows (Invisible boxes with one pane): static glass panes
+  DestructableBrush0: static
+  DestructableBrush1: static
+  DestructableBrush2: static
+  DestructableBrush3: static
+  DestructableBrush4: static
+  DestructableBrush37: static
+  DestructableBrush38: static
+  DestructableBrush39: static
+  DestructableBrush40: static
+  DestructableBrush41: static
+  DestructableBrush42: static
+  DestructableBrush43: static
+  DestructableBrush44: static
+  DestructableBrush45: static
+  DestructableBrush46: static
+  WorldObject1: static
+  WorldObject2: static
+  WorldObject10: static
+  WorldObject18: static
+  WorldObject19: static
+  WorldObject37: static
+  WorldObject38: static
+  WorldObject39: static
+  WorldObject40: static
+  WorldObject41: static
+  WorldObject42: static
+  WorldObject43: static
+  WorldObject44: static
+  WorldObject45: static
+  # --- doors (work/draft_rules.py, edited): pairs share a group; a PortalName or a pair makes a doorway
+  RotatingDoor16: {group: RotatingDoor16, motion: rotate}   # locked   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  GenStoreDoor1: {group: GenStoreDoor1, motion: rotate, doorway: true}
+  GenStoreDoor2: {group: GenStoreDoor1, motion: rotate, doorway: true}
+  barflap1: {group: barflap1, motion: rotate}   # the bar counter's flap (Sticky): not a doorway
+  barflap2: {group: barflap1, motion: rotate}   # the bar counter's flap (Sticky): not a doorway
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true, portal: Innportal}
+  RotatingDoor1: {group: RotatingDoor0, motion: rotate, doorway: true, portal: Innportal}
+  RotatingDoor2: {group: RotatingDoor2, motion: rotate}
+  RotatingDoor3: {group: RotatingDoor2, motion: rotate}
+  Door1: {group: Door1, motion: rotate, doorway: true, portal: Doorportal1a}
+  Door2: {group: Door2, motion: rotate, doorway: true, portal: Doorportal2a}
+  Door3: {group: Door3, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  Door4: {group: Door4, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  ArchDoorLeft: {group: ArchDoorLeft, motion: rotate, doorway: true, portal: DoorPortal100}
+  ArchDoorRight: {group: ArchDoorLeft, motion: rotate, doorway: true, portal: DoorPortal100}
+  BeetHovengrate: {group: BeetHovengrate, motion: rotate}   # the grate over the shaft to Beethoven (Ladder3, GrateExit)
+  RotatingDoor33: static   # RotationAngles 0: the grate's frame over Ladder3, never moves
+  f10doorl2: {group: f10doorl2, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor6: {group: RotatingDoor10, motion: rotate, doorway: true}
+  RotatingDoor10: {group: RotatingDoor10, motion: rotate, doorway: true}
+  RotatingDoor12: {group: RotatingDoor12, motion: rotate, doorway: true}
+  RotatingDoor13: {group: RotatingDoor12, motion: rotate, doorway: true}
+  RotatingDoor14: {group: RotatingDoor14, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor15: {group: RotatingDoor15, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor8: {group: RotatingDoor19, motion: rotate, doorway: true}
+  RotatingDoor19: {group: RotatingDoor19, motion: rotate, doorway: true}
+  RotatingDoor26: {group: RotatingDoor25, motion: rotate, doorway: true, portal: Townhallportal}
+  RotatingDoor25: {group: RotatingDoor25, motion: rotate, doorway: true, portal: Townhallportal}
+  RotatingDoor23: {group: RotatingDoor23, motion: rotate, doorway: true}
+  RotatingDoor24: {group: RotatingDoor23, motion: rotate, doorway: true}
+  RotatingDoor21: {group: RotatingDoor21, motion: rotate, doorway: true}
+  RotatingDoor22: {group: RotatingDoor21, motion: rotate, doorway: true}
+  Jaildoor: {group: Jaildoor, motion: rotate, doorway: true}   # locked   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  MagiL: {group: MagiL, motion: rotate, doorway: true}
+  MagiR: {group: MagiL, motion: rotate, doorway: true}
+  bankdoorL: {group: bankdoorL, motion: rotate, doorway: true, portal: bankdoorportal}
+  bankdoorR: {group: bankdoorL, motion: rotate, doorway: true, portal: bankdoorportal}
+  vaultdoor: {group: vaultdoor, motion: rotate, doorway: true}   # locked   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor11: {group: RotatingDoor11, motion: rotate, doorway: true}
+  RotatingDoor20: {group: RotatingDoor11, motion: rotate, doorway: true}
+  RotatingDoor27: {group: RotatingDoor27, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor28: {group: RotatingDoor28, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor29: {group: RotatingDoor29, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor32: {group: RotatingDoor32, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  RotatingDoor30: {group: RotatingDoor30, motion: rotate, doorway: true}
+  RotatingDoor31: {group: RotatingDoor30, motion: rotate, doorway: true}
+  RotatingDoor4: {group: RotatingDoor4, motion: rotate, doorway: true}
+  RotatingDoor5: {group: RotatingDoor4, motion: rotate, doorway: true}
+  LibraryR: {group: LibraryL, motion: rotate, doorway: true, portal: Libraryportal}
+  LibraryL: {group: LibraryL, motion: rotate, doorway: true, portal: Libraryportal}
+  Towngate1L: {group: Towngate1L, motion: rotate, doorway: true, portal: Towngateportal1}
+  Templegate2L: {group: Templegate2L, motion: rotate, doorway: true, portal: Templegateportal2}
+  Templegate1L: {group: Templegate1L, motion: rotate, doorway: true, portal: Templegateportal1}
+  Door34: {group: Door34, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door33: {group: Door33, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door32: {group: Door32, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door31: {group: Door31, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door30: {group: Door30, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door29: {group: Door29, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door28: {group: Door28, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door26: {group: Door26, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door25: {group: Door25, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door24: {group: Door24, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door21: {group: Door21, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door20: {group: Door20, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door19: {group: Door19, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door18: {group: Door18, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door17: {group: Door17, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door16: {group: Door16, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door15: {group: Door15, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door14: {group: Door14, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door13: {group: Door13, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door12: {group: Door12, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door11: {group: Door11, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door9: {group: Door9, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door8: {group: Door8, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  TestHouse1: {group: TestHouse1, motion: rotate}   # locked   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  f10doorl: {group: f10doorl, motion: rotate}   # locked
+  f10doorr: {group: f10doorr, motion: rotate}   # locked
+  f10doorl0: {group: f10doorl0, motion: rotate}   # locked
+  f10doorr0: {group: f10doorr0, motion: rotate}   # locked
+  Door7: {group: Door7, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door35: {group: Door35, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door6: {group: Door6, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door5: {group: Door5, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door0: {group: Door0, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door27: {group: Door27, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door23: {group: Door23, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  PalacedoorL: {group: PalacedoorL, motion: rotate, doorway: true, portal: Palaceportal}
+  PalacedoorR: {group: PalacedoorL, motion: rotate, doorway: true, portal: Palaceportal}
+  ThronedoorL: {group: ThronedoorL, motion: rotate, doorway: true}
+  ThronedoorR: {group: ThronedoorL, motion: rotate, doorway: true}
+  Backdoor: {group: Backdoor, motion: rotate, doorway: true, portal: Backdoorportal}
+  Door22: {group: Door22, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door36: {group: Door36, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door37: {group: Door37, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door38: {group: Door38, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Churchdoor2: {group: Churchdoor2, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  Churchdoor1: {group: Churchdoor1, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  ChurchdoorR: {group: ChurchdoorL, motion: rotate, doorway: true}
+  ChurchdoorL: {group: ChurchdoorL, motion: rotate, doorway: true}
+  RotatingDoor9: {group: RotatingDoor9, motion: rotate}   # the hatch over ExitW: an invisible plate under it seals the shaft (no portal)
+  RotatingDoor7: {group: RotatingDoor7, motion: rotate}   # the hatch over ExitS (as RotatingDoor9)
+  RotatingDoor18: {group: RotatingDoor18, motion: rotate}   # locked sewer door to nowhere   # locked
+  RotatingDoor17: {group: RotatingDoor17, motion: rotate, doorway: true, portal: Sewerportal1}
+# Doorways that lead nowhere (the gates out of the city, a locked sewer door, a back door into the same room): no portal
+skip_user_portals: [Towngateportal2, Sewerportal2, SewerP1, SewerP5]
+# Air under the sewer hatches and the grate (the exit volumes to Beethoven stand in the shafts; nothing else seeds them)
+seeds:
+  - [420, 7600, 20]       # ExitS, under the hatch SewerP1
+  - [-2170, 7600, 4932]   # ExitW, under the hatch SewerP5
+  - [2152, 7424, 664]     # GrateExit, the shaft under BeetHovengrate
+# MM9's dock exit volume floats 21 LT over the dock's planks: reach it down to them (the party's centre is tested)
+exits:
+  ExitDock: {bottom_lt: 7690}
+# The well's rope (Ladder7, ChainLink WorldObject35 at z 6512): the way out of the well (the treasure bags lie at its bottom)
+ladders:
+  Ladder7: {facing_lt: [0, 1], surface_lt: 6496, top_exit_lt: [2225, 7730, 6640]}
+# The sewer shafts' ladders (rungs WorldObject5/7/8/20/9; measured 2026-11-05): Ladder4/6 up to the landings, Ladder2/5
+# up to the hatches (ExitS / ExitW fire on the way), Ladder3 up the shaft to Beethoven's grate (GrateExit on the way).
+  Ladder2: {facing_lt: [-1, 0], surface_lt: 398, top_exit_lt: [480, 7700, 20]}
+  Ladder4: {facing_lt: [-1, 0], surface_lt: 398, top_exit_lt: [420, 7380, -150]}
+  Ladder5: {facing_lt: [-1, 0], surface_lt: -2190, top_exit_lt: [-2120, 7708, 4932]}
+  Ladder6: {facing_lt: [-1, 0], surface_lt: -2190, top_exit_lt: [-2168, 7380, 4770]}
+  Ladder3: {facing_lt: [1, 0], surface_lt: 2170, top_exit_lt: [2100, 7716, 660]}
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the sky shell: IndoorSky faces (scene override)
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # sound-only brushes: invisible collision
+# MM9's window panes (DestructableBrush windows, the tavern's iron window): translucent faces, portals between rooms,
+# where MM9's surface has the Translucent flag (dungeon/rooms.py Glass; the user, 2026-11-07); these entries only
+# tune those faces, a window without the flag is opaque.
+glass:
+  window_frame_trans.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  windowlead1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  sturmwindow.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  iron_window_03.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  iron_window.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  windowrose.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  windowknight.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# The city's open air (../mm9r_common/city/structure.py): street air under the roof line, the air over the roofs one
+# room per district, street cuts found automatically.
+city:
+  weather: rain                    # the outdoor weather over the open sky (the user's decision 2026-11-06; city.hooks.apply_weather)
+  merged_top_portals: true          # few large convex top portals over walls and roofs (CITY_PLAYBOOK "The open air" step 3)
+  daylight: true                     # sun and sky light on the sectors open to the sky (CITY_PLAYBOOK "Daylight and fog")
+  street_top_lt: 7968                # 256 LT over the streets (7712): under the lowest eaves along them
+  extra_cuts:                        # by hand where the automatic search found no plain corridor
+    - {axis: z, point: [2400, 7800, 1000]}   # the lane from the docks up to the palace ring
+    - {axis: z, point: [3300, 7800, 2700]}   # the palace ring's east side
+  sky_preset: cloudy                 # the outdoor maps' high-definition sky (was sky_texture plansky3, the old import's)
+  outdoor_view: true                 # view distance and haze as an outdoor map's, not MM9's grey fog (INDOOR_OPEN_SKY.md)
+  view_distance_scale: 0.5           # 8 096 units at the default view distance setting (16 192), the user's choice
+  half_steps: true                   # invisible half steps up standable 50-66 rises: one here (CITY_PLAYBOOK "Raised floors")

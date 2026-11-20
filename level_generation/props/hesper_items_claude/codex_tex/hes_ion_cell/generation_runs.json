@@ -1,0 +1,549 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate paint_front.png, a single 1024 x 1024 RGBA texture-source painting for the Hesper ion cell.\nInput 1 (guide_front.png) is the EDIT TARGET and exact geometry/alpha authority. Input 2 (design_reference.png) is ONLY the approved material, color, and fine surface-detail reference.\nPaint directly over input 1 while preserving its original pixel silhouette, alpha mask, 1024-square framing, orthographic front view, scale, position, and EVERY existing part boundary. Do not reconstruct the reference object's shape. Keep the very simple straight cage and cylindrical cap geometry of the guide exactly. Bounds: x201..822, y66..957. Small centered gold terminal x409..614 y66..125; ivory upper housing x243..780 y125..280; cage x201..822 y280..803; ivory lower housing x243..780 y803..957. Central energy window x409..615 y330..751, flanking narrow windows, and all vertical posts and rails remain exactly where the guide has them.\nMaterial mapping: pale grey guide housing -> warm white ivory ceramic with fine hairline wear, restrained brown-grey scuffs and small chips painted INSIDE the silhouette; lavender cage -> very dark black-violet resin, subtle violet mottling and fine scratches; pale yellow terminal -> aged muted brushed gold with faint surface marks; pale cyan windows -> saturated orange amber energy glass, evenly bright orange with delicate yellow-white electrical filaments like the design reference. The guide's pastel colors are material IDs, not final colors. Continue reference materials plausibly without adding geometry, vents, new panels, ribs, bevels, rings, hardware, or inset ivory patches that are absent in the guide. Existing seams may have fine painted engraving; no letters or glyphs.\nTEXTURE SOURCE / ALBEDO: completely flat even shadowless viewer-facing illumination. Remove the guide's existing cast shadows and directional shading. No ambient occlusion, edge-darkening, hard highlights, metallic glints, reflections, rim light, dramatic shading, or directional lighting. Gold is base color plus faint sheen only. Energy is bright color within its panes, with no light cast onto adjacent surfaces and no bloom outside.\nBackground is genuinely transparent alpha, no black/white/checkerboard backdrop, no floor or shadow. No text, letters, logos or watermarks. Return only ONE front painting, no sheet, no labels. Exact guide geometry has priority over all reference shape detail.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "role": "edit target",
+          "sha256": "b4e0c9a4d334393f319c26876269b1a02998dc6486ffa3fed9bf97ce5e94e582"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material reference",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-afa435e9-7023-42bb-ae40-38e3b9fc70ea.png",
+      "selected": false,
+      "reason": "Reference materials recognizable, but silhouette/framing deviates from guide and edge shading is too strong. One corrective generation requested.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 861032,
+        "alpha_bbox": [
+          0,
+          15,
+          1242,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          259,
+          68,
+          994,
+          1122
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9069499831359245,
+        "fully_flat_albedo": false,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: reference ivory, gold, violet resin and orange energy present",
+        "lighting": "Too much bevel shading and specular sheen; rejected in favor of corrective return.",
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      },
+      "output_sha256": "94778c99e8f7dd22d02072824cd1fd0a51af525fd842d97a2966f5e004dac9e4"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Paint the SECOND input image in place. Output ONE 1024x1024 PNG with genuine transparent alpha.\nInput 1 is design_reference.png: use its material colors ONLY. Input 2 is guide_front.png: the exact editable canvas, geometry, and alpha silhouette. The output must use image 2's dimensions and exactly preserve image 2's pixel positions, silhouette mask, simple polygon edges, parts, and transparent margins. This is the single corrective generation for the front view: fix geometry drift and baked lighting. Do not use the reference artwork's canvas, framing, silhouette, complexity, or three-quarter perspective.\nTreat this strictly as recoloring/texturing the flat orthographic guide, not rendering a new object. Change only surface color inside its original mask. No moving, reshaping, rounding, inflating, adding, deleting, or rearranging parts. Top terminal stays at x409..614 y66..125. The simple upper white cap stays x243..780 y125..280. The straight rectangular purple cage stays x201..822 y280..803. Lower white cap stays x243..780 y803..957. Retain exact central wide window, side narrow windows, and posts. The item's complete bounds are x201..822 y66..957 in a 1024 square. No new thin collars, flanges, vents, ivory insets, elaborate panels or trim.\nPaint the guide's white regions with warm ivory ceramic, fine shallow hairline wear and a few muted brown abrasions like the material reference. Paint lavender frame regions dark black-violet resin with fine subdued violet/brown scratches. Paint the light gold terminal dull worn brushed gold, flat ochre base color. Paint the cyan regions luminous saturated amber-orange energy with sparse delicate pale-yellow electrical veins; even orange pane color, no surrounding glow. Keep those mapped materials in precisely the guide's regions.\nALBEDO ONLY: completely uniform flat illumination, NO lighting gradients on any material or bevel. Remove all shadows already present in the guide. The same resin base tone across front and bevel faces; the same ivory base tone across ceramic front and bevel faces. No cast shadow, occlusion shadow, black seam shading, dark lower bevel, bright upper bevel, rim highlights, hot specular streaks, reflections or metallic gleam. Use surface pigment variation and wear only. No text, letters, symbols, watermark, floor, backdrop, bloom. Preserve the transparency and exact outline from image 2.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "role": "material reference",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        },
+        {
+          "file": "guide_front.png",
+          "role": "edit target",
+          "sha256": "b4e0c9a4d334393f319c26876269b1a02998dc6486ffa3fed9bf97ce5e94e582"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-fbce1ebc-5a2e-43fb-94aa-84e425024fee.png",
+      "selected": true,
+      "reason": "Selected corrective return: improved framing and removed extra glass collars. Raw output retained; exact guide silhouette and perfectly flat lighting were not achieved. Correction budget exhausted.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "fe39f81d3e035ea2d3960a7f2393a7490d3d0c2efa9748f4818cfdb51e9f00f5",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 791263,
+        "alpha_bbox": [
+          0,
+          19,
+          1246,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          245,
+          80,
+          1010,
+          1177
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9877623487403293,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin, orange energy where visible",
+        "lighting": "Reduced gradients, but dark cage bevels and some ceramic bevel shading remain.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a texture-source ALBEDO onto input 2, guide_back.png, keeping its exact geometry, original alpha outline and 1024x1024 canvas. One image only, genuine transparent background.\nInput 1 design_reference.png supplies only color and material appearance. The simplified exact orthographic BACK-view model to paint is input 2. Do not reproduce the design reference's perspective or model shape.\nPreserve every pixel position and part edge of input 2: terminal x409..614 y66..125, upper ceramic housing x243..780 y125..280, straight cage x201..822 y280..803, lower ceramic housing x243..780 y803..957. Keep the front-on rectangular cage, two interior vertical posts, single wide central window and narrow side windows. Exact whole-object outline x201..822 y66..957, unchanged transparent margins. No extra hardware, rims, collars, ribs, panels, glass rims, ivory insets, holes or geometry.\nRecolor only: pale white housing is warm white ivory ceramic with delicate fine wear and restrained brown-grey scuffs; pale gold terminal is dull muted aged brushed gold; lavender cage is BLACK-VIOLET RESIN with subtle violet scratches and mottled wear; pale cyan windows are flat bright saturated amber-orange charged energy with thin pale-yellow lightning veins. The back continues the same materials plausibly. Do not copy the guide's pastel tint colors.\nThis is a painted BASE-COLOR texture, not a product rendering. Every face, including all bevels, receives the same flat viewer-facing illumination. Ivory remains ivory on its lower edge; dark violet remains the same dark violet on rail front and rail bevel. Omit the guide's shadows. No lighting gradients, no cast shadows, no ambient occlusion, no deep black shading around windows, no bright edge outlines, no highlights, reflections, specular glints, rim light, or bloom. Gold only a matte base hue with faint brushing. Orange energy is a bright paint color with delicate electrical lines, no light spill on other parts. Fine pigment wear gives material interest.\nNo floor, background, text, letters, labels, logos, symbols, or watermark. Paint only inside the existing guide silhouette; preserve exact simple outline and part placement. Return unresized 1024x1024 RGBA.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "role": "material reference",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        },
+        {
+          "file": "guide_back.png",
+          "role": "edit target",
+          "sha256": "1003b8b5b6a7bc5d86ebffa5abd81a517e86c2acad669021acd14b372b9e26cb"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-4780edd2-0ffb-4ff0-84ba-6f931ec4a1b8.png",
+      "selected": false,
+      "reason": "Material palette matches, but cast shadows remain below posts and output geometry is approximate. Requesting the allowed corrective pass.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "edcc8cd78f170379b68ef284505eb1d8d15760826626014fc3352932cd55bade",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 795846,
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          245,
+          79,
+          1011,
+          1176
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9863014784573308,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin, orange energy where visible",
+        "lighting": "Cast shadows below cage posts, brighter upper bevels and darker lower bevels remain.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Recolor and texture this exact supplied guide_back.png IN PLACE. Output one 1024x1024 transparent RGBA painting. This is a constrained albedo paint-over, a flat 2D material map.\nPreserve input image dimensions, alpha mask, silhouette, straight orthographic geometry, position, size and ALL part boundaries exactly. Keep the original transparent margins unchanged. Do not create a new model or reinterpret any shape. Recolor the original pixel regions only. The outer cage spans x201..822 y280..803; total outline x201..822 y66..957. All caps, posts and panes stay in place.\nMaterials from the approved Hesper ion cell reference: grey-white upper and lower cap surfaces become off-white warm ivory ceramic, finely speckled with subtle grey-brown hairline wear and sparse scuffs. Lavender cage beams become black-violet resin: base color charcoal plum (#302536), subtle fine muted violet and dusty rose scratches, no luminous outlines. Pale yellow terminal becomes brushed antique gold (#ac8745), lightly mottled, not shiny. Pale cyan windows become evenly saturated amber orange (#ff8a09) with a few fine branching pale-yellow electrical filaments. All windows use the same orange material. No changes to the simple geometry, no extra inset panels, collars, rims, hardware, vents, text or symbols.\nCrucial correction: REMOVE ALL LIGHTING from the source. Paint absolutely flat unlit base colors with pigment wear. Erase the guide's visible grey cast shadows below cage beams; those areas must be the SAME ivory as the rest of the ceramic. No shading on bevels or sides, no contact shadows around panes, no dark lower edges or bright upper edges. Frame front and bevels have equal brightness; ceramic front and bevels have equal brightness. Gold has fine brushing but no specular shine. Orange panes have electrical vein detail but no hot spots or bloom. No ambient occlusion, lighting gradients, cast shadows, reflections, highlights or rim light.\nGenuine alpha transparency around the exact original silhouette. Do not copy black backdrop. No text, letters, glyphs, logo or watermark. One back-view painting only, no sheet. Surface details should look like worn ivory, antique gold and black-violet resin with orange energy; texture color only.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "role": "tool image edit target",
+          "sha256": "1003b8b5b6a7bc5d86ebffa5abd81a517e86c2acad669021acd14b372b9e26cb"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material authority described in prompt, not attached to this corrective call",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_back.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-53e55008-1248-43ed-b93d-9a9d98e07b9c.png",
+      "selected": true,
+      "reason": "Selected corrective return: cast shadows and ceramic gradients removed; recognizable reference materials. Guide correspondence remains approximate. Correction budget exhausted.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "2cee5af79b85c5346f33baaef51af4fd4a26c9e67067795876aa565c4c3d799a",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 792720,
+        "alpha_bbox": [
+          0,
+          23,
+          1236,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          244,
+          75,
+          1011,
+          1176
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9830034703715548,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin, orange energy where visible",
+        "lighting": "Substantially flatter ivory and energy; mild cage bevel value differences remain.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Recolor and texture this exact supplied guide_left.png IN PLACE. Output one 1024x1024 transparent RGBA painting. This is a constrained albedo paint-over, a flat 2D material map.\nPreserve input image dimensions, alpha mask, silhouette, straight orthographic geometry, position, size and ALL part boundaries exactly. Keep the original transparent margins unchanged. Do not create a new model or reinterpret any shape. Recolor the original pixel regions only. The outer cage spans x223..800 y280..803; total outline x223..800 y66..957. There are TWO broad energy windows separated by ONE centered vertical resin post x483..540. Left orange window x308..466 and right orange window x542..715, both y331..750. Keep the central post and two edge posts, their straight bevels, and the original two-window layout exactly. All caps, posts and panes stay in place.\nMaterials from the approved Hesper ion cell reference: grey-white upper and lower cap surfaces become off-white warm ivory ceramic, finely speckled with subtle grey-brown hairline wear and sparse scuffs. Lavender cage beams become black-violet resin: base color charcoal plum (#302536), subtle fine muted violet and dusty rose scratches, no luminous outlines. Pale yellow terminal becomes brushed antique gold (#ac8745), lightly mottled, not shiny. Pale cyan windows become evenly saturated amber orange (#ff8a09) with a few fine branching pale-yellow electrical filaments. All windows use the same orange material. No changes to the simple geometry, no extra inset panels, collars, rims, hardware, vents, text or symbols.\nCrucial albedo rule: REMOVE ALL LIGHTING from the source. Paint absolutely flat unlit base colors with pigment wear. Erase the guide's visible grey cast shadows below cage beams; those areas must be the SAME ivory as the rest of the ceramic. No shading on bevels or sides, no contact shadows around panes, no dark lower edges or bright upper edges. Frame front and bevels have equal brightness; ceramic front and bevels have equal brightness. Gold has fine brushing but no specular shine. Orange panes have electrical vein detail but no hot spots or bloom. No ambient occlusion, lighting gradients, cast shadows, reflections, highlights or rim light.\nGenuine alpha transparency around the exact original silhouette. Do not copy black backdrop. No text, letters, glyphs, logo or watermark. One orthographic LEFT-view painting only, no sheet. Surface details should look like worn ivory, antique gold and black-violet resin with orange energy; texture color only.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "tool image edit target",
+          "sha256": "e356b09a093b5ac2de1e2fc32ce54a4a58a534ca6d43a4f19d945f42dd4bbecc"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material authority described in prompt, not attached to this call",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-4f91a269-16ca-4d8e-a5c5-9b5f9bd1f00b.png",
+      "selected": false,
+      "reason": "Flat materials and two-window layout established; requesting the single permitted correction for silhouette/fringe fidelity and rail shading.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "03a45c74d8b2df0ae125c83fbb1e3889eca32fb74f588b19fe2f668e96ba3729",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 837674,
+        "alpha_bbox": [
+          33,
+          39,
+          1192,
+          1193
+        ],
+        "solid_alpha_bbox": [
+          272,
+          78,
+          983,
+          1175
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9869592741084617,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin, orange energy where visible",
+        "lighting": "Ivory is mostly flat; upper cage bevel still darker and fine edge highlights remain.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Recolor and texture this exact supplied guide_left.png IN PLACE. Output one 1024x1024 transparent RGBA painting. This is a constrained albedo paint-over, a flat 2D material map.\nPreserve input image dimensions, alpha mask, silhouette, straight orthographic geometry, position, size and ALL part boundaries exactly. Keep the original transparent margins unchanged. Do not create a new model or reinterpret any shape. Recolor the original pixel regions only. The outer cage spans x223..800 y280..803; total outline x223..800 y66..957. There are TWO broad energy windows separated by ONE centered vertical resin post x483..540. Left orange window x308..466 and right orange window x542..715, both y331..750. Keep the central post and two edge posts, their straight bevels, and the original two-window layout exactly. All caps, posts and panes stay in place.\nMaterials from the approved Hesper ion cell reference: grey-white upper and lower cap surfaces become off-white warm ivory ceramic, finely speckled with subtle grey-brown hairline wear and sparse scuffs. Lavender cage beams become black-violet resin: base color charcoal plum (#302536), subtle fine muted violet and dusty rose scratches, no luminous outlines. Pale yellow terminal becomes brushed antique gold (#ac8745), lightly mottled, not shiny. Pale cyan windows become evenly saturated amber orange (#ff8a09) with a few fine branching pale-yellow electrical filaments. All windows use the same orange material. No changes to the simple geometry, no extra inset panels, collars, rims, hardware, vents, text or symbols.\nCrucial albedo rule: REMOVE ALL LIGHTING from the source. Paint absolutely flat unlit base colors with pigment wear. Erase the guide's visible grey cast shadows below cage beams; those areas must be the SAME ivory as the rest of the ceramic. No shading on bevels or sides, no contact shadows around panes, no dark lower edges or bright upper edges. Frame front and bevels have equal brightness; ceramic front and bevels have equal brightness. Gold has fine brushing but no specular shine. Orange panes have electrical vein detail but no hot spots or bloom. No ambient occlusion, lighting gradients, cast shadows, reflections, highlights or rim light.\nGenuine alpha transparency around the exact original silhouette. Do not copy black backdrop. No text, letters, glyphs, logo or watermark. One orthographic LEFT-view painting only, no sheet. Surface details should look like worn ivory, antique gold and black-violet resin with orange energy; texture color only.\nSINGLE CORRECTIVE PASS: Prioritize exact guide silhouette and part placement over stylization. Preserve the source alpha contour without expanding it; no pale halo, stray marks, edge outlines, wear particles, or tinted pixels outside the object. Every background pixel must be zero alpha. Retain the asymmetric orthographic visibility of the two window faces exactly as in the guide, rather than making their visible widths symmetric. Painted wear stops strictly inside part boundaries. Paint rail bevels in the exact same resin base color as the front faces, without a dark stripe below the top rail. Keep ceramic slightly warm ivory, gold muted and resin very dark violet, with flat orange panes. Required canvas 1024x1024.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "tool image edit target",
+          "sha256": "e356b09a093b5ac2de1e2fc32ce54a4a58a534ca6d43a4f19d945f42dd4bbecc"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material authority described in prompt, not attached to this corrective call",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-d0fa7c62-b1b9-40ec-9095-1b31c60be7ed.png",
+      "selected": true,
+      "reason": "Selected corrective return: less bright edging, flat ceramic, correct two-window side layout. Geometry and alpha contour remain approximate; correction budget exhausted.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "7ab44387b847047008121d07da45148eff1c21b4253ecdfe1f28bc6da938ebd4",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 834708,
+        "alpha_bbox": [
+          0,
+          25,
+          1232,
+          1222
+        ],
+        "solid_alpha_bbox": [
+          272,
+          74,
+          983,
+          1176
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9850096874736753,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin, orange energy where visible",
+        "lighting": "No cast shadow on ceramic; darker top rail bevel remains.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Recolor and texture this exact supplied guide_right.png IN PLACE. Output one 1024x1024 transparent RGBA painting. This is a constrained albedo paint-over, a flat 2D material map.\nPreserve input image dimensions, alpha mask, silhouette, straight orthographic geometry, position, size and ALL part boundaries exactly. Keep the original transparent margins unchanged. Do not create a new model or reinterpret any shape. Recolor the original pixel regions only. The outer cage spans x223..800 y280..803; total outline x223..800 y66..957. There are TWO broad energy windows separated by ONE centered vertical resin post x483..540. Left orange window x308..466 and right orange window x542..715, both y331..750. Keep the central post and two edge posts, their straight bevels, and the original two-window layout exactly. All caps, posts and panes stay in place.\nMaterials from the approved Hesper ion cell reference: grey-white upper and lower cap surfaces become off-white warm ivory ceramic, finely speckled with subtle grey-brown hairline wear and sparse scuffs. Lavender cage beams become black-violet resin: base color charcoal plum (#302536), subtle fine muted violet and dusty rose scratches, no luminous outlines. Pale yellow terminal becomes brushed antique gold (#ac8745), lightly mottled, not shiny. Pale cyan windows become evenly saturated amber orange (#ff8a09) with a few fine branching pale-yellow electrical filaments. All windows use the same orange material. No changes to the simple geometry, no extra inset panels, collars, rims, hardware, vents, text or symbols.\nCrucial albedo rule: REMOVE ALL LIGHTING from the source. Paint absolutely flat unlit base colors with pigment wear. Erase the guide's visible grey cast shadows below cage beams; those areas must be the SAME ivory as the rest of the ceramic. No shading on bevels or sides, no contact shadows around panes, no dark lower edges or bright upper edges. Frame front and bevels have equal brightness; ceramic front and bevels have equal brightness. Gold has fine brushing but no specular shine. Orange panes have electrical vein detail but no hot spots or bloom. No ambient occlusion, lighting gradients, cast shadows, reflections, highlights or rim light.\nGenuine alpha transparency around the exact original silhouette. Do not copy black backdrop. No text, letters, glyphs, logo or watermark. One orthographic RIGHT-view painting only, no sheet. Surface details should look like worn ivory, antique gold and black-violet resin with orange energy; texture color only.\nUse the guide as a fixed pixel stencil. Zero alpha outside it; no edge halo or detached wear. Do not add perspective or symmetric window changes. Preserve the exact right-view orthographic model part boundaries.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "tool image edit target",
+          "sha256": "99a3f6de000598b44285fa4fdfd8202e119f9e0c7712d6f12ba9a6e4d6eea29f"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material authority described in prompt, not attached to this call",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-2e3152b3-99cb-4f8d-a848-d05218d92aae.png",
+      "selected": true,
+      "reason": "Selected initial return: closer guide silhouette and less ceramic bevel shading than corrective return. Exact silhouette and perfectly flat lighting were not achieved; correction budget exhausted.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "ea73d2f53b389a7ac7b30c9a3ec71f354bb3d154f4ab96e509613bc276ab25c1",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 843708,
+        "alpha_bbox": [
+          0,
+          27,
+          1198,
+          1232
+        ],
+        "solid_alpha_bbox": [
+          272,
+          80,
+          982,
+          1174
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9890666006856108,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin, orange energy where visible",
+        "lighting": "Mostly flat ceramic and energy; residual top rail bevel shading.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      },
+      "raw_return": "paint_right_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Recolor and texture this exact supplied guide_right.png IN PLACE. Output one 1024x1024 transparent RGBA painting. This is a constrained albedo paint-over, a flat 2D material map.\nPreserve input image dimensions, alpha mask, silhouette, straight orthographic geometry, position, size and ALL part boundaries exactly. Keep the original transparent margins unchanged. Do not create a new model or reinterpret any shape. Recolor the original pixel regions only. The outer cage spans x223..800 y280..803; total outline x223..800 y66..957. There are TWO broad energy windows separated by ONE centered vertical resin post x483..540. Left orange window x308..466 and right orange window x542..715, both y331..750. Keep the central post and two edge posts, their straight bevels, and the original two-window layout exactly. All caps, posts and panes stay in place.\nMaterials from the approved Hesper ion cell reference: grey-white upper and lower cap surfaces become off-white warm ivory ceramic, finely speckled with subtle grey-brown hairline wear and sparse scuffs. Lavender cage beams become black-violet resin: base color charcoal plum (#302536), subtle fine muted violet and dusty rose scratches, no luminous outlines. Pale yellow terminal becomes brushed antique gold (#ac8745), lightly mottled, not shiny. Pale cyan windows become evenly saturated amber orange (#ff8a09) with a few fine branching pale-yellow electrical filaments. All windows use the same orange material. No changes to the simple geometry, no extra inset panels, collars, rims, hardware, vents, text or symbols.\nCrucial albedo rule: REMOVE ALL LIGHTING from the source. Paint absolutely flat unlit base colors with pigment wear. Erase the guide's visible grey cast shadows below cage beams; those areas must be the SAME ivory as the rest of the ceramic. No shading on bevels or sides, no contact shadows around panes, no dark lower edges or bright upper edges. Frame front and bevels have equal brightness; ceramic front and bevels have equal brightness. Gold has fine brushing but no specular shine. Orange panes have electrical vein detail but no hot spots or bloom. No ambient occlusion, lighting gradients, cast shadows, reflections, highlights or rim light.\nGenuine alpha transparency around the exact original silhouette. Do not copy black backdrop. No text, letters, glyphs, logo or watermark. One orthographic RIGHT-view painting only, no sheet. Surface details should look like worn ivory, antique gold and black-violet resin with orange energy; texture color only.\nUse the guide as a fixed pixel stencil. Zero alpha outside it; no edge halo or detached wear. Do not add perspective or symmetric window changes. Preserve the exact right-view orthographic model part boundaries.\nSINGLE CORRECTIVE PASS. Keep the 1024x1024 input guide alpha and part-edge registration pixel exact. Output is a stencil paint-over of that existing guide, not a new illustration. All ivory, resin, gold and orange are opaque within the source alpha; every pixel beyond the original silhouette is fully transparent. No white fringe, diffuse edge, detached specks, glow halo or outlines. Copy the input polygon contour and part divisions exactly. Use the same tone on rail bevels as on their main faces, removing the dark band below the top horizontal frame. Ceramic is evenly lit without faceted light bands. Preserve material texture and small scratches but keep these inside each surface. No text.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "tool image edit target",
+          "sha256": "99a3f6de000598b44285fa4fdfd8202e119f9e0c7712d6f12ba9a6e4d6eea29f"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material authority described in prompt, not attached to this corrective call",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_right_attempt2.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-b3f7b0c6-fbd4-406d-ab6c-b8d2d279ef2f.png",
+      "selected": false,
+      "reason": "Correction retained stronger ceramic bevel bands and did not remove edge fringes; initial return preferred. Correction budget exhausted.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "6692870053e639f3872e4f88d492f6899f2b0d2eaf9632fecef051f601136a6f",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 838671,
+        "alpha_bbox": [
+          33,
+          19,
+          1222,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          271,
+          76,
+          983,
+          1175
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9852213220765981,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin, orange energy where visible",
+        "lighting": "Top and bottom ceramic bevel bands remain; upper cage bevel is darker.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Recolor and texture this exact supplied guide_top.png IN PLACE. Output ONE 1024x1024 transparent RGBA painting, seen from DIRECTLY ABOVE. This is a flat albedo texture source for the same Hesper ion cell, not a beauty render.\nThe guide is the exact top-view geometry and alpha stencil. Keep its original canvas, outline, silhouette, position, scale, every polygon edge and every part boundary. Complete outline stays x201..822 y222..801 in a 1024 square, with transparent margins unchanged. Keep the existing faceted round cap with SIX small radial rectangular cage lugs in their exact locations, and the single small centered polygonal gold terminal. Do not turn this into a front view or perspective view. Do not add rings, concentric plates, inset panels, slots, screws, vents or extra lugs.\nApproved design-reference materials, translated to this unseen top face: the large pale grey/white cap is warm white ivory ceramic, with fine grey-brown hairline wear, restrained small scuffs, faint speckling and small inside-edge chips. Its lavender outer rim and six lugs are dark black-violet resin (#302536), with subtle dusty violet/brown fine scratches and mottled wear. The small central pale gold terminal is aged muted brushed gold (#ac8745), fine circular brushing and subtle scratch marks, base color only with faint sheen. Continue these materials plausibly from the front/side art. The top guide has no energy windows, so do not add orange panels.\nFlat unlit BASE COLOR only: even shadowless viewer-facing illumination, no lighting gradients. REMOVE the conspicuous grey cast shadow below-left of the central terminal in the guide: that entire area is ivory ceramic matching the rest of the cap. Remove the guide's directional shading around the outside too. All ivory is equally lit, all resin faces and bevels equally lit; gold is evenly matte. No cast shadow, ambient occlusion, dark contact ring, bevel shadows, bright outlines, metallic glints, reflections, rim light or hotspots. Fine pigment wear only.\nPreserve exact transparent alpha background and the exact original geometry; no white fringe, grey haze or detached flecks outside the silhouette. Opaque materials within the guide alpha. No text, letters, numbers, glyphs, logo or watermark. No floor, backdrop or shadow. One top-view painting only, no sheet.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "tool image edit target",
+          "sha256": "1c27d4f27b32ae2d87f2bcad1bb6f26c1b626938b812b32fc51f26f56b7958da"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material authority described in prompt, not attached to this call",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-9d586074-da30-4452-b265-f3b81a33e107.png",
+      "selected": false,
+      "reason": "Flat material rendering but enlarged object compared with guide; requesting the single allowed correction for exact framing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "0970be86b4c9532ee97ca8ea39f874923d970a2e4c601d63e4415ef731a36c03",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 1065064,
+        "alpha_bbox": [
+          0,
+          19,
+          1234,
+          1206
+        ],
+        "solid_alpha_bbox": [
+          203,
+          229,
+          1050,
+          1021
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.7999921653001142,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin rim and six lugs",
+        "lighting": "Mostly flat ivory and gold, no cast shadow; minor edge and lug bevel value changes.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Single corrective generation. Paint the supplied guide_top.png directly, as a constrained texture-source recoloring. One 1024x1024 RGBA image with real transparency.\nABSOLUTE PRIORITY: COPY THE GUIDE'S EXISTING CANVAS AND EXACT PIXEL SILHOUETTE. Do not enlarge or auto-fit the object. Keep all margins identical to the input. The complete object including six lugs occupies only 60.742% of canvas width and 56.64% of canvas height, centered at (50%,50%). Leftmost occupied pixel x201, rightmost x822, topmost y222, bottommost y801. There is a wide transparent border on all sides. Gold central terminal spans roughly x410..614, y409..615. Do not move, resize, change or regenerate any part's shape or position. Exact orthographic top-down view, six lugs, original faceted cap, original small central polygon terminal.\nOnly replace pastel guide colors with surface paint: warm off-white ivory ceramic on the main white cap; black-violet resin (#302536) on the lavender outer rim and six lugs; muted antique brushed gold (#ac8745) on the pale yellow central terminal. Materials must match the approved ion-cell art: fine ceramic hairline wear and sparse grey-brown scuffs, resin with fine restrained muted violet scratches, gold with fine circular brushing and sparse surface scuffs. No added geometry, rings, grooves, plates, screws, decorations, marks, glyphs, text or orange windows.\nTEXTURE ALBEDO: absolutely flat, even, shadowless light. Remove the guide's grey cast shadow under the terminal and all lighting gradients. The ivory ceramic is equally bright everywhere, including below-left of the terminal, with surface pigment wear only. No black ring or contact shadow around terminal, no ambient occlusion, no dark lower bevel, no bright upper bevel, no reflections, rim light, metallic glints or specular highlights. All resin bevels and faces have the same base tone. Gold is matte base color with faint brushing.\nZero alpha in every background pixel outside the EXACT ORIGINAL guide silhouette; no halo or stray flecks. Preserve guide silhouette and every part edge over any stylistic preference. Keep the original wide transparent margins. This must be a texture painted onto the input guide, not a new larger illustration. Return only the single top-view painting.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "tool image edit target",
+          "sha256": "1c27d4f27b32ae2d87f2bcad1bb6f26c1b626938b812b32fc51f26f56b7958da"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material authority described in prompt, not attached to this corrective call",
+          "sha256": "cd8b4a706a86c154616dbbf1d1b8dbad8829ba883acaeb7e3cbad0b5e12df43f"
+        }
+      ],
+      "output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd2-bc9f-7c93-b5bd-859e819c8d13/exec-a5e12cac-8cd7-49ac-88c6-be6aca2be86d.png",
+      "selected": true,
+      "reason": "Selected correction substantially improves guide framing and terminal scale, retaining six lugs and flat materials. Exact silhouette remains approximate; correction budget exhausted.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "a31b0c9c758c81b9561d8e3128ad1a21d84b15246e885df8d496d5b13e7ee3fb",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_pixels": 1161032,
+        "alpha_bbox": [
+          41,
+          23,
+          1224,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          245,
+          272,
+          1009,
+          983
+        ],
+        "silhouette_identical": false,
+        "normalized_solid_mask_iou": 0.9847365336538105,
+        "no_text_or_letters": "visual inspection: pass",
+        "materials": "visual inspection: ivory ceramic, gold terminal, black-violet resin rim and six lugs",
+        "lighting": "No terminal cast shadow; faint ceramic outer bevel value band and lug edge highlights remain.",
+        "fully_flat_albedo": false,
+        "transparent_background": "Alpha background present, but low-alpha fringe/stray pixels remain outside the guide contour."
+      }
+    }
+  ],
+  "status": "Five selected raw paintings saved; strict silhouette and fully flat albedo requirements not fully achieved.",
+  "size_note": "Tool returned 1254x1254 for all ten calls despite requesting 1024x1024. All returns retained byte-for-byte, without resizing, alpha replacement, cropping or other post-processing.",
+  "check_note": "Normalized mask overlap measures guide-sized pixel-center samples of the solid alpha masks for inspection only; no deliverable was resized. Selected means preferred raw return, not an assertion of exact brief compliance."
+}

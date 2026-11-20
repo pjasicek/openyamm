@@ -1,0 +1,3 @@
+Saved run 2’s `01_front.png`–`04_right.png`, raw returns, and [review sheet](level_generation/creatures/mm9_ghoul_claude/references_head/selected_views_review.png). Built-in image generation used; prompts and hashes recorded in [generation_runs.json](level_generation/creatures/mm9_ghoul_claude/references_head/generation_runs.json).
+
+No builds or Meshy calls. After one correction per view, limitations remain: 1254×1254 unresized outputs, coloured edge specks, tooth gaps, and imperfect profile angles.

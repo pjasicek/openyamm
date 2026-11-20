@@ -85,7 +85,7 @@ RegisterEvent(2, nil, function()
     if IsQBitSet(QBit(617)) then return end -- Slayed Xenofex
     SetQBit(QBit(617)) -- Slayed Xenofex
     evt.ShowMovie("\"family reunion\"", true)
-    AddValue(History(27), 0)
+    AddValue(History(25), 0)
 end)
 
 RegisterEvent(3, nil, function()
@@ -328,7 +328,7 @@ RegisterEvent(376, nil, function()
     evt.SetSprite(20, 1, "0")
     AddValue(InventoryItem(1463), 1463) -- Colony Zod Key
     SetQBit(QBit(752)) -- Talked to Roland
-    AddValue(History(26), 0)
+    AddValue(History(24), 0)
     evt.SetFacetBit(1, FacetBits.Untouchable, 1)
     evt.SetFacetBit(1, FacetBits.Invisible, 1)
 end)

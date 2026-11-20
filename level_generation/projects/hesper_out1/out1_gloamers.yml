@@ -1,0 +1,88 @@
+id: hesper.out1.gloamers
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+    party:
+      members:
+      - name: Distant observer
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- set_pose:
+    map: hes_out1.odm
+    x: -14400
+    y: -16000
+    z: 1600
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 60
+- save_game: gloamers_out1_minute
+- assert:
+    actor_visible:
+      actor_index: 74
+      monster_id: 10320
+      hp: 800
+      dead: false
+      near:
+        x: 16416
+        y: -10080
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 75
+      monster_id: 10320
+      hp: 800
+      dead: false
+      near:
+        x: 16224
+        y: -9904
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 76
+      monster_id: 10320
+      hp: 800
+      dead: false
+      near:
+        x: 16444
+        y: -10399
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 77
+      monster_id: 10320
+      hp: 800
+      dead: false
+      near:
+        x: 16578
+        y: -9818
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 78
+      monster_id: 10320
+      hp: 800
+      dead: false
+      near:
+        x: 15983
+        y: -10157
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+      report_state: true

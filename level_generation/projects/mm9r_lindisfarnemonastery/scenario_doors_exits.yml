@@ -1,0 +1,416 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.lindisfarnemonastery_doors_exits
+title: Lindisfarne Monastery (native BLV) - the front door, the doors by real clicks, a shut door stops the party, the seven
+  ladders
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lindisfarnemonastery.blv
+- note:
+    text: 'ExitTrigger0: the porch, south of StartPoint0 (to Lindisfarne, LindisfarneExit).'
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lindisfarnemonastery.blv
+      x: 0
+      y: -935
+      z: 4
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: lindisfarnemonastery.blv
+      x: 0
+      y: -1385
+      z: 4
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: null
+- load_map:
+    map: lindisfarnemonastery.blv
+- note:
+    text: 'NaveDoor1: shut, it stops a walk from the narthex; a click opens both leaves; the party walks into the nave.'
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lindisfarnemonastery.blv
+      x: -328
+      y: 979
+      z: 4
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: lindisfarnemonastery.blv
+      x: -328
+      y: 1209
+      z: 4
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 20
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -328
+    y: 1079
+    z: 4
+    yaw: 1.5708
+    pitch: 0.5566
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- assert:
+    mechanism:
+      id: 2
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lindisfarnemonastery.blv
+      x: -328
+      y: 979
+      z: 4
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: lindisfarnemonastery.blv
+      x: -328
+      y: 1579
+      z: 4
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 20
+- load_map:
+    map: lindisfarnemonastery.blv
+- note:
+    text: 'NaveDoor2 (doors [3, 4], naveportal2): shut, a click from -328, 6037 opens it.'
+- assert:
+    mechanism:
+      id: 3
+      state: closed
+- assert:
+    mechanism:
+      id: 4
+      state: closed
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -328
+    y: 6037
+    z: 1
+    yaw: -1.5708
+    pitch: 0.7737
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- assert:
+    mechanism:
+      id: 4
+      state: open
+- note:
+    text: 'RotatingDoor0 (doors [35], naveportal3): shut, a click from 443, 1761 opens it.'
+- assert:
+    mechanism:
+      id: 35
+      state: closed
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 443
+    y: 1761
+    z: 1
+    yaw: 0.0
+    pitch: -0.0942
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 35
+      state: open
+- note:
+    text: 'RotatingDoor1 (doors [36], towerportal1): shut, a click from 885, 819 opens it.'
+- assert:
+    mechanism:
+      id: 36
+      state: closed
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 885
+    y: 819
+    z: 1
+    yaw: 3.1416
+    pitch: -0.0942
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 36
+      state: open
+- note:
+    text: 'RotatingDoor2 (doors [37], monkportal1): shut, a click from 2459, 6390 opens it.'
+- assert:
+    mechanism:
+      id: 37
+      state: closed
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 2459
+    y: 6390
+    z: 1
+    yaw: 0.0
+    pitch: -0.13
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 37
+      state: open
+- note:
+    text: 'RotatingDoor3 (doors [38], towerportal2): shut, a click from -1204, 819 opens it.'
+- assert:
+    mechanism:
+      id: 38
+      state: closed
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -1204
+    y: 819
+    z: 1
+    yaw: 3.1416
+    pitch: -0.0942
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 38
+      state: open
+- note:
+    text: 'RotatingDoor4 (doors [39], towerportal4): shut, a click from 2114, 1106 opens it.'
+- assert:
+    mechanism:
+      id: 39
+      state: closed
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 2114
+    y: 1106
+    z: 1
+    yaw: 3.1416
+    pitch: -0.0942
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 39
+      state: open
+- note:
+    text: 'RotatingDoor5 (doors [40], towerportal5): shut, a click from 2114, 983 opens it.'
+- assert:
+    mechanism:
+      id: 40
+      state: closed
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 2114
+    y: 983
+    z: 411
+    yaw: 3.1416
+    pitch: -0.2059
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 40
+      state: open
+- note:
+    text: 'Ladder0: forward from its foot climbs to its top exit.'
+- movement_segment:
+    input: forward
+    seconds: 10.27
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lindisfarnemonastery.blv
+      x: -1736
+      y: 877
+      z: 370
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: lindisfarnemonastery.blv
+      x: -1736
+      y: 1126
+      z: 1623
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 40
+- note:
+    text: 'Ladder1: forward from its foot climbs to its top exit.'
+- movement_segment:
+    input: forward
+    seconds: 10.55
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lindisfarnemonastery.blv
+      x: -2094
+      y: 6837
+      z: 987
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: lindisfarnemonastery.blv
+      x: -2094
+      y: 7091
+      z: 2299
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 40
+- note:
+    text: 'Ladder10: forward from its foot climbs to its top exit.'
+- movement_segment:
+    input: forward
+    seconds: 10.27
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lindisfarnemonastery.blv
+      x: 1080
+      y: 877
+      z: 370
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: lindisfarnemonastery.blv
+      x: 1080
+      y: 1126
+      z: 1623
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 40
+- note:
+    text: 'Ladder2: forward from its foot climbs to its top exit.'
+- movement_segment:
+    input: forward
+    seconds: 10.55
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lindisfarnemonastery.blv
+      x: 1408
+      y: 6837
+      z: 987
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: lindisfarnemonastery.blv
+      x: 1408
+      y: 7091
+      z: 2299
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 40
+- note:
+    text: 'Ladder3: climbed from its foot, the party lets go at its top exit (on the climber''s side: walking on would fall
+      back down the shaft).'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -881
+    y: 6025
+    z: 2295
+    yaw_degrees: 270.0
+    pitch: 0
+- climb:
+    ladder: Ladder3
+    timeout_seconds: 8.38
+- note:
+    text: 'Ladder4: climbed from its foot, the party lets go at its top exit (on the climber''s side: walking on would fall
+      back down the shaft).'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -2278
+    y: 7738
+    z: 1
+    yaw_degrees: 90.0
+    pitch: 0
+- climb:
+    ladder: Ladder4
+    timeout_seconds: 8.63
+- note:
+    text: 'Ladder5: climbed from its foot, the party lets go at its top exit (on the climber''s side: walking on would fall
+      back down the shaft).'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 1613
+    y: 7738
+    z: 1
+    yaw_degrees: 90.0
+    pitch: 0
+- climb:
+    ladder: Ladder5
+    timeout_seconds: 8.63

@@ -1,0 +1,45 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/menu_study_20260928/study_background_20261004/captures/16x9
+exit: true
+steps:
+- wait: 5
+- expect: menu_cursor
+- capture: main-menu
+- pointer_move:
+  - 1274
+  - 536
+- capture: main-menu-hover
+- click:
+  - 1274
+  - 603
+- capture: load-menu
+- key: Escape
+- click:
+  - 1274
+  - 670
+- capture: settings
+- key: Escape
+- capture: main-after-settings
+- click:
+  - 1185
+  - 739
+- capture: credits
+- key: Escape
+- click:
+  - 1274
+  - 536
+- capture: continent
+- key: Escape
+- capture: main-after-navigation
+- click:
+  - 1362
+  - 739
+- capture: quit-confirm
+- key: Escape
+- click:
+  - 1274
+  - 434
+- wait: 6
+- expect: gameplay
+- key: Escape
+- expect: pause
+- capture: pause

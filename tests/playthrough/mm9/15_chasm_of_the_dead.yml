@@ -1,0 +1,109 @@
+# MM9 playthrough, segment 15: the Crona Kiga from the Chasm of the Dead (guide: Chapter I, Drangheim, "Retrieve the
+# Crona Kiga"). From the prison's door the party is placed at the chasm's entrance in Drangheim's south and walks the
+# whole dungeon: south through the tombs (its doors clicked, or clicked by the walker when they stand shut in the
+# way), the spike corridor (its wave strikes an immortal party), up the stair and through Door14 to the chasm's rim,
+# then down the canyon's ledges and ramps (no lethal drop: the walk_to planner's own route jumps off the ledges, so
+# the ledge path is given step by step) to the deep floor, south through Door33, along the corridor's east strip past
+# the pivot floor (x 2742), through Door31, past the ceiling crusher's plate (x 2720) and Door32 (x 2590: the doors
+# are narrower than the corridor) to the pedestal. The Crona Kiga is a world item (picked up: key 48, 10000
+# experience; the crypt's mummies wake and die). The same way back and out. Research:
+# prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 15
+id: mm9.playthrough.15_chasm_of_the_dead
+title: "MM9 playthrough 15: the Chasm of the Dead walked to the Crona Kiga and back"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/13_drangheim_prison.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheim.blv, qbit_set: [90046], qbit_clear: [90048, 90169]}
+
+  # The chasm's entrance in Drangheim's south (outdoors the party is placed before it).
+  - set_pose: {map: drangheim.blv, x: 2500, y: -21450, z: 2540, yaw: 0.355, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 2724, y: -21367, z: 2560, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: chasmofthedead.blv}
+
+  # South through the tombs, west of the closing walls, down to the spike corridor and east through it, up the long
+  # stair to Door14 and out onto the chasm's rim.
+  - walk_to: {x: -13189, y: 23850, z: 1577, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(106); wait(2.5)'}
+  - walk_to: {via: [[-13191, 23200, 1577], [-13191, 19880, 1577], [-13543, 19528, 1577]], x: -13559, y: 17176, z: 1577, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -12295, y: 12760, z: 594, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -7015, y: 10104, z: 328, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -5463, y: 9864, z: 328, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -1463, y: 8152, z: 615, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: 872, y: 11464, z: 1310, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(105); wait(2.5)'}
+  - walk_to: {via: [[872, 11944, 1305], [1160, 13448, 1280]], x: 2376, y: 14664, z: 983, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+
+  # Down the canyon: its ramps to the ledge, the ledge path to the lower canyon, north and down the last ramp to
+  # the deep floor, then south along it to Door33.
+  - walk_to: {x: 4904, y: 5240, z: -492, z_tolerance: 120, timeout_seconds: 200, clear_hostiles: 2000}
+  - walk_to: {via: [[4392, 4056, -640], [4328, 2152, -834], [4040, 808, -1117], [4008, 120, -1270], [3144, -871, -1368], [2344, -871, -1471],
+              [2100, -800, -1520], [1750, -650, -1540], [1500, -300, -1610], [1500, 100, -1695], [1450, 300, -1725], [1250, 500, -1805],
+              [1100, 700, -1885], [1000, 900, -1966], [1000, 1300, -2010], [800, 1600, -2045], [550, 1900, -2005], [350, 2300, -1956],
+              [400, 2800, -1919], [500, 3300, -1884], [600, 4000, -1884]], x: 800, y: 4500, z: -1852,
+              plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {via: [[1496, 6920, -2094], [1576, 8600, -2371], [2040, 10584, -2713], [2056, 11528, -2828], [1800, 11784, -2865]], x: 1800, y: 13688, z: -3170,
+              plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {via: [[2536, 14424, -3415], [4232, 14424, -3848], [4620, 14420, -3932]], x: 4620, y: 14000, z: -3932, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 2728, y: -900, z: -3932, z_tolerance: 100, timeout_seconds: 150, clear_hostiles: 2000}
+
+  # Door33, the corridor south (the pivot floor passed on its east strip), Door31, the crusher passed at x 2720,
+  # Door32, the pedestal between the two chests: the Crona Kiga.
+  - play_lua: {source: 'click(126); wait(2.5)'}
+  - walk_to: {via: [[2650, -1300, -3932], [2696, -2375, -4239]], x: 2740, y: -4250, z: -4424, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 2742, y: -4850, z: -4424, plan: false, radius: 20, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 2696, y: -10055, z: -4424, timeout_seconds: 90, clear_hostiles: 2000}
+  - play_lua: {source: 'click(124); wait(2.5)'}
+  - walk_to: {via: [[2696, -11335, -4792], [2696, -12615, -4915], [2696, -14535, -5161]], x: 2720, y: -15175, z: -5407, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 2720, y: -15700, z: -5427, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'click(125); wait(2.5)'}
+  - walk_to: {via: [[2696, -16455, -5448], [2696, -17095, -5530], [2888, -17735, -5530]], x: 2584, y: -18200, z: -5489, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - pick_up: {item_id: 10390, reach: 400}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90048], qbit_clear: [90169]}
+  - play_lua: {source: 'if not has_item(10390) then error("no Crona Kiga") end; log("the Crona Kiga is in the pack")'}
+
+  # The mummies of the crypt wake (they die). Back north the same way: the doors, the pivot strip, the deep floor,
+  # the ramp, the ledges and the canyon to the rim.
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {via: [[2888, -17735, -5530], [2696, -17095, -5530], [2696, -16455, -5448]], x: 2590, y: -16150, z: -5407, plan: false, timeout_seconds: 60, clear_hostiles: 2500}
+  - play_lua: {source: 'click(125); wait(2.5)'}
+  - walk_to: {via: [[2590, -15800, -5427], [2720, -15700, -5427], [2720, -15175, -5407], [2696, -14535, -5161], [2696, -12615, -4915], [2696, -11335, -4792]], x: 2590, y: -10750, z: -4600, plan: false, timeout_seconds: 60, clear_hostiles: 2500}
+  - play_lua: {source: 'click(124); wait(2.5)'}
+  - walk_to: {x: 2590, y: -10200, z: -4424, plan: false, timeout_seconds: 30, clear_hostiles: 2500}
+  - walk_to: {x: 2742, y: -4850, z: -4424, timeout_seconds: 60, clear_hostiles: 2500}
+  - walk_to: {x: 2742, y: -4250, z: -4424, plan: false, radius: 20, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 2590, y: -1600, z: -4100, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(126); wait(2.5)'}
+  - walk_to: {via: [[2590, -1000, -3932]], x: 2728, y: -900, z: -3932, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 4620, y: 14000, z: -3932, z_tolerance: 100, timeout_seconds: 150, clear_hostiles: 2000}
+  - walk_to: {via: [[4620, 14420, -3932], [4232, 14424, -3848], [2536, 14424, -3415]], x: 1800, y: 13688, z: -3170, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {via: [[1800, 11784, -2865], [2056, 11528, -2828], [2040, 10584, -2713], [1576, 8600, -2371], [1496, 6920, -2094]], x: 800, y: 4500, z: -1852, plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {via: [[600, 4000, -1884], [500, 3300, -1884], [400, 2800, -1919], [350, 2300, -1956], [550, 1900, -2005], [800, 1600, -2045], [1000, 1300, -2010],
+              [1000, 900, -1966], [1100, 700, -1885], [1250, 500, -1805], [1450, 300, -1725], [1500, 100, -1695], [1500, -300, -1610], [1750, -650, -1540],
+              [2100, -800, -1520], [2344, -871, -1471], [3144, -871, -1368], [4008, 120, -1270], [4040, 808, -1117], [4328, 2152, -834], [4392, 4056, -640]],
+              x: 4904, y: 5240, z: -492, plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {x: 2376, y: 14664, z: 983, z_tolerance: 120, timeout_seconds: 200, clear_hostiles: 2000}
+
+  # Door14, back west and up to the entrance, Door15, and out (ExitTrigger0, its prompt).
+  - walk_to: {via: [[1160, 13448, 1280]], x: 1024, y: 11950, z: 1305, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(105); wait(2.5)'}
+  - walk_to: {x: 872, y: 11400, z: 1310, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -1463, y: 8152, z: 615, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -5463, y: 9864, z: 328, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -7015, y: 10104, z: 328, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -12295, y: 12760, z: 594, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -13559, y: 17176, z: 1577, z_tolerance: 100, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {via: [[-13543, 19528, 1577], [-13191, 19880, 1577]], x: -13189, y: 23200, z: 1577, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(106); wait(2.5)'}
+  - walk_to: {x: -13189, y: 28508, z: 1577, timeout_seconds: 60, clear_hostiles: 2000, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv, qbit_set: [90048]}
+  - save_game: {name: "15 Crona Kiga", path: output/playthrough/mm9/checkpoints/15_chasm_of_the_dead.oysav}

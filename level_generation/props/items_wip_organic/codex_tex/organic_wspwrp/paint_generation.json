@@ -1,0 +1,15 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset: strict UNLIT BASE-COLOUR TEXTURE SHEET for a PBR projection bake, not a lit render. Image1 is the exact edit target, a 3-column by 2-row sheet of SIX orthographic views of ONE exact game mesh Whisp wrappings. Keep the exact sheet proportions, every panel boundary at thirds and halves, and ALL SIX existing object shapes in precisely the same position, angle and scale. Panel order: top FRONT, BACK, LEFT; bottom RIGHT, TOP, BOTTOM. Never rearrange or turn any panel. Other images are design/colour references only. Low irregular flattened bundle of ochre-brown ragged cloth strips, folded and loosely wound across one another, frayed pointed ends. Keep the thin soft layered outline; no human remains or mummy. Faithful colours from the restored icon; shadowless albedo, separate nonmetal and metal regions where present. Paint all six exact gray shapes with local material pigment and fine texture only. All front-facing and side-facing surfaces of the same material MUST have the SAME midtone brightness. DO NOT SHADE THE SHAPE: no highlights, gloss, reflections, ambient occlusion, cast shadows, rim lighting or darkening along folds/edges. Metal is flat ochre-gold or silver-grey pigment; the engine supplies its shine. Use diffuse, evenly coloured materials and fine surface details matching the references. The object's geometry must never change. Back/underside material stays at the same overall brightness as the front. No labels, text, borders, floor, scenery or added objects. True transparent background between all six shapes and through holes. Keep every panel's framing exact. Return one complete six-view unlit albedo sheet, landscape 3:2.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_wspwrp/guide_sheet.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_wspwrp/references_hd/00_three_quarter.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_wspwrp/references_hd/icon_x8.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_wspwrp/paint_sheet_raw.png",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-fdda1625-47ef-4703-8897-8492a14dec2c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "selected": false,
+  "selected_output": "level_generation/props/items_wip_organic/codex_tex/organic_wspwrp/paint_sheet_superseded.png",
+  "output_sha256": "c44f4e3b28f2798c20cf61f75f420de2d678625731fe8af36e1fa92bf6f34362",
+  "guide_sha256": "eb85d4094be66d7fc5dd01e5400f1a722d2efc736adf127131e0309fb6e13d13"
+}

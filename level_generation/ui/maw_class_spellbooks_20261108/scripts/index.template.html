@@ -1,0 +1,256 @@
+<title>MAW Class Spellbooks</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,600;1,400&family=Fondamento&display=swap">
+<style>
+/* Layout: the open book is the page; a reading panel beside it (below on phones) explains the spell under the
+   pointer. One dark look on purpose: the game's Carved Obsidian chrome around the original parchment art. */
+:root {
+  --stone: #141311;
+  --slab: #1d1b18;
+  --edge: #3a342b;
+  --ivory: #e9e0cc;
+  --muted: #a99e88;
+  --brass: #c9a35c;
+  --frost: #9cc7e6;
+  --font-display: "Fondamento", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "Alegreya", Georgia, "Times New Roman", serif;
+  color-scheme: dark;
+}
+html { background: var(--stone); }
+body {
+  background: var(--stone);
+  color: var(--ivory);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px;
+}
+.wrap { max-width: 1320px; margin: 0 auto; display: grid; gap: 18px; }
+header { display: grid; gap: 4px; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: 2rem; margin: 0; color: var(--brass);
+  text-wrap: balance; }
+header p { margin: 0; color: var(--muted); max-width: 70ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--edge); border-radius: 3px; overflow: hidden; }
+.seg button {
+  font-family: var(--font-display); font-size: 1rem; color: var(--muted); background: var(--slab);
+  border: 0; padding: 7px 16px; cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--edge); }
+.seg button[aria-pressed="true"] { color: var(--stone); background: var(--brass); }
+.seg button:focus-visible, .book button:focus-visible { outline: 2px solid var(--frost); outline-offset: 2px; }
+.seg-label { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-right: 8px; }
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
+@media (max-width: 900px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.book {
+  position: relative; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: #2a1a10;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); user-select: none;
+}
+.book > img.page { position: absolute; inset: 0; width: 100%; height: 100%; }
+.book button { position: absolute; padding: 0; border: 0; background: none; cursor: pointer; }
+.book button img { display: block; width: 100%; height: 100%; }
+.book .spell img.on { display: none; }
+.book .spell:hover img.off, .book .spell:focus-visible img.off, .book .spell.active img.off { display: none; }
+.book .spell:hover img.on, .book .spell:focus-visible img.on, .book .spell.active img.on { display: block; }
+.book .chrome { position: absolute; pointer-events: none; }
+.book .caster {
+  position: absolute; right: 11%; top: 1.6%; font-family: var(--font-body); font-weight: 600;
+  color: #28180c; font-size: clamp(9px, 1.5vw, 16px); white-space: nowrap;
+}
+aside {
+  background: var(--slab); border: 1px solid var(--edge); padding: 16px 18px; display: grid; gap: 10px;
+  min-width: 0;
+}
+aside h2 { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; margin: 0; color: var(--ivory); }
+aside .meta { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brass); }
+aside p { margin: 0; }
+aside .aka { color: var(--muted); font-style: italic; }
+aside .art { font-size: 0.9rem; color: var(--muted); border-top: 1px solid var(--edge); padding-top: 8px; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px 32px; }
+.notes section { min-width: 0; }
+.notes h3 { font-family: var(--font-display); font-weight: 400; color: var(--brass); font-size: 1.2rem; margin: 0 0 6px; }
+.notes ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.notes li { max-width: 65ch; }
+.notes li::marker { color: var(--brass); }
+@media (prefers-reduced-motion: no-preference) { .book .spell img { transition: filter 120ms; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>MAW Class Spellbooks</h1>
+    <p>Mockup of the Death Knight's and Assassin's own spellbook pages: their schools' medallions, tabs and spell
+      pictures, drawn in the original book's style. Point at a spell to light it up as the game does; click a tab
+      to turn the page. Rules, spells and skills stay exactly as they are.</p>
+  </header>
+
+  <div class="controls">
+    <div><span class="seg-label">Class</span><span class="seg" id="classSeg"></span></div>
+    <div><span class="seg-label">Book</span><span class="seg" id="viewSeg"></span></div>
+  </div>
+
+  <div class="stage">
+    <div class="book" id="book" aria-label="Spellbook"></div>
+    <aside id="panel" aria-live="polite"></aside>
+  </div>
+
+  <div class="notes">
+    <section>
+      <h3>What the mockup shows</h3>
+      <ul>
+        <li>Seven new school pages: Frost, Blood and Unholy for the Death Knight line; Combat, Subtlety, Poisons and
+          Assassination for the Thief line. Each has its own medallion scene and name on the banner.</li>
+        <li>Seven new school tabs, line-drawn when idle and painted when open. A class sees only its own tabs,
+          stacked from the top.</li>
+        <li>Twenty new spell pictures: all twelve Death Knight spells and the Assassin's eight attack spells. The
+          Assassin's thirteen ordinary spells (Fly, Town Portal, Haste...) keep their original pictures.</li>
+        <li>Spells sit in mastery order: the page reads left to right, top to bottom, from unskilled or Novice to
+          Grandmaster.</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Still to decide</h3>
+      <ul>
+        <li>The Assassin attack spells' names. MAW kept the mage names (Fireball, Stun...). The mockup shows proposed
+          names; the panel lists MAW's.</li>
+        <li>Whether the Death Knight's three borrowed spells (Water Walk, Regeneration, Vampiric Aura) keep their
+          names. The mockup keeps them and only redraws their pictures.</li>
+        <li>Pictures, medallions and tabs are first generations. Any of them can be repainted on request.</li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<script>
+const DATA = /*PAGES_JSON*/null;
+const BASE = "mockup/";
+const state = { book: 0, view: "proposed", page: 0, active: null };
+const pct = (value, of) => (value / of * 100) + "%";
+
+function el(tag, attrs = {}, children = []) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(attrs)) {
+    if (key === "text") node.textContent = value; else node.setAttribute(key, value);
+  }
+  for (const child of children) node.appendChild(child);
+  return node;
+}
+
+function segment(container, options, current, onPick) {
+  container.replaceChildren(...options.map(([value, label]) => {
+    const button = el("button", { type: "button", "aria-pressed": String(value === current), text: label });
+    button.addEventListener("click", () => onPick(value));
+    return button;
+  }));
+}
+
+function pages() {
+  const book = DATA.books[state.book];
+  return state.view === "proposed" ? book.pages : book.today;
+}
+
+function showPanel(spell, page) {
+  const panel = document.getElementById("panel");
+  const book = DATA.books[state.book];
+  if (!spell) {
+    const title = state.view === "proposed" ? page.school : page.school;
+    const kids = [
+      el("div", { class: "meta", text: state.view === "proposed" ? book.title + " school" : "Today" }),
+      el("h2", { text: title }),
+    ];
+    if (state.view === "proposed") {
+      kids.push(el("p", { text: "Trained as " + page.skill + ": the same skill, trainers and item bonuses as now, "
+        + "shown under the school's own name." }));
+    } else {
+      kids.push(el("p", { text: "What a " + book.title + " sees today: the original " + page.school
+        + " page, with the class's spells drawn as the spells whose numbers they reuse." }));
+    }
+    kids.push(el("p", { class: "art", text: "Point at a spell for its details." }));
+    panel.replaceChildren(...kids);
+    return;
+  }
+  const kids = [
+    el("div", { class: "meta", text: page.school + " · " + spell.mastery }),
+    el("h2", { text: spell.name }),
+  ];
+  if (spell.maw_name) kids.push(el("p", { class: "aka", text: "MAW calls it " + spell.maw_name + "." }));
+  if (spell.note) kids.push(el("p", { text: spell.note }));
+  if (state.view === "proposed") {
+    kids.push(el("p", { class: "art", text: spell.new_art ? "New picture." : "Original picture of the spell." }));
+  } else {
+    const shown = spell.picture_of.replace(/([a-z])([A-Z])/g, "$1 $2");
+    kids.push(el("p", { class: "art", text: "Drawn with the original picture of " + shown + "." }));
+  }
+  panel.replaceChildren(...kids);
+}
+
+function render() {
+  const book = DATA.books[state.book];
+  const list = pages();
+  if (state.page >= list.length) state.page = 0;
+  const page = list[state.page];
+  const root = document.getElementById("book");
+  const nodes = [el("img", { class: "page", src: BASE + page.page, alt: page.school + " page" })];
+
+  // Bottom-left buttons of the game's spellbook (close, quick spell, attack spell), for scale.
+  const chrome = [["stxtu.png", 0, 480 - 2 - 44, 36, 44], ["stssu.png", 0, 480 - 48 - 44, 36, 44],
+    ["gf-aspell.png", 0, 480 - 94 - 46, 36, 46]];
+  for (const [src, x, y, w, h] of chrome) {
+    const image = el("img", { class: "chrome", src: BASE + src, alt: "" });
+    Object.assign(image.style, { left: pct(x, 640), top: pct(y, 480), width: pct(w, 640), height: pct(h, 480) });
+    nodes.push(image);
+  }
+  nodes.push(el("div", { class: "caster", text: book.caster }));
+
+  list.forEach((other, index) => {
+    const slot = state.view === "proposed" ? index : other.tab_slot;
+    const tab = el("button", { type: "button", "aria-label": other.school + " page",
+      "aria-pressed": String(index === state.page) }, [
+      el("img", { src: BASE + (index === state.page ? other.tab_u : other.tab_d), alt: "" }),
+    ]);
+    Object.assign(tab.style, { left: pct(592, 640), top: pct(2 + 39 * slot, 480), width: pct(48, 640),
+      height: pct(39, 480) });
+    tab.addEventListener("click", () => { state.page = index; state.active = null; render(); });
+    nodes.push(tab);
+  });
+
+  for (const spell of page.spells) {
+    const button = el("button", { type: "button", class: "spell" + (state.active === spell ? " active" : ""),
+      "aria-label": spell.name }, [
+      el("img", { class: "off", src: BASE + spell.b, alt: "" }),
+      el("img", { class: "on", src: BASE + spell.a, alt: "" }),
+    ]);
+    Object.assign(button.style, { left: pct(spell.x - spell.w / 2, 640), top: pct(spell.y - spell.h / 2, 480),
+      width: pct(spell.w, 640), height: pct(spell.h, 480) });
+    const show = () => showPanel(spell, page);
+    button.addEventListener("mouseenter", show);
+    button.addEventListener("focus", show);
+    button.addEventListener("click", () => {
+      state.active = state.active === spell ? null : spell;
+      render();
+      showPanel(state.active, page);
+    });
+    nodes.push(button);
+  }
+  root.replaceChildren(...nodes);
+  root.onmouseleave = () => showPanel(state.active, page);
+  showPanel(state.active, page);
+
+  segment(document.getElementById("classSeg"), DATA.books.map((b, i) => [i, b.title]), state.book, (value) => {
+    state.book = value; state.page = 0; state.active = null; render();
+  });
+  segment(document.getElementById("viewSeg"), [["proposed", "Proposed"], ["today", "Today"]], state.view,
+    (value) => { state.view = value; state.active = null; render(); });
+}
+
+// Preload the highlighted states so the first hover does not flicker.
+for (const book of DATA.books) {
+  for (const page of [...book.pages, ...book.today]) {
+    for (const spell of page.spells) new Image().src = BASE + spell.a;
+  }
+}
+render();
+</script>

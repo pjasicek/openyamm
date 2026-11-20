@@ -222,7 +222,7 @@ def verify(roots, profile):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--profile", choices=sorted(PROFILES), default="desktop")
+    parser.add_argument("--profile", choices=sorted(PROFILES), help="default: desktop; --verify alone checks both")
     parser.add_argument("--assets", type=Path, default=ROOT / "assets_dev", help="the runtime root (face sources)")
     parser.add_argument("--sources", type=Path, default=ROOT / "assets_source")
     parser.add_argument("--output", type=Path, help="default: --assets for desktop, assets_cooked/android")
@@ -231,6 +231,18 @@ def main():
     parser.add_argument("--verify", action="store_true")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
+    if args.verify and args.profile is None:
+        failures = []
+        for profile, (_, profile_output) in sorted(PROFILES.items()):
+            output = args.assets if profile == "desktop" else profile_output
+            try:
+                verify(Roots(args.assets, args.sources, output, profile), profile)
+            except SystemExit as failure:
+                failures.append(str(failure))
+        if failures:
+            raise SystemExit("; ".join(failures))
+        return
+    args.profile = args.profile or "desktop"
     output = args.output or (args.assets if args.profile == "desktop" else PROFILES[args.profile][1])
     roots = Roots(args.assets, args.sources, output, args.profile)
     if args.verify:

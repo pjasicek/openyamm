@@ -1,0 +1,30 @@
+# The hard rock's tenth block starts ebora_free; skipped at 1 s, its gameplay steps still
+# run: EboraFree 4 and she is gone. Breaking a block again does not start it again.
+id: mm9r.thjoradmine.cinematic_ebora_free_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: thjoradmine.blv}
+- set_pose: {map: thjoradmine.blv, x: 24467, y: -1326, z: -1390, yaw: 3.1416, pitch: 0.0}
+- execute_event: {id: 90}
+- execute_event: {id: 91}
+- execute_event: {id: 92}
+- execute_event: {id: 93}
+- execute_event: {id: 94}
+- execute_event: {id: 95}
+- execute_event: {id: 96}
+- execute_event: {id: 97}
+- execute_event: {id: 98}
+- execute_event: {id: 99}
+- advance_runtime: {seconds: 1.0}
+- console: {line: cinematic list, expect_contains: playing ebora_free}
+- assert: {actor_visible: {actor_index: 46, hidden: false}}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- assert: {state_dump_named_map_var: {name: EboraFree, value: 4}}
+- assert: {state_dump_named_map_var: {name: Cinema.ebora_free.step.removed, value: 1}}
+- assert: {actor_visible: {actor_index: 46, hidden: true}}
+- console: {line: cinematic list, expect_contains: "ebora_free (13 s)"}
+- execute_event: {id: 99}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: "ebora_free (13 s)"}

@@ -1,0 +1,68 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_engine_handoff_20260928/refinement_2132/images
+exit: true
+steps:
+- wait: 2
+- capture: followers-initial
+- wait: 0.5
+- right_down:
+  - 1575
+  - 298
+- click:
+  - 1575
+  - 298
+- capture: wide-gameplay
+- wait: 0.5
+- click:
+  - 1575
+  - 298
+- capture: followers-first-three
+- wait: 0.5
+- click:
+  - 1515
+  - 856
+- capture: followers-scroll-one
+- wait: 0.5
+- click:
+  - 1515
+  - 856
+- capture: followers-last-three
+- wait: 0.5
+- click:
+  - 1515
+  - 856
+- capture: followers-bottom-limit
+- wait: 0.5
+- click:
+  - 1515
+  - 350
+- capture: followers-scroll-up
+- wait: 0.5
+- click:
+  - 1515
+  - 442
+- right_up:
+  - 1515
+  - 442
+- capture: follower-dialogue
+- wait: 0.5
+- key: Escape
+- capture: after-dialogue
+- wait: 0.5
+- right_down:
+  - 1575
+  - 298
+- click:
+  - 1575
+  - 298
+- right_up:
+  - 1575
+  - 298
+- capture: followers-closed
+- wait: 0.5
+- action: rest
+- capture: rest-clock
+- wait: 0.5
+- key: Escape
+- wait: 1
+- capture: clock-later
+- wait: 0.5

@@ -16,10 +16,45 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPOSITORY_ROOT / "re_mm8" / "mm9_vfx"))
 
 from inspect_assets import read_fxf  # noqa: E402
+from convert_abc_model import read_abc  # noqa: E402
 
 
 EMISSION_SHAPES = ("point", "plane", "sphere", "plane_in", "plane_out", "cone", "circle")
 MM9_TO_OPENYAMM_SCALE = 2.56
+# A LithTech sprite's half-extent is its texture width times its object scale (d3d.ren draw_sprite 10054f30, extents
+# at 10055379..1005544a: texture width x view constant +0x94 x object scale, added to and subtracted from the centre),
+# so it is twice as wide as OpenYAMM's sprite of logical width times scale. Sprite and sprite-system scale keys carry the factor; the remaining
+# view constant (+0x94, a field-of-view cotangent) is uncalibrated.
+NATIVE_SPRITE_EXTENT = 2.0
+SPRITE_SCALE = MM9_TO_OPENYAMM_SCALE * NATIVE_SPRITE_EXTENT
+# LithTech's additive blend is ONE/ONE over the default MODULATE texture stage: the light is texture colour times
+# vertex colour, and neither the texture's alpha (MM9's glow textures are already dark where transparent) nor the
+# colour keys' transparency weights it. MM9's additive components set additive_texture_alpha false; the shared renderer
+# then draws them so, from texels without the transparent-edge bleed and without the bloom glow LithTech did not have.
+NATIVE_ADDITIVE = {"blend": "additive", "additive_texture_alpha": False}
+# The body node a component follows in MM9 (UpdatePos 2-9: hands, feet, head, tail or user nodes; 0 fixed, 1 the
+# parent). OpenYAMM effects have no body anchors: an anchored component carries its node as `body_anchor` and emits at
+# the effect's origin (`anchor_fallback: origin`), which the caller places (an actor's hand socket, the shooter, the
+# apprentice's chest for the dots, the dragon's snout for its smoke; devdocs/mm9_rework/scr_audit/client_fx.md).
+BODY_ANCHORS = {
+    2: "left_hand",
+    3: "right_hand",
+    4: "left_foot",
+    5: "right_foot",
+    6: "head",
+    7: "tail_or_user_node_7",
+    8: "tail_or_user_node_8",
+    9: "tail_or_user_node_9",
+}
+
+
+def body_anchor(key: dict) -> str | None:
+    mode = int(properties(key).get("UpdatePos", 0))
+    return BODY_ANCHORS.get(mode, f"user_node_{mode}") if mode >= 2 else None
+
+
+def body_anchored(group: dict) -> bool:
+    return any(body_anchor(key) is not None for key in group["keys"])
 
 
 def world_vector(value: list[float]) -> list[float]:
@@ -129,7 +164,7 @@ def compile_sprite_system(key: dict, bindings: dict[str, dict]) -> dict:
             }
         )
     scale_keys = [
-        {"time": entry[0], "value": entry[1] * MM9_TO_OPENYAMM_SCALE}
+        {"time": entry[0], "value": entry[1] * SPRITE_SCALE}
         for entry in props["Sk"]
     ]
     motion_keys = [{"time": entry[0], "value": world_vector(entry[1:4])} for entry in props["Mk"]]
@@ -153,7 +188,7 @@ def compile_sprite_system(key: dict, bindings: dict[str, dict]) -> dict:
         "rotation_per_tick": world_rotation(props.get("RotateAdd", [0.0, 0.0, 0.0])),
         "stretch_u": float(props.get("StretchU", 1.0)),
         "stretch_v": float(props.get("StretchV", 1.0)),
-        "blend": "additive" if int(props.get("AType", 0)) == 1 else "alpha",
+        **(NATIVE_ADDITIVE if int(props.get("AType", 0)) == 1 else {"blend": "alpha"}),
         "particle_space": "world",
         **sprite_orientation(props, fixed_sprite=False),
         "color_keys": color_keys,
@@ -163,9 +198,18 @@ def compile_sprite_system(key: dict, bindings: dict[str, dict]) -> dict:
     }
 
 
+def default_animation(bindings: dict[str, dict], value: str) -> str:
+    """The clip a Model component plays: FXF names none, so MM9 plays the model's first animation (pathup.abc's is
+    called wormpath, headtwirl.abc's headtwirling)."""
+    binding = bindings[normalized_reference(value)]
+    animations = read_abc(REPOSITORY_ROOT / binding["source"]["path"]).animations
+    if not animations:
+        raise ValueError(f"model {binding['legacy']} has no animation to follow")
+    return animations[0].name
+
+
 def compile_model_path(key: dict, bindings: dict[str, dict]) -> dict:
     props = properties(key)
-    model_reference = normalized_reference(props["Model"])
     return {
         "type": "model_path",
         "id": key["id"],
@@ -173,7 +217,7 @@ def compile_model_path(key: dict, bindings: dict[str, dict]) -> dict:
         "end_seconds": key["end"],
         "repeat_count": key["repeat"],
         "model_resource": binding_resource(bindings, props["Model"], "model"),
-        "animation_clip": Path(model_reference).stem,
+        "animation_clip": default_animation(bindings, props["Model"]),
         "offset": world_vector(props.get("Offset", [0.0, 0.0, 0.0])),
         "visible": not str(props.get("Skin", "")).endswith("|..."),
         **component_link(key),
@@ -224,11 +268,11 @@ def compile_sprite(key: dict, bindings: dict[str, dict]) -> dict:
         "offset": world_vector(props.get("Offset", [0.0, 0.0, 0.0])),
         "stretch_u": 1.0,
         "stretch_v": 1.0,
-        "blend": "additive",
+        **NATIVE_ADDITIVE,
         **sprite_orientation(props, fixed_sprite=True),
         "color_keys": red_keys,
         "scale_keys": [
-            {"time": entry[0], "value": entry[1] * MM9_TO_OPENYAMM_SCALE}
+            {"time": entry[0], "value": entry[1] * SPRITE_SCALE}
             for entry in props["Sk"]
         ],
         "motion_keys": [
@@ -294,8 +338,8 @@ def hardcoded_melee_blood_effect(bindings: dict[str, dict]) -> dict:
                     {"time": 1.0, "rgb": [255, 255, 255], "transparency": 0},
                 ],
                 "scale_keys": [
-                    {"time": 0.0, "value": MM9_TO_OPENYAMM_SCALE},
-                    {"time": 1.0, "value": MM9_TO_OPENYAMM_SCALE},
+                    {"time": 0.0, "value": SPRITE_SCALE},
+                    {"time": 1.0, "value": SPRITE_SCALE},
                 ],
                 "motion_keys": [],
             },
@@ -330,8 +374,98 @@ def hardcoded_melee_blood_effect(bindings: dict[str, dict]) -> dict:
                     {"time": 1.0, "rgb": [255, 255, 255], "transparency": 255},
                 ],
                 "scale_keys": [
-                    {"time": 0.0, "value": MM9_TO_OPENYAMM_SCALE},
-                    {"time": 1.0, "value": MM9_TO_OPENYAMM_SCALE},
+                    {"time": 0.0, "value": SPRITE_SCALE},
+                    {"time": 1.0, "value": SPRITE_SCALE},
+                ],
+                "motion_keys": [],
+            },
+        ],
+    }
+
+
+# cshell's base projectile explosion (FireExplosion) skins a hemisphere of radius about 66 MM9 units with a random one of
+# explosion1/2/3.spr and scales it by (age + 0.5) until 0.8, 0.53 or 0.6 seconds; this compiles explosion1 (0.8 s) as a
+# camera-facing sprite of the hemisphere's width.
+EXPLOSION_SPHERE_DIAMETER = 132.0
+
+
+def hardcoded_sparks_explosion_effect(bindings: dict[str, dict]) -> dict:
+    """Compile the verified non-FXF projectile explosion "Sparks" (Lightning, ScreamingSkull) into the shared schema.
+
+    re_mm8/mm9_vfx/README.md, "Projectile explosions": the base explosion sphere, then a LithTech particle system of
+    20 sparks with BlurredWhiteStar's texture: velocities in a box of +-300 across and 7.5..300 along the surface
+    normal, gravity 650, grey 128..255, the whole system fading out over 1 second. OpenYAMM approximates the box with
+    point emission (+-300 on every axis) plus its mean forward speed as wind, the random grey with its mean, and the
+    random sphere skin with explosion1. Its dynamic light is not reproduced.
+    """
+    explosion = binding_resource(bindings, "sprites/weapons/explosion1.spr", "sprite")
+    explosion_width = bindings["sprites/weapons/explosion1.spr"]["sprite"]["logicalWidth"]
+    sphere_scale = EXPLOSION_SPHERE_DIAMETER / explosion_width * MM9_TO_OPENYAMM_SCALE
+    return {
+        "id": "mm9:explosion_sparks",
+        "source_name": "hardcoded projectile explosion Sparks (PROJECTILE.txt)",
+        "source_evidence": "re_mm8/mm9_vfx/README.md",
+        "duration_seconds": 1.1,
+        "compatibility_profile": "mm9_native_60hz",
+        "support": "supported_approximation",
+        "capabilities": ["sprite", "sprite_system"],
+        "components": [
+            {
+                "type": "sprite",
+                "id": 2001,
+                "start_seconds": 0.0,
+                "end_seconds": 0.8,
+                "repeat_count": 1,
+                "sprite_resource": explosion,
+                "offset": [0.0, 0.0, 0.0],
+                "stretch_u": 1.0,
+                "stretch_v": 1.0,
+                **NATIVE_ADDITIVE,
+                "alignment": "camera_facing",
+                "color_keys": [
+                    {"time": 0.0, "rgb": [255, 255, 255], "transparency": 0},
+                    {"time": 1.0, "rgb": [255, 255, 255], "transparency": 0},
+                ],
+                "scale_keys": [
+                    {"time": 0.0, "value": 0.5 * sphere_scale},
+                    {"time": 1.0, "value": 1.3 * sphere_scale},
+                ],
+                "motion_keys": [],
+            },
+            {
+                "type": "sprite_system",
+                "id": 2002,
+                "start_seconds": 0.0,
+                # One 60 Hz-compatible batch, as mm9:melee_blood.
+                "end_seconds": 0.034,
+                "repeat_count": 1,
+                "sprite_resource": binding_resource(bindings, "sprites/weapons/blurredwhitestar.spr", "sprite"),
+                "sprites_per_emission": 20,
+                "emission_interval_seconds": 0.019,
+                # Native sparks live 1 second; the native profile expires particles 0.1 s before their lifetime.
+                "particle_lifetime_seconds": 1.1,
+                "emission_shape": "point",
+                "radius": 0.0,
+                "plane_direction": [0.0, 0.0, 1.0],
+                "velocity": 300.0 * MM9_TO_OPENYAMM_SCALE,
+                "wind_direction": [0.0, 0.0, 153.75 * MM9_TO_OPENYAMM_SCALE],
+                "wind_amount": 1.0,
+                "gravity": 650.0 * MM9_TO_OPENYAMM_SCALE,
+                "offset": [0.0, 0.0, 0.0],
+                "rotation_per_tick": [0.0, 0.0, 0.0],
+                "stretch_u": 1.0,
+                "stretch_v": 1.0,
+                **NATIVE_ADDITIVE,
+                "particle_space": "world",
+                "alignment": "camera_facing",
+                "color_keys": [
+                    {"time": 0.0, "rgb": [192, 192, 192], "transparency": 0},
+                    {"time": 1.0, "rgb": [192, 192, 192], "transparency": 255},
+                ],
+                # LithTech particle radius 3000 / 640 = 4.69 units: a spark about 9.4 units across.
+                "scale_keys": [
+                    {"time": 0.0, "value": 9.375 / 32.0 * MM9_TO_OPENYAMM_SCALE},
+                    {"time": 1.0, "value": 9.375 / 32.0 * MM9_TO_OPENYAMM_SCALE},
                 ],
                 "motion_keys": [],
             },
@@ -344,23 +478,28 @@ def compile_group(group: dict, bindings: dict[str, dict]) -> dict:
     for key in group["keys"]:
         component_type = key["component_ref"].split(";", 1)[0]
         if component_type == "SpriteSystem":
-            components.append(compile_sprite_system(key, bindings))
+            component = compile_sprite_system(key, bindings)
         elif component_type == "Model":
-            components.append(compile_model_path(key, bindings))
+            component = compile_model_path(key, bindings)
         elif component_type == "Sprite":
-            components.append(compile_sprite(key, bindings))
+            component = compile_sprite(key, bindings)
         elif component_type == "PlaySound":
-            components.append(compile_sound(key, bindings))
+            component = compile_sound(key, bindings)
         elif component_type == "Null":
-            components.append(compile_null(key))
+            component = compile_null(key)
         else:
             raise ValueError(
                 f"effect {group['name']} component {key['id']} uses unsupported type {component_type}"
             )
+        anchor = body_anchor(key)
+        if anchor is not None:
+            component["body_anchor"] = anchor
+        components.append(component)
     source_phase_seconds = group["phase_ms"] / 1000.0
     duration_seconds = max(
         [source_phase_seconds, *(float(key["end"]) for key in group["keys"])],
     )
+    anchor_fallback = {"anchor_fallback": "origin"} if body_anchored(group) else {}
     return {
         "id": effect_id(group["name"]),
         "source_name": group["name"],
@@ -369,6 +508,7 @@ def compile_group(group: dict, bindings: dict[str, dict]) -> dict:
         "duration_seconds": duration_seconds,
         "compatibility_profile": "mm9_native_60hz",
         "support": "supported",
+        **anchor_fallback,
         "capabilities": sorted({component["type"] for component in components}),
         "components": components,
     }
@@ -393,6 +533,7 @@ def compile_library(fxf_path: Path, manifest_path: Path, effect_names: list[str]
         "effects": [
             *(compile_group(groups[name], bindings) for name in effect_names),
             hardcoded_melee_blood_effect(bindings),
+            hardcoded_sparks_explosion_effect(bindings),
         ],
     }
 

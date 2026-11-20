@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <optional>
 #include <string>
+#include <utility>
 #include <string_view>
 #include <vector>
 
@@ -225,6 +226,20 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
+    const std::optional<std::string> potionEffectsText =
+        assetFileSystem.readTextFile(engineDataTablePath("potion_effects.yml"));
+    Game::PotionEffectTable potionEffects;
+
+    if (!potionEffectsText || !potionEffects.loadFromYaml(*potionEffectsText, failure))
+    {
+        failure = "could not load potion effects for regression tests: " + failure;
+        return false;
+    }
+
+    data.mergedPotionSettingTable.setEffects(std::move(potionEffects));
+
+    data.itemTable.applyPotionSettings(data.mergedPotionSettingTable);
+
     std::vector<std::vector<std::string>> reagentSettingRows;
 
     if (!loadTextTableRows(assetFileSystem, engineDataTablePath("reagent_settings.txt"), reagentSettingRows, failure))
@@ -418,6 +433,8 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         failure = "could not load special item enchant table for regression tests";
         return false;
     }
+
+    data.itemTable.resolveSpecialItemEnchants(data.standardItemEnchantTable, data.specialItemEnchantTable);
 
     std::vector<std::vector<std::string>> readableScrollRows;
 
@@ -625,7 +642,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
-    Game::MapStats mapStats = {};
+    Game::MapStats &mapStats = data.mapStats;
 
     if (!mapStats.loadFromRows(mapStatsRows))
     {
@@ -646,6 +663,21 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
     if (!mapStats.applyWorldOwnership(worldMapFiles))
     {
         failure = "could not apply map world ownership for regression tests";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> navigationRows;
+
+    std::vector<std::vector<std::string>> outdoorTravelRows;
+    Game::MergedOutdoorTravelTable outdoorTravels = {};
+
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("map_navigation.txt"), navigationRows, failure)
+        || !loadTextTableRows(assetFileSystem, engineDataTablePath("outdoor_travels.txt"), outdoorTravelRows, failure)
+        || !mapStats.applyOutdoorNavigationRows(navigationRows)
+        || !mapStats.applyMergedBolsterMaps(data.mergedBolsterMapTable)
+        || !outdoorTravels.loadFromRows(outdoorTravelRows))
+    {
+        failure = "could not apply map navigation, bolster maps or outdoor travels for regression tests";
         return false;
     }
 
@@ -711,6 +743,20 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
     }
 
     data.houseTable.applyMapWorlds(mapStats);
+    const std::optional<std::string> soloShopStockText =
+        assetFileSystem.readTextFile(engineDataTablePath("solo_shop_stock.yml"));
+
+    if (!soloShopStockText || !data.houseTable.loadSoloStockYaml(*soloShopStockText, failure))
+    {
+        failure = "could not load solo_shop_stock.yml for regression tests: " + failure;
+        return false;
+    }
+
+    if (!mapStats.applyMergedOutdoorTravels(outdoorTravels))
+    {
+        failure = "could not apply merged outdoor travels for regression tests";
+        return false;
+    }
 
     Game::ArcomageLoader arcomageLoader;
 

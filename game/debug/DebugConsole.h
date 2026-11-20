@@ -50,7 +50,16 @@ public:
         std::string description;
         std::string usage;
         CommandCallback callback;
+        // Only reads or shows things (help, loc): running it does not mark the playthrough as assisted.
+        bool readOnly = false;
+        // For a command that also changes the game: whether these arguments only read or show things
+        // (qbit dump, gold get).
+        std::function<bool(const std::vector<std::string> &args)> readOnlyWith;
     };
+
+    // Told of every successful command that could change the game: not read-only by readOnly or readOnlyWith
+    // (the playthrough statistics' "debug console" assist).
+    using CommandObserver = std::function<void(const CommandDefinition &)>;
 
     struct ItemOption
     {
@@ -77,6 +86,7 @@ public:
         MapOptionKind kind = MapOptionKind::Outdoor;
     };
 
+    void setCommandObserver(CommandObserver observer);
     void registerCommand(CommandDefinition definition);
     void clearCommands();
     void setItemOptions(std::vector<ItemOption> itemOptions);
@@ -132,6 +142,7 @@ private:
     void applyActiveMobileConsoleScale() const;
 
     std::unordered_map<std::string, CommandDefinition> m_commands;
+    CommandObserver m_commandObserver;
     std::vector<Message> m_messages;
     size_t m_totalMessageCount = 0;
     std::vector<std::string> m_history;

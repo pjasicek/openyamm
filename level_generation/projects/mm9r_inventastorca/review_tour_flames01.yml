@@ -1,0 +1,39 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_inventastorca/review/flames01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: f1_torch_side_east
+  position:
+  - -10803
+  - -1536
+  - -859
+  yaw: 2.8033
+  pitch: 0.1396
+- name: f2_torch_side_west
+  position:
+  - -11366
+  - -1536
+  - -859
+  yaw: 0.3271
+  pitch: 0.1396
+- name: f3_torch_front
+  position:
+  - -11080
+  - -1792
+  - -859
+  yaw: 1.5708
+  pitch: 0.1396
+- name: f4_bowl_side
+  position:
+  - -2068
+  - 307
+  - -890
+  yaw: 1.5708
+  pitch: 0.4363
+- name: f5_bowl_other
+  position:
+  - -2304
+  - 758
+  - -890
+  yaw: 0.0
+  pitch: 0.4363

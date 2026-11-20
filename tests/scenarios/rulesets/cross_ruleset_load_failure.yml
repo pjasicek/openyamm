@@ -1,0 +1,23 @@
+id: rulesets.cross_ruleset_load_failure
+title: Ruleset - a save of the other ruleset that fails its package check leaves the game in progress running
+world: mm6
+mode: faithful
+tags: [rulesets, maw, standard]
+steps:
+  # A MAW save that needs a package schema the game does not have (audit STD3-1).
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - save_game: {name: maw_needs_newer_package, required_package_schema: {package: rulesets/maw, schema: 999}}
+  - new_game_flow:
+      start_map: oute3.odm
+  - assert:
+      map: oute3.odm
+      ruleset: {id: mmerge}
+  # Loading it is refused before the switch to MAW tears the Standard game down.
+  - load_game: {name: maw_needs_newer_package, expect_failure: true}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: oute3.odm
+      ruleset: {id: mmerge}
+      actor_visible: {actor_index: 0}

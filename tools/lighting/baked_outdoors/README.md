@@ -73,6 +73,17 @@ The existing `android/repack_runtime_assets.sh` packages all map files, includin
 `.bake.json`; there is no extension whitelist to change. Repacking replaces the normal runtime ZIPs.
 Development play uses `assets_dev` directly and does not require repacking.
 
+### Staged worlds (Hesper)
+
+A world that lives in its own isolated asset root (the [Hesper stage](../../../level_generation/projects/hesper_stage/README.md))
+bakes with `--assets <stage root>` and one `--sources <dir>` per extra source-art root beside `assets_source`. Its
+faces may have no native BMP: they resolve to their `textures_x4` PNG masters at a quarter of the master's size in
+texels (a native BMP of the same name wins), a decoration with only a `pending` placeholder sprite casts through its
+3D model, and a world other than MM6 or MM7 reads MM8's terrain tile table (as the engine does). Without these
+arguments the producer resolves exactly as before (checked against every installed MM bake's dependency list,
+2026-10-22). Hesper's wrapper is `level_generation/projects/hesper_stage/bake.sh`; its bakes go to
+`output/hesper_stage/bakes`, never `assets_dev`.
+
 ## Authoring choices
 
 ### Batch bake MM6–MM8 outdoor maps
@@ -153,6 +164,15 @@ python3 -m unittest discover -s tools/lighting -p 'test_bake*.py'
   and animated water use a fixed, dark water material for bounce; no water animation is baked.
   Sprites, grass meshes, transient effects and local lights do not cast permanent baked shadows.
   Maps with authored moving mechanisms or unsupported terrain attribute overrides are rejected.
+- Terrain under building floors: a flat native terrain triangle in the plane of a building floor and under it
+  (Ravenshore's crystal plaza, the same crystal in the Plane Between Planes, many building floors laid on flat
+  ground) coincides with the floor. Cycles' rays from the floor hit it at zero distance, so the floor baked black
+  there. The producer finds these triangles from the map on every bake (`terrain_triangles_on_floors` in
+  `bake_geometry.py`) and bakes them into the terrain page as a separate object invisible to other surfaces' rays
+  (shadow, diffuse, glossy, transmission). `report.json` lists them (`terrain_triangles_on_floors`) and the black
+  share of each floor over them (`floors_on_terrain`); the log warns about any floor more than 5 % black there.
+  Bakes made before 2026-11-09 (producer SHA-256 recorded in `<map>.bake.json`) lack this, and `stale_bakes.py`
+  does not detect it, because it compares sources, not the producer.
 - Probes: 512-unit XY grid, refined to 128 units around building bounds; terrain-relative heights
   96/384/1152. They sample upward-facing diffuse illumination. Four nearest samples are interpolated
   after geometry visibility checks. This approximates shelter; it is not a sharp character shadow map.

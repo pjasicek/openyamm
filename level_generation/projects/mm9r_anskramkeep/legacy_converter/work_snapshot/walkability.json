@@ -1,0 +1,1152 @@
+{
+ "anskramkeep": {
+  "counts": {
+   "step": 42,
+   "flight": 29,
+   "unreachable": 1,
+   "mover": 16,
+   "actor": 6,
+   "pit": 0
+  },
+  "step_bands": {
+   "41-64": 21,
+   "65-127": 21
+  },
+  "allowed": 0,
+  "findings": [
+   {
+    "kind": "step",
+    "at": [
+     157,
+     -373,
+     -407
+    ],
+    "rise": 61,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (157, -373): a 61 edge (-407 to -346), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     158,
+     -375,
+     -376
+    ],
+    "rise": 61,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (158, -375): a 61 edge (-376 to -315), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     157,
+     -385,
+     -284
+    ],
+    "rise": 92,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (157, -385): a 92 edge (-284 to -192), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     166,
+     -393,
+     -315
+    ],
+    "rise": 92,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (166, -393): a 92 edge (-315 to -223), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     168,
+     -376,
+     -315
+    ],
+    "rise": 123,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (168, -376): a 123 edge (-315 to -192), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     167,
+     -361,
+     -38
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (167, -361): a 58 edge (-38 to 20), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     170,
+     -375,
+     -223
+    ],
+    "rise": 62,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (170, -375): a 62 edge (-223 to -161), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     172,
+     -372,
+     -192
+    ],
+    "rise": 61,
+    "length": 8,
+    "room": "sector 1",
+    "text": "sector 1 (172, -372): a 61 edge (-192 to -131), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2798,
+     8855,
+     -492
+    ],
+    "rise": 74,
+    "length": 8,
+    "room": "sector 35",
+    "text": "sector 35 (-2798, 8855): a 74 edge (-492 to -418), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2798,
+     8871,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 35",
+    "text": "sector 35 (-2798, 8871): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2798,
+     9165,
+     -492
+    ],
+    "rise": 72,
+    "length": 8,
+    "room": "sector 36",
+    "text": "sector 36 (-2798, 9165): a 72 edge (-492 to -420), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2773,
+     8857,
+     -492
+    ],
+    "rise": 72,
+    "length": 8,
+    "room": "sector 36",
+    "text": "sector 36 (-2773, 8857): a 72 edge (-492 to -420), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2814,
+     9151,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 36",
+    "text": "sector 36 (-2814, 9151): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2773,
+     9151,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 36",
+    "text": "sector 36 (-2773, 9151): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2757,
+     8871,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 36",
+    "text": "sector 36 (-2757, 8871): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2773,
+     9167,
+     -492
+    ],
+    "rise": 74,
+    "length": 8,
+    "room": "sector 36",
+    "text": "sector 36 (-2773, 9167): a 74 edge (-492 to -418), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2773,
+     8855,
+     -492
+    ],
+    "rise": 74,
+    "length": 8,
+    "room": "sector 37",
+    "text": "sector 37 (2773, 8855): a 74 edge (-492 to -418), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2773,
+     8871,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 37",
+    "text": "sector 37 (2773, 8871): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2773,
+     9165,
+     -492
+    ],
+    "rise": 72,
+    "length": 8,
+    "room": "sector 38",
+    "text": "sector 38 (2773, 9165): a 72 edge (-492 to -420), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2798,
+     8857,
+     -492
+    ],
+    "rise": 72,
+    "length": 8,
+    "room": "sector 38",
+    "text": "sector 38 (2798, 8857): a 72 edge (-492 to -420), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2757,
+     9151,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 38",
+    "text": "sector 38 (2757, 9151): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2798,
+     9151,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 38",
+    "text": "sector 38 (2798, 9151): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2814,
+     8871,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 38",
+    "text": "sector 38 (2814, 8871): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2798,
+     9167,
+     -492
+    ],
+    "rise": 74,
+    "length": 8,
+    "room": "sector 38",
+    "text": "sector 38 (2798, 9167): a 74 edge (-492 to -418), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2284,
+     11651,
+     -492
+    ],
+    "rise": 72,
+    "length": 8,
+    "room": "sector 40",
+    "text": "sector 40 (-2284, 11651): a 72 edge (-492 to -420), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2270,
+     11635,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 40",
+    "text": "sector 40 (-2270, 11635): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2286,
+     11676,
+     -492
+    ],
+    "rise": 74,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-2286, 11676): a 74 edge (-492 to -418), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -1974,
+     11651,
+     -492
+    ],
+    "rise": 74,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-1974, 11651): a 74 edge (-492 to -418), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2270,
+     11676,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-2270, 11676): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -1990,
+     11651,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-1990, 11651): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -1990,
+     11692,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-1990, 11692): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     1990,
+     11655,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (1990, 11655): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2270,
+     11672,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (2270, 11672): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -2279,
+     11654,
+     -492
+    ],
+    "rise": 67,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-2279, 11654): a 67 edge (-492 to -425), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     1981,
+     11633,
+     -492
+    ],
+    "rise": 67,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (1981, 11633): a 67 edge (-492 to -425), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -1975,
+     11654,
+     -492
+    ],
+    "rise": 73,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-1975, 11654): a 73 edge (-492 to -419), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2285,
+     11633,
+     -492
+    ],
+    "rise": 73,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (2285, 11633): a 73 edge (-492 to -419), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     1974,
+     11614,
+     -492
+    ],
+    "rise": 74,
+    "length": 8,
+    "room": "sector 41",
+    "text": "sector 41 (1974, 11614): a 74 edge (-492 to -418), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     1990,
+     11614,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 41",
+    "text": "sector 41 (1990, 11614): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2270,
+     11631,
+     -492
+    ],
+    "rise": 58,
+    "length": 8,
+    "room": "sector 41",
+    "text": "sector 41 (2270, 11631): a 58 edge (-492 to -434), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     2284,
+     11614,
+     -492
+    ],
+    "rise": 72,
+    "length": 8,
+    "room": "sector 41",
+    "text": "sector 41 (2284, 11614): a 72 edge (-492 to -420), 8 long"
+   },
+   {
+    "kind": "step",
+    "at": [
+     -1976,
+     11676,
+     -492
+    ],
+    "rise": 72,
+    "length": 8,
+    "room": "sector 42",
+    "text": "sector 42 (-1976, 11676): a 72 edge (-492 to -420), 8 long"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     68,
+     -367,
+     -407
+    ],
+    "rise": 61,
+    "length": 80,
+    "room": "sector 1",
+    "text": "sector 1 (68, -367): climbs 61 within one 40-unit path step from -407, 80 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     124,
+     -367,
+     -407
+    ],
+    "rise": 92,
+    "length": 32,
+    "room": "sector 1",
+    "text": "sector 1 (124, -367): climbs 92 within one 40-unit path step from -407, 32 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     148,
+     -367,
+     -407
+    ],
+    "rise": 123,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (148, -367): climbs 123 within one 40-unit path step from -407, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     61,
+     -396,
+     -376
+    ],
+    "rise": 61,
+    "length": 32,
+    "room": "sector 1",
+    "text": "sector 1 (61, -396): climbs 61 within one 40-unit path step from -376, 32 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     115,
+     -381,
+     -376
+    ],
+    "rise": 61,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (115, -381): climbs 61 within one 40-unit path step from -376, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     130,
+     -377,
+     -376
+    ],
+    "rise": 92,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (130, -377): climbs 92 within one 40-unit path step from -376, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     110,
+     -402,
+     -346
+    ],
+    "rise": 62,
+    "length": 48,
+    "room": "sector 1",
+    "text": "sector 1 (110, -402): climbs 62 within one 40-unit path step from -346, 48 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     150,
+     -376,
+     -346
+    ],
+    "rise": 123,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (150, -376): climbs 123 within one 40-unit path step from -346, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     113,
+     -442,
+     -315
+    ],
+    "rise": 62,
+    "length": 48,
+    "room": "sector 1",
+    "text": "sector 1 (113, -442): climbs 62 within one 40-unit path step from -315, 48 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     136,
+     -407,
+     -315
+    ],
+    "rise": 92,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (136, -407): climbs 92 within one 40-unit path step from -315, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     136,
+     -458,
+     -284
+    ],
+    "rise": 61,
+    "length": 64,
+    "room": "sector 1",
+    "text": "sector 1 (136, -458): climbs 61 within one 40-unit path step from -284, 64 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     153,
+     -401,
+     -284
+    ],
+    "rise": 92,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (153, -401): climbs 92 within one 40-unit path step from -284, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     183,
+     -443,
+     -223
+    ],
+    "rise": 62,
+    "length": 48,
+    "room": "sector 1",
+    "text": "sector 1 (183, -443): climbs 62 within one 40-unit path step from -223, 48 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     171,
+     -402,
+     -223
+    ],
+    "rise": 92,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (171, -402): climbs 92 within one 40-unit path step from -223, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     167,
+     -386,
+     -223
+    ],
+    "rise": 123,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (167, -386): climbs 123 within one 40-unit path step from -223, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     197,
+     -422,
+     -192
+    ],
+    "rise": 61,
+    "length": 48,
+    "room": "sector 1",
+    "text": "sector 1 (197, -422): climbs 61 within one 40-unit path step from -192, 48 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     171,
+     -382,
+     -192
+    ],
+    "rise": 123,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (171, -382): climbs 123 within one 40-unit path step from -192, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     215,
+     -406,
+     -161
+    ],
+    "rise": 61,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (215, -406): climbs 61 within one 40-unit path step from -161, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     256,
+     -432,
+     -161
+    ],
+    "rise": 61,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (256, -432): climbs 61 within one 40-unit path step from -161, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     189,
+     -388,
+     -161
+    ],
+    "rise": 123,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (189, -388): climbs 123 within one 40-unit path step from -161, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     227,
+     -389,
+     -131
+    ],
+    "rise": 62,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (227, -389): climbs 62 within one 40-unit path step from -131, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     281,
+     -405,
+     -131
+    ],
+    "rise": 62,
+    "length": 32,
+    "room": "sector 1",
+    "text": "sector 1 (281, -405): climbs 62 within one 40-unit path step from -131, 32 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     212,
+     -385,
+     -131
+    ],
+    "rise": 93,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (212, -385): climbs 93 within one 40-unit path step from -131, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     181,
+     -376,
+     -131
+    ],
+    "rise": 123,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (181, -376): climbs 123 within one 40-unit path step from -131, 16 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     211,
+     -340,
+     -38
+    ],
+    "rise": 58,
+    "length": 32,
+    "room": "sector 1",
+    "text": "sector 1 (211, -340): climbs 58 within one 40-unit path step from -38, 32 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     255,
+     -371,
+     -100
+    ],
+    "rise": 62,
+    "length": 80,
+    "room": "sector 1",
+    "text": "sector 1 (255, -371): climbs 62 within one 40-unit path step from -100, 80 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     199,
+     -371,
+     -100
+    ],
+    "rise": 92,
+    "length": 32,
+    "room": "sector 1",
+    "text": "sector 1 (199, -371): climbs 92 within one 40-unit path step from -100, 32 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     244,
+     -348,
+     -69
+    ],
+    "rise": 61,
+    "length": 64,
+    "room": "sector 1",
+    "text": "sector 1 (244, -348): climbs 61 within one 40-unit path step from -69, 64 wide"
+   },
+   {
+    "kind": "flight",
+    "at": [
+     198,
+     -361,
+     -69
+    ],
+    "rise": 89,
+    "length": 16,
+    "room": "sector 1",
+    "text": "sector 1 (198, -361): climbs 89 within one 40-unit path step from -69, 16 wide"
+   },
+   {
+    "kind": "unreachable",
+    "at": [
+     3560,
+     7864,
+     -400
+    ],
+    "area": 23552,
+    "room": "sector 28",
+    "actors": [],
+    "rise": 92,
+    "text": "sector 28 (3560, 7864, -400): 0.02M units\u00b2 92 above the open floor with no way up for monsters"
+   },
+   {
+    "kind": "mover",
+    "door": 4,
+    "pose": "open",
+    "at": [
+     4350,
+     3197,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 15",
+    "text": "door 4 open: its top at (4350, 3197, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 5,
+    "pose": "open",
+    "at": [
+     -3478,
+     2922,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 13",
+    "text": "door 5 open: its top at (-3478, 2922, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 6,
+    "pose": "open",
+    "at": [
+     -1281,
+     473,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 2",
+    "text": "door 6 open: its top at (-1281, 473, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 7,
+    "pose": "open",
+    "at": [
+     4224,
+     4949,
+     -610
+    ],
+    "rise": 118,
+    "room": "sector 15",
+    "text": "door 7 open: its top at (4224, 4949, -610) is a 118 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 7,
+    "pose": "closed",
+    "at": [
+     4258,
+     4730,
+     -366
+    ],
+    "rise": 126,
+    "room": "sector 15",
+    "text": "door 7 closed: its top at (4258, 4730, -366) is a 126 lip, above the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 8,
+    "pose": "open",
+    "at": [
+     -2784,
+     3363,
+     -406
+    ],
+    "rise": 78,
+    "room": "sector 13",
+    "text": "door 8 open: its top at (-2784, 3363, -406) is a 78 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 8,
+    "pose": "open",
+    "at": [
+     -2742,
+     3436,
+     -448
+    ],
+    "rise": 44,
+    "room": "sector 13",
+    "text": "door 8 open: its top at (-2742, 3436, -448) is a 44 lip, above the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 65,
+    "pose": "open",
+    "at": [
+     289,
+     12603,
+     -492
+    ],
+    "rise": 3,
+    "room": "sector 43",
+    "text": "door 65 open: its top at (289, 12603, -492) is a 3 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 65,
+    "pose": "closed",
+    "at": [
+     -188,
+     13059,
+     -1024
+    ],
+    "rise": 41,
+    "room": "sector 43",
+    "text": "door 65 closed: its top at (-188, 13059, -1024) is a 41 lip, above the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 65,
+    "pose": "closed",
+    "at": [
+     289,
+     12603,
+     -532
+    ],
+    "rise": 43,
+    "room": "sector 43",
+    "text": "door 65 closed: its top at (289, 12603, -532) is a 43 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 88,
+    "pose": "open",
+    "at": [
+     1759,
+     8855,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 37",
+    "text": "door 88 open: its top at (1759, 8855, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 89,
+    "pose": "open",
+    "at": [
+     -2664,
+     5128,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 19",
+    "text": "door 89 open: its top at (-2664, 5128, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 90,
+    "pose": "open",
+    "at": [
+     -3156,
+     4636,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 19",
+    "text": "door 90 open: its top at (-3156, 4636, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 91,
+    "pose": "open",
+    "at": [
+     -2050,
+     5497,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 19",
+    "text": "door 91 open: its top at (-2050, 5497, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 92,
+    "pose": "open",
+    "at": [
+     -3525,
+     4022,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 19",
+    "text": "door 92 open: its top at (-3525, 4022, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "mover",
+    "door": 93,
+    "pose": "open",
+    "at": [
+     -1759,
+     9167,
+     -502
+    ],
+    "rise": 10,
+    "room": "sector 36",
+    "text": "door 93 open: its top at (-1759, 9167, -502) is a 10 recess, below the floor around it"
+   },
+   {
+    "kind": "actor",
+    "at": [
+     4147,
+     4925,
+     -491
+    ],
+    "actor": 8,
+    "text": "actor #8 'Nagate Hatchling' (4147, 4925, -491) overhangs an edge within its radius 109 (at (4224, 5002))"
+   },
+   {
+    "kind": "actor",
+    "at": [
+     4147,
+     4823,
+     -491
+    ],
+    "actor": 9,
+    "text": "actor #9 'Nagate Hatchling' (4147, 4823, -491) has a wall within its radius 109 (toward (4038, 4823))"
+   },
+   {
+    "kind": "actor",
+    "at": [
+     4137,
+     4721,
+     -491
+    ],
+    "actor": 10,
+    "text": "actor #10 'Nagate Hatchling' (4137, 4721, -491) overhangs an edge within its radius 109 (at (4060, 4644))"
+   },
+   {
+    "kind": "actor",
+    "at": [
+     -2806,
+     3174,
+     -327
+    ],
+    "actor": 11,
+    "text": "actor #11 'Airborne Icky' (-2806, 3174, -327) has a wall within its radius 105 (toward (-2880, 3100))"
+   },
+   {
+    "kind": "actor",
+    "at": [
+     -2703,
+     3215,
+     -327
+    ],
+    "actor": 12,
+    "text": "actor #12 'Airborne Icky' (-2703, 3215, -327) has a wall within its radius 105 (toward (-2629, 3141))"
+   },
+   {
+    "kind": "actor",
+    "at": [
+     -2703,
+     3318,
+     -327
+    ],
+    "actor": 13,
+    "text": "actor #13 'Airborne Icky' (-2703, 3318, -327) has a wall within its radius 105 (toward (-2629, 3392))"
+   }
+  ]
+ }
+}

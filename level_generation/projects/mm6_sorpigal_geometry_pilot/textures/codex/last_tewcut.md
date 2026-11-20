@@ -1,0 +1,3 @@
+Saved [tewcut.png](level_generation/projects/mm6_sorpigal_geometry_pilot/textures/codex/tewcut.png) at 1024×1024 using built-in image generation and the brief’s constraints. No other repository files changed.
+
+Checked offset seams and colour after one regeneration. It still falls short: a horizontal seam remains, and mean brightness is 0.91× the reference rather than 1.15×. No in-game check performed.

@@ -1,0 +1,83 @@
+{
+  "tool": "built-in imagegen",
+  "source": "/home/pjasicek/.codex/generated_images/01a14de2-b151-7590-9890-726d2905cefd/exec-ee9f0ba6-0d72-4e21-8681-4349aed33860.png",
+  "saved": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_props/codex_tex/props_horn/metal_atlas_v1.png",
+  "sha256": "f899dc3ee9645248c13a0c7e72cab1e8c681d161d4d0ccabed7417d2efef3883",
+  "kind": "metal",
+  "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_props/codex_tex/props_horn/metal_atlas_prompt.txt",
+  "cells": {
+    "front": {
+      "crop": [
+        0,
+        157,
+        512,
+        366
+      ],
+      "size": [
+        512,
+        209
+      ]
+    },
+    "back": {
+      "crop": [
+        512,
+        155,
+        1024,
+        366
+      ],
+      "size": [
+        512,
+        211
+      ]
+    },
+    "left": {
+      "crop": [
+        0,
+        589,
+        512,
+        767
+      ],
+      "size": [
+        512,
+        178
+      ]
+    },
+    "right": {
+      "crop": [
+        512,
+        589,
+        1024,
+        767
+      ],
+      "size": [
+        512,
+        178
+      ]
+    },
+    "top": {
+      "crop": [
+        0,
+        923,
+        512,
+        1469
+      ],
+      "size": [
+        512,
+        546
+      ]
+    },
+    "bottom": {
+      "crop": [
+        512,
+        923,
+        1024,
+        1469
+      ],
+      "size": [
+        512,
+        546
+      ]
+    }
+  },
+  "guide_sha256": "49149a552b755b6195d6658116efb1dcdee7524d253d7d7791840aec42f821a5"
+}

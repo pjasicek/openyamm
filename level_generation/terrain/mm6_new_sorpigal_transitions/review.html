@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><title>New Sorpigal terrain review</title>
+<style>body{background:#192329;color:#e9e4dc;font:16px/1.55 system-ui;margin:24px auto;max-width:1500px;padding:0 20px}
+a{color:#a6d5ff}select,input,button{font:inherit}.controls{display:flex;gap:20px;flex-wrap:wrap;margin:16px 0}
+.compare{position:relative;width:100%;aspect-ratio:4/3;background:#111}.compare img{position:absolute;width:100%;height:100%}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:20px}.gallery img{width:100%;height:auto}
+figure{margin:0}figcaption{padding:8px 0}summary{cursor:pointer}h2{margin-top:32px}</style>
+<h1>New Sorpigal terrain</h1><p>Painted contact edges for roads, a soft irregular grass fringe, and subtle rock-to-dirt blending.
+Accepted masters and coverage masks retained.
+36 runtime tiles at 256×256. Water remains original.</p>
+<p><a href="new_sorpigal_land_x2.zip">Download land overlay + optional map correction</a> ·
+<a href="index.html">Inspect tiles and masks</a> · <a href="README.md">Build notes and validation</a></p>
+<div class="controls"><label>View <select id="pose"><option>overview</option><option>cobbles</option>
+<option>grass_dirt</option><option>volcano</option></select></label>
+<label>Compare against <select id="reference"><option value="original">Original</option>
+<option value="previous">Before edge treatment</option></select></label>
+<label>Reveal new terrain <input id="slider" type="range" min="0" max="100" value="50"></label></div>
+<p>Left: comparison reference. Right: current terrain. All three versions use the same frozen executable,
+saved viewpoint and corrected map layout. Drag to compare.</p>
+<div class="compare"><img id="before" alt="Comparison reference"><img id="after" alt="Current terrain"></div>
+<h2>Accepted dirt master</h2><a href="reports/dirt_original_previous_new.png"><img style="width:100%"
+src="reports/dirt_original_previous_new.png" alt="Original, previous dirt v4, and new dirt v6 repeated three by three"></a>
+<p>The new dirt removes the conspicuous diagonal clump bands. Fine texture still repeats when a single tile is reused.</p>
+<h2>Flat terrain and game checks</h2><div class="gallery"><figure><a href="edge_treatment/roads_v5.png"><img loading="lazy" src="edge_treatment/roads_v5.png" alt="roads original, before, new edge treatment"></a><figcaption>roads: original / before / new</figcaption></figure><figure><a href="edge_treatment/grass_dirt_v5.png"><img loading="lazy" src="edge_treatment/grass_dirt_v5.png" alt="grass_dirt original, before, new edge treatment"></a><figcaption>grass_dirt: original / before / new</figcaption></figure><figure><a href="edge_treatment/rock_dirt_v5.png"><img loading="lazy" src="edge_treatment/rock_dirt_v5.png" alt="rock_dirt original, before, new edge treatment"></a><figcaption>rock_dirt: original / before / new</figcaption></figure><figure><a href="reports/flat_v5.png"><img loading="lazy" src="reports/flat_v5.png" alt="Six native flat layouts"></a><figcaption>Six native flat layouts</figcaption></figure><figure><a href="reports/oblique_v5.png"><img loading="lazy" src="reports/oblique_v5.png" alt="Four directions, near and far"></a><figcaption>Four directions, near and far</figcaption></figure><figure><a href="reports/corrected_v5.png"><img loading="lazy" src="reports/corrected_v5.png" alt="Corrected New Sorpigal land contexts"></a><figcaption>Corrected New Sorpigal land contexts</figcaption></figure><figure><a href="reports/motion_v5.png"><img loading="lazy" src="reports/motion_v5.png" alt="Anisotropic: sampled movement"></a><figcaption>Anisotropic: sampled movement</figcaption></figure><figure><a href="reports/linear_motion_v5.png"><img loading="lazy" src="reports/linear_motion_v5.png" alt="Bilinear: sampled movement"></a><figcaption>Bilinear: sampled movement</figcaption></figure></div>
+<p><a href="reports/review_v5.json">Review record</a> · <a href="reports/rgb_join_check_v5.json">211 RGB join checks</a> ·
+<a href="reports/capture_manifest_v5.json">Capture hashes and settings</a> ·
+<a href="map_corrections/patch.json">Seven-cell map correction</a></p>
+<p>Flat-pad outer borders and unchanged water edges are excluded. Motion sheets show sampled camera movement;
+they are not a GPU benchmark or a guarantee against shimmer on every renderer.</p>
+<script>const views={"overview": {"original": "captures/v5_original/map_overview.png", "previous": "captures/v5_before_edges/map_overview.png", "current": "captures/v5/map_overview.png"}, "cobbles": {"original": "captures/v5_original/map_cobbles.png", "previous": "captures/v5_before_edges/map_cobbles.png", "current": "captures/v5/map_cobbles.png"}, "grass_dirt": {"original": "captures/v5_original/map_grass_dirt.png", "previous": "captures/v5_before_edges/map_grass_dirt.png", "current": "captures/v5/map_grass_dirt.png"}, "volcano": {"original": "captures/v5_original/map_volcano.png", "previous": "captures/v5_before_edges/map_volcano.png", "current": "captures/v5/map_volcano.png"}}, $=id=>document.getElementById(id);
+function render(){const v=views[$('pose').value];$('before').src=v[$('reference').value];$('after').src=v.current;
+$('after').style.clipPath=`inset(0 0 0 ${100-Number($('slider').value)}%)`;}
+for(const id of ['pose','reference','slider'])$(id).addEventListener('input',render);render();</script></html>

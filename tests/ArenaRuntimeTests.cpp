@@ -3,14 +3,19 @@
 #include "engine/TextTable.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/ArenaRuntime.h"
+#include "game/gameplay/GameplayActorService.h"
 #include "game/maps/IndoorSceneYml.h"
+#include "game/rules/maw/MawRules.h"
 #include "tests/HouseDialogueTestHarness.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <set>
 #include <sstream>
+#include <vector>
 
 namespace
 {
@@ -180,7 +185,7 @@ TEST_CASE("arena opponents stay in their own world at every difficulty and party
                 for (uint32_t randomSeed = 0; randomSeed < 12; ++randomSeed)
                 {
                     const auto challenge = Game::generateArenaChallenge(
-                        monsters, *map.arena, party, Game::ArenaDifficulty(difficulty), randomSeed);
+                        monsters, map, party, Game::ArenaDifficulty(difficulty), randomSeed);
                     REQUIRE(challenge.has_value());
                     const std::array<size_t, 4> minimumCounts = {6, 6, 10, 20};
                     const std::array<size_t, 4> maximumCounts = {8, 12, 20, 20};
@@ -224,7 +229,7 @@ TEST_CASE("arena master offers four difficulties and awards a completed fight ex
             harness.setCurrentMap(map);
             harness.worldRuntime().bindMonsterTable(&monsters);
             harness.worldRuntime().bindMapDeltaData(&mapData);
-            harness.worldRuntime().bindArenaDefinition(&*map.arena);
+            harness.worldRuntime().bindArenaMap(&map);
             for (size_t member = 0; member < harness.party().members().size(); ++member)
             {
                 harness.party().member(member)->level = 20;
@@ -248,6 +253,7 @@ TEST_CASE("arena master offers four difficulties and awards a completed fight ex
             {
                 CHECK_FALSE(actor.proceduralDeathLoot);
                 CHECK_EQ(actor.hostilityType, 4);
+                CHECK_EQ(actor.group, 1u);
                 CHECK_GE(actor.monsterId, world.minimumMonster);
                 CHECK_LE(actor.monsterId, world.maximumMonster);
             }
@@ -288,6 +294,98 @@ TEST_CASE("arena master offers four difficulties and awards a completed fight ex
     }
 }
 
+TEST_CASE("MAW arena bouts past level 100 draw from the twelve types nearest the range (audit OVR2-2-2)")
+{
+    const Game::MonsterTable monsters = arenaMonsters();
+    Game::MawRules rules(Game::RulesetOptions{}, Game::MawMapLevels{});
+    Game::Party party;
+    Game::PartySeed seed = {};
+    seed.members.push_back(Game::Character{});
+    party.seed(seed);
+    party.member(0)->level = 200;
+
+    for (const ArenaWorld &world : Arenas)
+    {
+        CAPTURE(world.world);
+        const Game::MapStatsEntry map = arenaMap(world);
+        const auto typesDrawn = [&](const Game::Party &drawer)
+        {
+            std::set<int16_t> types;
+
+            for (uint32_t randomSeed = 0; randomSeed < 40; ++randomSeed)
+            {
+                const auto challenge = Game::generateArenaChallenge(
+                    monsters, map, drawer, Game::ArenaDifficulty::Lord, randomSeed);
+                REQUIRE(challenge.has_value());
+                types.insert(challenge->monsterIds.begin(), challenge->monsterIds.end());
+            }
+
+            return types.size();
+        };
+        const size_t standard = typesDrawn(party);
+        party.setRules(&rules.gameRules());
+        CHECK(typesDrawn(party) >= std::min<size_t>(6, standard + 2));
+        party.setRules(nullptr);
+    }
+}
+
+TEST_CASE("MAW arena bouts in d42 draw by the Arena's own levels, not the table's")
+{
+    // A level 28 party's Squire bout brought Cyclops Hunters with 27,000 hit points: table level in the Squire range,
+    // six times that in the Arena (MAW before 2f172096; since then the Arena's levels follow the Endless Arena's).
+    const Game::MonsterTable monsters = arenaMonsters();
+    Game::MawRules rules(Game::RulesetOptions{}, Game::MawMapLevels{});
+    Game::Party party;
+    Game::PartySeed seed = {};
+    seed.members.push_back(Game::Character{});
+    party.seed(seed);
+    party.member(0)->level = 28;
+    party.setRules(&rules.gameRules());
+    const Game::MapStatsEntry map = arenaMap(Arenas[2]);
+    // Squire at 28: 14..42. d42 levels before the first Endless Arena bout (zzMaw-Monsters.lua:577-589): a B row at
+    // 12, the first level's second family 2 higher and its third 4; the bout takes the twelve nearest types.
+    const auto distance = [&](int id)
+    {
+        const double base = monsters.findStatsById(int16_t(id))->level;
+        const int familyB = Game::mawMonsterFamily(&monsters, id).row(2);
+        const double familyLevel = monsters.findStatsById(int16_t(familyB))->level;
+        const double levelB = 12 + (familyB == Game::mawArenaWaveMonster(2, monsters) ? 2 : 0)
+            + (familyB == Game::mawArenaWaveMonster(3, monsters) ? 4 : 0);
+        const int level = int(std::lround(std::max(levelB + (base - familyLevel) * 1.2, 5.0)));
+        return std::max({14 - level, level - 42, 0});
+    };
+    std::vector<int> distances;
+
+    for (int id = map.arena->minimumMonsterId; id <= map.arena->maximumMonsterId; ++id)
+    {
+        const Game::MonsterTable::MonsterStatsEntry *pStats = monsters.findStatsById(int16_t(id));
+
+        if (pStats != nullptr && pStats->hitPoints > 0 && !pStats->hasKind(Game::MonsterKind::NoArena)
+            && !pStats->hasKind(Game::MonsterKind::Peasant) && monsters.findById(int16_t(id)) != nullptr)
+        {
+            distances.push_back(distance(id));
+        }
+    }
+    std::sort(distances.begin(), distances.end());
+    REQUIRE_GE(distances.size(), 12);
+    const int farthest = distances[11];
+    CHECK_LE(farthest, 10);
+
+    for (uint32_t randomSeed = 0; randomSeed < 40; ++randomSeed)
+    {
+        CAPTURE(randomSeed);
+        const auto challenge = Game::generateArenaChallenge(
+            monsters, map, party, Game::ArenaDifficulty::Squire, randomSeed);
+        REQUIRE(challenge.has_value());
+
+        for (int16_t id : challenge->monsterIds)
+        {
+            CAPTURE(id);
+            CHECK_LE(distance(id), farthest);
+        }
+    }
+}
+
 TEST_CASE("arena invalid difficulty or unavailable opponent pool cannot begin a challenge")
 {
     const Game::MonsterTable monsters = arenaMonsters();
@@ -296,11 +394,62 @@ TEST_CASE("arena invalid difficulty or unavailable opponent pool cannot begin a 
     seed.members.push_back(Game::Character{});
     party.seed(seed);
     const Game::MapStatsEntry map = arenaMap(Arenas[2]);
-    CHECK_FALSE(Game::generateArenaChallenge(monsters, *map.arena, party, Game::ArenaDifficulty(0), 0));
-    CHECK_FALSE(Game::generateArenaChallenge(monsters, *map.arena, party, Game::ArenaDifficulty(5), 0));
-    Game::MapArenaDefinition onlyPeasants = *map.arena;
-    onlyPeasants.minimumMonsterId = 1;
-    onlyPeasants.maximumMonsterId = 3;
+    CHECK_FALSE(Game::generateArenaChallenge(monsters, map, party, Game::ArenaDifficulty(0), 0));
+    CHECK_FALSE(Game::generateArenaChallenge(monsters, map, party, Game::ArenaDifficulty(5), 0));
+    Game::MapStatsEntry onlyPeasants = map;
+    onlyPeasants.arena->minimumMonsterId = 1;
+    onlyPeasants.arena->maximumMonsterId = 3;
     party.member(0)->level = 6;
     CHECK_FALSE(Game::generateArenaChallenge(monsters, onlyPeasants, party, Game::ArenaDifficulty::Page, 0));
+}
+
+TEST_CASE("arena opponents from hostile factions share a group and never target each other")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assetFileSystem));
+    const Game::MonsterTable &monsters = data.getMonsterTable();
+
+    int16_t firstMonsterId = 0;
+    int16_t secondMonsterId = 0;
+    for (int16_t first = 1; first <= 198 && firstMonsterId == 0; ++first)
+    {
+        for (int16_t second = 1; second <= 198; ++second)
+        {
+            if (monsters.findStatsById(first) != nullptr && monsters.findStatsById(second) != nullptr
+                && monsters.getRelationBetweenMonsters(first, second) > 0)
+            {
+                firstMonsterId = first;
+                secondMonsterId = second;
+                break;
+            }
+        }
+    }
+    REQUIRE_NE(firstMonsterId, 0);
+
+    Game::GameplayActorService service = {};
+    service.bindTables(&monsters, &data.getSpellTable());
+
+    Game::GameplayActorTargetPolicyState attacker = {};
+    attacker.monsterId = firstMonsterId;
+    attacker.hostileToParty = true;
+    attacker.height = 128;
+
+    Game::GameplayActorTargetPolicyState opponent = attacker;
+    opponent.monsterId = secondMonsterId;
+
+    CHECK(service.resolveActorTargetPolicy(attacker, opponent).canTarget);
+
+    attacker.group = 1;
+    opponent.group = 1;
+    CHECK_FALSE(service.resolveActorTargetPolicy(attacker, opponent).canTarget);
+
+    Game::GameplayActorTargetPolicyState summon = {};
+    summon.monsterId = secondMonsterId;
+    summon.group = 1;
+    summon.height = 128;
+    summon.controlMode = Game::GameplayActorControlMode::Enslaved;
+    CHECK(service.resolveActorTargetPolicy(attacker, summon).canTarget);
 }

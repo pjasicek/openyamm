@@ -1,0 +1,171 @@
+{
+ "00 the world of one project": {
+  "result": {
+   "worlds": [
+    {
+     "world": "mm6",
+     "maps": [
+      {
+       "map": "studio06.blv",
+       "kind": "indoor",
+       "role": "rebuild",
+       "name": "The Breakwater Store",
+       "project": 0,
+       "stands_for": "6d01.blv"
+      }
+     ],
+     "links": []
+    }
+   ],
+   "skipped": []
+  }
+ },
+ "01 the world of a project that is not one": {
+  "result": {
+   "worlds": [
+    {
+     "world": "mm6",
+     "maps": [
+      {
+       "map": "studio06.blv",
+       "kind": "indoor",
+       "role": "rebuild",
+       "name": "The Breakwater Store",
+       "project": 0,
+       "stands_for": "6d01.blv"
+      }
+     ],
+     "links": []
+    }
+   ],
+   "skipped": [
+    {
+     "project": 1,
+     "reason": "its project.yml does not read"
+    }
+   ]
+  }
+ },
+ "02 a map number from the studio's band": {
+  "result": {
+   "number": 9400,
+   "range": [
+    9400,
+    9999
+   ],
+   "from": "studio",
+   "taken": 0,
+   "warnings": []
+  }
+ },
+ "03 packed into a mod with its range": {
+  "result": {
+   "id": "breakwater",
+   "files": [
+    "mod.yml",
+    "worlds/mm6/events/maps/studio06.lua",
+    "worlds/mm6/maps/studio06.blv",
+    "worlds/mm6/maps/studio06.cinematics.yml",
+    "worlds/mm6/maps/studio06.scene.yml",
+    "tables/map_stats.txt.append.txt"
+   ],
+   "maps": [
+    {
+     "file": "studio06.blv",
+     "world": "mm6",
+     "kind": "new",
+     "project": "studio06",
+     "map_number": 9306
+    }
+   ],
+   "tables": [
+    "map_stats.txt"
+   ],
+   "warnings": []
+  }
+ },
+ "04 the mods folder": {
+  "result": {
+   "merged": [],
+   "named": [
+    {
+     "id": "breakwater",
+     "name": "The Breakwater",
+     "version": "1.0",
+     "enabled": false,
+     "maps": 1,
+     "map_numbers": [
+      9306
+     ],
+     "map_range": [
+      9300,
+      9309
+     ]
+    }
+   ]
+  }
+ },
+ "05 a map number of the mod": {
+  "result": {
+   "number": 9300,
+   "range": [
+    9300,
+    9309
+   ],
+   "from": "mod:breakwater",
+   "taken": 1,
+   "warnings": []
+  }
+ },
+ "06 a mod named without its folder": {
+  "error": {
+   "code": -32000,
+   "message": "a mod is named in its mods folder: give `mods` with `mod`",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "07 a mod the folder lacks": {
+  "error": {
+   "code": -32000,
+   "message": "no mod nothing in the mods folder",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "08 a mod id out of form": {
+  "error": {
+   "code": -32602,
+   "message": "the params do not match mod.pack: id: 'Bad Id' does not match ^[a-z0-9_]{1,48}$",
+   "data": {
+    "kind": "invalid_params",
+    "issues": [
+     {
+      "path": "id",
+      "message": "'Bad Id' does not match ^[a-z0-9_]{1,48}$"
+     }
+    ]
+   }
+  }
+ },
+ "09 a project that is not one": {
+  "error": {
+   "code": -32000,
+   "message": "the project does not read as a project",
+   "data": {
+    "kind": "not_a_project",
+    "issues": [
+     {
+      "severity": "error",
+      "code": "project",
+      "file": "",
+      "path": "",
+      "message": "the project does not read as a project"
+     }
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise-object-edit texture paint and material mask atlas. Inputs: paint_mask_guide.png is the edit target, design_reference.png is the approved material/detail reference, icon_x8.png is the original colour reference (ignore magenta background).\n# Keg of Strange Brew: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10249/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: source-faithful keg on integral cradle.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: source-faithful keg on integral cradle\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10249/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nUse exactly the guide's orthographic geometry and silhouettes. The barrel staves, end panels, top bung and integral wooden cradle are wood: warm aged oak with grain in paint rows, pure yellow in mask rows. Both metal hoops and the metal spigot with its mounting hardware are aged metal: muted brass hoops and dark iron spigot in paint rows, pure red in mask rows. Preserve the ten views and two empty cells. Request output 1536x2048 with real alpha transparency.\nCORRECTION, highest priority: silhouettes must exactly match the clean guide. Absolutely no colored speckles, splashes, stray pixels, halos, or texture outside object silhouettes. Empty space must be completely transparent. Mask rows must be perfectly solid red and yellow only, with no gradients, grain, contours, or lighting. The central bung in the TOP mask view is WOOD, so YELLOW, not red. Use the original guide directly, not any previous generated output.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0e-9b92-7142-b0e4-640238f0f39a/exec-07c40425-ef46-4665-8209-63e7df75fba3.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10249/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "generation_count": 2,
+  "validation_notes": "Corrective result still has stray colored pixels outside silhouettes and shading in material masks; preserved raw as requested.",
+  "size": [
+    1086,
+    1448
+  ],
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10249/paint_mask_guide.png",
+      "sha256": "9b22d367627822783aa01f3b3e19d11fc87aaef54f29a9fb015041b0f579801d"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10249/design_reference.png",
+      "sha256": "3a89578e84480ec95f4de534a62aaaa22ab56188ca2233f42f29596b96a3c082"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10249/icon_x8.png",
+      "sha256": "4f5a8932a112658288d92f6bf047a6d3a72f36889ba9ede345b4efbef1717e57"
+    }
+  ]
+}

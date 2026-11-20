@@ -1,0 +1,56 @@
+id: mm7.nighon_tunnels_faction_alerts
+title: "Nighon Tunnels: hitting a gog leaves the dwarves and warlocks of its spawn group friendly"
+world: mm7
+mode: faithful
+tags: [mm7, actors, regression]
+steps:
+  - note:
+      text: >-
+        Gogs, dwarves and warlocks share spawn group 51 here. A party hit alerts only actors of the victim's relation
+        entry (MM8 0x4391ca), not its event group, and a hit on a hostile gog rouses no friendly actor. Spawn
+        counts and variants are random, so the checks count every dwarf (229-231) and warlock (418-420) on the map.
+  - new_game_flow: {start_map: 7out01.odm}
+  - load_map: {map: 7d35.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 229, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 230, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 231, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 418, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 419, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 420, hostile: true, max: 0}
+  # A gog among the dwarves of the group 51 spawn point at (19328, 12160, -640); spawned actors are hostile.
+  - spawn_actor: {monster_id: 274, x: 19328, y: 12160, z: -640, group: 51}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, hostile_to_party: true}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 229, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 230, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 231, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 418, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 419, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 420, hostile: true, max: 0}
+  # Actor 0 is always a warlock of the first spawn point. Hitting it turns it, never the dwarves of another class.
+  - damage_actor: {actor_index: 0, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: true}
+  - assert:
+      actor_count: {monster_id: 229, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 230, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 231, hostile: true, max: 0}

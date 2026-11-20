@@ -1,0 +1,34 @@
+format_version: 1
+kind: "outdoor_scene_overlay"
+source:
+  geometry_file: "7out04.odm"
+# The Tularean Forest: a soft green mist on the forest floor and thinly on the two higher roads (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [150, 170, 146]
+      base_height: 995
+      depth: 300
+      falloff_height: 90
+      visibility: 1350
+      max_opacity: 0.6
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]
+    - color_rgb: [150, 170, 146]
+      base_height: 1445
+      depth: 160
+      falloff_height: 90
+      visibility: 2250
+      max_opacity: 0.5
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]
+    - color_rgb: [150, 170, 146]
+      base_height: 2341
+      depth: 160
+      falloff_height: 90
+      visibility: 2250
+      max_opacity: 0.5
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]

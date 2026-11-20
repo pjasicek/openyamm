@@ -1,0 +1,49 @@
+{
+  "family": "wdm",
+  "title": "MM6 Flying Demon",
+  "descriptor_ids": [
+    499,
+    500,
+    501
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 684,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "standing_reference_frame": 0,
+  "separate_corpse_batch": true,
+  "description": "Original MM6 flying demon A: very tall slim wiry humanoid demon with mottled dark purple skin, a gray segmented chest and abdomen, two small curved ivory head horns, pale shoulder and forearm spikes, huge thin dark gray-purple bat wings, very long hanging forearms and three long curved ivory claw fingers, long feet with ivory talons. Tiny cyan/blue eyes. Keep the native dark nearly black wing lighting, uneven original mottling, long thin proportions, leg and hand perspective. No bulky muscular redesign, armor, clothes, weapons, extra wings or modern illustration style.",
+  "regions": "Purple body, darker wing membranes, pale horns/spikes/claws and eyes have separate native palette changes; gray abdomen stays neutral. Generate purple base once and derive ochre and dark red variants.",
+  "variant_names": {
+    "684": "Flying Demon A / purple",
+    "685": "Flying Demon B / ochre",
+    "683": "Flying Demon C / dark red"
+  },
+  "extra_sources": {
+    "m496xa0": {
+      "path": "assets_dev/engine/sprites/m496Xa0.bmp",
+      "palette": 496
+    },
+    "m496xa1": {
+      "path": "assets_dev/engine/sprites/m496Xa1.bmp",
+      "palette": 496
+    },
+    "m496xa2": {
+      "path": "assets_dev/engine/sprites/m496Xa2.bmp",
+      "palette": 496
+    },
+    "m496xa3": {
+      "path": "assets_dev/engine/sprites/m496Xa3.bmp",
+      "palette": 496
+    },
+    "m496xa4": {
+      "path": "assets_dev/engine/sprites/m496Xa4.bmp",
+      "palette": 496
+    }
+  },
+  "extra_palette_paths": {
+    "496": "assets_dev/worlds/mm8/textures/pal496.act"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

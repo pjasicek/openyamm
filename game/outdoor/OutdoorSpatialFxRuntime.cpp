@@ -23,6 +23,12 @@ namespace
 constexpr float DecorationEmitterCooldownSeconds = 0.045f;
 constexpr float DecorationSmokeEmitterCooldownSeconds = 0.24f;
 constexpr float SpatialFxRefreshIntervalSeconds = 1.0f / 60.0f;
+// Full shade by day lights the torch at this share of its night strength: the sky still lights the shade.
+constexpr float TorchShadeStrength = 0.5f;
+// Per spatial refresh (60 a second): eases the torch in and out over about a quarter second.
+constexpr float TorchShadeSmoothing = 0.07f;
+// At most one sample per spatial refresh however fast the party moves.
+constexpr float TorchShadeResampleDistance = 16.0f;
 constexpr float ShadowHeightFadeDistance = 512.0f;
 
 enum class DecorationLightPulseStyle
@@ -180,6 +186,9 @@ void OutdoorSpatialFxRuntime::reset()
     m_emitterSequenceBySourceKey.clear();
     m_spatialRefreshAccumulatorSeconds = 0.0f;
     m_hasSpatialSnapshot = false;
+    m_partyTorchShade = 0.0f;
+    m_partyTorchShadeTarget = 0.0f;
+    m_partyTorchShadeSampled = false;
 }
 
 bool OutdoorSpatialFxRuntime::beginFrame(OutdoorGameView &view, float deltaSeconds)
@@ -254,8 +263,45 @@ void OutdoorSpatialFxRuntime::syncPartyTorchLight(OutdoorGameView &view)
     }
 
     const Party &party = view.m_pOutdoorPartyRuntime->party();
+
+    if (party.partyBuff(PartyBuffId::TorchLight) == nullptr)
+    {
+        m_partyTorchShade = 0.0f;
+        m_partyTorchShadeSampled = false;
+        return;
+    }
+
+    const OutdoorWorldRuntime::AtmosphereState &atmosphere = view.m_pOutdoorWorldRuntime->atmosphereState();
+    const OutdoorLightingData *pLighting =
+        view.m_pOutdoorMapData != nullptr && view.m_pOutdoorMapData->lightingData
+        ? &*view.m_pOutdoorMapData->lightingData : nullptr;
+    const std::array<float, 3> partyPosition = {view.m_cameraTargetX, view.m_cameraTargetY, view.m_cameraTargetZ};
+    const float movedX = partyPosition[0] - m_partyTorchShadePosition[0];
+    const float movedY = partyPosition[1] - m_partyTorchShadePosition[1];
+    const float movedZ = partyPosition[2] - m_partyTorchShadePosition[2];
+    const float movedSquared = movedX * movedX + movedY * movedY + movedZ * movedZ;
+
+    // By day the torch lights the party's shade: the baked probes' sun visibility, sampled again only after the party
+    // has moved some way, as the shade is static geometry.
+    if (pLighting != nullptr && !pLighting->probes.empty()
+        && (!m_partyTorchShadeSampled || movedSquared > TorchShadeResampleDistance * TorchShadeResampleDistance))
+    {
+        // The nearest probes without line-of-sight tests: a leak through a wall only eases the torch in or out.
+        const std::optional<OutdoorLightingData::Probe> probe = pLighting->sampleProbe(partyPosition,
+            [](const std::array<float, 3> &)
+            {
+                return true;
+            });
+        m_partyTorchShadeTarget = probe ? std::clamp(1.0f - probe->sunVisibility, 0.0f, 1.0f) : 0.0f;
+        m_partyTorchShadePosition = partyPosition;
+        m_partyTorchShadeSampled = true;
+    }
+
+    m_partyTorchShade += (m_partyTorchShadeTarget - m_partyTorchShade) * TorchShadeSmoothing;
+    const float darkness = std::max(atmosphere.isNight ? 1.0f : atmosphere.fogDensity,
+        m_partyTorchShade * TorchShadeStrength);
     const std::optional<GameplayTorchLight> torchLight =
-        resolveGameplayTorchLight(party, true, view.m_pOutdoorWorldRuntime->atmosphereState().isNight);
+        resolveGameplayTorchLight(party, true, darkness, view.m_gameSettings.warmTorchLight);
 
     if (!torchLight)
     {
@@ -327,7 +373,7 @@ void OutdoorSpatialFxRuntime::syncDecorationEmitters(OutdoorGameView &view)
     const DecorationBillboardSet &billboardSet = *view.m_outdoorDecorationBillboardSet;
     for (const DecorationBillboard &billboard : billboardSet.billboards)
     {
-        if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex))
+        if (OutdoorInteractionController::isDecorationEntityHidden(view, billboard.entityIndex))
         {
             continue;
         }

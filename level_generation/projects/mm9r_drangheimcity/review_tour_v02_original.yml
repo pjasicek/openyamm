@@ -1,0 +1,228 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_drangheimcity/review/v02_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_west_gate_start
+  position:
+  - 10240
+  - -4178
+  - 1002
+  yaw: 0.0
+  pitch: 0.0
+- name: s02_hill_road
+  position:
+  - 11264
+  - -4864
+  - 1002
+  yaw: -0.4636
+  pitch: 0.0
+- name: s03_hill_to_low_town
+  position:
+  - 13568
+  - -4608
+  - 1002
+  yaw: 0.1107
+  pitch: 0.0
+- name: s04_temple_front
+  position:
+  - 15401
+  - -4224
+  - 510
+  yaw: -1.5708
+  pitch: 0.1047
+- name: s05_inn_front
+  position:
+  - 17792
+  - -3625
+  - 347
+  yaw: 3.1416
+  pitch: 0.0
+- name: s06_well_square
+  position:
+  - 16896
+  - -1792
+  - 348
+  yaw: -0.7982
+  pitch: 0.0
+- name: s07_north_plaza
+  position:
+  - 16128
+  - -768
+  - 348
+  yaw: 0.0
+  pitch: 0.0
+- name: s08_northeast
+  position:
+  - 18944
+  - 768
+  - 348
+  yaw: -0.4636
+  pitch: 0.0
+- name: s09_east_street
+  position:
+  - 20864
+  - -3584
+  - 347
+  yaw: -1.5708
+  pitch: 0.0
+- name: s10_town_hall_front
+  position:
+  - 19415
+  - -3200
+  - 348
+  yaw: -1.5708
+  pitch: 0.1047
+- name: s11_tower
+  position:
+  - 18560
+  - -7168
+  - 348
+  yaw: 0.6872
+  pitch: 0.1396
+- name: s12_south_yard
+  position:
+  - 17920
+  - -8704
+  - 348
+  yaw: -0.6202
+  pitch: 0.0
+- name: s13_training_yard
+  position:
+  - 20864
+  - -9216
+  - 348
+  yaw: -2.5536
+  pitch: 0.0
+- name: s14_south_low
+  position:
+  - 16896
+  - -8448
+  - 348
+  yaw: 2.4469
+  pitch: 0.0
+- name: s15_klusos_front
+  position:
+  - 14531
+  - -7808
+  - 1453
+  yaw: -1.5708
+  pitch: 0.1047
+- name: s16_hill_houses
+  position:
+  - 11392
+  - -8320
+  - 1453
+  yaw: -2.4243
+  pitch: 0.0
+- name: s17_hill_south
+  position:
+  - 12800
+  - -9856
+  - 1453
+  yaw: 2.6779
+  pitch: 0.0
+- name: s18_town_from_hill
+  position:
+  - 13312
+  - -3840
+  - 1002
+  yaw: 0.2709
+  pitch: -0.0698
+- name: s19_north_wall_walk
+  position:
+  - 16768
+  - -8832
+  - 348
+  yaw: -2.3491
+  pitch: 0.0
+- name: s20_west_hill
+  position:
+  - 7424
+  - -9728
+  - -777
+  yaw: 1.1071
+  pitch: 0.0
+- name: i01_inn
+  position:
+  - 16435
+  - -3328
+  - 431
+  yaw: 1.8623
+  pitch: 0.0
+- name: i02_temple
+  position:
+  - 15401
+  - -5632
+  - 434
+  yaw: -1.5708
+  pitch: 0.0
+- name: i03_town_hall
+  position:
+  - 19415
+  - -4864
+  - 431
+  yaw: -1.5708
+  pitch: 0.0
+- name: i04_blacksmith
+  position:
+  - 18688
+  - -1920
+  - 370
+  yaw: -0.6435
+  pitch: 0.0
+- name: i05_bank
+  position:
+  - 21606
+  - -2944
+  - 370
+  yaw: 2.5076
+  pitch: 0.0
+- name: i06_training_hall
+  position:
+  - 19584
+  - -10240
+  - 370
+  yaw: -0.245
+  pitch: 0.0
+- name: i07_warehouse
+  position:
+  - 11008
+  - -6144
+  - 2069
+  yaw: -2.1588
+  pitch: 0.0
+- name: i08_spell_shop
+  position:
+  - 13568
+  - -6400
+  - 1619
+  yaw: -0.8298
+  pitch: 0.0
+- name: i09_settlers_house_north
+  position:
+  - 18304
+  - -128
+  - 370
+  yaw: 0.3805
+  pitch: 0.0
+- name: i10_settlers_house_hill
+  position:
+  - 13696
+  - -3200
+  - 1025
+  yaw: 1.1903
+  pitch: 0.0
+- name: i11_small_house
+  position:
+  - 10496
+  - -8704
+  - 1906
+  yaw: -2.0344
+  pitch: 0.0
+- name: i12_mayor_upstairs
+  position:
+  - 19328
+  - -5760
+  - 1476
+  yaw: 2.5213
+  pitch: 0.0

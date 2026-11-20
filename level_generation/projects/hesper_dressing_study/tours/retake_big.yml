@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/retake_big
+settle_seconds: 2.0
+exit: true
+shots:
+- name: huge_s5_b
+  position:
+  - -2881
+  - 652
+  - 1121
+  yaw: 5.89
+  pitch: -0.2
+- name: hall_s1_b
+  position:
+  - -2657
+  - 1155
+  - 1
+  yaw: 0.0
+  pitch: -0.15

@@ -1,0 +1,11 @@
+# Knut Fastmouth's rant (KnutSpeech.scr, Ake.scr; council.py): the party near Knut starts it; key 114 at :Speak.
+id: mm9r.thronheimcity.knut_rant
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: thronheimcity.blv}
+- advance_runtime: {seconds: 8}
+- assert: {qbit_clear: [90114]}
+- set_pose: {map: thronheimcity.blv, x: 8400, y: -1100, z: 3114, yaw: -1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 6}
+- assert: {qbit_set: [90114]}

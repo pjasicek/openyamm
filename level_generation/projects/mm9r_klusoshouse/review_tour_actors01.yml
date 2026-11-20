@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_klusoshouse/review/actors01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a01_patrols_central
+  position:
+  - -384
+  - 282
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: a02_count
+  position:
+  - -256
+  - 2253
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: a03_sleepers_upper
+  position:
+  - -164
+  - 1280
+  - 452
+  yaw: -1.5708
+  pitch: 0.0

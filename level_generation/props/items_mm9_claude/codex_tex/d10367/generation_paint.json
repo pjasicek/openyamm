@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png as the exact spatial template. Produce one transparent PNG 1536x2048 (3:4). Preserve all ten object silhouettes, their exact position, size, orientation, gaps and openings. Three columns and four rows of 512px cells. Five views in rows 1-2 repeat in rows 3-4; column 3 rows 2 and 4 remain transparent. Follow the actual guide geometry even when its named views seem unusual; do not replace it with the reference perspective.\nRows 1-2: paint ONLY existing grey surfaces with unlit base colour. Simple tan-gold quilted CLOTH torso tube with diamond stitching, pale ivory CLOTH shoulder straps, knots and loose side ties. No sleeves or collar. Use design_reference.png for fine quilted textile weave, diamond stitching and cloth detail, and icon_x8.png for tan-gold and pale cloth colours (magenta is background only). Quilt the exterior and visible inner lining and base consistently with geometry. No directional lighting, cast shadows, ambient occlusion, highlights, reflections or gradients caused by lighting. No redesign.\nRows 3-4: MATERIAL MASK, fill every object surface uniformly PURE BLUE #0000FF because ALL parts are cloth including quilting, lining, straps, knots and cords. Absolutely flat solid pure blue, no shading, textures, outlines or internal colour blends. Keep every gap and background transparent, preserving exactly the silhouettes of the repeated guide views. Other material colours would be red metal, green leather/fur, black gems/glass, but this item contains none of those materials.\nNo text, ground, extra objects, aura or outlines. Paint grey objects only; never enlarge, move, rotate, redraw or redesign them. The transparent canvas and all guide holes must remain transparent. Inputs: paint_mask_guide.png = edit target / exact geometry; design_reference.png = material/detail reference; icon_x8.png = colour reference.\nCORRECTION PRIORITY: Background must be perfectly transparent with absolutely NO scattered pixels, speckles, noise, brush marks or blue clouds outside the guide silhouettes. The bottom five masks must have clean precise edges and transparent holes between straps and body, exactly as guide. Flat pure blue only within the shapes. Do not fill holes or include any background in masks.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad10-a1ac-7232-92a5-4ed4efc2dbbf/exec-11e73fe4-04be-4c57-8424-391e9889f894.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10367/paint_mask_guide.png",
+      "sha256": "d984d80c87268aae9536493cbf636aad68d756be75996676541d59e34e8e82e9"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10367/design_reference.png",
+      "sha256": "ed364dff38d8b929174698816688c532fe4113b1c9267c3a889a02b83a5348d5"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10367/icon_x8.png",
+      "sha256": "ff549a728d48a9a73ed1e928f42c4b4af63c4cb650c79930a8663d8a3f8cdb27"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10367/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: stray pixels outside silhouettes remain; raw output preserved without processing."
+}

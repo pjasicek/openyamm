@@ -738,7 +738,11 @@ std::vector<uint32_t> NpcDialogTable::getNpcIdsForHouse(
             }
         }
 
-        if (effectiveHouseId == houseId)
+        const auto extraIt = m_extraHouses.find(npcId);
+
+        if (effectiveHouseId == houseId
+            || (extraIt != m_extraHouses.end()
+                && std::find(extraIt->second.begin(), extraIt->second.end(), houseId) != extraIt->second.end()))
         {
             npcIds.push_back(npcId);
         }
@@ -746,6 +750,16 @@ std::vector<uint32_t> NpcDialogTable::getNpcIdsForHouse(
 
     std::sort(npcIds.begin(), npcIds.end());
     return npcIds;
+}
+
+void NpcDialogTable::setExtraHouses(std::unordered_map<uint32_t, std::vector<uint32_t>> extraHouses)
+{
+    m_extraHouses = std::move(extraHouses);
+}
+
+const std::unordered_map<uint32_t, std::vector<uint32_t>> &NpcDialogTable::extraHouses() const
+{
+    return m_extraHouses;
 }
 
 std::optional<std::string> NpcDialogTable::getNewsText(uint32_t newsId) const

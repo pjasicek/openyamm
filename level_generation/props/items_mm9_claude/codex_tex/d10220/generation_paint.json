@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit target: paint_mask_guide.png (first input); design_reference.png is material/detail reference; icon_x8.png is colour reference only. Follow this brief exactly:\n\n# Prize Plate: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10220/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: A polished silver steel breastplate of overlapping horizontal lames with a central ridge, a brass collar, brass shoulder plates, each shoulder plate set with a small bunch of bright red feather plumes, and a brass hem rim..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A polished silver steel breastplate of overlapping horizontal lames with a central ridge, a brass collar, brass shoulder plates, each shoulder plate set with a small bunch of bright red feather plumes, and a brass hem rim.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10220/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nReturn the edited atlas only. Preserve the guide's exact orthographic projections, including the sideways views and looking-down openings; do not replace these with upright presentation views. Treat feather plumes as blue organic/hair-like material in the mask, while painting them bright red in the paint rows. All metal is pure red in the mask. Background and all existing transparent holes remain transparent.\nCRITICAL CORRECTION: The first attempt had scattered red noise clouds outside the silhouettes. Absolutely no stray marks, noise, red speckle, coloured fog or pixels outside the original guide silhouettes. Preserve exact original alpha boundaries and all holes. Mask rows must be clean solid red metal silhouettes with solid blue feathers, no shaded red. Paint only within existing guide alpha. Preserve empty cells fully transparent.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10220/paint_mask_guide.png",
+      "sha256": "b327d953aff5be4a211b2d39322a5772390b1cf93b1e87480873e6503dfe3a4e"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10220/design_reference.png",
+      "sha256": "566804c6067ee704d95cb3e465be61ed9519c551e7ca2bff2015f55f1fba26b7"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10220/icon_x8.png",
+      "sha256": "a74ed9af0b0c3d02c990cf439182852addb2a8713bd7ab44987ba4542915d60a"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0b-8e0e-7b32-b409-bc04e1015edc/exec-97b68aa5-c65d-41c1-84f9-8433ce8329bb.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10220/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: layout retained, but stray mask pixels remain outside silhouettes; not fully compliant with brief.",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

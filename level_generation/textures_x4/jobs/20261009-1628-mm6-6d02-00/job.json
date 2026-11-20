@@ -1,0 +1,657 @@
+{
+ "id": "20261009-1628-mm6-6d02-00",
+ "world": "mm6",
+ "maps": [
+  "6d02.blv",
+  "6d14.blv",
+  "6d20.blv",
+  "6d16.blv"
+ ],
+ "created": "2026-10-09T14:28:25+00:00",
+ "textures": [
+  "mm6/stain512",
+  "mm6/bemdk2",
+  "mm6/bemdk5",
+  "mm6/bemdk16d",
+  "mm6/crsmdr1",
+  "mm6/crsmdr2",
+  "mm6/vlcwl1lg",
+  "mm6/ch3bakb",
+  "mm6/ch3frle",
+  "mm6/ch3frntb",
+  "mm6/ch3frre",
+  "mm6/ch3side",
+  "mm6/ch3topb",
+  "mm6/ch3tople",
+  "mm6/ch3topre",
+  "mm6/ch4topv",
+  "mm6/ch4tplev",
+  "mm6/ch4tprev",
+  "mm6/cvdor1",
+  "mm6/vlcflora",
+  "mm6/d8wldsp1",
+  "mm6/d8wldsp2",
+  "mm6/d8dore",
+  "mm6/d8wlbsp6"
+ ],
+ "requests": {
+  "mm6/stain512": {
+   "name": "stain512",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished marble checkerboard floor of alternating dark brown and pale grey-white squares with a pale patch of coloured stained-glass window light falling across it, copy the composition exactly",
+   "notes": {
+    "2": "Exactly 16 by 16 checker squares, every square the same bevelled marble style across the whole floor; no broken or glitched squares along the bottom edge; tile seamlessly. Keep the coloured stained-glass light pattern as in the reference.",
+    "3": "Copy the checkerboard exactly: same cell size, positions and phase as the reference, cells aligned to the tile edges and complete along the bottom row; keep the stained-glass picture and its bright sky panes as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cekr4"
+     ],
+     "fraction": 0.024
+    },
+    "2": {
+     "sources": [
+      "mm6/cekr4"
+     ],
+     "fraction": 0.024
+    },
+    "3": {
+     "sources": [
+      "mm6/cekr4"
+     ],
+     "fraction": 0.024
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ],
+    "3": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ]
+   }
+  },
+  "mm6/bemdk2": {
+   "name": "bemdk2",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown polished wood beam with long straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bdksh32a",
+      "mm6/bdksh16b"
+     ],
+     "fraction": 0.679
+    }
+   }
+  },
+  "mm6/bemdk5": {
+   "name": "bemdk5",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown polished wood beam with long straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bdksv32b"
+     ],
+     "fraction": 0.484
+    }
+   }
+  },
+  "mm6/bemdk16d": {
+   "name": "bemdk16d",
+   "versions": [],
+   "material": "dark red-brown polished wood beam with long straight grain",
+   "notes": {}
+  },
+  "mm6/crsmdr1": {
+   "name": "crsmdr1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "narrow weathered blue-grey iron-clad door slab with a riveted stone-grey metal frame and a small rectangular latch plate, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crsmdr2": {
+   "name": "crsmdr2",
+   "versions": [
+    1
+   ],
+   "material": "narrow dark iron door covered in rough hammered black-and-bronze metal relief, riveted bronze frame and a small square lock plate in the centre, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcwl1lg": {
+   "name": "vlcwl1lg",
+   "versions": [
+    1
+   ],
+   "material": "rough dark volcanic rock wall, brown-black with reddish and greenish mineral speckles",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch3bakb": {
+   "name": "ch3bakb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete back face of an ornate treasure chest: dark polished walnut wood panel between gilded gold bands with fine ornamental borders along top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     8
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/ch3frre",
+     "left": "mm6/ch3frle"
+    }
+   }
+  },
+  "mm6/ch3frle": {
+   "name": "ch3frle",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "plain narrow gilded gold border strip from the left edge of an ornate treasure chest front, small coloured jewel studs",
+   "notes": {
+    "3": "Reproduce the reference layout: a gold mosaic border along the top, left and bottom with square corner studs around a dark wood inset panel; no vertical jewelled pilaster.",
+    "4": "Mosaic (not smooth) gold bands at top and bottom of the reference thickness and a wide mosaic left border; green-grey studs at both left inset corners; the dark wood panel spans only from about 27% to 81% of the height; no diamond and no red gem.",
+    "5": "Copy the reference exactly at its proportions: a gold mosaic band across the top quarter with a green-grey stud at the inner corner, a wide gold mosaic border down the left, a gold mosaic band across the bottom fifth with a stud at the inner corner, and the dark wood inset panel only between them; no smooth gold frame, no diamond, no red gem.",
+    "6": "Top quarter: mosaic band over the top 13% of the height, a thin dark line, then a solid gold strip with a stud at the inner corner ending at 26%; the dark wood panel starts only below 26%; keep the left border and bottom band as now.",
+    "7": "Rebuild the top 26% of the height exactly as in the reference: a mosaic band over the top 13%, a thin dark line, then a solid gold strip with a stud at the inner corner ending at 26%; the dark wood panel starts only below 26%; no emerald at the top corner."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/ch3frntb"
+    },
+    "3": {
+     "right": "mm6/ch3frntb"
+    },
+    "4": {
+     "right": "mm6/ch3frntb"
+    },
+    "5": {
+     "right": "mm6/ch3frntb"
+    },
+    "6": {
+     "right": "mm6/ch3frntb"
+    },
+    "7": {
+     "right": "mm6/ch3frntb"
+    }
+   },
+   "ref_blur": {
+    "5": 0.5,
+    "6": 0.5,
+    "7": 0.4
+   },
+   "copy_from": {
+    "id": "mm6/ch3frnt",
+    "dx": 0,
+    "dy": 0,
+    "mirror": false
+   }
+  },
+  "mm6/ch3frntb": {
+   "name": "ch3frntb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete front face of an ornate treasure chest: dark polished walnut wood panel between gilded gold bands with fine ornamental borders, a gold hasp with a red jewel hanging from the top centre, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch3frre": {
+   "name": "ch3frre",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "right end of an ornate treasure chest front: dark polished wood panel framed by a riveted gold top band with a gold scroll band below it and a gold scroll band at the bottom, closed on the right by a vertical studded gold frame strip with small jewels at its corners",
+   "notes": {
+    "3": "Copy the composition exactly: mirror the left end piece, a vertical gold frame strip with round studs along its length and jewels at the top-right and bottom-right corners; the gold top and bottom bands of the neighbouring chest front continue across the left edge at the same heights.",
+    "4": "Continue the neighbouring chest front seamlessly across the left edge: its gold scroll band just below the top band, and the matching band above the bottom band, run across this piece to the right-hand gold frame at the same heights; the dark wood panel sits inside these bands; jewels at the top-right and bottom-right corners as in the reference.",
+    "5": "Copy the reference exactly: a vertical gold frame strip with round studs runs down the right part of this piece from top to bottom, with jewels near its top and bottom; dark wood only in the narrow left part. No bright or dark line along the outer right edge.",
+    "6": "Copy the reference exactly: the gold bands of the neighbouring chest front continue across the left edge at the same heights into a vertical gold frame strip with round studs on the right, jewels near its top and bottom. No dark line along the top or bottom edge.",
+    "7": "Copy the reference exactly: the gold top band and the gold scroll band just below it, and the gold bottom band, run across the whole width from the left edge to the vertical studded gold frame strip on the right, at the same heights as the neighbouring chest front; dark wood only between these bands; red jewels at the top-right and bottom-right corners. No dark line along the top edge.",
+    "8": "Copy the reference exactly: the gold top band, the gold scroll band just below it and the bottom gold band continue the neighbouring chest front across the left edge at exactly the same heights; the vertical studded gold strip on the right joins them, with jewels at its top and bottom corners; dark wood only between the bands.",
+    "9": "Copy the band positions exactly: the gold top frieze, scroll band and bottom band at the same heights as the reference so they continue from the chest front on the left."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "9": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/ch3frntb"
+    },
+    "3": {
+     "left": "mm6/ch3frntb"
+    },
+    "4": {
+     "left": "mm6/ch3frntb"
+    },
+    "5": {
+     "left": "mm6/ch3frntb"
+    },
+    "6": {},
+    "7": {
+     "left": "mm6/ch3frntb"
+    },
+    "8": {
+     "left": "mm6/ch3frntb"
+    },
+    "9": {
+     "left": "mm6/ch3frntb"
+    }
+   },
+   "roll": {
+    "6": [
+     0,
+     26
+    ],
+    "7": [
+     0,
+     26
+    ]
+   },
+   "ref_blur": {
+    "9": 0.8
+   }
+  },
+  "mm6/ch3side": {
+   "name": "ch3side",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ornate treasure chest side: dark polished walnut wood panel framed by a gilded gold border with coloured jewel corner studs and a dark iron carrying handle in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/ch3topb": {
+   "name": "ch3topb",
+   "versions": [
+    1
+   ],
+   "material": "one complete top face of an ornate treasure chest: embossed gold relief of a central chalice flanked by winged figures and scrolling foliage, gilded ornamental borders top and bottom, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch3tople": {
+   "name": "ch3tople",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow gilded gold border strip from the left edge of an ornate treasure chest lid, small coloured jewel studs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch3topre": {
+   "name": "ch3topre",
+   "versions": [],
+   "material": "plain narrow gilded gold border strip from the right edge of an ornate treasure chest lid, small coloured jewel studs",
+   "notes": {}
+  },
+  "mm6/ch4topv": {
+   "name": "ch4topv",
+   "versions": [],
+   "material": "one complete top face of an iron-banded chest: four red-orange wooden planks separated by riveted steel-grey iron bands",
+   "notes": {}
+  },
+  "mm6/ch4tplev": {
+   "name": "ch4tplev",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow iron-banded chest lid edge strip: red-orange wooden plank with riveted steel-grey iron band",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch4tprev": {
+   "name": "ch4tprev",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow iron-banded chest lid edge strip: red-orange wooden plank with riveted steel-grey iron band",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cvdor1": {
+   "name": "cvdor1",
+   "versions": [
+    1
+   ],
+   "material": "grey stone cave door slab with a raised border, rough chiselled surface and a small square stone knob in the centre, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcflora": {
+   "name": "vlcflora",
+   "versions": [
+    1
+   ],
+   "material": "brown lumpy packed earth and rounded stone cave floor, dusty and uneven",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wldsp1": {
+   "name": "d8wldsp1",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown stone brick wall in horizontal bands of small bricks separated by projecting dark crenellated stone courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wldsp2": {
+   "name": "d8wldsp2",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown stone brick wall with a projecting crenellated course at top and a framed pale stone relief panel of a warrior driving a horse-drawn chariot, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wldsp1"
+     ],
+     "fraction": 0.268
+    }
+   }
+  },
+  "mm6/d8dore": {
+   "name": "d8dore",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-grey weathered metal door panel with a riveted bronze frame and a rusty red iron bar latch across the lower part, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wlbsp6": {
+   "name": "d8wlbsp6",
+   "versions": [
+    1
+   ],
+   "material": "grey rough stone block wall with a narrow vertical slit window recess in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlb",
+      "mm6/d8wlble"
+     ],
+     "fraction": 0.83
+    }
+   }
+  }
+ }
+}

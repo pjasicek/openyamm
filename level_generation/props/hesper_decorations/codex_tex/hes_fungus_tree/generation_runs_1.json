@@ -1,0 +1,206 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated outputs retained; exact dimension and silhouette requirements unmet after one corrective regeneration per view. selected means best available, not acceptance.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Create one 1024 x 1024 transparent PNG, a texture-source albedo painting of the exact front orthographic 3D-model guide. Input 1 guide_front.png is the EDIT TARGET and absolute authority for every pixel of silhouette, all shape edges, openings, position, size, camera and framing. Input 2 design_reference.png is ONLY the material and colour reference, never the geometry or camera. Paint directly over input 1 without moving, enlarging, shrinking, rounding or redesigning any shape. Preserve its alpha silhouette exactly, including polygonal edges and every hole. Keep the entire object and margins in exactly their original positions. Pale cream fungus flesh with soft ochre speckles; muted violet gills following the existing cap undersides into pale cream stems; white prefab composite planter with an ochre horizontal band; dark soil only where visible in guide; dark lamp pipe with a little brass at its existing fittings and orange-cream lamp face. Keep the front view's flat planter front and the guide's three cap placements, not the perspective design reference. LIGHTING: texture source ALBEDO, even flat shadowless viewer light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Gill markings are surface colour, not deep black shadows. Glowing portions painted at their glowing colour without light spilling on surroundings. No background, no floor, no added objects, no text. Return native 1024 x 1024, unresized, real transparency.",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by correction, which restores the small basal opening. Wrong native dimensions and silhouette drift.",
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1604d-d0b9-78f1-b3f7-c8a2d821ebb2/exec-068de051-2565-4cb8-8f14-068cf07b1f58.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "8e7651fc69c3b5cd82b872c66c35d8866bb7cd806eb8fa33f7150e891f4de037"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output_sha256": "984c38071d692a89fa6e593ea541840bde1a7c600658c5a12ac37788248a26c8",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1226,
+          1204
+        ],
+        "guide_alpha_bbox": [
+          162,
+          66,
+          862,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_visual_review": "Requested palette present; front includes cream flesh, violet gills, white composite, ochre band and brass lamp.",
+        "lighting_visual_review": "Residual shading in gills, planter seams and lamp; not strictly shadowless albedo.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Create one 1024 x 1024 transparent PNG, a texture-source albedo painting of the exact top orthographic 3D-model guide. Input 1 guide_top.png is the EDIT TARGET and absolute authority for every pixel of silhouette, all shape edges, position, size, camera and framing. Input 2 design_reference.png is ONLY the material and colour reference, never the geometry or camera. Paint directly over input 1 without moving, enlarging, shrinking, rounding or redesigning any shape. Preserve its alpha silhouette exactly, including all polygonal edges, the slight notches and asymmetric outline. Keep identical original margins. This top view shows ONLY the upper surface of the largest fungus cap, which occludes all other parts: do not add planter, stems, gills, lamp, soil or smaller caps. Paint this visible cap surface pale cream fungus flesh with fine soft warm ochre speckles matching the design reference, delicate organic radial fibre markings and subtle intrinsic mottling. No new grooves, holes or objects. LIGHTING: texture source ALBEDO, even flat shadowless viewer light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no lighting gradient. No background, no floor, no text. Return native 1024 x 1024, unresized, real transparency.",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by correction with closer framing. Wrong native dimensions and enlarged silhouette.",
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1604d-d0b9-78f1-b3f7-c8a2d821ebb2/exec-9496abc4-0918-4ecf-9f81-c665459ce6aa.png",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7a495f8637a484b5ee588c8889ade283b7690cafa6db1ed01f3408b109404493"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output_sha256": "f3ebcd41730f717ec989d9db3508c6c662936e7efd598249048305b135964b00",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1224,
+          1245
+        ],
+        "guide_alpha_bbox": [
+          162,
+          171,
+          862,
+          853
+        ],
+        "silhouette_identical": false,
+        "materials_visual_review": "Pale cream cap with ochre speckles present.",
+        "lighting_visual_review": "Mostly even colour with subtle residual surface shading.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Create one 1024 x 1024 transparent PNG, a texture-source albedo painting of the exact front orthographic 3D-model guide. Input 1 guide_front.png is the EDIT TARGET and absolute authority for every pixel of silhouette, all shape edges, openings, position, size, camera and framing. Input 2 design_reference.png is ONLY the material and colour reference, never the geometry or camera. Paint directly over input 1 without moving, enlarging, shrinking, rounding or redesigning any shape. Preserve its alpha silhouette exactly, including polygonal edges and every hole. Keep the entire object and margins in exactly their original positions. Pale cream fungus flesh with soft ochre speckles; muted violet gills following the existing cap undersides into pale cream stems; white prefab composite planter with an ochre horizontal band; dark soil only where visible in guide; dark lamp pipe with a little brass at its existing fittings and orange-cream lamp face. Keep the front view's flat planter front and the guide's three cap placements, not the perspective design reference. LIGHTING: texture source ALBEDO, even flat shadowless viewer light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Gill markings are surface colour, not deep black shadows. Glowing portions painted at their glowing colour without light spilling on surroundings. No background, no floor, no added objects, no text. Return native 1024 x 1024, unresized, real transparency.\nCORRECTION, final allowed attempt: The previous return incorrectly changed the canvas size and geometry. Deliver EXACTLY 1024 by 1024 pixels; not 1254 by 1254. Treat image 1 as a locked pixel stencil: retain its original alpha and every shape edge, and recolour only its interior. Object alpha bounding box in 1024 canvas is x=162..861, y=66..957. Do not enlarge to fill the canvas. Preserve the large cap angular edge, curving slim trunk, small triangular hole at the base and flat planter top edge. Do not add soil piled above the planter. Reduce shading in gills and creases: flat intrinsic material colours, no baked illumination. No redesign from image 2.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available unresized return; basal opening restored and requested materials present. NOT compliant: wrong native dimensions, silhouette and internal edge drift, residual shading. Correction allowance exhausted.",
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1604d-d0b9-78f1-b3f7-c8a2d821ebb2/exec-270b3ead-717e-482f-b253-de0f63b536f8.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "8e7651fc69c3b5cd82b872c66c35d8866bb7cd806eb8fa33f7150e891f4de037"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output_sha256": "9bb67bd8b3bb054f7f0ea970202ce8b50acea537cafa371e03655d7bb78824ca",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          162,
+          66,
+          862,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_visual_review": "Requested palette present; front includes cream flesh, violet gills, white composite, ochre band and brass lamp.",
+        "lighting_visual_review": "Residual shading in gills, planter seams and lamp; not strictly shadowless albedo.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Create one 1024 x 1024 transparent PNG, a texture-source albedo painting of the exact top orthographic 3D-model guide. Input 1 guide_top.png is the EDIT TARGET and absolute authority for every pixel of silhouette, all shape edges, position, size, camera and framing. Input 2 design_reference.png is ONLY the material and colour reference, never the geometry or camera. Paint directly over input 1 without moving, enlarging, shrinking, rounding or redesigning any shape. Preserve its alpha silhouette exactly, including all polygonal edges, the slight notches and asymmetric outline. Keep identical original margins. This top view shows ONLY the upper surface of the largest fungus cap, which occludes all other parts: do not add planter, stems, gills, lamp, soil or smaller caps. Paint this visible cap surface pale cream fungus flesh with fine soft warm ochre speckles matching the design reference, delicate organic radial fibre markings and subtle intrinsic mottling. No new grooves, holes or objects. LIGHTING: texture source ALBEDO, even flat shadowless viewer light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no lighting gradient. No background, no floor, no text. Return native 1024 x 1024, unresized, real transparency.\nCORRECTION, final allowed attempt: The previous return incorrectly enlarged the cap and changed the canvas size. Deliver EXACTLY 1024 by 1024 pixels; not 1254 by 1254. Treat image 1 as a locked pixel stencil and retain its original alpha; recolour only its interior. The cap alpha bounding box is x=162..861, y=171..852 on the 1024 canvas; preserve these generous transparent margins precisely. The left notch is small and subtle as in guide; do not deepen it. Do not round, warp, enlarge or shift the outline. Flat pale cream colour across the whole cap, soft small speckles, no lighting gradients or shaded rims.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available unresized return; closer framing and pale cream speckled material. NOT compliant: wrong native dimensions and silhouette drift. Correction allowance exhausted.",
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1604d-d0b9-78f1-b3f7-c8a2d821ebb2/exec-86abe014-02d3-4ad2-abce-e3afd0b20912.png",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7a495f8637a484b5ee588c8889ade283b7690cafa6db1ed01f3408b109404493"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output_sha256": "ca4669ec920153285aad2463a4c3ed2e68a776036befb7892d7380356e604aa6",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1254,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          162,
+          171,
+          862,
+          853
+        ],
+        "silhouette_identical": false,
+        "materials_visual_review": "Pale cream cap with ochre speckles present.",
+        "lighting_visual_review": "Mostly even colour with subtle residual surface shading.",
+        "brief_compliant": false
+      }
+    }
+  ]
+}

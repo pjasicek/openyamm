@@ -1,0 +1,3554 @@
+[
+ {
+  "node": "MECH_CeilingCrush1",
+  "dat_models": [
+   "CeilingCrush1"
+  ],
+  "group": "CeilingCrush1",
+  "door_id": 1,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r15",
+  "move_length": 451,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 768,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_CeilingCrush2",
+  "dat_models": [
+   "CeilingCrush2"
+  ],
+  "group": "CeilingCrush2",
+  "door_id": 2,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r13",
+  "move_length": 451,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 768,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_CeilingCrush3",
+  "dat_models": [
+   "CeilingCrush3"
+  ],
+  "group": "CeilingCrush3",
+  "door_id": 3,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r02",
+  "move_length": 451,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 768,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_CeilingCrushPlate1",
+  "dat_models": [
+   "CeilingCrushPlate1"
+  ],
+  "group": "CeilingCrushPlate1",
+  "door_id": 4,
+  "event": 66,
+  "motion": "dat",
+  "room": "room_r15",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_CeilingCrushPlate2",
+  "dat_models": [
+   "CeilingCrushPlate2"
+  ],
+  "group": "CeilingCrushPlate2",
+  "door_id": 5,
+  "event": 67,
+  "motion": "dat",
+  "room": "room_r13",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_CeilingCrushPlate3",
+  "dat_models": [
+   "CeilingCrushPlate3"
+  ],
+  "group": "CeilingCrushPlate3",
+  "door_id": 6,
+  "event": 68,
+  "motion": "dat",
+  "room": "room_r02",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_CritterBreakOut0",
+  "dat_models": [
+   "CritterBreakOut0"
+  ],
+  "group": "CritterBreakOut0",
+  "door_id": 7,
+  "event": 0,
+  "motion": "sink",
+  "room": "room_r15",
+  "move_length": 172,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "DestructableBrush",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_CritterBreakOut1",
+  "dat_models": [
+   "CritterBreakOut1"
+  ],
+  "group": "CritterBreakOut1",
+  "door_id": 8,
+  "event": 0,
+  "motion": "sink",
+  "room": "room_r13",
+  "move_length": 254,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "DestructableBrush",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_DoubleDoorL1",
+  "dat_models": [
+   "DoubleDoorL1"
+  ],
+  "group": "DoubleDoor1",
+  "door_id": 9,
+  "event": 101,
+  "motion": "rotate",
+  "room": "room_r30",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     9123.84,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r34"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR1",
+  "dat_models": [
+   "DoubleDoorR1"
+  ],
+  "group": "DoubleDoor1",
+  "door_id": 10,
+  "event": 101,
+  "motion": "rotate",
+  "room": "room_r30",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     8898.56,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r34"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL10",
+  "dat_models": [
+   "DoubleDoorL10"
+  ],
+  "group": "DoubleDoor10",
+  "door_id": 11,
+  "event": 102,
+  "motion": "rotate",
+  "room": "room_r33",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4311.04,
+     7045.12,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r25"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR10",
+  "dat_models": [
+   "DoubleDoorR10"
+  ],
+  "group": "DoubleDoor10",
+  "door_id": 12,
+  "event": 102,
+  "motion": "rotate",
+  "room": "room_r33",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4536.32,
+     7045.12,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r25"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL11",
+  "dat_models": [
+   "DoubleDoorL11"
+  ],
+  "group": "DoubleDoor11",
+  "door_id": 13,
+  "event": 103,
+  "motion": "rotate",
+  "room": "room_r08",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     2242.56,
+     3655.68,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r14"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR11",
+  "dat_models": [
+   "DoubleDoorR11"
+  ],
+  "group": "DoubleDoor11",
+  "door_id": 14,
+  "event": 103,
+  "motion": "rotate",
+  "room": "room_r08",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     2017.28,
+     3880.96,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r14"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL12",
+  "dat_models": [
+   "DoubleDoorL12"
+  ],
+  "group": "DoubleDoor12",
+  "door_id": 15,
+  "event": 104,
+  "motion": "rotate",
+  "room": "room_r13",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -1198.08,
+     5130.24,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r22"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR12",
+  "dat_models": [
+   "DoubleDoorR12"
+  ],
+  "group": "DoubleDoor12",
+  "door_id": 16,
+  "event": 104,
+  "motion": "rotate",
+  "room": "room_r13",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -1423.36,
+     5355.52,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r22"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL13",
+  "dat_models": [
+   "DoubleDoorL13"
+  ],
+  "group": "DoubleDoor13",
+  "door_id": 17,
+  "event": 105,
+  "motion": "rotate",
+  "room": "room_r19",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2734.08,
+     4474.88,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r13"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR13",
+  "dat_models": [
+   "DoubleDoorR13"
+  ],
+  "group": "DoubleDoor13",
+  "door_id": 18,
+  "event": 105,
+  "motion": "rotate",
+  "room": "room_r19",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2508.8,
+     4700.16,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r13"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL14",
+  "dat_models": [
+   "DoubleDoorL14"
+  ],
+  "group": "DoubleDoor14",
+  "door_id": 19,
+  "event": 106,
+  "motion": "rotate",
+  "room": "room_r08",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2242.56,
+     3655.68,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r13"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR14",
+  "dat_models": [
+   "DoubleDoorR14"
+  ],
+  "group": "DoubleDoor14",
+  "door_id": 20,
+  "event": 106,
+  "motion": "rotate",
+  "room": "room_r08",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2017.28,
+     3880.96,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r13"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL15",
+  "dat_models": [
+   "DoubleDoorL15"
+  ],
+  "group": "DoubleDoor15",
+  "door_id": 21,
+  "event": 107,
+  "motion": "rotate",
+  "room": "room_r03",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -204.8,
+     491.52,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r01"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR15",
+  "dat_models": [
+   "DoubleDoorR15"
+  ],
+  "group": "DoubleDoor15",
+  "door_id": 22,
+  "event": 107,
+  "motion": "rotate",
+  "room": "room_r03",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     204.8,
+     491.52,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r01"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL16",
+  "dat_models": [
+   "DoubleDoorL16"
+  ],
+  "group": "DoubleDoor16",
+  "door_id": 23,
+  "event": 108,
+  "motion": "rotate",
+  "room": "room_r29",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     8796.16,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r33"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR16",
+  "dat_models": [
+   "DoubleDoorR16"
+  ],
+  "group": "DoubleDoor16",
+  "door_id": 24,
+  "event": 108,
+  "motion": "rotate",
+  "room": "room_r29",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     8570.88,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r33"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL17",
+  "dat_models": [
+   "DoubleDoorL17"
+  ],
+  "group": "DoubleDoor17",
+  "door_id": 25,
+  "event": 109,
+  "motion": "rotate",
+  "room": "room_r25",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     3000.32,
+     6062.08,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r20"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR17",
+  "dat_models": [
+   "DoubleDoorR17"
+  ],
+  "group": "DoubleDoor17",
+  "door_id": 26,
+  "event": 109,
+  "motion": "rotate",
+  "room": "room_r25",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     3225.6,
+     6062.08,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r20"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL18",
+  "dat_models": [
+   "DoubleDoorL18"
+  ],
+  "group": "DoubleDoor18",
+  "door_id": 27,
+  "event": 110,
+  "motion": "rotate",
+  "room": "room_r35",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4096.0,
+     9123.84,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r30"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR18",
+  "dat_models": [
+   "DoubleDoorR18"
+  ],
+  "group": "DoubleDoor18",
+  "door_id": 28,
+  "event": 110,
+  "motion": "rotate",
+  "room": "room_r35",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4096.0,
+     8898.56,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r30"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL19",
+  "dat_models": [
+   "DoubleDoorL19"
+  ],
+  "group": "DoubleDoor19",
+  "door_id": 29,
+  "event": 111,
+  "motion": "rotate",
+  "room": "room_r25",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     2129.92,
+     6502.4,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r22"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR19",
+  "dat_models": [
+   "DoubleDoorR19"
+  ],
+  "group": "DoubleDoor19",
+  "door_id": 30,
+  "event": 111,
+  "motion": "rotate",
+  "room": "room_r25",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     2129.92,
+     6277.12,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r22"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL2",
+  "dat_models": [
+   "DoubleDoorL2"
+  ],
+  "group": "DoubleDoor2",
+  "door_id": 31,
+  "event": 112,
+  "motion": "rotate",
+  "room": "room_r09",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     1914.88,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r07"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR2",
+  "dat_models": [
+   "DoubleDoorR2"
+  ],
+  "group": "DoubleDoor2",
+  "door_id": 32,
+  "event": 112,
+  "motion": "rotate",
+  "room": "room_r09",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     1689.6,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r07"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL20",
+  "dat_models": [
+   "DoubleDoorL20"
+  ],
+  "group": "DoubleDoor20",
+  "door_id": 33,
+  "event": 113,
+  "motion": "rotate",
+  "room": "room_r22",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2129.92,
+     6502.4,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r24"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR20",
+  "dat_models": [
+   "DoubleDoorR20"
+  ],
+  "group": "DoubleDoor20",
+  "door_id": 34,
+  "event": 113,
+  "motion": "rotate",
+  "room": "room_r22",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2129.92,
+     6277.12,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r24"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL21",
+  "dat_models": [
+   "DoubleDoorL21"
+  ],
+  "group": "DoubleDoor21",
+  "door_id": 35,
+  "event": 114,
+  "motion": "rotate",
+  "room": "room_r06",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     2242.56,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r10"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR21",
+  "dat_models": [
+   "DoubleDoorR21"
+  ],
+  "group": "DoubleDoor21",
+  "door_id": 36,
+  "event": 114,
+  "motion": "rotate",
+  "room": "room_r06",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     2017.28,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r10"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL22",
+  "dat_models": [
+   "DoubleDoorL22"
+  ],
+  "group": "DoubleDoor22",
+  "door_id": 37,
+  "event": 115,
+  "motion": "rotate",
+  "room": "room_r18",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     4208.64,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r10"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR22",
+  "dat_models": [
+   "DoubleDoorR22"
+  ],
+  "group": "DoubleDoor22",
+  "door_id": 38,
+  "event": 115,
+  "motion": "rotate",
+  "room": "room_r18",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     3983.36,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r10"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL23",
+  "dat_models": [
+   "DoubleDoorL23"
+  ],
+  "group": "DoubleDoor23",
+  "door_id": 39,
+  "event": 116,
+  "motion": "rotate",
+  "room": "room_r18",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -6062.08,
+     4864.0,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r16"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR23",
+  "dat_models": [
+   "DoubleDoorR23"
+  ],
+  "group": "DoubleDoor23",
+  "door_id": 40,
+  "event": 116,
+  "motion": "rotate",
+  "room": "room_r18",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -6062.08,
+     4638.72,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r16"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL24",
+  "dat_models": [
+   "DoubleDoorL24"
+  ],
+  "group": "DoubleDoor24",
+  "door_id": 41,
+  "event": 117,
+  "motion": "rotate",
+  "room": "room_r18",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     5519.36,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r23"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR24",
+  "dat_models": [
+   "DoubleDoorR24"
+  ],
+  "group": "DoubleDoor24",
+  "door_id": 42,
+  "event": 117,
+  "motion": "rotate",
+  "room": "room_r18",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     5294.08,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r23"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL25",
+  "dat_models": [
+   "DoubleDoorL25"
+  ],
+  "group": "DoubleDoor25",
+  "door_id": 43,
+  "event": 118,
+  "motion": "rotate",
+  "room": "room_r30",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     7485.44,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r23"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR25",
+  "dat_models": [
+   "DoubleDoorR25"
+  ],
+  "group": "DoubleDoor25",
+  "door_id": 44,
+  "event": 118,
+  "motion": "rotate",
+  "room": "room_r30",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4751.36,
+     7260.16,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r23"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL26",
+  "dat_models": [
+   "DoubleDoorL26"
+  ],
+  "group": "DoubleDoor26",
+  "door_id": 45,
+  "event": 119,
+  "motion": "rotate",
+  "room": "room_r33",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4096.0,
+     9123.84,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r38"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR26",
+  "dat_models": [
+   "DoubleDoorR26"
+  ],
+  "group": "DoubleDoor26",
+  "door_id": 46,
+  "event": 119,
+  "motion": "rotate",
+  "room": "room_r33",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4096.0,
+     8898.56,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r38"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL27",
+  "dat_models": [
+   "DoubleDoorL27"
+  ],
+  "group": "DoubleDoor27",
+  "door_id": 47,
+  "event": 120,
+  "motion": "rotate",
+  "room": "room_r33",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4096.0,
+     7485.44,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r28"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR27",
+  "dat_models": [
+   "DoubleDoorR27"
+  ],
+  "group": "DoubleDoor27",
+  "door_id": 48,
+  "event": 120,
+  "motion": "rotate",
+  "room": "room_r33",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4096.0,
+     7260.16,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r28"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL28",
+  "dat_models": [
+   "DoubleDoorL28"
+  ],
+  "group": "DoubleDoor28",
+  "door_id": 49,
+  "event": 121,
+  "motion": "rotate",
+  "room": "room_r27",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2897.92,
+     6717.44,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r24"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR28",
+  "dat_models": [
+   "DoubleDoorR28"
+  ],
+  "group": "DoubleDoor28",
+  "door_id": 50,
+  "event": 121,
+  "motion": "rotate",
+  "room": "room_r27",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -2672.64,
+     6717.44,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r24"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL3",
+  "dat_models": [
+   "DoubleDoorL3"
+  ],
+  "group": "DoubleDoor3",
+  "door_id": 51,
+  "event": 122,
+  "motion": "rotate",
+  "room": "room_r21",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     4208.64,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r15"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR3",
+  "dat_models": [
+   "DoubleDoorR3"
+  ],
+  "group": "DoubleDoor3",
+  "door_id": 52,
+  "event": 122,
+  "motion": "rotate",
+  "room": "room_r21",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     3983.36,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r15"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL4",
+  "dat_models": [
+   "DoubleDoorL4"
+  ],
+  "group": "DoubleDoor4",
+  "door_id": 53,
+  "event": 123,
+  "motion": "rotate",
+  "room": "room_r21",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     6174.72,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r25"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR4",
+  "dat_models": [
+   "DoubleDoorR4"
+  ],
+  "group": "DoubleDoor4",
+  "door_id": 54,
+  "event": 123,
+  "motion": "rotate",
+  "room": "room_r21",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     5949.44,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r25"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL5",
+  "dat_models": [
+   "DoubleDoorL5"
+  ],
+  "group": "DoubleDoor5",
+  "door_id": 55,
+  "event": 124,
+  "motion": "rotate",
+  "room": "room_r26",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     6062.08,
+     6174.72,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r21"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR5",
+  "dat_models": [
+   "DoubleDoorR5"
+  ],
+  "group": "DoubleDoor5",
+  "door_id": 56,
+  "event": 124,
+  "motion": "rotate",
+  "room": "room_r26",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     6062.08,
+     5949.44,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r21"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL6",
+  "dat_models": [
+   "DoubleDoorL6"
+  ],
+  "group": "DoubleDoor6",
+  "door_id": 57,
+  "event": 125,
+  "motion": "rotate",
+  "room": "room_r26",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     6062.08,
+     6830.08,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r29"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR6",
+  "dat_models": [
+   "DoubleDoorR6"
+  ],
+  "group": "DoubleDoor6",
+  "door_id": 58,
+  "event": 125,
+  "motion": "rotate",
+  "room": "room_r26",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     6062.08,
+     6604.8,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r29"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL7",
+  "dat_models": [
+   "DoubleDoorL7"
+  ],
+  "group": "DoubleDoor7",
+  "door_id": 59,
+  "event": 126,
+  "motion": "rotate",
+  "room": "room_r14",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     1423.36,
+     5355.52,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r22"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR7",
+  "dat_models": [
+   "DoubleDoorR7"
+  ],
+  "group": "DoubleDoor7",
+  "door_id": 60,
+  "event": 126,
+  "motion": "rotate",
+  "room": "room_r14",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     1198.08,
+     5130.24,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r22"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL8",
+  "dat_models": [
+   "DoubleDoorL8"
+  ],
+  "group": "DoubleDoor8",
+  "door_id": 61,
+  "event": 127,
+  "motion": "rotate",
+  "room": "room_r29",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     6830.08,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r25"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR8",
+  "dat_models": [
+   "DoubleDoorR8"
+  ],
+  "group": "DoubleDoor8",
+  "door_id": 62,
+  "event": 127,
+  "motion": "rotate",
+  "room": "room_r29",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4751.36,
+     6604.8,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r25"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorL9",
+  "dat_models": [
+   "DoubleDoorL9"
+  ],
+  "group": "DoubleDoor9",
+  "door_id": 63,
+  "event": 128,
+  "motion": "rotate",
+  "room": "room_r25",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4311.04,
+     5734.4,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r15"
+  ]
+ },
+ {
+  "node": "MECH_DoubleDoorR9",
+  "dat_models": [
+   "DoubleDoorR9"
+  ],
+  "group": "DoubleDoor9",
+  "door_id": 64,
+  "event": 128,
+  "motion": "rotate",
+  "room": "room_r25",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 700,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     4536.32,
+     5734.4,
+     -368.64
+    ],
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": true
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 7.0
+  },
+  "extra_rooms": [
+   "room_r15"
+  ]
+ },
+ {
+  "node": "MECH_ExitStairs",
+  "dat_models": [
+   "ExitStairs"
+  ],
+  "group": "ExitStairs",
+  "door_id": 65,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r43",
+  "move_length": 532,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_Innerdoor0",
+  "dat_models": [
+   "Innerdoor0"
+  ],
+  "group": "Innerdoor",
+  "door_id": 66,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r42",
+  "move_length": 328,
+  "initial_state": "closed",
+  "open_direction": [
+   -1.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 64,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_Innerdoor1",
+  "dat_models": [
+   "Innerdoor1"
+  ],
+  "group": "Innerdoor",
+  "door_id": 67,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r42",
+  "move_length": 328,
+  "initial_state": "closed",
+  "open_direction": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 64,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_LeverPanel",
+  "dat_models": [
+   "LeverPanel"
+  ],
+  "group": "LeverPanel",
+  "door_id": 68,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r32",
+  "move_length": 154,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_LeverPanel0",
+  "dat_models": [
+   "LeverPanel0"
+  ],
+  "group": "LeverPanel0",
+  "door_id": 69,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r42",
+  "move_length": 154,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   -1.0,
+   0.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_Outerdoor0",
+  "dat_models": [
+   "Outerdoor0"
+  ],
+  "group": "Outerdoor",
+  "door_id": 70,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r39",
+  "move_length": 328,
+  "initial_state": "open",
+  "open_direction": [
+   -1.0,
+   -0.0,
+   -0.0
+  ],
+  "open_speed": 64,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_Outerdoor1",
+  "dat_models": [
+   "Outerdoor1"
+  ],
+  "group": "Outerdoor",
+  "door_id": 71,
+  "event": 0,
+  "motion": "dat",
+  "room": "room_r39",
+  "move_length": 328,
+  "initial_state": "open",
+  "open_direction": [
+   1.0,
+   -0.0,
+   -0.0
+  ],
+  "open_speed": 64,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_PanelLever",
+  "dat_models": [
+   "PanelLever"
+  ],
+  "group": "PanelLever",
+  "door_id": 72,
+  "event": 72,
+  "motion": "rotate",
+  "room": "room_r36",
+  "move_length": 350,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 200,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -762.88,
+     9013.76,
+     -389.12
+    ],
+    "axis": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "open_degrees": -35.0,
+    "open_away": false
+   },
+   "easing": "linear",
+   "bodies": "reverse",
+   "carry": false
+  },
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_PivotButton1",
+  "dat_models": [
+   "PivotButton1"
+  ],
+  "group": "PivotButton1",
+  "door_id": 73,
+  "event": 83,
+  "motion": "dat",
+  "room": "room_r07",
+  "move_length": 8,
+  "initial_state": "closed",
+  "open_direction": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_PivotButton2",
+  "dat_models": [
+   "PivotButton2"
+  ],
+  "group": "PivotButton2",
+  "door_id": 74,
+  "event": 84,
+  "motion": "dat",
+  "room": "room_r18",
+  "move_length": 8,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_PivotButton3",
+  "dat_models": [
+   "PivotButton3"
+  ],
+  "group": "PivotButton3",
+  "door_id": 75,
+  "event": 85,
+  "motion": "dat",
+  "room": "room_r30",
+  "move_length": 8,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "open_speed": 128,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_PivotTreasurePanel1",
+  "dat_models": [
+   "PivotTreasurePanel1"
+  ],
+  "group": "PivotTreasurePanel1",
+  "door_id": 76,
+  "event": 70,
+  "motion": "dat",
+  "room": "room_r07",
+  "move_length": 72,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "open_speed": 256,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_PivotWallTrap1",
+  "dat_models": [
+   "PivotWallTrap1"
+  ],
+  "group": "PivotWallTrap1",
+  "door_id": 77,
+  "event": 77,
+  "motion": "rotate",
+  "room": "room_r05",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 1000,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     3440.64,
+     1628.16,
+     -501.76
+    ],
+    "axis": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": false
+   },
+   "easing": "sine",
+   "bodies": "push",
+   "carry": true,
+   "auto_close_seconds": 5.0
+  },
+  "extra_rooms": [
+   "room_r07"
+  ]
+ },
+ {
+  "node": "MECH_PivotWallTrap2",
+  "dat_models": [
+   "PivotWallTrap2"
+  ],
+  "group": "PivotWallTrap2",
+  "door_id": 78,
+  "event": 78,
+  "motion": "rotate",
+  "room": "room_r12",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 1000,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4249.6,
+     3430.4,
+     -501.76
+    ],
+    "axis": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": false
+   },
+   "easing": "sine",
+   "bodies": "push",
+   "carry": true,
+   "auto_close_seconds": 5.0
+  },
+  "extra_rooms": [
+   "room_r18"
+  ]
+ },
+ {
+  "node": "MECH_PivotWallTrap3",
+  "dat_models": [
+   "PivotWallTrap3"
+  ],
+  "group": "PivotWallTrap3",
+  "door_id": 79,
+  "event": 79,
+  "motion": "rotate",
+  "room": "room_r31",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 1000,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4249.6,
+     8238.08,
+     -501.76
+    ],
+    "axis": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": false
+   },
+   "easing": "sine",
+   "bodies": "push",
+   "carry": true,
+   "auto_close_seconds": 5.0
+  },
+  "extra_rooms": [
+   "room_r30"
+  ]
+ },
+ {
+  "node": "MECH_RoundDoorRight0",
+  "dat_models": [
+   "RoundDoorRight0"
+  ],
+  "group": "RoundDoor0",
+  "door_id": 80,
+  "event": 129,
+  "motion": "dat",
+  "room": "room_r36",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_RoundDoorLeft0",
+  "dat_models": [
+   "RoundDoorLeft0"
+  ],
+  "group": "RoundDoor0",
+  "door_id": 81,
+  "event": 129,
+  "motion": "dat",
+  "room": "room_r36",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   -1.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_RoundDoorRight1",
+  "dat_models": [
+   "RoundDoorRight1"
+  ],
+  "group": "RoundDoor1",
+  "door_id": 82,
+  "event": 130,
+  "motion": "dat",
+  "room": "room_r42",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   -1.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_RoundDoorLeft1",
+  "dat_models": [
+   "RoundDoorLeft1"
+  ],
+  "group": "RoundDoor1",
+  "door_id": 83,
+  "event": 130,
+  "motion": "dat",
+  "room": "room_r42",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_RoundDoorRight2",
+  "dat_models": [
+   "RoundDoorRight2"
+  ],
+  "group": "RoundDoor2",
+  "door_id": 84,
+  "event": 131,
+  "motion": "dat",
+  "room": "room_r42",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   -1.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_RoundDoorLeft2",
+  "dat_models": [
+   "RoundDoorLeft2"
+  ],
+  "group": "RoundDoor2",
+  "door_id": 85,
+  "event": 131,
+  "motion": "dat",
+  "room": "room_r42",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_RoundDoorRight3",
+  "dat_models": [
+   "RoundDoorRight3"
+  ],
+  "group": "RoundDoor3",
+  "door_id": 86,
+  "event": 132,
+  "motion": "dat",
+  "room": "room_r38",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_RoundDoorLeft3",
+  "dat_models": [
+   "RoundDoorLeft3"
+  ],
+  "group": "RoundDoor3",
+  "door_id": 87,
+  "event": 132,
+  "motion": "dat",
+  "room": "room_r38",
+  "move_length": 123,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   -1.0,
+   0.0
+  ],
+  "open_speed": 384,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_ShooterPlate10",
+  "dat_models": [
+   "ShooterPlate10"
+  ],
+  "group": "ShooterPlate10",
+  "door_id": 88,
+  "event": 65,
+  "motion": "dat",
+  "room": "room_r37",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 256,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_ShooterPlate5",
+  "dat_models": [
+   "ShooterPlate5"
+  ],
+  "group": "ShooterPlate5",
+  "door_id": 89,
+  "event": 60,
+  "motion": "dat",
+  "room": "room_r19",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 256,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_ShooterPlate6",
+  "dat_models": [
+   "ShooterPlate6"
+  ],
+  "group": "ShooterPlate6",
+  "door_id": 90,
+  "event": 61,
+  "motion": "dat",
+  "room": "room_r19",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 256,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_ShooterPlate7",
+  "dat_models": [
+   "ShooterPlate7"
+  ],
+  "group": "ShooterPlate7",
+  "door_id": 91,
+  "event": 62,
+  "motion": "dat",
+  "room": "room_r19",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 256,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_ShooterPlate8",
+  "dat_models": [
+   "ShooterPlate8"
+  ],
+  "group": "ShooterPlate8",
+  "door_id": 92,
+  "event": 63,
+  "motion": "dat",
+  "room": "room_r19",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 256,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_ShooterPlate9",
+  "dat_models": [
+   "ShooterPlate9"
+  ],
+  "group": "ShooterPlate9",
+  "door_id": 93,
+  "event": 64,
+  "motion": "dat",
+  "room": "room_r36",
+  "move_length": 10,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "open_speed": 256,
+  "mm9_class": "Door",
+  "mover": null,
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_Switch0",
+  "dat_models": [
+   "Switch0"
+  ],
+  "group": "Switch0",
+  "door_id": 94,
+  "event": 73,
+  "motion": "rotate",
+  "room": "room_r32",
+  "move_length": 800,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 500,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -711.68,
+     9359.36,
+     -337.92
+    ],
+    "axis": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "open_degrees": 80.0,
+    "open_away": false
+   },
+   "easing": "linear",
+   "bodies": "hold",
+   "carry": false
+  },
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_Switch1",
+  "dat_models": [
+   "Switch1"
+  ],
+  "group": "Switch1",
+  "door_id": 95,
+  "event": 74,
+  "motion": "rotate",
+  "room": "room_r42",
+  "move_length": 800,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 500,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -711.68,
+     10956.8,
+     -337.92
+    ],
+    "axis": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "open_degrees": 80.0,
+    "open_away": false
+   },
+   "easing": "linear",
+   "bodies": "hold",
+   "carry": false
+  },
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_SwitchLever0",
+  "dat_models": [
+   "SwitchLever0"
+  ],
+  "group": "SwitchLever0",
+  "door_id": 96,
+  "event": 71,
+  "motion": "rotate",
+  "room": "room_r37",
+  "move_length": 350,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 200,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     762.88,
+     9008.64,
+     -389.12
+    ],
+    "axis": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "open_degrees": 35.0,
+    "open_away": false
+   },
+   "easing": "linear",
+   "bodies": "reverse",
+   "carry": false
+  },
+  "extra_rooms": []
+ },
+ {
+  "node": "MECH_TrapExitDoor1",
+  "dat_models": [
+   "TrapExitDoor1"
+  ],
+  "group": "TrapExitDoor1",
+  "door_id": 97,
+  "event": 80,
+  "motion": "rotate",
+  "room": "room_r05",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 600,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     3246.08,
+     1802.24,
+     -501.76
+    ],
+    "axis": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "open_degrees": 90.0,
+    "open_away": false
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 5.0
+  },
+  "extra_rooms": [
+   "room_r07"
+  ]
+ },
+ {
+  "node": "MECH_TrapExitDoor2",
+  "dat_models": [
+   "TrapExitDoor2"
+  ],
+  "group": "TrapExitDoor2",
+  "door_id": 98,
+  "event": 81,
+  "motion": "rotate",
+  "room": "room_r12",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 600,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4423.68,
+     3235.84,
+     -501.76
+    ],
+    "axis": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": false
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 5.0
+  },
+  "extra_rooms": [
+   "room_r18"
+  ]
+ },
+ {
+  "node": "MECH_TrapExitDoor3",
+  "dat_models": [
+   "TrapExitDoor3"
+  ],
+  "group": "TrapExitDoor3",
+  "door_id": 99,
+  "event": 82,
+  "motion": "rotate",
+  "room": "room_r31",
+  "move_length": 900,
+  "initial_state": "closed",
+  "open_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "open_speed": 600,
+  "mm9_class": "RotatingDoor",
+  "mover": {
+   "rotation": {
+    "pivot": [
+     -4423.68,
+     8043.52,
+     -501.76
+    ],
+    "axis": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "open_degrees": -90.0,
+    "open_away": false
+   },
+   "easing": "sine",
+   "bodies": "reverse",
+   "carry": false,
+   "auto_close_seconds": 5.0
+  },
+  "extra_rooms": [
+   "room_r30"
+  ]
+ }
+]

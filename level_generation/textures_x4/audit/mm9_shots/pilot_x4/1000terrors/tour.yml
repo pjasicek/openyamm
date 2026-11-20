@@ -1,0 +1,35 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_x4/1000terrors
+settle_seconds: 2.0
+exit: true
+shots:
+- name: doornnw65b-d18-closed-front
+  position:
+  - -8501
+  - -15836
+  - -2570
+  yaw: -3.1416
+  pitch: 0.053
+- name: doornnw65b-d18-joint-graze
+  position:
+  - -8856
+  - -15716
+  - -2570
+  yaw: -2.4981
+  pitch: 0.15
+- name: doornnw65b-d18-closed-back
+  position:
+  - -9532
+  - -15836
+  - -2570
+  yaw: 0.0
+  pitch: 0.053
+- name: doornnw65b-d18-open-front
+  position:
+  - -8501
+  - -15836
+  - -2570
+  yaw: -3.1416
+  pitch: 0.053
+  commands:
+  - event 103
+  settle_seconds: 5.0

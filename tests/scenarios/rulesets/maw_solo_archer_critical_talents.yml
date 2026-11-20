@@ -1,0 +1,52 @@
+id: rulesets.maw_solo_archer_critical_talents
+title: "Ruleset - solo run: a critical bow hit exposes the monster (Expose Weakness) and slows its movement (Hamstring)"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Expose Weakness and Hamstring (talents.yml; the user's words, 2026-11-18): a critical bow hit makes the monster
+        take 3/6/9 % more damage for 5 s (5/10/15 until 2026-11-19) and slows its movement, and only its movement, by
+        5/10/15 % for 3 s
+        (GameplayActorHitDebuff::MoveSlow), neither stacking. Luck 9000 makes every arrow a critical hit under MAW,
+        accuracy 900 every hit roll certain. The target is a boss, which one arrow
+        does not kill.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ariel
+            class: Archer
+            level: 20
+            accuracy: 900
+            luck: 9000
+            skills:
+              - {name: Bow, level: 8, mastery: 2}
+            equipment: {}
+  - grant_item: {item_id: 56, equip: bow}
+  - console: {line: "talent multishot 1", expect_contains: "multishot"}
+  - console: {line: "talent expose_weakness 3", expect_contains: "expose_weakness"}
+  - console: {line: "talent hamstring 3", expect_contains: "hamstring"}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  - spawn_actor: {monster_id: 195, x: -9028, y: -11319, z: 200, boss_affix: 13}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 1}
+  - assert: {turn_based: {actor_index: last, actor_effect: move_slow, effect_max: 0.0}}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}
+  - advance_runtime: {seconds: 1.0}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 1}
+  - assert: {turn_based: {actor_index: last, actor_effect: exposed, effect_min: 8.9, effect_max: 9.1}}
+  - assert: {turn_based: {actor_index: last, actor_effect: move_slow, effect_min: 1.5, effect_max: 3.0}}
+  # The slow is of movement alone: the game's ordinary slow, which also slows attacks, is not on it.
+  - assert: {turn_based: {actor_index: last, actor_effect: slow, effect_max: 0.0}}
+  - advance_runtime: {seconds: 3.5}
+  - assert: {turn_based: {actor_index: last, actor_effect: move_slow, effect_max: 0.0}}

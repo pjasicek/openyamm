@@ -1,0 +1,1729 @@
+format: 0
+themes:
+  - id: theme:hvceilb_hvflorb_hvflorb
+    wall: {texture: hvceilb, size: [128, 128]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflorb, size: [128, 128]}
+  - id: theme:hvceilb_hvflori_hvceilb
+    wall: {texture: hvceilb, size: [128, 128]}
+    floor: {texture: hvflori, size: [128, 128]}
+    ceiling: {texture: hvceilb, size: [128, 128]}
+  - id: theme:hvdorf_swflorb_hvdore
+    wall: {texture: hvdorf, size: [128, 256]}
+    floor: {texture: swflorb, size: [128, 128]}
+    ceiling: {texture: hvdore, size: [256, 256]}
+  - id: theme:hvflord_hvflorb_hvflora
+    wall: {texture: hvflord, size: [128, 128]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvflori_hvflora_hvflori
+    wall: {texture: hvflori, size: [128, 128]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflori, size: [128, 128]}
+  - id: theme:hvflori_hvflorb_hvflora
+    wall: {texture: hvflori, size: [128, 128]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvflori_hvflorb_hvflori
+    wall: {texture: hvflori, size: [128, 128]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflori, size: [128, 128]}
+  - id: theme:hvwl1a_hvflora_hvflora
+    wall: {texture: hvwl1a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl1a_hvflora_hvflorb
+    wall: {texture: hvwl1a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflorb, size: [128, 128]}
+  - id: theme:hvwl1a_hvflora_hvflorc
+    wall: {texture: hvwl1a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflorc, size: [128, 128]}
+  - id: theme:hvwl1a_hvflora_hvwl5a
+    wall: {texture: hvwl1a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvwl5a, size: [128, 256]}
+  - id: theme:hvwl1a_hvflorb_hvflora
+    wall: {texture: hvwl1a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl1a_swflorb_hvdore
+    wall: {texture: hvwl1a, size: [128, 256]}
+    floor: {texture: swflorb, size: [128, 128]}
+    ceiling: {texture: hvdore, size: [256, 256]}
+  - id: theme:hvwl2a_hvflora_hvflore
+    wall: {texture: hvwl2a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflore, size: [128, 128]}
+  - id: theme:hvwl2a_hvflora_hvflori
+    wall: {texture: hvwl2a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflori, size: [128, 128]}
+  - id: theme:hvwl2a_hvflorb_hvflora
+    wall: {texture: hvwl2a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl2a_hvflore_hvflora
+    wall: {texture: hvwl2a, size: [128, 256]}
+    floor: {texture: hvflore, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl2a_hvflori_hvflora
+    wall: {texture: hvwl2a, size: [128, 256]}
+    floor: {texture: hvflori, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl2a_orwtr64_hvflora
+    wall: {texture: hvwl2a, size: [128, 256]}
+    floor: {texture: orwtr64, size: [64, 64]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl3a_hvflorb_hvflorb
+    wall: {texture: hvwl3a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflorb, size: [128, 128]}
+  - id: theme:hvwl3a_hvflorb_hvwl3a
+    wall: {texture: hvwl3a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvwl3a, size: [128, 256]}
+  - id: theme:hvwl3a_hvflore_hvceilb
+    wall: {texture: hvwl3a, size: [128, 256]}
+    floor: {texture: hvflore, size: [128, 128]}
+    ceiling: {texture: hvceilb, size: [128, 128]}
+  - id: theme:hvwl3a_hvflori_hvceilb
+    wall: {texture: hvwl3a, size: [128, 256]}
+    floor: {texture: hvflori, size: [128, 128]}
+    ceiling: {texture: hvceilb, size: [128, 128]}
+  - id: theme:hvwl4a_hvflora_hvflorb
+    wall: {texture: hvwl4a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflorb, size: [128, 128]}
+  - id: theme:hvwl4a_hvflora_hvwl4a
+    wall: {texture: hvwl4a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvwl4a, size: [128, 256]}
+  - id: theme:hvwl4a_hvflorb_hvflora
+    wall: {texture: hvwl4a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl4a_hvflorb_hvwl4a
+    wall: {texture: hvwl4a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvwl4a, size: [128, 256]}
+  - id: theme:hvwl4a_hvflore_hvwl4a
+    wall: {texture: hvwl4a, size: [128, 256]}
+    floor: {texture: hvflore, size: [128, 128]}
+    ceiling: {texture: hvwl4a, size: [128, 256]}
+  - id: theme:hvwl5a_hvflora_hvflorb
+    wall: {texture: hvwl5a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflorb, size: [128, 128]}
+  - id: theme:hvwl5a_hvflora_hvwl5a
+    wall: {texture: hvwl5a, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvwl5a, size: [128, 256]}
+  - id: theme:hvwl5a_hvflorb_hvdore
+    wall: {texture: hvwl5a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvdore, size: [256, 256]}
+  - id: theme:hvwl5a_hvflorb_hvflore
+    wall: {texture: hvwl5a, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflore, size: [128, 128]}
+  - id: theme:hvwl5a_hvflori_hvceilb
+    wall: {texture: hvwl5a, size: [128, 256]}
+    floor: {texture: hvflori, size: [128, 128]}
+    ceiling: {texture: hvceilb, size: [128, 128]}
+  - id: theme:hvwl5a_swr1_hvdore
+    wall: {texture: hvwl5a, size: [128, 256]}
+    floor: {texture: swr1, size: [64, 64]}
+    ceiling: {texture: hvdore, size: [256, 256]}
+  - id: theme:hvwl6_hvflora_hvflora
+    wall: {texture: hvwl6, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl6_hvflora_hvflord
+    wall: {texture: hvwl6, size: [128, 256]}
+    floor: {texture: hvflora, size: [128, 128]}
+    ceiling: {texture: hvflord, size: [128, 128]}
+  - id: theme:hvwl6_hvflorb_hvdore
+    wall: {texture: hvwl6, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvdore, size: [256, 256]}
+  - id: theme:hvwl6_hvflorb_hvflora
+    wall: {texture: hvwl6, size: [128, 256]}
+    floor: {texture: hvflorb, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl6_hvflori_hvceilb
+    wall: {texture: hvwl6, size: [128, 256]}
+    floor: {texture: hvflori, size: [128, 128]}
+    ceiling: {texture: hvceilb, size: [128, 128]}
+  - id: theme:hvwl6_swflorb_hvflora
+    wall: {texture: hvwl6, size: [128, 256]}
+    floor: {texture: swflorb, size: [128, 128]}
+    ceiling: {texture: hvflora, size: [128, 128]}
+  - id: theme:hvwl6_swr1_hvdore
+    wall: {texture: hvwl6, size: [128, 256]}
+    floor: {texture: swr1, size: [64, 64]}
+    ceiling: {texture: hvdore, size: [256, 256]}
+defaults: {theme: theme:hvceilb_hvflorb_hvflorb, ambient: 18}
+rooms:
+  - id: room:s10_tunnel
+    name: South-west tunnel
+    path: [[-1600, 7680, -1536], [-1600, 7520, -1536], [-1552, 6656, -1536], [-960, 6064, -1536], [-128, 5728, -1528], [112, 4976, -1587], [-400, 4336, -1881], [-1000, 4000, -2038], [-1982, 3836, -2038], [-2672, 3766, -1896], [-2811, 3766, -1866]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], start: {length: 136}}
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s10_tunnel_w
+    name: "South-west tunnel, west of the chest alcoves"
+    path: [[-3646, 3847, -1773], [-3744, 3847, -1766], [-3838, 3854, -1761], [-4496, 3952, -1726], [-5280, 4144, -1711], [-5584, 4408, -1711], [-5712, 4408, -1711]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], end: {width: 224}}
+    floor: -1773
+    ceiling: -1517
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s12_alcove_e
+    name: "Chest alcove, east"
+    outline: [[-3215, 3900], [-2811, 3900], [-2811, 4230], [-3215, 4230]]
+    floor: -1866
+    floor_points: [[-3215, 3900, -1820], [-2811, 3900, -1866], [-2811, 4134, -1772], [-2811, 4230, -1772], [-3215, 4230, -1772], [-3215, 4134, -1772]]
+    ceiling: -1590
+    ceiling_slope: {to: -1498, toward: north}
+    theme: theme:hvwl3a_hvflorb_hvflorb
+  - id: room:s12_alcove_w
+    name: "Chest alcove, west"
+    outline: [[-3646, 3980], [-3247, 3980], [-3247, 4230], [-3631, 4230]]
+    floor: -1816
+    floor_points: [[-3646, 3980, -1773], [-3247, 3980, -1816], [-3247, 4230, -1772], [-3631, 4230, -1772]]
+    ceiling: -1544
+    ceiling_slope: {to: -1498, toward: north}
+    theme: theme:hvwl3a_hvflorb_hvflorb
+  - id: room:s12_hall
+    name: Before the chest alcoves
+    outline: [[-3646, 3700], [-2811, 3630], [-2811, 3900], [-3215, 3900], [-3215, 3889], [-3247, 3889], [-3247, 3980], [-3646, 3980]]
+    floor: -1866
+    floor_points: [[-3646, 3700, -1773], [-2811, 3630, -1866], [-2811, 3900, -1866], [-3215, 3900, -1820], [-3215, 3889, -1820], [-3247, 3889, -1816], [-3247, 3980, -1816], [-3646, 3980, -1773]]
+    ceiling: -1498
+    ceiling_points: [[-3646, 3700, -1517], [-2811, 3630, -1600], [-2811, 3900, -1600], [-3215, 3900, -1551], [-3215, 3889, -1551], [-3247, 3889, -1548], [-3247, 3980, -1520], [-3646, 3980, -1498]]
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+    walls:
+      - wall: 4
+        panels:
+          - {offset: 0, length: 32, height: 400, surface: {texture: hvtrim4, size: [32, 32]}}
+    notes: "The original's sector 12 between the tunnel's two parts: open north into the two chest alcoves, with the post between them (hvtrim4, face 2849, y 3889)."
+  - id: room:s13_j49
+    outline: [[-5712, 4520], [-5968, 4520], [-5968, 4296], [-5712, 4296]]
+    floor: -1711
+    ceiling: -1455
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s14_ramp
+    name: North-west tunnel at the keg room
+    outline: [[-3937, 6855], [-3715, 7188], [-3937, 7336], [-4159, 7003]]
+    floor: -1497
+    floor_points: [[-3937, 6855, -1497], [-3715, 7188, -1385], [-3937, 7336, -1385], [-4003, 7237, -1352], [-3941, 7213, -1370], [-4087, 7111, -1352], [-4026, 7084, -1400], [-4159, 7003, -1497]]
+    steep_floor: true
+    ceiling: -1096
+    ceiling_points: [[-3937, 6855, -1241], [-3715, 7188, -1129], [-3937, 7336, -1129], [-4003, 7237, -1096], [-4087, 7111, -1096], [-4159, 7003, -1241]]
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+    notes: "The original's sector 14 round the keg room's doorway (portal 3223, sill -1352): its floor tilts up toward the sill across the tunnel (faces 3811, 2876, 385), so the party walks in. A tunnel with a section takes no platforms (round seven), so this stretch is a room with upright walls and an uneven floor between the tunnel's two parts."
+  - id: room:s14_tunnel
+    name: North-west tunnel
+    path: [[-3826, 7262, -1385], [-3740, 7391, -1342], [-4112, 7888, -1237], [-4960, 7936, -1214], [-5568, 8432, -1211], [-5600, 9280, -1176], [-4864, 9696, -1111], [-4000, 9616, -1047], [-3136, 9456, -983], [-1600, 9219, -768], [-1408, 9219, -768]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], end: {width: 128}}
+    floor: -1385
+    ceiling: -1129
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+    notes: "From the keg room's stretch on (round seven: the stretch round the keg room's doorway is room:s14_ramp)."
+  - id: room:s14_tunnel_a
+    name: "North-west tunnel, south part"
+    path: [[-5840, 4520, -1711], [-5840, 4608, -1711], [-6032, 5120, -1626], [-5888, 5712, -1559], [-5408, 6432, -1533], [-4848, 6688, -1537], [-4124, 6815, -1536], [-4048, 6929, -1497]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], start: {}}
+    floor: -1711
+    ceiling: -1455
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s19_tunnel
+    name: North-east tunnel
+    path: [[608, 13440, -768], [1440, 13440, -773], [2128, 13472, -760], [2832, 13600, -776], [3504, 13840, -883], [4160, 14048, -1003], [4781, 14336, -1078], [5475, 14336, -1132], [6112, 14096, -1323], [6640, 13728, -1414], [7000, 13728, -1436]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], start: {}}
+    floor: -768
+    ceiling: -512
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s1_lock
+    name: Flush lock
+    outline: [[256, 4096], [640, 4096], [640, 4480], [896, 4480], [896, 5504], [0, 5504], [0, 4480], [256, 4480]]
+    floor: 0
+    ceiling: 320
+    theme: theme:hvwl2a_hvflore_hvflora
+    walls:
+      - wall: 0
+        panels:
+          - {length: 64, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 320, length: 64, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 384, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+      - wall: 1
+        panels:
+          - {length: 128, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 256, length: 128, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 384, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+      - wall: 2
+        panels:
+          - {length: 128, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 128, length: 128, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 256, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+      - wall: 3
+        panels:
+          - {length: 128, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 896, length: 128, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 1024, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+      - wall: 4
+        panels:
+          - {length: 128, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 128, length: 63, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {offset: 703, length: 65, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 768, length: 128, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 896, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+      - wall: 5
+        panels:
+          - {length: 128, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 896, length: 128, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 1024, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+      - wall: 6
+        panels:
+          - {length: 128, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 128, length: 128, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 256, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+      - wall: 7
+        panels:
+          - {from: end, length: 128, height: 256, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {length: 128, height: 256, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {length: 384, bottom: 256, surface: {texture: hvwl3, size: [64, 64]}}
+  - id: room:s20_tunnel
+    name: East loop tunnel
+    path: [[7000, 13728, -1436], [7360, 13728, -1461], [8048, 13888, -1468], [8720, 13984, -1474], [9280, 13600, -1490], [9440, 12912, -1493], [9328, 12240, -1520], [8816, 11776, -1540], [8144, 11536, -1545], [7456, 11424, -1540], [6768, 11392, -1540], [6080, 11456, -1540], [5344, 11456, -1530], [4640, 11520, -1533], [3952, 11472, -1533], [3280, 11264, -1533], [2704, 10848, -1533], [2144, 10248, -1536], [2016, 10184, -1536]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], end: {width: 215}}
+    floor: -1436
+    ceiling: -1180
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s24_tunnel
+    name: East tunnel
+    path: [[2304, 9232, -576], [2544, 9232, -577], [3920, 9232, -769], [4576, 9088, -841], [4944, 8512, -897], [5456, 8128, -897], [6144, 8096, -897], [7520, 8128, -888], [8208, 8144, -894], [8880, 8160, -960], [9072, 8128, -998], [9472, 7904, -1080], [9600, 6976, -1137], [9504, 6080, -1208], [9280, 5936, -1239], [8928, 5745, -1275], [8240, 5745, -1334], [7536, 5745, -1337], [6848, 5745, -1442], [5488, 5745, -1549]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]]}
+    floor: -576
+    ceiling: -320
+    theme: theme:hvwl5a_hvflora_hvwl5a
+  - id: room:s28_cave
+    name: South-east cave
+    outline: [[5392, 5600], [5488, 5600], [5488, 5884], [4944, 5980], [4480, 6204], [4480, 6700], [4304, 7260], [3760, 7916], [2368, 7968], [2368, 7680], [3024, 7612], [3696, 7612], [3904, 7292], [3808, 6652], [4080, 5964], [4768, 5660]]
+    floor: -1569
+    rough: {step: 160, depth: 40}
+    ceiling: -1279
+    theme: theme:hvwl5a_hvflora_hvwl5a
+  - id: room:s30_tunnel
+    name: North-west loop tunnel
+    path: [[288, 13440, -768], [-291, 13440, -901], [-547, 13440, -901], [-1232, 13496, -888], [-1920, 13664, -904], [-2608, 13824, -946], [-3264, 14048, -1003], [-3936, 14432, -1201], [-4624, 14432, -1201], [-5136, 14160, -1328], [-5600, 13776, -1397], [-5680, 13736, -1400], [-5744, 13736, -1400]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], start: {}}
+    floor: -768
+    ceiling: -512
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s33_box
+    name: Box under the south-west pit
+    outline: [[-1056, 10272], [-800, 10272], [-800, 10784], [-1056, 10784]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvflori_hvflorb_hvflora
+    platforms:
+      - {id: platform:pad_sw_box, at: [-928, 10656], size: [192, 192], rise: 16, surface: {texture: d5drlgbe, size: [256, 32]}, top_surface: {texture: orwtr64, size: [64, 64]}}
+  - id: room:s33_tunnel
+    name: South-west loop tunnel
+    path: [[-1088, 10656, -1536], [-1400, 10656, -1683], [-1682, 10741, -1816], [-2528, 10816, -1753], [-3440, 11024, -1629], [-3792, 11045, -1603], [-4448, 11045, -1543], [-5008, 11168, -1460], [-5856, 11232, -1437], [-6064, 11360, -1436], [-6464, 11728, -1435], [-6464, 12784, -1400]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], start: {}, end: {length: 256}}
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvwl3a_hvflorb_hvwl3a
+  - id: room:s34_cave
+    name: North-west cave
+    outline: [[-6592, 12800], [-6336, 12800], [-5862, 13000], [-5750, 13208], [-5958, 13432], [-5744, 13592], [-5744, 13880], [-6150, 13512], [-6566, 13608], [-6518, 13896], [-6582, 14136], [-6742, 14328], [-6742, 14504], [-6982, 14504], [-6982, 14408], [-7206, 14344], [-7382, 14136], [-7430, 13816], [-7286, 13416], [-7430, 13192], [-7334, 13016], [-7190, 12936]]
+    floor: -1400
+    rough: {step: 160, depth: 40}
+    ceiling: -1120
+    theme: theme:hvwl2a_hvflorb_hvflora
+    platforms:
+      - {id: platform:pad_cave_nw, at: [-6464, 12936], size: [192, 192], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+      - {rise: 55, surface: {texture: hvwl2a, size: [128, 256]}, outline: [[-6982, 14408], [-6742, 14328], [-6742, 14504], [-6982, 14504]], top_surface: {texture: hvtrim1, size: [32, 32]}, notes: "The plinth chest 5 stands on (faces 3098, 3157, 3158: hvtrim1 at -1345); the original's front slopes down to the cave floor, here it stands upright."}
+  - id: room:s35_e
+    name: "Great north hall, east half"
+    outline: [[448, 15620], [1730, 15620], [2432, 16043], [2432, 17553], [1784, 17835], [448, 17998]]
+    floor: -1536
+    ceiling: -1024
+    ceiling_points: [[2432, 16286, -787], [2432, 16779, -787], [2432, 17272, -787], [2432, 17482, -1024], [1529, 15925, -787], [1529, 17633, -787], [448, 15793, -787], [448, 17765, -787], [448, 16063, -599], [448, 17496, -599], [1233, 16159, -599], [1233, 17400, -599], [1808, 16421, -599], [1808, 17137, -599], [2018, 16779, -599], [448, 16403, -478], [448, 17156, -478], [861, 16453, -478], [861, 17105, -478], [1163, 16591, -478], [1163, 16968, -478], [1273, 16779, -478], [448, 16779, -436]]
+    ceiling_lines:
+      - [[448, 15793], [1529, 15925], [2432, 16286]]
+      - [[2432, 17272], [1529, 17633], [448, 17765]]
+      - [[448, 16063], [1233, 16159], [1808, 16421], [2018, 16779], [1808, 17137], [1233, 17400], [448, 17496]]
+      - [[448, 16403], [861, 16453], [1163, 16591], [1273, 16779], [1163, 16968], [861, 17105], [448, 17156]]
+    theme: theme:hvwl6_hvflori_hvceilb
+    walls:
+      - wall: 0
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 1
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 2
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 3
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 4
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 5
+        panels:
+          - {from: end, length: 2172, height: 256, surface: {texture: hvwl1a, size: [128, 256]}}
+          - {length: 2378, bottom: 256, surface: {texture: hvwl6, size: [128, 256]}}
+    bands:
+      - {height: 256, surface: {texture: hvwl5a, size: [128, 256]}}
+      - {height: 288, surface: {texture: hvtrim2, size: [32, 32]}}
+    platforms:
+      - {id: platform:pad_north_e, rise: 8, outline: [[2242, 16779], [1730, 17770], [1730, 15660]], top_surface: {texture: orwtr64, size: [64, 64]}}
+    notes: "As the original: the outer walls hvwl5a to -1280, a trim to -1248, the dome's hvceilb above; the dividing wall's east face hvwl1a to -1280 (hvwl5a beside its doorway) and hvwl6 above. The east half of the dome by the original's own vertices one for one (rings -787, -599, -478, apex -436; 23 points), its east end on the wall to the east hall (-787 from 16286 to 17272, -1024 at 16043 and 17482). The original's first ring, at -1024, stands almost upright on the walls (30 in over 224); here the walls go up to it."
+  - id: room:s35_w
+    name: "Great north hall, west half"
+    outline: [[-1664, 16296], [-888, 15724], [384, 15620], [384, 17998], [-1664, 17797]]
+    floor: -1536
+    ceiling: -1024
+    ceiling_points: [[-1664, 16296, -1248], [-1664, 16347, -1070], [-1664, 16515, -886], [-1664, 17272, -787], [-1664, 17618, -886], [-1664, 17786, -1070], [-1664, 17797, -1098], [-633, 15925, -787], [-633, 17633, -787], [384, 15793, -787], [384, 17765, -787], [-1122, 16779, -599], [-912, 16421, -599], [-912, 17137, -599], [-337, 16159, -599], [-337, 17400, -599], [384, 16063, -599], [384, 17496, -599], [-378, 16779, -478], [-267, 16591, -478], [-267, 16968, -478], [35, 16453, -478], [35, 17105, -478], [384, 16403, -478], [384, 17156, -478], [384, 16779, -436]]
+    ceiling_lines:
+      - [[384, 15793], [-633, 15925]]
+      - [[384, 17765], [-633, 17633]]
+      - [[384, 16063], [-337, 16159], [-912, 16421], [-1122, 16779], [-912, 17137], [-337, 17400], [384, 17496]]
+      - [[384, 16403], [35, 16453], [-267, 16591], [-378, 16779], [-267, 16968], [35, 17105], [384, 17156]]
+    theme: theme:hvwl6_hvflori_hvceilb
+    walls:
+      - wall: 0
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 1
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 2
+        panels:
+          - {length: 2378, surface: {texture: hvwl6, size: [128, 256]}}
+      - wall: 3
+        surface: {texture: hvceilb, size: [128, 128]}
+      - wall: 4
+        surface: {texture: hvceilb, size: [128, 128]}
+    bands:
+      - {height: 256, surface: {texture: hvwl5a, size: [128, 256]}}
+      - {height: 288, surface: {texture: hvtrim2, size: [32, 32]}}
+    platforms:
+      - {id: platform:pad_north_w, rise: 8, outline: [[-322, 16779], [-834, 17792], [-834, 15790]], top_surface: {texture: orwtr64, size: [64, 64]}}
+    notes: "The west half of the dome by the original's own vertices one for one (26 points), its west end the arch over the wall to the west hall, as the original's. The north wall is one straight line from [384, 17998] to [-1664, 17797]; the original's bends in by 22 at [-888, 17835] and ends at [-1664, 17857]."
+  - id: room:s36_vestibule
+    name: Vestibule under the north hall
+    outline: [[1184, 15124], [1456, 15124], [1744, 15588], [448, 15588]]
+    floor: -1536
+    ceiling: -1100
+    theme: theme:hvceilb_hvflori_hvceilb
+  - id: room:s37_east_hall
+    name: East hall
+    outline: [[2432, 16043], [3120, 15660], [3863, 15983], [4172, 16763], [3968, 17408], [3968, 17552], [3120, 17865], [2432, 17553]]
+    floor: -1536
+    ceiling: -1024
+    ceiling_points: [[3120, 15744, -846], [3807, 16043, -846], [4092, 16763, -846], [3968, 17075, -846], [3807, 17482, -846], [3120, 17781, -846], [2432, 16286, -787], [2432, 16779, -787], [2432, 17272, -787], [2432, 17482, -1024], [2594, 16211, -662], [3120, 15983, -662], [3646, 16211, -662], [3863, 16763, -662], [3646, 17314, -662], [3120, 17542, -662], [2594, 17314, -662], [2554, 17100, -646], [2717, 16763, -539], [2835, 16464, -539], [2835, 17061, -539], [3120, 16341, -539], [3120, 17184, -539], [3404, 16464, -539], [3404, 17061, -539], [3522, 16763, -539], [3120, 16763, -496]]
+    ceiling_lines:
+      - [[2432, 16286], [3120, 15744], [3807, 16043], [4092, 16763], [3968, 17075], [3807, 17482], [3120, 17781], [2432, 17272]]
+      - [[2594, 16211], [3120, 15983], [3646, 16211], [3863, 16763], [3646, 17314], [3120, 17542], [2594, 17314], [2554, 17100], [2717, 16763], [2594, 16211]]
+      - [[2717, 16763], [2835, 16464], [3120, 16341], [3404, 16464], [3522, 16763], [3404, 17061], [3120, 17184], [2835, 17061], [2717, 16763]]
+    theme: theme:hvwl5a_hvflori_hvceilb
+    bands:
+      - {height: 480, surface: {texture: hvwl5a, size: [128, 256]}}
+      - {height: 512, surface: {texture: hvtrim2, size: [32, 32]}}
+    notes: "The dome by the original's own ceiling vertices one for one (rings at -846, -662 and -539, apex -496; 27 points), its west end on the wall to the great hall (-1024 at 16043 and 17482, -787 from 16286 to 17272, as the original's). The corner with the door to the guard passage is part of the room again (it was a room of its own while the dome was whole-ceiling levels, which need a convex room)."
+  - id: room:s38_recess
+    name: "West hall, corner with the door to the west passage"
+    outline: [[-3104, 17856], [-3264, 17856], [-3264, 17712]]
+    floor: -1536
+    ceiling: -1248
+    theme: theme:hvwl5a_hvflori_hvceilb
+    bands:
+      - {height: 256, surface: {texture: hvwl5a, size: [128, 256]}}
+      - {height: 288, surface: {texture: hvtrim2, size: [32, 32]}}
+  - id: room:s38_west_hall
+    name: West hall
+    outline: [[-2368, 16296], [-1664, 16296], [-1664, 17857], [-2368, 18169], [-3104, 17856], [-3264, 17712], [-3420, 17067], [-3055, 16351]]
+    floor: -1536
+    ceiling: -1248
+    ceiling_points: [[-1921, 16328, -1134], [-3340, 17067, -1070], [-3055, 17786, -1070], [-2368, 18085, -1070], [-1664, 16347, -1070], [-1664, 17786, -1070], [-3111, 17067, -886], [-2894, 16515, -886], [-2894, 17618, -886], [-2368, 16415, -886], [-2368, 17846, -886], [-1664, 16515, -886], [-1664, 17618, -886], [-1664, 16784, -850], [-1800, 16763, -830], [-1664, 17175, -799], [-1664, 17272, -787], [-2770, 17067, -763], [-2652, 16768, -763], [-2652, 17365, -763], [-2368, 16645, -763], [-2368, 17488, -763], [-2083, 16768, -763], [-2083, 17365, -763], [-1965, 17067, -763], [-2368, 17067, -720]]
+    ceiling_lines:
+      - [[-1664, 17786], [-2368, 18085], [-3055, 17786], [-3340, 17067]]
+      - [[-1664, 16347], [-1921, 16328]]
+      - [[-1664, 16515], [-2368, 16415], [-2894, 16515], [-3111, 17067], [-2894, 17618], [-2368, 17846], [-1664, 17618]]
+      - [[-2368, 16645], [-2083, 16768], [-1965, 17067], [-2083, 17365], [-2368, 17488], [-2652, 17365], [-2770, 17067], [-2652, 16768], [-2368, 16645]]
+    theme: theme:hvwl5a_hvflori_hvceilb
+    bands:
+      - {height: 256, surface: {texture: hvwl5a, size: [128, 256]}}
+      - {height: 288, surface: {texture: hvtrim2, size: [32, 32]}}
+    notes: "The dome by the original's own ceiling vertices one for one (rings at -1070, -886 and -763, apex -720, and the arch over the wall to the great hall; 26 points), less two ring points 8 and 28 inside the north wall where the original's dome stands almost upright (a ceiling rises at most 4 per unit of run). The corner with the door to the west passage is room:s38_recess."
+  - id: room:s39_corridor
+    name: North corridor and crossing
+    outline: [[320, 10627], [576, 10627], [576, 13604], [320, 13604]]
+    floor: -768
+    ceiling: -512
+    theme: theme:hvwl1a_hvflorb_hvflora
+  - id: room:s3_gallery
+    name: Gallery
+    outline: [[192, 5536], [704, 5536], [704, 6565], [192, 6565]]
+    floor: 0
+    ceiling: 256
+    theme: theme:hvwl2a_hvflore_hvflora
+    platforms:
+      - {id: platform:pad_gallery_w, at: [321, 6405], size: [128, 192], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+      - {id: platform:pad_gallery_e, at: [575, 6405], size: [128, 192], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+  - id: room:s40_a
+    outline: [[320, 13636], [576, 13636], [576, 14372], [320, 14372]]
+    floor: -768
+    slope: {to: -896, toward: n}
+    ceiling: -512
+    ceiling_slope: {to: -640, toward: n}
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s40_b
+    outline: [[320, 14372], [576, 14372], [576, 14628], [320, 14628]]
+    floor: -896
+    ceiling: -640
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s41_a
+    outline: [[-960, 14372], [320, 14372], [320, 14628], [-960, 14628]]
+    floor: -896
+    slope: {to: -1152, toward: w}
+    ceiling: -640
+    ceiling_slope: {to: -896, toward: w}
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s41_b
+    outline: [[-1216, 14372], [-960, 14372], [-960, 14628], [-1216, 14628]]
+    floor: -1152
+    ceiling: -896
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s42_a
+    outline: [[-1216, 14628], [-960, 14628], [-960, 15140], [-1216, 15140]]
+    floor: -1152
+    slope: {to: -1280, toward: n}
+    ceiling: -896
+    ceiling_slope: {to: -1024, toward: n}
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s42_b
+    outline: [[-1216, 15140], [-960, 15140], [-960, 15396], [-1216, 15396]]
+    floor: -1280
+    ceiling: -1024
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s43_a
+    outline: [[-1856, 15140], [-1216, 15140], [-1216, 15396], [-1856, 15396]]
+    floor: -1280
+    slope: {to: -1408, toward: w}
+    ceiling: -1024
+    ceiling_slope: {to: -1152, toward: w}
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s43_b
+    outline: [[-2112, 15140], [-1856, 15140], [-1856, 15396], [-2112, 15396]]
+    floor: -1408
+    ceiling: -1152
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s44_ramp
+    outline: [[-2112, 15396], [-1856, 15396], [-1856, 16264], [-2112, 16264]]
+    floor: -1408
+    slope: {to: -1536, toward: n}
+    ceiling: -1152
+    ceiling_slope: {to: -1280, toward: n}
+    theme: theme:hvwl1a_hvflora_hvflora
+  - id: room:s45_cell
+    name: Locked cell
+    outline: [[5616, 6160], [6032, 6160], [6400, 6320], [6560, 6704], [6400, 7120], [6032, 7296], [5616, 7120], [5440, 6752]]
+    floor: -1505
+    ceiling: -1160
+    theme: theme:hvwl6_hvflora_hvflord
+    platforms:
+      - {at: [6000, 6818], size: [448, 256], rise: 112, surface: {texture: hvtrim1, size: [32, 32]}}
+  - id: room:s45_passage
+    outline: [[5760, 5889], [5888, 5889], [5888, 6128], [5760, 6128]]
+    floor: -1505
+    ceiling: -1249
+    theme: theme:hvwl6_hvflora_hvflord
+    platforms:
+      - {id: platform:pad_cell_e, at: [5824, 5977.5], size: [128, 177], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+  - id: room:s46_cell
+    name: South cell
+    outline: [[-1336, 2188], [-1256, 2220], [-1128, 2780], [-1304, 3308], [-1712, 3308], [-2088, 3148], [-2248, 2732], [-2088, 2348], [-1720, 2188]]
+    floor: -2038
+    ceiling: -1718
+    ceiling_points: [[-2085, 2748, -1629], [-1970, 2468, -1629], [-1970, 3028, -1629], [-1692, 2352, -1629], [-1692, 3144, -1629], [-1414, 2468, -1629], [-1414, 3028, -1629], [-1299, 2748, -1629], [-1905, 2748, -1570], [-1843, 2596, -1570], [-1843, 2900, -1570], [-1692, 2534, -1570], [-1692, 2962, -1570], [-1542, 2596, -1570], [-1542, 2900, -1570], [-1479, 2748, -1570], [-1692, 2748, -1550]]
+    theme: theme:hvwl4a_hvflorb_hvflora
+    walls:
+      - wall: 8
+        panels:
+          - {offset: 28, length: 160, height: 256, surface: {texture: hvwl4le, size: [128, 256]}}
+          - {offset: 188, length: 128, height: 256, surface: {texture: hvwl4re, size: [128, 256]}}
+          - {offset: 28, length: 356, bottom: 256, height: 64, surface: {texture: hvwl3, size: [64, 64]}}
+    notes: "The south wall as the original's (y 2188): the carved panel hvwl4le and hvwl4re from x -1692 to -1404 with the button (mover:button31) in it, an hvwl3 band above to -1718. Left out: the niche 64 square, 96 above the floor at x -1404 to -1340 (hvflord inside), which nothing uses."
+  - id: room:s47_passage
+    outline: [[-1572, 3340], [-1440, 3340], [-1440, 3779], [-1572, 3757]]
+    floor: -2038
+    ceiling: -1782
+    theme: theme:hvwl1a_hvflorb_hvflora
+    platforms:
+      - {id: platform:pad_cell_sw, at: [-1504, 3660], size: [128, 192], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+  - id: room:s48_cell
+    name: Flush control cell
+    outline: [[-5684, 2473], [-5268, 2473], [-5092, 3033], [-5252, 3417], [-5700, 3576], [-6036, 3576], [-6212, 3033], [-6052, 2617]]
+    floor: -1711
+    ceiling: -1391
+    ceiling_points: [[-6049, 3016, -1302], [-5934, 2736, -1302], [-5934, 3296, -1302], [-5656, 2620, -1302], [-5656, 3412, -1302], [-5378, 2736, -1302], [-5378, 3296, -1302], [-5263, 3016, -1302], [-5869, 3016, -1243], [-5806, 2864, -1243], [-5806, 3168, -1243], [-5656, 2802, -1243], [-5656, 3230, -1243], [-5505, 2864, -1243], [-5505, 3168, -1243], [-5443, 3016, -1243], [-5656, 3016, -1223]]
+    theme: theme:hvwl1a_hvflorb_hvflora
+  - id: room:s49_passage
+    outline: [[-5904, 3608], [-5776, 3608], [-5776, 4296], [-5904, 4296]]
+    floor: -1711
+    ceiling: -1455
+    theme: theme:hvwl6_hvflorb_hvflora
+    platforms:
+      - {id: platform:pad_cell_w, at: [-5840, 4200], size: [128, 192], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+  - id: room:s4_hall
+    name: Great chamber
+    outline: [[-998, 7168], [-384, 6784], [64, 6661], [192, 6565], [704, 6565], [832, 6661], [1280, 6784], [1894, 7168], [2495, 8623], [2304, 9104], [2304, 9376], [2150, 9460], [1895, 10077], [640, 10627], [256, 10627], [-999, 10077], [-1254, 9460], [-1376, 9312], [-1376, 9120], [-1599, 8623]]
+    floor: -768
+    ceiling: 256
+    theme: theme:hvwl4a_hvflorb_hvwl4a
+    bands:
+      - {height: 768, surface: {texture: hvwl3a, size: [128, 256]}}
+    platforms:
+      - {id: platform:ledge, rise: 768, surface: {texture: hvwl3a, size: [128, 256]}, outline: [[-998, 7168], [-384, 6784], [64, 6661], [192, 6565], [704, 6565], [832, 6661], [1280, 6784], [1894, 7168]], top_surface: {texture: hvflore, size: [128, 128]}}
+      - {at: [800, 8964], size: [64, 392], rise: 38, surface: {texture: hvtrim2, size: [32, 32]}}
+      - {at: [288, 10595], size: [64, 64], rise: 736, surface: {texture: d5colum, size: [64, 256]}, top_surface: {texture: hvflorb, size: [128, 128]}}
+      - {at: [608, 10595], size: [64, 64], rise: 736, surface: {texture: d5colum, size: [64, 256]}, top_surface: {texture: hvflorb, size: [128, 128]}}
+      - {at: [448, 10595], size: [256, 64], rise: 64, surface: {texture: d5trima, size: [256, 64]}, top_surface: {texture: hvflorb, size: [128, 128]}, bottom_surface: {texture: hvflorf, size: [128, 128]}, base: 256}
+      - {at: [448, 10595], size: [256, 64], rise: 64, surface: {texture: d5trima, size: [256, 64]}, top_surface: {texture: hvflorb, size: [128, 128]}, bottom_surface: {texture: hvflorf, size: [128, 128]}, base: 672}
+      - {id: platform:pad_hall_1, at: [448, 8093], size: [384, 192], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+      - {id: platform:pad_hall_2, at: [448, 7485], size: [384, 256], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+      - {id: platform:pad_hall_3, at: [448, 10371], size: [384, 256], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+      - {id: platform:pad_hall_4, at: [448, 9808], size: [384, 224], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+      - {id: platform:pad_hall_5, at: [-624, 9160], size: [320, 256], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+      - {id: platform:pad_hall_6, at: [1520, 9320], size: [320, 320], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+    ceiling_levels:
+      - outline: [[-1556, 8623], [-966, 7195], [-368, 6821], [69, 6701], [827, 6701], [1264, 6821], [1862, 7195], [2452, 8623], [1864, 10047], [632, 10587], [264, 10587], [-968, 10047]]
+        ceiling: 816
+        top_outline: [[-1443, 8623], [-889, 7279], [449, 6722], [449, 6722], [449, 6722], [449, 6722], [1785, 7279], [2339, 8623], [1785, 9966], [448, 10523], [448, 10523], [-889, 9966]]
+        notes: "The dome's first ring. In the original it leans in from the top of the walls at z 0; here from 256, where the walls end (the gallery's doorway is 256 high)."
+      - outline: [[-1443, 8623], [-889, 7279], [449, 6722], [1785, 7279], [2339, 8623], [1785, 9966], [448, 10523], [-889, 9966]]
+        ceiling: 1509
+        top_outline: [[-999, 8623], [-575, 7594], [448, 7168], [1471, 7594], [1895, 8623], [1471, 9651], [448, 10077], [-575, 9651]]
+      - outline: [[-999, 8623], [-575, 7594], [448, 7168], [1471, 7594], [1895, 8623], [1471, 9651], [448, 10077], [-575, 9651]]
+        ceiling: 1972
+        top_outline: [[-335, 8623], [-106, 8066], [448, 7836], [1002, 8066], [1231, 8623], [1002, 9178], [448, 9409], [-106, 9178]]
+      - outline: [[-335, 8623], [-106, 8066], [448, 7836], [1002, 8066], [1231, 8623], [1002, 9178], [448, 9409], [-106, 9178]]
+        ceiling: 2134
+        top_scale: 0
+    notes: "The original is two sectors: the basin (S4, floor -768) and the dome over it with the ledge (S2). Here one room: the ledge is a platform 768 high against the south wall, so that one dome of four rings covers both. Pits 5 to 8 and the hatch are holes in this floor onto the rooms below (floor openings)."
+  - id: room:s50_cell
+    name: East cell (hatch switch)
+    outline: [[7664, 6720], [7920, 6720], [8624, 6768], [8928, 6896], [9056, 7088], [8928, 7280], [8583, 7433], [8583, 7625], [8455, 7625], [8455, 7561], [8445, 7433], [8157, 7433], [7680, 7408], [7376, 7280], [7264, 7072], [7376, 6896]]
+    floor: -1335
+    ceiling: -985
+    ceiling_points: [[7527, 7081, -863], [7611, 6952, -863], [7611, 7211, -863], [7842, 6857, -863], [7842, 7306, -863], [8157, 6822, -863], [8157, 7341, -863], [8471, 6857, -863], [8471, 7306, -863], [8702, 6952, -863], [8702, 7211, -863], [8786, 7081, -863], [7816, 7081, -782], [7861, 7011, -782], [7861, 7152, -782], [7986, 6960, -782], [7986, 7203, -782], [8157, 6941, -782], [8157, 7222, -782], [8327, 6960, -782], [8327, 7203, -782], [8452, 7011, -782], [8452, 7152, -782], [8497, 7081, -782], [8157, 7081, -753]]
+    theme: theme:hvwl2a_hvflora_hvflori
+    walls:
+      - wall: 10
+        panels:
+          - {offset: 0, length: 128, height: 318, surface: {texture: hvwl2le, size: [128, 256]}}
+          - {offset: 128, length: 32, height: 318, surface: {texture: hvwl3le, size: [128, 256]}}
+          - {offset: 160, length: 128, height: 318, surface: {texture: hvwl2re, size: [128, 256]}}
+          - {offset: 0, length: 288, bottom: 318, height: 32, surface: {texture: hvtrim2, size: [32, 32]}}
+    platforms:
+      - {rise: 32, surface: {texture: hvtrim1, size: [32, 32]}, outline: [[8455, 7561], [8583, 7561], [8583, 7625], [8455, 7625]]}
+    notes: "The north wall beside the chest niche as the original's (y 7433): the carved panel hvwl2le, hvwl3le, hvwl2re from x 8445 to 8157 round the hatch button (mover:button41), hvtrim2 above to the dome's foot; the original's panel begins 13 east of the niche corner."
+  - id: room:s51_passage
+    outline: [[7728, 5889], [7856, 5889], [7856, 6688], [7728, 6688]]
+    floor: -1335
+    ceiling: -1079
+    theme: theme:hvwl6_hvflora_hvflora
+    platforms:
+      - {id: platform:pad_cell_ee, at: [7792, 6008.5], size: [128, 239], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+  - id: room:s52_cell
+    outline: [[5056, 12032], [5440, 12032], [5440, 13056], [5056, 13056]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s52_door
+    outline: [[5440, 12800], [5568, 12800], [5568, 13056], [5440, 13056]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s53_cell
+    outline: [[4480, 11840], [5568, 11840], [5568, 11968], [4992, 11968], [4992, 12800], [4480, 12800]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s54_cell
+    outline: [[5952, 12032], [6336, 12032], [6336, 13056], [5952, 13056]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s54_door
+    outline: [[5824, 12800], [5952, 12800], [5952, 13056], [5824, 13056]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s55_cell
+    outline: [[5824, 11840], [6912, 11840], [6912, 12800], [6400, 12800], [6400, 11968], [5824, 11968]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+    platforms:
+      - {at: [6656, 12192], size: [256, 448], rise: 112, surface: {texture: hvflord, size: [128, 128]}}
+  - id: room:s56_cells_n
+    name: North cell passage
+    outline: [[5568, 11600], [5824, 11600], [5824, 13056], [5568, 13056]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s57_cell
+    outline: [[4928, 9856], [5440, 9856], [5440, 10880], [4928, 10880]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+    platforms:
+      - {at: [5184, 10336], size: [256, 448], rise: 112, surface: {texture: hvflord, size: [128, 128]}}
+  - id: room:s57_door
+    outline: [[5440, 9856], [5568, 9856], [5568, 10112], [5440, 10112]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s58_cell
+    outline: [[4352, 10112], [4864, 10112], [4864, 10944], [5568, 10944], [5568, 11072], [4352, 11072]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s59_cell
+    outline: [[5952, 9856], [6336, 9856], [6336, 10880], [5952, 10880]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s59_door
+    outline: [[5824, 9856], [5952, 9856], [5952, 10112], [5824, 10112]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s5_pit
+    name: North-west pit
+    outline: [[-1056, 10272], [-1152, 10080], [-1120, 9888], [-1056, 9696], [-800, 9696], [-608, 9920], [-608, 10144], [-800, 10272]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvflori_hvflora_hvflori
+    ceiling_levels:
+      - ceiling: -768
+        top_outline: [[-967, 10045], [-967, 10045], [-967, 10045], [-1056, 9696], [-800, 9696], [-608, 9920], [-608, 10144], [-608, 10144]]
+        edge: {texture: hvflori, size: [128, 128]}
+    notes: "Under a hole in the floor of the great chamber. The pit is wider at its foot than the hole: its west and north sides lean in as they rise (from the floor in the original, from 256 above it here, where the walls end)."
+  - id: room:s60_cell
+    outline: [[6400, 10112], [6912, 10112], [6912, 11072], [5824, 11072], [5824, 10944], [6400, 10944]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s61_cells_s
+    name: South cell passage
+    outline: [[5568, 9856], [5824, 9856], [5824, 11312], [5568, 11312]]
+    floor: -1530
+    ceiling: -1274
+    theme: theme:hvwl1a_hvflora_hvflorc
+  - id: room:s62_passage
+    outline: [[-4480, 17718], [-3296, 17718], [-3296, 17846], [-4096, 17846], [-4096, 18619], [-4480, 18619]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvwl5a_hvflori_hvceilb
+  - id: room:s63_closet
+    name: Switch closet
+    outline: [[-4096, 17969], [-3840, 17969], [-3840, 18619], [-4096, 18619]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvwl3a_hvflori_hvceilb
+    walls:
+      - wall: 1
+        surface: {texture: hvtrim1, size: [32, 32]}
+        panels:
+          - {offset: 37, length: 256, surface: {texture: hvwl3spa, size: [256, 256]}}
+          - {offset: 357, length: 256, surface: {texture: hvwl3spa, size: [256, 256]}}
+    notes: "The east wall as the original's: two hvwl3spa panels 256 wide, hvtrim1 strips at both ends and over and under the button (mover:button35)."
+  - id: room:s64_passage
+    outline: [[4000, 17414], [4832, 17414], [4832, 17542], [4000, 17542]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvwl5a_hvflora_hvflorb
+  - id: room:s65_landing
+    outline: [[5824, 17414], [6080, 17414], [6080, 17990], [5824, 17990]]
+    floor: -1712
+    ceiling: -1456
+    theme: theme:hvwl5a_hvflora_hvflorb
+  - id: room:s65_low
+    name: Lower passage under the guard room's floor panel
+    outline: [[4576, 17734], [4832, 17734], [4832, 17990], [4576, 17990]]
+    floor: -2080
+    ceiling: -1280
+    theme: theme:hvwl5a_hvflora_hvflorb
+    walls:
+      - wall: 0
+        panels:
+          - {length: 256, height: 256, surface: {texture: hvwl1spb, size: [256, 256]}}
+          - {length: 256, bottom: 256, height: 256, surface: {texture: hvwl2a, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 256, bottom: 256, height: 256, surface: {texture: hvwl2a, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 256, height: 256, surface: {texture: hvwl1spb, size: [256, 256]}}
+          - {length: 256, bottom: 256, height: 256, surface: {texture: hvwl2a, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 256, bottom: 256, height: 256, surface: {texture: hvwl2a, size: [128, 256]}}
+    notes: "Open up to the guard room's ceiling: the west end of the upper floor over it is a sliding panel (mover:floor_panel, door 38 of the original)."
+  - id: room:s65_ramp1
+    outline: [[5216, 17414], [5824, 17414], [5824, 17670], [5216, 17670]]
+    floor: -1536
+    slope: {to: -1712, toward: e}
+    ceiling: -1280
+    ceiling_slope: {to: -1456, toward: e}
+    theme: theme:hvwl5a_hvflora_hvflorb
+  - id: room:s65_ramp2
+    outline: [[5184, 17734], [5824, 17734], [5824, 17990], [5184, 17990]]
+    floor: -1712
+    slope: {to: -1950, toward: w}
+    ceiling: -1456
+    ceiling_slope: {to: -1694, toward: w}
+    theme: theme:hvwl5a_hvflora_hvflorb
+  - id: room:s65_ramp3
+    outline: [[4832, 17734], [5184, 17734], [5184, 17990], [4832, 17990]]
+    floor: -1950
+    slope: {to: -2080, toward: w}
+    ceiling: -1694
+    ceiling_slope: {to: -1824, toward: w}
+    theme: theme:hvwl5a_hvflora_hvflorb
+    notes: Runs under the upper floor of the guard room.
+  - id: room:s65_upper
+    name: "Guard room, upper floor"
+    outline: [[4832, 17414], [5184, 17414], [5184, 17990], [4832, 17990]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvwl5a_hvflora_hvflorb
+  - id: room:s65_west
+    outline: [[4288, 17734], [4544, 17734], [4544, 18502], [4288, 18502]]
+    floor: -2080
+    ceiling: -1824
+    theme: theme:hvwl5a_hvflora_hvflorb
+  - id: room:s66_landing
+    outline: [[4512, 6424], [5280, 6424], [5280, 6680], [4512, 6680]]
+    floor: -1569
+    floor_points: [[5024, 6424, -1381], [5024, 6680, -1381], [5280, 6424, -1381], [5280, 6680, -1381]]
+    ceiling: -1313
+    ceiling_points: [[5024, 6424, -1125], [5024, 6680, -1125], [5280, 6424, -1125], [5280, 6680, -1125]]
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s66_stairs
+    outline: [[5024, 6680], [5280, 6680], [5280, 7190], [5024, 7190]]
+    floor: -1381
+    slope: {to: -1156, toward: n, steps: 15, tread: {texture: hvtrim1, size: [32, 32]}}
+    ceiling: -1125
+    ceiling_slope: {to: -900, toward: n}
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s67_a
+    outline: [[5024, 7190], [5280, 7190], [5280, 7446], [5024, 7446]]
+    floor: -1156
+    ceiling: -900
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s67_ramp
+    outline: [[3231, 7190], [5024, 7190], [5024, 7446], [3231, 7446]]
+    floor: -1156
+    slope: {to: -640, toward: w}
+    ceiling: -900
+    ceiling_slope: {to: -384, toward: w}
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s68_a
+    outline: [[2975, 7190], [3231, 7190], [3231, 7446], [2975, 7446]]
+    floor: -640
+    ceiling: -384
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s68_ramp
+    outline: [[2975, 6422], [3231, 6422], [3231, 7190], [2975, 7190]]
+    floor: -640
+    slope: {to: -512, toward: s}
+    ceiling: -384
+    ceiling_slope: {to: -256, toward: s}
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s69_a
+    outline: [[2975, 6166], [3231, 6166], [3231, 6422], [2975, 6422]]
+    floor: -512
+    ceiling: -256
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s69_mid
+    name: "Stepped corridor, landing"
+    outline: [[1439, 6166], [1951, 6166], [1951, 6422], [1439, 6422]]
+    floor: -128
+    ceiling: 128
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s69_ramp
+    name: "Stepped corridor, lower ramp"
+    outline: [[1951, 6166], [2975, 6166], [2975, 6422], [1951, 6422]]
+    floor: -512
+    slope: {to: -128, toward: w}
+    ceiling: -256
+    ceiling_slope: {to: 128, toward: w}
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s69_ramp_top
+    name: "Stepped corridor, upper ramp"
+    outline: [[993, 6166], [1439, 6166], [1439, 6422], [993, 6422]]
+    floor: -128
+    slope: {to: 0, toward: w}
+    ceiling: 128
+    ceiling_slope: {to: 256, toward: w}
+    theme: theme:hvwl2a_hvflora_hvflore
+  - id: room:s69_top
+    name: Head of the stepped corridor
+    outline: [[737, 6166], [993, 6166], [993, 6422], [737, 6422]]
+    floor: 0
+    ceiling: 256
+    theme: theme:hvwl2a_hvflora_hvflore
+    notes: "Behind door 4. Its floor is event 27 of the original: walking on it slides the hatch's cover open."
+  - id: room:s6_low
+    name: Under the south-west pit
+    outline: [[-1728, 7680], [-1472, 7680], [-1472, 7968], [-1728, 7968]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvflori_hvflorb_hvflora
+    platforms:
+      - {id: platform:pad_sw_low, at: [-1600, 7808], size: [192, 192], rise: 16, top_surface: {texture: orwtr64, size: [64, 64]}}
+  - id: room:s6_pit
+    name: South-west pit
+    outline: [[-1115, 8189], [-1371, 8189], [-1472, 7968], [-1472, 7680], [-1115, 7549], [-923, 7741], [-923, 7997]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvflori_hvflorb_hvflori
+    ceiling_levels:
+      - ceiling: -768
+        top_outline: [[-1115, 8189], [-1371, 8189], [-1280, 7848], [-1280, 7848], [-1115, 7549], [-923, 7741], [-923, 7997]]
+        edge: {texture: hvflori, size: [128, 128]}
+    notes: "Under a hole in the floor of the great chamber; its west side leans in from the low room's ceiling up to the hole's edge on the chamber's wall line."
+  - id: room:s70_tunnel
+    name: Deep tunnel
+    path: [[608, 9160, -2304], [608, 9568, -2308], [976, 11072, -2271], [1320, 12096, -2142], [1320, 15124, -1536]]
+    section: {outline: [[-64, 0], [64, 0], [128, 128], [64, 256], [-64, 256], [-128, 128]], start: {}}
+    floor: -2304
+    ceiling: -2048
+    theme: theme:hvceilb_hvflori_hvceilb
+  - id: room:s71_a
+    outline: [[-1728, 8000], [-1472, 8000], [-1472, 8256], [-1728, 8256]]
+    floor: -1536
+    ceiling: -1274
+    theme: theme:hvwl4a_hvflora_hvflorb
+  - id: room:s71_b
+    outline: [[-2240, 8000], [-1728, 8000], [-1728, 8256], [-2240, 8256]]
+    floor: -1536
+    slope: {to: -1664, toward: w}
+    ceiling: -1280
+    ceiling_slope: {to: -1408, toward: w}
+    theme: theme:hvwl4a_hvflora_hvflorb
+  - id: room:s72_store
+    name: Store
+    outline: [[-2752, 8000], [-2240, 8000], [-2240, 8512], [-2752, 8512]]
+    floor: -1664
+    ceiling: -1402
+    theme: theme:hvwl4a_hvflora_hvflorb
+  - id: room:s73_keg
+    name: Keg room
+    outline: [[-4572, 7111], [-4087, 7111], [-4003, 7237], [-4316, 7237], [-4316, 7366], [-4572, 7366]]
+    floor: -1352
+    ceiling: -1100
+    theme: theme:hvflord_hvflorb_hvflora
+  - id: room:s74_switch
+    name: Flush switch closet
+    outline: [[-4304, 11189], [-4048, 11189], [-4048, 11504], [-4304, 11504]]
+    floor: -1565
+    ceiling: -1284
+    theme: theme:hvwl2a_orwtr64_hvflora
+    platforms:
+      - {id: platform:shelf, at: [-4176, 11472], size: [256, 64], rise: 121, top_surface: {texture: hvflori, size: [128, 128]}}
+  - id: room:s75_chest
+    name: Chest room off the north-east tunnel
+    outline: [[4816, 14480], [5072, 14480], [5072, 14720], [5584, 14720], [5584, 14976], [4816, 14976]]
+    floor: -1082
+    ceiling: -830
+    theme: theme:hvwl5a_hvflorb_hvflore
+    platforms:
+      - {rise: 16, surface: {texture: hvtrim4, size: [32, 32]}, outline: [[5325, 14720], [5584, 14720], [5584, 14976], [5325, 14976]], notes: "The original's dais under chest 2 (faces 2940 to 2942: hvtrim4 at -1066)."}
+  - id: room:s76_entry
+    name: Entry
+    outline: [[160, 3488], [736, 3488], [736, 4064], [160, 4064]]
+    floor: 0
+    ceiling: 320
+    theme: theme:hvwl3a_hvflore_hvceilb
+    walls:
+      - wall: 0
+        surface: {texture: hvtrim1, size: [32, 32]}
+      - wall: 2
+        panels:
+          - {offset: 128, length: 32, surface: {texture: hvtrim4, size: [32, 32]}}
+          - {offset: 416, length: 32, surface: {texture: hvtrim4, size: [32, 32]}}
+          - {offset: 160, length: 256, bottom: 256, surface: {texture: hvtrim4, size: [32, 32]}}
+  - id: room:s77_alcove
+    name: Alcove of the final exit
+    outline: [[4544, 27136], [5056, 27136], [5056, 27392], [4544, 27392]]
+    floor: -2256
+    ceiling: -2000
+    theme: theme:hvwl6_swflorb_hvflora
+    notes: "The original's low alcove (x 4544..5056, y 27142..27398, 256 high, hvwl6 walls) off the chamber's east wall, the final exit (event 60) at its end."
+  - id: room:s77_queen
+    name: Queen's chamber
+    outline: [[2752, 26502], [4544, 26502], [4544, 27392], [2752, 27392]]
+    floor: -2256
+    ceiling: -976
+    theme: theme:hvdorf_swflorb_hvdore
+  - id: room:s79_alcove
+    name: Low strip along the reactor's north wall
+    outline: [[3776, 26118], [6080, 26118], [6080, 26246], [3776, 26246]]
+    floor: -2256
+    ceiling: -1552
+    ceiling_slope: {to: -1680, toward: north}
+    theme: theme:hvwl1a_hvflora_hvwl5a
+  - id: room:s79_bay
+    name: Bay with the switch panel
+    outline: [[5056, 26246], [5568, 26246], [5568, 26502], [5056, 26502]]
+    floor: -2256
+    ceiling: -1509
+    ceiling_slope: {to: -1680, toward: north}
+    theme: theme:hvwl1a_swflorb_hvdore
+    walls:
+      - wall: 2
+        panels:
+          - {offset: 128, length: 64, bottom: 128, height: 320, surface: {texture: swhz2dk, size: [32, 32]}}
+          - {offset: 320, length: 64, bottom: 128, height: 320, surface: {texture: swhz2dk, size: [32, 32]}}
+          - {offset: 192, length: 128, bottom: 128, height: 32, surface: {texture: swhz2dk, size: [32, 32]}}
+          - {offset: 192, length: 128, bottom: 416, height: 32, surface: {texture: swhz2dk, size: [32, 32]}}
+          - {offset: 192, length: 128, bottom: 160, height: 256, surface: {texture: swtrpnl, size: [128, 256]}}
+    notes: "The panel on its back wall (event 30, no handler in the original) as flat panels: the original's panel stands 32 deep in a bevelled frame (SWhz2dk), which a wall panel cannot say. The original's ceiling runs in one plane from -1424 over the strip's middle part to -1680 at the back."
+  - id: room:s79_reactor
+    name: Reactor chamber
+    outline: [[3264, 19590], [3648, 19590], [3776, 19718], [5056, 19718], [5184, 19590], [5568, 19590], [7232, 22406], [5568, 25350], [3264, 25350], [1856, 22406]]
+    floor: -2256
+    ceiling: -720
+    theme: theme:hvwl1a_hvflora_hvflorb
+    platforms:
+      - {rise: 128, surface: {texture: swfloor2b, size: [128, 128]}, outline: [[4842, 22582], [4725, 22784], [4523, 22901], [4291, 22901], [4089, 22784], [3972, 22582], [3972, 22350], [4089, 22148], [4291, 22031], [4523, 22031], [4725, 22148], [4842, 22350]]}
+    notes: "The original's sector 79 inside the outer hexagon of the ring wall: the ring (door 53) and the north gate (doors 51 and 52) are movers in this room (objects.yml), as in the original, where they stand inside one sector; the outer ring's three rooms open onto it along the ring's outer faces."
+  - id: room:s79_ring_e
+    name: "Outer ring, east"
+    outline: [[5184, 18816], [6096, 18816], [8016, 22400], [6144, 26118], [5568, 25350], [7232, 22406], [5568, 19590], [5184, 19590]]
+    floor: -2256
+    ceiling: -976
+    ceiling_points: [[5184, 18816, -976], [6096, 18816, -976], [8016, 22400, -976], [6144, 26118, -976], [5568, 25350, -720], [7232, 22406, -720], [5568, 19590, -720], [5184, 19590, -720]]
+    theme: theme:hvwl1a_hvflora_hvflorb
+  - id: room:s79_ring_n
+    name: "Outer ring, north"
+    outline: [[3264, 25350], [5568, 25350], [6144, 26118], [3776, 26118], [3776, 26374], [2752, 26374], [2752, 26246]]
+    floor: -2256
+    ceiling: -976
+    theme: theme:hvwl1a_hvflora_hvflorb
+    walls:
+      - wall: 2
+        panels:
+          - {offset: 64, length: 2304, bottom: 704, height: 128, surface: {texture: hvwl3, size: [64, 64]}}
+          - {offset: 64, length: 2304, bottom: 832, height: 448, surface: {texture: hvdorf, size: [128, 256]}}
+    notes: "North of y 26118: a low strip under a sloping ceiling (room:s79_alcove) and the bay with the switch panel behind its middle (room:s79_bay). The original also has a shelf over them, 832 above the floor (z -1424 to -1232, y 26118 to 26374), which nothing reaches; it is left out as solid."
+  - id: room:s79_ring_w
+    name: "Outer ring, west"
+    outline: [[2752, 18816], [3648, 18816], [3648, 19590], [3264, 19590], [1856, 22406], [3264, 25350], [2752, 26246], [1216, 22432]]
+    floor: -2256
+    ceiling: -976
+    ceiling_points: [[2752, 18816, -976], [3648, 18816, -976], [3648, 19590, -720], [3264, 19590, -720], [1856, 22406, -720], [3264, 25350, -720], [2752, 26246, -976], [1216, 22432, -976]]
+    theme: theme:hvwl1a_hvflora_hvflorb
+  - id: room:s7_pit
+    name: North-east pit
+    outline: [[1696, 10272], [1504, 10144], [1504, 9888], [1696, 9696], [1952, 9696], [2016, 9888], [2048, 10080], [1952, 10272]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvflori_hvflorb_hvflori
+    ceiling_levels:
+      - ceiling: -768
+        top_outline: [[1863, 10045], [1504, 10144], [1536, 9920], [1696, 9696], [1952, 9696], [1863, 10045], [1863, 10045], [1863, 10045]]
+        edge: {texture: hvflori, size: [128, 128]}
+    notes: "Under a hole in the floor of the great chamber; its east and north sides lean in as they rise."
+  - id: room:s80_antechamber
+    name: Reactor antechamber
+    outline: [[3776, 18502], [5056, 18502], [5056, 19014], [3776, 19014]]
+    floor: -2080
+    ceiling: -1824
+    theme: theme:hvwl5a_hvflorb_hvdore
+    platforms:
+      - {id: platform:pad_antechamber, at: [4416, 18886], size: [256, 256], rise: 16, top_surface: {texture: orwtr32, size: [32, 32]}}
+  - id: room:s80_steps
+    name: Steps down to the reactor
+    outline: [[3776, 19206], [5056, 19206], [5056, 19718], [3776, 19718]]
+    floor: -2128
+    slope: {to: -2256, toward: n, steps: 8, riser: {texture: swhz4, size: [32, 32]}}
+    ceiling: -1856
+    ceiling_slope: {to: -1488, toward: n}
+    theme: theme:hvwl6_swr1_hvdore
+    notes: The original's ceiling rises from the lintel's underside (-1856) to -1488 over the reactor's south wall.
+  - id: room:s80_steps_top
+    name: "Head of the steps, under the lintel"
+    outline: [[3776, 19014], [5056, 19014], [5056, 19206], [3776, 19206]]
+    floor: -2080
+    slope: {to: -2128, toward: n, steps: 3, riser: {texture: swhz4, size: [32, 32]}}
+    ceiling: -1856
+    theme: theme:hvwl5a_swr1_hvdore
+    notes: "Under the lintel (the original: a block 32 thick from y 19078 to 19206, underside -1856, with a recess up to -1728 behind it, left out)."
+  - id: room:s8_pit
+    name: South-east pit
+    outline: [[2011, 8189], [1819, 7997], [1819, 7741], [2011, 7549], [2368, 7680], [2368, 7936], [2267, 8189]]
+    floor: -1536
+    ceiling: -1280
+    theme: theme:hvwl5a_hvflora_hvwl5a
+    ceiling_levels:
+      - ceiling: -768
+        top_outline: [[2011, 8189], [1819, 7997], [1819, 7741], [2011, 7549], [2176, 7848], [2176, 7848], [2267, 8189]]
+        edge: {texture: hvwl5a, size: [128, 256]}
+    notes: "Under a hole in the floor of the great chamber; its east side leans in from the cave's ceiling up to the hole's edge on the chamber's wall line."
+  - id: room:s9_shaft
+    name: Shaft under the great chamber
+    outline: [[768, 9160], [448, 9160], [320, 9024], [288, 8960], [320, 8768], [512, 8760], [768, 8768]]
+    floor: -2304
+    ceiling: -768
+    theme: theme:hvceilb_hvflorb_hvflorb
+    notes: "Open at its top through the floor of the great chamber (open:s4_hall__s9_shaft). The original shuts the hole with a sliding cover (door 43, 480 by 367, 32 thick, sliding east), opened by the switch in the east cell (event 36); a cover over a floor hole cannot be said, so the hole is always open."
+openings:
+  - id: open:s10_tunnel__s12_hall
+    from: room:s10_tunnel
+    to: room:s12_hall
+    shape: section
+  - id: open:s10_tunnel__s47_passage
+    from: room:s10_tunnel
+    to: room:s47_passage
+    width: full
+    height: full
+    sill: 16
+  - id: open:s10_tunnel_w__s12_hall
+    from: room:s10_tunnel_w
+    to: room:s12_hall
+    shape: section
+  - id: open:s10_tunnel_w__s13_j49
+    from: room:s10_tunnel_w
+    to: room:s13_j49
+    width: full
+    height: full
+  - id: open:s12_hall__s12_alcove_e
+    from: room:s12_hall
+    to: room:s12_alcove_e
+    from_wall: 2
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:s12_hall__s12_alcove_w
+    from: room:s12_hall
+    to: room:s12_alcove_w
+    width: full
+    height: full
+  - id: open:s13_j49__s14_tunnel_a
+    from: room:s13_j49
+    to: room:s14_tunnel_a
+    width: full
+    height: full
+  - id: open:s13_j49__s49_passage
+    from: room:s13_j49
+    to: room:s49_passage
+    width: full
+    height: full
+  - id: open:s14_ramp__s73_keg
+    from: room:s14_ramp
+    to: room:s73_keg
+    width: full
+    height: full
+  - id: open:s14_tunnel__s14_ramp
+    from: room:s14_tunnel
+    to: room:s14_ramp
+    shape: section
+  - id: open:s14_tunnel__s4_hall
+    from: room:s14_tunnel
+    to: room:s4_hall
+    width: full
+    height: full
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s14_tunnel_a__s14_ramp
+    from: room:s14_tunnel_a
+    to: room:s14_ramp
+    shape: section
+  - id: open:s19_tunnel__s20_tunnel
+    from: room:s19_tunnel
+    to: room:s20_tunnel
+    shape: section
+  - id: open:s19_tunnel__s75_chest
+    from: room:s19_tunnel
+    to: room:s75_chest
+    from_wall: 14
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:s1_lock__s3_gallery
+    from: room:s1_lock
+    to: room:s3_gallery
+    width: full
+    height: 256
+  - id: open:s20_tunnel__s56_cells_n
+    from: room:s20_tunnel
+    to: room:s56_cells_n
+    width: full
+    height: full
+  - id: open:s20_tunnel__s61_cells_s
+    from: room:s20_tunnel
+    to: room:s61_cells_s
+    width: full
+    height: full
+  - id: open:s20_tunnel__s7_pit
+    from: room:s20_tunnel
+    to: room:s7_pit
+    width: full
+    height: full
+  - id: open:s24_tunnel__s28_cave
+    from: room:s24_tunnel
+    to: room:s28_cave
+    shape: section
+  - id: open:s24_tunnel__s45_passage
+    from: room:s24_tunnel
+    to: room:s45_passage
+    width: full
+    height: full
+    sill: 16
+  - id: open:s24_tunnel__s4_hall
+    from: room:s24_tunnel
+    to: room:s4_hall
+    shape: section
+  - id: open:s24_tunnel__s51_passage
+    from: room:s24_tunnel
+    to: room:s51_passage
+    width: full
+    height: full
+    sill: 16
+  - id: open:s28_cave__s66_landing
+    from: room:s28_cave
+    to: room:s66_landing
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s28_cave__s8_pit
+    from: room:s28_cave
+    to: room:s8_pit
+    width: full
+    height: full
+  - id: open:s30_tunnel__s34_cave
+    from: room:s30_tunnel
+    to: room:s34_cave
+    shape: section
+  - id: open:s30_tunnel__s39_corridor
+    from: room:s30_tunnel
+    to: room:s39_corridor
+    width: full
+    height: full
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s33_box__s33_tunnel
+    from: room:s33_box
+    to: room:s33_tunnel
+    width: full
+    height: full
+  - id: open:s33_tunnel__s34_cave
+    from: room:s33_tunnel
+    to: room:s34_cave
+    width: full
+    height: full
+  - id: open:s33_tunnel__s74_switch
+    from: room:s33_tunnel
+    to: room:s74_switch
+    width: full
+    height: full
+  - id: open:s35_e__s35_w
+    from: room:s35_e
+    to: room:s35_w
+    along: 0.056
+    width: 128
+    height: 250
+    notes: The doorway at the north end of the wall that divides the hall.
+  - id: open:s35_e__s37_east_hall
+    from: room:s35_e
+    to: room:s37_east_hall
+    width: full
+    height: full
+    notes: "The mouth between the great hall and the east hall (portal 2240 of the original): open over the whole wall to the lower of the two domes, both given by points along the wall (`height: full` follows them point by point): the original's flat-topped trapezoid (-1024 at 16043 and 17482, -787 from 16286 to 17272). The original's lower sides lean (15992 and 17553 at -1280, 16080 and 17515 at the floor); here they stand upright at 16043 and 17553."
+  - id: open:s36_vestibule__s35_e
+    from: room:s36_vestibule
+    to: room:s35_e
+    along: 0.2512
+    width: 256
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+    notes: Door 14 of the original stands at x 1280 to 1536.
+  - id: open:s37_east_hall__s64_passage
+    from: room:s37_east_hall
+    to: room:s64_passage
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s38_recess__s62_passage
+    from: room:s38_recess
+    to: room:s62_passage
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s38_west_hall__s35_w
+    from: room:s38_west_hall
+    to: room:s35_w
+    width: full
+    height: full
+    notes: "The mouth between the west hall and the great hall (portal 2241 of the original): open over the whole wall to the lower of the two domes, both given by points along the wall (`height: full` follows them point by point): the original's off-centre arch (-1248 at 16296, -1070 at 16347, -886 at 16515, the point -787 at 17272, -886 at 17618, -1070 at 17786). It ends at 17797, the great hall's north wall drawn straight (the original's ends at 17857)."
+  - id: open:s38_west_hall__s38_recess
+    from: room:s38_west_hall
+    to: room:s38_recess
+    width: full
+    height: full
+  - id: open:s39_corridor__s19_tunnel
+    from: room:s39_corridor
+    to: room:s19_tunnel
+    width: full
+    height: full
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s39_corridor__s40_a
+    from: room:s39_corridor
+    to: room:s40_a
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s3_gallery__s4_hall
+    from: room:s3_gallery
+    to: room:s4_hall
+    width: full
+    height: full
+  - id: open:s40_a__s40_b
+    from: room:s40_a
+    to: room:s40_b
+    width: full
+    height: full
+  - id: open:s40_b__s41_a
+    from: room:s40_b
+    to: room:s41_a
+    width: full
+    height: full
+  - id: open:s41_a__s41_b
+    from: room:s41_a
+    to: room:s41_b
+    width: full
+    height: full
+  - id: open:s41_b__s42_a
+    from: room:s41_b
+    to: room:s42_a
+    width: full
+    height: full
+  - id: open:s42_a__s42_b
+    from: room:s42_a
+    to: room:s42_b
+    width: full
+    height: full
+  - id: open:s42_b__s43_a
+    from: room:s42_b
+    to: room:s43_a
+    width: full
+    height: full
+  - id: open:s43_a__s43_b
+    from: room:s43_a
+    to: room:s43_b
+    width: full
+    height: full
+  - id: open:s43_b__s44_ramp
+    from: room:s43_b
+    to: room:s44_ramp
+    width: full
+    height: full
+  - id: open:s44_ramp__s38_west_hall
+    from: room:s44_ramp
+    to: room:s38_west_hall
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s45_passage__s45_cell
+    from: room:s45_passage
+    to: room:s45_cell
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s47_passage__s46_cell
+    from: room:s47_passage
+    to: room:s46_cell
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s49_passage__s48_cell
+    from: room:s49_passage
+    to: room:s48_cell
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s4_hall__s39_corridor
+    from: room:s4_hall
+    to: room:s39_corridor
+    width: full
+    height: full
+  - id: open:s4_hall__s5_pit
+    from: room:s4_hall
+    to: room:s5_pit
+    in: floor
+    outline: [[-953, 10031], [-1034, 9713], [-808, 9713], [-625, 9926], [-625, 10122]]
+  - id: open:s4_hall__s6_pit
+    from: room:s4_hall
+    to: room:s6_pit
+    in: floor
+    outline: [[-1122, 8172], [-1349, 8172], [-1264, 7854], [-1111, 7577], [-940, 7748], [-940, 7990]]
+  - id: open:s4_hall__s7_pit
+    from: room:s4_hall
+    to: room:s7_pit
+    in: floor
+    outline: [[1849, 10031], [1524, 10121], [1552, 9927], [1705, 9713], [1930, 9713]]
+  - id: open:s4_hall__s8_pit
+    from: room:s4_hall
+    to: room:s8_pit
+    in: floor
+    outline: [[2018, 8172], [1836, 7990], [1836, 7748], [2007, 7577], [2160, 7854], [2245, 8172]]
+  - id: open:s4_hall__s9_shaft
+    from: room:s4_hall
+    to: room:s9_shaft
+    in: floor
+    notes: "The hatch: the shaft's whole top."
+  - id: open:s51_passage__s50_cell
+    from: room:s51_passage
+    to: room:s50_cell
+    width: full
+    height: 256
+    threshold: {texture: hvtrim4, size: [32, 32]}
+    reveal: {texture: hvtrim4, size: [32, 32]}
+  - id: open:s52_door__s52_cell
+    from: room:s52_door
+    to: room:s52_cell
+    width: full
+    height: full
+  - id: open:s54_door__s54_cell
+    from: room:s54_door
+    to: room:s54_cell
+    width: full
+    height: full
+  - id: open:s56_cells_n__s52_door
+    from: room:s56_cells_n
+    to: room:s52_door
+    width: full
+    height: full
+  - id: open:s56_cells_n__s53_cell
+    from: room:s56_cells_n
+    to: room:s53_cell
+    width: full
+    height: full
+  - id: open:s56_cells_n__s54_door
+    from: room:s56_cells_n
+    to: room:s54_door
+    width: full
+    height: full
+  - id: open:s56_cells_n__s55_cell
+    from: room:s56_cells_n
+    to: room:s55_cell
+    width: full
+    height: full
+  - id: open:s57_door__s57_cell
+    from: room:s57_door
+    to: room:s57_cell
+    width: full
+    height: full
+  - id: open:s59_door__s59_cell
+    from: room:s59_door
+    to: room:s59_cell
+    width: full
+    height: full
+  - id: open:s5_pit__s33_box
+    from: room:s5_pit
+    to: room:s33_box
+    width: full
+    height: full
+  - id: open:s61_cells_s__s57_door
+    from: room:s61_cells_s
+    to: room:s57_door
+    width: full
+    height: full
+  - id: open:s61_cells_s__s58_cell
+    from: room:s61_cells_s
+    to: room:s58_cell
+    width: full
+    height: full
+  - id: open:s61_cells_s__s59_door
+    from: room:s61_cells_s
+    to: room:s59_door
+    width: full
+    height: full
+  - id: open:s61_cells_s__s60_cell
+    from: room:s61_cells_s
+    to: room:s60_cell
+    width: full
+    height: full
+  - id: open:s62_passage__s63_closet
+    from: room:s62_passage
+    to: room:s63_closet
+    from_wall: 3
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:s64_passage__s65_upper
+    from: room:s64_passage
+    to: room:s65_upper
+    width: full
+    height: full
+  - id: open:s65_landing__s65_ramp2
+    from: room:s65_landing
+    to: room:s65_ramp2
+    width: full
+    height: full
+  - id: open:s65_low__s65_west
+    from: room:s65_low
+    to: room:s65_west
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s65_ramp1__s65_landing
+    from: room:s65_ramp1
+    to: room:s65_landing
+    width: full
+    height: full
+  - id: open:s65_ramp2__s65_ramp3
+    from: room:s65_ramp2
+    to: room:s65_ramp3
+    width: full
+    height: full
+  - id: open:s65_ramp3__s65_low
+    from: room:s65_ramp3
+    to: room:s65_low
+    width: full
+    height: full
+  - id: open:s65_upper__s65_low
+    from: room:s65_upper
+    to: room:s65_low
+    width: full
+    height: full
+    notes: "Over the opening from the lower ramp: the guard room's upper floor runs on west over the passage as the floor panel."
+  - id: open:s65_upper__s65_ramp1
+    from: room:s65_upper
+    to: room:s65_ramp1
+    width: full
+    height: full
+    threshold: {texture: hvtrim4, size: [32, 32]}
+    reveal: {texture: hvtrim4, size: [32, 32]}
+  - id: open:s65_west__s80_antechamber
+    from: room:s65_west
+    to: room:s80_antechamber
+    width: full
+    height: full
+  - id: open:s66_landing__s66_stairs
+    from: room:s66_landing
+    to: room:s66_stairs
+    width: full
+    height: full
+  - id: open:s66_stairs__s67_a
+    from: room:s66_stairs
+    to: room:s67_a
+    width: full
+    height: full
+  - id: open:s67_a__s67_ramp
+    from: room:s67_a
+    to: room:s67_ramp
+    width: full
+    height: full
+  - id: open:s67_ramp__s68_a
+    from: room:s67_ramp
+    to: room:s68_a
+    width: full
+    height: full
+  - id: open:s68_a__s68_ramp
+    from: room:s68_a
+    to: room:s68_ramp
+    width: full
+    height: full
+  - id: open:s68_ramp__s69_a
+    from: room:s68_ramp
+    to: room:s69_a
+    width: full
+    height: full
+  - id: open:s69_a__s69_ramp
+    from: room:s69_a
+    to: room:s69_ramp
+    width: full
+    height: full
+  - id: open:s69_mid__s69_ramp_top
+    from: room:s69_mid
+    to: room:s69_ramp_top
+    width: full
+    height: full
+  - id: open:s69_ramp__s69_mid
+    from: room:s69_ramp
+    to: room:s69_mid
+    width: full
+    height: full
+  - id: open:s69_ramp_top__s69_top
+    from: room:s69_ramp_top
+    to: room:s69_top
+    width: full
+    height: full
+  - id: open:s69_top__s3_gallery
+    from: room:s69_top
+    to: room:s3_gallery
+    width: full
+    height: 256
+    threshold: {texture: hvtrim1, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s6_low__s10_tunnel
+    from: room:s6_low
+    to: room:s10_tunnel
+    width: full
+    height: full
+  - id: open:s6_low__s71_a
+    from: room:s6_low
+    to: room:s71_a
+    width: full
+    height: 256
+    threshold: {texture: hvtrim4, size: [32, 32]}
+    reveal: {texture: hvtrim4, size: [32, 32]}
+  - id: open:s6_pit__s6_low
+    from: room:s6_pit
+    to: room:s6_low
+    width: full
+    height: full
+  - id: open:s70_tunnel__s36_vestibule
+    from: room:s70_tunnel
+    to: room:s36_vestibule
+    shape: section
+  - id: open:s71_a__s71_b
+    from: room:s71_a
+    to: room:s71_b
+    width: full
+    height: full
+  - id: open:s71_b__s72_store
+    from: room:s71_b
+    to: room:s72_store
+    width: full
+    height: full
+  - id: open:s76_entry__s1_lock
+    from: room:s76_entry
+    to: room:s1_lock
+    from_wall: 2
+    to_wall: 0
+    width: 256
+    height: 256
+    threshold: {texture: hvtrim4, size: [32, 32]}
+    reveal: {texture: hvtrim1, size: [32, 32]}
+  - id: open:s77_queen__s77_alcove
+    from: room:s77_queen
+    to: room:s77_alcove
+    width: full
+    height: 256
+  - id: open:s79_alcove__s79_bay
+    from: room:s79_alcove
+    to: room:s79_bay
+    width: full
+    height: full
+  - id: open:s79_reactor__s79_ring_e_ne
+    from: room:s79_reactor
+    to: room:s79_ring_e
+    from_wall: 6
+    to_wall: 4
+    width: full
+    height: full
+  - id: open:s79_reactor__s79_ring_e_s
+    from: room:s79_reactor
+    to: room:s79_ring_e
+    from_wall: 4
+    to_wall: 6
+    width: full
+    height: full
+  - id: open:s79_reactor__s79_ring_e_se
+    from: room:s79_reactor
+    to: room:s79_ring_e
+    from_wall: 5
+    to_wall: 5
+    width: full
+    height: full
+  - id: open:s79_reactor__s79_ring_n
+    from: room:s79_reactor
+    to: room:s79_ring_n
+    width: full
+    height: full
+    notes: "Behind the north gate of the ring wall (doors 51 and 52 of the original, movers mover:gate_low and mover:gate_high)."
+  - id: open:s79_reactor__s79_ring_w_nw
+    from: room:s79_reactor
+    to: room:s79_ring_w
+    from_wall: 8
+    to_wall: 4
+    width: full
+    height: full
+  - id: open:s79_reactor__s79_ring_w_s
+    from: room:s79_reactor
+    to: room:s79_ring_w
+    from_wall: 0
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:s79_reactor__s79_ring_w_sw
+    from: room:s79_reactor
+    to: room:s79_ring_w
+    from_wall: 9
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:s79_ring_e__s79_ring_n
+    from: room:s79_ring_e
+    to: room:s79_ring_n
+    width: full
+    height: full
+  - id: open:s79_ring_n__s77_queen
+    from: room:s79_ring_n
+    to: room:s77_queen
+    from_wall: 4
+    to_wall: 0
+    width: 960
+    height: 1100
+  - id: open:s79_ring_n__s79_alcove
+    from: room:s79_ring_n
+    to: room:s79_alcove
+    from_wall: 2
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:s79_ring_w__s79_ring_n
+    from: room:s79_ring_w
+    to: room:s79_ring_n
+    width: full
+    height: full
+  - id: open:s80_antechamber__s80_steps_top
+    from: room:s80_antechamber
+    to: room:s80_steps_top
+    width: full
+    height: full
+  - id: open:s80_steps__s79_reactor
+    from: room:s80_steps
+    to: room:s79_reactor
+    width: full
+    height: full
+  - id: open:s80_steps_top__s80_steps
+    from: room:s80_steps_top
+    to: room:s80_steps
+    width: full
+    height: full
+  - id: open:s9_shaft__s70_tunnel
+    from: room:s9_shaft
+    to: room:s70_tunnel
+    width: full
+    height: full

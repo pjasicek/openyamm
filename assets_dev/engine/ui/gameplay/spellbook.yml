@@ -301,22 +301,10 @@ elements:
           default: STXTu
           pressed: STXTd
           highlighted: STXTu
-      - id: SpellbookQuickCastButton
-        anchor: bottom_left
-        offset_x: 0
-        offset_y: -48
-        width: 36
-        height: 44
-        z_index: 60
-        interactive: true
-        asset:
-          default: STSSu
-          pressed: STSSd
-          highlighted: STSSu
       - id: SpellbookAttackCastButton
         anchor: bottom_left
         offset_x: 0
-        offset_y: -94
+        offset_y: -48
         width: 36
         height: 46
         z_index: 60
@@ -325,6 +313,35 @@ elements:
           default: GF-ASpell
           pressed: GF-ASpellD
           highlighted: GF-ASpell
+        notes: The selected spell becomes the member's only attack order (the quick setup without Battle Orders);
+          again, or with no spell selected, the orders are cleared.
+      - id: SpellbookQuickCastButton
+        anchor: bottom_left
+        offset_x: 0
+        offset_y: -96
+        width: 36
+        height: 44
+        z_index: 60
+        interactive: true
+        asset:
+          default: STSSu
+          pressed: STSSd
+          highlighted: STSSu
+        notes: The selected spell becomes the member's Quick Cast; again, or with no spell selected, it is cleared.
+      - id: SpellbookBattleOrdersButton
+        anchor: bottom_left
+        offset_x: 0
+        offset_y: -142
+        width: 36
+        height: 44
+        z_index: 60
+        interactive: true
+        asset:
+          default: battle_orders_button
+          pressed: battle_orders_button_pressed
+          highlighted: battle_orders_button
+        notes: Opens the Battle Orders window (game/ui/GameplayBattleOrders.h); the attack orders and quick keys of
+          each member. A right click on a spell assigns it to a quick key or the orders.
       - id: SpellbookPageFireSpellTorchlight
         anchor: center
         offset_x: 74

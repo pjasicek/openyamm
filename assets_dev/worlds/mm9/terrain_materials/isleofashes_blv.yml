@@ -1,0 +1,88 @@
+# Written by level_generation/projects/mm9r_common/terrain_blend.py for isleofashes.blv's terrain faces
+# (ashc08t3g2, ashro4zhnj, ashrqc2588, mainakfoki, nwrob199j1).
+version: 1
+texels_per_cell: 16
+weights:
+- isleofashes_blv_weights0.png
+weighted_layers: 3
+fringe:
+  strength: 1.6
+  scale: 2048
+layers:
+- name: cliff_layered
+  library: rock_layered
+  tint:
+  - 0.7603
+  - 0.7446
+  - 0.633
+  repeat: 640
+  height_contrast: 0.5
+  normal_strength: 1.4
+  cavity: 0.45
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  cliff_tint:
+  - 0.8547
+  - 0.7446
+  - 0.633
+- name: grass
+  library: grass_meadow
+  tint:
+  - 0.9166
+  - 0.8667
+  - 0.9166
+  repeat: 360
+  height_contrast: 0.45
+  normal_strength: 1.0
+  cavity: 0.3
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.1
+  - 1.05
+  - 0.85
+  fringe: 1.0
+  meadow: 1.0
+  variant: 2
+  variant_amount: 0.25
+  cliff_tint:
+  - 0.8547
+  - 0.7446
+  - 0.633
+- name: grass_patches
+  library: grass_patchy
+  tint:
+  - 0.76
+  - 0.7372
+  - 0.76
+  repeat: 640
+  height_contrast: 0.25
+  normal_strength: 1.0
+  cavity: 0.35
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  meadow: 0.8
+  cliff_tint:
+  - 0.8547
+  - 0.7446
+  - 0.633
+meadow:
+  dry:
+  - 1.2
+  - 1.06
+  - 0.64
+  lush:
+  - 0.78
+  - 0.94
+  - 0.82
+slope:
+  layer: 0
+  start: 0.36
+  end: 0.56

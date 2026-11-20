@@ -1,0 +1,3 @@
+Saved `01_front`–`04_right` and [selected_views_review.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_custodian_claude/references_hd/selected_views_review.png). Preserved the downward lower notch. Built-in imagegen prompts and checks are recorded in `generation_runs.json`.
+
+Stopped without builds or Meshy. Remaining limitations: imperfect side orthography and tight margins, documented in the record.

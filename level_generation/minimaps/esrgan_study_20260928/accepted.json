@@ -1,0 +1,794 @@
+{
+  "schema": "openyamm-minimap-accepted-replacement-v1",
+  "count": 27,
+  "records": {
+    "worlds-mm7--icons--7out01.bmp": {
+      "target": "worlds-mm7--icons--7out01.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out01.bmp",
+      "sha256": "d27d105e0e4f8d3f8eab078d28ea9271a8890ddf03b3b48cda81701aa121870a",
+      "source": "assets_dev/worlds/mm7/icons/7out01.bmp",
+      "source_sha256": "22a65af32e03d993548d05573bd8c0292dbe5e067b79d36807a7b085cb1a366b",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out01.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out01.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out01.bmp",
+      "previous_sha256": "4e70c689e3b861845ee66c91827dbdb3dfe47b732a04834225742094ecfb14be",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out01/video2_master.png",
+      "master_sha256": "d27d105e0e4f8d3f8eab078d28ea9271a8890ddf03b3b48cda81701aa121870a",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out01/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--7out02.bmp": {
+      "target": "worlds-mm7--icons--7out02.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out02.bmp",
+      "sha256": "8bcf2bc5828d7865f18af2dccce5ca316f700240416cb514b2393614c264d65c",
+      "source": "assets_dev/worlds/mm7/icons/7out02.bmp",
+      "source_sha256": "149f3d416e22df048789ada3866999cc6123ca36db96c77a8dd240f67082a40b",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out02.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out02.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out02.bmp",
+      "previous_sha256": "0f0c0d7a60b39af4c26f92f03dce73e7c8e8d503fef8665385633b50085c4a12",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out02/video2_master.png",
+      "master_sha256": "8bcf2bc5828d7865f18af2dccce5ca316f700240416cb514b2393614c264d65c",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out02/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--7out03.bmp": {
+      "target": "worlds-mm7--icons--7out03.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out03.bmp",
+      "sha256": "94b8d8e9e7dc38b90940bdc9bd578087e9381273cf84f78cf4e63411b97434a1",
+      "source": "assets_dev/worlds/mm7/icons/7out03.bmp",
+      "source_sha256": "31ae64599b3b3ba39a5405446d0f7b17d0fd8492f1cb7e7df3ebbf1f05b0ee71",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out03.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out03.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out03.bmp",
+      "previous_sha256": "90ebde0e5683a8c4cb249d9f5ac6662e2b80276514da5eaf4c5b671065c0f95d",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out03/video2_master.png",
+      "master_sha256": "94b8d8e9e7dc38b90940bdc9bd578087e9381273cf84f78cf4e63411b97434a1",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out03/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--7out04.bmp": {
+      "target": "worlds-mm7--icons--7out04.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out04.bmp",
+      "sha256": "6fd39c8ceae63031edede50d528054241711978b24d3840dfd4f1333d2282edd",
+      "source": "assets_dev/worlds/mm7/icons/7out04.bmp",
+      "source_sha256": "e95b2900f9470b5ddaaa0b8b835336ec00281473416ba254ffc2c81897ea2312",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out04.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out04.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out04.bmp",
+      "previous_sha256": "cd95399c1af691b790b0ec5efb973e433dc52dc5a96ff4409330fcc81735d16a",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out04/video2_master.png",
+      "master_sha256": "6fd39c8ceae63031edede50d528054241711978b24d3840dfd4f1333d2282edd",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out04/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--7out05.bmp": {
+      "target": "worlds-mm7--icons--7out05.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out05.bmp",
+      "sha256": "eb64a266d2bc21db747816ca5efd0c7d37d295f4e75f866ed4f358d220ee8060",
+      "source": "assets_dev/worlds/mm7/icons/7out05.bmp",
+      "source_sha256": "69cd6a9a5951cad90f436d830217331c1ab21f953e91f34887005bf48ee8c3ad",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out05.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out05.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out05.bmp",
+      "previous_sha256": "7b3df2dd7ba998b109bf510cc5ab370fd5c1bcedb0858b2faa8f4e0a67dffff5",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out05/video2_master.png",
+      "master_sha256": "eb64a266d2bc21db747816ca5efd0c7d37d295f4e75f866ed4f358d220ee8060",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out05/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--7out06.bmp": {
+      "target": "worlds-mm7--icons--7out06.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out06.bmp",
+      "sha256": "0df821a13a477b3f6b387a7f319dbb6f6aa49deeead55e263c3a54b6be029b79",
+      "source": "assets_dev/worlds/mm7/icons/7out06.bmp",
+      "source_sha256": "42c44f5994ebbc2b5937284c01ba504c1e939295eb0ab58331093eec5b27096d",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out06.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out06.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out06.bmp",
+      "previous_sha256": "4e122e9ad90c5b388c9cb9e890eeea06679a9f2b5dde535ab344799f708ffc64",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out06/video2_master.png",
+      "master_sha256": "0df821a13a477b3f6b387a7f319dbb6f6aa49deeead55e263c3a54b6be029b79",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out06/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--7out13.bmp": {
+      "target": "worlds-mm7--icons--7out13.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out13.bmp",
+      "sha256": "56edeb746e43216570648933b0a40adcb6542e2d36aa84f6d5468187bb6667d8",
+      "source": "assets_dev/worlds/mm7/icons/7out13.bmp",
+      "source_sha256": "ea491a9fd659b5de29778f70898d5af6dbd70ea3e0f46c88fbd08ff0dfc5f0c1",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out13.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out13.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out13.bmp",
+      "previous_sha256": "e54f2255dfb6e03f96051cfc31b24efa210d1d3686e28ff7c65f702344dddcc2",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out13/video2_master.png",
+      "master_sha256": "56edeb746e43216570648933b0a40adcb6542e2d36aa84f6d5468187bb6667d8",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out13/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--7out15.bmp": {
+      "target": "worlds-mm7--icons--7out15.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/7out15.bmp",
+      "sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+      "source": "assets_dev/worlds/mm7/icons/7out15.bmp",
+      "source_sha256": "19d0f1e1122f2eb18da83c7dea2d32448a970ce8d61a8a8328dac8f72a6deae4",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/7out15.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/7out15.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/7out15.bmp",
+      "previous_sha256": "f807ec3a5fc374059d1a885865094cd1bd586abd24ee4d280c48f152e48897e4",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out15/video2_master.png",
+      "master_sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/7out15/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--out09.bmp": {
+      "target": "worlds-mm7--icons--out09.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/out09.bmp",
+      "sha256": "f7a772247280c7b02ef63fe8b0af911d9595b4ee7c1de439992db605805b6d49",
+      "source": "assets_dev/worlds/mm7/icons/out09.bmp",
+      "source_sha256": "fd26b310c4457e436a943e46011fcab517b2418bf81cbf176ef489c888de0320",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/out09.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/out09.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/out09.bmp",
+      "previous_sha256": "75aa5c73bd02adae5e3ddf35ce88b80f90ff7c18b0578b7aa47c63c48b079ff5",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out09/video2_master.png",
+      "master_sha256": "f7a772247280c7b02ef63fe8b0af911d9595b4ee7c1de439992db605805b6d49",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out09/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--out10.bmp": {
+      "target": "worlds-mm7--icons--out10.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/out10.bmp",
+      "sha256": "7c7eb3df622813980c27223911b49034c6935cc0ebd16555cdbcff420d4ed660",
+      "source": "assets_dev/worlds/mm7/icons/out10.bmp",
+      "source_sha256": "925125ccdc7a782b96d5b15de5f6dac22db2fab07c6657a76c5da98c7e078c18",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/out10.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/out10.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/out10.bmp",
+      "previous_sha256": "e27a36f01a7e147e1576ee512e3365643bd14e11649f4342d7f335da3f8577fe",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out10/video2_master.png",
+      "master_sha256": "7c7eb3df622813980c27223911b49034c6935cc0ebd16555cdbcff420d4ed660",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out10/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--out11.bmp": {
+      "target": "worlds-mm7--icons--out11.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/out11.bmp",
+      "sha256": "059033fab33d48c1cedc0c6eed1d8673fb73d28764db4b02de4bb38eb25a53f5",
+      "source": "assets_dev/worlds/mm7/icons/out11.bmp",
+      "source_sha256": "1dca53cff39095857f5045857d9411b144e6742e675ec4d7c6763310dd28292a",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/out11.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/out11.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/out11.bmp",
+      "previous_sha256": "128c81e9bf0ce3196fc4fd85cff0c8ef3de1589086cf0f70392accb1d514ed72",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out11/video2_master.png",
+      "master_sha256": "059033fab33d48c1cedc0c6eed1d8673fb73d28764db4b02de4bb38eb25a53f5",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out11/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--out12.bmp": {
+      "target": "worlds-mm7--icons--out12.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/out12.bmp",
+      "sha256": "b5a0e8e17483105b629f45797dd6bee1dc49b1f57965c422a41d6814d8e442bd",
+      "source": "assets_dev/worlds/mm7/icons/out12.bmp",
+      "source_sha256": "2484319c4209375188d5f88284adee8608b0f08319dc00614c91e3292dcc5679",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/out12.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/out12.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/out12.bmp",
+      "previous_sha256": "82c56a6a652b1fe8ea16e32d14f4e090994e50fa814d6f38e643f382943a6aef",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out12/video2_master.png",
+      "master_sha256": "b5a0e8e17483105b629f45797dd6bee1dc49b1f57965c422a41d6814d8e442bd",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out12/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm7--icons--out14.bmp": {
+      "target": "worlds-mm7--icons--out14.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm7/icons_x2/out14.bmp",
+      "sha256": "3717a3da5e5954fc7439460a431b048573c76b3ef2cb7af5139bd0e6eabe3e97",
+      "source": "assets_dev/worlds/mm7/icons/out14.bmp",
+      "source_sha256": "d921ca7f0bed5d3dedd4fb3011506b9b1001ed38cc9ae0a55881754ad7f18e0e",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm7/icons/out14.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm7/icons_x2/out14.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm7/icons_x2/out14.bmp",
+      "previous_sha256": "cf518f7433e4046ad7abf3ff4e8f1d046715b64410d02e2272c2d00b36104436",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out14/video2_master.png",
+      "master_sha256": "3717a3da5e5954fc7439460a431b048573c76b3ef2cb7af5139bd0e6eabe3e97",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm7/out14/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--elema.bmp": {
+      "target": "worlds-mm8--icons--elema.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/elema.bmp",
+      "sha256": "63ac72fb3346422474ada4b93cf6f3b3c6caa21d162f4fe050c95494f85156e8",
+      "source": "assets_dev/worlds/mm8/icons/elema.bmp",
+      "source_sha256": "ff0e7cc47cacff41c6424f8e1e54afd5b9b10d9d029463871e8c71994e9bfdaa",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/elema.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/elema.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/elema.bmp",
+      "previous_sha256": "8491decab732fb299e0c418c16e163c70da07df240876308bf9381a554b38b14",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/elema/video2_master.png",
+      "master_sha256": "63ac72fb3346422474ada4b93cf6f3b3c6caa21d162f4fe050c95494f85156e8",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/elema/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--elemf.bmp": {
+      "target": "worlds-mm8--icons--elemf.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/elemf.bmp",
+      "sha256": "40efd507a0467c0c2c7cd818c245d94bf45c85621e28bd944ba173866d4836fc",
+      "source": "assets_dev/worlds/mm8/icons/elemf.bmp",
+      "source_sha256": "b7402e613ef07315e6a8b28df47ef1077eb55c3406b22e07650cb4ecb7a35574",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/elemf.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/elemf.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/elemf.bmp",
+      "previous_sha256": "c2e51fe86d9698f2214e91dccf9030287190af9d1b7764e78cbc6b9e6b43aaf4",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/elemf/video2_master.png",
+      "master_sha256": "40efd507a0467c0c2c7cd818c245d94bf45c85621e28bd944ba173866d4836fc",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/elemf/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--elemw.bmp": {
+      "target": "worlds-mm8--icons--elemw.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/elemw.bmp",
+      "sha256": "40e1bd5ac4a991220409ba39f1591b94546bbaea1001ce3d996c1358a4fb18dd",
+      "source": "assets_dev/worlds/mm8/icons/elemw.bmp",
+      "source_sha256": "4c5e8323234f868d0e8bb7115cdb79baa888a8d01c679d97be54638b27cc2e62",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/elemw.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/elemw.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/elemw.bmp",
+      "previous_sha256": "02b62114b6c9827f4cdedbc92ba861a37b9200693e952ec194a2f679157dcd10",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/elemw/video2_master.png",
+      "master_sha256": "40e1bd5ac4a991220409ba39f1591b94546bbaea1001ce3d996c1358a4fb18dd",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/elemw/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out01.bmp": {
+      "target": "worlds-mm8--icons--out01.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out01.bmp",
+      "sha256": "877a782347d2c80dfa98098ed46f5efeff722cb2ba99c92d48f28220d4b2af98",
+      "source": "assets_dev/worlds/mm8/icons/out01.bmp",
+      "source_sha256": "8d60a19367768cb663875b81907bfe54fbf1681281c72077e9929cd2bd7e9354",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out01.bmp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out01.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out01.bmp",
+      "previous_sha256": "fb859b98d8279b376b8053cbf9297177870c9f9d6d96162f771fdcf3017f7a8e",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out01/video2_master.png",
+      "master_sha256": "877a782347d2c80dfa98098ed46f5efeff722cb2ba99c92d48f28220d4b2af98",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out01/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out02.bmp": {
+      "target": "worlds-mm8--icons--out02.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out02.png",
+      "sha256": "32459af91eab3dc80a2682902e6b3a18cddee9eb33914705f31c5da5ce6d6778",
+      "source": "assets_dev/worlds/mm8/icons/out02.bmp",
+      "source_sha256": "fca98af7ad34827d1e96be5c213263c70cad7e3f9ea242d486375e6edabed107",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out02.bmp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out02.png",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out02.png",
+      "previous_sha256": "e174fb67c157729483186f7b8eefaf8df86ea8b33dce3d6bc773d1eecd8fff50",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out02/video2_master.png",
+      "master_sha256": "32459af91eab3dc80a2682902e6b3a18cddee9eb33914705f31c5da5ce6d6778",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out02/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out03.bmp": {
+      "target": "worlds-mm8--icons--out03.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out03.bmp",
+      "sha256": "188d66a2150bc8efb6642b1553e0122ae186185da300ee3bb9fb97b1031a8dba",
+      "source": "assets_dev/worlds/mm8/icons/out03.bmp",
+      "source_sha256": "5d492ba77d0849836dbd64112be1845f301f0eff58e2a928447f1c5cbc74d785",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out03.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out03.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out03.bmp",
+      "previous_sha256": "8a7b45a7287592860780f3362ae4998c61b3cab8897797535821c7d8da985cca",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out03/video2_master.png",
+      "master_sha256": "188d66a2150bc8efb6642b1553e0122ae186185da300ee3bb9fb97b1031a8dba",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out03/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out04.bmp": {
+      "target": "worlds-mm8--icons--out04.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out04.bmp",
+      "sha256": "997231c5d5b494dd1bece2f25a8a135052ad36b3b3b9a8f73f39e700346d388b",
+      "source": "assets_dev/worlds/mm8/icons/out04.bmp",
+      "source_sha256": "2a818a2422a8845e9e3795d2c0e843c540906ce68c2db56eb574e3a0be6dac68",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out04.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out04.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out04.bmp",
+      "previous_sha256": "5d8984d5bc2c6990f084f00e084a357e3f8ee43de631532bf874b284797ea207",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out04/video2_master.png",
+      "master_sha256": "997231c5d5b494dd1bece2f25a8a135052ad36b3b3b9a8f73f39e700346d388b",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out04/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out05.bmp": {
+      "target": "worlds-mm8--icons--out05.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out05.bmp",
+      "sha256": "e5e196e95d3a75499a02341a4a9e1f3e4e1f8d6fdcd503f8af3eaaeda5b16b77",
+      "source": "assets_dev/worlds/mm8/icons/out05.bmp",
+      "source_sha256": "9870c7a0534da81bd35a2a67877fdfc26e647b622f8d6da927645e5da86c8234",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out05.bmp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out05.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out05.bmp",
+      "previous_sha256": "6bfe99d1658f54d8addcdfe18398b0047be696783608d1476037cf18ceba6e1d",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out05/video2_master.png",
+      "master_sha256": "e5e196e95d3a75499a02341a4a9e1f3e4e1f8d6fdcd503f8af3eaaeda5b16b77",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out05/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out06.bmp": {
+      "target": "worlds-mm8--icons--out06.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out06.bmp",
+      "sha256": "aad3a412fd30aeee477956abaec85a01a9b4cf9d54f2ae16377c2157653e3553",
+      "source": "assets_dev/worlds/mm8/icons/out06.bmp",
+      "source_sha256": "4e8ef2201f4e90700463c20ba9c4a4ee25515b54b180729901f7b50f4758f007",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out06.bmp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out06.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out06.bmp",
+      "previous_sha256": "80da377e51a35a85244fad2ac79f17466878cd435227005a24a5a65b543fb82e",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out06/video2_master.png",
+      "master_sha256": "aad3a412fd30aeee477956abaec85a01a9b4cf9d54f2ae16377c2157653e3553",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out06/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out07.bmp": {
+      "target": "worlds-mm8--icons--out07.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out07.bmp",
+      "sha256": "d304ae907f0ab27a5bb9f94d6bb21a7dfc55385a737820b1c9f7fea55e718317",
+      "source": "assets_dev/worlds/mm8/icons/out07.bmp",
+      "source_sha256": "d55b5276fe42a9879acdcd6a7c7c6f87b964daa943ec8a9c79f67f5392eed372",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out07.bmp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out07.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out07.bmp",
+      "previous_sha256": "1ea171c76fb30251c9a8b527c1ac4946b012cb2d5a30cc12957e955abfeaf9a9",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out07/video2_master.png",
+      "master_sha256": "d304ae907f0ab27a5bb9f94d6bb21a7dfc55385a737820b1c9f7fea55e718317",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out07/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out08.bmp": {
+      "target": "worlds-mm8--icons--out08.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out08.bmp",
+      "sha256": "902ab97354d9c44ea6957a54e73a2a59ed6869b394ab397109ef96b8b15772ac",
+      "source": "assets_dev/worlds/mm8/icons/out08.bmp",
+      "source_sha256": "8eb6c9dc00321cd69f4233bf29a9c56e56419eb1142e11689dcd9871224046bf",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out08.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out08.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out08.bmp",
+      "previous_sha256": "a0f099cfa23a28f714672a3d2db8b5709b7287fb0a9ca49815cad4e0b189ff81",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out08/video2_master.png",
+      "master_sha256": "902ab97354d9c44ea6957a54e73a2a59ed6869b394ab397109ef96b8b15772ac",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out08/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out13.bmp": {
+      "target": "worlds-mm8--icons--out13.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out13.bmp",
+      "sha256": "eeb64ecd539ef9afb97a6fc48fc53db1fdf148a35a97235dfd176a27ab3292f2",
+      "source": "assets_dev/worlds/mm8/icons/out13.bmp",
+      "source_sha256": "a46809e61e1965639600f4ea1fe0375888ebd2dc2048517004d16d5d1543918f",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out13.bmp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out13.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out13.bmp",
+      "previous_sha256": "d048b560fe8b64d0d5b051b29650fc49de1c732d0e6b930914adab7b03bd6a17",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out13/video2_master.png",
+      "master_sha256": "eeb64ecd539ef9afb97a6fc48fc53db1fdf148a35a97235dfd176a27ab3292f2",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out13/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--out15.bmp": {
+      "target": "worlds-mm8--icons--out15.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/out15.bmp",
+      "sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+      "source": "assets_dev/worlds/mm8/icons/out15.bmp",
+      "source_sha256": "19d0f1e1122f2eb18da83c7dea2d32448a970ce8d61a8a8328dac8f72a6deae4",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/out15.bmp",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/out15.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/out15.bmp",
+      "previous_sha256": "b41b6e7111a7cf04a9c6c0b5b0543c5cabbcc3f25f3576fd82fc54b5f01f0dea",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out15/video2_master.png",
+      "master_sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/out15/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    },
+    "worlds-mm8--icons--pbp.bmp": {
+      "target": "worlds-mm8--icons--pbp.bmp",
+      "artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/accepted/worlds/mm8/icons_x2/pbp.bmp",
+      "sha256": "d4d3932a67a67a199eecec0a57711e1fa3766cda1243692a55a2949ee8ce860e",
+      "source": "assets_dev/worlds/mm8/icons/pbp.bmp",
+      "source_sha256": "7c3c00f773529af56fdec63614d122f5b5b1077b4bf6f2a3d3f9b4b113c7b6be",
+      "native_source_artifact": "assets_legacy/icons_20260926/worlds/mm8/icons/pbp.bmp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "runtime_output_path": "assets_dev/worlds/mm8/icons_x2/pbp.bmp",
+      "previous_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/accepted/worlds/mm8/icons_x2/pbp.bmp",
+      "previous_sha256": "7e4477c782dacfcd4f2fb2fddde533a4570979eb686dd08ffa082801572c8f2c",
+      "master_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/pbp/video2_master.png",
+      "master_sha256": "d4d3932a67a67a199eecec0a57711e1fa3766cda1243692a55a2949ee8ce860e",
+      "reviewed_artifact": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/maps/mm8/pbp/video2.png",
+      "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+      "recipe": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/approved_recipe.json",
+      "acceptance": "explicit_user_selected_direct_2x_animevideo_batch",
+      "placement_changes": false,
+      "world_bounds": [
+        -32768,
+        32768,
+        -32768,
+        32768
+      ],
+      "method": "native_realesr_animevideov3_direct_2x"
+    }
+  },
+  "authority": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/esrgan_study_20260928/authority.json",
+  "canonical_index_sha256": "3412d85773986cfc3fdae530e93163f79f26e5e324e540794cb259ab7f1c7216",
+  "ledger_sha256": "319e4bbaa3ebcf390885c96e54ceb08d97681063dcb1fa13d8174c6315bd9419",
+  "published_at": "2026-09-28T12:34:14.606068+00:00",
+  "frozen_reference_cells": []
+}

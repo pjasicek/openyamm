@@ -1,0 +1,29 @@
+[
+  {
+    "name": "sculpture_statuet1",
+    "prompt": "Use case: precise-object-edit. Repaint Image 1 ONLY as a six-view FLAT DIFFUSE ALBEDO painting for a game model. Image 1 is the exact mesh/silhouette authority. It is a 1536x1024 transparent atlas with THREE columns and TWO rows, six 512px cells. Preserve the position, scale, outline, interior gaps, silhouette and camera direction of EVERY view exactly. Do not rotate or reinterpret any view even when the first view is lateral. Cell order FRONT/BACK/LEFT on top, RIGHT/TOP/BOTTOM below. Image 2 defines the named item's colours and fine appearance only; ignore ALL lighting and reflections in it. Paint: A worn gold TIGER miniature with subtle engraved feline facial details and sparse delicate surface patina. All parts including feet and tail have the same muted antique ochre gold base colour; no painted lighting or shiny highlights. Materials: worn yellow gold. Perfectly even MATTE diffuse illumination: no specular reflections, highlights, directional shading, shadows, ambient occlusion, gradients, glow or halo. Paint material grain and pigment detail only. All six views stay in their exact original cells and framing. True transparent empty background, no floor, labels, borders, extra objects or ornamental additions. Return ONE 3:2 atlas.",
+    "generated_path": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-c4f47133-8f02-4f0b-aa01-4ad18f28b243.png",
+    "tool": "built-in image_gen",
+    "selected": true,
+    "output_sha256": "08801499ded2c959b5f4e0c8c7ef6cac9af79cd04944532857e7a430ab498830",
+    "output_size": [
+      1536,
+      1024
+    ],
+    "mesh_guide": "guide_atlas.png (regenerated during seam cleanup; registration uses final guides)",
+    "material_reference": "level_generation/props/items_wip_sculpture/meshy/sculpture_statuet1/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "09224365c9891b6aff943d2717b27513ce9450619265310af59ecfff023161ab",
+    "status": "superseded"
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. Repaint Image 1 ONLY as a six-view FLAT DIFFUSE ALBEDO painting for a game model. Image 1 is the exact mesh/silhouette authority. It is a 1536x1024 transparent atlas with THREE columns and TWO rows, six 512px cells. Preserve the position, scale, outline, interior gaps, silhouette and camera direction of EVERY view exactly. Do not rotate or reinterpret any view even when the first view is lateral. Cell order FRONT/BACK/LEFT on top, RIGHT/TOP/BOTTOM below. Image 2 defines the named item's colours and fine appearance only; ignore ALL lighting and reflections in it. Paint: A worn gold TIGER miniature with subtle engraved feline facial details and sparse delicate surface patina. All parts including feet and tail have the same muted antique ochre gold base colour; no painted lighting or shiny highlights. Materials: worn yellow gold. Perfectly even MATTE diffuse illumination: no specular reflections, highlights, directional shading, shadows, ambient occlusion, gradients, glow or halo. Paint material grain and pigment detail only. All six views stay in their exact original cells and framing. True transparent empty background, no floor, labels, borders, extra objects or ornamental additions. Return ONE 3:2 atlas.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-c4f47133-8f02-4f0b-aa01-4ad18f28b243.png",
+    "raw_sha256": "08801499ded2c959b5f4e0c8c7ef6cac9af79cd04944532857e7a430ab498830",
+    "selected_atlas_sha256": "08801499ded2c959b5f4e0c8c7ef6cac9af79cd04944532857e7a430ab498830",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_statuet1/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "09224365c9891b6aff943d2717b27513ce9450619265310af59ecfff023161ab",
+    "guide_input_note": "Exact earlier guide revision was not retained; final mesh guides are retained. Repaired geometry used for final bake."
+  }
+]

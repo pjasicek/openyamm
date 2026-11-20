@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Wreath Crown (6crown1). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Open autumn-leaf wreath crown, irregular ring of gold and russet leaves with tiny purple accent buds, real open centre and leaf thickness. CORRECTION: the exact grey mesh guide is authoritative for every outline and every hole. The inventory icon supplies colour and materials only. Do not widen or shrink the object, fingers, horns or cloth. Every solid grey surface stays opaque, including inner faces, chainmail panels and tiny fingers. Never make new openings or transparent pattern cutouts. Black gemstones must be opaque black, alpha 255. All five views retain exact guide framing. Exact material boundaries: Gold/russet metal leaf ornaments RED. Tiny purple buds are gems BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6crown1/inputs/guide_paint_v2.png",
+  "input_guide_sha256": "c76ff22a3754649c57236e0829cb51ffd9bf1cb86e452b96c5a273b0c5eddefb",
+  "revision": 2,
+  "input_icon": "6crown1",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-873a7ed5-f972-4d52-8120-e7d3c54ed88b.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v2.png",
+  "output_sha256": "124462d36fc3ab9b0afb0cb59956bfa13077dcf8db382c4c27fe270a951935bb",
+  "input_icon_path": "assets_dev/engine/icons_x2/6crown1.png",
+  "input_icon_sha256": "9ce8644dfac8d789b8adabb0c21cd79860f704bb26e6a7f7c0160169ac0c788b",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

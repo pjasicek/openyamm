@@ -1,0 +1,148 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_drag.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_drag.glb",
+ "assignments": [
+  {
+   "match": "=LizardBody_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drag_reduce_claude/textures/drag_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drag_reduce_claude/textures/drag_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "drag_body_metal_rough_2k_head_atlas",
+   "size": [
+    4128,
+    2048
+   ],
+   "materials": [
+    "LizardBody_A",
+    "LizardBody_B",
+    "LizardBody_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      2048,
+      2048
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      2080,
+      0,
+      4128,
+      2048
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 2044433,
+     "uv_covered_without_class": 0.0034,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.0001,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drag_reduce_claude/textures/drag_body_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.9179,
+      "claw": 0.0821
+     }
+    },
+    "head": {
+     "uv_covered_texels": 2191320,
+     "uv_covered_without_class": 0.0023,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.0008,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drag_reduce_claude/textures/drag_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.4504,
+      "membrane": 0.3436,
+      "claw": 0.0798,
+      "tooth": 0.0127,
+      "eye": 0.021,
+      "mouth": 0.0924
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.6761,
+    "membrane": 0.1778,
+    "claw": 0.0809,
+    "tooth": 0.0066,
+    "eye": 0.0109,
+    "mouth": 0.0478
+   },
+   "kept_classes": [
+    "skin"
+   ],
+   "kept_texels": 2863620,
+   "old_specular_mean_by_class": {
+    "skin": 0.126,
+    "membrane": 0.126,
+    "claw": 0.338,
+    "tooth": 0.238,
+    "eye": 0.125,
+    "mouth": 0.111
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.126,
+    "membrane": 0.3,
+    "claw": 1.0,
+    "tooth": 1.0,
+    "eye": 1.0,
+    "mouth": 0.5
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.839,
+    "membrane": 0.856,
+    "claw": 0.45,
+    "tooth": 0.35,
+    "eye": 0.156,
+    "mouth": 0.45
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "LizardBody_A": null,
+    "LizardBody_B": null,
+    "LizardBody_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 12,
+     "max": 255,
+     "mean": 85.1
+    },
+    "G": {
+     "min": 26,
+     "max": 242,
+     "mean": 189.2
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

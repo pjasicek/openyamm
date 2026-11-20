@@ -1,0 +1,32 @@
+output_dir: shots
+exit: true
+steps:
+  - wait: 3
+  - console: player add Knight Aslaug
+  - console: player add Cleric Hrafn
+  - console: player add Sorcerer Sigrun
+  - console: gold set 20000
+  - key: 2
+  - wait: 0.3
+  - console: skill set Sword 10 B
+  - console: skill set Dagger 10 B
+  - key: 1
+  - wait: 0.5
+  - key: Space
+  - wait: 1.5
+  - pointer_move: [1500, 120]
+  - wait: 0.5
+  - capture: 00_entry
+  - key: 1
+  - wait: 1.0
+  - capture: 01_skills
+  - key: 1
+  - wait: 1.0
+  - capture: 02_sword_members
+  - key: Down
+  - wait: 0.3
+  - capture: 02b_selected
+  - key: Return
+  - wait: 1.0
+  - capture: 03_trained
+  - wait: 1

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map Studio viewer</title>
+<style>
+  :root { --bg: #f6f4ef; --ink: #23211c; --muted: #6d675c; --room: #e2dccd; --edge: #8d8471; --base: #3d6f9e;
+    --added: #c0581f; --removed: #9b2b2b; --changed: #b08a1a; --water: #5d9dc2; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1d1c1a; --ink: #ece7dc; --muted: #a39b8b; --room: #3a3730; --edge: #7a715f; --base: #7fb0dc;
+      --added: #f08a52; --removed: #e06a6a; --changed: #e0bd52; --water: #6fb2d8; }
+  }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+    font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; gap: 12px; align-items: baseline; padding: 8px 12px; flex-wrap: wrap; }
+  header h1 { font-size: 15px; margin: 0; }
+  header span { color: var(--muted); }
+  #legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 0 12px 6px; color: var(--muted); }
+  #legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+  svg { display: block; width: 100%; height: calc(100% - 64px); min-height: 320px; touch-action: none; cursor: grab; }
+  #empty { padding: 24px 12px; color: var(--muted); }
+  .label { fill: var(--muted); pointer-events: none; }
+  .label.strong { fill: var(--ink); }
+</style>
+</head>
+<body>
+<header><h1 id="title">Map Studio</h1><span id="sub">waiting for a map</span></header>
+<div id="legend"></div>
+<svg id="plan" viewBox="0 0 100 100" aria-label="Plan of the map"></svg>
+<div id="empty" hidden>Call the tool map_view with a project folder to draw its plan here.</div>
+<script>
+// The Map Studio's MCP App (devdocs/map_studio/S6_PLAN.md item A): ui://openyamm/viewer draws a project's plan from
+// the structured result of the map_view tool (rooms, openings, things; an overlay's scene things on its base map).
+// It speaks the MCP Apps bridge over postMessage (JSON-RPC 2.0): ui/initialize to the host, then the host's
+// ui/notifications/tool-result with the tool's result. Pan by dragging, zoom with the wheel.
+(() => {
+  const svg = document.getElementById('plan');
+  const NS = 'http://www.w3.org/2000/svg';
+  let view = { x: 0, y: 0, w: 100, h: 100 };
+  let nextId = 1;
+
+  const send = (message) => window.parent.postMessage({ jsonrpc: '2.0', ...message }, '*');
+  const request = (method, params) => send({ id: nextId++, method, params });
+
+  const element = (name, attributes, parent) => {
+    const node = document.createElementNS(NS, name);
+    for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value);
+    (parent ?? svg).appendChild(node);
+    return node;
+  };
+  // The map's y runs north (up); the screen's down.
+  const points = (outline) => outline.map(([x, y]) => `${x},${-y}`).join(' ');
+  const colourOf = (state) => ({ added: 'var(--added)', removed: 'var(--removed)', changed: 'var(--changed)' })[state]
+    ?? 'var(--base)';
+
+  function setView(next) {
+    view = next;
+    svg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
+  }
+
+  function draw(data) {
+    svg.replaceChildren();
+    const layout = data.layout ?? {};
+    const overlay = data.overlay;
+    document.getElementById('title').textContent = data.title ?? 'Map Studio';
+    document.getElementById('sub').textContent = data.subtitle ?? '';
+    document.getElementById('empty').hidden = true;
+    let bounds = layout.bounds ?? (overlay ? { min: [overlay.bounds[0], overlay.bounds[1]],
+      max: [overlay.bounds[2], overlay.bounds[3]] } : null);
+    const extent = bounds && bounds.min ? bounds : { min: [-1024, -1024], max: [1024, 1024] };
+    const width = Math.max(1, extent.max[0] - extent.min[0]);
+    const height = Math.max(1, extent.max[1] - extent.min[1]);
+    const pad = Math.max(width, height) * 0.04;
+    const scale = Math.max(width, height) / 600;
+    setView({ x: extent.min[0] - pad, y: -extent.max[1] - pad, w: width + 2 * pad, h: height + 2 * pad });
+    const stroke = scale * 1.2;
+
+    for (const room of layout.rooms ?? []) {
+      if (!room.outline) continue;
+      element('polygon', { points: points(room.outline), fill: 'var(--room)', stroke: 'var(--edge)',
+        'stroke-width': stroke });
+      const [sx, sy] = room.outline.reduce(([ax, ay], [x, y]) => [ax + x, ay + y], [0, 0]);
+      const label = element('text', { x: sx / room.outline.length, y: -sy / room.outline.length,
+        'font-size': scale * 11, 'text-anchor': 'middle', class: 'label' });
+      label.textContent = room.id.replace(/^room:/, '');
+    }
+
+    for (const opening of layout.openings ?? []) {
+      element('line', { x1: opening.a[0], y1: -opening.a[1], x2: opening.b[0], y2: -opening.b[1],
+        stroke: 'var(--bg)', 'stroke-width': stroke * 3 });
+    }
+
+    for (const thing of layout.things ?? []) {
+      element('circle', { cx: thing.at[0], cy: -thing.at[1], r: scale * 3, fill: 'var(--base)' })
+        .appendChild(document.createElementNS(NS, 'title')).textContent = `${thing.id} (${thing.kind})`;
+    }
+
+    const counts = {};
+
+    for (const thing of overlay?.things ?? []) {
+      counts[thing.state] = (counts[thing.state] ?? 0) + 1;
+      const colour = colourOf(thing.state);
+
+      // A water volume's pieces (a region's sea is hundreds): kept ones as a light fill, changed or new outlined.
+      for (const polygon of thing.polygons ?? []) {
+        element('polygon', { points: points(polygon), fill: 'var(--water)', 'fill-opacity': 0.25,
+          stroke: thing.state === 'kept' ? 'none' : colour, 'stroke-width': stroke });
+      }
+
+      if (thing.radius && thing.state !== 'kept') {
+        element('circle', { cx: thing.at[0], cy: -thing.at[1], r: thing.radius, fill: 'none', stroke: colour,
+          'stroke-dasharray': `${scale * 6} ${scale * 4}`, 'stroke-width': stroke });
+      }
+
+      const size = thing.state === 'kept' ? scale * 2.5 : scale * 5;
+      const mark = thing.state === 'removed'
+        ? element('path', { d: `M${thing.at[0] - size},${-thing.at[1] - size}L${thing.at[0] + size},${-thing.at[1] + size}`
+            + `M${thing.at[0] - size},${-thing.at[1] + size}L${thing.at[0] + size},${-thing.at[1] - size}`,
+          stroke: colour, 'stroke-width': stroke * 2 })
+        : element('circle', { cx: thing.at[0], cy: -thing.at[1], r: size, fill: colour,
+          'fill-opacity': thing.state === 'kept' ? 0.45 : 0.95 });
+      mark.appendChild(document.createElementNS(NS, 'title')).textContent =
+        `${thing.id}: ${thing.kind}, ${thing.state} (${thing.label})`;
+
+      if (thing.state !== 'kept') {
+        const label = element('text', { x: thing.at[0] + size * 1.6, y: -thing.at[1] + size * 0.6,
+          'font-size': scale * 12, class: 'label strong' });
+        label.textContent = thing.id;
+      }
+    }
+
+    const legend = document.getElementById('legend');
+    legend.replaceChildren();
+
+    if (overlay) {
+      for (const state of ['added', 'changed', 'removed', 'kept']) {
+        const item = document.createElement('span');
+        item.innerHTML = `<i style="background:${colourOf(state)}"></i>${state} ${counts[state] ?? 0}`;
+        legend.appendChild(item);
+      }
+    }
+  }
+
+  function takeResult(result) {
+    const data = result?.structuredContent;
+    if (data && (data.layout || data.overlay)) draw(data);
+  }
+
+  window.addEventListener('message', (event) => {
+    const message = event.data;
+    if (!message || message.jsonrpc !== '2.0') return;
+    if (message.method === 'ui/notifications/tool-result') takeResult(message.params);
+    // The answer to ui/initialize may carry nothing we need; a host may also answer a tools/call with the result.
+    if (message.result && message.result.structuredContent) takeResult(message.result);
+  });
+
+  // Pan and zoom.
+  let drag = null;
+  svg.addEventListener('pointerdown', (event) => {
+    drag = { x: event.clientX, y: event.clientY, view: { ...view } };
+    svg.setPointerCapture(event.pointerId);
+  });
+  svg.addEventListener('pointermove', (event) => {
+    if (!drag) return;
+    const factor = view.w / svg.clientWidth;
+    setView({ ...drag.view, x: drag.view.x - (event.clientX - drag.x) * factor,
+      y: drag.view.y - (event.clientY - drag.y) * factor });
+  });
+  svg.addEventListener('pointerup', () => { drag = null; });
+  svg.addEventListener('wheel', (event) => {
+    event.preventDefault();
+    const factor = event.deltaY > 0 ? 1.15 : 1 / 1.15;
+    const box = svg.getBoundingClientRect();
+    const fx = (event.clientX - box.left) / box.width;
+    const fy = (event.clientY - box.top) / box.height;
+    setView({ x: view.x + view.w * fx * (1 - factor), y: view.y + view.h * fy * (1 - factor), w: view.w * factor,
+      h: view.h * factor });
+  }, { passive: false });
+
+  window.openyammViewer = { draw };
+  document.getElementById('empty').hidden = false;
+  request('ui/initialize', { protocolVersion: '2026-01-26', appInfo: { name: 'openyamm-map-viewer', version: '1.0' },
+    appCapabilities: {} });
+})();
+</script>
+</body>
+</html>

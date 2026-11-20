@@ -1,0 +1,17 @@
+format: 0
+id: cal6d01
+name: Goblinwatch
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9701
+  reference: 6d01.blv
+neighbours:
+  - id: exit:new_sorpigal
+    to: oute3.odm
+    kind: door
+    arrival: [-18400, -14982, 1600]
+    arrival_hint: "In front of Goblinwatch's door, in the north-west of New Sorpigal."
+    direction: 90
+notes: "Rebuild of Goblinwatch (mm6 6d01.blv) by devdocs/map_studio/REBUILD_PROCEDURE.md, a held-out map: the studio was never tuned on it. NOTES.md beside this file holds the scores, the gaps and the tool defects."

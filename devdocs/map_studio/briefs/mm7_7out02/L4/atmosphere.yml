@@ -1,0 +1,2 @@
+format: 0
+notes: "As the original: no sky texture of its own (the game's sky for the hour and the weather) and no fixed fog. The original's weather (rain, and snow in winter, by the world's chances) is its row of engine/data_tables/bolster_maps.txt (map 63: Weather x, Rain -, Snow x); `weather` is left out, so `oymap install` writes this map's row as the reference map's (project.yml map_stats.reference: 7out02.odm)."

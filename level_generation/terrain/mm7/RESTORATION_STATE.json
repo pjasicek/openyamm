@@ -1,0 +1,33 @@
+{
+  "iteration": "mm7_complete_terrain_v5_road_joins",
+  "files": {
+    "runtime_x2/manifest.json": "bf65631fa9c170ba667b013052f9995d7e1ff9ae5c533149f70939a9ec17b8fc",
+    "reports/validation.json": "3ed90a1a7dcd8c27b5582aeb6c9126aa83238a2cc412ac0aa46f50b6f4605e5c",
+    "reports/review.json": "8f5c8bb3479818e3bc2bc1dfeab43ef34a8c1a1cd6b0f0a0acc26626e314f968",
+    "reports/integration.json": "fcfdf8c73b2f4337d69350c5f5be884d41f7bedfdff894d91d2481d94902c63d",
+    "reports/review_stage.json": "196dfde6e6751fa77f21940c1b9abfdb0994f55d1c3922c515f5490f0fe6256b",
+    "water/native_animation.json": "b12dfca12532379ab4f44e0fb6c4646ee016d39b54256f194acfc88f1f2a44cc",
+    "mm7_complete_terrain_x2.zip": "bcf4e78fa4fd14c7170d51be20fada2f77f89d95773a016c5e0a92e541b0b6bb",
+    "reports/road_masks.json": "f2097318050173c9482a864cf9c2542f80e4803bd244ab7c78d6811952ee34cd",
+    "reports/road_mask_correction.json": "9186765bf73570973a1e24f1787dc01a6b56bcf94b00ad795509a2ae05afed84",
+    "reports/road_edges_v3/report.json": "a1f3306579c9066ec281d8b87335a8f13bf77bf846e7b65bdc9d1ebb86af240f",
+    "reports/road_edges_v3/comparison.png": "023ee4fa75cc69d934f2365ebd9ac9baf08f00ada394bbb49be782ecb3fa3611",
+    "roads_v4/build.json": "074fe1ef226ca7de39081085eb7a4ac324c46c2eca372da5d13fbafcb1cb14a4",
+    "roads_v4/review.json": "481c47e9f295d8a340dd6269d24e2eabd53b8cbd7babd2ca36d96512d92e1e8b",
+    "roads_v4/mask_sources.json": "4b782a40b7665dae2bf355bcc6a3ca31604f4cdd58ac9655f3f3c36fda94de58",
+    "roads_v4/README.md": "a5614dccdc2069f63c450a664313dd9e297121e278c0f68d1244b55ab7dc9b28",
+    "HANDOFF.md": "6b4182220b27bbd2f5d2bdf6f454dbd3ec200242e72ba2b4e8b6b612c2b99191",
+    "roads_v5/README.md": "7ed04f53d5ef47aade178c4582aea40d1b818a35052451cfe5e9b30c34ad3599",
+    "roads_v5/collars.py": "ad177660ccad8d117d21d1461a8225d9f405da82fa6fbe7a122550849bf7af5d",
+    "roads_v5/check.py": "3a6a6e4523daaed9c48a076ebdbb312527b689e0aa30b2cba6afb330db060a63",
+    "roads_v5/review.json": "dd10063a5f5e8a769b2b43df6dc69085741377788c6f0b2a5f810470749c1631",
+    "roads_v5/straight_join_comparison.png": "a71e0c63a0c4ba2e5846513ebfdbfb514ace689254c8604bf004e347826812ec",
+    "roads_v4/compose.py": "8e45e69c88f1b5c6224619c96f35b9ea97dc6b4e070a8b0ef8886d9221f94579",
+    "prepare_review.py": "2b62c5112522a0a8d94b36c5956d78a696ca621a291e7f0909ebf4d3ea619cb1",
+    "package.py": "27cd23ea61ece70a44b1f44a7b4f50ae44bb33a603121b50942613fb1d697a6c"
+  },
+  "installed_directory": "assets_dev/worlds/mm7/terrain_x2",
+  "runtime_pngs": 116,
+  "static_names": 102,
+  "outdoor_maps": 13
+}

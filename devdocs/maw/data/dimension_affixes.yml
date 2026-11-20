@@ -1,0 +1,376 @@
+# draft extracted from MAW ef23ee17
+# Dimension-map affixes ("mapping", item 290). Paths relative to Maw-Mod-MMMerge/Scripts/.
+# value = base + Power x scale (calculateAffixPower, General/zzMaw-Maps.lua:1084-1112).
+#   kind reduction: shown and applied as 100 x (1 - 1/(1 + value/100)) with 2 decimals (Formulas.reductionPercent)
+#   kind proc:      capped at 100
+# Paths: Damage.lua = Modules/MawCore/Damage.lua, Global/... as written, other bare names = General/.
+# Power is the map item's MaxCharges. Effects read getMapAffixPower(n) at the listed sites; "X" is the final value.
+# examples: X at Power 10 / 30 / 60.
+format: 1
+source: {repo: Maw-Mod-MMMerge, commit: ef23ee17}
+
+map_item:
+  item_id: 290                   # renamed "Dimension Map" (zzMaw-Maps.lua:1037)
+  fields: {BonusStrength: target mapstats id, BonusExpireTime: affix 1, Bonus2: affix 2, "Charges % 1000": affix 3,
+           "floor(Charges / 1000)": affix 4, Bonus: affix count (0 means 4), MaxCharges: Power}
+  unlock: "vars.dimensionalMapsQuest.Done (oracle topic)"
+  target_pool: "completed dungeons among mapDungeons (143 mapstats ids incl. outdoor maps 1-14, zzMaw-Maps.lua:791)"
+  drop:                          # MonsterKilled, zzMaw-Maps.lua:826-939
+    base_chance: 0.001
+    chance: "pity(0.001 x completed/143, failures) x mon.Level/100 / (mapsDropped on this map + 1) x mult"
+    mult: {boss: 10, broodling: "10 / (5 - tier)"}
+    level_required: {default: 100, madness: 70}      # getMonsterLevel(mon)
+    madness_map_level_required: 950  # map mean + 20 + Power x 10 must reach MADNESS_MAP_DROP_LEVEL, else no drop
+    seeded_roll: "mapvars.MonsterSeed[index] + 1337 when vars.seed is set"
+    failures: "vars.mapDropFailures += mult on a failed eligible roll; 0 on a drop"
+    affix_count: {4: 0.10, 3: 0.20, 2: 0.70, 1: 0.0}   # bug: `elseif bonus<=0.6` tests bonus, not roll
+    affixes: "distinct, uniform 1..33"
+    power: "round(monsterLevel/10 - U{0,1,2,3}); Road to Insanity (not Madness): at least 30"
+  on_completion:                 # checkMapCompletition, zzMaw-Monsters.lua:2646-2756
+    map_already_completed_branch: >-
+      (every dimension map, since targets are completed dungeons; not in Madness) no exp/gold;
+      grants a new map: target random completed dungeon, affix 2 always, 3 at 60%, 4 at 50%, 1 at 40%,
+      Bonus 0 (read as 4 slots, empty ones are 0), Power = min(round(Power + 1), 255)
+    madness_branch: "normal completion reward with madness formula, plus item by affix count {1: 1070, 2: 1061,
+      3: 1062, 4: 1065} instead of the crafting cube and gems"
+  entering:                      # UseMouseItem, zzMaw-Maps.lua:959-1027
+    refill: "target map RefillDays = 0 for this visit (restored on AfterLoadMap)"
+    monsters: "3 random families from possibleMonstersIn (.blv) / possibleMonstersOut (.odm) (seeded from the item)"
+    density: "Mon{1..3}Hi x (1 + (Power x nAff + 20 x nAff) / 300), rounded"
+    monster_level: "base level + map extraBolster + Power x 10 + 20 (no party bolster, no horizontal x2.5)"
+    shown_level: "Power x 10 + 20 + round(mean of the map band)"   # getDimensionMapLevel, zzMaw-Maps.lua:804-807
+    loot: "rarity mult x (1 + (Power x nAff + 20 x nAff)/400); enchant tier bonus floor(max((Power - 28)/2, 0))"
+    crafting_drop: "x (1 + (Power x nAff + 20 x nAff)/800 x 1.5)"   # zzAlchemy.lua:1167-1175
+
+affixes:
+  1:
+    text: "Monsters deal +X% damage"
+    target: monster
+    base: 20
+    scale: 0.5
+    kind: flat
+    examples: "25 / 35 / 50"
+    site: "Damage.lua:1944-1946"
+    effect: "player pipe: x(1 + X/100) when the attacker is a monster"
+    status: "works"
+  2:
+    text: "Monsters have X% critical chance"
+    target: monster
+    base: 10
+    scale: 1
+    kind: flat
+    examples: "20 / 40 / 70"
+    site: "Damage.lua:1947-1951"
+    effect: "player pipe: X% chance of x2 on ANY damage to a player (traps and falls too)"
+    status: "works"
+  3:
+    text: "X% chance to cast Fireball"
+    target: monster
+    base: 10
+    scale: 1
+    kind: proc
+    examples: "20 / 40 / 70"
+    site: "zzMaw-Monsters.lua:340-345"
+    effect: "every map monster: Spell 6, SpellChance X, SpellSkill field 10"
+    status: "works"
+  4:
+    text: "X% chance to cast Dragon Breath"
+    target: monster
+    base: 5
+    scale: 0.5
+    kind: proc
+    examples: "10 / 20 / 35"
+    site: "zzMaw-Monsters.lua:346-350"
+    effect: "every map monster: Spell 97, SpellChance X, SpellSkill field 5"
+    status: "works"
+  5:
+    text: "Monsters reflect X% of physical damage"
+    target: monster
+    base: 7
+    scale: 0.15
+    kind: flat
+    examples: "8.5 / 11.5 / 16"
+    site: "Damage.lua:1154-1158"
+    effect: "player melee damage reflected as affixCut(dealt, 5) = dealt x (1 - X/100), then ^0.85 in the player pipe"
+    status: "bug: reflects (100 - X)% instead of X%"
+  6:
+    text: "Monsters reflect X% of magic damage"
+    target: monster
+    base: 7
+    scale: 0.15
+    kind: flat
+    examples: "8.5 / 11.5 / 16"
+    site: "Damage.lua:1159-1163"
+    effect: "same as 5 for non-physical damage"
+    status: "bug: reflects (100 - X)% instead of X%"
+  7:
+    text: "Monsters regenerate X% HP per second"
+    target: monster
+    base: 1
+    scale: 0.1
+    kind: flat
+    examples: "2 / 4 / 7"
+    site: "zzMaw-Monsters.lua:3604-3609, zzMaw-Timers.lua:91"
+    effect: "mappingRegen heals the global variable `mon` (whatever was last assigned) by X% of FullHitPoints"
+    status: "bug: no per-monster regeneration"
+  8:
+    text: "X% chance to ignore status resistance"
+    target: monster
+    base: 5
+    scale: 0.25
+    kind: proc
+    examples: "7.5 / 12.5 / 20"
+    site: "Global/zzMaw_Mapping.lua:1-6"
+    effect: "DoBadThingToPlayer: a resisted condition is applied anyway with X% chance"
+    status: "works"
+  9:
+    text: "X% chance to summon a monster on death"
+    target: monster
+    base: 15
+    scale: 0.2
+    kind: proc
+    examples: "17 / 21 / 27"
+    site: "zzAlchemy.lua:1146-1148"
+    effect: "on kill: one monster of the same family, tier {A 55, B 30, C 15}%, radius 128"
+    status: "works"
+  10:
+    text: "Monsters deal X% of player HP as damage"
+    target: monster
+    base: 5
+    scale: 0.1
+    kind: flat
+    examples: "6 / 8 / 11"
+    site: "Damage.lua:1952-1955"
+    effect: "monster hits add FullHP x X/100"
+    status: "works"
+  11:
+    text: "Monsters have +X% movement speed"
+    target: monster
+    base: 30
+    scale: 1
+    kind: flat
+    examples: "40 / 60 / 90"
+    site: "zzMaw-Monsters.lua:3469-3490"
+    effect: "every monster's per-frame displacement (< 100 units) is extended by X/100"
+    status: "works"
+  12:
+    text: "Monster resistances +X"
+    target: monster
+    base: 30
+    scale: 2
+    kind: flat
+    examples: "50 / 90 / 150"
+    site: "zzMaw-Monsters.lua:600-605"
+    effect: "every resistance: min(base + X, 200 + X, 999)"
+    status: "works"
+  13:
+    text: "X% extra chance to resist control effects"
+    target: monster
+    base: 30
+    scale: 1
+    kind: reduction
+    examples: "28.57 / 37.5 / 47.37"
+    site: "Damage.lua:346"
+    effect: "only the Stun spell (34): hit chance x (1 - X/100)"
+    status: "partial: other crowd control unaffected"
+  14:
+    text: "X% chance to deal energy damage"
+    target: monster
+    base: 20
+    scale: 1
+    kind: proc
+    examples: "30 / 50 / 80"
+    site: "Damage.lua:1735-1737"
+    effect: "`math.random() < X` without /100"
+    status: "bug: every monster hit becomes Energy (12)"
+  15:
+    text: "Monsters have +X% HP"
+    target: monster
+    base: 20
+    scale: 1.5
+    kind: flat
+    examples: "35 / 65 / 110"
+    site: "zzMaw-Monsters.lua:659-663"
+    effect: "multiplies HPtable after the templates were written; live HP comes from getMonsterHealth"
+    status: "bug: monster HP unchanged; only the leech reference (Damage.lua:1221) grows, i.e. leech x 1/(1 + X/100)"
+  16:
+    text: "Boss density +X%"
+    target: boss
+    base: 30
+    scale: 0.5
+    kind: flat
+    examples: "35 / 45 / 60"
+    site: "zzMaw-Monsters.lua:2901-2903"
+    effect: "boss count = ceil(count x (1 + X/100))"
+    status: "works"
+  17:
+    text: "X% chance to be a higher tier"
+    target: monster
+    base: 20
+    scale: 0.5
+    kind: flat
+    examples: "25 / 35 / 50"
+    site: "zzMaw-Monsters.lua:2904-2911"
+    effect: "each non-C monster: SetId(Id + 1) with X% chance, before boss picks"
+    status: "works"
+  18:
+    text: "Bosses +X% HP and damage"
+    target: boss
+    base: 15
+    scale: 1
+    kind: flat
+    examples: "25 / 45 / 75"
+    site: "zzMaw-Monsters.lua:3009-3011, 3070-3072"
+    effect: "boss hpMult and dmgMult x (1 + X/100) (spell skill too)"
+    status: "works"
+  19:
+    text: "X% chance for a monster to become a boss"
+    target: boss
+    base: 4
+    scale: 0.05
+    kind: proc
+    examples: "4.5 / 5.5 / 7"
+    site: "zzMaw-Monsters.lua:2913-2920"
+    effect: "each non-C, non-peaceful, unnamed monster: generateBoss with X% chance"
+    status: "works"
+  20:
+    text: "Player critical chance -X"
+    target: player
+    base: 10
+    scale: 0.2
+    kind: flat
+    examples: "12 / 16 / 22"
+    site: "zzMaw-Stats.lua:125-127"
+    effect: "crit chance - X/100 (absolute; NOT in the hyperbolic reduction list)"
+    status: "works"
+  21:
+    text: "Player critical damage -X%"
+    target: player
+    base: 10
+    scale: 0.2
+    kind: reduction
+    examples: "10.71 / 13.79 / 18.03"
+    site: "zzMaw-Stats.lua:128-130"
+    effect: "crit multiplier = (m - 1) x (1 - X/100) + 1"
+    status: "works"
+  22:
+    text: "Player HP/SP regeneration -X%"
+    target: player
+    base: 20
+    scale: 1
+    kind: reduction
+    examples: "23.08 / 33.33 / 44.44"
+    site: "zzMAW-Skills.lua:1388-1390"
+    effect: "regen tick time multiplier x (1 - X/100)"
+    status: "works"
+  23:
+    text: "Player physical damage -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "Damage.lua:1143-1145"
+    effect: "DamageToMonster: physical result x (1 - X/100)"
+    status: "works"
+  24:
+    text: "Player magic damage -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "Damage.lua:1146-1148"
+    effect: "DamageToMonster: non-physical result x (1 - X/100)"
+    status: "works"
+  25:
+    text: "Player movement speed -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "Global/zzMaw_Mapping.lua:7-18"
+    effect: "each tick with the enemy detector yellow/red the party is pushed back by X% of its movement"
+    status: "works"
+  26:
+    text: "Player attack speed -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "Global/zzMaw_Mapping.lua:19-23"
+    effect: "GetAttackDelay: delay / (1 - X/100)"
+    status: "works"
+  27:
+    text: "Player spell recovery +X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "zzMaw-Stats.lua:240-242"
+    effect: "spell delay / (1 - X/100)"
+    status: "works"
+  28:
+    text: "Player armor -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "zzMaw-Stats.lua:1057-1059"
+    effect: "AC x (1 - X/100)"
+    status: "works"
+  29:
+    text: "Player resistances -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "zzMaw-Stats.lua:1130-1132"
+    effect: "total resistance x (1 - X/100)"
+    status: "works"
+  30:
+    text: "X% chance for players to miss"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "Damage.lua:1149-1153"
+    effect: "DamageToMonster result 0 with X% chance"
+    status: "works"
+  31:
+    text: "Healing -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "zzMaw-Spells.lua:96-98"
+    effect: "heal spell multiplier x (1 - X/100)"
+    status: "works"
+  32:
+    text: "Leech -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "Damage.lua:1236-1237"
+    effect: "leech heal x (1 - X/100)"
+    status: "works"
+  33:
+    text: "Buff effects -X%"
+    target: player
+    base: 15
+    scale: 0.5
+    kind: reduction
+    examples: "16.67 / 23.08 / 31.03"
+    site: "Global/zzMaw_Mapping.lua:25-34"
+    effect: "AfterLoadMap scales buffPower Base/Scaling by (1 - X/100) in place"
+    status: "bug: compounds on every reload inside the map; leaving restores the Mapping table (see BALANCE_MODEL.md)"
+# Note: the proc list in calculateAffixPower also names 34, which does not exist (totalMapAffixes = 33).

@@ -1,0 +1,97 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_undervault/review/lights01",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "stall",
+   "position": [
+    3300,
+    2900,
+    0
+   ],
+   "yaw": 2.7,
+   "pitch": 0.0
+  },
+  {
+   "name": "lamp_cluster",
+   "position": [
+    2200,
+    1900,
+    0
+   ],
+   "yaw": 2.3,
+   "pitch": 0.5
+  },
+  {
+   "name": "gallery_lamps",
+   "position": [
+    200,
+    2400,
+    512
+   ],
+   "yaw": 1.3,
+   "pitch": 0.25
+  },
+  {
+   "name": "banners_west",
+   "position": [
+    1500,
+    3200,
+    0
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.45
+  },
+  {
+   "name": "chapel_steps",
+   "position": [
+    4500,
+    5800,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.1
+  },
+  {
+   "name": "chapel",
+   "position": [
+    4500,
+    7500,
+    384
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "under_stair",
+   "position": [
+    200,
+    2200,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "hall_from_sw",
+   "position": [
+    1200,
+    600,
+    0
+   ],
+   "yaw": 0.75,
+   "pitch": 0.1
+  },
+  {
+   "name": "high_view",
+   "position": [
+    4500,
+    300,
+    900
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.35
+  }
+ ]
+}

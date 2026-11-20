@@ -1,0 +1,266 @@
+format: 0
+level: L3
+pitch: "Erathia: Steadwick, the human capital, on terraced low hills above a northern lake, Castle Gryphonheart on its plateau east of the town, Fort Riverstride astride the river in its gorge, high mountains east and south with a maze of trenches, healers' tents, a hidden tomb and an obelisk in a hollow."
+datum: sea_level
+spaces:
+  - id: town:steadwick
+    name: Steadwick
+    kind: district
+    population:
+      - {id: pop:townsfolk, actor: Peasant, placed: true, hostile: false}
+  - id: water:river
+    name: The river
+    kind: water
+  - id: water:sea
+    name: The lake
+    kind: water
+  - id: zone:wild
+    name: Erathia
+    kind: zone
+    population:
+      - {id: pop:fighters, slot: 1, actor: Fighter Leather}
+      - {id: pop:griffins, slot: 2, actor: Griffin}
+      - {id: pop:slot3, slot: 3, actor: Griffin}
+links:
+  - id: road:r1
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r10
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r11
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r12
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r13
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r14
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r15
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r16
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r17
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r18
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r19
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r2
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r20
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r21
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r22
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r23
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r24
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r25
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r26
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r27
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r28
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r29
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r3
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r30
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r31
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r32
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r33
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r34
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r35
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r36
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r37
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r38
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r39
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r4
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r40
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r41
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r42
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r43
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r44
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r45
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r46
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r47
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r48
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r49
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r5
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r50
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r51
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r52
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r53
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r54
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r6
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r7
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r8
+    from: zone:wild
+    to: zone:wild
+    kind: road
+  - id: road:r9
+    from: zone:wild
+    to: zone:wild
+    kind: road
+entrances:
+  - id: entrance:east
+    space: zone:wild
+    kind: both
+    neighbour: edge:east
+    facing: w
+    how: east start
+  - id: entrance:north
+    space: zone:wild
+    kind: both
+    neighbour: edge:north
+    facing: w
+    how: north start
+  - id: entrance:south
+    space: zone:wild
+    kind: both
+    neighbour: edge:south
+    facing: n
+    how: south start
+  - id: entrance:west
+    space: zone:wild
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: west start
+sketch: {file: sketch.yml, grid: 512}

@@ -1,0 +1,60 @@
+id: rulesets.maw_potions
+title: Ruleset - MAW potions (aura potions, power requirements, five-drink bottles, black potion steps), kept by save and load
+world: mm6
+mode: faithful
+tags: [rulesets, maw, alchemy]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: maw
+        progression: free
+      party:
+        gold: 1000
+        food: 10
+        members:
+          - name: Drinker
+            class: Knight
+            level: 30
+            skills: []
+            equipment: {}
+          - name: Second
+            class: Cleric
+            level: 30
+            skills: []
+            equipment: {}
+  # Haste: an aura copy on the drinker; the bottle keeps four drinks.
+  - grant_item: {item_id: 228, power: 120}
+  - use_item: {item_id: 228}
+  - assert:
+      inventory_any_member: [{item_id: 228, count: 1}]
+      ruleset: {id: maw, potion_effects_min: 1}
+  # Stone to Flesh needs power 20: refused and kept.
+  - grant_item: {item_id: 239, power: 10}
+  - use_item: {item_id: 239, expect: refused}
+  - assert:
+      inventory_any_member: [{item_id: 239, count: 1}]
+  # Pure Power at power 120 (step 2) works once; another of the same step is refused and kept.
+  - grant_item: {item_id: 252, power: 120, count: 2}
+  - use_item: {item_id: 252}
+  - use_item: {item_id: 252, expect: refused}
+  - assert:
+      inventory_any_member: [{item_id: 252, count: 1}]
+  # Antidote: cures and keeps poison away; Cure Wounds is used up.
+  - grant_item: {item_id: 225, power: 30, member_index: 1}
+  - use_item: {item_id: 225, member_index: 1}
+  - grant_item: {item_id: 222, power: 40}
+  - use_item: {item_id: 222}
+  - assert:
+      inventory_any_member: [{item_id: 222, count: 0}, {item_id: 225, count: 0}]
+      ruleset: {id: maw, potion_effects_min: 4}
+  - save_game: maw_potions
+  - load_game: maw_potions
+  - assert:
+      inventory_any_member: [{item_id: 228, count: 1}, {item_id: 252, count: 1}]
+      ruleset: {id: maw, potion_effects_min: 4}
+  # The timed effects run out after six game hours; the black potion's step stays.
+  - advance_game_time: {hours: 8}
+  - assert:
+      ruleset: {id: maw, potion_effects_min: 1, potion_effects_max: 1}

@@ -1,0 +1,645 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.anskramkeep_rotating
+title: 'Anskram Keep (native BLV): swinging doors, a pivot trap, a ladder and a hatch'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: anskramkeep.blv
+- note:
+    text: 'A mover test: the 85 placed monsters awake at load are slain first (with MM9''s bodies they follow the party here
+      and stand in the swings).'
+- damage_actor:
+    actor_index: 0
+    amount: 100000
+- damage_actor:
+    actor_index: 1
+    amount: 100000
+- damage_actor:
+    actor_index: 2
+    amount: 100000
+- damage_actor:
+    actor_index: 3
+    amount: 100000
+- damage_actor:
+    actor_index: 4
+    amount: 100000
+- damage_actor:
+    actor_index: 8
+    amount: 100000
+- damage_actor:
+    actor_index: 9
+    amount: 100000
+- damage_actor:
+    actor_index: 10
+    amount: 100000
+- damage_actor:
+    actor_index: 11
+    amount: 100000
+- damage_actor:
+    actor_index: 12
+    amount: 100000
+- damage_actor:
+    actor_index: 13
+    amount: 100000
+- damage_actor:
+    actor_index: 14
+    amount: 100000
+- damage_actor:
+    actor_index: 15
+    amount: 100000
+- damage_actor:
+    actor_index: 16
+    amount: 100000
+- damage_actor:
+    actor_index: 17
+    amount: 100000
+- damage_actor:
+    actor_index: 18
+    amount: 100000
+- damage_actor:
+    actor_index: 19
+    amount: 100000
+- damage_actor:
+    actor_index: 20
+    amount: 100000
+- damage_actor:
+    actor_index: 21
+    amount: 100000
+- damage_actor:
+    actor_index: 22
+    amount: 100000
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+- damage_actor:
+    actor_index: 24
+    amount: 100000
+- damage_actor:
+    actor_index: 25
+    amount: 100000
+- damage_actor:
+    actor_index: 26
+    amount: 100000
+- damage_actor:
+    actor_index: 27
+    amount: 100000
+- damage_actor:
+    actor_index: 28
+    amount: 100000
+- damage_actor:
+    actor_index: 29
+    amount: 100000
+- damage_actor:
+    actor_index: 30
+    amount: 100000
+- damage_actor:
+    actor_index: 31
+    amount: 100000
+- damage_actor:
+    actor_index: 32
+    amount: 100000
+- damage_actor:
+    actor_index: 33
+    amount: 100000
+- damage_actor:
+    actor_index: 34
+    amount: 100000
+- damage_actor:
+    actor_index: 35
+    amount: 100000
+- damage_actor:
+    actor_index: 36
+    amount: 100000
+- damage_actor:
+    actor_index: 37
+    amount: 100000
+- damage_actor:
+    actor_index: 38
+    amount: 100000
+- damage_actor:
+    actor_index: 39
+    amount: 100000
+- damage_actor:
+    actor_index: 40
+    amount: 100000
+- damage_actor:
+    actor_index: 41
+    amount: 100000
+- damage_actor:
+    actor_index: 42
+    amount: 100000
+- damage_actor:
+    actor_index: 43
+    amount: 100000
+- damage_actor:
+    actor_index: 44
+    amount: 100000
+- damage_actor:
+    actor_index: 45
+    amount: 100000
+- damage_actor:
+    actor_index: 46
+    amount: 100000
+- damage_actor:
+    actor_index: 47
+    amount: 100000
+- damage_actor:
+    actor_index: 48
+    amount: 100000
+- damage_actor:
+    actor_index: 49
+    amount: 100000
+- damage_actor:
+    actor_index: 50
+    amount: 100000
+- damage_actor:
+    actor_index: 51
+    amount: 100000
+- damage_actor:
+    actor_index: 52
+    amount: 100000
+- damage_actor:
+    actor_index: 53
+    amount: 100000
+- damage_actor:
+    actor_index: 54
+    amount: 100000
+- damage_actor:
+    actor_index: 55
+    amount: 100000
+- damage_actor:
+    actor_index: 56
+    amount: 100000
+- damage_actor:
+    actor_index: 57
+    amount: 100000
+- damage_actor:
+    actor_index: 58
+    amount: 100000
+- damage_actor:
+    actor_index: 59
+    amount: 100000
+- damage_actor:
+    actor_index: 60
+    amount: 100000
+- damage_actor:
+    actor_index: 61
+    amount: 100000
+- damage_actor:
+    actor_index: 62
+    amount: 100000
+- damage_actor:
+    actor_index: 63
+    amount: 100000
+- damage_actor:
+    actor_index: 64
+    amount: 100000
+- damage_actor:
+    actor_index: 65
+    amount: 100000
+- damage_actor:
+    actor_index: 66
+    amount: 100000
+- damage_actor:
+    actor_index: 67
+    amount: 100000
+- damage_actor:
+    actor_index: 68
+    amount: 100000
+- damage_actor:
+    actor_index: 69
+    amount: 100000
+- damage_actor:
+    actor_index: 70
+    amount: 100000
+- damage_actor:
+    actor_index: 71
+    amount: 100000
+- damage_actor:
+    actor_index: 72
+    amount: 100000
+- damage_actor:
+    actor_index: 73
+    amount: 100000
+- damage_actor:
+    actor_index: 74
+    amount: 100000
+- damage_actor:
+    actor_index: 75
+    amount: 100000
+- damage_actor:
+    actor_index: 76
+    amount: 100000
+- damage_actor:
+    actor_index: 77
+    amount: 100000
+- damage_actor:
+    actor_index: 78
+    amount: 100000
+- damage_actor:
+    actor_index: 79
+    amount: 100000
+- damage_actor:
+    actor_index: 80
+    amount: 100000
+- damage_actor:
+    actor_index: 81
+    amount: 100000
+- damage_actor:
+    actor_index: 82
+    amount: 100000
+- damage_actor:
+    actor_index: 83
+    amount: 100000
+- damage_actor:
+    actor_index: 84
+    amount: 100000
+- damage_actor:
+    actor_index: 85
+    amount: 100000
+- damage_actor:
+    actor_index: 86
+    amount: 100000
+- damage_actor:
+    actor_index: 87
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'DoubleDoor15: shut, a leaf stops the party; a click swings both leaves away from it.'
+- assert:
+    mechanism:
+      id: 21
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 102
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 420
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- execute_event:
+    id: 107
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 21
+      state: open
+- assert:
+    mechanism:
+      id: 22
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 102
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 1254
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- note:
+    text: The leaves shut themselves after 7 s (MM9 CloseWaitTime).
+- advance_runtime:
+    seconds: 9
+- assert:
+    mechanism:
+      id: 21
+      state: closed
+- assert:
+    mechanism:
+      id: 22
+      state: closed
+- note:
+    text: With the party in the doorway the closing leaves reverse (MM9 ReopenOnContact).
+- execute_event:
+    id: 107
+- advance_runtime:
+    seconds: 2
+- movement_segment:
+    input: none
+    seconds: 0.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 490
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 490
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 20
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 7.0
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    mechanism:
+      id: 21
+      state: open
+- assert:
+    mechanism:
+      id: 22
+      state: open
+- note:
+    text: 'PivotWallTrap1: stepping on its floor tips the party into the pit (MM9 90 degrees at 100/s), onto the spike pit.'
+- assert:
+    mechanism:
+      id: 81
+      state: closed
+- movement_segment:
+    input: none
+    seconds: 3.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 3441
+      y: 1812
+      z: -489
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 3441
+      y: 1812
+      z: -1126
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 260
+    tolerance_z: 100
+- assert:
+    mechanism:
+      id: 81
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: SpikeHits
+      value: 2
+- note:
+    text: 'The trap turns back after 5 s; the spikes keep striking every second while the party stands on them (MM9: 20 per
+      second).'
+- advance_runtime:
+    seconds: 8
+- assert:
+    state_dump_named_map_var:
+      name: SpikeHits
+      value: 10
+- assert:
+    mechanism:
+      id: 81
+      state: closed
+- note:
+    text: 'Ladder4: with the hatch shut the party climbs until its head meets it.'
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 3204
+      y: 1805
+      z: -1126
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 3164
+      y: 1805
+      z: -672
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 40
+- note:
+    text: TrapExitDoor1 opens on its click; the party climbs out beside it.
+- execute_event:
+    id: 80
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 101
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 3204
+      y: 1805
+      z: -1126
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 3174
+      y: 1925
+      z: -492
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 16
+- note:
+    text: The hatch shuts itself after 5 s.
+- advance_runtime:
+    seconds: 7
+- assert:
+    mechanism:
+      id: 101
+      state: closed
+- note:
+    text: Off the spikes they stop striking.
+- assert:
+    state_dump_named_map_var:
+      name: SpikeHits
+      value: 10
+- note:
+    text: 'The niche, MM9''s way: the trap is sprung (here by its button) and the party steps on the turned floor; the slow
+      swing back (50 degrees/s) carries it in the V of the cross, round the axle, into the niche behind the wall.'
+- advance_runtime:
+    seconds: 3
+- execute_event:
+    id: 83
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    mechanism:
+      id: 81
+      state: open
+- movement_segment:
+    input: none
+    seconds: 6.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 3441
+      y: 1752
+      z: -489
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 3441
+      y: 1459
+      z: -491
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 30
+- assert:
+    mechanism:
+      id: 81
+      state: closed
+- advance_runtime:
+    seconds: 2
+- note:
+    text: PivotTreasurePanel1 opens from the niche; the button in the niche springs the trap, and the fast swing carries the
+      party out over the axle to the corridor's side.
+- execute_event:
+    id: 70
+- execute_event:
+    id: 83
+- movement_segment:
+    input: none
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 3441
+      y: 1459
+      z: -489
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 3441
+      y: 1812
+      z: -491
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 24
+- advance_runtime:
+    seconds: 8
+- assert:
+    mechanism:
+      id: 81
+      state: closed
+- note:
+    text: 'A save in the middle of a swing keeps the leaves'' pose and side: they finish opening.'
+- load_map:
+    map: anskramkeep.blv
+- movement_segment:
+    input: forward
+    seconds: 0.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 102
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 252
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 16
+- execute_event:
+    id: 107
+- advance_runtime:
+    seconds: 0.5
+- save_game: rotating_swing
+- load_game: rotating_swing
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 21
+      state: open
+- assert:
+    mechanism:
+      id: 22
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 102
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 1254
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16

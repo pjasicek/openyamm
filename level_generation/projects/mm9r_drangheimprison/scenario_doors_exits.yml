@@ -1,0 +1,208 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimprison_doors_exits
+title: Drangheim Prison (native BLV) - doors, a lever and its cell, a ladder and hatch, the front door
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimprison.blv
+- note:
+    text: 'ExitTrigger1 (DAT object 411): the front door to Drangheim, just south of the start.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimprison.blv
+      x: -2171
+      y: -7148
+      z: -2231
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: drangheimprison.blv
+      x: -2171
+      y: -7448
+      z: -2231
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 411
+- load_map:
+    map: drangheimprison.blv
+- note:
+    text: RightDoor1a (door 70) is shut, stops the party, opens on event 123; the party walks through.
+- assert:
+    mechanism:
+      id: 70
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimprison.blv
+      x: -2171
+      y: -6300
+      z: -2231
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: drangheimprison.blv
+      x: -2171
+      y: -6030
+      z: -2231
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 90
+    tolerance_z: 20
+- execute_event:
+    id: 123
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 70
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimprison.blv
+      x: -2171
+      y: -6300
+      z: -2231
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: drangheimprison.blv
+      x: -2171
+      y: -5543
+      z: -2231
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'Celldoor6 stays shut on a click (event 230: locked); lever5 opens it, back shuts it.'
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 35
+      state: closed
+- execute_event:
+    id: 205
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 35
+      state: open
+- assert:
+    mechanism:
+      id: 102
+      state: open
+- execute_event:
+    id: 205
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 35
+      state: closed
+- note:
+    text: Celldoor18 starts open (MM9 StartOpen); lever17 swings it shut, back opens it again.
+- assert:
+    mechanism:
+      id: 16
+      state: open
+- execute_event:
+    id: 214
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 16
+      state: closed
+- execute_event:
+    id: 214
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 16
+      state: open
+- note:
+    text: 'Ladder0: the shut hatch stops the climb under it.'
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimprison.blv
+      x: 1440
+      y: -1597
+      z: -4525
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: drangheimprison.blv
+      x: 1500
+      y: -1597
+      z: -3824
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 90
+    tolerance_z: 90
+- note:
+    text: Hatch (door 76) opens on its click; the party climbs out on top.
+- execute_event:
+    id: 241
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 76
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 3.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimprison.blv
+      x: 1440
+      y: -1597
+      z: -4525
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: drangheimprison.blv
+      x: 1587
+      y: -1597
+      z: -3579
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 40

@@ -1,0 +1,220 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for an existing 3D decoration.\nEdit the FIRST image, guide_left.png, into paint_left.png: the decoration seen from its left side. Output a single 1024 x 1024 PNG with real transparent background, at the guide's original resolution and framing.\n\nINPUT ROLES: Image 1 is the exact grey orthographic mesh render and the immutable geometry/alpha template. Image 2, design_reference.png, is the approved material and colour authority only. Image 3, concept_crop.png, is supporting original concept material reference only.\n\nGEOMETRY LOCK: Paint directly onto image 1. Keep its alpha silhouette EXACTLY, with the same pixel outline, scale, position, tip, base, angular faceted edges, protrusions, openings and every existing shape boundary. The occupied bounding box is x=246..777 and y=66..957 on the 1024-square canvas. Do not move, enlarge, narrow, curve, smooth, rotate, mirror, crop or redesign any geometry. Preserve the exact orthographic left view, including all of its asymmetric facets. The design's three-quarter camera and additional visible towers must NOT replace the guide's geometry. Do not create cutout holes through opaque guide pixels or fill existing transparent areas. Surface lattice patterns must be painted inside the original mesh silhouette.\n\nMATERIAL PAINT: Transfer the reference's rich black-violet organic resin lattice and subdued orange internal sacs/seams onto the mesh body; ivory bone material on the existing pointed cap and bone points. Preserve warm ivory segmented plates and their fine ochre/brown seams, rich dark purple resin with subtle natural surface variation, and faint orange interiors. The resin is a glossy material, but this image must show its diffuse base colour only. Reference-like lattice apertures within the guide's solid surface are painted colour features, not changes to the alpha mask.\n\nLIGHTING: texture-source ALBEDO, even flat shadowless light from the viewer across every facet. No baked directional shading, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Orange parts are painted at their glowing orange colour, with no emitted light spilling onto neighbouring surfaces, no bloom, no glow halo. Maintain material readability without lighting effects.\n\nBACKGROUND: fully transparent alpha outside the exact original guide silhouette, including empty gaps. No floor, ground, background colour, checkerboard painted into the image, text or border. Deliver one unresized 1024 x 1024 RGBA image.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "7cf2b47db5479505f6521ef1b10b593a76b5e21e13889fb0e2c57c00c985068b"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "8ed9231a98a43cfbcd05cb2b57bb79a64b598d30bbcbe0ff35a97aac61db59e9"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16879-4677-7f53-a380-558a8d656995/exec-a3ced4e3-e4ee-4cb1-b7b7-7ae08a9554a7.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected for corrective attempt: wrong native dimensions, changed silhouette, and baked shading/highlights.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bounds": [
+          0,
+          30,
+          1234,
+          1232
+        ],
+        "opaque_bounds": [
+          298,
+          76,
+          956,
+          1175
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9612620168461302,
+        "normalized_silhouette_different_pixels": 8591,
+        "normalization_note": "Diagnostic only: guide alpha nearest-sampled to return size. Saved image is byte-for-byte unmodified.",
+        "materials": "Black-violet resin, ivory and orange present; extra ivory plate interpretation.",
+        "flat_even_light": "Fail: visible recess darkening and glossy highlights."
+      },
+      "output_sha256": "5eb32f68aecea5aa7efc45125990972c93bcf89c43e52c97019abb071dbe6f3d"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for an existing 3D decoration.\nEdit the FIRST image, guide_right.png, into paint_right.png: the decoration seen from its right side. Output a single 1024 x 1024 PNG with real transparent background, at the guide's original resolution and framing.\n\nINPUT ROLES: Image 1 is the exact grey orthographic mesh render and the immutable geometry/alpha template. Image 2, design_reference.png, is the approved material and colour authority only. Image 3, concept_crop.png, is supporting original concept material reference only.\n\nGEOMETRY LOCK: Paint directly onto image 1. Keep its alpha silhouette EXACTLY, with the same pixel outline, scale, position, tip, base, angular faceted edges, protrusions, openings and every existing shape boundary. The occupied bounding box is x=246..777 and y=66..957 on the 1024-square canvas. Do not move, enlarge, narrow, curve, smooth, rotate, mirror, crop or redesign any geometry. Preserve the exact orthographic right view, including all of its asymmetric facets. The design's three-quarter camera and additional visible towers must NOT replace the guide's geometry. Do not create cutout holes through opaque guide pixels or fill existing transparent areas. Surface lattice patterns must be painted inside the original mesh silhouette.\n\nMATERIAL PAINT: Transfer the reference's rich black-violet organic resin lattice and subdued orange internal sacs/seams onto the mesh body; ivory bone material on the existing pointed cap and bone points. Preserve warm ivory segmented plates and their fine ochre/brown seams, rich dark purple resin with subtle natural surface variation, and faint orange interiors. The resin is a glossy material, but this image must show its diffuse base colour only. Reference-like lattice apertures within the guide's solid surface are painted colour features, not changes to the alpha mask.\n\nLIGHTING: texture-source ALBEDO, even flat shadowless light from the viewer across every facet. No baked directional shading, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Orange parts are painted at their glowing orange colour, with no emitted light spilling onto neighbouring surfaces, no bloom, no glow halo. Maintain material readability without lighting effects.\n\nBACKGROUND: fully transparent alpha outside the exact original guide silhouette, including empty gaps. No floor, ground, background colour, checkerboard painted into the image, text or border. Deliver one unresized 1024 x 1024 RGBA image.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "ae4bdbcbb1fb494f7ab1ddaecec42cea159d4bd646ccb7bc6341ecb99f823c5f"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "8ed9231a98a43cfbcd05cb2b57bb79a64b598d30bbcbe0ff35a97aac61db59e9"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16879-4677-7f53-a380-558a8d656995/exec-2565c7a8-30af-4eb0-bd42-f3e83ab5e4e2.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected for corrective attempt: wrong native dimensions, changed silhouette, and baked shading/highlights.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bounds": [
+          41,
+          21,
+          1230,
+          1222
+        ],
+        "opaque_bounds": [
+          297,
+          76,
+          959,
+          1177
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9612040466982457,
+        "normalized_silhouette_different_pixels": 8567,
+        "normalization_note": "Diagnostic only: guide alpha nearest-sampled to return size. Saved image is byte-for-byte unmodified.",
+        "materials": "Black-violet resin, ivory and orange present; extra ivory plate interpretation.",
+        "flat_even_light": "Fail: visible recess darkening and glossy highlights."
+      },
+      "output_sha256": "c646b53032ce252a42e0bf92510bed633a773f49294115ea59c9a062213fac5d"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the one permitted for left. Use case: style-transfer. Paint an albedo texture directly onto guide_left.png, the FIRST input image. The second input is design_reference.png (material palette only); the third is concept_crop.png (supporting concept only).\n\nThe earlier return failed because it changed the raster to 1254 x 1254, shifted/smoothed the guide outline, and added lighting. Correct these while preserving the requested materials.\n\nCANVAS MUST REMAIN EXACTLY 1024 x 1024 PIXELS, matching the first input. Return the finished PNG at this native resolution, not 1254, not an enlarged rendition. Edit the original guide in place: preserve its original alpha channel pixel for pixel, all opaque and transparent pixels, the exact angular outline and the exact position of every geometric edge. The guide's occupied box is [246,66,778,958) on the 1024-square canvas. No rescaling, reframing, camera change, edge softening, new holes, extra protrusions or displaced parts. Preserve the left side's existing faceted geometry, tip, existing side points and jagged base exactly. Reference design is NOT a shape template.\n\nPaint only the guide's RGB surface colours: black-violet organic resin lattice across the body, ivory bone at the existing pointed cap/points, fine warm ochre/brown bone seams, faint saturated orange within the resin lattice's painted interior motifs. Preserve the design reference's colour family and material pattern without transferring its three-quarter composition. Lattice openings are colour motifs within the opaque guide surfaces, never new alpha holes.\n\nSTRICT FLAT ALBEDO: neutral unlit base colour, uniformly visible on all facets, no directional lighting or dark-to-light lighting gradient. No specular highlight strokes or shining dots, no reflections, no rim lighting, no cast shadows and NO ambient-occlusion/recess shadow. Resin has a dark violet intrinsic colour; do not shade it to black around every opening. Keep orange as a flat glowing-colour pigment, with no luminous spill, bloom or bright lighting on other material. The surface material may be glossy in the game but its albedo painting must NOT bake in gloss.\n\nReal transparent alpha outside the original guide mask, clean empty transparent margins, no floor, no background, no text. One square 1024 x 1024 RGBA PNG, same immutable guide silhouette.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "7cf2b47db5479505f6521ef1b10b593a76b5e21e13889fb0e2c57c00c985068b"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "8ed9231a98a43cfbcd05cb2b57bb79a64b598d30bbcbe0ff35a97aac61db59e9"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16879-4677-7f53-a380-558a8d656995/exec-4142ea7d-32fc-4df8-8394-d66be3c2d49a.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as best available after the single permitted corrective regeneration: flatter materials and more angular edges. Does not fully meet brief: native 1254x1254 return, silhouette drift, residual baked shading and faint alpha fringe. Preserved unresized and unmodified as required.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bounds": [
+          25,
+          39,
+          1192,
+          1213
+        ],
+        "opaque_bounds": [
+          300,
+          79,
+          954,
+          1175
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.963549663132417,
+        "normalized_silhouette_different_pixels": 8072,
+        "normalization_note": "Diagnostic only: guide alpha nearest-sampled to return size. Saved image is byte-for-byte unmodified.",
+        "materials": "Requested black-violet resin, ivory bone and orange interiors are present. Exact shape-edge and bone-region correspondence is imperfect.",
+        "flat_even_light": "Improved, but not a strict pass: residual facet/recess shading and some bright edges remain.",
+        "unresized_unmodified_return": true
+      },
+      "output_sha256": "c7cd9749497d73bb7919225aee276df19a80563d2db3d9aaf6e28b300ae02d19"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the one permitted for right. Use case: style-transfer. Paint an albedo texture directly onto guide_right.png, the FIRST input image. The second input is design_reference.png (material palette only); the third is concept_crop.png (supporting concept only).\n\nThe earlier return failed because it changed the raster to 1254 x 1254, shifted/smoothed the guide outline, and added lighting. Correct these while preserving the requested materials.\n\nCANVAS MUST REMAIN EXACTLY 1024 x 1024 PIXELS, matching the first input. Return the finished PNG at this native resolution, not 1254, not an enlarged rendition. Edit the original guide in place: preserve its original alpha channel pixel for pixel, all opaque and transparent pixels, the exact angular outline and the exact position of every geometric edge. The guide's occupied box is [246,66,778,958) on the 1024-square canvas. No rescaling, reframing, camera change, edge softening, new holes, extra protrusions or displaced parts. Preserve the right side's existing faceted geometry, tip, existing side points and jagged base exactly. Reference design is NOT a shape template.\n\nPaint only the guide's RGB surface colours: black-violet organic resin lattice across the body, ivory bone at the existing pointed cap/points, fine warm ochre/brown bone seams, faint saturated orange within the resin lattice's painted interior motifs. Preserve the design reference's colour family and material pattern without transferring its three-quarter composition. Lattice openings are colour motifs within the opaque guide surfaces, never new alpha holes.\n\nSTRICT FLAT ALBEDO: neutral unlit base colour, uniformly visible on all facets, no directional lighting or dark-to-light lighting gradient. No specular highlight strokes or shining dots, no reflections, no rim lighting, no cast shadows and NO ambient-occlusion/recess shadow. Resin has a dark violet intrinsic colour; do not shade it to black around every opening. Keep orange as a flat glowing-colour pigment, with no luminous spill, bloom or bright lighting on other material. The surface material may be glossy in the game but its albedo painting must NOT bake in gloss.\n\nReal transparent alpha outside the original guide mask, clean empty transparent margins, no floor, no background, no text. One square 1024 x 1024 RGBA PNG, same immutable guide silhouette.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "ae4bdbcbb1fb494f7ab1ddaecec42cea159d4bd646ccb7bc6341ecb99f823c5f"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "8ed9231a98a43cfbcd05cb2b57bb79a64b598d30bbcbe0ff35a97aac61db59e9"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16879-4677-7f53-a380-558a8d656995/exec-94e3de38-9867-478f-bb7c-d30263a7e926.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as best available after the single permitted corrective regeneration: flatter materials and more angular edges. Does not fully meet brief: native 1254x1254 return, silhouette drift, residual baked shading and faint alpha fringe. Preserved unresized and unmodified as required.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bounds": [
+          0,
+          47,
+          1214,
+          1228
+        ],
+        "opaque_bounds": [
+          301,
+          79,
+          952,
+          1174
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9672003336173917,
+        "normalized_silhouette_different_pixels": 7236,
+        "normalization_note": "Diagnostic only: guide alpha nearest-sampled to return size. Saved image is byte-for-byte unmodified.",
+        "materials": "Requested black-violet resin, ivory bone and orange interiors are present. Exact shape-edge and bone-region correspondence is imperfect.",
+        "flat_even_light": "Improved, but not a strict pass: residual facet/recess shading and some bright edges remain.",
+        "unresized_unmodified_return": true
+      },
+      "output_sha256": "ea934ae515bc37bef5cd956c520951ccf479a948adb52b0f41239c0d26a2b925"
+    }
+  ],
+  "selection_note": "Selected identifies the retained deliverable after at most one corrective regeneration per view; it does not imply that every brief check passed.",
+  "status": "Generated and saved; exact brief validation failed.",
+  "limitations": [
+    "Built-in image generation returned 1254x1254 instead of 1024x1024 on all four calls despite explicit size instructions.",
+    "Silhouettes are not pixel-identical to the supplied guide masks; faint alpha fringe is present.",
+    "Corrective returns reduce specular appearance but retain some facet/recess shading.",
+    "One corrective regeneration per view was used; no further generation or postprocessing was performed."
+  ]
+}

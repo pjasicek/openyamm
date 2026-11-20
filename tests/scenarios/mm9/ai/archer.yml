@@ -1,0 +1,33 @@
+id: mm9.ai.archer
+title: An MM9 Range.inc type 1 walker takes shots at its 1-2.5 s checks while it closes in, then strikes
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). A Bandit 2 200 units away chases the party; its first shot check
+        (2.2 s, clear line: 100 %) throws a knife on the run, then it strikes in reach (Att% 100 keeps the blow) and
+        evades; within its range attack range, 5 s after its last shot, Range.inc vetoes a new chase. With MM9's
+        recovery (0.99 s from the clip's end) it is ready again as an evade carries it out of reach, so its shot
+        checks throw then; between three blows in reach (15.1-18.7 s) it throws nothing. Its blows and shots land at
+        their clips' keys and last their clips (MM9_ANIMATION_AUDIT.md P1), so its first veto comes at 33.8 s.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: archer.arena.yml}
+  - advance_runtime: {seconds: 40}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: shot_check, target: party, before: 3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, before: 3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursuit_veto, min_count: 1}
+  # No shot in reach: Range.inc checks only outside its attack range (its shots after 3 s follow its evades).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, after: 15.3, before: 20.4, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: orbit, max_count: 0}

@@ -1,0 +1,31 @@
+id: rulesets.maw_map_scripts
+title: "Ruleset - MAW map scripts: the Harmondale ambush, the necromancer, Fort Riverstride's skeletons, the Goblin King and the gate to the Hall of the Pit"
+world: mm7
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: 7out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {name: "Goblin's Lieutenant", min: 1, max: 1}
+  - load_map: {map: 7d37.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 307, min: 1}
+  - load_map: {map: 7d06.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 397, min: 3}
+  # The Goblin King comes once the watchtower's goblins are slain.
+  - load_map: {map: 7d29.blv}
+  - damage_actor: {all: true, amount: 10000000}
+  - advance_game_time: {minutes: 2}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {name: "Goblin King", min: 1}
+  # MAW difficulty may enter (the gate refuses from Hard on until level 255).
+  - load_map: {map: outb3.odm}
+  - execute_event: {id: 92}
+  - assert: {map: znwc.blv}

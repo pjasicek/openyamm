@@ -1,0 +1,260 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.hallofthegods_quests
+title: Hall of the Gods (native BLV) - the gods' RUDE dialogues by real clicks and their OnRudeExit events
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: hallofthegods.blv
+- note:
+    text: 'Every god is the party''s friend (MM9''s gods; the picture rows'' relations are lent the peasant family''s: ally
+      118).'
+- assert:
+    actor_visible:
+      actor_index: 0
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 1
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 2
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 3
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 4
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 5
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 6
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 7
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 8
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 9
+      hostile_to_party: false
+- note:
+    text: The Great Honk (NPC377.scr :OnUse DoRude 377).
+- set_pose:
+    map: hallofthegods.blv
+    x: 4588
+    y: 2985
+    z: 687
+    yaw: -1.5708
+    pitch: -0.3326
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 377
+- assert:
+    dialog:
+      active: true
+      source_id: 377
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- note:
+    text: 'Krohn (NPC335.scr :StopNjam): nothing without key 108; with it Njam''s Key, key 191.'
+- set_pose:
+    map: hallofthegods.blv
+    x: 5698
+    y: 2943
+    z: 769
+    yaw: 0.0276
+    pitch: 0.0649
+- advance_runtime:
+    seconds: 0.2
+- interact_actor:
+    actor_index: 0
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 335
+- assert:
+    dialog:
+      active: true
+      source_id: 335
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_clear:
+    - 90191
+- setup_shortcut:
+    kind: set_qbit
+    id: 90108
+    value: true
+- set_pose:
+    map: hallofthegods.blv
+    x: 5698
+    y: 2943
+    z: 769
+    yaw: 0.0276
+    pitch: 0.0649
+- advance_runtime:
+    seconds: 0.2
+- interact_actor:
+    actor_index: 0
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 335
+- assert:
+    dialog:
+      active: true
+      source_id: 335
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90191
+- assert:
+    inventory_any_member:
+    - item_id: 10576
+      count: 1
+- note:
+    text: 'Fre (NPC337.scr :GoldenHonk): key 346 and the Golden Honk give 10000 gold and key 347.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90346
+    value: true
+- grant_item:
+    item_id: 10369
+    count: 1
+- set_pose:
+    map: hallofthegods.blv
+    x: 4500
+    y: 3343
+    z: 687
+    yaw: 1.1167
+    pitch: -0.3765
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 337
+- assert:
+    dialog:
+      active: true
+      source_id: 337
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90347
+- note:
+    text: 'Skraelos (NPC336.scr :sixfires): key 103 gives key 189 and 52000 experience.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90103
+    value: true
+- set_pose:
+    map: hallofthegods.blv
+    x: 4915
+    y: 2002
+    z: 677
+    yaw: -1.5708
+    pitch: -0.3315
+- advance_runtime:
+    seconds: 0.2
+- interact_actor:
+    actor_index: 1
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 336
+- assert:
+    dialog:
+      active: true
+      source_id: 336
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90189
+- assert:
+    state_dump_named_map_var:
+      name: ToAfterworld
+      value: 0
+- note:
+    text: 'Skraelos (:Teleport): key 101 without 102 gives key 379 and sends the party to the Afterworld (ExitTrigger0''s
+      arrival).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90101
+    value: true
+- set_pose:
+    map: hallofthegods.blv
+    x: 4915
+    y: 2002
+    z: 677
+    yaw: -1.5708
+    pitch: -0.3315
+- advance_runtime:
+    seconds: 0.2
+- interact_actor:
+    actor_index: 1
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 336
+- assert:
+    dialog:
+      active: true
+      source_id: 336
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90379
+- assert:
+    state_dump_named_map_var:
+      name: ToAfterworld
+      value: 1

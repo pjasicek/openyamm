@@ -1,0 +1,62 @@
+id: mm9.ai.patrol
+title: MM9 monsters wander by their placement - a marker path, an aimless walk on a leash
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). A second after it appears each monster starts its wander with a wait.
+        The Skeletoid walks markers 0, 1, 2, 0 at its walking speed (WalkVel) with a 1-2 s wait at each; the wolf walks 2-4 s at a time and stops
+        at its 400 unit leash, its next walk heading home. At 28 s the party steps in front of the Skeletoid (heading
+        for marker 0): it notices the party and alerts the wolf. At 31 s the party leaves behind the arena gate; both
+        lose it 8 s later. The Skeletoid's path then goes on to marker 1, skipping the marker 0 it was walking to
+        (MM9 quirk: BaseWanderStop forgets the marker, the next walk takes the next one).
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: patrol.arena.yml}
+  - advance_runtime: {seconds: 28}
+  - set_pose: {map: thearena.blv, x: 0, y: 700, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 3}
+  - set_pose: {map: thearena.blv, x: 0, y: -3300, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  # Nothing before the startup second.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: wander_wait, before: 0.99, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: wander_wait, detail: path, after: 0.99, before: 1.01, min_count: 1}
+  # The path in turn: 0, 1, 2, then 0 again.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: patrol, detail: marker 1, before: 4, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: marker_reached, detail: marker 1, before: 17, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: patrol, detail: marker 2, before: 18, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: marker_reached, detail: marker 2, before: 25, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: patrol, detail: marker 0, after: 25, before: 28, min_count: 1}
+  # The fight, the loss, and the path resuming at marker 1 (marker 0 skipped).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, target: party, after: 28, before: 28.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, detail: lost, after: 38.5, before: 39.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: patrol, after: 39, min_count: 1, max_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: patrol, detail: marker 1, after: 39, before: 41, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: marker_reached, detail: marker 0, after: 28, max_count: 0}
+  # The aimless walker: walks, stops at its leash, walks home; it joins the fight on the Skeletoid's alert.
+  - assert:
+      ai_trace: {arena_monster: 1, decision: wander, detail: aimless, before: 28, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: leash, detail: stop, before: 28, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: leash, detail: home, before: 28, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: alert, detail: take, target: party, after: 28, before: 28.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: wander_wait, after: 39, min_count: 1}

@@ -1,0 +1,30 @@
+id: mm9.ai.talk_turn
+title: An MM9 townsperson faces the party while it talks and turns back afterwards
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, dialogue]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Bjarni Herjolfssen (Sturmford City's actor 1, RUDE 46, a passive
+        placement that never wanders) stands facing north. The party talks to him from 290 units south: he faces it at
+        once (the native NPC use; his model eases to it at 540 degrees a second). Once the dialogue closes he turns
+        back north at 180 degrees a second (NPCBase.inc OnRUDEExit): 45 degrees in the first quarter second, home
+        after about one second (monster_ai/MM9_AMBIENT_ANIMATION.md section 2.4).
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+  - set_pose: {map: sturmfordcity.blv, x: -932, y: 215, z: 19757, yaw_degrees: 90}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_visible: {actor_index: 1, faces: {x: -943, y: 1504, within_degrees: 2}}
+  - interact_actor: {actor_index: 1}
+  - assert:
+      actor_visible: {actor_index: 1, faces: {x: -932, y: 215, within_degrees: 3}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.25}
+  # 45 degrees back (yaw -43): neither still on the party nor home yet.
+  - assert:
+      actor_visible: {actor_index: 1, faces: {x: -209, y: -176, within_degrees: 4}}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 1, faces: {x: -943, y: 1504, within_degrees: 2}}

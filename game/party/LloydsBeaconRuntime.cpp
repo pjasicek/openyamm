@@ -1,4 +1,5 @@
 #include "game/party/LloydsBeaconRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/party/Party.h"
 
@@ -76,16 +77,16 @@ std::string lloydsBeaconRemainingDurationText(float remainingSeconds)
 
     if (days > 0)
     {
-        return std::to_string(days) + "d";
+        return Engine::tr("{days}d", {{"days", days}});
     }
 
     const int hours = totalSeconds / SecondsPerHour;
 
     if (hours > 0)
     {
-        return std::to_string(hours) + "h";
+        return Engine::tr("{hours}h", {{"hours", hours}});
     }
 
-    return std::to_string(std::max(1, totalSeconds / SecondsPerMinute)) + "m";
+    return Engine::tr("{minutes}m", {{"minutes", std::max(1, totalSeconds / SecondsPerMinute)}});
 }
 }

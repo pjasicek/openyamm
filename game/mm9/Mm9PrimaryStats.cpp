@@ -1,5 +1,6 @@
 #include "game/mm9/Mm9PrimaryStats.h"
 
+#include "engine/Localization.h"
 #include "game/party/Party.h"
 
 namespace OpenYAMM::Game
@@ -22,12 +23,12 @@ std::string_view mm9PrimaryStatName(Mm9PrimaryStat stat)
 {
     switch (stat)
     {
-        case Mm9PrimaryStat::Might: return "Might";
-        case Mm9PrimaryStat::Magic: return "Magic";
-        case Mm9PrimaryStat::Endurance: return "Endurance";
-        case Mm9PrimaryStat::Accuracy: return "Accuracy";
-        case Mm9PrimaryStat::Speed: return "Speed";
-        case Mm9PrimaryStat::Luck: return "Luck";
+        case Mm9PrimaryStat::Might: return Engine::trNoop("Might");
+        case Mm9PrimaryStat::Magic: return Engine::trNoop("Magic");
+        case Mm9PrimaryStat::Endurance: return Engine::trNoop("Endurance");
+        case Mm9PrimaryStat::Accuracy: return Engine::trNoop("Accuracy");
+        case Mm9PrimaryStat::Speed: return Engine::trNoop("Speed");
+        case Mm9PrimaryStat::Luck: return Engine::trNoop("Luck");
     }
     return {};
 }

@@ -1,0 +1,141 @@
+# draft extracted from MAW ef23ee17
+# Race rules of the MAW ruleset. Paths relative to /home/pjasicek/github/Maw-Mod-MMMerge.
+# Shorthand: S = Scripts/General/zzMAW-Skills.lua, ST = Scripts/General/zzMaw-Stats.lua,
+# IT = Scripts/General/zzMaw-Items.lua, SP = Scripts/General/zzMaw-Spells.lua, DM = Scripts/Modules/MawCore/Damage.lua,
+# MCC = Scripts/Modules/MawCore/Classes.lua, SK = Scripts/Modules/MawCore/Skills.lua.
+# Race ids: 0 Human, 1 Vampire, 2 Dark Elf, 3 Minotaur, 4 Troll, 5 Dragon, 6 Undead, 7 Elf, 8 Goblin, 9 Dwarf, 10 Zombie.
+
+version: 1
+
+flat_skill_bonus:
+  rule: >-
+    GetSkill result + bonus + floor(baseSkill/10), where baseSkill is the character's own skill level. Applied even
+    when the skill is unlearned (gives level 3 at mastery 0, which most effects multiply by 0).
+  source: S:2348-2400
+  bonus_by_race:
+    Human:   {Leather: 3, Chain: 3, Plate: 3, Shield: 3}
+    Vampire: {}
+    DarkElf: {Bow: 3, Spear: 3, Meditation: 3}
+    Minotaur: {Axe: 3}
+    Troll:   {Regeneration: 3, Mace: 3, Staff: 3}
+    Dragon:  {}
+    Undead:  {}
+    Elf:     {Bow: 3, Spear: 3, Meditation: 3}
+    Goblin:  {Sword: 3, Mace: 3, Dagger: 3, Leather: 3}
+    Dwarf:   {Shield: 3, Bodybuilding: 3}   # Race PDF says Axe too; code has no Axe
+    Zombie:  {}
+
+mastery_modifiers:
+  authoritative_table: "Data/Tables/Race Skillz.txt, parsed by SK:288-303 (only the 39 base-skill rows)"
+  dead_table: >-
+    Data/Tables/Race Skills.txt (MMMerge format) is NOT read: MAW ships an empty Scripts/Structs/RacialSkills.lua,
+    which replaces the MMMerge struct that applied it. Every base MMMerge race rule (OpenYAMM race_skills.yml today)
+    is therefore dropped and replaced by the tokens below.
+  token_semantics: >-
+    per character: v = classCap + shift; v = min(v, max); v = max(v, min) (SK:216-247, 336-346). Letters:
+    N/E/M/G as min, n/e/m/g or 0 as max, '+'/'-' shift. '=' = no change. Unlike MMMerge's Add, the shift applies
+    even when the class cannot learn the skill (cap 0 + '+' = Novice), and 0 forbids the skill.
+    Applied to the engine only at trainers (class row swapped per player, Scripts/Modules/MawCore/SkillsUI.lua:558-599).
+  rules:
+    Human:   {IdentifyItem: "+", Merchant: "+", Repair: "+", Perception: "+", DisarmTraps: "+", IdentifyMonster: "+", Alchemy: "+"}
+    Vampire: {VampireAbility: M}
+    DarkElf: {DarkElfAbility: M}
+    Minotaur: {Dagger: "0", Axe: E}
+    Troll:   {Regeneration: "+"}
+    Dragon:  {Staff: "0", Sword: "0", Dagger: "0", Axe: "0", Spear: "0", Bow: "0", Mace: "0", Blaster: "0",
+              Shield: "0", Leather: "0", Chain: "0", Plate: "0", DragonAbility: M, Dodging: M, Unarmed: M}
+    Dwarf:   {Axe: E}
+    Undead: {}
+    Elf: {}
+    Goblin: {}
+    Zombie: {}
+  removed_vs_base_mmmerge:   # base Race Skills.txt general columns, as in OpenYAMM race_skills.yml
+    - "Human Learning +1"
+    - "Vampire VampireAbility min E (now M), Meditation min E for casters, Perception +1"
+    - "DarkElf DarkElfAbility min E (now M), Merchant +1, Meditation min E for casters"
+    - "Minotaur Axe min E +1 (except kind 2) (now min E, no +1), Plate min E +1, Bodybuilding +1"
+    - "Troll Regeneration +1 (kept as '+')"
+    - "Dragon DragonAbility min E (now M), Meditation min E for casters, IdentifyMonster +1"
+    - "Elf Meditation +1"
+    - "Goblin DisarmTraps +1"
+    - "Dwarf Axe min E +1 (now min E, no +1), Repair +1"
+
+resistances:
+  applied: "ST:1349-1383 (CalcStatBonusByItems on stats 10-15). The base MMMerge +5 rules (MiscTweaks.lua:673-703)
+            run first and are wiped by IT:2566-2584 (t.Result = 0), so only these apply."
+  by_race:
+    Undead:  {Mind: immune, Body: immune}          # 65000, also sets Resistances[6/7].Base
+    Vampire: {Mind: immune}
+    DarkElf: {Fire: "25 + level", Air: "25 + level", Water: "25 + level", Earth: "25 + level"}
+    Elf:     {Fire: "25 + level", Air: "25 + level", Water: "25 + level", Earth: "25 + level"}
+    Troll:   {Water: "25 + level", Earth: "25 + level"}
+    Goblin:  {Air: "25 + level", Earth: "25 + level"}
+    Dwarf:   {Mind: "25 + level", Earth: "25 + level"}
+    Dragon:  {Fire: "100 + 2*level"}
+  level: "LevelBase"
+
+special_rules:
+  axe_dual_wield:
+    races: [Dwarf, Minotaur]
+    rule: >-
+      While the inventory/character screen shows a Dwarf or Minotaur, 1H axes are re-skinned as daggers (Skill 2,
+      one-handed); for Minotaurs 2H axes are also re-skinned as one-handed daggers (so a 2H axe can be held in one
+      hand). On the equip click a temporary Dagger skill is set: Expert (dual wield allowed) when Axe mastery >= E for
+      a 1H axe, or (Minotaur) >= M for a 2H axe; otherwise Novice (no off hand).
+    damage_penalty: "with two axes held, each 2H axe costs -10 % of the axe damage (sides and bonus) (IT:2856-2873)"
+    source: "S:2642-2724; S:1794-1800 (tempSkillForEquip)"
+    note: "Minotaur Dagger cap is 0 (Race Skillz) so real daggers stay forbidden"
+  vampire:
+    leech: "+5 % melee, +2.5 % ranged, +2.5 % spell life leech; x2 for classes 40/41 (Vampire, Nosferatu)"
+    leech_source: IT:3277-3285
+    night_preservation: "Preservation buff kept up (5 game minutes, refreshed) when hour > 21 or < 5, or indoors,
+                         except map 7d25.blv"
+    preservation_source: "SP:1081-1088, SP:2957-2967"
+    mind_immunity: ST:1363-1365
+  troll:
+    regeneration: "+3 +floor(s/10) Regeneration, mastery shift +1"
+    resistances: "Water/Earth +25 + level"
+  dragon:
+    classes: [10 Dragon, 11 Great Wyrm]
+    skill_renames: {Unarmed_33: Fangs, Dodging_32: Scales}
+    auto_learn: "Fangs, Scales and Dragon Ability set to 1 if 0 when the character is selected (CL:414-431)"
+    caps: "Lua sets class caps Fangs/Scales to M (Dragon) and G (Great Wyrm) (CL:338-342)"
+    effective_level: "lvl = LevelBase; if LevelBase/(partyLevel+1) > 1.2 then min(LevelBase/2, partyLevel+1); cap 600 (900 madness)"
+    fangs_melee: >-
+      min/max = round((B*(1+Might/1000) + mightEffect*Might/1000) * {0.75|1.25} * (1 + 0.015 s)),
+      B = (1 + fangDamage[m]*s/100) * (2*effLevel + 30), fangDamage % per point = [4, 6, 8, 10];
+      attack + fangAttack[m]*s + 10, fangAttack = [2, 3, 4, 5]; recovery x (1 + 0.015 s_Fangs)
+    breath_ranged: >-
+      min/max = round(((1 + breathDamage[m]*s/100) * (20 + 2*effLevel) + mightEffect) * (1+Might/1000) *
+      {0.75|1.25} * (1 + 0.015 s)), breathDamage % per point = [3, 4, 5, 6]; recovery x (1 + 0.015 s_DragonAbility);
+      damage then x U(0.75..1.25) spread, vs the monster's LOWEST resistance
+    scales: >-
+      AC + (1 + scalesAC[m]/100*s) * (effLevel + 40) - s*normalDodgingAC[m], scalesAC % = [2, 3, 3, 4];
+      every resistance + scalesRes[m]/100*s*(effLevel + 40), scalesRes % = [1, 1, 2, 3]
+    knockback: "melee pushes the target when Dragon Ability skill >= Fangs skill: force 800*mult, mult = fangs/monLevel^0.75"
+    sp: "fixed pool 60 / 120 (SPFactor 0), no SP from items; +10 (cap 60) / +20 (cap 120) per melee hit;
+         regen +2 / +5 SP per second (0.2 / 0.5 per 0.1 s tick)"
+    items: "all item-derived stats, HP, SP, AC and resistances x3 (IT:3002-3015)"
+    no_dodge: "dodge chance 0 (DM:1673-1675)"
+    regeneration_leech: "melee leech + Regeneration/estimateSkill(monLevel) * 5 % (S:1494-1501)"
+    meditation_removed: "one-time refund of Meditation points (CL:346-361); Meditation cap removed"
+    starting_stats: "Might/Endurance/Accuracy/Speed/Luck 14/50 with +3 per point (base 11/30, +1)"
+    hp: "Dragon 5 HP/level (was 10); Great Wyrm 10"
+    portraits: "67 Lich Dragon and 68 Dragon Ghost now race Dragon (were Undead/Zombie)"
+    worked_examples:   # Lua 5.4, Might 100, mightEffect ignored, partyLevel = level
+      - {level: 20, fangs: "s10 E", melee: "106-177", attack_bonus: 40, recovery: 1.15, breath: "s10 E: 80-133"}
+      - {level: 100, fangs: "s30 M", melee: "935-1559", attack_bonus: 130, recovery: 1.45, breath: "s30 M: 658-1097"}
+      - {level: 200, fangs: "s50 G", melee: "3725-6208", attack_bonus: 260, recovery: 1.75, breath: "s50 G: 2426-4043"}
+    source: "MCC:707-841; DM:594-671; CL:300-449; S:1473-1477"
+  undead:
+    rule: "Mind and Body immunity (ST:1358-1361); the Undead race keeps base MMMerge zombie/lich rules (ZombiePlayers.lua)"
+  zombie:
+    rule: "no MAW changes; MMMerge ZombiePlayers.lua unchanged"
+  minotaur:
+    hp: "Minotaur 6, Minotaur Lord 12 HP/level (table and CL:667-671)"
+    portraits: "69 Minotaur Lich and 70 Minotaur Zombie now race Minotaur (were Undead/Zombie)"
+
+starting_stats_changes:   # Data/Tables/Class Starting Stats.txt
+  Dragon: {Might: "11/30 -> 14/50", Endurance: "11/30 -> 14/50", Accuracy: "11/30 -> 14/50", Speed: "11/30 -> 14/50",
+           Luck: "11/30 -> 14/50", add_per_point: "1 -> 3"}
+  DarkElf: {Intellect: "11/25 -> 14/30", add_per_point: "1 -> 2"}

@@ -1,0 +1,32 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (first image), the immutable layout/silhouette target. Second image design_reference.png is the approved material/detail reference; third icon_x8.png is original colour reference, ignoring magenta background.\nOutput one transparent RGBA PNG at 1536x2048 or nearest 3:4 size. Three columns and FOUR rows of square cells. Preserve every object's exact position, size, outline, orientation, gaps and openings. Paint grey objects only, never redraw, enlarge, move or redesign. The narrow horizontal front/back head views are intentional, preserve them.\nRows 1-2 PAINT: five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Unlit base colour in MM6-MM8 inventory style faithfully following original MM9 PCX and HD reference: ornate broad symmetrical pale-silver head with stepped rectangular faces, gold details, round red center jewel, gold neck and short brown leather handle with diagonal gold wrap. Render the complete tool head. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: exact same five silhouettes, corresponding materials filled with FLAT PURE colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 every metal part including silver head, gold detail, neck, diagonal wrap and pommel; pure green #00FF00 every leather part and fur (brown leather handle); pure blue #0000FF cloth and hair; pure yellow #FFFF00 matte non-metal solids such as wood, bone, horn, stone, parchment, paper, wax; pure opaque black #000000 gemstone, crystal, glass, pearl, enamel or liquid seen through glass. Every pixel of silhouettes gets exactly one of these colours; nothing outside silhouettes. The jewel is opaque black in mask views.\nEmpty cells column 3 row 2 and column 3 row 4 remain empty and transparent. All gaps/openings exactly as guide and transparent. Harmless static decorative prop for a cosy fantasy game, texture sheet only. Preserve exact guide geometry and layout.\nCORRECTION PRIORITY: Match the original grey guide silhouettes exactly, with absolutely no stray pixels or colour noise outside them. Do not expand the outline for rivets or gold trim. Lower half masks must be clean solid categorical colour regions, not tinted renders: no dark facet lines, surface details, shading, grain, edge halos, scattered red dots or outlines. The small circular protrusions in the narrow head views must agree between painted material and material mask. Preserve original guide alpha footprint.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (first image), the immutable layout/silhouette target. Second image design_reference.png is the approved material/detail reference; third icon_x8.png is original colour reference, ignoring magenta background.\nOutput one transparent RGBA PNG at 1536x2048 or nearest 3:4 size. Three columns and FOUR rows of square cells. Preserve every object's exact position, size, outline, orientation, gaps and openings. Paint grey objects only, never redraw, enlarge, move or redesign. The narrow horizontal front/back head views are intentional, preserve them.\nRows 1-2 PAINT: five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Unlit base colour in MM6-MM8 inventory style faithfully following original MM9 PCX and HD reference: ornate broad symmetrical pale-silver head with stepped rectangular faces, gold details, round red center jewel, gold neck and short brown leather handle with diagonal gold wrap. Render the complete tool head. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: exact same five silhouettes, corresponding materials filled with FLAT PURE colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 every metal part including silver head, gold detail, neck, diagonal wrap and pommel; pure green #00FF00 every leather part and fur (brown leather handle); pure blue #0000FF cloth and hair; pure yellow #FFFF00 matte non-metal solids such as wood, bone, horn, stone, parchment, paper, wax; pure opaque black #000000 gemstone, crystal, glass, pearl, enamel or liquid seen through glass. Every pixel of silhouettes gets exactly one of these colours; nothing outside silhouettes. The jewel is opaque black in mask views.\nEmpty cells column 3 row 2 and column 3 row 4 remain empty and transparent. All gaps/openings exactly as guide and transparent. Harmless static decorative prop for a cosy fantasy game, texture sheet only. Preserve exact guide geometry and layout.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-da6f-7393-bb96-6623daf79c2c/exec-04082c5c-6b05-4418-8748-12e0e34b98a7.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10082/paint_mask_guide.png",
+      "sha256": "c54d60a1158392bd9b80b2bbb9e0166699868a5f7a1cfaf2ad67913f50352212"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10082/design_reference.png",
+      "sha256": "d2c93b6ee72c559b61c1dee4af5501c990ffab125fd0378eb51b19046c5aadb6"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10082/icon_x8.png",
+      "sha256": "ac3d615b578b44a40d267960da8cfbc1c58f0517185950ab938fbd2ec0a7db90"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10082/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained, but visible stray pixels, shaded material masks, and silhouette deviations remain. Raw tool output preserved without postprocessing."
+}

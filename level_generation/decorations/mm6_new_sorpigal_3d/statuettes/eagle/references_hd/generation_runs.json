@@ -1,0 +1,519 @@
+[
+  {
+    "id": "eagle_three_quarter_v1",
+    "family": "ped03_eagle_statuette",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Eagle Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 gold statuette crop enlarged 8x with nearest neighbour. This is the design, pose, proportions and silhouette authority. Magenta is background only. The small grey strip at the bottom is pedestal context, NOT part of the statuette.\nInput 2: whole ORIGINAL native sprite enlarged 3x, for context and the complete talon/tail silhouette only. The sprite shows the bird from its anatomical LEFT side, head toward the left of the image. Ignore and OMIT the entire marble pedestal and its gold trim.\n\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet/talons and tail tip end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\n\nIdentity (from the native sprite): an eagle perched upright on its talons, wings FOLDED tight against the body (not spread), long folded primary feathers crossing at the tail, tail feathers reaching down to the ground behind it, head turned forward with a hooked beak, feather detail sculpted on chest and wings. Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal. Preserve the compact small head, upright neck and rounded chest, elongated tightly folded wing shape sloping down and back into the long low tail, and short visible legs/talons of the reference. The folded wings must stay flush to the torso; do not invent a broad spread-wing eagle or a heavy muscular upright bird. Every visible part, including beak, eyes, legs and talons, is sculpted in the same yellow gold.\n\nCamera for this PRIMARY view: FRONT-LEFT THREE-QUARTER, orbit the camera 40 degrees from the sprite's exact LEFT side view toward the bird's FACE (equivalently about 50 degrees to its left of straight front). Elevate the camera slightly, about 20 degrees above body level. Show the front and the anatomical left flank together, with the beak pointing diagonally toward screen-left. Change camera only; the bird retains the original perched pose. Entire figure from head through talons and long rear tail in frame, about 100 pixels or more transparent margin. This primary establishes the SAME statuette and pose to be used in the other views.\n\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. No rock or branch, no floor, no cast shadow, no magenta spill, no painted checkerboard.\nTRANSPARENCY: all exterior pixels must have alpha 0 apart from narrow antialiasing at the solid sculpture's edge; no opaque or hazy backdrop.\nChecks: one statuette, native pose and proportions, whole silhouette, both legs/talons and the long rear tail reconstructed and distinct wherever visible, wings folded tight, no supporting object, genuine transparent background, nothing cropped.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png"
+    ],
+    "reason": "Superseded: tight lateral margins (52 px left, 34 px right) and faint residual alpha at the image edge; regenerated rather than resizing or editing the native return.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-2a967aa4-62b9-464f-87c0-e8df07c57944.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_three_quarter_v1.png",
+    "raw_sha256": "b096d8fa4fbd35cc6671368293da118e41b85f7a1ff2b62e74d657e605d84faf",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "visible_bbox_alpha_128": [
+      52,
+      118,
+      990,
+      1361
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "supersedes": [],
+    "superseded_by": "eagle_three_quarter_v3",
+    "visible_bbox_alpha_nonzero": [
+      0,
+      37,
+      1000,
+      1536
+    ],
+    "alpha_zero_pixels": 1056876
+  },
+  {
+    "id": "eagle_three_quarter_v2",
+    "family": "ped03_eagle_statuette",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Eagle Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 gold statuette crop enlarged 8x with nearest neighbour. This is the design, pose, proportions and silhouette authority. Magenta is background only. The small grey strip at the bottom is pedestal context, NOT part of the statuette.\nInput 2: whole ORIGINAL native sprite enlarged 3x, for context and the complete talon/tail silhouette only. The sprite shows the bird from its anatomical LEFT side, head toward the left of the image. Ignore and OMIT the entire marble pedestal and its gold trim.\n\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet/talons and tail tip end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\n\nIdentity (from the native sprite): an eagle perched upright on its talons, wings FOLDED tight against the body (not spread), long folded primary feathers crossing at the tail, tail feathers reaching down to the ground behind it, head turned forward with a hooked beak, feather detail sculpted on chest and wings. Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal. Preserve the compact small head, upright neck and rounded chest, elongated tightly folded wing shape sloping down and back into the long low tail, and short visible legs/talons of the reference. The folded wings must stay flush to the torso; do not invent a broad spread-wing eagle or a heavy muscular upright bird. Every visible part, including beak, eyes, legs and talons, is sculpted in the same yellow gold.\n\nCamera for this PRIMARY view: FRONT-LEFT THREE-QUARTER, orbit the camera 40 degrees from the sprite's exact LEFT side view toward the bird's FACE (equivalently about 50 degrees to its left of straight front). Elevate the camera slightly, about 20 degrees above body level. Show the front and the anatomical left flank together, with the beak pointing diagonally toward screen-left. Change camera only; the bird retains the original perched pose. Entire figure from head through talons and long rear tail in frame, about 100 pixels or more transparent margin. This primary establishes the SAME statuette and pose to be used in the other views.\n\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. No rock or branch, no floor, no cast shadow, no magenta spill, no painted checkerboard.\nTRANSPARENCY: all exterior pixels must have alpha 0 apart from narrow antialiasing at the solid sculpture's edge; no opaque or hazy backdrop.\nChecks: one statuette, native pose and proportions, whole silhouette, both legs/talons and the long rear tail reconstructed and distinct wherever visible, wings folded tight, no supporting object, genuine transparent background, nothing cropped.\n\nInput 3: the previous HD primary attempt, as a supporting surface-detail/identity reference only. Preserve its gold cast sculpture detail, but the ORIGINAL native inputs 1 and 2 remain the design/proportions/pose authority.\nTargeted corrections to input 3: ZOOM THE CAMERA OUT to leave at least 100 transparent pixels on EVERY side of the 1024 x 1536 portrait canvas, including the beak and the farthest tail feather. Entire silhouette must fit within x=100..924 and y=100..1436. Use the specified front-left three-quarter camera, 40 degrees from exact left profile toward the face and elevation about 20 degrees.\nMake the alpha cutout clean: zero alpha throughout the exterior, including the outer margins. Only the thin immediate contour antialias edge may have intermediate alpha. Do not include broad faint residual alpha, haze, glow or floor. Same yellow-gold eagle figurine, tight folded wings, original perched pose, short separated legs/talons, long rear tail ending on the invisible ground plane.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_three_quarter_v1.png"
+    ],
+    "reason": "Superseded: attempted framing correction still left a narrow 30 px right margin and alpha 1 at canvas edges.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-226fe2d0-9934-41a6-87ed-62c3fadbea17.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_three_quarter_v1.png",
+        "sha256": "b096d8fa4fbd35cc6671368293da118e41b85f7a1ff2b62e74d657e605d84faf"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_three_quarter_v2.png",
+    "raw_sha256": "98da38984d90189e173b5a07a4060e66d8d207e8805ddd960431ef3824415d85",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "visible_bbox_alpha_128": [
+      92,
+      168,
+      994,
+      1389
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "supersedes": [],
+    "superseded_by": "eagle_three_quarter_v3",
+    "visible_bbox_alpha_nonzero": [
+      0,
+      39,
+      1006,
+      1536
+    ],
+    "alpha_zero_pixels": 1083113
+  },
+  {
+    "id": "eagle_three_quarter_v3",
+    "family": "ped03_eagle_statuette",
+    "role": "primary",
+    "selected": true,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Eagle Statuette\", a small solid cast-gold animal figurine. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nReturn ONE 1024 x 1536 PORTRAIT PNG with genuine transparent background. Native unresized return.\n\nInput 1 is the original gold statuette cropped and enlarged 8x: design, pose, proportions and silhouette authority; magenta and the grey pedestal strip are background, not sculpture.\nInput 2 is the whole original native sprite enlarged 3x: left-side profile, head toward image-left, whole feet and tail context; OMIT the entire pedestal.\nInput 3 is the current HD primary sculpture. Keep that SAME cast-gold eagle and pose, but pull the camera back substantially for the requested framing.\n\nMANDATORY FRAMING CHANGE: show the object about 25% SMALLER in the frame than input 3. Its COMPLETE outline including beak, claws and longest tail feather must fit in the central 65% of canvas WIDTH. Centre the entire silhouette horizontally; leave broad empty transparent space at both sides. Do NOT fill the width. Head-to-ground height about 1000 pixels on the 1536-pixel-tall canvas. Broad empty transparent margins on all four sides.\n\nONE eagle figurine perched upright on its talons; wings FOLDED tight against its body, long folded primary feathers crossing at the tail, long tail feathers sloping down/back to the invisible ground plane. Forward head with hooked beak. Same small head, neck, chest, compact legs and elongated wing/tail proportions as the original sprite. Chest/wing feathers sculpted in slightly stylised solid gold casting, not a living bird photo. Polished slightly worn yellow gold EVERYWHERE including eyes, beak and talons; crisp sculpted detail under even soft neutral studio illumination.\n\nCAMERA: true FRONT-LEFT THREE-QUARTER, turned 40 degrees from the original exact LEFT SIDE PROFILE toward the FACE (about 50 degrees left of straight front), slightly above at 20 degrees elevation. Show chest/front and left flank together, beak facing diagonally screen-left. Only change camera framing, never the perched pose. Both feet/talons and the long tail complete and distinct wherever visible.\n\nRender only the solid statuette into genuine alpha. Transparent empty background, no environment or visible lighting backdrop. No base, no plinth, no pedestal, no stand, no branch, no floor, no shadow, no glow, no haze, no text, no checkerboard, no extra animals/limbs, no spread wings, no gems, no armour, no saddle. All exterior pixels zero alpha except a narrow immediate contour antialias edge. Nothing cropped.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_three_quarter_v2.png"
+    ],
+    "reason": "Selected after light/dark alpha compositing review: complete gold cast eagle, front-left three-quarter view, tightly folded wings, short distinct legs/talons and long rear tail, no base, no cropping. Wider margins and fully transparent canvas edges. No visible background residue.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-4ed62084-c79a-4aa4-9d63-62f7cf6103f5.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_three_quarter_v2.png",
+        "sha256": "98da38984d90189e173b5a07a4060e66d8d207e8805ddd960431ef3824415d85"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_three_quarter_v3.png",
+    "raw_sha256": "4e806806d10a90f804254b4210dd9d8b68f81b3cc7a282ef1f1fac54757aa1a5",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "visible_bbox_alpha_128": [
+      184,
+      238,
+      962,
+      1306
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "supersedes": [
+      "eagle_three_quarter_v1",
+      "eagle_three_quarter_v2"
+    ],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png",
+    "output_sha256": "4e806806d10a90f804254b4210dd9d8b68f81b3cc7a282ef1f1fac54757aa1a5",
+    "review": {
+      "method": "Visual comparison to both original native inputs; native-return inspection and alpha compositing on split light/dark backgrounds; dimensions and alpha bounds.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "native_perched_pose_and_folded_wings": true,
+      "separated_legs_talons_tail": "Both legs/talons and long rear tail visible; natural wing overlaps retained.",
+      "alpha_note": "Native return retained unchanged. The exterior is visually clear; generated subvisual alpha noise is recorded in the measured nonzero bounds, not removed.",
+      "visible_margins_alpha_8_px": [
+        183,
+        238,
+        62,
+        229
+      ],
+      "review_contact_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/selected_views_review.png",
+      "byte_identical_native_return": true
+    },
+    "visible_bbox_alpha_nonzero": [
+      21,
+      17,
+      988,
+      1520
+    ],
+    "alpha_zero_pixels": 1193223
+  },
+  {
+    "id": "eagle_left_v1",
+    "family": "ped03_eagle_statuette",
+    "role": "left",
+    "selected": false,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Eagle Statuette\", a small solid cast-gold animal figurine, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native gold statuette crop enlarged 8x. Design, pose, proportions and silhouette authority. Magenta is background; the bottom grey strip is the pedestal top, not part of the statuette.\nInput 2: whole ORIGINAL native sprite enlarged 3x. Whole talon/tail silhouette and exact LEFT side profile context; head points LEFT. Omit the complete marble pedestal and gold trim.\nInput 3: SELECTED HD primary 00_three_quarter.png. This is the exact SAME statuette identity, gold material, sculpted feather detail and fixed perched pose required here. Rotate only the camera, do not redesign or re-pose it. The native inputs remain the silhouette/proportion authority.\n\nCAMERA FOR THIS VIEW: exact anatomical LEFT SIDE PROFILE, like original inputs 1 and 2. Camera level with the BODY, near-orthographic, exactly perpendicular to the bird's left flank, zero elevation. Beak and face point horizontally toward SCREEN-LEFT; long folded wing/tail slopes down toward SCREEN-RIGHT. No three-quarter angle. Near left wing in full profile; far right wing stays folded behind the body and is naturally occluded. Do not show two separate near-side wings.\nPreserve the exact original perched pose: eagle upright on short legs and talons, compact head and upright neck with hooked beak, rounded sculpted chest. Wings FOLDED tight against the body, long folded primaries crossing at the tail. Tail feathers extend down/back to the invisible flat ground plane behind the feet. Same slender elongated folded wing/tail shape and proportions as the original sprite. Both legs, their talons and the whole rear tail are present, separated wherever visible in true profile; retain natural far-side overlap without inventing a stance.\n\nONE solid slightly stylised cast figurine, polished slightly worn yellow GOLD only, including sculpted eyes, beak, talons and all feathers. Crisp feather relief on chest and wings. Same museum bronze-casting type treatment as input 3, not a photo of a live bird. Even soft neutral studio illumination of the statuette only, no dramatic lighting.\n\nCentre the complete silhouette in the 1024 x 1536 portrait frame with generous empty transparent margins. Pull camera back enough that the entire bird occupies at most about 80% of canvas width and around 1000 pixels of canvas height. Full head, beak, feet, claws and longest tail tip all inside the frame.\n\nTransparent background. NO base, NO plinth, NO pedestal, NO stand, NO branch, NO floor, NO shadow, no scenery, no text; feet/talons and tail tip end on an invisible flat ground plane. No gems, armour, saddle, extra limbs or animals; no pose changes, no spread wings, no colours other than gold, no cropping, no magenta spill, no painted checkerboard, no haze or glow. Genuine PNG alpha: exterior empty pixels fully transparent apart from narrow immediate contour antialiasing.\nChecks: one statuette, exact left-side camera at body level, native pose/silhouette, same identity/material/pose as input 3, all talons/legs/tail complete and distinct wherever visible, transparent background, no support object, nothing cropped.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png",
+        "sha256": "4e806806d10a90f804254b4210dd9d8b68f81b3cc7a282ef1f1fac54757aa1a5"
+      }
+    ],
+    "reason": "Rejected: retained a three-quarter body presentation with two wing shoulders visible instead of exact left side profile, and tight lateral margins.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-590a51c0-9454-4150-9473-585acb0abcd5.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_left_v1.png",
+    "raw_sha256": "a3c0718750e753baa9b02ea643d065f93c472be6b7549d87a328325624f476cc",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      50,
+      117,
+      1005,
+      1427
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "supersedes": [],
+    "superseded_by": "eagle_left_v3",
+    "visible_bbox_alpha_nonzero": [
+      0,
+      113,
+      1008,
+      1512
+    ],
+    "alpha_zero_pixels": 991773
+  },
+  {
+    "id": "eagle_left_v2",
+    "family": "ped03_eagle_statuette",
+    "role": "left",
+    "selected": false,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION. Reconstruct the EXISTING Might and Magic VI \"Eagle Statuette\": ONE small solid cast-yellow-gold figurine. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nReturn one 1024 x 1536 portrait transparent PNG, native unresized.\n\nInputs in order:\n1. Original native gold bird crop, enlarged 8x: exact design, proportions, pose and LEFT SIDE silhouette authority. Magenta and bottom grey strip are not sculpture.\n2. Whole native sprite, enlarged 3x: left-profile bird context, full short legs/talons and rear tail; ignore the entire marble pedestal.\n3. Selected HD primary sculpture: reuse this SAME bird's cast-gold material, head, feather sculpting, feet and tail. Its three-quarter CAMERA IS NOT the requested camera.\n\nMAIN REQUIRED CHANGE: TRUE LEFT SIDE PROFILE. The camera is directly alongside the bird's anatomical left flank, 90 degrees to its forward-facing axis, body level with ZERO elevation. The entire bird is seen SIDE-ON, like native inputs 1 and 2, not three-quarter. Head, neck, torso, folded wing, legs and tail ALL seen in side profile. Beak points horizontally SCREEN-LEFT, rear tail SCREEN-RIGHT. Show ONLY ONE large folded wing on the visible side; the opposite wing lies behind the body and is hidden. The chest is the leftmost rounded leading contour, not a broad frontal chest panel. Near and far legs align in depth; far toes may peek behind the near foot where natural. Do not invent extra near-side wings.\n\nExact same upright perched pose as the original sprite and primary: small compact head with hooked beak, upright neck, rounded chest, short legs/talons, tightly folded wings whose long primaries slope backward/down, long tail reaching the same invisible flat ground plane behind the feet. Wing stays flush against the body, never spread. Cast figurine with sculpted chest/wing feathers, slightly stylised solid forms, not a living bird photo. Every part is polished slightly worn yellow gold, including eye, beak and talons. Crisp sculpted detail, even soft neutral studio illumination only.\n\nCentre the ENTIRE silhouette with BROAD transparent margins: at least 150 pixels clear around leftmost beak and rightmost tail tip. Show the object SMALLER within the frame, head-to-ground about 1000 pixels tall, no cropping.\nFeet/talons and complete rear tail all visible wherever the profile permits, no supporting object.\nGENUINE transparent background, NO base, NO plinth, NO pedestal, NO stand, NO branch, NO floor, NO shadow, no glow, no haze, no text, no checkerboard, no extra limbs or animals, no gems, armour or saddle, no colours other than gold. Render sculpture only; exterior pixels alpha zero except the narrow immediate antialias contour.\nChecks: one eagle, SAME identity and perched pose, EXACT anatomical LEFT profile at body level, only one visible folded wing, full legs/talons/tail, transparent background, nothing cropped.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png",
+        "sha256": "4e806806d10a90f804254b4210dd9d8b68f81b3cc7a282ef1f1fac54757aa1a5"
+      }
+    ],
+    "reason": "Superseded: camera/body still read as three-quarter, with both wing shoulder caps visible.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-664aceba-debd-41a4-af19-6c6a1955130d.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_left_v2.png",
+    "raw_sha256": "bf7712354df76e00f125e694e926e696ea30dc28c4b76a9a236def16cbba6c97",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      104,
+      246,
+      957,
+      1305
+    ],
+    "visible_bbox_alpha_nonzero": [
+      0,
+      47,
+      988,
+      1480
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "supersedes": [],
+    "superseded_by": "eagle_left_v3",
+    "alpha_zero_pixels": 1200557
+  },
+  {
+    "id": "eagle_left_v3",
+    "family": "ped03_eagle_statuette",
+    "role": "left",
+    "selected": true,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful reconstruction of the existing \"Eagle Statuette\", a solid yellow-gold cast eagle figurine. Use case: identity-preserve / camera-rotation modelling reference.\nONE 1024 x 1536 portrait PNG with real transparency, native unresized return.\n\nInput 1 is the original native left-profile bird: exact silhouette/proportions/pose authority. Magenta and the grey strip are background.\nInput 2 is the whole original sprite: left-profile context including talons and tail; ignore and OMIT the pedestal.\nInput 3 is the selected HD primary: the same gold statuette, but it is viewed at three-quarter. CHANGE THE VIEW, do not copy its viewing angle.\n\nProduce the EXACT LEFT SIDE elevation of this figurine. Rotate the whole view 40 degrees AWAY from the front, toward exact side-on, relative to input 3. Lower the camera to body level. LEFT SIDE means beak pointing LEFT and tail RIGHT, camera directly alongside the bird, zero tilt. Orthographic modelling profile.\n\nCRITICAL VISIBLE GEOMETRY CORRECTION FOR THIS SIDE VIEW:\nThere must be just ONE visible large wing shoulder/cap and ONE visible folded wing mass, along the middle/back of the side of the torso, sloping down toward the rear tail. HIDE the second/anterior wing shoulder that appears across the front of the belly in the three-quarter input; that far wing is entirely behind the torso from this camera. Fill that area with the normal sculpted breast/belly feathers. Do not render TWO wing humps stacked across the visible flank. Only one visible wing, close against the body.\nThe left flank completely occludes the right flank. Feet are side-on; the far leg/foot is mostly concealed behind the near leg, with only naturally offset gold toes peeking out. Do not show a frontal chest or a separate wing on the far flank. Eye and beak in clean left profile.\n\nSame upright perched pose, compact head, hooked beak, upright neck, rounded breast, tightly folded wings and long trailing primary/tail feathers as the native sprite. Short visible legs; separated curved talons touch an invisible flat ground plane, and the long rear tail ends on that same plane. Every part gold, crisp sculpted chest/wing feathers and slightly worn polished cast metal. Keep identity and proportions of native inputs and material of input 3.\n\nCentre the ENTIRE bird in frame with broad margins, around 1000 pixels tall on this 1536-pixel-tall portrait canvas. Full beak, head, all visible talons and full tail in frame.\nEven soft neutral studio light on the object only. Real alpha cutout: outside the sculpture transparent.\nNO base, NO plinth, NO pedestal, NO stand, NO floor, NO cast shadow, NO branch, no visible background, no haze, no glow, no checkerboard, no text, no gems, armour, saddle, extra limbs or animals, no spread wings, no other colours, no cropping.\nCheck before returning: one statue, exactly side-on body, only ONE visible wing shoulder and folded wing, far wing hidden, both legs/talons present with natural profile overlap, complete long tail, same pose and identity as primary.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png",
+        "sha256": "4e806806d10a90f804254b4210dd9d8b68f81b3cc7a282ef1f1fac54757aa1a5"
+      }
+    ],
+    "reason": "Selected after light/dark alpha compositing review: exact left profile with one visible folded wing, opposite wing and leg naturally occluded, far toes visible behind the near foot, complete long rear tail; same gold casting identity and original perched pose.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-5fb052eb-5a01-4f79-9d79-0ec77ea73224.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_left_v3.png",
+    "raw_sha256": "4b3cb3c5f5849078db339c9c601e70512f4524c1c4c4f3ae45fefb642dca7402",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      79,
+      145,
+      966,
+      1337
+    ],
+    "visible_bbox_alpha_nonzero": [
+      0,
+      28,
+      1008,
+      1496
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "supersedes": [
+      "eagle_left_v1",
+      "eagle_left_v2"
+    ],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/01_left.png",
+    "output_sha256": "4b3cb3c5f5849078db339c9c601e70512f4524c1c4c4f3ae45fefb642dca7402",
+    "review": {
+      "method": "Native-return visual review and comparison to original inputs/selected primary on split light/dark contact sheet; dimensions, alpha and bounds.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "native_perched_pose_and_folded_wings": true,
+      "matching_primary_identity_pose_proportions": true,
+      "exact_left_profile": true,
+      "separated_legs_talons_tail": "Near leg/foot and long tail separated; far leg naturally overlaps, with far-side toes visible behind the near foot.",
+      "alpha_note": "Native alpha retained unchanged; subvisual alpha noise not edited.",
+      "visible_margins_alpha_8_px": [
+        79,
+        144,
+        58,
+        197
+      ],
+      "review_contact_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/selected_views_review.png",
+      "byte_identical_native_return": true
+    },
+    "alpha_zero_pixels": 1125087
+  },
+  {
+    "id": "eagle_front_v1",
+    "family": "ped03_eagle_statuette",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Eagle Statuette\", a small solid cast-gold animal figurine, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, native unresized return.\n\nInputs in order:\n1. ORIGINAL native gold statuette crop enlarged 8x: design, pose, proportions and silhouette authority. Magenta background and bottom grey pedestal strip are NOT part of sculpture.\n2. Whole ORIGINAL native sprite enlarged 3x: side context including complete legs/talons and long rear tail; ignore and OMIT the entire marble pedestal.\n3. SELECTED HD primary 00_three_quarter.png: this SAME cast-gold statuette, feather sculpting, head, compact body and exact fixed perched pose, viewed from front-left three-quarter. Reuse its identity and material; CHANGE ONLY THE CAMERA to the FRONT view below.\n\nCAMERA: STRAIGHT FRONT, camera directly in front of the eagle's face and breast, camera level with the BODY, ZERO elevation, near-orthographic. Face/beak points directly toward the CAMERA at the centre, both eyes visible on either side of the beak, chest square to the viewer. Head and torso aligned; do not turn only the head while keeping a side-on body. The beak projects toward the camera and is naturally foreshortened. Two folded wings flank the body, naturally foreshortened and held tightly flush against it, with their long primary feathers crossing behind at the rear tail. Both short legs/taloned feet visible, one on each side below the chest, toes separated. Long rear tail continues behind the body to the invisible ground plane; it may be naturally partly occluded from straight front, but must be present, including its distal gold tips wherever visible. Do not shorten, remove or swing the tail sideways for visibility. Do not re-pose the feet or spread the wings.\n\nIdentity: same small compact eagle head with hooked beak, upright neck, rounded chest, short legs/talons, elongated tightly folded primaries and rear tail proportions as the original sprite and input 3. Slightly stylised SOLID CAST figurine, not a real live bird photo. Crisp sculpted feather detail on chest and wings, polished slightly worn YELLOW GOLD only, including eyes, beak, legs, claws and tail. Same museum bronze-casting style as the primary, no added ornaments. Even soft neutral studio lighting on the object only, no dramatic lighting.\n\nONE complete statuette, centred, generous transparent margins on all sides; pull the camera back for around 1000 pixels head-to-ground height on the 1536-pixel-tall canvas. Entire head, feet/talons and every visible feather inside frame.\nTransparent empty background. NO base, NO plinth, NO pedestal, NO stand, NO floor, NO shadow, NO branch, no scenery, no text, no gems, no armour, no saddle, no extra limbs or animals, no spread wings, no other colours, no cropping, no magenta spill, no checkerboard, no haze or glow. Feet/talons and rear tail end on an invisible flat ground plane. Genuine PNG alpha: exterior pixels fully transparent apart from narrow immediate silhouette antialiasing.\nChecks: one statuette, exact straight-front body-level view, face and breast toward camera, both eyes gold, both folded wings and both feet/talons present, long rear tail retained with natural occlusion, SAME identity/proportions/pose as input 3, no supporting object, genuine transparency, nothing cropped.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png",
+        "sha256": "4e806806d10a90f804254b4210dd9d8b68f81b3cc7a282ef1f1fac54757aa1a5"
+      }
+    ],
+    "reason": "Superseded: tight top/bottom margins (36/50 px), slightly elevated crown view and rear tail ending noticeably above the talons.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-8efa05d4-f917-49e3-9860-f7cb84b83f69.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_front_v1.png",
+    "raw_sha256": "e8025de97ff5007700b60e466cc50fb64f32cdf1c12e0476a899877ff71a2daf",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      189,
+      36,
+      838,
+      1486
+    ],
+    "visible_bbox_alpha_nonzero": [
+      0,
+      31,
+      992,
+      1491
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "supersedes": [],
+    "superseded_by": "eagle_front_v2",
+    "alpha_zero_pixels": 917578
+  },
+  {
+    "id": "eagle_front_v2",
+    "family": "ped03_eagle_statuette",
+    "role": "front",
+    "selected": true,
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION. Existing Might and Magic VI \"Eagle Statuette\", ONE small solid cast-yellow-gold eagle figurine, not a new design. Use case: identity-preserve / 3D modelling reference.\nReturn ONE 1024 x 1536 PORTRAIT PNG, real transparent background, native unresized return.\n\nInputs:\n1. Original native crop enlarged 8x: design/pose/proportions authority; magenta and bottom grey pedestal strip are background.\n2. Whole native sprite enlarged 3x: full short talons/legs and long rear tail context; OMIT entire marble pedestal.\n3. Selected HD primary 00_three_quarter.png: SAME statuette identity/material/perched pose required.\n4. Previous STRAIGHT FRONT attempt: correct general front-facing orientation and gold casting identity, but too large in the frame and viewed slightly from above. CORRECT FRAMING AND CAMERA as below.\n\nMake the entire statuette visibly 30% SMALLER on the canvas than input 4. Head-to-ground height about 1000 pixels, with at least 200 transparent pixels ABOVE THE HEAD and BELOW THE LOWEST TALON/TAIL. Centre the complete bird horizontally AND vertically. Broad clear margins; do not fill the canvas height. No scaling/padding after generation: generate directly at 1024 x 1536.\n\nSTRAIGHT FRONT VIEW: face/beak and breast directly toward camera; head and whole body front-on. Camera exactly at BODY LEVEL, near-orthographic, ZERO elevation, NOT looking downward. Crown top visible only as a narrow edge from this low camera. Both gold eyes visible. Beak naturally foreshortened.\nSame original upright perched pose: compact eagle head with hooked beak, upright neck, rounded breast, tightly FOLDED wings flush against its body, long primaries crossing behind at the long rear tail. Two short legs with separated sculpted talons. No stance changes.\nThe LONG REAR TAIL must continue behind the body down to the SAME invisible flat ground plane as the contact points of the feet/talons. From this zero-elevation FRONT camera its distal gold tail tips are visible in the gap between/behind the feet, reaching their ground-contact HEIGHT. Do not leave the tail floating above the feet as in input 4. Keep its native length/pose; use correct camera and projection, not a sideways tail.\n\nSame polished slightly worn yellow-gold casting, crisp sculpted chest and wing feathers, slightly stylised cast figurine, not a living bird photo. All parts gold, including eyes/beak/claws. Even soft neutral studio light only.\nONE complete gold bird, full head-to-talons and complete rear tail, generous margins, real alpha transparency.\nNO base, NO plinth, NO pedestal, NO stand, NO branch, NO floor, NO shadow, no scenery, no text, no gems, armour, saddle, extra limbs/animals, no spread wings, no other colours, no cropping, no haze/glow/checkerboard. The invisible ground plane must not be rendered. Exterior pixels transparent except narrow immediate contour antialiasing.\nChecks: same statue and original pose, exact straight-front view, body-level camera, both folded wings and both legs/talons, long tail reaching the foot ground plane, full figure with broad clear margins, transparent background, no supporting object.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_front_v1.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_statuette_x8.png",
+        "sha256": "38061ca03c3971fc4aa34423e76491516c84e8834f5249b1d5574e664dd18b41"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/native_full_x3.png",
+        "sha256": "e4c68d6a97adc93443ba1a8b16406289a85facef9280443fa9186f711cdc70e9"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/00_three_quarter.png",
+        "sha256": "4e806806d10a90f804254b4210dd9d8b68f81b3cc7a282ef1f1fac54757aa1a5"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_front_v1.png",
+        "sha256": "e8025de97ff5007700b60e466cc50fb64f32cdf1c12e0476a899877ff71a2daf"
+      }
+    ],
+    "reason": "Selected after light/dark compositing and comparison with both selected views: straight front-facing head and body, both gold eyes, same sculpted gold material, both tight folded wings and short taloned legs, complete rear tail retained between the feet with natural occlusion, generous top/bottom margins, no base or cropping.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d9a-7f33-ac6b-988b56ac21f5/exec-ceccfbfd-fc58-460d-8460-371e34686531.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/raw/eagle_front_v2.png",
+    "raw_sha256": "29956f7d7bca7ddf1b2204d5b5aade32d05a3632bdfcd92ef9ec705d9d1a9ae8",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      267,
+      232,
+      759,
+      1367
+    ],
+    "visible_bbox_alpha_nonzero": [
+      65,
+      23,
+      954,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual native return.",
+    "supersedes": [
+      "eagle_front_v1"
+    ],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/02_front.png",
+    "output_sha256": "29956f7d7bca7ddf1b2204d5b5aade32d05a3632bdfcd92ef9ec705d9d1a9ae8",
+    "review": {
+      "method": "Full native-return visual review; comparison to original inputs and selected primary/left on split light/dark contact sheet; dimensions, alpha and bounds.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "native_perched_pose_and_folded_wings": true,
+      "matching_primary_identity_pose_proportions": true,
+      "straight_front_body_level_view": true,
+      "separated_legs_talons_tail": "Both short legs and separated talons visible; rear tail naturally occluded behind the body, distal tips visible between/behind the feet.",
+      "alpha_note": "Native alpha retained unchanged; subvisual alpha noise not edited.",
+      "visible_margins_alpha_8_px": [
+        266,
+        231,
+        263,
+        168
+      ],
+      "review_contact_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/eagle/references_hd/selected_views_review.png",
+      "byte_identical_native_return": true
+    },
+    "alpha_zero_pixels": 1175895
+  }
+]

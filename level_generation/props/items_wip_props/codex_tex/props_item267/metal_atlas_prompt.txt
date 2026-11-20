@@ -1,0 +1,11 @@
+Use case: precise-object-edit. Asset type: binary metallic material-mask atlas.
+Image 1 is the six-view painted atlas of Urn of Ashes and is the edit target.
+Keep its exact portrait canvas, two columns by three rows, all six cells, silhouettes, positions and scales.
+Replace only object surface colour with a material classification: PURE WHITE for actual metal,
+PURE BLACK for wood, horn, stone, leather, textile, crystal or resin. Every object pixel remains opaque;
+outside each object stays truly transparent, including holes. Do not use a black opaque background.
+Materials to identify: Worn warm gold bronze over the entire urn, including skull relief, curled horns, handles, lid and foot; darkened metal in genuine recesses.
+Gold, bronze, brass, silver, iron, metal handles, metal strings, tools and metal ornament are WHITE.
+Blue textile, leather pouch, wooden carvings, horn body and stone body are BLACK, including stone faces.
+Use no grey shading, highlights, textures, gradients, outlines, lettering, new shapes or cast shadows.
+Do not change the view layout or crop anything. This is a technical metal/nonmetal mask, not a beauty image.

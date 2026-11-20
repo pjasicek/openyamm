@@ -1,0 +1,1 @@
+Run repair_extraction.py after any plain process to reproduce final output. Retained raw and old mask; the mask introduced red fringe and narrowed footprint. Reviewed solid gray master has no cyan material; calibrated solid extraction restores native contact and clean contour. Final bounds delta [0,-0.5,0.5,0], no warnings; both final contrast proofs inspected.

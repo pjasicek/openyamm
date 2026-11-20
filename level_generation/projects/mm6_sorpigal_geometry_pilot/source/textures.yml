@@ -1,0 +1,39 @@
+# Depth levels of wall textures (native units along the face normal), shared by every map. A map file may
+# add its own under `textures:`; textures without an entry get one from their class map (generate.py).
+textures:
+  # Half-timbered plaster walls: timbers and frames stand out, windows are set into the wall.
+  pxstrle: {classes: {wood: 6, glass: -12, iron: -12}}
+  pxstrre: {classes: {wood: 6, glass: -12, iron: -12}}
+  pxstrst: {classes: {wood: 6, glass: -12, iron: -12}}
+  pxstrlew: {classes: {wood: 6, glass: -12, iron: -12}}
+  pxstrwb: {classes: {wood: 6, glass: -12, iron: -12}}
+  # Door: the class map is all wood, so the parts are rectangles [x0, y0, x1, y1, level] in texels.
+  pxstrdr:
+    sills: false
+    rects:
+      - [0, 0, 128, 256, 0]
+      - [0, 0, 17, 256, 8]
+      - [111, 0, 128, 256, 8]
+      - [0, 0, 128, 12, 8]
+      - [18, 17, 110, 49, -10]
+      - [18, 66, 110, 256, -14]
+
+  # Tavern stone facade: doors and windows set into the wall, carved arch bands a little proud.
+  tavlgdr: {sills: false, close: 4, simplify: 1.5, min_area: 40, classes: {wood: -14, iron: -14, painted: 3}}
+  tavsmdr: {sills: false, close: 4, simplify: 1.5, min_area: 40, classes: {wood: -12, iron: -12, foliage: -12}}
+  tavwctr: {close: 3, simplify: 1.2, min_area: 30, classes: {glass: -12, iron: -12, wood: -6}}
+  tavwle: {close: 3, simplify: 1.2, min_area: 30, classes: {glass: -10, iron: -10, polished_stone: 3}}
+  tavwre: {close: 3, simplify: 1.2, min_area: 30, classes: {glass: -10, iron: -10, polished_stone: 3}}
+  # Goblinwatch (dark rubble keep): leaded windows set in, doors set in, painted corner pilasters proud.
+  tewsw: {close: 3, simplify: 1.2, min_area: 30, classes: {glass: -12, iron: -12}}
+  tewdw: {close: 3, simplify: 1.2, min_area: 30, classes: {glass: -12, iron: -12}}
+  tewld: {sills: false, rects: [[0, 0, 46, 256, 8]]}
+  tewrd: {sills: false, rects: [[208, 0, 256, 256, 8]]}
+  tewls: {sills: false, rects: [[0, 0, 44, 256, 8]]}
+  tewrs: {sills: false, rects: [[82, 0, 128, 256, 8]]}
+  # Ship hull with two gun ports: frames proud, openings set in (texels of the 256 x 256 native texture).
+  ns8s08: {sills: false, rects: [[43, 44, 103, 100, 5], [53, 54, 95, 89, -12], [154, 44, 215, 100, 5],
+                                 [164, 54, 205, 89, -12]]}
+  tdoorb: {sills: false, close: 4, classes: {wood: -14, bright_metal: -14, earth: -14}}
+  d2lgdor: {sills: false, close: 4, classes: {iron: -14, wood: -14, bright_metal: -14}}
+

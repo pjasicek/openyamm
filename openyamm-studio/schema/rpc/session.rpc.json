@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: session",
+  "description": "What the core is and what it can do; the session's asset root.",
+  "x-group": "session",
+  "methods": {
+    "hello": {
+      "summary": "The core's version, the catalogue's version, the project formats it reads, its methods and what this backend can do. The host adds its own capabilities (mode, game, jobs) before passing it on.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [],
+      "params": {
+        "$ref": "common.rpc.json#/$defs/no_params"
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "core_version",
+          "rpc_version",
+          "backend",
+          "asset_root",
+          "formats",
+          "methods"
+        ],
+        "properties": {
+          "core_version": {
+            "type": "string"
+          },
+          "rpc_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "backend": {
+            "enum": [
+              "native",
+              "wasm"
+            ]
+          },
+          "asset_root": {
+            "description": "Whether the session has an asset root (session.configure).",
+            "type": "boolean"
+          },
+          "formats": {
+            "description": "The format number of each project file this core reads and writes.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "methods": {
+            "description": "Every method of the catalogue this core serves, by full name.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "host": {
+            "description": "Added by the studio host or the hosted page's worker (never by a core): its mode and capabilities. `python`: the Python checks of the repository run as jobs here (D10: local only). Hosted mode (S5c): no game, no jobs, no Python.",
+            "type": "object",
+            "required": [
+              "mode",
+              "game",
+              "assets",
+              "version"
+            ],
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "local",
+                  "hosted"
+                ]
+              },
+              "game": {
+                "type": "boolean"
+              },
+              "assets": {
+                "type": "boolean"
+              },
+              "version": {
+                "type": "string"
+              },
+              "jobs": {
+                "type": "boolean"
+              },
+              "python": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "configure": {
+      "summary": "Sets or clears the session's asset root (the folder holding engine/ and worlds/) and its mount of builds. Called by the host or the worker that owns the core, never passed on from a browser or an agent.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "no_asset_root"
+      ],
+      "params": {
+        "type": "object",
+        "properties": {
+          "asset_root": {
+            "description": "Absent: the session has no asset root.",
+            "type": "string",
+            "minLength": 1
+          },
+          "mount": {
+            "description": "The folder builds are installed into (build.install) and read from (`built`): never assets_dev. Absent: none.",
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "asset_root"
+        ],
+        "properties": {
+          "asset_root": {
+            "type": "boolean"
+          },
+          "mount": {
+            "description": "Whether the session has a mount.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "release": {
+      "summary": "Drops what the core keeps of a project (its files as last read, validation, view, kept land; S5_BROWSER_EDITOR.md 2.4.3): the hosted page's worker keeps one map at a time (PLAN.md 9) and releases the project it closes. Nothing on disk changes; the next call that names the project reads it again. Called by the host or the worker that owns the core, never passed on from a browser or an agent.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": [],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "released"
+        ],
+        "properties": {
+          "released": {
+            "description": "Whether the core kept anything of the project.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "schema": {
+      "summary": "The project format's schemas: without `name` their list, with it one schema as JSON.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "name": {
+            "description": "A schema: rooms, objects, wiring, plan, project, sketch, atmosphere, pins, common, ids_lock (or its file name).",
+            "type": "string",
+            "pattern": "^[a-z_]+(\\.schema\\.json)?$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "schemas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "title"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "name": {
+            "description": "The schema file returned.",
+            "type": "string"
+          },
+          "schema": {
+            "description": "The schema (JSON Schema 2020-12).",
+            "type": "object",
+            "x-tree": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

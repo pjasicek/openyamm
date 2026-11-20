@@ -1,0 +1,3 @@
+Saved five unresized 1536×1024 transparent views using built-in imagegen, plus the [contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_hyd_claude/references_hd/selected_views_review.png) and [prompts, hashes and generation history](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_hyd_claude/references_hd/generation_runs.json).
+
+No builds or Meshy used. Side-view overlap and small proportion differences remain, so the brief’s exact consistency requirement is not fully met.

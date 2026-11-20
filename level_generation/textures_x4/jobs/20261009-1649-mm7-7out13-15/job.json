@@ -1,0 +1,561 @@
+{
+ "id": "20261009-1649-mm7-7out13-15",
+ "world": "mm7",
+ "maps": [
+  "7out13.odm",
+  "7nwc.blv",
+  "mdt11.blv",
+  "7d24.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/s_tala",
+  "mm7/s_temple",
+  "mm7/sgmind",
+  "mm7/sign01-4",
+  "mm7/trim11_16",
+  "mm7/trim11_32",
+  "mm7/trim2_16",
+  "mm7/trim2_32",
+  "mm7/trim2_32a",
+  "mm7/trim5_16",
+  "mm7/trim5_32a",
+  "mm7/trim8_32a",
+  "mm7/wharsign",
+  "mm7/t2s2b",
+  "mm7/t2s1c",
+  "mm7/t6s1dl",
+  "mm7/t6s1dr",
+  "mm7/twb3a",
+  "mm7/7cdb",
+  "mm7/hdm1elw",
+  "mm7/hdm1el",
+  "mm7/hdp2b",
+  "mm7/hdm2b",
+  "mm7/hdm2er"
+ ],
+ "requests": {
+  "mm7/s_tala": {
+   "name": "s_tala",
+   "versions": [
+    1
+   ],
+   "material": "painted parchment-yellow sign board with red runic lettering, plain black at the right end; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_temple": {
+   "name": "s_temple",
+   "versions": [
+    1
+   ],
+   "material": "painted parchment-yellow sign board with red runic lettering, plain black at the right end; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgmind": {
+   "name": "sgmind",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign of a blue head silhouette with a red and yellow sunburst, in a brown wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sign01-4": {
+   "name": "sign01-4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale yellow parchment-coloured painted sign board with a row of red hand-painted runic letters inside a thin red outlined box on the left, blank board on the right; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim11_16": {
+   "name": "trim11_16",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of dark brown wood with fine grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim11_32": {
+   "name": "trim11_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of dark blue-grey weathered wood with fine grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim2_16": {
+   "name": "trim2_16",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of reddish-brown wood with fine grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim2_32": {
+   "name": "trim2_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of grey weathered wood with fine grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim2_32a": {
+   "name": "trim2_32a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of grey weathered wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim2_32",
+    "k": 3
+   }
+  },
+  "mm7/trim5_16": {
+   "name": "trim5_16",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of reddish-brown wood with fine grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim5_32a": {
+   "name": "trim5_32a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of golden-brown wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim5_32",
+    "k": 3
+   }
+  },
+  "mm7/trim8_32a": {
+   "name": "trim8_32a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of light tan wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim8_32",
+    "k": 3
+   }
+  },
+  "mm7/wharsign": {
+   "name": "wharsign",
+   "versions": [
+    1
+   ],
+   "material": "painted parchment-yellow sign board with red runic lettering, plain black at the right end; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t2s2b": {
+   "name": "t2s2b",
+   "versions": [
+    1
+   ],
+   "material": "rough grey granite slab with gilded bronze horizontal bead mouldings at top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t2bs"
+     ],
+     "fraction": 0.544
+    }
+   }
+  },
+  "mm7/t2s1c": {
+   "name": "t2s1c",
+   "versions": [
+    1
+   ],
+   "material": "rough grey granite with a raised gilded bronze square fret lattice of bars; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t2bs"
+     ],
+     "fraction": 0.617
+    }
+   }
+  },
+  "mm7/t6s1dl": {
+   "name": "t6s1dl",
+   "versions": [
+    1
+   ],
+   "material": "bronze door panel with a carved skull and radiating rays in a dark iron frame with a side ring handle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t6s1dr": {
+   "name": "t6s1dr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "bronze door panel with a carved skull and radiating rays in a dark iron frame with a side ring handle; copy the composition exactly",
+   "notes": {
+    "2": "mirror image of the accepted left door: keep the frame, rivet border, skull and ray panel at exactly the reference positions and widths; the light stone border reaches the right and bottom edges with no dark rim",
+    "3": "the picture is cropped tightly: only a thin stone strip at the left edge, the round handle boss sits against the left edge, and the stone border continues straight down to the bottom edge with no ledge or sill; keep the skull, rays and rivet frame at exactly the reference positions",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "6": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge; the thin dark groove near the left edge stays a few pixels inside, exactly where the reference has it",
+    "7": "keep the skull, the rays, the lock and every rivet exactly where the reference has them, at the same size; the dark grey groove runs along the very left edge, so the first pixel columns are dark grey, with no pale strip outside it; no pale or dark line along any other edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "5": [
+     94,
+     0
+    ],
+    "6": [
+     94,
+     189
+    ]
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   }
+  },
+  "mm7/twb3a": {
+   "name": "twb3a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped, between dark smooth stone pilasters on both side edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/twb3",
+      "mm7/7twb2vl",
+      "mm7/twb3d"
+     ],
+     "fraction": 0.843
+    },
+    "2": {
+     "sources": [
+      "mm7/twb3",
+      "mm7/7twb2vl",
+      "mm7/twb3d"
+     ],
+     "fraction": 0.843
+    }
+   }
+  },
+  "mm7/7cdb": {
+   "name": "7cdb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rows of olive-tan rough stone bricks with dark mortar",
+   "notes": {
+    "2": "the brick courses run right up to the top edge as bright as in the reference; no dark mortar line or rim along the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdm1elw": {
+   "name": "hdm1elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a tall carved pointed gothic arch relief with a narrow window of crossed dark bars over dark glass inside it, and a thin pale stone frame on the left edge; copy the composition exactly",
+   "notes": {
+    "3": "the thin pale stone frame lies only on the left edge, starting exactly at the left border; the right edge is plain grey-brown dressed stone wall that runs to the border with no frame strip, pale line or dark gap",
+    "4": "copy the frame exactly: a narrow pale pinkish-grey stone moulding runs down the very left edge and across the very top edge, with a dark recessed border strip just inside it on the left and top; the wall behind the arch is plain smooth stone without block joints; the right edge has no moulding or line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdm1el": {
+   "name": "hdm1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a tall carved pointed gothic arch relief with a carved interlaced ribbon ornament inside it, and a thin pale stone frame on the left edge; copy the composition exactly",
+   "notes": {
+    "3": "copy the thin frame on the left and top edges exactly at its scale: a very thin dark outer line right at the edge, then a narrow bright pale pinkish-grey moulding highlight, then a deep dark recessed strip before the wall; the frame is narrow, not a wide flat band",
+    "4": "the picture includes its frame: along the full left edge and the full top edge runs a thin pale pinkish-grey stone moulding with a thin dark line at its outer side, exactly as in the reference; keep the arch and the lattice band exactly where they are"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1elw"
+     ],
+     "fraction": 0.807
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "4": 0.9
+   }
+  },
+  "mm7/hdp2b": {
+   "name": "hdp2b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered grey vertical wooden planks with dark red painted trim bands at the top",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     64
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/hdm2b": {
+   "name": "hdm2b",
+   "versions": [
+    1
+   ],
+   "material": "pale tan plaster wall under a dark timber beam with small brass triangle studs, timber sill at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdm2er": {
+   "name": "hdm2er",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale beige rough plaster wall in a dark weathered oak timber frame: a heavy top beam with pyramid-studded square blocks and a bottom beam with a row of pyramid studs, with an iron strap plate on the top beam at the right, one short wooden bracket under the top beam on the right, a vertical timber post on the right edge and a diagonal brace in the lower right corner; copy the composition exactly",
+   "notes": {
+    "2": "the timber post on the right runs to the very right edge as bright as in the reference; no dark rim or shadow line along the right edge",
+    "3": "the studded timber beam reaches the very top edge and the post reaches the very right edge, both as bright as in the reference; no dark rim, gap or shadow line along any edge",
+    "4": "the studded timber beam reaches the very top edge and the post reaches the very right edge, both as bright as in the reference; no dark rim, gap or shadow line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm2b"
+     ],
+     "fraction": 0.578
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm2b"
+     ],
+     "fraction": 0.578
+    },
+    "3": {
+     "sources": [
+      "mm7/hdm2b"
+     ],
+     "fraction": 0.578
+    },
+    "4": {
+     "sources": [
+      "mm7/hdm2b"
+     ],
+     "fraction": 0.578
+    }
+   }
+  }
+ }
+}

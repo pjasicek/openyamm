@@ -1,0 +1,31 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- action: cast_ready
+- wait: 0.6
+- capture: beacon-empty
+- pointer_move:
+  - 1240
+  - 105
+- capture: beacon-recall-hover
+- click:
+  - 1240
+  - 105
+- capture: beacon-empty-recall
+- click:
+  - 1240
+  - 190
+- click:
+  - 528
+  - 291
+- wait: 15
+- key: '1'
+- action: cast_ready
+- wait: 0.6
+- capture: beacon-saved
+- click:
+  - 1240
+  - 190
+- capture: beacon-set-with-preview
+- key: Escape

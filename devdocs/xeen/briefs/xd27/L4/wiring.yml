@@ -1,0 +1,189 @@
+format: 0
+variables: [gate_unbarred, fell, falls]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "The ogres' lair, in the river bluff west of the north river. Captain Nystor, in Rivercity: \"Those Ogres are ruining me! For months they have been throwing boulders at the boats that ply the waters around here. Three of my ships have gone to the bottom in as many months because the Ogres like the sound of crunching wood and screaming men.\" Destroy their lair, and the river is his again. Their chieftain, he says, throws from a ledge high over the river."
+    notes: "Say why the party is here (a one-shot timer: a load event's window is not shown)."
+  - id: evt:chest_bundle
+    preset: chest
+    source: chest:bundle
+    title: Chest
+  - id: evt:chest_cargo
+    preset: chest
+    source: chest:cargo
+    title: Chest
+  - id: evt:chest_chief
+    preset: chest
+    source: chest:chief
+    title: Chest
+  - id: evt:chest_strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:chief_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:chieftain}}
+    once: true
+    effects:
+      - add:
+          var: Experience
+          value: 500
+    text: The Ogre Chieftain crashes down. A heavy iron key hangs from his belt.
+    seconds: 5
+    notes: "goal:chieftain: says plainly that he carries the larder key."
+  - id: evt:chute_trap
+    preset: script
+    source: plate:chute_trap
+    trigger: step
+    once: true
+    effects:
+      - shake:
+          strength: 1.2
+          seconds: 1.5
+      - damage:
+          amount: 30
+          kind: physical
+    text: "A boulder comes bounding down the chute behind you!"
+    seconds: 4
+    notes: "set:chute_boulder: once; the trap's boulder is not drawn (a step trap as the shipped maps' are)."
+  - id: evt:exit_x2
+    preset: exit
+    source: exit:x2
+    title: Leave the Ogre Lair
+  - id: evt:fall
+    preset: script
+    source: room:gorge
+    trigger: step
+    effects:
+      - set:
+          var:
+            map_var: fell
+          value: 1
+      - damage:
+          amount: 20
+          kind: physical
+      - teleport:
+          to: [0, 640, 0]
+          direction: 90
+    notes: "set:fall: a party that goes over the parapet is washed out at the mouth (its message comes from evt:fall_told: a window opened before an in-map move is lost with the move)."
+  - id: evt:fall_told
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: {name: fell, equals: 1}}
+    effects:
+      - set:
+          var:
+            map_var: fell
+          value: 0
+      - add:
+          var:
+            map_var: falls
+          value: 1
+      - message: "You went over the parapet and fell into the river below. The current tumbled you down the gorge and cast you up, half drowned, at the foot of the bluff, and you have climbed back up to the lair's mouth."
+    notes: "set:fall: says what happened, once the party stands at the mouth."
+  - id: evt:feast_seen
+    preset: text
+    source: platform:terrace
+    trigger: step
+    once: true
+    text: "Below, a great cauldron bubbles over the fire in the cooking pit: the ogres' supper. Best not to look in."
+    seconds: 5
+  - id: evt:gate_bar
+    preset: switch
+    source: mover:gate_bar
+    title: Gate bar
+    condition: {not: {map_var: gate_unbarred}}
+    opens: [mover:gate_bar]
+    sets: {map_var: gate_unbarred}
+    else_effects:
+      - text: "The bar is up; the gate opens on the mouth."
+    text: "You heave the log up out of its forked posts. The gate is free: the short way out to the mouth."
+    notes: "poi:gate_bar: lifted from inside only; the gate is then a door both ways (loop:gate)."
+  - id: evt:gate_in
+    preset: door
+    source: door:gate
+    side: room:gate_yard
+    title: Log gate
+    condition: {map_var: gate_unbarred}
+    action: open
+    else_effects:
+      - text: The bar lies across the gate in its forked posts. Lift the bar first.
+  - id: evt:gate_out
+    preset: door
+    source: door:gate
+    side: room:mouth
+    title: Log gate
+    condition: {map_var: gate_unbarred}
+    action: open
+    else_effects:
+      - message: "The log gate does not move: it is barred on the inside. A reek of old bones and rotten meat blows from a crack in the west wall of the mouth: the ogres throw their scraps down there, and what they throw down, you can climb up."
+    notes: "set:gate_bar: from the mouth the gate opens only once the bar is lifted inside; until then it points at the midden crack."
+  - id: evt:lair
+    preset: script
+    source: platform:seat
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found an Ogre lair.  Destroy?", wrong_text: "You leave the lair as it is, for now."}
+    title: Ogre lair
+    condition: {kills: {monster: monster:chieftain}}
+    locked_text: "The Chieftain's seat of boulders, hung with the trophies of Nystor's boats. Break it now and his band will only pile it up again: the Chieftain throws from the ledge beyond the quarry."
+    effects:
+      - qbit: ogre_lair_destroyed
+      - add:
+          var: Experience
+          value: 2000
+      - hide: platform:seat
+      - passable: platform:seat
+      - hide: platform:oar_1
+      - passable: platform:oar_1
+      - hide: platform:oar_2
+      - passable: platform:oar_2
+      - hide: panel:sail
+      - message: You break everything you can find in the lair.
+    notes: "goal:lair / set:lair: Q-C23's bit; the source's own two lines (xeen aaze0010:0-1). The seat, the oars and the sail come down."
+  - id: evt:larder_door
+    preset: door
+    source: door:larder
+    title: Larder door
+    condition: {item: larder_key}
+    action: open
+    else_effects:
+      - message: "A heavy plank door with an iron lock. The Ogre Chieftain keeps its key on his belt; he directs the boulder throwing on the ledge beyond the quarry."
+    notes: "link:chief_den_larder: the Chieftain's key (Ogre Key) opens it."
+  - id: evt:ledge_seen
+    preset: text
+    source: room:river_ledge
+    trigger: step
+    once: true
+    text: "Daylight and the roar of the river! The ledge hangs over the gorge. At its south end a heap of boulders waits on a timber rack, and the Ogre Chieftain bellows at his throwers."
+    seconds: 7
+  - id: evt:midden_seen
+    preset: text
+    source: room:midden
+    trigger: step
+    once: true
+    text: "Bones and refuse slither under your feet: the ogres throw their scraps down this crack. Something growls above."
+  - id: evt:rack
+    preset: switch
+    source: mover:rack_bar
+    title: Boulder rack
+    condition: {not: {qbit: ogre_boulders_dumped}}
+    opens: [mover:rack_bar, mover:heap_1, mover:heap_2]
+    effects:
+      - qbit: ogre_boulders_dumped
+      - shake:
+          strength: 1.5
+          seconds: 2.5
+      - add:
+          var: Experience
+          value: 1000
+      - message: "You knock the cross-beam out of the rack. The timbers give with a crack, and the whole heap of boulders goes thundering down the slide and out over the cliff. Far below, the river swallows them with a roar. That is the end of the ogres' ammunition."
+    else_effects:
+      - text: "The rack lies broken; its boulders are in the river."
+    notes: "set:boulder_heap / goal:boulders: the heap rolls into the slide (two movers) and the quest's second bit is set."

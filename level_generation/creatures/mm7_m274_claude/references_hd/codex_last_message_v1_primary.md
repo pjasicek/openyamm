@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m274_claude/references_hd/00_three_quarter.png), unresized at 1024×1536 with transparent alpha.
+
+Used built-in image generation and the one allowed correction. Residual halo, arm spacing and fist-opening issues are recorded alongside both prompts in [generation_runs.json](level_generation/creatures/mm7_m274_claude/references_hd/generation_runs.json). Both raw returns are preserved under `raw/`.

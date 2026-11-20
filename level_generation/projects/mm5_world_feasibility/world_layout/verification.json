@@ -1,0 +1,387 @@
+{
+  "passed": true,
+  "sourceCells": 6144,
+  "regions": 6,
+  "regionCropSize": [
+    512,
+    512
+  ],
+  "exactCropReconstruction": true,
+  "waterCellCentersAndComponentCountPreserved": true,
+  "roadConnections": 4,
+  "offRoadConnections": 3,
+  "crossings": [
+    {
+      "id": "sw_sc",
+      "kind": "road",
+      "source": [
+        7,
+        15,
+        3
+      ],
+      "destination": [
+        11,
+        0,
+        3
+      ],
+      "sourceGround": "road",
+      "destinationGround": "road",
+      "reciprocalNeighbors": true,
+      "connectedToCastleviewByTerrain": true,
+      "travelDays": null
+    },
+    {
+      "id": "sc_se",
+      "kind": "road",
+      "source": [
+        15,
+        15,
+        1
+      ],
+      "destination": [
+        19,
+        0,
+        1
+      ],
+      "sourceGround": "road",
+      "destinationGround": "road",
+      "reciprocalNeighbors": true,
+      "connectedToCastleviewByTerrain": true,
+      "travelDays": null
+    },
+    {
+      "id": "nc_ne",
+      "kind": "road",
+      "source": [
+        14,
+        15,
+        15
+      ],
+      "destination": [
+        18,
+        0,
+        15
+      ],
+      "sourceGround": "road",
+      "destinationGround": "road",
+      "reciprocalNeighbors": true,
+      "connectedToCastleviewByTerrain": true,
+      "travelDays": null
+    },
+    {
+      "id": "ne_se",
+      "kind": "road",
+      "source": [
+        22,
+        0,
+        0
+      ],
+      "destination": [
+        23,
+        0,
+        15
+      ],
+      "sourceGround": "road",
+      "destinationGround": "road",
+      "reciprocalNeighbors": true,
+      "connectedToCastleviewByTerrain": true,
+      "travelDays": null
+    },
+    {
+      "id": "nw_sw",
+      "kind": "off_road",
+      "source": [
+        2,
+        8,
+        0
+      ],
+      "destination": [
+        3,
+        8,
+        15
+      ],
+      "sourceGround": "dirt",
+      "destinationGround": "dirt",
+      "reciprocalNeighbors": true,
+      "connectedToCastleviewByTerrain": true,
+      "travelDays": null
+    },
+    {
+      "id": "nw_nc",
+      "kind": "off_road",
+      "source": [
+        6,
+        15,
+        7
+      ],
+      "destination": [
+        10,
+        0,
+        7
+      ],
+      "sourceGround": "desert",
+      "destinationGround": "desert",
+      "reciprocalNeighbors": true,
+      "connectedToCastleviewByTerrain": true,
+      "travelDays": null
+    },
+    {
+      "id": "nc_sc",
+      "kind": "off_road",
+      "source": [
+        10,
+        12,
+        0
+      ],
+      "destination": [
+        11,
+        12,
+        15
+      ],
+      "sourceGround": "desert",
+      "destinationGround": "desert",
+      "reciprocalNeighbors": true,
+      "connectedToCastleviewByTerrain": true,
+      "travelDays": null
+    }
+  ],
+  "regionSourceMetrics": [
+    {
+      "region": "nw",
+      "sourceSurfaceCells": {
+        "space": 112,
+        "scorched": 326,
+        "lava": 185,
+        "dirt": 251,
+        "snow": 44,
+        "desert": 103,
+        "water": 3
+      }
+    },
+    {
+      "region": "nc",
+      "sourceSurfaceCells": {
+        "space": 80,
+        "snow": 343,
+        "road": 25,
+        "dirt": 87,
+        "desert": 489
+      }
+    },
+    {
+      "region": "ne",
+      "sourceSurfaceCells": {
+        "space": 109,
+        "snow": 450,
+        "water": 88,
+        "dirt": 183,
+        "road": 43,
+        "deep_water": 88,
+        "desert": 63
+      }
+    },
+    {
+      "region": "sw",
+      "sourceSurfaceCells": {
+        "space": 103,
+        "dirt": 332,
+        "water": 69,
+        "desert": 28,
+        "grass": 432,
+        "road": 60
+      }
+    },
+    {
+      "region": "sc",
+      "sourceSurfaceCells": {
+        "desert": 204,
+        "dirt": 663,
+        "road": 44,
+        "water": 51,
+        "space": 62
+      }
+    },
+    {
+      "region": "se",
+      "sourceSurfaceCells": {
+        "desert": 40,
+        "dirt": 726,
+        "road": 55,
+        "water": 65,
+        "space": 106,
+        "grass": 32
+      }
+    }
+  ],
+  "limitations": [
+    "Terrain connectivity only; event restrictions and monsters are not simulated.",
+    "Relief and Necropolis ground treatment are proposed visualization, not extracted elevation.",
+    "No native game maps, material bank assignments or runtime travel registrations generated."
+  ],
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm7/textures/7dirttyl.bmp",
+      "sha256": "3df9ff9bde783ae6a63afe140c08154dac8e6a2a616809f41ad6bc568f98b07e"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/textures/7sand.bmp",
+      "sha256": "5037f97744aa5ebdcc1a813bf00f6ee053a2522b934430d8dc31f51de3d6ab63"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/textures/7snow.bmp",
+      "sha256": "544e4f99393e0c2c13f789d06afc3a87462f2d89a70bb630a3260c9568a2cec1"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/DIRTtyl.bmp",
+      "sha256": "c69a5ccb5ffcf56e5b6930e936aea354747c21faa9e1b223c28c206e52030e98"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/Grastyl.bmp",
+      "sha256": "f1de1a65cde3580d8ed25318876ef21667abadd21336bc4524ade7d50149fe0c"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/Grastyl2.bmp",
+      "sha256": "2f16545c0de52000940e84c81d31ba01a1d0c4eb6f83c916553e90b76cd39f1a"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/GsTyl.bmp",
+      "sha256": "a7ff63045d4a641c1334d3dda8f97bba7b152e2f355214305e99ab71ffb5313a"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/LavTyl.bmp",
+      "sha256": "8c9609423df51350a6b8ba5f2ce635bb54b3e4ca37395b069ce9fd1c086b8de0"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/PlSaTyl.bmp",
+      "sha256": "0030fff964aaf61c3bd837f028bbe43c4fbf1dafa00144ff0a9d77b065b086a1"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/PlnTyl.bmp",
+      "sha256": "681f04b69c6b3e9372a494d45d30b75037682c8ab7e96ca334ee2833846c2eb4"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/RCTYL.bmp",
+      "sha256": "0680ff471c467742db586525595631c0f17d41ea84bed63eca63d45afa0f1510"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/RkTyl.bmp",
+      "sha256": "46de598c2985114eaf957e746b9eaa3805cce33866018c276b296febea431f97"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/TarTyl.bmp",
+      "sha256": "695cf8c1395c333464686ac59e450091e862ed1bb4a677ae5c7d511ac2e92296"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/textures/WtrTyl.bmp",
+      "sha256": "4237a0f17445e12ce7f2b3e9ae1155aabdb0c2cfbb9a240e2c3c883014a67957"
+    },
+    {
+      "path": "level_generation/projects/mm5_world_feasibility/world_layout/layout.json",
+      "sha256": "9ca669c65b73507035d2024fc8de54fd7bcd8025605b39d4867d2e8fd81ba0b4"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0001.dat.json",
+      "sha256": "cd83320833568e140cd76bda8cc32637c95377fd6b7bd31a2cd36e1e094a9d75"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0002.dat.json",
+      "sha256": "902e3ee9aa1277b23d50624b268700fbe62ce7d580faf32535a985cc9c56d71f"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0003.dat.json",
+      "sha256": "c0d238262bcefe8b604c782a03bfc4549a06f55eb6003599e7b1cec845af84bf"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0004.dat.json",
+      "sha256": "df8e765221d4fcc4e5b376014780abb6c202cb34ae923af6b7302c32b187c622"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0005.dat.json",
+      "sha256": "3682ec9a0a6f1e6688ec9ffb0614e5fd4af789360b64cc281e1eb8f22c88485b"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0006.dat.json",
+      "sha256": "36a9c9e387c1f14eeaad9a9488fc367af973884d3dde5a6dcc08081a7e6d1bc1"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0007.dat.json",
+      "sha256": "08a043b2faaf8bc17edfdbf431a262dba26488908ca8a38053a87bb9792f10a2"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0008.dat.json",
+      "sha256": "42b8495eecbc1665e5a05be114565371b58ca5cc0ac31d36171f53c5e4769064"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0009.dat.json",
+      "sha256": "45a41a7109d4f2cbdcd63dddb600f7da80d85747a6add3e4a7657caad7ad9636"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0010.dat.json",
+      "sha256": "2dbb5d6e93e7b31ba597889829a587454000c3e7a72296d15716e61f185495fc"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0011.dat.json",
+      "sha256": "359bf1e871e02ca058ea0fb1dfcd954b514b2dcd520d39091da75a5ddb96f4be"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0012.dat.json",
+      "sha256": "83a877ab4f2dc5643331c6e0d75f8de6f13cb35b97571a057e7d53d44a4646fc"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0013.dat.json",
+      "sha256": "2ae5921cec39380ae0307c7df5cc827b769a4cd1699f2155e79904c02072dced"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0014.dat.json",
+      "sha256": "dd37e61fc1bcc40c62aa922d646e2f997a58ad555278d05970f2ea325b690940"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0015.dat.json",
+      "sha256": "f24f69edc80c0d097eac222bde7b41fa1af2f561211522da221a1c454b5e5074"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0016.dat.json",
+      "sha256": "b43d117f90aac7bf6e56d8e5efcebad59e06bffe8088f6561d7630f7aaf49ab8"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0017.dat.json",
+      "sha256": "82328e1b461182d93fa1b76420904d70a39d5d79d14e052383c3cb176ffe74a6"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0018.dat.json",
+      "sha256": "0619fe5a6e9791ea1c955c2285604307d1d35d8a9f1b59a2a59cf02b65d9eb48"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0019.dat.json",
+      "sha256": "50576d07340de4e017d80040300a3228dbd61c958da2177f1d8418c50f991174"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0020.dat.json",
+      "sha256": "c02053a24c446d3ace24b0ec18bb514737139856172afc9e92c9b699476b7193"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0021.dat.json",
+      "sha256": "ee99b96b53db9deea4a05c231a78db38df87640cbe2395a40270497a4e5ed852"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0022.dat.json",
+      "sha256": "bd2332131915ccdedbf3d79f34088dc7cfec7a66dcdb495e4de59cb600f6116c"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0023.dat.json",
+      "sha256": "4e1aad5bad8bc02694f9a6e44090eef41362314741840e94c401965a33fd701e"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0024.dat.json",
+      "sha256": "5f6c39df251a90255634362e25d1781479d21d1f7c044dc2b9d8ad19875e3e8c"
+    },
+    {
+      "path": "test_img/1253.png",
+      "sha256": "6973ac12fe81efe8d4ebe78786d3a6610a8893e03f1ecc7eccfce78a4ee6778a"
+    },
+    {
+      "path": "test_img/mm6_worldmap.jpg",
+      "sha256": "314635befb5168e052b75403b26c4ad33281d77af1fb11d016c3f787ac97180c"
+    }
+  ]
+}

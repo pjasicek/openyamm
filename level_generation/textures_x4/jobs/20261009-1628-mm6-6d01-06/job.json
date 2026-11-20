@@ -1,0 +1,429 @@
+{
+ "id": "20261009-1628-mm6-6d01-06",
+ "world": "mm6",
+ "maps": [
+  "6d01.blv",
+  "6d17.blv"
+ ],
+ "created": "2026-10-09T14:28:25+00:00",
+ "textures": [
+  "mm6/t1d1",
+  "mm6/t1d2",
+  "mm6/t1d3e",
+  "mm6/t1doors",
+  "mm6/t1spcla",
+  "mm6/t1swdd",
+  "mm6/t1swdu",
+  "mm6/t1trimb",
+  "mm6/t1trm1",
+  "mm6/t1trm2",
+  "mm6/t3d3",
+  "mm6/t3f1",
+  "mm6/t3oor2",
+  "mm6/t3t5",
+  "mm6/t3t6",
+  "mm6/t3t8",
+  "mm6/d3ll6",
+  "mm6/t3ll6",
+  "mm6/d7wl1ctr",
+  "mm6/tdoorb",
+  "mm6/d7wl1ctr2",
+  "mm6/d6uniqa",
+  "mm6/tewm",
+  "mm6/tdoorc"
+ ],
+ "requests": {
+  "mm6/t1d1": {
+   "name": "t1d1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "temple door panel of pink veined marble framing a grey stone arched niche with a carved relief of two wrestling figures, bronze handle on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm6/t1wl4ctl",
+     "right": "mm6/t1d2",
+     "left": "mm6/t1wl4reb"
+    }
+   }
+  },
+  "mm6/t1d2": {
+   "name": "t1d2",
+   "versions": [
+    1
+   ],
+   "material": "temple door panel of pink veined marble framing a grey stone arched niche with a carved relief of a crouching beast and figure, bronze handle on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1d3e": {
+   "name": "t1d3e",
+   "versions": [
+    1
+   ],
+   "material": "plain pink-cream veined marble strip with soft grey mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1doors": {
+   "name": "t1doors",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow pink-cream veined marble door jamb strip with grey mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1spcla": {
+   "name": "t1spcla",
+   "versions": [
+    1
+   ],
+   "material": "pink veined marble wall panel with a tall dark green marble frame divided into two stacked rectangular openings; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1swdd": {
+   "name": "t1swdd",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small wall switch, a dark red round push button pressed in a tan stone frame",
+   "notes": {
+    "2": "Pressed-down switch: the button sits recessed in a dark shadowed socket inside a dark frame, as in the reference; keep the reference's darker red-brown colours, not a light marble frame."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1swdu": {
+   "name": "t1swdu",
+   "versions": [
+    1
+   ],
+   "material": "small wall switch, a glowing orange round push button raised in a tan stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1trimb": {
+   "name": "t1trimb",
+   "versions": [
+    1
+   ],
+   "material": "pink-cream speckled marble block with a darker bevelled lower edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1trm1": {
+   "name": "t1trm1",
+   "versions": [
+    1
+   ],
+   "material": "grey-green marble frieze strip with a pale carved Greek key meander border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1trm2": {
+   "name": "t1trm2",
+   "versions": [
+    1
+   ],
+   "material": "grey-green marble vertical strip with a pale carved Greek key meander border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3d3": {
+   "name": "t3d3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey stone door frame around dark weathered wooden planks with an iron grille, overgrown with hanging green vines; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3f1": {
+   "name": "t3f1",
+   "versions": [
+    1
+   ],
+   "material": "mossy temple floor tile, a pale cracked stone square on a blue four-pointed star inlay over dark red stone, overgrown with green ivy; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3oor2": {
+   "name": "t3oor2",
+   "versions": [
+    1
+   ],
+   "material": "rippled orange-brown sand with wind-blown wavy dune ridges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3t5": {
+   "name": "t3t5",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "reddish-brown stone floor tile with a raised bevelled red-brown border and a blood-stained mottled centre",
+   "notes": {
+    "2": "Keep the same thin, uniform near-black joint line along all four outer edges as in the reference (top edge included), so tiles join seamlessly; no light bevel touching the border.",
+    "3": "Copy the bevelled frame exactly: no dark line along the top or left outer edge; frame widths and shading as in the reference so stacked tiles show a single joint."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3t6": {
+   "name": "t3t6",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small reddish-brown stone floor tile with a raised bevelled red-brown border and a blood-stained mottled centre",
+   "notes": {
+    "2": "Keep the same thin, uniform near-black joint line along all four outer edges as in the reference (top edge included), so tiles join seamlessly; no light bevel touching the border.",
+    "3": "Copy the bevelled frame exactly: no dark outline along the top or left outer edge; frame widths and shading as in the reference so stacked tiles show a single joint."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3t8": {
+   "name": "t3t8",
+   "versions": [
+    1
+   ],
+   "material": "carved grey bone-white skull relief on dark rough stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d3ll6": {
+   "name": "d3ll6",
+   "versions": [
+    1
+   ],
+   "material": "rough dark reddish-brown earthen cave rock with cracked craggy relief",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3ll6": {
+   "name": "t3ll6",
+   "versions": [
+    1
+   ],
+   "material": "rough dark reddish-brown earthen cave rock with cracked craggy relief",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7wl1ctr": {
+   "name": "d7wl1ctr",
+   "versions": [
+    1
+   ],
+   "material": "rough tan sandstone block wall with a dark stone lintel band at the top bearing a carved red demon face medallion in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tdoorb": {
+   "name": "tdoorb",
+   "versions": [
+    1
+   ],
+   "material": "double door of dark red-brown lacquered wood with two burled amber wood panels each and a pair of vertical brass pull handles in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7wl1ctr2": {
+   "name": "d7wl1ctr2",
+   "versions": [
+    1
+   ],
+   "material": "rough tan sandstone block wall with irregular blocks and dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.544
+    }
+   }
+  },
+  "mm6/d6uniqa": {
+   "name": "d6uniqa",
+   "versions": [
+    1
+   ],
+   "material": "dark mottled green marble with black and pale green veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tewm": {
+   "name": "tewm",
+   "versions": [
+    1
+   ],
+   "material": "dark grey cobbled rubble stone wall with a vertical black recessed seam in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tdoorc": {
+   "name": "tdoorc",
+   "versions": [
+    1
+   ],
+   "material": "single door of dark red-brown lacquered wood with one burled amber wood panel and a vertical brass pull handle on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tdoorb"
+     ],
+     "fraction": 0.792
+    }
+   }
+  }
+ }
+}

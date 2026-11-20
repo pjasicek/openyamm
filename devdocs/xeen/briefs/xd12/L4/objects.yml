@@ -1,0 +1,2821 @@
+format: 0
+start:
+  room: room:gate_hall
+  at: [2752, 0]
+  facing: 180
+  notes: "Inside the tower door, facing west through the gate hall's arch toward the Well."
+doors:
+  - id: door:bedchamber
+    opening: open:hall_bedchamber
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:cells
+    opening: open:cistern_cells
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:crypt
+    opening: open:hands_crypt
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:darzog_hall
+    opening: open:state_hall
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: "Darzog's doors: two plank leaves that part."
+  - id: door:darzog_study
+    opening: open:hall_study
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:disc_grille
+    opening: open:disc_landing
+    kind: slide_up
+    fold: true
+    surface: {texture: c1d1, size: [128, 256]}
+    tile: true
+    notes: "A black iron grille (the School of Sorcery's grate c1d1) over the disc's landing; open only while the disc is up and Darzog is dead."
+  - id: door:guardroom
+    opening: open:gate_guardroom
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:library_stair
+    opening: open:library_lstair
+    kind: slide_left
+    fold: true
+    surface: {texture: hhm1d2, size: [128, 256]}
+    tile: true
+    notes: "The library stair door (the School of Sorcery's carved door hhm1d2), locked: the High Sorcerer's key."
+  - id: door:portrait
+    opening: open:bedchamber_cell
+    kind: slide_up
+    surface: {texture: cnbport-3, size: [128, 256]}
+    secret: true
+    back_surface: {texture: cnb, size: [128, 256]}
+    notes: "Darzog's portrait over the cell's door: a secret leaf (cnbport-3) that rises once Darzog is dead."
+  - id: door:quarters
+    opening: open:assembly_quarters
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:smelter
+    opening: open:forge_smelter
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:storeroom
+    opening: open:gate_store
+    kind: slide_left
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+  - id: door:study_nw
+    opening: open:reading_study_nw
+    kind: slide_left
+    fold: true
+    surface: {texture: hhm1d2, size: [128, 256]}
+    tile: true
+  - id: door:study_sw
+    opening: open:great_study_sw
+    kind: slide_left
+    fold: true
+    surface: {texture: hhm1d2, size: [128, 256]}
+    tile: true
+  - id: door:works_gate
+    opening: open:works_estair
+    kind: slide_up
+    fold: true
+    surface: {texture: c1d1, size: [128, 256]}
+    tile: true
+    notes: "The works gate: an iron portcullis (c1d1) between the east walk and the east stair hall."
+lifts:
+  - id: lift:trap1
+    room: room:works_n
+    at: [-1152, 1408]
+    size: [256, 256]
+    travel: 736
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: c1t1fl, size: [128, 128]}
+    notes: "A trapdoor in room:library_n's floor: a hatch of cracked flags (c1t1fl) sagging 32 below the library floor in a broken rim of red rubble (the hole's sides, cfb1), loose stones round it; it drops to room:works_n."
+  - id: lift:trap2
+    room: room:forge
+    at: [1216, 2496]
+    size: [256, 256]
+    travel: 736
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: c1t1fl, size: [128, 128]}
+    notes: "A trapdoor in room:reading_room's floor: a hatch of cracked flags (c1t1fl) sagging 32 below the library floor in a broken rim of red rubble (the hole's sides, cfb1), loose stones round it; it drops to room:forge."
+  - id: lift:trap3
+    room: room:works_w
+    at: [-1408, -1152]
+    size: [256, 256]
+    travel: 736
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: c1t1fl, size: [128, 128]}
+    notes: "A trapdoor in room:library_w's floor: a hatch of cracked flags (c1t1fl) sagging 32 below the library floor in a broken rim of red rubble (the hole's sides, cfb1), loose stones round it; it drops to room:works_w."
+  - id: lift:trap4
+    room: room:parts_store
+    at: [2240, -2560]
+    size: [256, 256]
+    travel: 736
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: c1t1fl, size: [128, 128]}
+    notes: "A trapdoor in room:study_se's floor: a hatch of cracked flags (c1t1fl) sagging 32 below the library floor in a broken rim of red rubble (the hole's sides, cfb1), loose stones round it; it drops to room:parts_store."
+  - id: lift:trap5
+    room: room:scrap_hall
+    at: [-2496, 2304]
+    size: [256, 256]
+    travel: 736
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: c1t1fl, size: [128, 128]}
+    notes: "A trapdoor in room:study_nw's floor: a hatch of cracked flags (c1t1fl) sagging 32 below the library floor in a broken rim of red rubble (the hole's sides, cfb1), loose stones round it; it drops to room:scrap_hall."
+movers:
+  - id: mover:disc
+    room: room:well
+    at: [0, 672]
+    size: [384, 384]
+    bottom: 2256
+    height: 48
+    travel: [0, 0, -2302]
+    speed: 384
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: td1, size: [512, 512], scale: 0.75}
+    notes: "Darzog's disc: a slab of stone 384 square and 48 thick, the summoning circle on its top, riding the Well's north face between Darzog's floor (its start, top at 2304) and the gate floor (its end, top 2 above the floor). A mover rather than a lift so that its sides and underside take their own stone."
+floors:
+  - {id: floor:cistern, of: level:cistern, kind: water}
+  - {id: floor:forge_lava, of: level:forge_lava, kind: lava}
+  - {id: floor:smelter_pit, of: level:smelter_pit, kind: lava}
+lights:
+  - id: light:chandelier_0
+    room: room:reading_room
+    at: [-896, 2496]
+    height: 520
+    radius: 1000
+    color: [255, 220, 170]
+  - id: light:chandelier_1
+    room: room:reading_room
+    at: [896, 2496]
+    height: 520
+    radius: 1000
+    color: [255, 220, 170]
+  - id: light:chandelier_2
+    room: room:great_library
+    at: [-896, -2496]
+    height: 520
+    radius: 1000
+    color: [255, 220, 170]
+  - id: light:chandelier_3
+    room: room:great_library
+    at: [896, -2496]
+    height: 520
+    radius: 1000
+    color: [255, 220, 170]
+  - id: light:crodo
+    room: room:crodo_cell
+    at: [2816, 2816]
+    height: 400
+    radius: 600
+    color: [200, 210, 255]
+  - id: light:dais
+    room: room:darzog_hall
+    at: [1440, 2496]
+    height: 400
+    radius: 900
+    color: [180, 200, 255]
+    pulse: {intensity: [0.6, 1], frequency: 1.5}
+    notes: Cold light on the dais.
+  - id: light:darzog_study
+    room: room:darzog_study
+    at: [-2176, 2560]
+    height: 180
+    radius: 700
+    color: [255, 200, 150]
+  - id: light:forge_lava_e
+    room: room:forge
+    at: [768, 2848]
+    height: 64
+    radius: 900
+    color: [255, 110, 40]
+    pulse: {intensity: [0.7, 1], frequency: 0.9, phase: 0.5}
+  - id: light:forge_lava_w
+    room: room:forge
+    at: [-768, 2848]
+    height: 64
+    radius: 900
+    color: [255, 110, 40]
+    pulse: {intensity: [0.7, 1], frequency: 0.7}
+  - id: light:hall_candle_0
+    room: room:darzog_hall
+    at: [-1536, 2176]
+    height: 200
+    radius: 800
+    color: [255, 200, 150]
+  - id: light:hall_candle_1
+    room: room:darzog_hall
+    at: [-1536, 2816]
+    height: 200
+    radius: 800
+    color: [255, 200, 150]
+  - id: light:hall_candle_2
+    room: room:darzog_hall
+    at: [896, 2176]
+    height: 200
+    radius: 800
+    color: [255, 200, 150]
+  - id: light:hall_candle_3
+    room: room:darzog_hall
+    at: [896, 2816]
+    height: 200
+    radius: 800
+    color: [255, 200, 150]
+  - id: light:lightning_0
+    room: room:well
+    at: [0, 0]
+    height: 96
+    radius: 1400
+    color: [170, 200, 255]
+    pulse: {intensity: [0.35, 1], frequency: 2.5}
+    notes: "Darzog's lightning: a pulsing column of blue-white light up the Well's axis."
+  - id: light:lightning_1
+    room: room:well
+    at: [0, 0]
+    height: 900
+    radius: 1400
+    color: [170, 200, 255]
+    pulse: {intensity: [0.35, 1], frequency: 2.9}
+    notes: "Darzog's lightning: a pulsing column of blue-white light up the Well's axis."
+  - id: light:lightning_2
+    room: room:well
+    at: [0, 0]
+    height: 1700
+    radius: 1400
+    color: [170, 200, 255]
+    pulse: {intensity: [0.35, 1], frequency: 3.3}
+    notes: "Darzog's lightning: a pulsing column of blue-white light up the Well's axis."
+  - id: light:lightning_3
+    room: room:well
+    at: [0, 0]
+    height: 2500
+    radius: 1400
+    color: [170, 200, 255]
+    pulse: {intensity: [0.35, 1], frequency: 3.7}
+    notes: "Darzog's lightning: a pulsing column of blue-white light up the Well's axis."
+  - id: light:lightning_4
+    room: room:well
+    at: [0, 0]
+    height: 3300
+    radius: 1400
+    color: [170, 200, 255]
+    pulse: {intensity: [0.35, 1], frequency: 4.1}
+    notes: "Darzog's lightning: a pulsing column of blue-white light up the Well's axis."
+  - id: light:sconce_122
+    room: room:library_n
+    at: [-640, 1064]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_123
+    room: room:library_n
+    at: [640, 1064]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_124
+    room: room:library_n
+    at: [-992, 1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_125
+    room: room:library_n
+    at: [-1440, 1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_126
+    room: room:library_n
+    at: [-1752, 1408]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_127
+    room: room:library_e
+    at: [1752, -416]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_128
+    room: room:library_e
+    at: [1752, 1184]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_129
+    room: room:library_e
+    at: [1408, 1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_130
+    room: room:library_e
+    at: [1064, 400]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_131
+    room: room:library_e
+    at: [1064, -720]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_132
+    room: room:library_s
+    at: [992, -1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_133
+    room: room:library_s
+    at: [1440, -1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_134
+    room: room:library_s
+    at: [1752, -1408]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_135
+    room: room:library_s
+    at: [640, -1064]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_136
+    room: room:library_s
+    at: [-640, -1064]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_137
+    room: room:library_w
+    at: [-1408, -1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_138
+    room: room:library_w
+    at: [-1064, -640]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_139
+    room: room:library_w
+    at: [-1064, 640]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_140
+    room: room:library_w
+    at: [-1752, -176]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_141
+    room: room:library_w
+    at: [-1752, -1168]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_142
+    room: room:study_ne
+    at: [2656, 1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_143
+    room: room:study_ne
+    at: [3032, 2496]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_144
+    room: room:study_ne
+    at: [2752, 3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_145
+    room: room:study_ne
+    at: [1960, 2752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_146
+    room: room:study_nw
+    at: [-2496, 1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_147
+    room: room:study_nw
+    at: [-1960, 2240]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_148
+    room: room:study_nw
+    at: [-2240, 3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_149
+    room: room:study_nw
+    at: [-3032, 2496]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_150
+    room: room:study_se
+    at: [2240, -3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_151
+    room: room:study_se
+    at: [3032, -2496]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_152
+    room: room:study_se
+    at: [2240, -1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_153
+    room: room:study_se
+    at: [1960, -2240]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_154
+    room: room:study_sw
+    at: [-2752, -3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_155
+    room: room:study_sw
+    at: [-1960, -2752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_156
+    room: room:study_sw
+    at: [-2496, -1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_157
+    room: room:study_sw
+    at: [-3032, -2496]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_158
+    room: room:reading_room
+    at: [-1237, 1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_159
+    room: room:reading_room
+    at: [384, 1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_160
+    room: room:reading_room
+    at: [1237, 1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_161
+    room: room:reading_room
+    at: [1752, 2240]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_162
+    room: room:reading_room
+    at: [512, 3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_163
+    room: room:reading_room
+    at: [-1280, 3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_164
+    room: room:reading_room
+    at: [-1536, 3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_165
+    room: room:reading_room
+    at: [-1752, 2752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_166
+    room: room:great_library
+    at: [-544, -3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_167
+    room: room:great_library
+    at: [32, -3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_168
+    room: room:great_library
+    at: [608, -3032]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_169
+    room: room:great_library
+    at: [1752, -2752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_170
+    room: room:great_library
+    at: [1237, -1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_171
+    room: room:great_library
+    at: [-384, -1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_172
+    room: room:great_library
+    at: [-1237, -1960]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_173
+    room: room:great_library
+    at: [-1752, -2184]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_174
+    room: room:library_stair
+    at: [-2240, -1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_175
+    room: room:library_stair
+    at: [-1960, -1216]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_176
+    room: room:library_stair
+    at: [-1960, -320]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_177
+    room: room:library_stair
+    at: [-1960, 1216]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:sconce_178
+    room: room:library_stair
+    at: [-2656, 1752]
+    height: 176
+    radius: 700
+    color: [255, 205, 150]
+    notes: The candles of the sconce beside it.
+  - id: light:smelter
+    room: room:smelter
+    at: [2496, 2496]
+    height: 64
+    radius: 900
+    color: [255, 110, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.8}
+  - id: light:study_endurance
+    room: room:study_sw
+    at: [-2688, -2880]
+    height: 160
+    radius: 700
+    color: [255, 210, 150]
+  - id: light:study_intellect
+    room: room:study_nw
+    at: [-2688, 2880]
+    height: 160
+    radius: 700
+    color: [255, 210, 150]
+  - id: light:study_might
+    room: room:study_se
+    at: [2688, -2880]
+    height: 160
+    radius: 700
+    color: [255, 210, 150]
+  - id: light:study_personality
+    room: room:study_ne
+    at: [2688, 2880]
+    height: 160
+    radius: 700
+    color: [255, 210, 150]
+  - id: light:vats
+    room: room:clone_vats
+    at: [2496, -2496]
+    height: 300
+    radius: 900
+    color: [140, 255, 140]
+    pulse: {intensity: [0.5, 1], frequency: 0.6}
+switches:
+  - id: switch:disc_call_bottom
+    room: room:well
+    kind: button
+    at: [400, 896]
+    height: 112
+    notes: "Call button on the Well's north face beside the arch, at the disc's foot."
+  - id: switch:disc_call_top
+    room: room:state_n
+    kind: button
+    at: [320, 1024]
+    height: 112
+    notes: Call button beside the disc's grille on Darzog's floor.
+  - id: switch:disc_ride_top
+    room: room:well
+    kind: button
+    at: [320, 896]
+    floor_height: 0
+    height: 2416
+    notes: "A button on the Well's north face beside the landing, in reach of a rider on the disc at the top."
+  - id: switch:winch_trap1
+    room: room:works_n
+    kind: lever
+    base: {texture: ckb, size: [128, 256]}
+    at: [-1152, 1792]
+    off: {texture: cwb, size: [128, 256]}
+    notes: "The hatch's winch: raises it again."
+  - id: switch:winch_trap2
+    room: room:forge
+    kind: lever
+    base: {texture: ckb, size: [128, 256]}
+    at: [1792, 2176]
+    off: {texture: cwb, size: [128, 256]}
+    notes: "The hatch's winch: raises it again."
+  - id: switch:winch_trap3
+    room: room:works_w
+    kind: lever
+    base: {texture: ckb, size: [128, 256]}
+    at: [-1792, -1152]
+    off: {texture: cwb, size: [128, 256]}
+    notes: "The hatch's winch: raises it again."
+  - id: switch:winch_trap4
+    room: room:parts_store
+    kind: lever
+    base: {texture: ckb, size: [128, 256]}
+    at: [2240, -3072]
+    off: {texture: cwb, size: [128, 256]}
+    notes: "The hatch's winch: raises it again."
+  - id: switch:winch_trap5
+    room: room:scrap_hall
+    kind: lever
+    base: {texture: ckb, size: [128, 256]}
+    at: [-3072, 2304]
+    off: {texture: cwb, size: [128, 256]}
+    notes: "The hatch's winch: raises it again."
+  - id: switch:works_winch
+    room: room:assembly
+    kind: lever
+    base: {texture: ckb, size: [128, 256]}
+    wall: w
+    along: 0.75
+    off: {texture: cwb, size: [128, 256]}
+    notes: The works gate's winch lever on the assembly hall's west wall.
+chests:
+  - id: chest:crypt
+    room: room:crypt
+    at: [-2176, 2880]
+    facing: n
+    size: [128, 256, 72]
+    surface: {texture: cwb1, size: [128, 256]}
+    top_surface: {texture: cfb1, size: [128, 128]}
+    treasure_level: 4
+    random_items: 2
+  - id: chest:darzog_hoard
+    room: room:darzog_study
+    at: [-2880, 2048]
+    kind: 7gt002
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 1500
+  - id: chest:great_library
+    room: room:great_library
+    at: [-1600, -3008]
+    size: [256, 96, 256]
+    surface: {texture: 7t1books, size: [128, 256]}
+    end_surface: {texture: 7t1books1, size: [128, 128], uneven: true}
+    top_surface: {texture: 7t1books1, size: [128, 128]}
+    treasure_level: 4
+    random_items: 2
+  - id: chest:guard_hall
+    room: room:guard_hall
+    at: [-2048, -2048]
+    kind: 7gt002
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 600
+  - id: chest:guardroom
+    room: room:guardroom
+    at: [2944, 2176]
+    kind: 7gt002
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 400
+  - id: chest:librarian
+    room: room:great_library
+    at: [1152, -3008]
+    size: [256, 96, 256]
+    surface: {texture: 7t1cabs, size: [64, 128]}
+    end_surface: {texture: 7t1books1, size: [128, 128], uneven: true}
+    top_surface: {texture: 7t1books1, size: [128, 128]}
+    treasure_level: 4
+    random_items: 1
+    items: [library_key]
+  - id: chest:quarters
+    room: room:quarters
+    at: [-2048, -2048]
+    kind: 7gt002
+    facing: s
+    treasure_level: 4
+    random_items: 2
+  - id: chest:smelter
+    room: room:smelter
+    at: [2944, 2048]
+    kind: 7gt002
+    facing: w
+    treasure_level: 4
+    random_items: 2
+  - id: chest:storeroom
+    room: room:storeroom
+    at: [2880, -2880]
+    kind: 7gt002
+    facing: n
+    treasure_level: 4
+    random_items: 2
+    gold: 250
+spawns:
+  - id: spawn:assembly_e
+    room: room:assembly
+    at: [1024, -2432]
+    slot: 1
+    tier: b
+  - id: spawn:assembly_w
+    room: room:assembly
+    at: [-1024, -2432]
+    slot: 1
+    tier: b
+  - id: spawn:cells
+    room: room:cells
+    at: [-2496, -2368]
+    slot: 1
+    tier: b
+  - id: spawn:cistern
+    room: room:cistern
+    at: [0, -2496]
+    slot: 3
+    tier: a
+    notes: Floating eyes over the cistern.
+  - id: spawn:clone_vats
+    room: room:clone_vats
+    at: [2496, -2112]
+    slot: 1
+    tier: c
+    notes: Gold hands guarding the vats.
+  - id: spawn:forge_e
+    room: room:forge
+    at: [512, 2496]
+    slot: 1
+    tier: b
+  - id: spawn:forge_w
+    room: room:forge
+    at: [-1152, 2496]
+    slot: 1
+    tier: b
+    notes: Smiths of the hands.
+  - id: spawn:great_library
+    room: room:great_library
+    at: [-512, -2496]
+    slot: 2
+    tier: b
+  - id: spawn:guard_hall
+    room: room:guard_hall
+    at: [-2496, -2368]
+    slot: 1
+    tier: c
+    notes: "Gold hands, the Baron's guard."
+  - id: spawn:guardroom
+    room: room:guardroom
+    at: [2304, 2752]
+    slot: 1
+    tier: b
+  - id: spawn:hands_e
+    room: room:hall_of_hands
+    at: [1056, 2496]
+    slot: 1
+    tier: b
+  - id: spawn:hands_w
+    room: room:hall_of_hands
+    at: [-1056, 2496]
+    slot: 1
+    tier: b
+    notes: Carnage hands stepping off their plinths.
+  - id: spawn:library_n
+    room: room:library_n
+    at: [384, 1408]
+    slot: 3
+    tier: b
+  - id: spawn:library_s
+    room: room:library_s
+    at: [0, -1408]
+    slot: 2
+    tier: b
+  - id: spawn:library_stair
+    room: room:library_stair
+    at: [-2496, 0]
+    slot: 3
+    tier: b
+  - id: spawn:portrait_hall
+    room: room:portrait_hall
+    at: [-768, -2496]
+    slot: 2
+    tier: b
+  - id: spawn:quarters
+    room: room:quarters
+    at: [-2560, -2496]
+    slot: 2
+    tier: b
+    notes: Apprentices in their quarters.
+  - id: spawn:reading_e
+    room: room:reading_room
+    at: [1536, 2240]
+    slot: 2
+    tier: b
+  - id: spawn:reading_w
+    room: room:reading_room
+    at: [-1152, 2624]
+    slot: 2
+    tier: b
+    notes: Apprentices at their books.
+  - id: spawn:roof_n
+    room: room:roof_n
+    at: [-2048, 2304]
+    slot: 3
+    tier: b
+  - id: spawn:roof_s
+    room: room:roof_s
+    at: [1024, -2304]
+    slot: 3
+    tier: b
+  - id: spawn:scrap
+    room: room:scrap_hall
+    at: [-2304, 2560]
+    slot: 1
+    tier: b
+  - id: spawn:smelter
+    room: room:smelter
+    at: [2112, 2880]
+    slot: 1
+    tier: b
+  - id: spawn:state_s
+    room: room:state_s
+    at: [0, -1408]
+    slot: 1
+    tier: c
+  - id: spawn:study_nw
+    room: room:study_nw
+    at: [-2304, 2240]
+    slot: 3
+    tier: b
+  - id: spawn:study_sw
+    room: room:study_sw
+    at: [-2240, -2304]
+    slot: 2
+    tier: b
+  - id: spawn:well
+    room: room:well
+    at: [-384, -384]
+    slot: 3
+    tier: a
+    notes: Floating eyes drifting in the Well.
+  - id: spawn:works_e
+    room: room:works_e
+    at: [1408, -512]
+    slot: 3
+    tier: a
+  - id: spawn:wstair_gallery
+    room: room:west_stair
+    at: [-2112, 384]
+    floor_height: 768
+    slot: 1
+    tier: b
+    notes: "Hands on the upper gallery, coming down the stair."
+monsters:
+  - id: monster:clone_1
+    room: room:darzog_hall
+    monster: 294
+    at: [-1280, 2240]
+    facing: 180
+    hostile: true
+    group: 31
+    name: Darzog Clone
+    notes: "One of Darzog's six clones: his face, his robes, his lightning."
+  - id: monster:clone_2
+    room: room:darzog_hall
+    monster: 294
+    at: [-1280, 2752]
+    facing: 180
+    hostile: true
+    group: 31
+    name: Darzog Clone
+    notes: "One of Darzog's six clones: his face, his robes, his lightning."
+  - id: monster:clone_3
+    room: room:darzog_hall
+    monster: 294
+    at: [-384, 2240]
+    facing: 180
+    hostile: true
+    group: 31
+    name: Darzog Clone
+    notes: "One of Darzog's six clones: his face, his robes, his lightning."
+  - id: monster:clone_4
+    room: room:darzog_hall
+    monster: 294
+    at: [-384, 2752]
+    facing: 180
+    hostile: true
+    group: 31
+    name: Darzog Clone
+    notes: "One of Darzog's six clones: his face, his robes, his lightning."
+  - id: monster:clone_5
+    room: room:darzog_hall
+    monster: 294
+    at: [512, 2240]
+    facing: 180
+    hostile: true
+    group: 31
+    name: Darzog Clone
+    notes: "One of Darzog's six clones: his face, his robes, his lightning."
+  - id: monster:clone_6
+    room: room:darzog_hall
+    monster: 294
+    at: [512, 2752]
+    facing: 180
+    hostile: true
+    group: 31
+    name: Darzog Clone
+    notes: "One of Darzog's six clones: his face, his robes, his lightning."
+  - id: monster:crodo
+    room: room:crodo_cell
+    monster: 292
+    at: [2880, 2880]
+    facing: 225
+    hostile: false
+    group: 40
+    name: Crodo
+    immobile: true
+    notes: "Crodo (stand-in: a Sorcerer of the Mage family, an old man in blue robes), peaceful, in his cell."
+  - id: monster:darzog
+    room: room:darzog_hall
+    monster: 294
+    at: [1344, 2496]
+    floor_height: 2368
+    facing: 180
+    hostile: true
+    group: 30
+    hp: 1200
+    name: Baron Darzog
+    notes: "Baron Darzog (an Archmage, level 50; three times its hit points and his name) on his dais."
+  - id: monster:librarian
+    room: room:great_library
+    monster: 294
+    at: [1152, -2560]
+    facing: 90
+    hostile: true
+    group: 21
+    hp: 600
+    name: Chief Librarian
+    notes: The Chief Librarian (an Archmage) guards his cabinet with the library stair's key.
+decorations:
+  - id: deco:cells_bones1
+    room: room:cells
+    decoration: 7dec18
+    at: [-2112, -2624]
+  - id: deco:cells_bones2
+    room: room:cells
+    decoration: dec29
+    at: [-2880, -2240]
+  - id: deco:cells_cage1
+    room: room:cells
+    decoration: Bonecage
+    at: [-2880, -2880]
+  - id: deco:cells_cage2
+    room: room:cells
+    decoration: 7dec06
+    at: [-2368, -2880]
+    notes: A hanging cage.
+  - id: deco:cells_skeleton
+    room: room:cells
+    decoration: dec05
+    at: [-2560, -2944]
+  - id: deco:chandelier_0
+    room: room:reading_room
+    decoration: dec27
+    at: [-896, 2496]
+    notes: A chandelier hanging from the ceiling.
+  - id: deco:chandelier_1
+    room: room:reading_room
+    decoration: dec27
+    at: [896, 2496]
+    notes: A chandelier hanging from the ceiling.
+  - id: deco:chandelier_2
+    room: room:great_library
+    decoration: dec27
+    at: [-896, -2496]
+    notes: A chandelier hanging from the ceiling.
+  - id: deco:chandelier_3
+    room: room:great_library
+    decoration: dec27
+    at: [896, -2496]
+    notes: A chandelier hanging from the ceiling.
+  - id: deco:cistern_bucket
+    room: room:cistern
+    decoration: Bucket
+    at: [-1344, -2944]
+  - id: deco:crodo_bowl
+    room: room:crodo_cell
+    decoration: foodbowl
+    at: [2944, 2688]
+  - id: deco:crypt_candle
+    room: room:crypt
+    decoration: dec02
+    at: [-2496, 2496]
+  - id: deco:crypt_skulls
+    room: room:crypt
+    decoration: sklplrev
+    at: [-2944, 2496]
+  - id: deco:desk_candle
+    room: room:darzog_study
+    decoration: cndlab0
+    at: [-2660, 2510]
+    floor_height: 2384
+  - id: deco:desk_goblet
+    room: room:darzog_study
+    decoration: 7dec48
+    at: [-2400, 2500]
+    floor_height: 2384
+  - id: deco:desk_skull
+    room: room:darzog_study
+    decoration: 7dec20
+    at: [-2400, 2600]
+    floor_height: 2384
+  - id: deco:forge_brazier1
+    room: room:forge
+    decoration: brzier00
+    at: [-1664, 2048]
+  - id: deco:forge_brazier2
+    room: room:forge
+    decoration: brzier00
+    at: [1664, 2048]
+  - id: deco:forge_hand1
+    room: room:forge
+    decoration: 7dec55
+    at: [-1408, 2240]
+    notes: A half-built hand (statue).
+  - id: deco:forge_hand2
+    room: room:forge
+    decoration: 7dec55
+    at: [1408, 2240]
+  - id: deco:gate_barrel1
+    room: room:gate_hall
+    decoration: bigbarel
+    at: [2944, -1664]
+  - id: deco:gate_barrel2
+    room: room:gate_hall
+    decoration: smlbarel
+    at: [2832, -1680]
+  - id: deco:gate_bucket
+    room: room:gate_hall
+    decoration: Bucket
+    at: [2944, 1660]
+  - id: deco:hall_candelabrum_0
+    room: room:darzog_hall
+    decoration: dec02
+    at: [-1536, 2176]
+  - id: deco:hall_candelabrum_1
+    room: room:darzog_hall
+    decoration: dec02
+    at: [-1536, 2816]
+  - id: deco:hall_candelabrum_2
+    room: room:darzog_hall
+    decoration: dec02
+    at: [896, 2176]
+  - id: deco:hall_candelabrum_3
+    room: room:darzog_hall
+    decoration: dec02
+    at: [896, 2816]
+  - id: deco:hand_statue_00
+    room: room:hall_of_hands
+    decoration: 7dec54
+    at: [-1408, 2240]
+    floor_height: 64
+    notes: A carnage hand not yet woken (statue).
+  - id: deco:hand_statue_02
+    room: room:hall_of_hands
+    decoration: 7dec54
+    at: [0, 2240]
+    floor_height: 64
+    notes: A carnage hand not yet woken (statue).
+  - id: deco:hand_statue_04
+    room: room:hall_of_hands
+    decoration: 7dec54
+    at: [1408, 2240]
+    floor_height: 64
+    notes: A carnage hand not yet woken (statue).
+  - id: deco:hand_statue_11
+    room: room:hall_of_hands
+    decoration: 7dec54
+    at: [-704, 2752]
+    floor_height: 64
+    notes: A carnage hand not yet woken (statue).
+  - id: deco:hand_statue_13
+    room: room:hall_of_hands
+    decoration: 7dec54
+    at: [704, 2752]
+    floor_height: 64
+    notes: A carnage hand not yet woken (statue).
+  - id: deco:parts_barrel
+    room: room:parts_store
+    decoration: bigbarel
+    at: [2944, -2944]
+  - id: deco:parts_barrel2
+    room: room:parts_store
+    decoration: smlbarel
+    at: [2816, -2944]
+  - id: deco:parts_sack
+    room: room:parts_store
+    decoration: floursac
+    at: [2048, -2944]
+  - id: deco:quarters_candle
+    room: room:quarters
+    decoration: cndlab0
+    at: [-2304, -2304]
+    floor_height: 840
+  - id: deco:reading_candle_0
+    room: room:reading_room
+    decoration: cndlab0
+    at: [-640, 2304]
+    floor_height: 1608
+  - id: deco:reading_candle_1
+    room: room:reading_room
+    decoration: cndlab0
+    at: [128, 2304]
+    floor_height: 1608
+  - id: deco:reading_candle_2
+    room: room:reading_room
+    decoration: cndlab0
+    at: [896, 2304]
+    floor_height: 1608
+  - id: deco:rock_00
+    room: room:out_n
+    decoration: 6rock01
+    at: [-1792, 3600]
+  - id: deco:rock_01
+    room: room:out_n
+    decoration: 6rock05
+    at: [1280, 3600]
+  - id: deco:rock_10
+    room: room:out_w
+    decoration: 6rock01
+    at: [-3600, -1792]
+  - id: deco:rock_11
+    room: room:out_w
+    decoration: 6rock05
+    at: [-3600, 1280]
+  - id: deco:rock_20
+    room: room:out_s
+    decoration: 6rock01
+    at: [1792, -3600]
+  - id: deco:rock_21
+    room: room:out_s
+    decoration: 6rock05
+    at: [-1280, -3600]
+  - id: deco:rock_30
+    room: room:out_e
+    decoration: 6rock01
+    at: [3600, 1792]
+  - id: deco:rock_31
+    room: room:out_e
+    decoration: 6rock05
+    at: [3600, -1280]
+  - id: deco:scrap_0
+    room: room:scrap_hall
+    decoration: trasheap
+    at: [-2880, 2880]
+  - id: deco:scrap_1
+    room: room:scrap_hall
+    decoration: 7dec01
+    at: [-2240, 2944]
+  - id: deco:scrap_2
+    room: room:scrap_hall
+    decoration: 7dec10
+    at: [-2880, 2240]
+  - id: deco:scrap_3
+    room: room:scrap_hall
+    decoration: trasheap
+    at: [-2176, 2176]
+  - id: deco:store_barrel1
+    room: room:storeroom
+    decoration: bigbarel
+    at: [2176, -2176]
+  - id: deco:store_barrel2
+    room: room:storeroom
+    decoration: bigbarel
+    at: [2368, -2176]
+  - id: deco:store_sack1
+    room: room:storeroom
+    decoration: floursac
+    at: [2944, -2624]
+  - id: deco:store_sack2
+    room: room:storeroom
+    decoration: bag01
+    at: [2624, -2944]
+  - id: deco:study_candle
+    room: room:darzog_study
+    decoration: dec02
+    at: [-2176, 2560]
+  - id: deco:study_candle_endurance
+    room: room:study_sw
+    decoration: dec02
+    at: [-2688, -2880]
+  - id: deco:study_candle_intellect
+    room: room:study_nw
+    decoration: dec02
+    at: [-2688, 2880]
+  - id: deco:study_candle_might
+    room: room:study_se
+    decoration: dec02
+    at: [2688, -2880]
+  - id: deco:study_candle_personality
+    room: room:study_ne
+    decoration: dec02
+    at: [2688, 2880]
+  - id: deco:torch_estair_2
+    room: room:east_stair
+    decoration: torch02
+    floor_height: 768
+    wall: e
+    along: 0.25
+    height: 896
+  - id: deco:torch_wstair_3
+    room: room:west_stair
+    decoration: torch02
+    floor_height: 0
+    wall: e
+    along: 0.75
+    height: 896
+  - id: deco:trap1_bones_0
+    room: room:library_n
+    decoration: dec29
+    at: [-1322, 1348]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap1_bones_1
+    room: room:library_n
+    decoration: dec29
+    at: [-1212, 1580]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap1_bones_2
+    room: room:library_n
+    decoration: 7dec20
+    at: [-980, 1558]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap2_bones_0
+    room: room:reading_room
+    decoration: dec29
+    at: [1046, 2436]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap2_bones_1
+    room: room:reading_room
+    decoration: dec29
+    at: [1156, 2668]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap2_bones_2
+    room: room:reading_room
+    decoration: 7dec20
+    at: [1388, 2646]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap3_bones_0
+    room: room:library_w
+    decoration: dec29
+    at: [-1578, -1212]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap3_bones_1
+    room: room:library_w
+    decoration: dec29
+    at: [-1468, -980]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap3_bones_2
+    room: room:library_w
+    decoration: 7dec20
+    at: [-1236, -1002]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap4_bones_0
+    room: room:study_se
+    decoration: dec29
+    at: [2070, -2620]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap4_bones_1
+    room: room:study_se
+    decoration: dec29
+    at: [2180, -2388]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap4_bones_2
+    room: room:study_se
+    decoration: 7dec20
+    at: [2412, -2410]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap5_bones_0
+    room: room:study_nw
+    decoration: dec29
+    at: [-2666, 2244]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap5_bones_1
+    room: room:study_nw
+    decoration: dec29
+    at: [-2556, 2476]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:trap5_bones_2
+    room: room:study_nw
+    decoration: 7dec20
+    at: [-2324, 2454]
+    notes: "Bones by the broken flags: someone who did not mind them."
+  - id: deco:tree_00
+    room: room:out_n
+    decoration: 7tree01
+    at: [-2944, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_01
+    room: room:out_n
+    decoration: 6tree03
+    at: [-2176, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_02
+    room: room:out_n
+    decoration: 6tree07
+    at: [-1408, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_03
+    room: room:out_n
+    decoration: 6tree09
+    at: [-640, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_04
+    room: room:out_n
+    decoration: 7tree16
+    at: [384, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_05
+    room: room:out_n
+    decoration: 6tree17
+    at: [1024, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_06
+    room: room:out_n
+    decoration: 7tree01
+    at: [1664, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_07
+    room: room:out_n
+    decoration: 6tree03
+    at: [2432, 3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_08
+    room: room:out_w
+    decoration: 6tree07
+    at: [-3536, -2944]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_09
+    room: room:out_w
+    decoration: 6tree09
+    at: [-3536, -2176]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_10
+    room: room:out_w
+    decoration: 7tree16
+    at: [-3536, -1408]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_11
+    room: room:out_w
+    decoration: 6tree17
+    at: [-3536, -640]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_12
+    room: room:out_w
+    decoration: 7tree01
+    at: [-3536, 384]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_13
+    room: room:out_w
+    decoration: 6tree03
+    at: [-3536, 1024]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_14
+    room: room:out_w
+    decoration: 6tree07
+    at: [-3536, 1664]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_15
+    room: room:out_w
+    decoration: 6tree09
+    at: [-3536, 2432]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_16
+    room: room:out_s
+    decoration: 7tree16
+    at: [2944, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_17
+    room: room:out_s
+    decoration: 6tree17
+    at: [2176, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_18
+    room: room:out_s
+    decoration: 7tree01
+    at: [1408, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_19
+    room: room:out_s
+    decoration: 6tree03
+    at: [640, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_20
+    room: room:out_s
+    decoration: 6tree07
+    at: [-384, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_21
+    room: room:out_s
+    decoration: 6tree09
+    at: [-1024, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_22
+    room: room:out_s
+    decoration: 7tree16
+    at: [-1664, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_23
+    room: room:out_s
+    decoration: 6tree17
+    at: [-2432, -3536]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_24
+    room: room:out_e
+    decoration: 7tree01
+    at: [3536, 2944]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_25
+    room: room:out_e
+    decoration: 6tree03
+    at: [3536, 2176]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_26
+    room: room:out_e
+    decoration: 6tree07
+    at: [3536, 1408]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_27
+    room: room:out_e
+    decoration: 6tree09
+    at: [3536, 640]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_28
+    room: room:out_e
+    decoration: 7tree16
+    at: [3536, -384]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_29
+    room: room:out_e
+    decoration: 6tree17
+    at: [3536, -1024]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_30
+    room: room:out_e
+    decoration: 7tree01
+    at: [3536, -1664]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:tree_31
+    room: room:out_e
+    decoration: 6tree03
+    at: [3536, -2432]
+    notes: A tree on the island at the keep's foot.
+  - id: deco:wall_torch_000
+    room: room:cloister_n
+    decoration: torch02
+    wall: 0
+    along: 0.4091
+  - id: deco:wall_torch_001
+    room: room:cloister_n
+    decoration: torch02
+    wall: 0
+    along: 0.8636
+  - id: deco:wall_torch_002
+    room: room:cloister_n
+    decoration: torch02
+    wall: 2
+    along: 0.2045
+  - id: deco:wall_torch_003
+    room: room:cloister_n
+    decoration: torch02
+    wall: 2
+    along: 0.7955
+  - id: deco:wall_torch_004
+    room: room:cloister_n
+    decoration: torch02
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_005
+    room: room:cloister_e
+    decoration: torch02
+    wall: 1
+    along: 0.1818
+  - id: deco:wall_torch_006
+    room: room:cloister_e
+    decoration: torch02
+    wall: 1
+    along: 0.8182
+  - id: deco:wall_torch_007
+    room: room:cloister_e
+    decoration: torch02
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_008
+    room: room:cloister_e
+    decoration: torch02
+    wall: 3
+    along: 0.4091
+  - id: deco:wall_torch_009
+    room: room:cloister_e
+    decoration: torch02
+    wall: 3
+    along: 0.8636
+  - id: deco:wall_torch_010
+    room: room:cloister_s
+    decoration: torch02
+    wall: 0
+    along: 0.2045
+  - id: deco:wall_torch_011
+    room: room:cloister_s
+    decoration: torch02
+    wall: 0
+    along: 0.7955
+  - id: deco:wall_torch_012
+    room: room:cloister_s
+    decoration: torch02
+    wall: 1
+    along: 0.5
+  - id: deco:wall_torch_013
+    room: room:cloister_s
+    decoration: torch02
+    wall: 2
+    along: 0.4091
+  - id: deco:wall_torch_014
+    room: room:cloister_s
+    decoration: torch02
+    wall: 2
+    along: 0.8636
+  - id: deco:wall_torch_015
+    room: room:cloister_w
+    decoration: torch02
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_016
+    room: room:cloister_w
+    decoration: torch02
+    wall: 1
+    along: 0.4091
+  - id: deco:wall_torch_017
+    room: room:cloister_w
+    decoration: torch02
+    wall: 1
+    along: 0.8636
+  - id: deco:wall_torch_018
+    room: room:cloister_w
+    decoration: torch02
+    wall: 3
+    along: 0.2159
+  - id: deco:wall_torch_019
+    room: room:cloister_w
+    decoration: torch02
+    wall: 3
+    along: 0.7841
+  - id: deco:wall_torch_020
+    room: room:guardroom
+    decoration: torch02
+    wall: 0
+    along: 0.2778
+  - id: deco:wall_torch_021
+    room: room:guardroom
+    decoration: torch02
+    wall: 1
+    along: 0.7639
+  - id: deco:wall_torch_022
+    room: room:guardroom
+    decoration: torch02
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_023
+    room: room:guardroom
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_024
+    room: room:crypt
+    decoration: torch02
+    wall: 0
+    along: 0.7222
+  - id: deco:wall_torch_025
+    room: room:crypt
+    decoration: torch02
+    wall: 1
+    along: 0.1944
+  - id: deco:wall_torch_026
+    room: room:crypt
+    decoration: torch02
+    wall: 2
+    along: 0.7639
+  - id: deco:wall_torch_027
+    room: room:crypt
+    decoration: torch02
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_028
+    room: room:storeroom
+    decoration: torch02
+    wall: 0
+    along: 0.6667
+  - id: deco:wall_torch_029
+    room: room:storeroom
+    decoration: torch02
+    wall: 1
+    along: 0.3819
+  - id: deco:wall_torch_030
+    room: room:storeroom
+    decoration: torch02
+    wall: 2
+    along: 0.8056
+  - id: deco:wall_torch_031
+    room: room:storeroom
+    decoration: torch02
+    wall: 3
+    along: 0.1944
+  - id: deco:wall_torch_032
+    room: room:cells
+    decoration: torch02
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_033
+    room: room:cells
+    decoration: torch02
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_034
+    room: room:cells
+    decoration: torch02
+    wall: 2
+    along: 0.2778
+  - id: deco:wall_torch_035
+    room: room:cells
+    decoration: torch02
+    wall: 3
+    along: 0.3611
+  - id: deco:wall_torch_036
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 0
+    along: 0.1548
+  - id: deco:wall_torch_037
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 0
+    along: 0.6071
+  - id: deco:wall_torch_038
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 0
+    along: 0.8452
+  - id: deco:wall_torch_039
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_040
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 2
+    along: 0.1607
+  - id: deco:wall_torch_041
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_042
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 2
+    along: 0.8393
+  - id: deco:wall_torch_043
+    room: room:hall_of_hands
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_044
+    room: room:cistern
+    decoration: torch02
+    wall: 0
+    along: 0.1756
+  - id: deco:wall_torch_045
+    room: room:cistern
+    decoration: torch02
+    wall: 0
+    along: 0.4554
+  - id: deco:wall_torch_046
+    room: room:cistern
+    decoration: torch02
+    wall: 0
+    along: 0.8244
+  - id: deco:wall_torch_047
+    room: room:cistern
+    decoration: torch02
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_048
+    room: room:cistern
+    decoration: torch02
+    wall: 2
+    along: 0.1548
+  - id: deco:wall_torch_049
+    room: room:cistern
+    decoration: torch02
+    wall: 2
+    along: 0.6071
+  - id: deco:wall_torch_050
+    room: room:cistern
+    decoration: torch02
+    wall: 2
+    along: 0.8452
+  - id: deco:wall_torch_051
+    room: room:cistern
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_052
+    room: room:gate_hall
+    decoration: torch02
+    wall: 0
+    along: 0.2778
+  - id: deco:wall_torch_053
+    room: room:gate_hall
+    decoration: torch02
+    wall: 1
+    along: 0.2321
+  - id: deco:wall_torch_054
+    room: room:gate_hall
+    decoration: torch02
+    wall: 1
+    along: 0.4464
+  - id: deco:wall_torch_055
+    room: room:gate_hall
+    decoration: torch02
+    wall: 1
+    along: 0.7679
+  - id: deco:wall_torch_056
+    room: room:gate_hall
+    decoration: torch02
+    wall: 2
+    along: 0.2778
+  - id: deco:wall_torch_057
+    room: room:gate_hall
+    decoration: torch02
+    wall: 3
+    along: 0.1429
+  - id: deco:wall_torch_058
+    room: room:gate_hall
+    decoration: torch02
+    wall: 3
+    along: 0.3571
+  - id: deco:wall_torch_059
+    room: room:gate_hall
+    decoration: torch02
+    wall: 3
+    along: 0.8571
+  - id: deco:wall_torch_060
+    room: room:west_stair
+    decoration: torch02
+    floor_height: 0
+    wall: 0
+    along: 0.1389
+  - id: deco:wall_torch_061
+    room: room:west_stair
+    decoration: torch02
+    floor_height: 0
+    wall: 1
+    along: 0.1607
+  - id: deco:wall_torch_062
+    room: room:west_stair
+    decoration: torch02
+    floor_height: 0
+    wall: 1
+    along: 0.5893
+  - id: deco:wall_torch_063
+    room: room:west_stair
+    decoration: torch02
+    floor_height: 0
+    wall: 1
+    along: 0.8393
+  - id: deco:wall_torch_064
+    room: room:west_stair
+    decoration: torch02
+    floor_height: 0
+    wall: 2
+    along: 0.2778
+  - id: deco:wall_torch_065
+    room: room:works_n
+    decoration: torch02
+    wall: 0
+    along: 0.3977
+  - id: deco:wall_torch_066
+    room: room:works_n
+    decoration: torch02
+    wall: 0
+    along: 0.875
+  - id: deco:wall_torch_067
+    room: room:works_n
+    decoration: torch02
+    wall: 2
+    along: 0.2045
+  - id: deco:wall_torch_068
+    room: room:works_n
+    decoration: torch02
+    wall: 2
+    along: 0.7955
+  - id: deco:wall_torch_069
+    room: room:works_n
+    decoration: torch02
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_070
+    room: room:works_e
+    decoration: torch02
+    wall: 1
+    along: 0.2159
+  - id: deco:wall_torch_071
+    room: room:works_e
+    decoration: torch02
+    wall: 1
+    along: 0.7841
+  - id: deco:wall_torch_072
+    room: room:works_e
+    decoration: torch02
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_073
+    room: room:works_e
+    decoration: torch02
+    wall: 3
+    along: 0.3977
+  - id: deco:wall_torch_074
+    room: room:works_e
+    decoration: torch02
+    wall: 3
+    along: 0.875
+  - id: deco:wall_torch_075
+    room: room:works_s
+    decoration: torch02
+    wall: 0
+    along: 0.2045
+  - id: deco:wall_torch_076
+    room: room:works_s
+    decoration: torch02
+    wall: 0
+    along: 0.7955
+  - id: deco:wall_torch_077
+    room: room:works_s
+    decoration: torch02
+    wall: 1
+    along: 0.5
+  - id: deco:wall_torch_078
+    room: room:works_s
+    decoration: torch02
+    wall: 2
+    along: 0.3977
+  - id: deco:wall_torch_079
+    room: room:works_s
+    decoration: torch02
+    wall: 2
+    along: 0.875
+  - id: deco:wall_torch_080
+    room: room:works_w
+    decoration: torch02
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_081
+    room: room:works_w
+    decoration: torch02
+    wall: 1
+    along: 0.3977
+  - id: deco:wall_torch_082
+    room: room:works_w
+    decoration: torch02
+    wall: 1
+    along: 0.875
+  - id: deco:wall_torch_083
+    room: room:works_w
+    decoration: torch02
+    wall: 3
+    along: 0.2159
+  - id: deco:wall_torch_084
+    room: room:works_w
+    decoration: torch02
+    wall: 3
+    along: 0.7841
+  - id: deco:wall_torch_085
+    room: room:smelter
+    decoration: torch02
+    wall: 0
+    along: 0.4236
+  - id: deco:wall_torch_086
+    room: room:smelter
+    decoration: torch02
+    wall: 1
+    along: 0.7917
+  - id: deco:wall_torch_087
+    room: room:smelter
+    decoration: torch02
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_088
+    room: room:smelter
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_089
+    room: room:scrap_hall
+    decoration: torch02
+    wall: 0
+    along: 0.7222
+  - id: deco:wall_torch_090
+    room: room:scrap_hall
+    decoration: torch02
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_091
+    room: room:scrap_hall
+    decoration: torch02
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_092
+    room: room:scrap_hall
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_093
+    room: room:parts_store
+    decoration: torch02
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_094
+    room: room:parts_store
+    decoration: torch02
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_095
+    room: room:parts_store
+    decoration: torch02
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_096
+    room: room:parts_store
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_097
+    room: room:quarters
+    decoration: torch02
+    wall: 0
+    along: 0.2778
+  - id: deco:wall_torch_098
+    room: room:quarters
+    decoration: torch02
+    wall: 1
+    along: 0.1944
+  - id: deco:wall_torch_099
+    room: room:quarters
+    decoration: torch02
+    wall: 2
+    along: 0.6389
+  - id: deco:wall_torch_100
+    room: room:quarters
+    decoration: torch02
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_101
+    room: room:forge
+    decoration: torch02
+    wall: 0
+    along: 0.1548
+  - id: deco:wall_torch_102
+    room: room:forge
+    decoration: torch02
+    wall: 0
+    along: 0.6071
+  - id: deco:wall_torch_103
+    room: room:forge
+    decoration: torch02
+    wall: 0
+    along: 0.8452
+  - id: deco:wall_torch_104
+    room: room:forge
+    decoration: torch02
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_105
+    room: room:forge
+    decoration: torch02
+    wall: 2
+    along: 0.1667
+  - id: deco:wall_torch_106
+    room: room:forge
+    decoration: torch02
+    wall: 2
+    along: 0.4286
+  - id: deco:wall_torch_107
+    room: room:forge
+    decoration: torch02
+    wall: 2
+    along: 0.8333
+  - id: deco:wall_torch_108
+    room: room:forge
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_109
+    room: room:assembly
+    decoration: torch02
+    wall: 0
+    along: 0.0476
+  - id: deco:wall_torch_110
+    room: room:assembly
+    decoration: torch02
+    wall: 0
+    along: 0.0714
+  - id: deco:wall_torch_111
+    room: room:assembly
+    decoration: torch02
+    wall: 0
+    along: 0.9524
+  - id: deco:wall_torch_112
+    room: room:assembly
+    decoration: torch02
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_113
+    room: room:assembly
+    decoration: torch02
+    wall: 2
+    along: 0.1548
+  - id: deco:wall_torch_114
+    room: room:assembly
+    decoration: torch02
+    wall: 2
+    along: 0.6071
+  - id: deco:wall_torch_115
+    room: room:assembly
+    decoration: torch02
+    wall: 2
+    along: 0.8452
+  - id: deco:wall_torch_116
+    room: room:assembly
+    decoration: torch02
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_117
+    room: room:east_stair
+    decoration: torch02
+    floor_height: 768
+    wall: 0
+    along: 0.2778
+  - id: deco:wall_torch_118
+    room: room:east_stair
+    decoration: torch02
+    floor_height: 768
+    wall: 2
+    along: 0.3611
+  - id: deco:wall_torch_119
+    room: room:east_stair
+    decoration: torch02
+    floor_height: 768
+    wall: 3
+    along: 0.1607
+  - id: deco:wall_torch_120
+    room: room:east_stair
+    decoration: torch02
+    floor_height: 768
+    wall: 3
+    along: 0.5893
+  - id: deco:wall_torch_121
+    room: room:east_stair
+    decoration: torch02
+    floor_height: 768
+    wall: 3
+    along: 0.8393
+  - id: deco:wall_torch_122
+    room: room:library_n
+    decoration: scon100
+    wall: 0
+    along: 0.4091
+  - id: deco:wall_torch_123
+    room: room:library_n
+    decoration: scon100
+    wall: 0
+    along: 0.8636
+  - id: deco:wall_torch_124
+    room: room:library_n
+    decoration: scon100
+    wall: 2
+    along: 0.7159
+  - id: deco:wall_torch_125
+    room: room:library_n
+    decoration: scon100
+    wall: 2
+    along: 0.875
+  - id: deco:wall_torch_126
+    room: room:library_n
+    decoration: scon100
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_127
+    room: room:library_e
+    decoration: scon100
+    wall: 1
+    along: 0.2159
+  - id: deco:wall_torch_128
+    room: room:library_e
+    decoration: scon100
+    wall: 1
+    along: 0.7841
+  - id: deco:wall_torch_129
+    room: room:library_e
+    decoration: scon100
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_130
+    room: room:library_e
+    decoration: scon100
+    wall: 3
+    along: 0.4943
+  - id: deco:wall_torch_131
+    room: room:library_e
+    decoration: scon100
+    wall: 3
+    along: 0.892
+  - id: deco:wall_torch_132
+    room: room:library_s
+    decoration: scon100
+    wall: 0
+    along: 0.7159
+  - id: deco:wall_torch_133
+    room: room:library_s
+    decoration: scon100
+    wall: 0
+    along: 0.875
+  - id: deco:wall_torch_134
+    room: room:library_s
+    decoration: scon100
+    wall: 1
+    along: 0.5
+  - id: deco:wall_torch_135
+    room: room:library_s
+    decoration: scon100
+    wall: 2
+    along: 0.4091
+  - id: deco:wall_torch_136
+    room: room:library_s
+    decoration: scon100
+    wall: 2
+    along: 0.8636
+  - id: deco:wall_torch_137
+    room: room:library_w
+    decoration: scon100
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_138
+    room: room:library_w
+    decoration: scon100
+    wall: 1
+    along: 0.4091
+  - id: deco:wall_torch_139
+    room: room:library_w
+    decoration: scon100
+    wall: 1
+    along: 0.8636
+  - id: deco:wall_torch_140
+    room: room:library_w
+    decoration: scon100
+    wall: 3
+    along: 0.4261
+  - id: deco:wall_torch_141
+    room: room:library_w
+    decoration: scon100
+    wall: 3
+    along: 0.7784
+  - id: deco:wall_torch_142
+    room: room:study_ne
+    decoration: scon100
+    wall: 0
+    along: 0.6389
+  - id: deco:wall_torch_143
+    room: room:study_ne
+    decoration: scon100
+    wall: 1
+    along: 0.5
+  - id: deco:wall_torch_144
+    room: room:study_ne
+    decoration: scon100
+    wall: 2
+    along: 0.2778
+  - id: deco:wall_torch_145
+    room: room:study_ne
+    decoration: scon100
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_146
+    room: room:study_nw
+    decoration: scon100
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_147
+    room: room:study_nw
+    decoration: scon100
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_148
+    room: room:study_nw
+    decoration: scon100
+    wall: 2
+    along: 0.2778
+  - id: deco:wall_torch_149
+    room: room:study_nw
+    decoration: scon100
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_150
+    room: room:study_se
+    decoration: scon100
+    wall: 0
+    along: 0.2778
+  - id: deco:wall_torch_151
+    room: room:study_se
+    decoration: scon100
+    wall: 1
+    along: 0.5
+  - id: deco:wall_torch_152
+    room: room:study_se
+    decoration: scon100
+    wall: 2
+    along: 0.7222
+  - id: deco:wall_torch_153
+    room: room:study_se
+    decoration: scon100
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_154
+    room: room:study_sw
+    decoration: scon100
+    wall: 0
+    along: 0.2778
+  - id: deco:wall_torch_155
+    room: room:study_sw
+    decoration: scon100
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_156
+    room: room:study_sw
+    decoration: scon100
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_157
+    room: room:study_sw
+    decoration: scon100
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_158
+    room: room:reading_room
+    decoration: scon100
+    wall: 0
+    along: 0.1548
+  - id: deco:wall_torch_159
+    room: room:reading_room
+    decoration: scon100
+    wall: 0
+    along: 0.6071
+  - id: deco:wall_torch_160
+    room: room:reading_room
+    decoration: scon100
+    wall: 0
+    along: 0.8452
+  - id: deco:wall_torch_161
+    room: room:reading_room
+    decoration: scon100
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_162
+    room: room:reading_room
+    decoration: scon100
+    wall: 2
+    along: 0.3571
+  - id: deco:wall_torch_163
+    room: room:reading_room
+    decoration: scon100
+    wall: 2
+    along: 0.8571
+  - id: deco:wall_torch_164
+    room: room:reading_room
+    decoration: scon100
+    wall: 2
+    along: 0.9286
+  - id: deco:wall_torch_165
+    room: room:reading_room
+    decoration: scon100
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_166
+    room: room:great_library
+    decoration: scon100
+    wall: 0
+    along: 0.3482
+  - id: deco:wall_torch_167
+    room: room:great_library
+    decoration: scon100
+    wall: 0
+    along: 0.5089
+  - id: deco:wall_torch_168
+    room: room:great_library
+    decoration: scon100
+    wall: 0
+    along: 0.6696
+  - id: deco:wall_torch_169
+    room: room:great_library
+    decoration: scon100
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_170
+    room: room:great_library
+    decoration: scon100
+    wall: 2
+    along: 0.1548
+  - id: deco:wall_torch_171
+    room: room:great_library
+    decoration: scon100
+    wall: 2
+    along: 0.6071
+  - id: deco:wall_torch_172
+    room: room:great_library
+    decoration: scon100
+    wall: 2
+    along: 0.8452
+  - id: deco:wall_torch_173
+    room: room:great_library
+    decoration: scon100
+    wall: 3
+    along: 0.2292
+  - id: deco:wall_torch_174
+    room: room:library_stair
+    decoration: scon100
+    floor_height: 1536
+    wall: 0
+    along: 0.7222
+  - id: deco:wall_torch_175
+    room: room:library_stair
+    decoration: scon100
+    floor_height: 1536
+    wall: 1
+    along: 0.1607
+  - id: deco:wall_torch_176
+    room: room:library_stair
+    decoration: scon100
+    floor_height: 1536
+    wall: 1
+    along: 0.4107
+  - id: deco:wall_torch_177
+    room: room:library_stair
+    decoration: scon100
+    floor_height: 1536
+    wall: 1
+    along: 0.8393
+  - id: deco:wall_torch_178
+    room: room:library_stair
+    decoration: scon100
+    floor_height: 1536
+    wall: 2
+    along: 0.6389
+  - id: deco:wall_torch_179
+    room: room:state_n
+    decoration: torch07
+    wall: 0
+    along: 0.4205
+  - id: deco:wall_torch_180
+    room: room:state_n
+    decoration: torch07
+    wall: 0
+    along: 0.8523
+  - id: deco:wall_torch_181
+    room: room:state_n
+    decoration: torch07
+    wall: 2
+    along: 0.2045
+  - id: deco:wall_torch_182
+    room: room:state_n
+    decoration: torch07
+    wall: 2
+    along: 0.7955
+  - id: deco:wall_torch_183
+    room: room:state_n
+    decoration: torch07
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_184
+    room: room:state_e
+    decoration: torch07
+    wall: 1
+    along: 0.4432
+  - id: deco:wall_torch_185
+    room: room:state_e
+    decoration: torch07
+    wall: 1
+    along: 0.7841
+  - id: deco:wall_torch_186
+    room: room:state_e
+    decoration: torch07
+    wall: 2
+    along: 0.5
+  - id: deco:wall_torch_187
+    room: room:state_e
+    decoration: torch07
+    wall: 3
+    along: 0.3977
+  - id: deco:wall_torch_188
+    room: room:state_e
+    decoration: torch07
+    wall: 3
+    along: 0.875
+  - id: deco:wall_torch_189
+    room: room:state_s
+    decoration: torch07
+    wall: 0
+    along: 0.2045
+  - id: deco:wall_torch_190
+    room: room:state_s
+    decoration: torch07
+    wall: 0
+    along: 0.7955
+  - id: deco:wall_torch_191
+    room: room:state_s
+    decoration: torch07
+    wall: 1
+    along: 0.5
+  - id: deco:wall_torch_192
+    room: room:state_s
+    decoration: torch07
+    wall: 2
+    along: 0.3977
+  - id: deco:wall_torch_193
+    room: room:state_s
+    decoration: torch07
+    wall: 2
+    along: 0.875
+  - id: deco:wall_torch_194
+    room: room:state_w
+    decoration: torch07
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_195
+    room: room:state_w
+    decoration: torch07
+    wall: 1
+    along: 0.3977
+  - id: deco:wall_torch_196
+    room: room:state_w
+    decoration: torch07
+    wall: 1
+    along: 0.875
+  - id: deco:wall_torch_197
+    room: room:state_w
+    decoration: torch07
+    wall: 3
+    along: 0.4261
+  - id: deco:wall_torch_198
+    room: room:state_w
+    decoration: torch07
+    wall: 3
+    along: 0.7784
+  - id: deco:wall_torch_199
+    room: room:darzog_study
+    decoration: torch07
+    wall: 0
+    along: 0.4653
+  - id: deco:wall_torch_200
+    room: room:darzog_study
+    decoration: torch07
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_201
+    room: room:darzog_study
+    decoration: torch07
+    wall: 3
+    along: 0.2083
+  - id: deco:wall_torch_202
+    room: room:clone_vats
+    decoration: torch07
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_203
+    room: room:clone_vats
+    decoration: torch07
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_204
+    room: room:clone_vats
+    decoration: torch07
+    wall: 2
+    along: 0.2778
+  - id: deco:wall_torch_205
+    room: room:clone_vats
+    decoration: torch07
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_206
+    room: room:guard_hall
+    decoration: torch07
+    wall: 1
+    along: 0.2569
+  - id: deco:wall_torch_207
+    room: room:guard_hall
+    decoration: torch07
+    wall: 2
+    along: 0.3472
+  - id: deco:wall_torch_208
+    room: room:guard_hall
+    decoration: torch07
+    wall: 3
+    along: 0.2153
+  - id: deco:wall_torch_209
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 0
+    along: 0.1369
+  - id: deco:wall_torch_210
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 0
+    along: 0.6607
+  - id: deco:wall_torch_211
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 0
+    along: 0.8631
+  - id: deco:wall_torch_212
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 1
+    along: 0.7778
+  - id: deco:wall_torch_213
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 2
+    along: 0.3452
+  - id: deco:wall_torch_214
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 2
+    along: 0.5357
+  - id: deco:wall_torch_215
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 2
+    along: 0.7262
+  - id: deco:wall_torch_216
+    room: room:darzog_hall
+    decoration: torch07
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_217
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 0
+    along: 0.2321
+  - id: deco:wall_torch_218
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 0
+    along: 0.5893
+  - id: deco:wall_torch_219
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 0
+    along: 0.875
+  - id: deco:wall_torch_220
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 1
+    along: 0.2778
+  - id: deco:wall_torch_221
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 2
+    along: 0.1726
+  - id: deco:wall_torch_222
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 2
+    along: 0.5536
+  - id: deco:wall_torch_223
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 2
+    along: 0.8274
+  - id: deco:wall_torch_224
+    room: room:portrait_hall
+    decoration: torch07
+    wall: 3
+    along: 0.2778
+  - id: deco:wall_torch_225
+    room: room:bedchamber
+    decoration: torch07
+    wall: 0
+    along: 0.5
+  - id: deco:wall_torch_226
+    room: room:bedchamber
+    decoration: torch07
+    wall: 2
+    along: 0.75
+  - id: deco:wall_torch_227
+    room: room:bedchamber
+    decoration: torch07
+    wall: 3
+    along: 0.5
+  - id: deco:wall_torch_228
+    room: room:bedchamber
+    decoration: torch07
+    wall: 4
+    along: 0.5
+  - id: deco:wall_torch_229
+    room: room:bedchamber
+    decoration: torch07
+    wall: 5
+    along: 0.3056
+  - id: deco:well_brazier_0
+    room: room:well
+    decoration: brzier00
+    at: [-448, -448]
+  - id: deco:well_brazier_1
+    room: room:well
+    decoration: brzier00
+    at: [448, -448]
+  - id: deco:well_brazier_2
+    room: room:well
+    decoration: brzier00
+    at: [448, 448]
+  - id: deco:well_brazier_3
+    room: room:well
+    decoration: brzier00
+    at: [-448, 448]
+exits:
+  - id: exit:tower_door
+    room: room:gate_hall
+    wall: e
+    size: [128, 256]
+    surface: {texture: 7trimd, size: [128, 256]}
+    to: exit:lake_island
+    notes: "The tower door (two plank leaves of Gloaming's 7trimd), out to the island (X2)."
+relations:
+  - {of: [277, 278, 279, 293, 294], toward: party, relation: hostile}
+  - {of: [211, 212, 213], toward: 277, relation: friendly, both_ways: true}
+  - {of: [211, 212, 213], toward: 278, relation: friendly, both_ways: true}
+  - {of: [211, 212, 213], toward: 279, relation: friendly, both_ways: true}
+  - {of: [211, 212, 213], toward: 292, relation: friendly, both_ways: true}
+  - {of: [211, 212, 213], toward: 293, relation: friendly, both_ways: true}
+  - {of: [211, 212, 213], toward: 294, relation: friendly, both_ways: true}
+notes: "Objects of XD-12 (written by output/studio_cal/xd12/tools/dress.py). Stand-ins: slot 1 MM7 Golem (Brass Golem 35, Gold Golem 50), slot 2 Mage (Wizard 35, Archmage 50), slot 3 Beholder (Floating Eye 30, Gazer 40); Darzog and his six clones Archmages (294, the Mage family's C tier: the clones wear his face); the Chief Librarian an Archmage (294); Crodo an MM7 Sorcerer (292, the Mage family's A tier), peaceful."

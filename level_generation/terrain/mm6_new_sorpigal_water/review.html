@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>New Sorpigal water review</title><style>body{background:#192329;color:#eee7db;font:16px/1.5 system-ui;max-width:1500px;margin:24px auto;padding:0 20px}a{color:#9ad4ff}img{max-width:100%}.compare{position:relative;aspect-ratio:4/3}.compare img{position:absolute;width:100%}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:24px}figure{margin:0}input{width:300px}select{font:inherit}</style>
+<h1>New Sorpigal water and shoreline</h1><p>V1 candidate:27 textures at256px. One generated water master,14 coherent animation frames,
+and12 shoreline overlays built from the accepted dirt. No separate shoreline earth material.</p>
+<p><a href="new_sorpigal_water_x2.zip">Water overlay ZIP</a> · <a href="README.md">Build notes and test launcher</a> · <a href="reports/review.json">Review record</a> · <a href="prompts/water_v1.txt">Imagegen prompt</a></p>
+<label>Reveal new water <input id="reveal" type="range" min="0" max="100" value="50"></label>
+<p>Left: original water/shore artwork with restored land. Right: current water/shore artwork. Same frozen engine, camera and corrected map.</p>
+<div class="compare"><img src="captures/v1_flight/water_flight_original.png" alt="Original water"><img id="new" src="captures/v1_flight/water_flight_lake.png" alt="New water"></div>
+<h2>Loop and shoreline review</h2>
+<p>The baked loop below runs at approximately native speed. Each frame lasts15/128 seconds;14 frames form a1.640625-second cycle.</p>
+<div class="gallery">
+<figure><img src="reports/water_loop_v1.webp" alt="Looping3x3 water tiles"><figcaption>Baked water animation, repeated3x3.</figcaption></figure>
+<figure><img src="reports/shore_contexts_v1.webp" alt="Animated shore contexts"><figcaption>All12 source shoreline contexts, with matching dirt and animated water.</figcaption></figure>
+<figure><img src="captures/v1_flight/water_flight_pool.png" alt="Native pool"><figcaption>Native flat pool; internal joins checked.</figcaption></figure>
+<figure><img src="captures/v1_flight/water_flight_island.png" alt="Native island"><figcaption>Native flat island; outer pad boundary excluded.</figcaption></figure>
+<figure><img src="captures/v1_flight/water_flight_near.png" alt="Close coast"><figcaption>Close oblique coastline.</figcaption></figure>
+<figure><img src="reports/native_animation.webp" alt="Sampled native animation"><figcaption>28 native samples over22.8 seconds, at measured sample spacing. This is a sampled check, not smooth video.</figcaption></figure>
+</div><p><a href="reports/animation_frames_v1.png">All14 baked frames</a> · <a href="reports/native_animation_samples.png">Native frame details</a> · <a href="reports/validation_v1.json">131 joins across14 frames, at256 and512</a> · <a href="map_correction/patch.json">12-cell map correction</a></p>
+<p>All four land masters remain unchanged. Border repairs affect under1.3% of each native shoreline silhouette. Fine texture can still repeat. Discrete animation checks do not certify temporal shimmer on every GPU.</p>
+<script>const slider=document.getElementById('reveal'),after=document.getElementById('new');function update(){after.style.clipPath=`inset(0 0 0 ${100-slider.value}%)`;}slider.addEventListener('input',update);update();</script></html>

@@ -1,0 +1,22 @@
+{
+  "format_version": 1,
+  "kind": "outdoor_map_package",
+  "package_id": "mm8:brackenford",
+  "display_name": "Brackenford",
+  "map_file": "lg01.odm",
+  "scene_file": "lg01.scene.yml",
+  "geometry_metadata_file": "lg01.geometry.yml",
+  "terrain_metadata_file": "lg01.terrain.yml",
+  "script_module": "maps/lg01.lua",
+  "map_stats_id": 9082,
+  "redbook_track": 0,
+  "environment_name": "grassland",
+  "is_top_level_area": true,
+  "outdoor_bounds": {
+    "enabled": true,
+    "min_x": -24576,
+    "max_x": 24576,
+    "min_y": -24576,
+    "max_y": 24576
+  }
+}

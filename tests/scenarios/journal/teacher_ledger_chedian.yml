@@ -1,0 +1,45 @@
+id: journal.teacher_ledger_chedian
+title: "Chedian teacher discovery and tavern ledger survive save/load"
+world: mm9
+mode: faithful
+tags: [mm9, journal, trainers, regression]
+steps:
+  - load_map: {map: drangheimcity.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      journal_map_note: {map: drangheimcity.blv, id: 90114, present: false}
+  - interact_actor: {actor_index: 9}
+  - assert:
+      dialog: {source_id: 114, active: true}
+      journal_map_note: {map: drangheimcity.blv, id: 90114, text: "Aefentid A'Feslo"}
+  - press_action: {action: cancel_dialog}
+  - save_game: discovered
+  - load_game: discovered
+  - assert:
+      journal_map_note: {map: drangheimcity.blv, id: 90114, text: "Aefentid A'Feslo"}
+  - interact_actor: {actor_index: 35}
+  - select_topic: {match_label: "We're ready!..Actually, we'd like a room."}
+  - assert:
+      dialog: {action_label_present: Ledger of Teachers}
+      teacher_ledger: {continent: 5, bought: false}
+  - select_topic: {action_id: 33, match_label: Ledger of Teachers}
+  - assert:
+      dialog: {text_contains: Every master who teaches a craft on Chedian}
+  - console: {line: gold set 1500}
+  - select_topic: {action_id: 34, match_label: "Buy the ledger: 2000 gold"}
+  - assert:
+      gold: 1500
+      teacher_ledger: {continent: 5, bought: false}
+  - console: {line: gold set 10000}
+  - select_topic: {action_id: 34, match_label: "Buy the ledger: 2000 gold"}
+  - assert:
+      gold: 8000
+      teacher_ledger: {continent: 5}
+      dialog: {action_label_absent: Ledger of Teachers}
+  - press_action: {action: cancel_dialog}
+  - press_action: {action: cancel_dialog}
+  - save_game: ledger
+  - load_game: ledger
+  - assert:
+      gold: 8000
+      teacher_ledger: {continent: 5}

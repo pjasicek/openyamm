@@ -1,0 +1,13 @@
+# MM8 Will-o'-Wisp restoration
+
+Staged 2× restoration of all 56 native frames, including 33 referenced and 23 unused stored poses. Three native descriptors (97–99) share palette 528, with scales 1, 1.299988 and 1.699997. Exact actions, duration ticks, frame reuse, all eight logical views, Center/Lit flags and per-step glow radii are in `manifest.json`. Native empty corpse behavior is retained.
+
+Open `viewer.html` locally. It reads the runtime atlas and matching mask. A/B/C share an exact base bypass; the R8 mask is all zero because there are no distinct native palette appearances. No gameplay installation has been performed.
+
+One 2048×1584 RGBA8 atlas plus matching R8 mask uses 16,220,160 decoded bytes including packing: 12,976,128 base bytes and 3,244,032 mask bytes. Mipmaps are disabled; cells have 16px gutters and 3px hidden RGB bleed. Native logical canvases remain 128×128 with explicit crop offsets. Actual generated visible heights were approximately 2.83–8.13× native before calibration/downsampling; output tier is 2×.
+
+The built-in imagegen tool produced all base art. Exact prompts, raw attempts and reference hashes are in `generation.json`, `prompts/`, `raw/` and `checkpoints/`. Identity pixel-block and color defects and one attack-flash defect were rejected and corrected. `alignment_settings.json` freezes common per-batch scale with native per-pose core landmarks; it does not normalize individual silhouette sizes. `processing.json` records native core color calibration using enhanced-art masks; the warm native flash and brown smoke bodies remain protected. Final matte corrections preserve alpha.
+
+To rebuild from retained cleaned masters, run `finish_alignment.py`, then `final_edge_cleanup.py`, `package.py`, `review_evidence.py` and `browser_checks.py` through `/home/pjasicek/Downloads/mm8_creature_restore.py run mm8_m528/<script>`. Review changed evidence before resealing with `finalize.py`; rebuilding invalidates the old acceptance hashes. `process.py <batch> <raw filename> <prompt filename> --identity checkpoints/accepted_identity_v1.png` repeats extraction for a selected action batch. Do not rerun reference preparation or identity acceptance over retained checkpoints.
+
+Validation covers exact source hashes, all native files, lossless crop reconstruction and atlas extraction, zero masks, alpha/base bypass, native metadata and viewer timing. `review/decision.json` records visual acceptance and approximation limits; `review/acceptance.json` seals reviewed artifact hashes. The native bottom truncation of the lowest `m528di0` smoke puff remains; the viewer preserves glow metadata without simulating scene lighting.

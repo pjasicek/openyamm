@@ -1,0 +1,52 @@
+<!doctype html><meta charset="utf-8"><title>Checking animation review</title>
+<pre id="result">Running…</pre><iframe id="viewer" src="index.html" width="1100" height="1700"></iframe>
+<script type="module">
+const output=document.getElementById('result'),iframe=document.getElementById('viewer');
+const assert=(value,message)=>{if(!value)throw Error(message);};
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+try{
+ await new Promise(resolve=>iframe.onload=resolve);
+ const w=iframe.contentWindow,d=w.document,data=w.eval('DATA'),$=id=>d.getElementById(id);
+ assert(w.reviewState.clip==='Standing'&&w.reviewState.frame===0&&w.reviewState.view==='front','Default Standing front reference');
+ const headImages=[...d.querySelectorAll('img.comparison')];
+ assert(headImages.length===3,'Skull clasp comparison galleries');
+ for(const image of headImages){assert(image.complete&&image.naturalWidth>0,'Skull comparison loaded');}
+ let states=0,anchors=0;const errors=[];w.addEventListener('error',event=>errors.push(event.message));
+ for(const [clip,c] of Object.entries(data)){
+  $('clip').value=clip;$('clip').onchange();assert(+$('frame').max===c.end,'Range '+clip);
+  assert($('anchors').children.length===c.anchors.length,'Anchor count '+clip);
+  for(const view of ['front','profile']){
+   $('view').value=view;$('view').onchange();
+   for(let frame=0;frame<=c.end;frame++){
+    $('frame').value=frame;$('frame').oninput();await w.draw();
+    const a=frame===c.end&&c.loop?0:c.anchors.reduce((best,v,i)=>v.sample<=frame?i:best,0);
+    const native=c.anchors[a].binding+(c.single?'':view==='profile'?'2':'0');
+    assert(w.reviewState.clip===clip&&w.reviewState.frame===frame&&w.reviewState.native===native,'Frame state '+clip+'/'+view+'/'+frame);
+    assert(!$('notes').textContent.startsWith('Missing'),'Image load');
+    const image=await w.bitmap('../../mm6_dmn/native/'+native+'.png');
+    const reference=d.createElement('canvas');reference.width=354;reference.height=330;
+    const ctx=reference.getContext('2d');ctx.drawImage(image,0,0);
+    const pixels=ctx.getImageData(0,0,354,330).data;
+    const i=pixels.findIndex((v,j)=>j%4===3&&v===255),pixel=(i-3)/4;
+    const actual=$('native').getContext('2d').getImageData((pixel%354)*2+1,Math.floor(pixel/354)*2+1,1,1).data;
+    assert([0,1,2].every(k=>pixels[i-3+k]===actual[k]),'Exact source pixel '+native);
+    const model=$('model').getContext('2d').getImageData(0,0,1,1).data;
+    assert(model[3]===255,'Exported render displayed');states++;
+   }
+  }
+  for(const button of $('anchors').children){button.click();await w.draw();anchors++;}
+ }
+ $('clip').value='Death';$('clip').onchange();$('speed').value='1';$('play').click();w.tick(w.eval('previous')+1350);await w.draw();
+ assert(!w.reviewState.playing&&w.reviewState.frame===60,'Death stops on native endpoint');
+ $('ash').click();await w.draw();assert(w.reviewState.clip==='Ash_Remains','Separate ash transition');
+ $('clip').value='Walk_Native';$('clip').onchange();$('frame').value=53;$('frame').oninput();$('play').click();
+ // Use the same RAF handler with a controlled delta; headless virtual timers may skip a 100 ms RAF window.
+ w.tick(w.eval('previous')+100);
+ $('play').click();await w.draw();assert(w.reviewState.frame<12,'Walk loops');
+ assert(errors.length===0,'Browser exceptions: '+errors.join(';'));
+ const result={passed:true,frame_and_direction_states:states,native_anchor_clicks:anchors,
+               exact_native_pixels:true,all_exported_images_loaded:true,death_endpoint:true,ash_transition:true,walk_loop:true,
+               clasp_comparison_images_loaded:headImages.length,default_standing_front:true};
+ output.textContent=JSON.stringify(result);document.title='PASS';
+}catch(error){output.textContent=JSON.stringify({passed:false,error:String(error),stack:error.stack});document.title='FAIL';}
+</script>

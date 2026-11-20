@@ -1,0 +1,3 @@
+Saved tier C’s four unresized transparent views, raw returns, [review sheet](level_generation/creatures/mm9_trellborg_claude/references_tiers/selected_views_review_c.png), and [generation log with prompts and input hashes](level_generation/creatures/mm9_trellborg_claude/references_tiers/generation_runs_c.json), using built-in image generation.
+
+No builds or Meshy work. Generated silhouettes have some drift from the exact references.

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <limits>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -34,26 +36,28 @@ struct MapWorldItemGrant
     uint32_t quantity = 1;
 };
 
+// A world item placed in a map by its scene (`world_items`, MM9's pickable props; devdocs/mm9_rework/PLACED_ITEMS_PLAN.md):
+// picked up as any world item, then recorded as taken in the map state (MapDeltaData::takenWorldItems), its setQBits
+// set and its pickupEvent run. Shown only while the party has every requiredQBits and none of forbiddenQBits; taken
+// only while it has every pickupQBits (shown but refused before: no sparkle, a click does nothing).
 struct MapWorldItemSource
 {
     std::string sourceId;
     uint32_t sourceObjectIndex = 0;
     std::string sourceName;
     MapItemSourcePosition position = {};
-    std::string kind;
-    uint32_t rawPrimaryItemId = 0;
     uint32_t itemId = 0;
+    // With itemId 0: one of these, drawn per session from the source id.
+    std::vector<uint32_t> randomItemPool;
     std::vector<uint32_t> requiredQBits;
     std::vector<uint32_t> forbiddenQBits;
-    std::vector<uint32_t> requiredItems;
-    std::vector<uint32_t> forbiddenItems;
-    std::vector<MapWorldItemGrant> grantItems;
-    std::vector<uint32_t> takeItems;
+    std::vector<uint32_t> pickupQBits;
     std::vector<uint32_t> setQBits;
-    std::vector<uint32_t> clearQBits;
-    std::vector<uint32_t> randomItemPool;
-    std::string onPickupEvent;
-    bool consumeOnSuccess = true;
+    // The map event run after the pickup (0: none).
+    uint16_t pickupEvent = 0;
+    // Optional `pose: {yaw, pitch, roll}` (degrees): drawn turned so (yaw about up, then pitch about its across axis,
+    // then roll about its long axis), its lowest point on its position, instead of lying flat on what is under it.
+    std::optional<std::array<float, 3>> poseDegrees;
 };
 
 struct MapLootContainerSource
@@ -76,6 +80,9 @@ struct MapLootContainerSource
     std::vector<MapFixedContainerItem> fixedItems;
     std::vector<uint32_t> randomItemPool;
     uint32_t randomItemCount = 0;
+    // random_records (optional): the random_treasure_level records the container holds; each rolls 1-5 times when
+    // opened, like an MM6-MM8 chest slot (MM9 chests at MM7's average, BALANCE_PLAN.md 3.7).
+    uint32_t randomRecords = 1;
     bool removeWhenEmpty = false;
 };
 

@@ -1,0 +1,90 @@
+{
+ "sprite": "6tree04",
+ "output": "mm6_deco_tree04.glb",
+ "height_m": 6.03,
+ "note": "8 placements. Pink blossom crown, multi-stem (splits near the ground).",
+ "sapling": {
+  "scale": 4.27,
+  "baseSplits": 2,
+  "splitHeight": 0.04,
+  "splitAngle": [
+   18,
+   15,
+   15,
+   0
+  ],
+  "seed": 61,
+  "curveRes": [
+   16,
+   4,
+   3,
+   1
+  ],
+  "baseSize": 0.1
+ },
+ "crown": {
+  "canopy_low": 0.3,
+  "centre": 0.59,
+  "clumps": 99,
+  "inner_clumps": 18
+ },
+ "bark": {
+  "target_srgb": [
+   93,
+   66,
+   49
+  ],
+  "budget": [
+   1900,
+   620,
+   280
+  ]
+ },
+ "leaves": {
+  "kind": "blossom",
+  "target_srgb": [
+   90,
+   50,
+   45
+  ],
+  "blossom_srgb": [
+   245,
+   110,
+   140
+  ],
+  "seeds": [
+   23,
+   39,
+   53,
+   67
+  ],
+  "blossom_clusters": [
+   20,
+   26
+  ],
+  "blossom_per_cluster": [
+   7,
+   11
+  ],
+  "blossom_radius": [
+   20,
+   28
+  ]
+ },
+ "occlusion": {
+  "floor": 0.32,
+  "range": 0.68
+ },
+ "lod": {
+  "tone": [
+   1.0,
+   0.84,
+   1.05
+  ]
+ },
+ "impostor_tone": [
+  0.874,
+  0.94,
+  1.02
+ ]
+}

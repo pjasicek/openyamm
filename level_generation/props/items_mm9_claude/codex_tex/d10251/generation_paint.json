@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, which is the edit target. design_reference.png is material/detail reference; icon_x8.png is colour reference, its magenta is background only. Output ONE transparent PNG at 1536x2048 (3:4). Preserve the guide's exact orthographic silhouettes, positions, sizes and all gaps. Three columns, FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey objects only, never redraw, enlarge, move or redesign them. Rows 1-2: source-faithful rolled parchment scroll in warm aged golden parchment tones, fine paper fibres and subtle age mottling from reference, unlit base colour only. Reference inner swirls follow the guide geometry. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, halo, sparkles, ground, outlines or text. Rows 3-4: MATERIAL MASK, every silhouette is entirely FLAT PURE YELLOW #FFFF00 because all parts are parchment/paper, including thin projecting strips. No texture, shading, outlines or internal antialiased colour blends in the mask. Every silhouette pixel exactly one pure colour; nothing outside silhouettes. For general material classification blue #0000FF cloth/hair, red #FF0000 metal, yellow #FFFF00 matte nonmetal, but this item is all parchment. Preserve every gap/opening exactly as guide and fully transparent. Row 2 column 3 and row 4 column 3 stay empty transparent. Do not copy the perspective composition from design reference: preserve guide views and geometry exactly.\nCORRECTION: The first attempt had conspicuous yellow splatter outside silhouettes and red fringe around paint. Eliminate ALL stray pixels and coloured fringes. Use the supplied original grey guide as strict silhouette stencil. Clean exact edges, fully transparent everywhere outside. No splatter. Mask regions must be uniform solid #FFFF00, no gradients whatsoever. Preserve straight side profiles and their narrow lower strips exactly. Do not round the rectangular silhouettes.",
+  "initial_prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, which is the edit target. design_reference.png is material/detail reference; icon_x8.png is colour reference, its magenta is background only. Output ONE transparent PNG at 1536x2048 (3:4). Preserve the guide's exact orthographic silhouettes, positions, sizes and all gaps. Three columns, FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey objects only, never redraw, enlarge, move or redesign them. Rows 1-2: source-faithful rolled parchment scroll in warm aged golden parchment tones, fine paper fibres and subtle age mottling from reference, unlit base colour only. Reference inner swirls follow the guide geometry. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, halo, sparkles, ground, outlines or text. Rows 3-4: MATERIAL MASK, every silhouette is entirely FLAT PURE YELLOW #FFFF00 because all parts are parchment/paper, including thin projecting strips. No texture, shading, outlines or internal antialiased colour blends in the mask. Every silhouette pixel exactly one pure colour; nothing outside silhouettes. For general material classification blue #0000FF cloth/hair, red #FF0000 metal, yellow #FFFF00 matte nonmetal, but this item is all parchment. Preserve every gap/opening exactly as guide and fully transparent. Row 2 column 3 and row 4 column 3 stay empty transparent. Do not copy the perspective composition from design reference: preserve guide views and geometry exactly.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-50d5-7d63-aeb3-ae9aebd0a548/exec-f28a410b-f14b-4416-a1ce-53bb00a5d71e.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10251/paint_mask_guide.png",
+      "sha256": "842a288c04656d9d012ff4b5c107db20cf9247c5448d87d856403d6005f70183"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10251/design_reference.png",
+      "sha256": "c52c834f5236268f010d72360d6646a8f54d06992fcd63ace1089d3812710c62"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10251/icon_x8.png",
+      "sha256": "d58a93fcb80c3318248a72765c307e46e6c946dc830882c31a8a263f41fae4c4"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10251/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout visually inspected; remaining coloured edge fringes and stray mask pixels violate strict silhouette requirements. Raw output preserved without modification."
+}

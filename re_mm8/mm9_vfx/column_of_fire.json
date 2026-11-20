@@ -1,0 +1,1491 @@
+{
+  "fxf": {
+    "path": "reference/extracted/CLIENTFX/CLIENTFX/SPELLS.fxf",
+    "bytes": 288375,
+    "sha256": "468cbe2265fac31539b30c09f203517cca2900f4be6ad9dcea548019d02879bf"
+  },
+  "group_count": 48,
+  "key_count": 176,
+  "component_counts": {
+    "SpriteSystem": 109,
+    "Sprite": 24,
+    "PlaySound": 19,
+    "Model": 18,
+    "Null": 6
+  },
+  "effect": {
+    "offset": 87401,
+    "name": "spell-column of fire",
+    "phase_ms": 3500,
+    "keys": [
+      {
+        "offset": 87537,
+        "component_ref": "SpriteSystem",
+        "id": 6,
+        "linked": 0,
+        "linked_id": 0,
+        "linked_node": "",
+        "start": 0.0,
+        "end": 0.7910000085830688,
+        "repeat": 1,
+        "track": 0,
+        "min_scale": 0.0,
+        "max_scale": 1.0,
+        "properties": [
+          {
+            "offset": 87737,
+            "name": "UpdatePos",
+            "type": 3,
+            "value": "1,Fixed,Follow,LeftHand,RightHand,LeftFoot,RightFoot,Head,Tail,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10",
+            "numeric_selection": 1,
+            "stored_editor_label": "Follow"
+          },
+          {
+            "offset": 87879,
+            "name": "RandGen",
+            "type": 3,
+            "value": "0,None,BoundingBox",
+            "numeric_selection": 0,
+            "stored_editor_label": "None"
+          },
+          {
+            "offset": 88019,
+            "name": "Interpolate",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 88163,
+            "name": "Offset",
+            "type": 4,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 88186,
+            "name": "RotateAdd",
+            "type": 4,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 88212,
+            "name": "Sprite",
+            "type": 7,
+            "value": "spr|SPRITES\\FIRE\\TORCHFLAME4.SPR"
+          },
+          {
+            "offset": 88351,
+            "name": "SpritesPerEmission",
+            "type": 1,
+            "value": 1
+          },
+          {
+            "offset": 88378,
+            "name": "EmissionInterval",
+            "type": 2,
+            "value": 0.009999999776482582
+          },
+          {
+            "offset": 88403,
+            "name": "SpriteLifespan",
+            "type": 2,
+            "value": 1.0
+          },
+          {
+            "offset": 88426,
+            "name": "EmissionType",
+            "type": 3,
+            "value": "3,Point,Plane,Sphere,PlaneOut,Cone,Circle",
+            "numeric_selection": 3,
+            "stored_editor_label": "PlaneOut"
+          },
+          {
+            "offset": 88571,
+            "name": "Radius",
+            "type": 2,
+            "value": 10.0
+          },
+          {
+            "offset": 88586,
+            "name": "PlaneDir",
+            "type": 4,
+            "value": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 88611,
+            "name": "Velocity",
+            "type": 2,
+            "value": 10.0
+          },
+          {
+            "offset": 88628,
+            "name": "WindDir",
+            "type": 4,
+            "value": [
+              0.0,
+              -50.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 88652,
+            "name": "WindAmount",
+            "type": 2,
+            "value": 2.0
+          },
+          {
+            "offset": 88671,
+            "name": "AType",
+            "type": 3,
+            "value": "0,Norm,Add",
+            "numeric_selection": 0,
+            "stored_editor_label": "Norm"
+          },
+          {
+            "offset": 88809,
+            "name": "StretchU",
+            "type": 2,
+            "value": 2.0
+          },
+          {
+            "offset": 88826,
+            "name": "StretchV",
+            "type": 2,
+            "value": 4.0
+          },
+          {
+            "offset": 88843,
+            "name": "Facing",
+            "type": 3,
+            "value": "0,CameraFacing,AlongNormal,ParentAlign",
+            "numeric_selection": 0,
+            "stored_editor_label": "CameraFacing"
+          },
+          {
+            "offset": 88982,
+            "name": "FacingDir",
+            "type": 4,
+            "value": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 89008,
+            "name": "Active",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 89147,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 0.0,
+              "packed": 1677787135,
+              "rgb_transparency": [
+                255,
+                255,
+                0,
+                100
+              ]
+            }
+          },
+          {
+            "offset": 89162,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 0.613223135471344,
+              "packed": 3170894079,
+              "rgb_transparency": [
+                255,
+                0,
+                0,
+                189
+              ]
+            }
+          },
+          {
+            "offset": 89177,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 1.0,
+              "packed": 3573547136,
+              "rgb_transparency": [
+                128,
+                0,
+                0,
+                213
+              ]
+            }
+          },
+          {
+            "offset": 89192,
+            "name": "Mk",
+            "type": 5,
+            "value": [
+              0.0,
+              0.0,
+              222.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 89215,
+            "name": "Mk",
+            "type": 5,
+            "value": [
+              1.0,
+              0.0,
+              -66.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 89238,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              0.0,
+              0.20454545319080353,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 89261,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              1.0,
+              0.23863635957241058,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "end_offset": 89284
+      },
+      {
+        "offset": 89284,
+        "component_ref": "SpriteSystem",
+        "id": 8,
+        "linked": 0,
+        "linked_id": 0,
+        "linked_node": "",
+        "start": 0.0,
+        "end": 0.800000011920929,
+        "repeat": 1,
+        "track": 1,
+        "min_scale": 0.0,
+        "max_scale": 1.0,
+        "properties": [
+          {
+            "offset": 89484,
+            "name": "UpdatePos",
+            "type": 3,
+            "value": "1,Fixed,Follow,LeftHand,RightHand,LeftFoot,RightFoot,Head,Tail,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10",
+            "numeric_selection": 1,
+            "stored_editor_label": "Follow"
+          },
+          {
+            "offset": 89626,
+            "name": "RandGen",
+            "type": 3,
+            "value": "0,None,BoundingBox",
+            "numeric_selection": 0,
+            "stored_editor_label": "None"
+          },
+          {
+            "offset": 89766,
+            "name": "Interpolate",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 89910,
+            "name": "Offset",
+            "type": 4,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 89933,
+            "name": "RotateAdd",
+            "type": 4,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 89959,
+            "name": "Sprite",
+            "type": 7,
+            "value": "spr|SPRITES\\FIRE\\TORCHFLAME3.SPR"
+          },
+          {
+            "offset": 90098,
+            "name": "SpritesPerEmission",
+            "type": 1,
+            "value": 1
+          },
+          {
+            "offset": 90125,
+            "name": "EmissionInterval",
+            "type": 2,
+            "value": 0.009999999776482582
+          },
+          {
+            "offset": 90150,
+            "name": "SpriteLifespan",
+            "type": 2,
+            "value": 1.0
+          },
+          {
+            "offset": 90173,
+            "name": "EmissionType",
+            "type": 3,
+            "value": "3,Point,Plane,Sphere,PlaneOut,Cone,Circle",
+            "numeric_selection": 3,
+            "stored_editor_label": "PlaneOut"
+          },
+          {
+            "offset": 90318,
+            "name": "Radius",
+            "type": 2,
+            "value": 10.0
+          },
+          {
+            "offset": 90333,
+            "name": "PlaneDir",
+            "type": 4,
+            "value": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 90358,
+            "name": "Velocity",
+            "type": 2,
+            "value": 10.0
+          },
+          {
+            "offset": 90375,
+            "name": "WindDir",
+            "type": 4,
+            "value": [
+              0.0,
+              -50.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 90399,
+            "name": "WindAmount",
+            "type": 2,
+            "value": 2.0
+          },
+          {
+            "offset": 90418,
+            "name": "AType",
+            "type": 3,
+            "value": "0,Norm,Add",
+            "numeric_selection": 0,
+            "stored_editor_label": "Norm"
+          },
+          {
+            "offset": 90556,
+            "name": "StretchU",
+            "type": 2,
+            "value": 2.0
+          },
+          {
+            "offset": 90573,
+            "name": "StretchV",
+            "type": 2,
+            "value": 4.0
+          },
+          {
+            "offset": 90590,
+            "name": "Facing",
+            "type": 3,
+            "value": "0,CameraFacing,AlongNormal,ParentAlign",
+            "numeric_selection": 0,
+            "stored_editor_label": "CameraFacing"
+          },
+          {
+            "offset": 90729,
+            "name": "FacingDir",
+            "type": 4,
+            "value": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 90755,
+            "name": "Active",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 90894,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 0.0,
+              "packed": 1677787135,
+              "rgb_transparency": [
+                255,
+                255,
+                0,
+                100
+              ]
+            }
+          },
+          {
+            "offset": 90909,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 0.613223135471344,
+              "packed": 3170894079,
+              "rgb_transparency": [
+                255,
+                0,
+                0,
+                189
+              ]
+            }
+          },
+          {
+            "offset": 90924,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 1.0,
+              "packed": 3573547136,
+              "rgb_transparency": [
+                128,
+                0,
+                0,
+                213
+              ]
+            }
+          },
+          {
+            "offset": 90939,
+            "name": "Mk",
+            "type": 5,
+            "value": [
+              0.0,
+              0.0,
+              222.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 90962,
+            "name": "Mk",
+            "type": 5,
+            "value": [
+              1.0,
+              0.0,
+              -66.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 90985,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              0.0,
+              0.20454545319080353,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 91008,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              1.0,
+              0.23863635957241058,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "end_offset": 91031
+      },
+      {
+        "offset": 91031,
+        "component_ref": "SpriteSystem",
+        "id": 9,
+        "linked": 0,
+        "linked_id": 0,
+        "linked_node": "",
+        "start": 1.5970001220703125,
+        "end": 2.867000102996826,
+        "repeat": 1,
+        "track": 1,
+        "min_scale": 0.0,
+        "max_scale": 1.0,
+        "properties": [
+          {
+            "offset": 91231,
+            "name": "UpdatePos",
+            "type": 3,
+            "value": "1,Fixed,Follow,LeftHand,RightHand,LeftFoot,RightFoot,Head,Tail,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10",
+            "numeric_selection": 1,
+            "stored_editor_label": "Follow"
+          },
+          {
+            "offset": 91373,
+            "name": "RandGen",
+            "type": 3,
+            "value": "0,None,BoundingBox",
+            "numeric_selection": 0,
+            "stored_editor_label": "None"
+          },
+          {
+            "offset": 91513,
+            "name": "Interpolate",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 91657,
+            "name": "Offset",
+            "type": 4,
+            "value": [
+              0.0,
+              -20.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 91680,
+            "name": "RotateAdd",
+            "type": 4,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 91706,
+            "name": "Sprite",
+            "type": 7,
+            "value": "spr|SPRITES\\FIRE\\TORCHFLAME4.SPR"
+          },
+          {
+            "offset": 91845,
+            "name": "SpritesPerEmission",
+            "type": 1,
+            "value": 1
+          },
+          {
+            "offset": 91872,
+            "name": "EmissionInterval",
+            "type": 2,
+            "value": 0.03999999910593033
+          },
+          {
+            "offset": 91897,
+            "name": "SpriteLifespan",
+            "type": 2,
+            "value": 1.0
+          },
+          {
+            "offset": 91920,
+            "name": "EmissionType",
+            "type": 3,
+            "value": "1,Point,Plane,Sphere,PlaneOut,Cone,Circle",
+            "numeric_selection": 1,
+            "stored_editor_label": "Plane"
+          },
+          {
+            "offset": 92065,
+            "name": "Radius",
+            "type": 2,
+            "value": 30.0
+          },
+          {
+            "offset": 92080,
+            "name": "PlaneDir",
+            "type": 4,
+            "value": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 92105,
+            "name": "Velocity",
+            "type": 2,
+            "value": 20.0
+          },
+          {
+            "offset": 92122,
+            "name": "WindDir",
+            "type": 4,
+            "value": [
+              0.0,
+              60.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 92146,
+            "name": "WindAmount",
+            "type": 2,
+            "value": 2.0
+          },
+          {
+            "offset": 92165,
+            "name": "AType",
+            "type": 3,
+            "value": "0,Norm,Add",
+            "numeric_selection": 0,
+            "stored_editor_label": "Norm"
+          },
+          {
+            "offset": 92303,
+            "name": "StretchU",
+            "type": 2,
+            "value": 1.0
+          },
+          {
+            "offset": 92320,
+            "name": "StretchV",
+            "type": 2,
+            "value": 2.0
+          },
+          {
+            "offset": 92337,
+            "name": "Facing",
+            "type": 3,
+            "value": "0,CameraFacing,AlongNormal,ParentAlign",
+            "numeric_selection": 0,
+            "stored_editor_label": "CameraFacing"
+          },
+          {
+            "offset": 92476,
+            "name": "FacingDir",
+            "type": 4,
+            "value": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 92502,
+            "name": "Active",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 92641,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 0.0,
+              "packed": 2030043264,
+              "rgb_transparency": [
+                128,
+                0,
+                0,
+                121
+              ]
+            }
+          },
+          {
+            "offset": 92656,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 1.0,
+              "packed": 4031717982,
+              "rgb_transparency": [
+                94,
+                34,
+                79,
+                240
+              ]
+            }
+          },
+          {
+            "offset": 92671,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              0.0,
+              0.3068181872367859,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 92694,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              1.0,
+              0.022727273404598236,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "end_offset": 92717
+      },
+      {
+        "offset": 92717,
+        "component_ref": "SpriteSystem",
+        "id": 7,
+        "linked": 0,
+        "linked_id": 0,
+        "linked_node": "",
+        "start": 0.49500003457069397,
+        "end": 2.5420000553131104,
+        "repeat": 1,
+        "track": 2,
+        "min_scale": 0.0,
+        "max_scale": 1.0,
+        "properties": [
+          {
+            "offset": 92917,
+            "name": "UpdatePos",
+            "type": 3,
+            "value": "1,Fixed,Follow,LeftHand,RightHand,LeftFoot,RightFoot,Head,Tail,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10",
+            "numeric_selection": 1,
+            "stored_editor_label": "Follow"
+          },
+          {
+            "offset": 93059,
+            "name": "RandGen",
+            "type": 3,
+            "value": "0,None,BoundingBox",
+            "numeric_selection": 0,
+            "stored_editor_label": "None"
+          },
+          {
+            "offset": 93199,
+            "name": "Interpolate",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 93343,
+            "name": "Offset",
+            "type": 4,
+            "value": [
+              0.0,
+              -10.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 93366,
+            "name": "RotateAdd",
+            "type": 4,
+            "value": [
+              0.0,
+              -0.05000000074505806,
+              0.0
+            ]
+          },
+          {
+            "offset": 93392,
+            "name": "Sprite",
+            "type": 7,
+            "value": "spr|SPRITES\\FIRE\\TORCHFLAME4.SPR"
+          },
+          {
+            "offset": 93531,
+            "name": "SpritesPerEmission",
+            "type": 1,
+            "value": 1
+          },
+          {
+            "offset": 93558,
+            "name": "EmissionInterval",
+            "type": 2,
+            "value": 0.05000000074505806
+          },
+          {
+            "offset": 93583,
+            "name": "SpriteLifespan",
+            "type": 2,
+            "value": 0.800000011920929
+          },
+          {
+            "offset": 93606,
+            "name": "EmissionType",
+            "type": 3,
+            "value": "2,Point,Plane,Sphere,PlaneOut,Cone,Circle",
+            "numeric_selection": 2,
+            "stored_editor_label": "Sphere"
+          },
+          {
+            "offset": 93751,
+            "name": "Radius",
+            "type": 2,
+            "value": 20.0
+          },
+          {
+            "offset": 93766,
+            "name": "PlaneDir",
+            "type": 4,
+            "value": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 93791,
+            "name": "Velocity",
+            "type": 2,
+            "value": 10.0
+          },
+          {
+            "offset": 93808,
+            "name": "WindDir",
+            "type": 4,
+            "value": [
+              0.0,
+              90.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 93832,
+            "name": "WindAmount",
+            "type": 2,
+            "value": 3.0
+          },
+          {
+            "offset": 93851,
+            "name": "AType",
+            "type": 3,
+            "value": "0,Norm,Add",
+            "numeric_selection": 0,
+            "stored_editor_label": "Norm"
+          },
+          {
+            "offset": 93989,
+            "name": "StretchU",
+            "type": 2,
+            "value": 2.0
+          },
+          {
+            "offset": 94006,
+            "name": "StretchV",
+            "type": 2,
+            "value": 3.0
+          },
+          {
+            "offset": 94023,
+            "name": "Facing",
+            "type": 3,
+            "value": "0,CameraFacing,AlongNormal,ParentAlign",
+            "numeric_selection": 0,
+            "stored_editor_label": "CameraFacing"
+          },
+          {
+            "offset": 94162,
+            "name": "FacingDir",
+            "type": 4,
+            "value": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 94188,
+            "name": "Active",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 94327,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 0.0,
+              "packed": 1342210303,
+              "rgb_transparency": [
+                255,
+                128,
+                0,
+                80
+              ]
+            }
+          },
+          {
+            "offset": 94342,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 1.0,
+              "packed": 3124756608,
+              "rgb_transparency": [
+                128,
+                0,
+                64,
+                186
+              ]
+            }
+          },
+          {
+            "offset": 94357,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              0.0,
+              0.10000000149011612,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 94380,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              1.0,
+              0.40909090638160706,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "end_offset": 94403
+      },
+      {
+        "offset": 94403,
+        "component_ref": "PlaySound",
+        "id": 10,
+        "linked": 0,
+        "linked_id": 0,
+        "linked_node": "",
+        "start": 0.49400001764297485,
+        "end": 2.8600001335144043,
+        "repeat": 1,
+        "track": 3,
+        "min_scale": 0.0,
+        "max_scale": 10.0,
+        "properties": [
+          {
+            "offset": 94603,
+            "name": "UpdatePos",
+            "type": 3,
+            "value": "1,Fixed,Follow,LeftHand,RightHand,LeftFoot,RightFoot,Head,Tail,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10",
+            "numeric_selection": 1,
+            "stored_editor_label": "Follow"
+          },
+          {
+            "offset": 94745,
+            "name": "RandGen",
+            "type": 3,
+            "value": "0,None,BoundingBox",
+            "numeric_selection": 0,
+            "stored_editor_label": "None"
+          },
+          {
+            "offset": 94885,
+            "name": "Interpolate",
+            "type": 3,
+            "value": "0,Yes,No",
+            "numeric_selection": 0,
+            "stored_editor_label": "Yes"
+          },
+          {
+            "offset": 95029,
+            "name": "Offset",
+            "type": 4,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 95052,
+            "name": "RotateAdd",
+            "type": 4,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 95078,
+            "name": "Sound",
+            "type": 7,
+            "value": "wav|SOUNDS\\SPELLS\\COLUMN03.WAV"
+          },
+          {
+            "offset": 95216,
+            "name": "Loop",
+            "type": 3,
+            "value": "0,No,Yes",
+            "numeric_selection": 0,
+            "stored_editor_label": "No"
+          },
+          {
+            "offset": 95353,
+            "name": "PlayLocal",
+            "type": 3,
+            "value": "0,No,Yes",
+            "numeric_selection": 0,
+            "stored_editor_label": "No"
+          },
+          {
+            "offset": 95495,
+            "name": "InnerRadius",
+            "type": 2,
+            "value": 100.0
+          },
+          {
+            "offset": 95515,
+            "name": "OuterRadius",
+            "type": 2,
+            "value": 500.0
+          },
+          {
+            "offset": 95535,
+            "name": "Volume",
+            "type": 1,
+            "value": 100
+          },
+          {
+            "offset": 95550,
+            "name": "Priority",
+            "type": 1,
+            "value": 0
+          },
+          {
+            "offset": 95567,
+            "name": "UseMarkers",
+            "type": 3,
+            "value": "0,No,Yes",
+            "numeric_selection": 0,
+            "stored_editor_label": "No"
+          },
+          {
+            "offset": 95710,
+            "name": "PitchShift",
+            "type": 2,
+            "value": 1.0
+          },
+          {
+            "offset": 95729,
+            "name": "MultiPlaySound",
+            "type": 7,
+            "value": "wav|..."
+          },
+          {
+            "offset": 95876,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 0.0,
+              "packed": 16777215,
+              "rgb_transparency": [
+                255,
+                255,
+                255,
+                0
+              ]
+            }
+          },
+          {
+            "offset": 95891,
+            "name": "Ck",
+            "type": 6,
+            "value": {
+              "time": 1.0,
+              "packed": 16777215,
+              "rgb_transparency": [
+                255,
+                255,
+                255,
+                0
+              ]
+            }
+          },
+          {
+            "offset": 95906,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "offset": 95929,
+            "name": "Sk",
+            "type": 5,
+            "value": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "end_offset": 95952
+      }
+    ],
+    "end_offset": 95952
+  },
+  "emission_label_mismatches": [
+    {
+      "effect": "sparklies",
+      "key": 2,
+      "offset": 1029,
+      "numeric": 3,
+      "stored_label": "PlaneOut",
+      "native_branch": "PlaneIn"
+    },
+    {
+      "effect": "spell-town portal",
+      "key": 8,
+      "offset": 37657,
+      "numeric": 4,
+      "stored_label": "Cone",
+      "native_branch": "PlaneOut"
+    },
+    {
+      "effect": "spell-enrage",
+      "key": 30,
+      "offset": 81571,
+      "numeric": 4,
+      "stored_label": "Cone",
+      "native_branch": "PlaneOut"
+    },
+    {
+      "effect": "spell-column of fire",
+      "key": 6,
+      "offset": 88426,
+      "numeric": 3,
+      "stored_label": "PlaneOut",
+      "native_branch": "PlaneIn"
+    },
+    {
+      "effect": "spell-column of fire",
+      "key": 8,
+      "offset": 90173,
+      "numeric": 3,
+      "stored_label": "PlaneOut",
+      "native_branch": "PlaneIn"
+    }
+  ],
+  "assets": {
+    "sprites/fire/torchflame4.spr": {
+      "fingerprint": {
+        "path": "reference/extracted/SPRITES/SPRITES/FIRE/TORCHFLAME4.spr",
+        "bytes": 1040,
+        "sha256": "6640d853683b111ba61021903df854c01db9216b852c6b164fd6e03f3e7f19d9"
+      },
+      "frame_count": 15,
+      "fps": 15,
+      "frame_ms": 66,
+      "cycle_ms": 990,
+      "keyed": 0,
+      "translucent": 0,
+      "color_key": 0,
+      "frames": [
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0045.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0046.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0047.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0048.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0049.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0050.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0051.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0052.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0053.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0054.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0055.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0056.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0057.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0058.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0059.dtx"
+      ],
+      "textures": [
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0045.dtx",
+          "bytes": 5604,
+          "sha256": "d128add353eeff302572f2c404fa3b3923b2f0a33d660897c3f054c7f9717ae5"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0046.dtx",
+          "bytes": 5604,
+          "sha256": "596a482f0010093b9d8f26ba681970d93b834ad8e42490f746d3c2b356b6b8b2"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0047.dtx",
+          "bytes": 5604,
+          "sha256": "1ad07c58fe3d37b15fc94a6acfe3ce834f8b2ce94b3a403fa2466e9c2de8a255"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0048.dtx",
+          "bytes": 5604,
+          "sha256": "83c0f21d2d69215117c22fd29fa5c25670ea549e4a27cb91b337fb9f34d3af1b"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0049.dtx",
+          "bytes": 5604,
+          "sha256": "092df10d859f61f85dff0dbc462aa2874cac3d3c41a966918c200079ac1dd23e"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0050.dtx",
+          "bytes": 5604,
+          "sha256": "991cc125edc71d738b0d0a5ae2fc36e0c1053ebb7d41658b0e134a2599df01fa"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0051.dtx",
+          "bytes": 5604,
+          "sha256": "269c6b01138a085898dcf9eb70ce015243b014cda3efa7c168852ed7297521ee"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0052.dtx",
+          "bytes": 5604,
+          "sha256": "101f890a54f77389984907135f5a82ccec8d26be42bb09afb3cb60f52ec676ae"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0053.dtx",
+          "bytes": 5604,
+          "sha256": "c069715357775085be432ef198a3f38b14edb9b7ac75ad9095950924984f5b33"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0054.dtx",
+          "bytes": 5604,
+          "sha256": "daca55e7de874253b2b1a9c28a64bfa68f16075c607e39822b4c419b2bccb5c5"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0055.dtx",
+          "bytes": 5604,
+          "sha256": "ce35e62c49e3c1bf38a7f81b132fa2a015da88d89ce90a0f1c901f8b7e3665d5"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0056.dtx",
+          "bytes": 5604,
+          "sha256": "3d6c81608bd149b509a4a00e6379ddb87b63fbb424538a894349553228cd69ed"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0057.dtx",
+          "bytes": 5604,
+          "sha256": "49f126338d1967561e4c4d21f5901ddf3dcda3168ed944cb43d8e715f1da1549"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0058.dtx",
+          "bytes": 5604,
+          "sha256": "a140d3a3922abd55bf38eb2f919995154b61b011362e8d1dbd369023cf963d75"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0059.dtx",
+          "bytes": 5604,
+          "sha256": "3433dbf7e1af3b30d5ec77d65b30375bc1abb76b618ab3742ebbc36b17858b5c"
+        }
+      ],
+      "common_texture_header": {
+        "version": -5,
+        "width": 64,
+        "height": 64,
+        "mips": 4,
+        "sections": 0,
+        "internal_flags": 136,
+        "user_flags": 0,
+        "extra_hex": "000006000000000000000000",
+        "bpp_identifier": 6,
+        "command": ""
+      }
+    },
+    "sprites/fire/torchflame3.spr": {
+      "fingerprint": {
+        "path": "reference/extracted/SPRITES/SPRITES/FIRE/TORCHFLAME3.spr",
+        "bytes": 1040,
+        "sha256": "8d5ef4c064e5947f188b4890486cc4e66dc2966f5c7aa4e9af84bf153846c978"
+      },
+      "frame_count": 15,
+      "fps": 15,
+      "frame_ms": 66,
+      "cycle_ms": 990,
+      "keyed": 0,
+      "translucent": 0,
+      "color_key": 0,
+      "frames": [
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0030.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0031.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0032.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0033.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0034.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0035.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0036.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0037.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0038.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0039.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0040.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0041.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0042.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0043.dtx",
+        "SpriteTextures\\FlameEffects\\TorchFlame\\torchflame_additive0044.dtx"
+      ],
+      "textures": [
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0030.dtx",
+          "bytes": 5604,
+          "sha256": "97ab01af49ffda2c7f0794041657def7e90df86996ccee88a67994df8b091b41"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0031.dtx",
+          "bytes": 5604,
+          "sha256": "1f0cfbb3ef4cf476c45ee8806bc2edb9650890b83fb5279c1518dcbdb385fbf4"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0032.dtx",
+          "bytes": 5604,
+          "sha256": "12cd9a9cb3df47cd88c7cee5762ad168bf3e20493992641731c23b81aec19a4f"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0033.dtx",
+          "bytes": 5604,
+          "sha256": "b36c972bcf2cebb4886c3a8ca66f7a5b1315d3ec4983a0b56fe991d49bda6433"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0034.dtx",
+          "bytes": 5604,
+          "sha256": "19c3073a827a195e3fdb8a2fddc0d2e90ad95f6ff9ff2bc1e456b8239c0a3fb2"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0035.dtx",
+          "bytes": 5604,
+          "sha256": "3747daef82792aa68b73cbe9344eb5f6885fed63eb18fc0c7c0975df153d00c1"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0036.dtx",
+          "bytes": 5604,
+          "sha256": "822b12451f1454a5f5a9535f856b9f8f2fcc1c59d1620e61c3901addfafadd00"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0037.dtx",
+          "bytes": 5604,
+          "sha256": "9fee8db28c8f77d9be1004dc753a390d284ec5fc91e5d014d2b766fbf2694eb3"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0038.dtx",
+          "bytes": 5604,
+          "sha256": "89c3ad0f652c3b56ef2aedacaaa7b08c6829f5cfac86cd419ba45c8ccb5ffe35"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0039.dtx",
+          "bytes": 5604,
+          "sha256": "f7db845258cac1864d2b00a4da4881f4948129833dc85939f966c78573fe5412"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0040.dtx",
+          "bytes": 5604,
+          "sha256": "02606a1e0a5d26b9ffc5fd70b45079a8d318b1041097d886c5eac84c92f26e19"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0041.dtx",
+          "bytes": 5604,
+          "sha256": "15ec63862688fd7eed94d764d4fb37e730960b0c268f6580f9f5ca790c8f7de0"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0042.dtx",
+          "bytes": 5604,
+          "sha256": "f82829b4ccaf3e71f67466116e200088f13a0541929037404777ba1ccc53e4b7"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0043.dtx",
+          "bytes": 5604,
+          "sha256": "a555434124f8a536fdc9a434895fe6f4924604827da0770385e7504c74ca36d8"
+        },
+        {
+          "path": "reference/extracted/SPRITETEXTURES/SPRITETEXTURES/FLAMEEFFECTS/TORCHFLAME/TORCHFLAME_ADDITIVE0044.dtx",
+          "bytes": 5604,
+          "sha256": "68bc739003ef5c6d9595a9a0bcefd9375c989ee7a21ab7ab2436ca399e878a4d"
+        }
+      ],
+      "common_texture_header": {
+        "version": -5,
+        "width": 64,
+        "height": 64,
+        "mips": 4,
+        "sections": 0,
+        "internal_flags": 136,
+        "user_flags": 0,
+        "extra_hex": "000006000000000000000000",
+        "bpp_identifier": 6,
+        "command": ""
+      }
+    },
+    "sounds/spells/column03.wav": {
+      "fingerprint": {
+        "path": "reference/extracted/SOUNDS/SOUNDS/SPELLS/COLUMN03.wav",
+        "bytes": 104994,
+        "sha256": "7e225d8f1f6a0032cfd20225a5af5436eee7fc6433258a4f56438c94904487f8"
+      },
+      "audio": {
+        "channels": 1,
+        "bits_per_sample": 16,
+        "sample_rate": 22050,
+        "frames": 52431,
+        "duration_seconds": 2.3778231292517007
+      }
+    }
+  }
+}

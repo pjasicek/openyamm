@@ -1,0 +1,20 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- capture: context-door
+- right_down:
+  - 800
+  - 530
+- pointer_down:
+  - 800
+  - 530
+- capture: context-door-held
+- pointer_up:
+  - 800
+  - 530
+- right_up:
+  - 800
+  - 530
+- wait: 1
+- capture: context-door-open

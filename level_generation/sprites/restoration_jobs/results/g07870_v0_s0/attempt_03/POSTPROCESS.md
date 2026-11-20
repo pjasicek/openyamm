@@ -1,0 +1,1 @@
+After process replay clean_edges.py then calibrate_orb_gamma.py then queue.py check. Immutable before_edge_cleanup and before_orb_grade backups retain each stage. Cleanup uses lower thresholds on brass rows >=66, conservative thresholds on purple orb. Exact mask request: state/g07870_v0_s0.mask_repair.txt. repair_review.json records resolved pre-correction findings.

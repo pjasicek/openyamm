@@ -1,0 +1,13 @@
+output_dir: ../images/4by3
+exit: true
+steps:
+- wait: 1
+- action: rest
+- wait: 3
+- capture: rest-draining
+- wait: 4.7
+- capture: rest-turn
+- wait: 1
+- capture: rest-inverted
+- key: Escape
+- expect: gameplay

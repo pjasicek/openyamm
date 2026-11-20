@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayController.h"
 
+#include "game/rules/GameRules.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 
@@ -97,16 +98,6 @@ bool GameplayController::advanceGameMinutes(float minutes)
 
     if (m_pSession != nullptr)
     {
-        EventRuntimeState *pEventRuntimeState = m_pRuntime->eventRuntimeState();
-
-        if (pEventRuntimeState != nullptr)
-        {
-            m_pSession->gameplayItemService().updateConnectorStoneRecharge(
-                m_pRuntime->party(),
-                *pEventRuntimeState,
-                m_pSession->gameMinutes() + minutes);
-        }
-
         synchronizeSessionFromRuntime();
     }
 
@@ -120,8 +111,28 @@ bool GameplayController::advanceTurnBasedGameMinutes(float minutes)
         return false;
     }
 
+    // A completed turn is all the time that passes in turn-based combat (OE NextTurn -> _494035_timed_effects): the
+    // clock and buffs, the per-second regeneration and the monsters' spell effects advance by the turn's game time.
+    constexpr float GameMinutesPerRealSecond = 0.5f;
+    const float equivalentRealSeconds = minutes / GameMinutesPerRealSecond;
+    Party &party = m_pRuntime->party();
     m_pRuntime->advanceTurnBasedGameMinutes(minutes);
-    m_pRuntime->party().advanceTimedStates(minutes * 60.0f);
+    party.advanceTimedStates(minutes * 60.0f);
+    party.updateRegeneration(equivalentRealSeconds);
+
+    IGameplayWorldRuntime *pWorldRuntime = m_pSession != nullptr ? m_pSession->activeWorldRuntime() : nullptr;
+
+    if (pWorldRuntime != nullptr)
+    {
+        party.rules().skills.updateRegeneration(party, *pWorldRuntime, equivalentRealSeconds);
+        // The ruleset's timers (GameSession runs them with no time in turn-based frames).
+        party.rules().spells.updateAuras(party, equivalentRealSeconds);
+        party.rules().combat.updateCombat(party, *pWorldRuntime, equivalentRealSeconds);
+        party.rules().classes.update(party, *pWorldRuntime, equivalentRealSeconds);
+        party.rules().monsters.updateMonsters(*pWorldRuntime, equivalentRealSeconds);
+        pWorldRuntime->advanceTurnBasedWorldTime(equivalentRealSeconds);
+    }
+
     return true;
 }
 

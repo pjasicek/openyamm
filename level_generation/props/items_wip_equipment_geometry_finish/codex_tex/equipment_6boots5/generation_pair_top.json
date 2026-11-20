@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, exact gray orthographic top view duplicated in two stacked squares; image 2 only original item appearance reference. Keep EXACT 1:2 portrait canvas. Keep BOTH object silhouettes, outlines, position, size and every opening EXACTLY as gray guide. No enlarging/shrinking. TOP SQUARE: realistic finely textured UNLIT BASE COLOUR, no directional light, highlights, ambient occlusion, shadow, floor or text. BOTTOM SQUARE: exactly same object, flat pure material IDs without shading or texture. Ultimate/Lucius/Hermes boots: oxblood dragonhide leather boots, dark oxblood deep interiors, horn amber reinforcements and cuff birds, steel rivets and silver buckles. Material IDs: leather and interiors GREEN #00ff00, horn YELLOW #ffff00, actual steel/silver METAL RED #ff0000. Preserve all gray solid surfaces opaque, gaps transparent. Completely transparent background; NO coloured fringe or speckles. It is an exact geometry colourization, not a new illustration. Output transparent 1024x2048 PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/guide_pair_top.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots5.png"
+  ],
+  "icon": "6boots5",
+  "view": "top",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-82859462-9859-4ccc-bdb7-e0b6a399446c.png",
+  "raw_sha256": "dec84b4cf88ff37919977df31cdcda239ec7f72c88bd25fb9782e94f73c2d1a7",
+  "dimensions": [
+    887,
+    1774
+  ],
+  "derivation": "Unresized top/bottom square extraction",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/guide_pair_top.png": "0b644b5b45434f8df67ad8280a5fdf86993874279c6f2b1167ab1b92603899cf",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots5.png": "b2b8e5e1400143b06da8954c93112c41874aeee4205fac2f202189ab29b5aa69"
+  },
+  "selected": false,
+  "reason": "Generated trial not selected. Original paintings and masks register after restoring source pair proportions; see reused_original_views.json."
+}

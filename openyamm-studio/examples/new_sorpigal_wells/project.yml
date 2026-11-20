@@ -1,0 +1,19 @@
+format: 0
+id: wellsrewire
+world: mm6
+kind: outdoor
+profile: odm
+base: oute3.odm
+neighbours:
+  - id: exit:6d01
+    to: 6d01.blv
+    kind: door
+  - id: exit:6d02
+    to: 6d02.blv
+    kind: door
+  - id: exit:6d18
+    to: 6d18.blv
+    kind: door
+  - id: exit:outb3
+    to: outb3.odm
+    kind: door

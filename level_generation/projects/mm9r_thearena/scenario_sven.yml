@@ -1,0 +1,175 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thearena_sven
+title: The Arena (native BLV) - Sven's double, his soldiers and Byri the Scarred (keys 230 / 231)
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thearena.blv
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 1
+      hidden: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90230
+    value: true
+- note:
+    text: With Sven's plan (230) the Arena Master's fights are off (Arena.scr :OnRude :Reset).
+- set_pose:
+    map: thearena.blv
+    x: -98
+    y: -3441
+    z: 1
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 430
+- select_topic:
+    action_id: 4
+    match_label: We're here to fight.
+- select_topic:
+    action_id: 3
+    match_label: We'd like to fight at the Page level.
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_clear:
+    - 91004
+- assert:
+    named_map_var_changed:
+      name: Waiting
+      current: 0
+- note:
+    text: 'Opening the arena door (RotatingDoor0''s OpenTrigger: SvenArena Walk): Sven''s double and his soldiers in the box,
+      the east pen opens and Byri comes out to the middle.'
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -1786
+    z: 1
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 7
+- assert:
+    actor_visible:
+      actor_index: 1
+      hidden: false
+      report_state: true
+      near:
+        x: 0
+        y: 1597
+        max_distance: 120
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: false
+      report_state: true
+      near:
+        x: 0
+        y: 0
+        max_distance: 120
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- note:
+    text: 'Byri''s talk (RUDE 245) by a click: the letter makes him talk; key 231; he runs off.'
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -260
+    z: 1
+    yaw: 1.5708
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 245
+- select_topic:
+    action_id: 8
+    match_label: We're not going to allow you to murder Sven.
+- select_topic:
+    action_id: 6
+    match_label: This letter.
+- select_topic:
+    action_id: 1
+    match_label: A dying messenger.
+- assert:
+    qbit_set:
+    - 90231
+- select_topic:
+    action_id: 5
+    match_label: I'm sure we could come to an arrangement.
+- select_topic:
+    action_id: 4
+    match_label: Who put you up to this?
+- select_topic:
+    action_id: 3
+    match_label: Why did he want Sven dead?
+- select_topic:
+    action_id: 2
+    match_label: Sven is going to find out about this.  We suggest leaving town.
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 5
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: true
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- note:
+    text: Sven's double in the box (SvenArena.scr :OnUse key 1034, RUDE 428).
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: 1367
+    z: 513
+    yaw: 1.5708
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 428
+- assert:
+    qbit_set:
+    - 91034
+- select_topic:
+    action_id: 2
+    match_label: You're Sven's double?
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_clear:
+    - 91034

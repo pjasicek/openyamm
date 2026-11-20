@@ -1,0 +1,23 @@
+# Isle of Ashes (level_generation/projects/mm9r_isleofashes_blv/regionlua.py): TriggerStarters has the Lich summon
+# two Skeletoids on his islet; each runs to MarkerFrom and teleports to MarkerTo, the mainland's shore
+# (Isle_SpawnCreature.scr). MarkerTo hung 23 units over the rebuilt shore, so the game refused the move and the
+# Skeletoids stayed on the islet, where the map's progress could never reach 100 % (found 2026-11-09). Now MarkerTo
+# stands on the floor and a Skeletoid counts as fighting only once moved.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/isle_lich_skeletoids_reach_shore.yml --scenario-no-color
+id: mm9.isle_lich_skeletoids_reach_shore
+title: "Isle of Ashes: the Lich's Skeletoids teleport to the mainland's shore"
+world: mm9
+mode: faithful
+tags: [mm9, story]
+steps:
+  - new_game_flow: {start_map: isleofashes.blv}
+  - setup_shortcut: {kind: immortal}
+  # TriggerStarters, then away from the islet and the shore.
+  - set_pose: {map: isleofashes.blv, x: 3480, y: -3580, z: 300, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 2}
+  - set_pose: {map: isleofashes.blv, x: -6000, y: -6000, z: 400, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 30}
+  - assert:
+      actor_count: {monster_id: 9183, near: [-205, 1823, 600], min: 2}
+  - assert:
+      actor_count: {monster_id: 9183, near: [8976, 9694, 600], max: 0}

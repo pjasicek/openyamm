@@ -1,0 +1,4861 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "mountainpass.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 0,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4,
+    "legacy_attributes": 4194304
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 18574,
+     "y": 12696,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 6901,
+     "y": -16959,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 22834,
+     "y": -15649,
+     "z": 952
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 22670,
+     "y": -12863,
+     "z": 1073
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 22670,
+     "y": -13683,
+     "z": 1019
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": -13047,
+     "y": -15976,
+     "z": 762
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": -4199,
+     "y": 16792,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -9934,
+     "y": -1558,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -10425,
+     "y": -4180,
+     "z": 124
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -11408,
+     "y": -3197,
+     "z": 38
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -9770,
+     "y": -3033,
+     "z": 20
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -10753,
+     "y": -2214,
+     "z": 6
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -5510,
+     "y": 12696,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -4527,
+     "y": 12696,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 17100,
+     "y": 11876,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 14970,
+     "y": 9419,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 14806,
+     "y": 7944,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 14642,
+     "y": 6470,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 20049,
+     "y": -14174,
+     "z": 1476
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 14642,
+     "y": -14829,
+     "z": 2248
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 12512,
+     "y": -15976,
+     "z": 1515
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 21,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 10505,
+     "y": -16304,
+     "z": 928
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 22,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 8744,
+     "y": -16304,
+     "z": 500
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -3421,
+     "y": -14174,
+     "z": 2163
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -1127,
+     "y": -14174,
+     "z": 1509
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 25,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -1619,
+     "y": -12863,
+     "z": 1478
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 26,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": 15625,
+     "y": -6146,
+     "z": 144
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 27,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": 14970,
+     "y": -8931,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 28,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": 11529,
+     "y": -11880,
+     "z": 391
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 29,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": 9072,
+     "y": -13355,
+     "z": 420
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 30,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -11245,
+     "y": -16959,
+     "z": 952
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 31,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -10098,
+     "y": 1227,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 32,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -9278,
+     "y": 3029,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 33,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -8623,
+     "y": 4012,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 34,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": 16444,
+     "y": -4180,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 35,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -3872,
+     "y": 17775,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 36,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -3708,
+     "y": 16955,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 37,
+    "name": "Black Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 360,
+    "hostility_type": 4,
+    "monster_info_id": 9116,
+    "monster_id": 9116,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 21687,
+     "y": 12368,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 38,
+    "name": "Black Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 360,
+    "hostility_type": 4,
+    "monster_info_id": 9116,
+    "monster_id": 9116,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": -19764,
+     "y": -739,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 39,
+    "name": "Black Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 360,
+    "hostility_type": 4,
+    "monster_info_id": 9116,
+    "monster_id": 9116,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": -15504,
+     "y": -739,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 40,
+    "name": "Black Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 360,
+    "hostility_type": 4,
+    "monster_info_id": 9116,
+    "monster_id": 9116,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": -4855,
+     "y": 12368,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 41,
+    "name": "Bigfoot",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 103,
+    "hostility_type": 4,
+    "monster_info_id": 9198,
+    "monster_id": 9198,
+    "radius": 51,
+    "height": 241,
+    "move_speed": 384,
+    "position": {
+     "x": -1414,
+     "y": -4999,
+     "z": 1318
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 42,
+    "name": "Imp",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 24,
+    "hostility_type": 4,
+    "monster_info_id": 9079,
+    "monster_id": 9079,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -15996,
+     "y": 17611,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 43,
+    "name": "Imp",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 24,
+    "hostility_type": 4,
+    "monster_info_id": 9079,
+    "monster_id": 9079,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -15996,
+     "y": 17775,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 44,
+    "name": "Imp",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 24,
+    "hostility_type": 4,
+    "monster_info_id": 9079,
+    "monster_id": 9079,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -15832,
+     "y": 17611,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 45,
+    "name": "Imp",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 24,
+    "hostility_type": 4,
+    "monster_info_id": 9079,
+    "monster_id": 9079,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -15832,
+     "y": 17283,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 46,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -15504,
+     "y": 17611,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 47,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -15668,
+     "y": 17775,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 48,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -15832,
+     "y": 17939,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 49,
+    "name": "Imply",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 15,
+    "hostility_type": 4,
+    "monster_info_id": 9078,
+    "monster_id": 9078,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -19437,
+     "y": 15972,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "mp_imp.scr"
+    }
+   },
+   {
+    "actor_index": 50,
+    "name": "Imply",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 15,
+    "hostility_type": 4,
+    "monster_info_id": 9078,
+    "monster_id": 9078,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -16160,
+     "y": 17775,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 51,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -13702,
+     "y": 15481,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 52,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 16444,
+     "y": -3525,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 53,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 16281,
+     "y": -2378,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 54,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 16444,
+     "y": -2869,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 55,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -6493,
+     "y": 10238,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 56,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -6657,
+     "y": 9091,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 57,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 15298,
+     "y": 2374,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 58,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 15134,
+     "y": 3848,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 59,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -7312,
+     "y": 7289,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 60,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -9934,
+     "y": -16959,
+     "z": 1074
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 61,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -13047,
+     "y": -15321,
+     "z": 753
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 62,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -11408,
+     "y": -17615,
+     "z": 888
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 63,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 9891,
+     "y": -12863,
+     "z": 401
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 64,
+    "name": "Winged Aberration",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 517,
+    "hostility_type": 4,
+    "monster_info_id": 9161,
+    "monster_id": 9161,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 10546,
+     "y": -12372,
+     "z": 390
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 65,
+    "name": "Winged Aberration",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 517,
+    "hostility_type": 4,
+    "monster_info_id": 9161,
+    "monster_id": 9161,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 9891,
+     "y": -14010,
+     "z": 428
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 66,
+    "name": "Winged Aberration",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 517,
+    "hostility_type": 4,
+    "monster_info_id": 9161,
+    "monster_id": 9161,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 15461,
+     "y": 1391,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 67,
+    "name": "Winged Aberration",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 517,
+    "hostility_type": 4,
+    "monster_info_id": 9161,
+    "monster_id": 9161,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -12719,
+     "y": 14006,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 68,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -431,
+     "y": -10078,
+     "z": 2552
+    },
+    "initial_yaw_units": 1770,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 69,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -2397,
+     "y": -10242,
+     "z": 2577
+    },
+    "initial_yaw_units": 1753,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 70,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -1250,
+     "y": -9259,
+     "z": 2465
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 71,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -1742,
+     "y": -5819,
+     "z": 1318
+    },
+    "initial_yaw_units": 1536,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 72,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -2233,
+     "y": -6146,
+     "z": 1318
+    },
+    "initial_yaw_units": 1764,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 73,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -1414,
+     "y": -5900,
+     "z": 1318
+    },
+    "initial_yaw_units": 1479,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 74,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -1005,
+     "y": -6310,
+     "z": 1318
+    },
+    "initial_yaw_units": 1308,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 75,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -1660,
+     "y": -7047,
+     "z": 1319
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 76,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 22719,
+     "y": -15686,
+     "z": 962
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 77,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 22756,
+     "y": -12778,
+     "z": 1052
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 78,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": -13146,
+     "y": -15906,
+     "z": 762
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 79,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -3933,
+     "y": 17880,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 80,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -9848,
+     "y": -1643,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 81,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -10337,
+     "y": -4097,
+     "z": 130
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 82,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -9773,
+     "y": -2912,
+     "z": 18
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 83,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -5532,
+     "y": 12815,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 84,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 17220,
+     "y": 11893,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 85,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 14853,
+     "y": 9448,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 86,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 14730,
+     "y": 7850,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 87,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 14762,
+     "y": 6484,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 88,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 20107,
+     "y": -14068,
+     "z": 1476
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 89,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 10459,
+     "y": -16416,
+     "z": 913
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 90,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 8853,
+     "y": -16357,
+     "z": 508
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 91,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": 11436,
+     "y": -11957,
+     "z": 384
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 92,
+    "name": "Winged Aberration",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 517,
+    "hostility_type": 4,
+    "monster_info_id": 9161,
+    "monster_id": 9161,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 10496,
+     "y": -12486,
+     "z": 395
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 93,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -11356,
+     "y": -17007,
+     "z": 934
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 94,
+    "name": "Grey Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9114,
+    "monster_id": 9114,
+    "radius": 35,
+    "height": 92,
+    "move_speed": 371,
+    "position": {
+     "x": -9247,
+     "y": 3146,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 95,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 16446,
+     "y": -3649,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 96,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 16298,
+     "y": -2501,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 97,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -1793,
+     "y": -5943,
+     "z": 1318
+    },
+    "initial_yaw_units": 1536,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 98,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -2281,
+     "y": -6271,
+     "z": 1318
+    },
+    "initial_yaw_units": 1764,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 99,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -6413,
+     "y": 10143,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 100,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 15176,
+     "y": 2351,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 101,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": -339,
+     "y": -10161,
+     "z": 2570
+    },
+    "initial_yaw_units": 1770,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 102,
+    "name": "Red Wolf",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9115,
+    "monster_id": 9115,
+    "radius": 44,
+    "height": 115,
+    "move_speed": 384,
+    "position": {
+     "x": 22953,
+     "y": -15628,
+     "z": 974
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 103,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -10526,
+     "y": -4246,
+     "z": 115
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 104,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": -9779,
+     "y": -3154,
+     "z": 27
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 105,
+    "name": "Imp Elder",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 45,
+    "hostility_type": 4,
+    "monster_info_id": 9080,
+    "monster_id": 9080,
+    "radius": 26,
+    "height": 123,
+    "move_speed": 192,
+    "position": {
+     "x": 17155,
+     "y": 11984,
+     "z": 1
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25
+    }
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    -19145,
+    20120,
+    1
+   ],
+   "direction_degrees": 270
+  },
+  {
+   "start_index": 1,
+   "source_name": "ThjorgardStart",
+   "position": [
+    23817,
+    12204,
+    1
+   ],
+   "direction_degrees": 180
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:mountainpass:object:128",
+   "source_object_index": 128,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    -1600.0,
+    1102.0,
+    -2656.0
+   ],
+   "position": {
+    "x": -1578,
+    "y": -9832,
+    "z": 2821
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 10,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "both"
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [],
+ "searchable_loot_props": [
+  {
+   "source_id": "mm9:mountainpass:object:263",
+   "source_object_index": 263,
+   "source_class": "BonePile",
+   "source_name": "BonePile0",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    -2432.0,
+    1152.0,
+    -1152.0
+   ],
+   "position": {
+    "x": -3708,
+    "y": -5982,
+    "z": 2949
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 1,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 1,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:mountainpass:object:264",
+   "source_object_index": 264,
+   "source_class": "BonePile",
+   "source_name": "BonePile1",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    -512.0,
+    1152.0,
+    -1216.0
+   ],
+   "position": {
+    "x": 1207,
+    "y": -6146,
+    "z": 2949
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 1,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 1,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:mountainpass:object:265",
+   "source_object_index": 265,
+   "source_class": "BonePile",
+   "source_name": "BonePile2",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    -512.0,
+    1152.0,
+    -2496.0
+   ],
+   "position": {
+    "x": 1207,
+    "y": -9423,
+    "z": 2949
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 1,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 1,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:mountainpass:object:266",
+   "source_object_index": 266,
+   "source_class": "BonePile",
+   "source_name": "BonePile3",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    7744.0,
+    1152.0,
+    -3904.0
+   ],
+   "position": {
+    "x": 22343,
+    "y": -13027,
+    "z": 2949
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 1,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 1,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:mountainpass:object:267",
+   "source_object_index": 267,
+   "source_class": "BonePile",
+   "source_name": "BonePile4",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    7680.0,
+    1152.0,
+    -4608.0
+   ],
+   "position": {
+    "x": 22179,
+    "y": -14829,
+    "z": 2949
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 1,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 50,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 1,
+   "keep_visual_after_search": true
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 270,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    -21403,
+    -17615,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 271,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    -25171,
+    -3033,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 272,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    3501,
+    3684,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 273,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    -2561,
+    -21547,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 274,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    15789,
+    -20892,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 275,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    22670,
+    899,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 276,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    20049,
+    19249,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 277,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    2518,
+    21051,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 278,
+   "sound": "ambient/wind/wind-canyonloop2.wav",
+   "position": [
+    -23696,
+    8927,
+    4260
+   ],
+   "inner_radius": 5120,
+   "outer_radius": 51200,
+   "volume": 0.105,
+   "loop": true
+  },
+  {
+   "key": 118,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1660,
+    -6474,
+    1638
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   20,
+   20,
+   20
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "sun_gain": 4.0
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "moungdsg9g",
+    "mounkhoius"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "invizvjn7n",
+    "sky04"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": -1888,
+    "y": -5600,
+    "z": 1317
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -1760,
+    "y": -5344,
+    "z": 1317
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": 22176,
+    "y": -14944,
+    "z": 1215
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -15200,
+    "y": 17184,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": -19936,
+    "y": 15776,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": 14880,
+    "y": -14816,
+    "z": 2240
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": 8608,
+    "y": -16864,
+    "z": 480
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": -12384,
+    "y": 13472,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 8,
+   "position": {
+    "x": -6112,
+    "y": 13600,
+    "z": 0
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 9,
+   "position": {
+    "x": -4960,
+    "y": 17440,
+    "z": 74
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  }
+ ],
+ "terrain": {
+  "materials": "mountainpass_blv.yml",
+  "textures": [
+   "moungdsg9g",
+   "mounkhoius"
+  ],
+  "grass": "worlds/mm9/terrain_decorations/mountainpass_blv.yml"
+ }
+}

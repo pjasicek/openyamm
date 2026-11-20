@@ -1,0 +1,423 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "scope": "Image generation only; project writes confined to this directory; no builds.",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "tool": "built-in image_gen.imagegen",
+  "max_corrective_regenerations_per_view": 1,
+  "selection_policy": "Selected identifies the best available permitted attempt, not a fully compliant or approved asset.",
+  "status": "Generated and saved; exact brief compliance was not achieved within the permitted attempts.",
+  "limitation": "All four native tool returns were 1254x1254 despite explicit 1024x1024 requests. The tool did not preserve exact geometry/alpha or perfectly flat lighting. No resizing, masking, compositing, alpha repair or other post-processing was performed.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "corrective_regeneration": false,
+      "prompt": "Use case: style-transfer.\nAsset: LEFT orthographic albedo texture-source paintover for the Mid hive spire. Produce exactly ONE 1024 x 1024 PNG with a genuine transparent background.\nInputs in order:\n1. guide_left.png: EDIT TARGET and absolute authority for geometry, silhouette, position, scale, openings, and every shape edge. This is the exact model from its LEFT side.\n2. design_reference.png: approved material and colour authority ONLY. Its three-quarter camera, extra sculptural details, lighting and background must not replace the guide geometry.\n3. concept_crop.png: supporting original concept and palette.\n\nPaint only the existing grey surface pixels of image 1. Preserve the guide's original alpha silhouette exactly, at identical pixel positions on its unchanged square canvas. Do not rotate, recenter, resize, crop, smooth, widen or redesign it. The guide occupies approximately x=244 through 780 and y=66 through 957; preserve those extents. All tapered tier contours, angular ribs, pointed tip, existing thorn shapes, inner openings, and flared base are locked to the guide. All transparent pixels, including internal gaps, remain transparent. Do not invent new holes, ribs, spikes, or protrusions.\n\nTransfer the design's glossy wet black-violet resin/chitin material identity, orange slit-window/sac colours, and ivory bone thorns onto those exact existing shapes. Resin and chitin have dark plum-purple, black-violet base colour with subtle organic grain and marbling. Existing recessed window/sac surfaces are saturated orange/amber with restrained red-orange organic detail, painted at luminous colour. Existing bone tip/thorn surfaces are warm ivory with subtle natural streaks. Respect every guide boundary while placing these materials. Material grain is colour information only.\n\nLIGHTING IS CRITICAL: this is unlit ALBEDO for texture projection, not a beauty render. Uniform flat shadowless frontal illumination, even colour visibility over the entire surface. No directional shading, cast shadows, ambient-occlusion darkening, baked-in specular hotspots or reflections, rim light, bloom or halos. Represent the glossy material through its base-colour character without bright lighting reflections. Orange sacs and seams do not cast light onto adjacent purple or ivory. No floor, scenery, opaque background, vignette, checkerboard pattern, text, or labels.\nReturn the original generated 1024 x 1024 image, ready to save as paint_left.png.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "25bbb5bdd6f9514c4df37b86809f26eba4c21cd8acba432d57bed24a2b1d54a3",
+          "role": "edit target; exact orthographic geometry and alpha"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3",
+          "role": "approved design, colour and material reference"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected: incorrect native dimensions, invented lattice/opening detail, and excessive baked highlights/shading. Replaced by the single permitted corrective generation.",
+      "tool": "built-in image_gen.imagegen",
+      "tool_parameters": {
+        "transparent_background": true,
+        "referenced_image_paths": [
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/guide_left.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/design_reference.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/concept_crop.png"
+        ]
+      },
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16873-4f23-72b1-b9b9-0e9e1ebec029/exec-8bc99d68-01eb-4531-83fd-e66487920f26.png",
+      "output_metadata": {
+        "sha256": "7fd068820fba52a2cf3b99edcb5cd096c49f36635477bfffc96c799439f1d3e8",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          21,
+          1234,
+          1176
+        ],
+        "alpha_128_bbox": [
+          297,
+          80,
+          955,
+          1173
+        ],
+        "fully_transparent_pixels": 1354789,
+        "fully_opaque_pixels": 656,
+        "partially_transparent_pixels": 217071
+      },
+      "checks": {
+        "dimensions_1024x1024": {
+          "passed": false,
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Canvas dimensions differ; visible geometry and alpha coverage also differ.",
+          "guide_size": [
+            1024,
+            1024
+          ],
+          "guide_alpha_bbox": [
+            244,
+            66,
+            781,
+            958
+          ]
+        },
+        "materials_and_colours": {
+          "status": "partial",
+          "reason": "Black-violet/plum, orange and ivory palette present. Material placement and details differ from the guide; no claim of exact match."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Pronounced edge highlights, cavity shading and bright orange centres."
+        },
+        "transparent_background": {
+          "passed": true,
+          "reason": "PNG has an RGBA alpha channel and fully transparent background pixels."
+        },
+        "clean_guide_alpha": {
+          "passed": false,
+          "reason": "Partial-alpha fringe/speck pixels extend beyond the intended silhouette; original generated alpha preserved."
+        },
+        "unresized_unedited_return": {
+          "passed": true
+        },
+        "all_brief_requirements_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "CORRECTIVE GENERATION, LEFT VIEW. Use case: style-transfer, strictly registered albedo paintover.\nOutput resolution must be exactly 1024 pixels wide by 1024 pixels high, native 1024x1024 RGBA PNG. Do NOT produce 1254x1254. This is a direct edit of the FIRST input image on its ORIGINAL 1024x1024 canvas.\n\nInput 1 guide_left.png is the edit target. Preserve its alpha channel and EVERY geometrical edge identically. It is the exact orthographic left view of the existing 3D mesh. Keep silhouette, pixel position, scale, facets, ribs, hollows and internal transparent slits unchanged. Its occupied bounds are x244..780 and y66..957. Do not recenter, crop, scale, beautify or redesign any geometry.\nInput 2 design_reference.png gives only base colours and materials: black-violet/plum resin-chitin framework, orange slit-window sacs, warm ivory bone tip and existing thorns.\nInput 3 concept_crop.png is supporting original colour/material reference. Neither colour reference supplies geometry or lighting.\n\nPaint these colours ONLY onto the first image's existing surface. Keep exactly its coarse structure. Do not add any holes, filigree, ribs, extra surface openings, or bone projections. Existing recessed solid window areas receive orange pigment; existing actual transparent holes must remain transparent. Surrounding framework receives black-violet/plum resin base colour, existing bone surfaces ivory. Keep all existing edge positions visible through the material boundaries.\n\nCritical correction: remove all directional shading and specular streaks. Uniform, flat, shadowless, unlit albedo with quiet subtle organic colour texture only. The material belongs to glossy wet resin/chitin but the image must NOT bake in glossy reflections, highlights, ambient occlusion, deep cavity shadows or rim lighting. Orange sacs are uniformly saturated orange with modest organic pigment variation, NOT intense luminous centres or bloom. No light spill on adjacent materials. Ivory is warm ivory pigment without shaded sides or white glare.\n\nNothing outside the exact original guide alpha. Fully transparent empty canvas, no stray semitransparent specks, no halo, no floor, no checkerboard, no background, no text. Return one unresized native 1024x1024 transparent paint_left.png. Exact guide registration takes priority over ornament.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "25bbb5bdd6f9514c4df37b86809f26eba4c21cd8acba432d57bed24a2b1d54a3",
+          "role": "edit target; exact orthographic geometry and alpha"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3",
+          "role": "approved design, colour and material reference"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted left attempts: closer coarse guide structure and reduced highlights. This is a best-available selection, NOT an acceptance against the brief. Native output is 1254x1254 rather than 1024x1024; exact silhouette/shape registration fails, alpha fringe pixels remain, and some facet/cavity shading remains. Retained byte-for-byte without resizing or masking.",
+      "tool": "built-in image_gen.imagegen",
+      "tool_parameters": {
+        "transparent_background": true,
+        "referenced_image_paths": [
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/guide_left.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/design_reference.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/concept_crop.png"
+        ]
+      },
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16873-4f23-72b1-b9b9-0e9e1ebec029/exec-10cd1979-9f12-40d0-b97e-0e23672961c7.png",
+      "output_metadata": {
+        "sha256": "663f87e554030b38f6bf91e1cbb03641618ef97be0eb7adacb3e87ea01ec3604",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          31,
+          1225,
+          1214
+        ],
+        "alpha_128_bbox": [
+          298,
+          79,
+          949,
+          1172
+        ],
+        "fully_transparent_pixels": 1352150,
+        "fully_opaque_pixels": 764,
+        "partially_transparent_pixels": 219602
+      },
+      "checks": {
+        "dimensions_1024x1024": {
+          "passed": false,
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Canvas dimensions differ; visible geometry and alpha coverage also differ.",
+          "guide_size": [
+            1024,
+            1024
+          ],
+          "guide_alpha_bbox": [
+            244,
+            66,
+            781,
+            958
+          ]
+        },
+        "materials_and_colours": {
+          "status": "partial",
+          "reason": "Black-violet/plum, orange and ivory palette present. Material placement and details differ from the guide; no claim of exact match."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Specular intensity reduced, but baked facet/cavity shading remains."
+        },
+        "transparent_background": {
+          "passed": true,
+          "reason": "PNG has an RGBA alpha channel and fully transparent background pixels."
+        },
+        "clean_guide_alpha": {
+          "passed": false,
+          "reason": "Partial-alpha fringe/speck pixels extend beyond the intended silhouette; original generated alpha preserved."
+        },
+        "unresized_unedited_return": {
+          "passed": true
+        },
+        "all_brief_requirements_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "corrective_regeneration": false,
+      "prompt": "Use case: style-transfer.\nRIGHT ORTHOGRAPHIC ALBEDO PAINTOVER. Return one native 1024x1024 RGBA PNG with genuine transparent background, to be saved as paint_right.png. The final canvas must have exactly 1024 columns and 1024 rows of pixels.\n\nInput 1 guide_right.png is the EDIT TARGET: a grey rendering of the exact 3D model from the RIGHT side. Keep this image's original 1024x1024 canvas and its alpha mask unchanged. This guide is the absolute authority for EVERY shape edge, opening, detail, silhouette, scale and placement. The pointed tip begins at y66 and the flared base finishes at y957; horizontal occupied bounds x249..779. Preserve every faceted contour, rib and negative-space slit at its original pixel location. Do not mirror, rotate, recenter, resize, crop, smooth, or redesign this right-side geometry.\nInput 2 design_reference.png supplies only material identity and base colours. Its three-quarter shape and studio lighting are not the target.\nInput 3 concept_crop.png supplies supporting original material/colour reference.\n\nPaint only the existing guide surfaces with the approved design materials: black-violet/plum organic resin and chitin on the framework, saturated amber-orange on the existing slit-window and sac surfaces, warm ivory bone on the existing pointed tip and thorn faces. Keep all structural boundaries of the grey guide; do not add new holes, spikes, filigree or sculptural detail. Keep the original internal transparent gaps empty. Subtle organic marbling and natural bone streaks may appear strictly within existing surfaces. The purple chitin belongs to a glossy wet material, but this is its base colour texture without lighting reflections.\n\nThis is flat unlit ALBEDO for projection onto the model. All surfaces receive perfectly even shadowless frontal illumination. Remove directional shading and ambient-occlusion darkening. No specular glints or reflections, no rim light, no cast shadows, no highlights painted into edges, no dark gradient toward the base. Orange sacs and seams are painted in their glowing orange colour with modest pigment variation; they cast no light onto neighboring surfaces and have no bloom or halo. Ivory stays quiet warm ivory.\nNothing outside the guide alpha, including faint stray pixels. No floor, opaque background, gradient, checkerboard, vignette, labels or text. Exact registration to guide_right.png takes priority over decorative detail. Output only one native 1024x1024 transparent image, unresized.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "f86b251a52f18088df2d31651406a5a96408d7ec98dc7274fe1b9f7d06bad843",
+          "role": "edit target; exact orthographic geometry and alpha"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3",
+          "role": "approved design, colour and material reference"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected: incorrect native dimensions, invented lattice/opening detail, and excessive baked highlights/shading. Replaced by the single permitted corrective generation.",
+      "tool": "built-in image_gen.imagegen",
+      "tool_parameters": {
+        "transparent_background": true,
+        "referenced_image_paths": [
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/guide_right.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/design_reference.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/concept_crop.png"
+        ]
+      },
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16873-4f23-72b1-b9b9-0e9e1ebec029/exec-0123dcac-430d-456b-b4f6-e1e0c380ba54.png",
+      "output_metadata": {
+        "sha256": "6441a33985a63f6f119c126b17cda15a1ebed7c2438470907ea23191b15ec7cc",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          41,
+          35,
+          1226,
+          1254
+        ],
+        "alpha_128_bbox": [
+          305,
+          78,
+          958,
+          1175
+        ],
+        "fully_transparent_pixels": 1350744,
+        "fully_opaque_pixels": 726,
+        "partially_transparent_pixels": 221046
+      },
+      "checks": {
+        "dimensions_1024x1024": {
+          "passed": false,
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Canvas dimensions differ; visible geometry and alpha coverage also differ.",
+          "guide_size": [
+            1024,
+            1024
+          ],
+          "guide_alpha_bbox": [
+            249,
+            66,
+            780,
+            958
+          ]
+        },
+        "materials_and_colours": {
+          "status": "partial",
+          "reason": "Black-violet/plum, orange and ivory palette present. Material placement and details differ from the guide; no claim of exact match."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Pronounced edge highlights, cavity shading and bright orange centres."
+        },
+        "transparent_background": {
+          "passed": true,
+          "reason": "PNG has an RGBA alpha channel and fully transparent background pixels."
+        },
+        "clean_guide_alpha": {
+          "passed": false,
+          "reason": "Partial-alpha fringe/speck pixels extend beyond the intended silhouette; original generated alpha preserved."
+        },
+        "unresized_unedited_return": {
+          "passed": true
+        },
+        "all_brief_requirements_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "CORRECTIVE GENERATION: RIGHT VIEW, precise registered albedo edit.\nReturn ONE actual 1024x1024-pixel RGBA PNG, native resolution 1024 pixels by 1024 pixels. Do not output 1254x1254. Keep the first input's original canvas and alpha.\n\nImage 1 guide_right.png is the EXACT mesh shape to colour. Edit it in place. Lock every silhouette pixel and every existing shape edge, opening, facet and detail. Exact orthographic RIGHT view, not front or three-quarter. Preserve x249..779 and y66..957 occupied extents, tip position, base shape and every angular rib. No camera changes, reframing, scale changes, smoothing or geometric embellishment.\nImage 2 design_reference.png is ONLY a material/colour swatch source: black-violet plum chitin/resin, orange windows/sacs, ivory bone thorns. Do NOT borrow its tiny holes, lattice detail, reflections, lighting or shape.\nImage 3 concept_crop.png is ONLY supporting original colours and materials.\n\nCorrection priority: follow the coarse existing geometry of image 1 exactly. Place orange albedo INSIDE its existing broad recessed panel shapes and slit-window surfaces. Keep its actual transparent holes transparent. Colour the existing framework black-violet/plum, and existing bone tip/thorn faces warm ivory. Do not subdivide these broad guide panels into additional small holes or extra ribs. No added lacework, spikes or bone wedges. Very restrained organic pigment texture, not new relief or geometry.\n\nFlat, even, shadowless frontal light. This is UNLIT BASE COLOUR / ALBEDO for texture projection. NO specular or edge highlights, NO reflective streaks, NO shadows, NO dark crevice shading or ambient occlusion. Glossy wet resin is the intended runtime material, but gloss must not be depicted as reflections in its albedo. Orange areas are uniformly saturated orange with subtle pigment variation, without yellow luminous centres, light spill, halo or bloom. Ivory must remain even warm ivory without bright glare. No darkening down the tower.\n\nPreserve the original guide's transparent background with absolutely no stray pixels or partial-alpha haze outside it. No floor, scenery, checkerboard, cast shadow, text or labels. The only operation is colouring the existing guide's surfaces. Exact 1024x1024 canvas and exact guide registration outrank all decorative detail. Save-ready image for paint_right.png.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "f86b251a52f18088df2d31651406a5a96408d7ec98dc7274fe1b9f7d06bad843",
+          "role": "edit target; exact orthographic geometry and alpha"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3",
+          "role": "approved design, colour and material reference"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted right attempts: closer coarse guide structure and reduced highlights. This is a best-available selection, NOT an acceptance against the brief. Native output is 1254x1254 rather than 1024x1024; exact silhouette/shape registration fails, alpha fringe pixels remain, and some facet/cavity shading remains. Retained byte-for-byte without resizing or masking.",
+      "tool": "built-in image_gen.imagegen",
+      "tool_parameters": {
+        "transparent_background": true,
+        "referenced_image_paths": [
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/guide_right.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/design_reference.png",
+          "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_mid/concept_crop.png"
+        ]
+      },
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16873-4f23-72b1-b9b9-0e9e1ebec029/exec-2b506eec-b06e-42d7-869c-4cc40c416858.png",
+      "output_metadata": {
+        "sha256": "2bcbab8da4f33b1c7cfa7d2d2f49a45bf041dfec9246a29524df33fb1a17bf02",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          26,
+          1253,
+          1238
+        ],
+        "alpha_128_bbox": [
+          306,
+          80,
+          955,
+          1173
+        ],
+        "fully_transparent_pixels": 1353001,
+        "fully_opaque_pixels": 866,
+        "partially_transparent_pixels": 218649
+      },
+      "checks": {
+        "dimensions_1024x1024": {
+          "passed": false,
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Canvas dimensions differ; visible geometry and alpha coverage also differ.",
+          "guide_size": [
+            1024,
+            1024
+          ],
+          "guide_alpha_bbox": [
+            249,
+            66,
+            780,
+            958
+          ]
+        },
+        "materials_and_colours": {
+          "status": "partial",
+          "reason": "Black-violet/plum, orange and ivory palette present. Material placement and details differ from the guide; no claim of exact match."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Specular intensity reduced, but baked facet/cavity shading remains."
+        },
+        "transparent_background": {
+          "passed": true,
+          "reason": "PNG has an RGBA alpha channel and fully transparent background pixels."
+        },
+        "clean_guide_alpha": {
+          "passed": false,
+          "reason": "Partial-alpha fringe/speck pixels extend beyond the intended silhouette; original generated alpha preserved."
+        },
+        "unresized_unedited_return": {
+          "passed": true
+        },
+        "all_brief_requirements_passed": false
+      }
+    }
+  ]
+}

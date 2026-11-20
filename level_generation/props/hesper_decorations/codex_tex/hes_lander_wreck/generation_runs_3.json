@@ -1,0 +1,239 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated best available unresized returns; strict acceptance checks failed. One corrective generation per view exhausted.",
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: sketch-to-render. Create paint_left.png, a 1024 x 1024 transparent RGBA texture-source painting by EDITING the first input, guide_left.png. Input 1 is the authoritative exact orthographic geometry and alpha silhouette. Input 2 design_reference.png is the approved material and colour authority ONLY, NOT its camera or geometry. Input 3 concept_crop.png is the original supporting concept.\nKeep input 1's silhouette EXACTLY: identical outline, size and position in the 1024-square frame, every edge, opening and detail at its original location. Subject occupies x=222..801, y=303..720; retain all that transparent padding. Do not enlarge, recenter, change perspective or rotate. Keep every rock and all geometry exactly where the guide has them. Nothing added outside the silhouette; nothing cropped. This view sees the tall central tail fin in front of the rounded body and exposed machinery, exactly as input 1; do not substitute a three-quarter view.\nPaint the approved design's surface materials onto this precise existing shape: chipped white ceramic plates with gold trim and rivets, black soot and scorch streaks, dark tinted cracked glass wherever the existing geometry calls for glass, dark steel ribs where plates are gone, warm amber colour in an open hatch only if visible in this guide, cyan colour on a console only if visible, black glassy rubble on every existing rubble shape. Keep white panels white, gold trim muted brass-gold, damaged mechanical areas dark steel.\nLIGHTING: albedo TEXTURE SOURCE. Even flat shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts painted at their glowing colour, without casting light onto their surroundings. Do not reproduce the reference's dramatic lighting.\nOutput ONE image only, exactly 1024 x 1024, genuine transparent background. No text, labels, border or watermark. Preserve the guide alpha outline pixel-for-pixel and its internal geometry while adding surface paint only.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "8f291144d6ece262d6f3c709839ee6266b5bb10a89e193e1f1ab643887a4d439"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2553-7113-8b3d-0ad1642e35a6/exec-c223d3e9-069f-44fb-8ce6-d1d67fb167a4.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16561-2553-7113-8b3d-0ad1642e35a6/exec-c223d3e9-069f-44fb-8ce6-d1d67fb167a4.png",
+      "selected": false,
+      "reason": "Rejected: subject enlarged and framing changed; dimensions differ from requested 1024x1024.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match chipped white ceramic, gold trim, soot, dark steel and dark rubble; right includes cracked dark glass and cyan/amber interior.",
+        "flat_even_light": "FAIL: residual shading and specular highlights visible.",
+        "transparent_background": "RGBA present; exact alpha validation recorded below.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          19,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          163,
+          325,
+          1100,
+          1007
+        ],
+        "guide_alpha_bbox": [
+          222,
+          303,
+          802,
+          721
+        ],
+        "unresized_return": true
+      },
+      "output_sha256": "82113908a839c31ff6a047ab91e296413c13d1ad6bc00fc681d952c326783a8a"
+    },
+    {
+      "view": "left",
+      "prompt": "EDIT THE FIRST IMAGE IN PLACE. Output canvas MUST be 1024 by 1024 pixels, matching the first image. This is the sole corrective generation for paint_left.png. The previous attempt incorrectly enlarged the object and returned a 1254-square canvas. Correct that failure: retain the entire first input's original empty transparent margins and do not auto-fit the object.\nFirst image guide_left.png: immutable geometry, camera, framing, edges and transparency. Second image design_reference.png: material appearance only. Third image concept_crop.png: supporting original concept only. Paint ONLY the existing grey pixels of the first image. Preserve original alpha and all boundaries. Top of fin at y=303, ground rubble ends y=720, rubble from x=222 to x=801 on the 1024-square canvas. Object only occupies 57% of canvas width and 41% of height. Large empty transparent region above AND below. Do not zoom in or add rocks. Do not change any edge or opening, or shift any shape. Same orthographic view with central tail fin closest to viewer.\nUse chipped white ceramic plating, gold trim and rivets, soot and scorch streaks, dark steel exposed ribs, dark tinted cracked glass where appropriate to the existing geometry, black glassy rubble. Paint amber hatch and cyan console colour only if those parts are visible in this exact guide. Transfer reference materials, never reference perspective.\nALBEDO PAINT ONLY: flat even shadowless frontal illumination, NO ambient occlusion, NO cast shadows, NO bright metallic highlights, NO reflections, NO rim lighting, NO gradient darkening across white panels. Gold is matte golden ochre, rubble dark charcoal with subtle surface texture. Emissive colours do not cast light. No background, floor, text or watermark. Genuine RGBA transparency. Single unresized 1024x1024 image.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "8f291144d6ece262d6f3c709839ee6266b5bb10a89e193e1f1ab643887a4d439"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2553-7113-8b3d-0ad1642e35a6/exec-ec4ece8f-aa14-4a99-bed3-f95ce1d1f904.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return for closer normalized framing. Not accepted as compliant: output dimensions and alpha silhouette differ from guide; visible shading/highlights remain.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match chipped white ceramic, gold trim, soot, dark steel and dark rubble; right includes cracked dark glass and cyan/amber interior.",
+        "flat_even_light": "FAIL: residual shading and specular highlights visible.",
+        "transparent_background": "RGBA present; exact alpha validation recorded below.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          21,
+          1214,
+          1238
+        ],
+        "alpha_128_bbox": [
+          273,
+          370,
+          981,
+          883
+        ],
+        "guide_alpha_bbox": [
+          222,
+          303,
+          802,
+          721
+        ],
+        "unresized_return": true
+      },
+      "output_sha256": "366ab8a2f0114ca185907349ee66985fc946d252d2ed16d8c8a5d6d9ee19c652"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: sketch-to-render. EDIT INPUT IMAGE 1 IN PLACE to produce paint_right.png. EXACT output dimensions: 1024 x 1024 pixels, genuine RGBA transparency. Do not change input canvas size. Input 1 guide_right.png is the EXACT model geometry, alpha and framing authority. Input 2 design_reference.png is material and colour authority ONLY. Input 3 concept_crop.png is supporting original concept. Keep input 1's orthographic viewpoint, not the references' perspective.\nPaint the grey model surfaces only, preserving silhouette EXACTLY, every edge and opening. Retain the large transparent margins: guide object extends x=222..801 and y=303..720 on the 1024 canvas. The object occupies only 57% width and 41% height. Do not enlarge, crop, recenter or change geometry. Rounded nose facing viewer, tail fin visible behind its top, paired foreshortened structural arms at lower left/right, side machinery and exact rubble shapes from input 1.\nPaint chipped white ceramic panels with gold trim and rivets, black soot/scorch streaks, the front central cockpit in dark tinted cracked glass mapped onto the guide's existing rounded nose, dark steel ribs where plates are gone, warm amber hatch and cyan console colour only where visible in this view. Rubble black glassy volcanic stone. Preserve white ceramic around cockpit and white/gold arms. No new geometric protrusions, rocks or openings. Material details only.\nThis is a texture source ALBEDO painting. Flat even shadowless viewer-facing illumination. No cast shadows, ambient occlusion, strong specular highlights, reflections, rim light, dark lighting gradients, background or floor. Gold must read as matte gold colour, glass as dark tinted colour with cracks rather than reflected environment. Any glow is local painted colour with no light spill. No text or watermark. Return one transparent 1024-square PNG without resizing guide or subject.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "db592386d23ae7d5e5bb3796ccd3d2ab987b60dcb317bcfaf12af337177fb64a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2553-7113-8b3d-0ad1642e35a6/exec-84e21255-31d6-450a-ad1c-4b6957502e02.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16561-2553-7113-8b3d-0ad1642e35a6/exec-84e21255-31d6-450a-ad1c-4b6957502e02.png",
+      "selected": false,
+      "reason": "Rejected: subject enlarged and framing changed; dimensions differ from requested 1024x1024.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match chipped white ceramic, gold trim, soot, dark steel and dark rubble; right includes cracked dark glass and cyan/amber interior.",
+        "flat_even_light": "FAIL: residual shading and specular highlights visible.",
+        "transparent_background": "RGBA present; exact alpha validation recorded below.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1234,
+          1237
+        ],
+        "alpha_128_bbox": [
+          160,
+          300,
+          1107,
+          1019
+        ],
+        "guide_alpha_bbox": [
+          222,
+          303,
+          802,
+          721
+        ],
+        "unresized_return": true
+      },
+      "output_sha256": "a4c958ba3e1925c304ea611dd37d2c4100d711361b30165e7f9e59846e719131"
+    },
+    {
+      "view": "right",
+      "prompt": "Corrective generation for paint_right.png. Edit first input guide_right.png, keep its original 1024x1024 canvas and EXACT alpha mask. Do not create a newly framed picture. ONLY colour the original grey pixels with the materials of second input design_reference.png, supported by third input concept_crop.png. Preserve every edge and every rubble stone.\nCritical correction: DO NOT ENLARGE THE OBJECT. It must remain small within the square canvas, width 580 pixels and height 418 pixels. Top y=303, bottom y=720, left x=222, right x=801. Retain the large transparent margins on all four sides, including 303 pixels above and below. Do not auto-crop or auto-fit the subject. Preserve exact guide orthographic camera, nose contour, tall rear fin, side machinery and foreshortened arms.\nChipped white ceramic, thin matte gold trim/rivets, soot/scorch marks, dark steel at damaged plates. Dark tinted cracked cockpit glass mapped onto front rounded nose with white panels surrounding it. Cyan console and amber interior only visible through existing cockpit geometry. Black glassy rubble, no extra stones. Material painting only; no new shapes. No text or labels.\nAlbedo texture source: neutral flat evenly illuminated colours. NO cast shadows, NO ambient occlusion, NO highlights, NO reflected environment, NO rim light, NO directional lighting. Glass and gold should have their base colours without bright sheen. Emissive details have local orange/cyan colour without spill. No background or floor. Genuine transparent RGBA background. Return EXACTLY 1024x1024 pixels.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "db592386d23ae7d5e5bb3796ccd3d2ab987b60dcb317bcfaf12af337177fb64a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2553-7113-8b3d-0ad1642e35a6/exec-95feb679-c14a-4a59-9015-8483efc246f8.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return for closer normalized framing. Not accepted as compliant: output dimensions and alpha silhouette differ from guide; visible shading/highlights remain.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match chipped white ceramic, gold trim, soot, dark steel and dark rubble; right includes cracked dark glass and cyan/amber interior.",
+        "flat_even_light": "FAIL: residual shading and specular highlights visible.",
+        "transparent_background": "RGBA present; exact alpha validation recorded below.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          35,
+          1216,
+          1226
+        ],
+        "alpha_128_bbox": [
+          272,
+          371,
+          982,
+          883
+        ],
+        "guide_alpha_bbox": [
+          222,
+          303,
+          802,
+          721
+        ],
+        "unresized_return": true
+      },
+      "output_sha256": "76cfccd2b45df079cf29ec0ee055ab5e328f0eddb1659d10907416cb812189e6"
+    }
+  ]
+}

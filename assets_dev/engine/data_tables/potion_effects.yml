@@ -1,0 +1,350 @@
+# What drinking or applying each potion does in the Standard ruleset, keyed by item id (potion_settings.txt maps
+# potion ids to item ids). A ruleset replaces this whole file (devdocs/maw/data/potion_effects.yml drafts MAW's).
+#
+# rules:
+#   duration: {per_power_minutes: N, solo_hours: S}   timed buffs last N game minutes per point of potion power, and
+#                                     at least S game hours in a solo run
+#   combat_recovery: {value: N, payer: drinker|active, only_when_enemies_near: bool}
+#                                     a drink needs a ready member and costs the payer N recovery ticks: the active
+#                                     member (else the first ready one), or the drinker when ready (the default)
+#
+# potions: <item id>:
+#   name                              for readers only
+#   once_per_character: true          refuse (and keep the potion) if this character drank one before
+#   effects: list of
+#     restore: {pool: hp|sp, amount: EXPR}
+#     cure: [conditions] | all_restorable   all_restorable: every condition but Dead, Petrified and Eradicated,
+#                                           plus Paralyzed and Zombie
+#     buff: {id: CharacterBuffId, strength: EXPR, unless: condition}   timed, on the drinker; a longer active buff of
+#                                                                      the same kind is kept
+#     party_buff: {id: PartyBuffId, power: N, skill_level: N, mastery: Normal..Grandmaster}   timed
+#     permanent_stat: {stats: [..], amount: EXPR, into: base|bonus}   base stats never drop below 0
+#     permanent_resistance: {resistances: [..], amount: EXPR}
+#     age: {years: EXPR} | {younger: EXPR, clear_magic_age_first: true}
+#     level_modifier: N
+#   item: {action: recharge_wand | harden | temporary_special_enchant | permanent_special_enchant, enchant: SpecialItemEnchantKind}
+#                                     a potion poured onto an item instead of drunk
+#
+# EXPR: a number, {linear: [a, b]} for a + b*P, or {ceil_div: D} for ceil(P/D), where P is the potion power (at
+# least 1).
+
+rules:
+  duration: {per_power_minutes: 30, solo_hours: 24}
+  # As in the original games, every drink costs the active member 100 ticks, in combat or not.
+  combat_recovery: {value: 100, payer: active}
+
+potions:
+  222:
+    name: Cure Wounds
+    effects:
+      - restore: {pool: hp, amount: {linear: [10, 1]}}
+  223:
+    name: Magic Potion
+    effects:
+      - restore: {pool: sp, amount: {linear: [10, 1]}}
+  224:
+    name: Cure Weakness
+    effects:
+      - cure: [Weak]
+  225:
+    name: Cure Disease
+    effects:
+      - cure: [DiseaseWeak, DiseaseMedium, DiseaseSevere]
+  226:
+    name: Cure Poison
+    effects:
+      - cure: [PoisonWeak, PoisonMedium, PoisonSevere]
+  227:
+    name: Awaken
+    effects:
+      - cure: [Asleep]
+  # Haste, Heroism, Bless, Stoneskin and Water Breathing have a fixed strength of 5; only their duration grows with
+  # the potion power. A weak character is not hastened.
+  228:
+    name: Haste
+    effects:
+      - buff: {id: Haste, strength: 5, unless: Weak}
+  229:
+    name: Heroism
+    effects:
+      - buff: {id: Heroism, strength: 5}
+  230:
+    name: Bless
+    effects:
+      - buff: {id: Bless, strength: 5}
+  231:
+    name: Preservation
+    effects:
+      - buff: {id: Preservation, strength: {linear: [0, 3]}}
+  232:
+    name: Shield
+    effects:
+      - buff: {id: Shield, strength: {linear: [0, 3]}}
+  233:
+    name: Recharge Item
+    item: {action: recharge_wand}
+  234:
+    name: Stoneskin
+    effects:
+      - buff: {id: Stoneskin, strength: 5}
+  235:
+    name: Water Breathing
+    effects:
+      - buff: {id: WaterBreathing, strength: 5}
+  236:
+    name: Harden Item
+    item: {action: harden}
+  237:
+    name: Remove Fear
+    effects:
+      - cure: [Fear]
+  238:
+    name: Remove Curse
+    effects:
+      - cure: [Cursed]
+  239:
+    name: Cure Insanity
+    effects:
+      - cure: [Insane]
+  # Stat and resistance boosts: three times the potion power.
+  240:
+    name: Might Boost
+    effects:
+      - buff: {id: TempMight, strength: {linear: [0, 3]}}
+  241:
+    name: Intellect Boost
+    effects:
+      - buff: {id: TempIntellect, strength: {linear: [0, 3]}}
+  242:
+    name: Personality Boost
+    effects:
+      - buff: {id: TempPersonality, strength: {linear: [0, 3]}}
+  243:
+    name: Endurance Boost
+    effects:
+      - buff: {id: TempEndurance, strength: {linear: [0, 3]}}
+  244:
+    name: Speed Boost
+    effects:
+      - buff: {id: TempSpeed, strength: {linear: [0, 3]}}
+  245:
+    name: Accuracy Boost
+    effects:
+      - buff: {id: TempAccuracy, strength: {linear: [0, 3]}}
+  246:
+    name: Flaming Potion
+    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Flame}
+  247:
+    name: Freezing Potion
+    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Frost}
+  248:
+    name: Noxious Potion
+    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Poison}
+  249:
+    name: Shocking Potion
+    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Sparks}
+  250:
+    name: Swift Potion
+    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Swift}
+  251:
+    name: Cure Paralysis
+    effects:
+      - cure: [Paralyzed]
+  252:
+    name: Divine Restoration
+    effects:
+      - cure: all_restorable
+  253:
+    name: Divine Cure
+    effects:
+      - restore: {pool: hp, amount: {linear: [0, 5]}}
+  254:
+    name: Divine Power
+    effects:
+      - restore: {pool: sp, amount: {linear: [0, 5]}}
+  255:
+    name: Luck Boost
+    effects:
+      - buff: {id: TempLuck, strength: {linear: [0, 3]}}
+  256:
+    name: Fire Resistance
+    effects:
+      - buff: {id: FireResistance, strength: {linear: [0, 3]}}
+  257:
+    name: Air Resistance
+    effects:
+      - buff: {id: AirResistance, strength: {linear: [0, 3]}}
+  258:
+    name: Water Resistance
+    effects:
+      - buff: {id: WaterResistance, strength: {linear: [0, 3]}}
+  259:
+    name: Earth Resistance
+    effects:
+      - buff: {id: EarthResistance, strength: {linear: [0, 3]}}
+  260:
+    name: Mind Resistance
+    effects:
+      - buff: {id: MindResistance, strength: {linear: [0, 3]}}
+  261:
+    name: Body Resistance
+    effects:
+      - buff: {id: BodyResistance, strength: {linear: [0, 3]}}
+  262:
+    name: Stone to Flesh
+    effects:
+      - cure: [Petrified]
+  263:
+    name: Slaying Potion
+    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: DragonSlaying}
+  264:
+    name: Pure Luck
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [luck], amount: 50, into: bonus}
+  265:
+    name: Pure Speed
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [speed], amount: 50, into: bonus}
+  266:
+    name: Pure Intellect
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [intellect], amount: 50, into: bonus}
+  267:
+    name: Pure Endurance
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [endurance], amount: 50, into: bonus}
+  268:
+    name: Pure Personality
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [personality], amount: 50, into: bonus}
+  269:
+    name: Pure Accuracy
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [accuracy], amount: 50, into: bonus}
+  270:
+    name: Pure Might
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [might], amount: 50, into: bonus}
+  # Rejuvenation undoes magical ageing first; once there is none, it makes the drinker younger.
+  271:
+    name: Rejuvenation
+    effects:
+      - age: {younger: {ceil_div: 10}, clear_magic_age_first: true}
+  272:
+    name: Essence of Might
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [might], amount: 15}
+      - permanent_stat: {stats: [intellect], amount: -5}
+  273:
+    name: Essence of Intellect
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [intellect], amount: 15}
+      - permanent_stat: {stats: [might], amount: -5}
+  274:
+    name: Essence of Personality
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [personality], amount: 15}
+      - permanent_stat: {stats: [speed], amount: -5}
+  275:
+    name: Essence of Endurance
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [might, intellect, personality, accuracy, speed, luck], amount: -1}
+      - permanent_stat: {stats: [endurance], amount: 15}
+  276:
+    name: Essence of Accuracy
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [accuracy], amount: 15}
+      - permanent_stat: {stats: [luck], amount: -5}
+  277:
+    name: Essence of Speed
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [speed], amount: 15}
+      - permanent_stat: {stats: [personality], amount: -5}
+  278:
+    name: Essence of Luck
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [luck], amount: 15}
+      - permanent_stat: {stats: [accuracy], amount: -5}
+  279:
+    name: Potion of Doom
+    effects:
+      - permanent_stat: {stats: [might, intellect, personality, endurance, accuracy, speed, luck], amount: 1}
+      - permanent_resistance: {resistances: [fire, air, water, earth, mind, body], amount: 1}
+      - age: {years: 5}
+  280:
+    name: Divine Boost
+    effects:
+      - buff: {id: TempMight, strength: {linear: [0, 3]}}
+      - buff: {id: TempIntellect, strength: {linear: [0, 3]}}
+      - buff: {id: TempPersonality, strength: {linear: [0, 3]}}
+      - buff: {id: TempEndurance, strength: {linear: [0, 3]}}
+      - buff: {id: TempSpeed, strength: {linear: [0, 3]}}
+      - buff: {id: TempAccuracy, strength: {linear: [0, 3]}}
+      - buff: {id: TempLuck, strength: {linear: [0, 3]}}
+  281:
+    name: Divine Protection
+    effects:
+      - buff: {id: FireResistance, strength: {linear: [0, 3]}}
+      - buff: {id: AirResistance, strength: {linear: [0, 3]}}
+      - buff: {id: WaterResistance, strength: {linear: [0, 3]}}
+      - buff: {id: EarthResistance, strength: {linear: [0, 3]}}
+      - buff: {id: MindResistance, strength: {linear: [0, 3]}}
+      - buff: {id: BodyResistance, strength: {linear: [0, 3]}}
+  282:
+    name: Divine Transcendence
+    effects:
+      - level_modifier: 20
+  283:
+    name: Potion of the Gods
+    once_per_character: true
+    effects:
+      - permanent_stat: {stats: [might, intellect, personality, endurance, accuracy, speed, luck], amount: 20}
+      - age: {years: 10}
+  284:
+    name: Pure Fire Resistance
+    once_per_character: true
+    effects:
+      - permanent_resistance: {resistances: [fire], amount: 40}
+  285:
+    name: Pure Air Resistance
+    once_per_character: true
+    effects:
+      - permanent_resistance: {resistances: [air], amount: 40}
+  286:
+    name: Pure Water Resistance
+    once_per_character: true
+    effects:
+      - permanent_resistance: {resistances: [water], amount: 40}
+  287:
+    name: Pure Earth Resistance
+    once_per_character: true
+    effects:
+      - permanent_resistance: {resistances: [earth], amount: 40}
+  288:
+    name: Pure Mind Resistance
+    once_per_character: true
+    effects:
+      - permanent_resistance: {resistances: [mind], amount: 40}
+  289:
+    name: Pure Body Resistance
+    once_per_character: true
+    effects:
+      - permanent_resistance: {resistances: [body], amount: 40}
+  290:
+    name: Protection from Magic
+    effects:
+      - party_buff: {id: ProtectionFromMagic, power: 3, skill_level: 10, mastery: Grandmaster}

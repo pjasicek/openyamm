@@ -1,0 +1,27 @@
+id: standard_resistance_spells
+title: Standard - each of the six resistance spells leaves a party buff (Mind Resistance once lasted no time at all)
+world: mm6
+mode: faithful
+tags: [spells]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - cast_spell: {member_index: 0, spell_id: 3, skill: 5, mastery: 1}
+  - cast_spell: {member_index: 0, spell_id: 14, skill: 5, mastery: 1}
+  - cast_spell: {member_index: 0, spell_id: 25, skill: 5, mastery: 1}
+  - cast_spell: {member_index: 0, spell_id: 36, skill: 5, mastery: 1}
+  - cast_spell: {member_index: 0, spell_id: 58, skill: 5, mastery: 1}
+  - cast_spell: {member_index: 0, spell_id: 69, skill: 5, mastery: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      buff: {spell_id: 3, present: true}
+  - assert:
+      buff: {spell_id: 14, present: true}
+  - assert:
+      buff: {spell_id: 25, present: true}
+  - assert:
+      buff: {spell_id: 36, present: true}
+  - assert:
+      buff: {spell_id: 58, present: true}
+  - assert:
+      buff: {spell_id: 69, present: true}

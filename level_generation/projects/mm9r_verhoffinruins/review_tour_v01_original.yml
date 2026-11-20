@@ -1,0 +1,214 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_verhoffinruins/review/v01_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: 01_start_stair
+  position:
+  - -1229
+  - -5967
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 02_south_hall
+  position:
+  - -1152
+  - -5427
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 03_cell_corridor
+  position:
+  - -2560
+  - -5402
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 04_south_cell
+  position:
+  - -3712
+  - -5504
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: 05_cell_row
+  position:
+  - -2304
+  - -4659
+  - -327
+  yaw: 2.9442
+  pitch: 0.0
+- name: 06_cell_inside
+  position:
+  - -3200
+  - -4992
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 07_ruin_core_south
+  position:
+  - -1792
+  - -4864
+  - -327
+  yaw: 0.7086
+  pitch: 0.0
+- name: 08_crevasse_edge
+  position:
+  - -3072
+  - -3840
+  - -327
+  yaw: 0.6435
+  pitch: 0.0
+- name: 09_crevasse_floor
+  position:
+  - -2816
+  - -2688
+  - -654
+  yaw: -0.4636
+  pitch: 0.0
+- name: 10_ruin_core_east
+  position:
+  - 1792
+  - -3328
+  - -409
+  yaw: -2.7828
+  pitch: 0.0
+- name: 11_east_hall
+  position:
+  - 2304
+  - -2048
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: 12_east_rooms
+  position:
+  - 3328
+  - -2432
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 13_east_room_south
+  position:
+  - 3328
+  - -5376
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 14_ne_hall
+  position:
+  - 1792
+  - -896
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 15_ne_room
+  position:
+  - 3328
+  - -384
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 16_water_trap_room
+  position:
+  - 384
+  - -1024
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: 17_north_hall
+  position:
+  - -768
+  - -896
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 18_north_room
+  position:
+  - -666
+  - 256
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 19_book_room
+  position:
+  - -384
+  - 256
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 20_northwest_ruin
+  position:
+  - -3840
+  - -256
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: 21_west_corridor_saw
+  position:
+  - -4224
+  - -2048
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 22_west_ruin
+  position:
+  - -4480
+  - -2560
+  - -327
+  yaw: -0.4993
+  pitch: 0.0
+- name: 23_pentagram
+  position:
+  - -3968
+  - -3727
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 24_torture_door
+  position:
+  - -4352
+  - -3727
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 25_torture_chamber
+  position:
+  - -5248
+  - -3727
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 26_capstone_block
+  position:
+  - -6656
+  - -3727
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: 27_torture_alcove
+  position:
+  - -6144
+  - -2816
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 28_prison_door2
+  position:
+  - -4506
+  - -3968
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: 29_west_cells
+  position:
+  - -4992
+  - -3840
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: 30_south_east
+  position:
+  - 1280
+  - -5504
+  - -327
+  yaw: 0.0
+  pitch: 0.0

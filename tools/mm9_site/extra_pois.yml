@@ -1,0 +1,131 @@
+# Points the generator cannot find on its own: quest props and puzzle pieces named by their MM9 DAT objects
+# (assets_editor_dev/worlds/mm9/maps/<map>.raw_objects.yml). A point sits at the mean position of its objects; a
+# rename relabels generated points whose name matches the regular expression. Found while writing story/*.yml.
+
+points:
+  # Lindisfarne Monastery: Thjorad and the bell puzzle (ring the bells 1, 5, 2, 4, 3).
+  - {map: lindisfarnemonastery, type: objective, label: Thjorad, objects: [thjorad], quests: [retrieve-thjorad-from-lindisfarne]}
+  - {map: lindisfarnemonastery, type: lever, label: Bell ropes, objects: [Rope1, Rope2, Rope3, Rope4, Rope5],
+     detail: "pull in the order 1, 5, 2, 4, 3", quests: [retrieve-thjorad-from-lindisfarne]}
+  # Ta'Sar Academy: the four textbooks and their tables, the secret room, the rotating bookcase.
+  - {map: tasaracademy, type: objective, label: Textbooks and Gavin's note, objects: [Prop167, Prop96],
+     quests: [get-the-book-of-rules-from-the-ta-sar-academy]}
+  - {map: tasaracademy, type: objective, label: Offense table, objects: [Prop164], detail: "Weapons",
+     quests: [get-the-book-of-rules-from-the-ta-sar-academy]}
+  - {map: tasaracademy, type: objective, label: Defense table, objects: [Prop163], detail: "Fortifications",
+     quests: [get-the-book-of-rules-from-the-ta-sar-academy]}
+  - {map: tasaracademy, type: objective, label: Strategy table, objects: [Prop166], detail: "Tactical Strategy",
+     quests: [get-the-book-of-rules-from-the-ta-sar-academy]}
+  - {map: tasaracademy, type: objective, label: Intelligence table, objects: [Prop165], detail: "Methodology",
+     quests: [get-the-book-of-rules-from-the-ta-sar-academy]}
+  - {map: tasaracademy, type: objective, label: Coded scroll, objects: [Prop179],
+     quests: [get-the-book-of-rules-from-the-ta-sar-academy]}
+  - {map: tasaracademy, type: secret, label: Rotating bookcase, objects: [RotatingBookcase1],
+     quests: [get-the-book-of-rules-from-the-ta-sar-academy]}
+  - {map: tasaracademy, type: trap, label: Pit trap, objects: [PitDoorLeft1, PitDoorRight1]}
+  # Thjorad Mine.
+  - {map: thjoradmine, type: objective, label: Slag machine base, objects: [WorldObject0], detail: "install the new slag extractor here",
+     quests: [fix-the-refinery-machine]}
+  # Yanmir's Fort.
+  - {map: yanmirsfort, type: objective, label: "Yanmir's Key", objects: ["Yanmir'sKey"], quests: [defeat-yanmir-the-frost-giant]}
+  - {map: yanmirsfort, type: trap, label: Trap hallway, objects: [TriggerYanmirTrap], detail: "lure Yanmir across",
+     quests: [defeat-yanmir-the-frost-giant]}
+  # Mountain Pass: the two points that count as finding the pass.
+  - {map: mountainpass, type: objective, label: Pass entrance, objects: [Trigger1], quests: [find-the-mountain-pass]}
+  - {map: mountainpass, type: objective, label: Through the pass, objects: [Trigger0], quests: [find-the-mountain-pass]}
+  # The Thing in Thjorgard: the six games.
+  - {map: thjorgard, type: objective, label: "Game: the bell", objects: [Strikeplate1], quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
+  - {map: thjorgard, type: objective, label: "Game: Strongarm", objects: [HalfOrcCaptain0], quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
+  - {map: thjorgard, type: objective, label: "Game: stones", objects: [TronMgr], quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
+  - {map: thjorgard, type: objective, label: "Game: runestones", objects: [ColorButton0, ColorButton1, ColorButton2, ColorButton3, ColorButton4],
+     quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
+  - {map: thjorgard, type: objective, label: "Game: boat race", objects: [RacingBoat0, RacingBoat1, RacingBoat2, RacingBoat3],
+     quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
+  # Guberland City: Markel's awards, the Thing's Stuffed Dragon on the shelf of his palace (taken once he is dead).
+  - {map: guberlandcity, type: objective, label: "Markel's awards", objects: [Prize0, Prize1, Prize2, Prize3, Prize4, Prize5],
+     detail: "six Stuffed Dragons; take one after the war council instead of winning at the Thing",
+     quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
+  # Anskram Keep: the eight imp gates (anskramkeep.lua GATES).
+  - {map: anskramkeep, type: objective, label: "Imp gate 0", objects: [ImpGateSpawner0], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  - {map: anskramkeep, type: objective, label: "Imp gate 1", objects: [ImpGateSpawner1], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  - {map: anskramkeep, type: objective, label: "Imp gate 2", objects: [ImpGateSpawner2], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  - {map: anskramkeep, type: objective, label: "Imp gate 3", objects: [ImpGateSpawner3], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  - {map: anskramkeep, type: objective, label: "Imp gate 4", objects: [ImpGateSpawner4], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  - {map: anskramkeep, type: objective, label: "Imp gate 5", objects: [ImpGateSpawner5], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  - {map: anskramkeep, type: objective, label: "Imp gate 6", objects: [ImpGateSpawner6], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  - {map: anskramkeep, type: objective, label: "Imp gate 7", objects: [ImpGateSpawner7], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
+  # Arslegard City.
+  - {map: arslegardcity, type: objective, label: "Njam's letter", objects: [Prop8], quests: [imprison-njam-the-meddler-in-the-tomb-of-1000-terrors]}
+  # The Dark Passageway: bridge statues, the gemstone and mirrors, the exit plates, the portal.
+  - {map: darkpassageway, type: lever, label: "Statue: Skeleton", objects: [SwitchCreature0], quests: [get-a-writ-of-fate]}
+  - {map: darkpassageway, type: lever, label: "Statue: Zombie", objects: [SwitchCreature1], quests: [get-a-writ-of-fate]}
+  - {map: darkpassageway, type: lever, label: "Statue: Lich", objects: [SwitchCreature2], quests: [get-a-writ-of-fate]}
+  - {map: darkpassageway, type: lever, label: "Statue: Banshee", objects: [SwitchCreature3], quests: [get-a-writ-of-fate]}
+  - {map: darkpassageway, type: lever, label: "Statue: reset (Terror)", objects: [SwitchCreature5]}
+  - {map: darkpassageway, type: lever, label: Ice statue, objects: [SwitchCreature4], quests: [get-a-writ-of-fate]}
+  - {map: darkpassageway, type: objective, label: Gemstone, objects: [Gemstone], detail: "mirrors to 330, 10, 340, 50", quests: [get-a-writ-of-fate]}
+  - {map: darkpassageway, type: lever, label: Floor plates, objects: [ExitTrigger0, ExitTrigger1, ExitTrigger2, ExitTrigger3],
+     detail: "north-east, south-west, south-east, north-west", quests: [get-a-writ-of-fate]}
+  - {map: darkpassageway, type: teleporter, label: Portal to Guberland, objects: [ExitPoint], quests: [get-a-writ-of-fate]}
+  # Verhoffin Ruins.
+  - {map: verhoffinruins, type: lever, label: Pentagram, objects: [PentaCenter], detail: "points in the flames' colour order"}
+  - {map: verhoffinruins, type: trap, label: Paddle, objects: [PaddleTrigger]}
+  # The Afterworld: the swords and the inferno.
+  - {map: afterworld, type: objective, label: "Jarls' swords", objects: [SvenSword, BjarniSword, SigmundSword, TryygvaSword, KiraSword],
+     detail: "Absolution: take all five to Skraelos", quests: [light-the-six-fires-of-penance]}
+  - {map: afterworld, type: objective, label: Inferno (Rebirth), objects: [Fire0], quests: [light-the-six-fires-of-penance]}
+  # The Tomb of a Thousand Terrors.
+  - {map: 1000terrors, type: objective, label: Win switch, objects: [WinMan], quests: [imprison-njam-the-meddler-in-the-tomb-of-1000-terrors]}
+  - {map: 1000terrors, type: lever, label: Chess board, objects: [SquareObj0, SquareObj63], quests: [imprison-njam-the-meddler-in-the-tomb-of-1000-terrors]}
+  - {map: 1000terrors, type: objective, label: Chess note, objects: [ChessNote0], quests: [imprison-njam-the-meddler-in-the-tomb-of-1000-terrors]}
+  - {map: 1000terrors, type: bonus, label: Genie lamp, objects: [Genielamp]}
+  # Guberland: the Gathering's games.
+  - {map: guberland, type: objective, label: "Game: the bell", objects: [Strikeplate1]}
+  - {map: guberland, type: objective, label: "Game: Whack-a-Honky", objects: [Honky0, Honky1, Honky2, Honky3]}
+  - {map: guberland, type: objective, label: "Game: runestones", objects: [ColorButton0, ColorButton1, ColorButton2, ColorButton3, ColorButton4]}
+  - {map: guberland, type: objective, label: "Game: stones", objects: [TronMgr]}
+  # Side quests (story/side_*.yml).
+  - {map: klusoshouse, type: objective, label: "Kluso's dagger", objects: [Blackheart], quests: [steal-the-knife]}
+  - {map: lichlab, type: lever, label: Transmutation pod, objects: [lichswitch], quests: [become-a-lich]}
+  - {map: lichlab, type: objective, label: Jars, objects: [Prop4, Prop5, Prop6, Prop7], quests: [become-a-lich]}
+  - {map: lichlab, type: objective, label: Elixir ingredients, objects: [Prop9, Prop10, Prop11, Prop12, Prop13, Prop14, Prop15], quests: [become-a-lich]}
+  - {map: lichlab, type: objective, label: Cook pot and burner, objects: [Prop17, Prop18], quests: [become-a-lich]}
+  - {map: lichlab, type: objective, label: Elixir instructions, objects: [Prop20], quests: [become-a-lich]}
+  - {map: templeofhonk, type: objective, label: "Accountant's key", objects: [61], quests: [steal-the-golden-honk]}
+  - {map: wizardslab, type: teleporter, label: White teleporter (entrance), objects: [TeleporterAtWhite], quests: [retrieve-the-missing-relic]}
+  - {map: wizardslab, type: teleporter, label: Yellow teleporter, objects: [TeleporterAtYellow], quests: [retrieve-the-missing-relic]}
+  - {map: wizardslab, type: teleporter, label: Blue teleporter, objects: [TeleporterAtBlue]}
+  - {map: wizardslab, type: teleporter, label: Green teleporter, objects: [TeleporterAtGreen]}
+  - {map: wizardslab, type: teleporter, label: Purple teleporter, objects: [TeleporterAtPurple]}
+  - {map: wizardslab, type: teleporter, label: Red teleporter, objects: [TeleporterAtRed]}
+  - {map: guberland, type: objective, label: "Atli's boat", objects: [89], quests: [guard-atli-sigmundssen-s-boat]}
+  - {map: inventastorca, type: objective, label: Orb of Linking, objects: [Prop0], quests: [get-the-orbs-of-linking]}
+  - {map: inventastorca, type: objective, label: Orb of Linking, objects: [Prop1], quests: [get-the-orbs-of-linking]}
+  - {map: inventastorca, type: objective, label: Orb of Linking, objects: [Prop2], quests: [get-the-orbs-of-linking]}
+  - {map: inventastorca, type: objective, label: Orb of Linking (ambush), objects: [Prop3], quests: [get-the-orbs-of-linking]}
+  - {map: inventastorca, type: objective, label: Orb of Linking, objects: [Prop4], quests: [get-the-orbs-of-linking]}
+  - {map: inventastorca, type: objective, label: Orb of Linking, objects: [Prop5], quests: [get-the-orbs-of-linking]}
+  - {map: inventastorca, type: objective, label: Orb of Linking, objects: [Prop6], quests: [get-the-orbs-of-linking]}
+  - {map: inventastorca, type: secret, label: Trapdoor to the lower floor, objects: [LadderDoor]}
+  - {map: verhoffinruins, type: objective, label: Key to Study, objects: [Prop0], quests: [find-verhoffin-s-diary]}
+
+renames:
+  - {map: yanmirsfort, match: "^Destructable Brush [0-5]$", label: Wooden support}
+  - {map: thjorgard, match: "^Huckster$", label: Huckster (tickets and boat race)}
+  # Generic actor names in the rebuilt scenes (by point id where the name repeats).
+  - {map: lindisfarnemonastery, id: a0, label: Abbot Leffery Caid}
+  - {map: lindisfarnemonastery, id: a1, label: Grehgknak the Right}
+  - {map: lindisfarnemonastery, id: a2, label: Robert Aefgil}
+  - {map: dookscastle, match: "^Baron$", label: The Dook}
+  - {map: klusoshouse, match: "^Count$", label: Lord Kluso}
+  - {map: sturmfordcity, match: "^PoorTownGuard10$", label: Jail guard}
+  - {map: drangheim, match: "^Capstone ?0$", label: "Verhoffin's Book (under the floorboard)"}
+  - {map: dookscastle, match: "^Tempbutton INV$", label: Shield (secret door)}
+  - {map: thjorgardcity, match: "^Book ?Key$", drop: true}   # only appears with key 375, which nothing grants
+  # Quest tags the generator misses.
+  - {map: wizardslab, match: "^Barrel$", quests: [slay-the-dragon]}
+  - {map: wizardslab, match: "^Robinssen", quests: [get-black-orb-of-knowledge]}
+  - {map: thjorgard, match: "^Magreeb$", quests: [study-a-magreeb]}
+  - {map: thjorgardcity, match: "^Harris Willington", quests: [find-harris-willington]}
+  - {map: thronheimcity, match: "^Erlend", quests: [take-the-news-to-the-temple-of-ratatosk]}
+  - {map: frosgardcity, match: "^Menja Ketildotir$", quests: [find-the-green-man]}

@@ -1,0 +1,445 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "Coordinates are terrain cells of the plan grid (512 units) on the 128 x 128 map: [x, y], x east, y south, origin the north-west corner of the terrain. Grid nodes are cell corners, so world X = (x - 64) x 512 and world Y = (64 - y) x 512 (world +Y is north; the terrain's first sample row is its north edge). Points are rounded to the nearest node; road centrelines and plot corners may use half cells. Heights are game units above sea level (the datum of plan.yml); point heights and cliff lines win over band polygons. No coarse height grid is given: at 4 to 8 cells per sample it mostly samples cliff faces, so the points, bands and cliff lines carry the landform. Plots: `at` is the north-west corner of the footprint; the footprint is owned by the building (`footprint_cells: [front width, depth]` in plan.yml, one pair per house in index order for a group), so a plot facing north or south covers [width, depth] in x and y and one facing east or west covers [depth, width]. Groups with a count (house groups) are addressed per house as `{building, index}`; each group's notes in plan.yml name the form of every index. Facing is the side the main door is on. `door_to` names the plan link the door opens onto, or the nearest one where the door opens onto a plaza, a pier or a street the plan does not list (see the gaps). The L2 plan's lanes floor of 256-512 is superseded here: the lanes stand 128-192 up. Where the sketch and the plan's text differ in a position or height, the sketch is the measured one."
+frame:
+  playable: [20, 20, 88, 88]
+  edges:
+    - {side: north, span: [25, 98], neighbour: edge:alvar, notes: "Open grassland between the two upland walls; the north road crosses the prompt at x 57 and runs on to the terrain edge."}
+    - {side: west, span: [42, 45], neighbour: edge:garrote_gorge, notes: "Only the sea-level floor of the west pass; the road runs on to x 3."}
+    - {side: east, span: [62, 64], neighbour: edge:shadowspire, notes: "Only the sea-level floor of the east cut; the road runs on to the terrain edge."}
+    - {side: south, span: [20, 108], neighbour: edge:south_sea, notes: Open sea.}
+  rim:
+    - {space: wild:upland_w, side: west, depth: [20, 33], notes: "Plateau beyond the west prompt; the walked part is the inner rim, the pass and the chapel spur."}
+    - {space: wild:upland_e, side: east, depth: [20, 35], notes: "Plateau beyond the east prompt; the walked part is the inner rim (two chests) and the cut."}
+  notes: "The travel prompts stand 44 cells from the centre on every side (x and y from 20 to 108): playable_square 0.69. Any point on a side prompts; the spans are where the land lets the party reach it."
+heights:
+  points:
+    - {at: [38, 87], h: 6400, notes: "Headland summit on its east arm, over the bay and the inlet"}
+    - {at: [30, 76], h: 6400, notes: Headland north bar}
+    - {at: [12, 100], h: 6400, notes: "Headland west arm (backdrop, beyond the west prompt)"}
+    - {at: [12, 20], h: 2300, notes: "West upland plateau, typical"}
+    - {at: [10, 62], h: 3700, notes: West upland high point (backdrop)}
+    - {at: [115, 30], h: 2300, notes: "East upland plateau, typical"}
+    - {at: [100, 30], h: 2800, notes: East rim shoulder above the seer}
+    - {at: [21, 28], h: 2300, notes: North-west rim chest on the west rim}
+    - {at: [105, 24], h: 2270, notes: North-east rim chest on the east rim}
+    - {at: [107, 50], h: 2020, notes: East rim chest above the tomb}
+    - {at: [25, 61], h: 2048, notes: "Chapel spur top, a step below the west plateau"}
+    - {at: [10, 43], h: 0, notes: "West pass floor (sea level, 2 to 3 cells wide)"}
+    - {at: [115, 62], h: 0, notes: "East cut floor (sea level, 2 to 3 cells wide)"}
+    - {at: [57, 21], h: 700, notes: North arrival}
+    - {at: [60, 19], h: 1100, notes: Knoll beside the north road}
+    - {at: [74, 23], h: 1250, notes: North meadow knoll}
+    - {at: [69, 25], h: 1180, notes: "North meadow knoll, west shoulder"}
+    - {at: [83, 35], h: 1350, notes: Pedestal knoll crown}
+    - {at: [81, 47], h: 930, notes: South meadow rise by the river}
+    - {at: [48, 42], h: 1200, notes: Woods knoll}
+    - {at: [36, 33], h: 800, notes: Woods camp rise}
+    - {at: [74, 32], h: 530, notes: Meadow camp}
+    - {at: [88, 22], h: 420, notes: Seer ring platform}
+    - {at: [101, 39], h: 0, notes: "Tomb foot, at the cliff base"}
+    - {at: [24, 32], h: 0, notes: "Den mouth, at the cliff base"}
+    - {at: [63, 61], h: 670, notes: Low knoll west of the lanes}
+    - {at: [72, 62], h: 190, notes: Lanes pads (128-192)}
+    - {at: [80, 79], h: 128, notes: Waterfront row pads}
+    - {at: [93, 88], h: 0, notes: Market and square at sea level}
+    - {at: [93, 83], h: 320, notes: Crystal plinth in the square}
+    - {at: [86, 90], h: 0, notes: Harbour plaza}
+    - {at: [102, 103], h: 640, notes: Temple terrace}
+    - {at: [102, 94], h: 0, notes: "Processional foot; it rises 640 over 5 cells to the terrace"}
+  bands:
+    - band: band:uplands
+      space: wild:upland_w
+      polygon: [[0, 0], [29, 0], [28, 6], [25, 10], [24, 14], [25, 20], [24, 24], [28, 27], [24, 30], [24, 34], [27, 37], [25, 40], [28, 41], [27, 42], [20, 42], [9, 41], [0, 41]]
+      notes: North of the west pass.
+    - band: band:uplands
+      space: wild:upland_w
+      polygon: [[0, 45], [12, 45], [22, 46], [24, 52], [25, 56], [29, 58], [29, 66], [31, 70], [30, 72], [8, 74], [8, 104], [0, 104]]
+      notes: "South of the west pass, with the chapel spur."
+    - band: band:uplands
+      space: wild:upland_e
+      polygon: [[93, 0], [128, 0], [128, 59], [118, 59], [105, 59], [104, 56], [104, 52], [102, 48], [104, 43], [104, 36], [99, 34], [97, 31], [92, 28], [93, 25], [98, 23], [98, 19], [95, 12]]
+      notes: North of the east cut.
+    - band: band:uplands
+      space: wild:upland_e
+      polygon: [[104, 65], [106, 63], [117, 63], [128, 63], [128, 120], [121, 118], [116, 112], [110, 108], [108, 100], [107, 80], [105, 70]]
+      notes: South of the east cut.
+    - band: band:headland
+      space: wild:sw_headland
+      polygon: [[30, 72], [31, 70], [33, 76], [34, 79], [39, 80], [41, 83], [42, 88], [39, 90], [37, 86], [35, 84], [33, 81], [25, 81], [19, 84], [17, 90], [17, 104], [8, 104], [8, 74]]
+    - band: band:town
+      space: town:ravenshore
+      polygon: [[64, 56], [88, 56], [90, 54], [94, 55], [101, 54], [104, 58], [103, 66], [106, 71], [108, 76], [108, 93], [107, 99], [107, 107], [99, 108], [97, 104], [91, 102], [84, 103], [76, 99], [75, 88], [74, 80], [73, 76], [66, 76], [62, 73], [62, 65], [65, 64], [66, 61], [65, 58]]
+    - band: band:basin
+      space: wild:basin
+      polygon: [[29, 0], [93, 0], [95, 12], [98, 19], [98, 23], [93, 25], [92, 28], [97, 31], [99, 34], [104, 36], [104, 43], [102, 48], [104, 52], [104, 56], [101, 54], [94, 55], [90, 54], [88, 56], [64, 56], [65, 58], [66, 61], [65, 64], [62, 65], [62, 73], [57, 74], [53, 78], [51, 84], [44, 88], [42, 88], [41, 83], [39, 80], [34, 79], [33, 76], [31, 70], [29, 66], [29, 58], [25, 56], [24, 52], [22, 46], [26, 45], [28, 41], [25, 40], [27, 37], [24, 34], [24, 30], [28, 27], [24, 24], [25, 20], [24, 14], [25, 10], [28, 6]]
+  cliffs:
+    - line: [[29, 1], [28, 6], [25, 10], [24, 14], [25, 20], [24, 24], [28, 27], [24, 30], [24, 34], [27, 37], [25, 40]]
+      drop: 2000
+      notes: "West upland inner face, north of the pass; the den mouth sits in the re-entrant at y 30-34"
+    - line: [[0, 41], [9, 41], [20, 42], [27, 42]]
+      drop: 2000
+      notes: "West pass, north wall"
+    - line: [[0, 45], [12, 45], [22, 46]]
+      drop: 1600
+      notes: "West pass, south wall"
+    - line: [[22, 46], [24, 52], [25, 56], [29, 58], [29, 66], [31, 70]]
+      drop: 2000
+      notes: "West upland inner face, south of the pass; the chapel spur steps out of it"
+    - line: [[31, 70], [33, 76], [34, 79], [39, 80], [41, 83], [42, 88], [39, 90]]
+      drop: 5000
+      notes: Headland face toward the basin corner and the bay
+    - line: [[17, 90], [19, 84], [25, 81], [33, 81], [35, 84], [37, 86], [38, 90]]
+      drop: 4500
+      notes: Cliff ring of the smugglers' inlet
+    - line: [[93, 1], [95, 12], [98, 19], [98, 23], [93, 25], [92, 28], [97, 31], [99, 34], [104, 36], [104, 43], [102, 48], [104, 52], [104, 56], [105, 59]]
+      drop: 2000
+      notes: "East upland inner face, north of the cut; the tomb stands in the re-entrant at y 36-42 and the obelisk at its foot at y 22"
+    - line: [[105, 59], [118, 59], [127, 59]]
+      drop: 2300
+      notes: "East cut, north wall"
+    - line: [[106, 63], [117, 63], [127, 63]]
+      drop: 1500
+      notes: "East cut, south wall (steep slope rather than sheer)"
+    - line: [[104, 65], [105, 70], [107, 80], [108, 100], [110, 108], [116, 112], [121, 118]]
+      drop: 2200
+      notes: "East upland inner face south of the cut, above the market's east edge, the temple point and the coast"
+  notes: "The two pass floors lie outside every band outline: sea-level corridors through the uplands between their wall cliffs, carried by their floor points. The low knoll west of the lanes lies in the basin band, outside the town's outline."
+water:
+  bodies:
+    - id: water:sea_and_bay
+      kind: sea
+      level: 0
+      polygon: [[0, 104], [13, 104], [17, 90], [38, 90], [42, 88], [44, 88], [51, 84], [53, 78], [57, 74], [63, 74], [66, 77], [72, 77], [75, 82], [80, 86], [83, 90], [84, 97], [91, 98], [96, 105], [101, 110], [109, 114], [116, 118], [128, 120], [128, 128], [0, 128]]
+    - id: water:smugglers_inlet
+      kind: inlet
+      level: 0
+      polygon: [[17, 90], [19, 84], [25, 81], [33, 81], [35, 84], [37, 86], [38, 90]]
+      notes: "Open to the sea along its south side (y 90); polygon closed along that line."
+    - id: water:north_pond
+      kind: lake
+      level: 0
+      polygon: [[80, 8], [84, 8], [87, 11], [86, 15], [82, 16], [79, 13]]
+  rivers:
+    - id: water:river
+      line: [[47, 0], [44, 6], [42, 12], [42, 17], [45, 21], [50, 25], [53, 30], [55, 33], [60, 34], [64, 35], [68, 39], [72, 43], [75, 47], [76, 52], [80, 53], [86, 51], [91, 54], [92, 60], [91, 65], [86, 67], [78, 67], [74, 68], [73, 73], [72, 77]]
+      width_cells: 3
+      level: 0
+      notes: "Cut to sea level along its whole course; 2-5 cells wide. The north road runs on its east side. It turns east under the upper bridge at y 34, runs down to y 52, passes a small oxbow at x 84-89, runs south at x 91, turns west along y 66-67 under the town bridge and enters the bay at x 72."
+  shores:
+    - line: [[44, 88], [51, 84], [53, 78], [57, 74], [63, 74], [66, 77], [72, 77]]
+      kind: beach
+      notes: Bay north shore below the woods and the lanes
+    - line: [[72, 77], [75, 82], [80, 86], [83, 90], [84, 97], [91, 98]]
+      kind: beach
+      notes: "Town shore: waterfront row and harbour (the piers stand out from it)"
+    - line: [[91, 98], [96, 105], [101, 110], [109, 114]]
+      kind: beach
+      notes: Temple point and the south-east coast
+    - line: [[109, 114], [116, 118], [128, 120]]
+      kind: cliff
+      notes: East uplands into the sea
+    - line: [[42, 88], [39, 90]]
+      kind: cliff
+      notes: Headland east arm into the bay
+    - line: [[17, 90], [13, 104], [0, 104]]
+      kind: cliff
+      notes: Headland west arm (backdrop)
+roads:
+  - link: road:north_road
+    line: [[60.5, 0.5], [60.5, 9.5], [56.5, 14.5], [56.5, 23.5], [58, 26]]
+    width: high_road
+    surface: pebbles
+    notes: "Runs on the river's east side, crosses the prompt at x 57 and continues to the terrain edge at x 60."
+  - link: road:spine
+    line: [[58, 26], [59.5, 29.5], [59.5, 38.5], [60.5, 44.5], [60.5, 50.5], [55.5, 51.5], [55.5, 53.5], [51.5, 53.5], [50, 55]]
+    width: high_road
+    surface: pebbles
+    notes: "Upper bridge (2 parts, 7 cells) at x 59.5 from y 31 to 38; the spine then runs down the west bank."
+  - link: road:woods_road
+    line: [[34, 59], [40.5, 59.5], [43.5, 55.5], [50, 55]]
+    width: road
+    surface: pebbles
+  - link: road:west_pass
+    line: [[3.5, 41.5], [8.5, 42.5], [20.5, 43.5], [25.5, 45.5], [31.5, 45.5], [32.5, 50.5], [36.5, 50.5], [37.5, 53.5], [35.5, 55.5], [34, 59]]
+    width: high_road
+    surface: pebbles
+    notes: "Through the sea-level pass; the road continues 17 cells past the prompt."
+  - link: road:chapel_road
+    line: [[34, 59], [34.5, 61.5], [31.5, 61.5], [31.5, 65.5], [28.5, 65.5], [28.5, 68.5], [25.5, 68.5], [25, 64]]
+    width: lane
+    surface: pebbles
+    notes: "Climbs from 640 to the 2,048 spur top in a switchback at y 65-68."
+  - link: road:east_cut
+    line: [[98, 63], [108.5, 63.5], [113.5, 62.5], [117.5, 61.5], [127.5, 60.5]]
+    width: high_road
+    surface: pebbles
+    notes: Through the sea-level cut to the terrain edge.
+  - link: road:east_street
+    line: [[96.5, 80.5], [101.5, 80.5], [101.5, 73.5], [98.5, 72.5], [98, 63], [98.5, 58]]
+    width: road
+    surface: pebbles
+    notes: "From the square's north-east corner up the market's east side to the east junction, and on to the north fringe houses at y 58."
+  - link: road:meadow_loop
+    line: [[58, 26], [63.5, 25.5], [67.5, 21.5], [76.5, 21.5], [77.5, 24.5], [86, 24]]
+    width: road
+    surface: pebbles
+  - link: road:tomb_road
+    line: [[86, 24], [87.5, 27.5], [88.5, 34.5], [89.5, 36.5], [93.5, 37.5], [94.5, 39.5], [99, 39]]
+    width: lane
+    surface: pebbles
+  - link: road:town_bridge
+    line: [[81, 63], [80.5, 71.5], [82.5, 74.5], [95.5, 74.5], [95.5, 79.5]]
+    width: road
+    surface: pebbles
+    notes: "Town bridge (2 parts, 7 cells) at x 80.5 from y 64 to 71, then the long east-west street at y 74.5 to the square."
+  - link: road:waterfront_street
+    line: [[82.5, 74.5], [82.5, 80.5], [83.5, 80.5], [83.5, 89.5], [90.5, 89.5]]
+    width: road
+    surface: pebbles
+    notes: "Leaves the bridge road at the waterfront row, runs south and then down the council hall's west side to the fountain, and along the hall's south side to the harbour plaza road. A short cross street along y 84.5 (x 83.5-90.5), on the hall's north side, is not drawn."
+  - link: road:lanes_lane
+    line: [[67.5, 71.5], [66.5, 67.5], [69.5, 63.5], [72.5, 62], [76.5, 61], [80, 61], [81, 63]]
+    width: lane
+    surface: dirt
+    notes: "Dirt lane from the tavern north, then east along the north bank to the town bridge."
+  - link: road:north_shore
+    line: [[50, 55], [49.5, 58.5], [51.5, 61.5], [51.5, 64.5], [54.5, 66.5], [64.5, 67.5]]
+    width: road
+    surface: pebbles
+  - link: road:processional
+    line: [[96.5, 84.5], [104.5, 84.5], [104.5, 92.5], [102.5, 93.5], [102.5, 100.5]]
+    width: road
+    surface: pebbles
+    notes: "From the square along y 84.5 to the east street, south past the Might well, then up onto the temple point (0 to 640 over y 94-99)."
+  - link: road:harbour_plaza
+    line: [[95.5, 86.5], [90.5, 86.5], [90.5, 91.5], [87.5, 91.5], [86, 90]]
+    width: lane
+    surface: none (open paving of the plaza)
+    notes: "Along the square's south side, down its west side past the council hall's tower, to the plaza by the fountain."
+  - link: water:inlet_approach
+    line: [[52, 100], [40, 94], [28, 88], [22, 86]]
+    width: lane
+    surface: water
+    notes: "A water route, not a road: from the bay round the headland's east arm into the inlet."
+districts:
+  - space: town:ravenshore
+    polygon: [[64, 56], [88, 56], [90, 54], [94, 55], [101, 54], [104, 58], [103, 66], [106, 71], [108, 76], [108, 93], [107, 99], [107, 107], [99, 108], [97, 104], [91, 102], [84, 103], [76, 99], [75, 88], [74, 80], [73, 76], [66, 76], [62, 73], [62, 65], [65, 64], [66, 61], [65, 58]]
+  - space: district:market
+    polygon: [[85, 71], [94, 71], [94, 55], [101, 55], [103, 60], [102, 66], [105, 71], [108, 76], [108, 93], [104, 93], [101, 98], [91, 98], [91, 92], [90, 90], [85, 90], [85, 87], [85, 76], [84, 75], [84, 71]]
+    plots:
+      - {building: building:nw_block, at: [86.5, 75], facing: s, door_to: road:town_bridge}
+      - {building: building:ne_block, at: [96, 76], facing: w, door_to: road:town_bridge}
+      - {building: building:se_block, at: [97, 85.5], facing: w, door_to: road:harbour_plaza}
+      - {building: building:inn, at: [92, 92.5], facing: n, door_to: road:harbour_plaza}
+      - {building: building:council_hall, at: [85.5, 85], facing: s, door_to: road:waterfront_street}
+      - {building: building:market_rich, index: 1, at: [97.5, 56.5], facing: s, door_to: road:east_street}
+      - {building: building:market_rich, index: 2, at: [97, 81.5], facing: w, door_to: road:east_street}
+      - {building: building:market_rich, index: 3, at: [87.5, 81], facing: e, door_to: road:harbour_plaza}
+      - {building: building:market_rich, index: 4, at: [95.5, 62], facing: e, door_to: road:east_street}
+      - {building: building:market_rich, index: 5, at: [100.5, 81], facing: n, door_to: road:east_street}
+      - {building: building:market_rich, index: 6, at: [98.5, 94.5], facing: n, door_to: road:processional}
+      - {building: building:market_rich, index: 7, at: [92.5, 77], facing: s, door_to: road:town_bridge}
+      - {building: building:market_middle, index: 1, at: [102.5, 77], facing: w, door_to: road:east_street}
+      - {building: building:market_middle, index: 2, at: [99.5, 61], facing: s, door_to: road:east_cut}
+      - {building: building:market_middle, index: 3, at: [90, 72], facing: s, door_to: road:town_bridge}
+      - {building: building:market_middle, index: 4, at: [84.5, 72], facing: s, door_to: road:town_bridge}
+      - {building: building:market_middle, index: 5, at: [95.5, 67], facing: e, door_to: road:east_street}
+      - {building: building:market_middle, index: 6, at: [105, 88], facing: w, door_to: road:processional}
+      - {building: building:market_middle, index: 7, at: [91.5, 87], facing: n, door_to: road:harbour_plaza}
+      - {building: building:market_middle, index: 8, at: [97, 90], facing: s, door_to: road:processional}
+      - {building: building:market_middle, index: 9, at: [97, 73.5], facing: n, door_to: road:east_street}
+      - {building: building:market_poor, index: 1, at: [100.5, 91.5], facing: s, door_to: road:processional}
+      - {building: building:market_poor, index: 2, at: [102.5, 92], facing: s, door_to: road:processional}
+      - {building: building:market_poor, index: 3, at: [105, 82.5], facing: w, door_to: road:processional}
+      - {building: building:market_poor, index: 4, at: [93, 72.5], facing: s, door_to: road:town_bridge}
+      - {building: building:market_poor, index: 5, at: [101.5, 89], facing: e, door_to: road:processional}
+      - {building: building:market_warehouse, at: [91, 89], facing: w, door_to: road:harbour_plaza}
+  - space: zone:square
+    polygon: [[90, 79], [97, 79], [97, 87], [90, 87]]
+    notes: "A dirt plaza ringed by streets, the crystal (3 x 4 cells) on a 320 plinth in its middle."
+  - space: district:harbour
+    polygon: [[79, 87], [85, 87], [85, 90], [90, 90], [91, 92], [91, 98], [90, 102], [84, 102], [77, 99], [76, 90]]
+    plots:
+      - {building: building:captains_ship, at: [78.5, 96], facing: n, door_to: road:harbour_plaza}
+      - {building: building:smugglers_ship, at: [77.5, 91], facing: s, door_to: road:harbour_plaza}
+    notes: "Two timber piers: the west pier runs out west from x 85 at y 92.5-96.5 with a ship on each side (smuggler's to the north, captain's to the south); the south pier runs out south from x 86 at y 96.5-101.5. Four crate stacks on the quay at x 85.5-89, y 92-97."
+  - space: district:waterfront_row
+    polygon: [[75, 71], [84, 71], [84, 75], [85, 76], [85, 87], [79, 87], [75, 80]]
+    plots:
+      - {building: building:waterfront_rich, index: 1, at: [76.5, 77.5], facing: e, door_to: road:waterfront_street}
+      - {building: building:waterfront_rich, index: 2, at: [79, 74.5], facing: s, door_to: road:waterfront_street}
+      - {building: building:waterfront_middle, index: 1, at: [83, 77.5], facing: w, door_to: road:waterfront_street}
+      - {building: building:waterfront_middle, index: 2, at: [78.5, 80.5], facing: n, door_to: road:waterfront_street}
+      - {building: building:waterfront_warehouse, at: [81.5, 83.5], facing: s, door_to: road:waterfront_street}
+    notes: "The waterfront street (road:waterfront_street) runs from the town bridge foot down x 82.5 past the houses and the challenge garden (a short loop round it at y 77-79), along y 80.5 and down x 83.5 to the plaza, past the council hall's yard."
+  - space: district:west_lanes
+    polygon: [[64, 56], [88, 56], [88, 63], [83, 64], [77, 65], [74, 67], [73, 76], [66, 76], [62, 73], [62, 65], [65, 64], [66, 61], [65, 58]]
+    plots:
+      - {building: building:dancing_ogre, at: [67, 72.5], facing: n, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 1, at: [68.5, 66.5], facing: n, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 2, at: [69, 70.5], facing: w, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 3, at: [72.5, 63.5], facing: n, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 4, at: [72.5, 57.5], facing: s, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 5, at: [86, 59.5], facing: w, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 6, at: [71.5, 66.5], facing: w, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 7, at: [81, 61.5], facing: n, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 8, at: [84, 57], facing: s, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 9, at: [83, 61], facing: n, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 10, at: [64, 69], facing: n, door_to: road:north_shore}
+      - {building: building:lanes_poor, index: 11, at: [71, 60.5], facing: s, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 12, at: [75, 64], facing: n, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 13, at: [79.5, 57], facing: s, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 14, at: [86, 57.5], facing: w, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 15, at: [63, 70.5], facing: e, door_to: road:lanes_lane}
+      - {building: building:lanes_poor, index: 16, at: [75, 57], facing: s, door_to: road:lanes_lane}
+      - {building: building:lanes_middle, at: [81.5, 57.5], facing: s, door_to: road:lanes_lane}
+  - space: district:temple_point
+    polygon: [[98, 99], [106, 99], [107, 107], [99, 108], [97, 104]]
+    plots:
+      - {building: building:sanctum, at: [100, 100.5], facing: n, door_to: road:processional}
+  - space: wild:basin
+    polygon: [[29, 0], [93, 0], [95, 12], [98, 19], [98, 23], [93, 25], [92, 28], [97, 31], [99, 34], [104, 36], [104, 43], [102, 48], [104, 52], [104, 56], [101, 54], [94, 55], [90, 54], [88, 56], [64, 56], [65, 58], [66, 61], [65, 64], [62, 65], [62, 73], [57, 74], [53, 78], [51, 84], [44, 88], [42, 88], [41, 83], [39, 80], [34, 79], [33, 76], [31, 70], [29, 66], [29, 58], [25, 56], [24, 52], [22, 46], [26, 45], [28, 41], [25, 40], [27, 37], [24, 34], [24, 30], [28, 27], [24, 24], [25, 20], [24, 14], [25, 10], [28, 6]]
+  - space: wild:wolf_woods
+    polygon: [[25, 10], [42, 10], [41, 14], [42, 18], [46, 21], [50, 25], [53, 30], [55, 33], [60, 34], [64, 35], [68, 39], [72, 43], [75, 47], [74, 53], [64, 56], [65, 58], [66, 61], [65, 64], [62, 65], [62, 73], [57, 74], [53, 78], [51, 84], [44, 88], [42, 88], [41, 83], [39, 80], [34, 79], [33, 76], [31, 70], [29, 66], [29, 58], [25, 56], [24, 52], [22, 46], [26, 45], [28, 41], [25, 40], [27, 37], [24, 34], [24, 30], [28, 27], [24, 24], [25, 20], [24, 14]]
+  - space: wild:ne_meadow
+    polygon: [[48, 0], [93, 0], [95, 12], [98, 19], [98, 23], [93, 25], [92, 28], [97, 31], [99, 34], [104, 36], [104, 43], [102, 48], [104, 52], [104, 56], [101, 54], [94, 55], [90, 54], [86, 53], [80, 53], [76, 52], [75, 47], [72, 43], [68, 39], [64, 35], [60, 34], [55, 33], [53, 30], [50, 25], [46, 21], [42, 18], [41, 14], [42, 10], [44, 6]]
+  - space: wild:upland_w
+    polygon: [[0, 0], [29, 0], [28, 6], [25, 10], [24, 14], [25, 20], [24, 24], [28, 27], [24, 30], [24, 34], [27, 37], [25, 40], [28, 41], [26, 45], [22, 46], [24, 52], [25, 56], [29, 58], [29, 66], [31, 70], [30, 72], [8, 74], [8, 104], [0, 104]]
+  - space: wild:upland_e
+    polygon: [[93, 0], [128, 0], [128, 120], [121, 118], [116, 112], [110, 108], [108, 100], [107, 80], [105, 70], [104, 65], [105, 59], [104, 56], [104, 52], [102, 48], [104, 43], [104, 36], [99, 34], [97, 31], [92, 28], [93, 25], [98, 23], [98, 19], [95, 12]]
+  - space: wild:sw_headland
+    polygon: [[30, 72], [31, 70], [33, 76], [34, 79], [39, 80], [41, 83], [42, 88], [39, 90], [37, 86], [35, 84], [33, 81], [25, 81], [19, 84], [17, 90], [17, 104], [8, 104], [8, 74]]
+  - space: zone:chapel_spur
+    polygon: [[21, 57], [29, 57], [30, 62], [31, 66], [27, 69], [21, 66]]
+  - space: zone:den_mouth
+    polygon: [[23, 29], [33, 29], [33, 36], [23, 36]]
+  - space: zone:wolf_camp
+    polygon: [[34, 32], [39, 32], [39, 37], [34, 37]]
+  - space: zone:meadow_camp
+    polygon: [[71, 30], [76, 30], [76, 34], [71, 34]]
+  - space: zone:pedestal_knoll
+    polygon: [[79, 32], [88, 32], [89, 38], [80, 39]]
+  - space: zone:seer_ring
+    polygon: [[85, 19], [91, 19], [91, 25], [85, 25]]
+    plots:
+      - {building: building:oracle, at: [85.5, 20], facing: s, door_to: road:meadow_loop}
+  - space: zone:tomb
+    polygon: [[98, 36], [105, 36], [105, 42], [98, 42]]
+points:
+  - {id: edge:north, at: [57, 20], notes: Where the north road crosses the prompt}
+  - {id: edge:west, at: [20, 43], notes: Where the west pass road crosses the prompt}
+  - {id: edge:east, at: [108, 63], notes: Where the east cut road crosses the prompt}
+  - {id: junction:n_jct, at: [58, 26]}
+  - {id: junction:cw_jct, at: [50, 55]}
+  - {id: junction:w_jct, at: [34, 59], notes: "About 18 cells (straight; about 28 along the road) beyond the west arrival, where the pass road comes down out of the uplands' foothills"}
+  - {id: junction:e_jct, at: [98, 63]}
+  - {id: junction:town_bridge, at: [81, 63], notes: North (lanes) end of the town bridge}
+  - {id: entrance:north, at: [57, 21], facing: s}
+  - {id: entrance:west_arrival, at: [23, 45], facing: e, notes: "On the pass road just inside the prompt, about 18 cells (straight; about 28 along the road) short of the west junction"}
+  - {id: entrance:west_exit, at: [20, 43]}
+  - {id: entrance:east_arrival, at: [105, 63], facing: w, notes: "In the cut, 7 cells short of the east junction"}
+  - {id: entrance:east_exit, at: [108, 63]}
+  - {id: entrance:south_sea, at: [64, 108]}
+  - {id: entrance:captains_ship, at: [80, 97], facing: n, notes: "Gangway door at the ship's west end, off the west pier"}
+  - {id: entrance:smugglers_ship, at: [82, 92], facing: s, notes: "Gangway door at the ship's east end, off the west pier"}
+  - {id: entrance:stable, at: [98, 89], facing: w, notes: "The stable door is on the south-east block's south side; arrivals stand in front of it"}
+  - {id: entrance:council_hall_terrace, at: [89, 88], facing: s, notes: "Door in the tower's south face, on a walled terrace 256 up reached by a ramp that rises south from the hall's yard at x 88; not on the square. Facing is the side the door faces"}
+  - {id: entrance:council_hall_porch, at: [86, 85], facing: w, notes: "Porch 256 up at the hall's north-west corner, the door facing west onto it; a short stair climbs to it northwards from the hall's yard at [86, 87], beside the fountain and the waterfront street. Facing is the side the door faces"}
+  - {id: entrance:crystal, at: [94, 83]}
+  - {id: entrance:wolf_den, at: [24, 32], facing: e, notes: "Den mouth in the cliff foot, opening east to the bones"}
+  - {id: entrance:smugglers_cove, at: [20, 86], facing: e, notes: Sea-cave arch in the inlet's west cliff}
+  - {id: entrance:chapel_of_eep, at: [25, 64], facing: s, notes: "Chapel door on its south side, at the top of the switchback"}
+  - {id: entrance:tomb_of_lord_brinne, at: [99, 39], facing: w, notes: "Door in the tomb's west face, at the end of the tomb road"}
+  - {id: poi:fountain, at: [85, 88], notes: "Two parts, about 1.5 x 1.5 cells"}
+  - {id: poi:might_well, at: [103, 86], notes: On the street south of the square (the processional's approach)}
+  - {id: poi:bad_well, at: [81, 60], notes: "Off the lane, two cells north of the town bridge"}
+  - {id: poi:sealed_vault, at: [103, 73], facing: s, notes: Vault door in a walled 1 x 1 cell corner pad beside the east street}
+  - {id: box:vault, at: [103, 73]}
+  - {id: poi:potion_tree, at: [100, 84], notes: In the yard south of the north-east block}
+  - {id: poi:crystal, at: [94, 83]}
+  - {id: poi:stat_challenge, at: [80, 78], notes: Fire basin in the garden between the waterfront houses}
+  - {id: poi:luck_buoy, at: [54, 94], notes: "West of the harbour, across the bay"}
+  - {id: poi:obelisk, at: [97, 22], notes: "Under the east cliff, 9 cells east of the seer ring, off the road"}
+  - {id: poi:buff_pedestal, at: [82, 36]}
+  - {id: poi:reagent_rock, at: [86, 36]}
+  - {id: poi:reagent_tree, at: [67, 54], notes: "On the river's west bank north of the lanes, 17 cells east of the central-west junction"}
+  - {id: landmark:crystal, at: [94, 83]}
+  - {id: landmark:sanctum, at: [102, 103]}
+  - {id: landmark:ships, at: [81, 95]}
+  - {id: landmark:seer_ring, at: [88, 22]}
+  - {id: landmark:obelisk, at: [97, 22]}
+  - {id: landmark:tomb, at: [102, 39]}
+  - {id: landmark:sw_headland, at: [38, 87], notes: Summit}
+  - {id: landmark:upland_walls, at: [24, 43], notes: West notch (the pass mouth)}
+  - {id: landmark:upland_walls, at: [105, 61], notes: East notch (the cut mouth)}
+areas:
+  - id: pop:dire_wolves
+    circle: {at: [27, 32], r: 1}
+    notes: "Den pack, three markers at the mouth"
+  - id: pop:dire_wolves
+    circle: {at: [32, 32], r: 1}
+    notes: By the bones
+  - id: pop:dire_wolves
+    circle: {at: [33, 24], r: 1}
+  - id: pop:dire_wolves
+    circle: {at: [41, 28], r: 1}
+  - id: pop:dire_wolves
+    circle: {at: [45, 35], r: 1}
+  - id: pop:dire_wolves
+    circle: {at: [30, 42], r: 1}
+    notes: At the pass mouth
+  - id: pop:dire_wolves
+    circle: {at: [43, 42], r: 1}
+  - id: pop:dire_wolves
+    circle: {at: [53, 44], r: 1}
+  - id: pop:dire_wolves
+    circle: {at: [29, 53], r: 1}
+    notes: Below the chapel spur
+  - id: pop:dire_wolves
+    circle: {at: [43, 62], r: 1}
+    notes: Nearest the lanes
+  - id: pop:last_wolf
+    circle: {at: [26, 32], r: 1}
+    notes: The straggler appears at the den mouth.
+  - id: pop:centaurs
+    polygon: [[70, 29], [82, 28], [94, 29], [95, 34], [94, 46], [80, 46], [74, 40]]
+    notes: "16 single markers 1,000-2,000 apart round the pedestal knoll, the meadow camp and the tomb road."
+  - id: pop:pirate_force
+    polygon: [[60, 54], [98, 54], [98, 104], [84, 104], [76, 99], [72, 77], [60, 77]]
+    notes: "Hidden until the landing: the lanes, the waterfront, the market's west half, the harbour and the piers, and a few on the north shore road outside the lanes."
+views:
+  - {id: sight:harbour_plaza, at: [86, 90], height: 200, look: [81, 95], purpose: "The ships, west across the piers"}
+  - {id: sight:harbour_plaza, at: [86, 90], height: 200, look: [102, 103], purpose: "The Sanctum, south-east past the market"}
+  - {id: sight:north_arrival, at: [57, 21], height: 200, look: [72, 77], purpose: Down the river to the bay}
+  - {id: sight:town_bridge, at: [81, 63], height: 200, look: [94, 83], purpose: The crystal across the bridge}
+  - {id: sight:west_lanes, at: [67, 68], height: 200, look: [94, 83], purpose: Across the river mouth to the market and the crystal}
+  - {id: landmark:tomb, at: [87, 25], height: 200, look: [102, 39], purpose: Down the tomb road from the seer ring}
+  - {id: landmark:sanctum, at: [104, 80], height: 200, look: [102, 103], purpose: Down the east street to the temple point}
+  - {id: landmark:sw_headland, at: [66, 80], height: 200, look: [38, 87], purpose: Across the bay from the lanes shore}
+  - {id: landmark:upland_walls, at: [60, 45], height: 200, look: [24, 43], purpose: From the spine to the west notch}
+ground:
+  - material: grass_meadow
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "The base layer under everything below: grass_meadow with grass_patchy patches; soil_stony on about a tenth of the soil."
+  - material: rock_layered
+    polygon: [[0, 0], [29, 0], [28, 6], [25, 10], [24, 14], [25, 20], [24, 24], [28, 27], [24, 30], [24, 34], [27, 37], [25, 40], [28, 41], [26, 45], [22, 46], [24, 52], [25, 56], [29, 58], [29, 66], [31, 70], [30, 72], [8, 74], [8, 104], [0, 104]]
+    notes: "Plateau tops; cliff material on the faces"
+  - material: rock_layered
+    polygon: [[93, 0], [128, 0], [128, 120], [121, 118], [116, 112], [110, 108], [108, 100], [107, 80], [105, 70], [104, 65], [105, 59], [104, 56], [104, 52], [102, 48], [104, 43], [104, 36], [99, 34], [97, 31], [92, 28], [93, 25], [98, 23], [98, 19], [95, 12]]
+  - material: rock_layered
+    polygon: [[30, 72], [31, 70], [33, 76], [34, 79], [39, 80], [41, 83], [42, 88], [39, 90], [37, 86], [35, 84], [33, 81], [25, 81], [19, 84], [17, 90], [17, 104], [8, 104], [8, 74]]
+    notes: "Bare rock, no grass"
+  - material: soil
+    polygon: [[48, 66], [55, 64], [62, 56], [88, 56], [88, 63], [76, 66], [73, 76], [57, 74], [53, 78], [48, 79]]
+    notes: "Town dirt over the lanes and the north shore; road material on the streets"
+  - material: soil
+    polygon: [[84, 71], [108, 71], [108, 96], [106, 108], [97, 104], [91, 98], [84, 97]]
+    notes: "Market and harbour yards, the processional and the temple point"
+  - material: soil
+    polygon: [[22, 29], [33, 29], [33, 36], [22, 36]]
+    notes: Den mouth and bones
+  - material: soil
+    polygon: [[21, 57], [29, 57], [30, 66], [21, 66]]
+    notes: Chapel spur top

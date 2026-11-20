@@ -1,0 +1,347 @@
+# draft extracted from MAW ef23ee17
+# Class perks, resources and class-table changes of the MAW ruleset.
+# Paths are relative to /home/pjasicek/github/Maw-Mod-MMMerge. Shorthand:
+#   CL = Scripts/General/zzClasses.lua        MCC = Scripts/Modules/MawCore/Classes.lua
+#   S  = Scripts/General/zzMAW-Skills.lua     SP  = Scripts/General/zzMaw-Spells.lua
+#   ST = Scripts/General/zzMaw-Stats.lua      IT  = Scripts/General/zzMaw-Items.lua
+#   DM = Scripts/Modules/MawCore/Damage.lua   F   = Scripts/Modules/MawCore/Formulas.lua
+#   TT = Scripts/Modules/MawCore/SkillTooltip.lua
+# Units: s = skill level, m = mastery 0..4 (N=1 .. GM=4). Game time: 1 game minute = 2 real seconds
+# (F:10). "armsmaster way" = added to the weapon's flat damage bonus, multiplied by the weapon skill damage %
+# and halved when an off-hand weapon is held (IT:2878-2919).
+# Class-specific SPELLS (DK, Assassin, Elementalist rotation, Dragon) are in spells.yml (class variants).
+
+version: 1
+
+class_ids:   # MCC:646-656 (Classes.List) and Data/Tables/Class Extra.txt
+  seraphim:     {kind: 17, ids: [53, 54, 55], names: [Seraphim, Angel, Archangel]}
+  death_knight: {kind: 18, ids: [56, 57, 58], names: [Death Knight, Death Lord, Lich King]}
+  shaman:       {kind: 19, ids: [59, 60, 61], names: [Shaman, Sekhem, Marabou]}
+  elementalist: {kind: 20, ids: [62, 63, 64], names: [Elementalist, Elemental Adept, Master of Elements]}
+  assassin:     {kind: 11, ids: [34, 35, 36, 37], names: [Thief, Rogue, Assassin, Spy], note: "vanilla Thief line reworked"}
+
+shared_rules:
+  magic_only_shared_skill_discount:
+    classes: [seraphim, death_knight, shaman, assassin]
+    rule: "second-skill discount set is magic 12-22 only (weapons excluded)"
+    source: S:238-262 (240-241)
+  no_meditation_buff_regen:
+    class_ids: [10, 11, 34, 35, 36, 37, 56, 57, 58]   # dragons, thief line, death knights
+    source: S:1344, S:1467
+  no_buff_reservation:
+    classes: [death_knight, assassin]
+    rule: "current mana pool forced to the max pool: their buffs reserve no mana"
+    source: SP:3055-3058
+  spell_book_learning_blocked:
+    classes: [death_knight, elementalist, assassin]
+    rule: "CanLearnSpell NeedMastery=5 (no spell books)"
+    source: MCC:482-493, MCC:589-593
+
+seraphim:
+  hp_sp: {hp_base: 40, hp_per_level: [3, 4, 5], sp_base: 15, sp_per_level: [1, 2, 3], sp_stat: Personality,
+          source: "Data/Tables/Class HP SP.txt rows Seraphim..Archangel"}
+  perks:
+    - id: mind_flat_damage
+      school: Mind
+      formula: "flat melee damage s*(m+1)/2, armsmaster way (1/1.5/2/2.5 per point N/E/M/G)"
+      source: IT:2888-2893; tooltip TT:411-418 (tooltip rows say 1/1.5/2/n.a.)
+    - id: body_heal_on_hit
+      school: Body
+      formula: "round(s^1.3 * m * 2 * meleeDamageMultiplier * (1 + Personality/1000)) HP"
+      target: "party member with the lowest HP fraction (dead/eradicated excluded); clears Unconscious if HP>0"
+      trigger: "own melee hit with physical damage and Result>0"
+      source: DM:106-150 (119-121); TT:419-428
+    - id: light_attack_speed
+      school: Light
+      formula: "+ s*m/2 % attack speed (0.5/1/1.5/2 % per point)"
+      source: S:536-539; TT:429-434
+    - id: light_two_handed_sword_one_hand
+      rule: "two-handed swords (Skill 1, EquipStat 1) are equipped as one-handed so a shield fits; no level gate"
+      source: CL:170-226
+    - id: no_sword_dual_wield
+      rule: "CanDualWield returns false for swords"
+      source: S:1787-1792
+    - id: spirit_flat_reduction
+      school: Spirit
+      formula: >-
+        flat = round(getMonsterDamage(false, L+1) * (s / estimateSkill(L)) * avgTaken/2 * 0.99^estimateSkill(L)),
+        L = getTotalLevel(); after resistances: damage = max(damage - flat, 0.25*damage)
+      source: ST:742-776; TT:404-410
+    - id: divine_protection
+      trigger: "incoming hit >= current HP, character conscious, cooldown elapsed"
+      effect: "heal 25 % max HP, hit reduced to HP-1"
+      cooldown_game_minutes: 150   # 5 real minutes
+      source: DM:1888-1905; state vars.divineProtectionCooldown CL:283-289
+
+death_knight:
+  hp_sp: {hp_base: 35, hp_per_level: [4, 5, 7], sp_base: [60, 80, 100], sp_per_level: 0, sp_stat: Intellect}
+  resource:
+    sp_from_items: 0                      # MCC:838-840
+    sp_on_melee_hit: {per_class: {56: 10, 57: 15, 58: 20}, killing_hit_mult: 1.5,
+                      rule: "physical hits only; capped at max mana pool", source: "MCC:17-21, DM:784-791"}
+  school_renames: {Water: Frost, Body: Blood, Dark: Unholy}   # MCC:212-214
+  spells_by_mastery:   # opening the spellbook wipes spells 1-99 and grants these (MCC:458-480, 32-36)
+    Frost:  [26 Icy Touch, 27 Water Walk, 29 Frostbite, 32 Ice Bomb]
+    Blood:  [68 Blood Leech, 71 Regeneration, 76 Asphyxiate, 74 Superior Blood Leech]
+    Unholy: [91 Vampiric Weapon, 90 Death Coil, 96 Death Grasp, 97 Death Breath]
+  perks:
+    - id: frost_unholy_flat_damage
+      schools: [Frost, Unholy]
+      formula: "per school: GetGradualMasteryValue({0.5,0.75,1,1}, s, m) * s, armsmaster way"
+      gradual: "value ramps from the previous rank's to this rank's between mastery thresholds (normal 0/4/7/10, GM ramps to 1.4x)"
+      examples: {"s3 N": 1.1, "s5 E": 2.9, "s8 M": 6.7, "s10 G": 10, "s50 G": 50}
+      source: S:155; IT:2880-2887; ST:1480-1505
+    - id: frost_attack_speed
+      formula: "+ s % attack speed (1 % per Frost point)"
+      source: S:532-535
+    - id: blood_physical_reduction
+      formula: "physical damage taken / (1 + s_Blood/100)"
+      source: ST:778-787, ST:1063
+    - id: unholy_magic_reduction
+      formula: "non-physical damage taken / (1 + s_Unholy/100)"
+      source: ST:778-787, ST:1072
+    - id: blood_passive_leech
+      formula: "+10 % melee and +5 % ranged physical life leech, stacks with vampiric enchants"
+      source: F:254; IT:3286-3290; TT:384-391
+    - id: spell_delay_is_attack_delay
+      source: MCC:877-886
+    - id: no_spell_int_scaling
+      rule: "DK spells skip the Int/crit/enchant spell pipeline (damage is a melee roll)"
+      source: SP:2005
+    - id: excluded_from_auto_target_heals
+      source: SP:1278
+
+shaman:
+  hp_sp: {hp_base: 25, hp_per_level: [3, 4, 5], sp_base: 10, sp_per_level: [1, 1, 1], sp_stat: "Intellect+Personality"}
+  perks:
+    - {id: fire_percent_hp, school: Fire,
+       formula: "melee hit adds max(0.001*s * monster current HP, s) fire damage, divided by fire resistance",
+       source: "DM:1047-1054; TT:342-345"}
+    - {id: air_all_reduction, school: Air, formula: "all damage taken (physical and magic) / (1 + s/100)",
+       source: "ST:778-781"}
+    - {id: water_flat_reduction, school: Water, formula: "same flat formula as Seraph Spirit, floor 25 %",
+       source: "ST:742-776; TT:351-357"}
+    - {id: earth_flat_damage, school: Earth, formula: "s*m/2 flat melee damage, armsmaster way (0.5/1/1.5/2 per point)",
+       source: "IT:2894-2898; TT:358"}
+    - {id: spirit_melee_percent, school: Spirit, formula: "melee damage * (1 + s/100), applied like Heroism",
+       source: "IT:3338-3347; TT:359-362"}
+    - {id: mind_sp_on_hit, school: Mind, formula: "+ s^1.25 SP per melee hit (cap: reserved mana pool)",
+       source: "DM:673-693; F:242-244"}
+    - {id: body_leech_on_hit, school: Body,
+       formula: "+ max(round(FHP^0.5 * s^1.5/70 * (0.5 + m/2)), s) HP per melee hit", source: "DM:673-693; F:237-239"}
+    - {id: spell_damage_from_all_schools, formula: "spell damage (spells 1-98 except 44) * (1 + sum(s Fire..Body)/200)",
+       source: "DM:1118-1128"}
+    - {id: heal_from_all_schools, formula: "healing-spell per-point Scaling * (1 + sum(s Fire..Body)/400)",
+       source: "SP:2370-2380"}
+    - id: ascension
+      rule: "spell cost and healing use s = sum(s Fire..Body)/7 with mastery forced to GM (cost x0.5)"
+      caveat: "spell damage (SP:1956) and cast time (ST:176-188) read the Learning skill, which Shamans cannot learn
+               (Class Skillz.txt Learning '='), so damage and cast time get no Ascension"
+      source: SP:2251-2259
+
+elementalist:
+  hp_sp: {hp_base: 15, hp_per_level: [2, 2.5, 3], sp_base: 30, sp_per_level: [4, 6, 8], sp_stat: Intellect,
+          note: "2.5 for Elemental Adept is set in Lua (CL:606); the table says 2"}
+  always_known_spells: [2 Fire Bolt, 15 Sparks, 24 Poison Spray, 37 Deadly Swarm]   # MCC:495-507
+  learning_by_casting:
+    progress_per_hit: "tier^1.5 * monsterLevel^0.5 * sqrt(Party.Count) (no party factor in Insanity); /3 for
+                       AoE spells except Sparks and Poison Spray"
+    counted: "own offensive spell 1-44 damaging a hostile monster; progress is per school"
+    thresholds_by_tier: [0, 0, 500, 1500, 5000, 10000, 20000, 40000, 80000, 160000, 320000]
+    mastery_required_by_tier: [N, N, N, N, E, E, E, M, M, M, G]
+    insanity: "Invisibility (19) needs GM"
+    source: "MCC:43; DM:152-195; aoespells SP:2094"
+  ascension: {s: "sum(s Fire..Earth)/4 (floored for cast time)", mastery: "forced GM (cost x0.5)",
+              source: "SP:2233-2250, SP:1958-1968, ST:180-187"}
+  stacks:
+    gain: "+1 per cast of an offensive spell while the rotation is enabled and slot categories are bound"
+    damage: "dice max and flat add * (1 + 0.1*k)"
+    cast_delay: "delay * 1.5 / (1 + 0.05*k)"
+    mana: "cost = ceil(round((base + k) * (1+0.125s) * 1.04^s * 0.5) * (1 + 0.075k) * personalityReduction)"
+    decay: "after max(4*spellDelay, 128) ticks without a cast, stacks = floor(k/2) every 0.5 game minute"
+    reset: "melee or arrow hit (DM:197-209); quick-binding an offensive spell from the spellbook (MCC:541-553)"
+    examples: {k0: {dmg: 1.0, delay: 1.5}, k4: {dmg: 1.4, delay: 1.25}, k10: {dmg: 2.0, delay: 1.0}}
+    source: "MCC:300-315, MCC:509-539; SP:2271-2272, SP:1970-1973; ST:228-236; zzMaw-Timers.lua:97"
+  rotation:
+    slots: "4 extra quick spells, attack spell, quick spell"
+    categories: {single: [2, 11, 20, 26, 29, 37, 39], shotgun: [2, 15, 24, 37], aoe_indoor: [6, 10, 18, 32, 41],
+                 aoe_outdoor: [6, 9, 18, 22, 32, 41, 43]}
+    offensive_spells_outdoor: [2, 6, 7, 9, 11, 15, 18, 20, 22, 24, 26, 29, 32, 37, 39, 41, 43, 44]
+    offensive_spells_indoor: [2, 6, 7, 10, 11, 15, 18, 20, 24, 26, 29, 32, 37, 39, 41, 44]
+    rule: "slot category is captured on the spellbook screen (single checked first); after a cast the slot is
+           replaced by a random known spell of the same category"
+    toggle: "R on the skills screen (S:2263-2269)"
+    source: "MCC:45-61, MCC:317-349, MCC:509-587"
+
+assassin:
+  hp_sp: {hp_base: 25, hp_per_level: [3, 4, 5, 5], energy_base: [60, 70, 80, 80], sp_per_level: 0,
+          base_mmmerge: {hp_base: 35, hp_per_level: [4, 6, 8, 8], sp_base: 0, sp_per_level: [0, 1, 1, 1]}}
+  school_renames: {Fire: Combat, Air: Subtlety, Water: Poisons, Earth: Assassination}   # MCC:257-260
+  resources:
+    energy: "the SP bar; max = base + 10 * Assassination mastery (items give no SP)"   # SP:3628-3634
+    combo_points: {max: 5, display: "counter above the portrait (CL:693-704)"}
+  combat_fire:
+    melee_energy_cost: "50 - 5*m (unskilled 50, N 45, E 40, M 35, G 30); arrows half"
+    energy_refund: "chance 0.10 + 0.01*s to restore 15 energy (arrows half chance, spells none)"
+    source: "MCC:365-387; TT:476-477"
+  subtlety_air:
+    attack_speed_stacks: "+1 per energy-paying melee hit (+0.5 per arrow), max 5; attack speed + s*stacks/2 %;
+                          stacks drop 4 game minutes after the last paying hit"
+    kill_refund: "+ (1+m)*5 energy and +1 combo point when the target dies"
+    source: "MCC:388-413; S:540-550; TT:478-479"
+  poisons_water:
+    energy_regen_per_second: "(0.6 + 0.2*m) * 10 (6/8/10/12/14 for m 0..4)"
+    melee_bonus: "max(0.001*s * monster current HP, s) water damage, divided by water resistance"
+    source: "S:1478-1481; F:261-264; DM:1055-1062"
+  assassination_earth:
+    flat_damage: "s*(1+m) flat (2/3/4/5 per point), armsmaster way, times Heroism"
+    crowd_cut: "reduction = min(0.8, 0.2*(n-1)) of the flat bonus, n = living monsters within 384 of the target
+                (target included); arrows and spells use half"
+    no_energy: "a melee hit with too little energy (or on a non-hostile) loses the whole flat bonus and builds nothing"
+    source: "IT:2899-2912; MCC:365-432; DM:467-481"
+  combo_gain: {melee_paid: 1, arrow_paid: 0.5, kill: 1}
+  spell_delay: "2 x attack delay"   # MCC:448-450, ST:163-165
+  spells: "see spells.yml class variants (assassinSpells, MCC:69-101)"
+
+knight_line:   # vanilla classes 16-19, MAW additions
+  charge:
+    key: E
+    solo_only: true
+    range: [500, 3000]
+    effect: "party dashes to the target in 20 frames; target paralysed (DR applies)"
+    paralyze_game_minutes: {Knight: 1.5, Cavalier: 2, BlackKnight: 2.5, Champion: 2.5}
+    cooldown_seconds: 25
+    source: "S:950-1037; zz_Maw-initialize.lua:23; zzMaw-Timers.lua:99"
+  armsmaster_supreme:
+    requirement_base_skill: {normal: 30, insanity: 50, madness: 70}
+    effect: "at GM Armsmaster and base skill >= requirement: every melee weapon skill + floor(armsmaster/10),
+             capped at 2x the base skill"
+    source: S:2587-2620
+
+class_table_changes:
+  hp_sp:   # Data/Tables/Class HP SP.txt, MAW vs base MMMerge (= OpenYAMM class_multipliers.txt today)
+    columns: [HPBase, HPFactor, SPBase, SPFactor, SPStats]
+    changed:
+      PriestLight:  {base: [30, 3, 15, 5, P], maw: [30, 4, 15, 6, P]}
+      PriestDark:   {base: [30, 3, 15, 5, P], maw: [30, 4, 15, 6, P]}
+      Patriarch:    {base: [25, 4, 10, 4, I], maw: [25, 5, 10, 4, I]}
+      Dragon:       {base: [50, 10, 50, 5, I], maw: [50, 5, 50, 0, I], lua: "SPBase 60, SPFactor 0, SPStats 3 (CL:320-322)"}
+      GreatWyrm:    {base: [50, 10, 50, 10, I], maw: [50, 10, 120, 0, I], lua: "SPBase 120, SPFactor 0, SPStats 3 (CL:323-325)"}
+      Warlock:      {base: [20, 4, 10, 5, IP], maw: [20, 4, 10, 6, IP]}
+      ArchDruid:    {base: [20, 4, 10, 5, IP], maw: [20, 4, 10, 6, IP]}
+      Knight:       {base: [35, 5, 0, 0, "-"], maw: [35, 4, 0, 0, "-"]}
+      Cavalier:     {base: [35, 7, 0, 0, "-"], maw: [35, 6, 0, 0, "-"]}
+      Minotaur:     {base: [30, 4, 5, 1, P], maw: [30, 6, 5, 1, P], lua: "also forced in CL:667-671"}
+      MinotaurLord: {base: [30, 6, 5, 2, P], maw: [30, 12, 5, 2, P]}
+      Monk:         {base: [35, 5, 0, 0, "-"], maw: [35, 4, 0, 0, "-"]}
+      Master:       {base: [35, 8, 0, 1, P], maw: [35, 8, 0, 2, P]}
+      Ninja:        {base: [35, 8, 0, 1, P], maw: [35, 8, 0, 2, P]}
+      Ranger:       {base: [30, 4, 0, 0, "-"], maw: [30, 4, 5, 1, IP]}
+      Hunter:       {base: [30, 5, 0, 2, IP], maw: [30, 5, 5, 2, IP]}
+      BountyHunter: {base: [30, 6, 0, 3, IP], maw: [30, 6, 5, 3, IP]}
+      RangerLord:   {base: [30, 6, 0, 3, IP], maw: [30, 6, 5, 3, IP]}
+      Thief:        {base: [35, 4, 0, 0, "-"], maw: [25, 3, 60, 0, I]}
+      Rogue:        {base: [35, 6, 0, 1, I], maw: [25, 4, 70, 0, I]}
+      Assassin:     {base: [35, 8, 0, 1, I], maw: [25, 5, 80, 0, I]}
+      Spy:          {base: [35, 8, 0, 1, I], maw: [25, 5, 80, 0, I]}
+      Troll:        {base: [45, 5, 0, 0, "-"], maw: [45, 6, 0, 0, "-"]}
+      WarTroll:     {base: [45, 8, 0, 0, "-"], maw: [45, 12, 0, 0, "-"]}
+      Nosferatu:    {base: [30, 4, 10, 4, P], maw: [30, 5, 10, 4, P]}
+      Lich:         {base: [20, 3, 25, 6, I], maw: [20, 4, 25, 6, I]}
+      ArchMage:     {base: [20, 3, 25, 6, I], maw: [20, 4, 25, 6, I]}
+      DarkArchMage: {base: [20, 3, 25, 6, I], maw: [20, 4, 25, 6, I]}
+      HighPriest:   {base: [30, 3, 15, 5, P], maw: [30, 4, 15, 6, P]}
+      MasterWizard: {base: [20, 3, 25, 6, I], maw: [20, 4, 25, 6, I]}
+    new_rows:
+      Seraphim: [40, 3, 15, 1, P]
+      Angel: [40, 4, 15, 2, P]
+      Archangel: [40, 5, 15, 3, P]
+      DeathKnight: [35, 4, 60, 0, I]
+      DeathLord: [35, 5, 80, 0, I]
+      LichKing: [35, 7, 100, 0, I]
+      Shaman: [25, 3, 10, 1, IP]
+      Sekhem: [25, 4, 10, 1, IP]
+      Marabou: [25, 5, 10, 1, IP]
+      Elementalist: [15, 2, 30, 4, I]
+      ElementalAdept: [15, 2, 30, 6, I]   # HPFactor 2.5 in Lua, CL:606
+      MasterOfElements: [15, 3, 30, 8, I]
+  class_extra_new_rows:   # Data/Tables/Class Extra.txt: id, kind, step
+    - [53, 17, 0]
+    - [54, 17, 1]
+    - [55, 17, 2]
+    - [56, 18, 0]
+    - [57, 18, 1]
+    - [58, 18, 2]
+    - [59, 19, 0]
+    - [60, 19, 1]
+    - [61, 19, 2]
+    - [62, 20, 0]
+    - [63, 20, 1]
+    - [64, 20, 2]
+  skill_caps:
+    authoritative_table: "Data/Tables/Class Skillz.txt (MC/Skills.lua:265-285 parses it and projectEngineTable,
+                          Skills.lua:350-362, overwrites Game.Classes.Skills at GameInitialized2, Skills.lua:874-876).
+                          Class Skills.txt differs from it in ~90 cells and only feeds base MMMerge before the overwrite."
+    letters: "N/B=1 E=2 M=3 G=4 S=5 (Supreme, beyond engine cap 4) '=' or '-' = none"
+    new_classes:   # columns Seraphim, Angel, Archangel, DK, DeathLord, LichKing, Shaman, Sekhem, Marabou, Ele, Adept, MasterOfElements
+      Staff:           [E, E, E, "-", "-", "-", E, M, M, E, E, M]
+      Sword:           [M, M, G, M, M, G, "-", "-", "-", "-", "-", "-"]
+      Dagger:          ["-", "-", "-", "-", "-", "-", E, M, M, E, E, E]
+      Axe:             [E, E, E, M, M, G, E, M, M, "-", "-", "-"]
+      Spear:           [M, M, G, "-", "-", "-", E, M, M, "-", "-", "-"]
+      Bow:             [E, E, E, E, E, E, E, E, E, N, N, N]
+      Mace:            [E, M, M, M, M, M, E, M, M, E, E, E]
+      Blaster:         [G, G, G, G, G, G, G, G, G, "-", "-", "-"]
+      Shield:          [M, M, M, "-", "-", "-", E, E, E, "-", "-", "-"]
+      Leather:         [E, E, E, E, E, E, E, M, M, E, E, M]
+      Chain:           [M, M, M, M, M, M, E, E, E, "-", "-", "-"]
+      Plate:           [M, M, M, M, M, G, "-", "-", "-", "-", "-", "-"]
+      Fire:            ["-", "-", "-", "-", "-", "-", E, M, G, M, M, G]
+      Air:             ["-", "-", "-", "-", "-", "-", E, M, G, M, M, G]
+      Water:           ["-", "-", "-", E, M, G, E, M, G, M, M, G]
+      Earth:           ["-", "-", "-", "-", "-", "-", E, M, G, M, M, G]
+      Spirit:          [E, M, M, "-", "-", "-", E, M, G, "-", "-", "-"]
+      Mind:            [E, M, M, "-", "-", "-", E, M, G, "-", "-", "-"]
+      Body:            [E, M, M, E, M, G, E, M, G, "-", "-", "-"]
+      Light:           [M, M, G, "-", "-", "-", "-", "-", "-", "-", "-", "-"]
+      Dark:            ["-", "-", "-", E, M, G, "-", "-", "-", "-", "-", "-"]
+      IdentifyItem:    [E, E, E, E, M, M, M, M, G, M, M, G]
+      Merchant:        [M, M, G, E, E, M, E, E, E, E, E, E]
+      Repair:          [E, E, E, M, M, G, E, M, M, N, N, N]
+      Bodybuilding:    [E, E, E, E, E, E, N, N, N, N, N, N]
+      Meditation:      [E, M, M, "-", "-", "-", N, N, N, M, M, G]
+      Perception:      [M, M, G, E, M, M, E, E, E, N, N, N]
+      Regeneration:    ["-", "-", "-", N, E, E, "-", "-", "-", "-", "-", "-"]
+      DisarmTraps:     [M, M, G, N, N, E, E, E, E, E, E, M]
+      Unarmed:         ["-", "-", "-", "-", "-", "-", E, M, M, "-", "-", "-"]
+      IdentifyMonster: [N, N, N, E, E, E, M, M, G, M, M, G]
+      Armsmaster:      ["-", "-", "-", "-", "-", "-", E, E, E, "-", "-", "-"]
+      Alchemy:         [N, N, N, M, G, G, M, G, G, M, G, G]
+      Learning:        [M, M, G, "-", "-", "-", "-", "-", "-", "-", "-", "-"]
+      Cover_50:        [M, M, G, M, M, G, "-", "-", "-", "-", "-", "-"]
+      ManaShield_51:   [N, E, M, "-", "-", "-", N, N, E, M, M, G]
+      Enlightenment_52: [E, M, G, "-", "-", "-", E, M, G, M, M, G]
+      Retaliation_53:  [M, M, G, M, M, G, "-", "-", "-", "-", "-", "-"]
+    vanilla_changes_vs_base_mmmerge: >-
+      Full per-cell list in CLASSES_SPELLS_SPEC.md §5.7 (diff of base Class Skills.txt vs MAW Class Skillz.txt).
+      Highlights: hybrids/archers to M/G in weapons and all four elements; Archer line Light/Dark G on Master
+      Archer/Sniper; Knight line Staff/Axe to G, Learning removed; Thief line Fire/Air/Water/Earth E/M/G/G, Dodging
+      E/M/G/G, Armsmaster and Learning removed; Ranger line E..M in the seven non-Light/Dark schools; Minotaurs and
+      Paladins gain Spirit/Mind/Body, Learning to G; Dragons lose Meditation and Learning, gain Dodging/Unarmed M/G;
+      misc skills opened at Novice for many classes; Black Knight/Champion Armsmaster S.
+  starting_skills_new_columns:   # Class Starting Skills.txt, column = class id / 2; F = free, C = choice
+    Seraphim_53: {free: [Sword, Light], choice: [Spear, Shield, Chain, Plate, Spirit, Merchant, Repair, Bodybuilding, Meditation]}
+    DeathKnight_56: {free: [Axe, Plate, Dark, Perception],
+                     choice: [Sword, Bow, Water, Body, IdentifyItem, Merchant, Repair, Bodybuilding, Regeneration, Armsmaster]}
+    Shaman_59: {free: [Dagger, Earth], choice: [Mace, Leather, Water, Spirit, Body, Meditation, Perception, Alchemy, Learning]}
+    Elementalist_62: {free: [Staff, Fire], choice: [Dagger, Leather, Air, Water, Earth, IdentifyItem, Merchant, IdentifyMonster, Alchemy]}
+    note: "Shaman may pick Learning at creation although Class Skillz.txt gives it no Learning cap"
+  starting_skills_vanilla_changes:
+    Thief_34: "Fire/Air/Water/Earth free; Sword choice; Dodging, Stealing, Learning removed"
+    Rogue_35: "Learning removed"
+    Knight_16: "Plate free instead of Leather"
+    Paladin_26: "Plate choice instead of Leather"
+    Ranger_30: "Bow free (was choice), Perception choice (was free)"
+    Vampire_40: "Dagger free, Sword choice (swapped)"
+    Dragon_10: "Learning removed"
+  unused_tables: "Class Starting Skillz.txt (numeric) is read by no MAW script"

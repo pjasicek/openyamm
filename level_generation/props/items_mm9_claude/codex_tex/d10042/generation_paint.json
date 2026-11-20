@@ -1,0 +1,24 @@
+{
+  "prompt": "# Decorative prop d10042: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10042/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: preserve the plain angular reddish-brown limbs, long olive string, part lower bend, and pale center from the MM9 PCX.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A harmless static decorative prop for a cosy fantasy game, texture sheet only. preserve the plain angular reddish-brown limbs, long olive string, part lower bend, and pale center from the MM9 PCX\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10042/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nInput order: image 1 paint_mask_guide.png is the edit target; image 2 design_reference.png is material/detail reference; image 3 icon_x8.png is colour reference. Preserve the guide exactly. Render at 1536x2048. Pale central grip is leather (green in mask), wooden limbs yellow in mask, cord string blue in mask. No invented ornamentation.",
+  "tool": "built-in image_gen",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10042/paint_mask_guide.png",
+      "sha256": "75e5f467a630f1e17d293ec74b643bd28cc066eef59cb3b632d82e16da6ae455"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10042/design_reference.png",
+      "sha256": "75fa28b5e3c9fffa63554c385d38f49907ca99eab5f0327feda1783b0c2e3135"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10042/icon_x8.png",
+      "sha256": "9fcaeb8d46a9bec0e4b7184cbfc61775fd56f4f89409d28850da2a994de83e1c"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad48-628a-71e1-aa11-ab869de6bea9/exec-8e18a6d8-2826-4b49-942f-96806176091a.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10042/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

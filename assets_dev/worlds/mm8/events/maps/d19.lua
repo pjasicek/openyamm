@@ -877,7 +877,7 @@ RegisterEvent(201, "Sandro/Thant's Throne Room", function()
             evt.ForPlayer(Players.Current)
             AddValue(Gold, 8000)
             evt.ShowMovie("\"nightshade\"", true)
-            AddValue(History(12), 0)
+            AddValue(History(10), 0)
             ClearQBit(QBit(203)) -- Nightshade Brazier - I lost it
         end
         evt.EnterHouse(213) -- Sandro/Thant's Throne Room

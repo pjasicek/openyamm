@@ -1,0 +1,6128 @@
+{
+  "profile": {
+    "azimuth": 225.0,
+    "building_page_size": 1024,
+    "decoration_shadows": true,
+    "elevation": 45,
+    "map": "outd3.odm",
+    "preview_position": [
+      -13000,
+      -15000,
+      1600
+    ],
+    "preview_target": [
+      -9000,
+      -8000,
+      300
+    ],
+    "samples": 64,
+    "sky_energy": 0.35,
+    "sun_energy": 2.6,
+    "terrain_size": 1024,
+    "units_per_texel": 32,
+    "world": "mm6"
+  },
+  "blender": "5.2.2 LTS",
+  "device": "CPU",
+  "sun_direction": [
+    -0.5,
+    -0.5,
+    0.7071067690849304
+  ],
+  "bakes": [
+    {
+      "object": "terrain",
+      "term": "sun",
+      "seconds": 6.127138746000128,
+      "max": 0.8564859628677368
+    },
+    {
+      "object": "terrain",
+      "term": "sky",
+      "seconds": 3.6245722610001394,
+      "max": 0.3829646408557892
+    },
+    {
+      "object": "buildings_0",
+      "term": "sun",
+      "seconds": 1.5441592340030184,
+      "max": 0.8730679750442505
+    },
+    {
+      "object": "buildings_0",
+      "term": "sky",
+      "seconds": 1.2675851499989221,
+      "max": 0.3584109842777252
+    },
+    {
+      "object": "buildings_1",
+      "term": "sun",
+      "seconds": 0.8089261569984956,
+      "max": 0.8518055081367493
+    },
+    {
+      "object": "buildings_1",
+      "term": "sky",
+      "seconds": 0.6463673450016358,
+      "max": 0.3534218966960907
+    },
+    {
+      "object": "probes",
+      "term": "sun",
+      "seconds": 3.58080232300199,
+      "max": 0.8958381414413452
+    },
+    {
+      "object": "probes",
+      "term": "sky",
+      "seconds": 2.279984549000801,
+      "max": 0.34999990463256836
+    }
+  ],
+  "dependencies": {
+    "worlds/mm6/maps/outd3.odm": 5002048751515253556,
+    "worlds/mm6/maps/outd3.scene.yml": 11614128595434035961,
+    "worlds/mm6/maps/outd3.bake.json": 10810322926466418835,
+    "worlds/mm6/textures/hcwall.bmp": 3082593238156193185,
+    "worlds/mm6/textures/t1f1.bmp": 11075053950627578465,
+    "worlds/mm6/textures/hcw1ctr.bmp": 16679713705811179338,
+    "worlds/mm6/textures/cstr128.bmp": 13973214475078164329,
+    "worlds/mm6/textures/mystrya.bmp": 12415185808018952147,
+    "worlds/mm6/textures/hclgdr.bmp": 12666711017022711211,
+    "worlds/mm6/textures/hcw1re.bmp": 7178292691543068914,
+    "worlds/mm6/textures/hcw1le.bmp": 15785998386405556546,
+    "worlds/mm6/textures/pxshings.bmp": 16722150821915430407,
+    "worlds/mm6/textures/hcuniq2.bmp": 10442714662276867340,
+    "worlds/mm6/textures/hcuniq3.bmp": 4379723532633147832,
+    "worlds/mm6/textures/hctriw.bmp": 6400062680870414373,
+    "worlds/mm6/textures/bemv32a.bmp": 16798266217809040222,
+    "worlds/mm6/textures/sign7.bmp": 5416034926971487920,
+    "worlds/mm6/textures/sign5.bmp": 638686122048575044,
+    "worlds/mm6/textures/t1d3.bmp": 17819968587313962457,
+    "worlds/mm6/textures/bemtila.bmp": 15206506590563644232,
+    "worlds/mm6/textures/t1wl0lg.bmp": 12069552152696873612,
+    "worlds/mm6/textures/plruf01.bmp": 2570557527859277597,
+    "worlds/mm6/textures/t1wl1lea.bmp": 2774932145000688101,
+    "worlds/mm6/textures/t1wl1rea.bmp": 6507564491424592091,
+    "worlds/mm6/textures/pxstrdr.bmp": 17609504763545171785,
+    "worlds/mm6/textures/t1wl0sm.bmp": 2343657592371931430,
+    "worlds/mm6/textures/t1f2.bmp": 9213996969033029224,
+    "worlds/mm6/textures/bemob1b.bmp": 4685885607291621175,
+    "worlds/mm6/textures/6wtrtyl.bmp": 9406111456710023471,
+    "worlds/mm6/textures/strwin1.bmp": 5773727637783169915,
+    "worlds/mm6/textures/strre.bmp": 17801370779005862621,
+    "worlds/mm6/textures/strle.bmp": 14295515972980106258,
+    "worlds/mm6/textures/strdr2.bmp": 4565217718279235482,
+    "worlds/mm6/textures/strdr.bmp": 10190499621730827916,
+    "worlds/mm6/textures/roof.bmp": 5765221545669051229,
+    "worlds/mm6/textures/strctr.bmp": 3476332377000241745,
+    "worlds/mm6/textures/tavrich.bmp": 9523654607638649816,
+    "worlds/mm6/textures/bemh16a.bmp": 8266144636112110547,
+    "worlds/mm6/textures/rhctr.bmp": 7415783526178341740,
+    "worlds/mm6/textures/rhdr1.bmp": 2676365538814091666,
+    "worlds/mm6/textures/rhctrw.bmp": 15447185206867526124,
+    "worlds/mm6/textures/cbrdbrck.bmp": 15255192798025266796,
+    "worlds/mm6/textures/thre.bmp": 5139582333648660283,
+    "worlds/mm6/textures/thle.bmp": 13988408487417730250,
+    "worlds/mm6/textures/thlgdr.bmp": 8368205389608728032,
+    "worlds/mm6/textures/thsmdr.bmp": 7532102931446886957,
+    "worlds/mm6/textures/thctr.bmp": 17379065803868700820,
+    "worlds/mm6/textures/thctrw1.bmp": 10986526066568487012,
+    "worlds/mm6/textures/bemv16a.bmp": 8416893164254346457,
+    "worlds/mm6/textures/trim.bmp": 11095605982592125846,
+    "worlds/mm6/textures/cbmxbrck.bmp": 16898867838728361325,
+    "worlds/mm6/textures/solid10.bmp": 17550526628234352361,
+    "worlds/mm6/textures/cedvwal1.bmp": 3495381551940494194,
+    "worlds/mm6/textures/bemdord.bmp": 16235694565798938849,
+    "worlds/mm6/textures/cedvwal2.bmp": 3357040088618647699,
+    "worlds/mm6/textures/bemv.bmp": 2904538502205323310,
+    "worlds/mm6/textures/cbsm.bmp": 16999447943145871334,
+    "worlds/mm6/textures/bemob2b.bmp": 4035340996683635491,
+    "worlds/mm6/textures/bemob2.bmp": 14198870308196932105,
+    "worlds/mm6/textures/bemstara.bmp": 2478753058060224268,
+    "worlds/mm6/textures/cedhwal.bmp": 14667646887148825555,
+    "worlds/mm6/textures/t1f3.bmp": 17067154362969060172,
+    "worlds/mm6/textures/hcsmdr.bmp": 9452344614229874556,
+    "worlds/mm6/textures/bemh16b.bmp": 17260864559556509167,
+    "worlds/mm6/textures/armorrch.bmp": 13392774665604783837,
+    "worlds/mm6/textures/bmdk16a.bmp": 17650322055511415417,
+    "worlds/mm6/textures/rhdr2.bmp": 1898866908292142207,
+    "worlds/mm6/textures/cedhwal2.bmp": 8479186754383246691,
+    "worlds/mm6/textures/stables.bmp": 3895301868155491101,
+    "worlds/mm6/textures/bdksv16c.bmp": 6439066732816459229,
+    "worlds/mm6/textures/bemhwal.bmp": 9697211670963196860,
+    "worlds/mm6/textures/bemvwal.bmp": 4874833600822975655,
+    "worlds/mm6/textures/bemsv16c.bmp": 13593441915816011886,
+    "worlds/mm6/textures/cbeam6.bmp": 5893070194092293632,
+    "worlds/mm6/textures/cbmdk1.bmp": 3717965174107688882,
+    "worlds/mm6/textures/cedhwal1.bmp": 18285221578656835893,
+    "worlds/mm6/textures/bemhwal1.bmp": 12062912564040498965,
+    "worlds/mm6/textures/bemvwal1.bmp": 7580387433525019257,
+    "worlds/mm6/textures/cswl128.bmp": 17535268716713839609,
+    "worlds/mm6/textures/csde128.bmp": 13451299055208809817,
+    "worlds/mm6/textures/csle128.bmp": 16766359289085915743,
+    "worlds/mm6/textures/csre128.bmp": 3373804762319451669,
+    "worlds/mm6/textures/tdortrim.bmp": 17244539271699128522,
+    "worlds/mm6/textures/bemstra1.bmp": 4050714203205457652,
+    "worlds/mm6/textures/csbr128.bmp": 3292004730538654446,
+    "worlds/mm6/textures/tdoorb.bmp": 14860201851397235977,
+    "worlds/mm6/textures/wood012.bmp": 12936497041978983508,
+    "worlds/mm6/textures/t1wl1lea1.bmp": 17153561736970452111,
+    "worlds/mm6/textures/t1d1.bmp": 1513647363292289207,
+    "worlds/mm6/textures/t1wl1leb.bmp": 9438723238002659577,
+    "worlds/mm6/textures/t1wl1reb.bmp": 12592563065418399094,
+    "worlds/mm6/textures/bemob1.bmp": 3613757351743061791,
+    "worlds/mm6/textures/cstr256.bmp": 5235630675648654252,
+    "worlds/mm6/textures/bemstrt1.bmp": 2989861168862838587,
+    "worlds/mm6/textures/bemsv16a.bmp": 15560635241618854274,
+    "worlds/mm6/textures/cswdw128.bmp": 2519598398628028862,
+    "worlds/mm6/textures/csle128w.bmp": 16578341867332508434,
+    "worlds/mm6/textures/csre128w.bmp": 7029470758394337090,
+    "worlds/mm6/textures/smalldr.bmp": 4680510226228599677,
+    "worlds/mm6/textures/bemdk4.bmp": 11618719532233925270,
+    "worlds/mm6/textures/bemdk3.bmp": 14028071350253621032,
+    "worlds/mm6/textures/tdoord.bmp": 17695985286437547900,
+    "worlds/mm6/textures/tavrf.bmp": 17368419235581015814,
+    "worlds/mm6/textures/selfsprt.bmp": 5286678463047939688,
+    "worlds/mm6/textures/cbfbm16c.bmp": 7001642100961917556,
+    "worlds/mm6/textures/selfmind.bmp": 305647481270634111,
+    "worlds/mm6/textures/selfbody.bmp": 3776950488898637633,
+    "worlds/mm6/textures/cbeam5.bmp": 4631056393383867535,
+    "worlds/mm6/textures/bemh32a.bmp": 15547423963333581490,
+    "worlds/mm6/textures/strctclm.bmp": 13682572578987139188,
+    "worlds/mm6/textures/strlew.bmp": 17802209636557168926,
+    "worlds/mm6/textures/strrew.bmp": 16601399938408420378,
+    "worlds/mm6/textures/bcsctr.bmp": 4563287983378356216,
+    "worlds/mm6/textures/bdksv32c.bmp": 15394735464146833610,
+    "worlds/mm6/textures/bdksh32a.bmp": 16213891531468575745,
+    "worlds/mm6/textures/cstyl.bmp": 12127026308459108391,
+    "worlds/mm6/textures/crside.bmp": 14177877917570819781,
+    "worlds/mm6/textures/cr64.bmp": 15380892883263745900,
+    "worlds/mm6/textures/ch2side.bmp": 14542294555584126095,
+    "worlds/mm6/textures/ch2topre.bmp": 9324066845129236370,
+    "worlds/mm6/textures/ch2frre.bmp": 1161633566182870671,
+    "worlds/mm6/textures/ch2frle.bmp": 16564732319391022360,
+    "worlds/mm6/textures/ch2tople.bmp": 12398782626890991110,
+    "worlds/mm6/textures/ch2bakb.bmp": 15453353622607247443,
+    "worlds/mm6/textures/ch2topb.bmp": 542041477181605834,
+    "worlds/mm6/textures/ch2frntb.bmp": 10848111782869263451,
+    "worlds/mm6/textures/t1trimb.bmp": 10589970400495268314,
+    "worlds/mm6/textures/hcw1leb.bmp": 2573761782199316327,
+    "worlds/mm6/textures/hcw1reb.bmp": 17145619757683369963,
+    "worlds/mm6/textures/hcwindo.bmp": 5739518664723903350,
+    "worlds/mm6/textures/hcbalcwb.bmp": 16948337288124846203,
+    "worlds/mm6/textures/bemsv32b.bmp": 6402539631312991999,
+    "worlds/mm6/textures/roof1.bmp": 5765221545669051229,
+    "worlds/mm6/textures/hcdoor32.bmp": 13279363169002802642,
+    "worlds/mm6/textures/ns8s06.bmp": 4846463888969718586,
+    "worlds/mm6/textures/ns8s02.bmp": 1456706695863503550,
+    "worlds/mm6/textures/ns8s09.bmp": 13128722401446396630,
+    "worlds/mm6/textures/ns8s01.bmp": 13561454539873400366,
+    "worlds/mm6/textures/ns8s10.bmp": 17927415280971617889,
+    "worlds/mm6/textures/ns8s11.bmp": 1304369831916699417,
+    "worlds/mm6/textures/ns8s08.bmp": 17102593148085744221,
+    "worlds/mm6/textures/ns8s04.bmp": 5169377427050471715,
+    "worlds/mm6/textures/ns8s03.bmp": 9406962462611245000,
+    "worlds/mm6/textures/ns8s07.bmp": 4032851665362937550,
+    "worlds/mm6/textures/ns8s00.bmp": 4018015357220969441,
+    "worlds/mm6/textures/ns8s05.bmp": 16309893490410988911,
+    "engine/data_tables/terrain_tile_data_3.txt": 8486407809018132909,
+    "worlds/mm6/textures/6dirttyl.bmp": 11249514406592611394,
+    "worlds/mm6/textures/6grdrtsw.bmp": 3795662737424924923,
+    "worlds/mm6/textures/6grdrts.bmp": 5534008934634940146,
+    "worlds/mm6/textures/6grdrtxsw.bmp": 5973531062151084630,
+    "worlds/mm6/textures/6grastyl.bmp": 3242509190879343068,
+    "worlds/mm6/textures/6grdrte.bmp": 17159906231197599620,
+    "worlds/mm6/textures/6wtrdrsw.bmp": 11103216516896355642,
+    "worlds/mm6/textures/6wtrdrxsw.bmp": 603891497860328588,
+    "worlds/mm6/textures/6wtrdre.bmp": 10146083175595806100,
+    "worlds/mm6/textures/6grdrtw.bmp": 11795393303625011830,
+    "worlds/mm6/textures/6drsrncap.bmp": 581830274628398429,
+    "worlds/mm6/textures/6wtrdrw.bmp": 7426220983548711631,
+    "worlds/mm6/textures/6grdrtxne.bmp": 11374679213459267387,
+    "worlds/mm6/textures/6grdrtne.bmp": 12406902778792957922,
+    "worlds/mm6/textures/6wtrdrxse.bmp": 16828007893080575662,
+    "worlds/mm6/textures/6wtrdrse.bmp": 3669633337490436336,
+    "worlds/mm6/textures/6drsrns.bmp": 14007805895142009384,
+    "worlds/mm6/textures/6wtrdrs.bmp": 14093101174056231268,
+    "worlds/mm6/textures/6grdrtnw.bmp": 16189003544977166531,
+    "worlds/mm6/textures/6grdrtxnw.bmp": 10702904807133020046,
+    "worlds/mm6/textures/6grdrtn.bmp": 1386253010893440136,
+    "worlds/mm6/textures/6grdrtse.bmp": 11986068535231045162,
+    "worlds/mm6/textures/6wtrdrnw.bmp": 11890313358932716586,
+    "worlds/mm6/textures/6wtrdrn.bmp": 11494524167050091672,
+    "worlds/mm6/textures/6wtrdrxnw.bmp": 9381513787404078768,
+    "worlds/mm6/textures/6grdrtxse.bmp": 6892119936414837701,
+    "worlds/mm6/textures/6drsrs_e.bmp": 8436020954710714159,
+    "worlds/mm6/textures/6drsrew.bmp": 17757800692211640504,
+    "worlds/mm6/textures/6drsrn_w.bmp": 13983008881973360588,
+    "worlds/mm6/textures/6drsrn_e.bmp": 15632807452513309134,
+    "worlds/mm6/textures/6drsrs_w.bmp": 6484603213436273281,
+    "worlds/mm6/textures/6wtrdrxne.bmp": 6253163218129574229,
+    "worlds/mm6/textures/6wtrdrne.bmp": 16166296345308690914,
+    "worlds/mm6/textures/6drsrwcap.bmp": 9260059314816446606,
+    "worlds/mm6/textures/6drsrew_s.bmp": 8761003612410462649,
+    "worlds/mm6/textures/6drsrns_e.bmp": 15661854464536737614,
+    "worlds/mm6/textures/6drsrecap.bmp": 17666931488717464913,
+    "worlds/mm6/textures/swmdrnw.bmp": 9192321922885458523,
+    "worlds/mm6/textures/swmdrn.bmp": 14064965177909269589,
+    "worlds/mm6/textures/swmdrne.bmp": 11749099233653849832,
+    "worlds/mm6/textures/swmdrxnw.bmp": 11204221083246272834,
+    "worlds/mm6/textures/swmtyl.bmp": 17195091139468065694,
+    "worlds/mm6/textures/swmdre.bmp": 2063080416374080264,
+    "worlds/mm6/textures/swmdrw.bmp": 13954623106915187702,
+    "worlds/mm6/textures/swmdrxne.bmp": 14596340717894201573,
+    "worlds/mm6/textures/6drsrew_n.bmp": 10477524463039426198,
+    "worlds/mm6/textures/swmdrxse.bmp": 336050909252064214,
+    "worlds/mm6/textures/swmdrse.bmp": 13708760427974522542,
+    "worlds/mm6/textures/6drsrscap.bmp": 13101722850784733230,
+    "worlds/mm6/textures/swmdrs.bmp": 11244737535663526680,
+    "worlds/mm6/textures/swmdrxsw.bmp": 16805264447262354588,
+    "worlds/mm6/textures/swmdrsw.bmp": 16039622861982661044,
+    "worlds/mm6/textures/6drsrns_w.bmp": 7695251904122453807,
+    "_legacy/sprites_original/6flower02.bmp": 1300695774724660808,
+    "_legacy/sprites_original/6flower07.bmp": 16906438230352314924,
+    "_legacy/sprites_original/6tree01.bmp": 7400207739156125229,
+    "_legacy/sprites_original/6tree02.bmp": 10092368350856826848,
+    "_legacy/sprites_original/6tree03.bmp": 4081638687697029796,
+    "_legacy/sprites_original/6tree04.bmp": 14476264539125188629,
+    "_legacy/sprites_original/6tree05.bmp": 1777585467780842541,
+    "_legacy/sprites_original/rok1.bmp": 7166911537269537542,
+    "_legacy/sprites_original/swptree1.bmp": 6232933961567965320,
+    "_legacy/sprites_original/swptree3.bmp": 10288487379052439324,
+    "_legacy/sprites_original/swrdstn.bmp": 11900251007293686083,
+    "_legacy/sprites_original/swrdstx.bmp": 16662807514923046538,
+    "engine/data_tables/decoration_data.txt": 2492847493014028352,
+    "engine/rendering/sprite_frame_data_common.yml": 11196511790951034864,
+    "worlds/mm6/events/maps/outd3.lua": 9287361230845366241,
+    "worlds/mm6/events/maps/outd3_1.lua": 12435781308015706961,
+    "worlds/mm6/events/maps/outd3_mmmerge.lua": 14710914275238054861
+  },
+  "probe_count": 65016,
+  "atlas_pages": 6,
+  "atlas_bytes": 20504576,
+  "decoration_shadows": {
+    "cards": [
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 0,
+        "position": {
+          "x": 16920,
+          "y": 13800,
+          "z": 2080
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 0,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 1,
+        "position": {
+          "x": 17400,
+          "y": 13800,
+          "z": 2080
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 1,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 2,
+        "position": {
+          "x": 11168,
+          "y": 10928,
+          "z": 377
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 2,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 3,
+        "position": {
+          "x": 12816,
+          "y": 10800,
+          "z": 752
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 3,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 4,
+        "position": {
+          "x": 11632,
+          "y": 9408,
+          "z": 488
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 4,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 5,
+        "position": {
+          "x": 10096,
+          "y": 8520,
+          "z": 171
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 5,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 6,
+        "position": {
+          "x": 10384,
+          "y": 9704,
+          "z": 240
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 6,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 7,
+        "position": {
+          "x": 11512,
+          "y": 10224,
+          "z": 478
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 7,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 8,
+        "position": {
+          "x": 10600,
+          "y": 7664,
+          "z": 160
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 8,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 9,
+        "position": {
+          "x": 11000,
+          "y": 8936,
+          "z": 284
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 9,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 10,
+        "position": {
+          "x": 14832,
+          "y": 6152,
+          "z": 161
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 10,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 11,
+        "position": {
+          "x": 15880,
+          "y": 6704,
+          "z": 168
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 11,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 12,
+        "position": {
+          "x": -4312,
+          "y": 6384,
+          "z": 3367
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 12,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 13,
+        "position": {
+          "x": -3392,
+          "y": 10920,
+          "z": 2832
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 13,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 14,
+        "position": {
+          "x": 10792,
+          "y": 6072,
+          "z": 146
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 14,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 15,
+        "position": {
+          "x": 16040,
+          "y": 13800,
+          "z": 2080
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 15,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 16,
+        "position": {
+          "x": 18488,
+          "y": 13800,
+          "z": 2080
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 16,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 17,
+        "position": {
+          "x": 17848,
+          "y": 11800,
+          "z": 2080
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 17,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 18,
+        "position": {
+          "x": 18936,
+          "y": 12296,
+          "z": 2080
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 18,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 19,
+        "position": {
+          "x": 18144,
+          "y": 15976,
+          "z": 2080
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 19,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 20,
+        "position": {
+          "x": 16184,
+          "y": 15976,
+          "z": 2080
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 20,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 21,
+        "position": {
+          "x": 19960,
+          "y": 17744,
+          "z": 2080
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 21,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 22,
+        "position": {
+          "x": 20700,
+          "y": 19700,
+          "z": 2080
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 22,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 23,
+        "position": {
+          "x": 16416,
+          "y": 19680,
+          "z": 2080
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 23,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 24,
+        "position": {
+          "x": 14640,
+          "y": 19200,
+          "z": 2080
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 24,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 25,
+        "position": {
+          "x": 14728,
+          "y": 16832,
+          "z": 2080
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 25,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 26,
+        "position": {
+          "x": 23928,
+          "y": -11048,
+          "z": 130
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 26,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 27,
+        "position": {
+          "x": 20440,
+          "y": -9784,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 27,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 28,
+        "position": {
+          "x": 19112,
+          "y": -8832,
+          "z": 214
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 28,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 29,
+        "position": {
+          "x": 17320,
+          "y": -8760,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 29,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 30,
+        "position": {
+          "x": 16592,
+          "y": -7912,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 30,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 31,
+        "position": {
+          "x": 14576,
+          "y": -7616,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 31,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 32,
+        "position": {
+          "x": 14344,
+          "y": -5104,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 32,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 33,
+        "position": {
+          "x": 13792,
+          "y": -3072,
+          "z": 160
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 33,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 34,
+        "position": {
+          "x": 12912,
+          "y": 48,
+          "z": 6
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 34,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 35,
+        "position": {
+          "x": 13792,
+          "y": 56,
+          "z": 9
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 35,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 36,
+        "position": {
+          "x": 12800,
+          "y": -576,
+          "z": 0
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 36,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 37,
+        "position": {
+          "x": 15496,
+          "y": 192,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 37,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 38,
+        "position": {
+          "x": 15000,
+          "y": 1008,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 38,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 39,
+        "position": {
+          "x": 12192,
+          "y": -2728,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 39,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 40,
+        "position": {
+          "x": 11376,
+          "y": -2240,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 40,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 41,
+        "position": {
+          "x": 11952,
+          "y": -1488,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 41,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 42,
+        "position": {
+          "x": 11600,
+          "y": -568,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 42,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 43,
+        "position": {
+          "x": 11464,
+          "y": 336,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 43,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 44,
+        "position": {
+          "x": 13176,
+          "y": 3344,
+          "z": 260
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 44,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 45,
+        "position": {
+          "x": 13064,
+          "y": 4064,
+          "z": 410
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 45,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 46,
+        "position": {
+          "x": 15672,
+          "y": 1744,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 46,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 47,
+        "position": {
+          "x": 17408,
+          "y": 6096,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 47,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 48,
+        "position": {
+          "x": 17880,
+          "y": 5656,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 48,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 49,
+        "position": {
+          "x": 17184,
+          "y": 3448,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 49,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 50,
+        "position": {
+          "x": 12320,
+          "y": 1992,
+          "z": 185
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 50,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 51,
+        "position": {
+          "x": 12304,
+          "y": 1568,
+          "z": 132
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 51,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 52,
+        "position": {
+          "x": 10264,
+          "y": 3592,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 52,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 53,
+        "position": {
+          "x": 8192,
+          "y": 4584,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 53,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 54,
+        "position": {
+          "x": -4880,
+          "y": 20376,
+          "z": 3264
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 54,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 55,
+        "position": {
+          "x": -5832,
+          "y": 19888,
+          "z": 3235
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 55,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 56,
+        "position": {
+          "x": -8432,
+          "y": 15616,
+          "z": 2944
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 56,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 57,
+        "position": {
+          "x": -4736,
+          "y": 12736,
+          "z": 1408
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 57,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 58,
+        "position": {
+          "x": -5296,
+          "y": 13144,
+          "z": 1633
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 58,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 59,
+        "position": {
+          "x": -7968,
+          "y": 14472,
+          "z": 1945
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 59,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 60,
+        "position": {
+          "x": -6608,
+          "y": 10136,
+          "z": 1504
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 60,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 61,
+        "position": {
+          "x": -7032,
+          "y": 11456,
+          "z": 1504
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 61,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 62,
+        "position": {
+          "x": -5320,
+          "y": 16224,
+          "z": 2356
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 62,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 63,
+        "position": {
+          "x": 15928,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 63,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 64,
+        "position": {
+          "x": 16960,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 64,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 65,
+        "position": {
+          "x": 16432,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 65,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 66,
+        "position": {
+          "x": 17480,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 66,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 67,
+        "position": {
+          "x": 17976,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 67,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 68,
+        "position": {
+          "x": 18488,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 68,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 69,
+        "position": {
+          "x": 18992,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 69,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 70,
+        "position": {
+          "x": 16192,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 70,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 71,
+        "position": {
+          "x": 16680,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 71,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 72,
+        "position": {
+          "x": 17200,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 72,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 73,
+        "position": {
+          "x": 17720,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 73,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 74,
+        "position": {
+          "x": 18240,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 74,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 75,
+        "position": {
+          "x": 18752,
+          "y": 18872,
+          "z": 2080
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 75,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 76,
+        "position": {
+          "x": 15640,
+          "y": -1528,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 76,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 77,
+        "position": {
+          "x": 15112,
+          "y": -3440,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 77,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 78,
+        "position": {
+          "x": 15472,
+          "y": -1416,
+          "z": 96
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 78,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower02",
+        "width": 98.39852400000001,
+        "height": 66.599001,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower02_140.png",
+        "source": "_legacy/sprites_original/6flower02.bmp",
+        "mirrored": false,
+        "index": 79,
+        "position": {
+          "x": 15776,
+          "y": -1624,
+          "z": 96
+        },
+        "states": [
+          "6flower02"
+        ],
+        "override_key": 79,
+        "sources": [
+          "_legacy/sprites_original/6flower02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 80,
+        "position": {
+          "x": 15760,
+          "y": -1368,
+          "z": 96
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 80,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 81,
+        "position": {
+          "x": 15504,
+          "y": -1656,
+          "z": 96
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 81,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 82,
+        "position": {
+          "x": 7704,
+          "y": -8208,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 82,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 83,
+        "position": {
+          "x": 7152,
+          "y": -8144,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 83,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 84,
+        "position": {
+          "x": 7280,
+          "y": -6752,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 84,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 85,
+        "position": {
+          "x": 6288,
+          "y": -7464,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 85,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 86,
+        "position": {
+          "x": 6144,
+          "y": -6544,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 86,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 87,
+        "position": {
+          "x": 7480,
+          "y": -7400,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 87,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 88,
+        "position": {
+          "x": 5152,
+          "y": -8040,
+          "z": 96
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 88,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 89,
+        "position": {
+          "x": 4608,
+          "y": -8040,
+          "z": 96
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 89,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 90,
+        "position": {
+          "x": 4232,
+          "y": -5488,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 90,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 91,
+        "position": {
+          "x": 4464,
+          "y": -9768,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 91,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 92,
+        "position": {
+          "x": 5800,
+          "y": -9296,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 92,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 93,
+        "position": {
+          "x": 7096,
+          "y": -8776,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 93,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 94,
+        "position": {
+          "x": 6512,
+          "y": -10072,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 94,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 95,
+        "position": {
+          "x": 7256,
+          "y": -11712,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 95,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 105,
+        "position": {
+          "x": 3368,
+          "y": 10000,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 105,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 106,
+        "position": {
+          "x": 20632,
+          "y": -10568,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 106,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 107,
+        "position": {
+          "x": 20968,
+          "y": -10248,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 107,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 108,
+        "position": {
+          "x": 20864,
+          "y": -9392,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 108,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 109,
+        "position": {
+          "x": 23064,
+          "y": -11280,
+          "z": 93
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 109,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 110,
+        "position": {
+          "x": 22112,
+          "y": -9608,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 110,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 111,
+        "position": {
+          "x": 21560,
+          "y": -9360,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 111,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 112,
+        "position": {
+          "x": 20184,
+          "y": -8464,
+          "z": 126
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 112,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 113,
+        "position": {
+          "x": 19120,
+          "y": -7528,
+          "z": 107
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 113,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 114,
+        "position": {
+          "x": 17680,
+          "y": -7264,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 114,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 115,
+        "position": {
+          "x": 13960,
+          "y": -15064,
+          "z": 160
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 115,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 116,
+        "position": {
+          "x": 14616,
+          "y": -14064,
+          "z": 160
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 116,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 117,
+        "position": {
+          "x": 11560,
+          "y": -14320,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 117,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 118,
+        "position": {
+          "x": 6960,
+          "y": -14656,
+          "z": 134
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 118,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 119,
+        "position": {
+          "x": 8744,
+          "y": -12264,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 119,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 120,
+        "position": {
+          "x": 11304,
+          "y": -12344,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 120,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 121,
+        "position": {
+          "x": 17688,
+          "y": 15376,
+          "z": 2192
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 121,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6flower07",
+        "width": 91.799388,
+        "height": 75.599496,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6flower07_140.png",
+        "source": "_legacy/sprites_original/6flower07.bmp",
+        "mirrored": false,
+        "index": 122,
+        "position": {
+          "x": 16624,
+          "y": 15368,
+          "z": 2192
+        },
+        "states": [
+          "6flower07"
+        ],
+        "override_key": 122,
+        "sources": [
+          "_legacy/sprites_original/6flower07.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree03",
+        "width": 354.0,
+        "height": 363.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree03_140.png",
+        "source": "_legacy/sprites_original/6tree03.bmp",
+        "mirrored": false,
+        "index": 123,
+        "position": {
+          "x": 18208,
+          "y": 14880,
+          "z": 2080
+        },
+        "states": [
+          "6tree03"
+        ],
+        "override_key": 123,
+        "sources": [
+          "_legacy/sprites_original/6tree03.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree03",
+        "width": 354.0,
+        "height": 363.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree03_140.png",
+        "source": "_legacy/sprites_original/6tree03.bmp",
+        "mirrored": false,
+        "index": 124,
+        "position": {
+          "x": 16064,
+          "y": 14888,
+          "z": 2080
+        },
+        "states": [
+          "6tree03"
+        ],
+        "override_key": 124,
+        "sources": [
+          "_legacy/sprites_original/6tree03.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 127,
+        "position": {
+          "x": 21664,
+          "y": -11104,
+          "z": 224
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 127,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 128,
+        "position": {
+          "x": 19664,
+          "y": -12000,
+          "z": 1897
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 128,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 129,
+        "position": {
+          "x": 3912,
+          "y": 29600,
+          "z": 78
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 129,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 130,
+        "position": {
+          "x": 4312,
+          "y": 29248,
+          "z": 12
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 130,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 131,
+        "position": {
+          "x": 2264,
+          "y": 28800,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 131,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 132,
+        "position": {
+          "x": 2408,
+          "y": 27096,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 132,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 133,
+        "position": {
+          "x": 3360,
+          "y": 27848,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 133,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 134,
+        "position": {
+          "x": 3600,
+          "y": 26368,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 134,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 135,
+        "position": {
+          "x": 2440,
+          "y": 26136,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 135,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 136,
+        "position": {
+          "x": 4024,
+          "y": 25424,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 136,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 137,
+        "position": {
+          "x": 2200,
+          "y": 24792,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 137,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 138,
+        "position": {
+          "x": 816,
+          "y": 25272,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 138,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 139,
+        "position": {
+          "x": 4432,
+          "y": 24240,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 139,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 140,
+        "position": {
+          "x": 2416,
+          "y": 23528,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 140,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 141,
+        "position": {
+          "x": 4120,
+          "y": 21904,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 141,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 142,
+        "position": {
+          "x": 5064,
+          "y": 18416,
+          "z": 0
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 142,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 143,
+        "position": {
+          "x": 5632,
+          "y": 18952,
+          "z": 0
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 143,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 144,
+        "position": {
+          "x": 3552,
+          "y": 19400,
+          "z": 0
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 144,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 145,
+        "position": {
+          "x": 2936,
+          "y": 17848,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 145,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree01",
+        "width": 478.797948,
+        "height": 531.297723,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree01_140.png",
+        "source": "_legacy/sprites_original/6tree01.bmp",
+        "mirrored": false,
+        "index": 146,
+        "position": {
+          "x": 3520,
+          "y": 17160,
+          "z": 96
+        },
+        "states": [
+          "6tree01"
+        ],
+        "override_key": 146,
+        "sources": [
+          "_legacy/sprites_original/6tree01.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 148,
+        "position": {
+          "x": 24144,
+          "y": -9968,
+          "z": 224
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 148,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 149,
+        "position": {
+          "x": 23128,
+          "y": -8832,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 149,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 150,
+        "position": {
+          "x": 25376,
+          "y": -9976,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 150,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 151,
+        "position": {
+          "x": 24432,
+          "y": -8760,
+          "z": 142
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 151,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 152,
+        "position": {
+          "x": 26480,
+          "y": -8560,
+          "z": 259
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 152,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 153,
+        "position": {
+          "x": 24040,
+          "y": -5528,
+          "z": 3353
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 153,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 154,
+        "position": {
+          "x": 24144,
+          "y": -4008,
+          "z": 2257
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 154,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 155,
+        "position": {
+          "x": 25480,
+          "y": -4232,
+          "z": 2654
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 155,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 156,
+        "position": {
+          "x": 28856,
+          "y": -8720,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 156,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 157,
+        "position": {
+          "x": 30104,
+          "y": -7376,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 157,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 158,
+        "position": {
+          "x": 30424,
+          "y": -10040,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 158,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 159,
+        "position": {
+          "x": 31472,
+          "y": -7416,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 159,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 160,
+        "position": {
+          "x": 29880,
+          "y": -11376,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 160,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 161,
+        "position": {
+          "x": 31504,
+          "y": -13072,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 161,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 162,
+        "position": {
+          "x": 31224,
+          "y": -9120,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 162,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 163,
+        "position": {
+          "x": 31448,
+          "y": -11784,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 163,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 164,
+        "position": {
+          "x": 25176,
+          "y": -15200,
+          "z": 1302
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 164,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 165,
+        "position": {
+          "x": 27056,
+          "y": -14032,
+          "z": 1288
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 165,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 166,
+        "position": {
+          "x": 27024,
+          "y": -15776,
+          "z": 1131
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 166,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 167,
+        "position": {
+          "x": 28320,
+          "y": -13600,
+          "z": 1140
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 167,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 168,
+        "position": {
+          "x": 28072,
+          "y": -16120,
+          "z": 973
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 168,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 169,
+        "position": {
+          "x": 29240,
+          "y": -19432,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 169,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 170,
+        "position": {
+          "x": 29984,
+          "y": -17040,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 170,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 171,
+        "position": {
+          "x": 29072,
+          "y": -17992,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 171,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 172,
+        "position": {
+          "x": 21744,
+          "y": -15624,
+          "z": 1973
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 172,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 173,
+        "position": {
+          "x": 18304,
+          "y": -16248,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 173,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 174,
+        "position": {
+          "x": 16704,
+          "y": -16832,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 174,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 175,
+        "position": {
+          "x": 18680,
+          "y": -18720,
+          "z": 96
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 175,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 176,
+        "position": {
+          "x": 9832,
+          "y": -8560,
+          "z": 352
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 176,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 177,
+        "position": {
+          "x": 10120,
+          "y": -7776,
+          "z": 352
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 177,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 178,
+        "position": {
+          "x": -2264,
+          "y": 11496,
+          "z": 1910
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 178,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree02",
+        "width": 524.397264,
+        "height": 662.396544,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree02_140.png",
+        "source": "_legacy/sprites_original/6tree02.bmp",
+        "mirrored": false,
+        "index": 179,
+        "position": {
+          "x": 1872,
+          "y": 11032,
+          "z": 129
+        },
+        "states": [
+          "6tree02"
+        ],
+        "override_key": 179,
+        "sources": [
+          "_legacy/sprites_original/6tree02.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 180,
+        "position": {
+          "x": -31488,
+          "y": 6824,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 180,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 181,
+        "position": {
+          "x": -29848,
+          "y": 7296,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 181,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 182,
+        "position": {
+          "x": -29384,
+          "y": 3904,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 182,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 183,
+        "position": {
+          "x": -31384,
+          "y": 3272,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 183,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 184,
+        "position": {
+          "x": -30544,
+          "y": 5240,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 184,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 185,
+        "position": {
+          "x": -31912,
+          "y": 5008,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 185,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 186,
+        "position": {
+          "x": -29672,
+          "y": 6264,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 186,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 187,
+        "position": {
+          "x": -30576,
+          "y": 4040,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 187,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 188,
+        "position": {
+          "x": -27728,
+          "y": 3800,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 188,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 189,
+        "position": {
+          "x": -29136,
+          "y": 5152,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 189,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 190,
+        "position": {
+          "x": -31256,
+          "y": 1584,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 190,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 191,
+        "position": {
+          "x": -30040,
+          "y": 2672,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 191,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 192,
+        "position": {
+          "x": -28272,
+          "y": 2608,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 192,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 193,
+        "position": {
+          "x": -29232,
+          "y": 1664,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 193,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 194,
+        "position": {
+          "x": -28768,
+          "y": 432,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 194,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 195,
+        "position": {
+          "x": -30432,
+          "y": 544,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 195,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 196,
+        "position": {
+          "x": -31840,
+          "y": -336,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 196,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 197,
+        "position": {
+          "x": -30688,
+          "y": -960,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 197,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 198,
+        "position": {
+          "x": -28904,
+          "y": -808,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 198,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 199,
+        "position": {
+          "x": -31672,
+          "y": -2096,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 199,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 200,
+        "position": {
+          "x": -26400,
+          "y": 3096,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 200,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 201,
+        "position": {
+          "x": -27832,
+          "y": 1464,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 201,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 202,
+        "position": {
+          "x": -32048,
+          "y": 8400,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 202,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 203,
+        "position": {
+          "x": -24896,
+          "y": 10864,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 203,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 204,
+        "position": {
+          "x": -23184,
+          "y": 10112,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 204,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 205,
+        "position": {
+          "x": -25792,
+          "y": 8888,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 205,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 206,
+        "position": {
+          "x": -24496,
+          "y": 9824,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 206,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 207,
+        "position": {
+          "x": -26872,
+          "y": 8400,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 207,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 208,
+        "position": {
+          "x": -18504,
+          "y": 9856,
+          "z": 91
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 208,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 209,
+        "position": {
+          "x": -19384,
+          "y": 8736,
+          "z": 34
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 209,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 210,
+        "position": {
+          "x": -17224,
+          "y": 5120,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 210,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 211,
+        "position": {
+          "x": -16664,
+          "y": 2736,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 211,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 212,
+        "position": {
+          "x": -15888,
+          "y": 1696,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 212,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 213,
+        "position": {
+          "x": -6472,
+          "y": -13208,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 213,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 214,
+        "position": {
+          "x": -4560,
+          "y": -15232,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 214,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 215,
+        "position": {
+          "x": -6872,
+          "y": -17608,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 215,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 216,
+        "position": {
+          "x": -3544,
+          "y": -19016,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 216,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 217,
+        "position": {
+          "x": -5688,
+          "y": -19472,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 217,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 218,
+        "position": {
+          "x": -6368,
+          "y": -15440,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 218,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 219,
+        "position": {
+          "x": -11848,
+          "y": -19584,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 219,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 220,
+        "position": {
+          "x": -12584,
+          "y": -17264,
+          "z": 0
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 220,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 221,
+        "position": {
+          "x": -15768,
+          "y": -16184,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 221,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 222,
+        "position": {
+          "x": -20720,
+          "y": -17488,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 222,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 223,
+        "position": {
+          "x": -19880,
+          "y": -19104,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 223,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 224,
+        "position": {
+          "x": -19856,
+          "y": -15688,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 224,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 225,
+        "position": {
+          "x": -18792,
+          "y": -18520,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 225,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 226,
+        "position": {
+          "x": -17640,
+          "y": -15184,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 226,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 227,
+        "position": {
+          "x": -18432,
+          "y": -17160,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 227,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 228,
+        "position": {
+          "x": -16616,
+          "y": -16496,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 228,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree1",
+        "width": 201.598656,
+        "height": 379.797468,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree1_120.png",
+        "source": "_legacy/sprites_original/swptree1.bmp",
+        "mirrored": false,
+        "index": 229,
+        "position": {
+          "x": -18256,
+          "y": -14136,
+          "z": 96
+        },
+        "states": [
+          "swptree1"
+        ],
+        "override_key": 229,
+        "sources": [
+          "_legacy/sprites_original/swptree1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swrdstn",
+        "width": 125.0,
+        "height": 174.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swrdstn_546.png",
+        "source": "_legacy/sprites_original/swrdstn.bmp",
+        "mirrored": false,
+        "index": 230,
+        "position": {
+          "x": 11392,
+          "y": 15184,
+          "z": 0
+        },
+        "states": [
+          "swrdstn"
+        ],
+        "override_key": 230,
+        "sources": [
+          "_legacy/sprites_original/swrdstn.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6rock01",
+        "width": 123.0,
+        "height": 83.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/shared_232.png",
+        "source": "_legacy/sprites_original/rok1.bmp",
+        "mirrored": false,
+        "index": 232,
+        "position": {
+          "x": 3256,
+          "y": 20824,
+          "z": 96
+        },
+        "states": [
+          "6rock01",
+          "swrdstx"
+        ],
+        "override_key": 232,
+        "sources": [
+          "_legacy/sprites_original/rok1.bmp",
+          "_legacy/sprites_original/swrdstx.bmp"
+        ],
+        "policy": "shared_states"
+      },
+      {
+        "name": "6rock01",
+        "width": 123.0,
+        "height": 99.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/rok1_142.png",
+        "source": "_legacy/sprites_original/rok1.bmp",
+        "mirrored": false,
+        "index": 233,
+        "position": {
+          "x": 3432,
+          "y": 21448,
+          "z": 96
+        },
+        "states": [
+          "6rock01"
+        ],
+        "override_key": 233,
+        "sources": [
+          "_legacy/sprites_original/rok1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6rock01",
+        "width": 123.0,
+        "height": 99.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/rok1_142.png",
+        "source": "_legacy/sprites_original/rok1.bmp",
+        "mirrored": false,
+        "index": 234,
+        "position": {
+          "x": 4856,
+          "y": 21480,
+          "z": 96
+        },
+        "states": [
+          "6rock01"
+        ],
+        "override_key": 234,
+        "sources": [
+          "_legacy/sprites_original/rok1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6rock01",
+        "width": 123.0,
+        "height": 99.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/rok1_142.png",
+        "source": "_legacy/sprites_original/rok1.bmp",
+        "mirrored": false,
+        "index": 235,
+        "position": {
+          "x": 5200,
+          "y": 20760,
+          "z": 96
+        },
+        "states": [
+          "6rock01"
+        ],
+        "override_key": 235,
+        "sources": [
+          "_legacy/sprites_original/rok1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 236,
+        "position": {
+          "x": 9184,
+          "y": 20336,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 236,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 237,
+        "position": {
+          "x": 7000,
+          "y": 17368,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 237,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 238,
+        "position": {
+          "x": 6064,
+          "y": 14816,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 238,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 239,
+        "position": {
+          "x": 2776,
+          "y": 14856,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 239,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 240,
+        "position": {
+          "x": 1792,
+          "y": 20192,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 240,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 241,
+        "position": {
+          "x": 304,
+          "y": 15072,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 241,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 242,
+        "position": {
+          "x": 1824,
+          "y": 8480,
+          "z": 206
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 242,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 243,
+        "position": {
+          "x": 3360,
+          "y": 6512,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 243,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 244,
+        "position": {
+          "x": 12592,
+          "y": 13992,
+          "z": 0
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 244,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 245,
+        "position": {
+          "x": 10392,
+          "y": 15160,
+          "z": 0
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 245,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree04",
+        "width": 466.19800200000003,
+        "height": 493.49788500000005,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree04_140.png",
+        "source": "_legacy/sprites_original/6tree04.bmp",
+        "mirrored": false,
+        "index": 246,
+        "position": {
+          "x": 11456,
+          "y": 15792,
+          "z": 0
+        },
+        "states": [
+          "6tree04"
+        ],
+        "override_key": 246,
+        "sources": [
+          "_legacy/sprites_original/6tree04.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6rock01",
+        "width": 123.0,
+        "height": 99.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/rok1_142.png",
+        "source": "_legacy/sprites_original/rok1.bmp",
+        "mirrored": false,
+        "index": 247,
+        "position": {
+          "x": 11928,
+          "y": 14600,
+          "z": 0
+        },
+        "states": [
+          "6rock01"
+        ],
+        "override_key": 247,
+        "sources": [
+          "_legacy/sprites_original/rok1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6rock01",
+        "width": 123.0,
+        "height": 99.0,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/rok1_142.png",
+        "source": "_legacy/sprites_original/rok1.bmp",
+        "mirrored": false,
+        "index": 248,
+        "position": {
+          "x": 11464,
+          "y": 18008,
+          "z": 0
+        },
+        "states": [
+          "6rock01"
+        ],
+        "override_key": 248,
+        "sources": [
+          "_legacy/sprites_original/rok1.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 249,
+        "position": {
+          "x": 3816,
+          "y": 2360,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 249,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 250,
+        "position": {
+          "x": 5216,
+          "y": 4000,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 250,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 251,
+        "position": {
+          "x": 6624,
+          "y": 2752,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 251,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 252,
+        "position": {
+          "x": 8016,
+          "y": 3104,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 252,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 253,
+        "position": {
+          "x": 13312,
+          "y": 752,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 253,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 254,
+        "position": {
+          "x": 13328,
+          "y": 1536,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 254,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 255,
+        "position": {
+          "x": 13280,
+          "y": 2368,
+          "z": 158
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 255,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 256,
+        "position": {
+          "x": 13696,
+          "y": 8928,
+          "z": 1466
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 256,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 257,
+        "position": {
+          "x": 14464,
+          "y": 8496,
+          "z": 1388
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 257,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 258,
+        "position": {
+          "x": 13376,
+          "y": 7520,
+          "z": 1176
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 258,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 259,
+        "position": {
+          "x": 12768,
+          "y": 7224,
+          "z": 1098
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 259,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 260,
+        "position": {
+          "x": 15440,
+          "y": 9704,
+          "z": 1658
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 260,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 261,
+        "position": {
+          "x": 6656,
+          "y": 8616,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 261,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 262,
+        "position": {
+          "x": 8152,
+          "y": 9144,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 262,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 263,
+        "position": {
+          "x": 8256,
+          "y": 7568,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 263,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "6tree05",
+        "width": 463.59853599999997,
+        "height": 604.198092,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/6tree05_140.png",
+        "source": "_legacy/sprites_original/6tree05.bmp",
+        "mirrored": false,
+        "index": 264,
+        "position": {
+          "x": 8896,
+          "y": 6208,
+          "z": 96
+        },
+        "states": [
+          "6tree05"
+        ],
+        "override_key": 264,
+        "sources": [
+          "_legacy/sprites_original/6tree05.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree3",
+        "width": 335.99811,
+        "height": 308.79826299999996,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree3_120.png",
+        "source": "_legacy/sprites_original/swptree3.bmp",
+        "mirrored": false,
+        "index": 265,
+        "position": {
+          "x": -18472,
+          "y": -15816,
+          "z": 96
+        },
+        "states": [
+          "swptree3"
+        ],
+        "override_key": 265,
+        "sources": [
+          "_legacy/sprites_original/swptree3.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree3",
+        "width": 335.99811,
+        "height": 308.79826299999996,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree3_120.png",
+        "source": "_legacy/sprites_original/swptree3.bmp",
+        "mirrored": false,
+        "index": 266,
+        "position": {
+          "x": -10080,
+          "y": -8440,
+          "z": 1248
+        },
+        "states": [
+          "swptree3"
+        ],
+        "override_key": 266,
+        "sources": [
+          "_legacy/sprites_original/swptree3.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree3",
+        "width": 335.99811,
+        "height": 308.79826299999996,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree3_120.png",
+        "source": "_legacy/sprites_original/swptree3.bmp",
+        "mirrored": false,
+        "index": 267,
+        "position": {
+          "x": -7600,
+          "y": 1712,
+          "z": 96
+        },
+        "states": [
+          "swptree3"
+        ],
+        "override_key": 267,
+        "sources": [
+          "_legacy/sprites_original/swptree3.bmp"
+        ],
+        "policy": "static"
+      },
+      {
+        "name": "swptree3",
+        "width": 335.99811,
+        "height": 308.79826299999996,
+        "mask": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_ship_replacements/bake/outd3/decoration_masks/swptree3_120.png",
+        "source": "_legacy/sprites_original/swptree3.bmp",
+        "mirrored": false,
+        "index": 268,
+        "position": {
+          "x": -12080,
+          "y": 5168,
+          "z": 96
+        },
+        "states": [
+          "swptree3"
+        ],
+        "override_key": 268,
+        "sources": [
+          "_legacy/sprites_original/swptree3.bmp"
+        ],
+        "policy": "static"
+      }
+    ],
+    "skipped": [
+      {
+        "index": 96,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 97,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 98,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 99,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 100,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 101,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 102,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 103,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 104,
+        "name": "bouy0",
+        "states": [
+          "bouy0"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 125,
+        "name": "",
+        "states": [
+          ""
+        ],
+        "reason": "marker_or_no_visible_sprite"
+      },
+      {
+        "index": 126,
+        "name": "",
+        "states": [
+          ""
+        ],
+        "reason": "marker_or_no_visible_sprite"
+      },
+      {
+        "index": 147,
+        "name": "party start",
+        "states": [
+          "party start"
+        ],
+        "reason": "initially_hidden"
+      },
+      {
+        "index": 231,
+        "name": "ckfyr00",
+        "states": [
+          "ckfyr00"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 269,
+        "name": "fla1__01",
+        "states": [
+          "fla1__01"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 270,
+        "name": "fla1__01",
+        "states": [
+          "fla1__01"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 271,
+        "name": "fla3__01",
+        "states": [
+          "fla3__01"
+        ],
+        "reason": "animated_sprite"
+      },
+      {
+        "index": 272,
+        "name": "west start",
+        "states": [
+          "west start"
+        ],
+        "reason": "marker_or_no_visible_sprite"
+      },
+      {
+        "index": 273,
+        "name": "north start",
+        "states": [
+          "north start"
+        ],
+        "reason": "marker_or_no_visible_sprite"
+      },
+      {
+        "index": 274,
+        "name": "east start",
+        "states": [
+          "east start"
+        ],
+        "reason": "marker_or_no_visible_sprite"
+      }
+    ],
+    "dependencies": [
+      "_legacy/sprites_original/6flower02.bmp",
+      "_legacy/sprites_original/6flower07.bmp",
+      "_legacy/sprites_original/6tree01.bmp",
+      "_legacy/sprites_original/6tree02.bmp",
+      "_legacy/sprites_original/6tree03.bmp",
+      "_legacy/sprites_original/6tree04.bmp",
+      "_legacy/sprites_original/6tree05.bmp",
+      "_legacy/sprites_original/rok1.bmp",
+      "_legacy/sprites_original/swptree1.bmp",
+      "_legacy/sprites_original/swptree3.bmp",
+      "_legacy/sprites_original/swrdstn.bmp",
+      "_legacy/sprites_original/swrdstx.bmp",
+      "engine/data_tables/decoration_data.txt",
+      "engine/rendering/sprite_frame_data_common.yml",
+      "worlds/mm6/events/maps/outd3.lua",
+      "worlds/mm6/events/maps/outd3_1.lua",
+      "worlds/mm6/events/maps/outd3_mmmerge.lua",
+      "worlds/mm6/maps/outd3.odm",
+      "worlds/mm6/maps/outd3.scene.yml"
+    ],
+    "counts": {
+      "casters": 256,
+      "skipped": 19
+    },
+    "skip_reasons": {
+      "animated_sprite": 13,
+      "marker_or_no_visible_sprite": 5,
+      "initially_hidden": 1
+    }
+  },
+  "output_bytes": 13425803,
+  "output_sha256": "cc3720b0e430b5336044a492894f50b488bf16005181b78296fa878935e899b5"
+}

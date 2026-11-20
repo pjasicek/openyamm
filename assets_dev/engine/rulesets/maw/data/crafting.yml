@@ -1,0 +1,74 @@
+# MAW's crafting materials (devdocs/maw/CRAFTING.md; the draft with MAW's sources is
+# devdocs/maw/data/crafting_items.yml).
+# The Workbench's Crafting tab offers these; MawCraftingRules does the operations. Item names, icons, sizes and selling
+# values are item rows 1041-1070 (content/items_patch.txt).
+#
+# gems: the twenty tiers are items first_item .. first_item + 19; `combine` gems of a tier make one of the next.
+#   shop_prices: buy-screen prices by tier (MAW's reagentPrices). Drops and shops stock tiers up to drop_max_tier.
+# materials: <item id>:
+#   operation                 what the material does to an item (MawCraftingRules)
+#   shop_price, shop_weight   buy-screen price and weight among the specials a shop stocks (none: never sold)
+#   drop_chance               base chance per kill before the bad-luck counter and the kill's bonus
+#   targets                   add_potion_charges: the potions it refills
+# potions: <item id>: a potion poured on an item on the Workbench
+#   operation                 add_first_enchant, or add_special with the special enchantments it chooses from
+# drops, shops, map_completion: where materials come from (CRAFTING.md §6).
+
+gems:
+  first_item: 1041
+  tiers: 20
+  drop_max_tier: 16
+  combine: 3
+  shop_prices: [1000, 2000, 4000, 7000, 12000, 20000, 30000, 40000, 50000, 60000,
+                80000, 100000, 120000, 140000, 160000, 180000, 200000, 230000, 260000, 300000]
+
+materials:
+  1061: {operation: add_special, shop_price: 1250000, shop_weight: 7, drop_chance: 0.0002}
+  1062: {operation: add_second_enchant, shop_price: 750000, shop_weight: 7, drop_chance: 0.0002}
+  1063: {operation: refine_quality, shop_price: 325000, shop_weight: 15, drop_chance: 0.001}
+  1064: {operation: duplicate_item, shop_price: 6668999, shop_weight: 2, drop_chance: 0.00001}
+  1065: {operation: upgrade_base_type, shop_price: 2000000, shop_weight: 5, drop_chance: 0.00025}
+  1066: {operation: remove_enchant, shop_price: 1000000, shop_weight: 7, drop_chance: 0.0002}
+  1067: {operation: transfer_legendary_affix, shop_price: 3000000, shop_weight: 3, drop_chance: 0.00006}
+  1068: {operation: transfer_celestial, drop_chance: 0.0000025}
+  1069: {operation: add_potion_charges, targets: [231, 232, 233, 237, 245, 251, 257, 263]}
+  1070: {operation: add_item_power, shop_price: 250000, shop_weight: 15, drop_chance: 0.001}
+
+potions:
+  238: {operation: add_first_enchant}
+  243: {operation: add_special, choices: [5, 8, 11, 14]}
+  244: {operation: add_special, choices: [59]}
+  255: {operation: add_special, choices: [6, 9, 12, 15]}
+  256: {operation: add_special, choices: [41]}
+
+drops:
+  # Per kill: chance x sqrt(monster level / 10) x extra, extra 10 for bosses (MAW divides by the players of an online
+  # game only).
+  gem_chance: 0.006
+  boss_extra: 10
+  # The specials' bad-luck counter: chance = base ^ (1.38 - base x counter x 0.5), the counter growing by the kill's
+  # bonus and reset by a drop.
+  pity_exponent: 1.38
+  # A party with a Grandmaster alchemist finds an Endless Potion now and then; it adds min(best Alchemy + 10, 100)
+  # drinks.
+  endless_potion_chance: 0.002
+  # Reagents: (best Alchemy mastery - 2) % per kill from Master; tiers by the monster's level.
+  reagent_tiers:
+    - [200, 205, 210, 215, 1002, 1007, 1012, 1017]
+    - [201, 206, 211, 216, 1003, 1008, 1013, 1018]
+    - [202, 207, 212, 217, 1004, 1009, 1014, 1019]
+    - [203, 208, 213, 218, 1005, 1010, 1015, 1020]
+    - [204, 209, 214, 219, 1006, 1011, 1016, 1021]
+
+shops:
+  # Buy screens of magic shops and alchemists replace this share of their non-equipment stock with crafting items:
+  # a special with chance min((party gold / 20,000,000)^0.7, 1), else a gem of tier 1 + min(floor(banked levels / 25)
+  # + bonus, 15), the bonus 0, 1 or 2 with these weights.
+  replace_chance: 0.3
+  special_gold: 20000000
+  gem_tier_bonus_weights: [0.70, 0.25, 0.05]
+
+map_completion:
+  # The first time a map is cleared: a Crafting Cube and two gems of tier min(ceil(map level / 25 + 0.5), 16).
+  items: [1070]
+  gems: 2

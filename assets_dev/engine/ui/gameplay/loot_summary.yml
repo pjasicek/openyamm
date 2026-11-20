@@ -1,0 +1,121 @@
+# What MAW's gather key looted on a completed map: gold, then every item taken and any the bags had no room for, in
+# two columns. Carved Obsidian panel and recreated MM fonts, as the Workbench (alchemy_bench.yml); the list text at
+# the status line's Lucida 0.75 so it reads at 1600x900.
+screen: LootSummary
+elements:
+- id: LootSummaryRoot
+  anchor: center
+  width: 640
+  height: 480
+  scale:
+    min: 1.0
+    max: 8.0
+  children:
+    - id: LootSummaryPanel
+      anchor: top_left
+      offset_x: 110
+      offset_y: 44
+      width: 420
+      height: 314
+      z_index: 10
+      notes: 'Obsidian panel frame, above the party bar.'
+    - id: LootSummaryTitle
+      anchor: top_left
+      offset_x: 114
+      offset_y: 54
+      width: 412
+      height: 20
+      z_index: 20
+      text:
+        value: 'Map Looted'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: top
+        scale: 0.5
+    - id: LootSummaryOverview
+      anchor: top_left
+      offset_x: 126
+      offset_y: 78
+      width: 388
+      height: 13
+      z_index: 20
+      text:
+        value: '{satchels} satchels'
+        font: Lucida
+        color: '#c9bea8'
+        align_x: center
+        align_y: top
+        scale: 0.75
+    - id: LootSummaryGold
+      anchor: top_left
+      offset_x: 126
+      offset_y: 94
+      width: 388
+      height: 14
+      z_index: 20
+      notes: 'Gold amount; the renderer centres it with the gold icon (scorebg_gold) in front.'
+      text:
+        value: '{gold} gold'
+        font: Lucida
+        color: '#e8c35a'
+        align_x: left
+        align_y: top
+        scale: 0.75
+    - id: LootSummaryList
+      anchor: top_left
+      offset_x: 122
+      offset_y: 114
+      width: 396
+      height: 196
+      z_index: 20
+      notes: 'Scrollable well: two columns of items with their icons; right-click inspects.'
+    - id: LootSummaryRowLabel
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 160
+      height: 13
+      z_index: 20
+      text:
+        value: '{item}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 0.75
+    - id: LootSummaryRowHeader
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 380
+      height: 14
+      z_index: 20
+      text:
+        value: '{header}'
+        font: Fondamento
+        color: '#d9b97a'
+        align_x: left
+        align_y: middle
+        scale: 0.38
+    - id: LootSummaryCloseButton
+      anchor: top_left
+      offset_x: 282
+      offset_y: 320
+      width: 76
+      height: 26
+      z_index: 30
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+        disabled: obsidian_button_tab_disabled
+      text:
+        value: Close
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667

@@ -1,0 +1,829 @@
+format: 0
+themes:
+  - id: theme:ashlar
+    wall: {texture: D1WlBct1, size: [256, 256]}
+    floor: {texture: D2flor1, size: [256, 256]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: d1trimle, size: [32, 32]}
+    notes: "D1 ashlar (L2): panelled ashlar walls, dark crazy-paving flagstones, rough rock ceiling. Cellar, guard post, upper gallery, west hall, drill hall, throne approach."
+  - id: theme:blank_ashlar
+    wall: {texture: d1wblnkA, size: [256, 256]}
+    floor: {texture: D8florF, size: [128, 128]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: d2trimA, size: [64, 64]}
+    notes: "Blank ashlar on crazy paving (L2): the vestibule."
+  - id: theme:layered
+    wall: {texture: D8wlDsp1, size: [256, 256]}
+    floor: {texture: D8florF, size: [128, 128]}
+    ceiling: {texture: D2ceil1, size: [256, 256]}
+    notes: "D8 layered stone (L2): banded rough-stone walls, crazy-paving floor, plank ceiling. Upper barracks row."
+  - id: theme:pilaster_hall
+    wall: {texture: d1wctrA, size: [128, 256]}
+    floor: {texture: D2flor2, size: [128, 128]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: d2trimB, size: [64, 64]}
+    notes: "D1 pilastered hall (L2): ashlar between tall pilasters, panelled floor tiles, rock ceiling. Great hall, its north passage and the storeroom."
+  - id: theme:rock_tunnel
+    wall: {texture: d1wblnkA, size: [256, 256]}
+    floor: {texture: D8florH, size: [128, 128]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: d2trimA, size: [64, 64]}
+    notes: "Rock-cut tunnel (L2): blank ashlar walls, packed red-earth floor, rough rock ceiling. Entry wing."
+  - id: theme:rubble
+    wall: {texture: D8wlB, size: [128, 256]}
+    floor: {texture: D8florG, size: [128, 128]}
+    ceiling: {texture: D8ceilA, size: [128, 128]}
+    notes: "D8 rubble stone (L2): grey rubble walls, blue-grey slab floor, dressed-stone ceiling. Lower barracks, treasury, warlord's wing, side room, throne room and its closet."
+  - id: theme:timber_flight
+    wall: {texture: d1wlDLE, size: [128, 256]}
+    floor: {texture: BemStrT1, size: [256, 32]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    notes: "Timber stair flights (L2): plank treads between D1 ashlar walls. The build faces the risers with the wall surface; the L2 riser plank (BemStrA1) cannot be given (R3-K12)."
+  - id: theme:timber_stair
+    wall: {texture: d1wlDLE, size: [128, 256]}
+    floor: {texture: Bemdk4, size: [32, 256]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    notes: "Timber stair (L2): plank decks between D1 ashlar walls. Storehouse, the level parts of the stair passage, hall stair and back stair."
+defaults: {theme: theme:ashlar}
+rooms:
+  - id: room:c1
+    name: Cellar hub
+    outline: [[2304, 1552], [2560, 1552], [2560, 1792], [3392, 1792], [3584, 1792], [3584, 2048], [3968, 2048], [4096, 2048], [4096, 2304], [3328, 2304], [3328, 2048], [2048, 2048], [2048, 1792], [2304, 1792]]
+    floor: -256
+    ceiling: 0
+    theme: theme:ashlar
+    notes: "A 256-wide passage network: a short stub north from the secret wall (16 thick, as measured), the hub bar running east, and a dog-leg north-east at its end. The bar runs straight on into the cross passage and the cell (full-width joins); the original's diagonal corners there are squared off. Its south and dog-leg walls have collinear points only so the build puts the cell opening in the right wall (see the file notes)."
+  - id: room:c2
+    name: Cell
+    outline: [[3072, 1280], [4096, 1280], [4096, 1792], [3840, 1792], [3840, 1536], [3328, 1536], [3328, 1792], [3072, 1792]]
+    floor: -256
+    ceiling: 0
+    theme: theme:ashlar
+    notes: "A U of 256-wide passages hanging south of the hub, its west leg opening full width off the hub bar; dead end with a false door."
+  - id: room:c3
+    name: Cross passage
+    outline: [[1792, 1792], [2048, 1792], [2048, 2304], [2272, 2304], [2496, 2304], [2720, 2304], [2816, 2304], [2816, 2560], [2048, 2560], [2048, 2816], [1792, 2816], [1792, 2688]]
+    floor: -256
+    ceiling: 0
+    theme: theme:ashlar
+    notes: "An L of 256-wide passages: a leg north from the hub to the west cell, and a bar east to the cellar hall, each running full width into the next room. The bar's south wall and the leg's west wall are drawn in collinear pieces only so the build does not put the hub or cell opening in them (it picks the longest facing wall; see the file notes)."
+  - id: room:c4
+    name: Cell
+    outline: [[1280, 2560], [1536, 2560], [1536, 2816], [1792, 2816], [2048, 2816], [2240, 2816], [2432, 2816], [2560, 2816], [2560, 3072], [1280, 3072]]
+    floor: -256
+    ceiling: 0
+    theme: theme:ashlar
+    notes: "An L of 256-wide passages: a bar with a short arm south at its west end; dead end with two false doors and two teleport landings. Its south wall is drawn in collinear pieces for the same reason as the cross passage's."
+  - id: room:c5
+    name: Cellar hall
+    outline: [[2816, 2304], [3072, 2304], [3072, 2816], [3328, 2816], [3328, 2560], [3584, 2560], [3584, 2816], [4592, 2816], [4592, 3072], [2816, 3072]]
+    floor: -256
+    ceiling: 0
+    theme: theme:ashlar
+    notes: "A long 256-wide hall with a short arm south and a leg south at its west end; the one real door out of the cellar is in its east end wall, 16 thick (as measured)."
+  - id: room:e1
+    name: Gate tunnel
+    path: [[768, 4544], [768, 4704], [576, 4944], [352, 4968], [96, 4968]]
+    smooth: 2
+    floor: 128
+    ceiling: 384
+    theme: theme:rock_tunnel
+    notes: "The head of the gate tunnel, level at +128: it curves from north round to west and runs west to the exit door in its west end wall, where the party arrives (the arrival spot inside the room cannot be given, R3-K14). Smoothed bend following the original's curve (within about 25 of its centre line). The rising part is room:e1_ramp. Ceiling about 256 over the floor; the original's rock ceiling undulates (R3-K5)."
+  - id: room:e1_ramp
+    name: "Gate tunnel, rising stretch"
+    space: room:e1
+    outline: [[384, 3840], [640, 3840], [896, 4544], [640, 4544]]
+    floor: 0
+    slope: {to: 128, toward: 2}
+    ceiling: 384
+    theme: theme:rock_tunnel
+    notes: "Part of the gate tunnel: a 256-wide ramp climbing north-north-east straight out of the junction (0) to the tunnel head (+128). Its flat ceiling stands 384 over the low end (the original's follows the floor, R3-K5)."
+  - id: room:e2
+    name: Junction
+    outline: [[0, 3328], [640, 3328], [640, 3840], [0, 3840]]
+    floor: 0
+    ceiling: 256
+    theme: theme:rock_tunnel
+    notes: "The guard post at the fork: gate tunnel north, back-stair portcullis east, descending tunnel south (room:e2_ramp). Both tunnels leave it full width."
+  - id: room:e2_ramp
+    name: "Junction, south tunnel"
+    space: room:e2
+    outline: [[62, 2304], [322, 2304], [640, 3328], [384, 3328]]
+    floor: 0
+    slope: {to: -80, toward: 0}
+    ceiling: 256
+    theme: theme:rock_tunnel
+    notes: "Part of the junction: the tunnel leaving it southward, slanting west as it starts down (0 to -80). Its south end is 260 wide to meet the descending tunnel's bend (see room:e3)."
+  - id: room:e3
+    name: Descending tunnel
+    outline: [[274, 1754], [714, 1424], [870, 1632], [430, 1962]]
+    floor: -80
+    slope: {to: -216, toward: 1}
+    ceiling: 176
+    theme: theme:rock_tunnel
+    notes: "The descending tunnel's straight middle stretch, running south-east (-80 to -216) between its two curves, room:e3_bend and room:e3_east. A ramp must be a straight convex room with level ends, so the original's continuous falling curve is drawn as a level smoothed bend, this ramp and a level smoothed bend (within about 50 of the original's centre line; the original's fall, spread along the whole curve, is gathered in this ramp); the ramp runs exactly 4 east to 3 south and the tunnel is 260 wide there so all its corners fall on whole units. Flat ceilings 256 over the high end of each piece (R3-K5)."
+  - id: room:e3_bend
+    name: "Descending tunnel, bend"
+    space: room:e3
+    path: [[192, 2304], [192, 1978], [352, 1858]]
+    width: 260
+    smooth: 2
+    floor: -80
+    ceiling: 176
+    theme: theme:rock_tunnel
+    notes: "Part of the descending tunnel: the curve from south to south-east at its head, level at -80."
+  - id: room:e3_east
+    name: "Descending tunnel, east stretch"
+    space: room:e3
+    path: [[792, 1528], [952, 1408], [1344, 1408]]
+    width: 260
+    smooth: 2
+    floor: -216
+    ceiling: 40
+    theme: theme:rock_tunnel
+    notes: "Part of the descending tunnel: the curve from south-east to east and the straight run east to the tunnel end, level at -216."
+  - id: room:e4
+    name: Tunnel end
+    outline: [[2352, 1280], [2560, 1280], [2560, 1536], [2352, 1536]]
+    floor: -256
+    ceiling: 0
+    theme: theme:rock_tunnel
+    notes: "The level dead end of the tunnel at -256. The lure door panel stands in its north wall near the east end, beside the secret wall into the cellar hub (16 thick, as measured). The easing run before it is room:e4_ramp."
+  - id: room:e4_ramp
+    name: "Tunnel end, easing stretch"
+    space: room:e4
+    outline: [[1344, 1278], [2352, 1280], [2352, 1536], [1344, 1538]]
+    floor: -216
+    slope: {to: -256, toward: 1}
+    ceiling: 40
+    theme: theme:rock_tunnel
+    notes: "Part of the tunnel end: the straight 256-wide run east that eases from -216 to -256, as the original does, so the secret wall stands in a level wall. Its west end is 260 wide to meet the descending tunnel."
+  - id: room:g1
+    name: Storehouse
+    outline: [[4608, 1792], [5376, 1792], [5376, 3072], [4608, 3072]]
+    floor: -256
+    ceiling: 0
+    theme: theme:timber_stair
+    notes: "Barrels and sacks along the walls; its stair is room:g1_flight, which leaves its south wall full width."
+  - id: room:g1_flight
+    name: Storehouse stair
+    space: room:g1
+    outline: [[4864, 1280], [5120, 1280], [5120, 1792], [4864, 1792]]
+    floor: -256
+    slope: {to: 0, toward: south, steps: 16}
+    ceiling: 256
+    theme: theme:timber_flight
+    notes: "Part of the storehouse: a straight 256-wide flight of 16 steps (32 deep) south from the storehouse floor up to the stair passage. Flat ceiling (the original's follows the steps, R3-K5)."
+  - id: room:g2
+    name: Stair passage
+    outline: [[4864, 1024], [5632, 1024], [5856, 1024], [6080, 1024], [6144, 1024], [6144, 784], [6400, 784], [6400, 1024], [6528, 1024], [6656, 1024], [6656, 1280], [5888, 1280], [5888, 1536], [5376, 1536], [5376, 1280], [4864, 1280]]
+    floor: 0
+    ceiling: 256
+    theme: theme:timber_stair
+    notes: "A 256-wide passage east, with a side bay north (one fight group) and a 256-wide door passage 240 long south to the lower barracks door. The storehouse stair arrives at its west end; its two flights and landing are room:g2_flight1, room:g2_landing and room:g2_flight2. The passage's south wall is drawn in collinear pieces only so the build puts the barracks door at the end of the door passage (see the file notes)."
+  - id: room:g2_flight1
+    name: "Stair passage, first flight"
+    space: room:g2
+    outline: [[6656, 1024], [6912, 1024], [6912, 1280], [6656, 1280]]
+    floor: 0
+    slope: {to: 128, toward: east, steps: 8}
+    ceiling: 384
+    theme: theme:timber_flight
+    notes: "Part of the stair passage: 8 steps up to the landing. Flat ceiling (R3-K5)."
+  - id: room:g2_flight2
+    name: "Stair passage, second flight"
+    space: room:g2
+    outline: [[7424, 1024], [7680, 1024], [7680, 1280], [7424, 1280]]
+    floor: 128
+    slope: {to: 256, toward: east, steps: 8}
+    ceiling: 512
+    theme: theme:timber_flight
+    notes: "Part of the stair passage: 8 steps up to the guard post. Flat ceiling (R3-K5)."
+  - id: room:g2_landing
+    name: "Stair passage, landing"
+    space: room:g2
+    outline: [[6912, 1024], [7424, 1024], [7424, 1280], [6912, 1280]]
+    floor: 128
+    ceiling: 384
+    theme: theme:timber_stair
+    notes: "Part of the stair passage: the landing at +128."
+  - id: room:g3
+    name: Lower barracks
+    outline: [[5632, 0], [6912, 0], [6912, 768], [5632, 768]]
+    floor: 0
+    ceiling: 256
+    theme: theme:rubble
+    platforms:
+      - {at: [6780, 68], size: [256, 128], rise: 168}
+      - {at: [6780, 700], size: [256, 128], rise: 168}
+    notes: "Two built-in bunks (platforms, +168, 4 clear of the walls) in its east corners; more bunks, chests and footlockers are furniture. Ceiling beams to about +136 cannot be drawn (R3-K5). The treasury's sinking wall is in its west wall, which is 256 thick (the original's short door passage)."
+  - id: room:g4
+    name: Hidden treasury
+    outline: [[4608, 0], [5376, 0], [5376, 768], [4608, 768]]
+    floor: 0
+    ceiling: 256
+    theme: theme:rubble
+    platforms:
+      - {at: [4992, 716], size: [760, 96], rise: 112}
+      - {at: [4660, 524], size: [96, 280], rise: 112}
+    notes: "The chests stand on a ledge (+112, about 96 deep) along its north and west walls, drawn as two platforms 4 clear of the walls (a block may not touch a wall)."
+  - id: room:g5
+    name: Guard post
+    outline: [[7680, 1024], [7808, 1024], [7936, 1024], [7936, 784], [8192, 784], [8192, 1024], [8416, 1024], [8640, 1024], [8704, 1024], [8704, 1792], [8448, 1792], [8448, 1280], [8272, 1280], [8096, 1280], [7920, 1280], [7680, 1280]]
+    floor: 256
+    ceiling: 512
+    theme: theme:ashlar
+    notes: "An L of 256-wide passage: east from the stair passage's head, then north straight into the great hall (full-width joins at both ends), with a 256-wide door passage 240 long south to the upper barracks door. Its walls are drawn in collinear pieces only so the build puts the hall opening at the end of the north leg and the barracks door at the end of the door passage (see the file notes)."
+  - id: room:g6
+    name: Upper barracks
+    outline: [[7424, 0], [8704, 0], [8704, 768], [7424, 768]]
+    floor: 256
+    ceiling: 512
+    theme: theme:rubble
+    platforms:
+      - {at: [8572, 68], size: [256, 128], rise: 168}
+      - {at: [8572, 700], size: [256, 128], rise: 168}
+    notes: "Two built-in bunks (platforms, +168, 4 clear of the walls) in its east corners; the rest is furniture. Ceiling beams to about +392 cannot be drawn (R3-K5)."
+  - id: room:h1
+    name: Great hall
+    outline: [[7424, 1792], [9728, 1792], [9728, 4096], [7424, 4096]]
+    floor: 256
+    ceiling: 768
+    theme: theme:pilaster_hall
+    notes: "Ceiling +768 over the middle with sloped coves down to about +550 to +640 along the walls; drawn flat (R3-K5). Eight flambeaux in two rows are decorations. The storeroom door is in its west wall, 256 thick (the original's short door passage); the hall stair leaves its west wall and room:h1_passage its north wall full width."
+  - id: room:h1_passage
+    name: "Great hall, north passage"
+    space: room:h1
+    path: [[8576, 4096], [8576, 4592]]
+    floor: 256
+    ceiling: 512
+    theme: theme:pilaster_hall
+    notes: "Part of the great hall: the 256-wide passage north out of it, 496 long, with the antechamber door at its far end."
+  - id: room:h2
+    name: Hall stair
+    outline: [[5888, 3088], [6144, 3088], [6144, 3328], [6368, 3328], [6592, 3328], [6816, 3328], [7040, 3328], [7424, 3328], [7424, 3584], [5888, 3584]]
+    floor: 256
+    ceiling: 512
+    theme: theme:timber_stair
+    notes: "An L: the 256-wide passage west from the great hall turns south into a landing ending at the storeroom's north door, which fills the landing's end; room:h2_flight climbs north from the corner to the upper gallery. The passage's south wall is drawn in collinear pieces only so the build puts that door in the landing's end wall (see the file notes)."
+  - id: room:h2_flight
+    name: Hall stair flight
+    space: room:h2
+    outline: [[5888, 3584], [6144, 3584], [6144, 4096], [5888, 4096]]
+    floor: 256
+    slope: {to: 512, toward: north, steps: 16}
+    ceiling: 768
+    theme: theme:timber_flight
+    notes: "Part of the hall stair: 16 steps (32 deep) north from the landing up to the upper gallery. Flat ceiling (R3-K5)."
+  - id: room:h3
+    name: Storeroom
+    outline: [[5632, 2048], [7168, 2048], [7168, 3072], [5632, 3072]]
+    floor: 256
+    ceiling: 640
+    theme: theme:pilaster_hall
+    notes: Ceiling +640 with sloped edges to about +540 (R3-K5). Rows and stacks of barrels and sacks with aisles between are decorations.
+  - id: room:u1
+    name: Upper gallery
+    outline: [[1536, 4096], [6144, 4096], [6144, 4352], [6016, 4352], [4992, 4352], [4864, 4352], [4864, 4592], [4608, 4592], [4608, 4352], [4480, 4352], [1536, 4352]]
+    floor: 512
+    ceiling: 768
+    theme: theme:ashlar
+    notes: "A 256-wide gallery about 4,600 long. Doors north to four barracks (the third at the end of a 256-wide door passage 240 long) and south to the vestibule; the hall stair arrives at its east end, the west hall opens full width at its west end (a cut corner in the original, squared off). Its north wall is drawn in collinear pieces only so the build puts the third barracks door at the end of the door passage (see the file notes)."
+  - id: room:u10
+    name: West hall
+    outline: [[1280, 4096], [1536, 4096], [1536, 5632], [3568, 5632], [3568, 5888], [1280, 5888]]
+    floor: 512
+    ceiling: 768
+    theme: theme:ashlar
+    notes: "An L of 256-wide passages: north from the gallery's west end, then east along the north; the drill hall and the throne approach open off its north side, the side room door is at its east end."
+  - id: room:u11
+    name: Drill hall
+    outline: [[1280, 6144], [2560, 6144], [2560, 7168], [1280, 7168]]
+    floor: 512
+    ceiling: 896
+    theme: theme:ashlar
+    notes: "Ceiling +896 over the middle, sloped to about +800 at the walls (R3-K5). Reached through a 256-thick wall by a full 256-wide opening (the original's short passage from the west hall)."
+  - id: room:u12
+    name: Side room
+    outline: [[3584, 5632], [4352, 5632], [4352, 6400], [3584, 6400]]
+    floor: 512
+    ceiling: 768
+    theme: theme:rubble
+    notes: Guard room.
+  - id: room:u13
+    name: Passage
+    path: [[3200, 5888], [3200, 6656]]
+    floor: 512
+    ceiling: 768
+    theme: theme:ashlar
+    notes: "First leg of the narrow approach to the throne room, north from the west hall."
+  - id: room:u14
+    name: Passage
+    path: [[3072, 6784], [4592, 6784]]
+    floor: 512
+    ceiling: 768
+    theme: theme:ashlar
+    notes: "Second leg of the approach, east to the throne room door. The original's diagonal corner with the first leg is squared off."
+  - id: room:u15
+    name: Throne room
+    outline: [[4608, 5632], [5632, 5632], [5632, 7168], [4608, 7168]]
+    floor: 512
+    ceiling: 896
+    theme: theme:rubble
+    notes: "Ceiling +896 over the middle, sloped to about +790 at the walls (R3-K5). Flat floor: the canopied seat in the north-east corner, two flambeaux and three cabinets along the east wall are furniture."
+  - id: room:u16
+    name: Closet
+    outline: [[5648, 5632], [5904, 5632], [5904, 5888], [5648, 5888]]
+    floor: 512
+    ceiling: 768
+    theme: theme:rubble
+    notes: A closet behind a rising wall in the throne room's east wall.
+  - id: room:u2
+    name: Vestibule
+    outline: [[2560, 3456], [3072, 3456], [3072, 4080], [2816, 4080], [2816, 3712], [2688, 3712], [2560, 3712]]
+    floor: 512
+    ceiling: 768
+    theme: theme:blank_ashlar
+    notes: "An L-shaped landing at the head of the back stair, its door north into the gallery. Its inner north wall has a collinear point only so the build puts that door at the end of the north arm (see the file notes)."
+  - id: room:u3
+    name: Back stair
+    outline: [[656, 3456], [1024, 3456], [1024, 3712], [656, 3712]]
+    floor: 0
+    ceiling: 256
+    theme: theme:timber_stair
+    notes: "The foot of the back stair, level at 0, where the switch is; the full-width portcullis is in its west wall, 16 thick (as measured). The two flights and the landing are room:u3_flight1, room:u3_landing and room:u3_flight2."
+  - id: room:u3_flight1
+    name: "Back stair, first flight"
+    space: room:u3
+    outline: [[1024, 3456], [1536, 3456], [1536, 3712], [1024, 3712]]
+    floor: 0
+    slope: {to: 256, toward: east, steps: 16}
+    ceiling: 512
+    theme: theme:timber_flight
+    notes: "Part of the back stair: 16 steps (32 deep) east up to the landing. Flat ceiling (R3-K5)."
+  - id: room:u3_flight2
+    name: "Back stair, second flight"
+    space: room:u3
+    outline: [[2048, 3456], [2560, 3456], [2560, 3712], [2048, 3712]]
+    floor: 256
+    slope: {to: 512, toward: east, steps: 16}
+    ceiling: 768
+    theme: theme:timber_flight
+    notes: "Part of the back stair: 16 steps (32 deep) east up to the vestibule. Flat ceiling (R3-K5)."
+  - id: room:u3_landing
+    name: "Back stair, landing"
+    space: room:u3
+    outline: [[1536, 3456], [2048, 3456], [2048, 3712], [1536, 3712]]
+    floor: 256
+    ceiling: 512
+    theme: theme:timber_stair
+    notes: "Part of the back stair: the landing at +256."
+  - id: room:u4
+    name: East barracks
+    outline: [[5376, 4368], [6400, 4368], [6400, 5392], [5376, 5392]]
+    floor: 512
+    ceiling: 768
+    theme: theme:layered
+    platforms:
+      - {at: [5508, 5324], size: [256, 128], rise: 168}
+      - {at: [6268, 5324], size: [256, 128], rise: 168}
+    notes: "Two built-in bunks (platforms, +168, 4 clear of the walls) in its north corners; chest, footlocker and the rest are furniture. Ceiling beams to about +648 cannot be drawn (R3-K5)."
+  - id: room:u5
+    name: Officer room
+    outline: [[6432, 4368], [6944, 4368], [6944, 5136], [6432, 5136]]
+    floor: 512
+    ceiling: 768
+    theme: theme:layered
+    notes: "An officer's bed and a cabinet (furniture); the closet's rising wall is in its north wall. Reached from the barracks through a 32-thick wall (as measured)."
+  - id: room:u6
+    name: Closet
+    outline: [[6688, 5152], [6944, 5152], [6944, 5344], [6688, 5344]]
+    floor: 512
+    ceiling: 768
+    theme: theme:layered
+    notes: A closet behind a rising wall.
+  - id: room:u7
+    name: Barracks
+    outline: [[4352, 4608], [5120, 4608], [5120, 5376], [4352, 5376]]
+    floor: 512
+    ceiling: 768
+    theme: theme:layered
+    platforms:
+      - {at: [4484, 5308], size: [256, 128], rise: 168}
+    notes: "Set back from the gallery at the end of its 256-wide door passage. One built-in bunk (platform, +168, 4 clear of the walls) in its north-west corner; the chest is furniture."
+  - id: room:u8
+    name: Barracks
+    outline: [[3072, 4368], [4096, 4368], [4096, 5392], [3072, 5392]]
+    floor: 512
+    ceiling: 768
+    theme: theme:layered
+    platforms:
+      - {at: [3204, 5324], size: [256, 128], rise: 168}
+      - {at: [3964, 5324], size: [256, 128], rise: 168}
+    notes: "Two built-in bunks (platforms, +168, 4 clear of the walls) in its north corners; footlockers are furniture."
+  - id: room:u9
+    name: Barracks
+    outline: [[1792, 4368], [2816, 4368], [2816, 5392], [1792, 5392]]
+    floor: 512
+    ceiling: 768
+    theme: theme:layered
+    platforms:
+      - {at: [1924, 5324], size: [256, 128], rise: 168}
+      - {at: [2684, 5324], size: [256, 128], rise: 168}
+    notes: "Two built-in bunks (platforms, +168, 4 clear of the walls) in its north corners; chests are furniture."
+  - id: room:w1
+    name: Antechamber
+    outline: [[7936, 4608], [9472, 4608], [9472, 5376], [8960, 5376], [8960, 5888], [7936, 5888]]
+    floor: 256
+    ceiling: 640
+    theme: theme:rubble
+    notes: "An L: a 1024-wide block with a wing east along its south half. Ceiling +640 with sloped edges (R3-K5). The study is reached through its 256-thick west wall by a full 256-wide opening (the original's short passage); the bedchamber through a 32-thick wall (as measured)."
+  - id: room:w2
+    name: Bedchamber
+    outline: [[8992, 5392], [9728, 5392], [9728, 6160], [8992, 6160]]
+    floor: 256
+    ceiling: 512
+    theme: theme:rubble
+    notes: "Flat floor: the warlord's four-poster bed (mattress about +320, canopy about +464) in its north-east corner is furniture."
+  - id: room:w3
+    name: Study
+    outline: [[7168, 4608], [7680, 4608], [7680, 5376], [7168, 5376]]
+    floor: 256
+    ceiling: 512
+    theme: theme:rubble
+    notes: "Chest of drawers and cabinet (furniture); the keyed vault door in its north wall."
+  - id: room:w4
+    name: Vault
+    outline: [[7424, 5392], [7680, 5392], [7680, 5632], [7424, 5632]]
+    floor: 256
+    ceiling: 512
+    theme: theme:rubble
+    notes: A closet holding the statuette chest.
+openings:
+  - id: open:c1_c2
+    from: room:c1
+    to: room:c2
+    link: link:c1_c2
+    width: full
+    height: full
+    notes: The cell's west leg opens full width off the hub bar (the original's join).
+  - id: open:c1_c3
+    from: room:c1
+    to: room:c3
+    link: link:c1_c3
+    width: full
+    height: full
+    notes: "The hub bar runs full width into the cross passage (a diagonal join in the original, squared off)."
+  - id: open:c3_c4
+    from: room:c3
+    to: room:c4
+    link: link:c3_c4
+    width: full
+    height: full
+    notes: The leg runs full width into the cell's bar.
+  - id: open:c3_c5
+    from: room:c3
+    to: room:c5
+    link: link:c3_c5
+    width: full
+    height: full
+    notes: "The bar runs full width into the hall's west leg (a diagonal join in the original, squared off)."
+  - id: open:c5_g1
+    from: room:c5
+    to: room:g1
+    link: link:c5_g1
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick end wall.
+  - id: open:e1_e2
+    from: room:e2
+    to: room:e1_ramp
+    link: link:e1_e2
+    width: full
+    height: full
+    notes: "The tunnel mouth: open full width in the original."
+  - id: open:e1_ramp
+    from: room:e1_ramp
+    to: room:e1
+    width: full
+    height: full
+    notes: "Inside the gate tunnel: the head of its ramp. Not a plan link."
+  - id: open:e2_e3
+    from: room:e2_ramp
+    to: room:e3_bend
+    link: link:e2_e3
+    width: full
+    height: full
+    notes: "The tunnel continues: open full width in the original."
+  - id: open:e2_ramp
+    from: room:e2
+    to: room:e2_ramp
+    width: full
+    height: full
+    notes: "Inside the junction: its tunnel mouth. Not a plan link."
+  - id: open:e3_bend
+    from: room:e3_bend
+    to: room:e3
+    width: full
+    height: full
+    notes: Inside the descending tunnel. Not a plan link.
+  - id: open:e3_e4
+    from: room:e3_east
+    to: room:e4_ramp
+    link: link:e3_e4
+    width: full
+    height: full
+    notes: "The tunnel continues: open full width in the original."
+  - id: open:e3_east
+    from: room:e3
+    to: room:e3_east
+    width: full
+    height: full
+    notes: Inside the descending tunnel. Not a plan link.
+  - id: open:e4_c1
+    from: room:e4
+    to: room:c1
+    link: link:e4_c1
+    along: 0.6154
+    width: 128
+    height: 256
+    notes: "Secret wall that rises, 16 thick; the lure door panel is beside it."
+  - id: open:e4_ramp
+    from: room:e4_ramp
+    to: room:e4
+    width: full
+    height: full
+    notes: Inside the tunnel end. Not a plan link.
+  - id: open:g1_flight
+    from: room:g1
+    to: room:g1_flight
+    width: full
+    height: full
+    notes: "Inside the storehouse: the foot of its stair. Not a plan link."
+  - id: open:g1_g2
+    from: room:g1_flight
+    to: room:g2
+    link: link:g1_g2
+    width: full
+    height: full
+    notes: Head of the storehouse stair.
+  - id: open:g2_flight1
+    from: room:g2
+    to: room:g2_flight1
+    width: full
+    height: full
+    notes: Inside the stair passage. Not a plan link.
+  - id: open:g2_flight2
+    from: room:g2_landing
+    to: room:g2_flight2
+    width: full
+    height: full
+    notes: Inside the stair passage. Not a plan link.
+  - id: open:g2_g3
+    from: room:g2
+    to: room:g3
+    link: link:g2_g3
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall at the end of the 256-wide door passage.
+  - id: open:g2_g5
+    from: room:g2_flight2
+    to: room:g5
+    link: link:g2_g5
+    width: full
+    height: full
+    notes: Head of the second flight (+256).
+  - id: open:g2_landing
+    from: room:g2_flight1
+    to: room:g2_landing
+    width: full
+    height: full
+    notes: Inside the stair passage. Not a plan link.
+  - id: open:g3_g4
+    from: room:g3
+    to: room:g4
+    link: link:g3_g4
+    along: 0.75
+    width: 128
+    height: 256
+    notes: "Secret wall that sinks, through the 256-thick wall (a 128-wide passage in the original)."
+  - id: open:g5_g6
+    from: room:g5
+    to: room:g6
+    link: link:g5_g6
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall at the end of the 256-wide door passage.
+  - id: open:g5_h1
+    from: room:g5
+    to: room:h1
+    link: link:g5_h1
+    width: full
+    height: full
+    notes: The north leg runs full width into the hall.
+  - id: open:h1_h2
+    from: room:h1
+    to: room:h2
+    link: link:h1_h2
+    width: full
+    height: full
+    notes: The hall stair's passage leaves the hall full width.
+  - id: open:h1_h3
+    from: room:h1
+    to: room:h3
+    link: link:h1_h3
+    along: 0.375
+    width: 256
+    height: 256
+    notes: "Double-locked iron-banded door, 256 wide, through the 256-thick wall (the original's 256-wide door passage)."
+  - id: open:h1_passage
+    from: room:h1
+    to: room:h1_passage
+    width: full
+    height: full
+    notes: "Inside the great hall: the mouth of its north passage. Not a plan link."
+  - id: open:h1_w1
+    from: room:h1_passage
+    to: room:w1
+    link: link:h1_w1
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall at the end of the passage north out of the hall.
+  - id: open:h2_flight
+    from: room:h2
+    to: room:h2_flight
+    width: full
+    height: full
+    notes: "Inside the hall stair: the foot of its flight. Not a plan link."
+  - id: open:h2_h3
+    from: room:h2
+    to: room:h3
+    link: link:h2_h3
+    width: full
+    height: 256
+    notes: "Double-locked iron-banded door filling the landing's end, in the 16-thick wall."
+  - id: open:h2_u1
+    from: room:h2_flight
+    to: room:u1
+    link: link:h2_u1
+    width: full
+    height: full
+    notes: Head of the hall stair.
+  - id: open:u10_u11
+    from: room:u10
+    to: room:u11
+    link: link:u10_u11
+    width: 256
+    height: 256
+    notes: "Through the 256-thick wall, the full width of the original's short passage."
+  - id: open:u10_u12
+    from: room:u10
+    to: room:u12
+    link: link:u10_u12
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick end wall.
+  - id: open:u10_u13
+    from: room:u10
+    to: room:u13
+    link: link:u10_u13
+    width: full
+    height: full
+    notes: The approach leaves the west hall full width.
+  - id: open:u13_u14
+    from: room:u13
+    to: room:u14
+    link: link:u13_u14
+    width: full
+    height: full
+    notes: The corner of the L-shaped approach.
+  - id: open:u14_u15
+    from: room:u14
+    to: room:u15
+    link: link:u14_u15
+    width: 128
+    height: 256
+    notes: "Plank door in the 16-thick wall, skull plaques beside it."
+  - id: open:u15_u16
+    from: room:u15
+    to: room:u16
+    link: link:u15_u16
+    along: 0
+    width: 128
+    height: 256
+    notes: "Secret wall that rises, 16 thick, at the south end of the closet's wall."
+  - id: open:u1_u10
+    from: room:u1
+    to: room:u10
+    link: link:u1_u10
+    width: full
+    height: full
+    notes: The gallery runs full width into the west hall.
+  - id: open:u1_u2
+    from: room:u1
+    to: room:u2
+    link: link:u1_u2
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall.
+  - id: open:u1_u4
+    from: room:u1
+    to: room:u4
+    link: link:u1_u4
+    along: 0.8
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall.
+  - id: open:u1_u7
+    from: room:u1
+    to: room:u7
+    link: link:u1_u7
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall at the end of the 256-wide door passage.
+  - id: open:u1_u8
+    from: room:u1
+    to: room:u8
+    link: link:u1_u8
+    along: 0.6875
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall.
+  - id: open:u1_u9
+    from: room:u1
+    to: room:u9
+    link: link:u1_u9
+    along: 0.3125
+    width: 128
+    height: 256
+    notes: Plank door in the 16-thick wall.
+  - id: open:u2_u3
+    from: room:u2
+    to: room:u3_flight2
+    link: link:u2_u3
+    width: full
+    height: full
+    notes: Head of the back stair.
+  - id: open:u3_e2
+    from: room:u3
+    to: room:e2
+    link: link:u3_e2
+    width: full
+    height: 256
+    notes: "Portcullis filling the foot of the back stair, in the 16-thick wall, raised by the switch on the stair side."
+  - id: open:u3_flight1
+    from: room:u3
+    to: room:u3_flight1
+    width: full
+    height: full
+    notes: "Inside the back stair: the foot of the first flight. Not a plan link."
+  - id: open:u3_flight2
+    from: room:u3_landing
+    to: room:u3_flight2
+    width: full
+    height: full
+    notes: Inside the back stair. Not a plan link.
+  - id: open:u3_landing
+    from: room:u3_flight1
+    to: room:u3_landing
+    width: full
+    height: full
+    notes: Inside the back stair. Not a plan link.
+  - id: open:u4_u5
+    from: room:u4
+    to: room:u5
+    link: link:u4_u5
+    width: 128
+    height: 256
+    notes: Open doorway through the 32-thick wall.
+  - id: open:u5_u6
+    from: room:u5
+    to: room:u6
+    link: link:u5_u6
+    along: 0
+    width: 128
+    height: 256
+    notes: "Secret wall that rises, 16 thick, at the east end of the closet's wall."
+  - id: open:w1_w2
+    from: room:w1
+    to: room:w2
+    link: link:w1_w2
+    along: 0.484
+    width: 192
+    height: 256
+    notes: "Open doorway, 192 wide, through the 32-thick wall."
+  - id: open:w1_w3
+    from: room:w1
+    to: room:w3
+    link: link:w1_w3
+    width: 256
+    height: 256
+    notes: "Through the 256-thick wall, the full width of the original's short passage."
+  - id: open:w3_w4
+    from: room:w3
+    to: room:w4
+    link: link:w3_w4
+    width: 128
+    height: 256
+    notes: Keyed plank door (the Warlord's Key) in the 16-thick wall.
+notes: "L3 sketch of Warlord's Fortress, origin at the fortress's south-west corner (19 x 14 cells of 512). Heights are absolute, datum the arrival band (entrance 0). Measured from the original and simplified: outlines with few points, corridors and tunnels 256 wide (`path` rooms where straight or bent; the curved tunnel bends are smoothed paths), L-, U- and T-shaped spaces as one outline; the original's diagonal corner joins are squared off. Joins and doorways follow the original's measurements: where two spaces share a whole passage end (open joins, the pieces of one tunnel or stair, the full-width portcullis and storeroom door) the rooms meet and the opening is `width: full`; doors stand in the 16-thick wall the original has (32 for the officer room and the bedchamber); the original's short door passages are either part of a room (the 256-wide, 240-long passages to the lower and upper barracks and the third gallery barracks, the 496-long passage north of the great hall) or a 256-thick wall with a doorway as wide as the passage (drill hall, study, storeroom from the hall, treasury). Every flight is its own rectangle with steps (16 per 256 of rise, 32 deep, as in the original) and every ramp its own convex room with level ends, so a space with stairs, a landing or a curved falling tunnel is several rooms naming one plan space; the openings between them carry no plan link. The descending tunnel's pieces are 260 wide where they run 4 east to 3 south, so their corners fall on whole units. rooms.yml cannot say which wall an opening is in: the build takes the facing pair with the longest shared stretch, so where a passage runs within 512 of a parallel wall of the other room, the competing wall is drawn in short collinear pieces (C1, C3, C4, G2, G5, H2, U1, U2) to keep each opening where the original has it. Built-in bunks and the treasury's chest ledge are platforms, 4 units clear of the walls (the build refuses a block that touches a wall); chests, cabinets, beds, the throne seat, barrels and torches belong to the furniture and object layers, as do door leaves, levers, the false doors and the exit door. Walls are smooth: the original's tunnel walls are smooth curves 256 apart, so no room is `rough` and there are no rock islands. Still not drawable: shaped ceilings (R3-K5: the great hall's coves, the beams, ceilings that follow a flight or a tunnel), per-opening kind and look (R3-K11) and the arrival spot (R3-K14). There are no stacked rooms (R3-K7 is not needed here)."

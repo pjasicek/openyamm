@@ -1,0 +1,223 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated raw outputs; strict brief checks failed. One corrective regeneration per view exhausted. No resizing or image postprocessing.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a texture-source albedo image for an existing 3D model. Output exactly 1024 x 1024 PNG with a genuine transparent background.\nInput image 1 is the plain gray orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour authority ONLY, not a composition or geometry reference.\nPreserve the guide EXACTLY: same camera, silhouette, size, pixel position, framing, every shape edge, opening and detail. Paint only the existing surfaces. Do not add geometry, holes, fixtures, cables or a lantern where the guide does not have them. Nothing outside the silhouette; nothing cropped. Preserve all empty openings as transparent.\nTransfer the reference's chipped white ceramic shell with muted gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables, and warm lantern colour where present. Match the reference's surface wear and colours while retaining the guide's geometry.\nLIGHTING: flat unlit albedo, even shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim lighting. Remove the gray guide's baked shading. No background, floor, text or labels. Any glowing parts must be painted their glowing colour without casting light onto surroundings.\nThis is a precisely registered orthographic texture projection, not a redesigned object or beauty render.\nRequested view: LEFT. The guide shows the tarp-awning side: rear rim at image left, rounded nose at image right, chimney above the left-middle. Keep every support, ragged tarp edge, base block and cable exactly in the guide's location.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8e-0020-7ac3-90db-8cce09aee087/exec-2f8fcf46-4d4d-4bff-b59e-d0ecf32934b3.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by correction with less prominent under-awning shading. Wrong native dimensions, silhouette/detail drift and lighting remain.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/guide_left.png",
+          "sha256": "dea81f1371dbd3b16d011664baf40e94e1e3e0e8f42b9623b60ad93b81096d80"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          23,
+          1216,
+          1254
+        ],
+        "alpha_over_127_bbox": [
+          80,
+          323,
+          1175,
+          930
+        ],
+        "transparent_background_present": true,
+        "clean_background_pass": false,
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches; exact material assignment and shape details drift.",
+        "flat_even_light_pass": false,
+        "unresized_unmodified_return": true
+      },
+      "output_sha256": "39d147cc28939fd09787dfc02a9eae70a531602ff3b3bf13cf78bd915c434478"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint a texture-source albedo image for an existing 3D model. Output exactly 1024 x 1024 PNG with a genuine transparent background.\nInput image 1 is the plain gray orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour authority ONLY, not a composition or geometry reference.\nPreserve the guide EXACTLY: same camera, silhouette, size, pixel position, framing, every shape edge, opening and detail. Paint only the existing surfaces. Do not add geometry, holes, fixtures, cables or a lantern where the guide does not have them. Nothing outside the silhouette; nothing cropped. Preserve all empty openings as transparent.\nTransfer the reference's chipped white ceramic shell with muted gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables, and warm lantern colour where present. Match the reference's surface wear and colours while retaining the guide's geometry.\nLIGHTING: flat unlit albedo, even shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim lighting. Remove the gray guide's baked shading. No background, floor, text or labels. Any glowing parts must be painted their glowing colour without casting light onto surroundings.\nThis is a precisely registered orthographic texture projection, not a redesigned object or beauty render.\nRequested view: LEFT. The guide shows the tarp-awning side: rear rim at image left, rounded nose at image right, chimney above the left-middle. Keep every support, ragged tarp edge, base block and cable exactly in the guide's location.\nCORRECTIVE GENERATION (the only correction permitted): The previous return incorrectly used 1254 x 1254 and dark shading. Generate a native 1024 by 1024 output, matching the input guide canvas. Do not upscale or resize the composition. The guide's visible object bounding box is x=66..957 and y=264..759 on the 1024 canvas: maintain this precise position and extent, including chimney top at y=264 and the bottom supports at y=759. Do NOT enlarge the object or add fringe pixels. All background alpha must be exactly zero. Keep all original guide edges instead of adding decorative projections. Use truly FLAT MATTE BASE COLOURS: white ceramic must remain equally light at its bottom and top, steel equally light on all faces. No dark shadow beneath awning, no lighting gradient or reflective gold highlights. Surface grime and rust are pigments only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8e-0020-7ac3-90db-8cce09aee087/exec-36f3c903-8268-4e88-a059-a4eea37593ad.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available left return after the single permitted correction; palette matches and shading is somewhat reduced. Not compliant: wrong native dimensions, residual shading/highlights, silhouette/detail drift and stray alpha.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/guide_left.png",
+          "sha256": "dea81f1371dbd3b16d011664baf40e94e1e3e0e8f42b9623b60ad93b81096d80"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          13,
+          1244,
+          1254
+        ],
+        "alpha_over_127_bbox": [
+          80,
+          324,
+          1175,
+          928
+        ],
+        "transparent_background_present": true,
+        "clean_background_pass": false,
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches; exact material assignment and shape details drift.",
+        "flat_even_light_pass": false,
+        "unresized_unmodified_return": true
+      },
+      "output_sha256": "ad8398f172f12a34f07343f6f872e4f2222086d0274ffde3392ae47815dc7aa0"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a texture-source albedo image for an existing 3D model. Output exactly 1024 x 1024 PNG with a genuine transparent background.\nInput image 1 is the plain gray orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour authority ONLY, not a composition or geometry reference.\nPreserve the guide EXACTLY: same camera, silhouette, size, pixel position, framing, every shape edge, opening and detail. Paint only the existing surfaces. Do not add geometry, holes, fixtures, cables or a lantern where the guide does not have them. Nothing outside the silhouette; nothing cropped. Preserve all empty openings as transparent.\nTransfer the reference's chipped white ceramic shell with muted gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables, and warm lantern colour where present. Match the reference's surface wear and colours while retaining the guide's geometry.\nLIGHTING: flat unlit albedo, even shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim lighting. Remove the gray guide's baked shading. No background, floor, text or labels. Any glowing parts must be painted their glowing colour without casting light onto surroundings.\nThis is a precisely registered orthographic texture projection, not a redesigned object or beauty render.\nRequested view: RIGHT. The guide shows the opposite side without the awning: rounded nose at image left, tall rear rim at image right, chimney above the right-middle. A large rectangular existing panel occupies the lower left-middle. Keep all these shapes and every base block and slender support at precisely their guide positions.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8e-0020-7ac3-90db-8cce09aee087/exec-9b9f9d04-7b0f-4a39-87b9-90a2d5e89a88.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Preferred to correction because it preserves the existing large rectangular steel panel without inventing a torn tarp. Not compliant: wrong native dimensions, residual shading/highlights, silhouette/detail drift and stray alpha.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/guide_right.png",
+          "sha256": "631a62baa14b98e9b3b4590cccb62b2023088a9dc02c88927b2917c5d7481a31"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "alpha_over_127_bbox": [
+          81,
+          324,
+          1175,
+          929
+        ],
+        "transparent_background_present": true,
+        "clean_background_pass": false,
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches; exact material assignment and shape details drift.",
+        "flat_even_light_pass": false,
+        "unresized_unmodified_return": true
+      },
+      "output_sha256": "8757ef9c3514d0d213e63486807ea6eb188445c37a5b39da635b408a3977b9a9"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint a texture-source albedo image for an existing 3D model. Output exactly 1024 x 1024 PNG with a genuine transparent background.\nInput image 1 is the plain gray orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour authority ONLY, not a composition or geometry reference.\nPreserve the guide EXACTLY: same camera, silhouette, size, pixel position, framing, every shape edge, opening and detail. Paint only the existing surfaces. Do not add geometry, holes, fixtures, cables or a lantern where the guide does not have them. Nothing outside the silhouette; nothing cropped. Preserve all empty openings as transparent.\nTransfer the reference's chipped white ceramic shell with muted gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables, and warm lantern colour where present. Match the reference's surface wear and colours while retaining the guide's geometry.\nLIGHTING: flat unlit albedo, even shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim lighting. Remove the gray guide's baked shading. No background, floor, text or labels. Any glowing parts must be painted their glowing colour without casting light onto surroundings.\nThis is a precisely registered orthographic texture projection, not a redesigned object or beauty render.\nRequested view: RIGHT. The guide shows the opposite side without the awning: rounded nose at image left, tall rear rim at image right, chimney above the right-middle. A large rectangular existing panel occupies the lower left-middle. Keep all these shapes and every base block and slender support at precisely their guide positions.\nCORRECTIVE GENERATION (the only correction permitted): The previous return incorrectly used 1254 x 1254 and dark shading. Generate a native 1024 by 1024 output matching the input guide canvas. Do not upscale or resize the composition. The guide's visible object bounding box is x=66..957 and y=264..759 on the 1024 canvas: maintain this precise position and extent. Do NOT enlarge the object. All background alpha must be exactly zero, no stray partly transparent pixels. Keep all original guide edges, especially chimney cap and rectangular side panel, instead of replacing with reference shapes. Use truly FLAT MATTE BASE COLOURS: white ceramic equally light at its bottom and top, steel equally light on all faces. No dark shadow at bottom of hull or behind panel, no lighting gradient or reflective gold highlights. Surface grime and rust are pigments only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8e-0020-7ac3-90db-8cce09aee087/exec-a0a2a8bf-5ca1-4ad9-afdf-a3fb9b745c09.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Correction rejected: invents a torn tarp across the large side panel; wrong dimensions and lighting issues persist.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/guide_right.png",
+          "sha256": "631a62baa14b98e9b3b4590cccb62b2023088a9dc02c88927b2917c5d7481a31"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_hull_home_b/design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          22,
+          1250,
+          1254
+        ],
+        "alpha_over_127_bbox": [
+          78,
+          323,
+          1177,
+          929
+        ],
+        "transparent_background_present": true,
+        "clean_background_pass": false,
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches; exact material assignment and shape details drift.",
+        "flat_even_light_pass": false,
+        "unresized_unmodified_return": true
+      },
+      "output_sha256": "39ad78fe6413e7e62c22817ae4c100cc458b5e5e17663937f1f41c96a7fe7fcf"
+    }
+  ]
+}

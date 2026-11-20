@@ -1,0 +1,98 @@
+{
+ "sprite": "7tree04",
+ "output": "mm7_deco_7tree04.glb",
+ "height_m": 6.5,
+ "note": "Dense broad oblong broadleaf crown from a quarter of the height to a flattish top, dark green with lighter lobed leaves on top, straight dark trunk.",
+ "sapling": {
+  "scale": 4.6,
+  "baseSplits": 0,
+  "baseSize": 0.3,
+  "splitHeight": 0.35,
+  "attractUp": [
+   0,
+   0.6,
+   0.35,
+   0
+  ],
+  "seed": 41,
+  "ratio": 0.04,
+  "segSplits": [
+   0,
+   0.25,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.22,
+  "centre": 0.6,
+  "clumps": 150,
+  "inner_clumps": 22,
+  "card": [
+   0.38,
+   0.48
+  ],
+  "outer_radius": [
+   0.32,
+   0.5
+  ],
+  "inner_radius": [
+   0.3,
+   0.42
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   66,
+   52,
+   48
+  ],
+  "clip_below_crown": true,
+  "root_reach": 0.25,
+  "roots": 0
+ },
+ "leaves": {
+  "target_srgb": [
+   112,
+   176,
+   84
+  ],
+  "seeds": [
+   401,
+   409,
+   419,
+   421
+  ],
+  "value": [
+   0.75,
+   1.5
+  ],
+  "jitter_red": [
+   0.85,
+   1.15
+  ]
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "tone": [
+   1.0,
+   0.9,
+   1.08
+  ]
+ },
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.32,
+  "range": 0.68,
+  "power": 1.2
+ },
+ "impostor_tone": [
+  0.92,
+  0.82,
+  1.0
+ ]
+}

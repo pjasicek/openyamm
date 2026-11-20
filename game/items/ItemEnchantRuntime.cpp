@@ -1,11 +1,14 @@
 #include "game/items/ItemEnchantRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/party/SkillData.h"
+#include "game/rules/GameRules.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/MonsterTable.h"
 
 #include <algorithm>
+#include <array>
 #include <limits>
 #include <vector>
 
@@ -177,8 +180,10 @@ int rareItemDamageMultiplierAgainstMonster(uint32_t itemId, uint32_t monsterKind
                 ? 2
                 : 1;
 
+        // Grognard's Cutlass names "Elf Slaying" in items.txt, which no special enchantment has (OY-553).
         case 1319:
         case 1333:
+        case 1354:
             return monsterHasKind(monsterKindFlags, MonsterKind::Elf) ? 2 : 1;
 
         case 2022:
@@ -276,7 +281,7 @@ void addSkillBonus(Character &member, const std::string &skillName, int amount)
         return;
     }
 
-    member.itemSkillBonuses[skillName] += amount;
+    member.itemSkillBonuses[canonicalSkillName(skillName)] += amount;
 }
 
 int learnedSkillLevel(const Character &member, const std::string &skillName)
@@ -301,9 +306,10 @@ void addHalfLearnedSkillBonus(Character &member, const std::string &skillName)
     }
 }
 
-void applyStandardEnchantBonus(Character &member, StandardItemEnchantKind kind, int amount)
+void addStandardEnchantBonus(Character &member, StandardItemEnchantKind kind, int amount)
 {
-    if (amount <= 0)
+    // A loss counts too: a MAW artifact's stat budget takes some stats down (Hell's Cleaver's Personality and Intellect).
+    if (amount == 0)
     {
         return;
     }
@@ -370,6 +376,10 @@ void applyStandardEnchantBonus(Character &member, StandardItemEnchantKind kind, 
             member.magicalBonuses.resistances.mind += amount;
             break;
 
+        case StandardItemEnchantKind::EnergyResistance:
+            member.energyResistance += amount;
+            break;
+
         case StandardItemEnchantKind::BodyResistance:
             member.magicalBonuses.resistances.body += amount;
             break;
@@ -411,8 +421,9 @@ void applyStandardEnchantBonus(Character &member, StandardItemEnchantKind kind, 
             break;
     }
 }
+}
 
-void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
+void ItemEnchantRuntime::applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
 {
     switch (kind)
     {
@@ -465,8 +476,11 @@ void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
             addConditionImmunity(member, CharacterCondition::Petrified);
             break;
 
-        case SpecialItemEnchantKind::Force:
         case SpecialItemEnchantKind::Carnage:
+            member.equippedItemEffectFlags.insert("ExplosiveArrows");
+            break;
+
+        case SpecialItemEnchantKind::Force:
         case SpecialItemEnchantKind::OgreSlaying:
         case SpecialItemEnchantKind::DragonSlaying:
         case SpecialItemEnchantKind::ElementalSlaying:
@@ -475,7 +489,7 @@ void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
             break;
 
         case SpecialItemEnchantKind::Power:
-            member.itemLevelBonus += 5;
+            member.equippedLevelBonus += 5;
             break;
 
         case SpecialItemEnchantKind::AirMagic:
@@ -700,6 +714,8 @@ void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
     }
 }
 
+namespace
+{
 void addAllPrimaryStats(Character &member, int amount)
 {
     member.magicalBonuses.might += amount;
@@ -799,7 +815,6 @@ ElementalDamageBonuses rareItemElementalDamageBonuses(uint32_t itemId)
         case 510: result.body = 20; break;
         case 525: result.fire = 20; break;
         case 529: result.air = 10; break;
-        case 541: result.water = 12; break;
         case 1303: result.air = 15; break;
         case 1308: result.fire = 10; break;
         case 1309: result.fire = 15; break;
@@ -1033,9 +1048,6 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
             member.magicalBonuses.armorClass -= 15;
             break;
 
-        case 541:
-            break;
-
         case 1302:
             member.magicalBonuses.speed += 40;
             member.attackRecoveryReductionTicks += 20;
@@ -1074,7 +1086,7 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
             break;
 
         case 1310:
-            member.weaponEnchantmentDamageBonus += 15;
+            member.meleeWeaponDamageBonus += 15;
             break;
 
         case 1311:
@@ -1245,16 +1257,9 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
             member.featherFalling = true;
             break;
 
-        case 1339:
-            addSkillBonus(member, "Alchemy", 15);
-            break;
-
-        case 1349: // Sun Cloak
-            addHalfLearnedSkillBonus(member, "LightMagic");
-            break;
-
-        case 1350: // Moon Cloak
-            addHalfLearnedSkillBonus(member, "DarkMagic");
+        // Medusa's Mirror: immune to stone, as in MMMerge (ExtraArtifacts.lua:986) and MAW (audit ITM-A5).
+        case 1341:
+            addConditionImmunity(member, CharacterCondition::Petrified);
             break;
 
         case 2020:
@@ -1263,19 +1268,19 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
 
         case 2021:
             member.magicalBonuses.might += 75;
-            member.weaponEnchantmentDamageBonus += 10;
+            member.meleeWeaponDamageBonus += 10;
             member.equippedItemEffectFlags.insert("ReelOnHit");
             break;
 
         case 2022:
             member.magicalBonuses.might += 75;
-            member.weaponEnchantmentDamageBonus += 10;
+            member.meleeWeaponDamageBonus += 10;
             break;
 
         case 2023:
         {
             member.magicalBonuses.might += 30;
-            member.weaponEnchantmentDamageBonus += 10;
+            member.meleeWeaponDamageBonus += 10;
             const int blessPower = mmergeItemBuffPower(member, "Sword");
             member.magicalBonuses.meleeAttack += blessPower;
             member.magicalBonuses.rangedAttack += blessPower;
@@ -1435,17 +1440,9 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
             member.magicalBonuses.personality -= 50;
             break;
 
-        case 542:
-            break;
-
-        case 538:
-        case 539:
-        case 540:
         default:
             break;
     }
-
-    member.weaponEnchantmentDamageBonus += rareItemElementalDamageBonuses(itemId).total();
 }
 
 int standardEnchantChanceForTreasureLevel(int treasureLevel)
@@ -1580,7 +1577,8 @@ bool ItemEnchantRuntime::isSpecialRarityAllowed(char rarityLevel, int treasureLe
 std::optional<uint16_t> ItemEnchantRuntime::chooseStandardEnchantId(
     const ItemDefinition &itemDefinition,
     const StandardItemEnchantTable &table,
-    std::mt19937 &rng)
+    std::mt19937 &rng,
+    const std::string &worldId)
 {
     const size_t slotIndex = standardSlotIndex(categoryForItem(itemDefinition));
 
@@ -1597,7 +1595,8 @@ std::optional<uint16_t> ItemEnchantRuntime::chooseStandardEnchantId(
         const StandardItemEnchantEntry &entry = table.entries()[index];
         const int weight = entry.slotValues[slotIndex];
 
-        if (entry.kind == StandardItemEnchantKind::None || weight <= 0)
+        if (entry.kind == StandardItemEnchantKind::None || weight <= 0
+            || (!entry.worlds.empty() && std::find(entry.worlds.begin(), entry.worlds.end(), worldId) == entry.worlds.end()))
         {
             continue;
         }
@@ -1619,7 +1618,8 @@ std::optional<uint16_t> ItemEnchantRuntime::chooseSpecialEnchantId(
     const ItemDefinition &itemDefinition,
     const SpecialItemEnchantTable &table,
     int treasureLevel,
-    std::mt19937 &rng)
+    std::mt19937 &rng,
+    const std::string &worldId)
 {
     const size_t slotIndex = specialSlotIndex(categoryForItem(itemDefinition));
 
@@ -1638,7 +1638,9 @@ std::optional<uint16_t> ItemEnchantRuntime::chooseSpecialEnchantId(
 
         if (entry.kind == SpecialItemEnchantKind::None
             || weight <= 0
-            || !isSpecialRarityAllowed(entry.rarityLevel, treasureLevel))
+            || !isSpecialRarityAllowed(entry.rarityLevel, treasureLevel)
+            || (!entry.worlds.empty() && std::find(entry.worlds.begin(), entry.worlds.end(), worldId) == entry.worlds.end())
+            || (!entry.requiredContentFlag.empty() && !itemDefinition.hasContentFlag(entry.requiredContentFlag)))
         {
             continue;
         }
@@ -1685,7 +1687,14 @@ std::string ItemEnchantRuntime::displayName(
     const StandardItemEnchantTable *pStandardTable,
     const SpecialItemEnchantTable *pSpecialTable)
 {
-    const std::string baseName = itemDefinition.name.empty() ? "Unknown item" : itemDefinition.name;
+    // The name and its enchantment in the interface language, each from its own table, put together by a template
+    // so a language can order them its own way ("Long Sword of Fire" is not every language's order).
+    const std::string baseName =
+        itemDefinition.name.empty() ? Engine::tr("Unknown item") : Engine::localize(itemDefinition.name);
+    const auto withSuffix = [&baseName](const std::string &enchantment)
+    {
+        return Engine::tr("{item} {enchantment}", {{"item", baseName}, {"enchantment", enchantment}});
+    };
 
     if (item.standardEnchantId != 0 && pStandardTable != nullptr)
     {
@@ -1693,7 +1702,7 @@ std::string ItemEnchantRuntime::displayName(
         {
             if (!pEntry->suffix.empty())
             {
-                return baseName + " " + pEntry->suffix;
+                return withSuffix(Engine::localize(pEntry->suffix));
             }
         }
     }
@@ -1704,7 +1713,10 @@ std::string ItemEnchantRuntime::displayName(
         {
             if (!pEntry->suffix.empty())
             {
-                return pEntry->displayAsPrefix ? (pEntry->suffix + " " + baseName) : (baseName + " " + pEntry->suffix);
+                const std::string suffix = Engine::localize(pEntry->suffix);
+                return pEntry->displayAsPrefix
+                    ? Engine::tr("{enchantment} {item}", {{"enchantment", suffix}, {"item", baseName}})
+                    : withSuffix(suffix);
             }
         }
     }
@@ -1760,7 +1772,7 @@ int ItemEnchantRuntime::itemValue(
     const StandardItemEnchantTable *pStandardTable,
     const SpecialItemEnchantTable *pSpecialTable)
 {
-    return calculateItemValue(item, itemDefinition, pStandardTable, pSpecialTable, 1);
+    return boundGameRules().items.itemValue(item, itemDefinition, pStandardTable, pSpecialTable, 1);
 }
 
 int ItemEnchantRuntime::itemInspectValue(
@@ -1769,7 +1781,22 @@ int ItemEnchantRuntime::itemInspectValue(
     const StandardItemEnchantTable *pStandardTable,
     const SpecialItemEnchantTable *pSpecialTable)
 {
-    return calculateItemValue(item, itemDefinition, pStandardTable, pSpecialTable, 0);
+    return boundGameRules().items.itemValue(item, itemDefinition, pStandardTable, pSpecialTable, 0);
+}
+
+int ItemEnchantRuntime::standardItemValue(
+    const InventoryItem &item,
+    const ItemDefinition &itemDefinition,
+    const StandardItemEnchantTable *pStandardTable,
+    const SpecialItemEnchantTable *pSpecialTable,
+    int minimumValue)
+{
+    return calculateItemValue(item, itemDefinition, pStandardTable, pSpecialTable, minimumValue);
+}
+
+void ItemEnchantRuntime::applyStandardEnchantBonus(Character &member, StandardItemEnchantKind kind, int amount)
+{
+    addStandardEnchantBonus(member, kind, amount);
 }
 
 std::string ItemEnchantRuntime::buildEnchantDescription(
@@ -1783,7 +1810,8 @@ std::string ItemEnchantRuntime::buildEnchantDescription(
         {
             if (!pEntry->statName.empty() && item.standardEnchantPower > 0)
             {
-                return pEntry->statName + " +" + std::to_string(item.standardEnchantPower);
+                return Engine::tr("{stat} +{power}",
+                    {{"stat", Engine::localize(pEntry->statName)}, {"power", int(item.standardEnchantPower)}});
             }
         }
     }
@@ -1792,7 +1820,7 @@ std::string ItemEnchantRuntime::buildEnchantDescription(
     {
         if (const SpecialItemEnchantEntry *pEntry = pSpecialTable->get(item.specialEnchantId))
         {
-            return pEntry->description;
+            return Engine::localize(pEntry->description);
         }
     }
 
@@ -1820,13 +1848,32 @@ void ItemEnchantRuntime::applyEquippedEnchantEffects(
         applyRareItemBonus(member, rareItemId);
     }
 
-    applyContentEffect(itemDefinition.contentEffect, member);
+    // A weapon's own damage bonus joins only its own attacks.
+    const ItemEnchantCategory category = categoryForItem(itemDefinition);
+    const bool rangedWeapon =
+        category == ItemEnchantCategory::Missile || canonicalSkillName(itemDefinition.skillGroup) == "Blaster";
+    applyContentEffect(
+        itemDefinition.contentEffect,
+        member,
+        rangedWeapon ? WeaponDamageScope::Ranged
+            : isMeleeWeaponCategory(category) ? WeaponDamageScope::Melee
+            : WeaponDamageScope::AllAttacks);
+
+    // Its content flags (FireImmune, SealedBreathing, ...), as an implant's arrive through its socket.
+    member.equippedItemEffectFlags.insert(itemDefinition.contentFlags.begin(), itemDefinition.contentFlags.end());
+
+    if (itemDefinition.contentEffect.personalShield > 0)
+    {
+        // Emitters' pools grow with Shield Tech (Party::refreshPersonalShieldCapacity); armour's do not.
+        (canonicalSkillName(itemDefinition.skillGroup) == "ShieldTech"
+            ? member.emitterShieldPoints : member.armorShieldPoints) += itemDefinition.contentEffect.personalShield;
+    }
 
     if (runtimeState.standardEnchantId != 0 && pStandardTable != nullptr)
     {
         if (const StandardItemEnchantEntry *pEntry = pStandardTable->get(runtimeState.standardEnchantId))
         {
-            applyStandardEnchantBonus(
+            addStandardEnchantBonus(
                 member,
                 pEntry->kind,
                 std::max(1, static_cast<int>(runtimeState.standardEnchantPower)));
@@ -1838,29 +1885,52 @@ void ItemEnchantRuntime::applyEquippedEnchantEffects(
         if (const SpecialItemEnchantEntry *pEntry = pSpecialTable->get(runtimeState.specialEnchantId))
         {
             applySpecialEnchantBonus(member, pEntry->kind);
-            member.weaponEnchantmentDamageBonus += elementalDamageBonus(
-                InventoryItem{
-                    itemDefinition.itemId,
-                    1,
-                    1,
-                    1,
-                    0,
-                    0,
-                    true,
-                    false,
-                    false,
-                    0,
-                    0,
-                    runtimeState.specialEnchantId,
-                    0},
-                pSpecialTable);
+
+            // A world's own enchantment: its worn effects, and on a weapon what its attacks add (a gun's or bow's
+            // to the ranged attack, any other weapon's to the melee one).
+            if (pEntry->kind == SpecialItemEnchantKind::World)
+            {
+                const WorldEnchantEffect &effect = pEntry->worldEffect;
+                member.armorShieldPoints += effect.personalShield;
+                member.energyDamageTakenPercent += effect.energyDamageTakenPercent;
+
+                if (isWeaponCategory(category))
+                {
+                    WorldEnchantEffect &weapon = category == ItemEnchantCategory::Missile
+                            || canonicalSkillName(itemDefinition.skillGroup) == "Blaster"
+                        ? member.rangedWeaponEnchant : member.meleeWeaponEnchant;
+                    weapon.shieldDamagePercent += effect.shieldDamagePercent;
+                    weapon.exposedDamagePercent += effect.exposedDamagePercent;
+                    weapon.overloadChancePercent += effect.overloadChancePercent;
+                    weapon.energyDamageMinimum += effect.energyDamageMinimum;
+                    weapon.energyDamageMaximum += effect.energyDamageMaximum;
+
+                    if (effect.bonusDamagePercent > weapon.bonusDamagePercent)
+                    {
+                        weapon.bonusDamagePercent = effect.bonusDamagePercent;
+                        weapon.bonusMonsterIds = effect.bonusMonsterIds;
+                    }
+                }
+            }
         }
     }
 }
 
-void ItemEnchantRuntime::applyContentEffect(const ItemContentEffect &effect, Character &member)
+void ItemEnchantRuntime::applyContentEffect(
+    const ItemContentEffect &effect,
+    Character &member,
+    WeaponDamageScope weaponDamageScope)
 {
     member.magicalBonuses.might += effect.might;
+    member.energyResistance += effect.energyResistance;
+    member.shieldRegenDelaySeconds += effect.shieldRegenDelaySeconds;
+    member.humPoints += effect.humPoints;
+    member.rangedDamagePercent += effect.rangedDamagePercent;
+    member.meleeDamagePercent += effect.meleeDamagePercent;
+    member.spellDamagePercent += effect.spellDamagePercent;
+    member.energyDamageTakenPercent += effect.energyDamageTakenPercent;
+    member.gunRecoveryReductionTicks += effect.gunRecoveryReductionTicks;
+    member.meleeRecoveryReductionTicks += effect.meleeRecoveryReductionTicks;
     member.magicalBonuses.intellect += effect.intellect;
     member.magicalBonuses.personality += effect.personality;
     member.magicalBonuses.endurance += effect.endurance;
@@ -1881,7 +1951,8 @@ void ItemEnchantRuntime::applyContentEffect(const ItemContentEffect &effect, Cha
     member.magicalBonuses.resistances.mind += effect.allResistances + effect.mindResistance;
     member.magicalBonuses.resistances.body += effect.allResistances + effect.bodyResistance;
     member.magicalBonuses.resistances.spirit += effect.allResistances + effect.spiritResistance;
-    member.weaponEnchantmentDamageBonus += effect.weaponDamage;
+    member.meleeWeaponDamageBonus += weaponDamageScope != WeaponDamageScope::Ranged ? effect.weaponDamage : 0;
+    member.rangedWeaponDamageBonus += weaponDamageScope != WeaponDamageScope::Melee ? effect.weaponDamage : 0;
     member.attackRecoveryReductionTicks += effect.recoveryReductionTicks;
     member.healthRegenPerSecond += effect.healthRegenPerSecond;
     member.spellRegenPerSecond += effect.spellRegenPerSecond;
@@ -2039,78 +2110,183 @@ int ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
     return multiplier;
 }
 
-int ItemEnchantRuntime::elementalDamageBonus(const InventoryItem &item, const SpecialItemEnchantTable *pSpecialTable)
+namespace
 {
-    if (item.specialEnchantId == 0 || pSpecialTable == nullptr)
+constexpr std::array<int ElementalDamageBonuses::*, 6> AllElements = {
+    &ElementalDamageBonuses::fire,
+    &ElementalDamageBonuses::air,
+    &ElementalDamageBonuses::water,
+    &ElementalDamageBonuses::body,
+    &ElementalDamageBonuses::light,
+    &ElementalDamageBonuses::dark,
+};
+
+// One elemental addition to a hit: the element that resists it and its damage range.
+struct ElementalDamageSource
+{
+    int ElementalDamageBonuses::*pElement = nullptr;
+    int minimum = 0;
+    int maximum = 0;
+};
+
+// The shipped table's ranges (special_item_enchants.txt), rolled for each hit as MM8 rolls them.
+std::optional<ElementalDamageSource> specialEnchantElementalDamage(SpecialItemEnchantKind kind)
+{
+    switch (kind)
     {
-        return 0;
-    }
-
-    const SpecialItemEnchantEntry *pEntry = pSpecialTable->get(item.specialEnchantId);
-
-    if (pEntry == nullptr)
-    {
-        return 0;
-    }
-
-    switch (pEntry->kind)
-    {
-        case SpecialItemEnchantKind::Cold:
-            return 4;
-
-        case SpecialItemEnchantKind::Frost:
-            return 8;
-
-        case SpecialItemEnchantKind::Ice:
-            return 12;
-
-        case SpecialItemEnchantKind::Sparks:
-            return 5;
-
-        case SpecialItemEnchantKind::Lightning:
-            return 10;
-
-        case SpecialItemEnchantKind::Thunderbolts:
-            return 15;
-
-        case SpecialItemEnchantKind::Fire:
-            return 6;
-
-        case SpecialItemEnchantKind::Flame:
-            return 12;
-
-        case SpecialItemEnchantKind::Infernos:
-            return 18;
-
-        case SpecialItemEnchantKind::Poison:
-            return 5;
-
-        case SpecialItemEnchantKind::Venom:
-            return 8;
-
-        case SpecialItemEnchantKind::Acid:
-            return 12;
-
-        case SpecialItemEnchantKind::TheDragon:
-            return 20;
-
-        case SpecialItemEnchantKind::Assassins:
-            return 5;
-
-        case SpecialItemEnchantKind::Barbarians:
-            return 8;
-
-        case SpecialItemEnchantKind::None:
-        default:
-            return 0;
+        case SpecialItemEnchantKind::Cold: return ElementalDamageSource{&ElementalDamageBonuses::water, 3, 4};
+        case SpecialItemEnchantKind::Frost: return ElementalDamageSource{&ElementalDamageBonuses::water, 6, 8};
+        case SpecialItemEnchantKind::Ice: return ElementalDamageSource{&ElementalDamageBonuses::water, 9, 12};
+        case SpecialItemEnchantKind::Barbarians: return ElementalDamageSource{&ElementalDamageBonuses::water, 6, 8};
+        case SpecialItemEnchantKind::Sparks: return ElementalDamageSource{&ElementalDamageBonuses::air, 2, 5};
+        case SpecialItemEnchantKind::Lightning: return ElementalDamageSource{&ElementalDamageBonuses::air, 4, 10};
+        case SpecialItemEnchantKind::Thunderbolts: return ElementalDamageSource{&ElementalDamageBonuses::air, 6, 15};
+        case SpecialItemEnchantKind::Fire: return ElementalDamageSource{&ElementalDamageBonuses::fire, 1, 6};
+        case SpecialItemEnchantKind::Flame: return ElementalDamageSource{&ElementalDamageBonuses::fire, 2, 12};
+        case SpecialItemEnchantKind::Infernos: return ElementalDamageSource{&ElementalDamageBonuses::fire, 3, 18};
+        case SpecialItemEnchantKind::TheDragon: return ElementalDamageSource{&ElementalDamageBonuses::fire, 10, 20};
+        case SpecialItemEnchantKind::Poison: return ElementalDamageSource{&ElementalDamageBonuses::body, 5, 5};
+        case SpecialItemEnchantKind::Venom: return ElementalDamageSource{&ElementalDamageBonuses::body, 8, 8};
+        case SpecialItemEnchantKind::Acid: return ElementalDamageSource{&ElementalDamageBonuses::body, 12, 12};
+        case SpecialItemEnchantKind::Assassins: return ElementalDamageSource{&ElementalDamageBonuses::body, 5, 5};
+        default: return std::nullopt;
     }
 }
 
-ElementalDamageBonuses ItemEnchantRuntime::characterAttackElementalDamageBonuses(
+// Calls visit(definition, runtime state) for each intact weapon an attack strikes with: both hands for a blow, the
+// bow slot for an arrow.
+template <typename Visit>
+void forEachAttackWeapon(
+    const Character &character,
+    CharacterAttackMode attackMode,
+    const ItemTable &itemTable,
+    Visit visit)
+{
+    const auto visitWeapon = [&](uint32_t itemId, const EquippedItemRuntimeState &runtimeState)
+    {
+        const ItemDefinition *pDefinition = itemId != 0 && !runtimeState.broken ? itemTable.get(itemId) : nullptr;
+
+        if (pDefinition == nullptr)
+        {
+            return;
+        }
+
+        const ItemEnchantCategory category = ItemEnchantRuntime::categoryForItem(*pDefinition);
+
+        if (attackMode == CharacterAttackMode::Melee
+                ? isMeleeWeaponCategory(category)
+                : category == ItemEnchantCategory::Missile)
+        {
+            visit(*pDefinition, runtimeState);
+        }
+    };
+
+    if (attackMode == CharacterAttackMode::Melee)
+    {
+        visitWeapon(character.equipment.mainHand, character.equipmentRuntime.mainHand);
+        visitWeapon(character.equipment.offHand, character.equipmentRuntime.offHand);
+    }
+    else if (attackMode == CharacterAttackMode::Bow)
+    {
+        visitWeapon(character.equipment.bow, character.equipmentRuntime.bow);
+    }
+}
+
+// Calls visit(source) for each elemental addition of an attack's weapons: damage enchantments and artifacts.
+template <typename Visit>
+void forEachAttackElementalDamage(
+    const Character &character,
+    CharacterAttackMode attackMode,
+    const ItemTable &itemTable,
+    const SpecialItemEnchantTable *pSpecialTable,
+    Visit visit)
+{
+    forEachAttackWeapon(
+        character,
+        attackMode,
+        itemTable,
+        [pSpecialTable, &visit](const ItemDefinition &definition, const EquippedItemRuntimeState &runtimeState)
+        {
+            const SpecialItemEnchantEntry *pEntry = runtimeState.specialEnchantId != 0 && pSpecialTable != nullptr
+                ? pSpecialTable->get(runtimeState.specialEnchantId)
+                : nullptr;
+
+            if (pEntry != nullptr)
+            {
+                if (const std::optional<ElementalDamageSource> source = specialEnchantElementalDamage(pEntry->kind))
+                {
+                    visit(*source);
+                }
+            }
+
+            const ElementalDamageBonuses rareDamage =
+                rareItemElementalDamageBonuses(rareItemId(definition, runtimeState));
+
+            for (int ElementalDamageBonuses::*pElement : AllElements)
+            {
+                if (rareDamage.*pElement != 0)
+                {
+                    visit(ElementalDamageSource{pElement, rareDamage.*pElement, rareDamage.*pElement});
+                }
+            }
+        });
+}
+}
+
+ElementalDamageRange ItemEnchantRuntime::characterAttackElementalDamageRange(
     const Character &character,
     CharacterAttackMode attackMode,
     const ItemTable *pItemTable,
     const SpecialItemEnchantTable *pSpecialTable)
+{
+    ElementalDamageRange range = {};
+
+    if (pItemTable != nullptr)
+    {
+        forEachAttackElementalDamage(
+            character,
+            attackMode,
+            *pItemTable,
+            pSpecialTable,
+            [&range](const ElementalDamageSource &source)
+            {
+                range.minimum.*source.pElement += source.minimum;
+                range.maximum.*source.pElement += source.maximum;
+            });
+    }
+
+    return range;
+}
+
+ElementalDamageBonuses ItemEnchantRuntime::rollCharacterAttackElementalDamage(
+    const Character &character,
+    CharacterAttackMode attackMode,
+    const ItemTable *pItemTable,
+    const SpecialItemEnchantTable *pSpecialTable,
+    std::mt19937 &rng)
+{
+    ElementalDamageBonuses damage = {};
+
+    if (pItemTable != nullptr)
+    {
+        forEachAttackElementalDamage(
+            character,
+            attackMode,
+            *pItemTable,
+            pSpecialTable,
+            [&damage, &rng](const ElementalDamageSource &source)
+            {
+                damage.*source.pElement += std::uniform_int_distribution<int>(source.minimum, source.maximum)(rng);
+            });
+    }
+
+    return damage;
+}
+
+ElementalDamageBonuses ItemEnchantRuntime::characterWeaponDamageElements(
+    const Character &character,
+    CharacterAttackMode attackMode,
+    const ItemTable *pItemTable)
 {
     ElementalDamageBonuses result = {};
 
@@ -2119,111 +2295,22 @@ ElementalDamageBonuses ItemEnchantRuntime::characterAttackElementalDamageBonuses
         return result;
     }
 
-    const auto addSpecialEnchantDamage =
-        [pSpecialTable, &result](uint16_t specialEnchantId)
-    {
-        const SpecialItemEnchantEntry *pEntry =
-            specialEnchantId != 0 && pSpecialTable != nullptr ? pSpecialTable->get(specialEnchantId) : nullptr;
-
-        if (pEntry == nullptr)
+    // A weapon whose own damage bonus is poison or disease (MM9 Integris) has it resisted as body damage; the rest of
+    // the hit stays physical.
+    forEachAttackWeapon(
+        character,
+        attackMode,
+        *pItemTable,
+        [&result](const ItemDefinition &definition, const EquippedItemRuntimeState &)
         {
-            return;
-        }
+            const std::vector<std::string> &flags = definition.contentEffect.flags;
 
-        const int damage = elementalDamageBonus(
-            InventoryItem{.specialEnchantId = specialEnchantId},
-            pSpecialTable);
-
-        switch (pEntry->kind)
-        {
-            case SpecialItemEnchantKind::Cold:
-            case SpecialItemEnchantKind::Frost:
-            case SpecialItemEnchantKind::Ice:
-            case SpecialItemEnchantKind::Barbarians:
-                result.water += damage;
-                break;
-            case SpecialItemEnchantKind::Sparks:
-            case SpecialItemEnchantKind::Lightning:
-            case SpecialItemEnchantKind::Thunderbolts:
-                result.air += damage;
-                break;
-            case SpecialItemEnchantKind::Fire:
-            case SpecialItemEnchantKind::Flame:
-            case SpecialItemEnchantKind::Infernos:
-            case SpecialItemEnchantKind::TheDragon:
-                result.fire += damage;
-                break;
-            case SpecialItemEnchantKind::Poison:
-            case SpecialItemEnchantKind::Venom:
-            case SpecialItemEnchantKind::Acid:
-            case SpecialItemEnchantKind::Assassins:
-                result.body += damage;
-                break;
-            default:
-                break;
-        }
-    };
-    const auto addRareItemDamage = [&result](uint32_t itemId)
-    {
-        const ElementalDamageBonuses rareDamage = rareItemElementalDamageBonuses(itemId);
-        result.fire += rareDamage.fire;
-        result.air += rareDamage.air;
-        result.water += rareDamage.water;
-        result.body += rareDamage.body;
-        result.light += rareDamage.light;
-        result.dark += rareDamage.dark;
-    };
-    const auto addWeapon =
-        [pItemTable, attackMode, &addSpecialEnchantDamage, &addRareItemDamage, &result](
-            uint32_t itemId,
-            const EquippedItemRuntimeState &runtimeState)
-    {
-        if (itemId == 0 || runtimeState.broken)
-        {
-            return;
-        }
-
-        const ItemDefinition *pDefinition = pItemTable->get(itemId);
-
-        if (pDefinition == nullptr)
-        {
-            return;
-        }
-
-        const ItemEnchantCategory category = categoryForItem(*pDefinition);
-        const bool correctWeapon =
-            attackMode == CharacterAttackMode::Melee
-                ? isMeleeWeaponCategory(category)
-                : attackMode == CharacterAttackMode::Bow && category == ItemEnchantCategory::Missile;
-
-        if (!correctWeapon)
-        {
-            return;
-        }
-
-        addSpecialEnchantDamage(runtimeState.specialEnchantId);
-        addRareItemDamage(rareItemId(*pDefinition, runtimeState));
-
-        // A weapon whose own damage bonus is poison or disease (MM9 Integris) adds it as body damage; the rest of
-        // the hit stays physical.
-        const std::vector<std::string> &flags = pDefinition->contentEffect.flags;
-
-        if (std::find(flags.begin(), flags.end(), "PoisonWeaponDamage") != flags.end()
-            || std::find(flags.begin(), flags.end(), "DiseaseWeaponDamage") != flags.end())
-        {
-            result.body += pDefinition->contentEffect.weaponDamage;
-        }
-    };
-
-    if (attackMode == CharacterAttackMode::Melee)
-    {
-        addWeapon(character.equipment.mainHand, character.equipmentRuntime.mainHand);
-        addWeapon(character.equipment.offHand, character.equipmentRuntime.offHand);
-    }
-    else if (attackMode == CharacterAttackMode::Bow)
-    {
-        addWeapon(character.equipment.bow, character.equipmentRuntime.bow);
-    }
+            if (std::find(flags.begin(), flags.end(), "PoisonWeaponDamage") != flags.end()
+                || std::find(flags.begin(), flags.end(), "DiseaseWeaponDamage") != flags.end())
+            {
+                result.body += definition.contentEffect.weaponDamage;
+            }
+        });
 
     return result;
 }

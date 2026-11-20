@@ -106,8 +106,17 @@ struct IndoorLightingFrameInput
     const std::vector<std::vector<IndoorVisibilityFrustum>> *pVisibleSectorFrustums = nullptr;
     bx::Vec3 cameraPosition = {0.0f, 0.0f, 0.0f};
     bool coloredLights = true;
+    bool warmTorchLight = false;
     // FX lights per sector before nearby ones merge (FxLightClusterThresholdHigh/Low, by the light grid's quality).
     uint32_t fxClusterThreshold = FxLightClusterThresholdHigh;
+    // Scene model_lighting (MM9 lights its models without occlusion): a static light joins the frame when its sphere
+    // reaches any visible room's view, not only through the rooms it reaches.
+    bool lightsIgnoreReach = false;
+    // The renderer's clock: the scene pulsing lights' phase.
+    float timeSeconds = 0.0f;
+    // The open air's map lights' strength now (indoorOpenAirLightScale, scene daylight): the sprites, decorations and
+    // creatures sample them as the faces take their share of the vertex light. 1: as authored (every other map).
+    float openAirLightScale = 1.0f;
 };
 
 class IndoorLightingRuntime
@@ -122,6 +131,8 @@ public:
 
     static bool isBlvLightEnabledByState(uint32_t attributes, const EventRuntimeState *pState, size_t lightId);
     static float ambientFromMinAmbientLightLevel(int minAmbientLightLevel);
+    // A sector's ambient level (0-31): an event's evt.SetSectorAmbient, else the map's minAmbientLightLevel.
+    static int sectorAmbientLevel(const IndoorMapData &mapData, const EventRuntimeState *pState, size_t sectorId);
     // The sector's own ambient; the frame's for no sector.
     static float sectorAmbient(const IndoorLightingFrame &frame, int16_t sectorId);
     const IndoorLightReach &lightReach() const
@@ -133,6 +144,16 @@ public:
     {
         return lightId < m_mapLightSectors.size() ? m_mapLightSectors[lightId] : int16_t(-1);
     }
+    // The strength a map light's colour carries in the frame (its alpha and the renderer's light scale): the scene
+    // model_lighting divides it out to light models at the BLV light's own colour.
+    static float mapLightStrength();
+    // MM9's model light at a point without N.L (scene model_lighting, for sprites): every light of the frame (MM9 has
+    // no occlusion), its colour at map-light strength x lightScale x (1 - d^2/r^2); without the room ambient,
+    // unclamped.
+    static std::array<float, 3> sampleModelLightRgb(
+        const IndoorLightingFrame &frame,
+        const bx::Vec3 &position,
+        float lightScale);
     static std::array<float, 3> sampleLightingRgb(
         const IndoorLightingFrame &frame,
         const bx::Vec3 &position,
@@ -214,5 +235,7 @@ private:
     mutable StaticLightCache m_staticLightCache;
     IndoorLightReach m_lightReach;
     std::vector<int16_t> m_mapLightSectors;
+    // Each scene pulsing light's sector (where it stands; -1 outside every sector).
+    std::vector<int16_t> m_pulsingLightSectors;
 };
 }

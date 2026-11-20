@@ -1,0 +1,1981 @@
+{
+  "runtime_tiles": 36,
+  "unique_join_checks": 211,
+  "placed_joins": 8524,
+  "failures": [
+    {
+      "a": "6grdrtn",
+      "direction": "east",
+      "b": "6grdrtxnw",
+      "count": 35,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "south",
+      "b": "6grdrte",
+      "count": 18,
+      "max_rgb_difference": 31,
+      "mean_rgb_difference": 0.5455729166666666,
+      "pass": false
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "south",
+      "b": "6grdrtse",
+      "count": 12,
+      "max_rgb_difference": 31,
+      "mean_rgb_difference": 0.5455729166666666,
+      "pass": false
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "south",
+      "b": "6grdrtxne",
+      "count": 32,
+      "max_rgb_difference": 31,
+      "mean_rgb_difference": 0.5455729166666666,
+      "pass": false
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "east",
+      "b": "6grdrtn",
+      "count": 33,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "east",
+      "b": "6grdrtne",
+      "count": 10,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "east",
+      "b": "6grdrtn",
+      "count": 29,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "east",
+      "b": "6grdrtne",
+      "count": 25,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    }
+  ],
+  "checks": [
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 1023,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6drsrn_e",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6drsrns",
+      "count": 19,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6drsrs_e",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6drsrwcap",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6grdrtnw",
+      "count": 30,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6grdrtsw",
+      "count": 31,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "6grdrtw",
+      "count": 28,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "voldrtnw",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "voldrtsw",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "east",
+      "b": "voldrtw",
+      "count": 12,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 1005,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6drsrecap",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6drsrew",
+      "count": 37,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6drsrew_s",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6drsrs_e",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6drsrs_w",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6drsrwcap",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6grdrtn",
+      "count": 45,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6grdrtne",
+      "count": 23,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "6grdrtnw",
+      "count": 27,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "voldrtn",
+      "count": 15,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "voldrtne",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6dirttyl",
+      "direction": "south",
+      "b": "voldrtnw",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrecap",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrecap",
+      "direction": "east",
+      "b": "6grdrtw",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrecap",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrecap",
+      "direction": "south",
+      "b": "6grdrtn",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrecap",
+      "direction": "south",
+      "b": "6grdrtne",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "east",
+      "b": "6drsrecap",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "east",
+      "b": "6drsrew",
+      "count": 74,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "east",
+      "b": "6drsrew_s",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "east",
+      "b": "6drsrn_w",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "east",
+      "b": "6drsrs_w",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 35,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "south",
+      "b": "6grdrtn",
+      "count": 44,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "south",
+      "b": "6grdrtne",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew",
+      "direction": "south",
+      "b": "6grdrtnw",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew_s",
+      "direction": "east",
+      "b": "6drsrew",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrew_s",
+      "direction": "south",
+      "b": "6drsrns",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_e",
+      "direction": "east",
+      "b": "6drsrew",
+      "count": 8,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_e",
+      "direction": "east",
+      "b": "6drsrew_s",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_e",
+      "direction": "east",
+      "b": "6drsrs_w",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_e",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_e",
+      "direction": "south",
+      "b": "6grdrtn",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_e",
+      "direction": "south",
+      "b": "6grdrtne",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_w",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_w",
+      "direction": "east",
+      "b": "6grdrtw",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_w",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_w",
+      "direction": "south",
+      "b": "6grdrtn",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrn_w",
+      "direction": "south",
+      "b": "6grdrtnw",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrns",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 19,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrns",
+      "direction": "east",
+      "b": "6grdrtnw",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrns",
+      "direction": "east",
+      "b": "6grdrtsw",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrns",
+      "direction": "east",
+      "b": "6grdrtw",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrns",
+      "direction": "south",
+      "b": "6drsrn_e",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrns",
+      "direction": "south",
+      "b": "6drsrn_w",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrns",
+      "direction": "south",
+      "b": "6drsrns",
+      "count": 20,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_e",
+      "direction": "east",
+      "b": "6drsrew",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_e",
+      "direction": "east",
+      "b": "6drsrn_w",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_e",
+      "direction": "south",
+      "b": "6drsrns",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_w",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_w",
+      "direction": "east",
+      "b": "6grdrtsw",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_w",
+      "direction": "east",
+      "b": "6grdrtw",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_w",
+      "direction": "south",
+      "b": "6drsrn_e",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrs_w",
+      "direction": "south",
+      "b": "6drsrns",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrwcap",
+      "direction": "east",
+      "b": "6drsrew",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrwcap",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6drsrwcap",
+      "direction": "south",
+      "b": "6grdrtnw",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "east",
+      "b": "6grastyl",
+      "count": 1278,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "east",
+      "b": "6grdrte",
+      "count": 78,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "east",
+      "b": "6grdrtxne",
+      "count": 43,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "east",
+      "b": "6grdrtxse",
+      "count": 59,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "south",
+      "b": "6grastyl",
+      "count": 1217,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "south",
+      "b": "6grdrts",
+      "count": 128,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "south",
+      "b": "6grdrtxse",
+      "count": 57,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grastyl",
+      "direction": "south",
+      "b": "6grdrtxsw",
+      "count": 56,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrte",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 36,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrte",
+      "direction": "east",
+      "b": "6drsrn_e",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrte",
+      "direction": "east",
+      "b": "6drsrns",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrte",
+      "direction": "east",
+      "b": "6drsrs_e",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrte",
+      "direction": "south",
+      "b": "6grdrte",
+      "count": 38,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrte",
+      "direction": "south",
+      "b": "6grdrtse",
+      "count": 28,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrte",
+      "direction": "south",
+      "b": "6grdrtxne",
+      "count": 23,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtn",
+      "direction": "east",
+      "b": "6grdrtn",
+      "count": 92,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtn",
+      "direction": "east",
+      "b": "6grdrtne",
+      "count": 28,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtn",
+      "direction": "east",
+      "b": "6grdrtxnw",
+      "count": 35,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtn",
+      "direction": "south",
+      "b": "6grastyl",
+      "count": 138,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtn",
+      "direction": "south",
+      "b": "6grdrts",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtn",
+      "direction": "south",
+      "b": "6grdrtxse",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtn",
+      "direction": "south",
+      "b": "6grdrtxsw",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 27,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "east",
+      "b": "6drsrn_e",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "east",
+      "b": "6drsrns",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "south",
+      "b": "6grdrte",
+      "count": 18,
+      "max_rgb_difference": 31,
+      "mean_rgb_difference": 0.5455729166666666,
+      "pass": false
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "south",
+      "b": "6grdrtse",
+      "count": 12,
+      "max_rgb_difference": 31,
+      "mean_rgb_difference": 0.5455729166666666,
+      "pass": false
+    },
+    {
+      "a": "6grdrtne",
+      "direction": "south",
+      "b": "6grdrtxne",
+      "count": 32,
+      "max_rgb_difference": 31,
+      "mean_rgb_difference": 0.5455729166666666,
+      "pass": false
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "east",
+      "b": "6grdrtn",
+      "count": 33,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "east",
+      "b": "6grdrtne",
+      "count": 10,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "east",
+      "b": "6grdrtxnw",
+      "count": 34,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "south",
+      "b": "6grdrtsw",
+      "count": 10,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "south",
+      "b": "6grdrtw",
+      "count": 21,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtnw",
+      "direction": "south",
+      "b": "6grdrtxnw",
+      "count": 46,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "east",
+      "b": "6grdrts",
+      "count": 82,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "east",
+      "b": "6grdrtse",
+      "count": 28,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "east",
+      "b": "6grdrtxsw",
+      "count": 33,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 57,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "south",
+      "b": "6drsrecap",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "south",
+      "b": "6drsrew",
+      "count": 43,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "south",
+      "b": "6drsrs_e",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "south",
+      "b": "6drsrs_w",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrts",
+      "direction": "south",
+      "b": "6drsrwcap",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtse",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 33,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtse",
+      "direction": "east",
+      "b": "6drsrns",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtse",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 28,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtse",
+      "direction": "south",
+      "b": "6drsrecap",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtse",
+      "direction": "south",
+      "b": "6drsrew",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtse",
+      "direction": "south",
+      "b": "6drsrs_e",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "east",
+      "b": "6grdrts",
+      "count": 29,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "east",
+      "b": "6grdrtse",
+      "count": 12,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "east",
+      "b": "6grdrtxsw",
+      "count": 29,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 24,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "south",
+      "b": "6drsrew",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "south",
+      "b": "6drsrew_s",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "south",
+      "b": "6drsrs_w",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtsw",
+      "direction": "south",
+      "b": "6drsrwcap",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtw",
+      "direction": "east",
+      "b": "6grastyl",
+      "count": 59,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtw",
+      "direction": "east",
+      "b": "6grdrte",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtw",
+      "direction": "east",
+      "b": "6grdrtxne",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtw",
+      "direction": "east",
+      "b": "6grdrtxse",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtw",
+      "direction": "south",
+      "b": "6grdrtsw",
+      "count": 16,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtw",
+      "direction": "south",
+      "b": "6grdrtw",
+      "count": 32,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtw",
+      "direction": "south",
+      "b": "6grdrtxnw",
+      "count": 23,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "east",
+      "b": "6grdrtn",
+      "count": 29,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "east",
+      "b": "6grdrtne",
+      "count": 25,
+      "max_rgb_difference": 36,
+      "mean_rgb_difference": 0.4557291666666667,
+      "pass": false
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "south",
+      "b": "6grastyl",
+      "count": 47,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "south",
+      "b": "6grdrts",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "south",
+      "b": "6grdrtxse",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxne",
+      "direction": "south",
+      "b": "6grdrtxsw",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "east",
+      "b": "6grastyl",
+      "count": 57,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "east",
+      "b": "6grdrte",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "east",
+      "b": "6grdrtxne",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "east",
+      "b": "6grdrtxse",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "south",
+      "b": "6grastyl",
+      "count": 56,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "south",
+      "b": "6grdrts",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "south",
+      "b": "6grdrtxse",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxnw",
+      "direction": "south",
+      "b": "6grdrtxsw",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxse",
+      "direction": "east",
+      "b": "6grdrts",
+      "count": 32,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxse",
+      "direction": "east",
+      "b": "6grdrtse",
+      "count": 41,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxse",
+      "direction": "south",
+      "b": "6grdrte",
+      "count": 32,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxse",
+      "direction": "south",
+      "b": "6grdrtse",
+      "count": 41,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxsw",
+      "direction": "east",
+      "b": "6grastyl",
+      "count": 49,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxsw",
+      "direction": "east",
+      "b": "6grdrte",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxsw",
+      "direction": "east",
+      "b": "6grdrtxne",
+      "count": 5,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxsw",
+      "direction": "east",
+      "b": "6grdrtxse",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxsw",
+      "direction": "south",
+      "b": "6grdrtsw",
+      "count": 44,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6grdrtxsw",
+      "direction": "south",
+      "b": "6grdrtw",
+      "count": 18,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "east",
+      "b": "6voltyl",
+      "count": 344,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "east",
+      "b": "voldrte",
+      "count": 26,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "east",
+      "b": "voldrtxne",
+      "count": 17,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "east",
+      "b": "voldrtxse",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "south",
+      "b": "6voltyl",
+      "count": 331,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "south",
+      "b": "voldrts",
+      "count": 41,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "south",
+      "b": "voldrtxse",
+      "count": 8,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "6voltyl",
+      "direction": "south",
+      "b": "voldrtxsw",
+      "count": 14,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrte",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 13,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrte",
+      "direction": "south",
+      "b": "voldrte",
+      "count": 16,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrte",
+      "direction": "south",
+      "b": "voldrtse",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrte",
+      "direction": "south",
+      "b": "voldrtxne",
+      "count": 8,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtn",
+      "direction": "east",
+      "b": "voldrtn",
+      "count": 16,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtn",
+      "direction": "east",
+      "b": "voldrtne",
+      "count": 8,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtn",
+      "direction": "east",
+      "b": "voldrtxnw",
+      "count": 8,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtn",
+      "direction": "south",
+      "b": "6voltyl",
+      "count": 32,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtne",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtne",
+      "direction": "south",
+      "b": "voldrte",
+      "count": 10,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtne",
+      "direction": "south",
+      "b": "voldrtxne",
+      "count": 11,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtnw",
+      "direction": "east",
+      "b": "voldrtn",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtnw",
+      "direction": "east",
+      "b": "voldrtne",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtnw",
+      "direction": "east",
+      "b": "voldrtxnw",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtnw",
+      "direction": "south",
+      "b": "voldrtw",
+      "count": 8,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtnw",
+      "direction": "south",
+      "b": "voldrtxnw",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrts",
+      "direction": "east",
+      "b": "voldrts",
+      "count": 23,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrts",
+      "direction": "east",
+      "b": "voldrtse",
+      "count": 7,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrts",
+      "direction": "east",
+      "b": "voldrtxsw",
+      "count": 11,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrts",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 10,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtse",
+      "direction": "east",
+      "b": "6dirttyl",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtse",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtsw",
+      "direction": "east",
+      "b": "voldrts",
+      "count": 12,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtsw",
+      "direction": "east",
+      "b": "voldrtse",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtsw",
+      "direction": "east",
+      "b": "voldrtxsw",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtsw",
+      "direction": "south",
+      "b": "6dirttyl",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtw",
+      "direction": "east",
+      "b": "6voltyl",
+      "count": 27,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtw",
+      "direction": "east",
+      "b": "voldrte",
+      "count": 3,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtw",
+      "direction": "east",
+      "b": "voldrtxse",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtw",
+      "direction": "south",
+      "b": "voldrtsw",
+      "count": 10,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtw",
+      "direction": "south",
+      "b": "voldrtw",
+      "count": 15,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtw",
+      "direction": "south",
+      "b": "voldrtxnw",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxne",
+      "direction": "east",
+      "b": "voldrtn",
+      "count": 9,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxne",
+      "direction": "east",
+      "b": "voldrtne",
+      "count": 10,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxne",
+      "direction": "south",
+      "b": "6voltyl",
+      "count": 19,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxnw",
+      "direction": "east",
+      "b": "6voltyl",
+      "count": 9,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxnw",
+      "direction": "east",
+      "b": "voldrte",
+      "count": 1,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxnw",
+      "direction": "east",
+      "b": "voldrtxne",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxnw",
+      "direction": "south",
+      "b": "6voltyl",
+      "count": 12,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxse",
+      "direction": "east",
+      "b": "voldrts",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxse",
+      "direction": "east",
+      "b": "voldrtse",
+      "count": 2,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxse",
+      "direction": "south",
+      "b": "voldrte",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxse",
+      "direction": "south",
+      "b": "voldrtse",
+      "count": 4,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxsw",
+      "direction": "east",
+      "b": "6voltyl",
+      "count": 14,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxsw",
+      "direction": "south",
+      "b": "voldrtsw",
+      "count": 6,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    },
+    {
+      "a": "voldrtxsw",
+      "direction": "south",
+      "b": "voldrtw",
+      "count": 8,
+      "max_rgb_difference": 0,
+      "mean_rgb_difference": 0.0,
+      "pass": true
+    }
+  ],
+  "limits": "Pixel boundary equality is structural evidence only; inspect interiors, mipmaps and game views."
+}

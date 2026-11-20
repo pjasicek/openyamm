@@ -1,0 +1,475 @@
+# D9 mechanics and native onLeave SP restoration through the Brood Spires exit.
+id: hesper.d09.brood_pits_descent
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d09.blv
+    party:
+      food: 200
+      members:
+      - name: Scout
+        class: Necromancer
+        level: 110
+        endurance: 500
+        intellect: 100
+        skills: []
+        equipment: {}
+      - name: Medic
+        class: Necromancer
+        level: 110
+        endurance: 500
+        intellect: 100
+        skills: []
+        equipment: {}
+      - name: Gunner
+        class: Necromancer
+        level: 110
+        endurance: 500
+        intellect: 100
+        skills: []
+        equipment: {}
+      - name: Technician
+        class: Necromancer
+        level: 110
+        endurance: 500
+        intellect: 100
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: set_qbit
+    id: 100211
+    reason: M11 given by Aster
+- advance_runtime:
+    seconds: 1
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 0
+      value: 0
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 1
+      value: 0
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 2
+      value: 0
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 3
+      value: 0
+- assert:
+    qbit_set:
+    - 100530
+- assert:
+    state_dump_named_map_var:
+      name: sp1
+      value: 388
+- save_game:
+    name: d09_null
+- load_game:
+    name: d09_null
+- assert:
+    state_dump_named_map_var:
+      name: sp1
+      value: 388
+- assert:
+    world_item_state:
+      item_id: 11300
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11302
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11304
+      present: true
+- set_pose:
+    map: hes_d09.blv
+    x: 6220
+    y: 1800
+    z: 0
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 53
+        state: open
+- set_pose:
+    map: hes_d09.blv
+    x: 5500
+    y: 1800
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- advance_runtime:
+    seconds: 16
+- assert:
+    actor_visible:
+      actor_index: 96
+      monster_id: 10003
+      report_state: true
+- advance_runtime:
+    seconds: 16
+- damage_actor:
+    actor_index: 3
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 16
+- set_pose:
+    map: hes_d09.blv
+    x: 5850
+    y: 3000
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 56
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 56
+        state: open
+- set_pose:
+    map: hes_d09.blv
+    x: 7000
+    y: 3850
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 1
+- set_pose:
+    map: hes_d09.blv
+    x: 7300
+    y: 3900
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: -0.35
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- assert:
+    item_visible:
+      source: chest
+      chest_id: 0
+      item_id: 11431
+- assert:
+    item_visible:
+      source: chest
+      chest_id: 0
+      item_id: 11331
+- press_action:
+    action: cancel_dialog
+- note:
+    text: east root ramp
+- movement_segment:
+    start:
+      map: hes_d09.blv
+      x: 4636
+      y: 936
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d09.blv
+      x: 4636
+      y: 2564
+      z: -768
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 2.1197916666666665
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    tolerance_xy: 40
+    tolerance_z: 40
+    loose_tolerance: true
+- note:
+    text: pond stair
+- movement_segment:
+    start:
+      map: hes_d09.blv
+      x: 3800
+      y: 1536
+      z: -768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d09.blv
+      x: 3800
+      y: 3164
+      z: -1536
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 2.1197916666666665
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    tolerance_xy: 40
+    tolerance_z: 40
+    loose_tolerance: true
+- set_pose:
+    map: hes_d09.blv
+    x: 2800
+    y: 3100
+    z: -1536
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 62
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 62
+        state: open
+- note:
+    text: royal stair
+- movement_segment:
+    start:
+      map: hes_d09.blv
+      x: 300
+      y: 2336
+      z: -1536
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d09.blv
+      x: 300
+      y: -124
+      z: -2944
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 3.203125
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    tolerance_xy: 40
+    tolerance_z: 40
+    loose_tolerance: true
+- set_pose:
+    map: hes_d09.blv
+    x: 450
+    y: -250
+    z: -2944
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 63
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 63
+        state: open
+- set_pose:
+    map: hes_d09.blv
+    x: 2450
+    y: 100
+    z: -2944
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 65
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 65
+        state: open
+- set_pose:
+    map: hes_d09.blv
+    x: 3000
+    y: 100
+    z: -2944
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 77
+      shield_raised: true
+- damage_actor:
+    actor_index: 78
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.5
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 66
+        state: open
+- assert:
+    state_dump_named_map_var:
+      name: wave1
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 77
+      shield_raised: false
+      report_state: true
+- damage_actor:
+    actor_index: 79
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 80
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 77
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    qbit_set:
+    - 100011
+    qbit_clear:
+    - 100211
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 51
+        state: open
+- set_pose:
+    map: hes_d09.blv
+    x: 4500
+    y: 2900
+    z: -2944
+    yaw: 3.141592653589793
+    pitch: -0.35
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- assert:
+    item_visible:
+      source: chest
+      chest_id: 1
+      item_id: 11479
+- assert:
+    item_visible:
+      source: chest
+      chest_id: 1
+      item_id: 11332
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d09.blv
+    x: 7200
+    y: 3200
+    z: -2944
+    yaw: 1.5707963267948966
+    pitch: -1.3
+- press_interact: {}
+- movement_segment:
+    start:
+      map: hes_d09.blv
+      x: 7200
+      y: 3200
+      z: -2944
+      yaw: 1.5707963268
+      pitch: 0
+    expect_stop:
+      map: hes_d09.blv
+      x: 7200
+      y: 3200
+      z: 0
+      yaw: 1.5707963268
+      pitch: 0
+    input: none
+    seconds: 10.5
+    actor_ai: false
+    actor_collision: false
+    tolerance_xy: 10
+    tolerance_z: 10
+- wait_until:
+    timeout_runtime_seconds: 12
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 52
+        state: open
+- note:
+    text: 'Exit through event 50 to out3_build.json d09_mouth; the native leave callback restores all four SP snapshots.'
+- set_pose:
+    map: hes_d09.blv
+    x: 8200
+    y: 1800
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 50
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: hes_out3.odm
+    map_arrived:
+      map: hes_out3.odm
+      pos: (-8830,6600,0)
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 0
+      value: 388
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 1
+      value: 388
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 2
+      value: 388
+- assert:
+    runtime_event_variable:
+      id: 5
+      member_index: 3
+      value: 388

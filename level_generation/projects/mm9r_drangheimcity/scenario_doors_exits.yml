@@ -1,0 +1,171 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimcity_doors_exits
+title: Drangheim City (native BLV) - the inn's double door, Klusos House's locked door, the exits to the wilderness and into
+  Klusos House
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimcity.blv
+- note:
+    text: 'InnDoorLeft/Right (doors 8, event 102): shut, stops the party, opens on its click; the party walks into the inn.'
+- assert:
+    mechanism:
+      id: 8
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 17155
+      y: -3625
+      z: 348
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 16895
+      y: -3625
+      z: 431
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 40
+- execute_event:
+    id: 102
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 8
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 17155
+      y: -3625
+      z: 348
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 16555
+      y: -3625
+      z: 431
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'AlchemistDoorLeft/Right (Klusos House''s front door, Locked, no key): a click says it is locked; it stays shut.'
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- note:
+    text: 'ExitTrigger0 (DAT object 81): from the west gate''s arrival west into the exit volume to the Drangheim wilderness.'
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 10240
+      y: -4178
+      z: 1002
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 9540
+      y: -4178
+      z: 1002
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 81
+- load_map:
+    map: drangheimcity.blv
+- note:
+    text: 'ExitTrigger2 (DAT object 64): from Klusos House''s door arrival south into the exit volume in front of the locked
+      door (MM9''s way into the house).'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 14541
+      y: -8274
+      z: 1453
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 14541
+      y: -8424
+      z: 1453
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 160
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 64
+- load_map:
+    map: drangheimcity.blv
+- note:
+    text: 'ExitTrigger1 (DAT object 62): from the window arrival on the north wall''s walkway back into the window to Klusos
+      House.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 15340
+      y: -10281
+      z: 2356
+      yaw_degrees: 148.7
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 15104
+      y: -10138
+      z: 2356
+      yaw_degrees: 148.7
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 300
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 62

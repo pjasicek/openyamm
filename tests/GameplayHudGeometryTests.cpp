@@ -5,6 +5,7 @@
 #include "game/ui/GameplayBuffHud.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/GameplayClock.h"
+#include "game/ui/GameplayPortraitGems.h"
 #include "game/ui/RestHourglassAnimation.h"
 
 #include <limits>
@@ -267,7 +268,7 @@ TEST_CASE("Obsidian buffs sort all active effects by expiry with stable ties")
     party.restoreSnapshot(snapshot);
     const auto buffs = sortedGameplayBuffs(party);
     REQUIRE(buffs.size() == PartyBuffCount);
-    CHECK(buffs.front() == PartyBuffId::Levitate);
+    CHECK(buffs.front() == PartyBuffId::FleetFoot);
     CHECK(buffs.back() == PartyBuffId::TorchLight);
     snapshot.partyBuffs[0].remainingSeconds = 1;
     snapshot.partyBuffs[1].remainingSeconds = 1;
@@ -288,7 +289,8 @@ TEST_CASE("Obsidian ordinary party buffs keep their panels or movement indicator
     {
         snapshot.partyBuffs[i].remainingSeconds = 1;
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
-        if (i == size_t(PartyBuffId::Fly) || i == size_t(PartyBuffId::WaterWalk) || i == size_t(PartyBuffId::Levitate))
+        if (i == size_t(PartyBuffId::Fly) || i == size_t(PartyBuffId::WaterWalk) || i == size_t(PartyBuffId::Levitate)
+            || i == size_t(PartyBuffId::FleetFoot))
         {
             CHECK(definition.presentation == GameplayBuffPresentation::Movement);
             CHECK(gameplayBuffPanelLayoutId(definition.presentation) == nullptr);
@@ -305,20 +307,32 @@ TEST_CASE("Obsidian ordinary party buffs keep their panels or movement indicator
     CHECK(gameplayBuffPanelLayoutId(GameplayBuffPresentation::Special) == nullptr);
 }
 
-TEST_CASE("Obsidian flight indicator handles Levitate without adding a duplicate skull badge")
+TEST_CASE("Obsidian movement indicators line up Fly, Levitate, Water Walk and Fleet Foot")
 {
+    const auto buffs = [](const Party &party)
+    {
+        std::vector<PartyBuffId> result;
+        for (const GameplayMovementIndicator &indicator : gameplayMovementIndicators(party))
+        {
+            result.push_back(indicator.buff);
+        }
+        return result;
+    };
     Party party;
-    CHECK_FALSE(gameplayFlightBuff(party));
+    CHECK(buffs(party).empty());
     Party::Snapshot snapshot = party.snapshot();
     snapshot.partyBuffs[size_t(PartyBuffId::Levitate)].remainingSeconds = 60;
+    snapshot.partyBuffs[size_t(PartyBuffId::WaterWalk)].remainingSeconds = 60;
+    snapshot.partyBuffs[size_t(PartyBuffId::WaterWalk)].spellId = spellIdValue(SpellId::Levitate);
     party.restoreSnapshot(snapshot);
-    CHECK(gameplayFlightBuff(party) == PartyBuffId::Levitate);
+    // Levitate's own Water Walk shows only as Levitate.
+    CHECK(buffs(party) == std::vector<PartyBuffId>{PartyBuffId::Levitate});
     snapshot.partyBuffs[size_t(PartyBuffId::Fly)].remainingSeconds = 60;
+    snapshot.partyBuffs[size_t(PartyBuffId::WaterWalk)].spellId = spellIdValue(SpellId::WaterWalk);
+    snapshot.partyBuffs[size_t(PartyBuffId::FleetFoot)].remainingSeconds = 60;
     party.restoreSnapshot(snapshot);
-    CHECK(gameplayFlightBuff(party) == PartyBuffId::Fly);
-    snapshot.partyBuffs[size_t(PartyBuffId::Levitate)].remainingSeconds = 0;
-    party.restoreSnapshot(snapshot);
-    CHECK(gameplayFlightBuff(party) == PartyBuffId::Fly);
+    CHECK(buffs(party) == std::vector<PartyBuffId>{
+        PartyBuffId::Fly, PartyBuffId::Levitate, PartyBuffId::WaterWalk, PartyBuffId::FleetFoot});
 }
 
 TEST_CASE("Obsidian vertical meters and damage trails remain anchored at the bottom")
@@ -360,6 +374,7 @@ TEST_CASE("Obsidian skull effects retain the legacy desktop spell meanings")
     CHECK(definition(PartyBuffId::Fly).pLayer == nullptr);
     CHECK(definition(PartyBuffId::WaterWalk).pLayer == nullptr);
     CHECK(definition(PartyBuffId::Invisibility).pLayer == nullptr);
+    CHECK_FALSE(definition(PartyBuffId::Invisibility).cornerBadge);
     CHECK(definition(PartyBuffId::DetectLife).pLayer == &GameplayBuffHudFarEye);
 }
 
@@ -405,4 +420,66 @@ TEST_CASE("Obsidian health bands follow the 66 and 33 percent thresholds")
     CHECK(GameplayUiSkin::healthBand(0.33f) == HealthBand::Low);
     CHECK(GameplayUiSkin::healthBand(0.2f) == HealthBand::Low);
     CHECK(GameplayUiSkin::healthBand(0.0f) == HealthBand::Low);
+}
+
+TEST_CASE("Portrait counter gems light per point, half for half a point, and lap past their count")
+{
+    using OpenYAMM::Game::PortraitCounter;
+    using OpenYAMM::Game::PortraitCounterKind;
+    using OpenYAMM::Game::PortraitGemFill;
+    using OpenYAMM::Game::portraitGemFills;
+
+    PortraitCounter combo;
+    combo.kind = PortraitCounterKind::ComboPoints;
+    combo.pips = 5;
+    combo.amount = 3.5;
+    const std::vector<PortraitGemFill> half = portraitGemFills(combo);
+    REQUIRE_EQ(half.size(), 5);
+    CHECK_EQ(half[2], PortraitGemFill{1, false});
+    CHECK_EQ(half[3], PortraitGemFill{0.5f, false});
+    CHECK_EQ(half[4], PortraitGemFill{0, false});
+    combo.amount = 5;
+    CHECK_EQ(portraitGemFills(combo)[4], PortraitGemFill{1, false});
+
+    PortraitCounter stacks;
+    stacks.kind = PortraitCounterKind::Stacks;
+    stacks.pips = 10;
+    stacks.amount = 7;
+    CHECK_EQ(portraitGemFills(stacks)[6], PortraitGemFill{1, false});
+    CHECK_EQ(portraitGemFills(stacks)[7], PortraitGemFill{0, false});
+    stacks.amount = 10;
+    CHECK_EQ(portraitGemFills(stacks)[9], PortraitGemFill{1, false});
+    // Past ten every gem stays lit and the first four turn pale gold.
+    stacks.amount = 14;
+    const std::vector<PortraitGemFill> lap = portraitGemFills(stacks);
+    CHECK_EQ(lap[3], PortraitGemFill{1, true});
+    CHECK_EQ(lap[4], PortraitGemFill{1, false});
+    CHECK_EQ(lap[9], PortraitGemFill{1, false});
+    stacks.amount = 25;
+    CHECK_EQ(portraitGemFills(stacks)[9], PortraitGemFill{1, true});
+
+    CHECK(portraitGemFills(PortraitCounter{}).empty());
+}
+
+TEST_CASE("Portrait counter gems hug the HP arc and stay on their own side of the gap between portraits")
+{
+    // ObsidianPcN: the HP arc's centre line is 60.4 x 76.8 around the slot's x 39, stroke 4.6; slots are 80 apart,
+    // so this HP arc's outer edge is at x -32.5 from this centre and the left neighbour's mana arc ends at
+    // -80 + 30.2 + 2.3 = -47.5: the gems stay right of the middle, -40.
+    for (int pips : {5, 10})
+    {
+        const std::vector<OpenYAMM::Game::PortraitGemPlace> places =
+            OpenYAMM::Game::portraitGemPlaces(pips, 0, 0, 30.2f, 38.4f, 4.6f);
+        REQUIRE_EQ(places.size(), size_t(pips));
+        for (const OpenYAMM::Game::PortraitGemPlace &place : places)
+        {
+            CHECK_GT(place.x - place.radius, -40.0f);
+            CHECK_LT(place.x + place.radius, 0.0f);
+            // Clear of the HP arc's outer edge: outside the ellipse grown by half the stroke.
+            const float inner = std::hypot(place.x / (30.2f + 2.3f), place.y / (38.4f + 2.3f));
+            const float reach = 1 + place.radius / 40.7f;
+            CHECK_GT(inner, reach * 0.99f);
+        }
+        CHECK_GT(places.front().y, places.back().y);
+    }
 }

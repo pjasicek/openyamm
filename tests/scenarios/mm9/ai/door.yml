@@ -1,0 +1,30 @@
+id: mm9.ai.door
+title: An MM9 monster walking into a shut AI-triggerable door opens it and walks on
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md; The Arena converted with its doors' `ai_open`). The Skeletoid walks
+        from the east pen toward marker 1 in the arena; the pen's shut door stops it: it opens both leaves (doors 3
+        and 4) and waits their 1.52 s opening (its wander timers paused), then walks on to its marker and back.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: door.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: patrol, detail: marker 1, before: 4, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: open_door, detail: marker 3 seconds 1.52, after: 4, before: 7,
+                 min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: marker_reached, detail: marker 1, after: 7, before: 14, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: patrol, detail: marker 0, after: 12, min_count: 1}
+  - assert:
+      mechanism: {id: 3, state: open}
+  - assert:
+      mechanism: {id: 4, state: open}

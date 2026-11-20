@@ -9,7 +9,6 @@ tags:
 steps:
   - new_game_flow:
       continent: enroth
-      party: mm6_story_any
       start_map: oute3.odm
   - set_pose:
       map: oute3.odm

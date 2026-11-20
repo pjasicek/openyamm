@@ -1,12 +1,15 @@
 #pragma once
 
+#include "engine/AssetPackIndex.h"
 #include "engine/AssetScaleTier.h"
 
 #include <cstdint>
 #include <filesystem>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Engine
@@ -72,7 +75,21 @@ public:
         const AssetScaleProfile &assetScaleProfile,
         const std::string &activeWorldId
     );
+    // The installed content options apply only to a release's packs (assets/index.json), not to Android or
+    // development roots.
+    bool initialize(
+        const std::filesystem::path &basePath,
+        const std::filesystem::path &assetRoot,
+        AssetScaleTier assetScaleTier,
+        const AssetScaleProfile &assetScaleProfile,
+        const std::string &activeWorldId,
+        const InstalledContentOptions &installedContentOptions
+    );
     bool switchActiveWorld(const std::string &activeWorldId);
+    // Mounts these named mods (InstalledContentOptions::namedMods) in place of the current ones: everything is mounted
+    // again, as by a world switch. The same list mounts nothing again.
+    bool setNamedMods(const std::vector<std::string> &modIds);
+    const InstalledContentOptions &installedContentOptions() const;
     bool mountDevelopmentRoot(const std::filesystem::path &assetRoot);
     bool exists(const std::string &virtualPath) const;
     // Returns the selected virtual file path, including its actual scale directory, also inside archives.
@@ -86,12 +103,16 @@ public:
     std::optional<std::filesystem::path> resolvePhysicalPath(const std::string &virtualPath) const;
     std::vector<std::string> getSearchPaths() const;
     const std::filesystem::path &getDevelopmentRoot() const;
-    const std::filesystem::path &getEditorDevelopmentRoot() const;
     const std::string &getActiveWorldId() const;
     AssetScaleTier getAssetScaleTier() const;
     AssetScaleTier getAssetScaleTier(AssetScaleCategory assetScaleCategory) const;
     AssetScaleTier getAssetScaleTierForVirtualPath(const std::string &virtualPath) const;
     const AssetScaleProfile &getAssetScaleProfile() const;
+    // A release's interface language has optional packs (fonts, sounds, videos) that are not downloaded yet: the game
+    // shows English until the updater has them.
+    bool languagePacksMissing() const;
+    // The download size of a release language's optional packs not installed; 0 when installed or not a release.
+    uint64_t missingLanguagePackBytes(const std::string &languageId) const;
     // Call after editing mounted files, with asset readers stopped. Mount changes invalidate automatically.
     void refreshLookupCache() const;
     uint64_t contentGeneration() const;
@@ -104,7 +125,12 @@ private:
     {
         std::filesystem::path root;
         std::string mountPoint;
+        // The package root a content pack belongs to ("engine", "worlds/mm6"); the mount point otherwise.
+        std::string packageMountPoint;
         bool archive = false;
+        // A language's pack: in front of the packs whose files it replaces, but it does not decide which package an
+        // unqualified request searches first (the active world's base packs do).
+        bool languagePack = false;
     };
 
     bool isInitialized() const;
@@ -116,12 +142,39 @@ private:
     bool mountPackagedAssetRoot(const std::filesystem::path &assetRoot, const std::string &activeWorldId);
     bool mountAndroidApkAssetRoot(const std::string &activeWorldId);
     bool mountPackageArchiveIfPresent(const std::filesystem::path &archivePath, bool appendToPath);
+    // The engine/ and worlds/<id>/ folders of mods/ in front of every pack; logs each file they bring.
+    bool mountMods(const std::filesystem::path &modsRoot);
+    // The named mods (InstalledContentOptions::namedMods) in their order: in a release each one's engine/ and
+    // worlds/<id>/ as mountMods mounts the loose folders, on a development root each one as an extra mount.
+    bool mountNamedMods(bool packagedRoot);
+    // Logs the files of package folders (a folder and its package: engine, worlds/<id>) as mods bring them, each line
+    // after `logPrefix`, at most `loggedFileBudget` lines (lowered by the count logged), and drops the folders without
+    // files; the number of files.
+    size_t logModFiles(
+        std::vector<std::pair<std::filesystem::path, std::string>> &folders,
+        const std::string &logPrefix,
+        size_t &loggedFileBudget) const;
+    // A development folder in front of a development asset root (InstalledContentOptions::extraMountRoot).
+    bool mountExtraDevelopmentRoot(const std::filesystem::path &extraRoot);
+    // A folder laid out like a development asset root, mounted in front of it (the extra mount, a named mod).
+    bool mountDevelopmentOverlayRoot(const std::filesystem::path &overlayRoot);
+    // The player's language packs at languages/, and the active pack's fonts, sounds, voices and videos in front of
+    // the game's (devdocs/LOCALIZATION.md). A pack replaces nothing else.
+    bool mountLanguagePack(bool packagedRoot);
+    // Mounts the content packs of an index: the active world's in front, then the engine's and the other worlds'.
+    bool mountContentPacks(
+        const AssetPackIndex &index,
+        const std::string &activeWorldId,
+        const std::function<bool(const AssetPackRecord &, bool appendToPath)> &mountPack);
     bool mountSearchRoot(const std::filesystem::path &assetRoot, bool appendToPath);
     bool mountSearchRootAt(
         const std::filesystem::path &assetRoot,
         const std::string &mountPoint,
-        bool appendToPath
+        bool appendToPath,
+        const std::string &packageMountPoint = {},
+        bool languagePack = false
     );
+    void recordSearchMount(SearchMount searchMount, bool appendToPath);
     bool validateMergedIconRoots(const std::filesystem::path &assetRoot) const;
     bool validateMergedAudioRoots(const std::filesystem::path &assetRoot) const;
     bool validateMergedMusicRoots(const std::filesystem::path &assetRoot) const;
@@ -149,7 +202,6 @@ private:
     bool loadIconPackagePolicy();
     std::string resolveVirtualPath(const std::string &virtualPath) const;
     std::vector<std::string> resolveVirtualPathCandidates(const std::string &virtualPath) const;
-    std::vector<std::string> expandAndroidApkAssetCandidates(const std::string &virtualPath) const;
     static std::string normalizeVirtualPath(const std::string &virtualPath);
     static std::string normalizePackageId(const std::string &packageId, const std::string &defaultPackageId);
     static std::vector<std::string> expandPackageAliasCandidates(const std::string &virtualPath);
@@ -163,14 +215,16 @@ private:
     bool m_isInitialized;
     std::filesystem::path m_basePath;
     std::filesystem::path m_developmentRoot;
-    std::filesystem::path m_editorDevelopmentRoot;
     std::string m_activeWorldId;
     AssetScaleTier m_assetScaleTier;
     AssetScaleProfile m_assetScaleProfile;
+    InstalledContentOptions m_installedContentOptions;
     // Package-owned icon roots override user scale preferences after a content migration.
     std::vector<std::pair<std::string, AssetScaleTier>> m_iconPackages;
     std::vector<SearchMount> m_searchMounts;
     bool m_androidApkAssetRoot;
+    bool m_languagePacksMissing = false;
+    std::vector<std::pair<std::string, uint64_t>> m_missingLanguageBytes;
     std::unique_ptr<LookupCache> m_pLookupCache;
     mutable uint64_t m_contentGeneration = 0;
 };

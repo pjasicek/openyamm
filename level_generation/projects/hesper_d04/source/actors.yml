@@ -1,0 +1,20 @@
+# Generated from D5 Overseer stand-in at 1.5x scale by build_d04.py.
+- model: worlds/hesper/models/hes_kreegan.glb
+  scale: 157.2934974
+  yaw_offset: -1.570796327
+  animation:
+    stride_length: 1.217
+    run_stride_length: 2.946
+    run: Demon_Running
+    upper_body_root: B_Spine
+    cast: Demon_Cast_FireBolt
+  clips:
+    standing: Demon_Standing
+    walking: Demon_Walking
+    attack_melee: Demon_Attack
+    attack_ranged: Demon_Cast_FireBolt
+    hit: Demon_Hit
+    dying: Demon_Death
+    dead: Demon_Dead
+    fidget: Demon_Fidget
+  descriptor: Overseer stand-in

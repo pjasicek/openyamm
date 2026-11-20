@@ -1,0 +1,16 @@
+# The leaning ladder (examples/s6_loft): the party climbs it from the hall to the loft and back down, by the game's
+# own ladder rules (climb: walks to the foot, faces it, climbs with the movement keys).
+id: studio.s6.loft
+title: The Leaning Ladder is climbed up and down
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: studio07.blv
+  - advance_runtime: {seconds: 0.5}
+  - climb: {ladder: loft, timeout_seconds: 12}
+  - assert:
+      party_position: {x: 512, y: 824, radius: 96, z_min: 250}
+  - climb: {ladder: loft, down: true, timeout_seconds: 12}
+  - assert:
+      party_position: {x: 512, y: 640, radius: 160, z_max: 8}

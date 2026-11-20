@@ -1,0 +1,227 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated raw returns saved; strict acceptance checks failed. One corrective regeneration used per view. No resizing, alpha repair or other postprocessing performed.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent PNG, an albedo texture-source painting of the water condenser seen from the LEFT.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is ONLY the approved colour and material reference, not the camera or geometry.\nPaint directly over the exact grey orthographic guide. Keep its silhouette EXACTLY: identical outline, size, position in the 1024-square frame, every shape edge, opening, fin, bolt, support, foot, funnel, tap, water stream and basin precisely where the guide has them. Retain the guide's alpha silhouette including the empty openings. Do not move, enlarge, shrink, crop, redesign, add geometry or rotate anything. Do not adopt the design reference's three-quarter perspective.\nTransfer the reference's white and pale grey prefab composite, wide teal band with a narrow orange band below, brushed steel fins, steel hardware, glass gauge with blue water where visible on the actual guide, and dark rubber hoses where present. Keep side-facing blank surfaces blank if the gauge is not visible from this side; do not invent a front-facing gauge. Match the design's subtle worn material details as colour, not deep shading.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even flat shadowless light from the viewer across every surface; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no lighting gradients. Metal is neutral brushed steel surface colour. Paint any luminous parts in their luminous colour with no light cast onto surroundings. Transparent background, no background colour, floor, scene, text or labels. Return the native 1024 x 1024 image without resizing.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446d-7833-9a5e-c64125829902/exec-3a9bcdd9-99d3-4e01-a44a-8d35eba4d3b2.png",
+      "selected": false,
+      "output": "paint_left_attempt_1.png",
+      "reason": "Superseded by the one permitted corrective generation because native size, exact guide silhouette and flat lighting failed.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "b09b2d6d9ecf38be4e5c30dd4d51db29430b200102aaaf500d558d4054cefd3d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "d7fe3c7e8954df3270ffa30cd567986fef4ea268404a3dab8804cfdedc5a434e",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1232,
+          1221
+        ],
+        "guide_alpha_bbox": [
+          349,
+          66,
+          675,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad ivory/teal/orange/steel palette matches; surface details are approximate.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Residual shading and metal highlights",
+          "Outline and internal shape deviations",
+          "Coloured edge artifacts"
+        ],
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent PNG, an albedo texture-source painting of the water condenser seen from the LEFT.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is ONLY the approved colour and material reference, not the camera or geometry.\nPaint directly over the exact grey orthographic guide. Keep its silhouette EXACTLY: identical outline, size, position in the 1024-square frame, every shape edge, opening, fin, bolt, support, foot, funnel, tap, water stream and basin precisely where the guide has them. Retain the guide's alpha silhouette including the empty openings. Do not move, enlarge, shrink, crop, redesign, add geometry or rotate anything. Do not adopt the design reference's three-quarter perspective.\nTransfer the reference's white and pale grey prefab composite, wide teal band with a narrow orange band below, brushed steel fins, steel hardware, glass gauge with blue water where visible on the actual guide, and dark rubber hoses where present. Keep side-facing blank surfaces blank if the gauge is not visible from this side; do not invent a front-facing gauge. Match the design's subtle worn material details as colour, not deep shading.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even flat shadowless light from the viewer across every surface; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no lighting gradients. Metal is neutral brushed steel surface colour. Paint any luminous parts in their luminous colour with no light cast onto surroundings. Transparent background, no background colour, floor, scene, text or labels. Return the native 1024 x 1024 image without resizing.\nCORRECTIVE ATTEMPT: The previous attempt failed the required canvas dimensions and exact silhouette. Edit the supplied ORIGINAL guide_left.png directly at its original 1024 x 1024 resolution. Preserve its alpha mask pixel for pixel and paint ONLY inside its existing opaque pixels. The object must keep original bounds x=349 through 674 and y=66 through 957. Preserve every internal transparent hole. No colored fringe, detached flecks, halos or partially transparent paint outside the guide. Do not enlarge the object. No additional panel fasteners or trim geometry. Remove shading and highlights: uniform albedo surface colours, only material texture. Exactly 1024 x 1024 native output.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446d-7833-9a5e-c64125829902/exec-52ed5ae2-8f05-47b5-9815-6d3e4ce102b8.png",
+      "selected": true,
+      "output": "paint_left.png",
+      "reason": "Selected as the closer raw return after the single permitted correction; NOT accepted as brief-compliant. Geometry, edge artifacts and residual shading still fail the strict requirements.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "b09b2d6d9ecf38be4e5c30dd4d51db29430b200102aaaf500d558d4054cefd3d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "4c7964d5937b0a01cda19dfa9184af3ecc72bdb2c2135c807654239b0498aa02",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          37,
+          23,
+          1240,
+          1198
+        ],
+        "guide_alpha_bbox": [
+          349,
+          66,
+          675,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad ivory/teal/orange/steel palette matches; surface details are approximate.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Residual shading and metal highlights",
+          "Outline and internal shape deviations",
+          "Coloured edge artifacts"
+        ],
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent PNG, an albedo texture-source painting of the water condenser seen from the RIGHT.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is ONLY the approved colour and material reference, not the camera or geometry.\nPaint directly over the exact grey orthographic guide. Keep its silhouette EXACTLY: identical outline, size, position in the 1024-square frame, every shape edge, opening, fin, bolt, support, foot, funnel, tap, water stream and basin precisely where the guide has them. Retain the guide's alpha silhouette including the empty openings. Do not move, enlarge, shrink, crop, redesign, add geometry or rotate anything. Do not adopt the design reference's three-quarter perspective.\nTransfer the reference's white and pale grey prefab composite, wide teal band with a narrow orange band below, brushed steel fins, steel hardware, glass gauge with blue water where visible on the actual guide, and dark rubber hoses where present. Keep side-facing blank surfaces blank if the gauge is not visible from this side; do not invent a front-facing gauge. Match the design's subtle worn material details as colour, not deep shading.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even flat shadowless light from the viewer across every surface; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no lighting gradients. Metal is neutral brushed steel surface colour. Paint any luminous parts in their luminous colour with no light cast onto surroundings. Transparent background, no background colour, floor, scene, text or labels. Return the native 1024 x 1024 image without resizing.\nEdit the original 1024 x 1024 guide directly. Preserve its alpha mask pixel for pixel, including internal transparent holes. Keep original object bounds x=349 through 674 and y=66 through 957. Do not enlarge the object or the canvas. No colored fringes or detached flecks outside the silhouette. The final returned PNG must be native 1024 x 1024.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446d-7833-9a5e-c64125829902/exec-4a5ea003-2d25-4f18-91ba-b175332bc610.png",
+      "selected": false,
+      "output": "paint_right_attempt_1.png",
+      "reason": "Superseded by the one permitted corrective generation because native size, exact guide silhouette and flat lighting failed.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "e366307784938c5441671782308a8b0ed2faec4b89dee89722513863d6568563"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "0960471f722ae45a5130369a633ffe8593b6c2a87d80d2bab98ff4fab977263a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1236,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          349,
+          66,
+          675,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad ivory/teal/orange/steel palette matches; surface details are approximate.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Residual shading and metal highlights",
+          "Outline and internal shape deviations",
+          "Coloured edge artifacts"
+        ],
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent PNG, an albedo texture-source painting of the water condenser seen from the RIGHT.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is ONLY the approved colour and material reference, not the camera or geometry.\nPaint directly over the exact grey orthographic guide. Keep its silhouette EXACTLY: identical outline, size, position in the 1024-square frame, every shape edge, opening, fin, bolt, support, foot, funnel, tap, water stream and basin precisely where the guide has them. Retain the guide's alpha silhouette including the empty openings. Do not move, enlarge, shrink, crop, redesign, add geometry or rotate anything. Do not adopt the design reference's three-quarter perspective.\nTransfer the reference's white and pale grey prefab composite, wide teal band with a narrow orange band below, brushed steel fins, steel hardware, glass gauge with blue water where visible on the actual guide, and dark rubber hoses where present. Keep side-facing blank surfaces blank if the gauge is not visible from this side; do not invent a front-facing gauge. Match the design's subtle worn material details as colour, not deep shading.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even flat shadowless light from the viewer across every surface; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no lighting gradients. Metal is neutral brushed steel surface colour. Paint any luminous parts in their luminous colour with no light cast onto surroundings. Transparent background, no background colour, floor, scene, text or labels. Return the native 1024 x 1024 image without resizing.\nEdit the original 1024 x 1024 guide directly. Preserve its alpha mask pixel for pixel, including internal transparent holes. Keep original object bounds x=349 through 674 and y=66 through 957. Do not enlarge the object or the canvas. No colored fringes or detached flecks outside the silhouette. The final returned PNG must be native 1024 x 1024.\nCORRECTIVE ATTEMPT: Previous output failed exact guide geometry, flat lighting, and native dimensions. Treat guide_right.png as a locked raster with a locked alpha channel, not a model to reinterpret. Output exactly 1024 pixels wide by 1024 pixels tall. Maintain exact guide silhouette and feature positions: no perspective or vertical compression, no added hardware, preserve each foot, basin and stream. Paint only existing surfaces. Clean alpha with no white/red/yellow fringe, floating flecks or background pixels. Flatten the steel to brushed medium-light grey without bright reflections or dark shaded recesses; composite remains evenly lit ivory. Preserve the single broad teal and thin orange bands. This is a flat material-colour projection for texture baking, not a lit product photograph.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446d-7833-9a5e-c64125829902/exec-5421f362-0506-4794-b978-bba62a7c299b.png",
+      "selected": true,
+      "output": "paint_right.png",
+      "reason": "Selected as the closer raw return after the single permitted correction; NOT accepted as brief-compliant. Geometry, edge artifacts and residual shading still fail the strict requirements.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "e366307784938c5441671782308a8b0ed2faec4b89dee89722513863d6568563"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "ff222cf160e2537fdbff907f75ce6884a40d2b24a124bcaa31384d7fa976d65b",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          49,
+          1234,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          349,
+          66,
+          675,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad ivory/teal/orange/steel palette matches; surface details are approximate.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Residual shading and metal highlights",
+          "Outline and internal shape deviations",
+          "Coloured edge artifacts"
+        ],
+        "brief_compliant": false
+      }
+    }
+  ]
+}

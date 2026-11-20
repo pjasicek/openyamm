@@ -1,0 +1,117 @@
+# The Undervault's houses and people (the integrator's follow-ups 42, 43 and 36; hesper_stage/npcs_undervault.yml):
+# the Council's doors closed before M3 and entered after it with their residents (the Clinic's Neve, and Doctor Ilse
+# only from M6), the Chapel (a temple) with Aster and Iver from the start, the Kept Refuge closed before M6 and then
+# entered with Tamsin and a camp's freed Kept once that camp is free, the gallery homes speaking to their residents
+# (Pim, Sabra, Kobb's news), a street person's news and Odo's S2. The party faces each door and interacts.
+# Headless, from output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario ../../../level_generation/projects/hesper_undervault/houses_and_people.yml
+id: hesper.undervault.houses_and_people
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_undervault.blv
+- note: {text: "Before M3 the Council's doors show the notice; the Refuge is shut before M6."}
+- set_pose: {map: hes_undervault.blv, x: -60, y: 2400, z: 0, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {active: false}}
+- set_pose: {map: hes_undervault.blv, x: 1140, y: 4650, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {active: false}}
+- set_pose: {map: hes_undervault.blv, x: 750, y: -1650, z: 0, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {active: false}}
+- note: {text: "The Chapel (house 9456) from the first visit: Aster and Iver."}
+- set_pose: {map: hes_undervault.blv, x: 3200, y: 6650, z: 384, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {house_dialog: true, source_id: 9456}}
+- select_topic: {kind: house_resident, source_id: 9456, action_id: 9500}
+- assert: {dialog: {source_id: 9500, actions: [{id: 9620}, {id: 9621}]}}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_undervault.blv, x: 3200, y: 6650, z: 384, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9456, action_id: 9223}
+- assert: {dialog: {source_id: 9223, actions: [{id: 9753}]}}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- note: {text: "From M2 and M3 (set before the houses): the Clinic with Neve, no Ilse yet."}
+- setup_shortcut: {kind: set_qbit, id: 100002, reason: M2 done}
+- setup_shortcut: {kind: set_qbit, id: 100003, reason: M3 done}
+- set_pose: {map: hes_undervault.blv, x: -60, y: 2400, z: 0, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- note: {text: "The Clinic teaches Cybernetics' Novice, so it opens on its menu (Learn Skills and Neve), not on Neve."}
+- assert: {dialog: {source_id: 9452, actions: [{id: 8}, {id: 9512}]}}
+- select_topic: {kind: house_resident, source_id: 9452, action_id: 9512}
+- assert: {dialog: {source_id: 9512, actions: [{id: 9734}]}}
+- press_action: {action: cancel_dialog}
+- note: {text: "The Workshop (Orrin), the Council Hall (Maren), the Archive (Pell), the Sim Hall (Brannoc)."}
+- set_pose: {map: hes_undervault.blv, x: 4760, y: 150, z: 0, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {source_id: 9511, actions: [{id: 9731}, {id: 9732}, {id: 9733}, {id: 9757}, {id: 9758}, {id: 9759}]}}
+- note: {text: "The Workshop: Shieldbreaker without the gold, then selling salvage with none carried."}
+- select_topic: {kind: npc_topic, action_id: 9732}
+- select_topic: {kind: npc_topic, action_id: 9759}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_undervault.blv, x: 1140, y: 4650, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {source_id: 9501, actions: [{id: 9660}, {id: 9661}, {id: 9662}]}}
+- select_topic: {kind: npc_topic, action_id: 9661}
+- assert: {qbit_set: [100205]}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_undervault.blv, x: 5260, y: 4650, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {source_id: 9505, actions: [{id: 9690}, {id: 9694}]}}
+- select_topic: {kind: npc_topic, action_id: 9694}
+- assert: {qbit_set: [100229]}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_undervault.blv, x: 1640, y: 150, z: 0, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9204, action_id: 9504}
+- assert: {dialog: {source_id: 9504, actions: [{id: 9685}, {id: 9686}]}}
+- select_topic: {kind: npc_topic, action_id: 9686}
+- assert: {qbit_set: [100228]}
+- press_action: {action: cancel_dialog}
+- assert: {dialog: {house_dialog: true, source_id: 9204}}   # the Sim Hall is a training hall: its own menu
+- press_action: {action: cancel_dialog}
+- note: {text: "From M6: Doctor Ilse in the Clinic, and the Refuge opens with Tamsin; camp 1's Cale once camp 1 is free."}
+- setup_shortcut: {kind: set_qbit, id: 100006, reason: M6 done}
+- set_pose: {map: hes_undervault.blv, x: -60, y: 2400, z: 0, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9452, action_id: 9503}
+- assert: {dialog: {source_id: 9503, actions: [{id: 9680}, {id: 9681}]}}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_undervault.blv, x: 750, y: -1650, z: 0, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {house_dialog: true, source_id: 9457, actions: [{id: 9502}, {id: 9574}, {id: 9575}]}}
+- select_topic: {kind: house_resident, source_id: 9457, action_id: 9502}
+- assert: {dialog: {source_id: 9502, actions: [{id: 9670}, {id: 9671}, {id: 9672}]}}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- setup_shortcut: {kind: set_qbit, id: 100115, reason: camp 1 freed}
+- set_pose: {map: hes_undervault.blv, x: 750, y: -1650, z: 0, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {house_dialog: true, source_id: 9457, actions: [{id: 9502}, {id: 9574}, {id: 9575}, {id: 9576}]}}
+- press_action: {action: cancel_dialog}
+- note: {text: "The gallery homes: Pim, Sabra, Kobb (his news after M3)."}
+- set_pose: {map: hes_undervault.blv, x: 150, y: 1900, z: 512, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {source_id: 9551, actions: [{id: 9766}]}}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_undervault.blv, x: 150, y: 2650, z: 512, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {source_id: 9552, actions: [{id: 9767}]}}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_undervault.blv, x: 150, y: 3550, z: 512, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {source_id: 9568, actions: [{id: 9774}]}}
+- press_action: {action: cancel_dialog}
+- note: {text: "A street person (Varek, 9556): the Guardian's news after M3. Odo's Pressure gives S2."}
+- speak_npc: {source_id: 9556}
+- assert: {dialog: {source_id: 9556, actions: [{id: 9774}]}}
+- press_action: {action: cancel_dialog}
+- speak_npc: {source_id: 9506}
+- select_topic: {kind: npc_topic, action_id: 9700}
+- assert: {qbit_set: [100222]}
+- press_action: {action: cancel_dialog}

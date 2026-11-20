@@ -1,0 +1,580 @@
+{
+ "id": "20261009-1649-mm7-7d18-29",
+ "world": "mm7",
+ "maps": [
+  "7d18.blv",
+  "out12.odm",
+  "mdt05.blv",
+  "7d23.blv"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/t5s1c3",
+  "mm7/hive1",
+  "mm7/hive14",
+  "mm7/hive15",
+  "mm7/hive18",
+  "mm7/hive2",
+  "mm7/hive21",
+  "mm7/warnsign",
+  "mm7/7ch002d",
+  "mm7/7ch002b",
+  "mm7/7ch002e",
+  "mm7/7ch002i",
+  "mm7/7ch002j",
+  "mm7/7ch002c",
+  "mm7/sfw6b",
+  "mm7/a2h",
+  "mm7/a3b_k01",
+  "mm7/a3b",
+  "mm7/a2i",
+  "mm7/a3bs",
+  "mm7/a2d",
+  "mm7/sfw3",
+  "mm7/sfw4",
+  "mm7/sfw2"
+ ],
+ "requests": {
+  "mm7/t5s1c3": {
+   "name": "t5s1c3",
+   "versions": [
+    1
+   ],
+   "material": "square grey granite wall panel framed by rough stone blocks, with a carved stepped pyramid boss in the centre and a small recessed square on top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive1": {
+   "name": "hive1",
+   "versions": [
+    1
+   ],
+   "material": "glossy dark wine-red organic hive membrane with long vertical crimson fibres and black streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive14": {
+   "name": "hive14",
+   "versions": [
+    1
+   ],
+   "material": "rough pale tan and salmon-pink organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive15": {
+   "name": "hive15",
+   "versions": [
+    1
+   ],
+   "material": "rough orange and salmon organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive18": {
+   "name": "hive18",
+   "versions": [
+    1
+   ],
+   "material": "deep orange-red organic hive flesh covered in a network of raised dark vein ridges forming irregular cells",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive2": {
+   "name": "hive2",
+   "versions": [
+    1
+   ],
+   "material": "deep orange-brown organic hive flesh covered in a network of raised dark vein ridges forming irregular cells",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive21": {
+   "name": "hive21",
+   "versions": [
+    1
+   ],
+   "material": "rough rusty orange organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/warnsign": {
+   "name": "warnsign",
+   "versions": [
+    1
+   ],
+   "material": "aged yellow parchment sign painted with three red skulls over crossed bones inside a thin black rectangle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7ch002d": {
+   "name": "7ch002d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered brown oak chest planks with dark seams, horizontal planks framed by dark riveted iron bands along the top, left and right, with a black iron lock plate with a rectangular slot right of centre; copy the composition exactly",
+   "notes": {
+    "2": "the central lock plate is a square dark iron plate carrying a raised inner square frame with a small recessed square at its centre (concentric squares), no keyhole or slot opening; copy its size and position exactly; no orange line along the inside of the right iron band",
+    "4": "the weathered brown oak planks run right up to the dark iron bands: along the inner edge of the bottom and right bands there is no lighter orange strip or line; paint brown oak there even where the reference shows a thin orange line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.488
+    },
+    "2": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.488
+    },
+    "3": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.488
+    },
+    "4": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.488
+    }
+   }
+  },
+  "mm7/7ch002b": {
+   "name": "7ch002b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered brown oak chest planks with dark seams, plain horizontal planks with darker boards at top and bottom",
+   "notes": {
+    "2": "plain horizontal oak planks only, edge to edge: no square patch, plate, inset board or raised rectangle anywhere; the planks continue uninterrupted through the centre and the top-left",
+    "3": "plain horizontal oak planks only, edge to edge: no square patch, plate, inset board or raised rectangle anywhere; the planks continue uninterrupted through the centre and the top-left",
+    "4": "keep every plank and joint exactly where it is in the reference, at the same height, and continue the sharp planks seamlessly so no rectangle or square outline shows; plain horizontal planks only"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7ch002d"
+     ],
+     "fraction": 0.487
+    },
+    "2": {
+     "sources": [
+      "mm7/7ch002d"
+     ],
+     "fraction": 0.487
+    },
+    "3": {
+     "sources": [
+      "mm7/7ch002d"
+     ],
+     "fraction": 0.487
+    },
+    "4": {
+     "sources": [
+      "mm7/7ch002d"
+     ],
+     "fraction": 0.487
+    }
+   }
+  },
+  "mm7/7ch002e": {
+   "name": "7ch002e",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered brown oak chest planks with dark seams, horizontal planks with a small iron keyhole lock plate at the bottom centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7ch002b"
+     ],
+     "fraction": 0.882
+    },
+    "2": {
+     "sources": [
+      "mm7/7ch002b"
+     ],
+     "fraction": 0.882
+    }
+   }
+  },
+  "mm7/7ch002i": {
+   "name": "7ch002i",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered brown oak chest planks with dark seams and black iron fittings; vertical planks without fittings; copy the composition exactly",
+   "notes": {
+    "2": "plain vertical oak planks only, five boards running straight from top to bottom: the sharp plank areas in the reference are final; paint the blurred areas as the same continuous boards with identical grain and tone, with no rectangle outlines, frames, brackets or angled edges anywhere",
+    "3": "each board must be one unbroken plank from top to bottom: continue the grain of the sharp plank pieces straight through the blurred areas with matching tone so no horizontal step, seam or offset joint appears inside any board; board joints stay exactly where the reference has them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7ch002h"
+     ],
+     "fraction": 0.414
+    },
+    "2": {
+     "sources": [
+      "mm7/7ch002h"
+     ],
+     "fraction": 0.414
+    },
+    "3": {
+     "sources": [
+      "mm7/7ch002h"
+     ],
+     "fraction": 0.414
+    }
+   }
+  },
+  "mm7/7ch002j": {
+   "name": "7ch002j",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown oak chest planks with dark seams and black iron fittings; vertical planks with studded iron bands along the top and bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7ch002h"
+     ],
+     "fraction": 0.414
+    }
+   }
+  },
+  "mm7/7ch002c": {
+   "name": "7ch002c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered brown oak chest planks with dark seams, horizontal planks with thin studded iron bands down the left and right edges; copy the composition exactly",
+   "notes": {
+    "3": "the plank along the top edge runs right up to the top border at its normal brown tone: no dark line, seam or shadow along the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7ch002d"
+     ],
+     "fraction": 0.188
+    },
+    "2": {
+     "sources": [
+      "mm7/7ch002d"
+     ],
+     "fraction": 0.188
+    },
+    "3": {
+     "sources": [
+      "mm7/7ch002d"
+     ],
+     "fraction": 0.188
+    }
+   }
+  },
+  "mm7/sfw6b": {
+   "name": "sfw6b",
+   "versions": [
+    1
+   ],
+   "material": "dark gunmetal starship bulkhead of ribbed vertical steel plates, with horizontal pipe conduits and grilles at top and bottom and thin glowing green indicator strips; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/a2h": {
+   "name": "a2h",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mottled grey cast metal wall plate with grime darkening toward the bottom, under a band of ribbed segmented metal pipes and hanging dark cables along the top, with a thin dark vertical seam at the right edge; copy the composition exactly",
+   "notes": {
+    "3": "no dark line along the very top or bottom edge: the pipe band starts at full brightness on the first row and the grimy plate runs straight off the bottom edge at the same brightness as just above it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/a3b_k01": {
+   "name": "a3b_k01",
+   "versions": [
+    1
+   ],
+   "material": "dark gunmetal starship bulkhead of ribbed vertical steel plates, with horizontal pipe conduits and grilles at top and bottom and thin glowing green indicator strips; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/sfw6b"
+     ],
+     "fraction": 0.81
+    }
+   }
+  },
+  "mm7/a3b": {
+   "name": "a3b",
+   "versions": [
+    1
+   ],
+   "material": "dark gunmetal starship bulkhead of ribbed vertical steel plates, with horizontal pipe conduits and grilles at top and bottom and thin glowing green indicator strips; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/sfw6b",
+      "mm7/a3b_k01"
+     ],
+     "fraction": 0.882
+    }
+   }
+  },
+  "mm7/a2i": {
+   "name": "a2i",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mottled grey cast metal wall plate with grime darkening toward the bottom, under a band of ribbed segmented metal pipes and hanging dark cables along the top, the cables dipping lower at the right, with a thin dark vertical seam at the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/a2h"
+     ],
+     "fraction": 0.929
+    },
+    "2": {
+     "sources": [
+      "mm7/a2h"
+     ],
+     "fraction": 0.929
+    }
+   }
+  },
+  "mm7/a3bs": {
+   "name": "a3bs",
+   "versions": [
+    1
+   ],
+   "material": "dark gunmetal starship bulkhead of ribbed vertical steel plates, with horizontal pipe conduits and grilles at top and bottom and thin glowing green indicator strips, plus vertical pipes and valves on the left plate; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/a3b",
+      "mm7/sfw6b"
+     ],
+     "fraction": 0.767
+    }
+   }
+  },
+  "mm7/a2d": {
+   "name": "a2d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mottled grey cast metal wall plate with grime darkening toward the bottom, under a band of ribbed segmented metal pipes and hanging dark cables along the top, with a vertical riveted dark steel strip near each side edge; copy the composition exactly",
+   "notes": {
+    "3": "the riveted metal strap on the left runs straight off the left edge at full brightness; the outermost pixel columns are bright strap metal like the native, with no dark line or shadow"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/a2h"
+     ],
+     "fraction": 0.705
+    },
+    "2": {
+     "sources": [
+      "mm7/a2h"
+     ],
+     "fraction": 0.705
+    },
+    "3": {
+     "sources": [
+      "mm7/a2h"
+     ],
+     "fraction": 0.705
+    }
+   }
+  },
+  "mm7/sfw3": {
+   "name": "sfw3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark gunmetal starship bulkhead of stacked horizontal steel vent slats and thin pipes with a dark recessed band across the middle and green indicator lights; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/sfw2",
+      "mm7/a3bs",
+      "mm7/sfw4"
+     ],
+     "fraction": 0.44
+    },
+    "2": {
+     "sources": [
+      "mm7/sfw2",
+      "mm7/a3bs"
+     ],
+     "fraction": 0.43
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/sfw4": {
+   "name": "sfw4",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark gunmetal starship bulkhead with pipe conduits at the top and a large framed panel of ribbed dark steel outlined by thin glowing green strips; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/a3b_k01"
+     ],
+     "fraction": 0.402
+    },
+    "2": {
+     "sources": [
+      "mm7/a3b_k01"
+     ],
+     "fraction": 0.402
+    },
+    "3": {
+     "sources": [
+      "mm7/a3b_k01"
+     ],
+     "fraction": 0.402
+    }
+   },
+   "roll": {
+    "3": [
+     89,
+     0
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/sfw2": {
+   "name": "sfw2",
+   "versions": [
+    1
+   ],
+   "material": "dark gunmetal starship bulkhead of stacked horizontal steel vent slats and thin pipes with a dark recessed band and green indicator lights; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/sfw6b",
+      "mm7/a3b"
+     ],
+     "fraction": 0.432
+    }
+   }
+  }
+ }
+}

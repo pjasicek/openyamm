@@ -1,0 +1,458 @@
+# The rebuilt Control Center (devdocs/map_studio/briefs/mm6_scifi/L4): a walk from the party start through every
+# level, by its ramps and stairs, that uses every door, the button and one chest of each wing. Written by
+# output/studio_cal/mm6_scifi/mkplay.py; the shaft steps were added by hand in round two (do not run mkplay.py again).
+# Event and door numbers are those of ids.lock.yml. Round five: the chests hold the original's items (checked after
+# the loot), and the tube's lights switch as the party walks. Round six: before each loot the party drops what
+# the walk does not assert (the start kit and whatever else it holds), so whether a chest's items fit never depends on
+# what was picked up before; each loot counts the items its own chests give.
+id: studio.mm6_scifi.walk
+title: The Control Center rebuild, every level and every mechanism
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calscifi.blv
+  - assert: {map: calscifi.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  # Down the two ramps into the pit (floor -452 under the upper floor at -196) and back up its stair.
+  - walk_to: {x: -9216, y: 3700, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -9216, y: 3392, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -8200, y: 3392, z: 10, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7744, y: 3392, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -7744, y: 3392, radius: 140, z_min: -8, z_max: 8}}
+  - walk_to: {x: -7744, y: 4400, z: -186, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7744, y: 4800, z: -196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -7744, y: 4800, radius: 140, z_min: -204, z_max: -188}}
+  # Round five: the blaster terminal on the pit's south wall (event 42, the original's 61) sets qbit 1300.
+  - walk_to: {x: -7488, y: 4660, z: -196, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if qbit(1300) then error("qbit 1300 set before the terminal") end
+        click(42); wait(1)
+        if not qbit(1300) then error("terminal 61 did not set qbit 1300") end
+  # Round six: the terminal's text opens in a message window, as the original's evt.SetMessage and press-any-key do;
+  # the player reads it and closes it.
+  - assert:
+      dialog: {text_contains: "Blaster weapons provide an effective, accurate ranged attack"}
+  - play_lua:
+      source: |
+        if not close() then error("terminal 61 opened no message window") end
+  # Round four: the original's stair, seven steps east down to the landing (-308), nine south down to the low floor.
+  - walk_to: {x: -7950, y: 6848, z: -196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7000, y: 6900, z: -308, radius: 40, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        wait(0.5)
+  - assert: {party_position: {x: -7000, y: 6900, radius: 80, z_min: -316, z_max: -300}}
+  - walk_to: {x: -7022, y: 5650, z: -452, radius: 64, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -7022, y: 5650, radius: 100, z_min: -460, z_max: -444}}
+  - play_lua:
+      source: |
+        wait(1)
+  - walk_to: {x: -6500, y: 6000, z: -452, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -6500, y: 6000, radius: 140, z_min: -460, z_max: -444}}
+  # Where round three had a false ledge along the walls: the low floor runs to the south-east corner.
+  - walk_to: {x: -5850, y: 4630, z: -452, radius: 64, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -5850, y: 4630, radius: 100, z_min: -460, z_max: -444}}
+  - walk_to: {x: -7022, y: 5650, z: -452, radius: 64, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7000, y: 6900, z: -308, radius: 40, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        wait(0.5)
+  - assert: {party_position: {x: -7000, y: 6900, radius: 80, z_min: -316, z_max: -300}}
+  - walk_to: {x: -7950, y: 6848, z: -196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -7950, y: 6848, radius: 140, z_min: -204, z_max: -188}}
+  - walk_to: {x: -7744, y: 4800, z: -196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7744, y: 3392, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -9216, y: 3392, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # The entrance wing: the C-shaped store, the airlock hall and its door, and the whole tube round to the west junction.
+  - walk_to: {x: -9216, y: 2865, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -9800, y: 2865, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -10224, y: 3000, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -10224, y: 3600, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -11500, y: 3633, z: 228, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(1) ~= "closed" then error("door 1 does not start shut") end
+        open_door(1, 1)
+  - walk_to: {x: -12000, y: 3633, z: 228, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # Round five: the tube's lights (the original's events 38 to 52). The assert's key is the light's record in the
+  # built map (the original's light index less the 3, 6 or 17 lights left out before it), not its ids.lock.yml number:
+  # l045 is 44, l031 30, l050 49, l060 59, l068 67, l077 76, l389 372. The airlock's floor darkens the entry run.
+  - assert: {light: {key: 44, "on": false}}
+  - walk_to: {x: -13500, y: 3630, z: 380, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {light: {key: 44, "on": true}}
+  - walk_to: {x: -13835, y: 3630, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -13835, y: 3630, radius: 140, z_min: 385, z_max: 401}}
+  - assert: {light: {key: 44, "on": false}}
+  - assert: {light: {key: 30, "on": false}}
+  # Round four: the tube's banks are floor (74 up over 90 out); walk up the east bank of the west run and back.
+  - walk_to: {x: -13829, y: 2000, z: 393, radius: 64, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -13700, y: 2000, z: 430, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: -13700, y: 2000, radius: 60, z_min: 405, z_max: 470}}
+  - assert: {light: {key: 30, "on": true}}
+  - assert: {light: {key: 44, "on": false}}
+  - walk_to: {x: -13829, y: 1900, z: 393, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: -13835, y: -4238, z: 393, radius: 96, timeout_seconds: 240, clear_hostiles: 1500}
+  - assert: {light: {key: 30, "on": false}}
+  - assert: {light: {key: 49, "on": false}}
+  - walk_to: {x: -12300, y: -4238, z: 393, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - assert: {light: {key: 49, "on": true}}
+  - walk_to: {x: -10870, y: -4238, z: 393, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - assert: {light: {key: 49, "on": false}}
+  - assert: {light: {key: 59, "on": false}}
+  - walk_to: {x: -10870, y: -1881, z: 393, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - assert: {light: {key: 59, "on": false}}
+  - assert: {light: {key: 67, "on": false}}
+  - walk_to: {x: -8466, y: -1881, z: 393, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - assert: {light: {key: 67, "on": false}}
+  - assert: {light: {key: 76, "on": false}}
+  - walk_to: {x: -8466, y: -2943, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {light: {key: 76, "on": false}}
+  - assert: {light: {key: 372, "on": false}}
+  - walk_to: {x: -7800, y: -2943, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {light: {key: 372, "on": true}}
+  - play_lua:
+      source: |
+        if door_state(18) ~= "closed" then error("door 18 does not start shut") end
+        open_door(43, 18)
+  - walk_to: {x: -7300, y: -2958, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {light: {key: 372, "on": false}}
+  - assert: {party_position: {x: -7300, y: -2958, radius: 140, z_min: 385, z_max: 401}}
+  # The storage corridor: its door, the three storage rooms that shut each other, the first room's container.
+  - walk_to: {x: -7358, y: -3050, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(8) ~= "closed" then error("door 8 does not start shut") end
+        open_door(23, 8)
+  - walk_to: {x: -7358, y: -3470, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -6549, y: -3470, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(15) ~= "closed" then error("door 15 does not start shut") end
+        open_door(31, 15)
+  - walk_to: {x: -6549, y: -4000, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -6780, y: -4640, z: 393, radius: 130, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        local keep = {[1666] = true, [1667] = true, [2166] = true, [2076] = true, [2170] = true, [2172] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        local before = item_count(1666)
+        loot_chest(10)
+        if item_count(1666) ~= before + 1 then error("chest 4 did not give one blaster (1666)") end
+  - walk_to: {x: -6549, y: -4000, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -6549, y: -3470, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5579, y: -3470, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(32); wait(3)
+        if door_state(16) ~= "open" then error("storage room 2 did not open: " .. door_state(16)) end
+        if door_state(15) ~= "closed" then error("opening storage room 2 did not shut room 1: " .. door_state(15)) end
+  - walk_to: {x: -5579, y: -4000, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5579, y: -3470, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # West down the ramp to the pressure plate room and up its ramp through the store door.
+  - walk_to: {x: -7600, y: -3470, z: 393, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -8700, y: -3470, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -9000, y: -3470, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -9000, y: -3470, radius: 140, z_min: 188, z_max: 204}}
+  - walk_to: {x: -9000, y: -2762, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # Round three: onto the pressure plate (128 square, 1 high); its step event (evt:plate) slides the store door
+  # open, as the original's event 24 does.
+  - play_lua:
+      source: |
+        if door_state(12) ~= "closed" then error("door 12 does not start shut") end
+  - walk_to: {x: -9168, y: -2698, z: 197, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: -9168, y: -2698, radius: 56, z_min: 195, z_max: 199}}
+  - play_lua:
+      source: |
+        wait(3)
+        if door_state(12) ~= "open" then error("the plate did not open the store door: " .. door_state(12)) end
+  - walk_to: {x: -9330, y: -2762, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # Round four: the ramp to the store door is a sloping platform open on both sides; step onto it from its side.
+  - walk_to: {x: -9424, y: -2560, z: 196, radius: 40, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -9424, y: -2700, z: 242, radius: 40, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -9424, y: -2700, radius: 60, z_min: 228, z_max: 256}}
+  - walk_to: {x: -9560, y: -2762, z: 280, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -10000, y: -2762, z: 288, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -10000, y: -2762, radius: 140, z_min: 280, z_max: 296}}
+  - play_lua:
+      source: |
+        local keep = {[1666] = true, [1667] = true, [2166] = true, [2076] = true, [2170] = true, [2172] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        local before = item_count(1666)
+        loot_chest(8)
+        if item_count(1666) ~= before + 1 then error("chest 2 did not give one blaster (1666)") end
+  # Round six: the engineer's log on the store's south wall (the original's event 56) in its message window.
+  - walk_to: {x: -10351, y: -2500, z: 288, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(37); wait(1)
+  - assert:
+      dialog: {text_contains: "Chief Engineer Wilson's Personal Log"}
+  - play_lua:
+      source: |
+        if not close() then error("terminal 56 opened no message window") end
+  - walk_to: {x: -9560, y: -2762, z: 280, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -9000, y: -2762, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -9000, y: -3470, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7600, y: -3470, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3900, y: -3470, z: 393, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  # The repair bay behind its door, and its four containers.
+  - walk_to: {x: -3632, y: -3470, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3632, y: -4986, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(14) ~= "closed" then error("door 14 does not start shut") end
+        open_door(30, 14)
+  - walk_to: {x: -3100, y: -4986, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -700, y: -5150, z: 393, radius: 130, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        local keep = {[1666] = true, [1667] = true, [2166] = true, [2076] = true, [2170] = true, [2172] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        local blasters, rifles = item_count(1666), item_count(1667)
+        loot_chest(4)
+        loot_chest(5)
+        loot_chest(6)
+        loot_chest(7)
+        if item_count(1666) ~= blasters + 2 then error("the repair bay's chests 10 and 13 did not give two blasters") end
+        if item_count(1667) ~= rifles + 1 then error("the repair bay's chest 12 did not give one blaster rifle") end
+  - walk_to: {x: -3100, y: -4986, z: 393, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -3632, y: -4986, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # Up the ramp to the 591 level, through the lounge and the balcony room, down the link ramp to the west corridor.
+  - walk_to: {x: -3632, y: -1950, z: 393, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -3632, y: -974, z: 591, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -3632, y: -974, radius: 140, z_min: 583, z_max: 599}}
+  - walk_to: {x: -5104, y: -974, z: 591, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5104, y: -700, z: 591, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5056, y: -300, z: 591, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5056, y: 100, z: 588, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4780, y: 114, z: 588, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4100, y: 114, z: 400, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3313, y: 114, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -3313, y: 114, radius: 140, z_min: 385, z_max: 401}}
+  # The plug at the low passage, the wedge room, the meeting hall, its button and the room behind.
+  - walk_to: {x: -3313, y: 498, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(13) ~= "closed" then error("door 13 does not start shut") end
+        open_door(29, 13)
+  - walk_to: {x: -3800, y: 498, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3313, y: 498, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3313, y: 2704, z: 393, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(20) ~= "closed" then error("door 20 does not start shut") end
+        open_door(45, 20)
+  - walk_to: {x: -2800, y: 2704, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3313, y: 2704, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3313, y: 3805, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(10) ~= "closed" then error("door 10 does not start shut") end
+        open_door(25, 10)
+  - walk_to: {x: -2800, y: 3805, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2976, y: 4380, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(24); wait(1)
+        if door_state(9) ~= "closed" then error("the room behind the meeting hall opened by hand") end
+        click(26); wait(3)
+        if door_state(9) ~= "open" then error("the button did not open the room behind the meeting hall: " .. door_state(9)) end
+  - walk_to: {x: -1500, y: 4210, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -800, y: 4210, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -250, y: 3750, z: 393, radius: 130, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        local keep = {[1666] = true, [1667] = true, [2166] = true, [2076] = true, [2170] = true, [2172] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        local before = item_count(1667)
+        loot_chest(14)
+        if item_count(1667) ~= before + 1 then error("chest 8 did not give one blaster rifle (1667)") end
+  - walk_to: {x: -800, y: 4210, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -1500, y: 4210, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2800, y: 3805, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3313, y: 3805, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # Round by the north corridor and down the north passage onto the lower hall's walkway (256), then down to its floor.
+  - walk_to: {x: -3313, y: 4881, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 395, y: 4881, z: 393, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - walk_to: {x: 395, y: 4000, z: 256, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: 395, y: 4000, radius: 140, z_min: 248, z_max: 264}}
+  - walk_to: {x: 395, y: 2975, z: 256, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 60, y: 2975, z: 256, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -593, y: 2975, z: 256, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -593, y: 2975, radius: 140, z_min: 248, z_max: 264}}
+  - walk_to: {x: -593, y: 2450, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        wait(1)
+  - assert: {party_position: {x: -593, y: 2450, radius: 140, z_min: -8, z_max: 8}}
+  - walk_to: {x: -1500, y: -382, z: 0, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - assert: {party_position: {x: -1500, y: -382, radius: 140, z_min: -8, z_max: 8}}
+  # The west porch door, and out to the generator room.
+  - walk_to: {x: -2200, y: -382, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(21) ~= "closed" then error("door 21 does not start shut") end
+        open_door(46, 21)
+        if door_state(25) ~= "open" then error("the west porch door's second leaf did not open: " .. door_state(25)) end
+  - walk_to: {x: -3000, y: -382, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3800, y: -382, z: 110, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5000, y: -382, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7000, y: -382, z: 196, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - assert: {party_position: {x: -7000, y: -382, radius: 140, z_min: 188, z_max: 204}}
+  # North: the ramp, the gate slab, the north-west corridor with the panel room and the H-shaped room.
+  - walk_to: {x: -7380, y: 1000, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: 2184, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -7380, y: 2184, radius: 140, z_min: 385, z_max: 401}}
+  - play_lua:
+      source: |
+        if door_state(5) ~= "closed" then error("door 5 does not start shut") end
+        open_door(20, 5)
+  - walk_to: {x: -7380, y: 3000, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: 4160, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4750, y: 4160, z: 393, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(11) ~= "closed" then error("door 11 does not start shut") end
+        open_door(27, 11)
+  - walk_to: {x: -4750, y: 3500, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4750, y: 4160, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4245, y: 4160, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(6) ~= "closed" then error("door 6 does not start shut") end
+        open_door(21, 6)
+  - walk_to: {x: -4245, y: 4700, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4245, y: 4160, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: 4160, z: 393, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: 2184, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # Up the two north-west ramps to the upper level (1184), into the upper hall, which stands on the lower one.
+  - walk_to: {x: -6000, y: 2184, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4500, y: 2184, z: 780, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: 2184, z: 788, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -4248, y: 2184, radius: 140, z_min: 780, z_max: 796}}
+  - walk_to: {x: -4248, y: 400, z: 1170, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: -383, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3000, y: -383, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -2000, y: -383, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -2000, y: -383, radius: 140, z_min: 1176, z_max: 1192}}
+  # Round two: into the south-west shaft (448 square through the upper hall's floor): a fall of 1184 onto the lower
+  # hall's floor, then back up by the west passage, the generator room and the two south-west ramps.
+  - walk_to: {x: -1920, y: -1500, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -1920, y: -1500, radius: 140, z_min: 1176, z_max: 1192}}
+  - walk_to: {x: -1920, y: -2048, z: 0, radius: 120, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: "wait(2)"}
+  - assert: {party_position: {x: -1920, y: -2048, radius: 230, z_min: -8, z_max: 8}}
+  - walk_to: {x: -2000, y: -383, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3000, y: -382, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7000, y: -382, z: 196, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: -1500, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: -2000, z: 221, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: -2958, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -6600, y: -2958, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5900, y: -2958, z: 400, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: -2958, z: 788, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: -2700, z: 790, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # Round four: sector 12 is one room; its ramp is part of an uneven floor (floor_points) under the vault.
+  - walk_to: {x: -4248, y: -1866, z: 986, radius: 40, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -4248, y: -1866, radius: 60, z_min: 970, z_max: 1002}}
+  - walk_to: {x: -4248, y: -1000, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: -383, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3000, y: -383, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -3000, y: -383, radius: 140, z_min: 1176, z_max: 1192}}
+  # Back down by the two south-west ramps to the west junction, and through the generator room to the lower hall: the same spot, 1184 lower.
+  - walk_to: {x: -4248, y: -383, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: -1000, z: 1184, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: -2700, z: 790, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -4248, y: -2958, z: 788, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -5900, y: -2958, z: 400, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -6600, y: -2958, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: -2958, z: 393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: -2000, z: 221, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7380, y: -1500, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -7000, y: -382, z: 196, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: -3000, y: -382, z: 0, radius: 96, timeout_seconds: 180, clear_hostiles: 1500}
+  - walk_to: {x: -2000, y: -383, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: -2000, y: -383, radius: 140, z_min: -8, z_max: 8}}
+  # Round the core to the east porch: its door shuts the west one.
+  - walk_to: {x: -1500, y: -1500, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 2000, y: -1500, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2950, y: -384, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(17); wait(3)
+        if door_state(3) ~= "open" then error("the east porch door did not open: " .. door_state(3)) end
+        if door_state(21) ~= "closed" then error("opening the east porch door did not shut the west one: " .. door_state(21)) end
+        if door_state(23) ~= "open" then error("the east porch door's second leaf did not open: " .. door_state(23)) end
+        if door_state(25) ~= "closed" then error("the west porch door's second leaf did not shut: " .. door_state(25)) end
+  - walk_to: {x: 3600, y: -384, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 5500, y: -384, z: -360, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 6000, y: -384, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: 6000, y: -384, radius: 140, z_min: -401, z_max: -385}}
+  # The east store behind its two doors.
+  - walk_to: {x: 7232, y: 300, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(2) ~= "closed" then error("door 2 does not start shut") end
+        open_door(16, 2)
+  - walk_to: {x: 7232, y: 1728, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(4) ~= "closed" then error("door 4 does not start shut") end
+        open_door(18, 4)
+  - walk_to: {x: 6500, y: 1728, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 5990, y: 1100, z: -393, radius: 140, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        local keep = {[1666] = true, [1667] = true, [2166] = true, [2076] = true, [2170] = true, [2172] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(12)
+        if not has_item(2170) then error("chest 6: no item 2170") end
+        if not has_item(2172) then error("chest 6: no item 2172") end
+  - walk_to: {x: 6500, y: 1728, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 7232, y: 1728, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 7232, y: 300, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  # The hatch, the long ramp down to the vault (-985) and its container.
+  - walk_to: {x: 5824, y: -1700, z: -393, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 5824, y: -2048, z: -393, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(7) ~= "closed" then error("door 7 does not start shut") end
+        open_door(22, 7)
+  - walk_to: {x: 6300, y: -2048, z: -480, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 8200, y: -2048, z: -950, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 8512, y: -2048, z: -985, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - assert: {party_position: {x: 8512, y: -2048, radius: 140, z_min: -993, z_max: -977}}
+  - walk_to: {x: 8512, y: -2650, z: -985, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(19) ~= "closed" then error("door 19 does not start shut") end
+        open_door(44, 19)
+  - walk_to: {x: 8512, y: -3200, z: -985, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 8850, y: -3400, z: -985, radius: 150, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        local keep = {[1666] = true, [1667] = true, [2166] = true, [2076] = true, [2170] = true, [2172] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(11)
+        if not has_item(2166) then error("chest 5: no item 2166") end
+        if not has_item(2076) then error("chest 5: no item 2076") end

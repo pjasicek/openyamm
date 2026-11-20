@@ -30,7 +30,7 @@ class CreatureJobsTests(unittest.TestCase):
         (self.project / 'reference.png').write_bytes(b'original-reference')
         workspace.write_json(self.project / 'request.json', {'image_url': '@file:reference.png',
                                                             'model_type': 'smart-topology', 'ai_model': 'meshy-t2'})
-        self.key_patch = patch.object(meshy, 'api_key', return_value='fake-key-for-offline-tests')
+        self.key_patch = patch.object(meshy, 'account_keys', return_value={'primary': 'fake-key-for-offline-tests'})
         self.key_patch.start()
         self.addCleanup(self.key_patch.stop)
 
@@ -210,9 +210,35 @@ class CreatureJobsTests(unittest.TestCase):
         with patch.object(sys, 'argv', ['creature_meshy.py', 'balance']), redirect_stdout(output):
             with patch.object(meshy, 'api_request', return_value={'balance': 100}) as api:
                 meshy.main()
-                api.assert_called_once_with('GET', '/openapi/v1/balance')
-        self.assertEqual(json.loads(output.getvalue()), {'balance': 100})
+                api.assert_called_once_with('GET', '/openapi/v1/balance', account='primary')
+        self.assertEqual(json.loads(output.getvalue()), {'primary': {'balance': 100}})
         self.assertEqual(workspace.read_json(self.project / workspace.DEFAULT_STATE)['meshy']['jobs'], {})
+
+    def test_backup_account_takes_new_jobs_and_follow_ups_stay_on_their_account(self):
+        workspace.write_json(self.project / 'rig.json', {'rig_task_id': 'task-body', 'height_meters': 1.7})
+        balances = {'primary': 10, 'backup': 3000}
+
+        def api(method, endpoint, payload=None, account='primary'):
+            if endpoint.endswith('/balance'):
+                return {'balance': balances[account]}
+            if method == 'POST':
+                return {'result': 'task-body' if 'image' in endpoint else 'task-rig'}
+            return {'id': endpoint.rsplit('/', 1)[1], 'status': 'SUCCEEDED', 'consumed_credits': 5}
+
+        with patch.object(meshy, 'account_keys', return_value={'primary': 'key-1', 'backup': 'key-2'}), \
+                patch.object(meshy, 'api_request', side_effect=api) as request:
+            self.assertEqual(self.submit()['account'], 'backup')
+            self.assertEqual(request.call_args.args[3], 'backup')
+            balances['backup'] = 0
+            rig = meshy.submit(self.project, workspace.DEFAULT_STATE, self.lease['token'], 'rig_v1', 'rigging',
+                               'rig.json', 5)
+            self.assertEqual(rig['account'], 'backup')
+            meshy.poll(self.project, workspace.DEFAULT_STATE, self.lease['token'], 'rig_v1')
+            self.assertEqual(request.call_args.kwargs['account'], 'backup')
+            with self.assertRaises(RuntimeError):
+                self.submit('body_v2')
+        jobs = workspace.read_json(self.project / workspace.DEFAULT_STATE)['meshy']['jobs']
+        self.assertNotIn('body_v2', jobs)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,189 @@
+{
+ "sprite": "7tree05_p121",
+ "output": "mm7_deco_7tree05.glb",
+ "height_m": 7.5,
+ "note": "Dense oblong olive and yellow crown from a fifth of the height on a short straight dark trunk.",
+ "sapling": {
+  "scale": 5.3,
+  "baseSize": 0.15,
+  "splitHeight": 0.3,
+  "attractUp": [
+   0,
+   0.75,
+   0.4,
+   0
+  ],
+  "downAngle": [
+   90,
+   42,
+   40,
+   45
+  ],
+  "seed": 51,
+  "ratio": 0.045,
+  "baseSplits": 0
+ },
+ "crown": {
+  "canopy_low": 0.2,
+  "centre": 0.58,
+  "clumps": 135,
+  "inner_clumps": 24,
+  "card": [
+   0.4,
+   0.5
+  ],
+  "gap": 0.7
+ },
+ "bark": {
+  "target_srgb": [
+   92,
+   76,
+   58
+  ],
+  "clip_below_crown": true,
+  "roots": 0
+ },
+ "leaves": {
+  "target_srgb": [
+   172,
+   161,
+   57
+  ],
+  "seeds": [
+   53,
+   59,
+   61,
+   67
+  ],
+  "value": [
+   0.9,
+   1.65
+  ],
+  "palette": [
+   [
+    [
+     [
+      172,
+      172,
+      51
+     ],
+     0.5
+    ],
+    [
+     [
+      205,
+      193,
+      60
+     ],
+     0.3
+    ],
+    [
+     [
+      110,
+      120,
+      46
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      202,
+      184,
+      57
+     ],
+     0.5
+    ],
+    [
+     [
+      161,
+      161,
+      53
+     ],
+     0.3
+    ],
+    [
+     [
+      138,
+      99,
+      46
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      126,
+      136,
+      51
+     ],
+     0.5
+    ],
+    [
+     [
+      172,
+      172,
+      51
+     ],
+     0.3
+    ],
+    [
+     [
+      92,
+      103,
+      41
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      184,
+      168,
+      55
+     ],
+     0.4
+    ],
+    [
+     [
+      143,
+      147,
+      48
+     ],
+     0.4
+    ],
+    [
+     [
+      218,
+      202,
+      69
+     ],
+     0.2
+    ]
+   ]
+  ]
+ },
+ "lod": {
+  "triangles": [
+   7000,
+   2700,
+   900
+  ],
+  "tone": [
+   1.0,
+   0.92,
+   0.99
+  ]
+ },
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.55,
+  "range": 0.45,
+  "power": 1.0,
+  "local_floor": 0.45,
+  "core_floor": 0.72
+ }
+}

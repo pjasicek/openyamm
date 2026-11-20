@@ -1,0 +1,68 @@
+# MM9 promotion playthrough 93, the class table in bulk (README "What is checked" 5): Guberland City: Tjolnir the Super-neat (Healer) and Gray Slemnir (Priest).
+# Each round gives the members a row's "from" classes (a logged test setup through SetPlayerClass, not a cheat
+# for a quest), picks the promoter's "Promote our eligible characters." (his quest is done) and asserts every
+# member's class; picked again, it has nobody left. Written by class_table.py for a 4-member party
+# (a four-class round is played in chunks of the party's size). The party's own classes are
+# put back at the end.
+#   python3 tests/playthrough/mm9/promotions/run.py 93
+id: mm9.promotions.93_guberland_tjolnir_slemnir
+title: "MM9 promotions 93: the class table at Guberland City"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/92_drangheim_keith_atli.oysav}
+  - setup_shortcut: {kind: immortal}
+  # The party's own classes, kept for the end (class ids in global variables; the names remembered for the check).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+
+  # To the region, then into guberlandcity through its gate (outdoors the party is placed).
+  - travel: {map: guberland.blv, days: 3}
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+
+  # Healer: RUDE 128, actor 11.
+  - set_pose: {map: guberlandcity.blv, x: -4751, y: -6867, z: 62, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  # Round 1: Cleric Druid Sorcerer Priest -> Priest GreatDruid Sorcerer Priest.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Cleric') then error('SetPlayerClass(0, Cleric)') end if not SetPlayerClass(1, 'Druid') then error('SetPlayerClass(1, Druid)') end if not SetPlayerClass(2, 'Sorcerer') then error('SetPlayerClass(2, Sorcerer)') end if not SetPlayerClass(3, 'Priest') then error('SetPlayerClass(3, Priest)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES Healer round 1 set: " .. c) if c ~= "Cleric Druid Sorcerer Priest" then error("expected Cleric Druid Sorcerer Priest, got " .. c) end'}
+  - interact_actor: {actor_index: 11}
+  - assert: {dialog: {active: true, source_id: 128, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "is now a"}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Healer round 1 promoted: " .. c) if c ~= "Priest GreatDruid Sorcerer Priest" then error("expected Priest GreatDruid Sorcerer Priest, got " .. c) end'}
+  # Picked again: nobody left to promote.
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "No one among you can take this promotion now."}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Healer round 1 again: " .. c) if c ~= "Priest GreatDruid Sorcerer Priest" then error("expected Priest GreatDruid Sorcerer Priest, got " .. c) end'}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+
+  # Priest: RUDE 129, actor 9.
+  - set_pose: {map: guberlandcity.blv, x: -6226, y: -6376, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  # Round 1: Priest Cleric GreatDruid Wizard -> PriestLight Cleric GreatDruid Wizard.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Priest') then error('SetPlayerClass(0, Priest)') end if not SetPlayerClass(1, 'Cleric') then error('SetPlayerClass(1, Cleric)') end if not SetPlayerClass(2, 'GreatDruid') then error('SetPlayerClass(2, GreatDruid)') end if not SetPlayerClass(3, 'Wizard') then error('SetPlayerClass(3, Wizard)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES Priest round 1 set: " .. c) if c ~= "Priest Cleric GreatDruid Wizard" then error("expected Priest Cleric GreatDruid Wizard, got " .. c) end'}
+  - interact_actor: {actor_index: 9}
+  - assert: {dialog: {active: true, source_id: 129, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "is now a"}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Priest round 1 promoted: " .. c) if c ~= "PriestLight Cleric GreatDruid Wizard" then error("expected PriestLight Cleric GreatDruid Wizard, got " .. c) end'}
+  # Picked again: nobody left to promote.
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "No one among you can take this promotion now."}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Priest round 1 again: " .. c) if c ~= "PriestLight Cleric GreatDruid Wizard" then error("expected PriestLight Cleric GreatDruid Wizard, got " .. c) end'}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+  - save_game: {name: "P93 class table", path: output/playthrough/mm9/promotions/checkpoints/93_guberland_tjolnir_slemnir.oysav}

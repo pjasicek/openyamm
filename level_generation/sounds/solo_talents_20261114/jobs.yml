@@ -1,0 +1,33 @@
+schema: openyamm.elevenlabs.jobs.v1
+# MAW solo run talent sounds (devdocs/solo_action/TALENT_TREE_V2_BUILD.md), user request 2026-11-14: Charge and Cleave
+# in the style of a classic fantasy MMO warrior's, and Cheat Death. Installed into assets_dev/engine/audio/solo_talents/.
+budget: 3000
+defaults: {kind: sfx, model: eleven_text_to_sound_v2, prompt_influence: 0.5, variants: 3,
+           formats: [wav_48000, mp3_44100_192]}
+jobs:
+  - id: talent_cleave
+    title: Cleave
+    use: the Cleave burst, at the blow
+    prompt: "Fantasy warrior special attack: a heavy two-handed axe swung in a wide powerful arc with a deep whoosh,
+      then a meaty slicing impact as the blade cuts through several armored enemies at once, a short metallic ring"
+    duration: 1.2
+    highpass_hz: 30
+    loudness_db: -8
+    score_bias: power
+  - id: talent_charge
+    title: Charge
+    use: Charge, as the dash starts
+    prompt: "Fantasy warrior charge ability: a fierce short battle shout, a sudden rushing whoosh of air and rattling
+      plate armor as the warrior dashes forward, ending in a heavy shoulder slam impact thud"
+    duration: 1.6
+    highpass_hz: 30
+    loudness_db: -8
+    score_bias: power
+  - id: talent_cheat_death
+    title: Cheat Death
+    use: Cheat Death saving the solo from a fatal hit
+    prompt: "Magical death-defying save: a deep slow heartbeat that stops, a ghostly reversed swell rushing upward, then
+      a bright crystalline shimmering burst as life returns, eerie and dramatic"
+    duration: 2.0
+    highpass_hz: 30
+    loudness_db: -9

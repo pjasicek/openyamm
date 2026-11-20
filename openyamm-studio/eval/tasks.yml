@@ -1,0 +1,65 @@
+# Map Studio agent evaluation, version 1 (devdocs/map_studio/PLAN.md section 11, "Agent evaluation").
+# Each task is given to a fresh agent that knows nothing of the studio and may use only the MCP tools (through an
+# MCP connection, or `node openyamm-studio/host/src/call.mjs`): no reading of the studio's sources, examples or
+# tests, of the game's Lua, or of other agents' work. `check` decides; the agent's own report does not.
+# Results of the runs are in eval/RESULTS.md.
+format: 1
+tasks:
+  - id: rewire-goblinwatch
+    prompt: >
+      Goblinwatch (6d01.blv, world mm6) has a vault opened by lettered keys: the map's events 19 to 34. Make an
+      overlay project in <work>/vault that replaces the handlers of all sixteen events with wiring events of your
+      own that behave exactly as the shipped ones do. Use presets where one fits and a script only where none does.
+    check: eval/check_rewire.sh <work>/vault 6d01.blv 16
+  - id: rewire-wells
+    prompt: >
+      New Sorpigal (oute3.odm, world mm6) has wells and a fountain whose events are 109, 110, 131, 140 and 150.
+      Make an overlay project in <work>/wells that replaces those five handlers with wiring events of your own that
+      behave exactly as the shipped ones do.
+    check: eval/check_rewire.sh <work>/wells oute3.odm 5
+  - id: slice-edit
+    setup: copy examples/gatehouse_cellars (without .oymap and build) to <work>/cellars
+    prompt: >
+      In the project <work>/cellars: the gate (door:gate) should move at speed 64, and the vault needs one more
+      light, radius 400. Make both changes as one transaction and make sure the project still builds.
+    check: map_query door:gate speed is 64; lights of room:vault grew by one with radius 400; map_build dry run ok;
+      history shows one transaction
+  - id: outside-edit
+    setup: after slice-edit, change door:gate's speed to 200 in objects.yml with a text editor
+    prompt: >
+      Someone changed the project <work>/cellars by hand since you last worked on it. Say exactly what they
+      changed, then put it back as it was.
+    check: the answer names door:gate and speed; map_query door:gate speed is 64; history has an "outside" entry
+      that is undone
+  - id: review-pin
+    setup: map_pins add {id: pin:gate, on: door:gate, text: "The gate should stay open once the lever is pulled."}
+    prompt: >
+      The project <work>/cellars has review notes. Read them, make the change each one asks for if the project can
+      express it, and resolve each with a reply saying what you did or why not.
+    check: pin:gate is resolved with a reply; the project validates
+  - id: find-defects
+    prompt: >
+      Which events of Goblinwatch (6d01.blv, mm6) are bound to something in the map but have no handler, and which
+      doors does the script move that the map does not have?
+    check: the answer names the events `oymap audit 6d01.blv` reports as event.unhandled (38, 54, 57, 58) and no other
+  - id: opening-order
+    prompt: >
+      In what order does Goblinwatch (6d01.blv, mm6) open up from the party start, and which event opens the
+      vault's last door? Answer from the tools, not from memory of the game.
+    check: the answer's steps match `oymap solve 6d01.blv`
+  - id: placeholder
+    prompt: >
+      The vault of <work>/cellars should get a statue of a kneeling knight in its middle, but no such decoration
+      exists. Search the catalogue first; if nothing fits, hold the place so the request is not lost.
+    check: map_assets was called; objects.yml has a placeholder in room:vault whose stands_for names the statue;
+      map_build reports it as a warning
+  - id: author-dungeon
+    prompt: >
+      Build "The Old Crypt" as a new project in <work>/crypt (map id crypt01, world mm6, map table row 9410): the
+      party arrives in an L-shaped antechamber; a corridor with one bend leads to a flight of stairs going down
+      about 200 units into the crypt, a larger room with two pillars and a low dais at its far end; a chest stands
+      on the dais; off the crypt is a side chamber behind a door that a lever in the antechamber opens, with a
+      second chest; every room has a light. Make it build, show that the map opens up in the right order, look at
+      a render, and write and run a playtest that takes both chests.
+    check: oymap build passes; oymap solve <work>/crypt reaches every room, the side chamber in a later step than
+      the crypt; the agent's scenario passes in the game; the plan render shows an L, a bent corridor and stairs

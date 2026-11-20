@@ -1,0 +1,96 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Produce one 1024 x 1024 RGBA PNG, genuinely transparent background, texture-source albedo painting of the BACK view of the Fungus clump.\nInput 1 design_reference.png: approved material and colour reference ONLY, not camera or composition.\nInput 2 guide_back.png: edit target and immutable geometry authority. Paint directly onto this exact grey orthographic model render. Preserve its exact pixel silhouette, framing, scale, position, angular outlines, all internal edges, occlusions, openings, thin stalks and ground-base geometry. Do not copy the three-quarter composition of input 1. Keep the broad largest fungus at upper right and the broad lower fungus at left exactly as input 2. Do not round off or smooth out the low-poly silhouette. Do not add mushrooms, soil, tips or any other geometry.\nPaint pale cream and ivory fungus flesh with soft organic speckles, muted violet gills radiating into cream stems on visible undersides, dark brown composted soil and bark on the existing base, and faint blue-white glowing tips only where existing tip geometry is visible. Match the approved design materials closely, but mapped onto the guide back view.\nLIGHTING: this is albedo for texture projection. Completely even, flat, shadowless light from the viewer; no cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour only, with no light spill or halos.\nExact 1024 x 1024 canvas. Leave transparent all background and openings from guide_back.png. Nothing added outside its silhouette, nothing cropped. No text.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "89dce2ad35192ea619ad2d8df710b9a0a44006a6455e9a2f0e724ce564a6c4c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16050-de09-7d50-8545-10ad646aa9de/exec-69657382-99e9-4f40-a36b-d7fe13af25e7.png",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: rounded guide geometry, added visible blue mushrooms and wrong canvas size.",
+      "output_sha256": "e943f4ab0ec7ade1e6933acf0472d7042b4e98580752443e6d657fed608ecb29",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          12,
+          1190,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          174,
+          958,
+          850
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Cream/ivory flesh, muted violet gills, brown compost and bark match the palette; visual inspection.",
+        "flat_even_light": "Some shading retained; not fully shadowless.",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Corrective generation, precise-object-edit. Output MUST be 1024 x 1024 pixels, transparent RGBA PNG.\nImage 1 guide_back.png is the EDIT TARGET: retain its exact canvas and alpha silhouette pixel for pixel. Recolour this existing low-poly render in place, preserving every polygon boundary, silhouette corner, position, size, opening and occlusion. Image 2 design_reference.png is ONLY a material palette reference, never a shape or composition reference.\nThe earlier attempt incorrectly rounded and enlarged the shape, added blue mushrooms and returned 1254 x 1254. Correct these errors: exactly 1024 x 1024, exact unchanged guide geometry. Object bounds remain x=66..957, y=174..849. Keep all the transparent margin. Do not add ANY blue mushrooms or other geometry absent from the guide.\nPaint only the guide's existing surfaces with pale ivory and cream softly speckled fungus flesh, soft violet gill lines on undersides, and dark brown compost and wood texture on the angular ground-base pieces. Paint faint blue-white tips only if tips are actually visible on the guide; they are mostly occluded in this back view. The large top fungus remains an angular broad inverted fan in the upper right; the lower left fan, small central and right fungi, all thin stems and the jagged base remain EXACTLY where they are in image 1. Keep the faceted rim outlines, not rounded naturalistic replacements.\nFlat evenly viewer-lit albedo texture source: no cast shadows, no ambient occlusion, no dark crevices from lighting, no directional shading, no specular highlights, no reflections, no rim light, no background or floor, no glow spill. Surface colour and fine material markings only. Preserve exact original transparent openings and outline. No resizing, no cropping, no reframing.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "89dce2ad35192ea619ad2d8df710b9a0a44006a6455e9a2f0e724ce564a6c4c4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16050-de09-7d50-8545-10ad646aa9de/exec-7cca2601-6956-4a96-8a61-b4827e09dd2f.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Closer angular guide geometry and requested palette; best of the two permitted attempts. Raw unresized return retained. Not fully compliant: exact guide silhouette and required canvas size were not achieved; some baked shading remains.",
+      "output_sha256": "14d41d24310ac63406207b5e8c898b39755cf93be23aa97a26953bbea305a7df",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          27,
+          1179,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          174,
+          958,
+          850
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Cream/ivory flesh, muted violet gills, brown compost and bark match the palette; visual inspection.",
+        "flat_even_light": "Some shading retained; not fully shadowless.",
+        "unresized_return": true
+      }
+    }
+  ],
+  "fully_compliant": false,
+  "corrective_regenerations_used": 1
+}

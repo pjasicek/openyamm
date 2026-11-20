@@ -1,0 +1,98 @@
+# The staged talk of npcs.yml (the integrator's follow-ups 23 and 32-35, P4's R3 texts): the Pilot's topic list at the
+# wreck and after M4, The repair list and The Deepwell; the Warden's list and Bounties (S11: 100231, then the bounty
+# board house 9459); Aster's list before and after M3 and from M13, her quest topics' bits (M7, M11, M13, the three
+# nodes with autonote 10410) and her silence after Tear it out (100034). Headless, from output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario ../../../level_generation/projects/hesper_stage/talk_topics.yml
+id: hesper.stage.talk_topics
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+- note: {text: "The Pilot at the wreck before M1: Planetfall, Black box, The stash, Drones."}
+- speak_npc: {source_id: 9001}
+- assert:
+    dialog:
+      source_id: 9001
+      actions: [{id: 9001}, {id: 9002}, {id: 9003}, {id: 9004}]
+- press_action: {action: cancel_dialog}
+- note: {text: "After M1: Below the rim joins (five)."}
+- setup_shortcut: {kind: set_qbit, id: 100001, reason: M1 done}
+- speak_npc: {source_id: 9001}
+- assert:
+    dialog:
+      actions: [{id: 9001}, {id: 9002}, {id: 9003}, {id: 9004}, {id: 9006}]
+- press_action: {action: cancel_dialog}
+- note: {text: "Aboard after M4 (100204 cleared by the socket, so set only 100004): no Planetfall, no Below the rim, no Drones."}
+- setup_shortcut: {kind: set_qbit, id: 100004, reason: M4 done}
+- setup_shortcut: {kind: set_qbit, id: 100003, reason: M3 done}
+- speak_npc: {source_id: 9001}
+- assert:
+    dialog:
+      actions: [{id: 9002}, {id: 9003}, {id: 9007}, {id: 9008}, {id: 9009}]
+- select_topic: {kind: npc_topic, action_id: 9007}
+- assert:
+    qbit_clear: [100204]
+- press_action: {action: cancel_dialog}
+- note: {text: "After the Voice's choice (100015): The Deepwell takes The stash's slot; with parts missing it refuses."}
+- setup_shortcut: {kind: set_qbit, id: 100015, reason: the Voice's choice}
+- speak_npc: {source_id: 9001}
+- assert:
+    dialog:
+      actions: [{id: 9002}, {id: 9007}, {id: 9008}, {id: 9009}, {id: 9030}]
+- select_topic: {kind: npc_topic, action_id: 9030}
+- assert:
+    qbit_clear: [100052]
+- press_action: {action: cancel_dialog}
+- setup_shortcut: {kind: set_qbit, id: 100040, reason: part fitted}
+- setup_shortcut: {kind: set_qbit, id: 100041, reason: part fitted}
+- setup_shortcut: {kind: set_qbit, id: 100042, reason: part fitted}
+- setup_shortcut: {kind: set_qbit, id: 100043, reason: part fitted}
+- speak_npc: {source_id: 9001}
+- select_topic: {kind: npc_topic, action_id: 9030}
+- assert:
+    qbit_set: [100052]
+- press_action: {action: cancel_dialog}
+- note: {text: "The Warden after M1: Hesper, Kreegans, Dead Terminal, Hacking, Bounties (S11 given, then the board)."}
+- speak_npc: {source_id: 9002}
+- assert:
+    dialog:
+      actions: [{id: 9012}, {id: 9013}, {id: 9014}, {id: 9015}, {id: 9017}]
+- select_topic: {kind: npc_topic, action_id: 9017}
+- assert:
+    qbit_set: [100231]
+- select_topic: {kind: npc_topic, action_id: 9017}
+- assert:
+    dialog: {house_dialog: true, source_id: 9459}
+- press_action: {action: cancel_dialog}
+- note: {text: "Aster after M3: The Voice, The Watchers, The Brood Spires, The Lattice, Memory."}
+- speak_npc: {source_id: 9500}
+- assert:
+    dialog:
+      source_id: 9500
+      actions: [{id: 9623}, {id: 9630}, {id: 9631}, {id: 9633}, {id: 9634}]
+- select_topic: {kind: npc_topic, action_id: 9633}
+- assert:
+    qbit_set: [100209, 100210, 100214]
+- select_topic: {kind: npc_topic, action_id: 9631}
+- assert:
+    qbit_set: [100211, 100213]
+- select_topic: {kind: npc_topic, action_id: 9630}
+- assert:
+    qbit_set: [100207]
+- select_topic: {kind: npc_topic, action_id: 9634}
+- select_topic: {kind: npc_topic, action_id: 9623}
+- press_action: {action: cancel_dialog}
+- note: {text: "From M13: Retune takes The Brood Spires' slot."}
+- setup_shortcut: {kind: set_qbit, id: 100013, reason: M13 done}
+- speak_npc: {source_id: 9500}
+- assert:
+    dialog:
+      actions: [{id: 9623}, {id: 9630}, {id: 9633}, {id: 9634}, {id: 9636}]
+- select_topic: {kind: npc_topic, action_id: 9636}
+- press_action: {action: cancel_dialog}
+- note: {text: "After Tear it out (100034) every topic of hers is silent; The Lattice sets nothing new."}
+- setup_shortcut: {kind: set_qbit, id: 100034, reason: Tear it out}
+- speak_npc: {source_id: 9500}
+- select_topic: {kind: npc_topic, action_id: 9623}
+- press_action: {action: cancel_dialog}

@@ -1,0 +1,24 @@
+{
+  "creature_3d_identity": "mm9reduce:clansoldier",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "status": "ready for review (fix pass, chart guard, UV audit 0)",
+  "date": "2026-11-04",
+  "source": "assets_source/worlds/mm9/models/mm9_clansoldier.glb (sha256 487e28a9084b, before/)",
+  "candidate": "export_mp/mm9_clansoldier.glb (sha256 79abc5b0be33)",
+  "lod0": [
+    12869,
+    10077
+  ],
+  "lods_after": [
+    5037,
+    1811,
+    603
+  ],
+  "ladder": "chart-guarded mpqem h r45 (SETS=g, MP_GROUPS=1:0.6,2:0.45,3:0.7,5:0.7,6:0.55, MP_W5=4)",
+  "installed": false,
+  "credits": 0,
+  "superseded": "d72 (MeshLab, 9,635) installed then rolled back 2026-11-04: 66 LOD0 faces off the painted charts"
+}

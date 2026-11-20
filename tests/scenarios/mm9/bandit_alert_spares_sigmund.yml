@@ -1,0 +1,37 @@
+# Discord report (2026-11-13): Jarl Sigmund of Drangheim turned hostile and could not be talked to. Sigmund (actor 20)
+# and the bandit Guaire A'Velsi (actor 38, Atli's Assassin target, shown with key 222) both carry the peasant relations
+# (ally 118), so a hit on Guaire alerted Sigmund as his kin when Guaire was within his 3072-unit alert radius. MM9
+# townsfolk and guards decide their attitude themselves: another actor's alert must not turn them. Guaire is moved
+# beside the town hall so the hit lands within that radius.
+id: mm9.bandit_alert_spares_sigmund
+title: "MM9 Drangheim: striking Guaire A'Velsi leaves Jarl Sigmund friendly"
+world: mm9
+mode: faithful
+tags: [mm9]
+steps:
+  - new_game_flow:
+      start_map: drangheimcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}], equipment: {main_hand: 1}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_qbit, id: 90222, value: true}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_visible: {actor_index: 20, hostile_to_party: false}
+  - lua_event: {source: 'evt.SetMapActorPosition(38, 17500, -4000, 348)'}
+  - set_pose: {map: drangheimcity.blv, x: 17350, y: -4000, z: 348, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 38}
+  - select_topic: {match_label: "Of course not."}
+  - press_action: {action: attack, seconds: 6}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_visible: {actor_index: 38, hostile_to_party: true}
+  - assert:
+      actor_visible: {actor_index: 20, hostile_to_party: false}

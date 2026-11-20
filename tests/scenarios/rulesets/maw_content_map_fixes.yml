@@ -1,0 +1,64 @@
+id: rulesets.maw_content_map_fixes
+title: "Ruleset - MAW map fixes: Gharik's lava wall, the Mercenary Guild's wine rack, the Temple of the Sun on a dimension run, Korbu's sarcophagus once"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  # Gharik's Forge: lever 35 also clears the lava wall (face 2255, cog 1 from the scene overlay), and puts it back.
+  - load_map: {map: 6d18.blv}
+  - execute_event: {id: 35}
+  - assert:
+      state_dump_named_map_var: {name: LavaWallCleared, value: 1}
+  - execute_event: {id: 35}
+  - assert:
+      state_dump_named_map_var: {name: LavaWallCleared, value: 0}
+  # The Mercenary Guild's wine rack runs MAW's replacement (MAW potions), until the rack is dry. Since 1.22 headless
+  # runs hand an event's item to the cursor, as the game does; the cursor's item goes to the pack.
+  - load_map: {map: 7d20.blv}
+  - execute_event: {id: 196}
+  - execute_event: {id: 196}
+  - execute_event: {id: 196}
+  - execute_event: {id: 196}
+  - assert: {held_item: {active: false}}
+  # Korbu's sarcophagus comes once per game, also from a refilled crypt: the event hands it to the cursor and sets
+  # its QBit; the sarcophagus then goes to the pack, so the Dimension Map below has an empty cursor.
+  - load_map: {map: d26.blv}
+  - execute_event: {id: 131}
+  - assert:
+      held_item: {active: true, item_id: 612}
+      qbit_set: [211]
+      state_dump_named_global_var: {name: SarcophagusFound, value: 1}
+  - assert: {held_item: {active: false}}
+  - setup_shortcut: {kind: set_qbit, id: 211, value: false}
+  - execute_event: {id: 131}
+  - assert:
+      qbit_clear: [211]
+  # The Temple of the Sun's load event stays in the load list after MAW replaces it (audit CNT-2): outside a run its
+  # base event makes the clerics hostile to a party allied with the Necromancers (QBit 19).
+  - setup_shortcut: {kind: set_qbit, id: 19, value: true}
+  - load_map: {map: d22.blv}
+  - assert:
+      actor_count: {hostile: true, min: 1}
+  - setup_shortcut: {kind: set_qbit, id: 19, value: false}
+  # It keeps door 452 shut without Dyson Leyland...
+  - execute_event: {id: 452}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      mechanism: {id: 1, state: closed}
+  # ...but opens it during a dimension run.
+  - ruleset_banks: {mm8: 0, completed_maps: [d22.blv], dimension_quest_done: true}
+  - load_map: {map: out01.odm}
+  - grant_item: {item_id: 290, dimension_map: {map_id: 33, affixes: [15], active: 1, power: 1}}
+  - use_item: {item_id: 290}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: d22.blv
+      ruleset: {id: maw, dimension_run: {map: d22.blv, completed: false}}
+  - execute_event: {id: 452}
+  - wait_until:
+      timeout_runtime_seconds: 30
+      assert:
+        mechanism: {id: 1, state: open}

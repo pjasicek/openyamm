@@ -1,0 +1,2001 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_dagrell.glb",
+  "components": 136,
+  "body": 42,
+  "size": 2.6035537719726562,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "40": {
+    "joint": "XneckB",
+    "where": "+z",
+    "triangles": 82,
+    "extent": 0.1749,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01429,
+    "worst": {
+     "gap": 0.02008,
+     "to_body_cluster": 0.02008,
+     "clip": "AttackRanged",
+     "frame": 19,
+     "time": 0.6333,
+     "part_point": [
+      -0.00481,
+      1.12743,
+      0.63226
+     ],
+     "attached_point": [
+      -0.01982,
+      1.16027,
+      0.6349
+     ],
+     "kind": "parted",
+     "against": "XCENTER"
+    },
+    "detached_poses": 58,
+    "poses": 404,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.01081,
+      "frame": 18,
+      "time": 0.6,
+      "frames": 9
+     },
+     "AttackRanged": {
+      "max_gap": 0.02008,
+      "frame": 19,
+      "time": 0.6333,
+      "frames": 21
+     },
+     "Death": {
+      "max_gap": 0.01558,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 25
+     },
+     "Fidget": {
+      "max_gap": 0.00941,
+      "frame": 28,
+      "time": 0.9333,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": -0.00341,
+     "on": "Xheadpiv",
+     "clip": "Fidget",
+     "frame": 27,
+     "time": 0.9
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03489,
+     "on": "XCENTER",
+     "clip": "AttackRanged",
+     "frame": 21,
+     "time": 0.7
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_dagrell_part40.png"
+   },
+   "43": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 304,
+    "extent": 0.2594,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01068,
+    "worst": {
+     "gap": 0.00937,
+     "to_body_cluster": 0.00937,
+     "clip": "AttackMelee",
+     "frame": 10,
+     "time": 0.3333,
+     "part_point": [
+      -0.34693,
+      1.74938,
+      0.24741
+     ],
+     "attached_point": [
+      -0.34518,
+      1.72062,
+      0.23394
+     ],
+     "kind": "parted",
+     "against": "XneckB"
+    },
+    "detached_poses": 3,
+    "poses": 404,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.00937,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": 0.00609,
+     "on": "XneckB",
+     "clip": "Hit",
+     "frame": 35,
+     "time": 1.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 58,
+    "root_lift": {
+     "gap": 0.02346,
+     "on": "XneckB",
+     "clip": "AttackRanged",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_dagrell_part43.png"
+   },
+   "66": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 24,
+    "extent": 0.0794,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0064,
+    "worst": {
+     "gap": 0.54659,
+     "to_body_cluster": 0.54659,
+     "clip": "Death",
+     "frame": 14,
+     "time": 0.4667,
+     "part_point": [
+      -0.45322,
+      1.80727,
+      0.03529
+     ],
+     "attached_point": [
+      -0.11675,
+      1.38754,
+      -0.06155
+     ],
+     "kind": "floating",
+     "against": "Xneckbase"
+    },
+    "detached_poses": 114,
+    "poses": 404,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.53035,
+      "frame": 21,
+      "time": 0.7,
+      "frames": 24
+     },
+     "AttackRanged": {
+      "max_gap": 0.53138,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 23
+     },
+     "Death": {
+      "max_gap": 0.54659,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 18
+     },
+     "Fidget": {
+      "max_gap": 0.21905,
+      "frame": 30,
+      "time": 1.0,
+      "frames": 19
+     },
+     "Hit": {
+      "max_gap": 0.01372,
+      "frame": 1,
+      "time": 0.0333,
+      "frames": 27
+     },
+     "Running": {
+      "max_gap": 0.0061,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": -0.004,
+     "on": "Xjawpiv",
+     "clip": "Fidget",
+     "frame": 41,
+     "time": 1.3667
+    },
+    "concealed_poses": 7,
+    "worst_concealed": {
+     "gap": 0.53433,
+     "clip": "Death",
+     "frame": 57,
+     "time": 1.9
+    },
+    "carried_poses": 10,
+    "root_lift": null,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_dagrell_part66.png"
+   },
+   "71": {
+    "joint": "XtailB",
+    "where": "below, -z",
+    "triangles": 36,
+    "extent": 0.1628,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00429,
+    "worst": {
+     "gap": 0.01192,
+     "to_body_cluster": 0.01192,
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0,
+     "part_point": [
+      0.67687,
+      0.49323,
+      -0.38957
+     ],
+     "attached_point": [
+      0.67882,
+      0.49006,
+      -0.37718
+     ],
+     "kind": "parted",
+     "against": "XCENTER"
+    },
+    "detached_poses": 70,
+    "poses": 404,
+    "clips": {
+     "Dead": {
+      "max_gap": 0.01192,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.01192,
+      "frame": 81,
+      "time": 2.7,
+      "frames": 39
+     }
+    },
+    "shallowest": {
+     "depth": 0.0024,
+     "on": "XCENTER",
+     "clip": "AttackRanged",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01273,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 109,
+     "time": 3.6333
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_dagrell_part71.png"
+   },
+   "84": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 10,
+    "extent": 0.0268,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00658,
+    "worst": {
+     "gap": 0.31572,
+     "to_body_cluster": 0.31572,
+     "clip": "Death",
+     "frame": 11,
+     "time": 0.3667,
+     "part_point": [
+      0.24622,
+      1.88205,
+      0.48752
+     ],
+     "attached_point": [
+      0.43493,
+      1.67559,
+      0.63393
+     ],
+     "kind": "floating",
+     "against": "Xfinpiv"
+    },
+    "detached_poses": 1,
+    "poses": 404,
+    "clips": {
+     "Death": {
+      "max_gap": 0.31572,
+      "frame": 11,
+      "time": 0.3667,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": -0.00382,
+     "on": "Xjawpiv",
+     "clip": "Walking",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 130,
+    "root_lift": null,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_dagrell_part84.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 136,
+   "attached_in_every_pose": 130
+  },
+  "concealed": {},
+  "shallow": {
+   "0": {
+    "joint": "Xfinpiv05",
+    "where": "below, -x side, +z",
+    "triangles": 28,
+    "extent": 0.1492,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00469,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00469,
+     "on": "Xfinpiv05",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "2": {
+    "joint": "Xarmlow01",
+    "where": "below, -x side, +z",
+    "triangles": 256,
+    "extent": 0.6222,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00528,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00528,
+     "on": "Xarm01",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "5": {
+    "joint": "Xfinpiv04",
+    "where": "below, -x side, +z",
+    "triangles": 70,
+    "extent": 0.1508,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0083,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0037,
+     "on": "Xarmlow01",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01023,
+     "on": "Xarmlow01",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    }
+   },
+   "6": {
+    "joint": "Xfinpiv04",
+    "where": "below, -x side, +z",
+    "triangles": 30,
+    "extent": 0.1516,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00413,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00413,
+     "on": "Xfinpiv04",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "8": {
+    "joint": "Xarm01",
+    "where": "-x side",
+    "triangles": 48,
+    "extent": 0.1356,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00143,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00189,
+     "on": "Xarmpiv01",
+     "clip": "Death",
+     "frame": 71,
+     "time": 2.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "9": {
+    "joint": "Xarm01",
+    "where": "-x side",
+    "triangles": 20,
+    "extent": 0.186,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00308,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00308,
+     "on": "Xarm01",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "10": {
+    "joint": "Xarm01",
+    "where": "-x side",
+    "triangles": 30,
+    "extent": 0.2102,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00405,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00286,
+     "on": "Xarmpiv01",
+     "clip": "Death",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.08282,
+     "on": "Xarmpiv01",
+     "clip": "Hit",
+     "frame": 9,
+     "time": 0.3
+    }
+   },
+   "12": {
+    "joint": "Xarmpiv01",
+    "where": "central",
+    "triangles": 98,
+    "extent": 0.499,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0181,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "Xneckbase",
+     "clip": "Running",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "13": {
+    "joint": "Xfoot01",
+    "where": "below, -x side",
+    "triangles": 378,
+    "extent": 0.4559,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03274,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0038,
+     "on": "Xlegpiv01",
+     "clip": "Death",
+     "frame": 72,
+     "time": 2.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "14": {
+    "joint": "Xfoot01",
+    "where": "below, -x side",
+    "triangles": 34,
+    "extent": 0.1852,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00751,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00751,
+     "on": "Xfoot01",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "15": {
+    "joint": "Xneckbase",
+    "where": "central",
+    "triangles": 26,
+    "extent": 0.3206,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00591,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00309,
+     "on": "Xarmpiv01",
+     "clip": "Death",
+     "frame": 73,
+     "time": 2.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "17": {
+    "joint": "Xleg01",
+    "where": "below, +z",
+    "triangles": 26,
+    "extent": 0.2191,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00014,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Xlegpiv01",
+     "clip": "Death",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "18": {
+    "joint": "Xleg01",
+    "where": "below",
+    "triangles": 22,
+    "extent": 0.1404,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00168,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00168,
+     "on": "Xleg01",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "19": {
+    "joint": "Xleg01",
+    "where": "below",
+    "triangles": 50,
+    "extent": 0.1578,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00251,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Xlegpiv01",
+     "clip": "Walking",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "20": {
+    "joint": "Xlegpiv01",
+    "where": "below",
+    "triangles": 76,
+    "extent": 0.4803,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01054,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00404,
+     "on": "XCENTER",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "21": {
+    "joint": "Xlegpiv01",
+    "where": "below",
+    "triangles": 22,
+    "extent": 0.1815,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00118,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00391,
+     "on": "Xleg01",
+     "clip": "AttackRanged",
+     "frame": 24,
+     "time": 0.8
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "22": {
+    "joint": "Xtail",
+    "where": "-z",
+    "triangles": 26,
+    "extent": 0.7044,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00765,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00616,
+     "on": "XtailF",
+     "clip": "Running",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 70,
+    "root_lift": null
+   },
+   "23": {
+    "joint": "Xfoot01",
+    "where": "below",
+    "triangles": 34,
+    "extent": 0.2028,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00688,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00688,
+     "on": "Xfoot01",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "24": {
+    "joint": "Xneckbase",
+    "where": "+z",
+    "triangles": 106,
+    "extent": 0.3118,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00226,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00303,
+     "on": "XbackB",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00985,
+     "on": "Xneckbase",
+     "clip": "AttackMelee",
+     "frame": 20,
+     "time": 0.6667
+    }
+   },
+   "25": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 42,
+    "extent": 0.2482,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01883,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00358,
+     "on": "Xarm01",
+     "clip": "Fidget",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": null
+   },
+   "28": {
+    "joint": "XbackB",
+    "where": "central",
+    "triangles": 68,
+    "extent": 0.3208,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00771,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00393,
+     "on": "XCENTER",
+     "clip": "Running",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "30": {
+    "joint": "XCENTER",
+    "where": "-z",
+    "triangles": 20,
+    "extent": 0.2884,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00082,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00082,
+     "on": "XCENTER",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "31": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 42,
+    "extent": 0.213,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00199,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0006,
+     "on": "Xarm01",
+     "clip": "Fidget",
+     "frame": 20,
+     "time": 0.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": null
+   },
+   "32": {
+    "joint": "XbackA",
+    "where": "central",
+    "triangles": 44,
+    "extent": 0.2773,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00841,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00781,
+     "on": "XCENTER",
+     "clip": "AttackMelee",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "33": {
+    "joint": "XtailD",
+    "where": "below, -z",
+    "triangles": 52,
+    "extent": 0.1427,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00568,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00135,
+     "on": "XtailC",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 70,
+    "root_lift": {
+     "gap": 0.00848,
+     "on": "XtailC",
+     "clip": "AttackRanged",
+     "frame": 27,
+     "time": 0.9
+    }
+   },
+   "35": {
+    "joint": "XtailC",
+    "where": "below, -z",
+    "triangles": 48,
+    "extent": 0.199,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0071,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0071,
+     "on": "XtailC",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 70,
+    "root_lift": null
+   },
+   "41": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 70,
+    "extent": 0.1348,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00575,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00575,
+     "on": "Xheadpiv",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": null
+   },
+   "44": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 952,
+    "extent": 0.4317,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01142,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00637,
+     "on": "Xheadpiv",
+     "clip": "Fidget",
+     "frame": 20,
+     "time": 0.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": null
+   },
+   "47": {
+    "joint": "Xjawpiv",
+    "where": "+z",
+    "triangles": 264,
+    "extent": 0.2491,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01141,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00368,
+     "on": "Xheadpiv",
+     "clip": "AttackMelee",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": {
+     "gap": 0.09725,
+     "on": "Xheadpiv",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "48": {
+    "joint": "XtailC",
+    "where": "below, -z",
+    "triangles": 60,
+    "extent": 0.1769,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00357,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00015,
+     "on": "XtailB",
+     "clip": "AttackRanged",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 70,
+    "root_lift": null
+   },
+   "49": {
+    "joint": "Xneckbase",
+    "where": "+z",
+    "triangles": 32,
+    "extent": 0.1613,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00971,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00071,
+     "on": "XCENTER",
+     "clip": "Running",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "50": {
+    "joint": "XbackA",
+    "where": "central",
+    "triangles": 36,
+    "extent": 0.2359,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00762,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00572,
+     "on": "XCENTER",
+     "clip": "Running",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "51": {
+    "joint": "XbackB",
+    "where": "central",
+    "triangles": 32,
+    "extent": 0.1625,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00203,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00143,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 61,
+     "time": 2.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "55": {
+    "joint": "Xneckbase",
+    "where": "central",
+    "triangles": 26,
+    "extent": 0.2897,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01156,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0051,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01726,
+     "on": "XCENTER",
+     "clip": "Running",
+     "frame": 10,
+     "time": 0.3333
+    }
+   },
+   "68": {
+    "joint": "XbackB",
+    "where": "central",
+    "triangles": 112,
+    "extent": 0.3638,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01207,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00728,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "73": {
+    "joint": "Xheadpiv",
+    "where": "+z",
+    "triangles": 74,
+    "extent": 0.1699,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00083,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00083,
+     "on": "Xheadpiv",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": null
+   },
+   "99": {
+    "joint": "XCENTER",
+    "where": "central",
+    "triangles": 20,
+    "extent": 0.2812,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00185,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00185,
+     "on": "XCENTER",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "104": {
+    "joint": "Xarmpiv",
+    "where": "central",
+    "triangles": 98,
+    "extent": 0.499,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.0022,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0022,
+     "on": "XbackB",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.14693,
+     "on": "XbackB",
+     "clip": "Running",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "116": {
+    "joint": "Xfoot",
+    "where": "below",
+    "triangles": 34,
+    "extent": 0.2028,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00688,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00688,
+     "on": "Xfoot",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "117": {
+    "joint": "Xfoot",
+    "where": "below, +x side",
+    "triangles": 378,
+    "extent": 0.4559,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03274,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00387,
+     "on": "Xlegpiv",
+     "clip": "Death",
+     "frame": 72,
+     "time": 2.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "118": {
+    "joint": "Xlegpiv",
+    "where": "below",
+    "triangles": 22,
+    "extent": 0.1815,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00118,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00118,
+     "on": "Xlegpiv",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "119": {
+    "joint": "Xleg",
+    "where": "below",
+    "triangles": 50,
+    "extent": 0.1578,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00251,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00367,
+     "on": "Xlegpiv",
+     "clip": "Death",
+     "frame": 51,
+     "time": 1.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "120": {
+    "joint": "Xleg",
+    "where": "below, +z",
+    "triangles": 26,
+    "extent": 0.2191,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00014,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Xlegpiv",
+     "clip": "Walking",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "121": {
+    "joint": "Xleg",
+    "where": "below, +x side",
+    "triangles": 22,
+    "extent": 0.1404,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00799,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00278,
+     "on": "Xlegpiv",
+     "clip": "Walking",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "123": {
+    "joint": "Xfoot",
+    "where": "below, +x side",
+    "triangles": 34,
+    "extent": 0.1852,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00751,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00751,
+     "on": "Xfoot",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "124": {
+    "joint": "Xarm",
+    "where": "+x side",
+    "triangles": 30,
+    "extent": 0.2102,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00405,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0038,
+     "on": "Xarmpiv",
+     "clip": "AttackRanged",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0666,
+     "on": "Xarmpiv",
+     "clip": "Walking",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "125": {
+    "joint": "Xarm",
+    "where": "+x side",
+    "triangles": 26,
+    "extent": 0.1531,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00096,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00396,
+     "on": "Xarmpiv",
+     "clip": "Death",
+     "frame": 71,
+     "time": 2.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "126": {
+    "joint": "Xarm",
+    "where": "+x side",
+    "triangles": 48,
+    "extent": 0.1356,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00308,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00295,
+     "on": "Xarmlow",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.04839,
+     "on": "Xarmpiv",
+     "clip": "Running",
+     "frame": 9,
+     "time": 0.3
+    }
+   },
+   "127": {
+    "joint": "Xarm",
+    "where": "+x side",
+    "triangles": 20,
+    "extent": 0.186,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00262,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00341,
+     "on": "Xarmpiv",
+     "clip": "Death",
+     "frame": 73,
+     "time": 2.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "128": {
+    "joint": "Xarmlow",
+    "where": "below, +x side, +z",
+    "triangles": 256,
+    "extent": 0.6222,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 9e-05,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00393,
+     "on": "Xheadpiv",
+     "clip": "Fidget",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "130": {
+    "joint": "Xfinpiv02",
+    "where": "below, +x side, +z",
+    "triangles": 70,
+    "extent": 0.1508,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0083,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00544,
+     "on": "Xarmlow",
+     "clip": "Running",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01083,
+     "on": "Xarmlow",
+     "clip": "AttackMelee",
+     "frame": 10,
+     "time": 0.3333
+    }
+   },
+   "131": {
+    "joint": "Xfinpiv02",
+    "where": "below, +x side, +z",
+    "triangles": 30,
+    "extent": 0.1516,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00413,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00413,
+     "on": "Xfinpiv02",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "135": {
+    "joint": "Xfinpiv",
+    "where": "below, +x side, +z",
+    "triangles": 28,
+    "extent": 0.1492,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00469,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00469,
+     "on": "Xfinpiv",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   }
+  },
+  "root_lift": {
+   "5": {
+    "joint": "Xfinpiv04",
+    "where": "below, -x side, +z",
+    "triangles": 70,
+    "extent": 0.1508,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0083,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0037,
+     "on": "Xarmlow01",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01023,
+     "on": "Xarmlow01",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    }
+   },
+   "10": {
+    "joint": "Xarm01",
+    "where": "-x side",
+    "triangles": 30,
+    "extent": 0.2102,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00405,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00286,
+     "on": "Xarmpiv01",
+     "clip": "Death",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.08282,
+     "on": "Xarmpiv01",
+     "clip": "Hit",
+     "frame": 9,
+     "time": 0.3
+    }
+   },
+   "24": {
+    "joint": "Xneckbase",
+    "where": "+z",
+    "triangles": 106,
+    "extent": 0.3118,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00226,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00303,
+     "on": "XbackB",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00985,
+     "on": "Xneckbase",
+     "clip": "AttackMelee",
+     "frame": 20,
+     "time": 0.6667
+    }
+   },
+   "33": {
+    "joint": "XtailD",
+    "where": "below, -z",
+    "triangles": 52,
+    "extent": 0.1427,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00568,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00135,
+     "on": "XtailC",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 70,
+    "root_lift": {
+     "gap": 0.00848,
+     "on": "XtailC",
+     "clip": "AttackRanged",
+     "frame": 27,
+     "time": 0.9
+    }
+   },
+   "47": {
+    "joint": "Xjawpiv",
+    "where": "+z",
+    "triangles": 264,
+    "extent": 0.2491,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01141,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00368,
+     "on": "Xheadpiv",
+     "clip": "AttackMelee",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": {
+     "gap": 0.09725,
+     "on": "Xheadpiv",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "55": {
+    "joint": "Xneckbase",
+    "where": "central",
+    "triangles": 26,
+    "extent": 0.2897,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01156,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0051,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01726,
+     "on": "XCENTER",
+     "clip": "Running",
+     "frame": 10,
+     "time": 0.3333
+    }
+   },
+   "58": {
+    "joint": "Xjawpiv",
+    "where": "+z",
+    "triangles": 6,
+    "extent": 0.0243,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00615,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00398,
+     "on": "Xheadpiv",
+     "clip": "Walking",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": {
+     "gap": 0.10042,
+     "on": "Xheadpiv",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "87": {
+    "joint": "Xjawpiv",
+    "where": "+z",
+    "triangles": 26,
+    "extent": 0.1219,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01302,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00267,
+     "on": "Xheadpiv",
+     "clip": "Hit",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 61,
+    "root_lift": {
+     "gap": 0.02497,
+     "on": "Xheadpiv",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "104": {
+    "joint": "Xarmpiv",
+    "where": "central",
+    "triangles": 98,
+    "extent": 0.499,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.0022,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0022,
+     "on": "XbackB",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.14693,
+     "on": "XbackB",
+     "clip": "Running",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "124": {
+    "joint": "Xarm",
+    "where": "+x side",
+    "triangles": 30,
+    "extent": 0.2102,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00405,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0038,
+     "on": "Xarmpiv",
+     "clip": "AttackRanged",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0666,
+     "on": "Xarmpiv",
+     "clip": "Walking",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "126": {
+    "joint": "Xarm",
+    "where": "+x side",
+    "triangles": 48,
+    "extent": 0.1356,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00308,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00295,
+     "on": "Xarmlow",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.04839,
+     "on": "Xarmpiv",
+     "clip": "Running",
+     "frame": 9,
+     "time": 0.3
+    }
+   },
+   "130": {
+    "joint": "Xfinpiv02",
+    "where": "below, +x side, +z",
+    "triangles": 70,
+    "extent": 0.1508,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0083,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00544,
+     "on": "Xarmlow",
+     "clip": "Running",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01083,
+     "on": "Xarmlow",
+     "clip": "AttackMelee",
+     "frame": 10,
+     "time": 0.3333
+    }
+   },
+   "134": {
+    "joint": "Xfinpiv",
+    "where": "below, +x side, +z",
+    "triangles": 38,
+    "extent": 0.0868,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00687,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 404,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00338,
+     "on": "Xarmlow",
+     "clip": "Running",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00895,
+     "on": "Xarmlow",
+     "clip": "Walking",
+     "frame": 0,
+     "time": 0.0
+    }
+   }
+  }
+ }
+]

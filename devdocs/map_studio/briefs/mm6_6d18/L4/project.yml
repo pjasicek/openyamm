@@ -1,0 +1,28 @@
+format: 0
+id: cal6d18
+name: Gharik's Forge
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9716
+  reference: 6d18.blv
+neighbours:
+  - id: exit:new_sorpigal
+    to: oute3.odm
+    kind: door
+    arrival: [15585, 11125, 97]
+    arrival_hint: Outside the forge's door.
+    direction: 90
+qbits:
+  hourglass_taken: 1029
+  lab_door_opened: 1400
+  seer_hourglass_bit: 1207
+  seer_key_bit: 1223
+  tomb_opened: 1035
+items:
+  gharik_journal_scrap: 2149
+  gharik_key: 2107
+  hourglass_of_time: 2053
+  letter_to_marcus: 2148
+notes: "Rebuild of Gharik's Forge (mm6 6d18.blv) by devdocs/map_studio/REBUILD_PROCEDURE.md: a test of the room vocabulary on lava and mechanisms. NOTES.md beside this file holds the scores, the gaps and the tool defects."

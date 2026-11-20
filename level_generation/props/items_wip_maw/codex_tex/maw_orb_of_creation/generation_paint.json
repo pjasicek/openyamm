@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png using it as the exact geometry/layout target. design_reference.png is material/detail reference only; icon_x8.png is color reference only (ignore its magenta background). Produce ONE transparent PNG at 1536x2048 or nearest 3:4 size. Preserve the guide's three columns and FOUR rows of square cells, all ten object silhouettes exactly in position, scale, outline and geometry. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat the same views for material masks. Paint grey objects only; never redraw, enlarge, move or redesign them. Preserve every gap/opening fully transparent. Rows 1-2 PAINT: unlit base color, clear glass sphere containing golden-orange swirling galaxy light, polished warm gold crown-shaped base with upward gold petals/claws and round gold foot. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each exact guide view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections; no glow halo, sparkles or aura outside silhouettes; no ground, outlines, text. Rows 3-4 MATERIAL MASK: fill identical silhouettes using FLAT pure red #FF0000 for EVERY metal part and pure black #000000 for every gemstone, crystal, glass, pearl, mirror glass or liquid through glass. Black sphere and gemstones, red metal crown/foot. Every silhouette pixel must be one of those two pure colors, no shading, texture, outlines or antialiased color blends inside. Outside silhouettes alpha zero. Row 2 column 3 and row 4 column 3 remain entirely transparent. Geometry and placement from guide take absolute priority over reference geometry. Do not add details that change silhouettes.\nCORRECTION: Exact clean guide alpha/silhouettes are mandatory. No stray pixels or colored noise anywhere outside the guide shapes. Keep all guide openings. Metal material masks must be solid red including recesses, without black linework; black only glass or gemstone. The central front diamond gemstone is black in masks. PAINT must be diffuse/unlit colors, suppress white specular reflections and shiny highlight streaks. Preserve original guide geometry exactly.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_orb_of_creation/paint_mask_guide.png",
+      "sha256": "eb8115246455b717fabbd6b02fde94d80a2722bd54f5b13331b4938806726635"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_orb_of_creation/design_reference.png",
+      "sha256": "4301ba03054868629d23b0327887df646d448d1e7cbdee7bd5e1673e1ddba032"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_orb_of_creation/icon_x8.png",
+      "sha256": "12c359b4f7c4254b398dad22d6f1812bbeeb2e24bca550e086c50ae5fd2a7291"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce9-583b-73c1-8a18-1673720bbd1e/exec-cb5520f2-b590-4cd0-a717-21d24d173c9b.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_orb_of_creation/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained, but visible stray edge pixels, shading/highlights and mask inaccuracies remain. Raw tool output preserved without editing."
+}

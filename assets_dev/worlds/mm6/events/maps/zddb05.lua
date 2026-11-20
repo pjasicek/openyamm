@@ -46,7 +46,7 @@ RegisterEvent(3, "Crumbling boulder.", function()
 end, "Crumbling boulder.")
 
 RegisterEvent(4, "Small switch.", function()
-    evt.SetTexture(99, "d8s2on")
+    evt.SetTexture(-99, "d8s2on")
     evt.SetDoorState(1, DoorAction.Close)
 end, "Small switch.")
 

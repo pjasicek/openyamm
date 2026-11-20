@@ -1,0 +1,22 @@
+{
+  "instances_before": 79781,
+  "instances_after": 81072,
+  "patches": 3416,
+  "instance_bytes": 5188608,
+  "focused_tests": 14,
+  "assertions": 135521,
+  "binary_sha256": "70898ec91210743d528b51f73b1527d35049bdef4e71448ba03e7de2d3088406",
+  "config_sha256": "bd5af6a5e021d6a257e0a24b1d23a4464ec5593bfc6af6ed00848170d92fc83c",
+  "median_fps_on": 2114.65,
+  "median_fps_off": 1643.93,
+  "frame_time_added_ms": -0.13540691182001086,
+  "fps_gap_percent": -28.63382260801859,
+  "performance_limit": "Separate launches; ordinary simulation and OS/GPU clock variation; not isolated GPU timers.",
+  "temporary_diagnostics_removed": true,
+  "trial_refreshed": true,
+  "visual_checks": [
+    "grass_v4_final_edges.png",
+    "grass_v4_meadow_moved.png"
+  ],
+  "timing_comparison_usable": false
+}

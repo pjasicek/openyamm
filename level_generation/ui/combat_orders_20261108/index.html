@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Battle Orders Study</title>
+<!--
+  Browser study (8 November 2026): per-character battle orders. Attack (F / left click) walks a member's ordered list
+  and does the first order that can be carried out now; Quick Cast and the four Quick Spell keys keep their single
+  spells. Opened from the spellbook, whose left column shrinks to Close plus one Battle Orders button; right-click on a
+  spell assigns it directly. Three layouts: A an Obsidian orders window, B order pages inside the spellbook,
+  C a whole-party board. Drawn over the native spellbook capture with the real spell art, fonts and Obsidian menu art.
+  A was chosen (8 November); revision 2 drops the live
+  party state and gives every condition a slider. Nothing here is wired into the game. ?view=today|entry|a|qr|b|c&m=0..4&row=N&export=1
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Arrus; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #8f9786; --gold: #e3c185; --brass: #8c815f;
+  --good: #8fe08a; --warn: #ffb347; --bad: #ff6a5a; --blue: #8fc3ff; --sp: #79b5f0;
+  --ink: #4a2a14; --inkSoft: #7a5434; --inkGreen: #1f7a52; --inkRed: #9a2a14;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review span { color: #9aa597; }
+body.export .review { display: none; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left;
+  overflow: hidden; background: #0a1414 url(art/spellbook_backdrop.png) 0 0 / 1600px 900px; }
+.abs { position: absolute; }
+#dim { position: absolute; inset: 0; background: #020606c4; }
+
+/* ---------- shared bits ---------- */
+.face { border-radius: 50%; background-image: url(../maw_potion_radial_20261025/gameplay_backdrop.jpg);
+  background-repeat: no-repeat; box-shadow: 0 0 0 2px #0b1212, 0 0 0 3px #5d6449; flex: none; }
+.icon { position: relative; flex: none; border: 1px solid #6d6447; background: radial-gradient(#22302d, #0b1110 75%);
+  box-shadow: inset 0 0 0 1px #000, 0 1px 3px #000c; overflow: hidden; }
+.icon img { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); object-fit: contain; }
+.icon img.item { inset: -10% 25%; width: 50%; height: 120%; transform: rotate(40deg); }
+.icon.empty { background: #0b1110; border-style: dashed; border-color: #4a4a3a; }
+.icon.empty::after { content: '+'; position: absolute; inset: 0; display: grid; place-items: center; color: #6f6a52;
+  font: 22px Lucida, sans-serif; }
+.key { display: inline-block; min-width: 22px; padding: 0 5px; height: 19px; border: 1px solid #7a7052;
+  border-radius: 3px; background: #141a19; color: var(--ivory); font: 12px/17px Lucida, sans-serif;
+  text-align: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 12px;
+  font: 20px Fondamento, serif; color: var(--ivory); border: 10px solid transparent;
+  border-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_default.png) 14 fill / 10px stretch; }
+.btn.quiet { height: 32px; padding: 0 6px; font-size: 16px; color: var(--label); }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border: 1px solid #4f5b55;
+  border-radius: 12px; background: #101818; font: 13px Lucida, sans-serif; color: var(--body); white-space: nowrap; }
+.chip.when { border-color: #4d6f86; color: #cfe2f2; }
+.chip.when::after { content: '▾'; color: #7fa2bd; font-size: 11px; }
+.chip.keep { border-color: #47658a; color: var(--sp); }
+.chip.auto { border-style: dashed; color: var(--muted); }
+.chip.on { border-color: #d6bb80; color: #ffe7b0; background: #2b2a1a; }
+.bar { position: relative; height: 7px; background: #0a0f0f; border: 1px solid #3c463f; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--sp); }
+.status { font: 13px Lucida, sans-serif; text-align: right; }
+.status.next { color: var(--good); }
+.status.next b { display: inline-block; margin-right: 6px; padding: 1px 6px; border: 1px solid #5f9a5a; color: #c9f5c4;
+  font-weight: normal; letter-spacing: 2px; font-size: 11px; }
+.status.skip { color: #c9a26a; }
+.status.later { color: #5d6660; }
+.panel::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  border: 120px solid transparent;
+  border-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_frame.png) 120 fill / 120px stretch; }
+.panel { isolation: isolate; }
+.sec { font: 13px Lucida, sans-serif; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+.sec small { letter-spacing: 0; text-transform: none; color: var(--muted); margin-left: 10px; font-size: 13px; }
+.note { position: absolute; padding: 10px 14px; max-width: 330px; background: #0b1212f0; border: 1px solid #8c815f;
+  font: 14px/1.45 Lucida, sans-serif; color: var(--body); box-shadow: 0 4px 14px #000c; }
+.note h4 { margin: 0 0 4px; font: 19px Fondamento, serif; color: var(--ivory); font-weight: normal; }
+.callout { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: #d6bb80; color: #1a1408;
+  font: bold 14px/26px Lucida, sans-serif; text-align: center; box-shadow: 0 0 0 2px #000, 0 2px 6px #000; }
+
+/* ---------- spellbook left column ---------- */
+.patch { position: absolute; left: 200px; width: 70px; background: url(art/spellbook_backdrop.png) 0 0 / 1600px 900px; }
+.bookbtn { position: absolute; left: 200px; width: 68px; height: 83px; background-size: 100% 100%; }
+.bookbtn.lab::after { content: attr(data-n); position: absolute; left: 0; right: 0; top: 4px; text-align: center;
+  font: 15px Lucida, sans-serif; color: #fff; text-shadow: 0 1px 2px #000; }
+
+/* context menu on a spell */
+.menu { position: absolute; width: 330px; background: #0b1212f5; border: 1px solid #8c815f;
+  box-shadow: 0 6px 18px #000d; font: 15px Lucida, sans-serif; color: var(--body); }
+.menu .hd { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid #3a3f35; }
+.menu .hd b { font: 21px Fondamento, serif; color: var(--ivory); font-weight: normal; }
+.menu .hd span { color: var(--muted); font-size: 13px; }
+.menu .it { display: flex; align-items: center; gap: 10px; padding: 7px 12px; }
+.menu .it .key { margin-left: auto; }
+.menu .it.hot { background: #2b2a1a; color: #ffe7b0; }
+.menu .it .cur { margin-left: 6px; color: var(--muted); font-size: 12px; }
+.menu hr { border: 0; border-top: 1px solid #3a3f35; margin: 4px 0; }
+
+/* ---------- A: orders window ---------- */
+#A { left: 64px; top: 22px; width: 1472px; height: 856px; }
+#A h2 { position: absolute; left: 70px; top: 52px; margin: 0; font: 38px Fondamento, serif; font-weight: normal; }
+#A .sub { position: absolute; left: 72px; top: 100px; color: var(--muted); font-size: 14px; }
+.tabs { position: absolute; display: flex; gap: 8px; }
+.tab { display: flex; gap: 10px; align-items: center; width: 150px; height: 76px; padding: 0 10px;
+  border: 1px solid #3d463f; background: #0d1515; cursor: pointer; }
+.tab.on { border-color: #d6bb80; background: #222217; box-shadow: inset 0 0 0 1px #6d5d34; }
+.tab .nm { font: 18px Arrus, serif; color: var(--ivory); }
+.tab .cl { font: 12px Lucida, sans-serif; color: var(--muted); margin: 1px 0 4px; }
+.tab .bar { width: 72px; }
+.rows { position: absolute; }
+.row { position: relative; display: flex; align-items: center; gap: 12px; height: 62px; margin-bottom: 6px;
+  padding: 0 14px 0 10px; border: 1px solid #333c37; background: #0d1515; cursor: pointer; }
+.row.hot { border-color: #d6bb80; background: #1e1f16; }
+.row.later { opacity: .55; }
+.row .grip { color: #59614f; font: 18px Lucida, sans-serif; letter-spacing: -3px; width: 14px; }
+.row .rank { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #8c815f; display: grid;
+  place-items: center; font: 15px Lucida, sans-serif; color: var(--gold); flex: none; }
+.row .txt { flex: 1; min-width: 0; }
+.row .nm { font: 20px Arrus, serif; color: var(--ivory); margin-bottom: 3px; white-space: nowrap; }
+.row .nm span { font: 13px Lucida, sans-serif; color: var(--muted); margin-left: 8px; }
+.row .chips { display: flex; gap: 6px; }
+.row .status { width: 300px; white-space: nowrap; }
+.row.fallback { border-style: dashed; border-color: #4d5148; background: #0b1111; cursor: default; }
+.row.fallback .rank { border-style: dashed; color: var(--muted); }
+.add { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 16px; border: 1px dashed #4d5148;
+  color: var(--muted); font: 15px Lucida, sans-serif; }
+.add b { color: var(--gold); font-weight: normal; font-size: 20px; }
+.box { position: absolute; border: 1px solid #333c37; background: #0b1212d8; padding: 16px 18px; }
+.box h3 { margin: 0 0 4px; font: 24px Fondamento, serif; font-weight: normal; color: var(--ivory); }
+.box .hint { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+.opt { display: flex; align-items: center; gap: 10px; height: 31px; color: var(--body); font-size: 15px; }
+.opt::before { content: ''; width: 14px; height: 14px; border-radius: 50%; border: 1px solid #7a7052; flex: none; }
+.opt.on { color: #ffe7b0; }
+.opt.on::before { background: radial-gradient(#e3c185 0 40%, #0000 45%); border-color: #d6bb80; }
+.opt.chk::before { border-radius: 2px; }
+.opt.chk.on::before { background: #e3c185; box-shadow: inset 0 0 0 3px #141a19; }
+.step { display: inline-flex; align-items: center; border: 1px solid #4d6f86; height: 24px; }
+.step i { font-style: normal; width: 22px; text-align: center; color: #7fa2bd; }
+.step b { font-weight: normal; padding: 0 6px; color: #cfe2f2; border-left: 1px solid #2c3b44;
+  border-right: 1px solid #2c3b44; }
+.grid { display: grid; gap: 8px; }
+.grid .icon.used { opacity: .3; }
+.grid .icon.hot { border-color: #d6bb80; box-shadow: 0 0 0 1px #d6bb80, 0 0 10px #d6bb8066; }
+.slots { display: flex; gap: 18px; }
+.slot { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+.slot .nm { color: var(--body); font-size: 13px; }
+.now { position: absolute; padding: 10px 14px; border: 1px solid #3f5a3c; background: #0d1610; color: var(--body);
+  font: 15px/1.4 Lucida, sans-serif; }
+.now b { color: var(--good); font-weight: normal; }
+.presets { display: flex; gap: 8px; align-items: center; }
+
+/* ---------- B: pages in the book ---------- */
+.spread { position: absolute; left: 200px; top: 0; width: 1200px; height: 900px;
+  background: url(art/blank_spread.png) 0 0 / 100% 100%; }
+.ink { color: var(--ink); }
+.seal { position: absolute; left: 306px; top: 70px; width: 214px; height: 214px; border-radius: 50%;
+  background: radial-gradient(#e9d6a8 0 58%, #d8bf88 70%, #c4a56a 100%);
+  box-shadow: 0 0 0 4px #b08f55, 0 0 0 7px #e6d1a0, 0 0 0 10px #8a6a3a; }
+.seal img { position: absolute; left: 50%; top: 50%; filter: sepia(1) saturate(.6) brightness(.75) contrast(1.3); }
+.seal .t { position: absolute; left: 0; right: 0; top: 14px; text-align: center; font: 22px Fondamento, serif;
+  color: var(--ink); letter-spacing: 2px; }
+.pagelist { position: absolute; left: 296px; top: 296px; width: 474px; display: flex; flex-direction: column; gap: 12px; }
+.line { position: relative; display: flex; align-items: center; gap: 14px; }
+.line .num { width: 36px; font: 34px Fondamento, serif; color: var(--inkGreen); text-align: right; }
+.line .pic { width: 76px; height: 76px; object-fit: contain; flex: none; }
+.line .nm { font: 27px Fondamento, serif; color: var(--ink); line-height: 1; }
+.line .cond { font: italic 17px Fondamento, serif; color: var(--inkSoft); margin-top: 4px; }
+.line .cond u { text-decoration: none; border-bottom: 1px dotted var(--inkSoft); }
+.line .why { font: 14px Fondamento, serif; color: var(--inkRed); margin-top: 3px; }
+.line .why.go { color: var(--inkGreen); font-size: 16px; }
+.line.hot::before { content: ''; position: absolute; left: -14px; right: -18px; top: -6px; bottom: -6px;
+  border: 2px solid #a6402099; border-radius: 40% 46% 42% 50% / 55% 45% 60% 40%; transform: rotate(-.6deg); }
+.line.later { opacity: .55; }
+.pagehd { position: absolute; font: 46px Fondamento, serif; color: var(--ink); }
+.pagesub { position: absolute; font: italic 18px Fondamento, serif; color: var(--inkSoft); }
+.frame { position: absolute; width: 112px; height: 112px; border: 2px solid #8a6a3a; border-radius: 6px;
+  box-shadow: inset 0 0 0 3px #e6d1a0, inset 0 0 0 4px #8a6a3a; background: #e3cd9a55; }
+.frame img { position: absolute; inset: 8px; width: 92px; height: 92px; object-fit: contain; }
+.frame .k { position: absolute; left: -10px; top: -10px; min-width: 30px; height: 26px; padding: 0 5px;
+  border-radius: 13px; background: #f2e2b8; border: 2px solid #8a6a3a; font: 15px/22px Fondamento, serif;
+  color: var(--ink); text-align: center; }
+.frame.empty { border-style: dashed; background: none; box-shadow: none; }
+.frame.empty::after { content: 'empty'; position: absolute; inset: 0; display: grid; place-items: center;
+  font: italic 18px Fondamento, serif; color: #a08560; }
+.cap { position: absolute; width: 150px; text-align: center; font: 19px Fondamento, serif; color: var(--ink); }
+.medal { position: absolute; left: 1316px; width: 78px; height: 78px; border-radius: 50%;
+  box-shadow: 0 0 0 3px #b08f55, 0 0 0 5px #3a2a14, 0 3px 6px #000a; background-color: #333; }
+.medal.on { box-shadow: 0 0 0 3px #f6d98a, 0 0 0 5px #3a2a14, 0 0 16px 4px #ffd27a; }
+.ribbon { position: absolute; padding: 3px 12px; font: italic 17px Fondamento, serif; color: var(--ink);
+  border-bottom: 1px dotted var(--inkSoft); }
+
+/* ---------- C: party board ---------- */
+#C { left: 12px; top: 6px; width: 1576px; height: 888px; }
+#C h2 { position: absolute; left: 72px; top: 50px; margin: 0; font: 36px Fondamento, serif; font-weight: normal; }
+#C .sub { position: absolute; left: 340px; top: 86px; color: var(--muted); font-size: 14px; }
+.col { position: absolute; top: 120px; width: 278px; height: 574px; border: 1px solid #333c37; background: #0b1212d0;
+  padding: 12px; }
+.col.on { border-color: #8c815f; }
+.col .hd { display: flex; gap: 10px; align-items: center; }
+.col .nm { font: 20px Arrus, serif; }
+.col .cl { font: 12px Lucida, sans-serif; color: var(--muted); margin: 2px 0 5px; }
+.col .bar { width: 120px; }
+.card { position: relative; display: flex; align-items: center; gap: 9px; height: 46px; padding: 0 44px 0 6px;
+  border: 1px solid #333c37; background: #101919; margin-top: 5px; }
+.card .t1 { font: 15px Arrus, serif; white-space: nowrap; color: var(--ivory); }
+.card .t2 { font: 12px Lucida, sans-serif; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; max-width: 200px; }
+.card.next { border-color: #5f9a5a; box-shadow: 0 0 10px #5f9a5a55; }
+.card.next::after { content: 'NOW'; position: absolute; right: 7px; top: 16px; font: 10px Lucida, sans-serif;
+  letter-spacing: 2px; color: #c9f5c4; }
+.card.skip .t2 { color: #c9a26a; }
+.card.later { opacity: .5; }
+.card.hot { border-color: #d6bb80; background: #1e1f16; }
+.card.fallback { border-style: dashed; background: #0b1111; }
+.card.ghost { border-style: dashed; justify-content: center; color: var(--muted); height: 30px; padding: 0; }
+.mini { display: flex; gap: 7px; margin-top: 8px; }
+.mini .s { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--muted); }
+.drawer { position: absolute; left: 66px; right: 66px; top: 702px; height: 124px; border: 1px solid #8c815f;
+  background: #0d1515; padding: 14px 18px; }
+
+/* ---------- A, revision 2: conditions with sliders, no live state ---------- */
+.ctl { display: flex; gap: 4px; flex: none; }
+.ctl span { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid #4d5148; color: var(--muted);
+  font: 13px Lucida, sans-serif; background: #0b1111; }
+.cond { padding: 6px 0 4px; border-top: 1px solid #263030; }
+.cond.off { opacity: .42; }
+.cond .top { display: flex; align-items: center; gap: 10px; font: 15px Lucida, sans-serif; color: var(--body); }
+.cond .top::before { content: ''; width: 14px; height: 14px; border: 1px solid #7a7052; border-radius: 2px; flex: none; }
+.cond.on .top::before { background: #e3c185; box-shadow: inset 0 0 0 3px #141a19; border-color: #d6bb80; }
+.cond.on .top { color: #ffe7b0; }
+.cond .val { margin-left: auto; font: 15px Lucida, sans-serif; color: var(--ivory); min-width: 64px; text-align: right; }
+.cond .na { margin-left: auto; font-size: 12px; color: var(--muted); }
+.sl { position: relative; height: 26px; margin: 6px 4px 0 24px; }
+.sl .tr { position: absolute; left: 0; right: 0; top: 11px; height: 4px; background: #070b0b; border: 1px solid #56604f; }
+.sl .fi { position: absolute; top: 11px; height: 4px; background: #c9a865; }
+.sl .zone { position: absolute; top: 8px; height: 10px; background: #b2402a55; border: 1px solid #b2402a99; }
+.sl .th { position: absolute; top: 2px; width: 12px; height: 22px; margin-left: -6px;
+  background: linear-gradient(90deg, #8f7643, #ecd396 45%, #9b8048); border: 1px solid #241c0e;
+  box-shadow: 0 1px 3px #000; }
+.sl .ticks { position: absolute; left: 0; right: 0; top: 26px; font: 11px Lucida, sans-serif; color: var(--muted); }
+.sl .ticks i { position: absolute; transform: translateX(-50%); font-style: normal; white-space: nowrap; }
+.sl .ticks i.first { transform: none; }
+.sl .ticks i.last { transform: translateX(-100%); }
+.sl .ticks i.r { color: #d27a62; }
+.quick { display: flex; gap: 6px; margin: 6px 0 0 24px; }
+.quick .chip { height: 22px; font-size: 12px; }
+.seg { display: flex; flex: none; border: 1px solid #7a7052; }
+.seg span { padding: 4px 12px; font: 13px Lucida, sans-serif; color: var(--muted); }
+.seg span + span { border-left: 1px solid #4d5148; }
+.seg span.on { background: #2b2a1a; color: #ffe7b0; }
+.tick { width: 16px; height: 16px; border: 1px solid #7a7052; border-radius: 2px; flex: none; }
+.tick.on { background: #e3c185; box-shadow: inset 0 0 0 3px #141a19; border-color: #d6bb80; }
+.row.off > :not(.tick):not(.ctl):not(.grip) { opacity: .4; }
+
+/* ---------- Quick Reference with an Orders row ---------- */
+#stage.qr { background-image: url(art/quick_reference_capture.png); }
+.strip { position: absolute; left: 200px; width: 1200px; background: url(art/quick_reference_capture.png) 0 0 / 1600px 900px; }
+.wipe { position: absolute; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgb(21 29 23 / .55); }
+.qrt { position: absolute; transform: translate(-50%, -50%); font: 30px Arrus, serif; white-space: nowrap; }
+.qrl { position: absolute; transform: translateY(-50%); font: 30px Arrus, serif; color: rgb(229 220 199); }
+.chain { position: absolute; display: flex; gap: 3px; align-items: center; transform: translate(-50%, -50%); }
+.chain .icon { border-color: #5f5a43; }
+.chain .end { width: 28px; height: 28px; overflow: hidden; display: grid; place-items: center; border: 1px dashed #5f5a43;
+  color: var(--muted); font: 15px Lucida, sans-serif; }
+.qtip { position: absolute; width: 470px; padding: 12px 16px; background: #0b1212f2; border: 1px solid #8c815f;
+  box-shadow: 0 6px 18px #000d; font: 15px/1.5 Lucida, sans-serif; color: var(--body); }
+.qtip h4 { margin: 0 0 6px; font: 22px Fondamento, serif; font-weight: normal; color: var(--ivory); }
+.qtip .o { display: flex; gap: 10px; align-items: center; }
+.qtip .o i { font-style: normal; color: var(--gold); width: 14px; }
+.qtip .o.off { opacity: .45; }
+.qtip .k { margin-top: 8px; padding-top: 8px; border-top: 1px solid #3a3f35; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+</style>
+</head>
+<body>
+<div class="review">
+  <button data-view="today">Today</button>
+  <button data-view="entry">Spellbook entry</button>
+  <button data-view="a">A · Orders window (chosen)</button>
+  <button data-view="qr">Quick Reference</button>
+  <button data-view="b">B · Pages in the book (not chosen)</button>
+  <button data-view="c">C · Party board (not chosen)</button>
+  <span>Member:</span>
+  <button data-m="0">Ariel</button><button data-m="1">Lys</button><button data-m="2">Gerrard</button>
+  <button data-m="3">Thalia</button><button data-m="4">Kestrel</button>
+  <span>Click rows/cards to select them.</span>
+</div>
+<div id="wrap"><div id="stage"></div></div>
+
+<script>
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const Q = new URLSearchParams(location.search);
+let view = Q.get('view') || 'a', m = +(Q.get('m') ?? 4), row = Q.has('row') ? +Q.get('row') : 1;
+if (Q.get('export')) document.body.classList.add('export');
+
+const Sp = n => `art/spells/${n}.png`, Ink = n => `art/spells/${n}_ink.png`;
+const Items = {melee: 'art/items/7item009.png', bow: 'art/items/7item043.png', wand: 'art/items/7item135.png'};
+// Illustrative SP costs; `auto` is the check a spell always carries (a cure only when someone has the condition, ...).
+const Spells = {
+  heal: {n: 'Heal', sp: 5, ally: true}, curepoison: {n: 'Cure Poison', sp: 8, auto: 'someone is poisoned'},
+  powercure: {n: 'Power Cure', sp: 15}, regeneration: {n: 'Regeneration', sp: 10, auto: 'the target lacks it'},
+  bless: {n: 'Bless', sp: 5, auto: 'the party lacks it'}, heroism: {n: 'Heroism', sp: 10, auto: 'the party lacks it'},
+  dayofthegods: {n: 'Day of the Gods', sp: 30, auto: 'the party lacks it'}, haste: {n: 'Haste', sp: 5, auto: 'the party lacks it'},
+  stoneskin: {n: 'Stoneskin', sp: 5, auto: 'the party lacks it'},
+  lightbolt: {n: 'Light Bolt', sp: 10}, sunray: {n: 'Sunray', sp: 20, auto: 'outdoors by day'},
+  paralyze: {n: 'Paralyze', sp: 15, auto: 'the target lacks it'}, slow: {n: 'Slow', sp: 5, auto: 'the target lacks it'},
+  incinerate: {n: 'Incinerate', sp: 25}, fireball: {n: 'Fireball', sp: 15}, firebolt: {n: 'Fire Bolt', sp: 4},
+  icebolt: {n: 'Ice Bolt', sp: 8}, lightningbolt: {n: 'Lightning Bolt', sp: 15},
+  dragonbreath: {n: "Dragon's Breath", sp: 25}, shrapmetal: {n: 'Shrapmetal', sp: 15},
+  toxiccloud: {n: 'Toxic Cloud', sp: 4}, flyingfist: {n: 'Flying Fist', sp: 25}, harm: {n: 'Harm', sp: 8},
+  spiritlash: {n: 'Spirit Lash', sp: 10}, mindblast: {n: 'Mind Blast', sp: 5},
+  turnundead: {n: 'Turn Undead', sp: 5, auto: 'the target is undead'}, lifedrain: {n: 'Life Drain', sp: 15},
+};
+const Weapons = {melee: 'Melee', bow: 'Bow', wand: 'Wand'};
+// What the readout assumes: three goblins about 14 m away (out of reach), Gerrard poisoned at 29 % HP,
+// outdoors by day, no Bless on the party.
+const Scene = {reach: false, foes: 3, low: {who: 'Gerrard', pct: 29}, poisoned: true, day: true, target: 'the goblins'};
+// Portrait centres in the gameplay capture used for the faces.
+const Portraits = [500, 650, 800, 950, 1100];
+const party = [
+  {name: 'Ariel', cls: 'Paladin', sp: [12, 40], bow: true,
+   orders: [{d: 'heal', ally: 35}, {d: 'melee', reach: 1}, {d: 'lightbolt', far: 1, dist: [4, null], keep: 30}],
+   quick: 'bless', qs: ['heal', 'curepoison', null, null],
+   known: ['heal', 'curepoison', 'regeneration', 'bless', 'heroism', 'spiritlash', 'turnundead', 'lightbolt', 'paralyze', 'mindblast'],
+   why: 'Discord: Light Bolt at range, the sword in reach, mana kept for heals'},
+  {name: 'Lys', cls: 'Sorcerer', sp: [52, 90], bow: true,
+   orders: [{d: 'sunray'}, {d: 'incinerate', keep: 20}, {d: 'icebolt'}, {d: 'bow', dist: [4, null]}, {d: 'melee'}],
+   quick: 'fireball', qs: ['incinerate', 'icebolt', 'slow', null],
+   known: ['firebolt', 'fireball', 'incinerate', 'haste', 'lightningbolt', 'icebolt', 'slow', 'stoneskin', 'sunray', 'lightbolt', 'paralyze', 'dayofthegods'],
+   why: 'Discord: Sunray, Incinerate, Ice Bolt, then the bow, then melee'},
+  {name: 'Gerrard', cls: 'Knight', sp: [0, 0], bow: false, orders: [], quick: null, qs: [null, null, null, null], known: [],
+   why: 'No spells: the weapon is all there is'},
+  {name: 'Thalia', cls: 'Cleric', sp: [8, 70], bow: false,
+   orders: [{d: 'heal', ally: 60}, {d: 'curepoison'}, {d: 'flyingfist', keep: 25}], otherwise: 'hold',
+   quick: 'heal', qs: ['powercure', 'bless', null, null],
+   known: ['heal', 'curepoison', 'powercure', 'regeneration', 'flyingfist', 'harm', 'bless', 'heroism', 'spiritlash', 'turnundead'],
+   why: 'Discord (MAW healer): heal when needed, otherwise Flying Fist'},
+  {name: 'Kestrel', cls: 'Dark Elf', sp: [30, 60], bow: true,
+   orders: [{d: 'heal', ally: 25}, {d: 'shrapmetal', reach: 1, dist: [0, 6]}, {d: 'dragonbreath'}, {d: 'lightningbolt', off: true}, {d: 'bow'}],
+   quick: 'heal', qs: ['shrapmetal', 'dragonbreath', 'toxiccloud', null],
+   known: ['heal', 'curepoison', 'lightningbolt', 'shrapmetal', 'dragonbreath', 'toxiccloud', 'firebolt', 'slow'],
+   why: "Discord: heal a friend low on HP, Shrapmetal in melee, Dragon's Breath, Lightning Bolt, the bow"},
+];
+const Presets = ['Fighter', 'Archer', 'Caster', 'Healer'];
+
+const name = d => Spells[d]?.n || Weapons[d];
+const img = d => Spells[d] ? Sp(d) : Items[d];
+const isItem = d => !Spells[d];
+function conds(o) {
+  const c = [];
+  if (o.ally) c.push(['when', `when an ally is below ${o.ally} % HP`]);
+  if (o.reach) c.push(['when', 'when a foe is in reach']);
+  if (o.far) c.push(['when', 'when the target is out of reach']);
+  if (o.crowd) c.push(['when', `when ${o.crowd}+ foes are near the target`]);
+  if (!o.ally && !o.reach && !o.far && !o.crowd) {
+    if (Spells[o.d]?.auto) c.push(['auto', `only if ${Spells[o.d].auto}`]);
+    else if (o.d === 'melee') c.push(['auto', 'only in reach']);
+    else c.push(['when', 'always']);
+  }
+  if (o.keep) c.push(['keep', `keeps ${o.keep} % SP`]);
+  return c;
+}
+function blocker(p, o) {
+  const s = Spells[o.d];
+  if (o.ally && Scene.low.pct >= o.ally) return `nobody below ${o.ally} %`;
+  if ((o.reach || o.d === 'melee') && !Scene.reach) return 'the target is out of reach';
+  if (o.far && Scene.reach) return 'the target is in reach';
+  if (o.crowd && Scene.foes < o.crowd) return `fewer than ${o.crowd} foes there`;
+  if (o.d === 'bow' && !p.bow) return 'no bow equipped';
+  if (s) {
+    if (p.sp[0] < s.sp) return `needs ${s.sp} SP, has ${p.sp[0]}`;
+    if (o.keep && p.sp[0] - s.sp < o.keep * p.sp[1] / 100) return `would leave under ${o.keep} % SP`;
+  }
+  return '';
+}
+function doing(p, d) {
+  if (d === 'heal') return `Heal → ${Scene.low.who}`;
+  if (d === 'curepoison') return 'Cure Poison → Gerrard';
+  if (d === 'bow') return `Bow → ${Scene.target}`;
+  if (d === 'melee') return 'swing';
+  return `${name(d)} → ${Scene.target}`;
+}
+function fallbackNow(p) {
+  if (Scene.reach) return 'swing at the target';
+  return p.bow ? `Bow → ${Scene.target}` : 'swing (out of reach)';
+}
+function evaluate(p) {
+  let hit = -1;
+  const rows = p.orders.map((o, i) => {
+    if (hit >= 0) return {st: 'later', t: ''};
+    const b = blocker(p, o);
+    if (b) return {st: 'skip', t: b};
+    hit = i;
+    return {st: 'next', t: doing(p, o.d)};
+  });
+  const fb = hit < 0 ? {st: 'next', t: fallbackNow(p)} : {st: 'later', t: ''};
+  const now = hit >= 0 ? rows[hit].t : fb.t;
+  return {rows, fb, now};
+}
+// The basebar's oval portraits, cut from the capture: about 92 x 118 px around (centre, 801) at its scale.
+function faceStyle(i, w, h = w) {
+  const s = w / 92;
+  return `background-image:url(../maw_potion_radial_20261025/gameplay_backdrop.jpg);background-repeat:no-repeat;`
+    + `background-size:${1600 * s}px ${900 * s}px;background-position:${-(Portraits[i] * s - w / 2)}px ${-(801 * s - h / 2)}px`;
+}
+const face = (i, w) => `<div class="face" style="width:${w}px;height:${Math.round(w * 1.28)}px;${faceStyle(i, w, Math.round(w * 1.28))}"></div>`;
+const icon = (d, size, extra = '') => d
+  ? `<div class="icon ${extra}" style="width:${size}px;height:${size}px"><img class="${isItem(d) ? 'item' : ''}" src="${img(d)}"></div>`
+  : `<div class="icon empty ${extra}" style="width:${size}px;height:${size}px"></div>`;
+const spBar = (p, w) => p.sp[1]
+  ? `<div class="bar" style="width:${w}px"><i style="width:${100 * p.sp[0] / p.sp[1]}%"></i></div>`
+  : `<div style="font-size:12px;color:var(--muted)">no SP</div>`;
+const statusHtml = r => r.st === 'next' ? `<div class="status next"><b>NOW</b>${r.t}</div>`
+  : r.st === 'skip' ? `<div class="status skip">skip: ${r.t}</div>` : `<div class="status later">not reached</div>`;
+const QuickKeys = ['Q', 'F5', 'F6', 'F7', 'F8'];
+
+// ---------- the spellbook's left column ----------
+function bookColumn(mode) {
+  // The capture has the old Attack and Quick buttons above Close; paper over them with the page-edge strip above.
+  let h = `<div class="patch" style="top:600px;height:212px;background-position:-200px -330px"></div>`;
+  if (mode === 'today') {
+    const b = [['gf-aspell', ''], ['stssu', ''], ['stssu', '1'], ['stssu', '2'], ['stssu', '3'], ['stssu', '4']];
+    b.forEach(([a, n], i) => {
+      const top = 900 - 2 * 1.875 - 83 - (i + 1) * 86 + (i === 0 ? 0 : 0);
+      const order = i === 0 ? 1 : i === 1 ? 0 : i; // Quick Cast sits just above Close, Attack above it
+      h += `<div class="bookbtn ${n ? 'lab' : ''}" data-n="${n}" style="top:${900 - 4 - 83 - (order + 1) * 86}px;`
+        + `background-image:url(../../../assets_dev/engine/icons_x2/${a}.png)"></div>`;
+    });
+    h += `<div class="patch" style="top:0;height:0"></div>`;
+  } else {
+    h += `<div class="bookbtn" style="top:${900 - 4 - 83 - 86}px;background-image:url(art/tactics_button${mode === 'pressed' ? '_pressed' : ''}.png)"></div>`;
+  }
+  h += `<div class="bookbtn" style="top:${900 - 4 - 83}px;background-image:url(../../../assets_dev/engine/icons_x2/stxtu.png)"></div>`;
+  return h;
+}
+
+// ---------- views ----------
+function renderToday() {
+  return bookColumn('today')
+    + `<div class="note" style="left:300px;top:290px;max-width:380px"><h4>Today</h4>`
+    + `Six assignment buttons stack above Close: Attack Spell, Quick Cast and the four MMMerge quick spells. `
+    + `You select a spell on the page, then click a button. The Quick Reference shows the Quick Cast spell; `
+    + `nothing shows the attack spell or slots 1–4. Each member has one attack spell, with no conditions.</div>`;
+}
+
+function renderEntry() {
+  const p = party[0];
+  let h = bookColumn('normal');
+  h += `<div class="note" style="left:286px;top:640px;max-width:360px"><h4>Battle Orders <span class="key">O</span></h4>`
+    + `Opens the orders of the member whose book this is. The only assignment button left; Close stays below it.</div>`;
+  h += `<div class="callout" style="left:252px;top:712px">1</div>`;
+  // Right-click on a spell: assign it without the window.
+  h += `<div style="position:absolute;left:815px;top:80px;width:200px;height:200px;border:2px solid #d6bb80;`
+    + `border-radius:12px;box-shadow:0 0 18px #d6bb8088"></div>`;
+  h += `<div class="menu" style="left:1010px;top:110px">`
+    + `<div class="hd">${icon('icebolt', 44)}<div><b>Ice Bolt</b><br><span>Water · 8 SP · right-click menu</span></div></div>`
+    + `<div class="it">Set as Quick Cast<span class="cur">now Bless</span><span class="key">Q</span></div>`
+    + `<div class="it hot">Put on Quick Spell 1<span class="cur">now Heal</span><span class="key">F5</span></div>`
+    + `<div class="it">Put on Quick Spell 2<span class="cur">Cure Poison</span><span class="key">F6</span></div>`
+    + `<div class="it">Put on Quick Spell 3<span class="key">F7</span></div>`
+    + `<div class="it">Put on Quick Spell 4<span class="key">F8</span></div><hr>`
+    + `<div class="it">Add to Ariel's attack orders…</div>`
+    + `<div class="it">Open Battle Orders</div></div>`;
+  h += `<div class="callout" style="left:1324px;top:96px">2</div>`;
+  h += `<div class="note" style="left:1010px;top:470px;max-width:330px"><h4>Right-click a spell</h4>`
+    + `Assigns it to Quick Cast or a Quick Spell key, or adds it to the attack orders (the window opens on the new `
+    + `order so you can say when). Left click still casts, as now.</div>`;
+  return h;
+}
+
+// Ranges the sliders allow; melee reach is the weapon reach the game already uses (407 units, about 4 m; 1 m is
+// about 100 units). Distance runs to the 51 m a ranged attack reaches; its right end means "any".
+const Range = {dist: [0, 50], ally: [10, 90], keep: [0, 80], reach: 4};
+const pctOf = (v, [lo, hi]) => 100 * (v - lo) / (hi - lo);
+// The distance slider gives its first half to 0–10 m, where melee and spread spells are decided, and the rest to 10–50 m.
+const distPct = v => v <= 10 ? 5 * v : 50 + 1.25 * (v - 10);
+function distText(d) {
+  if (!d) return '';
+  const [a, b] = d;
+  if (a === 0 && b === Range.reach) return 'target in melee reach';
+  if (a === Range.reach && b === null) return 'target beyond melee reach';
+  return b === null ? `target ${a} m or further` : `target ${a}–${b} m away`;
+}
+function condsA(o) {
+  const c = [];
+  if (o.d === 'melee') c.push(['auto', 'only in melee reach']);
+  if (o.dist) c.push(['when', distText(o.dist)]);
+  if (o.ally) c.push(['when', `an ally below ${o.ally} % HP`]);
+  if (o.keep) c.push(['keep', `keeps ${o.keep} % SP`]);
+  if (!c.length) c.push(Spells[o.d]?.auto ? ['auto', `only if ${Spells[o.d].auto}`] : ['when', 'always']);
+  return c;
+}
+function slider(range, lo, hi, opts = {}) {
+  // One thumb (lo only) or two (lo and hi; hi null sits at the right end, "any").
+  const at = opts.scale || (v => pctOf(v, range));
+  const a = at(lo), b = hi === undefined ? null : hi === null ? 100 : at(hi);
+  let h = `<div class="sl"><div class="tr"></div>`;
+  if (opts.zone) h += `<div class="zone" style="left:0;width:${at(opts.zone)}%"></div>`;
+  h += b === null ? `<div class="fi" style="left:0;width:${a}%"></div><div class="th" style="left:${a}%"></div>`
+    : `<div class="fi" style="left:${a}%;width:${b - a}%"></div><div class="th" style="left:${a}%"></div><div class="th" style="left:${b}%"></div>`;
+  h += `<div class="ticks">` + (opts.ticks || []).map(([v, t, cls], k, all) =>
+    `<i class="${cls || ''} ${k === 0 && at(v) === 0 ? 'first' : ''} ${k === all.length - 1 && at(v) === 100 ? 'last' : ''}" style="left:${at(v)}%">${t}</i>`).join('') + `</div></div>`;
+  return h;
+}
+function renderA() {
+  const p = party[m];
+  let h = `<div id="dim"></div><div id="A" class="abs panel">`;
+  h += `<h2>Battle Orders</h2><div class="sub">Per member: Attack and the quick keys</div>`;
+  h += `<div class="tabs" style="left:430px;top:48px">` + party.map((q, i) =>
+    `<div class="tab ${i === m ? 'on' : ''}" data-m="${i}">${face(i, 48)}<div><div class="nm">${q.name}</div>`
+    + `<div class="cl">${q.cls}</div>${spBar(q, 66)}</div></div>`).join('') + `</div>`;
+  h += `<div class="btn" style="position:absolute;right:70px;top:62px">Close</div>`;
+  h += `<div style="position:absolute;left:66px;right:66px;top:138px;border-top:1px solid #3a3f35"></div>`;
+  // Left: the attack orders.
+  h += `<div class="sec abs" style="left:70px;top:154px">On Attack <span class="key">F</span> <span class="key">LMB</span>`
+    + `<small>top to bottom; the first order whose conditions all hold is used</small></div>`;
+  h += `<div class="rows" style="left:66px;top:186px;width:840px">`;
+  p.orders.forEach((o, i) => {
+    h += `<div class="row ${i === row ? 'hot' : ''} ${o.off ? 'off' : ''}" data-row="${i}"><span class="grip">⋮⋮</span>`
+      + `<span class="tick ${o.off ? '' : 'on'}" title="On or off; an order that is off keeps its settings"></span>`
+      + `<span class="rank">${i + 1}</span>${icon(o.d, 50)}<div class="txt"><div class="nm">${name(o.d)}`
+      + (Spells[o.d] ? `<span>${Spells[o.d].sp} SP</span>` : '') + `</div><div class="chips">`
+      + condsA(o).map(([k, t]) => `<span class="chip ${k}">${t}</span>`).join('')
+      + (o.off ? `<span class="chip auto">off · settings kept</span>` : '') + `</div></div>`
+      + `<div class="ctl"><span>▲</span><span>▼</span><span>✕</span></div></div>`;
+  });
+  // The last row: the weapon, or hold (do nothing; the press goes to the next ready member, a Pass in turn-based).
+  const hold = p.otherwise === 'hold';
+  h += `<div class="row fallback"><span class="grip"></span><span class="rank">∞</span>`
+    + (hold ? `<div class="icon" style="width:42px;height:42px;display:grid;place-items:center;font:22px Lucida,sans-serif;color:var(--muted)">‖</div>`
+      : `<div style="display:flex;gap:4px">${icon('melee', 42)}${icon('bow', 42)}</div>`)
+    + `<div class="txt"><div class="nm" style="font-size:18px">Otherwise: ${hold ? 'hold' : 'the weapon'}<span>`
+    + (hold ? 'the press goes to the next ready member' : 'melee in reach, the bow beyond') + `</span></div>`
+    + `<div class="chips"><span class="chip auto">always last</span>${hold ? '<span class="chip auto">turn-based: Pass</span>' : ''}</div></div>`
+    + `<div class="seg"><span class="${hold ? '' : 'on'}">Weapon</span><span class="${hold ? 'on' : ''}">Hold</span></div></div>`;
+  h += `<div class="add"><b>+</b> Add an order: click a spell or weapon on the right</div></div>`;
+  h += `<div class="presets abs" style="left:70px;top:654px"><span style="color:var(--muted)">Start from</span>`
+    + Presets.map(x => `<span class="chip">${x}</span>`).join('') + `<span class="chip">Copy from… ▾</span></div>`;
+  // Right: the selected order's conditions, each with its own slider.
+  const o = p.orders[row];
+  if (o) {
+    const s = Spells[o.d] || {};
+    const fixed = o.d === 'melee';
+    const dist = o.dist || [0, null];
+    const preset = !o.dist ? '' : distText(o.dist) === 'target in melee reach' ? 'in'
+      : distText(o.dist) === 'target beyond melee reach' ? 'out' : 'custom';
+    const distVal = !o.dist ? 'any' : dist[1] === null ? `${dist[0]} m +` : `${dist[0]}–${dist[1]} m`;
+    h += `<div class="box" style="left:934px;top:154px;width:472px;height:408px;padding-top:12px">`
+      + `<h3>${row + 1} · ${name(o.d)} <span style="font:14px Lucida,sans-serif;color:var(--muted)">${s.sp ? s.sp + ' SP' : ''}</span></h3>`
+      + `<div class="hint" style="margin-bottom:6px">Used when every ticked condition holds; none ticked: always.</div>`;
+    h += `<div class="cond ${o.dist ? 'on' : 'off'}"><div class="top">Target distance`
+      + (fixed ? `<span class="na">the weapon's reach</span>` : `<span class="val">${distVal}</span>`) + `</div>`
+      + (fixed ? '' : `<div class="quick"><span class="chip ${preset === 'in' ? 'on' : ''}">In melee reach</span>`
+        + `<span class="chip ${preset === 'out' ? 'on' : ''}">Beyond melee reach</span>`
+        + `<span class="chip ${preset === 'custom' ? 'on' : ''}">Custom</span></div>`
+        + slider(Range.dist, dist[0], dist[1], {zone: Range.reach, scale: distPct,
+          ticks: [[0, '0'], [Range.reach, 'melee', 'r'], [10, '10 m'], [20, '20'], [30, '30'], [40, '40'], [50, 'any']]})
+        + `<div style="height:10px"></div>`) + `</div>`;
+    h += `<div class="cond ${o.ally ? 'on' : 'off'}"><div class="top">An ally's HP is below<span class="val">${o.ally || 50} %</span></div>`
+      + slider(Range.ally, o.ally || 50, undefined, {ticks: [[10, '10 %'], [50, '50'], [90, '90 %']]}) + `<div style="height:6px"></div></div>`;
+    h += `<div class="cond ${o.keep ? 'on' : 'off'}"><div class="top">Keep SP after casting, at least`
+      + (s.sp ? `<span class="val">${o.keep || 30} %</span>` : `<span class="na">spells only</span>`) + `</div>`
+      + (s.sp ? slider(Range.keep, o.keep || 30, undefined, {ticks: [[0, '0 %'], [40, '40'], [80, '80 %']]}) : '') + `</div>`;
+    h += `</div>`;
+  } else {
+    h += `<div class="box" style="left:934px;top:154px;width:472px;height:408px"><h3>No orders</h3>`
+      + `<div class="hint" style="font-size:15px;line-height:1.5">${p.name} attacks with the weapon: melee in reach, `
+      + `the bow beyond. Add a spell to cast it first, or pick a starting plan.</div></div>`;
+  }
+  const pool = [...p.known, 'melee', 'bow', 'wand'];
+  h += `<div class="box" style="left:934px;top:574px;width:472px;height:120px;padding:10px 16px">`
+    + `<div class="sec" style="margin-bottom:8px">Add · ${p.name}'s spells and weapons</div>`
+    + `<div class="grid" style="grid-template-columns:repeat(11,34px);gap:5px 6px">`
+    + pool.map(d => icon(d, 34, p.orders.some(x => x.d === d) ? 'used' : '')).join('') + `</div></div>`;
+  // Bottom: quick keys.
+  h += `<div style="position:absolute;left:66px;right:66px;top:706px;border-top:1px solid #3a3f35"></div>`;
+  h += `<div class="sec abs" style="left:70px;top:744px">Quick keys</div>`;
+  h += `<div class="slots abs" style="left:230px;top:720px;gap:26px">` + [p.quick, ...p.qs].map((d, i) =>
+    `<div class="slot" style="flex-direction:row;gap:10px;align-items:center">${icon(d, 56)}<div><span class="key">${QuickKeys[i]}</span>`
+    + `<div class="nm" style="margin-top:4px">${i ? 'Quick Spell ' + i : 'Quick Cast'}</div><div>${d ? name(d) : 'empty'}</div></div></div>`).join('')
+    + `</div>`;
+  h += `</div>`;
+  return h;
+}
+
+// The Quick Reference (native capture) with an Orders row under QSpell. The rows below Name are restacked about 8 %
+// tighter (41.5 -> 37.5 px at 1600x900, 20 -> about 18.5 logical units) so Reputation, Fame and Exit stay where they are.
+function renderQr() {
+  const src = [94, 135, 175, 216, 257, 297, 338, 378, 419, 460, 500, 541, 582]; // Level .. QSpell centres in the capture
+  const pitch = (582 - 94) / 13;
+  const cols = [414, 605, 796, 987, 1179, 1370];
+  const centre = c => (cols[c] + cols[c + 1]) / 2;
+  let h = '';
+  // The Orders row's background: the Cond row's strip, its text blurred away below.
+  const rowsAt = [...src.map((c, k) => [c, 94 + k * pitch]), [541, 94 + 13 * pitch]];
+  rowsAt.forEach(([c, y]) => {
+    h += `<div class="strip" style="top:${y - 19}px;height:38px;background-position:-200px ${-(c - 19)}px"></div>`;
+  });
+  const oy = 94 + 13 * pitch;
+  h += `<div class="wipe" style="left:220px;top:${oy - 17}px;width:180px;height:34px"></div>`;
+  cols.slice(0, 5).forEach((x, c) => {
+    h += `<div class="wipe" style="left:${x + 4}px;top:${oy - 17}px;width:${cols[c + 1] - x - 8}px;height:34px"></div>`;
+  });
+  // The capture's names and classes are an older party; show the study's.
+  [[42, 'nm'], [94 + pitch, 'cl'], [94 + 12 * pitch, 'qs']].forEach(([y, k]) => {
+    cols.slice(0, 5).forEach((x, c) => {
+      h += `<div class="wipe" style="left:${x + 4}px;top:${y - 18}px;width:${cols[c + 1] - x - 8}px;height:36px"></div>`;
+      h += `<div class="qrt" style="left:${centre(c)}px;top:${y}px;color:${k === 'nm' ? 'rgb(228 199 147)' : 'rgb(229 220 199)'}">`
+        + `${k === 'nm' ? party[c].name : k === 'cl' ? party[c].cls : party[c].quick ? name(party[c].quick) : 'None'}</div>`;
+    });
+  });
+  h += `<div class="qrl" style="left:242px;top:${oy}px">Orders</div>`;
+  party.forEach((p, c) => {
+    const on = p.orders.filter(o => !o.off);
+    const end = p.otherwise === 'hold' ? '‖' : `<img src="${Items.melee}" style="height:24px;transform:rotate(40deg);opacity:.6">`;
+    h += on.length
+      ? `<div class="chain" style="left:${centre(c)}px;top:${oy}px">` + on.map(o => icon(o.d, 28)).join('')
+        + `<span class="end" title="${p.otherwise === 'hold' ? 'otherwise hold' : 'otherwise the weapon'}">${end}</span></div>`
+      : `<div class="qrt" style="left:${centre(c)}px;top:${oy}px;color:rgb(229 220 199)">Weapon</div>`;
+  });
+  h += `<div style="position:absolute;left:${cols[4] + 4}px;top:${oy - 18}px;width:${cols[5] - cols[4] - 8}px;height:36px;`
+    + `border:1px solid #d6bb80;box-shadow:0 0 10px #d6bb8066"></div>`;
+  // Hovering (or holding the right button on) a cell lists the orders and the quick keys.
+  const p = party[4];
+  h += `<div class="qtip" style="left:${cols[5] - 470}px;top:${oy - 410}px"><h4>${p.name} · on Attack</h4>`
+    + p.orders.map((o, i) => `<div class="o ${o.off ? 'off' : ''}"><i>${i + 1}</i>${icon(o.d, 24)}<span>${name(o.d)}`
+      + `<span style="color:var(--muted)"> · ${o.off ? 'off' : condsA(o).map(c => c[1]).join(', ')}</span></span></div>`).join('')
+    + `<div class="o"><i>∞</i><span style="color:var(--muted)">otherwise ${p.otherwise === 'hold' ? 'hold' : 'the weapon'}</span></div>`
+    + `<div class="k">` + [p.quick, ...p.qs].map((d, i) => `<span><span class="key">${QuickKeys[i]}</span> ${d ? name(d) : '—'}</span>`).join('')
+    + `</div></div>`;
+  return h;
+}
+
+function renderB() {
+  const p = party[m], ev = evaluate(p);
+  let h = `<div class="spread"></div>` + bookColumn('pressed');
+  h += `<div class="seal"><div class="t">ORDERS</div><img src="${Items.melee}" style="height:150px;transform:translate(-50%,-44%) rotate(-38deg)">`
+    + `<img src="${Items.wand}" style="height:130px;transform:translate(-50%,-44%) rotate(38deg)"></div>`;
+  h += `<div class="pagehd" style="left:548px;top:96px">${p.name}</div>`
+    + `<div class="pagesub" style="left:550px;top:156px">${p.cls} · on Attack,<br>the first that can be done</div>`;
+  h += `<div class="pagelist">`;
+  p.orders.forEach((o, i) => {
+    const r = ev.rows[i];
+    const c = conds(o).map(([k, t]) => `<u>${t}</u>`).join(', ');
+    h += `<div class="line ${r.st === 'next' ? 'hot' : ''} ${r.st}" data-row="${i}">`
+      + `<div class="num">${i + 1}.</div><img class="pic" src="${r.st === 'next' ? img(o.d) : (Spells[o.d] ? Ink(o.d) : img(o.d))}"`
+      + `${isItem(o.d) ? ' style="transform:rotate(40deg) scale(.8);filter:sepia(1) brightness(.8)"' : ''}><div>`
+      + `<div class="nm">${name(o.d)}</div><div class="cond">${c}</div>`
+      + (r.st === 'skip' ? `<div class="why">passed over: ${r.t}</div>` : r.st === 'next' ? `<div class="why go">← now: ${r.t}</div>` : '')
+      + `</div></div>`;
+  });
+  h += `<div class="line ${ev.fb.st === 'next' ? 'hot' : ''}" style="margin-top:4px">`
+    + `<div class="num" style="color:var(--inkSoft)">~</div><div><div class="nm" style="font-size:23px">Otherwise, the weapon</div>`
+    + `<div class="cond">melee in reach, the bow beyond</div>`
+    + (ev.fb.st === 'next' ? `<div class="why go">← now: ${ev.fb.t}</div>` : '') + `</div></div>`;
+  if (p.orders.length < 5) h += `<div class="ribbon" style="position:static;margin-left:50px">+ write another order: pick it from the book</div>`;
+  h += `</div>`;
+  // Right page: the quick keys as framed vignettes.
+  h += `<div class="pagehd" style="left:880px;top:60px;font-size:40px">Quick spells</div>`
+    + `<div class="pagesub" style="left:882px;top:112px">cast at once with the key, no orders asked</div>`;
+  const qs = [p.quick, ...p.qs];
+  h += `<div class="frame ${qs[0] ? '' : 'empty'}" style="left:1010px;top:170px;width:150px;height:150px">`
+    + (qs[0] ? `<img src="${Sp(qs[0])}" style="width:130px;height:130px">` : '') + `<span class="k">Q</span></div>`
+    + `<div class="cap" style="left:1010px;top:328px">Quick Cast${qs[0] ? '<br><i style="font-size:16px;color:var(--inkSoft)">' + name(qs[0]) + '</i>' : ''}</div>`;
+  qs.slice(1).forEach((d, i) => {
+    const x = 870 + i * 108, top = 420;
+    h += `<div class="frame ${d ? '' : 'empty'}" style="left:${x}px;top:${top}px;width:96px;height:96px">`
+      + (d ? `<img src="${Sp(d)}" style="inset:6px;width:82px;height:82px">` : '') + `<span class="k">F${i + 5}</span></div>`
+      + `<div class="cap" style="left:${x - 27}px;top:${top + 104}px;font-size:16px">${d ? name(d) : '—'}</div>`;
+  });
+  h += `<div class="pagesub" style="left:870px;top:590px;width:410px;font-size:17px;line-height:1.35">`
+    + `To fill a frame or add an order: click it, and the book turns to the school pages with “choose a spell” at the top; `
+    + `click any spell. Click a condition (the dotted words) to change it.</div>`;
+  h += `<div class="pagesub" style="left:870px;top:700px;width:410px;font-size:17px;color:var(--inkRed)">`
+    + `If ${p.name} attacked now: ${ev.now}</div>`;
+  h += `<div class="ribbon" style="left:870px;top:770px">Copy ${p.name}'s orders to another member…</div>`
+    + `<div class="ribbon" style="left:870px;top:806px">Start from a Fighter, Archer, Caster or Healer page…</div>`;
+  // The school tabs become the party's portrait medallions while the orders are open.
+  party.forEach((q, i) => {
+    h += `<div class="medal ${i === m ? 'on' : ''}" data-m="${i}" style="top:${18 + i * 86}px;${faceStyle(i, 78)}"></div>`;
+  });
+  h += `<div class="medal" style="top:${18 + 5 * 86 + 20}px;display:grid;place-items:center;background:#e9d6a8;`
+    + `font:15px/1.1 Fondamento,serif;color:var(--ink);text-align:center">back to<br>spells</div>`;
+  return h;
+}
+
+function renderC() {
+  let h = `<div id="dim"></div><div id="C" class="abs panel"><h2>Battle Orders</h2>`
+    + `<div class="sub">The whole party at once · drag a card to reorder it, or onto another column to copy it · green: what Attack does now</div>`
+    + `<div class="btn" style="position:absolute;right:72px;top:56px">Close</div>`;
+  party.forEach((p, i) => {
+    const ev = evaluate(p), x = 66 + i * 290;
+    h += `<div class="col ${i === m ? 'on' : ''}" data-m="${i}" style="left:${x}px"><div class="hd">${face(i, 52)}<div>`
+      + `<div class="nm">${p.name}</div><div class="cl">${p.cls}</div>${spBar(p, 120)}</div></div>`
+      + `<div style="margin:12px 0 4px;display:flex;gap:6px;align-items:center"><span class="sec" style="font-size:11px">On Attack</span>`
+      + `<span class="chip" style="margin-left:auto;height:22px;font-size:12px">${p.orders.length ? 'Custom' : 'Fighter'} ▾</span></div>`;
+    p.orders.forEach((o, j) => {
+      const r = ev.rows[j];
+      const t2 = r.st === 'skip' ? 'skip: ' + r.t : conds(o).map(c => c[1]).join(', ');
+      h += `<div class="card ${r.st} ${i === m && j === row ? 'hot' : ''}" data-m="${i}" data-row="${j}">`
+        + `${icon(o.d, 36)}<div><div class="t1">${j + 1}. ${name(o.d)}</div><div class="t2">${t2}</div></div></div>`;
+    });
+    h += `<div class="card fallback ${ev.fb.st}">${icon(p.bow ? 'bow' : 'melee', 36)}<div><div class="t1">Weapon</div>`
+      + `<div class="t2">${ev.fb.st === 'next' ? ev.fb.t : 'melee in reach, bow beyond'}</div></div></div>`;
+    h += `<div class="card ghost">+ add</div>`;
+    const qs = [p.quick, ...p.qs];
+    h += `<div style="position:absolute;left:12px;right:12px;bottom:12px"><div class="sec" style="font-size:11px">Quick keys</div>`
+      + `<div class="mini">` + qs.map((d, k) => `<div class="s">${icon(d, 40)}${QuickKeys[k]}</div>`).join('') + `</div></div>`;
+    h += `</div>`;
+  });
+  // The drawer edits the selected card.
+  const p = party[m], o = p.orders[row];
+  if (o) {
+    h += `<div class="drawer"><div style="display:flex;gap:16px;align-items:center">${icon(o.d, 56)}<div>`
+      + `<div style="font:26px Fondamento,serif">${name(o.d)} <span style="font:14px Lucida,sans-serif;color:var(--muted)">`
+      + `${p.name}'s order ${row + 1}${Spells[o.d] ? ' · ' + Spells[o.d].sp + ' SP' : ''}</span></div>`
+      + `<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><span style="color:var(--muted);line-height:24px">Use it</span>`
+      + [['always', !o.ally && !o.reach && !o.far && !o.crowd], ['when a foe is in reach', o.reach], ['when the target is out of reach', o.far],
+         [`when an ally is below ${o.ally || 50} % HP`, o.ally], [`when ${o.crowd || 3}+ foes are near the target`, o.crowd]]
+        .map(([t, on]) => `<span class="chip ${on ? 'on' : ''}">${t}</span>`).join('')
+      + `</div><div style="display:flex;gap:8px;margin-top:8px;align-items:center"><span style="color:var(--muted)">and</span>`
+      + `<span class="chip ${o.keep ? 'on' : ''}">keep ${o.keep || 30} % SP</span>`
+      + (Spells[o.d]?.auto ? `<span class="chip auto">only if ${Spells[o.d].auto} (always)</span>` : '')
+      + `</div></div><div style="margin-left:auto;display:flex;flex-direction:column;gap:8px">`
+      + `<span class="btn quiet">Copy to…</span><span class="btn quiet">Remove</span></div></div></div>`;
+  }
+  h += `</div>`;
+  return h;
+}
+
+function render() {
+  const f = {today: renderToday, entry: renderEntry, a: renderA, qr: renderQr, b: renderB, c: renderC}[view];
+  $('#stage').className = view === 'qr' ? 'qr' : '';
+  $('#stage').innerHTML = f();
+  $$('.review [data-view]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === view));
+  $$('.review [data-m]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.m === m));
+}
+$$('.review [data-view]').forEach(b => b.onclick = () => { view = b.dataset.view; render(); });
+$$('.review [data-m]').forEach(b => b.onclick = () => { m = +b.dataset.m; row = 0; render(); });
+$('#stage').addEventListener('click', e => {
+  const t = e.target.closest('[data-row],[data-m]');
+  if (!t) return;
+  if (t.dataset.m !== undefined && +t.dataset.m !== m) { m = +t.dataset.m; row = 0; }
+  if (t.dataset.row !== undefined) row = +t.dataset.row;
+  render();
+});
+function fit() { $('#stage').style.transform = `scale(${$('#wrap').clientWidth / 1600})`; }
+addEventListener('resize', fit);
+fit();
+render();
+</script>
+</body>
+</html>

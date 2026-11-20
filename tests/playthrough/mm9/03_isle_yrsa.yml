@@ -1,0 +1,70 @@
+# MM9 playthrough, segment 03: the Isle of Ashes, Forad Darre and Yrsa the Troll (guide: Prologue, "The Isle of
+# Ashes": search for anyone living on this island, find Yrsa, help Yrsa). Outdoors the party is placed beside each
+# person. Forad first (FORAD.scr: key 480 and 800 experience on the first use, key 368 and 4000 at the talk's end);
+# then Yrsa's hut (its rotating door, RotatingDoor8, swings shut 5 s after it opens: the party waits for it to close,
+# then clicks it); the dragonflies on the high ground west of the hut are walked to (eight of KillControl's twelve
+# flyers: key 27); back to Yrsa, who hears the party out about its destiny (key 1, Unite the Clans) and sends it to
+# Forad. Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 03
+id: mm9.playthrough.03_isle_yrsa
+title: "MM9 playthrough 03: Forad and Yrsa on the Isle of Ashes, the dragonflies, the party's destiny"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/01_ravensford.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: isleofashes.blv, qbit_set: [90473], qbit_clear: [90480, 90365, 90027, 90001]}
+
+  # Forad Darre on the shore (actor 13, RUDE 2): the boat crashed; who is Yrsa?
+  - set_pose: {map: isleofashes.blv, x: 2171, y: -7300, z: 147, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "Our boat crashed on its way to Mendossus."}
+  - select_topic: {match_label: "No.  Who is that?"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90480, 90477, 90368]}
+
+  # Yrsa's hut: the door on its west wall, then Yrsa (actor 12, RUDE 1). Before the dragonflies she will not say.
+  - set_pose: {map: isleofashes.blv, x: 1950, y: -16486, z: 420, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'wait(6); click(30769); wait(1.5)'}
+  - walk_to: {x: 2650, y: -16486, z: 420, plan: false, timeout_seconds: 30}
+  - interact_actor: {actor_index: 12}
+  - select_topic: {match_label: "Who are you?"}
+  - select_topic: {match_label: "Goodbye"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90365, 90007], qbit_clear: [90027]}
+
+  # Out of the hut and up to the dragonflies' ground in the west: kill them (eight of the twelve count).
+  - play_lua: {source: 'wait(6); click(30769); wait(1.5)'}
+  - walk_to: {x: 1950, y: -16486, z: 420, plan: false, timeout_seconds: 30}
+  - walk_to: {x: -4000, y: -17800, z: 1500, timeout_seconds: 200, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90027]}
+
+  # Back to Yrsa (2000 experience for the dragonflies, key 366): her favour and the party's destiny.
+  - walk_to: {x: 1950, y: -16486, z: 420, timeout_seconds: 200, clear_hostiles: 2500}
+  - play_lua: {source: 'wait(6); click(30769); wait(1.5)'}
+  - walk_to: {x: 2650, y: -16486, z: 420, plan: false, timeout_seconds: 30}
+  - interact_actor: {actor_index: 12}
+  - select_topic: {match_label: "Who are you?"}
+  - select_topic: {match_label: "Very well."}
+  - select_topic: {match_label: "Destiny?  What destiny?"}
+  - select_topic: {match_label: "What does Tamur Leng have to do with us?"}
+  - select_topic: {match_label: "Thronheim?  Kira the Cold's soldiers will certainly stop them!"}
+  - select_topic: {match_label: "You spoke of a destiny.  Is this our fate?"}
+  - select_topic: {match_label: "For the sake of all the Chedian, we will take this quest."}
+  - select_topic: {match_label: "Goodbye"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90001, 90366, 90367]}
+  # How to leave the island: "Perhaps you should speak to Forad Darre."
+  - interact_actor: {actor_index: 12}
+  - select_topic: {match_label: "How do we get off this island?"}
+  - select_topic: {match_label: "Goodbye"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'wait(6); click(30769); wait(1.5)'}
+  - walk_to: {x: 1950, y: -16486, z: 420, plan: false, timeout_seconds: 30}
+  - save_game: {name: "03 Yrsa", path: output/playthrough/mm9/checkpoints/03_isle_yrsa.oysav}

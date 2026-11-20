@@ -1,4 +1,5 @@
 #include "game/gameplay/StoryTextFormatter.h"
+#include "engine/Localization.h"
 
 #include "game/party/Party.h"
 
@@ -20,7 +21,7 @@ std::string memberNameOrFallback(const Party &party, size_t memberIndex)
 
     if (pMember == nullptr || pMember->name.empty())
     {
-        return "Adventurer";
+        return Engine::tr("Adventurer");
     }
 
     return pMember->name;
@@ -35,9 +36,14 @@ std::string formatHistoryDate(int32_t unlockedGameMinutes)
     const int month = (monthIndex % MonthsPerYear) + 1;
     const int year = StartingYear + monthIndex / MonthsPerYear;
 
-    char buffer[32] = {};
-    std::snprintf(buffer, sizeof(buffer), "%02d/%02d/%04d", month, day, year);
-    return buffer;
+    char monthText[16] = {};
+    char dayText[16] = {};
+    char yearText[16] = {};
+    std::snprintf(monthText, sizeof(monthText), "%02d", month);
+    std::snprintf(dayText, sizeof(dayText), "%02d", day);
+    std::snprintf(yearText, sizeof(yearText), "%04d", year);
+    // The order of a history date's parts is the language's.
+    return Engine::tr("{month}/{day}/{year}", {{"month", monthText}, {"day", dayText}, {"year", yearText}});
 }
 }
 

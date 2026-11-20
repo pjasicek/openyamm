@@ -1,0 +1,7 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_engine_handoff_20260928/refinement_2130/images
+exit: true
+steps:
+- wait: 2
+- capture: typical-gameplay
+- action: quest
+- capture: 4by3-inventory

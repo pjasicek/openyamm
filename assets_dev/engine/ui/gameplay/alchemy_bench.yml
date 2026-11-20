@@ -427,3 +427,399 @@ elements:
       height: 121
       z_index: 10
       notes: 'Party ingredient well; 30x38 cells with 3-unit gaps.'
+    - id: WorkbenchTabAlchemy
+      anchor: top_left
+      offset_x: 16
+      offset_y: 4
+      width: 75
+      height: 20
+      z_index: 30
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+        disabled: obsidian_button_tab_disabled
+      text:
+        value: 'Alchemy'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.4
+      notes: 'Workbench tab strip; shown when the rules have crafting.'
+    - id: WorkbenchTabCrafting
+      anchor: top_left
+      offset_x: 95
+      offset_y: 4
+      width: 75
+      height: 20
+      z_index: 30
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+        disabled: obsidian_button_tab_disabled
+      text:
+        value: 'Crafting'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.4
+    - id: CraftingBenchItemHeader
+      anchor: top_left
+      offset_x: 20
+      offset_y: 24
+      width: 80
+      height: 14
+      z_index: 20
+      text:
+        value: 'Equipment'
+        font: Fondamento
+        color: '#d9b97a'
+        align_x: left
+        align_y: top
+        scale: 0.34
+    - id: CraftingBenchItemCount
+      anchor: top_left
+      offset_x: 70
+      offset_y: 27
+      width: 140
+      height: 12
+      z_index: 20
+      text:
+        value: '{count}'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: right
+        align_y: top
+        scale: 0.55
+    - id: CraftingBenchItemFilterAll
+      anchor: top_left
+      offset_x: 18
+      offset_y: 40
+      width: 34
+      height: 13
+      z_index: 20
+      text:
+        value: 'All'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchItemFilterWorn
+      anchor: top_left
+      offset_x: 55
+      offset_y: 40
+      width: 46
+      height: 13
+      z_index: 20
+      text:
+        value: 'Worn'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchItemFilterPacks
+      anchor: top_left
+      offset_x: 104
+      offset_y: 40
+      width: 46
+      height: 13
+      z_index: 20
+      text:
+        value: 'Packs'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchItemSearch
+      anchor: top_left
+      offset_x: 16
+      offset_y: 57
+      width: 196
+      height: 16
+      z_index: 20
+      interactive: true
+      text:
+        value: '{search}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 0.55
+        pad_x: 4
+    - id: CraftingBenchItemList
+      anchor: top_left
+      offset_x: 16
+      offset_y: 77
+      width: 196
+      height: 273
+      z_index: 10
+      notes: 'Items the materials work on, worn first; rows 17, headers 10.'
+    - id: CraftingBenchOperationHeader
+      anchor: top_left
+      offset_x: 226
+      offset_y: 24
+      width: 250
+      height: 14
+      z_index: 20
+      text:
+        value: '{operation}'
+        font: Fondamento
+        color: '#d9b97a'
+        align_x: left
+        align_y: top
+        scale: 0.34
+    - id: CraftingBenchOwnerLabel
+      anchor: top_left
+      offset_x: 226
+      offset_y: 40
+      width: 250
+      height: 12
+      z_index: 20
+      text:
+        value: '{owner}'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: left
+        align_y: top
+        scale: 0.55
+    - id: CraftingBenchItemSlot
+      anchor: top_left
+      offset_x: 230
+      offset_y: 56
+      width: 64
+      height: 80
+      z_index: 10
+      interactive: true
+      notes: 'The item crafted on.'
+    - id: CraftingBenchMaterialSlot
+      anchor: top_left
+      offset_x: 318
+      offset_y: 56
+      width: 64
+      height: 80
+      z_index: 10
+      interactive: true
+      notes: 'The material used.'
+    - id: CraftingBenchResultSlot
+      anchor: top_left
+      offset_x: 406
+      offset_y: 56
+      width: 64
+      height: 80
+      z_index: 10
+      notes: 'The item as it will be.'
+    - id: CraftingBenchCompare
+      anchor: top_left
+      offset_x: 484
+      offset_y: 24
+      width: 138
+      height: 136
+      z_index: 20
+      text:
+        value: '{compare}'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: left
+        align_y: top
+        scale: 0.55
+      notes: 'Before and after, line by line.'
+    - id: CraftingBenchApplyButton
+      anchor: top_left
+      offset_x: 226
+      offset_y: 166
+      width: 75
+      height: 26
+      z_index: 30
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+        disabled: obsidian_button_tab_disabled
+      text:
+        value: 'Apply'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+    - id: CraftingBenchApplyManyButton
+      anchor: top_left
+      offset_x: 304
+      offset_y: 166
+      width: 75
+      height: 26
+      z_index: 30
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+        disabled: obsidian_button_tab_disabled
+      text:
+        value: 'Apply All'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+    - id: CraftingBenchClearButton
+      anchor: top_left
+      offset_x: 382
+      offset_y: 166
+      width: 75
+      height: 26
+      z_index: 30
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+        disabled: obsidian_button_tab_disabled
+      text:
+        value: 'Clear'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+    - id: CraftingBenchCloseButton
+      anchor: top_left
+      offset_x: 547
+      offset_y: 166
+      width: 75
+      height: 26
+      z_index: 30
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+        disabled: obsidian_button_tab_disabled
+      text:
+        value: 'Close'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+    - id: CraftingBenchMaterialHeader
+      anchor: top_left
+      offset_x: 226
+      offset_y: 198
+      width: 90
+      height: 14
+      z_index: 20
+      text:
+        value: 'Materials'
+        font: Fondamento
+        color: '#d9b97a'
+        align_x: left
+        align_y: top
+        scale: 0.34
+    - id: CraftingBenchMaterialHint
+      anchor: top_left
+      offset_x: 300
+      offset_y: 201
+      width: 322
+      height: 12
+      z_index: 20
+      text:
+        value: 'whole party, click or drag to place'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: left
+        align_y: top
+        scale: 0.55
+    - id: CraftingBenchMaterialFilterAll
+      anchor: top_left
+      offset_x: 224
+      offset_y: 214
+      width: 34
+      height: 13
+      z_index: 20
+      text:
+        value: 'All'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchMaterialFilterGems
+      anchor: top_left
+      offset_x: 261
+      offset_y: 214
+      width: 40
+      height: 13
+      z_index: 20
+      text:
+        value: 'Gems'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchMaterialFilterSpecial
+      anchor: top_left
+      offset_x: 304
+      offset_y: 214
+      width: 52
+      height: 13
+      z_index: 20
+      text:
+        value: 'Special'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchMaterialFilterPotions
+      anchor: top_left
+      offset_x: 359
+      offset_y: 214
+      width: 52
+      height: 13
+      z_index: 20
+      text:
+        value: 'Potions'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchCheapestGems
+      anchor: top_left
+      offset_x: 538
+      offset_y: 214
+      width: 84
+      height: 13
+      z_index: 20
+      text:
+        value: 'Cheapest gems'
+        font: Lucida
+        color: '#b7ab95'
+        align_x: center
+        align_y: middle
+        scale: 0.55
+    - id: CraftingBenchMaterialGrid
+      anchor: top_left
+      offset_x: 222
+      offset_y: 229
+      width: 402
+      height: 121
+      z_index: 10
+      notes: 'Party crafting materials; identical ones share a cell.'

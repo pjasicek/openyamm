@@ -1,0 +1,24 @@
+# SixFires.inc :Guilt (afterworld_guilt, afterworld.cinematics.yml) through its real trigger, Skraelos' dialogue exit
+# (NPC336.scr :OnRude, event 50094) with key 380 and not 381: it plays, key 381 at the camera's arrival (10.4 s) and not
+# before, then his greeting (RUDE 336) once the party's view has faded in (13.4 s). See README "Cinematics".
+id: mm9r.afterworld_blv.cinematic_afterworld_guilt_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: afterworld.blv}
+- console: {line: cinematic list, expect_contains: afterworld_guilt}
+- setup_shortcut: {kind: set_qbit, id: 90380}
+- execute_event: {id: 50094}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing afterworld_guilt}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 9.5}
+- note: {text: "10 s: still flying to AfterMarker0"}
+- assert: {qbit_clear: [90381]}
+- advance_runtime: {seconds: 1.0}
+- note: {text: "11 s: :OnDone gave key 381"}
+- assert: {qbit_set: [90381]}
+- console: {line: cinematic list, expect_contains: playing afterworld_guilt}
+- advance_runtime: {seconds: 3.0, present_dialogs: true}
+- note: {text: "14 s: ended; :FadeIn2's :DoRude opened his dialogue"}
+- assert: {dialog: {active: true, source_id: 336}}

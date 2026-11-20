@@ -1,0 +1,45 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.chasmofthedead_swim_check
+title: 'Chasm of the Dead (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in
+  their water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: chasmofthedead.blv
+- note:
+    text: 'No bed point (skipped): Acid0 (swim_check_skip)'
+- note:
+    text: 'BlueWater0: on its bed at -3953, 20 under its top -3932.2'
+- set_pose:
+    map: chasmofthedead.blv
+    x: 2523
+    y: 557
+    z: -3952
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: -3940.6
+- note:
+    text: 'BlueWater1: on its bed at -4628, 10 under its top -4618.2'
+- set_pose:
+    map: chasmofthedead.blv
+    x: 8061
+    y: 12960
+    z: -4627
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: -4616.5

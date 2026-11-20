@@ -23,6 +23,10 @@ public:
         float cursorY = 0.0f;
         float screenWidth = 0.0f;
         float screenHeight = 0.0f;
+        // The actor the attack that casts the spell was aimed at; an actor-targeted quick cast prefers it.
+        std::optional<size_t> preferredActorIndex;
+        // The member a cast on a member goes to, already chosen (an upkeep cast: PartySpellSystem::upkeepNeed).
+        std::optional<size_t> characterTargetIndex;
     };
 
     enum class QuickSpellStartDisposition
@@ -41,6 +45,8 @@ public:
     {
         bool castStarted = false;
         bool followupUiActive = false;
+        // A quick cast found no target; the caller says so or does something else (an attack swings the weapon).
+        bool noTarget = false;
     };
 
     enum class SpellRequestDisposition
@@ -59,9 +65,14 @@ public:
 
     explicit GameplaySpellService(GameSession &session);
 
+    // The active member's quick spell, or with `extraSlot` one of MMMerge's four extra quick spells; an empty slot,
+    // like an empty quick spell, attacks instead.
+    // `barSpellName`, when not empty, names the spell instead (a solo run's action bar slot), with the same path.
     QuickSpellStartResolution tryStartQuickSpellCast(
         GameplayScreenRuntime &runtime,
-        const TargetQueries &targetQueries);
+        const TargetQueries &targetQueries,
+        std::optional<size_t> extraSlot = std::nullopt,
+        const std::string &barSpellName = std::string());
 
     MemberSpellCastResolution castSpellFromMember(
         GameplayScreenRuntime &runtime,
@@ -134,6 +145,9 @@ public:
         GameplayScreenRuntime &runtime,
         const PartySpellCastRequest &request) const;
 
+    // The cast's own report (Telepathy's reveal), or "Cast <spell>"; empty for Telekinesis.
+    static std::string successStatusText(const std::string &spellName, const PartySpellCastResult &result);
+
     void applySuccessFeedback(
         GameplayScreenRuntime &runtime,
         const PartySpellCastRequest &request,
@@ -154,6 +168,10 @@ private:
     static std::optional<bx::Vec3> resolveCursorTargetPoint(
         const TargetQueries &targetQueries,
         const IGameplayWorldRuntime *pWorldRuntime);
+    // The standing destructible under the crosshair (or the cursor), where a missile spell flies with no actor there.
+    static std::optional<bx::Vec3> resolveCursorDestructiblePoint(
+        const TargetQueries &targetQueries,
+        IGameplayWorldRuntime &worldRuntime);
     static bool tryValidateCasterForGameplayCast(GameplayScreenRuntime &runtime, size_t casterMemberIndex);
     static bool isQuickCastable(const PartySpellDescriptor &descriptor);
     static bool requiresTargetSelection(const PartySpellCastResult &result);

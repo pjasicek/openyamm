@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "count": 42,
+  "exports_sha256": "85ba54b3c6435093e42956e457531c91b1998da71ad486f7b396ca3eac6264f1",
+  "source_files_checked": 3747,
+  "vertex_controls": 196609,
+  "max_projection_error_x2_pixels": 0,
+  "rectangular_native_canvases_preserved": [
+    "worlds-mm8--icons--out01.bmp",
+    "worlds-mm8--icons--out02.bmp",
+    "worlds-mm8--icons--out05.bmp",
+    "worlds-mm8--icons--out06.bmp",
+    "worlds-mm8--icons--out07.bmp",
+    "worlds-mm8--icons--out13.bmp",
+    "worlds-mm8--icons--pbp.bmp"
+  ],
+  "approved_new_sorpigal_byte_identical": true,
+  "checks": [
+    "Source, texture cache, raw render and final output hashes",
+    "Native x2 dimensions",
+    "Nonempty RGB PNG exports",
+    "Unchanged object alpha",
+    "Exact geometry/camera registration",
+    "Exact selected New Sorpigal output"
+  ]
+}

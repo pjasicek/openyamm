@@ -1,0 +1,467 @@
+# Hand-written (2026-11-05): whack-a-honky, the arm wrestler and the Training Hall exits (regionlua.py).
+id: mm9r.thjorgard_games
+title: 'Thjorgard (native BLV): whack-a-honky, the arm wrestler, the hall exits'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjorgard.blv
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: The Training Hall exits (ExitTrigger3 486, ExitTrigger6 114) start off until key 301.
+- assert:
+    state_dump_named_map_var:
+      name: Mm9ExitDisabled486
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Mm9ExitDisabled114
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HonkState
+      value: 0
+- grant_item:
+    item_id: 10557
+    member_index: 0
+- grant_item:
+    item_id: 10557
+    member_index: 0
+- grant_item:
+    item_id: 10557
+    member_index: 0
+- note:
+    text: 'Whack-a-honky: the lever with a ticket counts down five seconds, then ten of geese.'
+- execute_event:
+    id: 104
+- assert:
+    state_dump_named_map_var:
+      name: HonkState
+      value: 1
+- advance_runtime:
+    seconds: 5.2
+- assert:
+    state_dump_named_map_var:
+      name: HonkState
+      value: 2
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- execute_event:
+    id: 646
+- execute_event:
+    id: 647
+- execute_event:
+    id: 648
+- execute_event:
+    id: 649
+- advance_runtime:
+    seconds: 0.25
+- assert:
+    state_dump_named_map_var:
+      name: HonkState
+      value: 0
+- assert:
+    qbit_set:
+    - 97103
+- note:
+    text: 'Armwrestle.scr: a ticket, his 2 + 1-40 against Might + 9-50.'
+- execute_event:
+    id: 53117
+- execute_event:
+    id: 53117
+- assert:
+    qbit_set:
+    - 97105

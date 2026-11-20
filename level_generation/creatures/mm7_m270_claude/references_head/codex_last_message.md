@@ -1,0 +1,3 @@
+Saved all five views, raw returns, prompts and generation records in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m270_claude/references_head). [View contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m270_claude/references_head/selected_views_review.png).
+
+Used built-in image generation. All five have true transparency. Exact compliance remains incomplete: the tool returned **1254 × 1254**, preserved unresized, and both side views retain slight obliquity after their permitted corrections.

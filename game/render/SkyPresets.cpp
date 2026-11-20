@@ -304,8 +304,9 @@ public:
 
     bool applyPreset(const YAML::Node &node, SkyPreset &preset, const std::string &where)
     {
-        if (!checkKeys(node, {"inherits", "keys", "sun_disc_degrees", "moon_disc_degrees", "below_horizon",
-                "fog_tint_sky_mix", "horizon_ring", "stars", "clouds", "storm", "draw_sky"}, where))
+        if (!checkKeys(node, {"inherits", "keys", "sun_disc_degrees", "moon_disc_degrees", "moon_texture",
+                "moon_phase_offset", "below_horizon", "fog_tint_sky_mix", "horizon_ring", "stars", "orbit_ring",
+                "clouds", "storm", "draw_sky"}, where))
         {
             return false;
         }
@@ -317,7 +318,9 @@ public:
 
         if (!readOptionalFloat(node, "sun_disc_degrees", preset.sunDiscDegrees, 0.0f, 20.0f, where)
             || !readOptionalFloat(node, "moon_disc_degrees", preset.moonDiscDegrees, 0.0f, 20.0f, where)
-            || !readOptionalFloat(node, "fog_tint_sky_mix", preset.fogTintSkyMix, 0.0f, 1.0f, where))
+            || !readOptionalFloat(node, "fog_tint_sky_mix", preset.fogTintSkyMix, 0.0f, 1.0f, where)
+            || !readOptionalString(node, "moon_texture", preset.moonTexture, where)
+            || !readOptionalFloat(node, "moon_phase_offset", preset.moonPhaseOffset, 0.0f, 1.0f, where))
         {
             return false;
         }
@@ -381,6 +384,51 @@ public:
                     90.0f, starsWhere))
             {
                 return false;
+            }
+        }
+
+        if (const YAML::Node orbitNode = node["orbit_ring"]; orbitNode)
+        {
+            const std::string orbitWhere = where + ".orbit_ring";
+            SkyOrbitRing &orbit = preset.orbitRing;
+            float lightCount = static_cast<float>(orbit.lightCount);
+            std::array<float, 2> period = orbit.lightOrbitMinutes;
+
+            if (!checkKeys(orbitNode, {"opacity", "width_deg", "color", "fragments", "lights"}, orbitWhere)
+                || !readOptionalFloat(orbitNode, "opacity", orbit.opacity, 0.0f, 4.0f, orbitWhere)
+                || !readOptionalFloat(orbitNode, "width_deg", orbit.widthDegrees, 0.1f, 30.0f, orbitWhere)
+                || !readOptionalTint(orbitNode, "color", orbit.color, orbitWhere)
+                || !readOptionalFloat(orbitNode, "fragments", orbit.fragments, 0.0f, 8.0f, orbitWhere))
+            {
+                return false;
+            }
+
+            if (const YAML::Node lightsNode = orbitNode["lights"]; lightsNode)
+            {
+                const std::string lightsWhere = orbitWhere + ".lights";
+
+                if (!checkKeys(lightsNode, {"count", "size_deg", "orbit_minutes", "color", "brightness"}, lightsWhere)
+                    || !readOptionalFloat(lightsNode, "count", lightCount, 0.0f, float(MaxSkyOrbitLights),
+                        lightsWhere)
+                    || !readOptionalFloat(lightsNode, "size_deg", orbit.lightSizeDegrees, 0.01f, 2.0f, lightsWhere)
+                    || !readOptionalTint(lightsNode, "color", orbit.lightColor, lightsWhere)
+                    || !readOptionalFloat(lightsNode, "brightness", orbit.lightBrightness, 0.0f, 16.0f, lightsWhere))
+                {
+                    return false;
+                }
+
+                if (const YAML::Node periodNode = lightsNode["orbit_minutes"]; periodNode)
+                {
+                    if (!periodNode.IsSequence() || periodNode.size() != 2
+                        || !readFloat(periodNode[0], period[0], 1.0f, 100000.0f, lightsWhere + ".orbit_minutes")
+                        || !readFloat(periodNode[1], period[1], period[0], 100000.0f, lightsWhere + ".orbit_minutes"))
+                    {
+                        return fail(lightsWhere + ".orbit_minutes must be [shortest, longest] game minutes");
+                    }
+                }
+
+                orbit.lightCount = static_cast<int>(lightCount);
+                orbit.lightOrbitMinutes = period;
             }
         }
 
@@ -803,6 +851,8 @@ std::vector<std::string> SkyPresetLibrary::textureNames() const
         {
             names.insert(preset.stars.texture);
         }
+
+        names.insert(preset.moonTexture);
     }
 
     return {names.begin(), names.end()};

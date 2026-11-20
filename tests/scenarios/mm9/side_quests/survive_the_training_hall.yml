@@ -1,0 +1,148 @@
+# MM9 side quest "Survive the Training Hall" (guide: Side quests, Thjorgard; the first stage of "Slay the Dragon").
+# Snorri the Fist in Thjorgard City's Drunken Berserker sets the task (RUDE 6: keys 8 and 483); breaking the cracked
+# wall on the Training Hall's upper level, outside on the Thjorgard map, completes it (thjorgard.lua handler 370,
+# MM9's TrainingEnter.scr :OnBreak: key 301, +5 Might and +5 Intellect for the active member, 18 500 experience each)
+# and opens both ways into the hall; Snorri then sends the party on to Abbot Leffery (key 484).
+# Played: the city is a city (the party is placed beside Snorri and the gates); on the region the party is placed at
+# the foot of the hall's rubble and climbs to the wall on foot as MM9 meant (UHS hint 566): up the rubble on the
+# hall's -x side (MM9's east: an invisible ramp over the bricks) onto the plinth, round its +y front, down the narrow
+# +x side to the brick slab leaning on the wall, up it through the gap in the parapet onto the walkway, and along the
+# walkway to the wall; the Knight breaks the wall with his sword. Research: prep/C_dragon_wizards_lab.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py survive_the_training_hall
+id: mm9.side_quests.survive_the_training_hall
+title: "MM9 side quest: Snorri's task, the Training Hall's cracked wall broken, back to Snorri"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  # Knight, Cleric, Thief and Sorcerer at level 30, with their Might and Intellect set to check the +5 the active
+  # member gets, and their experience pinned at level 30's start to check the 18 500 reward exactly.
+  - new_game_flow:
+      start_map: thjorgardcity.blv
+      party:
+        gold: 3000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 30, experience: 435000, might: 20, intellect: 7,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Shield, level: 6, mastery: 2}], equipment: {main_hand: 1, off_hand: 99}}
+          - {name: Hrothgar, class: Cleric, level: 30, experience: 435000, might: 16, intellect: 9, skills: [{name: Mace, level: 6, mastery: 2}], equipment: {main_hand: 66}}
+          - {name: Grisha, class: Thief, level: 30, experience: 435000, might: 15, intellect: 9,
+             skills: [{name: Dagger, level: 6, mastery: 2}, {name: Bow, level: 6, mastery: 2}], equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 30, experience: 435000, might: 7, intellect: 20,
+             skills: [{name: Staff, level: 6, mastery: 2}, {name: FireMagic, level: 6, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  # No story state is needed: Snorri offers his tale from the start (the Sturmford bartender's key 482 only adds the
+  # journal's first "Slay the Dragon" line).
+  - assert: {map: thjorgardcity.blv, qbit_clear: [90008, 90483, 90301, 90484]}
+
+  # Snorri the Fist (actor 23) at the tavern's bar: "Greetings, stranger. Buy an old man a drink?"
+  - set_pose: {map: thjorgardcity.blv, x: -1100, y: 164, z: 1, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 23}
+  - assert: {dialog: {active: true, source_id: 6}}
+  - select_topic: {match_label: "Of course."}
+  - select_topic: {match_label: "Weave your tale, old man."}
+  - select_topic: {match_label: "Who us?  Of course!"}
+  - select_topic: {match_label: "What is this task?"}
+  - select_topic: {match_label: "Where is it?"}
+  - select_topic: {match_label: "If it is there, we will find it."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90008, 90483], qbit_clear: [90301]}
+
+  # Out by the docks gate (Thjorgarddocks) to the Thjorgard region.
+  - set_pose: {map: thjorgardcity.blv, x: 655, y: -400, z: -19, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 655, y: -819, z: -19, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+
+  # The Training Hall at the map's north (east of the Mountain Pass exit on the map art, which shows -y up and
+  # -x right). Both ways in are shut until the wall breaks. The cracked wall (DestructableBrush7, destructible 479, 15
+  # hp) is the face of the hall's central block on its map-east side at the north end, seen from the walkway round it
+  # (z 4065, 400 above the yard). Walked there (route found 2026-11-09; avoid x < -6919 between y -19606 and -18008:
+  # invisible brushes).
+  - assert: {state_dump_named_map_var: {name: Mm9ExitDisabled486, value: 1}}
+  - assert: {state_dump_named_map_var: {name: Mm9ExitDisabled114, value: 1}}
+  - set_pose: {map: thjorgard.blv, x: -6800, y: -17900, z: 3192, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  # The first rubble: the invisible ramp over the brick pile to the plinth's top (the yard, z 3656).
+  - walk_to: {via: [[-6780, -18100, 3240], [-6780, -18400, 3470]], x: -6780, y: -18640, z: 3656,
+              plan: false, radius: 30, z_tolerance: 40, timeout_seconds: 30, clear_hostiles: 3000}
+  # Round the hall on the plinth: its -x side, the +y front, down the +x corridor (about 150 wide).
+  - walk_to: {via: [[-6450, -18645, 3656], [-6300, -18300, 3656], [-6200, -17300, 3656], [-4650, -17300, 3656],
+                    [-4420, -17650, 3656], [-4420, -18350, 3656]], x: -4150, y: -18620, z: 3656,
+              plan: false, radius: 40, z_tolerance: 40, timeout_seconds: 60, clear_hostiles: 3000}
+  # The second rubble: the brick slab leaning on the +x wall, up through the parapet's gap onto the walkway.
+  - walk_to: {via: [[-4150, -18760, 3680], [-4300, -19050, 3890], [-4440, -19320, 4100]], x: -4560, y: -19285, z: 4065,
+              plan: false, radius: 30, z_tolerance: 40, timeout_seconds: 30, clear_hostiles: 3000}
+  # The walkway: west between the -y tower and the central block, then along its -x side to the cracked wall.
+  - walk_to: {via: [[-4600, -19150, 4065], [-5000, -19050, 4065], [-5650, -19000, 4065]], x: -5650, y: -18444, z: 4065,
+              plan: false, radius: 30, z_tolerance: 30, timeout_seconds: 60, clear_hostiles: 3000}
+  - assert: {party_position: {x: -5650, y: -18444, radius: 40, z_min: 4040, z_max: 4100}}
+  # Turn to face the wall (+x). The walk's kills gave experience: back to the starting 435 000 each, so the wall's
+  # 18 500 can be checked exactly.
+  - set_pose: {map: thjorgard.blv, x: -5650, y: -18444, z: 4065, yaw: 0, pitch: 0}
+  - setup_shortcut: {kind: set_experience, value: 435000}
+  - advance_runtime: {seconds: 1}
+  - console: {line: destructible 479 state, expect_contains: standing}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - console: {line: destructible 479 state, expect_contains: broken}
+  - assert: {qbit_set: [90301], qbit_clear: [90484]}
+  - play_lua:
+      source: |
+        for i = 0, 3 do
+          if experience(i) ~= 453500 then error("member " .. i .. " has " .. experience(i) .. " experience, not 435000 + 18500") end
+        end
+        log("the breach: key 301 and 18 500 experience for every member")
+  # +5 Might and +5 Intellect for one member, the one active when the wall broke (MM9's GiveAttribute 0 5 1 and
+  # 1 5 1); the others keep theirs (evt.Cmp is "at least"; the base values are the fixture's).
+  - lua_event:
+      source: |
+        local base = {{20, 7}, {16, 9}, {15, 9}, {7, 20}}
+        local function is(stat, value) return evt.Cmp(stat, value) and not evt.Cmp(stat, value + 1) end
+        local raised = {}
+        for i = 0, 3 do
+          evt.ForPlayer(Players["Member" .. i])
+          local m, n = base[i + 1][1], base[i + 1][2]
+          if is(BaseMight, m + 5) and is(BaseIntellect, n + 5) then
+            raised[#raised + 1] = i
+          elseif not (is(BaseMight, m) and is(BaseIntellect, n)) then
+            error("member " .. i .. " has neither its own Might and Intellect nor +5 of both")
+          end
+        end
+        if #raised ~= 1 then error(#raised .. " members got +5 Might and Intellect, not one") end
+        evt.SetMapVar("ScenarioRaisedMember", raised[1])
+  - play_lua: {source: 'log("+5 Might and +5 Intellect for member " .. mapvar("ScenarioRaisedMember"))'}
+  # The breach opens both ways in: the hole beside the party (ExitTrigger3) asks to enter; the front door
+  # (ExitTrigger6) is on too. The hall itself is optional; the party does not go in.
+  - assert: {state_dump_named_map_var: {name: Mm9ExitDisabled114, value: 0}}
+  - walk_to: {x: -5300, y: -18470, z: 4065, z_tolerance: 600, plan: false, timeout_seconds: 15, expect: dialog}
+  - assert: {dialog: {active: true, source_id: 486}}
+  - select_topic: {match_label: "Close"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: thjorgard.blv}
+
+  # Back into the city by its west gate (ExitTrigger2) and to Snorri: another drink, and the challenge.
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+  - set_pose: {map: thjorgardcity.blv, x: -1100, y: 164, z: 1, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 23}
+  - select_topic: {match_label: "Of course."}
+  - select_topic: {match_label: "We're ready for the challenge."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90008, 90483, 90301, 90484]}
+  - play_lua: {source: 'log("Snorri sends the party to Abbot Leffery Caid in Lindisfarne (key 484)")'}

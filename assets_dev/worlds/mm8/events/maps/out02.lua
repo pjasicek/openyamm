@@ -107,7 +107,7 @@ SetMapMetadata({
     [203] = { kind = "enter_house", source = "opcode", houseId = 757, targetName = "Oracle" },
     [209] = { kind = "enter_house", source = "opcode", houseId = 1607, targetName = "The Adventurer's Inn" },
     [451] = { kind = "enter_house", source = "opcode", houseId = 902, targetName = "House Memoria" },
-    [453] = { kind = "enter_house", source = "opcode", houseId = 903, targetName = "House of Hawthorne " },
+    [453] = { kind = "enter_house", source = "opcode", houseId = 903, targetName = "House of Hawthorne" },
     [455] = { kind = "enter_house", source = "opcode", houseId = 904, targetName = "Lott's Family Home" },
     [457] = { kind = "enter_house", source = "opcode", houseId = 905, targetName = "House of Nosewort" },
     [459] = { kind = "enter_house", source = "opcode", houseId = 909, targetName = "Dotes Family Hovel" },
@@ -123,6 +123,9 @@ SetMapMetadata({
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "d09.blv", targetName = "Merchant House of Alvar" },
     [506] = { kind = "enter_dungeon", source = "opcode", targetMap = "d28.blv", targetName = "Tomb of Lord Brinne" },
     [507] = { kind = "enter_dungeon", source = "opcode", targetMap = "d45.blv", targetName = "Chapel of Eep" },
+    },
+    learnedEffect = {
+    [101] = { autonote = 210, effect = "Might +25 (Temporary)" },
     },
     textureNames = {},
     spriteNames = {},
@@ -161,7 +164,7 @@ RegisterEvent(3, nil, function()
         return
     elseif IsQBitSet(QBit(56)) then -- All Lords from quests 48, 50, 52, 54 rescued.
         SetQBit(QBit(228)) -- You have seen the Endgame movie
-        AddValue(History(20), 0)
+        AddValue(History(18), 0)
         evt.ShowMovie("wingame", true)
         evt.SetNPCTopic(40, 1, 115) -- Elgar Fellmoon topic 1: Merchant House
         evt.SetNPCGreeting(40, 38) -- Elgar Fellmoon greeting: Hail, heroes of Jadame! I'm glad you’ve returned. I want to make it clear that the merchant guild has made this guildhouse permanently open to you. Now that the crisis is over, the other council members have returned home. Though they are gone, good will prevails between us. The beginning of a new era of peace? We will see. Certainly it is a time of prosperity! Our caravans are already back in operation.
@@ -716,7 +719,7 @@ RegisterEvent(75, "Hostel", function()
             evt.SetNPCTopic(54, 0, 134) -- Oskar Tyre topic 0: Source of the Crisis
             evt.SetNPCTopic(55, 0, 141) -- Masul topic 0: Iron Rations
             evt.SetNPCTopic(56, 0, 148) -- Sandro topic 0: Nightmares
-            AddValue(History(17), 0)
+            AddValue(History(15), 0)
             SetQBit(QBit(209)) -- Conflux Key - I lost it
             ClearQBit(QBit(205)) -- Heart of Fire - I lost it
             ClearQBit(QBit(206)) -- Heart of Water - I lost it
@@ -1126,15 +1129,15 @@ end, "House Memoria")
 
 RegisterEvent(452, "House Memoria", nil, "House Memoria")
 
-RegisterEvent(453, "House of Hawthorne ", function()
+RegisterEvent(453, "House of Hawthorne", function()
     if not IsQBitSet(QBit(57)) then -- The Pirates invaded Ravenshore
         evt.EnterHouse(903) -- House of Hawthorne
         return
     end
     evt.FaceAnimation(FaceAnimation.DoorLocked)
-end, "House of Hawthorne ")
+end, "House of Hawthorne")
 
-RegisterEvent(454, "House of Hawthorne ", nil, "House of Hawthorne ")
+RegisterEvent(454, "House of Hawthorne", nil, "House of Hawthorne")
 
 RegisterEvent(455, "Lott's Family Home", function()
     if not IsQBitSet(QBit(57)) then -- The Pirates invaded Ravenshore

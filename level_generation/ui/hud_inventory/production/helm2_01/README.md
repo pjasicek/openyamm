@@ -1,0 +1,5 @@
+# Dark iron fitted helmets first pass
+
+Built-in imagegen attempt 286d8ed373e44ba2bf440083ff6e5da1. Four variants generated and reviewed. v1 accepted/staged after actual raw/final exact-x2/light-dark/face-opening/overlay review; four independent crest/cheek/opening landmarks within2 x2 pixels. Other three deferred for footprint or cheek-corner inspection. Full-canvas reconstruction matches reviewed v1 byte-for-byte.
+
+Extraction uses visually isolated full grid slots including empty gutters to prevent crop-induced clipping; native canvas still preserved by uniform fitting. `manifest.json` records native rectangles and extraction slots. Exact prompt: `prompt.txt`; raw: `raw.png`; proofs: `comparison.png`, `registration-all.png`; measurements: `measured-landmarks.json`; provenance: `processing.json`; acceptance/staging: `acceptance.json` and per-cell reviews. Queue validation passes:233 accepted including32 reuse. Runtime review pending; normal assets/settings/launchers untouched. Full goal incomplete.

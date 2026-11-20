@@ -1,0 +1,30 @@
+id: turn_based.drowning_per_turn
+title: Turn-based - deep water drowns the party once per completed turn, not by walking time or never
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-13 in devdocs/TURN_BASED_COMBAT_AUDIT.md. The original drowns the party from the timed effects (a tenth of
+        each member's maximum HP, at most once per call), and in turn-based play those run once per completed turn.
+        OpenYAMM skipped the water entirely while the party stood in turn-based mode and drowned it by walking time
+        while it walked. The party stands in the sea off Dagger Wound beside a paralysed Mercenary Captain: idling 30 s
+        on its turn costs nothing, and each completed turn costs one tick. The sea there has no other monster near.
+  - new_game_flow:
+      start_map: out01.odm
+  - set_pose: {map: out01.odm, x: -20000, y: 20000, z: 300, yaw_degrees: 0}
+  - spawn_actor: {monster_id: 195, count: 1, near_party: true}
+  - advance_runtime: {seconds: 0.1}
+  - cast_spell: {member_index: 0, spell_id: 81, skill: 10, mastery: 2, actor_index: last}
+  - press_action: combat
+  - advance_runtime: {seconds: 1}
+  - assert: {turn_based: {active: true, report: true}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 2000}
+  # Thirty seconds of the party's turn: no time passes, so no drowning.
+  - advance_runtime: {seconds: 30}
+  - assert: {member_points: {member_index: 0, health_min: 2000, health_max: 2000}}
+  # Three turns: one tick each, a tenth of Ariel's 2042 HP (the starting party regenerates about 130 HP a turn; on
+  # land the same three turns heal her to full, as before the fix).
+  - turn_based_turns: {count: 3}
+  - assert: {member_points: {member_index: 0, health_min: 1300, health_max: 1900}}

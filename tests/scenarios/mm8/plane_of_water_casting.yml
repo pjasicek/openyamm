@@ -1,0 +1,26 @@
+id: mm8.plane_of_water_casting
+title: MM8 - the underwater Plane of Water allows spells and attacks; only MM7's Shoals forbids casting
+world: mm8
+mode: faithful
+tags: [mm8, spells, regression]
+steps:
+  - note:
+      text: >-
+        The Shoals' casting ban (OY-350) applied to every underwater map, so it shut the spellbook in the Plane of
+        Water. MM8's IsUnderwater (MM8-Rel.exe 0x4640ef, elemW.odm) only lowers gravity and sets the underwater fog;
+        no casting or attack path calls it. The ban is now the Shoals' allow_spellcasting restriction.
+  - new_game_flow:
+      start_map: elemw.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Necromancer, level: 10, skills: [{name: Fire Magic, level: 5, mastery: 1}], equipment: {}}
+          - {name: C, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: D, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - grant_item: {item_id: 1, member_index: 0, equip: main_hand}
+  - assert: {recovering_members: 0}
+  - press_action: {action: attack, seconds: 0.2}
+  - assert: {recovering_members: 1}
+  - cast_spell: {member_index: 1, spell_id: 1, skill: 5, mastery: 1}

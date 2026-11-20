@@ -1,0 +1,605 @@
+format: 0
+themes:
+  - id: theme:deck
+    wall: {texture: gcav1flr, size: [256, 256]}
+    floor: {texture: gkp1ceil, size: [128, 128]}
+    ceiling: {texture: gcav1flr, size: [256, 256]}
+    notes: "Firing steps and their stairs: d12's planked boards (gkp1ceil) as decking on the cave rock."
+  - id: theme:palisade
+    wall: {texture: xopalis, size: [128, 256]}
+    floor: {texture: gcav2flr, size: [128, 128], scale: 2}
+    ceiling: {texture: gcav1flr, size: [256, 256]}
+    door: {texture: gkp103a, size: [128, 256]}
+    notes: "The palisade: generated upright logs (xopalis, in d12's timber) on walls, d12's plank doors (gkp103a/b) as the gate's leaves."
+  - id: theme:rock
+    wall: {texture: gcav1flr, size: [256, 256]}
+    floor: {texture: gcav2flr, size: [128, 128], scale: 2}
+    ceiling: {texture: gcav1flr, size: [256, 256]}
+    notes: "The caves: MM8 Ogre Fortress (d12) rock gcav1flr on walls and roofs, its dark floor rock gcav2flr underfoot (as d12 lays them)."
+  - id: theme:warren
+    wall: {texture: gcav1flr, size: [256, 256]}
+    floor: {texture: gkp1flr, size: [128, 128]}
+    ceiling: {texture: gcav1flr, size: [256, 256]}
+    notes: "The warren's living caves: d12's rock with the keep's straw bedding (gkp1flr) on the floor."
+  - id: theme:wet
+    wall: {texture: gcav2flr, size: [128, 128], scale: 2}
+    floor: {texture: gcav2flr, size: [128, 128], scale: 2}
+    ceiling: {texture: gcav2flr, size: [128, 128], scale: 2}
+    notes: "The deep caves (chimney, pool, back tunnel): d12's blue-black floor rock gcav2flr on the walls too, darker and wetter than the front."
+defaults: {theme: theme:rock, ambient: 18}
+rooms:
+  - id: room:back_gate
+    name: Back gate
+    outline: [[1728, 12608], [2624, 12608], [2752, 12800], [2752, 13440], [1600, 13440], [1600, 12800]]
+    floor: 320
+    ceiling: 832
+    theme: theme:rock
+    platforms:
+      - {at: [2672, 13024], size: [96, 320], rise: 40, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, notes: Plank bench}
+      - {at: [1992, 13428], size: [24, 24], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 160, notes: "Bar bracket: a timber chock under the bar's west end (the bar rests on it)"}
+      - {at: [2360, 13428], size: [24, 24], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 160, notes: "Bar bracket, east"}
+    ambient: 16
+    notes: "A rough guardroom at the tunnel's head, about 1,150 by 830, the barred gate to Mount Firestone's slopes in its north wall with daylight under it."
+  - id: room:back_tunnel
+    name: Back tunnel
+    path: [[960, 10752, -640], [960, 11008, -544], [928, 11232, -448], [960, 11392, -384], [994, 11520, -384], [1088, 11614, -384], [1216, 11648, -384], [1536, 11680, -224], [1920, 11648, -128], [2048, 11682, -128], [2142, 11776, -128], [2176, 11904, -128], [2200, 12048, -48], [2176, 12224, 96], [2176, 12544, 320]]
+    section: {outline: [[-128, 0], [128, 0], [192, 96], [176, 256], [96, 352], [-96, 352], [-176, 256], [-192, 96]]}
+    floor: -640
+    ceiling: -288
+    theme: theme:wet
+    ambient: 18
+    notes: "A narrow rock tunnel climbing 960 in about 2,900: north out of the drum hall, a level bend east, a long climb east, a bend north and the last steep climb to the back gate, drying toward the daylight."
+  - id: room:bat_chimney
+    name: Bat chimney
+    outline: [[1856, 7552], [3200, 7552], [3200, 8896], [1856, 8896]]
+    floor: -384
+    ceiling: 1216
+    ceiling_points: [[2528, 8224, 1344]]
+    theme: theme:wet
+    platforms:
+      - {at: [2496, 8736], size: [640, 320], rise: 0, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_slope: {to: 192, toward: east}, notes: "Gallery, north ramp"}
+      - {at: [3008, 8704], size: [384, 384], rise: 192, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: "Gallery, north-east landing"}
+      - {at: [3040, 8256], size: [320, 512], rise: 192, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_slope: {to: 384, toward: south}, notes: "Gallery, east ramp"}
+      - {at: [3008, 7776], size: [384, 448], rise: 384, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: "Gallery, south-east landing"}
+      - {at: [2560, 7712], size: [512, 320], rise: 384, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_slope: {to: 576, toward: west}, notes: "Gallery, south ramp"}
+      - {at: [2080, 7712], size: [448, 320], rise: 576, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: "Gallery, top landing (192, the upper ledge's level)"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2260, 7854], [2340, 7854], [2396, 7910], [2396, 7990], [2340, 8046], [2260, 8046], [2204, 7990], [2204, 7910]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1561, top_heights: [96, 96, 107, 122, 131, 115, 105, 105], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2272, 7882], [2328, 7882], [2368, 7922], [2368, 7978], [2328, 8018], [2272, 8018], [2232, 7978], [2232, 7922]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1465, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2286, 7915], [2314, 7915], [2335, 7936], [2335, 7964], [2314, 7985], [2286, 7985], [2265, 7964], [2265, 7936]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1385, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2805, 8342], [2895, 8342], [2958, 8405], [2958, 8495], [2895, 8558], [2805, 8558], [2742, 8495], [2742, 8405]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1550, top_heights: [125, 108, 96, 96, 108, 114, 126, 137], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2819, 8375], [2881, 8375], [2925, 8419], [2925, 8481], [2881, 8525], [2819, 8525], [2775, 8481], [2775, 8419]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1454, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2838, 8422], [2862, 8422], [2878, 8438], [2878, 8462], [2862, 8478], [2838, 8478], [2822, 8462], [2822, 8438]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1374, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2100, 8530], [2200, 8530], [2270, 8600], [2270, 8700], [2200, 8770], [2100, 8770], [2030, 8700], [2030, 8600]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1528, top_heights: [118, 137, 128, 109, 96, 96, 105, 105], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2125, 8590], [2175, 8590], [2210, 8625], [2210, 8675], [2175, 8710], [2125, 8710], [2090, 8675], [2090, 8625]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1432, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[2137, 8618], [2163, 8618], [2182, 8637], [2182, 8663], [2163, 8682], [2137, 8682], [2118, 8663], [2118, 8637]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1352, notes: "Stalactite, lower"}
+    ambient: 19
+    notes: "A tall shaft 1,344 square and 1,600 high; a rock gallery is cut round its north, east and south walls, climbing from the shaft's foot (by the drum hall's door) to a top landing level with the upper ledge, looking back down into the shaft; bats roost in the dark top."
+  - id: room:cave_mouth
+    name: Cave mouth
+    outline: [[-640, 0], [640, 0], [704, 320], [512, 576], [384, 960], [-384, 960], [-576, 640], [-704, 256]]
+    floor: 0
+    ceiling: 640
+    ceiling_points: [[0, 448, 768], [-256, 704, 704], [256, 704, 704]]
+    theme: theme:rock
+    platforms:
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-370, 544], [-290, 544], [-234, 600], [-234, 680], [-290, 736], [-370, 736], [-426, 680], [-426, 600]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 572, top_heights: [114, 131, 140, 137, 119, 101, 96, 100], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-358, 572], [-302, 572], [-262, 612], [-262, 668], [-302, 708], [-358, 708], [-398, 668], [-398, 612]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 476, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-344, 605], [-316, 605], [-295, 626], [-295, 654], [-316, 675], [-344, 675], [-365, 654], [-365, 626]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 396, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[285, 452], [375, 452], [438, 515], [438, 605], [375, 668], [285, 668], [222, 605], [222, 515]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 562, top_heights: [138, 116, 98, 96, 109, 134, 150, 150], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[299, 485], [361, 485], [405, 529], [405, 591], [361, 635], [299, 635], [255, 591], [255, 529]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 466, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[318, 532], [342, 532], [358, 548], [358, 572], [342, 588], [318, 588], [302, 572], [302, 548]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 386, notes: "Stalactite, lower"}
+    ambient: 8
+    notes: "A funnel 1,408 wide at the daylight (the south wall, all exit panel: the X1 hills) narrowing to 768 at the outer yard. Skull torches on poles at the inner end, bones and boulders."
+  - id: room:cookfire_cave
+    name: Cookfire cave
+    outline: [[-896, 5760], [1024, 5760], [1408, 6016], [1408, 7040], [1088, 7296], [-896, 7296], [-1280, 7040], [-1280, 6016]]
+    floor: -256
+    ceiling: 512
+    ceiling_points: [[64, 6528, 832], [64, 6144, 704], [64, 6912, 704], [-512, 6528, 704], [640, 6528, 704]]
+    theme: theme:rock
+    platforms:
+      - {id: platform:hearth, rise: 40, surface: {texture: gkp1-bs1, size: [128, 256]}, outline: [[-16, 6336], [144, 6336], [256, 6448], [256, 6608], [144, 6720], [-16, 6720], [-128, 6608], [-128, 6448]], top_surface: {texture: t66flr2, size: [128, 128]}, notes: "The stone hearth ring round the great fire, d12's masonry and flags."}
+      - {at: [64, 6176], size: [448, 96], rise: 24, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: Rock bench}
+      - {at: [64, 6880], size: [448, 96], rise: 24, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: Rock bench}
+      - {at: [-288, 6528], size: [96, 384], rise: 24, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: Rock bench}
+      - {at: [416, 6528], size: [96, 384], rise: 24, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: Rock bench}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-995, 6142], [-905, 6142], [-842, 6205], [-842, 6295], [-905, 6358], [-995, 6358], [-1058, 6295], [-1058, 6205]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 727, top_heights: [100, 111, 131, 148, 134, 112, 96, 96], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-981, 6175], [-919, 6175], [-875, 6219], [-875, 6281], [-919, 6325], [-981, 6325], [-1025, 6281], [-1025, 6219]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 631, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-962, 6222], [-938, 6222], [-922, 6238], [-922, 6262], [-938, 6278], [-962, 6278], [-978, 6262], [-978, 6238]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 551, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1000, 6830], [1100, 6830], [1170, 6900], [1170, 7000], [1100, 7070], [1000, 7070], [930, 7000], [930, 6900]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 708, top_heights: [151, 137, 116, 99, 96, 110, 131, 149], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1025, 6890], [1075, 6890], [1110, 6925], [1110, 6975], [1075, 7010], [1025, 7010], [990, 6975], [990, 6925]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 612, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1037, 6918], [1063, 6918], [1082, 6937], [1082, 6963], [1063, 6982], [1037, 6982], [1018, 6963], [1018, 6937]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 532, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-820, 6954], [-740, 6954], [-684, 7010], [-684, 7090], [-740, 7146], [-820, 7146], [-876, 7090], [-876, 7010]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 709, top_heights: [132, 142, 139, 124, 106, 96, 100, 115], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-808, 6982], [-752, 6982], [-712, 7022], [-712, 7078], [-752, 7118], [-808, 7118], [-848, 7078], [-848, 7022]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 613, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-794, 7015], [-766, 7015], [-745, 7036], [-745, 7064], [-766, 7085], [-794, 7085], [-815, 7064], [-815, 7036]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 533, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[935, 5972], [1025, 5972], [1088, 6035], [1088, 6125], [1025, 6188], [935, 6188], [872, 6125], [872, 6035]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 711, top_heights: [107, 96, 100, 117, 137, 148, 144, 127], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[949, 6005], [1011, 6005], [1055, 6049], [1055, 6111], [1011, 6155], [949, 6155], [905, 6111], [905, 6049]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 615, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[968, 6052], [992, 6052], [1008, 6068], [1008, 6092], [992, 6108], [968, 6108], [952, 6092], [952, 6068]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 535, notes: "Stalactite, lower"}
+    ambient: 16
+    notes: "A round cave about 2,700 by 1,500, the hearth ring in the middle under a roof that rises to the smoke hole over the fire; four low rock benches round it. Exits: the run (south), the ramp down to the drum hall (north), the hollows and the shaman's steps (west); the ledge's window high in the east wall."
+  - id: room:drum_hall
+    name: Drum Hall
+    outline: [[-1408, 7808], [1408, 7808], [1792, 8192], [1792, 10304], [1408, 10688], [-1408, 10688], [-1792, 10304], [-1792, 8192]]
+    floor: -640
+    ceiling: 576
+    ceiling_points: [[0, 9216, 960], [-704, 9216, 896], [704, 9216, 896], [0, 8448, 896], [0, 9984, 896]]
+    theme: theme:rock
+    platforms:
+      - {id: platform:rim, rise: 256, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[-1408, 7808], [1408, 7808], [1792, 8192], [1792, 9472], [1408, 9472], [1408, 8192], [-1408, 8192], [-1408, 10304], [-1792, 10304], [-1792, 8192]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: "The top terrace along the south wall, the west shelf to the scaffold's gangway and the east top terrace to the chimney: one U of rock 256 above the floor."}
+      - {rise: 704, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[-1392, 8208], [-592, 8208], [-592, 8400], [-976, 8720], [-1392, 8944]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: "The south-west buttress: a rock spur between the south and west terraces, crowned with skull torches."}
+      - {rise: 704, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[592, 8208], [1392, 8208], [1392, 8624], [976, 8624], [592, 8432]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: The south-east buttress.}
+      - {id: platform:deck, at: [-960, 10176], size: [704, 704], rise: 16, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, bottom_surface: {texture: gkp1ceil, size: [128, 128]}, base: 368, notes: The drum scaffold's deck (zone:drum_scaffold).}
+      - {at: [-960, 9832], size: [704, 16], rise: 48, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: "Rail, south"}
+      - {at: [-616, 10184], size: [16, 688], rise: 48, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: "Rail, east"}
+      - {id: platform:drum_great, rise: 176, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[-1013, 10176], [-907, 10176], [-832, 10251], [-832, 10357], [-907, 10432], [-1013, 10432], [-1088, 10357], [-1088, 10251]], top_surface: {texture: xodrumtp, size: [128, 128], fit: true}, base: 384, notes: The great war drum (the third drum).}
+      - {at: [-1288, 9848], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
+      - {at: [-1288, 10504], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
+      - {at: [-960, 9848], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
+      - {at: [-960, 10504], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
+      - {at: [-632, 9848], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
+      - {at: [-632, 10504], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-350, 9380], [-250, 9380], [-180, 9450], [-180, 9550], [-250, 9620], [-350, 9620], [-420, 9550], [-420, 9450]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1436, top_heights: [118, 127, 128, 119, 107, 97, 96, 106], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-325, 9440], [-275, 9440], [-240, 9475], [-240, 9525], [-275, 9560], [-325, 9560], [-360, 9525], [-360, 9475]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1340, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-313, 9468], [-287, 9468], [-268, 9487], [-268, 9513], [-287, 9532], [-313, 9532], [-332, 9513], [-332, 9487]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1260, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[410, 10204], [490, 10204], [546, 10260], [546, 10340], [490, 10396], [410, 10396], [354, 10340], [354, 10260]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1252, top_heights: [183, 176, 158, 122, 96, 96, 122, 158], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[422, 10232], [478, 10232], [518, 10272], [518, 10328], [478, 10368], [422, 10368], [382, 10328], [382, 10272]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1156, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[436, 10265], [464, 10265], [485, 10286], [485, 10314], [464, 10335], [436, 10335], [415, 10314], [415, 10286]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1076, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1305, 9842], [1395, 9842], [1458, 9905], [1458, 9995], [1395, 10058], [1305, 10058], [1242, 9995], [1242, 9905]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1214, top_heights: [141, 118, 100, 96, 96, 109, 128, 141], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1319, 9875], [1381, 9875], [1425, 9919], [1425, 9981], [1381, 10025], [1319, 10025], [1275, 9981], [1275, 9919]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1118, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1338, 9922], [1362, 9922], [1378, 9938], [1378, 9962], [1362, 9978], [1338, 9978], [1322, 9962], [1322, 9938]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1038, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1150, 10330], [1250, 10330], [1320, 10400], [1320, 10500], [1250, 10570], [1150, 10570], [1080, 10500], [1080, 10400]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1160, top_heights: [147, 131, 111, 96, 97, 109, 133, 148], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1175, 10390], [1225, 10390], [1260, 10425], [1260, 10475], [1225, 10510], [1175, 10510], [1140, 10475], [1140, 10425]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 1064, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[1187, 10418], [1213, 10418], [1232, 10437], [1232, 10463], [1213, 10482], [1187, 10482], [1168, 10463], [1168, 10437]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 984, notes: "Stalactite, lower"}
+    flights:
+      - {from: [0, 9088], to: [0, 8192], width: 1152, steps: 8, riser: {texture: gcav1flr, size: [256, 256]}, tread: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: "The south terraces: eight rock steps of 32 down from the top terrace to the floor."}
+      - {from: [-640, 9344], to: [-1408, 9344], width: 768, steps: 8, riser: {texture: gcav1flr, size: [256, 256]}, tread: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: The west terraces.}
+      - {from: [640, 9024], to: [1408, 9024], width: 768, steps: 8, riser: {texture: gcav1flr, size: [256, 256]}, tread: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: The east terraces.}
+      - {from: [-1600, 10176], to: [-1312, 10176], from_height: -384, open_below: true, to_height: -256, width: 256, steps: 4, riser: {texture: t66abc10a, size: [32, 128]}, tread: {texture: gkp1ceil, size: [128, 128]}, notes: "The gangway: four timber steps from the west shelf up to the scaffold."}
+    ambient: 16
+    notes: "One natural amphitheatre 3,584 by 2,880: the top terrace along the south (the entry), a west shelf and an east top terrace (a U of rock 256 above the floor), three banks of eight rock steps down to the flat floor, two rock buttresses at the bowl's south corners, the drum scaffold standing free on posts over the floor's north-west, the back tunnel from the north wall beside it; the roof rises to 1,600 over the floor, lost in smoke."
+  - id: room:drum_hall_entry
+    name: "Drum hall, entry ramp"
+    space: room:drum_hall
+    outline: [[-320, 7360], [320, 7360], [320, 7744], [-320, 7744]]
+    floor: -256
+    slope: {to: -384, toward: north}
+    ceiling: 384
+    theme: theme:rock
+    notes: "The ramp down from the cookfire's north side onto the top terrace; at its foot the whole hall opens below."
+  - id: room:firing_step_e
+    name: "Firing step, east"
+    space: zone:firing_step
+    outline: [[448, 1856], [1280, 1856], [1280, 2240], [448, 2240]]
+    floor: 192
+    ceiling: 832
+    theme: theme:deck
+    walls:
+      - wall: south
+        surface: {texture: xopalis, size: [128, 256]}
+      - wall: west
+        surface: {texture: xopalis, size: [128, 256]}
+    platforms:
+      - {id: platform:drum_signal, rise: 128, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[1080, 2032], [1160, 2032], [1216, 2088], [1216, 2168], [1160, 2224], [1080, 2224], [1024, 2168], [1024, 2088]], top_surface: {texture: xodrumtp, size: [128, 128], fit: true}, notes: The signal drum at the step's east end (the first drum).}
+    ambient: 14
+    notes: "Mirror of the west step; the signal drum stands at its east end beside the doorway to the upper ledge."
+  - id: room:firing_step_w
+    name: "Firing step, west"
+    space: zone:firing_step
+    outline: [[-1280, 1856], [-448, 1856], [-448, 2240], [-1280, 2240]]
+    floor: 192
+    ceiling: 832
+    theme: theme:deck
+    walls:
+      - wall: south
+        surface: {texture: xopalis, size: [128, 256]}
+      - wall: east
+        surface: {texture: xopalis, size: [128, 256]}
+    ambient: 14
+    notes: "Plank walkway 832 by 384, 192 up, behind the palisade's west third: archers shoot over the palisade and down into the gate passage through a murder hole."
+  - id: room:loot_cache
+    name: Plunder cache
+    outline: [[-4224, 5632], [-3840, 5696], [-3840, 6208], [-4160, 6336], [-4416, 6080], [-4416, 5824]]
+    floor: -224
+    ceiling: 160
+    theme: theme:warren
+    ambient: 22
+    notes: "A low side cave (384 clear) behind the boulder at the hollows' west end, heaped with the farms' plunder."
+  - id: room:palisade_cave
+    name: "Palisade cave, outer yard"
+    outline: [[-1024, 1024], [1024, 1024], [1216, 1152], [1280, 1408], [1280, 1792], [-1280, 1792], [-1280, 1408], [-1216, 1152]]
+    floor: 0
+    ceiling: 832
+    ceiling_points: [[0, 1344, 1024], [-640, 1344, 960], [640, 1344, 960]]
+    theme: theme:rock
+    walls:
+      - wall: north
+        surface: {texture: xopalis, size: [128, 256]}
+    platforms:
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-950, 1180], [-850, 1180], [-780, 1250], [-780, 1350], [-850, 1420], [-950, 1420], [-1020, 1350], [-1020, 1250]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 769, top_heights: [101, 122, 147, 161, 148, 128, 110, 96], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-925, 1240], [-875, 1240], [-840, 1275], [-840, 1325], [-875, 1360], [-925, 1360], [-960, 1325], [-960, 1275]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 673, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-913, 1268], [-887, 1268], [-868, 1287], [-868, 1313], [-887, 1332], [-913, 1332], [-932, 1313], [-932, 1287]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 593, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[920, 1284], [1000, 1284], [1056, 1340], [1056, 1420], [1000, 1476], [920, 1476], [864, 1420], [864, 1340]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 774, top_heights: [117, 100, 96, 102, 113, 129, 141, 137], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[932, 1312], [988, 1312], [1028, 1352], [1028, 1408], [988, 1448], [932, 1448], [892, 1408], [892, 1352]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 678, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[946, 1345], [974, 1345], [995, 1366], [995, 1394], [974, 1415], [946, 1415], [925, 1394], [925, 1366]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 598, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-425, 1452], [-335, 1452], [-272, 1515], [-272, 1605], [-335, 1668], [-425, 1668], [-488, 1605], [-488, 1515]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 789, top_heights: [177, 186, 161, 123, 96, 96, 123, 161], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-411, 1485], [-349, 1485], [-305, 1529], [-305, 1591], [-349, 1635], [-411, 1635], [-455, 1591], [-455, 1529]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 693, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-392, 1532], [-368, 1532], [-352, 1548], [-352, 1572], [-368, 1588], [-392, 1588], [-408, 1572], [-408, 1548]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 613, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[250, 1080], [350, 1080], [420, 1150], [420, 1250], [350, 1320], [250, 1320], [180, 1250], [180, 1150]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 769, top_heights: [96, 96, 138, 186, 213, 223, 198, 138], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[275, 1140], [325, 1140], [360, 1175], [360, 1225], [325, 1260], [275, 1260], [240, 1225], [240, 1175]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 673, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[287, 1168], [313, 1168], [332, 1187], [332, 1213], [313, 1232], [287, 1232], [268, 1213], [268, 1187]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 593, notes: "Stalactite, lower"}
+    ambient: 12
+    notes: "The approach in front of the palisade (its north wall, upright logs). The firing steps stand behind its outer two thirds: there the palisade is a fence 256 high with the cave open above it; the gate between them."
+  - id: room:palisade_gate
+    name: Gate passage
+    space: room:palisade_yard
+    outline: [[-384, 1856], [384, 1856], [384, 2752], [-384, 2752]]
+    floor: 0
+    ceiling: 640
+    theme: theme:palisade
+    ambient: 14
+    notes: "The timber passage behind the palisade gate, 768 wide, between the firing steps and their stairs; the gate's two hinged leaves in its south wall, a murder hole in each side wall."
+  - id: room:palisade_yard
+    name: "Palisade cave, inner yard"
+    outline: [[-1280, 2816], [1280, 2816], [1280, 3456], [1088, 3648], [-1088, 3648], [-1280, 3456]]
+    floor: 0
+    ceiling: 640
+    ceiling_points: [[0, 3232, 832], [-768, 3232, 768], [768, 3232, 768]]
+    theme: theme:rock
+    platforms:
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-940, 3204], [-860, 3204], [-804, 3260], [-804, 3340], [-860, 3396], [-940, 3396], [-996, 3340], [-996, 3260]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 613, top_heights: [112, 132, 143, 125, 107, 96, 96, 98], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-928, 3232], [-872, 3232], [-832, 3272], [-832, 3328], [-872, 3368], [-928, 3368], [-968, 3328], [-968, 3272]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 517, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-914, 3265], [-886, 3265], [-865, 3286], [-865, 3314], [-886, 3335], [-914, 3335], [-935, 3314], [-935, 3286]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 437, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[855, 3312], [945, 3312], [1008, 3375], [1008, 3465], [945, 3528], [855, 3528], [792, 3465], [792, 3375]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 585, top_heights: [153, 138, 116, 100, 96, 103, 124, 146], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[869, 3345], [931, 3345], [975, 3389], [975, 3451], [931, 3495], [869, 3495], [825, 3451], [825, 3389]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 489, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[888, 3392], [912, 3392], [928, 3408], [928, 3432], [912, 3448], [888, 3448], [872, 3432], [872, 3408]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 409, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[370, 3280], [470, 3280], [540, 3350], [540, 3450], [470, 3520], [370, 3520], [300, 3450], [300, 3350]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 603, top_heights: [186, 178, 155, 128, 96, 96, 128, 174], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[395, 3340], [445, 3340], [480, 3375], [480, 3425], [445, 3460], [395, 3460], [360, 3425], [360, 3375]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 507, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[407, 3368], [433, 3368], [452, 3387], [452, 3413], [433, 3432], [407, 3432], [388, 3413], [388, 3387]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 427, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-340, 2854], [-260, 2854], [-204, 2910], [-204, 2990], [-260, 3046], [-340, 3046], [-396, 2990], [-396, 2910]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 561, top_heights: [96, 96, 122, 159, 185, 185, 159, 122], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-328, 2882], [-272, 2882], [-232, 2922], [-232, 2978], [-272, 3018], [-328, 3018], [-368, 2978], [-368, 2922]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 465, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-314, 2915], [-286, 2915], [-265, 2936], [-265, 2964], [-286, 2985], [-314, 2985], [-335, 2964], [-335, 2936]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 385, notes: "Stalactite, lower"}
+    ambient: 14
+    notes: "The cave behind the palisade: the gate passage and both stairs open off its south wall, the run leaves its north-east."
+  - id: room:prisoner_pit
+    name: Prisoner pit
+    outline: [[-2624, 4992], [-2176, 4992], [-1984, 5184], [-1984, 5504], [-2048, 5696], [-2752, 5696], [-2816, 5504], [-2816, 5184]]
+    floor: -480
+    ceiling: 224
+    theme: theme:warren
+    ambient: 22
+    notes: "A round pit about 830 by 700 whose floor is 256 below the hollows; the rim is the doorway in its north wall, closed by the cage gate of lashed poles, a rope ladder down from it."
+  - id: room:run_bend
+    name: "Twisting run, bend"
+    space: room:twisting_run
+    outline: [[512, 4224], [1216, 4224], [1472, 4480], [1472, 4992], [1280, 5184], [64, 5184], [64, 4864], [256, 4480]]
+    floor: -96
+    ceiling: 512
+    ceiling_points: [[768, 4704, 608]]
+    theme: theme:rock
+    notes: "The S-bend's level belly swinging east under the upper ledge and back west; the ledge looks down into it through its east wall (288 down over a rock lip)."
+  - id: room:run_upper
+    name: "Twisting run, upper ramp"
+    space: room:twisting_run
+    outline: [[128, 5248], [640, 5248], [640, 5696], [128, 5696]]
+    floor: -96
+    slope: {to: -256, toward: north}
+    ceiling: 384
+    theme: theme:rock
+    notes: "The last leg, falling north into the cookfire cave."
+  - id: room:shaman_den
+    name: Shaman's den
+    outline: [[-2816, 6528], [-1984, 6528], [-1728, 6720], [-1728, 7616], [-2048, 7872], [-2816, 7872], [-3136, 7616], [-3136, 6784]]
+    floor: -192
+    ceiling: 320
+    ceiling_points: [[-2432, 7200, 448]]
+    theme: theme:warren
+    walls:
+      - wall: west
+        surface: {texture: xobones, size: [128, 256]}
+    platforms:
+      - {id: platform:dais, at: [-2912, 7200], size: [320, 512], rise: 32, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: The dais before the wall of bones.}
+      - {id: platform:drum_spirit, rise: 112, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[-2952, 7104], [-2872, 7104], [-2816, 7160], [-2816, 7240], [-2872, 7296], [-2952, 7296], [-3008, 7240], [-3008, 7160]], top_surface: {texture: xodrumtp, size: [128, 128], fit: true}, base: 32, notes: The spirit drum on the dais (the second drum).}
+      - {id: platform:hide_curtain, at: [-1744, 7200], size: [16, 320], rise: 320, surface: {texture: xohide, size: [128, 256], scale: 1.25}, end_surface: {texture: xohide, size: [128, 256], uneven: true}, top_surface: {texture: xohide, size: [128, 256]}, solid: false, notes: "The hide curtain across the doorway from the steps: drawn, walked through."}
+    ambient: 18
+    notes: "An oval den about 1,400 by 1,350 thick with smoke; the west wall is rock set with skulls and bones; the spirit drum on a rock dais before it, the shaman's chest beside it, green spirit fire in two torches and a bubbling cauldron."
+  - id: room:shaman_steps
+    name: Shaman's steps
+    space: room:shaman_den
+    outline: [[-1664, 6720], [-1344, 6720], [-1344, 7040], [-1664, 7040]]
+    floor: -256
+    slope: {to: -192, toward: west, steps: 2}
+    ceiling: 256
+    theme: theme:rock
+    ambient: 18
+    notes: "A short passage with two rock steps of 32 up from the cookfire to the den; the hide curtain hangs at its far end."
+  - id: room:sleeping_hollows
+    name: Sleeping hollows
+    outline: [[-1344, 5952], [-1344, 6400], [-1920, 6464], [-2432, 6400], [-2944, 6464], [-3456, 6400], [-3776, 6272], [-3776, 5760], [-3520, 5568], [-3072, 5632], [-2816, 5760], [-1984, 5760], [-1728, 5632], [-1472, 5696]]
+    floor: -224
+    ceiling: 288
+    theme: theme:warren
+    ambient: 20
+    notes: "A crooked passage 2,400 long running west from the cookfire, 32 above it, with sleeping hollows off it (south-east by the entrance, south-west, the west end). The pit's rim is the straight stretch of the south wall; drag marks lead to the boulder in the straight west wall."
+  - id: room:snake_pool
+    name: Snake pool
+    outline: [[1856, 9536], [2944, 9536], [3392, 9792], [3456, 10304], [3072, 10816], [2240, 10816], [1856, 10432]]
+    floor: -704
+    ceiling: -128
+    ceiling_points: [[2688, 10176, 0]]
+    theme: theme:wet
+    platforms:
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2160, 10204], [2240, 10204], [2296, 10260], [2296, 10340], [2240, 10396], [2160, 10396], [2104, 10340], [2104, 10260]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 519, top_heights: [104, 117, 125, 120, 107, 97, 96, 96], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2172, 10232], [2228, 10232], [2268, 10272], [2268, 10328], [2228, 10368], [2172, 10368], [2132, 10328], [2132, 10272]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 423, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2186, 10265], [2214, 10265], [2235, 10286], [2235, 10314], [2214, 10335], [2186, 10335], [2165, 10314], [2165, 10286]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 343, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[3005, 9792], [3095, 9792], [3158, 9855], [3158, 9945], [3095, 10008], [3005, 10008], [2942, 9945], [2942, 9855]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 540, top_heights: [104, 96, 101, 112, 124, 139, 135, 121], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[3019, 9825], [3081, 9825], [3125, 9869], [3125, 9931], [3081, 9975], [3019, 9975], [2975, 9931], [2975, 9869]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 444, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[3038, 9872], [3062, 9872], [3078, 9888], [3078, 9912], [3062, 9928], [3038, 9928], [3022, 9912], [3022, 9888]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 364, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2700, 10500], [2800, 10500], [2870, 10570], [2870, 10670], [2800, 10740], [2700, 10740], [2630, 10670], [2630, 10570]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 496, top_heights: [144, 144, 130, 110, 96, 96, 110, 130], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2725, 10560], [2775, 10560], [2810, 10595], [2810, 10645], [2775, 10680], [2725, 10680], [2690, 10645], [2690, 10595]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 400, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2737, 10588], [2763, 10588], [2782, 10607], [2782, 10633], [2763, 10652], [2737, 10652], [2718, 10633], [2718, 10607]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 320, notes: "Stalactite, lower"}
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2510, 9604], [2590, 9604], [2646, 9660], [2646, 9740], [2590, 9796], [2510, 9796], [2454, 9740], [2454, 9660]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 494, top_heights: [96, 96, 107, 123, 135, 135, 123, 107], notes: Stalactite}
+      - {rise: 96, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2522, 9632], [2578, 9632], [2618, 9672], [2618, 9728], [2578, 9768], [2522, 9768], [2482, 9728], [2482, 9672]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 398, notes: "Stalactite, lower"}
+      - {rise: 80, surface: {texture: gcav1flr, size: [256, 256]}, outline: [[2536, 9665], [2564, 9665], [2585, 9686], [2585, 9714], [2564, 9735], [2536, 9735], [2515, 9714], [2515, 9686]], top_surface: {texture: gcav1flr, size: [256, 256]}, bottom_surface: {texture: gcav1flr, size: [256, 256]}, base: 318, notes: "Stalactite, lower"}
+    levels:
+      - id: level:pool
+        outline: [[2560, 9792], [3072, 9728], [3264, 10048], [3136, 10432], [2688, 10496], [2496, 10176]]
+        floor: -736
+        edge: {texture: gcav2flr, size: [128, 128], scale: 2}
+        surface: {texture: wtrtyl}
+        notes: "The pool in the east lobe, a step below the shore: dark water (MM8's), a chest sunk in it."
+    ambient: 18
+    notes: "A dripping kidney-shaped cave about 1,600 by 1,280; the east lobe is a shallow pool with a sunken chest."
+  - id: room:snake_slope
+    name: "Snake pool, wet slope"
+    space: room:snake_pool
+    outline: [[1856, 8960], [2240, 8960], [2240, 9472], [1856, 9472]]
+    floor: -384
+    slope: {to: -704, toward: north}
+    ceiling: 64
+    ceiling_slope: {to: -256, toward: north}
+    theme: theme:wet
+    ambient: 18
+    notes: The wet slope from the chimney's foot down 320 into the snake cave.
+  - id: room:stair_e
+    name: "Firing step stair, east"
+    space: room:palisade_yard
+    outline: [[832, 2304], [1280, 2304], [1280, 2752], [832, 2752]]
+    floor: 0
+    slope: {to: 192, toward: south, steps: 6, riser: {texture: t66abc10a, size: [32, 128]}, tread: {texture: gkp1ceil, size: [128, 128]}}
+    ceiling: 640
+    theme: theme:deck
+    ambient: 14
+    notes: Mirror of the west stair.
+  - id: room:stair_w
+    name: "Firing step stair, west"
+    space: room:palisade_yard
+    outline: [[-1280, 2304], [-832, 2304], [-832, 2752], [-1280, 2752]]
+    floor: 0
+    slope: {to: 192, toward: south, steps: 6, riser: {texture: t66abc10a, size: [32, 128]}, tread: {texture: gkp1ceil, size: [128, 128]}}
+    ceiling: 640
+    theme: theme:deck
+    ambient: 14
+    notes: Six timber steps of 32 up from the inner yard to the west firing step (L1's ladder).
+  - id: room:twisting_run
+    name: "Twisting run, lower ramp"
+    outline: [[640, 3712], [1088, 3712], [1088, 4160], [640, 4160]]
+    floor: 0
+    slope: {to: -96, toward: north}
+    ceiling: 448
+    theme: theme:rock
+    notes: "The run's first leg, falling gently north out of the inner yard."
+  - id: room:upper_ledge
+    name: Upper ledge
+    path: [[2048, 7488], [2048, 6912], [1760, 6528], [1760, 2048], [1344, 2048]]
+    width: 320
+    floor: 192
+    ceiling: 576
+    theme: theme:rock
+    notes: "A natural ledge 320 wide and about 6,000 long at 192, from the chimney's top landing south to the east firing step. Two windows in its west side over a 64 rock lip look down into the cookfire cave (448 down) and the run's bend (288 down); the party can drop, not climb back."
+openings:
+  - id: open:bend_upper
+    from: room:run_bend
+    to: room:run_upper
+    width: 448
+    height: 320
+  - id: open:chimney_ledge
+    from: room:bat_chimney
+    to: room:upper_ledge
+    link: link:chimney_upper_ledge
+    width: 256
+    height: 320
+  - id: open:chimney_slope
+    from: room:bat_chimney
+    to: room:snake_slope
+    link: link:chimney_snake_pool
+    width: 256
+    height: 320
+  - id: open:cookfire_entry
+    from: room:cookfire_cave
+    to: room:drum_hall_entry
+    link: link:cookfire_drum_hall
+    width: 448
+    height: 384
+  - id: open:cookfire_hollows
+    from: room:cookfire_cave
+    to: room:sleeping_hollows
+    link: link:cookfire_hollows
+    width: 320
+    height: 320
+  - id: open:cookfire_shaman
+    from: room:cookfire_cave
+    to: room:shaman_steps
+    link: link:cookfire_shaman
+    width: 256
+    height: 320
+  - id: open:entry_hall
+    from: room:drum_hall_entry
+    to: room:drum_hall
+    width: 576
+    height: 512
+    notes: The view over the hall opens here.
+  - id: open:gate_e
+    from: room:palisade_cave
+    to: room:palisade_gate
+    link: link:palisade_gate
+    along: 0.3333
+    width: 192
+    height: 384
+    reveal: {texture: t66abc10a, size: [32, 128]}
+    notes: The palisade gate's east leaf.
+  - id: open:gate_w
+    from: room:palisade_cave
+    to: room:palisade_gate
+    link: link:palisade_gate
+    along: 0.6667
+    width: 192
+    height: 384
+    reveal: {texture: t66abc10a, size: [32, 128]}
+    notes: "The palisade gate's west leaf (a hinged plank door); a gate post 32 wide between the two leaves."
+  - id: open:gate_yard
+    from: room:palisade_gate
+    to: room:palisade_yard
+    width: 512
+    height: 448
+  - id: open:hall_tunnel
+    from: room:back_tunnel
+    to: room:drum_hall
+    link: link:drum_hall_back_tunnel
+    shape: section
+  - id: open:hollows_loot
+    from: room:sleeping_hollows
+    to: room:loot_cache
+    link: link:hollows_loot_cache
+    width: 256
+    height: 256
+    notes: Behind the boulder (a secret door).
+  - id: open:hollows_pit
+    from: room:sleeping_hollows
+    to: room:prisoner_pit
+    link: link:hollows_prisoner_pit
+    width: 256
+    height: 256
+    notes: "The pit's rim: the cage gate of lashed poles, the rope ladder down from it; 256 sheer on the pit side."
+  - id: open:ledge_cookfire
+    from: room:upper_ledge
+    to: room:cookfire_cave
+    from_wall: 2
+    to_wall: 2
+    link: link:ledge_cookfire_overlook
+    width: 384
+    height: 192
+    sill: 64
+    notes: "A window just under the cookfire cave's smoke; 448 down to its floor."
+  - id: open:ledge_run
+    from: room:upper_ledge
+    to: room:run_bend
+    link: link:ledge_run_overlook
+    width: 384
+    height: 192
+    sill: 64
+    notes: "A window over a 64 rock lip; 288 down to the bend's floor."
+  - id: open:ledge_step_e
+    from: room:upper_ledge
+    to: room:firing_step_e
+    from_wall: 4
+    to_wall: 1
+    link: link:firing_step_upper_ledge
+    width: 256
+    height: 320
+  - id: open:mouth_palisade
+    from: room:cave_mouth
+    to: room:palisade_cave
+    link: link:mouth_palisade
+    width: 512
+    height: 448
+  - id: open:rim_chimney
+    from: room:drum_hall
+    to: room:bat_chimney
+    link: link:drum_hall_chimney
+    width: 320
+    height: 512
+    notes: From the east top terrace into the shaft's foot.
+  - id: open:run_bend
+    from: room:twisting_run
+    to: room:run_bend
+    width: 384
+    height: 352
+  - id: open:run_cookfire
+    from: room:run_upper
+    to: room:cookfire_cave
+    link: link:run_cookfire
+    width: 448
+    height: 320
+  - id: open:shaman_steps_den
+    from: room:shaman_steps
+    to: room:shaman_den
+    width: 256
+    height: 320
+  - id: open:slope_pool
+    from: room:snake_slope
+    to: room:snake_pool
+    width: 320
+    height: 384
+  - id: open:stair_e_step
+    from: room:stair_e
+    to: room:firing_step_e
+    width: 320
+    height: 320
+  - id: open:stair_w_step
+    from: room:stair_w
+    to: room:firing_step_w
+    width: 320
+    height: 320
+  - id: open:step_e_gate
+    from: room:firing_step_e
+    to: room:palisade_gate
+    width: 192
+    height: 192
+    sill: 64
+    notes: Murder hole into the gate passage.
+  - id: open:step_e_yard
+    from: room:firing_step_e
+    to: room:palisade_cave
+    link: link:firing_step_overlook
+    width: 704
+    height: 512
+    sill: 64
+  - id: open:step_w_gate
+    from: room:firing_step_w
+    to: room:palisade_gate
+    width: 192
+    height: 192
+    sill: 64
+    notes: Murder hole into the gate passage.
+  - id: open:step_w_yard
+    from: room:firing_step_w
+    to: room:palisade_cave
+    link: link:firing_step_overlook
+    width: 704
+    height: 512
+    sill: 64
+    notes: "The west third of the palisade: a 64 parapet of logs, then open to the cave roof. Archers shoot down over it; the party can drop from the step, not climb to it."
+  - id: open:tunnel_gate
+    from: room:back_tunnel
+    to: room:back_gate
+    link: link:back_tunnel_gate
+    shape: section
+  - id: open:yard_run
+    from: room:palisade_yard
+    to: room:twisting_run
+    link: link:yard_run
+    width: 384
+    height: 352
+  - id: open:yard_stair_e
+    from: room:palisade_yard
+    to: room:stair_e
+    link: link:firing_step_stairs
+    width: 320
+    height: 320
+  - id: open:yard_stair_w
+    from: room:palisade_yard
+    to: room:stair_w
+    link: link:firing_step_stairs
+    width: 320
+    height: 320
+notes: "XD-05 Orc Caves at L4, in the L3 sketch's frame (x east, y north, the cave mouth's daylight edge at y 0, heights from the arrival floor), rooms enlarged to the shipped median and the drum hall and bat chimney each drawn as one room (levels, flights and platforms inside). Written by output/studio_cal/xd05/tools/gen.py."

@@ -1,0 +1,31 @@
+# The second route uses Ghulkat's actual dropped key, with no Hacking skill.
+id: hesper.d04.key_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d04.blv
+    party:
+      members:
+      - {name: Ada, class: Knight, level: 75, skills: [], equipment: {}}
+- set_pose: {map: hes_d04.blv, x: 3580, y: 700, z: 0, yaw: 0, pitch: 0}
+- press_interact: {}
+- assert: {qbit_clear: [100027]}
+- damage_actor: {actor_index: 36, amount: 100000, tier: kreegan_energy}
+- damage_actor: {actor_index: 36, amount: 100000, tier: kreegan_energy}
+- advance_runtime: {seconds: 3}
+- assert: {actor_visible: {actor_index: 36, dead: true, hp: 0}}
+- assert: {qbit_set: [100430]}
+- assert: {world_item_state: {item_id: 11483, present: true}}
+- set_pose: {map: hes_d04.blv, x: 3180, y: -700, z: -512, yaw: 3.14159265, pitch: -0.72}
+- press_interact:
+    kind: world_item
+    world_item_index: 1
+    item_id: 11483
+    pose: {map: hes_d04.blv, x: 3180, y: -700, z: -512, yaw: 3.14159265, pitch: -0.72}
+    expect: {kind: world_item, item_id: 11483}
+- assert: {inventory_any_member: [{item_id: 11483}]}
+- set_pose: {map: hes_d04.blv, x: 3580, y: 700, z: 0, yaw: 0, pitch: 0}
+- press_interact: {}
+- answer_input: {text: 'Yes'}
+- assert: {qbit_set: [100027]}

@@ -1,0 +1,9 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/overlay_arcs/images
+exit: true
+steps:
+- wait: 2
+- action: quest
+- wait: 0.5
+- capture: one-knight-inventory-4by3
+- click: [363, 873]
+- capture: one-knight-buffs-4by3

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Updates come over HTTPS. Plain HTTP is allowed only to this device itself: the release checks serve a local
+     update channel there (packaging/release_checks.sh, adb reverse). -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>

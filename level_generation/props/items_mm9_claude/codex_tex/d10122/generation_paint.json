@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact immutable layout target. design_reference.png is material/detail reference only; icon_x8.png is colour reference only, its magenta is not part of the object.\nProduce ONE transparent PNG, 1536x2048 (or nearest 3:4 size). Preserve the guide's three columns and FOUR rows, exact object positions, sizes, silhouettes, gaps and openings. Five orthographic views in each half: FRONT, BACK, LEFT / RIGHT, TOP, empty. No redesign or movement.\nRows 1-2 PAINT: paint ONLY the grey objects with unlit base colour of a rounded open sallet of polished silver steel, tall smooth dome and short flared brim, plain with no trim. Follow the approved reference material, fine surface wear and icon colour. Face stays open exactly as guide. Facets and details follow reference scaled to view, invent no ornament. Unlit base colour only, no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five exact silhouettes filled with FLAT pure #FF0000 red, as this item is entirely metal, including inside and brim. No shading, texture, lines, internal antialiased colour blends, or detail in masks. Every silhouette pixel one pure material colour. If any other material genuinely exists use pure green #00FF00 for leather/fur, pure blue #0000FF cloth/hair, pure black #000000 gemstones/glass/enamel/liquid, pure yellow #FFFF00 matte nonmetal solids. Do not invent any such parts.\nBackground fully transparent, including gaps/openings and empty cell column 3 row 2 and column 3 row 4. Keep exact geometry of guide; only paint surfaces.\nCORRECTION: Strictly preserve the guide alpha silhouette. Absolutely no pixels, coloured haze or bleed outside objects. Empty cells must be entirely alpha zero. In paint half eliminate bright highlights and directional shading: use even silver grey albedo with subtle wear only. Mask half must be uniform exact solid red without glow. Guide's visible interior surfaces are solid metal, not additional holes; preserve original alpha.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-0cbb-7f62-9ba9-18ab2eaef894/exec-70f9f658-276e-4c08-9bd1-c41cd811f7f5.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10122/paint_mask_raw_v1.png",
+  "first_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact immutable layout target. design_reference.png is material/detail reference only; icon_x8.png is colour reference only, its magenta is not part of the object.\nProduce ONE transparent PNG, 1536x2048 (or nearest 3:4 size). Preserve the guide's three columns and FOUR rows, exact object positions, sizes, silhouettes, gaps and openings. Five orthographic views in each half: FRONT, BACK, LEFT / RIGHT, TOP, empty. No redesign or movement.\nRows 1-2 PAINT: paint ONLY the grey objects with unlit base colour of a rounded open sallet of polished silver steel, tall smooth dome and short flared brim, plain with no trim. Follow the approved reference material, fine surface wear and icon colour. Face stays open exactly as guide. Facets and details follow reference scaled to view, invent no ornament. Unlit base colour only, no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five exact silhouettes filled with FLAT pure #FF0000 red, as this item is entirely metal, including inside and brim. No shading, texture, lines, internal antialiased colour blends, or detail in masks. Every silhouette pixel one pure material colour. If any other material genuinely exists use pure green #00FF00 for leather/fur, pure blue #0000FF cloth/hair, pure black #000000 gemstones/glass/enamel/liquid, pure yellow #FFFF00 matte nonmetal solids. Do not invent any such parts.\nBackground fully transparent, including gaps/openings and empty cell column 3 row 2 and column 3 row 4. Keep exact geometry of guide; only paint surfaces.",
+  "first_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-0cbb-7f62-9ba9-18ab2eaef894/exec-c0334fa7-6ef3-4c5d-b067-314d64fe9132.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10122/paint_mask_guide.png",
+      "sha256": "46b0bfe241f7fff883d0d18897b98eb191b76d05a70401c85831ecb09ade2971"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10122/design_reference.png",
+      "sha256": "0e27a39425d19c2d298ab6161e46b529a43444cb58b87b3276d4c7003f6bc96a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10122/icon_x8.png",
+      "sha256": "89a2ef492c029f5bfe2e9d7dc4c62ab5d8468fc47343a7b5ed64483b4c617028"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": "One corrective regeneration used. Visual inspection still shows unwanted pixels outside mask silhouettes and shading; raw tool output preserved without edits."
+}

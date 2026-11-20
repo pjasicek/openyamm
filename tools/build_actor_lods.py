@@ -109,10 +109,17 @@ def weld_skin_seams(bm):
             bmesh.ops.remove_doubles(bm, verts=vertices, dist=1e-6)
 
 
-def generate(source, destination, node_name, ratios=(0.5, 0.18, 0.06), max_influences=8):
+def generate(source, destination, node_name, ratios=(0.5, 0.18, 0.06), max_influences=8, protected_points=(),
+             material_ratios=None):
     import bpy
     import bmesh
     from mathutils import Matrix
+    from mathutils.kdtree import KDTree
+    protected = KDTree(len(protected_points)) if len(protected_points) else None
+    if protected is not None:
+        for index, point in enumerate(protected_points):
+            protected.insert(point, index)
+        protected.balance()
     before, original = read_glb(source)
     node = next(n for n in before['nodes'] if n.get('name') == node_name)
     mesh_index = node['mesh']
@@ -128,9 +135,13 @@ def generate(source, destination, node_name, ratios=(0.5, 0.18, 0.06), max_influ
     for bone in armature.pose.bones:
         bone.matrix_basis = Matrix.Identity(4)
     objects = []
-    if len(ratios) != 3 or not 1 > ratios[0] > ratios[1] > ratios[2] > 0:
-        raise ValueError('Choose three decreasing LOD ratios between zero and one')
-    for level, ratio in enumerate(ratios, 1):
+    budgets = material_ratios or {}
+    if set(budgets) - {material.name for material in body.data.materials}:
+        raise ValueError('LOD budget names an unknown material')
+    for budget in (ratios, *budgets.values()):
+        if len(budget) != 3 or not 1 > budget[0] > budget[1] > budget[2] > 0:
+            raise ValueError('Choose three decreasing LOD ratios between zero and one')
+    for level in range(1, 4):
         for slot in range(len(body.data.materials)):
             obj = body.copy(); obj.data = body.data.copy(); obj.animation_data_clear()
             obj.name = f'LOD{level}_{slot}'
@@ -149,11 +160,42 @@ def generate(source, destination, node_name, ratios=(0.5, 0.18, 0.06), max_influ
             bpy.ops.object.select_all(action='DESELECT'); obj.select_set(True)
             bpy.context.view_layer.objects.active = obj
             modifier = obj.modifiers.new('Offline_LOD', 'DECIMATE')
-            modifier.ratio = min(1.0, max(24 / faces, ratio))
+            slot_ratio = budgets.get(body.data.materials[slot].name, ratios)[level - 1]
+            modifier.ratio = min(1.0, max(24 / faces, slot_ratio))
             modifier.use_collapse_triangulate = True
+            allowance_name = None
+            contact_weights = {}
+            if protected is not None:
+                # Preserve authored contact vertices in model-space Z-up coordinates.
+                allowance = obj.vertex_groups.new(name='LOD_ReductionAllowance')
+                allowance.add(list(range(len(obj.data.vertices))), 1.0, 'REPLACE')
+                for vertex in obj.data.vertices:
+                    _, point_index, distance = protected.find(obj.matrix_world @ vertex.co)
+                    if distance < 1e-5:
+                        weights = {g.group: g.weight for g in vertex.groups if g.group != allowance.index}
+                        if point_index in contact_weights and contact_weights[point_index] != weights:
+                            raise ValueError('A protected contact identifies different skin weights')
+                        contact_weights[point_index] = weights
+                        allowance.add([vertex.index], 0.0, 'REPLACE')
+                modifier.vertex_group = allowance.name
+                modifier.vertex_group_factor = 1.0
+                allowance_name = allowance.name
             while obj.modifiers[0] != modifier:
                 bpy.ops.object.modifier_move_up(modifier=modifier.name)
             bpy.ops.object.modifier_apply(modifier=modifier.name)
+            if allowance_name is not None:
+                obj.vertex_groups.remove(obj.vertex_groups[allowance_name])
+                found = set()
+                for vertex in obj.data.vertices:
+                    _, point_index, distance = protected.find(obj.matrix_world @ vertex.co)
+                    if distance < 1e-5 and point_index in contact_weights:
+                        for group in list(vertex.groups):
+                            obj.vertex_groups[group.group].remove([vertex.index])
+                        for group, weight in contact_weights[point_index].items():
+                            obj.vertex_groups[group].add([vertex.index], weight, 'REPLACE')
+                        found.add(point_index)
+                if found != contact_weights.keys():
+                    raise ValueError('LOD reduction moved a protected contact')
             # Collapsing vertices combines joint sets; preserve the requested influence budget.
             bpy.ops.object.vertex_group_limit_total(limit=max_influences)
             bpy.ops.object.vertex_group_normalize_all(lock_active=False)

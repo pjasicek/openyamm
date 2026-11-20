@@ -1,0 +1,1 @@
+Retained detailed magenta master and companion mask. Default native rectangle registration; zero clipping recorded separately. Measured native opaque RGB gamma leaves alpha unchanged. Full master, native reference and both final contrast proofs inspected.

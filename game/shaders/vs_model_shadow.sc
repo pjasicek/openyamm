@@ -6,7 +6,9 @@ $output v_texcoord0
 
 void main()
 {
-    vec3 position = mul(u_modelSkin.x > 0.5 ? modelSkinMatrix(u_modelSkin.z) : u_model[0], vec4(a_position, 1.0)).xyz;
+    mat4 skin = u_modelSkin.x > 0.5
+        ? modelSkinMatrix(u_modelSkin.z, a_weight, a_indices, a_texcoord3, a_texcoord5) : u_model[0];
+    vec3 position = mul(skin, vec4(a_position, 1.0)).xyz;
     gl_Position = mul(u_viewProj, vec4(position, 1.0));
     v_texcoord0 = a_texcoord0;
 }

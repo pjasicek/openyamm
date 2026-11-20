@@ -1,0 +1,21 @@
+# 1440 x 1080: as formation_16x9.yml (the canvas is scaled 0.9 and centred: y = 135 + 0.9 y).
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/mm9_formation_20261106/native
+exit: true
+steps:
+- wait: 4
+- console: hireling add 2
+- console: hireling add 126
+- console: hireling add 42
+- wait: 1
+- click: [1560, 250]
+- wait: 1
+- pointer_move: [1050, 328]
+- wait: 1
+- capture: formation_4x3
+- pointer_down: [921, 530]
+- wait: 0.3
+- pointer_move: [1000, 515]
+- wait: 0.2
+- pointer_move: [1097, 495]
+- wait: 1
+- capture: formation_4x3_drag

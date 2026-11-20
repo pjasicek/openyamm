@@ -108,7 +108,9 @@ std::vector<uint8_t> encodeTextureBlocks(std::span<const uint8_t> rgba, int widt
         const astcenc_swizzle swizzle = {ASTCENC_SWZ_R, ASTCENC_SWZ_G, ASTCENC_SWZ_B, ASTCENC_SWZ_A};
         std::vector<uint8_t> result(bytes);
         std::atomic<bool> failed = false;
-        std::vector<std::jthread> threads;
+        // std::thread rather than std::jthread: libc++ (Android's NDK, Apple's Xcode) keeps jthread behind its
+        // experimental flag.
+        std::vector<std::thread> threads;
         for (unsigned thread = 0; thread < workers; ++thread)
         {
             threads.emplace_back([&, thread]()
@@ -120,7 +122,10 @@ std::vector<uint8_t> encodeTextureBlocks(std::span<const uint8_t> rgba, int widt
                 }
             });
         }
-        threads.clear();
+        for (std::thread &thread : threads)
+        {
+            thread.join();
+        }
         astcenc_context_free(pContext);
         if (failed)
         {
@@ -163,7 +168,7 @@ std::vector<uint8_t> encodeTextureBlocks(std::span<const uint8_t> rgba, int widt
     }
     const int rows = paddedHeight / 4;
     std::atomic<int> next = 0;
-    std::vector<std::jthread> threads;
+    std::vector<std::thread> threads;
     for (size_t i = 0; i < std::min(size_t(rows), size_t(workers)); ++i)
     {
         threads.emplace_back([&]()
@@ -188,7 +193,10 @@ std::vector<uint8_t> encodeTextureBlocks(std::span<const uint8_t> rgba, int widt
             }
         });
     }
-    threads.clear();
+    for (std::thread &thread : threads)
+    {
+        thread.join();
+    }
     if (codec == TextureBlockCodec::Bc1)
     {
         forceOpaqueBc1(blocks);

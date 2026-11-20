@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>__TITLE__ · restored sprite review</title>
+<style>body{margin:24px;background:#202422;color:#edf0ed;font:16px system-ui}h1{font-size:24px}label,button{margin-right:16px}select,button,input{font:inherit}canvas{width:48%;max-width:700px;border:1px solid #68716a}p{max-width:1100px;color:#c6d0c9}.controls{line-height:3}a{color:#acd9e9}</style>
+<h1>__TITLE__ · native / restored</h1><p>Original animation timing, stored directions and native view aliases. Selective masks preserve the native palette variants. Open this file directly; no server required.</p>
+<div class="controls"><label>Action <select id="action"></select></label><label>View <select id="view"></select></label><label>Palette <select id="palette"></select></label><br>
+<button id="play">Pause</button><button id="step">Step frame</button><button id="restart">Restart</button><label>Zoom <input id="zoom" type="range" min="0.01" max="4" step="0.01" value="1.5"></label><button id="fit">Fit family</button><label>Speed <input id="speed" type="range" min="0.1" max="2" step="0.1" value="1"></label><label><input id="overlay" type="checkbox">Native overlay</label><label>Background <input id="bg" type="color" value="#343a36"></label><label><input id="mask" type="checkbox">Mask overlay</label><label><input id="crop" type="checkbox">Crop bounds</label><label><input id="loop" type="checkbox" checked>Repeat for review</label></div>
+<div><canvas id="native" width="700" height="600"></canvas> <canvas id="enhanced" width="700" height="600"></canvas></div><p id="status"></p>
+<p><a href="README.md">Notes and reproduction</a> · <a href="review/standing_variants.png">Variant comparison</a> · <a href="review/edge_current.png">Edge audit</a> · <a href="manifest.json">Manifest</a></p>
+<script>
+const manifest=/* MANIFEST */;
+const $=id=>document.getElementById(id),images=new Map();let elapsed=0,playing=true,last=performance.now(),frame=0;
+for(const a of Object.keys(manifest.animations))$('action').add(new Option(a,a));
+for(let v=0;v<8;v++)$('view').add(new Option(`${v}${v>4?' (mirrored)':''}`,v));
+for(const [id,v] of Object.entries(manifest.variants))$('palette').add(new Option(v.name,id));$('palette').value=Object.keys(manifest.variants).find(p=>manifest.variants[p].exact_base_bypass);
+const params=new URLSearchParams(location.search);for(const id of ['action','view','palette'])if(params.has(id))$(id).value=params.get(id);
+for(const id of ['mask','crop','overlay'])if(params.has(id))$(id).checked=params.get(id)==='1';for(const id of ['zoom','speed'])if(params.has(id))$(id).value=params.get(id);if(params.has('bg'))$('bg').value=params.get('bg');
+// One zoom for every frame, action, palette and native mirror binding. Never fit per pose.
+function familyFitZoom(){
+ const px=350,py=manifest.anchor==='center'?300:530,tier=manifest.pixels_per_logical_pixel;
+ let zoom=1.5;
+ for(const actions of Object.values(manifest.animations_by_palette))for(const a of Object.values(actions))
+ for(const steps of Object.values(a.views))for(const step of steps){
+  const f=manifest.frames[step.frame],scale=step.native_scale??a.native_frame_scale;
+  const boxes=[
+   [f.crop_origin_px[0]/tier,f.crop_origin_px[1]/tier,f.atlas_xywh[2]/tier,f.atlas_xywh[3]/tier],
+   [...f.native_offset.slice(0,2),...f.source_canvas]];
+  for(const [x,y,w,h] of boxes)for(const cornerX of [x,x+w])for(const cornerY of [y,y+h]){
+   const dx=(cornerX-manifest.logical_pivot[0])*scale*(step.mirrored?-1:1);
+   const dy=(cornerY-manifest.logical_pivot[1])*scale;
+   if(dx<0)zoom=Math.min(zoom,(px-20)/-dx);if(dx>0)zoom=Math.min(zoom,(680-px)/dx);
+   if(dy<0)zoom=Math.min(zoom,(py-40)/-dy);if(dy>0)zoom=Math.min(zoom,(580-py)/dy);
+  }
+ }
+ return Math.floor(zoom*100)/100;
+}
+function fitFamily(){$('zoom').value=familyFitZoom()}
+$('fit').onclick=fitFamily;if(!params.has('zoom'))fitFamily();
+function img(path){if(!images.has(path)){const image=new Image();images.set(path,image);image.onload=()=>{const s=seq()[frame];draw($('native'),s,true);draw($('enhanced'),s,false)};image.src=path}return images.get(path)}
+function actions(){return manifest.animations_by_palette[$('palette').value]}
+function seq(){return actions()[$('action').value].views[$('view').value]}
+if(params.has('frame')){playing=false;frame=Math.max(0,Math.min(seq().length-1,Number(params.get('frame'))||0));elapsed=seq().slice(0,frame).reduce((s,f)=>s+f.duration_ms,0);$('play').textContent='Play'}
+function reset(){elapsed=0;frame=0}for(const id of ['action','view','palette'])$(id).onchange=reset;
+$('play').onclick=()=>{playing=!playing;$('play').textContent=playing?'Pause':'Play'};
+$('step').onclick=()=>{playing=false;$('play').textContent='Play';frame=seq().length?(frame+1)%seq().length:0;elapsed=seq().slice(0,frame).reduce((s,f)=>s+f.duration_ms,0)};$('restart').onclick=reset;
+// Historical native PNGs use integer bottom-center padding. Sample the source
+// rectangle, then place it at the exact pivot; never move the enhanced frame to fit.
+function drawNative(c,step,f){
+ const image=img(`native_variants/${step.frame}_${$('palette').value}.png`);
+ if(!image.complete||!image.naturalWidth)return;
+ const [w,h]=f.source_canvas,[cw,ch]=manifest.logical_canvas;
+ c.imageSmoothingEnabled=false;
+ c.drawImage(image,Math.floor((cw-w)/2),ch-h,w,h,
+     f.native_offset[0]-manifest.logical_pivot[0],f.native_offset[1]-manifest.logical_pivot[1],w,h);
+}
+function draw(canvas,step,original){const c=canvas.getContext('2d'),z=+$('zoom').value*(step?(step.native_scale??actions()[$('action').value].native_frame_scale):1),x=350,y=manifest.anchor==='center'?300:530;
+ c.fillStyle=$('bg').value;c.fillRect(0,0,700,600);c.fillStyle='#e8eee8';c.font='18px system-ui';c.fillText(original?'Original native palette':'Enhanced 2× atlas',20,28);
+ c.strokeStyle='#77918a';c.beginPath();c.moveTo(20,y);c.lineTo(680,y);c.moveTo(x,y-6);c.lineTo(x,y+6);c.stroke();
+ if(!step)return;
+ const f=manifest.frames[step.frame],p=manifest.pages[f.page];c.save();c.translate(x,y);c.scale(step.mirrored?-z:z,z);c.imageSmoothingEnabled=!original;
+ if(original){drawNative(c,step,f)}
+ else{const image=img($('mask').checked?p.mask_overlay:p.variant_previews[$('palette').value]);const tier=manifest.pixels_per_logical_pixel,[sx,sy,w,h]=f.atlas_xywh,dx=f.crop_origin_px[0]/tier-manifest.logical_pivot[0],dy=f.crop_origin_px[1]/tier-manifest.logical_pivot[1];
+ if(image.complete&&image.naturalWidth)c.drawImage(image,sx,sy,w,h,dx,dy,w/tier,h/tier);
+ if($('overlay').checked){c.globalAlpha=.5;drawNative(c,step,f);c.globalAlpha=1}if($('crop').checked){c.lineWidth=1/z;c.strokeStyle='#ffd558';c.strokeRect(dx,dy,w/tier,h/tier)}}c.restore();}
+function tick(now){
+ if(playing)elapsed+=Math.min(now-last,100)*+$('speed').value;last=now;
+ let a=actions()[$('action').value],steps=seq(),total=steps.reduce((s,f)=>s+f.duration_ms,0);
+ while(total>0&&elapsed>=total){
+  if($('loop').checked||a.playback==='loop'){elapsed%=total;break}
+  if(!a.next_action||!actions()[a.next_action]){elapsed=total-.001;break}
+  // Carry sub-frame time across native action transitions; draw the new pose in this same tick.
+  elapsed-=total;$('action').value=a.next_action;frame=0;
+  a=actions()[$('action').value];steps=seq();total=steps.reduce((s,f)=>s+f.duration_ms,0);
+ }
+ if(!steps.length){draw($('native'),null,true);draw($('enhanced'),null,false);$('status').textContent='Native no-image action';requestAnimationFrame(tick);return}
+ let sum=0;frame=steps.length-1;for(let i=0;i<steps.length;i++){sum+=steps[i].duration_ms;if(elapsed<sum){frame=i;break}}
+ const s=steps[frame];draw($('native'),s,true);draw($('enhanced'),s,false);$('status').textContent=`${s.frame} · frame ${frame+1}/${steps.length} · ${s.duration_ms} ms · native scale ${s.native_scale??a.native_frame_scale} · ${s.mirrored?'mirrored':'stored'}${a.single_view?' · native front-only action':''}`;requestAnimationFrame(tick)
+}
+const initial=seq()[frame];draw($('native'),initial,true);draw($('enhanced'),initial,false);
+requestAnimationFrame(tick);
+</script></html>

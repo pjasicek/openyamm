@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "7d16.blv"
+# The Wine Cellar: a red-grey floor mist in the cellar (floors at -512) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [160, 140, 140]
+      base_height: -482
+      depth: 40
+      falloff_height: 100
+      visibility: 1200
+      max_opacity: 0.75
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

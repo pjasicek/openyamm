@@ -1,0 +1,1 @@
+Preserved RGBA master; default native rectangle registration followed by native RGB gamma matching in restore_native_tone.py. Alpha retained. Both final background proofs inspected including the source-master fringe.

@@ -1,0 +1,1090 @@
+format: 0
+start:
+  room: room:loading_dock
+  at: [768, -900]
+  facing: n
+  notes: "On Joe's loading dock, the locked street doors ahead."
+doors:
+  - id: door:barn
+    opening: open:bay_grain_hall
+    kind: slide_left
+    leaves: 2
+    state: closed
+    speed: 128
+    surface: {texture: t66b03l, size: [128, 256], fit: true}
+    notes: "The rolling barn doors between the bay and the grain hall; a plain click from either side."
+  - id: door:culvert
+    opening: open:pens_culvert
+    kind: slide_up
+    state: closed
+    speed: 96
+    surface: {texture: d8dorf, size: [128, 256], fit: true}
+    notes: "The culvert's low iron door; it rises on a click."
+  - id: door:heart_gate
+    opening: open:pens_honeymoon
+    kind: slide_up
+    state: closed
+    speed: 96
+    surface: {texture: xnheartgt, size: [128, 256], fit: true}
+    notes: "The plank gate painted red with a big white heart (xnheartgt, generated: see NOTES.md, generated textures), MR & MRS WOBBLES - DO NOT SEPARATE over it."
+  - id: door:keep_out
+    opening: open:hall_cellar_stair
+    kind: hinged
+    hinge: left
+    swing: 95
+    state: closed
+    surface: {texture: gkp103a, size: [128, 256], fit: true}
+    notes: "KEEP OUT (THIS MEANS YOU, GUNTHER): the head of the cellar stair; the pen key opens it for good."
+  - id: door:office
+    opening: open:office_steps_office
+    kind: hinged
+    hinge: right
+    swing: 95
+    state: closed
+    notes: "Joe's office door at the top of the steps; it swings in. The slime bucket waits just inside (plate:bucket)."
+  - id: door:river_grate
+    opening: open:river_grate
+    kind: slide_up
+    state: closed
+    speed: 64
+    surface: {texture: d1lggrt, size: [256, 256], fit: true}
+    notes: "The iron grate onto the river, lifted from the inside on first use."
+  - id: door:shipping
+    opening: open:pens_shipping
+    kind: hinged
+    hinge: right
+    swing: 95
+    state: closed
+    surface: {texture: d6dorb, size: [256, 256], fit: true}
+    notes: Plank door to the shipping room.
+  - id: door:stash
+    opening: open:feed_store_stash
+    kind: slide_left
+    state: closed
+    speed: 64
+    surface: {texture: cbmxbrck, size: [128, 128]}
+    secret: true
+    notes: "The secret door: a piece of the store's brick wall behind the Slime Chow sacks, on a hidden runner. Its faces carry the secret flag (the map's perception difficulty 0: a party with Perception sees them pulse); to anyone else it is the wall, found by the ledger's clue."
+  - id: door:street
+    opening: open:dock_ramp
+    kind: slide_left
+    leaves: 2
+    state: closed
+    speed: 128
+    surface: {texture: t66b03l, size: [128, 256], fit: true}
+    notes: "The street doors: two barred-plank leaves sliding apart into the warehouse front. Locked from the dock (wiring evt:street_doors)."
+movers:
+  - id: mover:pen_1_bars
+    room: room:pen_1
+    outline: [[1651, 5996], [1844, 6189], [1832, 6200], [1640, 6008]]
+    height: 16
+    travel: [0, 0, 322]
+    speed: 160
+    surface: {texture: d8dorf, size: [128, 256]}
+    parts:
+      - {outline: [[1657, 6003], [1667, 6013], [1657, 6023], [1647, 6013]], bottom: 16, height: 216}
+      - {outline: [[1685, 6032], [1695, 6041], [1685, 6051], [1675, 6041]], bottom: 16, height: 216}
+      - {outline: [[1714, 6060], [1724, 6070], [1714, 6080], [1704, 6070]], bottom: 16, height: 216}
+      - {outline: [[1742, 6088], [1752, 6098], [1742, 6108], [1732, 6098]], bottom: 16, height: 216}
+      - {outline: [[1770, 6116], [1780, 6126], [1770, 6136], [1760, 6126]], bottom: 16, height: 216}
+      - {outline: [[1799, 6145], [1808, 6155], [1799, 6165], [1789, 6155]], bottom: 16, height: 216}
+      - {outline: [[1827, 6173], [1837, 6183], [1827, 6193], [1817, 6183]], bottom: 16, height: 216}
+      - {outline: [[1651, 5996], [1844, 6189], [1832, 6200], [1640, 6008]], bottom: 232, height: 16}
+    notes: "Pen 1's barred gate: a bottom rail (the mover's block), seven iron bars and a top rail (its parts), standing 22 inside the pen's mouth; it rises 322 into the pen's ceiling."
+  - id: mover:pen_2_bars
+    room: room:pen_2
+    outline: [[1505, 5682], [1609, 5933], [1594, 5939], [1490, 5688]]
+    height: 16
+    travel: [0, 0, 322]
+    speed: 160
+    surface: {texture: d8dorf, size: [128, 256]}
+    parts:
+      - {outline: [[1507, 5690], [1513, 5703], [1500, 5709], [1495, 5696]], bottom: 16, height: 216}
+      - {outline: [[1523, 5727], [1528, 5740], [1515, 5746], [1510, 5733]], bottom: 16, height: 216}
+      - {outline: [[1538, 5764], [1543, 5777], [1531, 5783], [1525, 5770]], bottom: 16, height: 216}
+      - {outline: [[1553, 5801], [1559, 5814], [1546, 5820], [1541, 5807]], bottom: 16, height: 216}
+      - {outline: [[1569, 5838], [1574, 5851], [1561, 5857], [1556, 5844]], bottom: 16, height: 216}
+      - {outline: [[1584, 5875], [1589, 5888], [1577, 5893], [1571, 5881]], bottom: 16, height: 216}
+      - {outline: [[1599, 5912], [1605, 5925], [1592, 5930], [1587, 5917]], bottom: 16, height: 216}
+      - {outline: [[1505, 5682], [1609, 5933], [1594, 5939], [1490, 5688]], bottom: 232, height: 16}
+    notes: "Pen 2's barred gate: a bottom rail (the mover's block), seven iron bars and a top rail (its parts), standing 22 inside the pen's mouth; it rises 322 into the pen's ceiling."
+  - id: mover:pen_3_bars
+    room: room:pen_3
+    outline: [[1609, 5011], [1505, 5262], [1490, 5256], [1594, 5005]]
+    height: 16
+    travel: [0, 0, 322]
+    speed: 160
+    surface: {texture: d8dorf, size: [128, 256]}
+    parts:
+      - {outline: [[1605, 5019], [1599, 5032], [1587, 5027], [1592, 5014]], bottom: 16, height: 216}
+      - {outline: [[1589, 5056], [1584, 5069], [1571, 5063], [1577, 5051]], bottom: 16, height: 216}
+      - {outline: [[1574, 5093], [1569, 5106], [1556, 5100], [1561, 5087]], bottom: 16, height: 216}
+      - {outline: [[1559, 5130], [1553, 5143], [1541, 5137], [1546, 5124]], bottom: 16, height: 216}
+      - {outline: [[1543, 5167], [1538, 5180], [1525, 5174], [1531, 5161]], bottom: 16, height: 216}
+      - {outline: [[1528, 5204], [1523, 5217], [1510, 5211], [1515, 5198]], bottom: 16, height: 216}
+      - {outline: [[1513, 5241], [1507, 5254], [1495, 5248], [1500, 5235]], bottom: 16, height: 216}
+      - {outline: [[1609, 5011], [1505, 5262], [1490, 5256], [1594, 5005]], bottom: 232, height: 16}
+    notes: "Pen 3's barred gate: a bottom rail (the mover's block), seven iron bars and a top rail (its parts), standing 22 inside the pen's mouth; it rises 322 into the pen's ceiling."
+  - id: mover:pen_4_bars
+    room: room:pen_4
+    outline: [[1844, 4755], [1651, 4948], [1640, 4936], [1832, 4744]]
+    height: 16
+    travel: [0, 0, 322]
+    speed: 160
+    surface: {texture: d8dorf, size: [128, 256]}
+    parts:
+      - {outline: [[1837, 4761], [1827, 4771], [1817, 4761], [1827, 4751]], bottom: 16, height: 216}
+      - {outline: [[1808, 4789], [1799, 4799], [1789, 4789], [1799, 4779]], bottom: 16, height: 216}
+      - {outline: [[1780, 4818], [1770, 4828], [1760, 4818], [1770, 4808]], bottom: 16, height: 216}
+      - {outline: [[1752, 4846], [1742, 4856], [1732, 4846], [1742, 4836]], bottom: 16, height: 216}
+      - {outline: [[1724, 4874], [1714, 4884], [1704, 4874], [1714, 4864]], bottom: 16, height: 216}
+      - {outline: [[1695, 4903], [1685, 4912], [1675, 4903], [1685, 4893]], bottom: 16, height: 216}
+      - {outline: [[1667, 4931], [1657, 4941], [1647, 4931], [1657, 4921]], bottom: 16, height: 216}
+      - {outline: [[1844, 4755], [1651, 4948], [1640, 4936], [1832, 4744]], bottom: 232, height: 16}
+    notes: "Pen 4's barred gate: a bottom rail (the mover's block), seven iron bars and a top rail (its parts), standing 22 inside the pen's mouth; it rises 322 into the pen's ceiling."
+  - id: mover:pen_5_bars
+    room: room:pen_5
+    outline: [[2158, 4609], [1907, 4713], [1901, 4698], [2152, 4594]]
+    height: 16
+    travel: [0, 0, 322]
+    speed: 160
+    surface: {texture: d8dorf, size: [128, 256]}
+    parts:
+      - {outline: [[2150, 4611], [2137, 4617], [2131, 4604], [2144, 4599]], bottom: 16, height: 216}
+      - {outline: [[2113, 4627], [2100, 4632], [2094, 4619], [2107, 4614]], bottom: 16, height: 216}
+      - {outline: [[2076, 4642], [2063, 4647], [2057, 4635], [2070, 4629]], bottom: 16, height: 216}
+      - {outline: [[2039, 4657], [2026, 4663], [2020, 4650], [2033, 4645]], bottom: 16, height: 216}
+      - {outline: [[2002, 4673], [1989, 4678], [1983, 4665], [1996, 4660]], bottom: 16, height: 216}
+      - {outline: [[1965, 4688], [1952, 4693], [1947, 4681], [1959, 4675]], bottom: 16, height: 216}
+      - {outline: [[1928, 4703], [1915, 4709], [1910, 4696], [1923, 4691]], bottom: 16, height: 216}
+      - {outline: [[2158, 4609], [1907, 4713], [1901, 4698], [2152, 4594]], bottom: 232, height: 16}
+    notes: "Pen 5's barred gate: a bottom rail (the mover's block), seven iron bars and a top rail (its parts), standing 22 inside the pen's mouth; it rises 322 into the pen's ceiling."
+  - id: mover:pen_6_bars
+    room: room:pen_6
+    outline: [[3085, 4948], [2892, 4755], [2904, 4744], [3096, 4936]]
+    height: 16
+    travel: [0, 0, 322]
+    speed: 160
+    surface: {texture: d8dorf, size: [128, 256]}
+    parts:
+      - {outline: [[3079, 4941], [3069, 4931], [3079, 4921], [3089, 4931]], bottom: 16, height: 216}
+      - {outline: [[3051, 4912], [3041, 4903], [3051, 4893], [3061, 4903]], bottom: 16, height: 216}
+      - {outline: [[3022, 4884], [3012, 4874], [3022, 4864], [3032, 4874]], bottom: 16, height: 216}
+      - {outline: [[2994, 4856], [2984, 4846], [2994, 4836], [3004, 4846]], bottom: 16, height: 216}
+      - {outline: [[2966, 4828], [2956, 4818], [2966, 4808], [2976, 4818]], bottom: 16, height: 216}
+      - {outline: [[2937, 4799], [2928, 4789], [2937, 4779], [2947, 4789]], bottom: 16, height: 216}
+      - {outline: [[2909, 4771], [2899, 4761], [2909, 4751], [2919, 4761]], bottom: 16, height: 216}
+      - {outline: [[3085, 4948], [2892, 4755], [2904, 4744], [3096, 4936]], bottom: 232, height: 16}
+    notes: "Pen 6's barred gate: a bottom rail (the mover's block), seven iron bars and a top rail (its parts), standing 22 inside the pen's mouth; it rises 322 into the pen's ceiling."
+plates:
+  - id: plate:bucket
+    room: room:joes_office
+    at: [-272, 344]
+    size: [96, 160]
+    notes: "Just inside the office door: the slime bucket's trigger."
+floors:
+  - {id: floor:culvert, of: room:culvert, kind: water}
+  - {id: floor:culvert_lower, of: room:culvert_lower, kind: water}
+  - {id: floor:outfall, of: room:culvert_outfall, kind: water}
+  - {id: floor:pool, of: level:pool, kind: water}
+  - {id: floor:shaft, of: room:culvert_shaft, kind: water}
+ladders:
+  - {id: ladder:loft, room: room:grain_hall, at: [128, 2488], facing: n, height: 256, exit: [128, 2586], surface: {texture: t1books1, size: [128, 128]}, notes: "The loft ladder at the west end, where the rail is broken: up from the hall floor and down again from the loft."}
+lights:
+  - id: light:culvert_glow_1
+    room: room:culvert_lower
+    at: [3728, 4892]
+    height: 24
+    radius: 420
+    color: [100, 230, 90]
+    pulse: {intensity: [0.3, 0.8], frequency: 0.4}
+    notes: "The pens' slime running out with the water: a faint green glow in the culvert's channel at the head of the slope."
+  - id: light:culvert_glow_2
+    room: room:culvert_lower
+    at: [3728, 4412]
+    height: 24
+    radius: 420
+    color: [100, 230, 90]
+    pulse: {intensity: [0.3, 0.8], frequency: 0.4, phase: 0.5}
+    notes: And again at the slope's foot.
+  - id: light:feeding_lamp
+    room: room:breeding_pens
+    at: [2656, 6167]
+    height: 200
+    radius: 600
+    color: [255, 50, 30]
+    pulse: {intensity: [0.4, 1], frequency: 2}
+    on: false
+    notes: "A red lamp over the FEEDING TIME lever: dark until the lever is pulled, then flashing (wiring evt:feeding_time lights_on)."
+  - id: light:hall_lantern_e
+    room: room:grain_hall
+    at: [1536, 1956]
+    height: 380
+    radius: 720
+    color: [255, 170, 90]
+    pulse: {intensity: [0.82, 1], frequency: 1.7, phase: 0.66}
+    notes: Under the hanging lantern on the east tie beam (its flame flickers).
+  - id: light:hall_lantern_mid
+    room: room:grain_hall
+    at: [928, 1956]
+    height: 380
+    radius: 720
+    color: [255, 170, 90]
+    pulse: {intensity: [0.82, 1], frequency: 1.7, phase: 0.33}
+    notes: Under the hanging lantern on the middle tie beam.
+  - id: light:hall_lantern_w
+    room: room:grain_hall
+    at: [320, 1956]
+    height: 380
+    radius: 720
+    color: [255, 170, 90]
+    pulse: {intensity: [0.82, 1], frequency: 1.7}
+    notes: Under the hanging lantern on the west tie beam.
+  - id: light:heart_candle
+    room: room:mated_pair_pen
+    at: [2368, 6412]
+    height: 200
+    radius: 448
+    color: [255, 120, 190]
+    notes: "The pink candle that lights the heart gate; it goes out when Mr and Mrs Wobbles are separated (wiring evt:pair_slain lights_off)."
+  - id: light:honeymoon_candles
+    room: room:mated_pair_pen
+    at: [2050, 7420]
+    height: 110
+    radius: 560
+    color: [255, 110, 170]
+    pulse: {intensity: [0.75, 1], frequency: 1.3}
+    notes: Pink candle-light round the pair's bed (the honeymoon suite).
+  - id: light:lane_daylight
+    room: room:loading_dock
+    at: [768, -1040]
+    height: 256
+    radius: 768
+    color: [200, 205, 220]
+    notes: Daylight from the lane.
+  - id: light:office_candle
+    room: room:joes_office
+    at: [-450, 760]
+    height: 120
+    radius: 320
+    color: [255, 190, 120]
+  - id: light:outfall_daylight
+    room: room:culvert_outfall
+    at: [4616, 4000]
+    height: 160
+    radius: 560
+    color: [185, 200, 225]
+    notes: The river's grey daylight spilling in through the grate.
+  - id: light:pen_1
+    room: room:pen_1
+    at: [1616, 6224]
+    height: 150
+    radius: 300
+    color: [110, 255, 100]
+    pulse: {intensity: [0.35, 0.9], frequency: 0.5}
+    notes: "Each pen glows with its occupant's slime, slowly and out of step with its neighbours: what stands in a pen is seen through its bars."
+  - id: light:pen_2
+    room: room:pen_2
+    at: [1385, 5879]
+    height: 150
+    radius: 300
+    color: [110, 255, 100]
+    pulse: {intensity: [0.35, 0.9], frequency: 0.5, phase: 0.17}
+  - id: light:pen_3
+    room: room:pen_3
+    at: [1385, 5065]
+    height: 150
+    radius: 300
+    color: [110, 255, 100]
+    pulse: {intensity: [0.35, 0.9], frequency: 0.5, phase: 0.33}
+  - id: light:pen_4
+    room: room:pen_4
+    at: [1616, 4720]
+    height: 150
+    radius: 300
+    color: [110, 255, 100]
+    pulse: {intensity: [0.35, 0.9], frequency: 0.5, phase: 0.5}
+  - id: light:pen_5
+    room: room:pen_5
+    at: [1961, 4489]
+    height: 150
+    radius: 300
+    color: [110, 255, 100]
+    pulse: {intensity: [0.35, 0.9], frequency: 0.5, phase: 0.67}
+  - id: light:pen_6
+    room: room:pen_6
+    at: [3120, 4720]
+    height: 150
+    radius: 300
+    color: [110, 255, 100]
+    pulse: {intensity: [0.35, 0.9], frequency: 0.5, phase: 0.83}
+  - id: light:pool
+    room: room:breeding_pens
+    at: [2368, 5472]
+    height: 96
+    radius: 896
+    color: [90, 255, 110]
+    pulse: {intensity: [0.45, 1], radius: [700, 960], frequency: 0.35}
+    notes: "The drain pool's slow pulsing green glow, the brightest thing in the map."
+  - id: light:river_daylight
+    room: room:river_sill
+    at: [4856, 4000]
+    height: 160
+    radius: 768
+    color: [190, 205, 230]
+    notes: Grey daylight through the grate.
+  - id: light:shaft_daylight
+    room: room:culvert_shaft
+    at: [3728, 5472]
+    height: 420
+    radius: 640
+    color: [200, 215, 235]
+    pulse: {intensity: [0.78, 1], frequency: 0.08}
+    notes: "Grey street daylight falling through the drain's grate into the shaft, dimming now and then as something passes over it."
+switches:
+  - id: switch:feeding_time
+    room: room:breeding_pens
+    kind: lever
+    reach: 64
+    base: {texture: d8dorf, size: [128, 256]}
+    wall: 3
+    along: 0.5
+    height: 150
+    size: [16, 64]
+    notes: "The FEEDING TIME lever: the shipped maps' lever kind (a post and an arm that sinks when pulled, MM6's, as in Gharik's Forge and Castle Darkmoor, the cellar's family) on the plain wall facing the stair, under its painted label; it replaced the studio's default red plate (t1swdd), which came from another set."
+chests:
+  - id: chest:cabinet
+    room: room:joes_office
+    at: [-480, 1112]
+    size: [128, 64, 256]
+    surface: {texture: t1cab, size: [128, 256], fit: true}
+    end_surface: {texture: t1books1, size: [128, 128]}
+    top_surface: {texture: t1books1, size: [128, 128]}
+    treasure_level: 1
+    random_items: 1
+    gold: 50
+    items: [pen_key]
+    notes: "Joe's cabinet against the north wall, 128 by 64 and 256 high with the drawer front (t1cab) one picture tall and wide, as the Pirate Outpost's cabinets are built and are chests: the pen key in its drawers, about 50 gold and one low item."
+  - id: chest:invoice
+    room: room:shipping_room
+    at: [4012, 7084]
+    facing: e
+    size: [96, 80, 80]
+    surface: {texture: gt001a, size: [64, 64], fit: true}
+    treasure_level: 1
+    random_items: 0
+    gold: 40
+    items: [joes_invoice]
+    trap_level: 1
+    notes: "The invoice crate under the delivery chute, mildly trapped (itching powder)."
+  - id: chest:loft
+    room: room:grain_hall
+    at: [240, 2800]
+    facing: e
+    surface: {texture: gt002b, size: [64, 64], fit: true}
+    top_surface: {texture: gt002g, size: [64, 64], fit: true}
+    treasure_level: 1
+    random_items: 2
+    notes: The loft chest in the far north-west corner of the loft.
+  - id: chest:stash
+    room: room:joes_stash
+    at: [688, 4556]
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 300
+    notes: "Joe's retirement fund: the best container of the map."
+  - id: chest:strongbox
+    room: room:joes_office
+    at: [-704, 232]
+    kind: gt002
+    treasure_level: 1
+    random_items: 0
+    gold: 12
+    notes: "Joe's strongbox: an MM8 chest (the pirate maps' kind), nearly empty (the money is in the stash)."
+spawns:
+  - id: spawn:bay_far
+    room: room:loading_bay
+    at: [1000, 1080]
+    slot: 2
+    notes: "Doom bugs at the far end of the bay, out of sight of the ramp."
+  - id: spawn:cracked_tank
+    room: room:breeding_pens
+    at: [2656, 4932]
+    slot: 2
+    notes: Out of the cracked tank on the shelf.
+  - id: spawn:culvert
+    room: room:culvert_shaft
+    at: [3846, 5512]
+    slot: 1
+    notes: "Rats nesting on the drain shaft's dry ledge: the fight on the way out."
+  - id: spawn:feed_store
+    room: room:feed_store
+    at: [500, 5450]
+    slot: 2
+    notes: Feeding on a split sack.
+  - id: spawn:hall_bins
+    room: room:grain_hall
+    at: [800, 1556]
+    slot: 2
+    notes: Doom bugs out of the torn sacks.
+  - id: spawn:hall_east
+    room: room:grain_hall
+    at: [1600, 2156]
+    slot: 2
+  - id: spawn:hall_gutter
+    room: room:grain_hall
+    at: [800, 2206]
+    slot: 1
+    notes: In the gutter down the middle.
+  - id: spawn:loft
+    room: room:grain_hall
+    at: [800, 2696]
+    floor_height: 256
+    slot: 2
+  - id: spawn:shipping
+    room: room:shipping_room
+    at: [3600, 6650]
+    slot: 1
+monsters:
+  - id: monster:mr_wobbles
+    room: room:mated_pair_pen
+    monster: 387
+    at: [1850, 7050]
+    facing: s
+    hostile: true
+    group: 2
+    hp: 40
+    name: Mr Wobbles
+    notes: "Mr Wobbles, Breeder Slime 4 with about three times its hit points: stand-in Fire Rat (the Rat family's C rank, level 6, 21 hit points; the Lightning Rat at the brief's level 4 has only 13, and the game does not yet honour `hp`: see NOTES.md) with 40 of its own written into the scene. When he dies he splits into two Slime 2 (wiring evt:mr_splits: two Giant Rats of encounter slot 1 at his nest, in his group). The brief's split below half health needs an actor script (not a word); the split on death is the nearest the wiring says."
+  - id: monster:mrs_wobbles
+    room: room:mated_pair_pen
+    monster: 387
+    at: [2560, 7050]
+    facing: s
+    hostile: true
+    group: 2
+    hp: 40
+    name: Mrs Wobbles
+    notes: "Mrs Wobbles (as Mr Wobbles; her split is evt:mrs_splits)."
+  - id: monster:pen_1
+    room: room:pen_1
+    monster: 385
+    at: [1616, 6192]
+    hostile: true
+    group: 1
+    notes: "Slime 2 (stand-in: Giant Rat); stays in until its gate opens."
+  - id: monster:pen_2
+    room: room:pen_2
+    monster: 385
+    at: [1406, 5892]
+    hostile: true
+    group: 1
+  - id: monster:pen_2b
+    room: room:pen_2
+    monster: 385
+    at: [1336, 5802]
+    hostile: true
+    group: 1
+  - id: monster:pen_3
+    room: room:pen_3
+    monster: 385
+    at: [1396, 5072]
+    hostile: true
+    group: 1
+  - id: monster:pen_4
+    room: room:pen_4
+    monster: 385
+    at: [1626, 4712]
+    hostile: true
+    group: 1
+  - id: monster:pen_5
+    room: room:pen_5
+    monster: 385
+    at: [1976, 4502]
+    hostile: true
+    group: 1
+  - id: monster:pen_5b
+    room: room:pen_5
+    monster: 385
+    at: [1896, 4572]
+    hostile: true
+    group: 1
+  - id: monster:pen_6
+    room: room:pen_6
+    monster: 385
+    at: [3106, 4732]
+    hostile: true
+    group: 1
+items:
+  - id: item:bay_bottle
+    room: room:loading_bay
+    item: 220
+    at: [1700, 160]
+    notes: An empty potion bottle kicked into the bay's corner.
+  - id: item:culvert_ring
+    room: room:culvert_shaft
+    item: 137
+    at: [3846, 5392]
+    notes: "A Bronze Ring some customer lost down the street drain, on the shaft's dry ledge by the rats' nest."
+  - id: item:packed_gloves
+    room: room:shipping_room
+    item: 127
+    at: [3400, 6390]
+    floor_height: -312
+    notes: And a pair of workman's gloves.
+  - id: item:packed_potion
+    room: room:shipping_room
+    item: 222
+    at: [3300, 6400]
+    floor_height: -312
+    notes: "Packed for delivery on the table: a Cure Wounds potion."
+  - id: item:rival_boots
+    room: room:mated_pair_pen
+    item: 917
+    at: [2660, 7540]
+    notes: "The rival exterminator's boots (Leather Boots), by his body."
+  - id: item:rival_scroll
+    room: room:mated_pair_pen
+    item: 1102
+    at: [2150, 7350]
+    floor_height: -392
+    notes: "His Torch Light scroll, carried off to the pair's bed: it lies on the straw beside their nest."
+decorations:
+  - id: deco:aisle_lantern
+    room: room:hall_aisle
+    decoration: torch02
+    wall: east
+    along: 0.85
+    height: 240
+  - id: deco:aisle_lantern_s
+    room: room:hall_aisle
+    decoration: torch02
+    wall: east
+    along: 0.35
+    height: 240
+  - id: deco:aisle_sacks_1
+    room: room:hall_aisle
+    decoration: floursac
+    at: [2740, 2000]
+  - id: deco:aisle_sacks_2
+    room: room:hall_aisle
+    decoration: bag01
+    at: [2700, 2090]
+  - id: deco:aisle_sacks_3
+    room: room:hall_aisle
+    decoration: bag_a
+    at: [2610, 2040]
+  - id: deco:aisle_sacks_4
+    room: room:hall_aisle
+    decoration: floursac
+    at: [2740, 2700]
+  - id: deco:bay_barrels_1
+    room: room:loading_bay
+    decoration: bigbarel
+    at: [1730, 900]
+  - id: deco:bay_barrels_2
+    room: room:loading_bay
+    decoration: smlbarel
+    at: [1740, 990]
+  - id: deco:bay_cask
+    room: room:loading_bay
+    decoration: 7dec21
+    at: [220, 1190]
+    facing: 90
+  - id: deco:bay_lantern_e
+    room: room:loading_bay
+    decoration: torch02
+    wall: east
+    along: 0.6
+    height: 256
+  - id: deco:bay_lantern_s
+    room: room:loading_bay
+    decoration: torch02
+    wall: south
+    along: 0.8
+    height: 256
+  - id: deco:bay_lantern_w
+    room: room:loading_bay
+    decoration: torch02
+    wall: west
+    along: 0.6
+    height: 256
+  - id: deco:bay_pallet_sacks_1
+    room: room:loading_bay
+    decoration: floursac
+    at: [960, 680]
+  - id: deco:bay_pallet_sacks_2
+    room: room:loading_bay
+    decoration: bag01
+    at: [1045, 735]
+  - id: deco:bay_sacks_1
+    room: room:loading_bay
+    decoration: floursac
+    at: [1180, 1210]
+  - id: deco:bay_sacks_2
+    room: room:loading_bay
+    decoration: bag01
+    at: [1270, 1215]
+  - id: deco:culvert_bones
+    room: room:culvert_lower
+    decoration: dec29
+    at: [3801, 4812]
+    notes: "At the water's edge: what the rats left."
+  - id: deco:culvert_bucket
+    room: room:culvert_lower
+    decoration: bucket
+    at: [3956, 3912]
+    notes: "One of Joe's buckets, dropped on a delivery."
+  - id: deco:culvert_rock_1
+    room: room:culvert_lower
+    decoration: rock03
+    at: [3661, 4592]
+  - id: deco:culvert_rock_2
+    room: room:culvert_lower
+    decoration: rock01
+    at: [3791, 4212]
+  - id: deco:dock_barrel_1
+    room: room:loading_dock
+    decoration: bigbarel
+    at: [1000, -1020]
+  - id: deco:dock_barrel_2
+    room: room:loading_dock
+    decoration: smlbarel
+    at: [1080, -1010]
+  - id: deco:dock_cask
+    room: room:loading_dock
+    decoration: 7dec21
+    at: [270, -700]
+    facing: 30
+  - id: deco:dock_lantern_e
+    room: room:loading_dock
+    decoration: torch02
+    wall: north
+    along: 0.22
+    height: 240
+  - id: deco:dock_lantern_w
+    room: room:loading_dock
+    decoration: torch02
+    wall: north
+    along: 0.78
+    height: 240
+  - id: deco:feed_bucket
+    room: room:feed_store
+    decoration: bucket
+    at: [380, 5660]
+  - id: deco:feed_lantern
+    room: room:feed_store
+    decoration: torch02
+    wall: 6
+    along: 0.5
+    height: 224
+  - id: deco:feed_lantern_w
+    room: room:feed_store
+    decoration: torch02
+    wall: 8
+    along: 0.5
+    height: 224
+  - id: deco:feed_mash
+    room: room:feed_store
+    decoration: cauld00
+    at: [300, 5600]
+  - id: deco:feed_sacks_1
+    room: room:feed_store
+    decoration: floursac
+    at: [540, 4830]
+  - id: deco:feed_sacks_2
+    room: room:feed_store
+    decoration: bag01
+    at: [630, 4830]
+  - id: deco:feed_sacks_3
+    room: room:feed_store
+    decoration: floursac
+    at: [700, 4880]
+  - id: deco:feed_sacks_4
+    room: room:feed_store
+    decoration: bag_a
+    at: [100, 5300]
+  - id: deco:feed_sacks_5
+    room: room:feed_store
+    decoration: floursac
+    at: [1050, 4835]
+  - id: deco:feed_sacks_6
+    room: room:feed_store
+    decoration: bag01
+    at: [1060, 4930]
+  - id: deco:feed_sacks_7
+    room: room:feed_store
+    decoration: floursac
+    at: [220, 5300]
+  - id: deco:hall_barrel_1
+    room: room:grain_hall
+    decoration: bigbarel
+    at: [100, 1656]
+  - id: deco:hall_barrel_2
+    room: room:grain_hall
+    decoration: smlbarel
+    at: [110, 1756]
+  - id: deco:hall_barrel_3
+    room: room:grain_hall
+    decoration: 7dec32
+    at: [90, 1876]
+  - id: deco:hall_bucket
+    room: room:grain_hall
+    decoration: bucket
+    at: [1180, 1886]
+  - id: deco:hall_chaff
+    room: room:grain_hall
+    decoration: 7dec11
+    at: [520, 1946]
+    notes: Chaff and muck heaped in the gutter.
+  - id: deco:hall_hanging_mid
+    room: room:grain_hall
+    decoration: dec27
+    at: [928, 1956]
+    height: 400
+    notes: "The middle hanging lantern, over the gutter (its light is light:hall_lantern_mid)."
+  - id: deco:hall_hanging_n
+    room: room:grain_hall
+    decoration: dec27
+    at: [1536, 1956]
+    height: 400
+  - id: deco:hall_hanging_s
+    room: room:grain_hall
+    decoration: dec27
+    at: [320, 1956]
+    height: 400
+    notes: Hanging lantern from the tie beam (the brief's swinging lantern dec07 is bound to two MM8 maps only).
+  - id: deco:hall_lantern_se
+    room: room:grain_hall
+    decoration: torch02
+    wall: 1
+    along: 0.8
+    height: 256
+  - id: deco:hall_lantern_sw
+    room: room:grain_hall
+    decoration: torch02
+    wall: 1
+    along: 0.15
+    height: 256
+  - id: deco:hall_lantern_w
+    room: room:grain_hall
+    decoration: torch02
+    wall: 6
+    along: 0.6
+    height: 256
+  - id: deco:hall_sacks_1
+    room: room:grain_hall
+    decoration: floursac
+    at: [660, 1756]
+  - id: deco:hall_sacks_2
+    room: room:grain_hall
+    decoration: bag_a
+    at: [700, 1676]
+  - id: deco:hall_sacks_3
+    room: room:grain_hall
+    decoration: bag01
+    at: [1460, 1856]
+  - id: deco:hall_sacks_4
+    room: room:grain_hall
+    decoration: floursac
+    at: [520, 1506]
+  - id: deco:hall_sacks_5
+    room: room:grain_hall
+    decoration: bag01
+    at: [560, 1596]
+  - id: deco:honeymoon_bones
+    room: room:mated_pair_pen
+    decoration: dec29
+    at: [1500, 7300]
+  - id: deco:honeymoon_bones_2
+    room: room:mated_pair_pen
+    decoration: 7dec18
+    at: [2700, 7100]
+  - id: deco:honeymoon_bowl_2
+    room: room:mated_pair_pen
+    decoration: foodbowl
+    at: [2260, 7060]
+  - id: deco:honeymoon_candle
+    room: room:mated_pair_pen
+    decoration: cndlab0
+    at: [2512, 6368]
+    notes: The pink candle under the heart gate (its light is light:heart_candle).
+  - id: deco:honeymoon_candle_1
+    room: room:mated_pair_pen
+    decoration: cndlab0
+    at: [1874, 7360]
+    notes: Candles round the bed.
+  - id: deco:honeymoon_candle_2
+    room: room:mated_pair_pen
+    decoration: cndlab0
+    at: [2226, 7360]
+  - id: deco:honeymoon_candle_3
+    room: room:mated_pair_pen
+    decoration: cndlab0
+    at: [1874, 7480]
+  - id: deco:honeymoon_candle_4
+    room: room:mated_pair_pen
+    decoration: cndlab0
+    at: [2226, 7480]
+  - id: deco:honeymoon_corpse
+    room: room:mated_pair_pen
+    decoration: corpse01
+    at: [2620, 7460]
+    facing: 200
+    notes: The rival exterminator who came to see Joe's methods.
+  - id: deco:honeymoon_nest
+    room: room:mated_pair_pen
+    decoration: 7dec11
+    at: [2050, 7420]
+    notes: "The pair's nest of mash and muck on their bed: searched on a click (evt:nest)."
+  - id: deco:honeymoon_torch_e
+    room: room:mated_pair_pen
+    decoration: torch06
+    wall: 4
+    along: 0.5
+    height: 256
+  - id: deco:honeymoon_torch_w
+    room: room:mated_pair_pen
+    decoration: torch06
+    wall: 13
+    along: 0.5
+    height: 256
+  - id: deco:landing_torch
+    room: room:cellar_landing
+    decoration: trchb00
+    wall: west
+    along: 0.5
+    height: 200
+  - id: deco:loft_lantern
+    room: room:grain_hall
+    decoration: torch02
+    floor_height: 256
+    wall: 4
+    along: 0.4
+    height: 224
+  - id: deco:loft_sacks_1
+    room: room:grain_hall
+    decoration: floursac
+    at: [560, 2826]
+    floor_height: 256
+  - id: deco:loft_sacks_2
+    room: room:grain_hall
+    decoration: bag01
+    at: [660, 2836]
+    floor_height: 256
+  - id: deco:loft_sacks_3
+    room: room:grain_hall
+    decoration: floursac
+    at: [1000, 2826]
+    floor_height: 256
+  - id: deco:loft_sacks_4
+    room: room:grain_hall
+    decoration: bag_a
+    at: [1100, 2816]
+    floor_height: 256
+  - id: deco:loft_sacks_5
+    room: room:grain_hall
+    decoration: floursac
+    at: [1500, 2836]
+    floor_height: 256
+  - id: deco:loft_sacks_6
+    room: room:grain_hall
+    decoration: bag_a
+    at: [1560, 2746]
+    floor_height: 256
+  - id: deco:office_bucket
+    room: room:joes_office
+    decoration: bucket
+    at: [-212, 344]
+    floor_height: 374
+    height: 0
+    notes: The slime bucket on its ledge over the inside of the door.
+  - id: deco:office_bucket_2
+    room: room:joes_office
+    decoration: bucket
+    at: [-640, 700]
+  - id: deco:office_candle
+    room: room:joes_office
+    decoration: cndlab0
+    at: [-480, 770]
+    floor_height: 136
+    height: 0
+    notes: The candle on Joe's desk.
+  - id: deco:office_lantern
+    room: room:joes_office
+    decoration: torch02
+    wall: 0
+    along: 0.5
+    height: 224
+  - id: deco:office_lantern_n
+    room: room:joes_office
+    decoration: torch02
+    wall: north
+    along: 0.35
+    height: 256
+  - id: deco:outfall_junk
+    room: room:culvert_outfall
+    decoration: 7dec10
+    at: [4316, 4132]
+    facing: 45
+  - id: deco:outfall_trash
+    room: room:culvert_outfall
+    decoration: trasheap
+    at: [4556, 3872]
+  - id: deco:pen_1_bowl
+    room: room:pen_1
+    decoration: foodbowl
+    at: [1701, 6253]
+  - id: deco:pen_1_muck
+    room: room:pen_1
+    decoration: 7dec11
+    at: [1580, 6260]
+  - id: deco:pen_2_bowl
+    room: room:pen_2
+    decoration: foodbowl
+    at: [1453, 5937]
+  - id: deco:pen_2_muck
+    room: room:pen_2
+    decoration: 7dec11
+    at: [1339, 5898]
+  - id: deco:pen_3_bowl
+    room: room:pen_3
+    decoration: foodbowl
+    at: [1391, 5154]
+  - id: deco:pen_3_muck
+    room: room:pen_3
+    decoration: 7dec11
+    at: [1339, 5046]
+  - id: deco:pen_4_bowl
+    room: room:pen_4
+    decoration: foodbowl
+    at: [1587, 4805]
+  - id: deco:pen_4_muck
+    room: room:pen_4
+    decoration: 7dec11
+    at: [1580, 4684]
+  - id: deco:pen_5_bowl
+    room: room:pen_5
+    decoration: foodbowl
+    at: [1903, 4557]
+  - id: deco:pen_5_muck
+    room: room:pen_5
+    decoration: 7dec11
+    at: [1942, 4443]
+  - id: deco:pen_6_bowl
+    room: room:pen_6
+    decoration: foodbowl
+    at: [3035, 4691]
+  - id: deco:pen_6_muck
+    room: room:pen_6
+    decoration: 7dec11
+    at: [3156, 4684]
+  - id: deco:pens_bucket
+    room: room:breeding_pens
+    decoration: bucket
+    at: [1956, 5512]
+  - id: deco:pens_cage_1
+    room: room:breeding_pens
+    decoration: 7dec05
+    at: [1956, 5912]
+    notes: An empty bug cage (the brief's hanging cage hngncge2 is bound to three MM6 maps only).
+  - id: deco:pens_mash
+    room: room:breeding_pens
+    decoration: cauld00
+    at: [1896, 5572]
+    notes: The slime chow mash.
+  - id: deco:pens_torch_1
+    room: room:breeding_pens
+    decoration: torch06
+    wall: 1
+    along: 0.5
+    height: 272
+  - id: deco:pens_torch_13
+    room: room:breeding_pens
+    decoration: torch06
+    wall: 13
+    along: 0.5
+    height: 272
+  - id: deco:pens_torch_15
+    room: room:breeding_pens
+    decoration: torch06
+    wall: 15
+    along: 0.5
+    height: 272
+  - id: deco:pens_torch_5
+    room: room:breeding_pens
+    decoration: torch06
+    wall: 5
+    along: 0.5
+    height: 256
+  - id: deco:shaft_bones
+    room: room:culvert_shaft
+    decoration: dec29
+    at: [3846, 5462]
+  - id: deco:shaft_nest
+    room: room:culvert_shaft
+    decoration: 7dec11
+    at: [3852, 5542]
+    notes: The rats' nest on the dry ledge.
+  - id: deco:shaft_trash
+    room: room:culvert_shaft
+    decoration: trasheap
+    at: [3636, 5572]
+    notes: Rubbish washed down the drain.
+  - id: deco:ship_barrel
+    room: room:shipping_room
+    decoration: bigbarel
+    at: [2960, 7110]
+  - id: deco:ship_cask
+    room: room:shipping_room
+    decoration: 7dec21
+    at: [4300, 6800]
+    facing: 90
+  - id: deco:ship_lantern_n
+    room: room:shipping_room
+    decoration: torch02
+    wall: 2
+    along: 0.6
+    height: 224
+  - id: deco:ship_lantern_s
+    room: room:shipping_room
+    decoration: torch02
+    wall: 0
+    along: 0.6
+    height: 224
+  - id: deco:ship_lantern_w
+    room: room:shipping_room
+    decoration: torch02
+    wall: 3
+    along: 0.5
+    height: 224
+  - id: deco:ship_small_barrel
+    room: room:shipping_room
+    decoration: smlbarel
+    at: [3050, 7140]
+  - id: deco:stash_barrel
+    room: room:joes_stash
+    decoration: smlbarel
+    at: [510, 4380]
+    notes: "In the far corner: at the doorway it stood in the walk to the chest and caught the party (one playtest in eight, 2026-11-14)."
+exits:
+  - id: exit:lane
+    room: room:loading_dock
+    wall: south
+    size: [256, 288]
+    surface: {texture: gkp103b, size: [128, 256], fit: true}
+    to: exit:vertigo_street
+    notes: "The yard gate onto Warehouse Lane: back to Vertigo."
+  - id: exit:river
+    room: room:river_sill
+    wall: east
+    size: [160, 256]
+    surface: {texture: orwtrtyl, size: [128, 128]}
+    to: exit:vertigo_riverbank
+    notes: The riverbank beyond the grate (drawn as the river's water).
+relations:
+  - {of: [226, 227, 228], toward: 385, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 386, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 387, relation: friendly, both_ways: true}
+notes: "Objects of the L4 brief. Lights: iron lanterns (torch02) upstairs, green-flame torches (torch06) in the cistern and the honeymoon pen, one iron torch (trchb00) on the stair landing; point lights for the pool's glow, the office candle, the pink heart candle, two hanging lanterns over the hall and daylight at the lane and the river. Population: the pens' and the boss pair's monsters are placed (they wait behind their gates); the rest are spawn points of the two encounter slots."

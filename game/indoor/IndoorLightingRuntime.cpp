@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayTorchLight.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMapData.h"
+#include "game/indoor/IndoorModelLighting.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/party/Party.h"
 #include "game/render/lighting/FxLightClustering.h"
@@ -749,6 +750,22 @@ float IndoorLightingRuntime::ambientFromMinAmbientLightLevel(int minAmbientLight
     return std::clamp(ambient, IndoorAmbientMin, IndoorAmbientMax);
 }
 
+int IndoorLightingRuntime::sectorAmbientLevel(const IndoorMapData &mapData, const EventRuntimeState *pState,
+    size_t sectorId)
+{
+    if (pState != nullptr && !pState->sectorAmbientLevels.empty())
+    {
+        const auto iterator = pState->sectorAmbientLevels.find(uint16_t(sectorId));
+
+        if (iterator != pState->sectorAmbientLevels.end())
+        {
+            return iterator->second;
+        }
+    }
+
+    return sectorId < mapData.sectors.size() ? int(mapData.sectors[sectorId].minAmbientLightLevel) : 0;
+}
+
 float IndoorLightingRuntime::sectorAmbient(const IndoorLightingFrame &frame, int16_t sectorId)
 {
     return sectorId >= 0 && size_t(sectorId) < frame.sectorAmbient.size() ? frame.sectorAmbient[size_t(sectorId)]
@@ -832,6 +849,29 @@ std::array<float, 3> IndoorLightingRuntime::sampleLightingRgbForSectors(
     }
 
     return clampedLightingSample(rgb);
+}
+
+float IndoorLightingRuntime::mapLightStrength()
+{
+    return float(DefaultLightAlpha) / 255.0f * IndoorLightScale;
+}
+
+std::array<float, 3> IndoorLightingRuntime::sampleModelLightRgb(
+    const IndoorLightingFrame &frame,
+    const bx::Vec3 &position,
+    float lightScale)
+{
+    std::array<float, 3> rgb = {0.0f, 0.0f, 0.0f};
+    const float scale = lightScale / mapLightStrength();
+    for (const IndoorRenderLight &light : frame.lights)
+    {
+        const float strength = alphaChannel(light.colorAbgr) * light.intensity * IndoorLightScale * scale
+            * indoorModelLightFalloff(distanceSquared(light.position, position), light.radius);
+        rgb[0] += redChannel(light.colorAbgr) * strength;
+        rgb[1] += greenChannel(light.colorAbgr) * strength;
+        rgb[2] += blueChannel(light.colorAbgr) * strength;
+    }
+    return rgb;
 }
 
 IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForPoint(
@@ -1257,6 +1297,12 @@ void IndoorLightingRuntime::rebuildStaticCache(
             m_mapLightSectors[lightId] = *sector;
         }
     }
+    m_pulsingLightSectors.clear();
+    for (const IndoorPulsingLight &light : mapData.pulsingLights)
+    {
+        m_pulsingLightSectors.push_back(findIndoorSectorForPoint(mapData, mapData.vertices,
+            {light.position[0], light.position[1], light.position[2]}, &geometryCache, false).value_or(-1));
+    }
     m_staticLightCache = buildStaticCache(mapData, pDecorationBillboardSet, pState, m_mapLightSectors);
     assignReach(m_staticLightCache);
 }
@@ -1315,7 +1361,7 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
             }
 
             const int sectorAmbientLightLevel =
-                static_cast<int>(input.pMapData->sectors[sectorId].minAmbientLightLevel);
+                sectorAmbientLevel(*input.pMapData, input.pEventRuntimeState, sectorId);
             maxAmbientLightLevel = std::max(maxAmbientLightLevel, sectorAmbientLightLevel);
         }
 
@@ -1324,14 +1370,15 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
         for (size_t sectorId = 0; sectorId < input.pMapData->sectors.size(); ++sectorId)
         {
             frame.sectorAmbient[sectorId] =
-                ambientFromMinAmbientLightLevel(int(input.pMapData->sectors[sectorId].minAmbientLightLevel));
+                ambientFromMinAmbientLightLevel(
+                    sectorAmbientLevel(*input.pMapData, input.pEventRuntimeState, sectorId));
         }
     }
 
     if (input.pParty != nullptr)
     {
         if (const std::optional<GameplayTorchLight> torchLight =
-                resolveGameplayTorchLight(*input.pParty, false, true))
+                resolveGameplayTorchLight(*input.pParty, false, 1.0f, input.warmTorchLight))
         {
             IndoorRenderLight torch = {};
             torch.position = input.cameraPosition;
@@ -1397,6 +1444,59 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
         {
             IndoorRenderLight light = indoorLightFromRenderLight(sourceLight);
             m_lightReach.reach(std::span<const int16_t>(&light.sectorId, 1), light.position, light.radius, reached);
+            light.reach.assign(reached);
+            appendFrameLight(frame, light, false);
+        }
+    }
+
+    // Scene pulsing lights (MM9's GlowingLight): dynamic lights whose intensity and radius follow their sines.
+    if (input.pMapData != nullptr && m_pulsingLightSectors.size() == input.pMapData->pulsingLights.size())
+    {
+        const auto wave = [&input](const std::array<float, 4> &curve)
+        {
+            const float cycles = curve[2] * input.timeSeconds + curve[3];
+            const float blend = 0.5f + 0.5f * std::sin(cycles * 2.0f * bx::kPi);
+            return curve[0] + (curve[1] - curve[0]) * blend;
+        };
+        std::vector<int16_t> reached;
+
+        for (size_t index = 0; index < input.pMapData->pulsingLights.size(); ++index)
+        {
+            const IndoorPulsingLight &source = input.pMapData->pulsingLights[index];
+            const int16_t sectorId = m_pulsingLightSectors[index];
+            bool enabled = source.startOn;
+
+            if (input.pEventRuntimeState != nullptr)
+            {
+                const auto stateIt = input.pEventRuntimeState->indoorLightsEnabled.find(source.lightKey);
+                enabled = stateIt != input.pEventRuntimeState->indoorLightsEnabled.end() ? stateIt->second : enabled;
+            }
+
+            if (!enabled || sectorId < 0)
+            {
+                continue;
+            }
+
+            IndoorRenderLight light = {};
+            light.position = {source.position[0], source.position[1], source.position[2]};
+            light.radius = wave(source.radius);
+            light.intensity = wave(source.intensity);
+            light.colorAbgr = makeAbgr(source.color[0], source.color[1], source.color[2], 255);
+            light.sectorId = sectorId;
+            light.kind = IndoorRenderLightKind::Fx;
+            light.stableId = 0x706c0000u + source.lightKey;
+            m_lightReach.reach(std::span<const int16_t>(&light.sectorId, 1), light.position, light.radius, reached);
+            // drawn when a room it reaches is in view
+            if (!std::any_of(reached.begin(), reached.end(),
+                    [&input](int16_t reachedSector)
+                    {
+                        return reachedSector >= 0 && sectorVisible(input.pVisibleSectorMask, size_t(reachedSector));
+                    })
+                && !sectorVisible(input.pVisibleSectorMask, size_t(sectorId)))
+            {
+                continue;
+            }
+
             light.reach.assign(reached);
             appendFrameLight(frame, light, false);
         }
@@ -1473,7 +1573,23 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                     seen = sphereIntersectsVisibleSectorFrustums(
                         input.pVisibleSectorFrustums, source.reach.sectors[entry], source.position, source.radius);
                 }
+                // Without occlusion (scene model_lighting): in the view of any visible room.
+                for (size_t sectorId = 0; input.lightsIgnoreReach && input.pVisibleSectorFrustums != nullptr && !seen
+                    && sectorId < input.pVisibleSectorFrustums->size(); ++sectorId)
+                {
+                    seen = !(*input.pVisibleSectorFrustums)[sectorId].empty() && sphereIntersectsVisibleSectorFrustums(
+                        input.pVisibleSectorFrustums, int16_t(sectorId), source.position, source.radius);
+                }
                 if (!seen)
+                {
+                    return;
+                }
+
+                // MM9's open-air lights follow the sun (devdocs/INDOOR_OPEN_SKY.md "Daylight"), gone at night.
+                const bool openAir = source.kind == IndoorRenderLightKind::Static && input.pMapData != nullptr
+                    && indoorOpenAirLight(input.pMapData->daylight, source.sourceLightId);
+                const float intensity = openAir ? source.intensity * input.openAirLightScale : source.intensity;
+                if (intensity <= 0.0f)
                 {
                     return;
                 }
@@ -1483,7 +1599,7 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                 light.radius = source.radius;
                 light.colorAbgr =
                     lightColorAbgr(source.red, source.green, source.blue, source.alpha, input.coloredLights);
-                light.intensity = source.intensity;
+                light.intensity = intensity;
                 light.sectorId = source.sectorId;
                 light.kind = source.kind;
                 light.reach = source.reach;

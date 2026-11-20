@@ -1,0 +1,1 @@
+Run process g08154_v0_s0 --adjust 0.90 0 14. Save ungraded finals as .before_tone.png; run restore_native_tone.py for separate foliage/bark native RGB matching, then queue.py check. Alpha preserved; refresh backups after re-registration.

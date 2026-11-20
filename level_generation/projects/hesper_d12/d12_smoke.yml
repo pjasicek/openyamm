@@ -1,0 +1,54 @@
+id: hesper.d12.d12_smoke
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d12.blv
+    party:
+      food: 200
+      members:
+      - name: Crown tester 1
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: &id001
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Crown tester 2
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 3
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 4
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 5
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    map: hes_d12.blv
+- assert:
+    qbit_clear:
+    - 100032
+- assert:
+    actor_visible:
+      actor_index: 78
+      monster_id: 10145
+      max_hp: 30000

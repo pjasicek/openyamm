@@ -1,0 +1,1 @@
+Unadjusted native rectangle extraction, then results/g07966_v0_s0/attempt_02/restore_copper_tone.py, then queue.py check for both plates. Script uses immutable before_tone exports; per-channel bounded gamma matches native opaque mean RGB, preserving alpha and shading detail.

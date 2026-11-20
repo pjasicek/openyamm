@@ -1,0 +1,58 @@
+# The party jumps over a balcony rail from right at it or from further back (the user's save SF_4, 2026-11-07).
+# In Sturmford City the rail's top bar north of (9574, 12333) is a 10-unit slab, 113 to 123 units over the balcony
+# floor (z 20193): its top face 6044 is a floor, its underside 6046 a ceiling. A body against the rail touches their
+# front edges from the side. The swept move zeroed the vertical speed on any floor or ceiling hit, even with that edge's
+# horizontal normal: the jump stopped 32 units up and the party hung at the rail, sliding down at 10 units a second.
+# Only a hit whose normal opposes the vertical motion stops it now (IndoorMovementController, the swept move).
+# Holding Jump and Forward, the party steps onto the bar, crosses it and lands on the floor below at the far wall.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/party_jumps_over_rail.yml --scenario-no-color
+id: mm9.party_jumps_over_rail
+title: "MM9: the party jumps over a balcony rail from right at it and from further back"
+world: mm9
+mode: faithful
+tags: [mm9, movement, indoor]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+  # Pressed against the rail.
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 2.5
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 9574.5, y: 12333, z: 20193, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 9574.5, y: 13521, z: 19800, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 100
+  - assert:
+      party_position: {x: 9574.5, y: 13521, radius: 40, z_max: 20000}
+  # Twenty units back.
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 2.5
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 9574.5, y: 12313, z: 20193, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 9574.5, y: 13521, z: 19800, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 100
+  - assert:
+      party_position: {x: 9574.5, y: 13521, radius: 40, z_max: 20000}
+  # A hundred and fifty units back: the party reaches the rail falling from its jump.
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 2.5
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 9574.5, y: 12183, z: 20193, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 9574.5, y: 13521, z: 19800, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 100
+  - assert:
+      party_position: {x: 9574.5, y: 13521, radius: 40, z_max: 20000}

@@ -1,0 +1,3 @@
+Saved [raw.png](level_generation/ui/hud_inventory/mm9_pc_portraits/pc10/repair_05_44_53_54_56/raw.png) and [generation.json](level_generation/ui/hud_inventory/mm9_pc_portraits/pc10/repair_05_44_53_54_56/generation.json) with prompts, hashes and checks. Used built-in image generation.
+
+Limitation: transparent output is 2172×724, below the requested size; the single correction failed. Both attempts retained. No pixel edits or builds.

@@ -1,0 +1,22 @@
+# AI arena: MM9's NewTargetCheck. A Grey Wolf (9114) faces away from the party, toward a party ally (a summoned
+# Skeletoid, 9183) 1 000 units ahead: it takes the ally (the party behind it is neither seen nor heard: its placement
+# hearing is 100). The scenario's party hits then roll MM9's retarget chance (70 %, halved for an attacker farther than
+# the target, x1.15 for a nearer one); later the ally's own strikes roll it the other way. See README.md.
+name: mm9_retarget
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9114
+    position: [0, 300, 1]
+    yaw_degrees: 90
+    mm9_ai: {hearing: 100}
+  - monster_id: 9183
+    position: [-96, 1300, 1]
+    party_ally: true

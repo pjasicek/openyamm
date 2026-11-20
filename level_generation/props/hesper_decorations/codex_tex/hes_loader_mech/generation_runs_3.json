@@ -1,0 +1,210 @@
+[
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: 3D model texture-source albedo view, not a concept redesign.\nPaint the supplied plain grey orthographic guide IN PLACE. The guide is the immutable geometry authority: preserve its exact 1024 x 1024 canvas, outline, size, position, angle, every polygon edge, part, opening and overlap. Do not move or invent geometry. The other input design_reference.png is ONLY the approved material/color design authority, not the camera or silhouette.\nMaterials: worn white/ivory ceramic armour with narrow aged gold/brass trim on the existing plate edges, gold roll cage and existing fasteners, dark grey steel joints and pistons, black cables, subtle scuffs, hairline ceramic cracks, worn edges and ash dust. Paint yellow-and-black diagonal industrial hazard stripes along the existing fork blades. Preserve all model shapes even where they are simpler than the design reference. Do not add the reference's extra mechanisms or change any limbs.\nLIGHTING: this is pure ALBEDO for projection onto a 3D mesh. Even flat shadowless viewer-facing illumination. No cast shadows, no ambient occlusion, no cavity shading, no strong specular highlights, no reflections, no rim light. Dark materials should have readable uniform dark-grey/black base colors rather than light-dependent black holes. Glowing parts if present use their orange base color without light spill.\nOutput one image only, 1024 x 1024, true transparent RGBA background. No background, floor, text, labels, border or contact shadow. Keep the original guide alpha silhouette pixel-aligned, including all internal transparent openings. Do not crop, reframe or scale.\nINPUT ROLES: Image 1 (guide_left.png) is the EDIT TARGET. Image 2 (design_reference.png) is the MATERIAL REFERENCE. Produce paint_left.png: LEFT elevation; the feet and back are at frame left, the long paired forks point RIGHT. Keep this exact guide camera. Recolor its visible surfaces only.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "82fd030dbcd505effab187a4369151375954d9705246b00aa7885009a62abd30"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70"
+      }
+    ],
+    "output": "paint_left_run1.png",
+    "selected": false,
+    "reason": "Rejected: native return is 1254x1254 instead of 1024x1024, geometry and silhouette differ from the guide, and baked lighting remains.",
+    "tool": "built-in image_gen",
+    "output_sha256": "cac7857c618c182271181badc682702fbc6047a4d089890d6b61bcaa71016fc0",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "1024x1024": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_match_reference": "Broad palette matches on visual inspection: ivory ceramic, aged gold, dark steel, black cables, fork hazard stripes.",
+      "flat_even_light": false,
+      "unresized_return": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1240,
+        1232
+      ],
+      "opaque_bbox": [
+        80,
+        224,
+        1174,
+        1030
+      ],
+      "guide_alpha_bbox": [
+        66,
+        182,
+        958,
+        842
+      ],
+      "passes_brief": false
+    },
+    "source_return": "/home/pjasicek/.codex/generated_images/01a157e8-10fb-7202-92d0-bdbbe8fb273a/exec-3215192d-761a-47e3-a5c7-90fe68a74191.png"
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Edit image 1, guide_left.png, as an exactly 1024x1024 transparent PNG. This is an in-place albedo colorization, not a new illustration. Image 2, design_reference.png, provides materials only.\nCRITICAL CORRECTION: The previous attempt failed because it returned 1254x1254 and changed the silhouette. Return exactly 1024x1024 pixels. Preserve image 1 pixel positions, alpha mask and geometry exactly. Its object occupies x=66..957, y=182..841. Leave the same empty margins. Do not enlarge or reframe the mech. Forks point RIGHT, feet remain LEFT. Copy the guide's outline, all openings, straight polygon edges, thin fork widths, joints and roll cage exactly. Do not invent cables, trim geometry, pistons, bolts or any other shapes. Surface coloration only.\nApply the reference's white ceramic plates with narrow painted aged gold trim, gold roll cage and bolt faces, dark grey steel joints/pistons, black cables, fine scuffs and ash dust. Yellow-and-black hazard stripes on the existing thin fork blades.\nThis is a FLAT ALBEDO texture source: uniform frontal shadowless illumination; NO shadows, NO ambient occlusion, NO cavity darkening, NO highlights or reflections. Material tones only. True transparent RGBA background, no floor, no text. One image; square 1024x1024.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "82fd030dbcd505effab187a4369151375954d9705246b00aa7885009a62abd30"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70"
+      }
+    ],
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected as the closer of the two allowed unresized returns, not as a passing asset. Geometry is simpler and closer to the guide than attempt 1, and the broad material palette matches. Exact 1024x1024 dimensions, identical silhouette, and completely flat albedo were not achieved.",
+    "tool": "built-in image_gen",
+    "output_sha256": "e3ed2902f35fbe062061855e76e64651bb276e3de00fed6fbd410b83902a4ce0",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "1024x1024": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_match_reference": "Broad palette matches on visual inspection: ivory ceramic, aged gold, dark steel, black cables, fork hazard stripes.",
+      "flat_even_light": false,
+      "unresized_return": true,
+      "alpha_bbox": [
+        71,
+        25,
+        1204,
+        1254
+      ],
+      "opaque_bbox": [
+        80,
+        223,
+        1174,
+        1030
+      ],
+      "guide_alpha_bbox": [
+        66,
+        182,
+        958,
+        842
+      ],
+      "passes_brief": false
+    },
+    "source_return": "/home/pjasicek/.codex/generated_images/01a157e8-10fb-7202-92d0-bdbbe8fb273a/exec-8abace49-cf27-4486-8972-285de87ac7e3.png"
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Edit image 1 (guide_right.png) IN PLACE; image 2 (design_reference.png) is a material/color reference only. Return ONE exactly 1024x1024 transparent PNG, a flat albedo texture-source painting.\nPreserve the guide's original alpha mask, every polygon outline, part edge, opening, overlap and all geometry pixel-for-pixel. The mech stays at x=66..957, y=182..841 with the exact same empty margins. Forks point LEFT; feet and back are RIGHT. Keep the exact orthographic right-side camera, frame, pose, scale and position. Only recolor the grey surfaces. Do not import geometry from the three-quarter material reference or add any detail that changes shape.\nPaint white/ivory ceramic armour plates with narrow aged gold/brass trim as in the approved design, gold roll cage and existing fasteners, dark grey steel joints and pistons, black cables, scuffs, fine hairline cracks and ash dust. Paint yellow-and-black diagonal hazard stripes on the existing thin forks. Preserve all simpler guide shapes; trim is paint, not new geometry.\nLIGHTING: pure albedo, even flat shadowless frontal light. No cast shadows, ambient occlusion, cavity darkening, strong specular highlights, reflections or rim light. No light gradients; only material color changes. Any existing glowing parts get their glowing color without spill.\nTransparent RGBA background including the guide's internal openings. No floor, shadow, text, border or other objects. Never crop, reframe, zoom, mirror or resize. Output MUST be 1024x1024.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "dd849a9f18118f2bd61e14642ce7c66eb76f3ac6b9596ddafbb38ad4b89e9622"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70"
+      }
+    ],
+    "output": "paint_right_run1.png",
+    "selected": false,
+    "reason": "Rejected: native return is 1254x1254 instead of 1024x1024, geometry and silhouette differ from the guide, and baked lighting remains.",
+    "tool": "built-in image_gen",
+    "output_sha256": "9e566296ba7940c24ee14b1a47cbb7386ee2aaa396e3ac63b048206a0b8bdf0c",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "1024x1024": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_match_reference": "Broad palette matches on visual inspection: ivory ceramic, aged gold, dark steel, black cables, fork hazard stripes.",
+      "flat_even_light": false,
+      "unresized_return": true,
+      "alpha_bbox": [
+        23,
+        19,
+        1236,
+        1254
+      ],
+      "opaque_bbox": [
+        80,
+        223,
+        1175,
+        1032
+      ],
+      "guide_alpha_bbox": [
+        66,
+        182,
+        958,
+        842
+      ],
+      "passes_brief": false
+    },
+    "source_return": "/home/pjasicek/.codex/generated_images/01a157e8-10fb-7202-92d0-bdbbe8fb273a/exec-550d813f-bb84-4558-b1e9-5641b24c1ae3.png"
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Colorize image 1 (guide_right.png) WITHOUT redrawing it. Exact output size 1024 x 1024 pixels, matching image 1. Image 2 is only a color/material sample.\nCorrect the previous attempt: it wrongly enlarged the canvas to 1254 x 1254, invented geometry and baked shadows. Keep image 1 alpha and all boundaries exactly, including its coarse polygon shapes, original opening shapes and cable paths. Do not increase thickness of the thin forks. No new hoses, bolts, vents, panels or seams that alter geometry. The mech remains in x=66..957 and y=182..841, forks pointing left, feet right. All empty margins stay unchanged.\nPaint white ceramic plates with narrow aged gold edging, dark grey steel joints and piston shafts, gold cage and existing bolt faces, black existing cables. Fine scuffs and light ash dust, matching reference image 2. Paint yellow/black diagonal hazard stripes on the fork blades.\nTexture-source albedo: perfectly FLAT uniform colors, no directional shading, no dark crevices from ambient occlusion, no shadows, no reflective metal highlights, no rim lighting. Preserve the exact grey guide geometry and silhouette above every artistic consideration. Genuine transparent background, no scenery or text. Return just the 1024x1024 image.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "dd849a9f18118f2bd61e14642ce7c66eb76f3ac6b9596ddafbb38ad4b89e9622"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70"
+      }
+    ],
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected as the closer of the two allowed unresized returns, not as a passing asset. Geometry is simpler and closer to the guide than attempt 1, and the broad material palette matches. Exact 1024x1024 dimensions, identical silhouette, and completely flat albedo were not achieved.",
+    "tool": "built-in image_gen",
+    "output_sha256": "5efa7a3764a03c8d57977642f3bac34e34a7cbd2e66fd5584f57cccc9d15b1ca",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "1024x1024": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_match_reference": "Broad palette matches on visual inspection: ivory ceramic, aged gold, dark steel, black cables, fork hazard stripes.",
+      "flat_even_light": false,
+      "unresized_return": true,
+      "alpha_bbox": [
+        27,
+        0,
+        1222,
+        1237
+      ],
+      "opaque_bbox": [
+        80,
+        225,
+        1175,
+        1031
+      ],
+      "guide_alpha_bbox": [
+        66,
+        182,
+        958,
+        842
+      ],
+      "passes_brief": false
+    },
+    "source_return": "/home/pjasicek/.codex/generated_images/01a157e8-10fb-7202-92d0-bdbbe8fb273a/exec-066cf327-6f1b-412b-ae27-78a21f1b9b2f.png"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "status": "user_visual_regression_confirmed_not_fixed",
+  "pose": [
+    6304.584,
+    5271.343,
+    545,
+    5.41,
+    -0.375018896
+  ],
+  "finding": "Matched v4/v5 captures confirm the long concave road-edge bite remains and is emphasized by trimming the protruding stone. Local stone edits did not address the connected diagonal road width/outline.",
+  "checks_limit": "Matching boundary colours and solid per-tile masks do not establish coherent width or silhouette across repeated diagonal pairs.",
+  "next_step": "Replace local trimming strategy with review of original connected drsrne1/drsrne2 coverage; reconstruct a coherent diagonal road band with modest natural edge variation. Verify both supplied poses and repeated pairs before installation.",
+  "installed": "v5 remains installed; no asset edits or regeneration performed in this diagnostic turn.",
+  "evidence": {
+    "mm8_1296_current_warm.png": "9eeb5659ca9ca8c77f634c3ecf6fc802360510830db8da1a370d39b5a5ab444b",
+    "mm8_1296_current_load.png": "47cfb3507a828b340328e3112a6fb6e0f163f1bf627537c0565a65f1a6f58bfc",
+    "mm8_1296_previous_menu.png": "2a2eea2663b1f2b46fa60ec655866a3d22c0a51fbc93924c047118a82c17f545",
+    "mm8_1296_previous_load.png": "47cfb3507a828b340328e3112a6fb6e0f163f1bf627537c0565a65f1a6f58bfc",
+    "mm8_1296_current.json": "fb44881058e2a5a2c26339803b7012818ffa755f8af186527ccd5630124383d4",
+    "mm8_1296_previous_warm.png": "1eeabf93b4ad77d0447f79edbbf8e6736f9f94c6cd06eb80d7ed565b176a1b70",
+    "mm8_1296_previous.png": "178566978937c92128cfd5d83a7e0d81f3bf20c12592da95c281b961b2e155ea",
+    "mm8_1296_current_menu.png": "2a2eea2663b1f2b46fa60ec655866a3d22c0a51fbc93924c047118a82c17f545",
+    "mm8_1296_previous.json": "8e90ac93106e77382486ee32520d2bfbcf31caf157fb574aff0c45fe2bc565ff",
+    "mm8_1296_current.png": "534e2cecaa7e6a718dc8430a04a0497a75aa2d724a016372973a41c85ee286a6"
+  }
+}

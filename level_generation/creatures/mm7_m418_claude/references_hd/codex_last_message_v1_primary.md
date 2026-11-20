@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m418_claude/references_hd/00_three_quarter.png), unresized at 1536 × 1024 with transparent alpha.
+
+Used built-in image generation and the one permitted correction. Both raw returns, exact prompts, input hashes, and remaining anatomy/clearance faults are recorded in [generation_runs.json](level_generation/creatures/mm7_m418_claude/references_hd/generation_runs.json).

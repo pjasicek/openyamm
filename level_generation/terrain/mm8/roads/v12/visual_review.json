@@ -1,0 +1,39 @@
+{
+  "status": "visually_reviewed_for_road_edge_update",
+  "changed": [
+    "drsrne2.png",
+    "gdrdne2.png"
+  ],
+  "unchanged_files": 237,
+  "protected_other_roads": 34,
+  "pose": [
+    7766.5,
+    3508.695,
+    545,
+    1.782,
+    -26.385
+  ],
+  "pitch_unit": "degrees",
+  "findings": [
+    "Upper edge no longer vertically clips multiple stones at the east boundary.",
+    "Lower edge no longer fades a clipped stone fragment into the dirt.",
+    "Generated lower grout rows registered to unchanged straight-road boundary; connected contours at supplied pose.",
+    "Muted stone colour visually consistent at the reference pose; all 34 other roads byte-identical."
+  ],
+  "limitations": [
+    "Visual review is focused on the supplied Dagger Wound pose. Grey-dirt counterpart uses the same stone geometry over its own accepted substrate and is checked offline.",
+    "Historical full galleries and ZIP are not rebuilt."
+  ],
+  "evidence": {
+    "roads/v12/build.py": "4eae56a5bf3dcda1a32e20e5fd489c114bfd2b0b6c10f808bac49b930b131bc7",
+    "roads/v12/build.json": "fb67bce3368f56d4d89e680077295fcf44400bac96969d50a0cba0fc0be267e1",
+    "roads/v12/prompts.json": "bc8dc852a38351af3ba7c17f16f95eda45b17a40940e27126d587064e185de8a",
+    "roads/v12/raw/junction.png": "5a9be0a6b6184475b856947352e1e21c4e3a482dd340ac80980bed50ae03691a",
+    "roads/v12/raw/edge_context.png": "4ea93adfd40c847a4eaa6c4d72c7a37323a71c0c04199c39f8e6420f731a66fa",
+    "roads/v12/validation.json": "1ee857291e8dbe8ce8e348a8ca0e30008902b02ee7efc8dbaf162f3a9617fcd3",
+    "roads/v12/protected_straights.json": "c031a14e25bc983aa0790c0d29d9d5371299a4e10f6aa4521a074a1317dbad2c",
+    "roads/v12/exact_pose_comparison.png": "e975ebe6a8743ebd5730747e5f5d98b2645a8c184220c83061ef4aa715f9a888",
+    "roads/v12/captures/mm8_1303_registered.png": "b9242aa204ee2d865bb4911173b14baec65ba8d16ad76896021cba6c49c839b6",
+    "roads/v12/captures/mm8_1303_registered.json": "6e8755a04ebd4f30c53d05d643fa8bb278dfdee2321c2d7693c160ed46b5ffff"
+  }
+}

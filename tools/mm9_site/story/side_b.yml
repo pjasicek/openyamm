@@ -1,0 +1,340 @@
+# Side and promotion quest walkthroughs, part B: Guberland, Lindisfarne, Arslegard and the Paladin's Three Crusades
+# (format: BRIEF_SIDE.md). Sources: the rework's map scripts (events/maps/*.lua), the RUDE dialogues, the journal
+# notes, guide.js; tips from the official hint book where they agree with the scripts.
+
+quests:
+  # ---- Mercenary promotion (Thorfinn Skullsplitter sends you, Atli Sigmundssen promotes) ----------------------
+  - quest: speak-to-atli-sigmundssen
+    from: {map: thronheimcity, npc: "Thorfinn Skullsplitter"}
+    to: {map: guberland, npc: "Atli Sigmundssen"}
+    summary: "The Mercenary promotion: find the merchant Atli Sigmundssen in Guberland and help him move to Thronheim."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. It promotes Knights, Thieves and Archers (to Cavalier, Rogue and Warrior Mage)."
+    steps:
+      - "In the Thronheim City tavern, ask Thorfinn Skullsplitter 'We'd like to know about promotions', then 'We have' and 'We will do this'."
+      - "Travel to Guberland. Atli Sigmundssen stands with his daughter Hungerda north of the Gathering, the fairground south-west of the city walls."
+      - "Tell him 'We've come to guard your boat'. He wants you at the dock at 3 AM to relieve the late guard; he relieves you at 6 AM (see Guard Atli Sigmundssen's Boat)."
+      - "At 6:00 Atli, his daughter Hungerda and the guard walk down to the dock. Talk to Atli there and choose 'Good luck on your journey'."
+      - "He pays you and promotes every eligible member to the Mercenary line; then he and his daughter leave for Thronheim."
+    reward: "16,500 experience, 1,000 gold and the promotion."
+    maps:
+      - {map: guberland, focus: "Atli Sigmundssen", caption: "Atli waits north of the Gathering; the dock with the late guard is west of the city."}
+
+  - quest: guard-atli-sigmundssen-s-boat
+    from: {map: guberland, npc: "Atli Sigmundssen"}
+    to: {map: guberland, npc: "Atli Sigmundssen"}
+    summary: "Stand watch over Atli's boat at the Guberland dock from 3 to 6 in the morning."
+    requires: "Atli's 'We've come to guard your boat'."
+    steps:
+      - "Be at the dock west of Guberland City, where Olaf Ullson's boat moors and the late guard stands, between 2:45 and 3:15 AM. Use the rest screen to wait for the hour nearby."
+      - "Walk up to the guard's post inside that window: the guard leaves and your watch begins. If you miss it, come back the next night."
+      - "At 3:30 three Bandits and three Cutpurses come running from inland, east of the dock. Kill them."
+      - "At 6:00 the watch is over. Go back to Atli north of the Gathering and finish with 'Good luck on your journey'."
+    tips:
+      - "Don't attack the late guard: he must be alive to hand over the watch."
+      - "You can rest through the watch; the bandits still come if you are on watch at 3:30."
+    points:
+      - {map: guberland, name: "Guard"}
+      - {map: guberland, name: "Olaf Ullson"}
+    maps:
+      - {map: guberland, focus: "Guard", caption: "The late guard's post on the dock; the bandits come from the east."}
+
+  # ---- Healer promotion (Tjolnir the Super-neat) ------------------------------------------------------------
+  - quest: heal-nutty-nurtigan
+    from: {map: guberlandcity, npc: "Tjolnir the Super-neat"}
+    to: {map: guberlandcity, npc: "Tjolnir the Super-neat"}
+    summary: "The Healer promotion: get a potion made from the Old Hag's hair and cure Nutty Nurtigan."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. It promotes Clerics and Druids (to Priest and Great Druid)."
+    steps:
+      - "In the temple on the west side of Guberland City, ask Tjolnir the Super-neat 'We are seeking promotion from Initiate to Healer', then 'We have worthy Initiates', 'What do you want us to do?' and 'We will take this quest'."
+      - "At Eye of Newt, the apothecary, tell Skarphedinn Njalssen 'We've come to speak to you about Nutty Nurtigan', then 'We need a way to cure him' and 'It will be done'. He needs a lock of the Old Hag's hair."
+      - "Leave the city by its gate and follow the shore south-east to Hjordisa the Hag. You don't need to talk to her: pick up the Lock of Hair lying by her stool."
+      - "Back at the apothecary, Skarphedinn takes the hair ('We've got a lock of the hag's hair'). Return two game hours later and say 'We've returned for the potion'."
+      - "With the potion, Nurtigan's sickroom (the Idiot's Box beside Markel's palace) is unlocked. Open it and say 'Here, Nurtigan. Drink this', then 'Feeling any better?'."
+      - "Tell Tjolnir 'We've healed Nurtigan' for the promotion."
+    tips:
+      - "The apothecary's wares are closed from 20:00 to 06:00, but his talk about Nurtigan works at any hour."
+    reward: "16,500 experience, 1,000 gold and the Healer promotion for every eligible member."
+    points:
+      - {map: guberlandcity, name: "Skarphedinn Njalssen"}
+      - {map: guberlandcity, name: "Sickroom door"}
+      - {map: guberland, name: "Hjordisa the Hag"}
+    maps:
+      - {map: guberlandcity, focus: "Sickroom door", caption: "Tjolnir's temple, the apothecary and Nurtigan's sickroom by the palace."}
+      - {map: guberland, focus: "Hjordisa the Hag", caption: "The Lock of Hair lies by the Hag's stool on the south-east shore."}
+
+  # ---- Priest promotion (Gray Slemnir): three tasks ---------------------------------------------------------
+  - quest: find-a-new-priest-for-the-new-temple
+    from: {map: guberlandcity, npc: "Gray Slemnir"}
+    to: {map: guberlandcity, npc: "Gray Slemnir"}
+    summary: "One of the Priest promotion's three tasks: bring a young priest to Guberland's new temple."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. It promotes Priests (to Priest of Light)."
+    steps:
+      - "In Guberland City's temple, ask Gray Slemnir 'We are seeking promotion', then 'We would like to be promoted'. Hear the three tasks and answer 'We will do these things': this note, Find a new Tree of Life and Learn the Ritual of Consecration."
+      - "Go to Lindisfarne Monastery and find Abbot Leffery Caid, the blue-robed monk at the main altar at the north end. Say 'Actually we're looking for a priest', then 'We need to take a priest to Guberland' and 'Sounds great!'."
+      - "Wait until 5:00 the next morning (rest, or leave and come back): Robert Aefgil then appears in the monastery yard."
+      - "Talk to Robert: 'Yes, we are ready to take you if you are ready to leave', 'To a new temple we're helping to build in Guberland' and 'Alright. Perhaps we'll see you there'. He travels on his own."
+      - "When all three tasks are done, tell Gray Slemnir 'We've completed all your tasks' (see Learn the Ritual of Consecration)."
+    tips:
+      - "Never hurt a monk: the whole monastery turns hostile and stops talking."
+    points:
+      - {map: lindisfarnemonastery, name: "Abbot Leffery Caid"}
+    maps:
+      - {map: lindisfarnemonastery, focus: "Abbot Leffery Caid", caption: "Abbot Leffery at the altar; Robert Aefgil appears in the yard."}
+
+  - quest: find-a-new-tree-of-life
+    from: {map: guberlandcity, npc: "Gray Slemnir"}
+    to: {map: guberlandcity, npc: "Gray Slemnir"}
+    summary: "One of the Priest promotion's three tasks: recover the Tree of Life icon from the Ruined Temple in Frosgard."
+    requires: "Gray Slemnir's three tasks."
+    steps:
+      - "Enter the Ruined Temple from Frosgard. A glass skylight stands over a hole just inside: walk up to it, the glass breaks and you drop into the hall below."
+      - "Go north up the stair and click the altar door into the main temple. Continue north to the pew hall. In its north-west wall press the Sun Button (Perception shows it; the button beside it is a decoy) to open a hidden door into the elevator room. It shuts again after 10 seconds."
+      - "Puzzle: in the elevator room press only Star Button 1 (west wall) and Diamond Button 2 (east wall); Perception highlights both. Moon Button 1 also flips the star, so leave it alone. Stand on the lift and press its Main Button to go down."
+      - "Go through the prison corridor to the crypt hall. Press Prison Button 2: the counterbalance drops and smashes the crypt lid."
+      - "Climb into the crypt and break the six plugs of packed dirt below it, one after another (click or hit each one), until you drop to the bottom of the shaft. Monsters wait there."
+      - "Climb the corner stair and the spiral ramps to the tunnel behind the cell, and press Prison Button 3. The escape slab rises and the cell's bars open. Click the Tree of Life to take it."
+      - "Leave by the ladder from the crypt floor up into the chest room, then go out through the spiral room and the main temple. A cave-in shakes the area around the spiral stair once you hold the Tree; keep moving."
+    tips:
+      - "The lamp in the sunken main temple calls a genie who grants one wish: gold, experience, an item or +10 Might for the active member. The hint book recommends the item."
+      - "Two hidden doors in the east open with sun buttons too. Sun Button 4 also unlocks the gallery's Left Door."
+    points:
+      - {map: ruinedtemple, name: "Tree of Life"}
+      - {map: ruinedtemple, name: "Sun Button"}
+      - {map: ruinedtemple, name: "Star Button 1"}
+      - {map: ruinedtemple, name: "Diamond Button 2"}
+      - {map: ruinedtemple, name: "Main Button"}
+      - {map: ruinedtemple, name: "Prison Button 2"}
+      - {map: ruinedtemple, name: "Prison Button 3"}
+      - {map: ruinedtemple, name: "DB Crypt 0"}
+      - {map: frosgard, name: "To Ruined Temple"}
+    maps:
+      - {map: ruinedtemple, focus: "Tree of Life", caption: "The elevator buttons (west), the crypt, the shaft and the Tree's cell (north)."}
+      - {map: frosgard, focus: "To Ruined Temple", caption: "The Ruined Temple's entrance in Frosgard."}
+
+  - quest: learn-the-ritual-of-consecration
+    from: {map: guberlandcity, npc: "Gray Slemnir"}
+    to: {map: guberlandcity, npc: "Gray Slemnir"}
+    summary: "One of the Priest promotion's three tasks: have the old priest Nath'i A'Mor in Frosgard write down the Ritual of Consecration. Report the three tasks here."
+    requires: "Gray Slemnir's three tasks."
+    steps:
+      - "Find Nath'i A'Mor in Frosgard City, near the corral by the training hall."
+      - "Say 'We're looking for a priest', 'We need to learn the Ritual of Consecration', 'Yes, please teach us' and 'Great!'. He hands you the Ritual of Consecration scroll."
+      - "With Robert Aefgil on his way, the Tree of Life and the Ritual in your packs, tell Gray Slemnir in Guberland City 'We've completed all your tasks'. He takes the Tree and the scroll and promotes you."
+    reward: "Nath'i: 5,000 experience. Gray Slemnir: 37,500 experience, 5,000 gold and the promotion to Priest of Light for every Priest."
+    points:
+      - {map: frosgardcity, name: "Nath'i A'Mor"}
+    maps:
+      - {map: frosgardcity, focus: "Nath'i A'Mor", caption: "Nath'i A'Mor in Frosgard City."}
+
+  # ---- Guberland side quests --------------------------------------------------------------------------------
+  - quest: convince-the-dook-to-leave-guberland
+    from: {map: guberlandcity, npc: "Markel the Great"}
+    to: {map: guberlandcity, npc: "Markel the Great"}
+    summary: "Jarl Markel wants the self-styled Dook out of his castle in Guberland. Threaten him; no fight is needed."
+    steps:
+      - "In his palace in the middle of Guberland City, ask Markel the Great 'Is there anything we can do for you?', then 'What would you have us do?' and 'We shall get rid of him for you'."
+      - "Leave the city and take the road south-east to the Dook's Castle."
+      - "The Dook's guards are friendly. Don't hurt any of them and don't touch the shield on the wall: either one turns every guard hostile."
+      - "Find the Dook in the castle's north-west rooms. Say 'We've been sent by Markel the Great', 'He wants you to leave', 'Well there's always the sword', 'Yes' and 'Then leave'."
+      - "Return to Markel: 'The Dook is finished'."
+    tips:
+      - "If you ask 'There's no way you'd leave?' instead, the Dook refuses and Markel sends you back. Threaten force."
+      - "The Dook never actually leaves. The shield opens the way to the caverns under the castle, where the Ranger promotion's bow Everstrike is kept."
+    reward: "12,500 experience and 3,000 gold."
+    points:
+      - {map: dookscastle, name: "The Dook"}
+      - {map: guberland, name: "To Dook's Castle"}
+    maps:
+      - {map: dookscastle, focus: "The Dook", caption: "The Dook's rooms in the north-west of the castle."}
+
+  - quest: get-nicolai-a-job
+    from: {map: drangheimcity, npc: "Nicolai Ironfist"}
+    to: {map: guberland, npc: "Thorir Mouth"}
+    summary: "Nicolai Ironfist, a deposed king with circus dreams, needs a job; the Gathering in Guberland has one."
+    steps:
+      - "Nicolai Ironfist stands at the south edge of Drangheim City. Say 'We'd like to ask you a few questions.', then 'What do you know about duty?', 'You don't sound especially fond of your duty', 'What happened to duty?' and 'Alright. We'll find you a job'."
+      - "At the Gathering in Guberland, ask Thorir Mouth 'You're not looking for any help, are you?', then 'We may have just the person'."
+      - "Go back to Nicolai in Drangheim: 'We've found you a job', then 'At the Gathering in Guberland'."
+      - "Tell Thorir 'Did Nicolai take the job?' for your reward. Nicolai works at the Gathering from your next visit."
+    reward: "16,500 experience and 5,000 gold."
+    maps:
+      - {map: drangheimcity, focus: "Nicolai Ironfist", caption: "Nicolai in Drangheim City."}
+      - {map: guberland, focus: "Thorir Mouth", caption: "Thorir Mouth at the Gathering."}
+
+  - quest: steal-the-golden-honk
+    from: {map: hallofthegods, npc: "Fre"}
+    to: {map: hallofthegods, npc: "Fre"}
+    summary: "The goddess Fre wants the Honk cult's idol, the Golden Honk, stolen from the Temple of Honk in Guberland."
+    requires: "Access to Arslegard City and the Hall of the Gods (the Writ of Fate)."
+    steps:
+      - "In the Hall of the Gods (the exit in the south-east of Arslegard City), ask Fre 'Can we ask you some questions?', then 'We would be glad to do your task', 'We've heard of them', 'What does it look like?' and 'Thank you for this opportunity'."
+      - "Go to the Temple of Honk in the north-east corner of Guberland. The Honks are friendly until you hurt one or steal from them. The double door out of the entrance's pool hall opens only while you carry Fre's task."
+      - "Optional loot first: the accountant's key lies on his desk in the small room north of the central chamber. He stands beside it and sees you take it: the whole temple turns hostile (unless he is dead). It unlocks the H, O, N and K buttons by the entrance pool: press H, O, N, K in that order to open the secret door to the treasury (two chests). The buttons reset after a wrong order."
+      - "The Golden Honk stands at the east end of the great sanctuary, east of the central chamber, by the Elder Honk. Taking it turns every Honk and goose hostile; fight your way out."
+      - "No road or boat leads back to Arslegard. Return by your Lloyd's Beacon, or let the party be defeated: it wakes at Arslegard's Great Gate with the Golden Honk but without its gold. Walk through the city to the Hall of the Gods."
+      - "Give it to Fre: 'We have retrieved the Golden Honk'. She answers three questions about the future."
+    reward: "10,000 gold and 22,500 experience."
+    points:
+      - {map: templeofhonk, name: "Door"}
+      - {map: templeofhonk, name: "Secret Door"}
+      - {map: templeofhonk, name: "HButton"}
+      - {map: guberland, name: "To Temple of Honk"}
+    maps:
+      - {map: templeofhonk, focus: "Door", caption: "The Golden Honk at the sanctuary's east end; the HONK buttons and the treasury by the entrance."}
+
+  # ---- Lindisfarne ----------------------------------------------------------------------------------------
+  - quest: retrieve-the-missing-relic
+    from: {map: lindisfarnemonastery, npc: "Abbot Leffery Caid"}
+    to: {map: lindisfarnemonastery, npc: "Abbot Leffery Caid"}
+    summary: "Abbot Leffery Caid needs the monastery's stolen Saint's Relic back from the wizard Ramnivar's laboratory in Yorwick."
+    requires: "Slay the Dragon from Snorri the Fist in Thjorgard City (given after the Training Hall)."
+    steps:
+      - "In Lindisfarne Monastery, Abbot Leffery Caid stands at the main altar at the north end. Say 'We're here to summon the dragon', 'Whatever it takes to summon the dragon', 'So what's the problem?', 'Where do you think the relic is?', 'Who is he?' and 'We will retrieve the real relic for you'."
+      - "Travel to Yorwick and enter the Wizard's Lab. Its rooms are linked only by teleporters."
+      - "At the teleporter in the entrance hall, click the yellow crystal on its console, then step onto the teleporter. It takes you to the corridor that runs along four bedrooms."
+      - "The relic's bedroom (second from the west) has a locked door that never opens. Instead, enter the easternmost bedroom, open its closet and step inside: the closet teleporter puts you in the relic room's closet."
+      - "Pick up the Saint's Relic (a small bone) lying by the barrel in that room, then leave through the room's closet."
+      - "Back at the monastery, tell Leffery 'We've found your relic'."
+    tips:
+      - "If you took the bone before Leffery asked, tell him 'We found a bone fragment in the Wizard's Lab' during the dragon talk."
+      - "The relic also lets you summon the dragon in the Dragon's Lair (Slay the Dragon), the game's toughest fight."
+      - "Never hurt a monk: the whole monastery turns hostile."
+    reward: "3,000 gold and 12,500 experience."
+    points:
+      - {map: wizardslab, name: "Barrel"}
+      - {map: wizardslab, name: "Teleporter 1"}
+      - {map: wizardslab, name: "Teleporter 2"}
+      - {map: yorwick, name: "To Wizard's Lab"}
+    maps:
+      - {map: wizardslab, focus: "Barrel", caption: "The relic room behind the locked door; Teleporter 1 in the east bedroom's closet leads in."}
+      - {map: lindisfarnemonastery, focus: "Abbot Leffery Caid", caption: "Abbot Leffery at the main altar."}
+
+  # ---- Paladin promotion: the Three Crusades (Grehgknak the Right, Lindisfarne Monastery) ---------------------
+  - quest: stop-jarl-sven-s-assassination
+    to: {map: thjorgardcity, npc: "Sven Forkbeard"}
+    summary: "The Paladin promotion's first crusade: Grehgknak the Right in Lindisfarne Monastery gives you a letter about a plot against Jarl Sven of Thjorgard."
+    requires: "Jarl Sven is away from the war council until Krohn's task (Chapter V), as in MM9, so this needs Chapter I or the end of the story. Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. The Paladin promotion makes Crusaders Heroes."
+    steps:
+      - "In Lindisfarne Monastery, find Grehgknak the Right, a blue-robed monk in the east part of the courtyard. Ask 'Do you have any interesting tasks for a party of adventurers?', then 'Yes. Please tell us what you have for us', 'Tell us of the Three Crusades', 'Yes' and 'How are we going to do that?'. He gives you the Letter."
+      - "Continue with 'Alright, what are the other crusades?', 'What? That's terrible!', 'What family do I have to ruin?' and 'We will do this'. That accepts all three crusades: this one, Arrest the Thief, and helping the thief's family."
+      - "In his castle in Thjorgard City, tell Jarl Sven Forkbeard 'We have found a disturbing letter that you need to read', then 'How so?' and 'Sounds like a plan'. A double will take his place at the Arena."
+      - "Go to the Arena (the exit on the east side of Thjorgard City) and open the arena's double door. You don't need to wait a day here. Sven's double and two soldiers come in, then Byri the Scarred comes out of the east pen."
+      - "Don't attack Byri. Talk to him: 'We're not going to allow you to murder Sven', 'This letter', 'A dying messenger', 'I'm sure we could come to an arrangement' and 'Who put you up to this?'. He names Harris Willington and runs off (see Find Harris Willington)."
+    tips:
+      - "Killing Byri leaves the crusade stuck; only his confession moves it on."
+    points:
+      - {map: thjorgardcity, name: "To The Arena"}
+      - {map: thearena, name: "Byri the Scarred"}
+      - {map: thearena, name: "Rotating Door 0"}
+    maps:
+      - {map: thearena, focus: "Byri the Scarred", caption: "Open the arena door; Byri comes out of the east pen."}
+      - {map: thjorgardcity, focus: "Sven Forkbeard", caption: "Sven's castle and the way to the Arena."}
+
+  - quest: find-harris-willington
+    from: {map: thearena, npc: "Byri the Scarred"}
+    to: {map: thjorgardcity, npc: "Sven Forkbeard"}
+    summary: "Part of the first crusade: unmask Harris Willington, who hired the assassin, and report to Jarl Sven."
+    steps:
+      - "Tell Sven Forkbeard 'The assassin fingered a man named Harris Willington'."
+      - "Harris Willington keeps the accounts at Hreidmar's Stuff, the general store in Thjorgard City. Show him the letter: 'Seen this letter before?', then 'Unfortunately, Sven survived' and 'Not you. You're going to jail'."
+      - "Report to Sven: 'Harris Willington is the accountant at the General Store'. If you killed Harris instead, say 'Harris Willington is dead'."
+      - "The first crusade is done. Finish the other two, then return to Grehgknak (see Find Itlor a job)."
+    reward: "Sven: 5,000 experience and 10,000 gold."
+    points:
+      - {map: thjorgardcity, name: "Harris Willington"}
+    maps:
+      - {map: thjorgardcity, focus: "Harris Willington", caption: "Harris Willington in Hreidmar's general store."}
+
+  - quest: arrest-the-thief
+    to: {map: sturmfordcity, npc: "Jail guard"}
+    summary: "The Paladin promotion's second crusade, 'damn a family': arrest the petty thief Hatlati Oord and have him jailed in Sturmford."
+    requires: "Grehgknak's Three Crusades (see Stop Jarl Sven's assassination)."
+    steps:
+      - "Optional: in the Sturmford City town hall, ask the clerk Fridleif Gjukissen 'Have you had any trouble with thieves lately?'. He has; the other towns' clerks have not."
+      - "Find Hatlati Oord, an old man who wanders Sturmford City, often on the temple grounds. Say 'We've been watching you, Hat'lai', then 'Yes. We're going to have to arrest you', 'You've committed a crime...' and 'Sorry'."
+      - "Go to the small cell on the town hall's ground floor and tell the prison guard 'We have a criminal here'. He locks Hatlati in the cell."
+    points:
+      - {map: sturmfordcity, name: "Fridleif Gjukissen"}
+      - {map: sturmfordcity, name: "Hatlati Oord"}
+      - {map: sturmfordcity, name: "Jaildoor"}
+    maps:
+      - {map: sturmfordcity, focus: "Hatlati Oord", caption: "Hatlati wanders the town; the cell and its guard are in the town hall."}
+
+  - quest: help-the-oor-ds-help-themselves
+    from: {map: sturmfordcity, npc: "Itlor Oord"}
+    summary: "The third crusade, 'save the family': with their father in jail, the Oord children need a way to feed themselves."
+    requires: "Hatlati Oord arrested (Arrest the thief)."
+    steps:
+      - "Go to the Oords' house in Sturmford City. Itlor, the eldest son, looks like a grown man."
+      - "Tell Itlor 'And now he's in jail', then 'Why don't you get a job?' and 'Maybe we can help you with that'. That opens Find Itlor a job."
+      - "Optional: the younger children Yoltzin, Cetzpal and Mazat have their own lines about their father."
+    points:
+      - {map: sturmfordcity, name: "Yoltzin Oord"}
+      - {map: sturmfordcity, name: "Cetzpal Oord"}
+      - {map: sturmfordcity, name: "Mazat Oord"}
+    maps:
+      - {map: sturmfordcity, focus: "Itlor Oord", caption: "The Oords' house."}
+
+  - quest: find-itlor-a-job
+    from: {map: sturmfordcity, npc: "Itlor Oord"}
+    summary: "The last step of the Three Crusades: find Itlor Oord honest work, then report to Grehgknak the Right for the Paladin promotion."
+    steps:
+      - "At Magical Touches, the magic shop in Sturmford City, ask Injor Gostat 'Are you looking for any help?', then 'We might have the perfect person' and 'Itlor Oord is looking for work'."
+      - "Tell Itlor 'We've found you a job', then 'At the Magic Shop. Injor needs someone to help out'."
+      - "Return to Grehgknak the Right in Lindisfarne Monastery and say 'We have completed our Crusades'. Sven's reward for the first crusade must have been collected (Find Harris Willington)."
+    reward: "37,500 experience, 5,000 gold and the Paladin promotion: every Crusader becomes a Hero."
+    points:
+      - {map: sturmfordcity, name: "Injor Gostat"}
+    maps:
+      - {map: sturmfordcity, focus: "Injor Gostat", caption: "Injor's magic shop and the Oords' house."}
+
+  # ---- Arslegard -------------------------------------------------------------------------------------------
+  - quest: clean-out-the-bathhouse
+    from: {map: arslegardcity, npc: "Jokull the Ugly"}
+    to: {map: arslegardcity, npc: "Jokull the Ugly"}
+    summary: "Jokull the Ugly's new bathhouse is occupied by the demoness Ebora and her concubines; drive them out."
+    requires: "Access to Arslegard City (the Writ of Fate)."
+    steps:
+      - "In The Stumbling Hero tavern in Arslegard City, ask Jokull the Ugly 'Can we ask you some questions?', 'Do you have any news?', then 'What sort of problem?', 'Why doesn't he help you?', 'Sounds like you're in a heap of trouble alright' and 'Why not? We'd be happy to!'."
+      - "Enter the Bathhouse by the exit at the south-west of Arslegard City. It is small but packed with Colloidal Warriors and Jellyspores."
+      - "Ebora lounges in her tub in the south-central bath room with three Concubines. She can't be hurt, so ignore her and kill the three Concubines."
+      - "When the third Concubine dies, Ebora flees in a column of fire."
+      - "Tell Jokull 'We cleaned out your bathhouse'."
+    tips:
+      - "The steam vents in the corridor east of the tub room blow for 3 seconds, then pause for 3; standing in one costs 20 fire damage a second."
+      - "Turning the gas valve south of the tub room ('Warning: Heat Valve') fires the furnace and boils the big Colloidal Warrior in the first pool."
+      - "Throw Switch 0 to drain the flooded east wing and unlock its doors. The black chest is behind them, and so is a Lesser Demon, which turns into a Greater Demon when it dies."
+    reward: "18,500 experience when Ebora flees; from Jokull, 5,000 gold and 18,500 experience."
+    points:
+      - {map: arslegardcity, name: "To The Bathhouse"}
+      - {map: bathhouse, name: "Ebora"}
+      - {map: bathhouse, name: "Concubine"}
+      - {map: bathhouse, name: "Switch 0"}
+    maps:
+      - {map: bathhouse, focus: "Ebora", caption: "Ebora's tub and her three Concubines; the drain switch to the north-east."}
+
+  - quest: find-gungnir
+    from: {map: arslegardcity, npc: "Hanndl"}
+    to: {map: arslegardcity, npc: "Hanndl"}
+    summary: "Hanndl the gatekeeper lost his spear Gungnir; it lies in the Inventa Storca, the old storehouse in Thronheim."
+    requires: "Access to Arslegard City (the Writ of Fate)."
+    steps:
+      - "Talk to Hanndl by Arslegard's gate: 'You don't seem to like us very much', 'That's unfortunate. You must have really upset Krohn', 'What's Gungnir?', 'Maybe we could help?' and 'We could find it for you'."
+      - "Optional: in the Hall of the Gods, ask Fre 'What happened to Hanndl's spear?'. Ursanian soldiers took it to their storehouse in western Chedian."
+      - "Leave Arslegard by the Thjorgard exit just north of where the dead wake, and go to Thronheim. Enter the Inventa Storca. The spear is on the lower level: open the trapdoor (the Ladder Door, Perception shows it) in the small room in the south-east of the upper floor and climb down the ladder."
+      - "In the room of tall bookcases, don't pull the Falling Bookcase Switch book: the bookcases topple one after another. Pull Secret Switch 1, a book on the south face of the fourth bookcase from the south (Perception shows it): Secret Panel 1 opens over two chests."
+      - "Gungnir is in the black chest (trapped: a Thief with Disarm Traps 14 or better disarms it)."
+      - "No road or boat leads back to Arslegard: return by your Lloyd's Beacon, or let the party be defeated (it wakes at Arslegard's Great Gate without its gold). Click Hanndl while you carry the spear and say 'We found your spear'."
+    tips:
+      - "Gungnir is a very strong spear. If your party lacks good weapons, you can keep it and return it later."
+      - "A Lich and two Skeletons drop from the ceiling near one of the Orbs of Linking, and Liches haunt the deeper rooms."
+    reward: "40,000 gold and 5,000 experience."
+    points:
+      - {map: thronheim, name: "To Inventa Storca"}
+      - {map: inventastorca, name: "Chest L6"}
+      - {map: inventastorca, name: "Secret Switch 1"}
+      - {map: inventastorca, name: "Falling Bookcase Switch"}
+      - {map: inventastorca, name: "Ladder Door"}
+      - {map: hallofthegods, name: "Fre"}
+    maps:
+      - {map: inventastorca, focus: "Chest L6", caption: "The trapdoor and ladder (south-east) and Gungnir's chest behind Secret Panel 1."}

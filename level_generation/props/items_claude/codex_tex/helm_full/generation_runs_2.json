@@ -1,0 +1,182 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "output_policy": "Unresized, unmodified tool returns; no alpha cleanup, compositing, cropping or resampling.",
+  "corrective_regenerations": 1,
+  "all_requested_checks_passed": false,
+  "selected_output": "paint_back.png",
+  "status": "Best available return saved; exact silhouette and strictly shadowless albedo requirements remain unmet after the one allowed correction.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 3D Full Helm texture-source painting, BACK orthographic view, albedo/base colour.\nProduce one 1024 x 1024 RGBA PNG with a truly transparent background.\n\nINPUT ROLES:\nImage 1, guide_back.png: the EDIT TARGET and absolute geometry/placement authority. Repaint its existing opaque surfaces only. Preserve its exact silhouette, alpha boundary, camera, scale, pixel position, every shape edge, rivet, band and panel.\nImage 2, design_reference.png: approved design, colour and material reference only; do not borrow its three-quarter camera, front openings or dramatic lighting.\nImage 3, icon_x8.png: original game-icon identity reference only; do not borrow its front view or magenta background.\n\nPRIMARY REQUEST:\nPaint the surface materials of the approved design onto the EXACT unchanged grey model in image 1. This is the BACK of the helmet. Keep the closed rear skirt and its existing central vertical strip/edge; do not invent front eye slits, a face opening or a split in the rear. Preserve the crest strip, exact existing rivet positions/count, the existing polygonal central band junction and all existing outline protrusions. The guide's nontransparent bounds are x=144 through 879 and y=66 through 957 in a 1024-square canvas; preserve all margins and this exact registration.\n\nMATERIALS:\nBlackened dark-grey steel plates, restrained subtle hammered surface texture, sparse light wear along the existing edges. Brass/gold trim on the existing rim and band edges, following precisely the current geometry. Small round DARK-STEEL rivets as required by the brief, keeping their exact positions and sizes; do not turn them gold. Near-black interior only where an actual opening exists in the guide. No additional structure or ornament. Materials should match the design reference while obeying the explicit dark-rivet instruction.\n\nLIGHTING:\nThis is a flat albedo texture source, NOT a lit beauty render. Even, flat, shadowless illumination from the viewer across the entire object. Show metal as base colour with only a faint sheen. Remove the guide's baked shadows and ambient-occlusion shading. NO cast shadows, NO ambient-occlusion darkening around bands or rivets, NO strong specular highlights, NO reflections, NO directional light gradient, NO rim light. Small edge wear is material colour, not white glint.\n\nHARD CONSTRAINTS:\nChange surface paint only. Keep the guide's silhouette EXACTLY, all shape edges and framing unchanged. Nothing outside the silhouette, nothing cropped. True transparent background: no floor, no backdrop, no checkerboard drawn into pixels, no text or labels. Return a single unresized 1024 x 1024 painting.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "6b8a2a5826b218b9c80f94668c83f5e0f4f187192d05d897da3f531349599eed",
+          "size": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4d84495ff2fb4a586a1ed5895188dae7c8b3ae2544530c1e935fae83dad78d68",
+          "size": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "path": "icon_x8.png",
+          "sha256": "7a978b938442f78b7a94e2e9bcb61565229dbfc169f61f706b666a6b83e81ad4",
+          "size": [
+            512,
+            656
+          ]
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a14648-6202-74e0-94cc-a43ded238d31/exec-36944bdb-9358-4db5-ae17-b8f66867bd5f.png",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: broad metallic highlights, baked shading and changed framing. Preserved as an unmodified record of the initial return.",
+      "visual_checks": {
+        "silhouette_identical": false,
+        "geometry": "Overall back-view construction retained, but proportions and edges changed. Rear center strip incorrectly continues across the lower gold rim.",
+        "materials_colours": "Blackened steel, warm brass rim and dark-steel rivets are present; wear is stronger than requested.",
+        "flat_even_shadowless_light": false,
+        "lighting": "Broad specular patches on steel and brass, rivet glints, and darkening under the horizontal band."
+      },
+      "output_sha256": "83d2ff51cb387c80df45fc45770563c8c9a469544ba3d40d79df5d0e029d9909",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "byte_identical_to_tool_return": true,
+      "checks": {
+        "requested_size_returned": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 861591,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          20,
+          1254,
+          1254
+        ],
+        "foreground_bbox_alpha128": [
+          180,
+          67,
+          1076,
+          1136
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_at_alpha128": 0.9174187387846676,
+        "normalized_extra_foreground_pixels": 11342,
+        "normalized_missing_foreground_pixels": 29478,
+        "normalized_nonzero_alpha_outside_guide": 15251
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nCreate the BACK orthographic albedo painting for a Full Helm 3D model by editing image 1.\n\nInput 1 guide_back.png is the EXACT 1024 x 1024 EDIT TARGET. It alone controls all geometry, silhouette, alpha, dimensions and pixel registration. Keep its canvas and existing alpha shape.\nInput 2 design_reference.png is ONLY a material-colour reference, never a lighting, geometry or framing reference.\nInput 3 icon_x8.png is ONLY the item's identity reference.\n\nThis is the single corrective regeneration. The previous generation failed because it was too glossy with bright curved reflections and cast shadows, and it changed the silhouette's vertical placement. Correct those failures. This is an UNLIT DIFFUSE BASE-COLOUR PASS: paint the colours of the materials as if each material were self-emissive, with zero scene illumination contributing highlights or shadows. No beauty-render lighting at all.\n\nPIXEL-REGISTRATION REQUIREMENT:\nOutput exactly 1024 x 1024, the same size as guide_back.png. Do not use the reference's 1254 x 1254 size. Preserve the guide's silhouette edge pixel-for-pixel: x144..879, y66..957. Top crest at y66; bottom edge at y957. The outline has EXACTLY the current width, height, margins and location. No scaling, reframing, rounding, straightening, recentering, or perspective. Keep every low-poly shape edge where it is, every rivet in its exact current position and size, and every existing band. Repaint the GREY SURFACES OF INPUT 1 IN PLACE rather than drawing a redesigned helmet.\nThe central vertical strip on the rear skirt terminates ABOVE the lower rim exactly as in the guide; it must NOT extend over the gold rim or to the outer bottom edge. Retain the central polygonal badge and its existing overlapping boundary at the mid-height horizontal band. This is a CLOSED BACK: no front eye slits, no open face, no central black slit, and no invented openings. Preserve the guide's actual panel and strip edges without adding seams.\n\nCOLOURS AND SURFACE PAINT:\nBlackened dark-grey steel matching the underlying dark charcoal metal in the approved reference, subtle fine hammered texture and restrained light edge wear. Use low-contrast small-scale texture; broad surfaces of the same material must have the same average base colour from left to right and top to bottom. Sparse fine scratches only.\nBrass/gold trim on the existing lower rim and narrow band edges, warm muted gold base colour, not bright polished yellow or mirror metal. Small round DARK-STEEL rivets exactly as requested in the brief, including the existing rim-visible rivets. Do not use gold rivets.\nKeep material differences visible through base colours alone. No dramatic texture exaggeration.\n\nLIGHTING IS THE CRITICAL CORRECTION:\nFLAT EVEN SHADOWLESS ALBEDO. No broad white/silver reflection patches, no curved metallic highlight gradients, no tiny specular dots on rivets, no reflected environment, no light direction, no dark shadow under the mid band, no ambient occlusion, no dark side gradients, no rim light. A very faint uniform material sheen is the absolute maximum. The silhouette can describe the volume; lighting must not be baked into this texture source.\n\nOUTPUT:\nOne raw 1024 x 1024 RGBA PNG. Background genuinely transparent with alpha zero everywhere outside the guide silhouette. No stray opaque or translucent pixels beyond the helmet, no shadow, no floor, no background, no checkerboard graphic, no text, no labels. Change only surface colours and texture; keep the exact geometry of the grey guide.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "6b8a2a5826b218b9c80f94668c83f5e0f4f187192d05d897da3f531349599eed",
+          "size": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4d84495ff2fb4a586a1ed5895188dae7c8b3ae2544530c1e935fae83dad78d68",
+          "size": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "path": "icon_x8.png",
+          "sha256": "7a978b938442f78b7a94e2e9bcb61565229dbfc169f61f706b666a6b83e81ad4",
+          "size": [
+            512,
+            656
+          ]
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a14648-6202-74e0-94cc-a43ded238d31/exec-fe36183e-9f25-4137-95b8-892d52457f57.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the flatter albedo source, with reduced broad highlights and a center strip that stops above the gold rim. This is not full acceptance: the silhouette differs from the guide, some baked shading/rivet glints remain, and the tool returned 1254 x 1254. No further regeneration is allowed by the brief.",
+      "visual_checks": {
+        "silhouette_identical": false,
+        "geometry": "Back view and major structures retained, but normalized outline, proportions, rivet positions and individual band edges differ from the guide.",
+        "materials_colours": "Blackened dark-grey steel, subtle hammered texture, brass/gold lower rim and worn band edges, dark-steel rivets. Broad colour palette follows the reference.",
+        "flat_even_shadowless_light": false,
+        "lighting": "Flatter than attempt 1, with substantially reduced broad specular highlights; residual shading beneath the middle band, dome variation and small rivet highlights remain."
+      },
+      "output_sha256": "63db23ed9fa486345514125a43063ea836ec4e4ecdd564e89a948e80ff065ec8",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "byte_identical_to_tool_return": true,
+      "checks": {
+        "requested_size_returned": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 896964,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          54,
+          1250,
+          1254
+        ],
+        "foreground_bbox_alpha128": [
+          189,
+          63,
+          1066,
+          1105
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_at_alpha128": 0.8838997323266429,
+        "normalized_extra_foreground_pixels": 8685,
+        "normalized_missing_foreground_pixels": 48395,
+        "normalized_nonzero_alpha_outside_guide": 10348
+      }
+    }
+  ],
+  "created_at_utc": "2026-10-16T19:59:04.364849+00:00",
+  "guide": {
+    "path": "guide_back.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "alpha_bbox": [
+      144,
+      66,
+      880,
+      958
+    ]
+  },
+  "measurement_note": "Normalized silhouette comparison samples output alpha at guide pixel centers without modifying or saving any resampled image; alpha threshold 128. It measures overlap, not exact geometry or registration."
+}

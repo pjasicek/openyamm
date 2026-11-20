@@ -1,0 +1,207 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d09/review/walkability/capture
+settle_seconds: 1.5
+exit: true
+shots:
+- name: west_root_stair
+  position:
+  - 2964
+  - 620
+  - 0
+  yaw: 1.5708
+  pitch: -0.12
+- name: east_root_stair
+  position:
+  - 4636
+  - 620
+  - 0
+  yaw: 1.5708
+  pitch: -0.12
+- name: pond_root_stair
+  position:
+  - 3800
+  - 1180
+  - -768
+  yaw: 1.5708
+  pitch: -0.12
+- name: royal_stair
+  position:
+  - 300
+  - 2800
+  - -1536
+  yaw: -1.5708
+  pitch: -0.12
+- name: pond_southwest
+  position:
+  - 2800
+  - 2600
+  - -1536
+  yaw: -0.9453
+  pitch: -0.12
+- name: pond_southeast
+  position:
+  - 5400
+  - 2700
+  - -1536
+  yaw: -2.1815
+  pitch: -0.12
+- name: pond_northwest
+  position:
+  - 2800
+  - 1200
+  - -1536
+  yaw: 1.1494
+  pitch: -0.12
+- name: pond_northeast
+  position:
+  - 5400
+  - 1200
+  - -1536
+  yaw: 2.0206
+  pitch: -0.12
+- name: mother_west_pool
+  position:
+  - 3800
+  - 900
+  - -2944
+  yaw: -2.2531
+  pitch: -0.12
+- name: mother_east_pool
+  position:
+  - 4800
+  - 900
+  - -2944
+  yaw: -0.852
+  pitch: -0.12
+- name: sump_escape_ramp
+  position:
+  - 6860
+  - 1100
+  - -1536
+  yaw: 3.1416
+  pitch: -0.12
+- name: cistern_west
+  position:
+  - 8200
+  - 1700
+  - -1536
+  yaw: -2.3806
+  pitch: -0.12
+- name: cistern_middle
+  position:
+  - 8200
+  - 1700
+  - -1536
+  yaw: -2.1472
+  pitch: -0.12
+- name: cistern_east
+  position:
+  - 7200
+  - 1700
+  - -1536
+  yaw: -0.7854
+  pitch: -0.12
+- name: spawning_pool
+  position:
+  - 6200
+  - 2400
+  - -1536
+  yaw: 1.5708
+  pitch: -0.12
+- name: birth_pit_west
+  position:
+  - 3100
+  - 3150
+  - -2944
+  yaw: 1.5708
+  pitch: -0.12
+- name: birth_pit_middle
+  position:
+  - 4100
+  - 3150
+  - -2944
+  yaw: 1.5708
+  pitch: -0.12
+- name: birth_pit_east
+  position:
+  - 5100
+  - 3150
+  - -2944
+  yaw: 1.5708
+  pitch: -0.12
+- name: creche_bones
+  position:
+  - 3780
+  - 4700
+  - 0
+  yaw: 1.5708
+  pitch: -0.12
+- name: larder_bones
+  position:
+  - 2250
+  - 900
+  - -768
+  yaw: 2.2492
+  pitch: -0.12
+- name: throat_bones
+  position:
+  - 800
+  - -400
+  - -2944
+  yaw: 1.5708
+  pitch: -0.12
+- name: vat_keeper_lane
+  position:
+  - 6300
+  - 3800
+  - 0
+  yaw: -1.5708
+  pitch: -0.12
+- name: west_underpass
+  position:
+  - 4100
+  - 1250
+  - -768
+  yaw: 2.925
+  pitch: -0.12
+- name: east_underpass
+  position:
+  - 3500
+  - 1250
+  - -768
+  yaw: 0.2166
+  pitch: -0.12
+- name: molt_octagon_and_hip
+  position:
+  - 300
+  - 1550
+  - 0
+  yaw: 1.57
+  pitch: 0.22
+- name: chamfered_descent
+  position:
+  - 7400
+  - 1800
+  - 0
+  yaw: 3.14
+  pitch: 0.22
+- name: hatched_niche
+  position:
+  - 2900
+  - 4700
+  - 0
+  yaw: 1.57
+  pitch: 0.22
+- name: royal_gallery_hip
+  position:
+  - 1600
+  - 1050
+  - -2944
+  yaw: 1.57
+  pitch: 0.22
+- name: mother_chamber_and_cradle_supports
+  position:
+  - 4300
+  - 1200
+  - -2944
+  yaw: 1.57
+  pitch: 0.22

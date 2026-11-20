@@ -1,0 +1,29 @@
+id: rulesets.maw_endless_arena
+title: "Ruleset - MAW Endless Arena: the Arena Master starts a level and its waves come in, one after the other"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - load_map: {map: d42.blv}
+  - speak_npc: {source_id: 313}
+  - select_topic: {action_id: 10030}
+  - select_topic: {action_id: 10031}
+  - advance_runtime: {seconds: 1}
+  - assert: {map: d42.blv}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {min: 8}
+  # The next wave follows once this one is slain.
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {min: 6}
+  # Leaving the Arena mid-level ends the run (audit CNT-5); scenario map loads skip the leave events, so it runs here.
+  - execute_event: {id: 60002}
+  - assert:
+      state_dump_named_global_var: {name: MawArenaLevel, value: 0}

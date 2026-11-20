@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>New Sorpigal · minimap comparison</title>
+<style>
+*{box-sizing:border-box}body{margin:24px auto;padding:0 20px;max-width:1580px;background:#171b20;color:#e3e8ed;font:15px system-ui}
+h1{font-size:25px;margin:0 0 8px}p{line-height:1.5;color:#b7c4ce}a{color:#8dcced}button,select,input{font:inherit}
+button,select{border:1px solid #566373;border-radius:5px;background:#28313b;color:inherit;padding:7px 10px}
+button{cursor:pointer}button:hover{background:#354454}.toolbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:16px 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}article{min-width:0}article select{width:100%;margin-bottom:8px}
+canvas{display:block;width:100%;aspect-ratio:1;border:1px solid #475463;touch-action:none;cursor:crosshair;background:#101418}
+.note{min-height:46px;font-size:14px;margin:8px 0}.status{color:#9adcc1}code{font-size:13px}.metrics{font-size:13px;color:#91a5b4}
+#coordinate{font-variant-numeric:tabular-nums;min-width:260px}.foot{border-top:1px solid #39414a;margin-top:20px;padding-top:10px}
+@media(max-width:850px){.pair{grid-template-columns:1fr}body{margin:16px auto}}
+</style>
+<h1>New Sorpigal — minimap options</h1>
+<p>Compare the original painting with faithful upscaling or a capture of the actual terrain and buildings.
+Both views share coordinates, zoom and landmark overlays. <span class="status">Historical comparison · light noise selected.</span>
+<a href="../../../minimaps/">All-map replacement gallery and current status</a>.</p>
+<div class="toolbar">
+<button id="noiseLight">Base → light noise</button><button id="noiseMedium">Base → medium noise</button>
+</div>
+<div class="toolbar">
+<button id="process">Original → gentler version</button><button id="processCompare">Previous → gentler version</button>
+</div>
+<div class="toolbar">
+<button id="upscale">Original → Real-ESRGAN</button><button id="capture">Original → terrain capture</button>
+<button id="compare">Real-ESRGAN → terrain capture</button>
+<label><input type="checkbox" id="geometry"> Actual model outlines [L]</label>
+<label><input type="checkbox" id="landmarks"> Landmark anchors</label>
+</div>
+<div class="toolbar">
+<button data-view="full">Full map [1]</button><button data-view="town">Town [2]</button><button data-view="islands">Islands [3]</button>
+<label>Zoom <input id="zoom" type="range" min="1" max="6" step=".1" value="1"></label>
+<select id="jump" aria-label="Jump to landmark"><option value="">Jump to landmark…</option></select>
+<span id="coordinate">Move over either map to compare locations.</span>
+</div>
+<div class="pair">
+<article><select id="left" aria-label="Left comparison image"></select><canvas id="leftMap" width="1024" height="1024"></canvas><p class="note" id="leftNote"></p><a id="leftFile" target="_blank">Open full image</a></article>
+<article><select id="right" aria-label="Right comparison image"></select><canvas id="rightMap" width="1024" height="1024"></canvas><p class="note" id="rightNote"></p><a id="rightFile" target="_blank">Open full image</a></article>
+</div>
+<p>Drag to pan; wheel to zoom. Hold <strong>Space</strong> to blink the right view back to the original.
+Yellow outlines come from map geometry. They also reveal any mismatch already present in the original painted map.</p>
+<p class="metrics" id="metrics">Loading comparison…</p>
+<div class="foot"><a href="README.md">Findings, sources and reproduction</a> · <a href="new_sorpigal/comparison.json">Alignment checks</a> ·
+<a href="VINEVI_PROCESS.md">Reproduced process and settings</a> · <a href="new_sorpigal/new_sorpigal_vinevi.ora">Layered image for Krita</a></div>
+<script src="new_sorpigal/data.js?v=noise1"></script><script src="review.js?v=noise1"></script>
+</html>

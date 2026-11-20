@@ -1,0 +1,24 @@
+{
+  "status": "v6_visual_regression_confirmed",
+  "screenshot": "test_img/1297.png",
+  "review": "roads/v6/regression1297/index.html",
+  "findings": [
+    "Broken stone shapes at old-rim/new-interior boundaries in both actual diagonal joins",
+    "Exact-edge numerical passes do not validate structural continuity",
+    "Current diagonal is narrower than original"
+  ],
+  "installed_pack_changed": false,
+  "evidence": {
+    "roads/v6/regression1297/original_path.png": "db155ba273dda020a8b3deb226a4e63411954f34270ddf9e1c8694b138882a79",
+    "roads/v6/regression1297/build_review.py": "4a51bd6e047a69044aa06c38a16c84cfd2e89995520c02325b9ee02ccf010347",
+    "roads/v6/regression1297/README.md": "9e6c033bcc0cff2c1092c1e5e5ae57fe9e2e8a736c7abf1c11487a899d360226",
+    "roads/v6/regression1297/south_join_clean.png": "5f37b7de518b110a68d0f147a0c434ad0081cee0f911350b6df04cdc7c62466d",
+    "roads/v6/regression1297/index.html": "3c6f15fb94ffd0659cf148e25e76bf30aa2270f6a40d3ffff0cd2b1faa80d2fb",
+    "roads/v6/regression1297/east_join_clean.png": "d372a2d9849a992bc491a6a214b2fb47dd8f8ebe39ae30db27173b7ca0e14f1e",
+    "roads/v6/regression1297/inputs.json": "0ce86c27765912f31af01791cd6dcbc389da4bd6ebf857def3f3510475cf9d49",
+    "roads/v6/regression1297/east_join_marked.png": "d7383e8a6a678e61d693adae8da297a3ac8e78a6acd5fad057ab37c95d3c15f8",
+    "roads/v6/regression1297/labelled_path.png": "14d3b7fa7af6226e626db6e840502b9a72892ec293e1e0a313bce34c9d8be240",
+    "roads/v6/regression1297/installed_path.png": "6d2fcb7c8b296e5726aef3c20c744ccc12555bfb98299bac4a91b62b817f1df3",
+    "roads/v6/regression1297/south_join_marked.png": "397fa75b4e674275e5de331bbff3fb386dc4f2b9e97649dd4677d18bc6b090b9"
+  }
+}

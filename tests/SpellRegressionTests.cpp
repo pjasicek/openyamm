@@ -5,10 +5,13 @@
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/MonsterSpellSupport.h"
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/maps/SaveGame.h"
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
+#include "game/party/WorldSpells.h"
+#include "game/rules/SpellRules.h"
 
 #include "tests/PartySpellTestHarness.h"
 #include "tests/RegressionGameData.h"
@@ -116,17 +119,18 @@ public:
         float partyX,
         float partyY,
         float partyZ,
-        uint32_t sourcePartyMemberIndex) override
+        uint32_t sourcePartyMemberIndex,
+        bool critical) override
     {
         if (!PartySpellTestWorldRuntime::applyPartySpellToActor(
                 actorIndex, spellId, skillLevel, skillMastery, damage,
-                partyX, partyY, partyZ, sourcePartyMemberIndex))
+                partyX, partyY, partyZ, sourcePartyMemberIndex, critical))
         {
             return false;
         }
 
         const OpenYAMM::Game::GameplayActorService::DirectSpellImpactResult impact =
-            m_actorService.resolveDirectSpellImpact(spellId, skillLevel, damage, m_targetHp, false);
+            m_actorService.resolveDirectSpellImpact(spellId, skillLevel, damage, false);
 
         if (impact.disposition != OpenYAMM::Game::GameplayActorService::DirectSpellImpactDisposition::ApplyDamage)
         {
@@ -185,12 +189,13 @@ TEST_CASE("party spell mana cost query matches the cost a cast spends")
 
     const uint32_t fireBoltId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::FireBolt);
     pCaster->skills.erase("FireMagic");
-    CHECK_FALSE(OpenYAMM::Game::PartySpellSystem::manaCost(*pCaster, gameData.spellTable, fireBoltId).has_value());
+    CHECK_FALSE(
+        OpenYAMM::Game::PartySpellSystem::manaCost(party, *pCaster, gameData.spellTable, fireBoltId).has_value());
 
     pCaster->skills["FireMagic"] = {"FireMagic", 5, OpenYAMM::Game::SkillMastery::Normal};
     pCaster->spellPoints = 100;
     const std::optional<uint32_t> manaCost =
-        OpenYAMM::Game::PartySpellSystem::manaCost(*pCaster, gameData.spellTable, fireBoltId);
+        OpenYAMM::Game::PartySpellSystem::manaCost(party, *pCaster, gameData.spellTable, fireBoltId);
     REQUIRE(manaCost.has_value());
     CHECK(*manaCost > 0);
 
@@ -382,6 +387,39 @@ TEST_CASE("Mistform is a personal buff that permits spellcasting and expires cle
     CHECK_FALSE(pCaster->physicalDamageImmune);
 }
 
+TEST_CASE("Glamour needs no target and buffs every member's Merchant")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    REQUIRE(party.members().size() > 1);
+    party.member(0)->skills["DarkElfAbility"] = {"DarkElfAbility", 7, OpenYAMM::Game::SkillMastery::Master};
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Glamour);
+    request.spendMana = false;
+    request.applyRecovery = false;
+
+    const OpenYAMM::Game::PartySpellCastResult result =
+        OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+
+    REQUIRE(result.succeeded());
+    CHECK(result.targetKind == OpenYAMM::Game::PartySpellCastTargetKind::None);
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        CAPTURE(memberIndex);
+        const OpenYAMM::Game::CharacterBuffState *pBuff =
+            party.characterBuff(memberIndex, OpenYAMM::Game::CharacterBuffId::Glamour);
+        REQUIRE(pBuff != nullptr);
+        CHECK_EQ(pBuff->power, 6);
+        CHECK_EQ(party.member(memberIndex)->glamourPower, 6);
+        CHECK(party.member(memberIndex)->glamourMastery == OpenYAMM::Game::SkillMastery::Master);
+    }
+}
+
 TEST_CASE("shared actor mind spell effects are rejected by mind immunity")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -403,6 +441,54 @@ TEST_CASE("shared actor mind spell effects are rejected by mind immunity")
         result.disposition
         == OpenYAMM::Game::GameplayActorService::SharedSpellDisposition::Rejected);
     CHECK_EQ(state.fearRemainingSeconds, 0.0f);
+}
+
+TEST_CASE("shared actor berserk keeps the monster hostile to everyone, charm calms it")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::GameplayActorService service = {};
+    service.bindTables(&gameData.monsterTable, &gameData.spellTable);
+
+    for (const OpenYAMM::Game::SpellId spell : {OpenYAMM::Game::SpellId::Berserk, OpenYAMM::Game::SpellId::Charm})
+    {
+        OpenYAMM::Game::GameplayActorSpellEffectState state = {};
+        state.hostileToParty = true;
+        const OpenYAMM::Game::GameplayActorService::SharedSpellEffectResult result =
+            service.tryApplySharedSpellEffect(OpenYAMM::Game::spellIdValue(spell), 5,
+                OpenYAMM::Game::SkillMastery::Expert, false, true, 0, state);
+
+        CHECK(result.disposition == OpenYAMM::Game::GameplayActorService::SharedSpellDisposition::Applied);
+        const bool berserk = spell == OpenYAMM::Game::SpellId::Berserk;
+        CHECK(state.controlMode
+            == (berserk ? OpenYAMM::Game::GameplayActorControlMode::Berserk
+                        : OpenYAMM::Game::GameplayActorControlMode::Charm));
+        CHECK_EQ(state.hostileToParty, berserk);
+        CHECK_EQ(service.isPartyControlledActor(state.controlMode), !berserk);
+    }
+}
+
+TEST_CASE("shared actor fate buffs the monster regardless of its spirit resistance")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::GameplayActorService service = {};
+    OpenYAMM::Game::GameplayActorSpellEffectState state = {};
+    service.bindTables(&gameData.monsterTable, &gameData.spellTable);
+
+    const OpenYAMM::Game::GameplayActorService::SharedSpellEffectResult result =
+        service.tryApplySharedSpellEffect(
+            OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Fate),
+            5,
+            OpenYAMM::Game::SkillMastery::Master,
+            false,
+            true,
+            200,
+            state);
+
+    CHECK(
+        result.disposition
+        == OpenYAMM::Game::GameplayActorService::SharedSpellDisposition::Applied);
+    CHECK_EQ(state.fatePower, 20);
+    CHECK_EQ(state.fateRemainingSeconds, doctest::Approx(300.0f));
 }
 
 TEST_CASE("shared actor slow doubles recovery at every mastery")
@@ -479,6 +565,14 @@ TEST_CASE("dispel magic recovery is reduced by light skill")
     REQUIRE(pCaster != nullptr);
     pCaster->skills["LightMagic"] = {"LightMagic", 10, OpenYAMM::Game::SkillMastery::Normal};
     pCaster->spellPoints = 100;
+    party.applyPartyBuff(
+        OpenYAMM::Game::PartyBuffId::Haste,
+        60.0f,
+        0,
+        OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Haste),
+        1,
+        OpenYAMM::Game::SkillMastery::Expert,
+        0);
 
     OpenYAMM::Game::PartySpellCastRequest request = {};
     request.casterMemberIndex = 0;
@@ -492,6 +586,41 @@ TEST_CASE("dispel magic recovery is reduced by light skill")
 
     CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::Succeeded);
     CHECK(result.recoverySeconds == doctest::Approx(1.833333f));
+    CHECK(party.hasPartyBuff(OpenYAMM::Game::PartyBuffId::Haste));
+}
+
+TEST_CASE("turn undead and mass fear spend their mana when no creature is in sight")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["SpiritMagic"] = {"SpiritMagic", 5, OpenYAMM::Game::SkillMastery::Normal};
+    pCaster->skills["MindMagic"] = {"MindMagic", 7, OpenYAMM::Game::SkillMastery::Master};
+    pCaster->spellPoints = 100;
+
+    for (const OpenYAMM::Game::SpellId spellId : {OpenYAMM::Game::SpellId::TurnUndead,
+             OpenYAMM::Game::SpellId::MassFear})
+    {
+        OpenYAMM::Game::PartySpellCastRequest request = {};
+        request.casterMemberIndex = 0;
+        request.spellId = OpenYAMM::Game::spellIdValue(spellId);
+        request.applyRecovery = false;
+        const int spellPointsBefore = pCaster->spellPoints;
+
+        const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+            party,
+            worldRuntime,
+            gameData.spellTable,
+            request);
+
+        CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::Succeeded);
+        CHECK(worldRuntime.appliedSpellRequests().empty());
+        CHECK_EQ(pCaster->spellPoints, spellPointsBefore - static_cast<int>(result.manaCost));
+    }
 }
 
 TEST_CASE("jump spell uses OpenEnroth vertical impulse")
@@ -864,7 +993,6 @@ TEST_CASE("sunray resolves as direct light damage")
             OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Sunray),
             10,
             137,
-            400,
             false);
 
     CHECK(
@@ -1429,8 +1557,7 @@ TEST_CASE("party spell backend supports all defined non utility spells")
         }
 
         if (spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::TownPortal)
-            || spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::LloydsBeacon)
-            || spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Telepathy))
+            || spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::LloydsBeacon))
         {
             return OpenYAMM::Game::PartySpellCastStatus::NeedUtilityUi;
         }
@@ -1506,6 +1633,56 @@ TEST_CASE("party spell backend supports all defined non utility spells")
         CHECK(result.status != OpenYAMM::Game::PartySpellCastStatus::NeedUtilityUi);
         CHECK(result.status != OpenYAMM::Game::PartySpellCastStatus::Unsupported);
     }
+}
+
+TEST_CASE("party spell backend telepathy reveals the target actor's loot")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    const size_t poorActorIndex = seedDefaultSpellTarget(worldRuntime);
+    const size_t richActorIndex = seedDefaultSpellTarget(worldRuntime);
+
+    OpenYAMM::Game::GameplayCorpseViewState loot = {};
+    OpenYAMM::Game::GameplayChestItemState gold = {};
+    gold.isGold = true;
+    gold.goldAmount = 37;
+    loot.items.push_back(gold);
+    worldRuntime.setActorLoot(richActorIndex, loot);
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Telepathy);
+    request.skillLevelOverride = 1;
+    request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Normal;
+    request.spendMana = false;
+    request.applyRecovery = false;
+
+    const OpenYAMM::Game::PartySpellCastResult untargeted = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+    CHECK(untargeted.status == OpenYAMM::Game::PartySpellCastStatus::NeedActorTarget);
+
+    request.targetActorIndex = richActorIndex;
+    const OpenYAMM::Game::PartySpellCastResult rich = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+    REQUIRE(rich.succeeded());
+    CHECK_EQ(rich.statusText, "37 gold");
+
+    request.targetActorIndex = poorActorIndex;
+    const OpenYAMM::Game::PartySpellCastResult poor = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+    REQUIRE(poor.succeeded());
+    CHECK_EQ(poor.statusText, "Nothing here");
 }
 
 TEST_CASE("spell table stays within authoritative merged spell ids")
@@ -1612,7 +1789,7 @@ TEST_CASE("party spell backend recharge item rejects invalid and already charged
     CHECK_EQ(chargedWandResult.statusText, "Wand already charged!");
 }
 
-TEST_CASE("party spell backend summon wisp adds one friendly summon per cast up to the active limit")
+TEST_CASE("party spell backend summon wisp keeps each caster's own summons to the mastery's limit (MM8-Rel)")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
@@ -1626,31 +1803,60 @@ TEST_CASE("party spell backend summon wisp adds one friendly summon per cast up 
     request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Grandmaster;
     request.spendMana = false;
     request.applyRecovery = false;
+    const auto cast = [&]()
+    {
+        return OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+    };
 
+    // Grandmaster: five wisps C, 15 game minutes a point.
     for (size_t castIndex = 0; castIndex < 5; ++castIndex)
     {
-        const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
-            party,
-            worldRuntime,
-            gameData.spellTable,
-            request);
-
-        REQUIRE(result.succeeded());
+        REQUIRE(cast().succeeded());
         REQUIRE_EQ(worldRuntime.friendlySummonRequests().size(), castIndex + 1);
         CHECK_EQ(worldRuntime.friendlySummonRequests().back().monsterId, 99);
         CHECK_EQ(worldRuntime.friendlySummonRequests().back().count, 1u);
-        CHECK_EQ(worldRuntime.friendlySummonRequests().back().durationSeconds, 3.0f * 60.0f * 60.0f);
+        CHECK_EQ(worldRuntime.friendlySummonRequests().back().durationSeconds, 3.0f * 15.0f * 60.0f);
+        CHECK_EQ(worldRuntime.friendlySummonRequests().back().summonerMemberIndex, 0);
     }
 
-    const OpenYAMM::Game::PartySpellCastResult limitResult = OpenYAMM::Game::PartySpellSystem::castSpell(
-        party,
-        worldRuntime,
-        gameData.spellTable,
-        request);
-
+    // The sixth is refused: no SP spent, no recovery, nothing replaced.
+    request.spendMana = true;
+    request.applyRecovery = true;
+    OpenYAMM::Game::Character &caster = *party.member(0);
+    caster.spellPoints = 100;
+    const OpenYAMM::Game::PartySpellCastResult limitResult = cast();
     CHECK(limitResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
     CHECK_EQ(limitResult.statusText, "This character can't summon any more monsters!");
+    CHECK_EQ(limitResult.recoverySeconds, 0.0f);
+    CHECK_EQ(caster.spellPoints, 100);
     CHECK_EQ(worldRuntime.friendlySummonRequests().size(), 5u);
+    request.spendMana = false;
+    request.applyRecovery = false;
+
+    // The limit is the caster's own: another member still summons, at Master three wisps B for 15 minutes a point.
+    request.casterMemberIndex = 1;
+    request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Master;
+
+    for (size_t castIndex = 0; castIndex < 3; ++castIndex)
+    {
+        REQUIRE(cast().succeeded());
+        CHECK_EQ(worldRuntime.friendlySummonRequests().back().monsterId, 98);
+        CHECK_EQ(worldRuntime.friendlySummonRequests().back().durationSeconds, 3.0f * 15.0f * 60.0f);
+    }
+
+    CHECK_FALSE(cast().succeeded());
+
+    // Expert: one wisp A for 5 minutes a point.
+    request.casterMemberIndex = 2;
+    request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Expert;
+    REQUIRE(cast().succeeded());
+    CHECK_EQ(worldRuntime.friendlySummonRequests().back().monsterId, 97);
+    CHECK_EQ(worldRuntime.friendlySummonRequests().back().durationSeconds, 3.0f * 5.0f * 60.0f);
+    CHECK_FALSE(cast().succeeded());
+
+    // A dead wisp no longer counts.
+    worldRuntime.actor(worldRuntime.mapActorCount() - 1).isDead = true;
+    CHECK(cast().succeeded());
 }
 
 TEST_CASE("party spell backend enforces indoor outdoor spell gates in shared spell rules")
@@ -1712,6 +1918,115 @@ TEST_CASE("party spell backend enforces indoor outdoor spell gates in shared spe
 
     CHECK(prismaticResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
     CHECK_EQ(prismaticResult.statusText, "Can't cast Prismatic Light outdoors!");
+}
+
+TEST_CASE("party spell backend gives a map open to the sky the outdoor spell gates")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    worldRuntime.setIndoorMap(true);
+    worldRuntime.setOpenAirIndoorMap(true);
+    worldRuntime.setCurrentHour(12);
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.skillLevelOverride = 10;
+    request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Grandmaster;
+    request.spendMana = false;
+    request.applyRecovery = false;
+    request.hasTargetPoint = true;
+    request.targetX = 512.0f;
+    request.targetY = 0.0f;
+    request.targetZ = 0.0f;
+
+    const auto cast = [&](OpenYAMM::Game::SpellId spellId)
+    {
+        request.spellId = OpenYAMM::Game::spellIdValue(spellId);
+        return OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+    };
+
+    // The outdoor spells work there.
+    for (OpenYAMM::Game::SpellId spellId : {OpenYAMM::Game::SpellId::MeteorShower,
+             OpenYAMM::Game::SpellId::Starburst, OpenYAMM::Game::SpellId::DeathBlossom,
+             OpenYAMM::Game::SpellId::Armageddon})
+    {
+        CAPTURE(OpenYAMM::Game::spellIdValue(spellId));
+        CHECK(OpenYAMM::Game::PartySpellSystem::worldAllowsSpell(
+            party, worldRuntime, OpenYAMM::Game::spellIdValue(spellId)));
+    }
+
+    const size_t requestsBefore = worldRuntime.projectileRequests().size();
+    CHECK(cast(OpenYAMM::Game::SpellId::MeteorShower).succeeded());
+    CHECK(cast(OpenYAMM::Game::SpellId::Starburst).succeeded());
+    CHECK_EQ(worldRuntime.projectileRequests().size(), requestsBefore + 2);
+
+    // The indoor ones do not.
+    const OpenYAMM::Game::PartySpellCastResult infernoResult = cast(OpenYAMM::Game::SpellId::Inferno);
+    CHECK(infernoResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
+    CHECK_EQ(infernoResult.statusText, "Can't cast Inferno outdoors!");
+    const OpenYAMM::Game::PartySpellCastResult prismaticResult = cast(OpenYAMM::Game::SpellId::PrismaticLight);
+    CHECK(prismaticResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
+    CHECK_EQ(prismaticResult.statusText, "Can't cast Prismatic Light outdoors!");
+
+    // Fly needs an outdoor map's flight.
+    const OpenYAMM::Game::PartySpellCastResult flyResult = cast(OpenYAMM::Game::SpellId::Fly);
+    CHECK(flyResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
+    CHECK_EQ(flyResult.statusText, "Can not cast Fly indoors!");
+
+    // Any other BLV keeps the indoor rules.
+    worldRuntime.setOpenAirIndoorMap(false);
+    CHECK_FALSE(OpenYAMM::Game::PartySpellSystem::worldAllowsSpell(
+        party, worldRuntime, OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::MeteorShower)));
+    CHECK(OpenYAMM::Game::PartySpellSystem::worldAllowsSpell(
+        party, worldRuntime, OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Inferno)));
+}
+
+TEST_CASE("party spell backend limits where meteor shower and starburst fall")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    worldRuntime.setIndoorMap(false);
+    worldRuntime.setPartyPosition(1000.0f, 2000.0f, 100.0f);
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.skillLevelOverride = 10;
+    request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Grandmaster;
+    request.spendMana = false;
+    request.applyRecovery = false;
+    request.hasTargetPoint = true;
+
+    for (OpenYAMM::Game::SpellId spellId :
+         {OpenYAMM::Game::SpellId::MeteorShower, OpenYAMM::Game::SpellId::Starburst})
+    {
+        CAPTURE(OpenYAMM::Game::spellIdValue(spellId));
+        request.spellId = OpenYAMM::Game::spellIdValue(spellId);
+
+        // Within reach the point is kept.
+        request.targetX = 4000.0f;
+        request.targetY = 2000.0f;
+        request.targetZ = 300.0f;
+        REQUIRE(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request)
+                    .succeeded());
+        CHECK_EQ(worldRuntime.projectileRequests().back().targetX, doctest::Approx(4000.0f));
+        CHECK_EQ(worldRuntime.projectileRequests().back().targetZ, doctest::Approx(300.0f));
+
+        // The cursor on the horizon: the point comes back along the same line to the falling spell range.
+        request.targetX = 1000.0f + 30000.0f;
+        request.targetY = 2000.0f + 40000.0f;
+        request.targetZ = 900.0f;
+        REQUIRE(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request)
+                    .succeeded());
+        const OpenYAMM::Game::GameplayPartySpellProjectileRequest &limited = worldRuntime.projectileRequests().back();
+        const float range = OpenYAMM::Game::PartySpellSystem::FallingSpellTargetRange;
+        CHECK_EQ(limited.targetX, doctest::Approx(1000.0f + range * 0.6f));
+        CHECK_EQ(limited.targetY, doctest::Approx(2000.0f + range * 0.8f));
+        CHECK_EQ(limited.targetZ, doctest::Approx(100.0f));
+    }
 }
 
 TEST_CASE("party spell backend prismatic light damages visible indoor creatures")
@@ -1776,7 +2091,6 @@ TEST_CASE("shared actor direct spell visuals match indoor area spell sprites")
             OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Inferno),
             7,
             26,
-            100,
             false);
 
     CHECK(
@@ -1793,7 +2107,6 @@ TEST_CASE("shared actor direct spell visuals match indoor area spell sprites")
             OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::PrismaticLight),
             7,
             32,
-            100,
             false);
 
     CHECK(
@@ -1967,6 +2280,33 @@ TEST_CASE("lloyds beacon recall mode availability follows active beacons")
     CHECK(OpenYAMM::Game::lloydsBeaconHasRecallableBeacon(&caster));
 }
 
+TEST_CASE("town portal and lloyds beacon fail on a world's no-teleport map")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    for (const OpenYAMM::Game::SpellId spellId :
+         {OpenYAMM::Game::SpellId::TownPortal, OpenYAMM::Game::SpellId::LloydsBeacon})
+    {
+        OpenYAMM::Game::PartySpellCastRequest request = {};
+        request.casterMemberIndex = 0;
+        request.spellId = OpenYAMM::Game::spellIdValue(spellId);
+        request.skillLevelOverride = 10;
+        request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Grandmaster;
+        request.spendMana = false;
+
+        worldRuntime.setNoTeleportMap(false);
+        CHECK_EQ(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request).status,
+            OpenYAMM::Game::PartySpellCastStatus::NeedUtilityUi);
+
+        worldRuntime.setNoTeleportMap(true);
+        CHECK_EQ(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request).status,
+            OpenYAMM::Game::PartySpellCastStatus::Failed);
+    }
+}
+
 TEST_CASE("lloyds beacon set stores location preview and recall queues map move")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -2118,6 +2458,7 @@ TEST_CASE("indoor scene runtime state survives save round trip")
         OpenYAMM::Game::Mm9BarrelType::BlueMagic,
         true,
     });
+    snapshot.mapDeltaData->takenWorldItems = {"inventastorca:Prop2", "inventastorca:Prop0"};
 
     snapshot.eventRuntimeState.emplace();
     OpenYAMM::Game::RuntimeMechanismState mechanism = {};
@@ -2191,6 +2532,7 @@ TEST_CASE("indoor scene runtime state survives save round trip")
     actorState.crowdSideSign = -1;
     actorState.attackImpactTriggered = true;
     actorState.suppressLowHealthFlee = true;
+    actorState.angeredByParty = true;
     actorState.spellEffects.dayOfProtectionRemainingSeconds = 11.0f;
     actorState.spellEffects.dayOfProtectionPower = 12;
     actorState.spellEffects.hourOfPowerRemainingSeconds = 13.0f;
@@ -2285,6 +2627,9 @@ TEST_CASE("indoor scene runtime state survives save round trip")
     CHECK_EQ(loadedSnapshot.mapDeltaData->mm9Barrels[0].sourceObjectIndex, 372u);
     CHECK(loadedSnapshot.mapDeltaData->mm9Barrels[0].type == OpenYAMM::Game::Mm9BarrelType::BlueMagic);
     CHECK(loadedSnapshot.mapDeltaData->mm9Barrels[0].used);
+    CHECK_EQ(
+        loadedSnapshot.mapDeltaData->takenWorldItems,
+        std::vector<std::string>{"inventastorca:Prop2", "inventastorca:Prop0"});
 
     REQUIRE(loadedSnapshot.eventRuntimeState.has_value());
     REQUIRE(loadedSnapshot.eventRuntimeState->mechanisms.contains(7));
@@ -2311,6 +2656,7 @@ TEST_CASE("indoor scene runtime state survives save round trip")
     CHECK_EQ(loadedActorState.crowdEscapeAttempts, 11);
     CHECK_EQ(loadedActorState.crowdSideSign, -1);
     CHECK(loadedActorState.suppressLowHealthFlee);
+    CHECK(loadedActorState.angeredByParty);
     CHECK_EQ(loadedActorState.spellEffects.dayOfProtectionRemainingSeconds, 11.0f);
     CHECK_EQ(loadedActorState.spellEffects.dayOfProtectionPower, 12);
     CHECK_EQ(loadedActorState.spellEffects.hourOfPowerRemainingSeconds, 13.0f);
@@ -2334,7 +2680,10 @@ TEST_CASE("indoor scene runtime state survives save round trip")
     CHECK_EQ(loadedSnapshot.worldRuntime.mapActorCorpseViews[0]->title, "Saved Corpse");
     CHECK_EQ(loadedSnapshot.worldRuntime.mapActorCorpseViews[0]->items[0].itemId, 540u);
     REQUIRE_EQ(loadedSnapshot.worldRuntime.bloodSplats.size(), 1u);
-    CHECK_EQ(loadedSnapshot.worldRuntime.bloodSplats[0].vertices[0].v, 0.75f);
+    CHECK_EQ(loadedSnapshot.worldRuntime.bloodSplats[0].sourceActorId, 12u);
+    CHECK_EQ(loadedSnapshot.worldRuntime.bloodSplats[0].radius, 4.0f);
+    // The triangles are not saved: the map bakes them again when it restores the splat.
+    CHECK(loadedSnapshot.worldRuntime.bloodSplats[0].vertices.empty());
     CHECK_EQ(loadedSnapshot.worldRuntime.actorUpdateAccumulatorSeconds, 0.125f);
 
     REQUIRE_EQ(loadedSnapshot.timers.size(), 1u);
@@ -2483,4 +2832,265 @@ TEST_CASE("party spell scroll override bypasses required spell mastery")
     CHECK_EQ(worldRuntime.projectileRequests().front().skillLevel, 5u);
     CHECK(worldRuntime.projectileRequests().front().skillMastery == OpenYAMM::Game::SkillMastery::Master);
     CHECK_EQ(pCaster->spellPoints, initialSpellPoints);
+}
+
+TEST_CASE("cursed caster rolls the curse only on the cast that has its target (OY-141)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["BodyMagic"] = {"BodyMagic", 5, OpenYAMM::Game::SkillMastery::Normal};
+    pCaster->spellPoints = 100;
+    pCaster->conditions.set(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Cursed));
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Heal);
+
+    // Asking for the target never fails the cast, spends mana or recovers: 32 tries would hit a 50 % roll.
+    for (int attempt = 0; attempt < 32; ++attempt)
+    {
+        const OpenYAMM::Game::PartySpellCastResult result =
+            OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+        CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::NeedCharacterTarget);
+    }
+
+    CHECK(pCaster->spellPoints == 100);
+    CHECK(pCaster->recoverySecondsRemaining == doctest::Approx(0.0f));
+}
+
+TEST_CASE("a quick spell named Charm resolves to the Charm the caster knows (OY-337)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::SpellEntry *pMindCharm = gameData.spellTable.findById(60);
+    const OpenYAMM::Game::SpellEntry *pVampireCharm = gameData.spellTable.findById(113);
+    REQUIRE(pMindCharm != nullptr);
+    REQUIRE(pVampireCharm != nullptr);
+    REQUIRE(pMindCharm->name == pVampireCharm->name);
+
+    OpenYAMM::Game::Character vampire = {};
+    vampire.learnSpell(113);
+    OpenYAMM::Game::Character mindMage = {};
+    mindMage.learnSpell(60);
+
+    CHECK(gameData.spellTable.findByName("Charm", OpenYAMM::Game::spellKnownBy(vampire)) == pVampireCharm);
+    CHECK(gameData.spellTable.findByName("Charm", OpenYAMM::Game::spellKnownBy(mindMage)) == pMindCharm);
+}
+
+TEST_CASE("MM9 Fleet Foot takes Fly's slot only in a Fleet Foot world, indoors too")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const uint32_t fly = spellIdValue(SpellId::Fly);
+
+    struct Case
+    {
+        SkillMastery mastery;
+        int speedPercent;
+        float minutes;
+    };
+
+    // Air 10: Master 30 minutes a point at 150 %, Grandmaster an hour a point at 175 % (MM9's SPELL.txt row 21).
+    for (const Case &testCase : {Case{SkillMastery::Master, 150, 300.0f}, Case{SkillMastery::Grandmaster, 175, 600.0f}})
+    {
+        Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+        party.setFleetFootWorld(true);
+        OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+        worldRuntime.bindParty(&party);
+        worldRuntime.setIndoorMap(true);
+        Character *pCaster = party.member(0);
+        REQUIRE(pCaster != nullptr);
+        pCaster->skills["AirMagic"] = {"AirMagic", 10, testCase.mastery};
+        pCaster->spellPoints = 100;
+
+        PartySpellCastRequest request = {};
+        request.casterMemberIndex = 0;
+        request.spellId = fly;
+        const PartySpellCastResult result = PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+
+        REQUIRE_MESSAGE(result.succeeded(), result.statusText);
+        CHECK_FALSE(party.hasPartyBuff(PartyBuffId::Fly));
+        const PartyBuffState *pBuff = party.partyBuff(PartyBuffId::FleetFoot);
+        REQUIRE(pBuff != nullptr);
+        CHECK(pBuff->power == testCase.speedPercent);
+        CHECK(pBuff->remainingSeconds == doctest::Approx(testCase.minutes * 60.0f));
+        CHECK(PartySpellSystem::partyBuffOfSpell(party, fly) == PartyBuffId::FleetFoot);
+        CHECK(PartySpellSystem::worldAllowsSpell(party, worldRuntime, fly));
+    }
+
+    // Any other world keeps Fly: outdoors only, its own buff.
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    worldRuntime.setIndoorMap(true);
+    party.member(0)->skills["AirMagic"] = {"AirMagic", 10, SkillMastery::Master};
+    party.member(0)->spellPoints = 100;
+    PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = fly;
+    CHECK_FALSE(PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request).succeeded());
+    CHECK(PartySpellSystem::partyBuffOfSpell(party, fly) == PartyBuffId::Fly);
+    worldRuntime.setIndoorMap(false);
+    REQUIRE(PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request).succeeded());
+    CHECK(party.hasPartyBuff(PartyBuffId::Fly));
+    CHECK_FALSE(party.hasPartyBuff(PartyBuffId::FleetFoot));
+}
+
+TEST_CASE("MM9 Fleet Foot replaces every Fly: the Dragon's Flight, a potion's or an event's")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const uint32_t flight = spellIdValue(SpellId::Flight);
+
+    // The Dragon's Flight casts Fleet Foot in MM9 (MAW's dragons, the user 2026-11-09), Fly elsewhere.
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    CHECK(PartySpellSystem::partyBuffOfSpell(party, flight) == PartyBuffId::Fly);
+    party.setFleetFootWorld(true);
+    CHECK(castsFleetFoot(party, flight));
+    CHECK(PartySpellSystem::partyBuffOfSpell(party, flight) == PartyBuffId::FleetFoot);
+
+    // A Fly from anything else (a potion, an event: no skill) is Fleet Foot at Expert's speed for its own time; from a
+    // skill, with MM9's time.
+    party.applyPartyBuff(PartyBuffId::Fly, 600.0f, 0, 0, 0, SkillMastery::None, 0);
+    CHECK_FALSE(party.hasPartyBuff(PartyBuffId::Fly));
+    const PartyBuffState *pBuff = party.partyBuff(PartyBuffId::FleetFoot);
+    REQUIRE(pBuff != nullptr);
+    CHECK(pBuff->power == 125);
+    CHECK(pBuff->remainingSeconds == doctest::Approx(600.0f));
+    party.applyPartyBuff(PartyBuffId::Fly, 60.0f, 0, flight, 10, SkillMastery::Grandmaster, 0);
+    CHECK(party.partyBuff(PartyBuffId::FleetFoot)->power == 175);
+    CHECK(party.partyBuff(PartyBuffId::FleetFoot)->remainingSeconds == doctest::Approx(600.0f * 60.0f));
+
+    // Elsewhere a Fly stays a Fly.
+    Party other = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    other.applyPartyBuff(PartyBuffId::Fly, 600.0f, 0, 0, 0, SkillMastery::None, 0);
+    CHECK(other.hasPartyBuff(PartyBuffId::Fly));
+    CHECK_FALSE(other.hasPartyBuff(PartyBuffId::FleetFoot));
+
+    // A Fly brought into MM9 (Town Portal, Lloyd's Beacon, dimensional travel) becomes Fleet Foot for its remaining
+    // time at its mastery's speed; leaving MM9 ends a Fleet Foot.
+    other.applyPartyBuff(PartyBuffId::Fly, 900.0f, 0, spellIdValue(SpellId::Fly), 10, SkillMastery::Master, 2);
+    other.setFleetFootWorld(true);
+    CHECK_FALSE(other.hasPartyBuff(PartyBuffId::Fly));
+    REQUIRE(other.hasPartyBuff(PartyBuffId::FleetFoot));
+    CHECK(other.partyBuff(PartyBuffId::FleetFoot)->power == 150);
+    CHECK(other.partyBuff(PartyBuffId::FleetFoot)->remainingSeconds == doctest::Approx(900.0f));
+    CHECK(other.partyBuff(PartyBuffId::FleetFoot)->casterMemberIndex == 2);
+    other.setFleetFootWorld(false);
+    CHECK_FALSE(other.hasPartyBuff(PartyBuffId::FleetFoot));
+    CHECK_FALSE(other.hasPartyBuff(PartyBuffId::Fly));
+}
+
+TEST_CASE("MM9 Fleet Foot shows its own name and texts in Fly's slot")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const SpellEntry *pFly = gameData.spellTable.findById(int(spellIdValue(SpellId::Fly)));
+    const SpellEntry *pHaste = gameData.spellTable.findById(int(spellIdValue(SpellId::Haste)));
+    REQUIRE(pFly != nullptr);
+    REQUIRE(pHaste != nullptr);
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    const Character &caster = *party.member(0);
+
+    CHECK(partySpellName(&party, caster, *pFly) == "Fly");
+    CHECK(partySpellTooltip(party, caster, *pFly).name == "Fly");
+    party.setFleetFootWorld(true);
+    CHECK(partySpellName(&party, caster, *pFly) == "Fleet Foot");
+    CHECK(partySpellName(&party, caster, *pHaste) == pHaste->name);
+    CHECK(partySpellName(nullptr, caster, *pFly) == "Fly");
+    const SpellTooltipText tooltip = partySpellTooltip(party, caster, *pFly);
+    CHECK(tooltip.name == "Fleet Foot");
+    CHECK(tooltip.description.find("Fleet Foot") != std::string::npos);
+    CHECK(tooltip.masteryLines[3].find("+75") != std::string::npos);
+    // The table keeps Fly's name: saves, quick spells and battle orders find the slot by it.
+    CHECK(gameData.spellTable.findByName("Fly") == pFly);
+}
+
+TEST_CASE("MM9 Fleet Foot runs a quarter better in the green state and ends outside MM9")
+{
+    using namespace OpenYAMM::Game;
+    CHECK(fleetFootSpeedPercent(SkillMastery::Expert) == 125);
+    CHECK(fleetFootSpeedMultiplier(125, false) == doctest::Approx(1.25f));
+    CHECK(fleetFootSpeedMultiplier(125, true) == doctest::Approx(1.3125f));
+    CHECK(fleetFootSpeedMultiplier(150, true) == doctest::Approx(1.625f));
+    CHECK(fleetFootSpeedMultiplier(175, false) == doctest::Approx(1.75f));
+    CHECK(fleetFootSpeedMultiplier(175, true) == doctest::Approx(1.9375f));
+
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    CHECK(partyHasGreenAlert(worldRuntime));
+
+    // A hostile far beyond the yellow range leaves the party green; one inside it, seen or not, does not.
+    GameplayRuntimeActorState actor = {};
+    actor.preciseX = 9000.0f;
+    actor.radius = 48;
+    actor.hostileToParty = true;
+    worldRuntime.addActor(actor);
+    CHECK(partyHasGreenAlert(worldRuntime));
+    actor.preciseX = 3000.0f;
+    worldRuntime.addActor(actor);
+    CHECK_FALSE(partyHasGreenAlert(worldRuntime));
+
+    party.setSpellMovementMultiplier(1.5f);
+    party.setRulesMovementMultiplier(0.5f);
+    CHECK(party.movementMultiplier() == doctest::Approx(0.75f));
+
+    party.setFleetFootWorld(true);
+    party.applyPartyBuff(PartyBuffId::FleetFoot, 600.0f, 150, spellIdValue(SpellId::Fly), 10, SkillMastery::Master, 0);
+    CHECK(party.hasPartyBuff(PartyBuffId::FleetFoot));
+    party.setFleetFootWorld(false);
+    CHECK_FALSE(party.hasPartyBuff(PartyBuffId::FleetFoot));
+    CHECK(party.movementMultiplier() == doctest::Approx(0.5f));
+}
+
+TEST_CASE("area spells reach no farther than the party's hit reach")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    // Mass Fear takes every hostile within 4096; the party's hit reach (5120, MM9's 3800) cuts it shorter.
+    const auto frightened = [&gameData](float partyHitReach)
+    {
+        Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+        OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+        worldRuntime.bindParty(&party);
+        worldRuntime.setPartyHitReach(partyHitReach);
+
+        for (const float x : {3000.0f, 4000.0f})
+        {
+            GameplayRuntimeActorState actor = {};
+            actor.preciseX = x;
+            actor.radius = 48;
+            actor.height = 160;
+            actor.hostileToParty = true;
+            actor.hasDetectedParty = true;
+            worldRuntime.addActor(actor);
+        }
+
+        party.member(0)->spellPoints = 200;
+        PartySpellCastRequest request = {};
+        request.casterMemberIndex = 0;
+        request.spellId = spellIdValue(SpellId::MassFear);
+        request.skillLevelOverride = 10;
+        request.skillMasteryOverride = SkillMastery::Grandmaster;
+        request.bypassRequiredMastery = true;
+        PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+        std::vector<size_t> actors;
+
+        for (const auto &applied : worldRuntime.appliedSpellRequests())
+        {
+            actors.push_back(applied.actorIndex);
+        }
+
+        return actors;
+    };
+
+    CHECK(frightened(5120.0f) == std::vector<size_t>{0, 1});
+    CHECK(frightened(3800.0f) == std::vector<size_t>{0});
 }

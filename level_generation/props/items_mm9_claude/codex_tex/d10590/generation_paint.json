@@ -1,0 +1,26 @@
+{
+  "prompt": "Paint the supplied paint_mask_guide.png exactly per this brief. Input roles: paint_mask_guide.png is the edit target and authoritative geometry/layout; design_reference.png is material/detail reference; icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG, 1536x2048 (3:4). Guide has three columns and FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve exact object position, size, outline, gaps and openings of every grey silhouette. The very thin horizontal bars are genuine edge-on views and MUST remain thin bars at the same positions. Do not replace them with face-on leaves.\nRows 1-2: paint only the grey objects with unlit base colour of source-faithful upright stem-down four-leaf clover, yellow-green mottled leaves, fine natural veins, green stem, matching design_reference details and original icon colours. Preserve polygonal silhouettes. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, halo, sparkle, ground, outlines or text.\nRows 3-4: same five silhouettes filled with FLAT PURE YELLOW #FFFF00 for the entire plant (matte non-metal solid). No texture, shading, outlines or antialiased colour blends inside. Material palette in brief: metal red #FF0000; leather/fur green #00FF00; cloth/hair blue #0000FF; matte nonmetal solids yellow #FFFF00; gemstone/glass/liquid black #000000. This plant is entirely matte nonmetal.\nEverything outside silhouettes transparent. Column 3 in rows 2 and 4 completely empty transparent. Paint grey objects only, never redraw, enlarge, move or redesign them.\nCORRECTION: Prior attempt had stray pixels and enlarged rounded silhouettes. Strictly trace the original guide alpha edges, including angular polygonal leaf tips and angular stem, not the rounded master shape. Thin edge-on bars are straight clean rectangles exactly as guide, no bulges or stray pixels. Bottom half must be featureless solid #FFFF00 silhouettes with absolutely no dark lines, veins, gradients, flecks or exterior pixels. Do not add a border. Use the original guide as the locked edit target.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3f-c9f5-7252-af12-52358e7d719b/exec-c1acec31-ca34-4219-b277-441bddb12665.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10590/paint_mask_guide.png",
+      "sha256": "9fdf6b78a90bb8f04a081d3c64902cf9b13be50b66e0f97734895fd676d84ede"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10590/design_reference.png",
+      "sha256": "a3d865e79a4c17ed8fa18c0b0dd82dac228ae16147e2b397bba22bff6383e8fc"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10590/icon_x8.png",
+      "sha256": "32d2df4b2af75eac364f38c5938c4b953ff021fc5e15b309234da8f94732d246"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10590/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "validation": "One corrective regeneration used. Visual inspection still shows silhouette spill and non-flat material mask artifacts; raw tool output preserved without edits."
+}

@@ -1,0 +1,510 @@
+{
+ "id": "20261102-1555-mm9-lindisfarnemonastery-00",
+ "world": "mm9",
+ "maps": [
+  "lindisfarnemonastery.blv",
+  "lindisfarne.odm",
+  "bootcamp.odm",
+  "afterworld.odm",
+  "frosgard.odm"
+ ],
+ "created": "2026-11-02T14:55:26+00:00",
+ "textures": [
+  "mm9/moungdsg9g",
+  "mm9/sand3yuxai",
+  "mm9/sturm8czwu",
+  "mm9/bootblvw0u",
+  "mm9/boot3dzfn6",
+  "mm9/sturksoqyr",
+  "mm9/wallh6tsef",
+  "mm9/abnd5ur5fj",
+  "mm9/sturqhghpm",
+  "mm9/sturt570g4",
+  "mm9/mainakfoki",
+  "mm9/doorheixh4",
+  "mm9/archmiulrz",
+  "mm9/bluewqvuma",
+  "mm9/frosfbduep",
+  "mm9/frosd2nhv9",
+  "mm9/frosd5spmy",
+  "mm9/frosvuz292",
+  "mm9/brkwm8q0u1",
+  "mm9/frosa33giz",
+  "mm9/froson25us",
+  "mm9/fros4uiybg",
+  "mm9/fros1m546q",
+  "mm9/froslpe1fg"
+ ],
+ "requests": {
+  "mm9/moungdsg9g": {
+   "name": "moungdsg9g",
+   "versions": [
+    1
+   ],
+   "material": "dark mountain dirt and weathered rock, grey-brown with faint purple and rust tones, coarse gravel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sand3yuxai": {
+   "name": "sand3yuxai",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "fine dry beach sand, warm tan, even grain with faint darker specks",
+   "notes": {
+    "2": "close photograph of dry beach sand: individual sand grains clearly visible at full size, a few tiny pebbles and shell flecks, no smooth cloudy blur"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm9/sturm8czwu": {
+   "name": "sturm8czwu",
+   "versions": [
+    1
+   ],
+   "material": "steep mountain cliff of dark grey-brown rock with patches of moss and dry grass",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bootblvw0u": {
+   "name": "bootblvw0u",
+   "versions": [
+    1
+   ],
+   "material": "rough meadow ground, patchy green and yellow grass over brown earth and small stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/boot3dzfn6": {
+   "name": "boot3dzfn6",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "lush green meadow grass with clover and small yellow-green patches, dense and even",
+   "notes": {
+    "2": "fine grass blades and short moss with a few small pale grey stones showing through; no clover, no round leaves, no flowers",
+    "3": "the same cool grey-green as the reference, not yellow-green: fine grass blades and short moss with a few small pale lilac-grey stones; no clover, no flowers"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bootblvw0u"
+     ],
+     "fraction": 0.283
+    },
+    "2": {
+     "sources": [
+      "mm9/bootblvw0u"
+     ],
+     "fraction": 0.283
+    },
+    "3": {
+     "sources": [
+      "mm9/bootblvw0u"
+     ],
+     "fraction": 0.283
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "ref_blur": {
+    "2": 2.5,
+    "3": 2.5
+   }
+  },
+  "mm9/sturksoqyr": {
+   "name": "sturksoqyr",
+   "versions": [
+    1
+   ],
+   "material": "dark stained wooden ceiling panels framed by thick beams in a cross, old oak",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturz4cexf"
+     ],
+     "fraction": 0.579
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wallh6tsef": {
+   "name": "wallh6tsef",
+   "versions": [
+    1
+   ],
+   "material": "worn dry-laid stone wall, rounded grey-olive blocks with dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abnd5ur5fj": {
+   "name": "abnd5ur5fj",
+   "versions": [
+    1
+   ],
+   "material": "reddish brown wood grain, smooth planed timber with long straight grain lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturqhghpm": {
+   "name": "sturqhghpm",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tavern wall: pale cream plaster above a dark wooden wainscot of vertical planks",
+   "notes": {
+    "2": "the dark wooden wainscot boards run straight down to the very bottom edge of the image; no trim, no dark line, no plaster strip at the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/sturt570g4": {
+   "name": "sturt570g4",
+   "versions": [
+    1
+   ],
+   "material": "grey stone church wall with three narrow arched windows with dark iron frames, slate courses above and below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/mainakfoki": {
+   "name": "mainakfoki",
+   "versions": [
+    1
+   ],
+   "material": "worn grassland, yellow-green grass with bare brown patches and dirt",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/doorheixh4": {
+   "name": "doorheixh4",
+   "versions": [
+    1
+   ],
+   "material": "small red-brown wooden door with six recessed panels, brass hinges and handle on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/archmiulrz": {
+   "name": "archmiulrz",
+   "versions": [
+    1
+   ],
+   "material": "semicircular stained glass window, red and blue leaded panes around a yellow fleur-de-lis",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bluewqvuma": {
+   "name": "bluewqvuma",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey cement trim: a band of greek-key fret along the top over speckled blue-grey stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosfbduep": {
+   "name": "frosfbduep",
+   "versions": [
+    1
+   ],
+   "material": "snowy mountain rock face, grey stone streaked with green moss and lichen",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/froshf0y66"
+     ],
+     "fraction": 0.768
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosd2nhv9": {
+   "name": "frosd2nhv9",
+   "versions": [
+    1
+   ],
+   "material": "double wooden door of dark planks with iron straps, two ring handles, snow on the sill",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/fross7nst0"
+     ],
+     "fraction": 0.888
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosd5spmy": {
+   "name": "frosd5spmy",
+   "versions": [
+    1
+   ],
+   "material": "wall of blue glacier ice, frosted pale blue with darker blue cracks and snow drifts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/fros2v4xvl"
+     ],
+     "fraction": 0.208
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosvuz292": {
+   "name": "frosvuz292",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey stone wall with a dark vertical timber post at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/frosufe58j"
+     ],
+     "fraction": 0.775
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/brkwm8q0u1": {
+   "name": "brkwm8q0u1",
+   "versions": [
+    1
+   ],
+   "material": "grey stone brick wall with crenellations at the top, snow on the merlons and in the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bricqnokcb"
+     ],
+     "fraction": 0.73
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosa33giz": {
+   "name": "frosa33giz",
+   "versions": [
+    1
+   ],
+   "material": "wall of brown stone bricks in neat courses with snow lying on the ledges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/trai6v57oh"
+     ],
+     "fraction": 0.694
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/froson25us": {
+   "name": "froson25us",
+   "versions": [
+    1
+   ],
+   "material": "two wooden doors: left of plain vertical planks with an iron lock plate, right with a diagonal brace and a brass knob, snow at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/frosnt4z9g"
+     ],
+     "fraction": 0.419
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros4uiybg": {
+   "name": "fros4uiybg",
+   "versions": [
+    1
+   ],
+   "material": "thick snow cap with a ragged lower edge over dark broken rock and earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/darkjhjfi9"
+     ],
+     "fraction": 0.378
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros1m546q": {
+   "name": "fros1m546q",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale blue ice with faint white frost streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/froslpe1fg": {
+   "name": "froslpe1fg",
+   "versions": [
+    1
+   ],
+   "material": "mossy green mountainside, bright moss and grass over grey rock",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

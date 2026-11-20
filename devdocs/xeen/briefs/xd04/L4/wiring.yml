@@ -1,0 +1,511 @@
+format: 0
+variables: [boy_state, rosebud_open, hoist_released, boil, on_pier, circle_trod]
+events:
+  - id: evt:alacorn_taken
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {item: alacorn}
+    once: true
+    effects:
+      - qbit: alacorn_taken
+      - set:
+          var:
+            map_var: boil
+          value: 1
+      - lights_on: [light:boil, light:boil_pier]
+      - lights_off: light:alacorn
+      - summon:
+          slot: 1
+          at: [-3072, 1300, 1920]
+          count: 2
+          tier: b
+      - lua: "evt.CameraShake(1.0, 2.0)"
+    text: "The cauldron roars and boils over: green steam boils up the shaft! Get off the bridge!"
+    notes: "goal:alacorn / set:boil_over: taking the Alacorn sets alacorn_taken, the shaft fills with green steam that burns on the pier and the bridge for about a minute, and goblins come up behind (two Hobgoblins at the Rosebud landing)."
+  - id: evt:arrive
+    preset: text
+    trigger: load
+    once: true
+    text: "Green light flickers on black timber, and somewhere above, a cauldron bubbles."
+  - id: evt:boil_count
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {map_var: {name: boil, at_least: 1, below: 31}}
+    effects:
+      - add:
+          var:
+            map_var: boil
+          value: 1
+    notes: About a minute of boiling over.
+  - id: evt:boil_end
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {map_var: {name: boil, at_least: 31}}
+    once: true
+    effects:
+      - lights_off: [light:boil, light:boil_pier]
+    text: "Far below, the cauldron settles to a simmer."
+  - id: evt:bookcase
+    preset: door
+    source: door:bookcase
+    title: Bookcase
+    action: open
+    text: "The bookcase rises into the wall with a groan. Behind it, a cage, and a sobbing child."
+    notes: "link:vat_hall_hidden_cage: the secret bookcase door."
+  - id: evt:brake
+    preset: switch
+    source: switch:brake
+    title: Hoist brake
+    condition: {not: {map_var: hoist_released}}
+    opens: [door:gate_bottom]
+    closes: [mover:hoist, door:gate_top]
+    sets: {map_var: hoist_released}
+    else_effects:
+      - message: "The brake is off: the hoist runs free. Ride the cage, or call it with the button beside either gate."
+    text: "The brake comes off with a bang: the cage rattles away down the slot to the cauldron floor."
+    notes: "poi:hoist_brake: the first pull sends the cage down and sets hoist_released; then it rides and is called from either end. Pass two: a later pull says so (it was silent)."
+  - id: evt:cage_1
+    preset: script
+    source: mover:cage_1
+    title: Locked cage
+    condition: {item: warden_ring}
+    opens: [mover:cage_1]
+    effects:
+      - lua: |-
+          if IsAtLeast(MapVar(boy_state), 2) then
+              evt.StatusText('The cage hangs open and empty.')
+          elseif IsAtLeast(MapVar(boy_state), 1) then
+              if HasItem(214) then
+                  SetValue(MapVar(boy_state), 2)
+                  evt.SetMonGroupBit(11, MonsterBits.Invisible, 1)
+                  SetQBit(QBit(110040))
+                  AddValue(Experience, 500)
+                  evt.SimpleMessage("You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home.")
+              else
+                  evt.SimpleMessage("'I'm not going home with goblin ears!' The boy will not budge. 'They say the witches' Alacorn cures anything. It's up top, over the cauldron.'")
+              end
+          else
+              SetValue(MapVar(boy_state), 1)
+              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. The boy steps out and stops: 'Not with these ears. Mum would die. The witches' Alacorn could cure them - it's up top, over the cauldron.'")
+          end
+    else_effects:
+      - message: "The cage is locked fast. Inside, a boy with pointed goblin ears grips the bars: 'The warden's keys! The big ring - he keeps it in his strongbox there. Get it and let me out!'"
+    notes: "set:cure_the_boy: the warden's ring (in his strongbox) hoists the cage; then the Alacorn cures the boy (click the cage again holding it): he runs home (child_rescued_1). boy_state 0 caged, 1 out but waiting, 2 gone."
+  - id: evt:cage_2
+    preset: script
+    source: mover:cage_2
+    title: Locked cage
+    condition: {item: warden_ring}
+    opens: [mover:cage_2]
+    effects:
+      - lua: |-
+          if IsQBitSet(QBit(110041)) then
+              evt.StatusText('The cage hangs open and empty.')
+          else
+              evt.SetMonGroupBit(12, MonsterBits.Invisible, 1)
+              AddValue(Experience, 500)
+              SetQBit(QBit(110041))
+              SetQBit(QBit(110044))
+              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. A girl with a green tinge to her skin tumbles out and hugs you. 'I'm Rosebud. The door at the top of the north stair has a witch's face on it, and it only opens to the coven's key. They keep it in their stores in the herb loft, past the vats. Don't tell them I told you!' Then she is gone, running for Toad Meadow.")
+          end
+    else_effects:
+      - message: "The cage is locked. The girl inside whispers: 'The warden's got the keys - a big ring, in the strongbox in his lodge off the gallery downstairs. Please let me out!'"
+    notes: "poi:cages: child 2, Rosebud, tells where the coven's key to the face door is (rosebud_heard; pass two: no password)."
+  - id: evt:cage_3
+    preset: script
+    source: mover:cage_3
+    title: Locked cage
+    condition: {item: warden_ring}
+    opens: [mover:cage_3]
+    effects:
+      - lua: |-
+          if IsQBitSet(QBit(110042)) then
+              evt.StatusText('The cage hangs open and empty.')
+          else
+              evt.SetMonGroupBit(13, MonsterBits.Invisible, 1)
+              AddValue(Experience, 500)
+              SetQBit(QBit(110042))
+              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. The sobbing child wipes his nose, grins and runs. (Valia will hear of it.)")
+          end
+    else_effects:
+      - message: "The cage is locked. The sobbing child sniffs: 'The warden's ring opens it. It's in his strongbox, in his lodge on the ground floor.'"
+    notes: "poi:cages: child 3."
+  - id: evt:cage_4
+    preset: script
+    source: mover:cage_4
+    title: Locked cage
+    condition: {item: warden_ring}
+    opens: [mover:cage_4]
+    effects:
+      - lua: |-
+          if IsQBitSet(QBit(110043)) then
+              evt.StatusText('The cage hangs open and empty.')
+          else
+              evt.SetMonGroupBit(14, MonsterBits.Invisible, 1)
+              AddValue(Experience, 500)
+              SetQBit(QBit(110043))
+              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. The child in the witches' bedchamber slips out and is gone down the stair. (Valia will hear of it.)")
+          end
+    else_effects:
+      - message: "The cage is locked. The child inside whispers: 'The warden downstairs keeps the ring of keys in his strongbox. Hurry, before they come back!'"
+    notes: "poi:cages: child 4."
+  - id: evt:call_bottom
+    preset: switch
+    source: switch:call_bottom
+    title: Hoist call
+    condition: {map_var: hoist_released}
+    opens: [door:gate_bottom]
+    closes: [mover:hoist, door:gate_top]
+    else_effects:
+      - message: "You press the button. Far above, something clanks - but nothing moves: the hoist's rope is held fast somewhere above. (The hoist's brake must be in the hoist room, by the coven's sanctum.)"
+    text: The cage comes down the slot.
+  - id: evt:call_top
+    preset: switch
+    source: switch:call_top
+    title: Hoist call
+    condition: {map_var: hoist_released}
+    opens: [mover:hoist, door:gate_top]
+    closes: [door:gate_bottom]
+    else_effects:
+      - message: "The cage is here, held fast by its brake. The brake lever is on this room's north wall."
+    text: The cage comes up the slot.
+  - id: evt:cauldron
+    preset: script
+    source: platform:cauldron
+    trigger: step
+    effects:
+      - damage:
+          amount: 15
+          kind: body
+      - set:
+          var:
+            map_var: on_pier
+          value: 0
+    text: "The brew scalds and stings: you flounder out of the cauldron."
+    notes: The cauldron's top as a harmful floor (Body damage each time the party lands in it).
+  - id: evt:chest_coven
+    preset: chest
+    source: chest:coven
+    title: Cabinet
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Cabinet
+  - id: evt:chest_loft
+    preset: chest
+    source: chest:loft
+    title: Chest
+  - id: evt:chest_warden
+    preset: chest
+    source: chest:warden
+    title: Chest
+  - id: evt:circle
+    preset: script
+    source: platform:circle_ne
+    trigger: step
+    sources: [platform:circle_nw, platform:circle_se, platform:circle_sw]
+    once: true
+    effects:
+      - set:
+          var:
+            map_var: circle_trod
+          value: 1
+  - id: evt:cloud_stair
+    preset: exit
+    source: exit:cloud_stair
+    title: The cloud stair
+    condition: {qbit: m4_crusaders}
+    locked_text: The clouds will bear only those sworn as Crusaders. Old Valia in Toad Meadow names Crusaders.
+    text: You climb the stair of cloud into the sky.
+  - id: evt:crying
+    preset: text
+    source: plate:crying
+    trigger: step
+    once: true
+    text: "Somewhere behind the bookcase, a child is crying."
+    notes: "The clue to the hidden cage (a placed crying sound in the brief; MM7 projects take no sounds)."
+  - id: evt:cue_lodge
+    preset: text
+    source: room:warden_lodge
+    trigger: step
+    once: true
+    text: "In a cage by the west wall, a boy rattles the bars and points at the warden's strongbox: 'The keys! He keeps the keys in there!'"
+    notes: "Pass two: the cage ring is seen and named as a player comes in."
+  - id: evt:cue_schoolroom
+    preset: text
+    source: room:schoolroom
+    trigger: step
+    once: true
+    text: "From a cage by the north wall, a girl hisses: 'Psst! Let me out and I'll tell you a secret!'"
+    notes: "Pass two: child 2 calls out, so the cage reads as something to open."
+  - id: evt:cupboard
+    preset: door
+    source: door:cupboard
+    title: Wainscot
+    action: open
+    text: "A panel of the wainscot is loose: behind it, a goblin's hoard in a cupboard."
+    notes: "The secret cupboard (treasure: secret_container): a secret leaf that slides up on a click."
+  - id: evt:door_bedchamber
+    preset: door
+    source: door:bedchamber
+    title: Bedchamber door
+  - id: evt:door_dormitory
+    preset: door
+    source: door:dormitory
+    title: Dormitory door
+  - id: evt:door_larder
+    preset: door
+    source: door:larder
+    title: Larder door
+  - id: evt:door_mistress
+    preset: door
+    source: door:mistress
+    title: The mistress's door
+  - id: evt:door_pens
+    preset: door
+    source: door:pens
+    title: Pen door
+  - id: evt:door_schoolroom
+    preset: door
+    source: door:schoolroom
+    title: Schoolroom doors
+  - id: evt:door_warden
+    preset: door
+    source: door:warden
+    title: Warden's door
+  - id: evt:exit_door
+    preset: exit
+    source: exit:tower_door
+    title: "The tower door: out to Toad Meadow"
+    text: You push the tower door open into the meadow air.
+  - id: evt:familiars
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {any: [{kills: {group: 6}}, {map_var: circle_trod}]}
+    once: true
+    effects:
+      - show_actors: 5
+    text: "The Head Witch shrieks a word: the witch-marks split, and her familiars crawl out of the floor!"
+    notes: "The brief's 'at half health' cannot be tested (gap): her familiars come when her two sisters have fallen or the party treads on the witch-mark circle."
+  - id: evt:hatch
+    preset: door
+    source: door:hatch
+    title: Roof hatch
+  - id: evt:head_witch_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:head_witch}}
+    once: true
+    effects:
+      - qbit: head_witch_slain
+    text: "The Head Witch shrieks, shrivels and is still."
+    notes: goal:head_witch.
+  - id: evt:hoist
+    preset: switch
+    source: mover:hoist
+    title: Hoist cage
+    condition: {map_var: hoist_released}
+    toggles: [mover:hoist, door:gate_top, door:gate_bottom]
+    else_effects:
+      - message: The hoist cage is held fast by its brake. The brake lever is on the hoist room's north wall.
+    text: The winch creaks and the cage moves.
+  - id: evt:hoist_gate
+    preset: switch
+    source: door:gate_bottom
+    title: Hoist gate
+    condition: {map_var: hoist_released}
+    opens: [door:gate_bottom]
+    closes: [mover:hoist, door:gate_top]
+    else_effects:
+      - message: "A plank gate closes the witches' hoist. Far above, something clanks - but nothing moves: the hoist's rope is held fast somewhere above. (The hoist's brake must be in the hoist room, by the coven's sanctum.)"
+    text: The cage comes down the slot.
+    notes: "Pass two: the lower hoist gate names itself and calls the cage like the button beside it."
+  - id: evt:pier_off
+    preset: script
+    source: room:coven_sanctum
+    trigger: step
+    sources: [room:cauldron_chamber]
+    effects:
+      - set:
+          var:
+            map_var: on_pier
+          value: 0
+  - id: evt:pier_on
+    preset: script
+    source: room:shaft_bridge
+    trigger: step
+    sources: [platform:bridge, platform:landing]
+    effects:
+      - set:
+          var:
+            map_var: on_pier
+          value: 1
+  - id: evt:recipe
+    preset: script
+    source: panel:recipe
+    title: A recipe card
+    effects:
+      - message: "Strength brew - the vat with the TOAD on its lid. NOT the bubbling one (Agnes). NOT the green one, unless you want to be green."
+    notes: "poi:recipe_card: names the good vat."
+  - id: evt:roof
+    preset: text
+    source: room:roof
+    trigger: step
+    once: true
+    text: "Wind, and the whole of Toad Meadow below. Beyond the meadows the world simply ends, and the stars shine under it. Above you, a stair of cloud climbs into the sky."
+  - id: evt:rosebud
+    preset: door
+    source: door:rosebud
+    title: The sleeping face
+    condition: {item: coven_key}
+    action: open
+    sets: {map_var: rosebud_open}
+    else_effects:
+      - message: "A face of an old witch is carved in the door, fast asleep and smiling in her sleep. The door will not move. Under her chin, in a carved rosebud, is a keyhole: the coven's own key would fit it."
+    text: "The coven's key turns in the carved rosebud. The face sighs in her sleep, and the door parts down the middle."
+    notes: "set:rosebud_door / link:rosebud_door. Pass two, the user's decision (2026-11-13: no riddles a player knows nothing about): the brief's password is replaced by the coven's key (High Cleric's Key, 2187) in the witches' stores in the herb loft, which Rosebud (child 2) names when freed."
+  - id: evt:skull_1
+    preset: script
+    source: deco:skull_1
+    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'A scroll of Mind Blast, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
+    title: Talking skull (Mind)
+    effects:
+      - lua: |-
+          local paid = false
+          for _, g in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186}) do
+              if not paid and HasItem(g) then
+                  RemoveItem(g)
+                  paid = true
+              end
+          end
+          if paid then
+              GiveItem(358)
+              evt.StatusText("The skull spits out a scroll of Mind Blast. 'Pleasure doing business. Your nose is crooked.'")
+          else
+              evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
+          end
+    notes: "poi:talking_skulls: sells Mind Blast scrolls (Mind) for one gem of any kind (the brief: 5 to 10)."
+  - id: evt:skull_2
+    preset: script
+    source: deco:skull_2
+    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'A scroll of Heal, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
+    title: Talking skull (Body)
+    effects:
+      - lua: |-
+          local paid = false
+          for _, g in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186}) do
+              if not paid and HasItem(g) then
+                  RemoveItem(g)
+                  paid = true
+              end
+          end
+          if paid then
+              GiveItem(367)
+              evt.StatusText("The skull spits out a scroll of Heal. 'Pleasure doing business. Your nose is crooked.'")
+          else
+              evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
+          end
+    notes: "poi:talking_skulls: sells Heal scrolls (Body) for one gem of any kind (the brief: 5 to 10)."
+  - id: evt:skull_3
+    preset: script
+    source: deco:skull_3
+    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'A scroll of Sparks, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
+    title: Talking skull (Air)
+    effects:
+      - lua: |-
+          local paid = false
+          for _, g in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186}) do
+              if not paid and HasItem(g) then
+                  RemoveItem(g)
+                  paid = true
+              end
+          end
+          if paid then
+              GiveItem(314)
+              evt.StatusText("The skull spits out a scroll of Sparks. 'Pleasure doing business. Your nose is crooked.'")
+          else
+              evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
+          end
+    notes: "poi:talking_skulls: sells Sparks scrolls (Air) for one gem of any kind (the brief: 5 to 10)."
+  - id: evt:slate
+    preset: script
+    source: panel:slate
+    title: The slate
+    effects:
+      - message: "HOW TO BE A PROPER GOBLIN.  1. Never say please.  2. Never wash.  3. Forget your name.  --  In the corner, small and half rubbed out, a child has scratched her own name: Rosebud. She has not forgotten it."
+    notes: "poi:slate_board: the lesson, and Rosebud's name in the corner (pass two: the generated slate shows both; no password)."
+  - id: evt:steam
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {all: [{map_var: {name: boil, at_least: 1, below: 31}}, {map_var: on_pier}]}
+    effects:
+      - damage:
+          amount: 6
+          kind: body
+    text: "The steam scalds you!"
+  - id: evt:vat_bubbling
+    preset: script
+    source: deco:vat_bubbling
+    title: Bubbling vat
+    effects:
+      - set:
+          var: PoisonedGreen
+          value: 1
+      - damage:
+          amount: 5
+          kind: poison
+          who: current
+    text: Agnes's brew burns all the way down. You are poisoned.
+    notes: "poi:vats: the bubbling vat poisons."
+  - id: evt:vat_green
+    preset: script
+    source: deco:vat_green
+    title: Green vat
+    effects:
+      - set:
+          var: Weak
+          value: 1
+    text: "Your skin turns green, and your knees turn to water. (Weak)"
+    notes: "poi:vats: the green vat turns the drinker green: Weak until cured or rested."
+  - id: evt:vat_toad
+    preset: script
+    source: deco:vat_toad
+    title: Vat with a toad on its lid
+    condition: {lua: not IsPlayerBitSet(PlayerBit(11041))}
+    effects:
+      - lua: |-
+          local r = evt.RandomBetween(1, 7)
+          if r == 1 then AddValue(BaseMight, 2)
+          elseif r == 2 then AddValue(BaseIntellect, 2)
+          elseif r == 3 then AddValue(BasePersonality, 2)
+          elseif r == 4 then AddValue(BaseEndurance, 2)
+          elseif r == 5 then AddValue(BaseAccuracy, 2)
+          elseif r == 6 then AddValue(BaseSpeed, 2)
+          else AddValue(BaseLuck, 2) end
+          SetPlayerBit(PlayerBit(11041))
+    else_effects:
+      - text: The brew tastes of mud and does nothing more for you.
+    text: "It tastes of mud and nettles, and something in you grows stronger. (+2 to one stat, permanent)"
+    notes: "poi:vats, the good vat: +2 to a stat drawn at random, once per character (player bit 11041, provisional)."
+  - id: evt:ward
+    preset: door
+    source: door:ward
+    title: A shimmering ward
+    condition: {qbit: m4_crusaders}
+    action: open
+    else_effects:
+      - message: "A web of green witch-light bars the stair to the roof, the coven's moon-eye burning in it. Woven through the light, the words: ONLY THOSE SWORN AS CRUSADERS MAY PASS. You are not sworn. Old Valia in Toad Meadow names Crusaders: bring her the Alacorn first, and come back when she has named you."
+    text: The ward knows the Crusaders' oath. It sinks hissing into the floor.
+    notes: "Sealed until Valia names the party Crusaders (qbit m4_crusaders, set on X1 after M4). Pass two: the locked line says plainly what opens it and that it is not for now."
+  - id: evt:winch
+    preset: text
+    source: platform:winch
+    title: Winch drum
+    text: The hoist's rope is wound on this drum. The brake lever is on the north wall.
+notes: "Every mechanism is a preset with conditions and effects. Lua only where no word fits: the cages' branches and experience, the vats' per-character bits and random stat, the skulls' gem payment, the camera shake."

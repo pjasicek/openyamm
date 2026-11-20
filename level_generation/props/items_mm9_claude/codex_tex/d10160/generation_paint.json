@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background). Produce ONE transparent PNG 1536x2048, 3:4 canvas. Preserve the exact guide layout: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain identical five orthographic renders FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint the existing grey objects only, preserving precisely their positions, sizes, outlines, every chain link, gaps and openings. Do not redraw, enlarge, move or redesign. The edge-on views MUST stay thin and edge-on. Rows 1-2: unlit base colour of this bronze amulet, source-faithful upright pendant, warm bronze/ochre gold as in the original icon, subtle metal surface texture and inner swirls following the design reference scaled to each view. All parts including chain and suspension ring are metal. Remove directional light, highlights, reflections and shadows from reference appearance: base colour only, no ambient occlusion. Rows 3-4: exact same silhouettes filled completely with FLAT pure red #FF0000 because all parts are metal. No shading, no texture, no outlines, no antialiased colour blends inside. Material palette rule: metal pure red #FF0000; gemstone/crystal/glass/pearl/enamel/liquid pure black #000000; cloth/cord/ribbon/hair pure blue #0000FF. This item has only metal. Keep all background and holes fully transparent. Column 3 of rows 2 and 4 must remain empty and transparent. No cast shadows, hot highlights, glow, sparkles, aura, ground, text or outlines. Output image only.\nCORRECTION: Reapply directly to the original grey guide, which is the absolute geometry authority. Keep the faceted oval outline rather than smoothing it. Do not thicken any chain links, connect gaps or add any stray pixels. The lower half must be a clean exact recolouring of the guide alpha silhouettes to solid RGB(255,0,0), with absolutely no red dust or marks outside. Upper half must be subdued unlit bronze albedo, without bright reflective streaks. Preserve all ten silhouettes exactly.",
+  "initial_prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background). Produce ONE transparent PNG 1536x2048, 3:4 canvas. Preserve the exact guide layout: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain identical five orthographic renders FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint the existing grey objects only, preserving precisely their positions, sizes, outlines, every chain link, gaps and openings. Do not redraw, enlarge, move or redesign. The edge-on views MUST stay thin and edge-on. Rows 1-2: unlit base colour of this bronze amulet, source-faithful upright pendant, warm bronze/ochre gold as in the original icon, subtle metal surface texture and inner swirls following the design reference scaled to each view. All parts including chain and suspension ring are metal. Remove directional light, highlights, reflections and shadows from reference appearance: base colour only, no ambient occlusion. Rows 3-4: exact same silhouettes filled completely with FLAT pure red #FF0000 because all parts are metal. No shading, no texture, no outlines, no antialiased colour blends inside. Material palette rule: metal pure red #FF0000; gemstone/crystal/glass/pearl/enamel/liquid pure black #000000; cloth/cord/ribbon/hair pure blue #0000FF. This item has only metal. Keep all background and holes fully transparent. Column 3 of rows 2 and 4 must remain empty and transparent. No cast shadows, hot highlights, glow, sparkles, aura, ground, text or outlines. Output image only.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acfe-e887-75f1-9bfa-1f1df99a1745/exec-ebab0917-12a0-45b7-8d6f-a531a43bbbeb.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10160/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10160/paint_mask_guide.png",
+      "sha256": "223f7cb50f074630e123f7ff06a8f81498468906df124d74f5358e7cddbe980a"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10160/design_reference.png",
+      "sha256": "d83a661940d6357bb656e3aec32decb00cd979c595008ae32a827fd55e9f0181"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10160/icon_x8.png",
+      "sha256": "1e85e3746344991dc66468879266bde788d90a4f6aa0789276bf5824cfddbfce"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation_notes": "Layout visually reviewed; generated mask retains stray pixels and chain silhouette deviations after the single permitted correction. Raw tool output preserved without modification."
+}

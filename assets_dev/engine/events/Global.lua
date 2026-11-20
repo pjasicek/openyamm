@@ -355,7 +355,7 @@ RegisterGlobalEvent(32, "Blackmail", function()
     RemoveItem(742) -- Blackmail Letter
     ClearQBit(QBit(222)) -- Blackmail Letter - I lost it, taken event g 32
     evt.SetNPCTopic(4, 0, 33) -- Arion Hunter topic 0: Smuggler Boats
-    AddValue(History(5), 0)
+    AddValue(History(3), 0)
     ClearQBit(QBit(231)) -- The were-rats are mad at you
 end)
 RegisterCanShowTopic(32, function()
@@ -465,7 +465,7 @@ RegisterGlobalEvent(42, "Quest", function()
     if not IsQBitSet(QBit(25)) then -- Find a witness to the lake of fire's formation. Bring him back to the merchant guild in Alvar. - Given and taken by Bastian Lourdrin (area 3).
         evt.SetMessage("All of this upheaval is seriously impacting our guild's business. I need more information, but I'm being buried in gossip and rumor.Many tell me of this sea of fire in the Ironsand Desert. I've heard the tale enough that I almost believe it. Confirmation or denial of the lake's existence would be of great help to me.If you would serve me, go to the Ironsand Desert and seek this lake. If it is indeed there, find me someone who saw it appear. Bring him back here so I can hear his story myself.")
         SetQBit(QBit(25)) -- Find a witness to the lake of fire's formation. Bring him back to the merchant guild in Alvar. - Given and taken by Bastian Lourdrin (area 3).
-        AddValue(History(6), 0)
+        AddValue(History(4), 0)
         evt.MoveNPC(7, 752) -- Overdune Snapfinger -> Overdune's House
         evt.MoveNPC(47, 752) -- Farhill Snapfinger -> Overdune's House
         return
@@ -582,7 +582,7 @@ end)
 
 RegisterGlobalEvent(49, "Quest", function()
     if IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
-        AddValue(History(9), 0)
+        AddValue(History(7), 0)
         return
     elseif IsQBitSet(QBit(33)) then -- Find the Dragon Egg and return it to the dragon leader, Deftclaw Redreaver. - Given and taken by DRAGON LEADER (area 5)
         evt.ForPlayer(Players.All)
@@ -610,7 +610,7 @@ RegisterGlobalEvent(49, "Quest", function()
         AddValue(Gold, 10000)
         evt.ForPlayer(Players.All)
         SetAward(Award(7)) -- Formed an alliance with the Garrote Gorge Dragons.
-        AddValue(History(9), 0)
+        AddValue(History(7), 0)
     else
         evt.SetMessage("Last month one of Quixote's raiding parties invaded our caves. They slew many and took with them the egg containing my unborn heir. While those foul slayers hold the egg, we cannot attack their encampment.If you were to return the egg to me, I could destroy Quixote. Do this for me and I will join your alliance.")
         SetQBit(QBit(33)) -- Find the Dragon Egg and return it to the dragon leader, Deftclaw Redreaver. - Given and taken by DRAGON LEADER (area 5)
@@ -882,7 +882,7 @@ end)
 
 RegisterGlobalEvent(64, "Quest", function()
     if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
-        AddValue(History(10), 0)
+        AddValue(History(8), 0)
         return
     elseif IsQBitSet(QBit(31)) then -- Recover the Dragon Egg from Zog's fortress in Ravage Roaming and return it to Charles Quixote in Garrote Gorge. - Given and taken by Quixote (area 5)
         evt.ForPlayer(Players.All)
@@ -911,7 +911,7 @@ RegisterGlobalEvent(64, "Quest", function()
         AddValue(Gold, 10000)
         evt.ForPlayer(Players.All)
         SetAward(Award(8)) -- Formed an alliance with Charles Quixote and his Dragon Hunters.
-        AddValue(History(10), 0)
+        AddValue(History(8), 0)
     else
         evt.SetMessage("One of my customers, an Ogre that goes by the charming moniker of \"Zog the Jackal,\" has seriously betrayed my trust. I gave him an item of great value on promise of future payment. This rather large payment never arrived. I sent a messenger to demand return of the item--a Dragon's egg of great potential. This messenger was slain!Needless to say, this matter concerns me greatly. I have allotted both money and men for the purpose of revenge. If, however, you were to recover the egg for me from Zog's fortress in Ravage Roaming, I would be glad to pledge service to your alliance.")
         SetQBit(QBit(31)) -- Recover the Dragon Egg from Zog's fortress in Ravage Roaming and return it to Charles Quixote in Garrote Gorge. - Given and taken by Quixote (area 5)
@@ -926,7 +926,7 @@ RegisterGlobalEvent(65, "Alliance", function()
     SetQBit(QBit(23)) -- Allied with Minotaurs. Rescue the Minotaurs done.
     ClearQBit(QBit(18)) -- Form an alliance with the Minotaurs of Ravage Roaming. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Taken when minotaurs rescued.
     ClearQBit(QBit(30)) -- Rescue the Minotaurs trapped in their lair in Ravage Roaming. - Given by MINOTAUR CLUE GUY (area 8). Turned off when minotaur leader is reached in Minotaur lair dungeon.
-    AddValue(History(13), 0)
+    AddValue(History(11), 0)
     evt.SetNPCTopic(13, 0, 0) -- Masul topic 0 cleared
     evt.SetNPCTopic(57, 0, 613) -- Thanys topic 0: Roster Join Event
     evt.SetNPCTopic(57, 1, 0) -- Thanys topic 1 cleared
@@ -1483,7 +1483,7 @@ RegisterGlobalEvent(103, "Quest", function()
         ClearQBit(QBit(28)) -- Bring the Nightshade Brazier to the Necromancers' Guild leader, Sandro. The Brazier is in the Temple of the Sun. - Given and taken by Sandro (area 6). Taken when Qbit 27 set.
         SetQBit(QBit(20)) -- Allied with Temple of the Sun. Destroy the Skeleton Transformer done.
         evt.SetNPCTopic(33, 0, 0) -- Oskar Tyre topic 0 cleared
-        AddValue(History(11), 0)
+        AddValue(History(9), 0)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 50000)
         evt.ForPlayer(Players.Member0)
@@ -1530,7 +1530,7 @@ RegisterGlobalEvent(107, "Quest", function()
     else
         evt.SetMessage("Our sources believe the main Regnan fleet is in a hidden port somewhere on Regna Island. If you could sink the fleet in dock you could greatly cripple their ability to patrol the seas off our shore. Unfortunately, we don't have a fleet of our own strong enough to make a landing on Regna.Brekish Onefang has gotten message to us that the Regnans have built an outpost on an atoll off the main Dagger Wound Island. He believes this outpost is resupplied by mysterious means. His scouts never see ships land there, but they are always well stocked. Perhaps you should go there and solve the mystery. Perhaps the answer will convey you to Regna?Regardless of the means, the Regnan fleet must be sunk if the Ironfists are to land in Ravenshore.")
         SetQBit(QBit(36)) -- Sink the Regnan Fleet. Return to the Ravenshore council chamber. - Given and taken at Ravenshore council chamber.
-        AddValue(History(14), 0)
+        AddValue(History(12), 0)
     end
 end)
 
@@ -1761,7 +1761,7 @@ RegisterGlobalEvent(153, "Quest", function()
         SetQBit(QBit(42)) -- Bring the Heart of Air from the Plane of Air to Xanthor. - Given by XANTHOR. Taken when 41-44 done simultaneously.
         SetQBit(QBit(43)) -- Bring the Heart of Earth from the Plane of Earth to Xanthor. - Given by XANTHOR. Taken when 41-44 done simultaneously.
         SetQBit(QBit(44)) -- Bring the Heart of Fire from the Plane of Fire to Xanthor. - Given by XANTHOR. Taken when 41-44 done simultaneously.
-        AddValue(History(16), 0)
+        AddValue(History(14), 0)
         evt.SetNPCTopic(40, 0, 0) -- Elgar Fellmoon topic 0 cleared
         evt.SetNPCTopic(40, 1, 112) -- Elgar Fellmoon topic 1: Plane of Fire
         evt.SetNPCTopic(52, 0, 119) -- Sir Charles Quixote topic 0: Raising an Army
@@ -1942,7 +1942,7 @@ RegisterGlobalEvent(164, "Riddle One", function(continueStep)
             SetQBit(QBit(47)) -- Quest 46 done. Used to allow entrance to elemental lord prisons. Now player needs item 629.
             AddValue(InventoryItem(629), 629) -- Ring of Keys
             SetQBit(QBit(220)) -- Ring of Keys - I lost it
-            AddValue(History(18), 0)
+            AddValue(History(16), 0)
             ClearAutonote(6) -- Destroyer's Riddles. Riddle One: ? Riddle Two: "Inside." Riddle Three: "Egg." ? + Inside + Egg
             SetAutonote(4) -- Destroyer's Riddles. Riddle One: "Prison." Riddle Two: "Inside." Riddle Three: "Egg." Prison + Inside + Egg
             evt.SetNPCTopic(22, 0, 160) -- Escaton topic 0: Masters
@@ -2030,7 +2030,7 @@ RegisterGlobalEvent(165, "Riddle Two", function(continueStep)
             SetQBit(QBit(47)) -- Quest 46 done. Used to allow entrance to elemental lord prisons. Now player needs item 629.
             AddValue(InventoryItem(629), 629) -- Ring of Keys
             SetQBit(QBit(220)) -- Ring of Keys - I lost it
-            AddValue(History(18), 0)
+            AddValue(History(16), 0)
             ClearAutonote(3) -- Destroyer's Riddles. Riddle One: "Prison." Riddle Two: ? Riddle Three: "Egg." Prison + ? + Egg
             SetAutonote(4) -- Destroyer's Riddles. Riddle One: "Prison." Riddle Two: "Inside." Riddle Three: "Egg." Prison + Inside + Egg
             evt.SetNPCTopic(22, 0, 160) -- Escaton topic 0: Masters
@@ -2118,7 +2118,7 @@ RegisterGlobalEvent(166, "Riddle Three", function(continueStep)
             SetQBit(QBit(47)) -- Quest 46 done. Used to allow entrance to elemental lord prisons. Now player needs item 629.
             AddValue(InventoryItem(629), 629) -- Ring of Keys
             SetQBit(QBit(220)) -- Ring of Keys - I lost it
-            AddValue(History(18), 0)
+            AddValue(History(16), 0)
             ClearAutonote(2) -- Destroyer's Riddles. Riddle One: "Prison." Riddle Two: "Inside." Riddle Three: ? Prison + Inside + ?
             SetAutonote(4) -- Destroyer's Riddles. Riddle One: "Prison." Riddle Two: "Inside." Riddle Three: "Egg." Prison + Inside + Egg
             evt.SetNPCTopic(22, 0, 160) -- Escaton topic 0: Masters
@@ -2166,7 +2166,7 @@ RegisterGlobalEvent(167, "Release Shalwend", function()
     if IsQBitSet(QBit(51)) and IsQBitSet(QBit(53)) and IsQBitSet(QBit(49)) then -- Quest 50 done.
         evt.SetMessage("Thank you for releasing me. Know that Shalwend, Lord of Air, holds you in his favor. I go now to restore order to my realm and to join with my fellow lords to do what I can for yours. Be warned! Our actions will destabilize the crystal gateway. Leave now for your home, lest you be trapped here forever.\nInform Xanthor of what has happened here. Farewell")
         SetQBit(QBit(56)) -- All Lords from quests 48, 50, 52, 54 rescued.
-        AddValue(History(19), 0)
+        AddValue(History(17), 0)
     else
         evt.SetMessage("Thank you for releasing me. I go now to restore order to my realm and to do what I can for yours. Know that Shalwend, Lord of Air, holds you in his favor. Farewell.")
     end
@@ -2186,7 +2186,7 @@ RegisterGlobalEvent(168, "Release Acwalander", function()
     if IsQBitSet(QBit(51)) and IsQBitSet(QBit(55)) and IsQBitSet(QBit(49)) then -- Quest 50 done.
         evt.SetMessage("\"The Destroyer\" is a fitting moniker for one who would imprison me in such a fashion. If it were not for you, I, Acwalander, Lord of Water, would have soon perished. My passing would have had an unbalancing effect across all the planes. Thank you. I go now to gather with the other lords. Together we will set things right. Be warned! Our actions will destabilize the crystal gateway. Leave now for your home, lest you be trapped here forever. Inform Xanthor of what has happened here. Farewell.")
         SetQBit(QBit(56)) -- All Lords from quests 48, 50, 52, 54 rescued.
-        AddValue(History(19), 0)
+        AddValue(History(17), 0)
     else
         evt.SetMessage("\"The Destroyer\" is a fitting moniker for one who would imprison me in such a fashion. If it were not for you, I, Acwalander, Lord of Water, would have soon perished. My passing would have had an unbalancing effect across all the planes. Thank you. I go now to set things right.")
     end
@@ -2206,7 +2206,7 @@ RegisterGlobalEvent(169, "Release Gralkor", function()
     if IsQBitSet(QBit(55)) and IsQBitSet(QBit(53)) and IsQBitSet(QBit(49)) then -- Quest 54 done.
         evt.SetMessage("I am free! Now will he who was fool enough to jail me--this Destroyer--feel my wrath. That I, the Lord of Earth, am called \"Gralkor the Cruel\" is no mistake. The suffering I have felt will be his returned in multitudes!I go now to gather with the other lords. Together we will set things right. Be warned! Our actions will destabilize the crystal gateway. Leave now for your home, lest you be trapped here forever. Inform Xanthor of what has happened here. Farewell")
         SetQBit(QBit(56)) -- All Lords from quests 48, 50, 52, 54 rescued.
-        AddValue(History(19), 0)
+        AddValue(History(17), 0)
     else
         evt.SetMessage("I am free! Now will he who was fool enough to jail me--this Destroyer--feel my wrath. That I, the Lord of Earth, am called \"Gralkor the Cruel\" is no mistake. The suffering I have felt will be his returned in multitudes!")
     end
@@ -2226,7 +2226,7 @@ RegisterGlobalEvent(170, "Release Pyrannaste", function()
     if IsQBitSet(QBit(51)) and IsQBitSet(QBit(53)) and IsQBitSet(QBit(55)) then -- Quest 50 done.
         evt.SetMessage("Free at last. My torment is over, but what of my subjects? I know the Destroyer has them compelled to a terrible task. My presence will sooth them. I must go to restore order to my realm and yours.Before I return to the Plane of Fire, I will gather with the other lords. Together we will set things right. Be warned! Our actions will destabilize the crystal gateway. Leave now for your home, lest you be trapped here forever.\nInform Xanthor of what has happened here. Farewell")
         SetQBit(QBit(56)) -- All Lords from quests 48, 50, 52, 54 rescued.
-        AddValue(History(19), 0)
+        AddValue(History(17), 0)
     else
         evt.SetMessage("Free at last. My torment is over, but what of my subjects? I know the Destroyer has them compelled to a terrible task. My presence will sooth them. I must go. I must…farewell…")
     end
@@ -7506,8 +7506,8 @@ RegisterGlobalEvent(783, nil, function()
     evt.SetMessage("Good job, mates!\nWe'll be heading off for Harmondale right now.\nCongratulations.")
     ClearQBit(QBit(528)) -- Find the missing contestants on Emerald Island and bring back proof to Lord Markham.
     evt.SetNPCTopic(340, 3, 0) -- Lord Markham topic 3 cleared
-    AddValue(History(3), 0)
-    AddValue(History(4), 0)
+    AddValue(History(1), 0)
+    AddValue(History(2), 0)
     evt.MoveNPC(340, 215) -- Lord Markham -> Lord Markham's Chamber
     evt.SetNPCGreeting(340, 320) -- Lord Markham greeting: Ah, the contestants! I hope you haven't come to try to give Harmondale back to me! If you look at the contract you signed, it explicitly states that our deal is irrevocable on page nine, subparagraph iii, section c. The deal really is cut and dried. Buy the ticket--take the ride! ::Yawns:: Now, is there anything else you wished to speak about?
     evt.MoveToMap(-17331, 12547, 465, 1024, 0, 0, 0, 0, "7out02.odm") -- Harmondale
@@ -9057,7 +9057,7 @@ RegisterGlobalEvent(858, nil, function()
                                 return
                             end
                             evt.SetMessage("Welcome back, Lords of Harmondale!\nNow, I will help you.\nMy engineer will work for you.\nFix up your castle.\nYou have my thanks.\nYou are welcome here forever.Hmmph.\nOne more thing.\nYour work has interested the other courts.\nThey will send ambassadors to you now--check your throne room.\nWatch your back, my friends.")
-                            AddValue(History(6), 0)
+                            AddValue(History(4), 0)
                             AddValue(Gold, 5000)
                             ClearQBit(QBit(588)) -- Rescue the dwarves from the Red Dwarf Mines and return to the Dwarf King in Stone City in the Barrow Downs.
                             SubtractValue(ReputationInCurrentLocation, 5)
@@ -9871,7 +9871,7 @@ RegisterGlobalEvent(896, nil, function()
     evt.SetMessage("You passed the Test!\nThat's quite an achievement--few succeed as quickly as you did.\nMy advisors are now eager to speak to\nyou; they can be found in the four houses on the eastern side of Celeste.\nOnce again, congratulations!")
     ClearQBit(QBit(613)) -- Complete the Walls of Mist without killing a single opponent and return to Gavin Magnus in Castle Lambent in Celeste.
     evt.SetNPCTopic(418, 0, 0) -- Gavin Magnus topic 0 cleared
-    AddValue(History(12), 0)
+    AddValue(History(10), 0)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 50000)
     SetQBit(QBit(626)) -- Finished Wizard Proving Grounds
@@ -9917,7 +9917,7 @@ RegisterGlobalEvent(898, nil, function()
         RemoveItem(1479) -- Altar Piece
         ClearQBit(QBit(744)) -- Altar Piece (Good) - I lost it
         ClearQBit(QBit(745)) -- Altar Piece (Evil) - I lost it
-        AddValue(History(14), 0)
+        AddValue(History(12), 0)
         AddValue(Experience, 50000)
         evt.SetNPCTopic(419, 0, 0) -- Resurectra topic 0 cleared
         ClearQBit(QBit(615)) -- Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Resurectra in Castle Lambent in Celeste.
@@ -9991,7 +9991,7 @@ RegisterGlobalEvent(902, nil, function()
     end
     evt.SetMessage("Just as I suspected!\nGood work.\nWith the death of the Vampire, Tatalia can sleep a bit easier now.\nQueen Catherine is grateful as well, and has been making moves to further strengthen the ties between Bracada and Erathia.")
     AddValue(Gold, 20000)
-    AddValue(History(15), 0)
+    AddValue(History(13), 0)
     SubtractValue(ReputationInCurrentLocation, 5)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 50000)
@@ -10028,7 +10028,7 @@ RegisterGlobalEvent(904, nil, function()
     evt.SetMessage("[Sir Caneghem looks at the jars curiously, as though observing a poisonous snake behind glass] So these are soul jars.\nI expected something more…impressive, I suppose.\nGood job!\n[he takes the case of jars] I will make sure these jars are never seen again.")
     RemoveItem(1404) -- Case of Soul Jars
     ClearQBit(QBit(743)) -- Lich Jar Case - I lost it
-    AddValue(History(13), 0)
+    AddValue(History(11), 0)
     AddValue(Experience, 50000)
     ClearQBit(QBit(620)) -- Retrieve the Case of Soul Jars from Castle Gloaming in the Pit and return to Sir Caneghem in Celeste.
     SetQBit(QBit(629)) -- Finished Wizard Task 4 - Soul Jars
@@ -10082,7 +10082,7 @@ RegisterGlobalEvent(906, nil, function()
     end
     evt.SetMessage("[Robert takes the cube] Once again, you succeed!\nThe Goal is so close!\nI know you have many questions, and I'm sure Resurectra will answer them all, after you do just one more mission for her.\nYou will find her with Gavin Magnus in the throne room of Castle Lambent.")
     RemoveItem(1477) -- Control Cube
-    AddValue(History(24), 0)
+    AddValue(History(22), 0)
     AddValue(Experience, 250000)
     ClearQBit(QBit(621)) -- Assassinate Tolberti in his house in the Pit and return his control cube to Robert the Wise in Celeste.
     SetQBit(QBit(631)) -- Killed Evil MM3 Person
@@ -10125,7 +10125,7 @@ RegisterGlobalEvent(908, nil, function()
         RemoveItem(1479) -- Altar Piece
         ClearQBit(QBit(744)) -- Altar Piece (Good) - I lost it
         ClearQBit(QBit(745)) -- Altar Piece (Evil) - I lost it
-        AddValue(History(22), 0)
+        AddValue(History(20), 0)
         AddValue(Experience, 50000)
         evt.SetNPCTopic(423, 0, 0) -- Kastore topic 0 cleared
         ClearQBit(QBit(634)) -- Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Kastore in the Pit.
@@ -10199,7 +10199,7 @@ RegisterGlobalEvent(912, nil, function()
     evt.SetMessage("[Maximus takes the case of jars with obvious delight] Nice work.\nI won't even ask what you had to do to get them.\nSuccess speaks for itself.\n")
     RemoveItem(1404) -- Case of Soul Jars
     ClearQBit(QBit(743)) -- Lich Jar Case - I lost it
-    AddValue(History(20), 0)
+    AddValue(History(18), 0)
     AddValue(Experience, 50000)
     ClearQBit(QBit(636)) -- Retrieve the Case of Soul Jars from the Warlocks in Thunderfist Mountain and bring them to Maximus in the Pit.
     SetQBit(QBit(624)) -- Finished Necro Task 3 - Soul Jars
@@ -10233,7 +10233,7 @@ RegisterGlobalEvent(914, nil, function()
         return
     end
     evt.SetMessage("It's good to see we can count on you.\nSo few of our allies are as reliable and capable as yourselves.\nThank you very much for your aid.")
-    AddValue(History(23), 0)
+    AddValue(History(21), 0)
     SubtractValue(ReputationInCurrentLocation, 5)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 50000)
@@ -10284,7 +10284,7 @@ RegisterGlobalEvent(916, nil, function()
     end
     evt.SetMessage("[Tolberti takes the cube] This brings us very close to completing our Plan.\nI know Kastore hasn't told you exactly what the Plan is, but you'll like it, I'm sure!\nI am not allowed to say much, but I can tell you your position will be much higher than simply Lords of Harmondale, you can count on that!\nYou will find Kastore in his place on the throne of Castle Gloaming.")
     RemoveItem(1477) -- Control Cube
-    AddValue(History(25), 0)
+    AddValue(History(23), 0)
     AddValue(Experience, 250000)
     ClearQBit(QBit(639)) -- Assassinate Robert the Wise in his house in Celeste and return to Tolberti in the Pit.
     SetQBit(QBit(630)) -- Killed Good MM3 Person
@@ -10321,7 +10321,7 @@ RegisterGlobalEvent(918, nil, function()
         return
     end
     evt.SetMessage("You show promise, my friends.\nA fine performance.\nI think it will be sufficient proof of your skill for my advisors.\nThey are quite eager to assign tasks to you now; they can be found in the four houses in the western side of the Pit.\nAnd don't worry.\nRewards will follow, of course.")
-    AddValue(History(19), 0)
+    AddValue(History(17), 0)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 50000)
     SetAward(Award(28)) -- Completed Necromancer Breeding Pit
@@ -10388,7 +10388,7 @@ end)
 
 RegisterGlobalEvent(921, nil, function()
     evt.SetMessage("Our finest hour is upon us.\nWhile you have been taking care of all those important tasks, my compatriots and I have been struggling with our former friends for the parts we need to rebuild the Heavenly Forge of legend.\nBy former friends, I mean the four chief advisors to King Magnus of the Wizards.\nThey have a plan to build a gate to the Ancients.\nThey could have stood with us, but threw it all away on some vague hope of a 'better future'.\nBut you!\nYou have stood with us all this time.Only one task remains--we need the Oscillation Overthruster from our old vehicle, the Lincoln.\nWe have been unable to find one on your world.\nThe ship is in the sea west of Avlee and secured against entry, even from ourselves.\nNow you must wear our environment suits, enter the ship, and return with the Overthruster.\nOur old environments suits have been prepared for you in the chest outside this throne room.\nFor the suit to function properly you must not be wearing any equipment.We will stand watch over the Forge, and defend it against our enemies.\nBring us the Overthruster, my friends, and together, we shall rule the world!")
-    AddValue(History(29), 0)
+    AddValue(History(27), 0)
     SetQBit(QBit(643)) -- Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit.
     evt.SetNPCTopic(423, 1, 922) -- Kastore topic 1: Final Task
 end)

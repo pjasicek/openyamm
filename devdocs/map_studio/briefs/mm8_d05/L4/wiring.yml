@@ -1,0 +1,993 @@
+format: 0
+variables: [steps_1, steps_2, steps_3, steps_4, panel_1, panel_2, panel_3, panel_4, panel_5, panel_6, panel_7, panel_8, trap, solved]
+events:
+  - id: evt:alcoves_open
+    preset: switch
+    source: room:trap_hall
+    trigger: step
+    opens: [door:d2_ne, door:d2_nw, door:d2_se, door:d2_sw]
+    once: true
+    notes: "Event 12: the four alcove slabs (door record 2) rise the first time the hall's floor is touched."
+  - id: evt:button_10
+    preset: switch
+    source: mover:b10
+    title: Button
+    opens: [door:d52, mover:b11]
+    closes: [door:d53, mover:b10]
+  - id: evt:button_11
+    preset: switch
+    source: mover:b11
+    title: Button
+    opens: [door:d53, mover:b10]
+    closes: [door:d52, mover:b11]
+  - id: evt:button_12
+    preset: switch
+    source: mover:b12
+    title: Button
+    opens: [door:d54, mover:b13]
+    closes: [door:d55, mover:b12]
+  - id: evt:button_13
+    preset: switch
+    source: mover:b13
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(32), 1) then
+          evt.SummonMonsters(1, 3, 1, 8000, 640, -640, 0, 0)
+          SetValue(MapVar(32), 1)
+      end
+    opens: [door:d55, mover:b12]
+    closes: [door:d54, mover:b13]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_14
+    preset: switch
+    source: mover:b14
+    title: Button
+    opens: [door:d56, mover:b15]
+    closes: [door:d57, mover:b14]
+  - id: evt:button_15
+    preset: switch
+    source: mover:b15
+    title: Button
+    opens: [door:d57, mover:b14]
+    closes: [door:d56, mover:b15]
+  - id: evt:button_16
+    preset: switch
+    source: mover:b16
+    title: Button
+    opens: [door:d58, mover:b17]
+    closes: [door:d59, mover:b16]
+  - id: evt:button_17
+    preset: switch
+    source: mover:b17
+    title: Button
+    opens: [door:d59, mover:b16]
+    closes: [door:d58, mover:b17]
+  - id: evt:button_18
+    preset: switch
+    source: mover:b18
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(31), 1) then
+          evt.SummonMonsters(1, 3, 1, 9600, -192, -640, 0, 0)
+          SetValue(MapVar(31), 1)
+      end
+    opens: [door:d60, mover:b19]
+    closes: [door:d61, mover:b18]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_19
+    preset: switch
+    source: mover:b19
+    title: Button
+    opens: [door:d61, mover:b18]
+    closes: [door:d60, mover:b19]
+  - id: evt:button_20
+    preset: switch
+    source: mover:b20
+    title: Button
+    opens: [door:d62, mover:b21]
+    closes: [door:d63, mover:b20]
+  - id: evt:button_21
+    preset: switch
+    source: mover:b21
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(33), 1) then
+          evt.SummonMonsters(1, 3, 1, 6784, -896, -640, 0, 0)
+          SetValue(MapVar(33), 1)
+      end
+    opens: [door:d63, mover:b20]
+    closes: [door:d62, mover:b21]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_22
+    preset: switch
+    source: mover:b22
+    title: Button
+    opens: [door:d64, mover:b23]
+    closes: [door:d65, mover:b22]
+  - id: evt:button_23
+    preset: switch
+    source: mover:b23
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(34), 1) then
+          evt.SummonMonsters(1, 3, 1, 8256, -896, -640, 0, 0)
+          SetValue(MapVar(34), 1)
+      end
+    opens: [door:d65, mover:b22]
+    closes: [door:d64, mover:b23]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_24
+    preset: switch
+    source: mover:b24
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(35), 1) then
+          evt.SummonMonsters(1, 3, 1, 8832, -960, -640, 0, 0)
+          SetValue(MapVar(35), 1)
+      end
+    opens: [door:d66, mover:b25]
+    closes: [door:d67, mover:b24]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_25
+    preset: switch
+    source: mover:b25
+    title: Button
+    opens: [door:d67, mover:b24]
+    closes: [door:d66, mover:b25]
+  - id: evt:button_26
+    preset: switch
+    source: mover:b26
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(36), 1) then
+          evt.SummonMonsters(1, 3, 1, 9792, -960, -640, 0, 0)
+          SetValue(MapVar(36), 1)
+      end
+    opens: [door:d68, mover:b27]
+    closes: [door:d69, mover:b26]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_27
+    preset: switch
+    source: mover:b27
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(37), 1) then
+          evt.SummonMonsters(1, 3, 1, 10176, -960, -640, 0, 0)
+          SetValue(MapVar(37), 1)
+      end
+    opens: [door:d69, mover:b26]
+    closes: [door:d68, mover:b27]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_28
+    preset: switch
+    source: mover:b28
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(38), 1) then
+          evt.SummonMonsters(1, 3, 1, 6208, -1664, -640, 0, 0)
+          SetValue(MapVar(38), 1)
+      end
+    opens: [door:d70, mover:b29]
+    closes: [door:d71, mover:b28]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_29
+    preset: switch
+    source: mover:b29
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(39), 1) then
+          evt.SummonMonsters(1, 3, 1, 6592, -1664, -640, 0, 0)
+          SetValue(MapVar(39), 1)
+      end
+    opens: [door:d71, mover:b28]
+    closes: [door:d70, mover:b29]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_30
+    preset: switch
+    source: mover:b30
+    title: Button
+    opens: [door:d72, mover:b31]
+    closes: [door:d73, mover:b30]
+  - id: evt:button_31
+    preset: switch
+    source: mover:b31
+    title: Button
+    opens: [door:d73, mover:b30]
+    closes: [door:d72, mover:b31]
+  - id: evt:button_32
+    preset: switch
+    source: mover:b32
+    title: Button
+    opens: [door:d74, mover:b33, mover:b34, mover:b35]
+    closes: [door:d75, door:d76, door:d77, mover:b32]
+  - id: evt:button_33
+    preset: switch
+    source: mover:b33
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(42), 1) then
+          evt.SummonMonsters(1, 3, 1, 9024, -1728, -640, 0, 0)
+          SetValue(MapVar(42), 1)
+      end
+    opens: [door:d75, mover:b32, mover:b34, mover:b35]
+    closes: [door:d74, door:d76, door:d77, mover:b33]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_34
+    preset: switch
+    source: mover:b34
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(43), 1) then
+          evt.SummonMonsters(1, 3, 1, 9408, -1728, -640, 0, 0)
+          SetValue(MapVar(43), 1)
+      end
+    opens: [door:d76, mover:b32, mover:b33, mover:b35]
+    closes: [door:d74, door:d75, door:d77, mover:b34]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_35
+    preset: switch
+    source: mover:b35
+    title: Button
+    opens: [door:d77, mover:b32, mover:b33, mover:b34]
+    closes: [door:d74, door:d75, door:d76, mover:b35]
+  - id: evt:button_36
+    preset: switch
+    source: mover:b36
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(44), 1) then
+          evt.SummonMonsters(1, 3, 1, 7104, -2432, -640, 0, 0)
+          SetValue(MapVar(44), 1)
+      end
+    opens: [door:d78, mover:b37]
+    closes: [door:d79, mover:b36]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_37
+    preset: switch
+    source: mover:b37
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(45), 1) then
+          evt.SummonMonsters(1, 3, 1, 7488, -2432, -640, 0, 0)
+          SetValue(MapVar(45), 1)
+      end
+    opens: [door:d79, mover:b36]
+    closes: [door:d78, mover:b37]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_38
+    preset: switch
+    source: mover:b38
+    title: Button
+    opens: [door:d80, mover:b39]
+    closes: [door:d81, mover:b38]
+  - id: evt:button_39
+    preset: switch
+    source: mover:b39
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(46), 1) then
+          evt.SummonMonsters(1, 3, 1, 8832, -2496, -640, 0, 0)
+          SetValue(MapVar(46), 1)
+      end
+    opens: [door:d81, mover:b38]
+    closes: [door:d80, mover:b39]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_40
+    preset: switch
+    source: mover:b40
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(47), 1) then
+          evt.SummonMonsters(1, 3, 1, 9600, -2496, -640, 0, 0)
+          SetValue(MapVar(47), 1)
+      end
+    opens: [door:d82, mover:b41]
+    closes: [door:d83, mover:b40]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_41
+    preset: switch
+    source: mover:b41
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(48), 1) then
+          evt.SummonMonsters(1, 3, 1, 9984, -2496, -640, 0, 0)
+          SetValue(MapVar(48), 1)
+      end
+    opens: [door:d83, mover:b40]
+    closes: [door:d82, mover:b41]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_42
+    preset: switch
+    source: mover:b42
+    title: Button
+    opens: [door:d84, mover:b43, mover:b44, mover:b45, mover:b46, mover:b47]
+    closes: [door:d85, door:d86, door:d87, door:d88, door:d89, mover:b42]
+  - id: evt:button_43
+    preset: switch
+    source: mover:b43
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(49), 1) then
+          evt.SummonMonsters(1, 3, 1, 7872, -3264, -640, 0, 0)
+          SetValue(MapVar(49), 1)
+      end
+    opens: [door:d85, mover:b42, mover:b44, mover:b45, mover:b46, mover:b47]
+    closes: [door:d84, door:d86, door:d87, door:d88, door:d89, mover:b43]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_44
+    preset: switch
+    source: mover:b44
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(50), 1) then
+          evt.SummonMonsters(1, 3, 1, 8256, -3264, -640, 0, 0)
+          SetValue(MapVar(50), 1)
+      end
+    opens: [door:d86, mover:b42, mover:b43, mover:b45, mover:b46, mover:b47]
+    closes: [door:d84, door:d85, door:d87, door:d88, door:d89, mover:b44]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_45
+    preset: switch
+    source: mover:b45
+    title: Button
+    opens: [door:d87, mover:b42, mover:b43, mover:b44, mover:b46, mover:b47]
+    closes: [door:d84, door:d85, door:d86, door:d88, door:d89, mover:b45]
+  - id: evt:button_46
+    preset: switch
+    source: mover:b46
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(51), 1) then
+          evt.SummonMonsters(1, 3, 1, 9024, -3264, -640, 0, 0)
+          SetValue(MapVar(51), 1)
+      end
+    opens: [door:d88, mover:b42, mover:b43, mover:b44, mover:b45, mover:b47]
+    closes: [door:d84, door:d85, door:d86, door:d87, door:d89, mover:b46]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_47
+    preset: switch
+    source: mover:b47
+    title: Button
+    opens: [door:d89, mover:b42, mover:b43, mover:b44, mover:b45, mover:b46]
+    closes: [door:d84, door:d85, door:d86, door:d87, door:d88, mover:b47]
+  - id: evt:button_48
+    preset: switch
+    source: mover:b48
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(52), 1) then
+          evt.SummonMonsters(1, 3, 1, 7296, -4032, -640, 0, 0)
+          SetValue(MapVar(52), 1)
+      end
+    opens: [door:d90, mover:b49]
+    closes: [door:d91, mover:b48]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_49
+    preset: switch
+    source: mover:b49
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(53), 1) then
+          evt.SummonMonsters(1, 3, 1, 7680, -4032, -640, 0, 0)
+          SetValue(MapVar(53), 1)
+      end
+    opens: [door:d91, mover:b48]
+    closes: [door:d90, mover:b49]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_50
+    preset: switch
+    source: mover:b50
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(54), 1) then
+          evt.SummonMonsters(1, 3, 1, 8448, -4032, -640, 0, 0)
+          SetValue(MapVar(54), 1)
+      end
+    opens: [door:d92, mover:b51]
+    closes: [door:d93, mover:b50]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:button_51
+    preset: switch
+    source: mover:b51
+    title: Button
+    lua: |-
+      if not IsAtLeast(MapVar(55), 1) then
+          evt.SummonMonsters(1, 3, 1, 8832, -4032, -640, 0, 0)
+          SetValue(MapVar(55), 1)
+      end
+    opens: [door:d93, mover:b50]
+    closes: [door:d92, mover:b51]
+    notes: "A wrong button: the first press summons a serpent man in the closet it opens."
+  - id: evt:chest_0
+    preset: chest
+    source: chest:c0
+    title: Chest
+  - id: evt:chest_1
+    preset: chest
+    source: chest:c1
+    title: Chest
+  - id: evt:chest_19
+    preset: chest
+    source: chest:c19
+    title: Chest
+  - id: evt:chest_2
+    preset: chest
+    source: chest:c2
+    title: Chest
+  - id: evt:chest_3
+    preset: chest
+    source: chest:c3
+    title: Chest
+  - id: evt:chest_4
+    preset: chest
+    source: chest:c4
+    title: Chest
+  - id: evt:chest_5
+    preset: chest
+    source: chest:c5
+    title: Chest
+  - id: evt:crusher_reset
+    preset: switch
+    trigger: load
+    condition: {not: {map_var: solved}}
+    opens: [mover:plate_w, mover:plate_e, mover:plate_s, mover:plate_n]
+    closes: [door:d108, door:d109]
+    effects:
+      - set:
+          var:
+            map_var: trap
+          value: 0
+      - set:
+          var:
+            map_var: panel_1
+          value: 0
+      - set:
+          var:
+            map_var: panel_2
+          value: 0
+      - set:
+          var:
+            map_var: panel_3
+          value: 0
+      - set:
+          var:
+            map_var: panel_4
+          value: 0
+      - set:
+          var:
+            map_var: panel_5
+          value: 0
+      - set:
+          var:
+            map_var: panel_6
+          value: 0
+      - set:
+          var:
+            map_var: panel_7
+          value: 0
+      - set:
+          var:
+            map_var: panel_8
+          value: 0
+    notes: "Event 2, first path: on entering, the unsolved trap room is reset (both doors shut, the plates out, the panels counted afresh)."
+  - id: evt:crusher_solved_load
+    preset: switch
+    trigger: load
+    condition: {map_var: solved}
+    opens: [door:d108, door:d109, mover:plate_w, mover:plate_e, mover:plate_s, mover:plate_n]
+    notes: "Event 2, second path: once solved, both doors stand open and the plates are out."
+  - id: evt:crusher_timer
+    preset: switch
+    trigger: timer
+    every: 5
+    condition: {all: [{map_var: trap}, {map_var: panel_1}, {map_var: panel_2}, {map_var: panel_3}, {map_var: panel_4}, {map_var: panel_5}, {map_var: panel_6}, {map_var: panel_7}, {map_var: panel_8}, {not: {map_var: solved}}]}
+    lua: |-
+      evt.StopDoor(115) -- mover:plate_w (numbers of ids.lock.yml)
+      evt.StopDoor(112) -- mover:plate_e
+      evt.StopDoor(114) -- mover:plate_s
+      evt.StopDoor(113) -- mover:plate_n
+    opens: [door:d108, door:d109]
+    sets: {map_var: solved}
+    notes: "Event 110 (every 5 half-minutes): when all eight panels are out, the plates stop where they are and both doors open. Stopping a mover has no word; the Lua calls the game's StopDoor."
+  - id: evt:crusher_trap
+    preset: switch
+    source: door:d109
+    side: room:crusher
+    title: Door
+    condition: {not: {map_var: trap}}
+    lua: |-
+      evt.SetTexture(43, "t65b11c") -- switch:panel_1 lit (cog of ids.lock.yml)
+      evt.SetTexture(44, "t65b11c") -- switch:panel_2 lit (cog of ids.lock.yml)
+      evt.SetTexture(45, "t65b11c") -- switch:panel_3 lit (cog of ids.lock.yml)
+      evt.SetTexture(46, "t65b11c") -- switch:panel_4 lit (cog of ids.lock.yml)
+      evt.SetTexture(47, "t65b11c") -- switch:panel_5 lit (cog of ids.lock.yml)
+      evt.SetTexture(48, "t65b11c") -- switch:panel_6 lit (cog of ids.lock.yml)
+      evt.SetTexture(49, "t65b11c") -- switch:panel_7 lit (cog of ids.lock.yml)
+      evt.SetTexture(50, "t65b11c") -- switch:panel_8 lit (cog of ids.lock.yml)
+    closes: [door:d108, door:d109, mover:plate_w, mover:plate_e, mover:plate_s, mover:plate_n]
+    sets: {map_var: trap}
+    effects:
+      - lights_on: [light:panel_1, light:panel_2, light:panel_3, light:panel_4, light:panel_5, light:panel_6, light:panel_7, light:panel_8]
+    notes: "Event 63: using the far door (its source) from inside shuts both doors, draws the four plates back into the walls and lights the eight panels. The doors and plates are the preset's `closes` list; the eight panel lights go on (`lights_on`, the original's SetLight(1..8, 1)); changing the eight panels' texture stays Lua with their cog numbers from ids.lock.yml (one `texture` per event, and it takes a cog number, not a switch's name). The original has it on the inner faces of both doors and opens door 109 from the corridor's side (event 64); here it is the far door from inside (`side`), and evt:crusher_trap_w the near door from inside."
+  - id: evt:crusher_trap_w
+    preset: switch
+    source: door:d108
+    side: room:crusher
+    title: Door
+    condition: {not: {map_var: trap}}
+    lua: |-
+      evt.SetTexture(43, "t65b11c") -- switch:panel_1 lit (cog of ids.lock.yml)
+      evt.SetTexture(44, "t65b11c") -- switch:panel_2 lit (cog of ids.lock.yml)
+      evt.SetTexture(45, "t65b11c") -- switch:panel_3 lit (cog of ids.lock.yml)
+      evt.SetTexture(46, "t65b11c") -- switch:panel_4 lit (cog of ids.lock.yml)
+      evt.SetTexture(47, "t65b11c") -- switch:panel_5 lit (cog of ids.lock.yml)
+      evt.SetTexture(48, "t65b11c") -- switch:panel_6 lit (cog of ids.lock.yml)
+      evt.SetTexture(49, "t65b11c") -- switch:panel_7 lit (cog of ids.lock.yml)
+      evt.SetTexture(50, "t65b11c") -- switch:panel_8 lit (cog of ids.lock.yml)
+    closes: [door:d108, door:d109, mover:plate_w, mover:plate_e, mover:plate_s, mover:plate_n]
+    sets: {map_var: trap}
+    effects:
+      - lights_on: [light:panel_1, light:panel_2, light:panel_3, light:panel_4, light:panel_5, light:panel_6, light:panel_7, light:panel_8]
+    notes: "Event 63 on the inner face of door 108: the same trap as evt:crusher_trap."
+  - id: evt:dais
+    preset: switch
+    source: level:dais
+    trigger: step
+    opens: [mover:stone_94, mover:stone_95, mover:stone_96, mover:stone_97, mover:stone_98, mover:stone_99]
+    notes: "Event 512: stepping onto the south dais raises all six stones again."
+  - id: evt:door_1
+    preset: door
+    source: door:d1
+    title: Door
+    action: open
+  - id: evt:door_108
+    preset: door
+    source: door:d108
+    side: room:corr11
+    title: Door
+    action: open
+    notes: "Event 62: the outer face of door 108 opens it; its inner face runs the trap (event 63)."
+  - id: evt:door_109_out
+    preset: door
+    source: door:d109
+    side: room:corr12
+    title: Leave the Abandoned Temple
+    action: open
+    notes: "Event 64: the outer face of door 109 opens it, with the original's hint."
+  - id: evt:door_114
+    preset: door
+    source: door:d114
+    title: Door
+    action: open
+  - id: evt:door_3
+    preset: door
+    source: door:d3
+    title: Door
+    action: open
+  - id: evt:door_4
+    preset: door
+    source: door:d4
+    title: Door
+    action: open
+  - id: evt:door_5
+    preset: door
+    source: door:d5
+    title: Door
+    action: open
+  - id: evt:door_6
+    preset: door
+    source: door:d6
+    title: Door
+    action: open
+  - id: evt:exit_back
+    preset: exit
+    source: exit:back
+    title: Leave the Abandoned Temple
+  - id: evt:exit_front
+    preset: exit
+    source: exit:front
+    title: Leave the Abandoned Temple
+  - id: evt:fall
+    preset: script
+    source: room:hall8
+    trigger: step
+    condition: {map_var: {name: 56, equals: 2}, not: {map_var: 57}}
+    effects:
+      - secret:
+          of: platform:walk_a
+          face: top
+      - secret:
+          of: platform:walk_b
+          face: top
+      - add:
+          var:
+            map_var: 56
+          value: 1
+    else_effects:
+      - lua: |-
+          if IsAtLeast(MapVar(57), 1) then return end
+          if IsAtLeast(MapVar(56), 3) then return end
+          AddValue(MapVar(56), 1)
+          if IsAtLeast(MapVar(56), 3) then return end
+          SetValue(MapVar(57), 1)
+    notes: "Event 451: a fall from the walkway is counted (map variables 56 and 57 for the original's 13 and 14, which the build's named variables take) (once until the walkway is walked again). The third (the count at 2, armed) marks the walkway's top as secret, as the original's SetFacetBit(15, IsSecret) marks its 22 top faces, and counts it; the other falls as before."
+  - id: evt:fire_stand
+    preset: script
+    source: plate:fire_a
+    trigger: step
+    sources: [plate:fire_b, plate:fire_c, plate:fire_d, plate:fire_e]
+    effects:
+      - cast:
+          spell: 2
+          from: [11840, 2496, -448]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 2
+          from: [11840, 2368, -448]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 2
+          from: [11712, 2368, -448]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 2
+          from: [11712, 2496, -448]
+          to: [0, 0, 0]
+          level: 10
+    notes: "Event 115: the middle stand throws four Fire Bolts from its corners when the floor across the hall is crossed."
+  - id: evt:leave_snake
+    preset: script
+    trigger: leave
+    condition: {all: [{not: {qbit: 136}}, {item: 652}]}
+    effects:
+      - qbit: 136
+      - clear_qbit: 135
+    notes: "Event 10: leaving with the Prophecies of the Snake sets quest bit 136 and clears 135."
+  - id: evt:leave_sun
+    preset: script
+    trigger: leave
+    condition: {item: 626}
+    effects:
+      - qbit: 218
+    notes: "Event 6: leaving with the Prophecies of the Sun sets quest bit 218."
+  - id: evt:niche_open
+    preset: switch
+    source: plate:niche
+    trigger: step
+    opens: [door:d115]
+    notes: "Event 453: crossing the patch of floor south of the stand opens the secret niche."
+  - id: evt:panel_1
+    preset: script
+    source: switch:panel_1
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_1), 1) then
+          SetValue(MapVar(panel_1), 0)
+          evt.SetTexture(43, "t65b11c")
+          evt.SetLight(1, 1)
+      else
+          SetValue(MapVar(panel_1), 1)
+          evt.SetTexture(43, "t65b11b")
+          evt.SetLight(1, 0)
+      end
+    notes: "Event 102: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_1 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 43, the light by its number 1 (ids.lock.yml)."
+  - id: evt:panel_2
+    preset: script
+    source: switch:panel_2
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_2), 1) then
+          SetValue(MapVar(panel_2), 0)
+          evt.SetTexture(44, "t65b11c")
+          evt.SetLight(2, 1)
+      else
+          SetValue(MapVar(panel_2), 1)
+          evt.SetTexture(44, "t65b11b")
+          evt.SetLight(2, 0)
+      end
+    notes: "Event 103: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_2 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 44, the light by its number 2 (ids.lock.yml)."
+  - id: evt:panel_3
+    preset: script
+    source: switch:panel_3
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_3), 1) then
+          SetValue(MapVar(panel_3), 0)
+          evt.SetTexture(45, "t65b11c")
+          evt.SetLight(3, 1)
+      else
+          SetValue(MapVar(panel_3), 1)
+          evt.SetTexture(45, "t65b11b")
+          evt.SetLight(3, 0)
+      end
+    notes: "Event 104: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_3 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 45, the light by its number 3 (ids.lock.yml)."
+  - id: evt:panel_4
+    preset: script
+    source: switch:panel_4
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_4), 1) then
+          SetValue(MapVar(panel_4), 0)
+          evt.SetTexture(46, "t65b11c")
+          evt.SetLight(4, 1)
+      else
+          SetValue(MapVar(panel_4), 1)
+          evt.SetTexture(46, "t65b11b")
+          evt.SetLight(4, 0)
+      end
+    notes: "Event 105: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_4 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 46, the light by its number 4 (ids.lock.yml)."
+  - id: evt:panel_5
+    preset: script
+    source: switch:panel_5
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_5), 1) then
+          SetValue(MapVar(panel_5), 0)
+          evt.SetTexture(47, "t65b11c")
+          evt.SetLight(5, 1)
+      else
+          SetValue(MapVar(panel_5), 1)
+          evt.SetTexture(47, "t65b11b")
+          evt.SetLight(5, 0)
+      end
+    notes: "Event 106: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_5 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 47, the light by its number 5 (ids.lock.yml)."
+  - id: evt:panel_6
+    preset: script
+    source: switch:panel_6
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_6), 1) then
+          SetValue(MapVar(panel_6), 0)
+          evt.SetTexture(48, "t65b11c")
+          evt.SetLight(6, 1)
+      else
+          SetValue(MapVar(panel_6), 1)
+          evt.SetTexture(48, "t65b11b")
+          evt.SetLight(6, 0)
+      end
+    notes: "Event 107: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_6 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 48, the light by its number 6 (ids.lock.yml)."
+  - id: evt:panel_7
+    preset: script
+    source: switch:panel_7
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_7), 1) then
+          SetValue(MapVar(panel_7), 0)
+          evt.SetTexture(49, "t65b11c")
+          evt.SetLight(7, 1)
+      else
+          SetValue(MapVar(panel_7), 1)
+          evt.SetTexture(49, "t65b11b")
+          evt.SetLight(7, 0)
+      end
+    notes: "Event 108: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_7 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 49, the light by its number 7 (ids.lock.yml)."
+  - id: evt:panel_8
+    preset: script
+    source: switch:panel_8
+    title: Button
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_8), 1) then
+          SetValue(MapVar(panel_8), 0)
+          evt.SetTexture(50, "t65b11c")
+          evt.SetLight(8, 1)
+      else
+          SetValue(MapVar(panel_8), 1)
+          evt.SetTexture(50, "t65b11b")
+          evt.SetLight(8, 0)
+      end
+    notes: "Event 109: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_8 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 50, the light by its number 8 (ids.lock.yml)."
+  - id: evt:pit_kill
+    preset: script
+    source: room:crusher
+    trigger: step
+    sources: [level:pit, platform:pit_floor]
+    lua: |-
+      evt.ForPlayer(Players.All)
+      SetValue(Eradicated, 0)
+    notes: "Event 101: the funnel (here the ledge at its top and the bank, which is the pit level), the pit's floor and the unseen floor over the spikes (platform:pit_floor, the original's face 2190) eradicate the party."
+  - id: evt:simon
+    preset: script
+    trigger: load
+    condition: {not: {qbit: 403}}
+    lua: evt.SpeakNPC(264)
+    notes: "Event 1: Simon Templar speaks on entering unless quest bit 403 is set."
+  - id: evt:spit_1
+    preset: script
+    source: plate:spit_1a
+    trigger: step
+    sources: [plate:spit_1b, plate:spit_1c]
+    effects:
+      - cast:
+          spell: 24
+          from: [13184, 2848, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [13088, 2944, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [13184, 3040, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [13280, 2944, -464]
+          to: [0, 0, 0]
+          level: 10
+    notes: "Event 111: the head on the north-east pedestal sprays poison when the floor round it is stepped on."
+  - id: evt:spit_2
+    preset: script
+    source: plate:spit_2a
+    trigger: step
+    sources: [plate:spit_2b, plate:spit_2c]
+    effects:
+      - cast:
+          spell: 24
+          from: [13184, 1824, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [13088, 1920, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [13184, 2016, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [13280, 1920, -464]
+          to: [0, 0, 0]
+          level: 10
+    notes: Event 112.
+  - id: evt:spit_3
+    preset: script
+    source: plate:spit_3a
+    trigger: step
+    sources: [plate:spit_3b, plate:spit_3c]
+    effects:
+      - cast:
+          spell: 24
+          from: [10368, 2016, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [10464, 1920, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [10368, 1824, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [10272, 1920, -464]
+          to: [0, 0, 0]
+          level: 10
+    notes: Event 113.
+  - id: evt:spit_4
+    preset: script
+    source: plate:spit_4a
+    trigger: step
+    sources: [plate:spit_4b, plate:spit_4c, plate:spit_4d]
+    effects:
+      - cast:
+          spell: 24
+          from: [10368, 3040, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [10464, 2944, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [10368, 2848, -464]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 24
+          from: [10272, 2944, -464]
+          to: [0, 0, 0]
+          level: 10
+    notes: Event 114.
+  - id: evt:step_1
+    preset: switch
+    source: mover:step_1
+    title: Button
+    opens: [lift:step1_w, lift:step1_e]
+    closes: [mover:step_1]
+    once: true
+    sets: {map_var: steps_1}
+  - id: evt:step_2
+    preset: switch
+    source: mover:step_2
+    title: Button
+    condition: {map_var: steps_1}
+    locked_text: The button will not move
+    opens: [lift:step2_w, lift:step2_e]
+    closes: [mover:step_2]
+    once: true
+    sets: {map_var: steps_2}
+  - id: evt:step_3
+    preset: switch
+    source: mover:step_3
+    title: Button
+    condition: {map_var: steps_2}
+    locked_text: The button will not move
+    opens: [lift:step3_w, lift:step3_e]
+    closes: [mover:step_3]
+    once: true
+    sets: {map_var: steps_3}
+  - id: evt:step_4
+    preset: switch
+    source: mover:step_4
+    title: Button
+    condition: {map_var: steps_3}
+    locked_text: The button will not move
+    opens: [lift:step4_w, lift:step4_e]
+    closes: [mover:step_4]
+    once: true
+    sets: {map_var: steps_4}
+  - id: evt:stone_94
+    preset: switch
+    source: mover:stone_94
+    trigger: step
+    closes: [mover:stone_94]
+    notes: "Event 506: stepping onto the stone sinks it (door record 94)."
+  - id: evt:stone_95
+    preset: switch
+    source: mover:stone_95
+    trigger: step
+    closes: [mover:stone_95]
+    notes: "Event 507: stepping onto the stone sinks it (door record 95)."
+  - id: evt:stone_96
+    preset: switch
+    source: mover:stone_96
+    trigger: step
+    closes: [mover:stone_96]
+    notes: "Event 508: stepping onto the stone sinks it (door record 96)."
+  - id: evt:stone_97
+    preset: switch
+    source: mover:stone_97
+    trigger: step
+    closes: [mover:stone_97]
+    notes: "Event 509: stepping onto the stone sinks it (door record 97)."
+  - id: evt:stone_98
+    preset: switch
+    source: mover:stone_98
+    trigger: step
+    closes: [mover:stone_98]
+    notes: "Event 510: stepping onto the stone sinks it (door record 98)."
+  - id: evt:stone_99
+    preset: switch
+    source: mover:stone_99
+    trigger: step
+    closes: [mover:stone_99]
+    notes: "Event 511: stepping onto the stone sinks it (door record 99)."
+  - id: evt:walkway
+    preset: script
+    source: platform:walk_a
+    trigger: step
+    sources: [platform:walk_b]
+    lua: "SetValue(MapVar(57), 0)"
+    notes: "Event 452: walking on the walkway arms the next fall's count."

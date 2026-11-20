@@ -1,0 +1,157 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_undervault/review/build01",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "arrival",
+   "position": [
+    4500,
+    -300,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "hall_west",
+   "position": [
+    5600,
+    3200,
+    0
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.05
+  },
+  {
+   "name": "hall_east",
+   "position": [
+    3400,
+    3200,
+    0
+   ],
+   "yaw": 0,
+   "pitch": 0.05
+  },
+  {
+   "name": "bay_west",
+   "position": [
+    1000,
+    1700,
+    0
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.0
+  },
+  {
+   "name": "bay_east",
+   "position": [
+    8000,
+    3200,
+    0
+   ],
+   "yaw": 0,
+   "pitch": 0.0
+  },
+  {
+   "name": "gallery_west",
+   "position": [
+    180,
+    1500,
+    512
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "gallery_stair",
+   "position": [
+    1100,
+    150,
+    0
+   ],
+   "yaw": 2.3,
+   "pitch": 0.15
+  },
+  {
+   "name": "south_wall",
+   "position": [
+    4500,
+    2600,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.1
+  },
+  {
+   "name": "north_wall",
+   "position": [
+    4500,
+    3800,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.15
+  },
+  {
+   "name": "chapel",
+   "position": [
+    4500,
+    7400,
+    384
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "refuge",
+   "position": [
+    750,
+    -200,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "works",
+   "position": [
+    8250,
+    -200,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "deep_stair",
+   "position": [
+    3732,
+    -600,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.2
+  },
+  {
+   "name": "bulkhead",
+   "position": [
+    2350,
+    -2048,
+    -1024
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.0
+  },
+  {
+   "name": "high_view",
+   "position": [
+    4500,
+    300,
+    900
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.35
+  }
+ ]
+}

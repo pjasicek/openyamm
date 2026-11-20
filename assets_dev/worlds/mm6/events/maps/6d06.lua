@@ -109,13 +109,13 @@ RegisterEvent(12, "Lever", function()
     if not IsAtLeast(MapVar(2), 1) then
         evt.SetDoorState(12, DoorAction.Trigger)
         evt.SetDoorState(13, DoorAction.Trigger)
-        evt.SetFacetBit(2667, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-2667, FacetBits.Untouchable, 1)
         SetValue(MapVar(2), 1)
         return
     end
     evt.SetDoorState(12, DoorAction.Trigger)
     evt.SetDoorState(13, DoorAction.Trigger)
-    evt.SetFacetBit(2667, FacetBits.Untouchable, 0)
+    evt.SetFacetBit(-2667, FacetBits.Untouchable, 0)
     SetValue(MapVar(2), 0)
 end, "Lever")
 
@@ -161,13 +161,13 @@ RegisterEvent(25, "Lever", function()
     if not IsAtLeast(MapVar(2), 1) then
         evt.SetDoorState(25, DoorAction.Trigger)
         evt.SetDoorState(26, DoorAction.Trigger)
-        evt.SetFacetBit(2668, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-2668, FacetBits.Untouchable, 1)
         SetValue(MapVar(2), 1)
         return
     end
     evt.SetDoorState(25, DoorAction.Trigger)
     evt.SetDoorState(26, DoorAction.Trigger)
-    evt.SetFacetBit(2668, FacetBits.Untouchable, 0)
+    evt.SetFacetBit(-2668, FacetBits.Untouchable, 0)
     SetValue(MapVar(2), 0)
 end, "Lever")
 

@@ -1,0 +1,60 @@
+id: journal.teacher_ledger_jadame
+title: "Ledger of Teachers - a Jadame tavern sells Jadame's ledger: refused without the gold, then gold taken, topic gone, teacher notes filled, kept through save and load"
+world: mm8
+mode: faithful
+tags: [houses, journal, trainers, regression]
+steps:
+  - note:
+      text: >-
+        The journal's trainer finder (level_generation/ui/journal_trainers_20261105/native/README.md) lists only the
+        trainers the party has found until it buys the continent's Ledger of Teachers in one of its taverns
+        (teacher_ledger.yml: 2000 gold). Dagger Wound Island's tavern is The Grog and Grub (house 228, event 191).
+  - new_game_flow:
+      start_map: out01.odm
+  - execute_event: {id: 191}
+  - select_topic: {action_id: 228}
+  - assert:
+      dialog:
+        action_label_present: Ledger of Teachers
+      teacher_ledger: {continent: 1, bought: false}
+      autonote: {id: 128, present: false}
+  - select_topic: {action_id: 33, match_label: Ledger of Teachers}
+  - assert:
+      dialog:
+        text_contains: Every master who teaches a craft on Jadame
+        action_label_present: "Buy the ledger: 2000 gold"
+  # Short of the price: refused, nothing changes.
+  - console: {line: gold set 1500}
+  - select_topic: {action_id: 34, match_label: "Buy the ledger: 2000 gold"}
+  - assert:
+      gold: 1500
+      teacher_ledger: {continent: 1, bought: false}
+      dialog:
+        text_contains: more gold than you carry
+  - console: {line: gold set 10000}
+  - select_topic: {action_id: 34, match_label: "Buy the ledger: 2000 gold"}
+  # Bought: the price taken, the topic gone, Jadame's teacher notes filled (Reshie's 128, Cloud Nedlon's 130).
+  - assert:
+      gold: 8000
+      teacher_ledger: {continent: 1}
+      autonote: {id: 128}
+      dialog:
+        text_contains: There you are
+        action_label_absent: Ledger of Teachers
+  - assert:
+      autonote: {id: 130}
+      teacher_ledger: {continent: 2, bought: false}
+  - save_game: ledger
+  - load_game: ledger
+  - assert:
+      gold: 8000
+      teacher_ledger: {continent: 1}
+      autonote: {id: 128}
+  - assert:
+      teacher_ledger: {continent: 3, bought: false}
+  # Back in the tavern the topic is not offered again.
+  - execute_event: {id: 191}
+  - select_topic: {action_id: 228}
+  - assert:
+      dialog:
+        action_label_absent: Ledger of Teachers

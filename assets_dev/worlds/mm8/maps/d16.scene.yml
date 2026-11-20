@@ -190,7 +190,7 @@ initial_state:
       npc_id: 36
       attributes: 0
       hp: 180
-      hostility_type: 116
+      hostility_type: 0
       monster_info_id: 44
       monster_id: 1200
       radius: 60
@@ -212,7 +212,7 @@ initial_state:
       npc_id: 36
       attributes: 0
       hp: 180
-      hostility_type: 116
+      hostility_type: 0
       monster_info_id: 44
       monster_id: 1200
       radius: 60
@@ -234,7 +234,7 @@ initial_state:
       npc_id: 36
       attributes: 0
       hp: 180
-      hostility_type: 116
+      hostility_type: 0
       monster_info_id: 44
       monster_id: 1200
       radius: 60
@@ -251,12 +251,13 @@ initial_state:
       group: 23
       ally: 0
       unique_name_index: 0
+      initial_yaw_units: 1724
     - actor_index: 3
       name: ""
       npc_id: 36
       attributes: 0
       hp: 180
-      hostility_type: 116
+      hostility_type: 0
       monster_info_id: 44
       monster_id: 1200
       radius: 60
@@ -273,12 +274,13 @@ initial_state:
       group: 23
       ally: 0
       unique_name_index: 0
+      initial_yaw_units: 1724
     - actor_index: 4
       name: ""
       npc_id: 0
       attributes: 0
       hp: 337
-      hostility_type: 16
+      hostility_type: 0
       monster_info_id: 45
       monster_id: 2475
       radius: 60
@@ -295,12 +297,13 @@ initial_state:
       group: 23
       ally: 0
       unique_name_index: 0
+      initial_yaw_units: 862
     - actor_index: 5
       name: ""
       npc_id: 0
       attributes: 0
       hp: 337
-      hostility_type: 16
+      hostility_type: 0
       monster_info_id: 45
       monster_id: 2475
       radius: 60
@@ -317,6 +320,7 @@ initial_state:
       group: 23
       ally: 0
       unique_name_index: 0
+      initial_yaw_units: 862
   sprite_objects: []
   chests:
     - chest_index: 0

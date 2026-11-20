@@ -1,0 +1,1 @@
+Process with --adjust 0.945 0 21. Save fresh ungraded output as .before_tone.png, run restore_native_tone.py, then queue.py check g08121_v0_s0. Native opaque RGB means guide channel gamma while alpha remains unchanged. Refresh backup after reprocessing. Earlier dy24 trial clipped base pixels and was replaced by dy21.

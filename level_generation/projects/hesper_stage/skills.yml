@@ -1,0 +1,167 @@
+# Hesper's tech-skill schools (stage.py, "Tech skills"): where the four engine technology skills (Energy Guns, Energy
+# Blades, Shield Tech, Hacking; game/party/SkillData.h) are learned and promoted on Hesper
+# (design/kreegan_world/PROGRESSION.md, How tech skills are learned and raised; MAPS.md, Who teaches what).
+#
+#   - houses: rows appended to the stage copy of house_data.txt. A plain "House" row that lists `teaches` (the row's
+#     last column, which MM data never fills) shows "Learn Skills" and sells those skills' Novice for
+#     skill_price x 500 gold (Merchant discount as usual), to any class: technology skills have no class caps.
+#   - teachers: NPCs living in their house (npc.txt 2D location), each with one teacher topic (npc_topic.txt, its
+#     text in npc_topic_text.txt, and a teacher_topics.txt row that names the skill and mastery). They promote a
+#     character who has rank 4/7/10 and the mastery below, for `gold`, through the engine's mastery-teacher dialogue.
+#   - events: the map events that enter these houses, written as an overlay appended to the installed map script
+#     (they replace the map's status-text placeholders; once the map project wires its houses itself, drop them here).
+#   - skills: the skill sheet's right-click descriptions (english/skill_des.txt rows).
+#
+# Stage-only ids, a block of their own beside npcs.yml's 9001-9099: houses, NPCs, topics and topic texts 9201-9299.
+# The Warden's Post (9203) teaches Hacking but is not wired: hes_out1 event 55 speaks to the Warden (npcs.yml); to
+# sell Hacking there, give the Warden house 9203 as her 2D location and enter the house from event 55 instead.
+# The Sim Hall (9204): Hesper's training hall (levels, no cap, Val 40; integrator 2026-10-23: it was a plain house, so
+# no level could be trained anywhere) and the tech skills free; the Undervault's event 9 enters it from M3.
+#
+# Cybernetics (the fifth tech skill, user decision 2026-10-23; CR-INT-1): Novice at the Clinic (npcs_undervault.yml's
+# house 9452) and the Sim Hall, Expert Yara and Master Teodor in Landfall (houses 16 and 17 of the town plan),
+# Grandmaster Doctor Ilse after S4. The engine has the skill (id 48, 2026-10-26) with the implant sockets (ENGINE.md
+# 11b); `engine_pending` lists a tech skill the engine does not know yet (houses do not offer it, its teachers' topics
+# are plain text: skills_stage.py).
+engine_pending: []
+
+# hours: [open, close] (NPCS "Schedules": shopkeepers 8-20); none: always open.
+houses:
+  - {id: 9201, name: Salvage & Arms, map: hes_out1.odm, hours: [8, 20], picture: 9800, skill_price: 2, teaches: [EnergyGuns, EnergyBlades]}
+  - {id: 9202, name: Emitters, map: hes_out1.odm, hours: [8, 20], picture: 9801, skill_price: 2, teaches: [ShieldTech]}
+  - {id: 9203, name: The Warden's Post, map: hes_out1.odm, picture: 9802, skill_price: 2, teaches: [Hacking]}
+  - {id: 9204, name: The Sim Hall, map: hes_undervault.blv, picture: 9803, skill_price: 0, type: Training, price: 40,
+     teaches: [EnergyGuns, EnergyBlades, ShieldTech, Hacking, Cybernetics]}
+  - {id: 9211, name: Corra's house, map: hes_out1.odm, picture: 9804}
+  - {id: 9212, name: Halder's house, map: hes_out1.odm, picture: 9804}
+  - {id: 9213, name: Edda's house, map: hes_out1.odm, picture: 9800}
+  - {id: 9214, name: Rusk's house, map: hes_out1.odm, picture: 9804}
+  - {id: 9215, name: Fenna's house, map: hes_out1.odm, picture: 9801}
+  - {id: 9216, name: Tove's house, map: hes_out1.odm, picture: 9801}
+  - {id: 9217, name: Nim's house, map: hes_out1.odm, picture: 9801}
+  - {id: 9218, name: Hollis's house, map: hes_out1.odm, picture: 9801}
+  - {id: 9219, name: Yara's house, map: hes_out1.odm, picture: 9805}
+  - {id: 9220, name: Teodor's house, map: hes_out1.odm, picture: 9805}
+
+# mastery: Expert (rank 4 and Novice), Master (rank 7 and Expert), Grandmaster (rank 10 and Master).
+# portrait: the teacher's portrait (design/kreegan_world/art/portraits/x2, user-approved round 1, CR-P4-03), installed
+# as npc<id>.png in the world's icons. greeting: first meeting, later (P4's dialogue/LANDFALL.md, npc_greet.txt rows of
+# the teacher's id).
+teachers:
+  - {npc: 9201, name: Corra, house: 9211, skill: EnergyGuns, mastery: Expert, gold: 15000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_corra.png,
+     greeting: ["Corra. I train the wall's new gunners. You've the look of people who've only ever fired at things that bleed.", "Back for the range?"],
+     text: "Grip loose, eyes on the shield, not the body. Every guard on the wall learned the colony pistols from me. Show me you can hit a bottle at forty paces and I will make an Expert of you."}
+  - {npc: 9202, name: Halder, house: 9212, skill: EnergyGuns, mastery: Master, gold: 40000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_halder.png,
+     greeting: ["Eh? Speak up. Thirty years in a turret does that. Halder. You want to shoot better, sit down.", "Sit, sit."],
+     text: "I sat in a turret for thirty years. Half the gunners in this town learned from me. Shields first, then the body, and never waste a shot on armor."}
+  - {npc: 9203, name: Edda, house: 9213, skill: EnergyBlades, mastery: Expert, gold: 15000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_edda.png,
+     greeting: ["Leave the knife on the bench; it's hot. I use it for the salvage crews' work. Edda, if you're looking for lessons.", "Edges sharp?"],
+     text: "Chitin cuts like wet bark if the edge is hot enough. I carve Kreegans for the salvage crews; I can teach your hands to do the same."}
+  - {npc: 9204, name: Rusk, house: 9214, skill: EnergyBlades, mastery: Master, gold: 40000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_rusk.png,
+     greeting: ["Rusk. Last of the old militia's blades. If you've come to learn, the yard is through there. If not, the door is behind you.", "The yard is open."],
+     text: "Last bladesman of the old militia. Come out to the yard. If you are still standing at sundown, you are a Master."}
+  - {npc: 9205, name: Fenna, house: 9215, skill: ShieldTech, mastery: Expert, gold: 15000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_fenna.png,
+     greeting: ["Don't touch the emitter; it's charged. Have you come to buy one or learn to use it? I'm Fenna.", "Field still holding?"],
+     text: "An emitter is only as good as the hand that tunes it. I keep the guards' bucklers charged; I will show you how to keep yours up."}
+  - {npc: 9206, name: Tove, house: 9216, skill: ShieldTech, mastery: Master, gold: 40000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_tove.png,
+     greeting: ["Tove. I tune the Gate Bastions. Breathe, and listen to the field. Then we talk.", "You breathe better."],
+     text: "I tune the Gate Bastions. Holding a field under fire is a matter of breathing with it. Sit, and I will teach you."}
+  - {npc: 9207, name: Nim, house: 9217, skill: Hacking, mastery: Expert, gold: 15000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_nim.png,
+     greeting: ["Got a door that won't open? I can deal with it, or teach you how. Ask for Nim.", "Got a lock for me?"],
+     text: "Dead colony doors open if you know where to whisper. The salvage crews pay me to open them; you can pay me to teach you."}
+  - {npc: 9208, name: Hollis, house: 9218, skill: Hacking, mastery: Master, gold: 40000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_hollis.png,
+     greeting: ["The lift can wait a moment. I'm Hollis. Pull up that stool if you've come to learn the Ancients' script.", "Ah. Sit."],
+     text: "I keep the Lift Head running and read the Ancients' script off its consoles. Few can. Learn it, and the old machines will listen to you."}
+  - {npc: 9225, name: Yara, house: 9219, skill: Cybernetics, mastery: Expert, gold: 15000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_yara.png,
+     greeting: ["Yara. I fit the wall guards' implants, the ones the Clinic sends up and the ones they dig out of dead Kreegans. Sit still and tell me what you carry.", "Anything itching?"],
+     text: "An implant is a guest in your body. Feed it right and it works twice as hard. Hold your arm out. Feel that? That is the second socket waking. Now you can carry two."}
+  - {npc: 9226, name: Teodor, house: 9220, skill: Cybernetics, mastery: Master, gold: 40000,
+     portrait: design/kreegan_world/art/portraits/x2/hes_teodor.png,
+     greeting: ["Teodor. I set the colony's implants for forty years, until my hands began to shake. They still remember the way; my eyes do the rest.", "Come in, come in. Mind the trays."],
+     text: "The Ancients built us to carry more than we do. A third socket, here, behind the ear, where the nerve runs close. It will ache for a day. Then you will wonder how you lived without it."}
+  # The Grandmaster teachers of CR-P4-02 (P4's dialogue/UNDERVAULT.md, ASHRUNNERS.md): Iver lives in the Guardian's
+  # Chapel (house 9456, npcs_undervault.yml) and teaches from two shards (100022); Dace is an Ashrunner street actor at
+  # the camp (hes_out1, shown from S1) and teaches from M12 (100012). `gate`: the teacher topic is shown from that QBit;
+  # `topics`: their other topics (npcs.yml).
+  - {npc: 9223, name: Iver, house: 9456, skill: Hacking, mastery: Grandmaster, gold: 100000, gate: 100022,
+     topics: [9753], portrait: design/kreegan_world/art/portraits/x2/hes_iver.png,
+     greeting: ["Welcome, travelers. I am Iver; I have kept the Lady's relay since I was a boy, as my mother did before me.", "The Lady is glad of you. So am I."],
+     text: "Grandmaster: the root locks, the mech consoles, the Ancients' sealed doors. Kneel by the relay. Breathe. Listen to the Lady's codes until they are yours."}
+  - {npc: 9224, name: Dace, skill: ShieldTech, mastery: Grandmaster, gold: 100000, gate: 100012,
+     topics: [9756], portrait: design/kreegan_world/art/portraits/x2/hes_dace.png,
+     greeting: ["The crawler shields held through the last attack. I'm Dace, and keeping them up is my work.", "Field holding?"],
+     text: "When your field drops, don't flinch. Flinching is what lets the second shot in. Again. Hold it. There."}
+  # Doctor Ilse (CR-INT-1): her Clinic (npcs_undervault.yml, NPC 9503, moved in at M6); her Grandmaster topic 9227 is in
+  # her topics (gen_npcs_undervault.py) and shows from S4 done (100104), as the other Grandmaster teachers' gates.
+  - {npc: 9503, existing: true, topic: 9227, name: Doctor Ilse, skill: Cybernetics, mastery: Grandmaster, gold: 100000,
+     gate: 100104,
+     text: "Lie down. The fourth socket sits under the sternum, and only a surgeon who has cut Kreegans open knows where their grafts and ours meet. I learned it in the Pens. Now you will carry it."}
+  # Ansel (CR-P4-02): the Scour's camp 5 (hes_out2, a freed Kept street actor of row 10260, shown from 100119),
+  # teaches from S6 done (100106).
+  - {npc: 9221, name: Ansel, skill: EnergyBlades, mastery: Grandmaster, gold: 100000, gate: 100106,
+     topics: [9754], portrait: design/kreegan_world/art/portraits/x2/hes_ansel.png,
+     greeting: ["They made me fight here every day for six years. I'm Ansel. Now that you've opened the door, I can choose who I face.", "The ring is quiet. I like it quiet."],
+     text: "Hold it like this. No, like this. Again. There: you felt it give. That is the seam. You will feel it every time now."}
+  # Wren (CR-P4-02): Hesk's sister in her post at the Brood Spires' Acid Garden (house 9351 of npcs_brood.yml,
+  # hes_out3 event 302), teaches from S10 done (100110); her The spires (9755) is npcs_brood.yml's.
+  - {npc: 9222, name: Wren, house: 9351, skill: EnergyGuns, mastery: Grandmaster, gold: 100000, gate: 100110,
+     topics: [9755], portrait: design/kreegan_world/art/portraits/x2/hes_wren.png,
+     greeting: ["Stay out of my sightline. You walked in under three Overseers and never looked up. Wren. Next time, wait for my signal.", "Eight hundred paces, north spire, one on the perch. Don't wave."],
+     text: "Breathe out. Hold. Third shot, not the first: the first tells them where you are, the third tells them nothing ever again. Again."}
+
+# The map events that enter the houses (hes_out1: build_out1.py's house doors).
+events:
+  hes_out1.odm:
+    51: 9201
+    52: 9202
+    57: 9211
+    58: 9212
+    59: 9213
+    60: 9214
+    61: 9215
+    62: 9216
+    63: 9217
+    64: 9218
+    66: 9219
+    67: 9220
+
+skills:
+  - name: EnergyGuns
+    description: "Kreegan ranged guns: pistols, carbines, rifles, the scatter lance and the cannon, on top of Blaster, the way Armsmaster works. Raised with tech points from Engrams; taught by Landfall's teachers."
+    novice: "+1% damage per rank with Kreegan guns (Expert 4%, Master 7%, Grandmaster 10%)"
+    expert: "Shots deal +25% damage to shields (with the shield system)"
+    master: "Shots deal +20% damage to exposed bodies (with the shield system)"
+    grandmaster: "+1 projectile on every third shot (with the shield system)"
+  - name: EnergyBlades
+    description: "Kreegan melee weapons, on top of their classic weapon skill, the way Armsmaster works. Raised with tech points from Engrams."
+    novice: "+2% damage per rank with Kreegan melee weapons (Expert 6%, Master 10%, Grandmaster 15%)"
+    expert: "Hits deal +25% damage to shields (with the shield system)"
+    master: "Shield cleave (with the shield system)"
+    grandmaster: "Overload: 10% chance per hit to halve the target's shield (with the shield system)"
+  - name: ShieldTech
+    description: "Off-hand emitters and the personal shield. Raised with tech points from Engrams. Its effects come with the shield system."
+    novice: "Can use emitters; an emitter's pool x (1 + rank x 10%)"
+    expert: "Regeneration delay -1 s"
+    master: "The shield also absorbs elemental damage"
+    grandmaster: "Hardened: Energy hits deal x1.25 instead of x1.5 while the shield is down"
+  - name: Hacking
+    description: "Terminals, collar nodes, turret consoles, alarm pylons and Ancient locks; never monsters. Event checks use the party's best hacker. Raised with tech points from Engrams."
+    novice: "Level-1 terminals, collar nodes, pylons"
+    expert: "Level-2 terminals, Grid Control"
+    master: "Level-3 terminals; turn a room's turrets"
+    grandmaster: "Ancient root locks and mech consoles"
+  - name: Cybernetics
+    description: "Implants: the sockets that hold them and how strongly they work. Raised with tech points from Engrams; learned at the Clinic and the Sim Hall, taught by Landfall's teachers and Doctor Ilse."
+    novice: "1 implant socket; implants +5% per rank"
+    expert: "2 implant sockets"
+    master: "3 implant sockets"
+    grandmaster: "4 implant sockets"

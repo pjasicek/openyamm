@@ -1,0 +1,49 @@
+id: mm9.ai.provoke
+title: A party hit provokes an MM9 monster and the friends it sees within the provoke radius, from no farther than the provoke range
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Hit from 4 837 units Skeletoid 2 takes no target. Hit from 2 400 units
+        Skeletoid 0 holds the party, beyond its own senses, runs at it and strikes; Skeletoid 1 (100 units off, within
+        the provoke radius of 128, the user 2026-11-09) is provoked with it and comes too, though it never perceives
+        the party; Skeletoid 2 (700 off, beyond the radius) takes the party from MM9's own alert but never sees it, so
+        it does not come; the coffin mummy never wakes.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: provoke.arena.yml}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {actor_index: 7, amount: 1}
+  - advance_runtime: {seconds: 2}
+  - set_pose: {map: thearena.blv, x: 0, y: -1300, z: 1, yaw_degrees: 90}
+  - damage_actor: {actor_index: 5, amount: 1}
+  - advance_runtime: {seconds: 12}
+  - ai_trace_dump: {decisions_only: true}
+  # Too far: no target from the hit, nothing seen.
+  - assert:
+      ai_trace: {arena_monster: 2, decision: retarget, before: 3, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: detect, max_count: 0}
+  # Provoked: it holds the party it cannot perceive, runs at it and strikes.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: retarget, detail: no_target, target: party, after: 3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 1}
+  # Its friend within the provoke radius that it sees comes with it.
+  - assert:
+      ai_trace: {arena_monster: 1, decision: alert, detail: take, target: party, after: 3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, target: party, min_count: 1}
+  # The farther one, beyond the radius, is not provoked: MM9's alert alone, and it never sees the party.
+  - assert:
+      ai_trace: {arena_monster: 2, decision: pursue, target: party, after: 3, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, max_count: 0}
+  # The sleeper sleeps on.
+  - assert:
+      ai_trace: {arena_monster: 3, decision: wake, max_count: 0}

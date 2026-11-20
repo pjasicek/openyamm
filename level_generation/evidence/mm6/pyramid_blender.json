@@ -1,0 +1,18 @@
+{
+  "source": "assets_dev/worlds/mm6/maps/pyramid.blv",
+  "kind": "indoor",
+  "view": "ceiling-free isometric",
+  "camera_position": [
+    104.96522521972656,
+    -272.2328186035156,
+    453.0531311035156
+  ],
+  "camera_target": [
+    -92.0,
+    0.48828125,
+    28.8203125
+  ],
+  "scale_game_units_per_blender_unit": 128,
+  "missing_textures": [],
+  "limitations": "Inspection lighting; no actors, decoration billboards, gameplay state, or animated water compositing"
+}

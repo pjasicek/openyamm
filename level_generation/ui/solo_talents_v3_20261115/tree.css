@@ -1,0 +1,132 @@
+/* Solo talent tree v3 mockups: the Talents planner on a fixed 1280 x 720 canvas, scaled to the window. Carved
+   Obsidian: dark stone, brass lines, soft ivory text, the game's own fonts. */
+@font-face { font-family: Fondamento; src: url(fonts/fondamento_regular.ttf); font-display: block; }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(fonts/openyamm_lucida_faithful.ttf); font-display: block; }
+@font-face { font-family: Smallnum; src: url(fonts/openyamm_smallnum_faithful.ttf); font-display: block; }
+
+:root {
+  color-scheme: dark;
+  --stone: #101316;
+  --panel: #171b1f;
+  --sunk: #0b0d10;
+  --line: #3a3225;
+  --brass: #d2ad62;
+  --brass-dim: #8a7444;
+  --ivory: #ece6d6;
+  --muted: #9a9484;
+  --locked: #5f5b52;
+  --good: #7fc48f;
+  --warn: #e0a13a;
+  --bad: #e07a6a;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--sunk); overflow: hidden; }
+body { color: var(--ivory); font-family: Lucida, "Segoe UI", system-ui, sans-serif; font-size: 12px; }
+#stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; background:
+  radial-gradient(1200px 500px at 50% -10%, #1d2227 0%, var(--stone) 60%); overflow: hidden; }
+button, select, input { font: inherit; color: inherit; }
+
+.top { position: absolute; left: 16px; right: 16px; top: 10px; height: 54px; display: flex; align-items: center; gap: 14px;
+  border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.top h1 { font-family: Fondamento, Georgia, serif; font-weight: 400; font-size: 26px; color: var(--brass); margin: 0 6px 0 0; }
+.field { display: grid; gap: 2px; }
+.field label { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+select { background: var(--panel); border: 1px solid var(--line); border-radius: 3px; padding: 3px 6px; }
+.level { display: flex; align-items: center; gap: 8px; }
+.level input[type=range] { width: 250px; accent-color: var(--brass); }
+.level output { font-family: Smallnum, monospace; font-size: 15px; color: var(--brass); min-width: 34px; text-align: right; }
+.points { margin-left: auto; text-align: right; line-height: 1.35; }
+.points b { font-family: Smallnum, monospace; font-size: 15px; color: var(--brass); font-weight: 400; }
+.btn { font-family: Fondamento, Georgia, serif; font-size: 14px; background: linear-gradient(#2a2418, #1a1710); color: var(--brass);
+  border: 1px solid var(--brass-dim); border-radius: 3px; padding: 4px 12px; cursor: pointer; }
+.btn:hover { border-color: var(--brass); color: #f3d79a; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+/* The board: five paths as columns (layout A) or as a constellation (layout B). */
+.board { position: absolute; left: 16px; top: 74px; width: 940px; height: 632px; }
+.columns { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; height: 100%; }
+.col { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 6px 6px 4px; min-width: 0; }
+.col h2 { font-family: Fondamento, Georgia, serif; font-weight: 400; font-size: 17px; margin: 0; display: flex; align-items: baseline; gap: 6px; }
+.col h2 small { font-family: Lucida, sans-serif; font-size: 10px; color: var(--muted); }
+.col .count { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+.tier { display: flex; align-items: center; gap: 6px; font-size: 9.5px; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--locked); margin: 5px 0 1px; }
+.tier::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+.tier.open { color: var(--brass-dim); }
+.row { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 5px; height: 22px; padding: 0 3px;
+  border-radius: 3px; cursor: pointer; color: var(--ivory); }
+.row:hover, .row.tip { background: #232a30; }
+.row.locked { color: var(--locked); }
+.row.has { color: #f0d595; }
+.row .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .rank { font-family: Smallnum, monospace; font-size: 11px; color: var(--muted); }
+.row.has .rank { color: var(--brass); }
+.pips { display: inline-flex; gap: 2px; }
+.pips i { width: 6px; height: 6px; border: 1px solid var(--brass-dim); transform: rotate(45deg); }
+.pips i.on { background: var(--brass); border-color: var(--brass); }
+.row.locked .pips i { border-color: var(--locked); }
+.row.free { cursor: default; color: var(--good); }
+
+/* A node's mark: its picture where the built tree has one, a monogram otherwise; the shape says the kind. */
+.mark { width: 20px; height: 20px; display: grid; place-items: center; font-family: Fondamento, Georgia, serif; font-size: 11px;
+  color: #14110b; background: var(--pc, var(--brass-dim)); border-radius: 3px; position: relative; flex: none; }
+.mark img { width: 100%; height: 100%; display: block; border-radius: inherit; }
+.mark.active { outline: 1px solid var(--brass); outline-offset: 1px; }
+.mark.small { clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%); border-radius: 0; font-size: 0; }
+.mark.notable { clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%); border-radius: 0; }
+.mark.unlock { border-radius: 50%; }
+.locked .mark { filter: grayscale(1) brightness(.6); }
+.newdot { position: absolute; right: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: var(--good);
+  border: 1px solid var(--sunk); }
+
+/* Layout B. */
+.web { position: relative; width: 100%; height: 100%; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
+.web svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.web .node { position: absolute; transform: translate(-50%, -50%); cursor: pointer; display: grid; justify-items: center; }
+.web .node .mark { width: var(--s, 24px); height: var(--s, 24px); font-size: 12px; box-shadow: 0 0 0 2px var(--panel); }
+.web .node.has .mark { box-shadow: 0 0 0 2px var(--panel), 0 0 0 3.5px var(--brass); }
+.web .node.tip .mark { box-shadow: 0 0 0 2px var(--panel), 0 0 0 3.5px var(--ivory); }
+.web .node small { position: absolute; top: 100%; margin-top: 2px; display: none; font-family: Smallnum, monospace; font-size: 9.5px; color: var(--muted);
+  white-space: nowrap; }
+.web .node.has small, .web .node.tip small { color: var(--brass); display: block; }
+.web .label { position: absolute; transform: translate(-50%, -50%); font-family: Fondamento, Georgia, serif; font-size: 16px; text-align: center;
+  line-height: 1.1; pointer-events: none; }
+.web .label small { display: block; font-family: Lucida, sans-serif; font-size: 10px; color: var(--muted); }
+.web .hub { position: absolute; transform: translate(-50%, -50%); width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
+  background: #1f2a22; border: 1px solid var(--good); color: var(--good); font-family: Fondamento, Georgia, serif; font-size: 11px; text-align: center;
+  line-height: 1.05; cursor: default; }
+
+/* The side: the hovered node, what the build does, where it stands against a party, the keystones. */
+.side { position: absolute; left: 968px; top: 74px; width: 296px; height: 632px; display: grid; grid-template-rows: 170px 138px 212px 1fr; gap: 6px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; min-height: 0; overflow: hidden; }
+.card h3 { font-family: Fondamento, Georgia, serif; font-weight: 400; font-size: 16px; color: var(--brass); margin: 0 0 3px; }
+.card .kind { font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.card p { margin: 0 0 5px; line-height: 1.4; }
+.card .next { color: var(--good); }
+.card .no { color: var(--bad); }
+.card .dim { color: var(--muted); }
+.stats { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; }
+.stats dt { color: var(--muted); }
+.stats dd { margin: 0; font-family: Smallnum, monospace; font-size: 13px; text-align: right; }
+.gauge { position: relative; height: 46px; margin: 14px 4px 4px; }
+.gauge .track { position: absolute; left: 0; right: 0; top: 20px; height: 6px; background: var(--sunk); border: 1px solid var(--line); border-radius: 3px; }
+.gauge .over { position: absolute; top: 20px; height: 6px; background: rgba(224, 122, 106, .28); border-radius: 0 3px 3px 0; }
+.gauge .tick { position: absolute; top: 30px; font-family: Smallnum, monospace; font-size: 9.5px; color: var(--muted); transform: translateX(-50%); }
+.gauge .party { position: absolute; top: 12px; height: 22px; border-left: 1px dashed var(--ivory); }
+.gauge .party span { position: absolute; top: -13px; left: 0; transform: translateX(-50%); font-size: 9.5px; color: var(--ivory); white-space: nowrap; }
+.gauge .pin { position: absolute; top: 15px; width: 10px; height: 16px; transform: translateX(-50%); border-radius: 2px; border: 2px solid var(--panel); }
+.legend { display: grid; gap: 1px; font-size: 10.5px; }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.legend i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.legend b { margin-left: auto; font-family: Smallnum, monospace; font-weight: 400; font-size: 12px; }
+.sockets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 4px; }
+.socket { height: 32px; border: 1px solid var(--line); border-radius: 50% 50% 4px 4px; background: var(--sunk); display: grid; place-items: center;
+  font-family: Fondamento, Georgia, serif; font-size: 12px; color: var(--locked); cursor: pointer; padding: 0; position: relative; }
+.socket.open { border-color: var(--brass-dim); color: var(--brass-dim); }
+.socket.bound { border-color: var(--brass); color: #14110b; background: var(--brass); }
+.socket small { position: absolute; top: 100%; margin-top: 1px; font-family: Smallnum, monospace; font-size: 9px; color: var(--muted); }
+.note { font-size: 10px; color: var(--muted); margin-top: 14px; line-height: 1.35; }
+.knote { font-size: 10px; color: var(--muted); margin: 13px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

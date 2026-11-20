@@ -1,0 +1,30 @@
+id: turn_based.scroll_off_turn
+title: Turn-based - a member whose turn it is not cannot read a scroll for free
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-4 in devdocs/TURN_BASED_COMBAT_AUDIT.md. In OpenEnroth every queued member carries recovery for its
+        initiative (SortTurnQueue), and Character::useItem refuses a scroll from a member with recovery ("Player is
+        not active"). OpenYAMM's cast only checked that some member was ready (GameplayScreenRuntime::
+        tryCastSpellRequest), and the turn engine then refused to spend a turn for a reader who was not the front
+        member, so the scroll was free. Member 2 reads a Haste scroll while member 0 is to act.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: C, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - grant_item: {item_id: 304, member_index: 2}
+  - press_action: combat
+  # Room for a nearby monster that rolled initiative 1 to finish its action (3 s at most).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true, stage: attack, front_member: "0", report: true}}
+  - use_item: {member_index: 2, item_id: 304, expect: refused}
+  - assert: {buff: {spell_id: 5, present: false}}
+  - assert: {turn_based: {stage: attack, front_member: "0", report: true}}

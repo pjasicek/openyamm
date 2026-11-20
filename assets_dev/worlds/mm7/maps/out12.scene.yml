@@ -3,6 +3,8 @@ kind: "outdoor_scene"
 source:
   geometry_file: "out12.odm"
   legacy_companion_file: "out12.ddm"
+movement:
+  flight_ceiling: 7000
 environment:
   sky_texture: ""
   ground_tileset_name: ""

@@ -1,0 +1,38 @@
+{
+ "sprite": "tree68_p120",
+ "output": "mm7_deco_tree38.glb",
+ "family": "tree37",
+ "base": "tree37",
+ "note": "Apple tree with fruit (24 placements; sprite tree68): tree37's exact tree plus red apples; picking them switches it to tree37.",
+ "lod": {
+  "triangles": [
+   7000,
+   2700,
+   950
+  ]
+ },
+ "fruit": {
+  "count": [
+   22,
+   16,
+   10
+  ],
+  "radius_m": 0.065,
+  "srgb": [
+   210,
+   14,
+   10
+  ],
+  "segments": 6,
+  "rings": 3,
+  "spacing": 0.7,
+  "roughness": 0.6,
+  "shell": {
+   "inset": 0.0,
+   "elevation": [
+    -20,
+    45
+   ]
+  }
+ }
+}

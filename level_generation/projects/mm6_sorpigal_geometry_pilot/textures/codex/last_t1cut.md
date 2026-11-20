@@ -1,0 +1,3 @@
+Saved [t1cut.png](/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_sorpigal_geometry_pilot/textures/codex/t1cut.png) at 1024×1024 using built-in image generation and the brief’s constraints. No other project files changed.
+
+Checked half-tile offsets and mean colour; after one regeneration, it remains darker/redder than the reference and has a visible horizontal wrap seam. Not checked in-game.

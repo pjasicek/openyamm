@@ -1,0 +1,57 @@
+# MM9 promotion playthrough, segment 55: the Yobboes' loot returned (guide: side_a.yml return-the-plow,
+# return-the-herbs, return-the-dolly). The three owners stand by the houses of Drangheim's village (outdoors the party
+# is placed beside each): Hring the Plowhands (actor 35, RUDE 91) "We have your plow." (key 133), Ragnheid Lifegiver
+# (actor 34, RUDE 92) "We've got your bag of herbs." (key 134), little Tyock A'Norta a'leipshi (actor 36, RUDE 93)
+# "We've found your dolly." (key 135). Each talk's exit (drangheim.lua handlers 50030, 50029, 50031) takes the item and
+# pays 2 000 experience to every member and 500 gold (keys 200, 198, 199). Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 55
+id: mm9.promotions.55_villagers_items
+title: "MM9 promotions 55: the plow, the herbs and the dolly returned to their owners"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/54_keith_yobboes.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheim.blv, qbit_set: [90128, 90129, 90130, 90131, 90132], qbit_clear: [90133, 90134, 90135, 90198, 90199, 90200]}
+  - play_lua: {source: 'remember("gold", gold()); for i = 0, 3 do remember("xp" .. i, experience(i)) end'}
+
+  # Hring the Plowhands.
+  - set_pose: {map: drangheim.blv, x: -5850, y: -1178, z: 2205, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 35}
+  - select_topic: {match_label: "We have your plow."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90133, 90200]}
+
+  # Ragnheid Lifegiver.
+  - set_pose: {map: drangheim.blv, x: -5712, y: -560, z: 2291, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 34}
+  - select_topic: {match_label: "We've got your bag of herbs."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90134, 90198]}
+
+  # Tyock A'Norta a'leipshi.
+  - set_pose: {map: drangheim.blv, x: -5900, y: -700, z: 2261, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 36}
+  - select_topic: {match_label: "We've found your dolly."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90135, 90199]}
+
+  - play_lua:
+      source: |
+        for _, id in ipairs({10370, 10371, 10372}) do if has_item(id) then error("item " .. id .. " was not taken") end end
+        local paid = gold() - recall("gold")
+        log("gold +" .. paid)
+        if paid ~= 1500 then error("the owners paid " .. paid .. " gold, not 1500") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          log("member " .. i .. " experience +" .. gain)
+          if gain ~= 6000 then error("member " .. i .. " gained " .. gain .. ", not 3 x 2000") end
+        end
+  - save_game: {name: "55 the villagers' things", path: output/playthrough/mm9/promotions/checkpoints/55_villagers_items.oysav}

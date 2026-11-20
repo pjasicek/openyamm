@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>New dirt shorelines</title>
+<style>body{background:#202322;color:#eee;font:16px/1.5 system-ui;max-width:1400px;margin:24px auto}img{max-width:100%}a{color:#a8dbff}</style>
+<h1>New Sorpigal: accepted dirt shoreline integration</h1>
+<p>36 accepted land tiles and 15 accepted water tiles are byte-identical. Twelve RGBA shore overlays retain the accepted dirt and alpha, with a broader damp bank: AI earth detail, finer grain and darker contact shading, blended only near the water. Inland dirt and all 15 water tiles are unchanged. No border averaging.</p>
+<h2>Original / previous / revised banks</h2><img src="bank_comparison.png"><p><a href="bank_detail/prompt.txt">Built-in imagegen prompt</a>. The generated bank material is quilted and fitted as a separate detail layer. Previous version retained in versions/v1.</p>
+<h2>Native bank comparison</h2><p>Previous ← <input id="bankSplit" type="range" min="0" max="100" value="50" aria-label="Shore shading comparison"> → Revised. Water phase differs between runs.</p>
+<div style="position:relative;aspect-ratio:1200/550"><img src="bank_native_after.png" style="position:absolute;width:100%"><img id="bankBefore" src="bank_native_before.png" style="position:absolute;width:100%;clip-path:inset(0 50% 0 0)"></div>
+<script>document.querySelector('#bankSplit').oninput=function(){document.querySelector('#bankBefore').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'}</script>
+<h2>Complete shoreline contexts across fourteen water frames</h2><img src="shore_contexts.webp">
+<h2>Worst local join windows</h2><img src="worst_join_windows.png">
+<h2>Native sampled animation</h2><img src="native_animation.webp">
+<p>Fixture perimeter steps are geometry. Animation checks use discrete captures, not a performance benchmark.</p><h2>coast</h2><img src="captures/new_dirt_shores_coast.png"><h2>island</h2><img src="captures/new_dirt_shores_island.png"><h2>pool</h2><img src="captures/new_dirt_shores_pool.png"><h2>near</h2><img src="captures/new_dirt_shores_near.png"><h2>dirt</h2><img src="captures/new_dirt_shores_dirt.png"><p><a href="validation.json">Combined joins</a> · <a href="local_seams.json">Border detail</a> · <a href="native_animation.json">Animation checks</a> · <a href="report.json">Provenance</a> · <a href="integration.json">Preservation audit</a> · <a href="new_sorpigal_terrain_x2.zip">63-tile ZIP</a></p>

@@ -1,0 +1,155 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Paint materials onto the supplied EXACT orthographic grey 3D-model guide for a game texture-source/albedo image. Output one 1024 x 1024 PNG with true transparent background. Keep the guide's alpha silhouette EXACTLY pixel aligned: identical outline, size, position, every shape edge, opening and detail. Do not move, reinterpret, add geometry, crop, or recenter any element. Nothing outside the guide silhouette. Guide is authoritative for ALL geometry and camera, even where different from design reference. Image 1 is the edit target and geometry authority, guide_left.png. Image 2 is design_reference.png, approved material/color authority only, NOT camera or shape. Image 3 is concept_crop.png, supporting original concept only.\nPaint the surface materials of the design reference onto the guide: chipped white ceramic with gold bands, glossy black-violet resin and chitin with glowing orange veins, rust on the scaffold, black glass rubble. Retain the guide's existing platform supports, cables, spikes, small crenellations, cloth and ground-rubble shapes in exactly their existing positions. Any cloth visible is muted rusty red as in design reference.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Resin and glass material identity comes from painted material color and texture, without baked glossy light reflections. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. Do not inherit dramatic lighting from the design or concept references. No labels or text. Preserve the complete 1024-square guide framing with transparent empty pixels unchanged.\nDeliverable: paint_left.png, the decoration seen from the LEFT exactly as image 1.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "df4874b6494fd330400b2aaa94ca803e7c1b5dade215222fb1fa16849da879b6"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9b-f0de-7502-9c1e-61b971bb395b/exec-d39b2626-3c09-430b-9710-db4d3119ae41.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d9b-f0de-7502-9c1e-61b971bb395b/exec-d39b2626-3c09-430b-9710-db4d3119ae41.png",
+      "selected": false,
+      "reason": "Rejected: wrong returned dimensions, stronger highlights and ambient-occlusion-like darkening.",
+      "accepted": false,
+      "output_sha256": "bd766eeb8f6a678583af2bb248e238cfe09af9a776d6a386e2bc427cc337cf70",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_matches": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches: white ceramic, gold, dark violet-black chitin, orange veins and brown scaffold. Scaffold reads partly as wood rather than rusted metal.",
+        "flat_even_light": "Partial: reduced highlights in correction, but baked crevice darkening and facet shading remain."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Paint materials onto the supplied EXACT orthographic grey 3D-model guide for a game texture-source/albedo image. Output one 1024 x 1024 PNG with true transparent background. Keep the guide's alpha silhouette EXACTLY pixel aligned: identical outline, size, position, every shape edge, opening and detail. Do not move, reinterpret, add geometry, crop, or recenter any element. Nothing outside the guide silhouette. Guide is authoritative for ALL geometry and camera, even where different from design reference. Image 1 is the edit target and geometry authority, guide_right.png. Image 2 is design_reference.png, approved material/color authority only, NOT camera or shape. Image 3 is concept_crop.png, supporting original concept only.\nPaint the surface materials of the design reference onto the guide: chipped white ceramic with gold bands, glossy black-violet resin and chitin with glowing orange veins, rust on the scaffold, black glass rubble. Retain the guide's existing platform supports, cables, spikes, small crenellations, cloth and ground-rubble shapes in exactly their existing positions. Any cloth visible is muted rusty red as in design reference.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Resin and glass material identity comes from painted material color and texture, without baked glossy light reflections. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. Do not inherit dramatic lighting from the design or concept references. No labels or text. Preserve the complete 1024-square guide framing with transparent empty pixels unchanged.\nDeliverable: paint_right.png, the decoration seen from the RIGHT exactly as image 1.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "76c0e2eb3a0f5477f54e51220199890ff3cc2f0702c7957d0c694dd032c805fc"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9b-f0de-7502-9c1e-61b971bb395b/exec-95ff5bbe-76b3-4ddb-9a47-ecc5f0ac8db4.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d9b-f0de-7502-9c1e-61b971bb395b/exec-95ff5bbe-76b3-4ddb-9a47-ecc5f0ac8db4.png",
+      "selected": false,
+      "reason": "Rejected: wrong returned dimensions, stronger highlights and ambient-occlusion-like darkening.",
+      "accepted": false,
+      "output_sha256": "88f3af07088f83e7d4a9b3f0845e09a98f20f754c62cae5900de0b795cd6f7df",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_matches": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches: white ceramic, gold, dark violet-black chitin, orange veins and brown scaffold. Scaffold reads partly as wood rather than rusted metal.",
+        "flat_even_light": "Partial: reduced highlights in correction, but baked crevice darkening and facet shading remain."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Paint materials onto the supplied EXACT orthographic grey 3D-model guide for a game texture-source/albedo image. Output one 1024 x 1024 PNG with true transparent background. Keep the guide's alpha silhouette EXACTLY pixel aligned: identical outline, size, position, every shape edge, opening and detail. Do not move, reinterpret, add geometry, crop, or recenter any element. Nothing outside the guide silhouette. Guide is authoritative for ALL geometry and camera, even where different from design reference. Image 1 is the edit target and geometry authority, guide_left.png. Image 2 is design_reference.png, approved material/color authority only, NOT camera or shape. Image 3 is concept_crop.png, supporting original concept only.\nPaint the surface materials of the design reference onto the guide: chipped white ceramic with gold bands, glossy black-violet resin and chitin with glowing orange veins, rust on the scaffold, black glass rubble. Retain the guide's existing platform supports, cables, spikes, small crenellations, cloth and ground-rubble shapes in exactly their existing positions. Any cloth visible is muted rusty red as in design reference.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Resin and glass material identity comes from painted material color and texture, without baked glossy light reflections. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. Do not inherit dramatic lighting from the design or concept references. No labels or text. Preserve the complete 1024-square guide framing with transparent empty pixels unchanged.\nDeliverable: paint_left.png, the decoration seen from the LEFT exactly as image 1.\nCORRECTIVE GENERATION: The previous attempt did not satisfy the required flat albedo finish. Repaint directly on the original guide. OUTPUT RESOLUTION MUST BE EXACTLY 1024 BY 1024 PIXELS, matching image 1 without resizing its contents. This is a square 1024-pixel texture projection, not a presentation render. Preserve original guide alpha boundary and all geometry exactly. Apply matte unlit base colours: off-white ceramic, ochre gold bands, very dark violet-black chitin, oxidized brown scaffold, orange veins. Remove all bright specular streaks on chitin and gold, all dark lighting gradients under platforms and all ambient occlusion. Keep fine material wear, but no directional shading or illumination effects. The guide's framing and silhouette must not be changed at all.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "df4874b6494fd330400b2aaa94ca803e7c1b5dade215222fb1fa16849da879b6"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9b-f0de-7502-9c1e-61b971bb395b/exec-53336b01-8909-4d00-b516-d47ff448ee96.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted raw returns: reduced highlights and closer to flat materials. Not brief-compliant: returned dimensions differ, exact silhouette cannot match the 1024px guide, residual shading and geometry drift remain.",
+      "accepted": false,
+      "output_sha256": "01354e0c76af88cfad49101ed85929f27f056ba400d81286a817fa731ce01494",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_matches": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches: white ceramic, gold, dark violet-black chitin, orange veins and brown scaffold. Scaffold reads partly as wood rather than rusted metal.",
+        "flat_even_light": "Partial: reduced highlights in correction, but baked crevice darkening and facet shading remain."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Paint materials onto the supplied EXACT orthographic grey 3D-model guide for a game texture-source/albedo image. Output one 1024 x 1024 PNG with true transparent background. Keep the guide's alpha silhouette EXACTLY pixel aligned: identical outline, size, position, every shape edge, opening and detail. Do not move, reinterpret, add geometry, crop, or recenter any element. Nothing outside the guide silhouette. Guide is authoritative for ALL geometry and camera, even where different from design reference. Image 1 is the edit target and geometry authority, guide_right.png. Image 2 is design_reference.png, approved material/color authority only, NOT camera or shape. Image 3 is concept_crop.png, supporting original concept only.\nPaint the surface materials of the design reference onto the guide: chipped white ceramic with gold bands, glossy black-violet resin and chitin with glowing orange veins, rust on the scaffold, black glass rubble. Retain the guide's existing platform supports, cables, spikes, small crenellations, cloth and ground-rubble shapes in exactly their existing positions. Any cloth visible is muted rusty red as in design reference.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Resin and glass material identity comes from painted material color and texture, without baked glossy light reflections. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. Do not inherit dramatic lighting from the design or concept references. No labels or text. Preserve the complete 1024-square guide framing with transparent empty pixels unchanged.\nDeliverable: paint_right.png, the decoration seen from the RIGHT exactly as image 1.\nCORRECTIVE GENERATION: The previous attempt did not satisfy the required flat albedo finish. Repaint directly on the original guide. OUTPUT RESOLUTION MUST BE EXACTLY 1024 BY 1024 PIXELS, matching image 1 without resizing its contents. This is a square 1024-pixel texture projection, not a presentation render. Preserve original guide alpha boundary and all geometry exactly. Apply matte unlit base colours: off-white ceramic, ochre gold bands, very dark violet-black chitin, oxidized brown scaffold, orange veins. Remove all bright specular streaks on chitin and gold, all dark lighting gradients under platforms and all ambient occlusion. Keep fine material wear, but no directional shading or illumination effects. The guide's framing and silhouette must not be changed at all.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "76c0e2eb3a0f5477f54e51220199890ff3cc2f0702c7957d0c694dd032c805fc"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9b-f0de-7502-9c1e-61b971bb395b/exec-ca07baea-635a-4d82-8655-ae10a21927ec.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted raw returns: reduced highlights and closer to flat materials. Not brief-compliant: returned dimensions differ, exact silhouette cannot match the 1024px guide, residual shading and geometry drift remain.",
+      "accepted": false,
+      "output_sha256": "856afc25cfe830d84f2773f4a8b036f6dab537cf1444b5f1c53976efe5aeff32",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_matches": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches: white ceramic, gold, dark violet-black chitin, orange veins and brown scaffold. Scaffold reads partly as wood rather than rusted metal.",
+        "flat_even_light": "Partial: reduced highlights in correction, but baked crevice darkening and facet shading remain."
+      }
+    }
+  ]
+}

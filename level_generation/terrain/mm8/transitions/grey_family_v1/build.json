@@ -1,0 +1,169 @@
+{
+  "status": "candidate_shared_art_requires_join_and_visual_review",
+  "tiles": [
+    {
+      "name": "gse",
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "runtime_sha256": "a9bd0a3e590a7ffddf1e49af8d59c417b215baa95710e362c303e52beb640925",
+      "authoring_sha256": "34e429cbb70148b9c0bae320d617be46b593a41df8a87660dbc241ee0c73d396",
+      "raw_sha256": "7bb115d994e73cc3c85861919b3a2bb5ca65a1fc7fab4aca66012d6ef428935a"
+    },
+    {
+      "name": "gsn",
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "runtime_sha256": "4bde882d523113eb09f71bc6f78ead3bb1eaaaf7e90dc61e9ff8fd7c4bfcdda1",
+      "authoring_sha256": "3f44d9e71f73506642cc98609eeeba2150e8c94ebf3d453c2a04c33fff671ce2",
+      "raw_sha256": "0d7076ebbe3479a11e8f69cdd649ee3d9a3218a5ac5e013a5a273e45c6cc17de"
+    },
+    {
+      "name": "gsne",
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "runtime_sha256": "146495857e072965e919e9578b12f9b8c7d5eab70f2576a781d79948415b9173",
+      "authoring_sha256": "e852e6ccadf4fef362c4a8b53d4dc00c14e363251889a397cdb75b76f633a6a8",
+      "raw_sha256": "0e972cfdca8b6cb219ca53877c142a0dec0c7db3b47fd3e210b010112b5379c8"
+    },
+    {
+      "name": "gsnw",
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "runtime_sha256": "a4e2723a2d134ed4a1ad7a89e26460f7c3b4d3d253daf473cdf4e0617e488328",
+      "authoring_sha256": "e4bb4eae6e293380847a35954c5bfdfb94a711c1b190a391bf702f3257bc9915",
+      "raw_sha256": "0d8bafed2b9803901fb7e1052b4b23530f779668f4905d012141b4668b1060f0"
+    },
+    {
+      "name": "gss",
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "runtime_sha256": "26b4a9023e87ccaa227e61b4411276281dfb3b6a15060fbd5372bc201f731e84",
+      "authoring_sha256": "b5fa6a352cc086ba67bc35d5c37c13c90928e301eaf878260454d7512632730d",
+      "raw_sha256": "a16dd71e1f92561f16a0facd9c075b6e60e3dc1179ece4df84e475563da8d839"
+    },
+    {
+      "name": "gsse",
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "runtime_sha256": "6112edadf2580bde5ddef85da5124e9300848e2163abca49394e211c9dd31c1e",
+      "authoring_sha256": "965b11764b23efc7f22070d574df57f3cc13db3deceede855367856485f64b06",
+      "raw_sha256": "84116f9cc18e877cb5ce5a5d298f26a85e0d2e17eebec88fba49cc17ac7838ed"
+    },
+    {
+      "name": "gssw",
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "runtime_sha256": "62bcfc8251bf8a072bbaa331404d1e71ad92a6ffede27dc1d7a2a2a60fceadd0",
+      "authoring_sha256": "83a88adb4cde0c53825c56177c95b482a8f706669e4ed5b736a94737408d624d",
+      "raw_sha256": "6facfc968fd8d31fd35a67eba7c1f098ae7eff44da7edb9751ab470ec9882518"
+    },
+    {
+      "name": "gstylx",
+      "topology": {
+        "N": "11",
+        "S": "11",
+        "E": "11",
+        "W": "11"
+      },
+      "runtime_sha256": "9429d35a8a0b6efab6052678832c075fc79407b1a532a8a07934e741da7b402f",
+      "authoring_sha256": "c45eaf128fbfc11ee8a5b0b94e8ab0908a68ca957b10f7d1011c8340591e46d8",
+      "raw_sha256": "e93d55b8870f605bfcdcb0ace1cfa6f037677488180b42fe4fdb4efbf1f07630"
+    },
+    {
+      "name": "gsw",
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "runtime_sha256": "4bcb1d8ffa5c964b13a350b5723ae4650bf754392bf8f0dad819ba95596f8ad9",
+      "authoring_sha256": "7ed1224fb6951cc91be3ed85c8366afd3106c47db00e1ed2de54bd35dbeca39c",
+      "raw_sha256": "bc9e8bbdda450027a7013f35289796ebcfcb6c95692b707f22ec147ebcde2afa"
+    },
+    {
+      "name": "gsxne",
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "runtime_sha256": "699b3c59bf49ff82a0dc07dae853222e69b3eaab710987f45b7041c34285eee2",
+      "authoring_sha256": "e2a028dec97976116c9aef5fef7daa35ad4c418ada45001c88e47ce86cdebad5",
+      "raw_sha256": "77b23a5066ff36c9bfe0a7dd0e16c486a98feeb92da16af00e7c5b69ee7b40f2"
+    },
+    {
+      "name": "gsxnw",
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "runtime_sha256": "04923e3f80aef20f70dfa338081270d10abdd5c955c1bd267faa3a34a1f9099f",
+      "authoring_sha256": "757a16ee05a2c918c31c7db18bb8b97af3f4553f7dac7c98428071e175e10ced",
+      "raw_sha256": "84707fc0d20ee78864bb93e8a2d7d76e34abfa96d30ea2a95f1991edb45940b0"
+    },
+    {
+      "name": "gsxse",
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "runtime_sha256": "2375f50e14325707e8c2fedce826f33b4c596fb77babd37d6a50a66f4ea5fd4a",
+      "authoring_sha256": "fdd4a44cc58dc390425dbf67fdb1b0e8890d3bf5685e8a50187be3d243d7a2a1",
+      "raw_sha256": "320004df9faec35d16419f33b5a2a4b6fffd11554712ca80ec4786197a4996a2"
+    },
+    {
+      "name": "gsxsw",
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "runtime_sha256": "8c9ffc693d293dfbfe68eb0ffa1f0798e5e8d219b95f3fffcc370c23289cc310",
+      "authoring_sha256": "63beea8468d90145f07788ea6b1fcb4a2045a1d8ca43ff51e60abe5d9477de57",
+      "raw_sha256": "1b1976a6de09db7cb51d6233208079e090e24a13b29a6e1c64c98d182aad58ef"
+    }
+  ],
+  "donor_sources": {
+    "h:10": "gse",
+    "h:01": "gsw",
+    "v:01": "gsn",
+    "v:10": "gss"
+  },
+  "source_build_sha256": "f2431af66fe6f31c26f90a77f856841948e164ce7fdf1b8a58a7fb460004c334",
+  "script_sha256": "c8274cecb91f80a65c37c09b132f4988e932758b4e7a3a9980796edd7bf5218c"
+}

@@ -1,0 +1,29 @@
+id: mm9.ai.reposition_leash
+title: A repositioning Evil Sorcerer never leaves its leash for a spot that would see the party
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The party vanishes into the east pen at about 11.6 s. The sorcerer's
+        searches every 2 s find no spot within its 250 unit leash that sees where the party vanished and keeps 640
+        units from there (reposition note none): it never walks (no reposition note spot or post, no
+        reposition_arrived) and gives the party up 8 s after it vanished.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: reposition_leash.arena.yml}
+  - advance_runtime: {seconds: 24}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, before: 11, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition, detail: none, after: 13, min_count: 2, report: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition, detail: spot, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition, detail: post, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition_arrived, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, detail: lost, after: 19, before: 21, min_count: 1}

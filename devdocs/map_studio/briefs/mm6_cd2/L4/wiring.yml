@@ -1,0 +1,856 @@
+format: 0
+variables: [west_way_cleared, fires_sign_read, east_embers, west_embers, sarcophagus_61, sarcophagus_62, sarcophagus_63]
+events:
+  - id: evt:chest
+    preset: chest
+    source: chest:study
+    title: Chest
+  - id: evt:crystal
+    preset: script
+    source: deco:d329
+    title: Crystal
+    condition: {not: {any: [{qbit: 1126}, {item: 2172}]}}
+    effects:
+      - give_item: 2172
+      - qbit: 1217
+      - set_sprite:
+          of: deco:d329
+          to: crysdisc
+    notes: "Original event 57: the Memory Crystal Delta (item 2172) and the seer's quest item bit 1217, unless the party has it or the Oracle is done (quest bit 1126); the crystal's picture turns to crysdisc (the original's SetSprite 329). Ninth merge: `set_sprite` on deco:d329 (was Lua with the build's entity number 325)."
+  - id: evt:cube_crystal_e
+    preset: teleport
+    source: platform:cube_crystal_e
+    condition: {map_var: fires_sign_read}
+    to: [22080, -2192, 1]
+    else_effects:
+      - teleport:
+          to: [-10240, 12144, -240]
+    notes: "Original event 41 (face 4300): to the west court; with the sign read, to the lich's study."
+  - id: evt:cube_crystal_n
+    preset: teleport
+    source: platform:cube_crystal_n
+    condition: {map_var: fires_sign_read}
+    to: [22080, -2192, 1]
+    else_effects:
+      - teleport:
+          to: [-6112, 10912, 600]
+    notes: "Original event 40 (face 4299): into the east gate tower; with the sign read, to the lich's study."
+  - id: evt:cube_crystal_s
+    preset: teleport
+    source: platform:cube_crystal_s
+    condition: {map_var: fires_sign_read}
+    to: [22080, -2192, 1]
+    else_effects:
+      - teleport:
+          to: [-10240, 12144, -240]
+    notes: "Original event 38 (face 4301): to the west court; with the sign read, to the lich's study."
+  - id: evt:cube_crystal_u
+    preset: teleport
+    source: platform:cube_crystal_u
+    condition: {map_var: fires_sign_read}
+    to: [22080, -2192, 1]
+    else_effects:
+      - teleport:
+          to: [-10240, 12144, -240]
+    notes: "Original event 42 (face 4298, the underside): to the west court; with the sign read, to the lich's study."
+  - id: evt:cube_crystal_w
+    preset: teleport
+    source: platform:cube_crystal_w
+    condition: {map_var: fires_sign_read}
+    to: [22080, -2192, 1]
+    else_effects:
+      - teleport:
+          to: [-7328, 10496, 600]
+    notes: "Original event 39 (face 4302): to the bridge between the gate towers; with the sign read, to the lich's study."
+  - id: evt:cube_hall_e
+    preset: switch
+    source: platform:cube_hall_e
+    condition: {map_var: east_embers}
+    opens: [mover:portcullis]
+    else_effects:
+      - teleport:
+          to: [8608, 128, 630]
+    text: The way has been cleared
+    notes: "Original event 31 (face 4221): to the tower room over the spiral until the east lever lights the cube; then it lowers the portcullis."
+  - id: evt:cube_hall_n
+    preset: switch
+    source: platform:cube_hall_n
+    condition: {map_var: east_embers}
+    opens: [mover:portcullis]
+    else_effects:
+      - teleport:
+          to: [22768, 7504, 1170]
+    text: The way has been cleared
+    notes: "Original event 30 (face 4220): to the teleport chamber until the east lever lights the cube; then it lowers the portcullis."
+  - id: evt:cube_hall_s
+    preset: switch
+    source: platform:cube_hall_s
+    condition: {map_var: east_embers}
+    opens: [mover:portcullis]
+    else_effects:
+      - teleport:
+          to: [22768, 7504, 1170]
+    text: The way has been cleared
+    notes: "Original event 28 (face 4222): to the teleport chamber until the east lever lights the cube; then it lowers the portcullis."
+  - id: evt:cube_hall_u
+    preset: switch
+    source: platform:cube_hall_u
+    condition: {map_var: east_embers}
+    opens: [mover:portcullis]
+    else_effects:
+      - teleport:
+          to: [22768, 7504, 1170]
+    text: The way has been cleared
+    notes: "Original event 32 (face 4219, the underside): to the teleport chamber until the east lever lights the cube; then it lowers the portcullis."
+  - id: evt:cube_hall_w
+    preset: switch
+    source: platform:cube_hall_w
+    condition: {map_var: east_embers}
+    opens: [mover:portcullis]
+    else_effects:
+      - teleport:
+          to: [10384, 2224, 0]
+    text: The way has been cleared
+    notes: "Original event 29 (face 4223): to the stair hall until the east lever lights the cube; then it lowers the portcullis."
+  - id: evt:cube_throne_e
+    preset: switch
+    source: platform:cube_throne_e
+    condition: {all: [{map_var: west_embers}, {not: {map_var: west_way_cleared}}]}
+    sets: {map_var: west_way_cleared}
+    effects:
+      - passable: platform:forcefield
+      - passable: platform:forcefield_court
+    else_effects:
+      - lua: "if not IsAtLeast(MapVar(west_embers), 1) then evt.SummonObject(2081, 551, 14144, 191, 1000, 1, false) evt.SummonObject(1, 551, 14144, 320, 10, 1, false) end"
+    text: The way has been cleared
+    notes: "Original event 36 (face 4267), as the west side with its own points."
+  - id: evt:cube_throne_n
+    preset: switch
+    source: platform:cube_throne_n
+    condition: {all: [{map_var: west_embers}, {not: {map_var: west_way_cleared}}]}
+    sets: {map_var: west_way_cleared}
+    effects:
+      - passable: platform:forcefield
+      - passable: platform:forcefield_court
+    else_effects:
+      - teleport:
+          to: [2560, 3856, -636]
+    text: The way has been cleared
+    notes: "Original event 33 (face 4266), as the south side."
+  - id: evt:cube_throne_s
+    preset: switch
+    source: platform:cube_throne_s
+    condition: {all: [{map_var: west_embers}, {not: {map_var: west_way_cleared}}]}
+    sets: {map_var: west_way_cleared}
+    effects:
+      - passable: platform:forcefield
+      - passable: platform:forcefield_court
+    else_effects:
+      - teleport:
+          to: [2560, 3856, -636]
+    text: The way has been cleared
+    notes: "Original event 33 (face 4268): to the end of the low tunnels, except once after each lighting of the cube by the west lever, when it clears the forcefield."
+  - id: evt:cube_throne_u
+    preset: switch
+    source: platform:cube_throne_u
+    condition: {all: [{map_var: west_embers}, {not: {map_var: west_way_cleared}}]}
+    sets: {map_var: west_way_cleared}
+    effects:
+      - passable: platform:forcefield
+      - passable: platform:forcefield_court
+    else_effects:
+      - teleport:
+          to: [16080, 9072, -180]
+    text: The way has been cleared
+    notes: "Original event 37 (face 4265, the underside): to the great hall, except once after each lighting, when it clears the forcefield."
+  - id: evt:cube_throne_w
+    preset: switch
+    source: platform:cube_throne_w
+    condition: {all: [{map_var: west_embers}, {not: {map_var: west_way_cleared}}]}
+    sets: {map_var: west_way_cleared}
+    effects:
+      - passable: platform:forcefield
+      - passable: platform:forcefield_court
+    else_effects:
+      - lua: "if not IsAtLeast(MapVar(west_embers), 1) then evt.SummonObject(2081, 317, 14144, 191, 1000, 1, false) evt.SummonObject(1, 317, 14144, 320, 10, 1, false) end"
+    text: The way has been cleared
+    notes: "Original event 35 (face 4269): unlit, an explosion and a longsword thrown out of the cube (SummonObject, the original's calls); lit, it clears the forcefield once; after that it does nothing. Three outcomes, so the third is Lua (MapVar(west_embers), which the build numbers)."
+  - id: evt:door01
+    preset: door
+    source: door:d01
+    title: Door
+    action: open
+  - id: evt:door04
+    preset: door
+    source: door:d04
+    title: Door
+    action: open
+  - id: evt:door05
+    preset: door
+    source: door:d05
+    title: Door
+    action: open
+  - id: evt:door06
+    preset: door
+    source: door:d06
+    title: Door
+    action: open
+  - id: evt:door07
+    preset: door
+    source: door:d07
+    title: Door
+    action: open
+  - id: evt:door08
+    preset: door
+    source: door:d08
+    title: Door
+    action: open
+  - id: evt:door09
+    preset: door
+    source: door:d09
+    title: Door
+    action: open
+  - id: evt:leave
+    preset: exit
+    source: exit:gate
+    title: Leave Castle Darkmoor
+  - id: evt:lever_east
+    preset: switch
+    source: switch:lever_east
+    title: Lever
+    condition: {not: {map_var: east_embers}}
+    sets: {map_var: east_embers}
+    effects:
+      - set_texture:
+          of: platform:cube_hall_e
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_n
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_s
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_u
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_w
+          to: lavatyl
+    else_effects:
+      - set:
+          var:
+            map_var: east_embers
+          value: 0
+      - set_texture:
+          of: platform:cube_hall_e
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_hall_n
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_hall_s
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_hall_u
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_hall_w
+          to: orwtrtyl
+    notes: "Original event 54: each pull switches the great hall's cube between lit (its five water faces to lava) and unlit (to water again), map variable 2 of the original; the lever's arm (door record 14) sinks and rises."
+  - id: evt:lever_west
+    preset: switch
+    source: switch:lever_west
+    title: Sign
+    condition: {not: {map_var: west_embers}}
+    sets: {map_var: west_embers}
+    effects:
+      - set_texture:
+          of: platform:cube_throne_e
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_n
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_s
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_u
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_w
+          to: lavatyl
+    else_effects:
+      - set:
+          var:
+            map_var: west_embers
+          value: 0
+      - set:
+          var:
+            map_var: west_way_cleared
+          value: 0
+      - set_texture:
+          of: platform:cube_throne_e
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_throne_n
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_throne_s
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_throne_u
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_throne_w
+          to: orwtrtyl
+    notes: "Original event 56 (titled \"Sign\" in the original, kept): as the east lever, for the throne hall's cube (map variable 3, which the cube raises to 2 when it clears the forcefield; the lever's off branch sets it to 0). Slips of the original not copied: its off branch moves the east lever's arm (door record 14, not its own 12) and sets face 4269 back to water twice and 4268 never, so the cube's south face stays lava."
+  - id: evt:on_load
+    preset: switch
+    trigger: load
+    condition: {map_var: west_embers}
+    effects:
+      - set_texture:
+          of: platform:cube_throne_e
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_n
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_s
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_u
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_throne_w
+          to: lavatyl
+      - passable: platform:forcefield
+      - passable: platform:forcefield_court
+    notes: "Original event 58, run when the map is entered, its parts with their own conditions: with the west lever pulled (map variable 3 at 1 or 2) the throne hall's cube is lava and the forcefield's two faces are passable (the original's own test: pulling the lever and coming back clears the field as well)."
+  - id: evt:on_load_crystal
+    preset: script
+    trigger: load
+    condition: {map_var: fires_sign_read}
+    effects:
+      - set_texture:
+          of: platform:cube_crystal_e
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_n
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_s
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_u
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_w
+          to: lavatyl
+    notes: "Original event 58: the crystal chamber's cube lava again."
+  - id: evt:on_load_crystal_taken
+    preset: script
+    trigger: load
+    condition: {any: [{qbit: 1126}, {item: 2172}]}
+    effects:
+      - set_sprite:
+          of: deco:d329
+          to: crysdisc
+    notes: "Original event 58: the crystal's picture stays crysdisc once taken (set_sprite, as evt:crystal)."
+  - id: evt:on_load_hall
+    preset: script
+    trigger: load
+    condition: {map_var: east_embers}
+    effects:
+      - set_texture:
+          of: platform:cube_hall_e
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_n
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_s
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_u
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_hall_w
+          to: lavatyl
+    notes: "Original event 58: the great hall's cube lava again."
+  - id: evt:panel_chamber_e
+    preset: teleport
+    source: switch:panel_chamber_e
+    title: Glowing panel
+    to: [13744, 640, -180]
+    notes: "Original event 43: out of the teleport chamber to the cross hall."
+  - id: evt:panel_chamber_n
+    preset: teleport
+    source: switch:panel_chamber_n
+    title: Glowing panel
+    to: [13744, 640, -180]
+    notes: "Original event 43: out of the teleport chamber to the cross hall."
+  - id: evt:panel_chamber_s
+    preset: teleport
+    source: switch:panel_chamber_s
+    title: Glowing panel
+    to: [13744, 640, -180]
+    notes: "Original event 43: out of the teleport chamber to the cross hall."
+  - id: evt:panel_chamber_w
+    preset: teleport
+    source: switch:panel_chamber_w
+    title: Glowing panel
+    to: [13744, 640, -180]
+    notes: "Original event 43: out of the teleport chamber to the cross hall."
+  - id: evt:panel_study
+    preset: teleport
+    source: switch:panel_study
+    title: Glowing panel
+    to: [2528, 3568, -635]
+    notes: "Original event 44: out of the lich's study to the end of the low tunnels."
+  - id: evt:podium
+    preset: switch
+    source: platform:podium
+    title: Podium
+    condition: {not: {qbit: 1033}}
+    locked_text: The Book is destroyed
+    effects:
+      - qbit: 1033
+      - set_texture:
+          of: platform:podium
+          to: deskside
+          face: top
+    text: The Book of Liches is destroyed
+    notes: "Original event 34: destroys the Book of Liches (quest bit 1033, the merged number of the original's bit 9), which ends the summons of events 26 and 47 to 52. The desk top turns to deskside (the original's SetTexture(-4560), its top alone; ninth merge)."
+  - id: evt:sarcophagus61
+    preset: script
+    source: panel:sarcophagus61
+    question: {ask: "Steal (Yes/No)?", answers: [Yes, Y], message: "Steal from the dead?"}
+    title: Sarcophagus
+    condition: {not: {map_var: sarcophagus_61}}
+    effects:
+      - set:
+          var:
+            map_var: sarcophagus_61
+          value: 1
+      - lua: "evt.GiveItem(6, 35) SubtractValue(655595, 10)"
+    notes: "Original event 61: once robbed it stays silent (map variable 11); asks, and on Yes gives a random item of treasure level 6 and type 35 and subtracts 10 from the original's variable 655595 (the original's own calls)."
+  - id: evt:sarcophagus62
+    preset: script
+    source: panel:sarcophagus62
+    question: {ask: "Steal (Yes/No)?", answers: [Yes, Y], message: "Steal from the dead?"}
+    title: Sarcophagus
+    condition: {not: {map_var: sarcophagus_62}}
+    effects:
+      - set:
+          var:
+            map_var: sarcophagus_62
+          value: 1
+      - lua: "evt.GiveItem(6, 39) SubtractValue(655595, 10)"
+    notes: "Original event 62: once robbed it stays silent (map variable 12); asks, and on Yes gives a random item of treasure level 6 and type 39 and subtracts 10 from the original's variable 655595 (the original's own calls)."
+  - id: evt:sarcophagus63
+    preset: script
+    source: panel:sarcophagus63
+    question: {ask: "Steal (Yes/No)?", answers: [Yes, Y], message: "Steal from the dead?"}
+    title: Sarcophagus
+    condition: {not: {map_var: sarcophagus_63}}
+    effects:
+      - set:
+          var:
+            map_var: sarcophagus_63
+          value: 1
+      - lua: "evt.GiveItem(6, 36) SubtractValue(655595, 10)"
+    notes: "Original event 63: once robbed it stays silent (map variable 13); asks, and on Yes gives a random item of treasure level 6 and type 36 and subtracts 10 from the original's variable 655595 (the original's own calls)."
+  - id: evt:sign_embers_e
+    preset: switch
+    source: switch:sign_embers_e
+    title: Sign
+    toggles: [mover:cover_e]
+    effects:
+      - message: The crimson embers will lead the way
+    notes: "Original event 53: the message window, and door record 13 (the stone panel over the east lever's niche) moves to its other end."
+  - id: evt:sign_embers_w
+    preset: switch
+    source: switch:sign_embers_w
+    title: Sign
+    toggles: [mover:cover_w]
+    effects:
+      - message: The crimson embers will lead the way
+    notes: "Original event 55: the message window, and door record 11 (the panel over the west lever's niche) moves to its other end."
+  - id: evt:sign_fires
+    preset: switch
+    source: switch:sign_fires
+    title: Sign
+    condition: {not: {map_var: fires_sign_read}}
+    sets: {map_var: fires_sign_read}
+    effects:
+      - message: The fires of the dead shall burn forever
+      - set_texture:
+          of: platform:cube_crystal_e
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_n
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_s
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_u
+          to: lavatyl
+      - set_texture:
+          of: platform:cube_crystal_w
+          to: lavatyl
+    else_effects:
+      - set:
+          var:
+            map_var: fires_sign_read
+          value: 0
+      - set_texture:
+          of: platform:cube_crystal_e
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_crystal_n
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_crystal_s
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_crystal_u
+          to: orwtrtyl
+      - set_texture:
+          of: platform:cube_crystal_w
+          to: orwtrtyl
+    notes: "Original event 45: each reading switches the crystal chamber's cube between lit (the message window, then its water to lava) and unlit (silently, to water)."
+  - id: evt:summon26
+    preset: script
+    source: plate:summon26
+    trigger: step
+    condition: {not: {qbit: 1033}}
+    effects:
+      - summon:
+          slot: 1
+          at: [-7522, 14848, -240]
+          count: 3
+          tier: b
+    notes: "Original event 26: three liches of the second tier, until the Book of Liches is destroyed (quest bit 1033, which the podium sets)."
+  - id: evt:summon47
+    preset: script
+    source: plate:summon47
+    trigger: step
+    condition: {not: {qbit: 1033}}
+    effects:
+      - summon:
+          slot: 1
+          at: [-6144, 14720, -240]
+          count: 3
+          tier: b
+    notes: "Original event 47: three liches of the second tier, until the Book of Liches is destroyed (quest bit 1033, which the podium sets)."
+  - id: evt:summon48
+    preset: script
+    source: plate:summon48
+    trigger: step
+    condition: {not: {qbit: 1033}}
+    effects:
+      - summon:
+          slot: 1
+          at: [-5120, 14208, -240]
+          count: 3
+          tier: b
+    notes: "Original event 48: three liches of the second tier, until the Book of Liches is destroyed (quest bit 1033, which the podium sets)."
+  - id: evt:summon49
+    preset: script
+    source: plate:summon49
+    trigger: step
+    condition: {not: {qbit: 1033}}
+    effects:
+      - summon:
+          slot: 1
+          at: [-5760, 12800, -240]
+          count: 3
+          tier: b
+    notes: "Original event 49: three liches of the second tier, until the Book of Liches is destroyed (quest bit 1033, which the podium sets)."
+  - id: evt:summon50
+    preset: script
+    source: plate:summon50
+    trigger: step
+    condition: {not: {qbit: 1033}}
+    effects:
+      - summon:
+          slot: 1
+          at: [-7552, 12800, -240]
+          count: 3
+          tier: b
+    notes: "Original event 50: three liches of the second tier, until the Book of Liches is destroyed (quest bit 1033, which the podium sets)."
+  - id: evt:summon51
+    preset: script
+    source: plate:summon51
+    trigger: step
+    condition: {not: {qbit: 1033}}
+    effects:
+      - summon:
+          slot: 1
+          at: [-7808, 13056, -240]
+          count: 3
+          tier: b
+    notes: "Original event 51: three liches of the second tier, until the Book of Liches is destroyed (quest bit 1033, which the podium sets)."
+  - id: evt:summon52
+    preset: script
+    source: plate:summon52
+    trigger: step
+    condition: {not: {qbit: 1033}}
+    effects:
+      - summon:
+          slot: 1
+          at: [-5376, 11904, -240]
+          count: 3
+          tier: b
+    notes: "Original event 52: three liches of the second tier, until the Book of Liches is destroyed (quest bit 1033, which the podium sets)."
+  - id: evt:trap02
+    preset: script
+    source: plate:trap02
+    trigger: step
+    effects:
+      - cast:
+          spell: 90
+          from: [13819, -866, -180]
+          to: [0, 0, 0]
+          level: 10
+    notes: "Original event 2 on three floor faces round the steps before the cross hall's door: a toxic cloud of skill 10. Round four: `cast` with the original's level and mastery (the build writes them in the game's order)."
+  - id: evt:trap02_portcullis
+    preset: script
+    source: mover:portcullis
+    effects:
+      - cast:
+          spell: 90
+          from: [13819, -866, -180]
+          to: [0, 0, 0]
+          level: 10
+    notes: "Original event 2 on the portcullis's two faces (4230, 4232, clicked): the same toxic cloud as the plate before the south cavern's door, out of that cavern. Round four: `cast` with the original's level and mastery (the build writes them in the game's order)."
+  - id: evt:trap03
+    preset: script
+    source: plate:trap03_a
+    trigger: step
+    sources: [plate:trap03_b, plate:trap03_c, plate:trap03_d]
+    effects:
+      - cast:
+          spell: 32
+          from: [11136, 3712, -80]
+          to: [0, 0, 0]
+          level: 8
+    notes: "Original event 3: an ice blast of skill 8. Round four: `cast` with the original's level and mastery (the build writes them in the game's order)."
+  - id: evt:trap19
+    preset: script
+    source: plate:trap19
+    trigger: step
+    effects:
+      - cast:
+          spell: 6
+          from: [10417, 4800, 100]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 6
+          from: [10706, 2258, 150]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 6
+          from: [10706, 1628, 150]
+          to: [0, 0, 0]
+          level: 10
+      - cast:
+          spell: 6
+          from: [9978, 1914, 150]
+          to: [0, 0, 0]
+          level: 10
+    notes: "Original event 19: four fireballs of skill 10. Round four: `cast` with the original's level and mastery (the build writes them in the game's order)."
+  - id: evt:trap20
+    preset: script
+    source: plate:trap20
+    trigger: step
+    sources: [plate:trap20_b]
+    effects:
+      - cast:
+          spell: 90
+          from: [14925, 2518, -689]
+          to: [0, 0, 0]
+    notes: "Original event 20: a toxic cloud, from the plate in this cell and from the one in the doorway of cell 45."
+  - id: evt:trap21
+    preset: script
+    source: plate:trap21
+    trigger: step
+    sources: [plate:trap22]
+    effects:
+      - cast:
+          spell: 26
+          from: [15217, 576, 528]
+          to: [0, 0, 0]
+      - cast:
+          spell: 26
+          from: [15112, 171, 529]
+          to: [0, 0, 0]
+      - cast:
+          spell: 26
+          from: [15123, 405, 529]
+          to: [0, 0, 0]
+    notes: Original events 21 and 22 (the same three ice bolts from the east end of the battlement gallery).
+  - id: evt:trap23
+    preset: script
+    source: plate:trap23
+    trigger: step
+    effects:
+      - cast:
+          spell: 6
+          from: [14718, 2456, 541]
+          to: [0, 0, 0]
+    notes: "Original event 23: a fireball."
+  - id: evt:trap24
+    preset: script
+    source: plate:trap24
+    trigger: step
+    effects:
+      - cast:
+          spell: 6
+          from: [18915, 2035, 541]
+          to: [0, 0, 0]
+    notes: "Original event 24: a fireball."
+  - id: evt:trap25
+    preset: script
+    source: plate:trap25
+    trigger: step
+    effects:
+      - cast:
+          spell: 6
+          from: [18111, 10127, 386]
+          to: [18111, 4782, 386]
+      - cast:
+          spell: 6
+          from: [18131, 10127, 386]
+          to: [18131, 4782, 386]
+      - cast:
+          spell: 6
+          from: [18151, 10127, 386]
+          to: [18151, 4782, 386]
+      - cast:
+          spell: 6
+          from: [18171, 10127, 386]
+          to: [18171, 4782, 386]
+      - cast:
+          spell: 6
+          from: [18191, 10127, 386]
+          to: [18191, 4782, 386]
+      - cast:
+          spell: 6
+          from: [18201, 10127, 386]
+          to: [18201, 4782, 386]
+    notes: "Original event 25: six fireballs down the length of the east balcony."
+  - id: evt:trap27
+    preset: script
+    source: plate:trap27_a
+    trigger: step
+    sources: [plate:trap27_b, plate:trap27_c, plate:trap27_d, plate:trap27_e]
+    effects:
+      - cast:
+          spell: 6
+          from: [-2904, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-2432, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-1960, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-1606, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-1134, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-426, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-72, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [400, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [1108, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [1462, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [1934, 16512, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [2642, 16512, 100]
+          to: [0, 0, 0]
+    notes: "Original event 27: twelve fireballs from the north wall of the throne hall."
+  - id: evt:trap46
+    preset: script
+    source: plate:trap46_a
+    trigger: step
+    sources: [plate:trap46_b]
+    effects:
+      - cast:
+          spell: 6
+          from: [-2904, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-2432, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-1960, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-1606, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-1134, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-426, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [-72, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [400, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [1108, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [1462, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [1934, 11904, 100]
+          to: [0, 0, 0]
+      - cast:
+          spell: 6
+          from: [2642, 11904, 100]
+          to: [0, 0, 0]
+    notes: "Original event 46: twelve fireballs from the south wall of the throne hall."

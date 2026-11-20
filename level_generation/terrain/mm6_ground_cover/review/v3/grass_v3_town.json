@@ -1,0 +1,30 @@
+{
+  "name": "grass_v3_town",
+  "world": "mm6",
+  "map": "oute3.odm",
+  "pose": null,
+  "screenshot": "grass_v3_town.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": false,
+  "warmup_seconds": 1.0,
+  "actions": null,
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": true,
+  "display": ":103",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 2.0,
+  "fps_samples": [
+    27.6199,
+    28.3415
+  ],
+  "median_fps": 27.9807,
+  "binary_sha256": "81d33e5a38c56862b277fc2ee8eaa2032ec9de17461097d169fdab0c3872b6af",
+  "settings_sha256": "f7bf2a00b5d80b7fd1d48ef7c90e06cdce9a1508e3f22456714a74d327130a69",
+  "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+}

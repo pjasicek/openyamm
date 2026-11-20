@@ -1,0 +1,30 @@
+# The Blooding Ring's in-game checks that headless cannot make: Vreth's first line and autonote 10304 when the party
+# passes the gate (event 150, a map timer), his charge and the fight, and the gate's glyph plate (event 21) is the
+# click left to a player. Run with --set debug.menu_input_tour_path=<this file>.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/ring_checks
+exit: true
+steps:
+  - wait: 4
+  - expect: gameplay
+  - console: config set immortal true
+  - console: time set 12:00
+  # In the gate's passage: not yet inside, no line.
+  - console: goto 9130 15850 9400 1088 0
+  - wait: 1.5
+  - capture: 01-passage_no_line
+  # Inside the gate: his line once, autonote 10304.
+  - console: goto 9130 16650 9400 1088 0
+  - wait: 1.2
+  - capture: 02-inside_first_line
+  - wait: 1.5
+  - capture: 03-vreth_comes
+  - wait: 2.5
+  - capture: 04-the_fight
+  - console: autonote get 10304
+  - wait: 0.05
+  - capture: 05-autonotes
+  # At dusk from the dais's far side: the fire bowls.
+  - console: time set 20:30
+  - console: goto 9130 18550 9400 1088 1024
+  - wait: 2.0
+  - capture: 06-dusk_bowls

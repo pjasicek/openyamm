@@ -1,0 +1,4 @@
+import bpy,bmesh,sys,runpy,json
+from pathlib import Path
+P=Path(__file__).resolve().parents[1];sys.path.insert(0,str(P/'scripts'));bpy.ops.wm.open_mainfile(filepath=str(P/'work/textured_master.blend'));o=bpy.data.objects['Body'];before=sum(len(f.vertices)-2 for f in o.data.polygons);bm=bmesh.new();bm.from_mesh(o.data);part=bm.verts.layers.int['piece'];v=[v for v in bm.verts if v[part]==5];bmesh.ops.delete(bm,geom=v,context='VERTS');bm.to_mesh(o.data);bm.free();after=sum(len(f.vertices)-2 for f in o.data.polygons);(P/'review/hidden_geometry_cleanup.json').write_text(json.dumps({'before':before,'after':after,'removed_triangles':before-after,'reason':'Covered trouser underlayer had followed cloth; in the falling pose it appeared as spurious folded rings inside the hem. Native lower legs are the retained boots.'},indent=2));bpy.ops.wm.save_as_mainfile(filepath=str(P/'work/reduction_master.blend'))
+runpy.run_path(str(P/'scripts/export_trace.py'),run_name='__main__')

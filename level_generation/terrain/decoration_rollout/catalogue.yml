@@ -1,0 +1,1024 @@
+status: authoring_catalogue_see_WORK_STATE_for_validation
+date: '2026-09-13'
+allowed_materials:
+- grass
+- tropical
+- swamp
+inputs:
+  level_generation/terrain/mm6_remaining/inventory.json: da87630d7b60f9275d04f757aca67eb6c4dd85ebcacc6433582ad0960c3db4da
+  level_generation/terrain/mm6_remaining/transitions/runtime_x2/manifest.json: 51278c732c7743d6a5d53e8fa15ceac7266680c9bb26491b43d35f0f71b798ce
+  assets_dev/engine/data_tables/terrain_tile_data_3.txt: c1260a4eb11a41df35d0f711d0054f6bd9c147f6058d6c8669a4db8c35be75bc
+  level_generation/terrain/mm7/inventory.json: 75398d27b140630060ff8b4e87ca9a84dda4df29ba88656b05031024a6b4d43b
+  level_generation/terrain/mm7/runtime_x2/manifest.json: bf65631fa9c170ba667b013052f9995d7e1ff9ae5c533149f70939a9ec17b8fc
+  assets_dev/engine/data_tables/terrain_tile_data_2.txt: 3d99cfea60cf6325e946cd93d054f50e12de10bbf62fc80d987d7dad799356e2
+  level_generation/terrain/mm8/inventory.json: deb5a662a158682fc155fc25f2d86dda2688ccfe56da4868aa6fe33e1d65fe76
+  level_generation/terrain/mm8/complete_runtime_x2/manifest.json: e02c4e2d50022a6e161f443faca8f933f6a2b4ea8de04d07c86bdecd771e161d
+  assets_dev/engine/data_tables/terrain_tile_data.txt: 39beb3bb4c1f91e5e32ee491677b49325579cadfcbe52a34b13a019e4fce253b
+  level_generation/terrain/mm8/effective_inventory.json: 33863a0e1c7b10752b48d442ecf47acae7c091a9c164fb84fa37ea27a3e0ddb3
+  level_generation/terrain/decoration_rollout/families.yml: 4aa05522f7319feba8beb4c795b81a9bf5278478e6508a9047febc6943140844
+  level_generation/terrain/decoration_rollout/map_design.yml: 8eaa13956389a878b35985280d206e8e8ffce87f44155bd34c6653976de9b003
+defaults:
+  distance: 4096
+  minimum_normal_z: 0.88
+  density_variation: 0.8
+  patch_size: 768
+  tall_grass_chance: 0.04
+  tall_grass_scale: 1.5
+  units: Width/height/distance are world units; candidates are per 512-unit cell before
+    exclusions.
+  placement: Deterministic scatter; respect material coverage, buildings, existing
+    entities and steep slopes.
+  excluded_materials:
+  - sand
+  - snow
+  - dirt
+  - cracked
+  - waste
+  - volcano
+  - plains
+  - plains_sand
+  - grey_dirt
+  - grey_stone
+  - rock
+  - sandstone
+  - red_dirt
+  - roads
+  - shore
+  - water
+  - lava
+  - tar
+  - lava_dirt
+  - lava_plains
+  - tar_grey
+  calibration: Preserve New Sorpigal's grass rules and 6144-unit range; remove its
+    stone rules.
+families:
+  meadow:
+    kind: grass
+    candidates: 50
+    width: 40
+    height: 30
+    art: existing_four_grass_variants
+    weights:
+    - 45
+    - 35
+    - 15
+    - 5
+    readiness: reuse_art
+    palette: Retain accepted MM6 tint; calibrate MM7/MM8 to their darker olive masters
+      in native lighting.
+  coastal_grass:
+    kind: grass
+    candidates: 50
+    width: 36
+    height: 24
+    art: existing_four_grass_variants
+    weights:
+    - 15
+    - 40
+    - 35
+    - 10
+    readiness: reuse_art
+    palette: Muted olive, with no bright lime tips; short silhouette on islands.
+  woodland_grass:
+    kind: grass
+    candidates: 50
+    width: 40
+    height: 28
+    art: existing_four_grass_variants
+    weights:
+    - 50
+    - 35
+    - 12
+    - 3
+    readiness: reuse_art
+    palette: Muted olive green; patchiness rather than extra height/density provides
+      woodland variation.
+  dry_meadow:
+    kind: grass
+    candidates: 50
+    width: 36
+    height: 24
+    art: existing_four_grass_variants
+    weights:
+    - 10
+    - 20
+    - 25
+    - 45
+    readiness: reuse_art
+    palette: Dull olive/straw, not bright yellow; retain some living grass on genuinely
+      green tiles.
+  dry_tuft:
+    kind: grass
+    candidates: 8
+    width: 28
+    height: 18
+    art: existing_dry_and_wispy_grass
+    readiness: validated_reused_art
+    palette: Brown straw harmonized separately with MM6 gold, MM7 ochre and MM8 orange
+      sand.
+    placement: Sparse patches; clear dune/beach areas need local density masks. No
+      global desert carpet.
+  dead_tuft:
+    kind: grass
+    candidates: 8
+    width: 24
+    height: 18
+    art: two_new_dead_stalk_variants
+    readiness: validated_art
+    palette: Dark gray-brown broken stalks, no green leaves or conspicuous pale seed
+      heads.
+  marsh_reed:
+    kind: grass
+    candidates: 18
+    width: 24
+    height: 100
+    art: two_new_low_reed_sedge_variants
+    readiness: validated_art_and_mask
+    palette: Dull olive/brown; MM6 yellow-green and MM7 darker marsh receive separate
+      calibration.
+    placement: Full-footprint root mask excludes painted blue channels even on opaque
+      base swamp tiles.
+  tropical_low:
+    kind: grass
+    candidates: 24
+    width: 40
+    height: 26
+    art: two_new_broadleaf_variants_plus_existing_grass
+    readiness: validated_art
+    palette: Restrained broadleaf forms; brighter yellow-green for MM6 tropical, darker
+      olive for MM8.
+    placement: Low undergrowth only; no palms, large ferns or added gameplay entities.
+  earth_stone:
+    kind: stone
+    candidates: 10
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: Match each world's local dirt tone; preserve New Sorpigal's accepted
+      brown tint.
+  snow_stone:
+    kind: stone
+    candidates: 3
+    width: 10
+    height: 3
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: Small subdued cool-gray protrusions; no white-tinted grass or snow mound
+      carpet.
+    placement: Favor exposed dirt/snow margins with a local mask; otherwise keep the
+      interior bare.
+  volcanic_stone:
+    kind: stone
+    candidates: 6
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: Charcoal close to the accepted volcanic master; no emissive or bright
+      gray pebbles.
+  rock_chip:
+    kind: stone
+    candidates: 4
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: World/material-specific neutral gray, red-brown or warm sandstone; never
+      one tint for every rock.
+  grey_stone_chip:
+    kind: stone
+    candidates: 4
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: Dark neutral gray for Shadowspire; retain its gray dirt and black stone
+      contrast.
+maps:
+- world: mm6
+  map: outa1.odm
+  title: Sweet Water
+  seed: 2794867107
+  material_cells:
+    cracked: 11142
+    snow: 2876
+    dirt: 1612
+    roads: 281
+    water: 156
+    shore: 62
+  settings: []
+  note: 'Sweet Water: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outa2.odm
+  title: Paradise Valley
+  seed: 2945009271
+  material_cells:
+    cracked: 9001
+    sand: 3442
+    dirt: 1956
+    water: 1231
+    roads: 411
+    shore: 88
+  settings: []
+  note: 'Paradise Valley: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outa3.odm
+  title: Hermit's Isle
+  seed: 501192526
+  material_cells:
+    water: 6862
+    sand: 5653
+    dirt: 1982
+    volcano: 981
+    shore: 532
+    roads: 119
+  settings: []
+  note: 'Hermit''s Isle: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outb1.odm
+  title: Kriegspire
+  seed: 730788794
+  material_cells:
+    snow: 9412
+    dirt: 4872
+    volcano: 1511
+    roads: 291
+    shore: 32
+    water: 11
+  settings: []
+  note: 'Kriegspire: No grass/tropical/swamp cover selected; terrain decorations disabled.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outb2.odm
+  title: Blackshire
+  seed: 1607368092
+  material_cells:
+    dirt: 9691
+    sand: 5177
+    grass: 553
+    roads: 343
+    water: 217
+    shore: 148
+  settings:
+  - material: grass
+    family: dry_meadow
+    density: 0.65
+    candidates_per_cell_before_exclusions: 32.5
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Blackshire: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outb3.odm
+  title: Dragonsand
+  seed: 3775712819
+  material_cells:
+    sand: 9203
+    water: 5248
+    grass: 732
+    shore: 634
+    dirt: 181
+    roads: 131
+  settings:
+  - material: grass
+    family: dry_meadow
+    density: 0.55
+    candidates_per_cell_before_exclusions: 27.5
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Dragonsand: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outc1.odm
+  title: Frozen Highlands
+  seed: 3916824700
+  material_cells:
+    snow: 8269
+    dirt: 6204
+    water: 889
+    roads: 448
+    shore: 319
+  settings: []
+  note: 'Frozen Highlands: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outc2.odm
+  title: Free Haven
+  seed: 1177299365
+  material_cells:
+    dirt: 11468
+    water: 2228
+    grass: 797
+    shore: 764
+    roads: 576
+    sand: 296
+  settings:
+  - material: grass
+    family: meadow
+    density: 0.65
+    candidates_per_cell_before_exclusions: 32.5
+    width: 40
+    height: 30
+    readiness: reuse_art
+  note: 'Free Haven: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outc3.odm
+  title: Mire of the Damned
+  seed: 2605110719
+  material_cells:
+    water: 6046
+    swamp: 5161
+    dirt: 3756
+    shore: 861
+    roads: 305
+  settings:
+  - material: swamp
+    family: marsh_reed
+    density: 0.7
+    candidates_per_cell_before_exclusions: 12.6
+    width: 24
+    height: 100
+    readiness: validated_art_and_mask
+  note: 'Mire of the Damned: Taller reeds on masked swamp islands and transitions;
+    other ground bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outd1.odm
+  title: Silver Cove
+  seed: 3212668641
+  material_cells:
+    water: 8354
+    grass: 4205
+    dirt: 2489
+    shore: 890
+    roads: 191
+  settings:
+  - material: grass
+    family: meadow
+    density: 0.7
+    candidates_per_cell_before_exclusions: 35.0
+    width: 40
+    height: 30
+    readiness: reuse_art
+  note: 'Silver Cove: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outd2.odm
+  title: Bootleg Bay
+  seed: 1788689720
+  material_cells:
+    water: 10228
+    dirt: 2494
+    grass: 2134
+    shore: 572
+    tropical: 441
+    roads: 260
+  settings:
+  - material: grass
+    family: coastal_grass
+    density: 0.85
+    candidates_per_cell_before_exclusions: 42.5
+    width: 36
+    height: 24
+    readiness: reuse_art
+  - material: tropical
+    family: tropical_low
+    density: 0.8
+    candidates_per_cell_before_exclusions: 19.2
+    width: 40
+    height: 26
+    readiness: validated_art
+  note: 'Bootleg Bay: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: outd3.odm
+  title: Castle Ironfist
+  seed: 2460684872
+  material_cells:
+    water: 6361
+    grass: 3210
+    dirt: 2911
+    swamp: 2137
+    shore: 964
+    roads: 546
+  settings:
+  - material: grass
+    family: meadow
+    density: 0.8
+    candidates_per_cell_before_exclusions: 40.0
+    width: 40
+    height: 30
+    readiness: reuse_art
+  - material: swamp
+    family: marsh_reed
+    density: 0.5
+    candidates_per_cell_before_exclusions: 9.0
+    width: 24
+    height: 100
+    readiness: validated_art_and_mask
+  note: 'Castle Ironfist: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: oute1.odm
+  title: Eel Infested Waters
+  seed: 4113276151
+  material_cells:
+    water: 13987
+    grass: 1570
+    shore: 549
+    roads: 18
+    dirt: 5
+  settings:
+  - material: grass
+    family: coastal_grass
+    density: 0.9
+    candidates_per_cell_before_exclusions: 45.0
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Eel Infested Waters: Decorations only on grass/tropical/swamp portions; all
+    other terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: oute2.odm
+  title: Misty Islands
+  seed: 4176066378
+  material_cells:
+    water: 13583
+    grass: 1736
+    shore: 684
+    roads: 96
+    dirt: 30
+  settings:
+  - material: grass
+    family: coastal_grass
+    density: 0.9
+    candidates_per_cell_before_exclusions: 45.0
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Misty Islands: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm6
+  map: oute3.odm
+  title: New Sorpigal
+  seed: 6127
+  material_cells:
+    water: 11180
+    grass: 2355
+    shore: 976
+    dirt: 974
+    volcano: 528
+    roads: 116
+  settings:
+  - material: grass
+    family: meadow
+    density: 1.0
+    candidates_per_cell_before_exclusions: 50.0
+    width: 40
+    height: 30
+    readiness: reuse_art
+  note: 'New Sorpigal: Retain accepted grass placement and masks; remove dirt stones.'
+  status: preserve_accepted_existing
+  distance: 6144
+  existing_config: assets_dev/worlds/mm6/terrain_decorations/oute3.yml
+  existing_sha256: 8ad1bdd847136187a3f65c694733e7b0cb7b2ec9e646c6626357597a8816e47c
+- world: mm7
+  map: 7out01.odm
+  title: Emerald Island
+  seed: 1108724593
+  material_cells:
+    water: 14938
+    grass: 766
+    shore: 196
+    dirt: 107
+    roads: 67
+    swamp: 55
+  settings:
+  - material: grass
+    family: coastal_grass
+    density: 0.9
+    candidates_per_cell_before_exclusions: 45.0
+    width: 36
+    height: 24
+    readiness: reuse_art
+  - material: swamp
+    family: marsh_reed
+    density: 0.4
+    candidates_per_cell_before_exclusions: 7.2
+    width: 24
+    height: 100
+    readiness: validated_art_and_mask
+  note: 'Emerald Island: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: 7out02.odm
+  title: Harmondale
+  seed: 2255539729
+  material_cells:
+    grass: 8003
+    dirt: 5410
+    snow: 1872
+    roads: 342
+    shore: 254
+    water: 248
+  settings:
+  - material: grass
+    family: meadow
+    density: 0.45
+    candidates_per_cell_before_exclusions: 22.5
+    width: 40
+    height: 30
+    readiness: reuse_art
+  note: 'Harmondale: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: 7out03.odm
+  title: Erathia
+  seed: 2271409061
+  material_cells:
+    grass: 11387
+    water: 2655
+    dirt: 600
+    shore: 568
+    snow: 502
+    roads: 417
+  settings:
+  - material: grass
+    family: meadow
+    density: 0.25
+    candidates_per_cell_before_exclusions: 12.5
+    width: 40
+    height: 30
+    readiness: reuse_art
+  note: 'Erathia: Decorations only on grass/tropical/swamp portions; all other terrain
+    stays bare.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: 7out04.odm
+  title: The Tularean Forest
+  seed: 4052000261
+  material_cells:
+    grass: 8693
+    water: 6231
+    shore: 646
+    dirt: 299
+    roads: 260
+  settings:
+  - material: grass
+    family: woodland_grass
+    density: 0.3
+    candidates_per_cell_before_exclusions: 15.0
+    width: 40
+    height: 28
+    readiness: reuse_art
+  note: 'Tularean Forest: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: 7out05.odm
+  title: Deyja
+  seed: 4293236551
+  material_cells:
+    waste: 9190
+    water: 2989
+    sand: 2847
+    dirt: 742
+    shore: 188
+    roads: 173
+  settings: []
+  note: 'Deyja: No grass/tropical/swamp cover selected; terrain decorations disabled.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: 7out06.odm
+  title: The Bracada Desert
+  seed: 37513146
+  material_cells:
+    sand: 6457
+    waste: 4192
+    dirt: 4155
+    water: 1082
+    shore: 142
+    roads: 101
+  settings: []
+  note: 'Bracada Desert: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: 7out13.odm
+  title: Tatalia
+  seed: 3599277512
+  material_cells:
+    dirt: 5062
+    snow: 4281
+    water: 4236
+    swamp: 2101
+    shore: 313
+    roads: 136
+  settings:
+  - material: swamp
+    family: marsh_reed
+    density: 0.8
+    candidates_per_cell_before_exclusions: 14.4
+    width: 24
+    height: 100
+    readiness: validated_art_and_mask
+  note: 'Tatalia: Taller reeds on masked swamp islands and transitions; other ground
+    bare.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: 7out15.odm
+  title: Shoals
+  seed: 4180057775
+  material_cells:
+    sand: 16129
+  settings: []
+  note: 'Shoals: No grass/tropical/swamp cover selected; terrain decorations disabled.'
+  status: intentionally_disabled_pending_specialized_review
+  distance: 4096
+  reason: underwater
+- world: mm7
+  map: out09.odm
+  title: Evenmorn Island
+  seed: 3176923520
+  material_cells:
+    water: 13621
+    grass: 1959
+    shore: 506
+    sand: 42
+    dirt: 1
+  settings:
+  - material: grass
+    family: coastal_grass
+    density: 0.8
+    candidates_per_cell_before_exclusions: 40.0
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Evenmorn Island: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: out10.odm
+  title: Mount Nighon
+  seed: 921707761
+  material_cells:
+    dirt: 10434
+    snow: 2733
+    water: 1698
+    sand: 973
+    shore: 252
+    roads: 39
+  settings: []
+  note: 'Mount Nighon: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: out11.odm
+  title: The Barrow Downs
+  seed: 4269041986
+  material_cells:
+    dirt: 8625
+    grass: 4677
+    water: 1456
+    shore: 1259
+    roads: 112
+  settings:
+  - material: grass
+    family: dry_meadow
+    density: 0.65
+    candidates_per_cell_before_exclusions: 32.5
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Barrow Downs: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: out12.odm
+  title: The Land of the Giants
+  seed: 1593254360
+  material_cells:
+    water: 6678
+    waste: 6068
+    snow: 2024
+    dirt: 1019
+    shore: 328
+    roads: 12
+  settings: []
+  note: 'Land of the Giants: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm7
+  map: out14.odm
+  title: Avlee
+  seed: 1582520827
+  material_cells:
+    grass: 10469
+    water: 4614
+    shore: 747
+    dirt: 215
+    roads: 84
+  settings:
+  - material: grass
+    family: woodland_grass
+    density: 0.25
+    candidates_per_cell_before_exclusions: 12.5
+    width: 40
+    height: 28
+    readiness: reuse_art
+  note: 'Avlee: Decorations only on grass/tropical/swamp portions; all other terrain
+    stays bare.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: elema.odm
+  title: Plane of Air
+  seed: 2147443610
+  material_cells:
+    rock: 16128
+    roads_dirt: 1
+  settings: []
+  note: 'Plane of Air: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: intentionally_disabled_pending_specialized_review
+  distance: 4096
+  reason: elemental_geometry
+- world: mm8
+  map: elemf.odm
+  title: Plane of Fire
+  seed: 2369941457
+  material_cells:
+    lava: 11937
+    volcano: 2874
+    lava_dirt: 1314
+    dirt: 4
+  settings: []
+  note: 'Plane of Fire: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: elemw.odm
+  title: Plane of Water
+  seed: 91653363
+  material_cells:
+    dirt: 16129
+  settings: []
+  note: 'Plane of Water: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: intentionally_disabled_pending_specialized_review
+  distance: 4096
+  reason: elemental_geometry
+- world: mm8
+  map: out01.odm
+  title: Dagger Wound Island
+  seed: 1701531899
+  material_cells:
+    water: 11280
+    grass: 2601
+    shore_dirt: 1177
+    volcano: 570
+    dirt: 373
+    roads_dirt: 128
+  settings:
+  - material: grass
+    family: tropical_low
+    density: 0.55
+    candidates_per_cell_before_exclusions: 13.2
+    width: 40
+    height: 26
+    readiness: validated_art
+  note: 'Dagger Wound Island: Decorations only on grass/tropical/swamp portions; all
+    other terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out02.odm
+  title: Ravenshore
+  seed: 2908646979
+  material_cells:
+    grass: 7994
+    water: 4063
+    rock: 1823
+    dirt: 1155
+    shore_dirt: 584
+    roads_dirt: 510
+  settings:
+  - material: grass
+    family: meadow
+    density: 0.35
+    candidates_per_cell_before_exclusions: 17.5
+    width: 40
+    height: 30
+    readiness: reuse_art
+  note: 'Ravenshore: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out03.odm
+  title: Alvar
+  seed: 1096932305
+  material_cells:
+    grass: 9647
+    rock: 3148
+    water: 1138
+    dirt: 938
+    shore_dirt: 746
+    roads_dirt: 512
+  settings:
+  - material: grass
+    family: meadow
+    density: 0.3
+    candidates_per_cell_before_exclusions: 15.0
+    width: 40
+    height: 30
+    readiness: reuse_art
+  note: 'Alvar: Decorations only on grass/tropical/swamp portions; all other terrain
+    stays bare.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out04.odm
+  title: Ironsand Desert
+  seed: 328436317
+  material_cells:
+    plains: 7781
+    plains_sand: 4950
+    lava: 2725
+    lava_plains: 451
+    roads_plains: 222
+  settings: []
+  note: 'Ironsand: No grass/tropical/swamp cover selected; terrain decorations disabled.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out05.odm
+  title: Garrote Gorge
+  seed: 1508355748
+  material_cells:
+    dirt: 10247
+    grass: 4853
+    shore_dirt: 547
+    roads_dirt: 313
+    water: 168
+    red_dirt: 1
+  settings:
+  - material: grass
+    family: dry_meadow
+    density: 0.5
+    candidates_per_cell_before_exclusions: 25.0
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Garrote Gorge: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out06.odm
+  title: Shadowspire
+  seed: 1798637358
+  material_cells:
+    grey_dirt: 9504
+    grey_stone: 4255
+    water: 1489
+    tar_grey: 316
+    roads_grey: 315
+    tar: 138
+    shore_grey: 112
+  settings: []
+  note: 'Shadowspire: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out07.odm
+  title: Murmurwoods
+  seed: 3161111322
+  material_cells:
+    grass: 11163
+    dirt: 4777
+    roads_dirt: 189
+  settings:
+  - material: grass
+    family: woodland_grass
+    density: 0.25
+    candidates_per_cell_before_exclusions: 12.5
+    width: 40
+    height: 28
+    readiness: reuse_art
+  note: 'Murmurwoods: Decorations only on grass/tropical/swamp portions; all other
+    terrain stays bare.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out08.odm
+  title: Ravage Roaming
+  seed: 2611404887
+  material_cells:
+    sandstone: 7073
+    dirt: 6043
+    water: 2216
+    shore_dirt: 607
+    roads_dirt: 190
+  settings: []
+  note: 'Ravage Roaming: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out13.odm
+  title: Regna
+  seed: 3670333214
+  material_cells:
+    water: 11813
+    grass: 3662
+    shore_dirt: 653
+    dirt: 1
+  settings:
+  - material: grass
+    family: coastal_grass
+    density: 0.7
+    candidates_per_cell_before_exclusions: 35.0
+    width: 36
+    height: 24
+    readiness: reuse_art
+  note: 'Regna: Decorations only on grass/tropical/swamp portions; all other terrain
+    stays bare.'
+  status: configured
+  distance: 4096
+- world: mm8
+  map: out15.odm
+  title: Tutorial
+  seed: 2809952243
+  material_cells:
+    dirt: 16129
+  settings: []
+  note: 'Tutorial: No grass/tropical/swamp cover selected; terrain decorations disabled.'
+  status: intentionally_disabled_pending_specialized_review
+  distance: 4096
+  reason: tutorial_geometry
+- world: mm8
+  map: pbp.odm
+  title: Plane Between Planes
+  seed: 2761275500
+  material_cells:
+    dirt: 10851
+    water: 1661
+    lava: 1454
+    volcano: 1409
+    lava_dirt: 407
+    shore_dirt: 347
+  settings: []
+  note: 'Plane Between Planes: No grass/tropical/swamp cover selected; terrain decorations
+    disabled.'
+  status: configured
+  distance: 4096

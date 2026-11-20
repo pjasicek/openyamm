@@ -1,0 +1,17 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_engine_handoff_20260928/refinement_party_basebar/images
+exit: true
+steps:
+- wait: 2
+- capture: one-gameplay
+- wait: 0.5
+- right_down:
+  - 1575
+  - 298
+- click:
+  - 1575
+  - 298
+- right_up:
+  - 1575
+  - 298
+- capture: one-empty-followers
+- wait: 0.5

@@ -8,6 +8,11 @@ GameplayOverlayInteractionState &GameplayScreenRuntime::interactionState() const
     return interactionState;
 }
 
+Party *GameplayScreenRuntime::party() const
+{
+    return nullptr;
+}
+
 const ItemTable *GameplayScreenRuntime::itemTable() const
 {
     return nullptr;
@@ -19,6 +24,11 @@ const StandardItemEnchantTable *GameplayScreenRuntime::standardItemEnchantTable(
 }
 
 const SpecialItemEnchantTable *GameplayScreenRuntime::specialItemEnchantTable() const
+{
+    return nullptr;
+}
+
+const SpellTable *GameplayScreenRuntime::spellTable() const
 {
     return nullptr;
 }
@@ -88,6 +98,11 @@ const GameSettings &GameplayScreenRuntime::settingsSnapshot() const
 {
     static GameSettings settings = {};
     return settings;
+}
+
+CombatLog &GameplayScreenRuntime::combatLog()
+{
+    return m_combatLog;
 }
 
 void GameplayScreenRuntime::stopAllAudioPlayback()

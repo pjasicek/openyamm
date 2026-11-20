@@ -17,7 +17,7 @@ they must not be reused for the patched `mm8.exe` or MMerge's runtime hooks.
 | `0x4bc3b4` | Completion scans actors, excluding dead/removed/disabled actors and party summons. |
 | `0x4bc3ed` | Unfinished fights return the party to `(3849, 5770, 1)`, yaw 512/2048 of a turn. |
 | `0x4bc44a` | Victory increments the difficulty's win count, grants awards 46–49, and pays once. |
-| `0x4bc60d` | Opponent creation uses the supplied coordinates at Z=257, hostility 4, and clears loot. |
+| `0x4bc60d` | Opponent creation uses the supplied coordinates at Z=257, hostility 4, group 1 (`0x4bc74f`), and clears loot. |
 | `0x4bc7b5` | Challenge generation selects level-eligible opponent types and spawns the encounter. |
 | `0x4bcb3f`–`0x4bcb9e` | Opponent counts and gold multipliers depend on difficulty. |
 | `0x503138` | Twenty pairs of opponent spawn coordinates. |

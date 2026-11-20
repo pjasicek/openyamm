@@ -1,0 +1,294 @@
+# MAW (devdocs/maw/SKILLS_SPELLS_ALCHEMY.md §0): free selection is always on, so every portrait, the Lich and Zombie
+# ones included, may take the first step of any class kind, the Peasant and the four new class lines included, on
+# every continent, which no longer turns Clerics into Priests or Sorcerers into Necromancers
+# (MenuChooseCharacter.lua:170-185, 424). Replaces engine/data_tables/character_selection.yml for MAW games.
+version: 1
+free_selection: true
+race_class_availability:
+  - race: Human
+    race_id: 0
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Vampire
+    race_id: 1
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: DarkElf
+    race_id: 2
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Minotaur
+    race_id: 3
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Troll
+    race_id: 4
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Dragon
+    race_id: 5
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Undead
+    race_id: 6
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Elf
+    race_id: 7
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Goblin
+    race_id: 8
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Dwarf
+    race_id: 9
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+  - race: Zombie
+    race_id: 10
+    classes:
+      - Archer
+      - Cleric
+      - DarkElf
+      - Dragon
+      - Druid
+      - Knight
+      - Minotaur
+      - Monk
+      - Paladin
+      - Ranger
+      - Thief
+      - Troll
+      - Vampire
+      - Sorcerer
+      - Necromancer
+      - Seraphim
+      - DeathKnight
+      - Shaman
+      - Elementalist
+      - Peasant
+
+new_game_continents:
+  - id: 1
+    key: jadame
+    name: Jadam
+    available_class_ids: [5, 8, 10, 16, 20, 38, 40, 44, 53, 56, 59, 62]
+    available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
+    portrait_exceptions: []
+  - id: 2
+    key: antagarich
+    name: Antagarich
+    available_class_ids: [0, 4, 12, 16, 22, 26, 30, 34, 42, 53, 56, 59, 62]
+    available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
+    portrait_exceptions: []
+  - id: 3
+    key: enroth
+    name: Enroth
+    available_class_ids: [0, 4, 12, 16, 26, 42, 53, 56, 59, 62]
+    available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
+    portrait_exceptions: []
+  - id: 4
+    key: between_time
+    name: "Between time"
+    available_class_ids: [4, 8, 16, 20, 38, 40, 44, 53, 56, 59, 62]
+    available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
+    portrait_exceptions: []
+  # Chedian (MM9), MAW's fourth continent: the engine table's Chedian classes and the four new class lines. It stays
+  # greyed out while ruleset.yml's worlds leave mm9 out.
+  - id: 5
+    key: chedian
+    name: Chedian
+    available_class_ids: [0, 4, 8, 10, 12, 16, 20, 22, 26, 30, 34, 38, 40, 42, 53, 56, 59, 62]
+    available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
+    portrait_exceptions: []

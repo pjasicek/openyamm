@@ -1,0 +1,303 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.traininghall_doors_exits
+title: 'Training Hall (native BLV): the front door, the chain, the chandelier''s fall, a lobby door by click, the ladders,
+  the end door''s bar and its exit'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: traininghall.blv
+- note:
+    text: 'ExitTrigger1 (DAT object 224) in the roof room''s east door: back to Thjorgard.'
+- movement_segment:
+    input: forward
+    seconds: 0.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 215
+      y: 0
+      z: 1640
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 373
+      y: 0
+      z: 1640
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 60
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 224
+- load_map:
+    map: traininghall.blv
+- note:
+    text: 'The roof room''s hole: walking into it the party takes the chain at its top and climbs down onto the chandelier,
+      which creaks, cracks and falls 432 LT into the lobby''s pool with the party (dropsequence, cracktrigger1-5, droptrigger,
+      DestructableBrush6, Door ''drop'').'
+- assert:
+    mechanism:
+      id: 43
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 3.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 100
+      y: 330
+      z: 1640
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 100
+      y: -50
+      z: 1100
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 250
+    tolerance_z: 60
+- advance_runtime:
+    seconds: 7.0
+- assert:
+    state_dump_named_map_var:
+      name: DropDone
+      value: 1
+- assert:
+    mechanism:
+      id: 43
+      state: open
+- note:
+    text: 'LobbyDoorE (RotatingDoor0/2, doorportal0): shut, it stops the party; a click swings it open and the party walks
+      into the east corridor.'
+- assert:
+    mechanism:
+      id: 12
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 800
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 1150
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 30
+- set_pose:
+    map: traininghall.blv
+    x: 1038
+    y: -82
+    z: 1
+    yaw: 0.0
+    pitch: 0.0256
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- assert:
+    mechanism:
+      id: 13
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 800
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 1700
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 30
+- note:
+    text: Ladder0 (the lobby's west steel ladder) up to its crow's nest (TreasureChest1).
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: -789
+      y: -789
+      z: 1
+      yaw_degrees: 45.0
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: -655
+      y: -655
+      z: 1108
+      yaw_degrees: 45.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 250
+    tolerance_z: 60
+- note:
+    text: 'Ladder13 (the pole room''s lowest pole, WorldObject17): from the water surface up onto the beam it hangs from.'
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 319
+      y: 2519
+      z: 518
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 486
+      y: 2519
+      z: 1231
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 250
+    tolerance_z: 60
+- note:
+    text: 'The poles take a party in the air (grab_in_air): falling past Ladder9''s pole (WorldObject13, 416-712 LT, over
+      the water) while moving toward it, the party takes hold, climbs and steps off on the platform above (736 LT).'
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 348
+      y: 2798
+      z: 1536
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 348
+      y: 2929
+      z: 1887
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 250
+    tolerance_z: 60
+- note:
+    text: 'The end door (TrainingEnter.scr): ExitTrigger0 starts off; the bar''s slab keeps the party out of its volume. A
+      click breaks the bar (a scene destructible: the click''s killing blow): key 301, the reward, and the door is an exit.'
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 0
+      y: -3000
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 0
+      y: -3410
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 30
+- assert:
+    state_dump_named_map_var:
+      name: BarBroken
+      value: 0
+- set_pose:
+    map: traininghall.blv
+    x: 0
+    y: -3300
+    z: 1
+    yaw: -1.5708
+    pitch: 0.1414
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: BarBroken
+      value: 1
+- assert:
+    qbit_set:
+    - 90301
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: 0
+      y: -3200
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: traininghall.blv
+      x: 0
+      y: -3600
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 300
+    tolerance_z: 60
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 221

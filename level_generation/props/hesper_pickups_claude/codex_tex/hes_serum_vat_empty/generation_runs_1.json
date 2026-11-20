@@ -1,0 +1,221 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generated_with_failed_strict_checks",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "accepted_as_brief_compliant": false,
+  "limitation": "Built-in image generation returned 1254x1254 PNGs despite explicit 1024x1024 instructions in every prompt. The brief forbids resizing and allows only one corrective regeneration per view. Raw returns are preserved without any image postprocessing. Exact silhouette and strictly shadowless albedo checks do not pass.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Produce ONE 1024 x 1024 RGBA PNG texture-source painting, front orthographic view of the empty Graft-serum vat.\n\nINPUT ROLES: Image 1 guide_front.png is the EDIT TARGET and immutable geometry/alpha registration template. Image 2 design_reference.png is the approved design, colour and material authority ONLY; its three-quarter camera is NOT the target camera. Image 3 concept_crop.png is supporting original concept reference ONLY.\n\nPaint directly over Image 1. Preserve its EXACT 1024x1024 framing, orthographic front camera, object scale, position, silhouette, every polygon shape edge, opening and detail. Preserve the target's alpha silhouette exactly, pixel for pixel. Its nontransparent bounds are x=66..957 and y=150..873. Do not recenter, enlarge, crop, smooth or redesign the geometry. All sharp pointed shapes and irregularities of the grey guide must stay in their precise locations. Keep the central hanging pointed membrane, long upper claws, curved side ribs, low body and splayed feet exactly where they are. The reference's camera and silhouette must not replace the guide.\n\nPaint the existing surfaces with dull black-violet Kreegan resin with fine ridges; pale ivory bone claws; torn dry grey-violet membrane flaps; and a dark dry hollow inside. Match the approved design's material distribution, colours and restrained texture detail on the guide's fixed geometry. Use cracks and fine ridges as colour detail on existing surfaces, never additional protruding geometry. This is the EMPTY vat: dark dry interior, no liquid.\n\nLIGHTING: this is ALBEDO for projecting onto a 3D model. Even, flat, shadowless light from the viewer. NO cast shadows, NO ambient-occlusion darkening, NO strong specular highlights or reflections, NO rim light. Do not copy the guide's baked grey shading or the glossy lighting of the design reference. Dark resin and interior are dark material colours, not gradients of illumination. Any existing orange seams are painted at their glowing colour with zero light spill. No added glowing parts.\n\nBACKGROUND: actual transparent alpha, not black or checkerboard pixels. Preserve the guide's exterior transparency exactly. No background, no floor, no ground shadow, no text, no labels. Output the full unresized 1024 x 1024 image. This is a precisely registered surface repaint, not a new concept illustration.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "63b2b0a530c04f6717c54e5308f72c565c8e2ee3d35a0c333b1767a160acf016"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac2-0334-7943-b842-a4a8fe5d4ffe/exec-b194e303-f128-4a90-a705-3deeccea5ea9.png",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: stronger specular lines, rounded geometry and 1254x1254 native size.",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "rgba": true,
+        "transparent_pixels_present": true,
+        "silhouette_pixel_identical": false,
+        "alpha_nonzero_bounds": [
+          0,
+          0,
+          1254,
+          1254
+        ],
+        "alpha_at_least_128_bounds": [
+          79,
+          185,
+          1174,
+          1068
+        ],
+        "saved_byte_identical_to_raw_return": true,
+        "normalized_silhouette_iou_diagnostic_only": 0.988991,
+        "alpha_nonzero_pixels_outside_normalized_guide": 38463
+      },
+      "output_sha256": "49477552c5b5605abb6b2a7fb1fe18af31fe8c4e744645e353f5cdc1cf6fce85"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer.\nMake exactly one texture-source painting of the TOP view of the empty Graft-serum vat.\nREQUIRED NATIVE OUTPUT: 1024 x 1024 pixels, RGBA PNG, genuinely transparent background. Return the image at 1024 x 1024, the same dimensions as Image 1. Do not return 1254 x 1254.\n\nImage 1 guide_top.png is the exact edit target. It is a straight-down orthographic render of the existing model. Its alpha silhouette and ALL shape boundaries are immutable. Paint the target, preserving its exact camera, framing, object position and scale, silhouette and interior polygon boundaries, every protrusion, claw, opening and detail. The shape occupies x=66..957, y=66..957 in the 1024 x 1024 canvas. Preserve this exact footprint and transparency, pixel for pixel. DO NOT use a perspective or three-quarter camera, do not enlarge, crop, recenter, round off or redesign any shape. Keep the irregular central aperture to the RIGHT of centre at exactly the guide's position and shape. Keep the broad torn membrane areas spanning the left and lower interior in precisely the guide's positions. Do not replace this with a symmetrical round open bowl.\n\nImage 2 design_reference.png is the colour/material authority only, not geometry or camera. Image 3 concept_crop.png is supporting original concept only.\nTransfer those materials onto Image 1's fixed surfaces: dull black-violet Kreegan resin with fine ridges on the perimeter frame, pale ivory bone claws on the existing projections, torn dry grey-violet membrane flaps on existing membrane shapes, and dark dry hollow surfaces visible inside the guide's irregular opening. Match the approved colour palette. The vat is empty, no liquid. Fine ridges, cracks and membrane fibres may appear as restrained painted material detail, never new geometry.\n\nCRITICAL ALBEDO LIGHTING: use entirely even, flat, shadowless viewer lighting. Treat this like an unlit base-colour pass for texture projection, NOT a beauty render. No cast shadows, no ambient occlusion, no depth-shading gradients, no darkening at contacts, no specular highlights, no reflections, no rim lighting, no glossy streaks. Use dark intrinsic colour for the dry interior, not lighting darkness. If existing orange seams are present, paint only their intrinsic glowing colour with zero light spill; add no glowing parts.\n\nKeep actual transparent alpha everywhere the guide is transparent. No floor, no background, no checkerboard pixels, no drop shadow, no text or labels. Preserve exact guide silhouette and output the complete unresized 1024x1024 painting.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "2424e5cfbfcf710a0e2de01412b9374a634d37d906e21a4e95292ad35dddcd7b"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac2-0334-7943-b842-a4a8fe5d4ffe/exec-deb30bc5-4068-41a5-8179-2cdaf5583eb6.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: extra membrane holes, strong highlights and 1254x1254 native size.",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "rgba": true,
+        "transparent_pixels_present": true,
+        "silhouette_pixel_identical": false,
+        "alpha_nonzero_bounds": [
+          0,
+          17,
+          1246,
+          1254
+        ],
+        "alpha_at_least_128_bounds": [
+          80,
+          79,
+          1174,
+          1175
+        ],
+        "saved_byte_identical_to_raw_return": true,
+        "normalized_silhouette_iou_diagnostic_only": 0.992684,
+        "alpha_nonzero_pixels_outside_normalized_guide": 24794
+      },
+      "output_sha256": "8f00480fe932a274801083d56c2979664d9349dfc3b4d759730044570696c1a4"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. Deliver ONE native 1024 x 1024 RGBA image. This is the only correction allowed.\n\nEDIT TARGET: Image 1, guide_front.png. Paint its existing pixels only. Keep the 1024x1024 canvas and its alpha matte pixel-identical. Keep every polygon boundary, silhouette vertex, claw tip, curved rib, gap and flat foot edge exactly as shown. Occupied object bounds: x=66 to 957; y=150 to 873. Do not scale, translate, crop, perspective-warp, round or remodel anything. Coarse flat geometry must remain coarse flat geometry. No new membrane tears or holes, no added teeth or spikes. Front orthographic camera unchanged.\n\nREFERENCE ONLY: Image 2 design_reference.png supplies design colours/materials; Image 3 concept_crop.png supplies original colour context. Neither changes target geometry or view.\n\nCorrections needed from the earlier generation: it returned 1254x1254 instead of 1024x1024, softened and moved geometry edges, and painted glossy highlights and contact shadows. FIX those issues in this regeneration. Return the requested 1024x1024 native size, without any subsequent resize. Preserve the guide's alpha mask exactly, including transparent exterior and all its margin space.\n\nUse flat intrinsic surface colours: dull dark black-violet Kreegan resin with subtle fine ridge colour patterns on structural ribs/body, pale ivory bone claws, desaturated grey-violet dry membrane on the EXISTING flap geometry, dry dark brown-violet interior. Match approved reference materials but discard all reference lighting. The front central long pointed flap stays at its guide location. All surfaces remain matte. No liquid.\n\nRender an UNLIT BASE-COLOUR TEXTURE PASS: uniformly illuminated from the viewer, no rendered lighting, no shadows, no AO, no near-black shading at contacts, no bright edge lines, no specular streaks, no reflection, no rim light. Surface details only modest colour variation, not simulated relief highlights or shadows. Dark interior colour is uniform dark material colour rather than depth shading. Existing orange seams if present get their intrinsic colour only, without illumination of neighbours.\n\nActual transparent background, no floor, no shadow, no labels. A registered paint-over of Image 1, not a redesigned object.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "63b2b0a530c04f6717c54e5308f72c565c8e2ee3d35a0c333b1767a160acf016"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac2-0334-7943-b842-a4a8fe5d4ffe/exec-17c03c4f-b829-4d6d-a89d-3f434d5dc8ef.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the best permitted front return: flatter matte materials and closer retention of the coarse guide geometry. Not accepted as fully brief-compliant: wrong native dimensions, silhouette drift and some residual tonal shading remain.",
+      "checks": {
+        "materials_and_colours": "Broad palette match: black-violet resin, pale ivory bone, grey-violet membrane and dark dry interior; material boundaries are approximate.",
+        "flat_even_light": "Improved, but residual facet/contact shading remains; strict shadowless albedo check fails.",
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "rgba": true,
+        "transparent_pixels_present": true,
+        "silhouette_pixel_identical": false,
+        "alpha_nonzero_bounds": [
+          0,
+          0,
+          1218,
+          1254
+        ],
+        "alpha_at_least_128_bounds": [
+          81,
+          186,
+          1173,
+          1068
+        ],
+        "saved_byte_identical_to_raw_return": true,
+        "normalized_silhouette_iou_diagnostic_only": 0.991872,
+        "alpha_nonzero_pixels_outside_normalized_guide": 24531
+      },
+      "output_sha256": "d1321e32e83fd0f25af9b7d5cb7d28db160404b2cf52fdd3f29b643fc0032f38"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, TOP VIEW. One image only, native 1024 x 1024 RGBA PNG. This is the sole allowed corrective attempt.\n\nImage 1 guide_top.png is the EDIT TARGET. Keep its pixels registered to the exact 1024x1024 guide. Preserve the alpha matte, silhouette, every straight polygon edge, every projection and opening. Bounds x=66..957, y=66..957. Straight-down orthographic camera unchanged. Absolutely no repositioning, scale change, rounding, redesign or perspective.\n\nImages 2 design_reference.png and 3 concept_crop.png are MATERIAL/COLOUR REFERENCES ONLY. Do not borrow their geometry or lighting.\n\nFix the first attempt's three failures: wrong native dimensions (1254 instead of 1024), glossy shaded materials, and extra holes and tears in membrane that the target does not contain. The membrane must stay precisely on the target's existing large polygons, with the existing sharp-edged opening RIGHT OF CENTRE. Do not enlarge that opening or carve any new smaller holes. Preserve the broad membrane covering the left interior and the lower centre. Material colour changes do not change polygon shapes.\n\nPaint matte dull black-violet Kreegan resin with fine understated ridges on the existing framework; pale ivory on existing bone claws; dry grey-violet membrane on the existing membrane flaps; dark dry brown-violet interior visible through the exact original aperture. This is empty and dry: no liquid. Fine material patterns only. Retain coarse mesh facets and straight corners; never replace them with a smoothly sculpted interpretation.\n\nRender only intrinsic BASE COLOUR, like an unlit albedo pass. Even flat shadowless illumination from the viewer, absolutely no cast shadows, AO, deep contact shading, directional brightness, white edge highlights, glossy specular streaks, reflections or rim light. Neither guide greyscale lighting nor reference gloss belongs in the output. Dark surfaces are dark because of their pigment, not lighting. Any existing orange seams retain their colour without any light cast onto neighbours.\n\nNative output dimensions MUST be 1024x1024. Keep actual transparent background and exact original alpha silhouette, no background colour, no floor, no shadow, no text. Do not rescale after generation. Surface painting over the guide only.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "2424e5cfbfcf710a0e2de01412b9374a634d37d906e21a4e95292ad35dddcd7b"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "e650a1b5e70612cd934be8dd3454777037c072f65eeefb44c374b2fdcbc959f8"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "9af927eab709307cda4cd80d4a23056bcc9174ee7a6a2d6b722a1f2e7e9e7e3f"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac2-0334-7943-b842-a4a8fe5d4ffe/exec-a7b0e2a6-8f4e-43e2-bcfd-a9f6c6750e92.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the best permitted top return: restores the broad membrane and guide's irregular aperture while reducing highlights. Not accepted as fully brief-compliant: wrong native dimensions, silhouette drift and some residual tonal shading remain.",
+      "checks": {
+        "materials_and_colours": "Broad palette match: black-violet resin, pale ivory bone, grey-violet membrane and dark dry interior; material boundaries are approximate.",
+        "flat_even_light": "Improved, but residual facet/contact shading remains; strict shadowless albedo check fails.",
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "rgba": true,
+        "transparent_pixels_present": true,
+        "silhouette_pixel_identical": false,
+        "alpha_nonzero_bounds": [
+          0,
+          75,
+          1178,
+          1178
+        ],
+        "alpha_at_least_128_bounds": [
+          80,
+          80,
+          1174,
+          1175
+        ],
+        "saved_byte_identical_to_raw_return": true,
+        "normalized_silhouette_iou_diagnostic_only": 0.994022,
+        "alpha_nonzero_pixels_outside_normalized_guide": 20961
+      },
+      "output_sha256": "39edaceb7b2f4043dbfdf62477a0bcc1f3645dac3f629cfd56b7e93b13327645"
+    }
+  ]
+}

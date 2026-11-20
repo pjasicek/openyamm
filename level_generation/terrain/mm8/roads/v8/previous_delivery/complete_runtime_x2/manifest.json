@@ -1,0 +1,2403 @@
+{
+  "status": "complete_coverage_candidate_not_installed_or_finally_accepted",
+  "world": "mm8",
+  "scale": 2,
+  "static_count": 197,
+  "animation_frame_count": 42,
+  "texture_count": 239,
+  "files": {
+    "dirt1.png": {
+      "sha256": "7d8f3c227c1846efd067aa685b746cbe2e21f8f67a047f411f722ef9063d23c0",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/dirt1.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121376
+    },
+    "dirt2.png": {
+      "sha256": "0e34355ac04db07443871bd5284b9583b567e2632a4361c2ac65eccba4383b7d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/dirt2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121565
+    },
+    "dirttyl.png": {
+      "sha256": "9137a083cfbadbf94bbe80e4e2920a07bdfc60e9e6a33c815711a8a0b24a5195",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/dirttyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 115613
+    },
+    "drsrcros.png": {
+      "sha256": "19eb48b1dc4e01d8a79df16b55248e76e4986c3633ca90f52992af0760d347ce",
+      "source": "roads/v7/runtime/drsrcros.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129956
+    },
+    "drsrecap.png": {
+      "sha256": "3033501636ff922ed38254d7daa50a44436ed4e1315ddc49a5572c918c5128b4",
+      "source": "roads/v7/runtime/drsrecap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 123876
+    },
+    "drsrew.png": {
+      "sha256": "117f83806b5c5ccde493d17162eb643692f90f73931d5de5ae6ed206df8f58e4",
+      "source": "roads/v7/runtime/drsrew.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 113846
+    },
+    "drsrew_n.png": {
+      "sha256": "47d0ae6ae5dca1f78a8b17e94afaa7aed11a178ff0ae384594ee89d379103526",
+      "source": "roads/v7/runtime/drsrew_n.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126720
+    },
+    "drsrew_s.png": {
+      "sha256": "459df064346a539f489ff40d5641905a8613ecb4cca5b132939efdaee884710b",
+      "source": "roads/v7/runtime/drsrew_s.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126528
+    },
+    "drsrn_e.png": {
+      "sha256": "aa196e13b65a1fc2765148a20f1c2b124cc5b84e73fbf9507fc19a386d3e884e",
+      "source": "roads/v7/runtime/drsrn_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126398
+    },
+    "drsrn_w.png": {
+      "sha256": "23a32f61858c3a323d3f47de13aa2b1e02044344bf0f7d18143d65d59c1751a6",
+      "source": "roads/v7/runtime/drsrn_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126133
+    },
+    "drsrncap.png": {
+      "sha256": "3e15d20c9518dc4932a9edaf0b5d274938d9ca899c818936d81e523b70629087",
+      "source": "roads/v7/runtime/drsrncap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127066
+    },
+    "drsrne1.png": {
+      "sha256": "eeeca5daf6900cfb6352d4134843bdefe6b9d0e80c0663619c22059c92d3c159",
+      "source": "roads/v7/runtime/drsrne1.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 123367
+    },
+    "drsrne2.png": {
+      "sha256": "a733dbb5a15a6b33303099b739290c971d119d7ffa9a2c5192e2ba7cf701a981",
+      "source": "roads/v7/runtime/drsrne2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 124839
+    },
+    "drsrns.png": {
+      "sha256": "18cd7a2021c4a4d1dc8125204b77a4ca5042997b9c8df9c37898690725bf4c90",
+      "source": "roads/v7/runtime/drsrns.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132046
+    },
+    "drsrns_e.png": {
+      "sha256": "392bfb32befc207b9cbaac760efafaa3ccbcd665d4063324082eeb3c28ef0df4",
+      "source": "roads/v7/runtime/drsrns_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128366
+    },
+    "drsrns_w.png": {
+      "sha256": "fc9a18b94c25a3116077777492f3806e464bcff80e4181c30ee0e836407fc9c9",
+      "source": "roads/v7/runtime/drsrns_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129488
+    },
+    "drsrnw1.png": {
+      "sha256": "37ad592d9d69d368496210fed17b2eeb1fbdc360b13f58dbc8981072a01d4996",
+      "source": "roads/v7/runtime/drsrnw1.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 124706
+    },
+    "drsrnw2.png": {
+      "sha256": "6d98e43d27d1625cc4bf4ceb32398479812b9a225e7de04bb8d0650e99d68867",
+      "source": "roads/v7/runtime/drsrnw2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 125035
+    },
+    "drsrs_e.png": {
+      "sha256": "6677ca82e112857c4fb5562490e55cdb07022989ad2b0dee220a33d10d296da4",
+      "source": "roads/v7/runtime/drsrs_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 124976
+    },
+    "drsrs_w.png": {
+      "sha256": "29d37500cc18c249d046a65c25ebb13ea879ac5152ebabad80f6c2f6172183f9",
+      "source": "roads/v7/runtime/drsrs_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 125308
+    },
+    "drsrscap.png": {
+      "sha256": "caf20d4d066dbab1b46883e286dd3727c247943f7f95274252582000b3b5a37e",
+      "source": "roads/v7/runtime/drsrscap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127964
+    },
+    "drsrwcap.png": {
+      "sha256": "8833c97f670188e2522341542c9a52855d5a08f69e8a9e08904882f8496722fe",
+      "source": "roads/v7/runtime/drsrwcap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 123444
+    },
+    "gdrdecap.png": {
+      "sha256": "5a84ace7f5e93008d8e8f2a2c2c2eca27fc1442f73efa6211e698cd76732f871",
+      "source": "roads/v7/runtime/gdrdecap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126755
+    },
+    "gdrdew.png": {
+      "sha256": "2d5c2b85ba3e8c6a6fc0459e50afc8be6189c8935d7765c4ee436c7fa31f2a38",
+      "source": "roads/v7/runtime/gdrdew.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 115668
+    },
+    "gdrdew_n.png": {
+      "sha256": "c9816d206dcb904ff7bc25f009b007bc8f6c2f6a80e2549560baa7fb02b5fd20",
+      "source": "roads/v7/runtime/gdrdew_n.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130491
+    },
+    "gdrdew_s.png": {
+      "sha256": "f99ead491f31d8b156c68ae382dbee5f7d7ac9b3fe4b63ee8da268e71c165ce3",
+      "source": "roads/v7/runtime/gdrdew_s.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128328
+    },
+    "gdrdn_e.png": {
+      "sha256": "6c95700d5e2359f5afe209ef5b3d29373f2a57c21ddb5c421e8b37e77258c83c",
+      "source": "roads/v7/runtime/gdrdn_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131286
+    },
+    "gdrdn_w.png": {
+      "sha256": "5444cb28bf4515e6a3350f98787308ab011b11ba19843a2b21cb49ba37f570c3",
+      "source": "roads/v7/runtime/gdrdn_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130186
+    },
+    "gdrdncap.png": {
+      "sha256": "67feb3471a89a6847edc7bf71888a60636a411f3bbdf7411d642073ac3d016e1",
+      "source": "roads/v7/runtime/gdrdncap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131219
+    },
+    "gdrdne1.png": {
+      "sha256": "e0cfa0c6b75efcc4e7ac34626993e6ac43fe0bc6d8b3d073df3fa026c8fdf15e",
+      "source": "roads/v7/runtime/gdrdne1.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 125792
+    },
+    "gdrdne2.png": {
+      "sha256": "7a25ffea7e321663215ebd3112104a076941d07c744ed7d589907359f5d0eb2e",
+      "source": "roads/v7/runtime/gdrdne2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128435
+    },
+    "gdrdns.png": {
+      "sha256": "f422ec91521bebb4780b7e8832200b65d56d681195b2eed628e4f8932efb6f6e",
+      "source": "roads/v7/runtime/gdrdns.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 135486
+    },
+    "gdrdns_e.png": {
+      "sha256": "5577213c261c866bad236d63dd21fdb41302ea066ccf9be40f573aa6fbceca4f",
+      "source": "roads/v7/runtime/gdrdns_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132568
+    },
+    "gdrdns_w.png": {
+      "sha256": "286abec37ed78e7119ff4c909fbc67fa13285b3c1e07357cb3addc7a0a820477",
+      "source": "roads/v7/runtime/gdrdns_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 133317
+    },
+    "gdrdnw1.png": {
+      "sha256": "23d1182b65584006de99c2fba8655e11d197ed3aa8d800e4db9629ea2febd8ab",
+      "source": "roads/v7/runtime/gdrdnw1.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126232
+    },
+    "gdrdnw2.png": {
+      "sha256": "e0531ffcc9be4f099298581ebd5d5ff2401b6a2b50d6c8d6418f81873e67da9b",
+      "source": "roads/v7/runtime/gdrdnw2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129157
+    },
+    "gdrds_e.png": {
+      "sha256": "639eb661598118335378078054fab2ab28bc92acd2fa23cbff48186b5a50f1ee",
+      "source": "roads/v7/runtime/gdrds_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127697
+    },
+    "gdrds_w.png": {
+      "sha256": "3512c8ea287475e908a9ba7c4a4e8f238bd045d283e95f7880106631ff968e0e",
+      "source": "roads/v7/runtime/gdrds_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127805
+    },
+    "gdrdwcap.png": {
+      "sha256": "daeefc8d4e7d74f221261701a0ba215c686430f3d04582744300eb81deb7abe6",
+      "source": "roads/v7/runtime/gdrdwcap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126888
+    },
+    "gdtyl.png": {
+      "sha256": "107a2e87754066ff272b0e79e617ca53fd121b633ed6707e9914d4126df12003",
+      "source": "masters/v1/runtime/grey_dirt.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 116614
+    },
+    "grastyl.png": {
+      "sha256": "852c340377036427672b3979ad097d51b11bbb730238ee5c5fa96e5ec24bc9d1",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grastyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 117674
+    },
+    "grastyl2.png": {
+      "sha256": "d51d1d8e22e05f7d7339a6008fe9f26739c3b11e3086d1dc7dc3d47214de0175",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grastyl2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130147
+    },
+    "grdrte.png": {
+      "sha256": "81160a6f9dbc62afb755a324358780fb45925335c020034046d93b27e7507eab",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrte.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131457
+    },
+    "grdrtn.png": {
+      "sha256": "32a18e87db054c9edeca26d5b70a1eab17384293d9fd8f4df85d5045c05c903a",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtn.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 124855
+    },
+    "grdrtne.png": {
+      "sha256": "b0faf69649880b8f6c9ca1f24e0199237ad00056a649831e1417d5a7c3db2861",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129202
+    },
+    "grdrtnw.png": {
+      "sha256": "001ac89c164457166ae6cb8062acb3c38b53bbfc3a2f4b898d5a7c5bb3535b87",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128397
+    },
+    "grdrts.png": {
+      "sha256": "cdafe167460e6fa157ec4bae6dfbb8f8038bd5581a727cd6faaaf5825fecacec",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrts.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126590
+    },
+    "grdrtse.png": {
+      "sha256": "1cd2bdb79f73f9c9fdcb4e9ba4ceb78587fe2aacbc08f61dad1c3bf1780d5e7f",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130114
+    },
+    "grdrtsw.png": {
+      "sha256": "91f50edc1eb33a64c5c3715ff0b59610717c636e4948401f6e24c6b37d411534",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129821
+    },
+    "grdrtw.png": {
+      "sha256": "2793f0d8641eca62f70b4d316906445acd4e58eb770a8f3ac2b996340e54c90e",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131462
+    },
+    "grdrtxne.png": {
+      "sha256": "b6f3a8f1d36ba5c235ddd15fcdd9cfb1ad20659a29a1524a2cc76e946893f616",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtxne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129563
+    },
+    "grdrtxnw.png": {
+      "sha256": "34b6c285966b0684ef5ade61ad4ee77565516f566862eaeb64ba45689d8b0d5b",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtxnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128480
+    },
+    "grdrtxse.png": {
+      "sha256": "29f67b37de081bdbd3376a559e5a6d314a20e386270fb29ba80116ca91ef88bc",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtxse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128285
+    },
+    "grdrtxsw.png": {
+      "sha256": "3ea1ee26c4cac3a52a117bbd122d10f42aae9be30897e0648a3fbeceb1ee0b1a",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/grdrtxsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128021
+    },
+    "gse.png": {
+      "sha256": "a9bd0a3e590a7ffddf1e49af8d59c417b215baa95710e362c303e52beb640925",
+      "source": "transitions/grey_family_v1/runtime/gse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130501
+    },
+    "gsn.png": {
+      "sha256": "4bde882d523113eb09f71bc6f78ead3bb1eaaaf7e90dc61e9ff8fd7c4bfcdda1",
+      "source": "transitions/grey_family_v1/runtime/gsn.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 112375
+    },
+    "gsne.png": {
+      "sha256": "146495857e072965e919e9578b12f9b8c7d5eab70f2576a781d79948415b9173",
+      "source": "transitions/grey_family_v1/runtime/gsne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129001
+    },
+    "gsnw.png": {
+      "sha256": "a4e2723a2d134ed4a1ad7a89e26460f7c3b4d3d253daf473cdf4e0617e488328",
+      "source": "transitions/grey_family_v1/runtime/gsnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128489
+    },
+    "gss.png": {
+      "sha256": "26b4a9023e87ccaa227e61b4411276281dfb3b6a15060fbd5372bc201f731e84",
+      "source": "transitions/grey_family_v1/runtime/gss.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 118422
+    },
+    "gsse.png": {
+      "sha256": "6112edadf2580bde5ddef85da5124e9300848e2163abca49394e211c9dd31c1e",
+      "source": "transitions/grey_family_v1/runtime/gsse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132610
+    },
+    "gssw.png": {
+      "sha256": "62bcfc8251bf8a072bbaa331404d1e71ad92a6ffede27dc1d7a2a2a60fceadd0",
+      "source": "transitions/grey_family_v1/runtime/gssw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132965
+    },
+    "gstyl.png": {
+      "sha256": "712b5ecea2366e267b892a868cd92084a01541d3527605256e1fb0262b4991c2",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/gstyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 120047
+    },
+    "gstylx.png": {
+      "sha256": "9429d35a8a0b6efab6052678832c075fc79407b1a532a8a07934e741da7b402f",
+      "source": "transitions/grey_family_v1/runtime/gstylx.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 124795
+    },
+    "gsw.png": {
+      "sha256": "4bcb1d8ffa5c964b13a350b5723ae4650bf754392bf8f0dad819ba95596f8ad9",
+      "source": "transitions/grey_family_v1/runtime/gsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130015
+    },
+    "gsxne.png": {
+      "sha256": "699b3c59bf49ff82a0dc07dae853222e69b3eaab710987f45b7041c34285eee2",
+      "source": "transitions/grey_family_v1/runtime/gsxne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128469
+    },
+    "gsxnw.png": {
+      "sha256": "04923e3f80aef20f70dfa338081270d10abdd5c955c1bd267faa3a34a1f9099f",
+      "source": "transitions/grey_family_v1/runtime/gsxnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130383
+    },
+    "gsxse.png": {
+      "sha256": "2375f50e14325707e8c2fedce826f33b4c596fb77babd37d6a50a66f4ea5fd4a",
+      "source": "transitions/grey_family_v1/runtime/gsxse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130134
+    },
+    "gsxsw.png": {
+      "sha256": "8c9ffc693d293dfbfe68eb0ffa1f0798e5e8d219b95f3fffcc370c23289cc310",
+      "source": "transitions/grey_family_v1/runtime/gsxsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131568
+    },
+    "hdlav000.png": {
+      "sha256": "eab26b51402a4a44a16c7c1ddfa38fe33bf8de9fa7232211cec5364730db610c",
+      "source": "liquids/v1/runtime/hdlav000.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95316
+    },
+    "hdlav001.png": {
+      "sha256": "2ff6cd90c1f7fd5127aa826a8ac32e0dd4774a07f26762acb1712d2da2a58867",
+      "source": "liquids/v1/runtime/hdlav001.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95549
+    },
+    "hdlav002.png": {
+      "sha256": "e72b732386d88a6c79cd8e8ca8dbdd09e5ca93f978c7f52cd2d921313126ae58",
+      "source": "liquids/v1/runtime/hdlav002.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95476
+    },
+    "hdlav003.png": {
+      "sha256": "2b918f4b355acb2bf41b950d362e718fbf28cac9c72f8978724fe05783d894e9",
+      "source": "liquids/v1/runtime/hdlav003.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95253
+    },
+    "hdlav004.png": {
+      "sha256": "3f3c4f4a1f9f9ca23136a64f95d83a5ada3144bbefd55a71a89c2c80d0ffdfc8",
+      "source": "liquids/v1/runtime/hdlav004.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95284
+    },
+    "hdlav005.png": {
+      "sha256": "0868f3e1f665d6b87f33cf664647f2f69213d83b712f3e81727149d53de7fd49",
+      "source": "liquids/v1/runtime/hdlav005.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95651
+    },
+    "hdlav006.png": {
+      "sha256": "825388598e1518d8e71551dcf2674fb97a0e22fdc7d5efb07ef7697a24e6620d",
+      "source": "liquids/v1/runtime/hdlav006.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95480
+    },
+    "hdlav007.png": {
+      "sha256": "28c884f1fb67c9825b0bf60e660228d90133be68fc993efde95eac9134666d7c",
+      "source": "liquids/v1/runtime/hdlav007.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95394
+    },
+    "hdlav008.png": {
+      "sha256": "2bf36ee45242c49fb70693603e3d8304cd62380476443719f7d14560af159a70",
+      "source": "liquids/v1/runtime/hdlav008.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95352
+    },
+    "hdlav009.png": {
+      "sha256": "a60062db768b7cffa36ea2cf2052b847a347b2565bb4b5629f103745265a989f",
+      "source": "liquids/v1/runtime/hdlav009.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95209
+    },
+    "hdlav010.png": {
+      "sha256": "3c065e7cd009ba5129fc12ac5b4c9f6127329037ab3aa6e4bbd826f847124786",
+      "source": "liquids/v1/runtime/hdlav010.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95147
+    },
+    "hdlav011.png": {
+      "sha256": "48fc2adead6ccda7e30c656d9d0040a16fa432290b335d11e1c37175ec2e3f1d",
+      "source": "liquids/v1/runtime/hdlav011.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 94836
+    },
+    "hdlav012.png": {
+      "sha256": "8e711da582974e448cebb092bcea9b942f1f5be5d6015fc619fc322a492a17f4",
+      "source": "liquids/v1/runtime/hdlav012.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 94864
+    },
+    "hdlav013.png": {
+      "sha256": "7448a63cb8a1677a939e198e3e8d621a126174bcd7a7a9856db5be45c1e42c76",
+      "source": "liquids/v1/runtime/hdlav013.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 94820
+    },
+    "hdwtr000.png": {
+      "sha256": "1e319dce5e4e3c68b02a8813538fae81b5f99bebc07ff9a600516832ef3408e8",
+      "source": "liquids/v1/runtime/hdwtr000.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 70921
+    },
+    "hdwtr001.png": {
+      "sha256": "bfaffe87f0ff96e7193adaea9d02ebb96e9ae8af68b2a16bbee52e92a92f4d96",
+      "source": "liquids/v1/runtime/hdwtr001.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 71937
+    },
+    "hdwtr002.png": {
+      "sha256": "605c83385f3476273ddd30d23838f034fa56618896c7da527a543fe90a273fd8",
+      "source": "liquids/v1/runtime/hdwtr002.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 71762
+    },
+    "hdwtr003.png": {
+      "sha256": "fa0400274af3568da3251a5edc8b715264f0fb5f20ae851620c06a3d8fbaa44c",
+      "source": "liquids/v1/runtime/hdwtr003.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 72115
+    },
+    "hdwtr004.png": {
+      "sha256": "bdbabda91dcd930d6e3b1020fa0b3cda5e6bd436b49b3548caffa9391193fe00",
+      "source": "liquids/v1/runtime/hdwtr004.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 72357
+    },
+    "hdwtr005.png": {
+      "sha256": "aeed7c6903d48e8dd60ca0ec2990f1518d0c3cd445af2c8588a1a695be4744c3",
+      "source": "liquids/v1/runtime/hdwtr005.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 72599
+    },
+    "hdwtr006.png": {
+      "sha256": "aa736508b7d8ee624e9a8f2caabcae9a43875999867b3192f41d4cdd5bb79dc6",
+      "source": "liquids/v1/runtime/hdwtr006.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 72280
+    },
+    "hdwtr007.png": {
+      "sha256": "949cbf36e93f647b251b1644867f5eb72068384f3d7027329e25454c9d15f7e1",
+      "source": "liquids/v1/runtime/hdwtr007.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 72109
+    },
+    "hdwtr008.png": {
+      "sha256": "c9659c2c64bc48a53491b7a32890b5e192a9177c17f9d755dd49d55e1240b832",
+      "source": "liquids/v1/runtime/hdwtr008.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 71146
+    },
+    "hdwtr009.png": {
+      "sha256": "b90d924492bb83b13776ad063953891d8dac9a634b375bbe7775f58f0c9d9f13",
+      "source": "liquids/v1/runtime/hdwtr009.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 70642
+    },
+    "hdwtr010.png": {
+      "sha256": "472d60d20189a8b1ae09c75060920cc8f051fff19e7073b525e4de53df7dc119",
+      "source": "liquids/v1/runtime/hdwtr010.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 71655
+    },
+    "hdwtr011.png": {
+      "sha256": "386b6eb33383ac23b353c3ea1e434c48b001437614800de6ccaf485b07fc91f0",
+      "source": "liquids/v1/runtime/hdwtr011.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 70771
+    },
+    "hdwtr012.png": {
+      "sha256": "eab39787d92223486ebc6c79d3adccfec1cfc0a878773e6fbbfa3dcf86105551",
+      "source": "liquids/v1/runtime/hdwtr012.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 70676
+    },
+    "hdwtr013.png": {
+      "sha256": "106bead7d81fe00ccb53a305fcef1d085b3202fa18295e3ac71a143d3a8a202d",
+      "source": "liquids/v1/runtime/hdwtr013.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 70945
+    },
+    "hwoil000.png": {
+      "sha256": "d7445e9e9ef96118428ffd022180713371301aabcc3fec54cc45f4cc2e7f40bb",
+      "source": "liquids/v1/runtime/hwoil000.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84513
+    },
+    "hwoil001.png": {
+      "sha256": "024e8dc63489085d40152f195b6da5aeb99ffffe33096e56abedf7107b4a6416",
+      "source": "liquids/v1/runtime/hwoil001.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84678
+    },
+    "hwoil002.png": {
+      "sha256": "6f28b81636536aa2eef20365ccb3c71e1512f7194efec7a4d1aa0d50686ee250",
+      "source": "liquids/v1/runtime/hwoil002.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84897
+    },
+    "hwoil003.png": {
+      "sha256": "9d96c74c0393d2caf7fd6bccc34a922242f894e654616d37a972971226aa4298",
+      "source": "liquids/v1/runtime/hwoil003.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84810
+    },
+    "hwoil004.png": {
+      "sha256": "fd95a76c3192bab7a532d47c3618326b07e56978df70f28850ceefce80853cea",
+      "source": "liquids/v1/runtime/hwoil004.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84648
+    },
+    "hwoil005.png": {
+      "sha256": "0dbb3d46346aea0bb71516b2d4a8a562f32caa766339475efce55bd649acc79e",
+      "source": "liquids/v1/runtime/hwoil005.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84605
+    },
+    "hwoil006.png": {
+      "sha256": "a2a16d6e5c1c37f3e9c21724f829d44fc05686850d93a7b5393366a5b9588390",
+      "source": "liquids/v1/runtime/hwoil006.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84624
+    },
+    "hwoil007.png": {
+      "sha256": "6398e68adf94aa585341560fce3e4b5fb69edc1b1597e256b77e497bbe952c98",
+      "source": "liquids/v1/runtime/hwoil007.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84438
+    },
+    "hwoil008.png": {
+      "sha256": "eb540fd7440691f42a8b67c5f9b91e1a0c833d0a729d09aedec9ba5f6a8d00e4",
+      "source": "liquids/v1/runtime/hwoil008.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84311
+    },
+    "hwoil009.png": {
+      "sha256": "a54107a91fb681b7ef4aba0bc730f5b56343c7559e9866fcc374e0fd89626dd1",
+      "source": "liquids/v1/runtime/hwoil009.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84436
+    },
+    "hwoil010.png": {
+      "sha256": "f8b5b4c986608b2a956217409fb7eeb738d0cb4ef730b58277731d0e22e0c6c1",
+      "source": "liquids/v1/runtime/hwoil010.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84478
+    },
+    "hwoil011.png": {
+      "sha256": "b13e915b124e69bc4137f6c0a806db75f7e943ee4290b07fa670b34e1904b231",
+      "source": "liquids/v1/runtime/hwoil011.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84293
+    },
+    "hwoil012.png": {
+      "sha256": "744a75c2dd3897e59d9ee26bd3f08754287489d882d38838a2ed87557a932be7",
+      "source": "liquids/v1/runtime/hwoil012.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84300
+    },
+    "hwoil013.png": {
+      "sha256": "9b8f0f0fb78967abd8792a4d4251c58f2d01df2a838af9ce153c8f532eafa278",
+      "source": "liquids/v1/runtime/hwoil013.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84177
+    },
+    "lavtyl.png": {
+      "sha256": "eab26b51402a4a44a16c7c1ddfa38fe33bf8de9fa7232211cec5364730db610c",
+      "source": "liquids/v1/runtime/lavtyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 95316
+    },
+    "lvdre.png": {
+      "sha256": "92b656f53eb331cfd8a5c1df88b555b650c9c994854439d3e93ed3dc9cfd498d",
+      "source": "liquids/banks_v2/runtime/lvdre.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 147661
+    },
+    "lvdrn.png": {
+      "sha256": "5946cb82e262b0091b8194da7bb5860887035131aa247ea1e9e2ab2cafca6452",
+      "source": "liquids/banks_v2/runtime/lvdrn.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 144327
+    },
+    "lvdrne.png": {
+      "sha256": "881910195d4bdebb8a9e79fe358467caec9095dc988a535146ea3795f9a04d4f",
+      "source": "liquids/banks_v2/runtime/lvdrne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 147178
+    },
+    "lvdrnw.png": {
+      "sha256": "ef7e82d58da36251fa6fdbe91dcd9626b767cbb7c54855158afd4023f34f4c3e",
+      "source": "liquids/banks_v2/runtime/lvdrnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 143586
+    },
+    "lvdrs.png": {
+      "sha256": "a1a449089d0eb222da2a8627467b630bf7d66781dd33d5785bb1494d1e7db14c",
+      "source": "liquids/banks_v2/runtime/lvdrs.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 144413
+    },
+    "lvdrse.png": {
+      "sha256": "8ab00b390b72a8b78a84b9be6095595e43f895e900ac8e5044c451c5bec18df1",
+      "source": "liquids/banks_v2/runtime/lvdrse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 147808
+    },
+    "lvdrsw.png": {
+      "sha256": "80b70b2f65ff8aeda6629a4fe92e16d0c33e291f0fadbc70a469aeb121331b82",
+      "source": "liquids/banks_v2/runtime/lvdrsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 142715
+    },
+    "lvdrw.png": {
+      "sha256": "86cb6d1b6cdd99740b702be18de0f3ada3a67d1d159c0c2d435b225329d68dcd",
+      "source": "liquids/banks_v2/runtime/lvdrw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 147791
+    },
+    "lvdrxne.png": {
+      "sha256": "795e9fbe5e2fffb34b6aac08612fa986f884b53a97a8e29763bfef4e9a08b507",
+      "source": "liquids/banks_v2/runtime/lvdrxne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 146179
+    },
+    "lvdrxnw.png": {
+      "sha256": "1c21bba6065697289bbe24548b06a075025e2636e6045d5bdc68ad5cf938c317",
+      "source": "liquids/banks_v2/runtime/lvdrxnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 142509
+    },
+    "lvdrxse.png": {
+      "sha256": "5fe77881b37453cf451bd508fb7b507dcf23f1d162cd7790f4ec0fd11756abc0",
+      "source": "liquids/banks_v2/runtime/lvdrxse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 145530
+    },
+    "lvdrxsw.png": {
+      "sha256": "016aa6c653106d4f938871316dfad410d64b007f1a3076794b12c6f4c3c7d994",
+      "source": "liquids/banks_v2/runtime/lvdrxsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 146278
+    },
+    "lve.png": {
+      "sha256": "eedd207d84e67ed553db4e97c15aac78aaf27e5df294fd0ce5b8308114542c16",
+      "source": "liquids/banks_v2/runtime/lve.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 166826
+    },
+    "lvn.png": {
+      "sha256": "b1788eca01f86a0eaca4453b05c230fab4fcfff4bb008266d9444d5f6e3f9962",
+      "source": "liquids/banks_v2/runtime/lvn.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 167849
+    },
+    "lvne.png": {
+      "sha256": "970ec8af968fe668d9d995f343ec0db753d223012619efb1cd493ab37ff45aa9",
+      "source": "liquids/banks_v2/runtime/lvne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 165052
+    },
+    "lvnw.png": {
+      "sha256": "6e426191b12d6b76eea43936386d987a2a9eef586685cc36008ed33476ef969e",
+      "source": "liquids/banks_v2/runtime/lvnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 167986
+    },
+    "lvs.png": {
+      "sha256": "34254c00db9114e95c3788409755e3b5881b8ed5e2ab421c59fb9991c5ca0653",
+      "source": "liquids/banks_v2/runtime/lvs.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 164632
+    },
+    "lvse.png": {
+      "sha256": "0ae8a903b18aa0e01f83989cc463c2bf893a89f82e0929fd8bdf59e55e3e4f6c",
+      "source": "liquids/banks_v2/runtime/lvse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 166277
+    },
+    "lvsw.png": {
+      "sha256": "c865a3f335463d264c6c266b5907c9a87572dff9cfca97c258f42d6771c0a83f",
+      "source": "liquids/banks_v2/runtime/lvsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 166255
+    },
+    "lvw.png": {
+      "sha256": "9831c2b42007cfee981b8590c28be9dec72e437b61d6f37b168b2ceb7185bcf5",
+      "source": "liquids/banks_v2/runtime/lvw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 168116
+    },
+    "lvxne.png": {
+      "sha256": "56df6f712102a6ab8ac9e3b938b7abb68ca9906d130a648291ee29c80a3e14e9",
+      "source": "liquids/banks_v2/runtime/lvxne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 167208
+    },
+    "lvxnw.png": {
+      "sha256": "b31771d3f9731bfec0c5162293a01662db1fe18bdb886c8dac4909c9dfc1acb0",
+      "source": "liquids/banks_v2/runtime/lvxnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 165311
+    },
+    "lvxse.png": {
+      "sha256": "3483f53c49205e3c917e83470d1a4368713e981edd8b3bd58e13f1872548200e",
+      "source": "liquids/banks_v2/runtime/lvxse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 165466
+    },
+    "lvxsw.png": {
+      "sha256": "ce138862f1660ce4c2b18de18c9c13a73852d6361ed8ff6523c32390c796c0ec",
+      "source": "liquids/banks_v2/runtime/lvxsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 165391
+    },
+    "plntyl.png": {
+      "sha256": "2210cb954b496e2373f077d2a504097fa900ebc5e1cb5e0ce8988998cb1b52fc",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plntyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 122281
+    },
+    "plrdew.png": {
+      "sha256": "fb621df94fb79fccc16de829f098d576fdd55586cbfa39a6c8849442b0396f77",
+      "source": "roads/stepping_v1/runtime/plrdew.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 124664
+    },
+    "plrdn_e.png": {
+      "sha256": "c31d364c07ff82c851c6e06b04094877a6a20ce9b125c1c6d6bffdb2f0841a0b",
+      "source": "roads/stepping_v1/runtime/plrdn_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129670
+    },
+    "plrdn_w.png": {
+      "sha256": "7e2f16e109128742bb42b89186e69326f7d9bd5abc0f8130513f933b2f61ee0f",
+      "source": "roads/stepping_v1/runtime/plrdn_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128240
+    },
+    "plrdncap.png": {
+      "sha256": "33453f63f1579ac351b95932f9d3c0dc350dd20f43da6608435c3502a857babe",
+      "source": "roads/stepping_v1/runtime/plrdncap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130849
+    },
+    "plrdne1.png": {
+      "sha256": "c4f2dd752129f7c5dac51d66d8df76d1a47963a087c96213e5717622a3fb34cc",
+      "source": "roads/stepping_v1/runtime/plrdne1.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126459
+    },
+    "plrdne2.png": {
+      "sha256": "a0837d496f1b5a146b1bf633a01fba66e60a4102cc05085fe293d3e862eaecfc",
+      "source": "roads/stepping_v1/runtime/plrdne2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127998
+    },
+    "plrdns.png": {
+      "sha256": "1e73acecb59616dd95d19c7ca452fc9d4b9907fe0af16bda7184bf00c7d2042c",
+      "source": "roads/stepping_v1/runtime/plrdns.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 133763
+    },
+    "plrdnw1.png": {
+      "sha256": "a1acd36f76aeb286e5a321855049a4b6a6ffa207fea3d5068bffa834ecf760dd",
+      "source": "roads/stepping_v1/runtime/plrdnw1.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 126014
+    },
+    "plrdnw2.png": {
+      "sha256": "f37ea1347cdda02367d25dad2259991ee55861b0b430114233ff4c884c0c3d18",
+      "source": "roads/stepping_v1/runtime/plrdnw2.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127506
+    },
+    "plrds_e.png": {
+      "sha256": "b0a73c9cd92a1e37274050d17cb763f6f4f2c44f8f244f54885eeec57754e573",
+      "source": "roads/stepping_v1/runtime/plrds_e.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127807
+    },
+    "plrds_w.png": {
+      "sha256": "14df9150f66db872039d1d96ced78376d956780341f97413549a37932ee79230",
+      "source": "roads/stepping_v1/runtime/plrds_w.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127996
+    },
+    "plrdwcap.png": {
+      "sha256": "db0a5ad6520fa6981f1b42f3531b973c8a6a924e39f2da154f5a988b3a003a03",
+      "source": "roads/stepping_v1/runtime/plrdwcap.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 124621
+    },
+    "plsae.png": {
+      "sha256": "49e4ce3ec93f312d5d6c6cbbbb36ae81664b32af3acf6c99e2d742a5ac31914d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsae.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 119116
+    },
+    "plsan.png": {
+      "sha256": "b19e677409d01d1e8aa1d1837b5f9dcaadb0588e284250233378865d1501c994",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsan.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 116710
+    },
+    "plsane.png": {
+      "sha256": "a894e053fe4e0f57f831e1a153173a07d0d969ec218ccd15238ba794b9e9fe62",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsane.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 122195
+    },
+    "plsanw.png": {
+      "sha256": "617512b70914995a7695a517219b6811ffa24285454b2eef4deefebb51a78790",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsanw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121772
+    },
+    "plsas.png": {
+      "sha256": "08eff4db85fbded1d70eb1397ce1e6d5ef8d4a0ec166c261a777658842ec5de8",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsas.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 117777
+    },
+    "plsase.png": {
+      "sha256": "1ac17339425c502f0bbb02cf59b8e1b12a12c62e44dedce5bcc9fc6760bc748d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsase.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 123525
+    },
+    "plsasw.png": {
+      "sha256": "a0b5502da8119f5e3a3cdea33a3f52a77c79fb3a18520251ad80c21505a7c68b",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsasw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 122144
+    },
+    "plsatyl.png": {
+      "sha256": "43a0809eae7bf8f955c88274e101e8b63477365db5b396e485bd7c18a634d88d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsatyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 106729
+    },
+    "plsatylx.png": {
+      "sha256": "f0fdcc6be6eef5ff1643725687741a4feba2d5c995756ab489edd8181c8dacd3",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsatylx.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 110587
+    },
+    "plsaw.png": {
+      "sha256": "48c0733fad27cee9734e2f9d508f35a78c3639a8af745130c094aa5ec1575fca",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsaw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 119368
+    },
+    "plsaxne.png": {
+      "sha256": "2d2a7fbe6f8b9d270d2e5b31a1b63150322914212f082a62845d4c2aa37f4d4d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsaxne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 114943
+    },
+    "plsaxnw.png": {
+      "sha256": "3751c3357da100ea802581eaadbb9c5c1e7f0337622609d753cbc937db732d36",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsaxnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 113688
+    },
+    "plsaxse.png": {
+      "sha256": "8f501c892819bfc07e6d212a394d5254e7eb0ef50c364e32677061ab553e1fd2",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsaxse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 115505
+    },
+    "plsaxsw.png": {
+      "sha256": "ad095612d78f08d0aa5bf8c2f7870e5767885bf822dc5ff630a05060aaed839e",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/plsaxsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 114841
+    },
+    "rce.png": {
+      "sha256": "5a897d8092bc58058cbccfeb7ab4586db3aee3b2904cedade306c0042f35085d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rce.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 123389
+    },
+    "rcn.png": {
+      "sha256": "58bd0d1d183d31d5a68228dcafc0f1257c74d856aef7562585d7c56c201971c2",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcn.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121116
+    },
+    "rcne.png": {
+      "sha256": "38a47fe458b8f506d2896e5fae8413bf99c5060dc909c2976c12e43ad366a8f2",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 122949
+    },
+    "rcnw.png": {
+      "sha256": "f0663f3e94db41c23ffc0fc11ee51759315c5e10a46c1f04924db644fbd5fb95",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 122639
+    },
+    "rcs.png": {
+      "sha256": "d4151f2d571a60af215b652b48b7d790ffbcd8f5f186ab255ff72d635cabf1bb",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcs.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 122017
+    },
+    "rcse.png": {
+      "sha256": "ac1866a22b1abe9c31aab914b0d5d78ac3a74ae90a7f45e0c8c6d1c400b7ef2b",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 123262
+    },
+    "rctyl.png": {
+      "sha256": "b32da80c7f399695ce1c8764dfc6fc7b21719aacd533b5cb84237eea93c7f91a",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rctyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 120841
+    },
+    "rctylx.png": {
+      "sha256": "0c11625c44ce67c59da906c42ee83cb33b1d25a8766f744e905791a1116fa488",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rctylx.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 120632
+    },
+    "rcw.png": {
+      "sha256": "a0fb661fdda866e61873ccc6e9eb39fd34394bd32e45c8d22162c05d28391cfe",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 123251
+    },
+    "rcxne.png": {
+      "sha256": "c6bcd5028df888d05a50eb7ca046d7169fe971908d4c5d11044e71e4677737b4",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcxne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121747
+    },
+    "rcxnw.png": {
+      "sha256": "ca8e8f5a3b30d2d43cccad5fb2512bee4822a583faf315eaaa3a87d9d1287271",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcxnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121839
+    },
+    "rcxse.png": {
+      "sha256": "802eb5c1c99ddb7d1a5d09b11fe18e837fa2339ddb78b85a6064358a9903280d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcxse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121183
+    },
+    "rcxsw.png": {
+      "sha256": "130d59559cfeea751d6f94085bde679a28f624a6c8d0e067b5373c85b1ea386d",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rcxsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121779
+    },
+    "rdnw.png": {
+      "sha256": "8a06e9e777557ad646ac7eaee5e0707e5c4838342d5ef1ff7199cc814af9210c",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rdnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 127852
+    },
+    "rke.png": {
+      "sha256": "29e165895e279be6333c5fcce623cecbd63a5d61a3f843d9e559651ce348a2e8",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rke.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 134307
+    },
+    "rkn.png": {
+      "sha256": "bdb66cd6915ea6dc9abeafaa225aa7c85b412dbc1f46f80ab9211d26d6c978d6",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkn.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132659
+    },
+    "rkne.png": {
+      "sha256": "b2bb58accff052e6bfa3d4e451063bbfef0b4e1c05c43c99c50bd5fbdb4915c8",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131480
+    },
+    "rknw.png": {
+      "sha256": "72fc8e7921f2001c872359aa37ad9b6711cb0f158a39747bb5a0e2c30fe1a3bf",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rknw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131503
+    },
+    "rks.png": {
+      "sha256": "c5c121389c09998856a962c3626738fc0a6e712c5265967dbfb78543b64d47f8",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rks.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131247
+    },
+    "rkse.png": {
+      "sha256": "4592b3b9a0a2ad1eaffab3293b1eb1697021ede4e56628dd5cedef11bbe71697",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130951
+    },
+    "rksw.png": {
+      "sha256": "ba93697cff238496a1c69df4d819dbfb86bce6e5562b21bb8b3b46dfd5592f61",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rksw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130917
+    },
+    "rktyl.png": {
+      "sha256": "ff5f4c74d171bef4a1047812129138dfd69bfcd02d4c9a9b914da8f4d92c13f9",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rktyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 137306
+    },
+    "rktylx.png": {
+      "sha256": "14bb66dfa6daa4f92e94c2d323c787793f4e07239a5ddf06d909cee887c1f7b7",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rktylx.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 135594
+    },
+    "rkw.png": {
+      "sha256": "ef7aead9968ff6533ddd0a5513b40cefc08672b481456072ecfc6f9a119f39b4",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132778
+    },
+    "rkxne.png": {
+      "sha256": "6c5b442a7f54d39cff718ce6b079e0cc6aa5837ab029a112fd437b550fa4e915",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkxne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 134464
+    },
+    "rkxnw.png": {
+      "sha256": "0c015865d70c0c0c0db19ba22aa4d5ee91f6eea9fb5bf95eb8a9f03d05e9ad2e",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkxnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 134988
+    },
+    "rkxse.png": {
+      "sha256": "78208e97cb6f6ac848247c4c5ae9584da0b1c9075b25fcb5bf81d0e8b37f3122",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkxse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 133250
+    },
+    "rkxsw.png": {
+      "sha256": "31ae92de75d2fd93ff2c13d1509c0bba2e1aff8d101e4683df6fc28d32e6cb25",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/rkxsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 134568
+    },
+    "tartyl.png": {
+      "sha256": "d7445e9e9ef96118428ffd022180713371301aabcc3fec54cc45f4cc2e7f40bb",
+      "source": "liquids/v1/runtime/tartyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 84513
+    },
+    "tre.png": {
+      "sha256": "9fc9b499416c66ef1432c1f62acb4ba72b675ad7df0cd3ef74cd6d7605914a7f",
+      "source": "liquids/banks_v2/runtime/tre.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 163182
+    },
+    "trn.png": {
+      "sha256": "058391556fe224f1006756ebc92af014895a3d72cb786f246ef0677e14cdc74c",
+      "source": "liquids/banks_v2/runtime/trn.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 159708
+    },
+    "trne.png": {
+      "sha256": "edac2a1783c1ab104f920c139d0d5d406e684cf3b4b98d7b628f8b44fe75cd03",
+      "source": "liquids/banks_v2/runtime/trne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 158843
+    },
+    "trnw.png": {
+      "sha256": "f19c8f66153a3ccc29c280c478303267fa3f5cc5989a6b60f5111ceee92a9a8f",
+      "source": "liquids/banks_v2/runtime/trnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 160755
+    },
+    "trs.png": {
+      "sha256": "656455348b126b385ab9afdd4f43e1bf9b117d6d9c9570dba134e3b9305243c4",
+      "source": "liquids/banks_v2/runtime/trs.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 160158
+    },
+    "trse.png": {
+      "sha256": "a2160a0a9119549ac93698e32cf89defdaf2a858f579f89f492aa7ef134afc73",
+      "source": "liquids/banks_v2/runtime/trse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 165694
+    },
+    "trsw.png": {
+      "sha256": "246827c789b095acbc09422f3590b296a1232ea58387e44ce47b2f8294054cf8",
+      "source": "liquids/banks_v2/runtime/trsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 164852
+    },
+    "trw.png": {
+      "sha256": "4c3df2f8ddedf8d7c95507a165211b44f065083f5a4929bb853c81a08db23b13",
+      "source": "liquids/banks_v2/runtime/trw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 161191
+    },
+    "trxne.png": {
+      "sha256": "5932c8f631b5411778f85f5680e7cf3f8d2a15f327a8199c3ccbe9ff690d88e5",
+      "source": "liquids/banks_v2/runtime/trxne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 157252
+    },
+    "trxnw.png": {
+      "sha256": "1b8bb8756b21f1db9ca88f06859b24fda62159f33977c3b122e57d3ac28dcc35",
+      "source": "liquids/banks_v2/runtime/trxnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 157962
+    },
+    "trxse.png": {
+      "sha256": "7a9de712b3b374826cf2d6d2277b9191d6bf8af421ed35e486ecf94c4b0328f1",
+      "source": "liquids/banks_v2/runtime/trxse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 157496
+    },
+    "trxsw.png": {
+      "sha256": "9689624966c051a74767f0edd20d12f513213481c67598658f26202b3699e9fe",
+      "source": "liquids/banks_v2/runtime/trxsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 157120
+    },
+    "vole.png": {
+      "sha256": "0aeb5b5a7489616db9a468a57d43327d0236dd8617d0f9a17a0d83e0a5a89f2a",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/vole.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 133051
+    },
+    "voln.png": {
+      "sha256": "9039df5cfc6c7dd7b1e46e55300c2cabdb45e635b5b7484129d85ec9ad5f6317",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/voln.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128003
+    },
+    "volne.png": {
+      "sha256": "66a852a67e8499a61edd17b06c7b8e99f987cb7081b6e25bfe2b5c2f56565cf8",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 130373
+    },
+    "volnw.png": {
+      "sha256": "2f956a9560d44f750d6bfbf510fc3db1df3fb6d165d24e7c2c0de88ef0b9d78f",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131076
+    },
+    "vols.png": {
+      "sha256": "7e035a002b12903069bd69b0af21a87214d97dd877654cca9dacf3e8d5a9695b",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/vols.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129464
+    },
+    "volse.png": {
+      "sha256": "88952c70578916c89be637c99f5f58450d94ec6711eb17d84359109c3052980a",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132944
+    },
+    "volsw.png": {
+      "sha256": "9ce483e2dac07625c251e5223ec54ba40cb5ca4acb39469488f2f33bd98cc76a",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131544
+    },
+    "voltyl.png": {
+      "sha256": "44a9a3254593982b35ae26c99f1660129fc55052166c7a12cf8d8e6c5cb93815",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/voltyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 121790
+    },
+    "voltylx.png": {
+      "sha256": "27e91308dda45fe5168da4e16b8252762c133ebc6cae8886ebf633ebd6e86355",
+      "source": "variants/volcano_v2/runtime/voltylx.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128430
+    },
+    "volw.png": {
+      "sha256": "764b7645095456cd00d386dfaf66874312e2899fc22d74fd292bf0f7e289589b",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 135222
+    },
+    "volxne.png": {
+      "sha256": "f3e2eb2acbbbf7a73772c9a391ce1fe2de8f065bd157b57b7493bf18d7bdc176",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volxne.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 129734
+    },
+    "volxnw.png": {
+      "sha256": "2ad0133b3a5741e7233f5eb992f32deff7c894e20d4871c56290e7c2f3313777",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volxnw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 128825
+    },
+    "volxse.png": {
+      "sha256": "659a36cefb8a86ff9b5774122848af99b8eb725a1c491a4a0c2cda434880fde9",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volxse.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 131831
+    },
+    "volxsw.png": {
+      "sha256": "154d4bfee45b58133abb7845184dfea96e2696ab3f04b0407506ea45dcbbbeb7",
+      "source": "runtime_x2/worlds/mm8/terrain_x2/volxsw.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 132893
+    },
+    "wae.png": {
+      "sha256": "9e8f11d66a0c652b9201d98a8ce615c2e52a86b87bc59c347a7f38a5f4d8337b",
+      "source": "liquids/banks_v2/runtime/wae.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 152580
+    },
+    "wan.png": {
+      "sha256": "0d2e9de8d91e0defebaf663781cf9d58277ad972cd2a0856692d38efcd6dc77f",
+      "source": "liquids/banks_v2/runtime/wan.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 149185
+    },
+    "wane.png": {
+      "sha256": "d4c09af838a3af72112a445c5aba29c29e7a56e5f0b01a3695b101fea3a3217d",
+      "source": "liquids/banks_v2/runtime/wane.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 151740
+    },
+    "wanw.png": {
+      "sha256": "a94c2a4352c7eb0c3cd7ab818df45f9cb1fc5fa5cc1c79f0ce04c424a76c088f",
+      "source": "liquids/banks_v2/runtime/wanw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 154266
+    },
+    "was.png": {
+      "sha256": "1bfeb646a6d96a65881c3b72d8b42300ead2d6e4d269f2fcec8d198734c0c78e",
+      "source": "liquids/banks_v2/runtime/was.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 149951
+    },
+    "wase.png": {
+      "sha256": "97fc40dd9d90bf432aa82a12904c5f9dc27895c9e50e9fa5cb8c031ae521400d",
+      "source": "liquids/banks_v2/runtime/wase.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 150456
+    },
+    "waxne.png": {
+      "sha256": "d1ff4fe43b65a7c92d5b6d5ed18dbec6425862087553f86477649bc9a7152ea7",
+      "source": "liquids/banks_v2/runtime/waxne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 155296
+    },
+    "waxnw.png": {
+      "sha256": "8ea840ed15517cb9963c4d8e1adf990a206e87f9bc291d09d41c985eb6d773f7",
+      "source": "liquids/banks_v2/runtime/waxnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 154279
+    },
+    "waxse.png": {
+      "sha256": "c5e8a65eb216c31de15bae5e07f2d859d06f4e1121e7b850e150d07c805660e6",
+      "source": "liquids/banks_v2/runtime/waxse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 155192
+    },
+    "wtrdre.png": {
+      "sha256": "7b7823d9bf462b6a455cb25cd89446070a70976001880b57ad744875dc668d6e",
+      "source": "liquids/banks_v2/runtime/wtrdre.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 154943
+    },
+    "wtrdrn.png": {
+      "sha256": "0bda82b6d1b728f9dd55de5403bcb11dc8b56a91bfc4a980192402239d48b873",
+      "source": "liquids/banks_v2/runtime/wtrdrn.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 152041
+    },
+    "wtrdrne.png": {
+      "sha256": "66bc66920b9803d15a3201abbb523fd05c9774f7d258004382226d8e1b49749d",
+      "source": "liquids/banks_v2/runtime/wtrdrne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 155046
+    },
+    "wtrdrnw.png": {
+      "sha256": "36a6f936eba4888616b864c37a791891af637370bc8661e2ed0fc242fa039aa9",
+      "source": "liquids/banks_v2/runtime/wtrdrnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 151442
+    },
+    "wtrdrs.png": {
+      "sha256": "0d0c80bdb7e176a60e143dd47234eed916170b57ac90892270a0758548610d87",
+      "source": "liquids/banks_v2/runtime/wtrdrs.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 151532
+    },
+    "wtrdrse.png": {
+      "sha256": "2692eb8a67148208f0cdd7f18e7f0d76147ba1c698502b6cb990928f7015da1c",
+      "source": "liquids/banks_v2/runtime/wtrdrse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 156259
+    },
+    "wtrdrsw.png": {
+      "sha256": "f2c8c5e640087b576cb4e3b583d43295f4332bc452e3ae2e82ee2bb217567eaf",
+      "source": "liquids/banks_v2/runtime/wtrdrsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 151107
+    },
+    "wtrdrw.png": {
+      "sha256": "12de189791787c0e34ce46eaadd31701039f71619b27b0ae3fa965ee93c55449",
+      "source": "liquids/banks_v2/runtime/wtrdrw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 156092
+    },
+    "wtrdrxne.png": {
+      "sha256": "61d508a0c2b7168248296a94b790ae72d4c060d39af416dd2cbdc76c0c03b8ee",
+      "source": "liquids/banks_v2/runtime/wtrdrxne.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 153539
+    },
+    "wtrdrxnw.png": {
+      "sha256": "1c42ccec456557e0fc3167f695a8eafdc539b000cb45a94bdc6595e1a448180e",
+      "source": "liquids/banks_v2/runtime/wtrdrxnw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 148706
+    },
+    "wtrdrxse.png": {
+      "sha256": "26a4ad04ba6b72396c6aa7684479eb9f9f76717cf7af8fb25e6a2d498735cc45",
+      "source": "liquids/banks_v2/runtime/wtrdrxse.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 152578
+    },
+    "wtrdrxsw.png": {
+      "sha256": "96e428a45dcd00d3b64663673b5e390253595b80cb0ed16ee467a6361007c88c",
+      "source": "liquids/banks_v2/runtime/wtrdrxsw.png",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 154563
+    },
+    "wtrtyl.png": {
+      "sha256": "1e319dce5e4e3c68b02a8813538fae81b5f99bebc07ff9a600516832ef3408e8",
+      "source": "liquids/v1/runtime/wtrtyl.png",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 70921
+    }
+  },
+  "inventory_sha256": "33863a0e1c7b10752b48d442ecf47acae7c091a9c164fb84fa37ea27a3e0ddb3",
+  "candidate_stage_sha256": "2df035c18bdf1c8a5c66cd3caa4e598fe74dc1f052cc5257d3bd07bec43e0576",
+  "script_sha256": "bab63a21a80e423c238c90462a0ea8589bf02ed04d4ff15e03cf953fd0aa131b"
+}

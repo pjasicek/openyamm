@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d15/review/build02/after
+settle_seconds: 1.5
+exit: true
+shots:
+- name: power_platform_west_after
+  position:
+  - 8000
+  - 1400
+  - 0
+  yaw: 0.0
+  pitch: 0
+- name: power_platform_east
+  position:
+  - 13000
+  - 1400
+  - 0
+  yaw: 0.0
+  pitch: 0
+- name: power_cut
+  position:
+  - 14292
+  - 3600
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: power_breach
+  position:
+  - 12600
+  - 5328
+  - -512
+  yaw: 3.141592653589793
+  pitch: 0
+- name: power_junction
+  position:
+  - 14292
+  - 9600
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: power_root_lock
+  position:
+  - 14292
+  - 12700
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0

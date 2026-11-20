@@ -1,0 +1,38 @@
+{
+  "base_map_sha256": "2b55d518bed08da74c9b07c2ed807cd53a9124b85d3e75a69312c9f8fc0af2f9",
+  "map_sha256": "765d0622057074464a879e5c4c7992d82476eb0b96bd562455122508f9763dcd",
+  "scene_sha256": "2af67bda7908e0b16d1a8afa745dc859028e098dcf23d73bf62296abb724311a",
+  "buildings": [
+    {
+      "name": "auto_25_HseP130aE",
+      "bmodel": 25,
+      "model_name": "HseP130aE",
+      "units_per_texel": 12,
+      "original_faces": 17,
+      "original_triangles": 43,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "new_faces": 294,
+      "new_triangles": 587,
+      "new_vertices": 410,
+      "events": [
+        [
+          63,
+          true
+        ]
+      ],
+      "seconds": 0.2
+    }
+  ]
+}

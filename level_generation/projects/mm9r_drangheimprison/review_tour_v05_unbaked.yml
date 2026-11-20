@@ -1,0 +1,368 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_drangheimprison/review/v05_unbaked
+settle_seconds: 1.5
+exit: true
+shots:
+- name: g01_front_door
+  position:
+  - -2171
+  - -7168
+  - -2231
+  yaw: 1.5708
+  pitch: 0.0
+- name: g02_entrance_hall
+  position:
+  - -2560
+  - -6400
+  - -2231
+  yaw: -0.4366
+  pitch: 0.0
+- name: g03_entry_door
+  position:
+  - -2171
+  - -6246
+  - -2231
+  yaw: 1.5708
+  pitch: 0.0
+- name: g04_corridor_diagonal
+  position:
+  - -2171
+  - -5632
+  - -2231
+  yaw: 0.9902
+  pitch: 0.0
+- name: g05_cell_block
+  position:
+  - -768
+  - -4352
+  - -2231
+  yaw: 0.0
+  pitch: 0.0
+- name: g06_cell
+  position:
+  - 307
+  - -4813
+  - -2231
+  yaw: 1.5708
+  pitch: 0.0
+- name: g07_warden_booth
+  position:
+  - 1485
+  - -4352
+  - -2231
+  yaw: 3.1416
+  pitch: 0.0
+- name: g08_interrogation_room
+  position:
+  - -2816
+  - -5489
+  - -2231
+  yaw: 3.1416
+  pitch: 0.0
+- name: g09_octagon_hall
+  position:
+  - -2560
+  - -3072
+  - -2231
+  yaw: -1.5708
+  pitch: 0.0
+- name: g10_east_corridor
+  position:
+  - -2048
+  - -3712
+  - -2231
+  yaw: 0.0
+  pitch: 0.0
+- name: m01_corridor_744
+  position:
+  - -4096
+  - -1510
+  - -1904
+  yaw: 0.0
+  pitch: 0.0
+- name: m02_great_hall
+  position:
+  - -768
+  - -1434
+  - -1904
+  yaw: -0.0887
+  pitch: 0.0
+- name: m03_guard_hall
+  position:
+  - 1434
+  - -2048
+  - -1904
+  yaw: 0.723
+  pitch: 0.0
+- name: m04_north_arm
+  position:
+  - 1843
+  - -768
+  - -1904
+  yaw: 1.5708
+  pitch: 0.0
+- name: m05_kitchen
+  position:
+  - 512
+  - 1280
+  - -1904
+  yaw: -1.3258
+  pitch: 0.0
+- name: m06_coops
+  position:
+  - 384
+  - 307
+  - -1904
+  yaw: -1.5708
+  pitch: -0.0873
+- name: m07_cow_pen
+  position:
+  - 870
+  - -307
+  - -1893
+  yaw: 3.1416
+  pitch: 0.0
+- name: m08_mess_hall
+  position:
+  - 2099
+  - 768
+  - -1904
+  yaw: 1.5708
+  pitch: 0.0
+- name: m09_barracks
+  position:
+  - 2560
+  - 768
+  - -1904
+  yaw: 0.3805
+  pitch: 0.0
+- name: m10_barracks_north
+  position:
+  - 2816
+  - 1792
+  - -1904
+  yaw: -1.5708
+  pitch: 0.0
+- name: m11_south_room
+  position:
+  - 2304
+  - -2304
+  - -1904
+  yaw: 2.1588
+  pitch: 0.0
+- name: m12_west_block
+  position:
+  - -5888
+  - -1280
+  - -1904
+  yaw: -1.5708
+  pitch: 0.0
+- name: m13_west_cell
+  position:
+  - -6400
+  - -2560
+  - -1904
+  yaw: 0.0
+  pitch: 0.0
+- name: m14_ladder_room
+  position:
+  - -307
+  - -435
+  - -1904
+  yaw: 3.1416
+  pitch: 0.0
+- name: c01_middle_block
+  position:
+  - -3328
+  - 179
+  - -1576
+  yaw: 0.0
+  pitch: 0.0
+- name: c02_middle_cell
+  position:
+  - -2304
+  - 640
+  - -1576
+  yaw: -1.5708
+  pitch: 0.0
+- name: c03_well_head
+  position:
+  - -1152
+  - 205
+  - -1576
+  yaw: 0.0
+  pitch: 0.0
+- name: c04_well_shaft
+  position:
+  - -614
+  - 210
+  - -3255
+  yaw: 0.0
+  pitch: -0.5236
+- name: t01_top_block
+  position:
+  - -3200
+  - 128
+  - -81
+  yaw: 0.0
+  pitch: 0.0
+- name: t02_ivsar_cell
+  position:
+  - -1147
+  - -512
+  - -81
+  yaw: 1.5708
+  pitch: 0.0
+- name: t03_lever_booth
+  position:
+  - -3251
+  - 102
+  - -81
+  yaw: 3.1416
+  pitch: 0.0
+- name: t04_top_rotunda
+  position:
+  - -307
+  - 102
+  - -81
+  yaw: 0.2187
+  pitch: 0.0
+- name: t05_stairs_landing
+  position:
+  - -4864
+  - -768
+  - -81
+  yaw: 0.7854
+  pitch: 0.0
+- name: t06_elevator_doors
+  position:
+  - -3712
+  - 768
+  - -81
+  yaw: 3.1416
+  pitch: 0.0
+- name: f01_smithy
+  position:
+  - -1280
+  - -1946
+  - -409
+  yaw: 0.0
+  pitch: 0.0
+- name: f02_forge
+  position:
+  - -819
+  - -2048
+  - -409
+  yaw: 1.5708
+  pitch: 0.0
+- name: f03_smithy_corridor
+  position:
+  - -3328
+  - -1690
+  - -409
+  yaw: 0.0
+  pitch: 0.0
+- name: f04_nw_stairs
+  position:
+  - -4352
+  - 1203
+  - -736
+  yaw: 0.0
+  pitch: 0.0
+- name: l01_stairs
+  position:
+  - 1280
+  - 154
+  - -3583
+  yaw: 3.1416
+  pitch: 0.0
+- name: l02_cross_corridor
+  position:
+  - 1075
+  - -2227
+  - -3583
+  yaw: 0.0
+  pitch: 0.0
+- name: l03_lower_cell
+  position:
+  - 1946
+  - -2202
+  - -3583
+  yaw: -1.5708
+  pitch: 0.0
+- name: l04_storeroom
+  position:
+  - 1280
+  - -1638
+  - -3583
+  yaw: 0.0
+  pitch: 0.0
+- name: l05_south_corridor
+  position:
+  - 1050
+  - -3072
+  - -3583
+  yaw: -1.5708
+  pitch: 0.0
+- name: l06_south_hall
+  position:
+  - 1792
+  - -6400
+  - -3583
+  yaw: 1.5708
+  pitch: 0.0
+- name: l07_ne_hall
+  position:
+  - 3584
+  - 1536
+  - -3583
+  yaw: -1.5708
+  pitch: 0.0
+- name: l08_east_hall
+  position:
+  - 8192
+  - -4096
+  - -3583
+  yaw: -1.5708
+  pitch: 0.0
+- name: l09_east_room
+  position:
+  - 3200
+  - -4608
+  - -3583
+  yaw: 1.5708
+  pitch: 0.0
+- name: l10_bottom_hall
+  position:
+  - -1024
+  - -7168
+  - -3911
+  yaw: 3.1416
+  pitch: 0.0
+- name: l11_crypt
+  position:
+  - -1075
+  - -8576
+  - -3911
+  yaw: -1.5708
+  pitch: 0.0
+- name: v01_secret_start
+  position:
+  - 532
+  - -614
+  - -4525
+  yaw: -1.2307
+  pitch: 0.0
+- name: v02_cave_ladder
+  position:
+  - 1280
+  - -1587
+  - -4525
+  yaw: 0.0
+  pitch: 0.0
+- name: v03_cave_east
+  position:
+  - 2304
+  - -2048
+  - -4525
+  yaw: -0.9505
+  pitch: 0.0

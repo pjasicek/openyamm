@@ -1,15 +1,124 @@
 #include "game/ui/GameplayBuffHud.h"
+
+#include "game/party/WorldSpells.h"
+#include "engine/Localization.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/party/SkillData.h"
+#include "game/rules/GameRules.h"
+#include "game/tables/SpellTable.h"
 #include <algorithm>
 #include <cmath>
 
 namespace OpenYAMM::Game
 {
 const std::array<const char *, CharacterBuffCount> GameplayPersonalBuffNames = {{
-    "Bless", "Fate", "Preservation", "Regeneration", "Hammerhands", "Pain Reflection",
-    "Fire Aura", "Vampiric Weapon", "Mistform", "Glamour"
+    Engine::trNoop("Bless").data(), Engine::trNoop("Fate").data(), Engine::trNoop("Preservation").data(),
+    Engine::trNoop("Regeneration").data(), Engine::trNoop("Hammerhands").data(),
+    Engine::trNoop("Pain Reflection").data(), Engine::trNoop("Fire Aura").data(),
+    Engine::trNoop("Vampiric Weapon").data(), Engine::trNoop("Mistform").data(), Engine::trNoop("Glamour").data(),
+    Engine::trNoop("Haste").data(), Engine::trNoop("Heroism").data(), Engine::trNoop("Shield").data(),
+    Engine::trNoop("Stoneskin").data(), Engine::trNoop("Water Breathing").data(), Engine::trNoop("Temp Might").data(),
+    Engine::trNoop("Temp Intellect").data(), Engine::trNoop("Temp Personality").data(),
+    Engine::trNoop("Temp Endurance").data(), Engine::trNoop("Temp Speed").data(),
+    Engine::trNoop("Temp Accuracy").data(), Engine::trNoop("Temp Luck").data(),
+    Engine::trNoop("Fire Resistance").data(), Engine::trNoop("Air Resistance").data(),
+    Engine::trNoop("Water Resistance").data(), Engine::trNoop("Earth Resistance").data(),
+    Engine::trNoop("Mind Resistance").data(), Engine::trNoop("Body Resistance").data()
 }};
+
+std::vector<GameplayAuraLine> gameplayUnslottedAuraLines(
+    const Party &party,
+    const Character &member,
+    const SpellTable *pSpellTable)
+{
+    const SpellRules &rules = gameRulesFor(&party).spells;
+    std::vector<GameplayAuraLine> lines;
+
+    for (const uint32_t spellId : rules.heldAurasWithoutBuffSlot(party))
+    {
+        const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findById(int(spellId)) : nullptr;
+        lines.push_back({pSpell != nullptr ? Engine::localize(partySpellName(&party, member, *pSpell), "spell")
+                                    : Engine::tr("Aura"),
+            rules.heldBuffText(party, spellId).value_or(Engine::tr("Held"))});
+    }
+
+    return lines;
+}
+
+std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character &member, const SpellTable *pSpellTable)
+{
+    static constexpr std::array<std::string_view, size_t(CharacterCondition::Count)> ConditionNames = {
+        Engine::trNoop("Curse"), Engine::trNoop("Weakness"), Engine::trNoop("Sleep"), Engine::trNoop("Fear"),
+        Engine::trNoop("Drunkenness"), Engine::trNoop("Insanity"), Engine::trNoop("Poison"),
+        Engine::trNoop("Disease"), Engine::trNoop("Poison"), Engine::trNoop("Disease"), Engine::trNoop("Poison"),
+        Engine::trNoop("Disease"), Engine::trNoop("Paralysis"), Engine::trNoop("Unconsciousness"),
+        Engine::trNoop("Death"), Engine::trNoop("Stone"), Engine::trNoop("Eradication"), Engine::trNoop("Zombie"),
+    };
+    std::vector<GameplayPotionEffectLine> lines;
+    std::vector<std::string_view> immuneNames;
+    std::string immunities;
+    float immunitySeconds = 0;
+    uint32_t firstImmunity = 0;
+
+    for (const TimedPotionEffect &effect : member.rulesetState.potionEffects)
+    {
+        if (effect.remainingSeconds <= 0)
+        {
+            continue;
+        }
+
+        switch (effect.kind)
+        {
+            case TimedPotionEffect::Kind::Immunity:
+                // Poison and disease stages read as one immunity each.
+                if (effect.key < ConditionNames.size()
+                    && std::find(immuneNames.begin(), immuneNames.end(), ConditionNames[effect.key])
+                        == immuneNames.end())
+                {
+                    firstImmunity = immuneNames.empty() ? effect.key : firstImmunity;
+                    immuneNames.push_back(ConditionNames[effect.key]);
+                    immunities += (immunities.empty() ? "" : Engine::tr(", "))
+                        + Engine::localize(ConditionNames[effect.key], "condition");
+                }
+
+                immunitySeconds = std::max(immunitySeconds, effect.remainingSeconds);
+                break;
+            case TimedPotionEffect::Kind::Aura:
+            {
+                const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findById(int(effect.key)) : nullptr;
+                const std::string effectName =
+                    pSpell != nullptr ? Engine::localize(pSpell->name, "spell") : Engine::tr("Aura");
+                lines.push_back({Engine::tr("{effect} (potion)", {{"effect", effectName}}),
+                    effect.remainingSeconds, effect.kind, effect.key});
+                break;
+            }
+            case TimedPotionEffect::Kind::SkillBonus:
+            {
+                const std::optional<std::string> skill = skillNameForSkillId(effect.key);
+                const std::string skillName =
+                    skill ? Engine::localize(displaySkillName(*skill), "skill") : Engine::tr("Skill");
+                lines.push_back({Engine::tr("{skill} +{amount} (potion)",
+                                     {{"skill", skillName}, {"amount", int64_t(effect.amount)}}),
+                    effect.remainingSeconds, effect.kind, effect.key});
+                break;
+            }
+            case TimedPotionEffect::Kind::Regeneration:
+                lines.push_back(
+                    {Engine::tr("Regeneration (potion)"), effect.remainingSeconds, effect.kind, effect.key});
+                break;
+        }
+    }
+
+    if (!immunities.empty())
+    {
+        lines.push_back({Engine::tr("Immune to {conditions}", {{"conditions", immunities}}), immunitySeconds,
+            TimedPotionEffect::Kind::Immunity, firstImmunity});
+    }
+
+    return lines;
+}
 
 namespace
 {
@@ -51,7 +160,9 @@ void renderBuffPanel(GameplayScreenRuntime &context, const Party &party, Gamepla
     for (size_t i = 0; i < PartyBuffCount; ++i)
     {
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
-        if (definition.presentation != presentation || !party.hasPartyBuff(static_cast<PartyBuffId>(i)))
+        // Wizard Eye's layer blinks in its last minutes (gameplayBuffIndicatorLit, OY-508).
+        if (definition.presentation != presentation || !party.hasPartyBuff(static_cast<PartyBuffId>(i))
+            || !gameplayBuffIndicatorLit(party, static_cast<PartyBuffId>(i)))
         {
             continue;
         }
@@ -80,7 +191,8 @@ void renderBuffPanel(GameplayScreenRuntime &context, const Party &party, Gamepla
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
         if (definition.presentation == presentation && definition.pLayer != nullptr
             && definition.pLayer->pass == GameplayBuffHudLayerPass::Overlay
-            && party.hasPartyBuff(static_cast<PartyBuffId>(i)))
+            && party.hasPartyBuff(static_cast<PartyBuffId>(i))
+            && gameplayBuffIndicatorLit(party, static_cast<PartyBuffId>(i)))
         {
             renderBuffLayer(context, *definition.pLayer, *rect);
         }
@@ -89,7 +201,7 @@ void renderBuffPanel(GameplayScreenRuntime &context, const Party &party, Gamepla
     for (size_t i = 0; i < PartyBuffCount; ++i)
     {
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
-        if (definition.presentation == presentation && definition.pLayer == nullptr
+        if (definition.presentation == presentation && definition.pLayer == nullptr && definition.cornerBadge
             && party.hasPartyBuff(static_cast<PartyBuffId>(i)))
         {
             const GameplayResolvedHudLayoutElement badge = {rect->x + definition.badgeX * rect->scale,
@@ -153,6 +265,11 @@ void renderGameplayBuffHud(GameplayScreenRuntime &context, int width, int height
     {
         return;
     }
+    // A solo run shows its buffs in the unit frame's rows (GameplaySoloHud).
+    if (context.soloHud())
+    {
+        return;
+    }
     renderBuffPanel(context, *pParty, GameplayBuffPresentation::Hero, width, height);
     renderBuffPanel(context, *pParty, GameplayBuffPresentation::Skull, width, height);
     const std::vector<PartyBuffId> ids = sortedGameplaySpecialBuffs(*pParty);
@@ -209,17 +326,13 @@ std::optional<GameplayBuffHudEntry> gameplayMovementBuffAtPoint(GameplayScreenRu
     {
         return std::nullopt;
     }
-    for (const char *pId : {"OutdoorFlyBuffIcon", "OutdoorWaterWalkBuffIcon"})
+    for (const GameplayMovementIndicator &indicator : gameplayMovementIndicators(*pParty))
     {
-        const std::optional<PartyBuffId> buff = std::string_view(pId) == "OutdoorFlyBuffIcon"
-            ? gameplayFlightBuff(*pParty)
-            : pParty->hasPartyBuff(PartyBuffId::WaterWalk)
-                ? std::optional<PartyBuffId>(PartyBuffId::WaterWalk) : std::nullopt;
         const std::optional<GameplayResolvedHudLayoutElement> rect =
-            buff ? context.resolveHudLayoutElement(pId, width, height, 0, 0) : std::nullopt;
+            context.resolveHudLayoutElement(indicator.pLayoutId, width, height, 0, 0);
         if (rect && GameplayHudCommon::isPointerInsideResolvedElement(*rect, x, y))
         {
-            return GameplayBuffHudEntry{*buff, *rect};
+            return GameplayBuffHudEntry{indicator.buff, *rect};
         }
     }
     return std::nullopt;
@@ -249,6 +362,12 @@ GameplayHudPointerTarget gameplayBuffHudTarget(GameplayScreenRuntime &context,
                     return {GameplayHudPointerTargetType::PersonalBuffs, i};
                 }
             }
+
+            if (!gameplayPotionEffectLines(pParty->members()[i], nullptr).empty()
+                || !gameplayUnslottedAuraLines(*pParty, pParty->members()[i], nullptr).empty())
+            {
+                return {GameplayHudPointerTargetType::PersonalBuffs, i};
+            }
         }
     }
     if (gameplay)
@@ -257,6 +376,10 @@ GameplayHudPointerTarget gameplayBuffHudTarget(GameplayScreenRuntime &context,
         if (movement)
         {
             return {GameplayHudPointerTargetType::PartyBuff, size_t(movement->id)};
+        }
+        if (context.soloHud())
+        {
+            return GameplaySoloHud::buffTargetAt(context, width, height, x, y).value_or(GameplayHudPointerTarget{});
         }
         for (GameplayBuffPresentation panel : {GameplayBuffPresentation::Hero, GameplayBuffPresentation::Skull})
         {

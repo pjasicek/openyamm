@@ -1,0 +1,3 @@
+Generated `01_front`, `02_back`, `03_left`, `04_right` and `blaster.png` using built-in image generation. Saved unresized transparent returns, updated [records and prompts](level_generation/creatures/mm7_m475_claude/references_hd/generation_runs.json), and wrote the [contact sheet](level_generation/creatures/mm7_m475_claude/references_hd/selected_views_review.png). Frozen `00` is unchanged.
+
+Head views remain for Run 3. Approximate arm angles and minor garment/pose variations are recorded.

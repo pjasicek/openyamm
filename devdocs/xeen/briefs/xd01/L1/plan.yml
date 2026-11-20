@@ -1,0 +1,393 @@
+format: 0
+level: L1
+pitch: "Joe the Exterminator always turns up just after the pests, and his riverside warehouse in Vertigo is why. Behind the loading bay and a sagging grain hall full of doom bugs, a cellar stair marked KEEP OUT (THIS MEANS YOU, GUNTHER) leads down to a round brick cistern Joe has turned into breeding pens: six wedge-shaped slime pens round a drain pool, glass tanks of bugs on a shelf, and a lever labelled FEEDING TIME. Behind a gate painted with a heart live Mr and Mrs Wobbles, the mated pair of breeder slimes the whole scam rests on. In the shipping room beyond, a crate holds the invoice that convicts him, and a culvert from the pens' drain runs out to the river: the way Joe lets his stock into town. A ten-minute first dungeon of slapstick and low monsters."
+purpose: "Story step M2: find the invoice for 'Breeder Slimes, 1 mated pair' that proves Joe breeds Vertigo's pests, and bring it to Mayor Gunther. First dungeon of the world: teaches doors, a key, a lever that does something bad, a secret behind a clue, a trap and a small boss, all at monster levels 2 to 4. Optional: kill the mated pair for a small bonus from Gunther."
+mood: "Comic, dusty and damp: lamplit timber upstairs, warm sour brick and green glow below. Joe's hand-painted signs everywhere."
+datum: arrival
+spaces:
+  - id: room:breeding_pens
+    name: Breeding pens
+    kind: room
+    size: L
+    extent: [1792, 1792]
+    shape: "Round brick cistern about 1,700 across under a low brick dome. A drain pool sunk 64 in the centre behind a grate; six wedge-shaped pens round it, each behind a waist-high brick wall with a barred gate; a shelf of glass bug tanks runs round the outer wall. Doors leave it at three points of the circle."
+    where: "Centre-north of the map, under the grain hall."
+    floor: {level: -384, range: [-448, -384]}
+    clear_height: [512, 704]
+    relief: pit
+    features:
+      - {kind: pit, rise: -64, where: Centre, notes: "The drain pool, behind a grate; the culvert leaves from it."}
+      - {kind: pen, count: 6, where: Ring round the pool, notes: "Wedges behind waist-high walls; their gates open together from the feeding lever."}
+      - {kind: shelf, where: Outer wall, notes: Glass bug tanks.}
+    purpose: "Signature room and the reveal: the pests are bred here. The heaviest fight of the map, made worse if the party pulls the feeding lever."
+    light: dim
+    population:
+      - {slot: 1, groups: 3, per_marker: [2, 3], strength: pack, rank: a, notes: "Inside the pens; they stay in until the feeding lever opens the gates (set:feeding_time), then all come at once."}
+      - {slot: 2, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: From a cracked tank on the shelf.}
+  - id: room:cellar_stair
+    name: Cellar stair
+    kind: room
+    size: S
+    extent: [384, 1536]
+    shape: "Straight flight down, 12 steps of 32, with a landing halfway; the KEEP OUT door at its top."
+    floor: [-384, 0]
+    clear_height: 384
+    relief: steps
+    purpose: Takes the party down from the grain hall to the pens.
+    empty: true
+  - id: room:culvert
+    name: River culvert
+    kind: room
+    size: M
+    extent: [384, 1920]
+    shape: "Brick-lined culvert curving south-east from the pens' drain, sloping down to an iron grate on the river; ankle-deep water."
+    where: "East of the pens, out under the riverbank."
+    floor: [-640, -384]
+    clear_height: 384
+    relief: slope
+    purpose: "How Joe's stock reaches town; the short way out once the invoice is found."
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+  - id: room:feed_store
+    name: Feed store
+    kind: room
+    size: S
+    extent: [1024, 768]
+    shape: "L-shaped store off the pens; sacks of JOE'S PREMIUM SLIME CHOW stacked to the ceiling along one wall."
+    where: West of the pens.
+    floor: -384
+    clear_height: 448
+    relief: flat
+    purpose: "Quiet side room; the stacked sacks hide Joe's stash (link:feed_store_stash)."
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: Feeding on a split sack.}
+  - id: room:grain_hall
+    name: Grain hall
+    kind: room
+    size: L
+    extent: [2560, 1280]
+    shape: "Long hall under a pitched roof of open rafters. The floor sags toward a gutter down the middle, and the north wall bows inward where the old river wall leans. Two square grain bins stand free in the hall."
+    where: "North of the loading bay, the full width of the building."
+    floor: [-32, 0]
+    clear_height: [512, 896]
+    relief: uneven
+    islands: 2
+    features:
+      - {kind: bin, count: 2, where: Middle of the hall, notes: Freestanding grain bins to walk round.}
+    purpose: "The middle of the map: doom bugs boiling out of torn sacks, the loft above, the cellar door in its north-east corner."
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 4], strength: pack, rank: a}
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: In the gutter.}
+  - id: room:joes_office
+    name: Joe's office
+    kind: room
+    size: S
+    extent: [768, 640]
+    shape: "Trapezoid tucked under the loft stair, two steps up from the bay; its wall to the bay is set at an angle and has a counter window."
+    where: West end of the loading bay.
+    floor: 64
+    clear_height: 384
+    relief: flat
+    purpose: "The pen key in the desk drawers; Joe's ledger with the clue to his stash; a bucket of slime over the door."
+    empty: true
+    treasure:
+      - {kind: drawers, count: 1, tier: 1, items: 1, once: true, item: pen_key, notes: "The pen key, about 50 gold and one low item."}
+  - id: room:joes_stash
+    name: Joe's stash
+    kind: room
+    size: XS
+    extent: [512, 384]
+    shape: Closet behind the sacks.
+    floor: -384
+    clear_height: 384
+    relief: flat
+    purpose: "Joe's 'retirement fund', found from the ledger's clue."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [1, 2], notes: "About 300 gold and one or two items; the best container of the map."}
+    secret: true
+  - id: room:loading_bay
+    name: Loading bay
+    kind: room
+    size: M
+    extent: [1536, 1024]
+    shape: "Long bay with a short ramp up to the street doors on the south side and a timber hoist frame; crates stacked in staggered rows make a little maze of aisles."
+    where: "South of the map, on the street."
+    floor: [0, 128]
+    clear_height: 512
+    relief: slope
+    features:
+      - {kind: crate_stacks, count: 4, where: "Across the bay, staggered", notes: "Aisles between them; no dead ends."}
+    purpose: "Arrival. Joe's notice board; the first doom bugs at the far end of the bay, out of sight of the door."
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], clear_of: [{space: room:loading_bay, distance: 768}], strength: light, rank: a, notes: "At the far (north) end, behind the crates; nothing near the street doors."}
+  - id: room:loft
+    name: Grain loft
+    kind: room
+    size: M
+    extent: [2560, 384]
+    shape: "Gallery round three sides of the grain hall, 256 above its floor, open to the hall over a low rail; stairs up at the east end, a ladder down at the west end."
+    where: "Over the grain hall's west, north and east walls."
+    floor: 256
+    clear_height: [384, 640]
+    relief: flat
+    purpose: "Overlook and loot: the party sees the whole hall and the bugs from above; a chest in the far corner."
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, items: [2, 3], notes: Far north-west corner of the loft.}
+  - id: room:mated_pair_pen
+    name: The honeymoon pen
+    kind: room
+    size: S
+    extent: [896, 768]
+    shape: "Kidney-shaped pen one step below the cistern, its barred gate painted with a heart and MR & MRS WOBBLES - DO NOT SEPARATE."
+    where: North side of the pens.
+    floor: -416
+    clear_height: 448
+    relief: flat
+    purpose: The small boss fight (set:mated_pair).
+    population:
+      - {actor: Breeder Slime, role: breeder slime, groups: 2, levels: [4, 4], placed: true, strength: boss, notes: "Mr and Mrs Wobbles: a named pair of Breeder Slimes with about three times normal hit points; each splits into two Slimes once when it falls below half health."}
+    treasure:
+      - {kind: corpse, count: 1, tier: 1, items: 2, notes: "A rival exterminator who came to see Joe's methods; his boots and a low item."}
+  - id: room:shipping_room
+    name: Shipping room
+    kind: room
+    size: M
+    extent: [1280, 896]
+    shape: "Five-sided room with a chute up to the street in its slanted south wall; crates addressed to Vertigo homes ('Mayor's cellar - Tuesday')."
+    where: North-east of the pens.
+    floor: -384
+    clear_height: 448
+    relief: flat
+    purpose: "Goal of the map: the invoice crate."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, items: 1, once: true, item: joes_invoice, notes: "The invoice crate (goal:invoice); mildly trapped."}
+      - {kind: floor_item, count: 2, tier: 1, notes: Packed for delivery.}
+regions:
+  - id: region:cellar
+    name: The cellar
+    spaces: [room:cellar_stair, room:breeding_pens, room:mated_pair_pen, room:feed_store, room:joes_stash, room:shipping_room, room:culvert]
+    where: Under the warehouse and out under the riverbank.
+    theme: "Old brick, green slime light"
+  - id: region:warehouse
+    name: The warehouse
+    spaces: [room:loading_bay, room:joes_office, room:grain_hall, room:loft]
+    where: Street level.
+    theme: "Timber and plaster, lamplit"
+links:
+  - id: link:bay_grain_hall
+    from: room:loading_bay
+    to: room:grain_hall
+    kind: double_door
+    motion: slide
+    notes: "Rolling barn doors; plain click."
+  - id: link:bay_office
+    from: room:loading_bay
+    to: room:joes_office
+    kind: door
+    rise: 64
+    notes: Two steps of 32. The slime bucket sits over it (set:slime_bucket).
+  - id: link:cellar_stair_pens
+    from: room:cellar_stair
+    to: room:breeding_pens
+    kind: open
+  - id: link:feed_store_stash
+    from: room:feed_store
+    to: room:joes_stash
+    kind: secret_door
+    motion: slide
+    notes: "A stack of Slime Chow sacks on a hidden runner slides aside on a click; the ledger's clue points to it (poi:joes_ledger)."
+  - id: link:grain_hall_cellar_stair
+    from: room:grain_hall
+    to: room:cellar_stair
+    kind: door
+    condition: {item: pen_key}
+    notes: "KEEP OUT (THIS MEANS YOU, GUNTHER). Locked; the pen key from Joe's desk opens it for good."
+  - id: link:grain_hall_loft_ladder
+    from: room:loft
+    to: room:grain_hall
+    kind: ladder
+    rise: -256
+    notes: "West end; climbable both ways."
+  - id: link:grain_hall_loft_stairs
+    from: room:grain_hall
+    to: room:loft
+    kind: stairs
+    rise: 256
+    notes: "East end; 8 steps of 32."
+  - id: link:pens_culvert
+    from: room:breeding_pens
+    to: room:culvert
+    kind: door
+    notes: Low iron door beside the drain pool's outlet.
+  - id: link:pens_feed_store
+    from: room:breeding_pens
+    to: room:feed_store
+    kind: open
+  - id: link:pens_honeymoon
+    from: room:breeding_pens
+    to: room:mated_pair_pen
+    kind: door
+    rise: -32
+    notes: "The heart-painted barred gate; plain click."
+  - id: link:pens_shipping
+    from: room:breeding_pens
+    to: room:shipping_room
+    kind: door
+loops:
+  - id: loop:grain_loft
+    spaces: [room:grain_hall, room:loft]
+    notes: "Up the east stairs, round the loft, down the west ladder: a short ring that lets the party look down on the bugs before fighting them, or escape them."
+entrances:
+  - id: entrance:river_grate
+    space: room:culvert
+    kind: exit
+    neighbour: exit:vertigo_riverbank
+    how: "An iron grate at the culvert's low end, opening onto the riverbank."
+    variants:
+      - condition: {qbit: culvert_grate_open}
+        behaviour: "Both ways: the grate is lifted and the riverbank is a second way in."
+    notes: Lifted from the inside on first use (set:culvert_grate).
+  - id: entrance:street_doors
+    space: room:loading_bay
+    kind: both
+    neighbour: exit:vertigo_street
+    facing: n
+    how: "The loading doors at the top of the bay's short ramp; the party arrives just inside, facing into the bay."
+    condition: {any: [{item: warehouse_key}, {stat: {name: Perception, at_least: 3}}]}
+critical_path: [room:loading_bay, room:joes_office, room:loading_bay, room:grain_hall, room:cellar_stair, room:breeding_pens, room:shipping_room]
+return_path: [room:shipping_room, room:breeding_pens, room:culvert]
+goals:
+  - id: goal:invoice
+    space: room:shipping_room
+    kind: take
+    what: "Open the invoice crate and take the invoice: 'Breeder Slimes, 1 mated pair. Doom Bugs, 5 (assorted). Deliver to J. the Exterminator, rear door. Pay on delivery.'"
+    story: M2
+    handed_in_at: exit:vertigo_street
+    gives:
+      - item: joes_invoice
+      - qbit: joe_invoice_found
+    notes: "Gunther, in Vertigo's town hall on X1, takes the invoice: Joe flees and his shop closes."
+  - id: goal:mated_pair
+    space: room:mated_pair_pen
+    kind: kill
+    what: "Optional: kill Mr and Mrs Wobbles (and what they split into), so the scam cannot start again elsewhere."
+    story: M2
+    handed_in_at: exit:vertigo_street
+    gives:
+      qbit: joe_pair_slain
+    notes: Gunther adds a small bonus (gold) if this bit is set when the invoice is handed in.
+keys:
+  - id: key:pen_key
+    grants: {item: pen_key}
+    found_in: room:joes_office
+    how: drawers in Joe's desk
+  - id: key:warehouse_key
+    grants: {item: warehouse_key}
+    how: "another map: under the rain barrel behind the warehouse on X1, after the drunk's rumour in Lady Geraldine's Tavern. Perception 3 at the door is the alternative."
+points_of_interest:
+  - id: poi:feeding_lever
+    space: room:breeding_pens
+    kind: lever
+    behaviour: Labelled FEEDING TIME. Pulling it opens all six pen gates at once and lets every slime out together (set:feeding_time). It does nothing else.
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:joes_ledger
+    space: room:joes_office
+    kind: book
+    behaviour: "Readable. Pest removal, 400 gold; pest supply, 20 gold; 'Profit!'. The last line: 'Retirement fund - behind the Chow.'"
+  - id: poi:notice_board
+    space: room:loading_bay
+    kind: sign
+    behaviour: "Readable: 'JOE THE EXTERMINATOR. Pests gone or your money back!' and, smaller, '(Money not back.)'"
+landmarks:
+  - id: landmark:pens_glow
+    space: room:breeding_pens
+    what: "The green glow of the drain pool and the bug tanks, seen from the foot of the cellar stair."
+    seen_from: [room:cellar_stair, room:breeding_pens]
+sightlines:
+  - id: sightline:loft_overlook
+    from: room:loft
+    to: [room:grain_hall]
+    what: From the loft the whole grain hall and its bug swarms lie open below the rail.
+set_pieces:
+  - id: set:culvert_grate
+    kind: scripted
+    spaces: [room:culvert]
+    rule: "The grate at the culvert's end is lifted from the inside on first use; from then on the riverbank grate on X1 is a second way in."
+    inputs: [use the grate from the culvert side]
+    states: [shut, lifted]
+    gives:
+      qbit: culvert_grate_open
+  - id: set:feeding_time
+    kind: ambush
+    spaces: [room:breeding_pens]
+    rule: "The FEEDING TIME lever opens all six pens together: every slime in the cistern comes at once. Without the lever, each pen gate opens on its own click and its slimes come out one pen at a time."
+    inputs: [pull the lever, open a single pen gate]
+    states: [pens shut, some pens open, all pens open]
+    solution: "Leave the lever alone and open the pens one by one, or pull it on purpose and fight in the cellar stair's doorway."
+  - id: set:invoice_reveal
+    kind: scripted
+    spaces: [room:shipping_room]
+    rule: "Opening the invoice crate shows the invoice's text, gives the invoice and sets the quest bit; the crate's mild trap (a puff of itching powder) goes off unless disarmed."
+    inputs: [open the crate]
+    states: [invoice inside, invoice taken]
+    gives:
+      - item: joes_invoice
+      - qbit: joe_invoice_found
+  - id: set:mated_pair
+    kind: boss
+    spaces: [room:mated_pair_pen]
+    rule: "Mr and Mrs Wobbles, two named Breeder Slimes. Each splits once into two ordinary Slimes when it falls below half health (an actor script). Killing both and their splits sets the bonus bit."
+    states: [paired, split, dead]
+    gives:
+      qbit: joe_pair_slain
+    population:
+      - {actor: Breeder Slime, role: breeder slime, groups: 2, levels: [4, 4], placed: true, strength: boss}
+  - id: set:slime_bucket
+    kind: trap
+    spaces: [room:joes_office]
+    effect: {damage: "1d6 Body, one character"}
+    rule: "The first time the office door opens, a bucket of slime tips over the doorway: one character takes a little Body damage and the message 'Joe thanks you for your interest.'"
+    states: [armed, spent]
+mechanisms:
+  - {kind: ordinary door, count: 4}
+  - {kind: keyed door, count: 1}
+  - {kind: sliding double door, count: 1}
+  - {kind: secret sliding sacks, count: 1}
+  - {kind: pen gate, count: 6, notes: Open singly by click or all together from the lever.}
+  - {kind: lever, count: 1}
+  - {kind: grate exit, count: 1}
+  - {kind: trapped container, count: 1}
+  - {kind: tipping bucket trap, count: 1}
+height_bands:
+  - id: band:cellar
+    range: [-640, -384]
+    spaces: [room:breeding_pens, room:mated_pair_pen, room:feed_store, room:joes_stash, room:shipping_room, room:culvert]
+    partly: [room:cellar_stair]
+  - id: band:loft
+    level: 256
+    spaces: [room:loft]
+  - id: band:street
+    range: [-32, 128]
+    spaces: [room:loading_bay, room:joes_office, room:grain_hall]
+    partly: [room:cellar_stair]
+diagram: {file: diagram.txt}
+totals:
+  chests: 3
+  critical_path_length: 5000
+  doors: 6
+  fixed_actors: 2
+  floor_area_munits2: 15
+  height_range: 900
+  loops: 1
+  monsters_about: 32
+  rooms: 11
+  secret_faces: 1
+  sectors: 14
+  spawn_points: 11
+  traps: 2
+notes: "A deliberately small S map (about 15 M units², under the S band's 20) because it is the world's first dungeon and should take about ten minutes. Fights are uneven: nothing at the street doors, light in the bay, a swarm in the grain hall, the heaviest in the pens, a boss pair in the honeymoon pen, light at the edges. Every room shape but the stair and the stash is non-orthogonal or has a sloped floor or roof (pitched rafters, round cistern, kidney pen, five-sided shipping room, curving culvert). Risers are 32 throughout; the lowest ceiling is 384."

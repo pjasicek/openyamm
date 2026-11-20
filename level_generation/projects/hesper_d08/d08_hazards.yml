@@ -1,0 +1,315 @@
+# Geometry-only exposure isolates surface damage from actors; timers still run.
+id: hesper.d08.hazards
+world: hesper
+mode: faithful
+steps:
+- &id001
+  new_game_flow:
+    start_map: hes_d08.blv
+    party:
+      members:
+      - name: Foundry tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+- assert:
+    party_health:
+      full: true
+- movement_segment:
+    input: none
+    seconds: 1.1
+    delta_game_minutes: 0
+    start:
+      map: hes_d08.blv
+      x: 4900
+      y: 2300
+      z: -128
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 4900
+      y: 2300
+      z: -128
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 4536
+- set_pose:
+    map: hes_d08.blv
+    x: 8430
+    y: 2300
+    z: 0
+    yaw: 0
+    pitch: -0.15
+- press_interact: {}
+- assert:
+    map_var_changed:
+      index: 7
+      value: 1
+- movement_segment:
+    input: none
+    seconds: 19
+    delta_game_minutes: 0
+    start:
+      map: hes_d08.blv
+      x: 4900
+      y: 2300
+      z: -128
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 4900
+      y: 2300
+      z: -128
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 4536
+- movement_segment:
+    input: none
+    seconds: 2.2
+    start:
+      map: hes_d08.blv
+      x: 4900
+      y: 2300
+      z: -128
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 4900
+      y: 2300
+      z: -128
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 7
+      value: 0
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 4032
+- *id001
+- advance_runtime:
+    seconds: 0.01
+- movement_segment:
+    input: forward
+    seconds: 0.45
+    start:
+      map: hes_d08.blv
+      x: 6564
+      y: 9900
+      z: 96
+      yaw: 1.5707963
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 6564
+      y: 10250
+      z: 0
+      yaw: 1.5707963
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40
+    tolerance_z: 40
+    actor_ai: false
+    actor_collision: false
+- movement_segment:
+    input: none
+    seconds: 3.2
+    start:
+      map: hes_d08.blv
+      x: 6564
+      y: 10250
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 6564
+      y: 10250
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_ai: false
+    actor_collision: false
+- assert:
+    mechanism:
+      id: 95
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    start:
+      map: hes_d08.blv
+      x: 6300
+      y: 10250
+      z: 0
+      yaw: 3.1415927
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 5700
+      y: 10250
+      z: 0
+      yaw: 3.1415927
+      pitch: 0
+    tolerance_xy: 40
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+    loose_tolerance: true
+- assert:
+    runtime_event_variable:
+      id: 129
+      min: 1
+      max: 2
+- movement_segment:
+    input: none
+    seconds: 32
+    start:
+      map: hes_d08.blv
+      x: 5700
+      y: 10250
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 5700
+      y: 10250
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    runtime_event_variable:
+      id: 129
+      min: 33
+      max: 34
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 5040
+- movement_segment:
+    input: none
+    seconds: 1.1
+    start:
+      map: hes_d08.blv
+      x: 4800
+      y: 11200
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 4800
+      y: 11200
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 4536
+- set_pose:
+    map: hes_d08.blv
+    x: 5800
+    y: 10400
+    z: 0
+    yaw: 0
+    pitch: -0.15
+- press_interact: {}
+- assert:
+    map_var_changed:
+      index: 10
+      value: 1
+- movement_segment:
+    input: none
+    seconds: 1.1
+    start:
+      map: hes_d08.blv
+      x: 4800
+      y: 10700
+      z: -128
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 4800
+      y: 10700
+      z: -128
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 4536
+- movement_segment:
+    input: none
+    seconds: 2.2
+    start:
+      map: hes_d08.blv
+      x: 5700
+      y: 10250
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d08.blv
+      x: 5700
+      y: 10250
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 4536

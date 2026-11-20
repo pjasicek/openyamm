@@ -1,0 +1,98 @@
+# MM9 promotion playthrough, segment 58: the Lich Instructions from the Chasm of the Dead (guide: side_a.yml
+# become-a-lich). Out of Drangheim City by the west gate; the region's chasm entrance (ExitTrigger7, its prompt); the
+# dungeon walked by the main run's route (segment 15, prep/01_19_prologue_sturmford_drangheim.md "The Chasm of the
+# Dead"): the tombs (doors 106, 107, 109), the spike corridor, the stair and Door14 (105) to the chasm's rim, the
+# canyon's ramps and the ledge path down to (500, 3600, -1884). There the ledge path passes Door34 (127) on its west
+# side: through it the corridor runs west and down the stairs to Door2 (111) and the X-shaped hall; the Lich
+# Instructions lie on top of the pyramid in its middle (a world item, item 447: key 296), reached up its steps. The
+# guide's "west into the X-shaped hall instead of east into the chasm" from the tombs' junction does not exist in the
+# map: the hall is reached from the canyon's ledge path. The same way back up the ledges and the canyon, through the
+# tombs and out. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 58
+id: mm9.promotions.58_chasm_lich_instructions
+title: "MM9 promotions 58: the Chasm of the Dead walked to the Lich Instructions and back"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/56_keith_crusader.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheimcity.blv, qbit_clear: [90296]}
+
+  # Out of the city by the west gate; the chasm's entrance in the region's south.
+  - set_pose: {map: drangheimcity.blv, x: 10000, y: -4178, z: 1010, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9667, y: -4178, z: 1311, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - set_pose: {map: drangheim.blv, x: 2500, y: -21450, z: 2540, yaw: 0.355, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 2724, y: -21367, z: 2560, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: chasmofthedead.blv}
+
+  # South through the tombs (Door15, Door16, Door18), the spike corridor, the stair, Door14, the chasm's rim.
+  - walk_to: {x: -13189, y: 23850, z: 1577, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(15) == "closed" then break end; wait(0.5) end; click(106); wait(2.5)'}
+  - walk_to: {via: [[-13191, 23200, 1577], [-13191, 19880, 1577]], x: -13680, y: 19600, z: 1577, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(16) == "closed" then break end; wait(0.5) end; click(107); wait(2.5)'}
+  - walk_to: {x: -13559, y: 17176, z: 1577, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -15073, y: 13850, z: 594, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(18) == "closed" then break end; wait(0.5) end; click(109); wait(2.5)'}
+  - walk_to: {x: -12295, y: 12760, z: 594, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -7015, y: 10104, z: 328, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -5463, y: 9864, z: 328, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -1463, y: 8152, z: 615, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: 872, y: 11464, z: 1310, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(14) == "closed" then break end; wait(0.5) end; click(105); wait(2.5)'}
+  - walk_to: {via: [[872, 11944, 1305], [1160, 13448, 1280]], x: 2376, y: 14664, z: 983, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+
+  # Down the canyon's ramps and the ledge path to Door34.
+  - walk_to: {x: 4904, y: 5240, z: -492, z_tolerance: 120, timeout_seconds: 200, clear_hostiles: 2000}
+  - walk_to: {via: [[4392, 4056, -640], [4328, 2152, -834], [4040, 808, -1117], [4008, 120, -1270], [3144, -871, -1368], [2344, -871, -1471],
+              [2100, -800, -1520], [1750, -650, -1540], [1500, -300, -1610], [1500, 100, -1695], [1450, 300, -1725], [1250, 500, -1805],
+              [1100, 700, -1885], [1000, 900, -1966], [1000, 1300, -2010], [800, 1600, -2045], [550, 1900, -2005], [350, 2300, -1956],
+              [400, 2800, -1919], [500, 3300, -1884]], x: 300, y: 3645, z: -1884,
+              plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+
+  # Door34, the corridor west and down to Door2, the X-shaped hall, up the pyramid: the Lich Instructions.
+  - play_lua: {source: 'for t = 1, 20 do if door_state(36) == "closed" then break end; wait(0.5) end; click(127); wait(2.5)'}
+  - walk_to: {via: [[-200, 3645, -1884]], x: -7850, y: 3645, z: -2867, z_tolerance: 200, timeout_seconds: 120, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(20) == "closed" then break end; wait(0.5) end; click(111); wait(2.5)'}
+  - walk_to: {via: [[-8400, 3645, -2867]], x: -8700, y: 3767, z: -2867, plan: false, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -9250, y: 3767, z: -2540, z_tolerance: 400, timeout_seconds: 30, clear_hostiles: 2000}
+  - pick_up: {item_id: 10447, reach: 400}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90296]}
+  - play_lua: {source: 'if not has_item(10447) then error("no Lich Instructions in the packs") end; log("the Lich Instructions are in the pack (key 296)")'}
+
+  # Back: down the pyramid, Door2, the corridor and stairs east, Door34, up the ledges and the canyon to the rim.
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -8250, y: 3645, z: -2867, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(20) == "closed" then break end; wait(0.5) end; click(111); wait(2.5)'}
+  - walk_to: {via: [[-7850, 3645, -2867]], x: -200, y: 3645, z: -1884, z_tolerance: 200, timeout_seconds: 120, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(36) == "closed" then break end; wait(0.5) end; click(127); wait(2.5)'}
+  - walk_to: {via: [[300, 3645, -1884], [500, 3300, -1884], [400, 2800, -1919], [350, 2300, -1956], [550, 1900, -2005], [800, 1600, -2045], [1000, 1300, -2010],
+              [1000, 900, -1966], [1100, 700, -1885], [1250, 500, -1805], [1450, 300, -1725], [1500, 100, -1695], [1500, -300, -1610], [1750, -650, -1540],
+              [2100, -800, -1520], [2344, -871, -1471], [3144, -871, -1368], [4008, 120, -1270], [4040, 808, -1117], [4328, 2152, -834], [4392, 4056, -640]],
+              x: 4904, y: 5240, z: -492, plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {x: 2376, y: 14664, z: 983, z_tolerance: 120, timeout_seconds: 200, clear_hostiles: 2000}
+
+  # Door14, back west and up through the tombs, Door15, and out (ExitTrigger0, its prompt).
+  - walk_to: {via: [[1160, 13448, 1280]], x: 1024, y: 11950, z: 1305, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(14) == "closed" then break end; wait(0.5) end; click(105); wait(2.5)'}
+  - walk_to: {x: 872, y: 11400, z: 1310, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -1463, y: 8152, z: 615, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -5463, y: 9864, z: 328, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -7015, y: 10104, z: 328, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -12295, y: 12760, z: 594, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - walk_to: {x: -13559, y: 17176, z: 1577, z_tolerance: 100, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {via: [[-13543, 19528, 1577], [-13191, 19880, 1577]], x: -13189, y: 23200, z: 1577, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(15) == "closed" then break end; wait(0.5) end; click(106); wait(2.5)'}
+  - walk_to: {x: -13189, y: 28508, z: 1577, timeout_seconds: 60, clear_hostiles: 2000, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv, qbit_set: [90296]}
+  - save_game: {name: "58 Lich Instructions", path: output/playthrough/mm9/promotions/checkpoints/58_chasm_lich_instructions.oysav}

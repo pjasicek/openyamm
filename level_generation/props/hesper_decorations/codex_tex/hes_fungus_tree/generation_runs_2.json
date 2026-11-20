@@ -1,0 +1,70 @@
+{
+  "tool": "built-in image_gen",
+  "status": "best_available_not_fully_compliant",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Produce exactly one 1024 x 1024 transparent PNG: paint_back.png, an orthographic BACK VIEW albedo texture source of the cultivated fungus tree. Input 1 design_reference.png is the approved colour and material reference ONLY; do not use its camera or geometry. Input 2 guide_back.png is the edit target and absolute geometry authority. Paint directly over input 2, preserving its EXACT alpha silhouette, pixel position, scale, outline, all shape edges and openings. Keep the large top cap, the middle cap extending right, the smaller low cap extending left, lamp on LEFT, all stems, and flat side-on planter exactly as the grey guide shows. Do not rotate, reframe, center differently, enlarge, crop, round off or redesign anything. Retain guide geometry even when it differs from design reference. Apply pale cream fungus flesh with fine soft tan speckles and lengthwise fibers, muted soft violet gills following the existing underside surfaces into the stems, off-white prefab composite planter with a continuous ochre horizontal band, restrained panel seams and fasteners painted flush to its surface, dark soil only where actually visible in the guide, dark weathered metal lamp with a little brass. Materials and colours must match input 1. Lighting is completely even, flat and shadowless from viewer: this is ALBEDO, not a beauty render. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light. Paint any luminous parts at their own colour without casting light. Real transparent background including all openings, no floor, no background image, no checkerboard, no text. Nothing added outside the guide silhouette. Return original 1024 x 1024 image.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604d-d0a7-71e0-801e-31715d7f48a8/exec-ca9a6b54-3c98-49ac-9996-3d706b44710c.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1604d-d0a7-71e0-801e-31715d7f48a8/exec-ca9a6b54-3c98-49ac-9996-3d706b44710c.png",
+      "selected": false,
+      "reason": "Rejected: native size differs from requested 1024x1024; silhouette and shape edges drift from guide; some directional shading.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "63a3286eb012a05626aab87220edc85852dc0e3e9f5a1b02d6eeee860be4a9a3"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visual match to cream flesh, violet gills, white composite, ochre stripe and metal/brass lamp.",
+        "flat_even_light": "Partial: relief shading and lamp highlights remain.",
+        "unresized_return": true
+      },
+      "output_sha256": "e9f4272efade2edeb4f8267194d25d2bab7743e972a65302c0dd6dc937416766"
+    },
+    {
+      "view": "back",
+      "prompt": "Edit the FIRST input image guide_back.png in place. Output MUST be exactly 1024 by 1024 pixels, same as that first input, transparent PNG. This is a strict texture-painting task, NOT a new rendering. Preserve the first input's alpha mask and every single silhouette pixel exactly. Do not alter any geometry edge, hole, position, size, camera, or framing. Keep its polygonal outline as-is; do NOT smooth or scallop it. Planter bounds are approximately x193..747 y812..959; main cap x161..860 y66..331. Lamp is at left, medium cap points right, low cap points left. Keep all guide positions exactly. The second input design_reference.png supplies surface materials and colours ONLY: pale cream finely speckled fungus flesh, muted violet gills, white composite planter with ochre horizontal stripe, dark soil where visible, dark metal lamp with modest brass trim. Paint these textures onto the existing grey pixels in input 1 without moving or adding pixels. Cap gills follow the existing shape into the stems. Do not add a mound of soil or new rim above the planter edge. Albedo texture source: FLAT even viewer lighting, no cast shadows, no occlusion shading, no specular highlights, no reflections or glow spilling on other surfaces. No background, no floor, no text. Preserve genuine transparency, including holes. Return a single original unresized 1024x1024 PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604d-d0a7-71e0-801e-31715d7f48a8/exec-2b5a8c49-2976-4246-8283-16c751a88620.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best available after the single permitted corrective regeneration; preserved unresized and unedited. Material palette matches, transparent background present. NOT fully compliant: size and exact guide silhouette requirements failed; relief shading remains.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "63a3286eb012a05626aab87220edc85852dc0e3e9f5a1b02d6eeee860be4a9a3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visual match to cream flesh, violet gills, white composite, ochre stripe and metal/brass lamp.",
+        "flat_even_light": "Partial: relief shading and lamp highlights remain.",
+        "unresized_return": true
+      },
+      "output_sha256": "b6d488dc49d0da976806a9462d0fbf1149202475b5ed0f18ee48e427b0c3b91b"
+    }
+  ]
+}

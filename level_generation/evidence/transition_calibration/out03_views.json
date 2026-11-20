@@ -1,0 +1,49 @@
+{
+  "source": "assets_dev/worlds/mm8/maps/out03.odm",
+  "views": [
+    {
+      "id": "alvar_murmurwoods",
+      "target": [
+        -27000,
+        -4800,
+        1400
+      ],
+      "position": [
+        -20500,
+        -13000,
+        12500
+      ],
+      "scale": 19000
+    },
+    {
+      "id": "alvar_ironsand",
+      "target": [
+        27000,
+        -20500,
+        1400
+      ],
+      "position": [
+        21000,
+        -12500,
+        12500
+      ],
+      "scale": 19000
+    },
+    {
+      "id": "alvar_ravenshore",
+      "target": [
+        -12500,
+        -27000,
+        500
+      ],
+      "position": [
+        -4500,
+        -21000,
+        11500
+      ],
+      "scale": 19000
+    }
+  ],
+  "missing_textures": [],
+  "limitations": "Native terrain/BModels; inspection lighting, no actors or decoration sprites."
+}

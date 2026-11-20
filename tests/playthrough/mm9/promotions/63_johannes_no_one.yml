@@ -1,0 +1,50 @@
+# MM9 promotion playthrough, segment 63: after the Lich, Johannes Bem has nobody to promote (the promotions README,
+# "Any order, natural"). From Yorwick back through the Connecting Tunnels (Yorwick's ExitTrigger7, its prompt; the
+# tunnels walked east to ExitTrigger1 and Thronheim), Thronheim to Thjorgard (outdoors the party is moved), the city's
+# west gate (as the main run's segment 22). Johannes Bem (actor 0, RUDE 4): with the Mage quest done (key 294, block
+# D) his first page keeps "Promote our eligible characters."; the Mage row promotes only a Wizard, and the party's
+# Wizard is a Lich now: "No one among you can take this promotion now.", the Lich stays a Lich.
+# Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 63
+id: mm9.promotions.63_johannes_no_one
+title: "MM9 promotions 63: back to Thjorgard; Johannes Bem has nobody to promote after the Lich"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/62_lichlab_out.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: yorwick.blv, qbit_set: [90294, 90299]}
+
+  # Yorwick's tunnel mouth, the Connecting Tunnels east to Thronheim.
+  - set_pose: {map: yorwick.blv, x: -23768, y: -13565, z: 1052, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -23768, y: -13893, z: 1213, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: connectingtunnels.blv}
+  - walk_to: {x: 17243, y: -3850, z: 1497, timeout_seconds: 900, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+
+  # To Thjorgard (by boat or the Mountain Pass; outdoors the party is moved); the city's west gate.
+  - travel: {map: thjorgard.blv, days: 3}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # Johannes Bem.
+  - set_pose: {map: thjorgardcity.blv, x: 5079, y: 12200, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'log("CLASSES before: " .. classes()); remember("classes", classes()); remember("gold", gold()); if classes() ~= "Champion PriestLight Assassin Lich" then error("unexpected classes: " .. classes()) end'}
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: 'log("CLASSES after: " .. classes()); if classes() ~= recall("classes") then error("Johannes changed the classes: " .. classes()) end; if gold() ~= recall("gold") then error("the topic changed the gold") end'}
+  - save_game: {name: "63 Johannes, nobody to promote", path: output/playthrough/mm9/promotions/checkpoints/63_johannes_no_one.oysav}

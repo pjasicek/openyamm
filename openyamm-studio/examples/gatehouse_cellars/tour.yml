@@ -1,0 +1,13 @@
+output_dir: "@OUTPUT@"
+exit: true
+settle_seconds: 2.0
+shots:
+  - {name: entry-north, position: [384, 200, 0], yaw: 1.5708, pitch: 0.0}
+  - {name: entry-exit-door, position: [384, 500, 0], yaw: -1.5708, pitch: 0.0}
+  - {name: hall-gate, position: [384, 1000, 0], yaw: 1.5708, pitch: 0.05}
+  - {name: hall-east-door, position: [200, 1344, 0], yaw: 0.0, pitch: 0.0}
+  - {name: hall-west-door, position: [600, 1408, 0], yaw: 3.1416, pitch: 0.0}
+  - {name: store-chest, position: [-500, 1300, 0], yaw: 2.3562, pitch: -0.1}
+  - {name: guard-lever, position: [1300, 1344, 0], yaw: 0.0, pitch: 0.0}
+  - {name: passage-vault-door, position: [384, 2100, 0], yaw: 1.5708, pitch: 0.0}
+  - {name: vault-chest, position: [384, 2900, 0], yaw: 1.5708, pitch: -0.1}

@@ -149,3 +149,38 @@ TEST_CASE("merged MM8 award aliases cover every displaced qbit and autonote awar
         CHECK(std::binary_search(autonoteIds.begin(), autonoteIds.end(), autonoteId));
     }
 }
+
+TEST_CASE("MM7 tavern Arcomage wins show as awards and only one continent's taverns make a champion")
+{
+    OpenYAMM::Game::AwardTable table = {};
+    REQUIRE(table.loadFromRows(loadEnglishTableRows("awards.txt"), loadEnglishTableRows("award_display_aliases.txt")));
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
+    const OpenYAMM::Game::Character *pCharacter = party.member(0);
+    REQUIRE(pCharacter != nullptr);
+
+    party.recordArcomageWin(241, 0, 0);
+    CHECK(hasVisibleAward(OpenYAMM::Game::buildVisibleAwards(table, *pCharacter, party, {}), "mm7.arcomage.241"));
+    CHECK_FALSE(hasVisibleAward(OpenYAMM::Game::buildVisibleAwards(table, *pCharacter, party, {}), "mm7.arcomage.240"));
+
+    // Eleven wins split between the continents are not a champion.
+    for (uint32_t houseId = 228; houseId <= 232; ++houseId)
+    {
+        party.recordArcomageWin(houseId, 0, 0);
+    }
+
+    for (uint32_t houseId = 242; houseId <= 246; ++houseId)
+    {
+        party.recordArcomageWin(houseId, 0, 0);
+    }
+
+    CHECK_FALSE(pCharacter->awards.contains(41));
+
+    for (uint32_t houseId = 233; houseId <= 238; ++houseId)
+    {
+        party.recordArcomageWin(houseId, 0, 0);
+    }
+
+    CHECK(pCharacter->awards.contains(41));
+}

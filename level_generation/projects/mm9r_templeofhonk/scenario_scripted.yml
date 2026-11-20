@@ -1,0 +1,211 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.templeofhonk_scripted
+title: 'Temple of Honk (native BLV): the accountant''s key, the HONK buttons and secret door, the treasury pad, the Golden
+  Honk'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: templeofhonk.blv
+- note:
+    text: Without the accountant's key (key 7000) the HONK buttons do not move.
+- execute_event:
+    id: 61
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 28
+      state: closed
+- assert:
+    mechanism:
+      id: 27
+      state: closed
+- assert:
+    actor_visible:
+      actor_index: 14
+      hostile_to_party: false
+- note:
+    text: 'The accountant''s key (HonkKey.scr): item 445 and key 7000; the accountant stands by it and sees the theft, so
+      the Honks turn hostile.'
+- set_pose:
+    map: templeofhonk.blv
+    x: 750
+    y: 6798
+    z: 45
+    yaw: -0.5236
+    pitch: -0.6556
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 97000
+- assert:
+    inventory_any_member:
+    - item_id: 10445
+      count: 1
+- assert:
+    state_dump_named_map_var:
+      name: HonksHostile
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 0
+      hostile_to_party: true
+- note:
+    text: 'A wrong order (N, H, O, K): the four stones rise, then all sink back.'
+- execute_event:
+    id: 63
+- execute_event:
+    id: 61
+- execute_event:
+    id: 62
+- execute_event:
+    id: 64
+- advance_runtime:
+    seconds: 3.6
+- assert:
+    mechanism:
+      id: 28
+      state: open
+- assert:
+    mechanism:
+      id: 34
+      state: open
+- assert:
+    mechanism:
+      id: 32
+      state: open
+- assert:
+    mechanism:
+      id: 30
+      state: open
+- advance_runtime:
+    seconds: 4.4
+- assert:
+    mechanism:
+      id: 28
+      state: closed
+- assert:
+    mechanism:
+      id: 34
+      state: closed
+- assert:
+    mechanism:
+      id: 32
+      state: closed
+- assert:
+    mechanism:
+      id: 30
+      state: closed
+- assert:
+    mechanism:
+      id: 35
+      state: closed
+- note:
+    text: 'H, O, N, K: the secret door opens when the K stone has risen; it shuts after 10 s.'
+- execute_event:
+    id: 61
+- execute_event:
+    id: 62
+- execute_event:
+    id: 63
+- execute_event:
+    id: 64
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 35
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: VaultOpened
+      value: 1
+- advance_runtime:
+    seconds: 11
+- assert:
+    mechanism:
+      id: 35
+      state: closed
+- advance_runtime:
+    seconds: 11
+- assert:
+    mechanism:
+      id: 28
+      state: closed
+- assert:
+    mechanism:
+      id: 34
+      state: closed
+- assert:
+    mechanism:
+      id: 32
+      state: closed
+- assert:
+    mechanism:
+      id: 30
+      state: closed
+- assert:
+    mechanism:
+      id: 27
+      state: closed
+- note:
+    text: Inside the treasury the UnlockDoorTrig pad opens the secret door again.
+- movement_segment:
+    input: forward
+    seconds: 0.14
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3011
+      y: 5205
+      z: -521
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3011
+      y: 5315
+      z: -521
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 35
+      state: open
+- note:
+    text: 'The Golden Honk on the altar (Honk.scr): on the quest (key 343) item 369 and key 344.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90343
+- set_pose:
+    map: templeofhonk.blv
+    x: 5571
+    y: 3401
+    z: 452
+    yaw: -0.0122
+    pitch: -0.2258
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90344
+    qbit_clear:
+    - 90345
+- assert:
+    inventory_any_member:
+    - item_id: 10369
+      count: 1

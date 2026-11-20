@@ -1,0 +1,34 @@
+id: rulesets.maw_bosses
+title: Ruleset - MAW bosses in a map - a Swapper boss swaps blows away with the monsters near, a Broodlord hatches three Broodlings
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Lancer
+            class: Champion
+            level: 60
+            skills:
+              - {name: Spear, level: 30, mastery: 4}
+            equipment: {}
+  # A weak spear, so 30 blows never kill the boss: the checks count hits, not damage.
+  - grant_item: {item_id: 42, equip: main_hand, rarity: 1, item_power: 10, drop_level: 10}
+  # GAPS.md L3.1: a Shadow boss (affix 14) of the family takes the blows...
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 14}
+  - party_attack: {actor_index: last, count: 30, min_hit_rate: 0.2, report: true}
+  # ...a Swapper (affix 9) swaps places with a hostile monster in reach instead, every time (the map has some).
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 9}
+  - party_attack: {actor_index: last, count: 30, max_hit_rate: 0.0, report: true}
+  # GAPS.md L3.2: a Broodlord (affix 15) hatches three C-tier Broodlings when it dies.
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 15}
+  - advance_runtime: {seconds: 0.1}
+  - damage_actor: {actor_index: last, amount: 100000}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {monster_id: 195, boss: true, min: 5, max: 5}

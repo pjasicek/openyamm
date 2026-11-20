@@ -1,0 +1,507 @@
+{
+ "id": "20261009-1649-mm7-mdt01-22",
+ "world": "mm7",
+ "maps": [
+  "mdt01.blv",
+  "mdr01.blv",
+  "7d11.blv",
+  "t04.blv",
+  "7out01.odm",
+  "7d22.blv"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/t4s1el",
+  "mm7/t4s1er",
+  "mm7/hwp1bwall",
+  "mm7/t4elr",
+  "mm7/t4bs",
+  "mm7/7c1fl",
+  "mm7/trim4_16a",
+  "mm7/7tfb10",
+  "mm7/c1bs1",
+  "mm7/hep2rf",
+  "mm7/t6s1b",
+  "mm7/t6s1er",
+  "mm7/t6s1el",
+  "mm7/t6s1bs",
+  "mm7/t6s1c",
+  "mm7/t6s1fl",
+  "mm7/7drsrns",
+  "mm7/7trim1_16",
+  "mm7/sgair",
+  "mm7/sgfire",
+  "mm7/sign01-1",
+  "mm7/sign01-2",
+  "mm7/sign01-3",
+  "mm7/trim8_32"
+ ],
+ "requests": {
+  "mm7/t4s1el": {
+   "name": "t4s1el",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-green speckled granite wall panel between carved pale olive stone bands, an angular stepped band at the top and a band of X-shaped crossings over dark green marble at the bottom, with an angular carved stone bracket hanging from the top band on the left; copy the composition exactly",
+   "notes": {
+    "3": "full-brightness native colours right up to every edge pixel: no dark, black or red line along any part of any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.844
+    },
+    "2": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.844
+    },
+    "3": {
+     "sources": [
+      "mm7/t4s1b",
+      "mm7/t4elr"
+     ],
+     "fraction": 0.85
+    }
+   }
+  },
+  "mm7/t4s1er": {
+   "name": "t4s1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "dark grey-green speckled granite wall panel between carved pale olive stone bands, an angular stepped band at the top and a band of X-shaped crossings over dark green marble at the bottom, with an angular carved stone bracket hanging from the top band on the right; copy the composition exactly",
+   "notes": {
+    "3": "full-brightness native colours right up to every edge pixel: no dark, black or red line along any part of any edge",
+    "4": "the carved stone frame piece at the right edge simply continues past the edge: the last two pixel columns on the right keep the frame's and granite's own colours exactly as in the reference, with no dark outline, shadow or black line along the right edge; same along the left edge",
+    "5": "IMPORTANT: the right edge cuts straight through the middle of the carved beige stone frame piece and the granite; this is not the frame's border, so draw no bevel, outline, groove or shadow there: the last 3 pixel columns must have the same beige or granite colour as the pixels just inside them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.841
+    },
+    "2": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.841
+    },
+    "3": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.841
+    },
+    "4": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.841
+    },
+    "5": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.841
+    }
+   },
+   "context": {
+    "5": {
+     "left": "mm7/t4s1b"
+    }
+   }
+  },
+  "mm7/hwp1bwall": {
+   "name": "hwp1bwall",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream-beige rough lime plaster wall with soft grey-beige mottled patches, slightly weathered",
+   "notes": {
+    "2": "an even, flat plaster surface: no vertical strips, grooves, panels or raised bands anywhere; keep the soft mottled patches where the reference has them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp1b1s2",
+      "mm7/hwp1b1s1"
+     ],
+     "fraction": 0.488
+    },
+    "2": {
+     "sources": [
+      "mm7/hwp1b1s2",
+      "mm7/hwp1b1s1"
+     ],
+     "fraction": 0.488
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm7/t4elr": {
+   "name": "t4elr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-green speckled granite wall panel between carved pale olive stone bands, an angular stepped band at the top and a band of X-shaped crossings over dark green marble at the bottom, with angular carved stone brackets hanging from the top band on both the left and right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t4s1el"
+     ],
+     "fraction": 0.52
+    },
+    "2": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.513
+    }
+   }
+  },
+  "mm7/t4bs": {
+   "name": "t4bs",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-green speckled granite wall surface, fine-grained and even",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.455
+    },
+    "2": {
+     "sources": [
+      "mm7/t4s1b"
+     ],
+     "fraction": 0.455
+    }
+   }
+  },
+  "mm7/7c1fl": {
+   "name": "7c1fl",
+   "versions": [
+    1
+   ],
+   "material": "rough reddish-brown earth and rock cave floor with dark crevices, small embedded stones and dusty ridges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim4_16a": {
+   "name": "trim4_16a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of brown wood plank with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim4_16",
+    "k": 3
+   }
+  },
+  "mm7/7tfb10": {
+   "name": "7tfb10",
+   "versions": [
+    1
+   ],
+   "material": "dark green slate floor tiles of large squares and smaller rectangles with dark recessed joints, faintly mottled",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/c1bs1": {
+   "name": "c1bs1",
+   "versions": [
+    1
+   ],
+   "material": "rough reddish-brown earthen cave wall with a narrow recessed dark stone pillar set into it, carved with a horned skull relief and bands of inscription; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hep2rf": {
+   "name": "hep2rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of weathered grey-brown wooden shingles in overlapping rows with ragged split lower ends and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t6s1b": {
+   "name": "t6s1b",
+   "versions": [
+    1
+   ],
+   "material": "wall of tan-brown stone bricks in staggered courses with a dusty cream mortar, under a carved tan stone frieze of grotesque skull-like masks and above a plain moulded stone base band; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t6s1er": {
+   "name": "t6s1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of tan-brown stone bricks in staggered courses with a dusty cream mortar, under a carved tan stone frieze of grotesque skull-like masks and above a plain moulded stone base band, with the left half of a carved tan stone pilaster framing a dark wooden panel on the right edge; copy the composition exactly",
+   "notes": {
+    "2": "the frieze must be a continuous row of carved grotesque skull-like masks exactly as in the reference, one mask at every place the reference has one; do not replace masks with foliage"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t6s1b"
+     ],
+     "fraction": 0.614
+    },
+    "2": {
+     "sources": [
+      "mm7/t6s1b"
+     ],
+     "fraction": 0.614
+    }
+   }
+  },
+  "mm7/t6s1el": {
+   "name": "t6s1el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of tan-brown stone bricks in staggered courses with a dusty cream mortar, under a carved tan stone frieze of grotesque skull-like masks and above a plain moulded stone base band, with the right half of a carved tan stone pilaster framing a dark wooden panel on the left edge; copy the composition exactly",
+   "notes": {
+    "2": "the frieze must be a continuous row of carved grotesque skull-like masks exactly as in the reference, one mask at every place the reference has one; do not replace masks with foliage"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t6s1b"
+     ],
+     "fraction": 0.595
+    },
+    "2": {
+     "sources": [
+      "mm7/t6s1b"
+     ],
+     "fraction": 0.595
+    }
+   }
+  },
+  "mm7/t6s1bs": {
+   "name": "t6s1bs",
+   "versions": [
+    1
+   ],
+   "material": "wall of tan-brown stone bricks in staggered courses with a dusty cream mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t6s1c": {
+   "name": "t6s1c",
+   "versions": [
+    1
+   ],
+   "material": "ceiling panel of tan-brown stone bricks in a recessed square inside a carved tan stone frame with bevelled mouldings and bracketed corners; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t6s1fl": {
+   "name": "t6s1fl",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone floor of rectangular slabs laid in a basket-weave pattern with dark joints, dusty and worn",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7drsrns": {
+   "name": "7drsrns",
+   "versions": [
+    1
+   ],
+   "material": "path of rounded grey cobblestones running lengthwise through reddish-brown packed earth with scattered small grey pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7dirt1"
+     ],
+     "fraction": 0.198
+    }
+   }
+  },
+  "mm7/7trim1_16": {
+   "name": "7trim1_16",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of grey-brown weathered wood with lengthwise grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgair": {
+   "name": "sgair",
+   "versions": [
+    1
+   ],
+   "material": "painted square sign plaque of a silver-blue whirlwind with a blue eye at its centre and falling droplets, on a dark red-brown ground in a carved orange wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgfire": {
+   "name": "sgfire",
+   "versions": [
+    1
+   ],
+   "material": "painted square sign plaque of an orange flaming sun with a blue eye at its centre, on a dark red-brown ground in a carved orange wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sign01-1": {
+   "name": "sign01-1",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow parchment-coloured painted sign board with three lines of red hand-painted runic lettering; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sign01-2": {
+   "name": "sign01-2",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow parchment-coloured painted sign board with a row of red hand-painted runic letters inside a thin red outlined box on the left, blank board on the right; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sign01-3": {
+   "name": "sign01-3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale yellow parchment-coloured painted sign board with a row of red hand-painted runic letters inside a thin red outlined box on the left, blank board on the right; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim8_32": {
+   "name": "trim8_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of brown wood plank with lengthwise grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

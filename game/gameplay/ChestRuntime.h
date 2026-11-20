@@ -13,6 +13,7 @@
 namespace OpenYAMM::Game
 {
 class ChestTable;
+struct EventRuntimeState;
 class ItemTable;
 class Party;
 class StandardItemEnchantTable;
@@ -40,6 +41,8 @@ struct ChestTrapMemberResult
 struct ChestTrapOpenResult
 {
     bool shouldOpenChest = true;
+    // Why the rules keep the chest shut before any trap (MAW's Doom chests); empty when they do not.
+    std::string refusal;
     bool trapWasPresent = false;
     bool trapDisarmed = false;
     bool trapDischarged = false;
@@ -79,6 +82,13 @@ ChestTrapOpenResult resolveChestTrapOpen(
     const SpecialItemEnchantTable *pSpecialItemEnchantTable);
 
 void applyChestTrapOpenResultToParty(Party &party, const ChestTrapOpenResult &result);
+
+// Whether opening a chest with these flags shows its loot: false when the rules refuse it or a trap the party cannot
+// disarm goes off instead. The original ends the opening event there (a one-time quest chest's bit stays clear).
+bool chestOpensForParty(const Party &party, const MapStatsEntry &map, uint16_t chestFlags);
+
+// A chest's flags with the bits evt.SetChestBit queued in this event, which the world applies after it.
+uint16_t chestFlagsWithEventBits(uint16_t chestFlags, const EventRuntimeState *pEventRuntimeState, uint32_t chestId);
 
 // Value of one chest or corpse entry: its gold, or the item's value with enchantments times its quantity.
 int chestItemValue(

@@ -1,0 +1,7 @@
+# Spider visual acceptance
+
+Reviewed all 58 enhanced native poses, five stored standing/walk views and native front-only actions in comparison contacts, enhanced base/mask sheets and palette contacts. Native-order sequence contacts and paused offline viewer frames checked movement/death ordering, registration and mirrors; this was not a gameplay performance test. Final viewer evidence: review/viewer_walk.png (brown mirrored walk), review/viewer_death.png (red death). Thin legs, white fangs and red eyes remain distinct; matte audit has zero candidates above threshold in extraction, export and atlas reconstruction.
+
+Corrected initial brown standing/walk 0/walk 2 generation to the accepted blue-black base with imagegen; rejected sheets and submitted prompts retained. Applied one fixed enhanced-chitin hue/tonal treatment across views and usage-weighted native palette fits; brown/red variant brightness gain .80. Removed erroneous red eye flecks only from rear view 4. Settings and reproducible processing are in process.py and tone.json. Final variants retain the native dark tonal weight. Enhanced chitin stripes are somewhat broader and eyes/fangs clearer than pixelated originals; poses, overall proportions and palette identities remain recognizable.
+
+All native source coverage, sequences, durations, mirrors, logical scale, source hashes, alpha identity and packing assertions passed. No gameplay installation.

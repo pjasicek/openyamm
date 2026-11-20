@@ -2,16 +2,30 @@
 
 #include <algorithm>
 #include <cmath>
+#include <string>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-bool pointInside(const Mm9MapTransition &transition, float x, float y, float z)
+// The party's body (feet at z, radius, height) against the volume; a zero body is the point at its feet.
+bool bodyTouches(const Mm9MapTransition &transition, float x, float y, float z, float radius, float height)
 {
-    return std::abs(x - static_cast<float>(transition.centerX)) <= static_cast<float>(transition.halfExtentX)
-        && std::abs(y - static_cast<float>(transition.centerY)) <= static_cast<float>(transition.halfExtentY)
-        && std::abs(z - static_cast<float>(transition.centerZ)) <= static_cast<float>(transition.halfExtentZ);
+    const float centerZ = static_cast<float>(transition.centerZ);
+    const float halfZ = static_cast<float>(transition.halfExtentZ);
+    return std::abs(x - static_cast<float>(transition.centerX)) <= static_cast<float>(transition.halfExtentX) + radius
+        && std::abs(y - static_cast<float>(transition.centerY)) <= static_cast<float>(transition.halfExtentY) + radius
+        && z <= centerZ + halfZ
+        && z + height >= centerZ - halfZ;
+}
+
+// A map script turns an exit off (MM9's disabled-at-start exit triggers, enabled later by a trigger) with the named
+// map var "Mm9ExitDisabled<source object index>" (saved with the map); 0 or unset: on.
+bool mm9ExitDisabled(const Mm9MapTransition &transition, const EventRuntimeState &eventRuntimeState)
+{
+    const auto found = eventRuntimeState.namedMapVars.find(
+        "Mm9ExitDisabled" + std::to_string(transition.sourceObjectIndex));
+    return found != eventRuntimeState.namedMapVars.end() && found->second != 0;
 }
 
 EventRuntimeState::PendingMapMove buildPendingMove(const Mm9MapTransition &transition)
@@ -86,7 +100,9 @@ std::optional<Mm9PositionedTransitionActivation> Mm9PositionedTransitionRuntime:
     float partyX,
     float partyY,
     float partyZ,
-    EventRuntimeState &eventRuntimeState)
+    EventRuntimeState &eventRuntimeState,
+    float bodyRadius,
+    float bodyHeight)
 {
     const bool canActivate = m_initialized
         && !eventRuntimeState.pendingDialogueContext.has_value()
@@ -94,7 +110,8 @@ std::optional<Mm9PositionedTransitionActivation> Mm9PositionedTransitionRuntime:
     const Mm9MapTransition *pActivatedTransition = nullptr;
     for (Gate &gate : m_gates)
     {
-        const bool inside = pointInside(*gate.pTransition, partyX, partyY, partyZ);
+        const bool inside = !mm9ExitDisabled(*gate.pTransition, eventRuntimeState)
+            && bodyTouches(*gate.pTransition, partyX, partyY, partyZ, bodyRadius, bodyHeight);
         if (canActivate && !gate.inside && inside && pActivatedTransition == nullptr)
         {
             pActivatedTransition = gate.pTransition;
@@ -117,6 +134,7 @@ std::optional<Mm9PositionedTransitionActivation> Mm9PositionedTransitionRuntime:
         context.kind = DialogueContextKind::MapTransition;
         context.sourceId = pActivatedTransition->sourceObjectIndex;
         context.transitionMapMove = activation.move;
+        context.transitionTravelDays = std::max(0, pActivatedTransition->travelDays);
         eventRuntimeState.pendingDialogueContext = std::move(context);
     }
     else

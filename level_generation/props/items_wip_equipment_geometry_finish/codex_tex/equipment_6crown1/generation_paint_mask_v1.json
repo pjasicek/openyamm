@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, exact 3D geometry guide for Wreath Crown. Image 2 is original icon appearance reference only. Preserve EXACT 3:4 transparent canvas with three columns, four rows, five identical model silhouettes and locations in each half. Every object MUST remain the same size as gray guide or 1% smaller, NEVER larger. Do not redesign or add anything. TOP TWO ROWS: FRONT/BACK/LEFT then RIGHT/TOP/EMPTY. Realistic UNLIT BASE COLOUR, fine subtle material grain, no baked directional lighting, highlight, ambient occlusion, shadow, glow, floor or text. Complete ceremonial ring of GOLD COPPER and russet METAL maple leaves on a gold support band, small purple gem buds. These are crafted metal leaves, not natural foliage. All solid surfaces remain opaque and gaps remain transparent. BOTTOM TWO ROWS: identical five objects in same positions as above, but flat material-class masks with no shading or texture: ALL band/leaves METAL RED #ff0000; ONLY purple buds GEM BLACK #000000. Transparent background, no speckles or outlines. Last tile in rows 2 and 4 stays empty. Output a 1536x2048 transparent PNG. Exact guide registration is mandatory.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6crown1/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6crown1.png"
+  ],
+  "selected": false,
+  "reason": "Awaiting exact registration and PBR review",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-b7fb5dbd-ca16-47a2-a22d-3d130ff21b42.png",
+  "raw_sha256": "3c041f0c055f86162f128600bef0b6e2a0e1a74e223d56c41f688ad458d072aa",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6crown1/paint_mask_guide.png": "b64fa21afa9aced61589fbcd71039b9e24bd183fc4fdb2973784e1b3d9ad1094",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6crown1.png": "9ce8644dfac8d789b8adabb0c21cd79860f704bb26e6a7f7c0160169ac0c788b"
+  },
+  "prepared_scene_sha256": "431dec29e63a9cbc05b99e2a86b62c8826001e2f25fa423289f60346d98bb322"
+}

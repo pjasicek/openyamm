@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background). Output ONE transparent PNG, 1536x2048, 3:4. Paint only the existing grey silhouettes of the guide, retain their EXACT positions, sizes, outlines, gaps and openings. Three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 each have FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 1-2: unlit base colour: belt of linked polished gold plaques with oval red gemstones, small gold beads between plaques, ornate gold clasp with larger red front gem. Facets, engraving, scrollwork and inner swirls from the design reference scaled to the existing model views. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, outlines, glow, sparkles, aura, ground or text. Rows 3-4: same five silhouettes filled with FLAT pure material colours only: #FF0000 for ALL metal including gold plaques, band, beads and clasp; #000000 for ALL gemstones. #00FF00 only for leather/fur if present; #0000FF only for cloth/hair if present. Every silhouette pixel gets exactly one material colour, no shading or texture or internal antialiased blends in material masks. Outside silhouettes is fully transparent. Column 3 of rows 2 and 4 remains empty transparent. CRITICAL CORRECTION: the TOP views (row 2 column 2 and row 4 column 2) must trace the guide's thin oval band EXACTLY: same width all round, identical inner opening, no thickening or shift. Do not redesign or enlarge anything. The guide is the absolute geometry authority; the other images are only surface detail and colour references.\nCORRECTIVE REGENERATION: Work directly from the ORIGINAL GREY GUIDE input, not the previous generated image. Strictly preserve its alpha mask. Previous attempt had scattered red noise outside silhouettes, changed plaque boundaries and thickened the oval ring. Eliminate all stray pixels: outside the exact original guide silhouette alpha must be zero, including inside the ring opening. Trace original thin oval band without thickening. Preserve the grey guide's plain rectangular plaque geometry; surface scrollwork must stay INSIDE those existing rectangles. Do not add ornate protruding clasp shapes beyond guide. Flat base colours without specular highlights. Material masks must be clean solid red metal with black gems, no noise anywhere.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background). Output ONE transparent PNG, 1536x2048, 3:4. Paint only the existing grey silhouettes of the guide, retain their EXACT positions, sizes, outlines, gaps and openings. Three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 each have FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 1-2: unlit base colour: belt of linked polished gold plaques with oval red gemstones, small gold beads between plaques, ornate gold clasp with larger red front gem. Facets, engraving, scrollwork and inner swirls from the design reference scaled to the existing model views. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, outlines, glow, sparkles, aura, ground or text. Rows 3-4: same five silhouettes filled with FLAT pure material colours only: #FF0000 for ALL metal including gold plaques, band, beads and clasp; #000000 for ALL gemstones. #00FF00 only for leather/fur if present; #0000FF only for cloth/hair if present. Every silhouette pixel gets exactly one material colour, no shading or texture or internal antialiased blends in material masks. Outside silhouettes is fully transparent. Column 3 of rows 2 and 4 remains empty transparent. CRITICAL CORRECTION: the TOP views (row 2 column 2 and row 4 column 2) must trace the guide's thin oval band EXACTLY: same width all round, identical inner opening, no thickening or shift. Do not redesign or enlarge anything. The guide is the absolute geometry authority; the other images are only surface detail and colour references.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1abe1-2798-7792-9a4f-c892334e55e8/exec-7e08662f-86f2-4976-8b0d-51e239283236.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10153/paint_mask_guide.png",
+      "sha256": "d7258cfacd889e0ef6c673a66c1867e5b9eef4ab1541f10039e25ba9ca4f186a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10153/design_reference.png",
+      "sha256": "7d240ecfde98efbbc3ea52b60b6ace1247f117bac72dcf69e4a05ddf8c3e2335"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10153/icon_x8.png",
+      "sha256": "c9b91fb0301fa4c615eb1ddd25faf6d2ef4e29938486f4fa829cd9adfacf45ea"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10153/paint_mask_raw_v2.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "validation": "Visually inspected; corrective regeneration still has stray pixels, silhouette deviations and internal mask linework. Raw tool output preserved without editing."
+}

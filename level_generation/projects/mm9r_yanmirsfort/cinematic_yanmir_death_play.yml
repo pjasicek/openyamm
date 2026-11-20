@@ -1,0 +1,81 @@
+# Written by make_cinematic_scenarios.py (yanmir_death, cutscene.py).
+id: mm9r.yanmirsfort.cinematic_yanmir_death_play
+title: Yanmir's Fort - yanmir_death played (console start, fixed timeline)
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- cinematic
+steps:
+- load_map:
+    map: yanmirsfort.blv
+- set_pose:
+    map: yanmirsfort.blv
+    x: 492
+    y: -11700
+    z: 1
+    yaw: 1.5707963267948966
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: TrapArmed
+      value: 0
+- console:
+    line: cinematic play yanmir_death 36000
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: '0.5 s: playing; :GiveEeps ran at 0 s (key 173 without the quest''s key 68); the floor is up'
+- console:
+    line: cinematic list
+    expect_contains: playing yanmir_death
+- assert:
+    qbit_set:
+    - 90173
+- assert:
+    mechanism:
+      id: 70
+      state: closed
+- save_game:
+    name: mid_cinematic
+    expect_failure: true
+- advance_runtime:
+    seconds: 4.2
+- note:
+    text: '4.7 s: startDie''s DestroyFloor key (3.5 s) brought the floor down; Yanmir falls'
+- assert:
+    mechanism:
+      id: 70
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: YanmirGone
+      value: 0
+- assert:
+    actor_visible:
+      actor_index: 71
+      hidden: false
+- console:
+    line: cinematic list
+    expect_contains: playing yanmir_death
+- advance_runtime:
+    seconds: 2.0
+- note:
+    text: '6.7 s: the end of the world has removed him (6.3 s)'
+- assert:
+    state_dump_named_map_var:
+      name: YanmirGone
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 71
+      hidden: true
+- advance_runtime:
+    seconds: 3.0
+- note:
+    text: '9.7 s: the camera is off (9.3 s): saving works again'
+- save_game:
+    name: after_cinematic

@@ -1,0 +1,3 @@
+Saved 01–04 at 1536×1024 using built-in image generation, plus raw returns, prompts/hashes in `generation_runs.json`, and the [five-view review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantm1_claude/references_hd/selected_views_review.png).
+
+Stopped at one correction per view. Residual transparency halos, tight margins, and costume deviations are documented; no builds or Meshy calls.

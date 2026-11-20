@@ -1,0 +1,8 @@
+output_dir: ../review/non_door
+exit: true
+steps:
+  - wait: 2
+  - capture: hull_before
+  - action: use
+  - wait: 0.5
+  - capture: hull_after_use

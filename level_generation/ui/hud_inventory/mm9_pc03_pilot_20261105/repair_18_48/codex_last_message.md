@@ -1,0 +1,3 @@
+Saved built-in generated [raw.png](level_generation/ui/hud_inventory/mm9_pc03_pilot_20261105/repair_18_48/raw.png) and [generation.json](level_generation/ui/hud_inventory/mm9_pc03_pilot_20261105/repair_18_48/generation.json) with prompts, hashes and checks. Retained the rejected first attempt.
+
+No pixel edits or builds. Alpha inspection found faint alpha-1 residue in the background; strict zero-alpha compliance is imperfect.

@@ -1,0 +1,487 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.darkpassageway_doors_exits
+title: 'Dark Passageway (native BLV): ladders, a door by click, the locked teleport door, the teleporters and the dive, the
+  exit room''s riser, the flame cage and the exit'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: darkpassageway.blv
+- note:
+    text: 'Ladder5 (rungs WorldObject10): from the first bridge''s deck (Bridge0, built up) up to the start corridor.'
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: -19041
+      y: -1427
+      z: -1228
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: -19041
+      y: -1203
+      z: 3
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 900
+    tolerance_z: 60
+- note:
+    text: 'Ladder1: from the lake (swimming at its surface) up onto Bridge0.'
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: -18787
+      y: -1454
+      z: -1668
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: -18995
+      y: -1454
+      z: -1224
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 250
+    tolerance_z: 60
+- note:
+    text: 'Ladder0: the spike trap tips the party into its pit; the ladder takes it out onto the corridor north of it.'
+- set_pose:
+    map: darkpassageway.blv
+    x: -5580
+    y: -3288
+    z: -327
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    state_dump_named_map_var:
+      name: SpikesOpen
+      value: 1
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: -5581
+      y: -3183
+      z: -772
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: -5581
+      y: -2944
+      z: -325
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 250
+    tolerance_z: 60
+- note:
+    text: 'ExitRoomDoor (Door, 96 LT up at 70): shut, it stops the party coming up the corridor from the desert arrival; a
+      click opens it and the party walks into the exit room.'
+- assert:
+    mechanism:
+      id: 24
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: -5243
+      y: 325
+      z: -1159
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: -5243
+      y: 615
+      z: -1159
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 70
+    tolerance_z: 40
+- set_pose:
+    map: darkpassageway.blv
+    x: -5243
+    y: 505
+    z: -1183
+    yaw: 1.5708
+    pitch: -0.2652
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 24
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: -5243
+      y: 325
+      z: -1159
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: -5243
+      y: 1055
+      z: -1188
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 60
+- note:
+    text: 'TeleportDoor0 (MM9 Locked): a click before the bridge puzzle is solved says it is locked.'
+- set_pose:
+    map: darkpassageway.blv
+    x: -19333
+    y: -9650
+    z: -1228
+    yaw: -1.5708
+    pitch: 1.0178
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    mechanism:
+      id: 38
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: PuzzleSolved
+      value: 0
+- note:
+    text: 'Teleporter0 (Teleporter, TouchNotify): the party in its box goes to Teleporter1 (a same-map move: the frame loop
+      applies it, so the request is asserted).'
+- set_pose:
+    map: darkpassageway.blv
+    x: -18995
+    y: 1393
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: darkpassageway.blv
+    x: -7537
+    y: -21770
+    z: -3301
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: LastTeleportTeleporter0
+      value: 1
+- note:
+    text: 'LakeTeleporter (Teleporter, TouchNotify): the party in its box goes to LakeArrival (a same-map move: the frame
+      loop applies it, so the request is asserted).'
+- set_pose:
+    map: darkpassageway.blv
+    x: -18995
+    y: 1393
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: darkpassageway.blv
+    x: -19292
+    y: -9974
+    z: -1187
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: LastTeleportLakeTeleporter
+      value: 1
+- note:
+    text: 'MountainTeleporter (Teleporter, TouchNotify): the party in its box goes to MountainArrival (a same-map move: the
+      frame loop applies it, so the request is asserted).'
+- set_pose:
+    map: darkpassageway.blv
+    x: -18995
+    y: 1393
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: darkpassageway.blv
+    x: -19784
+    y: -21996
+    z: -327
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: LastTeleportMountainTeleporter
+      value: 1
+- note:
+    text: 'DesertTeleporter (Teleporter, TouchNotify): the party in its box goes to DesertArrival (a same-map move: the frame
+      loop applies it, so the request is asserted).'
+- set_pose:
+    map: darkpassageway.blv
+    x: -18995
+    y: 1393
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: darkpassageway.blv
+    x: -4710
+    y: -2826
+    z: -327
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: LastTeleportDesertTeleporter
+      value: 1
+- note:
+    text: 'ForestTeleporter (Teleporter, TouchNotify): the party in its box goes to ForestArrival (a same-map move: the frame
+      loop applies it, so the request is asserted).'
+- set_pose:
+    map: darkpassageway.blv
+    x: -18995
+    y: 1393
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: darkpassageway.blv
+    x: -15401
+    y: -10936
+    z: -275
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: LastTeleportForestTeleporter
+      value: 1
+- note:
+    text: 'The exit room: ExitTrigger2 (StartOn) -> 0 -> 1 -> 3 (on the riser): the riser rises 228 LT and the ramp runs out
+      to the upper door.'
+- set_pose:
+    map: darkpassageway.blv
+    x: -18995
+    y: 1393
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    mechanism:
+      id: 23
+      state: closed
+- set_pose:
+    map: darkpassageway.blv
+    x: -4956
+    y: 1495
+    z: -1179
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- set_pose:
+    map: darkpassageway.blv
+    x: -5530
+    y: 1126
+    z: -1179
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- set_pose:
+    map: darkpassageway.blv
+    x: -4956
+    y: 1126
+    z: -1182
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- set_pose:
+    map: darkpassageway.blv
+    x: -5530
+    y: 1495
+    z: -1179
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: RiserUp
+      value: 1
+- advance_runtime:
+    seconds: 6.0
+- assert:
+    mechanism:
+      id: 23
+      state: open
+- note:
+    text: The Switch (-> ExitReset) puts the riser back.
+- set_pose:
+    map: darkpassageway.blv
+    x: -5222
+    y: 1854
+    z: -1187
+    yaw: 1.5708
+    pitch: -0.167
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Resets
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: RiserUp
+      value: 0
+- note:
+    text: 'The flame cage (FlameCage) stands round ExitPoint: the party walking at the exit stops at its slab, in the fire
+      (FlameDamage).'
+- assert:
+    mechanism:
+      id: 27
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: 72
+      y: 6349
+      z: -572
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: 322
+      y: 6349
+      z: -573
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 40
+- assert:
+    state_dump_named_map_var:
+      name: CageOpen
+      value: 0
+- note:
+    text: 'The Wyrde of the Unknown (NPC338.scr :OnRude, on RUDE 338''s exit): the first talk gives keys 476 and 187, 92 000
+      experience, and opens the cage; ExitPoint then takes the party to Guberland.'
+- set_pose:
+    map: darkpassageway.blv
+    x: -348
+    y: 6663
+    z: -572
+    yaw: -1.5708
+    pitch: -0.5813
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 338
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 9.5
+- assert:
+    state_dump_named_map_var:
+      name: CageOpen
+      value: 1
+- assert:
+    qbit_set:
+    - 90476
+    - 90187
+- assert:
+    mechanism:
+      id: 27
+      state: open
+- note:
+    text: The party walks onto the water barrel at ExitPoint (the cage gone).
+- set_pose:
+    map: darkpassageway.blv
+    x: 432
+    y: 6349
+    z: -572
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 274

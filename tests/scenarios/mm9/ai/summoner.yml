@@ -1,0 +1,33 @@
+id: mm9.ai.summoner
+title: MM9 summoners - Summoner.scr's starter batch and replacements, Isle_Summoner.scr's six spawns
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, boss]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). At 2 s the Lich Lab summoner's startup brings a Specter at each of its
+        four points and a fifth at a random one; the party kills one Specter at 12 s, which brings the next. The Isle
+        summoner's seven spawn triggers (3-9 s) bring six Skeletoids. The Lich Lab summoner dies at 16 s: no more.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: summoner.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - damage_actor: {actor_index: 7, amount: 5000, tier: spell}
+  - advance_runtime: {seconds: 4}
+  - damage_actor: {actor_index: 5, amount: 50000, tier: spell}
+  - advance_runtime: {seconds: 4}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: startup 5, after: 2, before: 2.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: focus, after: 2, before: 2.2, min_count: 5, max_count: 5}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: script, detail: spawn, min_count: 6, max_count: 6}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: script, detail: spawn 6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: minion_died 7, after: 12, before: 13, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: minion_died, max_count: 1}

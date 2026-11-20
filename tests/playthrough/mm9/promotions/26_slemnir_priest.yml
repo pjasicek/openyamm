@@ -1,0 +1,78 @@
+# MM9 promotion playthrough, segment 26: the Priest promotion (guide: side_b.yml learn-the-ritual-of-consecration, the
+# report). The Racing Fire from Frosgard to Guberland (six days; outdoors the party is moved), the city gate, Gray
+# Slemnir in the temple (RUDE 129): with Robert Aefgil on his way (255), the Tree of Life (256) and the Ritual (258),
+# "We've completed all your tasks." (260). His exit takes the Tree (item 241) and the Ritual (item 430), pays 37 500
+# experience to every member and 5 000 gold, gives key 261 and promotes every Priest to a Priest of Light
+# (MM9.Promotions.priest: Priest -> PriestLight). Then his first page keeps "Promote our eligible characters.", and with
+# no Priest left it says no one can take it now. Research: prep/C_healer_priest.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 26
+id: mm9.promotions.26_slemnir_priest
+title: "MM9 promotions 26: Gray Slemnir's three tasks reported; Priest -> Priest of Light"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/25_ruined_temple_tree.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgard.blv, qbit_set: [90255, 90256, 90258], qbit_clear: [90260, 90261]}
+  - play_lua: {source: 'if not (has_item(10241) and has_item(10430)) then error("no Tree of Life or Ritual") end'}
+
+  # By sea to Guberland, the city gate.
+  - travel: {map: guberland.blv, days: 6}
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+
+  # Gray Slemnir: the three tasks reported.
+  - set_pose: {map: guberlandcity.blv, x: -6226, y: -6450, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        remember("classes", classes()); remember("gold", gold())
+        local x, n = {}, 0
+        for _ in string.gmatch(classes(), "%S+") do n = n + 1 end
+        for i = 0, n - 1 do remember("xp" .. i, experience(i)); x[#x + 1] = tostring(experience(i)) end
+        log("CLASSES before: " .. classes() .. "; EXPERIENCE before: " .. table.concat(x, " ") .. "; GOLD before: " .. gold())
+  - interact_actor: {actor_index: 9}
+  - select_topic: {match_label: "We've completed all your tasks."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90260, 90261]}
+  # The Priest line (MM9.Promotions.priest): every Priest a Priest of Light, the rest unchanged; member 1 (made a Priest
+  # by Tjolnir) a PriestLight; 37 500 experience to every member and 5 000 gold; the Tree and the Ritual taken.
+  - play_lua:
+      source: |
+        local LINE = {priest = "priestlight"}
+        local function key(n) return (string.gsub(string.lower(n), "[%s_%-]", "")) end
+        local before, now = {}, {}
+        for c in string.gmatch(recall("classes"), "%S+") do before[#before + 1] = c end
+        for c in string.gmatch(classes(), "%S+") do now[#now + 1] = c end
+        local x = {}
+        for i = 1, #before do
+          local want = LINE[key(before[i])] or key(before[i])
+          if key(now[i]) ~= want then error("member " .. (i - 1) .. ": " .. before[i] .. " became " .. now[i] .. ", not " .. want) end
+          local gained = experience(i - 1) - recall("xp" .. (i - 1))
+          if gained ~= 37500 then error("member " .. (i - 1) .. " gained " .. gained .. " experience, not 37 500") end
+          x[#x + 1] = tostring(experience(i - 1))
+        end
+        if key(now[2]) ~= "priestlight" then error("member 1 is a " .. now[2] .. ", not a PriestLight") end
+        if gold() - recall("gold") ~= 5000 then error("Gray Slemnir paid " .. (gold() - recall("gold")) .. " gold, not 5 000") end
+        if has_item(10241) or has_item(10430) then error("Gray Slemnir did not take the Tree of Life and the Ritual") end
+        log("CLASSES after: " .. classes() .. "; EXPERIENCE after: " .. table.concat(x, " ") .. "; GOLD after: " .. gold())
+        log("Priest: the Priest is a Priest of Light, the others unchanged; +37 500 experience each, +5 000 gold")
+
+  # His first page keeps the Priest topic; nobody is left for it.
+  - interact_actor: {actor_index: 9}
+  - assert:
+      dialog: {active: true, source_id: 129, action_label_present: "Promote our eligible characters.", action_label_absent: "We've completed all your tasks."}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert:
+      dialog: {text_contains: "No one among you can take this promotion now."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'log("Gray Slemnir after the Priest quest: " .. classes() .. " (no one left to promote)")'}
+  - save_game: {name: "26 Priest of Light", path: output/playthrough/mm9/promotions/checkpoints/26_slemnir_priest.oysav}

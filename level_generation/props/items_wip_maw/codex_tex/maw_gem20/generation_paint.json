@@ -1,0 +1,25 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png exactly according to this brief. The guide is the edit target; design_reference.png is material/detail reference only; icon_x8.png is colour reference only (magenta is not object).\n# Ascended Queen's Diamond: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_wip_maw/codex_tex/maw_gem20/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: clear colourless diamond: white and pale grey facets with faint cool blue tints; polished warm yellow gold filigree with darker gold in its recesses.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (gold, silver, bronze, steel)\n  - pure black #000000: every gemstone, crystal, glass, pearl, mirror glass or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD master of the item (three-quarter view), the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: the same stone as the plain Queen's Diamond (a round brilliant-cut diamond with a flat table, crown facets and a pointed pavilion; clear colourless white with faint grey facets), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_wip_maw/codex_tex/maw_gem20/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nCORRECTION: Geometry fidelity is paramount. Copy guide silhouettes and internal metal geometry exactly. In particular BACK (row 1 column 2 and row 3 column 2) has ONLY a thin horizontal band and small central fitting, NO curling scrollwork. Do not add scrolls there. Preserve the guide's flat topped side silhouettes, exact prongs and gaps. NO photoreal reflections or specular white glints: paint matte pale white/light grey facet polygons and subdued warm gold base colours. Exact 3:4 canvas. All ten guide objects retain their exact positions and proportions.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem20/paint_mask_guide.png",
+      "sha256": "33e225caba60be67b304d1c9688f04342a754d6b6eeda52c486403b538db2752"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem20/design_reference.png",
+      "sha256": "b2cecefe3a7b7fafa29496ca01cb80bdc6c959495030d4656b4b6eb7f8e13d8d"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem20/icon_x8.png",
+      "sha256": "ea47cf5cd848e984a184ee641907c5358ade8523c6495a4147eb3942ed3081c2"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ced-ac5f-7781-89fc-5cf04baa62c4/exec-7a550206-b3c4-493b-a0e6-253a2dd5923f.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem20/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1
+}

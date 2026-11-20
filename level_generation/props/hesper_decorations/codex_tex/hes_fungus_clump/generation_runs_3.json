@@ -1,0 +1,147 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Saved best permitted unmodified returns; strict size, geometry and flat-light requirements not fully met.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for a 3D fungus clump. Generate one 1024 x 1024 RGBA image with genuine transparent background.\nInput image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour reference ONLY, not a composition reference.\nPaint ONLY the existing guide surfaces. Preserve the guide pixel-aligned EXACTLY: same silhouette, size, position, framing, camera, every shape edge, polygonal contour, opening, hole, occlusion and detail. Do not round or smooth its angular outline. Nothing added outside its silhouette, nothing cropped, no recentering, no resizing. Preserve its alpha silhouette and all transparent holes.\nTransfer pale cream and ivory fungus flesh with soft speckles, pale violet gills following the cap undersides into the stems, dark brown composted soil and woody fragments on the existing base shapes, and faint blue-white glowing tips only where small capped stalks exist in the guide. Use the approved reference's materials in the GUIDE'S shapes, not the reference's shapes.\nLIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on surroundings. Material detail must be painted colour rather than dramatic shading. No text, labels or watermark.\nView: LEFT, matching guide_left.png exactly. The two small round blue-white caps are on the upper-right side of the central stalk in this guide. Preserve their existing positions and stems.",
+      "selected": false,
+      "reason": "Superseded: base fragments incorrectly painted ivory; contour drift and incorrect native dimensions.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "58746f967831acf6950ba794fd68a23d6a8f26e2abdb8801dd13f4e6a8deb5d7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16050-de0c-7420-90b3-1c31b779d976/exec-d6d5267a-77d3-4e73-b288-809c947b7295.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "cream/ivory, violet gills, brown soil/wood; blue-white tips where visible",
+        "flat_even_light": "Residual surface and crevice shading remains; not strictly shadowless albedo.",
+        "unresized_unmodified_return": true
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for a 3D fungus clump. Generate one 1024 x 1024 RGBA image with genuine transparent background.\nInput image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour reference ONLY, not a composition reference.\nPaint ONLY the existing guide surfaces. Preserve the guide pixel-aligned EXACTLY: same silhouette, size, position, framing, camera, every shape edge, polygonal contour, opening, hole, occlusion and detail. Do not round or smooth its angular outline. Nothing added outside its silhouette, nothing cropped, no recentering, no resizing. Preserve its alpha silhouette and all transparent holes.\nTransfer pale cream and ivory fungus flesh with soft speckles, pale violet gills following the cap undersides into the stems, dark brown composted soil and woody fragments on the existing base shapes, and faint blue-white glowing tips only where small capped stalks exist in the guide. Use the approved reference's materials in the GUIDE'S shapes, not the reference's shapes.\nLIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on surroundings. Material detail must be painted colour rather than dramatic shading. No text, labels or watermark.\nView: RIGHT, matching guide_right.png exactly. Keep all foreground caps and their overlap fixed to the guide. Do not move the small caps from the reference to the front: only paint what this RIGHT geometry shows. REQUIRED native output dimensions: exactly 1024 by 1024 pixels, matching the target guide canvas; do not generate at 1254 or any larger size. Preserve every pixel location of the guide outline.",
+      "selected": false,
+      "reason": "Superseded: invented two foreground blue mushrooms absent from the guide; contour drift and incorrect native dimensions.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "73639f3b95e5c7a87c6d97d5c9f525bc31806da064c7225a261903874cf44cc8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16050-de0c-7420-90b3-1c31b779d976/exec-213ecd52-7226-4f0a-879a-03e51407419c.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "cream/ivory, violet gills, brown soil/wood; blue-white tips where visible",
+        "flat_even_light": "Residual surface and crevice shading remains; not strictly shadowless albedo.",
+        "unresized_unmodified_return": true
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for a 3D fungus clump. Generate one 1024 x 1024 RGBA image with genuine transparent background.\nInput image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour reference ONLY, not a composition reference.\nPaint ONLY the existing guide surfaces. Preserve the guide pixel-aligned EXACTLY: same silhouette, size, position, framing, camera, every shape edge, polygonal contour, opening, hole, occlusion and detail. Do not round or smooth its angular outline. Nothing added outside its silhouette, nothing cropped, no recentering, no resizing. Preserve its alpha silhouette and all transparent holes.\nTransfer pale cream and ivory fungus flesh with soft speckles, pale violet gills following the cap undersides into the stems, dark brown composted soil and woody fragments on the existing base shapes, and faint blue-white glowing tips only where small capped stalks exist in the guide. Use the approved reference's materials in the GUIDE'S shapes, not the reference's shapes.\nLIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on surroundings. Material detail must be painted colour rather than dramatic shading. No text, labels or watermark.\nView: LEFT, matching guide_left.png exactly. The two small round blue-white caps are on the upper-right side of the central stalk in this guide. Preserve their existing positions and stems.\nCORRECTIVE REGENERATION, the only permitted correction for this view: output must be 1024x1024 native, not 1254x1254. Strictly retain the FIRST image's alpha outline and polygonal shape edges; perform surface recolouring only. The earlier attempt drifted outlines, smoothed the small caps, and turned base rocks/wood into cream fungus chips. Keep every original angular silhouette, gap and opening. All base fragments are brown compost and wood, not ivory mushroom shards. The round blue caps must keep the polygonal guide contours. Eliminate baked shadows and highlight gloss; flat albedo. Do not copy geometry or illumination from the second image.",
+      "selected": true,
+      "reason": "Best permitted return: corrected brown base materials. Still fails native 1024x1024 size and exact guide geometry; residual shading remains.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "58746f967831acf6950ba794fd68a23d6a8f26e2abdb8801dd13f4e6a8deb5d7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "output": "paint_left.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "cream/ivory, violet gills, brown soil/wood; blue-white tips where visible",
+        "flat_even_light": "Residual surface and crevice shading remains; not strictly shadowless albedo.",
+        "unresized_unmodified_return": true
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for a 3D fungus clump. Generate one 1024 x 1024 RGBA image with genuine transparent background.\nInput image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material and colour reference ONLY, not a composition reference.\nPaint ONLY the existing guide surfaces. Preserve the guide pixel-aligned EXACTLY: same silhouette, size, position, framing, camera, every shape edge, polygonal contour, opening, hole, occlusion and detail. Do not round or smooth its angular outline. Nothing added outside its silhouette, nothing cropped, no recentering, no resizing. Preserve its alpha silhouette and all transparent holes.\nTransfer pale cream and ivory fungus flesh with soft speckles, pale violet gills following the cap undersides into the stems, dark brown composted soil and woody fragments on the existing base shapes, and faint blue-white glowing tips only where small capped stalks exist in the guide. Use the approved reference's materials in the GUIDE'S shapes, not the reference's shapes.\nLIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on surroundings. Material detail must be painted colour rather than dramatic shading. No text, labels or watermark.\nView: RIGHT, matching guide_right.png exactly. Keep all foreground caps and their overlap fixed to the guide. Do not move the small caps from the reference to the front: only paint what this RIGHT geometry shows. REQUIRED native output dimensions: exactly 1024 by 1024 pixels, matching the target guide canvas; do not generate at 1254 or any larger size. Preserve every pixel location of the guide outline.\nCORRECTIVE REGENERATION, the only permitted correction for this view: output must be 1024x1024 native. Strictly retain the FIRST image's alpha outline and polygonal shape edges; perform surface recolouring only. Previous attempt incorrectly invented TWO BLUE MUSHROOMS in the lower-left foreground. There are NO such shapes visible there in guide_right.png. Do NOT add these mushrooms or their stalks. Keep the guide's exact small transparent holes in this area. All base fragments are brown compost and wood, not ivory mushroom shards. Do not round or smooth the polygonal caps or fill any guide openings. Eliminate baked shadow/AO and specular gloss; flat albedo. Do not copy geometry or illumination from the second image.",
+      "selected": true,
+      "reason": "Best permitted return: removed invented foreground blue mushrooms and corrected brown base materials. Still fails native 1024x1024 size and exact guide geometry; residual shading remains.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "73639f3b95e5c7a87c6d97d5c9f525bc31806da064c7225a261903874cf44cc8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "output": "paint_right.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "cream/ivory, violet gills, brown soil/wood; blue-white tips where visible",
+        "flat_even_light": "Residual surface and crevice shading remains; not strictly shadowless albedo.",
+        "unresized_unmodified_return": true
+      }
+    }
+  ]
+}

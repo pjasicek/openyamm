@@ -1,0 +1,30 @@
+id: mm9.ai.set_target
+title: evt.SetActorTarget - a caged monster goes for the party at once, a monster for its friend
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        The caged wolf notices nothing until the 3 s target event wakes it and sets it on the party; the second wolf
+        and the Horde Grunt are friends until the event sets the wolf on the grunt, which then fights back.
+  # A party for the monsters to strike (the arena keeps it invulnerable).
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: set_target.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, before: 3, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, target: party, after: 3, before: 3.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party, after: 3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, before: 3, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: script, target: actor:7, after: 3, before: 3.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, target: actor:7, after: 3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: retarget, target: actor:6, after: 3, min_count: 1}

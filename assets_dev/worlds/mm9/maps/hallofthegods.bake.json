@@ -1,0 +1,80 @@
+{
+  "base": {
+    "bake": "output/mm9_rework/bakes/hallofthegods",
+    "carried_over": false,
+    "geometry_hash": "efaebc60ba26c03c",
+    "lighting_sha256": "282f974a977a32da7cb85015dcb2942cfcb7e55c5bf990ac0d0597ab6f4b7959",
+    "recipe": {
+      "backend": "5.3.0",
+      "extra_lights": [],
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
+      "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
+      "profile": {
+        "ambient_colour": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "ambient_scale": 1.5,
+        "blur_radius": 2,
+        "bounce_scale": 1.0,
+        "bounces": 1,
+        "direct_scale": 0.55,
+        "dirlights": true,
+        "emitters": [
+          {
+            "colour": [
+              0.85,
+              0.9,
+              1.0
+            ],
+            "display": 1.0,
+            "outward": false,
+            "strength": 1.0,
+            "textures": [
+              "ARSL0T1IGW",
+              "ARSLAV9ILE",
+              "ARSLDD8YWQ",
+              "ARSLDHX75W",
+              "ARSLNVVXK0",
+              "ARSLQO1R9H"
+            ]
+          }
+        ],
+        "glass": [],
+        "layout_only": true,
+        "light_size": 24,
+        "map": "hallofthegods.blv",
+        "max_lighting": 1,
+        "outward_distance": 4096,
+        "padding": 2,
+        "page_size": 4096,
+        "samples": 128,
+        "shadowless_faces": [],
+        "sky_bounce_scale": 1.0,
+        "sky_scale": 0.2,
+        "units_per_texel": 25.6,
+        "world": "mm9"
+      }
+    }
+  },
+  "dat": "mm9/extracted/WORLDS/WORLDS/HALLOFTHEGODS.dat",
+  "dat_sha256": "9ce363c8afbc8fab9465dd705a1d948e57c521041f64bac1ada6065cddba0e1b",
+  "daylight_pages": false,
+  "encoding": "display",
+  "fallback_models": [],
+  "min_light": 0.0,
+  "parameters": {
+    "fallback_cells": [
+      2,
+      8
+    ],
+    "fallback_voxel_lt": 64.0,
+    "inside_eps_lt": 4.5,
+    "normal_dot": 0.998,
+    "outside_reach_lt": 24.0,
+    "plane_tolerance_lt": 1.5
+  },
+  "producer": "mm9r_common/lightmap_transfer.py",
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
+}

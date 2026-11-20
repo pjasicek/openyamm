@@ -1,0 +1,265 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.yanmirsfort_doors_exits
+title: Yanmir's Fort (native BLV) - the gates, a double door, the teleporter doors, a cage, the secret wall
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: yanmirsfort.blv
+- note:
+    text: 'TPS1 (DAT object 777): the west gate back to Frosgard, just west of the start.'
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: yanmirsfort.blv
+      x: -8197
+      y: -2458
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: yanmirsfort.blv
+      x: -8597
+      y: -2458
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 500
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 777
+- load_map:
+    map: yanmirsfort.blv
+- note:
+    text: Door1a8/Door1b8 (DPortal18, north of the entrance corridor) is shut and stops the party.
+- assert:
+    mechanism:
+      id: 21
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: yanmirsfort.blv
+      x: -5079
+      y: -341
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: yanmirsfort.blv
+      x: -5079
+      y: -101
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 90
+    tolerance_z: 40
+- note:
+    text: A click on the leaves opens the pair; the party walks through to the north.
+- set_pose:
+    map: yanmirsfort.blv
+    x: -5079
+    y: -171
+    z: 1
+    yaw: 1.5708
+    pitch: 1.2893
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1.6
+- assert:
+    mechanism:
+      id: 21
+      state: open
+- assert:
+    mechanism:
+      id: 22
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: yanmirsfort.blv
+      x: -5079
+      y: -341
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: yanmirsfort.blv
+      x: -5079
+      y: 259
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 40
+- note:
+    text: The teleporter doors (DPortal37, Locked) stay shut without Yanmir's key.
+- set_pose:
+    map: yanmirsfort.blv
+    x: 16712
+    y: -89
+    z: -19
+    yaw: 1.5708
+    pitch: 0.8294
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 47
+      state: closed
+- note:
+    text: RotatingDoor64 (a cage in the children's room, Locked) stays shut too.
+- set_pose:
+    map: yanmirsfort.blv
+    x: 16228
+    y: -820
+    z: 1
+    yaw: 0.0
+    pitch: -0.0136
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 64
+      state: closed
+- note:
+    text: 'Yanmir''s key (YanmirKey.scr), a world item, picked up: item 570 and key 7001.'
+- set_pose:
+    map: yanmirsfort.blv
+    x: 5366
+    y: 2306
+    z: 605
+    yaw: 1.5708
+    pitch: -1.1494
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    qbit_set:
+    - 97001
+- assert:
+    inventory_any_member:
+    - item_id: 10570
+      count: 1
+- note:
+    text: With the key the cage and the teleporter doors open; the party walks into TPS2.
+- set_pose:
+    map: yanmirsfort.blv
+    x: 16228
+    y: -820
+    z: 1
+    yaw: 0.0
+    pitch: -0.0136
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 64
+      state: open
+- set_pose:
+    map: yanmirsfort.blv
+    x: 16712
+    y: -89
+    z: -19
+    yaw: 1.5708
+    pitch: 0.8294
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 47
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: yanmirsfort.blv
+      x: 16712
+      y: -159
+      z: -19
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: yanmirsfort.blv
+      x: 16712
+      y: 541
+      z: -19
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 600
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 599
+- load_map:
+    map: yanmirsfort.blv
+- note:
+    text: The secret wall (Secretdoor) opens on a click and stays open (OpenTrigger lock).
+- assert:
+    mechanism:
+      id: 68
+      state: closed
+- set_pose:
+    map: yanmirsfort.blv
+    x: 2789
+    y: -14582
+    z: -40
+    yaw: 3.1416
+    pitch: 0.1616
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    state_dump_named_map_var:
+      name: SecretOpen
+      value: 1
+- assert:
+    mechanism:
+      id: 68
+      state: open
+- advance_runtime:
+    seconds: 20
+- assert:
+    mechanism:
+      id: 68
+      state: open

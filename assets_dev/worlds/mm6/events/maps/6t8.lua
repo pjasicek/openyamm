@@ -50,7 +50,7 @@ SetMapMetadata({
 
 RegisterEvent(1, "Switch", function()
     evt.SetDoorState(1, DoorAction.Close)
-    evt.SetTexture(635, "t1swbu")
+    evt.SetTexture(-635, "t1swbu")
     SetValue(MapVar(4), 1)
 end, "Switch")
 
@@ -61,19 +61,19 @@ end)
 RegisterEvent(3, "Switch", function()
     evt.SetDoorState(3, DoorAction.Trigger)
     SetValue(MapVar(3), 1)
-    evt.SetTexture(643, "t1swbu")
-    evt.SetTexture(639, "t1swbu")
+    evt.SetTexture(-643, "t1swbu")
+    evt.SetTexture(-639, "t1swbu")
 end, "Switch")
 
 RegisterEvent(4, "Switch", function()
     evt.SetDoorState(4, DoorAction.Trigger)
-    evt.SetTexture(647, "t1swbu")
+    evt.SetTexture(-647, "t1swbu")
     SetValue(MapVar(5), 1)
 end, "Switch")
 
 RegisterEvent(5, nil, function()
     evt.SetDoorState(1, DoorAction.Open)
-    evt.SetTexture(635, "t1swbd")
+    evt.SetTexture(-635, "t1swbd")
     SetValue(MapVar(6), 1)
 end)
 
@@ -152,20 +152,20 @@ end)
 
 RegisterEvent(22, nil, function()
     if IsAtLeast(MapVar(3), 1) then
-        evt.SetTexture(643, "t1swbd")
-        evt.SetTexture(639, "t1swbd")
+        evt.SetTexture(-643, "t1swbd")
+        evt.SetTexture(-639, "t1swbd")
     end
 end)
 
 RegisterEvent(23, nil, function()
     if IsAtLeast(MapVar(4), 1) then
-        evt.SetTexture(635, "t1swbu")
+        evt.SetTexture(-635, "t1swbu")
     end
     if IsAtLeast(MapVar(5), 1) then
-        evt.SetTexture(647, "t1swbu")
+        evt.SetTexture(-647, "t1swbu")
     end
     if IsAtLeast(MapVar(6), 1) then
-        evt.SetTexture(635, "t1swbd")
+        evt.SetTexture(-635, "t1swbd")
     end
 end)
 

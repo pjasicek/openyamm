@@ -1,0 +1,146 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit.\nCreate exactly one 1024 x 1024 RGBA PNG: paint_back.png, an orthographic BACK-view albedo texture source for The Seedship.\n\nInput roles:\n1. guide_back.png is the EDIT TARGET and the absolute authority for geometry, camera, framing, silhouettes, every opening and shape edge.\n2. design_reference.png is the approved authority for surface design, colours and materials only. Do not copy its three-quarter camera or long side silhouette.\n3. concept_crop.png is supporting original concept reference only.\n\nEdit only the surface colours of input 1. Keep its original 1024 x 1024 canvas and original alpha silhouette exactly. The small end-on ship occupies x=424 through 599 and y=392 through 632 on that canvas (exclusive bounding box [424,392,600,633]); most of the canvas must remain empty and transparent. DO NOT enlarge, recenter, crop, rotate, reframe, change viewpoint, or fill the canvas with the ship. The top central spine, central hull, both curved fringe-like rib structures, lower prongs, fine tips, all negative spaces and every existing geometry edge must stay at their exact original pixels. Nothing outside the original alpha mask. Paint the existing model; no replacement geometry and no extra spines, holes or protrusions.\n\nMaterials: match the approved design_reference.png using dark violet-black resin hull, ivory bone ribs and plates carrying thin gold-brown veins, ivory spines, and amber-orange sacs/openings painted in their emissive orange colour. Preserve the guide's existing surface structure when assigning these materials. Colours and surface markings belong inside that exact geometry.\n\nLighting: this is ALBEDO for texture projection. Flat, even, shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights, no reflections, no rim light. Amber areas show their orange colour without glow spill, bloom or illumination of surrounding surfaces. No environment, background colour, checkerboard, floor, lettering, border or watermark.\n\nReturn the image at native 1024 x 1024 resolution with genuine transparent alpha outside the unchanged guide silhouette. Preserve original size and position even though the object looks very small within the square.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target_geometry",
+          "sha256": "9296495e32c92e3ce9daf555965c6360fbd6f7a5ff0f8ca05ea4a3d95be4fdc1"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved_material_and_colour_reference",
+          "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original_concept_reference",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254 instead of 1024x1024, and silhouette/geometry edges differ from the guide.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "21cd15a054aa95b7c796a11bf16f4dda789f7e076a23874ce7a520fd3f164e49",
+        "alpha_bbox": [
+          27,
+          39,
+          1198,
+          1236
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "expected_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          424,
+          392,
+          600,
+          633
+        ],
+        "size_matches": false,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Requested palette present.",
+        "flat_even_light": "Some tonal relief remains; strictly flat albedo not verified.",
+        "transparent_background": "RGBA with transparent background but stray nonzero-alpha pixels outside the subject."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Corrective generation, the only retry allowed. Produce ONE native 1024x1024 transparent PNG. The previous return was incorrectly 1254x1254 and changed the edges. Correct both failures. Return 1024x1024, not 1254x1254. Do not rescale the input.\n\nInput 1, guide_back.png, is the image to EDIT IN PLACE. It is already 1024x1024. Copy its alpha channel and every shape boundary exactly; change only RGB surface colour. Input 2, design_reference.png, supplies the approved materials, and input 3, concept_crop.png, supplies concept context. Never use the reference camera or geometry.\n\nThis is the BACK end-on orthographic view of The Seedship, not its long side. Preserve the guide pixel for pixel: its small centered object, narrow upward central spine, central hull, many layered curved side ribs and their fine tips, lower prongs, holes and gaps, all internal model edges. Keep every asymmetry already present. The guide alpha bounding box is exactly [424,392,600,633] on the 1024x1024 canvas. Outside this shape every pixel must have alpha zero, with no isolated stray pixels, haze or halo. Leave the large transparent margins exactly as they are. No reframing, enlargement, cropping, translation or new shapes.\n\nPaint only existing surfaces with the approved design's dark violet-black resin hull, ivory bone plates and ribs, fine gold-brown veins, ivory spines, and orange-amber colour in existing sac/opening surfaces. No new holes or geometric features. Do not turn the central hull into a new symmetrical ornament.\n\nThis is an ALBEDO TEXTURE SOURCE: evenly flat frontal colour, shadowless. No ambient occlusion, cast shadows, directional shading, highlights, reflections or rim light. Orange sacs are simply orange; no light spill or bloom. True transparent background, no black backdrop, floor, checkerboard or text.\n\nHighest priorities: exact original 1024x1024 canvas, exact original alpha silhouette, exact original scale and placement, then colour/material transfer. One raw native 1024x1024 PNG.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target_geometry",
+          "sha256": "9296495e32c92e3ce9daf555965c6360fbd6f7a5ff0f8ca05ea4a3d95be4fdc1"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved_material_and_colour_reference",
+          "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original_concept_reference",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the closer raw back-view painting after the single permitted correction. Saved unchanged as paint_back.png; NOT compliant: native size remains 1254x1254, silhouette and internal edges differ, and stray alpha is present. No resizing, alpha replacement or other postprocessing was applied.",
+      "accepted": false,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "49ca0329c3e323896a4d64d06605db7bb759609206d75a90e2350cf6e0120264",
+        "alpha_bbox": [
+          57,
+          240,
+          1224,
+          1205
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "expected_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          424,
+          392,
+          600,
+          633
+        ],
+        "size_matches": false,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "unresized_unmodified_return": true,
+        "alpha_bbox_above_0": [
+          57,
+          240,
+          1224,
+          1205
+        ],
+        "alpha_bbox_above_127": [
+          519,
+          479,
+          735,
+          776
+        ],
+        "alpha_bbox_above_254": [
+          520,
+          543,
+          734,
+          759
+        ],
+        "transparent_pixel_fraction": 0.9758418992239188,
+        "materials_and_colours": "Visual check: violet-black hull, ivory ribs/spine, gold-brown veins and amber-orange openings match the requested palette.",
+        "flat_even_light": "No scene, floor or cast shadow visible; residual tonal relief remains, so strict shadowless albedo is not verified.",
+        "transparent_background": "RGBA with zero-alpha background, but stray nonzero-alpha pixels extend beyond the object.",
+        "geometry": "Fails: fine side-rib tips, lower prongs and internal edges differ from the guide; native canvas size also differs."
+      }
+    }
+  ],
+  "status": "incomplete: neither raw return satisfies the exact size and silhouette requirements",
+  "corrective_regenerations_used": 1
+}

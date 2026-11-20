@@ -1,0 +1,20 @@
+{
+  "family": "ogr",
+  "title": "MM6 Ogre",
+  "descriptor_ids": [
+    592,
+    593,
+    594
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 784,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Native MM6 ogre B: tall lean grey-brown monster with long arms, broad blunt bald head, heavy brow, tiny yellow eyes, prominent pale tusks and small pointed ears. Original dull silver metal shoulder plates and forearm guards, dark brown leather chest piece with a circular gold skull medallion, broad black/brown belt and buckle, small ragged orange-brown leather loincloth, brown shin wraps and bare clawed feet. Carries the native large curved grey blade in his right hand (image left). Blue metal spike accents on shoulder plates and forearm guards. Preserve exact native lean torso and limbs, outfit and weapon proportions; no modern redesign, extra spikes, giant muscles, new weapons, added accessories or polished glossy metal.",
+  "regions": "Only the native BLUE spike accents on shoulder/forearm armor change for palette variants. Skin, tusks, yellow eyes, grey blade and main silver armor, gold skull medallion, brown leather and wraps remain protected. Generate blue spikes only and retain their exact native size and location.",
+  "variant_names": {
+    "783": "Ogre A / black spikes",
+    "784": "Ogre B / blue spikes",
+    "785": "Ogre C / red spikes"
+  }
+}

@@ -1,0 +1,1350 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "hallofthegods.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 893,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 2376,
+    "texture_name": "lqw115mm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Krohn",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9255,
+    "monster_id": 9255,
+    "radius": 64,
+    "height": 346,
+    "move_speed": 0,
+    "position": {
+     "x": 5898,
+     "y": 2949,
+     "z": 851
+    },
+    "initial_yaw_units": 1033,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.25,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc335.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 124,
+    "mm9_rude_id": 335
+   },
+   {
+    "actor_index": 1,
+    "name": "Skraelos",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9257,
+    "monster_id": 9257,
+    "radius": 41,
+    "height": 287,
+    "move_speed": 0,
+    "position": {
+     "x": 4915,
+     "y": 1802,
+     "z": 677
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.6,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc336.scr",
+     "script_params": "Hall"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 125,
+    "mm9_rude_id": 336
+   },
+   {
+    "actor_index": 2,
+    "name": "Fre",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9256,
+    "monster_id": 9256,
+    "radius": 41,
+    "height": 287,
+    "move_speed": 0,
+    "position": {
+     "x": 4588,
+     "y": 3523,
+     "z": 677
+    },
+    "initial_yaw_units": 1388,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.6,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc337.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 126,
+    "mm9_rude_id": 337
+   },
+   {
+    "actor_index": 3,
+    "name": "Hanndl",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9260,
+    "monster_id": 9260,
+    "radius": 77,
+    "height": 415,
+    "move_speed": 0,
+    "position": {
+     "x": 2458,
+     "y": 2785,
+     "z": 687
+    },
+    "initial_yaw_units": 2045,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.5,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "wg_npc334.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 127
+   },
+   {
+    "actor_index": 4,
+    "name": "Philip",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 1800,
+    "hostility_type": 0,
+    "monster_info_id": 9262,
+    "monster_id": 9262,
+    "radius": 38,
+    "height": 123,
+    "move_speed": 384,
+    "position": {
+     "x": 4588,
+     "y": 2785,
+     "z": 687
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "profile": {
+      "archetype": "civilian",
+      "skirmisher": false
+     },
+     "script": "npc377.scr"
+    },
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 128,
+    "mm9_rude_id": 377
+   },
+   {
+    "actor_index": 5,
+    "name": "Wyrde of the Knowing (Verdandi)",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 1,
+    "hostility_type": 0,
+    "monster_info_id": 9264,
+    "monster_id": 9264,
+    "radius": 46,
+    "height": 230,
+    "move_speed": 0,
+    "position": {
+     "x": 4424,
+     "y": 3441,
+     "z": 687
+    },
+    "initial_yaw_units": 1823,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.5,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 129
+   },
+   {
+    "actor_index": 6,
+    "name": "Wyrde of the Known (Igrid)",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9263,
+    "monster_id": 9263,
+    "radius": 46,
+    "height": 261,
+    "move_speed": 0,
+    "position": {
+     "x": 4669,
+     "y": 3277,
+     "z": 687
+    },
+    "initial_yaw_units": 704,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.5,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 130
+   },
+   {
+    "actor_index": 7,
+    "name": "Wyrde of the Unknown (Morgan)",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 1,
+    "hostility_type": 0,
+    "monster_info_id": 9265,
+    "monster_id": 9265,
+    "radius": 46,
+    "height": 230,
+    "move_speed": 0,
+    "position": {
+     "x": 4588,
+     "y": 3195,
+     "z": 687
+    },
+    "initial_yaw_units": 704,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.5,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 131
+   },
+   {
+    "actor_index": 8,
+    "name": "Krohn",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9255,
+    "monster_id": 9255,
+    "radius": 64,
+    "height": 346,
+    "move_speed": 0,
+    "position": {
+     "x": 4424,
+     "y": 3195,
+     "z": 687
+    },
+    "initial_yaw_units": 272,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.25,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "wg_npc335.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 149
+   },
+   {
+    "actor_index": 9,
+    "name": "Skraelos",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9257,
+    "monster_id": 9257,
+    "radius": 41,
+    "height": 287,
+    "move_speed": 0,
+    "position": {
+     "x": 4588,
+     "y": 3359,
+     "z": 687
+    },
+    "initial_yaw_units": 1388,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.6,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "wg_npc336.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 150
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    -7281,
+    2952,
+    1
+   ],
+   "direction_degrees": 0
+  }
+ ],
+ "loot_containers": [],
+ "static_lights": {
+  "sides": "front"
+ },
+ "translucent_faces": [
+  {
+   "faces": [
+    2297,
+    2298,
+    2299,
+    2300,
+    2301,
+    2302,
+    2303,
+    2304,
+    2305,
+    2306,
+    2307,
+    2308,
+    2309,
+    2310,
+    2311
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  },
+  {
+   "faces": [
+    2375
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [],
+ "ambient_sounds": [
+  {
+   "key": 165,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -8356,
+    -655,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 166,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -6062,
+    -1638,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 167,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -3768,
+    -1638,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 168,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -1475,
+    -1638,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 169,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    819,
+    -2294,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 170,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    3113,
+    -2294,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 171,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    5407,
+    -2294,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 172,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    7700,
+    -2294,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 173,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    9667,
+    -819,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 174,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    9667,
+    1475,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 175,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    9667,
+    3768,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 176,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    9667,
+    6062,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 177,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    8356,
+    8356,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 178,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    6062,
+    8356,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 179,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    3768,
+    8356,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 180,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    1475,
+    8356,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 181,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -819,
+    8356,
+    3277
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 182,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -3113,
+    8028,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 183,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -5407,
+    8028,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 184,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -7700,
+    8028,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 185,
+   "sound": "ambient/wind/whistling_wind.wav",
+   "position": [
+    -9011,
+    6062,
+    2621
+   ],
+   "inner_radius": 2048,
+   "outer_radius": 10240,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 186,
+   "sound": "ambient/wind/wind01.wav",
+   "position": [
+    -4751,
+    3113,
+    3932
+   ],
+   "inner_radius": 1536,
+   "outer_radius": 7680,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 47,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4936,
+    4716,
+    983
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 48,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1905,
+    3973,
+    164
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 51,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3400,
+    4762,
+    164
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 54,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1843,
+    4716,
+    983
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 58,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -5919,
+    3850,
+    164
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 61,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -5919,
+    2048,
+    164
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 62,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3400,
+    1188,
+    164
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 65,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4936,
+    1101,
+    983
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 68,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1879,
+    1101,
+    983
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 75,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1905,
+    1925,
+    164
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 107,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    5693,
+    2007,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 108,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    4219,
+    2007,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 109,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2826,
+    2007,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 110,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1352,
+    2007,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 111,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1597,
+    -369,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 112,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6758,
+    -369,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 113,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    6799,
+    6308,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 114,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1597,
+    6267,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 115,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    5755,
+    3891,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 116,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    4219,
+    3891,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 117,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2826,
+    3891,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 118,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1352,
+    3891,
+    799
+   ],
+   "inner_radius": 224,
+   "outer_radius": 896,
+   "volume": 0.525,
+   "loop": true
+  }
+ ]
+}

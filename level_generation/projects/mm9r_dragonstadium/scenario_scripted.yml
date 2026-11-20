@@ -1,0 +1,117 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dragonstadium_scripted
+title: 'Dragon Stadium (native BLV) - Dragon.scr: hidden until the trigger, mutants, the reward'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dragonstadium.blv
+- note:
+    text: 'Dragon.scr ScriptParams 1 (:HideSetup): the Dragon King is not there until the trigger.'
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: true
+- assert:
+    state_dump_named_map_var:
+      name: DragonAwake
+      value: 0
+- note:
+    text: The party walks from the start up the tunnel into DragonTrigger's box (polled).
+- movement_segment:
+    input: forward
+    seconds: 1.92
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dragonstadium.blv
+      x: 1802
+      y: -5734
+      z: -163
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: dragonstadium.blv
+      x: 1802
+      y: -4257
+      z: -12
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: DragonAwake
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- note:
+    text: ':SpawnMutants 45 s after :OnTrigger: two Winged Mutants at MutantMarker0/1 (the party waits out of his sight in
+      the side tunnel).'
+- set_pose:
+    map: dragonstadium.blv
+    x: 6272
+    y: -7424
+    z: 470
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 40
+- assert:
+    state_dump_named_map_var:
+      name: MutantsSpawned
+      value: 0
+- advance_runtime:
+    seconds: 6
+- assert:
+    state_dump_named_map_var:
+      name: MutantsSpawned
+      value: 2
+- assert:
+    actor_count:
+      monster_id: 9160
+      min: 2
+- note:
+    text: 'He has not left his place (immobile: no ground walk in MM9).'
+- assert:
+    actor_visible:
+      actor_index: 0
+      near:
+        x: 1864
+        y: 737
+        max_distance: 32
+- note:
+    text: ':OnDeath: killed by the party, key 472 (QBit 90472) and item 577 (Super Guber Award).'
+- damage_actor:
+    actor_index: 0
+    amount: 10000000
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: DragonDead
+      value: 1
+- assert:
+    qbit_set:
+    - 90472
+- assert:
+    inventory_any_member:
+    - item_id: 10577
+      count: 1
+- note:
+    text: 'A dead AI''s Wait timers still fire (MM9): his :SpawnMutants goes on, the next pair 90 s after the first.'
+- advance_runtime:
+    seconds: 95
+- assert:
+    state_dump_named_map_var:
+      name: MutantsSpawned
+      value: 4

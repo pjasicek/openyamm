@@ -1,0 +1,995 @@
+{
+ "id": "20261009-1649-mm7-7out03-19",
+ "world": "mm7",
+ "maps": [
+  "7out03.odm",
+  "out14.odm"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/sgspirit",
+  "mm7/trim10_16",
+  "mm7/trim3_16a",
+  "mm7/trim6_32a",
+  "mm7/trim9_16a",
+  "mm7/hem1el",
+  "mm7/hem1elw",
+  "mm7/her1bw",
+  "mm7/her1erw",
+  "mm7/hem1b",
+  "mm7/ckbel",
+  "mm7/ckber",
+  "mm7/her1b",
+  "mm7/her1erb",
+  "mm7/her1elw",
+  "mm7/her1le",
+  "mm7/ckbw",
+  "mm7/hep1b",
+  "mm7/hep1el",
+  "mm7/hep1bs1",
+  "mm7/hep1bs",
+  "mm7/hep1er",
+  "mm7/hep1lw",
+  "mm7/hep1bw"
+ ],
+ "requests": {
+  "mm7/sgspirit": {
+   "name": "sgspirit",
+   "versions": [
+    1
+   ],
+   "material": "guild sign: framed painting of a blue eye with silver wings on an orange four-pointed star, on a dark brown wooden background inside a blue-grey frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim10_16": {
+   "name": "trim10_16",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of reddish-brown wood with fine vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim3_16a": {
+   "name": "trim3_16a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of light golden-brown wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim3_16",
+    "k": 3
+   }
+  },
+  "mm7/trim6_32a": {
+   "name": "trim6_32a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of dark brown wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim6_32",
+    "k": 3
+   }
+  },
+  "mm7/trim9_16a": {
+   "name": "trim9_16a",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of light tan wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hem1el": {
+   "name": "hem1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with a curved dark brown wooden rib sweeping across in a broken arch, a dark wooden post on the left edge and small green ivy leaves on the left",
+   "notes": {
+    "4": "the rightmost planks continue the sharp neighbouring planks in the right margin exactly: the same slightly darker, greyer tan tone and grain right up to the right edge, with no plank joint line on the edge itself"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hem1d"
+    },
+    "4": {
+     "right": "mm7/hem1d"
+    }
+   }
+  },
+  "mm7/hem1elw": {
+   "name": "hem1elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with a curved dark brown wooden rib sweeping across in a broken arch, a dark wooden post on the left edge, small green ivy leaves on the left and part of a small arched dark wooden window at the right edge; copy the composition exactly",
+   "notes": {
+    "2": "continue the sharp plank areas exactly: every plank keeps one straight continuous grain and joint line from top to bottom, with no stepped or blocky boundaries between areas"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.86
+    },
+    "2": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.86
+    }
+   }
+  },
+  "mm7/her1bw": {
+   "name": "her1bw",
+   "versions": [
+    1
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with an arched brown plank shutter window flanked by two teal carved columns in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/her1erw": {
+   "name": "her1erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with a timber post on the right edge and an arched brown plank shutter window flanked by two teal carved columns in the centre; copy the composition exactly",
+   "notes": {
+    "3": "the timber post on the right runs right up to the very last pixel column at its full mid-brown wood brightness; no dark outline, crack or shadow line along the right edge",
+    "4": "the timber post at the right edge continues beyond the right border of the picture: the rightmost pixel columns show the middle of the post's mid-brown wood grain, not its outer edge, so there is no dark outline, groove or shadow line at the right border"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/her1bw"
+     ],
+     "fraction": 0.311
+    },
+    "2": {
+     "sources": [
+      "mm7/her1bw",
+      "mm7/her1b"
+     ],
+     "fraction": 0.329
+    },
+    "3": {
+     "sources": [
+      "mm7/her1bw",
+      "mm7/her1b"
+     ],
+     "fraction": 0.329
+    },
+    "4": {
+     "sources": [
+      "mm7/her1bw",
+      "mm7/her1b"
+     ],
+     "fraction": 0.329
+    }
+   }
+  },
+  "mm7/hem1b": {
+   "name": "hem1b",
+   "versions": [
+    1
+   ],
+   "material": "pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with two curved dark brown wooden ribs meeting in a pointed arch over a central vertical rib and a small green leaf",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.616
+    }
+   }
+  },
+  "mm7/ckbel": {
+   "name": "ckbel",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-brown fieldstone wall of irregular stacked stones with dark joints, with larger cut stones at the lower left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.652
+    }
+   }
+  },
+  "mm7/ckber": {
+   "name": "ckber",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-brown fieldstone wall of irregular stacked stones with dark joints, with larger cut stones at the lower right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.65
+    }
+   }
+  },
+  "mm7/her1b": {
+   "name": "her1b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with a green ivy vine climbing the centre post",
+   "notes": {
+    "3": "continue the sharp neighbouring walls in the left and right margins exactly: the same speckled grey-brown plaster mottling and tone in the top triangles, the same dark blue-grey cobblestones in the bottom band, and every horizontal timber rail at exactly the same height and thickness as in the margins"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/her1bw"
+     ],
+     "fraction": 0.5
+    },
+    "2": {
+     "sources": [
+      "mm7/her1bw",
+      "mm7/her1erw"
+     ],
+     "fraction": 0.518
+    },
+    "3": {
+     "sources": [
+      "mm7/her1bw",
+      "mm7/her1erw"
+     ],
+     "fraction": 0.518
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm7/hem2elw",
+     "right": "mm7/her1erw",
+     "left": "mm7/her1bw"
+    },
+    "3": {
+     "top": "mm7/hem2elw",
+     "right": "mm7/her1erw",
+     "left": "mm7/her1bw"
+    }
+   }
+  },
+  "mm7/her1erb": {
+   "name": "her1erb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with a green ivy vine climbing the centre post, a small dark red hanging ornament on the left and a timber post on the right edge",
+   "notes": {
+    "3": "the wooden post on the right runs to the very last pixel column at full brightness: no dark outline or line along the right edge",
+    "4": "the timber post on the right is one solid beam of even mid-brown wood with no groove, crack or dark line along it; on its left the panels continue the wall seamlessly",
+    "5": "at the left edge the diagonal golden planks and the beams run straight across the border: there is no post, frame strip or dark line on the left edge; the only vertical post is the solid beam on the right edge",
+    "6": "copy the composition exactly: a single ivy vine on the central vertical beam and a dark red hanging sign at the left; nothing grows on the right post; at the left edge the diagonal golden planks and beams run straight across the border with no post, strip or dark line; the right post is one solid beam of even mid-brown wood",
+    "7": "copy the composition exactly: a single ivy vine on the central beam and a dark red hanging sign at the left; at the left edge the diagonal golden planks, the stones and the beams run straight across the border with no post, strip or dark line; the right post is one solid beam of even mid-brown wood"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/her1erw",
+      "mm7/her1bw"
+     ],
+     "fraction": 0.469
+    },
+    "2": {
+     "sources": [
+      "mm7/her1b",
+      "mm7/her1bw"
+     ],
+     "fraction": 0.129
+    },
+    "3": {
+     "sources": [
+      "mm7/her1b",
+      "mm7/her1bw"
+     ],
+     "fraction": 0.129
+    },
+    "4": {
+     "sources": [
+      "mm7/her1erw",
+      "mm7/her1bw"
+     ],
+     "fraction": 0.469
+    },
+    "5": {
+     "sources": [
+      "mm7/her1erw",
+      "mm7/her1bw"
+     ],
+     "fraction": 0.469
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm7/her1bw"
+    },
+    "4": {},
+    "5": {},
+    "6": {
+     "left": "mm7/her1bw"
+    },
+    "7": {}
+   },
+   "roll": {
+    "4": [
+     76,
+     0
+    ],
+    "5": [
+     76,
+     0
+    ],
+    "7": [
+     76,
+     0
+    ]
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "joint_tone": true
+  },
+  "mm7/her1elw": {
+   "name": "her1elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with a timber post on the left edge and an arched brown plank shutter window flanked by two teal carved columns in the centre; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "3": "a wide brown timber post fills the left edge over the full height without interruption; at the right edge the picture is cut through the middle of the panel: the yellow diagonal planks, the horizontal beams and the stones simply continue past the right edge at full brightness, with no post, shadow or dark line there; keep the layout of the reference exactly",
+    "4": "the leftmost tenth of the picture is one wide brown timber post running the full height from top to bottom without any break; the yellow diagonal planks, beams and stones start only to the right of that post and never cover it; on the right everything continues seamlessly into the sharp neighbouring wall in the right margin; keep the layout of the reference exactly",
+    "5": "a wide brown timber post fills the left edge over the full height without interruption; at the right edge the picture is cut through the panel: the curved brown arch timber at the top right, the horizontal beams, the yellow planks and the stones run off the right edge at exactly the heights and curve of the reference, with no post, shadow or dark line there; keep the layout of the reference exactly",
+    "6": "the dark timber post fills the very left edge: its brown wood reaches the first pixel column, with no yellow plank or light strip to the left of it",
+    "7": "the dark timber post fills the very left edge: its brown wood reaches the first pixel column, with no yellow plank or light strip to the left of it",
+    "8": "the speckled grey-brown plaster at the top has exactly the same tone and grain as the plaster continuing in the neighbouring piece on the right",
+    "9": "the speckled grey-brown plaster at the top has exactly the same tone and grain as the plaster continuing in the neighbouring piece on the right"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [
+      "mm7/her1le"
+     ],
+     "fraction": 0.531
+    },
+    "7": {
+     "sources": [
+      "mm7/her1le"
+     ],
+     "fraction": 0.531
+    },
+    "8": {
+     "sources": [
+      "mm7/her1le"
+     ],
+     "fraction": 0.531
+    },
+    "9": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/her1b"
+    },
+    "3": {},
+    "4": {
+     "right": "mm7/her1b"
+    },
+    "5": {},
+    "6": {
+     "right": "mm7/her1b"
+    },
+    "7": {},
+    "8": {
+     "right": "mm7/her1b"
+    },
+    "9": {
+     "right": "mm7/her1b",
+     "bottom": "mm7/her1b"
+    }
+   },
+   "roll": {
+    "3": [
+     82,
+     0
+    ],
+    "5": [
+     82,
+     0
+    ],
+    "7": [
+     82,
+     0
+    ]
+   },
+   "match_neighbor": true,
+   "pad": {
+    "9": [
+     32,
+     32
+    ]
+   },
+   "joint_tone": true
+  },
+  "mm7/her1le": {
+   "name": "her1le",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with a green ivy vine climbing the centre post, a small dark red hanging ornament on the right and a timber post on the left edge",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "3": "the brown timber post along the left edge runs straight down the full height and continues right up to the last pixel column in brown wood: no yellow plank sliver or pale line on the left edge; keep the layout of the reference exactly",
+    "4": "the brown timber post along the left edge runs straight down the full height and continues right up to the last pixel column in brown wood, with no yellow sliver or pale line on the left edge; on the right the yellow planks, beams and stones continue seamlessly into the sharp neighbouring wall in the right margin at the same brightness, no post or dark line on the right edge; keep the layout of the reference exactly",
+    "5": "a wide brown timber post fills the left edge over the full height without interruption; at the right edge the picture is cut through the middle of the panel: the yellow diagonal planks, the horizontal beams and the stones simply continue past the right edge at full brightness, with no post, shadow or dark line there; keep the layout of the reference exactly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/her1elw"
+     ],
+     "fraction": 0.531
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/her1bw"
+    },
+    "3": {},
+    "4": {
+     "right": "mm7/her1bw"
+    },
+    "5": {}
+   },
+   "roll": {
+    "3": [
+     47,
+     0
+    ],
+    "5": [
+     47,
+     0
+    ]
+   }
+  },
+  "mm7/ckbw": {
+   "name": "ckbw",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-brown fieldstone wall of irregular stacked stones with dark joints, with an arched window opening onto dark blue night framed by rounded stone voussoirs, a stone sill and two small carved stone figures at its sides; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.489
+    }
+   }
+  },
+  "mm7/hep1b": {
+   "name": "hep1b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with bare golden-brown branching vines spreading over it and a clump of dark green ivy at the bottom",
+   "notes": {
+    "2": "the green timber beam's light top highlight sits on the first pixel rows at the top edge; the last pixel rows at the bottom edge are dark shadowed stone and ivy like the reference, with no green or pale line",
+    "3": "the green timber beam's light top highlight sits on the first pixel rows at the top edge; the last pixel rows at the bottom edge are dark shadowed stone and ivy like the reference, with no green or pale line",
+    "4": "a thin mid-green timber rail runs along the very top edge, exactly as high as in the reference, its plain mid-green wood filling the first pixel rows with no white or pale highlight line on the edge; the last pixel rows at the bottom are dark shadowed stone and ivy leaves, with no green line",
+    "5": "keep the thin mid-green timber rail along the very top edge exactly as high as in the reference; its upper edge has no white or pale highlight: plain mid-green wood right up to the first pixel row; the last pixel rows at the bottom are dark shadowed stone and ivy leaves, with no green line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hep1el"
+    },
+    "3": {
+     "left": "mm7/hep1el"
+    },
+    "4": {
+     "left": "mm7/hep1el"
+    },
+    "5": {
+     "left": "mm7/hep1el"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     165
+    ],
+    "5": [
+     0,
+     165
+    ]
+   }
+  },
+  "mm7/hep1el": {
+   "name": "hep1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with green-painted wooden posts on the left edge and a diagonal green pole, overgrown with dark green ivy",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "the double green timber post along the left edge covers the outermost pixel columns over the full height, with no stone showing to its left; the bottom rows stay dark shadowed stone and ivy right to the last pixel row, with no green, pale or dark line along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     174
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hep1b"
+    },
+    "3": {
+     "right": "mm7/hep1b"
+    },
+    "4": {
+     "right": "mm7/hep1b"
+    }
+   }
+  },
+  "mm7/hep1bs1": {
+   "name": "hep1bs1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with a low clump of dark green ivy along the bottom",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.281
+    },
+    "2": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.281
+    },
+    "3": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.281
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     178
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hep1el",
+     "right": "mm7/hep1b"
+    },
+    "3": {
+     "left": "mm7/hep1el",
+     "right": "mm7/hep1b"
+    }
+   }
+  },
+  "mm7/hep1bs": {
+   "name": "hep1bs",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with a vertical green-painted wooden pole in the centre overgrown with climbing dark green ivy",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "the green timber beam along the top runs straight off the top edge at its full green brightness, with no dark line or shadow on the first pixel rows; the bottom rows are deep dark shadowed stone and ivy right to the last pixel row, with no lighter line along the bottom edge",
+    "5": "the green timber beam along the top runs straight off the top edge at its full green brightness; the bottom rows are deep dark shadowed stone and ivy right to the last pixel row, with no green, pale or dark line along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.286
+    },
+    "2": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.286
+    },
+    "3": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.286
+    },
+    "4": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.286
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     176
+    ],
+    "4": [
+     0,
+     176
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/hep1er": {
+   "name": "hep1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with green-painted wooden posts on the right edge and a vertical green pole, overgrown with dark green ivy",
+   "notes": {
+    "2": "the green post and stone continue right up to the right edge with the same brightness as the native; no dark shadow line or rim along the right edge",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "5": "the green timber post along the right edge keeps its mid-green wood brightness right up to the last pixel column: no dark crack, groove, shadow or line on the outermost right columns; it continues seamlessly into the sharp neighbouring wall in the right margin",
+    "6": "the green post at the right edge and the green post in the sharp right margin are one continuous timber surface: no dark joint, groove, gap or shadow line anywhere in the last few pixel columns; the wood keeps the same mid-green brightness right across the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.282
+    },
+    "2": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.282
+    },
+    "3": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.282
+    },
+    "4": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.282
+    },
+    "5": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.282
+    },
+    "6": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.282
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     190
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hep1el",
+     "right": "mm7/hep1el"
+    },
+    "4": {
+     "left": "mm7/hep1el",
+     "right": "mm7/hep1el"
+    },
+    "5": {
+     "left": "mm7/hep1el",
+     "right": "mm7/hep1el"
+    },
+    "6": {
+     "left": "mm7/hep1el",
+     "right": "mm7/hep1el"
+    }
+   },
+   "joint_tone": true
+  },
+  "mm7/hep1lw": {
+   "name": "hep1lw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with green-painted wooden posts on both side edges, a small diamond-shaped window with green cross bars over amber glass in the centre and dark green ivy at the bottom; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.13
+    },
+    "2": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.13
+    },
+    "3": {
+     "sources": [
+      "mm7/hep1el"
+     ],
+     "fraction": 0.13
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     166
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hep1er"
+    },
+    "3": {
+     "right": "mm7/hep1er"
+    }
+   }
+  },
+  "mm7/hep1bw": {
+   "name": "hep1bw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with green-painted wooden posts on both side edges and a green-framed arched window over amber glass half covered by climbing dark green ivy and bare golden-brown vines; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hep1bs1",
+      "mm7/hep1b"
+     ],
+     "fraction": 0.19
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     174
+    ]
+   }
+  }
+ }
+}

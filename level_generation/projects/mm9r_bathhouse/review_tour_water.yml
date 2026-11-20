@@ -1,0 +1,32 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_bathhouse/review/water
+settle_seconds: 1.5
+exit: true
+shots:
+- name: flood_up
+  position:
+  - 12544
+  - -256
+  - -1092
+  yaw: 0.0
+  pitch: 0.6109
+- name: flood_up_west
+  position:
+  - 11520
+  - 0
+  - -910
+  yaw: 3.1416
+  pitch: 0.5236
+- name: stairs_from_below
+  position:
+  - 10179
+  - -154
+  - -849
+  yaw: -1.5708
+  pitch: 0.1745
+- name: chamber_water
+  position:
+  - 4352
+  - -768
+  - -1259
+  yaw: 0.0
+  pitch: -0.5236

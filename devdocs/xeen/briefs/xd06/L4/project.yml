@@ -1,0 +1,40 @@
+format: 0
+id: xeen_xd06
+name: Temple of Yak
+world: mm7
+kind: indoor
+profile: dungeon
+map_code: XD-06
+units: {plan_grid: 512}
+extent: {footprint_cells: [17, 29], climbs: s}
+map_stats:
+  id: 9139
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 2
+  refill_days: 672
+  music: 28
+  environment: stone hall
+  lock_difficulty: 2
+  slots:
+    - {monster: Cleric Moon, tier: 2, per_marker: [2, 3], weight: 45}
+    - {monster: Skeleton Warrior, tier: 3, per_marker: [2, 3], weight: 45}
+    - {monster: Lich, tier: 1, per_marker: [1, 2], weight: 10}
+neighbours:
+  - id: door:x2_woods
+    to: xeen_x2.odm
+    kind: door
+    arrival: [-1024, -17840, 1053]
+    arrival_hint: "In the fairy woods' dark south end on X2, 400 in front of the Temple of Yak's door (X2 door:xd06, click face at -1024, -18240, 1088, cells [62, 99.63]), facing away from it, north."
+    direction: 90
+    notes: "X2 (Rivercity and Lake Darzog): the outside arrival from devdocs/xeen/briefs/x2/DOORS.md (final values from X2's built map, 2026-11-16). X2's door needs the Yak Stone (qbit 110101)."
+qbits:
+  elixir_found: 110400
+  treasury_opened: 110402
+  yak_master_slain: 110401
+items:
+  elixir: 1431
+  megacredit: 1438
+notes: "Xeen design brief, level L4: the Temple of Yak built with the studio's words, a playable map (NOTES.md). Story step M10 (King's Megacredits for Newcastle) and Q-C12 (Mirabeth's Elixir of Restoration): devdocs/xeen/QUESTS.md. The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map, as XD-01 to XD-05 are: `world: mm7` until worlds/xeen exists. Stand-ins: slot 1 Cultists (Yak Priest 20) is MM7's Moon clerics at tier b (Cleric of the Moon 20), slot 2 Skeletons (16) the Skeleton Warrior family at tier c (Skeleton Lord 14), slot 3 the source's Yak Liches MM7's Lich (A, 20); the Yak Elders (28) MM7's Necromancer (307, 25), the Yak Master (35) Speaker for the Dead (308, 35) with three times his hit points and a name. Items: the Elixir of Restoration 12191 is MM7's Elixir (1431), the King's Megacredit 12192 MM7's Floor Tile with the moon insignia (1438: a round carved disc, the nearest picture to a minted credit). Quest bits 110400-110402 (the map's range 110400-110469). Music: MM7 track 28 (the Temple of the Moon's). door:x2_woods leads to X2 at DOORS.md's final arrival (-1024, -17840, 1053, facing north)."

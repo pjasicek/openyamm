@@ -1,0 +1,10 @@
+format: 0
+id: s8a_extras
+world: mm9
+kind: indoor
+profile: region
+base: isleofashes.blv
+neighbours:
+  - id: exit:sturmford
+    to: "sturmford.blv at 7511, -17581, 247 (direction, look, speed, house, icon: 1024, 0, 0, 0, 0)"
+    kind: door

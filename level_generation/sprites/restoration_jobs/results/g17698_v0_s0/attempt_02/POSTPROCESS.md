@@ -1,0 +1,1 @@
+Retained detailed RGBA master. Common --adjust 0.98 0 0 eliminates clipping; registration_checks.json records zero solid outside and <=1 native pixel bounds delta. Native opaque RGB gamma preserves alpha. Full raw, reference and final light/dark proofs inspected.

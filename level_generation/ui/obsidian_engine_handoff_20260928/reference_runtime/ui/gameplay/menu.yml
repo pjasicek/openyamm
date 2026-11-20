@@ -1,0 +1,226 @@
+screen: Menu
+elements:
+- id: MenuRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Native menu canvas fitted uniformly by MenuDesignScreen.
+  children:
+  - id: MenuBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    notes: Live frozen game frame with dark overlay; never use the study screenshot as an asset.
+  - id: MenuTitle
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 91.0459
+    width: 244.2667
+    height: 27.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{current_location}'
+      font: fondamento
+      color: '#efe0bc'
+      align_x: center
+      align_y: middle
+      scale: 0.71667
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: MenuPanel
+    anchor: top_left
+    offset_x: 268.2667
+    offset_y: 62.2459
+    width: 316.8
+    height: 355.5083
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_pause_panel.png
+  - id: MenuWorldAndDate
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 122.8293
+    width: 244.2667
+    height: 13.2251
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{world_name} · {game_date}'
+      font: menu_lucida
+      color: '#b7bba9'
+      align_x: center
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: MenuButtonReturn
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 147.2544
+    width: 244.2667
+    height: 27.2
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_primary_default.png
+      highlighted: hud_x2/menus/omenu_button_primary_hover.png
+      pressed: hud_x2/menus/omenu_button_primary_pressed.png
+    text:
+      value: Resume
+      font: fondamento
+      color: '#ffe4ac'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MenuButtonSaveGame
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 181.3877
+    width: 244.2667
+    height: 27.2
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_default.png
+      highlighted: hud_x2/menus/omenu_button_hover.png
+      pressed: hud_x2/menus/omenu_button_pressed.png
+    text:
+      value: Save Game
+      font: fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MenuButtonLoadGame
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 215.5211
+    width: 244.2667
+    height: 27.2
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_default.png
+      highlighted: hud_x2/menus/omenu_button_hover.png
+      pressed: hud_x2/menus/omenu_button_pressed.png
+    text:
+      value: Load Game
+      font: fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MenuButtonSettings
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 249.6544
+    width: 244.2667
+    height: 27.2
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_default.png
+      highlighted: hud_x2/menus/omenu_button_hover.png
+      pressed: hud_x2/menus/omenu_button_pressed.png
+    text:
+      value: Settings
+      font: fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MenuButtonNewGame
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 283.7877
+    width: 244.2667
+    height: 27.2
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_default.png
+      highlighted: hud_x2/menus/omenu_button_hover.png
+      pressed: hud_x2/menus/omenu_button_pressed.png
+    text:
+      value: New Game
+      font: fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MenuButtonMainMenu
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 331.2544
+    width: 244.2667
+    height: 27.2
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_quiet_default.png
+      highlighted: hud_x2/menus/omenu_button_quiet_hover.png
+      pressed: hud_x2/menus/omenu_button_quiet_pressed.png
+    text:
+      value: Main Menu
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MenuButtonQuit
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 365.3877
+    width: 244.2667
+    height: 23.5669
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_danger_default.png
+      highlighted: hud_x2/menus/omenu_button_danger_hover.png
+      pressed: hud_x2/menus/omenu_button_danger_pressed.png
+    text:
+      value: Quit to Desktop
+      font: fondamento
+      color: '#edc0aa'
+      align_x: center
+      align_y: middle
+      scale: 0.36667
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'

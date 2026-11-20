@@ -1,0 +1,83 @@
+# Collision walks: the Acid Garden's wall stops the party, its gate lets it in, and the gantry's deck carries it up from
+# the cradle's slope to the hull breach (BROOD_SPIRES.md BUILD-READY 7, BUILDER_GUIDE outdoor extras).
+id: hesper.out3.brood_collision
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out3.odm
+- note:
+    text: 'Into the west wall from the marsh: blocked at it'
+- movement_segment:
+    input: forward
+    duration_ms: 4000
+    delta_game_minutes: 0.0
+    start:
+      x: -5900
+      y: -4500
+      z: 1000
+      map: hes_out3.odm
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      x: -5340
+      y: -4500
+      z: 1000
+      map: hes_out3.odm
+      yaw: 0.0
+      pitch: 0.0
+    tolerance_xy: 220
+    tolerance_z: 250
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- note:
+    text: 'In through the gate from the lane: open'
+- movement_segment:
+    input: forward
+    duration_ms: 2500
+    delta_game_minutes: 0.0
+    start:
+      x: 100
+      y: -5900
+      z: 1260
+      map: hes_out3.odm
+      yaw: 3.1416
+      pitch: 0.0
+    expect_stop:
+      x: -1800
+      y: -5900
+      z: 1250
+      map: hes_out3.odm
+      yaw: 3.1416
+      pitch: 0.0
+    tolerance_xy: 450
+    tolerance_z: 250
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- note:
+    text: Up the gantry to the hull breach
+- movement_segment:
+    input: forward
+    duration_ms: 4000
+    delta_game_minutes: 0.0
+    start:
+      x: 6150
+      y: 11383
+      z: 1338
+      map: hes_out3.odm
+      yaw: -0.2443
+      pitch: 0.0
+    expect_stop:
+      x: 7903
+      y: 10946
+      z: 1969
+      map: hes_out3.odm
+      yaw: -0.2443
+      pitch: 0.0
+    tolerance_xy: 400
+    tolerance_z: 250
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false

@@ -1,0 +1,42 @@
+# Hallvard Ormssen, Yorwick's spellbook seller (the user, 2026-11-09; RUDE 500, vendor 30500): his talk has the Yorwick
+# townsfolk's topics and opens Hallvard's Tomes, every Master and Grandmaster spellbook.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/yorwick_hallvard_tomes.yml --scenario-no-color
+id: mm9.yorwick_hallvard_tomes
+title: "Yorwick: Hallvard Ormssen talks like the townsfolk and opens Hallvard's Tomes"
+world: mm9
+mode: faithful
+tags: [mm9, dialogue, vendor]
+steps:
+  - load_map:
+      map: yorwick.blv
+  - advance_runtime:
+      seconds: 1.0
+  - interact_actor: {actor_index: 76}
+  - assert:
+      actor_dialog_started:
+        kind: mm9_rude
+        source_id: 500
+      dialog:
+        active: true
+        source_id: 500
+        title: Hallvard Ormssen
+        action_label_present: "Show us your books."
+  - select_topic: {match_label: "We'd like to ask you some questions."}
+  - assert:
+      dialog:
+        action_label_present: "Do you have any news?"
+  - select_topic: {match_label: "Where do your books come from?"}
+  - assert:
+      dialog:
+        text_contains: "a wizard's widow in Thjorgard"
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime:
+      seconds: 0.5
+  - interact_actor: {actor_index: 76}
+  - select_topic: {match_label: "Show us your books."}
+  - advance_runtime:
+      seconds: 0.5
+  - assert:
+      dialog:
+        active: true
+        house_title: "Hallvard's Tomes"

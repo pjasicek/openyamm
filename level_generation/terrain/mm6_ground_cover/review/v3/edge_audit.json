@@ -1,0 +1,93 @@
+{
+  "method": "alpha * max(0, min(R,B)-G), transparent padding excluded; opaque contours included",
+  "raw_band_pixels": 4,
+  "export_band_pixels": 2,
+  "palette": "Olive/tan grass contains no intentional magenta; 8/255 is an audit threshold here only",
+  "cleanup": "Delivered alpha preserved; premultiplied resize. No magenta correction needed.",
+  "records": [
+    {
+      "name": "grass_tuft",
+      "raw": {
+        "edge_pixels": 184660,
+        "over8": 0,
+        "max_visible_magenta": 1.011764705882353,
+        "max_xy": [
+          386,
+          623
+        ]
+      },
+      "exported": {
+        "edge_pixels": 9967,
+        "over8": 0,
+        "max_visible_magenta": 0.0,
+        "max_xy": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "name": "grass_fine",
+      "raw": {
+        "edge_pixels": 235428,
+        "over8": 0,
+        "max_visible_magenta": 1.003921568627451,
+        "max_xy": [
+          885,
+          539
+        ]
+      },
+      "exported": {
+        "edge_pixels": 12141,
+        "over8": 0,
+        "max_visible_magenta": 0.0,
+        "max_xy": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "name": "grass_wispy",
+      "raw": {
+        "edge_pixels": 248594,
+        "over8": 0,
+        "max_visible_magenta": 1.011764705882353,
+        "max_xy": [
+          758,
+          472
+        ]
+      },
+      "exported": {
+        "edge_pixels": 9374,
+        "over8": 0,
+        "max_visible_magenta": 1.0,
+        "max_xy": [
+          104,
+          172
+        ]
+      }
+    },
+    {
+      "name": "grass_dry",
+      "raw": {
+        "edge_pixels": 230789,
+        "over8": 0,
+        "max_visible_magenta": 1.011764705882353,
+        "max_xy": [
+          796,
+          933
+        ]
+      },
+      "exported": {
+        "edge_pixels": 8277,
+        "over8": 0,
+        "max_visible_magenta": 1.0,
+        "max_xy": [
+          102,
+          21
+        ]
+      }
+    }
+  ]
+}

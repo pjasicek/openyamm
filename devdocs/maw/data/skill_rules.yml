@@ -1,0 +1,332 @@
+# draft extracted from MAW ef23ee17
+# Per-skill, per-mastery rules of the MAW ruleset (see ../TRAINERS_SKILLS.md §5).
+# Paths are relative to /home/pjasicek/github/Maw-Mod-MMMerge. Shorthand:
+#   S  = Scripts/General/zzMAW-Skills.lua        IT = Scripts/General/zzMaw-Items.lua
+#   ST = Scripts/General/zzMaw-Stats.lua         SP = Scripts/General/zzMaw-Spells.lua
+#   DM = Scripts/Modules/MawCore/Damage.lua      F  = Scripts/Modules/MawCore/Formulas.lua
+#   E  = Scripts/Modules/MawCore/Estimates.lua   LG = Scripts/Global/zzMaw_Legendaries.lua
+#   MON = Scripts/General/zzMaw-Monsters.lua     TT = Scripts/Modules/MawCore/SkillTooltip.lua
+# Conventions:
+#   - Arrays indexed by mastery are [novice, expert, master, grandmaster] unless a fifth "supreme" entry is shown.
+#   - s = skill level (GetSkill: base + item/race bonuses unless noted "base"), m = mastery 1..4 (5 = Supreme).
+#   - "per point" values multiply s. Percentages are percent units (2 = 2 %).
+#   - 1 game minute = 2 real seconds (F:10). const.Minute*2 = 4 real seconds.
+#   - Races' flat +3 skill bonuses are in race_bonuses.yml; class school perks are in class_perks.yml; spell-side
+#     Ascension constants are repeated here only where the Learning skill owns them.
+
+version: 0
+
+limits:
+  max_base_skill: 500          # Scripts/Structs/After/RemoveSkillValueLimits.lua:24-27 (MaxSkillBase 0x1F4)
+  max_skill_with_bonus: 1023   # same file :20-23 (MaxSkillVal 0x3FF); extended ids clamp in Modules/MawCore/Skills.lua
+  training_caps:               # S:162-167, enforced on the "+" click by applyCap S:300-320 (excess points refunded)
+    Alchemy: 60
+    Cover: 30
+    ManaShield: 50
+    Retaliation: 50
+  effective_cap_multiplier: 2  # GetSkill clamps base+bonus of the capped skills above to 2 x cap (S:198-213)
+  buff_skill_effect_cap: {buff: 50, day_buff: 75}  # skillEffectCap S:169-172, used by aura strength (SP:3101)
+
+mastery_names: [Novice, Expert, Master, Grand, Supreme, Ultimate, Ascended, Deity]  # TT:29-30
+
+# ---------------------------------------------------------------------------------------------------------------
+# Weapons. Applied in IT addWeaponRows (2812-2950), addSlotAttackRows (3149-3181), addWeaponACRes (3213-3290)
+# and S events.GetAttackDelay (442-617). Vanilla skill stat bonuses are disabled (S:402-404).
+# ---------------------------------------------------------------------------------------------------------------
+weapons:
+  common:
+    damage_formula: >-
+      Weapon flat bonus and per-die sides bonus are multiplied by (1 + s * damage_pct_per_point / 100); dice count is
+      not. Armsmaster and class "armsmaster-way" damage are multiplied by the same factor (IT:2849-2900).
+    damage_floor: >-
+      Each weapon skill point is worth at least +1 average damage: add += max(s - scalable * (mult - 1), 0),
+      scalable = flat + sidesBonus * dice / 2 + armsmasterDamage / mult; paid once per skill, not per hand
+      (IT:2921-2935).
+    attack_rule: >-
+      Best attack bonus of the held melee weapons counts once; bow attack goes to the ranged row (IT:3149-3165).
+    ac_res_rule: >-
+      bonusAC = round(ac_pct[m] * weaponAttack / 100 * (s + 10)) where weaponAttack = item Mod2 + round(charges
+      bonus); resistance the same with res_pct, added to all six resistances (IT:3231-3245). Staff resistance is
+      party-wide instead (sum over every staff equipped by any member, IT:3294-3315).
+    recovery:
+      base_by_skill: {Bow: 100, Blaster: 40, Staff: 120, Axe: 140, Sword: 80, Spear: 120, Mace: 100, Dagger: 60}
+      item_level_factor: "0.75 + min(itemLevel, 600) / 500, then rounded to a multiple of 10 (S:24-35, 424-440)"
+      two_handed_multiplier: 1.25     # rounded to 10 again
+      dual_wield: average of the two hands' base recovery (S:515-524)
+      bonus_rule: >-
+        delay = round(base / (1 + bonusPct/100) / swiftness * (1 + armourPenaltyPct/100) / haste); bonusPct sums
+        weapon-skill recovery (once per skill even when dual wielding), Armsmaster speed, Speed stat effect and
+        class bonuses (S:442-617). Swiftness enchants add 0.3 (two-handed or bow) or 0.15 per hand.
+      unarmed_offhand: an empty off hand adds the Unarmed recovery bonus (not for Dragons) (S:508-513)
+  Staff:
+    attack_per_point: [1, 2, 3, 4]
+    recovery_pct_per_point: [0, 0, 0, 0]
+    damage_pct_per_point: 2
+    ac_pct_per_point: [0, 2, 3, 4]
+    res_pct_per_point: [0, 2, 3, 4]      # party-wide
+    specials:
+      master: {effect: stun, chance: "s / estimateSkill(monLvl) * 0.10 * meleeSpeedMult / min(1 + monLvl/150, 3)",
+               duration_seconds: 2, debuff: paralyze, source: "DM:266-301"}
+      grandmaster:
+        stun_duration_seconds: 4
+        unarmed_combo: >-
+          With a staff in the main hand, Unarmed adds its attack and +2 damage per Unarmed point (IT:3189-3199) and,
+          in place of Armsmaster, Unarmed/2 * 2 * staffMult flat damage (IT:2840-2847, 2874-2877). The tooltip says
+          "half effect"; both paths apply (possible double count, verify before porting).
+  Sword:
+    attack_per_point: [1, 2, 3, 4]
+    recovery_pct_per_point: [0, 1, 1, 2]
+    damage_pct_per_point: 2
+    ac_pct_per_point: [0, 0, 1, 2]
+    res_pct_per_point: [0, 0, 0, 0]
+    specials: {master: "dual wield (refused for Seraphim classes, S:1787-1792, 1806-1820)"}
+  Dagger:
+    attack_per_point: [1, 2, 3, 4]
+    recovery_pct_per_point: [0, 0, 0, 1]
+    damage_pct_per_point: 2
+    ac_pct_per_point: [0, 0, 0, 0]
+    specials:
+      expert: dual wield
+      master: {crit_chance: "0.05 + 0.01 * s / min(1 + monLvl/200, 4), per dagger held (ST:82-97)"}
+  Axe:
+    attack_per_point: [1, 2, 3, 4]
+    recovery_pct_per_point: [0, 1, 1, 1]
+    damage_pct_per_point: 2
+    specials:
+      grandmaster: {crit_damage_per_point: 0.01, once_even_with_two_axes: true, source: "ST:52, 98-112"}
+      dwarf_minotaur_dual_wield: >-
+        1H axes are re-skinned as daggers for Dwarf and Minotaur (Minotaur also 2H axes); Axe E allows a 1H off-hand,
+        Axe M a 2H off-hand (Minotaur); each 2H axe in a dual-axe pair costs -10 % weapon damage (S:2642-2724,
+        IT:2856-2872). Race Skillz gives Minotaur/Dwarf Axe min Expert and Minotaur Dagger max 0.
+  Spear:
+    attack_per_point: [2, 4, 6, 8]
+    recovery_pct_per_point: [0, 0, 0, 0]
+    damage_pct_per_point: 2
+    ac_pct_per_point: [0, 4, 6, 8]
+    specials:
+      master: one-handed
+      grandmaster: {effect: "target takes +(2 + 0.02 * s) * meleeSpeedMult % physical damage per melee hit, stacking
+                     until it dies; x1.5 with a two-handed spear", source: "DM:548-566"}
+  Bow:
+    attack_per_point: [1, 2, 3, 4]
+    recovery_pct_per_point: [0, 1, 1, 2]
+    damage_pct_per_point: 4
+    flat_damage_per_point: 1        # added before the % multiplier (IT:2836-2839)
+    specials:
+      master: two arrows
+      grandmaster: "fire arrows: object 545 becomes 550, deals the higher of fire and physical (MON:3865-3877)"
+  Mace:
+    attack_per_point: [1, 2, 3, 4]
+    recovery_pct_per_point: [0, 0, 0, 0]
+    damage_pct_per_point: 2
+    specials:
+      master: {effect: stun, chance: "s / estimateSkill(monLvl) * 0.15 * meleeSpeedMult / min(1 + monLvl/150, 3)",
+               duration_seconds: 2, debuff: paralyze, source: "DM:266-301"}
+      grandmaster: {duration_seconds: 4, note: "tooltip calls it paralyze; same monster buff 6 as Master"}
+  Blaster:
+    attack_per_point: [1, 2, 3, 4]
+    recovery_pct_per_point: [0, 0, 0, 0]
+    damage_pct_per_point: 4
+    specials: {fixed_recovery: 40, melee_damage_multiplier: 0.4, no_armsmaster: true, source: "S:475-479, IT:2918"}
+  Unarmed:
+    attack_per_point: [2, 2, 3, 3]
+    recovery_pct_per_point: [0, 1, 1, 2]
+    flat_damage_per_point: 2        # all four melee damage rows, bare hands only (IT:3189-3199)
+
+# ---------------------------------------------------------------------------------------------------------------
+# Armour. The body-armour skill scales the AC summed from ALL worn armour pieces; Shield scales the shield.
+# IT addArmorSkillAC 2963-3000; recovery penalties S:37-43, 569-588 (also slow spell casting, ST:191-209).
+# ---------------------------------------------------------------------------------------------------------------
+armour:
+  common:
+    ac_rule: "bonusAC = round(armourAC * ac_pct[m] * s / 100); resistances: round(armourAC * res_pct[m] * s / 100)"
+    austerity_floor: "Austerity: bonus at least s * m * 2 (IT:2983-2998)"
+  Leather:
+    ac_pct_per_point: [3, 4, 5, 6]
+    res_pct_per_point: [2, 3, 4, 5]
+    recovery_penalty_pct: {unskilled: 10, by_mastery: [10, 0, 0, 0]}
+  Chain:
+    ac_pct_per_point: [3, 4, 5, 6]
+    res_pct_per_point: [1, 2, 3, 4]
+    recovery_penalty_pct: {unskilled: 20, by_mastery: [20, 10, 0, 0]}
+  Plate:
+    ac_pct_per_point: [3, 4, 5, 6]
+    res_pct_per_point: [0, 1, 2, 3]
+    recovery_penalty_pct: {unskilled: 20, by_mastery: [20, 10, 10, 0]}
+  Shield:
+    ac_pct_per_point: [4, 6, 8, 10]
+    res_pct_per_point: [4, 6, 8, 10]
+    recovery_penalty_pct: {unskilled: 10, by_mastery: [10, 0, 0, 0]}
+    specials:
+      grandmaster: >-
+        All damage taken x0.85 while a shield is equipped (ST:1044-1052), and again for magic (ST:1086-1095),
+        so magic damage gets x0.7225 (known bug, fix rather than copy).
+  Dodging:
+    flat_ac_per_point: [4, 5, 6, 6]   # skillAC S:102; only without body armour, or with Leather from Master
+    unused_rows: {item_ac_pct: [5, 5, 10, 10], item_res_pct: [0, 5, 5, 10]}  # skillItemAC/Res S:130,137: never read
+    specials:
+      master: usable with Leather armour (IT:3175-3178)
+      grandmaster: {dodge_chance: "1 - 1 / (1 + (s + 10) / 200)", not_for: Dragon, source: "DM:1663-1675"}
+
+# ---------------------------------------------------------------------------------------------------------------
+# Armsmaster (S:149-160, IT:2828-2833, 2853-2919, 3185-3188; Supreme S:337-346, 2587-2627)
+# ---------------------------------------------------------------------------------------------------------------
+armsmaster:
+  damage_per_point: [0, 1, 1, 1.5, 2]      # novice..grandmaster, supreme
+  recovery_pct_per_point: [0, 0, 1, 1, 1]
+  attack_per_point: [1, 1, 1, 1, 1]
+  scales_with_weapon_damage_pct: true
+  split_between_hands: true                # damage halved per weapon when an off-hand weapon (not shield) is held
+  not_with: [Staff, Blaster]
+  supreme:
+    classes: "Knight line, class ids 16-19 (code); the Class Skillz.txt cap S is only on BlackKnight and Champion"
+    requires: {mastery: grandmaster, skill: {normal: 30, insanity: 50, madness: 70}}
+    skill_measured: "IT uses GetSkill (with bonuses) for the damage row; the weapon-skill bonus uses the base skill"
+    weapon_skill_bonus: >-
+      Every melee weapon skill (Staff, Sword, Dagger, Axe, Spear, Mace) gains floor(armsmaster / 10), capped at
+      2 x its base level (S:2597-2620).
+    unlock_message: "SUPREME UNLOCKED!!! when the '+' click reaches the requirement (S:337-346)"
+
+# ---------------------------------------------------------------------------------------------------------------
+# Other character skills
+# ---------------------------------------------------------------------------------------------------------------
+Bodybuilding:
+  flat_hp: "HPFactor * s * m', m' = m with GM counted as 5 (vanilla-style, IT:3097-3112)"
+  hp_pct_per_point: [0.5, 1, 1.5, 2]     # of (base HP + items + Endurance bonus) (S:105, IT:3117)
+  migration: "BBFIX clamps stored mastery to the class limit once (S:2629-2640)"
+
+Meditation:
+  flat_sp: "SPFactor * s * m', GM counted as 5 (IT:3131-3145)"
+  regen:
+    rate: [0.02, 0.025, 0.03, 0.04]
+    per_second: "rate * sqrt(getPlayerEstimatedMana(s^1.4 / 2) * pool) (F:196-205)"
+    pool: "fullSP, or ceil(fullSP * (1 - reservedShare)^0.5) when buff auras reserve mana (F:207-218)"
+    tick: every 0.1 s (S:1384-1492)
+    multipliers: {no_sp_loss_20s: 2, no_enemies_near: 4}
+    not_for_classes: "meditation aura buff skipped for classes 10, 11, 34-37, 56-58 (S:1344)"
+
+Regeneration:
+  regen:
+    rate: [0.05, 0.075, 0.10, 0.10]
+    per_second: "rate * sqrt(getPlayerEstimatedHealth(s^1.4) * fullHP) (F:185-194)"
+    grandmaster: "x (1 + (1 - hp/fullHP)^2), hp ratio floored at -1 (S:1353-1356)"
+    tick: every 0.1 s
+    multipliers: {no_hp_loss_20s: 2, no_enemies_near: 4}
+  dragon_leech: "Dragons: melee life leech = regenSkill / estimateSkill(targetLevel) * 0.05 (S:1494-1501)"
+  auto_repair: "each engine Regeneration tick repairs broken items with IdRepSt <= best party Repair s*m (S:1316-1335)"
+
+Perception:
+  trap_and_lava_damage_multiplier: [0.9, 0.7, 0.5, 0.3]   # min((11 - 2m)/10, 1), own base skill (DM:1649-1650)
+
+Learning:
+  renamed: Ascension                         # S:1562-1568
+  learning_xp_bonus: 0                        # GetLearningTotalSkill = 0 (S:1539-1541)
+  mana_cost_mastery_multiplier: [0.875, 0.75, 0.625, 0.5]   # (1 - 0.125 m)
+  spell_scaling:                              # F:153-163, SP:2043-2074, 2264-2279
+    damage_dice: "(1 + 0.02 s) * 1.025^s"
+    damage_flat: "(1 + 0.01 s^2) * 1.025^s"
+    heal_scaling: "(1 + 0.02 s) * 1.015^s"    # code; tooltip prints (1 + 0.05 s) * 1.02^s (TT:171)
+    heal_base: "(1 + 0.01 s^2) * 1.015^s"     # code; tooltip prints (1 + 0.03 s^2) * 1.02^s (TT:172)
+    mana_cost: "(1 + 0.125 s) * 1.04^s * (1 - 0.125 m)"
+    crowd_control_mana_cost: "(1 + 0.2 s) * 1.03^s * (1 - 0.125 m)"   # SP:2181-2187
+    cast_time: "1.015^s"
+  migration: >-
+    Once per character (vars.learningFix): refund s + (s-1) + ... + 2 points and set Learning to 0 (unlearned),
+    also for new games, so nobody starts with Ascension (S:1543-1560). The loop `return`s at the first already
+    fixed character, so characters hired later are skipped.
+
+Alchemy:
+  training_cap: 60
+  tooltip_rows: "Master: 1.5 power per point, white potions; GM: 2 per point, black potions, +6 min duration per
+                 point (zzAlchemy.lua:707-709)"
+  note: Potion rules are in potion_effects.yml / potion_recipes.yml.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Party-wide utility skills (best living member counts). S:2019-2124
+# ---------------------------------------------------------------------------------------------------------------
+party_utility:
+  IdentifyItem: "best s*m > item IdRepSt; a follower with profession 4 identifies everything (S:2058-2070, 2294-2300)"
+  RepairItem: "best s*m > item IdRepSt (S:2019-2031); auto-repair, see Regeneration"
+  Merchant: "best s*m (+ Glamour skill*power, GM Glamour = 100); M+ or total >= 45 gives 100; result 7 + best"
+  DisarmTraps: "best s*m (S:2072-2081)"
+  IdentifyMonster: >-
+    allowed when best s*m >= monsterLevel - averagePartyLevel or any member has GM; best mastery unlocks
+    N/E/M (+spells)/G info (S:2083-2124)
+  solo_auto_mastery:
+    skills: [IdentifyItem, Merchant, RepairItem, Perception, DisarmTraps, IdentifyMonster, Alchemy]
+    thresholds: [1, 4, 7, 10]     # mastery = number of thresholds reached by the base skill
+    behaviour: >-
+      Every second while alone (Party.High == 0) the mastery is SET to the threshold count (can also lower it);
+      the previous mastery is stored and restored when the party grows (S:2126-2168). Class caps are not checked.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Extended skills (Skillz ids). Caps per class come from Class Skillz.txt rows 50-53 (TRAINERS_SKILLS.md §6.3).
+# ---------------------------------------------------------------------------------------------------------------
+Cover:
+  id: 50
+  category: armour                   # Skillz.new_armor (S:2171-2181)
+  learned_at: training halls (house type 30)
+  cap: 30
+  mastery_ladder: {normal: [6, 12, 20], insanity: [8, 20, 30]}   # auto-learned on the "+" click (S:322-335)
+  toggle: P on the skills screen (vars.covering, default on)
+  chance: "min(0.10 + 0.01 s, 0.40), +0.15 once after the coverer's own melee hit at GM (S:1259-1264, DM:243-256)"
+  mastery_gates:                      # S:1224-1231 (monster melee/attack path)
+    novice: monster attack 1 or 2 with physical damage type
+    expert: any other monster attack (elemental)
+    master: monster spells
+    grandmaster: attacking grants the next-cover bonus
+  pick: highest current HP among members whose roll succeeded; never the target itself unless solo
+  solo: "the hit is halved instead of redirected (soloCoverDamageTaken 0.5, F:44)"
+  projectile_path: >-
+    Monster missiles that MAW converts (MON:3883-3990) use a second implementation: Expert required, chance
+    1 - (0.99^s - 0.05) with no cap, GM bonus +0.30, pick by highest HP fraction. Unify when porting.
+
+Retaliation:
+  id: 53
+  category: armour
+  unlocked_by: "raising Cover to its cap (30) learns Retaliation at 1 (S:185-196)"
+  cap: 50
+  mastery_ladder: {normal: [10, 24, 40]}         # description text says 12, 30, 50 (S:2454)
+  trigger: "after a successful Cover: chance s/100 to store a stack; max stacks 1, 3 at GM (S:1297-1310)"
+  expires_after_game_minutes: 5                  # 10 real seconds (DM:880)
+  on_next_hit:                                   # DM:876-902, all apply at every mastery
+    damage: "round(meleePower^0.25) * round(vitality^0.25) * s * stacks, then the monster's resistance (F:46-56)"
+    stun: "chance 0.25 * stacks, 1 game minute (2 s), half on bosses (NameId 220-300)"
+    recovery: "next recovery x max(1 - 0.3 * stacks, 0)"
+
+ManaShield:
+  id: 51
+  category: armour
+  learned_at: magic shops (house type 3; the code comment says alchemy shop)
+  cap: 50
+  mastery_ladder: {normal: [6, 12, 20], insanity: [8, 20, 32]}
+  toggle: M on the skills screen (vars.manaShield, default on)
+  absorb_fraction: [0.25, 0.5, 0.75, 1.0]        # of EVERY hit while enabled; no HP threshold in code (LG:61-90)
+  mana_efficiency: "damage per SP = 1 + min(s, 50)^1.4 / 60 (5.0 at 50) (LG:92-101)"
+  mana_cost: "round(absorbed / efficiency); absorbed limited to SP * efficiency"
+  vitality_estimate: "Vitality adds maxMana * efficiency to effective HP when enabled (ST:1296-1306)"
+
+Enlightenment:
+  id: 52
+  category: magic
+  learned_at: magic shops (house type 3)
+  cap: none
+  mastery_ladder: {normal: [6, 12, 20]}
+  mana_pct_per_point: [0.5, 1, 1.5, 2]           # of the total mana pool (F:220-229, IT:3143-3145)
+  buff_reservation: "aura reserves (spellCost / (classSPFactor + m/2)) % of max mana (SP:2761-2770)"
+
+# ---------------------------------------------------------------------------------------------------------------
+# Skill-point economy (TRAINERS_SKILLS.md §4)
+# ---------------------------------------------------------------------------------------------------------------
+skill_points:
+  per_level_up: "5 + floor(newLevel / 10)"        # engine; E:79-86 closed form; same as OpenYAMM Party.cpp:3745
+  raise_cost_vanilla: "s + 1 to go from s to s + 1"
+  shared_cost:
+    set: [Staff, Sword, Dagger, Axe, Spear, Bow, Mace, Blaster, FireMagic, AirMagic, WaterMagic, EarthMagic,
+          SpiritMagic, MindMagic, BodyMagic, LightMagic, DarkMagic, DarkElfAbility, VampireAbility]   # S:1135
+    set_for_hybrid_classes: [FireMagic, AirMagic, WaterMagic, EarthMagic, SpiritMagic, MindMagic, BodyMagic,
+                             LightMagic, DarkMagic, DarkElfAbility, VampireAbility]
+    hybrid_classes: Shaman, Seraphim, Death Knight and Assassin lines (S:240-243)
+    cost: "ceil((s + 1) / n), n = 1 + number of OTHER skills of the set with base level >= s + 1 (S:238-262)"
+    precondition: "applied only when SkillPoints >= the discounted cost; cost > 1000 is never discounted"
+    total_closed_form: "sum over v >= 2 of sum_{k=1..c(v)} ceil(v / k), c(v) = skills of the set at level >= v"

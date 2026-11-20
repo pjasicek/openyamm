@@ -1,0 +1,29 @@
+# MM7 installer-payload exe SHA-256 673c9805ab4a7b7440aa1be937d0a508ec029f94c7e42be750673a0f977c678c
+# Preferred image base 0x400000. Not authenticated as original retail/GOG MM7.
+# See PARTY_TARGET_SELECTION.md. Labels describe disk code, not loaded DLL hooks.
+f+ ref.mm7.ChooseTargetPlayer @ 0x426dc7
+f+ ref.mm7.Random15 @ 0x4caac2
+f+ ref.mm7.EvaluateAttacks @ 0x438f7e
+f+ ref.mm7.DamagePlayerFromMonster @ 0x439fee
+f+ ref.mm7.ProjectileCollisionDamage @ 0x43a9a1
+CC "Zero monster preference mask at +0x80 branches to ordinary eligible-party selection" @ 0x426de9
+CC "Default loop over four party slots, excluding conditions 12 through 16" @ 0x426fa6
+CC "Append eligible slot at candidate-count index EBX" @ 0x426fd7
+CC "RNG followed by idiv EBX, the candidate count" @ 0x426fe9
+CC "Read candidate indexed by RNG remainder EDX" @ 0x426ff1
+CC "Slot-zero fallback only when no candidate exists" @ 0x426ffa
+CC "Melee selects a member here and passes EAX to the damage routine" @ 0x4390ba
+CC "Monster projectile with target -1 selects a member here" @ 0x43a464
+CC "Projectile collision supplies -1 target, not slot zero" @ 0x43aa11
+f+ ref.mm7.SeedRandom @ 0x4caab5
+f+ ref.mm7.GetCrtThreadData @ 0x4cecd2
+CC "Application initialization gets uptime and passes it to the only direct srand call" @ 0x465258
+CC "srand writes provided seed to CRT thread data +0x14" @ 0x4caabe
+CC "rand stores next LCG state before returning its high 15 bits" @ 0x4caad6
+CC "Seed 1 is a CRT thread-data initialization default, not a per-call reset" @ 0x4cecca
+CC "Load party.bin into fixed party globals, separate from CRT thread data" @ 0x45f0a6
+f+ ref.mm7.CalculateIncomingDamage @ 0x48d499
+f+ ref.mm7.ReceiveDamage @ 0x48dc04
+CC "Fourth integer resistance halving, with no minimum-one clamp" @ 0x48d599
+CC "Zero final damage skips normal hurt voice and portrait reaction" @ 0x48dcbb
+CC "Request hurt reaction 24 only for nonzero damage and a character able to act" @ 0x48dccd

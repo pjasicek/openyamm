@@ -59,7 +59,7 @@ elements:
     offset_x: 21.333333
     offset_y: 41.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Level
@@ -70,9 +70,9 @@ elements:
   - id: QuickReferenceClassLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 63.266667
+    offset_y: 61.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Class
@@ -83,9 +83,9 @@ elements:
   - id: QuickReferenceHpLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 84.933333
+    offset_y: 81.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: HP
@@ -96,9 +96,9 @@ elements:
   - id: QuickReferenceSpLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 106.6
+    offset_y: 101.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: SP
@@ -109,9 +109,9 @@ elements:
   - id: QuickReferenceAcLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 128.266667
+    offset_y: 121.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: AC
@@ -122,9 +122,9 @@ elements:
   - id: QuickReferenceAttackLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 149.933333
+    offset_y: 141.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Attack
@@ -135,9 +135,9 @@ elements:
   - id: QuickReferenceMeleeDamageLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 171.6
+    offset_y: 161.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Dmg
@@ -148,9 +148,9 @@ elements:
   - id: QuickReferenceShootLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 193.266667
+    offset_y: 181.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Shoot
@@ -161,9 +161,9 @@ elements:
   - id: QuickReferenceRangedDamageLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 214.933333
+    offset_y: 201.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Dmg
@@ -174,9 +174,9 @@ elements:
   - id: QuickReferenceSkillsLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 236.6
+    offset_y: 221.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Skills
@@ -187,9 +187,9 @@ elements:
   - id: QuickReferencePointsLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 258.266667
+    offset_y: 241.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Points
@@ -200,9 +200,9 @@ elements:
   - id: QuickReferenceConditionLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 279.933333
+    offset_y: 261.6
     width: 87.466667
-    height: 19.533333
+    height: 18.4
     z_index: 10
     text:
       value: Cond
@@ -213,12 +213,25 @@ elements:
   - id: QuickReferenceQuickSpellLabel
     anchor: top_left
     offset_x: 21.333333
-    offset_y: 301.6
+    offset_y: 281.6
     width: 87.466667
-    height: 19.266667
+    height: 18.4
     z_index: 10
     text:
       value: QSpell
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceOrdersLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 301.6
+    width: 87.466667
+    height: 18.4
+    z_index: 10
+    text:
+      value: Orders
       font: Arrus
       color: '#e5dcc7'
       align_x: left

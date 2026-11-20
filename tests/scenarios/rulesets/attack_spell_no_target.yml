@@ -1,0 +1,43 @@
+id: rulesets.attack_spell_no_target
+title: Ruleset - an attack spell with no target in spell reach (5120) swings the weapon; with one it is cast
+world: mm6
+mode: faithful
+tags: [rulesets, spells]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Nosferatu
+            class: Vampire
+            level: 30
+            skills:
+              - {name: Sword, level: 10, mastery: 2}
+              - {name: VampireAbility, level: 8, mastery: 2}
+            # Lifedrain (111), the vampires' racial spell.
+            spells: [111]
+            equipment: {}
+  - grant_item: {item_id: 1, equip: main_hand}
+  # A Crystal Guardian 7000 units east of the party at (-9728, -11319), beyond the spell's reach: the attack the
+  # player aims at it swings the sword instead of draining it.
+  - spawn_actor: {monster_id: 150, x: -2728, y: -11319, z: 200}
+  - party_attack:
+      actor_index: last
+      count: 3
+      attack_spell: Lifedrain
+      min_weapon_attacks: 3
+      report: true
+  # One beside the party is drained: no swing.
+  - spawn_actor: {monster_id: 150, near_party: true}
+  - party_attack:
+      actor_index: last
+      count: 1
+      attack_spell: Lifedrain
+      max_weapon_attacks: 0
+      report: true
+  # The drain hit the guardian (the sword never did: hits=0 above).
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      combat_log: {dealt_min: 1}

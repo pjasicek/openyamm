@@ -1,0 +1,22 @@
+# Rolls use the deterministic new-game seed (1 gold, 2 item, 3 empty); item delivery remains a desktop check.
+# Native picking in each stat supply group and two separated satchel spots; used state survives save/reload.
+id: hesper.d02.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow: {start_map: hes_d02.blv}
+- assert: {state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}}
+- set_pose: {map: hes_d02.blv, x: 650, y: 1970, z: 0, yaw: 1.5707963, pitch: -0.7}
+- press_interact: {expect: {kind: event_target, target_kind: 2, name: "Colony satchel"}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.751, value: 3}}
+- set_pose: {map: hes_d02.blv, x: 4800, y: 1280, z: -256, yaw: -1.5707963, pitch: -0.7}
+- press_interact: {expect: {kind: event_target, target_kind: 2, name: "Colony satchel"}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.759, value: 1}}
+- save_game: {name: d02_pickups}
+- load_game: {name: d02_pickups}
+- assert: {state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.751, value: 3}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.759, value: 1}}
+- set_pose: {map: hes_d02.blv, x: 4800, y: 1280, z: -256, yaw: -1.5707963, pitch: -0.7}
+- press_interact: {}
+- assert: {state_dump_named_map_var: {name: HesperPickups.759, value: 1}}

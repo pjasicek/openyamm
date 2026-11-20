@@ -1,0 +1,44 @@
+{
+  "version": "v5_pilot",
+  "pilot": true,
+  "generated_count": 5,
+  "authoring_size": 512,
+  "runtime_size": 256,
+  "base_composites": "v4",
+  "coverage_masks": "connected_v4 unchanged",
+  "water": "excluded",
+  "boundary_band": "AI RGB edit: full through10px, fade to0 by24px; rock6..16px at65% strength",
+  "seams": "Axis/topology mean AI RGB delta;8px mirrored lock;24px smooth approach",
+  "tiles": [
+    {
+      "tile": "6drsrecap",
+      "raw_sha256": "6d96fc654cb49b3de12c6456d40cd10c8507f018b1a6a431c9cd3b83090e61df",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.17874908447265625
+    },
+    {
+      "tile": "6drsrew",
+      "raw_sha256": "350023ff38f30019efe6577af9b2930a7b5b54e10b9196cc23e8ae7c86f884ad",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.17446136474609375
+    },
+    {
+      "tile": "6drsrn_e",
+      "raw_sha256": "e48e3e1b959ae38ae11838a054004477bbe05d56eccb1df207b3160e83a6cd50",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.15563201904296875
+    },
+    {
+      "tile": "6grdrtn",
+      "raw_sha256": "35b028063caa661275b6ca051cbdb5071d90dbf42a2e45e41504ad0289066e27",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.186248779296875
+    },
+    {
+      "tile": "6grdrtne",
+      "raw_sha256": "7461298f7a7be4c4d39ede1106c7a72e90639b32519aa6b4612b0fe6016e5dff",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.3439521789550781
+    }
+  ]
+}

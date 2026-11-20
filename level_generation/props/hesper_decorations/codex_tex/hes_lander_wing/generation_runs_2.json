@@ -1,0 +1,99 @@
+{
+  "tool": "built-in image_gen",
+  "view": "back",
+  "status": "Best available unresized return; fails strict size and silhouette requirements after the one permitted correction.",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Create exactly one 1024 x 1024 RGBA transparent PNG, unresized original generation, a flat albedo texture-source painting of the BACK of the lander's torn-off wing. Input 1 design_reference.png is ONLY the approved design, colour and materials reference; do not copy its camera, composition or lighting. Input 2 guide_back.png is the edit target and exact orthographic geometry authority. Keep input 2's silhouette EXACTLY: identical outline, size, position and every shape edge, opening and detail in the 1024 x 1024 frame. Preserve its substantial empty transparent margins. Do not reorient, enlarge, recenter or crop the object. Paint only inside the guide's existing shape. Keep the narrow upright fin and small downward protrusions exactly at their existing positions. Paint the design reference's chipped white ceramic plates with gold trim and rivets, black soot and scorch at the torn root, dark steel spars and black cables onto the corresponding existing surfaces of the guide. No new geometry, no extra protrusions, no changed silhouette. LIGHTING: this is TEXTURE SOURCE (albedo), even flat shadowless light from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Gold must be flat ochre-gold material colour, steel dark neutral material colour. Soot is material pigment, not shading. No background, no floor, no text, no labels. All space outside the exact guide silhouette must be truly transparent.",
+      "output": "paint_back_initial_unselected.png",
+      "selected": false,
+      "reason": "Enlarged silhouette, broad fin, invented torn right edge; superseded by correction.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "2506d4a2b8469b1e3ae896a9a6984d07f7c183c93e85cb86be50cd5ef25f5eb7"
+        }
+      ],
+      "output_sha256": "900f3553a93fbd42114f36e9aa49251edc52559c7ce0c16224ad7986cde32681",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1246,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          223,
+          350,
+          801,
+          673
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "White ceramic and gold trim, dark scorch and cables visually present.",
+        "flat_even_light": "Failed: residual surface shading and gold highlights."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Edit the SECOND input image guide_back.png in place. Output exactly 1024 x 1024 pixels. This is a precision texture paint-over, NOT a new concept illustration. Keep the entire original guide's alpha mask and geometry unchanged pixel for pixel, including all transparent margins. The object occupies ONLY x=223 through 800 and y=350 through 672 on the 1024-square canvas. The main body is a horizontally rounded oval shape from approximately (223,458) to (800,640); a thin upright nearly vertical fin stands at x=440..479 y=350..505; three tiny prongs hang beneath near x=485..533 y=632..673. The right end stays rounded EXACTLY as in guide; do not invent a jagged open torn end. Keep every existing edge, opening, shape, orientation, size and placement of input 2. Do not enlarge the object to fill the canvas. Input 1 design_reference.png supplies ONLY material colours and painted details: chipped off-white ceramic, matte ochre gold edging and rivets, soot staining at the existing root surface, dark steel and black cables on existing protrusions. Paint those materials inside input 2's shape. Keep the fin as thin as the guide, NOT the broad fin in input 1. Render flat shadowless albedo colour, no shading gradients, no AO, no highlights, no reflections, no cast shadows, no rim lighting. Truly transparent empty background. No text. A previous attempt failed because it enlarged the shape, broadened the fin, invented a torn right edge, and returned 1280 square. Correct these issues by treating input 2 as the immutable image being recoloured. Return a 1024 x 1024 transparent PNG.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Closer rounded body and thinner fin; best available after one correction, but still fails exact guide silhouette, placement, output size, and fully flat albedo lighting.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "2506d4a2b8469b1e3ae896a9a6984d07f7c183c93e85cb86be50cd5ef25f5eb7"
+        }
+      ],
+      "output_sha256": "6cf110dfb280570c5c427f494dfbcd31a5772ca1f88c46a740438c4ae7dbc2e3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          21,
+          1238,
+          1236
+        ],
+        "guide_alpha_bbox": [
+          223,
+          350,
+          801,
+          673
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "White ceramic and gold trim, dark scorch and cables visually present.",
+        "flat_even_light": "Failed: residual surface shading and gold highlights."
+      }
+    }
+  ]
+}

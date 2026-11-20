@@ -1,0 +1,116 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_drangheimprison/review/v02_open
+settle_seconds: 2.0
+exit: true
+shots:
+- name: g03_entry_door
+  position:
+  - -2171
+  - -6246
+  - -2231
+  yaw: 1.5708
+  pitch: 0.0
+- name: g05_cell_block
+  position:
+  - -768
+  - -4352
+  - -2231
+  yaw: 0.0
+  pitch: 0.0
+- name: g06_cell
+  position:
+  - 307
+  - -4813
+  - -2231
+  yaw: 1.5708
+  pitch: 0.0
+- name: g07_warden_booth
+  position:
+  - 1485
+  - -4352
+  - -2231
+  yaw: 3.1416
+  pitch: 0.0
+- name: m03_guard_hall
+  position:
+  - 1434
+  - -2048
+  - -1904
+  yaw: 0.723
+  pitch: 0.0
+- name: m04_north_arm
+  position:
+  - 1843
+  - -768
+  - -1904
+  yaw: 1.5708
+  pitch: 0.0
+- name: m07_cow_pen
+  position:
+  - 870
+  - -307
+  - -1893
+  yaw: 3.1416
+  pitch: 0.0
+- name: c01_middle_block
+  position:
+  - -3328
+  - 179
+  - -1576
+  yaw: 0.0
+  pitch: 0.0
+- name: c03_well_head
+  position:
+  - -1152
+  - 205
+  - -1576
+  yaw: 0.0
+  pitch: 0.0
+- name: t01_top_block
+  position:
+  - -3200
+  - 128
+  - -81
+  yaw: 0.0
+  pitch: 0.0
+- name: t02_ivsar_cell
+  position:
+  - -1147
+  - -512
+  - -81
+  yaw: 1.5708
+  pitch: 0.0
+- name: t03_lever_booth
+  position:
+  - -3251
+  - 102
+  - -81
+  yaw: 3.1416
+  pitch: 0.0
+- name: f01_smithy
+  position:
+  - -1280
+  - -1946
+  - -409
+  yaw: 0.0
+  pitch: 0.0
+- name: f02_forge
+  position:
+  - -819
+  - -2048
+  - -409
+  yaw: 1.5708
+  pitch: 0.0
+- name: l02_cross_corridor
+  position:
+  - 1075
+  - -2227
+  - -3583
+  yaw: 0.0
+  pitch: 0.0
+- name: l03_lower_cell
+  position:
+  - 1946
+  - -2202
+  - -3583
+  yaw: -1.5708
+  pitch: 0.0

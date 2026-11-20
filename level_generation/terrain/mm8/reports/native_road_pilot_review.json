@@ -1,0 +1,23 @@
+{
+  "status": "appearance_pilot_reviewed",
+  "views": {
+    "roads_dirt": {
+      "metadata_sha256": "efd2c1abc6c079745d34a45f5a11eb8ee261090dba4780a3ab8f3607a9667b1a",
+      "image_sha256": "f2f43a5dd3ac0200b0b134ee6dfe7fc58e073b2925b56f623363985f947133f5",
+      "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3",
+      "notes": "Reviewed native still: native tone and broad scale retained, sharper stone definition. Not controlled diagonal, two-orientation or movement acceptance."
+    },
+    "roads_grey": {
+      "metadata_sha256": "9a32e09566af4158e59db26dd3ab71f09783b33efa065f7b261a4ed6349c1a18",
+      "image_sha256": "3cac6c0187851d4ab91f2e74db118f6c1b7e65992184aa10d3b85ad80a375292",
+      "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3",
+      "notes": "Reviewed native still: native tone and broad scale retained, sharper stone definition. Not controlled diagonal, two-orientation or movement acceptance."
+    }
+  },
+  "stage_sha256": "19f92659a3162c1e54187f9145a2f2d4294f1446c6b50b07f371decd31b831a5",
+  "limitations": [
+    "Two populated native material views only",
+    "Original and enhanced actor/weather states can differ",
+    "Controlled road directions, diagonal networks and movement remain pending"
+  ]
+}

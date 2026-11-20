@@ -1,0 +1,279 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "noncompliant_best_available_returns",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "postprocessing": "None. Returned PNG files are copied byte-for-byte; no resizing, alpha replacement or image editing.",
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "limitations": [
+    "The built-in tool returned 1254 x 1254 despite explicit native 1024 x 1024 requests in both initial and corrective prompts.",
+    "The guide silhouettes and alpha channels are not pixel-identical; generated boundaries, interior structure and stray alpha differ.",
+    "Material palettes visually match the requested violet-black, ivory, gold-brown and amber-orange. Some painted highlights and depth cues remain, so strictly flat albedo is not fully achieved.",
+    "The brief's maximum of one corrective regeneration per view has been reached. No further generations, resizing, compositing, builds or runtime installation were performed."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: game-model albedo texture projection source, front orthographic view.\nEdit image 1 (guide_front.png) in place: recolor and paint its existing grey surfaces. Image 1 is the ABSOLUTE geometry, silhouette, pixel placement and camera authority. Image 2 (design_reference.png) is the approved material and colour reference only. Image 3 (concept_crop.png) is supplementary design context only.\n\nOUTPUT: exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background, at the guide's unchanged native canvas size. Keep all empty margins. Do not crop, enlarge, shrink, translate, rotate or reinterpret the guide. The nontransparent outline occupies x=66 through 957 and y=343 through 680 on the 1024-square canvas; maintain these coordinates exactly. Preserve the guide's original alpha silhouette, antialiased boundary, every internal opening, edge and detail pixel-for-pixel. The broad crescent at left, complete line of individually shaped upward spines, curved hull, the exact crossing side ribs and each downward spur, and tapered right end must all stay where the guide puts them. Never adopt the three-quarter camera or expanded silhouette of image 2.\n\nPaint the materials from the approved design ONTO those fixed shapes: dark violet-black organic resin hull; warm ivory bone ribs and plates crossed by delicate thin gold-brown veins; amber-orange sac/opening colours within the existing broad side compartments; ivory spines. Fine violet and gold-brown organic surface filigree may be painted within the guide's surfaces to match the reference, but must never create new geometry, holes or protrusions or alter an existing edge. Respect each raised rib boundary from the guide.\n\nLIGHTING: this is a flat albedo texture source, not a beauty render. Even, flat, shadowless illumination from the viewer across every surface. Remove the grey guide's directional shading. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light. Amber-orange parts are painted at their glowing colour, with no bloom, halo, spill or light cast on surrounding resin/bone. Dark violet-black areas are the actual material colour, not lighting gradients. No background colour, no scenery, no floor, no text. Paint only the already occupied guide pixels, preserving all geometry and composition exactly.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1e38f1784ad2b550ebfca2c2c7bc4d4fdac7cf938bd554586f61017325f73c31"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9106e38d0e48abc152493fd6f0c069ecede01856da27402dd8841e3936724452"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "transparent_background_requested": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1691d-5f09-7bf1-a88b-77f2d8a461c5/exec-a8e886bb-b928-4d85-a888-85ced639eb9a.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "compliant": false,
+      "reason": "Not selected: broad ivory hull stripe diverges from the design reference. Native size and exact silhouette requirements failed; coloured fringe and stray alpha pixels remain.",
+      "output_sha256": "74a1b30ad2569a7c2ed3117468c9bcac6e2dc6c9e25de7a70f1f58ca0aac2b5a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "unresized_return_verified": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          0,
+          31,
+          1234,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          66,
+          343,
+          958,
+          681
+        ],
+        "alpha_128_bbox": [
+          80,
+          423,
+          1174,
+          833
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1307325,
+        "partially_transparent_pixels": 264977,
+        "fully_opaque_pixels": 214,
+        "transparent_background": "RGBA with transparent background, but stray partially transparent pixels outside the intended outline; guide alpha not preserved.",
+        "materials_and_colours": "Visual palette matches violet-black resin, ivory bone, gold-brown veins and amber-orange sacs.",
+        "flat_even_light": "Partial: no environment or cast shadow, but painted highlights and depth shading remain; not strictly flat albedo."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, front albedo painting. Use case: style-transfer. Return a native 1024 x 1024 PNG, no other dimensions. The first input is a 1024 x 1024 RGBA guide_front.png: edit THIS EXACT IMAGE in place as a texture repaint, retaining the 1024-square canvas and its EXACT original alpha mask. The second input is design_reference.png for material colours only; the third is concept_crop.png for supporting context.\n\nThe previous attempt failed by returning 1254 x 1254 pixels and adding coloured fringe, stray alpha pixels and changed edges. Correct those errors: the output must be 1024 x 1024 without resampling, with every transparent pixel and every partially transparent edge pixel copied from image 1, and only the opaque surface RGB repainted. Do not make an independently rendered new ship. Keep the image-1 silhouette pixel-identical and keep every structural edge, rib, spur, gap, opening and irregularity exactly in place. Preserve empty margins; occupied geometry is at x=66..957, y=343..680. No pixels, fringe, red/yellow specks, haze or glow outside that shape. No enlargement, translation, rotation, framing change, cropping, added perforations, extra spikes or rearranged ribs. Use the grey guide's front camera, never image 2's three-quarter camera.\n\nRepaint only existing surfaces with the approved Seedship materials: violet-black resin hull, ivory bone ribs and plates with fine gold-brown veins, rich amber-orange sacs/openings in existing side compartments, ivory spines. Keep the surface boundaries exactly as the guide. Use restrained organic material patterning from the approved reference within these fixed surfaces.\n\nThis is diffuse ALBEDO for projection onto a game mesh: flat, even, shadowless viewer-facing illumination. Remove all lighting gradients and grey-guide shadows; no cast shadows, no ambient occlusion, no shiny white highlights, no reflections, no rim light. Amber colour is intrinsic emissive colour only, without lighting adjacent material, without bloom or halo. Genuine transparent alpha background, including all guide openings. No floor, scene, text or watermark. Highest priority: original 1024 x 1024 guide pixels, silhouette and alpha remain locked.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1e38f1784ad2b550ebfca2c2c7bc4d4fdac7cf938bd554586f61017325f73c31"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9106e38d0e48abc152493fd6f0c069ecede01856da27402dd8841e3936724452"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "transparent_background_requested": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1691d-5f09-7bf1-a88b-77f2d8a461c5/exec-82d02cca-0cc9-46b3-8911-27ed50367f1b.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "compliant": false,
+      "reason": "Best available unresized return after the one permitted corrective regeneration: more violet resin matches the approved design. Selected for delivery, not accepted as compliant: wrong native size, changed edges and stray alpha remain.",
+      "output_sha256": "68fb85540d8c8009dc989037181daf884f57b8a26888004e9d91a03fdd6abd59",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "unresized_return_verified": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          25,
+          37,
+          1235,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          343,
+          958,
+          681
+        ],
+        "alpha_128_bbox": [
+          79,
+          423,
+          1176,
+          835
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1298689,
+        "partially_transparent_pixels": 273693,
+        "fully_opaque_pixels": 134,
+        "transparent_background": "RGBA with transparent background, but stray partially transparent pixels outside the intended outline; guide alpha not preserved.",
+        "materials_and_colours": "Visual palette matches violet-black resin, ivory bone, gold-brown veins and amber-orange sacs.",
+        "flat_even_light": "Partial: no environment or cast shadow, but painted highlights and depth shading remain; not strictly flat albedo."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: game-model albedo texture projection source, TOP orthographic view.\nEdit input image 1 (guide_top.png) in place. Its 1024 x 1024 canvas, exact original alpha silhouette, camera and every surface boundary are locked. Input image 2 (design_reference.png) is the approved material/colour authority ONLY, and input image 3 (concept_crop.png) provides supplementary design context.\n\nDeliver exactly one native 1024 x 1024 RGBA PNG with genuinely transparent background. Preserve image 1's large empty margins, horizontal orientation and its very thin top-down silhouette: occupied pixels are x=66..957, y=422..601. Do not enlarge it to fill the canvas. The long narrow hull tapers to a point at LEFT and a rounded angular nose at RIGHT. Keep the central lengthwise raised ridge at y approximately 512, the guide's exact subtle scalloped perimeter, the short projected rib shapes above and below, and ALL geometric edge locations. This is a straight overhead view, not the dramatic side view or three-quarter camera of the other references. Do not introduce visible tall side spines, rearrange ribs, increase width, shift, rotate, change the silhouette or create new holes. Copy the guide's alpha and antialiased boundary exactly; only paint the existing surface RGB.\n\nApply the same approved Seedship materials to the guide's existing surfaces: dark violet-black organic resin over the main hull, warm ivory bone over the raised ribs, plates and existing spine/ridge surfaces, thin restrained gold-brown veins following that bone, amber-orange sac/opening colours only in visible existing inset areas. The approved reference's fine organic resin patterning is surface paint confined to these fixed regions. All perimeter, ridge and rib shapes are dictated by guide_top.png, never invented from the design reference.\n\nAlbedo-only lighting: even flat shadowless viewer-facing illumination, no directional shading, no cast shadows, no ambient occlusion, no specular highlights, no reflections, no rim lighting. Paint amber parts in their intrinsic glowing colour, with NO bloom, light spill, halo or cast illumination. Remove grey-guide lighting variations. Fully transparent outside the guide silhouette and in its original openings, no stray alpha pixels or coloured fringe. No environment, floor, text, watermark. Output size MUST be 1024 x 1024 at generation time without resizing.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "61c219decda2b98299cc797fb3d678442943912134aa0c48171078d8ca0322a2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9106e38d0e48abc152493fd6f0c069ecede01856da27402dd8841e3936724452"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "transparent_background_requested": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1691d-5f09-7bf1-a88b-77f2d8a461c5/exec-782c4838-ccf0-4f4f-8eda-d3b0b912ba2d.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "compliant": false,
+      "reason": "Not selected: added ivory cross-ribs and a broad decorative central stripe depart from the guide. Native size and exact silhouette requirements failed; stray alpha remains.",
+      "output_sha256": "64664ae26f87ca23e69a7d66ebfe029ae721248eea7fb73c57d0d34340a8cfd6",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "unresized_return_verified": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          0,
+          0,
+          1202,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          422,
+          958,
+          602
+        ],
+        "alpha_128_bbox": [
+          80,
+          517,
+          1174,
+          735
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1380251,
+        "partially_transparent_pixels": 192106,
+        "fully_opaque_pixels": 159,
+        "transparent_background": "RGBA with transparent background, but stray partially transparent pixels outside the intended outline; guide alpha not preserved.",
+        "materials_and_colours": "Visual palette matches violet-black resin, ivory bone, gold-brown veins and amber-orange sacs.",
+        "flat_even_light": "Partial: no environment or cast shadow, but painted highlights and depth shading remain; not strictly flat albedo."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION for paint_top.png. Output resolution: 1024 pixels wide, 1024 pixels high. This exact native resolution is mandatory. Use case: style-transfer, diffuse albedo texture.\nImage 1, guide_top.png, is the pixel-locked EDIT TARGET. Retain this existing 1024 x 1024 image's alpha channel, outline, composition and edge locations exactly, repainting ONLY the solid model surfaces. Image 2, design_reference.png, supplies surface colours/materials. Image 3, concept_crop.png, is supporting context.\n\nThe previous output returned the wrong 1254 x 1254 size, stray partial-alpha pixels outside the model, invented additional cross-ribs and a strong decorative central stripe. Fix these: use the original 1024 x 1024 canvas, copy image 1's alpha exactly, follow only image 1's raised-ridge and rib boundaries, and keep the upper and lower long hull panels as violet-black resin. All internal geometry and ridge shapes must remain the grey guide's, without added ribs or plates. The topmost surface has a narrow longitudinal ridge horizontally near y=512; do not expand this into a new broad ornamental structure.\n\nExact orthographic overhead view: the ship is a long slender horizontal form within x=66..957, y=422..601, tapered at left and round-ended at right. All large surrounding margins remain transparent. Keep the exact shallow hull width, subtle contour and existing small projected bones above/below. Do not zoom in, rotate, move, crop, broaden, show the ship's side, add tall spines or make new holes. No changed outline pixels, no stray alpha outside the original mask, no coloured fringe.\n\nPaint surface material from the approved reference onto the fixed existing grey geometry: deep violet-black organic resin main hull; warm ivory bone on the actual existing ribs, spines and plates, with thin delicate gold-brown veins; restrained amber-orange colours in existing visible sac/opening areas. Fine organic pattern may appear within fixed hull regions, without altering their geometry or adding relief boundaries.\n\nCompletely flat, even, shadowless albedo illumination from the viewer: no directional shading, AO, cast shadow, specular reflection, white glints, rim light or gradients from scene lighting. Amber is a painted emissive colour only; no bloom, haze, halo, lighting of neighbouring surfaces or light outside the silhouette. Genuine transparent RGBA background copied from the guide, no background/floor/scene/text/watermark. Produce exactly 1024 x 1024 natively, with the original guide silhouette identical.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "61c219decda2b98299cc797fb3d678442943912134aa0c48171078d8ca0322a2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9106e38d0e48abc152493fd6f0c069ecede01856da27402dd8841e3936724452"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "transparent_background_requested": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1691d-5f09-7bf1-a88b-77f2d8a461c5/exec-23d5c81a-10b8-4ddf-8216-9668f172d86b.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "compliant": false,
+      "reason": "Best available unresized return after the one permitted corrective regeneration: narrower longitudinal ridge and larger violet resin panels are closer to the guide. Selected for delivery, not accepted as compliant: wrong native size, changed edges and stray alpha remain.",
+      "output_sha256": "7d71a8e1717f9ff90e489fefdcfce789b29c26e0e6a4e27820b2be262af6709a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "unresized_return_verified": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          0,
+          21,
+          1216,
+          1224
+        ],
+        "guide_alpha_bbox": [
+          66,
+          422,
+          958,
+          602
+        ],
+        "alpha_128_bbox": [
+          80,
+          516,
+          1175,
+          738
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1383068,
+        "partially_transparent_pixels": 189060,
+        "fully_opaque_pixels": 388,
+        "transparent_background": "RGBA with transparent background, but stray partially transparent pixels outside the intended outline; guide alpha not preserved.",
+        "materials_and_colours": "Visual palette matches violet-black resin, ivory bone, gold-brown veins and amber-orange sacs.",
+        "flat_even_light": "Partial: no environment or cast shadow, but painted highlights and depth shading remain; not strictly flat albedo."
+      }
+    }
+  ]
+}

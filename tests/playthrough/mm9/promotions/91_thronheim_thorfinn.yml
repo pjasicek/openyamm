@@ -1,0 +1,50 @@
+# MM9 promotion playthrough 91, the class table in bulk (README "What is checked" 5): Thronheim City: Thorfinn Skullsplitter (Mercenary).
+# Each round gives the members a row's "from" classes (a logged test setup through SetPlayerClass, not a cheat
+# for a quest), picks the promoter's "Promote our eligible characters." (his quest is done) and asserts every
+# member's class; picked again, it has nobody left. Written by class_table.py for a 4-member party
+# (a four-class round is played in chunks of the party's size). The party's own classes are
+# put back at the end.
+#   python3 tests/playthrough/mm9/promotions/run.py 91
+id: mm9.promotions.91_thronheim_thorfinn
+title: "MM9 promotions 91: the class table at Thronheim City"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/90_sturmford_fridleif.oysav}
+  - setup_shortcut: {kind: immortal}
+  # The party's own classes, kept for the end (class ids in global variables; the names remembered for the check).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+
+  # To the region, then into thronheimcity through its gate (outdoors the party is placed).
+  - travel: {map: thronheim.blv, days: 3}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # Mercenary: RUDE 240, actor 6.
+  - set_pose: {map: thronheimcity.blv, x: 11851, y: 2094, z: 3124, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  # Round 1: Knight Thief Archer Sorcerer -> Cavalier Rogue WarriorMage Sorcerer.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Knight') then error('SetPlayerClass(0, Knight)') end if not SetPlayerClass(1, 'Thief') then error('SetPlayerClass(1, Thief)') end if not SetPlayerClass(2, 'Archer') then error('SetPlayerClass(2, Archer)') end if not SetPlayerClass(3, 'Sorcerer') then error('SetPlayerClass(3, Sorcerer)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES Mercenary round 1 set: " .. c) if c ~= "Knight Thief Archer Sorcerer" then error("expected Knight Thief Archer Sorcerer, got " .. c) end'}
+  - interact_actor: {actor_index: 6}
+  - assert: {dialog: {active: true, source_id: 240, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "is now a"}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Mercenary round 1 promoted: " .. c) if c ~= "Cavalier Rogue WarriorMage Sorcerer" then error("expected Cavalier Rogue WarriorMage Sorcerer, got " .. c) end'}
+  # Picked again: nobody left to promote.
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "No one among you can take this promotion now."}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Mercenary round 1 again: " .. c) if c ~= "Cavalier Rogue WarriorMage Sorcerer" then error("expected Cavalier Rogue WarriorMage Sorcerer, got " .. c) end'}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+  - save_game: {name: "P91 class table", path: output/playthrough/mm9/promotions/checkpoints/91_thronheim_thorfinn.oysav}

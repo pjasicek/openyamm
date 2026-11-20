@@ -1,0 +1,585 @@
+{
+  "status": "completed_installed",
+  "date": "2026-09-13",
+  "art": {
+    "status": "validated",
+    "background": "magenta_then_alpha_repair",
+    "new_cells": 6,
+    "edge_review": "art/edge_review.png",
+    "processing": "art/processing.json"
+  },
+  "verification": {
+    "unit_tests": {
+      "cases": 15,
+      "assertions": 135948,
+      "result": "passed"
+    },
+    "terrain_hashes": 489,
+    "installed_files_verified": 510,
+    "new_sorpigal": {
+      "unchanged_instance_bytes": true,
+      "instances": 81065,
+      "instance_fnv1a64": "1ede1226781f327"
+    },
+    "desktop_gpu": "review/performance/comparison.json",
+    "android": {
+      "result": "release_emulator_bootleg_bay_pass",
+      "abi": "x86_64",
+      "screenshot": "review/android_bootleg_bay.png",
+      "log": "review/android_logcat.txt",
+      "instances": 82382,
+      "settings_restored": true,
+      "note": "Emulator smoke, not physical Android GPU performance. Temporary test APK includes accepted terrain/decorations and required missing current gameplay tables; repository assets ZIPs unchanged."
+    },
+    "live_toggle": {
+      "result": "passed",
+      "console": "review/deco_bootleg_verified_console_true.png",
+      "on": "review/deco_bootleg_verified_on.png",
+      "off": "review/deco_bootleg_verified_off.png",
+      "note": "Explicit console input focus required by X11 script; earlier runs are inconclusive UI automation attempts."
+    },
+    "motion": {
+      "result": "sampled_visual_pass",
+      "frames": "review/deco_tropical_wind_wind_frames.json",
+      "walking": "review/deco_tropical_wind_walk.png",
+      "notes": "Subtle wind, fixed ground anchoring, clean repaired edges and ordinary walking inspected. Existing distance-fade shader unchanged; this short near-ground pass does not exhaustively test the far fade band."
+    }
+  },
+  "maps": [
+    {
+      "world": "mm6",
+      "map": "outa1.odm",
+      "instances": 18130,
+      "instance_bytes": 1160320,
+      "family_counts": {
+        "dead": 12653,
+        "stone": 5477
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outa1.png",
+      "capture_record": "review/deco_mm6_outa1.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outa2.odm",
+      "instances": 26299,
+      "instance_bytes": 1683136,
+      "family_counts": {
+        "dead": 13750,
+        "grass": 5677,
+        "stone": 6872
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outa2.png",
+      "capture_record": "review/deco_mm6_outa2.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outa3.odm",
+      "instances": 21503,
+      "instance_bytes": 1376192,
+      "family_counts": {
+        "grass": 12038,
+        "stone": 9465
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outa3.png",
+      "capture_record": "review/deco_mm6_outa3.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outb1.odm",
+      "instances": 23638,
+      "instance_bytes": 1512832,
+      "family_counts": {
+        "stone": 23638
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outb1.png",
+      "capture_record": "review/deco_mm6_outb1.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outb2.odm",
+      "instances": 54132,
+      "instance_bytes": 3464448,
+      "family_counts": {
+        "grass": 21141,
+        "stone": 32991
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outb2.png",
+      "capture_record": "review/deco_mm6_outb2.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outb3.odm",
+      "instances": 29529,
+      "instance_bytes": 1889856,
+      "family_counts": {
+        "grass": 28424,
+        "stone": 1105
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outb3.png",
+      "capture_record": "review/deco_mm6_outb3.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outc1.odm",
+      "instances": 23959,
+      "instance_bytes": 1533376,
+      "family_counts": {
+        "stone": 23959
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outc1.png",
+      "capture_record": "review/deco_mm6_outc1.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outc2.odm",
+      "instances": 50124,
+      "instance_bytes": 3207936,
+      "family_counts": {
+        "grass": 21230,
+        "stone": 28894
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outc2.png",
+      "capture_record": "review/deco_mm6_outc2.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outc3.odm",
+      "instances": 17303,
+      "instance_bytes": 1107392,
+      "family_counts": {
+        "reed": 6576,
+        "stone": 10727
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outc3.png",
+      "capture_record": "review/deco_mm6_outc3.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outd1.odm",
+      "instances": 126652,
+      "instance_bytes": 8105728,
+      "family_counts": {
+        "grass": 114802,
+        "stone": 11850
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outd1.png",
+      "capture_record": "review/deco_mm6_outd1.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outd2.odm",
+      "instances": 82382,
+      "instance_bytes": 5272448,
+      "family_counts": {
+        "grass": 69266,
+        "tropical": 2546,
+        "stone": 10570
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outd2.png",
+      "capture_record": "review/deco_mm6_outd2.json"
+    },
+    {
+      "world": "mm6",
+      "map": "outd3.odm",
+      "instances": 85632,
+      "instance_bytes": 5480448,
+      "family_counts": {
+        "grass": 74721,
+        "reed": 1433,
+        "stone": 9478
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_outd3.png",
+      "capture_record": "review/deco_mm6_outd3.json"
+    },
+    {
+      "world": "mm6",
+      "map": "oute1.odm",
+      "instances": 59995,
+      "instance_bytes": 3839680,
+      "family_counts": {
+        "grass": 59469,
+        "stone": 526
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_oute1.png",
+      "capture_record": "review/deco_mm6_oute1.json"
+    },
+    {
+      "world": "mm6",
+      "map": "oute2.odm",
+      "instances": 60997,
+      "instance_bytes": 3903808,
+      "family_counts": {
+        "grass": 60253,
+        "stone": 744
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_oute2.png",
+      "capture_record": "review/deco_mm6_oute2.json"
+    },
+    {
+      "world": "mm6",
+      "map": "oute3.odm",
+      "instances": 81065,
+      "instance_bytes": 5188160,
+      "family_counts": {
+        "grass": 70266,
+        "stone": 10799
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm6_oute3.png",
+      "capture_record": "review/deco_mm6_oute3.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out01.odm",
+      "instances": 20566,
+      "instance_bytes": 1316224,
+      "family_counts": {
+        "grass": 20066,
+        "reed": 48,
+        "stone": 452
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_7out01.png",
+      "capture_record": "review/deco_mm7_7out01.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out02.odm",
+      "instances": 133336,
+      "instance_bytes": 8533504,
+      "family_counts": {
+        "grass": 119149,
+        "stone": 14187
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_7out02.png",
+      "capture_record": "review/deco_mm7_7out02.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out03.odm",
+      "instances": 75784,
+      "instance_bytes": 4850176,
+      "family_counts": {
+        "grass": 73718,
+        "stone": 2066
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_7out03.png",
+      "capture_record": "review/deco_mm7_7out03.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out04.odm",
+      "instances": 64234,
+      "instance_bytes": 4110976,
+      "family_counts": {
+        "grass": 63404,
+        "stone": 830
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_7out04.png",
+      "capture_record": "review/deco_mm7_7out04.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out05.odm",
+      "instances": 14864,
+      "instance_bytes": 951296,
+      "family_counts": {
+        "grass": 2653,
+        "dead": 9634,
+        "stone": 2577
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_7out05.png",
+      "capture_record": "review/deco_mm7_7out05.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out06.odm",
+      "instances": 26815,
+      "instance_bytes": 1716160,
+      "family_counts": {
+        "dead": 2524,
+        "grass": 9182,
+        "stone": 15109
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_7out06.png",
+      "capture_record": "review/deco_mm7_7out06.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out13.odm",
+      "instances": 15801,
+      "instance_bytes": 1011264,
+      "family_counts": {
+        "reed": 4382,
+        "stone": 11419
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_7out13.png",
+      "capture_record": "review/deco_mm7_7out13.json"
+    },
+    {
+      "world": "mm7",
+      "map": "7out15.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm7",
+      "map": "out09.odm",
+      "instances": 60246,
+      "instance_bytes": 3855744,
+      "family_counts": {
+        "grass": 60117,
+        "stone": 129
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_out09.png",
+      "capture_record": "review/deco_mm7_out09.json"
+    },
+    {
+      "world": "mm7",
+      "map": "out10.odm",
+      "instances": 23240,
+      "instance_bytes": 1487360,
+      "family_counts": {
+        "grass": 1040,
+        "stone": 22200
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_out10.png",
+      "capture_record": "review/deco_mm7_out10.json"
+    },
+    {
+      "world": "mm7",
+      "map": "out11.odm",
+      "instances": 121154,
+      "instance_bytes": 7753856,
+      "family_counts": {
+        "grass": 92155,
+        "stone": 28999
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_out11.png",
+      "capture_record": "review/deco_mm7_out11.json"
+    },
+    {
+      "world": "mm7",
+      "map": "out12.odm",
+      "instances": 9488,
+      "instance_bytes": 607232,
+      "family_counts": {
+        "dead": 6417,
+        "stone": 3071
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_out12.png",
+      "capture_record": "review/deco_mm7_out12.json"
+    },
+    {
+      "world": "mm7",
+      "map": "out14.odm",
+      "instances": 66183,
+      "instance_bytes": 4235712,
+      "family_counts": {
+        "grass": 65355,
+        "stone": 828
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm7_out14.png",
+      "capture_record": "review/deco_mm7_out14.json"
+    },
+    {
+      "world": "mm8",
+      "map": "elema.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "elemf.odm",
+      "instances": 1752,
+      "instance_bytes": 112128,
+      "family_counts": {
+        "stone": 1752
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_elemf.png",
+      "capture_record": "review/deco_mm8_elemf.json"
+    },
+    {
+      "world": "mm8",
+      "map": "elemw.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "out01.odm",
+      "instances": 18407,
+      "instance_bytes": 1178048,
+      "family_counts": {
+        "tropical": 11277,
+        "grass": 5484,
+        "stone": 1646
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out01.png",
+      "capture_record": "review/deco_mm8_out01.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out02.odm",
+      "instances": 115102,
+      "instance_bytes": 7366528,
+      "family_counts": {
+        "grass": 110135,
+        "stone": 4967
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out02.png",
+      "capture_record": "review/deco_mm8_out02.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out03.odm",
+      "instances": 116152,
+      "instance_bytes": 7433728,
+      "family_counts": {
+        "grass": 111007,
+        "stone": 5145
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out03.png",
+      "capture_record": "review/deco_mm8_out03.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out04.odm",
+      "instances": 13426,
+      "instance_bytes": 859264,
+      "family_counts": {
+        "dead": 6941,
+        "grass": 6485
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out04.png",
+      "capture_record": "review/deco_mm8_out04.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out05.odm",
+      "instances": 135677,
+      "instance_bytes": 8683328,
+      "family_counts": {
+        "grass": 107390,
+        "stone": 28287
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out05.png",
+      "capture_record": "review/deco_mm8_out05.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out06.odm",
+      "instances": 10639,
+      "instance_bytes": 680896,
+      "family_counts": {
+        "dead": 8979,
+        "stone": 1660
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out06.png",
+      "capture_record": "review/deco_mm8_out06.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out07.odm",
+      "instances": 139910,
+      "instance_bytes": 8954240,
+      "family_counts": {
+        "grass": 129329,
+        "stone": 10581
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out07.png",
+      "capture_record": "review/deco_mm8_out07.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out08.odm",
+      "instances": 25794,
+      "instance_bytes": 1650816,
+      "family_counts": {
+        "stone": 25794
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out08.png",
+      "capture_record": "review/deco_mm8_out08.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out13.odm",
+      "instances": 85658,
+      "instance_bytes": 5482112,
+      "family_counts": {
+        "grass": 85540,
+        "stone": 118
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_out13.png",
+      "capture_record": "review/deco_mm8_out13.json"
+    },
+    {
+      "world": "mm8",
+      "map": "out15.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "pbp.odm",
+      "instances": 18509,
+      "instance_bytes": 1184576,
+      "family_counts": {
+        "stone": 18509
+      },
+      "status": "validated_installed",
+      "capture": "review/deco_mm8_pbp.png",
+      "capture_record": "review/deco_mm8_pbp.json"
+    }
+  ],
+  "limitations": [
+    "One sampled native view per enabled map, not exhaustive town/courtyard exploration.",
+    "Mire capture partly occluded by a harpy; separate Ironfist swamp view confirms reeds on dry islands.",
+    "Four special maps intentionally disabled pending dedicated aquatic/geometry art work.",
+    "No physical-device performance validation."
+  ],
+  "resume": "Edit map_design.yml/families.yml, rebuild catalogue, export to runtime, review affected maps, then export --install. Preserve accepted New Sorpigal v1 baseline. Regenerate art only for demonstrated defects using retained magenta prompts and process_art.py.",
+  "source_hashes": {
+    "map_design.yml": "a22a52064d03cc59fe371001542f5b71ba6a29d3196b59212d82a9e1e0b566b5",
+    "families.yml": "c443de1b0bbbb2436bfa226eee61bcab8a637a4c784c7b6d015dbf5972fd0d7b",
+    "export_runtime.py": "e91c3332b308d7136a308f346768787c9535d897c09f36dcde900d1e6401ac8e",
+    "process_art.py": "3e9c80eaaf29da5794111ef77f324768cf2994243d0ae19a6fa5f528501bc060",
+    "art/magenta_prompts.json": "037a22c9ba932d71e4437462e8bab18ff392bbc0f32fbbc831745ea8f839d440"
+  },
+  "counts": {
+    "enabled_installed": 38,
+    "disabled_by_design": 4,
+    "new_art_cells": 6
+  }
+}

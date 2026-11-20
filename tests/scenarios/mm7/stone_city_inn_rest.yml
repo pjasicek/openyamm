@@ -1,0 +1,25 @@
+id: mm7.stone_city_inn_rest
+title: "MM7 - Renting a room at an indoor inn (Stone City, Grogg's Grog) rests the party until an hour after dawn"
+world: mm7
+mode: faithful
+tags: [mm7, houses, rest, regression]
+steps:
+  - note:
+      text: >-
+        Discord report 2026-10-25 (plan A1): indoor inns took the gold but never started the rest, because only the
+        outdoor view started it. The rest now starts in shared dialogue code for both views.
+  - new_game_flow:
+      start_map: 7out01.odm
+  - load_map: {map: 7d24.blv}
+  - advance_runtime: {seconds: 1}
+  # From 9:00 to 22:00.
+  - advance_game_time: {hours: 13}
+  - advance_runtime: {seconds: 1}
+  - execute_event: {id: 429}
+  - select_topic: {action_id: 252}
+  - select_topic: {action_id: 3, match_label: "Rent room for 13 gold"}
+  - advance_runtime: {seconds: 20}
+  # The room costs 13 gold; the rest runs from 22:00 to an hour after dawn, 06:00.
+  - assert:
+      gold: 9987
+      game_hour: 6

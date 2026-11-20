@@ -1,0 +1,27 @@
+# Integrator capture: run minimized against the Hesper stage with stage.lock and engine_build.lock shared.
+# This map has no stat containers; shot 1 shows its ordinary supply store.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d02/review/pickups
+settle_seconds: 1.5
+exit: true
+shots:
+- name: pump_hall_supplies
+  position:
+  - 5100
+  - 1300
+  - -256
+  yaw: -2.55359
+  pitch: -0.3
+- name: gate_satchel
+  position:
+  - 450
+  - 1900
+  - 0
+  yaw: 0.896055
+  pitch: -0.4
+- name: north_gallery_satchel
+  position:
+  - 2100
+  - 2940
+  - 0
+  yaw: 2.704965
+  pitch: -0.4

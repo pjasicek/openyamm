@@ -1,0 +1,20 @@
+# Reference labels for mm8.exe SHA-256 97be86a7597fbd9763f9b4b0ed1f4a7e47c960703fa30857c32daa056b7d403b.
+# Verify the full hash before loading. These names are research annotations, not original binary symbols.
+# Provenance and confidence: RIZIN_GUIDE.md. Does not write the executable or set inferred function signatures.
+f+ ref.mm8.RoomFromPoint @ 0x4980ba
+f+ ref.mm8.IndoorFloorLevel @ 0x46b975
+f+ ref.mm8.OutdoorFloorLevel @ 0x46bf50
+f+ ref.mm8.GroundLevel @ 0x481e19
+f+ ref.mm8.UpdateGraphicState @ 0x457060
+f+ ref.mm8.ChooseTargetPlayer @ 0x425203
+f+ ref.mm8.Monsters @ 0x61c540
+f+ ref.mm8.MonsterCount @ 0x692fb0
+f+ ref.mm8.TimeDelta @ 0x51d354
+f+ ref.mm8.TimeDelta2 @ 0x51d32c
+f+ ref.mm8.FrameCounter @ 0x5e3000
+CC "MMExtension MM8 GetFloorLevel indoor address; validate register and stack arguments" @ 0x46b975
+CC "MMExtension MM8 GetFloorLevel outdoor address; calls ground query at 0x481e19" @ 0x46bf50
+CC "MMExtension UpdateGraphicState; reads signed word this+0xb8 and writes word this+0xba" @ 0x457060
+CC "Observed switch table: 19 dword targets for AI state values 0 through 18" @ 0x45710c
+CC "Observed entry stub loads MM8patch.dll then transfers to 0x4dc82b; runtime code may be patched" @ 0x4e7d9c
+CC "Emulation caveat: bytes 83ceff mean OR ESI,-1 but tested ESIL and RzIL yield 255 from zero" @ 0x4aa667

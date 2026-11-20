@@ -1,0 +1,85 @@
+id: rulesets.maw_endless_arena_level
+title: "Ruleset - MAW Endless Arena: a level completes with a party summon still alive (audit FCOR-2-81)"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - load_map: {map: d42.blv}
+  - speak_npc: {source_id: 313}
+  - select_topic: {action_id: 10030}
+  - select_topic: {action_id: 10031}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      state_dump_named_global_var: {name: MawArenaLevel, value: 1}
+  # The timer runs every 2.5 game minutes and sends the next wave at once while the floor is clear: three families of
+  # six waves.
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      state_dump_named_global_var: {name: MawArenaWavesLeft, value: 0}
+  # The last wave falls; a Summon Wisp stays with the party and must not hold up the level.
+  - damage_actor: {all: true, amount: 100000000}
+  - cast_spell: {member_index: 0, spell_id: 82, skill: 10, mastery: 4, scroll: true}
+  - assert:
+      actor_count: {min: 1}
+  - advance_game_time: {minutes: 3}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {min: 1}
+      state_dump_named_global_var: {name: MawArenaBest, value: 1}
+  - assert:
+      state_dump_named_global_var: {name: MawArenaLevel, value: 0}

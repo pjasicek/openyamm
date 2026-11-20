@@ -1,0 +1,12 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- capture: touch-context-near
+- right_down: &id001
+  - 1675.62
+  - 298.12
+- click: *id001
+- right_up: *id001
+- wait: 0.4
+- capture: touch-context-near-followers

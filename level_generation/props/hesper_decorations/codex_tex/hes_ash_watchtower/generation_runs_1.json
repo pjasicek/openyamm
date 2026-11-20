@@ -1,0 +1,180 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "best_available_returns_do_not_pass_all_brief_checks",
+  "selection_means": "Best available within one corrective regeneration per view; not acceptance as compliant texture source.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nProduce exactly one 1024 x 1024 transparent PNG texture-source painting, FRONT view.\nInput 1 guide_front.png is the EDIT TARGET and absolute pixel geometry authority, not an inspiration. Input 2 design_reference.png is only the material and colour reference. Input 3 concept_crop.png is supporting concept reference.\nPaint directly over the plain grey front orthographic render, preserving its alpha silhouette EXACTLY, its position, size, projection, all outlines, every beam edge, every opening and negative space, each fabric edge and every existing detail. Keep the guide's exact front view. Do not substitute the reference's three-quarter camera or geometry. No additions, deletions, straightening, recentering, cropping or reshaping.\nApply rust-brown and dark grey salvaged steel to the girders and sheets, aged rust mottling, faded red-brown worn tarp fabric, earthy grey rubble at existing feet, and warm amber colour to the existing lantern. Derive surface appearance from the approved design, but do not add its holes, ropes, rivets or structures where they would alter guide geometry. No people or scenery.\nLIGHTING: unlit albedo texture source; even flat shadowless illumination from viewer. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim light. Paint the lantern's glowing colour without bloom or light cast on surroundings. Do not retain the guide's grey lighting as baked shadows. Material variation only.\nThe background and all existing open spaces must be genuine alpha transparency. No backdrop, floor, text or grid. Keep exactly 1024 x 1024 framing of guide_front.png. Output one image only.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "807425aa68b1c31eea2ba2fccd62b15d2cd135e937e2e0c9c6b0a27dbdfca804"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d91-d2bf-7790-9aa5-531fc3d72744/exec-627cd761-87d9-4706-b905-c7fc8253fc46.png",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by correction: framing and edges drifted; extra tarp holes and baked lighting. Tool returned [1254, 1254] despite the explicit 1024x1024 request; preserved unresized.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Rust-brown/dark grey steel, faded red-brown tarp match references visually.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual crease and contact shading remains.",
+        "unresized_return": true
+      },
+      "output_sha256": "9beda0f579b6452045abf7d3023be79baf404fe1a28872475479ff0b1bd068e3",
+      "compliant": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render.\nProduce exactly one 1024 x 1024 transparent PNG texture-source painting, FRONT view.\nInput 1 guide_front.png is the EDIT TARGET and absolute pixel geometry authority, not an inspiration. Input 2 design_reference.png is only the material and colour reference. Input 3 concept_crop.png is supporting concept reference.\nPaint directly over the plain grey front orthographic render, preserving its alpha silhouette EXACTLY, its position, size, projection, all outlines, every beam edge, every opening and negative space, each fabric edge and every existing detail. Keep the guide's exact front view. Do not substitute the reference's three-quarter camera or geometry. No additions, deletions, straightening, recentering, cropping or reshaping.\nApply rust-brown and dark grey salvaged steel to the girders and sheets, aged rust mottling, faded red-brown worn tarp fabric, earthy grey rubble at existing feet, and warm amber colour to the existing lantern. Derive surface appearance from the approved design, but do not add its holes, ropes, rivets or structures where they would alter guide geometry. No people or scenery.\nLIGHTING: unlit albedo texture source; even flat shadowless illumination from viewer. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim light. Paint the lantern's glowing colour without bloom or light cast on surroundings. Do not retain the guide's grey lighting as baked shadows. Material variation only.\nThe background and all existing open spaces must be genuine alpha transparency. No backdrop, floor, text or grid. Keep exactly 1024 x 1024 framing of guide_front.png. Output one image only.\nCORRECTIVE REGENERATION (only permitted correction): The earlier attempt was wrong: it returned 1254x1254, enlarged/reframed the object and introduced shadows and new fabric holes. Start from the original 1024x1024 guide_front.png, not from that attempt. Return the SAME 1024x1024 canvas with original alpha boundary. This is a texture-only edit, like painting colour onto the existing pixels. Do not generate a new tower render. Existing silhouette bounds approximately x=149..874, y=65..959 on the 1024 canvas: keep exactly those margins. The front platform horizontal beam is at y\u2248510, not moved. Keep smooth guide tarp outline and interior openings unchanged; no extra tears or holes. Every brace keeps the exact original width and placement. Reduce all lighting depth cues: bright readable uniform albedo, no dark creases/contact occlusion and no lit edge highlights. Keep material colours muted, weathered rust-brown, dark grey steel, faded red-brown cloth.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "807425aa68b1c31eea2ba2fccd62b15d2cd135e937e2e0c9c6b0a27dbdfca804"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d91-d2bf-7790-9aa5-531fc3d72744/exec-7dbad9eb-3aca-4f9b-9b90-0ca93bd7006a.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best permitted front return: fewer invented holes and reduced highlights. Still not compliant: exact silhouette/edges not preserved and residual shading. Tool returned [1254, 1254] despite the explicit 1024x1024 request; preserved unresized.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Rust-brown/dark grey steel, faded red-brown tarp match references visually.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual crease and contact shading remains.",
+        "unresized_return": true
+      },
+      "output_sha256": "d28ba01c9c744d33d361786793538eae6bb05a425dc1d0568719314fe2ce9ff2",
+      "compliant": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Output exactly one square 1024 x 1024 PNG with genuine alpha transparency.\nPaint the TOP view of the watchtower directly onto input 1 guide_top.png. This is a fixed orthographic render for texture projection, not a new design. Input 1 is the absolute geometry, framing and silhouette authority. Input 2 design_reference.png supplies surface colours/materials only, and input 3 concept_crop.png supplies supporting concept context.\nPreserve every pixel boundary of the guide: exact top-down camera, outline, position, size, rooftop corners, poles, braces, narrow openings, foot rubble islands and all edges. No recentering or enlargement. Do not use the three-quarter reference camera. Do not add any parts or surface holes. Keep the large roof tarp's exact existing shape.\nPaint the tarp faded red-brown with worn cloth texture and mottled age as in design_reference.png; paint existing steel frames rust-brown and dark grey, with restrained surface rust; rubble earthy grey. Any existing lantern area is warm amber only. Retain geometry-specific material boundaries.\nThis image is ALBEDO, not a lit beauty render. Flat, even shadowless illumination from the viewer. NO cast shadows, ambient occlusion, strong specular highlights, reflections, rim light, directional lighting or glow cast on neighbouring surfaces. Do not reproduce the shaded grey guide illumination. No floor, environment, background, text or checkerboard. All transparent background and openings remain transparent. Strict output dimensions 1024 x 1024; preserve the guide's margins.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "56593dafc19d56c410a75796605de85362c11bb771e3cdb1506e2c19179ae3e5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d91-d2bf-7790-9aa5-531fc3d72744/exec-985161a8-9538-40be-bbea-8b2719b4e30b.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by correction: major framing drift, invented geometry and strong shading. Tool returned [1254, 1254] despite the explicit 1024x1024 request; preserved unresized.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Rust-brown/dark grey steel, faded red-brown tarp match references visually.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual crease and contact shading remains.",
+        "unresized_return": true
+      },
+      "output_sha256": "2d8d1424cf4b3da8622bf8046e9d3982a1531f834b1f1e5f9228ce882bee813d",
+      "compliant": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Output exactly one square 1024 x 1024 PNG with genuine alpha transparency.\nPaint the TOP view of the watchtower directly onto input 1 guide_top.png. This is a fixed orthographic render for texture projection, not a new design. Input 1 is the absolute geometry, framing and silhouette authority. Input 2 design_reference.png supplies surface colours/materials only, and input 3 concept_crop.png supplies supporting concept context.\nPreserve every pixel boundary of the guide: exact top-down camera, outline, position, size, rooftop corners, poles, braces, narrow openings, foot rubble islands and all edges. No recentering or enlargement. Do not use the three-quarter reference camera. Do not add any parts or surface holes. Keep the large roof tarp's exact existing shape.\nPaint the tarp faded red-brown with worn cloth texture and mottled age as in design_reference.png; paint existing steel frames rust-brown and dark grey, with restrained surface rust; rubble earthy grey. Any existing lantern area is warm amber only. Retain geometry-specific material boundaries.\nThis image is ALBEDO, not a lit beauty render. Flat, even shadowless illumination from the viewer. NO cast shadows, ambient occlusion, strong specular highlights, reflections, rim light, directional lighting or glow cast on neighbouring surfaces. Do not reproduce the shaded grey guide illumination. No floor, environment, background, text or checkerboard. All transparent background and openings remain transparent. Strict output dimensions 1024 x 1024; preserve the guide's margins.\nCORRECTIVE REGENERATION (only permitted correction): the previous result incorrectly enlarged/reframed the model, created dense new rubble and ropes, and introduced deep shadows. Start over from the original guide_top.png as the actual image to colour. Return the SAME 1024x1024 canvas and guide alpha, not a new render. The entire original footprint sits roughly within x=149..874 and y=215..809 on that 1024 canvas, with broad blank top and bottom margins: preserve those margins EXACTLY. The rectangular tarp itself spans roughly x=278..728 and y=374..628; do not expand it. The bottom-left island is a plain low polygonal surface and must stay that shape, not become a new pile of small rocks. Keep every visible guide object as-is. Do not add ropes, rails, ladder parts, tarp seams or perforations. Paint only surface colours and fine texture: the large smooth tarp faded red-brown, existing frame dark grey steel with rust, existing rocks grey. Absolutely no black crease shadows, directional illumination, contact shadows or ambient occlusion. Flat evenly readable albedo, no perspective changes. Exact 1024x1024 output required.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "56593dafc19d56c410a75796605de85362c11bb771e3cdb1506e2c19179ae3e5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d91-d2bf-7790-9aa5-531fc3d72744/exec-55853ca7-219d-4daa-893b-dec2c9f35524.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best permitted top return: closer footprint, margins and plain lower-left island. Still not compliant: exact edges not preserved and residual shading. Tool returned [1254, 1254] despite the explicit 1024x1024 request; preserved unresized.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Rust-brown/dark grey steel, faded red-brown tarp match references visually.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual crease and contact shading remains.",
+        "unresized_return": true
+      },
+      "output_sha256": "fe8bfb9ce6dfc0f2f465a27bc2d3bfebfad165a1bf0b6455a16417ea25e75806",
+      "compliant": false
+    }
+  ]
+}

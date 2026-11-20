@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Paladin Boots (7item119). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of tall black leather paladin boots with straight shafts, gold scrollwork panels, gold cuff studs and rounded black toes. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Use RED for every exposed metal fitting identified by the icon and GREEN for the surrounding leather; for gloves this includes all cuff metal bands, round studs and side spikes; all five fingers and leather weave are GREEN. For boots the shin/toe plates and metal instep bands are RED; lining, flexible joints and sole are GREEN. Keep all parts solid exactly as in the guide. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item119/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "cda82078089a04470163d5128cdad05a9be0d8c2a5e580ca86950dc396c1493d",
+  "revision": 2,
+  "input_icon": "7item119",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-bc51789a-831b-40f5-8f09-ee08b8eb4758.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Superseded by reviewed per-face material labels or explicit exterior/lining materials.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "6789fedb52d8e7b7490340ff4ee5d3d412392b2f797b00381e4f4a80a5ce0c56",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item119.png",
+  "input_icon_sha256": "44dac6978e4b595f3d28e2a303e6c3b5aab873be4b57377a50357a7d2ab65207",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

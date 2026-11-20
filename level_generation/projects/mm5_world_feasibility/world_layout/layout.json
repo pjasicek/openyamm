@@ -1,0 +1,74 @@
+{
+  "title": "Darkside of Xeen — surface world layout v1",
+  "status": "Source-based terrain and travel study; no native ODMs generated",
+  "scale": {
+    "sourceCells": [96, 64],
+    "regionSourceCells": [32, 32],
+    "terrainSamples": [128, 128],
+    "nativeSampleSpacing": 512,
+    "proposedTravelBounds": [-24576, 24576, -24576, 24576],
+    "renderedTerrainBounds": [-32768, 32256, -32256, 32768],
+    "note": "The six equal squares depict adjoining travel areas. Each future ODM has a larger scenery apron; those aprons overlap conceptually and are not six extra strips of geography. Town footprints are authored independently."
+  },
+  "regions": [
+    {"id": "nw", "column": 0, "row": 0, "title": "Alamar / Necropolis", "squares": ["A1", "A2", "B1", "B2"], "palette": ["volcanic", "badlands", "dead_ground", "snow"], "intent": "Lava fields in the west, dry approaches around Necropolis and Griffin Pass, snow at the northeast edge. Shadowspire treatment is localized to the necromantic district; retain the surrounding source landforms."},
+    {"id": "nc", "column": 1, "row": 0, "title": "Desert / Northern Highlands", "squares": ["C1", "C2", "D1", "D2"], "palette": ["desert", "snow", "rock"], "intent": "Snow and snowy forest in the north; Desert of Doom and Perishing Sands to the south. Preserve the long snow/desert frontier and the Great Pyramid approach."},
+    {"id": "ne", "column": 2, "row": 0, "title": "Blackfang / Lakeside", "squares": ["E1", "E2", "F1", "F2"], "palette": ["snow", "forest", "water", "rock", "desert"], "intent": "Snowy Blackfang and Magic Mountain, Snow River Rapids, Octopod Lake and its original island. Forest and desert fringes continue from neighboring regions."},
+    {"id": "sw", "column": 0, "row": 1, "title": "Castleview / Kalindra", "squares": ["A3", "A4", "B3", "B4"], "palette": ["grassland", "forest", "badlands", "water", "rock"], "intent": "Temperate inhabited south, Dark Grove, Acid Pond and winding watercourses; dry rocky northern fringe. The town and Kalindra need independent native-scale footprints. Recommended first region."},
+    {"id": "sc", "column": 1, "row": 1, "title": "Sprite Forest / Southern Tower", "squares": ["C3", "C4", "D3", "D4"], "palette": ["forest", "badlands", "desert", "water", "rock"], "intent": "Desert fringe and Gemstone Range in the north, Sprite Forest and watercourses in the south. Bark and Southern Tower are separate landmarks. Preserve off-road caves and camps."},
+    {"id": "se", "column": 2, "row": 1, "title": "Sandcaster / Eastern Forest", "squares": ["E3", "E4", "F3", "F4"], "palette": ["forest", "badlands", "desert", "water", "rock"], "intent": "Sandcaster at the dry northern edge; Crossroads, Howling Woods and Aging Forest farther south. Continue the River of Wrath and keep Venom Pond distinct."}
+  ],
+  "connections": [
+    {"id": "sw_sc", "a": "sw", "b": "sc", "kind": "road", "source": [7, 15, 3], "destination": [11, 0, 3], "label": "Southern road west"},
+    {"id": "sc_se", "a": "sc", "b": "se", "kind": "road", "source": [15, 15, 1], "destination": [19, 0, 1], "label": "Southern road east"},
+    {"id": "nc_ne", "a": "nc", "b": "ne", "kind": "road", "source": [14, 15, 15], "destination": [18, 0, 15], "label": "Northern road"},
+    {"id": "ne_se", "a": "ne", "b": "se", "kind": "road", "source": [22, 0, 0], "destination": [23, 0, 15], "label": "Eastern road"},
+    {"id": "nw_sw", "a": "nw", "b": "sw", "kind": "off_road", "source": [2, 8, 0], "destination": [3, 8, 15], "label": "Dry western approach"},
+    {"id": "nw_nc", "a": "nw", "b": "nc", "kind": "off_road", "source": [6, 15, 7], "destination": [10, 0, 7], "label": "Western desert approach"},
+    {"id": "nc_sc", "a": "nc", "b": "sc", "kind": "off_road", "source": [10, 12, 0], "destination": [11, 12, 15], "label": "Open desert approach"}
+  ],
+  "palettes": [
+    {"id": "grassland", "name": "Grassland", "donor": "MM8 Ravenshore / Alvar", "textures": ["mm8:grastyl", "mm8:grastyl2", "mm8:dirttyl"], "note": "Established temperate town palette and ordinary roadside vegetation."},
+    {"id": "forest", "name": "Forest", "donor": "MM8 Murmurwoods / Garrote Gorge", "textures": ["mm8:grastyl", "mm8:dirttyl"], "note": "Canopy and ground-cover composition supply the woodland identity; dark and light woods remain distinct."},
+    {"id": "badlands", "name": "Dirt / badlands", "donor": "MM8 Ravage Roaming", "textures": ["mm8:dirttyl", "mm8:rctyl"], "note": "Dry shelves and exposed rocky ground, with deliberate quiet spaces."},
+    {"id": "dead_ground", "name": "Necromantic ground", "donor": "MM8 Shadowspire", "textures": ["mm8:dirttyl", "mm8:gstyl", "mm8:tartyl"], "note": "Proposed local Necropolis art direction. Dead trees, ruins and architecture matter as much as the ground. No new tar lake is implied."},
+    {"id": "desert", "name": "Desert / sand", "donor": "MM8 Ironsand; MM7 sand as a lighter option", "textures": ["mm8:plntyl", "mm8:plsatyl", "mm7:7sand"], "note": "Separate pale sand from volcanic ground; deserts do not automatically contain lava."},
+    {"id": "volcanic", "name": "Volcanic land / lava", "donor": "MM8 Ironsand Desert", "textures": ["mm8:plntyl", "mm8:plsatyl", "mm8:lavtyl"], "note": "Preserve northwest lava channels. A new large volcano is not part of this layout; the source does not establish a crater here."},
+    {"id": "snow", "name": "Snow / cold rock", "donor": "MM7 Mount Nighon", "textures": ["mm7:7snow", "mm7:7dirttyl"], "note": "Locally available snow and snow-to-dirt family; audit final transition-bank assignment before generating terrain."},
+    {"id": "rock", "name": "Ridges / mountains", "donor": "MM8 Ravenshore / Ravage Roaming", "textures": ["mm8:rktyl", "mm8:rctyl"], "note": "Relief in this study is illustrative and derives from source mountain classes; heights are not measured MM5 elevations."},
+    {"id": "water", "name": "Rivers / lakes", "donor": "MM8 water family", "textures": ["mm8:wtrtyl"], "note": "Keep shallow and deep source water, narrow river continuity and the Lost Souls island. Magical ponds need their own eventual material/effects choice."}
+  ],
+  "landmarks": [
+    {"name": "Alamar", "source": [1, 10, 4], "kind": "castle"},
+    {"name": "Necropolis", "source": [6, 8, 12], "kind": "town"},
+    {"name": "Griffin Pass", "source": [5, 12, 4], "kind": "place"},
+    {"name": "Corak / Escape Pod 1", "source": [5, 2, 9], "kind": "dungeon"},
+    {"name": "Escape Pod 2", "source": [6, 3, 8], "kind": "dungeon"},
+    {"name": "Northern Tower", "source": [13, 2, 10], "kind": "tower"},
+    {"name": "Great Pyramid", "source": [14, 0, 5], "kind": "dungeon"},
+    {"name": "Blackfang", "source": [21, 9, 11], "kind": "castle"},
+    {"name": "Magic Mountain", "source": [17, 1, 12], "kind": "place"},
+    {"name": "Lakeside", "source": [22, 3, 15], "kind": "town"},
+    {"name": "Lost Souls", "source": [22, 6, 10], "kind": "dungeon"},
+    {"name": "Castleview / Ellinger", "source": [4, 14, 10], "kind": "town"},
+    {"name": "Kalindra", "source": [4, 5, 14], "kind": "castle"},
+    {"name": "Western Tower", "source": [3, 4, 9], "kind": "tower"},
+    {"name": "Dark Grove", "source": [3, 14, 6], "kind": "place"},
+    {"name": "Temple of Bark", "source": [12, 2, 8], "kind": "dungeon"},
+    {"name": "Southern Tower", "source": [16, 2, 7], "kind": "tower"},
+    {"name": "Sandcaster", "source": [19, 4, 12], "kind": "town"},
+    {"name": "Crossroads", "source": [19, 14, 11], "kind": "place"},
+    {"name": "Eastern Tower", "source": [23, 10, 9], "kind": "tower"},
+    {"name": "Acid Pond", "source": [7, 2, 13], "kind": "water"},
+    {"name": "Octopod Lake", "source": [22, 6, 3], "kind": "water"},
+    {"name": "Snow River Rapids", "source": [21, 6, 3], "kind": "water"},
+    {"name": "River of Wrath", "source": [23, 2, 5], "kind": "water"},
+    {"name": "Venom Pond", "source": [24, 4, 10], "kind": "water"}
+  ],
+  "firstRegion": {
+    "id": "sw",
+    "reason": "Tests town density, established temperate assets, water, countryside and two regional exits in the main starting hub.",
+    "firstBuildScope": "Plan the complete SW travel square first; build Castleview and its Kalindra approach as the first reviewable district within it. Keep Ellinger/sewer entrances, Western Tower and both regional connections reserved.",
+    "deferred": "Detailed interiors, full quest export, sky mechanics and final combat balance. These are future work, not removed content."
+  }
+}

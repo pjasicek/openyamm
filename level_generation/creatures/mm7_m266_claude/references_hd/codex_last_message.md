@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m266_claude/references_hd/00_three_quarter.png) and recorded both built-in generation attempts, prompts and hashes in [generation_runs.json](level_generation/creatures/mm7_m266_claude/references_hd/generation_runs.json).
+
+Transparent, unresized 1536 × 1024. Review failures remain: apparent fifth foot, tight margins and incomplete neck separation. One allowed correction used; views 01–04 were not generated.

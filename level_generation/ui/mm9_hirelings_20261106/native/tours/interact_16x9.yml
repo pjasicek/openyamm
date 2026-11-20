@@ -1,0 +1,23 @@
+output_dir: ../captures/interact
+exit: true
+steps:
+- wait: 4
+- console: hireling add 42
+- console: hireling add 44
+- console: hireling add 2
+- console: hireling buff 42
+- console: hireling hp 42 82
+- console: hireling hp 44 28
+- console: hireling condition 2 unconscious
+- wait: 1
+- click: [1534, 516]
+- wait: 1
+- capture: active
+- right_down: [1534, 403]
+- wait: 1
+- capture: inspect
+- right_up: [1534, 403]
+- wait: 0.5
+- click: [1534, 516]
+- wait: 1.5
+- capture: dialogue

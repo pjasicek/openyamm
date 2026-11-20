@@ -1,0 +1,96 @@
+{
+  "schema": "openyamm-minimap-approach-approval-v1",
+  "instruction": "yes light noise is the winner here. accept this approach, regen all minimaps and deploy them to icons_x2",
+  "scope": {
+    "mm6": 15,
+    "mm7": 13,
+    "mm8": 14,
+    "total": 42
+  },
+  "approval": "User selected the light-noise New Sorpigal approach and authorized batch regeneration, acceptance and deployment.",
+  "review": "New Sorpigal was reviewed by the user; the remaining outputs were checked by the assistant under that batch authorization.",
+  "noise": {
+    "seed": 20260928,
+    "bands_master_pixels": [
+      [
+        0,
+        0.25
+      ],
+      [
+        1,
+        0.5
+      ],
+      [
+        3,
+        0.35
+      ],
+      [
+        9,
+        0.15
+      ]
+    ],
+    "strength": 0.06,
+    "clip_standard_deviations": 2.5,
+    "land_mask": "Unlit atlas: exclude B > 1.25R and G > 1.2R",
+    "reference_image": "level_generation/ui/hud_inventory/minimap_study_20260927/new_sorpigal/vinevi_noise_light_x2.png",
+    "reference_sha256": "c9d7754aef37e5166cf96ad42ebc99e9a6235fd357e372b389c33ba8987f2354"
+  },
+  "recipe": {
+    "source": "https://www.moddb.com/mods/minimaps-for-might-magic/tutorials/making-minimaps-for-might-and-magic",
+    "status": "Process reproduction; chosen numeric settings, not recovered author presets",
+    "sun": {
+      "azimuth_degrees_clockwise_from_north": 315,
+      "elevation_degrees": 20,
+      "color_linear_rgb": [
+        1.0,
+        0.84,
+        0.62
+      ],
+      "strength": 6.6,
+      "cast_shadows": false
+    },
+    "world": {
+      "color_linear_rgb": [
+        0.35,
+        0.5,
+        1.0
+      ],
+      "strength": 0.4
+    },
+    "render": {
+      "size": 2048,
+      "samples": 64,
+      "seed": 60927,
+      "diffuse_bounces": 0,
+      "denoising": false
+    },
+    "terrain_flat_normal_blend": 0.15,
+    "terrain_random_pick": {
+      "seed": 20260927,
+      "radius_master_pixels": 1,
+      "probability": 0.25,
+      "blend": 0.3
+    },
+    "object_levels": {
+      "black": 0.0,
+      "white": 0.85,
+      "gamma": 1.16
+    },
+    "global_grade": {
+      "contrast": 1.06,
+      "contrast_pivot": 0.3,
+      "saturation": 1.13
+    },
+    "unsharp": {
+      "radius_master_pixels": 1.2,
+      "amount": 0.3,
+      "threshold_255": 2
+    },
+    "export_size": 1024
+  },
+  "evidence": {
+    "level_generation/minimaps/exports.json": "85ba54b3c6435093e42956e457531c91b1998da71ad486f7b396ca3eac6264f1",
+    "level_generation/minimaps/validation.json": "4f508397c2abd477709d03bb86a98218ba1cc3afb6c837c8cf407877bab55781",
+    "level_generation/minimaps/visual_review.json": "53dbe6d095d77ac430fbb601da6a4db4f1664142711c9afc7ff19292a2517a39"
+  }
+}

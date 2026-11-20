@@ -1,0 +1,2483 @@
+format: 0
+start:
+  room: room:hangar
+  at: [640, -1280]
+  facing: e
+doors:
+  - id: door:bridge_w_gallery
+    opening: open:bridge_w_gallery
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d29/d30: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:cargo_corr
+    opening: open:cargo_corr
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d15/d16: two leaves that part sideways; event 8 toggles it. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:corr_cargo_e
+    opening: open:corr_cargo_e
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d45/d46: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:corr_cargo_low
+    opening: open:corr_cargo_low
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d39/d40: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:corr_cell1
+    opening: open:corr_cell1
+    kind: slide_left
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d53: one leaf, slides north into the wall."
+  - id: door:corr_cell2
+    opening: open:corr_cell2
+    kind: slide_right
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d55: one leaf, folds into the north jamb. It slides south here: north, a leaf needing room in the wall would stand in the lift doorway 160 away."
+  - id: door:corr_cell3
+    opening: open:corr_cell3
+    kind: slide_left
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d57: one leaf, slides north into the wall."
+  - id: door:corr_cell4
+    opening: open:corr_cell4
+    kind: slide_right
+    fold: true
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d59: one leaf whose free edge moves 191 west: it folds against the west jamb (ninth merge round; it slid east into the wall, its face in cell 3's wall plane)."
+  - id: door:corr_lift_e1
+    opening: open:corr_lift_e1
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d51: one leaf 191 long, which folds into the north jamb (its far edge moves, its faces stretch). Here two halves: a single leaf needs room in the wall beside the doorway, and the 160 of wall between this doorway and the stasis rooms on either side is too short for it."
+  - id: door:corr_top_hub
+    opening: open:corr_top_hub
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d61/d62: two leaves that part sideways; opened from a panel in the control room (event 42). The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:corr_top_lab
+    opening: open:corr_top_lab
+    kind: slide_right
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2c, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d60: one leaf, slides east into the wall."
+  - id: door:corr_w_hall
+    opening: open:corr_w_hall
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d31/d32: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:crew_hall
+    opening: open:crew_hall
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d33/d34: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:deck_captain
+    opening: open:deck_captain
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d67/d68: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:gallery_east_landing
+    opening: open:gallery_east_landing
+    kind: slide_left
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d26: one leaf, slides north into the wall."
+  - id: door:gallery_ramp_e
+    opening: open:gallery_ramp_e
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d69/d70: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:gallery_ramp_w
+    opening: open:gallery_ramp_w
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d73/d74: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:gallery_room_se
+    opening: open:gallery_room_se
+    kind: slide_left
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a3b, size: [128, 256]}
+    notes: "The original's d23: one leaf, slides north into the wall."
+  - id: door:hall_corr_e
+    opening: open:hall_corr_e
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d24/d25: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:hangar_closet
+    opening: open:hangar_closet
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d10/d11: two leaves that part sideways; opens with event 3. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:hangar_corr
+    opening: open:hangar_corr
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d35/d36: two leaves that part sideways; event 27: works without power. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:hub_cross_n
+    opening: open:hub_cross_n
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d63/d64: two leaves that part sideways; opened from a panel in the control room (event 44). The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:hub_cross_s
+    opening: open:hub_cross_s
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d65/d66: two leaves that part sideways; opened from a panel in the control room (event 46). The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:lift_w_gallery
+    opening: open:lift_w_gallery
+    kind: slide_left
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    back_surface: {texture: a2c, size: [128, 256]}
+    notes: "The original's d27: one leaf, slides south into the wall."
+  - id: door:lift_w_hall
+    opening: open:lift_w_hall
+    kind: slide_right
+    state: closed
+    thickness: 32
+    speed: 50
+    surface: {texture: a2c, size: [128, 256]}
+    back_surface: {texture: a2b, size: [128, 256]}
+    notes: "The original's d28: one leaf, slides north into the wall."
+  - id: door:locker1
+    opening: open:locker1
+    kind: slide_down
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: a2j, size: [128, 256]}
+    notes: "The original's d77: a shutter 64 high over a wall locker, which drops into the sill when its panel (event 157) is used."
+  - id: door:locker2
+    opening: open:locker2
+    kind: slide_down
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: a2j, size: [128, 256]}
+    notes: "The original's d78: a shutter 64 high over a wall locker, which drops into the sill when its panel (event 158) is used."
+  - id: door:locker3
+    opening: open:locker3
+    kind: slide_down
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: a2j, size: [128, 256]}
+    notes: "The original's d79: a shutter 64 high over a wall locker, which drops into the sill when its panel (event 159) is used."
+  - id: door:ramp_e_deck
+    opening: open:ramp_e_deck
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d71/d72: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:ramp_w_deck
+    opening: open:ramp_w_deck
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d75/d76: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:top_landing_corr
+    opening: open:top_landing_corr
+    kind: slide_left
+    leaves: 2
+    state: closed
+    thickness: 32
+    speed: 50
+    notes: "The original's d48/d49: two leaves that part sideways. The original's two leaves differ (a2b and a2c on each side); one surface here."
+  - id: door:vest_station
+    opening: open:vest_station
+    kind: slide_up
+    leaves: 2
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: sfw1a, size: [128, 256]}
+    notes: "The original's d19/d20: two halves that part up and down (each 127), in a partition 16 thick. 16 west of the original: the doorway stands flush with the vestibule's east wall there, and an opening needs 16 of wall on each side."
+lifts:
+  - id: lift:cargo
+    room: room:cargo_shaft
+    at: [312, -2240]
+    size: [1040, 896]
+    travel: 779
+    speed: 100
+    surface: {texture: a2b, size: [128, 256]}
+    notes: "door 9: rises through the hole in the bay's floor. 16 narrower than the original (1056): the hole must stand 16 from the bay's west wall, and the original's pit is flush with it. The rim round the pit (door 38) is mover:cargo_rim; event 151 moves both."
+  - id: lift:east_lower
+    room: room:lift_e1
+    at: [7039, -4767]
+    size: [254, 254]
+    travel: 448
+    thickness: 9
+    speed: 100
+    surface: {texture: sfw7b, size: [128, 256]}
+    notes: "door 50, a plate 9 thick (events 155, 156, 473, 474)"
+  - id: lift:east_upper
+    room: room:lift_e2
+    at: [7041, -5088]
+    size: [254, 256]
+    travel: 384
+    thickness: 9
+    speed: 100
+    surface: {texture: sfw7b, size: [128, 256]}
+    notes: "door 47, a plate 9 thick (events 34, 154)"
+  - id: lift:reactor
+    room: room:shaft1
+    at: [4544, -1920]
+    size: [256, 256]
+    travel: 808
+    speed: 100
+    surface: {texture: sfw7b, size: [128, 256]}
+    notes: "door 17, event 152: works without power"
+  - id: lift:reactor_side
+    room: room:lift2
+    size: [256, 256]
+    travel: 448
+    speed: 100
+    surface: {texture: sfw7b, size: [128, 256]}
+    notes: "door 18, event 153: works without power"
+  - id: lift:west
+    room: room:lift_w
+    at: [2111, -4928]
+    size: [254, 448]
+    travel: 448
+    speed: 50
+    surface: {texture: sfw7b, size: [128, 256]}
+    notes: "door 37, event 29 (a panel in the lift) and the call events 18 and 20"
+movers:
+  - id: mover:bay1_lower
+    room: room:bay1
+    at: [-944, 768]
+    size: [448, 512]
+    bottom: 36
+    height: 32
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 5: the lower deck, 576 under the upper (top -316), which comes up to the hangar's level."
+  - id: mover:bay1_upper
+    room: room:bay1
+    at: [-944, 768]
+    size: [448, 512]
+    bottom: 580
+    height: 64
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 1: the pod bay's upper deck, level with the hangar (top 260) when the map starts; event 451 sends it 576 up into the bay's shaft as the lower deck comes up."
+  - id: mover:bay2_lower
+    room: room:bay2
+    at: [-944, 128]
+    size: [448, 512]
+    bottom: 36
+    height: 32
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 6: the lower deck, 576 under the upper (top -316), which comes up to the hangar's level."
+  - id: mover:bay2_upper
+    room: room:bay2
+    at: [-944, 128]
+    size: [448, 512]
+    bottom: 580
+    height: 64
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 2: the pod bay's upper deck, level with the hangar (top 260) when the map starts; event 452 sends it 576 up into the bay's shaft as the lower deck comes up."
+  - id: mover:bay3_lower
+    room: room:bay3
+    at: [-944, -512]
+    size: [448, 512]
+    bottom: 36
+    height: 32
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 7: the lower deck, 576 under the upper (top -316), which comes up to the hangar's level."
+  - id: mover:bay3_upper
+    room: room:bay3
+    at: [-944, -512]
+    size: [448, 512]
+    bottom: 580
+    height: 64
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 3: the pod bay's upper deck, level with the hangar (top 260) when the map starts; event 453 sends it 576 up into the bay's shaft as the lower deck comes up."
+  - id: mover:bay4_lower
+    room: room:bay4
+    at: [-944, -1152]
+    size: [448, 512]
+    bottom: 36
+    height: 32
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 8: the lower deck, 576 under the upper (top -316), which comes up to the hangar's level."
+  - id: mover:bay4_upper
+    room: room:bay4
+    at: [-944, -1152]
+    size: [448, 512]
+    bottom: 580
+    height: 64
+    travel: [0, 0, 576]
+    speed: 100
+    surface: {texture: a1b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 4: the pod bay's upper deck, level with the hangar (top 260) when the map starts; event 454 sends it 576 up into the bay's shaft as the lower deck comes up."
+  - id: mover:cargo_rim
+    room: room:cargo_w
+    outline: [[-224, -2752], [896, -2752], [896, -1728], [-224, -1728], [-224, -1792], [832, -1792], [832, -2688], [-224, -2688]]
+    height: 96
+    travel: [0, 0, -98]
+    speed: 50
+    surface: {texture: a3b, size: [128, 256]}
+    top_surface: {texture: a2b, size: [128, 256]}
+    notes: "door 38: a rim 64 wide and 96 high round three sides of the pit, standing while the lift is down; it sinks flush with the floor when the lift comes up."
+  - id: mover:cell1_n
+    room: room:cell1
+    at: [7576, -3776]
+    size: [16, 192]
+    height: 112
+    travel: [-368, 0, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 52: a stasis bed that slides 384 out of the east wall when the party steps into the room (event 459) and back when it steps out (event 460)."
+  - id: mover:cell1_s
+    room: room:cell1
+    at: [7576, -4480]
+    size: [16, 192]
+    height: 112
+    travel: [-368, 0, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 52: a stasis bed that slides 384 out of the east wall when the party steps into the room (event 459) and back when it steps out (event 460)."
+  - id: mover:cell2_n
+    room: room:cell2
+    at: [7576, -5056]
+    size: [16, 192]
+    height: 112
+    travel: [-368, 0, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 54: a stasis bed that slides 384 out of the east wall when the party steps into the room (event 463) and back when it steps out (event 464)."
+  - id: mover:cell2_s
+    room: room:cell2
+    at: [7576, -5760]
+    size: [16, 192]
+    height: 112
+    travel: [-368, 0, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 54: a stasis bed that slides 384 out of the east wall when the party steps into the room (event 463) and back when it steps out (event 464)."
+  - id: mover:cell3_n
+    room: room:cell3
+    at: [7576, -6016]
+    size: [16, 192]
+    height: 112
+    travel: [-368, 0, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 56: a stasis bed that slides 384 out of the east wall when the party steps into the room (event 467) and back when it steps out (event 468)."
+  - id: mover:cell3_s
+    room: room:cell3
+    at: [7576, -6720]
+    size: [16, 192]
+    height: 112
+    travel: [-368, 0, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 56: a stasis bed that slides 384 out of the east wall when the party steps into the room (event 467) and back when it steps out (event 468)."
+  - id: mover:cell4_e
+    room: room:cell4
+    at: [7200, -7640]
+    size: [192, 16]
+    height: 112
+    travel: [0, 368, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 58: a stasis bed that slides 384 out of the south wall when the party steps into the room (event 471) and back when it steps out (event 472)."
+  - id: mover:cell4_w
+    room: room:cell4
+    at: [6496, -7640]
+    size: [192, 16]
+    height: 112
+    travel: [0, 368, 0]
+    speed: 150
+    stretch: true
+    surface: {texture: tfb2, size: [128, 256]}
+    top_surface: {texture: hive19, size: [128, 256]}
+    notes: "door 58: a stasis bed that slides 384 out of the south wall when the party steps into the room (event 471) and back when it steps out (event 472)."
+  - id: mover:crane_e
+    room: room:cargo_e
+    at: [8576, -1888]
+    size: [320, 288]
+    bottom: 368
+    height: 32
+    travel: [-1408, 0, 0]
+    speed: 50
+    surface: {texture: a2b, size: [128, 256]}
+    top_surface: {texture: 7tfb1, size: [128, 256]}
+    notes: "door 44: the east bay's crane, starting at the east end of its rails and running 1408 west (event 456)."
+  - id: mover:crane_w
+    room: room:cargo_w
+    at: [1472, -2176]
+    size: [320, 288]
+    bottom: 368
+    height: 32
+    travel: [-1408, 0, 0]
+    speed: 100
+    surface: {texture: a2b, size: [128, 256]}
+    top_surface: {texture: 7tfb1, size: [128, 256]}
+    notes: "door 14: the west bay's crane, a slab 320 x 288 at 1404 to 1436 under the rail channel, which runs 1408 west over the pit (event 455). The original's frame and hangers up into the rails (to 1516) are not built: one block."
+plates:
+  - id: plate:captain_door
+    room: room:captain
+    outline: [[6385, -9500], [6464, -9500], [6464, -9316], [6385, -9316]]
+    notes: "The cabin's floor inside its door (event 50, face 2264: 6368..6464, -9632..-9184)."
+  - id: plate:deck_e
+    room: room:deck
+    outline: [[5568, -9968], [6255, -9968], [6255, -9024], [5568, -9024]]
+    notes: "The bridge floor in front of the captain's door (event 50, face 2072: 5568..6272, -9968..-9024)."
+  - id: plate:gallery_e
+    room: room:reactor_up
+    outline: [[4854, -2159], [5113, -2159], [5615, -1629], [5615, -647], [5113, -145], [4854, -145]]
+    notes: "The reactor gallery's east floor (event 18, face 1460: x 4837..5632)."
+  - id: plate:gallery_w
+    room: room:reactor_up
+    outline: [[3850, -2159], [3850, -145], [3591, -145], [3089, -647], [3089, -1629], [3591, -2159]]
+    notes: "The reactor gallery's west floor (event 16, face 1459: x 3072..3867), 17 inside the walls and short of the console ring."
+  - id: plate:reactor_s
+    room: room:reactor_low
+    outline: [[3867, -2159], [4837, -2159], [4837, -2064], [3867, -2064]]
+    notes: "The reactor room's floor along its south wall (event 15: face 1459's neighbour in sector 31, 3867..4837, -2176..-2050), cut short of the lift tube's hole."
+lights:
+  - id: light:l000
+    room: room:corr_low_hb
+    at: [2108, -1051]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l001
+    room: room:corr_low_hb
+    at: [2432, -1314]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l002
+    room: room:corr_low_hb
+    at: [2700, -1487]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l003
+    room: room:corr_low
+    at: [3097, -1381]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l004
+    room: room:corr_low
+    at: [3097, -1929]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l005
+    room: room:corr_low_rb
+    at: [3600, -1929]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l006
+    room: room:corr_low_rb
+    at: [3980, -1929]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l007
+    room: room:corr_low
+    at: [3063, -2381]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l008
+    room: room:corr_low
+    at: [3096, -3019]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l009
+    room: room:corr_low
+    at: [3096, -3627]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l010
+    room: room:corr_low_s
+    at: [3096, -4018]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l011
+    room: room:corr_low_s
+    at: [3688, -4309]
+    height: 16
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l012
+    room: room:hangar
+    at: [1440, -1248]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l013
+    room: room:hangar
+    at: [1520, 16]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l014
+    room: room:hangar
+    at: [1536, 912]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l015
+    room: room:hangar
+    at: [608, 944]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l016
+    room: room:hangar
+    at: [816, 0]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l017
+    room: room:hangar
+    at: [640, -1104]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l018
+    room: room:hangar
+    at: [-368, -992]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l019
+    room: room:hangar
+    at: [-352, 32]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l020
+    room: room:hangar
+    at: [-240, 1008]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l021
+    room: room:cargo_shaft
+    at: [16, -1920]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l022
+    room: room:cargo_shaft
+    at: [64, -2400]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l023
+    room: room:cargo_shaft
+    at: [464, -2464]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l024
+    room: room:cargo_shaft
+    at: [496, -1920]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l025
+    room: room:cargo_shaft
+    at: [496, -1920]
+    height: 512
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l026
+    room: room:cargo_shaft
+    at: [464, -2464]
+    height: 512
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l027
+    room: room:cargo_shaft
+    at: [64, -2400]
+    height: 512
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l028
+    room: room:cargo_shaft
+    at: [16, -1920]
+    height: 512
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l029
+    room: room:cargo_w
+    at: [208, -3104]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l030
+    room: room:cargo_w
+    at: [1184, -3136]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l031
+    room: room:cargo_w
+    at: [1024, -2608]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l032
+    room: room:cargo_shaft
+    at: [-96, -2560]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l033
+    room: room:cargo_shaft
+    at: [-80, -2208]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l034
+    room: room:cargo_shaft
+    at: [448, -2208]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l035
+    room: room:cargo_w
+    at: [1504, -2208]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l036
+    room: room:cargo_w
+    at: [560, -1504]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l037
+    room: room:cargo_w
+    at: [1200, -1504]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l038
+    room: room:corr_w
+    at: [976, -3664]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l039
+    room: room:corr_w
+    at: [1376, -3648]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l040
+    room: room:corr_w
+    at: [1776, -3648]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l041
+    room: room:corr_w
+    at: [2096, -3648]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l042
+    room: room:corr_w
+    at: [2192, -3872]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l043
+    room: room:corr_w
+    at: [2192, -4160]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l045
+    room: room:reactor_low
+    at: [3616, -1872]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l046
+    room: room:reactor_low
+    at: [4000, -1920]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l047
+    room: room:reactor_low
+    at: [4832, -1888]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l048
+    room: room:reactor_low
+    at: [5200, -1872]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l049
+    room: room:reactor_low
+    at: [5152, -1392]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l050
+    room: room:reactor_low
+    at: [5200, -912]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l051
+    room: room:reactor_low
+    at: [5008, -432]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l052
+    room: room:reactor_low
+    at: [4480, -416]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l053
+    room: room:reactor_low
+    at: [4080, -448]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l054
+    room: room:reactor_low
+    at: [3632, -592]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l055
+    room: room:reactor_low
+    at: [3520, -992]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l056
+    room: room:reactor_low
+    at: [3424, -1488]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l065
+    room: room:reactor_up
+    at: [3616, -1872]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l066
+    room: room:reactor_up
+    at: [4000, -1920]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l067
+    room: room:reactor_up
+    at: [4832, -1888]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l068
+    room: room:reactor_up
+    at: [5200, -1872]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l069
+    room: room:reactor_up
+    at: [5152, -1392]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l070
+    room: room:reactor_up
+    at: [5200, -912]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l071
+    room: room:reactor_up
+    at: [5008, -432]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l072
+    room: room:reactor_up
+    at: [4480, -416]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l073
+    room: room:reactor_up
+    at: [4080, -448]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l074
+    room: room:reactor_up
+    at: [3632, -592]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l075
+    room: room:reactor_up
+    at: [3520, -992]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l076
+    room: room:reactor_up
+    at: [3424, -1488]
+    height: 192
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l077
+    room: room:cargo_low
+    at: [3056, 480]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l078
+    room: room:cargo_low
+    at: [2960, 0]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l079
+    room: room:cargo_low
+    at: [3104, -528]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l080
+    room: room:cargo_low
+    at: [3824, -416]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l081
+    room: room:cargo_low
+    at: [4576, -400]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l082
+    room: room:cargo_low
+    at: [4608, 112]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l083
+    room: room:cargo_low
+    at: [3744, 128]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l086
+    room: room:landing_low
+    at: [4288, -3808]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l087
+    room: room:stairs_a
+    at: [4288, -4160]
+    height: 236
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l088
+    room: room:corr_low_s
+    at: [4304, -4592]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l089
+    room: room:stairs_b
+    at: [4624, -4176]
+    height: 244
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l090
+    room: room:low_lobby
+    at: [4640, -4544]
+    height: 148
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l091
+    room: room:low_lobby
+    at: [4944, -4544]
+    height: 148
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l092
+    room: room:hall
+    at: [3584, -3072]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l093
+    room: room:hall
+    at: [4096, -3072]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l094
+    room: room:hall
+    at: [4736, -2944]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l095
+    room: room:hall
+    at: [5248, -3200]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l096
+    room: room:hall
+    at: [5376, -3840]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l097
+    room: room:hall
+    at: [5504, -4352]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l098
+    room: room:hall
+    at: [5632, -5120]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l099
+    room: room:hall
+    at: [5248, -6016]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l100
+    room: room:hall
+    at: [4864, -6016]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l101
+    room: room:hall
+    at: [4864, -6912]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l102
+    room: room:hall
+    at: [5376, -6912]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l103
+    room: room:hall
+    at: [5888, -6912]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l104
+    room: room:hall
+    at: [4864, -7424]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l105
+    room: room:hall
+    at: [3968, -7296]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l106
+    room: room:hall
+    at: [3200, -7296]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l107
+    room: room:hall
+    at: [3584, -6400]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l108
+    room: room:hall
+    at: [3968, -6272]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l109
+    room: room:hall
+    at: [3968, -5632]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l110
+    room: room:hall
+    at: [3456, -4992]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l111
+    room: room:hall
+    at: [3584, -4352]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l112
+    room: room:hall
+    at: [3584, -3584]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l113
+    room: room:hall
+    at: [2816, -3968]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l114
+    room: room:hall
+    at: [2816, -4608]
+    height: 500
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l117
+    room: room:crew_w
+    at: [1280, -5696]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l118
+    room: room:crew_w
+    at: [1280, -6400]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l119
+    room: room:crew_w
+    at: [1664, -6528]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l120
+    room: room:crew_w
+    at: [1664, -5696]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l121
+    room: room:crew_w
+    at: [2048, -5696]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l122
+    room: room:crew_w
+    at: [2048, -6464]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l125
+    room: room:vest
+    at: [2176, -7232]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l126
+    room: room:bridge_w
+    at: [1856, -7296]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l127
+    room: room:bridge_w
+    at: [1600, -7424]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l128
+    room: room:bridge_w
+    at: [1600, -7744]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l129
+    room: room:bridge_w
+    at: [1856, -7744]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l130
+    room: room:bridge_w
+    at: [2240, -7744]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l131
+    room: room:bridge_w
+    at: [2240, -8192]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l132
+    room: room:bridge_w
+    at: [1920, -8128]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l133
+    room: room:bridge_w
+    at: [1600, -8128]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l134
+    room: room:room_se
+    at: [6528, -7936]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l135
+    room: room:lift_e1
+    at: [6920, -4738]
+    height: 180
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l136
+    room: room:lift_e1
+    at: [7040, -4800]
+    height: 564
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l137
+    room: room:east_landing
+    at: [6528, -4928]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l138
+    room: room:lift_e2
+    at: [7104, -5120]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l139
+    room: room:corr_top
+    at: [7744, -5120]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l140
+    room: room:corr_top
+    at: [8256, -5120]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l141
+    room: room:lab
+    at: [7936, -4736]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l142
+    room: room:hub_top
+    at: [8960, -5056]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l143
+    room: room:cross_n
+    at: [8960, -4480]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l144
+    room: room:cross_n
+    at: [8960, -3904]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l145
+    room: room:cross_n
+    at: [8960, -3456]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l146
+    room: room:cross_n
+    at: [8960, -3008]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l147
+    room: room:cross_s
+    at: [8960, -5696]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l148
+    room: room:cross_s
+    at: [8960, -6528]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l149
+    room: room:cross_s
+    at: [8960, -7296]
+    height: 116
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l158
+    room: room:cargo_e
+    at: [8364, -2648]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l159
+    room: room:cargo_e
+    at: [7388, -2680]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l160
+    room: room:cargo_e
+    at: [7548, -2152]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l161
+    room: room:cargo_e
+    at: [7068, -1752]
+    height: 256
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l162
+    room: room:cargo_e
+    at: [7876, -1440]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l163
+    room: room:cargo_e
+    at: [8568, -1536]
+    height: 128
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l164
+    room: room:corr_e
+    at: [7472, -3360]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l165
+    room: room:corr_e
+    at: [6940, -3360]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l166
+    room: room:corr_e
+    at: [6528, -3516]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l167
+    room: room:corr_e
+    at: [6576, -3992]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l168
+    room: room:corr_e
+    at: [6576, -4456]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l169
+    room: room:corr_e
+    at: [6564, -4876]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l170
+    room: room:corr_e
+    at: [6576, -5224]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l171
+    room: room:corr_e
+    at: [6564, -5692]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l172
+    room: room:corr_e
+    at: [6556, -6332]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l173
+    room: room:cell4
+    at: [6568, -7028]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l174
+    room: room:cell4
+    at: [7064, -7036]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l175
+    room: room:cell4
+    at: [6628, -7504]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l176
+    room: room:cell4
+    at: [6964, -7508]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l177
+    room: room:cell3
+    at: [7028, -6612]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l178
+    room: room:cell3
+    at: [7016, -6196]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l179
+    room: room:cell3
+    at: [7396, -6092]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l180
+    room: room:cell3
+    at: [7396, -6624]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l181
+    room: room:cell2
+    at: [6972, -5168]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l182
+    room: room:cell2
+    at: [7364, -5176]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l183
+    room: room:cell2
+    at: [7376, -5648]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l184
+    room: room:cell2
+    at: [7072, -5668]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l185
+    room: room:cell1
+    at: [6924, -3788]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l186
+    room: room:cell1
+    at: [7360, -3864]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l187
+    room: room:cell1
+    at: [7368, -4364]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l188
+    room: room:cell1
+    at: [6984, -4404]
+    height: 124
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l189
+    room: room:captain
+    at: [6660, -9208]
+    height: 184
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l190
+    room: room:captain
+    at: [7316, -9204]
+    height: 184
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l191
+    room: room:captain
+    at: [7360, -9648]
+    height: 184
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l192
+    room: room:captain
+    at: [6684, -9624]
+    height: 184
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l201
+    room: room:viewport
+    at: [3024, -10684]
+    height: 460
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l202
+    room: room:viewport
+    at: [3764, -11084]
+    height: 460
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l203
+    room: room:viewport
+    at: [4828, -11132]
+    height: 460
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l204
+    room: room:viewport
+    at: [5788, -10716]
+    height: 460
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l205
+    room: room:deck
+    at: [5828, -9648]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l206
+    room: room:deck
+    at: [5872, -9104]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l207
+    room: room:deck
+    at: [4984, -9016]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l208
+    room: room:deck
+    at: [4344, -9012]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l209
+    room: room:deck
+    at: [3416, -9028]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l210
+    room: room:deck
+    at: [2688, -9276]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l211
+    room: room:deck
+    at: [3228, -10000]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+  - id: light:l212
+    room: room:deck
+    at: [5356, -10012]
+    height: 204
+    radius: 96
+    color: [255, 255, 255]
+    brightness: 31
+switches:
+  - id: switch:bay1
+    room: room:closet
+    wall: 3
+    along: 0.1
+    height: 80
+    size: [96, 64]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 451 (pod bay 1) on the control room's wall under the window.
+  - id: switch:bay2
+    room: room:closet
+    wall: 3
+    along: 0.2167
+    height: 80
+    size: [96, 64]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 452 (pod bay 2) on the control room's wall under the window.
+  - id: switch:bay3
+    room: room:closet
+    wall: 3
+    along: 0.3333
+    height: 80
+    size: [96, 64]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 453 (pod bay 3) on the control room's wall under the window.
+  - id: switch:bay4
+    room: room:closet
+    wall: 3
+    along: 0.45
+    height: 80
+    size: [96, 64]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 454 (pod bay 4) on the control room's wall under the window.
+  - id: switch:console
+    room: room:deck
+    wall: north
+    along: 0.5
+    height: 96
+    size: [64, 32]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: "Stands for the star console in the middle of the bridge (event 376, the face at 4244..4468, -9456..-9232, z 1632)."
+  - id: switch:crane_e1
+    room: room:cargo_e
+    at: [8768, -2928]
+    height: 112
+    size: [64, 32]
+    off: {texture: sfpnloff, size: [128, 64]}
+    notes: A console of event 456 by the east bay's east wall (face 876).
+  - id: switch:crane_e2
+    room: room:cargo_e
+    at: [8768, -2832]
+    height: 112
+    size: [64, 32]
+    off: {texture: sfpnloff, size: [128, 64]}
+    notes: The second console of event 456 (face 878).
+  - id: switch:crane_e_far
+    room: room:cargo_w
+    at: [-128, -3120]
+    height: 112
+    size: [64, 32]
+    off: {texture: sfpnloff, size: [128, 64]}
+    notes: "The west bay's second console, of event 456: it moves the east bay's crane (face 725)."
+  - id: switch:crane_w
+    room: room:cargo_w
+    at: [-128, -3216]
+    height: 112
+    size: [64, 32]
+    off: {texture: sfpnloff, size: [128, 64]}
+    notes: "The console of event 455 (the west crane) by the bay's west wall; the original's is a sloping panel standing out from the wall (faces 723, z 1132 to 1164)."
+  - id: switch:lift_e1_low
+    room: room:lift_e1
+    at: [7056, -4640]
+    height: 128
+    size: [32, 64]
+    off: {texture: sfpnloff, size: [128, 64]}
+    notes: "Event 155's panel on the lower east lift's north wall at its lower stop (face 985: x 7040..7072, y -4624, z 1132 to 1196; 16 further south here, where this shaft's wall is)."
+  - id: switch:lift_e1_top
+    room: room:lift_e1
+    at: [7056, -4640]
+    height: 576
+    size: [32, 64]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: "Event 156's panel on the same wall at the upper stop (face 996: z 1580 to 1644)."
+  - id: switch:lift_e2_low
+    room: room:lift_e2
+    block: platform:top_landing
+    side: 8
+    along: 0.5625
+    height: 137
+    size: [32, 64]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: "Event 34's panel on the upper east lift's shaft at its lower stop: the top landing's side that faces the shaft (face 948: x 7009..7040, y -5232, z 1589 to 1653; the original's sits in a recess 16 deep)."
+  - id: switch:lift_e2_top
+    room: room:lift_e2
+    at: [6912, -5072]
+    floor_height: 1484
+    height: 512
+    size: [32, 64]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: "Event 154's panel on the shaft's west wall at the upper stop (face 941: x 6896, y -5088..-5056, z 1964 to 2028), above the doorway from the east landing."
+  - id: switch:locker1
+    room: room:bridge_w
+    wall: 1
+    along: 0.681
+    height: 128
+    size: [24, 32]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 157 beside wall locker 1.
+  - id: switch:locker2
+    room: room:bridge_w
+    wall: 1
+    along: 0.365
+    height: 128
+    size: [24, 32]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 158 beside wall locker 2.
+  - id: switch:locker3
+    room: room:bridge_w
+    wall: 1
+    along: 0.049
+    height: 128
+    size: [24, 32]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 159 beside wall locker 3.
+  - id: switch:power
+    room: room:reactor_low
+    wall: west
+    along: 0.5
+    height: 96
+    size: [64, 32]
+    off: {texture: sfpnloff, size: [128, 64]}
+    on: sfpnlon
+    notes: "The original's power panel is a console face beside the reactor pit (faces of event 475, at about 4130, -1300, z 1100 to 1132), not on a wall."
+  - id: switch:top_1
+    room: room:lab
+    wall: south
+    along: 0.3
+    height: 40
+    size: [32, 48]
+    off: {texture: sfpnlon, size: [128, 64]}
+  - id: switch:top_2
+    room: room:lab
+    wall: south
+    along: 0.4
+    height: 40
+    size: [32, 48]
+    off: {texture: sfpnlon, size: [128, 64]}
+  - id: switch:top_3
+    room: room:lab
+    wall: south
+    along: 0.5
+    height: 40
+    size: [32, 48]
+    off: {texture: sfpnlon, size: [128, 64]}
+  - id: switch:vest
+    room: room:vest
+    wall: south
+    along: 0.161
+    height: 108
+    size: [24, 32]
+    off: {texture: sfpnlon, size: [128, 64]}
+    notes: The panel of event 10 beside the partition door.
+chests:
+  - id: chest:bay
+    room: room:bay2
+    at: [-1104, 128]
+    rides: mover:bay2_lower
+    size: [128, 128, 96]
+    surface: {texture: ch003i, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+    items: [867, 867, 867]
+    trap_level: 1
+    notes: "chest 1 (event 176), on pod bay 2's lower deck (door 6): it comes up with the deck to the hangar's level when the bay's panel is used. Trapped as the original's (flag 1; the damage is the map row's, 10d20). Contents as the original's: three Blaster Rifles and two random items of level 6."
+  - id: chest:cargo_e
+    room: room:cargo_e
+    at: [8800, -2016]
+    size: [128, 128, 96]
+    surface: {texture: ch003i, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+    items: [867]
+    trap_level: 1
+    notes: "chest 3 (event 178). Trapped as the original's (flag 1; the damage is the map row's, 10d20). Contents as the original's: one Blaster Rifle and two random items of level 6."
+  - id: chest:cargo_w
+    room: room:cargo_w
+    at: [1600, -3184]
+    size: [128, 128, 96]
+    surface: {texture: ch003i, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+    items: [867]
+    trap_level: 1
+    notes: "chest 2 (event 177). Trapped as the original's (flag 1; the damage is the map row's, 10d20). Contents as the original's: one Blaster Rifle and two random items of level 6."
+  - id: chest:locker
+    room: room:room_se
+    at: [6656, -7936]
+    size: [128, 128, 96]
+    surface: {texture: ch003i, size: [64, 64]}
+    treasure_level: 6
+    random_items: 3
+    items: [867, 866, 866]
+    trap_level: 1
+    notes: "chest 4 (event 179). Trapped as the original's (flag 1; the damage is the map row's, 10d20). Contents as the original's: one Blaster Rifle, two Blasters and three random items of level 6."
+spawns:
+  - id: spawn:m01
+    room: room:hangar
+    at: [844, -224]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m04
+    room: room:deck
+    at: [2796, -9324]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m05
+    room: room:hall
+    at: [3660, -6700]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m06
+    room: room:cross_n
+    at: [8896, -4160]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m07
+    room: room:captain
+    at: [7024, -9632]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m08
+    room: room:hall
+    at: [3632, -5040]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m10
+    room: room:cargo_e
+    at: [7680, -2444]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m12
+    room: room:crew_w
+    at: [2000, -6056]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m13
+    room: room:cell3
+    at: [7276, -6408]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m16
+    room: room:hangar
+    at: [-424, 516]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m17
+    room: room:vest
+    at: [2128, -7256]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m19
+    room: room:closet
+    at: [2100, 752]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m22
+    room: room:cell1
+    at: [7276, -4260]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m23
+    room: room:hall
+    at: [4776, -6728]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m24
+    room: room:cargo_low
+    at: [2856, 540]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m27
+    room: room:reactor_up
+    at: [5212, -1188]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m28
+    room: room:cell2
+    at: [7292, -5500]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m31
+    room: room:cargo_low
+    at: [3036, 136]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m32
+    room: room:cell4
+    at: [6828, -7020]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m35
+    room: room:reactor_up
+    at: [3356, -1284]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m38
+    room: room:hub_top
+    at: [8952, -5084]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m39
+    room: room:cross_s
+    at: [8924, -6144]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m40
+    room: room:deck
+    at: [5936, -9308]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m41
+    room: room:corr_top
+    at: [8140, -5112]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m42
+    room: room:bridge_w
+    at: [1752, -7620]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m44
+    room: room:cargo_e
+    at: [8672, -1368]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m45
+    room: room:corr_w
+    at: [1444, -3628]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m48
+    room: room:cargo_w
+    at: [1320, -2496]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m49
+    room: room:corr_low
+    at: [3072, -1472]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m50
+    room: room:hall
+    at: [5044, -4968]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m51
+    room: room:corr_e
+    at: [6608, -3896]
+    slot: 1
+    radius: 32
+    group: 51
+  - id: spawn:m52
+    room: room:corr_e
+    at: [6524, -6004]
+    slot: 1
+    radius: 32
+    group: 51
+monsters:
+  - id: monster:droid00
+    room: room:hangar
+    monster: 389
+    at: [768, 128]
+    floor_height: 224
+    hostile: false
+    group: 56
+    notes: "Actor 0 of the original: Sentinel Droid (monster_data row 389, 700 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid01
+    room: room:hangar
+    monster: 389
+    at: [384, -256]
+    floor_height: 224
+    hostile: false
+    group: 56
+    notes: "Actor 1 of the original: Sentinel Droid (monster_data row 389, 700 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid02
+    room: room:hangar
+    monster: 389
+    at: [768, -512]
+    floor_height: 224
+    hostile: false
+    group: 56
+    notes: "Actor 2 of the original: Sentinel Droid (monster_data row 389, 700 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid03
+    room: room:hall
+    monster: 389
+    at: [3840, -4864]
+    floor_height: 1036
+    hostile: false
+    group: 56
+    notes: "Actor 3 of the original: Sentinel Droid (monster_data row 389, 700 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid04
+    room: room:hall
+    monster: 388
+    at: [4608, -4992]
+    floor_height: 1036
+    hostile: false
+    group: 56
+    notes: "Actor 4 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid05
+    room: room:corr_top
+    monster: 388
+    at: [8320, -5120]
+    floor_height: 1868
+    hostile: false
+    group: 56
+    notes: "Actor 5 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid06
+    room: room:cross_n
+    monster: 388
+    at: [8960, -4352]
+    floor_height: 1868
+    hostile: false
+    group: 56
+    notes: "Actor 6 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid07
+    room: room:cargo_e
+    monster: 388
+    at: [8448, -1408]
+    floor_height: 1036
+    hostile: false
+    group: 56
+    notes: "Actor 7 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid08
+    room: room:cargo_e
+    monster: 390
+    at: [8448, -1664]
+    floor_height: 1036
+    hostile: false
+    group: 56
+    notes: "Actor 8 of the original: Assassin Droid (monster_data row 390, 1080 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid09
+    room: room:deck
+    monster: 390
+    at: [6016, -9472]
+    floor_height: 1548
+    hostile: false
+    group: 56
+    notes: "Actor 9 of the original: Assassin Droid (monster_data row 390, 1080 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid10
+    room: room:deck
+    monster: 390
+    at: [5760, -9856]
+    floor_height: 1548
+    hostile: false
+    group: 56
+    notes: "Actor 10 of the original: Assassin Droid (monster_data row 390, 1080 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid11
+    room: room:deck
+    monster: 390
+    at: [5120, -9856]
+    floor_height: 1548
+    hostile: false
+    group: 56
+    notes: "Actor 11 of the original: Assassin Droid (monster_data row 390, 1080 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid12
+    room: room:crew_w
+    monster: 390
+    at: [1792, -6016]
+    floor_height: 1036
+    hostile: false
+    group: 56
+    notes: "Actor 12 of the original: Assassin Droid (monster_data row 390, 1080 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid13
+    room: room:crew_w
+    monster: 388
+    at: [2048, -6400]
+    floor_height: 1036
+    hostile: false
+    group: 56
+    notes: "Actor 13 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid14
+    room: room:bridge_w
+    monster: 388
+    at: [2048, -7680]
+    floor_height: 1484
+    hostile: false
+    group: 56
+    notes: "Actor 14 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid15
+    room: room:bridge_w
+    monster: 388
+    at: [1664, -7424]
+    floor_height: 1484
+    hostile: false
+    group: 56
+    notes: "Actor 15 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+  - id: monster:droid16
+    room: room:deck
+    monster: 388
+    at: [2688, -9600]
+    floor_height: 1548
+    hostile: false
+    group: 56
+    notes: "Actor 16 of the original: Seeker Droid (monster_data row 388, 400 hit points), group 56, starting invisible and peaceful (attributes 0x10000; the map script clears the group's Hostile bit and sets its Invisible bit on every load, evt:droids_hidden)."
+items:
+  - id: item:floor0
+    room: room:locker3
+    item: 867
+    at: [1312, -7392]
+    floor_height: 1580
+    notes: "Sprite object 0 of the original: a Blaster Rifle (item 867) lying at z 1580."
+  - id: item:floor1
+    room: room:locker2
+    item: 866
+    at: [1312, -7776]
+    floor_height: 1580
+    notes: "Sprite object 1 of the original: a Blaster (item 866) lying at z 1580."
+  - id: item:floor2
+    room: room:locker1
+    item: 867
+    at: [1312, -8160]
+    floor_height: 1580
+    notes: "Sprite object 2 of the original: a Blaster Rifle (item 867) lying at z 1580."
+  - id: item:floor3
+    room: room:bridge_w
+    item: 866
+    at: [1920, -8512]
+    floor_height: 1484
+    notes: "Sprite object 3 of the original: a Blaster (item 866) lying at z 1484."
+  - id: item:floor4
+    room: room:bridge_w
+    item: 866
+    at: [2240, -8320]
+    floor_height: 1484
+    notes: "Sprite object 4 of the original: a Blaster (item 866) lying at z 1484."
+placeholders:
+  - id: placeholder:item02
+    room: room:captain
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1548"
+    at: [6900, -9176]
+  - id: placeholder:item03
+    room: room:room_se
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1484"
+    at: [6584, -8068]
+  - id: placeholder:item09
+    room: room:cell1
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [7284, -4212]
+  - id: placeholder:item11
+    room: room:cargo_e
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [8184, -1416]
+  - id: placeholder:item14
+    room: room:cell2
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [7032, -5708]
+  - id: placeholder:item15
+    room: room:captain
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1548"
+    at: [7208, -9148]
+  - id: placeholder:item18
+    room: room:lab
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1868"
+    at: [7960, -4660]
+  - id: placeholder:item20
+    room: room:hangar
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 224"
+    at: [404, 1028]
+  - id: placeholder:item21
+    room: room:captain
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1548"
+    at: [7144, -9288]
+  - id: placeholder:item25
+    room: room:hall
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [4416, -2604]
+  - id: placeholder:item26
+    room: room:hall
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [4848, -2752]
+  - id: placeholder:item29
+    room: room:hall
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [5372, -2944]
+  - id: placeholder:item30
+    room: room:cell2
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [7372, -5328]
+  - id: placeholder:item33
+    room: room:cell3
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [7048, -6592]
+  - id: placeholder:item34
+    room: room:cargo_e
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [7824, -1384]
+  - id: placeholder:item36
+    room: room:captain
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1548"
+    at: [7412, -9308]
+  - id: placeholder:item37
+    room: room:cell4
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [6864, -7500]
+  - id: placeholder:item43
+    room: room:cell4
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [7132, -7176]
+  - id: placeholder:item46
+    room: room:room_se
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1484"
+    at: [6480, -7892]
+  - id: placeholder:item47
+    room: room:cell3
+    stands_for: "an item spawn point of the original (type 2, treasure index 5), at z 1036"
+    at: [7308, -6380]
+exits:
+  - id: exit:hatch
+    room: room:hangar
+    wall: 4
+    size: [512, 448]
+    surface: {texture: a2j, size: [128, 256]}
+    to: exit:shoals
+notes: "Doors, lifts, movers, chests, spawn points and lights stand at the original's positions. Doors slide sideways as the original's leaves do (two halves where the original has a pair), except two (corr_lift_e1 in two halves, corr_cell2 to the south) where a leaf needs room in the wall that the original's folding leaves do not. Movers: the pod bays' decks (doors 1 to 8; chest 1 rides bay 2's lower deck), the rim round the cargo pit (38), the stasis beds (52 to 58), the two cranes (14, 44). The 17 monsters and 5 lying items of the original stand at their places; the four chests hold the original's fixed items and are trapped. Of the original's 267 lights the 182 the game ever lights are here (radius 0 in the file; 96 here). Placeholders hold the 20 item spawn points."

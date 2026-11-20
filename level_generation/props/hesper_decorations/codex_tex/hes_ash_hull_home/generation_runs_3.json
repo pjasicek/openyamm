@@ -1,0 +1,198 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "not_compliant",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": 1,
+  "selection_note": "Selected identifies the best available unmodified return copied to the requested name, not a passing acceptance check.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Edit input 1, guide_left.png, into a painted albedo texture-source image, exactly 1024 x 1024 with genuine transparent background. Input 1 is the exact LEFT orthographic geometry and pixel placement authority. Input 2, design_reference.png, is the approved design, colour and material authority only. Input 3, concept_crop.png, is the original concept reference only. Do not adopt either reference's camera, perspective, lighting or geometry.\n\nKeep the guide's silhouette EXACTLY: same outline, size and position in frame, every shape edge, opening, pole, cable, wheel, tarp, vessel and detail precisely where the guide has them. Nothing added outside silhouette, nothing cropped, no rescaling, no moving, no invented objects. Paint the existing grey surfaces only. Preserve the guide's transparent area and all transparent gaps. In this left guide the tall mast is left of center, chimney is right of center, four prominent circular wheels descend from upper-left toward the bottom and continue to the right. Keep those positions exactly.\n\nPaint the surface materials from the approved design onto this existing shape: rust-brown and dark steel tracks and hull, chipped white ceramic armour with gold edges, faded red-brown and grey tarps, black cable, warm lantern colour in visible doorway areas only. Detailed worn metal, track plate seams and bolts within existing track surfaces, weathered cloth fibres, chipped ceramic, worn trim. Match the approved design's palette and material identity; do not reshape the geometry to match the three-quarter reference.\n\nLIGHTING: TEXTURE SOURCE (albedo). Even, flat, shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no added floor. Existing base geometry in guide stays exactly as present. Glowing parts are painted at their glowing colour, not as light cast on surroundings. No dramatic presentation render. Return only the single finished left view, 1024 x 1024 transparent PNG, no labels or sheet.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2b7-7522-99d9-9cf6ee40aea5/exec-889a36bd-6e01-4f53-b4a1-b80162b72583.png",
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, invented lantern/doorway and altered cloth and object boundaries; occlusion and highlights remain.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "473209f93c68bfef2aba722c8397d5b03d4f4c43f8a44d5e3ee08a3d950e723f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "17bed7fb21b06dea738f3b6f4bac5beb4a4c1e0bfd6be996463794a4263e3e51",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "size_1024_square": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1111766,
+        "fully_opaque_pixel_count": 654,
+        "partially_transparent_pixel_count": 460096,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; local material placement deviations remain. See reason.",
+        "flat_even_light": false,
+        "lighting_observation": "Visible dark recesses/occlusion and metal edge highlights remain.",
+        "accepted": false,
+        "unresized_unedited_byte_identical_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit input 1, guide_left.png, into a painted albedo texture-source image, exactly 1024 x 1024 with genuine transparent background. Input 1 is the exact LEFT orthographic geometry and pixel placement authority. Input 2, design_reference.png, is the approved design, colour and material authority only. Input 3, concept_crop.png, is the original concept reference only. Do not adopt either reference's camera, perspective, lighting or geometry.\n\nKeep the guide's silhouette EXACTLY: same outline, size and position in frame, every shape edge, opening, pole, cable, wheel, tarp, vessel and detail precisely where the guide has them. Nothing added outside silhouette, nothing cropped, no rescaling, no moving, no invented objects. Paint the existing grey surfaces only. Preserve the guide's transparent area and all transparent gaps. In this left guide the tall mast is left of center, chimney is right of center, four prominent circular wheels descend from upper-left toward the bottom and continue to the right. Keep those positions exactly.\n\nPaint the surface materials from the approved design onto this existing shape: rust-brown and dark steel tracks and hull, chipped white ceramic armour with gold edges, faded red-brown and grey tarps, black cable, warm lantern colour in visible doorway areas only. Detailed worn metal, track plate seams and bolts within existing track surfaces, weathered cloth fibres, chipped ceramic, worn trim. Match the approved design's palette and material identity; do not reshape the geometry to match the three-quarter reference.\n\nLIGHTING: TEXTURE SOURCE (albedo). Even, flat, shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no added floor. Existing base geometry in guide stays exactly as present. Glowing parts are painted at their glowing colour, not as light cast on surroundings. No dramatic presentation render. Return only the single finished left view, 1024 x 1024 transparent PNG, no labels or sheet.\n\nCORRECTIVE REGENERATION (the only correction allowed for this view): The previous attempt failed by returning 1254 x 1254, inventing openings/lanterns, changing cloth edges, and adding dark shading and shiny metal. Work directly on the original guide supplied as input 1. The output MUST be natively 1024 x 1024, the identical canvas dimensions to input 1; no enlargement. Precisely trace the original guide's alpha and every internal shape rather than reinterpreting the model. The guide's nontransparent overall bounds are x=66 through 957 and y=234 through 789 on the 1024-square canvas. Keep those bounds. The mast tip must stay at approximately (399,235), chimney top (674,268), highest wheel center (328,526); preserve ALL other positions. Flat diffuse painted albedo; use rust-brown/dark steel and faded cloth colours without black ambient shadows or white reflective gleams. Do not add a lantern, door, extra hole, cloth tear or cable where the guide does not contain it. Texture colour only; do not alter geometry. Preserve exact original transparent pixels and gaps. Native 1024 x 1024 transparent PNG is required.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2b7-7522-99d9-9cf6ee40aea5/exec-4e262a7e-b75c-4c57-be87-c9490a7d3d51.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available left return after the single permitted correction: removes the invented glowing lantern and better preserves the general layout. Selected for delivery only, NOT accepted as brief-compliant: size, exact edges and flat-lighting checks fail.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "473209f93c68bfef2aba722c8397d5b03d4f4c43f8a44d5e3ee08a3d950e723f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "b55b26ed3dc66b2b44de56c60c5fc9d9d225d6ed7afc77540c1494f2b01c56d1",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "size_1024_square": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1110808,
+        "fully_opaque_pixel_count": 525,
+        "partially_transparent_pixel_count": 461183,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; local material placement deviations remain. See reason.",
+        "flat_even_light": false,
+        "lighting_observation": "Visible dark recesses/occlusion and metal edge highlights remain.",
+        "accepted": false,
+        "unresized_unedited_byte_identical_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render; exact guide surface colour painting for a game model albedo texture source.\n\nInput 1 guide_right.png is the EDIT TARGET and sole geometry, framing, scale, projection and alpha authority. It is a 1024 x 1024 orthographic RIGHT view. Input 2 design_reference.png supplies approved colours and materials ONLY; input 3 concept_crop.png supplies original concept ONLY. Paint on input 1 without re-rendering or inventing geometry. Return a single native 1024 x 1024 RGBA transparent PNG; preserve exactly the source canvas dimensions. Do not enlarge to 1254 pixels or change the canvas in any way.\n\nKeep the guide's silhouette EXACTLY: the same outline, size and position in frame, every edge, opening and detail where the guide has them; nothing added outside silhouette, nothing cropped. Preserve all transparent pixels and gaps. Chimney is left of centre, tall mast right of centre, four exposed circular wheels arranged from low left to high right. The second wheel from the left has a visible recessed dark hollow centre in the guide; preserve its shape and opening. Keep all tarp edges, poles, cables and ground-level existing model parts exactly aligned to the guide. Do not copy the perspective or arrangement from reference images. Do not add doors, lanterns, holes, tears, boxes, extra wheels, or any extra geometry.\n\nPaint only the surface materials of the design reference onto that shape: rust-brown and dark steel tracks and hull, chipped white ceramic armour with gold edges, faded red-brown and grey tarps, black cable, warm lantern colour only where an existing doorway/lantern is visible in the guide. Match worn ceramic, cloth, rust and steel colours to the approved reference. Fine material detail belongs within the existing surface boundaries.\n\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no added floor. Glowing parts painted at their glowing colour, not as light cast on surroundings. No labels, text, presentation effects, studio gradient or composite sheet. Exact native 1024 x 1024, transparent background.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2b7-7522-99d9-9cf6ee40aea5/exec-19f801a4-95e4-48da-8360-de0740ff77ec.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Preferred over correction because exposed wheels retain the reference's dark worn steel material. Selected for delivery only, NOT accepted as brief-compliant: wrong dimensions, altered cloth boundaries/material assignment, occlusion and specular shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "56905e556542d7111a0c052ceac37fc731bc2339d85d3684050fc6d9933a4712"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "d03349cc3ef167e769c928c488363be56e32230ddc50d86b484d5ef9f20f89e1",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "size_1024_square": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1106911,
+        "fully_opaque_pixel_count": 641,
+        "partially_transparent_pixel_count": 464964,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; local material placement deviations remain. See reason.",
+        "flat_even_light": false,
+        "lighting_observation": "Visible dark recesses/occlusion and metal edge highlights remain.",
+        "accepted": false,
+        "unresized_unedited_byte_identical_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render; exact guide surface colour painting for a game model albedo texture source.\n\nInput 1 guide_right.png is the EDIT TARGET and sole geometry, framing, scale, projection and alpha authority. It is a 1024 x 1024 orthographic RIGHT view. Input 2 design_reference.png supplies approved colours and materials ONLY; input 3 concept_crop.png supplies original concept ONLY. Paint on input 1 without re-rendering or inventing geometry. Return a single native 1024 x 1024 RGBA transparent PNG; preserve exactly the source canvas dimensions. Do not enlarge to 1254 pixels or change the canvas in any way.\n\nKeep the guide's silhouette EXACTLY: the same outline, size and position in frame, every edge, opening and detail where the guide has them; nothing added outside silhouette, nothing cropped. Preserve all transparent pixels and gaps. Chimney is left of centre, tall mast right of centre, four exposed circular wheels arranged from low left to high right. The second wheel from the left has a visible recessed dark hollow centre in the guide; preserve its shape and opening. Keep all tarp edges, poles, cables and ground-level existing model parts exactly aligned to the guide. Do not copy the perspective or arrangement from reference images. Do not add doors, lanterns, holes, tears, boxes, extra wheels, or any extra geometry.\n\nPaint only the surface materials of the design reference onto that shape: rust-brown and dark steel tracks and hull, chipped white ceramic armour with gold edges, faded red-brown and grey tarps, black cable, warm lantern colour only where an existing doorway/lantern is visible in the guide. Match worn ceramic, cloth, rust and steel colours to the approved reference. Fine material detail belongs within the existing surface boundaries.\n\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no added floor. Glowing parts painted at their glowing colour, not as light cast on surroundings. No labels, text, presentation effects, studio gradient or composite sheet. Exact native 1024 x 1024, transparent background.\n\nONE ALLOWED CORRECTIVE REGENERATION: The prior result failed the required native size and exact edge alignment, and had deep occlusion shadows and reflective highlights. Correct those failures. Output canvas must be exactly 1024 pixels wide by 1024 pixels high, like the supplied original guide. Do not output 1254 x 1254. Preserve the guide's alpha pixel for pixel, including every opening and cloth edge. In the 1024-square guide, the tallest mast tip is near x625 y235 and the chimney top is near x348 y269. Do not move or scale any part. The broad central hanging surface is cloth: paint faded grey fabric there, do not replace its large shape with fragmented white ceramic plates. White ceramic only on actual armour/hull plates. Keep the existing circular hollow shape and its original rim thickness. Remove cinematic shading: all surfaces should show their diffuse base colour under completely even viewer-facing illumination, including recesses, with no cast shadow, dark ambient occlusion or bright specular streak. Preserve geometry instead of making a newly designed building. Single native 1024 x 1024 PNG with real transparent background.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2b7-7522-99d9-9cf6ee40aea5/exec-fcb10db6-05fd-4ed1-9cbb-ca9aba125c49.png",
+      "output": "paint_right_attempt_2.png",
+      "selected": false,
+      "reason": "Rejected: improves broad grey cloth assignment but incorrectly paints wheel faces as white ceramic; edge/geometry drift, wrong dimensions and shading remain.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "56905e556542d7111a0c052ceac37fc731bc2339d85d3684050fc6d9933a4712"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05"
+        }
+      ],
+      "output_sha256": "1a2e2971b4870685198a71420150ddd493d4d476b2bf96bd96b86a5f54619014",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "size_1024_square": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1104992,
+        "fully_opaque_pixel_count": 987,
+        "partially_transparent_pixel_count": 466537,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; local material placement deviations remain. See reason.",
+        "flat_even_light": false,
+        "lighting_observation": "Visible dark recesses/occlusion and metal edge highlights remain.",
+        "accepted": false,
+        "unresized_unedited_byte_identical_return": true
+      }
+    }
+  ]
+}

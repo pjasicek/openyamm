@@ -6,6 +6,7 @@
 #include "game/maps/OutdoorSceneProfile.h"
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/outdoor/OutdoorWeatherProfile.h"
+#include "game/render/Mist.h"
 #include "game/tables/SurfaceAnimation.h"
 
 #include <array>
@@ -70,6 +71,12 @@ struct OutdoorSceneLighting
 struct OutdoorSceneRendering
 {
     std::optional<float> viewDistanceScale;
+};
+
+struct OutdoorSceneMovement
+{
+    // The highest the party may fly (movement.flight_ceiling); the original's 4000 when absent.
+    std::optional<float> flightCeiling;
 };
 
 struct OutdoorSceneTerrainAttributeOverride
@@ -164,6 +171,9 @@ struct OutdoorSceneData
     OutdoorSceneEnvironment environment = {};
     OutdoorSceneLighting lighting = {};
     OutdoorSceneRendering rendering = {};
+    OutdoorSceneMovement movement = {};
+    // Scene `mist` (devdocs/MIST.md).
+    MapMist mist;
     std::vector<OutdoorSceneTerrainAttributeOverride> terrainAttributeOverrides;
     std::vector<OutdoorSceneTerrainFootstepSoundOverride> terrainFootstepSoundOverrides;
     std::vector<OutdoorSceneSurfaceAnimation> surfaceAnimations;

@@ -1,0 +1,234 @@
+# The rebuilt New Sorpigal (oymap build of this project, installed into output/studio_cal/mm6_oute3/mount) entered by a
+# new game: through the gate to the central fountain, the shops and houses round the inner block, the temple and the
+# two guilds on the hill north of the town, the pier and the Odyssey, the way to Goblinwatch up its hill to the locked
+# door, and out by the west road to Castle Ironfist's map and back. Door poses are the rebuild's own (`oymap things`:
+# where a player uses each door from), each beside the original's.
+id: studio.mm6_oute3.walk
+title: Rebuilt New Sorpigal, arrival and a walk
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calib_newsorpigal.odm
+  - assert: {map: calib_newsorpigal.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  # A new game starts at 09:00; the Town Hall opens at 10 (house_data.txt), as in the original.
+  - advance_game_time: {hours: 1}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: -9728, y: -11264, radius: 200, z_min: 100, z_max: 260}}
+  # North through the town gate (the fence's opening, 512 wide) and up the gate street to the central fountain.
+  - walk_to: {x: -9728, y: -10300, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - walk_to: {x: -9728, y: -9400, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - walk_to: {x: -9728, y: -7700, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  # The central fountain (event 131 of the original): its store fills at midnight, so a new game's first drink only
+  # refreshes.
+  - set_pose: {map: calib_newsorpigal.odm, x: -9728, y: -7650, z: 160, yaw: 1.5708, pitch: -0.6}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  # (The status line is not readable from a scenario step here: the run log shows event 94 triggered.)
+  # West along the ring street to the Town Hall's door (house 208), then the shops and the bank on the block's west.
+  - walk_to: {x: -10200, y: -7700, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - walk_to: {x: -10984, y: -6536, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_newsorpigal.odm, x: -10984, y: -6536, z: 160, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 208}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: calib_newsorpigal.odm, x: -10816, y: -7352, z: 160, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 297}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: -10140, y: -8456, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_newsorpigal.odm, x: -10140, y: -8456, z: 160, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 1213}
+  - press_action: {action: cancel_dialog}
+  # The coach house (470) by the gate.
+  - walk_to: {x: -10240, y: -9536, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_newsorpigal.odm, x: -10240, y: -9536, z: 160, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 470}
+  - press_action: {action: cancel_dialog}
+  # East of the gate street: the inn, the armoury, the smithy, the magic shop and the mercenaries' hall.
+  - walk_to: {x: -8960, y: -8626, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_newsorpigal.odm, x: -8960, y: -8626, z: 160, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 260}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: -8600, y: -7392, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_newsorpigal.odm, x: -8528, y: -7392, z: 160, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 22}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: -8784, y: -6352, z: 160, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_newsorpigal.odm, x: -8784, y: -6352, z: 160, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 62}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: calib_newsorpigal.odm, x: -6440, y: -7712, z: 160, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 97}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: calib_newsorpigal.odm, x: -6440, y: -5984, z: 160, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 197}
+  - press_action: {action: cancel_dialog}
+  # West of the block: Buccaneers' Lair, the training grounds and a house (1228) on the ring's north side.
+  - set_pose: {map: calib_newsorpigal.odm, x: -13592, y: -6744, z: 160, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  # Buccaneers' Lair opens from 18 to 6 (house_data.txt): by day its door is shut, as the original's.
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: false}
+  - set_pose: {map: calib_newsorpigal.odm, x: -13560, y: -6960, z: 160, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 1583}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: calib_newsorpigal.odm, x: -12528, y: -5914, z: 160, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true}
+  # A house of one resident opens on its resident (Isao Magistrus, NPC 866), as the original's house 1228.
+  - press_action: {action: cancel_dialog}
+  # The south well (event 110): a new party's Luck is under 15 and the well's store is full after the first refill;
+  # a click either gives Luck or refreshes: the event runs.
+  - set_pose: {map: calib_newsorpigal.odm, x: -14120, y: -6160, z: 160, yaw: 1.5708, pitch: -0.5}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  # North out of the ring by the gate street and up the hill to the temple (house 325, floor 608).
+  - set_pose: {map: calib_newsorpigal.odm, x: -9728, y: -5500, z: 160, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -9728, y: -4200, z: 300, z_tolerance: 400, radius: 128, timeout_seconds: 60}
+  - walk_to: {x: -9808, y: -1968, z: 608, z_tolerance: 200, radius: 128, timeout_seconds: 60}
+  - set_pose: {map: calib_newsorpigal.odm, x: -9808, y: -1968, z: 608, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 325}
+  - press_action: {action: cancel_dialog}
+  # East along the hill to the Initiate Guild of the Elements (1214, floor 640).
+  - walk_to: {x: -5448, y: -1432, z: 640, z_tolerance: 300, radius: 128, timeout_seconds: 60}
+  - set_pose: {map: calib_newsorpigal.odm, x: -5448, y: -1432, z: 640, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 1214}
+  - press_action: {action: cancel_dialog}
+  # West along the hill to the keep and the Initiate Guild of the Self (189, floor 576) at the back of its loggia.
+  - walk_to: {x: -9810, y: -2000, z: 608, z_tolerance: 300, radius: 160, timeout_seconds: 60}
+  - walk_to: {x: -14016, y: -1600, z: 576, z_tolerance: 300, radius: 160, timeout_seconds: 60}
+  - walk_to: {x: -14016, y: -856, z: 576, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_newsorpigal.odm, x: -14016, y: -856, z: 576, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 189}
+  - press_action: {action: cancel_dialog}
+  # The docks: out of the gate and east along the shore road, up the pier's ramp onto its deck (160) and the
+  # Odyssey's gangway (house 496).
+  - set_pose: {map: calib_newsorpigal.odm, x: -9728, y: -10500, z: 160, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -3072, y: -10496, z: 160, z_tolerance: 200, radius: 128, timeout_seconds: 60}
+  - walk_to: {x: -1700, y: -10208, z: 100, z_tolerance: 200, radius: 128, timeout_seconds: 40}
+  # At the ramp's foot (x -1432): a townsman or a fight on the shore can stand in the way here (two runs of four in
+  # round two), so the walk starts the ramp from its foot.
+  - set_pose: {map: calib_newsorpigal.odm, x: -1480, y: -10208, z: 60, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1650, y: -10208, z: 160, z_tolerance: 60, radius: 96, timeout_seconds: 40}
+  - assert: {party_position: {x: 1650, y: -10208, radius: 160, z_min: 150, z_max: 240}}
+  # From the pier's end (the deck stops at x 1768, as the original's) to the Odyssey's gangway at 2168, -10688.
+  - set_pose: {map: calib_newsorpigal.odm, x: 1700, y: -10250, z: 160, yaw: -0.75, pitch: -0.1}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 496}
+  - press_action: {action: cancel_dialog}
+  # The way to Goblinwatch: west along the shore road to the path, south-west down it and up the hill to the
+  # castle's level top (1600) and its door, locked without the key (event 101).
+  - set_pose: {map: calib_newsorpigal.odm, x: -14848, y: -10600, z: 160, yaw: -2.3, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -16384, y: -12544, z: 300, z_tolerance: 600, radius: 160, timeout_seconds: 60}
+  - walk_to: {x: -18176, y: -14336, z: 1300, z_tolerance: 800, radius: 192, timeout_seconds: 90}
+  - walk_to: {x: -18432, y: -14848, z: 1600, z_tolerance: 200, radius: 128, timeout_seconds: 60}
+  - set_pose: {map: calib_newsorpigal.odm, x: -18432, y: -14848, z: 1600, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: false}
+  - assert: {map: calib_newsorpigal.odm}
+  # Out by the west road over the square's west side to Castle Ironfist's map, and back to the rebuilt map's west
+  # arrival.
+  - set_pose: {map: calib_newsorpigal.odm, x: -21000, y: -10240, z: 160, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: -23500, y: -10240, z: 160, z_tolerance: 300, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: outd3.odm}
+  - set_pose: {map: outd3.odm, x: 21779, y: -10492, z: 224, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 23600, y: -10492, z: 224, z_tolerance: 2000, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: calib_newsorpigal.odm}
+  # The game lands the party on the west side at the row it left Castle Ironfist's map by (y -10492), at x -23076.
+  - assert: {party_position: {x: -23076, y: -10492, radius: 400, z_min: 100, z_max: 260}}

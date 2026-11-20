@@ -1,0 +1,509 @@
+{
+ "id": "20261101-1523-mm9-drangheimcity-13",
+ "world": "mm9",
+ "maps": [
+  "drangheimcity.blv",
+  "frosgardcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/thjo72glly",
+  "mm9/sturblu8h9",
+  "mm9/stur9mh3qu",
+  "mm9/thjolcpu8h",
+  "mm9/dran6my7go",
+  "mm9/thjoe86slm",
+  "mm9/thjozs219x",
+  "mm9/dranx5u4w3",
+  "mm9/tapexmrpbg",
+  "mm9/sturt47dd3",
+  "mm9/sturq4xmhl",
+  "mm9/throlyuawv",
+  "mm9/regmzfgh45",
+  "mm9/fros7iq3s9",
+  "mm9/froshxlg62",
+  "mm9/froshf0y66",
+  "mm9/frosbgz5xn",
+  "mm9/carpdzeakn",
+  "mm9/frosu0x60q",
+  "mm9/fros3dunfs",
+  "mm9/frost6oc38",
+  "mm9/thjo4haqhv",
+  "mm9/fros85qvbr",
+  "mm9/fros9oz1v6"
+ ],
+ "requests": {
+  "mm9/thjo72glly": {
+   "name": "thjo72glly",
+   "versions": [
+    1
+   ],
+   "material": "weathered red, brown and mossy green-grey brick wall with pale mortar, a horizontal wooden beam across the upper part carved with a runic knotwork panel at the right, and two short wooden brackets hanging below it at the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturblu8h9": {
+   "name": "sturblu8h9",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey weathered stone wall of vertical fluted ribs, topped by a moulded cornice band with a row of small vertical pegs or dentils along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur9mh3qu": {
+   "name": "stur9mh3qu",
+   "versions": [
+    1
+   ],
+   "material": "grey stone wall with a fluted column at the centre on a moulded base, flanked by two rows of recessed rectangular panels each side, a frieze of carved scrollwork along the top and a row of small arched blocks along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjolcpu8h": {
+   "name": "thjolcpu8h",
+   "versions": [
+    1
+   ],
+   "material": "diagonal lattice of weathered dark wooden beams crossing in a diamond grid over a pale beige and greenish cobbled stone wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dran6my7go": {
+   "name": "dran6my7go",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "stained glass of turquoise, deep blue and teal panes in an interlocking pattern of gold-green leaded circles and diagonal bands, with small cream and amber knotwork motifs inside each circle and lozenge",
+   "notes": {
+    "2": "keep the native's light cyan glass with the cream and peach accent pieces in the rings and lozenges, lighter overall and less deep blue"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/thjoe86slm": {
+   "name": "thjoe86slm",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a single dark brown plank door leaf with an iron latch handle at the right, set in a weathered olive-brown wooden frame with a heavy sill, a narrow blue-grey speckled stone strip to its right and a plain white area at the far right",
+   "notes": {
+    "2": "repaint the door, frame and stone strip with new full-resolution wood grain and stone detail rather than enlarging the native pixels, keeping the same layout"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/thjozs219x": {
+   "name": "thjozs219x",
+   "versions": [
+    1
+   ],
+   "material": "a pair of weathered grey-brown plank door leaves, each framed by timber rails with a diamond-shaped bracing of diagonal boards meeting at a central vertical post, small iron hinges at the sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dranx5u4w3": {
+   "name": "dranx5u4w3",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark brown vertical plank door leaves with black wrought-iron scrollwork hinges at top and bottom, rows of small iron studs along the middle seam, under a pale stone lintel band and brick strip at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tapexmrpbg": {
+   "name": "tapexmrpbg",
+   "versions": [
+    1
+   ],
+   "material": "a dark moss-green tapestry with rows of small orange and gold floral and lotus motifs, framed by a gold and ochre patterned border with a thin dark inner line",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturt47dd3": {
+   "name": "sturt47dd3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "an arched pair of dark grey-blue wooden door leaves in a rounded grey stone frame, two horizontal iron bars across top and bottom, a vertical iron strip down the centre seam and two ornate iron pull plates in the middle",
+   "notes": {
+    "2": "fill the corners above the stone arch with plain near-black as in the native, no wood planks behind the arch"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/sturq4xmhl": {
+   "name": "sturq4xmhl",
+   "versions": [
+    1
+   ],
+   "material": "pale grey plastered stone wall with mottled stains, a carved frieze of scrolling vine ornament along the top above a moulded ledge, and a row of crenellated square dentil blocks along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throlyuawv": {
+   "name": "throlyuawv",
+   "versions": [
+    1
+   ],
+   "material": "a window of four frosty blue-white glass panes with diagonal streaks, divided by a cross of dark red-brown wooden mullions and transoms with pale weathered edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/regmzfgh45": {
+   "name": "regmzfgh45",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown weathered iron plate studded with five rows of large round domed rivets in four columns, the two middle columns set close together",
+   "notes": {
+    "2": "five evenly spaced rows of rivets top to bottom as in the native, with the same spacing across the top/bottom wrap"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     66
+    ]
+   }
+  },
+  "mm9/fros7iq3s9": {
+   "name": "fros7iq3s9",
+   "versions": [
+    1
+   ],
+   "material": "snowy mountain rock of brown-grey stone slabs with large patches of white snow and scattered green moss and grass tufts in the crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/froshxlg62": {
+   "name": "froshxlg62",
+   "versions": [
+    1
+   ],
+   "material": "brown-grey rocky mountain ground mostly covered by thick white snow drifts, with small patches of green moss and grass between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/fros7iq3s9"
+     ],
+     "fraction": 0.7
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/froshf0y66": {
+   "name": "froshf0y66",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown craggy rock face with crevices, green moss and grass growing in clumps and a light dusting of white snow in streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/fros7iq3s9"
+     ],
+     "fraction": 0.47
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosbgz5xn": {
+   "name": "frosbgz5xn",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rough stone wall of uneven rectangular blocks in irregular courses, with pale frost highlighting the upper edges of the stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjop7hfw6"
+     ],
+     "fraction": 0.835
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/carpdzeakn": {
+   "name": "carpdzeakn",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a worn dusty carpet of mottled brown, rust-red and ochre with a faint indistinct pattern and a slightly darker border band along the edges",
+   "notes": {
+    "2": "keep the native's muted, low-contrast tan carpet with its faint pattern and only the narrow reddish strip at the left edge; no framed medallion and no border bands at the top, bottom or right"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/carpkip1vt"
+     ],
+     "fraction": 0.721
+    },
+    "2": {
+     "sources": [
+      "mm9/carpkip1vt"
+     ],
+     "fraction": 0.721
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/frosu0x60q": {
+   "name": "frosu0x60q",
+   "versions": [
+    1
+   ],
+   "material": "grey-beige and ochre sandstone block wall in regular courses with pale mortar, a red-brown wooden post rising at the left-centre to a horizontal beam along the top, light snow on the bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjot4bv8e"
+     ],
+     "fraction": 0.637
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros3dunfs": {
+   "name": "fros3dunfs",
+   "versions": [
+    1
+   ],
+   "material": "two weathered door leaves side by side: at left a dark olive-grey plank door with a large X brace in a timber frame and snow at its foot, at right a pale grey plank door with a small barred window near the top and a dark iron handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frost6oc38": {
+   "name": "frost6oc38",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: at left a dark olive-grey plank door with a large X brace in a timber frame, at right a dark brown plank door with three horizontal rails, a brass handle and snow along its rails and foot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/fros3dunfs"
+     ],
+     "fraction": 0.482
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo4haqhv": {
+   "name": "thjo4haqhv",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of a grey-brown plaster panel framed by rough bark-textured wooden beams, a horizontal beam along the top and two vertical posts at the left with a narrow plaster strip between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros85qvbr": {
+   "name": "fros85qvbr",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of a mottled grey-brown plaster panel framed by rough wooden beams, a horizontal beam along the top and two vertical posts at the left, with snow along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjo4haqhv"
+     ],
+     "fraction": 0.225
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros9oz1v6": {
+   "name": "fros9oz1v6",
+   "versions": [
+    1
+   ],
+   "material": "woven wattle wall of dark brown interlaced twigs and branches, crossed by two vertical wooden posts and a horizontal wooden beam bound together with rope lashings at the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjo4haqhv"
+     ],
+     "fraction": 0.206
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

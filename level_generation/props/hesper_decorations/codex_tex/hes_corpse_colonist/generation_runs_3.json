@@ -1,0 +1,148 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "generated; failed strict acceptance checks",
+  "required_dimensions": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None; selected PNGs copied byte-for-byte, unresized, with generated alpha preserved.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic 3D-model texture-source/albedo painting.\nEdit target: Image 1, guide_left.png, the EXACT grey left-view mesh render. Image 2, design_reference.png, is ONLY the colour/material/design authority; do not copy its pose, framing or camera.\nProduce one 1024 x 1024 PNG with a truly transparent background, at the original guide canvas size, unresized. Paint the existing guide surface only. Lock its alpha silhouette pixel for pixel: original object bounds x=194..829 and y=342..681. Keep the very large empty transparent margins. Do not zoom, crop, recenter, enlarge or rotate. Preserve every outline, opening, shape edge, head, arm, finger, cuff, fold, strap and visible piece exactly where it appears in the guide. Do not invent geometry or add strands or frays outside the guide silhouette.\nSubject: a drowned colonist lying curled up, head bowed over bent arm, as already posed in the guide. Apply the reference's faded ochre and grey patchwork canvas coveralls, water-darkened material with a little white mineral crust and stitched repairs, worn brown leather belt and boots, dull steel wrench wherever existing guide geometry corresponds, pale grey skin on visible hand. Preserve reference material identities and colour balance, adapting them to ONLY the existing guide shapes. Hair is matted rusty brown; no new outside hair strands. No blood or gore.\nLIGHTING: flat even shadowless viewer-facing albedo, no directional shading, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Remove the guide's grey lighting by painting flat material colours; retain only intrinsic material texture, weave, seams and wear. No floor, background, text or checkerboard. Any glowing surfaces would use intrinsic colour only with no spill, but do not invent glowing parts.\nPriority: EXACT guide geometry/alpha, original framing and scale, consistent reference materials, flat unlit albedo, true transparency.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_left.png",
+          "role": "geometry and alpha authority",
+          "sha256": "98ddbb02e61340c13632b87d855070b58e8bde6770dfc4a5c748110236c89ee0"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a157dc-89da-7261-ac90-bbd5bf051797/exec-b977f929-6ba6-4bc6-8b52-caf62ee3c2c3.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/paint_left.png",
+      "selected": true,
+      "reason": "Closest left-view guide framing and pose, with appropriate material palette; correction introduces more visible face. Not compliant: wrong returned dimensions, silhouette not pixel-identical, and residual shading.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually match the reference palette and material identities.",
+        "flat_even_light": "Failed: residual form/contact shading and highlights remain."
+      },
+      "output_sha256": "561b9b5b07229572a0d8d30dd5e19026156541e499dcdc897b94466573f28c18"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective regeneration for paint_left.png. Output dimensions are REQUIRED: 1024 x 1024 pixels, not 1254 or any other size. This image is used for projection onto an existing mesh, so absolute pixel registration is mandatory.\nImage 1 is the authoritative edit target guide_left.png, exactly 1024x1024. Image 2 design_reference.png is ONLY for colours/materials. Edit image 1 in place: change grey surface colour into the reference materials, preserve ALL its geometry and alpha pixel for pixel. Preserve the empty margins and original object bounds x=194..829, y=342..681. The previous attempt enlarged/reframed the object and changed its outline: correct that by copying the target guide's exact camera, pose, outline, every edge and interior shape boundary. Do not model extra folds or accessories which change shape. Do not borrow the reference's silhouette or pose.\nPaint the curled colonist's guide surfaces as faded ochre/grey canvas coveralls darkened by water, a little white mineral crust, stitched canvas patches, worn brown leather belt and boots, dull steel wrench only on its existing shape, pale grey visible hand, matted rusty-brown hair on the existing head shape. No new hairs outside the head outline. The guide has a small bowed head in the centre, rounded back at upper left, the long bent forearm spanning the lower foreground with exposed hand at right, and folded leg/boot shapes at right. Keep these exactly as-is.\nTexture-source ALBEDO lighting only: completely even flat shadowless light facing viewer, no AO, no contact shadows, no directional shading, no strong specular highlights/reflections/rim light. Retain material colour, weave, seams and wear. No floor or background or text, truly transparent RGBA outside the guide. No blood or gore. Do not add glowing areas.\nReturn ONE 1024x1024 transparent PNG with the guide's EXACT alpha silhouette, scale, location and shape edges.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_left.png",
+          "role": "geometry and alpha authority",
+          "sha256": "98ddbb02e61340c13632b87d855070b58e8bde6770dfc4a5c748110236c89ee0"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a157dc-89da-7261-ac90-bbd5bf051797/exec-5c13c90e-1a69-443e-836b-236706716287.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a157dc-89da-7261-ac90-bbd5bf051797/exec-5c13c90e-1a69-443e-836b-236706716287.png",
+      "selected": false,
+      "reason": "Correction did not fix dimensions or exact silhouette and exposes more face; initial return selected.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually match the reference palette and material identities.",
+        "flat_even_light": "Failed: residual form/contact shading and highlights remain."
+      },
+      "output_sha256": "357de2b3795a141c63a606e7644a254f3fde1ba2a2f2115c1440ceca52864f1b"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Paint directly onto the supplied grey model render (image 1, guide_right.png). Deliver exactly 1024 by 1024 pixels, transparent RGBA PNG. Keep the guide's original 1024 x 1024 pixel canvas, object at original scale and position with bounding rectangle x194 to829, y342 to681, and preserve the guide's alpha mask exactly. Do not change any silhouette edge, opening or geometric detail. Do not enlarge or reframe the object. There must be a large transparent margin on all sides.\nImage 2 (design_reference.png) is a material and colour reference ONLY. The target camera, pose, outline and shapes must all come from image 1.\nThis is the RIGHT orthographic view of the curled drowned colonist: boots/soles at the lower left, knees and legs across the bottom, back rounded at the right, belt/tool on the visible upper side, as the guide dictates. Paint the existing shapes with faded ochre and grey water-darkened patchwork canvas coveralls, stitched repairs and a little white mineral crust; worn brown leather belt, straps and boots; dull steel wrench on the existing wrench shape. Skin, if any is visible, is pale grey. Use the design reference's material identities and colours, fitted precisely to the guide. Do not add anatomy, objects, holes or protrusions. No blood or gore.\nAlbedo texture source: completely flat even shadowless viewer-facing illumination. No baked lighting, no ambient occlusion, no dark contact shadows, no cast shadows, no specular shine, no reflections, no rim light. Material weave, wear and seams are intrinsic surface colour. No floor, background, checkerboard or text. Output a single unresized 1024 x 1024 image.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_right.png",
+          "role": "geometry and alpha authority",
+          "sha256": "4552c2dfc492821ee34ae583bae4a8d6c7da28b8edbb68afde1e2db0c2f8bfed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a157dc-89da-7261-ac90-bbd5bf051797/exec-85bb7f05-ff6d-4b25-964e-c192ae55b820.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/paint_right.png",
+      "selected": true,
+      "reason": "Closer guide framing, geometry and wrench placement than correction. Not compliant: wrong returned dimensions, silhouette not pixel-identical, and residual shading.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually match the reference palette and material identities.",
+        "flat_even_light": "Failed: residual form/contact shading and highlights remain."
+      },
+      "output_sha256": "01517e63b08994aaef02283031413daa7869a2f7810251fac39f98b75f51272f"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Paint guide_right.png (first input) in place using design_reference.png (second input) only for surface materials and colours. Corrective request: the PNG MUST BE EXACTLY 1024 x 1024 pixels, with the original guide's EXACT alpha, silhouette, object size, position and every geometry edge. Do not return 1254x1254. No resizing, zooming, cropping, recentering, pose or camera changes. Large transparent margins remain exactly as in the 1024x1024 guide. Do not add new details that change the mesh outline or boundaries.\nCover the guide's grey surfaces with the reference's faded ochre and grey water-darkened canvas coveralls, a little white mineral crust, stitched repairs, worn brown leather belt and boots, and dull steel wrench. The right-view guide, with boot soles at left and rounded back at right, alone defines all geometry. Do not copy the design reference's pose or perspective.\nCorrect the baked shading: this is a flat albedo texture source with even shadowless illumination from the viewer. Eliminate dark contact shading, ambient occlusion, directional lighting and bright metal/leather specular reflections. Only intrinsic colour and material texture. Pale grey skin only where visible. No blood or gore, no new objects, no floor, no text, no background or checkerboard. Real transparent RGBA outside the original guide silhouette. One 1024x1024 PNG.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_right.png",
+          "role": "geometry and alpha authority",
+          "sha256": "4552c2dfc492821ee34ae583bae4a8d6c7da28b8edbb68afde1e2db0c2f8bfed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a157dc-89da-7261-ac90-bbd5bf051797/exec-948e3754-d1be-46f8-ba46-661383148cfd.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a157dc-89da-7261-ac90-bbd5bf051797/exec-948e3754-d1be-46f8-ba46-661383148cfd.png",
+      "selected": false,
+      "reason": "Correction enlarges/reframes the body and changes tool/boot geometry; initial return selected.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually match the reference palette and material identities.",
+        "flat_even_light": "Failed: residual form/contact shading and highlights remain."
+      },
+      "output_sha256": "493fa289bca99b492a7641390c9946223267d67ea64c6563188f4d3acab4df4c"
+    }
+  ]
+}

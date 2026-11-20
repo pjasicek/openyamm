@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC01 naked and held-pose sheet check</title>
+  <style>
+    body { margin: 0 auto; padding: 24px; max-width: 1500px; background: #172126; color: #edf2f2;
+      font: 16px/1.5 system-ui, sans-serif; }
+    h1, h2 { line-height: 1.2; }
+    a { color: #a9dfff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    figure { margin: 0; padding: 12px; background: #253137; border: 1px solid #52616a; }
+    figure img { display: block; width: 100%; height: auto; object-fit: contain; }
+    figcaption { margin-top: 8px; }
+    table { border-collapse: collapse; }
+    td, th { border: 1px solid #52616a; padding: 6px 10px; text-align: right; }
+    td:first-child, th:first-child { text-align: left; }
+    .note { padding: 12px; border-left: 4px solid #ffb468; background: #342d29; }
+  </style>
+</head>
+<body>
+  <h1>PC01 two-pose sheet: naked + right-hand grip</h1>
+  <p>One row, two equal cells. The source uses original <code>pc01bod</code> and
+    <code>pc01lhu</code> in both cells, with <code>pc01rhd</code> in the first cell and
+    <code>pc01rhu</code> in the second. All parts use their game-table offsets. The original
+    avatar was a separate identity reference; no paperdoll or inventory background is baked in.</p>
+  <div class="grid">
+    <figure><img src="source_two_pose_sheet_x4.png" alt="Original two-pose source sheet">
+      <figcaption>Original assembled source, exact 50/50 cells.</figcaption></figure>
+    <figure><img src="../assigned_portrait_original_x4.png" alt="Original assigned avatar">
+      <figcaption>Assigned avatar identity reference.</figcaption></figure>
+  </div>
+  <h2>V2 hand anatomy repair</h2>
+  <p>The corrected grip has a thumb and four curled fingers. It was placed locally into the V2 sheet at the
+    existing cuff and wrist; 3,483 pixels changed, all within the hand region. The whole-pose registration
+    status below is unchanged.</p>
+  <div class="grid">
+    <figure><img src="five_digit_grip_before_x4.png" alt="V2 original grip with three fingers plus thumb">
+      <figcaption>Before: thumb plus three fingers.</figcaption></figure>
+    <figure><img src="five_digit_grip_after_x4.png" alt="Corrected grip with four fingers plus thumb">
+      <figcaption>After: thumb plus four distinct fingers.</figcaption></figure>
+    <figure><img src="two_pose_v2_five_digit_grip_composite.png" alt="Corrected transparent V2 two-pose sheet">
+      <figcaption><a href="two_pose_v2_five_digit_grip_composite.png">Full corrected two-cell sheet</a>.</figcaption></figure>
+  </div>
+  <p><a href="five_digit_grip_composite.json">Placement and pixel-change report</a> ·
+    <a href="grip_fix_submitted_prompts.md">Grip repair prompts and attempt status</a></p>
+  <h2>Generated sheets</h2>
+  <div class="grid">
+    <figure><img src="raw_two_pose_sheet_v1_even.png" alt="Generated two-pose v1">
+      <figcaption>V1: detailed, but enlarged and closed grip. Raw odd width was padded by one transparent pixel
+        on the right solely to make the two split cells equal.</figcaption></figure>
+    <figure><img src="raw_two_pose_sheet_v2_even.png" alt="Generated two-pose v2">
+      <figcaption>V2: better empty-pose framing; held hand has only three distinguishable fingers plus thumb.</figcaption></figure>
+    <figure><img src="raw_two_pose_sheet_v3_even.png" alt="Generated two-pose v3">
+      <figcaption>V3: source-only restoration, four fingers plus thumb in held pose; figure and grip still miss
+        the original mask.</figcaption></figure>
+  </div>
+  <p class="note"><strong>No drop-in result.</strong> At alpha 128, direct split/resizing gives whole-pose IoU
+    0.555/0.636 for V1, 0.739/0.628 for V2, and 0.623/0.608 for V3 (empty/held).
+    The required guard is at least 0.85. A single diagnostic bbox fit shared by both cells also stays below
+    0.85: V1 0.804/0.730, V2 0.818/0.705, V3 0.773/0.560. The fit is not an approved export operation.
+    No limb or finger sprites were extracted or installed from these sheets.</p>
+  <h2>Mask and equipment placement</h2>
+  <p>Green is overlap, red is original-only, blue is generated-only. Sword #1 is at its unchanged item-table
+    coordinates in every equipped comparison; the finger foreground layer is deliberately absent.</p>
+  <div class="grid">
+    <figure><img src="two_pose_v2_empty_direct_mask_x2.png" alt="V2 empty direct mask comparison">
+      <figcaption>V2 empty pose, direct split.</figcaption></figure>
+    <figure><img src="two_pose_v2_one_hand_direct_mask_x2.png" alt="V2 held direct mask comparison">
+      <figcaption>V2 held pose, direct split.</figcaption></figure>
+    <figure><img src="two_pose_v2_one_hand_sword_shared_fit_x2.png" alt="V2 held pose with sword">
+      <figcaption>V2 with sword at current coordinates; diagnostic shared fit only.</figcaption></figure>
+    <figure><img src="two_pose_v3_one_hand_sword_shared_fit_x2.png" alt="V3 held pose with sword">
+      <figcaption>V3 open hand with sword at current coordinates; still fails mask registration.</figcaption></figure>
+  </div>
+  <h2>Grip anatomy</h2>
+  <div class="grid">
+    <figure><img src="two_pose_v2_grip_detail.png" alt="V2 hand close-up">
+      <figcaption>V2: thumb and only three distinguishable fingers. Rejected.</figcaption></figure>
+    <figure><img src="two_pose_v3_grip_detail.png" alt="V3 hand close-up">
+      <figcaption>V3: thumb plus four fingers. Anatomy count fixed; mask fit not fixed.</figcaption></figure>
+  </div>
+  <p><a href="two_pose_v1_report.json">V1 metrics</a> · <a href="two_pose_v2_report.json">V2 metrics</a> ·
+    <a href="two_pose_v3_report.json">V3 metrics</a> ·
+    <a href="two_pose_submitted_prompts.md">Submitted prompts</a></p>
+</body>
+</html>

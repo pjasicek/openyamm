@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Potion And Scroll Popups</title>
+<!--
+  Browser study (2 November 2026): a potion button at the left end of the party basebar and a scroll button at the
+  right end; each opens a paused popup listing what the party carries, and a click drinks the potion (reads the scroll)
+  as the active member. The per-portrait quick item rings become a setting, off by default. Drawn over the native
+  1600x900 capture of the split-arc basebar with the Carved Obsidian menu art, fonts and the real item icons.
+  Nothing here is wired into the game. ?view=bar|potions|scrolls|target|settings&variant=a|b|v1|v2|v3&export=1
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Arrus; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #8f9786; --gold: #e3c185; --brass: #8c815f;
+  --good: #8fe08a; --warn: #ffb347; --bad: #ff6a5a; --blue: #8fc3ff; --hp: #7fd27a; --sp: #79b5f0;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review span { color: #9aa597; }
+body.export .review { display: none; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left;
+  overflow: hidden; background: #071012 url(../maw_potion_radial_20261025/gameplay_backdrop.jpg) 0 0 / 100% 100%; }
+.abs { position: absolute; }
+.hidden { display: none !important; }
+
+/* The scene is paused and dimmed while a popup is open; the basebar stays bright and clickable (it picks the drinker). */
+#pause { position: absolute; left: 0; top: 0; width: 1600px; height: 704px; background: #02060699;
+  pointer-events: none; }
+#pausedTag { position: absolute; left: 50%; top: 64px; transform: translateX(-50%); padding: 4px 16px;
+  background: #0b1212e6; border: 1px solid #5d6449; font: 14px Lucida, sans-serif; letter-spacing: 3px;
+  color: var(--gold); }
+
+/* The two basebar buttons: a carved medallion on each end ornament (A) or hung beside it (B). */
+.medal { position: absolute; width: 66px; height: 66px; border-radius: 50%; cursor: pointer;
+  background:
+    radial-gradient(circle at 42% 34%, #2d3d3a 0, #101a19 46%, #060b0b 64%, #0000 65%),
+    conic-gradient(from 210deg, #6f5f3a, #e6cd8a, #8a7446, #4c4026, #b79c5e, #f0d999, #6f5f3a);
+  box-shadow: 0 0 0 1px #000, 0 3px 6px #000c, inset 0 0 0 1px #00000080; }
+.medal::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; box-shadow: inset 0 2px 5px #000,
+  0 0 0 1px #000a; }
+.medal img { position: absolute; left: 50%; top: 50%; filter: drop-shadow(0 2px 2px #000); }
+.medal.potion img { height: 46px; transform: translate(-50%, -54%); }
+.medal.scroll img { width: 50px; transform: translate(-50%, -50%) rotate(-32deg); }
+.medal .n { position: absolute; right: -6px; bottom: -4px; min-width: 24px; height: 19px; padding: 0 5px;
+  border-radius: 10px; background: #0b1212; border: 1px solid #8c815f; font: 12px/17px Lucida, sans-serif;
+  color: var(--ivory); text-align: center; }
+.medal .k { position: absolute; left: -5px; top: -5px; width: 19px; height: 19px; border-radius: 4px;
+  background: #1c2524; border: 1px solid #6b6a4e; font: 11px/17px Lucida, sans-serif; color: var(--gold);
+  text-align: center; }
+.medal:hover, .medal.on { box-shadow: 0 0 0 1px #000, 0 0 14px #ffd98aaa; }
+.medal.on::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #ffd98a; }
+/* Variant B: a small brass bracket joins the medallion to the ornament. */
+/* Socket variants: the ornament's own carved socket is the button; only its contents and a hover glow are drawn. */
+.medal.sock { background: none; box-shadow: none; }
+.medal.sock::before { inset: 0; box-shadow: none; }
+.medal.sock.potion img { height: 72%; }
+.medal.sock.scroll img { width: 78%; }
+.medal.sock:hover::before, .medal.sock.on::before { box-shadow: inset 0 0 12px #ffd98a88; }
+.medal.sock.on::after { inset: -3px; border-width: 2px; }
+.medal.sock .n { right: -10px; bottom: -8px; }
+.medal.sock .k { left: -9px; top: -9px; }
+.bracket { position: absolute; width: 22px; height: 10px; top: 797px;
+  background: linear-gradient(#e6cd8a, #6f5f3a); box-shadow: 0 0 0 1px #000, 0 2px 3px #000a; }
+
+/* The popup: the existing quick item picker's look (dark obsidian, brass rim, list rows), grown to two columns. */
+.pop { position: absolute; width: 700px; height: 430px; top: 262px; background: #070e0ef4;
+  border: 1px solid #a8915c; box-shadow: 0 0 0 1px #000, 0 0 0 4px #1a1f1a, 0 0 0 5px #6f5f3a, 0 10px 30px #000d; }
+.pop .stem { position: absolute; bottom: -24px; width: 14px; height: 24px;
+  background: linear-gradient(#a8915c, #a8915c00); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.pop header { position: absolute; left: 0; right: 0; top: 0; height: 64px; padding: 0 16px; display: flex;
+  align-items: center; gap: 14px; border-bottom: 1px solid #3a4234; }
+.pop header h3 { margin: 0; font: 30px Fondamento, serif; color: var(--ivory); font-weight: normal;
+  text-shadow: 0 2px #000; }
+.who { display: flex; align-items: center; gap: 9px; padding: 3px 10px 3px 3px; border: 1px solid #5d6449;
+  border-radius: 26px; background: #0d1716; }
+.who .face { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #c9ae6c;
+  background: url(../maw_potion_radial_20261025/gameplay_backdrop.jpg) no-repeat; background-size: 1600px 900px; }
+.who .nm { font: 19px Fondamento, serif; color: var(--label); line-height: 1; }
+.who .st { font: 11px Lucida, sans-serif; color: var(--muted); margin-top: 3px; }
+.bars { margin-right: 60px; display: flex; flex-direction: column; gap: 5px; width: 150px; }
+.bar { position: relative; height: 12px; margin-right: 0; background: #142020; border: 1px solid #3b4639; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; }
+.bar b { position: absolute; left: calc(100% + 8px); top: -2px; white-space: nowrap; font: 10px Lucida, sans-serif; color: var(--ivory);
+  font-weight: normal; text-shadow: 0 1px #000; }
+.bar .ghost { background: repeating-linear-gradient(90deg, #b7f2a8aa 0 3px, #b7f2a855 3px 6px); }
+.pop header .x { margin-left: auto; width: 96px; height: 36px; font: 19px/36px Fondamento, serif; text-align: center;
+  color: #e8d1a4; text-shadow: 0 2px 1px #000; cursor: pointer;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_default.png) 0 0 / 100% 100%; }
+.pop .hint { position: absolute; left: 16px; right: 16px; top: 70px; font: 12px Lucida, sans-serif;
+  color: var(--muted); display: flex; justify-content: space-between; }
+.list { position: absolute; left: 12px; right: 26px; top: 92px; height: 248px; overflow: hidden; display: grid;
+  grid-template-columns: 1fr 1fr; grid-auto-rows: 48px; gap: 4px 8px; align-content: start; }
+.scrollbar { position: absolute; right: 10px; top: 92px; width: 6px; height: 248px; background: #29382a; }
+.scrollbar i { position: absolute; left: -1px; width: 8px; top: 0; height: 160px; background: #6a8dac; }
+.row { position: relative; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 8px;
+  padding: 0 10px 0 4px; cursor: pointer; background: linear-gradient(90deg, #142120cc, #0c1515cc);
+  border: 1px solid #263027; }
+.row .ic { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.row .ic img.p { height: 44px; }
+.row .ic img.s { width: 44px; transform: rotate(-28deg); }
+.row .t { min-width: 0; }
+.row .t .a { font: 16px Arrus, serif; color: var(--ivory); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; line-height: 1.05; }
+.row .t .b { font: 11px Lucida, sans-serif; color: var(--muted); white-space: nowrap; margin-top: 2px; }
+.row .c { font: 14px Lucida, sans-serif; color: var(--ivory); text-align: right; }
+.row .c small { display: block; font: 12px Lucida, sans-serif; color: var(--muted); }
+.row:hover, .row.hot { border-color: #d6bb80; background: linear-gradient(90deg, #2b2a1acc, #141a14cc); }
+.row.idle .t .a, .row.idle .ic { opacity: .5; }
+.row .pin { position: absolute; left: 2px; top: 2px; width: 15px; height: 15px; border-radius: 3px;
+  background: #1c2524; border: 1px solid #6b6a4e; font: 9px/13px Lucida, sans-serif; color: var(--gold);
+  text-align: center; }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; vertical-align: 0; }
+.tgt { display: inline-block; padding: 0 5px; border: 1px solid #4b5444; font: 10px/14px Lucida, sans-serif;
+  color: var(--body); }
+.pop footer { position: absolute; left: 0; right: 0; bottom: 0; height: 84px; border-top: 1px solid #3a4234;
+  padding: 10px 16px; display: flex; gap: 16px; align-items: center; }
+.pop footer .d { flex: 1; font: 13px/1.45 Lucida, sans-serif; color: var(--body); }
+.pop footer .d h4 { margin: 0 0 2px; font: 19px Fondamento, serif; color: var(--label); font-weight: normal; }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); } .muted { color: var(--muted); }
+.k { color: var(--gold); }
+
+/* Choosing a scroll's target after the popup closes: the portraits ringed, the status plate says what to click. */
+.ring.sel { border-width: 2px; box-shadow: 0 0 10px #ffd98a77; }
+.ring { position: absolute; width: 118px; height: 144px; border-radius: 50%; border: 3px solid #ffd98a;
+  box-shadow: 0 0 16px #ffd98a99, inset 0 0 12px #ffd98a55; pointer-events: none; }
+#status { position: absolute; left: 50%; top: 664px; transform: translateX(-50%); padding: 5px 14px;
+  white-space: nowrap; background: #0b1212e6; border: 1px solid #5d6449; font: 15px Lucida, sans-serif;
+  color: var(--ivory); }
+.tip { position: absolute; padding: 8px 12px; width: 270px; background: #0b1212f2; border: 1px solid var(--brass);
+  font: 13px/1.45 Lucida, sans-serif; color: var(--body); box-shadow: 0 4px 12px #000c; }
+.tip h4 { margin: 0 0 2px; font: 18px Fondamento, serif; color: var(--label); font-weight: normal; }
+
+/* Settings: the gameplay toggle and the key bindings (the pause menu's modal art). */
+#settings { left: 300px; top: 90px; width: 1000px; height: 640px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_modal.png) 0 0 / 100% 100% no-repeat; }
+#settings h2 { position: absolute; left: 60px; top: 42px; margin: 0; font: 32px Fondamento, serif; color: var(--ivory);
+  font-weight: normal; }
+#settings .sub { position: absolute; left: 62px; top: 88px; font: 14px Lucida, sans-serif; color: var(--muted); }
+#settings .rows { position: absolute; left: 60px; top: 124px; width: 880px; }
+#settings .grp { font: 13px Lucida, sans-serif; letter-spacing: 2px; color: var(--muted); margin: 14px 0 6px; }
+#settings .row2 { display: grid; grid-template-columns: 330px 140px 1fr; align-items: center; min-height: 38px;
+  padding: 4px 14px; margin-bottom: 3px; font: 15px Lucida, sans-serif; color: var(--body);
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row.png) 0 0 / 100% 100%; }
+#settings .row2 .v { color: var(--gold); }
+#settings .row2 .n { font-size: 12px; color: var(--muted); line-height: 1.35; }
+#settings .row2.new { box-shadow: inset 3px 0 0 #ffd98a; }
+.toggle { display: inline-flex; width: 74px; height: 24px; border: 1px solid #6b6a4e; background: #0d1716;
+  font: 12px/22px Lucida, sans-serif; }
+.toggle span { flex: 1; text-align: center; color: var(--muted); }
+.toggle span.on { background: #2b2a1a; color: #ffe4ac; }
+</style>
+</head>
+<body>
+<div class="review">
+  <button data-view="bar">Basebar buttons</button>
+  <button data-view="potions">Potion popup</button>
+  <button data-view="scrolls">Scroll popup</button>
+  <button data-view="target">Scroll target</button>
+  <button data-view="settings">Settings</button>
+  <span>Button placement:</span>
+  <button data-variant="a">A · on the ornament</button>
+  <button data-variant="b">B · beside it</button>
+  <button data-variant="v1">Socket v1 · wrapped</button>
+  <button data-variant="v2">Socket v2 · medallion</button>
+  <button data-variant="v3">Socket v3 · leaf crown</button>
+  <span>Click a portrait to change the drinker; click a row to drink.</span>
+</div>
+<div id="wrap"><div id="stage">
+  <div id="pause" class="hidden"></div>
+  <div id="pausedTag" class="hidden">PAUSED</div>
+  <div id="hud"></div>
+  <div id="popup"></div>
+  <div id="settings" class="abs hidden">
+    <h2>Settings</h2>
+    <div class="sub">Gameplay and Controls · the rows this proposal adds or changes</div>
+    <div class="rows"></div>
+  </div>
+</div></div>
+
+<script>
+const Icons = '../../../assets_dev/engine/icons_x2/';
+// Portrait centres in the 1600x900 capture (five members; the first is active, the diamond at its top).
+const Portraits = [500, 650, 800, 950, 1100];
+const party = [
+  {name: 'Ariel', hp: [96, 180], sp: [12, 40], cond: 'ready'},
+  {name: 'Lys', hp: [140, 150], sp: [52, 90], cond: 'ready'},
+  {name: 'Gerrard', hp: [61, 210], sp: [0, 0], cond: 'poisoned'},
+  {name: 'Thalia', hp: [120, 130], sp: [8, 70], cond: 'ready'},
+  {name: 'Kestrel', hp: [88, 160], sp: [30, 60], cond: 'weak'},
+];
+// Everything the party carries, one row per kind and strength (as the existing picker), healing and cures first.
+// `fix`: the condition it cures (dimmed "no effect now" when the drinker lacks it); `hp`/`sp`: what it restores.
+const Potions = [
+  {n: 'Cure Wounds', i: 'item178', s: 30, c: 3, who: 'Gerrard', hp: 30, pin: 1},
+  {n: 'Cure Wounds', i: 'item178', s: 60, c: 1, who: 'Lys', hp: 60},
+  {n: 'Cure Wounds', i: 'item178', s: 150, c: 1, who: 'Kestrel', hp: 150},
+  {n: 'Magic Potion', i: 'item177', s: 40, c: 2, who: 'Lys', sp: 40, pin: 2},
+  {n: 'Cure Poison', i: 'item183', s: 30, c: 1, who: 'Thalia', fix: 'poisoned'},
+  {n: 'Cure Weakness', i: 'item179', s: 20, c: 1, who: 'Ariel', fix: 'weak'},
+  {n: 'Cure Disease', i: 'item185', s: 40, c: 1, who: 'Lys', fix: 'diseased'},
+  {n: 'Awaken', i: 'item184', s: 30, c: 1, who: 'Kestrel', fix: 'asleep'},
+  {n: 'Haste', i: 'item186', s: 55, c: 2, who: 'Ariel', buff: 'Haste'},
+  {n: 'Heroism', i: 'item187', s: 50, c: 1, who: 'Gerrard', buff: 'Heroism'},
+  {n: 'Bless', i: 'item188', s: 30, c: 2, who: 'Thalia', buff: 'Bless'},
+  {n: 'Stoneskin', i: 'item192', s: 45, c: 1, who: 'Thalia', buff: 'Stoneskin'},
+  {n: 'Might Boost', i: 'item180', s: 25, c: 1, who: 'Gerrard', buff: 'Might +25'},
+];
+const Schools = {Fire: '#ff8a4a', Air: '#bfe3ff', Water: '#5aa8ff', Earth: '#b9935a', Spirit: '#f0e6b0',
+  Mind: '#c49aff', Body: '#7fe0a0'};
+// Scrolls: the spell, its school, and what it needs after the popup closes (an ally, a monster, or nothing).
+const Scrolls = [
+  {n: 'Heal', i: 'item199', school: 'Body', c: 2, who: 'Lys', t: 'ally'},
+  {n: 'Fire Bolt', i: 'item199', school: 'Fire', c: 3, who: 'Ariel', t: 'monster'},
+  {n: 'Lightning Bolt', i: 'item200', school: 'Air', c: 1, who: 'Thalia', t: 'monster'},
+  {n: 'Bless', i: 'item199', school: 'Spirit', c: 2, who: 'Lys', t: 'ally'},
+  {n: 'Stone Skin', i: 'item200', school: 'Earth', c: 1, who: 'Gerrard', t: 'ally'},
+  {n: 'Cure Poison', i: 'item200', school: 'Body', c: 1, who: 'Thalia', t: 'ally'},
+  {n: 'Haste', i: 'item200', school: 'Fire', c: 1, who: 'Ariel', t: 'party'},
+  {n: 'Wizard Eye', i: 'item199', school: 'Air', c: 2, who: 'Kestrel', t: 'party'},
+  {n: 'Fly', i: 'item202', school: 'Air', c: 1, who: 'Lys', t: 'party'},
+  {n: 'Town Portal', i: 'item202', school: 'Water', c: 1, who: 'Lys', t: 'none'},
+  {n: "Lloyd's Beacon", i: 'item201', school: 'Water', c: 1, who: 'Kestrel', t: 'none'},
+  {n: 'Remove Curse', i: 'item200', school: 'Spirit', c: 1, who: 'Thalia', t: 'ally'},
+];
+const TargetText = {ally: 'on an ally', monster: 'at a monster', party: 'the party', none: 'no target'};
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const params = new URLSearchParams(location.search);
+let view = params.get('view') || 'bar';
+let variant = params.get('variant') || 'a';
+let active = +(params.get('member') || 0);
+let hot = params.has('hot') ? +params.get('hot') : 0;
+let status = '';
+if (params.has('export')) document.body.classList.add('export');
+
+// The ends of the five-member basebar's ornaments; a smaller party moves them in with the frame.
+// Each entry: the potion button's and the scroll button's centre and radius; the socket variants (v1-v3) also replace
+// the capture with one whose end ornaments carry the socket (art/composite.py), and the button is only its contents.
+const Ends = {
+  a: {l: [352, 802, 33], r: [1248, 802, 33]},
+  b: {l: [306, 802, 33], r: [1294, 802, 33]},
+  v1: {l: [346, 803, 26], r: [1254, 803, 26], bg: 'previews/backdrop_v1.jpg'},
+  v2: {l: [343, 803, 24], r: [1257, 803, 24], bg: 'previews/backdrop_v2.jpg'},
+  v3: {l: [349, 803, 20], r: [1251, 803, 20], bg: 'previews/backdrop_v3.jpg'},
+};
+const potionCount = Potions.reduce((n, p) => n + p.c, 0);
+const scrollCount = Scrolls.reduce((n, p) => n + p.c, 0);
+
+function medals() {
+  const end = Ends[variant];
+  const [l, y, rad] = end.l;
+  const [r, ry, rrad] = end.r;
+  const sock = !!end.bg;
+  let h = '';
+  if (variant === 'b') {
+    h += `<div class="bracket" style="left:${l + 22}px"></div><div class="bracket" style="left:${r - 44}px"></div>`;
+  }
+  const box = (x, cy, radius) => `left:${x - radius}px;top:${cy - radius}px;width:${2 * radius}px;height:${2 * radius}px`;
+  h += `<div class="medal potion${sock ? ' sock' : ''}${view === 'potions' ? ' on' : ''}" data-open="potions" style="${box(l, y, rad)}">`
+    + `<img src="${Icons}item178.png"><span class="k">V</span><span class="n">${potionCount}</span></div>`;
+  h += `<div class="medal scroll${sock ? ' sock' : ''}${view === 'scrolls' ? ' on' : ''}" data-open="scrolls" style="${box(r, ry, rrad)}">`
+    + `<img src="${Icons}item202.png"><span class="k">T</span><span class="n">${scrollCount}</span></div>`;
+  if (view === 'bar') {
+    h += `<div class="tip" style="left:${l - 40}px;top:${y - 230}px"><h4>Potions <span class="k">V</span></h4>`
+      + `Drink one of the party's ${potionCount} potions as the active member. Pauses the game.</div>`;
+    h += `<div class="tip" style="left:${r + 40 - 270}px;top:${ry - 230}px"><h4>Scrolls <span class="k">T</span></h4>`
+      + `Read one of the party's ${scrollCount} scrolls as the active member. Pauses the game.</div>`;
+  }
+  return h;
+}
+
+function face(m) {
+  // The member's own portrait, cut from the capture's basebar at 40 %.
+  return `<div class="face" style="background-size:640px 360px;`
+    + `background-position:${-(Portraits[m] * 0.4 - 19)}px ${-(800 * 0.4 - 21)}px"></div>`;
+}
+
+function bar(cls, value, max, ghost) {
+  if (!max) return `<div class="bar"><b class="muted">no SP</b></div>`;
+  const w = 100 * value / max;
+  const g = ghost ? Math.min(100 - w, 100 * ghost / max) : 0;
+  return `<div class="bar"><i style="width:${w}%;background:${cls}"></i>`
+    + (g > 0 ? `<i class="ghost" style="left:${w}%;width:${g}%"></i>` : '')
+    + `<b>${value} / ${max}</b></div>`;
+}
+
+function potionEffect(p, m) {
+  const who = party[m];
+  if (p.hp) {
+    const after = Math.min(who.hp[1], who.hp[0] + p.hp);
+    return after === who.hp[0] ? null : `${who.name} <span class="good">+${after - who.hp[0]} HP</span> `
+      + `<span class="muted">(${who.hp[0]} → ${after} of ${who.hp[1]})</span>`;
+  }
+  if (p.sp) {
+    if (!who.sp[1]) return null;
+    const after = Math.min(who.sp[1], who.sp[0] + p.sp);
+    return `${who.name} <span class="good">+${after - who.sp[0]} SP</span> `
+      + `<span class="muted">(${who.sp[0]} → ${after} of ${who.sp[1]})</span>`;
+  }
+  if (p.fix) return who.cond === p.fix ? `Cures ${who.name}: <span class="good">no longer ${p.fix}</span>` : null;
+  return `${who.name} gains <span class="good">${p.buff}</span> <span class="muted">(strength ${p.s})</span>`;
+}
+
+function popup() {
+  const potions = view === 'potions';
+  const items = potions ? Potions : Scrolls;
+  const who = party[active];
+  const l = Ends[variant].l[0], r = Ends[variant].r[0];
+  // Potions open from the left end and rise above it; scrolls from the right end.
+  const left = potions ? l - 40 : r + 40 - 700;
+  const stemX = potions ? l - left - 7 : r - left - 7;
+  const sel = items[Math.min(hot, items.length - 1)];
+  let rows = '';
+  items.forEach((p, i) => {
+    let sub, idle = false, right;
+    if (potions) {
+      idle = !potionEffect(p, active);
+      sub = `strength ${p.s} · ${p.who}${idle ? ' · <span class="warn">no effect now</span>' : ''}`;
+      right = `×${p.c}`;
+    } else {
+      sub = `<span class="dot" style="background:${Schools[p.school]}"></span>${p.school} · ${p.who}`;
+      right = `<span class="tgt">${TargetText[p.t]}</span><small>×${p.c}</small>`;
+    }
+    rows += `<div class="row${i === hot ? ' hot' : ''}${idle ? ' idle' : ''}" data-i="${i}">`
+      + (p.pin ? `<span class="pin">${p.pin}</span>` : '')
+      + `<div class="ic"><img class="${potions ? 'p' : 's'}" src="${Icons}${p.i}.png"></div>`
+      + `<div class="t"><div class="a">${p.n}</div><div class="b">${sub}</div></div><div class="c">${right}</div></div>`;
+  });
+  let detail;
+  const near = `<br><span class="muted">With enemies near it costs ${who.name}'s recovery, as a cast does.</span>`;
+  if (potions) {
+    const effect = potionEffect(sel, active);
+    detail = `<h4>${sel.n} <span class="muted" style="font:13px Lucida">strength ${sel.s} · from ${sel.who}'s pack</span></h4>`
+      + (effect || `<span class="warn">No effect on ${who.name} now</span> <span class="muted">— drinking it anyway wastes it</span>`);
+  } else {
+    const after = {ally: 'then click the portrait it is for', monster: 'then click the monster',
+      party: 'it takes effect at once', none: 'its own window opens'}[sel.t];
+    detail = `<h4>${sel.n} <span class="muted" style="font:13px Lucida">${sel.school} · from ${sel.who}'s pack</span></h4>`
+      + `${who.name} reads it: ${after}.${near}`;
+  }
+  const ghostHp = potions && sel.hp ? sel.hp : 0;
+  const ghostSp = potions && sel.sp ? sel.sp : 0;
+  return `<div class="pop" style="left:${left}px"><div class="stem" style="left:${stemX}px"></div>`
+    + `<header><h3>${potions ? 'Potions' : 'Scrolls'}</h3>`
+    + `<div class="who">${face(active)}<div><div class="nm">${who.name}</div>`
+    + `<div class="st">${potions ? 'drinks' : 'reads'} · ${who.cond}</div></div></div>`
+    + `<div class="bars">${bar('var(--hp)', who.hp[0], who.hp[1], ghostHp)}${bar('var(--sp)', who.sp[0], who.sp[1], ghostSp)}</div>`
+    + `<div class="x" data-close>Close</div></header>`
+    + `<div class="hint"><span>Click a portrait below to choose who ${potions ? 'drinks' : 'reads'}</span>`
+    + `<span>${potions ? 'Right-click: put on a quick key (Num 1–6)' : 'Esc, ' + 'T or a click away closes'}</span></div>`
+    + `<div class="list">${rows}</div><div class="scrollbar"><i></i></div>`
+    + `<footer><div class="d">${detail}</div></footer></div>`;
+}
+
+function render() {
+  $$('.review [data-view]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === view));
+  $$('.review [data-variant]').forEach(b => b.setAttribute('aria-pressed', b.dataset.variant === variant));
+  const open = view === 'potions' || view === 'scrolls';
+  $('#pause').classList.toggle('hidden', !open && view !== 'settings');
+  $('#pausedTag').classList.toggle('hidden', !open);
+  $('#settings').classList.toggle('hidden', view !== 'settings');
+  let hud = view === 'settings' ? '' : medals();
+  // The active member (who drinks or reads): the capture shows the first one selected; another gets a gold rim.
+  if (active !== 0 && view !== 'settings' && view !== 'target') {
+    hud += `<div class="ring sel" style="left:${Portraits[active] - 59}px;top:${800 - 72}px"></div>`;
+  }
+  if (view === 'target') {
+    Portraits.forEach(x => { hud += `<div class="ring" style="left:${x - 59}px;top:${800 - 72}px"></div>`; });
+    hud += `<div id="status">${party[active].name} reads <span class="k">Heal</span> — click who it heals · `
+      + `<span class="muted">Esc puts the scroll back</span></div>`;
+  } else if (status) {
+    hud += `<div id="status">${status}</div>`;
+  }
+  $('#hud').innerHTML = hud;
+  $('#popup').innerHTML = open ? popup() : '';
+  $('#stage').style.backgroundImage = Ends[variant].bg ? `url(${Ends[variant].bg})` : '';
+  if (view === 'settings') renderSettings();
+  bind();
+}
+
+function renderSettings() {
+  const rows = [
+    ['grp', 'GAMEPLAY'],
+    ['Potion and scroll buttons', '<span class="toggle"><span class="on">On</span><span>Off</span></span>',
+     'The two medallions at the ends of the party bar.', true],
+    ['Quick item rings at portraits', '<span class="toggle"><span>On</span><span class="on">Off</span></span>',
+     'The round button at each portrait and its ring of six slots. Off by default; the quick keys work either way.',
+     true],
+    ['grp', 'CONTROLS · POTIONS AND SCROLLS'],
+    ['Potions', '<span class="v">V</span>', 'Opens the potion popup (was Potion Wheel; with the rings on, a held V '
+     + 'still opens the active member\'s ring).', true],
+    ['Scrolls', '<span class="v">T</span>', 'Opens the scroll popup.', true],
+    ['Quick Potion', '<span class="v">N</span>', 'Drinks the active member\'s quick key 1.'],
+    ['Potion Slot 1–6', '<span class="v">Num 1–6</span>', 'Unchanged; filled from the popup with a right-click.'],
+  ];
+  $('#settings .rows').innerHTML = rows.map(r => r[0] === 'grp' ? `<div class="grp">${r[1]}</div>`
+    : `<div class="row2${r[3] ? ' new' : ''}"><span>${r[0]}</span><span>${r[1]}</span><span class="n">${r[2]}</span></div>`)
+    .join('');
+}
+
+function bind() {
+  $$('[data-open]').forEach(e => e.onclick = () => { view = view === e.dataset.open ? 'bar' : e.dataset.open; hot = 0;
+    status = ''; render(); });
+  $$('[data-close]').forEach(e => e.onclick = () => { view = 'bar'; render(); });
+  $$('.row').forEach(e => {
+    e.onmouseenter = () => { hot = +e.dataset.i; render(); };
+    e.onclick = () => use(+e.dataset.i);
+  });
+}
+
+function use(i) {
+  const who = party[active].name;
+  if (view === 'potions') {
+    const p = Potions[i];
+    status = `${who} drinks ${p.n} (strength ${p.s})`;
+    p.c -= 1;
+    if (!p.c) Potions.splice(i, 1);
+    view = 'bar';
+  } else {
+    const s = Scrolls[i];
+    if (s.t === 'ally') { view = 'target'; render(); return; }
+    status = s.t === 'monster' ? `${who} reads ${s.n} — click a monster · Esc puts the scroll back`
+      : `${who} reads ${s.n}`;
+    view = 'bar';
+  }
+  render();
+}
+
+$$('.review [data-view]').forEach(b => b.onclick = () => { view = b.dataset.view; status = ''; hot = 0; render(); });
+$$('.review [data-variant]').forEach(b => b.onclick = () => { variant = b.dataset.variant; render(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { view = 'bar'; status = ''; render(); }
+  if (e.key === 'v' || e.key === 'V') { view = view === 'potions' ? 'bar' : 'potions'; hot = 0; render(); }
+  if (e.key === 't' || e.key === 'T') { view = view === 'scrolls' ? 'bar' : 'scrolls'; hot = 0; render(); }
+});
+// Clicking a portrait (in any view but settings) makes that member active: the popup's drinker follows.
+$('#stage').addEventListener('click', e => {
+  const r = $('#stage').getBoundingClientRect();
+  const k = r.width / 1600;
+  const x = (e.clientX - r.left) / k, y = (e.clientY - r.top) / k;
+  if (y < 730 || y > 880) return;
+  const m = Portraits.findIndex(p => Math.abs(p - x) < 55);
+  if (m >= 0 && view !== 'settings') {
+    if (view === 'target') { status = `${party[active].name} heals ${party[m].name}`; view = 'bar'; }
+    active = m; render();
+  }
+});
+function fit() {
+  const k = $('#wrap').clientWidth / 1600;
+  $('#stage').style.transform = `scale(${k})`;
+}
+addEventListener('resize', fit);
+fit();
+render();
+</script>
+</body>
+</html>

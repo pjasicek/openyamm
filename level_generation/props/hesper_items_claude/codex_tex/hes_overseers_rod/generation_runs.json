@@ -1,0 +1,590 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None; raw generated PNGs are copied byte-for-byte, without resizing or alpha edits.",
+  "measurement": "Normalized silhouette IoU measures alpha >=128 after sampling output at guide pixel centres in memory only; exact_guide_alpha compares original dimensions and complete alpha.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint one texture-source view of the Hesper Overseer's Rod.\nINPUT 1 guide_front.png is the EDIT TARGET and absolute geometry/alpha-mask authority. INPUT 2 design_reference.png is ONLY the colour/material reference, never the composition reference.\nReturn a single 1024 x 1024 RGBA PNG with a genuinely transparent background. Edit the guide in place, preserving its exact alpha silhouette, position, scale, every edge and internal part boundary. The guide is deliberately a very small end-on orthographic view looking down the length of the rod, occupying x=422..601, y=468..555 on the 1024 square, centred at (512,512). Preserve this tiny central end-on shape and the huge transparent margins exactly. The shaft is hidden behind the visible end; do not show the whole length of the rod, enlarge it, rotate it, reframe it or convert it into the upright design-reference view.\nPaint all existing visible facets and surfaces with the corresponding approved reference materials: warm white/ivory ceramic armour with restrained fine wear, thin brushed antique-gold edging, dark black-violet twisted resin structure and bright amber-orange crystal/light where the geometry represents the focus or inset. Continue the same materials plausibly on faces not shown in the reference. Respect the target's foreshortening and overlapping pieces exactly. No invented parts or ornament silhouettes.\nLIGHTING: flat albedo texture source, even shadowless light from the viewer. Use only base colours, fine material lines, seams, engraved details and restrained wear. Gold is ochre-gold base colour with only a faint sheen. Bright orange crystal areas have painted warm orange/amber colours, with no external glow. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light, gradient backdrop, floor, text, letters, labels or watermark.\nChange only the surface colours inside the guide silhouette. Preserve all transparent exterior pixels and the precise outer contour.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "474d6f181be4eb37c1a2cd9a53e2f27575afa1da6d7d59a650a0cd005948fbcc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-e7a01108-829a-43fb-be9f-6cea403f34fe.png",
+      "output": "paint_front_attempt1.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          138,
+          53,
+          1206,
+          1197
+        ],
+        "opaque_bbox": [
+          517,
+          571,
+          737,
+          685
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.877561,
+        "normalized_guide_coverage_alpha128": 0.997586,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Surface shading and gem highlights remain; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "de7e0a75669e7265822800b5286d70c72c28876c4bd71e0ac5f35c4ad148cab7",
+      "selected": false,
+      "reason": "Not selected. Corrective return follows the end-on contour more closely (normalized silhouette IoU 0.938 versus 0.878) and reduces gloss.",
+      "brief_compliant": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, one front view only. Use case: precise-object-edit.\nImage 1 guide_front.png is the actual image to recolour. Image 2 design_reference.png provides only material colours. Make a precise colourization of image 1, NOT a new interpretation or render of the object. Keep image 1's silhouette, surface/part boundaries and camera completely unchanged. Output requested: 1024 x 1024 PNG with real transparency.\nKeep the FRONT end-on guide: a tiny irregular horizontal cluster centred at (512,512). In a 1024 x 1024 image, the outer bounds are exactly x=422..601, y=468..555. Its width is only 17.578125% of the canvas and height only 8.59375%. Preserve the asymmetric sculpted contours and facet boundaries, rather than turning the cluster into a symmetrical jewel emblem. Keep the shaft occluded as in the guide.\nTreat the guide's existing alpha as an immutable stencil. Change RGB colour on its visible surfaces only, leaving alpha and every edge exactly alone. No new opaque or faint translucent pixels anywhere outside this stencil. No smoothing or embellishment that changes the low-poly model shape. Do not use the design reference's composition, geometry, perspective or illumination.\nColour assignment from reference: matte warm ivory ceramic on the existing armour pieces, muted ochre antique gold on their existing trim/collars, black-violet resin on structural exposed surfaces, rich amber-orange on existing crystal/light surfaces. Continue these materials plausibly onto unseen sides. Apply only fine restrained wear, grooves, seams and engraved lines inside the existing boundaries.\nCORRECT THE LIGHTING TO FLAT ALBEDO: uniform shadowless colour at every orientation. Ceramic has near-uniform ivory colour; gold has near-uniform muted gold colour with at most a faint sheen; resin is dark violet base colour with subtle line texture; orange crystal is flat bright orange with subtle facet hue variation. Remove all white gem highlight spots, shiny reflections, bright edge lighting, deep contact shadows, gradients caused by lighting, bloom and glow halos. Surface line detail must not create directional lighting. No floor, background, cast shadow, AO, text, letters, labels or watermark.\nPriority: exact guide silhouette and layout first; approved material colours second; restrained flat surface detail third.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "474d6f181be4eb37c1a2cd9a53e2f27575afa1da6d7d59a650a0cd005948fbcc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-0d59a0b3-633c-4912-b577-d8d06d95cd8c.png",
+      "output": "paint_front.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          99,
+          37,
+          1129,
+          1013
+        ],
+        "opaque_bbox": [
+          520,
+          572,
+          735,
+          682
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.938047,
+        "normalized_guide_coverage_alpha128": 0.989206,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Reduced gloss compared with first pass, but some surface shading remains; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "2a9564d1b5f615b34d778b4b058b295acea8274a67b267f4d5f7343d0d080aec",
+      "selected": true,
+      "reason": "Corrective return follows the end-on contour more closely (normalized silhouette IoU 0.938 versus 0.878) and reduces gloss. Selected as the best available raw return, not as a strict brief-compliance pass.",
+      "raw_output": "paint_front_attempt2.png",
+      "brief_compliant": false
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE painted albedo texture-source PNG for hes_overseers_rod, view back.\nINPUT 1 guide_back.png is the EDIT TARGET. Its exact silhouette, alpha, camera, size, position, every part and every edge are fixed. INPUT 2 design_reference.png is ONLY the authority for colours, materials and surface decoration, not silhouette or layout.\nEDIT THE GUIDE IN PLACE. Requested output 1024 x 1024 RGBA, genuinely transparent background. Preserve the input alpha mask exactly, including transparent negative spaces. Paint only existing surfaces. Do not enlarge, move, rotate, crop, thicken, straighten or redesign any piece.\nThis is the BACK END-ON orthographic view, looking down the length of the rod. The entire visible object is deliberately tiny, occupying x=422..601 and y=468..555 on the 1024-square guide, centred at (512,512). The shaft is hidden by the end. Keep the guide's exact irregular foreshortened facets and small lateral protrusions. Do not draw the full length or turn it upright. Continue the approved ivory ceramic, gold and dark black-violet materials plausibly on these rear faces, with orange only on visible existing light/crystal surfaces.\nPaint the approved design reference's warm white/ivory worn ceramic, brushed antique gold, dark black-violet resin with fine twisted engraved lines, and amber-orange light/crystal. Continue unseen surfaces plausibly using these same materials. No blue light for this orange-lit item. Fine seams, joins and small non-letter markings may be painted inside existing surfaces only. Surface ornament must not change the guide's contours.\nThis is ALBEDO for texture projection, not a beauty render. Flat, evenly front-lit, shadowless base colours. No cast shadows, no ambient occlusion, no dark lighting gradients, no bright specular spots or reflections, no rim light, no directional illumination. Gold is a subdued ochre-gold base colour with only a faint sheen. Crystal/light areas are painted bright amber-orange, with restrained facet-colour changes and no bloom or glow outside their surfaces. No background, floor, text, letters, labels or watermark. Retain all guide geometry and margins exactly.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "59c4443abc7ee7393d03b9b1b7166ec6e5606178c08622df7aae5e9ffdc73ac3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-99c83e53-ee79-451c-9944-e2cc87272ee8.png",
+      "output": "paint_back_attempt1.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          226,
+          142,
+          1168,
+          1149
+        ],
+        "opaque_bbox": [
+          435,
+          533,
+          819,
+          719
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.309876,
+        "normalized_guide_coverage_alpha128": 1.0,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Surface shading and gem highlights remain; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "56a9bb8666d747b4bb56412735286628c968daae04877cb5057e618c0aff30f5",
+      "selected": false,
+      "reason": "Not selected. Corrective return restores the small end-on scale (normalized silhouette IoU 0.957 versus 0.310) and reduces gloss.",
+      "brief_compliant": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, one back view only. Use case: precise-object-edit.\nImage 1 guide_back.png is the actual image to recolour. Image 2 design_reference.png provides only material colours. Make a precise colourization of image 1, NOT a new interpretation or render of the object. Keep image 1's silhouette, surface/part boundaries and camera completely unchanged. Output requested: 1024 x 1024 PNG with real transparency.\nKeep the BACK end-on guide: a TINY irregular horizontal cluster centred at (512,512). In a 1024 x 1024 image, the outer bounds are exactly x=422..601, y=468..555. Its width is only 17.578125% of the canvas and height only 8.59375%. The previous attempt enlarged the cluster almost twice: CORRECT THAT. Leave over 41% of the canvas width empty on either side and over 45% of the height empty above/below. Do not invent a frontal jewel badge or full-length staff. Preserve the guide's exact asymmetric end facets and every lobe.\nTreat the guide's existing alpha as an immutable stencil. Change RGB colour on its visible surfaces only, leaving alpha and every edge exactly alone. No new opaque or faint translucent pixels anywhere outside this stencil. No smoothing or embellishment that changes the low-poly model shape. Do not use the design reference's composition, geometry, perspective or illumination.\nColour assignment from reference: matte warm ivory ceramic on the existing armour pieces, muted ochre antique gold on their existing trim/collars, black-violet resin on structural exposed surfaces, rich amber-orange on existing crystal/light surfaces. Continue these materials plausibly onto unseen sides. Apply only fine restrained wear, grooves, seams and engraved lines inside the existing boundaries.\nCORRECT THE LIGHTING TO FLAT ALBEDO: uniform shadowless colour at every orientation. Ceramic has near-uniform ivory colour; gold has near-uniform muted gold colour with at most a faint sheen; resin is dark violet base colour with subtle line texture; orange crystal is flat bright orange with subtle facet hue variation. Remove all white gem highlight spots, shiny reflections, bright edge lighting, deep contact shadows, gradients caused by lighting, bloom and glow halos. Surface line detail must not create directional lighting. No floor, background, cast shadow, AO, text, letters, labels or watermark.\nPriority: exact guide silhouette and layout first; approved material colours second; restrained flat surface detail third.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "59c4443abc7ee7393d03b9b1b7166ec6e5606178c08622df7aae5e9ffdc73ac3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-8b0560de-0a98-473d-b171-361a0e9ae7db.png",
+      "output": "paint_back.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          419,
+          51,
+          1136,
+          939
+        ],
+        "opaque_bbox": [
+          518,
+          573,
+          736,
+          681
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.956747,
+        "normalized_guide_coverage_alpha128": 0.995881,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Reduced gloss compared with first pass, but some surface shading remains; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "4daf11df2ee810b9e611beaea548ab342b02499f10fb40ad414321ff14108901",
+      "selected": true,
+      "reason": "Corrective return restores the small end-on scale (normalized silhouette IoU 0.957 versus 0.310) and reduces gloss. Selected as the best available raw return, not as a strict brief-compliance pass.",
+      "raw_output": "paint_back_attempt2.png",
+      "brief_compliant": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE painted albedo texture-source PNG for hes_overseers_rod, view left.\nINPUT 1 guide_left.png is the EDIT TARGET. Its exact silhouette, alpha, camera, size, position, every part and every edge are fixed. INPUT 2 design_reference.png is ONLY the authority for colours, materials and surface decoration, not silhouette or layout.\nEDIT THE GUIDE IN PLACE. Requested output 1024 x 1024 RGBA, genuinely transparent background. Preserve the input alpha mask exactly, including transparent negative spaces. Paint only existing surfaces. Do not enlarge, move, rotate, crop, thicken, straighten or redesign any piece.\nThis is the LEFT SIDE orthographic view: a very slender HORIZONTAL rod, pointed large focus/crystal head at LEFT, small pommel at RIGHT. Exact guide bounds x=66..957 and y=468..555; the shaft lies near y=506, with tiny offsets and bulges exactly as drawn. Preserve the small total height of only 88 pixels and the enormous transparent margins above and below. The leftmost lance-shaped focus is amber-orange crystal, its enclosing claws ivory ceramic edged in gold, structural connecting arms dark black-violet resin. The entire long thin shaft is black-violet twisted resin, with ivory ceramic wraps in the guide's exact locations and restrained gold edging/collars; the existing small right pommel continues those materials with orange inset only where visible.\nPaint the approved design reference's warm white/ivory worn ceramic, brushed antique gold, dark black-violet resin with fine twisted engraved lines, and amber-orange light/crystal. Continue unseen surfaces plausibly using these same materials. No blue light for this orange-lit item. Fine seams, joins and small non-letter markings may be painted inside existing surfaces only. Surface ornament must not change the guide's contours.\nThis is ALBEDO for texture projection, not a beauty render. Flat, evenly front-lit, shadowless base colours. No cast shadows, no ambient occlusion, no dark lighting gradients, no bright specular spots or reflections, no rim light, no directional illumination. Gold is a subdued ochre-gold base colour with only a faint sheen. Crystal/light areas are painted bright amber-orange, with restrained facet-colour changes and no bloom or glow outside their surfaces. No background, floor, text, letters, labels or watermark. Retain all guide geometry and margins exactly.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "4981f5c71e02f40745b5398e4c4810c42fea47e76cec011445e334daa4f811e1"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-5075c1c6-e7be-4654-9160-ae0d8a221a14.png",
+      "output": "paint_left_attempt1.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          25,
+          29,
+          1230,
+          1075
+        ],
+        "opaque_bbox": [
+          82,
+          573,
+          1171,
+          681
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.925974,
+        "normalized_guide_coverage_alpha128": 0.976052,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Surface shading and gem highlights remain; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "c9a36c034012d1a12485558da81928ee2f98939b5d10d213b6506c516d8685f9",
+      "selected": false,
+      "reason": "Not selected. Corrective return reduces jewel highlights and invented face-on medallions, with greater guide coverage (0.994 versus 0.976); normalized silhouette IoU is effectively unchanged (0.925 versus 0.926).",
+      "brief_compliant": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, one left view only. Use case: precise-object-edit.\nImage 1 guide_left.png is the actual image to recolour. Image 2 design_reference.png provides only material colours. Make a precise colourization of image 1, NOT a new interpretation or render of the object. Keep image 1's silhouette, surface/part boundaries and camera completely unchanged. Output requested: 1024 x 1024 PNG with real transparency.\nKeep the LEFT guide: horizontal rod with focus head at LEFT, small pommel at RIGHT. Guide occupied bounds x=66..957, y=468..555, width 87.109375%, maximum height only 8.59375% of the canvas. Keep the shaft's exact tiny thickness, all wraps, bulges, head openings and offsets; the previous return slightly expanded and reshaped parts. Restore the original guide contour. The orange focus follows the guide's original lance-like facet boundaries; no added centre-facing medallions.\nTreat the guide's existing alpha as an immutable stencil. Change RGB colour on its visible surfaces only, leaving alpha and every edge exactly alone. No new opaque or faint translucent pixels anywhere outside this stencil. No smoothing or embellishment that changes the low-poly model shape. Do not use the design reference's composition, geometry, perspective or illumination.\nColour assignment from reference: matte warm ivory ceramic on the existing armour pieces, muted ochre antique gold on their existing trim/collars, black-violet resin on structural exposed surfaces, rich amber-orange on existing crystal/light surfaces. Continue these materials plausibly onto unseen sides. Apply only fine restrained wear, grooves, seams and engraved lines inside the existing boundaries.\nCORRECT THE LIGHTING TO FLAT ALBEDO: uniform shadowless colour at every orientation. Ceramic has near-uniform ivory colour; gold has near-uniform muted gold colour with at most a faint sheen; resin is dark violet base colour with subtle line texture; orange crystal is flat bright orange with subtle facet hue variation. Remove all white gem highlight spots, shiny reflections, bright edge lighting, deep contact shadows, gradients caused by lighting, bloom and glow halos. Surface line detail must not create directional lighting. No floor, background, cast shadow, AO, text, letters, labels or watermark.\nPriority: exact guide silhouette and layout first; approved material colours second; restrained flat surface detail third.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "4981f5c71e02f40745b5398e4c4810c42fea47e76cec011445e334daa4f811e1"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-98e4046d-2528-4ac1-9568-b65c764487a7.png",
+      "output": "paint_left.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          25,
+          80,
+          1226,
+          1207
+        ],
+        "opaque_bbox": [
+          81,
+          572,
+          1173,
+          682
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.924854,
+        "normalized_guide_coverage_alpha128": 0.993816,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Reduced gloss compared with first pass, but some surface shading remains; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "e1d4181cf23167ddd935463237310b1bc9a9803457eb51586189655ea5ebdf6b",
+      "selected": true,
+      "reason": "Corrective return reduces jewel highlights and invented face-on medallions, with greater guide coverage (0.994 versus 0.976); normalized silhouette IoU is effectively unchanged (0.925 versus 0.926). Selected as the best available raw return, not as a strict brief-compliance pass.",
+      "raw_output": "paint_left_attempt2.png",
+      "brief_compliant": false
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE painted albedo texture-source PNG for hes_overseers_rod, view right.\nINPUT 1 guide_right.png is the EDIT TARGET. Its exact silhouette, alpha, camera, size, position, every part and every edge are fixed. INPUT 2 design_reference.png is ONLY the authority for colours, materials and surface decoration, not silhouette or layout.\nEDIT THE GUIDE IN PLACE. Requested output 1024 x 1024 RGBA, genuinely transparent background. Preserve the input alpha mask exactly, including transparent negative spaces. Paint only existing surfaces. Do not enlarge, move, rotate, crop, thicken, straighten or redesign any piece.\nThis is the RIGHT SIDE orthographic view: a very slender HORIZONTAL rod, small pommel at LEFT, pointed large focus/crystal head at RIGHT. Exact guide bounds x=66..957 and y=468..555; the shaft lies near y=506, with tiny offsets and bulges exactly as drawn. Preserve the small total height of only 88 pixels and the enormous transparent margins above and below. The rightmost lance-shaped focus is amber-orange crystal, its enclosing claws ivory ceramic edged in gold, structural connecting arms dark black-violet resin. The entire long thin shaft is black-violet twisted resin, with ivory ceramic wraps in the guide's exact locations and restrained gold edging/collars; the existing small left pommel continues those materials with orange inset only where visible.\nPaint the approved design reference's warm white/ivory worn ceramic, brushed antique gold, dark black-violet resin with fine twisted engraved lines, and amber-orange light/crystal. Continue unseen surfaces plausibly using these same materials. No blue light for this orange-lit item. Fine seams, joins and small non-letter markings may be painted inside existing surfaces only. Surface ornament must not change the guide's contours.\nThis is ALBEDO for texture projection, not a beauty render. Flat, evenly front-lit, shadowless base colours. No cast shadows, no ambient occlusion, no dark lighting gradients, no bright specular spots or reflections, no rim light, no directional illumination. Gold is a subdued ochre-gold base colour with only a faint sheen. Crystal/light areas are painted bright amber-orange, with restrained facet-colour changes and no bloom or glow outside their surfaces. No background, floor, text, letters, labels or watermark. Retain all guide geometry and margins exactly.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "f42308434bce219954ab15319b9b1ed91a669c8c146e5fdc83d1e3598cdfd2e6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-597099e0-341b-43c2-984a-d7adafa0c190.png",
+      "output": "paint_right.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          119,
+          1174,
+          941
+        ],
+        "opaque_bbox": [
+          83,
+          573,
+          1171,
+          681
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.915726,
+        "normalized_guide_coverage_alpha128": 0.993071,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Surface shading and gem highlights remain; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "8ca4093a0c8f255fd25615aa290206b10620dbdeef723c1e248d6b19f74ce88b",
+      "selected": true,
+      "reason": "Initial return preserves geometry substantially better (normalized silhouette IoU 0.916 versus 0.624); the corrective return changes layout, length and wrapping positions. Selected as the best available raw return, not as a strict brief-compliance pass.",
+      "raw_output": "paint_right_attempt1.png",
+      "brief_compliant": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, one right view only. Use case: precise-object-edit.\nImage 1 guide_right.png is the actual image to recolour. Image 2 design_reference.png provides only material colours. Make a precise colourization of image 1, NOT a new interpretation or render of the object. Keep image 1's silhouette, surface/part boundaries and camera completely unchanged. Output requested: 1024 x 1024 PNG with real transparency.\nKeep the RIGHT guide: horizontal rod with small pommel at LEFT, focus head at RIGHT. Guide occupied bounds x=66..957, y=468..555, width 87.109375%, maximum height only 8.59375% of the canvas. Keep the shaft's exact tiny thickness, all wraps, bulges, head openings and offsets; the previous return slightly expanded and reshaped parts. Restore the original guide contour. The orange focus follows the guide's original lance-like facet boundaries; no added centre-facing medallions.\nTreat the guide's existing alpha as an immutable stencil. Change RGB colour on its visible surfaces only, leaving alpha and every edge exactly alone. No new opaque or faint translucent pixels anywhere outside this stencil. No smoothing or embellishment that changes the low-poly model shape. Do not use the design reference's composition, geometry, perspective or illumination.\nColour assignment from reference: matte warm ivory ceramic on the existing armour pieces, muted ochre antique gold on their existing trim/collars, black-violet resin on structural exposed surfaces, rich amber-orange on existing crystal/light surfaces. Continue these materials plausibly onto unseen sides. Apply only fine restrained wear, grooves, seams and engraved lines inside the existing boundaries.\nCORRECT THE LIGHTING TO FLAT ALBEDO: uniform shadowless colour at every orientation. Ceramic has near-uniform ivory colour; gold has near-uniform muted gold colour with at most a faint sheen; resin is dark violet base colour with subtle line texture; orange crystal is flat bright orange with subtle facet hue variation. Remove all white gem highlight spots, shiny reflections, bright edge lighting, deep contact shadows, gradients caused by lighting, bloom and glow halos. Surface line detail must not create directional lighting. No floor, background, cast shadow, AO, text, letters, labels or watermark.\nPriority: exact guide silhouette and layout first; approved material colours second; restrained flat surface detail third.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "f42308434bce219954ab15319b9b1ed91a669c8c146e5fdc83d1e3598cdfd2e6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-f6bcf9dc-a79f-4a30-9938-e5dc63a8205a.png",
+      "output": "paint_right_attempt2.png",
+      "checks": {
+        "size": [
+          1261,
+          1247
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1194,
+          1092
+        ],
+        "opaque_bbox": [
+          78,
+          573,
+          1190,
+          685
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.624333,
+        "normalized_guide_coverage_alpha128": 0.790773,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Reduced gloss compared with first pass, but some surface shading remains; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "e53a47a15cbf0c9206e3d7531bee44df11540dd09d84ae9d4410498bc9a05cba",
+      "selected": false,
+      "reason": "Not selected. Initial return preserves geometry substantially better (normalized silhouette IoU 0.916 versus 0.624); the corrective return changes layout, length and wrapping positions.",
+      "brief_compliant": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE painted albedo texture-source PNG for hes_overseers_rod, view top.\nINPUT 1 guide_top.png is the EDIT TARGET. Its exact silhouette, alpha, camera, size, position, every part and every edge are fixed. INPUT 2 design_reference.png is ONLY the authority for colours, materials and surface decoration, not silhouette or layout.\nEDIT THE GUIDE IN PLACE. Requested output 1024 x 1024 RGBA, genuinely transparent background. Preserve the input alpha mask exactly, including transparent negative spaces. Paint only existing surfaces. Do not enlarge, move, rotate, crop, thicken, straighten or redesign any piece.\nThis is the DIRECTLY ABOVE orthographic view of the model: a long VERTICAL rod, large open clawed head at TOP and small pointed pommel at BOTTOM. Exact guide bounds x=422..601 and y=66..957. The shaft lies near x=512 and is very thin, with all wraps at the exact guide positions. Keep the detached-looking left ceramic blade exactly where the guide places it. The top centre lance-shaped focus is amber-orange crystal; enclosing upper blades are warm ivory ceramic with thin gold edging; the internal supporting arms and long thin shaft are black-violet twisted resin. The shield-shaped head plate and spaced spiral shaft wraps are ivory ceramic with restrained fine wear and brushed gold trim, following the guide's existing edges. Existing head and bottom pommel insets are amber-orange. Keep all open gaps in the head and between separate pieces transparent.\nPaint the approved design reference's warm white/ivory worn ceramic, brushed antique gold, dark black-violet resin with fine twisted engraved lines, and amber-orange light/crystal. Continue unseen surfaces plausibly using these same materials. No blue light for this orange-lit item. Fine seams, joins and small non-letter markings may be painted inside existing surfaces only. Surface ornament must not change the guide's contours.\nThis is ALBEDO for texture projection, not a beauty render. Flat, evenly front-lit, shadowless base colours. No cast shadows, no ambient occlusion, no dark lighting gradients, no bright specular spots or reflections, no rim light, no directional illumination. Gold is a subdued ochre-gold base colour with only a faint sheen. Crystal/light areas are painted bright amber-orange, with restrained facet-colour changes and no bloom or glow outside their surfaces. No background, floor, text, letters, labels or watermark. Retain all guide geometry and margins exactly.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "4968514a3f4a3dc85917874360cd1c41ea342adffb0da6b9760775967b385bc0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-37799851-1dd8-414f-bcbb-d7a014fe941c.png",
+      "output": "paint_top_attempt1.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          47,
+          1212,
+          1214
+        ],
+        "opaque_bbox": [
+          516,
+          80,
+          738,
+          1175
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.857869,
+        "normalized_guide_coverage_alpha128": 0.997967,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Surface shading and gem highlights remain; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "ecf769c00b03cd13370ca9217e04be5a6ed81877b4b092386252d444d0f828aa",
+      "selected": false,
+      "reason": "Not selected. Corrective return follows the thin shaft and wraps more closely (normalized silhouette IoU 0.915 versus 0.858) and reduces gloss.",
+      "brief_compliant": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, one top view only. Use case: precise-object-edit.\nImage 1 guide_top.png is the actual image to recolour. Image 2 design_reference.png provides only material colours. Make a precise colourization of image 1, NOT a new interpretation or render of the object. Keep image 1's silhouette, surface/part boundaries and camera completely unchanged. Output requested: 1024 x 1024 PNG with real transparency.\nKeep the TOP guide: vertical rod with head at TOP, pommel at BOTTOM. Guide occupied bounds x=422..601, y=66..957, width 17.578125%, height 87.109375% of the canvas. The previous return thickened the thin shaft, expanded wraps, and changed some head contours. Restore every guide edge and the exact narrow shaft width. Retain the left detached-looking blade and every transparent gap. Do not add a collar that changes the outline.\nTreat the guide's existing alpha as an immutable stencil. Change RGB colour on its visible surfaces only, leaving alpha and every edge exactly alone. No new opaque or faint translucent pixels anywhere outside this stencil. No smoothing or embellishment that changes the low-poly model shape. Do not use the design reference's composition, geometry, perspective or illumination.\nColour assignment from reference: matte warm ivory ceramic on the existing armour pieces, muted ochre antique gold on their existing trim/collars, black-violet resin on structural exposed surfaces, rich amber-orange on existing crystal/light surfaces. Continue these materials plausibly onto unseen sides. Apply only fine restrained wear, grooves, seams and engraved lines inside the existing boundaries.\nCORRECT THE LIGHTING TO FLAT ALBEDO: uniform shadowless colour at every orientation. Ceramic has near-uniform ivory colour; gold has near-uniform muted gold colour with at most a faint sheen; resin is dark violet base colour with subtle line texture; orange crystal is flat bright orange with subtle facet hue variation. Remove all white gem highlight spots, shiny reflections, bright edge lighting, deep contact shadows, gradients caused by lighting, bloom and glow halos. Surface line detail must not create directional lighting. No floor, background, cast shadow, AO, text, letters, labels or watermark.\nPriority: exact guide silhouette and layout first; approved material colours second; restrained flat surface detail third.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "4968514a3f4a3dc85917874360cd1c41ea342adffb0da6b9760775967b385bc0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ce624e28b485357ebff4cd0c045a9fca0462ae1c08b310247af10f6f3028db99"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-f00d-7851-afa7-51888d644131/exec-6de01dac-0ab7-4cd6-8f4d-d1641ac3058c.png",
+      "output": "paint_top.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          77,
+          1192,
+          1182
+        ],
+        "opaque_bbox": [
+          517,
+          80,
+          737,
+          1175
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_alpha128": 0.914582,
+        "normalized_guide_coverage_alpha128": 0.995318,
+        "no_text_or_letters": "visual check passed",
+        "materials": "Reference ivory, gold, black-violet and orange palette present.",
+        "flat_lighting": "Reduced gloss compared with first pass, but some surface shading remains; strict flat-albedo check does not pass.",
+        "strict_silhouette_pass": false,
+        "strict_flat_albedo_pass": false,
+        "transparent_background_note": "RGBA transparency is present, but faint nonzero-alpha pixels exist outside the intended silhouette. Raw alpha has not been cleaned.",
+        "silhouette_note": "Guide and output dimensions differ; even after normalized comparison the contour is not identical."
+      },
+      "sha256": "b9c08bb097297fb08ea37cfd6d71016676bbe6c4624fede076149645a9d880b1",
+      "selected": true,
+      "reason": "Corrective return follows the thin shaft and wraps more closely (normalized silhouette IoU 0.915 versus 0.858) and reduces gloss. Selected as the best available raw return, not as a strict brief-compliance pass.",
+      "raw_output": "paint_top_attempt2.png",
+      "brief_compliant": false
+    }
+  ],
+  "status": "Generation completed within the one-correction-per-view limit; best raw returns saved. Exact silhouettes and strict flat albedo were not achieved.",
+  "limitations": [
+    "Every selected return is 1254 x 1254 rather than 1024 x 1024, retained unresized as required.",
+    "Selected silhouettes are close but not identical to the guides, even when compared in normalized canvas coordinates.",
+    "Faint stray alpha pixels, some edge colour fringe and residual surface shading/highlights remain.",
+    "No additional regeneration beyond the allowed one corrective pass per view was performed."
+  ],
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ]
+}

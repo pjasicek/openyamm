@@ -1,0 +1,306 @@
+{
+ "version": 1,
+ "map_file": "hes_out3.odm",
+ "bmodels": [
+  {
+   "geometry_id": "hes_out3:garden_1",
+   "runtime_bmodel_index": 0,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/garden_1.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhdoordk",
+    "remaps": {
+     "hhdoordk": "hhdoordk",
+     "hhpostdk": "hhpostdk",
+     "hhprefrd": "hhprefrd",
+     "hhwalldk": "hhwalldk",
+     "hhwindk": "hhwindk",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:garden_2",
+   "runtime_bmodel_index": 1,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/garden_2.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhdoorpf",
+    "remaps": {
+     "hhdoorpf": "hhdoorpf",
+     "hhpost": "hhpost",
+     "hhprefrf": "hhprefrf",
+     "hhwallpf": "hhwallpf",
+     "hhwinpf": "hhwinpf",
+     "hoplate": "hoplate",
+     "hotarp": "hotarp"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:garden_3",
+   "runtime_bmodel_index": 2,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/garden_3.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhgrdoor",
+    "remaps": {
+     "hhgrdoor": "hhgrdoor",
+     "hhgreen": "hhgreen",
+     "hhgreenrf": "hhgreenrf",
+     "hhpost": "hhpost",
+     "hhprefab": "hhprefab",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:garden_4",
+   "runtime_bmodel_index": 3,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/garden_4.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhgrdoor",
+    "remaps": {
+     "hhgrdoor": "hhgrdoor",
+     "hhgreen": "hhgreen",
+     "hhgreenrf": "hhgreenrf",
+     "hhpost": "hhpost",
+     "hhprefdk": "hhprefdk",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:garden_5",
+   "runtime_bmodel_index": 4,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/garden_5.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhgrdoor",
+    "remaps": {
+     "hhgrdoor": "hhgrdoor",
+     "hhgreen": "hhgreen",
+     "hhgreenrf": "hhgreenrf",
+     "hhpost": "hhpost",
+     "hhprefab": "hhprefab",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:garden_wall",
+   "runtime_bmodel_index": 5,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/garden_wall.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhgatesg",
+    "remaps": {
+     "hhgatesg": "hhgatesg",
+     "hhpost": "hhpost",
+     "hhwallpf": "hhwallpf"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:agri_dome_0",
+   "runtime_bmodel_index": 6,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/agri_dome_0.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hodome",
+    "remaps": {
+     "hodome": "hodome",
+     "hogold": "hogold"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:agri_dome_1",
+   "runtime_bmodel_index": 7,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/agri_dome_1.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hodome",
+    "remaps": {
+     "hodome": "hodome",
+     "hogold": "hogold"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:agri_dome_2",
+   "runtime_bmodel_index": 8,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/agri_dome_2.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hodome",
+    "remaps": {
+     "hodome": "hodome",
+     "hogold": "hogold"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:survey_mast",
+   "runtime_bmodel_index": 9,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/survey_mast.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hogold",
+    "remaps": {
+     "hogold": "hogold",
+     "hoplate": "hoplate",
+     "hopylon": "hopylon"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:weather_station",
+   "runtime_bmodel_index": 10,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/weather_station.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhmoddr",
+    "remaps": {
+     "hhmoddr": "hhmoddr",
+     "hhmodrf": "hhmodrf",
+     "hhmodule": "hhmodule",
+     "hogold": "hogold",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:weather_mast",
+   "runtime_bmodel_index": 11,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/weather_mast.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hogold",
+    "remaps": {
+     "hogold": "hogold",
+     "hoplate": "hoplate",
+     "hopylon": "hopylon"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:gantry",
+   "runtime_bmodel_index": 12,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/gantry.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hscradle",
+    "remaps": {
+     "hscradle": "hscradle",
+     "hsdoor": "hsdoor",
+     "hsfloor": "hsfloor",
+     "hstrim": "hstrim"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:d09_mouth",
+   "runtime_bmodel_index": 13,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/d09_mouth.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hbdoor",
+    "remaps": {
+     "hbdoor": "hbdoor",
+     "hobhive": "hobhive"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:d05_door",
+   "runtime_bmodel_index": 14,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/d05_door.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hkblast",
+    "remaps": {
+     "hkblast": "hkblast",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out3:colliders",
+   "runtime_bmodel_index": 15,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/source/models/colliders.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hoplate",
+    "remaps": {
+     "hoplate": "hoplate"
+    }
+   }
+  }
+ ]
+}

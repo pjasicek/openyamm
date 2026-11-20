@@ -1,0 +1,28 @@
+diff --git a/src/renderer_gl.cpp b/src/renderer_gl.cpp
+--- a/src/renderer_gl.cpp
++++ b/src/renderer_gl.cpp
+@@ -7452,11 +7452,13 @@ namespace bgfx { namespace gl
+ 
+ 			if (isValid(query.m_handle) )
+ 			{
+-				int32_t result;
++				// glGetQueryObjectuiv is core in GL 1.5 and GLES 3.0; glGetQueryObjectiv is not in GLES 3.0 and
++				// resolves to null on drivers without EXT_disjoint_timer_query (Mali).
++				GLuint result;
+ 
+ 				if (!_wait)
+ 				{
+-					GL_CHECK(glGetQueryObjectiv(query.m_id, GL_QUERY_RESULT_AVAILABLE, &result) );
++					GL_CHECK(glGetQueryObjectuiv(query.m_id, GL_QUERY_RESULT_AVAILABLE, &result) );
+ 
+ 					if (!result)
+ 					{
+@@ -7464,7 +7466,7 @@ namespace bgfx { namespace gl
+ 					}
+ 				}
+ 
+-				GL_CHECK(glGetQueryObjectiv(query.m_id, GL_QUERY_RESULT, &result) );
++				GL_CHECK(glGetQueryObjectuiv(query.m_id, GL_QUERY_RESULT, &result) );
+ 				_render->m_occlusion[query.m_handle.idx] = int32_t(result);
+ 			}
+ 

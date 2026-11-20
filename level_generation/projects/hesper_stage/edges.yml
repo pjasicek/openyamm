@@ -1,0 +1,19 @@
+# Map-edge travel between the Hesper outdoor maps (design/kreegan_world/WORK_PACKAGES/README.md, Map edges). stage.py
+# writes each installed map's row of the stage copy of engine/data_tables/map_navigation.txt from these crossings:
+# walking off map a's `edge` asks to travel to map b's `arrival` [x, y] facing `facing` (degrees, 0 east,
+# counter-clockwise), and back the other way. A crossing is written only when both of its maps are installed; the
+# arrival's height is the destination's built ground there (its project's source/<map>.terrain.yml).
+crossings:
+  # Starport Reach east <-> the Scour west, the old mine road at y -2 592 (THE_SCOUR.md section 6).
+  - a: {map: hes_out1.odm, edge: east, arrival: [22406, -2592], facing: 180}
+    b: {map: hes_out2.odm, edge: west, arrival: [-22406, -2592], facing: 0}
+  # The Scour north <-> the Crown south, the Kreegan Road at x +2 880 (THE_SCOUR.md section 6, THE_CROWN.md).
+  - a: {map: hes_out2.odm, edge: north, arrival: [2880, 22406], facing: 270}
+    b: {map: hes_out4.odm, edge: south, arrival: [2880, -21800], facing: 90}
+  # The Brood Spires east <-> the Crown west, the west road at y +8 640 (THE_CROWN.md section 6).
+  - a: {map: hes_out3.odm, edge: east, arrival: [21800, 8640], facing: 180}
+    b: {map: hes_out4.odm, edge: west, arrival: [-21800, 8640], facing: 0}
+  # Spinefall Pass: Starport Reach north <-> the Brood Spires south, the old colony road at x +288 (BROOD_SPIRES.md
+  # section 6, STARPORT_REACH.md).
+  - a: {map: hes_out1.odm, edge: north, arrival: [288, 22540], facing: 270}
+    b: {map: hes_out3.odm, edge: south, arrival: [288, -22540], facing: 90}

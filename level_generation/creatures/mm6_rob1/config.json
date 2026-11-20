@@ -1,0 +1,23 @@
+{
+  "family": "rob1",
+  "title": "MM6 Robot",
+  "descriptor_ids": [
+    622,
+    623,
+    624
+  ],
+  "base_palette": 810,
+  "mask_kind": "blue",
+  "description": "MM6 hovering spherical robot: dark weathered gray steel upper and lower hemispheres with subtle etched swirling ornament, broad reflective silver/black middle shell panels with native pointed boundaries, narrow burgundy-red equatorial belt and small horizontal glowing yellow-white diamond eye at the front. Short stalk supports the small rectangular gray metal fitting on top. Preserve the native sphere shape, cap-panel boundaries, eye direction and attachment rotation. No limbs or added machinery.",
+  "regions": "Gray shell and top fitting, red belt, and yellow eye are three independent palette materials; preserve their positions and native dark metallic shading.",
+  "variant_names": {
+    "810": "MM6 Robot 1",
+    "811": "MM6 Robot 2",
+    "812": "MM6 Robot 3"
+  },
+  "material_mask_channels": 4,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py",
+  "standing_reference_frame": 0
+}

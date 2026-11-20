@@ -1,0 +1,463 @@
+{
+ "id": "20261031-1447-mm9-ruinedtemple-01",
+ "world": "mm9",
+ "maps": [
+  "ruinedtemple.blv",
+  "inventastorca.blv"
+ ],
+ "created": "2026-10-31T13:47:12+00:00",
+ "textures": [
+  "mm9/ruinmsuee0",
+  "mm9/ruinb0ut4a",
+  "mm9/darkbqh3qh",
+  "mm9/circhap80c",
+  "mm9/ruin4lpqlu",
+  "mm9/starm2xaif",
+  "mm9/ruinel61v9",
+  "mm9/ruininx0qa",
+  "mm9/stonr7b5za",
+  "mm9/ston9vynfd",
+  "mm9/dungehr3nn",
+  "mm9/dungtogq7v",
+  "mm9/nwrob199j1",
+  "mm9/stonnn9q6w",
+  "mm9/dung1towg5",
+  "mm9/stonkjnbjt",
+  "mm9/stonerdn3k",
+  "mm9/dungngu5yy",
+  "mm9/dung8ujjnp",
+  "mm9/dungb81u7w",
+  "mm9/dungwyz3v5",
+  "mm9/stonxnf7hy",
+  "mm9/dungrdishk",
+  "mm9/brow24rwro"
+ ],
+ "requests": {
+  "mm9/ruinmsuee0": {
+   "name": "ruinmsuee0",
+   "versions": [
+    1
+   ],
+   "material": "a square door slab of weathered pale grey stone carved with a raised plain cross shape, framed by dark weathered wooden boards on all four sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ruinb0ut4a": {
+   "name": "ruinb0ut4a",
+   "versions": [
+    1
+   ],
+   "material": "a window of four square panes of mottled yellow-green glass separated by a cross of bright turquoise glass strips, in a narrow dark frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/darkbqh3qh": {
+   "name": "darkbqh3qh",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered vertical wooden planks with deep black-brown grain and faint grey highlights, narrow dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/circhap80c": {
+   "name": "circhap80c",
+   "versions": [
+    1
+   ],
+   "material": "a pale weathered stone plaque with a carved eight-pointed star outline in low relief around a round red-orange and yellow enamel medallion in the centre, a thin raised border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ruin4lpqlu": {
+   "name": "ruin4lpqlu",
+   "versions": [
+    1
+   ],
+   "material": "thick twisted hemp ropes hanging side by side vertically, tan-brown fibres with darker twists",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/starm2xaif": {
+   "name": "starm2xaif",
+   "versions": [
+    1
+   ],
+   "material": "a pale weathered stone plaque with a carved eight-pointed star outline in low relief around a round grey stone knot medallion woven in a basket pattern, a thin raised border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ruinel61v9": {
+   "name": "ruinel61v9",
+   "versions": [
+    1
+   ],
+   "material": "a three-band strip: at the top a dark blue-grey and white stormy cloudy sky painting, in the middle a band of tarnished ochre-gold metal with fine streaks, at the bottom pale grey mottled stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ruininx0qa": {
+   "name": "ruininx0qa",
+   "versions": [
+    1
+   ],
+   "material": "a wooden ladder: two thick dark brown vertical side rails and one round horizontal rung between them, on black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonr7b5za": {
+   "name": "stonr7b5za",
+   "versions": [
+    1
+   ],
+   "material": "smooth beige-grey sandstone wall with soft mottled grain and faint darker stains, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ston9vynfd": {
+   "name": "ston9vynfd",
+   "versions": [
+    1
+   ],
+   "material": "smooth beige-grey sandstone wall with soft mottled grain and faint darker stains, matte, with a thin raised horizontal stone moulding line near the top",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stonr7b5za"
+     ],
+     "fraction": 0.705
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm9/stonr7b5za"
+    }
+   }
+  },
+  "mm9/dungehr3nn": {
+   "name": "dungehr3nn",
+   "versions": [
+    1
+   ],
+   "material": "smooth grey-beige stone ceiling with soft mottled grain, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungtogq7v": {
+   "name": "dungtogq7v",
+   "versions": [
+    1
+   ],
+   "material": "a floor of irregular beige-grey cut stones of various rectangular sizes with dark joints, worn surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/nwrob199j1": {
+   "name": "nwrob199j1",
+   "versions": [
+    1
+   ],
+   "material": "rough natural rock wall of grey and pale stone with patches of green-yellow lichen and moss, dark cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonnn9q6w": {
+   "name": "stonnn9q6w",
+   "versions": [
+    1
+   ],
+   "material": "rough beige-tan sandstone wall with uneven grainy texture and faint stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung1towg5": {
+   "name": "dung1towg5",
+   "versions": [
+    1
+   ],
+   "material": "dark woven sackcloth fabric with a coarse criss-cross weave in grey-green and brown threads",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonkjnbjt": {
+   "name": "stonkjnbjt",
+   "versions": [
+    1
+   ],
+   "material": "rough beige-tan sandstone wall with uneven grainy texture, and along the bottom a darker wet band with a strip of grey-blue water stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonerdn3k": {
+   "name": "stonerdn3k",
+   "versions": [
+    1
+   ],
+   "material": "a woven texture of interlaced dark brown wooden slats in a basket weave pattern, shadowed gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungngu5yy": {
+   "name": "dungngu5yy",
+   "versions": [
+    1
+   ],
+   "material": "a carved pale grey stone column capital with a symmetrical acanthus leaf ornament curling out around a central face-like boss, deep shadowed recesses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung8ujjnp": {
+   "name": "dung8ujjnp",
+   "versions": [
+    1
+   ],
+   "material": "warm brown vertical wood grain with flowing swirling figure and knots, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungb81u7w": {
+   "name": "dungb81u7w",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale beige-grey fluted stone column surface with fine evenly spaced vertical flutes and soft mottled stains, a thin horizontal line near the top",
+   "notes": {
+    "2": "continuous vertical flutes from top to bottom with no horizontal line or groove anywhere; keep only soft tonal variation"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/dungwyz3v5": {
+   "name": "dungwyz3v5",
+   "versions": [
+    1
+   ],
+   "material": "an illuminated medieval wall hanging in four panels on parchment-coloured cloth: robed figures, a man with a staff, a hanging inverted figure and a red sun with plants, in muted green, blue, red and gold, a dark green woven border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonxnf7hy": {
+   "name": "stonxnf7hy",
+   "versions": [
+    1
+   ],
+   "material": "a beige sandstone wall with a crenellated parapet shape along the top: a row of rounded merlons and arches carved in low relief above plain stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungrdishk": {
+   "name": "dungrdishk",
+   "versions": [
+    1
+   ],
+   "material": "soft pale turquoise-green woven fabric with fine linen texture and gentle mottled stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/brow24rwro": {
+   "name": "brow24rwro",
+   "versions": [
+    1
+   ],
+   "material": "dark brown horizontal wooden boards with straight grain and narrow dark gaps between them, worn matte surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

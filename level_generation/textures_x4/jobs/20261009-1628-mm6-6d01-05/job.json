@@ -1,0 +1,627 @@
+{
+ "id": "20261009-1628-mm6-6d01-05",
+ "world": "mm6",
+ "maps": [
+  "6d01.blv"
+ ],
+ "created": "2026-10-09T14:28:25+00:00",
+ "textures": [
+  "mm6/t3wbll",
+  "mm6/t3wpg",
+  "mm6/d6wlare",
+  "mm6/t3mgc",
+  "mm6/t3wbltbr",
+  "mm6/t3wblr",
+  "mm6/t3wpf",
+  "mm6/d6wlasp1",
+  "mm6/bdksh32c",
+  "mm6/orert64",
+  "mm6/orert64b",
+  "mm6/cbfbm16c",
+  "mm6/d6dora",
+  "mm6/d6dord",
+  "mm6/orwtr32",
+  "mm6/swcirc1",
+  "mm6/swfloor5a",
+  "mm6/swfloor6a",
+  "mm6/swhorza",
+  "mm6/swhorzdc",
+  "mm6/swhz2",
+  "mm6/swhz2dk",
+  "mm6/swhz3dk",
+  "mm6/swhz4"
+ ],
+ "requests": {
+  "mm6/t3wbll": {
+   "name": "t3wbll",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-mauve weathered stone block wall with dark mortar, with a column of rust-red carved stone blocks along the left edge",
+   "notes": {
+    "2": "Clean continuous dark mortar joints: no dashed, dotted or stitched marks along the joints. Grey stone blocks as in the reference.",
+    "3": "Clean continuous dark mortar joints: no dashed, dotted or stitched marks along the joints. Grey stone blocks as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbltl",
+      "mm6/t3wsp",
+      "mm6/t3wbst",
+      "mm6/t3wbstl",
+      "mm6/t3wsbp",
+      "mm6/t3wbstbl",
+      "mm6/t3wbsr",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.515
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbltl",
+      "mm6/t3wsp",
+      "mm6/t3wbst",
+      "mm6/t3wbstl",
+      "mm6/t3wsbp",
+      "mm6/t3wbstbl",
+      "mm6/t3wbsr",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.515
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wbltl",
+      "mm6/t3wsp",
+      "mm6/t3wbst",
+      "mm6/t3wbstl",
+      "mm6/t3wsbp",
+      "mm6/t3wbstbl",
+      "mm6/t3wbsr",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.513
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/t3wpg": {
+   "name": "t3wpg",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-mauve weathered stone block wall with dark mortar and an arched niche holding a grey stone gargoyle statue; copy the composition exactly",
+   "notes": {
+    "2": "At the left edge, copy the reference exactly: wherever the reference's leftmost pixels are black mortar the leftmost columns are solid black mortar, and stone faces start only after it; no pale stone touching the left edge in those courses."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wbsr"
+     ],
+     "fraction": 0.505
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wspp",
+      "mm6/t3wpf",
+      "mm6/t3wbsr",
+      "mm6/t3wsptl",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.493
+    }
+   },
+   "ref_blur": {
+    "2": 0.6
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t3wcr",
+     "right": "mm6/t3wcr"
+    }
+   }
+  },
+  "mm6/d6wlare": {
+   "name": "d6wlare",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough earthen cave wall with mossy streaks, a vertical dark wooden beam with green moss along the right side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wlactr"
+     ],
+     "fraction": 0.628
+    }
+   }
+  },
+  "mm6/t3mgc": {
+   "name": "t3mgc",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-mauve weathered stone block wall with dark mortar and green moss, a stone gargoyle bracket holding a lit red candle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wspp",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.532
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wspp",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.532
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/t3wbltbr": {
+   "name": "t3wbltbr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-mauve weathered stone block wall with dark mortar, framed by rust-red carved stone blocks along the top, left, bottom and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbltr"
+     ],
+     "fraction": 0.419
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbltr"
+     ],
+     "fraction": 0.419
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t3wbltbl"
+    }
+   }
+  },
+  "mm6/t3wblr": {
+   "name": "t3wblr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey-mauve weathered stone block wall with dark mortar, with a column of rust-red carved stone blocks along the right edge",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior.",
+    "4": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbltr",
+      "mm6/t3wbltbr"
+     ],
+     "fraction": 0.391
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbltr",
+      "mm6/t3wbltbr"
+     ],
+     "fraction": 0.391
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wbltr",
+      "mm6/t3wbltbr"
+     ],
+     "fraction": 0.391
+    },
+    "4": {
+     "sources": [
+      "mm6/t3wbltr",
+      "mm6/t3wbltbr"
+     ],
+     "fraction": 0.391
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {
+     "left": "mm6/t3wsbp"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t3wpf": {
+   "name": "t3wpf",
+   "versions": [
+    1
+   ],
+   "material": "grey-mauve weathered stone block wall with dark mortar and a carved grey stone horned demon face mask relief in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wsbp"
+     ],
+     "fraction": 0.451
+    }
+   }
+  },
+  "mm6/d6wlasp1": {
+   "name": "d6wlasp1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough earthen cave wall with a rusty iron barred grate window overgrown with green vines; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wlactr"
+     ],
+     "fraction": 0.465
+    }
+   }
+  },
+  "mm6/bdksh32c": {
+   "name": "bdksh32c",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown polished wooden plank with fine grain running horizontally",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemdk2",
+      "mm6/bdksh32a"
+     ],
+     "fraction": 0.93
+    }
+   }
+  },
+  "mm6/orert64": {
+   "name": "orert64",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough orange-brown sandy earth with darker brown mottling and small pits",
+   "notes": {
+    "2": "Keep the crisp flaky, crumbly rock pattern of the reference with distinct light and dark flakes; not soft pillowy blotches. Tile seamlessly on all four edges.",
+    "3": "Natural rough ore-bearing rock with irregular grain: no mosaic of cells, no grid. Keep the thin dark bevelled border on all four sides exactly as in the reference, same width top and bottom."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "3": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orert64b": {
+   "name": "orert64b",
+   "versions": [
+    1
+   ],
+   "material": "rough orange-brown sandy earth with darker brown mottling, with a dark brown squared arch-shaped inset in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbfbm16c": {
+   "name": "cbfbm16c",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow orange-brown wooden strip with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6dora": {
+   "name": "d6dora",
+   "versions": [
+    1
+   ],
+   "material": "tall dark teal-blue weathered stone slab door streaked with dripping green-brown slime, with a small dark iron keyhole plate on the left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6dord": {
+   "name": "d6dord",
+   "versions": [
+    1
+   ],
+   "material": "tall dark brown rotting wooden door with a raised frame and dark recessed panel, mossy and stained; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orwtr32": {
+   "name": "orwtr32",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "bright cyan-teal rippling water with lighter speckled highlights",
+   "notes": {
+    "2": "Seamless water surface across all four edges: no frame, no darker border, no edge shading."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swcirc1": {
+   "name": "swcirc1",
+   "versions": [
+    1
+   ],
+   "material": "pale pinkish-beige smooth stone tile with a bevelled square border and a large raised circular disc in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swfloor5a": {
+   "name": "swfloor5a",
+   "versions": [
+    1
+   ],
+   "material": "red glazed floor tile with dark teal metal lattice of diagonal and concentric square bars, teal frame border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swfloor6a": {
+   "name": "swfloor6a",
+   "versions": [
+    1
+   ],
+   "material": "red glazed floor tile with a fine dark grid, a teal-green diamond medallion in the centre and a teal metal frame border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhorza": {
+   "name": "swhorza",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey stone strip with dark vertical dividers and a central teal glowing round lamp inside a dark arched frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhorzdc": {
+   "name": "swhorzdc",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small dark green stone tile with a bright teal-blue outlined border, dark corners, and a raised green square boss with four side notches",
+   "notes": {
+    "2": "Copy the composition exactly: thin blue frame lines and diagonal corner lines as in the reference; frame edges must join seamlessly when tiled left-to-right, not doubled.",
+    "3": "Copy the frame exactly: thin blue frame line flush just inside all four edges, no extra dark band along the right or bottom edge; keep the thin blue diagonal lines in each corner and the green cross shape as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhz2": {
+   "name": "swhz2",
+   "versions": [
+    1
+   ],
+   "material": "small red-brown mottled stone tile with dark border, a dark circle outline and two diagonal parallel grooves crossing it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhz2dk": {
+   "name": "swhz2dk",
+   "versions": [
+    1
+   ],
+   "material": "small dark red-brown mottled stone tile with dark border, a dark circle outline and two diagonal parallel grooves crossing it, darker shading",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhz3dk": {
+   "name": "swhz3dk",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "small dark green mottled stone tile with dark bevelled border and a raised round green dome in the centre",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge. Keep a flat carved circle as in the reference, not a bulging dome.",
+    "3": "No dark outline or shadow along the top edge; the bevelled frame is equally lit on all sides as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     15
+    ]
+   }
+  },
+  "mm6/swhz4": {
+   "name": "swhz4",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "small dark green stone tile with a teal-blue outlined border, dark corners, and a raised green square boss with four side notches",
+   "notes": {
+    "2": "Copy the composition exactly: keep the crisp lighter inner square in the centre as in the reference; no soft glow or baked lighting.",
+    "3": "Copy the frame exactly: thin blue frame line just inside all four edges with equal width (also along the top), thin blue diagonal lines in the four corners; no thick bevel and no dark band at the bottom.",
+    "4": "Copy the frame exactly: thin blue frame line just inside all four edges with equal width (also along the top), thin blue diagonal lines in the four corners; no thick bevel and no dark band at the bottom."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "4": [
+     16,
+     16
+    ]
+   },
+   "context": {
+    "4": {
+     "bottom": "mm6/swhorzad",
+     "left": "mm6/t1trimb",
+     "right": "mm6/t1trimb"
+    }
+   }
+  }
+ }
+}

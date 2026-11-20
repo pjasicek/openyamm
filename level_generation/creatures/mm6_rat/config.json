@@ -1,0 +1,21 @@
+{
+  "family": "rat",
+  "title": "MM6 Rat",
+  "descriptor_ids": [
+    619,
+    620,
+    621
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 808,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original MM6 giant rat B: low crouching hunched quadruped rodent with a heavy rounded back, pointed long rat muzzle, small rounded ears, native amber eyes with pale grey-cyan rims, prominent two ivory incisors, dark charcoal-grey nearly black rough fur with subtle cool olive-grey highlights. Native black neck collar with small silver conical spikes. Native long narrow naked segmented tail, small dark scaly paws and fine claws. Preserve the native squat animal proportions, skull/muzzle shape, tail curve and length, footprint, fur tonal mass and tiny eye size. Faithful old pre-rendered fantasy game animal, not a realistic photograph, cartoon mouse, upright humanoid or redesigned monster. Keep exactly the native collar spikes, no new teeth, clothing, equipment or scenery.",
+  "regions": "RGBA masks: R native fur and bare skin/tail, G amber eye iris. Teeth, bright collar spikes and eye rims protected; B/A unused.",
+  "variant_names": {
+    "807": "Rat A / grey-purple",
+    "808": "Rat B / dark olive-grey",
+    "809": "Rat C / dark reddish-brown"
+  },
+  "material_module": "materials.py"
+}

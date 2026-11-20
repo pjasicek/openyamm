@@ -1,0 +1,22 @@
+id: mm8.unicorn_king
+title: "Murmurwoods: the Unicorn King walks only on June 24 from 9 to 17 o'clock"
+world: mm8
+mode: faithful
+tags: [mm8, actors, events, regression]
+steps:
+  - note:
+      text: >-
+        The original executable hardcodes it (MM8-Rel.exe 0x48059e, 0x47b4f1); out07_mmmerge.lua shows actor 0 in that
+        window and hides it again after (Discord report, 2026-11-01).
+  - new_game_flow: {start_map: out07.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 0, hidden: true}
+  - advance_game_time: {minutes: 234780}  # 163 days and an hour: June 24, about 10 o'clock
+  - advance_runtime: {seconds: 5}
+  - assert:
+      actor_visible: {actor_index: 0, hidden: false}
+  - advance_game_time: {hours: 9}
+  - advance_runtime: {seconds: 5}
+  - assert:
+      actor_visible: {actor_index: 0, hidden: true}

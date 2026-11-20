@@ -1,0 +1,108 @@
+# draft extracted from MAW ef23ee17
+# Mastery requirements, teacher prices and automatic masteries of the MAW ruleset (../TRAINERS_SKILLS.md §2, §4).
+# Paths are relative to /home/pjasicek/github/Maw-Mod-MMMerge. Shorthand:
+#   S = Scripts/General/zzMAW-Skills.lua   R = Scripts/Global/zzMAWRespec.lua
+#   X = Scripts/General/MenuExtraSettings.lua
+# Mastery arrays are [expert, master, grandmaster] unless noted.
+
+version: 0
+
+# Game mode flags set once at party creation (X:237-290). Difficulty (Easy..Nightmare, Game.BolsterAmount) does
+# NOT change requirements or prices; the progression toggle (Game.freeProgression) changes requirements only.
+modes:
+  normal:    {vars_Mode: 0}
+  doom:      {vars_Mode: 2}
+  insanity:  {vars_Mode: 2, insanityMode: true}                      # "Road to Insanity" (menu value 4)
+  madness:   {vars_Mode: 2, insanityMode: true, madnessMode: true}   # "Beyond Madness" (menu 6), horizontal
+  austerity: {vars_Mode: 8, AusterityMode: true}
+
+# Skills whose teacher requirement and price MAW rewrites (S:219). Skill ids are MMMerge ids.
+horizontal_skills: [Staff, Sword, Dagger, Axe, Spear, Bow, Mace, Blaster, Shield, LeatherArmor, ChainArmor,
+                    PlateArmor, FireMagic, AirMagic, WaterMagic, EarthMagic, SpiritMagic, MindMagic, BodyMagic,
+                    LightMagic, DarkMagic, DarkElfAbility, VampireAbility, DragonAbility, Bodybuilding, Meditation,
+                    Regeneration, Dodging, Unarmed, Armsmaster, Learning]
+non_horizontal_skills: [IdentifyItem, Merchant, RepairItem, Perception, DisarmTraps, IdentifyMonster, Stealing,
+                        Alchemy]
+# OpenYAMM only: Throwing has no MAW counterpart; treat it as a horizontal weapon if it stays enabled.
+
+skill_level_required:
+  rule: >-
+    GetLearningRequirements (S:215-233), first match wins: madness, insanity, (vars.Mode == 2 or not
+    Game.freeProgression), otherwise normal. Non-horizontal skills always use the normal row.
+  normal:     [4, 7, 10]     # free progression; Normal or Austerity mode
+  horizontal: [6, 12, 20]    # free progression off, or Doom in either progression
+  insanity:   [8, 16, 25]
+  madness:    [10, 24, 40]
+  checked_against: base skill level without item bonuses (S:1958)
+  retained_vanilla_checks: >-
+    MAW only tightens the engine's verdict (CanTeachSkillMastery returns early unless t.Allow, S:1953): the class
+    cap, "must know the skill", previous mastery, vanilla level 4/7/10 or the topic's Req. Skill, the 50-point stat
+    requirements (Master Merchant: Personality, Master Bodybuilding: Endurance, Master Learning: Intellect) and the
+    Dodging/Unarmed GM cross requirement (other skill >= 10) still apply, as OpenYAMM models them today
+    (game/gameplay/MasteryTeacherDialog.cpp:343-446). The engine's gold check uses the vanilla
+    price, so a party that can afford MAW's lower price but not the vanilla one is refused.
+
+teacher_gold:
+  rule: >-
+    getReqAndCost (S:1841-1874): first match wins: madness, insanity, vars.Mode == 2 (Doom), otherwise normal.
+    The progression toggle does not change prices. Non-horizontal skills keep vanilla prices.
+  base:
+    normal:   [1000, 4000, 20000]
+    doom:     [2000, 10000, 50000]
+    insanity: [10000, 50000, 250000]
+    madness:  [15000, 300000, 1250000]
+  escalation: >-
+    cost = base x (1 + N), N = number of horizontal skills of the active character with base level > 0 and mastery
+    >= the taught mastery, plus the number of horizontal skills whose respec-remembered mastery (1..4, Novice = 1)
+    minus 1 exceeds the taught mastery (2..4) (S:1866-1871). The second term is off by one: a remembered mastery
+    only counts when it is two ranks above the taught one. Proposed fix: count max(current, remembered) >= taught.
+  examples_normal_mode:
+    - "first Expert: 1000; with 3 other Expert-or-better horizontal skills: 4000"
+    - "Grandmaster Sword while already GM in Plate and Shield: 20000 x 3 = 60000"
+
+dialogue:
+  topic_text: >-
+    AfterPopulateNPCDialog "TeachSkill" (S:1886-1949): in the teacher's text every number >= 100 becomes the MAW
+    price; the first number equal to the vanilla requirement (else the first number <= 12) becomes the MAW
+    requirement. Without both, "\n\nYou need at least <req> skill and <cost> gold." is appended. Rewritten again
+    when the selected character changes (action 110).
+  offer_line: "CanTeachSkillMastery replaces every number in the engine's offer text with the MAW price (S:1971)"
+  refusal_texts: {requirements: "NPCText 128", gold: "NPCText 125"}
+  npc_text_128: "You don't meet the requirements, and cannot be taught until you do."   # S:2303-2305
+
+automatic_masteries:
+  respec_memory:
+    store: "vars.oldPlayerMasteries[playerIndex][skill] = max mastery ever held, written at respec (R:127-137)"
+    restore: >-
+      On each "+" click (base skills < 40): if remembered mastery > current and (s + 1) >= requirement of the next
+      rank (current mode), the next rank is granted; one rank per click (S:264-298).
+  progression_switch:
+    on_free_to_horizontal: >-
+      Skills 0-23 only: while s < requirement of the current mastery, lower the mastery by one and remember the
+      highest in vars.storedMasteries (S:1976-1997). Bodybuilding, Meditation, Regeneration, Dodging, Unarmed,
+      Armsmaster and Learning keep their masteries.
+    on_horizontal_to_free: restores every stored mastery at once and clears the store (S:1998-2010)
+    on_click: stored masteries also return one rank at a time on "+" clicks, like respec memory (S:284-291)
+  extended_skill_ladders:      # skillMasteryLadder S:176-181, applied by autoLearnMastery S:322-335
+    rule: >-
+      On the "+" click: if s >= ladder[m] (or the click will reach it and points suffice) and the class/race limit
+      allows a higher mastery, mastery += 1. No teacher.
+    Cover:         {normal: [6, 12, 20], insanity: [8, 20, 30]}
+    ManaShield:    {normal: [6, 12, 20], insanity: [8, 20, 32]}
+    Enlightenment: {normal: [6, 12, 20]}
+    Retaliation:   {normal: [10, 24, 40]}
+  armsmaster_supreme:
+    classes: "class ids 16-19 (Knight, Cavalier, Black Knight, Champion) at Armsmaster GM"
+    base_skill_required: {normal: 30, insanity: 50, madness: 70}   # S:2587-2595
+  solo_utility:
+    skills: [IdentifyItem, Merchant, RepairItem, Perception, DisarmTraps, IdentifyMonster, Alchemy]
+    thresholds: [1, 4, 7, 10]  # novice, expert, master, grandmaster; reverted when the party grows (S:2126-2168)
+  austerity_respec: "Austerity: paying for a respec sets IdentifyMonster to level 0 GM for every member (R:51-55)"
+
+class_and_race_limits:
+  class_table: "Data/Tables/Class Skillz.txt (authoritative; overwrites Class Skills.txt rows 0-38 in the engine)"
+  race_table: "Data/Tables/Race Skillz.txt (Race Skills.txt is not read: Scripts/Structs/RacialSkills.lua is empty)"
+  combine: >-
+    limit = base class letter; then race token: +/- shift, clamp to max (lower-case letter or 0), clamp to min
+    (upper-case letter) (Modules/MawCore/Skills.lua:217-247, 336-347). A shift also applies to a class value of 0.
+  letters: {B: 1, N: 1, E: 2, M: 3, G: 4, S: 5, U: 6, A: 7, D: 8, "=": 0, "-": 0}

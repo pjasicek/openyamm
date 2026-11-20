@@ -1,0 +1,327 @@
+# Playtest of Joe's Warehouse (XD-01, L4, third pass: the bigger rooms and the user's walk): a level-2 party with no
+# Perception comes to the barred street doors (the notice board and the shutter open message windows, the doors stay
+# barred), gets the warehouse key as X1's rain barrel would give it and goes in; the office (bucket, the cabinet with
+# the pen key, the ledger and the desk's bills in message windows), the hall, up the open stair to the loft, down and up the
+# loft ladder, the house rules and KEEP OUT (message windows), the cellar stair, the pens seen shut behind their bars with their
+# occupants inside, pen 6 lifted by a click on its bars, FEEDING TIME lifting the other five and lighting the red lamp,
+# the stash behind its secret door, Mr and Mrs Wobbles (their split on death, the bonus bit only when the splits are
+# dead too, the heart candle going out), their nest searched, the invoice crate, the culvert with its drain shaft (the rats' nest and the
+# lost ring), the grate, and out to the riverbank. Perception's way through the street doors is
+# playtest_perception.yml (the MM7 world's new-game party, whose best Perception is 3).
+# Event, door and light numbers are ids.lock.yml's (a pulsing light's key is 40000 + its number there; a light
+# record's key is its index among the map's light records: the heart candle is the first). Nothing depends on what a
+# chest rolls: only Joe's cabinet (the pen key and one random item) and the invoice crate (no random items) are looted.
+# Wandering spawns are cleared on every walk; the placed monsters are met and killed by the walk itself.
+# clear_hostiles kills through walls, so the walks near the pens and the pair keep their radius small (the occupants
+# must still be in their pens when the party looks in). Map variables are checked by state_dump_map_var: play_lua's
+# mapvar() read 0 for variables the handlers had set. Signs open a message window (the `message` effect): the walk
+# asserts its text and closes it.
+id: xeen.xd01.l4.walk
+title: Joe's Warehouse (XD-01 L4), dock to riverbank, the key's way in
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd01.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 2, skills: [], equipment: {}}
+          - {name: Oswin, class: Cleric, level: 2, skills: [], equipment: {}}
+          - {name: Brann, class: Archer, level: 2, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 2, skills: [], equipment: {}}
+  - assert: {map: xeen_xd01.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 768, y: -900, radius: 64, z_min: 120, z_max: 136}}
+  # The street doors without Perception and without the key: the notice board reads, the shutter is only nailed
+  # fast, and the doors stay barred with their locked text.
+  - play_lua:
+      source: |
+        if door_state(16) ~= "closed" or door_state(17) ~= "closed" then error("the street doors do not start shut") end
+        click(15); wait(1)
+  - assert:
+      dialog: {text_contains: "Money not back"}
+  - play_lua:
+      source: |
+        if not close() then error("the notice board opened no message window") end
+        click(27); wait(1)
+  # The shutter gives its Perception answer only to a party with it.
+  - assert:
+      dialog: {text_contains: "nailed fast"}
+  - play_lua:
+      source: |
+        if not close() then error("the shutter opened no message window") end
+        status()
+        click(31); wait(2)
+        local seen = status()
+        if not string.find(seen, "barred from inside", 1, true) then error("the barred doors did not say so: " .. seen) end
+        if door_state(16) ~= "closed" or door_state(17) ~= "closed" then error("the street doors opened without the key or Perception") end
+  # The warehouse key (from under X1's rain barrel) opens them for good.
+  - grant_item: {item_id: 2176}
+  - play_lua:
+      source: |
+        click(31); wait(3)
+        if door_state(16) ~= "open" or door_state(17) ~= "open" then error("the warehouse key did not open the street doors: " .. door_state(16) .. " " .. door_state(17)) end
+  - walk_to: {x: 768, y: -300, z: 64, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 768, y: 400, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: 768, y: 400, radius: 160, z_min: -8, z_max: 8}}
+  # Joe's office: up the two steps, the door, the slime bucket, the cabinet with the pen key, the ledger, the desk.
+  - walk_to: {x: 0, y: 344, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(6) ~= "closed" then error("the office door does not start shut") end
+        click(16); wait(3)
+        if door_state(6) ~= "open" then error("the office door did not open: " .. door_state(6)) end
+        status()
+  - walk_to: {x: -300, y: 400, z: 64, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: -300, y: 400, radius: 96, z_min: 56, z_max: 72}}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  - walk_to: {x: -300, y: 1000, z: 64, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        loot_chest(32)
+        if not has_item(2110) then error("Joe's cabinet did not give the pen key") end
+        click(13); wait(1)
+  - assert:
+      dialog: {text_contains: "behind the Chow"}
+  - play_lua:
+      source: |
+        if not close() then error("the ledger opened no message window") end
+        click(4); wait(1)
+  - assert:
+      dialog: {text_contains: "SUPPLIERS"}
+  - play_lua:
+      source: |
+        if not close() then error("Joe's desk opened no message window") end
+  # The bucket's step event ran once (its once variable is 1); a second step does not run it again.
+  - walk_to: {x: 0, y: 344, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: -300, y: 400, z: 64, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  - walk_to: {x: 0, y: 344, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  # The barn doors into the grain hall; across the sagging floor and its gutter to the foot of the open stair.
+  - walk_to: {x: 896, y: 1150, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(1) ~= "closed" then error("the barn doors do not start shut") end
+        click(1); wait(3)
+        if door_state(1) ~= "open" or door_state(2) ~= "open" then error("the barn doors did not part: " .. door_state(1) .. " " .. door_state(2)) end
+  - walk_to: {x: 896, y: 1560, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 700, y: 1946, z: -24, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 700, y: 1946, radius: 96, z_min: -30, z_max: -16}}
+  - walk_to: {x: 1200, y: 2076, z: 0, radius: 48, timeout_seconds: 60, clear_hostiles: 1500}
+  # Up the open stair to the loft, west along it to the broken rail, down the ladder and up it again.
+  - walk_to: {x: 1200, y: 2586, z: 256, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: 1200, y: 2586, radius: 96, z_min: 248, z_max: 264}}
+  - walk_to: {x: 500, y: 2676, z: 256, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - climb: {ladder: loft, down: true, timeout_seconds: 30}
+  - assert: {party_position: {x: 128, y: 2436, radius: 120, z_min: -8, z_max: 8}}
+  - climb: {ladder: loft, timeout_seconds: 30}
+  - assert: {party_position: {x: 128, y: 2586, radius: 100, z_min: 248, z_max: 264}}
+  - walk_to: {x: 1200, y: 2586, z: 256, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 1200, y: 2056, z: 0, radius: 32, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 1000, y: 2086, z: 0, radius: 48, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 1000, y: 2086, radius: 96, z_min: -8, z_max: 8}}
+  # The aisle: Joe's house rules, and the KEEP OUT door, which the pen key opens.
+  - walk_to: {x: 2144, y: 2000, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 2368, y: 3200, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(36); wait(1)
+  - assert:
+      dialog: {text_contains: "See rule 1"}
+  - play_lua:
+      source: |
+        if not close() then error("the house rules opened no message window") end
+        click(11); wait(1)
+  - assert:
+      dialog: {text_contains: "THIS MEANS YOU, GUNTHER"}
+  - play_lua:
+      source: |
+        if not close() then error("the KEEP OUT sign opened no message window") end
+        if door_state(5) ~= "closed" then error("the KEEP OUT door does not start shut") end
+        click(10); wait(3)
+        if door_state(5) ~= "open" then error("the pen key did not open the KEEP OUT door: " .. door_state(5)) end
+  # Down the cellar stair: upper flight, landing, lower flight, into the cistern.
+  - walk_to: {x: 2368, y: 3612, z: -96, radius: 64, timeout_seconds: 60, clear_hostiles: 300}
+  - walk_to: {x: 2368, y: 4032, z: -192, radius: 32, timeout_seconds: 60, clear_hostiles: 300}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 2368, y: 4032, radius: 96, z_min: -200, z_max: -184}}
+  - walk_to: {x: 2368, y: 4512, z: -360, radius: 64, timeout_seconds: 60, clear_hostiles: 120}
+  - walk_to: {x: 2368, y: 4912, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 120}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 2368, y: 4912, radius: 96, z_min: -392, z_max: -376}}
+  # Before the lever: all six pens are barred, their occupants are inside (pens 2 and 5 hold two), and
+  # a few seconds later the bars still hold them: all eight pen rats are alive in the cistern's reach, at least one in
+# each pen.
+  - play_lua:
+      source: |
+        for door = 18, 23 do
+          if door_state(door) ~= "closed" then error("pen bars " .. door .. " do not start down") end
+        end
+        wait(3)
+  - assert: {actor_count: {monster_id: 385, near: [2368, 5472, 1100], min: 8, max: 8}}
+  - assert: {actor_count: {monster_id: 385, near: [1644, 6196, 230], min: 1}}
+  - assert: {actor_count: {monster_id: 385, near: [1422, 5864, 230], min: 1}}
+  - assert: {actor_count: {monster_id: 385, near: [1422, 5080, 230], min: 1}}
+  - assert: {actor_count: {monster_id: 385, near: [1644, 4748, 230], min: 1}}
+  - assert: {actor_count: {monster_id: 385, near: [1976, 4526, 230], min: 1}}
+  - assert: {actor_count: {monster_id: 385, near: [3092, 4748, 230], min: 1}}
+  # Pen 6, beside the stair: its bars lift on a click on them; the other five stay down.
+  - play_lua:
+      source: |
+        click(23); wait(4)
+        if door_state(23) ~= "open" then error("pen 6's bars did not lift on their click: " .. door_state(23)) end
+        for door = 18, 22 do
+          if door_state(door) ~= "closed" then error("pen bars " .. door .. " lifted with pen 6") end
+        end
+        clear_hostiles(450)
+  # FEEDING TIME (a lever now, the shipped maps' kind) lifts the other five at once and lights the red lamp; the
+  # lever works once.
+  - walk_to: {x: 2656, y: 6032, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 450}
+  - assert: {state_dump_map_var: {index: 1, value: 0}}
+  - play_lua:
+      source: |
+        status()
+        click(6); wait(4)
+        local seen = status()
+        if not string.find(seen, "FEEDING TIME", 1, true) then error("the lever did not shout: " .. seen) end
+        for door = 18, 23 do
+          if door_state(door) ~= "open" then error("FEEDING TIME did not lift pen bars " .. door .. ": " .. door_state(door)) end
+        end
+        click(6); wait(1)
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - assert: {light: {key: 40001, "on": true}}
+  - walk_to: {x: 1496, y: 5112, z: -384, radius: 96, timeout_seconds: 60, clear_hostiles: 450}
+  - walk_to: {x: 1856, y: 5472, z: -384, radius: 96, timeout_seconds: 60, clear_hostiles: 450}
+  # Six sweeps: a rat still on its way out of a pen survived a single one (one run in 24, 2026-11-13) and four
+  # survived three (one run in 4, 2026-11-14: rats leave the pens over several seconds).
+  - play_lua: {source: "for sweep = 1, 6 do clear_hostiles(1000); wait(2) end"}
+  - assert: {actor_count: {monster_id: 385, near: [1756, 5312, 1000], max: 0}}
+  # The feed store and the stash behind the secret door (the ledger's clue); its chest stays shut.
+  - walk_to: {x: 956, y: 5472, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 450}
+  - walk_to: {x: 900, y: 4900, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 450}
+  - play_lua:
+      source: |
+        if door_state(15) ~= "closed" then error("the stash door does not start shut") end
+        click(30); wait(5)
+        if door_state(15) ~= "open" then error("the sacks did not slide aside: " .. door_state(15)) end
+  - walk_to: {x: 850, y: 4480, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 450}
+  - assert: {party_position: {x: 850, y: 4480, radius: 96, z_min: -392, z_max: -376}}
+  - walk_to: {x: 900, y: 4900, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 450}
+  - walk_to: {x: 1856, y: 5472, z: -384, radius: 96, timeout_seconds: 60, clear_hostiles: 450}
+  # The honeymoon pen: Mr and Mrs Wobbles (Fire Rats, monster 387, named, 40 hit points written), the split on
+  # death, the bonus bit only once the splits are dead too, and the heart's candle going out.
+  - walk_to: {x: 2368, y: 6112, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 450}
+  # Counted at the pen only: a rat spawn point elsewhere can roll Fire Rats too (one map load in ten).
+  - assert: {actor_count: {monster_id: 387, near: [2205, 7050, 450], hurt: false, min: 2, max: 2}}
+  - play_lua:
+      source: |
+        if door_state(4) ~= "closed" then error("the heart gate does not start shut") end
+        click(8); wait(1)
+  - assert:
+      dialog: {text_contains: "DO NOT SEPARATE"}
+  - play_lua:
+      source: |
+        if not close() then error("the heart sign opened no message window") end
+        click(7); wait(5)
+        if door_state(4) ~= "open" then error("the heart gate did not open: " .. door_state(4)) end
+        if qbit(110011) then error("the pair's bit is set before the fight") end
+  # The pair come out at the party through the open gate; the fight is at the gate (the pen is bigger now: they
+  # stand 960 to 1,080 from the party when the gate opens).
+  - play_lua:
+      max_seconds: 30
+      source: |
+        wait(2)
+        status()
+        local killed = clear_hostiles(1250)
+        if killed < 2 then error("the pair was not in reach: killed " .. killed) end
+        wait(3)
+        local seen = status()
+        if not string.find(seen, "Mr Wobbles bursts", 1, true) or not string.find(seen, "Mrs Wobbles bursts", 1, true) then error("the pair did not split on death: " .. seen) end
+        if qbit(110011) then error("the bonus bit was set while the splits live") end
+  - assert: {state_dump_map_var: {index: 5, value: 1}}
+  - assert: {state_dump_map_var: {index: 7, value: 1}}
+  - assert: {actor_count: {monster_id: 385, near: [2205, 7050, 800], min: 3}}
+  - walk_to: {x: 2368, y: 6512, z: -416, radius: 64, timeout_seconds: 60, clear_hostiles: 300}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        clear_hostiles(1250); wait(4)
+        if not qbit(110011) then error("killing Mr and Mrs Wobbles and their splits did not set joe_pair_slain") end
+  - assert: {light: {key: 0, "on": false}}
+  # Their nest, searched once: the rival exterminator's purse.
+  - walk_to: {x: 2240, y: 7250, z: -416, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  # The nest's line goes to the status line (the tenth merge: message windows only for things meant to be read).
+  - play_lua:
+      source: |
+        local before = gold()
+        click(37); wait(1)
+        if gold() ~= before + 75 then error("the nest did not give 75 gold: " .. before .. " to " .. gold()) end
+        if not string.find(status(), "purse", 1, true) then error("the nest said nothing in the status bar") end
+  - play_lua:
+      source: |
+        local before = gold()
+        click(37); wait(1)
+        close()
+        if gold() ~= before then error("the nest gave its purse twice") end
+  - walk_to: {x: 2368, y: 6512, z: -416, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 2368, y: 6112, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  # The shipping room and the invoice crate: the invoice and the quest bit.
+  - walk_to: {x: 2856, y: 5962, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(14) ~= "closed" then error("the shipping room door does not start shut") end
+        click(26); wait(3)
+        if door_state(14) ~= "open" then error("the shipping room door did not open: " .. door_state(14)) end
+  - walk_to: {x: 3880, y: 6990, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if qbit(110010) then error("joe_invoice_found is set before the crate is opened") end
+        loot_chest(9)
+        if not has_item(1530) then error("the invoice crate did not give the invoice") end
+        if not qbit(110010) then error("the invoice crate did not set joe_invoice_found") end
+  # Out by the culvert: the iron door, the head, the drain shaft (its rats and the lost ring on the ledge), the slope,
+  # the outfall and the grate lifted from inside.
+  - walk_to: {x: 2956, y: 5472, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(3) ~= "closed" then error("the culvert door does not start shut") end
+        click(3); wait(5)
+        if door_state(3) ~= "open" then error("the culvert door did not open: " .. door_state(3)) end
+  - walk_to: {x: 3406, y: 5472, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 3726, y: 5472, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 3841, y: 5462, z: -352, radius: 48, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: 3841, y: 5462, radius: 80, z_min: -360, z_max: -344}}
+  - pick_up: {item_id: 137}
+  - walk_to: {x: 3728, y: 5112, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 3728, y: 4312, z: -620, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 3956, y: 4000, z: -640, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: 3956, y: 4000, radius: 96, z_min: -648, z_max: -624}}
+  - walk_to: {x: 4556, y: 4000, z: -640, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(13) ~= "closed" then error("the river grate does not start shut") end
+        if qbit(110012) then error("culvert_grate_open is set before the grate is lifted") end
+        click(25); wait(6)
+        if door_state(13) ~= "open" then error("the river grate did not lift: " .. door_state(13)) end
+        if not qbit(110012) then error("lifting the grate did not set culvert_grate_open") end
+  - walk_to: {x: 4856, y: 4000, z: -640, radius: 48, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if not has_item(1530) then error("the invoice was lost on the way out") end
+        if not has_item(137) then error("the ring from the drain shaft was lost") end
+  # Out onto the riverbank of X1 (Vertigo Meadows) in front of the culvert grate: the exit asks first.
+  - execute_event: {id: 24}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  # On X1, in front of the culvert grate, and off along the bank on foot.
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: -1536, y: 4900, radius: 128, z_min: 540, z_max: 700}}
+  - walk_to: {x: -2560, y: 4608, z: 640, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        if not has_item(1530) then error("the invoice did not leave the map with the party") end
+        if not qbit(110010) or not qbit(110011) or not qbit(110012) then error("a quest bit was lost on leaving") end

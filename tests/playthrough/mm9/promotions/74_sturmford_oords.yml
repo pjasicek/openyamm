@@ -1,0 +1,101 @@
+# MM9 promotion playthrough 74, block E: the second and third crusades, damn a family and save it (guide: side_b.yml
+# arrest-the-thief, help-the-oor-ds-help-themselves, find-itlor-a-job; side_a.yml the same). Thjorgard to Sturmford
+# by sea, the city's land gate. The clerk Fridleif Gjukissen (actor 31) has had thieves (optional); Hatlati Oord
+# (actor 12, RUDE 48; he walks his round, so the party is placed where he starts and talks to him) is arrested
+# (key 154); the prison guard by the town hall's cell (actor 43; his click gives 5008, RUDE 425) locks him in when the
+# talk closes (key 5009). Upstairs in the Oords' house Itlor (actor 22, RUDE 49) asks for help (key 155); Injor
+# Gostat of Magical Touches (actor 40, RUDE 50) has work (key 156); Itlor takes it (key 157). Hatlati hears it in
+# his cell. Research: prep/E_paladin_druid.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 74
+id: mm9.promotions.74_sturmford_oords
+title: "MM9 promotions 74: Hatlati Oord jailed, Itlor Oord finds work at the magic shop"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/72_thjorgard_sven_assassin.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90153, 90235], qbit_clear: [90154, 99009, 90155, 90156, 90157]}
+
+  # The boat to Sturmford; the city's land gate.
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # Fridleif upstairs in the town hall: thieves in the market (the clerks Grehgknak points to).
+  - set_pose: {map: sturmfordcity.blv, x: 5775, y: 4453, z: 20565, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 31}
+  - select_topic: {match_label: "Have you had any trouble with thieves lately?"}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+
+  # Hatlati on his round: arrested.
+  - set_pose: {map: sturmfordcity.blv, x: -5253, y: 11500, z: 19723, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 12}
+  - select_topic: {match_label: "We've been watching you, Hat'lai."}
+  - select_topic: {match_label: "Yes.  We're going to have to arrest you."}
+  - select_topic: {match_label: "You've committed a crime. You will have to go to prison for it."}
+  - select_topic: {match_label: "Sorry."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+
+  # Straight on to the prison guard by the cell on the town hall's ground floor (key 154 is checked after him: any
+  # map load with 154 puts Hatlati in the cell by itself, NPC48.scr :Init OnPostSaveLoad, and the guard's "We have a
+  # criminal here." is then gone, so nothing between the arrest and the guard may settle for a save and load).
+  - set_pose: {map: sturmfordcity.blv, x: 5550, y: 4540, z: 19744, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 43}
+  - select_topic: {match_label: "We have a criminal here."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90154, 95009], state_dump_named_map_var: {name: JailOpen, value: 0}}
+
+  # Itlor upstairs in the Oords' house.
+  - set_pose: {map: sturmfordcity.blv, x: 6738, y: 1460, z: 20133, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 22}
+  - select_topic: {match_label: "And now he's in jail."}
+  - select_topic: {match_label: "Why don't you get a job?"}
+  - select_topic: {match_label: "Maybe we can help you with that."}
+  - select_topic: {match_label: "It's the least we could do.  Can we ask you a few questions?"}
+  - select_topic: {match_label: "Thanks."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90155]}
+
+  # Injor Gostat at Magical Touches.
+  - set_pose: {map: sturmfordcity.blv, x: 4588, y: 18896, z: 19744, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 40}
+  - select_topic: {match_label: "Are you looking for any help?"}
+  - select_topic: {match_label: "We might have the perfect person."}
+  - select_topic: {match_label: "Itlor Oord is looking for work."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90156]}
+
+  # Back to Itlor: the job.
+  - set_pose: {map: sturmfordcity.blv, x: 6738, y: 1460, z: 20133, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 22}
+  - select_topic: {match_label: "We've found you a job."}
+  - select_topic: {match_label: "At the Magic Shop.  Injor needs someone to help out."}
+  - select_topic: {match_label: "You're welcome.  Good luck."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90157]}
+
+  # Hatlati in his cell hears it (optional).
+  - set_pose: {map: sturmfordcity.blv, x: 5550, y: 4540, z: 19744, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 12}
+  - select_topic: {match_label: "Your children will be taken care of, Hatlati"}
+  - select_topic: {match_label: "We found Itlor a job."}
+  - select_topic: {match_label: "We shall."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90154, 90157, 95009]}
+  - save_game: {name: "P74 the Oords", path: output/playthrough/mm9/promotions/checkpoints/74_sturmford_oords.oysav}

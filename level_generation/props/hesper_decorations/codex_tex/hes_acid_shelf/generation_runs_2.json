@@ -1,0 +1,139 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "status": "generated_and_saved_with_failed_required_checks",
+  "selected_output": "paint_back.png",
+  "brief_fully_satisfied": false,
+  "postprocessing": "None. Both PNG files are byte-identical copies of native tool returns; no resizing, alpha replacement, cropping or image editing.",
+  "corrective_regenerations_used": 1,
+  "corrective_regenerations_limit": 1,
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic back-view albedo texture source for the existing Acid crust shelf 3D model.\nEdit target: Image 1, guide_back.png. This is the EXACT geometry, silhouette, view, framing and alpha-mask authority. Paint only its grey surfaces. Image 2, design_reference.png, is the approved design, colour and material authority ONLY. Image 3, concept_crop.png, is the original concept for supporting material context ONLY.\nOutput: one 1024 x 1024 RGBA PNG on a genuinely transparent background. Keep the full original 1024-square canvas and all its empty margins. The guide's occupied bounds are x=66..957, y=389..634: a very wide, low shelf across the middle of the square. Do not enlarge, recenter, rotate, reframe or crop it. Preserve the guide alpha silhouette exactly, including all jagged corners, openings, hanging thin drips and scattered bottom shapes. Every existing shape edge, facet boundary and root form stays exactly where the guide places it. Do not invent geometry or copy the three-quarter composition.\nSurface treatment: paint the existing upper shelf crust pale sulphur yellow crystalline acid crust; paint the guide's existing hanging acid drips and surface liquid vivid translucent-looking bile-green/chartreuse acid; paint the existing supporting root and rock structures dark violet and plum. Match these materials to the approved design reference, with fine painted mineral and root texture confined to existing surfaces. Preserve the back view and its almost edge-on top. No added bubbles, extra stalactites, extra rocks, detached droplets or openings.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Uniform flat shadowless frontal illumination, evenly readable local material colours across the full surface. No cast shadows, no ambient-occlusion darkening, no directional shading, no glossy white specular highlights, reflections, rim light, bloom or light spill. Represent glowing acid by its bright local colour only, never as illumination cast onto neighbouring material. Material translucency is a painted colour cue within the solid object's silhouette; background and guide openings stay fully transparent.\nCritical invariants: unchanged guide outline, size, position and every geometric detail. Change only grey surface colour into the approved materials. No background, floor, backdrop, text, labels or watermark. Return the native 1024 x 1024 image.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "443c9918b0aedfd246baf0d2a162c18d30e2514ff00d80955ca986d3c3ed048c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved material and colour authority",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept; supporting material reference",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native size is 1254 x 1254 instead of 1024 x 1024; alpha and silhouette are not identical to the guide, including stray low-alpha pixels. Visually too glossy with strong light/dark facet variation for a flat albedo texture source.",
+      "checks": {
+        "source": "/home/pjasicek/.codex/generated_images/01a168b3-8da6-7283-b920-511c537f9d3f/exec-835b6d38-40dd-4ecd-8784-a9e5a818e679.png",
+        "sha256": "30349b61c95cc341335b800d9c2bc3792629caa481ac50c32a3f035845f4906d",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          19,
+          1224,
+          1254
+        ],
+        "substantial_alpha_bbox": [
+          80,
+          477,
+          1174,
+          776
+        ],
+        "transparent_pixels": 1272517,
+        "partial_alpha_pixels": 299008,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "exact_1024_square": false,
+        "guide_alpha_identical": false,
+        "normalized_mask_iou_at_alpha_128": 0.9886030040471984,
+        "normalized_outside_guide_pixels_at_alpha_128": 2995,
+        "normalized_missing_guide_pixels_at_alpha_128": 204,
+        "materials_and_colours": "Yellow crystalline crust, chartreuse acid and violet/plum roots are present; crust reads more saturated/golden than the pale reference requirement.",
+        "flat_even_light": false,
+        "transparent_background": "RGBA with fully transparent background pixels, but stray nonzero alpha extends beyond the guide silhouette."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective generation, the only allowed retry. Produce one native 1024 x 1024 transparent RGBA image; exact 1024 pixel width and 1024 pixel height are mandatory. Do not return 1254 x 1254 or upscale.\nUse case: precise-object-edit. Paint albedo onto Image 1 (guide_back.png) without changing its geometry or pixel placement.\nInputs: Image 1 is the edit target, a grey orthographic BACK view, and is the sole authority for alpha, shape, every surface edge, size and position. Image 2 (design_reference.png) is colour/material reference only. Image 3 (concept_crop.png) is supporting colour/material reference only. Image 4 is the rejected first painting: use it only to see the defects to avoid, never for geometry.\nCORRECTION: The first painting had the wrong canvas size, stray semitransparent pixels outside the guide, an altered contour and harsh glossy highlights/dark shaded facets. Fix these by painting directly inside the original guide at its original 1024-square pixel positions, preserving the exact original alpha and all empty canvas, with even unlit material colour.\nThe object's alpha bounding box in the 1024 x 1024 guide is x=66 through 957 and y=389 through 634. It occupies only the narrow central horizontal strip; retain the large transparent area above and below. Do not enlarge or recenter the shelf to fill the canvas. Do not add pixels outside the guide alpha, including haze, dust, tiny specks or glow. All original openings remain exactly open and transparent. Preserve the original jagged silhouette, original planar faces, root forms, rocks, thin hanging drips and their endpoints, and every geometric edge. No new details that change geometry. Keep the orthographic back view, never the reference's three-quarter view.\nPaint the existing upper crust pale sulphur-yellow crystalline material, matching the approved reference's PALE yellow, not metallic gold. Paint existing acid drips and liquid areas vivid bile-green/chartreuse translucent-looking acid. Paint existing supporting roots and rock structures the reference's dark violet/plum. Use restrained fine surface texture; make the colour on each material evenly lit. Do not make all triangular mesh facets into contrasting bright/dark patches.\nThis is an ALBEDO texture source, not a lit beauty render. Flat even shadowless light from the viewer. No specular white highlights, no reflections, no shaded crevices, no ambient occlusion, no cast shadows, no directional shading, no rim lighting, no bloom. Acid glow is only its bright local colour; it must not cast light or darken neighbours. No floor, no background, no extra bubbles, no added objects, no text.\nReturn exactly one native, unresized 1024 x 1024 image with a genuinely transparent background and the guide's exact unmodified silhouette and placement.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "443c9918b0aedfd246baf0d2a162c18d30e2514ff00d80955ca986d3c3ed048c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved material and colour authority",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept; supporting material reference",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        },
+        {
+          "path": "paint_back_attempt_1.png",
+          "tool_input_path": "/home/pjasicek/.codex/generated_images/01a168b3-8da6-7283-b920-511c537f9d3f/exec-835b6d38-40dd-4ecd-8784-a9e5a818e679.png",
+          "role": "rejected first output; defect reference only",
+          "sha256": "30349b61c95cc341335b800d9c2bc3792629caa481ac50c32a3f035845f4906d"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the flatter-lit of the two native returns, not as a fully compliant result. Gloss is reduced, but required 1024 x 1024 size and exact silhouette still fail. Preserve the unresized return and stop at the brief's one-correction limit.",
+      "checks": {
+        "source": "/home/pjasicek/.codex/generated_images/01a168b3-8da6-7283-b920-511c537f9d3f/exec-1cf3b172-1c84-4e01-964a-b1641ba40813.png",
+        "sha256": "7e2fdb6c06a896a1efa5d871476748e88e2807379820e9e6eaa6a8c7e92aa853",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          78,
+          21,
+          1202,
+          1230
+        ],
+        "substantial_alpha_bbox": [
+          81,
+          477,
+          1173,
+          772
+        ],
+        "transparent_pixels": 1281094,
+        "partial_alpha_pixels": 290447,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "exact_1024_square": false,
+        "guide_alpha_identical": false,
+        "normalized_mask_iou_at_alpha_128": 0.9821653056791109,
+        "normalized_outside_guide_pixels_at_alpha_128": 3108,
+        "normalized_missing_guide_pixels_at_alpha_128": 1900,
+        "materials_and_colours": "Yellow crystalline crust, chartreuse acid and violet/plum roots are present; the pale-yellow requirement is approximate.",
+        "flat_even_light": "Improved, but residual bright edges and dark facet variation remain; strict shadowless albedo requirement is not fully satisfied.",
+        "transparent_background": "RGBA with fully transparent background pixels, but stray nonzero alpha extends beyond the guide silhouette."
+      }
+    }
+  ],
+  "diagnostic_note": "Normalized mask overlap compares alpha >= 128 against the guide alpha resized in memory for measurement only. It is not a claim of identical silhouettes. No saved output image was resized."
+}

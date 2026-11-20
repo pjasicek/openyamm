@@ -1,0 +1,1 @@
+Retained detailed RGBA master. Default native rectangle sampling, zero clipping. Measured native opaque RGB gamma preserves alpha. Full master, original reference and final light/dark proofs inspected. Registration retained in registration_checks.json.

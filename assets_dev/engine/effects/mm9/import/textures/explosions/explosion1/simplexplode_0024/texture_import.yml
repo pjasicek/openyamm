@@ -1,0 +1,64 @@
+schema: openyamm.effectTextureImport.v1
+source:
+  path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0024.dtx
+  format: LithTech DTX
+  sha256: 34a0cb8136d2b2c206af72c9c419f49366a31aa2345164f1e5dcbc8e0adfff61
+runtime:
+  texture: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0024.png
+  format: PNG RGBA8
+  colorSpace: srgb
+  alphaUsage: blend
+  premultipliedAlpha: false
+  mipPolicy: generate-at-runtime
+  minFilter: linear
+  magFilter: linear
+  wrapU: clamp
+  wrapV: clamp
+conversion:
+  decoder: tools/mm9_import_discovery/convert_abc_model.py:decode_dtx_mips
+  decodedRgbChanged: false
+  decodedAlphaChanged: false
+  opaqueAlphaRepair: false
+  zeroAlphaRgbPreserved: true
+  sourceMipArtifacts: mips/*.png
+dtx:
+  version: -5
+  width: 64
+  height: 64
+  mipCount: 4
+  sectionCount: 0
+  internalFlags: 136
+  userFlags: 0
+  extraHex: '000003000000000000000000'
+  bppIdentifier: 3
+  command: ''
+  repairOpaqueAlpha: false
+  mips:
+  - index: 0
+    width: 64
+    height: 64
+    sourceOffset: 164
+    sourceBytes: 16384
+    decodedRgbaSha256: 1fd053d5f71c7574c9ee9310a6e467c1a9d31b0a830fc1b10170ce2defbd696e
+    artifact: mips/00.png
+  - index: 1
+    width: 32
+    height: 32
+    sourceOffset: 16548
+    sourceBytes: 4096
+    decodedRgbaSha256: 45c48bba5755140d4df16855a0caa9aa7863cbaf2c9356ca0f46bbc16695b754
+    artifact: mips/01.png
+  - index: 2
+    width: 16
+    height: 16
+    sourceOffset: 20644
+    sourceBytes: 1024
+    decodedRgbaSha256: 80b835d6961f4e8ac51316cbf4a852410d3a2cdba769821e328fe33882db7ccc
+    artifact: mips/02.png
+  - index: 3
+    width: 8
+    height: 8
+    sourceOffset: 21668
+    sourceBytes: 256
+    decodedRgbaSha256: e4cbb58231b3fff7207c4e420aff590d5c841b558ea001ad0fa7eb076932faff
+    artifact: mips/03.png

@@ -35,6 +35,9 @@ public:
     bool applyDisplaySettings(WindowMode mode, int width, int height, bool verticalSync, std::string &error);
     // Anisotropic filtering limit of every anisotropic sampler; applies immediately while running.
     void setMaxAnisotropy(uint8_t level);
+    // Above 0 every frame advances by exactly this many seconds whatever the wall clock says (a video capture's
+    // frame step); 0 returns to real time.
+    void setFixedFrameSeconds(float seconds);
 
   private:
     bool initializeAssetFileSystem(AssetFileSystem &assetFileSystem) const;
@@ -49,5 +52,6 @@ public:
     RenderFrameCallback m_renderFrameCallback;
     ShutdownCallback m_shutdownCallback;
     TextInputActiveCallback m_textInputActiveCallback;
+    float m_fixedFrameSeconds = 0.0f;
 };
 }

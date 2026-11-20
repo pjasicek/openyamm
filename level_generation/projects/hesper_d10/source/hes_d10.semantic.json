@@ -1,0 +1,460 @@
+{
+  "pickups": [
+    {
+      "model": "hes_stim_canister",
+      "event": 700,
+      "room": "armoury",
+      "position": [
+        2360,
+        -3180,
+        -512
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 701,
+      "room": "armoury",
+      "position": [
+        2500,
+        -3180,
+        -512
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 702,
+      "room": "armoury",
+      "position": [
+        2640,
+        -3180,
+        -512
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 703,
+      "room": "armoury",
+      "position": [
+        2360,
+        -3030,
+        -512
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 704,
+      "room": "armoury",
+      "position": [
+        2500,
+        -3030,
+        -512
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 705,
+      "room": "armoury",
+      "position": [
+        2640,
+        -3030,
+        -512
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 706,
+      "room": "reading",
+      "position": [
+        2540,
+        1720,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 707,
+      "room": "reading",
+      "position": [
+        2680,
+        1720,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 708,
+      "room": "reading",
+      "position": [
+        2820,
+        1720,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 709,
+      "room": "reading",
+      "position": [
+        4860,
+        1720,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 710,
+      "room": "reading",
+      "position": [
+        5000,
+        1720,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 711,
+      "room": "reading",
+      "position": [
+        5140,
+        1720,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 750,
+      "room": "atrium",
+      "position": [
+        300,
+        800,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 751,
+      "room": "atrium",
+      "position": [
+        2070,
+        1750,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 752,
+      "room": "reading",
+      "position": [
+        2570,
+        720,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 753,
+      "room": "reading",
+      "position": [
+        5200,
+        1580,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 754,
+      "room": "stacks",
+      "position": [
+        5550,
+        1750,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 755,
+      "room": "stacks",
+      "position": [
+        7710,
+        1000,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 756,
+      "room": "wells",
+      "position": [
+        540,
+        -2040,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 757,
+      "room": "wells",
+      "position": [
+        1850,
+        -3700,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 758,
+      "room": "armoury",
+      "position": [
+        3370,
+        -2420,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 759,
+      "room": "hall",
+      "position": [
+        -250,
+        -3950,
+        -512
+      ]
+    }
+  ],
+  "arrivals": {
+    "dome_stair": {
+      "position": [
+        1200,
+        2150,
+        0
+      ],
+      "direction_degrees": 270
+    }
+  },
+  "door_ids": {
+    "reading": 1,
+    "armoury": 2,
+    "founders": 3
+  },
+  "chest_events": {
+    "8": 0,
+    "9": 1,
+    "19": 2
+  },
+  "actors": [
+    {
+      "monster": 10052,
+      "position": [
+        3300,
+        1040.0,
+        180
+      ],
+      "group": 1,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 8
+    },
+    {
+      "monster": 10052,
+      "position": [
+        3500,
+        1200.0,
+        180
+      ],
+      "group": 1,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 8
+    },
+    {
+      "monster": 10052,
+      "position": [
+        3300,
+        1360.0,
+        180
+      ],
+      "group": 1,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 8
+    },
+    {
+      "monster": 10051,
+      "position": [
+        6600,
+        1560.0,
+        180
+      ],
+      "group": 2,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 11
+    },
+    {
+      "monster": 10051,
+      "position": [
+        6600,
+        1720.0,
+        180
+      ],
+      "group": 2,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 11
+    },
+    {
+      "monster": 10051,
+      "position": [
+        6600,
+        1880.0,
+        180
+      ],
+      "group": 2,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 11
+    },
+    {
+      "monster": 10051,
+      "position": [
+        6600,
+        2040.0,
+        180
+      ],
+      "group": 2,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 11
+    },
+    {
+      "monster": 10052,
+      "position": [
+        1200,
+        -2680.0,
+        -332
+      ],
+      "group": 3,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 12
+    },
+    {
+      "monster": 10052,
+      "position": [
+        1200,
+        -2520.0,
+        -332
+      ],
+      "group": 3,
+      "posted": false,
+      "yaw_degrees": 180,
+      "sector": 12
+    },
+    {
+      "monster": 10056,
+      "position": [
+        3200,
+        -2680.0,
+        -512
+      ],
+      "group": 4,
+      "posted": true,
+      "yaw_degrees": 180,
+      "sector": 1
+    },
+    {
+      "monster": 10056,
+      "position": [
+        3200,
+        -2520.0,
+        -512
+      ],
+      "group": 4,
+      "posted": true,
+      "yaw_degrees": 180,
+      "sector": 1
+    }
+  ],
+  "ground_items": [
+    {
+      "item": 11372,
+      "position": [
+        3900,
+        1500,
+        115
+      ],
+      "label": "Founders Charter on the reading lectern",
+      "sector": 8
+    },
+    {
+      "item": 11420,
+      "position": [
+        3120,
+        -3000,
+        -400
+      ],
+      "label": "Founders Repeater on its shelf",
+      "sector": 1
+    },
+    {
+      "item": 189,
+      "amount": 20000,
+      "position": [
+        3300,
+        -3000,
+        -400
+      ],
+      "label": "Armoury gold on its shelf",
+      "sector": 1
+    }
+  ],
+  "trap": {
+    "position": [
+      6200,
+      600,
+      0
+    ],
+    "radius": 300
+  },
+  "adjustments": [
+    "64-unit thick walls; console exposed on outer Armoury wall",
+    "4 socket lights supplement the 13 plan lights",
+    "Charter lectern fitted beside the plaque group; incidental floor gold replaced by supply satchels"
+  ],
+  "map": "hes_d10.blv",
+  "events": {
+    "21": "reading_door",
+    "16": "armoury_door",
+    "22": "founders_door",
+    "2": "dome_stair",
+    "4": "ilen_plaque",
+    "5": "sesha_plaque",
+    "6": "torvan_plaque",
+    "7": "makers_plaque",
+    "12": "memory_well_1",
+    "13": "memory_well_2",
+    "14": "memory_well_3",
+    "15": "memory_well_4",
+    "17": "armoury_console"
+  },
+  "decorations": 45,
+  "sectors": [
+    "room_atrium_a",
+    "room_atrium_b",
+    "room_reading_a",
+    "room_reading_b",
+    "room_stacks_a",
+    "room_stacks_b",
+    "room_ramp_a",
+    "room_ramp_b",
+    "room_wells",
+    "room_armoury",
+    "room_hall_a",
+    "room_hall_b"
+  ],
+  "doors": {
+    "reading_door": 1,
+    "armoury_door": 2,
+    "founders_door": 3
+  }
+}

@@ -1,0 +1,1 @@
+Reproduce final extraction with queue.py process g07968_v0_s1 --adjust 1.04 0 18. This is one shared sheet transform correcting measured -5.5 native-pixel bottom drift, not independent per-frame fitting. Native eight-frame sequence is 125 ms per frame, 1000 ms total. Joint contact combines segment 0 attempt 04 and segment 1 attempt 04.

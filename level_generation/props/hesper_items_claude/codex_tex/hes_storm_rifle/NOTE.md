@@ -1,0 +1,1 @@
+The image tool refused every view (violence filter, 2026-10-24). paint_top.png is the item's approved 1254 px icon painting (design_reference.png), mirrored: the gun lies on the side the icon shows, so the icon is its top view; the edges take the nearest painted colour (hes_texture.py).

@@ -1,0 +1,469 @@
+{
+ "id": "20261009-1628-mm6-outc2-33",
+ "world": "mm6",
+ "maps": [
+  "outc2.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/strctclm",
+  "mm6/tavwctr",
+  "mm6/tavwre",
+  "mm6/rokdr",
+  "mm6/strdr",
+  "mm6/pbrdr",
+  "mm6/bemsh16b",
+  "mm6/pbtrvl1",
+  "mm6/pbtrvr1",
+  "mm6/bank",
+  "mm6/bcsrf",
+  "mm6/bembllg",
+  "mm6/cbeam6",
+  "mm6/cbmdk1",
+  "mm6/dknkrf",
+  "mm6/elemair",
+  "mm6/elemerth",
+  "mm6/elemfire",
+  "mm6/elemwatr",
+  "mm6/glass11",
+  "mm6/glass2",
+  "mm6/mercrich",
+  "mm6/pbroof",
+  "mm6/pbtrm"
+ ],
+ "requests": {
+  "mm6/strctclm": {
+   "name": "strctclm",
+   "versions": [
+    1
+   ],
+   "material": "mauve-brown rounded fieldstone wall with pale mortar, a vertical column of stacked rounded stones down the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.343
+    }
+   }
+  },
+  "mm6/tavwctr": {
+   "name": "tavwctr",
+   "versions": [
+    1
+   ],
+   "material": "tan rough-cut sandstone block wall with a tall pointed-arch stained glass window in a dark wooden frame depicting a mounted knight before a castle on a hill; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tav128wl",
+      "mm6/tavle"
+     ],
+     "fraction": 0.276
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/tavle",
+     "right": "mm6/tav128wl",
+     "bottom": "mm6/tav128wl",
+     "top": "mm6/tav128wl"
+    }
+   }
+  },
+  "mm6/tavwre": {
+   "name": "tavwre",
+   "versions": [
+    1
+   ],
+   "material": "tan rough-cut sandstone block wall with a small square stained glass window in a dark frame showing two seated figures in blue, a carved pale stone corbel figure at the top right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tavre"
+     ],
+     "fraction": 0.242
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/tav128wl"
+    }
+   }
+  },
+  "mm6/rokdr": {
+   "name": "rokdr",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown vertical plank wooden door with two crossbars, a small barred peephole and an iron latch, set in a dark grey rubble stone surround under a timber lintel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rokcsm"
+     ],
+     "fraction": 0.206
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/rokrt",
+     "left": "mm6/roklft"
+    }
+   }
+  },
+  "mm6/strdr": {
+   "name": "strdr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered sage-green vertical plank wooden door with two black wrought-iron scroll hinges and an iron ring handle, in a mauve-brown rounded fieldstone wall; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.228
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr",
+      "mm6/strre"
+     ],
+     "fraction": 0.205
+    },
+    "3": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.359
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/strle",
+     "right": "mm6/strre",
+     "top": "mm6/strctr"
+    },
+    "3": {
+     "left": "mm6/strle",
+     "right": "mm6/strre",
+     "top": "mm6/strctr"
+    }
+   }
+  },
+  "mm6/pbrdr": {
+   "name": "pbrdr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown vertical plank wooden door with grey iron straps across it and a small iron lock plate, set in a timber frame with a stone band above; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.135
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrsde"
+     ],
+     "fraction": 0.142
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/pbrle",
+     "right": "mm6/pbrwn",
+     "top": "mm6/pbrst"
+    }
+   }
+  },
+  "mm6/bemsh16b": {
+   "name": "bemsh16b",
+   "versions": [
+    1
+   ],
+   "material": "plain reddish-brown wood grain horizontal strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemsh32b"
+     ],
+     "fraction": 0.844
+    }
+   }
+  },
+  "mm6/pbtrvl1": {
+   "name": "pbtrvl1",
+   "versions": [
+    1
+   ],
+   "material": "plain trim strip of a reddish-brown wooden post on the left beside rough tan stone",
+   "notes": {}
+  },
+  "mm6/pbtrvr1": {
+   "name": "pbtrvr1",
+   "versions": [],
+   "material": "plain trim strip of rough tan stone beside a reddish-brown wooden post on the right",
+   "notes": {}
+  },
+  "mm6/bank": {
+   "name": "bank",
+   "versions": [
+    1
+   ],
+   "material": "bank shop sign: stacked gold coins and a single gold coin painted on an orange-red board with a riveted brass frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bcsrf": {
+   "name": "bcsrf",
+   "versions": [
+    1
+   ],
+   "material": "tan and olive geometric ceiling panel of square coffers each divided into four triangular facets by raised gold diagonal ribs, dark iron studs at the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bembllg": {
+   "name": "bembllg",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown vertical wooden plank wall with dark seams and wood grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbeam6": {
+   "name": "cbeam6",
+   "versions": [
+    1
+   ],
+   "material": "plain orange-brown wood grain vertical beam strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbmdk1": {
+   "name": "cbmdk1",
+   "versions": [
+    1
+   ],
+   "material": "plain dark reddish-brown wood grain horizontal strip with a few nail heads",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/dknkrf": {
+   "name": "dknkrf",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown horizontal overlapping wooden plank boards with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/elemair": {
+   "name": "elemair",
+   "versions": [
+    1
+   ],
+   "material": "guild sign: white parchment scroll banner with three wavy cyan stripes, mounted on a brown wooden board with a riveted blue-grey iron frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/elemerth": {
+   "name": "elemerth",
+   "versions": [
+    1
+   ],
+   "material": "guild sign: white parchment scroll banner with three wavy dark brown stripes and green fringed edges, mounted on a brown wooden board with a riveted blue-grey iron frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/elemfire": {
+   "name": "elemfire",
+   "versions": [
+    1
+   ],
+   "material": "guild sign: white parchment scroll banner with three wavy red stripes and yellow-orange flame edges, mounted on a brown wooden board with a riveted blue-grey iron frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/elemwatr": {
+   "name": "elemwatr",
+   "versions": [
+    1
+   ],
+   "material": "guild sign: white parchment scroll banner with three wavy blue stripes and blue fringed edges, mounted on a brown wooden board with a riveted blue-grey iron frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/glass11": {
+   "name": "glass11",
+   "versions": [
+    1
+   ],
+   "material": "blue leaded stained glass window with a grid of small square panes and a large diamond outlined in dark lead came; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/glass2": {
+   "name": "glass2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "window of six sky-blue glass panes in a grey metal grid frame with pale reflection streaks",
+   "notes": {
+    "2": "Smooth glass panes with new subtle glass texture; do not copy the reference's pixel steps or dither; keep the frame and mullions where they are."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mercrich": {
+   "name": "mercrich",
+   "versions": [
+    1
+   ],
+   "material": "merchant shop sign: two crossed steel battle axes with wooden handles painted on a brown wooden board in a riveted white iron frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pbroof": {
+   "name": "pbroof",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green metal roof with vertical standing seam ribs and rust stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pbtrm": {
+   "name": "pbtrm",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain grey-tan stone trim strip",
+   "notes": {
+    "2": "Copy the horizontal bands exactly in order and height as in the reference; plain continuous bands, no vertical block joints. No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference.",
+    "3": "Copy the band layout exactly: thin light band at the top, wide dark band, light pinkish stone band in the middle, near-black band below it, grey band at the bottom."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

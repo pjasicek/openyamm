@@ -1,0 +1,31 @@
+{
+  "prompt": "Edit paint_mask_guide.png exactly, using design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG, 1536x2048 (3:4). Preserve exact guide silhouette positions, sizes, outlines, openings and view orientations. The guide is three columns by FOUR rows of 512px cells: FRONT, BACK, LEFT / RIGHT, TOP, empty, repeated in rows 3\u20134. Paint only existing grey objects; never redraw, enlarge, move or redesign. Object is Iron Ring: source-faithful upright hoop plane. Rows 1\u20132 PAINT: unlit base colour, worn mottled warm brass/iron and dark tarnished grey metal as reference, detail scaled to views, no invented ornaments. Facets, engravings, scrollwork and inner swirls follow design reference where present. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Rows 3\u20134 MATERIAL MASK: same five silhouettes filled with FLAT pure #FF0000 for every metal part; #000000 only for gemstones/crystal/glass/pearl/enamel/liquid through glass. This ring is entirely metal so all five lower silhouettes must be solid pure red, NO shading, texture, outlines or interior antialiased colour blends. Every silhouette pixel receives exactly one colour. All outside pixels and all gaps/holes fully transparent; column 3 of rows 2 and 4 empty transparent. Guide geometry and layout are authoritative over the reference perspective.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10155/paint_mask_guide.png",
+      "sha256": "9417b40fc27e9fd59553e8b9048187191767fd1b93745c7c7295b03ce5807dd7"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10155/design_reference.png",
+      "sha256": "4dfd69dcd4c40716944676f1f94c21c39cf2cfde93f946f406d8b214ba073734"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10155/icon_x8.png",
+      "sha256": "bfdbf3b121d5e93e0fd898051b7ae14a448e97089c498a10c246819f6be31c89"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-dac8-79b0-89e3-09840df860ab/exec-26c4c6c9-8a82-45fa-b1ad-e6515c63386f.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10155/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_attempt": {
+    "prompt": "Edit paint_mask_guide.png exactly, using design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG, 1536x2048 (3:4). Preserve exact guide silhouette positions, sizes, outlines, openings and view orientations. The guide is three columns by FOUR rows of 512px cells: FRONT, BACK, LEFT / RIGHT, TOP, empty, repeated in rows 3\u20134. Paint only existing grey objects; never redraw, enlarge, move or redesign. Object is Iron Ring: source-faithful upright hoop plane. Rows 1\u20132 PAINT: unlit base colour, worn mottled warm brass/iron and dark tarnished grey metal as reference, detail scaled to views, no invented ornaments. Facets, engravings, scrollwork and inner swirls follow design reference where present. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Rows 3\u20134 MATERIAL MASK: same five silhouettes filled with FLAT pure #FF0000 for every metal part; #000000 only for gemstones/crystal/glass/pearl/enamel/liquid through glass. This ring is entirely metal so all five lower silhouettes must be solid pure red, NO shading, texture, outlines or interior antialiased colour blends. Every silhouette pixel receives exactly one colour. All outside pixels and all gaps/holes fully transparent; column 3 of rows 2 and 4 empty transparent. Guide geometry and layout are authoritative over the reference perspective.\nCRITICAL CORRECTION: prior attempt had red splatter outside mask silhouettes and inside holes. Absolutely no splatter or stray pixels. Use the original guide's exact clean alpha silhouettes for all ten objects. Bottom five are clean solid red shapes with entirely empty transparent holes and surroundings. Keep the upper five base colours matte and unlit, no white specular highlights. Output exact 3:4 ratio.",
+    "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-dac8-79b0-89e3-09840df860ab/exec-2c696dec-9760-41c6-93ad-1ff0648032ce.png",
+    "selected": false
+  },
+  "validation": "Both attempts contain stray red mask pixels outside silhouettes and in openings. First selected as less defective. Raw file preserved without edits.",
+  "mode": "RGBA"
+}

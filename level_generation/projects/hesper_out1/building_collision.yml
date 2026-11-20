@@ -1,0 +1,54 @@
+id: hesper.out1.building_collision
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+- note: 'In through the north wall: blocked at it'
+- movement_segment:
+    input: forward
+    duration_ms: 4000
+    delta_game_minutes: 0.0
+    start:
+      x: -18700.0
+      y: -11800
+      z: 1600.0
+      map: hes_out1.odm
+      yaw: -1.570796
+      pitch: 0.0
+    expect_stop:
+      x: -18700.0
+      y: -12270.0
+      z: 1472.0
+      map: hes_out1.odm
+      yaw: -1.570796
+      pitch: 0.0
+    tolerance_xy: 219
+    tolerance_z: 200
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- note: 'In through the North Gate: open (at a run, about 3 000 in four seconds)'
+- movement_segment:
+    input: forward
+    duration_ms: 4000
+    delta_game_minutes: 0.0
+    start:
+      x: -15800
+      y: -11800
+      z: 1472.0
+      map: hes_out1.odm
+      yaw: -1.570796
+      pitch: 0.0
+    expect_stop:
+      x: -15800.0
+      y: -14825.0
+      z: 1472.0
+      map: hes_out1.odm
+      yaw: -1.570796
+      pitch: 0.0
+    tolerance_xy: 340
+    tolerance_z: 200
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false

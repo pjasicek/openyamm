@@ -2,6 +2,8 @@
 
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
+#include "game/rules/GameRules.h"
+#include "game/rules/SpellRules.h"
 
 namespace OpenYAMM::Game
 {
@@ -555,8 +557,14 @@ bool tryApplyEventSpellBuffs(
     uint32_t spellId,
     uint32_t skillLevel,
     uint32_t rawSkillMastery,
-    float durationSecondsOverride)
+    float durationSecondsOverride,
+    BuffSource source)
 {
+    if (party.rules().spells.castSourceBuff(party, spellId, source))
+    {
+        return true;
+    }
+
     return tryApplyEventPartyBuff(party, spellId, skillLevel, rawSkillMastery, durationSecondsOverride)
         || tryApplyEventCharacterBuff(party, spellId, skillLevel, rawSkillMastery, durationSecondsOverride);
 }

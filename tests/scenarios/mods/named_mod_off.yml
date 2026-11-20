@@ -1,0 +1,30 @@
+# Named mods (devdocs/NAMED_MODS.md): the same fixture as named_mod_on.yml with an empty enabled list, so no named mod
+# is on: Goblinwatch keeps its name and the mods are listed as off. Nothing of the folder is mounted.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mods/named_mod_off.yml --scenario-no-color
+id: mods.named_mod_off
+title: "Named mods: with none in the enabled list the game is its own"
+world: mm6
+mode: faithful
+tags: [mods]
+mods:
+  fixture: fixtures/mods
+  enabled: []
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ragnar
+            class: Knight
+            level: 10
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: map, expect_contains: "name=\"Goblinwatch\""}
+  - console: {line: mods, expect_contains: "g3_goblinwatch: off"}
+  - console: {line: mods, expect_contains: "g3_clash: off"}
+  - console: {line: mods enable g3_goblinwatch, expect_contains: "g3_goblinwatch is on"}
+  - console: {line: mods, expect_contains: "g3_goblinwatch: off; listed for the next start"}

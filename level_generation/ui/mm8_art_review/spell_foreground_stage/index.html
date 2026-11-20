@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · transparent spell foreground review</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="manifest.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body data-backdrop="checker">
+  <header>
+    <p><strong>This stage is superseded.</strong> <a href="../spell_foreground_stage_v2/index.html">Open the rebuilt full-master spell review</a>.
+      Some previews here lost glyphs during the earlier extraction.</p>
+    <p class="eyebrow">OpenYAMM · new review stage</p>
+    <h1>Transparent spell foregrounds</h1>
+    <p>Each spell has its native original, the prior 2× candidate, and a transparent 2× foreground. Compare both
+      color and sepia states. Approvals and flags stay in this browser until you export them; no game art changes here.</p>
+    <div class="tools">
+      <label>Search <input id="search" type="search" placeholder="Spell ID…"></label>
+      <label>School <select id="school"><option value="">All schools</option></select></label>
+      <label>Stage source <select id="source"><option value="">All sources</option>
+        <option value="new transparent sheet edit">New cutouts</option>
+        <option value="existing accepted Air ink">Accepted Air ink</option>
+        <option value="retained transparent candidate">Retained cutouts</option></select></label>
+      <label>My review <select id="decision"><option value="">All decisions</option>
+        <option value="unreviewed">Unreviewed</option><option value="approve">Approved</option>
+        <option value="flag">Flagged</option></select></label>
+      <label>Display <select id="zoom"><option value="1" selected>Actual 2×</option>
+        <option value="fit">Fit</option><option value="2">4× native</option></select></label>
+      <label>Backdrop <select id="backdrop"><option value="checker" selected>Checker</option>
+        <option value="dark">Dark</option><option value="light">Light</option></select></label>
+      <button id="download" type="button">Download review JSON</button>
+      <button id="copy" type="button">Copy review</button>
+      <label class="import-button">Import review JSON<input id="import" type="file" accept="application/json,.json"></label>
+    </div>
+    <div id="summary" aria-live="polite"></div>
+  </header>
+  <main id="pairs"></main>
+  <div class="more"><button id="more" type="button">Show next 12 pairs</button></div>
+  <dialog id="large"><button id="close-large" type="button">Close ✕</button><div id="large-content"></div></dialog>
+  <footer>Generated sheet returns, layouts, prompt text, extraction records, alpha measurements and hashes are in
+    <a href="manifest.json">the stage manifest</a>. <a href="../index.html">Full art catalog</a></footer>
+</body>
+</html>

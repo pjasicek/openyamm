@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MM6 Demon — Complete Native Animations</title>
+<style>
+:root{color-scheme:dark;font:16px/1.45 system-ui;background:#14171d;color:#ece6df}
+body{max-width:1340px;margin:0 auto;padding:24px}h1{font-size:27px;margin:0 0 8px}p{margin:8px 0 18px;color:#bbb9b8}
+a{color:#edb394}nav{display:flex;flex-wrap:wrap;gap:18px;margin:16px 0 22px}
+.controls{display:flex;align-items:center;flex-wrap:wrap;gap:12px;background:#252a33;padding:16px;border-radius:8px}
+select,button,input{font:inherit}select,button{padding:8px 12px;background:#353d49;color:#fff;border:1px solid #697183;border-radius:5px}
+button{cursor:pointer}button:hover{background:#454e5d}input[type=range]{flex:1;min-width:200px;accent-color:#eeb28e}
+label{display:flex;align-items:center;gap:8px}.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+figure{margin:0;min-width:0;background:#252a33;border-radius:8px;overflow:hidden}figcaption{padding:12px 16px;color:#d6cfca}
+canvas{display:block;width:100%;height:auto}#native{background:#3e464f}#nativeWrap{padding:20px 0 0}
+.info{background:#252a33;border-radius:8px;padding:18px;margin-top:20px}.info p{margin:8px 0 0}
+.anchors{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.anchors button{font-size:14px}
+small{color:#b3afb0}#time{white-space:nowrap;font-variant-numeric:tabular-nums}.downloads{display:flex;flex-wrap:wrap;gap:20px}
+@media(max-width:700px){body{padding:14px}.panels{grid-template-columns:1fr}.controls{padding:12px}h1{font-size:23px}}
+</style>
+<h1>MM6 Demon — Complete Native Animations</h1>
+<p>Standing, native Walk, Hit, Fidget, Death and Ash Remains on the repaired revision 3 rig. The new Walk includes articulated fingers, subtle head motion and a curved, hanging tail.</p>
+<p><a href="../animations_native_v2_20261005/index.html">Review revision 2: corrected Hit, Fidget feet and tail</a></p>
+<nav><a href="mm6_demon_native_animations.blend">Editable Blender project</a><a href="mm6_demon_native_animations.glb">Animated GLB</a><a href="../animation_study/index.html">Native animation plan</a><a href="README.md">Notes and checks</a></nav>
+<div class="controls">
+<label>Animation <select id="clip"></select></label>
+<label>View <select id="view"><option value="front">Front</option><option value="profile">Profile</option></select></label>
+<button id="play">Play</button><button id="restart">Restart</button>
+<label>Speed <select id="speed"><option value="1">1×</option><option value="0.5">½×</option><option value="0.25">¼×</option></select></label>
+<input id="frame" type="range" min="0" max="54" value="0" aria-label="Animation frame"><span id="time"></span>
+</div>
+<div class="panels"><figure><figcaption id="nativeTitle">Original native sprites</figcaption><div id="nativeWrap"><canvas id="native" width="708" height="660"></canvas></div></figure>
+<figure><figcaption>Actual exported GLB — rendered at 48 fps</figcaption><canvas id="model" width="760" height="800"></canvas></figure></div>
+<div class="info"><strong id="phase"></strong><p id="notes"></p><div class="anchors" id="anchors"></div><p><small id="policy"></small></p><button id="ash" hidden>Show ash remains</button></div>
+<p><small>The body is untextured clay. Head-turn angles, hidden depth and the faceted pink/dark disintegration are authored 3D interpretations. Attack, Walking and Running remain in both downloads with their original revision 3 motion.</small></p>
+<div class="downloads"><a id="gif" href="Walk_Native_preview.gif">Animation GIF</a><a id="plate" href="Walk_Native_anchors.jpg">All native anchors and oblique views</a><a href="overview.jpg">Six-state overview</a><a href="validation.json">Export and deformation checks</a></div>
+<script>
+const DATA = __REVIEW_DATA__;
+const $=id=>document.getElementById(id), images=new Map();
+let playing=false, position=0, previous=0, generation=0;
+function bitmap(path){if(!images.has(path)){const im=new Image();im.src=path;images.set(path,new Promise((resolve,reject)=>{im.onload=()=>resolve(im);im.onerror=()=>reject(Error('Missing preview '+path));}));}return images.get(path);}
+for(const [key,c] of Object.entries(DATA)){const o=document.createElement('option');o.value=key;o.textContent=c.label;$('clip').append(o);}
+$('clip').value='Walk_Native';
+async function draw(){
+ const token=++generation,key=$('clip').value,c=DATA[key],frame=Math.min(c.end,Math.round(position)),view=$('view').value;
+ $('frame').value=frame;$('time').textContent=`${frame}/${c.end} · ${(frame/48).toFixed(3)} s`;
+ const anchor=frame===c.end&&c.loop?0:c.anchors.reduce((a,v,i)=>v.sample<=frame?i:a,0);
+ const source=c.anchors[anchor],suffix=c.single?'':view==='profile'?'2':'0';
+ const native=source.binding+suffix,renderFrame=c.end===6?0:frame;
+ $('phase').textContent=source.phase;$('notes').textContent=c.notes;
+ $('nativeTitle').textContent=c.single&&view==='profile'?'Original native sprites — only front view exists':'Original native sprites — '+view;
+ window.reviewState={clip:key,frame,view,native,anchor,playing};
+ try{
+  const [n,m]=await Promise.all([bitmap('../../mm6_dmn/native/'+native+'.png'),bitmap(`preview_frames/${key}_${view}_${String(renderFrame).padStart(2,'0')}.jpg`)]);
+  if(token!==generation)return;
+  const nc=$('native').getContext('2d');nc.clearRect(0,0,708,660);nc.imageSmoothingEnabled=false;nc.drawImage(n,0,0,708,660);
+  const mc=$('model').getContext('2d');mc.clearRect(0,0,760,800);mc.drawImage(m,0,0,760,800);
+ }catch(error){$('notes').textContent=error.message;throw error;}
+}
+function pause(){playing=false;$('play').textContent='Play';}
+function choose(){pause();position=0;const c=DATA[$('clip').value];$('frame').max=c.end;$('anchors').replaceChildren();
+ c.anchors.forEach(a=>{const b=document.createElement('button');b.textContent=a.letter+' · '+a.sample;b.onclick=()=>{pause();position=a.sample;draw();};$('anchors').append(b);});
+ $('policy').textContent=c.policy;$('ash').hidden=$('clip').value!=='Death';$('gif').href=$('clip').value+'_preview.gif';$('plate').href=$('clip').value+'_anchors.jpg';draw();}
+$('clip').onchange=choose;$('view').onchange=draw;$('frame').oninput=()=>{pause();position=+$('frame').value;draw();};
+$('restart').onclick=()=>{position=0;previous=performance.now();draw();};
+$('play').onclick=()=>{playing=!playing;if(playing&&position>=DATA[$('clip').value].end)position=0;$('play').textContent=playing?'Pause':'Play';previous=performance.now();draw();};
+$('ash').onclick=()=>{$('clip').value='Ash_Remains';choose();};
+function tick(now){if(playing){const c=DATA[$('clip').value];position+=(now-previous)*.048*(+$('speed').value);if(position>c.end){if(c.loop)position%=c.end;else{position=c.end;pause();}}draw();}previous=now;requestAnimationFrame(tick);}
+choose();requestAnimationFrame(tick);
+</script></html>

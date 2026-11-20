@@ -1,0 +1,24 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the first input image paint_mask_guide.png, keeping its exact geometry and alpha silhouettes. The second input design_reference.png is material/detail reference only; the third icon_x8.png is colour reference only (magenta is background, never use it).\n\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. The guide is three columns by FOUR rows of equal square cells. Rows 1-2 and rows 3-4 hold identical five grey orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Keep every object in EXACTLY the same position, size, outline, view and internal geometry as the guide. Paint grey objects only; never redraw, enlarge, move or redesign them. Keep every gap and opening exactly as in the guide and fully transparent. Empty cells column 3 row 2 and row 4 stay completely transparent.\n\nRows 1-2 PAINT: unlit base colour of dark violet-black glossy sphere with glowing purple-violet swirl and black centre, held in cage of four curved dark polished silver-steel claws/talons wrapping from below and sides. Follow reference facets, engravings, scrollwork and inner swirls scaled to each view, but strictly respect the guide model. Unlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights or reflections. Purple swirl is intrinsic colour. No glow halo, sparkles or aura outside silhouette, no ground, outlines or text.\n\nRows 3-4 MATERIAL MASK: SAME five guide silhouettes and material boundaries, filled with FLAT pure colours only. Every metal part pure red #FF0000. Every sphere/glass/crystal part pure black #000000, fully opaque black (NOT transparent). No shading, texture, outlines, antialiased colour blends inside, highlights or purple in masks. Every pixel inside silhouettes gets exactly one of those two colours. Nothing outside silhouettes. Preserve transparent background and all empty cells. Exact registration with the guide is essential.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce2-3672-7541-9c7e-431f5329b0a3/exec-1e9de265-315d-4793-bc47-67234670da9c.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_eye_of_void/paint_mask_raw_v1.png",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_eye_of_void/paint_mask_guide.png",
+      "sha256": "7ef2ee19cfd16b68d9008adb9d73e26bee578aff3602b9b762beb197139039be"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_eye_of_void/design_reference.png",
+      "sha256": "e9d358005fbbb5120200ae16e0475681dcdb07eb25cacc84ed1b0050d38aa736"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_eye_of_void/icon_x8.png",
+      "sha256": "cce5e548b88c19ba9bd41b3fc67bee2213e1f2752a73ce05cc44f1a3dd877160"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen"
+}

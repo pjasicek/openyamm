@@ -1,0 +1,22 @@
+format: 0
+themes:
+  - id: theme:hollow
+    wall: {texture: thjo07yaja, size: [256, 256]}
+    floor: {texture: cgrajnkrow, size: [128, 128]}
+    ceiling: {texture: thjo07yaja, size: [256, 256], sky: true}
+defaults: {theme: theme:hollow, ambient: 14}
+rooms:
+  - id: room:meadow
+    name: Meadow
+    outline: [[0, 0], [3072, 0], [3072, 3072], [0, 3072]]
+    floor: 0
+    floor_points: [[0, 1408, 0], [0, 1664, 0], [3072, 1408, 0], [3072, 1664, 0], [1536, 2432, 288], [1536, 640, 256], [1344, 640, 0], [1728, 640, 0], [1536, 448, 0], [1536, 832, 0]]
+    floor_lines:
+      - [[0, 1408], [3072, 1408]]
+      - [[0, 1664], [3072, 1664]]
+    floor_surfaces:
+      - {steeper_than: 0.6, surface: {texture: thjob3xi6b, size: [256, 256]}}
+      - {at: [1536, 1536], surface: {texture: thjodbs7wo, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 1536
+    notes: "The hollow's floor: grass rising to a hill in the north, a dirt track between two lines from wall to wall, a knoll in the south whose sides rise 256 over 192 (rock by their steepness). The cliff walls round it are ordinary faces; the ceiling is the sky."

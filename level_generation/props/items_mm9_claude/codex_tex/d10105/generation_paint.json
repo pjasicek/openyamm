@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact spatial template. Produce ONE transparent PNG at 1536x2048 (3:4). Preserve all ten existing object silhouettes, holes, placements, sizes, orientations and outlines EXACTLY. The guide is three columns by FOUR rows of 512-square cells. Do not reinterpret the unusual camera views or rotate them. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat those exact five views. Empty cells column 3 rows 2 and 4 remain transparent. Paint ONLY existing grey object pixels.\nRows 1-2: unlit base color of Trigvanian Mail using design_reference.png for materials/details and icon_x8.png for color (magenta is only background, never paint). Long-sleeved green-silver chain mail, bronze-edged neck, finer-mail front panel edged bronze, two large dark-green patinated metal spiral discs vertically on chest and belly, mail skirt. Follow existing geometry, put spirals only on existing discs, preserve every gap/opening as transparent. Fine chain links and bronze edging continue consistently over all views. Facets, engravings and inner swirls follow reference scaled per view. No lighting, AO, cast shadows, hot highlights, reflections, outlines, glow, aura, sparkles, ground or text.\nRows 3-4: MATERIAL MASK ONLY. Fill identical silhouettes with FLAT pure material colors, NO texture, shading, outlines or interior color blends. #FF0000 for all metal including chain mail, bronze edging and green patinated metal spiral discs; #00FF00 only actual leather/fur; #0000FF only actual cloth/hair; #000000 only actual gems/glass/enamel/liquid. This mail armor and its patinated metal discs are metal, so their mask is pure red. Every silhouette pixel assigned one material, outside and all holes fully transparent. Do not make the bottom rows painted mail. Do not add elements or alter silhouettes. Output the entire 3-column 4-row sheet.\nCRITICAL CORRECTION: Bottom material masks must be clean solid red shapes precisely inside original grey guide silhouettes, with ZERO speckles, noise, red mist or pixels outside. Maintain original transparent openings. All space between objects is completely transparent. Use original guide alpha boundaries for all ten shapes. Flat red fill, not a textured red rendering.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact spatial template. Produce ONE transparent PNG at 1536x2048 (3:4). Preserve all ten existing object silhouettes, holes, placements, sizes, orientations and outlines EXACTLY. The guide is three columns by FOUR rows of 512-square cells. Do not reinterpret the unusual camera views or rotate them. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat those exact five views. Empty cells column 3 rows 2 and 4 remain transparent. Paint ONLY existing grey object pixels.\nRows 1-2: unlit base color of Trigvanian Mail using design_reference.png for materials/details and icon_x8.png for color (magenta is only background, never paint). Long-sleeved green-silver chain mail, bronze-edged neck, finer-mail front panel edged bronze, two large dark-green patinated metal spiral discs vertically on chest and belly, mail skirt. Follow existing geometry, put spirals only on existing discs, preserve every gap/opening as transparent. Fine chain links and bronze edging continue consistently over all views. Facets, engravings and inner swirls follow reference scaled per view. No lighting, AO, cast shadows, hot highlights, reflections, outlines, glow, aura, sparkles, ground or text.\nRows 3-4: MATERIAL MASK ONLY. Fill identical silhouettes with FLAT pure material colors, NO texture, shading, outlines or interior color blends. #FF0000 for all metal including chain mail, bronze edging and green patinated metal spiral discs; #00FF00 only actual leather/fur; #0000FF only actual cloth/hair; #000000 only actual gems/glass/enamel/liquid. This mail armor and its patinated metal discs are metal, so their mask is pure red. Every silhouette pixel assigned one material, outside and all holes fully transparent. Do not make the bottom rows painted mail. Do not add elements or alter silhouettes. Output the entire 3-column 4-row sheet.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acbc-87f2-7241-b3f0-34dca8fdc599/exec-7ec0bf4f-6560-421e-b2c1-3632ef12537d.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10105/paint_mask_raw_v1.png",
+  "generation_tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Corrective generation still contains stray red mask pixels outside silhouettes. Raw output preserved without editing; does not fully satisfy mask constraints.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10105/paint_mask_guide.png",
+      "sha256": "989a6aa06303a6421b8b6669d1016d275c88720d4f9c2779dd27fbe9a4a66859"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10105/design_reference.png",
+      "sha256": "dd696646135396ebbaa5feb5848900587430ee426f71df4e73d9d8226420f421"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10105/icon_x8.png",
+      "sha256": "0b2ae9b33c14fcd5f778b84953130a63b45a7f6ffe22c05c9e94529f0291fb36"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

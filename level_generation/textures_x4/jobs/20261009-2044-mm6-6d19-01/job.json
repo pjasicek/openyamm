@@ -1,0 +1,34 @@
+{
+ "id": "20261009-2044-mm6-6d19-01",
+ "world": "mm6",
+ "maps": [
+  "6d19.blv"
+ ],
+ "created": "2026-10-09T18:44:36+00:00",
+ "textures": [
+  "mm6/t1wl7lea"
+ ],
+ "requests": {
+  "mm6/t1wl7lea": {
+   "name": "t1wl7lea",
+   "versions": [
+    1
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks, toothed small bricks along the top and left edge",
+   "notes": {
+    "1": "Polished pink marble with soft continuous veins; no stepped patches at block edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.662
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

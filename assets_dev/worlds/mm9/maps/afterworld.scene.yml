@@ -1,0 +1,936 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "afterworld.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 1294,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1295,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1296,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1297,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1298,
+    "legacy_attributes": 4194304
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Forad Darre",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 525,
+    "hostility_type": 4,
+    "monster_info_id": 9252,
+    "monster_id": 9252,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 192,
+    "position": {
+     "x": 6483,
+     "y": 2363,
+     "z": 1108
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Skraelos",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9257,
+    "monster_id": 9257,
+    "radius": 49,
+    "height": 279,
+    "move_speed": 0,
+    "position": {
+     "x": 1854,
+     "y": -2070,
+     "z": 1168
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.6,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc336.scr",
+     "script_params": "Afterworld"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 94,
+    "mm9_rude_id": 336
+   },
+   {
+    "actor_index": 2,
+    "name": "Tryygva Ravenlocks",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9250,
+    "monster_id": 9250,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 3066,
+     "y": -5506,
+     "z": 1051
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 96,
+    "mm9_rude_id": 180
+   },
+   {
+    "actor_index": 3,
+    "name": "Kira the Cold",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9251,
+    "monster_id": 9251,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -6834,
+     "y": -6942,
+     "z": 1055
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 97,
+    "mm9_rude_id": 239
+   },
+   {
+    "actor_index": 4,
+    "name": "Markel the Great",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9248,
+    "monster_id": 9248,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 10736,
+     "y": -1671,
+     "z": 1051
+    },
+    "initial_yaw_units": 1041,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 98,
+    "mm9_rude_id": 127
+   },
+   {
+    "actor_index": 5,
+    "name": "Sven Forkbeard",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9249,
+    "monster_id": 9249,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -2432,
+     "y": 3978,
+     "z": 1051
+    },
+    "initial_yaw_units": 1680,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 99,
+    "mm9_rude_id": 3
+   },
+   {
+    "actor_index": 6,
+    "name": "Bjarni Thorvaldssen",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9246,
+    "monster_id": 9246,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 4201,
+     "y": 8046,
+     "z": 1051
+    },
+    "initial_yaw_units": 1476,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 100,
+    "mm9_rude_id": 45
+   },
+   {
+    "actor_index": 7,
+    "name": "Sigmund the Stressed",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9247,
+    "monster_id": 9247,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11625,
+     "y": 2628,
+     "z": 1173
+    },
+    "initial_yaw_units": 1636,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 101,
+    "mm9_rude_id": 87
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    1731,
+    -2225,
+    1168
+   ],
+   "direction_degrees": 90
+  }
+ ],
+ "loot_containers": [],
+ "static_lights": {
+  "sides": "both"
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [],
+ "world_items": [
+  {
+   "source_id": "afterworld:obj_KiraSword",
+   "source_object_index": 124,
+   "source_name": "obj_KiraSword",
+   "position": {
+    "x": 4188,
+    "y": 5802,
+    "z": 1013
+   },
+   "item_id": 10567,
+   "random_item_pool": [],
+   "required_qbits": [
+    90492
+   ],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "afterworld:obj_SigmundSword",
+   "source_object_index": 125,
+   "source_name": "obj_SigmundSword",
+   "position": {
+    "x": 4188,
+    "y": 4819,
+    "z": 1050
+   },
+   "item_id": 10565,
+   "random_item_pool": [],
+   "required_qbits": [
+    90492
+   ],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "afterworld:obj_TryygvaSword",
+   "source_object_index": 126,
+   "source_name": "obj_TryygvaSword",
+   "position": {
+    "x": 3533,
+    "y": 6129,
+    "z": 1050
+   },
+   "item_id": 10566,
+   "random_item_pool": [],
+   "required_qbits": [
+    90492
+   ],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "afterworld:obj_BjarniSword",
+   "source_object_index": 127,
+   "source_name": "obj_BjarniSword",
+   "position": {
+    "x": 4188,
+    "y": 5474,
+    "z": 1013
+   },
+   "item_id": 10564,
+   "random_item_pool": [],
+   "required_qbits": [
+    90492
+   ],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "afterworld:obj_SvenSword",
+   "source_object_index": 128,
+   "source_name": "obj_SvenSword",
+   "position": {
+    "x": 3369,
+    "y": 5474,
+    "z": 1071
+   },
+   "item_id": 10563,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 112,
+   "sound": "ambient/wind/errie_wind.wav",
+   "position": [
+    1240,
+    -20902,
+    2130
+   ],
+   "inner_radius": 6400,
+   "outer_radius": 25600,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 113,
+   "sound": "ambient/wind/errie_wind.wav",
+   "position": [
+    -19404,
+    14159,
+    2130
+   ],
+   "inner_radius": 6400,
+   "outer_radius": 25600,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 114,
+   "sound": "ambient/wind/errie_wind.wav",
+   "position": [
+    16313,
+    14979,
+    2130
+   ],
+   "inner_radius": 6400,
+   "outer_radius": 25600,
+   "volume": 0.052,
+   "loop": true
+  },
+  {
+   "key": 104,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2941,
+    5160,
+    1728
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 106,
+   "sound": "ambient/fire/torchlight.wav",
+   "position": [
+    2878,
+    -699,
+    1311
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 107,
+   "sound": "ambient/fire/torchlight.wav",
+   "position": [
+    2878,
+    -1047,
+    1311
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 108,
+   "sound": "ambient/fire/torchlight.wav",
+   "position": [
+    2878,
+    -1354,
+    1311
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 109,
+   "sound": "ambient/fire/torchlight.wav",
+   "position": [
+    912,
+    -1354,
+    1311
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 110,
+   "sound": "ambient/fire/torchlight.wav",
+   "position": [
+    912,
+    -1047,
+    1311
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  },
+  {
+   "key": 111,
+   "sound": "ambient/fire/torchlight.wav",
+   "position": [
+    912,
+    -699,
+    1311
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true,
+   "start_on": false
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   80,
+   80,
+   80
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   121,
+   133,
+   180
+  ],
+  "sun_gain": 4.0
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "abndst2nts"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "bluewqvuma",
+    "darkrh5ob3",
+    "dung4m50hb",
+    "marbga5jqp",
+    "outes7qx3l",
+    "sky04"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "terrain": {
+  "materials": "afterworld_blv.yml",
+  "textures": [
+   "abndst2nts",
+   "darkrh5ob3"
+  ],
+  "grass": "worlds/mm9/terrain_decorations/afterworld_blv.yml"
+ }
+}

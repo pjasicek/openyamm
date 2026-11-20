@@ -11,6 +11,8 @@ enum class AwardStateKind : uint8_t
     CharacterAward = 0,
     PartyQBit,
     PartyAutonote,
+    // The party has won Arcomage at the house with this id.
+    PartyArcomageWin,
 };
 
 struct AwardDisplayEntry

@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit image 1, paint_mask_guide.png, as an exact registered texture view atlas. Image 2 design_reference.png is the approved material/detail reference; image 3 icon_x8.png is the original colour reference (ignore magenta background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve every guide silhouette, position, size, outline, gaps and openings exactly. Do not redraw, enlarge, move or redesign objects. Three columns and FOUR rows of equal square cells: rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat precisely the same views and positions.\nObject: aged tan book, allows character to learn Blade skill at Normal level.\nRows 1-2 PAINT: paint grey objects only with unlit base colour matching the approved old tan hide/leather bound book and ochre parchment page edges, subtly worn edges and central faded dark marks matching references. Spine and cover are tan leather, exposed page block is aged parchment. Details scaled to each orthographic view, no invented ornamentation. Keep geometry exactly as guide. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: fill the same five silhouettes with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure green #00FF00 every leather part (book cover and spine); pure yellow #FFFF00 every matte nonmetal solid (parchment/paper page block); pure blue #0000FF any cloth; pure red #FF0000 any metal. Every pixel of each silhouette gets exactly one colour, nothing outside. These lower rows are segmentation masks, NOT painted colour views. Large TOP cover silhouette in row 4 is solid pure green. Narrow page-facing views have yellow page blocks and green leather cover/spine borders. No added metal or cloth.\nEmpty cells column 3 rows 2 and 4 remain entirely transparent. Preserve transparency everywhere outside silhouettes and in openings. Deliver only the atlas.\nCRITICAL CORRECTION: Output canvas must have width:height exactly 3:4, NOT 1:2. Use the guide image's full canvas and exact normalized object coordinates. No paint splatters, coloured fringes or pixels beyond the original grey silhouettes. Lower masks must be perfectly flat green/yellow shapes with no embossed shading, no gradients and no dark outlines. Front/back narrow view central surfaces are exposed paper (yellow mask), with leather binding rims and rounded spine end (green mask). Precisely preserve straight rectangular guide cover outlines rather than rounding or thickening them. This is a registered technical texture sheet, not an artistic reinterpretation.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0f-3c1e-75d3-b4a3-5defb1f79fa5/exec-a8ce8b25-6ee2-4912-9b81-41652433ff41.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10285/paint_mask_raw_v1.png",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10285/paint_mask_guide.png",
+      "sha256": "1ddcfa20dee68e42ce41d68183e19001340d90c4cbde5d6bad4910f31f2f1c94"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10285/design_reference.png",
+      "sha256": "a40ef69b131bb7ef4ddd096ee0dbe7f52173cb7b9c3f75e176069b7834de492d"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10285/icon_x8.png",
+      "sha256": "878740252f4d431724e885e524f3986008a530b66b2bdac2e21e3c7c6017e6d6"
+    }
+  ],
+  "mode": "built-in",
+  "corrective_regenerations": 1,
+  "size": [
+    1086,
+    1448
+  ],
+  "image_mode": "RGBA",
+  "validation": "Raw tool output retained unchanged. Visual inspection found colour spill outside silhouettes and non-flat material masks after the single permitted correction."
+}

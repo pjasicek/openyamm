@@ -1,0 +1,709 @@
+id: hesper.d07_main_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    party:
+      members:
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Ada
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Bram
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Cyra
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Dana
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Eli
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+    start_map: hes_d07.blv
+- setup_shortcut:
+    id: 100209
+    kind: set_qbit
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.Rolled
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.750
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.751
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.769
+      value: 0
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 4800
+      y: 700
+      yaw: 1.5707963267948966
+      z: 0
+    input: forward
+    loose_tolerance: true
+    seconds: 0.55
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 4800
+      y: 300
+      yaw: 1.5707963267948966
+      z: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+- wait_until:
+    assert:
+      mechanism:
+        id: 1
+        kind: indoor_door
+        state: open
+    timeout_runtime_seconds: 3
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 3600
+    y: 1500
+    yaw: 3.141592653589793
+    z: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 4
+      value: 1
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 4800
+      y: 5110
+      yaw: 1.5707963267948966
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 2.5
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 4800
+      y: 3200
+      yaw: 1.5707963267948966
+      z: 32
+    tolerance_xy: 100
+    tolerance_z: 40
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 3000
+    y: 6716
+    yaw: 0
+    z: -512
+- press_interact: {}
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 2436
+    y: 6870
+    yaw: 1.5707963267948966
+    z: -512
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 1
+- press_action:
+    action: cancel_dialog
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 8400
+      y: 5472
+      yaw: 0
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 0.72
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 7850
+      y: 5472
+      yaw: 0
+      z: -512
+    tolerance_xy: 100
+    tolerance_z: 40
+- assert:
+    state_dump_map_var:
+      index: 13
+      value: 1
+- movement_segment:
+    input: forward
+    seconds: 0.6875
+    start:
+      map: hes_d07.blv
+      x: 8300
+      y: 5472
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 8300
+      y: 6000
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    seconds: 2.9297
+    start:
+      map: hes_d07.blv
+      x: 8300
+      y: 6000
+      z: -512
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 10550
+      y: 6000
+      z: -512
+      yaw: 0.0
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d07.blv
+    x: 10650
+    y: 6100
+    z: -512
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 13
+      value: 2
+- save_game: d07_line_stopped
+- movement_segment:
+    input: none
+    seconds: 41
+    start:
+      map: hes_d07.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 2
+    tolerance_z: 2
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 14
+      value: 4
+- save_game: d07_line_stopped_after_41
+- set_pose:
+    map: hes_d07.blv
+    x: 10600
+    y: 7010
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 7
+        state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8984
+    start:
+      map: hes_d07.blv
+      x: 10600
+      y: 7010
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 10600
+      y: 7700
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    seconds: 0.651
+    start:
+      map: hes_d07.blv
+      x: 10600
+      y: 7700
+      z: -512
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 10100
+      y: 7700
+      z: -512
+      yaw: 3.141592653589793
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    seconds: 0.8021
+    start:
+      map: hes_d07.blv
+      x: 10100
+      y: 7700
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 10100
+      y: 8316
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    seconds: 0.3906
+    start:
+      map: hes_d07.blv
+      x: 10100
+      y: 8316
+      z: -512
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 9800
+      y: 8316
+      z: -512
+      yaw: 3.141592653589793
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d07.blv
+    x: 9780
+    y: 8316
+    z: -512
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 8
+        state: open
+- movement_segment:
+    input: forward
+    seconds: 0.7552
+    start:
+      map: hes_d07.blv
+      x: 9780
+      y: 8316
+      z: -512
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 9200
+      y: 8316
+      z: -512
+      yaw: 3.141592653589793
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 8728
+    y: 8450
+    yaw: 1.5707963267948966
+    z: -512
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 2
+      value: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 8100
+    y: 8316
+    yaw: 3.141592653589793
+    z: -512
+- press_interact: {}
+- wait_until:
+    assert:
+      mechanism:
+        id: 4
+        kind: indoor_door
+        state: open
+    timeout_runtime_seconds: 3
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 7500
+      y: 8316
+      yaw: 3.141592653589793
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 0.78
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 8100
+      y: 8316
+      yaw: 3.141592653589793
+      z: -512
+    tolerance_xy: 100
+    tolerance_z: 40
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 7164
+    y: 8450
+    yaw: 1.5707963267948966
+    z: -512
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 1
+- press_action:
+    action: cancel_dialog
+- assert:
+    qbit_clear:
+    - 100009
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 6640
+    y: 8316
+    yaw: 3.141592653589793
+    z: -512
+- press_interact: {}
+- wait_until:
+    assert:
+      mechanism:
+        id: 3
+        kind: indoor_door
+        state: open
+    timeout_runtime_seconds: 3
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 6140
+      y: 8316
+      yaw: 3.141592653589793
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 0.66
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 6640
+      y: 8316
+      yaw: 3.141592653589793
+      z: -512
+    tolerance_xy: 100
+    tolerance_z: 40
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 36
+      value: 1
+- save_game: d07_quiet_free
+- load_game: d07_quiet_free
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 1
+- set_pose:
+    map: hes_d07.blv
+    x: 4800
+    y: 300
+    z: 0
+    yaw: 0
+    pitch: 0
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    actor_visible:
+      actor_index: 23
+      dead: true
+      hp: 0
+- assert:
+    state_dump_map_var:
+      index: 6
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 7
+      value: 1
+- assert:
+    qbit_set:
+    - 100009
+    qbit_clear:
+    - 100209
+- assert:
+    world_item_state:
+      item_id: 11332
+      present: true
+- assert:
+    gold: 30000
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 6
+        state: open
+- set_pose:
+    map: hes_d07.blv
+    pitch: 0
+    x: 3380
+    y: 6716
+    yaw: 3.141592653589793
+    z: -512
+- press_interact: {}
+- wait_until:
+    assert:
+      mechanism:
+        id: 2
+        kind: indoor_door
+        state: open
+    timeout_runtime_seconds: 3
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 3424
+      y: 9800
+      yaw: 1.5707963267948966
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 0.91
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 3424
+      y: 9100
+      yaw: 1.5707963267948966
+      z: -512
+    tolerance_xy: 100
+    tolerance_z: 40
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 3424
+      y: 12000
+      yaw: 1.5707963267948966
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 1.82
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 3424
+      y: 10600
+      yaw: 1.5707963267948966
+      z: -512
+    tolerance_xy: 100
+    tolerance_z: 40
+- set_pose:
+    map: hes_d07.blv
+    pitch: -0.4
+    x: 4800
+    y: 9600
+    yaw: 1.5707963
+    z: -512
+- press_interact: {}
+- assert:
+    chest_contains_quest_item:
+      chest_id: 3
+      item_id: 11331
+- assert:
+    chest_contains_quest_item:
+      chest_id: 3
+      item_id: 11004
+- press_action:
+    action: cancel_dialog
+- save_game: d07_dead_node
+- load_game: d07_dead_node
+- assert:
+    state_dump_map_var:
+      index: 7
+      value: 1
+- wait_until:
+    assert:
+      mechanism:
+        id: 6
+        kind: indoor_door
+        state: open
+    timeout_runtime_seconds: 3
+- set_pose:
+    map: hes_d07.blv
+    x: 3424
+    y: 12280
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    selection_index: 0
+    label: OK
+- assert:
+    map: hes_out4.odm
+- set_pose:
+    map: hes_out4.odm
+    x: 17318
+    y: 2880
+    z: 1056
+    yaw: -0.0
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d07.blv
+- assert:
+    state_dump_map_var:
+      index: 7
+      value: 1

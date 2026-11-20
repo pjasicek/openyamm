@@ -1,0 +1,62 @@
+id: mm6.ships.oute1.tigershark
+title: Tigershark boarding and cabin
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: oute1.odm
+- movement_segment:
+    start:
+      map: oute1.odm
+      x: 6360
+      y: 8432
+      z: 177
+      yaw: 4.71238898038469
+      pitch: 0
+    expect_stop:
+      map: oute1.odm
+      x: 6360
+      y: 7952
+      z: 105
+      yaw: 4.71238898038469
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- movement_segment:
+    start:
+      map: oute1.odm
+      x: 6360
+      y: 7952
+      z: 105
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: oute1.odm
+      x: 6360
+      y: 8337
+      z: 177
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- press_interact:
+    pose:
+      map: oute1.odm
+      x: 6136
+      y: 7800
+      z: 105
+      yaw: 3.141592653589793
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 26
+      face_index: 42
+      triggered_event: 9

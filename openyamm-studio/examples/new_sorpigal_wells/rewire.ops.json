@@ -1,0 +1,200 @@
+[
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:water_109",
+   "preset": "text",
+   "replaces": "evt:e109",
+   "title": "Well",
+   "condition": {
+    "all": [
+     {
+      "not": {
+       "map_var": 71
+      }
+     },
+     {
+      "gold": {
+       "below": 1
+      }
+     }
+    ]
+   },
+   "effects": [
+    {
+     "add": {
+      "var": {
+       "map_var": 71
+      },
+      "value": 1
+     }
+    },
+    {
+     "gold": 100
+    }
+   ],
+   "locked_text": "Refreshing!",
+   "notes": "Pays 100 gold once to a party with none."
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:water_110",
+   "preset": "text",
+   "replaces": "evt:e110",
+   "title": "Well",
+   "condition": {
+    "all": [
+     {
+      "not": {
+       "stat": {
+        "name": "BaseLuck",
+        "at_least": 15
+       }
+      }
+     },
+     {
+      "map_var": 72
+     }
+    ]
+   },
+   "effects": [
+    {
+     "subtract": {
+      "var": {
+       "map_var": 72
+      },
+      "value": 1
+     }
+    },
+    {
+     "add": {
+      "var": "BaseLuck",
+      "value": 2
+     }
+    }
+   ],
+   "text": "+2 Luck permanent",
+   "locked_text": "Refreshing!",
+   "notes": "Two points of Luck to the unlucky, while the well has charges (map variable 72)."
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:water_131",
+   "preset": "text",
+   "replaces": "evt:e131",
+   "title": "Drink from Fountain",
+   "condition": {
+    "map_var": 51
+   },
+   "effects": [
+    {
+     "subtract": {
+      "var": {
+       "map_var": 51
+      },
+      "value": 1
+     }
+    },
+    {
+     "add": {
+      "var": "HP",
+      "value": 5
+     }
+    },
+    {
+     "autonote": 391
+    }
+   ],
+   "text": "+5 Hit points restored.",
+   "else_effects": [
+    {
+     "autonote": 391
+    }
+   ],
+   "locked_text": "Refreshing!"
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:water_140",
+   "preset": "text",
+   "replaces": "evt:e140",
+   "title": "Drink from Fountain",
+   "condition": {
+    "map_var": 52
+   },
+   "effects": [
+    {
+     "subtract": {
+      "var": {
+       "map_var": 52
+      },
+      "value": 1
+     }
+    },
+    {
+     "add": {
+      "var": "SP",
+      "value": 5
+     }
+    },
+    {
+     "autonote": 392
+    },
+    {
+     "lua": "evt.OpenDimensionDoor()"
+    }
+   ],
+   "text": "+5 Spell points restored.",
+   "else_effects": [
+    {
+     "autonote": 392
+    },
+    {
+     "lua": "evt.OpenDimensionDoor()"
+    }
+   ],
+   "locked_text": "Refreshing!"
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:water_150",
+   "preset": "text",
+   "replaces": "evt:e150",
+   "title": "Drink from Fountain",
+   "condition": {
+    "not": {
+     "stat": {
+      "name": "MightBonus",
+      "at_least": 10
+     }
+    }
+   },
+   "effects": [
+    {
+     "set": {
+      "var": "MightBonus",
+      "value": 10
+     }
+    },
+    {
+     "autonote": 393
+    }
+   ],
+   "text": "+10 Might temporary.",
+   "else_effects": [
+    {
+     "autonote": 393
+    }
+   ],
+   "locked_text": "Refreshing!"
+  }
+ }
+]

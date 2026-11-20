@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "failures": [],
+  "sourceNpcSites": 48,
+  "sourceServices": 6,
+  "sourceSpatialEventSites": 218,
+  "sourceEventRecords": 1408,
+  "attachedInteriorContacts": 23,
+  "attachedInteriorTeachers": 3,
+  "sourceVisualObjects": 232,
+  "wallEnclosedTownAssemblies": 24,
+  "curtainThicknessChecked": 256,
+  "townAssemblies": 24,
+  "countryDestinations": 21,
+  "townRegularNpcVenues": 24,
+  "townRegularNpcCount": 31,
+  "townRegularNpcVenueHistogram": {
+    "1": 17,
+    "2": 7
+  },
+  "townPublicNpcContacts": 2,
+  "townRestrictedNpcContacts": 2,
+  "puzzleChests": 18,
+  "ordinaryTownChests": 5,
+  "townSewerConnectors": 5,
+  "sourceMonsterRecords": 166,
+  "sourceInitiallySpatialMonsters": 151,
+  "metrics": {
+    "buildings": 24,
+    "nearest_envelope_gap_p25_median_p75": [
+      309.3,
+      488.0,
+      610.2
+    ],
+    "nearest_center_p25_median_p75": [
+      1681.1,
+      1724.7,
+      1968.1
+    ],
+    "settlement_envelope_area": 105127764,
+    "building_envelope_coverage_percent": 31.2,
+    "building_base_z_range": [
+      640,
+      864
+    ]
+  },
+  "medianPrimaryDoorToRoadCenterline": 432,
+  "limits": [
+    "Envelopes, road strips, primary frontages and 256-unit curtain clearance checked. Quantized terrain and decoration checks are in landscape/verification.json; no runtime collision test. Tower pads, gate passage, wall terrain footing and secondary approaches need native blockout checks.",
+    "Source NPC occupancy is initial table state; dynamic MM8 quest moves are not simulated.",
+    "Encounter volume counts, travel days, reward balance and MM5-skill equivalents are design decisions, not executable behavior.",
+    "Orchard trees have individual grounded placements in landscape/decorations.json; interior room furnishings remain deferred.",
+    "Secondary door positions are reserved on each facade; exact panel geometry and approach paving must be validated after authoring."
+  ]
+}

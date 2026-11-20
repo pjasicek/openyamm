@@ -1,16 +1,20 @@
 #include "game/ui/screens/MainMenuScreen.h"
 
+#include "engine/Localization.h"
+#include "engine/Utf8Text.h"
+#include "game/app/GameUpdater.h"
 #include "game/data/GameDataRepository.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/ui/MenuSettingsModel.h"
 #include "game/ui/screens/LoadGameScreen.h"
-#include "engine/Utf8.h"
 
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <set>
 #include <stdexcept>
+#include <unordered_set>
 
 namespace OpenYAMM::Game
 {
@@ -32,20 +36,144 @@ std::string capitalized(const std::string &value)
     }
     return result;
 }
-std::string lower(std::string value)
+// The search compares the displayed (translated) names, so it lowers every letter, not only ASCII ones.
+std::string lower(const std::string &value)
 {
-    std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) { return char(std::tolower(c)); });
-    return value;
+    return Engine::Utf8::lower(value);
+}
+
+// The catalog section whose rows are the ruleset options of the game in progress.
+constexpr const char *GameSection = "game";
+// The language list and the Language row draw each language's name in its own script, whatever the interface
+// language's faces cover (tools/language_names_font.py).
+constexpr const char *LanguageNamesFont = "menu_language_names";
+
+std::string rulesetSettingValue(const RulesetOptions &options, const std::string &id)
+{
+    const auto flag = [](bool value) { return std::string(value ? "true" : "false"); };
+    if (id == "ruleset_difficulty")
+    {
+        return std::string(rulesetDifficultyId(options.difficulty));
+    }
+    if (id == "ruleset_progression")
+    {
+        return std::string(rulesetProgressionId(options.progression));
+    }
+    if (id == "ruleset_challenge")
+    {
+        return std::string(rulesetChallengeModeId(options.challengeMode));
+    }
+    if (id == "ruleset_randomizer")
+    {
+        return flag(options.randomizer);
+    }
+    if (id == "ruleset_solo")
+    {
+        return flag(options.soloRun);
+    }
+    if (id == "ruleset_homing")
+    {
+        return flag(options.preferences.homingProjectiles);
+    }
+    if (id == "ruleset_friendly_fire")
+    {
+        return flag(options.preferences.friendlyFire);
+    }
+    if (id == "ruleset_disintegrate")
+    {
+        return flag(options.preferences.disintegration);
+    }
+    if (id == "ruleset_trainer_hints")
+    {
+        return flag(options.preferences.trainerHints);
+    }
+    if (id == "ruleset_bow")
+    {
+        // On: the bow shoots (the preference is stored the other way round, as MAW's disableBow).
+        return flag(!options.preferences.bowDisabled);
+    }
+    if (id == "ruleset_loot_filter")
+    {
+        // The whole filter, so a changed kind, "stay on the ground" or a Custom rule counts as a change too.
+        return rulesetLootFilterValue(options.preferences.lootFilter);
+    }
+    return {};
+}
+
+void setRulesetSettingValue(RulesetOptions &options, const std::string &id, const std::string &value)
+{
+    if (id == "ruleset_difficulty")
+    {
+        options.difficulty = parseRulesetDifficulty(value).value_or(options.difficulty);
+    }
+    else if (id == "ruleset_progression")
+    {
+        options.progression = parseRulesetProgression(value).value_or(options.progression);
+    }
+    else if (id == "ruleset_solo")
+    {
+        options.soloRun = value == "true";
+    }
+    else if (id == "ruleset_homing")
+    {
+        options.preferences.homingProjectiles = value == "true";
+    }
+    else if (id == "ruleset_friendly_fire")
+    {
+        options.preferences.friendlyFire = value == "true";
+    }
+    else if (id == "ruleset_disintegrate")
+    {
+        options.preferences.disintegration = value == "true";
+    }
+    else if (id == "ruleset_trainer_hints")
+    {
+        options.preferences.trainerHints = value == "true";
+    }
+    else if (id == "ruleset_bow")
+    {
+        options.preferences.bowDisabled = value != "true";
+    }
+    else if (id == "ruleset_loot_filter")
+    {
+        // A preset id, or a preset filter as rulesetSettingValue writes it (Custom rules are made in the window).
+        const size_t separator = value.find(':');
+        const std::optional<RulesetLootFilterPreset> preset = parseRulesetLootFilterPreset(value.substr(0, separator));
+        if (preset)
+        {
+            options.preferences.lootFilter =
+                rulesetLootFilterWithPreset(*preset, options.preferences.lootFilter.leaveOnGround);
+            const size_t second = separator == std::string::npos ? std::string::npos : value.find(':', separator + 1);
+            if (second != std::string::npos)
+            {
+                options.preferences.lootFilter.goldKinds =
+                    uint8_t(std::strtoul(value.substr(separator + 1, second - separator - 1).c_str(), nullptr, 10)
+                            & ((1u << RulesetLootKindCount) - 1));
+                options.preferences.lootFilter.leaveOnGround = value.substr(second + 1) == "ground";
+            }
+        }
+    }
 }
 } // namespace
 
 MainMenuScreen::MainMenuScreen(const Engine::AssetFileSystem &assets, const GameDataRepository &gameData,
-                               GameAudioSystem *pAudio, const GameSettings &settings, Actions actions, bool paused,
-                               std::string location, std::string date)
-    : MenuDesignScreen(assets, paused, pAudio, settings.language), m_actions(std::move(actions)), m_gameData(gameData),
-      m_committed(settings), m_draft(settings), m_location(std::move(location)), m_date(std::move(date)),
-      m_paused(paused)
+                               GameAudioSystem *pAudio, const GameSettings &settings, Actions actions,
+                               std::string &settingsSection, bool paused, std::string location, std::string date,
+                               GameUpdater *pUpdater, std::optional<CurrentGame> currentGame)
+    : MenuDesignScreen(assets, paused, pAudio), m_actions(std::move(actions)), m_gameData(gameData),
+      m_committed(settings), m_draft(settings), m_currentGame(std::move(currentGame)), m_section(settingsSection),
+      m_location(std::move(location)), m_date(std::move(date)), m_paused(paused),
+      m_pUpdater(paused ? nullptr : pUpdater)
 {
+    if (m_currentGame)
+    {
+        m_rulesetDraft = m_currentGame->selection.options;
+    }
+    // A section left open in another game may not exist in this one.
+    if (m_section == GameSection && !m_currentGame)
+    {
+        m_section = "gameplay";
+    }
     if (!paused)
     {
         m_latestSave = LoadGameScreen::mostRecentSave(m_latestSaveMap);
@@ -84,22 +212,28 @@ void MainMenuScreen::loadCatalog()
     const YAML::Node catalog = YAML::Load(*text);
     for (const YAML::Node &item : catalog["sections"])
     {
-        const std::string name = item["name"].as<std::string>();
-        m_sections.push_back({item["id"].as<std::string>(), localization().translate(name)});
+        if ((item["updater_only"].as<bool>(false) && m_pUpdater == nullptr)
+            || (item["game_only"].as<bool>(false) && !m_currentGame))
+        {
+            continue;
+        }
+        m_sections.push_back({item["id"].as<std::string>(), Engine::localize(item["name"].as<std::string>())});
     }
     for (const YAML::Node &item : catalog["settings"])
     {
         Setting setting;
         setting.id = item["id"].as<std::string>();
         setting.section = item["section"].as<std::string>();
-        const std::string group = item["group"].as<std::string>();
-        const std::string name = item["name"].as<std::string>();
-        const std::string description = item["desc"].as<std::string>();
-        setting.group = localization().translate(group);
-        setting.name = localization().translate(name);
-        setting.description = localization().translate(description);
+        setting.group = item["group"].as<std::string>();
+        // Names, descriptions and choices show in the interface language; ids, values and groups stay English.
+        setting.name = Engine::localize(item["name"].as<std::string>());
+        setting.description = Engine::localize(item["desc"].as<std::string>());
+        if (m_currentGame && item["ruleset_desc"])
+        {
+            setting.description = Engine::localize(item["ruleset_desc"].as<std::string>());
+        }
         setting.type = item["type"].as<std::string>();
-        setting.unit = item["unit"].as<std::string>("");
+        setting.unit = Engine::localize(item["unit"].as<std::string>(""));
         setting.depends = item["depends"].as<std::string>("");
         setting.minimum = item["min"].as<int>(0);
         setting.maximum = item["max"].as<int>(100);
@@ -107,11 +241,93 @@ void MainMenuScreen::loadCatalog()
         {
             for (const YAML::Node &option : item["options"])
             {
-                const std::string label = option[1].as<std::string>();
-                setting.options.emplace_back(option[0].as<std::string>(), localization().translate(label));
+                setting.options.emplace_back(option[0].as<std::string>(),
+                                             Engine::localize(option[1].as<std::string>()));
             }
         }
+        // An action row stores no setting; drawUpdateSettings draws the only one, update_now.
+        if (setting.type == "action")
+        {
+            continue;
+        }
+        // English and the pseudo-language come from the catalog, the rest from the installed language packs. The
+        // pseudo-language is a testing aid (`--set gameplay.language=qps`): listed only while it is the language.
+        if (setting.id == "language")
+        {
+            if (Engine::activeLanguageId() != Engine::PseudoLanguageId)
+            {
+                std::erase_if(setting.options,
+                              [](const auto &option) { return option.first == Engine::PseudoLanguageId; });
+            }
+            for (const Engine::LanguagePack &pack : Engine::findLanguagePacks(assetFileSystem()))
+            {
+                // A release language whose voices and videos are not downloaded yet: the next start fetches them.
+                const uint64_t download = assetFileSystem().missingLanguagePackBytes(pack.id);
+                setting.options.emplace_back(pack.id, download == 0 ? pack.name
+                    : Engine::tr("{language} (download {size} MB)",
+                                 {{"language", pack.name}, {"size", (download + 1024 * 1024 - 1) / (1024 * 1024)}}));
+            }
+        }
+        if (setting.section == GameSection)
+        {
+            if (!m_currentGame)
+            {
+                continue;
+            }
+            // The choices are the ruleset's own.
+            const RulesetDefinition &definition = m_currentGame->definition;
+            const auto offered = [&](const std::string &value)
+            {
+                if (setting.id == "ruleset_difficulty")
+                {
+                    const std::optional<RulesetDifficulty> difficulty = parseRulesetDifficulty(value);
+                    return difficulty && std::find(definition.choices.difficulties.begin(),
+                                                   definition.choices.difficulties.end(),
+                                                   *difficulty) != definition.choices.difficulties.end();
+                }
+                if (setting.id == "ruleset_progression")
+                {
+                    const std::optional<RulesetProgression> progression = parseRulesetProgression(value);
+                    return progression && std::find(definition.choices.progressions.begin(),
+                                                    definition.choices.progressions.end(),
+                                                    *progression) != definition.choices.progressions.end();
+                }
+                return true;
+            };
+            std::erase_if(setting.options, [&](const auto &option) { return !offered(option.first); });
+            if (setting.id == "ruleset_name")
+            {
+                setting.options = {{m_currentGame->selection.id, definition.name}};
+            }
+            if ((setting.id == "ruleset_progression" && definition.choices.progressions.empty())
+                || (setting.id == "ruleset_randomizer" && !definition.choices.randomizer)
+                // Disintegration happens only in Road to Insanity and Beyond Madness.
+                || (setting.id == "ruleset_disintegrate"
+                    && m_currentGame->selection.options.challengeMode != RulesetChallengeMode::RoadToInsanity
+                    && m_currentGame->selection.options.challengeMode != RulesetChallengeMode::BeyondMadness)
+                || (setting.id.starts_with("ruleset_") && setting.group == "Preferences"
+                    && !definition.choices.preferences))
+            {
+                continue;
+            }
+            m_settings.push_back(std::move(setting));
+            continue;
+        }
         menuSettingValue(m_draft, setting.id); // An unknown catalog field is an installation error.
+        // Settings of the self-updater only exist where the game updates itself.
+        if (item["updater_only"].as<bool>(false) && m_pUpdater == nullptr)
+        {
+            continue;
+        }
+        // A setting only one ruleset uses is left out of the pause menu of another ruleset's game; the main menu lists
+        // it (audit STD4-2-5: the rarity glow does nothing in Standard).
+        // A Standard game's pause menu has no m_currentGame.
+        const std::string gameRuleset = item["game_ruleset"].as<std::string>("");
+        if (!gameRuleset.empty() && m_paused
+            && (m_currentGame ? m_currentGame->selection.id : std::string(StandardRulesetId)) != gameRuleset)
+        {
+            continue;
+        }
 #if defined(__ANDROID__)
         if (item["desktop_only"].as<bool>(false))
         {
@@ -123,15 +339,20 @@ void MainMenuScreen::loadCatalog()
     for (const YAML::Node &item : catalog["bindings"])
     {
         const std::string id = item["id"].as<std::string>();
+        // A ruleset's keys are listed only in the pause menu of a game with that ruleset.
+        const std::string ruleset = item["ruleset"].as<std::string>("");
+        const bool listed = ruleset.empty() || (m_currentGame && m_currentGame->selection.id == ruleset);
         bool found = false;
         for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
         {
             if (definition.implemented && definition.iniKey == id)
             {
-                const std::string name = item["name"].as<std::string>();
-                const std::string group = item["group"].as<std::string>();
-                m_bindings.push_back(
-                    {definition.action, id, localization().translate(name), localization().translate(group)});
+                if (listed)
+                {
+                    m_bindings.push_back({definition.action, id, Engine::localize(item["name"].as<std::string>()),
+                                          Engine::localize(item["group"].as<std::string>()),
+                                          item["context"].as<std::string>("")});
+                }
                 found = true;
             }
         }
@@ -157,7 +378,7 @@ void MainMenuScreen::drawScreen(float deltaSeconds)
         loadDesign("menu/credits");
         beginDesign("Credits");
         drawDesign();
-        if (button("github", designRect("CreditsProjectLink"), "OpenYAMM on GitHub", "button_quiet"))
+        if (button("github", designRect("CreditsProjectLink"), Engine::tr("OpenYAMM on GitHub"), "button_quiet"))
         {
             SDL_OpenURL("https://github.com/pjasicek/OpenYAMM");
         }
@@ -185,8 +406,9 @@ void MainMenuScreen::drawHome()
     {
         if (m_paused)
         {
-            confirm("Start a New Adventure?", "Unsaved progress in this adventure will be lost.",
-                    {"Cancel", "New Game"},
+            confirm(Engine::tr("Start a New Adventure?"),
+                    Engine::tr("Unsaved progress in this adventure will be lost."),
+                    {Engine::tr("Cancel"), Engine::tr("New Game")},
                     [this](int choice)
                     {
                         if (choice == 1)
@@ -202,9 +424,10 @@ void MainMenuScreen::drawHome()
     };
     const auto quit = [this]()
     {
-        confirm("Leave OpenYAMM?",
-                m_paused ? "Unsaved progress will be lost. Return to your desktop?" : "Return to your desktop?",
-                {"Cancel", "Quit"},
+        confirm(Engine::tr("Leave OpenYAMM?"),
+                m_paused ? Engine::tr("Unsaved progress will be lost. Return to your desktop?")
+                         : Engine::tr("Return to your desktop?"),
+                {Engine::tr("Cancel"), Engine::tr("Quit")},
                 [this](int choice)
                 {
                     if (choice == 1)
@@ -240,7 +463,8 @@ void MainMenuScreen::drawHome()
         }
         if (action("MenuButtonMainMenu"))
         {
-            confirm("Return to Main Menu?", "Unsaved progress in this adventure will be lost.", {"Cancel", "Main Menu"},
+            confirm(Engine::tr("Return to Main Menu?"), Engine::tr("Unsaved progress in this adventure will be lost."),
+                    {Engine::tr("Cancel"), Engine::tr("Main Menu")},
                     [this](int choice)
                     {
                         if (choice == 1)
@@ -260,12 +484,13 @@ void MainMenuScreen::drawHome()
         {
             m_latestSaveLocation = resolveSaveLocationName(m_gameData.mapEntries(), m_latestSaveMap);
         }
-        label("MainMenuContinueInfo", m_latestSave ? m_latestSaveLocation : "Your adventure begins here");
+        label("MainMenuContinueInfo",
+              m_latestSave ? m_latestSaveLocation : Engine::tr("Your adventure begins here"));
         if (action("MainMenuContinueButton", m_latestSave.has_value()))
         {
             if (!m_actions.continueGame(*m_latestSave))
             {
-                m_status = "The saved adventure could not be loaded.";
+                m_status = Engine::tr("The saved adventure could not be loaded.");
             }
         }
         if (action("MainMenuNewGameButton"))
@@ -288,6 +513,7 @@ void MainMenuScreen::drawHome()
         {
             quit();
         }
+        drawUpdates();
     }
     if (!m_status.empty())
     {
@@ -296,12 +522,298 @@ void MainMenuScreen::drawHome()
     }
 }
 
+void MainMenuScreen::drawUpdates()
+{
+    if (m_pUpdater == nullptr)
+    {
+        return;
+    }
+
+    textInRect(canvasRect(14, 456, 260, 16), "OpenYAMM " + m_pUpdater->installedVersion(), "menu_lucida", 9,
+               0xff9fb6c4u);
+
+    if (!m_updatesStarted)
+    {
+        m_updatesStarted = true;
+
+        if (const std::optional<std::string> failed = m_pUpdater->takeRollbackNotice())
+        {
+            confirm(Engine::tr("Update Undone"),
+                    Engine::tr("OpenYAMM {failed} did not start, so OpenYAMM {installed} was restored. Your saves "
+                               "are unchanged.",
+                               {{"failed", *failed}, {"installed", m_pUpdater->installedVersion()}}),
+                    {Engine::tr("OK")}, [](int) {});
+        }
+        else if (m_committed.keepModifiedPacks)
+        {
+            // Updates are off and would replace the packs the player changed; Check Now says so (GameUpdater).
+        }
+        else if (m_committed.updateCheck == "ask")
+        {
+            askAboutUpdates();
+        }
+        else if (m_committed.updateCheck == "auto" && m_pUpdater->status().state == Engine::UpdateState::Idle)
+        {
+            m_pUpdater->check();
+        }
+    }
+
+    const Engine::UpdateStatus status = m_pUpdater->status();
+
+    if (m_followingUpdate)
+    {
+        followUpdate();
+        return;
+    }
+
+    if (status.state == Engine::UpdateState::Available)
+    {
+        m_updateRelease = status.release;
+    }
+
+    std::string text;
+
+    if (status.state == Engine::UpdateState::Ready)
+    {
+        text = Engine::tr("Restart to play OpenYAMM {release}", {{"release", status.release}});
+    }
+    else if (status.state == Engine::UpdateState::Available
+             || (status.state == Engine::UpdateState::Failed && !m_updateRelease.empty()))
+    {
+        text = Engine::tr("Update to OpenYAMM {release} ({megabytes} MB)", {{"release", m_updateRelease},
+            {"megabytes", int64_t((status.totalBytes + 999999) / 1000000)}});
+    }
+
+    if (!text.empty() && button("update", canvasRect(14, 430, 250, 22), text, "button_quiet") && !modalOpen())
+    {
+        offerUpdate();
+    }
+}
+
+void MainMenuScreen::drawUpdateSettings(const std::string &prefix)
+{
+    // The Updates tab's version row: the installed version, the update status and one button that checks again or,
+    // in the main menu, installs what a check found. From the pause menu it only checks: on Android an update closes
+    // the game, and the unsaved game with it.
+    if (m_followingUpdate)
+    {
+        followUpdate();
+    }
+
+    const Engine::UpdateStatus status = m_pUpdater->status();
+    const int64_t megabytes = int64_t((status.totalBytes + 999999) / 1000000);
+    std::string text =
+        Engine::tr("Check Now looks for a new version on jasicek.net. Nothing downloads without asking.");
+    std::string buttonText = Engine::tr("Check Now");
+    bool enabled = true;
+    bool install = false;
+
+    if (status.state == Engine::UpdateState::Checking)
+    {
+        text = Engine::tr("Looking for a new version on jasicek.net...");
+        buttonText = Engine::tr("Checking...");
+        enabled = false;
+    }
+    else if (status.state == Engine::UpdateState::UpToDate)
+    {
+        text = Engine::tr("This is the newest version.");
+    }
+    else if (status.state == Engine::UpdateState::Failed)
+    {
+        text = Engine::tr("The last check failed: {reason}", {{"reason", status.message}});
+    }
+    else if (status.state == Engine::UpdateState::Available)
+    {
+        m_updateRelease = status.release;
+        text = m_paused ? Engine::tr("OpenYAMM {release} is available ({megabytes} MB). Update it from the main menu.",
+                                     {{"release", status.release}, {"megabytes", megabytes}})
+                        : Engine::tr("OpenYAMM {release} is available ({megabytes} MB).",
+                                     {{"release", status.release}, {"megabytes", megabytes}});
+        buttonText = m_paused ? Engine::tr("Check Now") : Engine::tr("Update");
+        install = !m_paused;
+    }
+    else if (status.state == Engine::UpdateState::Downloading)
+    {
+        text = Engine::tr("Downloading OpenYAMM {release}: {done} of {megabytes} MB.",
+                          {{"release", m_updateRelease}, {"done", int64_t(status.doneBytes / 1000000)},
+                           {"megabytes", megabytes}});
+        buttonText = Engine::tr("Downloading...");
+        enabled = false;
+    }
+    else if (status.state == Engine::UpdateState::Ready)
+    {
+        text = m_paused ? Engine::tr("OpenYAMM {release} is downloaded. Restart from the main menu to play it.",
+                                     {{"release", status.release}})
+                        : Engine::tr("OpenYAMM {release} is downloaded. Restart to play it.",
+                                     {{"release", status.release}});
+        buttonText = Engine::tr("Restart");
+        enabled = !m_paused;
+        install = !m_paused;
+    }
+
+    const std::string id = prefix + "UpdateNow";
+    label(id + "Label", Engine::tr("Installed: OpenYAMM {version}", {{"version", m_pUpdater->installedVersion()}}), 0,
+          -m_scroll);
+    label(id + "Description", text, 0, -m_scroll);
+    Rect rect = designRect(id + "Control");
+    rect.y -= m_scroll * designScale();
+
+    if (button("update-now", rect, buttonText, "button_small", enabled) && !modalOpen())
+    {
+        if (install)
+        {
+            offerUpdate();
+        }
+        else
+        {
+            m_pUpdater->check();
+        }
+    }
+}
+
+void MainMenuScreen::askAboutUpdates()
+{
+    confirm(Engine::tr("Check for Updates?"),
+            Engine::tr("OpenYAMM can look for a new version on jasicek.net when it starts. Nothing is downloaded "
+                       "without asking."),
+            {Engine::tr("Never"), Engine::tr("At start")},
+            [this](int choice)
+            {
+                if (choice < 0)
+                {
+                    return;
+                }
+                setUpdateCheck(choice == 1 ? "auto" : "off");
+                if (choice == 1)
+                {
+                    m_pUpdater->check();
+                }
+            });
+}
+
+void MainMenuScreen::setUpdateCheck(const std::string &mode)
+{
+    GameSettings settings = m_committed;
+    settings.updateCheck = mode;
+    std::string error;
+    if (m_actions.applySettings(settings, true, error))
+    {
+        m_committed.updateCheck = mode;
+        m_draft.updateCheck = mode;
+    }
+}
+
+void MainMenuScreen::offerUpdate()
+{
+    const Engine::UpdateStatus status = m_pUpdater->status();
+
+    if (status.state == Engine::UpdateState::Ready)
+    {
+        followUpdate();
+        return;
+    }
+
+    const int64_t megabytes = int64_t((status.totalBytes + 999999) / 1000000);
+    const std::string body = m_pUpdater->updatesInGame()
+        ? Engine::tr("Downloads {megabytes} MB. Your saves and settings stay as they are.", {{"megabytes", megabytes}})
+        : Engine::tr("Downloads {megabytes} MB in the update screen. Your saves and settings stay as they are.",
+                     {{"megabytes", megabytes}});
+    const bool hasNotesPage = !status.notesUrl.empty();
+    std::vector<std::string> choices = {Engine::tr("Later"), Engine::tr("Update")};
+
+    if (hasNotesPage)
+    {
+        choices.insert(choices.begin() + 1, Engine::tr("Release Notes"));
+    }
+
+    confirm(Engine::tr("Update to OpenYAMM {release}?", {{"release", m_updateRelease}}), body, choices,
+            [this, hasNotesPage, url = status.notesUrl](int choice)
+            {
+                if (hasNotesPage && choice == 1)
+                {
+                    SDL_OpenURL(url.c_str());
+                    return;
+                }
+                if (choice != (hasNotesPage ? 2 : 1))
+                {
+                    return;
+                }
+                m_pUpdater->startUpdate();
+                if (!m_pUpdater->updatesInGame())
+                {
+                    // The Android update screen takes over; the game starts again from it.
+                    m_actions.quit();
+                    return;
+                }
+                m_followingUpdate = true;
+                confirm(Engine::tr("Updating OpenYAMM"), Engine::tr("Starting the download..."), {Engine::tr("Cancel")},
+                        [this](int)
+                        {
+                            m_pUpdater->cancel();
+                            m_followingUpdate = false;
+                        });
+            });
+    // The signed manifest's notes (the release tag's message), whole: the box scrolls when they are long.
+    setModalNotes(status.notes);
+}
+
+void MainMenuScreen::followUpdate()
+{
+    const Engine::UpdateStatus status = m_pUpdater->status();
+
+    // Until the worker reports its first progress, the update is still Available.
+    if (status.state == Engine::UpdateState::Downloading || status.state == Engine::UpdateState::Available)
+    {
+        setModalBody(status.state == Engine::UpdateState::Available
+                         ? Engine::tr("Starting the download...")
+                         : status.message + "\n"
+                             + Engine::tr("{done} of {megabytes} MB", {{"done", int64_t(status.doneBytes / 1000000)},
+                                 {"megabytes", int64_t((status.totalBytes + 999999) / 1000000)}}));
+        return;
+    }
+
+    if (m_followingUpdate)
+    {
+        closeConfirmation();
+        m_followingUpdate = false;
+    }
+
+    if (status.state == Engine::UpdateState::Failed)
+    {
+        confirm(Engine::tr("Update Failed"), status.message, {Engine::tr("OK")}, [](int) {});
+        return;
+    }
+
+    if (status.state == Engine::UpdateState::Ready)
+    {
+        confirm(Engine::tr("OpenYAMM {release} Is Ready", {{"release", status.release}}),
+                Engine::tr("Restart now to play the new version."),
+                {Engine::tr("Later"), Engine::tr("Restart Now")},
+                [this](int choice)
+                {
+                    if (choice != 1)
+                    {
+                        return;
+                    }
+                    std::string error;
+                    if (m_pUpdater->restartIntoUpdate(error))
+                    {
+                        m_actions.quit();
+                    }
+                    else
+                    {
+                        confirm(Engine::tr("Update Failed"), error, {Engine::tr("OK")}, [](int) {});
+                    }
+                });
+    }
+}
+
 size_t MainMenuScreen::dirtyCount() const
 {
     size_t count = 0;
     for (const Setting &setting : m_settings)
     {
-        if (menuSettingValue(m_draft, setting.id) != menuSettingValue(m_committed, setting.id))
+        if (settingValue(setting) != settingValue(setting, true))
         {
             ++count;
         }
@@ -313,7 +825,50 @@ size_t MainMenuScreen::dirtyCount() const
             ++count;
         }
     }
+    // Restoring values that already equal their defaults still releases them from the player's file.
+    if (count == 0 && m_draft.fileState.storedKeys != m_committed.fileState.storedKeys)
+    {
+        ++count;
+    }
     return count;
+}
+
+std::string MainMenuScreen::settingValue(const Setting &setting, bool applied) const
+{
+    if (setting.section != GameSection)
+    {
+        return menuSettingValue(applied ? m_committed : m_draft, setting.id);
+    }
+    if (setting.id == "ruleset_name")
+    {
+        return m_currentGame->selection.id;
+    }
+    return rulesetSettingValue(applied ? m_currentGame->selection.options : m_rulesetDraft, setting.id);
+}
+
+bool MainMenuScreen::settingEnabled(const Setting &setting) const
+{
+    if (setting.section != GameSection)
+    {
+        return (setting.depends.empty() || menuSettingValue(m_draft, setting.depends) == "true")
+            && !(setting.id == "resolution" && m_draft.windowMode == WindowMode::WindowedFullscreen);
+    }
+    const RulesetOptions &applied = m_currentGame->selection.options;
+    if (setting.id == "ruleset_difficulty")
+    {
+        // Nightmare and the challenge modes keep their difficulty.
+        return !applied.difficultyLocked() && setting.options.size() > 1;
+    }
+    if (setting.id == "ruleset_progression")
+    {
+        return !rulesetChallengeModeProgression(applied.challengeMode) && setting.options.size() > 1;
+    }
+    if (setting.id == "ruleset_solo")
+    {
+        // A party of one may become a solo run; a solo run stays one.
+        return !applied.soloRun && m_currentGame->partySize == 1;
+    }
+    return setting.group == "Preferences";
 }
 
 void MainMenuScreen::leaveSettings()
@@ -324,12 +879,17 @@ void MainMenuScreen::leaveSettings()
         setTextEditing(false);
         return;
     }
-    confirm("Unapplied Changes", "Apply your changes before leaving Settings?", {"Stay", "Discard", "Apply"},
+    confirm(Engine::tr("Unapplied Changes"), Engine::tr("Apply your changes before leaving Settings?"),
+            {Engine::tr("Stay"), Engine::tr("Discard"), Engine::tr("Apply")},
             [this](int choice)
             {
                 if (choice == 1)
                 {
                     m_draft = m_committed;
+                    if (m_currentGame)
+                    {
+                        m_rulesetDraft = m_currentGame->selection.options;
+                    }
                     m_page = Page::Home;
                     setTextEditing(false);
                 }
@@ -349,11 +909,21 @@ void MainMenuScreen::revertDisplay()
     m_draft.resolutionWidth = m_committed.resolutionWidth;
     m_draft.resolutionHeight = m_committed.resolutionHeight;
     m_draft.verticalSync = m_committed.verticalSync;
-    m_status = error.empty() ? "Previous display settings restored." : error;
+    m_status = error.empty() ? Engine::tr("Previous display settings restored.") : error;
 }
 
 void MainMenuScreen::applySettings(bool leaveAfter)
 {
+    if (m_currentGame && m_rulesetDraft != m_currentGame->selection.options)
+    {
+        std::string rulesetError;
+        if (!m_actions.applyRuleset || !m_actions.applyRuleset(m_rulesetDraft, rulesetError))
+        {
+            m_status = rulesetError;
+            return;
+        }
+        m_currentGame->selection.options = m_rulesetDraft;
+    }
     const bool displayChanged =
         m_draft.windowMode != m_committed.windowMode || m_draft.resolutionWidth != m_committed.resolutionWidth ||
         m_draft.resolutionHeight != m_committed.resolutionHeight || m_draft.verticalSync != m_committed.verticalSync;
@@ -368,7 +938,8 @@ void MainMenuScreen::applySettings(bool leaveAfter)
         m_displayPreview = true;
         m_displaySeconds = 15;
         m_leaveAfterApply = leaveAfter;
-        confirm("Keep Display Settings?", "Reverting in 15 seconds.", {"Revert", "Keep"},
+        confirm(Engine::tr("Keep Display Settings?"), Engine::tr("Reverting in {seconds} seconds.", {{"seconds", 15}}),
+                {Engine::tr("Revert"), Engine::tr("Keep")},
                 [this](int choice)
                 {
                     if (choice != 1)
@@ -381,7 +952,7 @@ void MainMenuScreen::applySettings(bool leaveAfter)
                     {
                         m_displayPreview = false;
                         m_committed = m_draft;
-                        m_status = "Settings saved.";
+                        m_status = Engine::tr("Settings saved.");
                         if (m_leaveAfterApply)
                         {
                             m_page = Page::Home;
@@ -397,7 +968,7 @@ void MainMenuScreen::applySettings(bool leaveAfter)
     else
     {
         m_committed = m_draft;
-        m_status = "Settings saved.";
+        m_status = Engine::tr("Settings saved.");
         if (leaveAfter)
         {
             m_page = Page::Home;
@@ -407,10 +978,11 @@ void MainMenuScreen::applySettings(bool leaveAfter)
 
 void MainMenuScreen::restoreDefaults()
 {
-    confirm("Restore Defaults?",
-            m_section == "controls" ? "Restore mouse controls, the control preset and its keyboard bindings?"
-                                    : "Restore the current Settings section to its defaults?",
-            {"Cancel", "Restore"},
+    confirm(Engine::tr("Restore Defaults?"),
+            m_section == "controls"
+                ? Engine::tr("Restore mouse controls, the control preset and its keyboard bindings?")
+                : Engine::tr("Restore the current Settings section to its defaults?"),
+            {Engine::tr("Cancel"), Engine::tr("Restore")},
             [this](int choice)
             {
                 if (choice != 1)
@@ -418,9 +990,28 @@ void MainMenuScreen::restoreDefaults()
                     return;
                 }
                 const GameSettings defaults = GameSettings::createDefault();
+                // Menu setting ids are the INI key names; released keys follow later default changes again.
+                std::vector<std::string> restoredKeys;
+                if (m_section == GameSection)
+                {
+                    // What the ruleset lets the player change: its default preferences, difficulty and progression.
+                    const RulesetOptions defaults = m_currentGame->definition.defaultOptions();
+                    const RulesetOptions &applied = m_currentGame->selection.options;
+                    m_rulesetDraft.preferences = defaults.preferences;
+                    if (!applied.difficultyLocked())
+                    {
+                        m_rulesetDraft.difficulty = defaults.difficulty;
+                    }
+                    if (!rulesetChallengeModeProgression(applied.challengeMode))
+                    {
+                        m_rulesetDraft.progression = defaults.progression;
+                    }
+                    return;
+                }
                 if (m_section == "keyboard")
                 {
                     m_draft.keyboard.restoreDefaults(m_draft.controlScheme);
+                    restoredKeys.push_back("input.");
                 }
                 else
                 {
@@ -429,11 +1020,13 @@ void MainMenuScreen::restoreDefaults()
                         if (setting.section == m_section)
                         {
                             setMenuSettingValue(m_draft, setting.id, menuSettingValue(defaults, setting.id));
+                            restoredKeys.push_back(setting.id);
                         }
                     }
                     if (m_section == "controls")
                     {
                         m_draft.keyboard.restoreDefaults(m_draft.controlScheme);
+                        restoredKeys.push_back("input.");
                     }
                     if (m_section == "video")
                     {
@@ -441,17 +1034,64 @@ void MainMenuScreen::restoreDefaults()
                         m_draft.terrainSubdivision = defaults.terrainSubdivision;
                         m_draft.terrainAntiTiling = defaults.terrainAntiTiling;
                         m_draft.skyResolutionScale = defaults.skyResolutionScale;
+                        restoredKeys.insert(
+                            restoredKeys.end(), {"terrain_subdivision", "terrain_antitiling", "sky_resolution_scale"});
                     }
                 }
+                releaseStoredSettings(m_draft, restoredKeys);
             });
 }
 
 void MainMenuScreen::editSetting(const Setting &setting, const std::string &value)
 {
+    if (setting.section == GameSection)
+    {
+        if (setting.id == "ruleset_solo" && value == "true" && !m_rulesetDraft.soloRun)
+        {
+            const std::string hirelings = m_currentGame->hirelingCount > 0
+                ? " " + Engine::tr("Your hirelings stay with you but take no part in combat.")
+                : std::string();
+            confirm(Engine::tr("Make This a Solo Run?"),
+                    Engine::tr("Your adventurer goes on in first person, with an action bar and talents, and the "
+                               "party stays one for the rest of the adventure. This cannot be undone.")
+                        + hirelings,
+                    {Engine::tr("Cancel"), Engine::tr("Solo Run")},
+                    [this, setting, value](int choice)
+                    {
+                        if (choice == 1)
+                        {
+                            setRulesetSettingValue(m_rulesetDraft, setting.id, value);
+                        }
+                    });
+            m_status.clear();
+            return;
+        }
+        if (setting.id == "ruleset_difficulty" && value == rulesetDifficultyId(RulesetDifficulty::Nightmare)
+            && m_rulesetDraft.difficulty != RulesetDifficulty::Nightmare)
+        {
+            confirm(Engine::tr("Choose Nightmare?"),
+                    Engine::tr("Nightmare can never be lowered again in this adventure."),
+                    {Engine::tr("Cancel"), Engine::tr("Nightmare")},
+                    [this, setting, value](int choice)
+                    {
+                        if (choice == 1)
+                        {
+                            setRulesetSettingValue(m_rulesetDraft, setting.id, value);
+                        }
+                    });
+        }
+        else
+        {
+            setRulesetSettingValue(m_rulesetDraft, setting.id, value);
+        }
+        m_status.clear();
+        return;
+    }
     if (setting.id == "control_scheme" && menuSettingValue(m_draft, setting.id) != value)
     {
-        confirm("Change Control Preset?", "This also resets the keyboard bindings for the selected preset.",
-                {"Cancel", "Change"},
+        confirm(Engine::tr("Change Control Preset?"),
+                Engine::tr("This also resets the keyboard bindings for the selected preset."),
+                {Engine::tr("Cancel"), Engine::tr("Change")},
                 [this, value](int choice)
                 {
                     if (choice == 1)
@@ -513,7 +1153,7 @@ void MainMenuScreen::chooseSetting(const Setting &setting)
     {
         labels.push_back(label);
     }
-    confirm(setting.name, "Choose a value", labels,
+    confirm(setting.name, Engine::tr("Choose a value"), labels,
             [this, setting, choices](int index)
             {
                 if (index >= 0)
@@ -521,6 +1161,10 @@ void MainMenuScreen::chooseSetting(const Setting &setting)
                     editSetting(setting, choices[size_t(index)].first);
                 }
             }, true);
+    if (setting.id == "language")
+    {
+        setModalChoiceFont(LanguageNamesFont);
+    }
 }
 
 void MainMenuScreen::drawSettings(float deltaSeconds)
@@ -530,10 +1174,16 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
     loadDesign("gameplay/settings_" + m_section);
     beginDesign(prefix);
     drawDesign();
+    if (m_lootFilterOpen)
+    {
+        drawLootFilter();
+        return;
+    }
     if (m_displayPreview)
     {
         m_displaySeconds -= deltaSeconds;
-        setModalBody("Reverting in " + std::to_string(std::max(0, int(std::ceil(m_displaySeconds)))) + " seconds.");
+        const int seconds = std::max(0, int(std::ceil(m_displaySeconds)));
+        setModalBody(Engine::tr("Reverting in {seconds} seconds.", {{"seconds", seconds}}));
         if (m_displaySeconds <= 0)
         {
             closeConfirmation();
@@ -569,6 +1219,10 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
     if (action(prefix + "RevertButton", dirtyCount() > 0))
     {
         m_draft = m_committed;
+        if (m_currentGame)
+        {
+            m_rulesetDraft = m_currentGame->selection.options;
+        }
         m_status.clear();
     }
     if (action(prefix + "ApplyButton", dirtyCount() > 0))
@@ -576,18 +1230,32 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
         applySettings();
     }
     label(prefix + "DirtyStatus", !m_status.empty()   ? m_status
-                                  : dirtyCount() == 0 ? "Your settings are up to date."
-                                                      : std::to_string(dirtyCount()) + " unapplied changes");
+                                  : dirtyCount() == 0 ? Engine::tr("Your settings are up to date.")
+                                                      : Engine::tr("{count} unapplied changes",
+                                                                   {{"count", int64_t(dirtyCount())}}));
     const Rect viewport = designRect(prefix + "ScrollViewport");
     if (m_section == "keyboard")
     {
         drawKeyboard(prefix, viewport);
         return;
     }
+    // A row left out of this menu (game_ruleset) leaves no scroll room or group heading behind; such rows close their
+    // section.
+    std::unordered_set<std::string> listedDescriptions;
+    std::unordered_set<std::string> listedGroups;
+    for (const Setting &setting : m_settings)
+    {
+        if (setting.section == m_section)
+        {
+            listedDescriptions.insert(prefix + capitalized(setting.id) + "Description");
+            listedGroups.insert(setting.group);
+        }
+    }
     float contentHeight = 0;
     for (const std::string &id : m_designLayouts.sortedLayoutIdsForScreenCached(prefix))
     {
-        if (id.find("Description") == std::string::npos || id == prefix + "Description")
+        if (id.find("Description") == std::string::npos || id == prefix + "Description"
+            || (id.ends_with("Description") && !listedDescriptions.contains(id)))
         {
             continue;
         }
@@ -608,7 +1276,10 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
         {
             break;
         }
-        label(id, pItem->labelText, 0, -m_scroll);
+        if (listedGroups.contains(pItem->labelText))
+        {
+            label(id, pItem->labelText, 0, -m_scroll);
+        }
     }
     for (const Setting &setting : m_settings)
     {
@@ -621,9 +1292,8 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
         label(id + "Description", setting.description, 0, -m_scroll);
         Rect rect = designRect(id + "Control");
         rect.y -= m_scroll * designScale();
-        const bool enabled = (setting.depends.empty() || menuSettingValue(m_draft, setting.depends) == "true") &&
-                             !(setting.id == "resolution" && m_draft.windowMode == WindowMode::WindowedFullscreen);
-        const std::string value = menuSettingValue(m_draft, setting.id);
+        const bool enabled = settingEnabled(setting);
+        const std::string value = settingValue(setting);
         if (setting.type == "toggle")
         {
             if (button(id, rect, "", value == "true" ? "toggle_on" : "toggle_off", enabled))
@@ -631,8 +1301,8 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
                 editSetting(setting, value == "true" ? "false" : "true");
             }
             textInRect({rect.x + 35 * designScale(), rect.y, rect.width - 40 * designScale(), rect.height},
-                       value == "true" ? "On" : "Off", "menu_lucida", 13.3333f, enabled ? 0xffc6dfeau : 0xff6b777au,
-                       true);
+                       value == "true" ? Engine::tr("On") : Engine::tr("Off"), "menu_lucida", 13.3333f,
+                       enabled ? 0xffc6dfeau : 0xff6b777au, true);
         }
         else if (setting.type == "select")
         {
@@ -644,9 +1314,31 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
                     display = name;
                 }
             }
-            if (selectBox(id, rect, display, enabled))
+            // The names face is drawn a size smaller to match menu_lucida's height.
+            const bool language = setting.id == "language";
+            if (selectBox(id, rect, display, enabled, language ? 9.0f : 11.52f,
+                          language ? LanguageNamesFont : "menu_lucida"))
             {
                 chooseSetting(setting);
+            }
+        }
+        else if (setting.type == "window")
+        {
+            // The loot filter: its preset, and a window with the rest.
+            std::string display = value.substr(0, value.find(':'));
+            for (const auto &[option, name] : setting.options)
+            {
+                if (option == display)
+                {
+                    display = name;
+                }
+            }
+            if (selectBox(id, rect, display, enabled))
+            {
+                // A Custom filter opens on its rules.
+                m_lootFilterOpen = true;
+                m_lootFilterRules = m_rulesetDraft.preferences.lootFilter.preset == RulesetLootFilterPreset::Custom;
+                m_lootFilterRule = m_rulesetDraft.preferences.lootFilter.rules.empty() ? -1 : 0;
             }
         }
         else if (setting.type == "steps")
@@ -681,10 +1373,9 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
                 drawSolidRect({stepX(current) - 4, y - 7, 8, 14}, 0xff7bbad8u);
             }
             int chosen = -1;
-            if (enabled && !modalOpen() && pointerInside(rect) && leftMouseDown())
+            if (const std::optional<float> position = sliderDragPosition(id, rect, enabled))
             {
-                const float position = std::clamp((mouseX() - rect.x) / rect.width, 0.0f, 1.0f);
-                chosen = int(std::round(position * float(count - 1)));
+                chosen = int(std::round(*position * float(count - 1)));
             }
             if (enabled && focused(id))
             {
@@ -709,11 +1400,10 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
             drawSolidRect({rect.x, y - 2, rect.width, 4}, 0xff273629u);
             drawSolidRect({rect.x, y - 2, rect.width * fraction, 4}, 0xff6a93acu);
             drawSolidRect({rect.x + rect.width * fraction - 4, y - 7, 8, 14}, 0xff7bbad8u);
-            if (enabled && !modalOpen() && pointerInside(rect) && leftMouseDown())
+            if (const std::optional<float> position = sliderDragPosition(id, rect, enabled))
             {
-                const float position = std::clamp((mouseX() - rect.x) / rect.width, 0.0f, 1.0f);
                 editSetting(setting, std::to_string(int(std::round(setting.minimum +
-                                                                   position * (setting.maximum - setting.minimum)))));
+                                                                   *position * (setting.maximum - setting.minimum)))));
             }
             if (enabled && focused(id))
             {
@@ -726,17 +1416,56 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
             label(id + "Value", value + setting.unit, 0, -m_scroll);
         }
     }
+    if (m_section == "updates" && m_pUpdater != nullptr)
+    {
+        drawUpdateSettings(prefix);
+    }
     if (m_section == "controls")
     {
         Rect rect = designRect(prefix + "KeyboardButton");
         rect.y -= m_scroll * designScale();
-        if (button("configure-keyboard", rect, "Configure Keyboard", "button_small"))
+        if (button("configure-keyboard", rect, Engine::tr("Configure Keyboard"), "button_small"))
         {
             m_section = "keyboard";
             m_scroll = 0;
         }
     }
     setDesignClip(std::nullopt);
+}
+
+std::optional<float> MainMenuScreen::sliderDragPosition(const std::string &id, const Rect &rect, bool enabled)
+{
+    if (!leftMouseDown())
+    {
+        if (m_draggedSlider == id)
+        {
+            m_draggedSlider.clear();
+        }
+
+        return std::nullopt;
+    }
+
+    if (leftMouseJustPressed())
+    {
+        if (enabled && !modalOpen() && pointerInside(rect))
+        {
+            m_draggedSlider = id;
+            cancelContentDrag();
+        }
+        else if (m_draggedSlider == id)
+        {
+            m_draggedSlider.clear();
+        }
+    }
+
+    if (m_draggedSlider != id || !enabled || modalOpen())
+    {
+        return std::nullopt;
+    }
+
+    // The ends saturate half a thumb inside the track, and the pointer may leave the track while dragging.
+    const float inset = std::min(4.0f, rect.width / 4);
+    return std::clamp((mouseX() - rect.x - inset) / std::max(1.0f, rect.width - 2 * inset), 0.0f, 1.0f);
 }
 
 void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewport)
@@ -752,10 +1481,11 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
         m_searchEditing = true;
         setTextEditing(true);
     }
-    label(prefix + "Search", m_search.empty() ? "Search actions or keys..." : m_search + (m_searchEditing ? "_" : ""));
+    label(prefix + "Search",
+          m_search.empty() ? Engine::tr("Search actions or keys...") : m_search + (m_searchEditing ? "_" : ""));
     if (selectBox("binding-filter", designRect(prefix + "GroupFilter"), m_bindingGroup, true, 12.16f))
     {
-        std::vector<std::string> groups = {"All actions"};
+        std::vector<std::string> groups = {Engine::tr("All actions")};
         for (const Binding &binding : m_bindings)
         {
             if (std::find(groups.begin(), groups.end(), binding.group) == groups.end())
@@ -763,7 +1493,7 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
                 groups.push_back(binding.group);
             }
         }
-        confirm("Action Group", "", groups,
+        confirm(Engine::tr("Action Group"), "", groups,
                 [this, groups](int index)
                 {
                     if (index >= 0)
@@ -777,14 +1507,15 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
     for (const Binding &binding : m_bindings)
     {
         const std::string key = inputBindingDisplayName(m_draft.keyboard.binding(binding.action));
-        if ((m_bindingGroup == "All actions" || m_bindingGroup == binding.group) &&
+        if ((m_bindingGroup == Engine::tr("All actions") || m_bindingGroup == binding.group) &&
             lower(binding.name + " " + binding.group + " " + key).find(lower(m_search)) != std::string::npos)
         {
             filtered.push_back(&binding);
         }
     }
+    // The group filter holds the shown group name, as the catalogue's groups are translated when loaded.
     const bool fixed =
-        (m_bindingGroup == "All actions" || m_bindingGroup == localization().translate("System")) && m_search.empty();
+        (m_bindingGroup == Engine::tr("All actions") || m_bindingGroup == Engine::tr("System")) && m_search.empty();
     const float contentHeight = std::ceil(filtered.size() / 2.0f) * 30 + (fixed ? 85 : 0);
     scrollViewport(viewport, contentHeight, m_scroll);
     if (m_capture && mouseWheelDelta() != 0.0f)
@@ -813,14 +1544,16 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
     if (fixed)
     {
         const float y = viewport.y + (std::ceil(filtered.size() / 2.0f) * 30 + 8 - m_scroll) * scale;
-        textInRect({viewport.x + 5 * scale, y, viewport.width, 24 * scale}, "Fixed shortcuts", "fondamento", 14);
+        textInRect({viewport.x + 5 * scale, y, viewport.width, 24 * scale}, Engine::tr("Fixed shortcuts"), "fondamento",
+                   14);
         textInRect({viewport.x + 5 * scale, y + 25 * scale, viewport.width, 50 * scale},
-                   "F5  Quicksave       F9  Quickload\n1-5  Select party member       Escape  Open / close menu",
+                   Engine::tr("F9  Quicksave       F10  Quickload\n"
+                              "1-5  Select party member       Escape  Open / close menu"),
                    "menu_lucida", 11);
     }
     if (filtered.empty() && !fixed)
     {
-        textInRect(viewport, "No matching actions", "menu_arrus", 15, 0xffc6dfeau, true);
+        textInRect(viewport, Engine::tr("No matching actions"), "menu_arrus", 15, 0xffc6dfeau, true);
     }
     setDesignClip(std::nullopt);
 }
@@ -830,9 +1563,11 @@ void MainMenuScreen::captureBinding(KeyboardAction action)
     m_searchEditing = false;
     setTextEditing(false);
     m_capture = action;
-    confirm("Assign Key", std::string(keyboardBindingDefinition(action).label) +
-            "\nPress a key, mouse button, or scroll the wheel.",
-            {"Cancel", "Clear", "Left Mouse"},
+    m_captureModifier.reset();
+    confirm(Engine::tr("Assign Key"),
+            Engine::tr("{action}\nPress a key, mouse button, or scroll the wheel.",
+                       {{"action", Engine::tr(keyboardBindingDefinition(action).label)}}),
+            {Engine::tr("Cancel"), Engine::tr("Clear"), Engine::tr("Left Mouse")},
             [this, action](int choice)
             {
                 if (choice == 2)
@@ -854,16 +1589,20 @@ void MainMenuScreen::acceptBinding(InputBinding binding)
     {
         return;
     }
-    if (reservedMenuBinding(binding))
+    const KeyboardAction target = *m_capture;
+    if (reservedMenuBinding(binding, target))
     {
-        setModalBody("That key is reserved. Choose another key.");
+        setModalBody(Engine::tr("That key is reserved. Choose another key."));
         return;
     }
-    const KeyboardAction target = *m_capture;
+    const auto targetBinding = std::find_if(m_bindings.begin(), m_bindings.end(),
+                                            [target](const Binding &candidate) { return candidate.action == target; });
+    const std::string context = targetBinding != m_bindings.end() ? targetBinding->context : "";
     std::optional<KeyboardAction> conflict;
     for (const Binding &candidate : m_bindings)
     {
-        if (candidate.action != target && sameMenuBinding(m_draft.keyboard.binding(candidate.action), binding))
+        if (candidate.action != target && candidate.context == context
+            && sameMenuBinding(m_draft.keyboard.binding(candidate.action), binding))
         {
             conflict = candidate.action;
         }
@@ -872,10 +1611,11 @@ void MainMenuScreen::acceptBinding(InputBinding binding)
     closeConfirmation();
     if (conflict)
     {
-        confirm("Key Already Assigned",
-                inputBindingDisplayName(binding) + " is assigned to " +
-                    std::string(keyboardBindingDefinition(*conflict).label) + ". Swap the two actions?",
-                {"Cancel", "Swap"},
+        confirm(Engine::tr("Key Already Assigned"),
+                Engine::tr("{key} is assigned to {action}. Swap the two actions?",
+                           {{"key", inputBindingDisplayName(binding)},
+                            {"action", Engine::tr(keyboardBindingDefinition(*conflict).label)}}),
+                {Engine::tr("Cancel"), Engine::tr("Swap")},
                 [this, target, binding, conflict](int choice)
                 {
                     if (choice == 1)
@@ -906,12 +1646,23 @@ void MainMenuScreen::handleSdlEvent(const SDL_Event &event)
             }
             const bool modifierKey =
                 event.key.scancode >= SDL_SCANCODE_LCTRL && event.key.scancode <= SDL_SCANCODE_RGUI;
-            if (!modifierKey && (event.key.mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT | SDL_KMOD_GUI)) != 0)
+            if (modifierKey)
             {
-                setModalBody("Modifier combinations are not supported. Choose a single key.");
+                if (!m_captureModifier)
+                {
+                    m_captureModifier = event.key.scancode;
+                }
                 return;
             }
+            // Bindings are single keys: a combination binds its key.
+            m_captureModifier.reset();
             acceptBinding(keyboardInputBinding(event.key.scancode));
+        }
+        if (event.type == SDL_EVENT_KEY_UP && m_captureModifier && event.key.scancode == *m_captureModifier)
+        {
+            const SDL_Scancode modifier = *m_captureModifier;
+            m_captureModifier.reset();
+            acceptBinding(keyboardInputBinding(modifier));
         }
         if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && event.button.button != SDL_BUTTON_LEFT)
         {
@@ -936,7 +1687,7 @@ void MainMenuScreen::handleSdlEvent(const SDL_Event &event)
         }
         if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_BACKSPACE && !m_search.empty())
         {
-            Engine::eraseLastUtf8CodePoint(m_search);
+            Engine::Utf8::popBack(m_search);
             m_scroll = 0;
         }
     }

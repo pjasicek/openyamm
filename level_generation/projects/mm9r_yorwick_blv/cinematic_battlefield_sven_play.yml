@@ -1,0 +1,32 @@
+# Sven's battlefield speech (battlefield_sven, yorwick.cinematics.yml) through its real trigger, the map's load event
+# (Svenspeech.scr :Init: key 95, not 97): it plays, no save meanwhile, key 97 (and the experience) at Sven's fourth
+# line (54.4 s) and not before, and a second load does not replay it. See README "Cinematics".
+id: mm9r.yorwick_blv.cinematic_battlefield_sven_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: yorwick.blv}
+- console: {line: cinematic list, expect_contains: battlefield_sven}
+- note: {text: "before Bikki's prize (key 95) the battlefield's tableau (SetSprite 401) is hidden"}
+- assert: {sprite_hidden: [401]}
+- setup_shortcut: {kind: set_qbit, id: 90095}
+- note: {text: "the map's load event (handlers[1] -> regionLoad) with key 95 and not 97 starts the cinematic"}
+- execute_event: {id: 1}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing battlefield_sven}
+- assert: {sprite_shown: [401]}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 53.4}
+- note: {text: "54 s: Camera8, before :Award"}
+- console: {line: cinematic list, expect_contains: playing battlefield_sven}
+- assert: {qbit_clear: [90097]}
+- advance_runtime: {seconds: 1.0}
+- note: {text: "55 s: :OnSven04 gosub Award gave key 97"}
+- assert: {qbit_set: [90097]}
+- advance_runtime: {seconds: 12.0}
+- note: {text: "67 s: ended (66.3 s); a second load with key 97 does not start it"}
+- assert: {sprite_hidden: [401]}
+- execute_event: {id: 1}
+- advance_runtime: {seconds: 0.5}
+- assert: {sprite_hidden: [401]}
+- save_game: {name: after_cinematic}

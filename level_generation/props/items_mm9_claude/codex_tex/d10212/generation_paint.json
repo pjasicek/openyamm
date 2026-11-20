@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png precisely. It is the target image; design_reference.png is the ornament/material reference and icon_x8.png is the original colour reference (ignore magenta background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's three columns and FOUR rows of equal square cells, EXACT object positions, sizes, silhouettes, holes and geometry. Rows 1-2 and 3-4 show the same five orthographic model renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Do not recreate the reference ring's silhouette: paint only the existing simple grey guide model.\nRows 1-2 PAINT: unlit base colour of Lubricious, a gold ring with source-faithful upright hoop plane. Apply reference gold colours, engraved facets, scrollwork and inner swirls as surface paint scaled to each view, and reference red gemstone details where appropriate on the existing model. Preserve model outline precisely, no added protrusions. Unlit albedo only: no lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: identical five guide silhouettes and corresponding material regions, filled with FLAT pure colours ONLY. Every metal part is pure red #FF0000. Every gemstone, crystal, glass, pearl, enamel or liquid seen through glass is pure black #000000. No shading, texture, outlines or antialiased colour blends inside. Every pixel within each silhouette exactly one of these colours. Nothing outside silhouettes.\nAll gaps, holes and openings remain exactly the guide shape and fully transparent. Empty cells column 3 rows 2 and 4 remain transparent. Paint grey objects only, never enlarge, move, redraw or redesign them.\nCRITICAL CORRECTION: The previous attempt contaminated transparent areas with extensive red speckled noise and changed some outlines. Start from the clean original guide. Output absolutely clean transparent negative space, including every hole, with NO red noise, dust, dithering or stray pixels anywhere. The guide alpha silhouettes are fixed masks. Keep exact guide geometry including the round domed stone occupying the existing entire domed cap: paint that cap ruby red in paint views and solid pure black in corresponding mask views. Metallic cylindrical setting and hoop are gold paint / solid red mask. Keep flat albedo colours without bright gold lighting. The lower half must look like clean vector-flat red-and-black segmentation of the original guide, with perfectly empty transparent holes and surroundings.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3f-9b45-7512-8f1d-a1b5109fbd9b/exec-50a59a97-60a0-4d54-a4fb-81626955eebb.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10212/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Generated output retains stray red pixels in transparent areas/holes; exact silhouette and flat mask requirements not fully met. Raw output copied unchanged.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10212/paint_mask_guide.png",
+      "sha256": "dfa89a9355dae23f45cae6a532356d1279da3a278ce886df757fc07dcdd657fa"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10212/design_reference.png",
+      "sha256": "ef08e704935e559f80395adc73eae39986f37f440a31305d031d9c3236755e58"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10212/icon_x8.png",
+      "sha256": "cfabfae82b26a57c411442bc4f19c3e7036008e6c121140d00f5074eec8445af"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

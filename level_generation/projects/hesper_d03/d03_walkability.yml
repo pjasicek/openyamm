@@ -1,0 +1,48 @@
+# Walkability pass (2026-10-24): at the spots of the user's D3 play (review/user_play_20261024 in hesper_stage) a
+# Drudge reaches the party: out of the crusher's throat, now one 32 step deep (user_71), and past the Lower Storage's
+# ore bins (user_72, which replaced three plain blocks). The original 59 actors keep indices 0-58, with eight R5 Ashkites appended;
+# spawned Drudges use the runtime's last-actor selector; each fight restarts and first clears the Lower Workings' packs nearby. Monsters melee from
+# about 400 between centres (ActorMeleeRange 307 plus the radii): the throat's nearest edge is 461 from the party.
+id: hesper.d03.walkability
+world: hesper
+mode: faithful
+steps:
+- &start
+  new_game_flow:
+    start_map: hes_d03.blv
+    party:
+      members:
+      - {name: Quarry tester, class: Knight, level: 1000, equipment: {}, skills: [{name: Sword, level: 1, mastery: 1}]}
+# user_71: a Drudge in the hot throat steps out of it to the party where the user stood.
+- damage_actor: {actor_index: 27, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 28, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 29, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 30, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 31, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 32, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 33, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 34, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 35, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 36, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 37, amount: 1000000, tier: kreegan_energy}
+- set_pose: {map: hes_d03.blv, x: 1942, y: -1163, z: -1536, yaw: 0.9075712, pitch: 0}
+- spawn_actor: {monster_id: 10000, count: 1, x: 2450, y: -600, z: -1568}
+- advance_runtime: {seconds: 8}
+- assert: {actor_visible: {actor_index: last, report_state: true, dead: false, near: {x: 1942, y: -1163, max_distance: 400}}}
+# user_72: a Drudge between two ore bins at the south wall walks round them to the party.
+- *start
+- damage_actor: {actor_index: 27, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 28, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 29, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 30, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 31, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 32, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 33, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 34, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 35, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 36, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 37, amount: 1000000, tier: kreegan_energy}
+- set_pose: {map: hes_d03.blv, x: 4550, y: -400, z: -1536, yaw: -1.5707963, pitch: 0}
+- spawn_actor: {monster_id: 10000, count: 1, x: 4550, y: -1300, z: -1536}
+- advance_runtime: {seconds: 8}
+- assert: {actor_visible: {actor_index: last, report_state: true, dead: false, near: {x: 4550, y: -400, max_distance: 400}}}

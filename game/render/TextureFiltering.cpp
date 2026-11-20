@@ -6,8 +6,10 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -113,8 +115,35 @@ std::vector<uint8_t> convertBgraToRgba(const uint8_t *pPixels, uint32_t pixelByt
     return rgbaPixels;
 }
 
+// Hands the pixels to bgfx instead of copying them; bgfx frees them once uploaded. Large atlases spend more time in
+// the copy than in their mip chain.
+const bgfx::Memory *takeBgraTextureUploadMemory(std::vector<uint8_t> &&pixels)
+{
+    if (pixels.empty())
+    {
+        return nullptr;
+    }
+
+#if defined(__ANDROID__)
+    std::vector<uint8_t> rgbaPixels = convertBgraToRgba(pixels.data(), static_cast<uint32_t>(pixels.size()));
+    pixels = std::move(rgbaPixels);
+#endif
+    std::unique_ptr<std::vector<uint8_t>> pOwned = std::make_unique<std::vector<uint8_t>>(std::move(pixels));
+    const bgfx::Memory *pMemory = bgfx::makeRef(
+        pOwned->data(),
+        static_cast<uint32_t>(pOwned->size()),
+        [](void *, void *pUserData)
+        {
+            std::unique_ptr<std::vector<uint8_t>>(static_cast<std::vector<uint8_t> *>(pUserData));
+        },
+        pOwned.get());
+    pOwned.release();
+    return pMemory;
+}
+
+// Consumes the levels' pixels once the texture exists.
 bgfx::TextureHandle createBgraTextureWithMipChain(
-    const std::vector<BgraMipLevel> &mipLevels,
+    std::vector<BgraMipLevel> &mipLevels,
     TextureFilterProfile profile,
     uint64_t extraFlags)
 {
@@ -138,7 +167,7 @@ bgfx::TextureHandle createBgraTextureWithMipChain(
 
     for (uint8_t mipLevelIndex = 0; mipLevelIndex < mipLevels.size(); ++mipLevelIndex)
     {
-        const BgraMipLevel &mipLevel = mipLevels[mipLevelIndex];
+        BgraMipLevel &mipLevel = mipLevels[mipLevelIndex];
         bgfx::updateTexture2D(
             textureHandle,
             0,
@@ -147,7 +176,7 @@ bgfx::TextureHandle createBgraTextureWithMipChain(
             0,
             mipLevel.width,
             mipLevel.height,
-            copyBgraTextureUploadMemory(mipLevel.pixels.data(), static_cast<uint32_t>(mipLevel.pixels.size())));
+            takeBgraTextureUploadMemory(std::move(mipLevel.pixels)));
     }
 
     return textureHandle;
@@ -282,9 +311,9 @@ bgfx::TextureHandle createBgraTexture2D(
 
     if (profileUsesMipmaps(profile))
     {
-        const bgfx::TextureHandle mipTextureHandle = createBgraTextureWithMipChain(
-            prepareBgraMipChain(width, height, std::span<const uint8_t>(pUploadPixels, pixelBytes)), profile,
-            extraFlags);
+        std::vector<BgraMipLevel> mipLevels =
+            prepareBgraMipChain(width, height, std::span<const uint8_t>(pUploadPixels, pixelBytes));
+        const bgfx::TextureHandle mipTextureHandle = createBgraTextureWithMipChain(mipLevels, profile, extraFlags);
 
         if (bgfx::isValid(mipTextureHandle))
         {
@@ -310,14 +339,28 @@ PreparedBgraTexture prepareBgraTexture2D(
     TextureFilterProfile profile,
     BgraTexturePixelPreparation pixelPreparation)
 {
+    if (pPixels == nullptr || pixelBytes == 0)
+    {
+        return {};
+    }
+
+    return prepareBgraTexture2D(
+        width, height, std::vector<uint8_t>(pPixels, pPixels + pixelBytes), profile, pixelPreparation);
+}
+
+PreparedBgraTexture prepareBgraTexture2D(
+    uint16_t width,
+    uint16_t height,
+    std::vector<uint8_t> pixels,
+    TextureFilterProfile profile,
+    BgraTexturePixelPreparation pixelPreparation)
+{
     PreparedBgraTexture prepared;
 
-    if (pPixels == nullptr || pixelBytes == 0)
+    if (pixels.empty())
     {
         return prepared;
     }
-
-    std::vector<uint8_t> pixels(pPixels, pPixels + pixelBytes);
 
     if (pixelPreparation == BgraTexturePixelPreparation::Required)
     {
@@ -326,7 +369,7 @@ PreparedBgraTexture prepareBgraTexture2D(
 
     if (profileUsesMipmaps(profile))
     {
-        prepared.levels = prepareBgraMipChain(width, height, pixels);
+        prepared.levels = prepareBgraMipChain(width, height, std::move(pixels));
         prepared.mips = !prepared.levels.empty();
     }
 
@@ -340,6 +383,13 @@ PreparedBgraTexture prepareBgraTexture2D(
 
 bgfx::TextureHandle createPreparedBgraTexture2D(
     const PreparedBgraTexture &prepared, TextureFilterProfile profile, uint64_t extraFlags)
+{
+    PreparedBgraTexture copy = prepared;
+    return createPreparedBgraTexture2D(std::move(copy), profile, extraFlags);
+}
+
+bgfx::TextureHandle createPreparedBgraTexture2D(
+    PreparedBgraTexture &&prepared, TextureFilterProfile profile, uint64_t extraFlags)
 {
     if (prepared.levels.empty())
     {
@@ -357,7 +407,7 @@ bgfx::TextureHandle createPreparedBgraTexture2D(
         }
     }
 
-    const BgraMipLevel &top = prepared.levels.front();
+    BgraMipLevel &top = prepared.levels.front();
     return bgfx::createTexture2D(
         top.width,
         top.height,
@@ -365,7 +415,7 @@ bgfx::TextureHandle createPreparedBgraTexture2D(
         1,
         bgraTextureUploadFormat(),
         textureFilterSamplerFlags(profile) | extraFlags,
-        copyBgraTextureUploadMemory(top.pixels.data(), static_cast<uint32_t>(top.pixels.size())));
+        takeBgraTextureUploadMemory(std::move(top.pixels)));
 }
 
 void updateBgraTextureArrayLayer(

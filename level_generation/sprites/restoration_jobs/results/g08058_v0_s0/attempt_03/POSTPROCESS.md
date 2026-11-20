@@ -1,0 +1,1 @@
+Retain generated repair master and exact archived prompt. Reproduce with queue.py process g08058_v0_s0 --adjust 0.89 0 43. Uniform sheet scaling/translation corrects enlarged branch spread; no independent component fitting. Final solid bounds delta [2.5,-2.5,-3,0], no warnings. Both final contrast proofs inspected.

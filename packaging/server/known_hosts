@@ -1,0 +1,3 @@
+# Host key of the release server (OpenSSH on the machine serving /var/www/html), for the publish job's deploy login.
+# The router answers jasicek.net:22 itself; CI reaches the server through the router's forward of port 2222.
+jasicek.net,[jasicek.net]:* ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPYTReQyGhE9OpQiBTsBtKpUepZqsMh6KH8FyT8Y6MQK

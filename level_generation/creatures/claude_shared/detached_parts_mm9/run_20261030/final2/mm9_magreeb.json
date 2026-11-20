@@ -1,0 +1,323 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_magreeb.glb",
+  "components": 16,
+  "body": 5,
+  "size": 3.3724026679992676,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 16,
+   "attached_in_every_pose": 15
+  },
+  "concealed": {},
+  "shallow": {
+   "2": {
+    "joint": "Bone13",
+    "where": "-x side, +z",
+    "triangles": 136,
+    "extent": 0.5451,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00063,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00073,
+     "on": "Bone12",
+     "clip": "Death",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "4": {
+    "joint": "Bone114",
+    "where": "below, -x side, +z",
+    "triangles": 425,
+    "extent": 1.3501,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02409,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00397,
+     "on": "Bone108",
+     "clip": "AttackMelee",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "14": {
+    "joint": "Bone21",
+    "where": "above",
+    "triangles": 148,
+    "extent": 0.5002,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00014,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00031,
+     "on": "Bone37",
+     "clip": "AttackRanged",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "15": {
+    "joint": "Bone24",
+    "where": "above, +x side, +z",
+    "triangles": 786,
+    "extent": 1.4291,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 1.00486,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00022,
+     "on": "Bone02",
+     "clip": "Death",
+     "frame": 34,
+     "time": 1.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 1.38291,
+     "on": "Bone114",
+     "clip": "AttackRanged",
+     "frame": 9,
+     "time": 0.3
+    }
+   }
+  },
+  "root_lift": {
+   "0": {
+    "joint": "Bone108",
+    "where": "below, -x side, -z",
+    "triangles": 344,
+    "extent": 2.2792,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.06669,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.04224,
+     "on": "Bone37",
+     "clip": "Death",
+     "frame": 51,
+     "time": 1.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01205,
+     "on": "Bone37",
+     "clip": "Death",
+     "frame": 34,
+     "time": 1.1333
+    }
+   },
+   "1": {
+    "joint": "Bone12",
+    "where": "-x side",
+    "triangles": 184,
+    "extent": 0.7991,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.38504,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.05865,
+     "on": "Bone37",
+     "clip": "Fidget",
+     "frame": 52,
+     "time": 1.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.83244,
+     "on": "Bone114",
+     "clip": "AttackRanged",
+     "frame": 8,
+     "time": 0.2667
+    }
+   },
+   "3": {
+    "joint": "Bone15",
+    "where": "above, -x side, +z",
+    "triangles": 562,
+    "extent": 0.9652,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0301,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.013,
+     "on": "Bone13",
+     "clip": "AttackMelee",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00876,
+     "on": "Bone13",
+     "clip": "AttackRanged",
+     "frame": 15,
+     "time": 0.5
+    }
+   },
+   "6": {
+    "joint": "Bone02",
+    "where": "above, +z",
+    "triangles": 1013,
+    "extent": 0.8027,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04498,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.03523,
+     "on": "Bone37",
+     "clip": "Death",
+     "frame": 51,
+     "time": 1.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00816,
+     "on": "Bone37",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    }
+   },
+   "12": {
+    "joint": "Bone61",
+    "where": "below, +x side",
+    "triangles": 487,
+    "extent": 1.2947,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03708,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.01887,
+     "on": "Bone37",
+     "clip": "Death",
+     "frame": 39,
+     "time": 1.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01068,
+     "on": "Bone37",
+     "clip": "Running",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "13": {
+    "joint": "Bone56",
+    "where": "+x side, -z",
+    "triangles": 366,
+    "extent": 1.9513,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04753,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.03306,
+     "on": "Bone37",
+     "clip": "AttackRanged",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.05792,
+     "on": "Bone37",
+     "clip": "Death",
+     "frame": 42,
+     "time": 1.4
+    }
+   },
+   "15": {
+    "joint": "Bone24",
+    "where": "above, +x side, +z",
+    "triangles": 786,
+    "extent": 1.4291,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 1.00486,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00022,
+     "on": "Bone02",
+     "clip": "Death",
+     "frame": 34,
+     "time": 1.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 1.38291,
+     "on": "Bone114",
+     "clip": "AttackRanged",
+     "frame": 9,
+     "time": 0.3
+    }
+   }
+  }
+ }
+]

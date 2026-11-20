@@ -1,0 +1,2655 @@
+# draft extracted from MAW ef23ee17
+# Spell data for an OpenYAMM "MAW" ruleset. Generated from MAW Data/Tables/Spells2.txt, base
+# reference/mmmerge/Data/Tables/Spells2.txt, OpenYAMM assets_dev/engine/data_tables/spells.txt and the
+# BackendSpellRule switch in game/party/PartySpellSystem.cpp, plus the Lua overrides in
+# Scripts/General/zzMaw-Spells.lua (SP:line). Spec: ../CLASSES_SPELLS_SPEC.md section 1.
+#
+# Fields
+#   cost / delay: [Normal, Expert, Master, GM]; cost in SP before Ascension and the personality factor,
+#                 delay in recovery ticks before Speed, Haste, Ascension and armour (spec section 1.2).
+#   damage: {add, dice_min, dice_max}: add + sum over skill points of rand(dice_min..dice_max);
+#           dice_min == dice_max means a fixed amount per point (SP:1976-1986).
+#   base: reference/mmmerge Spells2.txt.  openyamm: spells.txt row plus the explicit BackendSpellRule
+#   values that override it (rule_*; empty = rule falls back to the table).  maw: MAW values.
+#   ascension: damage | heal | cc | none.  kind: damage | heal | aura | utility_aura | cc | other.
+#   change: which OpenYAMM fields a MAW ruleset has to change.
+# Class-specific spell variants (Death Knight, Assassin, Elementalist, Dragon) are under class_variants.
+
+ascension_scope:
+  damage_spells: [2, 6, 7, 8, 9, 10, 11, 15, 18, 20, 22, 24, 26, 29, 32, 37, 39, 41, 43, 44, 52, 59, 65, 70, 76, 78,
+    79, 84, 87, 90, 93, 97, 98, 99, 103, 111, 123]  # SP:1888
+  healing_spells: [49, 54, 55, 68, 74, 77]  # SP:2108, 2169
+  cc_spells: [34, 35, 48, 60, 62, 63, 66, 81, 92, 94, 96, 113, 122]  # CCMAP keys, SP:1337-1350
+  # weapon enchant damage / 2.5 on these, SP:2094
+  aoe_enchant_divisor_spells: [6, 7, 8, 9, 10, 15, 22, 24, 32, 41, 43, 84, 93, 97, 98, 99, 123]
+
+spells:
+  - id: 1
+    name: "Torch Light"
+    school: fire
+    base: {cost: [1, 1, 1, 1], delay: [60, 60, 60, 40], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 661
+        cost: [1, 1, 1, 1]
+        delay: [60, 60, 60, 40]
+    maw:
+      kind: utility_aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [1, 1, 1, 1] unused
+      delay: [60, 60, 60, 40]
+      aura: {flat_reserve: 5}
+      notes:
+        - "utility aura: flat 5 SP reserved, x(1 - EnlightenmentMastery/10) (SP:2636, 3048-3049)"
+        - "Torch power = holder mastery + 1 (SP:2874-2875); solo party: always on, power >= 3 (SP:2972-2974)"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 2
+    name: "Fire Bolt"
+    school: fire
+    base: {cost: [2, 2, 2, 2], delay: [110, 110, 100, 90], damage: {add: 0, dice: 3}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 663
+        cost: [2, 2, 2, 2]
+        delay: [110, 110, 100, 90]
+        damage: {add: 0, dice: 3, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [2, 2, 2, 2]
+      delay: [110, 110, 100, 90]
+      damage: {add: 8, dice_min: 1, dice_max: 2}
+      notes:
+        - "damage 8 + 1d2 per point"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 3
+    name: "Fire Resistance"
+    school: fire
+    base: {cost: [3, 3, 3, 3], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 665
+        cost: [3, 3, 3, 3]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [3, 3, 3, 3] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 60}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml: Fire res and Intellect %"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 4
+    name: "Fire Aura"
+    school: fire
+    base: {cost: [4, 4, 4, 4], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 667
+        cost: [4, 4, 4, 4]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [4, 4, 4, 4] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 90}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura: party weapons gain fire damage = weapon item-level damage x 10/15/20/25 % by holder mastery,
+          floor 3/6/12/24 (x2 two-handed) (zzMaw-Items.lua:4280-4300); also added to spells (SP:2021-2037)"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 5
+    name: "Haste"
+    school: fire
+    base: {cost: [5, 5, 5, 5], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 669
+        cost: [5, 5, 5, 5]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [5, 5, 5, 5] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 120}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 6
+    name: "Fireball"
+    school: fire
+    base: {cost: [8, 8, 8, 8], delay: [100, 100, 90, 80], damage: {add: 0, dice: 6}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 671
+        cost: [8, 8, 8, 8]
+        delay: [100, 100, 90, 80]
+        damage: {add: 0, dice: 6, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [8, 8, 8, 8]
+      delay: [100, 100, 90, 80]
+      damage: {add: 0, dice_min: 1, dice_max: 8, aoe: true}
+      notes:
+        - "damage 0 + 1d8; AoE (weapon-enchant add / 2.5)"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 7
+    name: "Fire Spike"
+    school: fire
+    base: {cost: [10, 10, 10, 10], delay: [150, 150, 150, 150], damage: {add: 0, dice: 6}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 673
+        cost: [10, 10, 10, 10]
+        delay: [150, 150, 150, 150]
+        damage: {add: 1, dice: 6, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [10, 10, 10, 10]
+      delay: [100, 100, 100, 100]
+      damage: {add: 0, dice_min: 1, dice_max: 10, aoe: true}
+      notes:
+        - "damage 0 + 1d10 per point; Master x8/6, GM x10/6 (SP:1989-1995); delay 150 -> 100"
+    change:
+      - spells.txt recovery
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule recovery
+      - BackendSpellRule damage
+  - id: 8
+    name: "Immolation"
+    school: fire
+    base: {cost: [15, 15, 15, 15], delay: [120, 120, 120, 120], damage: {add: 0, dice: 6}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 675
+        cost: [15, 15, 15, 15]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: damage
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [15, 15, 15, 15] unused
+      delay: [120, 120, 120, 120]
+      damage: {add: 10, dice_min: 1, dice_max: 30, aoe: true}
+      aura: {reserve_cost: 40}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura (40 % base reservation); damage 10 + 1d30 per point, Ascension-scaled, AoE"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - aura system (mana 0, reservation)
+  - id: 9
+    name: "Meteor Shower"
+    school: fire
+    base: {cost: [20, 20, 20, 20], delay: [100, 100, 100, 90], damage: {add: 8, dice: 1}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 677
+        cost: [20, 20, 20, 20]
+        delay: [100, 100, 100, 90]
+        damage: {add: 8, dice: 1, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [40, 40, 40, 40]
+      delay: [200, 200, 200, 180]
+      damage: {add: 2, dice_min: 1, dice_max: 1, aoe: true}
+      notes:
+        - "damage 2 + 1 per point (fixed); cost 20 -> 40; delay x2"
+    change:
+      - spells.txt mana
+      - spells.txt recovery
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule mana
+      - BackendSpellRule recovery
+      - BackendSpellRule damage
+  - id: 10
+    name: "Inferno"
+    school: fire
+    base: {cost: [25, 25, 25, 25], delay: [100, 100, 100, 90], damage: {add: 12, dice: 2}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 679
+        damage: {add: 12, dice: 2, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [50, 50, 50, 50]
+      delay: [100, 100, 100, 90]
+      damage: {add: 12, dice_min: 1, dice_max: 7, aoe: true}
+      notes:
+        - "damage 12 + 1d7; cost 25 -> 50"
+    change:
+      - spells.txt mana
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 11
+    name: "Incinerate"
+    school: fire
+    base: {cost: [30, 30, 30, 30], delay: [90, 90, 90, 90], damage: {add: 15, dice: 15}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 681
+        cost: [30, 30, 30, 30]
+        delay: [90, 90, 90, 90]
+        damage: {add: 15, dice: 15, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [30, 30, 30, 30]
+      delay: [90, 90, 90, 90]
+      damage: {add: 19, dice_min: 1, dice_max: 21}
+      notes:
+        - "damage 19 + 1d21"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 12
+    name: "Wizard Eye"
+    school: air
+    base: {cost: [1, 1, 1, 0], delay: [60, 60, 60, 60], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 683
+        cost: [1, 1, 1, 0]
+        delay: [60, 60, 60, 60]
+    maw:
+      kind: utility_aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [1, 1, 1, 0] unused
+      delay: [60, 60, 60, 60]
+      aura: {flat_reserve: 5}
+      notes:
+        - "utility aura: flat 5 SP reserved (SP:2637)"
+        - "solo party or NPC profession 38: always on (power 10, skill 2) (SP:2968-2983)"
+        - "Shadow/Omnipotent boss within 2000 suppresses it (SP:2992-3005)"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 13
+    name: "Feather Fall"
+    school: air
+    base: {cost: [2, 2, 2, 2], delay: [120, 120, 120, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 685
+        cost: [2, 2, 2, 2]
+        delay: [120, 120, 120, 100]
+    maw:
+      kind: other
+      ascension: none
+      cost: [2, 2, 2, 2]
+      delay: [120, 120, 120, 100]
+    change: []
+  - id: 14
+    name: "Air Resistance"
+    school: air
+    base: {cost: [3, 3, 3, 3], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 687
+        cost: [3, 3, 3, 3]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [3, 3, 3, 3] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 60}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml: Air res and Speed %"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 15
+    name: "Sparks"
+    school: air
+    base: {cost: [4, 4, 4, 4], delay: [110, 100, 90, 80], damage: {add: 2, dice: 1}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 689
+        cost: [4, 4, 4, 4]
+        damage: {add: 2, dice: 1, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [4, 8, 10, 12]
+      delay: [110, 100, 90, 80]
+      damage: {add: 0, dice_min: 1, dice_max: 4, aoe: true}
+      notes:
+        - "damage 0 + 1d4 per point (was 2 + 1 fixed); cost 4/8/10/12; AoE"
+    change:
+      - spells.txt mana
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule mana
+      - BackendSpellRule damage
+  - id: 16
+    name: "Jump"
+    school: air
+    base: {cost: [5, 5, 5, 5], delay: [90, 90, 70, 50], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 702
+        cost: [5, 5, 5, 5]
+        delay: [90, 90, 70, 50]
+    maw:
+      kind: other
+      ascension: none
+      cost: [5, 5, 5, 5]
+      delay: [90, 90, 70, 50]
+      notes:
+        - "solo: Jump scroll (item 315) is refunded (SP:1107-1108)"
+    change: []
+  - id: 17
+    name: "Shield"
+    school: air
+    base: {cost: [8, 8, 8, 8], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 704
+        cost: [8, 8, 8, 8]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [8, 8, 8, 8] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 75}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 18
+    name: "Lightning Bolt"
+    school: air
+    base: {cost: [10, 10, 10, 10], delay: [100, 100, 90, 70], damage: {add: 0, dice: 8}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 706
+        cost: [10, 10, 10, 10]
+        delay: [100, 100, 90, 70]
+        damage: {add: 0, dice: 8, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [10, 10, 20, 30]  # Lua, SP:1883-1885
+      delay: [100, 80, 100, 120]
+      damage: {add: 12, dice_min: 1, dice_max: 8}
+      notes:
+        - "renamed Chain Lightning (SP:743-746); damage 12 + 1d8"
+        - "Master/GM cost 20/30 in Lua (SP:1883-1885), table 10/10/10/10"
+        - "on hit with mastery > 1 a copy (mastery - 1, same skill) flies to the closest living monster within
+          768 (any monster, not only hostiles; only the struck monster excluded, so it can bounce back): N 1,
+          E 2, M 3, GM 4 hits (MawCore/Damage.lua:399-428)"
+    change:
+      - spells.txt mana
+      - spells.txt recovery
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule mana
+      - BackendSpellRule recovery
+      - BackendSpellRule damage
+  - id: 19
+    name: "Invisibility"
+    school: air
+    base: {cost: [15, 15, 15, 15], delay: [200, 200, 200, 200], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 708
+    maw:
+      kind: other
+      ascension: none
+      cost: [15, 15, 15, 15]
+      delay: [200, 200, 200, 200]
+      notes:
+        - "cannot be cast while the enemy detector is yellow or red (SP:157-161)"
+        - "duration Master (15 + s) x 1.5 game min, GM (30 + 2s) x 1.5 game min (SP:711-716); tooltip says 15 +
+          1.5/pt and 30 + 3/pt (SP:749-750)"
+        - "Insanity: removed when the detector turns red (SP:3849-3857); 7d11 Wall of Mist forces it on
+          (SP:733-737)"
+    change: []
+  - id: 20
+    name: "Implosion"
+    school: air
+    base: {cost: [20, 20, 20, 20], delay: [100, 100, 100, 90], damage: {add: 10, dice: 10}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 710
+        damage: {add: 10, dice: 10, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [20, 20, 20, 20]
+      delay: [100, 100, 100, 90]
+      damage: {add: 20, dice_min: 1, dice_max: 12}
+      notes:
+        - "damage 20 + 1d12"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 21
+    name: "Fly"
+    school: air
+    base: {cost: [25, 25, 25, 25], delay: [250, 250, 250, 250], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 712
+    maw:
+      kind: other
+      ascension: none
+      cost: [25, 25, 25, 25]
+      delay: [250, 250, 250, 250]
+      notes:
+        - "not an aura (commented out of utilitySpell, SP:2639); unchanged cost"
+        - "bolster > 100 or Austerity: any party hit on a monster converts Fly into Feather Fall with the same
+          expiry, except on 11 maps (MawCore/Damage.lua:317-329, SP:1018)"
+        - "solo: Fly scroll refunded and sets Fly for 7 h at GM, recovery 120 (SP:1109-1117)"
+    change: []
+  - id: 22
+    name: "Starburst"
+    school: air
+    base: {cost: [30, 30, 30, 30], delay: [90, 90, 90, 90], damage: {add: 20, dice: 1}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 714
+        damage: {add: 20, dice: 1, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [60, 60, 60, 60]
+      delay: [140, 140, 140, 140]
+      damage: {add: 7, dice_min: 1, dice_max: 1, aoe: true}
+      notes:
+        - "damage 7 + 1 per point (fixed); cost 30 -> 60; delay 90 -> 140"
+    change:
+      - spells.txt mana
+      - spells.txt recovery
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 23
+    name: "Awaken"
+    school: water
+    base: {cost: [1, 1, 1, 1], delay: [60, 60, 60, 20], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 716
+    maw:
+      kind: other
+      ascension: none
+      cost: [1, 1, 1, 1]
+      delay: [60, 60, 60, 20]
+    change: []
+  - id: 24
+    name: "Poison Spray"
+    school: water
+    base: {cost: [2, 2, 2, 2], delay: [110, 100, 90, 70], damage: {add: 2, dice: 2}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 718
+        damage: {add: 2, dice: 2, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [2, 4, 5, 6]
+      delay: [110, 100, 90, 70]
+      damage: {add: 5, dice_min: 1, dice_max: 3, aoe: true}
+      notes:
+        - "damage 5 + 1d3; cost 2/4/5/6; AoE"
+    change:
+      - spells.txt mana
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 25
+    name: "Water Resistance"
+    school: water
+    base: {cost: [3, 3, 3, 3], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 730
+        cost: [3, 3, 3, 3]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [3, 3, 3, 3] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 60}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml: Water res and Luck %"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 26
+    name: "Ice Bolt"
+    school: water
+    base: {cost: [4, 4, 4, 4], delay: [110, 100, 90, 80], damage: {add: 0, dice: 4}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 732
+        damage: {add: 1, dice: 4, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [4, 4, 4, 4]
+      delay: [110, 100, 90, 80]
+      damage: {add: 6, dice_min: 1, dice_max: 7}
+      notes:
+        - "damage 6 + 1d7 (Death Knight Icy Touch reuses this id, see class_perks.yml)"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 27
+    name: "Water Walk"
+    school: water
+    base: {cost: [5, 5, 5, 5], delay: [150, 150, 150, 150], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 734
+    maw:
+      kind: utility_aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [5, 5, 5, 5] unused
+      delay: [150, 150, 150, 150]
+      aura: {flat_reserve: 20}
+      notes:
+        - "utility aura: flat 20 SP reserved (SP:2640); solo scroll (item 326) refunded"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 28
+    name: "Recharge Item"
+    school: water
+    base: {cost: [8, 8, 8, 8], delay: [200, 200, 200, 200], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 736
+        cost: [8, 8, 8, 8]
+        delay: [200, 200, 200, 200]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [8, 8, 8, 8] unused
+      delay: [200, 200, 200, 200]
+      aura: {reserve_cost: 150}  # SP cost set to 0, see buff_auras.yml
+    change:
+      - aura system (mana 0, reservation)
+  - id: 29
+    name: "Acid Burst"
+    school: water
+    base: {cost: [10, 10, 10, 10], delay: [100, 100, 90, 80], damage: {add: 9, dice: 9}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 745
+        damage: {add: 9, dice: 9, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [10, 10, 10, 10]
+      delay: [100, 100, 90, 80]
+      damage: {add: 4, dice_min: 1, dice_max: 14}
+      notes:
+        - "damage 4 + 1d14"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 30
+    name: "Enchant Item"
+    school: water
+    base: {cost: [15, 15, 15, 15], delay: [140, 140, 140, 140], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 747
+        cost: [15, 15, 15, 15]
+        delay: [140, 140, 140, 140]
+    maw:
+      kind: other
+      ascension: none
+      cost: [15, 15, 15, 15]
+      delay: [140, 140, 140, 140]
+      notes:
+        - "MMMerge \"catalyst -> Philosopher's Stone\" conversion disabled (SpellsTweaks.lua:197-210 diff)"
+    change: []
+  - id: 31
+    name: "Town Portal"
+    school: water
+    base: {cost: [20, 20, 20, 20], delay: [200, 200, 200, 200], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 749
+        cost: [20, 20, 20, 20]
+        delay: [200, 200, 200, 200]
+    maw:
+      kind: other
+      ascension: none
+      cost: [20, 20, 20, 20]
+      delay: [200, 200, 200, 200]
+      notes:
+        - "solo: scroll (item 330) refunded; Madness: cannot cast with enemies nearby (SP:3728-3735)"
+    change: []
+  - id: 32
+    name: "Ice Blast"
+    school: water
+    base: {cost: [25, 25, 25, 25], delay: [80, 80, 80, 80], damage: {add: 12, dice: 6}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 753
+        damage: {add: 12, dice: 6, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [25, 25, 25, 25]
+      delay: [80, 80, 80, 80]
+      damage: {add: 6, dice_min: 1, dice_max: 6, aoe: true}
+      notes:
+        - "damage 6 + 1d6; AoE"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 33
+    name: "Lloyd's Beacon"
+    school: water
+    base: {cost: [30, 30, 30, 30], delay: [250, 250, 250, 250], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 751
+        cost: [30, 30, 30, 30]
+        delay: [250, 250, 250, 250]
+    maw:
+      kind: other
+      ascension: none
+      cost: [30, 30, 30, 30]
+      delay: [250, 250, 250, 250]
+      notes:
+        - "solo: scroll (item 332) refunded"
+    change: []
+  - id: 34
+    name: "Stun"
+    school: earth
+    base: {cost: [1, 1, 1, 1], delay: [80, 80, 80, 80], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 755
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [1, 1, 1, 1]
+      delay: [80, 80, 80, 80]
+      cc: {base_minutes: 2, school: "earth", dr_group: none, path: "engine stun with scripted roll"}
+      notes:
+        - "MAW-scripted success roll: chance = 30 / (30 + L/4), L = calcEffectChance(level, Earth res, Earth
+          skill, 0.01), x2 on bosses, cut by map affix 13 (MawCore/Damage.lua:334-357, SP:1855-1865)"
+        - "on success the engine applies MMMerge stun + paralysis 1 game min + s*m ticks
+          (SpellsTweaks.lua:50-58); CCMAP duration (2 min) is only printed in the tooltip"
+        - "cost and delay use the CC formulas (see crowd_control.yml)"
+    change:
+      - CC table
+  - id: 35
+    name: "Slow"
+    school: earth
+    base: {cost: [2, 2, 2, 2], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 757
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [2, 2, 2, 2]
+      delay: [100, 100, 100, 100]
+      cc: {base_minutes: 6, school: "earth", dr_group: 1, path: "scripted"}
+      notes:
+        - "scripted CC (see crowd_control.yml); MMMerge resistance check forced to pass
+          (SpellsTweaks.lua:24-41)"
+    change:
+      - CC table
+  - id: 36
+    name: "Earth Resistance"
+    school: earth
+    base: {cost: [3, 3, 3, 3], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 759
+        cost: [3, 3, 3, 3]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [3, 3, 3, 3] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 60}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml: Earth res and Endurance %"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 37
+    name: "Deadly Swarm"
+    school: earth
+    base: {cost: [4, 4, 4, 4], delay: [110, 100, 90, 80], damage: {add: 5, dice: 3}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 761
+        damage: {add: 5, dice: 3, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [4, 4, 4, 4]
+      delay: [110, 100, 90, 80]
+      damage: {add: 8, dice_min: 1, dice_max: 5}
+      notes:
+        - "damage 8 + 1d5"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 38
+    name: "Stone Skin"
+    school: earth
+    base: {cost: [5, 5, 5, 5], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 763
+        cost: [5, 5, 5, 5]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [5, 5, 5, 5] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 75}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 39
+    name: "Blades"
+    school: earth
+    base: {cost: [8, 8, 8, 8], delay: [100, 100, 90, 80], damage: {add: 0, dice: 9}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 765
+        damage: {add: 1, dice: 9, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [8, 8, 8, 8]
+      delay: [100, 100, 90, 80]
+      damage: {add: 7, dice_min: 1, dice_max: 7}
+      notes:
+        - "damage 7 + 1d7; tooltip calls it the only physical spell (SP:2306)"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 40
+    name: "Stone to Flesh"
+    school: earth
+    base: {cost: [10, 10, 10, 10], delay: [140, 140, 140, 140], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 767
+    maw:
+      kind: other
+      ascension: none
+      cost: [10, 10, 10, 10]
+      delay: [140, 140, 140, 140]
+    change: []
+  - id: 41
+    name: "Rock Blast"
+    school: earth
+    base: {cost: [15, 15, 15, 15], delay: [90, 90, 90, 80], damage: {add: 10, dice: 10}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 769
+        damage: {add: 10, dice: 10, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [15, 15, 15, 15]
+      delay: [90, 90, 90, 80]
+      damage: {add: 8, dice_min: 1, dice_max: 8, aoe: true}
+      notes:
+        - "damage 8 + 1d8; AoE"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 42
+    name: "Telekinesis"
+    school: earth
+    base: {cost: [20, 20, 20, 20], delay: [150, 150, 150, 150], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 771
+        cost: [20, 20, 20, 20]
+        delay: [150, 150, 150, 150]
+    maw:
+      kind: other
+      ascension: none
+      cost: [20, 20, 20, 20]
+      delay: [150, 150, 150, 150]
+    change: []
+  - id: 43
+    name: "Death Blossom"
+    school: earth
+    base: {cost: [25, 25, 25, 25], delay: [100, 100, 100, 90], damage: {add: 20, dice: 1}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 773
+        damage: {add: 20, dice: 2, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [50, 50, 50, 50]
+      delay: [180, 180, 180, 160]
+      damage: {add: 4, dice_min: 1, dice_max: 2, aoe: true}
+      notes:
+        - "damage 4 + 1d2; cost 25 -> 50; delay 180/180/180/160; AoE"
+    change:
+      - spells.txt mana
+      - spells.txt recovery
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 44
+    name: "Mass Distortion"
+    school: earth
+    base: {cost: [30, 30, 30, 30], delay: [90, 90, 90, 90], damage: {add: 25, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 775
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [30, 30, 30, 30]
+      delay: [90, 90, 90, 90]
+      damage: {add: 15, dice_min: 0.5, dice_max: 0.5}
+      notes:
+        - "damage = (15 % + 0.5 % x skill) of t.HP (SP:1939-1942), then / sqrt(bolster mult: 100 -> 1, 150 ->
+          1.4, 200 -> 1.8, 300 -> 3, Doom 3.33 x (1 + lvl/75), boss x2 x (1 + lvl/80)), x4 Austerity, x max(1,
+          (level/250)^2) (MawCore/Damage.lua:363-396)"
+        - "GM cost = ceil(min(LevelBase,255)^1.4 / 12.5 x personality factor) (SP:2275-2277); MMMerge
+          resistance check forced to pass (SpellsTweaks.lua:24-41)"
+    change:
+      - spells.txt DamageBase/DiceSides + new DiceMin column
+  - id: 45
+    name: "Detect Life"
+    school: spirit
+    base: {cost: [1, 1, 1, 1], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 777
+    maw:
+      kind: other
+      ascension: none
+      cost: [1, 1, 1, 1]
+      delay: [100, 100, 100, 100]
+    change: []
+  - id: 46
+    name: "Bless"
+    school: spirit
+    base: {cost: [2, 2, 2, 2], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 779
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [2, 2, 2, 2] unused
+      delay: [100, 100, 100, 100]
+      aura: {reserve_cost: 75}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura (SingleBuff 1 on every member), see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 47
+    name: "Fate"
+    school: spirit
+    base: {cost: [3, 3, 3, 3], delay: [90, 90, 90, 90], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 790
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [3, 3, 3, 3] unused
+      delay: [90, 90, 90, 90]
+      aura: {reserve_cost: 75}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura (SingleBuff 4 on every member), see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 48
+    name: "Turn Undead"
+    school: spirit
+    base: {cost: [4, 4, 4, 4], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 792
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [4, 4, 4, 4]
+      delay: [120, 120, 120, 120]
+      cc: {base_minutes: 5, school: "spirit", dr_group: 2, path: "engine path, undead only"}
+      notes:
+        - "engine-path CC, undead only (see crowd_control.yml)"
+    change:
+      - CC table
+  - id: 49
+    name: "Remove Curse"
+    school: spirit
+    base: {cost: [5, 5, 5, 5], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 794
+    maw:
+      kind: heal
+      ascension: heal
+      cost: [0, 5, 10, 20]  # healing table replaces Spells2 [5, 5, 5, 5] (SP:2387-2434)
+      delay: [120, 120, 120, 120]
+      heal: {cost: [0, 5, 10, 20], base: [0, 10, 20, 30], per_point: [0, 4, 6, 8]}
+      heal_insanity: {cost: [0, 15, 30, 60], base: [0, 20, 40, 60], per_point: [0, 8, 12, 16]}  # SP:2336-2343
+      notes:
+        - "Remove Curse becomes a heal that also cures Curse: E/M/G base 10/20/30 + 4/6/8 per point, cost
+          5/10/20 (healing table); auto-target on quick cast (SP:178-222, 1307-1312)"
+    change:
+      - heal table
+  - id: 50
+    name: "Preservation"
+    school: spirit
+    base: {cost: [8, 8, 8, 8], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 796
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [8, 8, 8, 8] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 120}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura (party-wide), see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 51
+    name: "Heroism"
+    school: spirit
+    base: {cost: [10, 10, 10, 10], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 807
+        cost: [10, 10, 10, 10]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [10, 10, 10, 10] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 120}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 52
+    name: "Spirit Lash"
+    school: spirit
+    base: {cost: [15, 15, 15, 15], delay: [100, 100, 100, 100], damage: {add: 10, dice: 8}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 809
+        damage: {add: 10, dice: 8, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [15, 15, 15, 15]
+      delay: [100, 100, 100, 100]
+      damage: {add: 20, dice_min: 2, dice_max: 16}
+      notes:
+        - "damage 20 + 2d16 per point (diceMin 2); Master range forced to 0x180 = 384 (SP:1009-1014)"
+    change:
+      - spells.txt DamageBase/DiceSides + new DiceMin column
+      - BackendSpellRule damage
+  - id: 53
+    name: "Raise Dead"
+    school: spirit
+    base: {cost: [20, 20, 20, 20], delay: [240, 240, 240, 240], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 811
+    maw:
+      kind: other
+      ascension: none
+      cost: [20, 20, 20, 20]
+      delay: [240, 240, 240, 240]
+      notes:
+        - "GM: also clears Dead/Eradicated/Unconscious and sets HP >= 1 (SP:250-260)"
+    change: []
+  - id: 54
+    name: "Shared Life"
+    school: spirit
+    base: {cost: [25, 25, 25, 25], delay: [150, 150, 150, 150], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 813
+    maw:
+      kind: heal
+      ascension: heal
+      cost: [0, 0, 25, 40]  # healing table replaces Spells2 [12, 12, 12, 12] (SP:2387-2434)
+      delay: [200, 200, 200, 150]
+      heal: {cost: [0, 0, 25, 40], base: [0, 0, 0, 0], per_point: [0, 0, 7, 9]}
+      heal_insanity: {cost: [0, 0, 25, 40], base: [0, 0, 0, 0], per_point: [0, 0, 7, 9]}  # SP:2336-2343
+      notes:
+        - "rewritten: participants (not Dead/Eradicated/Stoned), highest HP first, stop when the running total
+          would go below 0; pool = their HP + heal, redistributed evenly up to max HP, never kills
+          (SP:824-1003)"
+        - "heal = (Base + Scaling x s / 2) x heal mult - 3s (M) / -4s (G), floor 0; Base 0, Scaling 7/9; M/G
+          cost 25/40 from the healing table override the table value 12 (SP:2397-2399)"
+    change:
+      - spells.txt recovery
+      - heal table
+  - id: 55
+    name: "Resurrection"
+    school: spirit
+    base: {cost: [30, 30, 30, 30], delay: [1000, 1000, 1000, 1000], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 815
+    maw:
+      kind: heal
+      ascension: heal
+      cost: [0, 0, 0, 100]  # healing table replaces Spells2 [30, 30, 30, 30] (SP:2387-2434)
+      delay: [1000, 1000, 1000, 300]
+      heal: {cost: [0, 0, 0, 100], base: [0, 0, 0, 150], per_point: [0, 0, 0, 21]}
+      heal_insanity: {cost: [0, 0, 0, 300], base: [0, 0, 0, 450], per_point: [0, 0, 0, 50]}  # SP:2336-2343
+      notes:
+        - "GM: heal 150 + 21 per point on the target, works on Dead/Eradicated (HP = max(hp + heal, heal))
+          (SP:262-316); cost 100 (healing table); delay GM 1000 -> 300"
+        - "quick-cast auto-target is broken (uses undefined idx and Greater Heal numbers, SP:1287-1294)"
+    change:
+      - spells.txt recovery
+      - heal table
+  - id: 56
+    name: "Telepathy"
+    school: mind
+    base: {cost: [1, 1, 1, 1], delay: [110, 100, 90, 80], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 817
+        cost: [1, 1, 1, 1]
+        delay: [90, 90, 90, 90]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [1, 1, 1, 1] unused
+      delay: [110, 100, 90, 80]
+      aura: {reserve_cost: 120}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "Telepathy replaced by the Meditation aura (party SP regen), see buff_auras.yml"
+    change:
+      - BackendSpellRule recovery
+      - aura system (mana 0, reservation)
+  - id: 57
+    name: "Remove Fear"
+    school: mind
+    base: {cost: [2, 2, 2, 2], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 819
+    maw:
+      kind: other
+      ascension: none
+      cost: [2, 2, 2, 2]
+      delay: [120, 120, 120, 120]
+    change: []
+  - id: 58
+    name: "Mind Resistance"
+    school: mind
+    base: {cost: [3, 3, 3, 3], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 821
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [3, 3, 3, 3] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 60}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml: Mind res and Personality %"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 59
+    name: "Mind Blast"
+    school: mind
+    base: {cost: [4, 4, 4, 4], delay: [110, 110, 110, 110], damage: {add: 3, dice: 3}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 823
+        damage: {add: 3, dice: 3, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [4, 4, 4, 4]
+      delay: [120, 110, 100, 90]
+      damage: {add: 12, dice_min: 1, dice_max: 6}
+      notes:
+        - "damage 12 + 1d6; delay 120/110/100/90"
+    change:
+      - spells.txt recovery
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 60
+    name: "Charm"
+    school: mind
+    base: {cost: [5, 5, 5, 5], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: {cost: [15, 15, 15, 15]}
+      rule:
+        line: 825
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [5, 5, 5, 5]
+      delay: [100, 100, 100, 100]
+      cc: {base_minutes: 10, school: "mind", dr_group: 2, path: "scripted"}
+      notes:
+        - "scripted CC (Mind Charm; no const name in MMExt)"
+    change:
+      - spells.txt mana
+      - CC table
+  - id: 61
+    name: "Cure Paralysis"
+    school: mind
+    base: {cost: [8, 8, 8, 8], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 827
+    maw:
+      kind: other
+      ascension: none
+      cost: [8, 8, 8, 8]
+      delay: [120, 120, 120, 120]
+    change: []
+  - id: 62
+    name: "Berserk"
+    school: mind
+    base: {cost: [10, 10, 10, 10], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 829
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [10, 10, 10, 10]
+      delay: [120, 120, 120, 120]
+      cc: {base_minutes: 4.5, school: "mind", dr_group: 2, path: "scripted, bypasses engine aim"}
+      notes:
+        - "scripted CC, quick-cast bypasses engine aiming (SP:1546-1579)"
+    change:
+      - CC table
+  - id: 63
+    name: "Mass Fear"
+    school: mind
+    base: {cost: [15, 15, 15, 15], delay: [80, 80, 80, 80], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 831
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [40, 40, 40, 40]
+      delay: [200, 200, 200, 200]
+      cc: {base_minutes: 3, school: "mind", dr_group: 2, path: "engine path"}
+      notes:
+        - "engine-path CC; cost 15 -> 40; delay 80 -> 200"
+    change:
+      - spells.txt mana
+      - spells.txt recovery
+      - CC table
+  - id: 64
+    name: "Cure Insanity"
+    school: mind
+    base: {cost: [20, 20, 20, 20], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 833
+    maw:
+      kind: other
+      ascension: none
+      cost: [20, 20, 20, 20]
+      delay: [120, 120, 120, 120]
+    change: []
+  - id: 65
+    name: "Psychic Shock"
+    school: mind
+    base: {cost: [25, 25, 25, 25], delay: [110, 110, 110, 100], damage: {add: 12, dice: 12}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 835
+        damage: {add: 12, dice: 12, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [25, 25, 25, 25]
+      delay: [110, 110, 110, 100]
+      damage: {add: 25, dice_min: 1, dice_max: 25}
+      notes:
+        - "damage 25 + 1d25"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 66
+    name: "Enslave"
+    school: mind
+    base: {cost: [30, 30, 30, 30], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 837
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [30, 30, 30, 30]
+      delay: [120, 120, 120, 120]
+      cc: {base_minutes: 5, school: "mind", dr_group: 2, path: "scripted, bypasses engine aim"}
+      notes:
+        - "scripted CC, quick-cast bypasses engine aiming"
+    change:
+      - CC table
+  - id: 67
+    name: "Cure Weakness"
+    school: body
+    base: {cost: [1, 1, 1, 1], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 839
+    maw:
+      kind: other
+      ascension: none
+      cost: [1, 1, 1, 1]
+      delay: [120, 120, 120, 120]
+    change: []
+  - id: 68
+    name: "Heal"
+    school: body
+    base: {cost: [2, 2, 2, 2], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 841
+    maw:
+      kind: heal
+      ascension: heal
+      cost: [2, 4, 6, 8]  # healing table replaces Spells2 [2, 2, 2, 2] (SP:2387-2434)
+      delay: [100, 100, 100, 100]
+      heal: {cost: [2, 4, 6, 8], base: [4, 8, 12, 16], per_point: [2, 3, 4, 6]}
+      heal_insanity: {cost: [6, 15, 24, 40], base: [12, 24, 36, 48], per_point: [6, 9, 12, 15]}  # SP:2336-2343
+      notes:
+        - "heal N/E/M/G 4/8/12/16 + 2/3/4/6 per point, cost 2/4/6/8 (healing table); engine heal 5 + (m+1)s is
+          subtracted so the net is the MAW value (SP:319-374); Death Knights cannot cast it; auto-target"
+    change:
+      - heal table
+  - id: 69
+    name: "Body Resistance"
+    school: body
+    base: {cost: [3, 3, 3, 3], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 843
+        cost: [3, 3, 3, 3]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [3, 3, 3, 3] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 60}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml: Body res and Might %"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 70
+    name: "Harm"
+    school: body
+    base: {cost: [4, 4, 4, 4], delay: [110, 100, 90, 80], damage: {add: 8, dice: 2}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 845
+        damage: {add: 8, dice: 2, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [4, 4, 4, 4]
+      delay: [110, 100, 90, 80]
+      damage: {add: 4, dice_min: 1, dice_max: 4}
+      notes:
+        - "damage 4 + 1d4"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 71
+    name: "Regeneration"
+    school: body
+    base: {cost: [5, 5, 5, 5], delay: [110, 110, 110, 110], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 847
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [5, 5, 5, 5] unused
+      delay: [110, 110, 110, 110]
+      aura: {reserve_cost: 120}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 72
+    name: "Cure Poison"
+    school: body
+    base: {cost: [8, 8, 8, 8], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 849
+    maw:
+      kind: other
+      ascension: none
+      cost: [8, 8, 8, 8]
+      delay: [120, 120, 120, 120]
+    change: []
+  - id: 73
+    name: "Hammerhands"
+    school: body
+    base: {cost: [10, 10, 10, 10], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 851
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [10, 10, 10, 10] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 75}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 74
+    name: "Cure Disease"
+    school: body
+    base: {cost: [15, 15, 15, 15], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 862
+    maw:
+      kind: heal
+      ascension: heal
+      cost: [0, 0, 15, 25]  # healing table replaces Spells2 [15, 15, 15, 15] (SP:2387-2434)
+      delay: [120, 120, 120, 120]
+      heal: {cost: [0, 0, 15, 25], base: [0, 0, 25, 40], per_point: [0, 0, 7, 10]}
+      heal_insanity: {cost: [0, 0, 45, 100], base: [0, 0, 50, 100], per_point: [0, 0, 16, 25]}  # SP:2336-2343
+      notes:
+        - "renamed Greater Heal: M/G 25/40 + 7/10 per point, cost 15/25, also cures Disease (SP:397-449,
+          765-768); Death Knights cannot cast it; auto-target"
+    change:
+      - heal table
+  - id: 75
+    name: "Protection from Magic"
+    school: body
+    base: {cost: [20, 20, 20, 20], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 864
+        cost: [20, 20, 20, 20]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [20, 20, 20, 20] unused
+      delay: [120, 120, 120, 120]
+      aura: {reserve_cost: 180}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura (180 %): Power 50 / Skill 4 re-set every 0.5 s, so charges never run out; also blocks
+          Unconscious (SP:676-685, 2904-2907)"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 76
+    name: "Flying Fist"
+    school: body
+    base: {cost: [25, 25, 25, 25], delay: [110, 110, 110, 100], damage: {add: 20, dice: 10}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 866
+        cost: [25, 25, 25, 25]
+        delay: [110, 110, 110, 100]
+        damage: {add: 30, dice: 5, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [25, 25, 25, 25]
+      delay: [110, 110, 110, 100]
+      damage: {add: 20, dice_min: 1, dice_max: 5}
+      notes:
+        - "damage 20 + 1d5 (Death Knight Asphyxiate reuses this id)"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 77
+    name: "Power Cure"
+    school: body
+    base: {cost: [30, 30, 30, 30], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 868
+    maw:
+      kind: heal
+      ascension: heal
+      cost: [0, 0, 0, 30]  # healing table replaces Spells2 [30, 30, 30, 30] (SP:2387-2434)
+      delay: [100, 100, 100, 100]
+      heal: {cost: [0, 0, 0, 30], base: [0, 0, 0, 15], per_point: [0, 0, 0, 4]}
+      heal_insanity: {cost: [0, 0, 0, 150], base: [0, 0, 0, 50], per_point: [0, 0, 0, 12]}  # SP:2336-2343
+      notes:
+        - "heal GM 15 + 4 per point to every member (engine 10 + 5s subtracted) (SP:461-543)"
+    change:
+      - heal table
+  - id: 78
+    name: "Light Bolt"
+    school: light
+    base: {cost: [5, 5, 5, 5], delay: [110, 100, 90, 80], damage: {add: 0, dice: 4}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 870
+        cost: [5, 5, 5, 5]
+        delay: [110, 100, 90, 80]
+        damage: {add: 0, dice: 4, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [5, 5, 5, 5]
+      delay: [110, 100, 90, 80]
+      damage: {add: 12, dice_min: 1, dice_max: 2}
+      notes:
+        - "damage 12 + 1d2"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 79
+    name: "Destroy Undead"
+    school: light
+    base: {cost: [10, 10, 10, 10], delay: [120, 110, 100, 90], damage: {add: 16, dice: 16}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 872
+        damage: {add: 16, dice: 16, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [50, 50, 50, 50]
+      delay: [120, 110, 100, 90]
+      damage: {add: 45, dice_min: 1, dice_max: 45}
+      notes:
+        - "damage 45 + 1d45; cost 10 -> 50"
+    change:
+      - spells.txt mana
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 80
+    name: "Dispel Magic"
+    school: light
+    base: {cost: [15, 15, 15, 15], delay: [120, 110, 100, 90], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 874
+    maw:
+      kind: other
+      ascension: none
+      cost: [15, 15, 15, 15]
+      delay: [120, 110, 100, 90]
+    change: []
+  - id: 81
+    name: "Paralyze"
+    school: light
+    base: {cost: [20, 20, 20, 20], delay: [160, 140, 120, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 876
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [20, 20, 20, 20]
+      delay: [160, 140, 120, 100]
+      cc: {base_minutes: 3, school: "light", dr_group: 3, path: "scripted"}
+      notes:
+        - "scripted CC (Light), DR group 3"
+    change:
+      - CC table
+  - id: 82
+    name: "Summon Wisp"
+    school: light
+    base: {cost: [25, 25, 25, 25], delay: [140, 140, 140, 140], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 878
+        cost: [25, 25, 25, 25]
+        delay: [140, 140, 140, 140]
+    maw:
+      kind: other
+      ascension: none
+      cost: [25, 50, 75, 100]
+      delay: [140, 140, 140, 140]
+      notes:
+        - "cost 25/50/75/100; if the engine did not summon, MAW spawns monster 97 at power C (id 99) while
+          fewer than 2m - 3 wisps live (M 3, GM 5) (SP:3435-3455)"
+    change:
+      - spells.txt mana
+      - BackendSpellRule mana
+  - id: 83
+    name: "Day of the Gods"
+    school: light
+    base: {cost: [30, 30, 30, 30], delay: [500, 500, 500, 500], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 880
+        cost: [30, 30, 30, 30]
+        delay: [500, 500, 500, 500]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [30, 30, 30, 30] unused
+      delay: [500, 500, 500, 500]
+      aura: {reserve_cost: 200}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 84
+    name: "Prismatic Light"
+    school: light
+    base: {cost: [35, 35, 35, 35], delay: [135, 135, 120, 100], damage: {add: 25, dice: 1}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 882
+        damage: {add: 25, dice: 1, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [35, 35, 35, 35]
+      delay: [135, 135, 120, 100]
+      damage: {add: 30, dice_min: 2, dice_max: 6, aoe: true}
+      notes:
+        - "damage 30 + 2..6 per point (diceMin 2); AoE"
+    change:
+      - spells.txt DamageBase/DiceSides + new DiceMin column
+      - BackendSpellRule damage
+  - id: 85
+    name: "Day of Protection"
+    school: light
+    base: {cost: [40, 40, 40, 40], delay: [500, 500, 500, 500], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 894
+        cost: [40, 40, 40, 40]
+        delay: [500, 500, 500, 500]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [40, 40, 40, 40] unused
+      delay: [500, 500, 500, 500]
+      aura: {reserve_cost: 150}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 86
+    name: "Hour of Power"
+    school: light
+    base: {cost: [45, 45, 45, 45], delay: [250, 250, 250, 250], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 896
+        cost: [45, 45, 45, 45]
+        delay: [250, 250, 250, 250]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [45, 45, 45, 45] unused
+      delay: [250, 250, 250, 250]
+      aura: {reserve_cost: 300}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura, see buff_auras.yml (Haste + Shield + Stone Skin + Fate at skill / 1.5)"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 87
+    name: "Sunray"
+    school: light
+    base: {cost: [50, 50, 50, 50], delay: [150, 150, 150, 135], damage: {add: 20, dice: 20}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 898
+        damage: {add: 20, dice: 20, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [50, 50, 50, 50]
+      delay: [150, 150, 150, 135]
+      damage: {add: 60, dice_min: 1, dice_max: 60}
+      notes:
+        - "damage 60 + 1d60"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 88
+    name: "Divine Intervention"
+    school: light
+    base: {cost: [55, 55, 55, 55], delay: [300, 300, 300, 300], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 900
+    maw:
+      kind: other
+      ascension: none
+      cost: [55, 55, 55, 55]
+      delay: [300, 300, 300, 300]
+    change: []
+  - id: 89
+    name: "Reanimate"
+    school: dark
+    base: {cost: [10, 10, 10, 10], delay: [140, 140, 140, 140], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 902
+    maw:
+      kind: other
+      ascension: none
+      cost: [10, 10, 10, 10]
+      delay: [140, 140, 140, 140]
+    change: []
+  - id: 90
+    name: "Toxic Cloud"
+    school: dark
+    base: {cost: [15, 15, 15, 15], delay: [120, 110, 100, 90], damage: {add: 25, dice: 10}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 904
+        damage: {add: 25, dice: 10, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [15, 15, 15, 15]
+      delay: [120, 110, 100, 90]
+      damage: {add: 15, dice_min: 1, dice_max: 9}
+      notes:
+        - "damage 15 + 1d9"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 91
+    name: "Vampiric Weapon"
+    school: dark
+    base: {cost: [20, 20, 20, 20], delay: [120, 100, 90, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 906
+        cost: [20, 20, 20, 20]
+        delay: [120, 100, 90, 120]
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [20, 20, 20, 20] unused
+      delay: [120, 100, 90, 120]
+      aura: {reserve_cost: 150}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "renamed Vampiric Aura: party +5 % melee, +2.5 % ranged and spell leech (zzMaw-Items.lua:3272-3276)"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 92
+    name: "Shrinking Ray"
+    school: dark
+    base: {cost: [25, 25, 25, 25], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 908
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [25, 25, 25, 25]
+      delay: [120, 120, 120, 120]
+      cc: {base_minutes: 4, school: "dark", dr_group: 1, path: "impact, flat duration, m targets"}
+      notes:
+        - "impact-applied CC; mastery buys targets (1 + (m-1) extra within 512 of the impact), flat duration
+          (SP:1658-1732)"
+    change:
+      - CC table
+  - id: 93
+    name: "Shrapmetal"
+    school: dark
+    base: {cost: [30, 30, 30, 30], delay: [90, 90, 80, 70], damage: {add: 0, dice: 6}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 910
+        damage: {add: 1, dice: 6, linear: true}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [30, 30, 30, 30]
+      delay: [90, 90, 80, 70]
+      damage: {add: 0, dice_min: 1, dice_max: 7, aoe: true}
+      notes:
+        - "damage 0 + 1d7; AoE"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 94
+    name: "Control Undead"
+    school: dark
+    base: {cost: [35, 35, 35, 35], delay: [120, 120, 100, 80], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 912
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [35, 35, 35, 35]
+      delay: [120, 120, 100, 80]
+      cc: {base_minutes: 10, school: "dark", dr_group: 2, path: "scripted, undead only"}
+      notes:
+        - "scripted CC, undead only"
+    change:
+      - CC table
+  - id: 95
+    name: "Pain Reflection"
+    school: dark
+    base: {cost: [40, 40, 40, 40], delay: [110, 110, 110, 110], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 914
+    maw:
+      kind: aura
+      ascension: none
+      cost: [0, 0, 0, 0]  # Game.Spells cost forced to 0 (SP:2483-2496); Spells2 [40, 40, 40, 40] unused
+      delay: [110, 110, 110, 110]
+      aura: {reserve_cost: 10}  # SP cost set to 0, see buff_auras.yml
+      notes:
+        - "aura (10 %): engine Pain Reflection on every member"
+    change:
+      - aura system (mana 0, reservation)
+  - id: 96
+    name: "Dark Grasp"
+    school: dark
+    base: {cost: [45, 45, 45, 45], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 925
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [45, 45, 45, 45]
+      delay: [120, 120, 120, 120]
+      cc: {base_minutes: 6, school: "dark", dr_group: 1, path: "scripted"}
+      notes:
+        - "scripted CC: ArmorHalved + Slow + DamageHalved (-30 % monster damage) + MeleeOnly (SP:1348,
+          MawCore/Damage.lua:1575-1578); Death Knight Death Grasp reuses the id"
+    change:
+      - CC table
+  - id: 97
+    name: "Dragon Breath"
+    school: dark
+    base: {cost: [50, 50, 50, 50], delay: [120, 120, 120, 100], damage: {add: 0, dice: 25}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 927
+        damage: {add: 1, dice: 25, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [50, 50, 50, 50]
+      delay: [120, 120, 120, 100]
+      damage: {add: 0, dice_min: 1, dice_max: 28, aoe: true}
+      notes:
+        - "damage 0 + 1d28; AoE"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 98
+    name: "Armageddon"
+    school: dark
+    base: {cost: [55, 55, 55, 55], delay: [250, 250, 250, 250], damage: {add: 50, dice: 1}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 929
+        damage: {add: 50, dice: 1, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [55, 55, 55, 55]
+      delay: [250, 250, 250, 250]
+      damage: {add: 50, dice_min: 1, dice_max: 1, aoe: true}
+      notes:
+        - "damage 50 + 1 per point (numbers unchanged, now Ascension-scaled); AoE"
+    change:
+      - BackendSpellRule damage
+  - id: 99
+    name: "Souldrinker"
+    school: dark
+    base: {cost: [60, 60, 60, 60], delay: [300, 300, 300, 300], damage: {add: 25, dice: 8}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 931
+        damage: {add: 25, dice: 8, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [60, 60, 60, 60]
+      delay: [300, 300, 300, 300]
+      damage: {add: 25, dice_min: 1, dice_max: 5, aoe: true}
+      notes:
+        - "damage 25 + 1d5; object spell rewritten to 201 for the leech fix (SP:3781-3790); AoE"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule damage
+  - id: 100
+    name: "Glamour"
+    school: dark_elf
+    base: {cost: [5, 5, 5, 5], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 933
+        cost: [5, 5, 5, 5]
+        delay: [100, 100, 100, 100]
+    maw:
+      kind: other
+      ascension: none
+      cost: [5, 5, 5, 5]
+      delay: [100, 100, 100, 100]
+    change: []
+  - id: 101
+    name: "Travelers' Boon"
+    school: dark_elf
+    base: {cost: [10, 10, 10, 10], delay: [110, 110, 110, 110], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 935
+        cost: [10, 10, 10, 10]
+        delay: [100, 100, 100, 100]
+    maw:
+      kind: other
+      ascension: none
+      cost: [10, 10, 10, 10]
+      delay: [110, 110, 110, 110]
+    change:
+      - BackendSpellRule recovery
+  - id: 102
+    name: "Blind"
+    school: dark_elf
+    base: {cost: [15, 15, 15, 15], delay: [110, 110, 110, 110], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 937
+        cost: [15, 15, 15, 15]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: other
+      ascension: none
+      cost: [15, 15, 15, 15]
+      delay: [110, 110, 110, 110]
+    change:
+      - BackendSpellRule recovery
+  - id: 103
+    name: "Darkfire Bolt"
+    school: dark_elf
+    base: {cost: [30, 30, 30, 30], delay: [120, 120, 120, 120], damage: {add: 0, dice: 17}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 939
+        cost: [30, 30, 30, 30]
+        delay: [90, 90, 90, 90]
+        damage: {add: 0, dice: 17, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [20, 20, 20, 20]
+      delay: [120, 120, 120, 120]
+      damage: {add: 46, dice_min: 1, dice_max: 28}
+      notes:
+        - "damage 46 + 1d28; cost 30 -> 20"
+    change:
+      - spells.txt mana
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule mana
+      - BackendSpellRule recovery
+      - BackendSpellRule damage
+  - id: 111
+    name: "Lifedrain"
+    school: vampire
+    base: {cost: [5, 5, 5, 5], delay: [100, 90, 90, 90], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 941
+        cost: [5, 5, 5, 5]
+        delay: [100, 80, 80, 80]
+        damage: {add: damage, dice: damage, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [5, 5, 10, 15]
+      delay: [100, 100, 100, 100]
+      damage: {add: 0, dice_min: 1, dice_max: 22}
+      notes:
+        - "damage 0 + 1d22 per point, Master x5/3, GM x7/3 (SP:1996-2002, object spell 200); cost 5/5/10/15;
+          delay E/M/G 90 -> 100"
+    change:
+      - spells.txt mana
+      - spells.txt recovery
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule mana
+      - BackendSpellRule recovery
+      - BackendSpellRule damage
+  - id: 112
+    name: "Levitate"
+    school: vampire
+    base: {cost: [10, 10, 10, 10], delay: [90, 90, 80, 80], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 956
+        cost: [10, 10, 10, 10]
+        delay: [110, 110, 110, 110]
+    maw:
+      kind: other
+      ascension: none
+      cost: [10, 10, 10, 10]
+      delay: [90, 90, 80, 80]
+    change:
+      - BackendSpellRule recovery
+  - id: 113
+    name: "Charm"
+    school: vampire
+    base: {cost: [15, 15, 15, 15], delay: [100, 100, 100, 100], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 958
+        cost: [20, 20, 20, 20]
+        delay: [110, 110, 110, 110]
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [15, 15, 15, 15]
+      delay: [100, 100, 100, 100]
+      cc: {base_minutes: 10, school: "dark_elf (bug: spell is vampire)", dr_group: 2, path: "scripted"}
+      notes:
+        - "Vampire Charm = const.Spells.Charm in MM8: scripted CC but CCMAP school is DarkElfAbility (SP:1341),
+          so a vampire caster reads skill 0 -> 0.5 duration step"
+    change:
+      - BackendSpellRule mana
+      - BackendSpellRule recovery
+      - CC table
+  - id: 114
+    name: "Mistform"
+    school: vampire
+    base: {cost: [30, 30, 30, 30], delay: [110, 110, 110, 110], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 960
+        cost: [30, 30, 30, 30]
+        delay: [110, 110, 110, 110]
+    maw:
+      kind: other
+      ascension: none
+      cost: [30, 30, 30, 30]
+      delay: [110, 110, 110, 110]
+      notes:
+        - "Mistform: -75 % physical damage taken (SP:790, MawCore/Damage.lua:1729-1731, zzMaw-
+          Stats.lua:690-715)"
+    change: []
+  - id: 122
+    name: "Fear"
+    school: dragon
+    base: {cost: [5, 5, 5, 5], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 969
+        cost: [5, 5, 5, 5]
+        delay: [100, 100, 100, 100]
+    maw:
+      kind: cc
+      ascension: cc
+      cost: [15, 15, 25, 30]  # fixed in Lua (SP:1385-1389)
+      delay: [120, 120, 120, 120]
+      cc: {base_minutes: 4, school: "mind (bug: spell is dragon)", dr_group: 2, path: "engine path"}
+      notes:
+        - "engine-path CC; cost fixed 15/15/25/30 (SP:1385-1389, 2189-2194); delay fixed 120 (zzMaw-
+          Stats.lua:167); duration ignores Ascension and resistance; CCMAP school Mind (bug)"
+    change:
+      - spells.txt mana
+      - BackendSpellRule mana
+      - BackendSpellRule recovery
+      - CC table
+  - id: 123
+    name: "Flame Blast"
+    school: dragon
+    base: {cost: [10, 10, 10, 10], delay: [100, 100, 90, 90], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 982
+        cost: [10, 10, 10, 10]
+        delay: [100, 100, 100, 100]
+        damage: {add: 10, dice: 10, linear: false}
+    maw:
+      kind: damage
+      ascension: damage
+      cost: [10, 10, 10, 10]
+      delay: [100, 100, 90, 90]
+      damage: {add: 0, dice_min: 1, dice_max: 25, aoe: true}
+      notes:
+        - "class spell, see class_perks.yml (damage 0 + 1d25 placeholder, scaled in zzClasses)"
+    change:
+      - spells.txt DamageBase/DiceSides
+      - BackendSpellRule recovery
+      - BackendSpellRule damage
+  - id: 124
+    name: "Flight"
+    school: dragon
+    base: {cost: [15, 15, 15, 15], delay: [250, 250, 250, 250], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 984
+        cost: [15, 15, 15, 15]
+        delay: [120, 120, 120, 120]
+    maw:
+      kind: other
+      ascension: none
+      cost: [15, 15, 15, 15]
+      delay: [250, 250, 250, 250]
+    change:
+      - BackendSpellRule recovery
+  - id: 125
+    name: "Wing Buffet"
+    school: dragon
+    base: {cost: [30, 30, 30, 30], delay: [120, 120, 120, 120], damage: {add: 0, dice: 0}}
+    openyamm:
+      table: same_as_base
+      rule:
+        line: 986
+        cost: [30, 30, 30, 30]
+        delay: [110, 110, 110, 110]
+    maw:
+      kind: other
+      ascension: none
+      cost: [30, 30, 30, 30]
+      delay: [120, 120, 120, 120]
+    change:
+      - BackendSpellRule recovery
+
+# Class-specific spell variants (Death Knight, Assassin, Elementalist, Dragon, Seraphim); see spec section 5.
+class_variants:
+  # MCC = Scripts/Modules/MawCore/Classes.lua, DM = Scripts/Modules/MawCore/Damage.lua, CL = Scripts/General/zzClasses.lua,
+  # SP = Scripts/General/zzMaw-Spells.lua, ST = Scripts/General/zzMaw-Stats.lua.
+  # Common Death Knight rules (MCC:17-36, 108-122, 458-486, 843-886; DM:695-818):
+  #   - known by school mastery (N/E/M/G = 1st..4th entry), spell books disabled; costs are fixed (no Ascension,
+  #     no Personality); delay = current melee attack delay; buffs reserve no mana (SP:3055-3058).
+  #   - weapon-damage spells (DKDamageMult): damage = melee roll (min..max) * mightLevelSwap, crit roll, + weapon
+  #     fire-aura and elemental enchant damage, / spell element resistance, * melee damage multiplier, * 0.5 if Weak,
+  #     * mult[mastery of the governing school]. No Int/crit spell pipeline (SP:2005).
+  # Common Assassin rules (MCC:63-101, 239-292, 595-640; DM:820-870):
+  #   - known by school mastery: Combat m+1, Subtlety m+2, Poisons m+1, Assassination m+1 entries of each list.
+  #   - cost = energy (SP) "Cost" plus combo points "StackCost"; with too few combo points the cost shows 1000 and
+  #     the cast is cancelled. Delay = 2 x attack delay (MCC:448-450).
+  #   - damage spells: melee roll * mightLevelSwap - Assassination crowd cut (halved for spells), crit, + weapon
+  #     enchant damage, / spell element resistance, * melee damage multiplier, * 0.5 if Weak, * DamageMult.
+  #   - no Ascension (SP:2554-2557); normal MAW spell hooks are skipped for assassins (SP:132-135).
+
+  - id: 26
+    name: Icy Touch
+    class: death_knight
+    replaces: 26 Ice Bolt
+    school: Frost (Water)
+    learned_at: N
+    cost:
+      N: 15
+      E: 15
+      M: 15
+      G: 15
+    delay: attack_delay
+    damage: weapon-damage spell, mult by Frost mastery [1.0, 1.0, 1.2, 1.2]
+    effect: 'Frost >= E: Slow power floor(m/2)*2 (2 at E/M, 4 at GM) for 1 game minute (2 s), through CC diminishing
+      returns'
+    tooltip_mismatch: tooltip says 1/2 speed at E and 1/4 at GM
+    source: MCC:24, 109, 134-140; DM:795-807
+
+  - id: 27
+    name: Water Walk
+    class: death_knight
+    replaces: 27 Water Walk
+    learned_at: E (Frost)
+    cost:
+      N: 0
+      E: 0
+      M: 0
+      G: 0
+    effect: vanilla Water Walk
+    source: MCC:33, 110
+
+  - id: 29
+    name: Frostbite
+    class: death_knight
+    replaces: 29 Acid Burst
+    learned_at: M (Frost)
+    cost:
+      N: 30
+      E: 30
+      M: 30
+      G: 30
+    delay: attack_delay
+    damage: weapon-damage spell, mult by Frost mastery [1.5, 1.5, 1.5, 2.0] (150 % at M, 200 % at GM)
+    source: MCC:25, 111, 142-148
+
+  - id: 32
+    name: Ice Bomb
+    class: death_knight
+    replaces: 32 Ice Blast
+    learned_at: G (Frost)
+    cost:
+      N: 50
+      E: 50
+      M: 50
+      G: 50
+    delay: attack_delay
+    damage: weapon-damage spell per shard hit, mult 0.75 at every mastery
+    source: MCC:26, 112, 150-156
+
+  - id: 68
+    name: Blood Leech
+    class: death_knight
+    replaces: 68 Heal
+    learned_at: N (Blood)
+    cost: toggle; 6 SP per melee hit (not checked against current SP)
+    effect: while active, each physical melee hit heals max(FHP^0.5 * s^1.5/70 * (1 + m/4), 2s), s/m = Blood
+    toggle: click in the spellbook (action 142) or quick-cast; casting is suppressed
+    examples:
+      FHP 1000 s10 E: 21
+      FHP 5000 s30 G: 332
+    source: MCC:113, 160-169, 843-886; DM:743-768; Formulas.lua:248-250
+
+  - id: 71
+    name: Regeneration
+    class: death_knight
+    replaces: 71 Regeneration
+    learned_at: E (Blood)
+    cost:
+      N: 0
+      E: 0
+      M: 0
+      G: 0
+    effect: vanilla/aura Regeneration; no mana reserved for DKs
+    source: MCC:34, 114
+
+  - id: 76
+    name: Asphyxiate
+    class: death_knight
+    replaces: 76 Flying Fist
+    learned_at: M (Blood)
+    cost:
+      N: 70
+      E: 70
+      M: 70
+      G: 70
+    delay: attack_delay
+    damage: weapon-damage spell, mult by Blood mastery [1.1, 1.1, 1.1, 1.4]
+    effect: Paralyze 2 game minutes (4 s), through CC diminishing returns
+    source: MCC:27, 115, 177-182; DM:808-814
+
+  - id: 74
+    name: Superior Blood Leech
+    class: death_knight
+    replaces: 74 Cure Disease (Greater Heal in MAW)
+    learned_at: G (Blood)
+    cost: toggle; 12 SP per melee hit (2 x 6)
+    effect: Blood Leech amount x2
+    source: MCC:116, 171-175; DM:751-758
+
+  - id: 91
+    name: Vampiric Weapon
+    class: death_knight
+    replaces: 91 Vampiric Weapon
+    learned_at: N (Unholy)
+    cost:
+      N: 0
+      E: 0
+      M: 0
+      G: 0
+    effect: 'vanilla aura (MAW buff rework: +5 % melee, +2.5 % ranged/spell leech, zzMaw-Items.lua:3272-3276); no
+      reservation'
+    source: MCC:35, 117
+
+  - id: 90
+    name: Death Coil
+    class: death_knight
+    replaces: 90 Toxic Cloud
+    learned_at: E (Unholy)
+    cost:
+      N: 30
+      E: 30
+      M: 30
+      G: 30
+    delay: attack_delay
+    damage: weapon-damage spell, mult by Unholy mastery [1.0, 1.0, 1.0, 1.2]
+    effect: caster heals +20 % of the damage dealt (x1.5 = 30 % only when Unholy mastery is exactly Master; GM falls
+      back to 20 %)
+    source: MCC:28, 118, 184-191; DM:1285-1293
+
+  - id: 96
+    name: Death Grasp
+    class: death_knight
+    replaces: 96 Dark Grasp
+    learned_at: M (Unholy)
+    cost: toggle; 15 SP per melee hit, applied only when SP >= 15
+    effect: target deals 30 % less damage (DamageHalved debuff, x0.7) for 1 game minute (2 s) refreshed per hit, through
+      CC diminishing returns; Unholy GM also MeleeOnly
+    source: MCC:119, 193-200; DM:262-264, 770-783, 1575-1579
+
+  - id: 97
+    name: Death Breath
+    class: death_knight
+    replaces: 97 Dragon Breath
+    learned_at: G (Unholy)
+    cost:
+      N: 100
+      E: 100
+      M: 100
+      G: 100
+    delay: attack_delay
+    damage: weapon-damage spell per target in the blast, mult 0.6
+    source: MCC:29, 120, 202-208
+
+  - id: 1
+    name: Torch Light
+    class: assassin
+    school: Combat (Fire)
+    learned_at: unskilled
+    cost:
+      energy: 1
+      combo: 0
+    source: MCC:70, 97
+
+  - id: 4
+    name: Fire Aura
+    class: assassin
+    school: Combat (Fire)
+    learned_at: N
+    cost:
+      energy: 0
+      combo: 0
+    source: MCC:71
+
+  - id: 5
+    name: Haste
+    class: assassin
+    school: Combat (Fire)
+    learned_at: E
+    cost:
+      energy: 0
+      combo: 0
+    source: MCC:72
+
+  - id: 6
+    name: Fireball
+    class: assassin
+    school: Combat (Fire)
+    learned_at: M
+    cost:
+      energy: 0
+      combo: 5
+    damage: 100 % of a melee hit (AoE)
+    source: MCC:73
+
+  - id: 7
+    name: Fire Spike
+    class: assassin
+    school: Combat (Fire)
+    learned_at: G
+    cost:
+      energy: 0
+      combo: 3
+    damage: 250 % of a melee hit
+    source: MCC:74
+
+  - id: 12
+    name: Wizard Eye
+    class: assassin
+    school: Subtlety (Air)
+    learned_at: unskilled
+    cost:
+      energy: 1
+      combo: 0
+    source: MCC:76, 98
+
+  - id: 17
+    name: Shield
+    class: assassin
+    school: Subtlety (Air)
+    learned_at: unskilled
+    cost:
+      energy: 0
+      combo: 0
+    source: MCC:78
+
+  - id: 16
+    name: Jump
+    class: assassin
+    school: Subtlety (Air)
+    learned_at: N
+    cost:
+      energy: 5
+      combo: 0
+    source: MCC:77
+
+  - id: 18
+    name: Lightning Bolt
+    class: assassin
+    school: Subtlety (Air)
+    learned_at: E
+    cost:
+      energy: 0
+      combo: 5
+    damage: 150 % of a melee hit per target; hits up to 2/3/4 targets at E/M/G (Chain Lightning)
+    source: MCC:79, 264, 271-273
+
+  - id: 21
+    name: Fly
+    class: assassin
+    school: Subtlety (Air)
+    learned_at: M
+    cost:
+      energy: 25
+      combo: 0
+    source: MCC:81
+
+  - id: 19
+    name: Invisibility
+    class: assassin
+    school: Subtlety (Air)
+    learned_at: G
+    cost:
+      energy: 15
+      combo: 0
+    source: MCC:80
+
+  - id: 24
+    name: Poison Spray
+    class: assassin
+    school: Poisons (Water)
+    learned_at: unskilled
+    cost:
+      energy: 0
+      combo: 3
+    damage: 75 % of a melee hit per shot
+    source: MCC:83, 99
+
+  - id: 27
+    name: Water Walk
+    class: assassin
+    school: Poisons (Water)
+    learned_at: N
+    cost:
+      energy: 0
+      combo: 0
+    source: MCC:84
+
+  - id: 29
+    name: Acid Burst
+    class: assassin
+    school: Poisons (Water)
+    learned_at: E
+    cost:
+      energy: 0
+      combo: 3
+    damage: 300 % of a melee hit
+    source: MCC:85
+
+  - id: 31
+    name: Town Portal
+    class: assassin
+    school: Poisons (Water)
+    learned_at: M
+    cost:
+      energy: 20
+      combo: 0
+    source: MCC:86
+
+  - id: 33
+    name: Lloyd's Beacon
+    class: assassin
+    school: Poisons (Water)
+    learned_at: G
+    cost:
+      energy: 30
+      combo: 0
+    source: MCC:87
+
+  - id: 34
+    name: Stun
+    class: assassin
+    school: Assassination (Earth)
+    learned_at: unskilled
+    cost:
+      energy: 0
+      combo: 3
+    damage: 150 % of a melee hit
+    effect: MAW Stun CC
+    source: MCC:89, 100
+
+  - id: 38
+    name: Stone Skin
+    class: assassin
+    school: Assassination (Earth)
+    learned_at: N
+    cost:
+      energy: 0
+      combo: 0
+    source: MCC:90
+
+  - id: 39
+    name: Blades
+    class: assassin
+    school: Assassination (Earth)
+    learned_at: E
+    cost:
+      energy: 0
+      combo: 3
+    damage: 300 % of a melee hit (physical)
+    source: MCC:91
+
+  - id: 42
+    name: Telekinesis
+    class: assassin
+    school: Assassination (Earth)
+    learned_at: M
+    cost:
+      energy: 0
+      combo: 0
+    source: MCC:92
+
+  - id: 44
+    name: Mass Distortion
+    class: assassin
+    school: Assassination (Earth)
+    learned_at: G
+    cost:
+      energy: 0
+      combo: 4
+    damage: 400 % of a melee hit, then divided by the target's Earth resistance a second time
+    source: MCC:93; DM:862-866
+
+  - id: null
+    name: Elementalist rotation and stacks (applies to Fire/Air/Water/Earth offensive spells)
+    class: elementalist
+    replaces: normal casting of spells 2-44
+    cost: ceil(round((base[m] + k) * (1+0.125a) * 1.04^a * 0.5) * (1 + 0.075k) * personalityReduction), a = sum(Fire..Earth)/4,
+      k = stacks
+    delay: vanilla delay[m] / (1 + floor(Speed/20)/100) * 1.015^floor(a) / haste / enchant * armour, then x1.5 / (1
+      + 0.05k)
+    damage: Ascension a with GM mastery; dice max and flat add * (1 + 0.1k)
+    effect: learned by casting (thresholds 0..320000 per tier); quick slots re-rolled within single/shotgun/aoe category
+    source: SP:2233-2272, SP:1958-1973; ST:162-245; MCC:43-61, 300-349, 509-587; DM:152-209
+
+  - id: 122
+    name: Dragon Fear
+    class: dragon
+    replaces: 122 Fear
+    cost:
+      N: 15
+      E: 15
+      M: 25
+      G: 30
+    delay: 120 (fixed)
+    effect: 'MAW CC: Fear, base 4 game minutes, CCMAP ChanceMult 0.005'
+    source: SP:1344, SP:1385-1389, SP:2189-2194; ST:167
+
+  - id: 123
+    name: Flame Blast
+    class: dragon
+    replaces: 123 Flame Blast
+    cost:
+      N: 25
+      E: 40
+      M: 50
+      G: 60
+    delay: 1.5 x ranged attack delay
+    damage: breath roll (ranged min..max), crit, x0.7 (N/E) / 0.85 (M) / 1.0 (G), x U(0.75..1.25) spread, divided
+      by the target's lowest resistance; AoE (in aoespells)
+    effect: no Int/crit spell scaling (scales off Might through the breath formula)
+    source: CL:309-318; ST:237-239; DM:632-668; SP:2005-2007
+
+  - id: null
+    name: Dragon breath attack (ranged, DamageKind 50)
+    class: dragon
+    replaces: vanilla breath weapon
+    cost: none
+    delay: ranged attack delay x (1 + 0.015 s_DragonAbility)
+    damage: ((1 + [3,4,5,6][m]%*s) * (20 + 2*effLevel) + mightEffect) * (1 + Might/1000) * (1 + 0.015s), min x0.75
+      max x1.25, then spread and lowest resistance as Flame Blast
+    source: MCC:749-755, 779-782, 804-815; DM:632-668
+
+  - id: null
+    name: Divine Protection
+    class: seraphim
+    replaces: none (passive)
+    cost: none
+    delay: cooldown 150 game minutes (5 real minutes)
+    effect: 'lethal hit: heal 25 % max HP, hit reduced to HP-1'
+    source: DM:1888-1905
+
+  - id: null
+    name: Holy Strikes (Body heal on hit)
+    class: seraphim
+    replaces: none (passive)
+    cost: none
+    effect: round(s_Body^1.3 * m * 2 * meleeDamageMultiplier * (1 + Personality/1000)) HP to the lowest-HP% member
+      per melee hit
+    source: DM:106-150

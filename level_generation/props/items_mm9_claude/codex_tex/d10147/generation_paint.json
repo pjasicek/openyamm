@@ -1,0 +1,32 @@
+{
+  "prompt": "Edit paint_mask_guide.png (input 1) exactly per this production brief. Input 2 design_reference.png is material/detail reference; input 3 icon_x8.png is color reference (magenta is background only).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the guide's exact three-column FOUR-row layout, with each object in exactly the same position, size, outline and orientation. Paint only existing grey pixels; never redraw, enlarge, move or redesign the silhouettes. The unusual edge-on views are intentional: row 1 has two short curved edge views and one long thin horizontal edge view; row 2 has a long thin horizontal edge at left, an upright full shield at center, empty at right. Rows 3-4 repeat these precise silhouettes.\nRows 1-2 PAINT: unlit base colour of narrow upright silver Ronenguard shield, symmetrical raised mask-and-sword relief from reference scaled into the upright view. All thin edge-on views stay thin and follow their grey guides. Facets, engravings, scrollwork and inner swirls follow reference. Silver weathered metal base colors with fine material detail; no lighting, cast shadows, ambient occlusion, hot highlights/reflections. No invented straps or hardware.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only, no shading, texture, outlines or antialiased color blends inside. Pure red #FF0000 every metal part; pure green #00FF00 leather/fur; pure yellow #FFFF00 matte non-metal solid; pure black #000000 gemstone/glass/enamel/liquid. This all-metal shield uses solid pure red silhouettes throughout the mask rows, no face/sword details visible in those red fills. Every silhouette pixel exactly one material colour, nothing outside.\nAll gaps/openings remain transparent exactly as guide. Empty cells column 3 row 2 and row 4 remain completely transparent. No ground, text, outlines, halo, glow, sparkles or aura. Geometry/layout preservation takes absolute priority.",
+  "corrective_prompt": "Edit paint_mask_guide.png (input 1) exactly per this production brief. Input 2 design_reference.png is material/detail reference; input 3 icon_x8.png is color reference (magenta is background only).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the guide's exact three-column FOUR-row layout, with each object in exactly the same position, size, outline and orientation. Paint only existing grey pixels; never redraw, enlarge, move or redesign the silhouettes. The unusual edge-on views are intentional: row 1 has two short curved edge views and one long thin horizontal edge view; row 2 has a long thin horizontal edge at left, an upright full shield at center, empty at right. Rows 3-4 repeat these precise silhouettes.\nRows 1-2 PAINT: unlit base colour of narrow upright silver Ronenguard shield, symmetrical raised mask-and-sword relief from reference scaled into the upright view. All thin edge-on views stay thin and follow their grey guides. Facets, engravings, scrollwork and inner swirls follow reference. Silver weathered metal base colors with fine material detail; no lighting, cast shadows, ambient occlusion, hot highlights/reflections. No invented straps or hardware.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only, no shading, texture, outlines or antialiased color blends inside. Pure red #FF0000 every metal part; pure green #00FF00 leather/fur; pure yellow #FFFF00 matte non-metal solid; pure black #000000 gemstone/glass/enamel/liquid. This all-metal shield uses solid pure red silhouettes throughout the mask rows, no face/sword details visible in those red fills. Every silhouette pixel exactly one material colour, nothing outside.\nAll gaps/openings remain transparent exactly as guide. Empty cells column 3 row 2 and row 4 remain completely transparent. No ground, text, outlines, halo, glow, sparkles or aura. Geometry/layout preservation takes absolute priority.\nCORRECTION: The previous attempt added scattered red pixels outside the mask silhouettes and thickened/roughened the thin edge views. Match original guide silhouettes strictly, with clean exact edges and ZERO detached pixels. Keep thin strips their ORIGINAL thickness. Lower mask silhouettes must be perfectly uniform RGB(255,0,0) flat fills. Upper paint must be diffuse unlit silver color, without bright specular highlights. Use original guide as edit target; preserve its alpha geometry.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ace1-81f9-7930-897c-03f45fc83429/exec-c4aa8c37-dad4-4963-bd86-6161cad38551.png",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1ace1-81f9-7930-897c-03f45fc83429/exec-c0c120f1-7323-4d31-a243-2d10b10a34af.png",
+  "tool": "built-in image_gen",
+  "selection_reason": "First output retained: corrective generation has more stray mask pixels.",
+  "limitations": [
+    "Stray mask pixels and imperfect silhouette fidelity remain.",
+    "Paint includes visible shading."
+  ],
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10147/paint_mask_guide.png",
+      "sha256": "d96f9c9ef29233aab0dd1ec564e5bde07678b847ece33932b6db236cd0e00ec2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10147/design_reference.png",
+      "sha256": "f3866ceff0ae69eeb4008b356af7b85bf7087572126f1b146199382cd65d5fef"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10147/icon_x8.png",
+      "sha256": "385e418479ff3218b243f2844d9b3ac235c2e90f37a657c85e98bf6e5736ab60"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10147/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

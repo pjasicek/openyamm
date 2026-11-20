@@ -1,0 +1,16 @@
+# The debug console's `pin <text>` writes a pin for the Map Studio (pins format 1: the text, the map and world, the pose
+# as `loc` prints it, the time) into the pin inbox, and the game's next frame beside it as the picture
+# (devdocs/map_studio/S5_BROWSER_EDITOR.md 2.10; the writer's unit tests are tests/PinInboxTests.cpp). Scenarios write
+# their pins into the system temporary folder's openyamm-scenario-pins, never the player's inbox; headless runs render
+# no frame, so no picture follows there.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/console_pin.yml --scenario-no-color
+id: debug.console_pin
+title: "Debug console: pin <text> writes the pose and text into the pin inbox"
+world: mm6
+mode: faithful
+tags: [debug, console, map_studio]
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+  - console: {line: pin the gate leaf flickers at the jamb, expect_contains: "Pinned: the gate leaf flickers at the jamb"}
+  - console: {line: pin a second pin in the same second, expect_contains: "openyamm-scenario-pins"}

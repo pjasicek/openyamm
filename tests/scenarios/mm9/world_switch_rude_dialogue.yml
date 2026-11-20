@@ -1,0 +1,58 @@
+# A party that starts in MM6 and travels into MM9 talks to MM9's people (2026-11-06 regression: the MM9 tables were
+# loaded only when the game started in MM9, so every RUDE talk was rejected after a world switch), and MM6 NPC talks
+# still open and close after the trip there and back.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/world_switch_rude_dialogue.yml --scenario-no-color
+id: mm9.world_switch_rude_dialogue
+title: "World switch: MM6 start, Tesar Olin's RUDE talk opens in Sturmford City, MM6 talks open and close before and after"
+world: mm6
+mode: faithful
+tags: [mm9, world_switch, dialogue]
+steps:
+  - load_map:
+      map: oute3.odm
+  - advance_runtime:
+      seconds: 0.5
+  - speak_npc: {source_id: 1076}
+  - assert:
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  - assert:
+      dialog: {active: false}
+  # Into MM9: the world switch loads its tables.
+  - load_map:
+      map: sturmfordcity.blv
+  - advance_runtime:
+      seconds: 1.5
+  - set_pose:
+      map: sturmfordcity.blv
+      x: 12861
+      y: 17835
+      z: 19723
+      yaw: -1.5708
+      pitch: -0.6142
+  - advance_runtime:
+      seconds: 0.2
+  - press_interact: {}
+  - assert:
+      actor_dialog_started:
+        kind: mm9_rude
+        source_id: 43
+      dialog:
+        active: true
+        source_id: 43
+  - press_action: {action: cancel_dialog}
+  - assert:
+      dialog: {active: false}
+  # Back to MM6: its talks open and close as before.
+  - load_map:
+      map: oute3.odm
+  - advance_runtime:
+      seconds: 0.5
+  - speak_npc: {source_id: 1076}
+  - assert:
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime:
+      seconds: 0.5
+  - assert:
+      dialog: {active: false}

@@ -1,0 +1,534 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.1000terrors_swim_check
+title: 'Thousand Terrors (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: 1000terrors.blv
+- note:
+    text: 'BlueWater0: on its bed at -3246, 299 under its top -2946.6'
+- set_pose:
+    map: 1000terrors.blv
+    x: -658
+    y: -11793
+    z: -3245
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -3234.1
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: -658
+      y: -11793
+      z: -3245
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: -658
+      y: -11793
+      z: -3080
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater0: on its bed at -3062, 115 under its top -2946.6'
+- set_pose:
+    map: 1000terrors.blv
+    x: -6620
+    y: -11793
+    z: -3061
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: -3049.8
+- note:
+    text: 'BlueWater2: on its bed at -3338, 379 under its top -2959.4'
+- set_pose:
+    map: 1000terrors.blv
+    x: 4677
+    y: -16218
+    z: -3337
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -3326.2
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 4677
+      y: -16218
+      z: -3337
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 4677
+      y: -16218
+      z: -3092
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater2: on its bed at -3338, 379 under its top -2959.4'
+- set_pose:
+    map: 1000terrors.blv
+    x: 6176
+    y: -17791
+    z: -3337
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -3326.2
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 6176
+      y: -17791
+      z: -3337
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 6176
+      y: -17791
+      z: -3092
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater6: on its bed at -620, 369 under its top -250.9'
+- set_pose:
+    map: 1000terrors.blv
+    x: 14837
+    y: -15061
+    z: -619
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -607.5
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 14837
+      y: -15061
+      z: -619
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 14837
+      y: -15061
+      z: -384
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater6: on its bed at -620, 369 under its top -250.9'
+- set_pose:
+    map: 1000terrors.blv
+    x: 14837
+    y: -16437
+    z: -619
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -607.5
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 14837
+      y: -16437
+      z: -619
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 14837
+      y: -16437
+      z: -384
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater5: on its bed at -620, 369 under its top -250.9'
+- set_pose:
+    map: 1000terrors.blv
+    x: 11422
+    y: -12559
+    z: -619
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -607.5
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 11422
+      y: -12559
+      z: -619
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 11422
+      y: -12559
+      z: -384
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater5: on its bed at -620, 369 under its top -250.9'
+- set_pose:
+    map: 1000terrors.blv
+    x: 11942
+    y: -16093
+    z: -619
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -607.5
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 11942
+      y: -16093
+      z: -619
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 11942
+      y: -16093
+      z: -384
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater4: on its bed at -620, 369 under its top -250.9'
+- set_pose:
+    map: 1000terrors.blv
+    x: 13845
+    y: -11525
+    z: -619
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -607.5
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 13845
+      y: -11525
+      z: -619
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 13845
+      y: -11525
+      z: -384
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater1: on its bed at -620, 369 under its top -250.9'
+- set_pose:
+    map: 1000terrors.blv
+    x: 13845
+    y: -16271
+    z: -619
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -607.5
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 13845
+      y: -16271
+      z: -619
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 13845
+      y: -16271
+      z: -384
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater3: on its bed at -2826, 369 under its top -2457.6'
+- set_pose:
+    map: 1000terrors.blv
+    x: -4334
+    y: 494
+    z: -2825
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -2814.2
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: -4334
+      y: 494
+      z: -2825
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: -4334
+      y: 494
+      z: -2591
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater3: on its bed at -2826, 369 under its top -2457.6'
+- set_pose:
+    map: 1000terrors.blv
+    x: -4334
+    y: -2654
+    z: -2825
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -2814.2
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: -4334
+      y: -2654
+      z: -2825
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: 1000terrors.blv
+      x: -4334
+      y: -2654
+      z: -2591
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'MM9''s swimmers stay in their water: Sea Monster Male 41 (BlueWater2), Sea Monster Male 42 (BlueWater2)'
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 41
+      report_state: true
+      near:
+        x: 8520
+        y: -16220
+        max_distance: 3000
+        min_z: -3346.2
+- assert:
+    actor_visible:
+      actor_index: 42
+      report_state: true
+      near:
+        x: 8561
+        y: -14868
+        max_distance: 3000
+        min_z: -3346.2

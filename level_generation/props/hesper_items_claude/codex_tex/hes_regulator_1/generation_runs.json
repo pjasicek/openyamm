@@ -1,0 +1,552 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the exact existing Hesper regulator 3D model (Shield regeneration delay -1 s).\nInput image 1 is the EDIT TARGET: the plain orthographic guide. Input image 2 is the DESIGN AND MATERIAL REFERENCE ONLY. Paint directly over input image 1, keeping its exact original alpha silhouette and all part boundaries, exact pixel positions, original scale, orientation, orthographic camera and framing. Do not copy input image 2's perspective, shape, framing, size or lighting.\nOutput a single 1024 x 1024 RGBA PNG on a genuinely transparent background. Preserve the large empty margins of the guide. Every pixel outside the guide's object stays transparent, including open gaps. Do not enlarge or recenter the object. No floor, backdrop, shadow, text, letters, watermark or labels.\nMATERIALS: paint the existing grey ceramic shapes warm white/ivory ceramic with fine subtle wear and faint hairline surface markings, with the reference's thin brushed-gold inlay trim, engraved lines, seams and panel joins painted INSIDE existing shapes. Gold parts are subdued warm ochre-gold base color with fine brushing and only a faint sheen, not shiny yellow-white reflections. The pale blue dome is bright cyan/blue-white emissive glass painted as light color with gentle blue mottling, NO reflected white hotspots or emitted bloom outside its edge. The reference's narrow dark bezel may be represented only where that part is already visible. Continue hidden surfaces plausibly. Do not invent other materials or new geometry.\nLIGHTING: this is an ALBEDO/TEXTURE SOURCE, not a lit beauty render. Even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside gradient, no strong specular highlights, no reflections, no rim light. Remove the guide's grey shading: all ceramic faces have the same light ivory base color. Surface definition comes from fine material lines and subtle wear, not baked illumination.\nHighest priority: preserve the guide geometry and silhouette EXACTLY. Paint the existing pixels; do not redesign, change proportions, add parts, reveal occluded surfaces or rotate the object.\nVIEW-SPECIFIC GEOMETRY:\nFRONT view (guide_front.png): the object is a very thin horizontal edge-on profile, NOT a face-on circle. Overall nontransparent bounds are x=156..867, y=440..583 in the 1024 square. Keep the broad ceramic sidewall from x156 to867, y471..583, the shallow cyan dome centered x512, y440..473, and the centered connector housing x430..594, y474..582. Retain exactly the three small gold pin ends and shafts at x452..479, x498..525, x544..571 around y514..581, with their exact visible geometry. Do not add the face-on circular opening or inner gold disc: these are occluded in this view.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "17c9ee7f9867ac26357f2c58b0181ca26186d9076c102936d1acf01ef41033fb",
+        "role": "edit target / geometry guide"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "6112b619e616af8d4db2d85d3b3e969f37124ec6289db791fb2c035ced2ec2e0",
+        "role": "design/material reference"
+      }
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-37c8a351-b94d-4395-a613-c32a7d5d9d1e.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-37c8a351-b94d-4395-a613-c32a7d5d9d1e.png",
+    "selected": false,
+    "reason": "Initial return retained unresized in tool output. 1254 x 1254 rather than 1024; silhouette not pixel-identical. Baked shading, specular pin highlights and stray edge pixels warrant the one permitted correction.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "2a305edb1add11d66541bc3563d7860d9e62a1a1c1e1a7ee821eaf5272b3dd90",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        19,
+        1166,
+        1182
+      ],
+      "guide_alpha_bbox": [
+        156,
+        440,
+        868,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; raised gold highlights and pin shadows; rounded/shifted pin boundaries.",
+      "silhouette_iou_normalized_at_alpha_128": 0.858832,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the exact existing Hesper regulator 3D model (Shield regeneration delay -1 s).\nInput image 1 is the DESIGN AND MATERIAL REFERENCE ONLY. Input image 2 is the EDIT TARGET: the plain orthographic guide. Paint directly over input image 2, keeping its exact original alpha silhouette and all part boundaries, exact pixel positions, original scale, orientation, orthographic camera and framing. Do not copy input image 1's perspective, shape, framing, size or lighting.\nOutput a single 1024 x 1024 RGBA PNG on a genuinely transparent background. Preserve the large empty margins of the guide. Every pixel outside the guide's object stays transparent, including open gaps. Do not enlarge or recenter the object. No floor, backdrop, shadow, text, letters, watermark or labels.\nMATERIALS: paint the existing grey ceramic shapes warm white/ivory ceramic with fine subtle wear and faint hairline surface markings, with the reference's thin brushed-gold inlay trim, engraved lines, seams and panel joins painted INSIDE existing shapes. Gold parts are subdued warm ochre-gold base color with fine brushing and only a faint sheen, not shiny yellow-white reflections. The pale blue dome is bright cyan/blue-white emissive glass painted as light color with gentle blue mottling, NO reflected white hotspots or emitted bloom outside its edge. The reference's narrow dark bezel may be represented only where that part is already visible. Continue hidden surfaces plausibly. Do not invent other materials or new geometry.\nLIGHTING: this is an ALBEDO/TEXTURE SOURCE, not a lit beauty render. Even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside gradient, no strong specular highlights, no reflections, no rim light. Remove the guide's grey shading: all ceramic faces have the same light ivory base color. Surface definition comes from fine material lines and subtle wear, not baked illumination.\nHighest priority: preserve the guide geometry and silhouette EXACTLY. Paint the existing pixels; do not redesign, change proportions, add parts, reveal occluded surfaces or rotate the object.\nVIEW-SPECIFIC GEOMETRY:\nFRONT view (guide_front.png): the object is a very thin horizontal edge-on profile, NOT a face-on circle. Overall nontransparent bounds are x=156..867, y=440..583 in the 1024 square. Keep the broad ceramic sidewall from x156 to867, y471..583, the shallow cyan dome centered x512, y440..473, and the centered connector housing x430..594, y474..582. Retain exactly the three small gold pin ends and shafts at x452..479, x498..525, x544..571 around y514..581, with their exact visible geometry. Do not add the face-on circular opening or inner gold disc: these are occluded in this view.\nCORRECTIVE PASS: the previous attempt enlarged the canvas to 1254, introduced stray nearly transparent pixels far from the object, rounded/moved the gold pins and added baked illumination. Correct these failures by editing ONLY the second input's existing 1024 x 1024 pixels. Copy its alpha channel exactly. Keep its polygonal part boundaries. Use a flat diffuse color painting with ivory around RGB 229,223,208, muted brushed gold around RGB 177,133,55, and bright cyan around RGB 96,216,249. No white highlight strokes along bevels, no shaded lower ceramic band, no dark shadows behind pins, no gold specular glints. Keep subtle material detail but equal illumination everywhere. Return exactly 1024 x 1024, preserving the second input canvas, not the first input canvas.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "6112b619e616af8d4db2d85d3b3e969f37124ec6289db791fb2c035ced2ec2e0",
+        "role": "design/material reference"
+      },
+      {
+        "path": "guide_front.png",
+        "sha256": "17c9ee7f9867ac26357f2c58b0181ca26186d9076c102936d1acf01ef41033fb",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "paint_front.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-d4a8ccb2-1292-4369-a97d-61844acc38e4.png",
+    "selected": true,
+    "reason": "Selected the permitted corrective return for flatter ceramic and clearer gold inlays. Unresized tool return; exact alpha silhouette, pin shapes and shadowless lighting were not fully preserved. The per-view correction limit is reached.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "2e03eaed16cd647c3ba391d3a91cdc2dcfe5e0dc90965b0e0f3386a8171ed98a",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        23,
+        1238,
+        1214
+      ],
+      "guide_alpha_bbox": [
+        156,
+        440,
+        868,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; flatter ceramic but remaining gold highlights and pin shading; pin geometry differs.",
+      "silhouette_iou_normalized_at_alpha_128": 0.983166,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the exact existing Hesper regulator 3D model (Shield regeneration delay -1 s).\nInput image 1 is the DESIGN AND MATERIAL REFERENCE ONLY. Input image 2 is the EDIT TARGET: the plain orthographic guide. Paint directly over input image 2, keeping its exact original alpha silhouette and all part boundaries, exact pixel positions, original scale, orientation, orthographic camera and framing. Do not copy input image 1's perspective, shape, framing, size or lighting.\nOutput a single 1024 x 1024 RGBA PNG on a genuinely transparent background. Preserve the large empty margins of the guide. Every pixel outside the guide's object stays transparent, including open gaps. Do not enlarge or recenter the object. No floor, backdrop, shadow, text, letters, watermark or labels.\nMATERIALS: paint the existing grey ceramic shapes warm white/ivory ceramic with fine subtle wear and faint hairline surface markings, with the reference's thin brushed-gold inlay trim, engraved lines, seams and panel joins painted INSIDE existing shapes. Gold parts are subdued warm ochre-gold base color with fine brushing and only a faint sheen, not shiny yellow-white reflections. The pale blue dome is bright cyan/blue-white emissive glass painted as light color with gentle blue mottling, NO reflected white hotspots or emitted bloom outside its edge. The reference's narrow dark bezel may be represented only where that part is already visible. Continue hidden surfaces plausibly. Do not invent other materials or new geometry.\nLIGHTING: this is an ALBEDO/TEXTURE SOURCE, not a lit beauty render. Even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside gradient, no strong specular highlights, no reflections, no rim light. Remove the guide's grey shading: all ceramic faces have the same light ivory base color. Surface definition comes from fine material lines and subtle wear, not baked illumination.\nHighest priority: preserve the guide geometry and silhouette EXACTLY. Paint the existing pixels; do not redesign, change proportions, add parts, reveal occluded surfaces or rotate the object.\nVIEW-SPECIFIC GEOMETRY:\nBACK view (guide_back.png): the object is a very thin horizontal edge-on profile, NOT a face-on circle. Overall nontransparent bounds are x=156..867, y=440..583 in the 1024 square. Preserve the uninterrupted broad ceramic sidewall x156..867, y471..583 and shallow cyan dome centered x512, y440..473. There are NO visible connector housing or pins in this back view: do not add them. Paint a plausible continuation of ivory ceramic panel seams and fine warm gold trim on the existing surface.\nExplicit final check: use guide_back.png as the untouched 1024 x 1024 canvas and alpha mask. Flat light ivory ceramic on every face, thin muted ochre-gold inlay, tiny subtle wear, uniform bright cyan dome. No dark grey lower face, no shiny gold, no dark crevices. The dome and entire object remain exactly where input 2 places them.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "6112b619e616af8d4db2d85d3b3e969f37124ec6289db791fb2c035ced2ec2e0",
+        "role": "design/material reference"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "ed66afe7e362c41a0b8b0abf42cd1c5814c9af37cf3605aa55fb81c359e279b1",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-29f51be9-c515-4f53-a730-2aa4c3de0770.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-29f51be9-c515-4f53-a730-2aa4c3de0770.png",
+    "selected": false,
+    "reason": "Initial back return preserves the edge-on view and reference palette, but has a 1254 canvas, stray alpha pixels, altered dome bezel and residual bevel shading. Use the permitted correction.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "7691195742a6e7cc51eb7fd287838d903251b0ae642a015250627e497b9d62c9",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        19,
+        1214,
+        1206
+      ],
+      "guide_alpha_bbox": [
+        156,
+        440,
+        868,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; bevel shading and invented gold dome mounts.",
+      "silhouette_iou_normalized_at_alpha_128": 0.974275,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. CORRECTIVE ALBEDO PAINTING. Edit the attached guide_back.png itself. This input is the exact 1024x1024 orthographic model guide, not an inspiration sketch. Keep its exact original alpha mask and exact pixel locations of every outline. Preserve the 1024x1024 canvas, the very large transparent margins, and all polygonal bevel edges.\nBACK view (guide_back.png): the object is a very thin horizontal edge-on profile, NOT a face-on circle. Overall nontransparent bounds are x=156..867, y=440..583 in the 1024 square. Preserve the uninterrupted broad ceramic sidewall x156..867, y471..583 and shallow cyan dome centered x512, y440..473. There are NO visible connector housing or pins in this back view: do not add them. Paint a plausible continuation of ivory ceramic panel seams and fine warm gold trim on the existing surface.\nPaint only the surface color, using the established design_reference.png palette and design: warm ivory-white ceramic with very fine wear, faint beige hairline marks, narrow flush brushed warm-gold inlaid trim that follows the ceramic panel perimeter, simple engraved seam joins; the existing shallow cyan dome is luminous blue-white glass painted as bright cyan color. Ceramic base RGB 232,226,213; gold base RGB 180,140,62 with very fine brushed detail; dome RGB 103,220,251. Do not add any mounts at the dome sides. No new parts.\nFlatten ALL lighting, including the guide's shading: the lower sidewall must be just as pale as the upper sidewall. No ambient occlusion, cast shadows, specular highlights, reflection strokes, rim light or gradients suggesting shadows. Treat this as a flat diffuse albedo texture, with fine material detail only. Use narrow gold lines painted flat, no raised trim with shaded edges.\nAbsolutely no stray pixels or mist in the transparent margin, no halo or bloom around the dome. No floor or background, no lettering or text. Return a single transparent RGBA PNG, exactly 1024x1024, unchanged framing and silhouette.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "ed66afe7e362c41a0b8b0abf42cd1c5814c9af37cf3605aa55fb81c359e279b1",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "paint_back.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-1f4e4ef8-aeb3-4575-89c4-31971d8dd65b.png",
+    "selected": true,
+    "reason": "Selected corrective return: flatter ivory and gold, no invented dome-side mounts, plausible rear material continuation. Preserved unresized 1254 return. Exact silhouette still fails due edge/alpha differences; no further correction allowed.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "f23475cce12532a864cd25f35ba721b0d16571add8cc60ad82d9608abc94fa04",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        181,
+        1176,
+        1212
+      ],
+      "guide_alpha_bbox": [
+        156,
+        440,
+        868,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; substantially flatter ceramic and gold; simplified rear inlays; faint residual tonal shading.",
+      "silhouette_iou_normalized_at_alpha_128": 0.982401,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the exact existing Hesper regulator 3D model (Shield regeneration delay -1 s).\nInput image 1 is the DESIGN AND MATERIAL REFERENCE ONLY. Input image 2 is the EDIT TARGET: the plain orthographic guide. Paint directly over input image 2, keeping its exact original alpha silhouette and all part boundaries, exact pixel positions, original scale, orientation, orthographic camera and framing. Do not copy input image 1's perspective, shape, framing, size or lighting.\nOutput a single 1024 x 1024 RGBA PNG on a genuinely transparent background. Preserve the large empty margins of the guide. Every pixel outside the guide's object stays transparent, including open gaps. Do not enlarge or recenter the object. No floor, backdrop, shadow, text, letters, watermark or labels.\nMATERIALS: paint the existing grey ceramic shapes warm white/ivory ceramic with fine subtle wear and faint hairline surface markings, with the reference's thin brushed-gold inlay trim, engraved lines, seams and panel joins painted INSIDE existing shapes. Gold parts are subdued warm ochre-gold base color with fine brushing and only a faint sheen, not shiny yellow-white reflections. The pale blue dome is bright cyan/blue-white emissive glass painted as light color with gentle blue mottling, NO reflected white hotspots or emitted bloom outside its edge. The reference's narrow dark bezel may be represented only where that part is already visible. Continue hidden surfaces plausibly. Do not invent other materials or new geometry.\nLIGHTING: this is an ALBEDO/TEXTURE SOURCE, not a lit beauty render. Even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside gradient, no strong specular highlights, no reflections, no rim light. Remove the guide's grey shading: all ceramic faces have the same light ivory base color. Surface definition comes from fine material lines and subtle wear, not baked illumination.\nHighest priority: preserve the guide geometry and silhouette EXACTLY. Paint the existing pixels; do not redesign, change proportions, add parts, reveal occluded surfaces or rotate the object.\nVIEW-SPECIFIC GEOMETRY:\nLEFT view (guide_left.png): preserve the very thin horizontal edge-on profile, nontransparent bounds x=66..957,y=440..583. Ceramic body spans x66..766, y471..583; shallow cyan dome at x342..500, y440..473; existing connector housing at the RIGHT x730..850, y474..581; existing visible gold pin shape extends RIGHTWARD x850..957, y512..544. Keep exact overlap and all outlines; do not separate the occluded pins. Keep the connector on the right.\nTreat every visible surface as diffuse base-color paint. Make lower and upper ceramic faces equally pale; zero bevel shading. Narrow gold inlays are flat muted ochre paint with fine grain, not glossy raised strips. The dome has gentle cyan mottling and no lighting hotspot. Do not paint halos, stray specks or fringe outside the guide alpha.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "6112b619e616af8d4db2d85d3b3e969f37124ec6289db791fb2c035ced2ec2e0",
+        "role": "design/material reference"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "1bef9785d9533a1f33fcb5e6e87f22a857c95e1d8dbac8a8d996f3344289cdc5",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-609c07b3-4095-4585-bbd4-19e744642c96.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-609c07b3-4095-4585-bbd4-19e744642c96.png",
+    "selected": false,
+    "reason": "Rejected framing: tool returned a wide landscape canvas and enlarged the side view, with raised gold trim and shaded lower ceramic. Use the single correction to restore guide composition and flat albedo.",
+    "size": [
+      1774,
+      887
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "102140962e1b36d729f6b6c62f7c6116967c2b80f9f63ab1495207d8af97fde4",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        39,
+        39,
+        1730,
+        846
+      ],
+      "guide_alpha_bbox": [
+        66,
+        440,
+        958,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; incorrect landscape framing; shaded underside, shiny pin and added dome bezel.",
+      "silhouette_iou_normalized_at_alpha_128": 0.456934,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "Edit this 1024x1024 SQUARE image in place as a FLAT ALBEDO painting. Preserve the entire square transparent canvas, all empty margins, exact alpha silhouette, exact polygon edges and every part position. The object occupies only x66..958 and y440..584. Do not zoom, crop, reframe, enlarge, round edges or change the camera.\nPaint the light-grey ceramic uniformly pale warm ivory, with fine faint wear and thin flat brushed-gold inset lines and seams following the approved Hesper design. Paint the existing pale-blue dome bright cyan-blue-white; paint the existing pale-yellow rightward pin muted warm brushed gold. Keep the connector on the right. Flat even diffuse colors on ALL faces: no shadows, ambient occlusion, highlights, reflections, shaded bevels or glow spill. Tiny material grain is welcome. No new geometry, no text, no letters. No pixels outside the guide's silhouette. Transparent PNG, 1024x1024 square, original margins unchanged.\nThis is the one corrective regeneration: fix the earlier landscape crop and baked shading. Use this guide image as the framing and geometry authority; use the ivory, gold and cyan design already established, painted flat.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "1bef9785d9533a1f33fcb5e6e87f22a857c95e1d8dbac8a8d996f3344289cdc5",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "paint_left.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-d2799da3-efe1-450d-aaca-f2c5b0c5b5da.png",
+    "selected": true,
+    "reason": "Selected corrective return: restored square composition and flatter ceramic/gold. Tool returned 1254 x 1254, kept unresized. Residual alpha fringe, a dome-base bezel and some shading prevent exact silhouette/albedo compliance; correction limit reached.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "cb232e2a9032b77ad18aafe250c529dee9580bb0358464e20114acb95a55b2a2",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        29,
+        1214,
+        1221
+      ],
+      "guide_alpha_bbox": [
+        66,
+        440,
+        958,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; square framing restored; some bevel/pin shading and added dome bezel remain.",
+      "silhouette_iou_normalized_at_alpha_128": 0.987257,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Paint an albedo texture directly into guide_right.png (input 2), preserving its EXACT 1024x1024 SQUARE canvas, transparent alpha silhouette, large empty margins and polygonal part boundaries. Input 1 is design_reference.png for colors, fine wear, material identity and engraved/inlaid surface lines ONLY. Do not use its camera, shape, lighting or proportions.\nRIGHT view (guide_right.png): preserve the very thin horizontal edge-on profile, nontransparent bounds x=66..957,y=440..583. Ceramic body spans x258..957,y471..583; shallow cyan dome at x524..682,y440..473; existing connector housing at the LEFT x174..294,y474..581; existing visible gold pin shape extends LEFTWARD x66..174,y512..544. Keep exact overlap and all outlines; do not separate the occluded pins. Keep the connector on the left.\nPaint warm white ivory ceramic with fine wear and delicate flush brushed-gold inlaid seam lines, pale gold parts as muted warm gold, pale cyan glass as bright blue-white cyan. Only the materials shown in the reference. Flat evenly lit diffuse albedo: every ceramic face is equally light, gold only has faint brushing and no glints, cyan has gentle mottling and no highlight. No cast shadows, AO, dark undersides, reflections, bright edges, rim light or bloom.\nMaintain connector LEFT and tip RIGHT. Keep the existing exposed pin's exact polygonal outline. No added dome bezel, collars, screws, flanges or other geometry. Do not enlarge the object or change framing. No floor, background, stray alpha pixels, text or letters. Return one transparent 1024x1024 square PNG.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "6112b619e616af8d4db2d85d3b3e969f37124ec6289db791fb2c035ced2ec2e0",
+        "role": "design/material reference"
+      },
+      {
+        "path": "guide_right.png",
+        "sha256": "a00561dbf387c6b64aaf1fcf4d02bea34226a45712994694728d3bfb7c662c87",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-dd6abf67-2978-4d01-8aba-37f7d5220c63.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-dd6abf67-2978-4d01-8aba-37f7d5220c63.png",
+    "selected": false,
+    "reason": "Reference palette and right orientation are correct, but the return has a shaded underside, bright gold reflections, added dome rim and altered connector edges. Use one correction for flat albedo and guide geometry.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "ac1b9b63011eeaa839f625a9c86a2abf18463c4d05211a2588043b4a4a76ef50",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        39,
+        40,
+        1216,
+        1221
+      ],
+      "guide_alpha_bbox": [
+        66,
+        440,
+        958,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; shiny pin, bevel highlights and shaded underside; dome rim added.",
+      "silhouette_iou_normalized_at_alpha_128": 0.985499,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "Corrective flat-albedo paint-over of the attached guide_right.png. Preserve the guide's exact 1024x1024 SQUARE canvas and alpha silhouette. Lock every shape, polygon edge, overlap and pixel position. No scaling or reframing: the object occupies x66..958,y440..584 with large transparent margins.\nPAINT ONLY COLOR: ceramic is uniform light warm ivory with barely visible fine wear; add slender flat muted-gold inlaid panel lines following the reference design. Existing pale gold pin at far LEFT is uniform brushed ochre-gold; blue dome at x524..682 is bright cyan blue-white. Connector stays LEFT, ceramic body extends to the RIGHT. Do not add collars, dome bezels or other geometry.\nThis is a diffuse BASE COLOR TEXTURE, with absolutely NO lighting effects: remove the guide's grey underside shading. Make top, bevels and lower faces equally light ivory. No dark pin side, white edge stripes, specular gold, reflection, ambient occlusion, cast shadow, rim light or glow halo. The surface lines are painted inlays, not raised shadow-casting strips. Use only faint material grain and wear.\nCorrect the previous attempt's shaded lower face, raised gold rim and shiny gold. Preserve the input's actual transparent alpha instead of inventing a new outline; no stray fringe pixels. No text, letters, labels, floor or background. Return a transparent PNG at 1024x1024 with all original empty margins.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "a00561dbf387c6b64aaf1fcf4d02bea34226a45712994694728d3bfb7c662c87",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "paint_right.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-6d8d9467-3545-49ee-9f7f-c140ba006e65.png",
+    "selected": true,
+    "reason": "Selected the flatter corrective painting: removed raised dome rim and most baked lighting. Simpler inlay detail and pale cyan remain plausible reference materials. Unresized 1254 return still has nonidentical alpha edges and faint pin sheen; correction limit reached.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "ecc6c890953676f8f1d753f32b74214f860f39c91c65337b55f4c606b6684098",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        47,
+        37,
+        1176,
+        1069
+      ],
+      "guide_alpha_bbox": [
+        66,
+        440,
+        958,
+        584
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present with simplified gold inlay; mostly flat ceramic; faint pin sheen remains.",
+      "silhouette_iou_normalized_at_alpha_128": 0.991041,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the exact existing Hesper regulator 3D model (Shield regeneration delay -1 s).\nInput image 1 is the DESIGN AND MATERIAL REFERENCE ONLY. Input image 2 is the EDIT TARGET: the plain orthographic guide. Paint directly over input image 2, keeping its exact original alpha silhouette and all part boundaries, exact pixel positions, original scale, orientation, orthographic camera and framing. Do not copy input image 1's perspective, shape, framing, size or lighting.\nOutput a single 1024 x 1024 RGBA PNG on a genuinely transparent background. Preserve the large empty margins of the guide. Every pixel outside the guide's object stays transparent, including open gaps. Do not enlarge or recenter the object. No floor, backdrop, shadow, text, letters, watermark or labels.\nMATERIALS: paint the existing grey ceramic shapes warm white/ivory ceramic with fine subtle wear and faint hairline surface markings, with the reference's thin brushed-gold inlay trim, engraved lines, seams and panel joins painted INSIDE existing shapes. Gold parts are subdued warm ochre-gold base color with fine brushing and only a faint sheen, not shiny yellow-white reflections. The pale blue dome is bright cyan/blue-white emissive glass painted as light color with gentle blue mottling, NO reflected white hotspots or emitted bloom outside its edge. The reference's narrow dark bezel may be represented only where that part is already visible. Continue hidden surfaces plausibly. Do not invent other materials or new geometry.\nLIGHTING: this is an ALBEDO/TEXTURE SOURCE, not a lit beauty render. Even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside gradient, no strong specular highlights, no reflections, no rim light. Remove the guide's grey shading: all ceramic faces have the same light ivory base color. Surface definition comes from fine material lines and subtle wear, not baked illumination.\nHighest priority: preserve the guide geometry and silhouette EXACTLY. Paint the existing pixels; do not redesign, change proportions, add parts, reveal occluded surfaces or rotate the object.\nVIEW-SPECIFIC GEOMETRY:\nTOP view (guide_top.png): directly overhead orthographic view, a large circular ivory ceramic ring and centered bright cyan glass dome in a simple warm gold annular bezel. Overall bounds x156..867,y66..957. Preserve the original slightly polygonal outer ring from x156..867,y66..777, centered near (512,422), open transparent inner annular gap, and central gold bezel x399..624,y309..535 around cyan dome x432..592,y342..504. Keep the ONE existing gold support at six o'clock x484..539,y530..608. Do NOT add extra spokes, arms, tabs, brackets, or concentric geometry from the reference: it supplies painted materials only. Bottom connector housing stays x429..594,y728..850 and exactly three gold pins extend downward to y957. Paint fine gold inset lines and panel seams on the outer ceramic ring and connector matching the design, entirely within their existing boundaries. Keep every gap exactly transparent.\nTreat every visible surface as diffuse base-color paint. Make lower and upper ceramic faces equally pale; zero bevel shading. Narrow gold inlays are flat muted ochre paint with fine grain, not glossy raised strips. The dome has gentle cyan mottling and no lighting hotspot. Do not paint halos, stray specks or fringe outside the guide alpha.\nPaint the original 1024x1024 SQUARE guide directly. The circular ring MUST remain circular in this overhead view, not elliptical, tilted, perspective or 3/4. Preserve the polygonal ring contours and all existing holes. Fine reference-style gold inlaid seams can decorate the existing ceramic surface but cannot change the ring silhouette or build extra components. Do not reproduce the reference's larger central gold assembly or its extra connecting arms. Exactly one support, at six o'clock, as in the guide. Three straight gold pins downward, exact guide spacing.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "6112b619e616af8d4db2d85d3b3e969f37124ec6289db791fb2c035ced2ec2e0",
+        "role": "design/material reference"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "7083265783d2933e46cd3965bc99acbd61fbda97ea3a519884ad775c51d28899",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-a2146737-9e23-4f70-aa17-c8f027b1b95c.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-a2146737-9e23-4f70-aa17-c8f027b1b95c.png",
+    "selected": false,
+    "reason": "Top return retains the single lower support and three pins, but changes the inner ring contour and rounds the guide geometry. Raised reflective gold and ceramic bevel shading require the one permitted flat-albedo correction.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "b1ad322365cbe134ed8a6b0e4410fabf2ccbfa6f02c493d273af0124db600377",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        41,
+        19,
+        1254,
+        1220
+      ],
+      "guide_alpha_bbox": [
+        156,
+        66,
+        868,
+        958
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present; reflective gold and shaded bevels; inner opening enlarged and polygon edges rounded.",
+      "silhouette_iou_normalized_at_alpha_128": 0.889099,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE FLAT ALBEDO PAINT-OVER of the attached guide_top.png. Preserve this exact 1024x1024 SQUARE transparent canvas, original alpha mask, polygonal outlines, every part edge and position. No camera, shape, size, spacing or framing changes.\nPaint the grey ceramic pale warm ivory-white with fine faint wear and thin gold inlaid panel seams continuing the approved design. Its left and right curved gold inset lines follow the ceramic surface, without raised rims. The small central annular bezel, single six-o'clock support and exactly three straight bottom pins are muted brushed warm gold. The central glass is bright cyan blue-white with subtle blue mottling. Keep the ring's open gap fully transparent.\nIMPORTANT CORRECTIONS: the previous result enlarged the inner opening, rounded the polygonal parts, added reflective gold highlights and shaded bevels. Instead directly paint the original guide, preserving its complete silhouette and geometry. All ivory faces must be equally pale; gold is a uniform base color with very faint brushing. No dark inner bevel, dark underside, bright edge stripe, hot highlight, reflections, ambient occlusion, shadows, bloom or rim light. Fine linework and material wear provide surface detail; lighting must be flat and shadowless.\nTOP view (guide_top.png): directly overhead orthographic view, a large circular ivory ceramic ring and centered bright cyan glass dome in a simple warm gold annular bezel. Overall bounds x156..867,y66..957. Preserve the original slightly polygonal outer ring from x156..867,y66..777, centered near (512,422), open transparent inner annular gap, and central gold bezel x399..624,y309..535 around cyan dome x432..592,y342..504. Keep the ONE existing gold support at six o'clock x484..539,y530..608. Do NOT add extra spokes, arms, tabs, brackets, or concentric geometry from the reference: it supplies painted materials only. Bottom connector housing stays x429..594,y728..850 and exactly three gold pins extend downward to y957. Paint fine gold inset lines and panel seams on the outer ceramic ring and connector matching the design, entirely within their existing boundaries. Keep every gap exactly transparent.\nNever add extra supports, pins or central ring geometry. Keep the connector block's exact guide shape and the three pin ends flat as shown. No lettering, text or labels. No background, floor or stray alpha pixels. Output one transparent PNG at 1024x1024, full unchanged square guide canvas.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "7083265783d2933e46cd3965bc99acbd61fbda97ea3a519884ad775c51d28899",
+        "role": "edit target / geometry guide"
+      }
+    ],
+    "output": "paint_top.png",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a16df0-d269-7ca1-99e8-a000ad1a7b4e/exec-83240097-3629-4f5b-8fd1-be16714caf09.png",
+    "selected": true,
+    "reason": "Selected corrective return: polygonal guide layout, inner opening and straight pins are closer; gold and cyan are flatter. Kept 1254 return unresized. Residual inner-bevel shading, alpha fringe and nonidentical edges remain; correction limit reached.",
+    "size": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "unresized": true,
+    "sha256": "841c3c618bbacd4b1e7643eae4776eb4fcda78025afe7baf9f6374b66f253651",
+    "checks": {
+      "rgba": true,
+      "transparent_background": true,
+      "alpha_bbox": [
+        33,
+        47,
+        1253,
+        1226
+      ],
+      "guide_alpha_bbox": [
+        156,
+        66,
+        868,
+        958
+      ],
+      "silhouette_identical": false,
+      "png_readable": true,
+      "no_visible_text_or_letters": true,
+      "colors_and_materials_match_reference": true,
+      "fully_flat_shadowless_lighting": false,
+      "visual_review": "Reference materials present with simplified gold inlay; flatter gold/cyan; inner bevel and connector still have shading.",
+      "silhouette_iou_normalized_at_alpha_128": 0.987242,
+      "silhouette_metric_note": "Read-only nearest normalized-coordinate comparison at alpha > 127; no saved image was resized or edited.",
+      "fully_meets_brief": false
+    }
+  }
+]

@@ -1,0 +1,43 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b ONLY.
+# Verify the full hash before loading. Research labels, not recovered original names or signatures.
+# Evidence and scope: CREATURE_INSPECT.md. No executable bytes are changed.
+f+ research.mm8rel.DrawCreatureInspectPopup @ 0x41e0bc
+f+ research.mm8rel.CreatureInspectActorCopy @ 0x517aa0
+f+ research.mm8rel.CreatureInspectTypeId @ 0x517b0a
+f+ research.mm8rel.CreatureInspectActionDuration @ 0x517b48
+f+ research.mm8rel.CreatureInspectCopiedAiState @ 0x517b58
+f+ research.mm8rel.CreatureInspectGraphicState @ 0x517b5a
+f+ research.mm8rel.CreatureInspectElapsedTicks @ 0x517b60
+f+ research.mm8rel.CreatureInspectFamilyYOffsets @ 0x4f5a70
+f+ research.mm8rel.SelectSpriteFrame @ 0x44c26c
+f+ research.mm8rel.ReadRealtimeTicks @ 0x424f68
+f+ research.mm8rel.UpdateRealtimeTimer @ 0x425008
+f+ research.mm8rel.ViewTimerDelta @ 0x51d274
+CC "Pause logic timer at 0x51d280 before right-click popup dispatch." @ 0x416a15
+CC "Creature popup: ECX actor index, EDX window pointer." @ 0x416f6e
+CC "Family index is signed (typeId-1)/3. Read signed byte table then subtract 40." @ 0x41e113
+CC "Reset demonstration only when full type ID changes, not on actor identity change." @ 0x41e11d
+CC "Copy 0xf3 dwords = 0x3cc actor bytes into persistent portrait actor." @ 0x41e133
+CC "Initial fidget duration = 128 + rand modulo 256 ticks, elapsed zero." @ 0x41e154
+CC "Transition only if elapsed exceeds signed 16-bit duration. Discard overshoot." @ 0x41e16d
+CC "Test copied actor AI state at +0xb8 against 1. This is not a peasant classification." @ 0x41e196
+CC "Original oddity: rand modulo 30 compared against 100, always below for CRT rand." @ 0x41e1b4
+CC "Attack or fidget action duration = selected SFT group TotalTime shifted left 3." @ 0x41e1df
+CC "Standing pause duration = 128 + rand modulo 128 ticks." @ 0x41e203
+CC "Animation group comes from current actor +0xc4+2*portraitGraphicState." @ 0x41e211
+CC "Use SFT sprite index zero at +0x18. Camera and actor yaw do not select portrait view." @ 0x41e232
+CC "128-square viewport starts at window +13,+52, X anchor at its center." @ 0x41e275
+CC "Set both portrait sprite scales to 0x10000 = 1.0. SFT scale is not used." @ 0x41e29d
+CC "Software bottom anchor = viewport top + native frame height + family delta." @ 0x41e2b7
+CC "Zero software flags: no propagation of SFT mirror/center flags or world effects." @ 0x41e2e3
+CC "Hardware bottom anchor = viewport top + original canvas height + family delta." @ 0x41e37a
+CC "Hardware X origin uses occupied-area X minus half original canvas width." @ 0x41e3e9
+CC "Hardware Y origin uses occupied-area Y. Canvas height cancels against bottom anchor." @ 0x41e40c
+CC "Clip hardware sprite bounds to portrait square and retain left/top source skips." @ 0x41e42f
+CC "Resample source surface into native occupied-area dimensions using integer ratios." @ 0x41e590
+CC "Software portrait draw: scale 1, portrait clip, zero flags and zero depth." @ 0x41e729
+CC "Advance portrait only after drawing, using view/misc delta rather than paused logic timer." @ 0x41e7c1
+CC "Animation phase = (elapsed ticks >> 3) modulo group TotalTime." @ 0x44c28e
+CC "Advance frame only when remaining phase is greater than current raw frame Time." @ 0x44c2a4
+CC "timeGetTime milliseconds multiplied by 128 then divided by 1000: 128 ticks per second." @ 0x424f72
+CC "Cap timer delta to 32 ticks = 0.25 seconds, including view/misc timer." @ 0x425029

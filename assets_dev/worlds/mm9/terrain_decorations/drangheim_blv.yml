@@ -1,0 +1,19 @@
+# Written by level_generation/projects/mm9r_common/terrain_blend.py: New Sorpigal's grass
+# (worlds/mm6/terrain_decorations/oute3.yml) for drangheim.blv, its tint fitted to the region's ground (grass_tint.py).
+version: 2
+seed: 6127
+near_distance: 3072
+minimum_normal_z: 0.62
+density_variation: 0.8
+patch_size: 768
+tall_grass_chance: 0.12
+tall_grass_scale: 1.8
+families_file: worlds/mm6/terrain_decorations/families_v2.yml
+rules:
+- texture: 6grastyl
+  family: meadow
+  density: 1.0
+  tint:
+  - 1.1404
+  - 1.0672
+  - 0.7515

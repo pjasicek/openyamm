@@ -1,0 +1,239 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "maximum_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing 3D game decoration.\nCreate ONE 1024 x 1024 RGBA PNG, transparent background, by painting directly onto input image 1 (guide_front.png). Input image 1 is the EDIT TARGET and absolute geometry/alpha authority. Input image 2 (design_reference.png) is material and colour reference ONLY. Input image 3 (concept_crop.png) is the original concept reference ONLY.\nKeep the guide_front.png camera, exact silhouette and alpha coverage, position, scale, all polygon boundaries, openings, projections and every detail. Do not redesign or redraw the shape. Preserve the full 1024-square canvas and the very wide shallow object occupying only x=66..957, y=389..634; the large empty space above and below MUST stay transparent. Do not enlarge it to fill the square. This is a straight FRONT orthographic elevation, never three-quarter or overhead.\nPaint the guide's existing upper crust facets pale yellow crystalline acid crust, its existing hanging drips and acid-coated surfaces glowing translucent bile-green/yellow acid, and its angular exposed roots and base rock forms dark violet, matching the design reference's materials. Preserve each guide facet/edge in its precise position. Use nuanced surface colour and fine crystalline texture within the existing faces. Do not introduce extra bubbles, droplets, rocks, roots, silhouettes or openings from the three-quarter reference. Nothing added outside the original guide silhouette; nothing removed or cropped.\nLIGHTING: texture source ALBEDO, even flat shadowless light from the viewer. Remove the grey guide's baked shading/AO rather than copying its dark gradients. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights, no reflections, no rim light. Bright acid is painted its intrinsic yellow-green colour, without light cast on adjacent purple roots, without bloom or halo. Dark violet is a material colour, not a black shadow. No background, no floor, no text, no labels. Preserve the guide's actual transparent background and exact object alpha boundary.\nReturn only the painted front-view image at native 1024 x 1024 resolution.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "aecc2c7a9be855c8bb01e03a925f57ebc4038bc53a9cd2616f8e1583a93feffb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-fcf3-7390-ad97-338a92f1d8d8/exec-4d252508-d20e-49a7-a8fe-9be4363a811d.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial return needs correction: excessive gloss, shading and geometry/detail drift. Native dimensions and alpha coverage require validation.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "native_1024": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          25,
+          1224,
+          1254
+        ],
+        "alpha_128_bbox": [
+          81,
+          477,
+          1173,
+          773
+        ],
+        "transparent_pixels": 1280402,
+        "silhouette_exact": false,
+        "flat_even_light": false,
+        "materials_match": true,
+        "visual_notes": "Reference palette is recognizable, but gloss/bright edge lighting and shaded recesses remain; some added drips/details change the guide."
+      },
+      "output_sha256": "39c414379fb95095ce7c074fdaa101661618d162e86310d6b24ea036b789d5f5"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: FLAT ALBEDO texture-source painting for a fixed existing 3D game decoration.\nOutput exactly ONE 1024x1024 PNG with a genuine transparent background. Retain the input guide's native 1024x1024 pixel canvas, without changing the resolution.\nINPUT ROLES: Image 1 guide_top.png is the edit target and absolute geometry, composition and transparency mask authority. Image 2 design_reference.png is approved colour/material reference ONLY. Image 3 concept_crop.png is original concept reference ONLY.\nPaint ON image 1, preserving its alpha silhouette exactly, including every outer angular spike, disconnected part, opening and internal edge. Preserve the precise face layout, positions, scale and orientation. It is a strictly orthographic TOP view, looking straight down, not isometric or three-quarter. The silhouette spans x=66..957, y=68..955 in the 1024x1024 canvas; keep it registered to these guide pixels. Do not reframe, rescale or crop.\nPaint the existing broad upper crust plate shapes pale yellow crystalline acid crust matching the design reference. Existing exposed root/rock facets must be dark violet; existing drips and acid-covered lower shapes must be bright translucent bile-green/yellow acid. Maintain every original guide geometry edge and material boundary. Only add the referenced material's surface colour and fine crystalline surface variation within the original shapes. Do not add bubbles, droplets, pools, roots, rocks, cracks that change geometry, or additional silhouettes not present in the guide.\nLighting: FLAT UNLIT ALBEDO, even shadowless illumination from the viewer. No cast shadows; NO AMBIENT OCCLUSION in the gaps or recesses; no inherited grey guide shading; no directional light; no glossy reflections, white specular spots, rim light, bloom or halo. Paint luminous acid its bright intrinsic colour without any light spilling onto neighbouring purple surfaces. Purple roots remain violet rather than shaded black. Use restrained surface colour variation, not simulated illumination. No floor, no background pixels or background haze, no text or labels.\nOnly recolour the precise existing 1024x1024 guide. Transparent pixels must remain transparent. Deliver one raw native 1024x1024 PNG, with identical silhouette and no resizing.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "8425c113ad37d3203252253797d9a243391fb717995bb3a57dbb7d7b0936d94a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-fcf3-7390-ad97-338a92f1d8d8/exec-5df28e9c-dbd7-45d0-b733-0aa7964cf861.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial return needs correction: excessive gloss, shading and geometry/detail drift. Native dimensions and alpha coverage require validation.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "native_1024": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          19,
+          1212,
+          1254
+        ],
+        "alpha_128_bbox": [
+          81,
+          83,
+          1174,
+          1171
+        ],
+        "transparent_pixels": 694381,
+        "silhouette_exact": false,
+        "flat_even_light": false,
+        "materials_match": true,
+        "visual_notes": "Reference palette is recognizable, but gloss/bright edge lighting and shaded recesses remain; some added drips/details change the guide."
+      },
+      "output_sha256": "bf29a9a1053d4f278436d7bf05999be844bdffb51440d0de05766f41218f2f85"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective regeneration, FRONT albedo painting. Produce one PNG with EXACTLY 1024 columns and 1024 rows, true transparent background. Edit the supplied 1024x1024 FIRST IMAGE at its original native resolution. Do not return 1254x1254 or any enlarged canvas.\nImage 1 (guide_front.png): exact edit target and pixel registration mask. Images 2 (design_reference.png) and 3 (concept_crop.png): material colour references only; discard ALL of their lighting, composition and extra geometry.\nThe previous attempt was too glossy, too shaded and altered details. Correct these failures. Apply flat surface paint onto the FIRST IMAGE with its precise silhouette and polygon edges UNCHANGED. Retain every original alpha pixel and hole. The object stays a shallow horizontal band from x=66 through 957 and y=389 through 634 on the 1024-square canvas. Keep the empty area above and below completely transparent. No reframing, enlargement, perspective, added droplets or invented bubble forms. Keep every existing angular face, drip length, root, rock and opening registered to the grey guide. Do not round off its angular geometry.\nMATERIALS: pale straw-yellow crystalline crust on the upper crust faces; saturated bile yellow-green on the guide's existing acid/drip faces; deep dusty violet on exposed root and rock faces. Follow the reference's material identity but use its unlit intrinsic colour. Subtle fine crystal mottling is permitted only inside faces. Use matte colour and fine material texture throughout.\nCRITICAL LIGHTING CORRECTION: this is a base-colour/albedo map, NOT a beauty render. Every facet receives the SAME flat even viewer illumination regardless of its orientation. No black shading in recesses, no AO, no shadows, no rim/edge illumination, no white specular streaks, no shine, no highlights, no caustic webs, no reflections. Bright acid is just bright yellow-green paint: zero light spill onto violet roots, zero bloom, zero halo. Even the recesses retain their intrinsic material colour. Remove the grey guide's illumination gradients as well. Preserve geometry edges by material/texture boundaries, not by shadow or highlight.\nReturn ONLY the recoloured front guide, exactly 1024x1024 RGBA with the identical original alpha silhouette. No text, background, ground or floor.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "aecc2c7a9be855c8bb01e03a925f57ebc4038bc53a9cd2616f8e1583a93feffb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-fcf3-7390-ad97-338a92f1d8d8/exec-603bd6d3-7db8-46ca-981e-642fe85d664e.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the better of the two allowed raw returns: flatter illumination and reduced specular effects. This is not acceptance of brief compliance; native dimensions and exact silhouette constraints remain unmet.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "native_1024": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          21,
+          1190,
+          1254
+        ],
+        "alpha_128_bbox": [
+          81,
+          477,
+          1174,
+          776
+        ],
+        "guide_alpha_bbox": [
+          66,
+          389,
+          958,
+          635
+        ],
+        "transparent_pixels": 1277783,
+        "has_transparent_background": true,
+        "silhouette_exact": false,
+        "flat_even_light": "partial",
+        "materials_match": "approximate",
+        "visual_notes": "Much flatter matte colour and reduced gloss. Yellow crust, bile-yellow/green acid and violet roots are present. Facet colour differences and silhouette/detail drift remain. Stray low-alpha edge/background pixels remain.",
+        "all_brief_checks_pass": false
+      },
+      "output_sha256": "8617ee9a111f63ccad4dc0f8e887ea901b059799cb2d4da7735653b2ce57e75a",
+      "postprocessing": "None; byte-for-byte copy of the built-in tool return.",
+      "accepted_as_brief_compliant": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective regeneration, TOP albedo painting. Produce one PNG with EXACTLY 1024 columns and 1024 rows, true transparent background. Edit the FIRST IMAGE at its original 1024x1024 native resolution. Do not return 1254x1254 or any enlarged canvas.\nImage 1 (guide_top.png) is the exact edit target and pixel registration/alpha mask authority. Image 2 (design_reference.png) and image 3 (concept_crop.png) are material colour references only: discard their lighting, camera and extra geometry.\nThe previous attempt was too glossy, shaded and changed details. Correct these failures. Paint directly onto the FIRST IMAGE and keep its precise silhouette, every polygon edge, all holes, spikes and details UNCHANGED. Retain every alpha pixel and original transparent opening. The object stays between x=66..957 and y=68..955 in the 1024-square canvas. Keep the exact camera: TOP orthographic, looking vertically down. Never add visible side elevation or three-quarter perspective.\nEvery broad crust plate retains the exact shape and location of its grey guide counterpart. Recolour those existing plates with pale straw-yellow crystalline acid crust. Existing exposed root/rock facets are dark dusty violet. Existing acid-covered areas/drips are bright translucent bile yellow-green. Preserve the guide's entire actual mesh shape, its angular silhouette, disconnected parts and precise internal face boundaries. Do not add dangling drips seen from the side, bubble spheres, rocks, new roots or invented surface geometry. Do not borrow extra geometry from the references.\nCRITICAL LIGHTING CORRECTION: flat unlit base colour, not a glossy beauty render. Every facet gets the same flat shadowless viewer illumination regardless of its orientation. Remove the guide's shadows/AO and replace dark recess gradients with their unlit material colour. No directional shading, cast shadows, black occlusion, rim/edge illumination, white highlights, specular reflections, caustic webs, bloom or halo. Crust is PALE yellow with subtle matte crystal mottling, not polished gold. Acid is painted its intrinsic luminous bile-green/yellow colour without casting light onto the adjacent violet material. Keep subtle material texture variation only. No background haze, floor, text or labels.\nReturn only the painted 1024x1024 RGBA top guide. Preserve original transparent pixels and exactly the same silhouette. No resizing or reframing.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "8425c113ad37d3203252253797d9a243391fb717995bb3a57dbb7d7b0936d94a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-fcf3-7390-ad97-338a92f1d8d8/exec-8f268d81-4df7-4378-87bc-23889aaccaf0.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the better of the two allowed raw returns: flatter illumination and reduced specular effects. This is not acceptance of brief compliance; native dimensions and exact silhouette constraints remain unmet.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "native_1024": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          47,
+          1232,
+          1254
+        ],
+        "alpha_128_bbox": [
+          82,
+          82,
+          1173,
+          1171
+        ],
+        "guide_alpha_bbox": [
+          66,
+          68,
+          958,
+          956
+        ],
+        "transparent_pixels": 698419,
+        "has_transparent_background": true,
+        "silhouette_exact": false,
+        "flat_even_light": "partial",
+        "materials_match": "approximate",
+        "visual_notes": "Paler crust and reduced gloss; yellow/green acid and violet roots match the requested palette. Some edge highlights and recessed acid shading remain, along with silhouette/detail drift and stray low-alpha pixels.",
+        "all_brief_checks_pass": false
+      },
+      "output_sha256": "5f20fe774540c7e26b395064c3def51a4c5836801c3eb457caf2f6daff18a9d7",
+      "postprocessing": "None; byte-for-byte copy of the built-in tool return.",
+      "accepted_as_brief_compliant": false
+    }
+  ],
+  "status": "Generated and saved best available raw returns; exact brief constraints not achieved within permitted corrections.",
+  "selection_meaning": "Selected identifies the better raw return for each requested filename; it does not indicate that all acceptance checks passed.",
+  "limitations": [
+    "The built-in image tool returned 1254x1254 despite repeated explicit 1024x1024 requests.",
+    "The requested exact guide silhouette/alpha and every internal shape edge were not preserved.",
+    "Lighting improved with the one permitted correction per view, but residual shading/edge brightness remains.",
+    "Returns were not resized, remasked, retouched or otherwise postprocessed.",
+    "No builds or runtime integration were performed."
+  ]
+}

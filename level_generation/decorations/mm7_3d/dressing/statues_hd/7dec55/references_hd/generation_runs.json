@@ -1,0 +1,311 @@
+{
+  "status": "generated_with_review_limitations",
+  "runs": [
+    {
+      "id": "exec-f8c92fd3-a1e8-4659-9be2-39fa90e7fb55",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nVIEW 00: front-left three-quarter, the statue's own front turned about 35 degrees toward image RIGHT. Camera a little above chest height. This is the primary reference. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter_attempt01.png",
+      "selected": false,
+      "reason": "Superseded: backward-drooping cap, tight framing, club angles backward.",
+      "superseded_runs": [],
+      "output_sha256": "de5fd05e4c8d1d468c7817bd224965d10744879cf016d42a779b9e8d542d4d72",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 929682,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 611435,
+        "unresized_return": true
+      }
+    },
+    {
+      "id": "exec-965fd7d6-0d86-4759-9f47-0a51970e59a5",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nVIEW 00: front-left three-quarter, the statue's own front turned about 35 degrees toward image RIGHT. Camera a little above chest height. This is the primary reference. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png\nCORRECTION: cap MUST bend FORWARD over brow toward image RIGHT, never droop behind the head toward image left. Keep the cap simple and pointed, not a tall Santa cap. Full figure must occupy only 80% of image height with 10% empty margins above and below. Clear striding stance: anatomical right boot FORWARD and planted, left leg extended BACK on toes, not a raised marching knee. Club points diagonally down and FORWARD. Empty background must be entirely alpha zero, with no glow, haze, shadow or dark gradient. Solid stone interior fully opaque.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+      "selected": true,
+      "reason": "Best permitted primary: improved margins and forward club. Cap retains rear lobe and forward boot is raised. Composite confirms clean transparent background; tool preview halo is not present in the composited PNG.",
+      "superseded_runs": [
+        "exec-f8c92fd3-a1e8-4659-9be2-39fa90e7fb55"
+      ],
+      "output_sha256": "dabeb9a34fd41a25bd207f3edb15f0564d2e733c31ac1a8ab19f4f344bbf1e44",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 1035074,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 504926,
+        "unresized_return": true
+      }
+    },
+    {
+      "id": "exec-d60c8069-4e7e-4b71-8ffd-0d7b42b54427",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nThird input is selected primary 00. Reconstruct the EXACT same statue, stone, outfit, facial features, proportions and fixed pose, rotating ONLY the camera. VIEW 01: straight FRONT, no three-quarter angle. Right leg forward (image left), left leg back on toes (image right), club in anatomical RIGHT hand (image left), left fist forward (image right). Single forward-flopping pointed cap tip above brow. About 10% transparent margin at top and bottom. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/01_front.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+          "sha256": "dabeb9a34fd41a25bd207f3edb15f0564d2e733c31ac1a8ab19f4f344bbf1e44"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/01_front_attempt01.png",
+      "selected": false,
+      "reason": "Superseded: cap droops sideways rather than over brow.",
+      "superseded_runs": [],
+      "output_sha256": "3310d42ede714df2287a7858e4464906ffa7081ff710e11f6e6a43c8e9381e1d",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 1027887,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 514501,
+        "unresized_return": true
+      }
+    },
+    {
+      "id": "exec-109be44a-d3e1-4ddc-a971-e095c9195d67",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nThird input is selected primary 00. Reconstruct the EXACT same statue, stone, outfit, facial features, proportions and fixed pose, rotating ONLY the camera. VIEW 01: straight FRONT, no three-quarter angle. Right leg forward (image left), left leg back on toes (image right), club in anatomical RIGHT hand (image left), left fist forward (image right). Single forward-flopping pointed cap tip above brow. About 10% transparent margin at top and bottom. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/01_front.png\nCORRECTION: single pointed soft cap whose only tip folds forward down over the forehead/brow, centered above the nose, not sideways to an ear or backward. Preserve the primary outfit and features. Right leg reaches forward with boot planted flat, left leg behind supported by toes with raised heel. No high marching step. Fist closed, club hand as specified. Keep 80% image-height composition.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+          "sha256": "dabeb9a34fd41a25bd207f3edb15f0564d2e733c31ac1a8ab19f4f344bbf1e44"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/01_front.png",
+      "selected": true,
+      "reason": "Forward cap tip improved; front orientation, correct club hand, long beard and stone retained. Raised forward boot persists; exact primary cap geometry differs.",
+      "superseded_runs": [
+        "exec-d60c8069-4e7e-4b71-8ffd-0d7b42b54427"
+      ],
+      "output_sha256": "ffdc5569754e55be99efffcc0be979a5d157b1874be0a141f3e5ff3f0a4d8b63",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 1022820,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 520693,
+        "unresized_return": true
+      }
+    },
+    {
+      "id": "exec-860c73dd-a12b-4b38-895c-631085573083",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nThird input is selected primary 00. Show the EXACT same statue, stone, clothing, proportions and fixed pose, rotating ONLY camera. VIEW 03: strict RIGHT SIDE profile, nose and front face toward image LEFT. Camera sees anatomical right arm holding club in near foreground. Right leg extended FORWARD toward image LEFT, left leg extends BACK toward image RIGHT on toes. Right arm behind torso, club slopes down and FORWARD toward image LEFT. Left fist forward at belly height partly occluded. Cap pointed tip falls FORWARD over brow toward image LEFT. Full statue with 10% empty margins above/below. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/03_side.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+          "sha256": "dabeb9a34fd41a25bd207f3edb15f0564d2e733c31ac1a8ab19f4f344bbf1e44"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/03_side_attempt01.png",
+      "selected": false,
+      "reason": "Superseded: wrong visible arm and club points backward.",
+      "superseded_runs": [],
+      "output_sha256": "f9123158af0da35cf81d812df480fd78f7d16722641f41b64497bdce1946a3b4",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 991669,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 548682,
+        "unresized_return": true
+      }
+    },
+    {
+      "id": "exec-136fabf9-2513-443e-b6db-202f6e8c3be2",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nThird input is selected primary 00. Show the EXACT same statue, stone, clothing, proportions and fixed pose, rotating ONLY camera. VIEW 03: strict RIGHT SIDE profile, nose and front face toward image LEFT. Camera sees anatomical right arm holding club in near foreground. Right leg extended FORWARD toward image LEFT, left leg extends BACK toward image RIGHT on toes. Right arm behind torso, club slopes down and FORWARD toward image LEFT. Left fist forward at belly height partly occluded. Cap pointed tip falls FORWARD over brow toward image LEFT. Full statue with 10% empty margins above/below. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/03_side.png\nCRITICAL SIDE CORRECTION: strict anatomical RIGHT profile, NOT left side. The large NEAREST visible arm is the RIGHT arm and must extend DOWN AND BACK toward image RIGHT, gripping the club at hip height. The club head extends from this hand diagonally DOWN-LEFT across the near right leg. The LEFT fist is on the FAR side of body, mostly hidden ahead of belly at image LEFT. The near RIGHT boot is forward to image LEFT, far LEFT boot behind to image RIGHT. Do not show the empty bent left arm in foreground. Camera exactly perpendicular, not three-quarter. One single cap tip bends over forehead; no second rear tip. Feet in grounded stride, not floating march. Match primary's actual body dimensions.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+          "sha256": "dabeb9a34fd41a25bd207f3edb15f0564d2e733c31ac1a8ab19f4f344bbf1e44"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/03_side.png",
+      "selected": true,
+      "reason": "Correct visible club arm and forward club direction, front faces left, forward cap. Leg overlap suggests near right leg trails instead of leading; not a strict consistent pose or exact orthographic profile.",
+      "superseded_runs": [
+        "exec-860c73dd-a12b-4b38-895c-631085573083"
+      ],
+      "output_sha256": "1eccc39c0ff12e25be866d54e65cffa3a29ffb9345f762363366bb731397d551",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 976882,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 560048,
+        "unresized_return": true
+      }
+    },
+    {
+      "id": "exec-04c71e4f-3909-4778-a74f-b633e9e9fda2",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nThird input is selected primary 00. EXACT SAME statue, pose, proportions, cap, clothing and stone; rotate ONLY camera. VIEW 02: straight BACK, looking at rear of head and vest, no face, no front belt buckle visible, not three-quarter. RIGHT arm and club are on image RIGHT; LEFT bent arm forward is on image LEFT partly hidden. RIGHT leg forward away from camera (image right), LEFT leg trails back toward camera on toes (image left). Preserve no cape, no plinth. Back vest is all same grey-green stone despite native colored-back art error. Single cap point folds FORWARD away from camera over brow, never down rear head. Full body visible with 10% empty margins above/below. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/02_back.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+          "sha256": "dabeb9a34fd41a25bd207f3edb15f0564d2e733c31ac1a8ab19f4f344bbf1e44"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/02_back_attempt01.png",
+      "selected": false,
+      "reason": "Superseded: ambiguous raised left boot/sole shape and cap direction.",
+      "superseded_runs": [],
+      "output_sha256": "fd78863e81d1dcb0c9dd330bb75904b183e21b621e403263859530099e8629cb",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 989125,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 546199,
+        "unresized_return": true
+      }
+    },
+    {
+      "id": "exec-affcfbc8-a8c3-4956-a703-d3ea21b5314e",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x4.png is the DESIGN AUTHORITY for shape, pose, proportions and parts. Cyan and black border are background. Back-view painted colors are an original art error: use stone all round. Input 2 x2_surface_only.png is ONLY a stone surface reference and NEVER a design reference.\nThe object is a carved STONE SCULPTURE (one solid piece of grey-green weathered granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light.\nIdentity: stocky dwarf caught mid-stride as in native a0 and a2: his anatomical RIGHT leg forward, LEFT leg back on its toes, leaning forward. Pointed soft cap whose tip flops forward over the brow; long full beard to belly; fur-trimmed vest (thick fur collar and hem) over tunic, wide belt, heavy boots. His RIGHT arm hangs a little back, hand holding a short heavy knobbed club pointing down and forward; LEFT fist swings forward at belly height. All one stone colour. No plinth.\nDo NOT add helmet, horns, axe, shield, cape, plinth, painted color, cartoon style, cropping, floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT PNG with genuine transparent alpha, one statue per image. Save unresized return.\nThird input is selected primary 00. EXACT SAME statue, pose, proportions, cap, clothing and stone; rotate ONLY camera. VIEW 02: straight BACK, looking at rear of head and vest, no face, no front belt buckle visible, not three-quarter. RIGHT arm and club are on image RIGHT; LEFT bent arm forward is on image LEFT partly hidden. RIGHT leg forward away from camera (image right), LEFT leg trails back toward camera on toes (image left). Preserve no cape, no plinth. Back vest is all same grey-green stone despite native colored-back art error. Single cap point folds FORWARD away from camera over brow, never down rear head. Full body visible with 10% empty margins above/below. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/02_back.png\nCORRECTION: exactly TWO boots, one per leg, never duplicated soles or a third foot. Left rear boot toe points away from camera and downward to imaginary ground, heel raised toward camera: we see its rear heel, NOT an entire upturned sole. Right boot farther forward is planted. One simple soft pointed cap with single tip folding over brow away from camera, not a two-lobed hat. Keep matching the primary figure.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/native_views_x4.png",
+          "sha256": "badac444be488c46b47ab3dcd7aba0ef89e887a7f1d2b0557d570513db3d41c8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/x2_surface_only.png",
+          "sha256": "84507ee1cf3475a3d856dd3ff9460e0dee093b381f8e21b9ebba7532f49ebe62"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/00_three_quarter.png",
+          "sha256": "dabeb9a34fd41a25bd207f3edb15f0564d2e733c31ac1a8ab19f4f344bbf1e44"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec55/references_hd/02_back.png",
+      "selected": true,
+      "reason": "Rear orientation and right-hand club preserved, all stone. Raised trailing boot and backward cap lobe remain; geometry is not perfectly consistent with primary.",
+      "superseded_runs": [
+        "exec-04c71e4f-3909-4778-a74f-b633e9e9fda2"
+      ],
+      "output_sha256": "36af539724bc741b60eb713c84ee50b768e713f7c8c0f802aac1d204d7473179",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 988713,
+        "fully_opaque_pixels": 0,
+        "alpha_over_240_pixels": 550061,
+        "unresized_return": true
+      }
+    }
+  ],
+  "review": "One correction per view exhausted. Selected means retained deliverable, not full brief compliance. Cap geometry and grounded stride differ across views; side leg ordering is suspect. Alpha contains true transparent regions but no fully opaque pixels; raw outputs preserved without repair. Light-background contact-sheet inspection confirms clean cutouts without the glow seen in tool previews. Stone interiors are nearly opaque (alpha mostly above 240), but not fully opaque.",
+  "contact_sheet": "selected_views_review.png"
+}

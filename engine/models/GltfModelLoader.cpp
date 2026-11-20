@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
@@ -64,6 +65,10 @@ cgltf_result readAssetFile(
 )
 {
     const AssetFileContext *pContext = static_cast<const AssetFileContext *>(pFileOptions->user_data);
+    if (pContext->pAssetFileSystem == nullptr)
+    {
+        return cgltf_result_file_not_found;
+    }
     const std::optional<std::vector<uint8_t>> bytes = pContext->pAssetFileSystem->readBinaryFile(pPath);
     if (!bytes)
     {
@@ -267,7 +272,7 @@ bool buildHierarchy(ModelAsset &asset, std::string &error)
 }
 
 bool loadImages(
-    const AssetFileSystem &assetFileSystem,
+    const AssetFileSystem *pAssetFileSystem,
     const std::string &virtualPath,
     const cgltf_data &data,
     ModelAsset &asset,
@@ -303,8 +308,13 @@ bool loadImages(
                 error = "model image URI must be a package-relative PNG or .oytex path: " + std::string(source.uri);
                 return false;
             }
+            if (pAssetFileSystem == nullptr)
+            {
+                error = "a standalone model must embed its images: " + std::string(source.uri);
+                return false;
+            }
             image.sourcePath = joinedVirtualPath(virtualPath, source.uri);
-            std::unique_ptr<AssetReadStream> pStream = assetFileSystem.openReadStream(image.sourcePath);
+            std::unique_ptr<AssetReadStream> pStream = pAssetFileSystem->openReadStream(image.sourcePath);
             if (pStream == nullptr || !pStream->isOpen())
             {
                 error = "model image was not found: " + image.sourcePath;
@@ -319,7 +329,7 @@ bool loadImages(
                 error = "model image is neither a PNG nor a cooked texture: " + image.sourcePath;
                 return false;
             }
-            image.pFileSystem = &assetFileSystem;
+            image.pFileSystem = pAssetFileSystem;
         }
         else
         {
@@ -473,6 +483,13 @@ bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::vector<bool> 
         {
             return false;
         }
+        if (!loadMaterialTexture(data, source.emissive_texture, material.emissiveImageIndex,
+                material.emissiveSampler, error))
+        {
+            error = "material " + std::to_string(materialIndex) + " emissive texture: " + error;
+            return false;
+        }
+        material.bloom = material.emissiveImageIndex >= 0;
         material.normalScale = source.normal_texture.scale;
         cgltf_size materialExtrasSize = 0;
         cgltf_copy_extras_json(&data, &source.extras, nullptr, &materialExtrasSize);
@@ -533,6 +550,10 @@ bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::vector<bool> 
                 if (extras["openyamm_additive"])
                 {
                     material.additive = extras["openyamm_additive"].as<bool>();
+                }
+                if (extras["openyamm_bloom"])
+                {
+                    material.bloom = extras["openyamm_bloom"].as<bool>();
                 }
                 if (extras["openyamm_uv_scroll"])
                 {
@@ -706,6 +727,20 @@ bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::vector<bool> 
         {
             error = "material " + std::to_string(materialIndex) + " has invalid colour or surface factors";
             return false;
+        }
+        if (source.has_emissive_strength)
+        {
+            // KHR_materials_emissive_strength: brighter than the 0..1 factor allows (a stronger bloom).
+            const float strength = source.emissive_strength.emissive_strength;
+            if (!std::isfinite(strength) || strength < 0.0f || strength > 16.0f)
+            {
+                error = "material " + std::to_string(materialIndex) + " emissive strength must be 0..16";
+                return false;
+            }
+            for (float &channel : material.emissive)
+            {
+                channel *= strength;
+            }
         }
         asset.materials.push_back(std::move(material));
     }
@@ -1048,6 +1083,118 @@ bool loadMeshes(const cgltf_data &data, ModelAsset &asset, std::string &error)
         asset.meshes.push_back(std::move(mesh));
     }
     return true;
+}
+
+// A "card" material turns each primitive about its own centre (ModelMaterial::billboardCard). Exporters often put
+// all of a model's flame cards in one primitive (MM9's chandeliers: eight cards for four candles), which would turn
+// them all about the model's centre; each connected group of triangles (vertices joined by index or by position)
+// becomes a primitive of its own, in the authored triangle order. Static primitives only.
+void splitCardPrimitives(ModelAsset &asset)
+{
+    for (ModelMesh &mesh : asset.meshes)
+    {
+        std::vector<ModelPrimitive> primitives;
+        for (ModelPrimitive &primitive : mesh.primitives)
+        {
+            const int material = primitive.materialIndices.empty() ? -1 : primitive.materialIndices.front();
+            const bool card = material >= 0 && size_t(material) < asset.materials.size()
+                && asset.materials[size_t(material)].billboardCard;
+            if (!card || !primitive.influences.empty() || !primitive.morphTargets.empty()
+                || primitive.indices.size() < 6)
+            {
+                primitives.push_back(std::move(primitive));
+                continue;
+            }
+            const size_t vertexCount = primitive.vertices.size();
+            std::vector<uint32_t> parents(vertexCount);
+            for (uint32_t index = 0; index < vertexCount; ++index)
+            {
+                parents[index] = index;
+            }
+            const auto root = [&parents](uint32_t index)
+            {
+                while (parents[index] != index)
+                {
+                    parents[index] = parents[parents[index]];
+                    index = parents[index];
+                }
+                return index;
+            };
+            const auto join = [&](uint32_t a, uint32_t b)
+            {
+                parents[root(a)] = root(b);
+            };
+            for (size_t index = 0; index + 2 < primitive.indices.size(); index += 3)
+            {
+                join(primitive.indices[index], primitive.indices[index + 1]);
+                join(primitive.indices[index], primitive.indices[index + 2]);
+            }
+            // Vertices at one position (a quad exported as two unshared triangles) belong together.
+            std::vector<uint32_t> order(vertexCount);
+            for (uint32_t index = 0; index < vertexCount; ++index)
+            {
+                order[index] = index;
+            }
+            std::sort(order.begin(), order.end(), [&primitive](uint32_t a, uint32_t b)
+            {
+                return primitive.vertices[a].position < primitive.vertices[b].position;
+            });
+            for (size_t index = 1; index < order.size(); ++index)
+            {
+                if (primitive.vertices[order[index]].position == primitive.vertices[order[index - 1]].position)
+                {
+                    join(order[index], order[index - 1]);
+                }
+            }
+            // The groups in the order of their first triangle.
+            std::vector<int> groupOfRoot(vertexCount, -1);
+            std::vector<std::vector<uint32_t>> groupTriangles;
+            for (size_t index = 0; index + 2 < primitive.indices.size(); index += 3)
+            {
+                const uint32_t group = root(primitive.indices[index]);
+                if (groupOfRoot[group] < 0)
+                {
+                    groupOfRoot[group] = int(groupTriangles.size());
+                    groupTriangles.emplace_back();
+                }
+                groupTriangles[size_t(groupOfRoot[group])].push_back(uint32_t(index));
+            }
+            if (groupTriangles.size() <= 1)
+            {
+                primitives.push_back(std::move(primitive));
+                continue;
+            }
+            for (const std::vector<uint32_t> &triangles : groupTriangles)
+            {
+                ModelPrimitive part;
+                part.materialIndices = primitive.materialIndices;
+                std::vector<uint32_t> remap(vertexCount, std::numeric_limits<uint32_t>::max());
+                for (uint32_t triangle : triangles)
+                {
+                    for (uint32_t corner = 0; corner < 3; ++corner)
+                    {
+                        const uint32_t vertex = primitive.indices[triangle + corner];
+                        if (remap[vertex] == std::numeric_limits<uint32_t>::max())
+                        {
+                            remap[vertex] = uint32_t(part.vertices.size());
+                            part.vertices.push_back(primitive.vertices[vertex]);
+                            if (!primitive.colors.empty())
+                            {
+                                part.colors.push_back(primitive.colors[vertex]);
+                            }
+                            if (!primitive.burnOrder.empty())
+                            {
+                                part.burnOrder.push_back(primitive.burnOrder[vertex]);
+                            }
+                        }
+                        part.indices.push_back(remap[vertex]);
+                    }
+                }
+                primitives.push_back(std::move(part));
+            }
+        }
+        mesh.primitives = std::move(primitives);
+    }
 }
 
 bool loadNodes(const cgltf_data &data, ModelAsset &asset, std::string &error)
@@ -1431,26 +1578,249 @@ void calculateStaticBounds(ModelAsset &asset)
 }
 }
 
+namespace
+{
+// A glTF file's JSON alone, parsed without its buffers. binChunkOffset: where a binary glTF's BIN chunk data starts
+// (0 for a text glTF or a binary one without that chunk).
+struct GltfJson
+{
+    std::unique_ptr<cgltf_data, CgltfDeleter> data;
+    uint64_t binChunkOffset = 0;
+};
+
+std::optional<GltfJson> readGltfJson(AssetReadStream &stream)
+{
+    // A binary glTF: the 12-byte header, then the JSON chunk (its length and type, then the text), then the BIN chunk
+    // (its length and type, then the data). Only the JSON is read; a text glTF is all JSON.
+    std::vector<char> json;
+    uint32_t header[5] = {};
+    const int64_t headerBytes = stream.read(header, sizeof(header));
+    constexpr uint32_t GlbMagic = 0x46546c67;
+    constexpr uint32_t JsonChunkType = 0x4e4f534a;
+    constexpr uint32_t BinChunkType = 0x004e4942;
+    const bool binary = headerBytes == int64_t(sizeof(header)) && header[0] == GlbMagic;
+    if (binary)
+    {
+        if (header[4] != JsonChunkType || header[3] == 0 || header[3] > uint32_t(stream.length()))
+        {
+            return std::nullopt;
+        }
+        json.resize(header[3]);
+    }
+    else
+    {
+        if (stream.length() <= 0 || !stream.seek(0))
+        {
+            return std::nullopt;
+        }
+        json.resize(size_t(stream.length()));
+    }
+    if (stream.read(json.data(), json.size()) != int64_t(json.size()))
+    {
+        return std::nullopt;
+    }
+    GltfJson result;
+    uint32_t binHeader[2] = {};
+    if (binary && stream.read(binHeader, sizeof(binHeader)) == int64_t(sizeof(binHeader))
+        && binHeader[1] == BinChunkType)
+    {
+        result.binChunkOffset = sizeof(header) + json.size() + sizeof(binHeader);
+    }
+    cgltf_options options = {};
+    options.type = cgltf_file_type_gltf;
+    cgltf_data *pParsedData = nullptr;
+    if (cgltf_parse(&options, json.data(), json.size(), &pParsedData) != cgltf_result_success
+        || pParsedData == nullptr)
+    {
+        return std::nullopt;
+    }
+    result.data.reset(pParsedData);
+    return result;
+}
+
+// Column-major 4x4 matrices, as glTF stores them.
+std::array<float, 16> multiplyColumnMajor(const std::array<float, 16> &left, const std::array<float, 16> &right)
+{
+    std::array<float, 16> result = {};
+    for (size_t column = 0; column < 4; ++column)
+    {
+        for (size_t row = 0; row < 4; ++row)
+        {
+            float sum = 0.0f;
+            for (size_t index = 0; index < 4; ++index)
+            {
+                sum += left[index * 4 + row] * right[column * 4 + index];
+            }
+            result[column * 4 + row] = sum;
+        }
+    }
+    return result;
+}
+
+// The bind pose's lowest and highest point (readGltfModelSummary); stream reads the inverse bind matrix it needs.
+std::optional<std::array<float, 2>> gltfBindPoseHeightRange(const GltfJson &gltf, AssetReadStream &stream)
+{
+    const cgltf_data &data = *gltf.data;
+    float minY = std::numeric_limits<float>::max();
+    float maxY = std::numeric_limits<float>::lowest();
+    for (size_t nodeIndex = 0; nodeIndex < data.nodes_count; ++nodeIndex)
+    {
+        const cgltf_node &node = data.nodes[nodeIndex];
+        if (node.mesh == nullptr)
+        {
+            continue;
+        }
+        std::array<float, 16> matrix = {};
+        cgltf_node_transform_world(&node, matrix.data());
+        // A skinned mesh ignores its node: its bind pose is any joint's world matrix times that joint's inverse bind
+        // matrix (one shared transform in a rest pose), read from the BIN chunk for the first joint alone.
+        const cgltf_skin *pSkin = node.skin;
+        const cgltf_accessor *pInverseBind = pSkin != nullptr ? pSkin->inverse_bind_matrices : nullptr;
+        if (pSkin != nullptr && pSkin->joints_count > 0 && pInverseBind != nullptr
+            && pInverseBind->buffer_view != nullptr && pInverseBind->component_type == cgltf_component_type_r_32f
+            && pInverseBind->type == cgltf_type_mat4 && data.buffers_count > 0
+            && pInverseBind->buffer_view->buffer == &data.buffers[0] && data.buffers[0].uri == nullptr
+            && gltf.binChunkOffset != 0)
+        {
+            std::array<float, 16> inverseBind = {};
+            const uint64_t offset =
+                gltf.binChunkOffset + pInverseBind->buffer_view->offset + pInverseBind->offset;
+            if (!stream.seek(offset)
+                || stream.read(inverseBind.data(), sizeof(inverseBind)) != int64_t(sizeof(inverseBind)))
+            {
+                return std::nullopt;
+            }
+            std::array<float, 16> jointWorld = {};
+            cgltf_node_transform_world(pSkin->joints[0], jointWorld.data());
+            matrix = multiplyColumnMajor(jointWorld, inverseBind);
+        }
+        for (size_t primitiveIndex = 0; primitiveIndex < node.mesh->primitives_count; ++primitiveIndex)
+        {
+            const cgltf_primitive &primitive = node.mesh->primitives[primitiveIndex];
+            for (size_t attributeIndex = 0; attributeIndex < primitive.attributes_count; ++attributeIndex)
+            {
+                const cgltf_attribute &attribute = primitive.attributes[attributeIndex];
+                const cgltf_accessor *pPositions = attribute.data;
+                if (attribute.type != cgltf_attribute_type_position || attribute.index != 0 || pPositions == nullptr
+                    || !pPositions->has_min || !pPositions->has_max)
+                {
+                    continue;
+                }
+                // The accessor's box, its eight corners through the matrix: the height of its bind pose.
+                for (uint32_t corner = 0; corner < 8; ++corner)
+                {
+                    const float x = (corner & 1) != 0 ? pPositions->max[0] : pPositions->min[0];
+                    const float y = (corner & 2) != 0 ? pPositions->max[1] : pPositions->min[1];
+                    const float z = (corner & 4) != 0 ? pPositions->max[2] : pPositions->min[2];
+                    const float worldY = matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13];
+                    minY = std::min(minY, worldY);
+                    maxY = std::max(maxY, worldY);
+                }
+            }
+        }
+    }
+    if (!(maxY > minY) || !std::isfinite(minY) || !std::isfinite(maxY))
+    {
+        return std::nullopt;
+    }
+    return std::array<float, 2>{minY, maxY};
+}
+
+std::unordered_map<std::string, float> gltfClipDurations(const cgltf_data &data)
+{
+    std::unordered_map<std::string, float> durations;
+    for (size_t animationIndex = 0; animationIndex < data.animations_count; ++animationIndex)
+    {
+        const cgltf_animation &animation = data.animations[animationIndex];
+        float duration = 0.0f;
+        for (size_t samplerIndex = 0; samplerIndex < animation.samplers_count; ++samplerIndex)
+        {
+            const cgltf_accessor *pInput = animation.samplers[samplerIndex].input;
+            if (pInput != nullptr && pInput->has_max && std::isfinite(pInput->max[0]))
+            {
+                duration = std::max(duration, pInput->max[0]);
+            }
+        }
+        // Named as the loader names them.
+        durations[animation.name != nullptr && animation.name[0] != '\0'
+            ? std::string(animation.name) : "clip_" + std::to_string(animationIndex)] = duration;
+    }
+    return durations;
+}
+}
+
+std::optional<GltfModelSummary> readGltfModelSummary(
+    const AssetFileSystem &assetFileSystem, const std::string &virtualPath)
+{
+    std::unique_ptr<AssetReadStream> pStream = assetFileSystem.openReadStream(virtualPath);
+    if (pStream == nullptr || !pStream->isOpen())
+    {
+        return std::nullopt;
+    }
+    const std::optional<GltfJson> gltf = readGltfJson(*pStream);
+    if (!gltf)
+    {
+        return std::nullopt;
+    }
+    GltfModelSummary summary;
+    summary.clipDurations = gltfClipDurations(*gltf->data);
+    summary.bindPoseHeightRange = gltfBindPoseHeightRange(*gltf, *pStream);
+    return summary;
+}
+
 ModelLoadResult GltfModelLoader::load(
     const AssetFileSystem &assetFileSystem,
     const std::string &virtualPath
 ) const
 {
-    ModelLoadResult result;
     const std::optional<std::vector<uint8_t>> sourceBytes = assetFileSystem.readBinaryFile(virtualPath);
     if (!sourceBytes)
     {
+        ModelLoadResult result;
         result.error = "model asset was not found: " + virtualPath;
         return result;
     }
+    return loadBytes(*sourceBytes, virtualPath, &assetFileSystem);
+}
 
-    AssetFileContext fileContext = {&assetFileSystem};
+ModelLoadResult GltfModelLoader::loadStandaloneFile(const std::filesystem::path &path) const
+{
+    std::error_code errorCode;
+    const uintmax_t size = std::filesystem::file_size(path, errorCode);
+    FILE *pFile = errorCode ? nullptr : std::fopen(path.string().c_str(), "rb");
+    if (pFile == nullptr)
+    {
+        ModelLoadResult result;
+        result.error = "standalone model was not found: " + path.string();
+        return result;
+    }
+    const size_t byteCount = size;
+    std::vector<uint8_t> bytes(byteCount);
+    const size_t read = bytes.empty() ? 0 : std::fread(bytes.data(), 1, bytes.size(), pFile);
+    std::fclose(pFile);
+    if (read != bytes.size())
+    {
+        ModelLoadResult result;
+        result.error = "could not read standalone model: " + path.string();
+        return result;
+    }
+    return loadBytes(bytes, path.generic_string(), nullptr);
+}
+
+ModelLoadResult GltfModelLoader::loadBytes(
+    const std::vector<uint8_t> &sourceBytes,
+    const std::string &virtualPath,
+    const AssetFileSystem *pAssetFileSystem
+) const
+{
+    ModelLoadResult result;
+    AssetFileContext fileContext = {pAssetFileSystem};
     cgltf_options options = {};
     options.file.read = readAssetFile;
     options.file.release = releaseAssetFile;
     options.file.user_data = &fileContext;
     cgltf_data *pParsedData = nullptr;
-    cgltf_result parseResult = cgltf_parse(&options, sourceBytes->data(), sourceBytes->size(), &pParsedData);
+    cgltf_result parseResult = cgltf_parse(&options, sourceBytes.data(), sourceBytes.size(), &pParsedData);
     if (parseResult != cgltf_result_success || pParsedData == nullptr)
     {
         result.error = "could not parse model " + virtualPath + ": " + cgltfResultName(parseResult);
@@ -1505,7 +1875,7 @@ ModelLoadResult GltfModelLoader::load(
     std::shared_ptr<ModelAsset> asset = std::make_shared<ModelAsset>();
     asset->sourcePath = virtualPath;
     std::vector<bool> authoredEdgeDarkening;
-    if (!loadImages(assetFileSystem, virtualPath, *data, *asset, result.error) ||
+    if (!loadImages(pAssetFileSystem, virtualPath, *data, *asset, result.error) ||
         !loadMaterials(*data, *asset, authoredEdgeDarkening, result.error) ||
         !loadMeshes(*data, *asset, result.error) ||
         !loadNodes(*data, *asset, result.error) ||
@@ -1516,6 +1886,7 @@ ModelLoadResult GltfModelLoader::load(
         return result;
     }
     applyCreatureEdgeDarkening(*asset, authoredEdgeDarkening);
+    splitCardPrimitives(*asset);
     calculateStaticBounds(*asset);
     result.asset = std::move(asset);
     return result;

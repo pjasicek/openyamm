@@ -1,0 +1,3 @@
+Saved all four 1536×1024 transparent views and the [review sheet](level_generation/creatures/mm7_m158_claude/references_hd/selected_views_review.png). Primary unchanged; built-in imagegen prompts, hashes and raw returns recorded in `generation_runs.json`.
+
+All wingtips are inside the frame. After the permitted corrections, back/left margins remain below 70 px, and side views retain some three-quarter projection.

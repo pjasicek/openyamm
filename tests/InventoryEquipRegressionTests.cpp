@@ -104,6 +104,32 @@ OpenYAMM::Game::ItemTable makeSkillLearningItemTable(const std::string &targetSk
     return itemTable;
 }
 
+// MM9's Clover as its item table has it: a misc item whose use gives VarA skill points.
+OpenYAMM::Game::ItemTable makeCloverItemTable()
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(
+        sourceRoot,
+        sourceRoot / "assets_dev",
+        OpenYAMM::Engine::AssetScaleTier::X1));
+
+    std::vector<std::string> itemRow(26);
+    itemRow[0] = "10590";
+    itemRow[1] = "missing_test_icon";
+    itemRow[2] = "Clover";
+    itemRow[4] = "Misc";
+    itemRow[12] = "1";
+    itemRow[17] = "test";
+    itemRow[18] = "test:item/clover";
+    itemRow[19] = "590";
+    itemRow[22] = "GrantSkillPoints";
+
+    OpenYAMM::Game::ItemTable itemTable;
+    REQUIRE(itemTable.load(assetFileSystem, {itemRow}, {}));
+    return itemTable;
+}
+
 std::optional<uint16_t> findSpecialEnchantId(
     const OpenYAMM::Game::SpecialItemEnchantTable &table,
     OpenYAMM::Game::SpecialItemEnchantKind kind)
@@ -159,62 +185,36 @@ TEST_CASE("inventory item use spell scroll prepares a master cast")
     REQUIRE(result.handled);
     CHECK(result.action == OpenYAMM::Game::InventoryItemUseAction::CastScroll);
     CHECK_EQ(result.spellId, OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::TorchLight));
-    CHECK_EQ(result.spellSkillLevelOverride, 5u);
+    CHECK_EQ(result.spellSkillLevelOverride, 7u);
     CHECK(result.spellSkillMasteryOverride == OpenYAMM::Game::SkillMastery::Master);
     CHECK(result.spellBypassRequiredMastery);
     CHECK(result.consumed);
 }
 
-TEST_CASE("inventory item use Dimension Door scroll is usable despite gem equip stat")
+TEST_CASE("inventory item use: the Dimension Door scroll and Verdant's connector stones do nothing")
 {
+    // Dimensional travel is the towns' pedestals and fountains and the Town Portal continent buttons (Verdant removed,
+    // 2026-11-09): the scroll (a Gem item) and the stones are not usable: a use is refused and spends nothing.
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Game::Party party = makeRegressionParty(gameData);
 
-    OpenYAMM::Game::InventoryItem scroll = {};
-    scroll.objectDescriptionId = 190;
-
-    CHECK(
-        OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(scroll, gameData.itemTable)
-        == OpenYAMM::Game::InventoryItemUseAction::UseDimensionDoorScroll);
-
-    const OpenYAMM::Game::InventoryItemUseResult result = OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(
-        party,
-        0,
-        scroll,
-        gameData.itemTable,
-        &gameData.readableScrollTable);
-
-    REQUIRE(result.handled);
-    CHECK(result.action == OpenYAMM::Game::InventoryItemUseAction::UseDimensionDoorScroll);
-    CHECK_EQ(result.spellId, OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::TownPortal));
-    CHECK(result.consumed);
-}
-
-TEST_CASE("inventory item use connector stones route through item service")
-{
-    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
-    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
-
-    for (uint32_t itemId : {624u, 625u})
+    for (uint32_t itemId : {190u, 624u, 625u})
     {
-        OpenYAMM::Game::InventoryItem stone = {};
-        stone.objectDescriptionId = itemId;
-
-        CHECK(
-            OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(stone, gameData.itemTable)
-            == OpenYAMM::Game::InventoryItemUseAction::UseConnectorStone);
+        OpenYAMM::Game::InventoryItem item = {};
+        item.objectDescriptionId = itemId;
 
         const OpenYAMM::Game::InventoryItemUseResult result =
             OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(
                 party,
                 0,
-                stone,
+                item,
                 gameData.itemTable,
                 &gameData.readableScrollTable);
 
-        REQUIRE(result.handled);
-        CHECK(result.action == OpenYAMM::Game::InventoryItemUseAction::UseConnectorStone);
+        CHECK(result.action != OpenYAMM::Game::InventoryItemUseAction::CastScroll);
         CHECK_FALSE(result.consumed);
+        CHECK_EQ(result.spellId, 0u);
+        CHECK_FALSE(result.statusText.empty());
     }
 }
 
@@ -421,6 +421,58 @@ TEST_CASE("inventory item use spellbook fails without required mastery and prese
     CHECK(result.speechId == OpenYAMM::Game::SpeechId::CantLearnSpell);
 }
 
+TEST_CASE("spellbook knowledge markers follow the learning rule for each member")
+{
+    using OpenYAMM::Game::SkillMastery;
+    using OpenYAMM::Game::SpellbookKnowledge;
+
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    const uint32_t hammerhands = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Hammerhands);
+    const OpenYAMM::Game::ItemDefinition *pBook = gameData.itemTable.get(472);
+    REQUIRE(pBook != nullptr);
+    REQUIRE(OpenYAMM::Game::InventoryItemUseRuntime::spellbookSpellId(*pBook) == hammerhands);
+
+    for (size_t index = 0; index < party.memberCount(); ++index)
+    {
+        party.member(index)->skills.erase("BodyMagic");
+        party.member(index)->forgetSpell(hammerhands);
+    }
+
+    // Knight: no Body Magic and no way to it. Cleric: knows it. Druid: Expert, can learn it now.
+    // A second cleric at Normal could learn it after training to Expert.
+    party.member(1)->skills["BodyMagic"] = {"BodyMagic", 6, SkillMastery::Expert};
+    party.member(1)->learnSpell(hammerhands);
+    party.member(2)->skills["BodyMagic"] = {"BodyMagic", 5, SkillMastery::Expert};
+    party.member(3)->className = "Cleric";
+    party.member(3)->skills["BodyMagic"] = {"BodyMagic", 4, SkillMastery::Normal};
+
+    const std::vector<SpellbookKnowledge> knowledge =
+        OpenYAMM::Game::InventoryItemUseRuntime::spellbookKnowledge(party, *pBook);
+    REQUIRE(knowledge.size() == party.memberCount());
+    CHECK(knowledge[0] == SpellbookKnowledge::CannotLearn);
+    CHECK(knowledge[1] == SpellbookKnowledge::Known);
+    CHECK(knowledge[2] == SpellbookKnowledge::CanLearn);
+    CHECK(knowledge[3] == SpellbookKnowledge::NeedsTraining);
+
+    // Whoever the markers say can learn it, learns it from the book.
+    OpenYAMM::Game::InventoryItem spellbook = {};
+    spellbook.objectDescriptionId = 472;
+    const OpenYAMM::Game::InventoryItemUseResult result = OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(
+        party,
+        2,
+        spellbook,
+        gameData.itemTable,
+        &gameData.readableScrollTable);
+    CHECK(result.consumed);
+    CHECK(party.member(2)->knowsSpell(hammerhands));
+
+    // Items that are not spellbooks have no markers.
+    const OpenYAMM::Game::ItemDefinition *pScroll = gameData.itemTable.get(741);
+    REQUIRE(pScroll != nullptr);
+    CHECK(OpenYAMM::Game::InventoryItemUseRuntime::spellbookKnowledge(party, *pScroll).empty());
+}
+
 TEST_CASE("inventory item use readable scroll returns text without consuming it")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -566,7 +618,8 @@ TEST_CASE("inventory item use potions and horseshoe apply the expected effects")
         0,
         cureWounds,
         gameData.itemTable,
-        &gameData.readableScrollTable);
+        &gameData.readableScrollTable,
+        &gameData.mergedPotionSettingTable);
 
     OpenYAMM::Game::InventoryItem magicPotion = {};
     magicPotion.objectDescriptionId = 223;
@@ -575,7 +628,8 @@ TEST_CASE("inventory item use potions and horseshoe apply the expected effects")
         0,
         magicPotion,
         gameData.itemTable,
-        &gameData.readableScrollTable);
+        &gameData.readableScrollTable,
+        &gameData.mergedPotionSettingTable);
 
     OpenYAMM::Game::InventoryItem blackPotion = {};
     blackPotion.objectDescriptionId = 266;
@@ -584,7 +638,8 @@ TEST_CASE("inventory item use potions and horseshoe apply the expected effects")
         0,
         blackPotion,
         gameData.itemTable,
-        &gameData.readableScrollTable);
+        &gameData.readableScrollTable,
+        &gameData.mergedPotionSettingTable);
 
     OpenYAMM::Game::InventoryItem horseshoe = {};
     horseshoe.objectDescriptionId = 656;
@@ -646,6 +701,32 @@ TEST_CASE("localized horseshoes from all three worlds grant skill points instead
     CHECK_EQ(party.member(0)->skillPoints, initialSkillPoints + 6);
 }
 
+TEST_CASE("a Clover gives the member who uses it one skill point")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    OpenYAMM::Game::ItemTable itemTable = makeCloverItemTable();
+    party.setItemTable(&itemTable);
+    OpenYAMM::Game::Character *pMember = party.member(1);
+    REQUIRE(pMember != nullptr);
+    pMember->skillPoints = 3;
+    const uint32_t otherMemberPoints = party.member(0)->skillPoints;
+
+    OpenYAMM::Game::InventoryItem clover = {};
+    clover.objectDescriptionId = 10590;
+    clover.identified = true;
+    CHECK(OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(clover, itemTable)
+        == OpenYAMM::Game::InventoryItemUseAction::GrantSkillPoints);
+    const OpenYAMM::Game::InventoryItemUseResult result =
+        OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(party, 1, clover, itemTable, nullptr);
+
+    CHECK(result.handled);
+    CHECK(result.consumed);
+    CHECK_EQ(result.statusText, "+1 Skill Point!");
+    CHECK_EQ(pMember->skillPoints, 4u);
+    CHECK_EQ(party.member(0)->skillPoints, otherMemberPoints);
+}
+
 TEST_CASE("item generator unique rare item marks party and does not repeat")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -663,7 +744,8 @@ TEST_CASE("item generator unique rare item marks party and does not repeat")
             gameData.itemTable,
             gameData.standardItemEnchantTable,
             gameData.specialItemEnchantTable,
-            OpenYAMM::Game::ItemGenerationRequest{6, OpenYAMM::Game::ItemGenerationMode::ChestLoot, true},
+            // Ring of Planes is MM8's: artifacts roll only in their own world (World:<id>).
+            OpenYAMM::Game::ItemGenerationRequest{6, OpenYAMM::Game::ItemGenerationMode::ChestLoot, true, false, "mm8"},
             &party,
             rng,
             [](const OpenYAMM::Game::ItemDefinition &entry)
@@ -720,6 +802,59 @@ TEST_CASE("equip plan requires the skill and respects the doll type")
 
     CHECK(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(character, *pLeatherArmor, &dollType));
     CHECK_FALSE(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(character, *pHelm, &dollType));
+}
+
+TEST_CASE("clubs equip without a learned skill")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    OpenYAMM::Game::Character character = {};
+
+    OpenYAMM::Game::CharacterDollTypeEntry dollType = {};
+    dollType.canEquipArmor = true;
+    dollType.canEquipHelm = true;
+    dollType.canEquipWeapon = true;
+
+    for (const uint32_t clubItemId : {76u, 860u, 1660u})
+    {
+        CAPTURE(clubItemId);
+        const OpenYAMM::Game::ItemDefinition *pClub = gameData.itemTable.get(clubItemId);
+        REQUIRE(pClub != nullptr);
+
+        CHECK(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(character, *pClub, &dollType));
+
+        const std::optional<OpenYAMM::Game::CharacterEquipPlan> plan =
+            OpenYAMM::Game::GameMechanics::resolveCharacterEquipPlan(
+                character,
+                *pClub,
+                &gameData.itemTable,
+                &dollType,
+                std::nullopt,
+                false);
+        REQUIRE(plan.has_value());
+        CHECK(plan->targetSlot == OpenYAMM::Game::EquipmentSlot::MainHand);
+    }
+}
+
+TEST_CASE("negative accuracy does not block items without a stat requirement")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    // A low-accuracy Sorcerer wielding the Lightning Crossbow (Accuracy -50), GitHub issue #14.
+    OpenYAMM::Game::Character character = {};
+    character.accuracy = 10;
+    character.magicalBonuses.accuracy = -50;
+
+    OpenYAMM::Game::CharacterDollTypeEntry dollType = {};
+    dollType.canEquipCloak = true;
+
+    for (const uint32_t itemId : {137u, 122u})
+    {
+        CAPTURE(itemId);
+        const OpenYAMM::Game::ItemDefinition *pItem = gameData.itemTable.get(itemId);
+        REQUIRE(pItem != nullptr);
+        CHECK(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(character, *pItem, &dollType));
+    }
 }
 
 TEST_CASE("wetsuit equip rules require empty equipment except blasters")
@@ -867,7 +1002,7 @@ TEST_CASE("party rejects a race restricted artifact for the wrong member")
         std::nullopt,
         false,
         heldReplacement));
-    CHECK_EQ(party.lastStatus(), "cannot equip");
+    CHECK_EQ(party.lastStatus(), "Dark Elves only");
 
     pMember->raceId = 2;
 
@@ -910,7 +1045,7 @@ TEST_CASE("forge gauntlets require a dwarf race member")
         std::nullopt,
         false,
         heldReplacement));
-    CHECK_EQ(party.lastStatus(), "cannot equip");
+    CHECK_EQ(party.lastStatus(), "Dwarves only");
 
     pMember->raceId = 9;
     REQUIRE(party.tryEquipItemOnMember(
@@ -939,6 +1074,29 @@ TEST_CASE("equip rules respect class restricted artifacts")
     OpenYAMM::Game::Character lich = {};
     lich.className = "Lich";
     CHECK(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(lich, *pCrown, &dollType));
+}
+
+TEST_CASE("a refused gated artifact says who may wear it")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::ItemDefinition *pSupremePlate = gameData.itemTable.get(515);
+    REQUIRE(pSupremePlate != nullptr);
+
+    OpenYAMM::Game::CharacterDollTypeEntry dollType = {};
+    dollType.canEquipArmor = true;
+
+    OpenYAMM::Game::Character paladin = {};
+    paladin.className = "Paladin";
+    CHECK(OpenYAMM::Game::GameMechanics::equipRefusalReason(paladin, *pSupremePlate, &dollType)
+        == "Requires the Plate Armor skill");
+
+    paladin.skills["PlateArmor"] = {"PlateArmor", 1, OpenYAMM::Game::SkillMastery::Normal};
+    CHECK(OpenYAMM::Game::GameMechanics::equipRefusalReason(paladin, *pSupremePlate, &dollType) == "Knights only");
+
+    OpenYAMM::Game::Character champion = paladin;
+    champion.className = "Champion";
+    CHECK(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(champion, *pSupremePlate, &dollType));
+    CHECK_FALSE(OpenYAMM::Game::GameMechanics::equipRefusalReason(champion, *pSupremePlate, &dollType).has_value());
 }
 
 TEST_CASE("artifact ring of planes applies resistance bonuses")
@@ -1092,11 +1250,14 @@ TEST_CASE("MM7 Sun and Moon cloaks boost their magic school while equipped and i
     pMember->skills["DarkMagic"] = {"DarkMagic", 7, SkillMastery::Master};
 
     pMember->equipment.cloak = 1349;
+    party.assignSpecialItemEnchants();
     party.refreshDerivedState();
     CHECK_EQ(pMember->skillBonus("LightMagic"), 4);
     CHECK_EQ(pMember->skillBonus("DarkMagic"), 0);
 
     pMember->equipment.cloak = 1350;
+    pMember->equipmentRuntime.cloak = {};
+    party.assignSpecialItemEnchants();
     party.refreshDerivedState();
     CHECK_EQ(pMember->skillBonus("LightMagic"), 0);
     CHECK_EQ(pMember->skillBonus("DarkMagic"), 3);
@@ -1238,15 +1399,16 @@ TEST_CASE("weapon elemental damage keeps its resistance type")
     character.equipment.mainHand = 1;
     character.equipmentRuntime.mainHand.specialEnchantId = *flameEnchantId;
 
-    const OpenYAMM::Game::ElementalDamageBonuses damage =
-        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageBonuses(
+    const OpenYAMM::Game::ElementalDamageRange range =
+        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageRange(
             character,
             OpenYAMM::Game::CharacterAttackMode::Melee,
             &gameData.itemTable,
             &gameData.specialItemEnchantTable);
 
-    CHECK_EQ(damage.fire, 12);
-    CHECK_EQ(damage.total(), 12);
+    CHECK_EQ(range.minimum.fire, 2);
+    CHECK_EQ(range.maximum.fire, 12);
+    CHECK_EQ(range.maximum.total(), 12);
 }
 
 TEST_CASE("Hades adds poison damage without turning the whole hit into body damage")
@@ -1256,11 +1418,11 @@ TEST_CASE("Hades adds poison damage without turning the whole hit into body dama
     character.equipment.mainHand = 2035;
 
     const OpenYAMM::Game::ElementalDamageBonuses damage =
-        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageBonuses(
+        OpenYAMM::Game::ItemEnchantRuntime::characterAttackElementalDamageRange(
             character,
             OpenYAMM::Game::CharacterAttackMode::Melee,
             &gameData.itemTable,
-            &gameData.specialItemEnchantTable);
+            &gameData.specialItemEnchantTable).maximum;
     CHECK_EQ(damage.body, 20);
     CHECK_EQ(damage.total(), 20);
 
@@ -1328,7 +1490,8 @@ TEST_CASE("merged MM7 artifacts and relics apply their MMerge passive effects")
     {
         OpenYAMM::Game::Character character = {};
         applyMergedRareItemEffects(gameData, 1310, character);
-        CHECK_EQ(character.weaponEnchantmentDamageBonus, 15);
+        CHECK_EQ(character.meleeWeaponDamageBonus, 15);
+        CHECK_EQ(character.rangedWeaponDamageBonus, 0);
     }
 
     SUBCASE("Ethric's Staff drains living wielders but not liches")
@@ -1387,9 +1550,10 @@ TEST_CASE("merged MM6 artifacts and relics apply their MMerge passive effects")
         applyMergedRareItemEffects(gameData, 2035, *pCharacter);
         CHECK_EQ(pCharacter->magicalBonuses.luck, 20);
         CHECK_EQ(pCharacter->itemSkillBonuses["DisarmTraps"], 10);
-        CHECK_EQ(pCharacter->weaponEnchantmentDamageBonus, 20);
+        // The +20 is a separate body component rolled with each blow (rareItemElementalDamageBonuses), not a flat
+        // bonus; the sword's own hit stays physical.
+        CHECK_EQ(pCharacter->meleeWeaponDamageBonus, 0);
         CHECK_EQ(pCharacter->healthRegenPerSecond, doctest::Approx(-1.0f));
-        // The +20 is a separate body component (rareItemElementalDamageBonuses); the sword's own hit stays physical.
         CHECK_FALSE(pCharacter->equippedItemEffectFlags.contains("PoisonWeaponDamage"));
 
         pCharacter->health = 20;
@@ -1693,4 +1857,59 @@ TEST_CASE("weapon conflict rules match the expected cases")
         nullptr,
         std::nullopt,
         false));
+}
+
+TEST_CASE("special items carry the enchantment their item row names (OY-553)")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    const OpenYAMM::Game::ItemDefinition *pBow = gameData.itemTable.get(542);
+    REQUIRE(pBow != nullptr);
+    const OpenYAMM::Game::SpecialItemEnchantEntry *pCarnage =
+        gameData.specialItemEnchantTable.get(pBow->specialItemSpecialEnchantId);
+    REQUIRE(pCarnage != nullptr);
+    CHECK(pCarnage->kind == OpenYAMM::Game::SpecialItemEnchantKind::Carnage);
+
+    // A Noblebone Bow is made with Carnage, keeps its own name and shoots explosive arrows.
+    OpenYAMM::Game::InventoryItem bow = OpenYAMM::Game::ItemGenerator::makeInventoryItem(
+        542, gameData.itemTable, OpenYAMM::Game::ItemGenerationMode::Generic);
+    CHECK(bow.specialEnchantId == pBow->specialItemSpecialEnchantId);
+    CHECK(OpenYAMM::Game::ItemRuntime::identifiedDisplayName(
+              bow, *pBow, &gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable)
+        == "Noblebone Bow");
+
+    OpenYAMM::Game::EquippedItemRuntimeState worn = {};
+    worn.specialEnchantId = bow.specialEnchantId;
+    worn.artifactId = bow.artifactId;
+    OpenYAMM::Game::Character archer = {};
+    OpenYAMM::Game::ItemEnchantRuntime::applyEquippedEnchantEffects(
+        *pBow, worn, &gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable, archer);
+    CHECK(archer.equippedItemEffectFlags.contains("ExplosiveArrows"));
+
+    // A standard enchantment comes at its row's power: Minotaur's Axe "of Might" 25.
+    const OpenYAMM::Game::InventoryItem axe = OpenYAMM::Game::ItemGenerator::makeInventoryItem(
+        1353, gameData.itemTable, OpenYAMM::Game::ItemGenerationMode::Generic);
+    const OpenYAMM::Game::StandardItemEnchantEntry *pMight =
+        gameData.standardItemEnchantTable.get(axe.standardEnchantId);
+    REQUIRE(pMight != nullptr);
+    CHECK(pMight->kind == OpenYAMM::Game::StandardItemEnchantKind::Might);
+    CHECK(axe.standardEnchantPower == 25);
+
+    // Every Special item's name resolves except Grognard's Cutlass, whose Elf Slaying is an artifact power.
+    OpenYAMM::Game::ItemTable itemTable = gameData.itemTable;
+    CHECK(itemTable.resolveSpecialItemEnchants(gameData.standardItemEnchantTable, gameData.specialItemEnchantTable)
+        == std::vector<uint32_t>{1354});
+
+    // A save from before carries the bow without its enchantment, in a bag and worn; loading gives it back.
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    OpenYAMM::Game::InventoryItem oldBow = bow;
+    oldBow.specialEnchantId = 0;
+    pMember->rulesetState.storedBags[1].push_back(oldBow);
+    pMember->equipment.bow = 542;
+    pMember->equipmentRuntime.bow = {};
+    party.assignSpecialItemEnchants();
+    CHECK(pMember->rulesetState.storedBags[1].back().specialEnchantId == pBow->specialItemSpecialEnchantId);
+    CHECK(pMember->equipmentRuntime.bow.specialEnchantId == pBow->specialItemSpecialEnchantId);
 }

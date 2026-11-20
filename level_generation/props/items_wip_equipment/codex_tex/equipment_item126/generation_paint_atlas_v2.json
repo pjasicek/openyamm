@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Vampire Cloak (item126). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Folded wyvern-leather cloak: retain the inventory icon's brown/charcoal outer leather hue and add the described deep muted red velvet to visible inner fold/lining surfaces. No clasp. Exact material boundaries: Outer leather surfaces GREEN; inner velvet lining BLUE. All existing solid grey fold surfaces stay opaque, with no new holes. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item126/inputs/guide_paint_v2.png",
+  "input_guide_sha256": "a816f36039baaf7a9114cdccc724f7a3b3b3f20e5541345fb6200a97b78ff0f1",
+  "revision": 2,
+  "input_icon": "item126",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-eea1cbd9-1693-4bd8-baa0-77527a3d6156.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v2.png",
+  "output_sha256": "23d10f2616c413af14fdc1e3fa0f1923320533fc213f4f8a6edc884913b4a4c6",
+  "input_icon_path": "assets_dev/engine/icons_x2/item126.png",
+  "input_icon_sha256": "8ea87c3d67c5ac01a939a062567fb7cd30487b2c42fea88e073d0c05f1d8270e",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

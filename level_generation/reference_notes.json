@@ -1,0 +1,430 @@
+{
+  "mm6/zddb01": {
+    "theme": "Single cavern; smallest geometry baseline",
+    "layout": "A single elongated, tapered cavern with an uneven perimeter and sloping upper surfaces. The ceiling-free render exposes a broad floor surrounded by a few large wall bands. There is no portal graph beyond one occupied sector; this is a useful first native-room fixture, not a mechanism reference.",
+    "behavior": "The directly bound interaction is the exterior exit. The scene contains one actor and placed objects, but no directly bound chest slot despite the legacy chest-record allocation. Do not invent a chest merely because a state slot exists.",
+    "lessons": "Start with an asymmetric footprint and a few height bands, then inspect wall slope and floor clearance at eye height. Keep the compact rock palette and avoid turning the perimeter into a regular cylinder. Add a chest or second entrance only as an explicit new design feature.",
+    "checks": "Verify entry/exit placement, full floor traversal, sloping-wall collision and appropriate creature clearance. Compare the complete-ceiling player view with the cutaway; the cutaway alone understates enclosure.",
+    "events": [
+      1
+    ],
+    "population_study": "The lair uses nine wall torches and two floor campfires, with a broad clear interior. The fire pair supplies a focal point without filling the cavern with furniture. Treat this as one possible inhabited-lair treatment, not a rule that every dragon cave needs torches."
+  },
+  "mm6/6d01": {
+    "theme": "Goblinwatch; caves joined to a mechanism-rich built core",
+    "layout": "Long curved cave arms flank a compact architectural complex. The plan combines broad chambers, narrow connectors and small regular rooms. This early-game dungeon already has dozens of sectors and doors: apparent gameplay simplicity is not a reliable geometry budget.",
+    "behavior": "Door handlers operate many native mechanism records. Event 19 belongs to the letter-button/fireball puzzle; event 47 combines a chest interaction with summons. Event 64 is a useful one-time spell-effect reference. Read the conditions and state restoration rather than treating every click as an unconditional reward.",
+    "lessons": "Separate the natural circulation graph from the built puzzle module. Predeclare switches, their affected door groups, texture feedback and encounter side effects. Do not give every wall facet its own sector or collapse the entire complex into one room.",
+    "checks": "Test puzzle failure and success, repeat activation, ambush clearance, all return routes and visibility through the cave-to-building transitions. Use a close cutaway of the central complex; the full-map view makes its controls too small to judge.",
+    "events": [
+      19,
+      47,
+      64
+    ],
+    "population_study": "Repeated torches track the built corridors and thresholds while the chambers retain open floors. Structural wall recesses and the contrast between cave and built materials carry much of the visual variety. Place lights in relation to turns and doors, with sparse room-specific props."
+  },
+  "mm6/6d02": {
+    "theme": "Abandoned Temple; long cave progression and side pockets",
+    "layout": "A long bent sequence of irregular chambers and connectors spans a large elevation range, with branches and a small architectural section at one end. The route changes width repeatedly. A chain graph with carefully chosen side pockets captures its progression better than uniformly scattered rooms.",
+    "behavior": "The map combines doors, pressure-plate faces, chest events and NPC interaction. Cage events 22/23 illustrate guarded, stateful rewards with a spell effect; event 14 uses SpeakNPC. Scene face-attribute overrides also matter, so the base BLV alone does not describe every effective face.",
+    "lessons": "Use room purpose and sightline changes to pace a long dungeon. Keep the organic tunnel cross-sections varied while preserving walkability. Import and review scene overrides as part of runtime state rather than copying only static geometry.",
+    "checks": "Walk the complete route in both directions, verify slopes/steps at narrow joins, and test cage rewards before/after their state change and after save/load. Capture separate close views for the distant architectural section and cave branches.",
+    "events": [
+      14,
+      22,
+      23
+    ],
+    "population_study": "Standing braziers follow the tunnel edges and bends; the central walking strip remains readable. Some additional props and rock sprites occur elsewhere in the native inventory. On sloped cave walls, sample the actual floor and inspect the full sprite silhouette instead of placing every light at a fixed world Z."
+  },
+  "mm6/6d18": {
+    "theme": "Gharik's Forge; multilevel industrial mechanisms and lava",
+    "layout": "Regular corridors, tall chambers and repeated room modules form a compact multilevel industrial complex. Visible lava-textured regions give the machinery a spatial purpose. The vertical span is nearly five thousand game units, so a flat connectivity sketch needs elevation annotations.",
+    "behavior": "Levers control paired and coupled door records: event 8 changes doors 13, 14 and 49; events 33–40 operate overlapping mechanism sets. Event 16 gates doors 29/30 on key/quest state. This is a control-dependency graph, not a list of independent opening animations.",
+    "lessons": "Author moving pieces separately from the static shell, retaining shared logical mechanism groups. Inspect motion axes and endpoints in the native door records before calling a piece a lift or bridge. Connect hazard surfaces, controls and safe standing areas in the design.",
+    "checks": "Exercise each coupled control from both sides, test missing-key access and state persistence, and check party carrying/collision for vertical movers. Verify the actual damage behavior of hazardous surfaces rather than assuming a lava texture is sufficient.",
+    "events": [
+      8,
+      16,
+      33,
+      34,
+      39,
+      40
+    ],
+    "population_study": "Torches complement the forge’s lava channels, bridges and dark masonry. The glowing-looking lava material and the torch decoration are separate from actual light records. Keep prop placement away from narrow moving or hazardous crossings, then test the combined lighting in the game."
+  },
+  "mm6/pyramid": {
+    "theme": "Tomb of VARN; large vertical architecture and stateful gates",
+    "layout": "A monumental central structure sits among dense corridors and stacked spaces. Its roughly 9700-unit vertical span makes the projected minimap heavily ambiguous. The overview reveals the large geometric silhouette but conceals much of the internal route behind floors and tall walls.",
+    "behavior": "The event program combines code questions, inventory/quest checks, map variables, wells, doors and damaging switches. Event 1 gates the central progression; events 8/9 illustrate harmful controls. Follow the code/well sequence through its state conditions rather than copying event numbers into a new map.",
+    "lessons": "Use hierarchical plans: whole structure, floor-specific graphs and local puzzle diagrams. Generate sector/BSP/outline data as first-class output. Reserve a distinctive architectural texture palette and control its repetition on very tall walls.",
+    "checks": "Require floor slices and player-height routes in addition to this cutaway. Test wrong/correct answers, missing prerequisites, recovery after leaving the map, secret/reward accessibility and culling through stacked passages. Do not begin exporter development at this scale.",
+    "events": [
+      1,
+      8,
+      9,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "population_study": "The large native torch inventory belongs to many stacked spaces. An ordinary ceiling toggle leaves the outer pyramid and upper geometry covering lower halls; use a labeled height section and a chosen floor. Distribute lights by room and route length, not by dividing the total count uniformly over the minimap."
+  },
+  "mm7/7d28": {
+    "theme": "Dragon's Lair; small two-sector rock chamber",
+    "layout": "A small low-poly cavern has two connected sectors and a broad irregular interior. Angular upper wall bands remain visible after ceiling removal, producing apparently floating strips in some cutaway angles. Those review artifacts should not be mistaken for the complete player's view.",
+    "behavior": "The principal bound event is the exterior exit. There is one scene actor and placed treasure objects but no directly bound chest slot. All 27 explicit imported lights have radius zero in the measured BLV; that is an import/runtime investigation point, not a new-map lighting prescription.",
+    "lessons": "Use this to test a single portal between a pair of organic spaces, texture repetition and large-creature clearance. Pair it with d48 when adding a house or chest, since this reference does not demonstrate those bindings.",
+    "checks": "Verify portal traversal/culling and inspect two opposite cutaways plus complete-ceiling eye views. Determine actual in-game illumination from ambient/decor/party sources; do not accept the neutral Blender sun as evidence.",
+    "events": [
+      101
+    ],
+    "population_study": "Bones cluster close to the entry-side edge of an otherwise open dragon chamber. This sparse placement reads as evidence of occupation and leaves the main creature space clear. Native sprite count is only six; adding many torches or crates would change this reference’s character."
+  },
+  "mm7/7d06": {
+    "theme": "Temple of the Moon; organic approach and architectural shrine",
+    "layout": "Winding caves and branching pockets lead toward an ordered temple with a circular focal chamber and rectangular side rooms. The contrast between the rough approach and built shrine is stronger than a single material or room shape.",
+    "behavior": "Events 2 and 3 each operate a group of native doors; event 4 controls another door. The map also has secret-face flags and seven directly referenced chest slots. Secret marking and door actuation need independent data even where they affect the same opening.",
+    "lessons": "Design the shrine as a landmark reached through a natural route. Preserve distinct cave and masonry surface roles. Use this as a manageable hybrid reference before attempting large castles or heavily stacked puzzle maps.",
+    "checks": "Review the cave-to-temple transition at eye height, test all grouped door endpoints and low/high Perception on intended secrets, and verify chest approach/return routes. The four explicit imported lights have zero radius, so validate lighting in the engine.",
+    "events": [
+      2,
+      3,
+      4
+    ],
+    "population_study": "Violet torch sprites repeat along built passage walls and room corners. Modeled tables, shelves and pillars provide the furnishings. The adjoining natural corridor has a different treatment, so a single global decoration scatter would blur the distinction."
+  },
+  "mm7/7d29": {
+    "theme": "Castle Harmondale; stacked wings, secrets and conditional houses",
+    "layout": "A central hub connects relatively regular wings, corner rooms and stacked passages, with a cave-like extension. The cutaway shows the architectural rhythm but overlays several levels. Invisible faces and secret faces make the loaded state important to the final appearance.",
+    "behavior": "House events 416–420 include quest-dependent access/service behavior rather than merely opening five unconditional rooms. There are many fixed actors and ten directly bound chest slots. Structural state, NPC/house access and persistent quest state must be reviewed together.",
+    "lessons": "Use stable identities for wings, stairs, house interfaces and hidden passages. Model a house-facing doorway as an event target, not as proof that a walkable interior exists behind it. Explicit room membership is essential where AABBs overlap vertically.",
+    "checks": "Review floor-separated plans and test house access in each relevant quest state, secret detection, stair collision and portal visibility. The texture key trim1_16 resolves from another mounted world's assets in this merged checkout; a new package must declare/validate its dependencies.",
+    "events": [
+      416,
+      417,
+      418,
+      419,
+      420
+    ],
+    "population_study": "The initial hall mixes rubble, refuse, chests, banners and a strong modeled fountain/stair composition. These are state-dependent impressions of a damaged castle, not a neutral furnishing kit. Wall art also exists as faces and can appear detached when the study cuts away its supporting wall."
+  },
+  "mm7/7d34": {
+    "theme": "Red Dwarf Mines; looping tunnels and interactive ore faces",
+    "layout": "Curved tunnels form loops with many reward pockets and a more regular central complex. The map supports exploration and returning along alternate passages rather than a single corridor chain. Timber/trim and rock materials give small areas identity without needing a different biome each time.",
+    "behavior": "Ore-vein events 196–198 combine a possible item reward, possible cave-in damage, one-use map state and texture changes/restoration. Events 376–382 relate to petrified dwarves and NPC interaction. Hundreds of clickable faces do not mean hundreds of unrelated event programs.",
+    "lessons": "Make the same semantic vein own all its target faces, state and depleted appearance. Keep environmental interaction rewards separate from chest templates. Use authored side-pocket placement to reward reading the tunnel layout.",
+    "checks": "Test veins before/after use and after save/revisit, both reward and damage outcomes, and each dwarf's intended state transition. Check loops for actor pathing and portal culling. trim9_32/trim9_32a resolve through the merged mounted-world texture set.",
+    "events": [
+      196,
+      197,
+      198,
+      376,
+      377,
+      382
+    ],
+    "population_study": "Torches repeat near timber supports and tunnel turns; occasional statue sprites mark side pockets. Keep the support rhythm and clear mine route, then use a special prop to identify a destination. One bright prop at a dead end can do more than evenly scattered clutter."
+  },
+  "mm7/7d23": {
+    "theme": "The Lincoln; dense door network and power-dependent state",
+    "layout": "Regular narrow corridors and repeated compartments surround larger central spaces on overlapping levels. A restricted mechanical/science-fiction palette makes this an architectural outlier, but its dense native door network is useful for mechanism and state testing.",
+    "behavior": "The map has 72 native doors. Event 475 changes power-related map state, light state and textures. Event 376 handles the quest-object sequence with door/light consequences. The appearance and route network depend on whether those events have occurred.",
+    "lessons": "Keep power/state dependencies in an explicit graph and restore appearance on load from that state. Use grouped door identities rather than coupling logic to mesh iteration order. The tight scale makes placement errors and blocked controls conspicuous.",
+    "checks": "Capture before/after power states, verify quest-item duplication prevention, and test doors, plates and lights after save/load. Require per-floor routes and close views; the whole-map cutaway hides lower corridors. All sampled explicit lights have zero imported radius.",
+    "events": [
+      376,
+      475
+    ],
+    "population_study": "There are no initially drawable decoration sprites in this reference. Wall panels, trim, stairs and modeled machinery establish its character. Do not mistake zero sprite records for zero visual detailing, or import medieval torch fixtures into this technological palette by default."
+  },
+  "mm8/d48": {
+    "theme": "Ilsingore's Cave; recommended first complete indoor slice",
+    "layout": "A large irregular cavern narrows into a bent connector and smaller end pockets. Sloping wall/roof bands create enclosure without uniformly vertical walls. Three occupied sectors and two portals provide a compact but real visibility graph.",
+    "behavior": "Event 82 is bound to 19 chest faces and opens slot 1. Event 131 is bound to one house face and enters house 702, the Flamdring interaction. Event 501 is bound to two exterior-exit faces and travels to out04.odm. Thus this is one house entrance plus one exterior exit, not two house interiors. One fixed actor has unique-name index 109; five spawn records are separate data.",
+    "lessons": "Use this as the initial end-to-end template: original three-space cave, actual texture keys/UV scale, explicit portals, one chest, one house and one exit with complete Lua bindings. If the new brief requests two houses, add a second registered identity rather than reusing the exit event.",
+    "checks": "Walk the bend both ways, target all chest surfaces consistently, enter the house and return outside, and test the actor/encounter population. There are no explicit BLV lights and sector ambient is 22; judge final lighting in runtime. Inspect 256-pixel cave textures alongside 64-pixel chest and 16-pixel solid textures to catch fixed-256 UV errors.",
+    "events": [
+      82,
+      131,
+      501
+    ],
+    "population_study": "The native entity inventory contains only a party-start marker and no visible decoration sprites. Irregular rock surfaces, changing width and elevation do the visual work. Preserve its spare natural character; any new bones, rocks or fire should have a stated reason."
+  },
+  "mm8/d05": {
+    "theme": "Abandoned Temple; dense buttons, traps and secret mechanisms",
+    "layout": "Large chambers bookend a long sequence of built spaces, including a dense cluster of small puzzle rooms. The overall map is modest compared with VARN, but its local mechanism density is high. It is not an appropriate 'simple starter dungeon' compiler test.",
+    "behavior": "There are 112 native doors, pressure-plate faces, secret faces and monster/object trigger flags. Event 63 resets a group of lights, textures and doors; events 102–109 belong to an eight-button stateful puzzle. Other handlers combine grouped doors and summons, while 111–115 include spell effects and 451 changes facet flags.",
+    "lessons": "Represent control-to-mechanism dependencies, face flags and visual state explicitly before modeling each module. Do not equate one button with one door. Reusable puzzle-room geometry still needs unique semantic/event/state identities.",
+    "checks": "Test correct/wrong button sequences, resets, repeated plate contact, monster/object activation policies, spell trajectories and secret detection. Validate collision and restored light/texture states after save/revisit. Review a close cutaway of the dense puzzle cluster.",
+    "events": [
+      23,
+      63,
+      102,
+      109,
+      111,
+      451,
+      513
+    ],
+    "population_study": "No initially drawable decoration sprites are present. Built wall reliefs, room shapes and stairs supply the visible detail. A focused room view is needed because the map bounds include large empty gaps between branches."
+  },
+  "mm8/d18": {
+    "theme": "Naga Vault; compact polygonal rooms and scripted projectile traps",
+    "layout": "A mostly linear progression links polygonal rooms, bent passages and stairs. Repeated chamber shapes create a recognizable rhythm while the turns hide upcoming spaces. Fourteen occupied sectors make this a useful next step after a small cave.",
+    "behavior": "Several controls operate paired doors and summon attackers. Event 76 toggles door 77, casts four downward Fireballs and changes door 76. Door IDs and event IDs are distinct; there is no separate event 77 in this script. The BLV has no pressure-plate faces, demonstrating that a dangerous trigger cannot be classified from plate flags alone.",
+    "lessons": "Add controlled ambush rooms and trap lanes to an otherwise readable route. Specify projectile origin/direction, activation policy and safe standing area in the manifest; a decorative launcher mesh does not provide spell logic.",
+    "checks": "Test each paired door, trap activation/repetition, projectile collision and safe recovery. Verify the two bound chest slots and any secret faces. Explicit lights here have nonzero 384-unit radii, useful for a small-room placement comparison in engine.",
+    "events": [
+      11,
+      13,
+      14,
+      15,
+      76
+    ],
+    "population_study": "Twenty dec56 wall torches form the entire visible decoration-sprite palette. Modeled containers, tables and other fixtures still furnish the rooms. Use corners and passage approaches for light rhythm; keep wall, floor and trim textures continuous across ordinary connected rooms unless their purpose changes."
+  },
+  "mm8/d19": {
+    "theme": "Necromancers' Guild; monumental chamber and faction-dependent access",
+    "layout": "A tightly packed multilevel entrance complex leads to an exceptionally large circular chamber. The contrasting scales create a clear focal destination. A single broad cutaway leaves much of the small front complex obscured and needs a second close view.",
+    "behavior": "Event 15 conditions access on party/NPC state; guard events 61–64 affect access/hostility. Event 131 drives the skeleton-transformer sequence with movie and facet-group changes. Events 201/203 connect faction/dialogue/house behavior. These are gameplay states, not material variants alone.",
+    "lessons": "Separate raw face IDs from logical groups used for facet changes. Plan approach, guarded threshold and major chamber together with faction/party state. Include lifecycle restoration of hidden/untouchable geometry and dialogue access.",
+    "checks": "Exercise allowed/denied entry, guard reaction, transformer prerequisites and completion, and house dialogue in relevant states. Verify changed geometry collision as well as appearance, and test save/revisit without replaying rewards or movies unintentionally.",
+    "events": [
+      15,
+      61,
+      64,
+      131,
+      201,
+      203
+    ],
+    "population_study": "The captured section shows torches along galleries and at bedroom edges, with beds and storage made from geometry. Lighting reinforces the repeated private rooms and central stair rather than occupying every open floor patch. Inspect both upper galleries and lower passages."
+  },
+  "mm8/d24": {
+    "theme": "Balthazar's Lair; large state change and conditional settlement access",
+    "layout": "Regular hubs and repeated room modules form a connected underground settlement over a substantial vertical range. The default static cutaway shows gaps and exposed structural surfaces; final traversal/appearance depends on the map's flooded/restored state, which this neutral render does not execute.",
+    "behavior": "The lever sequence spans events 11–22 and operates multiple doors/facet states; event 22 includes the concluding movie sequence. Many house events select flooded versus restored access. There are 20 chest records but no directly bound OpenChest slots in the scan.",
+    "lessons": "Author complete before/after state graphs, including household access and traversable surfaces, rather than treating a large transformation as a single animation. Make on-load reconstruction deterministic and keep reward/quest effects separate from visual restoration.",
+    "checks": "Walk every required route in both main states, test reset and partial sequences, save/reload during progression, and verify each conditional house entrance. This case requires runtime state captures before it can be used as a final visual template.",
+    "events": [
+      11,
+      12,
+      21,
+      22
+    ],
+    "population_study": "The initial scene has only four drawable sprites, while 48 additional brazier records start hidden. The section shows water, repeated stairs and modeled domestic fixtures. Keep hidden/state-controlled decorations in the manifest; initial-state counts must not be treated as the map’s complete active-state population."
+  },
+  "mm6/oute3": {
+    "theme": "New Sorpigal; starter coastline, town and reusable well patterns",
+    "layout": "A compact coastal settlement occupies part of an irregular island/coast footprint, with small offshore landforms and a limited road network. Most native cells are water-flagged, so full-grid area greatly overstates playable land area. Town density must be judged locally.",
+    "behavior": "Numerous house targets coexist with 18 directly bound chest slots and fixed actors/spawn records. Well events 109/110 and fountain 131 illustrate poverty relief, bounded permanent-stat reward and charged healing respectively. Inspect reward ownership and reset conditions rather than treating all wells as interchangeable.",
+    "lessons": "Start with shoreline and town approach, then place service entrances along readable routes. Allocate encounter/reward pockets outside the settlement and review their distance at walking scale. Reuse the well state patterns, not legacy global IDs or the imported treasure-level-6 row blindly.",
+    "checks": "Test roads/thresholds, shoreline tile behavior, starter encounter safety, all services and repeated well use across party members/day/save boundaries. Add a settlement close-up; the full-map isometric leaves individual doors too small.",
+    "events": [
+      109,
+      110,
+      131
+    ],
+    "population_study": "Small cottages, extended houses, courtyard forms, halls and a tower share a restricted material family. Ornamental colored trees cluster beside houses and civic points; greener trees surround the settlement, leaving the broad main street clear. Vary footprint, roof direction and prominence while preserving a coherent town style."
+  },
+  "mm6/outd3": {
+    "theme": "Castle Ironfist; elevated stronghold and connected settlements",
+    "layout": "A prominent fortified terrace contrasts with smaller settlements and branching roads around hills and water. Elevation and road placement establish hierarchy: the castle is a destination, not just another model dropped on a flat field.",
+    "behavior": "House/service and travel events are numerous. Fountain events 100–102 provide temporary stat and healing examples, distinct from permanent rewards. Five directly bound chest slots are a small subset of the map's interaction targets.",
+    "lessons": "Shape the stronghold's terrace and approach first, fit architecture to the quantized heightfield, then connect road junctions and service entrances. Preserve the distinction between temporary bonuses, charged effects and unique rewards.",
+    "checks": "Walk castle access and settlement routes, inspect foundations at height changes, verify travel arrivals/returns and compare fountain behavior before/after repeat use. Roads crossing steep terrain need ground-level validation, not only a correct top-view line.",
+    "events": [
+      100,
+      101,
+      102
+    ],
+    "population_study": "The castle precinct rises on a strong terrain shelf. Pink/red ornamental trees and small planted features mark the gateway and civic approach, while ordinary trees occur outside. Reserve the largest silhouettes for the castle and temple; modest houses and repeated trees establish their scale."
+  },
+  "mm6/outc1": {
+    "theme": "Frozen Highlands; snow palette, relief and long connecting roads",
+    "layout": "Snow-covered regions, brown exposed slopes, lakes and elevated settlements are linked by a long road network. The native relief gives the snowy region its form; the biome cannot be recreated merely by painting a flat white plane.",
+    "behavior": "Many house/service handlers contrast with only two directly bound chest slots. Fountain events 102–104 demonstrate temporary attribute, armor and level effects. The terrain lookup repeats a bank value, a reminder that raw bank indices need actual palette resolution.",
+    "lessons": "Choose snow/exposed-earth transitions deliberately and route roads through passes. Separate the settlement's relatively level pads from steep surrounding land. Use the map as a terrain/palette reference without inheriting all its service density.",
+    "checks": "Inspect snow transitions at tile scale, test long road continuity and hill approaches, and verify temporary fountain duration/state. Render ground views with actual decoration sprites, which are absent from the bundled terrain/BModel preview.",
+    "events": [
+      102,
+      103,
+      104
+    ],
+    "population_study": "Snow-covered tree sprites and snowy terrain replace the temperate palette; the town still mixes small homes, larger halls, stepped roofs and a tower. Keep planting sparser in its usable streets. Snow-tree names do not all contain the literal word tree, so resolve descriptor hints and art as well as asset keys."
+  },
+  "mm6/outb3": {
+    "theme": "Dragonsand; sparse desert landmarks and dangerous open space",
+    "layout": "Broad dunes and long distances surround a small number of architectural landmarks, with water and islands along part of the boundary. The sparse BModel count is an intentional contrast with Free Haven; terrain and encounter territories carry much of the experience.",
+    "behavior": "The scene has no fixed actors in the measured state, but map encounters and spawn records still define danger. Seven chest slots are directly bound. Events 100/101 demonstrate guarded permanent resistance/stat rewards; the ownership and one-use conditions matter.",
+    "lessons": "Design silhouettes, approach distances and guarded reward sites before adding decorative structures. Retain open combat space suitable for dragons while providing intentional navigation cues. Do not populate solely from scene actor count or copy a high-difficulty encounter table into a starter desert.",
+    "checks": "Test encounter generation and approach safety, reward access/return, permanent reward repetition and flight-versus-foot routes. Review dune quantization and distant landmark readability from player height.",
+    "events": [
+      100,
+      101
+    ],
+    "population_study": "Cactus variants and dry tree forms replace lush grassland planting, with substantial empty sand between groups. Shore-rock records also exist and should not be used as inland boulders indiscriminately. Inspect a dry-land patch as well as the coast before choosing a desert palette."
+  },
+  "mm6/outc2": {
+    "theme": "Free Haven; dense city, rivers and surrounding approaches",
+    "layout": "A dense urban cluster sits within a larger road/river landscape with rural approaches and separate nearby structures. The settlement's local street graph is much denser than the map-wide minimap suggests. River crossings and thresholds must be aligned with the terrain.",
+    "behavior": "The scan finds many more house/service interactions than chests. Events 161 and 163 demonstrate a bounded stat reward and charged healing; event 213 is an obelisk contribution to broader quest/autonote state. Global progress must remain distinct from local fountain charges.",
+    "lessons": "Author urban blocks around connected streets and usable entrances, then integrate bridges and exterior approach routes. Use a service/house manifest to prevent attractive but nonfunctional doors. Share a restrained building palette while varying footprint and placement.",
+    "checks": "Inspect a dedicated city plan and several street-height views, test every intended service target, bridge contact and travel link, and verify global obelisk state does not reset with the local map.",
+    "events": [
+      161,
+      163,
+      213
+    ],
+    "population_study": "Dense town blocks contain L-shaped, U-shaped, long and compact roofs; a shared texture family makes them belong together. Small trees sit beside houses and larger planted green patches break up the built area. Preserve wide traversable streets rather than filling every space with foliage."
+  },
+  "mm7/7out01": {
+    "theme": "Emerald Island; small playable island inside the full terrain grid",
+    "layout": "A small island occupies a tiny portion of the fixed-size ocean grid. Its local settlement, landmarks and cave approach need a zoomed plan; the full-map render is useful for coastline scale but insufficient for placement quality.",
+    "behavior": "Scavenger-hunt NPC interactions are a major part of the map. Events 110/112 illustrate temporary resistance and healing behavior. Six chest slots are directly bound. Many clickable faces reuse a much smaller set of event identities.",
+    "lessons": "Budget playable land and route length rather than filling the entire 128-grid with content. Fit early encounters and quest targets to a compact loop. Use separate house, NPC and item-goal identities even when their visible locations are adjacent.",
+    "checks": "Zoom to the island for all placement decisions; walk the quest loop and cave approach, check starter encounter clearance, and test NPC conditions/rewards and healing repeats. The preview's magenta shore edges are uncomposited transparency, not intended terrain color.",
+    "events": [
+      110,
+      112
+    ],
+    "population_study": "The small settlement uses varied house silhouettes, isolated trees and planted pockets around services. Shorelines and the raised waterfall bank constrain the available land. Keep the central approach and water edge legible; use plants to mark small civic spaces without hiding doors."
+  },
+  "mm7/7out03": {
+    "theme": "Erathia; capital, roads, river and steep fortress terrain",
+    "layout": "A large organized settlement and major fortified structure are embedded in a landscape with rivers, bridges and very high terrain. The heightfield reaches close to the native maximum, requiring deliberate separation of traversable roads from surrounding slopes.",
+    "behavior": "House/service, travel and seasonal decoration logic coexist with numerous chest slots. Events 202/203 illustrate poverty relief and per-player stat rewards. Seasonal scene changes mean a static geometry preview cannot show the full visual state.",
+    "lessons": "Design city streets and regional roads as connected graphs, then grade the terrain and place foundations. Keep decorative seasonal state separate from permanent map geometry and persistent reward state.",
+    "checks": "Test bridge approaches, steep routes, fortress entrances and boundary/dungeon travel. Review appropriate seasons in engine, check reward scope, and ensure terrain quantization near the height ceiling does not silently clip peaks or entrances.",
+    "events": [
+      202,
+      203
+    ],
+    "population_study": "House forms vary around a strong road grid and a larger civic building. A concentrated planted garden contrasts with looser individual trees and scattered small plants. Treat a garden as an authored patch with an edge, not as the same density used across the countryside."
+  },
+  "mm7/7out04": {
+    "theme": "Tularean Forest; strong relief, water and forest settlement",
+    "layout": "Steep raised terrain contrasts with low routes, an island/water region and built connections. Tree decoration density is central to the forest experience but is absent from this terrain/BModel-only preview; terrain shape alone is only part of the reference.",
+    "behavior": "The map includes house access, wells/fountains and seasonal decoration changes. Encounter families can be listed with zero random weight while still participating through explicit content. Read placement and event state together with map stats.",
+    "lessons": "Plan the ground routes and bridge connections before tree distribution. Use density masks to preserve sightlines and service access when adding native tree sprites. Keep high ridges purposeful, with explicit intended foot and flight routes.",
+    "checks": "Check terrain/bridge contact, travel connectivity, sprite occlusion at player height and seasonal variants. Verify actual water/shore flags and low/high elevation accessibility instead of treating all green terrain as traversable.",
+    "events": [
+      202,
+      203,
+      204
+    ],
+    "population_study": "Oversized trees and raised platforms dominate the settlement view; houses differ in roof and footprint while sharing the local style. Stairs, ramps and bridges link distinct elevations. Preserve open land below and between platforms and use trees as compositional masses, not a substitute for valid support geometry."
+  },
+  "mm7/7out06": {
+    "theme": "Bracada Desert; broken plateaus and local teleport network",
+    "layout": "A fractured plateau landscape and desert patches support widely separated built sites. Ground distance and apparent proximity are unreliable guides to travel because height changes and local teleport links shape the route network.",
+    "behavior": "Numerous MoveToMap handlers include local travel, so a count of those calls is not a count of exits. Event 452 is an inventory/quest-gated altar interaction with a sprite-state change; event 453 is an obelisk. Both require more than a decorative model.",
+    "lessons": "Maintain a transport graph alongside roads and terrain paths. Label every teleport's source, target, facing and return relation, and define which destinations are reachable without flight. Use prominent sites to make the fractured landscape legible.",
+    "checks": "Test every local teleport and return, arrival collision, foot-only routes and altar state before/after the required item. Verify the obelisk's global progress separately from local map variables.",
+    "events": [
+      452,
+      453
+    ],
+    "population_study": "Dry shrubs and cactus-like sprites punctuate broad yellow ground and stepped rocky shelves. Narrow raised routes carry buildings and landmarks. Keep steep exposed faces relatively spare and place small plants on believable ledges; do not cover the terrain structure with a forest palette."
+  },
+  "mm7/out10": {
+    "theme": "Nighon; mountain enclosure and restricted ground routes",
+    "layout": "Large steep ridges and high peaks enclose lower traversable regions and settlements. Snow appears on selected high terrain rather than covering the whole map. This is a strong reference for making terrain control navigation.",
+    "behavior": "House/travel targets, eight bound chest slots and dangerous encounter families occupy the accessible areas. Event 206 illustrates a bounded per-character attribute reward; event 453 contributes obelisk progress. The route constraints and reward policy must be evaluated together.",
+    "lessons": "Build ground connectivity from passes and valleys first, then sculpt enclosing heights within native limits. Explicitly define optional flight access rather than assuming every point on a painted minimap is walkable.",
+    "checks": "Walk required valley routes, check dungeon/house arrivals against steep terrain, test flight over ridges if intended, and inspect snow transitions. Test repeated per-character rewards and global quest persistence.",
+    "events": [
+      206,
+      453
+    ],
+    "population_study": "Snow trees concentrate on snow-bearing slopes and edges while the rocky town pocket remains comparatively open. Large height differences split usable areas into shelves. Use the landform and material boundaries to guide species placement, with sparse rocks between the buildings."
+  },
+  "mm8/out01": {
+    "theme": "Dagger Wound Islands; archipelago with linked progression",
+    "layout": "Several islands, a settlement, built links and a volcanic landmark form a route network across extensive water. The islands' connection order matters more than straight-line separation. The full-map plan should show transport links explicitly.",
+    "behavior": "The map combines houses, many travel handlers, scripted spell effects and numerous chest bindings. Well events 101–103 illustrate temporary stats, a capped stat increase and a conditional gold reward. Their limits and party conditions make them distinct mechanics.",
+    "lessons": "Design island progression and link activation as a graph before sculpting coastlines. Place settlements and encounters around safe arrivals and intended crossings. Keep local teleport, bridge and exterior travel edges distinct in metadata.",
+    "checks": "Test progression and return between islands, bridge/arrival clearance, travel gates and reward repetition under qualifying/nonqualifying party states. Review shoreline transitions and volcanic hazard behavior in the game, not from preview colors.",
+    "events": [
+      101,
+      102,
+      103
+    ],
+    "population_study": "Palm species and tropical undergrowth accompany round, rectangular and extended thatched buildings. Small vegetation groups and a few trees mark individual buildings and civic spaces; open paths lead around them. The native inventory also includes smoke emitters, which this static sprite study does not simulate."
+  },
+  "mm8/out02": {
+    "theme": "Ravenshore; regional hub, river routes and dense interaction content",
+    "layout": "A coastal town and larger rural landscape are connected by roads around a river and high enclosing terrain. Urban density contrasts with fields and encounter areas. Native terrain needs to support bridges and town foundations consistently.",
+    "behavior": "A large fixed-actor population and many house/event bindings make this a gameplay-density reference. Event 101 grants a temporary stat effect; event 102 is a harmful well, and event 104 combines town-portal/quest-related state with fountain behavior. Do not interpret all SetValue calls as restorative effects.",
+    "lessons": "Keep service, travel, encounter and environmental interaction inventories separate but spatially coordinated. Use the hub's road/river structure to organize destinations, and author clear hints for wells whose behavior differs from ordinary healing. Compare market and lane districts separately, count physical service assemblies once, and keep ordinary doors near the shared road without adding a spur to every home. Inspect actual transition bitmap corners and diagonal joins after native snapping. Place bounded gardens near houses and fountains while keeping a more open countryside; evaluate accepted local placements, not only total foliage. Apply the accepted outdoor calibration with new geometry rather than copying Brackenford or Ravenshore. Distinguish travel bounds from terrain extent: regional roads continue 8,089–9,625 units past Ravenshore/Alvar prompts. Compare open straight/rolling approaches with bent rock cuts. Continue the road beyond the trigger; curvature and screening are optional, and mountains or hills are not required between neighboring maps. Require occlusion only for a deliberately screened pass. See REGIONAL_TRANSITION_CALIBRATION.md.",
+    "checks": "Test town thresholds and bridges, actual actor crowding/pathing, travel registration, harmful versus helpful wells and their state restoration. Check frame time with real actors and decorations; the static Blender view cannot validate runtime density.",
+    "events": [
+      101,
+      102,
+      104
+    ],
+    "population_study": "Town gardens cluster small plants near houses, fountains and trees; countryside trees are much more broadly distributed. Buildings range from simple pitched roofs to extended, rounded and towered civic forms. The Shadowspire approach uses a narrow road notch between high rock flanks, screening the destination without relying on shorter draw distance. Follow WILDERNESS_CALIBRATION.md: 59 regular encounter markers (43 wolf, 16 centaur), 65 town actors and 78 normally hidden invasion actors are separate populations. Wolves form tight western patches with broad gaps; centaurs are looser. The den is guarded with a nearby chest, while Smuggler's Cove and Chapel of Eep have quiet approaches. Small native ponds, assembled timber/stone bridges and a tiny terrain-embedded den mouth provide additional composition references. LANDSCAPE_DETAIL_CALIBRATION.md distinguishes dirt/grass embedded-stone variants from boulders, records 12 contextual trash heaps, dec45 Earth Resistance and the dec43 challenge setting with small rock22 stones. Use explicit main-town membership and category heatmaps; inspect the entire bridge span against quantized terrain."
+  },
+  "mm8/out04": {
+    "theme": "Ironsand Desert; volcanic basin, sparse town and cave access",
+    "layout": "A large lava basin dominates the terrain, with desert ridges, sparse settlement and roads around its margins. The asymmetry gives the landscape a strong landmark. This is the outdoor context for the d48 cave study.",
+    "behavior": "Travel handlers connect local sites including d48 and the elemental-fire route. Event 150 is the obelisk interaction. The resolved terrain has 2725 water-flagged cells and the same 2725 burn-flagged cells: lava can carry both flags, so these are overlapping counts rather than separate water and lava regions.",
+    "lessons": "Author volcanic landform and safe approach routes before placing the village and dungeon entrance. Use the native volcanic tile banks and validate hazard flags independently of material appearance. Preserve a clear, safe cave arrival/return anchor.",
+    "checks": "Walk the settlement-to-cave route and return, inspect lava shoreline/contact behavior, test all intended travel destinations and validate guarded chest placement against encounter territories. Magenta shore outlines in the Blender render are a preview limitation, not a missing texture report.",
+    "events": [
+      150
+    ],
+    "population_study": "Cactus variants, dry trees, bones and skeletons establish a harsh desert character. Small rocks and sparse vegetation surround paths and ruined structures, with open sand preserving their silhouettes. The numerous skeleton props are contextual storytelling and should not be imported into a healthy grassland town."
+  },
+  "mm8/out06": {
+    "theme": "Shadowspire; dark settlement, wetland and rough terrain",
+    "layout": "A compact settlement near water contrasts with broad dark terrain, many small wet areas and a region of rough elevated land. The mood depends on palette and native decorations/lighting, not simply lowering Blender exposure.",
+    "behavior": "House targets dominate the interaction inventory alongside wells and an obelisk. Event 101 is a capped attribute reward; event 104 is a mana-related fountain path whose exact conditions should be checked in the script; event 150 advances obelisk state. Copying a visual fountain does not copy its reset policy.",
+    "lessons": "Use an explicit swamp/dark-earth palette, terrain masks and decoration distribution while retaining readable roads and service entrances. Differentiate environmental atmosphere from actual traversal hazards and gameplay effects.",
+    "checks": "Review water transitions, settlement lighting at player height, rough-ground routes and fountain conditions/repeats. Add real tree/decor sprites for the final atmosphere comparison; the bundled overview omits them.",
+    "events": [
+      101,
+      104,
+      150
+    ],
+    "population_study": "Bare trees, rune posts, rocks and sparse ground plants accompany the town’s repeated green-roof material family. The roofs still vary in plan and size. Use biome and settlement identity together: consistent materials do not require identical buildings or dense green foliage. The wilderness follow-up compares 84 trees, 28 low plants, 159 rocks and 331 props against Ravenshore and Ravage Roaming. Use its bare-tree/rock/prop vocabulary and local coverage, not a temperate garden quota."
+  },
+  "mm8/elemf": {
+    "theme": "Plane of Fire; native terrain causeways above hazardous lava",
+    "layout": "Tall islands and narrow connecting landforms occupy a lava-dominated map. The terrain heightfield itself contributes much of the causeway-like network; not every bridge-shaped silhouette is a BModel. A small number of structures mark major destinations.",
+    "behavior": "There are no directly bound chest slots and no fixed scene actors in the measured state, but Fire Elemental/Efreet/Salamander encounters still populate through spawn settings. Travel events 501/502 lead to d29/d30 and 505 returns to out04. Water and burn flags overlap on 12192 cells.",
+    "lessons": "Use native heightfield ridges and islands where the shape is representable; reserve BModels for actual overhangs/structures. Define intended protected/unprotected movement and encounter space explicitly. Sparse structures can be sufficient when terrain and hazards dominate.",
+    "checks": "Test narrow-route collision and actor movement, falls/escape, lava effects with relevant protections, and each destination/return. Inspect rendered-triangle contact on quantized ridge edges and measure runtime behavior before replacing native terrain with mesh ground.",
+    "events": [
+      501,
+      502,
+      505
+    ],
+    "population_study": "No drawable native decoration sprites are present. Lava, dark island terrain and the clustered fortress silhouette establish the scene. This is a useful counterexample to adding trees and rocks automatically; absence can be purposeful, but the underlying landform and focal architecture must carry the view."
+  },
+  "mm7/7out02": {
+    "theme": "Harmondale; town shelves, enclosing hills and planted civic space",
+    "layout": "The town sits in a northwestern pocket behind surrounding high ground. Roads connect its shelves to a broad central route and the southern lake country. Individual foundations occupy local pads; the entire settlement is not one flattened rectangle.",
+    "behavior": "Use the native navigation table and map-local entry handlers for regional travel; geography alone does not create a destination or return arrival. House faces, outdoor props and the castle entrance are separate registrations.",
+    "lessons": "Use a few deliberate town elevation bands joined by walkable approaches. Keep local building pads stable, plant open courtyards, and retain enclosing terrain between town and countryside.",
+    "checks": "Walk each change of level, doorway and road junction with collision enabled. Inspect eye-height views from upper and lower streets and the entry passes.",
+    "events": [],
+    "population_study": "The town occupies local shelves within an enclosing bowl of high ground. Different roof shapes, a church, taller civic forms and planted garden rows create hierarchy. Use a few usable terrace levels and clear connecting streets, then plant the residual courtyards rather than flattening the whole town."
+  },
+  "mm8/out03": {
+    "theme": "Alvar; conifer countryside, town planting and the Murmurwoods pass",
+    "layout": "Broad woodland and developed pockets are separated by water and substantial rock landforms. The westward road toward Murmurwoods passes through a narrow notch rather than crossing an exposed summit.",
+    "behavior": "The MM8 map navigation row links west to out07, east to out04 and south to out02. Preserve the correct side-specific arrival pose, time and heading when designing equivalent new routes.",
+    "lessons": "Let terrain flanks screen a regional road while keeping its floor traversable. Separate the town planting palette from the larger woodland population and keep nearby landmarks legible. Distinguish travel bounds from terrain extent: regional roads continue 8,089–9,625 units past Ravenshore/Alvar prompts. Compare open straight/rolling approaches with bent rock cuts. Continue the road beyond the trigger; curvature and screening are optional, and mountains or hills are not required between neighboring maps. Require occlusion only for a deliberately screened pass. See REGIONAL_TRANSITION_CALIBRATION.md.",
+    "checks": "Review the west notch from both directions at eye height, road grade and terrain tile joins, and actual travel/return behavior. Do not infer walkability solely from the isometric.",
+    "events": [],
+    "population_study": "The countryside inventory is dominated by tree29/tree30 with a secondary leafy-tree family, while small plants and props supply other local accents. The west road threads a gap beside water and high rock. Screen the route with its flanks; do not assume that an imposing pass requires an exposed high road crest. Landscape-detail follow-up compares main-town/edge/wilderness heatmaps and sparse interior stone variants. dec26 cauldrons and dec46 Day of the Gods pedestal provide native camp/landmark references. Exclude distant southwestern rural houses when defining the main-town hull."
+  },
+  "mm8/out07": {
+    "theme": "Murmurwoods; dense mixed woodland with clearings and travel corridors",
+    "layout": "Large native tree groups dominate the countryside around roads and occasional buildings. Open patches and distinct tree silhouettes break up the woodland. Terrain and foliage together control how much the route reveals.",
+    "behavior": "The MM8 navigation row links east to Alvar and south to Shadowspire. The visible settlement-like objects are not interchangeable service instances; trace each event registration before reuse.",
+    "lessons": "Use coherent mixed tree species in uneven groups, with deliberate clearings and protected road/entrance clearance. Dense foliage should frame a route without blocking party and monster movement.",
+    "checks": "Compare actual populated frame time and visibility with a fair reference setup. Walk between tree groups and test road/house access; a Blender billboard preview cannot validate collision or performance.",
+    "events": [],
+    "population_study": "The countryside has 1,621 tree sprites in several silhouettes and colors. Dense irregular groups alternate with clearings and a readable road, with rocks as secondary accents. This is a density reference for woodland, not a target count for every grassland map; preserve gaps and test actual runtime cost."
+  }
+}

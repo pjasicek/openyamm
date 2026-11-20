@@ -1,0 +1,2233 @@
+[
+  {
+    "id": "t1_three_quarter_v1",
+    "tier": "t1",
+    "view": 0,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt1 — SMALL COIN POUCH, about 22 cm wide and 16 cm tall. Small plain worn light-brown leather pouch, round-bottomed but flattened at ground contact, gathered at the neck by a leather drawstring cord tied in a simple knot with TWO short dangling ends. The frilled gathered top stands up a little. NO metal, NO coins visible. Humble and plain.\n\nCAMERA 00_three_quarter — PRIMARY: about 35 degrees to the RIGHT of the FRONT and about 30 degrees above ground, near-orthographic. Show front and the prop's RIGHT side. The front faces screen-left-forward; anatomical right side is visible on screen-right. This image ALONE creates the 3D mesh: the whole silhouette, flap, drawstring/buckle, and EVERY spilled coin must read clearly; nothing hidden or cropped. Maintain generous 15% margins. One view only.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-939bc55a-6b13-4f99-b094-c0e2ca003f00.png",
+    "selected": false,
+    "reason": "Superseded: returned 1254 x 1254 rather than requested 1024 x 1024; pouch also too tall for brief proportions.",
+    "superseded_by": "t1_three_quarter_v2",
+    "role": "primary",
+    "family": "t1",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t1_three_quarter_v1.png",
+    "raw_sha256": "985e6a9e5c1c35e8ed3025d2da2b3ecf50ac99b8688bc7de9cfbb70ca8474162",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      225,
+      196,
+      1040,
+      1058
+    ],
+    "outer_edge_alpha_max": [
+      1,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      22,
+      16
+    ]
+  },
+  {
+    "id": "t1_three_quarter_v2",
+    "tier": "t1",
+    "view": 0,
+    "prompt": "REQUIRED FILE FORMAT: generate at native resolution EXACTLY 1024 by 1024 pixels, square. Do not return 1254px, 1280px, or a different size. Transparent RGBA PNG. This is a 1024x1024 asset request.\n\nTASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt1 — SMALL COIN POUCH, about 22 cm wide and 16 cm tall. Small plain worn light-brown leather pouch, round-bottomed but flattened at ground contact, gathered at the neck by a leather drawstring cord tied in a simple knot with TWO short dangling ends. The frilled gathered top stands up a little. NO metal, NO coins visible. Humble and plain.\nMake it a squat pouch: overall width about 22 cm, overall height including frilled neck about 16 cm, visibly wider than tall, slumped broad base. Frill is short, neck cinched tightly, no open wide funnel. Match input 2's leather, cord and coarse stitching; reduce height to correct dimensions.\n\nCAMERA 00_three_quarter — PRIMARY: about 35 degrees to the RIGHT of the FRONT and about 30 degrees above ground, near-orthographic. Show front and the prop's RIGHT side. The front faces screen-left-forward; anatomical right side is visible on screen-right. This image ALONE creates the 3D mesh: the whole silhouette, flap, drawstring/buckle, and EVERY spilled coin must read clearly; nothing hidden or cropped. Maintain generous 15% margins. One view only.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-939bc55a-6b13-4f99-b094-c0e2ca003f00.png"
+    ],
+    "supersedes": [
+      "t1_three_quarter_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-34b2a84c-1737-4d0d-bc62-3e593ac07233.png",
+    "role": "primary",
+    "family": "t1",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "selected": true,
+    "reason": "Selected visually: warm light-brown broad pouch, coarse seams, gathered frill, simple knot and two short ends; no metal or coins. Resolution remains noncompliant because built-in returned 1254 x 1254; retained unresized.",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t1_three_quarter_v2.png",
+    "raw_sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-939bc55a-6b13-4f99-b094-c0e2ca003f00.png",
+        "sha256": "985e6a9e5c1c35e8ed3025d2da2b3ecf50ac99b8688bc7de9cfbb70ca8474162"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      181,
+      270,
+      1112,
+      1059
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1443,
+      0.2153,
+      0.1132,
+      0.1555
+    ],
+    "nominal_dimensions_cm_width_height": [
+      22,
+      16
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t1_front_v1",
+    "tier": "t1",
+    "view": 1,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt1 — SMALL COIN POUCH, about 22 cm wide and 16 cm tall. Small plain worn light-brown leather pouch, round-bottomed but flattened at ground contact, gathered at the neck by a leather drawstring cord tied in a simple knot with TWO short dangling ends. The frilled gathered top stands up a little. NO metal, NO coins visible. Humble and plain.\n\nInput 2: selected t1 PRIMARY THREE-QUARTER. It is the absolute geometry/material/pose identity authority. Re-render the SAME fixed pouch from a new camera: same squat broad body, same exact grain and scars, same seam placement, same short frill folds, double wrap of cord, same knot and TWO short thick leather ends. No additions or changes. Side seams rotate with object; the knot stays at front. Strict 1024x1024 native generation requested.\n\nCAMERA 01_front: DIRECT FRONT view, zero azimuth, camera about 20 degrees above ground, near-orthographic. Centre front knot/buckle/clasp. The prop's right is viewer's left. Rotate ONLY camera relative to primary; preserve EXACT same object geometry, materials, flap state, seams, handle/cord, coins and gems in exact same fixed world positions. Do not rearrange contents or spill to suit view.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-00ede89e-d0da-4e61-bf62-6b51bd5873d0.png",
+    "selected": false,
+    "reason": "Superseded: front silhouette occupies about 80% of canvas width, leaving insufficient side margins.",
+    "superseded_by": "t1_front_v2",
+    "role": "supporting",
+    "family": "t1",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t1_front_v1.png",
+    "raw_sha256": "464139dabd693d5ca125ee43a4a3894540d02b2eb8433ea185f60e59f03b1729",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      128,
+      229,
+      1139,
+      1063
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      22,
+      16
+    ]
+  },
+  {
+    "id": "t1_front_v2",
+    "tier": "t1",
+    "view": 1,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt1 — SMALL COIN POUCH, about 22 cm wide and 16 cm tall. Small plain worn light-brown leather pouch, round-bottomed but flattened at ground contact, gathered at the neck by a leather drawstring cord tied in a simple knot with TWO short dangling ends. The frilled gathered top stands up a little. NO metal, NO coins visible. Humble and plain.\n\nInput 2: selected t1 PRIMARY THREE-QUARTER. It is the absolute geometry/material/pose identity authority. Re-render the SAME fixed pouch from a new camera: same squat broad body, same exact grain and scars, same seam placement, same short frill folds, double wrap of cord, same knot and TWO short thick leather ends. No additions or changes. Side seams rotate with object; the knot stays at front. Strict 1024x1024 native generation requested.\n\nCAMERA 01_front: DIRECT FRONT view, zero azimuth, camera about 20 degrees above ground, near-orthographic. Centre front knot/buckle/clasp. The prop's right is viewer's left. Rotate ONLY camera relative to primary; preserve EXACT same object geometry, materials, flap state, seams, handle/cord, coins and gems in exact same fixed world positions. Do not rearrange contents or spill to suit view.\n\nFRAMING CORRECTION: Pull camera back 20%. Make the complete pouch silhouette no wider than 680 pixels on the requested 1024 canvas, with at least 170 transparent pixels on its left and right and generous space above and below. Do not crop or change object. Preserve the same direct-front orientation and geometry.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t1_front_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-7815bd10-23aa-4af7-bfaf-44bb9cc461ff.png",
+    "selected": true,
+    "reason": "Selected: direct front, matching pouch seams, cord, knot and frill; reframed with generous margins; no metal, coins, ground or cast shadow.",
+    "role": "supporting",
+    "family": "t1",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t1_front_v2.png",
+    "raw_sha256": "89e37de4899f7df52c43876739089e71850eed8ec5fa9c95323b53604fd986f9",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      199,
+      307,
+      1057,
+      1015
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t1/01_front.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1587,
+      0.2448,
+      0.1571,
+      0.1906
+    ],
+    "nominal_dimensions_cm_width_height": [
+      22,
+      16
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t1_side_v1",
+    "tier": "t1",
+    "view": 2,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt1 — SMALL COIN POUCH, about 22 cm wide and 16 cm tall. Small plain worn light-brown leather pouch, round-bottomed but flattened at ground contact, gathered at the neck by a leather drawstring cord tied in a simple knot with TWO short dangling ends. The frilled gathered top stands up a little. NO metal, NO coins visible. Humble and plain.\n\nInput 2: selected t1 primary, the absolute authority for this SAME fixed pouch. Match its grain, scars, stitching, squat wide body, frill folds and double cord wrap with simple knot and TWO short ends. DO NOT redesign or reshape; only orbit the camera. Maintain same world positions of all details. Pull camera back so silhouette occupies at most 65% of canvas width/height, with generous transparent margins.\n\nCAMERA 02_side: PURE RIGHT-SIDE PROFILE, prop's RIGHT side toward camera, azimuth exactly 90 degrees to the right of front, about 20 degrees above ground, near-orthographic. Object FRONT points screen LEFT, BACK points screen RIGHT. Show the side panel and depth; do not turn toward front or reveal both front and side faces as another three-quarter. Rotate ONLY camera from primary. EXACT same shape, materials, seams, closure, flap state and fixed coin/gem positions.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-f030d947-6dfd-4e68-b22b-83de1e213be2.png",
+    "selected": false,
+    "reason": "Superseded: camera remains close to three-quarter and shows front panel; requested pure right-side profile.",
+    "superseded_by": "t1_side_v2",
+    "role": "supporting",
+    "family": "t1",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "02_side.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t1_side_v1.png",
+    "raw_sha256": "3cbb73f1a29181b9982616848afd40cd1a85de4f0a0f771c36a68eb2d7540e9a",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      261,
+      266,
+      1030,
+      1068
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      22,
+      16
+    ]
+  },
+  {
+    "id": "t1_side_v2",
+    "tier": "t1",
+    "view": 2,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt1 — SMALL COIN POUCH, about 22 cm wide and 16 cm tall. Small plain worn light-brown leather pouch, round-bottomed but flattened at ground contact, gathered at the neck by a leather drawstring cord tied in a simple knot with TWO short dangling ends. The frilled gathered top stands up a little. NO metal, NO coins visible. Humble and plain.\n\nInput 2: selected t1 primary, the absolute authority for this SAME fixed pouch. Match its grain, scars, stitching, squat wide body, frill folds and double cord wrap with simple knot and TWO short ends. DO NOT redesign or reshape; only orbit the camera. Maintain same world positions of all details. Pull camera back so silhouette occupies at most 65% of canvas width/height, with generous transparent margins.\n\nCAMERA 02_side: PURE RIGHT-SIDE PROFILE, prop's RIGHT side toward camera, azimuth exactly 90 degrees to the right of front, about 20 degrees above ground, near-orthographic. Object FRONT points screen LEFT, BACK points screen RIGHT. Show the side panel and depth; do not turn toward front or reveal both front and side faces as another three-quarter. Rotate ONLY camera from primary. EXACT same shape, materials, seams, closure, flap state and fixed coin/gem positions.\n\nCRITICAL CAMERA CORRECTION: Orbit a full 90 degrees from straight front, not 35 degrees. The wide front panel is now edge-on at SCREEN LEFT. Show the narrower RIGHT SIDE panel face-on in the centre, its side seam running vertically. Front drawstring knot and its two short ends are toward the LEFT edge of the neck, not on the right. Bag's back is screen RIGHT. This is the precise RIGHT profile for a four-view modelling set, not another primary/front-three-quarter. Body depth from front to back is smaller than its frontal width. Do not alter leather texture or object geometry. Keep 15% margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t1_side_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-14766f0a-3868-4813-9c73-f97d885b812f.png",
+    "selected": true,
+    "reason": "Selected: right-side profile with front to screen left, central side seam and knot at front edge; same leather, double cord, frill and two ends; clean isolated silhouette.",
+    "role": "supporting",
+    "family": "t1",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "02_side.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t1_side_v2.png",
+    "raw_sha256": "528aa2e5bff279ec41c5751349df9074802e75ff480e7468b5c7cd94d737d23c",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      279,
+      242,
+      991,
+      1051
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t1/02_side.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.2225,
+      0.193,
+      0.2097,
+      0.1619
+    ],
+    "nominal_dimensions_cm_width_height": [
+      22,
+      16
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t1_back_v1",
+    "tier": "t1",
+    "view": 3,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt1 — SMALL COIN POUCH, about 22 cm wide and 16 cm tall. Small plain worn light-brown leather pouch, round-bottomed but flattened at ground contact, gathered at the neck by a leather drawstring cord tied in a simple knot with TWO short dangling ends. The frilled gathered top stands up a little. NO metal, NO coins visible. Humble and plain.\n\nInput 2: selected t1 PRIMARY, absolute identity authority. Input 3: same pouch's selected RIGHT PROFILE, supplemental geometry guide. SAME fixed squat broad pouch; preserve grain, scars, coarse seam layout, short frill folds and double cord wrap. Rear neck only shows wrap; the front knot and two dangling ends stay on FAR FRONT SIDE and are naturally hidden from rear. Rear broad panel has same worn light-brown leather with boundary seams. No new knot or extra ends. Pull camera back: silhouette at most 65% of canvas width and height, generous margins.\n\nCAMERA 03_back: DIRECT BACK view, azimuth 180 degrees, about 20 degrees above ground, near-orthographic. Show rear seams and rear silhouette; front closure stays physically on far side and must not migrate to the back. Rotate ONLY camera from primary. EXACT same geometry, flap state, materials and world-fixed contents/spill/gem positions, allowing natural rear occlusion.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/02_side.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-2ed64545-c6c3-4805-80ff-ae706cf9400e.png",
+    "selected": true,
+    "reason": "Selected: rear view of same broad pouch, matching double cord wrap and rear seams; front knot/ends correctly hidden, no added metal or contents.",
+    "role": "supporting",
+    "family": "t1",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "03_back.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t1_back_v1.png",
+    "raw_sha256": "d05bfe3a0636b5eb0ac26171e8064c5b09aebe0a03e58d074be4a7251ba26b57",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/02_side.png",
+        "sha256": "528aa2e5bff279ec41c5751349df9074802e75ff480e7468b5c7cd94d737d23c"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      170,
+      247,
+      1101,
+      1046
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t1/03_back.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1356,
+      0.197,
+      0.122,
+      0.1659
+    ],
+    "nominal_dimensions_cm_width_height": [
+      22,
+      16
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t2_three_quarter_v1",
+    "tier": "t2",
+    "view": 0,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt2 — LEATHER SATCHEL, about 32 cm wide and 22 cm tall. Medium leather satchel/bag in mid brown, rounded boxy body, slumped wide base, a fold-over flap closed by a leather strap through a SINGLE square BRASS buckle on the FRONT. One short carry handle or strap stub on top. CLOSED; NO coins visible. Family leather/stitching/light match earlier tiers.\n\nInput 2: earlier t1 PRIMARY, shared FAMILY SURFACE STYLE ONLY: same leather grain, coarse stitching, scuffed lighter edges, warm colours and soft light, rendered as MID BROWN for t2. Do not copy t1's pouch shape or drawstring: t2 is a rounded BOX-LIKE flap satchel with square brass front buckle, closed mouth and short top carry handle. Approximate body proportions width32 height22 depth18 cm. Soft thick leather slumps into flat broad base. The strap and buckle are FRONT CENTRE, readable on the visible front face to screen-left; right gusset visible to screen-right. No shoulder strap. Pull back so object occupies at most 65% of canvas width/height and is centred with at least 15% margins.\n\nCAMERA 00_three_quarter — PRIMARY: about 35 degrees to the RIGHT of the FRONT and about 30 degrees above ground, near-orthographic. Show front and the prop's RIGHT side. The front faces screen-left-forward; anatomical right side is visible on screen-right. This image ALONE creates the 3D mesh: the whole silhouette, flap, drawstring/buckle, and EVERY spilled coin must read clearly; nothing hidden or cropped. Maintain generous 15% margins. One view only.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-94c8ba58-5795-462c-9bc5-ac803d11104c.png",
+    "selected": false,
+    "reason": "Superseded: primary satchel occupies about 85% of canvas width, too close to side edges.",
+    "superseded_by": "t2_three_quarter_v2",
+    "role": "primary",
+    "family": "t2",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t2_three_quarter_v1.png",
+    "raw_sha256": "0aba2a73d2fbac6513cced38a81e7304cda15adee5cb9ac954a6d04ef00c0077",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      104,
+      219,
+      1176,
+      1061
+    ],
+    "outer_edge_alpha_max": [
+      1,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      32,
+      22
+    ]
+  },
+  {
+    "id": "t2_three_quarter_v2",
+    "tier": "t2",
+    "view": 0,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt2 — LEATHER SATCHEL, about 32 cm wide and 22 cm tall. Medium leather satchel/bag in mid brown, rounded boxy body, slumped wide base, a fold-over flap closed by a leather strap through a SINGLE square BRASS buckle on the FRONT. One short carry handle or strap stub on top. CLOSED; NO coins visible. Family leather/stitching/light match earlier tiers.\n\nInput 2: earlier t1 PRIMARY, shared FAMILY SURFACE STYLE ONLY: same leather grain, coarse stitching, scuffed lighter edges, warm colours and soft light, rendered as MID BROWN for t2. Do not copy t1's pouch shape or drawstring: t2 is a rounded BOX-LIKE flap satchel with square brass front buckle, closed mouth and short top carry handle. Approximate body proportions width32 height22 depth18 cm. Soft thick leather slumps into flat broad base. The strap and buckle are FRONT CENTRE, readable on the visible front face to screen-left; right gusset visible to screen-right. No shoulder strap. Pull back so object occupies at most 65% of canvas width/height and is centred with at least 15% margins.\n\nCAMERA 00_three_quarter — PRIMARY: about 35 degrees to the RIGHT of the FRONT and about 30 degrees above ground, near-orthographic. Show front and the prop's RIGHT side. The front faces screen-left-forward; anatomical right side is visible on screen-right. This image ALONE creates the 3D mesh: the whole silhouette, flap, drawstring/buckle, and EVERY spilled coin must read clearly; nothing hidden or cropped. Maintain generous 15% margins. One view only.\n\nInput 3: t2 trial, preserve this EXACT satchel design, materials and camera angle. FRAMING CORRECTION ONLY: pull the camera back substantially, zoom OUT 25%. The complete bag including handle must occupy no more than 60% of square canvas width and height, leaving at least 20% EMPTY transparent margin on each side. Centre the object, not zoomed-in product cropping. Preserve single square brass buckle, closed flap, rounded slumped body, handle and stitching.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-94c8ba58-5795-462c-9bc5-ac803d11104c.png"
+    ],
+    "supersedes": [
+      "t2_three_quarter_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-3b83ae7c-93e8-4ebf-a413-0ca514d8e7c0.png",
+    "selected": true,
+    "reason": "Selected: readable complete rounded satchel with closed flap, one square brass buckle, short carry handle and coarse stitches; same warm family materials, corrected margins.",
+    "role": "primary",
+    "family": "t2",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t2_three_quarter_v2.png",
+    "raw_sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-94c8ba58-5795-462c-9bc5-ac803d11104c.png",
+        "sha256": "0aba2a73d2fbac6513cced38a81e7304cda15adee5cb9ac954a6d04ef00c0077"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      191,
+      292,
+      1118,
+      1025
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1523,
+      0.2329,
+      0.1085,
+      0.1826
+    ],
+    "nominal_dimensions_cm_width_height": [
+      32,
+      22
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t2_front_v1",
+    "tier": "t2",
+    "view": 1,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt2 — LEATHER SATCHEL, about 32 cm wide and 22 cm tall. Medium leather satchel/bag in mid brown, rounded boxy body, slumped wide base, a fold-over flap closed by a leather strap through a SINGLE square BRASS buckle on the FRONT. One short carry handle or strap stub on top. CLOSED; NO coins visible. Family leather/stitching/light match earlier tiers.\n\nInput 2: earlier t1 primary for FAMILY material/light only. Input 3: selected t2 PRIMARY, exact fixed-object identity authority. Same rounded rectangular bag, same short leather handle, same curved closed flap with coarse edge stitches, same central strap with square brass buckle, holes and short lower strap end, same scuffs and gussets. Do not redesign. Frontal width must occupy about 65% of canvas width, leaving about 17% empty margins left and right; match primary's generous framing. No added items or contents.\n\nCAMERA 01_front: DIRECT FRONT view, zero azimuth, camera about 20 degrees above ground, near-orthographic. Centre front knot/buckle/clasp. The prop's right is viewer's left. Rotate ONLY camera relative to primary; preserve EXACT same object geometry, materials, flap state, seams, handle/cord, coins and gems in exact same fixed world positions. Do not rearrange contents or spill to suit view.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-88904a23-6243-40ab-9886-0f86301b85b7.png",
+    "selected": false,
+    "reason": "Superseded: front view matches identity but is too large in frame, leaving about 8% side margins.",
+    "superseded_by": "t2_front_v2",
+    "role": "supporting",
+    "family": "t2",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t2_front_v1.png",
+    "raw_sha256": "ad48c592d623bda64c488bab160a473cd6d8d15d8d65cfa741077cb4f9dfb512",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      106,
+      273,
+      1152,
+      1022
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      32,
+      22
+    ]
+  },
+  {
+    "id": "t2_front_v2",
+    "tier": "t2",
+    "view": 1,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt2 — LEATHER SATCHEL, about 32 cm wide and 22 cm tall. Medium leather satchel/bag in mid brown, rounded boxy body, slumped wide base, a fold-over flap closed by a leather strap through a SINGLE square BRASS buckle on the FRONT. One short carry handle or strap stub on top. CLOSED; NO coins visible. Family leather/stitching/light match earlier tiers.\n\nInput 2: t1 primary, FAMILY leather grain, stitching and lighting reference only. Input 3: SELECTED t2 PRIMARY, absolute identity of this SAME fixed object. Same rounded boxy satchel, flat slumped base, curved closed flap, central strap with one square brass buckle, same holes and short lower strap end, same short arched carry handle, same coarse stitched seams and scuffs. Change ONLY camera. Closure stays on front, no closure on side/back. No coins or gems. IMPORTANT FRAMING: ZOOM OUT so the WHOLE silhouette occupies only 55–60% of square canvas width AND height; keep 20% or more empty transparent margin on ALL four sides. Small whole object floating centred on transparent canvas; no close-up.\n\nCAMERA 01_front: DIRECT FRONT view, zero azimuth, camera about 20 degrees above ground, near-orthographic. Centre front knot/buckle/clasp. The prop's right is viewer's left. Rotate ONLY camera relative to primary; preserve EXACT same object geometry, materials, flap state, seams, handle/cord, coins and gems in exact same fixed world positions. Do not rearrange contents or spill to suit view.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t2_front_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-e95d9de9-f41e-479e-acaf-12e69e6160ff.png",
+    "selected": true,
+    "reason": "Selected: direct front of same closed satchel, centred brass buckle/strap, matching handle and stitches, generous margins.",
+    "role": "supporting",
+    "family": "t2",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t2_front_v2.png",
+    "raw_sha256": "0996573f99888296d314aaec9486b24c4cbe5dba9df33ee6cc3a4d881384c864",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      221,
+      322,
+      1031,
+      952
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t2/01_front.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1762,
+      0.2568,
+      0.1778,
+      0.2408
+    ],
+    "nominal_dimensions_cm_width_height": [
+      32,
+      22
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t2_side_v1",
+    "tier": "t2",
+    "view": 2,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt2 — LEATHER SATCHEL, about 32 cm wide and 22 cm tall. Medium leather satchel/bag in mid brown, rounded boxy body, slumped wide base, a fold-over flap closed by a leather strap through a SINGLE square BRASS buckle on the FRONT. One short carry handle or strap stub on top. CLOSED; NO coins visible. Family leather/stitching/light match earlier tiers.\n\nInput 2: t1 primary, FAMILY leather grain, stitching and lighting reference only. Input 3: SELECTED t2 PRIMARY, absolute identity of this SAME fixed object. Same rounded boxy satchel, flat slumped base, curved closed flap, central strap with one square brass buckle, same holes and short lower strap end, same short arched carry handle, same coarse stitched seams and scuffs. Change ONLY camera. Closure stays on front, no closure on side/back. No coins or gems. IMPORTANT FRAMING: ZOOM OUT so the WHOLE silhouette occupies only 55–60% of square canvas width AND height; keep 20% or more empty transparent margin on ALL four sides. Small whole object floating centred on transparent canvas; no close-up.\n\nCAMERA 02_side: PURE RIGHT-SIDE PROFILE, prop's RIGHT side toward camera, azimuth exactly 90 degrees to the right of front, about 20 degrees above ground, near-orthographic. Object FRONT points screen LEFT, BACK points screen RIGHT. Show the side panel and depth; do not turn toward front or reveal both front and side faces as another three-quarter. Rotate ONLY camera from primary. EXACT same shape, materials, seams, closure, flap state and fixed coin/gem positions.\nPROFILE CRITICAL: right gusset centred and face-on; the wide front flap is EDGE-ON at SCREEN LEFT, the plain rear edge is SCREEN RIGHT. The square front buckle remains on the screen-left-facing front plane, seen only edge-on or naturally occluded, not planted on side. Top handle viewed END-ON, not its wide front arch.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-e387ce2e-148a-4305-aeee-40b6465cd23e.png",
+    "selected": true,
+    "reason": "Selected: pure right profile, front closure edge-on at screen left, handle end-on and right gusset seams readable; same fixed satchel.",
+    "role": "supporting",
+    "family": "t2",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "02_side.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t2_side_v1.png",
+    "raw_sha256": "d1309e2d080e6f48cf97f68e225b28e10f553d15bdc35f4c88f52abc2e391633",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      393,
+      226,
+      940,
+      1029
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t2/02_side.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.3134,
+      0.1802,
+      0.2504,
+      0.1794
+    ],
+    "nominal_dimensions_cm_width_height": [
+      32,
+      22
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t2_back_v1",
+    "tier": "t2",
+    "view": 3,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt2 — LEATHER SATCHEL, about 32 cm wide and 22 cm tall. Medium leather satchel/bag in mid brown, rounded boxy body, slumped wide base, a fold-over flap closed by a leather strap through a SINGLE square BRASS buckle on the FRONT. One short carry handle or strap stub on top. CLOSED; NO coins visible. Family leather/stitching/light match earlier tiers.\n\nInput 2: t1 primary, FAMILY leather grain, stitching and lighting reference only. Input 3: SELECTED t2 PRIMARY, absolute identity of this SAME fixed object. Same rounded boxy satchel, flat slumped base, curved closed flap, central strap with one square brass buckle, same holes and short lower strap end, same short arched carry handle, same coarse stitched seams and scuffs. Change ONLY camera. Closure stays on front, no closure on side/back. No coins or gems. IMPORTANT FRAMING: ZOOM OUT so the WHOLE silhouette occupies only 55–60% of square canvas width AND height; keep 20% or more empty transparent margin on ALL four sides. Small whole object floating centred on transparent canvas; no close-up.\n\nCAMERA 03_back: DIRECT BACK view, azimuth 180 degrees, about 20 degrees above ground, near-orthographic. Show rear seams and rear silhouette; front closure stays physically on far side and must not migrate to the back. Rotate ONLY camera from primary. EXACT same geometry, flap state, materials and world-fixed contents/spill/gem positions, allowing natural rear occlusion.\nREAR CRITICAL: wide plain rear leather panel with seams at sides; absolutely no front buckle/strap on the back. Same handle and rear flap hinge; front flap/closure remain far side, hidden.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-1fa4cee8-d32c-4251-892d-6d2e3e235f46.png",
+    "selected": false,
+    "reason": "Superseded: rear remains oblique and invents a flap edge on rear instead of showing original rear body panel.",
+    "superseded_by": "t2_back_v2",
+    "role": "supporting",
+    "family": "t2",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "03_back.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t2_back_v1.png",
+    "raw_sha256": "eb33d681d180cdf6f6e6cc1daa96f9fe95835201c63e6597dd632ae5b7202a6f",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      164,
+      293,
+      1099,
+      995
+    ],
+    "outer_edge_alpha_max": [
+      1,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      32,
+      22
+    ]
+  },
+  {
+    "id": "t2_back_v2",
+    "tier": "t2",
+    "view": 3,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt2 — LEATHER SATCHEL, about 32 cm wide and 22 cm tall. Medium leather satchel/bag in mid brown, rounded boxy body, slumped wide base, a fold-over flap closed by a leather strap through a SINGLE square BRASS buckle on the FRONT. One short carry handle or strap stub on top. CLOSED; NO coins visible. Family leather/stitching/light match earlier tiers.\n\nInput 2: t1 primary, FAMILY leather grain, stitching and lighting reference only. Input 3: SELECTED t2 PRIMARY, absolute identity of this SAME fixed object. Same rounded boxy satchel, flat slumped base, curved closed flap, central strap with one square brass buckle, same holes and short lower strap end, same short arched carry handle, same coarse stitched seams and scuffs. Change ONLY camera. Closure stays on front, no closure on side/back. No coins or gems. IMPORTANT FRAMING: ZOOM OUT so the WHOLE silhouette occupies only 55–60% of square canvas width AND height; keep 20% or more empty transparent margin on ALL four sides. Small whole object floating centred on transparent canvas; no close-up.\n\nCAMERA 03_back: DIRECT BACK view, azimuth 180 degrees, about 20 degrees above ground, near-orthographic. Show rear seams and rear silhouette; front closure stays physically on far side and must not migrate to the back. Rotate ONLY camera from primary. EXACT same geometry, flap state, materials and world-fixed contents/spill/gem positions, allowing natural rear occlusion.\nREAR CRITICAL: wide plain rear leather panel with seams at sides; absolutely no front buckle/strap on the back. Same handle and rear flap hinge; front flap/closure remain far side, hidden.\n\nCRITICAL REAR CORRECTION: CAMERA EXACTLY STRAIGHT BEHIND, zero horizontal obliqueness. The horizontal rear body and base edges are level on screen, left/right seams symmetric. NO visible flank or side gusset face. Rear is a broad SINGLE UNINTERRUPTED brown leather PANEL, with coarse stitched seams only at its left/right boundaries and along the upper hinge. There is NO second hanging flap covering the back. The fold-over flap is sewn into the top rear hinge, runs over the top, and hangs down ONLY ON THE FAR FRONT SIDE. Brass buckle and strap stay at far front and invisible. Short original carry handle centred above the rear hinge. Same body proportions and grain; do not duplicate front onto rear. Pull back for 15% margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t2_back_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-61714487-b089-442c-9cd5-da8046104bfa.png",
+    "selected": true,
+    "reason": "Selected: direct rear with broad plain panel, symmetric rear seams and upper hinge, short same handle; no front buckle/strap duplicated on rear.",
+    "role": "supporting",
+    "family": "t2",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "03_back.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t2_back_v2.png",
+    "raw_sha256": "600d148f8ae27ffe718472baace8944fdb60f59a525e0942135704ad444e4e82",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      154,
+      291,
+      1100,
+      965
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t2/03_back.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1228,
+      0.2321,
+      0.1228,
+      0.2305
+    ],
+    "nominal_dimensions_cm_width_height": [
+      32,
+      22
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t3_three_quarter_v1",
+    "tier": "t3",
+    "view": 0,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt3 — BULGING BAG, about 42 cm wide and 30 cm tall. Larger overstuffed bulging darker reddish-brown leather bag, the SAME flap-and-strap design as t2 with a single square brass buckle, but flap PARTLY OPEN, lifted and bent back; a few plain golden coins show inside its mouth. EXACTLY FIVE gold coins spill in front and to the bag's RIGHT side: three individual flat coins and two slightly stacked coins, in one small low compact scatter, all supported by the invisible ground plane and touching or very close to bag. No gems. Every spilled coin clearly readable in primary view. Preserve t2 material family, seams, buckle, and light.\n\nInput 2: earlier t1 PRIMARY for same coarse hand stitches, worn edges, warm family rendering and light. Input 3: t2 PRIMARY, same rounded flap satchel construction, square BRASS buckle, coarse flap stitches and short handle, now larger, BULGING and dyed DARK REDDISH BROWN, distinctly darker/russet compared with t2's mid brown. FLAP STATE CRITICAL: flap is UNFASTENED, LIFTED and bent BACK onto the top/rear, revealing a clear open gap across the FRONT mouth with a few gold discs visible inside. Do NOT leave the flap looking closed across the front. Original buckle and short strap remain clearly readable at front, near body. No long straps or ropes. Spilled five coins are plain thick native golden discs, smooth faces, NOT embossed, not engraved, not modern currency. Arrange close to FRONT and RIGHT side: one coin in front-left of the small spill, two single coins across front-right and a LOW pair slightly stacked right beside the right-front base. All five readable, contacting one invisible ground plane, no floating coins. No gems. Keep entire bag+five-coin spill inside central 65% of frame; zoom OUT, at least 17% empty margins each side, don't make a close-up.\n\nCAMERA 00_three_quarter — PRIMARY: about 35 degrees to the RIGHT of the FRONT and about 30 degrees above ground, near-orthographic. Show front and the prop's RIGHT side. The front faces screen-left-forward; anatomical right side is visible on screen-right. This image ALONE creates the 3D mesh: the whole silhouette, flap, drawstring/buckle, and EVERY spilled coin must read clearly; nothing hidden or cropped. Maintain generous 15% margins. One view only.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-2b23f3b9-618b-43fd-b65b-e4fdaeccba3d.png",
+    "selected": false,
+    "reason": "Superseded: tier identity and four-coin spill are correct, but complete silhouette leaves too little margin on the right.",
+    "superseded_by": "t3_three_quarter_v2",
+    "role": "primary",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_three_quarter_v1.png",
+    "raw_sha256": "254394889d1c2b5bd6c13315340123ce2b92dd4ff1ecf5e48881cb366794043c",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      164,
+      250,
+      1144,
+      1029
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ]
+  },
+  {
+    "id": "t3_three_quarter_v2",
+    "tier": "t3",
+    "view": 0,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt3 — BULGING BAG, about 42 cm wide and 30 cm tall. Larger overstuffed bulging darker reddish-brown leather bag, the SAME flap-and-strap design as t2 with a single square brass buckle, but flap PARTLY OPEN, lifted and bent back; a few plain golden coins show inside its mouth. EXACTLY FIVE gold coins spill in front and to the bag's RIGHT side: three individual flat coins and two slightly stacked coins, in one small low compact scatter, all supported by the invisible ground plane and touching or very close to bag. No gems. Every spilled coin clearly readable in primary view. Preserve t2 material family, seams, buckle, and light.\n\nInputs 2–3: t1 and t2 PRIMARY images, family material/light authority. Input 4: t3 trial, EXACT identity and layout to preserve. Keep its same dark reddish-brown bulging body, square brass buckle with short strap, coarse stitches, partly lifted flap and mouth coins. This trial has FOUR spilled coins, which is permitted: ONE single in front of bag, ONE single at front-right, and TWO slightly stacked tight beside the right-front corner. PRESERVE these exact FOUR positions; do not add or move coins. Change ONLY framing. Zoom OUT a full 30% from input4: whole bag+spill should occupy roughly ONE HALF of canvas width (50–55%), centred. At least 22% empty transparent margins on all sides. No close-up. Preserve camera at 35 degrees right of front/30 degrees above ground.\n\nCAMERA 00_three_quarter — PRIMARY: about 35 degrees to the RIGHT of the FRONT and about 30 degrees above ground, near-orthographic. Show front and the prop's RIGHT side. The front faces screen-left-forward; anatomical right side is visible on screen-right. This image ALONE creates the 3D mesh: the whole silhouette, flap, drawstring/buckle, and EVERY spilled coin must read clearly; nothing hidden or cropped. Maintain generous 15% margins. One view only.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-2b23f3b9-618b-43fd-b65b-e4fdaeccba3d.png"
+    ],
+    "supersedes": [
+      "t3_three_quarter_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-c0b6ed54-f348-4ddb-b0f6-e60668f89241.png",
+    "selected": false,
+    "reason": "Superseded: framing correction was ignored; complete bag and spill still occupies about 80% of frame width.",
+    "superseded_by": "t3_three_quarter_v3",
+    "role": "primary",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_three_quarter_v2.png",
+    "raw_sha256": "6847fbd7c4f8099e5522ce292c85c7b0d042614f8bc0244c9ec78c8729da438c",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-2b23f3b9-618b-43fd-b65b-e4fdaeccba3d.png",
+        "sha256": "254394889d1c2b5bd6c13315340123ce2b92dd4ff1ecf5e48881cb366794043c"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      156,
+      271,
+      1152,
+      1054
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ]
+  },
+  {
+    "id": "t3_three_quarter_v3",
+    "tier": "t3",
+    "view": 0,
+    "prompt": "WIDE FRAMING IS THE MAIN TASK. Generate a new 1024x1024 square transparent RGBA PNG. A SMALL complete bag-and-coins object occupies ONLY THE CENTRAL HALF of this large EMPTY transparent square. The total bounding box of bag plus spill must be about 600 pixels wide and 520 pixels tall on the 1024-square canvas, centred horizontally and vertically, with at least 190 transparent pixels outside it in every direction. Move the camera FARTHER AWAY. DO NOT reproduce the attached reference at its large scale. Do not crop, pad or resize afterwards: generate wide framing natively.\nInputs: 1 native MM6 gold pile for gold colour/plain thick disc style; 2 t1 and 3 t2 primaries for family leather, coarse thread stitches and neutral overhead studio light; 4 t3 design reference for the SAME bag+spill, but NOT its scale in the canvas.\nRe-render input4's exact larger bulging DARK REDDISH-BROWN leather flap bag, dimensions about42cm wide30cm tall, front square brass buckle and short strap, flat slumped base, same coarse stitched seams and worn creases. Flap PARTLY LIFTED and bent back with coins visible in mouth. EXACTLY FOUR spilled plain thick gold discs in same positions: a single before bag, a single toward bag's right/front, and low pair stacked tight beside right-front base. Nothing floating. No gems. Camera35degrees to RIGHT of front,30degrees above invisible ground, near-orthographic, whole front/right side and every spilled coin readable.\n1998 Might and Magic VI semi-realistic warm saturated prerendered fantasy material look, credible 3D modelling reference. One compact object, no floor, ground, cast shadow, backdrop, extra props, trailing straps, text or watermark. GENUINE transparency, clean alpha. Again: zoom OUT; the entire bag-and-coin silhouette should occupy approximately 55–60% of canvas width, generous EMPTY TRANSPARENT margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-c0b6ed54-f348-4ddb-b0f6-e60668f89241.png"
+    ],
+    "supersedes": [
+      "t3_three_quarter_v2"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-bfe88693-ae0b-4cd0-8815-6b660bf512c3.png",
+    "selected": true,
+    "reason": "Selected: primary shows dark reddish-brown bulging bag, lifted flap, mouth coins, square brass buckle and exactly four spilled plain discs (two singles plus a low stacked pair); complete compact silhouette with generous margins.",
+    "role": "primary",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_three_quarter_v3.png",
+    "raw_sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-c0b6ed54-f348-4ddb-b0f6-e60668f89241.png",
+        "sha256": "6847fbd7c4f8099e5522ce292c85c7b0d042614f8bc0244c9ec78c8729da438c"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      261,
+      344,
+      1036,
+      944
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.2081,
+      0.2743,
+      0.1738,
+      0.2472
+    ],
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t3_front_v1",
+    "tier": "t3",
+    "view": 1,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt3 — BULGING BAG, about 42 cm wide and 30 cm tall. Larger overstuffed bulging darker reddish-brown leather bag, the SAME flap-and-strap design as t2 with a single square brass buckle, but flap PARTLY OPEN, lifted and bent back; a few plain golden coins show inside its mouth. EXACTLY FOUR gold coins spill in front and to the bag's RIGHT side: two individual flat coins and two slightly stacked coins, in one small low compact scatter, all supported by the invisible ground plane and touching or very close to bag. No gems. Every spilled coin clearly readable in primary view. Preserve t2 material family, seams, buckle, and light.\n\nInputs 2 and 3: earlier t1/t2 primaries for FAMILY material/light. Input4: selected t3 PRIMARY, EXACT identity and world layout authority. Same bulging dark reddish-brown bag, same square front brass buckle/short strap, coarse seams/scuffs, SAME partly lifted flap and same mouth coins. FOUR spilled discs stay EXACTLY as primary: front single, front-right single, two slightly stacked beside bag's RIGHT-FRONT base; all on same invisible contact plane and close to bag. Do not move coins or duplicate them; maintain four total even if some are naturally hidden in this camera. Rotate CAMERA ONLY, not object/contents. No gems. WIDE FRAMING: bag+spill occupies only central 55–60% of canvas; at least 18% transparent margin all sides, matching selected primary scale.\n\nCAMERA 01_front: DIRECT FRONT view, zero azimuth, camera about 20 degrees above ground, near-orthographic. Centre front knot/buckle/clasp. The prop's right is viewer's left. Rotate ONLY camera relative to primary; preserve EXACT same object geometry, materials, flap state, seams, handle/cord, coins and gems in exact same fixed world positions. Do not rearrange contents or spill to suit view.\nFRONT layout: bag's RIGHT is viewer's LEFT. The stacked pair must lie at viewer's LEFT-front base; both front singles in front of bag. Preserve mouth/flap geometry, frontal symmetry and centred buckle.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-5559a389-218b-4911-8f6f-472688e08281.png",
+    "selected": false,
+    "reason": "Superseded: correct frontal identity and four-coin layout, but whole silhouette is too large in canvas.",
+    "superseded_by": "t3_front_v2",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_front_v1.png",
+    "raw_sha256": "024e98ce003595efa3064ddec93f360a9382f0da49f9c8d23b2199f8705964b8",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      132,
+      289,
+      1131,
+      1011
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ]
+  },
+  {
+    "id": "t3_side_v1",
+    "tier": "t3",
+    "view": 2,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt3 — BULGING BAG, about 42 cm wide and 30 cm tall. Larger overstuffed bulging darker reddish-brown leather bag, the SAME flap-and-strap design as t2 with a single square brass buckle, but flap PARTLY OPEN, lifted and bent back; a few plain golden coins show inside its mouth. EXACTLY FOUR gold coins spill in front and to the bag's RIGHT side: two individual flat coins and two slightly stacked coins, in one small low compact scatter, all supported by the invisible ground plane and touching or very close to bag. No gems. Every spilled coin clearly readable in primary view. Preserve t2 material family, seams, buckle, and light.\n\nInputs 2 and 3: earlier t1/t2 primaries for FAMILY material/light. Input4: selected t3 PRIMARY, EXACT identity and world layout authority. Same bulging dark reddish-brown bag, same square front brass buckle/short strap, coarse seams/scuffs, SAME partly lifted flap and same mouth coins. FOUR spilled discs stay EXACTLY as primary: front single, front-right single, two slightly stacked beside bag's RIGHT-FRONT base; all on same invisible contact plane and close to bag. Do not move coins or duplicate them; maintain four total even if some are naturally hidden in this camera. Rotate CAMERA ONLY, not object/contents. No gems. WIDE FRAMING: bag+spill occupies only central 55–60% of canvas; at least 18% transparent margin all sides, matching selected primary scale.\n\nCAMERA 02_side: PURE RIGHT-SIDE PROFILE, prop's RIGHT side toward camera, azimuth exactly 90 degrees to the right of front, about 20 degrees above ground, near-orthographic. Object FRONT points screen LEFT, BACK points screen RIGHT. Show the side panel and depth; do not turn toward front or reveal both front and side faces as another three-quarter. Rotate ONLY camera from primary. EXACT same shape, materials, seams, closure, flap state and fixed coin/gem positions.\nRIGHT PROFILE: right gusset face-on, FRONT screen LEFT, BACK screen RIGHT. Front buckle seen edge-on at screen LEFT, not on side panel. Raised flap projects toward screen LEFT from rear hinge at screen RIGHT. Front single coins at screen LEFT near bag, stacked right-front pair on camera-near contact plane at left/front side. Do not turn this into a three-quarter.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-271d1c7f-4eb7-4349-8f4c-42b2dd9812ee.png",
+    "selected": true,
+    "reason": "Selected: right-side profile with front buckle edge-on at screen left, same raised flap and bulging gusset; four plain spilled coins close to front/right, generous margins.",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "02_side.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_side_v1.png",
+    "raw_sha256": "a72faac4e4209ce40520585af711b16d5b2a90266628b494fbd6fea6b7d8d46e",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      199,
+      257,
+      1057,
+      1010
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t3/02_side.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1587,
+      0.2049,
+      0.1571,
+      0.1946
+    ],
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t3_back_v1",
+    "tier": "t3",
+    "view": 3,
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt3 — BULGING BAG, about 42 cm wide and 30 cm tall. Larger overstuffed bulging darker reddish-brown leather bag, the SAME flap-and-strap design as t2 with a single square brass buckle, but flap PARTLY OPEN, lifted and bent back; a few plain golden coins show inside its mouth. EXACTLY FOUR gold coins spill in front and to the bag's RIGHT side: two individual flat coins and two slightly stacked coins, in one small low compact scatter, all supported by the invisible ground plane and touching or very close to bag. No gems. Every spilled coin clearly readable in primary view. Preserve t2 material family, seams, buckle, and light.\n\nInputs 2 and 3: earlier t1/t2 primaries for FAMILY material/light. Input4: selected t3 PRIMARY, EXACT identity and world layout authority. Same bulging dark reddish-brown bag, same square front brass buckle/short strap, coarse seams/scuffs, SAME partly lifted flap and same mouth coins. FOUR spilled discs stay EXACTLY as primary: front single, front-right single, two slightly stacked beside bag's RIGHT-FRONT base; all on same invisible contact plane and close to bag. Do not move coins or duplicate them; maintain four total even if some are naturally hidden in this camera. Rotate CAMERA ONLY, not object/contents. No gems. WIDE FRAMING: bag+spill occupies only central 55–60% of canvas; at least 18% transparent margin all sides, matching selected primary scale.\n\nCAMERA 03_back: DIRECT BACK view, azimuth 180 degrees, about 20 degrees above ground, near-orthographic. Show rear seams and rear silhouette; front closure stays physically on far side and must not migrate to the back. Rotate ONLY camera from primary. EXACT same geometry, flap state, materials and world-fixed contents/spill/gem positions, allowing natural rear occlusion.\nSTRAIGHT REAR: broad plain rear panel with boundary seams, no buckle or strap on rear. Raised flap is hinged at upper REAR and projects toward FAR FRONT; do not close it or add a new rear flap. FRONT single coins remain behind bag, naturally OCCLUDED. Right-front stacked pair may peek beyond SCREEN RIGHT base edge (object right=viewer right from back). Do NOT move coin spill to the rear or display all four in front of rear panel.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-1cf31c37-06c1-477e-8c43-fe65da0ff8d1.png",
+    "selected": false,
+    "reason": "Superseded: rear silhouette too large in canvas. Later selected rear preserves the same screen-left peek of front-side stacked coins with corrected framing.",
+    "superseded_by": "t3_back_v2",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "03_back.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_back_v1.png",
+    "raw_sha256": "b1b38dc9ef3c739725bfacf2094feacb132a50c2bc85a7660627bcdb69c51fbf",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      113,
+      301,
+      1168,
+      969
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ]
+  },
+  {
+    "id": "t3_front_v2",
+    "tier": "t3",
+    "view": 1,
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t3_front_v1"
+    ],
+    "prompt": "Produce ONE native 1024x1024 square RGBA PNG with genuine transparency. WIDE framing: SMALL complete bag+coin silhouette occupies only about 55% of this big EMPTY transparent square's width/height, at least 20% blank margin all sides. Do not make a close-up. Input1 original native MM6 gold discs; inputs2–3 earlier family primaries for shared leather grain, stitching and neutral overhead soft light; input4 is selected t3 PRIMARY, absolute fixed object and coin arrangement authority. EXACT SAME dark reddish-brown bulging leather bag,42cm wide30cm tall, flat underside, coarse stitched seams, front square brass buckle and short strap, SAME partly lifted flap and SAME plain golden discs at mouth. Only orbit camera; do not redesign/rearrange. Four spilled coins total, no gems. Thick plain discs with smooth faces/worn rims, native saturated gold. Warm semi-realistic MM6 1998 prerendered fantasy 3D modelling reference. No floor, ground, cast shadow, backdrop, extra props, long straps, text or watermark.\n\nCAMERA 01_front: DIRECT FRONT view, zero azimuth, camera about 20 degrees above ground, near-orthographic. Centre front knot/buckle/clasp. The prop's right is viewer's left. Rotate ONLY camera relative to primary; preserve EXACT same object geometry, materials, flap state, seams, handle/cord, coins and gems in exact same fixed world positions. Do not rearrange contents or spill to suit view.\nDIRECT FRONT: symmetrical frontal view, front buckle at centre. Fixed RIGHT-front spill is viewer's LEFT: low pair stacked at left base, then two singles across left/front to centre. Exactly FOUR spilled discs. Preserve original raised flap shape; don't open farther. Use wide framing like input4, complete bag+spill about55% canvas width.",
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-dcbe714a-2007-4dd4-9fac-65390f0ae3e2.png",
+    "selected": false,
+    "reason": "Superseded after projection review: stacked pair must remain on primary's visible side, screen right from front; current front puts it on opposite side.",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_front_v2.png",
+    "raw_sha256": "c15f75b8178eb1afa92a37c7aafa6fb45969d3473a5c88f099b59b99a2141e8d",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      208,
+      397,
+      1035,
+      950
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t3/01_front.png",
+    "superseded_by": "t3_front_v3",
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ]
+  },
+  {
+    "id": "t3_back_v2",
+    "tier": "t3",
+    "view": 3,
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t3_back_v1"
+    ],
+    "prompt": "Produce ONE native 1024x1024 square RGBA PNG with genuine transparency. WIDE framing: SMALL complete bag+coin silhouette occupies only about 55% of this big EMPTY transparent square's width/height, at least 20% blank margin all sides. Do not make a close-up. Input1 original native MM6 gold discs; inputs2–3 earlier family primaries for shared leather grain, stitching and neutral overhead soft light; input4 is selected t3 PRIMARY, absolute fixed object and coin arrangement authority. EXACT SAME dark reddish-brown bulging leather bag,42cm wide30cm tall, flat underside, coarse stitched seams, front square brass buckle and short strap, SAME partly lifted flap and SAME plain golden discs at mouth. Only orbit camera; do not redesign/rearrange. Four spilled coins total, no gems. Thick plain discs with smooth faces/worn rims, native saturated gold. Warm semi-realistic MM6 1998 prerendered fantasy 3D modelling reference. No floor, ground, cast shadow, backdrop, extra props, long straps, text or watermark.\n\nCAMERA 03_back: DIRECT BACK view, azimuth 180 degrees, about 20 degrees above ground, near-orthographic. Show rear seams and rear silhouette; front closure stays physically on far side and must not migrate to the back. Rotate ONLY camera from primary. EXACT same geometry, flap state, materials and world-fixed contents/spill/gem positions, allowing natural rear occlusion.\nDIRECT REAR: symmetric broad rear leather panel, front buckle/strap hidden on FAR side. Same raised flap at top, projecting toward far front from rear hinge; do NOT move or close it. The fixed coin spill is at object's RIGHT-FRONT. From rear, object's RIGHT IS SCREEN RIGHT: the only visible spill should be a low stacked pair peeking out behind bag's RIGHT BASE EDGE, screen RIGHT, with front singles naturally occluded behind bag. SCREEN LEFT has NO spilled coins. Do not relocate spill onto rear foreground. Keep camera exactly behind,20degrees elevated, no side face. Wide framing, bag about55% canvas width.",
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-65a17a86-4dfc-42cd-aa85-545915dc406a.png",
+    "selected": false,
+    "reason": "Superseded after projection review: rear screen side must reverse relative to primary/front, so right-front stacked pair should peek at screen left.",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "03_back.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_back_v2.png",
+    "raw_sha256": "9ab1051a36cf18bc0765e7e8eca089db5dfc8fed07f4ea518b87dfbd39e33fa4",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      238,
+      381,
+      1048,
+      895
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t3/03_back.png",
+    "superseded_by": "t3_back_v3",
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ]
+  },
+  {
+    "id": "t4_three_quarter_v1",
+    "tier": "t4",
+    "view": 0,
+    "prompt": "WIDE-FRAMED FULL OBJECT: generate ONE native 1024x1024 square RGBA PNG, genuinely transparent. SMALL complete sack+treasure occupies central 55–60% of canvas width/height, with at least 18% empty margin all sides. Whole silhouette, all spilled coins and both gems readable, nothing hidden or cropped. No close-up.\n\nTASK CONTEXT — MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept. Exactly ONE 1024 x 1024 SQUARE PNG, unresized native return, genuinely transparent background.\nBeautifully detailed, credible, fully three-dimensional object with semi-realistic game materials and sharp fine detail: leather grain, worn creases, stitching, scuffed edges, metal wear where appropriate. Warm natural colours, even soft neutral studio light from above, near-orthographic camera. Soft thick hand-stitched leather in warm brown tones, rounded and slumped under its own weight into a wide base, visible seams with coarse thread and worn scuffed lighter edges. Match the warm saturated semi-realistic MM6 prerendered look of the native reference; not cartoonish or toy-like.\nInput 1: ORIGINAL native MM6 gold pile sprites, small/medium/large, enlarged nearest neighbour. Authority for the GOLD COIN colour, relative coin sizes and warm saturated MM6 material style. Coins are thick plain golden discs with smooth faces and worn rims, no embossed symbols. Magenta is background only; NEVER reproduce magenta.\nThe prop rests on one flat invisible ground plane; its underside is flat at contact. No floor, no drawn ground plane, NO cast shadow, no backdrop, no text, no watermark, no painted checkerboard. True alpha transparency outside the complete object.\nOne object centred with generous transparent margins about 15% on every side: keep the whole silhouette within the central 70% of the 1024-square canvas; every tip and spilled coin must be entirely in frame. No collage or multiple views.\nDo NOT add straps hanging far away from the body, loose ropes trailing across the ground, weapons, scrolls, potions or other objects. Any spilled coins stay within a few centimetres of the bag, on the same invisible contact plane, maintaining a compact silhouette. No cropping.\n\nt4 — RICH TREASURE SACK, about 52 cm wide and 36 cm tall. Rich heavy rounded slumped sack of DARK dyed leather, deep wine-red/oxblood, with GOLD trim bands along seams and around mouth, and ONE decorative ornate GOLD clasp centred on its front. Mouth OPEN and overflowing with thick plain golden coins. A generous LOW spill of about TWELVE gold coins on the invisible ground plane IN FRONT, a tight connected heap immediately against the sack, never scattered far. EXACTLY ONE large faceted RED RUBY and EXACTLY ONE large faceted BLUE SAPPHIRE, each the size of a large coin, among spilled coins at front. Ruby at prop's front-left, sapphire at prop's front-right. Both gems and every spilled coin readable in primary. Same hand-stitched worn leather and native gold style and lighting as earlier tiers; richer dye, trim and clasp only.\n\nInput2=t1, input3=t2, input4=t3 earlier selected PRIMARY images: shared family authority for thick soft hand-stitched leather, matching grain, coarse thread, worn lighter edges, sharp MM6 materials and the SAME even soft neutral light. Match input1 and t3's plain thick saturated native GOLD discs, no engraving/embossing. T4 leather is DARK deep wine-red/oxblood dye, clearly darker and richer than reddish brown t3; NOT tan, NOT bright crimson, NOT metal body. Broad slumped heavy sack, width52cm height36cm, flat underside; no t2/t3 fold-over flap, t4 mouth OPEN with soft folded gold-banded rim. GOLD trim bands run along leather seams and around mouth. ONE ornate interlaced GOLD clasp on front centre, gold only, with NO inset jewel. Mouth is visibly filled/overflowing with plain gold coins. A LOW TIGHT CONNECTED heap of about TWELVE spilled coins immediately at front base, no more than two coins high, all grounded and close enough to touch each other or sack. EXACTLY ONE large faceted red RUBY at prop's front-LEFT and EXACTLY ONE faceted blue SAPPHIRE at front-RIGHT among the spill; each large-coin sized and fully readable. No other gems anywhere. Every spilled coin in frame, no far coins, no floating coins, no hanging long straps. ONLY bag, coins, one ruby, one sapphire. Preserve 1998 warm saturated semi-realistic prerendered Might and Magic VI look.\n\nCAMERA 00_three_quarter — PRIMARY: about 35 degrees to the RIGHT of the FRONT and about 30 degrees above ground, near-orthographic. Show front and the prop's RIGHT side. The front faces screen-left-forward; anatomical right side is visible on screen-right. This image ALONE creates the 3D mesh: the whole silhouette, flap, drawstring/buckle, and EVERY spilled coin must read clearly; nothing hidden or cropped. Maintain generous 15% margins. One view only.\n\nFRAMING REMINDER: pull the camera FAR BACK so complete sack+coin heap+gems fits the CENTRAL60% of large square transparent canvas, all four margins generous.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-c06d788c-da3a-4a99-9739-7ef243cedff5.png",
+    "selected": true,
+    "reason": "Selected: dark oxblood slumped sack with gold seam/mouth bands, ornate gold-only clasp, overflowing plain gold discs, compact low spill of approximately 13 coins, exactly one ruby and one sapphire; complete silhouette with margins.",
+    "role": "primary",
+    "family": "t4",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "00_three_quarter.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t4_three_quarter_v1.png",
+    "raw_sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      178,
+      239,
+      1118,
+      1049
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1419,
+      0.1906,
+      0.1085,
+      0.1635
+    ],
+    "nominal_dimensions_cm_width_height": [
+      52,
+      36
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t3_front_v3",
+    "tier": "t3",
+    "view": 1,
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t3_front_v2"
+    ],
+    "prompt": "Generate ONE 1024x1024 square RGBA PNG, genuine transparency, wide framing: complete bag+spill only central55–60% of canvas, generous margins all sides. Input1 native gold-disc colour/plain thick disc authority; inputs2–3 earlier t1/t2 primaries for family grain, coarse stitches and soft neutral overhead light. Input4 is the exact SAME t3 object and world-fixed spill. Preserve shape, scars, coarse stitched seams, dark reddish-brown dye, slumped broad base, front square brass buckle with short strap, partly lifted flap and mouth coins. MM6 1998 warm saturated semi-realistic fantasy 3D modelling reference, one whole object; no floor, ground, cast shadow, backdrop, text or extra props. No gems. FOUR spilled coins total: two singles and a low stacked pair. The pair sits next to the side panel visibly shown on input4's SCREEN RIGHT, at its front corner. Preserve this physical side; do not mirror coin placement. Rotate only CAMERA, never body/flap/coins.\n\nDIRECT FRONT, near-orthographic,20degrees above invisible ground. Front buckle centred, frontal silhouette symmetric. The side panel shown on input4's screen right becomes the RIGHT EDGE of the direct-front silhouette: stacked pair at SCREEN RIGHT BASE, other two single coins across right/front to centre. NO coins at screen left base. Exact same four coins, same partly lifted flap. Do not reflect/mirror object. Complete object+spill occupies55–60% width, not close-up.",
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-54d7d06b-e53c-4ab2-9903-d6f92c3ab2a5.png",
+    "selected": false,
+    "reason": "Superseded: projection and right-front spill are correct, but rightmost coin leaves insufficient right margin.",
+    "superseded_by": "t3_front_v4",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_front_v3.png",
+    "raw_sha256": "04532c686dfdc3a4a8990eb97c92097ed93e204e7e93c3ae6ded73f6c9ede672",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      170,
+      336,
+      1168,
+      1005
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ]
+  },
+  {
+    "id": "t3_back_v3",
+    "tier": "t3",
+    "view": 3,
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png"
+    ],
+    "supersedes": [
+      "t3_back_v2"
+    ],
+    "prompt": "Generate ONE 1024x1024 square RGBA PNG, genuine transparency, wide framing: complete bag+spill only central55–60% of canvas, generous margins all sides. Input1 native gold-disc colour/plain thick disc authority; inputs2–3 earlier t1/t2 primaries for family grain, coarse stitches and soft neutral overhead light. Input4 is the exact SAME t3 object and world-fixed spill. Preserve shape, scars, coarse stitched seams, dark reddish-brown dye, slumped broad base, front square brass buckle with short strap, partly lifted flap and mouth coins. MM6 1998 warm saturated semi-realistic fantasy 3D modelling reference, one whole object; no floor, ground, cast shadow, backdrop, text or extra props. No gems. FOUR spilled coins total: two singles and a low stacked pair. The pair sits next to the side panel visibly shown on input4's SCREEN RIGHT, at its front corner. Preserve this physical side; do not mirror coin placement. Rotate only CAMERA, never body/flap/coins.\n\nDIRECT BACK, near-orthographic,20degrees above ground, camera exactly opposite direct-front. Wide plain rear panel, no front buckle/strap on rear, SAME partly lifted flap still hinged rear and extending toward far front. Fixed side panel shown on input4's screen right is now at SCREEN LEFT: low stacked pair peeks out beyond SCREEN LEFT base, front singles hidden behind body. SCREEN RIGHT has NO spilled coins. Do not move spill into rear foreground. Entire body+peeked pair only55–60% of canvas width, generous margins.",
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-dc88e39b-a09b-4152-b72d-abe7884e64c4.png",
+    "selected": true,
+    "reason": "Selected: direct rear of same dark reddish-brown bulging bag, no rear closure, same lifted flap; low fixed front-side pair peeks at screen left, singles occluded, consistent with primary/right profile.",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "03_back.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_back_v3.png",
+    "raw_sha256": "5f11e526613f3303ae5443f96a73c4773f28d19da718723a7b1bc71d6071e7dd",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      144,
+      347,
+      1109,
+      936
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t3/03_back.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1148,
+      0.2767,
+      0.1156,
+      0.2536
+    ],
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t3_front_v4",
+    "tier": "t3",
+    "view": 1,
+    "prompt": "REFRAME ONLY. Produce ONE square 1024x1024 transparent RGBA PNG. Move the camera FARTHER AWAY: the full BAG AND EVERY COIN should be a SMALL object only about 600pixels wide on this large EMPTY square. Centre the COMPLETE combined silhouette, not just the leather body, so the rightmost stacked coin has as much transparent margin as the leftmost leather edge. At least190px TRANSPARENT EMPTY space between silhouette and each canvas edge. No close-up.\nInput1 native MM6 thick plain gold discs, original colour authority. Inputs2–3 earlier t1/t2 family leather/stitch/light authority. Input4 selected t3 PRIMARY, exact object/positions. Input5 latest direct-FRONT view: keep its camera direction and correct right-front coin arrangement, but make the ENTIRE combined silhouette25% SMALLER in frame by pulling camera back. Do NOT change shape, flap angle, scars, seam placement, buckle or coin positions.\nExactly same dark reddish-brown overstuffed bag42cm wide30cm tall, square BRASS buckle and short front strap, coarse thread stitches, same partly lifted flap, same mouth coins. Four spilled plain gold discs: two singles across right/front, low pair slightly stacked at SCREEN RIGHT base. No coins on screenleft base, no gems. Direct FRONT at20degrees above invisible ground, near-orthographic. MM6 1998 warm semi-realistic prerendered fantasy, sharp materials, same even soft neutral overhead light. Flat underside contact with invisible plane; no drawn floor, cast shadow, background, text, extra props or trails. Genuine clean alpha. Again: EMPTY margins; object PLUS COINS about55–60% of image width.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-54d7d06b-e53c-4ab2-9903-d6f92c3ab2a5.png"
+    ],
+    "supersedes": [
+      "t3_front_v3"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-dc89d051-f95e-4387-a42f-9e8c834699c2.png",
+    "selected": true,
+    "reason": "Selected: wide-framed direct front; same bulging dark reddish-brown bag, lifted flap and square brass buckle; four-coin right-front spill matches primary/right profile, all within generous margins.",
+    "role": "supporting",
+    "family": "t3",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t3_front_v4.png",
+    "raw_sha256": "69252e82d69f0fd778457a35bbd477eb994b1b5d5c70164f439894ac4e0f29dc",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-54d7d06b-e53c-4ab2-9903-d6f92c3ab2a5.png",
+        "sha256": "04532c686dfdc3a4a8990eb97c92097ed93e204e7e93c3ae6ded73f6c9ede672"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      269,
+      415,
+      1037,
+      917
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t3/01_front.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.2145,
+      0.3309,
+      0.173,
+      0.2687
+    ],
+    "nominal_dimensions_cm_width_height": [
+      42,
+      30
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t4_front_v1",
+    "tier": "t4",
+    "view": 1,
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png"
+    ],
+    "prompt": "ONE 1024x1024 square transparent RGBA PNG, native unresized return. WIDE FRAMING: a SMALL complete sack+treasure ONLY central55–60% of large EMPTY square, at least20% transparent margin all sides. No close-up; centre combined silhouette, including every visible coin/gem. Input1 original MM6 gold sprites: native gold colour, plain thick smooth-faced discs, no embossing. Inputs2–4 earlier t1/t2/t3 PRIMARY images for same family leather grain/coarse stitches/worn edges/even soft neutral overhead studio light. Input5 selected t4 PRIMARY, absolute exact SAME fixed object's geometry/materials/content/layout; rotate CAMERA ONLY, do not redesign/rearrange. Same broad heavy slumped dark OXBLOOD leather sack,52cm wide36cm tall, SAME wavy soft OPEN mouth overflowing with golden discs, SAME gold bands around mouth and along seams, SAME ornate interlaced GOLD-ONLY clasp on front strap, no clasp gem. No foldover flap or drawstrings, no metal body. Same flat underside at invisible ground. Fixed LOW compact connected spill of approximately THIRTEEN plain thick gold coins immediately at FRONT base, same coins and positions as primary; EXACTLY ONE red RUBY and EXACTLY ONE blue SAPPHIRE among front spill, large-coin sized faceted stones. Ruby is on the side seen at image5's screenleft of spill, sapphire on screenright of spill. Do not mirror layout. Allow physical occlusion as camera rotates; do not move hidden treasures into view. MM6 1998 warm saturated semi-realistic prerendered 3D modelling reference. Fine leather grain, scuffs, coarse stitches and worn metal. No floor, ground plane, cast shadow, background, extra props, scattered far coins, long straps/ropes, text or watermark. Genuine clean transparent alpha.\n\nCAMERA 01_front: DIRECT FRONT view, zero azimuth, camera about 20 degrees above ground, near-orthographic. Centre front knot/buckle/clasp. The prop's right is viewer's left. Rotate ONLY camera relative to primary; preserve EXACT same object geometry, materials, flap state, seams, handle/cord, coins and gems in exact same fixed world positions. Do not rearrange contents or spill to suit view.\nDIRECT FRONT: clasp precisely at centre; gold-banded seams symmetric at left/right of front body. Same wave shape of mouth rim, same gold discs inside. Fixed treasure spill at foreground FRONT base, RUBY at SCREEN LEFT, SAPPHIRE at SCREEN RIGHT, exactly one each. Preserve primary's low connected13-coin heap and gem positions. Whole sack+spill only55–60% of canvas width.",
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-51f1a537-2db7-4d95-aeda-9b80989b9abd.png",
+    "selected": true,
+    "reason": "Selected: direct front of same oxblood sack, matching gold seam/mouth bands and gold-only clasp; approximately 13 tightly connected spilled discs, one ruby at screen left and one sapphire at screen right; generous margins.",
+    "role": "supporting",
+    "family": "t4",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "01_front.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t4_front_v1.png",
+    "raw_sha256": "6a0d981a625f6e4992998d2568fec508e4d0b0d94397cb39f69104034e36b55f",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      186,
+      314,
+      1069,
+      1064
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t4/01_front.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1483,
+      0.2504,
+      0.1475,
+      0.1515
+    ],
+    "nominal_dimensions_cm_width_height": [
+      52,
+      36
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t4_side_v1",
+    "tier": "t4",
+    "view": 2,
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png"
+    ],
+    "prompt": "ONE 1024x1024 square transparent RGBA PNG, native unresized return. WIDE FRAMING: a SMALL complete sack+treasure ONLY central55–60% of large EMPTY square, at least20% transparent margin all sides. No close-up; centre combined silhouette, including every visible coin/gem. Input1 original MM6 gold sprites: native gold colour, plain thick smooth-faced discs, no embossing. Inputs2–4 earlier t1/t2/t3 PRIMARY images for same family leather grain/coarse stitches/worn edges/even soft neutral overhead studio light. Input5 selected t4 PRIMARY, absolute exact SAME fixed object's geometry/materials/content/layout; rotate CAMERA ONLY, do not redesign/rearrange. Same broad heavy slumped dark OXBLOOD leather sack,52cm wide36cm tall, SAME wavy soft OPEN mouth overflowing with golden discs, SAME gold bands around mouth and along seams, SAME ornate interlaced GOLD-ONLY clasp on front strap, no clasp gem. No foldover flap or drawstrings, no metal body. Same flat underside at invisible ground. Fixed LOW compact connected spill of approximately THIRTEEN plain thick gold coins immediately at FRONT base, same coins and positions as primary; EXACTLY ONE red RUBY and EXACTLY ONE blue SAPPHIRE among front spill, large-coin sized faceted stones. Ruby is on the side seen at image5's screenleft of spill, sapphire on screenright of spill. Do not mirror layout. Allow physical occlusion as camera rotates; do not move hidden treasures into view. MM6 1998 warm saturated semi-realistic prerendered 3D modelling reference. Fine leather grain, scuffs, coarse stitches and worn metal. No floor, ground plane, cast shadow, background, extra props, scattered far coins, long straps/ropes, text or watermark. Genuine clean transparent alpha.\n\nCAMERA 02_side: PURE RIGHT-SIDE PROFILE, prop's RIGHT side toward camera, azimuth exactly 90 degrees to the right of front, about 20 degrees above ground, near-orthographic. Object FRONT points screen LEFT, BACK points screen RIGHT. Show the side panel and depth; do not turn toward front or reveal both front and side faces as another three-quarter. Rotate ONLY camera from primary. EXACT same shape, materials, seams, closure, flap state and fixed coin/gem positions.\nPURE RIGHT PROFILE: FRONT points SCREEN LEFT, BACK SCREEN RIGHT; right side panel face-on with gold seam bands at its boundaries. Wide front face is EDGE-ON at left, front clasp seen edge-on or partly occluded at LEFT edge, never moved onto side. Same wavy open mouth/gold-band shape viewed side-on; no flap. Front treasure spill projects SCREEN LEFT near sack base, not screenright or behind bag. Both gems retain positions among heap: sapphire on camera-near side of front heap, ruby farther from camera. Exactly one red and one blue gem total, no new gems on body. Match bag body depth and shape in primary. Small whole object with generous margins.",
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-cdb61873-12ac-47eb-b9dd-0d814feb07ef.png",
+    "selected": true,
+    "reason": "Selected: right-side profile, front clasp at screen-left edge, same dark leather/gold trim/open mouth; fixed front spill projects left, sapphire nearer camera and ruby farther away, one of each; generous margins.",
+    "role": "supporting",
+    "family": "t4",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "02_side.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t4_side_v1.png",
+    "raw_sha256": "984ef7c0fbfb2d8e3033acbf4853f4c205ff4770c1f60ed10885b0390e60b13a",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      272,
+      314,
+      999,
+      966
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t4/02_side.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.2169,
+      0.2504,
+      0.2033,
+      0.2297
+    ],
+    "nominal_dimensions_cm_width_height": [
+      52,
+      36
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  },
+  {
+    "id": "t4_back_v1",
+    "tier": "t4",
+    "view": 3,
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png"
+    ],
+    "prompt": "ONE 1024x1024 square transparent RGBA PNG, native unresized return. WIDE FRAMING: a SMALL complete sack+treasure ONLY central55–60% of large EMPTY square, at least20% transparent margin all sides. No close-up; centre combined silhouette, including every visible coin/gem. Input1 original MM6 gold sprites: native gold colour, plain thick smooth-faced discs, no embossing. Inputs2–4 earlier t1/t2/t3 PRIMARY images for same family leather grain/coarse stitches/worn edges/even soft neutral overhead studio light. Input5 selected t4 PRIMARY, absolute exact SAME fixed object's geometry/materials/content/layout; rotate CAMERA ONLY, do not redesign/rearrange. Same broad heavy slumped dark OXBLOOD leather sack,52cm wide36cm tall, SAME wavy soft OPEN mouth overflowing with golden discs, SAME gold bands around mouth and along seams, SAME ornate interlaced GOLD-ONLY clasp on front strap, no clasp gem. No foldover flap or drawstrings, no metal body. Same flat underside at invisible ground. Fixed LOW compact connected spill of approximately THIRTEEN plain thick gold coins immediately at FRONT base, same coins and positions as primary; EXACTLY ONE red RUBY and EXACTLY ONE blue SAPPHIRE among front spill, large-coin sized faceted stones. Ruby is on the side seen at image5's screenleft of spill, sapphire on screenright of spill. Do not mirror layout. Allow physical occlusion as camera rotates; do not move hidden treasures into view. MM6 1998 warm saturated semi-realistic prerendered 3D modelling reference. Fine leather grain, scuffs, coarse stitches and worn metal. No floor, ground plane, cast shadow, background, extra props, scattered far coins, long straps/ropes, text or watermark. Genuine clean transparent alpha.\n\nCAMERA 03_back: DIRECT BACK view, azimuth 180 degrees, about 20 degrees above ground, near-orthographic. Show rear seams and rear silhouette; front closure stays physically on far side and must not migrate to the back. Rotate ONLY camera from primary. EXACT same geometry, flap state, materials and world-fixed contents/spill/gem positions, allowing natural rear occlusion.\nDIRECT REAR: exact straight behind, rear gold seam bands symmetric, broad plain dark oxblood rear leather panel with same worn grain/scars. FRONT clasp/strap stay on far side and are HIDDEN, no rear clasp. Open wavy gold-banded mouth stays same, overflowing gold visible above rim. Fixed front ground coin heap and both gems remain physically BEHIND bag in this rear view, naturally OCCLUDED by broad body. Do not move heap/gems to rear foreground to show them. Any tiny coin edge peeking around side must preserve primary positions, no new rear coins. SAME object includes exactly one ruby/one sapphire on far side; absence through occlusion is correct. Whole sack only55–60% canvas width, generous margins.",
+    "output": "/home/pjasicek/.codex/generated_images/01a11ff2-6082-73c2-a88f-4660c7f0d05a/exec-a9c7c78a-6ad3-4794-a336-b1de1ba25bf0.png",
+    "selected": true,
+    "reason": "Selected: direct rear, same broad oxblood body/gold seams/wavy open mouth and overflow; front clasp, front ground spill and both gems correctly occluded on far side rather than relocated; generous margins.",
+    "role": "supporting",
+    "family": "t4",
+    "tool_mode": "built-in image_gen",
+    "selected_filename": "03_back.png",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/raw/t4_back_v1.png",
+    "raw_sha256": "3ea1de7b86a7546f4476083562f3a08213a7acf146b0249a401115467fdf3075",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t1/00_three_quarter.png",
+        "sha256": "b132eef3fb00b6ff04a4abb0cd8e4c89efedbc005b9f30f8240fe23aee9cfe7a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t2/00_three_quarter.png",
+        "sha256": "027f6bef7fc019fb8e1e996450cc4e2e7a42650b2972c5d36941153c54b813fb"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      205,
+      337,
+      1062,
+      949
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t4/03_back.png",
+    "file_validation": {
+      "rgba_png": true,
+      "genuine_transparency": true,
+      "square": true,
+      "requested_size_met": false,
+      "unresized_byte_identical_return": true,
+      "resolution_note": "Built-in imagegen returned 1254 x 1254 despite 1024 x 1024 prompts. Kept unresized, pending user resolution choice."
+    },
+    "margin_fraction_alpha_128": [
+      0.1635,
+      0.2687,
+      0.1531,
+      0.2432
+    ],
+    "nominal_dimensions_cm_width_height": [
+      52,
+      36
+    ],
+    "brief_compliant": false,
+    "unmet_requirements": [
+      "Requested native 1024 x 1024; built-in tool returned native 1254 x 1254. Resizing prohibited by brief; no resizing performed."
+    ],
+    "visual_review": {
+      "tier_details_checked": true,
+      "family_materials_and_lighting_checked": true,
+      "camera_view_checked": true,
+      "fixed_spill_projection_checked": true,
+      "no_floor_or_cast_shadow_checked": true
+    }
+  }
+]

@@ -24,6 +24,8 @@ struct OutdoorTerrainTile
     LiquidKind liquid = LiquidKind::None;
     // The liquid's colour (ABGR); see LiquidDefinition::colorAbgr.
     uint32_t waterColorAbgr = 0;
+    // See LiquidDefinition::reflects.
+    bool liquidReflects = true;
 };
 
 struct OutdoorTerrainTiles

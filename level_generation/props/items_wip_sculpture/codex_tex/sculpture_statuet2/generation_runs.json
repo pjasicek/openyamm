@@ -1,0 +1,14 @@
+[
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. Paint a FLAT DIFFUSE ALBEDO atlas for this specific Bear Statuette. Image 1 is the exact six-view mesh guide and edit target, 1536x1024, THREE columns / TWO rows, equal square cells. Preserve ALL outlines, alpha, poses, positions, scale, directions and interior gaps EXACTLY. Do not rotate or reinterpret views: the guide's first view may be lateral. Upper cells FRONT, BACK, LEFT; lower cells RIGHT, TOP, BOTTOM. Image 2 defines only the gold sculpture's fine appearance. Golden bear statuette standing on all four short thick legs, broad heavy torso, small rounded ears and blunt bear muzzle facing left. No plinth. Paint the sculpture in the guide as uniformly matte antique ochre GOLD BASE COLOUR (#bd943f), fine muted patina and subtle engraved anatomical detail consistent across all views. worn yellow gold. Remove lighting from the references: NO directional shading, reflections, specular, hot highlights, dark shadows, ambient occlusion, gradients, rim light, glow or halos. This is unlit material colour for a game renderer, not a shaded photograph. Keep the exact shapes from Image 1, adding detail only by painting within them. All six views remain in their original grid and exact framing. True transparent empty background, no floor, text, labels, frame, pedestal or extra ornaments. Return one 3:2 atlas.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-8a3b1229-3054-463e-aed7-88b737aebb40.png",
+    "raw_sha256": "2a9781a31b8a2f4d0b30bb9da974297ce7f9aa595564078a484afb7437f2b555",
+    "selected_atlas_sha256": "2a9781a31b8a2f4d0b30bb9da974297ce7f9aa595564078a484afb7437f2b555",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_statuet2/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "69a1b05e46f8e17c0024e3ae9b53d8dbf6c222746e83ce4de8654e52bf7f9770",
+    "exact_guide_input": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/codex_tex/sculpture_statuet2/paint_input_atlas.png",
+    "exact_guide_input_sha256": "2f746adcd3ba8263b9cc5fc82eb623773552eb109c3c5ba434cf1157f4e1f134"
+  }
+]

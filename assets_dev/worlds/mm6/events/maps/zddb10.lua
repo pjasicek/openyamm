@@ -74,7 +74,7 @@ end, "Door.")
 RegisterEvent(6, "Switch.", function()
     if IsAtLeast(MapVar(7), 1) then return end
     evt.StatusText("You flip the switch and hear grating off in the distance.")
-    evt.SetTexture(1392, "d8s2on")
+    evt.SetTexture(-1392, "d8s2on")
     evt.SetDoorState(6, DoorAction.Trigger)
     AddValue(MapVar(7), 1)
 end, "Switch.")

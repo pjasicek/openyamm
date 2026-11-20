@@ -2,8 +2,13 @@
 
 #include "game/events/EventDialogContent.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/mm9/Mm9Formation.h"
 #include "game/party/Party.h"
+#include "game/party/QuickItemSlot.h"
+#include "game/rules/MonsterRules.h"
 #include "game/ui/GameplayUiController.h"
+#include "game/ui/HudReading.h"
+#include "game/ui/SoloBarSelectorModel.h"
 
 #include <bgfx/bgfx.h>
 
@@ -12,6 +17,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -37,6 +43,14 @@ enum class GameplayHudScreenState
 };
 
 inline bool activeEventDialogPreservesGameplayHud(const EventDialogContent &activeEventDialog)
+{
+    return activeEventDialog.isActive
+        && activeEventDialog.presentation == EventDialogPresentation::Mm9Rude;
+}
+
+// An MM9 talk keeps the gameplay HUD but hides the party frame (basebar, portraits, hireling rail): its conversation
+// bar stands where the basebar was and lists a trainer's lessons per member (user, 2026-11-06).
+inline bool activeEventDialogHidesPartyFrame(const EventDialogContent &activeEventDialog)
 {
     return activeEventDialog.isActive
         && activeEventDialog.presentation == EventDialogPresentation::Mm9Rude;
@@ -183,6 +197,9 @@ struct GameplayHudTextureHandle
 struct GameplayHudFontHandle
 {
     std::string fontName;
+    // An independent outline face rasterized at this display height (drawn at scale 1, so it stays sharp); 0 for the
+    // face's own size.
+    int pixelHeight = 0;
     int fontHeight = 0;
     bgfx::TextureHandle mainTextureHandle = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle shadowTextureHandle = BGFX_INVALID_HANDLE;
@@ -211,6 +228,14 @@ struct GameplayHudBatchQuad
     uint32_t tintAbgr = 0xffffffffu;
 };
 
+// A text line and where its top left goes, for lines drawn together (GameplayUiRuntime::renderHudFontLayerRuns).
+struct GameplayHudTextRun
+{
+    std::string text;
+    float x = 0.0f;
+    float y = 0.0f;
+};
+
 // One layer of HUD text: a font atlas and the colour its glyphs are multiplied by at draw time.
 struct GameplayHudFontLayer
 {
@@ -233,6 +258,8 @@ enum class GameplayMinimapMarkerType
     HostileActor,
     CorpseActor,
     WorldItem,
+    // A ground item the party has spotted (WorldItemSpotter): the gather key on a completed map takes it.
+    SpottedWorldItem,
     Projectile,
     Decoration
 };
@@ -283,7 +310,9 @@ enum class GameplayDialoguePointerTargetType
 {
     None,
     Action,
-    CloseButton
+    CloseButton,
+    // Cancel of the popup that offers to reset a cleared dungeon (transitionResetPopupOpen).
+    ResetPopupCancel
 };
 
 struct GameplayDialoguePointerTarget
@@ -298,6 +327,8 @@ enum class GameplayChestPointerTargetType
 {
     None,
     TakeAllButton,
+    TakeGoldButton,
+    InventoryButton,
     CloseButton
 };
 
@@ -314,8 +345,13 @@ enum class GameplaySpellbookPointerTargetType
     SchoolButton,
     SpellButton,
     CloseButton,
+    // The selected spell becomes the active member's Quick Cast; again, or with no spell selected, clears it.
     QuickCastButton,
-    AttackCastButton
+    // The selected spell becomes the active member's only attack order (GameplayBattleOrders::assignAttackSpell);
+    // again, or with no spell selected, clears the orders.
+    AttackCastButton,
+    // Opens the Battle Orders window (game/ui/GameplayBattleOrders.h).
+    BattleOrdersButton
 };
 
 struct GameplaySpellbookPointerTarget
@@ -349,11 +385,31 @@ struct GameplayTownPortalDestination
     uint32_t hitHeight = 0;
 };
 
+// One continent's Town Portal map: a `town_portal_switch.txt` group with the destinations this installation offers.
+struct GameplayTownPortalContinent
+{
+    std::string groupName;
+    // English; localized where it is drawn.
+    std::string label;
+    std::string backgroundTextureName;
+    std::vector<GameplayTownPortalDestination> destinations;
+};
+
+// The Town Portal screen's continent buttons, `TownPortalContinentButton1` to `...4` in town_portal.yml, one per
+// continent in GameplayUiRuntime's order; a continent with no unlocked town shows its map with nothing to choose.
+constexpr size_t TownPortalContinentButtonCount = 4;
+
+inline std::string townPortalContinentButtonId(size_t slot)
+{
+    return "TownPortalContinentButton" + std::to_string(slot + 1);
+}
+
 enum class GameplayUtilitySpellPointerTargetType
 {
     None,
     Close,
     TownPortalDestination,
+    TownPortalContinent,
     LloydSetTab,
     LloydRecallTab,
     LloydSlot,
@@ -379,6 +435,16 @@ enum class GameplayCharacterPointerTargetType
     DismissButton,
     AlchemyButton,
     InventorySortButton,
+    InventoryDropButton,
+    InventoryBagButton,
+    // The bag overview and a pouch's tab: the overview's button, an item in a bag and a free cell under a held item.
+    InventoryBagOverviewButton,
+    // A pouch's button (bagButton: ItemPouch): its tab in the bags' place.
+    InventoryPouchButton,
+    // A party of one's tab button (bagButton: the tab, 0-based).
+    InventoryTabButton,
+    BagOverviewItem,
+    BagOverviewCell,
     MagnifyButton,
     AdventurersInnHireButton,
     AdventurersInnScrollUpButton,
@@ -386,10 +452,15 @@ enum class GameplayCharacterPointerTargetType
     AdventurersInnPortrait,
     StatRow,
     SkillRow,
+    // A switchable skill's on/off gem (skillName) and the Magic heading's rotation switch (MAW).
+    SkillSwitch,
+    SkillRotationSwitch,
     InventoryItem,
     InventoryCell,
     EquipmentSlot,
-    DollPanel
+    DollPanel,
+    // An implant socket of the Augment row (implantSocket).
+    ImplantSocket
 };
 
 struct GameplayCharacterPointerTarget
@@ -398,10 +469,17 @@ struct GameplayCharacterPointerTarget
     GameplayUiController::CharacterPage page = GameplayUiController::CharacterPage::Inventory;
     std::string statName;
     std::string skillName;
+    // A skill row that a click raises; other skill rows are targets only for their hover text.
+    bool skillRaisable = false;
     uint8_t gridX = 0;
     uint8_t gridY = 0;
     EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
     size_t innIndex = 0;
+    // The bag a multibag button zooms (0-3, in the open bag's tab), a pouch button's ItemPouch or a tab button's tab.
+    uint8_t bagButton = 0;
+    // The bag (0-based, or a pouch's: InventoryBags::pouchBag) of an overview target; gridX and gridY are its cell.
+    uint8_t bag = 0;
+    uint8_t implantSocket = 0;
 
     bool operator==(const GameplayCharacterPointerTarget &other) const = default;
 };
@@ -422,13 +500,39 @@ enum class GameplayAlchemyBenchPointerTargetType
     IngredientFilterReagents,
     RecipeRow,
     RecipeSearch,
-    Ingredient
+    Ingredient,
+    // The button under a slot that opens its power list (its index: 1 target, 2 held, 3 result), and a row of
+    // the open list (its index; 0 is Automatic).
+    PowerButton,
+    PowerOption,
+    // The Workbench's tab strip and its Crafting tab.
+    AlchemyTab,
+    CraftingTab,
+    CraftApplyButton,
+    CraftApplyManyButton,
+    CraftClearButton,
+    CraftItemSlot,
+    CraftMaterialSlot,
+    CraftItemFilterAll,
+    CraftItemFilterWorn,
+    CraftItemFilterPacks,
+    CraftSearch,
+    CraftMaterialFilterAll,
+    CraftMaterialFilterGems,
+    CraftMaterialFilterSpecial,
+    CraftMaterialFilterPotions,
+    CraftCheapestGems,
+    CraftItemRow,
+    CraftMaterial,
+    CraftChoice
 };
 
 struct GameplayAlchemyBenchPointerTarget
 {
     GameplayAlchemyBenchPointerTargetType type = GameplayAlchemyBenchPointerTargetType::None;
     uint32_t itemId = 0;
+    // Crafting rows, cells and options: the item's, material's or option's index in the frame's model.
+    size_t index = 0;
 
     bool operator==(const GameplayAlchemyBenchPointerTarget &other) const = default;
 };
@@ -440,6 +544,21 @@ enum class GameplayJournalPointerTargetType
     MainQuestsView,
     MainStoryView,
     MainNotesView,
+    // MAW's Progress tab and, on it, a continent card, a map filter and a map row (their index in noteId), the
+    // ruleset's player's guide link and the "All continents" chip.
+    MainProgressView,
+    ProgressContinent,
+    ProgressFilter,
+    ProgressMap,
+    ProgressGuide,
+    ProgressAllContinents,
+    // The map list's scroll bar (a press drags it).
+    ProgressScrollBar,
+    // The aura panel's targets (GameplayJournalAuras.h), packed into noteId.
+    AuraPanel,
+    // The Trainers notes' finder targets (GameplayJournalTrainers.h), packed into noteId.
+    TrainerFinder,
+    JournalContinent,
     PrevPageButton,
     NextPageButton,
     NotesPotionButton,
@@ -448,6 +567,8 @@ enum class GameplayJournalPointerTargetType
     NotesSeerButton,
     NotesMiscButton,
     NotesTrainerButton,
+    NotesArcomageButton,
+    NotesSearchField,
     MapZoomInButton,
     MapZoomOutButton,
     MapAddNoteButton,
@@ -492,8 +613,8 @@ enum class GameplayHudPointerTargetType
     RestButton,
     BooksButton,
     InventoryButton,
-    DimensionDoorButton,
     QuickReferenceButton,
+    StatisticsButton,
     QuickCastButton,
     AttackButton,
     TriggerButton,
@@ -504,6 +625,13 @@ enum class GameplayHudPointerTargetType
     MinimapZoomInButton,
     MinimapZoomOutButton,
     FollowerPanelToggleButton,
+    // The MM9 world's formation button under the minimap (GameplayFormationBuilder).
+    FormationButton,
+    // The combat log's button, one of its lines (index: the entry id) and the rest of its panel.
+    CombatLogToggleButton,
+    CombatLogEntry,
+    CombatLogFilter,
+    CombatLogPanel,
     FollowerPanelPortrait,
     FollowerPanelScrollUpButton,
     FollowerPanelScrollDownButton,
@@ -550,7 +678,10 @@ enum class GameplayControlsPointerTargetType
 enum class GameplayQuickReferencePointerTargetType
 {
     None,
-    ExitButton
+    ExitButton,
+    // The Statistics page's tabs (GameplayStatisticsScreen).
+    StatisticsOverviewTab,
+    StatisticsPartyTab
 };
 
 struct GameplayQuickReferencePointerTarget
@@ -672,6 +803,14 @@ struct GameplayInventoryNestedOverlayPointerTarget
     bool operator==(const GameplayInventoryNestedOverlayPointerTarget &other) const = default;
 };
 
+// The basebar popup open over play: the party's potions or its scrolls.
+enum class QuickItemPopupKind : uint8_t
+{
+    None,
+    Potions,
+    Scrolls,
+};
+
 struct GameplayOverlayInteractionState
 {
     int dialogueBodyScrollLines = 0;
@@ -683,6 +822,7 @@ struct GameplayOverlayInteractionState
     bool restToggleLatch = false;
     bool restClickLatch = false;
     bool alwaysRunToggleLatch = false;
+    bool yellLatch = false;
     bool turnBasedToggleLatch = false;
     bool adventurersInnToggleLatch = false;
     GameplayRestPointerTarget restPressedTarget = {};
@@ -692,16 +832,69 @@ struct GameplayOverlayInteractionState
     GameplayWorldHit gameplayHudPressedContextActionHit = {};
     bool gameplayHudQuickCastRequested = false;
     bool gameplayHudAttackRequested = false;
+    // Whether the party carries any scroll and any potion, for the HUD's two item buttons (GameplayQuickItems):
+    // listing the party's items walks every bag.
+    HudReading<std::array<bool, 2>, const Party *> quickItemButtonCarried;
+    // The map progress bar's numbers (GameplayMapProgressBar): the count walks every actor of the map, and the bar,
+    // its tab's bounds and the solo HUD's buff rows all ask for it in one frame.
+    HudReading<std::optional<RulesetMapProgress>, const IGameplayWorldRuntime *> mapProgress;
+    // A solo run's action-bar swap slot (a weapon slot with id 1) was pressed: swap the melee weapon and the bow.
+    bool soloWeaponSwapRequested = false;
+    // A solo run's action bar asked for a talent (its index in the talent table), used by the world interaction frame.
+    std::optional<uint32_t> soloTalentRequested;
     bool gameplayHudTriggerRequested = false;
     bool gameplayHudSpellTargetConfirmRequested = false;
     bool gameplayHudSpellTargetCancelRequested = false;
     bool gameplayHudDropHeldItemRequested = false;
     bool partyBuffPopupOpen = false;
+    // The solo HUD's buff tiles: the longest remaining time seen for each shown buff (its sweep's whole), so the sweep
+    // needs no saved duration; a buff no longer shown is forgotten.
+    std::vector<std::pair<uint32_t, float>> soloBuffLongestSeconds;
+    // The solo HUD's self combat text: the lines shown by the crosshair, newest last, with the SDL tick each came at
+    // and its colour (GameplaySoloHud). Transient.
+    struct SoloSelfTextLine
+    {
+        std::string text;
+        uint32_t colorAbgr = 0xffffffffu;
+        uint64_t startTicks = 0;
+    };
+    std::vector<SoloSelfTextLine> soloSelfText;
+    // Regeneration ticks waiting to show as one line: their sum and the SDL tick the first of them came at.
+    int soloRegenerationPending = 0;
+    uint64_t soloRegenerationStartTicks = 0;
+    // The solo action bar's slot selector (GameplaySoloBarSelector), open over the paused game. Transient.
+    SoloBarSelectorState soloBarSelector;
     std::optional<size_t> personalBuffPopupMember;
     bool overlayPersonalBuffClickLatch = false;
     std::optional<size_t> overlayPersonalBuffPressedIndex;
     bool followerPanelOpen = false;
     size_t followerPanelScrollOffset = 0;
+    // The quick item ring (the potion radial, devdocs/maw/GAPS.md H.6): open at a member's portrait, the slot under
+    // the pointer, the wheel key's press (a tap leaves the ring open, a hold uses the slot it is released over), and
+    // the picker beside it filling one slot, with its list's scroll.
+    bool quickItemRingOpen = false;
+    size_t quickItemRingMember = 0;
+    std::optional<size_t> quickItemHoveredSlot;
+    uint64_t quickItemWheelPressedTicks = 0;
+    bool quickItemWheelHeld = false;
+    bool quickItemClickLatch = false;
+    std::optional<size_t> quickItemPickerSlot;
+    size_t quickItemPickerScroll = 0;
+    bool quickItemEscapeHeld = false;
+    // The basebar's potion and scroll popups (level_generation/ui/potion_scroll_popups_20261102): which one is open
+    // (the game pauses), who drinks or reads, the list's scroll in rows, the entry under the pointer and the entry
+    // whose quick-slot chooser is open.
+    QuickItemPopupKind quickItemPopup = QuickItemPopupKind::None;
+    size_t quickItemPopupMember = 0;
+    size_t quickItemPopupScroll = 0;
+    std::optional<size_t> quickItemPopupHovered;
+    std::optional<size_t> quickItemPopupKeyEntry;
+    // The potion popup's Upkeep view: the chosen member's upkeep potions with their stock, in place of what the party
+    // carries.
+    bool quickItemPopupUpkeep = false;
+    // The MM9 formation builder (GameplayFormationBuilder): open over the paused game while it edits.
+    Mm9FormationBuilderState formationBuilder;
+    bool formationToggleLatch = false;
     bool menuToggleLatch = false;
     bool menuClickLatch = false;
     GameplayMenuPointerTarget menuPressedTarget = {};
@@ -758,6 +951,9 @@ struct GameplayOverlayInteractionState
     GameplayDialoguePointerTarget dialoguePressedTarget = {};
     bool houseShopClickLatch = false;
     size_t houseShopPressedSlotIndex = static_cast<size_t>(-1);
+    // A Ledger shop's scrollbar thumb follows the pointer; the grab keeps it under the pointer.
+    bool houseShopLedgerScrollDrag = false;
+    float houseShopLedgerScrollGrab = 0.0f;
     bool chestClickLatch = false;
     bool chestItemClickLatch = false;
     GameplayChestPointerTarget chestPressedTarget = {};
@@ -774,6 +970,8 @@ struct GameplayOverlayInteractionState
     bool eventDialogSelectDownLatch = false;
     bool eventDialogAcceptLatch = false;
     std::array<bool, 5> eventDialogPartySelectLatches = {};
+    // The MM9 conversation bar's number keys, 0-9.
+    std::array<bool, 10> eventDialogNumberLatches = {};
     bool activateInspectLatch = false;
     bool itemInspectInteractionLatch = false;
     uint64_t itemInspectInteractionKey = 0;
@@ -797,6 +995,8 @@ struct GameplayRenderedInspectableHudItem
     size_t sourceMemberIndex = 0;
     uint8_t sourceGridX = 0;
     uint8_t sourceGridY = 0;
+    // The bag the inventory item lies in (MAW's bag overview shows every bag, not only the open one).
+    uint8_t sourceBag = 0;
     EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
     size_t sourceLootItemIndex = 0;
     std::string textureName;
@@ -808,5 +1008,7 @@ struct GameplayRenderedInspectableHudItem
     float width = 0.0f;
     float height = 0.0f;
     bool rotatedCounterClockwise = false;
+    // The whole rectangle answers, not only the texture's opaque pixels (a list row: icon and name).
+    bool wholeAreaHits = false;
 };
 } // namespace OpenYAMM::Game

@@ -1,0 +1,382 @@
+{
+ "id": "20261009-1247-mm6-6d01-08",
+ "world": "mm6",
+ "maps": [
+  "6d01.blv"
+ ],
+ "created": "2026-10-09T10:48:47+00:00",
+ "textures": [
+  "mm6/t3t2",
+  "mm6/t3wbsl",
+  "mm6/t3wbsr",
+  "mm6/t1wl4ctl",
+  "mm6/d6wlcctr",
+  "mm6/t1wl2ctl",
+  "mm6/t1wl1ctl",
+  "mm6/t1wl0sm"
+ ],
+ "requests": {
+  "mm6/t3t2": {
+   "name": "t3t2",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small grey-brown carved stone tile with a weathered relief and a bevelled rim",
+   "notes": {}
+  },
+  "mm6/t3wbsl": {
+   "name": "t3wbsl",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "dark grey-violet stone bricks with a column of rust-red bricks along the left edge",
+   "notes": {
+    "4": "Continue the neighbouring t3wsp wall seamlessly across the right edge: the stone blocks run straight through, no dark joint line or shadow along the right edge. Rust-red bricks on the left are solid red, without grey patches.",
+    "5": "Continue the neighbouring t3wsp wall seamlessly across the right edge: the stone blocks run straight through, no dark joint line or shadow along the right edge. Rust-red bricks on the left are solid red, without grey patches.",
+    "6": "Start the red brick quoins flush at the left edge with no dark gap; stagger the brick head joints near the right edge so no straight vertical mortar line runs down all courses."
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm6/t3wsp"
+    },
+    "4": {
+     "right": "mm6/t3wsp"
+    },
+    "5": {
+     "right": "mm6/t3wsp",
+     "left": "mm6/t3wbltd",
+     "top": "mm6/t3wbstbl"
+    },
+    "6": {
+     "right": "mm6/t3wsp",
+     "left": "mm6/t3wbltd",
+     "top": "mm6/t3wbstbl"
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/t3wbsr": {
+   "name": "t3wbsr",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "dark grey-violet stone bricks with a column of rust-red bricks along the right edge",
+   "notes": {
+    "4": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge.",
+    "5": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.521
+    },
+    "4": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.512
+    }
+   }
+  },
+  "mm6/t1wl4ctl": {
+   "name": "t1wl4ctl",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pale pink-cream polished stone bricks with a few rust-orange bricks, under a crenellated top course of red bricks",
+   "notes": {
+    "3": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "4": "Keep the native's bottom rows exactly: no pale line along the bottom edge; continuous marble blocks and joints.",
+    "5": "Clean polished pink and cream marble blocks with soft continuous veins and crisp dark joints; no patches, rectangles, hairlines or stepped areas."
+   },
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.185
+    },
+    "3": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1w15b",
+      "mm6/t1wl4lea",
+      "mm6/t1wl4rea",
+      "mm6/t1wl4spa",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.732
+    },
+    "4": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1w15b",
+      "mm6/t1wl4lea",
+      "mm6/t1wl4rea",
+      "mm6/t1wl4spa",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.732
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "3": 2.0
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {}
+   },
+   "standalone": true
+  },
+  "mm6/d6wlcctr": {
+   "name": "d6wlcctr",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark green-black mossy cave rock with glistening wet algae",
+   "notes": {}
+  },
+  "mm6/t1wl2ctl": {
+   "name": "t1wl2ctl",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pale pink-cream polished stone bricks under a crenellated top course of red bricks",
+   "notes": {
+    "4": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "5": "Keep the native's edge columns exactly: no added dark band or hairline at the edges; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.689
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl1ctl",
+      "mm6/t1spcl1"
+     ],
+     "fraction": 0.679
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl1ctl",
+      "mm6/t1spcl1"
+     ],
+     "fraction": 0.679
+    }
+   },
+   "ref_blur": {
+    "4": 2.0
+   },
+   "context": {
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm6/t1wl1ctl": {
+   "name": "t1wl1ctl",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale pink-cream polished stone bricks under a crenellated top course of red bricks",
+   "notes": {
+    "3": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches."
+   },
+   "ref_blur": {
+    "3": 2.0
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/t1wl1cts"
+     ],
+     "fraction": 0.891
+    }
+   }
+  },
+  "mm6/t1wl0sm": {
+   "name": "t1wl0sm",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "small rust-red and pink bricks in staggered courses with pale mortar",
+   "notes": {}
+  }
+ }
+}

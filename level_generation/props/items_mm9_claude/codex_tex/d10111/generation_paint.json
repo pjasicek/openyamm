@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png (third input), using design_reference.png (first input) as material/detail reference and icon_x8.png (second input) as colour reference. Produce ONE transparent PNG 1536x2048 (3:4). Preserve EXACT guide positions, sizes, orientations, outlines, gaps and openings: three columns and FOUR rows of 512px cells, five objects in rows 1-2 repeated in rows 3-4, last cell of rows 2 and 4 empty. Do not reinterpret the unusual view orientations; paint the existing pixels only. Rows 1-2: unlit base colour silver steel plate and gold trim following reference: angular shoulder plates with small gold bars, breastplate vertical gold ridge and round gold-ringed chest boss, gold waist band, long steel tassets edged in gold. Preserve facets and engraving following reference. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, outlines or text. Rows 3-4: MATERIAL ID MASKS, same five silhouettes filled with FLAT PURE colours only: #FF0000 every metal including steel and gold; #00FF00 leather/padding/hide/fur; #0000FF cloth/lining/cord/hair; #000000 gemstones/glass/enamel/liquid. This is plate armour so its metal surfaces are uniformly pure RED in the bottom two rows, no shading or texture or internal antialiased colour blends. Every silhouette pixel exactly one material colour. All background and all guide gaps/openings remain fully transparent. Never redraw, enlarge, move or redesign the objects. Empty cells column 3 rows 2 and 4 stay fully transparent.",
+  "corrective_prompt": "Edit the attached paint_mask_guide.png (third input), using design_reference.png (first input) as material/detail reference and icon_x8.png (second input) as colour reference. Produce ONE transparent PNG 1536x2048 (3:4). Preserve EXACT guide positions, sizes, orientations, outlines, gaps and openings: three columns and FOUR rows of 512px cells, five objects in rows 1-2 repeated in rows 3-4, last cell of rows 2 and 4 empty. Do not reinterpret the unusual view orientations; paint the existing pixels only. Rows 1-2: unlit base colour silver steel plate and gold trim following reference: angular shoulder plates with small gold bars, breastplate vertical gold ridge and round gold-ringed chest boss, gold waist band, long steel tassets edged in gold. Preserve facets and engraving following reference. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, outlines or text. Rows 3-4: MATERIAL ID MASKS, same five silhouettes filled with FLAT PURE colours only: #FF0000 every metal including steel and gold; #00FF00 leather/padding/hide/fur; #0000FF cloth/lining/cord/hair; #000000 gemstones/glass/enamel/liquid. This is plate armour so its metal surfaces are uniformly pure RED in the bottom two rows, no shading or texture or internal antialiased colour blends. Every silhouette pixel exactly one material colour. All background and all guide gaps/openings remain fully transparent. Never redraw, enlarge, move or redesign the objects. Empty cells column 3 rows 2 and 4 stay fully transparent.\nCORRECTION: The previous attempt failed because red noise spilled outside the bottom silhouettes and filled openings. Start again from the clean original guide. Absolutely NO pixels outside the guide silhouettes: no red dust, noise, splashes, flecks or halo. Bottom five shapes must be clean solid red cutouts with exact transparent holes from the guide, sharp clean edges. Preserve the exact guide silhouette, including interior opening shapes. Output at 1536x2048.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10111/paint_mask_guide.png",
+      "sha256": "dba0703cbd4c539fc9f9905989afa05383356d3bd9858554b30d01ef099c78da"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10111/design_reference.png",
+      "sha256": "98c87022a2df254c2803b502e63f965bde461e607164fdece2fcd9389e862ec9"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10111/icon_x8.png",
+      "sha256": "cfb88cc0d68f2d6d9c7efb59af2afd54f9c15bb083298fbcf27717a17e5caa04"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1accf-2921-7643-8198-4c5903d35e01/exec-d22e4f28-b83a-4223-8a16-d989410ccc2f.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10111/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1accf-2921-7643-8198-4c5903d35e01/exec-a5c72351-d118-4778-9b2a-60696268f883.png",
+  "validation": "Both outputs have red spill outside mask silhouettes. Original retained for closer layout and aspect ratio. Raw tool output copied unchanged; not production ready."
+}

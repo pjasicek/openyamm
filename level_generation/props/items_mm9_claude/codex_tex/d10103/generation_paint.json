@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png precisely as a texture painting atlas. Use case: precise-object-edit. Image roles: paint_mask_guide.png is the edit target and absolute geometry/layout authority; design_reference.png is only chainmail detail reference; icon_x8.png is only silver-grey colour reference, ignore magenta background. Output ONE transparent PNG, 1536x2048 (3:4). Preserve all guide object positions, sizes, orientations, outlines, gaps and openings exactly. Three columns by FOUR rows of 512x512 cells. The five views FRONT, BACK, LEFT / RIGHT, TOP, empty repeat in rows 3-4. Do not rearrange into conventional views: keep the unusual foreshortened orthographic views precisely as supplied.\nRows 1-2 PAINT: paint only the grey surfaces with unlit base colour of long-sleeved silver-grey chain mail shirt with round neck, short mail skirt over mail shorts. Dense fine interlocking chainmail rings consistent with design reference scaled to each view. No trim, no other colours. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. Retain exact geometry including visible inner surfaces but keep actual gaps/openings transparent.\nRows 3-4 MATERIAL MASK: same five guide silhouettes filled entirely FLAT pure red #FF0000 because the entire item is metal. No shading, no texture, no outlines, no antialiased colour blends inside. Every silhouette pixel pure red, nothing outside. Colour key if needed: metal red #FF0000, leather/fur green #00FF00, cloth/hair blue #0000FF, gems/glass black #000000; this item is exclusively metal.\nEmpty cells column 3 of rows 2 and 4 fully transparent. All background fully transparent. Never redraw, enlarge, move or redesign objects. No ground, text, halo, sparkles, aura or outlines. Preserve the guide sheet exactly; change only surface paint in upper half and solid red material labels in lower half.\nCORRECTIVE PASS: The prior attempt had severe red spray/noise outside the lower-half silhouettes. That is unacceptable. Lower half must be five perfectly clean solid-red silhouettes matching the original grey guide EXACTLY, surrounded by completely empty alpha. No speckles or texture anywhere in mask cells. Use original guide geometry, not the prior output. Keep exact 3:4 canvas ratio.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10103/paint_mask_guide.png",
+      "sha256": "abe0689fe91dd7a46374ac0ad66a41df8df4e1c477a5d5e35fb7097390233790"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10103/design_reference.png",
+      "sha256": "8acd2ae748e214caf277ed4fbfdc3ea0d3249974a08ec626b6eb11a7848bebc2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10103/icon_x8.png",
+      "sha256": "c23ce2f046baf0542df34c71bd65bb395d14e94852f7ed6e1f3ae938a1164840"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acb3-9cf5-7543-9ca2-3e4bab36d3ee/exec-c318c41a-b9b9-4404-bc9e-da3db1e9618a.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10103/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Generated output retains stray red pixels outside material silhouettes; brief not fully satisfied. Raw tool output copied without modification."
+}

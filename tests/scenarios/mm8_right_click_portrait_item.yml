@@ -1,0 +1,26 @@
+id: mm8.right_click_portrait_item
+title: A held item right-clicked onto a party portrait is used on that member, as on the paperdoll
+world: mm8
+mode: faithful
+tags: [mm8, items, ui, regression]
+steps:
+  - note:
+      text: >-
+        Original MM8 (MM8-Rel.exe 0x4169c3): a right press with an item on the cursor over a portrait calls the item
+        use routine 0x467aa9 for that member before any screen handling. A message scroll opens its text (and the
+        ReadScroll reaction) until the button is released. The text used to be wiped the frame it opened.
+        Scenarios run with Modern controls, where holding the right button in gameplay frees the cursor: its release
+        over a portrait uses the item, and a scroll's text stays until the next click. The inventory page keeps the
+        original press.
+  - new_game_flow:
+      start_map: out01.odm
+  - grant_item: {item_id: 733, member_index: 0}
+  - right_click_portrait: {item_id: 733, member_index: 0, release: true}
+  - right_click_portrait: {item_id: 733, member_index: 0, inventory: true}
+  - grant_item: {item_id: 222, member_index: 0, power: 10}
+  - right_click_portrait: {item_id: 222, member_index: 0, release: true}
+  # The new game's party is one member, who pays the drink's recovery: the next drink waits until it can act.
+  - advance_runtime: {seconds: 3}
+  - right_click_portrait: {item_id: 222, member_index: 0, inventory: true}
+  - assert:
+      inventory_any_member: [{item_id: 733, count: 1}]

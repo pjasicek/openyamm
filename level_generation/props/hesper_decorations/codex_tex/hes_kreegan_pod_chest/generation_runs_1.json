@@ -1,0 +1,237 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "returns_unresized": true,
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "status": "Generated and saved best available unresized returns; exact brief requirements not achieved within the allowed generation limit.",
+  "selection_note": "selected means preferred generated candidate, not accepted as meeting the brief.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Edit the FIRST input image, guide_front.png, as a precise geometry-locked texture painting. Return exactly one 1024 x 1024 PNG with a genuinely transparent background, at the exact original canvas size. Input 1 is the EDIT TARGET and authoritative front orthographic geometry guide. Input 2, design_reference.png, is the approved colour and material reference ONLY. Input 3, concept_crop.png, is supporting original concept reference ONLY.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Preserve every original transparent pixel and alpha outline. The object occupies x approximately 65–959 and y approximately 363–660; keep this placement and all empty canvas unchanged. Do not copy the three-quarter viewpoint or extra geometry from the design reference. Paint only the surfaces on the existing shapes of the first image, retaining all plate boundaries and spines.\nPaint the surface materials of the design reference onto that exact shape: glossy black-violet chitin with purple highlights, spiny edges, glowing orange seams and small vent slits. Use fine mottled black-purple chitin grain and subtle purple colour variation, restrained orange fine fissures, and orange-coloured existing seams/vents. Respect the central pointed plate, paired sweeping side plates and every existing spike.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glossy is the material identity only, not baked white highlights. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. All plates equally legible in flat colour. No text, labels, or watermark. Output only the painted FRONT view, never a montage.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "5e06e8cce9e79592ee8edb7d0ec64e5dece3b7651e5e4aeaea7f119f7f8288c4",
+          "role": "edit target: authoritative geometry, silhouette and placement"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541",
+          "role": "approved colour and material reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810",
+          "role": "supporting original concept reference"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: bright specular edge highlights, shaded recesses and orange spill violate flat albedo lighting. Native dimensions are 1254x1254 rather than 1024x1024; exact guide alpha silhouette and pixel placement were not preserved.",
+      "output_metadata": {
+        "sha256": "b688a861f49390510e77afdc23700c3854374403a621a5033c7bb9f29c88b117",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          75,
+          119,
+          1177,
+          1220
+        ],
+        "opaque_bbox": [
+          79,
+          444,
+          1173,
+          810
+        ],
+        "fully_transparent_pixels": 1252818,
+        "partially_transparent_pixels": 319035
+      },
+      "source_generation": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53 as /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53/exec-91f0e206-b7c8-4384-93dc-29626432df84.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "checks": {
+        "dimensions_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": "Partial: black-violet/purple surfaces and orange seams; some surfaces read as mottled stone rather than glossy chitin.",
+        "flat_even_light": "Fail: visible specular highlights, shaded recesses and orange spill.",
+        "transparent_background": "RGBA alpha present with fully transparent canvas pixels, but faint nonzero alpha outside the intended silhouette; exact guide alpha not preserved."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Produce a 1024 by 1024 pixel transparent PNG. Exact output dimensions: 1024x1024. This is the one corrective regeneration of a FRONT texture-source painting. Paint directly over FIRST image guide_front.png. FIRST image alone dictates all geometry, exact canvas, alpha silhouette and orthographic front camera. SECOND image design_reference.png supplies ONLY black-violet/purple chitin and orange seam colour; THIRD image concept_crop.png is supporting material reference. \nKeep all shapes, every edge, opening, spine, plate boundary and the EXACT silhouette of FIRST image. Keep exact size and location, x=66 to957, y=363 to660 on the 1024x1024 canvas. Do not enlarge, move, crop, rotate or redesign anything. Preserve all surrounding transparency. Follow the original white guide exactly, repainting its grey surfaces only.\nCORRECTIONS REQUIRED: previous result incorrectly baked bright white specular edge glints, deep black shadow pockets and orange light spill, and incorrectly returned 1254x1254. This return MUST be 1024x1024 and MUST be an ALBEDO painting, like unlit base-colour texture. Use even flat shadowless colour over every plate, black-violet chitin with subtle purple colour highlights and fine organic mottling, spiny edges as already modelled, narrow orange-coloured seams and small orange vent slits at existing recesses. Glossy material appearance is defined by the purple-black colour ONLY; remove white specular glints, reflections, all directional shading, ambient occlusion, rim lighting and cast shadows. Do not add cracks or vents that alter geometry. Orange sacs/seams are flat glowing-orange colour without bloom or illuminating neighbouring plates. Reference artwork defines material palette, not lighting. No floor, backdrop, text, watermark or additional object. One single front orthographic image, native 1024x1024 RGBA.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "5e06e8cce9e79592ee8edb7d0ec64e5dece3b7651e5e4aeaea7f119f7f8288c4",
+          "role": "edit target: authoritative geometry, silhouette and placement"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541",
+          "role": "approved colour and material reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810",
+          "role": "supporting original concept reference"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted unresized front returns: flatter orange seams and reduced reflective highlights. Not brief-compliant: native dimensions remain 1254x1254; exact guide silhouette and alpha were not preserved, geometry detail varies, and residual shading remains.",
+      "output_metadata": {
+        "sha256": "9f618132c214301df4bba91e4e527085d9727956c9f553dbd3f270109ffebe55",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          19,
+          1210,
+          1230
+        ],
+        "opaque_bbox": [
+          78,
+          445,
+          1176,
+          813
+        ],
+        "fully_transparent_pixels": 1248988,
+        "partially_transparent_pixels": 323040
+      },
+      "source_generation": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53 as /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53/exec-dea1f8a8-cf17-4096-89ac-6313cbf1bc9a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "checks": {
+        "dimensions_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": "Partial: black-violet/purple surfaces and orange seams; some surfaces read as mottled stone rather than glossy chitin.",
+        "flat_even_light": "Partial: reduced glints and flatter orange, but residual plate shading and edge highlights remain.",
+        "transparent_background": "RGBA alpha present with fully transparent canvas pixels, but faint nonzero alpha outside the intended silhouette; exact guide alpha not preserved."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Edit FIRST image guide_top.png by painting its surfaces only. Return one native 1024x1024 transparent RGBA PNG. This is a texture-source albedo painting of the TOP view of a closed Kreegan pod chest.\nINPUT ROLES: FIRST image guide_top.png is the exact edit target and sole authority for silhouette, orthographic top camera, shape edges, openings, details, plate boundaries, size and position. SECOND image design_reference.png is colour and material authority ONLY, not geometry or camera. THIRD image concept_crop.png is supporting original concept reference ONLY.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Preserve original alpha and canvas, exact original 1024x1024 pixel resolution. In the target the broad oval body is approximately x65–959 and y237–787, centrally placed. Maintain the exact dorsal radial sweeping plates and existing peripheral spikes. Do not move the object, change its shape, add new spines, or show any front perspective.\nPaint the design-reference materials onto this exact geometry: glossy black-violet chitin with purple colour highlights, spiny edges, narrow glowing orange seams and small vent slits on existing shapes. Purple-black mottled organic chitin, subtle purple tone variations, restrained fine fissures. Existing channels between plates may be orange. Reference image is ONLY for colour and material, never its baked lighting.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glossy describes the material's identity, not baked shiny bright glints. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No bloom. A flat diffuse base-colour map painted into the exact guide. No white glint outlines or black shading gradients. Genuinely transparent background including all empty canvas. No text, labels, watermark or montage. EXACT output size 1024 by 1024 pixels, unresized native return.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f6eeb23adce0e6d2686d95fe49cfd75b15d68169b3ab5fc3abfc0824b9e8bb07",
+          "role": "edit target: authoritative geometry, silhouette and placement"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541",
+          "role": "approved colour and material reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810",
+          "role": "supporting original concept reference"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: specular highlights, dark shaded recesses and orange spill violate flat albedo lighting. Native dimensions are 1254x1254 rather than 1024x1024; exact guide alpha silhouette and pixel placement were not preserved.",
+      "output_metadata": {
+        "sha256": "76e1e3c382554221f0c977574d9678ddfc2c4e07cdd254191c993a71bacd6b57",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          67,
+          1184,
+          1222
+        ],
+        "opaque_bbox": [
+          80,
+          290,
+          1174,
+          964
+        ],
+        "fully_transparent_pixels": 1035069,
+        "partially_transparent_pixels": 536866
+      },
+      "source_generation": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53 as /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53/exec-24ac01c6-2788-46e9-ac01-467fdd29ef5e.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "checks": {
+        "dimensions_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": "Partial: black-violet/purple surfaces and orange seams; some surfaces read as mottled stone rather than glossy chitin.",
+        "flat_even_light": "Fail: visible specular highlights, shaded recesses and orange spill.",
+        "transparent_background": "RGBA alpha present with fully transparent canvas pixels, but faint nonzero alpha outside the intended silhouette; exact guide alpha not preserved."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE regeneration, one single TOP albedo painting, exactly 1024x1024 pixels native PNG, transparent alpha background. FIRST INPUT guide_top.png is edit target, all its geometry and alpha silhouette are locked. SECOND INPUT design_reference.png and THIRD INPUT concept_crop.png are material palette references only.\nRETAIN FIRST INPUT at exact original pixel canvas: same x/y coordinates, same silhouette, same scale and position; all existing edges, plate borders, spines, openings and details precisely unchanged, nothing added outside silhouette, nothing cropped. Object is the top-down broad oval approximately x65–959 and y237–787 of 1024x1024. Preserve every original transparent pixel, peripheral spike and radial sweeping plate. Do not use the camera or extra shapes from the reference art.\nRepaint grey guide surfaces in the reference's glossy black-violet chitin with purple highlights, existing spiny edges, orange-coloured seams and small vent slits. Fine mottled purple-black chitin texture, subtle purple colour highlights, restrained fine fissures. Do not introduce new geometry or new holes. Orange is in existing gaps and slits. Material must read dark violet chitin rather than grey stone.\nCRITICAL CORRECTION: This is an UNLIT ALBEDO TEXTURE SOURCE. The prior attempt incorrectly produced bright pink-white reflective edge highlights, deep shaded recesses and orange emission light spill. Remove all those lighting effects. Even flat diffuse colour on every surface, shadowless illumination from viewer. NO cast shadows, NO ambient-occlusion darkening, NO strong specular highlights, NO reflections, NO rim light, NO bloom, NO white shiny outlines. Glossy is a material identity, not permission to paint reflections into albedo. Orange sacs and seams are painted flat at their glowing-orange colour and NEVER cast light on surroundings. Reference colour ONLY, not reference lighting.\nNo background, no floor, no text, no labels, no watermark. Preserve the exact guide geometry and genuine transparent background. Return native 1024 by 1024 RGBA, no alternate dimensions.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f6eeb23adce0e6d2686d95fe49cfd75b15d68169b3ab5fc3abfc0824b9e8bb07",
+          "role": "edit target: authoritative geometry, silhouette and placement"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541",
+          "role": "approved colour and material reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810",
+          "role": "supporting original concept reference"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted unresized top returns: flatter orange seams and reduced reflective highlights. Not brief-compliant: native dimensions remain 1254x1254; exact guide silhouette and alpha were not preserved, geometry detail varies, and residual shading remains.",
+      "output_metadata": {
+        "sha256": "5777752b784a5269ac5c797270efe2bd9912fe9b571e796a03f021fa3c3817c4",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          35,
+          1230,
+          1230
+        ],
+        "opaque_bbox": [
+          79,
+          287,
+          1173,
+          964
+        ],
+        "fully_transparent_pixels": 1034585,
+        "partially_transparent_pixels": 537301
+      },
+      "source_generation": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53 as /home/pjasicek/.codex/generated_images/01a1564a-bc9c-7b90-8c20-6a696dc90f53/exec-95e1bbb3-ba84-41df-acb8-7f11e33c1767.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "checks": {
+        "dimensions_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": "Partial: black-violet/purple surfaces and orange seams; some surfaces read as mottled stone rather than glossy chitin.",
+        "flat_even_light": "Partial: reduced glints and flatter orange, but residual plate shading and edge highlights remain.",
+        "transparent_background": "RGBA alpha present with fully transparent canvas pixels, but faint nonzero alpha outside the intended silhouette; exact guide alpha not preserved."
+      }
+    }
+  ]
+}

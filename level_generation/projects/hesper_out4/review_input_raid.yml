@@ -1,0 +1,13 @@
+# The air raid (event 4): launched flying (--set <section>.start_flying=true), over the roosts' plaza, the three
+# hidden Court Overseer flights show within the timer's 2 s. Run with --set debug.menu_input_tour_path=<this file>.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/game_checks
+exit: true
+steps:
+  - wait: 4
+  - expect: gameplay
+  - console: config set immortal true
+  - console: actor count 10032
+  - console: goto 9130 13000 13000 2400 256
+  - wait: 4.0
+  - console: actor count 10032
+  - capture: 13-raid_flying

@@ -21,10 +21,4 @@ std::optional<std::vector<MapDecorationTexture>> parseMapDecorationTextures(
 std::optional<std::vector<OutdoorBitmapTexture>> loadMapDecorationTextures(
     const Engine::AssetFileSystem &assets, const std::string &worldId, const std::string &mapFile,
     std::string &error);
-
-// Approved non-creature sprite PNGs are keyed by the native frame name and palette. Their physical canvas is 2x.
-std::optional<OutdoorBitmapTexture> loadRestoredDecorationTexture(
-    const Engine::AssetFileSystem &assets, const std::string &name, int16_t paletteId);
-bool hasRestoredDecorationTexture(
-    const Engine::AssetFileSystem &assets, const std::string &name, int16_t paletteId);
 }

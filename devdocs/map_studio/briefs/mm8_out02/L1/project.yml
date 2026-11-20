@@ -1,0 +1,131 @@
+format: 0
+id: calib_ravenshore
+name: Ravenshore
+world: mm8
+kind: outdoor
+profile: odm
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  encounter_chance: 10
+  treasure_level: 1
+  trap_dice: 1
+  perception_difficulty: 1
+  refill_days: 672
+  lock_difficulty: 1
+  slots:
+    - {monster: Human Mercenary, tier: 3, per_marker: [2, 5], weight: 0}
+    - {monster: Centaur, tier: 1, per_marker: [1, 3], weight: 50}
+    - {monster: Dire Wolf, tier: 1, per_marker: [1, 3], weight: 50}
+neighbours:
+  - id: boat:captain_dagger_wound
+    to: out01.odm
+    kind: boat
+    days: 5
+    schedule: {per_week: 2}
+    service: captain's ship
+    notes: Arrivals from the islands also land on the pier.
+  - id: boat:captain_regna
+    to: out13.odm
+    kind: boat
+    days: 8
+    schedule: {per_week: 1}
+    service: captain's ship
+  - id: boat:smuggler_ravage_roaming
+    to: out08.odm
+    kind: boat
+    days: 4
+    schedule: {per_week: 2}
+    service: smuggler's ship
+    notes: "The second, shadier ship."
+  - id: boat:smuggler_shadowspire
+    to: out06.odm
+    kind: boat
+    days: 6
+    schedule: {per_week: 1}
+    service: smuggler's ship
+  - id: door:chapel_of_eep
+    to: d45.blv
+    kind: door
+    notes: "Chapel of Eep, optional small chapel dungeon."
+  - id: door:council_hall
+    to: d09.blv
+    kind: door
+    notes: "The council hall (merchant guild house), main-quest hub, two doors (square side and harbour side); the square door's talk before the opening quest is a variant of that entrance in plan.yml."
+  - id: door:crystal
+    to: d10.blv
+    kind: door
+    condition: {item: conflux_key}
+    notes: "The crystal in the square is the endgame portal; locked until the party holds the key built late in the story."
+  - id: door:smugglers_cove
+    to: d07.blv
+    kind: door
+    notes: "Smuggler's Cove, optional smugglers' den in a sea cave."
+  - id: door:tomb_of_lord_brinne
+    to: d28.blv
+    kind: door
+    notes: "Tomb of Lord Brinne, optional tomb."
+  - id: door:wolf_den
+    to: d08.blv
+    kind: door
+    notes: "Dire Wolf Den, low-level lair."
+  - id: edge:alvar
+    to: out03.odm
+    kind: edge
+    side: north
+    days: 5
+    approach: "Open rolling grassland beside the river; the road bends, then runs long and straight to the edge."
+    screened: false
+  - id: edge:garrote_gorge
+    to: out05.odm
+    kind: edge
+    side: west
+    days: 5
+    approach: "A narrow valley through the west uplands with staggered bends and projecting shoulders; the road stops a little short of the map edge."
+  - id: edge:shadowspire
+    to: out06.odm
+    kind: edge
+    side: east
+    days: 5
+    approach: A deep rock cut with high flanks.
+    screened: true
+  - id: edge:south_sea
+    to: out06.odm
+    kind: edge
+    side: south
+    days: 10
+    listed_only: true
+    notes: "Listed in the travel table as Shadowspire, 10 days; the whole south is open sea and nothing arrives from it."
+  - id: stable:alvar
+    to: out03.odm
+    kind: stable
+    days: 2
+    schedule: {per_week: 2}
+    service: guild caravans
+    notes: Faster than walking.
+  - id: stable:garrote_gorge
+    to: out05.odm
+    kind: stable
+    days: 2
+    schedule: {per_week: 1}
+    service: guild caravans
+  - id: stable:shadowspire
+    to: out06.odm
+    kind: stable
+    days: 2
+    schedule: {per_week: 1}
+    service: guild caravans
+qbits:
+  council_hall_open: 59
+  dire_wolves_cleared: 140
+  pirates_invaded: 57
+  town_portal_ravenshore: 302
+items:
+  conflux_key: 610
+  emperor_thorns_key: 661
+rules:
+  home_town: Ravenshore
+  respawn: district:harbour
+  town_portal_anchor: poi:fountain
+  playable_square: 0.7
+notes: "Calibration brief, level L1, for a regional hub town; second map of the campaign, the lowest band after the starter islands. Home and respawn town once visited: a defeated party wakes on the harbour piers. Quest bit and item numbers are the world's own story ids. No arrival points on the target maps at L1."

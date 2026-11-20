@@ -1,0 +1,17 @@
+[
+  {
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset: one purpose-built 4x4 UV albedo texture atlas for fantasy ground items. Edit the provided exact 4x4 color-block template into detailed natural material swatches. Keep ALL SIXTEEN square boundaries precisely at 25%,50%,75% each direction; no borders, labels, letters, objects, lighting, shadows, highlights, bevels or perspective. Every cell filled edge to edge. Flat shadowless local pigment texture only, semi realistic hand painted game material. Row1 left to right: aged ivory tooth enamel with extremely faint longitudinal streaks; tan porous tooth root bone; deep crimson smooth berry skin with subtle fine speckles; orange-red berry skin fine freckles. Row2: dark fresh green leaf surface with subtle fine branching veins; warm reddish-orange heartwood straight fine grain oriented vertically; desaturated weathered crate timber straight fine grain vertically; muted beige-brown scallop shell fine concentric growth lines (not a shell silhouette). Row3: golden yellow wasp chitin fine mottling; near-black brown wasp chitin subtle fine granules, not below RGB30; ochre cork fine pores; pale amber yellow royal jelly fine speckles with a few small bubbles, NO gloss or lighting. Row4: grey-green dried fish small overlapping scales; grey-olive fish fins fine parallel vertical ridges; mottled pale yellow ivory eyeball sclera with extremely fine dark-red branching capillaries; reddish amber eye iris RADIAL detailed dark brown fibers centred in the cell with a nearly-black ROUND pupil radius 18% of cell width. Preserve all sixteen template hues approximately; organic pigment only, avoid white highlights, reflections, ambient occlusion. This exact UV atlas will wrap specific mesh components; do not paint depictions of entire objects.",
+    "input": "textures/organic_uv_template.png",
+    "input_sha256": "84ca80f6ad6119fdc3cba07cc41d9545312e88183ebdb6996c41745c0aecb10a",
+    "output": "textures/organic_materials_raw.png",
+    "selected": true,
+    "status": "accepted",
+    "reason": "Exact 4x4 purpose-built atlas; matching material regions, no silhouette projection.",
+    "derived_output": "textures/organic_materials.png",
+    "processing": "Resize to power-of-two 1024; darken shell cell to match the source; clamp RGB 30..243 for PBR. Roughness is a separate scalar atlas by material.",
+    "output_sha256": "90fe3dbf9f8e25a38d847c0d697d25f599e2bdc6d4bdf81f9b952c14a11e7143",
+    "derived_sha256": "4a79676f4d722e898ead79e63b56b243ce2f5af3799b7f881ce9ddbf9c735de6",
+    "roughness_atlas": "textures/organic_roughness.png"
+  }
+]

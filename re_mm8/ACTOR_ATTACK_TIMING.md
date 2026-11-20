@@ -44,3 +44,21 @@ lasts the whole animation (`attackImpactLeadSecondsForAbility` in the shared act
 from MM8 for annotated sprites (hits up to ~0.3 s earlier); unlisted sprites, including all of MM7/MM8 until annotated,
 behave as above. A 3D clip's `impact` marker is fitted to whichever moment applies (`WorldFxSystem`). The same file can
 delay a sprite's attack sound (`sound_delay`, seconds on the attack's clock); MM8 always plays it as the attack starts.
+
+## Where a melee blow on the party lands
+
+Investigated 2026-10-27: does a party that steps back during a monster's swing avoid the blow?
+
+- When the melee action ends, the actor update pushes the blow onto the attack list at `0x5214c8` (`0x40276d`)
+  from the body's half height with reach `0x1400` (5120, `push 0x1400` at `0x402238`).
+- The list is resolved at `0x4373e5`. For a melee entry against the party (the attacker's target at `0x508198`),
+  the blow lands when the party's height-adjusted centre is closer than reach + 32 (`add ecx,0x20` at `0x4374bf`)
+  and the line of sight test `0x408520` passes from the party's eyes; then the hit roll and damage follow.
+- Nothing re-checks the 307.2 melee distance the monster needed to start the swing, so once a blow is started it
+  lands unless the party breaks line of sight (a corner, a closing door). OpenEnroth's MM7 `evaluateAoeDamage`
+  does the same. MAW keeps it; its only melee avoidance is the GM Dodging roll in `CalcDamageToPlayer`.
+
+OpenYAMM follows this: `GameplayActorService::MonsterMeleeImpactReach` (5152, from the middle of the monster's body
+to the party's) with line of sight, in `IndoorWorldRuntime`/`OutdoorWorldRuntime` `...CanApplyPartyMeleeImpact`;
+the optional `meleeVerticalReach` of a world (Hesper) still applies there. Earlier OpenYAMM re-checked the 307.2
+edge distance when the blow landed, which let a backpedalling party slip most blows.

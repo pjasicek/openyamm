@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_seamon_claude/references_hd/00_three_quarter.png), unresized at 1536×1024 with transparency, using built-in imagegen. Prompts, input hashes and both attempts are recorded in [generation_runs.json](level_generation/creatures/mm9_seamon_claude/references_hd/generation_runs.json).
+
+Stopped before RUN 2. Remaining limitations: obscured far hind foot, unclear claw counts and tight tail margin.

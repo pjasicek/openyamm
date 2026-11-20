@@ -1,0 +1,152 @@
+# Explicit conversion choices for MM9's Yanmir's Fort (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: yanmirsfort
+  display_name: Yanmir's Fort
+  starts: [StartPoint0]                # the main gate from Frosgard (TPS1 beside it; YanmirsMainExit there)
+  monster_classes: [Yeti, Thrall, ThrallMaster, IceLobber, IceLobbercicle, ForestGiant, Yanmir,
+                    CommonerChildHumanChildA, CommonerChildHuman2ChildA, CommonerChildDwarfChildA, CommonerChildElfChildA]
+  offset: [0, 0, 0]                    # the old map's frame (fits int16)
+  ambient: 31                          # sector minimum light 31: the AGENT_BRIEF decoration workaround (the bake's
+                                       # ambient_scale is set against it)
+  model_lighting: false                # compared on six props (README, AGENT_BRIEF "Prop lighting"): the old path with
+                                       # sector light 31 keeps them brighter (median x0.86 of the capture, model x0.66)
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+models:
+  # --- MM9 double doors (RotatingDoor pairs with a PortalName): one rotating mover per leaf, a click opens the pair
+  Door1b27: {group: DPortal27, motion: rotate, doorway: true, portal: DPortal27}
+  Door1a27: {group: DPortal27, motion: rotate, doorway: true, portal: DPortal27}
+  Door1b29: {group: DPortal29, motion: rotate, doorway: true, portal: DPortal29}
+  Door1a29: {group: DPortal29, motion: rotate, doorway: true, portal: DPortal29}
+  Door1b30: {group: DPortal30, motion: rotate, doorway: true, portal: DPortal30}
+  Door1a30: {group: DPortal30, motion: rotate, doorway: true, portal: DPortal30}
+  Door1b31: {group: DPortal31, motion: rotate, doorway: true, portal: DPortal31}
+  Door1a31: {group: DPortal31, motion: rotate, doorway: true, portal: DPortal31}
+  Door1b35: {group: DPortal35, motion: rotate, doorway: true, portal: DPortal35}
+  Door1a35: {group: DPortal35, motion: rotate, doorway: true, portal: DPortal35}
+  Door1b36: {group: DPortal36, motion: rotate, doorway: true, portal: DPortal36}
+  Door1a36: {group: DPortal36, motion: rotate, doorway: true, portal: DPortal36}
+  DoorTeleportRight: {group: DPortal37, motion: rotate, doorway: true, portal: DPortal37}
+  DoorTeleportLeft: {group: DPortal37, motion: rotate, doorway: true, portal: DPortal37}
+  Door1: {group: Portal2, motion: rotate, doorway: true, portal: Portal2}
+  Door2: {group: Portal2, motion: rotate, doorway: true, portal: Portal2}
+  Door3: {group: Portal4, motion: rotate, doorway: true, portal: Portal4}
+  Door4: {group: Portal4, motion: rotate, doorway: true, portal: Portal4}
+  Door5: {group: Portal6, motion: rotate, doorway: true, portal: Portal6}
+  Door6: {group: Portal6, motion: rotate, doorway: true, portal: Portal6}
+  Door7: {group: Portal8, motion: rotate, doorway: true, portal: Portal8}
+  Door8: {group: Portal8, motion: rotate, doorway: true, portal: Portal8}
+  Door9: {group: Portal10, motion: rotate, doorway: true, portal: Portal10}
+  Door10: {group: Portal10, motion: rotate, doorway: true, portal: Portal10}
+  Door11: {group: Portal12, motion: rotate, doorway: true, portal: Portal12}
+  Door12: {group: Portal12, motion: rotate, doorway: true, portal: Portal12}
+  Door1a0: {group: DPortal0, motion: rotate, doorway: true, portal: DPortal0}
+  Door1b0: {group: DPortal0, motion: rotate, doorway: true, portal: DPortal0}
+  Door1a: {group: DPortal1, motion: rotate, doorway: true, portal: DPortal1}
+  Door1b: {group: DPortal1, motion: rotate, doorway: true, portal: DPortal1}
+  Door1a10: {group: DPortal10, motion: rotate, doorway: true, portal: DPortal10}
+  Door1b10: {group: DPortal10, motion: rotate, doorway: true, portal: DPortal10}
+  Door1a1: {group: DPortal11, motion: rotate, doorway: true, portal: DPortal11}
+  Door1b1: {group: DPortal11, motion: rotate, doorway: true, portal: DPortal11}
+  Door1a2: {group: DPortal12, motion: rotate, doorway: true, portal: DPortal12}
+  Door1b2: {group: DPortal12, motion: rotate, doorway: true, portal: DPortal12}
+  Door1a3: {group: DPortal13, motion: rotate, doorway: true, portal: DPortal13}
+  Door1b3: {group: DPortal13, motion: rotate, doorway: true, portal: DPortal13}
+  Door1a4: {group: DPortal14, motion: rotate, doorway: true, portal: DPortal14}
+  Door1b4: {group: DPortal14, motion: rotate, doorway: true, portal: DPortal14}
+  Door1a5: {group: DPortal15, motion: rotate, doorway: true, portal: DPortal15}
+  Door1b5: {group: DPortal15, motion: rotate, doorway: true, portal: DPortal15}
+  Door1a6: {group: DPortal16, motion: rotate, doorway: true, portal: DPortal16}
+  Door1b6: {group: DPortal16, motion: rotate, doorway: true, portal: DPortal16}
+  Door1a7: {group: DPortal17, motion: rotate, doorway: true, portal: DPortal17}
+  Door1b7: {group: DPortal17, motion: rotate, doorway: true, portal: DPortal17}
+  Door1a8: {group: DPortal18, motion: rotate, doorway: true, portal: DPortal18}
+  Door1b8: {group: DPortal18, motion: rotate, doorway: true, portal: DPortal18}
+  Door1a9: {group: DPortal19, motion: rotate, doorway: true, portal: DPortal19}
+  Door1b9: {group: DPortal19, motion: rotate, doorway: true, portal: DPortal19}
+  Door1a20: {group: DPortal20, motion: rotate, doorway: true, portal: DPortal20}
+  Door1b20: {group: DPortal20, motion: rotate, doorway: true, portal: DPortal20}
+  Door1a21: {group: DPortal21, motion: rotate, doorway: true, portal: DPortal21}
+  Door1b21: {group: DPortal21, motion: rotate, doorway: true, portal: DPortal21}
+  Door1a22: {group: DPortal22, motion: rotate, doorway: true, portal: DPortal22}
+  Door1b22: {group: DPortal22, motion: rotate, doorway: true, portal: DPortal22}
+  Door1a23: {group: DPortal23, motion: rotate, doorway: true, portal: DPortal23}
+  Door1b23: {group: DPortal23, motion: rotate, doorway: true, portal: DPortal23}
+  Door1a24: {group: DPortal24, motion: rotate, doorway: true, portal: DPortal24}
+  Door1b24: {group: DPortal24, motion: rotate, doorway: true, portal: DPortal24}
+  # --- the teleporter room's doors (Locked; Yanmir's key unlocks them: YanmirKey.scr) and the children's cages
+  # (RotatingDoor61-67, Locked; the same key unlocks them)
+  RotatingDoor61: {group: RotatingDoor61, motion: rotate}
+  RotatingDoor62: {group: RotatingDoor62, motion: rotate}
+  RotatingDoor63: {group: RotatingDoor63, motion: rotate}
+  RotatingDoor64: {group: RotatingDoor64, motion: rotate}
+  RotatingDoor65: {group: RotatingDoor65, motion: rotate}
+  RotatingDoor66: {group: RotatingDoor66, motion: rotate}
+  RotatingDoor67: {group: RotatingDoor67, motion: rotate}
+  # --- the secret wall by the treasure halls (OpenTrigger "lock": it opens once and stays open; PerceptionBrush0)
+  Secretdoor: {group: Secretdoor, motion: rotate, doorway: true}
+  # --- Yanmir's trap under the trap hall: six wooden supports (HP 1, each with a PerceptionBrush), the hall's floor
+  # (YanDstruct0, FallingFloor0) and the basement's plank floor and ice beams (Planks0, Xbeams0), destroyed when
+  # Yanmir walks onto the broken floor (convert.py)
+  DestructableBrush0: {group: Support0, motion: break}   # scene destructibles (weapons, or a click)
+  DestructableBrush1: {group: Support1, motion: break}
+  DestructableBrush2: {group: Support2, motion: break}
+  DestructableBrush3: {group: Support3, motion: break}
+  DestructableBrush4: {group: Support4, motion: break}
+  DestructableBrush5: {group: Support5, motion: break}
+  # They drop 399 LT (1 021 native: a mover travelling at most 1 024 keeps its baked light; a longer sink drew the
+  # hall's floor vertex-lit, near black): the hall's floor comes to rest just under the basement's planks, which drop
+  # with the beams into the shaft's mouth; a party on the fallen floor has fallen through (convert.py: Frosgard City).
+  YanDstruct0: {group: TrapFloor, motion: slide, move_lt: [0, -399, 0], speed: 1200, click: false}
+  FallingFloor0: {group: TrapFloor, motion: slide, move_lt: [0, -399, 0], speed: 1200, click: false}
+  Planks0: {group: TrapPlanks, motion: slide, move_lt: [0, -399, 0], speed: 1200, click: false}
+  Xbeams0: {group: TrapPlanks, motion: slide, move_lt: [0, -399, 0], speed: 1200, click: false}
+  # --- static and invisible
+  WavySurface4: static                 # the shimmering exit surfaces (Water115.spr) in the two gates to Frosgard
+  WavySurface5: static
+  InvisibleBrush0: static
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  InvisibleBrush3: static
+  InvisibleBrush4: static
+  InvisibleBrush5: static
+  InvisibleBrush6: static
+  InvisibleBrush7: static
+  InvisibleBrush8: static
+  InvisibleBrush9: static
+  InvisibleBrush10: static
+  InvisibleBrush11: static
+  InvisibleBrush12: static
+  InvisibleBrush13: static
+  InvisibleBrush14: static
+  InvisibleBrush15: static
+  BlueWater0: skip                     # water volume (no drawn faces); its surface: convert.py
+  Skybox: skip                         # MM9's sky box (DemoSkyWorldModel)
+model_patterns:
+# Relay triggers MM9 parks outside the walls (the supports' DeathTrigger relays Trigger0-5 beside the basement, the
+# trap's TriggerTrapForReal 1 500 LT over the roof) and Light63 in the rock under the treasure halls: as seeds they
+# flood the outside (tools/leak.py).
+seed_exclude: [Trigger0, Trigger1, Trigger2, Trigger3, Trigger4, Trigger5, TriggerTrapForReal, Light63]
+exits:
+  TPS1: {}
+  TPS2: {}
+  PlayerExit: {}
+textures:
+  'water:pool': {alias: WATEZWECUN, width: 128, height: 128}   # BlueWater0's surface: MM9's Water115.spr (animated)
+plan_levels:
+  shaft: [-3600, -400]
+  basement: [-400, -100]
+  ground: [-100, 250]
+  upper: [250, 1100]
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [ForestGiant0, ForestGiant1, ForestGiant2, ForestGiant3, "Yanmir'sKey"]
+  themed_near: [Bonepile0, Bonepile1, Bonepile2, Bonepile3, Bonepile4, Bonepile5, Bonepile6, Bonepile7, Bonepile8]
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated, translucent where MM9's are.
+spr_surfaces: {}   # the gates' Water115 sheets (translucent in convert.py): their frames

@@ -1,0 +1,3 @@
+Saved all seven tier A PNGs in [references_head](level_generation/creatures/mm9_evilsorcerer_claude/references_head), with raw returns in `raw/` and prompts/checks in `generation_runs_a.json`. Used built-in image generation; outputs are unresized RGBA and match the clay dimensions.
+
+No builds or Meshy work. **The pixel-exact geometry requirement remains unmet:** generated contours and facial landmarks drift from the clay.

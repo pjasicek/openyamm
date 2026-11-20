@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, preserving its exact alpha silhouettes, positions, scale, gaps, and layout. Output ONE transparent PNG 1536x2048 (3:4).\nInput 1 paint_mask_guide.png is the edit target and absolute geometry authority. Input 2 design_reference.png is only the gold material/engraving reference. Input 3 icon_x8.png is only the colour reference; magenta is background.\nThe guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve the actual guide projections even where they appear edge-on: never replace them with an upright reference silhouette.\nRows 1-2 PAINT: paint ONLY existing grey objects with unlit gold base colour for the source-faithful upright pendant and its metal chain, following the reference facets, engravings, scrollwork and inner swirls scaled to each actual view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. Keep restrained source gold and aged gold colour variation.\nRows 3-4 MATERIAL MASK: same existing five silhouettes filled with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 for EVERY metal part, including pendant, rings and chains (this object is metal). Pure black #000000 only for gemstone, crystal, glass, pearl, enamel or liquid through glass if any; pure blue #0000FF only for cloth or hair if any. Every pixel of each silhouette gets exactly one material colour.\nKeep every opening and gap fully transparent. Everything outside the guide objects is transparent. Column 3 of rows 2 and 4 stays empty. Do not redraw, enlarge, move, redesign, or change the outlines of any object. No ground, text, outlines, glow, sparkles, aura or added content.\nCORRECTION: The previous attempt thickened chain links and created stray red pixels and red edging on upper paint views. Strictly preserve the original grey guide's thin chain links, exact polygonal pendant boundary and every component's original alpha footprint. No stray pixels or red edging in the upper half. Lower-half silhouettes must exactly trace the original guide, not ornamental redesigns. Keep paint matte, without highlights. Use the original guide as the edit target.",
+  "initial_prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, preserving its exact alpha silhouettes, positions, scale, gaps, and layout. Output ONE transparent PNG 1536x2048 (3:4).\nInput 1 paint_mask_guide.png is the edit target and absolute geometry authority. Input 2 design_reference.png is only the gold material/engraving reference. Input 3 icon_x8.png is only the colour reference; magenta is background.\nThe guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve the actual guide projections even where they appear edge-on: never replace them with an upright reference silhouette.\nRows 1-2 PAINT: paint ONLY existing grey objects with unlit gold base colour for the source-faithful upright pendant and its metal chain, following the reference facets, engravings, scrollwork and inner swirls scaled to each actual view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. Keep restrained source gold and aged gold colour variation.\nRows 3-4 MATERIAL MASK: same existing five silhouettes filled with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 for EVERY metal part, including pendant, rings and chains (this object is metal). Pure black #000000 only for gemstone, crystal, glass, pearl, enamel or liquid through glass if any; pure blue #0000FF only for cloth or hair if any. Every pixel of each silhouette gets exactly one material colour.\nKeep every opening and gap fully transparent. Everything outside the guide objects is transparent. Column 3 of rows 2 and 4 stays empty. Do not redraw, enlarge, move, redesign, or change the outlines of any object. No ground, text, outlines, glow, sparkles, aura or added content.",
+  "tool": "built-in image_gen",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad02-6bcd-79f1-a796-6a933c2a74c2/exec-6e7789ce-582a-4b5a-ac14-15ea52aa8d37.png",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10164/paint_mask_guide.png",
+      "sha256": "8454c3814b230e8851c55b1761e57f57a87004abde039a8ac1129e19387de9b3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10164/design_reference.png",
+      "sha256": "2a08c86f473ad585325b87ef36e4756de1551c0a0c818df6bb583320f1138bb6"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10164/icon_x8.png",
+      "sha256": "cac8dddc1310a2434bad093fde55689e7a621c6a713528fb7baeb57b19c2a2ce"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10164/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "review": "One corrective regeneration used. Layout retained, but visible edge artifacts and silhouette drift remain; not certified as an exact mask match."
+}

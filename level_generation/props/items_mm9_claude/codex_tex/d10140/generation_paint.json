@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png precisely, using design_reference.png as approved material/detail reference and icon_x8.png as original colour reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve guide's three columns by FOUR rows grid, all ten silhouettes, exact positions, sizes, outlines, views and openings. Do not redraw, enlarge, move or redesign objects. Guide rows 1-2 contain five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat them. Respect actual guide orientations even though object description is source-faithful pair vertical cuffs-down. Paint only grey objects. Rows 1-2 PAINT: unlit base colour, source-faithful silver steel gauntlet with gold bands, gold cuff rims and gold geometric cuff tracery as approved reference. Finger plates silver steel, three back-of-hand bands gold, thumb band gold. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Rows 3-4 MATERIAL MASK: same five silhouettes with FLAT PURE colours only, no shading, texture, outlines or antialiased colour blends inside. Every metal (including steel AND gold) pure red #FF0000; any leather/fur pure green #00FF00; any cloth/hair pure blue #0000FF; gems/crystal/glass/pearl/enamel/liquid pure black #000000. This metal gauntlet's metal surfaces must all be uniform pure red in mask, with no gold/silver distinctions or drawn detail. Each silhouette pixel exactly one material colour. Nothing outside silhouettes. Keep all original gaps/openings fully transparent. Column 3 in rows 2 and 4 stays completely transparent. Transparent background, not black or checkerboard paint. Layout fidelity is paramount.\nCORRECTION: The previous attempt produced large red noise/splatters outside lower silhouettes. This is invalid. Start from the original clean guide supplied here. Preserve its alpha exactly; do not generate ANY speckles, dust, spray, scratch marks or stray pixels outside the objects. Lower five masks must be clean solid uniformly #FF0000 shapes bounded ONLY by the original guide silhouettes, with absolutely clean transparent surroundings. Upper paint must be flat albedo without specular highlights or directional shading. Retain original geometry and layout strictly.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-d905-7912-8f63-4c7593436961/exec-fbedefe1-5567-43e6-a792-a1b0965c1d72.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10140/paint_mask_guide.png",
+      "sha256": "7ddb8c3d0ebdcc6b8776edd42f755ac76f2cfce4402424545aaef8f65673151c"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10140/design_reference.png",
+      "sha256": "25306df8889f9233f320e1c6fcc9e25d456b24be3cf59b82d0ec8aad1e2f9aef"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10140/icon_x8.png",
+      "sha256": "721c79db11dda31bf6a42050a3f5eb417f60af5e0287ae96835fc9cf201b482f"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10140/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained approximately; visible stray red artifacts and non-flat mask colours remain. Raw tool output preserved without modification."
+}

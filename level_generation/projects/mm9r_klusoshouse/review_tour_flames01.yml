@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_klusoshouse/review/flames01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: f01_wallcandle_side
+  position:
+  - 870
+  - 845
+  - 42
+  yaw: -1.299
+  pitch: 0.2094
+- name: f02_fireplace_side
+  position:
+  - -1638
+  - 1075
+  - 1
+  yaw: -2.2655
+  pitch: -0.0873
+- name: f03_chandelier
+  position:
+  - -384
+  - 845
+  - 4
+  yaw: 3.1416
+  pitch: 0.5236

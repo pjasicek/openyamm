@@ -1,0 +1,18 @@
+# d3d.ren SHA256 f4c708f55d2c6ca666b4e550ecdc387df5ca6ddaa4c03ef6a6a5004a1c113805
+# Preferred image base 0x10000000. Read README first.
+f mm9fx.texture_upload 1 @ 0x1001fca0
+f mm9fx.translucent_queue 1 @ 0x1003ec00
+f mm9fx.sprite_blend_fog 1 @ 0x1004cda0
+f mm9fx.rotated_sprite_color 1 @ 0x10052b80
+f mm9fx.draw_rotated_sprite 1 @ 0x10053510
+f mm9fx.draw_sprite 1 @ 0x10054f30
+f mm9fx.sprite_queue_wrapper 1 @ 0x10057e50
+f mm9fx.queue_sprite 1 @ 0x10057e80
+f mm9fx.draw_noz_sprites 1 @ 0x10057f00
+CC DTX identifier6 selects DXT5 FOURCC0x35545844. @ 0x10020295
+CC Primary flags0x80 disables fog. @ 0x1004cdfa
+CC Secondary flags4 additive uses ONE/ONE and black fog. Secondary8 multiply uses ZERO/SRCCOLOR and white fog. Else SRCALPHA/INVSRCALPHA. @ 0x1004ce10
+CC Object alpha byte+97. Primary0x200 bypasses world lighting. @ 0x10052b97
+CC Applies render states19/20/28/34 then primary flag8 dispatches rotated sprite geometry. @ 0x10054f99
+CC Camera-facing sprite lighting path tests primary NOLIGHT0x200. @ 0x10055518
+CC Separate no-Z queue disables render state7 around sprite drawing. @ 0x10057f00

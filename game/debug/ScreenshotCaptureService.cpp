@@ -5,6 +5,8 @@
 #include <SDL3/SDL.h>
 #include <bgfx/bgfx.h>
 
+#include <algorithm>
+#include <cmath>
 #include <optional>
 #include <system_error>
 #include <utility>
@@ -52,15 +54,44 @@ bool saveBgraPixelsAsPng(
     SDL_DestroySurface(pSurface);
     return saved;
 }
+
+// The pixels of region, clamped to the frame; width and height become the region's.
+std::vector<uint8_t> cropBgraPixels(
+    const std::vector<uint8_t> &bgraPixels,
+    uint32_t &width,
+    uint32_t &height,
+    const ScreenshotCaptureService::Region &region)
+{
+    const uint32_t left = std::min(width - 1, uint32_t(std::max(0.0f, std::round(region.x * float(width)))));
+    const uint32_t top = std::min(height - 1, uint32_t(std::max(0.0f, std::round(region.y * float(height)))));
+    const uint32_t right =
+        std::clamp(uint32_t(std::max(0.0f, std::round((region.x + region.width) * float(width)))), left + 1, width);
+    const uint32_t bottom =
+        std::clamp(uint32_t(std::max(0.0f, std::round((region.y + region.height) * float(height)))), top + 1, height);
+    std::vector<uint8_t> cropped;
+    cropped.reserve(size_t(right - left) * (bottom - top) * 4u);
+
+    for (uint32_t row = top; row < bottom; ++row)
+    {
+        const auto rowBegin = bgraPixels.begin() + (size_t(row) * width + left) * 4u;
+        cropped.insert(cropped.end(), rowBegin, rowBegin + size_t(right - left) * 4u);
+    }
+
+    width = right - left;
+    height = bottom - top;
+    return cropped;
+}
 }
 
 void ScreenshotCaptureService::requestCapture(
     const std::filesystem::path &outputPath,
-    CompletionCallback completionCallback)
+    CompletionCallback completionCallback,
+    const std::optional<Region> &region)
 {
     PendingCapture pending = {};
     pending.outputPath = outputPath;
     pending.completionCallback = std::move(completionCallback);
+    pending.region = region;
     pending.token = "appshot-" + std::to_string(m_nextCaptureToken);
     ++m_nextCaptureToken;
     m_pendingCaptures.push_back(std::move(pending));
@@ -129,11 +160,19 @@ void ScreenshotCaptureService::update()
         return;
     }
 
-    const bool saved = saveBgraPixelsAsPng(
-        pending.outputPath,
-        screenshot->width,
-        screenshot->height,
-        screenshot->bgraPixels);
+    uint32_t width = screenshot->width;
+    uint32_t height = screenshot->height;
+    bool saved = false;
+
+    if (pending.region && width != 0 && height != 0)
+    {
+        const std::vector<uint8_t> cropped = cropBgraPixels(screenshot->bgraPixels, width, height, *pending.region);
+        saved = saveBgraPixelsAsPng(pending.outputPath, width, height, cropped);
+    }
+    else
+    {
+        saved = saveBgraPixelsAsPng(pending.outputPath, width, height, screenshot->bgraPixels);
+    }
     const std::string outputPathText = pending.outputPath.string();
     CompletionCallback completionCallback = std::move(pending.completionCallback);
     m_pendingCaptures.erase(m_pendingCaptures.begin());

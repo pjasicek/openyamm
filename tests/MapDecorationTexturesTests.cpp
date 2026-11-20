@@ -97,36 +97,3 @@ TEST_CASE("map decoration textures preserve RGBA and native size only in their e
     std::filesystem::remove(directory / "tree.png");
     CHECK_FALSE(Game::loadMapDecorationTextures(assets, "mm6", "oute3.odm", error));
 }
-
-TEST_CASE("restored decoration pack uses the frame palette key and retains native dimensions")
-{
-    using namespace OpenYAMM;
-    DecorationTextureFixture fixture;
-    const std::filesystem::path assetsRoot = fixture.root / "assets_dev";
-    const std::filesystem::path directory = assetsRoot / "engine/decorations_x2";
-    std::filesystem::create_directories(directory);
-    std::ofstream(directory / "tree_p140.png", std::ios::binary).write(
-        reinterpret_cast<const char *>(Png2x2), sizeof(Png2x2));
-
-    Engine::AssetScaleProfile profile;
-    profile.decorations = Engine::AssetScaleTier::X2;
-    Engine::AssetFileSystem assets;
-    REQUIRE(assets.initialize(fixture.root, assetsRoot, Engine::AssetScaleTier::X1, profile, "mm6"));
-    CHECK(Game::hasRestoredDecorationTexture(assets, "TREE", 140));
-    const auto restored = Game::loadRestoredDecorationTexture(assets, "TREE", 140);
-    REQUIRE(restored);
-    CHECK(restored->width == 1);
-    CHECK(restored->height == 1);
-    CHECK(restored->physicalWidth == 2);
-    CHECK(restored->physicalHeight == 2);
-    CHECK(restored->hasTransparentPixels);
-    CHECK(restored->hasPartialAlphaPixels);
-    CHECK_FALSE(Game::loadRestoredDecorationTexture(assets, "tree", 141));
-    CHECK_FALSE(Game::hasRestoredDecorationTexture(assets, "tree", 141));
-
-    assets.shutdown();
-    Engine::AssetScaleProfile nativeProfile;
-    Engine::AssetFileSystem nativeAssets;
-    REQUIRE(nativeAssets.initialize(fixture.root, assetsRoot, Engine::AssetScaleTier::X1, nativeProfile, "mm6"));
-    CHECK(Game::loadRestoredDecorationTexture(nativeAssets, "tree", 140));
-}

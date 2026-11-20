@@ -15,8 +15,12 @@ MM7.HouseServiceType = {
     Tavern = 4,
 }
 
+MM7.HouseMenu = {
+    Root = 0,
+}
+
 function MM7.FilterTavernTopicsWithoutArcomage(context)
-    if context.houseServiceType ~= MM7.HouseServiceType.Tavern then
+    if context.houseServiceType ~= MM7.HouseServiceType.Tavern or context.menuId ~= MM7.HouseMenu.Root then
         return
     end
 
@@ -24,6 +28,7 @@ function MM7.FilterTavernTopicsWithoutArcomage(context)
         HouseAction.TavernRentRoom,
         HouseAction.TavernBuyFood,
         HouseAction.OpenLearnSkillsMenu,
+        HouseAction.OpenTeacherLedgerMenu,
     })
 end
 
@@ -126,16 +131,6 @@ function MM7.EnterCastleGloamingThroneRoom()
     evt.EnterHouse(219) -- Throne Room
 end
 
-function MM7.OpenDimensionDoor()
-    if CrossContinents ~= nil
-        and CrossContinents.TryDimensionDoorContact ~= nil
-        and CrossContinents.TryDimensionDoorContact() then
-        return
-    end
-
-    evt.OpenDimensionDoor()
-end
-
 function MM7.DistanceToPartySquared(x, y)
     local partyX, partyY = evt.GetPartyPosition()
     local dx = x - partyX
@@ -143,12 +138,7 @@ function MM7.DistanceToPartySquared(x, y)
     return dx * dx + dy * dy
 end
 
-function MM7.ApplyDeyjaLocalRelations()
-    evt.SetMonsterRelation(91, 0, 0)
-end
-
 function MM7.UpdateDeyjaOutdoorState()
-    MM7.ApplyDeyjaLocalRelations()
     evt.SetMonGroupBit(56, MonsterBits.Hostile, 1)
     evt.SetMonGroupBit(55, MonsterBits.Hostile, IsQBitSet(QBit(611)) and 1 or 0)
 end
@@ -177,286 +167,18 @@ function MM7.MarkAntagarichEndgameComplete()
     SetQBit(QBit(783))
 end
 
-MM7.CrossContinents = {
-    VerdantNpcId = 803,
-    ChargedConnectorStoneItemId = 624,
-    DischargedConnectorStoneItemId = 625,
-    SharedLifeRingItemId = 543,
-    CompleteQBits = {
-        [1] = 228, -- Jadame
-        [2] = 783, -- Antagarich
-        [3] = 784, -- Enroth
-    },
-    ContinentTopicIds = {
-        [1] = 1782, -- Jadame
-        [2] = 1783, -- Antagarich
-        [3] = 1784, -- Enroth
-    },
-    MeetSpotHouseIds = {
-        [1] = 185,
-        [2] = 641,
-        [3] = 1195,
-    },
-    ContinentMessageText = {
-        [1] = "Jadame starts on Dagger Wound. Help the caravan, reach Ravenshore, and hold the alliance together.",
-        [2] = "Antagarich begins with the Emerald Island scavenger hunt and leads to Harmondale. Become lords, then keep your land alive.",
-        [3] = "Enroth is the simple path: train hard, help where you can, and try not to mistake every future devil for an apprentice wizard.",
-    },
-}
-
+-- MMerge's dragon hatchling (Global_mm7_mmmerge.lua, MAW's Global_maw.lua) keeps its state under MMerge's CrossContinents
+-- names, which saves carry.
 function MM7.CrossVar(name)
-    if CrossContinents ~= nil and CrossContinents.Var ~= nil then
-        return CrossContinents.Var(name)
-    end
-
     return "MMerge.CrossContinents." .. name
 end
 
 function MM7.GetCrossVar(name, defaultValue)
-    if CrossContinents ~= nil and CrossContinents.GetVar ~= nil then
-        return CrossContinents.GetVar(name, defaultValue)
-    end
-
     return evt.GetGlobalVar(MM7.CrossVar(name), defaultValue or 0)
 end
 
 function MM7.SetCrossVar(name, value)
-    if CrossContinents ~= nil and CrossContinents.SetVar ~= nil then
-        CrossContinents.SetVar(name, value)
-        return
-    end
-
     evt.SetGlobalVar(MM7.CrossVar(name), value or 0)
-end
-
-function MM7.CurrentMergedContinent()
-    if CrossContinents ~= nil and CrossContinents.CurrentContinent ~= nil then
-        return CrossContinents.CurrentContinent()
-    end
-
-    local continent = CurrentContinent()
-    if continent >= 1 and continent <= 3 then
-        return continent
-    end
-
-    local mapName = string.lower(evt.GetCurrentMapName() or "")
-    if string.sub(mapName, 1, 1) == "7" then
-        return 2
-    end
-
-    return continent
-end
-
-function MM7.IsCrossContinentFinished(continent)
-    if CrossContinents ~= nil and CrossContinents.IsContinentFinished ~= nil then
-        return CrossContinents.IsContinentFinished(continent)
-    end
-
-    local qbitId = MM7.CrossContinents.CompleteQBits[continent]
-    if qbitId == nil then
-        return false
-    end
-
-    return IsQBitSet(QBit(qbitId)) or MM7.GetCrossVar("Finished." .. tostring(continent), 0) ~= 0
-end
-
-function MM7.MarkCrossContinentFinished(continent)
-    if CrossContinents ~= nil and CrossContinents.MarkContinentFinished ~= nil then
-        CrossContinents.MarkContinentFinished(continent)
-        return
-    end
-
-    MM7.SetCrossVar("Finished." .. tostring(continent), 1)
-end
-
-function MM7.MarkCrossContinentAntagarichIfComplete()
-    if IsQBitSet(QBit(633)) or IsQBitSet(QBit(783)) then
-        MM7.MarkCrossContinentFinished(2)
-    end
-end
-
-function MM7.CrossRewardCount()
-    if CrossContinents ~= nil and CrossContinents.RewardCount ~= nil then
-        return CrossContinents.RewardCount()
-    end
-
-    local count = 0
-    for continent = 1, 3 do
-        if MM7.GetCrossVar("Reward." .. tostring(continent), 0) ~= 0 then
-            count = count + 1
-        end
-    end
-    return count
-end
-
-function MM7.PlaceVerdantForCurrentContinent()
-    if CrossContinents ~= nil and CrossContinents.PlaceVerdantForCurrentContinent ~= nil then
-        CrossContinents.PlaceVerdantForCurrentContinent()
-        return
-    end
-
-    if MM7.GetCrossVar("MetVerdant", 0) == 0 and MM7.GetCrossVar("GotMainQuest", 0) == 0 then
-        return
-    end
-
-    local houseId = MM7.CrossContinents.MeetSpotHouseIds[MM7.CurrentMergedContinent()]
-    if houseId ~= nil then
-        evt.MoveNPC(MM7.CrossContinents.VerdantNpcId, houseId)
-    end
-end
-
-function MM7.UpdateVerdantTopics()
-    if CrossContinents ~= nil and CrossContinents.UpdateVerdantTopics ~= nil then
-        CrossContinents.UpdateVerdantTopics()
-        return
-    end
-
-    local npcId = MM7.CrossContinents.VerdantNpcId
-    evt.SetNPCTopic(npcId, 0, 0)
-    evt.SetNPCTopic(npcId, 1, 0)
-    evt.SetNPCTopic(npcId, 2, 0)
-    evt.SetNPCTopic(npcId, 3, 0)
-
-    if MM7.GetCrossVar("GotMainQuest", 0) == 0 then
-        evt.SetNPCTopic(npcId, 0, 1778) -- Important Matter
-        return
-    end
-
-    local continent = MM7.CurrentMergedContinent()
-    local topicId = MM7.CrossContinents.ContinentTopicIds[continent]
-    if topicId ~= nil then
-        evt.SetNPCTopic(npcId, 0, topicId)
-    else
-        evt.SetNPCTopic(npcId, 0, 1781) -- Time Travel Guide
-    end
-
-    evt.SetNPCTopic(npcId, 1, 1781) -- Time Travel Guide
-
-    if MM7.GetCrossVar("GotConnectorStone", 0) ~= 0 then
-        evt.SetNPCTopic(npcId, 2, 1788) -- Connector gem
-    end
-end
-
-function MM7.UpdateCrossContinentsState()
-    if CrossContinents ~= nil and CrossContinents.UpdateState ~= nil then
-        CrossContinents.UpdateState()
-        return
-    end
-
-    MM7.PlaceVerdantForCurrentContinent()
-
-    for continent = 1, 3 do
-        if MM7.IsCrossContinentFinished(continent) then
-            MM7.MarkCrossContinentFinished(continent)
-        end
-    end
-
-    local currentContinent = MM7.CurrentMergedContinent()
-    if MM7.GetCrossVar("GotMainQuest", 0) ~= 0
-        and currentContinent >= 1 and currentContinent <= 3
-        and MM7.GetCrossVar("StartedContinent", 0) ~= 0
-        and currentContinent ~= MM7.GetCrossVar("StartedContinent", currentContinent)
-        and MM7.GetCrossVar("GotConnectorStone", 0) == 0 then
-        MM7.SetCrossVar("GotConnectorStone", 1)
-        AddValue(InventoryItem(MM7.CrossContinents.ChargedConnectorStoneItemId), MM7.CrossContinents.ChargedConnectorStoneItemId)
-        evt.SetNPCGreeting(MM7.CrossContinents.VerdantNpcId, 331)
-    end
-
-    if currentContinent >= 1
-        and currentContinent <= 3
-        and MM7.IsCrossContinentFinished(currentContinent)
-        and MM7.GetCrossVar("Reward." .. tostring(currentContinent), 0) == 0 then
-        local rewardCount = MM7.CrossRewardCount()
-        MM7.SetCrossVar("Reward." .. tostring(currentContinent), 1)
-
-        if rewardCount < 2 then
-            AddValue(InventoryItem(MM7.CrossContinents.SharedLifeRingItemId), MM7.CrossContinents.SharedLifeRingItemId)
-        else
-            MM7.SetCrossVar("ImprovedConnector", 1)
-        end
-    end
-
-    MM7.UpdateVerdantTopics()
-end
-
-function MM7.HandleVerdantIntro()
-    if CrossContinents ~= nil and CrossContinents.HandleVerdantIntro ~= nil then
-        CrossContinents.HandleVerdantIntro()
-        return
-    end
-
-    local step = MM7.GetCrossVar("IntroStep", 0)
-    MM7.SetCrossVar("MetVerdant", 1)
-
-    if step == 0 then
-        evt.SimpleMessage("Verdant introduces herself as a time traveler and says the world needs your help.")
-        MM7.SetCrossVar("IntroStep", 1)
-    elseif step == 1 then
-        evt.SimpleMessage("Verdant explains that missing heroes have left several histories without champions.")
-        MM7.SetCrossVar("IntroStep", 2)
-    elseif step == 2 then
-        evt.SimpleMessage("Verdant believes your party can take their place without causing another disaster.")
-        MM7.SetCrossVar("IntroStep", 3)
-    else
-        evt.SimpleMessage("Verdant asks you to save each continent's story and use dimension doors to move between them.")
-        MM7.SetCrossVar("GotMainQuest", 1)
-        MM7.SetCrossVar("StartedContinent", MM7.CurrentMergedContinent())
-        evt.SetNPCGreeting(MM7.CrossContinents.VerdantNpcId, 328)
-    end
-
-    MM7.UpdateVerdantTopics()
-end
-
-function MM7.ExplainCurrentCrossContinent(continent)
-    if CrossContinents ~= nil and CrossContinents.ExplainCurrentContinent ~= nil then
-        CrossContinents.ExplainCurrentContinent(continent)
-        return
-    end
-
-    evt.SimpleMessage(MM7.CrossContinents.ContinentMessageText[continent] or "Use dimension doors to continue the displaced heroes' stories.")
-    MM7.UpdateVerdantTopics()
-end
-
-function MM7.ExplainDimensionDoors()
-    if CrossContinents ~= nil and CrossContinents.ExplainDimensionDoors ~= nil then
-        CrossContinents.ExplainDimensionDoors()
-        return
-    end
-
-    evt.SimpleMessage("Dimension doors in magically active places let you step onto the other heroes' paths.")
-    MM7.UpdateVerdantTopics()
-end
-
-function MM7.ExplainConnectorStone()
-    if CrossContinents ~= nil and CrossContinents.HandleConnectorStone ~= nil then
-        CrossContinents.HandleConnectorStone()
-        return
-    end
-
-    if MM7.GetCrossVar("GotConnectorStone", 0) == 0 then
-        MM7.SetCrossVar("GotConnectorStone", 1)
-        AddValue(InventoryItem(MM7.CrossContinents.ChargedConnectorStoneItemId), MM7.CrossContinents.ChargedConnectorStoneItemId)
-    end
-
-    local message = "The connector stone lets you call Verdant, but it must recharge after each use."
-    if MM7.GetCrossVar("ImprovedConnector", 0) ~= 0 then
-        message = message .. " Verdant has improved it so the charged stone can also help restore the party."
-    end
-    evt.SimpleMessage(message)
-    MM7.UpdateVerdantTopics()
-end
-
-function MM7.HandleVerdantEnter(context)
-    if CrossContinents ~= nil and CrossContinents.HandleVerdantEnter ~= nil then
-        CrossContinents.HandleVerdantEnter(context)
-        return
-    end
-
-    if context == nil or context.npcId ~= MM7.CrossContinents.VerdantNpcId then
-        return
-    end
-
-    MM7.UpdateCrossContinentsState()
 end
 
 function MM7.AnyQBit(qbits)
@@ -554,6 +276,10 @@ function MM7.CheckPromotionSide(thisSideBit, oppositeSideBit, thisMessage, oppos
     return false
 end
 
+-- out09's flower07 at (-2008, -13448), link number 20; its click event 170 opens the obelisk chest. The map file
+-- flags it invisible.
+local EvenmornObeliskTreasureCog = 20
+
 function MM7.UpdateEvenmornObeliskTreasure()
     local allObelisksFound = true
 
@@ -561,19 +287,10 @@ function MM7.UpdateEvenmornObeliskTreasure()
         allObelisksFound = allObelisksFound and IsQBitSet(QBit(qbitId))
     end
 
-    if not allObelisksFound then
-        return
-    end
-
-    if IsAtLeast(Hour, 1) then
-        evt.SetSprite(170, 0, "0")
-    end
-end
-
-function MM7.OpenEvenmornDimensionDoorIfNear()
-    if MM7.DistanceToPartySquared(-5121, 98) < 1500 * 1500 then
-        MM7.OpenDimensionDoor()
-    end
+    -- Shown only during the midnight hour once every obelisk is read (MMerge out09.lua). IsAtLeast tests the hour
+    -- for equality.
+    local visible = allObelisksFound and IsAtLeast(Hour, 0)
+    evt.SetSprite(EvenmornObeliskTreasureCog, visible and 1 or 0)
 end
 
 function MM7.SummonTulareanArtifactBattle()
@@ -653,7 +370,7 @@ function MM7.EnterCastleHarmondaleOutdoor()
 
         SetQBit(QBit(644)) -- Butler only shows up once.
         SetQBit(QBit(587)) -- Clean out Castle Harmondale.
-        AddValue(History(5), 0)
+        AddValue(History(3), 0)
         evt.MoveNPC(397, 240)
         evt.SpeakNPC(397)
         return
@@ -702,7 +419,7 @@ function MM7.GiveScavengerAdvertisementIfNear(x, y, requireNoAdvertisementItem)
     end
 
     local enemyYellow, enemyRed = evt.GetEnemyDetectorState()
-    if IsFlying() or enemyYellow or enemyRed then
+    if isFlying() or enemyYellow or enemyRed then
         return
     end
 
@@ -741,7 +458,7 @@ function MM7.UpdateJudgeGreyDeath()
 
     evt.SpeakNPC(430)
     SetQBit(QBit(665))
-    AddValue(History(8), 0)
+    AddValue(History(6), 0)
     evt.MoveNPC(406, 0)
     evt.MoveNPC(407, 0)
     evt.MoveNPC(414, 1169)
@@ -751,11 +468,22 @@ function MM7.UpdateJudgeGreyDeath()
     SetQBit(QBit(646))
 end
 
+-- A member is suited for the Shoals wearing a Wetsuit, or carrying one when their paperdoll cannot wear armour:
+-- otherwise a dragon in the party would lock the Shoals away.
+function MM7.PartyMemberSuitedForShoals(memberIndex)
+    if evt.PartyMemberHasEquippedItem(memberIndex, MM7.WetsuitItemId) then
+        return true
+    end
+
+    return not evt.PartyMemberCanWearArmor(memberIndex)
+        and evt.PartyMemberItemCount(memberIndex, MM7.WetsuitItemId) > 0
+end
+
 function MM7.AllPartyMembersHaveWetsuit()
     local count = evt.GetPartyMemberCount()
 
     for memberIndex = 0, count - 1 do
-        if not evt.PartyMemberHasEquippedItem(memberIndex, MM7.WetsuitItemId) then
+        if not MM7.PartyMemberSuitedForShoals(memberIndex) then
             return false
         end
     end
@@ -824,7 +552,7 @@ function MM7.KillUnsuitedShoalsPartyMembers()
     local count = evt.GetPartyMemberCount()
 
     for memberIndex = 0, count - 1 do
-        if not evt.PartyMemberHasEquippedItem(memberIndex, MM7.WetsuitItemId) then
+        if not MM7.PartyMemberSuitedForShoals(memberIndex) then
             evt.ForPlayer(memberIndex)
             if not IsAtLeast(Dead, 0) then
                 SetValue(CurrentHealth, 0)

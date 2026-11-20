@@ -13,7 +13,12 @@ month_multipliers:
   snow: [1.8, 1.6, 1.0, 0.4, 0.1, 0.0, 0.0, 0.0, 0.2, 0.6, 1.2, 1.8]
 
 # Per-map chance overrides (map file name), replacing the global chances before the month multiplier.
+# always: rain|snow with peak (0-1) makes that weather never stop (a kind the map can have; it replaces the rolls).
 # rain/snow set the chance; a snow chance only applies to maps bolster_maps.txt lets snow.
+# ash (falling volcanic ash) is the daily chance on that map alone: only maps listed with an ash chance get ash,
+# with or without a bolster_maps.txt row, and it has no month multiplier. No MM6-MM8 map has it.
+# fog: [small, average, dense] daily chances (percent) of an open-sky indoor map's fog day (open_sky_fog below); a fog
+# day runs from 3 am, blending in over the first hour. Outdoor maps ignore it (their fog is the scene's or MMerge's).
 maps:
   7out13.odm: {rain: 30}  # Tatalia: swamp and lowland humidity
   outc3.odm: {rain: 30}   # Mire of the Damned
@@ -23,6 +28,36 @@ maps:
   outb1.odm: {snow: 30}   # Kriegspire: snowfields
   out12.odm: {snow: 25}   # The Land of the Giants
   out08.odm: {rain: 10}   # Ravage Roaming: cracked barren wastes
+  # MM9 open-sky BLVs (scene sky weather): MM9's own Rain and Snow brushes are on all the time (StartOn, no WeatherMan
+  # switches them): Sturmford's covers the whole region (Rate 256, with 13 placed thunder sounds: a standing storm),
+  # Frosgard's its valley (Rate 100) and Frosgard City's 31 its streets (Rate 200). always: that kind every hour at
+  # about this peak (the usual variation round it); no other MM9 map rains or snows in MM9 (the rolls apply there).
+  sturmford.blv: {always: rain, peak: 0.85, fog: [20, 15, 10]}
+  frosgard.blv: {always: snow, peak: 0.4, fog: [8, 4, 2]}
+  frosgardcity.blv: {always: snow, peak: 0.55}
+  # MM9 fog days (user 2026-11-09): often in Sturmford and Drangheim, never in Guberland, seldom elsewhere. Frosgard
+  # City keeps MM9's own fog (scene fog), so it rolls none.
+  sturmfordcity.blv: {fog: [20, 15, 10]}
+  drangheim.blv: {fog: [20, 15, 10]}
+  drangheimcity.blv: {fog: [20, 15, 10]}
+  afterworld.blv: {fog: [8, 4, 2]}
+  arslegardcity.blv: {fog: [8, 4, 2]}
+  bootcamp.blv: {fog: [8, 4, 2]}
+  isleofashes.blv: {fog: [8, 4, 2]}
+  lindisfarne.blv: {fog: [8, 4, 2]}
+  mountainpass.blv: {fog: [8, 4, 2]}
+  thjorgard.blv: {fog: [8, 4, 2]}
+  thjorgardcity.blv: {fog: [8, 4, 2]}
+  thronheim.blv: {fog: [8, 4, 2]}
+  thronheimcity.blv: {fog: [8, 4, 2]}
+  yorwick.blv: {fog: [8, 4, 2]}
+
+# An open sky's fog levels (maps fog chances): a linear fade into the sky's fog colour from near to far (world units),
+# never farther than the clear view's own fade; the sky hazes more the nearer far is.
+open_sky_fog:
+  small: [3072, 14336]
+  average: [1024, 8192]
+  dense: [0, 4096]
 
 # A spell's peak intensity (0-1) is picked by weight; wind and fog scale with it.
 intensities:
@@ -35,6 +70,7 @@ intensities:
 # off over ramp_down. Clouds gather cloud_lead minutes before the first drops and linger cloud_linger after the last.
 rain: {min_minutes: 120, max_minutes: 540, ramp_up: [20, 60], ramp_down: [30, 90]}
 snow: {min_minutes: 180, max_minutes: 720, ramp_up: [30, 80], ramp_down: [40, 120]}
+ash: {min_minutes: 240, max_minutes: 900, ramp_up: [40, 90], ramp_down: [60, 150]}
 cloud_lead: 60
 cloud_linger: 75
 # Relative variation of intensity during the spell (0 = steady), and its period in game minutes.
@@ -57,8 +93,19 @@ wind:
   calm: [30, 160]
   rain: 320
   snow: 280
+  # Falling ash brings dust winds (the wind sound follows the wind speed).
+  ash: 220
   # Real-time gusts vary the wind between these multiples of the daily wind.
   gust_range: [0.6, 1.6]
+
+# Falling flakes. color is linear before the sky light (above 1 stays brighter than the fog behind it), fall_speed in
+# units per second, size (flake radius) and alpha for the [near, far] layers, sway amplitude and rate. haze closes
+# the fog to [weak, strong] distances at full strength (from distant at a trace); omitted, the flakes bring no haze.
+# snow is the engine's snow as it always was; ash is grey, slow and swirling, never settles and wets nothing.
+flakes:
+  snow: {color: [1.2, 1.22, 1.26], fall_speed: 150, size: [3, 6], alpha: [0.9, 0.75], sway: 30, sway_rate: 1.1}
+  ash: {color: [0.58, 0.56, 0.6], fall_speed: 55, size: [2.4, 4.8], alpha: [0.85, 0.7], sway: 55, sway_rate: 0.55,
+        haze: [2500, 12000]}
 
 # Real seconds for the shown precipitation to fade from none to full (map loads and clock jumps snap instead).
 fade_seconds: 40

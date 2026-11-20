@@ -1,0 +1,703 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper hes_optic_1 3D item.\nInput image 1 (design_reference.png): MATERIAL, COLOUR and SURFACE DESIGN reference only. Do not copy its camera angle, shape, lighting or silhouette.\nInput image 2 (the named guide): EXACT EDIT TARGET. Paint this existing gray model render without moving or reshaping any pixel of the object. Its alpha mask, silhouette, internal part boundaries, camera, scale and position are authoritative.\n\nOutput ONE 1024 x 1024 PNG with a genuinely transparent background. Preserve the guide's full canvas, exact outline, all holes, edge locations and every part's existing position. Nothing added outside the guide silhouette; nothing cropped; do not rotate, zoom, recenter, straighten or redesign any component. Preserve the existing orthographic view even where the object's lens is not facing the viewer.\n\nPaint reference-matched materials over the guide: warm ivory-white ceramic with fine subtle wear and thin engraved panel joins, brushed warm gold at the existing metal trim, collars and fasteners, black-violet resin at the exposed inner body and cables, emerald green glass/crystal on the optic's glass face only, and the reference's tiny blue-white indicator where the existing corresponding part is visible. Continue materials plausibly on unseen surfaces. Keep the material placement consistent between all five sides. Detail is pigment and texture only; it must not change the guide's geometry. No text, letters, labels, symbols, watermark or background.\n\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, not a presentation render. Even, flat, shadowless light from the viewer. Remove the guide's gray shading. NO cast shadows, NO ambient occlusion or dark shading at part joins, NO directional light, NO rim light, NO strong specular highlights, NO reflection streaks or reflected scene. Gold is its warm base colour with only a faint sheen. Glass is emerald green base colour with subdued internal concentric optical detail, without white highlights. Glowing pieces use their bright light colour without bloom. All dark areas must be the actual black-violet material, not a shadow. No floor.\n\nPaint guide_front.png exactly as the FRONT orthographic view shown. This is the narrow, upright guide with a top crosswise cylindrical part and visible lower curved tube. Keep that narrow orientation. The large optical lens faces upward in this model and must NOT be invented facing this camera. Paint the existing outer plates ivory ceramic with their existing edges trimmed gold, exposed inner body black-violet resin, tubing black-violet with gold collars, and existing mechanical fittings gold.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "837901e98e7306ec1e823083a7e8feec619be9396b9c4bd404d98be5b11ebefb"
+        }
+      ],
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Reference palette retained, but pronounced highlights and shaded resin folds; central guide prongs replaced with a cylindrical socket. No text observed. Corrective attempt 2 retained.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-2f8368a6-039f-451e-a0e0-80b77bdec314.png",
+      "output_sha256": "93b37c763d1d8caa881f2bffb47ef4dff372d71083a9c9b345aed0cc45f05dd3",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          44,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          262,
+          66,
+          762,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.9846255388405893,
+        "normalized_outside_guide_pixels": 7720,
+        "normalized_missing_guide_pixels": 130,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Reference palette retained, but pronounced highlights and shaded resin folds; central guide prongs replaced with a cylindrical socket. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit image 1, guide_front.png, in place as a flat albedo texture source. Image 2, design_reference.png, is only a colour/material reference.\nReturn one transparent 1024 x 1024 PNG. Treat the first image as the immutable 1024 x 1024 template: KEEP ITS ALPHA CHANNEL BYTE FOR BYTE, all existing part boundaries, silhouette, holes, position and size. Change RGB surface colours only. No geometry changes or additions. Do not copy image 2's viewpoint or image dimensions.\n\nPaint guide_front.png exactly as the FRONT orthographic view shown. This is the narrow, upright guide with a top crosswise cylindrical part and visible lower curved tube. Keep that narrow orientation. The large optical lens faces upward in this model and must NOT be invented facing this camera. Paint the existing outer plates ivory ceramic with their existing edges trimmed gold, exposed inner body black-violet resin, tubing black-violet with gold collars, and existing mechanical fittings gold.\n\nMap the reference's warm ivory ceramic, muted brushed gold, black-violet resin and tiny blue-white light onto the existing guide surfaces. Fine ceramic wear, subtle gold grain, thin engraved seams and panel joins are texture only. No letters or text.\n\nCORRECTION: the preceding attempt was too shaded and glossy, with altered contours and the wrong canvas size. This output must look like a FLAT UNLIT ALBEDO PASS. All surfaces, including bevels, recesses and undersides, retain the same material base colour. Remove ALL directional shading, black crevice shading, ambient occlusion and cast shadows. Gold is flat ochre-gold with faint grain, never yellow-white specular edges. Ivory is evenly coloured, never bright white on top and gray below. Black-violet is the reference's actual resin material, not a fake shadow. Do not add extra resin ridges or loops. No strong specular highlights, reflections, bloom, rim light, floor or background. Exact guide geometry and shadowless base colour take priority over decorative realism.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "837901e98e7306ec1e823083a7e8feec619be9396b9c4bd404d98be5b11ebefb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae"
+        }
+      ],
+      "output": "paint_front_attempt_2.png",
+      "selected": true,
+      "reason": "Selected as the better compromise for flat texture-source lighting and internal guide part structure, despite a lower normalized silhouette overlap than attempt 1. Exact geometry and shadowless-light requirements remain unmet; the single correction allowance is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-4b2fd615-9e28-4524-8ad9-213c03e8b600.png",
+      "output_sha256": "c887444bcd5f33defd514a66c3c89212ca6effa2b9a8b22fcfc8886cfbc6ef92",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1204,
+          1222
+        ],
+        "guide_alpha_bbox": [
+          262,
+          66,
+          762,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.9643987541604087,
+        "normalized_outside_guide_pixels": 11806,
+        "normalized_missing_guide_pixels": 6517,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Flatter ceramic and gold and closer internal prong structure than attempt 1, but stronger contour displacement, residual trim/tube shading, shifted indicator, simplified resin and edge fringing. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      },
+      "deliverable": "paint_front.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game item's orthographic ALBEDO TEXTURE SOURCE.\nIMAGE 1 is the exact 1024 x 1024 GRAY GUIDE to edit. Its geometry, camera, silhouette, alpha channel, holes, all component edges, position and scale are immutable. Edit only its RGB surface colour. IMAGE 2 is design_reference.png: reference only for colour, material and surface finish, never for geometry, camera or lighting.\nReturn ONE transparent 1024 x 1024 PNG, retaining the guide's exact alpha mask. Keep the item fully within its original silhouette; preserve the canvas and margins exactly. No crop, zoom, reorientation, resized object, new components or added protrusions.\n\nPaint the existing surfaces in the approved reference's warm ivory-white ceramic with very fine wear and thin engraved panel joins; warm muted brushed gold on existing trim, fasteners and collars; black-violet resin on exposed inner body and tubes. Emerald green applies only to the existing lens glass. Tiny blue-white applies only to an existing visible indicator. Continue the materials plausibly on surfaces unseen in the design reference. No text, letters, markings resembling letters or watermarks.\n\nThis is UNLIT FLAT BASE COLOUR, NOT a lit product illustration. Even, flat, shadowless illumination from the viewer. Remove the gray guide's lighting from the paint. Each material has the same base colour on forward faces, bevels and undersides. NO directional shading, shadows, ambient occlusion, black crevice shading, shiny highlight edges, white specular hotspots, reflections, rim light or bloom. Gold has only faint grain and faint sheen. Ceramic has subtle pigment variation only. Glass has subdued green internal detail without reflections or bright white hotspots. Dark areas must be the actual black-violet resin, never a fake shadow. No environment, floor or background.\n\nPaint guide_back.png exactly as the BACK orthographic view shown. Preserve the tall narrow body and broad upper back plate and separate lower plate. Continue ivory ceramic panels with subtle wear and fine panel lines, gold existing rims and bands, and black-violet resin in exposed body areas. The optical lens faces upward in this model and must NOT be invented on the broad back plate.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "14b8501fa17595cebe2eb6e594df82e06f92ea61f081399324a5c33ac2b98eac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Reference palette retained; geometry embellished with a side fastener and indicator, raised trim, highlights and shading. No text observed. Corrective attempt 2 retained.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-c451fccf-936b-465d-b97a-6f49d29b435c.png",
+      "output_sha256": "1684a888bc1d230180df2da78876e0286227068d8a742a012d0954dedbf3a693",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1230,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          262,
+          66,
+          762,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.9358159942385672,
+        "normalized_outside_guide_pixels": 8128,
+        "normalized_missing_guide_pixels": 24669,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Reference palette retained; geometry embellished with a side fastener and indicator, raised trim, highlights and shading. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Colourize this EXACT attached guide_back.png in place. Output one 1024 x 1024 transparent PNG. Keep the original guide's alpha mask byte for byte, its exact object silhouette and holes, all plate boundaries, all component locations, and its original canvas margins. Do not invent new geometry, bevels, bands, lights or fasteners. Only change surface colour inside the original opaque regions.\n\nThis is the BACK view of a fantasy science-fiction optical device. Approved material specification from design_reference.png: warm ivory-white ceramic (very subtle cream mottling and fine wear); muted brushed ochre gold edge trim, collars and existing bands; exposed core and the existing single tube are deep black-violet resin. Broad upper and lower back panels are ivory ceramic, their narrow existing edges and band gold. Fine engraved joins are permitted only as shallow pigment lines. No front-facing lens on this back view. No text, letters, labels or symbols.\n\nCORRECTION PRIORITY: exact unchanged silhouette and an UNLIT ALBEDO map. Remove the gray guide's shading. Every plane of the same material has equal brightness, including bevels, undersides and side faces. No ambient occlusion, no shadow gradients, no black outline shadows, no bright edge glints, no specular highlights, no reflected lights, no rim lighting or background. Gold is matte ochre-gold with only subtle brushed grain and faint sheen. Ceramic is flat warm ivory. The black-violet core is a material colour, not a shadow. No added raised details. Keep the gray guide's structure absolutely fixed.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "14b8501fa17595cebe2eb6e594df82e06f92ea61f081399324a5c33ac2b98eac"
+        }
+      ],
+      "material_reference": {
+        "path": "design_reference.png",
+        "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae",
+        "use": "Material specification transcribed into prompt; not attached for corrective call."
+      },
+      "output": "paint_back_attempt_2.png",
+      "selected": true,
+      "reason": "Selected for substantially better normalized silhouette overlap, flatter colour and removal of invented parts. Exact geometry and fully shadowless-light requirements remain unmet; the single correction allowance is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-c6dc9740-ad33-4408-ad48-89b24a11e06e.png",
+      "output_sha256": "6e2b60edb54785495d35324ec0e10cf5b2893747198537cad4e73bb09b72031b",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          262,
+          66,
+          762,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.9945135933490427,
+        "normalized_outside_guide_pixels": 2575,
+        "normalized_missing_guide_pixels": 198,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Much closer guide alignment and flatter ceramic/gold, without the added fastener and indicator. Resin and panel details simplified; some bevel/tube shading and contour fringing remain. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      },
+      "deliverable": "paint_back.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game item's orthographic ALBEDO TEXTURE SOURCE.\nIMAGE 1 is the exact 1024 x 1024 GRAY GUIDE to edit. Its geometry, camera, silhouette, alpha channel, holes, all component edges, position and scale are immutable. Edit only its RGB surface colour. IMAGE 2 is design_reference.png: reference only for colour, material and surface finish, never for geometry, camera or lighting.\nReturn ONE transparent 1024 x 1024 PNG, retaining the guide's exact alpha mask. Keep the item fully within its original silhouette; preserve the canvas and margins exactly. No crop, zoom, reorientation, resized object, new components or added protrusions.\n\nPaint the existing surfaces in the approved reference's warm ivory-white ceramic with very fine wear and thin engraved panel joins; warm muted brushed gold on existing trim, fasteners and collars; black-violet resin on exposed inner body and tubes. Emerald green applies only to the existing lens glass. Tiny blue-white applies only to an existing visible indicator. Continue the materials plausibly on surfaces unseen in the design reference. No text, letters, markings resembling letters or watermarks.\n\nThis is UNLIT FLAT BASE COLOUR, NOT a lit product illustration. Even, flat, shadowless illumination from the viewer. Remove the gray guide's lighting from the paint. Each material has the same base colour on forward faces, bevels and undersides. NO directional shading, shadows, ambient occlusion, black crevice shading, shiny highlight edges, white specular hotspots, reflections, rim light or bloom. Gold has only faint grain and faint sheen. Ceramic has subtle pigment variation only. Glass has subdued green internal detail without reflections or bright white hotspots. Dark areas must be the actual black-violet resin, never a fake shadow. No environment, floor or background.\n\nPaint guide_left.png exactly as the LEFT orthographic view shown. Preserve the broad wing-shaped upper ceramic plate, its existing small round fastener, every side spur, the downward body, existing U-shaped tube and every gap. The broad upper plate is ivory ceramic with thin gold edge trim; its existing circular fastener is gold. Tubes and exposed inner body are black-violet with existing collars gold. Keep lower ceramic plates on their exact guide surfaces. The large optical glass is seen edge-on at the top, NOT as a new front-facing circle.\nPrioritize the exact guide geometry and flat even base colour over illustrative depth. Use very subtle texture only.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "162b97ed8e70a6b7da68e285e6078ace45f4259efd78c8b54a762337fc8a8142"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Reference palette retained; guide prongs changed into cylindrical socket, added indicator, reflective tubing, changed collars and shaded lower plates. No text observed. Corrective attempt 2 retained.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-e2c1d1a6-2ba3-4e5b-b7cd-52faf529f043.png",
+      "output_sha256": "f71d882b476c53c706c1fc950d2fad91d66c44b9674bd8dcbef5dfab5276663a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          65,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          99,
+          66,
+          925,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.965012811553692,
+        "normalized_outside_guide_pixels": 11277,
+        "normalized_missing_guide_pixels": 13506,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Reference palette retained; guide prongs changed into cylindrical socket, added indicator, reflective tubing, changed collars and shaded lower plates. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Colourize this EXACT attached GUIDE in place. Output one 1024 x 1024 transparent PNG. Keep the original guide's alpha mask byte for byte, its exact silhouette and holes, all plate boundaries, all component locations, and original canvas margins. Edit only existing surface colour. Do not invent new geometry, bevels, bands, lights or fasteners.\n\nApproved material specification transcribed from design_reference.png: warm ivory-white ceramic, with very fine wear and subtle cream mottling; muted brushed ochre gold edge trim, metal parts, collars and existing bands; deep black-violet resin on exposed inner body and existing tubes; emerald-green optical glass only on the optic's existing glass surface. Fine engraved joins are shallow pigment lines, not changes to geometry. No text, letters, labels or symbols.\n\nCORRECTION PRIORITY: exact unchanged guide structure and UNLIT ALBEDO COLOUR. Remove ALL shading from the gray guide. Every plane of each material has equal brightness, including side faces, bevels and undersides. No ambient occlusion, cast shadows, shadow gradients, black outline shadows, bright edge glints, specular highlights, reflections, rim light, bloom or background. Gold is matte ochre-gold with subtle brushed grain and faint sheen only. Ceramic is evenly coloured warm ivory. The black-violet core is an actual material colour, not a shadow. No added ridges or raised details. Make the object look flat, painted in shadowless base colours, rather than like a shaded 3D product rendering.\n\nPaint guide_left.png exactly as the LEFT orthographic view shown. Preserve the broad wing-shaped upper ceramic plate, its existing small round fastener, every side spur, the downward body, existing U-shaped tube and every gap. The broad upper plate is ivory ceramic with thin gold edge trim; its existing circular fastener is gold. Tubes and exposed inner body are black-violet with existing collars gold. Keep lower ceramic plates on their exact guide surfaces. The large optical glass is seen edge-on at the top, NOT as a new front-facing circle.\nKeep the guide's existing right-hand prongs exactly: do not replace them with a single cylindrical socket. Keep all existing tube collars gold and the single existing tube black-violet. Do not invent a new illuminated strip. Preserve the faceted outline of the upper plate and the separate lower plates.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "162b97ed8e70a6b7da68e285e6078ace45f4259efd78c8b54a762337fc8a8142"
+        }
+      ],
+      "material_reference": {
+        "path": "design_reference.png",
+        "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae",
+        "use": "Material specification transcribed into prompt; not attached for corrective call."
+      },
+      "output": "paint_left_attempt_2.png",
+      "selected": true,
+      "reason": "Selected for better normalized silhouette overlap, closer prong/part placement, gold collars and flatter colour. Exact geometry and fully shadowless-light requirements remain unmet; the single correction allowance is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-3d0d66e3-1702-42c7-b714-79c0bd218ed9.png",
+      "output_sha256": "cdb671026161de8a1862333e91b3e8f7940756c84d4ac0194d14118c47869b5a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          3,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          99,
+          66,
+          925,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.987520920101862,
+        "normalized_outside_guide_pixels": 8593,
+        "normalized_missing_guide_pixels": 213,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Closer guide structure and prongs, flatter materials, gold collars and no added indicator. Surface detail simplified; residual tube/facet shading and contour fringing remain. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      },
+      "deliverable": "paint_left.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game item's orthographic ALBEDO TEXTURE SOURCE.\nIMAGE 1 is the exact 1024 x 1024 GRAY GUIDE to edit. Its geometry, camera, silhouette, alpha channel, holes, all component edges, position and scale are immutable. Edit only its RGB surface colour. IMAGE 2 is design_reference.png: reference only for colour, material and surface finish, never for geometry, camera or lighting.\nReturn ONE transparent 1024 x 1024 PNG, retaining the guide's exact alpha mask. Keep the item fully within its original silhouette; preserve the canvas and margins exactly. No crop, zoom, reorientation, resized object, new components or added protrusions.\n\nPaint the existing surfaces in the approved reference's warm ivory-white ceramic with very fine wear and thin engraved panel joins; warm muted brushed gold on existing trim, fasteners and collars; black-violet resin on exposed inner body and tubes. Emerald green applies only to the existing lens glass. Tiny blue-white applies only to an existing visible indicator. Continue the materials plausibly on surfaces unseen in the design reference. No text, letters, markings resembling letters or watermarks.\n\nThis is UNLIT FLAT BASE COLOUR, NOT a lit product illustration. Even, flat, shadowless illumination from the viewer. Remove the gray guide's lighting from the paint. Each material has the same base colour on forward faces, bevels and undersides. NO directional shading, shadows, ambient occlusion, black crevice shading, shiny highlight edges, white specular hotspots, reflections, rim light or bloom. Gold has only faint grain and faint sheen. Ceramic has subtle pigment variation only. Glass has subdued green internal detail without reflections or bright white hotspots. Dark areas must be the actual black-violet resin, never a fake shadow. No environment, floor or background.\n\nPaint guide_right.png exactly as the RIGHT orthographic view shown. Preserve all existing asymmetrical plates, the top horizontal cylinder, side spur on the left, curved pipe and collars, diagonal band and lower casing. Continue ivory ceramic, fine gold plate edges and existing gold bands, black-violet inner body and cable. Respect the existing faceted plate boundaries exactly. Do not add a front-facing lens: the optic faces upward in this model.\nPrioritize exact guide geometry and flat, evenly painted base colour. Do not copy the design reference's cast shadows or shiny 3D rendering. Preserve the two small leftward prongs rather than replacing them with a cylindrical plug.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "a62a73fe3b2437254d09aff9c24174e1e2e07d78dfb06441234db74f90695def"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Reference palette retained, but added indicator/round fastener, glossy gold, shaded panels, extra tube band and altered part boundaries. No text observed. Corrective attempt 2 retained.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-6de94b8d-1690-4b0b-99a6-f145b7939669.png",
+      "output_sha256": "b4da2e7145a08f2bbfa20396b4693935df51de876a14220f9c28879c78bfad99",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1244,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          99,
+          66,
+          925,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.9759507301150036,
+        "normalized_outside_guide_pixels": 11525,
+        "normalized_missing_guide_pixels": 5516,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Reference palette retained, but added indicator/round fastener, glossy gold, shaded panels, extra tube band and altered part boundaries. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Colourize this EXACT attached GUIDE in place. Output one 1024 x 1024 transparent PNG. Keep the original guide's alpha mask byte for byte, its exact silhouette and holes, all plate boundaries, all component locations, and original canvas margins. Edit only existing surface colour. Do not invent new geometry, bevels, bands, lights or fasteners.\n\nApproved material specification transcribed from design_reference.png: warm ivory-white ceramic, with very fine wear and subtle cream mottling; muted brushed ochre gold edge trim, metal parts, collars and existing bands; deep black-violet resin on exposed inner body and existing tubes; emerald-green optical glass only on the optic's existing glass surface. Fine engraved joins are shallow pigment lines, not changes to geometry. No text, letters, labels or symbols.\n\nCORRECTION PRIORITY: exact unchanged guide structure and UNLIT ALBEDO COLOUR. Remove ALL shading from the gray guide. Every plane of each material has equal brightness, including side faces, bevels and undersides. No ambient occlusion, cast shadows, shadow gradients, black outline shadows, bright edge glints, specular highlights, reflections, rim light, bloom or background. Gold is matte ochre-gold with subtle brushed grain and faint sheen only. Ceramic is evenly coloured warm ivory. The black-violet core is an actual material colour, not a shadow. No added ridges or raised details. Make the object look flat, painted in shadowless base colours, rather than like a shaded 3D product rendering.\n\nPaint guide_right.png exactly as the RIGHT orthographic view shown. Preserve all existing asymmetrical plates, the top horizontal cylinder, side spur on the left, curved pipe and collars, diagonal band and lower casing. Continue ivory ceramic, fine gold plate edges and existing gold bands, black-violet inner body and cable. Respect the existing faceted plate boundaries exactly. Do not add a front-facing lens: the optic faces upward in this model.\nSpecific correction: NO added blue indicator, NO added circular fastener. Neither exists on this guide. Retain the guide's asymmetrical plate faces, diagonal gold band, single existing black-violet tube and its existing gold collar. Keep the two tiny leftward prongs exactly as shown. The upper horizontal component has an ivory side wall and gold rim, with the optical surface facing upward out of this view.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "a62a73fe3b2437254d09aff9c24174e1e2e07d78dfb06441234db74f90695def"
+        }
+      ],
+      "material_reference": {
+        "path": "design_reference.png",
+        "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae",
+        "use": "Material specification transcribed into prompt; not attached for corrective call."
+      },
+      "output": "paint_right_attempt_2.png",
+      "selected": true,
+      "reason": "Selected for better normalized silhouette overlap, removal of invented indicator/fastener and flatter colour. Exact geometry and fully shadowless-light requirements remain unmet; the single correction allowance is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-55cb9c2a-806f-43bd-b328-e2ca2eb94b43.png",
+      "output_sha256": "f30391cb3e6099e3e1eb41c0aa876328c39345adfe7b669356036a2d9fb0365a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          33,
+          1240,
+          1178
+        ],
+        "guide_alpha_bbox": [
+          99,
+          66,
+          925,
+          958
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.9881183785750012,
+        "normalized_outside_guide_pixels": 6714,
+        "normalized_missing_guide_pixels": 1648,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Added indicator/round fastener removed; closer asymmetrical plate and band placement, flatter materials. Residual tube/facet shading, prong/edge drift and contour fringing remain. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      },
+      "deliverable": "paint_right.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game item's orthographic ALBEDO TEXTURE SOURCE.\nIMAGE 1 is the exact 1024 x 1024 GRAY GUIDE to edit. Its geometry, camera, silhouette, alpha channel, holes, all component edges, position and scale are immutable. Edit only its RGB surface colour. IMAGE 2 is design_reference.png: reference only for colour, material and surface finish, never for geometry, camera or lighting.\nReturn ONE transparent 1024 x 1024 PNG, retaining the guide's exact alpha mask. Keep the item fully within its original silhouette; preserve the canvas and margins exactly. No crop, zoom, reorientation, resized object, new components or added protrusions.\n\nPaint the existing surfaces in the approved reference's warm ivory-white ceramic with very fine wear and thin engraved panel joins; warm muted brushed gold on existing trim, fasteners and collars; black-violet resin on exposed inner body and tubes. Emerald green applies only to the existing lens glass. Tiny blue-white applies only to an existing visible indicator. Continue the materials plausibly on surfaces unseen in the design reference. No text, letters, markings resembling letters or watermarks.\n\nThis is UNLIT FLAT BASE COLOUR, NOT a lit product illustration. Even, flat, shadowless illumination from the viewer. Remove the gray guide's lighting from the paint. Each material has the same base colour on forward faces, bevels and undersides. NO directional shading, shadows, ambient occlusion, black crevice shading, shiny highlight edges, white specular hotspots, reflections, rim light or bloom. Gold has only faint grain and faint sheen. Ceramic has subtle pigment variation only. Glass has subdued green internal detail without reflections or bright white hotspots. Dark areas must be the actual black-violet resin, never a fake shadow. No environment, floor or background.\n\nPaint guide_top.png exactly as the TOP orthographic view shown, looking directly down on the optic. The large existing round central disc is the emerald-green optical lens; its existing concentric rim is brushed gold with a narrow black-violet gasket. Keep the lens's exact size, position and polygonal outline. The outer curved bracket is ivory ceramic with gold edges; exposed body is black-violet resin; existing bottom prongs are gold. Keep every guide edge and gap fixed. The emerald lens must remain evenly coloured albedo with subdued concentric detail, without white reflections, hotspots, gloss streaks or cast shadows.\nThe lens is an UNLIT emerald-green material mask with subtle concentric internal optical detail. Absolutely no white reflected windows, no bright reflection streaks, no shiny hotspot, no bevel shading. Preserve the guide's central polygonal disc and ring exactly, including their position and size. All surfaces have even base colour.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "c498dd68c69dfac1132a394ef90ca1103a7eb1225d17424ef160d6e972fb6bac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae"
+        }
+      ],
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Emerald lens without white reflection hotspots, but lens shifted/circularized and extra cable loops, fastener, indicator and third prong added. Gold trim remains shaded. No text observed. Corrective attempt 2 retained.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-8b6e2842-7e75-4434-abc4-eba2c91030f6.png",
+      "output_sha256": "72b7dd17562d72abf66b7681ca1f996b944ce4aaaa390b982bf22a7186d6f9ed",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          128,
+          25,
+          1218,
+          1198
+        ],
+        "guide_alpha_bbox": [
+          262,
+          99,
+          762,
+          925
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.8691751016369207,
+        "normalized_outside_guide_pixels": 31225,
+        "normalized_missing_guide_pixels": 23641,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Emerald lens without white reflection hotspots, but lens shifted/circularized and extra cable loops, fastener, indicator and third prong added. Gold trim remains shaded. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Colourize this EXACT attached GUIDE in place. Output one 1024 x 1024 transparent PNG. Keep the original guide's alpha mask byte for byte, its exact silhouette and holes, all plate boundaries, all component locations, and original canvas margins. Edit only existing surface colour. Do not invent new geometry, bevels, bands, lights or fasteners.\n\nApproved material specification transcribed from design_reference.png: warm ivory-white ceramic, with very fine wear and subtle cream mottling; muted brushed ochre gold edge trim, metal parts, collars and existing bands; deep black-violet resin on exposed inner body and existing tubes; emerald-green optical glass only on the optic's existing glass surface. Fine engraved joins are shallow pigment lines, not changes to geometry. No text, letters, labels or symbols.\n\nCORRECTION PRIORITY: exact unchanged guide structure and UNLIT ALBEDO COLOUR. Remove ALL shading from the gray guide. Every plane of each material has equal brightness, including side faces, bevels and undersides. No ambient occlusion, cast shadows, shadow gradients, black outline shadows, bright edge glints, specular highlights, reflections, rim light, bloom or background. Gold is matte ochre-gold with subtle brushed grain and faint sheen only. Ceramic is evenly coloured warm ivory. The black-violet core is an actual material colour, not a shadow. No added ridges or raised details. Make the object look flat, painted in shadowless base colours, rather than like a shaded 3D product rendering.\n\nThe attached guide_top.png is a strict top-down view. Colour its exact existing central polygonal disc EMERALD GREEN. Its exact existing polygonal concentric rim is muted ochre GOLD, with a narrow dark-violet gasket. Preserve every corner and polygon edge. A few very faint concentric green pigment lines suggest optical glass; no reflected light or specular highlight. The large sweeping left outer bracket is warm IVORY ceramic with its existing edges gold. The thin right strip is ivory with gold edges. Existing body surfaces around the lens are dark BLACK-VIOLET resin. Existing bottom prongs and small spur are gold. Every part stays exactly within its current outline.\n\nSpecific correction: preserve the original lens centre, width, height and polygonal perimeter. Do not replace it with a smaller circle. NO added cable loops, NO added third prong, NO added fastener or light. Keep only the exact existing two bottom prongs and existing short spur, at their exact locations. No raised segmented gold teeth or new components. No view changes. Flat colour painted directly onto the provided silhouette; no 3D relighting.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "c498dd68c69dfac1132a394ef90ca1103a7eb1225d17424ef160d6e972fb6bac"
+        }
+      ],
+      "material_reference": {
+        "path": "design_reference.png",
+        "sha256": "cfea376a0242286ffa88d844212bc104b56e686d261675a76fc2817146d25eae",
+        "use": "Material specification transcribed into prompt; not attached for corrective call."
+      },
+      "output": "paint_top_attempt_2.png",
+      "selected": true,
+      "reason": "Selected for substantially better normalized silhouette overlap, restored polygonal lens and two prongs, removal of invented parts and flatter colour. Exact geometry and perfectly even-light requirements remain unmet; the single correction allowance is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e65-85a4-7da0-b45f-4f4e323f481c/exec-39820108-e574-44e3-af3c-8a6d725155e5.png",
+      "output_sha256": "2b7babe6bd2ccc1d6abb892fa0f1cdac41a64eed9698ab9d9c0afd9c0e5dce52",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          7,
+          1224,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          262,
+          99,
+          762,
+          925
+        ],
+        "alpha_identical": false,
+        "silhouette_identical_at_alpha_128": false,
+        "normalized_silhouette_iou": 0.9854228074290902,
+        "normalized_outside_guide_pixels": 4028,
+        "normalized_missing_guide_pixels": 1689,
+        "mask_comparison_note": "Normalized comparison samples guide alpha at corresponding fractional pixel centres for inspection only; output is never resampled.",
+        "visual_review": "Much closer polygonal lens placement and guide contour, only two bottom prongs, no added loops/light/fastener, much flatter gold and emerald glass. Optical texture simplified; slight facet/lens tonal variation and contour fringing remain. No text observed.",
+        "no_text_or_letters_observed": true,
+        "reference_material_palette_present": true,
+        "strict_geometry_check_passed": false,
+        "strict_flat_shadowless_light_check_passed": false,
+        "all_brief_checks_passed": false
+      },
+      "deliverable": "paint_top.png"
+    }
+  ],
+  "status": "deliverables_saved_with_known_brief_deviations",
+  "selection_note": "Selected means retained deliverable, not a claim that all strict checks passed.",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "returned_dimensions": [
+    1254,
+    1254
+  ],
+  "unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "postprocessing": "None. Generated PNG bytes copied unchanged; no resizing, alpha repair, clipping, recolouring or compositing.",
+  "scope": "Image generation only; no builds or runtime integration.",
+  "known_limitations": [
+    "All tool returns are 1254 x 1254, preserved unresized as the brief permits.",
+    "None of the returned alpha masks or silhouettes is exactly identical to its guide, even when compared in normalized coordinates.",
+    "Some internal part edges and surface details differ from the guides/reference.",
+    "Residual shading, contour fringing and stray low-alpha pixels remain; fully flat shadowless albedo is not achieved.",
+    "Corrections simplify texture detail; front retains more shading and differs in surface treatment from the flatter other views."
+  ],
+  "deliverables": [
+    {
+      "view": "front",
+      "output": "paint_front.png",
+      "source_attempt": 2,
+      "sha256": "c887444bcd5f33defd514a66c3c89212ca6effa2b9a8b22fcfc8886cfbc6ef92",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "back",
+      "output": "paint_back.png",
+      "source_attempt": 2,
+      "sha256": "6e2b60edb54785495d35324ec0e10cf5b2893747198537cad4e73bb09b72031b",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "left",
+      "output": "paint_left.png",
+      "source_attempt": 2,
+      "sha256": "cdb671026161de8a1862333e91b3e8f7940756c84d4ac0194d14118c47869b5a",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "right",
+      "output": "paint_right.png",
+      "source_attempt": 2,
+      "sha256": "f30391cb3e6099e3e1eb41c0aa876328c39345adfe7b669356036a2d9fb0365a",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "top",
+      "output": "paint_top.png",
+      "source_attempt": 2,
+      "sha256": "2b7babe6bd2ccc1d6abb892fa0f1cdac41a64eed9698ab9d9c0afd9c0e5dce52",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    }
+  ]
+}

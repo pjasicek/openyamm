@@ -1,0 +1,75 @@
+{
+ "id": "mm6-20261112-011418",
+ "world": "mm6",
+ "created": "2026-11-12T01:14:19",
+ "textures": [
+  "mm6/selfsprt",
+  "mm6/cbmdk1",
+  "mm6/sign7",
+  "mm6/cbeam6",
+  "mm6/selfmind",
+  "mm6/cbfbm16c"
+ ],
+ "requests": {
+  "mm6/selfsprt": {
+   "name": "selfsprt",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/cbmdk1": {
+   "name": "cbmdk1",
+   "copies": 4,
+   "axis": "rows",
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/sign7": {
+   "name": "sign7",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/cbeam6": {
+   "name": "cbeam6",
+   "copies": 4,
+   "axis": "columns",
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/selfmind": {
+   "name": "selfmind",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/cbfbm16c": {
+   "name": "cbfbm16c",
+   "copies": 4,
+   "axis": "columns",
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  }
+ }
+}

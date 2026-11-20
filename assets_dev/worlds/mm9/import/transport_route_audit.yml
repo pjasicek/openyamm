@@ -1,0 +1,99 @@
+format_version: 1
+kind: mm9_transport_route_audit
+generated_from: MMIXSHOPS, RUDE -5 rows, Boat Schedule item 562, and reviewed cshell.dll recovery
+summary:
+  dock_count: 7
+  rude_service_count: 8
+  route_count: 47
+  dock_route_count: 42
+  special_passage_route_count: 5
+  zero_route_services: []
+  missing_docks: []
+  unused_recoveries: []
+  unresolved_price_count: 0
+  unresolved_schedule_count: 0
+  unresolved_destination_count: 0
+  error_count: 0
+services:
+- rude_id: 18
+  shop_name: Sea's Fang
+  shop_type: Dock
+  classification: dock
+  source_rude: mm9/extracted/RUDE/RUDE/NPC18.rude
+  source_line: 8
+  required_raw_keys: []
+  forbidden_raw_keys: []
+  route_count: 7
+  errors: []
+- rude_id: 60
+  shop_name: Dragon Passage
+  shop_type: Dock
+  classification: dock
+  source_rude: mm9/extracted/RUDE/RUDE/NPC60.rude
+  source_line: 2
+  required_raw_keys: []
+  forbidden_raw_keys: []
+  route_count: 5
+  errors: []
+- rude_id: 103
+  shop_name: The Black Hammer
+  shop_type: Dock
+  classification: dock
+  source_rude: mm9/extracted/RUDE/RUDE/NPC103.rude
+  source_line: 3
+  required_raw_keys: []
+  forbidden_raw_keys: []
+  route_count: 5
+  errors: []
+- rude_id: 138
+  shop_name: Fre's Rain
+  shop_type: Magic
+  classification: special_passage
+  source_rude: mm9/extracted/RUDE/RUDE/NPC138.rude
+  source_line: 3
+  required_raw_keys: []
+  forbidden_raw_keys:
+  - 5017
+  route_count: 5
+  errors: []
+- rude_id: 144
+  shop_name: The Flying Bird
+  shop_type: Dock
+  classification: dock
+  source_rude: mm9/extracted/RUDE/RUDE/NPC144.rude
+  source_line: 4
+  required_raw_keys: []
+  forbidden_raw_keys: []
+  route_count: 7
+  errors: []
+- rude_id: 209
+  shop_name: The Racing Fire
+  shop_type: Dock
+  classification: dock
+  source_rude: mm9/extracted/RUDE/RUDE/NPC209.rude
+  source_line: 4
+  required_raw_keys:
+  - 73
+  forbidden_raw_keys: []
+  route_count: 6
+  errors: []
+- rude_id: 257
+  shop_name: The Raider
+  shop_type: Dock
+  classification: dock
+  source_rude: mm9/extracted/RUDE/RUDE/NPC257.rude
+  source_line: 4
+  required_raw_keys: []
+  forbidden_raw_keys: []
+  route_count: 7
+  errors: []
+- rude_id: 288
+  shop_name: The Dragon
+  shop_type: Dock
+  classification: dock
+  source_rude: mm9/extracted/RUDE/RUDE/NPC288.rude
+  source_line: 3
+  required_raw_keys: []
+  forbidden_raw_keys: []
+  route_count: 5
+  errors: []

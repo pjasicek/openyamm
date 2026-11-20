@@ -1,0 +1,2529 @@
+{
+  "heightmapSha256": "3a1825801fe748eb071d13b9d7e700fba3c17f7e256ad7dc188f414dc4826551",
+  "bridges": [
+    {
+      "id": "river_crossing",
+      "title": "South meadow river crossing",
+      "semanticId": "mm5:sw/river_crossing",
+      "frontOrigin": [
+        -17664,
+        -15872.0
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "padHeight": 384,
+      "width": 512,
+      "length": 4096,
+      "localFootprint": [
+        512,
+        4096
+      ],
+      "surfaces": [
+        {
+          "id": "deck",
+          "localY": [
+            0,
+            4096
+          ],
+          "corners": [
+            [
+              -17920.0,
+              -15872.0,
+              384
+            ],
+            [
+              -17408.0,
+              -15872.0,
+              384
+            ],
+            [
+              -17408.0,
+              -11776.0,
+              384
+            ],
+            [
+              -17920.0,
+              -11776.0,
+              384
+            ]
+          ],
+          "triangles": [
+            [
+              [
+                -17920.0,
+                -15872.0,
+                384
+              ],
+              [
+                -17408.0,
+                -15872.0,
+                384
+              ],
+              [
+                -17408.0,
+                -11776.0,
+                384
+              ]
+            ],
+            [
+              [
+                -17920.0,
+                -15872.0,
+                384
+              ],
+              [
+                -17408.0,
+                -11776.0,
+                384
+              ],
+              [
+                -17920.0,
+                -11776.0,
+                384
+              ]
+            ]
+          ],
+          "minimumGroundClearance": 64.0,
+          "checks": [
+            {
+              "minimum": 64.0,
+              "maximum": 128.0,
+              "samples": [
+                {
+                  "point": [
+                    -17920.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -15360.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -14848.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -14336.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -13824.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -13312.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -12800.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -12288.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -12288.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17481.14285714286,
+                    -12361.142857142857
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17536.0,
+                    -12800.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17554.285714285714,
+                    -12946.285714285714
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17600.0,
+                    -13312.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17627.428571428572,
+                    -13531.42857142857
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17664.0,
+                    -13824.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17700.571428571428,
+                    -14116.571428571428
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17728.0,
+                    -14336.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17773.714285714286,
+                    -14701.714285714286
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17792.0,
+                    -14848.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17846.85714285714,
+                    -15286.857142857143
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17856.0,
+                    -15360.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -15872
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -15872
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -15360
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -14848
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -14336
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -13824
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -13312
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -12800
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -12288
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -11776
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                }
+              ]
+            },
+            {
+              "minimum": 96.0,
+              "maximum": 128.0,
+              "samples": [
+                {
+                  "point": [
+                    -17920.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17856.0,
+                    -15360.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17846.85714285714,
+                    -15286.857142857143
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17792.0,
+                    -14848.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17773.714285714286,
+                    -14701.714285714286
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17728.0,
+                    -14336.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17700.571428571428,
+                    -14116.57142857143
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17664.0,
+                    -13824.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17627.428571428572,
+                    -13531.428571428572
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17600.0,
+                    -13312.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17554.285714285714,
+                    -12946.285714285714
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17536.0,
+                    -12800.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17481.14285714286,
+                    -12361.142857142857
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -12288.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -12288.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -12800.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -13312.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -13824.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -14336.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -14848.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -15360.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -15872
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -15360
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -14848
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -14336
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -13824
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -13312
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -12800
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -12288
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 256.0,
+                  "clearance": 128.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -11776
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -11776
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "start_ramp",
+          "localY": [
+            -512,
+            0
+          ],
+          "corners": [
+            [
+              -17920.0,
+              -16384.0,
+              320.0
+            ],
+            [
+              -17408.0,
+              -16384.0,
+              352.0
+            ],
+            [
+              -17408.0,
+              -15872.0,
+              384
+            ],
+            [
+              -17920.0,
+              -15872.0,
+              384
+            ]
+          ],
+          "triangles": [
+            [
+              [
+                -17920.0,
+                -16384.0,
+                320.0
+              ],
+              [
+                -17408.0,
+                -16384.0,
+                352.0
+              ],
+              [
+                -17408.0,
+                -15872.0,
+                384
+              ]
+            ],
+            [
+              [
+                -17920.0,
+                -16384.0,
+                320.0
+              ],
+              [
+                -17408.0,
+                -15872.0,
+                384
+              ],
+              [
+                -17920.0,
+                -15872.0,
+                384
+              ]
+            ]
+          ],
+          "minimumGroundClearance": 0.0,
+          "checks": [
+            {
+              "minimum": 0.0,
+              "maximum": 64.0,
+              "samples": [
+                {
+                  "point": [
+                    -17920.0,
+                    -16384.0
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -16384.0
+                  ],
+                  "surfaceZ": 352.0,
+                  "groundZ": 352.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -16384.0
+                  ],
+                  "surfaceZ": 352.0,
+                  "groundZ": 352.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -16384.0
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -16384
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -16384
+                  ],
+                  "surfaceZ": 352.0,
+                  "groundZ": 352.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -15872
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                }
+              ]
+            },
+            {
+              "minimum": 0.0,
+              "maximum": 96.0,
+              "samples": [
+                {
+                  "point": [
+                    -17920.0,
+                    -16384.0
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -15872.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -16384.0
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -16384
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -15872
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -15872
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 320.0,
+                  "clearance": 64.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "end_ramp",
+          "localY": [
+            4096,
+            4608
+          ],
+          "corners": [
+            [
+              -17920.0,
+              -11776.0,
+              384
+            ],
+            [
+              -17408.0,
+              -11776.0,
+              384
+            ],
+            [
+              -17408.0,
+              -11264.0,
+              288.0
+            ],
+            [
+              -17920.0,
+              -11264.0,
+              320.0
+            ]
+          ],
+          "triangles": [
+            [
+              [
+                -17920.0,
+                -11776.0,
+                384
+              ],
+              [
+                -17408.0,
+                -11776.0,
+                384
+              ],
+              [
+                -17408.0,
+                -11264.0,
+                288.0
+              ]
+            ],
+            [
+              [
+                -17920.0,
+                -11776.0,
+                384
+              ],
+              [
+                -17408.0,
+                -11264.0,
+                288.0
+              ],
+              [
+                -17920.0,
+                -11264.0,
+                320.0
+              ]
+            ]
+          ],
+          "minimumGroundClearance": 0.0,
+          "checks": [
+            {
+              "minimum": 0.0,
+              "maximum": 96.0,
+              "samples": [
+                {
+                  "point": [
+                    -17920.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11264.0
+                  ],
+                  "surfaceZ": 288.0,
+                  "groundZ": 288.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11264.0
+                  ],
+                  "surfaceZ": 288.0,
+                  "groundZ": 288.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -11776
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -11776
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -11264
+                  ],
+                  "surfaceZ": 288.0,
+                  "groundZ": 288.0,
+                  "clearance": 0.0
+                }
+              ]
+            },
+            {
+              "minimum": 0.0,
+              "maximum": 96.0,
+              "samples": [
+                {
+                  "point": [
+                    -17920.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11264.0
+                  ],
+                  "surfaceZ": 288.0,
+                  "groundZ": 288.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408.0,
+                    -11264.0
+                  ],
+                  "surfaceZ": 288.0,
+                  "groundZ": 288.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -11264.0
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -11264.0
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -11776.0
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -11776
+                  ],
+                  "surfaceZ": 384.0,
+                  "groundZ": 288.0,
+                  "clearance": 96.0
+                },
+                {
+                  "point": [
+                    -17920,
+                    -11264
+                  ],
+                  "surfaceZ": 320.0,
+                  "groundZ": 320.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17408,
+                    -11264
+                  ],
+                  "surfaceZ": 288.0,
+                  "groundZ": 288.0,
+                  "clearance": 0.0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "construction": "Original timber deck, supporting beams/piles, rails and fitted bank landings.",
+      "source": {
+        "id": "river_crossing",
+        "title": "South meadow river crossing",
+        "kind": "bridge",
+        "point": [
+          -17664,
+          -13824
+        ],
+        "purpose": "Proposed narrow footbridge on an existing watercourse: allows MM6\u20138 parties to reach Reger and the southern melon patches. No road across the meadow.",
+        "sources": [],
+        "extent": [
+          512,
+          4096
+        ],
+        "evidence": "adaptation: current MM6\u20138 Swimming equivalence is unresolved; check exact bank geometry before native build",
+        "terrainCheck": {
+          "minimum": 256.0,
+          "maximum": 320.0,
+          "deckTop": 384
+        }
+      },
+      "geometryStatus": "Specified; meshes and native traversal remain outstanding."
+    },
+    {
+      "id": "reger_crossing",
+      "title": "Reger islet foot crossing",
+      "semanticId": "mm5:sw/reger_crossing",
+      "frontOrigin": [
+        -21824.0,
+        -17664
+      ],
+      "frontTangent": [
+        0,
+        -1
+      ],
+      "frontOutward": [
+        -1,
+        0
+      ],
+      "padHeight": 544,
+      "width": 320,
+      "length": 3840,
+      "localFootprint": [
+        320,
+        3840
+      ],
+      "surfaces": [
+        {
+          "id": "deck",
+          "localY": [
+            0,
+            3840
+          ],
+          "corners": [
+            [
+              -21824.0,
+              -17504.0,
+              544
+            ],
+            [
+              -21824.0,
+              -17824.0,
+              544
+            ],
+            [
+              -17984.0,
+              -17824.0,
+              544
+            ],
+            [
+              -17984.0,
+              -17504.0,
+              544
+            ]
+          ],
+          "triangles": [
+            [
+              [
+                -21824.0,
+                -17504.0,
+                544
+              ],
+              [
+                -21824.0,
+                -17824.0,
+                544
+              ],
+              [
+                -17984.0,
+                -17824.0,
+                544
+              ]
+            ],
+            [
+              [
+                -21824.0,
+                -17504.0,
+                544
+              ],
+              [
+                -17984.0,
+                -17824.0,
+                544
+              ],
+              [
+                -17984.0,
+                -17504.0,
+                544
+              ]
+            ]
+          ],
+          "minimumGroundClearance": 68.0,
+          "checks": [
+            {
+              "minimum": 68.0,
+              "maximum": 288.0,
+              "samples": [
+                {
+                  "point": [
+                    -21824.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17728.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21504.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21408.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20992.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20896.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20480.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20384.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19968.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19872.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19456.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19360.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18944.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18848.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18432.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18336.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 274.0,
+                  "clearance": 270.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -18308.923076923078,
+                    -17796.923076923078
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 279.07692307692287,
+                  "clearance": 264.92307692307713
+                },
+                {
+                  "point": [
+                    -18432.0,
+                    -17786.666666666668
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18781.53846153846,
+                    -17757.53846153846
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18944.0,
+                    -17744.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19254.153846153848,
+                    -17718.153846153848
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19456.0,
+                    -17701.333333333332
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19726.76923076923,
+                    -17678.76923076923
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19968.0,
+                    -17658.666666666668
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20199.384615384617,
+                    -17639.384615384617
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20480.0,
+                    -17616.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20672.0,
+                    -17600.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20992.0,
+                    -17573.333333333332
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21144.615384615383,
+                    -17560.615384615383
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21504.0,
+                    -17530.666666666668
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21617.23076923077,
+                    -17521.23076923077
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 333.84615384615404,
+                  "clearance": 210.15384615384596
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                }
+              ]
+            },
+            {
+              "minimum": 68.0,
+              "maximum": 288.0,
+              "samples": [
+                {
+                  "point": [
+                    -21824.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21617.23076923077,
+                    -17521.23076923077
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 333.84615384615404,
+                  "clearance": 210.15384615384596
+                },
+                {
+                  "point": [
+                    -21504.0,
+                    -17530.666666666668
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21144.615384615383,
+                    -17560.615384615383
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20992.0,
+                    -17573.333333333332
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20672.0,
+                    -17600.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20480.0,
+                    -17616.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20199.384615384617,
+                    -17639.384615384617
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19968.0,
+                    -17658.666666666668
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19726.76923076923,
+                    -17678.76923076923
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19456.0,
+                    -17701.333333333332
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19254.153846153848,
+                    -17718.153846153848
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18944.0,
+                    -17744.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18781.53846153846,
+                    -17757.53846153846
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18432.0,
+                    -17786.666666666668
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18308.923076923078,
+                    -17796.923076923078
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 279.07692307692287,
+                  "clearance": 264.92307692307713
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -18016.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 334.0,
+                  "clearance": 210.0
+                },
+                {
+                  "point": [
+                    -18432.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18528.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -18944.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19040.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19456.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19552.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -19968.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20064.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20480.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20576.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -20992.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21088.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21504.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 256.0,
+                  "clearance": 288.0
+                },
+                {
+                  "point": [
+                    -21600.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 322.0,
+                  "clearance": 222.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "start_ramp",
+          "localY": [
+            -192,
+            0
+          ],
+          "corners": [
+            [
+              -22016.0,
+              -17504.0,
+              608.0
+            ],
+            [
+              -22016.0,
+              -17824.0,
+              608.0
+            ],
+            [
+              -21824.0,
+              -17824.0,
+              544
+            ],
+            [
+              -21824.0,
+              -17504.0,
+              544
+            ]
+          ],
+          "triangles": [
+            [
+              [
+                -22016.0,
+                -17504.0,
+                608.0
+              ],
+              [
+                -22016.0,
+                -17824.0,
+                608.0
+              ],
+              [
+                -21824.0,
+                -17824.0,
+                544
+              ]
+            ],
+            [
+              [
+                -22016.0,
+                -17504.0,
+                608.0
+              ],
+              [
+                -21824.0,
+                -17824.0,
+                544
+              ],
+              [
+                -21824.0,
+                -17504.0,
+                544
+              ]
+            ]
+          ],
+          "minimumGroundClearance": 0.0,
+          "checks": [
+            {
+              "minimum": 0.0,
+              "maximum": 68.0,
+              "samples": [
+                {
+                  "point": [
+                    -22016.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 608.0,
+                  "groundZ": 608.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -22016.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 608.0,
+                  "groundZ": 608.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -22016.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 608.0,
+                  "groundZ": 608.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -21920.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 576.0,
+                  "groundZ": 542.0,
+                  "clearance": 34.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21860.0,
+                    -17764.0
+                  ],
+                  "surfaceZ": 556.0,
+                  "groundZ": 500.75,
+                  "clearance": 55.25
+                },
+                {
+                  "point": [
+                    -22016.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 608.0,
+                  "groundZ": 608.0,
+                  "clearance": 0.0
+                }
+              ]
+            },
+            {
+              "minimum": 0.0,
+              "maximum": 68.0,
+              "samples": [
+                {
+                  "point": [
+                    -22016.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 608.0,
+                  "groundZ": 608.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -21860.0,
+                    -17764.0
+                  ],
+                  "surfaceZ": 556.0,
+                  "groundZ": 500.75,
+                  "clearance": 55.25
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17728.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -21824.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 476.0,
+                  "clearance": 68.0
+                },
+                {
+                  "point": [
+                    -22016.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 608.0,
+                  "groundZ": 608.0,
+                  "clearance": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "end_ramp",
+          "localY": [
+            3840,
+            4352
+          ],
+          "corners": [
+            [
+              -17984.0,
+              -17504.0,
+              544
+            ],
+            [
+              -17984.0,
+              -17824.0,
+              544
+            ],
+            [
+              -17472.0,
+              -17824.0,
+              408.0
+            ],
+            [
+              -17472.0,
+              -17504.0,
+              408.0
+            ]
+          ],
+          "triangles": [
+            [
+              [
+                -17984.0,
+                -17504.0,
+                544
+              ],
+              [
+                -17984.0,
+                -17824.0,
+                544
+              ],
+              [
+                -17472.0,
+                -17824.0,
+                408.0
+              ]
+            ],
+            [
+              [
+                -17984.0,
+                -17504.0,
+                544
+              ],
+              [
+                -17472.0,
+                -17824.0,
+                408.0
+              ],
+              [
+                -17472.0,
+                -17504.0,
+                408.0
+              ]
+            ]
+          ],
+          "minimumGroundClearance": 0.0,
+          "checks": [
+            {
+              "minimum": 0.0,
+              "maximum": 204.0,
+              "samples": [
+                {
+                  "point": [
+                    -17984.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 527.0,
+                  "groundZ": 352.0,
+                  "clearance": 175.0
+                },
+                {
+                  "point": [
+                    -17824.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 501.5,
+                  "groundZ": 364.0,
+                  "clearance": 137.5
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 408.0,
+                  "groundZ": 408.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 408.0,
+                  "groundZ": 408.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17688.615384615383,
+                    -17688.615384615383
+                  ],
+                  "surfaceZ": 465.5384615384611,
+                  "groundZ": 380.92307692307713,
+                  "clearance": 84.61538461538396
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -17544.0
+                  ],
+                  "surfaceZ": 527.0,
+                  "groundZ": 352.0,
+                  "clearance": 175.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                }
+              ]
+            },
+            {
+              "minimum": 0.0,
+              "maximum": 204.0,
+              "samples": [
+                {
+                  "point": [
+                    -17984.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -17544.0
+                  ],
+                  "surfaceZ": 527.0,
+                  "groundZ": 352.0,
+                  "clearance": 175.0
+                },
+                {
+                  "point": [
+                    -17688.615384615383,
+                    -17688.615384615383
+                  ],
+                  "surfaceZ": 465.5384615384611,
+                  "groundZ": 380.92307692307713,
+                  "clearance": 84.61538461538396
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 408.0,
+                  "groundZ": 408.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -17824.0
+                  ],
+                  "surfaceZ": 408.0,
+                  "groundZ": 408.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 408.0,
+                  "groundZ": 408.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17472.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 408.0,
+                  "groundZ": 408.0,
+                  "clearance": 0.0
+                },
+                {
+                  "point": [
+                    -17504.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 416.5,
+                  "groundZ": 404.0,
+                  "clearance": 12.5
+                },
+                {
+                  "point": [
+                    -17920.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 527.0,
+                  "groundZ": 352.0,
+                  "clearance": 175.0
+                },
+                {
+                  "point": [
+                    -17984.0,
+                    -17504.0
+                  ],
+                  "surfaceZ": 544.0,
+                  "groundZ": 340.0,
+                  "clearance": 204.0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "construction": "Original timber deck, supporting beams/piles, rails and fitted bank landings.",
+      "source": {
+        "id": "reger_crossing",
+        "title": "Reger islet foot crossing",
+        "kind": "bridge",
+        "point": [
+          -19904,
+          -17664
+        ],
+        "extent": [
+          3840,
+          320
+        ],
+        "sources": [],
+        "evidence": "terrain-fit accessibility adaptation",
+        "purpose": "Narrow raised crossing from the hermitage islet eastern landing to the southern meadow bank. Preserve the original islet; bank ramps still need authored geometry.",
+        "terrainCheck": {
+          "minimum": 256.0,
+          "maximum": 476.0,
+          "deckTop": 544
+        }
+      },
+      "geometryStatus": "Specified; meshes and native traversal remain outstanding."
+    }
+  ],
+  "method": "Each proposed surface triangle is checked at its edges split by native grid/diagonal crossings and at contained native grid vertices. These cover extrema of the difference between piecewise-linear surfaces. Bank edges meet native ground; deck clearance is checked over full width.",
+  "limits": "Walking surfaces only. Author and check structural undersides, pile feet, rails and abutments; then inspect actual renders and prove ordinary native movement in both directions."
+}

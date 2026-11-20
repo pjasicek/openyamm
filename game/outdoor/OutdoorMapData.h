@@ -1,13 +1,14 @@
 #pragma once
 
 #include "game/maps/MapPresentation.h"
+#include "game/render/Mist.h"
 
 #include "game/maps/OutdoorSceneProfile.h"
 #include "game/outdoor/OutdoorNavigationData.h"
 #include "game/outdoor/OutdoorWaterDepthData.h"
 #include "game/outdoor/OutdoorRenderData.h"
 #include "game/outdoor/OutdoorLightingData.h"
-#include "game/outdoor/OutdoorMechanismAudio.h"
+#include "game/events/MechanismAudioProfile.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -178,7 +179,7 @@ struct OutdoorBModelMechanism
     bool locked = false;
     bool openAway = false;
     bool moveParty = false;
-    OutdoorMechanismAudioProfile audio = {};
+    MechanismAudioProfile audio = {};
 };
 
 struct OutdoorDestructible
@@ -259,6 +260,10 @@ struct OutdoorMapData
     OutdoorLocationType locationType = OutdoorLocationType::Exterior;
     float lightmapBrightnessScale = 1.0f;
     float viewDistanceScale = 1.0f;
+    // The scene's mist (none for every map without it).
+    MapMist mist;
+    // The scene's movement.flight_ceiling; the default ceiling when absent.
+    std::optional<float> flightCeiling;
     bool noTerrain = false;
     std::string skyTexture;
     std::string groundTilesetName;

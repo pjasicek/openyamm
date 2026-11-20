@@ -1,0 +1,285 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background_requested": true,
+  "postprocessing": "None. All saved images are byte-identical, unresized tool returns.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "status": "best_available_returns_saved; strict brief requirements not fully met",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic 3D-model albedo texture projection source.\nPrimary request: repaint the supplied grey guide IN PLACE on its existing 1024 x 1024 canvas. Output ONE 1024 x 1024 RGBA PNG with genuine transparent background. Preserve the guide's alpha silhouette, size, position, every polygon edge, opening, notch, overlap and detail EXACTLY, pixel for pixel. Paint only the existing surfaces, with no added or removed geometry. Do not rescale, move, rotate, reframe, crop, change the camera or smooth the angular silhouette.\nInput images: Image 1 is the GREY GUIDE, the edit target and absolute authority for geometry and framing. Image 2 is design_reference.png, the approved authority for surface design, colour and materials only. Image 3 is concept_crop.png, supporting original concept for material identity only. Do NOT copy the three-quarter camera, silhouette, lighting, floor or background of Images 2 or 3.\nSubject/materials: Kreegan scrap bundle. Existing wrapping ribbons/tendrils are black-violet Kreegan resin with subtle irregular surface texture and faint orange seams. Wrapped scrap panels are bone-white worn ceramic and polished gold fittings with small restrained chips and scratches. Existing hose surfaces are dark rubber. The existing bone claw clasp, wherever visible in the guide, is pale ivory with a gold ring. Put material boundaries on the existing guide geometry, never invent a new visible claw, hose or ring where the guide does not show one. Maintain the material colours of the design reference. Orange seams/sacs are their glowing orange colour only, without illumination of nearby surfaces or bloom.\nLIGHTING: flat ALBEDO / BASE COLOUR, even shadowless frontal illumination. No baked-in shadows, no ambient-occlusion darkening between pieces, no bottom-to-top lighting gradient, no strong specular highlights, no reflections, no rim light, no cast shadow, no glow spill. Gold reads as gold through colour and restrained wear, not mirror reflections. Preserve shape edges through material boundaries and subtle colour texture rather than lighting. No background, floor, checkerboard pixels, vignette, text, watermark or border. Keep all surrounding space and all guide openings truly transparent.\nCRITICAL: the grey guide is the exact final geometry, not a loose inspiration. The full canvas remains 1024 x 1024 and the object's alpha bounding rectangle stays x=66..957, y=274..749. Retain all the large transparent margins above and below; do not enlarge the object to fill the canvas. Return the raw generated image at the requested size.\nView: LEFT, using guide_left.png. Paint this exact left-side orthographic projection. The long bundle lies horizontally; retain the same angular wrapping paths and all protrusions. Do not mirror the guide or show its opposite side.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "790336437e670bf47f5cf31d843be3a5b568e3b8ae1a71941d73ed69c5a1dc03",
+          "role": "geometry/edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03",
+          "role": "approved design/material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "output_sha256": "3385947631f51456f6bad50ea47c2b247281487f73fd14ee9bf7dc6c915a855d",
+      "raw_return_source": "/home/pjasicek/.codex/generated_images/01a16ad2-ab44-7861-be39-f4a5de42ce49/exec-d091f4a1-5c45-445d-b322-ae06c6a093f4.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: wrong native dimensions, nonidentical silhouette/alpha and excessive baked-in lighting.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1055532,
+        "alpha_bbox": [
+          0,
+          23,
+          1222,
+          1254
+        ],
+        "alpha_gt_127_bbox": [
+          81,
+          337,
+          1174,
+          918
+        ],
+        "guide_alpha_bbox": [
+          66,
+          274,
+          958,
+          750
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Main black-violet resin, orange seams, ivory ceramic and warm gold match the reference palette; dark hose and ivory claw/gold clasp are present where visible.",
+        "flat_even_light": {
+          "status": "failed",
+          "reason": "Visible specular highlights, bright glowing seams and baked-in crevice shading."
+        },
+        "alpha_notes": "Transparent background is present, but faint nonzero-alpha pixels extend beyond the main object; alpha is not identical to the guide.",
+        "accepted_against_all_brief_requirements": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction allowed for this view. Previous output failed the required 1024 x 1024 size, pixel-exact outline and flat albedo lighting. Correct these issues.\nGenerate on a native 1024 x 1024 pixel canvas, exactly the same dimensions as Image 1. NOT 1254 x 1254. This is a surface-colour edit of Image 1, not a new object rendering. Preserve Image 1's original alpha channel and ALL shape boundaries at their original pixel positions. The bounding rectangle must remain x=66..957, y=274..749, including the broad original empty top and bottom margins. Do not redesign, smooth, move or rescale any piece, and do not add any silhouette detail.\nPaint a shadowless base-colour pass. Every same-material surface has even brightness regardless of its facing or depth. Completely remove illumination gradients, shadowed undersides, crevice AO, bright specular edges, gold reflections and glow spill. Show surface colour and small wear marks only. Resin should be dark black-violet; ceramic warm bone-white; metal warm gold; rubber charcoal; the existing claw ivory. Orange seams must be faint narrow orange paint, never blazing yellow lights. The art reference is only for material identity and colour, NOT for shading. True transparent background, not black or checkerboard paint.\n\nUse case: precise-object-edit.\nAsset type: orthographic 3D-model albedo texture projection source.\nPrimary request: repaint the supplied grey guide IN PLACE on its existing 1024 x 1024 canvas. Output ONE 1024 x 1024 RGBA PNG with genuine transparent background. Preserve the guide's alpha silhouette, size, position, every polygon edge, opening, notch, overlap and detail EXACTLY, pixel for pixel. Paint only the existing surfaces, with no added or removed geometry. Do not rescale, move, rotate, reframe, crop, change the camera or smooth the angular silhouette.\nInput images: Image 1 is the GREY GUIDE, the edit target and absolute authority for geometry and framing. Image 2 is design_reference.png, the approved authority for surface design, colour and materials only. Image 3 is concept_crop.png, supporting original concept for material identity only. Do NOT copy the three-quarter camera, silhouette, lighting, floor or background of Images 2 or 3.\nSubject/materials: Kreegan scrap bundle. Existing wrapping ribbons/tendrils are black-violet Kreegan resin with subtle irregular surface texture and faint orange seams. Wrapped scrap panels are bone-white worn ceramic and polished gold fittings with small restrained chips and scratches. Existing hose surfaces are dark rubber. The existing bone claw clasp, wherever visible in the guide, is pale ivory with a gold ring. Put material boundaries on the existing guide geometry, never invent a new visible claw, hose or ring where the guide does not show one. Maintain the material colours of the design reference. Orange seams/sacs are their glowing orange colour only, without illumination of nearby surfaces or bloom.\nLIGHTING: flat ALBEDO / BASE COLOUR, even shadowless frontal illumination. No baked-in shadows, no ambient-occlusion darkening between pieces, no bottom-to-top lighting gradient, no strong specular highlights, no reflections, no rim light, no cast shadow, no glow spill. Gold reads as gold through colour and restrained wear, not mirror reflections. Preserve shape edges through material boundaries and subtle colour texture rather than lighting. No background, floor, checkerboard pixels, vignette, text, watermark or border. Keep all surrounding space and all guide openings truly transparent.\nCRITICAL: the grey guide is the exact final geometry, not a loose inspiration. The full canvas remains 1024 x 1024 and the object's alpha bounding rectangle stays x=66..957, y=274..749. Retain all the large transparent margins above and below; do not enlarge the object to fill the canvas. Return the raw generated image at the requested size.\nView: LEFT, using guide_left.png. Paint this exact left-side orthographic projection. The long bundle lies horizontally; retain the same angular wrapping paths and all protrusions. Do not mirror the guide or show its opposite side.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "790336437e670bf47f5cf31d843be3a5b568e3b8ae1a71941d73ed69c5a1dc03",
+          "role": "geometry/edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03",
+          "role": "approved design/material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_left.png",
+      "output_sha256": "abd7db85e029033258646be32ad20c348739adefe64e0c9d0e0ccd3974c34727",
+      "raw_return_source": "/home/pjasicek/.codex/generated_images/01a16ad2-ab44-7861-be39-f4a5de42ce49/exec-a08567a5-2ff8-435b-ae95-d46737a571e9.png",
+      "selected": true,
+      "reason": "Selected as the better of the two allowed unmodified returns: flatter lighting and restrained highlights/seams. This is a best-available selection, not acceptance: the tool still returned 1254x1254, the silhouette/alpha is not pixel-identical, and some shading remains. No further regeneration: the one-correction-per-view limit is exhausted.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1060076,
+        "alpha_bbox": [
+          0,
+          59,
+          1230,
+          1214
+        ],
+        "alpha_gt_127_bbox": [
+          80,
+          335,
+          1174,
+          918
+        ],
+        "guide_alpha_bbox": [
+          66,
+          274,
+          958,
+          750
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Main black-violet resin, orange seams, ivory ceramic and warm gold match the reference palette; dark hose and ivory claw/gold clasp are present where visible.",
+        "flat_even_light": {
+          "status": "improved_but_not_strictly_shadowless",
+          "reason": "Correction reduces specular highlights, orange bloom and large lighting gradients; some facet and crevice shading remains."
+        },
+        "alpha_notes": "Transparent background is present, but faint nonzero-alpha pixels extend beyond the main object; alpha is not identical to the guide.",
+        "accepted_against_all_brief_requirements": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic 3D-model albedo texture projection source.\nPrimary request: repaint the supplied grey guide IN PLACE on its existing 1024 x 1024 canvas. Output ONE 1024 x 1024 RGBA PNG with genuine transparent background. Preserve the guide's alpha silhouette, size, position, every polygon edge, opening, notch, overlap and detail EXACTLY, pixel for pixel. Paint only the existing surfaces, with no added or removed geometry. Do not rescale, move, rotate, reframe, crop, change the camera or smooth the angular silhouette.\nInput images: Image 1 is the GREY GUIDE, the edit target and absolute authority for geometry and framing. Image 2 is design_reference.png, the approved authority for surface design, colour and materials only. Image 3 is concept_crop.png, supporting original concept for material identity only. Do NOT copy the three-quarter camera, silhouette, lighting, floor or background of Images 2 or 3.\nSubject/materials: Kreegan scrap bundle. Existing wrapping ribbons/tendrils are black-violet Kreegan resin with subtle irregular surface texture and faint orange seams. Wrapped scrap panels are bone-white worn ceramic and polished gold fittings with small restrained chips and scratches. Existing hose surfaces are dark rubber. The existing bone claw clasp, wherever visible in the guide, is pale ivory with a gold ring. Put material boundaries on the existing guide geometry, never invent a new visible claw, hose or ring where the guide does not show one. Maintain the material colours of the design reference. Orange seams/sacs are their glowing orange colour only, without illumination of nearby surfaces or bloom.\nLIGHTING: flat ALBEDO / BASE COLOUR, even shadowless frontal illumination. No baked-in shadows, no ambient-occlusion darkening between pieces, no bottom-to-top lighting gradient, no strong specular highlights, no reflections, no rim light, no cast shadow, no glow spill. Gold reads as gold through colour and restrained wear, not mirror reflections. Preserve shape edges through material boundaries and subtle colour texture rather than lighting. No background, floor, checkerboard pixels, vignette, text, watermark or border. Keep all surrounding space and all guide openings truly transparent.\nCRITICAL: the grey guide is the exact final geometry, not a loose inspiration. The full canvas remains 1024 x 1024 and the object's alpha bounding rectangle stays x=66..957, y=274..749. Retain all the large transparent margins above and below; do not enlarge the object to fill the canvas. Return the raw generated image at the requested size.\nView: RIGHT, using guide_right.png. Paint this exact right-side orthographic projection. Retain the visible central ring/claw geometry in its exact location and shape and every wrapping path and protrusion. Do not mirror the guide or show its opposite side.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "29ac057387c4443157b7adfbc3456a72f6d45540c05902b121ab300ea4f8f867",
+          "role": "geometry/edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03",
+          "role": "approved design/material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "output_sha256": "42925d40a56c81f68b6eff04321ca0364770ab09add6415c4a3f40658a85fa80",
+      "raw_return_source": "/home/pjasicek/.codex/generated_images/01a16ad2-ab44-7861-be39-f4a5de42ce49/exec-c6c58128-2047-41dd-99c6-94c43b1df88d.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: wrong native dimensions, nonidentical silhouette/alpha and excessive baked-in lighting.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1050909,
+        "alpha_bbox": [
+          0,
+          20,
+          1216,
+          1254
+        ],
+        "alpha_gt_127_bbox": [
+          80,
+          336,
+          1175,
+          919
+        ],
+        "guide_alpha_bbox": [
+          66,
+          274,
+          958,
+          750
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Main black-violet resin, orange seams, ivory ceramic and warm gold match the reference palette; dark hose and ivory claw/gold clasp are present where visible.",
+        "flat_even_light": {
+          "status": "failed",
+          "reason": "Visible specular highlights, bright glowing seams and baked-in crevice shading."
+        },
+        "alpha_notes": "Transparent background is present, but faint nonzero-alpha pixels extend beyond the main object; alpha is not identical to the guide.",
+        "accepted_against_all_brief_requirements": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction allowed for this view. Previous output failed the required 1024 x 1024 size, pixel-exact outline and flat albedo lighting. Correct these issues.\nGenerate on a native 1024 x 1024 pixel canvas, exactly the same dimensions as Image 1. NOT 1254 x 1254. This is a surface-colour edit of Image 1, not a new object rendering. Preserve Image 1's original alpha channel and ALL shape boundaries at their original pixel positions. The bounding rectangle must remain x=66..957, y=274..749, including the broad original empty top and bottom margins. Do not redesign, smooth, move or rescale any piece, and do not add any silhouette detail.\nPaint a shadowless base-colour pass. Every same-material surface has even brightness regardless of its facing or depth. Completely remove illumination gradients, shadowed undersides, crevice AO, bright specular edges, gold reflections and glow spill. Show surface colour and small wear marks only. Resin should be dark black-violet; ceramic warm bone-white; metal warm gold; rubber charcoal; the existing claw ivory. Orange seams must be faint narrow orange paint, never blazing yellow lights. The art reference is only for material identity and colour, NOT for shading. True transparent background, not black or checkerboard paint.\n\nUse case: precise-object-edit.\nAsset type: orthographic 3D-model albedo texture projection source.\nPrimary request: repaint the supplied grey guide IN PLACE on its existing 1024 x 1024 canvas. Output ONE 1024 x 1024 RGBA PNG with genuine transparent background. Preserve the guide's alpha silhouette, size, position, every polygon edge, opening, notch, overlap and detail EXACTLY, pixel for pixel. Paint only the existing surfaces, with no added or removed geometry. Do not rescale, move, rotate, reframe, crop, change the camera or smooth the angular silhouette.\nInput images: Image 1 is the GREY GUIDE, the edit target and absolute authority for geometry and framing. Image 2 is design_reference.png, the approved authority for surface design, colour and materials only. Image 3 is concept_crop.png, supporting original concept for material identity only. Do NOT copy the three-quarter camera, silhouette, lighting, floor or background of Images 2 or 3.\nSubject/materials: Kreegan scrap bundle. Existing wrapping ribbons/tendrils are black-violet Kreegan resin with subtle irregular surface texture and faint orange seams. Wrapped scrap panels are bone-white worn ceramic and polished gold fittings with small restrained chips and scratches. Existing hose surfaces are dark rubber. The existing bone claw clasp, wherever visible in the guide, is pale ivory with a gold ring. Put material boundaries on the existing guide geometry, never invent a new visible claw, hose or ring where the guide does not show one. Maintain the material colours of the design reference. Orange seams/sacs are their glowing orange colour only, without illumination of nearby surfaces or bloom.\nLIGHTING: flat ALBEDO / BASE COLOUR, even shadowless frontal illumination. No baked-in shadows, no ambient-occlusion darkening between pieces, no bottom-to-top lighting gradient, no strong specular highlights, no reflections, no rim light, no cast shadow, no glow spill. Gold reads as gold through colour and restrained wear, not mirror reflections. Preserve shape edges through material boundaries and subtle colour texture rather than lighting. No background, floor, checkerboard pixels, vignette, text, watermark or border. Keep all surrounding space and all guide openings truly transparent.\nCRITICAL: the grey guide is the exact final geometry, not a loose inspiration. The full canvas remains 1024 x 1024 and the object's alpha bounding rectangle stays x=66..957, y=274..749. Retain all the large transparent margins above and below; do not enlarge the object to fill the canvas. Return the raw generated image at the requested size.\nView: RIGHT, using guide_right.png. Paint this exact right-side orthographic projection. Retain the visible central ring/claw geometry in its exact location and shape and every wrapping path and protrusion. Do not mirror the guide or show its opposite side.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "29ac057387c4443157b7adfbc3456a72f6d45540c05902b121ab300ea4f8f867",
+          "role": "geometry/edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03",
+          "role": "approved design/material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_right.png",
+      "output_sha256": "0c958e959d5bd2aecf6f08ded390bea28fa9f1c75bdd1c31bcae5072a5d42cd4",
+      "raw_return_source": "/home/pjasicek/.codex/generated_images/01a16ad2-ab44-7861-be39-f4a5de42ce49/exec-0b217c7f-5efb-455d-801c-d245133ec946.png",
+      "selected": true,
+      "reason": "Selected as the better of the two allowed unmodified returns: flatter lighting and restrained highlights/seams. This is a best-available selection, not acceptance: the tool still returned 1254x1254, the silhouette/alpha is not pixel-identical, and some shading remains. No further regeneration: the one-correction-per-view limit is exhausted.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1057933,
+        "alpha_bbox": [
+          0,
+          39,
+          1230,
+          1230
+        ],
+        "alpha_gt_127_bbox": [
+          82,
+          337,
+          1175,
+          918
+        ],
+        "guide_alpha_bbox": [
+          66,
+          274,
+          958,
+          750
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Main black-violet resin, orange seams, ivory ceramic and warm gold match the reference palette; dark hose and ivory claw/gold clasp are present where visible.",
+        "flat_even_light": {
+          "status": "improved_but_not_strictly_shadowless",
+          "reason": "Correction reduces specular highlights, orange bloom and large lighting gradients; some facet and crevice shading remains."
+        },
+        "alpha_notes": "Transparent background is present, but faint nonzero-alpha pixels extend beyond the main object; alpha is not identical to the guide.",
+        "accepted_against_all_brief_requirements": false
+      }
+    }
+  ]
+}

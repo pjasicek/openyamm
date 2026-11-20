@@ -1,0 +1,30 @@
+{
+  "asset_helper_sha256": "37ce4a1c04a07eacb379f96461470a641d1be38b52095776c1c11863dc11b23d",
+  "backend": "5.2.2 LTS",
+  "decoration_helper_sha256": "db1620396b53be1646643ce2385eabf9b8b54dcc20d738459c57496384905dda",
+  "geometry_helper_sha256": "791c7cc5333fc0299872f71ce003e8d6114656580e3ed79c2885d78a3b6472e3",
+  "producer_sha256": "1528a72e7781ce0526c7c88719c2b5e8571c5ae2af7ad0ac0e2280c53dcda7f4",
+  "profile": {
+    "azimuth": 225.0,
+    "building_page_size": 1024,
+    "decoration_shadows": true,
+    "elevation": 45,
+    "map": "oute3.odm",
+    "preview_position": [
+      -1000,
+      -11900,
+      1200
+    ],
+    "preview_target": [
+      2200,
+      -9968,
+      500
+    ],
+    "samples": 64,
+    "sky_energy": 0.35,
+    "sun_energy": 2.6,
+    "terrain_size": 1024,
+    "units_per_texel": 32,
+    "world": "mm6"
+  }
+}

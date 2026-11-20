@@ -1,0 +1,1 @@
+Common .98,0,0 registration; original clipping evidence retained in registration_checks.json. material_tone.py followed by trunk_tone.py restores cool foliage and pale bark separately; unchanged alpha. Original master and intermediate pixels retained. Final light/dark proofs inspected.

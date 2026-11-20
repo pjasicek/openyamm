@@ -1,0 +1,287 @@
+# draft extracted from MAW ef23ee17
+# Every per-difficulty number and flag MAW uses on the monster side (plus the few player-side rules that are
+# gated on the same difficulty switch). Paths are relative to Maw-Mod-MMMerge/Scripts/.
+# A proposed OpenYAMM ruleset would read this instead of MAW's scattered globals; see devdocs/maw/BALANCE_MODEL.md.
+format: 1
+source: {repo: Maw-Mod-MMMerge, commit: ef23ee17}
+
+# ---------------------------------------------------------------------------------------------------------------
+# How a game ends up at a difficulty index
+# ---------------------------------------------------------------------------------------------------------------
+selection:
+  # ESC -> Controls -> Extra Settings: MMMerge's "bolstering power" slider, reused
+  # (General/MenuExtraSettings.lua:308-317)
+  bolster_slider: {min: 0, max: 250, step: 50, default: 50}
+  bolster_labels: {0: Easy, 50: Normal, 100: MAW, 150: Hard, 200: Hell, 250: "Nightmare (prompt)"}
+  # 250 opens a typed yes/no question; "yes" sets vars.trueNightmare and BolsterAmount 300 for the rest of the game,
+  # anything else reverts to 200 (General/zzMaw-Monsters.lua:2799-2840).
+  nightmare_prompt: {slider_value: 250, accept: 300, decline: 200, irreversible: true}
+  # Not a multiple of 50 -> forced to 100 (zzMaw-Monsters.lua:799-801), so bolster 70 (index 2) is unreachable.
+  invalid_bolster_becomes: 100
+  # Re-applied on every map load and every settings close (zzMaw-Monsters.lua:355-399):
+  forced_bolster: {true_nightmare: 300, doom_or_higher: 600}
+  # Party-creation "Mode" spinner (MenuExtraSettings.lua:232-302), frozen at BeforeNewGameAutosave.
+  game_modes:
+    normal: {menu_value: 0}
+    doom: {menu_value: 2, sets: {Mode: 2}}
+    road_to_insanity: {menu_value: 4, sets: {Mode: 2, insanityMode: true}}
+    beyond_madness:
+      menu_value: 6
+      sets: {Mode: 2, insanityMode: true, madnessMode: true, freeProgression: false}
+      on_first_load: "every roster character set to level 1, 0 experience, 0 skill points, every learned skill to 1"
+    austerity: {menu_value: 8, sets: {Mode: 8, AusterityMode: true}}
+  # Doom, Insanity and Madness only (vars.DoomPartyNeedInit, MenuExtraSettings.lua:262-291):
+  new_game_bonus:
+    modes: [doom, road_to_insanity, beyond_madness]
+    gold_set_to: 5000
+    exp_per_member: "10000 / PartyCount"
+  # GetDifficulty(), General/zzMaw-Stats.lua:1507-1530. First match wins.
+  index_rules:
+    - {index: 9, when: madnessMode}
+    - {index: 8, when: insanityMode}
+    - {index: 7, when: "Mode == 2"}
+    - {index: 6, when: "BolsterAmount >= 300"}
+    - {index: 5, when: "BolsterAmount >= 200"}
+    - {index: 4, when: "BolsterAmount >= 150"}
+    - {index: 3, when: "BolsterAmount >= 100"}
+    - {index: 2, when: "BolsterAmount >= 70"}
+    - {index: 1, when: otherwise}
+  # Austerity is not an index: it is a flag that combines with indices 1-6 (it cannot be combined with Doom+).
+
+# ---------------------------------------------------------------------------------------------------------------
+# Per-index numbers. Keys:
+#   monster_hp_hits        hitToKillMonster: monster HP = expected player power x this (Estimates.lua:679)
+#   monster_hp_hits_aust   hitToKillMonsterAusterity (Estimates.lua:680)
+#   player_hits_to_die     hitToKill: monster damage = expected player vitality / this (Estimates.lua:459)
+#   player_hits_aust       hitToKillAusterity (Estimates.lua:460)
+#   density                monsterDensity {low, hi} (zzMaw-Monsters.lua:771-781); applied rule in density_rules
+#   exp_mult               GetMonsterExpMult = sqrt(mean(index 3) / mean(index)), mean = (low+hi)/2 (:788-795)
+#   model_drop_density     DROPS_DENSITY_BY_DIFFICULTY, the balance model's loot-seen factor (Estimates.lua:192-202)
+#   rarity_weight_mult     rarityDifficultyMult (zzMaw-Items.lua:604-614)
+#   rarity_band_mult       rarityBandMult {epic, rare, uncommon} (zzMaw-Items.lua:655-665)
+#   cc_cost_mult           getCCDiffMult (zzMaw-Spells.lua:1352-1364); x2.5 more under Austerity
+#   learning_thresholds    expert/master/GM skill needed to LEARN (zzMAW-Skills.lua:215-233) for horizontal skills
+#   mastery_thresholds     masteryThresholds() used by gradual mastery values and the model (zzMaw-Stats.lua:1497-1505)
+# ---------------------------------------------------------------------------------------------------------------
+difficulties:
+  1:
+    name: "Easy and Normal"     # both bolster 0 and 50 land here (MAW bug: the comments say "bolster 40")
+    bolster: [0, 50]
+    monster_hp_hits: 1
+    monster_hp_hits_aust: 1
+    player_hits_to_die: 14
+    player_hits_aust: 15
+    density: {low: 1, hi: 3}
+    exp_mult: 1.0
+    model_drop_density: 0.40
+    rarity_weight_mult: 1
+    rarity_band_mult: {}
+    cc_cost_mult: 1
+  2:
+    name: "unreachable (bolster 70)"
+    bolster: [70]
+    monster_hp_hits: 1.5
+    monster_hp_hits_aust: 2
+    player_hits_to_die: 10
+    player_hits_aust: 10
+    density: {low: 1, hi: 3}
+    exp_mult: 1.0
+    model_drop_density: 0.40
+    rarity_weight_mult: 1
+    rarity_band_mult: {}
+    cc_cost_mult: 1
+  3:
+    name: MAW
+    bolster: [100]
+    monster_hp_hits: 2
+    monster_hp_hits_aust: 4
+    player_hits_to_die: 7
+    player_hits_aust: 5
+    density: {low: 1, hi: 3}
+    exp_mult: 1.0
+    model_drop_density: 0.40
+    rarity_weight_mult: 1
+    rarity_band_mult: {}
+    cc_cost_mult: 1
+  4:
+    name: Hard
+    bolster: [150]
+    monster_hp_hits: 2.5
+    monster_hp_hits_aust: 5
+    player_hits_to_die: 6.5
+    player_hits_aust: 4
+    density: {low: 1, hi: 4}
+    exp_mult: 0.894427
+    model_drop_density: 0.43
+    rarity_weight_mult: 1.1
+    rarity_band_mult: {epic: 1.5, rare: 1.4, uncommon: 1.4}
+    cc_cost_mult: 1.25
+  5:
+    name: Hell
+    bolster: [200]
+    monster_hp_hits: 3
+    monster_hp_hits_aust: 6
+    player_hits_to_die: 6
+    player_hits_aust: 3
+    density: {low: 1, hi: 4}
+    exp_mult: 0.894427
+    model_drop_density: 0.43
+    rarity_weight_mult: 1.2
+    rarity_band_mult: {epic: 2, rare: 1.8, uncommon: 1.6}
+    cc_cost_mult: 1.5
+  6:
+    name: Nightmare
+    bolster: [300]               # only reachable through the irreversible prompt (trueNightmare)
+    monster_hp_hits: 3.5
+    monster_hp_hits_aust: 7
+    player_hits_to_die: 5.5
+    player_hits_aust: 2.5
+    density: {low: 2, hi: 4}
+    exp_mult: 0.816497
+    model_drop_density: 0.47
+    rarity_weight_mult: 1.4
+    rarity_band_mult: {epic: 2.5, rare: 2.2, uncommon: 1.8}
+    cc_cost_mult: 2
+  7:
+    name: Doom
+    bolster: [600]
+    monster_hp_hits: 4
+    player_hits_to_die: 5
+    density: {low: 2, hi: 5}
+    exp_mult: 0.755929
+    model_drop_density: 0.59
+    rarity_weight_mult: 1.6
+    rarity_band_mult: {epic: 3, rare: 2.6, uncommon: 2}
+    cc_cost_mult: 3
+  8:
+    name: "Road to Insanity"
+    bolster: [600]
+    monster_hp_hits: 4.5
+    player_hits_to_die: 4.5
+    density: {low: 3, hi: 5}
+    exp_mult: 0.707107
+    model_drop_density: 0.66
+    rarity_weight_mult: 1.8
+    rarity_band_mult: {epic: 4, rare: 3, uncommon: 2.2}
+    cc_cost_mult: 5
+  9:
+    name: "Beyond Madness"
+    bolster: [600]
+    monster_hp_hits: 5
+    player_hits_to_die: 4
+    density: {low: 3, hi: 6}
+    exp_mult: 0.666667
+    model_drop_density: 0.70
+    rarity_weight_mult: 2
+    rarity_band_mult: {epic: 5.5, rare: 3.4, uncommon: 2.4}
+    cc_cost_mult: 5
+# The austerity tables have entries 7-9 ({8, 9, 9.5} and {2, 1.5, 1}) that no game can reach.
+austerity_unreachable: {monster_hp_hits: {7: 8, 8: 9, 9: 9.5}, player_hits_to_die: {7: 2, 8: 1.5, 9: 1}}
+
+# Resulting monster HP / damage relative to index 3, from the golden run (data/balance_golden.csv, party of 5).
+# Not equal to the hit ratios: the expected player is better geared at higher indices (more loot seen).
+# MAW 7ddb228c (regenerated 2026-11-18).
+relative_to_maw:
+  level_100: {1: [0.50, 0.50], 2: [0.75, 0.70], 4: [1.29, 1.11], 5: [1.60, 1.22], 6: [1.99, 1.42], 7: [2.48, 1.68],
+              8: [2.61, 1.72], 9: [2.19, 1.27]}
+  level_300: {1: [0.50, 0.50], 2: [0.75, 0.70], 4: [1.33, 1.13], 5: [1.67, 1.27], 6: [2.18, 1.53], 7: [2.83, 1.88],
+              8: [3.72, 2.40], 9: [4.17, 2.54]}
+
+# ---------------------------------------------------------------------------------------------------------------
+# Spawn density: what AdjustMonsterDensity really does to MapStats Mon{1..3}{Low,Hi,Dif} on BeforeLoadMap
+# (zzMaw-Monsters.lua:797-926). bonus = density.hi - 3. Blocks run in this order and later ones overwrite.
+# ---------------------------------------------------------------------------------------------------------------
+density_rules:
+  - {when: "BolsterAmount <= 100", action: "restore Low/Hi from the backup (Dif is never restored)"}
+  - when: "BolsterAmount == 150 or 200"
+    action: "Low = max(backup Low, 1); Hi = backup Hi + 1, only for slots whose CURRENT Hi <= 3"
+  - when: "BolsterAmount == 300"
+    action: >-
+      slots with backup Hi > 1: Low = max(backup Low, 2), Hi = backup Hi + 1;
+      every slot: Dif = min(backup Dif + 1, 5)
+  - when: "Mode == 2 (Doom, Insanity, Madness)"
+    action: >-
+      slots with backup Hi > 1: Low = max(backup Low, 2), Hi = backup Hi + 2;
+      every slot: Dif = min(backup Dif + 1, 5)
+  - when: insanityMode
+    action: "if backup Mon1Hi > 1: all three Low = max(backup Low, 3)"
+  - when: madnessMode
+    action: "slots with backup Hi > 1: Low = max(backup Low, 3), Hi = backup Hi + 3"
+  - {when: always, action: "map 96 (Hall under the Hill): Monster2Pic Will O Wisp, Monster3Pic Unicorn, Mon3 1-3"}
+  - {when: "dimension map", action: "Hi = round(Hi x (1 + (Power x nAff + 20 x nAff) / 300))"}
+  - {when: always, action: "Low = min(Low, Hi)"}
+# Randomizer games skip the rules above and bake an older, denser table into the shuffle list once
+# (General/zzzzMalekith-Randomizer.lua:211-375): Hard Hi+1 (if Hi <= 3); Hell Low 1->2 and Hi+1; Nightmare Hi+3, Dif+1;
+# Doom Hi+4, Dif+1; Insanity all Low = 3; Madness Low = 5, Hi+6; then Doom-and-up thin out high-level families
+# (divisor 18 Doom, 14 Insanity, 10 Madness on the family's B level). exp_mult still assumes the standard table.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Flags and thresholds keyed on the same switches. "from" lists the first index at which the rule is on.
+# ---------------------------------------------------------------------------------------------------------------
+rules:
+  bosses:
+    enabled: "BolsterAmount >= 100 (index 3+; Easy/Normal have none)"         # zzMaw-Monsters.lua:2876
+    count: "ceil((Map.Monsters.Count - 30) / 150); /60 when Mode == 2"        # :2897-2900
+    special_chance_mult: {default: 1, doom: 2, insanity: 3, madness: 3}         # :3024-3026
+    seeded_affixes_and_pity: "madness only (needs madnessMode and insanityMode)"   # :3030, :3115-3121
+  monster_item_drop_percent_mult: {6: 0.75, 7: 0.5, 8: 0.5, 9: 0.5}           # zzMaw-Items.lua:243-247
+  # zzMaw-Items.lua:552-561
+  enchant_extra_power: {default: 1, true_nightmare: 1.05, doom: 1.1, insanity: 1.2, madness: 1.2}
+  item_level_requirement_offset: {6: -6, 7: -9, 8: -12, 9: -12}               # zzMaw-Items.lua:4362-4370
+  attacking_cancels_fly:   # Modules/MawCore/Damage.lua:317-329, flyAllowedMaps in zzMaw-Spells.lua:1018
+    from: 4
+    also: austerity
+    except_maps: [elema.odm, elemf.odm, elemw.odm, out12.odm, outa1.odm, outa2.odm, outa3.odm, outb2.odm,
+                  outb3.odm, out05.odm, out07.odm]
+  melee_monsters_gain_ranged_attack:
+    # zzMaw-Monsters.lua:633-658
+    when: "outdoors, BolsterAmount >= 200 (index 5+), not a starting map; or any bounty map"
+    starting_maps: [out01.odm, out02.odm, 7out01.odm, 7out02.odm, oute3.odm, outd3.odm]
+  saving_costs_food:   # zzMaw-Monsters.lua:2140-2170
+    from: 6
+    food: {outdoors: 0, outdoors_enemies_near: 3, indoors: 2, indoors_enemies_near: 10}
+    free_when: "map completed, or SaveKind 1"
+  lloyd_and_town_portal_blocked_near_enemies: {from: 6}                       # zzMaw-Monsters.lua:2190-2203
+  respawn_on_exit:
+    from: 6                                                                    # zzMaw-Monsters.lua:2228-2263
+    indoors_only: true
+    safe_after_kill_ratio: 0.65                                                # :2785 (BolsterAmount >= 300)
+    revived: "NameId = Id + 300 ('Resurrected <name>'), full HP, Exp / 4"
+  death_below_negative_full_hp:   # Modules/MawCore/Damage.lua:1907-1932
+    from: 6
+    dead_below: "-1 x FullHP"
+    eradicated_below: "-2 x FullHP"
+    insanity_disintegrate_below: "-10 x FullHP (party > 1, MAWSettings enableDisintegrate)"
+  doom_on_hit_conditions:
+    from: 7                                                                    # zzMaw-Monsters.lua:3691-3740
+    chance: "sqrt(mon.Level) x 2 %"
+    unlocked_by_level:
+      0: [Poison1, Poison2, Poison3, Weak, Fear]
+      15: [Curse]
+      20: [Disease1, Disease2, Disease3]
+      30: [Paralysis]
+      40: [Insanity]
+      50: [Stone]
+      60: [Sleep, Unconscious]
+      70: [Aging]
+      80: [SpellDrain]
+      90: [Death]
+      100: [Eradication]
+  diseases_below_level_20_become_poisons: {from: 1}                           # zzMaw-Monsters.lua:3741-3747
+  turn_based_move_limit: {from: 7, also: austerity, units_per_phase: 370}      # zzMaw-Monsters.lua:3664-3679
+  map_completion_kill_count_mult: {6: 0.67, 7: 0.5, 8: 0.4, 9: 0.4}           # zzMaw-Monsters.lua:2716-2725
+  # zzMaw-Monsters.lua:2622-2625
+  map_completion_required_ratio: "0.99 ^ floor(n / 100); insanity without a respawn record: 1.0"
+  no_map_refill: {outdoor_list_always: true, all_maps_from: 8}                 # zzMaw-Maps.lua:73-85
+  dungeon_reset_allowed: {until: 7}                                            # zzMaw-Maps.lua:183-188
+  resurrected_monsters_give_exp: {until: 7}                                    # zzzMaw_Experience.lua:172-176
+  arena_and_bounty_kills_give_exp: {until: 8}                                  # zzzMaw_Experience.lua:162-167
+  crit_diminishing_cap: {default: 2000, madness: 3000}                          # Formulas.lua:165-167
+  learning_thresholds:
+    normal: [4, 7, 10]                  # free progression, indices 1-6, and every non-horizontal skill
+    horizontal_progression: [6, 12, 20] # indices 1-6 with freeProgression off
+    7: [6, 12, 20]
+    8: [8, 16, 25]
+    9: [10, 24, 40]
+  mastery_thresholds: {default: [0, 4, 7, 10], 8: [0, 8, 16, 25], 9: [0, 10, 24, 40]}
+  model_promotion_level: {default: 210, 9: 330}   # Estimates.lua:248, 303

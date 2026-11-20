@@ -1,0 +1,3 @@
+Saved [raw.png](level_generation/ui/hud_inventory/mm9_pc_portraits/npc14/repair_02_05_24_44/raw.png) and [generation.json](level_generation/ui/hud_inventory/mm9_pc_portraits/npc14/repair_02_05_24_44/generation.json), including the prompt and hashes. Used built-in image generation; verified RGBA transparency.
+
+No pixel edits or builds. Output is 2172×724, shorter than the requested approximate dimensions.

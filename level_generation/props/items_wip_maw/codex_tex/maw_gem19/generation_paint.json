@@ -1,0 +1,25 @@
+{
+  "prompt": "Edit paint_mask_guide.png as the exact layout and silhouette template. Output ONE transparent PNG at 1536x2048 (3:4). The guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 hold identical five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve exactly every object's position, size, outline, geometry, gaps and openings. Paint existing grey objects only, never redraw, enlarge, move or redesign them. Empty cells column 3 of rows 2 and 4 remain fully transparent.\nRows 1-2 PAINT: unlit base colour, deep royal-blue faceted sapphire with brighter blue facets toward the middle; polished warm yellow gold filigree with darker gold recesses. Reference design_reference.png for material/detail and icon_x8.png for colours (ignore its magenta background). Same stone as plain Erathian Sapphire, cushion cut rounded square flat table with many crown facets and faceted pavilion, held in ornate gold filigree low open cradle, curling scrollwork and small prongs wrapping lower half and rim, upper stone free. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view and constrained to guide geometry.\nRows 3-4 MATERIAL MASK: identical five silhouettes with FLAT PURE colours ONLY: #FF0000 red for EVERY metal part; #000000 black for EVERY gemstone/crystal/glass part. Every pixel inside each silhouette assigned exactly one colour. NO shading, texture, outlines or antialiased colour blends inside the mask. Do not make mask gems transparent: opaque pure black. Keep gaps and openings transparent exactly as guide.\nUnlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Background fully transparent. Output only the atlas.\nCORRECTION: The previous attempt enlarged and moved the objects. Strictly retain guide canvas margins and all object bounds. Treat the guide as a pixel registered paint-over. Each cell is 512 square on the 1536x2048 canvas. Do not fill cells or expand objects. Preserve the generous transparent spacing around each grey render exactly. No stray paint outside the guide silhouettes. Material mask metal should match exact guide metal geometry, never thick simplified strokes. The gold paint must have no white specular hotspots: flat unlit ochre/yellow gold base colour. Use guide as geometry authority over design reference.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem19/paint_mask_guide.png",
+      "sha256": "c372b6295cae62421233ac81cc88cb58cc9184568aba54c8bd828ab6f842dc02"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem19/design_reference.png",
+      "sha256": "54dfa773d3db920d217c24a6a95f119505e85b47bc8a1933eb7eef2863231a08"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem19/icon_x8.png",
+      "sha256": "54470ee04c7981aaa66c9ceef1de2a62c44bc44d9871b45c2a1845709bb80504"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce8-404c-7350-b055-5232f3f3ddac/exec-6db80e00-35ed-454a-90f1-1ffa2f74f199.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem19/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1
+}

@@ -1,0 +1,111 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.inventastorca_chests
+title: Inventa Storca (native BLV) - the three chests and two treasure bags open
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: inventastorca.blv
+- note:
+    text: Chest0 in the west reading room.
+- set_pose:
+    map: inventastorca.blv
+    x: -5668
+    y: -4798
+    z: -857
+    yaw: -1.0472
+    pitch: -0.9326
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- note:
+    text: SecretSwitch (a book on the wall) swings SecretPanel open; TreasureBag1 is in the niche.
+- set_pose:
+    map: inventastorca.blv
+    x: 1160
+    y: -3932
+    z: -1637
+    yaw: 0.0
+    pitch: -0.3426
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 77
+      state: open
+- execute_event:
+    id: 44
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- note:
+    text: SecretSwitch0 swings SecretPanel0 open; TreasureBag0 is in its niche.
+- set_pose:
+    map: inventastorca.blv
+    x: -2010
+    y: -7058
+    z: -1474
+    yaw: -1.5708
+    pitch: -0.5276
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 78
+      state: open
+- execute_event:
+    id: 45
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- note:
+    text: SecretSwitch1 (a book on FallingBookcase4) slides SecretPanel1 off the floor compartment holding Chest1 and Chest2.
+- set_pose:
+    map: inventastorca.blv
+    x: -730
+    y: -4942
+    z: -1637
+    yaw: 1.5708
+    pitch: 0.0986
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 79
+      state: open
+- execute_event:
+    id: 42
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- execute_event:
+    id: 43
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog

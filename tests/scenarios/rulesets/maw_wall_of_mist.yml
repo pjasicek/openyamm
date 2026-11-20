@@ -1,0 +1,13 @@
+id: rulesets.maw_wall_of_mist
+title: "Ruleset - MAW Wall of Mist: arriving in its middle part makes the party invisible (audit SPL-14)"
+world: mm7
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: 7out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - load_map: {map: 7d11.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      buff: {spell_id: 19, present: true}

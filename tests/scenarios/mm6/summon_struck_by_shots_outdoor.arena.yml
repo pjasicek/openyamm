@@ -1,0 +1,22 @@
+# AI arena: a party summon among monsters that would be its friends by faction. A Will o' Wisp (Dancing Light, 97) fights
+# for the party in Temple of Tsantsa's central room (6t3.blv, the outdoor runtime) against two Priests of Baa (492, Air
+# missiles and spells). Their shots must strike it. See summon_struck_by_shots_outdoor.yml.
+name: mm6_summon_struck_by_shots_outdoor
+world: mm6
+map: oute3.odm
+party:
+  position: [-9728, -11319, 161]
+  yaw_degrees: 0
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 97
+    position: [-9200, -11319, 200]
+    party_ally: true
+  - monster_id: 492
+    position: [-8728, -11469, 200]
+    yaw_degrees: 180
+  - monster_id: 492
+    position: [-8728, -11169, 200]
+    yaw_degrees: 180

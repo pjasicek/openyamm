@@ -1,0 +1,36 @@
+id: mm9.bootcamp_moat_bridge
+title: The party walks onto Ravensford's moat bridge from the terrain and back off it
+world: mm9
+mode: faithful
+tags:
+- mm9
+- movement
+- regression
+steps:
+- note:
+    text: >-
+      The bridge deck's south end (THJOKC1XMK, top 1126) is buried in the terrain, which runs on under the deck. The
+      floor sampled at the feet kept the party on the terrain inside the deck until the terrain met the deck's
+      underside and trapped it 252 units on (user playtest, 2026-11-07). Now it steps onto the deck and crosses.
+- load_map:
+    map: bootcamp.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: {map: bootcamp.blv, x: 8239.446, y: 7032.483, z: 1150.933, yaw_degrees: 86.7, pitch: 0}
+    expect_stop: {map: bootcamp.blv, x: 8327.9, y: 8566.0, z: 1126.0, yaw_degrees: 86.7, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 12
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start: {map: bootcamp.blv, x: 8254.0, y: 7600.0, z: 1126.0, yaw_degrees: 266.7, pitch: 0}
+    expect_stop: {map: bootcamp.blv, x: 8209.6, y: 6847.5, z: 1211.7, yaw_degrees: 266.7, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 40

@@ -1,0 +1,82 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          11424.0,
+          7392.0,
+          96.0
+        ],
+        "span": 12500
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm7/7out01_decor_settlement.png",
+      "camera_position": [
+        17083.693359375,
+        -3927.3857421875,
+        13930.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 64,
+          "name": "7tree10",
+          "position": [
+            9904,
+            8464,
+            104
+          ]
+        },
+        {
+          "index": 25,
+          "name": "flower09",
+          "position": [
+            12448,
+            8880,
+            33
+          ]
+        },
+        {
+          "index": 8,
+          "name": "7rock08",
+          "position": [
+            8224,
+            5568,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          -992,
+          5216,
+          0
+        ],
+        "span": 13000
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm7/7out01_decor_landscape.png",
+      "camera_position": [
+        4894.08056640625,
+        -6556.1611328125,
+        14388.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 34,
+          "name": "7dec33",
+          "position": [
+            -992,
+            5216,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

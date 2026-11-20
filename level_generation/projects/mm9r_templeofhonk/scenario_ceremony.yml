@@ -1,0 +1,26 @@
+# The Honk ceremony (convert.py ceremony_lines, HonkLeader.scr): the bell at 6:15, then until 6:45 the leader preaches
+# and paces (the 3 s ceremony check); nothing after 6:45.
+id: mm9r.templeofhonk_ceremony
+title: 'Temple of Honk (native BLV): the morning ceremony'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: templeofhonk.blv
+- console: {line: 'time set 06:14'}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    state_dump_named_map_var: {name: Ceremonies, value: 0}
+- advance_runtime: {seconds: 6.5}
+- assert:
+    state_dump_named_map_var: {name: Ceremonies, value: 1}
+- advance_runtime: {seconds: 12.0}
+- assert:
+    state_dump_named_map_var: {name: Ceremonies, value: 1}
+- console: {line: 'time set 07:00'}
+- advance_runtime: {seconds: 6.5}
+- assert:
+    state_dump_named_map_var: {name: Ceremonies, value: 1}

@@ -1,0 +1,38 @@
+# Hand-written (2026-11-06, scr_audit G3): PLEDGE.inc on the pledge townsfolk's dialogue exit: with the pledge drive
+# (265) and at most one of the pledges 269-274 missing, key 277 and 5 000 experience (once).
+id: mm9r.frosgardcity_pledges
+title: 'Frosgard City (native BLV): the pledge drive (PLEDGE.inc :Pledge, :CheckAllNPC, :reward)'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: frosgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- note:
+    text: 'Two of 269-274 missing (273, 274): closing Gudrun''s talk (NPC191) gives nothing.'
+- setup_shortcut: {kind: set_qbit, id: 90265, value: true}
+- setup_shortcut: {kind: set_qbit, id: 90269, value: true}
+- setup_shortcut: {kind: set_qbit, id: 90270, value: true}
+- setup_shortcut: {kind: set_qbit, id: 90271, value: true}
+- setup_shortcut: {kind: set_qbit, id: 90272, value: true}
+- interact_actor: {actor_index: 17}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    dialog: {active: true, source_id: 191}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_clear: [90277]
+- note:
+    text: 'One missing (274): closing Flosi''s talk (Pledge.scr 217) gives key 277.'
+- setup_shortcut: {kind: set_qbit, id: 90273, value: true}
+- interact_actor: {actor_index: 42}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    dialog: {active: true, source_id: 217}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_set: [90277]

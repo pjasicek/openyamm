@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/snergle
+settle_seconds: 2.0
+exit: true
+shots:
+- name: sacks_s17
+  position:
+  - 2560
+  - 1392
+  - 129
+  yaw: 2.765
+  pitch: -0.12
+- name: barrels_s38
+  position:
+  - 6656
+  - 7200
+  - -511
+  yaw: 3.316
+  pitch: -0.12
+- name: library_s40
+  position:
+  - 960
+  - 5552
+  - 257
+  yaw: 5.256
+  pitch: -0.12
+- name: beds_s22
+  position:
+  - 3552
+  - 992
+  - 1
+  yaw: 4.698
+  pitch: -0.12
+- name: mine_s14
+  position:
+  - -2032
+  - 2288
+  - 1
+  yaw: 1.318
+  pitch: -0.12
+- name: corridor_s33
+  position:
+  - 10162
+  - 3191
+  - -511
+  yaw: 0.001
+  pitch: -0.12
+- name: chests_s25
+  position:
+  - 4576
+  - -1792
+  - 1
+  yaw: 5.928
+  pitch: -0.12

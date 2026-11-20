@@ -1,0 +1,78 @@
+[
+  {
+    "id": "grass_master",
+    "status": "prepared, not run",
+    "references": [
+      "source_rgb/6grastyl.png"
+    ],
+    "prompt_file": "imagegen_briefs/grass_master.txt",
+    "suggested_output": "generated/masters/grass.png",
+    "review": [
+      "material identity and colour",
+      "3x3 seamless repetition",
+      "scale beside native buildings",
+      "reduced-resolution appearance"
+    ]
+  },
+  {
+    "id": "dirt_master",
+    "status": "prepared, not run",
+    "references": [
+      "source_rgb/6dirttyl.png"
+    ],
+    "prompt_file": "imagegen_briefs/dirt_master.txt",
+    "suggested_output": "generated/masters/dirt.png",
+    "review": [
+      "material identity and colour",
+      "3x3 seamless repetition",
+      "scale beside native buildings",
+      "reduced-resolution appearance"
+    ]
+  },
+  {
+    "id": "rock_master",
+    "status": "prepared, not run",
+    "references": [
+      "source_rgb/6voltyl.png"
+    ],
+    "prompt_file": "imagegen_briefs/rock_master.txt",
+    "suggested_output": "generated/masters/rock.png",
+    "review": [
+      "material identity and colour",
+      "3x3 seamless repetition",
+      "scale beside native buildings",
+      "reduced-resolution appearance"
+    ]
+  },
+  {
+    "id": "road_master",
+    "status": "prepared, not run",
+    "references": [
+      "sheets/roads.png"
+    ],
+    "prompt_file": "imagegen_briefs/road_master.txt",
+    "suggested_output": "generated/masters/road.png",
+    "review": [
+      "material identity and colour",
+      "3x3 seamless repetition",
+      "scale beside native buildings",
+      "reduced-resolution appearance"
+    ]
+  },
+  {
+    "id": "water_master",
+    "status": "prepared, not run",
+    "references": [
+      "source_rgb/6wtrtyl.png",
+      "sheets/water_animation.png"
+    ],
+    "prompt_file": "imagegen_briefs/water_master.txt",
+    "suggested_output": "generated/masters/water.png",
+    "review": [
+      "material identity and colour",
+      "3x3 seamless repetition",
+      "scale beside native buildings",
+      "reduced-resolution appearance"
+    ]
+  }
+]

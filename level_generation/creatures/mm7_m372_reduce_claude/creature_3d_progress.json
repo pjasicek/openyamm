@@ -1,0 +1,48 @@
+{
+  "creature_3d_identity": "mm7:m372_reduce",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 1
+  },
+  "creature": "MM7 Peasant Human2 Female m372: triangle reduction (no retexture)",
+  "status": "installed_2026-10-20_reduced",
+  "source": {
+    "path": "work/mm7_m372_source_pre_reduce.glb",
+    "sha256": "8cccb8168e9a9d29cb72e243612cb25a4a2d0e282f1c0a03bbbd158bdf9e4d42"
+  },
+  "exports": {
+    "export/mm7_m372.glb": "bdff6dc3b638f4fa502d20547e6995cedc29cc16fb07bf1bffa0b8868227a68d"
+  },
+  "lods": {
+    "production": [
+      10944,
+      5471,
+      1964,
+      650
+    ],
+    "reduced": [
+      8546,
+      4272,
+      1534,
+      504
+    ]
+  },
+  "pick": {
+    "ladder": "f",
+    "cand": "Cand_80",
+    "p99_mm": 2.56,
+    "max_mm": 23.3,
+    "iou": 0.9986,
+    "ssim": 0.998
+  },
+  "meshy_credits_spent": 0,
+  "next_action": {
+    "owner": "user",
+    "action": "review in review/viewer; install later (README)"
+  },
+  "last_update_utc": "2026-10-20",
+  "installed": {
+    "source": "assets_source/worlds/mm7/models/mm7_m372.glb",
+    "binding": "assets_dev/worlds/mm7/models/actors.yml"
+  }
+}

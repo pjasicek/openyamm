@@ -1,0 +1,107 @@
+[
+  {
+    "name": "chest_front",
+    "parts": [
+      "ch1frle",
+      "ch1frntb",
+      "ch1frre"
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        0.16666666666666666,
+        1
+      ],
+      [
+        0.16666666666666666,
+        0,
+        0.8333333333333334,
+        1
+      ],
+      [
+        0.8333333333333334,
+        0,
+        1,
+        1
+      ]
+    ],
+    "horizontal": true,
+    "prompt": "Reference 1 is the exact connected layout for a chest front: a central small hasp at the top, NO central square side handle. Recreate THIS layout at high definition. There are three existing texture pieces joined into ONE opaque rectangle, no visual separators at their extraction cuts. Reference 2 is a MATERIAL SAMPLE ONLY; do NOT copy its square handle or its panel shape. Keep every feature from reference 1 in its registered position and original plank count. a chest front: a central small hasp at the top, NO central square side handle.\nOne flat orthographic texture rectangle, not a chest object, photograph, perspective render or presentation board. Match the square canvas and exact rectangular occupied area of reference 1. The front/back occupy full canvas width with top/bottom padding; lid occupies full canvas height with side padding. Output must have REAL TRANSPARENT PNG ALPHA in every padding pixel; no painted black/brown background, gradient, cast shadows, magenta or checkerboard. The actual rectangular texture is opaque and has straight outer edges.\nFresh clean photographic grey-blue WOOD GRAIN with fine long fibres, subtle curved cracks, smooth dark iron, slight orange rust stains and rounded rivets. Do not retain or enlarge the coarse native pixels from reference 1: redraw material detail from the clean quality of reference 2. No dither, square blocks, mosaic rust, chunky chips, flaked paint, gravel, scaly facets or embossed painted noise. Texture scan with uniform diffuse albedo illumination, NO dramatic directional highlights. Keep material flow continuous between the attached cap/body pieces. No labels, extra hardware, extra boards, new objects or frames between sections.",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/chest_front_layout_large.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/ch1side_full_v2.png"
+    ],
+    "file": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/chest_front_joined_v2.txt"
+  },
+  {
+    "name": "chest_back",
+    "parts": [
+      "ch1bkle",
+      "ch1bakb",
+      "ch1bkre"
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        0.16666666666666666,
+        1
+      ],
+      [
+        0.16666666666666666,
+        0,
+        0.8333333333333334,
+        1
+      ],
+      [
+        0.8333333333333334,
+        0,
+        1,
+        1
+      ]
+    ],
+    "horizontal": true,
+    "prompt": "Reference 1 is the exact connected layout for a chest back: NO central hasp, NO handles, NO lock, just horizontal wood boards and iron frame. Recreate THIS layout at high definition. There are three existing texture pieces joined into ONE opaque rectangle, no visual separators at their extraction cuts. Reference 2 is a MATERIAL SAMPLE ONLY; do NOT copy its square handle or its panel shape. Keep every feature from reference 1 in its registered position and original plank count. a chest back: NO central hasp, NO handles, NO lock, just horizontal wood boards and iron frame.\nOne flat orthographic texture rectangle, not a chest object, photograph, perspective render or presentation board. Match the square canvas and exact rectangular occupied area of reference 1. The front/back occupy full canvas width with top/bottom padding; lid occupies full canvas height with side padding. Output must have REAL TRANSPARENT PNG ALPHA in every padding pixel; no painted black/brown background, gradient, cast shadows, magenta or checkerboard. The actual rectangular texture is opaque and has straight outer edges.\nFresh clean photographic grey-blue WOOD GRAIN with fine long fibres, subtle curved cracks, smooth dark iron, slight orange rust stains and rounded rivets. Do not retain or enlarge the coarse native pixels from reference 1: redraw material detail from the clean quality of reference 2. No dither, square blocks, mosaic rust, chunky chips, flaked paint, gravel, scaly facets or embossed painted noise. Texture scan with uniform diffuse albedo illumination, NO dramatic directional highlights. Keep material flow continuous between the attached cap/body pieces. No labels, extra hardware, extra boards, new objects or frames between sections.",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/chest_back_layout_large.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/ch1side_full_v2.png"
+    ],
+    "file": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/chest_back_joined_v2.txt"
+  },
+  {
+    "name": "chest_lid",
+    "parts": [
+      "ch1tplev",
+      "ch1tpbv",
+      "ch1tprev"
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        1,
+        0.16666666666666666
+      ],
+      [
+        0,
+        0.16666666666666666,
+        1,
+        0.8333333333333334
+      ],
+      [
+        0,
+        0.8333333333333334,
+        1,
+        1
+      ]
+    ],
+    "horizontal": false,
+    "prompt": "Reference 1 is the exact connected layout for a chest lid: vertical wood boards all the way from top to bottom; NO handles, NO hasps, NO horizontal-board sections. Recreate THIS layout at high definition. There are three existing texture pieces joined into ONE opaque rectangle, no visual separators at their extraction cuts. Reference 2 is a MATERIAL SAMPLE ONLY; do NOT copy its square handle or its panel shape. Keep every feature from reference 1 in its registered position and original plank count. a chest lid: vertical wood boards all the way from top to bottom; NO handles, NO hasps, NO horizontal-board sections.\nOne flat orthographic texture rectangle, not a chest object, photograph, perspective render or presentation board. Match the square canvas and exact rectangular occupied area of reference 1. The front/back occupy full canvas width with top/bottom padding; lid occupies full canvas height with side padding. Output must have REAL TRANSPARENT PNG ALPHA in every padding pixel; no painted black/brown background, gradient, cast shadows, magenta or checkerboard. The actual rectangular texture is opaque and has straight outer edges.\nFresh clean photographic grey-blue WOOD GRAIN with fine long fibres, subtle curved cracks, smooth dark iron, slight orange rust stains and rounded rivets. Do not retain or enlarge the coarse native pixels from reference 1: redraw material detail from the clean quality of reference 2. No dither, square blocks, mosaic rust, chunky chips, flaked paint, gravel, scaly facets or embossed painted noise. Texture scan with uniform diffuse albedo illumination, NO dramatic directional highlights. Keep material flow continuous between the attached cap/body pieces. No labels, extra hardware, extra boards, new objects or frames between sections.",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/chest_lid_layout_large.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/ch1side_full_v2.png"
+    ],
+    "file": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/chest_lid_joined_v2.txt"
+  }
+]

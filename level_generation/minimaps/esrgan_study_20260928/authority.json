@@ -1,0 +1,41 @@
+{
+  "schema": "openyamm-minimap-esrgan-approval-v1",
+  "instruction": "anime video v3, direct 2x is good, regenerate all of them for MM7/MM8 and accept it",
+  "scope": {
+    "mm7": 13,
+    "mm8": 14,
+    "total": 27
+  },
+  "approval": "Explicit user selection of full-strength direct-2x anime-video and batch acceptance.",
+  "review": "User selected the model; assistant inspected every map overview and representative detail crops.",
+  "recipe": {
+    "status": "explicit_user_selected_for_mm7_mm8_batch",
+    "model": "realesr-animevideov3",
+    "scale": 2,
+    "tta": false,
+    "tile_size": 0,
+    "gpu_id": 0,
+    "threads": "1:1:1",
+    "reflection_pad_native_px": 16,
+    "pre_denoise": false,
+    "post_sharpen": false,
+    "colour_grade": false,
+    "blend": {
+      "esrgan": 1.0,
+      "original_lanczos_x2": 0.0
+    },
+    "model_sha256": {
+      "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+      "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+    },
+    "binary_sha256": "22c2296a39b40cc43ac92615c827ab6d4b60b7142e8cee59f718e3f8e2cdbda9",
+    "native_source": "Archived original BMP decoded to RGB; never an earlier generated replacement.",
+    "canvas": "Exactly 2x native width and height; no repositioning, warping or trimming."
+  },
+  "evidence": {
+    "level_generation/minimaps/esrgan_study_20260928/exports.json": "a9afa480970082de91f1f668a9515c28df9a6599d69fb38e8a5685221e468f01",
+    "level_generation/minimaps/esrgan_study_20260928/validation.json": "48207aad1b33ee3873e1cd43c3e4dab726477b7ea1d02379cd68a1490894c8dd",
+    "level_generation/minimaps/esrgan_study_20260928/visual_review.json": "979240dc83b8fe873273a2cc671aaf9c64e4672998fe2135fc825c4e92bc956c",
+    "level_generation/minimaps/esrgan_study_20260928/browser_check.json": "c62e40854596b4fb74bec17f2eda40d679ff3fc631d22593db2af7bbbcb9d1ca"
+  }
+}

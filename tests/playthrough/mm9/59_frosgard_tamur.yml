@@ -1,0 +1,73 @@
+# MM9 playthrough, segment 9: Sven gathers the army, the Battle of Frosgard and Tamur Leng (guide: Chapter IV, "Sven
+# Forkbeard and the Battle of Frosgard"; Chapter V, "Two Writs of Fate"). From the Hall of the Gods after the Six Fires
+# out into Arslegard, where Sven waits; over the bridge to Thjorgard, by sea to Frosgard and into the city, where the
+# arrival starts the battle. Tamur Leng is talked into the party; Thorolf brings Krohn's summons. Cities and regions
+# are crossed by placing the party. Research: prep/09_11_frosgard_krohn_tomb.md.
+#   python3 tests/playthrough/mm9/run.py 59
+id: mm9.playthrough.59_frosgard_tamur
+title: "MM9 playthrough 59: Sven's army, the Battle of Frosgard, Tamur Leng joins and Krohn summons"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/58_six_fires.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: hallofthegods.blv, qbit_set: [90102, 90103, 90085], qbit_clear: [90104, 90106, 90107]}
+
+  # Out of the hall by its west door into Arslegard.
+  - walk_to: {x: -7700, y: 2949, z: 1, timeout_seconds: 300, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: arslegardcity.blv}
+
+  # Sven Forkbeard in the square west of the hall's entrance (shown with key 102 until 104).
+  - set_pose: {map: arslegardcity.blv, x: 15273, y: -11138, z: 1, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 33}
+  - select_topic: {match_label: "Sven!  It is good to see you!"}
+  - select_topic: {match_label: "Gather the army.  We shall make for Frosgard immediately!"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90104, 90486]}
+
+  # Over the bridge north of the Great Gate to Thjorgard, then by sea (the Sea's Fang, 3 days) to Frosgard.
+  - set_pose: {map: arslegardcity.blv, x: 14418, y: 2500, z: -82, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 14418, y: 3100, z: -82, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+  - travel: {map: frosgard.blv, days: 3}
+
+  # Into Frosgard City by the north gate road: the arrival starts the battle (BattleMan.scr: key 377, Forad Darre and
+  # Tamur Leng appear, the Horde attacks from four sides). Nothing has to die for Tamur.
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv, qbit_set: [90377]}
+
+  # Tamur Leng by Tryggva's longhouse; the Horde beside him dies first.
+  - set_pose: {map: frosgardcity.blv, x: -3568, y: -1475, z: 45, yaw: 3.1416, pitch: 0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We have come to end this, Tamur Leng!"}
+  - select_topic: {match_label: "The traitor is finished."}
+  - select_topic: {match_label: "You are beaten!  What makes you think you will escape?"}
+  - select_topic: {match_label: "Destiny?  What are you talking about?"}
+  - select_topic: {match_label: "That cannot be!  We are destined to stop you!"}
+  - select_topic: {match_label: "WE have a Writ of Fate!!"}
+  # "Come with us!" ends the talk: Tamur joins (key 190, 22 500 experience) and Thorolf appears.
+  - select_topic: {match_label: "Come with us!"}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90106, 90190]}
+
+  # Thorolf Ratatoskssen: the summons to stand before Krohn.
+  - set_pose: {map: frosgardcity.blv, x: -1450, y: -1720, z: 1, yaw: 0, pitch: 0}
+  - interact_actor: {actor_index: 4}
+  - select_topic: {match_label: "What is it?"}
+  - select_topic: {match_label: "What?  Why?"}
+  - select_topic: {match_label: "Very well.  We shall go."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90107]}
+  - save_game: {name: "09 Tamur Leng joins", path: output/playthrough/mm9/checkpoints/59_frosgard_tamur.oysav}

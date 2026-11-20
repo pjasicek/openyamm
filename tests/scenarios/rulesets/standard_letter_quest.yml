@@ -1,0 +1,26 @@
+id: rulesets.standard_letter_quest
+title: "Ruleset - Standard: the letter quest of the MAW quest pouch scenario, with the item in a member's bag"
+world: mm8
+mode: faithful
+tags: [rulesets]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+  # Dadeross gives his letter to Fellmoon (741), in a member's bag.
+  - speak_npc: {source_id: 2}
+  - select_topic: {action_id: 20}
+  - assert:
+      qbit_set: [3]
+      inventory_any_member: [{item_id: 741, count: 1}]
+  # One member carries it, and only that member has it.
+  - grant_item: {item_id: 628}
+  - lua_event:
+      source: "local holders = 0 for i = 0, evt.GetPartyMemberCount() - 1 do if evt.PartyMemberHasItem(i, 741) then holders = holders + 1 end end if holders ~= 1 then error('the letter has ' .. holders .. ' holders') end if not evt.CheckItemsCount(740, 742, 1) then error('the range check misses the letter') end"
+  - press_action: {action: cancel_dialog}
+  # Fellmoon finds the letter, takes it and ends the quest.
+  - speak_npc: {source_id: 3}
+  - select_topic: {action_id: 28}
+  - assert:
+      qbit_set: [4]
+      qbit_clear: [3, 221]
+      inventory_any_member: [{item_id: 741, count: 0}, {item_id: 628, count: 1}]

@@ -1,0 +1,300 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: assets",
+  "description": "The session's asset root as a catalogue: decorations, face textures, what event scripts may call.",
+  "x-group": "assets",
+  "methods": {
+    "search": {
+      "summary": "Decorations (by internal name or hint, with radius and height in world units, and whether a dungeon draws them as a model) and the world's face textures (with their sizes in texels, liquids included) whose name contains every word of the query. With kind monster, item or sound (only when asked): the rows of the engine's monster_data.txt and items.txt whose name holds the words (the numbers the Monster and Item tools place), and the world's sounds (worlds/<world>/audio, the files a placed sound may name).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1
+          },
+          "world": {
+            "description": "Default mm6.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "kind": {
+            "enum": [
+              "decoration",
+              "texture",
+              "monster",
+              "item",
+              "sound"
+            ]
+          },
+          "limit": {
+            "description": "At most this many of each kind (default 40).",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "matches"
+        ],
+        "properties": {
+          "decorations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/decoration"
+            }
+          },
+          "textures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/texture"
+            }
+          },
+          "matches": {
+            "description": "Matches in all, also those past the limit.",
+            "type": "integer",
+            "minimum": 0
+          },
+          "monsters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/monster"
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/item"
+            }
+          },
+          "sounds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/sound"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "script_reference": {
+      "summary": "What a hand-written handler may call: the names of the functions the game gives event scripts (evt.<name>), and the world's script helpers, selectors and enumerations as text, read from the game's own support script.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "world": {
+            "description": "Default mm6.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "functions",
+          "reference"
+        ],
+        "properties": {
+          "functions": {
+            "description": "evt.<name>, sorted.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "reference": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "decoration": {
+      "type": "object",
+      "required": [
+        "name",
+        "hint",
+        "number",
+        "radius",
+        "height",
+        "light_radius",
+        "indoor_model"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer"
+        },
+        "radius": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "light_radius": {
+          "type": "integer"
+        },
+        "indoor_model": {
+          "description": "\"every dungeon\", \"only on <maps>\" or \"none (drawn as its sprite)\".",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "texture": {
+      "type": "object",
+      "required": [
+        "name",
+        "usable_on_faces"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "size": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "liquid": {
+          "description": "A liquid shader draws a face naming it (no picture, no size).",
+          "type": "string"
+        },
+        "liquid_id": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "usable_on_faces": {
+          "description": "The name fits the BLV's ten characters.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "monster": {
+      "type": "object",
+      "required": [
+        "number",
+        "name",
+        "picture",
+        "level",
+        "hp"
+      ],
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "picture": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer"
+        },
+        "hp": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "required": [
+        "number",
+        "name",
+        "picture",
+        "value",
+        "kind"
+      ],
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "picture": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        },
+        "kind": {
+          "description": "The items table's Equip Stat (Weapon, Armor, Gold, Misc ...).",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sound": {
+      "type": "object",
+      "required": [
+        "name",
+        "file"
+      ],
+      "properties": {
+        "name": {
+          "description": "What a placed sound names (the file without .wav).",
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

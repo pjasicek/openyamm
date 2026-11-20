@@ -1,0 +1,60 @@
+output_dir: ../../review/outd2
+settle_seconds: 1.5
+exit: true
+shots:
+- name: valkyrie_overview
+  position:
+  - -604
+  - 6924
+  - 1396
+  yaw: 5.33238898038469
+  pitch: -0.3
+- name: valkyrie_boarding
+  position:
+  - 998
+  - 3952
+  - 160
+  yaw: 6.283185307179586
+  pitch: -0.2
+- name: valkyrie_return
+  position:
+  - 1544
+  - 3952
+  - 89
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: valkyrie_cabin
+  position:
+  - 1696
+  - 3728
+  - 89
+  yaw: 4.71238898038469
+  pitch: 0
+- name: tsunami_overview
+  position:
+  - 9916
+  - 12796
+  - 1396
+  yaw: 3.7615926535897932
+  pitch: -0.3
+- name: tsunami_boarding
+  position:
+  - 6944
+  - 11194
+  - 160
+  yaw: 4.71238898038469
+  pitch: -0.2
+- name: tsunami_return
+  position:
+  - 6944
+  - 10648
+  - 89
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: tsunami_cabin
+  position:
+  - 6720
+  - 10496
+  - 89
+  yaw: 3.141592653589793
+  pitch: 0

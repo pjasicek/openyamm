@@ -1,0 +1,60 @@
+# MM9 promotion playthrough, segment 34: the Mage promotion done while the Sorcerer is still a Sorcerer (guide:
+# side_c.yml "find-verhoffin-s-diary", step 7; promotions README "any order"). Drangheim to Thjorgard (outdoors the
+# party is moved), the west gate, Johannes Bem: "About that book you were looking for.", "We found a gold one."
+# (key 289), "Did that book work out for you?" (key 493), "Goodbye.". The talk's close (NPC4.scr :Reward,
+# thjorgardcity.lua) gives key 294, 37 500 experience to each member and 5 000 gold, and promotes every Wizard
+# (MM9.Promotions mage): this party has none, so nobody is promoted and the classes stay as they were.
+# NOTE: MM9's script takes item 243 (a "Verhoffin's Book" nothing gives); realbook.scr gave 560, which stays in the
+# pack (MM9 does the same).
+#   python3 tests/playthrough/mm9/promotions/run.py 34
+id: mm9.promotions.34_johannes_mage_done
+title: "MM9 promotions 34: Verhoffin's Book to Johannes: Mage rewards, nobody promoted"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/33_drangheim_real_book.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheim.blv, qbit_set: [90283], qbit_clear: [90289, 90493, 90294]}
+
+  - travel: {map: thjorgard.blv, days: 3}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  - play_lua:
+      source: |
+        remember("classes", classes()); remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        log("CLASSES before the Mage reward: " .. classes() .. "; gold " .. gold())
+  - set_pose: {map: thjorgardcity.blv, x: 5079, y: 12250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "About that book you were looking for."}
+  - select_topic: {match_label: "We found a gold one."}
+  - select_topic: {match_label: "Did that book work out for you?"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90289, 90493, 90294]}
+  - play_lua:
+      source: |
+        log("CLASSES after the Mage reward: " .. classes() .. "; gold " .. gold())
+        if classes() ~= recall("classes") then error("the Mage quest changed classes: " .. recall("classes") .. " -> " .. classes()) end
+        if gold() - recall("gold") ~= 5000 then error("Mage gold " .. (gold() - recall("gold")) .. ", expected 5000") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain < 37500 then error("member " .. i .. " gained " .. gain .. " experience, expected 37500") end
+        end
+        log("Mage done (key 294): +5000 gold, +37500 experience each, nobody promoted (no Wizard)")
+
+  # Johannes now keeps "Promote our eligible characters." (dialogue/promotions.yml): nobody is eligible yet.
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {active: true, source_id: 4, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: 'if classes() ~= recall("classes") then error("classes changed: " .. classes()) end'}
+  - save_game: {name: "34 Mage rewards", path: output/playthrough/mm9/promotions/checkpoints/34_johannes_mage_done.oysav}

@@ -1,0 +1,1302 @@
+{
+ "00 a light placed on the plan": {
+  "result": {
+   "applied": true,
+   "revision_before": "$REV1",
+   "revision_after": "$REV2",
+   "changes": [
+    "objects.yml: changed scene.lights",
+    "project.yml: marked as edited by hand (edited_by_hand since $TODAY): agents change it by operations from now on"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "project.yml": {
+     "tree": {
+      "format": 0,
+      "id": "s6_lamps",
+      "world": "mm6",
+      "kind": "indoor",
+      "profile": "dungeon",
+      "base": "6d01.blv",
+      "neighbours": [
+       {
+        "id": "exit:oute3",
+        "to": "oute3.odm at -18400, -14982, 1600 (direction, look, speed, house, icon: 512, 0, 0, 0, 0)",
+        "kind": "door"
+       }
+      ],
+      "edited_by_hand": {
+       "since": "$TODAY",
+       "revision": "$REV1"
+      }
+     }
+    },
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "scene": {
+       "lights": [
+        {
+         "id": "light:new_1",
+         "position": [
+          7000,
+          3200,
+          160
+         ],
+         "color": [
+          255,
+          200,
+          140
+         ],
+         "intensity": [
+          0.6,
+          1
+         ],
+         "radius": [
+          384,
+          640
+         ],
+         "frequency": 0.5
+        },
+        {
+         "id": "light:vault_glow",
+         "position": [
+          7456,
+          3164,
+          256
+         ],
+         "color": [
+          120,
+          180,
+          255
+         ],
+         "intensity": [
+          0.4,
+          1
+         ],
+         "radius": [
+          300,
+          700
+         ],
+         "frequency": 0.7,
+         "notes": "A blue glow where the first treasure roll lies."
+        }
+       ],
+       "sounds": [
+        {
+         "id": "sound:drip",
+         "position": [
+          7456,
+          3164,
+          200
+         ],
+         "sound": "01_01.wav",
+         "radius": 900,
+         "wait": [
+          3,
+          8
+         ]
+        }
+       ],
+       "spawns": [
+        {
+         "id": "spawn:extra_guard",
+         "position": [
+          7300,
+          3000,
+          128
+         ],
+         "slot": 1
+        }
+       ],
+       "removals": [
+        "spawn:s1"
+       ]
+      },
+      "notes": "S6's overlay example on an MM6 map (devdocs/map_studio/S6_PLAN.md item O): a pulsing light and a placed sound that Goblinwatch's scene never had, one spawn point more and one less. Build with --assets; it writes 6d01_s6_lamps.scene.yml."
+     }
+    }
+   },
+   "sequence": 1,
+   "hand_edited": {
+    "since": "$TODAY",
+    "revision": "$REV1",
+    "set_now": true,
+    "message": "this project is edited by hand (project.yml edited_by_hand): change it through operations (oymap edit, map_edit, edit.apply), never by running a generator again; a generator run erases the hand edits"
+   }
+  }
+ },
+ "01 the project's light recoloured and moved": {
+  "result": {
+   "applied": true,
+   "revision_before": "$REV2",
+   "revision_after": "$REV3",
+   "changes": [
+    "objects.yml: changed scene.lights[1].position[0]"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "scene": {
+       "lights": [
+        {
+         "id": "light:new_1",
+         "position": [
+          7000,
+          3200,
+          160
+         ],
+         "color": [
+          255,
+          200,
+          140
+         ],
+         "intensity": [
+          0.6,
+          1
+         ],
+         "radius": [
+          384,
+          640
+         ],
+         "frequency": 0.5
+        },
+        {
+         "id": "light:vault_glow",
+         "position": [
+          7400,
+          3100,
+          256
+         ],
+         "color": [
+          255,
+          120,
+          60
+         ],
+         "intensity": [
+          0.4,
+          1
+         ],
+         "radius": [
+          300,
+          700
+         ],
+         "frequency": 0.7,
+         "notes": "A blue glow where the first treasure roll lies."
+        }
+       ],
+       "sounds": [
+        {
+         "id": "sound:drip",
+         "position": [
+          7456,
+          3164,
+          200
+         ],
+         "sound": "01_01.wav",
+         "radius": 900,
+         "wait": [
+          3,
+          8
+         ]
+        }
+       ],
+       "spawns": [
+        {
+         "id": "spawn:extra_guard",
+         "position": [
+          7300,
+          3000,
+          128
+         ],
+         "slot": 1
+        }
+       ],
+       "removals": [
+        "spawn:s1"
+       ]
+      },
+      "notes": "S6's overlay example on an MM6 map (devdocs/map_studio/S6_PLAN.md item O): a pulsing light and a placed sound that Goblinwatch's scene never had, one spawn point more and one less. Build with --assets; it writes 6d01_s6_lamps.scene.yml."
+     }
+    }
+   },
+   "sequence": 2,
+   "hand_edited": {
+    "since": "$TODAY",
+    "revision": "$REV1",
+    "message": "this project is edited by hand (project.yml edited_by_hand): change it through operations (oymap edit, map_edit, edit.apply), never by running a generator again; a generator run erases the hand edits"
+   }
+  }
+ },
+ "02 a base spawn point taken out, the other put back": {
+  "result": {
+   "applied": true,
+   "revision_before": "$REV3",
+   "revision_after": "$REV4",
+   "changes": [
+    "objects.yml: changed scene.removals[0]"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "scene": {
+       "lights": [
+        {
+         "id": "light:new_1",
+         "position": [
+          7000,
+          3200,
+          160
+         ],
+         "color": [
+          255,
+          200,
+          140
+         ],
+         "intensity": [
+          0.6,
+          1
+         ],
+         "radius": [
+          384,
+          640
+         ],
+         "frequency": 0.5
+        },
+        {
+         "id": "light:vault_glow",
+         "position": [
+          7400,
+          3100,
+          256
+         ],
+         "color": [
+          255,
+          120,
+          60
+         ],
+         "intensity": [
+          0.4,
+          1
+         ],
+         "radius": [
+          300,
+          700
+         ],
+         "frequency": 0.7,
+         "notes": "A blue glow where the first treasure roll lies."
+        }
+       ],
+       "sounds": [
+        {
+         "id": "sound:drip",
+         "position": [
+          7456,
+          3164,
+          200
+         ],
+         "sound": "01_01.wav",
+         "radius": 900,
+         "wait": [
+          3,
+          8
+         ]
+        }
+       ],
+       "spawns": [
+        {
+         "id": "spawn:extra_guard",
+         "position": [
+          7300,
+          3000,
+          128
+         ],
+         "slot": 1
+        }
+       ],
+       "removals": [
+        "spawn:s2"
+       ]
+      },
+      "notes": "S6's overlay example on an MM6 map (devdocs/map_studio/S6_PLAN.md item O): a pulsing light and a placed sound that Goblinwatch's scene never had, one spawn point more and one less. Build with --assets; it writes 6d01_s6_lamps.scene.yml."
+     }
+    }
+   },
+   "sequence": 3,
+   "hand_edited": {
+    "since": "$TODAY",
+    "revision": "$REV1",
+    "message": "this project is edited by hand (project.yml edited_by_hand): change it through operations (oymap edit, map_edit, edit.apply), never by running a generator again; a generator run erases the hand edits"
+   }
+  }
+ },
+ "03 a change whose test fails": {
+  "error": {
+   "code": -32000,
+   "message": "operation 0: test failed: the value at /scene/lights/light:vault_glow/color is not the one expected",
+   "data": {
+    "kind": "bad_operation",
+    "index": 0,
+    "step": 0,
+    "reason": "test failed: the value at /scene/lights/light:vault_glow/color is not the one expected"
+   }
+  }
+ },
+ "04 the overlay described again": {
+  "result": {
+   "base": "6d01.blv",
+   "world": "mm6",
+   "profile": "dungeon",
+   "bounds": [
+    -20672,
+    -224,
+    18672,
+    10496
+   ],
+   "scene_keys": [
+    "authored_content",
+    "removals",
+    "pulsing_lights",
+    "ambient_sounds"
+   ],
+   "things": [
+    {
+     "id": "spawn:s0",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7456,
+      3164,
+      128
+     ],
+     "radius": 32,
+     "label": "item roll 3"
+    },
+    {
+     "id": "spawn:s1",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      512,
+      1024,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s2",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "removed",
+     "at": [
+      228,
+      2992,
+      0
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s3",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6665,
+      7033,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s4",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      16640,
+      8448,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s5",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2334,
+      3725,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s6",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7660,
+      8487,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s7",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6784,
+      5760,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s8",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10362,
+      5826,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s9",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -256,
+      5248,
+      -256
+     ],
+     "radius": 32,
+     "label": "monsters 4"
+    },
+    {
+     "id": "spawn:s10",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      9648,
+      5241,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s11",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1859,
+      7210,
+      -512
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s12",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3624,
+      2336,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s13",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10610,
+      4838,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s14",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -640,
+      3456,
+      1
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s15",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6942,
+      5586,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s16",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7708,
+      1666,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s17",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10147,
+      4260,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s18",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      236,
+      3228,
+      0
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s19",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3512,
+      3696,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s20",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10724,
+      9824,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s21",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3456,
+      2688,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s22",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12380,
+      9608,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s23",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3968,
+      6912,
+      -512
+     ],
+     "radius": 32,
+     "label": "monsters 10"
+    },
+    {
+     "id": "spawn:s24",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -13036,
+      8824,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s25",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -19200,
+      6144,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s26",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      16128,
+      9088,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s27",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -14435,
+      7881,
+      -868
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s28",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1832,
+      3600,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s29",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11496,
+      8880,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s30",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      11385,
+      5739,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s31",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -40,
+      3036,
+      96
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s32",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18560,
+      6784,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s33",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      14614,
+      8242,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s34",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3129,
+      2866,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s35",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2113,
+      2871,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s36",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1664,
+      2368,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s37",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -19944,
+      7809,
+      -696
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s38",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4096,
+      2048,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s39",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1164,
+      4100,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s40",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -20620,
+      7801,
+      -696
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s41",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18304,
+      6016,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s42",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3328,
+      3592,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s43",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7424,
+      8256,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 10"
+    },
+    {
+     "id": "spawn:s44",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10752,
+      9088,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s45",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12096,
+      7861,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s46",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12256,
+      8168,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s47",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -736,
+      3024,
+      0
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s48",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7716,
+      4766,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s49",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      768,
+      4096,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s50",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12136,
+      8128,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s51",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1850,
+      4304,
+      -512
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s52",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3641,
+      431,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s53",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -717,
+      4355,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 4"
+    },
+    {
+     "id": "spawn:s54",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11136,
+      8448,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s55",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2006,
+      4878,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s56",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10376,
+      2526,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s57",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5457,
+      4873,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s58",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      15744,
+      8448,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s59",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      256,
+      3456,
+      1
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s60",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2942,
+      3652,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s61",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6528,
+      4224,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s62",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -17723,
+      6747,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s63",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6116,
+      3000,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s64",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1536,
+      1393,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s65",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1792,
+      3712,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "light:new_1",
+     "kind": "light",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      7000,
+      3200,
+      160
+     ],
+     "radius": 640,
+     "label": "pulsing light 49002"
+    },
+    {
+     "id": "light:vault_glow",
+     "kind": "light",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      7400,
+      3100,
+      256
+     ],
+     "radius": 700,
+     "label": "pulsing light 49001"
+    },
+    {
+     "id": "sound:drip",
+     "kind": "sound",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      7456,
+      3164,
+      200
+     ],
+     "radius": 900,
+     "label": "01_01.wav"
+    },
+    {
+     "id": "spawn:extra_guard",
+     "kind": "spawn",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      7300,
+      3000,
+      128
+     ],
+     "radius": 128,
+     "label": "monsters 1"
+    }
+   ],
+   "issues": []
+  }
+ },
+ "05 built": {
+  "result": {
+   "map": "6d01.blv",
+   "kind": "overlay",
+   "counts": {
+    "replaced_events": 0
+   },
+   "files": [
+    "6d01_s6_lamps.scene.yml",
+    "build.json"
+   ],
+   "warnings": [],
+   "ids_lock_changed": true
+  }
+ }
+}

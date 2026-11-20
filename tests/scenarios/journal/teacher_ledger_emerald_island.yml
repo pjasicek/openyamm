@@ -1,0 +1,25 @@
+id: journal.teacher_ledger_emerald_island
+title: "Ledger of Teachers - Emerald Island's tavern keeps the topic through MMMerge's tavern topic filter and sells Antagarich's ledger"
+world: mm7
+mode: faithful
+tags: [houses, journal, trainers, regression]
+steps:
+  - note:
+      text: >-
+        7out01_mmmerge.lua filters the Two Palms Tavern's topics to drop Arcomage (MM7.FilterTavernTopicsWithoutArcomage);
+        the filter lists the ledger topic so it stays.
+  - new_game_flow:
+      start_map: 7out01.odm
+  - execute_event: {id: 14}
+  - select_topic: {action_id: 239}
+  - assert:
+      dialog:
+        action_label_present: Ledger of Teachers
+        action_label_absent: Play Arcomage
+  - select_topic: {action_id: 33, match_label: Ledger of Teachers}
+  - select_topic: {action_id: 34, match_label: "Buy the ledger: 2000 gold"}
+  - assert:
+      gold: 8000
+      teacher_ledger: {continent: 2}
+      dialog:
+        action_label_absent: Ledger of Teachers

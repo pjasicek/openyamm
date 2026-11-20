@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · remaining UI art review</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="catalog.js"></script>
+  <script defer src="user_review.js"></script>
+  <script defer src="acceptance.js"></script>
+  <script defer src="effect_acceptance.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header>
+    <div class="heading">
+      <div>
+        <p class="eyebrow">OpenYAMM · visual review ledger</p>
+        <h1>Inventory and UI art</h1>
+        <p class="intro">The six inventory and UI art groups, with each native original beside a fitted exact 2× candidate.
+          The 1,541 non-effect targets and four complete effect sequences (32 frames) are accepted and staged.
+          <a href="?effects=1">Review the 145 remaining effect assets</a>.
+          Repeated originals are hidden by default; switch to all targets when checking individual destinations.
+          <a href="pc_effect_sequences/index.html">Play PC effect sequences</a>.</p>
+      </div>
+      <div class="actions">
+        <button id="download" type="button">Download review JSON</button>
+        <button id="copy" type="button">Copy review</button>
+        <label class="import-button">Import review JSON<input id="import" type="file" accept="application/json,.json"></label>
+      </div>
+    </div>
+    <div class="toolbar">
+      <label>Search <input id="search" type="search" placeholder="Name, family, ID…"></label>
+      <label>Category <select id="category"></select></label>
+      <label>Family <select id="family"></select></label>
+      <label>Candidate source <select id="artwork">
+        <option value="">All sources</option>
+        <option value="sheet">Retained sheets</option>
+        <option value="imagegen">New imagegen slice (590)</option>
+        <option value="review">Repairs from your review (236)</option>
+        <option value="sequence">Complete effect sequences (173)</option>
+        <option value="world">Same drawing as approved world art (139)</option>
+        <option value="repair">Local repairs</option>
+        <option value="earlier">Earlier direct candidates</option>
+        <option value="reuse">Shared exact originals</option>
+      </select></label>
+      <label>Duplicates <select id="duplicates">
+        <option value="">All targets</option>
+        <option value="unique" selected>One per original</option>
+        <option value="accepted">Matches approved art</option>
+        <option value="pending">Repeated in this review</option>
+      </select></label>
+      <label>My review <select id="decision">
+        <option value="">All decisions</option>
+        <option value="unreviewed">Unreviewed</option>
+        <option value="approve">Accepted</option>
+        <option value="flag">Flagged here</option>
+      </select></label>
+      <label>Scale <select id="zoom">
+        <option value="fit" selected>Fit · up to 2×</option>
+        <option value="1">2× native</option>
+        <option value="1.5">3× native</option>
+        <option value="2">4× native</option>
+      </select></label>
+      <label>Backdrop <select id="backdrop">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+        <option value="checker">Checker</option>
+      </select></label>
+    </div>
+    <div id="summary" aria-live="polite"></div>
+  </header>
+  <main id="cards"></main>
+  <nav class="pages" aria-label="Review pages">
+    <button id="previous" type="button">Previous</button>
+    <label>Page <input id="page" type="number" min="1" value="1"></label>
+    <span id="page-count"></span>
+    <button id="next" type="button">Next</button>
+  </nav>
+  <dialog id="large"><button id="close-large" type="button" aria-label="Close">Close ✕</button><div id="large-content"></div></dialog>
+  <footer>
+    The 1,573 approvals are saved in repository ledgers. New review changes stay in this browser until exported.
+    <a href="pc_effect_sequences/index.html">Play PC effect sequences</a> ·
+    <a href="README.md">Scope and candidate provenance</a>
+  </footer>
+</body>
+</html>

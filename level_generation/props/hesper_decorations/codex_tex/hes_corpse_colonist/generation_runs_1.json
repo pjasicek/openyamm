@@ -1,0 +1,214 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated and saved unresized returns; exact brief requirements not achieved within permitted regeneration budget.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "key": "front",
+      "selected": false,
+      "file": "exec-113d5c3e-68d9-4570-9938-f3cee46dfbd3.png",
+      "reason": "Rejected: rounded anatomy and altered outline; native 1254x1254 resolution instead of 1024x1024; baked shading remains.",
+      "prompt": "Use case: sketch-to-render.\nCreate exactly ONE 1024 x 1024 RGBA PNG texture-source painting: paint_front.png.\nInput image 1, guide_front.png, is the EDIT TARGET and absolute geometry/registration authority. Input image 2, design_reference.png, is ONLY the design, colour and material reference, NOT a pose or lighting reference.\nPaint the grey model in image 1 in place. Preserve its EXACT silhouette and original alpha coverage pixel for pixel, its 1024-square canvas, orthographic front camera, size, position, every contour, opening, low-poly shape edge, occlusion and detail. The occupied bounds are x=66..957, y=342..681. Do not enlarge, recenter, crop, rotate, smooth or remodel any shape. Head stays left, folded legs and boots right; hand stays tucked at lower left exactly as in the guide. Do not use the three-quarter camera or pose of image 2.\nPaint the existing surfaces with the materials of image 2: faded ochre and grey patchwork canvas coveralls, water-darkened cloth, modest white mineral crust and visible worn stitching, worn brown leather belt and boots, dull steel wrench, pale grey skin on the visible hand, rust-auburn hair confined to the guide head shape. Preserve which objects are visible from this exact guide view. Texture detail stays inside the existing silhouette; do not add loose threads, hair strands or equipment outside it.\nLIGHTING: this is albedo for texture projection, NOT a beauty render. Even flat shadowless light from the viewer on EVERY surface. Remove guide illumination gradients and ambient occlusion. No cast shadows, no AO darkening, no directional shading, no strong specular highlights or reflections, no rim light, no floor, no backdrop. Show surface colour, weave, wear and material texture only. Genuinely transparent empty canvas with original guide's transparent holes. No text, watermark, border or extra objects. Return the 1024 x 1024 image unresized.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157dc-89d9-7560-bf90-b831d4530172/exec-113d5c3e-68d9-4570-9938-f3cee46dfbd3.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a157dc-89d9-7560-bf90-b831d4530172/exec-113d5c3e-68d9-4570-9938-f3cee46dfbd3.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_front.png",
+          "role": "geometry edit target",
+          "sha256": "78221a3bd06876548918058e0a2261ab48e523ceb0327d02fec81d69318ede1c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "colour and material reference",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "output_sha256": "fa02c314333ff4225926b8290a1b25e5dc488050c64432d6cfd2db720971679c",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1224,
+          1254
+        ],
+        "alpha_bbox_threshold_128": [
+          75,
+          420,
+          1198,
+          839
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Visually match ochre/grey canvas, brown leather, pale skin, auburn hair and dull steel.",
+        "flat_even_light": false,
+        "lighting_notes": "Fold/contact darkening and some highlights remain.",
+        "background_notes": "RGBA with transparent background; alpha differs from guide and includes low-alpha stray coverage.",
+        "accepted": false
+      },
+      "postprocessing": "None: output copied byte-for-byte without resizing, cropping, recolouring or alpha edits."
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "key": "front_corrective",
+      "selected": true,
+      "file": "exec-84421f10-fd95-4fac-932a-8e8950d76476.png",
+      "reason": "Closest allowed front return: more angular geometry and closer guide alignment. Selected for delivery only; not accepted as brief-compliant because resolution, exact silhouette and flat-light checks fail.",
+      "prompt": "Edit image 1 (guide_front.png) directly, like colouring an existing model render. Output one native 1024x1024 PNG with transparency, the SAME dimensions as image 1. Do not return 1254x1254 or any other resolution. Do not upscale or resize the guide. This is the single corrective regeneration of the front texture-source painting.\nCRITICAL: Keep the original image 1 geometry and alpha mask EXACTLY unchanged. The silhouette is deliberately angular and low-poly: retain its angular head cap, sleeve edges, belt details, leg outlines, boots, finger positions and openings exactly. Do NOT replace this shape with the rounded photographic character in image 2. No loose hairs, fringe or added objects. Do not fill transparent gaps. Do not add transparency within solid original surfaces. Bounding box x66..957 y342..681 on the original 1024-square canvas. Leave all empty margins untouched. Only surface colour is being edited.\nImage 2 (design_reference.png) supplies material colours ONLY: faded ochre/grey canvas patchwork coveralls with water stains, small white mineral deposits, brown leather boots and belt, dull steel wrench, pale grey visible hand, auburn hair within the existing head outline. Follow the guide for all placement and shapes, even where these differ from the design image. Match fabric and leather wear with fine surface texture inside the silhouette.\nPaint UNLIT ALBEDO, equally bright on all facing angles. Completely flat even shadowless viewer lighting. No shadows anywhere, no ambient occlusion in folds/overlaps, no highlights or reflections on leather/metal, no rim light, no gradients caused by illumination. Preserve material colour variations and weave, not light/shade. Transparent background with the exact original alpha mask; no floor, backdrop, glow, text or watermark. Native unresized 1024x1024 return.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157dc-89d9-7560-bf90-b831d4530172/exec-84421f10-fd95-4fac-932a-8e8950d76476.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/paint_front.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_front.png",
+          "role": "geometry edit target",
+          "sha256": "78221a3bd06876548918058e0a2261ab48e523ceb0327d02fec81d69318ede1c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "colour and material reference",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "output_sha256": "e38709af3bb11f481eabeffa621f0acf44137868c45ff50ac5092d6c24cc94a1",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          3,
+          1232,
+          1254
+        ],
+        "alpha_bbox_threshold_128": [
+          80,
+          419,
+          1175,
+          834
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Visually match ochre/grey canvas, brown leather, pale skin, auburn hair and dull steel.",
+        "flat_even_light": false,
+        "lighting_notes": "Fold/contact darkening and some highlights remain.",
+        "background_notes": "RGBA with transparent background; alpha differs from guide and includes low-alpha stray coverage.",
+        "accepted": false
+      },
+      "postprocessing": "None: output copied byte-for-byte without resizing, cropping, recolouring or alpha edits."
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "key": "top",
+      "selected": false,
+      "file": "exec-c0a5a30c-8360-482a-b13a-abcb5d9f54f2.png",
+      "reason": "Rejected: altered contour/internal shapes and baked shading; native 1254x1254 resolution instead of 1024x1024.",
+      "prompt": "Use case: sketch-to-render. Output ONE native 1024x1024 transparent RGBA PNG, paint_top.png.\nImage 1 is guide_top.png, the EDIT TARGET. Paint its grey surfaces IN PLACE without changing any geometry. Image 2 is design_reference.png, only the colour/material authority, NOT the composition, viewpoint or lighting authority.\nKeep the EXACT original guide silhouette, alpha coverage, canvas size, scale, position and all internal shape boundaries. Preserve the low-poly angular contours. Bounding box x66..957, y194..829 on a 1024-square canvas; preserve all margins. True orthographic TOP view looking straight down onto this curled body: head to left, one hand dangling down at lower left, broad bent shoulder upper left, belt and pouches at upper centre-right, both folded legs and boots extending right. The two boots remain separate with the original empty gap. Preserve ALL visible openings and every fold, pouch, buckle, cuff, finger and wrench edge in their exact guide positions. Do not rotate the camera to show a side view. Do not reshape the limbs or center/enlarge/crop the body.\nPaint faded ochre and grey canvas coveralls with water stains, modest white mineral crust, worn seams and patchwork; worn brown leather belt and boots; dull steel wrench; pale grey visible hand; rust auburn hair on the existing head shape. Match the approved image 2 materials, but follow the guide for their shapes and placement. No added equipment, hair strands or fraying beyond the guide's alpha.\nTEXTURE SOURCE / UNLIT ALBEDO: even flat shadowless illumination from viewer on all surfaces. Do not bake any lighting into the colour. No cast shadows, no ambient occlusion darkening, no strong highlights or reflections, no rim light, no shading gradients, no blackened creases from lighting. Only natural pigment/material variation and fine canvas/leather texture. Fully transparent background and guide openings, no floor, no scene, no text or watermark.\nOutput EXACTLY 1024x1024 pixels, matching the input guide's native resolution, unresized.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157dc-89d9-7560-bf90-b831d4530172/exec-c0a5a30c-8360-482a-b13a-abcb5d9f54f2.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a157dc-89d9-7560-bf90-b831d4530172/exec-c0a5a30c-8360-482a-b13a-abcb5d9f54f2.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_top.png",
+          "role": "geometry edit target",
+          "sha256": "24ab3e43b216309e3b7e692a1cda1fd5ee61013b15303d08194905c48d54fc09"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "colour and material reference",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "output_sha256": "e9ee5cdc01cd0bbc714f30e03e99a3695ae9414177e093a88bc7d6163b4703bc",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "alpha_bbox_threshold_128": [
+          78,
+          237,
+          1175,
+          1015
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Visually match ochre/grey canvas, brown leather, pale skin, auburn hair and dull steel.",
+        "flat_even_light": false,
+        "lighting_notes": "Fold/contact darkening and some highlights remain.",
+        "background_notes": "RGBA with transparent background; alpha differs from guide and includes low-alpha stray coverage.",
+        "accepted": false
+      },
+      "postprocessing": "None: output copied byte-for-byte without resizing, cropping, recolouring or alpha edits."
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "key": "top_corrective",
+      "selected": true,
+      "file": "exec-df662a3f-52dc-419e-91cb-8779287851d7.png",
+      "reason": "Closest allowed top return: consistent material palette and slightly flatter surface treatment. Selected for delivery only; not accepted as brief-compliant because resolution, exact silhouette and flat-light checks fail.",
+      "prompt": "Single corrective regeneration for paint_top.png. Deliver ONE native 1024 by 1024 transparent PNG, exactly the size of input image 1. A 1254 by 1254 output is incorrect. Do not resize the input.\nImage 1 (guide_top.png) is a locked geometry stencil to be coloured directly, NOT inspiration for a new character render. Keep every pixel of its alpha mask, silhouette, angular polygon boundaries and object placement unchanged. Occupied bounds on the 1024 square canvas: (66,194) to (958,830), exclusive end. The exact angular head at left, dangling hand at lower left, curved sleeve at centre-left, belt/pouches at upper centre, separate curled legs and two boots on the right must retain their original shapes. Preserve the transparent openings. No rounded new anatomy, no smoothed outline, no new fingers or moved cuffs, no silhouette expansion from hair/frayed threads. Do not zoom, rotate, crop or recenter. Straight overhead ORTHOGRAPHIC camera only.\nImage 2 (design_reference.png) provides the surface material palette only. Colour the coveralls with faded ochre and grey patchwork canvas, water-darkened dyed areas and a small amount of chalky white mineral crust. Fine woven cloth and worn stitching inside existing geometry. Brown worn leather boots, belt and pouches, muted dull steel wrench, pale grey skin on the existing hand, auburn hair strictly confined to the guide head silhouette. No additions.\nCorrection priority: FLAT UNLIT ALBEDO. All same-material surfaces must have consistent colour brightness even inside folds, under arms and between legs. No lighting shadows, no contact or ambient occlusion darkness, no directional lighting, no shiny leather, no bright metal reflection or rim light. Retain wear and pigment variations only. This is a colour projection source, not a photoreal studio beauty render. Uniform shadowless front illumination. Nothing outside the exact original guide alpha: no floor, scene, background, text or watermark.\nReturn precisely 1024x1024 RGBA with genuine transparency, preserving the original guide alpha without alteration.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157dc-89d9-7560-bf90-b831d4530172/exec-df662a3f-52dc-419e-91cb-8779287851d7.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/paint_top.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/guide_top.png",
+          "role": "geometry edit target",
+          "sha256": "24ab3e43b216309e3b7e692a1cda1fd5ee61013b15303d08194905c48d54fc09"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_corpse_colonist/design_reference.png",
+          "role": "colour and material reference",
+          "sha256": "2b961cb702f5c8d0a259bcfa1cc38d8df4c624ac4bf5e2cc88525a65658bf7ad"
+        }
+      ],
+      "output_sha256": "7bd9e8034c64a286ea19cf4e281eb03a29dd0df47934c94d0f5bd573fa8b54e7",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          35,
+          1236,
+          1254
+        ],
+        "alpha_bbox_threshold_128": [
+          81,
+          237,
+          1175,
+          1015
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Visually match ochre/grey canvas, brown leather, pale skin, auburn hair and dull steel.",
+        "flat_even_light": false,
+        "lighting_notes": "Fold/contact darkening and some highlights remain.",
+        "background_notes": "RGBA with transparent background; alpha differs from guide and includes low-alpha stray coverage.",
+        "accepted": false
+      },
+      "postprocessing": "None: output copied byte-for-byte without resizing, cropping, recolouring or alpha edits."
+    }
+  ]
+}

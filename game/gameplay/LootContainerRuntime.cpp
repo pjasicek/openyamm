@@ -147,7 +147,10 @@ MapDeltaChest buildLootContainerChest(
     }
     else if (!source.goldOnly && (source.random || source.aiDrop) && source.randomTreasureLevel > 0)
     {
-        appendRecord(chest, -std::clamp(source.randomTreasureLevel, 1, 7));
+        for (uint32_t record = 0; record < source.randomRecords; ++record)
+        {
+            appendRecord(chest, -std::clamp(source.randomTreasureLevel, 1, 7));
+        }
     }
     return chest;
 }

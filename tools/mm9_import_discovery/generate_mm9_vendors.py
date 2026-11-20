@@ -5,22 +5,72 @@ from __future__ import annotations
 
 import argparse
 import csv
+import dataclasses
 import json
+import random
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+import mm9_vendor_balance
+
 
 SELLING_TYPES = {"Weapon", "Armor", "Magic", "Apothecary", "General Store", "Library"}
-SERVICE_TYPES = {"Temple", "Training Arena"}
-PROFILE_SLOT_COUNTS = {
-    "Weapon": 6,
-    "Armor": 8,
-    "Spellbook": 12,
-    "Mm9Apothecary": 12,
-    "Mm9GeneralStore": 8,
-    "Mm9Library": 12,
+SERVICE_TYPES = {"Temple", "Training Arena", "Tavern", "Bank"}
+RUNTIME_SERVICE_TYPES = {"Temple": "Temple", "Training Arena": "Training", "Tavern": "Tavern", "Bank": "Bank"}
+# MMIXSHOPS names The Stumbling Hero 338, the Afterworld's hero NPC; its innkeeper, whose RUDE row opens the inn (-7),
+# is NPC339 (reviewed 2026-11-06).
+SERVICE_SOURCE_ID_OVERRIDES = {("Tavern", 338): 339}
+# An MM9 inn's MM6-MM8 tavern value (the food it fills packs to, the room and food prices of the shared formulas) is its
+# MMIXSHOPS merchant base times ten: 12 in Sturmford and Drangheim up to 40 in Arslegard, within the MM6-MM8 taverns'
+# 6-60 (user decision 2026-11-06: food bought as in MM6-MM8, by the place's difficulty). Skills there keep the merchant
+# base as their price multiplier.
+# A training hall's or temple's MM6-MM8 price multiplier is its merchant base times ten, as at the inns: halls 10 in
+# Sturmford up to 40 in Arslegard (MM6-MM8 halls 10-80; training costs level x multiplier), temples 12 to 40 (MM6-MM8
+# temples 10-50; healing costs the condition's factor x multiplier, a donation the multiplier). The bare base (1-4)
+# priced training to level 4 at 2 gold and raising the dead at 6. Skills taught there keep the merchant base.
+SERVICE_VALUE_PER_MERCHANT_BASE = 10
+SERVICE_TYPES_SCALED_FROM_MERCHANT_BASE = {"Tavern", "Training Arena", "Temple"}
+# MM9 restocks a shop with 15 independent rolls from each of its two treasure ranges (object.lto fcn.100b8310) into one
+# merchant list: a page holds the first range's rolls, then the second's, all in the standard lane (MM9 has no Buy
+# Special; a vendor without special rows offers a single Buy). A roll picks a treasure level in the range and turns it
+# into an item level with these weights for L1-L5 (fcn.100468d0), then picks a random eligible item of that level, so copies
+# are common. The shops show the result in the scrolling ledger (buy_view Ledger), which groups them.
+RESTOCK_ROLLS_PER_RANGE = 15
+# A spellbook shop's least choice of spells, and its most books per restock, for each school it sells (user decisions
+# 2026-11-06: a shop of more schools stocks more books); a smaller range is widened (spellbook_vendor).
+SPELLBOOK_SPELLS_PER_SCHOOL = 6
+SCHOOL_COUNT_BY_MAGIC_SCHOOL = {"All": 9, "Elemental": 4, "Spirit": 3, "Light": 1, "Dark": 1}
+# Spellbook shops that stock every Expert and Master book of these MM6-MM8 schools on each restock, beside their rolls
+# and whatever their ranges (user decision 2026-11-09), by MM9 shop id.
+SPELLBOOK_STOCKED_MASTERIES = ("expert", "master")
+SPELLBOOK_STOCKED_SCHOOLS = {
+    203: ("Dark",),  # Darkened Towers, Frosgard
+    205: ("Spirit", "Mind", "Body"),  # The Free Spirit, Frosgard
+    285: ("Fire", "Air", "Water", "Earth", "Light"),  # Rober's Magic, Lindisfarne
+    500: ("Fire", "Air", "Water", "Earth", "Spirit", "Mind", "Body", "Light", "Dark"),  # Hallvard's Tomes, Yorwick
+}
+# A shop's own stocked masteries instead of SPELLBOOK_STOCKED_MASTERIES.
+SPELLBOOK_STOCKED_MASTERIES_BY_SHOP = {500: ("master", "grandmaster")}
+# Spellbook shops that sell only their stocked books, without MM9's rolls.
+SPELLBOOK_STOCKED_ONLY = {500}
+# 2: MM9's rolls per restock, both ranges in one list, instead of Standard and Special pages padded to the MM6-MM8
+# shelf sizes.
+# 3: equipment shops stock by their chapter's treasure level with MM6-MM8 enchants (mm9_vendor_balance.py,
+# devdocs/mm9_rework/BALANCE_PLAN.md section 3.5).
+# 4: shop treasure levels of MM7's shops at the same stage (one lower), and no forced enchant on the special shelf.
+# 5: tier 5 weighs mostly at treasure levels 5 and 6, as MM6-MM8's top pieces (mm9_item_balance.RANDOM_WEIGHTS).
+# 6: spellbook shops sell MM9's own books (mm9_spellbooks.py) instead of MM6's.
+# 7: Frosgard's and Lindisfarne's spellbook shops stock every Expert and Master book of some schools
+# (SPELLBOOK_STOCKED_SCHOOLS).
+STOCK_GENERATION_VERSION = 7
+ITEM_LEVEL_WEIGHTS_BY_TREASURE_LEVEL = {
+    0: (75, 25, 0, 0, 0),
+    1: (50, 40, 10, 0, 0),
+    2: (25, 50, 25, 0, 0),
+    3: (15, 40, 30, 15, 0),
+    4: (0, 20, 40, 30, 10),
 }
 PROFILE_BY_SOURCE_TYPE = {
     "Weapon": "Weapon",
@@ -31,15 +81,16 @@ PROFILE_BY_SOURCE_TYPE = {
     "Library": "Mm9Library",
 }
 LOCATION_BY_SOURCE_ID = {
-    **{source_id: "Thjorgard" for source_id in (5, 10, 12, 15, 16, 17, 20, 21)},
-    **{source_id: "Sturmford" for source_id in (50, 53, 54, 58, 59, 62)},
-    **{source_id: "Drangheim" for source_id in (97, 98, 99, 102, 105)},
-    **{source_id: "Guberland" for source_id in (134, 135, 136, 137, 138, 139, 142, 143, 146, 147)},
-    **{source_id: "Frosgard" for source_id in (200, 201, 202, 203, 204, 205, 207, 208, 211, 212)},
-    **{source_id: "Thronheim" for source_id in (241, 247, 248, 249, 250, 251, 252, 255, 256, 259, 260)},
+    **{source_id: "Thjorgard" for source_id in (5, 10, 12, 13, 14, 15, 16, 17, 20, 21)},
+    **{source_id: "Sturmford" for source_id in (50, 53, 54, 56, 57, 58, 59, 62)},
+    **{source_id: "Drangheim" for source_id in (97, 98, 99, 100, 101, 102, 105)},
+    **{source_id: "Guberland" for source_id in (134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 146, 147)},
+    **{source_id: "Frosgard" for source_id in (184, 200, 201, 202, 203, 204, 205, 206, 207, 208, 211, 212)},
+    **{source_id: "Thronheim" for source_id in (241, 243, 247, 248, 249, 250, 251, 252, 254, 255, 256, 259, 260)},
     **{vendor_id: "Lindisfarne" for vendor_id in (285, 286, 287)},
     314: "Yorwick",
-    **{source_id: "Arslegard" for source_id in (340, 341, 342, 343, 344, 345, 348, 349, 350, 351)},
+    500: "Yorwick",
+    **{source_id: "Arslegard" for source_id in (339, 340, 341, 342, 343, 344, 345, 346, 348, 349, 350, 351)},
 }
 EQUIPMENT_STATS = {
     "Weapon", "Weapon1or2", "Weapon2", "Missile", "Bow", "Armor", "Shield", "Helm", "Belt",
@@ -50,6 +101,31 @@ ARMOR_STATS = {"Armor", "Shield", "Helm", "Belt", "Cloak", "Gauntlets", "Boots"}
 APOTHECARY_STATS = {"Ring", "Amulet", "Belt", "Mscroll", "Misc"}
 GENERAL_STATS = WEAPON_STATS | {"Ring", "Amulet", "Belt", "Gauntlets", "Mscroll", "Misc"}
 QUALITY_OFFSET = {"Normal": 0, "Good": 1, "Excellent": 2}
+# Skills learned at Normal in the MM9 world's venues (user decision 2026-11-06: the MM6-MM8 "Learn Skills" menu in the
+# shops, temples and training halls, so every skill has a Normal source; devdocs/mm9/MM9_RUDE_SCR_INTEGRATION.md
+# "Skills And Mastery"). Canonical OpenYAMM skill names; each venue's list goes in its learn_skills column.
+SCHOOL_SKILLS = {
+    "Elemental": ("FireMagic", "AirMagic", "WaterMagic", "EarthMagic"),
+    "Spirit": ("SpiritMagic", "MindMagic", "BodyMagic"),
+    "Light": ("LightMagic",),
+    "Dark": ("DarkMagic",),
+}
+SCHOOL_SKILLS["All"] = tuple(skill for school in ("Elemental", "Spirit", "Light", "Dark")
+                             for skill in SCHOOL_SKILLS[school])
+LEARN_SKILLS_BY_PROFILE = {
+    "Weapon": ("Sword", "Dagger", "Axe", "Mace", "Staff", "Spear", "Bow", "Throwing"),
+    "Armor": ("LeatherArmor", "ChainArmor", "PlateArmor", "Shield"),
+    "Mm9Apothecary": ("Alchemy", "IdentifyMonster"),
+    "Mm9GeneralStore": ("Merchant", "RepairItem", "Perception", "DisarmTraps", "Stealing"),
+    "Mm9Library": ("Learning", "IdentifyItem", "IdentifyMonster"),
+}
+SPELLBOOK_SHOP_EXTRA_SKILLS = ("Meditation", "Learning")
+LEARN_SKILLS_BY_SERVICE_TYPE = {
+    "Temple": ("Regeneration", "Meditation", "Unarmed", "Dodging"),
+    "Training": ("Armsmaster", "Bodybuilding", "Unarmed", "Dodging"),
+    "Tavern": LEARN_SKILLS_BY_PROFILE["Mm9GeneralStore"],
+    "Bank": (),
+}
 SOURCE_FIELD_NAMES = (
     "shop_name",
     "shop_npc_id",
@@ -159,6 +235,20 @@ class SourceVendor:
         return PROFILE_BY_SOURCE_TYPE[self.source_type]
 
 
+# Shops MM9 does not have, with a world-owned RUDE dialogue (NPC<source_id>.rude, whose -2 row opens the shop) and an
+# actor its map's converter adds (outdoor.added_people); no MMIXSHOPS row (source_line 0).
+# Hallvard's Tomes, Yorwick (the user, 2026-11-09): every Master and Grandmaster spellbook on each restock
+# (SPELLBOOK_STOCKED_SCHOOLS), at Yorwick's merchant base (Ulf's Junk, 4).
+ADDED_VENDORS = (
+    SourceVendor(
+        source_line=0, name="Hallvard's Tomes", source_id=500, source_type="Magic",
+        merchandise="Spellbooks, Master and Grandmaster, every school", wealth="Wealthy", merchant_base=4.0,
+        standard_min=4, standard_max=5, standard_concat=0, special_min=4, special_max=5, special_concat=0,
+        source_quantity="", restock_text="2 Weeks"),
+)
+ADDED_VENDOR_SOURCE = "tools/mm9_import_discovery/generate_mm9_vendors.py (ADDED_VENDORS)"
+
+
 @dataclass(frozen=True)
 class SourceServiceVenue:
     source_line: int
@@ -176,7 +266,17 @@ class SourceServiceVenue:
 
     @property
     def runtime_type(self) -> str:
-        return "Training" if self.source_type == "Training Arena" else "Temple"
+        return RUNTIME_SERVICE_TYPES[self.source_type]
+
+    @property
+    def price_multiplier(self) -> float:
+        if self.source_type in SERVICE_TYPES_SCALED_FROM_MERCHANT_BASE:
+            return self.merchant_base * SERVICE_VALUE_PER_MERCHANT_BASE
+        return self.merchant_base
+
+    @property
+    def skill_price_multiplier(self) -> str:
+        return f"{self.merchant_base:g}" if self.source_type in SERVICE_TYPES_SCALED_FROM_MERCHANT_BASE else ""
 
 
 @dataclass(frozen=True)
@@ -202,6 +302,7 @@ class Item:
     inventory_height: int = 0
     visual_status: str = ""
     allowed_class_roots: str = ""
+    spellbook_mastery: str = ""
 
 
 def source_provenance_path(path: Path) -> str:
@@ -326,21 +427,36 @@ def read_source_vendors(path: Path) -> list[SourceVendor]:
     return result
 
 
+def service_source_id(source_type: str, source_id: int) -> int:
+    return SERVICE_SOURCE_ID_OVERRIDES.get((source_type, source_id), source_id)
+
+
+def service_reachable(source_type: str, source_id: int, ids: dict[str, set[int]]) -> bool:
+    if source_type == "Tavern":
+        return source_id in ids["inn"]
+    if source_type == "Bank":
+        return source_id in ids["bank"]
+    return source_id in ids["training"] or source_id in ids["healer"] or source_id in ids["donation"]
+
+
 def read_source_service_venues(
     path: Path,
     training_ids: set[int],
     healer_ids: set[int],
     donation_ids: set[int],
+    inn_ids: set[int] = frozenset(),
+    bank_ids: set[int] = frozenset(),
 ) -> list[SourceServiceVenue]:
+    ids = {"training": training_ids, "healer": healer_ids, "donation": donation_ids, "inn": inn_ids,
+           "bank": bank_ids}
     result: list[SourceServiceVenue] = []
     _, source_rows = read_source_shop_rows(path)
     for source_row in source_rows:
         row = source_row.fields
         if source_row.source_type not in SERVICE_TYPES:
             continue
-        source_id = int(row[1])
-        reachable = source_id in training_ids or source_id in healer_ids or source_id in donation_ids
-        if not reachable:
+        source_id = service_source_id(source_row.source_type, int(row[1]))
+        if not service_reachable(source_row.source_type, source_id, ids):
             continue
         result.append(SourceServiceVenue(
             source_line=source_row.source_line,
@@ -367,8 +483,8 @@ def read_source_service_venues(
             can_donate=False,
         ))
 
-    if len(result) != 16:
-        raise ValueError(f"expected 16 reachable temple/training venues, found {len(result)}")
+    if len(result) != 30:
+        raise ValueError(f"expected 30 reachable temple/training/tavern/bank venues, found {len(result)}")
     return result
 
 
@@ -398,10 +514,8 @@ def read_items(path: Path, encoding: str, package_id: str) -> list[Item]:
         flags = frozenset(filter(None, (flag.strip() for flag in values.get("content_flags", "").split("|"))))
         rarity = values.get("material", "")
         normalized_tier = parse_int(values.get("normalized_tier", ""))
-        if package_id == "engine" and 1902 <= item_id <= 2018:
-            normalized_tier = max(1, min(5, parse_int(values.get("ID/Rep/St", ""), 1)))
         skill_group = values.get("Skill Group", "").strip()
-        if package_id == "engine" and values.get("Equip Stat", "").strip() == "Book":
+        if values.get("Equip Stat", "").strip() == "Book":
             skill_group = values.get("Mod1", "").strip()
         result.append(Item(
             item_id=item_id,
@@ -426,6 +540,8 @@ def read_items(path: Path, encoding: str, package_id: str) -> list[Item]:
             inventory_height=parse_int(values.get("inventory_height", "")),
             visual_status=values.get("visual_status", "").strip(),
             allowed_class_roots=values.get("allowed_class_roots", "").strip(),
+            spellbook_mastery=values.get("x_mm9_import_status", "").strip().removeprefix("generated_spellbook:")
+            if values.get("x_mm9_import_status", "").startswith("generated_spellbook:") else "",
         ))
     return result
 
@@ -462,6 +578,12 @@ def magic_school(merchandise: str) -> str:
     return "All"
 
 
+def vendor_learn_skills(vendor: SourceVendor) -> tuple[str, ...]:
+    if vendor.profile == "Spellbook":
+        return SCHOOL_SKILLS[magic_school(vendor.merchandise)] + SPELLBOOK_SHOP_EXTRA_SKILLS
+    return LEARN_SKILLS_BY_PROFILE[vendor.profile]
+
+
 def spell_school(item: Item) -> str:
     spell_index = parse_int(item.skill_group[1:] if item.skill_group.startswith("S") else item.skill_group)
     if spell_index == 0:
@@ -494,6 +616,7 @@ def profile_accepts_item(vendor: SourceVendor, item: Item) -> bool:
             school == "All"
             or item_school == school
             or (school == "Elemental" and item_school in {"Fire", "Air", "Water", "Earth"})
+            or (school == "Spirit" and item_school in {"Mind", "Body"})
         )
     return False
 
@@ -565,6 +688,7 @@ def source_q(source_tier: int, quality: str) -> int:
 
 
 def page_count(concat_percent: int) -> int:
+    # Restock pages per lane; a shop cycles through them, one page per restock.
     if 0 < concat_percent < 10:
         return 8
     if concat_percent < 30:
@@ -582,8 +706,92 @@ def admission_tier(vendor: SourceVendor, item: Item) -> int:
     return item.normalized_tier
 
 
-def candidates_for(vendor: SourceVendor, lane: str, mm9_items: list[Item], engine_items: list[Item]) -> list[Item]:
-    source = engine_items if vendor.profile == "Spellbook" else mm9_items
+def spellbook_school_count(vendor: SourceVendor) -> int:
+    return SCHOOL_COUNT_BY_MAGIC_SCHOOL[magic_school(vendor.merchandise)]
+
+
+def restock_rolls(vendor: SourceVendor) -> int:
+    """Rolls per range: MM9's 15, or for a spellbook shop half its books per restock if that is more (up to
+    SPELLBOOK_SPELLS_PER_SCHOOL books for each of its schools, the two ranges together)."""
+    if vendor.profile != "Spellbook":
+        return RESTOCK_ROLLS_PER_RANGE
+    return max(RESTOCK_ROLLS_PER_RANGE, (SPELLBOOK_SPELLS_PER_SCHOOL * spellbook_school_count(vendor) + 1) // 2)
+
+
+def roll_restock(vendor: SourceVendor, lane: str, page: int, candidates: list[Item],
+                 taken: set[int] | None = None) -> list[Item]:
+    """One restock page of a lane: MM9's rolls over the candidates the lane admits (seeded, so reproducible).
+
+    With `taken` (a spellbook shop's page, shared by both ranges) no item is rolled twice: a roll that lands on a
+    stocked book takes an unstocked one of the nearest level instead, and the rolls stop when every book is stocked.
+    """
+    rng = random.Random(f"mm9-vendor-stock:{vendor.source_id}:{lane}:{page}")
+    minimum = vendor.standard_min if lane == "standard" else vendor.special_min
+    maximum = vendor.standard_max if lane == "standard" else vendor.special_max
+    by_level: dict[int, list[Item]] = {}
+    for item in candidates:
+        by_level.setdefault(admission_tier(vendor, item), []).append(item)
+    rolled: list[Item] = []
+    for _ in range(restock_rolls(vendor)):
+        weights = ITEM_LEVEL_WEIGHTS_BY_TREASURE_LEVEL[min(4, rng.randint(minimum, maximum))]
+        levels = [level for level in sorted(by_level) if 1 <= level <= 5 and weights[level - 1] > 0]
+        if levels:
+            level = rng.choices(levels, weights=[weights[level - 1] for level in levels])[0]
+        else:
+            # The lane admits only item levels this treasure level never yields (MM9 adds nothing then); a shop's
+            # page still gets its full count from the lane's own candidates.
+            level = admission_tier(vendor, rng.choice(candidates))
+        if taken is None:
+            rolled.append(rng.choice(by_level[level]) if levels else rng.choice(candidates))
+            continue
+        remaining = [item for item in candidates if item.item_id not in taken]
+        if not remaining:
+            break
+        nearest = min(abs(admission_tier(vendor, item) - level) for item in remaining)
+        item = rng.choice([item for item in remaining if abs(admission_tier(vendor, item) - level) == nearest])
+        taken.add(item.item_id)
+        rolled.append(item)
+    return rolled
+
+
+def stocked_spellbooks(vendor: SourceVendor, spellbooks: list[Item]) -> list[Item]:
+    """The books a spellbook shop stocks on every restock whatever its ranges (SPELLBOOK_STOCKED_SCHOOLS)."""
+    schools = SPELLBOOK_STOCKED_SCHOOLS.get(vendor.source_id, ())
+    masteries = SPELLBOOK_STOCKED_MASTERIES_BY_SHOP.get(vendor.source_id, SPELLBOOK_STOCKED_MASTERIES)
+    return [
+        item for item in spellbooks
+        if spell_school(item) in schools and item.spellbook_mastery in masteries
+        and item_rejection_reason(vendor, "standard", item) in {None, "outside_normalized_source_range"}
+    ]
+
+
+def spellbook_vendor(vendor: SourceVendor, spellbooks: list[Item]) -> SourceVendor:
+    """A spellbook shop with each range widened, a tier up and then down, until it holds SPELLBOOK_SPELLS_PER_SCHOOL
+    spells for each school it sells.
+
+    A spellbook shop stocks each spell once per restock (user decision 2026-11-06), so a school shop whose MM9 range
+    admits only two spells (Thorkell's Light, 1-1) takes the books of the next tiers instead of copies, and an
+    all-school shop of the first tier (Magical Touches, 0-1) the second tier's too.
+    """
+    wanted = SPELLBOOK_SPELLS_PER_SCHOOL * spellbook_school_count(vendor)
+    widened = vendor
+    for lane in ("standard", "special"):
+        low = max(1, getattr(vendor, f"{lane}_min"))
+        high = max(1, getattr(vendor, f"{lane}_max"))
+        while True:
+            widened = dataclasses.replace(widened, **{f"{lane}_min": low, f"{lane}_max": high})
+            spells = {item.skill_group for item in spellbooks if item_rejection_reason(widened, lane, item) is None}
+            if len(spells) >= wanted or (high >= 5 and low <= 1):
+                break
+            if high < 5:
+                high += 1
+            else:
+                low -= 1
+    return widened
+
+
+def candidates_for(vendor: SourceVendor, lane: str, mm9_items: list[Item], spellbooks: list[Item]) -> list[Item]:
+    source = spellbooks if vendor.profile == "Spellbook" else mm9_items
     allowed = [item for item in source if item_rejection_reason(vendor, lane, item) is None]
     return sorted(allowed, key=lambda item: (admission_tier(vendor, item), item.item_id))
 
@@ -700,17 +908,23 @@ def generate(args: argparse.Namespace) -> None:
     source_header, source_shop_rows = read_source_shop_rows(args.shops)
     source_concat_rows = read_source_concats(args.concats)
     source_concats = {source_concat.concat_id: source_concat for source_concat in source_concat_rows}
-    vendors = read_source_vendors(args.shops)
+    vendors = read_source_vendors(args.shops) + list(ADDED_VENDORS)
     shop_rude_rows = rude_service_rows(args.rude_directory, -2)
     reachable_shop_ids = set(shop_rude_rows)
     training_ids = rude_service_ids(args.rude_directory, -3)
     healer_ids = rude_service_ids(args.rude_directory, -8)
     donation_ids = rude_service_ids(args.rude_directory, -16)
+    inn_ids = rude_service_ids(args.rude_directory, -7)
+    bank_ids = rude_service_ids(args.rude_directory, -6)
+    service_ids = {"training": training_ids, "healer": healer_ids, "donation": donation_ids, "inn": inn_ids,
+                   "bank": bank_ids}
     service_venues = read_source_service_venues(
         args.shops,
         training_ids,
         healer_ids,
         donation_ids,
+        inn_ids,
+        bank_ids,
     )
     vendor_id_begin, vendor_id_end = read_manifest_vendor_range(args.world_manifest)
     package_owned_ids = [
@@ -724,11 +938,12 @@ def generate(args: argparse.Namespace) -> None:
             f"MM9 vendor/service id lies outside manifest range {vendor_id_begin}-{vendor_id_end}")
     unresolved = sorted(vendor.source_id for vendor in vendors if vendor.source_id not in reachable_shop_ids)
     mm9_items = read_items(args.mm9_items, "utf-8", "mm9")
-    engine_items = [
-        item for item in read_items(args.engine_items, "cp1252", "engine")
-        if 1902 <= item.item_id <= 2018
-    ]
+    # MM9's own spellbooks, one per spell (mm9_spellbooks.py; their tiers are the MM6 books' that the shops sold before).
+    spellbooks = [item for item in mm9_items if item.equip_stat == "Book"]
     special_price_modifiers = read_special_enchant_price_modifiers(args.special_enchants)
+    standard_enchant_rows = mm9_vendor_balance.read_enchants(
+        args.special_enchants.with_name("standard_item_enchants.txt"))
+    special_enchant_rows = mm9_vendor_balance.read_enchants(args.special_enchants)
     source_row_by_line = {row.source_line: row for row in source_shop_rows}
     shop_source_path = source_provenance_path(args.shops)
     concat_source_path = source_provenance_path(args.concats)
@@ -739,7 +954,8 @@ def generate(args: argparse.Namespace) -> None:
         "standard_concat_percent", "special_min", "special_max", "special_concat_percent", "restock_days",
         "can_sell", "can_identify", "can_repair", "scene_policy", "opening_policy", "source_line",
         "source_quantity", "source_restock", "source_file", "normalized_service_type",
-        "legacy_house_audio_policy", "legacy_house_video_policy",
+        "legacy_house_audio_policy", "legacy_house_video_policy", "open_hour", "close_hour", "resale_cap_percent",
+        "buy_view", "learn_skills",
     ]]
     alias_rows: list[list[object]] = [[
         "vendor_id", "package_id", "source_vendor_id", "source_line", "rude_source_files",
@@ -766,7 +982,8 @@ def generate(args: argparse.Namespace) -> None:
     service_rows: list[list[object]] = [[
         "service_id", "package_id", "source_service_id", "canonical_id", "name", "location",
         "service_type", "price_multiplier", "temple_healing_tier", "training_max_level", "can_heal",
-        "can_donate", "can_learn_skills", "scene_policy", "opening_policy", "source_line",
+        "can_donate", "can_learn_skills", "scene_policy", "opening_policy", "source_line", "learn_skills",
+        "skill_price_multiplier", "map",
     ]]
     service_alias_rows: list[list[object]] = [[
         "service_id", "package_id", "source_service_id", "source_line",
@@ -785,9 +1002,8 @@ def generate(args: argparse.Namespace) -> None:
                     "selling_vendor" if row.source_type in SELLING_TYPES
                     else "reachable_service_venue"
                     if row.source_type in SERVICE_TYPES
-                    and (row.source_id in training_ids
-                         or row.source_id in healer_ids
-                         or row.source_id in donation_ids)
+                    and service_reachable(row.source_type, service_source_id(row.source_type, row.source_id),
+                                          service_ids)
                     else "non_stock_service"
                 ),
             }
@@ -835,7 +1051,7 @@ def generate(args: argparse.Namespace) -> None:
             }
             for row in concat_mapping_rows[1:]
         ],
-        "runtime_stock_generation_version": 1,
+        "runtime_stock_generation_version": STOCK_GENERATION_VERSION,
         "ordinary_effective_tier_cap": 6,
         "quality_policy": {
             "quality_offsets": dict(QUALITY_OFFSET),
@@ -866,9 +1082,12 @@ def generate(args: argparse.Namespace) -> None:
         "donation_ids": sorted(donation_ids),
         "reviewed_policy_decisions": [
             {
-                "policy": "standard_special_source_pair_interpretation",
+                "policy": "one_list_from_both_source_pairs",
                 "owner": "MM9 vendor integration goal",
-                "reason": "The first treasure/concat pair maps to Standard and the second maps to Special.",
+                "reason": (
+                    "Like MM9, a restock rolls 15 items from each treasure/concat pair into one merchant list; the "
+                    "audit's lanes are the two pairs."
+                ),
             },
             {
                 "policy": "raw_zero_candidate_floor",
@@ -939,7 +1158,9 @@ def generate(args: argparse.Namespace) -> None:
         ],
         "profile_rules": {
             "source_type_to_runtime_profile": dict(sorted(PROFILE_BY_SOURCE_TYPE.items())),
-            "runtime_profile_slot_counts": dict(sorted(PROFILE_SLOT_COUNTS.items())),
+            "restock_rolls_per_range": RESTOCK_ROLLS_PER_RANGE,
+            "item_level_weights_by_treasure_level": {
+                str(level): list(weights) for level, weights in ITEM_LEVEL_WEIGHTS_BY_TREASURE_LEVEL.items()},
         },
         "restock_rules": {
             "2 Weeks": 14,
@@ -955,15 +1176,29 @@ def generate(args: argparse.Namespace) -> None:
     }
 
     for venue in sorted(service_venues, key=lambda entry: entry.service_id):
+        learn_skills = LEARN_SKILLS_BY_SERVICE_TYPE[venue.runtime_type]
         service_rows.append([
             venue.service_id, "mm9", venue.source_id, f"mm9:service/{venue.source_id}", venue.name,
-            LOCATION_BY_SOURCE_ID[venue.source_id], venue.runtime_type, f"{venue.merchant_base:g}", 0, 0,
-            int(venue.can_heal), int(venue.can_donate), 0, "LiveGameplay", "RudeQuestKey",
-            venue.source_line,
+            LOCATION_BY_SOURCE_ID[venue.source_id], venue.runtime_type, f"{venue.price_multiplier:g}", 0, 0,
+            int(venue.can_heal), int(venue.can_donate), int(bool(learn_skills)), "LiveGameplay", "RudeQuestKey",
+            venue.source_line, "|".join(learn_skills), venue.skill_price_multiplier,
+            LOCATION_BY_SOURCE_ID[venue.source_id].lower() + "city.blv",
         ])
         service_alias_rows.append([venue.service_id, "mm9", venue.source_id, venue.source_line])
 
     for vendor in sorted(vendors, key=lambda entry: entry.vendor_id):
+        # Equipment shops stock at their chapter's treasure level (BALANCE_PLAN.md 3.5); books and libraries keep MM9's.
+        # vendors.txt and the audit keep MM9's ranges; stock_vendor carries the ranges the stock is rolled from.
+        balanced_tier = mm9_vendor_balance.shop_tier(vendor, LOCATION_BY_SOURCE_ID[vendor.source_id])
+        vendor_source_path = shop_source_path if vendor.source_line else ADDED_VENDOR_SOURCE
+        stock_vendor = (
+            mm9_vendor_balance.admitting_vendor(vendor, balanced_tier) if balanced_tier
+            else spellbook_vendor(vendor, spellbooks) if vendor.profile == "Spellbook"
+            else vendor)
+        # A spellbook shop's books stocked on each page so far, across both ranges (one book per spell); and the
+        # next free slot of each page, the ranges' rolls following one another.
+        taken_by_page: dict[int, set[int]] = {}
+        next_slot_by_page: dict[int, int] = {}
         restock_days = 56 if vendor.restock_text == "2 Months" else 14
         can_repair = vendor.profile in {"Weapon", "Armor", "Mm9GeneralStore"}
         can_identify = vendor.profile != "Mm9Library"
@@ -974,7 +1209,10 @@ def generate(args: argparse.Namespace) -> None:
             f"{vendor.merchant_base:g}", vendor.standard_min, vendor.standard_max, vendor.standard_concat,
             vendor.special_min, vendor.special_max, vendor.special_concat, restock_days, 1, int(can_identify),
             int(can_repair), "LiveGameplay", "RudeQuestKey", vendor.source_line,
-            vendor.source_quantity, vendor.restock_text, shop_source_path, "Shop", "Disabled", "Disabled",
+            vendor.source_quantity, vendor.restock_text, vendor_source_path, "Shop", "Disabled", "Disabled",
+            # Hours come from the RUDE opening rows (opening_policy), the resale cap is the shared default, and the
+            # Buy views use MM9's scrolling merchant list (MERCHANT-COORDS.txt), not the MM6-MM8 shelves.
+            "", "", "", "Ledger", "|".join(vendor_learn_skills(vendor)),
         ])
         alias_rows.append([
             vendor.vendor_id,
@@ -985,7 +1223,7 @@ def generate(args: argparse.Namespace) -> None:
                 str(row["source_file"]) for row in shop_rude_rows.get(vendor.source_id, [])
             })),
         ])
-        source_row = source_row_by_line[vendor.source_line]
+        source_row = source_row_by_line.get(vendor.source_line)
         reviewed_overrides: list[dict[str, str]] = []
         if vendor.standard_min == 0 or vendor.special_min == 0:
             reviewed_overrides.append({
@@ -1022,8 +1260,8 @@ def generate(args: argparse.Namespace) -> None:
             "profile": vendor.profile,
             "magic_school": magic_school(vendor.merchandise) if vendor.profile == "Spellbook" else "",
             "source_line": vendor.source_line,
-            "source_file": shop_source_path,
-            "source_raw_fields": dict(zip(SOURCE_FIELD_NAMES, source_row.fields)),
+            "source_file": vendor_source_path,
+            "source_raw_fields": dict(zip(SOURCE_FIELD_NAMES, source_row.fields)) if source_row else {},
             "raw_ranges": {
                 "standard": [vendor.standard_min, vendor.standard_max],
                 "special": [vendor.special_min, vendor.special_max],
@@ -1032,33 +1270,44 @@ def generate(args: argparse.Namespace) -> None:
                 "standard": vendor.standard_concat,
                 "special": vendor.special_concat,
             },
-            "source_pair_interpretation": "first_pair_standard_second_pair_special",
+            "source_pair_interpretation": "both_pairs_one_merchant_list",
             "zero_floor_reviewed": vendor.standard_min == 0 or vendor.special_min == 0,
             "reviewed_overrides": reviewed_overrides,
             "lanes": {},
         }
         for lane, concat_percent in (("standard", vendor.standard_concat), ("special", vendor.special_concat)):
-            source_catalog = engine_items if vendor.profile == "Spellbook" else mm9_items
+            source_catalog = spellbooks if vendor.profile == "Spellbook" else mm9_items
             rejected_candidates = Counter(
                 reason for item in source_catalog
-                if (reason := item_rejection_reason(vendor, lane, item)) is not None)
-            candidates = candidates_for(vendor, lane, mm9_items, engine_items)
+                if (reason := item_rejection_reason(stock_vendor, lane, item)) is not None)
+            candidates = candidates_for(stock_vendor, lane, mm9_items, spellbooks)
             if not candidates:
                 raise ValueError(f"vendor {vendor.source_id} {lane} has no eligible candidates")
-            count = PROFILE_SLOT_COUNTS[vendor.profile]
-            pages = page_count(concat_percent)
-            total_slots = count * pages
+            count = restock_rolls(vendor)
+            pages = max(page_count(vendor.standard_concat), page_count(vendor.special_concat))
             prepared_slots: list[tuple[int, int, int, Item, str, int, int]] = []
             for page in range(pages):
-                for slot in range(count):
+                taken = taken_by_page.setdefault(page, set()) if vendor.profile == "Spellbook" else None
+                # The books stocked on every restock open the first range's list; the rolls skip them.
+                stocked_items: list[Item] = []
+                if taken is not None and lane == "standard":
+                    stocked_items = stocked_spellbooks(stock_vendor, spellbooks)
+                    taken.update(item.item_id for item in stocked_items)
+                rolled_items = stocked_items + (
+                    [] if vendor.source_id in SPELLBOOK_STOCKED_ONLY
+                    else mm9_vendor_balance.roll_restock(
+                        stock_vendor, lane, page, candidates, balanced_tier, RESTOCK_ROLLS_PER_RANGE, admission_tier)
+                    if balanced_tier else roll_restock(vendor, lane, page, candidates, taken))
+                for slot, item in enumerate(rolled_items):
                     flat_index = page * count + slot
-                    item = candidates[(flat_index + vendor.source_id) % len(candidates)]
-                    quality = quality_for(vendor, lane, slot, item)
+                    quality = quality_for(stock_vendor, lane, slot, item)
                     quality_offset = QUALITY_OFFSET.get(quality, 0)
-                    item_admission_tier = admission_tier(vendor, item)
+                    item_admission_tier = admission_tier(stock_vendor, item)
                     effective_tier = min(6, max(1, item_admission_tier) + quality_offset)
                     prepared_slots.append((
                         page, slot, flat_index, item, quality, item_admission_tier, effective_tier))
+            # A spellbook shop's pages stop when every book is stocked.
+            total_slots = len(prepared_slots)
 
             eligible_indices = [
                 flat_index
@@ -1081,21 +1330,28 @@ def generate(args: argparse.Namespace) -> None:
                     raise ValueError(
                         f"vendor {vendor.source_id} {lane} slot {flat_index}: concat tier "
                         f"{source_concat.tier} exceeds effective tier {effective_tier}")
-                standard_id, standard_power, special_id = mapped_enchants(
-                    item, quality, concat, effective_tier, slot)
+                if balanced_tier and item.equip_stat in EQUIPMENT_STATS:
+                    standard_id, standard_power, special_id = mm9_vendor_balance.roll_enchants(
+                        item, vendor, lane, page, slot, balanced_tier, standard_enchant_rows, special_enchant_rows)
+                else:
+                    standard_id, standard_power, special_id = mapped_enchants(
+                        item, quality, concat, effective_tier, slot)
                 final_value = runtime_item_value(
                     item,
                     standard_power,
                     special_id,
                     special_price_modifiers)
+                list_slot = next_slot_by_page.get(page, 0)
+                next_slot_by_page[page] = list_slot + 1
                 stock_rows.append([
-                    vendor.vendor_id, lane, page, slot, item.item_id, 1, 1, standard_id, standard_power,
-                    special_id, 1,
+                    vendor.vendor_id, "standard", page, list_slot, item.item_id, 1, 1, standard_id, standard_power,
+                    special_id, STOCK_GENERATION_VERSION,
                 ])
                 mapping_id = concat_mapping_id(item) if source_concat is not None else ""
                 lane_audit.append({
                         "page": page,
                         "slot": slot,
+                        "list_slot": list_slot,
                         "item_id": item.item_id,
                         "item_name": item.name,
                         "source_tier": item.source_treasure_tier,
@@ -1208,6 +1464,12 @@ def generate(args: argparse.Namespace) -> None:
                         "concat": concat,
                     })
             vendor_audit["lanes"][lane] = {
+                "stock_range": [
+                    stock_vendor.standard_min if lane == "standard" else stock_vendor.special_min,
+                    stock_vendor.standard_max if lane == "standard" else stock_vendor.special_max,
+                ],
+                "stock_treasure_level": (
+                    mm9_vendor_balance.lane_level(balanced_tier, lane) if balanced_tier else None),
                 "page_count": pages,
                 "slot_count": total_slots,
                 "concat_eligible_slot_count": len(eligible_indices),
@@ -1273,7 +1535,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--world-manifest", type=Path, default=root / "assets_dev/worlds/mm9/world.yml")
     parser.add_argument("--rude-directory", type=Path, default=root / "assets_dev/worlds/mm9/dialogue/rude")
     parser.add_argument("--mm9-items", type=Path, default=root / "assets_dev/worlds/mm9/data_tables/items.txt")
-    parser.add_argument("--engine-items", type=Path, default=root / "assets_dev/engine/data_tables/items.txt")
     parser.add_argument(
         "--special-enchants",
         type=Path,

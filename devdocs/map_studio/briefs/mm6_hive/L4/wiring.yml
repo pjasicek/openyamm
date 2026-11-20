@@ -1,0 +1,459 @@
+format: 0
+variables: [cell_floor, chest2_opened, flush_armed, flush_done, flush_off, flush_warned, protected, queen_killed, reactor_killed]
+events:
+  - id: evt:cell_floor
+    preset: script
+    source: room:s48_cell
+    trigger: step
+    effects:
+      - set:
+          var:
+            map_var: cell_floor
+          value: 0
+    notes: "Event 22 on the flush control cell floor (face 1790): clears map variable 5, which nothing reads."
+  - id: evt:chest1
+    preset: chest
+    source: chest:c1
+    title: Chest
+  - id: evt:chest2
+    preset: chest
+    source: chest:c2
+    title: Chest
+    sets: {map_var: chest2_opened}
+    notes: "Event 42 opens chest 2 and sets map variable 12, which nothing reads."
+  - id: evt:chest3
+    preset: chest
+    source: chest:c3
+    title: Chest
+  - id: evt:chest4
+    preset: chest
+    source: chest:c4
+    title: Chest
+  - id: evt:chest5
+    preset: chest
+    source: chest:c5
+    title: Chest
+  - id: evt:door1
+    preset: door
+    source: door:d1
+    title: Door
+    action: open
+  - id: evt:door10
+    preset: door
+    source: door:d10
+    side: room:s30_tunnel
+    title: Door
+    action: open
+  - id: evt:door11
+    preset: door
+    source: door:d11
+    side: room:s40_a
+    title: Door
+    action: open
+    notes: "Event 11 on the leaf's north face (1584); its south face runs event 21 (evt:door11_stuck)."
+  - id: evt:door11_stuck
+    preset: text
+    source: door:d11
+    side: room:s39_corridor
+    title: Door
+    text: The Door Won't Budge
+    notes: Event 21 on the leaf of door 11 seen from the crossing (face 1593).
+  - id: evt:door12
+    preset: door
+    source: door:d12
+    side: room:s19_tunnel
+    title: Door
+    action: open
+  - id: evt:door13
+    preset: door
+    source: door:d13
+    title: Door
+    action: open
+  - id: evt:door14
+    preset: door
+    source: door:d14
+    title: Door
+    action: open
+  - id: evt:door2
+    preset: door
+    source: door:d2
+    title: Door
+    action: open
+  - id: evt:door28
+    preset: door
+    source: door:d28
+    side: room:s65_low
+    title: Door
+    action: open
+  - id: evt:door3
+    preset: door
+    source: door:d3
+    title: Door
+    action: open
+  - id: evt:door36
+    preset: text
+    source: door:d36
+    side: room:s45_passage
+    title: Door
+    text: The Door Won't Budge
+    notes: Event 21 on the leaf's passage face (1728).
+  - id: evt:door36_cell
+    preset: switch
+    source: door:d36
+    side: room:s45_cell
+    toggles: [door:d36, mover:button35]
+    notes: "Event 33 (no title) on the leaf's cell face (1715): the same as the closet's button, door 35 and 36 toggle."
+  - id: evt:door4
+    preset: door
+    source: door:d4
+    side: room:s69_top
+    title: Door
+    action: open
+    notes: "Event 4 is on the leaf's corridor face only (face 2176); the gallery side shows wall and does nothing."
+  - id: evt:door42
+    preset: door
+    source: door:d42
+    side: room:s28_cave
+    action: open
+    notes: Event 38 (no title) on the leaf's cave face only (face 3129).
+  - id: evt:door45
+    preset: door
+    source: door:d45
+    action: open
+  - id: evt:door5
+    preset: door
+    source: door:d5
+    side: room:s14_tunnel
+    title: Door
+    action: open
+    notes: "Event 5 on the leaf's tunnel face (2186); its chamber face runs event 21 (evt:door5_stuck)."
+  - id: evt:door5_stuck
+    preset: text
+    source: door:d5
+    side: room:s4_hall
+    title: Door
+    text: The Door Won't Budge
+    notes: Event 21 on the leaf of door 5 seen from the great chamber (face 2184).
+  - id: evt:door6
+    preset: door
+    source: door:d6
+    side: room:s37_east_hall
+    title: Door
+    condition: {item: reactor_way_key, consume: true}
+    locked_text: The door is locked
+    action: open
+  - id: evt:door6_passage
+    preset: switch
+    source: door:d6
+    side: room:s64_passage
+    title: Switch
+    opens: [door:d32, mover:button31]
+    notes: "Event 31 on the leaf's passage face (2044): as the south cell's button, it presses button 31 and opens door 32."
+  - id: evt:door7
+    preset: door
+    source: door:d7
+    title: Door
+    action: open
+  - id: evt:door8
+    preset: door
+    source: door:d8
+    side: room:s65_ramp1
+    title: Door
+    action: open
+  - id: evt:door9
+    preset: door
+    source: door:d9
+    title: Door
+    action: open
+  - id: evt:exit_final
+    preset: exit
+    source: exit:final
+    title: Exit
+    condition: {qbit: exit_unlocked}
+    locked_text: The door is locked
+    notes: "Event 60 (replaced by the map supplement): locked until quest bit 1226; the ending is the leave event's (evt:leave_ending), as the supplement's 65012."
+  - id: evt:exit_south
+    preset: exit
+    source: exit:south
+    title: Exit
+  - id: evt:flush_arm
+    preset: script
+    source: plate:lock_inner
+    trigger: step
+    condition: {not: {any: [{map_var: flush_off}, {map_var: flush_armed}]}}
+    effects:
+      - set:
+          var:
+            map_var: flush_armed
+          value: 1
+    notes: "Event 19: walking up to the double door arms the flush system, unless it was switched off for good."
+  - id: evt:flush_complete
+    preset: text
+    trigger: timer
+    every: 5
+    condition: {map_var: flush_done}
+    effects:
+      - set:
+          var:
+            map_var: flush_done
+          value: 0
+    text: Flush sequence complete.
+    notes: "Event 51: a timer of 2.5 game minutes."
+  - id: evt:flush_notice
+    preset: text
+    source: plate:lock_entry
+    trigger: step
+    condition: {not: {any: [{map_var: flush_off}, {map_var: flush_armed}]}}
+    text: Flush system activated.
+    notes: Event 17.
+  - id: evt:flush_run
+    preset: script
+    trigger: timer
+    every: 10
+    condition: {map_var: flush_warned}
+    effects:
+      - text: Flush sequence in progress.
+      - lua: "if not IsAtLeast(MapVar(protected), 1) then evt.DamagePlayer(Players.All, const.Damage.Physical, 20) end"
+      - set:
+          var:
+            map_var: flush_done
+          value: 1
+      - set:
+          var:
+            map_var: flush_warned
+          value: 0
+    notes: "Event 54 as one handler, in the original's order: a timer of 5 game minutes; while the warning stands, the text, then 20 physical damage to all unless the party stands on a water pad (a condition guards the whole handler, so the damage's own test is an `if` in a Lua step), then the variables."
+  - id: evt:flush_warning
+    preset: text
+    trigger: timer
+    every: 120
+    condition: {map_var: flush_armed}
+    sets: {map_var: flush_warned}
+    text: "Warning!  Flush system activated!"
+    notes: "Event 57: a timer of one game hour."
+  - id: evt:hatch_top
+    preset: switch
+    source: room:s69_top
+    trigger: step
+    closes: [mover:hatch_1, mover:hatch_2, mover:hatch_3, mover:hatch_4, mover:hatch_5, mover:hatch_6]
+    notes: "Event 27: the floor at the head of the stepped corridor, behind door 4 (which opens only from this side), uncovers the hatch, so a party that came up from below has its way back to the shaft."
+  - id: evt:keg
+    preset: script
+    source: deco:keg
+    title: Keg
+    effects:
+      - text: " +20 Hit Points"
+      - add:
+          var: HP
+          value: 20
+    notes: "Event 23 on the keg decoration: the line and 20 hit points, each click."
+  - id: evt:leave_ending
+    preset: script
+    trigger: leave
+    condition: {all: [{map_var: reactor_killed}, {map_var: queen_killed}, {item: 2164}]}
+    effects:
+      - qbit: 784
+      - clear_qbit: 1222
+      - take_item: 2164
+      - lua: "SetAward(Award(78)); evt.ShowMovie(\"mm6end1\", false)"
+    else_effects:
+      - lua: "if IsAtLeast(MapVar(reactor_killed), 1) then evt.ShowMovie(\"mm6end2\", false); evt.PlaySound(130); evt.ReturnToMainMenu() end"
+    notes: "The supplement's leave event (65012): leaving after the reactor's death is the good ending with the Queen dead and the Ritual of the Void in the packs (quest bit 784, 1222 cleared, the Ritual taken, award 78, the film), else the bad ending; before the reactor's death nothing."
+  - id: evt:load
+    preset: switch
+    trigger: load
+    condition: {qbit: reactor_destroyed}
+    opens: [door:d30, mover:gate_high, mover:gate_low, mover:ring_ne, mover:ring_nw, mover:ring_se, mover:ring_se_stub, mover:ring_sw, mover:ring_sw_stub]
+    closes: [door:d28]
+    notes: "Event 100, run on entering the map: with quest bit 1204 (the original's, which nothing in the game sets now; the reactor's death opens the same doors through evt:reactor_dead) the ring wall sinks into the floor, the north gate's lower half sinks and its upper half rises into the ceiling, the Queen's gate opens and door 28 is shut again."
+  - id: evt:pad_off
+    preset: script
+    source: room:s4_hall
+    trigger: step
+    sources: [room:s35_e, room:s35_w, room:s6_low, room:s3_gallery, room:s47_passage, room:s49_passage, room:s45_passage, room:s51_passage, room:s80_antechamber, room:s34_cave, room:s30_tunnel, room:s33_box, room:s56_cells_n, room:s62_passage, room:s61_cells_s, room:s75_chest, room:s24_tunnel, room:s14_tunnel, room:s68_ramp, room:s33_tunnel]
+    effects:
+      - set:
+          var:
+            map_var: protected
+          value: 0
+    notes: "Event 58: the floors round the water pads."
+  - id: evt:pad_on
+    preset: script
+    source: platform:pad_hall_1
+    trigger: step
+    sources: [platform:pad_hall_2, platform:pad_hall_3, platform:pad_hall_4, platform:pad_hall_5, platform:pad_hall_6, platform:pad_north_e, platform:pad_north_w, platform:pad_sw_low, platform:pad_gallery_w, platform:pad_gallery_e, platform:pad_cell_sw, platform:pad_cell_w, platform:pad_cell_e, platform:pad_cell_ee, platform:pad_antechamber, platform:pad_cave_nw, plate:pad_north_tunnel, platform:pad_sw_box, plate:pad_cells_n, plate:pad_west_passage, plate:pad_keg, plate:pad_hall_door, plate:pad_east_tunnel, plate:safe_cells_s, plate:safe_chest_room, room:s74_switch, room:s42_b, room:s68_a]
+    title: Protected
+    effects:
+      - set:
+          var:
+            map_var: protected
+          value: 1
+    notes: "Event 56: standing on a water pad protects from the flush. Nine of the original's 30 pads are built (the great chamber's six, the north hall's two and the one under the south-west pit)."
+  - id: evt:queen_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {map_var: reactor_killed, kills: {monster: monster:queen}}
+    once: true
+    sets: {map_var: queen_killed}
+    effects:
+      - qbit: 1226
+    notes: "The kill flow of the original's map supplement (hive_mmmerge.lua, event 65011): the Queen killed after the reactor sets quest bit 1226, which unlocks the final exit (event 60)."
+  - id: evt:queen_floor
+    preset: script
+    source: room:s77_queen
+    trigger: step
+    effects:
+      - set:
+          var:
+            map_var: flush_armed
+          value: 0
+    notes: "Event 29: the floor of the Queen's chamber disarms the flush system."
+  - id: evt:reactor_dead
+    preset: switch
+    trigger: timer
+    every: 2
+    condition: {item: 2164, kills: {monster: monster:reactor}}
+    opens: [door:d30, mover:gate_high, mover:gate_low, mover:ring_ne, mover:ring_nw, mover:ring_se, mover:ring_se_stub, mover:ring_sw, mover:ring_sw_stub]
+    closes: [door:d28]
+    once: true
+    sets: {map_var: reactor_killed}
+    effects:
+      - summon:
+          slot: 2
+          at: [4352, 20096, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 2
+          at: [6016, 21504, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 2
+          at: [2816, 22016, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [4352, 24704, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [2944, 23552, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [6144, 23424, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 2
+          at: [2688, 19840, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 2
+          at: [1920, 21760, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 2
+          at: [6144, 19840, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 2
+          at: [7168, 21760, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [2584, 25728, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [5248, 25728, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [1792, 23168, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [2688, 25216, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [7296, 23040, -2256]
+          count: 1
+          tier: c
+      - summon:
+          slot: 1
+          at: [6144, 25088, -2256]
+          count: 1
+          tier: c
+      - teleport:
+          to: [3328, 25920, -2256]
+          direction: 90
+      - lua: "evt.ForPlayer(Players.All); SetValue(MajorCondition, 0); AddValue(HasFullHP, 0); AddValue(HasFullSP, 0)"
+    notes: "The kill flow of the original's map supplement (hive_mmmerge.lua, event 65011): the reactor destroyed while the party carries the Ritual of the Void (item 2164): sixteen monsters of the encounter slots 1 and 2 at tier C round the reactor, the doors of event 100 (ring wall and gate sunk, the Queen's gate opened, door 28 shut), the party carried before the Queen's gate (the original adds up to 120 at random to x and y) and restored. The supplement tests the item at the moment of the kill, this event at the next two-second tick."
+  - id: evt:reactor_dead_bad
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:reactor}, not: {any: [{item: 2164}, {map_var: reactor_killed}]}}
+    lua: "evt.ShowMovie(\"mm6end2\", false); evt.PlaySound(130); evt.ReturnToMainMenu()"
+    once: true
+    notes: "The other branch of event 65011: the reactor destroyed without the Ritual of the Void ends the game (the bad ending's film and the main menu)."
+  - id: evt:switch16
+    preset: teleport
+    source: mover:button16
+    title: Switch
+    to: [468, 3690, 1]
+    direction: 8
+    toggles: [mover:button16]
+    effects:
+      - set:
+          var:
+            map_var: flush_armed
+          value: 0
+    text: Flush system deactivated
+    notes: "Event 16: the button (door 16) goes in or out, the flush system is switched off, and the party is carried to the entry."
+  - id: evt:switch31
+    preset: switch
+    source: mover:button31
+    title: Switch
+    opens: [door:d32, mover:button31]
+    once: true
+  - id: evt:switch33
+    preset: switch
+    source: mover:button35
+    toggles: [door:d36, mover:button35]
+  - id: evt:switch34
+    preset: switch
+    source: mover:button37
+    title: Switch
+    toggles: [mover:button37, mover:floor_panel]
+    notes: Event 34 of the original slides the floor panel (door 38) in and out between the upper floor and the passage below.
+  - id: evt:switch36
+    preset: switch
+    source: mover:button41
+    title: Switch
+    toggles: [mover:button41, mover:hatch_1, mover:hatch_2, mover:hatch_3, mover:hatch_4, mover:hatch_5, mover:hatch_6]
+    notes: Event 36 of the original toggles the cover of the hatch (door 43) over the shaft in the middle of the great chamber.
+  - id: evt:switch50
+    preset: switch
+    source: mover:button50
+    title: Switch
+    opens: [mover:button50]
+    once: true
+    sets: {map_var: flush_off}
+    notes: "Event 50: the flush system is switched off for good (map variable 23). A floor button in the original."
+notes: "Not wired, for want of a way to say it: the map supplement's damage hook (65010: a physical blow to the reactor does 2 to 40 at random). Events 30 and 62 have faces but no handler in the original. The underside of door 36's leaf carries event 6 (door 6) and door 6's underside event 31 in the original, a data slip not built."

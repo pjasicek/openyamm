@@ -1,0 +1,88 @@
+# MM9 side quest "Take the news to the Temple of Ratatosk" (guide: Side quests, Thronheim,
+# take-the-news-to-the-temple-of-ratatosk; tools/mm9_site/story/side_c.yml). Played in Thronheim City from a new game:
+# no story state is needed (Dagfari's first line forbids only his own key 316). Dagfari the Peevish (actor 5,
+# RUDE 242) in the tavern by the land gate asks the favour (key 316); his talk's close hands over the Scroll of Bad
+# News (item 251, key 317; thronheimcity.lua handler 50060). Erlend the Nay-sayer (actor 15, RUDE 246) in the Temple of
+# Ratatosk is made to take it (key 318); his close takes the scroll (key 319; handler 50098). Back at Dagfari, "We
+# delivered the message." (key 320) and the close pays (key 321: 5 000 experience, 5 000 gold). The party is placed
+# beside each man (a city). Research: prep/B_guberland_frosgard_honk.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py take_the_news
+id: mm9.side_quests.take_the_news_to_the_temple_of_ratatosk
+title: "MM9 side quest: Take the news to the Temple of Ratatosk (Dagfari the Peevish, Erlend the Nay-sayer)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: thronheimcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - assert: {map: thronheimcity.blv, gold: 10000, qbit_clear: [90316, 90317, 90318, 90319, 90320, 90321]}
+
+  # Before the errand Erlend has nothing to take: his delivery line needs key 316.
+  - set_pose: {map: thronheimcity.blv, x: -8024, y: 11510, z: 3268, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 15}
+  - assert: {dialog: {active: true, source_id: 246, action_label_absent: "We've come to deliver this message."}}
+  - press_action: {action: cancel_dialog}
+
+  # Dagfari the Peevish in the tavern by the land gate.
+  - set_pose: {map: thronheimcity.blv, x: 10900, y: 2458, z: 3124, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 5}
+  - select_topic: {match_label: "What can we help you with?"}
+  - select_topic: {match_label: "What sort of favor?"}
+  - select_topic: {match_label: "So what's the problem?"}
+  - select_topic: {match_label: "Sounds easy."}
+  - select_topic: {match_label: "We can handle it.  Give us the message."}
+  - select_topic: {match_label: "Sorry to bother you."}
+  - advance_runtime: {seconds: 0.5}
+  # The close hands over the Scroll of Bad News (it comes on the cursor).
+  - assert: {qbit_set: [90316, 90317], qbit_clear: [90318]}
+  - play_lua:
+      source: |
+        if not has_item(10251) then error("no Scroll of Bad News from Dagfari") end
+        log("Dagfari's Scroll of Bad News (on the cursor: " .. tostring(held() == 10251) .. ")")
+
+  # Erlend the Nay-sayer in the Temple of Ratatosk, near Kira's hall.
+  - set_pose: {map: thronheimcity.blv, x: -8024, y: 11510, z: 3268, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 15}
+  - select_topic: {match_label: "We've come to deliver this message."}
+  - select_topic: {match_label: "We don't care if you want it.  You will take it."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90318, 90319], qbit_clear: [90320]}
+  - play_lua:
+      source: |
+        if has_item(10251) then error("Erlend did not take the Scroll of Bad News") end
+        log("Erlend took the scroll")
+
+  # Back to Dagfari for the reward.
+  - set_pose: {map: thronheimcity.blv, x: 10900, y: 2458, z: 3124, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 5}
+  - select_topic: {match_label: "We delivered the message."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      qbit_set: [90320, 90321]
+      gold: 15000
+      runtime_event_variable: {id: 13, member_index: 0, value: 5000}
+  - interact_actor: {actor_index: 5}
+  - assert: {dialog: {active: true, source_id: 242, action_label_absent: "We delivered the message."}}
+  - press_action: {action: cancel_dialog}

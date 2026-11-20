@@ -1,0 +1,77 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "Generated raw returns; strict acceptance checks failed.",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Edit guide_back.png (input image 2) by painting ONLY its existing surfaces. Input image 1, design_reference.png, is the approved colour and material reference ONLY, NOT the camera or geometry reference. Produce exactly one 1024 x 1024 RGBA PNG with transparent background, native unresized output.\nThis is the BACK orthographic view of the Lowfolk water still. The grey guide fixes the silhouette EXACTLY: same outline, size, pixel position, every edge, opening, part and occlusion. Preserve its low-poly shapes, all leg positions and foot plates, left valve wheel, left crank, central rear tank fitting, top pipes and partially occluded right-side mechanism. Do not rotate towards the reference camera; do not reveal front components hidden by this back view. Nothing added outside the silhouette, nothing cropped, no rearrangement.\nPaint the design reference's surface materials onto that exact geometry: weathered off-white ceramic tank with gold bands and aged gold fittings; green-brown copper pipes; rusted grey steel tripod/supports with worn ochre paint; grey stone basin where visible; clear water and dim orange fire colour only where existing guide geometry exposes them. Detailed chipped ceramic and fine age cracks, oxidized copper, rust and restrained wear, matching the design reference's palette and material identity. Do not invent a front fire opening or water spout on the rear.\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts painted at their glowing colour only, no light cast on surroundings. Keep all transparent gaps exactly as in guide. No labels, text or watermark. The guide's silhouette and geometry take absolute precedence over illustration aesthetics.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "dec0e204505b8c02b97b5551407dd9ca13e03ef47ab52d99148859bb02ee7554"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, geometry embellishments, strong highlights and occlusion shading.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Broad ceramic/gold/rusted-steel palette matches; copper insufficiently green-brown and basin not grey stone.",
+        "flat_even_light": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Paint directly onto input image 1, guide_back.png. Preserve its original 1024 by 1024 pixel canvas and exact alpha silhouette, all internal boundaries and gaps. Return a 1024 x 1024 transparent PNG. Do not rescale, reframe, move, round off or redesign anything. This is a texture-source edit, NOT a newly composed illustration. Input image 2 design_reference.png supplies materials and colours ONLY.\nCORRECTION REQUIREMENTS: The prior attempt returned the wrong dimensions (1254 square) and excessive lighting. This return must remain the original guide's 1024 square canvas. Apply matte albedo colour only, evenly lit from the viewer. Absolutely no black occlusion seams, shadows under the tank or legs, shaded lower tank, directional highlights, bright edge highlights, metallic reflections, cast shadows, background or floor. All material faces equally illuminated irrespective of their orientation.\nKeep the guide's exact BACK orthographic view: top at y97, bottom feet y926; leftmost foot x65, rightmost foot x958. Preserve every guide surface and its position: flat rear fitting centered on tank, left wheel and crank, all straight supports and feet, right partial pipe mechanism, visible lower containers and basin. Do not show front-facing details occluded in this back view. Preserve geometry's straight faceted edges and all holes exactly.\nPaint weathered white ceramic tank, warm gold bands, green-brown oxidized copper pipes, grey rusted steel supports with worn ochre paint, grey stone basin, clear water where visible, dim orange fire colour ONLY where visible in guide. Follow reference's detailed ceramic cracks and chips, copper corrosion and steel rust as surface colour, without adding shape details or new hardware. Hidden water/fire stays hidden. Glowing colours do not illuminate anything. Keep transparent background and every transparent internal gap. One image only, no text or watermark. Exact geometry/alpha and flat shadowless albedo are more important than a polished render.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "dec0e204505b8c02b97b5551407dd9ca13e03ef47ab52d99148859bb02ee7554"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best of the two permitted attempts: closer faceted geometry, more oxidized copper and reduced gloss. Selected for delivery only, not accepted as compliant: wrong native size, silhouette not identical, residual shading and material mismatches.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "White ceramic/gold bands, rusted steel and oxidized copper present; lower ceramic treatment does not satisfy grey stone basin specification.",
+        "flat_even_light": false
+      }
+    }
+  ],
+  "postprocessing": "None. Files copied byte-for-byte; no resizing, masking or repainting.",
+  "corrective_regenerations": 1,
+  "limitations": [
+    "Built-in tool returned 1254 x 1254 both times despite explicit 1024 x 1024 instructions.",
+    "Exact guide silhouette and shape-edge identity not achieved.",
+    "Residual highlights and occlusion shading violate strict albedo lighting.",
+    "Maximum one corrective regeneration used; no further generations performed."
+  ]
+}

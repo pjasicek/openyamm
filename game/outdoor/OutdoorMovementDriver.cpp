@@ -19,6 +19,10 @@ constexpr float MaxAccumulatedMovementSeconds = 0.1f;
 constexpr float HardLandingDistance = 512.0f;
 constexpr float EventHoldSeconds = 0.75f;
 constexpr float DamageTickSeconds = 1.0f;
+// The original's flight ceiling, for maps whose scene sets none.
+constexpr float DefaultFlightCeiling = 4000.0f;
+// The party's outdoor gravity (OutdoorMovementController's GravityPerSecond): it times a special jump's push in flight.
+constexpr float PartyGravityPerSecond = 1280.0f;
 
 const char *supportKindName(OutdoorSupportKind supportKind)
 {
@@ -104,20 +108,25 @@ OutdoorMovementDriver::OutdoorMovementDriver(
         outdoorDecorationCollisionSet,
         outdoorActorCollisionSet,
         outdoorSpriteObjectCollisionSet
-    )
+    ),
+    m_flightCeiling(outdoorMapData.flightCeiling.value_or(DefaultFlightCeiling))
 {
+    m_tuning.maxFlightHeight = m_flightCeiling;
 }
 
-void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
+void OutdoorMovementDriver::initialize(float x, float y, float footZHint, bool keepHeight)
 {
-    m_state = m_movementController.initializeStateForBody(x, y, footZHint, m_bodyDimensions.radius);
+    m_state = m_movementController.initializePartyArrivalState(
+        x, y, footZHint, m_bodyDimensions.radius, m_bodyDimensions.maxStepHeight, keepHeight);
     m_partyMovementState = {};
     m_tuning = {};
+    m_tuning.maxFlightHeight = m_flightCeiling;
     m_lastEvents = {};
     m_lastConsequences = {};
     m_pendingEffects = {};
     m_jumpHeld = false;
     m_flyUpHeld = false;
+    m_landingRequested = false;
     m_pendingFlyHeightDelta = 0.0f;
     m_pendingJumpPress = false;
     m_pendingJumpVelocity.reset();
@@ -125,6 +134,9 @@ void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
     m_pendingImpulseVelocityX = 0.0f;
     m_pendingImpulseVelocityY = 0.0f;
     m_pendingImpulseVelocityZ = 0.0f;
+    m_jumpCarryVelocityX = 0.0f;
+    m_jumpCarryVelocityY = 0.0f;
+    m_dashSeconds = 0.0f;
     m_flyingAvailable = false;
     m_movementAccumulatorSeconds = 0.0f;
     m_startedFallingEventSeconds = 0.0f;
@@ -151,6 +163,7 @@ void OutdoorMovementDriver::restoreState(
     m_state = state;
     m_partyMovementState = partyMovementState;
     m_tuning = {};
+    m_tuning.maxFlightHeight = m_flightCeiling;
     m_lastEvents = {};
     m_lastConsequences = {};
     m_pendingEffects = {};
@@ -163,6 +176,9 @@ void OutdoorMovementDriver::restoreState(
     m_pendingImpulseVelocityX = 0.0f;
     m_pendingImpulseVelocityY = 0.0f;
     m_pendingImpulseVelocityZ = 0.0f;
+    m_jumpCarryVelocityX = 0.0f;
+    m_jumpCarryVelocityY = 0.0f;
+    m_dashSeconds = 0.0f;
     m_movementAccumulatorSeconds = 0.0f;
     m_startedFallingEventSeconds = 0.0f;
     m_landedEventSeconds = 0.0f;
@@ -187,7 +203,10 @@ void OutdoorMovementDriver::update(
     GameplayWorldMovementFrameDiagnostics *pPerformanceDiagnostics)
 {
     const uint64_t totalBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;
-    const bool jumpPressed = input.jump && !m_jumpHeld;
+    // A held jump key jumps again on landing, as the original's continuous trigger does (OY-219); airborne or flying,
+    // only a fresh press counts.
+    const bool jumpHeldOnGround = m_jumpHeld && !m_state.airborne && !m_partyMovementState.flying;
+    const bool jumpPressed = input.jump && (!m_jumpHeld || jumpHeldOnGround);
     m_jumpHeld = input.jump;
     m_pendingJumpPress = m_pendingJumpPress || jumpPressed;
     const bool flyUpPressed = (input.flyUp && !m_flyUpHeld) || input.flyHeightDelta > 0.0f;
@@ -197,7 +216,7 @@ void OutdoorMovementDriver::update(
     {
         m_partyMovementState.flying = false;
     }
-    else if (!m_partyMovementState.flying && flyUpPressed && canActivateFlying())
+    else if (!m_partyMovementState.flying && (flyUpPressed || m_swimming) && canActivateFlying())
     {
         m_partyMovementState.flying = true;
         m_state.verticalVelocity = 0.0f;
@@ -215,13 +234,23 @@ void OutdoorMovementDriver::update(
     }
     const bool flyHeightChangeRequested = m_pendingFlyHeightDelta != 0.0f;
 
+    // Any vertical flight input takes over from a landing; a landing outlasts the Fly buff ending mid-descent.
+    if (input.flyUp || input.flyDown || flyHeightChangeRequested)
+    {
+        m_landingRequested = false;
+    }
+
+    const bool flyDown = input.flyDown || (m_landingRequested && m_partyMovementState.flying);
+
     const float cosYaw = std::cos(input.yawRadians);
     const float sinYaw = std::sin(input.yawRadians);
     const float movementPitchRadians = input.usePitchForFlyingMovement ? input.pitchRadians : 0.0f;
     const float cosPitch = std::cos(movementPitchRadians);
     const float sinPitch = std::sin(movementPitchRadians);
     const float inputSpeedScale = std::clamp(input.movementSpeedScale, 0.0f, 1.0f);
-    const float speedMultiplier = std::max(m_speedMultiplier, 0.0f) * inputSpeedScale;
+    // Party speed (Fleet Foot, talents, MAW slows) changes ground speed only: jump height and flight climb stay put.
+    const float verticalSpeedMultiplier = std::max(m_speedMultiplier, 0.0f) * inputSpeedScale;
+    const float speedMultiplier = verticalSpeedMultiplier * std::max(input.partySpeedMultiplier, 0.0f);
     const bx::Vec3 forward = {cosYaw, sinYaw, 0.0f};
     const bx::Vec3 forwardFlying = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     const bx::Vec3 right = {sinYaw, -cosYaw, 0.0f};
@@ -343,21 +372,17 @@ void OutdoorMovementDriver::update(
             : MaxAccumulatedMovementSeconds;
     m_movementAccumulatorSeconds =
         std::min(m_movementAccumulatorSeconds + deltaSeconds, maxAccumulatedMovementSeconds);
-    float impulseVelocityX = 0.0f;
-    float impulseVelocityY = 0.0f;
-    float impulseVelocityZ = 0.0f;
-
     if (m_movementAccumulatorSeconds >= OutdoorMovementStepSeconds)
     {
-        impulseVelocityX = m_pendingImpulseVelocityX;
-        impulseVelocityY = m_pendingImpulseVelocityY;
-        impulseVelocityZ = m_pendingImpulseVelocityZ;
-        const bool hasPendingImpulse =
-            impulseVelocityX != 0.0f || impulseVelocityY != 0.0f || impulseVelocityZ != 0.0f;
+        const bool hasPendingImpulse = m_pendingImpulseVelocityX != 0.0f || m_pendingImpulseVelocityY != 0.0f
+            || m_pendingImpulseVelocityZ != 0.0f;
 
         if (hasPendingImpulse)
         {
-            m_state.verticalVelocity = std::max(m_state.verticalVelocity, impulseVelocityZ);
+            m_state.verticalVelocity = std::max(m_state.verticalVelocity, m_pendingImpulseVelocityZ);
+            m_jumpCarryVelocityX = m_pendingImpulseVelocityX;
+            m_jumpCarryVelocityY = m_pendingImpulseVelocityY;
+            m_jumpCarryFlightSeconds = 2.0f * std::max(0.0f, m_pendingImpulseVelocityZ) / PartyGravityPerSecond;
             m_pendingImpulseVelocityX = 0.0f;
             m_pendingImpulseVelocityY = 0.0f;
             m_pendingImpulseVelocityZ = 0.0f;
@@ -382,26 +407,28 @@ void OutdoorMovementDriver::update(
         const OutdoorMoveState previousState = m_state;
         const bool jumpRequestedThisStep = m_pendingJumpPress;
         const float jumpVelocityThisStep =
-            m_pendingJumpVelocity.value_or(m_tuning.jumpVelocity * speedMultiplier);
+            m_pendingJumpVelocity.value_or(m_tuning.jumpVelocity * verticalSpeedMultiplier);
         const float jumpLiftThisStep = m_pendingJumpLift;
         std::vector<size_t> contactedActorIndices;
         const bool traceOutdoorMovement = m_collisionTraceEnabled || gameplayDebugTraceEnabled();
         OutdoorMoveDebugInfo debugInfo = {};
         OutdoorMoveDebugInfo *pDebugInfo = traceOutdoorMovement ? &debugInfo : nullptr;
         const uint64_t collisionBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;
+        const bool dashing = m_dashSeconds > 0.0f;
+        m_dashSeconds = std::max(0.0f, m_dashSeconds - OutdoorMovementStepSeconds);
         m_state = m_movementController.resolveMoveForBody(
             m_state,
             m_bodyDimensions,
-            moveVelocityX + impulseVelocityX,
-            moveVelocityY + impulseVelocityY,
+            moveVelocityX + m_jumpCarryVelocityX + (dashing ? m_dashVelocityX : 0.0f),
+            moveVelocityY + m_jumpCarryVelocityY + (dashing ? m_dashVelocityY : 0.0f),
             moveVelocityZ + m_pendingFlyHeightDelta / OutdoorMovementStepSeconds,
             jumpRequestedThisStep,
             input.flyUp,
-            input.flyDown,
+            flyDown,
             m_partyMovementState.flying,
             m_partyMovementState.waterWalk,
             jumpVelocityThisStep,
-            m_tuning.flyVerticalSpeed * speedMultiplier,
+            m_tuning.flyVerticalSpeed * verticalSpeedMultiplier,
             m_tuning.maxFlightHeight,
             OutdoorMovementStepSeconds,
             &contactedActorIndices,
@@ -420,6 +447,20 @@ void OutdoorMovementDriver::update(
         if (m_partyMovementState.flying)
         {
             m_state.verticalVelocity = 0.0f;
+        }
+
+        // A flying party never lands, so a special jump's push (a MAW Puller's hit) lasts as long as the same jump
+        // would keep a walking party in the air.
+        if (m_partyMovementState.flying)
+        {
+            m_jumpCarryFlightSeconds -= OutdoorMovementStepSeconds;
+        }
+
+        if ((!m_state.airborne && m_state.verticalVelocity <= 0.0f)
+            || (m_partyMovementState.flying && m_jumpCarryFlightSeconds <= 0.0f))
+        {
+            m_jumpCarryVelocityX = 0.0f;
+            m_jumpCarryVelocityY = 0.0f;
         }
 
         m_pendingJumpPress = false;
@@ -612,16 +653,17 @@ void OutdoorMovementDriver::update(
     m_lastEvents.leftBurning = m_leftBurningEventSeconds > 0.0f;
     m_lastEvents.hardLanding = m_lastEvents.landed && m_lastEvents.landingFallDistance > HardLandingDistance;
 
-    if (m_partyMovementState.flying || m_partyMovementState.featherFall)
+    if (m_partyMovementState.flying || m_partyMovementState.featherFall || m_landingRequested)
     {
         m_state.fallStartZ = m_state.footZ;
         m_state.fallDistance = 0.0f;
     }
 
-    if (!input.turnBasedPhysicsStep
-        && m_movementController.isInDeepWater(m_state)
-        && !m_partyMovementState.waterWalk
-        && !m_partyMovementState.flying)
+    // Turn-based walking and falling take no game time: the water and the burning ground hurt once per completed turn
+    // (addTurnBasedHazardTicks).
+    const bool turnBasedStep = input.turnBasedPhysicsStep || input.turnBasedMovementStep;
+
+    if (!turnBasedStep && drowningHere())
     {
         m_waterDamageTimerSeconds += deltaSeconds;
 
@@ -637,7 +679,7 @@ void OutdoorMovementDriver::update(
         m_waterDamageTimerSeconds = 0.0f;
     }
 
-    if (!input.turnBasedPhysicsStep && m_state.supportOnBurning && !m_partyMovementState.flying)
+    if (!turnBasedStep && burningHere())
     {
         m_burningDamageTimerSeconds += deltaSeconds;
 
@@ -674,7 +716,8 @@ void OutdoorMovementDriver::update(
 
     if (m_lastEvents.hardLanding
         && !m_partyMovementState.featherFall
-        && !m_partyMovementState.flying)
+        && !m_partyMovementState.flying
+        && !m_landingRequested)
     {
         m_fallDamageConsequenceSeconds = EventHoldSeconds;
         m_lastConsequences.fallDamageDistance = m_lastEvents.landingFallDistance;
@@ -695,12 +738,18 @@ void OutdoorMovementDriver::update(
         m_partyMovementState.flying = false;
     }
 
+    // A landing request ends on the ground, so it never softens a later fall.
+    if (!m_partyMovementState.flying && !m_state.airborne)
+    {
+        m_landingRequested = false;
+    }
+
     const float requestedMovementSpeedSquared =
         moveVelocityX * moveVelocityX + moveVelocityY * moveVelocityY + moveVelocityZ * moveVelocityZ;
     m_partyMovementState.activelyFlying =
         m_partyMovementState.flying
         && m_state.airborne
-        && (requestedMovementSpeedSquared > 0.01f || input.flyUp || input.flyDown || flyHeightChangeRequested);
+        && (requestedMovementSpeedSquared > 0.01f || input.flyUp || flyDown || flyHeightChangeRequested);
 
     if (pPerformanceDiagnostics != nullptr)
     {
@@ -740,6 +789,36 @@ const OutdoorMovementEffects &OutdoorMovementDriver::pendingEffects() const
     return m_pendingEffects;
 }
 
+bool OutdoorMovementDriver::drowningHere() const
+{
+    return m_movementController.isInDeepWater(m_state)
+        && !m_partyMovementState.waterWalk
+        && !m_partyMovementState.flying
+        && !m_levitateActive;
+}
+
+bool OutdoorMovementDriver::burningHere() const
+{
+    return m_state.supportOnBurning && !m_partyMovementState.flying && !m_levitateActive;
+}
+
+// The original's timed effects hurt at most once per call, and a turn's call (213 ticks) is longer than the damage
+// interval (128 ticks): one tick per completed turn.
+void OutdoorMovementDriver::addTurnBasedHazardTicks()
+{
+    if (drowningHere())
+    {
+        m_waterDamageConsequenceSeconds = EventHoldSeconds;
+        m_pendingEffects.waterDamageTicks += 1;
+    }
+
+    if (burningHere())
+    {
+        m_burningDamageConsequenceSeconds = EventHoldSeconds;
+        m_pendingEffects.burningDamageTicks += 1;
+    }
+}
+
 OutdoorMovementEffects OutdoorMovementDriver::consumePendingEffects()
 {
     const OutdoorMovementEffects effects = m_pendingEffects;
@@ -771,6 +850,15 @@ void OutdoorMovementDriver::toggleFlying()
         m_state.verticalVelocity = 0.0f;
         m_state.fallStartZ = m_state.footZ;
         m_state.fallDistance = 0.0f;
+    }
+}
+
+void OutdoorMovementDriver::requestLanding()
+{
+    if (m_partyMovementState.flying)
+    {
+        m_landingRequested = true;
+        m_pendingFlyHeightDelta = 0.0f;
     }
 }
 
@@ -811,6 +899,11 @@ void OutdoorMovementDriver::setFlying(bool active)
     }
 }
 
+void OutdoorMovementDriver::setSwimming(bool active)
+{
+    m_swimming = active;
+}
+
 void OutdoorMovementDriver::setFlyingAvailable(bool active)
 {
     m_flyingAvailable = active;
@@ -824,8 +917,7 @@ void OutdoorMovementDriver::setFlyingAvailable(bool active)
 
 bool OutdoorMovementDriver::isEffectiveRunning(const OutdoorMovementInput &input) const
 {
-    return input.autoRunActive
-        || (input.runWalkModifier ? !m_partyMovementState.running : m_partyMovementState.running);
+    return input.runWalkModifier ? !m_partyMovementState.running : m_partyMovementState.running;
 }
 
 bool OutdoorMovementDriver::isRunningMovement(const OutdoorMovementInput &input) const
@@ -855,6 +947,11 @@ void OutdoorMovementDriver::setFeatherFallActive(bool active)
         m_state.fallStartZ = m_state.footZ;
         m_state.fallDistance = 0.0f;
     }
+}
+
+void OutdoorMovementDriver::setLevitateActive(bool active)
+{
+    m_levitateActive = active;
 }
 
 void OutdoorMovementDriver::setSpeedMultiplier(float multiplier)
@@ -898,9 +995,21 @@ void OutdoorMovementDriver::requestSpecialJump(float velocityX, float velocityY,
     m_pendingImpulseVelocityZ = velocityZ;
 }
 
+void OutdoorMovementDriver::requestDash(float velocityX, float velocityY, float seconds)
+{
+    m_dashVelocityX = velocityX;
+    m_dashVelocityY = velocityY;
+    m_dashSeconds = seconds;
+}
+
 void OutdoorMovementDriver::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)
 {
     m_movementController.setActorColliders(actorColliders);
+}
+
+void OutdoorMovementDriver::setHiddenDecorationEntities(const std::vector<bool> &hiddenEntities)
+{
+    m_movementController.setHiddenDecorationEntities(hiddenEntities);
 }
 
 void OutdoorMovementDriver::setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes)
@@ -911,6 +1020,15 @@ void OutdoorMovementDriver::setFaceAttributes(size_t bModelIndex, size_t faceInd
 void OutdoorMovementDriver::updateFaceGeometries(const std::vector<OutdoorFaceGeometryData> &geometries)
 {
     m_movementController.updateFaceGeometries(geometries);
+}
+
+void OutdoorMovementDriver::lift(float height)
+{
+    m_state.footZ += height;
+    m_state.verticalVelocity = 0.0f;
+    m_state.airborne = true;
+    m_state.supportKind = OutdoorSupportKind::None;
+    m_state.fallStartZ = m_state.footZ;
 }
 
 bool OutdoorMovementDriver::translateWithSupportedBModel(

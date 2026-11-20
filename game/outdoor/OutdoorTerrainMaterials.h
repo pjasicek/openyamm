@@ -1,10 +1,11 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
-#include "game/outdoor/OutdoorTerrainMaterialConfig.h"
 #include "game/maps/OutdoorTerrainTiles.h"
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/render/LiquidKind.h"
+#include "game/outdoor/OutdoorTerrainMaterialConfig.h"
+#include "game/render/TerrainMaterialSet.h"
 #include "game/render/WaterRenderer.h"
 
 #include <bgfx/bgfx.h>
@@ -50,13 +51,14 @@ public:
     };
 
     // Takes ownership of all programs, including on initialization failure: blended and single-material
-    // (SINGLE_MATERIAL), each without and with mesh sun shadows. renderedWater: the water renderer draws the terrain
-    // water, so a map with a shore gets a seabed and depth-faded water planes.
+    // (SINGLE_MATERIAL), each without and with mesh sun shadows, and the optional depth pre-pass (TERRAIN_DEPTH_ONLY;
+    // invalid: none). renderedWater: the water renderer draws the terrain water, so a map with a shore gets a seabed
+    // and depth-faded water planes.
     bool initialize(const Engine::AssetFileSystem &assets, const OutdoorMapData &map,
         const OutdoorTerrainMaterialConfig &config, const std::array<OutdoorTerrainTile, 256> &tiles,
         uint32_t subdivision, const OutdoorLightingData *pBakedLighting, bool renderedWater,
         bgfx::ProgramHandle program, bgfx::ProgramHandle shadowProgram, bgfx::ProgramHandle singleProgram,
-        bgfx::ProgramHandle singleShadowProgram, std::string &error);
+        bgfx::ProgramHandle singleShadowProgram, bgfx::ProgramHandle depthProgram, std::string &error);
     void shutdown(bool destroyResources = true);
     bool ready() const
     {
@@ -107,27 +109,33 @@ public:
         }
         return sunShadows ? m_shadowProgram : m_program;
     }
+    bgfx::ProgramHandle depthProgram() const
+    {
+        return m_depthProgram;
+    }
     // Binds stages 8-15 and the material uniforms, and with a seabed the caustics at stage 0. directSun: the bake's
     // direct-only sun page is bound at stage 5. foliage (stage 1): the grass decorations' colour with its
     // u_terrainFoliage values (TerrainDecorationRenderer::foliageMap/foliageParams); invalid when no grass is drawn.
     // specularStrength: the restrained sun and point-light highlight on smooth and wet ground (0: none).
     void bind(const OutdoorLightingData *pBakedLighting, bool directSun, bool antiTiling,
         bgfx::TextureHandle foliage, const std::array<float, 8> &foliageParams, float specularStrength) const;
+    // Binds what the depth pre-pass reads to leave out the cut pixels: the cells and the shore with its uniform (the
+    // liquid edge coverage at stage 4 is the water renderer's).
+    void bindDepth() const;
 
 private:
     // The material layers and images, read and decoded on the load workers before any GPU resource is created.
     struct SourceImages;
-    static SourceImages loadSourceImages(const Engine::AssetFileSystem &assets, const OutdoorMapData &map,
+    static SourceImages loadSourceImages(const Engine::AssetFileSystem &assets,
         const OutdoorTerrainMaterialConfig &config, bool renderedWater);
     bool createMesh(const OutdoorMapData &map, const std::array<OutdoorTerrainTile, 256> &tiles,
         const OutdoorTerrainMaterialConfig &config, uint32_t subdivision,
         const std::optional<OutdoorTerrainMaterialShore> &shore);
     bool createShore(const SourceImages &images, const OutdoorTerrainMaterialConfig &config, bool renderedWater,
         std::string &error);
+    float shoreDistance(float x, float y) const;
     bool createCellTextures(const OutdoorMapData &map, const std::array<OutdoorTerrainTile, 256> &tiles);
     bool createBakedNormals(const OutdoorMapData &map, const OutdoorLightingData *pBakedLighting);
-    bool createMaterialArrays(const SourceImages &images, std::string &error);
-    bool createWeights(const SourceImages &images, const OutdoorTerrainMaterialConfig &config, std::string &error);
 
     std::vector<Chunk> m_chunks;
     Stats m_stats;
@@ -136,14 +144,11 @@ private:
     std::vector<float> m_renderedHeights;
     int m_renderedSide = 0;
     float m_renderedSpacing = 0.0f;
-    bgfx::TextureHandle m_albedoHeight = BGFX_INVALID_HANDLE;
-    bgfx::TextureHandle m_normalAoRough = BGFX_INVALID_HANDLE;
-    // Ground layer weights: array layer 0 holds layers 0-3, array layer 1 layers 4-7.
-    bgfx::TextureHandle m_weights = BGFX_INVALID_HANDLE;
+    // The library layers, their weights and the macro noise with the layer uniforms.
+    TerrainMaterialSet m_materials;
     bgfx::TextureHandle m_cells = BGFX_INVALID_HANDLE;
     // Native triangle normals at the terrain lightmap texels (1x1 up without a bake).
     bgfx::TextureHandle m_bakedNormals = BGFX_INVALID_HANDLE;
-    bgfx::TextureHandle m_macro = BGFX_INVALID_HANDLE;
     // Waterline distance (R8, as stored) for the wet beach and caustics; 1x1 "far inland" without a shore.
     bgfx::TextureHandle m_shore = BGFX_INVALID_HANDLE;
     // Two tileable caustic webs (main and faint finer one) as array layers, with a seabed only.
@@ -153,20 +158,12 @@ private:
     std::array<float, 4> m_seabedMapping = {};
     float m_opaqueWaterDepth = 0.0f;
     std::vector<WaterSurfaceGeometry> m_waterGeometry;
-    // While the mesh is built: per weight texel, a bit for every ground layer with weight there.
-    std::vector<uint8_t> m_weightLayers;
-    int m_weightSize = 0;
-    std::array<bgfx::UniformHandle, 7> m_samplers = {{BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE,
-        BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE}};
-    bgfx::UniformHandle m_layerParams = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle m_layerTints = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle m_layerCliffTints = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle m_layerMacro = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle m_layerVariants = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle m_control = BGFX_INVALID_HANDLE;
+    // Decoded waterline distance in world units while the mesh is built.
+    std::vector<float> m_shoreDistance;
+    int m_shoreSize = 0;
+    // Cells, baked normals and shore.
+    std::array<bgfx::UniformHandle, 3> m_samplers = {{BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE}};
     bgfx::UniformHandle m_light = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle m_misc = BGFX_INVALID_HANDLE;
-    bgfx::UniformHandle m_meadow = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_shoreUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_foliageSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_foliageUniform = BGFX_INVALID_HANDLE;
@@ -176,14 +173,7 @@ private:
     bgfx::ProgramHandle m_shadowProgram = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_singleProgram = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_singleShadowProgram = BGFX_INVALID_HANDLE;
-    std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerParamValues = {};
-    std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerTintValues = {};
-    std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerCliffValues = {};
-    std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerMacroValues = {};
-    std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerVariantValues = {};
-    std::array<float, 4> m_controlValues = {};
-    std::array<float, 4> m_miscValues = {};
-    std::array<std::array<float, 4>, 2> m_meadowValues = {};
+    bgfx::ProgramHandle m_depthProgram = BGFX_INVALID_HANDLE;
     std::array<float, 4> m_shoreValues = {};
 };
 } // namespace OpenYAMM::Game

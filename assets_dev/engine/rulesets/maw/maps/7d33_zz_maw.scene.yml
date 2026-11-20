@@ -1,0 +1,12 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §2.3): the Castle Gryphonheart guards no longer carry a Graceful Sword each, which
+# made them a sword farm.
+format_version: 1
+kind: indoor_scene_overlay
+initial_state:
+  actor_overrides:
+    - {actor_index: 0, carried_item_id: 0}
+    - {actor_index: 1, carried_item_id: 0}
+    - {actor_index: 2, carried_item_id: 0}
+    - {actor_index: 3, carried_item_id: 0}
+    - {actor_index: 4, carried_item_id: 0}
+    - {actor_index: 5, carried_item_id: 0}

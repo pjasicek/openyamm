@@ -1,0 +1,504 @@
+{
+ "id": "20261009-1628-mm6-6d17-07",
+ "world": "mm6",
+ "maps": [
+  "6d17.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/d7wl3ctr",
+  "mm6/d7wl3ctr2",
+  "mm6/tewls",
+  "mm6/teunq2",
+  "mm6/tews",
+  "mm6/tewrs",
+  "mm6/d6dorb",
+  "mm6/paladn01",
+  "mm6/tdortrm2",
+  "mm6/bemv32a",
+  "mm6/deskback",
+  "mm6/bdksv32c",
+  "mm6/bemsh32c",
+  "mm6/cbfbm16",
+  "mm6/cblrg",
+  "mm6/cbsm",
+  "mm6/cedvwal1",
+  "mm6/cr1ptrn",
+  "mm6/d6florb",
+  "mm6/d6roofa",
+  "mm6/d7dor2",
+  "mm6/d7flor1",
+  "mm6/d7flor2",
+  "mm6/d7flor3"
+ ],
+ "requests": {
+  "mm6/d7wl3ctr": {
+   "name": "d7wl3ctr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered tan-orange stucco wall with pitted stains, a band of carved tan stone relief blocks with Mayan-style glyph faces along the top",
+   "notes": {
+    "2": "Natural weathered plaster with irregular stains: no mosaic of small polygonal cells, no grid. Keep the carved glyph frieze at the top as in the reference.",
+    "3": "No dark outline or shadow along any outer edge: the bottom rows of plaster keep the same brightness as the interior. Natural weathered plaster, no mosaic of cells; keep the carved glyph frieze at the top as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm6/d7wl3ctr2": {
+   "name": "d7wl3ctr2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered tan-orange stucco wall with pitted stains and faint cracks",
+   "notes": {
+    "2": "Natural stucco with irregular pitting and soft stains: no mosaic of small cells or rounded grains, no grid, no dither.",
+    "3": "Warm orange sandstone like the reference colour, with scattered small dark pits and fine cracks; natural irregular grain, no mosaic of soft cells or blotchy patches, no pale pink cast."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.5,
+    "3": 2.5
+   }
+  },
+  "mm6/tewls": {
+   "name": "tewls",
+   "versions": [
+    1
+   ],
+   "material": "black-grey rounded cobblestone wall with dark mortar gaps, with a dark recessed vertical channel near the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tewm"
+     ],
+     "fraction": 0.536
+    }
+   }
+  },
+  "mm6/teunq2": {
+   "name": "teunq2",
+   "versions": [
+    1
+   ],
+   "material": "black-grey rounded cobblestone wall with dark mortar gaps, a tall grey stone crystal-shaped tablet with glowing red runes set in a dark red-rimmed niche in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tews": {
+   "name": "tews",
+   "versions": [
+    1
+   ],
+   "material": "black-grey rounded cobblestone wall with dark mortar gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/teunq2"
+     ],
+     "fraction": 0.502
+    }
+   }
+  },
+  "mm6/tewrs": {
+   "name": "tewrs",
+   "versions": [
+    1
+   ],
+   "material": "black-grey rounded cobblestone wall with dark mortar gaps, with a dark recessed vertical channel near the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tewm"
+     ],
+     "fraction": 0.336
+    }
+   }
+  },
+  "mm6/d6dorb": {
+   "name": "d6dorb",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green vertical wooden planks with worm-eaten pitting, dark cracks and moss stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/paladn01": {
+   "name": "paladn01",
+   "versions": [
+    1
+   ],
+   "material": "bronze-armoured paladin figure with a closed helm, muscled cuirass and spread gauntlets, standing against weathered grey-green wooden planks; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6dorb"
+     ],
+     "fraction": 0.625
+    }
+   }
+  },
+  "mm6/tdortrm2": {
+   "name": "tdortrm2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain dark red-brown wooden door trim strip with small segment joints",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tdoorb",
+      "mm6/tdoorc"
+     ],
+     "fraction": 0.821
+    },
+    "2": {
+     "sources": [
+      "mm6/tdoorb",
+      "mm6/tdoorc"
+     ],
+     "fraction": 0.821
+    }
+   }
+  },
+  "mm6/bemv32a": {
+   "name": "bemv32a",
+   "versions": [
+    1
+   ],
+   "material": "plain reddish-brown polished wood grain vertical strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemsv32c",
+      "mm6/beemdorc"
+     ],
+     "fraction": 0.597
+    }
+   }
+  },
+  "mm6/deskback": {
+   "name": "deskback",
+   "versions": [
+    1
+   ],
+   "material": "polished reddish-brown wooden desk back panel with two gold rampant lion heraldic emblems facing each other; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/deskside"
+     ],
+     "fraction": 0.42
+    }
+   }
+  },
+  "mm6/bdksv32c": {
+   "name": "bdksv32c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain reddish-brown polished wood grain vertical strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemdk4"
+     ],
+     "fraction": 0.908
+    },
+    "2": {
+     "sources": [
+      "mm6/bemdk4"
+     ],
+     "fraction": 0.908
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/bemsh32c": {
+   "name": "bemsh32c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain reddish-brown polished wood grain horizontal strip",
+   "notes": {
+    "2": "Plain wood strip only: no panels, insets, outlines or blocks."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/beemdorc"
+     ],
+     "fraction": 0.233
+    },
+    "2": {
+     "sources": [
+      "mm6/beemdorc"
+     ],
+     "fraction": 0.233
+    }
+   }
+  },
+  "mm6/cbfbm16": {
+   "name": "cbfbm16",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain reddish-brown polished wood grain horizontal strip",
+   "notes": {
+    "2": "Seamless left-right wrap: even wood tone across the strip, no darker band at either end."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cblrg": {
+   "name": "cblrg",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "large brown wooden plank crate side with a plank frame and a diagonal X brace, worn edges",
+   "notes": {
+    "3": "Keep the rightmost frame board an even mid-brown right to the edge; no dark shadow or line along the right border.",
+    "4": "The right stile's wood grain runs to the very edge; no dark groove and no pale sliver in the outermost part of the right border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/cbsm": {
+   "name": "cbsm",
+   "versions": [
+    1
+   ],
+   "material": "small weathered grey-brown wooden plank crate side with a plank frame and a diagonal X brace, worn edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cedvwal1": {
+   "name": "cedvwal1",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown polished cedar wood vertical plank wall with dark seams and knots",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cr1ptrn": {
+   "name": "cr1ptrn",
+   "versions": [
+    1
+   ],
+   "material": "orange and dark brown woven carpet strip with a symmetric ornate dragon-and-scroll pattern; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6florb": {
+   "name": "d6florb",
+   "versions": [
+    1
+   ],
+   "material": "dark green-grey mossy damp stone floor with rough mottled texture",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6roofa": {
+   "name": "d6roofa",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough earthen ceiling crossed by weathered teal-green wooden beams forming a cross, with iron bolts at the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7dor2": {
+   "name": "d7dor2",
+   "versions": [
+    1
+   ],
+   "material": "weathered golden-brown wooden double door studded with dark iron rivets, a carved demon-face plaque near the top of each leaf, iron ring handles; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7flor1": {
+   "name": "d7flor1",
+   "versions": [
+    1
+   ],
+   "material": "terracotta orange-red brick paver floor in a staggered pattern with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7flor2": {
+   "name": "d7flor2",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown square stone flagstone floor with dark joints, a black serpent dragon glyph inlaid in the lower left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7flor3": {
+   "name": "d7flor3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brownish-grey irregular flat fieldstone floor with dark mortar between rounded slabs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d7flor4",
+     "left": "mm6/d7flor4"
+    }
+   }
+  }
+ }
+}

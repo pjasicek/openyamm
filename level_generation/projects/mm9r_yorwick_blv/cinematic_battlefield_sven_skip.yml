@@ -1,0 +1,16 @@
+# Sven's battlefield speech skipped at 2 s: its remaining steps (:Award's key 97, :FadeOut2's ambient sounds and the
+# tableau hidden) still run, and saving works again. See README "Cinematics".
+id: mm9r.yorwick_blv.cinematic_battlefield_sven_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: yorwick.blv}
+- setup_shortcut: {kind: set_qbit, id: 90095}
+- execute_event: {id: 1}
+- advance_runtime: {seconds: 2.0}
+- console: {line: cinematic list, expect_contains: playing battlefield_sven}
+- assert: {qbit_clear: [90097]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- assert: {qbit_set: [90097]}
+- save_game: {name: after_skip}

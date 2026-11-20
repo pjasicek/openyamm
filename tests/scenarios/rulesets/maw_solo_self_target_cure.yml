@@ -1,0 +1,23 @@
+id: rulesets.maw_solo_self_target_cure
+title: "Ruleset - solo run: a heal or cure that wants a character goes to the hero without a target pick"
+world: mm8
+mode: faithful
+tags: [rulesets, maw, spells]
+steps:
+  - note:
+      text: >-
+        A solo run has one character, so GameplaySpellService::resolveSpellRequest casts a spell that needs a
+        character target on the caster instead of arming the target pick. Read through the spell service like the
+        spellbook, a Cure Weakness scroll cures the weak hero at once.
+  - new_game_flow:
+      start_map: out02.odm
+      member_count: 1
+      ruleset: "maw:solo"
+  - setup_shortcut: {kind: set_condition, member_index: 0, condition: weak}
+  - assert:
+      condition: {name: weak, present: true, member_index: 0}
+  - setup_shortcut: {kind: grant_item, item_id: 366}
+  - use_item: {item_id: 366, member_index: 0, expect: applied}
+  - assert:
+      condition: {name: weak, present: false, member_index: 0}
+      inventory_any_member: [{item_id: 366, count: 0}]

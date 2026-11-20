@@ -1,0 +1,2397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "plan.yml: the design plan of a map (the brief at levels L0 to L3), schema v0",
+  "description": "What a level designer hands over: places, how they connect, what the player does there. No coordinates finer than the plan grid, no faces, no textures per face. The same file is the brief of a calibration build and the plan of a new map.",
+  "type": "object",
+  "required": [
+    "format"
+  ],
+  "properties": {
+    "format": {
+      "const": 0
+    },
+    "level": {
+      "description": "How much the plan specifies: L0 pitch, L1 plan, L2 specification, L3 sketch.",
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "pitch": {
+      "description": "L0. One paragraph: what the place is, who lives there, how it is played, its mood.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "Why the party comes and what the map is for in its world.",
+      "type": "string"
+    },
+    "mood": {
+      "type": "string"
+    },
+    "datum": {
+      "description": "What heights are measured from: `arrival` (the default), `sea_level`, or a space id.",
+      "type": "string"
+    },
+    "spaces": {
+      "description": "Indoor: the rooms, corridors and other spaces. Outdoor: zones and districts. One list, so links, paths and points of interest refer to either.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "$ref": "#/$defs/space"
+      },
+      "x-key": "id"
+    },
+    "regions": {
+      "description": "Groups of spaces: wings, quarters, a cave system beside a temple.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "spaces"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "plan_region"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "spaces": {
+            "description": "The spaces of the group.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "where": {
+            "type": "string"
+          },
+          "footprint_cells": {
+            "$ref": "common.schema.json#/$defs/range",
+            "x-unit": "count"
+          },
+          "theme": {
+            "type": "string"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "links": {
+      "description": "How spaces connect: the room graph or the road graph.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "$ref": "#/$defs/link"
+      },
+      "x-key": "id"
+    },
+    "loops": {
+      "description": "Rings in the graph the player can run, and what opens them.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "spaces"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "loop"
+            ]
+          },
+          "spaces": {
+            "description": "The ring, in order.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "closed_until": {
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "teleport_sets": {
+      "description": "Teleporters that land in one of several places.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "teleport_set"
+            ]
+          },
+          "sources": {
+            "description": "The links, points of interest or spaces that send the party.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "link",
+                "poi",
+                "space"
+              ]
+            }
+          },
+          "landings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-flow": true,
+              "required": [
+                "space"
+              ],
+              "properties": {
+                "space": {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "space"
+                  ]
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "x-unit": "count"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "rule": {
+            "description": "How the landing is chosen (random, never the source's own).",
+            "type": "string"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "lock_groups": {
+      "description": "Locks shared by several links (two doors, one pair of keys spent when the second opens).",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "links"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "lock_group"
+            ]
+          },
+          "links": {
+            "description": "The links that share the lock.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "link"
+              ]
+            }
+          },
+          "condition": {
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "consume": {
+            "description": "When the key is spent.",
+            "enum": [
+              "never",
+              "first_opened",
+              "each_opened",
+              "last_opened"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "entrances": {
+      "description": "Where the party arrives and leaves.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "space"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "entrance"
+            ],
+            "x-kinds": "all"
+          },
+          "space": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space"
+            ],
+            "x-kinds": "all"
+          },
+          "kind": {
+            "enum": [
+              "arrival",
+              "exit",
+              "both"
+            ],
+            "x-kinds": "all"
+          },
+          "neighbour": {
+            "description": "The project.yml neighbour this leads to.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "neighbour"
+            ],
+            "x-kinds": "all"
+          },
+          "neighbours": {
+            "description": "When several routes share the place (one pier for four ships).",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "neighbour"
+              ]
+            },
+            "x-kinds": "all"
+          },
+          "facing": {
+            "description": "Compass direction the arriving party faces.",
+            "enum": [
+              "n",
+              "ne",
+              "e",
+              "se",
+              "s",
+              "sw",
+              "w",
+              "nw"
+            ],
+            "x-kinds": [
+              "arrival",
+              "both"
+            ]
+          },
+          "how": {
+            "description": "How it is reached or what it looks like (a mouth at the top of a ramp, a trapdoor).",
+            "type": "string",
+            "x-kinds": "all"
+          },
+          "offset_from": {
+            "description": "Where it lies against another entrance.",
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "entrance"
+            ],
+            "properties": {
+              "entrance": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "entrance"
+                ]
+              },
+              "direction": {
+                "enum": [
+                  "n",
+                  "ne",
+                  "e",
+                  "se",
+                  "s",
+                  "sw",
+                  "w",
+                  "nw",
+                  "behind",
+                  "ahead",
+                  "left",
+                  "right"
+                ]
+              },
+              "rise": {
+                "type": "number",
+                "x-unit": "map"
+              }
+            },
+            "additionalProperties": false,
+            "x-kinds": "all"
+          },
+          "reached_by": {
+            "$ref": "common.schema.json#/$defs/reached_by",
+            "x-kinds": "all"
+          },
+          "condition": {
+            "$ref": "common.schema.json#/$defs/condition",
+            "x-kinds": "all"
+          },
+          "variants": {
+            "description": "What it does instead while a condition holds (a door that is a quest giver, then a dungeon, then a house). The first variant whose condition holds applies.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "condition"
+              ],
+              "properties": {
+                "condition": {
+                  "$ref": "common.schema.json#/$defs/condition"
+                },
+                "behaviour": {
+                  "type": "string"
+                },
+                "target": {
+                  "description": "A neighbour, entrance or space id this leads to in that case.",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "neighbour",
+                    "entrance",
+                    "space"
+                  ]
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-kinds": "all"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes",
+            "x-kinds": "all"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": {
+          "property": "kind",
+          "default": "both"
+        },
+        "x-groups": [
+          [
+            "Entrance",
+            [
+              "id",
+              "kind",
+              "space",
+              "how",
+              "notes"
+            ]
+          ],
+          [
+            "Leads to",
+            [
+              "neighbour",
+              "neighbours",
+              "facing",
+              "offset_from"
+            ]
+          ],
+          [
+            "Access",
+            [
+              "reached_by",
+              "condition",
+              "variants"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "critical_path": {
+      "description": "The spaces the party passes from arrival to the map's goal, in order.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/id",
+        "x-id-kinds": [
+          "space"
+        ]
+      }
+    },
+    "return_path": {
+      "description": "The way back out, when it differs from the way in.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/id",
+        "x-id-kinds": [
+          "space"
+        ]
+      }
+    },
+    "goals": {
+      "description": "What completing the map means: things reached, taken, killed or set.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "goal"
+            ]
+          },
+          "space": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "reach",
+              "take",
+              "kill",
+              "use",
+              "set"
+            ]
+          },
+          "what": {
+            "type": "string"
+          },
+          "story": {
+            "description": "Step of the world's story.yml this goal is.",
+            "type": "string"
+          },
+          "handed_in_at": {
+            "description": "Where the result is handed in: a neighbour id or a map.",
+            "type": "string"
+          },
+          "gives": {
+            "description": "What completing it sets: one condition or a list of them.",
+            "anyOf": [
+              {
+                "$ref": "common.schema.json#/$defs/condition"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "common.schema.json#/$defs/condition"
+                }
+              }
+            ],
+            "x-labels": [
+              "one",
+              "a list"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "keys": {
+      "description": "What opens the map's locks and where each comes from. A lock itself is the `condition` of a link.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "key"
+            ]
+          },
+          "grants": {
+            "description": "What holding the key means.",
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "found_in": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space",
+              "container",
+              "poi"
+            ]
+          },
+          "how": {
+            "description": "chest, floor, actor drop, lever, given by an NPC, another map.",
+            "type": "string"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "containers": {
+      "description": "Inventories several treasure entries share.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "container"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "tier": {
+            "type": [
+              "integer",
+              "array"
+            ],
+            "items": {
+              "type": "integer"
+            },
+            "x-unit": "none",
+            "x-geom": false,
+            "x-labels": [
+              "level",
+              "[low, high]"
+            ]
+          },
+          "items": {
+            "type": [
+              "integer",
+              "array"
+            ],
+            "items": {
+              "type": "integer"
+            },
+            "x-unit": "count",
+            "x-geom": false,
+            "x-labels": [
+              "number",
+              "[low, high]"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "points_of_interest": {
+      "description": "Things with behaviour: wells, fountains, shrines, altars, obelisks, teachers, readable statues, clickable spots.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "poi"
+            ]
+          },
+          "space": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space"
+            ]
+          },
+          "spaces": {
+            "description": "When the same thing stands in several spaces.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "count"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "behaviour": {
+            "description": "What it does when used, as a rule.",
+            "type": "string"
+          },
+          "rule": {
+            "description": "A rule the engine already has, as native:<name> (native:obelisk, native:stat_challenge).",
+            "type": "string",
+            "pattern": "^native:[a-z0-9_]+$"
+          },
+          "uses": {
+            "description": "How often it works.",
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "times": {
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "count"
+              },
+              "per": {
+                "enum": [
+                  "party",
+                  "character"
+                ]
+              },
+              "reset": {
+                "enum": [
+                  "never",
+                  "daily",
+                  "weekly",
+                  "monthly",
+                  "yearly",
+                  "refill"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "gives": {
+            "description": "What using it sets or gives.",
+            "anyOf": [
+              {
+                "$ref": "common.schema.json#/$defs/condition"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "common.schema.json#/$defs/condition"
+                }
+              }
+            ],
+            "x-labels": [
+              "one",
+              "a list"
+            ]
+          },
+          "after_use": {
+            "description": "What changes to the eye once used (a tree goes bare).",
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "shows": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "hides": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "neighbour": {
+            "$ref": "common.schema.json#/$defs/id",
+            "description": "A point of interest that leads to another map.",
+            "x-id-kinds": [
+              "neighbour"
+            ]
+          },
+          "also": {
+            "description": "Other entries (an entrance, a landmark) that are this same object.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "entrance",
+                "landmark"
+              ]
+            }
+          },
+          "condition": {
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "variants": {
+            "description": "What it does instead while a condition holds (a door that is a quest giver, then a dungeon, then a house). The first variant whose condition holds applies.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "condition"
+              ],
+              "properties": {
+                "condition": {
+                  "$ref": "common.schema.json#/$defs/condition"
+                },
+                "behaviour": {
+                  "type": "string"
+                },
+                "target": {
+                  "description": "A neighbour, entrance or space id this leads to in that case.",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "neighbour",
+                    "entrance",
+                    "space"
+                  ]
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "reached_by": {
+            "description": "How the place is reached.",
+            "enum": [
+              "road",
+              "off_road",
+              "water",
+              "flight",
+              "jump",
+              "secret"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Point of interest",
+            [
+              "id",
+              "kind",
+              "space",
+              "spaces",
+              "count",
+              "also",
+              "notes"
+            ]
+          ],
+          [
+            "Behaviour",
+            [
+              "behaviour",
+              "rule",
+              "uses",
+              "gives",
+              "after_use",
+              "neighbour"
+            ]
+          ],
+          [
+            "Access",
+            [
+              "reached_by",
+              "condition",
+              "variants"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "landmarks": {
+      "description": "What the player steers by and what should be seen from where.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "landmark"
+            ]
+          },
+          "space": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space"
+            ]
+          },
+          "spaces": {
+            "description": "A landmark spanning several spaces.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "what": {
+            "type": "string"
+          },
+          "seen_from": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space",
+                "link"
+              ]
+            }
+          },
+          "hidden_from": {
+            "description": "Spaces it must not be seen from.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space",
+                "link"
+              ]
+            }
+          },
+          "screened_by": {
+            "description": "What hides it (hills, a wall).",
+            "type": "string"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "sightlines": {
+      "description": "What the player should see from where.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "from"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "sightline"
+            ]
+          },
+          "from": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space",
+              "link"
+            ]
+          },
+          "to": {
+            "description": "What should be seen.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "landmark",
+                "space"
+              ]
+            }
+          },
+          "what": {
+            "type": "string"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "set_pieces": {
+      "description": "Puzzles, traps and scripted moments as rules: inputs, states, solution. A set piece may span several spaces.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "set_piece"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "puzzle",
+              "trap",
+              "ambush",
+              "scripted",
+              "boss",
+              "vista"
+            ]
+          },
+          "spaces": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "path": {
+            "description": "For something that travels (a trap's lane): the spaces it crosses, in order.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "emitters": {
+            "description": "Where a trap fires from.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-flow": true,
+              "required": [
+                "space"
+              ],
+              "properties": {
+                "space": {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "space"
+                  ]
+                },
+                "end": {
+                  "description": "Which end or side of the space.",
+                  "type": "string"
+                },
+                "direction": {
+                  "enum": [
+                    "n",
+                    "ne",
+                    "e",
+                    "se",
+                    "s",
+                    "sw",
+                    "w",
+                    "nw",
+                    "up",
+                    "down"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "effect": {
+            "description": "What it casts or does.",
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "spell": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "x-unit": "index",
+                "x-labels": [
+                  "number",
+                  "name"
+                ]
+              },
+              "level": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "x-unit": "none",
+                "x-labels": [
+                  "number",
+                  "words"
+                ]
+              },
+              "damage": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "targets": {
+            "description": "What it acts on.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space",
+                "pop",
+                "link",
+                "entrance"
+              ]
+            }
+          },
+          "rule": {
+            "description": "What happens, in words.",
+            "type": "string"
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "solution": {
+            "type": "string"
+          },
+          "period": {
+            "description": "For timed things: game minutes between runs.",
+            "type": "number",
+            "x-unit": "minutes"
+          },
+          "enabled_by": {
+            "$ref": "common.schema.json#/$defs/condition",
+            "description": "Runs only once this holds."
+          },
+          "gives": {
+            "description": "What finishing it sets.",
+            "anyOf": [
+              {
+                "$ref": "common.schema.json#/$defs/condition"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "common.schema.json#/$defs/condition"
+                }
+              }
+            ],
+            "x-labels": [
+              "one",
+              "a list"
+            ]
+          },
+          "population": {
+            "$ref": "common.schema.json#/$defs/population"
+          },
+          "disabled_by": {
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": false,
+        "x-groups": [
+          [
+            "Set piece",
+            [
+              "id",
+              "kind",
+              "spaces",
+              "rule",
+              "notes"
+            ]
+          ],
+          [
+            "Trap",
+            [
+              "path",
+              "emitters",
+              "effect",
+              "targets",
+              "period"
+            ]
+          ],
+          [
+            "Puzzle",
+            [
+              "inputs",
+              "states",
+              "solution"
+            ]
+          ],
+          [
+            "When",
+            [
+              "enabled_by",
+              "disabled_by",
+              "gives"
+            ]
+          ],
+          [
+            "Who",
+            [
+              "population"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "mechanisms": {
+      "description": "L2. The inventory of moving and clickable things by kind.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "x-flow": true,
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "x-unit": "count"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "height_bands": {
+      "description": "The map's vertical layers, relative to the arrival.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "height_band"
+            ]
+          },
+          "range": {
+            "$ref": "common.schema.json#/$defs/range",
+            "description": "[low, high] against the plan's datum.",
+            "x-unit": "map"
+          },
+          "level": {
+            "description": "A single level instead of a range.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "spaces": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "partly": {
+            "description": "Spaces only partly in the band.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "space"
+              ]
+            }
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "states": {
+      "description": "Staged states: what the map shows or hides once a condition holds (a castle rebuilt, a town locked down, a wing sealed).",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "condition"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "state"
+            ]
+          },
+          "condition": {
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "lifted_by": {
+            "$ref": "common.schema.json#/$defs/condition",
+            "description": "Ends when this holds."
+          },
+          "shows": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hides": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "opens": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "link",
+                "entrance",
+                "space"
+              ]
+            }
+          },
+          "seals": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "link",
+                "entrance",
+                "space"
+              ]
+            }
+          },
+          "locks": {
+            "description": "Buildings or spaces whose services and doors stop working.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "building",
+                "space"
+              ]
+            }
+          },
+          "effects": {
+            "description": "Other consequences, in words.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "population": {
+            "$ref": "common.schema.json#/$defs/population"
+          },
+          "atmosphere": {
+            "type": "string"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "State",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "When",
+            [
+              "condition",
+              "lifted_by"
+            ]
+          ],
+          [
+            "Changes",
+            [
+              "shows",
+              "hides",
+              "opens",
+              "seals",
+              "locks",
+              "effects",
+              "population",
+              "atmosphere"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "npc_moves": {
+      "description": "People who change houses with the story.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "who"
+        ],
+        "properties": {
+          "who": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "condition": {
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "landform": {
+      "description": "Outdoor: the shape of the land in words and bands (relief, water, coast).",
+      "type": "object",
+      "properties": {
+        "relief": {
+          "type": "string"
+        },
+        "height_range": {
+          "$ref": "common.schema.json#/$defs/range",
+          "x-unit": "map"
+        },
+        "water": {
+          "type": "string"
+        },
+        "water_share": {
+          "description": "Share of the map that is water.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio"
+        },
+        "coast": {
+          "type": "string"
+        },
+        "caps": {
+          "description": "What tops the high ground (snow, bare rock).",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string"
+              },
+              "share": {
+                "type": "number",
+                "x-unit": "ratio"
+              },
+              "where": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "rim": {
+          "description": "The land at the map's edge.",
+          "type": "object",
+          "x-flow": true,
+          "properties": {
+            "width_share": {
+              "type": "number",
+              "x-unit": "ratio"
+            },
+            "broken_by": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "notes": {
+              "$ref": "common.schema.json#/$defs/notes"
+            }
+          },
+          "additionalProperties": false
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes"
+        }
+      },
+      "additionalProperties": false
+    },
+    "atmosphere": {
+      "description": "L2. Sky, light, weather, music and sound in words.",
+      "type": "string"
+    },
+    "diagram": {
+      "description": "L1: the not-to-scale bubble diagram, as a file beside the plan or as text.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sketch": {
+      "description": "L3. Where the to-scale sketch is: rooms.yml for indoor shells, or an image on the plan grid.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "grid": {
+          "type": "integer",
+          "x-unit": "map"
+        }
+      },
+      "additionalProperties": false
+    },
+    "totals": {
+      "description": "Whole-map targets the build is compared with. Use the names `oymap metrics` writes where one exists (sectors, links, loops, doors, floor_area_millions, spawn_points, fixed_actors, lights, decorations, chest_events, secret_faces, clickable_faces, exits, bmodels) and numbers as values; other keys are free.",
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "x-unit": "none",
+        "x-labels": [
+          "number",
+          "words"
+        ]
+      }
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/notes"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "space": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "space"
+          ],
+          "x-kinds": "all"
+        },
+        "name": {
+          "type": "string",
+          "x-kinds": "all"
+        },
+        "kind": {
+          "description": "room, corridor; void (no floor, such as a dome over a room); zone (an area inside another space that plays as its own); junction (a point: a road fork, a bridge head, a map-edge exit); outdoor: town, district, wild, water, road.",
+          "enum": [
+            "room",
+            "corridor",
+            "void",
+            "zone",
+            "junction",
+            "town",
+            "district",
+            "wild",
+            "water",
+            "road"
+          ],
+          "x-kinds": "all"
+        },
+        "part_of": {
+          "description": "For a zone or void: the space it lies in or over.",
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "space"
+          ],
+          "x-kinds": "all"
+        },
+        "mirror_of": {
+          "description": "Same shape as this space, mirrored; contents are its own.",
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "space"
+          ],
+          "x-kinds": [
+            "room",
+            "corridor",
+            "void",
+            "zone"
+          ]
+        },
+        "mirror_axis": {
+          "description": "The line the shape is flipped across: ns (flips east and west) or ew (flips north and south).",
+          "enum": [
+            "ns",
+            "ew"
+          ],
+          "x-kinds": [
+            "room",
+            "corridor",
+            "void",
+            "zone"
+          ]
+        },
+        "size": {
+          "$ref": "common.schema.json#/$defs/size_class",
+          "x-kinds": [
+            "room",
+            "corridor",
+            "void",
+            "zone"
+          ]
+        },
+        "area": {
+          "description": "Indoor floor area in million square units, when the size class is too coarse.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "x-unit": "none",
+          "x-kinds": [
+            "room",
+            "corridor",
+            "void",
+            "zone"
+          ]
+        },
+        "share": {
+          "description": "Outdoor: share of the map the zone covers (0 to 1).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio",
+          "x-kinds": [
+            "zone",
+            "junction",
+            "town",
+            "district",
+            "wild",
+            "water",
+            "road"
+          ]
+        },
+        "extent": {
+          "description": "Rough size in map units, [width, depth].",
+          "$ref": "common.schema.json#/$defs/range",
+          "x-unit": "map",
+          "x-geom": false,
+          "x-kinds": "all"
+        },
+        "shape": {
+          "description": "In words: octagon, L-shaped, winding slope, round basin.",
+          "type": "string",
+          "x-kinds": "all"
+        },
+        "where": {
+          "description": "Position in compass words or fractions of the map; never finer than the plan grid.",
+          "type": "string",
+          "x-kinds": "all"
+        },
+        "at": {
+          "description": "Where the space's bubble stands on the studio's plan, in map units (its middle): the Plan stage draws a space without a room there, as a dashed box of its `extent` (or its size class), with its links and goals; the Room tool drawn over it realises it. Not read by the build. Example: {id: space:crypt, kind: room, size: M, at: [3456, 320], extent: [768, 1024]}.",
+          "$ref": "common.schema.json#/$defs/point2",
+          "x-geom": {
+            "shape": "point",
+            "space": "map"
+          },
+          "x-kinds": "all"
+        },
+        "floor": {
+          "description": "Floor level against the plan's datum: a number, [low, high] for a sloping or uneven floor, or {level, range} when there is a typical level inside a range.",
+          "type": [
+            "number",
+            "array",
+            "object"
+          ],
+          "items": {
+            "type": "number"
+          },
+          "properties": {
+            "level": {
+              "type": "number",
+              "x-unit": "map"
+            },
+            "range": {
+              "$ref": "common.schema.json#/$defs/range",
+              "x-unit": "map"
+            }
+          },
+          "x-flow": true,
+          "x-unit": "map",
+          "x-labels": [
+            "level",
+            "[low, high]",
+            "{level, range}"
+          ],
+          "x-kinds": "all"
+        },
+        "clear_height": {
+          "description": "Floor to ceiling: a number or [low, high].",
+          "type": [
+            "number",
+            "array"
+          ],
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "x-unit": "map",
+          "x-geom": false,
+          "x-labels": [
+            "height",
+            "[low, high]"
+          ],
+          "x-kinds": [
+            "room",
+            "corridor",
+            "zone",
+            "junction"
+          ]
+        },
+        "top": {
+          "description": "For a void: its top above the floor of the space it lies over.",
+          "type": "number",
+          "x-unit": "map",
+          "x-kinds": [
+            "void"
+          ]
+        },
+        "relief": {
+          "description": "How the floor behaves inside the space.",
+          "enum": [
+            "flat",
+            "steps",
+            "slope",
+            "uneven",
+            "pit"
+          ],
+          "x-kinds": "all"
+        },
+        "islands": {
+          "description": "Pillars or blocks big enough to walk round (loops the graph does not show).",
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "count",
+          "x-kinds": [
+            "room",
+            "corridor",
+            "zone"
+          ]
+        },
+        "features": {
+          "description": "Shaped parts inside the space.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "description": "dais, alcove, colonnade, platform, wall_slot, balcony, pit, stair ...",
+                "type": "string"
+              },
+              "rise": {
+                "description": "Height above the space's floor.",
+                "type": "number",
+                "x-unit": "map"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "count"
+              },
+              "where": {
+                "type": "string"
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false
+          },
+          "x-kinds": "all"
+        },
+        "purpose": {
+          "type": "string",
+          "x-kinds": "all"
+        },
+        "empty": {
+          "description": "Deliberately without population (not merely unspecified).",
+          "type": "boolean",
+          "x-kinds": "all"
+        },
+        "safe": {
+          "description": "No fights here: always (true) or while a condition holds.",
+          "type": [
+            "boolean",
+            "object"
+          ],
+          "x-labels": [
+            "always or never",
+            "while a condition holds"
+          ],
+          "x-kinds": "all"
+        },
+        "keep_clear": {
+          "description": "What the build must not put here.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "spawns",
+              "buildings",
+              "decorations"
+            ]
+          },
+          "x-kinds": "all"
+        },
+        "backdrop": {
+          "description": "Seen but not walked: beyond the playable area.",
+          "type": "boolean",
+          "x-kinds": "all"
+        },
+        "signpost": {
+          "description": "For a junction.",
+          "type": "boolean",
+          "x-kinds": [
+            "junction"
+          ]
+        },
+        "theme": {
+          "description": "L2. A theme or kit from the shared library.",
+          "type": "string",
+          "x-kinds": "all"
+        },
+        "light": {
+          "description": "L2. unlit, dim, torchlit, bright; or lights per area.",
+          "type": [
+            "string",
+            "number"
+          ],
+          "x-unit": "none",
+          "x-labels": [
+            "words",
+            "lights per area"
+          ],
+          "x-kinds": "all"
+        },
+        "fires": {
+          "description": "L1: lights that are part of the plan (camp fires, a beacon, braziers): a count.",
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "count",
+          "x-kinds": "all"
+        },
+        "density": {
+          "description": "Outdoor: how closely buildings or decorations stand.",
+          "enum": [
+            "open",
+            "sparse",
+            "medium",
+            "dense"
+          ],
+          "x-kinds": [
+            "zone",
+            "town",
+            "district",
+            "wild"
+          ]
+        },
+        "coverage": {
+          "description": "Share of the zone under buildings (0 to 1).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio",
+          "x-kinds": [
+            "zone",
+            "town",
+            "district",
+            "wild"
+          ]
+        },
+        "building_gap": {
+          "description": "Typical gap between neighbouring buildings, map units.",
+          "type": "number",
+          "x-unit": "map",
+          "x-kinds": [
+            "zone",
+            "town",
+            "district",
+            "wild"
+          ]
+        },
+        "buildings": {
+          "description": "Outdoor: buildings by type, tier and service. At L1 give services by count; ids and doors come with L2.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "description": "Names a building so states can lock or change it.",
+                "x-id-kinds": [
+                  "building"
+                ]
+              },
+              "type": {
+                "type": "string"
+              },
+              "tier": {
+                "type": "string"
+              },
+              "service": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "count"
+              },
+              "doors": {
+                "description": "Entrances per building.",
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "count"
+              },
+              "joined": {
+                "description": "One block holding several services.",
+                "type": "boolean"
+              },
+              "footprint_cells": {
+                "description": "Outdoor, L3: the ground the building covers in terrain cells, [front, depth]: front is the width of the side with the main door. Half cells allowed. A sketch.yml plot places it by its north-west corner and turns it by `facing`. For a `count` group whose members differ, a list of one [front, depth] per member in `index` order.",
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    },
+                    "minItems": 1
+                  }
+                ],
+                "x-unit": "cell",
+                "x-geom": {
+                  "shape": "size",
+                  "space": "cell"
+                },
+                "x-variant": [
+                  {
+                    "label": "one building",
+                    "when": {
+                      "items": "number"
+                    }
+                  },
+                  {
+                    "label": "one size for each building",
+                    "when": {
+                      "items": "array"
+                    }
+                  }
+                ]
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false
+          },
+          "x-kinds": [
+            "zone",
+            "town",
+            "district",
+            "wild"
+          ]
+        },
+        "palette": {
+          "description": "L2. Decoration or prop families used here.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-kinds": "all"
+        },
+        "furniture": {
+          "description": "L2. What stands in the room, in words or kit names.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-kinds": [
+            "room",
+            "corridor",
+            "zone",
+            "void"
+          ]
+        },
+        "population": {
+          "$ref": "common.schema.json#/$defs/population",
+          "x-kinds": "all"
+        },
+        "treasure": {
+          "$ref": "common.schema.json#/$defs/treasure",
+          "x-kinds": "all"
+        },
+        "secret": {
+          "description": "The space is hidden until found.",
+          "type": "boolean",
+          "x-kinds": "all"
+        },
+        "reached_by": {
+          "$ref": "common.schema.json#/$defs/reached_by",
+          "x-kinds": "all"
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes",
+          "x-kinds": "all"
+        }
+      },
+      "additionalProperties": false,
+      "x-discriminator": {
+        "property": "kind",
+        "default": "room"
+      },
+      "x-groups": [
+        [
+          "Space",
+          [
+            "id",
+            "name",
+            "kind",
+            "part_of",
+            "purpose",
+            "notes"
+          ]
+        ],
+        [
+          "Shape",
+          [
+            "size",
+            "area",
+            "share",
+            "extent",
+            "shape",
+            "where",
+            "at",
+            "mirror_of",
+            "mirror_axis"
+          ]
+        ],
+        [
+          "Heights",
+          [
+            "floor",
+            "clear_height",
+            "top",
+            "relief"
+          ]
+        ],
+        [
+          "Inside",
+          [
+            "islands",
+            "features",
+            "furniture",
+            "palette",
+            "theme",
+            "light",
+            "fires"
+          ]
+        ],
+        [
+          "Town",
+          [
+            "density",
+            "coverage",
+            "building_gap",
+            "buildings",
+            "signpost"
+          ]
+        ],
+        [
+          "Play",
+          [
+            "population",
+            "treasure",
+            "empty",
+            "safe",
+            "keep_clear",
+            "secret",
+            "reached_by",
+            "backdrop"
+          ]
+        ]
+      ]
+    },
+    "link": {
+      "type": "object",
+      "required": [
+        "id",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "link"
+          ],
+          "x-kinds": "all"
+        },
+        "from": {
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "space",
+            "link"
+          ],
+          "x-kinds": "all"
+        },
+        "to": {
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "space",
+            "link"
+          ],
+          "x-kinds": "all"
+        },
+        "kind": {
+          "enum": [
+            "open",
+            "door",
+            "double_door",
+            "secret_door",
+            "portcullis",
+            "stairs",
+            "ramp",
+            "lift",
+            "drop",
+            "ladder",
+            "teleport",
+            "overlook",
+            "colonnade",
+            "road",
+            "path",
+            "bridge",
+            "water"
+          ],
+          "x-kinds": "all"
+        },
+        "motion": {
+          "description": "How a door or secret wall moves.",
+          "enum": [
+            "rise",
+            "sink",
+            "slide",
+            "swing"
+          ],
+          "x-kinds": [
+            "door",
+            "double_door",
+            "secret_door",
+            "portcullis"
+          ]
+        },
+        "condition": {
+          "description": "The lock: what must hold to pass.",
+          "$ref": "common.schema.json#/$defs/condition",
+          "x-kinds": "all"
+        },
+        "opened_by": {
+          "description": "What operates it when not a plain click: a lever, a pressure plate (id of a point of interest or set piece).",
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "poi",
+            "set_piece"
+          ],
+          "x-kinds": "all"
+        },
+        "one_way": {
+          "description": "Passable only from `from` to `to` (a drop, or a shortcut that opens from one side).",
+          "type": "boolean",
+          "x-kinds": "all"
+        },
+        "opens_from": {
+          "description": "For a shortcut: the side it must first be opened from.",
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "space"
+          ],
+          "x-kinds": "all"
+        },
+        "width": {
+          "description": "Map units, or `full` when a whole side is open.",
+          "type": [
+            "number",
+            "string"
+          ],
+          "x-unit": "map",
+          "x-labels": [
+            "width",
+            "full"
+          ],
+          "x-kinds": "all"
+        },
+        "rise": {
+          "description": "Height gained from `from` to `to`.",
+          "type": "number",
+          "x-unit": "map",
+          "x-kinds": "all"
+        },
+        "crosses": {
+          "description": "Spaces it passes over or through without joining (a river under a bridge).",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space"
+            ]
+          },
+          "x-kinds": "all"
+        },
+        "features": {
+          "description": "What stands along it: bridge, signposts, crates.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-kinds": "all"
+        },
+        "length_share": {
+          "description": "Roads: share of the map's road length.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio",
+          "x-kinds": [
+            "road",
+            "path"
+          ]
+        },
+        "to_any": {
+          "description": "A link that lands in one of several spaces.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "space"
+            ]
+          },
+          "x-kinds": "all"
+        },
+        "purpose": {
+          "type": "string",
+          "x-kinds": "all"
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes",
+          "x-kinds": "all"
+        }
+      },
+      "additionalProperties": false,
+      "x-discriminator": {
+        "property": "kind",
+        "default": "open"
+      },
+      "x-groups": [
+        [
+          "Link",
+          [
+            "id",
+            "from",
+            "to",
+            "to_any",
+            "kind",
+            "purpose",
+            "notes"
+          ]
+        ],
+        [
+          "Passage",
+          [
+            "width",
+            "rise",
+            "one_way",
+            "crosses",
+            "features",
+            "length_share"
+          ]
+        ],
+        [
+          "Door",
+          [
+            "motion",
+            "condition",
+            "opened_by",
+            "opens_from"
+          ]
+        ]
+      ]
+    }
+  },
+  "x-groups": [
+    [
+      "Plan",
+      [
+        "format",
+        "level",
+        "pitch",
+        "purpose",
+        "mood",
+        "datum",
+        "atmosphere",
+        "notes"
+      ]
+    ],
+    [
+      "Places",
+      [
+        "spaces",
+        "regions",
+        "height_bands",
+        "landform"
+      ]
+    ],
+    [
+      "Ways",
+      [
+        "links",
+        "loops",
+        "teleport_sets",
+        "lock_groups",
+        "entrances",
+        "critical_path",
+        "return_path"
+      ]
+    ],
+    [
+      "Play",
+      [
+        "goals",
+        "keys",
+        "containers",
+        "points_of_interest",
+        "set_pieces",
+        "mechanisms",
+        "states",
+        "npc_moves"
+      ]
+    ],
+    [
+      "Sight",
+      [
+        "landmarks",
+        "sightlines"
+      ]
+    ],
+    [
+      "Drawings and targets",
+      [
+        "diagram",
+        "sketch",
+        "totals"
+      ]
+    ]
+  ]
+}

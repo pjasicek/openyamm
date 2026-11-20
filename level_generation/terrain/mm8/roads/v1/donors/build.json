@@ -1,0 +1,35 @@
+{
+  "status": "candidate_donors_require_visual_review",
+  "tiles": [
+    {
+      "name": "drsrew",
+      "join": {
+        "boundary_p95": 1.2640955791536599,
+        "boundary_max": 1.3377251824123286,
+        "interior_p95": 1.2438484636738565,
+        "interior_p999": 1.4139556846192576,
+        "passed": true
+      },
+      "protected_fraction": 0.8021202087402344,
+      "input_sha256": "b8fa8f943486abaecad31e1342a8d0326de2ea0c47a41991a8c6813878b1a5ce",
+      "raw_sha256": "dde4abd6f80575639d487f0ca62cf8d6edac26c7788369446ba4fdbe93705386",
+      "authoring_sha256": "66463e1d2dbe01f4de0edded5a79221f5f3093ced6dbe74894a5136a4e5bf0bb",
+      "runtime_sha256": "726cdc45a1a269154304881c95def9722b9e1757788e3f4b51be62e33ddde321"
+    },
+    {
+      "name": "drsrns",
+      "join": {
+        "boundary_p95": 1.2387865834312997,
+        "boundary_max": 1.3191726251851432,
+        "interior_p95": 1.187853350317325,
+        "interior_p999": 1.3200570378693346,
+        "passed": true
+      },
+      "protected_fraction": 0.7949905395507812,
+      "input_sha256": "d132adf33687b1b0f2aa9bfd7b0dedd9521cd6613532759d199fe6d55e2dfa7d",
+      "raw_sha256": "828eeafbd2cde9f755c052f802ab2fba70ea53593f0bbe78b0e12444e9180f02",
+      "authoring_sha256": "7eef197f9e7d422a3ec780f8c30a4947dc3d8f5caf410329fd6727b422f53e92",
+      "runtime_sha256": "175b91630ce8eee5ef68bcb44489e8e17e4111f542e1212610e2e415f7afb05f"
+    }
+  ]
+}

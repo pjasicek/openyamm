@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Ultimate Boots (6boots5). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of oxblood dragonhide boots with molded amber horn reinforcement strips and bird-like cuff ornaments, steel rivets and silver square ankle buckles. Keep source icon colours; only the actual rivets/buckles are metal. Exact material boundaries: Dragonhide body, soles, straps and lining GREEN. Molded amber horn reinforcement strips/cuff ornaments YELLOW. Steel rivets and silver buckle frames RED; leather inside buckle openings GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6boots5/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "4ca78339041a5437aa323c05d23ffec533477878f35a29a07ea91fd97ee7b2c6",
+  "revision": 2,
+  "input_icon": "6boots5",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-b2d73a51-1d25-4d46-b594-e4bf519f4921.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "b61e442cced2977a889e7a41edb927630c4cb60119c4a9531b761b7d386bc2ff",
+  "input_icon_path": "assets_dev/engine/icons_x2/6boots5.png",
+  "input_icon_sha256": "b2b8e5e1400143b06da8954c93112c41874aeee4205fac2f202189ab29b5aa69",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

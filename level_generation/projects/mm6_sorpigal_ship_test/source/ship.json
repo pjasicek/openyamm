@@ -1,0 +1,17 @@
+{
+  "base_map": "assets_dev/worlds/mm6/maps/oute3.odm",
+  "base_sha256": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4",
+  "base_scene_sha256": "d9045c85837442b60c45a955e7d20c3a0143fc0a3a4649821c6736b8a1471b89",
+  "donor_map": "assets_dev/worlds/mm8/maps/out02.odm",
+  "donor_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+  "donor_models": [111, 112, 113, 114, 115],
+  "source_pivot": [8256, -14286, 0],
+  "rotation_degrees_z": -90,
+  "position": [2168, -9936, -104],
+  "door_faces": [[113, 42]],
+  "suppressed_coplanar_faces": [[111, 22], [111, 62], [114, 34], [114, 35], [114, 36]],
+  "retired_decoration": 477,
+  "event": 29,
+  "house": 496,
+  "service": "Odyssey"
+}

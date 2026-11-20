@@ -1,0 +1,16 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b
+# Preferred image base 0x400000. Static research labels, not original symbols.
+# See PARTY_DEFEAT_RESPAWN.md. Do not apply these addresses to patched mm8.exe.
+f+ mm8rel_party_defeat_destination @ 0x462baf
+f+ mm8rel_test_msb_first_bit @ 0x44836d
+f+ mm8rel_party_qbits @ 0xb2150f
+f+ mm8rel_party_position @ 0xb21454
+f+ mm8rel_current_map_name @ 0x6f389c
+CC "Party defeat tests QBit 93, set by Ravenshore OnLoadMap event 1 on first visit." @ 0x462baf
+CC "One-based bit test: subtract one, byte index divided by 8, mask 0x80 shifted by remainder." @ 0x44836d
+CC "QBit 93 clear selects Dagger Wound, regardless of current map." @ 0x462bc0
+CC "QBit 93 set selects Ravenshore: XYZ 8315,-15562,277 and yaw 0." @ 0x462bc2
+CC "Ravenshore destination filename out02.odm." @ 0x462be6
+CC "Dagger Wound: XYZ 3766,7649,545 and yaw 1248." @ 0x462bed
+CC "Dagger Wound destination filename out01.odm." @ 0x462c15
+CC "Compare already chosen destination with current map, only to decide whether a map load is needed." @ 0x462c53

@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit input 1 paint_mask_guide.png exactly, use input 2 design_reference.png for material/details, input 3 icon_x8.png for colours (magenta is background, never paint magenta). Produce ONE transparent PNG 1536x2048 (3:4). Preserve exact guide silhouettes, positions, sizes and outlines. Three columns, FOUR rows of 512px cells. Rows 1-2: FRONT,BACK,LEFT / RIGHT,TOP,empty. Rows 3-4 repeat identical views for material masks. Paint grey objects only, never redraw/enlarge/move/redesign.\nObject: Lump of Elemental Thjorad, source-faithful ore lump. Upper five views: unlit base colour of olive-grey rough stone ore, pale grey mineral facets and broad ochre gold mineral veins matching reference and original icon. Facets and surface details follow design reference scaled to views. No lighting, shadows, AO, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nBottom five silhouettes: MATERIAL MASK, FLAT PURE colours only, no shading, texture, outlines or antialiased internal colour blends. Pure yellow #FFFF00 for matte stone matrix and pale mineral rock; pure red #FF0000 for metallic gold ore veins, corresponding exactly to gold regions in upper views. General class rules: red every metal; green #00FF00 leather/fur; blue #0000FF cloth/hair; yellow matte nonmetal solids; black #000000 gemstones/crystal/glass/pearl/enamel/liquid through glass. No invented materials. Every silhouette pixel exactly one class colour. Nothing outside silhouettes. Preserve all guide gaps transparent. Row 2 col3 and row4 col3 empty transparent. Actual alpha background. Preserve guide layout exactly, including broad low side silhouettes and central top view.\nCRITICAL CORRECTION: previous attempt had scattered red/yellow pixels outside objects and distorted mask boundaries. Use the original grey guide as an exact alpha stencil for ALL ten silhouettes. Absolutely no pixels, speckles, fringe or paint beyond those guide silhouettes. Lower material masks must have EXACTLY the same outline as the original grey guides, with crisp flat red/yellow fills. Upper views must contain stone/gold paint only, no red mask colour. Keep exact layout and outlines, do not expand masks. All other pixels fully transparent.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad10-299e-78b1-9d30-61ac8e4b5bf5/exec-17c1dd04-810b-4c9c-a928-73e2ec8cf4a7.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10359/paint_mask_raw_v1.png",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10359/paint_mask_guide.png",
+      "sha256": "894ca0424572b9a03323dc9e092fec28a014038b778fcd0310c5c4d9bec0e062"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10359/design_reference.png",
+      "sha256": "96ec3acac1b4299ffbfb00faab78433d736905b26c4ac4f9c5924fe12a7cf119"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10359/icon_x8.png",
+      "sha256": "6ff472628109958f8e7aa21d5712ededec79c7382dae66d1a4140a6ac99c34d1"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout visually checked; residual stray mask pixels and imperfect silhouette edges remain after permitted correction. Raw tool output preserved unchanged."
+}

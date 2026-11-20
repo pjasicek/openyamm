@@ -1,0 +1,18 @@
+id: mm6.event_summon_inside_wall
+title: "Free Haven Sewer (6d10): an event summon whose spread point lies in a wall stands on the summon point"
+world: mm6
+mode: faithful
+tags: [mm6, content]
+steps:
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d10.blv}
+  - set_pose: {map: 6d10.blv, x: -1184, y: 10348, z: -256, yaw_degrees: 90}
+  # "Caught!" arms the rats; "Rats!" summons two at (-1216, 10992, -256). The second one's spread point,
+  # 120 units west, is inside the wall: it used to keep no sector, never drawn or woken, yet hostile.
+  - execute_event: {id: 40}
+  - execute_event: {id: 41}
+  - assert:
+      actor_visible: {actor_index: last, near: {x: -1216, y: 10992, max_distance: 48}, report_state: true}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      actor_visible: {actor_index: last, has_detected_party: true, report_state: true}

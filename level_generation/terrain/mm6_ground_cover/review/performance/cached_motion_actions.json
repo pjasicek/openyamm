@@ -1,0 +1,26 @@
+[
+  {
+    "screenshot": "still"
+  },
+  {
+    "hold": {
+      "key": "w",
+      "seconds": 1.5
+    }
+  },
+  {
+    "screenshot": "moved"
+  },
+  {
+    "hold": {
+      "key": "Right",
+      "seconds": 0.5
+    }
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "screenshot": "turned"
+  }
+]

@@ -14,5 +14,7 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
 std::string graphicsQualityPreset(const GameSettings &settings);
 bool applyGraphicsQualityPreset(GameSettings &settings, std::string_view preset);
 bool sameMenuBinding(const InputBinding &left, const InputBinding &right);
-bool reservedMenuBinding(const InputBinding &binding);
+// Escape, F9, F10, the console key and the party's number keys 1-5; the bag keys may take the numbers, which they
+// use only on the inventory pages.
+bool reservedMenuBinding(const InputBinding &binding, KeyboardAction action);
 } // namespace OpenYAMM::Game

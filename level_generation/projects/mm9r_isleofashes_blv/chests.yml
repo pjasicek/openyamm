@@ -1,0 +1,34 @@
+# The isle's three MM9 chests open by their events (work/content.json; headless runs do not pick 3D decorations).
+id: mm9r.isleofashes_blv.chests
+world: mm9
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: isleofashes.blv
+- note:
+    text: 'chest 0: TreasureChest1'
+- execute_event:
+    id: 41
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'chest 1: TreasureChest0'
+- execute_event:
+    id: 42
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'chest 2: TreasureChest2'
+- execute_event:
+    id: 43
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog

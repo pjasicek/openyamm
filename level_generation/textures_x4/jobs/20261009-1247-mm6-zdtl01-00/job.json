@@ -1,0 +1,770 @@
+{
+ "id": "20261009-1247-mm6-zdtl01-00",
+ "world": "mm6",
+ "maps": [
+  "zdtl01.blv",
+  "zdtl02.blv",
+  "zdwj01.blv",
+  "6t4.blv"
+ ],
+ "created": "2026-10-09T10:47:58+00:00",
+ "textures": [
+  "mm6/cb3side",
+  "mm6/bdksv16a",
+  "mm6/cb6top",
+  "mm6/d1sbea",
+  "mm6/cb3shlf",
+  "mm6/csbr128",
+  "mm6/t3t7",
+  "mm6/d2smldor",
+  "mm6/csdoor",
+  "mm6/d5florb",
+  "mm6/d5walba",
+  "mm6/d5ceilc",
+  "mm6/d5walbre",
+  "mm6/d5walble",
+  "mm6/ch1topb",
+  "mm6/d5walas1",
+  "mm6/d5walas2",
+  "mm6/d5dorlga",
+  "mm6/ch1topre",
+  "mm6/ch1tople",
+  "mm6/d2flor3",
+  "mm6/d2wlbctr",
+  "mm6/d2flor2",
+  "mm6/bemvwal"
+ ],
+ "requests": {
+  "mm6/cb3side": {
+   "name": "cb3side",
+   "reference": {
+    "pad": [
+     54,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     688,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ornate black lacquered cabinet side with gilded carved filigree panels",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/cb3frnt"
+     ],
+     "fraction": 0.372
+    }
+   }
+  },
+  "mm6/bdksv16a": {
+   "name": "bdksv16a",
+   "reference": {
+    "pad": [
+     46,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     691,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "one continuous plain polished red-brown mahogany strip with straight vertical grain",
+   "notes": {
+    "2": "Plain trim only: no carved rosettes, end caps or ornaments anywhere; just straight continuous wood grain along its whole length.",
+    "3": "A single uninterrupted strip from top to bottom: no joints, blocks, bands, end caps or ornaments.",
+    "4": "A single uninterrupted strip from top to bottom: no joints, blocks, bands, end caps or ornaments."
+   }
+  },
+  "mm6/cb6top": {
+   "name": "cb6top",
+   "reference": {
+    "pad": [
+     16,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     512
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown marble-like veined stone tabletop with pale cream veins",
+   "notes": {}
+  },
+  "mm6/d1sbea": {
+   "name": "d1sbea",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain dark brown wooden trim board with a thin pale grey-green stone strip along its bottom edge",
+   "notes": {
+    "2": "No carving, panels or ornament; keep it a plain strip exactly like the reference."
+   }
+  },
+  "mm6/cb3shlf": {
+   "name": "cb3shlf",
+   "reference": {
+    "pad": [
+     16,
+     64
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     683
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "dark ebony shelf board with a fine dotted gilded border",
+   "notes": {}
+  },
+  "mm6/csbr128": {
+   "name": "csbr128",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-violet dressed granite bricks with dark mortar, chipped edges",
+   "notes": {}
+  },
+  "mm6/t3t7": {
+   "name": "t3t7",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small grey stone tile with a soft bevelled rim",
+   "notes": {}
+  },
+  "mm6/d2smldor": {
+   "name": "d2smldor",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "narrow dark brown wooden plank door with an iron handle, aged grain",
+   "notes": {},
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm6/d1wlbre1",
+     "right": "mm6/d1wlble1"
+    }
+   }
+  },
+  "mm6/csdoor": {
+   "name": "csdoor",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved dark walnut double door with ornate relief panels and brass handles inside a grey granite stone arch",
+   "notes": {}
+  },
+  "mm6/d5florb": {
+   "name": "d5florb",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "four large pale ochre sandstone floor slabs with rounded worn edges and cobbled grout borders",
+   "notes": {}
+  },
+  "mm6/d5walba": {
+   "name": "d5walba",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "ancient ochre sandstone temple wall of rough rubble blocks with rows of round carved green-stone bosses",
+   "notes": {}
+  },
+  "mm6/d5ceilc": {
+   "name": "d5ceilc",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved green-grey stone ceiling panel with Mesoamerican step-fret glyph relief",
+   "notes": {}
+  },
+  "mm6/d5walbre": {
+   "name": "d5walbre",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     640,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "ancient ochre sandstone rubble wall with a carved stone pillar at the edge and a frieze of round bosses on top",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d5walba"
+     ],
+     "fraction": 0.456
+    }
+   }
+  },
+  "mm6/d5walble": {
+   "name": "d5walble",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     640,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "ancient ochre sandstone rubble wall with a carved stone pillar at the edge and a frieze of round bosses on top",
+   "notes": {
+    "4": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge.",
+    "5": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d5walba"
+     ],
+     "fraction": 0.434
+    },
+    "4": {
+     "sources": [
+      "mm6/d5walba"
+     ],
+     "fraction": 0.433
+    },
+    "5": {
+     "sources": [
+      "mm6/d5walba",
+      "mm6/d5walb"
+     ],
+     "fraction": 0.441
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "5": {
+     "right": "mm6/d5walba",
+     "left": "mm6/d5walas1"
+    }
+   }
+  },
+  "mm6/ch1topb": {
+   "name": "ch1topb",
+   "reference": {
+    "pad": [
+     8,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     819
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "one complete lid of a weathered blue-grey plank chest: planks inside a rusty iron frame with rivets and iron bands at both ends",
+   "notes": {
+    "2": "Plain horizontal planks only: no X straps, rivet rows or decorative metalwork that the reference does not show.",
+    "3": "Plain horizontal planks only: no X straps, rivet rows or decorative metalwork that the reference does not show."
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5walas1": {
+   "name": "d5walas1",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ancient ochre plaster temple wall with a carved boss frieze on top and a dark drain hole streaking green slime",
+   "notes": {}
+  },
+  "mm6/d5walas2": {
+   "name": "d5walas2",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "ancient ochre plaster temple wall with a carved boss frieze on top and a dark drain hole streaking green slime",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d5walba"
+     ],
+     "fraction": 0.218
+    }
+   }
+  },
+  "mm6/d5dorlga": {
+   "name": "d5dorlga",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "carved green-grey stone wall of rows of grinning stone skulls on shelves",
+   "notes": {}
+  },
+  "mm6/ch1topre": {
+   "name": "ch1topre",
+   "reference": {
+    "pad": [
+     14,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     704,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "blue-grey weathered wooden chest lid plank end with an iron band",
+   "notes": {}
+  },
+  "mm6/ch1tople": {
+   "name": "ch1tople",
+   "reference": {
+    "pad": [
+     14,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     704,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "blue-grey weathered wooden chest lid plank end with an iron band",
+   "notes": {}
+  },
+  "mm6/d2flor3": {
+   "name": "d2flor3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "brown stone floor slab divided into square recessed panels with dark carved borders",
+   "notes": {
+    "2": "The reference's fine checkered dither is a compression artefact: paint smooth continuous worn stone with natural mottling, never a checker or crosshatch pattern.",
+    "3": "The reference's fine checkered dither is a compression artefact: paint smooth continuous worn stone with natural mottling, never a checker or crosshatch pattern.",
+    "4": "The reference's fine checkered dither is a compression artefact: paint smooth continuous worn stone with natural mottling, never a checker or crosshatch pattern.",
+    "5": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge.",
+    "6": "The reference's fine checkered dither is a compression artefact: paint smooth continuous worn stone with natural mottling, never a checker or crosshatch pattern.",
+    "7": "The outermost border of the panel is the light stone rim exactly as in the reference; no dark groove or line at the very edge."
+   },
+   "prefill": {
+    "4": {
+     "sources": [
+      "mm6/d2flor2"
+     ],
+     "fraction": 0.666
+    },
+    "5": {
+     "sources": [
+      "mm6/d2flor2"
+     ],
+     "fraction": 0.664
+    },
+    "6": {
+     "sources": [
+      "mm6/d2flor2"
+     ],
+     "fraction": 0.664
+    },
+    "7": {
+     "sources": [
+      "mm6/d2flor2"
+     ],
+     "fraction": 0.664
+    }
+   }
+  },
+  "mm6/d2wlbctr": {
+   "name": "d2wlbctr",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark brown-grey rough stone brick wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d2wlbc",
+      "mm6/d2wlbre",
+      "mm6/d2niche1"
+     ],
+     "fraction": 0.667
+    }
+   }
+  },
+  "mm6/d2flor2": {
+   "name": "d2flor2",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brown stone floor slab with a recessed square panel and dark carved border",
+   "notes": {
+    "2": "The reference's fine checkered dither is a compression artefact: paint smooth continuous worn stone with natural mottling, never a checker or crosshatch pattern.",
+    "3": "The reference's fine checkered dither is a compression artefact: paint smooth continuous worn stone with natural mottling, never a checker or crosshatch pattern.",
+    "4": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "prefill": {
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemvwal": {
+   "name": "bemvwal",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown wood paneling of two vertical boards with dark groove",
+   "notes": {},
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/bmdk16e",
+     "bottom": "mm6/pbrre"
+    }
+   }
+  }
+ }
+}

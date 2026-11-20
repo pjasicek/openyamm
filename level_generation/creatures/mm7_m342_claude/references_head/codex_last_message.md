@@ -1,0 +1,3 @@
+Saved the four references in [references_head/](level_generation/creatures/mm7_m342_claude/references_head): `00_front.png`, `01_three_quarter.png`, `02_profile.png`, and `03_back.png`.
+
+Verified unresized 1254 × 1254 PNGs with true alpha. Built-in generation returns, prompts and run records are preserved. Residual edge artifacts and the slightly off-profile camera are documented in `generation_runs.json`.

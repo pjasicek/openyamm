@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/render/SurfaceReflectionBinding.h"
 #include "game/render/SpriteAtlasCache.h"
 #include "game/render/NativeSpriteTextureCache.h"
 #include "game/render/TextureFiltering.h"
@@ -11,6 +12,7 @@
 #include "game/fx/WorldFxRenderResources.h"
 #include "game/fx/WorldFxSystem.h"
 #include "game/fx/EffectRenderer.h"
+#include "game/fx/MistWisps.h"
 #include "game/render/ShieldDomeRenderer.h"
 #include "game/outdoor/OutdoorCollisionData.h"
 #include "game/outdoor/OutdoorDistantSea.h"
@@ -50,6 +52,7 @@
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
 #include "game/gameplay/GameplayDialogController.h"
+#include "game/ui/CombatFloatingText.h"
 #include "game/ui/EnemyHealthBarRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiController.h"
@@ -141,6 +144,8 @@ public:
     const SkyPresetLibrary *skyPresetLibrary() const;
     // Terrain square for the Enhanced map-edge fog and the sea past it, for the current camera height.
     SkySurroundings skySurroundings() const;
+    // What the map's mist takes of the hour's and the weather's ambient light, 1 at a clear noon (devdocs/MIST.md).
+    std::array<float, 3> mistLight() const;
     // Baked sun/sky light colours (u_bakedLighting), hue-tinted by the Enhanced sky when it is active.
     std::array<std::array<float, 4>, 2> bakedLightingColors(
         const OutdoorWorldRuntime::AtmosphereState &atmosphere) const;
@@ -193,12 +198,17 @@ public:
     void shutdown();
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
+    // Width over height of the last drawn view; 4:3 before the first frame.
+    float viewAspectRatio() const;
     void setCameraAngles(float yawRadians, float pitchRadians);
+    // Places the party on the map's named start decoration ("north start", ...); false when the map has none.
+    bool movePartyToStartPoint(std::string_view startPointName);
     void syncCameraToParty();
     void setCameraEyeHeight(float eyeHeight);
     void reopenMenuScreen();
     bool requestQuickSave();
     bool requestTravelAutosave();
+    bool savePreviewCapturePending() const;
     void setSettingsSnapshot(const GameSettings &settings);
     bool executeEventHooks(EventRuntimeHookKind kind);
     bool ensureMonsterVisualResources(int16_t monsterId);
@@ -278,6 +288,8 @@ private:
         float secretPulse;
         // Layer of the face's texture in its size array (BModelTextureArray); 0 when the texture is not arrayed.
         float textureLayer;
+        // Layer of its surface material maps in the array's material arrays; -1 when the texture has none.
+        float materialLayer = -1.0f;
         float flowUPerSecond;
         float flowVPerSecond;
         float lavaFlow;
@@ -285,6 +297,9 @@ private:
         float lightmapU;
         float lightmapV;
         uint32_t staticColorAbgr;
+        // The face's texture gradients per world unit (surface materials; SurfaceTextureGradients.h).
+        std::array<float, 3> gradientU = {};
+        std::array<float, 3> gradientV = {};
 
         static void init();
 
@@ -322,6 +337,11 @@ private:
         std::vector<bgfx::TextureHandle> frameTextureHandles;
         int32_t arrayIndex = -1;
         uint16_t arrayLayer = 0;
+        // Surface material maps of a single-frame texture (devdocs/SURFACE_MATERIALS_PLAN.md): a layer of the size
+        // array's material arrays (-1: none), or 2D textures beside a 2D frame.
+        int32_t materialLayer = -1;
+        bgfx::TextureHandle materialNormal = BGFX_INVALID_HANDLE;
+        bgfx::TextureHandle materialDetail = BGFX_INVALID_HANDLE;
         // Physical size of the first frame's texture.
         uint16_t width = 0;
         uint16_t height = 0;
@@ -337,6 +357,9 @@ private:
         uint16_t width = 0;
         uint16_t height = 0;
         uint16_t layers = 0;
+        // The material maps of its layers that have them, in their own arrays (invalid when none has maps).
+        bgfx::TextureHandle materialNormal = BGFX_INVALID_HANDLE;
+        bgfx::TextureHandle materialDetail = BGFX_INVALID_HANDLE;
     };
 
     struct ResolvedBModelDrawGroup
@@ -594,17 +617,6 @@ private:
     using SpriteLoadCache = GameplayAssetLoadCache;
 
 public:
-    enum class InteractiveDecorationFamily
-    {
-        None,
-        Barrel,
-        Cauldron,
-        TrashHeap,
-        CampFire,
-        Cask,
-        Crystal,
-    };
-
     struct InteractiveDecorationBinding
     {
         bool active = false;
@@ -639,7 +651,15 @@ public:
     const GameSettings &settingsSnapshot() const;
     GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const;
     WorldFxSystem &worldFxSystem();
+    // The model a decoration shows now, by its sprite override key (a talking prop's talk portrait).
+    std::optional<DecorationPortraitModel> decorationPortraitModel(uint32_t spriteOverrideKey) const;
     Engine::ModelRenderer &modelRenderer() { return m_modelRenderer; }
+    // The last frame's light on a model at the eye (sun, sky and bounce from the baked probes, the nearest lights placed
+    // relative to the eye): the first-person view model's (game/render/FirstPersonViewModel). Null before a frame is drawn.
+    const Engine::ModelRenderLighting *eyeModelLighting() const
+    {
+        return m_hasEyeModelLighting ? &m_eyeModelLighting : nullptr;
+    }
     EffectRenderer &effectRenderer() { return m_effectRenderer; }
     const EffectRenderer::Diagnostics &effectRenderDiagnostics() const;
 private:
@@ -650,7 +670,6 @@ private:
         uint16_t spriteFrameIndex,
         const char *pLoadPhase = "warmup");
     void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
-    void updateHouseVideoPlayback(float deltaSeconds);
     const GameplayWorldHit &rightMouseInspectWorldHit(
         int width,
         int height,
@@ -684,20 +703,6 @@ private:
     void syncCursorToGameplayCrosshair(SDL_Window *pWindow = nullptr);
     void refreshViewDistanceCache();
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId) const;
-
-    struct CombatFloatingText
-    {
-        size_t actorIndex = 0;
-        int amount = 0;
-        std::string text;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float remainingSeconds = 0.0f;
-        float durationSeconds = 0.0f;
-        uint32_t colorAbgr = 0xffffffffu;
-        float fontScale = 1.0f;
-    };
 
 
 
@@ -734,6 +739,8 @@ private:
     bgfx::ProgramHandle m_texturedTerrainProgramHandle;
     // HUD quads multiplied by a colour, such as tinted text.
     bgfx::ProgramHandle m_hudTintedProgramHandle = BGFX_INVALID_HANDLE;
+    // The HUD draw list's program: the texture times the vertex colour.
+    bgfx::ProgramHandle m_hudDrawListProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_spellAreaPreviewProgramHandle;
     bgfx::ProgramHandle m_outdoorLitBillboardProgramHandle;
     bgfx::ProgramHandle m_outdoorTexturedFogProgramHandle;
@@ -741,6 +748,20 @@ private:
     bgfx::ProgramHandle m_outdoorBModelShadowProgramHandle = BGFX_INVALID_HANDLE;
     // The same programs sampling arrayed bmodel textures (per-vertex layer, or u_bmodelTextureLayer for one face).
     bgfx::ProgramHandle m_outdoorBModelLightmapArrayProgramHandle = BGFX_INVALID_HANDLE;
+    // Baked bmodel faces with surface material maps: 2D and array, without and with mesh-shadow receivers. Loaded
+    // only for a map whose textures came with their maps (m_surfaceMaterialMaps).
+    bool m_surfaceMaterialMaps = false;
+    bgfx::ProgramHandle m_outdoorBModelMaterialProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_outdoorBModelMaterialArrayProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_outdoorBModelMaterialShadowProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_outdoorBModelMaterialShadowArrayProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_surfaceNormalSamplerHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_surfaceDetailSamplerHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_surfaceMaterialUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_surfaceSunUniformHandle = BGFX_INVALID_HANDLE;
+    // How lit the windows are from inside (0 by day, 1 at night), from the game clock.
+    float m_surfaceNightGlow = 0.0f;
+    SurfaceReflectionBinding m_surfaceReflectionBinding;
     bgfx::ProgramHandle m_outdoorBModelShadowArrayProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_outdoorTexturedFogArrayProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_outdoorTexturedFogShadowArrayProgramHandle = BGFX_INVALID_HANDLE;
@@ -829,6 +850,8 @@ private:
     uint32_t m_spawnMarkerVertexCount;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
     std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
+    // Textures an event swapped in (evt.SetTexture) that could not be loaded; not tried again.
+    std::unordered_set<std::string> m_missingSwapTextureNames;
     std::vector<BModelTextureArray> m_bmodelTextureArrays;
     std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
@@ -842,6 +865,12 @@ private:
     EffectRenderer m_effectRenderer;
     ShieldDomeRenderer m_shieldDomeRenderer;
     Engine::ModelRenderer m_modelRenderer;
+    Engine::ModelRenderLighting m_eyeModelLighting;
+    bool m_hasEyeModelLighting = false;
+    // The eye's baked probe, sampled again after the eye moves ~30 cm.
+    std::optional<OutdoorLightingData::Probe> m_eyeProbe;
+    std::array<float, 3> m_eyeProbeCenter = {};
+    const OutdoorLightingData *m_pEyeProbeData = nullptr;
     // The main view's clustered light grid: the object lights (authored and dynamic) for 3D models; buildings take
     // its dynamic lights.
     Engine::LightGridTextures m_lightGrid;
@@ -888,15 +917,6 @@ private:
         uint64_t combinedDepthSlices = 0;
         uint64_t combinedDepthSliceTextureGroups = 0;
         uint64_t combinedDepthSliceItems = 0;
-        uint64_t worldItemItems = 0;
-        uint64_t worldItemBatchSubmits = 0;
-        uint64_t worldItemBatchedItems = 0;
-        uint64_t worldItemSubmits = 0;
-        uint64_t worldItemOutlineSubmits = 0;
-        uint64_t worldItemTextureSwitches = 0;
-        uint64_t worldItemDepthSlices = 0;
-        uint64_t worldItemDepthSliceTextureGroups = 0;
-        uint64_t worldItemDepthSliceItems = 0;
         uint64_t runtimeProjectileItems = 0;
         uint64_t runtimeProjectileBatchSubmits = 0;
         uint64_t runtimeProjectileBatchedItems = 0;
@@ -921,6 +941,7 @@ private:
     uint64_t m_renderableStartTickNanoseconds = 0;
     uint64_t m_renderFrameIndex = 0;
     WorldFxSystem m_worldFxSystem;
+    MistWisps m_mistWisps;
     std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
     std::vector<InteractiveDecorationBinding> m_interactiveDecorationBindings;
     std::vector<KeyboardInteractionBillboardCandidate> m_keyboardInteractionBillboardCandidates;
@@ -935,6 +956,10 @@ private:
     float m_cameraTargetZ;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
+    // This frame's view: a playing cinematic's field of view (60 otherwise) and the camera shake, set by render().
+    float m_viewVerticalFovDegrees = 60.0f;
+    float m_viewShakeYawRadians = 0.0f;
+    float m_viewShakePitchRadians = 0.0f;
     float m_cameraEyeHeight;
     float m_cameraDistance;
     float m_cameraOrthoScale;
@@ -946,7 +971,6 @@ private:
     bool m_hasLastFootstepPosition;
     float m_walkingMotionHoldSeconds = 0.0f;
     std::optional<SoundId> m_activeWalkingSoundId;
-    uint32_t m_activeHouseAudioHostId;
     bool m_showTerrainWireframe;
     bool m_showBModels;
     bool m_showBModelWireframe;
@@ -983,12 +1007,12 @@ private:
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     GameSettings m_gameSettings = GameSettings::createDefault();
     ViewDistanceCache m_viewDistanceCache;
-    std::filesystem::path m_autosavePath =
-        std::filesystem::path("saves") / "autosave.oysav";
+    // Where the autosave goes instead of the playthrough's own file (headless diagnostics).
+    std::optional<std::filesystem::path> m_autosavePath;
     PendingSavePreviewCaptureState m_pendingSavePreviewCapture;
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
     std::vector<EnemyHealthBarRenderer::Draw> m_pendingEnemyHealthBars;
-    std::vector<CombatFloatingText> m_combatFloatingTexts;
+    CombatFloatingText m_combatFloatingText;
 };
 }

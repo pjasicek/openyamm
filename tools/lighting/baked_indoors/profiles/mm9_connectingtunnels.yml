@@ -1,0 +1,26 @@
+{
+  "world": "mm9",
+  "map": "connectingtunnels.blv",
+  "units_per_texel": 16,
+  "page_size": 4096,
+  "padding": 2,
+  "samples": 128,
+  "bounces": 3,
+  "light_size": 24,
+  "direct_scale": 0.45,
+  "bounce_scale": 1.2,
+  "ambient_scale": 0.3,
+  "blur_radius": 2,
+  "dirlights": true,
+  "max_lighting": 1,
+  "texture_lights": {
+    "per_polygon": true,
+    "scale": 0.25,
+    "offset_lt": 8
+  },
+  "ambient_colour": [
+    0.64,
+    1.06,
+    1.48
+  ]
+}

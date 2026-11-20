@@ -1,0 +1,24 @@
+# MM9's shops in a game that started in another world: the house table holds every mounted world's shops and
+# services, so a party from MM7 (a save loaded, or travel to Chedian) can trade in Ravensford. In 2.0 the house table
+# held only the starting world's, and Dearbhorgaill answered "MM9 shop 204 has no mounted service definition."
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/shop_after_world_switch.yml --scenario-no-color
+id: mm9.shop_after_world_switch
+title: "MM9 shops open in a game that started in MM7"
+world: mm7
+mode: faithful
+tags: [mm9, dialogue, shops, worlds]
+steps:
+  - load_map: {map: bootcamp.blv}
+  - advance_runtime: {seconds: 1}
+  - interact_actor: {actor_index: 22}
+  - assert:
+      dialog:
+        active: true
+        source_id: 204
+        action_label_present: We'd like to see your wares.
+  - select_topic: {match_label: "We'd like to see your wares."}
+  - assert:
+      dialog:
+        active: true
+        source_id: 30204
+        action_label_present: Buy

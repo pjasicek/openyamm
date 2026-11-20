@@ -1,0 +1,23 @@
+{
+  "family": "fie1",
+  "title": "MM6 Fire Elemental",
+  "descriptor_ids": [
+    529,
+    530,
+    531
+  ],
+  "base_palette": 204,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Native MM6 fire elemental: tall narrow floating flame-shaped silhouette enclosing a subtle red humanoid body with head/torso/limbs in exactly the native positions, entirely wrapped in tangled pale yellow ribbons and curling orange fire edges. Preserve distinct front/oblique/side/back orientations, open magenta gaps between flame strands, pointed top and lower tip. Flame strands are broad and wispy mixed, bright painted 1990s fantasy game fire, not photoreal smoke or a shiny solid statue. Keep native warm orange/yellow flames and deep red core; no extra face details or accessories.",
+  "regions": "Only inner RED body changes palette later; preserve yellow/orange external flames. Generate ONLY red-core base palette 204 in every cell, no green or blue variants.",
+  "variant_names": {
+    "204": "Fire Elemental 1",
+    "728": "Fire Elemental 2",
+    "729": "Fire Elemental 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 1,
+  "identity_reference_action": "walk"
+}

@@ -1,0 +1,702 @@
+[
+  {
+    "name": "d2wlactr",
+    "reason": "Darken thin masonry and restore deep matte mortar; reduce pale stone relief",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d2wlactr_v3.png",
+    "prompt_file": "prompts/material_correction_x4/d2wlactr_v3.txt",
+    "source_size": [
+      887,
+      1774
+    ],
+    "source_sha256": "47d106e48a166c9355a0fa8e3d1e610ced9377a4f7a680981b2a01884a2e8656",
+    "mean_display_luma": 20.48,
+    "tool": "builtin_imagegen",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/material_correction_x4/d2wlactr_v1.png"
+    ],
+    "rejected": [
+      {
+        "output": "generated/material_correction_x4/d2wlactr_v1.png",
+        "prompt_file": "prompts/material_correction_x4/d2wlactr_v1.txt",
+        "reason": "Native capture/body still visibly too bright",
+        "source_sha256": "ecea1c21cea2403d42560834db574630c037923631da2ae28c4218a6373db74c"
+      }
+    ],
+    "prompt": "Use case: precise-object-edit. Correct only the diffuse material tones of this newly painted HD Abandoned Temple master. Make the opaque stone body approximately 35 percent darker than this reference, retaining deep dark mortar and brown-grey native palette. The current game capture is still too bright. Preserve exact registered stone outlines, course positions, tile boundary crossings and canvas placement. Preserve clean fine native-detail artwork, dry dull worn stone and restrained fine pores. No new coarse facets, grain, sharpened noise, chalk flecks, bright edges, gloss, lighting gradients or cast shadows. Do not add or move a single stone, mortar course, frame or end cap. Do not blur or upscale pixels. Full bleed opaque maximum native portrait resolution at least 512x1024 useful pixels.",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d2wctra",
+    "reason": "Darken large masonry; remove polished broad highlights",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d2wctra_v3.png",
+    "prompt_file": "prompts/material_correction_x4/d2wctra_v3.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/material_correction_x4/d2wctra_v1.png"
+    ],
+    "target_size": [
+      512,
+      1024
+    ],
+    "prompt": "Use case: precise-object-edit. Correct only the diffuse material tones of this newly painted HD Abandoned Temple master. Make the opaque stone body approximately 35 percent darker than this reference, retaining deep dark mortar and brown-grey native palette. The current game capture is still too bright. Preserve exact registered stone outlines, course positions, tile boundary crossings and canvas placement. Preserve clean fine native-detail artwork, dry dull worn stone and restrained fine pores. No new coarse facets, grain, sharpened noise, chalk flecks, bright edges, gloss, lighting gradients or cast shadows. Do not add or move a single stone, mortar course, frame or end cap. Do not blur or upscale pixels. Full bleed opaque maximum native portrait resolution at least 512x1024 useful pixels.",
+    "source_size": [
+      887,
+      1774
+    ],
+    "source_sha256": "d62a5bfcdce6cfc078aff4990c4140c8ae3aebbc5ee551e4c19b5e978c0a8646",
+    "mean_display_luma": 21.04,
+    "tool": "builtin_imagegen",
+    "rejected": [
+      {
+        "output": "generated/material_correction_x4/d2wctra_v1.png",
+        "prompt_file": "prompts/material_correction_x4/d2wctra_v1.txt",
+        "reason": "Native capture/body still visibly too bright",
+        "source_sha256": "6e2029d5f95015a8de631b8e14cd1f7b8e9a8d148a2d85aeef9c3f080bd01013"
+      }
+    ],
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "crdflr4",
+    "reason": "Restore dark rubble gaps and rock scale; remove sandy beige lift",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/crdflr4_v1.png",
+    "prompt_file": "prompts/material_correction_x4/crdflr4_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/crdflr4.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/crdflr4.png"
+    ],
+    "target_size": [
+      512,
+      512
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material crdflr4. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in dry earthy ochre-brown and olive-brown rubble in deep dark soil. Correction: reduce brightness by about 40 percent, aiming near 48/255; deepen irregular gaps, retain distinguishable angular stones, remove the beige sandy veil and uniform little granular speckles. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 512x512 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "7b5f53011692b5e7ebd5e5f1813bfc19eed4498e264b272cb675962ce84fffc7",
+    "mean_display_luma": 42.804,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "crdrf2",
+    "reason": "Restore deep dark rubble and earthy palette",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/crdrf2_v1.png",
+    "prompt_file": "prompts/material_correction_x4/crdrf2_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/crdrf2.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/crdrf2.png"
+    ],
+    "target_size": [
+      512,
+      512
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material crdrf2. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in dark earthy brown rubble with muted olive mineral colour. Correction: subdue brightness around 20 percent, aiming near 40/255; dry matte rock surfaces, dark irregular gaps without shiny grains. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 512x512 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "e5c5fe93e91cb6ff831ed42fba226345aa1027bc569cbfec8642e39c8b4fc13e",
+    "mean_display_luma": 37.144,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d1wldle2",
+    "reason": "Darken mossy masonry; finer matte weathering, shared wall family",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d1wldle2_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d1wldle2_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/d1wldle2.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/d1wldle2.png"
+    ],
+    "target_size": [
+      1024,
+      1024
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material d1wldle2. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in dark mossy olive-brown masonry. Correction: subdue brightness around 30 percent, aiming near 50/255; keep dark joints and native moss accumulation, worn stone faces with fine low-contrast pores instead of blanket crispy stippling. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 1024x1024 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "eeab3c1fdde65db343aaa2e417365d03ef31e29caef81ce61f85695720495f3d",
+    "mean_display_luma": 51.224,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d1wldle3",
+    "reason": "Darken pale masonry; remove excessive sandstone grain",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d1wldle3_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d1wldle3_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/d1wldle3.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/d1wldle3.png"
+    ],
+    "target_size": [
+      1024,
+      1024
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material d1wldle3. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in muted warm grey/olive sandstone masonry, lighter than d1wldle2 but still a dim dungeon surface. Correction: subdue brightness around 30 percent, aiming near 59/255; preserve dark mortar and remove dry chalk-white mineral flecks and sharpened tiny grains. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 1024x1024 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "c1cfe45ac05f7da5d0ca8e61101f5ce9f556839aac0f22f356d33a0aa96179f9",
+    "mean_display_luma": 63.117,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d2flor4",
+    "reason": "Restore muted mauve paving and fine matte surfaces",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d2flor4_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d2flor4_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/d2flor4.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/d2flor4.png"
+    ],
+    "target_size": [
+      512,
+      512
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material d2flor4. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in muted dusty mauve, brown and charcoal irregular paving. Correction: subdue brightness around 20 percent, aiming near 60/255; smooth worn matt stone faces with restrained fine wear and dark mortar, no crunchy noisy rock coating. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 512x512 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "7572ae4eacb8893b99c24b51f244ae98f7d8a725d17b9b7996f39336d5fd9d96",
+    "mean_display_luma": 61.69,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d2flor5",
+    "reason": "Restore distinct dark paving variant instead of aliasing light paving",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d2flor5_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d2flor5_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/d2flor4.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/d2flor5.png"
+    ],
+    "target_size": [
+      512,
+      512
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material d2flor5. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in the DISTINCT very dark mauve-brown paving variant shown in image 2, not the lighter d2flor4. Correction: reduce brightness by around 60 percent, aiming near 30/255; deep black-brown mortar and subdued mauve-brown faces; preserve exactly the same polygon geometry as image 1 while correcting the native dark palette. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 512x512 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "816c53ee780bad42935960f77a5eaf1c8819cbc5811ae87a6b7508a1c1e46c52",
+    "mean_display_luma": 33.427,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "sndston",
+    "reason": "Restore subdued sandstone colour and smoother matte stone",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/sndston_v1.png",
+    "prompt_file": "prompts/material_correction_x4/sndston_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/sndston.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/sndston.png"
+    ],
+    "target_size": [
+      1024,
+      1024
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material sndston. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in subdued sandy beige and olive-grey sandstone. Correction: reduce diffuse brightness by about 23 percent, aiming near 124/255; finer smoother worn matte sandstone, soft mineral variation, remove chalky patches and heavy craggy sculpting; no new coarse grit. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 1024x1024 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "8714b1f9f600d2f18524a13c73b601d5f8284e05ae01595cc4c8a6f4a96b8708",
+    "mean_display_luma": 134.134,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "gset04",
+    "reason": "Reduce chalk-white brightness and coarse pockmark/stippled stone finish",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/gset04_v1.png",
+    "prompt_file": "prompts/material_correction_x4/gset04_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/gset04.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/gset04.png"
+    ],
+    "target_size": [
+      512,
+      512
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material gset04. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in dirty off-white, grey and brown irregular stones set in black-brown mortar. Correction: reduce brightness around 30 percent, aiming near 80/255; gently worn matte stones with fine pores, remove excessive pale chalk and cauliflower pockmarks, restore dark joints without faceted artificial outlines. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 512x512 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "3085a6454df4f31fb4d4ad76902533f2310aab4fab7f5494b66be468c97b87c2",
+    "mean_display_luma": 77.499,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "cekr4",
+    "reason": "Darken checker floor and replace coarse grit with fine worn finish",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/cekr4_v1.png",
+    "prompt_file": "prompts/material_correction_x4/cekr4_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/cekr4.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/cekr4.png"
+    ],
+    "target_size": [
+      512,
+      512
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material cekr4. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in worn muted grey and dark earthy brown checker tiles. Correction: reduce brightness around 25 percent, aiming near 78/255; smooth worn matte tile faces and fine stone texture, no uniform noisy sand coating or glossy bevels; keep exact four-by-four tile grid. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 512x512 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "b0cf1f86196ed0619e2829ef3a8ccc4beca400a5c85c331a9beaece355e9a146",
+    "mean_display_luma": 67.937,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d2ceil1",
+    "reason": "Darken timber ceiling and use subdued fine grain",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d2ceil1_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d2ceil1_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/d2ceil1.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/d2ceil1.png"
+    ],
+    "target_size": [
+      1024,
+      1024
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material d2ceil1. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in dark weathered brown timber ceiling with vertical broad battens and horizontal boards beneath. Correction: reduce diffuse brightness around 30 percent, aiming near 29/255; subtle fine wood fibres rather than thick raised grain, preserve dark timber gaps and small worn high points, no polished sheen. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 1024x1024 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "fa16db40fc821178fde626f94450160122384428830c40cacb42217ca1ebbde4",
+    "mean_display_luma": 32.475,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "ceilbemh",
+    "reason": "Darken coffered timber and remove bright edges",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/ceilbemh_v1.png",
+    "prompt_file": "prompts/material_correction_x4/ceilbemh_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/ceilbemh.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/ceilbemh.png"
+    ],
+    "target_size": [
+      1024,
+      1024
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material ceilbemh. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in dark worn brown timber ceiling with horizontal crossbeam and vertical boards. Correction: reduce brightness around 25 percent, aiming near 32/255; fine dry matte grain and subtle worn edges, no bright orange beam edges or deep fake embossed grain. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 1024x1024 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "38a5bf584be6d736c832823ba6ea85ad2f52264a069eb5b4bc9cae8cd5936d53",
+    "mean_display_luma": 33.326,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "bemdord",
+    "reason": "Darken weathered door, keep fine matte warm grain",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/bemdord_v1.png",
+    "prompt_file": "prompts/material_correction_x4/bemdord_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/bemdord.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/bemdord.png"
+    ],
+    "target_size": [
+      512,
+      1024
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material bemdord. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in subdued warm reddish-brown old plank door with cross straps and metal nails. Correction: reduce diffuse brightness around 18 percent, aiming near 48/255; fine matte fibres and understated knots, dull oxidized nails, no varnish, shiny orange highlights or exaggerated ridges. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a 1:2 portrait image at maximum native resolution; the actual useful artwork must exceed 512x1024 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      887,
+      1774
+    ],
+    "source_sha256": "1d34457a884e3d6f42fb35ca08f61148d3b9d75f183199cfeef281032c0250e8",
+    "mean_display_luma": 42.567,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d5flora",
+    "reason": "Darken moss-green masonry and reduce noisy mineral flecks",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d5flora_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d5flora_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/d5flora.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/d5flora.png"
+    ],
+    "target_size": [
+      512,
+      512
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material d5flora. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in dark mossy green-grey masonry trim. Correction: reduce diffuse brightness around 20 percent, aiming near 53/255; fine restrained dry worn stone, preserve green ageing and dark joints but remove bright noisy mineral flecks and polished edge shine. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 512x512 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "02db4675564d19d5481486bd35b7aaa7bd35ac23ad1773d91af953e7a7ca7391",
+    "mean_display_luma": 49.474,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "slabco2",
+    "reason": "Refine rough aggregate into natural matte rock rather than crunchy stippling",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/slabco2_v2.png",
+    "prompt_file": "prompts/material_correction_x4/slabco2_v2.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/slabco2_native.png"
+    ],
+    "target_size": [
+      1024,
+      1024
+    ],
+    "prompt": "Use case: texture restoration. Produce an entirely newly painted high-definition diffuse stone surface at maximum native square resolution, useful art at least 1024 by 1024 pixels. Reference is ONLY a tiny coarse map for placement of broad rusty brown mineral veins, dark grey-brown stone field, and very narrow masonry strips at left/right edges. Do not enlarge, reproduce or sharpen any raster noise. Preserve the large vein paths and native border proportions. The stone is an old worn solid slab, not gravel, bark or a crumpled crystalline crust: broad contiguous softly worn planes cover most of it. Extremely subdued fine mineral variation and minute pores, no blanket pits, no jagged pebble facets or busy little ridges. Mean diffuse colour approximately 46/255, dark earthy grey-brown rather than pale grey. Mineral veins are muted rusty brown staining, not raised ridges. Dry dull finish, restrained original contrast, even diffuse illumination, no directional light, shiny flecks, hard white highlights, vignette, extra border, perspective, lettering or watermark. Full bleed opaque. Fresh clean fine art, never pixel blocks, enlarged blur or oversharpened grain.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "ce9dea7d1f92a637a8feb91949c002d66cda010ddca160a453099398486d621b",
+    "mean_display_luma": 55.329,
+    "tool": "builtin_imagegen",
+    "rejected": [
+      {
+        "output": "generated/material_correction_x4/slabco2_v1.png",
+        "prompt_file": "prompts/material_correction_x4/slabco2_v1.txt",
+        "reason": "Rejected: coarse crystalline grain and deep pits remain",
+        "source_sha256": "1f3f82e394c1135dffd144f803cd1ad6f557b6583f6bfa22a195c08f8ee8c987"
+      }
+    ],
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "gset05",
+    "reason": "Restore dark trim palette, registered body with continuous edges",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/gset05_v3.png",
+    "prompt_file": "prompts/material_correction_x4/gset05_v3.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/material_correction_x4/gset05_v1.png"
+    ],
+    "transparent": true,
+    "target_size": [
+      1024,
+      64
+    ],
+    "prompt": "Use case: precise-object-edit. Correct only the diffuse material tones of this newly painted HD Abandoned Temple master. Make the opaque stone body approximately 38 percent darker than this reference, retaining deep dark mortar and brown-grey native palette. The current game capture is still too bright. Preserve exact registered stone outlines, course positions, tile boundary crossings and canvas placement. Preserve clean fine native-detail artwork, dry dull worn stone and restrained fine pores. No new coarse facets, grain, sharpened noise, chalk flecks, bright edges, gloss, lighting gradients or cast shadows. Do not add or move a single stone, mortar course, frame or end cap. Do not blur or upscale pixels. Preserve the true-alpha padding above/below the strip. Maximum native landscape 2:1 resolution; the useful opaque continuous strip must be at least 1024 pixels wide and 64 high. No background.",
+    "source_size": [
+      1774,
+      887
+    ],
+    "source_sha256": "a6610922a805fc3829a2d6327692f282c61fb5f79ab3f864d9027f4170cff5d0",
+    "mean_display_luma": 5.851,
+    "tool": "builtin_imagegen",
+    "rejected": [
+      {
+        "output": "generated/material_correction_x4/gset05_v1.png",
+        "prompt_file": "prompts/material_correction_x4/gset05_v1.txt",
+        "reason": "Native capture/body still visibly too bright",
+        "source_sha256": "02fbbdf224385a0d70428ec796778dd045b9e907929f57968c0ff982179d68f2"
+      }
+    ],
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "gset06",
+    "reason": "Reduce trim brightness and stippled faces, retain native stone divisions",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/gset06_v3.png",
+    "prompt_file": "prompts/material_correction_x4/gset06_v3.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/gset06_corrected_offset.png"
+    ],
+    "transparent": true,
+    "target_size": [
+      1024,
+      128
+    ],
+    "prompt": "Use case: precise-object-edit. Repair ONLY the vertical centre seam in this offset high-definition grey stone trim. This guide is shifted half a horizontal repeat period. Around the middle of the horizontal opaque band, join the black polygon mortar lines so no broken line, abrupt step or unmatched stone face crosses the centre. Draw connecting worn stone contours naturally within the central fifth of the band; preserve the surrounding grey material, smooth dull finish and muted brightness exactly. No crumpled texture, gritty pits, etched swirls or new glare. Keep the opaque band at its exact existing canvas position and height and keep the left and right outer edges unchanged: they are already continuous parts of the same original image. This is a continuous horizontal repeat, never add end caps or a vertical closing border. True transparent alpha above/below the band. Maximum native landscape 2:1 resolution, same 1774x887 canvas proportions as the guide; useful band must remain at least 1024x128 pixels. No enlargement, sharpened raster noise, extra objects, text or watermark.",
+    "source_size": [
+      1774,
+      887
+    ],
+    "source_sha256": "92d950c40d6645cede21596f0e5bf07189328c0bb5be43a290e07b0082ec1065",
+    "mean_display_luma": 27.116,
+    "tool": "builtin_imagegen",
+    "rejected": [
+      {
+        "output": "generated/material_correction_x4/gset06_v1.png",
+        "prompt_file": "prompts/material_correction_x4/gset06_v1.txt",
+        "reason": "Rejected: too much etched granular face detail",
+        "source_sha256": "3bd0ec80df42bb206b6cba7ec895385210368b34389bcfebc77b7b1ceaae683c"
+      },
+      {
+        "output": "generated/material_correction_x4/gset06_v2.png",
+        "prompt_file": "prompts/material_correction_x4/gset06_v2.txt",
+        "reason": "Smooth material passes, but the horizontal polygon divisions need centre-wrap repair",
+        "source_sha256": "038ea455d3d242771105fbbf92828cec794ed2c4a8fb7d7d62cf311e788686d0"
+      }
+    ],
+    "inverse_half_wrap": true,
+    "review_notes": "Accepted smooth v2 body retained; only central seam repair uses v3. Repeat proof inspected."
+  },
+  {
+    "name": "chest_front",
+    "reason": "Darker aged grey wood and matte oxidized metal, shared front cuts",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/chest_front_v1.png",
+    "prompt_file": "prompts/material_correction_x4/chest_front_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/chest_front_joined_v2.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/chest_front_joined_native.png"
+    ],
+    "transparent": true,
+    "target_size": [
+      400,
+      400
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple complete connected chest FRONT with end strips, lock, metal straps and horizontal grey-brown wood body; keep every cut and the transparent canvas bounds. Image 1 is the high-definition EDIT TARGET, authoritative for all coarse geometry, registration, boundary contacts, silhouette and canvas placement. Image 2 provides native palette and material identity only, never enlarged pixel blocks. Correction: Reduce diffuse brightness of the wood and straps by about 30 percent. Restore the muted aged grey-brown wood of image 2 instead of icy blue-white wood; subtle fine fibres and a few shallow worn scratches, far fewer bright deep chips. Dark oxidized rust-brown metal with restrained reflections, no polished rivets or varnished wood. Redraw fine material detail cleanly; retain exact plank/strap/rivet and mortar/motif placements from image 1, not a redesigned object. Flat orthographic diffuse artwork, no perspective, baked directional lighting, noisy pixel texture, faceted grain, labels or watermark. Render at maximum native square resolution, at least 1254x1254 canvas with the exact existing padding proportions. Preserve real transparent alpha outside the body and in all original transparent gaps; do not paint a checkerboard or background.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "14b2b984f2f6c65f576d2470e8d4f209f5ee9445df335d7d2b28b438e164a0dc",
+    "mean_display_luma": 50.783,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "chest_back",
+    "reason": "Same darker aged chest material, shared back cuts",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/chest_back_v1.png",
+    "prompt_file": "prompts/material_correction_x4/chest_back_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/chest_back_joined_v2.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/chest_back_joined_native.png"
+    ],
+    "transparent": true,
+    "target_size": [
+      400,
+      400
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple complete connected chest BACK with end strips, straps and horizontal grey-brown wood body; keep every cut and the transparent canvas bounds. Image 1 is the high-definition EDIT TARGET, authoritative for all coarse geometry, registration, boundary contacts, silhouette and canvas placement. Image 2 provides native palette and material identity only, never enlarged pixel blocks. Correction: Reduce diffuse brightness of the wood and straps by about 30 percent. Restore the muted aged grey-brown wood of image 2 instead of icy blue-white wood; subtle fine fibres and a few shallow worn scratches, far fewer bright deep chips. Dark oxidized rust-brown metal with restrained reflections, no polished rivets or varnished wood. Redraw fine material detail cleanly; retain exact plank/strap/rivet and mortar/motif placements from image 1, not a redesigned object. Flat orthographic diffuse artwork, no perspective, baked directional lighting, noisy pixel texture, faceted grain, labels or watermark. Render at maximum native square resolution, at least 1254x1254 canvas with the exact existing padding proportions. Preserve real transparent alpha outside the body and in all original transparent gaps; do not paint a checkerboard or background.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "23a8e89f1f3de7a228191cc80d86e1da276466c3d43eba1c265d23a536608f5f",
+    "mean_display_luma": 44.64,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "chest_lid",
+    "reason": "Same darker aged chest material, shared lid cuts",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/chest_lid_v1.png",
+    "prompt_file": "prompts/material_correction_x4/chest_lid_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/chest_lid_joined_v2.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/chest_lid_joined_native.png"
+    ],
+    "transparent": true,
+    "target_size": [
+      400,
+      400
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple complete connected chest LID with upper/lower strips, dark side straps and VERTICAL grey-brown wood body; keep every cut and the transparent canvas bounds. Image 1 is the high-definition EDIT TARGET, authoritative for all coarse geometry, registration, boundary contacts, silhouette and canvas placement. Image 2 provides native palette and material identity only, never enlarged pixel blocks. Correction: Reduce diffuse brightness of the wood and straps by about 30 percent. Restore the muted aged grey-brown wood of image 2 instead of icy blue-white wood; subtle fine fibres and a few shallow worn scratches, far fewer bright deep chips. Dark oxidized rust-brown metal with restrained reflections, no polished rivets or varnished wood. Redraw fine material detail cleanly; retain exact plank/strap/rivet and mortar/motif placements from image 1, not a redesigned object. Flat orthographic diffuse artwork, no perspective, baked directional lighting, noisy pixel texture, faceted grain, labels or watermark. Render at maximum native square resolution, at least 1254x1254 canvas with the exact existing padding proportions. Preserve real transparent alpha outside the body and in all original transparent gaps; do not paint a checkerboard or background.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "6dbf6d1040cbda80430b90eee09fcda43ae5265bd684b2cb44f056c4ff4e69dc",
+    "mean_display_luma": 42.976,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "ch1side",
+    "reason": "Darker aged chest side, restrained chips and diffuse fittings",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/ch1side_v1.png",
+    "prompt_file": "prompts/material_correction_x4/ch1side_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/runtime_full_x4/ch1side.png",
+      "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/before/assets_dev/worlds/mm6/textures_x2/ch1side.png"
+    ],
+    "target_size": [
+      256,
+      256
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple material ch1side. Image 1 is the high-definition edit target and authoritative for the existing coarse geometry, course positions, stone/plank silhouettes, motif bounds and crossings at the edges. Image 2 is the original ESRGAN material for palette, tonal range and native material character ONLY; never copy its enlarged pixels or blur. Redraw the surface finish as fresh fine HD artwork in aged subdued grey-brown chest wood and dark rust-brown oxidized iron. Correction: reduce diffuse brightness about 25 percent, aiming near 56/255; remove icy blue-grey painted sheen, reduce excessive white splinter scratches and dark pits; fine matte wood fibres, dull rusty straps, subdued metal reflections. Preserve every existing large contour, proportion and boundary phase from image 1. Dry diffuse finish under even illumination; dark crevices are material detail, not a new directional cast shadow. No global light gradient, artificial white highlights, glossy sheen, sharpened grain, raster blocks, repeating pixel noise, perspective, labels, extra borders or watermark. Continue all genuinely repeating edges naturally, including mortar and grain phase. Full bleed opaque. Render a square image at maximum native resolution; the actual useful artwork must exceed 256x256 pixels. Never enlarge an undersized source.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "e781eca70a56d5964629f51542d80f1ad5ce2ca4ebd5df01cbd3ff6474a84f86",
+    "mean_display_luma": 55.705,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "bemsv32_body",
+    "reason": "Restore warmer lighter vertical timber, distinct from red dark plank material",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/bemsv32_body_v2.png",
+    "prompt_file": "prompts/material_correction_x4/bemsv32_body_v2.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/bemsv32a_native.png"
+    ],
+    "transparent": false,
+    "target_size": [
+      128,
+      512
+    ],
+    "prompt": "Use case: texture restoration. Create fresh fine high-definition artwork for a continuous vertical old timber beam body on a maximum native portrait canvas. Reference gives only the muted burnt-orange and warm brown palette, vertical direction, and knot positions. Entirely repaint fine detail: do not enlarge the tiny image or reproduce its coarse pixels. The timber has fine straight wood fibres and gentle smooth worn grain with small subtle knots. NO bark, NO rough thick wavy ridges, NO shiny varnish, NO embossed coarse bumps, NO pixelated noisy dots. Fine pores visible only up close, low local contrast with a dry soft matte finish. Use subdued warm rusty brown colour, mean around 57/255, no pale white splinters. No end caps, side borders, screws or decorative objects. Flat diffuse illumination, no lighting gradient, perspective or lettering. Continuous grain at top/bottom tile boundary. Full bleed opaque. Useful body at least 128 pixels wide and 512 pixels high at actual returned native resolution.",
+    "source_size": [
+      744,
+      2112
+    ],
+    "source_sha256": "afedcf88ba65260141fb0fd5f3238ceea09e2362e406677f84fc64e18a750c0a",
+    "mean_display_luma": 59.371,
+    "tool": "builtin_imagegen",
+    "rejected": [
+      {
+        "output": "generated/material_correction_x4/bemsv32_body_v1.png",
+        "prompt_file": "prompts/material_correction_x4/bemsv32_body_v1.txt",
+        "reason": "Rejected: swollen noisy grain reads like enlarged raster and varnish",
+        "source_sha256": "99f3adc8f47aec333331a81d2841e4df1ac9fe383460c783aaa3cd1bfcb5e94d"
+      }
+    ],
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "beam_body",
+    "reason": "Subdue timber brightness and overpronounced ridges, shared orientations",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/beam_body_v1.png",
+    "prompt_file": "prompts/material_correction_x4/beam_body_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/full_x4/beam_body_v1.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/beamplnh_native.png"
+    ],
+    "transparent": false,
+    "target_size": [
+      1024,
+      128
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: corrected native 4x MM6 Abandoned Temple long horizontal continuous brown timber body on an opaque canvas; keep the grain horizontal and uninterrupted at left/right, no caps, frame or end grain. Image 1 is the high-definition EDIT TARGET, authoritative for all coarse geometry, registration, boundary contacts, silhouette and canvas placement. Image 2 provides native palette and material identity only, never enlarged pixel blocks. Correction: Subdue overall timber brightness about 20 percent toward the original low-value brown, around 44/255. Replace coarse embossed-looking ridges and sharpened orange streaks with newly drawn fine dry wood fibres and understated knots. Natural matte weathered oak, no shine. Redraw fine material detail cleanly; retain exact plank/strap/rivet and mortar/motif placements from image 1, not a redesigned object. Flat orthographic diffuse artwork, no perspective, baked directional lighting, noisy pixel texture, faceted grain, labels or watermark. Render at maximum native landscape 2:1 canvas. The central third must be an uninterrupted horizontal fine-grain body with no caps; this body must have at least 1024x128 actual pixels. Full bleed opaque, no transparent margins.",
+    "source_size": [
+      2170,
+      725
+    ],
+    "source_sha256": "eb92c49f0962a6b9c65668a78c7a02adb13791c0b6bb8659c75b8456657b11f2",
+    "mean_display_luma": 46.651,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d1_pillar",
+    "reason": "Native composite still too bright; darken the stone/carving without changing its registration",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d1_pillar_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d1_pillar_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/full_x4/d1_pillar_v1.png"
+    ],
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Correct the diffuse brightness and surface finish of this registered high-definition narrow grey-olive limestone upright; matte finely worn stone component for MM6 Abandoned Temple. The current installed material remains visibly too bright beside the darker original dungeon. Reduce opaque body midtones by approximately 30 percent, while preserving exact outlines, framing, proportions and all transparent regions from the reference. Preserve subtle clean fine HD carving detail and material pores; no enlargement of pixels, coarse dither, faceted crystalline grain, harsh bright pits, metallic shine or glossy highlights. Even subdued diffuse artwork, no new directional lighting, shadows, border, lettering or watermark. Retain true transparent alpha outside the component. Maximum native portrait resolution with useful opaque pillar at least 128x1024 pixels.",
+    "target_size": [
+      128,
+      1024
+    ],
+    "source_size": [
+      887,
+      1774
+    ],
+    "source_sha256": "39cf3c921a8a58b4787f896817f22c1c005521cfbe47c4bcbcd9ee5287cad342",
+    "mean_display_luma": 25.201,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d2_pillar",
+    "reason": "Native composite still too bright; darken the stone/carving without changing its registration",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d2_pillar_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d2_pillar_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/full_x4/d2_pillar_v1.png"
+    ],
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Correct the diffuse brightness and surface finish of this registered high-definition narrow dark brown-grey stone upright; matte fine stone component for MM6 Abandoned Temple. The current installed material remains visibly too bright beside the darker original dungeon. Reduce opaque body midtones by approximately 40 percent, while preserving exact outlines, framing, proportions and all transparent regions from the reference. Preserve subtle clean fine HD carving detail and material pores; no enlargement of pixels, coarse dither, faceted crystalline grain, harsh bright pits, metallic shine or glossy highlights. Even subdued diffuse artwork, no new directional lighting, shadows, border, lettering or watermark. Retain true transparent alpha outside the component. Maximum native portrait resolution with useful opaque pillar at least 128x1024 pixels.",
+    "target_size": [
+      128,
+      1024
+    ],
+    "source_size": [
+      887,
+      1774
+    ],
+    "source_sha256": "5dad0a03cb0d84e4c1f424ac57a5acbf17adf788faa8533cd662bdc13f8ce1fe",
+    "mean_display_luma": 9.845,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  },
+  {
+    "name": "d2_relief",
+    "reason": "Native composite still too bright; darken the stone/carving without changing its registration",
+    "status": "reviewed",
+    "output": "generated/material_correction_x4/d2_relief_v1.png",
+    "prompt_file": "prompts/material_correction_x4/d2_relief_v1.txt",
+    "references": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/full_x4/d2_relief_v1.png"
+    ],
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Correct the diffuse brightness and surface finish of this registered high-definition seated monk, skull-surrounded carved relief; dark aged stone and warm brown carving, no pale white skulls component for MM6 Abandoned Temple. The current installed material remains visibly too bright beside the darker original dungeon. Reduce opaque body midtones by approximately 30 percent, while preserving exact outlines, framing, proportions and all transparent regions from the reference. Preserve subtle clean fine HD carving detail and material pores; no enlargement of pixels, coarse dither, faceted crystalline grain, harsh bright pits, metallic shine or glossy highlights. Even subdued diffuse artwork, no new directional lighting, shadows, border, lettering or watermark. Retain true transparent alpha outside the component. Maximum native square resolution with useful artwork at least 896x896 pixels. Keep the relief large on the canvas; preserve existing padding.",
+    "target_size": [
+      896,
+      896
+    ],
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_sha256": "851d5874bfb7be2d1195a19631e51b2eae60b812e83cb5b97f662b0392261c24",
+    "mean_display_luma": 30.447,
+    "tool": "builtin_imagegen",
+    "review_notes": "Selected native-detail crop inspected for brightness, material finish and placement; used only in isolated review stage"
+  }
+]

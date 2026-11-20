@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S5 Wireframes</title>
+<style>
+  :root { --bg: #f4f2ee; --ink: #1d2026; --mute: #6a707a; --line: #b9bdc4; --panel: #ffffff; --accent: #b9873d;
+          --teal: #2f9c94; --red: #c4564f; --blue: #3f7fd0; --green: #4d9a4f; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #16181c; --ink: #e6e8eb; --mute: #8d96a3; --line: #3a3f48; --panel: #1f2228; }
+  }
+  :root[data-theme="dark"] { --bg: #16181c; --ink: #e6e8eb; --mute: #8d96a3; --line: #3a3f48; --panel: #1f2228; }
+  body { margin: 0; padding: 24px 16px 64px; background: var(--bg); color: var(--ink);
+         font: 15px/1.5 system-ui, sans-serif; }
+  main { max-width: 1240px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 17px; margin: 40px 0 6px; }
+  p { color: var(--mute); max-width: 900px; margin: 4px 0 12px; }
+  .wf { width: 100%; overflow-x: auto; }
+  svg { display: block; width: 100%; min-width: 900px; height: auto; background: var(--panel);
+        border: 1px solid var(--line); border-radius: 6px; }
+  svg text { font: 12px system-ui, sans-serif; fill: var(--ink); }
+  svg .m { fill: var(--mute); font-size: 11px; }
+  svg .h { font-weight: 600; }
+  svg .b { fill: none; stroke: var(--line); stroke-width: 1; }
+  svg .bx { fill: var(--bg); stroke: var(--line); stroke-width: 1; }
+  svg .on { fill: var(--accent); fill-opacity: .18; stroke: var(--accent); }
+  svg .room { fill: var(--bg); stroke: var(--mute); stroke-width: 1.2; }
+  svg .sel { fill: var(--accent); fill-opacity: .2; stroke: var(--accent); stroke-width: 2; }
+  svg .portal { stroke: var(--teal); stroke-width: 4; }
+  svg .door { stroke: var(--red); stroke-width: 4; }
+  svg .link { stroke: var(--accent); stroke-width: 1.5; fill: none; stroke-dasharray: 5 3; }
+  svg .pin { fill: var(--blue); }
+  svg .ghost { fill: none; stroke: var(--mute); stroke-dasharray: 4 3; }
+  code { font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Map Studio S5: wireframes</h1>
+<p>Companion to <code>devdocs/map_studio/S5_BROWSER_EDITOR.md</code> (section 3). Wireframes, not visual design: they
+fix what is where and what each panel shows. The styled mockups of the design page
+(<code>design_page.html</code>, revision 4) remain the visual reference; where these differ, the reason is in the
+document (the vocabulary that was actually built differs from the one the design page imagined).</p>
+<p>Revision 2 (2026-11-14, after review A7, <code>S5_REVIEW_A7.md</code>): W1 takes pins from the game instead of a
+pasted <code>loc</code> line and keeps pins out of the map's revision; W3 addresses the part by its key; W5 shows undo
+as a revert entry in one append-only history; W7 (new) is the first slice, pins from the game with no browser.</p>
+
+<h2>W1 · Review mode (S5a): the user opens an agent's rebuild</h2>
+<p>Local mode, Goblinwatch rebuild open read-only for review. Plan and 3D side by side, selection shared. Drawer on
+Pins. Inspector shows the selected door as the project says it (schema form, read-only in review mode). Status bar:
+revision, who else is connected, the last outside change.</p>
+<div class="wf"><svg viewBox="0 0 1200 720" role="img" aria-label="Review mode wireframe">
+  <rect class="bx" x="0" y="0" width="1200" height="36"/>
+  <text x="12" y="23" class="h">Map Studio</text>
+  <text x="120" y="23">Goblinwatch rebuild · briefs/mm6_6d01/L4 · rev 7c1e…</text>
+  <rect class="b" x="560" y="7" width="300" height="22" rx="4"/><text x="572" y="23" class="m">Search objects, commands, assets  Ctrl K</text>
+  <rect class="on" x="880" y="7" width="70" height="22" rx="4"/><text x="890" y="23">Review</text>
+  <rect class="b" x="954" y="7" width="70" height="22" rx="4"/><text x="966" y="23">Author</text>
+  <rect class="b" x="1040" y="7" width="150" height="22" rx="4"/><text x="1052" y="23">▶ Play here  F5</text>
+  <rect class="bx" x="0" y="36" width="1200" height="30"/>
+  <text x="12" y="56" class="m">Views:</text>
+  <rect class="on" x="60" y="41" width="60" height="20"/><text x="70" y="56">Split</text>
+  <rect class="b" x="122" y="41" width="50" height="20"/><text x="132" y="56">Plan</text>
+  <rect class="b" x="174" y="41" width="40" height="20"/><text x="184" y="56">3D</text>
+  <rect class="b" x="216" y="41" width="50" height="20"/><text x="226" y="56">Walk</text>
+  <rect class="b" x="268" y="41" width="50" height="20"/><text x="278" y="56">Flow</text>
+  <rect class="b" x="320" y="41" width="80" height="20"/><text x="330" y="56">Compare</text>
+  <text x="430" y="56" class="m">Overlays: sectors · portals · doors · spawns · issues · compare heat · pins</text>
+  <rect class="b" x="0" y="66" width="470" height="430"/>
+  <text x="10" y="84" class="m">PLAN · band −768…0 · grid 64</text>
+  <rect class="room" x="60" y="140" width="140" height="100"/><text x="95" y="195">Great hall</text>
+  <rect class="room" x="200" y="140" width="90" height="60"/><text x="215" y="175">Barracks</text>
+  <rect class="sel" x="200" y="200" width="90" height="80"/><text x="225" y="245">Vault</text>
+  <rect class="room" x="290" y="150" width="80" height="50"/><text x="300" y="180">Cabinet</text>
+  <path class="room" d="M20 300 C 80 260 160 270 200 320 L 220 340 C 160 300 90 300 30 330 Z"/>
+  <line class="portal" x1="200" y1="160" x2="200" y2="185"/>
+  <line class="door" x1="230" y1="200" x2="260" y2="200"/>
+  <line class="portal" x1="290" y1="165" x2="290" y2="190"/>
+  <circle class="pin" cx="248" cy="262" r="7"/><text x="244" y="266" style="fill:#fff;font-size:10px">1</text>
+  <circle class="pin" cx="120" cy="300" r="7"/><text x="116" y="304" style="fill:#fff;font-size:10px">2</text>
+  <rect x="320" y="420" width="140" height="64" class="bx"/><text x="328" y="438" class="m">issues on map</text>
+  <text x="328" y="456">⚠ 2 coplanar (as orig.)</text><text x="328" y="474">ⓘ 3 click.silent</text>
+  <rect class="b" x="470" y="66" width="470" height="430"/>
+  <text x="480" y="84" class="m">3D · lit · door:vault_gate shown at 50 % (state scrubber)</text>
+  <polygon class="room" points="520,380 700,300 900,350 720,440"/>
+  <polygon class="room" points="560,330 700,270 860,320 720,390"/>
+  <rect class="sel" x="690" y="280" width="60" height="70"/>
+  <circle class="pin" cx="720" cy="300" r="7"/>
+  <text x="480" y="486" class="m">Mouse: RMB look · WASD fly · F frame · click picks face → its object</text>
+  <rect class="bx" x="940" y="66" width="260" height="430"/>
+  <text x="952" y="86" class="h">door:vault_gate</text>
+  <text x="952" y="104" class="m">objects.yml · door record 23 (ids.lock)</text>
+  <text x="952" y="130">Properties · Connections · Notes · Source</text>
+  <line x1="952" y1="136" x2="1188" y2="136" stroke="var(--line)"/>
+  <text x="952" y="158" class="m">kind</text><text x="1040" y="158">slide_up</text>
+  <text x="952" y="178" class="m">opening</text><text x="1040" y="178">open:hall_vault</text>
+  <text x="952" y="198" class="m">thickness</text><text x="1040" y="198">32</text>
+  <text x="952" y="218" class="m">speed</text><text x="1040" y="218">120</text>
+  <text x="952" y="238" class="m">surface</text><text x="1040" y="238">t1dr1 [128, 256]</text>
+  <text x="952" y="268" class="h">Driven by</text>
+  <text x="952" y="288">evt:key_n  (switch, opens)</text>
+  <text x="952" y="306">evt:key_p  (switch, closes)</text>
+  <text x="952" y="336" class="h">Original</text>
+  <text x="952" y="356">door 23 in 6d01.blv · up 120</text>
+  <text x="952" y="386" class="h">Pins on this</text>
+  <text x="952" y="406">#1 leaf flickers at the jamb</text>
+  <rect class="bx" x="0" y="496" width="940" height="196"/>
+  <text x="12" y="516">Pins (3 open)</text><text x="110" y="516" class="m">Issues 5 · Checks · Compare 99.2 % · History · Pictures</text>
+  <line x1="12" y1="524" x2="928" y2="524" stroke="var(--line)"/>
+  <circle class="pin" cx="22" cy="546" r="7"/><text x="36" y="550">#1 "The gate leaf flickers where it meets the jamb"</text>
+  <text x="520" y="550" class="m">on door:vault_gate · camera saved · you · rev 7c1e</text>
+  <text x="36" y="570" class="m">↳ agent:gw-round2 · working… (claimed 2 min ago)</text>
+  <circle class="pin" cx="22" cy="598" r="7"/><text x="36" y="602">#2 "Cave arm too narrow here; original is wider"</text>
+  <text x="520" y="602" class="m">at (−2304, 812, −1024) · from the game (pin) · game picture</text>
+  <circle class="pin" cx="22" cy="630" r="7" style="fill:var(--green)"/><text x="36" y="634">#3 resolved: "chest faces the wall" → turned 180°</text>
+  <text x="520" y="634" class="m">agent:gw-round2 · rev 7c1e→a90b · before/after · Accept · Reopen</text>
+  <rect class="b" x="40" y="652" width="130" height="28" rx="4"/><text x="52" y="671">+ Pin here (P)</text>
+  <text x="186" y="671" class="m">pins typed in the game (pin &lt;text&gt;) arrive here · own log, not the map's revision</text>
+  <rect class="bx" x="940" y="496" width="260" height="196"/>
+  <text x="952" y="516" class="h">Scorecard</text>
+  <text x="952" y="540">compare 99.2 % (shape 99.2)</text>
+  <text x="952" y="560">playtest 141 steps · 4/4</text>
+  <text x="952" y="580">reach: 58/58 · solve ✓</text>
+  <text x="952" y="600">coplanar 0 new</text>
+  <text x="952" y="620">things: 61 · 0 unnamed</text>
+  <text x="952" y="650" class="m">Checks run on rev 7c1e · 12 s ago</text>
+  <rect class="bx" x="0" y="692" width="1200" height="28"/>
+  <text x="12" y="711" class="m">X 2 816  Y 2 048  Z −447 · sector 31 (room:vault) · local mode · host ok · agent:gw-round2 connected · last outside edit 2 min ago (rooms.yml, recorded by agent:gw-round2)</text>
+</svg></div>
+
+<h2>W2 · Author mode, indoor, Shape stage: drawing a room</h2>
+<p>Stage bar on; tool rail shows the stage's tools; tool options above the views. The drawn outline is a client-side
+ghost until Enter, which sends one transaction (<code>add rooms</code>). The plan's planned spaces show as dashed
+ghosts until a room with that <code>space</code> covers them.</p>
+<div class="wf"><svg viewBox="0 0 1200 640" role="img" aria-label="Author mode shape stage wireframe">
+  <rect class="bx" x="0" y="0" width="1200" height="34"/><text x="12" y="22" class="h">Map Studio</text>
+  <text x="120" y="22">Old Crypt · projects/crypt01 · rev 31aa…</text>
+  <rect class="bx" x="0" y="34" width="1200" height="30"/>
+  <rect class="b" x="10" y="39" width="74" height="20"/><text x="18" y="54">1 Plan ✓</text>
+  <rect class="on" x="88" y="39" width="90" height="20"/><text x="96" y="54">2 Shape 4/6</text>
+  <rect class="b" x="182" y="39" width="80" height="20"/><text x="190" y="54">3 Build</text>
+  <rect class="b" x="266" y="39" width="70" height="20"/><text x="274" y="54">4 Wire</text>
+  <rect class="b" x="340" y="39" width="90" height="20"/><text x="348" y="54">5 Populate</text>
+  <rect class="b" x="434" y="39" width="70" height="20"/><text x="442" y="54">6 Dress</text>
+  <rect class="b" x="508" y="39" width="70" height="20"/><text x="516" y="54">7 Test</text>
+  <rect class="bx" x="0" y="64" width="90" height="520"/>
+  <rect class="on" x="6" y="72" width="78" height="26"/><text x="12" y="90">Room  D</text>
+  <text x="12" y="118">Corridor H</text><text x="12" y="146">Stairs T</text><text x="12" y="174">Opening O</text>
+  <text x="12" y="202">Pillar</text><text x="12" y="230">Platform</text><text x="12" y="258">Level</text>
+  <text x="12" y="286">Flight</text><text x="12" y="314">Beam</text><text x="12" y="342">Cut hole</text>
+  <text x="12" y="380">Walk G</text>
+  <rect class="bx" x="90" y="64" width="850" height="28"/>
+  <text x="100" y="83" class="m">Room · grid 64 · floor −256 · ceiling 192 · theme: theme:crypt · space: space:antechamber · snap: grid, walls · Enter closes · Esc cancels</text>
+  <rect class="b" x="90" y="92" width="425" height="400"/>
+  <text x="100" y="110" class="m">PLAN</text>
+  <rect class="room" x="150" y="180" width="160" height="120"/><text x="190" y="245">room:crypt</text>
+  <rect class="ghost" x="320" y="140" width="150" height="100"/><text x="340" y="195" class="m">space:antechamber (planned)</text>
+  <polyline points="320,140 470,140 470,240 380,240" style="fill:none;stroke:var(--blue);stroke-width:2"/>
+  <circle cx="320" cy="140" r="4" style="fill:var(--blue)"/><circle cx="470" cy="140" r="4" style="fill:var(--blue)"/>
+  <circle cx="470" cy="240" r="4" style="fill:var(--blue)"/><circle cx="380" cy="240" r="5" style="fill:var(--accent)"/>
+  <text x="380" y="134" class="m">1 536</text><text x="476" y="195" class="m">832</text>
+  <text x="100" y="480" class="m">wall gap to room:crypt: 32 (wall thickness) · will join through an opening</text>
+  <rect class="b" x="515" y="92" width="425" height="400"/>
+  <text x="525" y="110" class="m">3D · grey · updates after commit</text>
+  <polygon class="room" points="560,380 700,320 860,360 720,430"/>
+  <polygon class="ghost" points="740,300 860,250 920,280 800,330"/>
+  <rect class="bx" x="940" y="64" width="260" height="520"/>
+  <text x="952" y="84" class="h">New room (unsaved)</text>
+  <text x="952" y="104">Properties · Source</text>
+  <text x="952" y="130" class="m">id</text><text x="1030" y="130">room:antechamber</text>
+  <text x="952" y="150" class="m">name</text><text x="1030" y="150">Antechamber</text>
+  <text x="952" y="170" class="m">floor</text><text x="1030" y="170">−256</text>
+  <text x="952" y="190" class="m">ceiling</text><text x="1030" y="190">192</text>
+  <text x="952" y="210" class="m">theme</text><text x="1030" y="210">theme:crypt ▾</text>
+  <text x="952" y="230" class="m">space</text><text x="1030" y="230">space:antechamber</text>
+  <text x="952" y="256" class="m">+ add: slope · levels · pillars · platforms ·</text>
+  <text x="952" y="272" class="m">  flights · beams · walls · bands · rough …</text>
+  <text x="952" y="300" class="m">(every field from rooms.schema.json,</text>
+  <text x="952" y="316" class="m"> its description on hover)</text>
+  <rect class="bx" x="90" y="492" width="850" height="92"/>
+  <text x="100" y="512">Checklist 2 open</text><text x="220" y="512" class="m">Issues · Outline · Library · History</text>
+  <text x="100" y="536">☐ space:antechamber has no room   ☐ space:side_chamber has no room   ☑ start in a room   ☑ every room reached</text>
+  <text x="100" y="560" class="m">dry run of this outline: +1 room, 0 new issues, 1 fixed (space:antechamber has no room)</text>
+  <rect class="bx" x="0" y="584" width="1200" height="28"/>
+  <text x="12" y="603" class="m">X 1 856  Y −704 · 4 points · Enter: add room (one transaction) · Backspace: last point · Shift: free angle</text>
+</svg></div>
+
+<h2>W3 · Author mode, outdoor, Build stage: a building's parts and wall bays</h2>
+<p>Outdoor projects are <code>sketch.yml</code>. A building is <code>structures[]</code> of <code>kind: building</code>
+with <code>parts</code> (boxes, outlines, rounds) and per-wall bay lists. The bay strip editor is the one bespoke
+widget the outdoor Build stage needs most; everything else is the schema inspector.</p>
+<div class="wf"><svg viewBox="0 0 1200 560" role="img" aria-label="Outdoor build stage wireframe">
+  <rect class="bx" x="0" y="0" width="1200" height="30"/><text x="12" y="20" class="h">New Sorpigal rebuild · briefs/mm6_oute3/L4 · Build</text>
+  <rect class="bx" x="0" y="30" width="90" height="500"/>
+  <text x="12" y="54">Building</text><rect class="on" x="6" y="62" width="78" height="22"/><text x="12" y="78">Part</text>
+  <text x="12" y="104">Door</text><text x="12" y="128">Porch</text><text x="12" y="152">Sign</text><text x="12" y="176">Wall line</text>
+  <text x="12" y="200">Bridge</text><text x="12" y="224">Well</text><text x="12" y="248">Fountain</text>
+  <text x="12" y="272">Model…</text><text x="12" y="296">Other kinds…</text>
+  <rect class="b" x="90" y="30" width="520" height="330"/>
+  <text x="100" y="48" class="m">PLAN · cells of 512 · thing:building_2 (temple)</text>
+  <g stroke="var(--line)" stroke-width=".5">
+    <line x1="90" y1="100" x2="610" y2="100"/><line x1="90" y1="170" x2="610" y2="170"/><line x1="90" y1="240" x2="610" y2="240"/>
+    <line x1="200" y1="30" x2="200" y2="360"/><line x1="310" y1="30" x2="310" y2="360"/><line x1="420" y1="30" x2="420" y2="360"/>
+  </g>
+  <rect class="room" x="250" y="90" width="160" height="40"/><text x="256" y="114" class="m">p1</text>
+  <rect class="room" x="230" y="130" width="200" height="120"/><text x="236" y="150" class="m">p2</text>
+  <rect class="sel" x="285" y="80" width="90" height="230"/><text x="292" y="300">p3</text>
+  <rect class="room" x="250" y="250" width="160" height="40"/><text x="256" y="274" class="m">p1s</text>
+  <line class="door" x1="315" y1="310" x2="345" y2="310"/><text x="350" y="328" class="m">door → house 325</text>
+  <path d="M330 340 L330 356" stroke="var(--accent)" stroke-width="6"/><text x="340" y="354" class="m">road 147 from door</text>
+  <rect class="b" x="610" y="30" width="330" height="330"/>
+  <text x="620" y="48" class="m">3D · lit · selection p3</text>
+  <polygon class="room" points="680,260 780,210 900,240 800,300"/>
+  <polygon class="sel" points="740,240 780,220 800,150 760,170"/>
+  <rect class="bx" x="940" y="30" width="260" height="500"/>
+  <text x="952" y="50" class="h">thing:building_2 › p3</text>
+  <text x="952" y="74" class="m">at</text><text x="1030" y="74">[496, 176]</text>
+  <text x="952" y="94" class="m">size</text><text x="1030" y="94">[512, 1792]</text>
+  <text x="952" y="114" class="m">wall_height</text><text x="1030" y="114">256</text>
+  <text x="952" y="134" class="m">roof</text><text x="1030" y="134">none ▾</text>
+  <text x="952" y="154" class="m">porches</text><text x="1030" y="154">1 (s, recess)</text>
+  <text x="952" y="174" class="m">textures</text><text x="1030" y="174">door t1d1 · trim t1f1</text>
+  <text x="952" y="204" class="h">Doors of the building</text>
+  <text x="952" y="224">p3 · wall s · bay 1</text>
+  <text x="952" y="244" class="m">house</text><text x="1030" y="244">325 New Sorpigal Temple ▾</text>
+  <text x="952" y="264" class="m">title</text><text x="1030" y="264">New Sorpigal Temple</text>
+  <text x="952" y="294" class="m">(service picker over house_data.txt)</text>
+  <rect class="bx" x="90" y="360" width="850" height="170"/>
+  <text x="100" y="380" class="h">Wall bays · p3 · wall s</text><text x="290" y="380" class="m">drag to reorder · click a bay to choose its role or texture · bays are 128 wide in rows of 256</text>
+  <rect class="b" x="100" y="392" width="120" height="70"/><text x="110" y="432">t1d3</text>
+  <rect class="sel" x="222" y="392" width="240" height="70"/><text x="300" y="432">door · 256</text>
+  <rect class="b" x="464" y="392" width="120" height="70"/><text x="474" y="432">t1d3</text>
+  <rect class="ghost" x="586" y="392" width="60" height="70"/><text x="602" y="432" class="m">+</text>
+  <text x="100" y="484" class="m">walls.s = [t1d3, [door, 256], t1d3]  ·  roles of kit "stone": wall, window, door, post_left, post_right · or any texture name</text>
+  <text x="100" y="508" class="m">Commit sends: {op: patch, id: thing:building_2, patch: [{test: /parts/p3/walls/s, …}, {replace: /parts/p3/walls/s, …}]}</text>
+  <text x="100" y="524" class="m">p3 is the part's key (x-key), not its position · the bays of walls.s are a plain list, patched with a test</text>
+</svg></div>
+
+<h2>W4 · Wire stage: an event, its sources and targets</h2>
+<p>Events are <code>wiring.yml</code> presets (door, switch, chest, exit, teleport, text, script) with
+<code>condition</code>, <code>effects</code> and <code>else_effects</code>. Selecting a source draws its links in both
+views; the form edits the preset; the right column is what <code>oymap flow</code> says the handler does after build.</p>
+<div class="wf"><svg viewBox="0 0 1200 520" role="img" aria-label="Wire stage wireframe">
+  <rect class="bx" x="0" y="0" width="1200" height="30"/><text x="12" y="20" class="h">Old Crypt · Wire</text>
+  <rect class="b" x="0" y="30" width="520" height="460"/>
+  <text x="10" y="48" class="m">PLAN · links of evt:lever_gate</text>
+  <rect class="room" x="60" y="100" width="180" height="140"/><text x="80" y="130">room:crypt</text>
+  <rect class="room" x="240" y="100" width="150" height="100"/><text x="260" y="130">room:side</text>
+  <line class="door" x1="240" y1="140" x2="240" y2="175"/><text x="246" y="190" class="m">door:side_gate</text>
+  <rect x="80" y="210" width="14" height="14" style="fill:var(--accent)"/><text x="100" y="222">switch:lever</text>
+  <path class="link" d="M94 216 C 160 216 200 170 238 158"/>
+  <text x="130" y="270" class="m">dashed gold: what a source drives · L then click: link</text>
+  <rect class="bx" x="520" y="30" width="400" height="460"/>
+  <text x="532" y="50" class="h">evt:lever_gate</text><text x="660" y="50" class="m">preset: switch ▾</text>
+  <text x="532" y="76" class="m">source</text><text x="620" y="76">switch:lever</text>
+  <text x="532" y="96" class="m">title</text><text x="620" y="96">Lever</text>
+  <text x="532" y="116" class="m">toggles</text><text x="620" y="116">door:side_gate  ×   + target</text>
+  <text x="532" y="146" class="h">Condition</text>
+  <rect class="b" x="532" y="154" width="370" height="46"/>
+  <text x="542" y="172">all:  qbit  quest:crypt_key  is set</text>
+  <text x="542" y="192" class="m">+ item · qbit · map_var · gold · stat · award · kills · not · any</text>
+  <text x="532" y="222" class="h">Effects</text>
+  <text x="542" y="242">1. text "The gate grinds open."</text>
+  <text x="542" y="262" class="m">+ gold · add · set · autonote · qbit · item · damage · cast · summon · teleport · …</text>
+  <text x="532" y="292" class="h">Else effects</text>
+  <text x="542" y="312">1. text "The lever will not move."</text>
+  <text x="532" y="344" class="m">once ☐   trigger: click ▾   side: both ▾   window: auto</text>
+  <text x="532" y="376" class="m">Lua tab: the generated handler (read-only) · "Convert to script" makes it a script preset</text>
+  <rect class="bx" x="920" y="30" width="280" height="460"/>
+  <text x="932" y="50" class="h">What it does (oymap flow)</text>
+  <text x="932" y="74">when qbit 2101: door 4 trigger;</text>
+  <text x="932" y="92">  status "The gate grinds open."</text>
+  <text x="932" y="110">else: status "The lever will not move."</text>
+  <text x="932" y="140" class="h">Solve</text>
+  <text x="932" y="160">step 3 opens room:side</text>
+  <text x="932" y="178" class="m">needs quest:crypt_key (given by</text>
+  <text x="932" y="194" class="m">evt:altar in room:crypt, step 2)</text>
+  <text x="932" y="224" class="h">Checks</text>
+  <text x="932" y="244">✓ handler bound · ✓ door has faces</text>
+  <text x="932" y="262">✓ click says why when it fails</text>
+</svg></div>
+
+<h2>W5 · A person and an agent on one project: a stale edit and its rebase</h2>
+<p>The person's transaction was made against revision A; an agent wrote revision B meanwhile. The core re-applies the
+person's operations on B. When they touch other objects (or their keys and <code>test</code> steps still hold) it
+lands as C without a question; otherwise the banner shows the clash and offers the two choices below. The history is
+append-only: an undo is an entry that reverts one earlier entry, object by object, validated like any change.</p>
+<div class="wf"><svg viewBox="0 0 1200 284" role="img" aria-label="Conflict banner wireframe">
+  <rect class="bx" x="0" y="0" width="1200" height="284"/>
+  <rect x="20" y="20" width="1160" height="80" rx="6" style="fill:var(--accent);fill-opacity:.15;stroke:var(--accent)"/>
+  <text x="36" y="46" class="h">Your move of room:antechamber's north wall was not applied</text>
+  <text x="36" y="68">agent:crypt-dress changed room:antechamber (outline, platforms) 40 s ago (rev 31aa → 77c0). Your change and theirs touch /outline/1.</text>
+  <rect class="b" x="36" y="76" width="180" height="20" rx="4"/><text x="46" y="91">Show both on the plan</text>
+  <rect class="b" x="226" y="76" width="200" height="20" rx="4"/><text x="236" y="91">Apply mine over theirs</text>
+  <rect class="b" x="436" y="76" width="120" height="20" rx="4"/><text x="446" y="91">Keep theirs</text>
+  <text x="36" y="130" class="h">History (newest last)</text>
+  <text x="36" y="152">#14  9f3d  you (browser)      undo of #11: rooms.yml: room:side floor back to −256        (reverts #11)</text>
+  <text x="36" y="172">#13  77c0  agent:crypt-dress  rooms.yml: room:antechamber changed outline, platforms  (2 ops)</text>
+  <text x="36" y="192">#12  a1b2  outside           objects.yml: door:side_gate changed speed (64 → 200)   ← a text editor</text>
+  <text x="36" y="212">#11  5e21  you (browser)      rooms.yml: room:side floor −256 → −192   (×4 PgUp, merged into one entry)</text>
+  <text x="36" y="232">#10  31aa  you (browser)      rooms.yml: added room:antechamber</text>
+  <text x="36" y="254" class="m">Ctrl Z appends an entry that reverts your latest change, object by object (here #11; nobody changed room:side since, so no conflict;</text>
+  <text x="36" y="270" class="m">had someone, it would be listed and left alone unless you confirm). Ctrl Y reverts that undo. Pins and the id lock are not in this history.</text>
+</svg></div>
+
+<h2>W6 · Compare with the original (rebuilds)</h2>
+<p>Driven by <code>oymap compare --out</code>: report, points or regions, worst places. Two 3D views with locked
+cameras: the original map (read from the asset root) and the rebuild (built privately). Clicking a worst place moves
+both cameras there.</p>
+<div class="wf"><svg viewBox="0 0 1200 420" role="img" aria-label="Compare view wireframe">
+  <rect class="bx" x="0" y="0" width="1200" height="30"/><text x="12" y="20" class="h">Harmondale rebuild · Compare with 7out02.odm · 90.23 %</text>
+  <rect class="b" x="0" y="30" width="400" height="360"/><text x="10" y="48" class="m">PLAN · 64 regions · heat = loss</text>
+  <g>
+    <rect x="40" y="70" width="80" height="80" style="fill:var(--red);fill-opacity:.35"/>
+    <rect x="120" y="70" width="80" height="80" style="fill:var(--red);fill-opacity:.1"/>
+    <rect x="200" y="150" width="80" height="80" style="fill:var(--red);fill-opacity:.55"/>
+    <rect x="120" y="230" width="80" height="80" style="fill:var(--red);fill-opacity:.2"/>
+    <rect class="b" x="40" y="70" width="320" height="320"/>
+  </g>
+  <text x="206" y="194">C3 worst</text>
+  <rect class="b" x="400" y="30" width="400" height="360"/><text x="410" y="48" class="m">ORIGINAL · camera locked</text>
+  <polygon class="room" points="460,300 600,230 760,280 620,350"/><rect class="room" x="560" y="170" width="70" height="80"/>
+  <rect class="b" x="800" y="30" width="400" height="360"/><text x="810" y="48" class="m">REBUILD · camera locked</text>
+  <polygon class="room" points="860,300 1000,230 1160,280 1020,350"/><rect class="room" x="965" y="185" width="70" height="65"/>
+  <rect class="bx" x="0" y="390" width="1200" height="30"/>
+  <text x="12" y="410" class="m">parts: heights 92 · relief 88 · cliffs 90 · rim 85 · water 97 · ground 93 · roads 91 · buildings 89.7 · decorations 84 · spawns 90 · events 95 · worst: C3 (tavern roof height 8.8), B1 …</text>
+</svg></div>
+<h2>W7 · Pins from the game (S5a slice 1, no browser)</h2>
+<p>The first slice: the user plays as today and types <code>pin &lt;text&gt;</code> in the game's console. The game
+writes the pin and its own screenshot into the inbox; <code>oymap pins import</code> files each pin into its project's
+pins document (its own counter and log, outside the map's revision); an agent answers through the command line with
+an after picture taken in the game at the same pose; the static review page shows the pair. No <code>loc</code> line
+is copied and no tour is written by hand.</p>
+<div class="wf"><svg viewBox="0 0 1200 380" role="img" aria-label="Pins from the game wireframe">
+  <rect class="bx" x="0" y="0" width="1200" height="380"/>
+  <rect class="b" x="20" y="20" width="360" height="200" rx="4"/>
+  <text x="32" y="42" class="h">The game (development console)</text>
+  <rect class="room" x="32" y="54" width="336" height="110"/>
+  <text x="44" y="112" class="m">the map, as the player sees it</text>
+  <rect class="bx" x="32" y="170" width="336" height="40"/>
+  <text x="42" y="194">&gt; pin the gate leaf flickers at the jamb</text>
+  <path class="link" d="M380 120 L 420 120"/>
+  <rect class="b" x="420" y="20" width="360" height="200" rx="4"/>
+  <text x="432" y="42" class="h">Inbox (debug.pin_inbox_path)</text>
+  <text x="432" y="66">20261120-1012-6d01.yml</text>
+  <text x="432" y="84" class="m">format: 1 · source: game · text · map 6d01.blv</text>
+  <text x="432" y="102" class="m">pose: position, yaw_radians, pitch_degrees (as loc)</text>
+  <text x="432" y="120" class="m">project + source revision (from 6d01.studio.yml in the mount)</text>
+  <text x="432" y="144">20261120-1012-6d01.png</text>
+  <text x="432" y="162" class="m">the game's view, console closed</text>
+  <path class="link" d="M780 120 L 820 120"/>
+  <rect class="b" x="820" y="20" width="360" height="200" rx="4"/>
+  <text x="832" y="42" class="h">Project (pins document)</text>
+  <text x="832" y="66">review/pins.yml · counter 42</text>
+  <text x="832" y="84" class="m">pin:p7 open · on: (pose) · author user</text>
+  <text x="832" y="108">.oymap/pins/pictures/p7.png</text>
+  <text x="832" y="126" class="m">outside git unless kept</text>
+  <text x="832" y="150" class="m">the map's source revision does not change</text>
+  <rect class="bx" x="20" y="240" width="760" height="120"/>
+  <text x="32" y="262" class="h">An agent, through the command line</text>
+  <text x="32" y="284">$ oymap pins import pins_inbox/      $ oymap pins list L4 --open      $ oymap pins claim L4 pin:p7</text>
+  <text x="32" y="304">… edits the project (then oymap record --author agent:gw2 --label "gate leaf to the jamb") …</text>
+  <text x="32" y="324">$ oymap pins tour L4 --pin pin:p7 &gt; tour.yml · run_game.sh --isolated … screenshot_tour_path=tour.yml</text>
+  <text x="32" y="344">$ oymap pins reply L4 pin:p7 --text "Leaf stops 2 short now" --picture p7-after.png --resolve</text>
+  <rect class="bx" x="800" y="240" width="380" height="120"/>
+  <text x="812" y="262" class="h">Static review page</text>
+  <rect class="room" x="812" y="272" width="110" height="70"/><text x="822" y="312" class="m">before (game)</text>
+  <rect class="room" x="932" y="272" width="110" height="70"/><text x="942" y="312" class="m">after (game)</text>
+  <text x="1052" y="290" class="m">text, reply,</text><text x="1052" y="306" class="m">status, agent</text>
+</svg></div>
+</main>
+</body>
+</html>

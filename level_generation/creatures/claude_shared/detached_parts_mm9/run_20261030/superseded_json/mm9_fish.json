@@ -1,0 +1,152 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_fish.glb",
+  "components": 17,
+  "body": 2,
+  "size": 0.3384879529476166,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 17,
+   "attached_in_every_pose": 16
+  },
+  "concealed": {},
+  "shallow": {
+   "0": {
+    "joint": "Xsidefin",
+    "where": "-x side",
+    "triangles": 72,
+    "extent": 0.082,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00183,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 229,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00124,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "1": {
+    "joint": "Xsidefin",
+    "where": "-x side",
+    "triangles": 72,
+    "extent": 0.082,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00263,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 229,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00204,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "7": {
+    "joint": "Xttop",
+    "where": "-z",
+    "triangles": 158,
+    "extent": 0.1431,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0053,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 229,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00485,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "10": {
+    "joint": "Xttop",
+    "where": "-z",
+    "triangles": 158,
+    "extent": 0.1431,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0053,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 229,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0046,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "15": {
+    "joint": "Xsidefin01",
+    "where": "+x side",
+    "triangles": 72,
+    "extent": 0.082,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00263,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 229,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00156,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "16": {
+    "joint": "Xsidefin01",
+    "where": "+x side",
+    "triangles": 72,
+    "extent": 0.082,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00183,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 229,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00077,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   }
+  }
+ }
+]

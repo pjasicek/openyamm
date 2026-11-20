@@ -75,8 +75,19 @@ struct IndoorPortalVisibilityInput
     // Zero leaves gameplay geometry queries independent of framebuffer resolution.
     int viewportHeight = 0;
     int16_t startSectorId = -1;
+    // Further sectors seen whole like the start sector. A water reflection's mirrored camera is below the floor, so
+    // no portal leads it into the neighbouring water sectors it looks up through; they start the query too.
+    std::span<const int16_t> extraStartSectorIds;
     uint16_t maxNodes = 256;
     uint16_t maxDepth = 32;
+    // The view distance of a map with the outdoor view (devdocs/INDOOR_OPEN_SKY.md "Outdoor view"): a portal whose
+    // nearest visible point is deeper (view depth, as the far plane) is not entered. 0: no limit (every other map).
+    float maxDistance = 0.0f;
+    // A portal that the view would drop (facing away or clipped off) still passes on the view it is reached through
+    // (the whole view at the start sector) when the camera is within this distance of its plane and its bounds
+    // (IndoorMapData::portalNearReach, the scene's `portal_visibility`). 0: MM8's rule only (9 units of the plane, 16
+    // of the bounds, the start sector's portals), every MM6-MM8 map.
+    float nearPortalReach = 0.0f;
     bool collectPortalTraces = true;
 };
 

@@ -1,0 +1,822 @@
+format: 0
+level: L2
+pitch: "The Red Dwarves' copper and gold mine in the hills north of Vertigo, taken by the Mad Dwarf Clan. A timbered adit and haul drift lead to the Top Station, where carts run out on a trestle over a black chasm to the Turntable, a round cavern where the rail lines meet. The clan camps in the old mess hall and keeps the brake key of the Deep Line in its tally room. Beyond lies the Open Stope, a vast funnel-shaped pit worked in spiral ledges with rails and gold veins in its walls, bats wheeling in the dark above and spiders in the side galleries; at its bottom the chained Deep Line cart goes down to the Clan King. Four coloured pools, the Red Dwarves' old blessings, lie in a grotto, a chapel, a flooded working and a hidden cave: each strengthens a character once. A caved-in west adit, cleared from inside with a winch, comes out far away on Burlock Savannah."
+purpose: "Story step M3, first half: get through the Mad Dwarf Clan's hold to the Deep Line and unchain its cart to the Deep Mine (XD-03). Rewards on the way: four one-time +2 stat pools, gold veins, four chests, and a permanent underground shortcut to X4 for Act II. Monster levels 3 to 10 (bats, spiders, mad dwarves, tiger moles). A party of about level 5 to 8."
+mood: "Warm lamplight on timber and red rock near the entrance, colder and darker as the party descends; the Open Stope is the big breath of the map, a cathedral of ledges vanishing into blackness. The dwarves' chapel is the one quiet, holy room."
+datum: arrival
+spaces:
+  - id: room:adit_mouth
+    name: Adit mouth
+    kind: room
+    size: S
+    extent: [768, 1024]
+    shape: "Timbered portal opening into a short sloping tunnel; daylight behind, a rail track starting at the party's feet."
+    where: East edge of the map.
+    floor: [-64, 0]
+    clear_height: 448
+    relief: slope
+    purpose: Arrival and the X1 exit. Safe.
+    empty: true
+    keep_clear: [spawns]
+    theme: timbered_adit
+    light: "daylight through the portal and 1 lantern (1 light, about 1.3 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), "barrels (bigbarel, smlbarel)", "mine cart at the rail head (placeholder: no cart model exists)"]
+    furniture: [rails from the party's feet down the drift]
+  - id: room:blue_grotto
+    name: Blue grotto
+    kind: room
+    size: S
+    extent: [896, 768]
+    shape: "Round grotto behind a curtain of old web, its whole floor a shallow basin of glowing blue water."
+    where: West of the spider galleries.
+    floor: -864
+    clear_height: 544
+    relief: flat
+    purpose: The hidden fourth pool (poi:blue_pool).
+    empty: true
+    keep_clear: [spawns]
+    theme: grotto_pool
+    light: the blue pool's own light (1 light)
+    palette: [small crystals (mcryst01)]
+    secret: true
+  - id: room:bunk_cut
+    name: Bunk cut
+    kind: room
+    size: S
+    extent: [1024, 640]
+    shape: "Long narrow cut with bunk niches hewn into both walls, one end rounded."
+    where: North of the mess hall.
+    floor: -352
+    clear_height: 384
+    relief: flat
+    purpose: "Clan sleeping quarters; footlockers."
+    theme: dwarf_hall
+    light: "1 lantern (1 light, 1.3 per M units² with the shelves)"
+    palette: [iron wall lantern (engine decoration torch02), sacks (bag_a), refuse (trasheap)]
+    furniture: [three bunk shelves hewn into the north wall, two footlockers]
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 2], levels: [7, 7], strength: light, rank: a, notes: Asleep at first.}
+    treasure:
+      - {kind: chest, count: 2, tier: 1, items: [1, 2], notes: Footlockers.}
+  - id: room:collapsed_adit
+    name: Collapsed west adit
+    kind: room
+    size: S
+    extent: [768, 1024]
+    shape: "Timbered adit choked with fallen rock to the roof; the winch and its braced props in front of the fall."
+    where: Far west end of the west line.
+    floor: 256
+    clear_height: 448
+    relief: flat
+    purpose: The way to X4 once the winch has pulled the fall down the ore chute (set:west_adit_winch).
+    empty: true
+    keep_clear: [spawns]
+    theme: timbered_adit
+    light: "1 lantern by the winch (1 light, 1.3 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), "boulders before the fall (rock03, rock10)", the winch and its braced props (placeholder)]
+    furniture: [the fall filling the west end to the roof]
+  - id: room:deep_station
+    name: Deep Line station
+    kind: room
+    size: S
+    extent: [1024, 768]
+    shape: "Rock-cut station with a buffer stop, the chained cart, a brake wheel and the dark mouth of the Deep Line dropping steeply away."
+    where: "North-west of the open stope, down a short ramp from the spiral's foot."
+    floor: -1216
+    clear_height: 448
+    relief: flat
+    purpose: "End of the critical path: the cart down to the Deep Mine."
+    theme: deep_rock
+    light: "2 lanterns by the brake wheel (2 lights, 2.7 per M units² with the approach)"
+    palette: [iron wall lantern (engine decoration torch02), the chained Deep Line cart and its brake wheel (placeholder), barrels (smlbarel)]
+    furniture: [buffer stop (48) before the Deep Line's mouth in the west wall]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [7, 7], strength: pack, rank: a, notes: Guards of the line.}
+  - id: room:dwarf_shrine
+    name: Red Dwarf chapel
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    shape: "Octagonal chapel hewn in the rock, two steps down from its door, eight carved pillars round a basin of green water; the Mad Clan has smashed the carved faces."
+    where: South of the turntable.
+    floor: -448
+    clear_height: [512, 768]
+    relief: steps
+    islands: 1
+    features:
+      - {kind: basin, where: Centre, notes: The green pool (poi:green_pool).}
+      - {kind: colonnade, count: 8, where: Round the basin}
+    purpose: "The quiet room of the map: the green pool and the Red Dwarves' tablet, which names the four pools and hints at the hidden one."
+    empty: true
+    keep_clear: [spawns]
+    theme: dwarf_chapel
+    light: "2 braziers flanking the tablet and the green pool's own glow (3 lights, 2.1 per M units²)"
+    palette: ["brazier, lit (engine decoration brzier00)", smashed carvings (boulders rock02), "the Red Dwarves' tablet (placeholder: carved stone tablet)"]
+    furniture: [eight carved pillars round the basin, "the green pool, a brim-full basin (24)"]
+  - id: room:east_line
+    name: East line
+    kind: room
+    size: M
+    extent: [384, 2560]
+    shape: "Narrow rail incline falling south-east from the turntable, then a half-drowned level stretch turning south to the flooded working; closed to walkers by the cart gate and the buffer stop."
+    where: East of the turntable.
+    floor: [-640, -384]
+    clear_height: 384
+    relief: slope
+    purpose: Cart route to the flooded working (link:east_cart).
+    empty: true
+    keep_clear: [spawns, decorations]
+    theme: timbered_adit
+    light: unlit
+    furniture: ["rails, half drowned below the incline"]
+  - id: room:flooded_working
+    name: Flooded working
+    kind: room
+    size: XL
+    area: 3.7
+    extent: [2560, 1792]
+    shape: "Irregular low-roofed cavern flooded knee-deep, crossed by plank walkways on trestles that fork round two rock islands to a dry hump with the gold pool."
+    where: East end of the map.
+    floor: {level: -640, range: [-704, -576]}
+    clear_height: 448
+    relief: uneven
+    islands: 2
+    purpose: "Optional: tiger moles on the planks and the gold pool; a gold vein."
+    theme: drowned_working
+    light: "dim: 1 lantern at the buffer stop and the gold pool's glow (2 lights, 0.5 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), "mushrooms (mushrm01, mushrm03)", "stalagmites (stlmite1, stlmite3)", mine cart at the buffer stop (placeholder)]
+    furniture: [plank walkways (24) on trestles, two rock islands (64), the dry hump (32) with the gold pool]
+    population:
+      - {actor: Tiger Mole, role: burrower, groups: 2, levels: [9, 9], placed: true, strength: heavy, notes: Surface from the water beside the planks.}
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [3, 3], strength: light, rank: a}
+  - id: room:foot_drift
+    name: Foot drift
+    kind: room
+    size: M
+    extent: [384, 2304]
+    shape: "Old walking drift round the north of the chasm, twisting, propped with rotten timbers."
+    where: North of the chasm.
+    floor: [-384, -192]
+    clear_height: 384
+    relief: slope
+    purpose: "The walking way between the Top Station and the Turntable, the other half of loop:chasm; the rockfall trap."
+    theme: timbered_adit
+    light: "dim: a lantern at each end, none at the rotten props (2 lights, 2.2 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), "iron wall torch, unlit (engine decoration nwtrchnf)", "rubble heap after the rockfall (boulders rock02, rock10)", "rotten props: leaning timber posts (placeholder)"]
+    furniture: ["the gap in the south wall over the chasm, at the trestle"]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [5, 5], strength: light, rank: a}
+  - id: room:forgotten_strongroom
+    name: Forgotten strongroom
+    kind: room
+    size: XS
+    extent: [512, 512]
+    shape: Small square vault cut by the Red Dwarves before the clan came.
+    where: "Behind the sorting floor's east wall, one 32 step up."
+    floor: -160
+    clear_height: 384
+    relief: flat
+    purpose: Hidden loot.
+    empty: true
+    keep_clear: [spawns]
+    theme: dwarf_hall
+    light: unlit
+    palette: [dust and a fallen stool (no decoration)]
+    furniture: [the payroll chest against the back wall]
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3], notes: The Red Dwarves' payroll chest.}
+    secret: true
+  - id: room:lamp_room
+    name: Lamp room
+    kind: room
+    size: S
+    extent: [768, 768]
+    shape: "Wedge-shaped room off the station, racks of miners' lamps on the long wall."
+    where: South of the top station.
+    floor: -192
+    clear_height: 384
+    relief: flat
+    purpose: "First clan dwarves; a chest."
+    theme: timbered_adit
+    light: "1 lantern (1 light, 1.9 per M units²); the racks hold unlit lamps"
+    palette: [iron wall lantern (engine decoration torch02), "racks of miners' lamps on the long east wall (placeholder: lamp rack)", barrel (smlbarel)]
+    furniture: [lamp racks on the east wall, the chest under the racks]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [7, 7], strength: pack, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, items: [2, 3]}
+  - id: room:main_drift
+    name: Haul drift
+    kind: room
+    size: M
+    extent: [512, 1792]
+    shape: "Timber-propped drift curving west and down, rails along its floor, lamp hooks every few props."
+    floor: [-192, -64]
+    clear_height: 448
+    relief: slope
+    purpose: "The way in. The first fight about two thirds along it, out of sight of the mouth."
+    theme: timbered_adit
+    light: "lamplit: a lantern on every third timber set, about one per 640 of drift (2 lights, 3.4 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), spoil heap (7dec10), "fallen rock (boulders rock01, rock03)"]
+    furniture: [timber sets about every 384, rails along the floor]
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [3, 3], strength: light, rank: a}
+  - id: room:mess_hall
+    name: Mess hall
+    kind: room
+    size: L
+    extent: [2048, 1280]
+    shape: "L-shaped hewn hall with two rock pillars left standing, long tables, a cold hearth in the angle."
+    where: North of the turntable.
+    floor: -384
+    clear_height: 512
+    relief: flat
+    islands: 2
+    purpose: "The clan's camp and the map's densest fight; the doors to the bunk cut and the tally room."
+    theme: dwarf_hall
+    light: "2 braziers between the tables and 2 lanterns; the hearth cold (4 lights, 2.2 per M units²)"
+    palette: ["brazier, lit (engine decoration brzier00)", iron wall lantern (engine decoration torch02), cold cooking pot on the hearth (cauld00), "bowls and plates (foodbowl, dec32, dec36, dec37)", goblets (7dec48), barrels (bigbarel), refuse heap (trasheap)]
+    furniture: [two rock pillars, two long tables (48), the cold hearth (32) in the angle of the L]
+    population:
+      - {slot: 1, groups: 3, per_marker: [2, 3], levels: [7, 7], strength: heavy, rank: a}
+  - id: room:red_pool_grotto
+    name: Red pool grotto
+    kind: room
+    size: S
+    extent: [768, 768]
+    shape: "Teardrop grotto one step below the stope floor, a pool of red water filling its point."
+    where: Off the north side of the stope floor.
+    floor: -1184
+    clear_height: [448, 576]
+    relief: flat
+    purpose: The red pool (poi:red_pool).
+    empty: true
+    keep_clear: [spawns]
+    theme: deep_rock
+    light: the red pool's own red light (1 light)
+    furniture: ["the red pool, a brim-full basin (16) in the point"]
+  - id: room:sorting_floor
+    name: Sorting floor
+    kind: room
+    size: M
+    extent: [1536, 1024]
+    shape: "Trapezoid hall with a slanted west wall; three ore chutes open as dark square shafts high in its north wall (their floors 384 up); sorting tables."
+    where: North-east of the top station.
+    floor: -192
+    clear_height: 768
+    relief: flat
+    purpose: "Bats roosting in the chutes; a gold vein; a chalk-marked wall hiding the forgotten strongroom."
+    theme: red_workings
+    light: "2 lanterns hung over the sorting tables (2 lights, 1.6 per M units²); the chutes are black"
+    palette: [iron wall lantern (engine decoration torch02), "ore heaps (7dec10, 7dec11)", buckets (bucket)]
+    furniture: [two sorting tables (48), three chute mouths high in the north wall, an old Red Dwarf chalk sign on the east wall]
+    population:
+      - {slot: 3, groups: 2, per_marker: [2, 4], levels: [3, 3], strength: pack, rank: a, notes: Drop from the chutes when the party crosses the floor.}
+  - id: room:spider_galleries
+    name: Spider galleries
+    kind: room
+    size: L
+    extent: [2816, 1344]
+    shape: "Three old side workings off the stope's spiral, joined by low crawls into one irregular web-hung warren; a dead miner cocooned in the largest."
+    where: "South-west of the open stope, at mid depth; its crawl leaves the spiral's south-south-west ledge."
+    floor: -864
+    clear_height: 480
+    relief: flat
+    purpose: "Optional: the map's spider nest, a corpse with loot, and the web curtain hiding the blue grotto."
+    theme: deep_rock
+    light: unlit
+    palette: ["the cocooned miner: a corpse (corpse08) under a web cocoon (placeholder)", bone pile (dec29), skeleton (dec05), "web sheets (placeholder: no web model)", "mushrooms (mushrm02, mushrm05)"]
+    furniture: ["the web wall: the straight west wall"]
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 3], levels: [5, 5], strength: pack, rank: a, notes: In the two eastern workings.}
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [10, 10], strength: heavy, rank: b, notes: Round the cocoon in the western working.}
+    treasure:
+      - {kind: corpse, count: 1, tier: 2, items: [1, 2], notes: The cocooned miner.}
+  - id: room:stope_floor
+    name: Stope floor
+    kind: room
+    size: XL
+    area: 4
+    extent: [2240, 2240]
+    shape: "Round floor (drawn 16-sided, 2240 across) at the bottom of the pit, littered with spoil heaps and two abandoned carts; the hoist cage stands at its north-east side at first."
+    where: Bottom of the open stope.
+    floor: -1152
+    clear_height: 1536
+    relief: uneven
+    islands: 2
+    purpose: "Bottom of the signature room: two gold veins (mining the richer wakes tiger moles), the red pool grotto, the spiral's foot with the way to the deep station, the hoist up."
+    theme: deep_rock
+    light: "dim: 2 lanterns at the hoist cage; the rest is lit only from the ledges and the red grotto (2 lights, 0.5 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), two abandoned carts (placeholder), "spoil heaps (7dec10, 7dec11)", "boulders (rock01, rock10)", stalagmites (stlmite2)]
+    furniture: [two spoil heaps (96), the hoist cage at the north-east side]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [7, 7], strength: pack, rank: a}
+      - {actor: Tiger Mole, role: burrower, groups: 2, levels: [9, 9], placed: true, strength: heavy, hidden_until: {map_var: rich_vein_mined}, notes: Break out of the rock beside the rich vein (set:rich_vein).}
+  - id: room:stope_rim
+    name: Stope rim
+    kind: room
+    size: S
+    extent: [1088, 384]
+    shape: "Ledge 384 wide round the north-east of the open stope with a timber rail at its lip; the head frame of the hoist stands out over the drop at its north-west end."
+    where: "North-east side of the open stope, at the end of the gallery from the turntable."
+    floor: -384
+    clear_height: 640
+    relief: flat
+    purpose: "The reveal: the whole stope opens below. Bats; a gold vein; the hoist head."
+    theme: red_workings
+    light: "2 lanterns on the rim (with the gallery 3.2 per M units²); the stope beyond is dark"
+    palette: [iron wall lantern (engine decoration torch02), "hoist head frame over the drop, sheave and cable (placeholder)", timber rail along the lip (placeholder)]
+    furniture: [the lip rail, the hoist gate under the head frame]
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [3, 3], strength: light, rank: a}
+  - id: room:stope_spiral
+    name: Stope spiral
+    kind: room
+    size: L
+    extent: [4800, 384]
+    shape: "Ledge spiralling about 0.6 of a turn clockwise down the outside of the pit, from the rim (north-east) round the east, south and west to its foot (north-west), 384 wide: five rock-cut ramps (160 or 128 down over about 450) alternating with four railed ledges that open onto the pit, rails on the ledges."
+    where: Inside the open stope.
+    floor: [-1152, -384]
+    clear_height: 1536
+    relief: slope
+    purpose: "The long descent: spiders lurking at the landings, two gold veins in the wall, the side crawl into the spider galleries."
+    theme: red_workings
+    light: "1 lantern at each ledge, none on the ramps (4 lights, 2.4 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), spoil (7dec10), rails on the ledges]
+    furniture: [timber rails at the four ledges' lips]
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 3], levels: [5, 5], strength: pack, rank: a, notes: At the south-south-east and west-south-west ledges.}
+  - id: room:tally_room
+    name: Tally room
+    kind: room
+    size: S
+    extent: [896, 896]
+    shape: "Hexagonal room up three steps from the mess hall, its walls chalked with the clan's tallies of stolen ore."
+    where: West of the mess hall.
+    floor: -288
+    clear_height: 448
+    relief: flat
+    purpose: "The brake key, held by the clan's tallymaster and his guards."
+    theme: dwarf_hall
+    light: "a candlestick on the table and 1 lantern (2 lights, 2.5 per M units² with the steps)"
+    palette: [candlestick (dec02), iron wall lantern (engine decoration torch02), "chalked tallies on every wall (placeholder: a chalk-tally wall texture)"]
+    furniture: [the tallymaster's table (40) facing the door, the strongbox behind it]
+    population:
+      - {actor: Mad Dwarf, role: tallymaster, groups: 1, levels: [10, 10], placed: true, strength: heavy, notes: A named Mad Dwarf (the Tallymaster) at level 10 with doubled hit points.}
+      - {actor: Mad Dwarf, role: guard, groups: 3, levels: [7, 7], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3], once: true, item: brake_key, notes: The clan's strongbox.}
+  - id: room:top_station
+    name: Top Station
+    kind: room
+    size: M
+    extent: [1280, 896]
+    shape: "Rock hall with a timber loading platform along one side, the cart standing at the head of the trestle; the trestle runs out into darkness."
+    where: Centre-east of the map.
+    floor: -192
+    clear_height: 512
+    relief: flat
+    purpose: "Hub of the upper workings: the cart over the chasm, the foot drift round it, the lamp room and the sorting floor. Safe."
+    empty: true
+    keep_clear: [spawns]
+    theme: timbered_adit
+    light: "lamplit hall: 2 lanterns and a brazier by the loading platform (3 lights, 2.6 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), "brazier, lit (engine decoration brzier00)", barrels (bigbarel), "sacks (bag01, floursac)", buckets (bucket), mine cart waiting at the trestle gate (placeholder)]
+    furniture: [timber loading platform (32) along the west wall, "trestle gate: buffer and gate bar across the rails"]
+  - id: room:turntable
+    name: The Turntable
+    kind: room
+    size: L
+    extent: [1920, 1920]
+    shape: "Round cavern 1920 across under a low flat roof (drawn 16-sided); a cart turntable in the middle with three rail lines leaving it (trestle east, east line south-east, derailed west line west); four more exits round the circle (foot drift north-east, mess hall north, stope gallery south-west, chapel doors south)."
+    where: Centre of the map.
+    floor: -384
+    clear_height: 640
+    relief: flat
+    features:
+      - {kind: turntable, where: Centre, notes: "Lever-turned; points the waiting cart at the trestle or the east line (set:turntable)."}
+    purpose: "The map's crossroads: to the mess hall, the chapel, the stope rim, the west line and the east line."
+    theme: red_workings
+    light: "the best-lit space below the station: 4 lanterns on the walls and 2 braziers by the lever (6 lights, 2.0 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), "brazier, lit (engine decoration brzier00)", turntable lever (a wall switch), barrels (bigbarel), spoil heap (7dec10)]
+    furniture: ["timber turntable disc, 448 across, 16 high, in the middle", the lever on the south-west wall by the stope gallery]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [7, 7], strength: pack, rank: a}
+      - {slot: 2, groups: 1, per_marker: [2, 2], levels: [5, 5], strength: light, rank: a, notes: In the roof over the west line's mouth.}
+  - id: room:west_line
+    name: West line
+    kind: room
+    size: L
+    extent: [512, 3584]
+    shape: "Long derailed rail tunnel rising west, with two ventilation doors across it and a side niche where the carts were repaired."
+    where: West of the turntable.
+    floor: [-384, 256]
+    clear_height: 448
+    relief: slope
+    purpose: "Optional: the long walk to the caved-in west adit and the shortcut to X4."
+    theme: timbered_adit
+    light: "dim: a lantern at each ventilation door and one in the repair niche (3 lights, 2.0 per M units²)"
+    palette: [iron wall lantern (engine decoration torch02), "iron wall torch, unlit (engine decoration nwtrchnf)", derailed cart on its side (placeholder), "rock fall heaps (7dec11, boulders rock01)", tools (bucket)]
+    furniture: [two ventilation doors, the repair niche]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [5, 5], strength: light, rank: a, notes: In the repair niche.}
+  - id: void:chasm
+    name: The chasm
+    kind: void
+    part_of: room:top_station
+    size: L
+    extent: [1920, 1024]
+    shape: "Black cleft between the Top Station and the Turntable, spanned by the trestle."
+    top: 768
+    purpose: "Seen from the trestle ride and the foot drift; falling in is not possible (the trestle has sides)."
+    notes: "Its floor (1600 below the Top Station) is never reached; it reads as bottomless. The trestle is a timber-faced pier along its middle, its top at -320."
+  - id: void:stope_void
+    name: Open stope
+    kind: void
+    part_of: room:stope_floor
+    size: XL
+    extent: [2240, 2240]
+    shape: "Straight-sided pit 2240 across, open 1536 from the floor to a ragged roof; the rim and the spiral's ledges open into its sides at stepped heights round three quarters of it."
+    top: 1536
+    purpose: "Signature space of the map: the rim, the spiral and the floor all look into it."
+regions:
+  - id: region:camp
+    name: The clan's camp
+    spaces: [room:mess_hall, room:bunk_cut, room:tally_room]
+    where: North-west of the turntable.
+    theme: "Dwarf hall (dressed stone, slab floors, iron-banded doors), dwarven furniture smashed and patched"
+  - id: region:east_workings
+    name: East workings
+    spaces: [room:east_line, room:flooded_working]
+    where: "East end, below the entrance."
+    theme: "Timbered adit for the line, drowned working beyond"
+  - id: region:open_stope
+    name: The Open Stope
+    spaces: [room:stope_rim, room:stope_spiral, room:stope_floor, void:stope_void, room:spider_galleries, room:blue_grotto, room:red_pool_grotto, room:deep_station]
+    where: Centre-west and south-west.
+    footprint_cells: [8, 8]
+    theme: "Red workings on the rim and the spiral, deep rock on the floor, the galleries and the Deep Line; gold glints, rails, timber rails at the lips"
+  - id: region:upper_workings
+    name: Upper workings
+    spaces: [room:adit_mouth, room:main_drift, room:top_station, room:lamp_room, room:sorting_floor, room:forgotten_strongroom, room:foot_drift, void:chasm]
+    where: East half.
+    theme: "Timbered adit throughout (the sorting floor in red workings): lamplit, red rock, timber"
+  - id: region:west_line
+    name: West line
+    spaces: [room:west_line, room:collapsed_adit]
+    where: "West third, rising toward X4."
+    theme: "Timbered adit, derelict: few lamps, fallen rock"
+links:
+  - id: link:adit_drift
+    from: room:adit_mouth
+    to: room:main_drift
+    kind: open
+  - id: link:drift_top_station
+    from: room:main_drift
+    to: room:top_station
+    kind: open
+  - id: link:east_cart
+    from: room:turntable
+    to: room:east_line
+    kind: lift
+    condition: {map_var: turntable_east}
+    purpose: "Mine cart: a horizontal mover that carries the party down the east line to the flooded working and back."
+    notes: Runs only while the turntable points east (set:turntable). The line itself is too drowned to walk.
+  - id: link:east_line_flooded
+    from: room:east_line
+    to: room:flooded_working
+    kind: open
+  - id: link:foot_drift_turntable
+    from: room:foot_drift
+    to: room:turntable
+    kind: open
+  - id: link:galleries_blue_grotto
+    from: room:spider_galleries
+    to: room:blue_grotto
+    kind: secret_door
+    motion: rise
+    notes: "A wall of thick old web over rock; cutting it (a click) lifts the web and the thin rock screen behind it. The chapel tablet hints at it (poi:chapel_tablet)."
+  - id: link:hoist
+    from: room:stope_floor
+    to: room:stope_rim
+    kind: lift
+    opens_from: room:stope_floor
+    rise: 768
+    purpose: "The hoist cage: the shortcut back up that closes loop:stope."
+    notes: "The cage waits at the bottom; once ridden up it can be called from either end."
+  - id: link:mess_bunk
+    from: room:mess_hall
+    to: room:bunk_cut
+    kind: door
+    rise: 32
+  - id: link:mess_tally
+    from: room:mess_hall
+    to: room:tally_room
+    kind: door
+    rise: 96
+    notes: Three steps of 32 up to an iron-bound door.
+  - id: link:sorting_strongroom
+    from: room:sorting_floor
+    to: room:forgotten_strongroom
+    kind: secret_door
+    motion: sink
+    notes: "A dry-stone wall marked with an old Red Dwarf chalk sign; it slumps into the floor on a click. Breakable rubble in spirit; a plain secret wall in the build."
+  - id: link:spiral_floor
+    from: room:stope_spiral
+    to: room:stope_floor
+    kind: open
+  - id: link:spiral_galleries
+    from: room:stope_spiral
+    to: room:spider_galleries
+    kind: open
+    notes: "Low crawl off the south-south-west ledge (at -864): a passage 256 long and 384 high through the rock."
+  - id: link:station_lamp_room
+    from: room:top_station
+    to: room:lamp_room
+    kind: door
+  - id: link:station_sorting
+    from: room:top_station
+    to: room:sorting_floor
+    kind: open
+  - id: link:stope_floor_deep_station
+    from: room:stope_spiral
+    to: room:deep_station
+    kind: ramp
+    rise: -64
+    notes: "A ramp 64 down from the spiral's foot, which lies open on the stope floor at the floor's level."
+  - id: link:stope_floor_red_grotto
+    from: room:stope_floor
+    to: room:red_pool_grotto
+    kind: open
+    rise: -32
+  - id: link:stope_rim_spiral
+    from: room:stope_rim
+    to: room:stope_spiral
+    kind: open
+  - id: link:top_station_foot_drift
+    from: room:top_station
+    to: room:foot_drift
+    kind: door
+    notes: "A plank door across the drift's mouth; the drift beyond is the rotten-prop way round."
+  - id: link:trestle_cart
+    from: room:top_station
+    to: room:turntable
+    kind: lift
+    rise: -192
+    crosses: [void:chasm]
+    purpose: "Mine cart over the trestle: a horizontal mover across the chasm; the quick way, and the map's first ride."
+    notes: "The cart starts at the Top Station and can be sent back from either end while the turntable points at the trestle (the default). Both ends are gates (buffer and bar, 96) that walkers cannot pass; the ride is a scripted move along the trestle."
+  - id: link:turntable_chapel
+    from: room:turntable
+    to: room:dwarf_shrine
+    kind: double_door
+    motion: swing
+    rise: -64
+    notes: "Carved stone doors, two steps of 32 down."
+  - id: link:turntable_mess
+    from: room:turntable
+    to: room:mess_hall
+    kind: open
+  - id: link:turntable_stope_rim
+    from: room:turntable
+    to: room:stope_rim
+    kind: open
+    notes: "A short wide gallery; the stope opens all at once at its end (sightline:stope_reveal)."
+  - id: link:turntable_west_line
+    from: room:turntable
+    to: room:west_line
+    kind: open
+  - id: link:west_line_adit
+    from: room:west_line
+    to: room:collapsed_adit
+    kind: door
+    notes: "The second of the two ventilation doors; the first stands halfway along the line."
+loops:
+  - id: loop:chasm
+    spaces: [room:top_station, room:turntable, room:foot_drift]
+    notes: "Ride the cart over the trestle, or walk round by the foot drift (spiders, the rockfall trap); either way back closes the ring."
+  - id: loop:stope
+    spaces: [room:stope_rim, room:stope_spiral, room:stope_floor]
+    closed_until: {map_var: hoist_used}
+    notes: "Down the spiral, up the hoist: after the first ride the stope is a ring and the deep station is a minute from the turntable."
+entrances:
+  - id: entrance:deep_cart
+    space: room:deep_station
+    kind: both
+    neighbour: exit:deep_mine
+    how: "Board the Deep Line cart at the buffer stop; it runs down to the Deep Mine. Returning carts arrive here."
+    condition: {qbit: deep_line_unchained}
+  - id: entrance:main_adit
+    space: room:adit_mouth
+    kind: both
+    neighbour: exit:x1_adit
+    facing: w
+    how: "Inside the timbered portal, facing into the mine; the exit is the daylight behind."
+  - id: entrance:west_adit
+    space: room:collapsed_adit
+    kind: both
+    neighbour: exit:x4_adit
+    how: "The cleared west adit, a long walk up from the turntable."
+    condition: {qbit: x4_adit_open}
+    notes: Caved in until the winch is used (set:west_adit_winch).
+critical_path: [room:adit_mouth, room:main_drift, room:top_station, room:turntable, room:mess_hall, room:tally_room, room:mess_hall, room:turntable, room:stope_rim, room:stope_spiral, room:deep_station]
+return_path: [room:deep_station, room:stope_spiral, room:stope_floor, room:stope_rim, room:turntable, room:top_station, room:main_drift, room:adit_mouth]
+goals:
+  - id: goal:unchain_deep_line
+    space: room:deep_station
+    kind: use
+    what: Use the brake key on the Deep Line cart's brake and ride down to the Deep Mine.
+    story: M3
+    gives:
+      qbit: deep_line_unchained
+    notes: "The Clan King, the real goal of M3, is in XD-03."
+  - id: goal:west_adit
+    space: room:collapsed_adit
+    kind: use
+    what: "Optional: work the winch to clear the caved-in west adit."
+    gives:
+      qbit: x4_adit_open
+    notes: "Opens the X4 entrance; useful in Act II."
+keys:
+  - id: key:brake_key
+    grants: {item: brake_key}
+    found_in: room:tally_room
+    how: "chest (the clan's strongbox), guarded by the Tallymaster"
+  - id: key:hoist
+    grants: {map_var: hoist_used}
+    found_in: room:stope_floor
+    how: "the hoist cage at the bottom of the stope; riding it up once makes it callable from the rim"
+  - id: key:turntable_lever
+    grants: {map_var: turntable_east}
+    found_in: room:turntable
+    how: "lever: turns the turntable toward the east line (and back)"
+points_of_interest:
+  - id: poi:blue_pool
+    space: room:blue_grotto
+    kind: coloured pool
+    behaviour: "Drinking gives the drinker +2 Intellect, permanently, once per character; afterwards 'The water tastes of nothing.'"
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:chapel_tablet
+    space: room:dwarf_shrine
+    kind: tablet
+    behaviour: "Readable: 'Red for the arm, green for the back, gold for the eye, blue for the mind. The blue sleeps behind the silk.' The last line points to the web wall in the spider galleries."
+  - id: poi:gold_pool
+    space: room:flooded_working
+    kind: coloured pool
+    behaviour: "+2 Accuracy, permanently, once per character."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:gold_veins
+    spaces: [room:sorting_floor, room:stope_rim, room:stope_spiral, room:stope_floor, room:flooded_working]
+    count: 6
+    kind: gold vein
+    behaviour: "A glinting seam in the rock: clicking it chips out gold (about 50 to 150 each, 600 for all six) and leaves the seam dull. The richest, on the stope floor, wakes the tiger moles (set:rich_vein)."
+    uses: {times: 1, per: party, reset: never}
+    after_use: {shows: [dull seam], hides: [gold glint]}
+  - id: poi:green_pool
+    space: room:dwarf_shrine
+    kind: coloured pool
+    behaviour: "+2 Endurance, permanently, once per character."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:red_pool
+    space: room:red_pool_grotto
+    kind: coloured pool
+    behaviour: "+2 Might, permanently, once per character."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:turntable_lever
+    space: room:turntable
+    kind: lever
+    behaviour: "Turns the cart turntable between the trestle line (default) and the east line; the waiting cart turns with it."
+    uses: {reset: never}
+    gives:
+      map_var: turntable_east
+  - id: poi:winch
+    space: room:collapsed_adit
+    kind: winch
+    behaviour: "Hauls out the braced props: the fall slides away down an old ore chute with a long roar and a camera shake, and daylight shows at the far end."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: x4_adit_open
+landmarks:
+  - id: landmark:hoist_head
+    space: room:stope_rim
+    what: "The timber head frame of the hoist leaning out over the stope, its cable vanishing down; seen from the floor it marks the way up."
+    seen_from: [room:stope_rim, room:stope_spiral, room:stope_floor]
+  - id: landmark:trestle
+    space: room:top_station
+    what: The trestle running out from the Top Station into the dark over the chasm.
+    seen_from: [room:top_station, room:foot_drift, room:turntable]
+sightlines:
+  - id: sightline:stope_reveal
+    from: room:turntable
+    to: [void:stope_void, landmark:hoist_head]
+    what: "From the end of the gallery to the rim, the whole Open Stope at once: ledges spiralling down into blackness, rails, gold glints, bats wheeling, the hoist head frame."
+  - id: sightline:trestle_ride
+    from: room:top_station
+    to: [void:chasm, room:turntable]
+    what: "On the trestle ride, the chasm below and the Turntable's lamps ahead."
+set_pieces:
+  - id: set:rich_vein
+    kind: ambush
+    spaces: [room:stope_floor]
+    rule: "Chipping the richest vein on the stope floor sets rich_vein_mined: two tiger moles break out of the rock wall beside it."
+    inputs: [chip the rich vein]
+    states: [vein whole, vein mined and moles out]
+    gives:
+      map_var: rich_vein_mined
+    population:
+      - {actor: Tiger Mole, role: burrower, groups: 2, levels: [9, 9], placed: true, strength: heavy}
+  - id: set:rockfall
+    kind: trap
+    spaces: [room:foot_drift]
+    effect: {damage: "2d6 physical, whole party"}
+    rule: "Rotten props in the middle of the foot drift: the first time the party passes, rock falls from the roof (physical damage to everyone, about 2d6) and leaves a rubble heap the party walks round. The cart ride avoids it."
+    states: [armed, fallen]
+  - id: set:stope_reveal
+    kind: vista
+    spaces: [room:turntable, room:stope_rim, void:stope_void]
+    rule: "The gallery from the turntable is low and dark; at its end the roof lifts away and the Open Stope fills the view (sightline:stope_reveal)."
+  - id: set:turntable
+    kind: puzzle
+    spaces: [room:turntable, room:east_line, room:flooded_working]
+    rule: "A cart at the turntable goes where the turntable points. Pointing it east sends carts down the east line (the only way to the flooded working); pointing it back to the trestle is needed to ride back to the Top Station."
+    inputs: [pull the turntable lever, board the cart]
+    states: [trestle (default), east]
+    solution: "Pull the lever to east, ride to the flooded working, ride back, pull the lever again for the trestle (or walk the foot drift)."
+  - id: set:unchain_deep_cart
+    kind: scripted
+    spaces: [room:deep_station]
+    rule: "The Deep Line cart is chained to its brake wheel ('The chain is locked through the brake'). Using the brake key unlocks it and the key is kept by the brake; the cart then rides down to the Deep Mine, a short ride with a camera shake on the steep stretch."
+    inputs: [use the brake key on the brake, board the cart]
+    states: [chained, free]
+    enabled_by: {item: brake_key, consume: true}
+    gives:
+      qbit: deep_line_unchained
+  - id: set:west_adit_winch
+    kind: scripted
+    spaces: [room:collapsed_adit]
+    rule: "The winch pulls the props and the fall drops away down an ore chute: dust, a roar, a camera shake. The adit is open to X4 for good."
+    inputs: [use the winch]
+    states: [caved in, open]
+    gives:
+      qbit: x4_adit_open
+mechanisms:
+  - {kind: "mine cart ride, trestle line", count: 1, notes: "Top Station to the Turntable over the chasm and back (link:trestle_cart). A cart at each gate; boarding one is a scripted move along the trestle (no horizontal mover exists), about 6 seconds, the camera on the cart. Runs while the turntable points at the trestle."}
+  - {kind: "mine cart ride, east line", count: 1, notes: "Turntable to the flooded working's buffer stop and back (link:east_cart), scripted the same way; runs only while the turntable points east (map var turntable_east)."}
+  - {kind: Deep Line cart (map exit), count: 1, notes: "The chained cart in the deep station: 'The chain is locked through the brake' until the brake key is used (consumed); then a click rides to XD-03 with a camera shake. The exit face is the Deep Line's mouth in the station's west wall."}
+  - {kind: hoist cage (lift), count: 1, notes: "A lift about 192 square on the stope floor against its north-east side, travel 768 (speed 96, about 8 seconds) to the rim's hoist gate; down at first, rides on a click from inside; callable from the rim once ridden (map var hoist_used)."}
+  - {kind: turntable lever, count: 1, notes: "Wall switch on the Turntable's south-west wall: toggles turntable_east; the timber disc turns a quarter turn (a rotating mover) and the waiting cart with it."}
+  - {kind: winch, count: 1, notes: "Clickable winch in the collapsed adit, once: dust, a roar, camera shake; the fall slides away and the west wall becomes the X4 exit face (qbit x4_adit_open)."}
+  - {kind: "plank door, hinged", count: 2, notes: "Top Station to the lamp room and to the foot drift; 192 wide, 256 high, in 128 and 64 walls."}
+  - {kind: "iron-bound plank door, hinged", count: 2, notes: "Mess hall to the bunk cut; the tally room's door at the top of its steps."}
+  - {kind: "ventilation door, hinged", count: 2, notes: "Across the west line: the landing's west wall and the collapsed adit's east wall; 256 wide."}
+  - {kind: carved stone double door, count: 1, notes: "The chapel doors in the Turntable's south side: two leaves of 128 swinging inward, in a 128 wall."}
+  - {kind: "secret wall, sinking", count: 1, notes: "The chalk-marked dry-stone wall to the forgotten strongroom, 192 wide, sinks 256; secret face found by perception (difficulty 1)."}
+  - {kind: "secret wall, rising", count: 1, notes: "The web wall to the blue grotto: web over a thin rock screen, 256 wide, rises 320; the chapel tablet hints at it."}
+  - {kind: gold vein (clickable wall), count: 6, notes: "One-time seams on walls: sorting floor west wall, stope rim outer wall, spiral ramps south-east and south-west outer walls, stope floor north-north-east (the rich vein) and south walls, flooded working east wall. The seam texture turns dull after use."}
+  - {kind: coloured pool (clickable), count: 4, notes: "Once per character: red (stope grotto), green (chapel), gold (flooded working), blue (blue grotto); each has a coloured point light."}
+  - {kind: readable tablet, count: 1, notes: In the chapel.}
+  - {kind: rockfall trap, count: 1, notes: "Floor trigger in the middle of the foot drift's west leg, once: 2d6 physical to the party, camera shake, the rubble heap appears (decorations shown by the event)."}
+  - {kind: exit face, count: 2, notes: "The X1 portal (adit mouth's east wall) and the X4 adit (the collapsed adit's west wall, after the winch)."}
+  - {kind: chest, count: 5, notes: "Two footlockers (bunk cut), the lamp room chest, the clan strongbox (tally room, brake key), the payroll chest (strongroom). Plus the cocooned corpse in the galleries."}
+  - {kind: "cart gate (sill, no mover)", count: 3, notes: "The trestle's two gates and the east line's gate at the Turntable: buffers and bars 96 high that walkers cannot cross; the east line's buffer stop at the flooded working is a fourth."}
+height_bands:
+  - id: band:deep
+    range: [-1216, -1152]
+    spaces: [room:stope_floor, room:red_pool_grotto, room:deep_station]
+    partly: [room:stope_spiral]
+  - id: band:lower_middle
+    range: [-896, -576]
+    spaces: [room:spider_galleries, room:blue_grotto, room:flooded_working]
+    partly: [room:stope_spiral, room:east_line]
+  - id: band:middle
+    range: [-448, -288]
+    spaces: [room:turntable, room:mess_hall, room:bunk_cut, room:tally_room, room:dwarf_shrine, room:stope_rim]
+    partly: [room:foot_drift, room:west_line, room:east_line, room:stope_spiral]
+  - id: band:upper
+    range: [-192, 256]
+    spaces: [room:adit_mouth, room:main_drift, room:top_station, room:lamp_room, room:sorting_floor, room:forgotten_strongroom, room:collapsed_adit]
+    partly: [room:foot_drift, room:west_line]
+atmosphere: "Music: the cave track (map_stats.music cave) throughout; cave sound environment. No fog, no weather. Placed ambient sounds: water dripping in the flooded working, the grottoes and the stope floor; a low wind rising out of the chasm (heard on the foot drift and at both trestle gates); the hoist cable creaking at the rim. Light falls off with depth: warm lantern light (orange-white, radius about 384) at a steady rhythm in the timbered upper workings, about 2.5 to 3.5 lights per M units²; braziers and lanterns at 2 per M units² in the Turntable, the camp and the chapel; the stope lit only at its rim and ledges (about 0.5 per M units² on the floor), so the pit falls into blackness below the rail; unlit: the chasm, the chutes, the east line, the spider galleries and the strongroom. Each coloured pool carries its own point light (red, green, gold, blue, radius about 512), the only light in its grotto. Sector ambient from 8 at the portal to 31 in the chasm (rooms.yml). 45 lights in all."
+diagram: {file: diagram.txt}
+totals:
+  chests: 5
+  coloured_pools: 4
+  critical_path_length: 24700
+  doors: 9
+  fixed_actors: 8
+  floor_area_millions: 33.5
+  gold_veins: 6
+  height_range: 1472
+  lights: 45
+  lights_unlit_spaces: 4
+  loops: 2
+  monsters_about: 65
+  placeholders: 15
+  portals: 57
+  rooms: 23
+  secret_faces: 2
+  sectors: 51
+  sketch_rooms: 50
+  spawn_points: 22
+  traps: 1
+notes: "Size M at the top of the band by monsters (about 65 in 50 drawn rooms, 51 sectors) and at its foot by floor (33.5 M units² measured on the L3 sketch; L1's estimate of 48 was more than its own extents add up to, about 36). Monsters are placed unevenly: nothing at the mouth, the Top Station, the chapel or the grottoes; light in the drifts; packs at the Turntable and on the spiral; heavy in the mess hall, the tally room and the spider galleries. Two loops (chasm, stope); the cart lines are written as kind lift (no cart kind) and are scripted rides at build (no horizontal mover). The rooms by class: timbered adits and drifts (lamplit, 2.5-3.5 lights per M units²), halls and the camp (2), the chapel (2), the stope and the deep (0.5-2.5), unlit spaces (7). Two thirds of the rooms are non-orthogonal. Risers are 32 throughout; the lowest ceiling on foot is 384. The four pools give +8 stat points per character in all. Changes made while sketching to scale (L2 and L3 agree): the spiral is about 0.6 of a turn, not 1.5, and steps outward round a straight-sided pit, because a room cannot lie over another; its ramps are rock-cut and only the ledges open onto the pit; the deep station is off the spiral's foot north-west of the pit (was south-west of the floor), so the critical path ends rim, spiral, deep station and the floor is on the way back to the hoist; the spider galleries lie south-west of the pit at -864 and the blue grotto beside them at the same level (was -704); the strongroom floor is -160 (one step); the chutes are vertical shafts; pools are brim-full basins (sunken floors are not drawable); the trestle cannot be walked onto; the stope floor (4.0) and the flooded working (3.7) are XL. Themes (the same ids in rooms.yml) name texture families of the shared MM6-MM8 surface library (level_generation/textures_x4/inventory.json) and engine indoor decorations (assets_dev/engine/models/indoor_decorations.yml); placeholders mark props no model exists for (mine carts, the winch, the hoist head frame, the lamp racks, rails, webs, the tablet). timbered_adit: Timbered adit: red-brown rough rock walls (MM7 cave rock cwb1), packed red earth underfoot (7dirttyl), plank lagging overhead (7trimda), squared timber sets framing every doorway and passage mouth (MM6 beam cbeam5), plank doors (MM8 plank boards bwooda1). red_workings: Red workings: the same red-brown rock (cwb1) on walls and roof, red dirt floor (MM7 dirt); gold veins are walls in the gold-seamed variant of the rock (cwb1gold). deep_rock: Deep rock: dark, coarse rock (MM7 c2b) on walls and roof, the dark cave floor (cfb1); colder and blacker than the red workings above. dwarf_hall: Dwarf hall: dressed stone walls (MM7 cwb), dwarf-cut floor slabs (7tfb1), the raw rock left as the roof (cwb1), plank door frames (7trimd), iron-banded plank doors (MM8 bwoodb1). dwarf_chapel: Dwarf chapel: dwarf block walls (MM7 Stone City 7cdb), dark slab floor (7tfb11), dressed stone roof (cwb), carved stone door leaves (t5d1). drowned_working: Drowned working: red rock (cwb1) over standing water as the floor (MM6 water orwtrlga), plank walkways (7trimda). grotto_pool: Grotto pool: deep rock (c2b) round a floor of shallow water (orwtrlga), coloured by the pool's light."

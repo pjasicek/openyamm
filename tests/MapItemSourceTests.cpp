@@ -25,21 +25,13 @@ world_items:
     source_object_index: 26
     source_name: Plow
     position: {x: -55, y: -4783, z: 721}
-    kind: quest_world_item
-    raw_primary_item_id: 371
     item_id: 10371
+    random_item_pool: []
     required_qbits: [90128]
     forbidden_qbits: [90130]
-    required_items: []
-    forbidden_items: []
-    grant_items:
-      - {raw_mm9_item_id: 371, item_id: 10371, quantity: 1}
-    take_items: []
+    pickup_qbits: []
     set_qbits: [90130]
-    clear_qbits: []
-    random_item_pool: []
-    on_pickup_event: ''
-    consume_on_success: true
+    pickup_event: 30026
 loot_containers:
   - source_id: mm9:drangheim:object:19
     source_object_index: 19
@@ -124,6 +116,7 @@ barrels:
     CHECK_EQ(sources.worldItems[0].itemId, 10371u);
     CHECK_EQ(sources.worldItems[0].requiredQBits[0], 90128u);
     CHECK_EQ(sources.worldItems[0].setQBits[0], 90130u);
+    CHECK_EQ(sources.worldItems[0].pickupEvent, 30026u);
 
     REQUIRE_EQ(sources.lootContainers.size(), 1u);
     CHECK(sources.lootContainers[0].kind == OpenYAMM::Game::LootContainerKind::Chest);
@@ -192,37 +185,32 @@ TEST_CASE("quest world-item availability evaluates shared party qbits")
     CHECK_FALSE(OpenYAMM::Game::worldItemPolicyAvailable(source, party));
 }
 
-TEST_CASE("quest world-item actions use one shared transactional policy")
+TEST_CASE("a placed world item's pickup quest bits gate the take, not the showing")
 {
     OpenYAMM::Game::MapWorldItemSource source = {};
-    source.requiredQBits = {90128};
-    source.setQBits = {90130};
-    source.clearQBits = {90128};
+    source.forbiddenQBits = {90216};
+    source.pickupQBits = {90214};
 
     OpenYAMM::Game::Party party = {};
     party.seed(OpenYAMM::Game::Party::createDefaultSeed());
-    party.setQuestBit(90128, true);
-    OpenYAMM::Game::ItemTable itemTable = {};
-    const OpenYAMM::Game::InventoryItem randomPoolItem = {};
+    CHECK(OpenYAMM::Game::worldItemPolicyAvailable(source, party));
+    CHECK_FALSE(OpenYAMM::Game::worldItemPickupAllowed(source, party));
 
-    CHECK(OpenYAMM::Game::applyWorldItemPolicyActions(source, randomPoolItem, party, itemTable));
-    CHECK_FALSE(party.hasQuestBit(90128));
-    CHECK(party.hasQuestBit(90130));
-
-    party.setQuestBit(90128, true);
-    source.onPickupEvent = "focused_authored_callback";
-    CHECK_FALSE(OpenYAMM::Game::applyWorldItemPolicyActions(source, randomPoolItem, party, itemTable));
+    party.setQuestBit(90214, true);
+    CHECK(OpenYAMM::Game::worldItemPickupAllowed(source, party));
 }
 
-TEST_CASE("semantic world-item pickup feedback uses the standard found-item status")
+TEST_CASE("placed world item without an item or a pool is rejected")
 {
-    const OpenYAMM::Game::ItemTable itemTable = {};
-    OpenYAMM::Game::InventoryItem item = {};
-    item.objectDescriptionId = 379;
-
-    CHECK_EQ(
-        OpenYAMM::Game::formatWorldItemPickupStatusText(item, itemTable),
-        "You found an item (item)!");
+    const YAML::Node rootNode = YAML::Load(R"(
+world_items:
+  - {source_id: a, source_object_index: 1, source_name: A, position: {x: 0, y: 0, z: 0}, item_id: 0,
+     random_item_pool: [], required_qbits: [], forbidden_qbits: [], pickup_qbits: [], set_qbits: [], pickup_event: 0}
+)");
+    OpenYAMM::Game::MapItemSourceData sources = {};
+    std::string errorMessage;
+    CHECK_FALSE(OpenYAMM::Game::parseMapItemSourceData(rootNode, sources, errorMessage));
+    CHECK_NE(errorMessage.find("item_id or random_item_pool"), std::string::npos);
 }
 
 TEST_CASE("MM9 bone pile uses native one-shot disease comparison without opening a container")
@@ -284,6 +272,55 @@ TEST_CASE("MM9 treasure bag materializes through chest records without bone-pile
     CHECK_EQ(fixedItemId, 10371);
     CHECK_EQ(randomTier, -4);
     CHECK_EQ(chest.flags, 0);
+}
+
+TEST_CASE("loot container random_records holds that many random treasure records")
+{
+    const YAML::Node sourceNode = YAML::Load(R"(
+loot_containers:
+  - source_id: mm9:test:chest
+    source_object_index: 0
+    source_name: TreasureChest0
+    position: {x: 0, y: 0, z: 0}
+    container_id: 0
+    kind: chest
+    presentation: mm9_chest
+    random_treasure_level: 3
+    treasure_type: 7
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: false
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+)");
+    OpenYAMM::Game::MapItemSourceData sources;
+    std::string error;
+    REQUIRE(OpenYAMM::Game::parseMapItemSourceData(sourceNode, sources, error));
+    const OpenYAMM::Game::MapDeltaChest chest =
+        OpenYAMM::Game::buildLootContainerChest(sources.lootContainers.front(), 2, 9036, 7, nullptr, nullptr);
+    REQUIRE_EQ(chest.rawItems.size(), 3u * 36u);
+
+    for (size_t offset = 0; offset < chest.rawItems.size(); offset += 36)
+    {
+        int32_t itemId = 0;
+        std::memcpy(&itemId, chest.rawItems.data() + offset, sizeof(itemId));
+        CHECK_EQ(itemId, -3);
+    }
+
+    YAML::Node withoutField = YAML::Clone(sourceNode);
+    withoutField["loot_containers"][0].remove("random_records");
+    OpenYAMM::Game::MapItemSourceData single;
+    REQUIRE(OpenYAMM::Game::parseMapItemSourceData(withoutField, single, error));
+    CHECK_EQ(single.lootContainers.front().randomRecords, 1u);
+
+    YAML::Node zero = YAML::Clone(sourceNode);
+    zero["loot_containers"][0]["random_records"] = 0;
+    OpenYAMM::Game::MapItemSourceData rejected;
+    CHECK_FALSE(OpenYAMM::Game::parseMapItemSourceData(zero, rejected, error));
 }
 
 TEST_CASE("Map-local chest item pools validate and produce persistent native item records")
@@ -399,7 +436,7 @@ TEST_CASE("MM9 loot-container presentation resolves through the shared chest tab
 TEST_CASE("MM9 loot-container icons exist in the world package" * OpenYAMM::Tests::requiresMm9Assets())
 {
     const std::filesystem::path iconRoot =
-        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/icons";
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/icons_x2";
     CHECK(std::filesystem::exists(iconRoot / "mm9_chest.png"));
     CHECK(std::filesystem::exists(iconRoot / "mm9_treasure_bag.png"));
 }

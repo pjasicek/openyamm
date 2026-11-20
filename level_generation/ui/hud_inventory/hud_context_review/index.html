@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM HUD context review</title>
+  <style>
+    :root { color-scheme: dark; --bg:#11171b; --panel:#1c252a; --panel2:#263238; --line:#3d5057;
+      --text:#eef3ed; --muted:#a8b7b6; --gold:#e9c87b; --green:#8bdbb5; --red:#ff9289; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui,sans-serif; }
+    button,select,input,textarea { font:inherit; color:inherit; }
+    button,select,input,textarea { background:#182126; border:1px solid var(--line); border-radius:7px; }
+    button,select { padding:7px 10px; cursor:pointer; }
+    button:hover,select:hover { border-color:var(--gold); }
+    button.active { background:#536044; border-color:var(--gold); }
+    input,textarea { padding:8px; }
+    textarea { width:100%; min-height:85px; resize:vertical; }
+    a { color:#bddff0; }
+    header { padding:19px 24px 12px; border-bottom:1px solid var(--line); background:#172025; }
+    h1 { margin:0 0 5px; font-family:Georgia,serif; font-size:29px; color:#f0dbab; }
+    h2 { font-size:17px; margin:0 0 8px; }
+    h3 { font-size:14px; margin:0 0 8px; }
+    p { margin:5px 0; }
+    .muted { color:var(--muted); }
+    .toolbar { display:flex; gap:9px; align-items:center; flex-wrap:wrap; padding:12px 24px;
+      border-bottom:1px solid var(--line); }
+    .toolbar label { display:flex; gap:5px; align-items:center; }
+    .toolbar input[type=checkbox] { accent-color:var(--gold); }
+    .shell { display:grid; grid-template-columns:210px minmax(0,1fr) 350px; min-height:calc(100vh - 145px); }
+    aside { background:#151e22; border-right:1px solid var(--line); padding:15px; max-height:calc(100vh - 145px);
+      overflow:auto; position:sticky; top:0; }
+    .sidegroup { margin:14px 0 6px; font-size:11px; text-transform:uppercase; color:var(--gold);
+      letter-spacing:.09em; }
+    .viewlink { display:block; width:100%; padding:6px 8px; text-align:left; border:0; background:transparent;
+      color:#c7d2d0; border-radius:5px; }
+    .viewlink:hover,.viewlink.active { color:#fff; background:#334148; }
+    main { min-width:0; padding:16px 20px 32px; }
+    .overview { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:13px; }
+    .pill { padding:3px 8px; border-radius:30px; background:#24343b; color:#cee1de; border:1px solid #42575e; }
+    .pill.warn { color:#ffce9d; border-color:#765c43; background:#382c25; }
+    .pill.good { color:#adf1c7; border-color:#45745b; background:#1b382b; }
+    .scene-head { display:flex; align-items:baseline; justify-content:space-between; gap:15px; flex-wrap:wrap; }
+    .scene-head p { max-width:800px; }
+    .scene-pair { display:flex; flex-wrap:wrap; gap:18px; align-items:start; margin:12px 0 18px; }
+    .scene-wrap { flex:1 1 640px; min-width:300px; max-width:760px; }
+    .scene-wrap.small { flex-basis:500px; }
+    .scene-label { margin:0 0 5px; color:var(--gold); }
+    .scene-scale { width:100%; aspect-ratio:4/3; position:relative; }
+    .scene { position:absolute; width:640px; height:480px; overflow:hidden; transform-origin:top left;
+      border:1px solid #5f6f70; background:radial-gradient(ellipse at 50% 28%,#3b4747 0%,#26312e 32%,#12191a 82%);
+      box-shadow:0 12px 30px #0009; }
+    .scene:before { content:""; position:absolute; inset:32% 0 0; background:linear-gradient(140deg,#23352b,#121d21 45%,#10212b);
+      clip-path:polygon(0 27%,18% 14%,30% 36%,47% 0,66% 24%,83% 8%,100% 28%,100% 100%,0 100%); opacity:.8; }
+    .sprite { position:absolute; overflow:visible; background-repeat:no-repeat; background-size:100% 100%; cursor:pointer; }
+    .sprite.selected { outline:2px solid #ffd968; outline-offset:1px; z-index:900!important; }
+    .show-outlines .sprite:hover { outline:1px dashed #d9f3e8; }
+    .sprite.fallback:after { content:""; position:absolute; right:0; top:0; width:7px; height:7px;
+      border-radius:50%; background:#ec9a66; box-shadow:0 0 0 1px #000; }
+    .sprite.generated { background:#4151559c; border:1px dashed #809e9c; }
+    .sprite.generated:after { content:attr(data-label); color:#d0e2e0; font-size:10px; padding:4px; }
+    .scene-text { position:absolute; color:#fff2cf; font-family:Georgia,serif; font-size:11px; text-shadow:1px 1px 2px #000;
+      overflow:hidden; white-space:nowrap; pointer-events:none; }
+    .sprite-label { position:absolute; left:0; top:0; background:#151d20e9; color:#eaf4eb; font:9px system-ui;
+      padding:1px 3px; max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; pointer-events:none; }
+    .catalog-head { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:9px; }
+    .catalog-head input { flex:1 1 190px; }
+    .catalog { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; cursor:pointer; }
+    .card:hover,.card.selected { border-color:var(--gold); }
+    .card-images { height:125px; display:flex; background:repeating-conic-gradient(#29363b 0 25%,#334348 0 50%) 0 0/18px 18px; }
+    .card-images img { width:50%; height:100%; object-fit:contain; padding:5px; border-right:1px solid #53636a; }
+    .card-images .empty { width:50%; display:grid; place-items:center; font-size:11px; color:#ffbc8c; text-align:center; padding:7px; }
+    .card-meta { padding:7px 9px; min-height:67px; }
+    .card-meta strong { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .tag { font-size:11px; color:#b7d0c9; }
+    .tag.bad { color:#ffbc8c; }
+    .tag.flagged { color:#ffd077; }
+    .detail { border-left:1px solid var(--line); background:#1a2328; padding:15px; max-height:calc(100vh - 145px);
+      overflow:auto; position:sticky; top:0; }
+    .detail-images { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0; }
+    .detail-images.with-repair { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .detail-images figure { margin:0; min-width:0; }
+    .detail-images .art { height:185px; display:grid; place-items:center; overflow:hidden;
+      background:repeating-conic-gradient(#2e393a 0 25%,#465351 0 50%) 0 0/20px 20px; }
+    .detail-images img { max-width:100%; max-height:100%; object-fit:contain; }
+    figcaption { margin-top:3px; color:var(--muted); font-size:12px; }
+    .detail dl { display:grid; grid-template-columns:80px 1fr; gap:5px 8px; font-size:12px; overflow-wrap:anywhere; }
+    .detail dt { color:var(--muted); }
+    .detail dd { margin:0; }
+    .actions { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0; }
+    .actions button.good { border-color:#3e8a67; }
+    .actions button.bad { border-color:#a56860; }
+    .note { border-left:3px solid #7e7564; padding:7px 10px; background:#293135; margin:10px 0; font-size:12px; }
+    .footer-tools { display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
+    @media(max-width:1150px) { .shell { grid-template-columns:170px minmax(0,1fr); }
+      .detail { grid-column:2; position:static; max-height:none; border-top:1px solid var(--line); } }
+    @media(max-width:700px) { .shell { display:block; } aside { position:static; max-height:220px; }
+      .detail { max-height:none; } .scene-wrap { min-width:260px; } }
+  </style>
+</head>
+<body>
+<header>
+  <h1>HUD context review</h1>
+  <p class="muted">Assembled from active UI layouts and current exact-x2 candidates. Pick a piece in the scene or catalogue to inspect it and record a visual decision.</p>
+  <p class="muted">The default x2 view uses repaired review images for magenta mattes, pink edges and the 21 regenerated button states. Originals remain available for comparison. Repair previews are not runtime assets or visual approvals.</p>
+</header>
+<div class="toolbar">
+  <label>View <select id="viewSelect"></select></label>
+  <label>Display <select id="display"><option value="restored">Repaired review x2</option><option value="native">Native</option><option value="compare">Compare native / repaired x2</option><option value="original">Original x2 before repair</option><option value="compare-original">Compare native / original x2</option></select></label>
+  <label>Button state <select id="buttonState"><option value="default">Normal</option><option value="highlighted">Hover</option><option value="pressed">Pressed</option><option value="selected">Selected</option></select></label>
+  <label>Body buff <select id="bodyBuff"></select></label>
+  <label>Skull buff <select id="skullBuff"></select></label>
+  <label><input id="labels" type="checkbox"> Labels</label>
+  <label><input id="outlines" type="checkbox" checked> Hover outlines</label>
+</div>
+<div class="shell">
+  <aside id="viewNav"></aside>
+  <main>
+    <div class="overview" id="overview"></div>
+    <div class="scene-head"><div><h2 id="sceneTitle"></h2><p class="muted" id="sceneDescription"></p></div></div>
+    <div class="scene-pair" id="scenePair"></div>
+    <div class="catalog-head">
+      <h2 style="margin:0">Assets</h2>
+      <input id="search" type="search" placeholder="Search names, screens, elements">
+      <select id="scope"><option value="scene">In this view</option><option value="all">All UI and dynamic HUD art</option></select>
+      <select id="filter"><option value="all">All statuses</option><option value="button-triplets">Regenerated button triplets</option><option value="alpha-repaired">True-alpha matte repairs</option><option value="edge-repaired">Opaque edge repairs</option><option value="imagegen-repaired">Imagegen true-alpha repairs</option><option value="alpha-unrepaired">Original audit attention still unresolved</option><option value="user-flagged">49 pasted flags</option><option value="alpha-attention">Original alpha audit attention</option><option value="raw-only">Raw only / not fitted</option><option value="candidate">Exact-x2 candidate</option><option value="fallback">Native fallback</option><option value="flagged">My browser flags</option><option value="approved">My approvals</option></select>
+      <span class="muted" id="catalogCount"></span>
+    </div>
+    <div class="catalog" id="catalog"></div>
+  </main>
+  <section class="detail" id="detail"><h2>Select a HUD element</h2><p class="muted">Click any image in the scene or asset catalogue.</p></section>
+</div>
+<script src="data.js"></script>
+<script src="audit.js"></script>
+<script>
+(() => {
+  'use strict';
+  const data = window.HUD_REVIEW_DATA;
+  if (!data) { document.body.textContent = 'Run build.py to generate data.js first.'; return; }
+  const $ = id => document.getElementById(id);
+  const assets = data.assets;
+  const audit = window.HUD_REVIEW_AUDIT || {flagged:[],flag_notes:{},by_target:{},pilots:{}};
+  const pastedFlags = new Set(audit.flagged);
+  const reviewsKey = 'openyamm-hud-context-review-v1';
+  let reviews = {};
+  try { reviews = JSON.parse(localStorage.getItem(reviewsKey) || '{}'); } catch (_) { reviews = {}; }
+  let selectedAsset = null;
+  let selectedView = 'outdoor-standard';
+  let sceneAssets = new Set();
+
+  const views = [
+    {id:'outdoor-standard',group:'Gameplay HUD',title:'Outdoor · standard',layout:'gameplay',roots:['OutdoorStandardBasebar','OutdoorStandardTopBar'],desc:'Shared MM8-style 640 × 480 HUD. Party portraits and map surface are illustrative dynamic content; authored frame and buttons follow gameplay.yml.'},
+    {id:'outdoor-expanded',group:'Gameplay HUD',title:'Outdoor · expanded',layout:'gameplay',roots:['OutdoorGameplayBasebar','OutdoorOptionsBar','OutdoorGoldBar','OutdoorFoodRestBar','OutdoorBuffBodyPanel','OutdoorBuffSkullPanel','OutdoorMinimapFrame','OutdoorFollowerPanel','OutdoorFollowerToggle','OutdoorFlyBuffIcon'],desc:'Expanded HUD components assembled from gameplay.yml. Follower portraits are illustrative samples; some panels normally appear only while active.'},
+    {id:'outdoor-buffs',group:'Gameplay HUD',title:'Buff panels and controls',layout:'gameplay',roots:['OutdoorStandardTopBar','OutdoorBuffBodyPanel','OutdoorBuffSkullPanel','OutdoorFlyBuffIcon'],desc:'Cycle the body and skull buff selectors. Their other states and companion icons remain in the asset catalogue.'},
+    {id:'mobile-hud',group:'Gameplay HUD',title:'Mobile HUD',layout:'gameplay_mobile',desc:'Android layout reference. Duplicate desktop ids and runtime interaction states can differ.'},
+  ];
+  for (const page of ['Stats','Skills','Inventory','Awards']) views.push({id:'character-'+page.toLowerCase(),group:'Character',title:'Character · '+page,layout:'character',page,desc:'Page frame, navigation, top bar and paperdoll region from character.yml.'});
+  for (const school of ['Fire','Air','Water','Earth','Spirit','Mind','Body','Light','Dark','DarkElf','Vampire','Dragon']) views.push({id:'spellbook-'+school.toLowerCase(),group:'Spellbook',title:'Spellbook · '+school,layout:'spellbook',school,desc:'One authored spell page with its complete normal, hover and pressed icon family. Select button state above.'});
+  for (const page of ['Map','Quests','Story','Notes']) views.push({id:'journal-'+page.toLowerCase(),group:'Journal',title:'Journal · '+page,layout:'journal',journalPage:page,desc:'Journal page assembly. Text and generated map imagery are illustrative placeholders.'});
+  for (const [layout,title,group] of [
+    ['item_inspect','Item inspect','Inspect windows'],['buff_inspect','Buff inspect','Inspect windows'],
+    ['spell_inspect','Spell inspect','Inspect windows'],['character_inspect','Character inspect','Inspect windows'],
+    ['actor_inspect','Actor inspect','Inspect windows'],['character_detail','Character detail','Inspect windows'],
+    ['chest','Chest','Other views'],['rest','Rest','Other views'],['dialogue','Dialogue','Other views'],
+    ['quick_reference','Quick reference','Other views'],['town_portal','Town portal','Other views'],
+    ['lloyds_beacon','Lloyd’s Beacon','Other views'],['character_creation','Character creation','Other views'],
+    ['adventurers_inn','Adventurers Inn','Other views'],['continent_selection','Continent selection','Other views'],
+    ['controls','Controls','Other views'],['keyboard','Keyboard','Other views'],
+    ['save_game','Save game','Other views'],['load_game','Load game','Other views'],
+    ['video_options','Video options','Other views'],['menu','Gameplay menu','Other views'],
+  ]) views.push({id:layout,group,title,layout,desc:'Composition from '+layout+'.yml. Runtime text, dynamic content and conditional visibility are approximated for art review.'});
+
+  const normal = value => String(value || '').toLowerCase();
+  function assetName(node) {
+    const value = node.asset || {};
+    if (typeof value === 'string') return value;
+    const state=$('buttonState').value;
+    return value[state] || (state==='highlighted'?value.hover:null) || value.default || '';
+  }
+  function collectAssetNames(node, set) {
+    const value = node.asset || {};
+    for (const name of typeof value === 'string' ? [value] : Object.values(value)) {
+      if (typeof name === 'string' && name) set.add(normal(name));
+    }
+  }
+  function includeNode(node, view) {
+    const id = node.id || '';
+    if (view.layout === 'character') {
+      if (/^Character(?:Stats|Skills|Inventory|Awards)Page$/.test(id)) return id === 'Character'+view.page+'Page';
+    }
+    if (view.layout === 'spellbook' && id.startsWith('SpellbookPage')) {
+      return id.startsWith('SpellbookPage'+view.school) &&
+        (view.school !== 'Dark' || !id.startsWith('SpellbookPageDarkElf'));
+    }
+    if (view.layout === 'journal') {
+      if (/^JournalMainView/.test(id)) return id === 'JournalMainView'+view.journalPage;
+      if (/^Journal(?:Quests|Story|Notes)TopLeftArt/.test(id)) return id === 'Journal'+view.journalPage+'TopLeftArt';
+      if (/^JournalMap/.test(id)) return view.journalPage === 'Map';
+      if (/^JournalNotes(?:Potion|Fountain|Obelisk|Seer|Misc|Trainer)/.test(id)) return view.journalPage === 'Notes';
+    }
+    if (/^Outdoor(?:Standard)?Buff(?:Body|Skull)_[^F]/.test(id) ||
+        /^Outdoor(?:Standard)?Buff(?:Body|Skull)_F(?!rame)/.test(id)) {
+      const body = id.includes('BuffBody_');
+      const selected = body ? $('bodyBuff').value : $('skullBuff').value;
+      if (id.endsWith('_Frame')) return true;
+      return !selected || id.endsWith('_'+selected);
+    }
+    return true;
+  }
+  function topRoots(view) {
+    const layout = data.layouts[view.layout];
+    return (layout?.elements || []).filter(node => !view.roots || view.roots.includes(node.id));
+  }
+  function visibleNodes(view) {
+    const nodes=[];
+    function walk(node,parent) {
+      if (!includeNode(node,view)) return;
+      nodes.push({node,parent});
+      for (const child of node.children || []) walk(child,node.id);
+    }
+    for (const root of topRoots(view)) walk(root,null);
+    return nodes;
+  }
+  function rect(node,parent,view) {
+    let w=Number(node.width)||0,h=Number(node.height)||0;
+    const inspect=view.group==='Inspect windows';
+    if (inspect && /Corner_(?:Left|Right)Edge$/.test(node.id) && parent) h=parent.h;
+    if (inspect && /Corner_(?:Top|Bottom)Edge$/.test(node.id) && parent) w=parent.w;
+    const ax=normal(node.anchor).replace(/[_ -]/g,'');
+    const ox=Number(node.offset_x)||0,oy=Number(node.offset_y)||0;
+    const p=parent || {x:0,y:0,w:640,h:480};
+    let x=p.x,y=p.y;
+    if (!parent && inspect) { x=(640-w)/2; y=(480-h)/2; }
+    else if (!parent) {
+      if (ax.includes('right')) x=640-w;
+      else if (ax.includes('center') || ax==='topcenter' || ax==='bottomcenter') x=(640-w)/2;
+      if (ax.startsWith('bottom')) y=480-h;
+      else if (ax==='center'||ax==='left'||ax==='right') y=(480-h)/2;
+    } else {
+      if (ax==='rightof') x=p.x+p.w;
+      else if (ax==='leftof') x=p.x-w;
+      else if (ax==='right'||ax==='insideright'||ax==='topright'||ax==='bottomright') x=p.x+p.w-w;
+      else if (ax.includes('center') || ax==='top'||ax==='bottom') x=p.x+(p.w-w)/2;
+      if (ax==='below'||ax==='centerbelow') y=p.y+p.h;
+      else if (ax==='above'||ax==='centerabove') y=p.y-h;
+      else if (ax==='bottom'||ax==='bottomleft'||ax==='bottomright'||ax==='bottomcenter') y=p.y+p.h-h;
+      else if (ax==='center'||ax==='centerin'||ax==='left'||ax==='right') y=p.y+(p.h-h)/2;
+    }
+    return {x:x+ox,y:y+oy,w,h};
+  }
+  function createSprite(name,node,box,kind,mode) {
+    const a=assets[normal(name)];
+    const div=document.createElement('div');
+    div.className='sprite';
+    div.style.cssText=`left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px;z-index:${Number(node.z_index)||200};`;
+    const original=mode==='original';
+    const image = original && a?.restored?.image ? (a.restored.keyed_image||a.restored.image)
+      : mode==='restored' && a?.restored?.image ? a.restored.image : a?.native;
+    if (image) div.style.backgroundImage=`url("${image}")`;
+    else { div.classList.add('generated'); div.dataset.label=name==='MINIMAP'?'generated map':name; }
+    if (mode!=='native' && a && !a.restored?.image) div.classList.add('fallback');
+    if (normal(name)===selectedAsset) div.classList.add('selected');
+    const repaired=a?.restored?.alpha_repair||a?.restored?.opaque_edge_repair||a?.restored?.imagegen_repair||a?.restored?.button_triplet_repair;
+    div.title=`${node.id} · ${name} · ${kind}${repaired&&!original&&mode!=='native'?' · repaired review preview':a?.restored?.image?' · '+a.restored.status:' · native fallback'}`;
+    div.addEventListener('click',event=>{event.stopPropagation(); selectAsset(normal(name));});
+    if ($('labels').checked) {
+      const label=document.createElement('span');label.className='sprite-label';label.textContent=name;
+      div.appendChild(label);
+    }
+    return div;
+  }
+  function addDynamicContext(scene,boxes,mode,view) {
+    if (!view.id.startsWith('outdoor-')) return;
+    const map=boxes.get('OutdoorStandardMinimap') || boxes.get('OutdoorMinimap');
+    if (map) {
+      const overlay=document.createElement('div');overlay.style.cssText=`position:absolute;left:${map.x}px;top:${map.y}px;width:${map.w}px;height:${map.h}px;background:linear-gradient(30deg,#566c54,#303f38 44%,#73805c 45%,#4d5e58);z-index:190;opacity:.8;`;
+      scene.appendChild(overlay);
+    }
+  }
+  function addPartyContext(scene,boxes,mode) {
+    const bar=boxes.get('OutdoorStandardBasebar') || boxes.get('OutdoorGameplayBasebar');
+    const strip=boxes.get('OutdoorStandardPartyStrip') || boxes.get('OutdoorGameplayPartyStrip');
+    if (!bar || !strip) return;
+    const wide=boxes.has('OutdoorGameplayBasebar');
+    const step=strip.w*94/471,portraitW=60,portraitH=80;
+    const start=wide?bar.x+(bar.w-(portraitW+3*step))/2:strip.x+strip.w*20/471;
+    const y=strip.y+strip.h*23/92-(wide?15:0);
+    for(let i=0;i<4;i++) {
+      const x=start+i*step;
+      const portrait=createSprite('pc0'+(i+1)+'-01',{id:'PartyPortrait'+i,z_index:220},
+        {x:x+2,y:y+2,w:portraitW-4,h:portraitH-4},'dynamic portrait',mode);
+      scene.appendChild(portrait);
+      scene.appendChild(createSprite('facemask',{id:'PartyFaceMask'+i,z_index:230},
+        {x,y,w:portraitW,h:portraitH},'portrait mask',mode));
+      if(i===0) scene.appendChild(createSprite('selring',{id:'PartySelectionRing',z_index:231},
+        {x:x-1,y,w:61,h:80},'selection ring',mode));
+      const frameX=x+strip.w*63/471;
+      const frameY=bar.y+bar.h-51-strip.h/92;
+      scene.appendChild(createSprite('manafrm',{id:'PartyHealthManaFrame'+i,z_index:232},
+        {x:frameX,y:frameY,w:10,h:51},'health and mana border',mode));
+      for(const [name,dx,amount] of [['manag',1,[.85,.62,.92,.74][i]],['manab',5,[.7,.94,.48,.8][i]]]) {
+        const fill=createSprite(name,{id:'PartyFill'+i+name,z_index:233},
+          {x:frameX+dx,y:frameY+1,w:3,h:49},'health or mana fill',mode);
+        fill.style.clipPath=`inset(${(1-amount)*100}% 0 0 0)`;
+        scene.appendChild(fill);
+      }
+    }
+  }
+  function addFollowerContext(scene,boxes,mode) {
+    const sample=['npc0499','npc1500','npc1581'];
+    for(let i=0;i<sample.length;i++) {
+      const box=boxes.get('OutdoorFollowerPortrait_'+(i+1));
+      if (!box) continue;
+      scene.appendChild(createSprite(sample[i],{id:'IllustrativeFollowerPortrait'+(i+1),z_index:205},
+        box,'sample follower portrait',mode));
+    }
+  }
+  function addInspectContent(scene,boxes,view,mode) {
+    if (view.group!=='Inspect windows') return;
+    const root=[...boxes].find(([id])=>id.endsWith('Root'))?.[1];
+    if (!root) return;
+    if (view.layout==='item_inspect') {
+      const sample=createSprite('item015',{id:'IllustrativeItemPreview',z_index:640},
+        {x:root.x+29,y:root.y+58,w:92,h:138},'sample item',mode);
+      sample.style.backgroundSize='contain';sample.style.backgroundPosition='center';scene.appendChild(sample);
+    }
+    const content=document.createElement('div');
+    content.style.cssText=`position:absolute;left:${root.x+18}px;top:${root.y+16}px;width:${root.w-36}px;height:${root.h-32}px;z-index:650;pointer-events:none;color:#f2eacb;font:13px/1.35 Georgia,serif;text-shadow:1px 1px 1px #000;`;
+    if (view.layout==='item_inspect') content.innerHTML='<div style="text-align:center;color:#fff1a1;font-size:17px">Enchanted blade</div><div style="margin:26px 0 0 115px">Type: Sword<br>Attack: +12<br><br>A finely forged weapon<br>with a magical edge.<br><br>Value: 1,250 gold</div>';
+    else if (view.layout==='buff_inspect') content.innerHTML='<div style="text-align:center;color:#fff1a1;font-size:17px">Active blessings</div><div style="margin-top:25px">Feather Fall — 3 hours remaining<br>Fire Resistance — 2 hours remaining<br>Heroism — 1 hour remaining</div>';
+    else if (view.layout==='spell_inspect') content.innerHTML='<div style="text-align:center;color:#fff1a1;font-size:17px">Fly</div><div style="margin-top:26px">Air Magic · Master<br><br>Allows the party to travel above the ground for a limited time.</div>';
+    else content.innerHTML='<div style="text-align:center;color:#fff1a1;font-size:17px">Inspection details</div><div style="margin-top:30px">Name and description<br><br>Attributes, abilities and current state are supplied by the game at runtime.</div>';
+    scene.appendChild(content);
+  }
+  function buildScene(view,mode) {
+    const wrap=document.createElement('div');wrap.className='scene-wrap'+($('display').value.startsWith('compare')?' small':'');
+    const title=document.createElement('div');title.className='scene-label';title.textContent=mode==='native'?'Native layout':mode==='original'?'Original x2 candidates before repair':'Repaired x2 review candidates';wrap.appendChild(title);
+    const scaleBox=document.createElement('div');scaleBox.className='scene-scale';wrap.appendChild(scaleBox);
+    const scene=document.createElement('div');scene.className='scene'+($('outlines').checked?' show-outlines':'');scaleBox.appendChild(scene);
+    const fit=()=>{scene.style.transform=`scale(${scaleBox.clientWidth/640})`;};
+    requestAnimationFrame(fit);window.addEventListener('resize',fit,{once:true});
+    const nodes=visibleNodes(view),boxes=new Map();
+    for (const {node,parent} of nodes) boxes.set(node.id,rect(node,boxes.get(parent),view));
+    addDynamicContext(scene,boxes,mode,view);
+    for (const {node} of nodes) {
+      const box=boxes.get(node.id), name=assetName(node);
+      if (name && !/PartyStrip$/.test(node.id)) scene.appendChild(createSprite(name,node,box,'default',mode));
+      if (node.text?.value && !node.text.value.includes('{')) {
+        const span=document.createElement('div');span.className='scene-text';
+        span.style.cssText=`left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px;z-index:${(Number(node.z_index)||200)+1}`;
+        span.textContent=node.text.value;scene.appendChild(span);
+      }
+    }
+    addPartyContext(scene,boxes,mode);
+    addFollowerContext(scene,boxes,mode);
+    addInspectContent(scene,boxes,view,mode);
+    return wrap;
+  }
+  function viewForId(id) { return views.find(view=>view.id===id)||views[0]; }
+  function populateBuffs() {
+    const layout=data.layouts.gameplay;
+    const ids=[];
+    function walk(node) { if (/^OutdoorBuff(?:Body|Skull)_[^F]/.test(node.id) || /^OutdoorBuff(?:Body|Skull)_F(?!rame)/.test(node.id)) ids.push(node.id);for(const c of node.children||[])walk(c); }
+    for (const root of layout.elements) walk(root);
+    for (const [kind,element] of [['Body','bodyBuff'],['Skull','skullBuff']]) {
+      const names=[...new Set(ids.filter(id=>id.includes('Buff'+kind+'_')&&!id.endsWith('_Frame')).map(id=>id.split('_').pop()))];
+      $(element).innerHTML=names.map(name=>`<option value="${name}">${name.replace(/([a-z])([A-Z])/g,'$1 $2')}</option>`).join('');
+    }
+  }
+  function renderView() {
+    const view=viewForId(selectedView);
+    $('viewSelect').value=view.id;
+    document.querySelectorAll('.viewlink').forEach(link=>link.classList.toggle('active',link.dataset.view===view.id));
+    $('sceneTitle').textContent=view.title;
+    $('sceneDescription').textContent=view.desc;
+    const nodes=visibleNodes(view);
+    sceneAssets=new Set();
+    for (const {node} of nodes) collectAssetNames(node,sceneAssets);
+    if (view.id.startsWith('outdoor-')) for(let i=1;i<=4;i++)sceneAssets.add('pc0'+i+'-01');
+    if (view.id==='outdoor-expanded') for(const name of ['npc0499','npc1500','npc1581'])sceneAssets.add(name);
+    if (view.layout==='item_inspect') sceneAssets.add('item015');
+    const exact=[...sceneAssets].filter(name=>assets[name]?.restored?.image).length;
+    const missing=[...sceneAssets].filter(name=>!assets[name]?.restored?.image).length;
+    const pasted=[...sceneAssets].filter(name=>pastedFlags.has(assets[name]?.target)).length;
+    const attention=[...sceneAssets].filter(name=>{
+      const category=audit.by_target[assets[name]?.target]?.category;
+      return category==='wrong_or_missing_alpha'||category==='magenta_contamination_check';
+    }).length;
+    const alphaRepaired=[...sceneAssets].filter(name=>assets[name]?.restored?.alpha_repair).length;
+    const edgeRepaired=[...sceneAssets].filter(name=>assets[name]?.restored?.opaque_edge_repair).length;
+    const imagegenRepaired=[...sceneAssets].filter(name=>assets[name]?.restored?.imagegen_repair).length;
+    const buttonTriplets=[...sceneAssets].filter(name=>assets[name]?.restored?.button_triplet_repair).length;
+    $('overview').innerHTML=`<span class="pill">${nodes.length} layout elements</span><span class="pill good">${exact} exact-x2 candidates in view</span><span class="pill good">${buttonTriplets} regenerated button states</span><span class="pill good">${alphaRepaired} matte repairs</span><span class="pill good">${edgeRepaired} opaque edge repairs</span><span class="pill good">${imagegenRepaired} imagegen frame repairs</span><span class="pill warn">${missing} native fallbacks or generated</span><span class="pill warn">${pasted} pasted flags in view</span><span class="pill warn">${attention} original audit attention</span><span class="pill">${Object.keys(reviews).length} browser decisions</span>`;
+    const pair=$('scenePair');pair.replaceChildren();
+    const mode=$('display').value;
+    for (const sceneMode of mode==='compare'?['native','restored']:mode==='compare-original'?['native','original']:[mode]) pair.appendChild(buildScene(view,sceneMode));
+    renderCatalog();renderDetail();
+  }
+  function escapeHtml(value) { return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function auditLabel(category) {
+    return ({wrong_or_missing_alpha:'Wrong or missing alpha likely',magenta_contamination_check:'Magenta edge check',
+      visual_geometry_or_fine_edge_review:'Visual geometry / fine edge review'})[category] || 'No alpha audit';
+  }
+  function renderCatalog() {
+    const query=normal($('search').value),scope=$('scope').value,filter=$('filter').value;
+    const records=Object.entries(assets).filter(([name,a])=>{
+      if (scope==='scene'&&!sceneAssets.has(name)) return false;
+      if (query && ![name,a.target||'',...(a.uses||[]).map(u=>u.element+' '+u.layout)].join(' ').toLowerCase().includes(query)) return false;
+      const review=reviews[a.target||name]?.decision;
+      const category=audit.by_target[a.target]?.category;
+      const alphaAttention=category==='wrong_or_missing_alpha'||category==='magenta_contamination_check';
+      if (filter==='candidate'&&!a.restored?.image) return false;
+      if (filter==='fallback'&&a.restored?.image) return false;
+      if (filter==='raw-only'&&(!a.raw||a.restored?.image)) return false;
+      if (filter==='button-triplets'&&!a.restored?.button_triplet_repair) return false;
+      if (filter==='alpha-repaired'&&!a.restored?.alpha_repair) return false;
+      if (filter==='edge-repaired'&&!a.restored?.opaque_edge_repair) return false;
+      if (filter==='imagegen-repaired'&&!a.restored?.imagegen_repair) return false;
+      if (filter==='alpha-unrepaired'&&(!alphaAttention||a.restored?.alpha_repair||a.restored?.opaque_edge_repair||a.restored?.imagegen_repair)) return false;
+      if (filter==='user-flagged'&&!pastedFlags.has(a.target)) return false;
+      if (filter==='alpha-attention'&&!alphaAttention) return false;
+      if (filter==='flagged'&&review!=='flag') return false;
+      if (filter==='approved'&&review!=='looks_good') return false;
+      return true;
+    });
+    $('catalogCount').textContent=records.length+' pieces';
+    const cards=document.createDocumentFragment();
+    for (const [name,a] of records) {
+      const card=document.createElement('article');card.className='card'+(selectedAsset===name?' selected':'');
+      const restored=a.restored?.image;
+      const meta=a.generated?'generated map':a.restored?.button_triplet_repair?'regenerated button state · review needed':
+        a.restored?.alpha_repair?'true-alpha repair · review needed':
+        a.restored?.opaque_edge_repair?'opaque edge repair · review needed':a.restored?.imagegen_repair?
+        'imagegen true-alpha repair · review needed':restored?escapeHtml(a.restored.status):escapeHtml(a.restored?.status||'native fallback');
+      const verdict=reviews[a.target||name]?.decision;
+      const mark=verdict==='flag'?' · ⚑ my flag':verdict==='looks_good'?' · ✓ looks good':'';
+      const pasted=pastedFlags.has(a.target)?' · ⚑ pasted flag':'';
+      const auditMark=['wrong_or_missing_alpha','magenta_contamination_check'].includes(audit.by_target[a.target]?.category)?
+        (a.restored?.alpha_repair?' · pink matte repaired':a.restored?.opaque_edge_repair?' · pink edge repaired':
+        a.restored?.imagegen_repair?' · frame regenerated':' · alpha check'):'';
+      card.innerHTML=`<div class="card-images">${a.native?`<img loading="lazy" src="${escapeHtml(a.native)}" alt="Native ${escapeHtml(name)}">`:'<div class="empty">Generated content</div>'}${restored?`<img loading="lazy" src="${escapeHtml(restored)}" alt="Restored ${escapeHtml(name)}">`:`<div class="empty">${a.raw?'Raw return available':a.generated?'Drawn by game':'No exact-x2 extraction'}</div>`}</div><div class="card-meta"><strong>${escapeHtml(a.name||name)}</strong><span class="tag ${restored?'':'bad'}">${meta}${mark}</span><br><span class="tag flagged">${pasted}${auditMark}</span></div>`;
+      card.addEventListener('click',()=>selectAsset(name));cards.appendChild(card);
+    }
+    $('catalog').replaceChildren(cards);
+  }
+  function saveReview(decision,clear=false) {
+    const a=assets[selectedAsset];if(!a)return;
+    const key=a.target||selectedAsset;
+    if (clear || (!decision && !$('reviewNote').value.trim())) delete reviews[key];
+    else reviews[key]={target:key,name:a.name,decision,note:$('reviewNote').value.trim(),updated_at:new Date().toISOString()};
+    localStorage.setItem(reviewsKey,JSON.stringify(reviews));renderCatalog();renderView();
+  }
+  function renderDetail() {
+    const a=assets[selectedAsset];
+    if (!a) return;
+    const key=a.target||selectedAsset,review=reviews[key]||{};
+    const restored=a.restored?.image;
+    const alphaRepair=a.restored?.alpha_repair;
+    const edgeRepair=a.restored?.opaque_edge_repair;
+    const imagegenRepair=a.restored?.imagegen_repair;
+    const buttonTriplet=a.restored?.button_triplet_repair;
+    const repair=alphaRepair||edgeRepair||imagegenRepair||buttonTriplet;
+    const original=a.restored?.keyed_image||restored;
+    const audited=audit.by_target[key]||{};
+    const pilot=audit.pilots[key];
+    const pasted=pastedFlags.has(key);
+    const used=(a.uses||[]).slice(0,18).map(u=>`${u.layout}: ${u.element} (${u.state})`).join('<br>');
+    const links=[a.source&&`<a href="${escapeHtml(a.native)}" target="_blank">Native PNG</a>`,
+      repair&&`<a href="${escapeHtml(restored)}" target="_blank">${buttonTriplet?'Regenerated button':edgeRepair?'Opaque edge':'True-alpha'} review PNG</a>`,
+      buttonTriplet&&`<a href="${escapeHtml(buttonTriplet.previous)}" target="_blank">Previous edge-repaired x2</a>`,
+      buttonTriplet&&`<a href="${escapeHtml(buttonTriplet.master)}" target="_blank">21-state imagegen master</a>`,
+      buttonTriplet&&`<a href="${escapeHtml(buttonTriplet.contact)}" target="_blank">Fitted triplet sheet</a>`,
+      imagegenRepair&&`<a href="${escapeHtml(imagegenRepair.master)}" target="_blank">Imagegen master</a>`,
+      original&&`<a href="${escapeHtml(original)}" target="_blank">Original keyed preview</a>`,
+      a.restored?.original&&`<a href="${escapeHtml(a.restored.original)}" target="_blank">Source candidate PNG</a>`,
+      a.restored?.decision&&`<a href="${escapeHtml(a.restored.decision)}" target="_blank">Second-pass decision</a>`,
+      a.raw&&`<a href="${escapeHtml(a.raw)}" target="_blank">Raw return sheet</a>`].filter(Boolean).join(' · ');
+    $('detail').innerHTML=`<h2>${escapeHtml(a.name||selectedAsset)}</h2><p class="muted">${escapeHtml(a.target||'Generated / missing source')}</p>
+      <div class="detail-images ${repair?'with-repair':''}"><figure><div class="art">${a.native?`<img src="${escapeHtml(a.native)}" alt="Native">`:''}</div><figcaption>Native · ${a.native_size?.join(' × ')||'missing'}</figcaption></figure>
+      ${repair?`<figure><div class="art"><img src="${escapeHtml(original)}" alt="Original x2"></div><figcaption>Original x2</figcaption></figure>`:''}
+      <figure><div class="art">${restored?`<img src="${escapeHtml(restored)}" alt="Review x2">`:'<span class="muted">No exact-x2 extraction</span>'}</div><figcaption>${restored?(buttonTriplet?'Regenerated button x2':alphaRepair?'True-alpha x2':edgeRepair?'Edge-repaired x2':imagegenRepair?'Imagegen frame x2':'Candidate')+' · '+a.restored.size.join(' × '):'Native fallback in scene'}</figcaption></figure></div>
+      <p>${links}</p><dl><dt>Status</dt><dd>${escapeHtml(a.generated?'drawn by game':a.restored?.status||'missing source')}</dd><dt>Second pass</dt><dd>${escapeHtml(a.second_pass||'unrecorded')}</dd>
+      <dt>Source</dt><dd>${escapeHtml(a.source||'generated content')}</dd><dt>Other roots</dt><dd>${escapeHtml((a.alternates||[]).join(', ')||'none')}</dd>
+      <dt>Used in</dt><dd>${used||escapeHtml((a.groups||[]).join(', ')||'dynamic context')}</dd></dl>
+      ${pasted?`<div class="note"><strong>Pasted user flag</strong>${audit.flag_notes[key]?': '+escapeHtml(audit.flag_notes[key]):'.'} This first review was incomplete; it does not mark other pieces as approved.</div>`:''}
+      ${alphaRepair?`<div class="note"><strong>True-alpha review repair:</strong> The uniform magenta matte was extracted on the full x2 canvas. Opaque magenta: ${escapeHtml(alphaRepair.current.opaque_magenta_pct)}% → ${escapeHtml(alphaRepair.repaired.opaque_magenta_pct)}%. Opacity over native-clear pixels: ${escapeHtml(alphaRepair.current.opacity_on_native_clear_pct)}% → ${escapeHtml(alphaRepair.repaired.opacity_on_native_clear_pct)}%. Shape, detail and registration still need approval. Runtime and second-pass sources are untouched.</div>`:''}
+      ${edgeRepair&&!buttonTriplet?`<div class="note"><strong>Opaque edge review repair:</strong> ${escapeHtml(edgeRepair.changed_pixels)} outer-edge pixels had excess pink relative to the native opaque border. Their color was filled from nearby clean candidate pixels; alpha and all other pixels are unchanged. Check the repaired frame on dark and light backgrounds before approval. Runtime and second-pass sources are untouched.</div>`:''}
+      ${imagegenRepair?`<div class="note"><strong>Imagegen true-alpha frame repair:</strong> The returned master has transparent exterior and two open fill channels. The fitted 20 × 102 preview matches the native rail landmarks and has silhouette overlap ${escapeHtml(imagegenRepair.silhouette_iou)}. <a href="diagnostic_alpha/manafrm-contract.png" target="_blank">See empty, half and full bars</a>. This is a new review candidate, not a staged runtime asset.</div>`:''}
+      ${buttonTriplet?'<div class="note"><strong>Regenerated button family:</strong> This state is part of one 21-button sheet covering seven U/H/D triplets. The H glow was calibrated against the native state and given similar strength across families. Compare the prior edge-repaired x2 with this fitted review output. Text, bevel and pressed-state feel still need visual approval; runtime assets are untouched.</div>':''}
+      ${audited.category&&!repair?`<div class="note"><strong>Automated alpha audit:</strong> ${escapeHtml(auditLabel(audited.category))}. Native transparent ${escapeHtml(audited.native_transparent_pct)}%; candidate transparent ${escapeHtml(audited.candidate_transparent_pct)}%; candidate opacity over native-clear area ${escapeHtml(audited.candidate_opacity_on_native_clear_pct)}%; opaque magenta ${escapeHtml(audited.opaque_magenta_pct)}%. This is an inspection cue, not an artwork verdict.</div>`:''}
+      ${key==='engine--icons--manafrm.bmp'?'<div class="note"><strong>Frame contract:</strong> Native manaFRM is only the transparent two-channel border. The game draws green health and blue mana fills separately. The original x2 filled tube is wrong; compare it with the repaired preview above.</div>':''}
+      ${a.raw&&!restored?'<div class="note"><strong>Missing x2:</strong> A raw return exists, but there is no fitted exact-x2 asset. The scene shows native art. Opaque panels should retain their original backing.</div>':''}
+      ${pilot?`<div class="note"><strong>Dark/light comparison:</strong> <a href="${escapeHtml(pilot.comparison)}" target="_blank">Open the original pilot evidence</a>. ${escapeHtml(pilot.visual_note)}</div>`:''}
+      ${a.raw?`<details><summary>View retained raw return sheet</summary><a href="${escapeHtml(a.raw)}" target="_blank"><img loading="lazy" src="${escapeHtml(a.raw)}" alt="Raw return sheet" style="max-width:100%;max-height:320px;object-fit:contain"></a><p class="muted">The sheet has not been fitted to this icon’s exact-x2 canvas.</p></details>`:''}
+      ${a.restored?.observation?`<div class="note"><strong>Existing review:</strong> ${escapeHtml(a.restored.observation)}<br><strong>Next:</strong> ${escapeHtml(a.restored.next_action)}</div>`:''}
+      <h3>Your visual decision</h3><p class="muted">Saved in this browser only. Export your review JSON when finished; this does not change canonical restoration acceptance.</p>
+      <div class="actions"><button id="approveBtn" class="good ${review.decision==='looks_good'?'active':''}">Looks good</button><button id="flagBtn" class="bad ${review.decision==='flag'?'active':''}">Flag issue</button><button id="clearBtn">Clear</button></div>
+      <textarea id="reviewNote" placeholder="Describe a seam, shape, color, missing state, or context problem">${escapeHtml(review.note||'')}</textarea>
+      <div class="footer-tools"><button id="saveNote">Save note</button><button id="exportReviews">Export review JSON</button><button id="importReviews">Import review JSON</button><input id="reviewFile" type="file" accept="application/json" hidden></div>`;
+    $('approveBtn').onclick=()=>saveReview('looks_good');$('flagBtn').onclick=()=>saveReview('flag');
+    $('clearBtn').onclick=()=>saveReview(null,true);$('saveNote').onclick=()=>saveReview(review.decision||null);
+    $('exportReviews').onclick=exportReviews;$('importReviews').onclick=()=>$('reviewFile').click();
+    $('reviewFile').onchange=importReviews;
+  }
+  function selectAsset(name) {selectedAsset=name;renderView();$('detail').scrollTop=0;}
+  function exportReviews() {
+    const payload={schema:'openyamm-hud-context-review-v1',exported_at:new Date().toISOString(),decisions:reviews};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob);
+    const link=document.createElement('a');link.href=url;link.download='hud-context-review.json';link.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  async function importReviews(event) {
+    const file=event.target.files?.[0];if(!file)return;
+    try {const payload=JSON.parse(await file.text());if(payload.schema!=='openyamm-hud-context-review-v1')throw Error('Wrong review schema');
+      reviews={...reviews,...payload.decisions};localStorage.setItem(reviewsKey,JSON.stringify(reviews));renderView();}
+    catch(error){alert('Could not import review: '+error.message);}
+  }
+  function init() {
+    populateBuffs();
+    const groups=new Map();for(const view of views){if(!groups.has(view.group))groups.set(view.group,[]);groups.get(view.group).push(view);}
+    for(const [group,items] of groups){const opt=document.createElement('optgroup');opt.label=group;
+      for(const view of items){const option=document.createElement('option');option.value=view.id;option.textContent=view.title;opt.appendChild(option);} $('viewSelect').appendChild(opt);}
+    const nav=document.createDocumentFragment();for(const [group,items] of groups){const label=document.createElement('div');label.className='sidegroup';label.textContent=group;nav.appendChild(label);
+      for(const view of items){const button=document.createElement('button');button.className='viewlink';button.dataset.view=view.id;button.textContent=view.title;button.onclick=()=>{selectedView=view.id;renderView();};nav.appendChild(button);}}
+    $('viewNav').appendChild(nav);
+    $('viewSelect').onchange=()=>{selectedView=$('viewSelect').value;renderView();};
+    for(const id of ['display','buttonState','bodyBuff','skullBuff','labels','outlines']) $(id).onchange=renderView;
+    for(const id of ['search','scope','filter']) $(id).oninput=renderCatalog;
+    const params=new URLSearchParams(location.search);
+    if(params.has('view')&&views.some(v=>v.id===params.get('view')))selectedView=params.get('view');
+    if(params.has('asset')&&assets[normal(params.get('asset'))])selectedAsset=normal(params.get('asset'));
+    if(params.has('filter')&&[...$('filter').options].some(o=>o.value===params.get('filter'))) $('filter').value=params.get('filter');
+    if(params.has('display')&&[...$('display').options].some(o=>o.value===params.get('display'))) $('display').value=params.get('display');
+    if(params.has('state')&&[...$('buttonState').options].some(o=>o.value===params.get('state'))) $('buttonState').value=params.get('state');
+    if(params.get('scope')==='all')$('scope').value='all';
+    renderView();
+  }
+  init();
+})();
+</script>
+</body>
+</html>

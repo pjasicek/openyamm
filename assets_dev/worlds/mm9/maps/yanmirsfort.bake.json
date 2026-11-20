@@ -1,0 +1,66 @@
+{
+  "base": {
+    "bake": "output/mm9_rework/bakes/yanmirsfort",
+    "carried_over": false,
+    "geometry_hash": "5356722701257414",
+    "lighting_sha256": "a7eb21f8bbbf463d3e8219ba9ac54b30af8a1f8f50c23da9fd6f7582def92138",
+    "recipe": {
+      "backend": "5.3.0",
+      "extra_lights": [],
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
+      "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
+      "profile": {
+        "ambient_colour": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "ambient_scale": 0.2,
+        "blur_radius": 2,
+        "bounce_scale": 1.5,
+        "bounces": 3,
+        "direct_scale": 2.6,
+        "dirlights": true,
+        "emitters": [],
+        "glass": [],
+        "layout_only": true,
+        "light_size": 24,
+        "map": "yanmirsfort.blv",
+        "max_lighting": 1,
+        "outward_distance": 4096,
+        "padding": 2,
+        "page_size": 4096,
+        "samples": 128,
+        "shadowless_faces": [],
+        "sky_bounce_scale": 1.5,
+        "sky_scale": 0.0,
+        "texture_lights": {
+          "offset_lt": 8,
+          "per_polygon": true,
+          "scale": 2.0
+        },
+        "units_per_texel": 40.96,
+        "world": "mm9"
+      }
+    }
+  },
+  "dat": "mm9/extracted/WORLDS/WORLDS/YANMIRSFORT.dat",
+  "dat_sha256": "5c3e5dee424570ce6be32f9850366faf98b15e44a66b814e328c739f8f60d4ba",
+  "daylight_pages": false,
+  "encoding": "display",
+  "fallback_models": [],
+  "min_light": 0.0,
+  "parameters": {
+    "fallback_cells": [
+      2,
+      8
+    ],
+    "fallback_voxel_lt": 64.0,
+    "inside_eps_lt": 4.5,
+    "normal_dot": 0.998,
+    "outside_reach_lt": 24.0,
+    "plane_tolerance_lt": 1.5
+  },
+  "producer": "mm9r_common/lightmap_transfer.py",
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
+}

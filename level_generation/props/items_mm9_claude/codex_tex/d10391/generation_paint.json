@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit input 1 paint_mask_guide.png precisely. Input 2 design_reference.png is the approved material/detail reference; input 3 icon_x8.png is original colour reference (magenta is background). Produce ONE transparent PNG, 3:4 canvas, preferably 1536x2048. Preserve the guide's exact geometry, positions, sizes, outlines, gaps and orthographic projections. Paint grey objects only. Never redraw, move, enlarge or redesign them. The grid is three columns by FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly those five views as MATERIAL MASK. No visible grid or labels.\n\nRows 1-2 PAINT: unlit base colour of this source-faithful closed Book of Rules: aged warm ochre-brown leather binding with intricate fine tooled swirls, mottled worn brown/russet marks, warm parchment page edges, the exact gold/brass geometric two-bar emblem on the TOP cover as in reference. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. All side views remain thin orthographic slabs exactly as the guide; top view remains the vertical cover rectangle with spine on left. Use the icon's colours. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, sparkles, ground, outlines or text.\n\nRows 3-4 MATERIAL MASK: same silhouettes and corresponding material regions filled with FLAT PURE colours ONLY: #00FF00 for every leather part; #0000FF for any cloth/hair; #FF0000 for every metal part including the gold/brass emblem; #FFFF00 for every matte non-metal solid including paper/parchment pages. Leather cover and spine green, paper page blocks yellow, metal emblem red. Every interior silhouette pixel exactly one of these colours, no shading, texture, outlines, gradients or antialiased colour blends inside. Nothing outside silhouettes. Row 2 column 3 and row 4 column 3 remain completely transparent. Preserve all original transparent space and openings. This is a texture projection atlas, not an illustration of a book or an arrangement of perspective books.\nCRITICAL CORRECTION: strictly preserve the alpha silhouettes of input 1. Absolutely NO speckles, paint splashes, coloured haze, stray pixels or colour bleed outside any shape, especially in the bottom half. The lower mask objects must be clean solid vector-like flat fills with crisp boundaries and fully transparent surrounding space. Do not draw black outlines inside masks. Preserve the exact thin rail and end-cap geometry of the guide. Output exactly 1536x2048 (3:4), not a cropped or narrower canvas.",
+  "initial_prompt": "Edit input 1 paint_mask_guide.png precisely. Input 2 design_reference.png is the approved material/detail reference; input 3 icon_x8.png is original colour reference (magenta is background). Produce ONE transparent PNG, 3:4 canvas, preferably 1536x2048. Preserve the guide's exact geometry, positions, sizes, outlines, gaps and orthographic projections. Paint grey objects only. Never redraw, move, enlarge or redesign them. The grid is three columns by FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly those five views as MATERIAL MASK. No visible grid or labels.\n\nRows 1-2 PAINT: unlit base colour of this source-faithful closed Book of Rules: aged warm ochre-brown leather binding with intricate fine tooled swirls, mottled worn brown/russet marks, warm parchment page edges, the exact gold/brass geometric two-bar emblem on the TOP cover as in reference. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. All side views remain thin orthographic slabs exactly as the guide; top view remains the vertical cover rectangle with spine on left. Use the icon's colours. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, sparkles, ground, outlines or text.\n\nRows 3-4 MATERIAL MASK: same silhouettes and corresponding material regions filled with FLAT PURE colours ONLY: #00FF00 for every leather part; #0000FF for any cloth/hair; #FF0000 for every metal part including the gold/brass emblem; #FFFF00 for every matte non-metal solid including paper/parchment pages. Leather cover and spine green, paper page blocks yellow, metal emblem red. Every interior silhouette pixel exactly one of these colours, no shading, texture, outlines, gradients or antialiased colour blends inside. Nothing outside silhouettes. Row 2 column 3 and row 4 column 3 remain completely transparent. Preserve all original transparent space and openings. This is a texture projection atlas, not an illustration of a book or an arrangement of perspective books.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad12-0262-7aa2-a0bd-598b9fefa7a1/exec-d151279d-10b3-4ba3-8039-9b74deca7c30.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10391/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": [
+    "Generated raw output retains stray colour outside silhouettes after permitted correction; not a clean production mask."
+  ],
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10391/paint_mask_guide.png",
+      "sha256": "1ddcfa20dee68e42ce41d68183e19001340d90c4cbde5d6bad4910f31f2f1c94"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10391/design_reference.png",
+      "sha256": "47e26bf98d44ecfbecda0c429de97dad99113a1fd2d0823d1aece75e8a33f145"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10391/icon_x8.png",
+      "sha256": "cf2ae133ed79a147cb122b82234cdad1ddb223482aec4d6d9b4957223e34ac7b"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

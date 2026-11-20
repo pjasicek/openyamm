@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/indoor/IndoorFog.h"
 #include "game/render/LiquidKind.h"
 #include "game/render/WaterMath.h"
 #include "game/fx/WaterRippleRuntime.h"
@@ -45,8 +46,21 @@ struct WaterSurfaceGeometry
     float height = 0.0f;
     bool planar = true;
     LiquidKind liquid = LiquidKind::Water;
+    // False for a liquid that never takes a planar reflection (liquids.yml reflections: false).
+    bool reflects = true;
+    // A see-through liquid (liquids.yml opacity below 1, in its vertices' tint alpha): blended over the bed.
+    bool seeThrough = false;
     int16_t sectorId = -1;
     int16_t backSectorId = -1;
+};
+
+// Which liquid surfaces a draw takes: the opaque ones (with the solid scene), the see-through ones (blended after it,
+// so the bed and whatever stands in the liquid show through them) or both (reflection captures).
+enum class WaterSurfaceSet : uint8_t
+{
+    All,
+    Opaque,
+    SeeThrough,
 };
 
 class WaterRenderer
@@ -67,11 +81,15 @@ public:
         uint16_t worldView = FirstWaterReflectionView + 1;
         bool update = true;
         int16_t sectorId = -1;
+        // Sectors of the visible water this capture serves (indoors: extra roots of its portal query).
+        std::vector<int16_t> waterSectorIds;
         uint16_t size = 0;
     };
 
     bool initialize(const Engine::AssetFileSystem &assets, std::vector<WaterSurfaceGeometry> geometry,
         std::span<const std::vector<uint8_t>> coverageMasks = {}, bool indoor = false);
+    // The map's scene fog (devdocs/INDOOR_FOG.md), before an indoor initialize; a map without it never calls this.
+    void setIndoorFog(const IndoorFog &fog);
     bool updateGeometry(std::vector<WaterSurfaceGeometry> geometry, bool buildings = false);
     void shutdown();
     bool isReady() const;
@@ -90,7 +108,8 @@ public:
         const Reflection *pReflection = nullptr);
     void renderIndoor(uint16_t viewId, float seconds, const IndoorLightingFrame &lighting,
         const bx::Vec3 &camera, const bx::Vec3 &forward, const WaterRippleRuntime *pRipples = nullptr,
-        const Reflection *pReflection = nullptr, std::span<const uint8_t> visibleSectors = {});
+        const Reflection *pReflection = nullptr, std::span<const uint8_t> visibleSectors = {},
+        WaterSurfaceSet surfaceSet = WaterSurfaceSet::All);
     void renderBillboard(uint16_t viewId, std::span<const WaterVertex> vertices,
         bgfx::TextureHandle sprite, float seconds,
         const std::array<float, 4> &sunDirection, const std::array<float, 4> &sunColor,
@@ -110,6 +129,8 @@ private:
         float distanceSquared = 0.0f;
         bool planar = true;
         LiquidKind liquid = LiquidKind::Water;
+        bool reflects = true;
+        bool seeThrough = false;
         bool visible = false;
         bool building = false;
         int reflection = -1;
@@ -123,6 +144,7 @@ private:
     };
 
     bool resizeReflection(size_t index, uint16_t size);
+    void setFogUniforms();
     void prepareRippleResources(const WaterRippleRuntime *pRipples);
     void submitSurface(Surface &surface, uint16_t viewId, float seconds, float rainIntensity,
         const WaterRippleRuntime *pRipples, bool mainView);
@@ -161,6 +183,9 @@ private:
     bgfx::UniformHandle m_skyColor = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_reflectionMatrix = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_cameraPosition = BGFX_INVALID_HANDLE;
+    IndoorFog m_indoorFog;
+    bgfx::UniformHandle m_fogColor = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_fogDistances = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_indoorLightPositions = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_indoorLightColors = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_indoorLightParams = BGFX_INVALID_HANDLE;

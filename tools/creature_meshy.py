@@ -25,6 +25,9 @@ ENDPOINTS = {'image-to-3d': '/openapi/v1/image-to-3d', 'multi-image-to-3d': '/op
              'text-to-3d': '/openapi/v2/text-to-3d', 'rigging': '/openapi/v1/rigging',
              'retexture': '/openapi/v1/retexture', 'animation': '/openapi/v1/animations',
              'remesh': '/openapi/v1/remesh', 'text-to-motion': '/openapi/v1/text-to-motion'}
+# Meshy accounts in order of use: the backup takes new jobs once the primary has too few credits. A task belongs to
+# the account that created it, so each job records its account and every later call for it uses that account.
+ACCOUNTS = (('primary', 'MESHY_API_KEY'), ('backup', 'MESHY_API_KEY_BACKUP'))
 MIME = {'.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
         '.glb': 'application/octet-stream', '.gltf': 'application/octet-stream',
         '.obj': 'application/octet-stream', '.fbx': 'application/octet-stream', '.stl': 'application/octet-stream'}
@@ -35,15 +38,24 @@ def sha(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def api_key():
-    key = os.environ.get('MESHY_API_KEY')
+def account_keys():
+    config = Path(os.environ.get('CODEX_HOME', str(Path.home() / '.codex'))) / 'config.toml'
+    environment = {}
+    if config.exists():
+        environment = tomllib.loads(config.read_text()).get('mcp_servers', {}).get('meshy', {}).get('env', {})
+    keys = {}
+    for account, variable in ACCOUNTS:
+        key = os.environ.get(variable) or environment.get(variable)
+        if isinstance(key, str) and key.strip():
+            keys[account] = key.strip()
+    return keys
+
+
+def api_key(account='primary'):
+    key = account_keys().get(account)
     if not key:
-        config = Path(os.environ.get('CODEX_HOME', str(Path.home() / '.codex'))) / 'config.toml'
-        if config.exists():
-            key = tomllib.loads(config.read_text()).get('mcp_servers', {}).get('meshy', {}).get('env', {}).get(
-                'MESHY_API_KEY')
-    if not isinstance(key, str) or not key.strip():
-        raise ValueError('Set MESHY_API_KEY or configure the global meshy MCP environment')
+        variable = dict(ACCOUNTS)[account]
+        raise ValueError(f'Set {variable} or configure it in the global meshy MCP environment')
     return key
 
 
@@ -52,8 +64,8 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-def api_request(method, endpoint, payload=None):
-    key = api_key()
+def api_request(method, endpoint, payload=None, account='primary'):
+    key = api_key(account)
     data = json.dumps(payload, allow_nan=False).encode() if payload is not None else None
     request = urllib.request.Request(API_BASE + endpoint, data=data, method=method,
                                      headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'})
@@ -115,8 +127,40 @@ def inspect(project, state):
             'substep': progress.get('current_substep'), 'next_action': progress.get('next_action'),
             'missing_files': missing, 'changed_files': changed, 'missing_component_roles': components,
             'component_inventory_recorded': 'required_components' in progress,
-            'jobs': {name: {key: job[key] for key in ('task_id', 'status', 'reserved_credits', 'consumed_credits')
+            'jobs': {name: {key: job[key] for key in ('task_id', 'account', 'status', 'reserved_credits',
+                                                      'consumed_credits')
                            if key in job} for name, job in progress.get('meshy', {}).get('jobs', {}).items()}}
+
+
+def referenced_tasks(value):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key.endswith('task_id') and isinstance(item, str):
+                yield item
+            else:
+                yield from referenced_tasks(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from referenced_tasks(item)
+
+
+def submission_account(meshy, source, credits):
+    # A job built on an earlier task (rig_task_id, input_task_id) must run on that task's account.
+    referenced = set(referenced_tasks(source))
+    accounts = {job.get('account', 'primary') for job in meshy['jobs'].values() if job.get('task_id') in referenced}
+    if len(accounts) > 1:
+        raise ValueError('Request references tasks from different Meshy accounts')
+    if accounts:
+        return accounts.pop()
+    keys = account_keys()
+    if not keys:
+        api_key()
+    if len(keys) == 1:
+        return next(iter(keys))
+    for account in keys:
+        if api_request('GET', '/openapi/v1/balance', account=account).get('balance', 0) >= credits:
+            return account
+    raise RuntimeError('No Meshy account has enough credits for this job; report remaining work')
 
 
 def reserved_credits(meshy):
@@ -155,14 +199,15 @@ def submit(project, state, token, job_name, kind, request_path, credits):
             raise RuntimeError('An unresolved submission exists; reconcile it before creating any new paid job')
         if reserved_credits(meshy) + credits > meshy['credit_limit']:
             raise RuntimeError('Creature Meshy credit limit reached; retain checkpoints and report remaining work')
-        api_key()  # Detect missing credentials before recording any submission intent.
-        job = {'kind': kind, 'request': source, 'inputs': inputs, 'fingerprint': fingerprint,
+        # Detects missing credentials before recording any submission intent.
+        account = submission_account(meshy, source, credits)
+        job = {'kind': kind, 'request': source, 'inputs': inputs, 'fingerprint': fingerprint, 'account': account,
                'reserved_credits': credits, 'status': 'SUBMITTING',
                'submitted_at': datetime.now(timezone.utc).isoformat()}
         meshy['jobs'][job_name] = job
         write_json(path, progress)
         try:
-            response = api_request('POST', ENDPOINTS[kind], payload)
+            response = api_request('POST', ENDPOINTS[kind], payload, account)
             task_id = response.get('result')
             if not isinstance(task_id, str) or not re.fullmatch(r'[a-zA-Z0-9_-]+', task_id):
                 raise ValueError('Meshy returned no valid task ID')
@@ -175,7 +220,8 @@ def submit(project, state, token, job_name, kind, request_path, credits):
             if isinstance(error, urllib.error.HTTPError):
                 try:
                     message = error.read(4096).decode(errors='replace')
-                    message = message.replace(api_key(), '[REDACTED]')
+                    for key in account_keys().values():
+                        message = message.replace(key, '[REDACTED]')
                     message = re.sub(r'data:[^\s"\']+', '[encoded upload omitted]', message)
                     message = re.sub(r'msy_[a-zA-Z0-9]+', '[REDACTED]', message)
                     job['error']['message'] = message[:1024]
@@ -190,7 +236,7 @@ def submit(project, state, token, job_name, kind, request_path, credits):
 
 
 def fetch_job(job):
-    task = api_request('GET', ENDPOINTS[job['kind']] + '/' + job['task_id'])
+    task = api_request('GET', ENDPOINTS[job['kind']] + '/' + job['task_id'], account=job.get('account', 'primary'))
     if task.get('id') != job['task_id']:
         raise ValueError('Meshy returned a different task ID')
     if 'consumed_credits' in task:
@@ -300,7 +346,7 @@ def main():
     parser.add_argument('--state', default=DEFAULT_STATE)
     parser.add_argument('--token', default=os.environ.get('CREATURE_3D_TOKEN'))
     commands = parser.add_subparsers(dest='command', required=True)
-    commands.add_parser('balance', help='Read-only authentication/network check before any paid submission')
+    commands.add_parser('balance', help='Read-only authentication/network check of every configured account')
     commands.add_parser('inspect', help='Read-only file/hash/component-role check; visual assembly review is separate')
     for name in ('submit', 'poll', 'download', 'adopt'):
         command = commands.add_parser(name)
@@ -318,7 +364,9 @@ def main():
     args = parser.parse_args()
     try:
         if args.command == 'balance':
-            print(json.dumps(api_request('GET', '/openapi/v1/balance')))
+            accounts = account_keys() or {'primary': api_key()}
+            print(json.dumps({account: api_request('GET', '/openapi/v1/balance', account=account)
+                              for account in accounts}))
             return
         if not args.project:
             parser.error('--project is required for creature operations')

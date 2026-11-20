@@ -20,7 +20,7 @@ python3 tools/mm9_import_discovery/test_generate_mm9_skill_trainers.py
 python3 tools/mm9_import_discovery/test_generate_mm9_teacher_schedules.py
 
 "${unit_tests_binary}" \
-    --test-case='MM9 positioned transition*,MM9 transport*,MM9 RUDE transport*,MM9 skill trainer*,MM9 teacher schedule*,Composite mastery*' \
+    --test-case='MM9 positioned transition*,MM9 transport*,MM9 RUDE transport*,MM9 skill trainer*,MM9 teacher schedule*,MM9 RUDE trainer topics*' \
     --no-skip
 
 run_diagnostic()

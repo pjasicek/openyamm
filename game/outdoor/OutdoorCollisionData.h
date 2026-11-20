@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/gameplay/InteractiveDecorationRules.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <string>
@@ -24,6 +26,9 @@ struct OutdoorDecorationCollision
 struct OutdoorDecorationCollisionSet
 {
     std::vector<OutdoorDecorationCollision> colliders;
+    // Per map entity: how a cleared decor var hides it (hiddenDecorationEntities); colliders of hidden entities are
+    // skipped at runtime.
+    std::vector<DecorationClearRule> clearRules;
 };
 
 enum class OutdoorActorCollisionSource

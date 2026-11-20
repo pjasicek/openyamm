@@ -1,10 +1,12 @@
 -- MMMerge map supplement: Blackshire local outdoor state.
 
+-- MMMerge Scripts/Maps/outb2.lua: this map's own hostile.txt cells (faction numbers, 0 is the party).
+SetLocalFactionRelations({
+    {196, 0, 0},
+})
+
 RegisterMapOnLoadEvent(65024, "MMMerge outb2 town portal and guards", function()
     SetQBit(QBit(310)) -- Blackshire town portal destination discovered.
-    MM6.ApplyLocalMonsterRelations({
-        {196, 0, 0},
-    })
     evt.SetMonGroupBit(39, MonsterBits.Hostile, false)
     MM6.ApplyDragonTowerState(1184, 61, 42)
 end)

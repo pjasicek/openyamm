@@ -1,0 +1,137 @@
+id: lmroll.lichlab_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: lichlab.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: lichlab.blv
+      x: -2028
+      y: 5668
+      z: 3196
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: lichlab.blv
+      x: -2028
+      y: 6784
+      z: 3196
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: lichlab.blv
+      x: -3932
+      y: 5878
+      z: 2418
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: lichlab.blv
+      x: 328
+      y: 5878
+      z: 2418
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: lichlab.blv
+      x: -3359
+      y: 9206
+      z: 1353
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: lichlab.blv
+      x: -2703
+      y: 9206
+      z: 1353
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id007
+      map: lichlab.blv
+      x: -911
+      y: 9206
+      z: 1353
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id007
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id008
+      map: lichlab.blv
+      x: -256
+      y: 9206
+      z: 1353
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id008
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

@@ -1,0 +1,71 @@
+{
+  "name": "mm8_flat_stepping_west_x2_walk",
+  "world": "mm8",
+  "map": "out01.odm",
+  "pose": null,
+  "screenshot": "mm8_flat_stepping_west_x2_walk.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": false,
+  "warmup_seconds": 1.0,
+  "actions": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm8/fixtures/roads_v1/movement_actions.json",
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": false,
+  "display": ":99",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 0.0,
+  "fps_samples": [],
+  "median_fps": null,
+  "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3",
+  "settings_sha256": "00169280ad2e3d66972a865dcde97692048e45ef741d6aac80757aa4f3781367",
+  "native_sha256": "e84952d32aa14c6a5f4bf435e63aafd29b6b1fa13a4c76f7f1f3b40f0083f5fe",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples.",
+  "fixture_stage_sha256": "d590fe01500244f5d1577681687152dda999940a1886593f2f2bf833520430c2",
+  "fixture_pose": {
+    "stage": "/tmp/openyamm-mm8-terrain-review/flat_roads_plains_x2",
+    "save": "fixtures/roads_v1/stepping_walks/west.oysav",
+    "save_sha256": "724a624e6680316a5fddb1b3ff2822b96606aa151f0bca85cf83e032c9e524fa",
+    "pose": [
+      -13568.0,
+      -6400.0,
+      0,
+      0,
+      -0.4
+    ],
+    "quality": "x2",
+    "family": "roads_plains",
+    "kind": "west",
+    "grounded": true,
+    "map_sha256": "e84952d32aa14c6a5f4bf435e63aafd29b6b1fa13a4c76f7f1f3b40f0083f5fe",
+    "native_placement": {
+      "tile": "plrdew",
+      "native_map": "out04",
+      "native_row": 96,
+      "native_col": 16,
+      "row": 76,
+      "col": 38,
+      "outside_native_grid": "plain substrate padding"
+    }
+  },
+  "movement_actions_sha256": "45608397a8b19b6ba35f9ab90d7ac55f0ed765b47591872541caae7d7e5ceeb9",
+  "movement_samples": {
+    "mm8_flat_stepping_west_x2_walk_walk_08.png": "81d4ad2f6ad55fa84e248a5278d71d55fa8e699e09e05aa158433eea6a57f830",
+    "mm8_flat_stepping_west_x2_walk_walk_03.png": "60077fd3eb325579fe37bcbf558e37983c34192044867a7c70569d3d7f426db5",
+    "mm8_flat_stepping_west_x2_walk_walk_04.png": "a0864128c6172f26cb0c7c2e01463f8176590f8ae10f7126ad1731b2f842452e",
+    "mm8_flat_stepping_west_x2_walk_walk_01.png": "f9e3c5e239ef5b707582a0b072125b420af4e05ff6bd1b61e8b6d77658bc2aec",
+    "mm8_flat_stepping_west_x2_walk_walk_02.png": "29fd736acead57b5c718aadff830ed782db6f1db5c8382a6252880bf949681a2",
+    "mm8_flat_stepping_west_x2_walk_walk_start.png": "756c1afacf8292df475cda27abc703f848bcaa76b0034194df259145be3f5e14",
+    "mm8_flat_stepping_west_x2_walk_walk_00.png": "8497ae0b63a67bd7216138f5b7e0c31ced1dafe6477448aaeed825beaa864135",
+    "mm8_flat_stepping_west_x2_walk_walk_07.png": "6d423c98619da2b0e53c6ac59dcd57efc5fe30a927ebc7538b6b49a99f5451d0",
+    "mm8_flat_stepping_west_x2_walk_walk_06.png": "38c6602be2ea9f48368132d56b44c3385dcfb091e589b41399298a3dd9f70d78",
+    "mm8_flat_stepping_west_x2_walk_walk_09.png": "93abf5d8b9d3015d7962bef83fa345cfa70df4083bfcdc88801104689b98953d",
+    "mm8_flat_stepping_west_x2_walk_walk_10.png": "ed0a7b3a432a3e4a81f565f10d54b2060e5d97f64bb6995684242af1ddc2f203",
+    "mm8_flat_stepping_west_x2_walk_walk_05.png": "1edf66fcebefa6566e9e9d333e23b2d1fc82979f649a012ca0581846a230e0ec",
+    "mm8_flat_stepping_west_x2_walk_walk_11.png": "22094b83fd8f43f8e7583be9bdeefbed2d3ba36e3a05e0b546d863fe3e7a8611"
+  },
+  "screenshot_sha256": "2e6c0c5b0fc4f0ecf383083e6ab8ee5f5a1127362094ab2cad49550ba9838ee6"
+}

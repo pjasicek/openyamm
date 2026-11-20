@@ -1,0 +1,532 @@
+{
+  "item": "hes_spinebow",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "requested_background": "transparent",
+  "postprocessing": "None. All image returns copied byte-for-byte and kept unresized.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nPaint the existing guide image as a production albedo texture source for the Hesper Kreegan bone bow hes_spinebow.\nImage 1 is the EDIT TARGET: a 1024 by 1024 transparent orthographic render of the EXACT existing mesh. Image 2 is only the approved design / colour / materials reference. The reference MUST NOT determine shape or camera. Treat the target guide alpha as an immutable stencil: keep every part, every edge, its exact silhouette, position, scale and orientation in the full square frame, including all original empty space. Change RGB surfaces only. Do not enlarge, recenter, rotate, crop, change thickness or add geometry. Return one full 1024 by 1024 RGBA PNG with genuine transparent background, no contact sheet.\nPaint the reference's surfaces onto the guide's visible parts: warm ivory-white bone / ceramic with fine wear, delicate etched grooves, seams and plate joins; black-violet organic resin with restrained tendon-like grain; muted brushed antique gold trim as base colour; tiny blue-white inlays only where these can be painted on existing surfaces; dark physical string. Continue unseen surfaces plausibly using the same materials. The pale lavender and cream guide tints merely identify parts and are NOT final colours. The item is physical, not energy. No extra weapons or Arc Coupler.\nLIGHTING: flat evenly lit shadowless albedo from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no directional gradients, no floor or backdrop. Metal has only a faint sheen. Light inlays are simply bright colour with NO bloom or light spill beyond the existing silhouette. No text, letters, numbers, labels, watermark or border.\nHighest priority is strict guide registration and preservation of its alpha silhouette, even where the resulting object looks tiny or unusually narrow. Do not redraw the full bow from the design reference.\nVIEW-SPECIFIC REGISTRATION:\nFRONT view: preserve the tiny END-ON horizontal projection at x=407..617, y=490..533 on the 1024 square canvas. The entire visible object is only 211 pixels wide and 44 pixels high. Preserve the left pale circular grip cross-section near x=473, the pale left-pointing tip, the thin resin bar toward the right, and the pale pointed part near x=560..617 exactly as shown. The object MUST remain this small with all the empty transparent margins. No upright bow silhouette.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "363f6663b95f5fc75c926c62811c17fc1a0da6a9d3ef877c35c8a2c3ed5bd4a0"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-7d9de894-64bf-4de7-9284-bb12af78664f.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-7d9de894-64bf-4de7-9284-bb12af78664f.png",
+      "selected": false,
+      "reason": "Superseded by the single corrective generation: closer guide framing and/or flatter surface treatment. Original tool return retained at source_output.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7a33086d0340a1e2f3bebf3c0c1b83ce662d7f1a24c4933ee1f2a4803483db76",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          170,
+          103,
+          1176,
+          1131
+        ],
+        "opaque_bbox": [
+          461,
+          591,
+          794,
+          666
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.482772,
+        "nonzero_alpha_pixels_outside_normalized_guide": 8024,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT-OVER, strict registration.\nThis is a static, nonviolent fantasy videogame prop texture: the Hesper Kreegan ceremonial bone bow. No people, no combat scene, no injury. Produce ONE 1024 x 1024 PNG with real transparency.\nIMAGE 1 is the ORIGINAL GUIDE and the sole authority for geometry, framing and alpha. IMAGE 2 is the colour and material reference ONLY. Recolour the existing pixels of image 1, preserving its exact silhouette and every original part edge. Do not reconstruct a more elaborate object, enlarge it for presentation, or adopt image 2's silhouette. Copy the guide's camera and all its empty margins. Keep guide alpha outside the object exactly zero, with no stray speckles or fringe. If the tool returns another native resolution, retain the exact proportional placement from the entire square guide canvas; never zoom to fit.\nThe prior painting changed the outline and looked too shaded. Correct that by making a restrained FLAT ALBEDO paint-over within the ORIGINAL guide outline. Bone is warm white ivory with subtle hairline wear and fine shallow etched lines. Limbs are black-violet resin with delicate low-contrast organic grain. Gold is matte ochre brushed gold without bright streaks. Any blue-white inlay is a small painted flat coloured marking inside an existing part, no halo. String is dark physical cord. Preserve existing part boundaries; decorative marks lie completely inside them. Continue materials plausibly onto hidden/reverse surfaces.\nEven shadowless illumination directly from the viewer, nearly uniform base colours. NO directional or dramatic shading, NO ambient occlusion, NO black cavity shadows, NO metallic white highlights, NO reflections, NO rim lighting, NO cast shadows, NO bloom, NO floor, NO background. No text, letters, numerals or watermarks. Do not show or write coordinates.\nGUIDE REGISTRATION: The small END-ON item is only 20.6% of the canvas width and 4.3% of the canvas height, lying horizontally across the exact centre. It is NOT an upright bow. At 1024 size all pixels must stay inside the guide's outline within x=407..617 and y=490..533. Preserve the ivory circle behind the left half, the left-pointing ivory wedge, the short resin bridge and the smaller right-pointing ivory wedge. Tiny central details are acceptable; a larger, thicker or moved object is not.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-348b6374-5a30-4ed3-87b8-118a5aa1fd7b.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "363f6663b95f5fc75c926c62811c17fc1a0da6a9d3ef877c35c8a2c3ed5bd4a0"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "status": "selected_with_validation_failures",
+      "reason": "Selected as the best available raw return within the one-correction-per-view limit; retains the guide camera and material palette with improved flatness. Exact silhouette and strictly flat albedo checks still fail.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3c9b533bfb869f53c07c357600cf41357513c83386c975516e353e00e1baa240",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          73,
+          71,
+          1208,
+          1091
+        ],
+        "opaque_bbox": [
+          498,
+          597,
+          756,
+          656
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.806174,
+        "nonzero_alpha_pixels_outside_normalized_guide": 3415,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nPaint the existing guide image as a production albedo texture source for the Hesper Kreegan bone bow hes_spinebow.\nImage 1 is the EDIT TARGET: a 1024 by 1024 transparent orthographic render of the EXACT existing mesh. Image 2 is only the approved design / colour / materials reference. The reference MUST NOT determine shape or camera. Treat the target guide alpha as an immutable stencil: keep every part, every edge, its exact silhouette, position, scale and orientation in the full square frame, including all original empty space. Change RGB surfaces only. Do not enlarge, recenter, rotate, crop, change thickness or add geometry. Return one full 1024 by 1024 RGBA PNG with genuine transparent background, no contact sheet.\nPaint the reference's surfaces onto the guide's visible parts: warm ivory-white bone / ceramic with fine wear, delicate etched grooves, seams and plate joins; black-violet organic resin with restrained tendon-like grain; muted brushed antique gold trim as base colour; tiny blue-white inlays only where these can be painted on existing surfaces; dark physical string. Continue unseen surfaces plausibly using the same materials. The pale lavender and cream guide tints merely identify parts and are NOT final colours. The item is physical, not energy. No extra weapons or Arc Coupler.\nLIGHTING: flat evenly lit shadowless albedo from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no directional gradients, no floor or backdrop. Metal has only a faint sheen. Light inlays are simply bright colour with NO bloom or light spill beyond the existing silhouette. No text, letters, numbers, labels, watermark or border.\nHighest priority is strict guide registration and preservation of its alpha silhouette, even where the resulting object looks tiny or unusually narrow. Do not redraw the full bow from the design reference.\nVIEW-SPECIFIC REGISTRATION:\nBACK view: preserve the tiny END-ON horizontal projection at x=406..616, y=490..533 on the 1024 square canvas. The entire visible object is only 211 pixels wide and 44 pixels high. Preserve the right pale circular grip cross-section near x=551, the pale right-pointing tip, the thin resin bar toward the left, and the pale pointed part near x=406..474 exactly as shown. The object MUST remain this small with all the empty transparent margins. No upright bow silhouette.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "2c124d37050ba4fc5a7df79c09efe69dccded0b9180cced6f2f5d18c4d4bc5d7"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "source_output": null,
+      "output": null,
+      "selected": false,
+      "reason": "Tool returned moderation_blocked (violence) for this static fantasy game prop; no output.",
+      "tool_request_id": "0fd1d070-0eb7-4aed-a40d-ae8a3884d277",
+      "status": "tool_rejected"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT-OVER, strict registration.\nThis is a static, nonviolent fantasy videogame prop texture: the Hesper Kreegan ceremonial bone bow. No people, no combat scene, no injury. Produce ONE 1024 x 1024 PNG with real transparency.\nIMAGE 1 is the ORIGINAL GUIDE and the sole authority for geometry, framing and alpha. IMAGE 2 is the colour and material reference ONLY. Recolour the existing pixels of image 1, preserving its exact silhouette and every original part edge. Do not reconstruct a more elaborate object, enlarge it for presentation, or adopt image 2's silhouette. Copy the guide's camera and all its empty margins. Keep guide alpha outside the object exactly zero, with no stray speckles or fringe. If the tool returns another native resolution, retain the exact proportional placement from the entire square guide canvas; never zoom to fit.\nThe prior painting changed the outline and looked too shaded. Correct that by making a restrained FLAT ALBEDO paint-over within the ORIGINAL guide outline. Bone is warm white ivory with subtle hairline wear and fine shallow etched lines. Limbs are black-violet resin with delicate low-contrast organic grain. Gold is matte ochre brushed gold without bright streaks. Any blue-white inlay is a small painted flat coloured marking inside an existing part, no halo. String is dark physical cord. Preserve existing part boundaries; decorative marks lie completely inside them. Continue materials plausibly onto hidden/reverse surfaces.\nEven shadowless illumination directly from the viewer, nearly uniform base colours. NO directional or dramatic shading, NO ambient occlusion, NO black cavity shadows, NO metallic white highlights, NO reflections, NO rim lighting, NO cast shadows, NO bloom, NO floor, NO background. No text, letters, numerals or watermarks. Do not show or write coordinates.\nGUIDE REGISTRATION: The small END-ON item is only 20.6% of the canvas width and 4.3% of the canvas height, lying horizontally across the exact centre. It is NOT an upright bow. At 1024 size all pixels must stay inside the guide's outline within x=406..616 and y=490..533. Preserve the ivory circle behind the right half, the right-pointing ivory wedge, the short resin bridge and the smaller left-pointing ivory wedge. Tiny central details are acceptable; a larger, thicker or moved object is not.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-f6c3df25-a009-4591-ab12-6709028cc70e.png",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "2c124d37050ba4fc5a7df79c09efe69dccded0b9180cced6f2f5d18c4d4bc5d7"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "status": "selected_with_validation_failures",
+      "reason": "Only successful return after the initial tool rejection. Guide camera and material palette are recognizable, but exact silhouette and strictly flat albedo checks still fail. Single retry limit reached.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7cd2a26cd590c5ba78bfecffb47f775341b289845a385b1c36b0c94b74487d55",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          306,
+          37,
+          1234,
+          1222
+        ],
+        "opaque_bbox": [
+          498,
+          597,
+          756,
+          658
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.776572,
+        "nonzero_alpha_pixels_outside_normalized_guide": 3561,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nPaint the existing guide image as a production albedo texture source for the Hesper Kreegan bone bow hes_spinebow.\nImage 1 is the EDIT TARGET: a 1024 by 1024 transparent orthographic render of the EXACT existing mesh. Image 2 is only the approved design / colour / materials reference. The reference MUST NOT determine shape or camera. Treat the target guide alpha as an immutable stencil: keep every part, every edge, its exact silhouette, position, scale and orientation in the full square frame, including all original empty space. Change RGB surfaces only. Do not enlarge, recenter, rotate, crop, change thickness or add geometry. Return one full 1024 by 1024 RGBA PNG with genuine transparent background, no contact sheet.\nPaint the reference's surfaces onto the guide's visible parts: warm ivory-white bone / ceramic with fine wear, delicate etched grooves, seams and plate joins; black-violet organic resin with restrained tendon-like grain; muted brushed antique gold trim as base colour; tiny blue-white inlays only where these can be painted on existing surfaces; dark physical string. Continue unseen surfaces plausibly using the same materials. The pale lavender and cream guide tints merely identify parts and are NOT final colours. The item is physical, not energy. No extra weapons or Arc Coupler.\nLIGHTING: flat evenly lit shadowless albedo from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no directional gradients, no floor or backdrop. Metal has only a faint sheen. Light inlays are simply bright colour with NO bloom or light spill beyond the existing silhouette. No text, letters, numbers, labels, watermark or border.\nHighest priority is strict guide registration and preservation of its alpha silhouette, even where the resulting object looks tiny or unusually narrow. Do not redraw the full bow from the design reference.\nVIEW-SPECIFIC REGISTRATION:\nLEFT view: preserve the extremely thin EDGE-ON horizontal projection at x=66..957, y=490..533 on the 1024 square canvas. It is 892 pixels long but only 44 pixels high, centered at y=512. Preserve both ivory pointed end caps, all eight little diamond-shaped bone spike sections along the resin bar, and the broad central grip rectangle at x=460..563 exactly. Paint resin very dark violet, spikes and caps aged ivory, grip in the reference's ivory/gold/dark organic surface detailing. No widening or bending the bar, no upright bow silhouette.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "a4c594e876a88255c813db25922d78618cd43995cb5f15529feaeddc0cb5d5df"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-ee4ae66a-59e9-433e-9988-e79f77e56e47.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-ee4ae66a-59e9-433e-9988-e79f77e56e47.png",
+      "selected": false,
+      "reason": "Superseded by the single corrective generation: closer guide framing and/or flatter surface treatment. Original tool return retained at source_output.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "99b06e1bde3b66b88f237526b18c58ba6482cca580520af13f746771e65dd053",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          44,
+          310,
+          1210,
+          1005
+        ],
+        "opaque_bbox": [
+          48,
+          597,
+          1207,
+          655
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.783526,
+        "nonzero_alpha_pixels_outside_normalized_guide": 13371,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT-OVER, strict registration.\nThis is a static, nonviolent fantasy videogame prop texture: the Hesper Kreegan ceremonial bone bow. No people, no combat scene, no injury. Produce ONE 1024 x 1024 PNG with real transparency.\nIMAGE 1 is the ORIGINAL GUIDE and the sole authority for geometry, framing and alpha. IMAGE 2 is the colour and material reference ONLY. Recolour the existing pixels of image 1, preserving its exact silhouette and every original part edge. Do not reconstruct a more elaborate object, enlarge it for presentation, or adopt image 2's silhouette. Copy the guide's camera and all its empty margins. Keep guide alpha outside the object exactly zero, with no stray speckles or fringe. If the tool returns another native resolution, retain the exact proportional placement from the entire square guide canvas; never zoom to fit.\nThe prior painting changed the outline and looked too shaded. Correct that by making a restrained FLAT ALBEDO paint-over within the ORIGINAL guide outline. Bone is warm white ivory with subtle hairline wear and fine shallow etched lines. Limbs are black-violet resin with delicate low-contrast organic grain. Gold is matte ochre brushed gold without bright streaks. Any blue-white inlay is a small painted flat coloured marking inside an existing part, no halo. String is dark physical cord. Preserve existing part boundaries; decorative marks lie completely inside them. Continue materials plausibly onto hidden/reverse surfaces.\nEven shadowless illumination directly from the viewer, nearly uniform base colours. NO directional or dramatic shading, NO ambient occlusion, NO black cavity shadows, NO metallic white highlights, NO reflections, NO rim lighting, NO cast shadows, NO bloom, NO floor, NO background. No text, letters, numerals or watermarks. Do not show or write coordinates.\nGUIDE REGISTRATION: The very thin EDGE-ON item is 87.1% of the canvas width and only 4.3% of its height, lying horizontally across the exact centre. At 1024 size the outline lies within x=66..957 and y=490..533. Keep the same thin resin rod, both slim ivory pointed end caps, all eight small diamond-shaped bone sections and the central rectangular grip x=460..563. Four diamond sections each side. The grip must remain a plain rectangle in silhouette, with a straight horizontal upper and lower edge; paint detail INSIDE it. Do not add thicker collars or curves.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-ff695d6a-7fbf-4a8a-b13e-8b5853a62a36.png",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "a4c594e876a88255c813db25922d78618cd43995cb5f15529feaeddc0cb5d5df"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "status": "selected_with_validation_failures",
+      "reason": "Selected as the best available raw return within the one-correction-per-view limit; retains the guide camera and material palette with improved flatness. Exact silhouette and strictly flat albedo checks still fail.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "1ea98a6956ef9ee87308548cdaf6f031b79ee4b89ef2b4072f671fb211145b1c",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          76,
+          111,
+          1216,
+          1228
+        ],
+        "opaque_bbox": [
+          82,
+          602,
+          1173,
+          651
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.867156,
+        "nonzero_alpha_pixels_outside_normalized_guide": 12084,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nPaint the existing guide image as a production albedo texture source for the Hesper Kreegan bone bow hes_spinebow.\nImage 1 is the EDIT TARGET: a 1024 by 1024 transparent orthographic render of the EXACT existing mesh. Image 2 is only the approved design / colour / materials reference. The reference MUST NOT determine shape or camera. Treat the target guide alpha as an immutable stencil: keep every part, every edge, its exact silhouette, position, scale and orientation in the full square frame, including all original empty space. Change RGB surfaces only. Do not enlarge, recenter, rotate, crop, change thickness or add geometry. Return one full 1024 by 1024 RGBA PNG with genuine transparent background, no contact sheet.\nPaint the reference's surfaces onto the guide's visible parts: warm ivory-white bone / ceramic with fine wear, delicate etched grooves, seams and plate joins; black-violet organic resin with restrained tendon-like grain; muted brushed antique gold trim as base colour; tiny blue-white inlays only where these can be painted on existing surfaces; dark physical string. Continue unseen surfaces plausibly using the same materials. The pale lavender and cream guide tints merely identify parts and are NOT final colours. The item is physical, not energy. No extra weapons or Arc Coupler.\nLIGHTING: flat evenly lit shadowless albedo from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no directional gradients, no floor or backdrop. Metal has only a faint sheen. Light inlays are simply bright colour with NO bloom or light spill beyond the existing silhouette. No text, letters, numbers, labels, watermark or border.\nHighest priority is strict guide registration and preservation of its alpha silhouette, even where the resulting object looks tiny or unusually narrow. Do not redraw the full bow from the design reference.\nVIEW-SPECIFIC REGISTRATION:\nRIGHT view: preserve the extremely thin EDGE-ON horizontal projection at x=66..957, y=490..533 on the 1024 square canvas. It is 892 pixels long but only 44 pixels high, centered at y=512. Preserve both ivory pointed end caps, the long thin resin limbs and the broad central grip rectangle at x=460..563 exactly. Most spikes are hidden from this side; do not add visible spike silhouettes. Continue the reference's ivory/gold/dark organic materials plausibly over the back surfaces. Preserve the thin straight string superimposed along the horizontal centre exactly. No widening or bending the bar, no upright bow silhouette.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "1f46a7bf9106e02cb2db6751f6cb7b20530dc59379370d33cbdb55c9e2d4ecf0"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-2af877d8-2c5c-412c-a4e8-1ff9a1bf31f9.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-2af877d8-2c5c-412c-a4e8-1ff9a1bf31f9.png",
+      "selected": false,
+      "reason": "Superseded by the single corrective generation: closer guide framing and/or flatter surface treatment. Original tool return retained at source_output.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "b43d655ceee6c183f26cd81987266132430a1410b8fa6ff549f2ccd734718b3f",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          73,
+          119,
+          1216,
+          947
+        ],
+        "opaque_bbox": [
+          82,
+          601,
+          1173,
+          652
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.867524,
+        "nonzero_alpha_pixels_outside_normalized_guide": 14750,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT-OVER, strict registration.\nThis is a static, nonviolent fantasy videogame prop texture: the Hesper Kreegan ceremonial bone bow. No people, no combat scene, no injury. Produce ONE 1024 x 1024 PNG with real transparency.\nIMAGE 1 is the ORIGINAL GUIDE and the sole authority for geometry, framing and alpha. IMAGE 2 is the colour and material reference ONLY. Recolour the existing pixels of image 1, preserving its exact silhouette and every original part edge. Do not reconstruct a more elaborate object, enlarge it for presentation, or adopt image 2's silhouette. Copy the guide's camera and all its empty margins. Keep guide alpha outside the object exactly zero, with no stray speckles or fringe. If the tool returns another native resolution, retain the exact proportional placement from the entire square guide canvas; never zoom to fit.\nThe prior painting changed the outline and looked too shaded. Correct that by making a restrained FLAT ALBEDO paint-over within the ORIGINAL guide outline. Bone is warm white ivory with subtle hairline wear and fine shallow etched lines. Limbs are black-violet resin with delicate low-contrast organic grain. Gold is matte ochre brushed gold without bright streaks. Any blue-white inlay is a small painted flat coloured marking inside an existing part, no halo. String is dark physical cord. Preserve existing part boundaries; decorative marks lie completely inside them. Continue materials plausibly onto hidden/reverse surfaces.\nEven shadowless illumination directly from the viewer, nearly uniform base colours. NO directional or dramatic shading, NO ambient occlusion, NO black cavity shadows, NO metallic white highlights, NO reflections, NO rim lighting, NO cast shadows, NO bloom, NO floor, NO background. No text, letters, numerals or watermarks. Do not show or write coordinates.\nGUIDE REGISTRATION: The very thin EDGE-ON item is 87.1% of the canvas width and only 4.3% of its height, lying horizontally across the exact centre. At 1024 size the outline lies within x=66..957 and y=490..533. Keep the same thin resin rod, both slim ivory pointed end caps, the thin horizontal cord and central rectangular grip x=460..563. Spikes are occluded in this view; do not make them visible. The grip must remain a plain rectangle in silhouette, with a straight horizontal upper and lower edge; paint detail INSIDE it. Do not add thicker collars or curves.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-eef23f86-27f7-41c5-8f55-c0f0359a2ddb.png",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "1f46a7bf9106e02cb2db6751f6cb7b20530dc59379370d33cbdb55c9e2d4ecf0"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "status": "selected_with_validation_failures",
+      "reason": "Selected for flatter albedo and simpler rectangular grip. Normalized mask overlap is slightly lower than attempt 1 (0.846253 versus 0.867524); neither is exact. Single corrective generation limit reached.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "96464b182f35fa4fcbaf162d4190f000d422f9014fffbc74903b15535e9dbc9f",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          77,
+          257,
+          1177,
+          1085
+        ],
+        "opaque_bbox": [
+          80,
+          603,
+          1174,
+          649
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.846253,
+        "nonzero_alpha_pixels_outside_normalized_guide": 10749,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nPaint the existing guide image as a production albedo texture source for the Hesper Kreegan bone bow hes_spinebow.\nImage 1 is the EDIT TARGET: a 1024 by 1024 transparent orthographic render of the EXACT existing mesh. Image 2 is only the approved design / colour / materials reference. The reference MUST NOT determine shape or camera. Treat the target guide alpha as an immutable stencil: keep every part, every edge, its exact silhouette, position, scale and orientation in the full square frame, including all original empty space. Change RGB surfaces only. Do not enlarge, recenter, rotate, crop, change thickness or add geometry. Return one full 1024 by 1024 RGBA PNG with genuine transparent background, no contact sheet.\nPaint the reference's surfaces onto the guide's visible parts: warm ivory-white bone / ceramic with fine wear, delicate etched grooves, seams and plate joins; black-violet organic resin with restrained tendon-like grain; muted brushed antique gold trim as base colour; tiny blue-white inlays only where these can be painted on existing surfaces; dark physical string. Continue unseen surfaces plausibly using the same materials. The pale lavender and cream guide tints merely identify parts and are NOT final colours. The item is physical, not energy. No extra weapons or Arc Coupler.\nLIGHTING: flat evenly lit shadowless albedo from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no directional gradients, no floor or backdrop. Metal has only a faint sheen. Light inlays are simply bright colour with NO bloom or light spill beyond the existing silhouette. No text, letters, numbers, labels, watermark or border.\nHighest priority is strict guide registration and preservation of its alpha silhouette, even where the resulting object looks tiny or unusually narrow. Do not redraw the full bow from the design reference.\nVIEW-SPECIFIC REGISTRATION:\nTOP view, directly above the mesh: preserve the upright curved bow projection at x=407..617, y=66..957 on the 1024 square canvas. Follow the guide, NOT the design reference's more complex silhouette. Preserve the slender bowed resin limb curving left, the straight string at x=560..565 from y=154..870, the two ivory hooked tips opening right, the central rectangular grip at x=446..497 and y=461..563, and exactly four outward LEFT-pointing bone spikes above the grip and four below. Paint fine ivory plate divisions and dark-violet resin only within the existing curved limb; brush antique gold accents and small blue-white inlays onto existing tip/grip surfaces without adding geometry. Do not flip the spikes to the reference's opposite side. Keep the entire empty opening between the bow and string transparent.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "a6d615709f7aade84c304aeec1bceae7d78e5d490c3979f6cec685b67655c5e5"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "source_output": null,
+      "output": null,
+      "selected": false,
+      "reason": "Tool returned moderation_blocked (violence) for this static fantasy game prop; no output.",
+      "tool_request_id": "771b7835-900d-49dc-a5b3-9bf94b4ba4ee",
+      "status": "tool_rejected"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT-OVER, strict registration.\nThis is a static, nonviolent fantasy videogame prop texture: the Hesper Kreegan ceremonial bone bow. No people, no combat scene, no injury. Produce ONE 1024 x 1024 PNG with real transparency.\nIMAGE 1 is the ORIGINAL GUIDE and the sole authority for geometry, framing and alpha. IMAGE 2 is the colour and material reference ONLY. Recolour the existing pixels of image 1, preserving its exact silhouette and every original part edge. Do not reconstruct a more elaborate object, enlarge it for presentation, or adopt image 2's silhouette. Copy the guide's camera and all its empty margins. Keep guide alpha outside the object exactly zero, with no stray speckles or fringe. If the tool returns another native resolution, retain the exact proportional placement from the entire square guide canvas; never zoom to fit.\nThe prior painting changed the outline and looked too shaded. Correct that by making a restrained FLAT ALBEDO paint-over within the ORIGINAL guide outline. Bone is warm white ivory with subtle hairline wear and fine shallow etched lines. Limbs are black-violet resin with delicate low-contrast organic grain. Gold is matte ochre brushed gold without bright streaks. Any blue-white inlay is a small painted flat coloured marking inside an existing part, no halo. String is dark physical cord. Preserve existing part boundaries; decorative marks lie completely inside them. Continue materials plausibly onto hidden/reverse surfaces.\nEven shadowless illumination directly from the viewer, nearly uniform base colours. NO directional or dramatic shading, NO ambient occlusion, NO black cavity shadows, NO metallic white highlights, NO reflections, NO rim lighting, NO cast shadows, NO bloom, NO floor, NO background. No text, letters, numerals or watermarks. Do not show or write coordinates.\nGUIDE REGISTRATION: The TOP view is an upright, very slender curved bow occupying only 20.6% of the canvas width and 87.1% of the height. At 1024 size its outline lies within x=407..617 and y=66..957. Use image 1 exactly: thin curved resin limbs bending left; two small ivory hooks opening to the RIGHT at the top and bottom; thin straight dark cord vertically at x=560..565; simple rectangular ivory grip x=446..497, y=461..563; exactly four ivory spikes pointing LEFT above the grip and four below. Keep all eight spikes at their original small size, shape and position. The design reference's spikes point a different way: do not copy that direction or its chunky outline. Paint restrained ivory plate seams along the existing thin limbs and gold edging INSIDE existing tips and grip, never outside the guide. Entire gap between curved limb and string is transparent.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfd-8e93-7813-a03d-78d7761ee190/exec-eff8e276-4706-4f94-80b0-6cbc0947e91c.png",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "a6d615709f7aade84c304aeec1bceae7d78e5d490c3979f6cec685b67655c5e5"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_and_material_reference",
+          "sha256": "65e199bd507683a642903ad51268f8d297072e8ca819f469861b78898b3742b5"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "status": "selected_with_validation_failures",
+      "reason": "Only successful return after the initial tool rejection. Guide camera and material palette are recognizable, but exact silhouette and strictly flat albedo checks still fail. Single retry limit reached.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "1ac27279e681ebb9da19003bc25c42ab60140877ee96728ee8c313b059bcaab2",
+      "checks": {
+        "has_genuine_transparency": true,
+        "clean_background_matching_guide": false,
+        "alpha_bbox": [
+          25,
+          28,
+          1232,
+          1231
+        ],
+        "opaque_bbox": [
+          500,
+          81,
+          758,
+          1173
+        ],
+        "size_matches_requested": false,
+        "size_handling": "Kept native return unresized, as the brief requires for non-1024 returns.",
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.758606,
+        "nonzero_alpha_pixels_outside_normalized_guide": 34023,
+        "normalization_note": "Guide mask sampled in normalized canvas coordinates for comparison only; output images were not resized.",
+        "materials_match_reference_palette": true,
+        "material_review": "Warm ivory bone, dark-violet resin and antique gold are present. Blue inlays appear only on some visible surfaces. Reference markings are approximated.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_review": "No floor or cast shadow. Some sculpted shading, dark creases and bright edges remain; correction reduced these but did not fully satisfy flat-albedo lighting.",
+        "alpha_review": "Genuine transparent background, but stray low-alpha pixels and coloured edge fringes remain beyond the guide silhouette.",
+        "text_or_letters": false,
+        "cropped": false,
+        "raw_return_preserved": true
+      }
+    }
+  ],
+  "status": "five_paintings_saved_with_validation_failures",
+  "selected_means": "Chosen raw deliverable, not approval or a claim that all brief checks passed.",
+  "correction_limit": "One corrective/retry call per view; no further generation performed.",
+  "validation_summary": {
+    "selected_outputs": 5,
+    "all_selected_native_size": [
+      1254,
+      1254
+    ],
+    "all_selected_rgba": true,
+    "all_selected_byte_identical_to_tool_returns": true,
+    "inputs_unchanged": true,
+    "exact_silhouette_passes": 0,
+    "strict_flat_albedo_passes": 0,
+    "remaining_issues": [
+      "Guide silhouettes differ despite corrective prompts.",
+      "Low-alpha stray pixels and coloured edge fringes remain.",
+      "Some shading and highlights remain."
+    ],
+    "builds_or_runtime_checks": "Not run; image-generation-only brief."
+  }
+}

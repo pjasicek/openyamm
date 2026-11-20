@@ -1,5 +1,6 @@
 #include "game/mm9/Mm9BarrelRuntime.h"
 
+#include "engine/Localization.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/mm9/Mm9PrimaryStats.h"
@@ -138,7 +139,8 @@ Mm9BarrelResult useMm9Barrel(
     if (stat.has_value())
     {
         result.statRaised = addMm9PermanentPrimaryStat(*pMember, *stat, StatReward, MaximumStat);
-        result.statusMessage = pMember->name + " gains +2 " + std::string(mm9PrimaryStatName(*stat)) + "!";
+        result.statusMessage = Engine::tr("{name} gains +{amount} {stat}!",
+            {{"name", pMember->name}, {"amount", StatReward}, {"stat", Engine::tr(mm9PrimaryStatName(*stat))}});
         result.soundName = "sounds/events/quest.wav";
         return result;
     }
@@ -154,7 +156,7 @@ Mm9BarrelResult useMm9Barrel(
             result.itemAwarded = party.tryGrantInventoryItemToMember(memberIndex, *result.generatedItem);
             result.inventoryFull = !result.itemAwarded;
         }
-        result.statusMessage = pMember->name + " becomes diseased, but gains an item!";
+        result.statusMessage = Engine::tr("{name} becomes diseased, but gains an item!", {{"name", pMember->name}});
         result.soundName = "sounds/events/quest.wav";
     }
     return result;

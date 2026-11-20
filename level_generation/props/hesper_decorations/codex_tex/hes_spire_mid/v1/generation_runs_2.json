@@ -1,0 +1,148 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "view": "back",
+  "status": "generated_with_failed_acceptance_checks",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "guide_alpha_bbox": [
+    303,
+    66,
+    721,
+    958
+  ],
+  "max_corrective_regenerations": 1,
+  "corrective_regenerations_used": 1,
+  "selected_output": "paint_back.png",
+  "accepted": false,
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic back-view albedo texture source for an existing 3D game decoration, Mid hive spire.\nEdit target: INPUT IMAGE 1, guide_back.png, the plain grey 1024 x 1024 model render. This image is the absolute authority for geometry, silhouette, all internal shape edges and openings, camera, framing and placement. Paint ONLY this exact existing shape.\nSupporting references: INPUT IMAGE 2, design_reference.png, is the approved HD authority for design, colours and materials only; INPUT IMAGE 3, concept_crop.png, is the original concept. Do not import the reference's three-quarter camera, wider silhouette, additional geometry or lighting.\n\nReturn exactly one 1024 x 1024 RGBA image with a genuinely transparent background, at the guide's original resolution and framing. Preserve the guide alpha silhouette pixel-for-pixel, including its existing holes and spaces: object bounds x=303..720 and y=66..957 on the 1024 square. Keep every thorn tip, polygonal outer contour, notch, root, opening, ridge and shape edge in exactly the guide's location. Keep the tall narrow back view with its asymmetry, upright ivory top spike and splayed root base. Do not smooth away the shape edges, change the pose, resize, shift, rotate, crop, reframe, add spikes or create new openings.\n\nPaint the guide's surfaces with the approved design's glossy wet black-violet resin and chitin, glowing orange slit windows and ivory bone thorns. Organic resin ribs are deep black-violet and plum; thorns and apex are warm pale ivory bone with restrained fine natural grain; the existing recessed window/sac forms have saturated orange and amber glowing colours and fine organic membranes. Retain the exact shapes and positions shown in the guide. Material character comes from local colour and fine surface texture, not reflections or lighting.\n\nLIGHTING IS CRITICAL: this is ALBEDO for texture projection, not a beauty render. Flat, even, shadowless frontal light. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim lights, bloom, glow halos, gradients from directional illumination, background or floor. Paint glowing sacs and seams at their glowing orange colour; they must not cast orange light onto surrounding resin or bone. Every surface remains evenly readable.\nNo text, labels, border, watermark or additional objects. Only the painted exact guide on transparency.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "4e826578716ea39a5dec677246ba7c540ed5fafe9938b4095c77096dea0b8ee1"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+        }
+      ],
+      "attempt": 1,
+      "output": "/home/pjasicek/.codex/generated_images/01a16871-a0ba-7243-b774-3406fa386161/exec-a414d28d-ebe1-4bdc-9f72-f28ada7089a1.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16871-a0ba-7243-b774-3406fa386161/exec-a414d28d-ebe1-4bdc-9f72-f28ada7089a1.png",
+      "output_sha256": "3e58d703bbc89edbbf924861fdaa9689cada0c64f364d014b0a4257f5dc17d69",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected in favour of the corrective return: wrong native dimensions (1254x1254), mismatched silhouette, stray alpha pixels and pronounced baked specular highlights.",
+      "checks": {
+        "file": "/home/pjasicek/.codex/generated_images/01a16871-a0ba-7243-b774-3406fa386161/exec-a414d28d-ebe1-4bdc-9f72-f28ada7089a1.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "3e58d703bbc89edbbf924861fdaa9689cada0c64f364d014b0a4257f5dc17d69",
+        "alpha_bbox": [
+          0,
+          51,
+          1240,
+          1214
+        ],
+        "alpha_128_bbox": [
+          370,
+          57,
+          884,
+          1175
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1359476,
+        "partially_transparent_pixels": 212293,
+        "opaque_pixels": 747,
+        "exact_1024_square": false,
+        "guide_silhouette_identical": false,
+        "material_colours": "Visual match to the requested black-violet/plum resin, ivory bone and orange/amber membranes.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Strong baked specular highlights and darkened cavities.",
+        "transparent_background": true,
+        "clean_guide_alpha": false,
+        "silhouette_review": "Native output dimensions differ from the guide, so pixel-identical silhouette fails. Visual inspection also shows invented internal details and edge changes.",
+        "resized": false,
+        "postprocessed": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "CORRECTIVE REGENERATION — exact 1024 x 1024 image edit for texture projection.\nUse case: style-transfer. Edit INPUT 1 (guide_back.png) directly as the fixed pixel canvas. OUTPUT MUST BE EXACTLY 1024 PIXELS WIDE AND 1024 PIXELS HIGH, the same dimensions as input 1, without reframing, scaling or cropping. The result will be used raw and cannot be resized.\n\nINPUT 1 is the plain grey back-view model, the sole geometry and alpha authority. INPUT 2 (design_reference.png) supplies only surface colours and material identity. INPUT 3 (concept_crop.png) supplies the original material concept.\nRecolour the existing grey guide surfaces. Copy its outer silhouette, internal boundaries, voids, jagged polygonal contours and alpha coverage exactly. All positions remain unchanged, including the long ivory apex at (532,66), the leftward base tip at (303,946), the rightward base tip at (720,941), and the lowest base edge at y=957. The whole narrow object remains inside x=303..720, y=66..957. Every existing spike, root and inset membrane shape must stay precisely aligned to the grey guide. No added spikes, added holes, extra window shapes, smoothed contours or geometry from the three-quarter reference. No isolated pixels, glow, fringe or dust outside the guide alpha mask. Preserve its existing internal transparent spaces.\n\nApply the design's base-colour materials: very dark black-violet and muted plum resin/chitin ribs, warm ivory bone on existing thorns and the top spike, orange/amber window membranes in the guide's existing inset sac/slit shapes. Fine subtle organic grain only. The wet glossy resin is represented by its base colour; gloss and illumination will be computed by the game later.\n\nTHIS IS A FLAT UNLIT ALBEDO PASS. Uniform shadowless illumination straight from the viewer. Remove all baked shadows, occlusion shading, specular glints, glossy white streaks, bright reflections and rim highlights. No bright lines tracing every rib. Do not shade the faceted guide with a directional light. Orange windows are solid luminous-colour material with modest membrane colour detail; no bright light cores, bloom or orange spill onto the shell. Ivory is evenly cream coloured, not shiny gold. No lighting gradient across the model.\nBackground must be truly alpha-transparent, with clean guide-aligned edges and no floor or backdrop. No text, no labels. Deliver one original-resolution 1024x1024 transparent PNG; retain the input guide's exact silhouette and framing.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "4e826578716ea39a5dec677246ba7c540ed5fafe9938b4095c77096dea0b8ee1"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+        }
+      ],
+      "attempt": 2,
+      "output": "paint_back.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16871-a0ba-7243-b774-3406fa386161/exec-333cfc6c-f3c8-4428-9a64-81ec2e646b86.png",
+      "output_sha256": "a1b8395936a26949d788dd46d46148fb2d2e8a1a78549a37ae98d14a89d33b40",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better of the two allowed raw returns because highlights and orange illumination are reduced. Still fails the strict brief: 1254x1254 instead of 1024x1024; silhouette and internal shapes are not identical to the guide; faint stray alpha pixels remain; some baked shading and highlights remain. Preserved byte-for-byte, unresized, without alpha repair.",
+      "checks": {
+        "file": "/home/pjasicek/.codex/generated_images/01a16871-a0ba-7243-b774-3406fa386161/exec-333cfc6c-f3c8-4428-9a64-81ec2e646b86.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "a1b8395936a26949d788dd46d46148fb2d2e8a1a78549a37ae98d14a89d33b40",
+        "alpha_bbox": [
+          19,
+          9,
+          1234,
+          1236
+        ],
+        "alpha_128_bbox": [
+          372,
+          83,
+          883,
+          1176
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1366322,
+        "partially_transparent_pixels": 205395,
+        "opaque_pixels": 799,
+        "exact_1024_square": false,
+        "guide_silhouette_identical": false,
+        "material_colours": "Visual match to the requested black-violet/plum resin, ivory bone and orange/amber membranes.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Reduced highlights, but residual highlights and darkened cavities remain.",
+        "transparent_background": true,
+        "clean_guide_alpha": false,
+        "silhouette_review": "Native output dimensions differ from the guide, so pixel-identical silhouette fails. Visual inspection also shows invented internal details and edge changes.",
+        "resized": false,
+        "postprocessed": false
+      }
+    }
+  ]
+}

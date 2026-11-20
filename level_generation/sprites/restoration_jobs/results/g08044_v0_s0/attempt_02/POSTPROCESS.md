@@ -1,0 +1,1 @@
+Existing detailed master retained. Reproduce with queue.py process g08044_v0_s0 --adjust 0.92 0 27. One uniform sheet transform corrects oversized artwork; no independent component fitting. Initial bounds delta [-6,-4.5,6.5,0]; final [-0.5,-1.5,1,0], no warnings. Both final contrast proofs inspected.

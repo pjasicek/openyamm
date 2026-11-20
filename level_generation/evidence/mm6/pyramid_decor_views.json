@@ -1,0 +1,44 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "room",
+        "target": [
+          -9784,
+          -163,
+          1099
+        ],
+        "span": 6500
+      },
+      "section_top_z": 1611,
+      "image": "level_generation/evidence/mm6/pyramid_decor_room.png",
+      "camera_position": [
+        -6840.9599609375,
+        -6049.08056640625,
+        8293.0986328125
+      ],
+      "highlighted": [
+        {
+          "index": 355,
+          "name": "6torch01",
+          "position": [
+            -9728,
+            -219,
+            1099
+          ]
+        },
+        {
+          "index": 402,
+          "name": "6torch01",
+          "position": [
+            -8163,
+            -354,
+            2810
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

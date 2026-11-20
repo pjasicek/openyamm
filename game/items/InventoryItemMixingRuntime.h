@@ -23,7 +23,8 @@ enum class InventoryItemMixAction : uint8_t
     PotionMix,
     ReagentBottleMix,
     RechargePotion,
-    EnchantWeaponPotion,
+    HardenPotion,
+    WeaponEnchantPotion,
 };
 
 struct InventoryItemMixResult
@@ -49,7 +50,6 @@ public:
     static InventoryItem makeBottleItem(const ItemTable &itemTable, uint32_t bottleItemId);
     // The power a reagent adds to the alchemist's skill level when it fills a bottle.
     static uint16_t reagentPower(const ItemDefinition &itemDefinition);
-    static uint32_t effectiveAlchemyLevel(const Character &member);
 
     static uint16_t calculateSpellRechargeCharges(
         uint16_t maxCharges,

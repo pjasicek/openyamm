@@ -2,6 +2,9 @@
 
 #include "engine/AssetFileSystem.h"
 #include "game/arcomage/ArcomageTypes.h"
+#include "game/gameplay/TrainerDirectory.h"
+#include "game/content/NamedMods.h"
+#include "game/content/RulesetDefinition.h"
 #include "game/tables/AwardTable.h"
 #include "game/tables/ChestTable.h"
 #include "game/tables/CharacterInspectTable.h"
@@ -17,12 +20,12 @@
 #include "game/items/ItemEnchantTables.h"
 #include "game/tables/ItemTable.h"
 #include "game/maps/MapAssetLoader.h"
-#include "game/localization/LocalizationCatalog.h"
 #include "game/maps/MapRegistry.h"
 #include "game/mm9/Mm9MapTransition.h"
 #include "game/mm9/Mm9TeacherSchedule.h"
 #include "game/mm9/Mm9QuestMarkers.h"
 #include "game/mm9/Mm9RudeDialogue.h"
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/mm9/Mm9SkillTrainer.h"
 #include "game/mm9/Mm9TransportRoute.h"
 #include "game/outdoor/WeatherModel.h"
@@ -36,6 +39,13 @@
 #include "game/tables/PortraitFxEventTable.h"
 #include "game/tables/PotionMixingTable.h"
 #include "game/tables/PotionNoteTable.h"
+#include "game/rules/SoloTalents.h"
+#include "game/rules/maw/MawCraftingData.h"
+#include "game/rules/maw/MawDimensionMaps.h"
+#include "game/rules/maw/MawTexts.h"
+#include "game/rules/maw/MawItemData.h"
+#include "game/rules/maw/MawPromotions.h"
+#include "game/rules/maw/MawMonsterLevels.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RaceStartingStatsTable.h"
 #include "game/tables/RosterTable.h"
@@ -47,8 +57,8 @@
 #include <functional>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
-#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -66,11 +76,29 @@ class GameDataLoader
 {
 public:
     void setActiveWorldId(const std::string &worldId);
-    void setLanguage(const std::string &language);
+    // (Re)loads the tables only one world has (MM9's RUDE dialogue, hirelings, trainers, routes, ...) for the active
+    // world, as the full load does; a world switch calls it after setActiveWorldId and rebinds GameDataRepository.
+    bool loadWorldScopedTables(const Engine::AssetFileSystem &assetFileSystem);
+    // The ruleset whose table overrides the next load applies; Standard (no overrides) until set.
+    void setActiveRuleset(const RulesetDefinition &ruleset);
+    const RulesetDefinition &activeRuleset() const;
+    // The named mods that are on, in their order (mountNamedMods): their table rows apply after the ruleset's on
+    // every load (devdocs/NAMED_MODS.md). None until set.
+    void setNamedMods(std::vector<NamedModManifest> mods);
+    // The paths of the active ruleset's table contributions the last load applied, so a test can find one that no
+    // loader reads (audit DAT-1: map_stats.txt was skipped for weeks).
+    const std::set<std::string> &appliedRulesetContributions() const;
+    // The active ruleset's package directory ("engine/rulesets/<id>/"), whose map and event overlays load after the worlds';
+    // empty for Standard.
+    std::string activeRulesetRoot() const;
     void setInitialMapFileName(const std::string &fileName);
     // Actor models (settings `actor_models`): the merged models/actors.yml of every mounted world, or only
     // overrideManifestPath when it is set. Map loads then skip the sprites of the monsters they bind.
     void setActorModels(bool enabled, const std::string &overrideManifestPath);
+    // Whether map loads read the surface material maps of face textures (video.surface_materials).
+    void setSurfaceMaterials(bool enabled) { m_surfaceMaterials = enabled; }
+    // Loads the actor model manifest (every mounted world's actors.yml) when actor models are on; a map load does it.
+    bool ensureActorModelManifest(const Engine::AssetFileSystem &assetFileSystem);
     // Null while actor models are off or before the first map load.
     const std::shared_ptr<const ActorModelManifest> &actorModelManifest() const;
     bool load(const Engine::AssetFileSystem &assetFileSystem);
@@ -95,10 +123,11 @@ public:
         const std::string &fileName
     );
     const std::vector<LoadedTableSummary> &getLoadedTables() const;
-    const LocalizationCatalog &getLocalizationCatalog() const;
     const std::optional<MapAssetInfo> &getSelectedMap() const;
     size_t releaseSelectedMapRenderSourcePixels();
     bool selectedMapRenderSourcePixelsReleased() const;
+    // What MonsterRules::mapAssetVariant said of the selected map when it was loaded for play.
+    uint64_t selectedMapRulesVariant() const;
     size_t lastReleasedMapRenderSourcePixelBytes() const;
     const MapStats &getMapStats() const;
     const MonsterTable &getMonsterTable() const;
@@ -122,6 +151,8 @@ public:
     const Mm9TeacherScheduleTable &getMm9TeacherScheduleTable() const;
     const Mm9RudeDialogueTable &getMm9RudeDialogueTable() const;
     const Mm9SkillTrainerTable &getMm9SkillTrainerTable() const;
+    // The MM9 world's hirelings; empty in other worlds.
+    const Mm9HirelingTable &getMm9HirelingTable() const;
     const Mm9TransportRouteTable &getMm9TransportRouteTable() const;
     const Mm9QuestInteractionTable &getMm9QuestInteractionTable() const;
     const RosterTable &getRosterTable() const;
@@ -143,6 +174,7 @@ public:
     const MergedRaceSkillTable &getMergedRaceSkillTable() const;
     const MergedTeacherTopicTable &getMergedTeacherTopicTable() const;
     const MergedTeacherAutonoteTable &getMergedTeacherAutonoteTable() const;
+    const TrainerDirectory &getTrainerDirectory() const;
     const MergedNpcProfessionTable &getMergedNpcProfessionTable() const;
     const MergedNpcNameTable &getMergedNpcNameTable() const;
     const MergedNpcBtbTable &getMergedNpcBtbTable() const;
@@ -151,6 +183,14 @@ public:
     const MergedNewsProfessionTopicTable &getMergedNewsProfessionTopicTable() const;
     const MergedMonsterPortraitTable &getMergedMonsterPortraitTable() const;
     const MergedPotionSettingTable &getMergedPotionSettingTable() const;
+    // The MAW ruleset's map level data; null unless MAW is the active ruleset.
+    const MawMapLevels *mawMapLevels() const;
+    // The MAW ruleset's item data (artifacts, legendary affixes); null unless MAW is the active ruleset.
+    const MawItemData *mawItemData() const;
+    const MawPromotionData *mawPromotionData() const;
+    const MawCraftingData *mawCraftingData() const;
+    const MawDimensionData *mawDimensionData() const;
+    const MawTextData *mawTextData() const;
     const MergedReagentSettingTable &getMergedReagentSettingTable() const;
     const MergedAdditionalUiTable &getMergedAdditionalUiTable() const;
     const MergedBolsterFormulaTable &getMergedBolsterFormulaTable() const;
@@ -188,6 +228,9 @@ private:
         MapLoadPurpose mapLoadPurpose,
         const MapLoadProgressPump &progressPump = {});
     void applyMergedContinentSettingsToSelectedMap(const Engine::AssetFileSystem &assetFileSystem);
+    // An indoor map open to the sky with scene `sky: {weather}` (MM9's outdoor regions as BLVs): its weather profile
+    // (weather.yml rules and this map's chances), as an outdoor map's; nothing for every other indoor map.
+    void applyOpenSkyWeatherToSelectedMap(const Engine::AssetFileSystem &assetFileSystem);
     const WeatherRules &weatherRules(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMapStats(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -206,7 +249,15 @@ private:
     bool loadMm9MapTransitionTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9TeacherScheduleTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9RudeDialogueTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem);
+    bool addRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem, Mm9RudeDialogueTable &table) const;
     bool loadMm9SkillTrainerTable(const Engine::AssetFileSystem &assetFileSystem);
+    // MM9's lesson table over its dialogue table, from the skill_trainers contribution of worlds/mm9/world.yml
+    // (whichever world is active); null, with the reason printed, when it cannot be read.
+    std::shared_ptr<Mm9SkillTrainerTable> readMm9SkillTrainerTable(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const Mm9RudeDialogueTable &dialogue);
+    bool loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9TransportRouteTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9QuestInteractionTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -235,23 +286,33 @@ private:
         const std::string &virtualPath,
         std::vector<std::vector<std::string>> &rows
     );
-    std::vector<std::string> localizedDataTablePaths(std::string_view fileName) const;
-    std::string localizedDataTablePath(
+    // A whole data file (not a text table) under the active ruleset: its replacement if it has one.
+    std::optional<std::string> readRulesetDataFile(
         const Engine::AssetFileSystem &assetFileSystem,
-        std::string_view fileName
+        const std::string &virtualPath
     ) const;
-    std::vector<std::string> localizedEngineDataTablePaths(std::string_view fileName) const;
-    std::string localizedEngineDataTablePath(
+    bool loadPotionEffects(const Engine::AssetFileSystem &assetFileSystem);
+    // The solo run's talents (data_tables/talents.yml), bound for the rules and screens (soloTalentTable()).
+    bool loadSoloTalents(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadRulesetData(const Engine::AssetFileSystem &assetFileSystem);
+    // Every skill teacher from the loaded tables, with trainer_places.txt (and the mounted worlds' own rows), the
+    // Ledger of Teachers' teacher_ledger.yml and, when MM9 is mounted, Chedian's actor teachers.
+    bool loadTrainerDirectory(const Engine::AssetFileSystem &assetFileSystem);
+    // Applies the active ruleset's override or replacement of this engine table, if it has one, then the named mods'
+    // rows of it.
+    bool applyActiveRulesetTable(
         const Engine::AssetFileSystem &assetFileSystem,
-        std::string_view fileName
+        const std::string &virtualPath,
+        std::vector<std::vector<std::string>> &rows
     ) const;
-
-    bool ensureActorModelManifest(const Engine::AssetFileSystem &assetFileSystem);
 
     std::vector<LoadedTableSummary> m_loadedTables;
     std::string m_activeWorldId = "mm8";
-    std::string m_language = "en";
+    RulesetDefinition m_activeRuleset = standardRulesetDefinition();
+    std::vector<NamedModManifest> m_namedMods;
+    mutable std::set<std::string> m_appliedRulesetContributions;
     bool m_actorModelsEnabled = false;
+    bool m_surfaceMaterials = false;
     std::string m_actorModelManifestOverride;
     std::shared_ptr<const ActorModelManifest> m_pActorModelManifest;
     // The world and asset content m_pActorModelManifest was read for.
@@ -265,13 +326,13 @@ private:
     std::unordered_map<std::string, std::optional<std::string>> m_scriptBitmapPathByKey;
     std::unordered_map<std::string, std::optional<MapAssetBitmapPixelsResult>> m_scriptBitmapPixelsByKey;
     MapRegistry m_mapRegistry;
-    LocalizationCatalog m_localizationCatalog;
     MapStats m_mapStats;
     MonsterTable m_monsterTable;
     MonsterProjectileTable m_monsterProjectileTable;
     ObjectTable m_objectTable;
     SpellTable m_spellTable;
     ItemTable m_itemTable;
+    void recordActiveRulesetSchema();
     std::unordered_map<std::string, uint32_t> m_loadedContentPackageSchemas = {{"engine", 1}};
     StandardItemEnchantTable m_standardItemEnchantTable;
     SpecialItemEnchantTable m_specialItemEnchantTable;
@@ -288,6 +349,7 @@ private:
     std::shared_ptr<Mm9TeacherScheduleTable> m_pMm9TeacherScheduleTable;
     std::shared_ptr<Mm9RudeDialogueTable> m_pMm9RudeDialogueTable;
     std::shared_ptr<Mm9SkillTrainerTable> m_pMm9SkillTrainerTable;
+    std::shared_ptr<Mm9HirelingTable> m_pMm9HirelingTable;
     std::shared_ptr<Mm9TransportRouteTable> m_pMm9TransportRouteTable;
     Mm9QuestInteractionTable m_mm9QuestInteractionTable;
     RosterTable m_rosterTable;
@@ -309,6 +371,7 @@ private:
     MergedRaceSkillTable m_mergedRaceSkillTable;
     MergedTeacherTopicTable m_mergedTeacherTopicTable;
     MergedTeacherAutonoteTable m_mergedTeacherAutonoteTable;
+    TrainerDirectory m_trainerDirectory;
     MergedNpcProfessionTable m_mergedNpcProfessionTable;
     MergedNpcNameTable m_mergedNpcNameTable;
     MergedNpcBtbTable m_mergedNpcBtbTable;
@@ -317,6 +380,13 @@ private:
     MergedNewsProfessionTopicTable m_mergedNewsProfessionTopicTable;
     MergedMonsterPortraitTable m_mergedMonsterPortraitTable;
     MergedPotionSettingTable m_mergedPotionSettingTable;
+    SoloTalentTable m_soloTalentTable;
+    std::optional<MawMapLevels> m_mawMapLevels;
+    std::optional<MawItemData> m_mawItemData;
+    std::optional<MawPromotionData> m_mawPromotionData;
+    std::optional<MawCraftingData> m_mawCraftingData;
+    std::optional<MawDimensionData> m_mawDimensionData;
+    std::optional<MawTextData> m_mawTextData;
     MergedReagentSettingTable m_mergedReagentSettingTable;
     MergedAdditionalUiTable m_mergedAdditionalUiTable;
     MergedBolsterFormulaTable m_mergedBolsterFormulaTable;
@@ -339,6 +409,7 @@ private:
     MapAssetLoadSharedCache m_mapAssetLoadSharedCache;
     std::optional<MapAssetInfo> m_selectedMap;
     bool m_selectedMapRenderSourcePixelsReleased = false;
+    uint64_t m_selectedMapRulesVariant = 0;
     size_t m_lastReleasedMapRenderSourcePixelBytes = 0;
 };
 }

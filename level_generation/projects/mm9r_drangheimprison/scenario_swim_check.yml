@@ -1,0 +1,45 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimprison_swim_check
+title: 'Drangheim Prison (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimprison.blv
+- note:
+    text: 'No bed point (skipped): Lava0'
+- note:
+    text: 'SinkWater0: on its bed at -1846, 36 under its top -1809.9'
+- set_pose:
+    map: drangheimprison.blv
+    x: -27
+    y: 678
+    z: -1845
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: -1833.8
+- note:
+    text: 'BlueWater0: on its bed at -399, 10 under its top -389.1'
+- set_pose:
+    map: drangheimprison.blv
+    x: -942
+    y: -2374
+    z: -398
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: -387.4

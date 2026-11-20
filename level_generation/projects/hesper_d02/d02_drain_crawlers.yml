@@ -1,0 +1,111 @@
+id: hesper.d02.drain_crawlers
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d02.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Bram
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Cyra
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Dana
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Eli
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- save_game: d02_sump_hidden
+- set_pose:
+    map: hes_d02.blv
+    x: 4172
+    y: 900
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- save_game: d02_one_valve
+- set_pose:
+    map: hes_d02.blv
+    x: 4172
+    y: 900
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- save_game: d02_same_valve
+- set_pose:
+    map: hes_d02.blv
+    x: 1150
+    y: 2700
+    z: 0
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- save_game: d02_sump_released
+- load_game: d02_sump_released
+- damage_actor:
+    actor_index: 16
+    amount: 100000
+    tier: physical
+- damage_actor:
+    actor_index: 17
+    amount: 100000
+    tier: physical
+- damage_actor:
+    actor_index: 18
+    amount: 100000
+    tier: physical
+- damage_actor:
+    actor_index: 19
+    amount: 100000
+    tier: physical
+- advance_runtime:
+    seconds: 4
+- save_game: d02_sump_dead
+- load_game: d02_sump_dead
+- set_pose:
+    map: hes_d02.blv
+    x: 3200
+    y: 2972
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    actor_visible:
+      actor_index: 16
+      hp: 0
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 17
+      hp: 0
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 18
+      hp: 0
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 19
+      hp: 0
+      dead: true
+- save_game: d02_sump_still_dead

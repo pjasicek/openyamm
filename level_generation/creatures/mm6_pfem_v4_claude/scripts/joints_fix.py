@@ -1,0 +1,98 @@
+"""Wrists and elbows of the Moon Cleric (after arm_rings.py; edits work/joints_final.json in place).
+WRIST: the hand shells (pieces 4 R, 5 L) carry an ~8 cm forearm stub up into the sleeve, so arm_rings' cuff centroid
+sits mid-forearm. Slice each hand shell perpendicular to its axis (cuff centroid -> farthest fingertip) and take the
+narrowest stretch between 15 and 60 % of that length and keep its distal end (the palm widens after it).
+ELBOW: inside the wide bell sleeves the ring centreline sags and Meshy's estimate sits 5 cm off (65 deg rest bend);
+the HD masters show a nearly straight A-pose arm, so the elbow goes on the shoulder -> wrist line at the human
+upper-arm share UPPER, BACK m behind it (a slight bend that fixes the hinge plane). Args: -- <step1 blend>"""
+import bpy, bmesh, sys, os, json
+import numpy as np
+from mathutils import Vector
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cfg
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+bpy.ops.wm.open_mainfile(filepath=os.path.abspath(sys.argv[sys.argv.index('--') + 1]))
+ob = bpy.data.objects['Body']
+pv = np.zeros(len(ob.data.vertices), np.int32); ob.data.attributes['piece'].data.foreach_get('value', pv)
+p = os.path.join(HERE, 'work', 'joints_final.json')
+d = json.load(open(p)); J = d['joints']
+UPPER, BACK = float(os.environ.get('UPPER', '0.54')), float(os.environ.get('BACK', '0.012'))
+
+
+def loops(bm, q, n):
+    bmc = bm.copy()
+    res = bmesh.ops.bisect_plane(bmc, geom=bmc.verts[:] + bmc.edges[:] + bmc.faces[:], plane_co=Vector(q), plane_no=Vector(n))
+    es = [e for e in res['geom_cut'] if isinstance(e, bmesh.types.BMEdge)]
+    adj = {}
+    for e in es:
+        a, b = e.verts; adj.setdefault(a, []).append(b); adj.setdefault(b, []).append(a)
+    seen, out = set(), []
+    for v in adj:
+        if v in seen:
+            continue
+        comp, st = [], [v]
+        while st:
+            x = st.pop()
+            if x in seen:
+                continue
+            seen.add(x); comp.append(x); st.extend(adj[x])
+        pts = np.array([x.co[:] for x in comp])
+        if len(pts) >= 4:
+            per = sum(e.calc_length() for e in es if e.verts[0] in seen and e.verts[1] in comp)
+            out.append((pts.mean(0), len(pts), pts))
+    bmc.free()
+    return out
+
+
+for s, piece in (('R', cfg.HANDS['R']), ('L', cfg.HANDS['L'])):
+    bm = bmesh.new(); bm.from_mesh(ob.data); bm.verts.ensure_lookup_table()
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if pv[v.index] != piece], context='VERTS')
+    if 'arm_select' in cfg.C:                       # pf4: the hand is cut out of the fused skin shell beyond HAND_CUT of
+        bm.verts.ensure_lookup_table()              # the shoulder -> fingertip line (the cut ring stands in for a cuff)
+        ac = np.array([v.co[:] for v in bm.verts]); am = cfg.arm_mask(ac, s)
+        sh = np.array(J[f'{s}_UpperArm']); ft = ac[am][np.argmax(np.linalg.norm(ac[am] - sh, axis=1))]
+        along = (ac - sh) @ (ft - sh) / np.linalg.norm(ft - sh) ** 2
+        cut = float(cfg.C['arm_select'].get('hand_cut', 0.55))
+        bmesh.ops.delete(bm, geom=[v for v in bm.verts if not (am[v.index] and along[v.index] > cut)], context='VERTS')
+    co = np.array([v.co[:] for v in bm.verts])
+    bnd = [v.co[:] for v in bm.verts if any(e.is_boundary for e in v.link_edges)]
+    if len(bnd) < 8:                                # closed fist shell: the cuff is the shell's end nearest the elbow
+        elb = np.array(J[f'{s}_Forearm']); cv = np.array([v.co[:] for v in bm.verts])
+        dd = np.linalg.norm(cv - elb, axis=1); bnd = cv[dd < dd.min() + 0.015]
+    cuff = np.array(bnd).mean(0)
+    tip = co[np.argmax(np.linalg.norm(co - cuff, axis=1))]
+    L = float(np.linalg.norm(tip - cuff)); ax = (tip - cuff) / L
+    prof = []
+    for t in np.linspace(0.05, 0.75, 36):
+        q = cuff + ax * L * t
+        ls = [l for l in loops(bm, q, ax) if np.linalg.norm(l[0] - q) < 0.05]
+        if ls:
+            c, n, pts = min(ls, key=lambda l: np.linalg.norm(l[0] - q))
+            w = float(np.ptp((pts - c) @ np.linalg.svd(pts - c)[2][0]))      # widest extent of the section
+            prof.append((t, c, w, len(ls)))
+    bm.free()
+    cand = [x for x in prof if 0.15 <= x[0] <= 0.6 and x[3] == 1]
+    wmin = min(x[2] for x in cand)
+    # the slender gaunt wrist is a 3.5 cm tube over 15-30 %: the joint is where the palm starts to widen (the last
+    # section within 10 % of the narrowest)
+    t, wc, w, _ = max((x for x in cand if x[2] <= wmin * 1.1), key=lambda x: x[0])
+    old = np.array(J[f'{s}_Hand'])
+    J[f'{s}_Hand'] = [round(float(x), 5) for x in wc]
+    print('WRIST', s, 't', round(t, 2), 'width cm', round(w * 100, 1), 'moved cm', round(float(np.linalg.norm(wc - old)) * 100, 1),
+          'profile', ' '.join(f'{x[0]:.2f}:{x[2]*100:.1f}/{x[3]}' for x in prof))
+    sh = np.array(J[f'{s}_UpperArm'])
+    el = sh + (wc - sh) * UPPER + np.array([0.0, BACK, 0.0])
+    J[f'{s}_Forearm'] = [round(float(x), 5) for x in el]
+    print('ELBOW', s, 'upper m', round(float(np.linalg.norm(el - sh)), 3), 'fore m', round(float(np.linalg.norm(wc - el)), 3))
+# hvf: Meshy put both knees 22 cm in front of the legs (the open coat-dress flaps hang there in the A-pose). Each knee
+# goes to the centroid of its trouser-leg ring (cfg leg_piece) at Meshy's knee height; hips and ankles stay
+LP = cfg.C.get('leg_piece')
+if LP is not None:
+    cv = np.array([v.co[:] for v in ob.data.vertices])
+    for s in ('L', 'R'):
+        k = np.array(J[f'{s}_Calf'])
+        ring = cv[(pv == LP) & (np.abs(cv[:, 2] - k[2]) < 0.012) & (np.sign(cv[:, 0]) == (1 if s == 'L' else -1))]
+        c = ring.mean(0); c[2] = k[2]
+        print('KNEE', s, 'moved cm', round(float(np.linalg.norm(c - k)) * 100, 1), 'ring verts', len(ring), np.round(c, 3).tolist())
+        J[f'{s}_Calf'] = [round(float(x), 5) for x in c]
+json.dump(d, open(p, 'w'), indent=1)

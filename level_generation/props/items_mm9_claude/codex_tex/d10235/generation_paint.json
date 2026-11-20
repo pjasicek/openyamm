@@ -1,0 +1,30 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit target: paint_mask_guide.png. Supporting references: design_reference.png for material and ornament detail; icon_x8.png for colour only (magenta is background).\nProduce ONE transparent PNG, 1536x2048, exact 3:4 canvas. Paint the grey objects of the guide only, preserving precisely every silhouette, position, size, camera orientation, opening and layout. Never redraw, enlarge, move or redesign the geometry. The guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 are FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly those five views.\nRows 1-2: unlit base colour of Fre's Ring, source-faithful upright hoop plane. Warm rich gold metal and emerald green gemstones from the references. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each visible surface, without changing the guide geometry. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4: MATERIAL MASK, same five silhouettes filled with flat pure colours ONLY: pure red #FF0000 for ALL metal (including gold hoop and setting); pure black #000000 for ALL gemstone surfaces. Every interior pixel must be exactly one of those colours: no shading, texture, outlines or antialiased colour blends inside. Black gemstones must remain opaque black, not transparent. Match the material regions of the upper painted views.\nEverything outside the exact guide silhouettes, every gap and hoop opening, and column 3 row 2 and column 3 row 4, must remain fully transparent. Geometry fidelity takes precedence over the reference's broader ring proportions. Output only the painted/mask sheet.\nCORRECTION: Keep the exact original guide silhouettes and clean transparency. No scattered red pixels, no speckling outside objects or inside hoop openings. Mask silhouettes must have absolutely clean edges and flat solid red/black interiors, without darker red shading. Treat the original grey guide as a rigid stencil; do not reshape it. Paint colour must be flat unlit albedo without bright specular highlights.",
+  "initial_prompt": "Use case: precise-object-edit. Edit target: paint_mask_guide.png. Supporting references: design_reference.png for material and ornament detail; icon_x8.png for colour only (magenta is background).\nProduce ONE transparent PNG, 1536x2048, exact 3:4 canvas. Paint the grey objects of the guide only, preserving precisely every silhouette, position, size, camera orientation, opening and layout. Never redraw, enlarge, move or redesign the geometry. The guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 are FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly those five views.\nRows 1-2: unlit base colour of Fre's Ring, source-faithful upright hoop plane. Warm rich gold metal and emerald green gemstones from the references. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each visible surface, without changing the guide geometry. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4: MATERIAL MASK, same five silhouettes filled with flat pure colours ONLY: pure red #FF0000 for ALL metal (including gold hoop and setting); pure black #000000 for ALL gemstone surfaces. Every interior pixel must be exactly one of those colours: no shading, texture, outlines or antialiased colour blends inside. Black gemstones must remain opaque black, not transparent. Match the material regions of the upper painted views.\nEverything outside the exact guide silhouettes, every gap and hoop opening, and column 3 row 2 and column 3 row 4, must remain fully transparent. Geometry fidelity takes precedence over the reference's broader ring proportions. Output only the painted/mask sheet.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3f-ba9c-7280-9db4-910fbde1ea70/exec-8393d40c-3eb8-4a61-acbb-d58a33be6a99.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10235/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10235/paint_mask_guide.png",
+      "sha256": "dfa89a9355dae23f45cae6a532356d1279da3a278ce886df757fc07dcdd657fa"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10235/design_reference.png",
+      "sha256": "51ee573676af408e6e963a7b3c81403a28632e57756b142265e669237f57745e"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10235/icon_x8.png",
+      "sha256": "31d3b0f7b1d549e1889f4e17bdeaff25a13d1482c3b08e707be84b808aa5b6c3"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": "Corrective generation still has stray red pixels outside silhouettes and shaded paint; raw output preserved unchanged as requested."
+  }
+}

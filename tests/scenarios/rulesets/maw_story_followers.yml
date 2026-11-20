@@ -1,0 +1,42 @@
+id: rulesets.maw_story_followers
+title: "Ruleset - MAW story steps without the story character in the party: Overdune in Alvar, Dyson Leyland in the Necromancers' Guild and the Temple of the Sun"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  # Alvar's Merchant Guildhouse: with Overdune's own quest done (QBit 63) the witness is reported without him.
+  - setup_shortcut: {kind: set_qbit, id: 25, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 63, value: true}
+  - load_map: {map: out03.odm}
+  - execute_event: {id: 197}
+  - assert:
+      qbit_set: [13, 14, 15, 16, 17, 18, 59]
+      qbit_clear: [25]
+  # The Temple of the Sun: the Brazier quest (QBit 28) opens door 452 without Dyson.
+  - setup_shortcut: {kind: set_qbit, id: 28, value: true}
+  - load_map: {map: d22.blv}
+  - execute_event: {id: 452}
+  - wait_until:
+      timeout_runtime_seconds: 30
+      assert:
+        mechanism: {id: 1, state: open}
+  # The Necromancers' Guild: the inner door stays shut until Dyson has offered to join (both his talks with a quest
+  # taken), then opens without him.
+  - load_map: {map: d19.blv}
+  - execute_event: {id: 15}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      mechanism: {id: 5, state: closed}
+  - press_action: {action: cancel_dialog}
+  - speak_npc: {source_id: 11}
+  - select_topic: {action_id: 97}
+  - select_topic: {action_id: 98}
+  - press_action: {action: cancel_dialog}
+  - execute_event: {id: 15}
+  - wait_until:
+      timeout_runtime_seconds: 30
+      assert:
+        mechanism: {id: 5, state: open}

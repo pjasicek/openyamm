@@ -1,0 +1,3 @@
+Saved built-in generation as [raw.png](level_generation/ui/hud_inventory/mm9_pc_portraits/pc19/repair_43_44/raw.png), 1254×1254 RGBA with verified transparency. Prompt, hashes and self-check are in [generation.json](level_generation/ui/hud_inventory/mm9_pc_portraits/pc19/repair_43_44/generation.json); first attempt preserved.
+
+No pixel edits or builds. Small coloured edge fringes remain visible in the preview.

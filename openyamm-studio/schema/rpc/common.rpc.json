@@ -1,0 +1,347 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC catalogue: shared definitions",
+  "description": "The one typed request list of the studio core (devdocs/map_studio/S5_BROWSER_EDITOR.md 2.3). Each <group>.rpc.json names its methods under `methods`; a method's full name is <group>.<name>. The same list is served by `oymap serve` (JSON-RPC 2.0, one message a line), by `oymap call <method> <json>` and by the WebAssembly core's `oymap_call(method, json)`. Rules: (1) params and results are closed objects (additionalProperties false) except trees marked x-tree; (2) every non-integer number in a result carries x-decimals, the core rounds it to that many decimals, and world positions are integers; (3) a method either does what was asked and returns its result, or returns a typed error whose data.kind names the reason; (4) results never carry absolute paths: files are named relative to the project; (5) adding a method, an optional parameter, a result field or an error kind keeps x-rpc-version; anything else raises it.",
+  "x-rpc-version": 1,
+  "x-error-codes": {
+    "-32700": "the message is not JSON",
+    "-32600": "the message is not a JSON-RPC request",
+    "-32601": "unknown method (data.kind unknown_method)",
+    "-32602": "the params do not match the method's schema (data.kind invalid_params)",
+    "-32000": "the method understood the request and refused it (every other data.kind)",
+    "-32603": "the core failed (data.kind failed)"
+  },
+  "$defs": {
+    "project_path": {
+      "description": "A project folder. The host maps what a browser may name onto folders it allows (the path jail); the core takes the folder as given.",
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "description": "The project's source revision: a 128-bit content hash (the first 32 hex digits of a SHA-256) of the canonical text of its source files (project, plan, sketch, rooms, objects, wiring, atmosphere), the same for any two readers. Pins and the id lock do not change it (S5_BROWSER_EDITOR.md 2.4.1). Opaque: compare for equality only.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{12,64}$"
+    },
+    "lock_hash": {
+      "description": "The id lock's hash (the first 32 hex digits of a SHA-256 of ids.lock.yml), or none when the project has no lock. A build is its source revision plus its lock hash.",
+      "type": "string",
+      "pattern": "^([0-9a-f]{32}|none)$"
+    },
+    "file_name": {
+      "description": "A project file, relative to the project folder.",
+      "enum": [
+        "project.yml",
+        "plan.yml",
+        "sketch.yml",
+        "rooms.yml",
+        "objects.yml",
+        "wiring.yml",
+        "atmosphere.yml",
+        "review/pins.yml",
+        "ids.lock.yml"
+      ]
+    },
+    "object_id": {
+      "description": "A readable id of a project object, <kind>:<name> (room:hall, door:gate).",
+      "$ref": "common.schema.json#/$defs/id"
+    },
+    "file_tree": {
+      "description": "A project file's parsed content as JSON, maps in file order; its shape is the file's own schema (oymap schema <file>). Numbers are as written in the file.",
+      "type": "object",
+      "x-tree": true
+    },
+    "file_trees": {
+      "description": "Project files by name, each with its parsed tree.",
+      "type": "object",
+      "properties": {
+        "project.yml": { "$ref": "#/$defs/file_entry" },
+        "plan.yml": { "$ref": "#/$defs/file_entry" },
+        "sketch.yml": { "$ref": "#/$defs/file_entry" },
+        "rooms.yml": { "$ref": "#/$defs/file_entry" },
+        "objects.yml": { "$ref": "#/$defs/file_entry" },
+        "wiring.yml": { "$ref": "#/$defs/file_entry" },
+        "atmosphere.yml": { "$ref": "#/$defs/file_entry" },
+        "review/pins.yml": { "$ref": "#/$defs/file_entry" },
+        "ids.lock.yml": { "$ref": "#/$defs/file_entry" }
+      },
+      "additionalProperties": false
+    },
+    "file_entry": {
+      "type": "object",
+      "required": ["tree"],
+      "properties": {
+        "tree": { "$ref": "#/$defs/file_tree" }
+      },
+      "additionalProperties": false
+    },
+    "severity": {
+      "description": "error: the map cannot be built as written (stops a build); warning: it builds, but a rule is broken; note: for information. Today every issue is an error except the outdoor sketch's findings on heights and coverage, which the build takes as warnings.",
+      "enum": ["error", "warning", "note"]
+    },
+    "issue": {
+      "description": "One problem found in a project.",
+      "type": "object",
+      "required": ["severity", "code", "file", "path", "message"],
+      "properties": {
+        "severity": { "$ref": "#/$defs/severity" },
+        "code": {
+          "description": "The kind of problem, stable for tools: project, yaml, schema, reference, geometry, ...",
+          "type": "string",
+          "minLength": 1
+        },
+        "file": {
+          "description": "The file, relative to the project; empty when the problem is the project as a whole.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Where in the file, as rooms[3].floor; empty for the whole file.",
+          "type": "string"
+        },
+        "message": { "type": "string", "minLength": 1 },
+        "fixes": {
+          "description": "check.validate: what the core can do about it, each a transaction for edit.apply (S5_BROWSER_EDITOR.md 3.10: \"a fix where the core offers one as operations\"): a reference to a missing id taken out or dropped (or the object that cannot stand without it removed), a word on the wrong kind dropped, an undeclared map variable declared, the party start set.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "ops"],
+            "properties": {
+              "label": { "type": "string", "minLength": 1 },
+              "ops": { "type": "array", "minItems": 1, "items": { "$ref": "edit.rpc.json#/$defs/op" } }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "issues": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/issue" }
+    },
+    "strings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "point3i": {
+      "description": "A position [x, y, z] in world units, rounded to integers.",
+      "type": "array",
+      "items": { "type": "integer" },
+      "minItems": 3,
+      "maxItems": 3,
+      "x-unit": "world"
+    },
+    "map_target": {
+      "description": "A shipped map's file name (6d01.blv, oute3.odm; with `world`), or a project folder, built into a private folder and read as the game would read it (an overlay project: its base map with the overlay in front). The host maps a browser's project keys; shipped maps are named by file name only.",
+      "type": "string",
+      "minLength": 1
+    },
+    "no_params": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "error": {
+      "description": "The JSON-RPC error object of every method.",
+      "type": "object",
+      "required": ["code", "message", "data"],
+      "properties": {
+        "code": { "type": "integer" },
+        "message": { "description": "For people and agents; not for parsing.", "type": "string" },
+        "data": { "$ref": "#/$defs/error_data" }
+      },
+      "additionalProperties": false
+    },
+    "error_data": {
+      "oneOf": [
+        { "$ref": "#/$defs/errors/unknown_method" },
+        { "$ref": "#/$defs/errors/invalid_params" },
+        { "$ref": "#/$defs/errors/not_a_project" },
+        { "$ref": "#/$defs/errors/no_such_file" },
+        { "$ref": "#/$defs/errors/locked" },
+        { "$ref": "#/$defs/errors/stale_revision" },
+        { "$ref": "#/$defs/errors/bad_operation" },
+        { "$ref": "#/$defs/errors/new_errors" },
+        { "$ref": "#/$defs/errors/has_errors" },
+        { "$ref": "#/$defs/errors/no_such_pin" },
+        { "$ref": "#/$defs/errors/wrong_state" },
+        { "$ref": "#/$defs/errors/bad_request" },
+        { "$ref": "#/$defs/errors/no_asset_root" },
+        { "$ref": "#/$defs/errors/no_such_object" },
+        { "$ref": "#/$defs/errors/no_such_map" },
+        { "$ref": "#/$defs/errors/nothing_to_undo" },
+        { "$ref": "#/$defs/errors/no_mount" },
+        { "$ref": "#/$defs/errors/failed" }
+      ]
+    },
+    "errors": {
+      "unknown_method": {
+        "description": "No method of that name (code -32601).",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "unknown_method" } },
+        "additionalProperties": false
+      },
+      "invalid_params": {
+        "description": "The params do not match the method's schema (code -32602).",
+        "type": "object",
+        "required": ["kind", "issues"],
+        "properties": {
+          "kind": { "const": "invalid_params" },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["path", "message"],
+              "properties": {
+                "path": { "description": "Where in the params, as ops[0].value.", "type": "string" },
+                "message": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "not_a_project": {
+        "description": "The folder is missing or holds no readable project.yml.",
+        "type": "object",
+        "required": ["kind", "issues"],
+        "properties": {
+          "kind": { "const": "not_a_project" },
+          "issues": { "$ref": "#/$defs/issues" }
+        },
+        "additionalProperties": false
+      },
+      "no_such_file": {
+        "description": "The project has no such file.",
+        "type": "object",
+        "required": ["kind", "file"],
+        "properties": {
+          "kind": { "const": "no_such_file" },
+          "file": { "$ref": "#/$defs/file_name" }
+        },
+        "additionalProperties": false
+      },
+      "locked": {
+        "description": "Another process is writing the project (.oymap/lock); call again.",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "locked" } },
+        "additionalProperties": false
+      },
+      "stale_revision": {
+        "description": "The project is no longer at expect_revision. Read it again and send the operations against the new revision.",
+        "type": "object",
+        "required": ["kind", "revision", "since"],
+        "properties": {
+          "kind": { "const": "stale_revision" },
+          "revision": { "$ref": "#/$defs/revision" },
+          "since": {
+            "description": "What changed outside the tool since the core last saw the project, when it was found by this call.",
+            "$ref": "#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      },
+      "bad_operation": {
+        "description": "An operation could not be applied; nothing was written.",
+        "type": "object",
+        "required": ["kind", "index", "reason"],
+        "properties": {
+          "kind": { "const": "bad_operation" },
+          "index": { "description": "The operation's place in ops.", "type": "integer", "minimum": 0 },
+          "step": { "description": "For a patch: the step's place in its patch.", "type": "integer", "minimum": 0 },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "new_errors": {
+        "description": "The change would add issues of severity error; nothing was written (allow_errors writes it anyway).",
+        "type": "object",
+        "required": ["kind", "new_issues", "revision_after"],
+        "properties": {
+          "kind": { "const": "new_errors" },
+          "new_issues": { "$ref": "#/$defs/issues" },
+          "revision_after": { "description": "The revision the project would have had.", "$ref": "#/$defs/revision" }
+        },
+        "additionalProperties": false
+      },
+      "has_errors": {
+        "description": "The project has issues of severity error, so it does not build.",
+        "type": "object",
+        "required": ["kind", "issues"],
+        "properties": {
+          "kind": { "const": "has_errors" },
+          "issues": { "$ref": "#/$defs/issues" }
+        },
+        "additionalProperties": false
+      },
+      "no_such_pin": {
+        "description": "The project has no pin of that id.",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "no_such_pin" } },
+        "additionalProperties": false
+      },
+      "wrong_state": {
+        "description": "The pin is not in a state the action applies to (claiming a resolved pin, accepting an open one, a pin another agent holds).",
+        "type": "object",
+        "required": ["kind", "status"],
+        "properties": {
+          "kind": { "const": "wrong_state" },
+          "status": { "description": "The pin's status now.", "enum": ["open", "claimed", "resolved", "accepted", "declined"] }
+        },
+        "additionalProperties": false
+      },
+      "bad_request": {
+        "description": "The request cannot be done as asked: an `on` the project lacks, an empty text, a missing inbox folder. The message says what to change.",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "bad_request" } },
+        "additionalProperties": false
+      },
+      "no_asset_root": {
+        "description": "The method reads an asset root and the session has none that opens.",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "no_asset_root" } },
+        "additionalProperties": false
+      },
+      "no_such_object": {
+        "description": "Nothing in the project (or the map) has that id, list or event number.",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "no_such_object" } },
+        "additionalProperties": false
+      },
+      "no_such_map": {
+        "description": "The asset root (with the mount, when asked) has no map of that name in that world.",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "no_such_map" } },
+        "additionalProperties": false
+      },
+      "nothing_to_undo": {
+        "description": "No change is left to undo (or to redo).",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "nothing_to_undo" } },
+        "additionalProperties": false
+      },
+      "no_mount": {
+        "description": "The method installs into or reads the session's mount of builds, and the session has none (session.configure, serve --mount).",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "no_mount" } },
+        "additionalProperties": false
+      },
+      "failed": {
+        "description": "The core failed; the message says how (code -32603).",
+        "type": "object",
+        "required": ["kind"],
+        "properties": { "kind": { "const": "failed" } },
+        "additionalProperties": false
+      }
+    }
+  }
+}

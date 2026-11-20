@@ -1,0 +1,32 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_klusoshouse/review/real10
+settle_seconds: 1.5
+exit: true
+shots:
+- name: r1_corridor_guard
+  position:
+  - -1715
+  - 51
+  - 452
+  yaw: 0.7854
+  pitch: -0.0698
+- name: r2_doorway
+  position:
+  - -1434
+  - 384
+  - 452
+  yaw: -1.6846
+  pitch: -0.0698
+- name: r3_dark_room_props
+  position:
+  - 154
+  - -358
+  - 454
+  yaw: -0.7854
+  pitch: -0.1047
+- name: r4_count_room
+  position:
+  - -998
+  - 2483
+  - 4
+  yaw: -0.7854
+  pitch: -0.0698

@@ -1,0 +1,17 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/overlay_arcs/images
+exit: true
+steps:
+- wait: 2
+- action: trigger
+- wait: 2
+- capture: house-house
+- click:
+  - 1300
+  - 140
+- wait: 1
+- capture: house-resident
+- click:
+  - 1240
+  - 490
+- wait: 1
+- capture: house-topic

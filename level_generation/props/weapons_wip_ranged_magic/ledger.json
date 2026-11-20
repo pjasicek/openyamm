@@ -1,0 +1,3839 @@
+{
+  "6bow6": {
+    "status": "installed",
+    "name": "Percival",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "66bc49416b38aff9aa34382cdd59726c383f46aaebf61addaac5af16254483f3",
+    "binding": {
+      "icon": "6bow6",
+      "model": "engine/world_items/models/item_6bow6.glb",
+      "length": 205.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "stellar",
+    "construction": "bow",
+    "source_export": "work/exports/item_6bow6.glb",
+    "triangles": 2186,
+    "dimensions": [
+      0.344424,
+      1.0,
+      0.048531
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2186
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#6bow6",
+    "review": {
+      "clay": [
+        "review/clay/6bow6_top.png",
+        "review/clay/6bow6_threequarter.png",
+        "review/clay/6bow6_low.png",
+        "review/clay/6bow6_underside.png"
+      ],
+      "textured": [
+        "review/textured/6bow6_top.png",
+        "review/textured/6bow6_threequarter.png",
+        "review/textured/6bow6_low.png",
+        "review/textured/6bow6_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/01-bows-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/6bow6.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 333,
+    "native_reviews": [
+      "outdoor_1",
+      "indoor_1"
+    ]
+  },
+  "6bow7": {
+    "status": "installed",
+    "name": "Artemis",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "baed8bf2331d21d62e5dc465051d7b726151edb7d511c2e11cc14772a4298974",
+    "binding": {
+      "icon": "6bow7",
+      "model": "engine/world_items/models/item_6bow7.glb",
+      "length": 205.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "stellar",
+    "construction": "bow",
+    "source_export": "work/exports/item_6bow7.glb",
+    "triangles": 2186,
+    "dimensions": [
+      0.344424,
+      1.0,
+      0.048531
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2186
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#6bow7",
+    "review": {
+      "clay": [
+        "review/clay/6bow7_top.png",
+        "review/clay/6bow7_threequarter.png",
+        "review/clay/6bow7_low.png",
+        "review/clay/6bow7_underside.png"
+      ],
+      "textured": [
+        "review/textured/6bow7_top.png",
+        "review/textured/6bow7_threequarter.png",
+        "review/textured/6bow7_low.png",
+        "review/textured/6bow7_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/01-bows-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/6bow7.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 333,
+    "native_reviews": []
+  },
+  "7item042": {
+    "status": "installed",
+    "name": "Crude Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "41d6308187a766dfa3be6893931a956ba91d6919c418ed05cfea687b73a26d85",
+    "binding": {
+      "icon": "7item042",
+      "model": "engine/world_items/models/item_7item042.glb",
+      "length": 200.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "simple",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item042.glb",
+    "triangles": 1354,
+    "dimensions": [
+      0.272387,
+      1.0,
+      0.045334
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "lod_triangles": [
+      1354
+    ],
+    "validation": "receipts/validation.json#7item042",
+    "review": {
+      "clay": [
+        "review/clay/7item042_top.png",
+        "review/clay/7item042_threequarter.png",
+        "review/clay/7item042_low.png",
+        "review/clay/7item042_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item042_top.png",
+        "review/textured/7item042_threequarter.png",
+        "review/textured/7item042_low.png",
+        "review/textured/7item042_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/01-bows-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item042.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 341,
+    "native_reviews": []
+  },
+  "7item043": {
+    "status": "installed",
+    "name": "Longbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "b3b4494c0c0cf2719cf5a0186876c752e1cf8059f0b84f222e29afc6429a4bf6",
+    "binding": {
+      "icon": "7item043",
+      "model": "engine/world_items/models/item_7item043.glb",
+      "length": 203.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "recurve",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item043.glb",
+    "triangles": 1546,
+    "dimensions": [
+      0.26704,
+      1.0,
+      0.045569
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1546
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item043",
+    "review": {
+      "clay": [
+        "review/clay/7item043_top.png",
+        "review/clay/7item043_threequarter.png",
+        "review/clay/7item043_low.png",
+        "review/clay/7item043_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item043_top.png",
+        "review/textured/7item043_threequarter.png",
+        "review/textured/7item043_low.png",
+        "review/textured/7item043_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/01-bows-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item043.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 335,
+    "native_reviews": []
+  },
+  "7item044": {
+    "status": "installed",
+    "name": "Elven Longbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "cf3854bb780eac2b3bbc0f8ee8bebea32935aa03c58c4a98c3073e4fc5a940b2",
+    "binding": {
+      "icon": "7item044",
+      "model": "engine/world_items/models/item_7item044.glb",
+      "length": 189.9
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "elven_red",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item044.glb",
+    "triangles": 1410,
+    "dimensions": [
+      0.272387,
+      1.0,
+      0.045334
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1410
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item044",
+    "review": {
+      "clay": [
+        "review/clay/7item044_top.png",
+        "review/clay/7item044_threequarter.png",
+        "review/clay/7item044_low.png",
+        "review/clay/7item044_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item044_top.png",
+        "review/textured/7item044_threequarter.png",
+        "review/textured/7item044_low.png",
+        "review/textured/7item044_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/01-bows-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item044.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 359,
+    "native_reviews": []
+  },
+  "7item045": {
+    "status": "installed",
+    "name": "Composite Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "3ab706a8b37eb4a1ce9ad60284dea9106249505f642bbd2fd0515cd7cae5d847",
+    "binding": {
+      "icon": "7item045",
+      "model": "engine/world_items/models/item_7item045.glb",
+      "length": 205.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "compound",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item045.glb",
+    "triangles": 3046,
+    "dimensions": [
+      0.288376,
+      1.0,
+      0.04975
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      3046,
+      1522
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item045",
+    "review": {
+      "clay": [
+        "review/clay/7item045_top.png",
+        "review/clay/7item045_threequarter.png",
+        "review/clay/7item045_low.png",
+        "review/clay/7item045_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item045_top.png",
+        "review/textured/7item045_threequarter.png",
+        "review/textured/7item045_low.png",
+        "review/textured/7item045_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/01-bows-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item045.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 333,
+    "native_reviews": [
+      "outdoor_1",
+      "indoor_1"
+    ]
+  },
+  "7item046": {
+    "status": "installed",
+    "name": "Griffin Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "50aac9d7f54af4547c7dd78a3d399e2da9d0c450161ba4ee02ded9ac5058a9cd",
+    "binding": {
+      "icon": "7item046",
+      "model": "engine/world_items/models/item_7item046.glb",
+      "length": 182.7
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "griffin",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item046.glb",
+    "triangles": 2932,
+    "dimensions": [
+      0.401506,
+      1.0,
+      0.065334
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2932,
+      1466
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item046",
+    "review": {
+      "clay": [
+        "review/clay/7item046_top.png",
+        "review/clay/7item046_threequarter.png",
+        "review/clay/7item046_low.png",
+        "review/clay/7item046_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item046_top.png",
+        "review/textured/7item046_threequarter.png",
+        "review/textured/7item046_low.png",
+        "review/textured/7item046_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/02-bows-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item046.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 374,
+    "native_reviews": [
+      "outdoor_1",
+      "indoor_1"
+    ]
+  },
+  "7item047": {
+    "status": "installed",
+    "name": "Crude Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "1115a64ab9304f3d01e158e0b6182e9f754369138c7cb57e0b4d91a5b84c60f9",
+    "binding": {
+      "icon": "7item047",
+      "model": "engine/world_items/models/item_7item047.glb",
+      "length": 159.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "crude",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_7item047.glb",
+    "triangles": 1228,
+    "dimensions": [
+      0.74894,
+      1.0,
+      0.215643
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "lod_triangles": [
+      1228
+    ],
+    "validation": "receipts/validation.json#7item047",
+    "review": {
+      "clay": [
+        "review/clay/7item047_top.png",
+        "review/clay/7item047_threequarter.png",
+        "review/clay/7item047_low.png",
+        "review/clay/7item047_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item047_top.png",
+        "review/textured/7item047_threequarter.png",
+        "review/textured/7item047_low.png",
+        "review/textured/7item047_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/02-bows-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item047.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 427,
+    "native_reviews": [
+      "outdoor_1",
+      "indoor_1"
+    ]
+  },
+  "7item048": {
+    "status": "installed",
+    "name": "Heavy Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "a7848520a1ca02870b76334e614dd1b0f33e16f53a61681b22b1f80713423983",
+    "binding": {
+      "icon": "7item048",
+      "model": "engine/world_items/models/item_7item048.glb",
+      "length": 109.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "heavy",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_7item048.glb",
+    "triangles": 1208,
+    "dimensions": [
+      0.867611,
+      1.0,
+      0.216595
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1208
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item048",
+    "review": {
+      "clay": [
+        "review/clay/7item048_top.png",
+        "review/clay/7item048_threequarter.png",
+        "review/clay/7item048_low.png",
+        "review/clay/7item048_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item048_top.png",
+        "review/textured/7item048_threequarter.png",
+        "review/textured/7item048_low.png",
+        "review/textured/7item048_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/02-bows-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item048.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 622,
+    "native_reviews": []
+  },
+  "7item049": {
+    "status": "installed",
+    "name": "Ideal Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "1a654130849170f88a3e315cbedd8ebb9a37b4974d5a3ed060b587ab0502d0c5",
+    "binding": {
+      "icon": "7item049",
+      "model": "engine/world_items/models/item_7item049.glb",
+      "length": 114.3
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "dragon",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_7item049.glb",
+    "triangles": 2688,
+    "dimensions": [
+      0.864284,
+      1.0,
+      0.220742
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2688
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item049",
+    "review": {
+      "clay": [
+        "review/clay/7item049_top.png",
+        "review/clay/7item049_threequarter.png",
+        "review/clay/7item049_low.png",
+        "review/clay/7item049_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item049_top.png",
+        "review/textured/7item049_threequarter.png",
+        "review/textured/7item049_low.png",
+        "review/textured/7item049_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/02-bows-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item049.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 597,
+    "native_reviews": [
+      "outdoor_1",
+      "indoor_1"
+    ]
+  },
+  "7item228": {
+    "status": "installed",
+    "name": "Ullyses",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "6ff9f57287d1f47a758454607f6e5f33784e3e9e6ae692859f33ae39ff6d9c25",
+    "binding": {
+      "icon": "7item228",
+      "model": "engine/world_items/models/item_7item228.glb",
+      "length": 213.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "barbed",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item228.glb",
+    "triangles": 2330,
+    "dimensions": [
+      0.279323,
+      1.0,
+      0.045169
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2330
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item228",
+    "review": {
+      "clay": [
+        "review/clay/7item228_top.png",
+        "review/clay/7item228_threequarter.png",
+        "review/clay/7item228_low.png",
+        "review/clay/7item228_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item228_top.png",
+        "review/textured/7item228_threequarter.png",
+        "review/textured/7item228_low.png",
+        "review/textured/7item228_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/02-bows-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item228.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 319,
+    "native_reviews": []
+  },
+  "7item229": {
+    "status": "installed",
+    "name": "Ania Selving",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "d33250ffd77fabad61ad8e8b8f6f75abc30815b5abde60dc479037eb948f026e",
+    "binding": {
+      "icon": "7item229",
+      "model": "engine/world_items/models/item_7item229.glb",
+      "length": 114.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "ania",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_7item229.glb",
+    "triangles": 1336,
+    "dimensions": [
+      0.643347,
+      1.0,
+      0.184592
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1336
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item229",
+    "review": {
+      "clay": [
+        "review/clay/7item229_top.png",
+        "review/clay/7item229_threequarter.png",
+        "review/clay/7item229_low.png",
+        "review/clay/7item229_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item229_top.png",
+        "review/textured/7item229_threequarter.png",
+        "review/textured/7item229_low.png",
+        "review/textured/7item229_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/02-bows-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item229.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 595,
+    "native_reviews": []
+  },
+  "7item300": {
+    "status": "installed",
+    "name": "The Perfect Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "5e039b6ccbb63db7b42ec47c68ad03e74a21752304e1e85f335f0dea242cc78e",
+    "binding": {
+      "icon": "7item300",
+      "model": "engine/world_items/models/item_7item300.glb",
+      "length": 205.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "compound",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item300.glb",
+    "triangles": 3046,
+    "dimensions": [
+      0.288376,
+      1.0,
+      0.04975
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      3046,
+      1522
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item300",
+    "review": {
+      "clay": [
+        "review/clay/7item300_top.png",
+        "review/clay/7item300_threequarter.png",
+        "review/clay/7item300_low.png",
+        "review/clay/7item300_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item300_top.png",
+        "review/textured/7item300_threequarter.png",
+        "review/textured/7item300_low.png",
+        "review/textured/7item300_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/03-bows-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item300.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 333,
+    "native_reviews": []
+  },
+  "7item301": {
+    "status": "installed",
+    "name": "The Perfect Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "a4ad227f47d9e14ab5cd0840bf385b20dfd1ecbb8d80166a21cfc68aceb0cb0a",
+    "binding": {
+      "icon": "7item301",
+      "model": "engine/world_items/models/item_7item301.glb",
+      "length": 205.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "compound",
+    "construction": "bow",
+    "source_export": "work/exports/item_7item301.glb",
+    "triangles": 3046,
+    "dimensions": [
+      0.288376,
+      1.0,
+      0.04975
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      3046,
+      1522
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item301",
+    "review": {
+      "clay": [
+        "review/clay/7item301_top.png",
+        "review/clay/7item301_threequarter.png",
+        "review/clay/7item301_low.png",
+        "review/clay/7item301_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item301_top.png",
+        "review/textured/7item301_threequarter.png",
+        "review/textured/7item301_low.png",
+        "review/textured/7item301_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/03-bows-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item301.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 333,
+    "native_reviews": []
+  },
+  "bow1": {
+    "status": "installed",
+    "name": "Crude Longbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "2ece098c956c7d4110378469151296cd5a07ac9b31454226f0682b357c212784",
+    "binding": {
+      "icon": "bow1",
+      "model": "engine/world_items/models/item_bow1.glb",
+      "length": 222.3
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "long",
+    "construction": "bow",
+    "source_export": "work/exports/item_bow1.glb",
+    "triangles": 1498,
+    "dimensions": [
+      0.272387,
+      1.0,
+      0.045334
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1498
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#bow1",
+    "review": {
+      "clay": [
+        "review/clay/bow1_top.png",
+        "review/clay/bow1_threequarter.png",
+        "review/clay/bow1_low.png",
+        "review/clay/bow1_underside.png"
+      ],
+      "textured": [
+        "review/textured/bow1_top.png",
+        "review/textured/bow1_threequarter.png",
+        "review/textured/bow1_low.png",
+        "review/textured/bow1_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/03-bows-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/bow1.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 307,
+    "native_reviews": []
+  },
+  "bow2": {
+    "status": "installed",
+    "name": "Elven Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "d0dd04e86ac9eae952ebe66f25074ac76f1c134c487c7b6461f25427792fd6d6",
+    "binding": {
+      "icon": "bow2",
+      "model": "engine/world_items/models/item_bow2.glb",
+      "length": 200.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "elven",
+    "construction": "bow",
+    "source_export": "work/exports/item_bow2.glb",
+    "triangles": 1546,
+    "dimensions": [
+      0.26704,
+      1.0,
+      0.045569
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1546
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#bow2",
+    "review": {
+      "clay": [
+        "review/clay/bow2_top.png",
+        "review/clay/bow2_threequarter.png",
+        "review/clay/bow2_low.png",
+        "review/clay/bow2_underside.png"
+      ],
+      "textured": [
+        "review/textured/bow2_top.png",
+        "review/textured/bow2_threequarter.png",
+        "review/textured/bow2_low.png",
+        "review/textured/bow2_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/03-bows-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/bow2.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 341,
+    "native_reviews": []
+  },
+  "bow3": {
+    "status": "installed",
+    "name": "Precision Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "7afdb8569523eca2cf41c89cb864cd53a8fc994a45b80e9bd8bfd50e21b0bf53",
+    "binding": {
+      "icon": "bow3",
+      "model": "engine/world_items/models/item_bow3.glb",
+      "length": 203.0
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "jewelled",
+    "construction": "bow",
+    "source_export": "work/exports/item_bow3.glb",
+    "triangles": 1894,
+    "dimensions": [
+      0.272387,
+      1.0,
+      0.049793
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1894
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#bow3",
+    "review": {
+      "clay": [
+        "review/clay/bow3_top.png",
+        "review/clay/bow3_threequarter.png",
+        "review/clay/bow3_low.png",
+        "review/clay/bow3_underside.png"
+      ],
+      "textured": [
+        "review/textured/bow3_top.png",
+        "review/textured/bow3_threequarter.png",
+        "review/textured/bow3_low.png",
+        "review/textured/bow3_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/03-bows-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/bow3.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 336,
+    "native_reviews": []
+  },
+  "bow4": {
+    "status": "installed",
+    "name": "Magic Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "67ab99f02776808de442474ff50208660a04c3f654c3423978270d68b0f054a0",
+    "binding": {
+      "icon": "bow4",
+      "model": "engine/world_items/models/item_bow4.glb",
+      "length": 182.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "stars",
+    "construction": "bow",
+    "source_export": "work/exports/item_bow4.glb",
+    "triangles": 1582,
+    "dimensions": [
+      0.272387,
+      1.0,
+      0.045334
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1582
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#bow4",
+    "review": {
+      "clay": [
+        "review/clay/bow4_top.png",
+        "review/clay/bow4_threequarter.png",
+        "review/clay/bow4_low.png",
+        "review/clay/bow4_underside.png"
+      ],
+      "textured": [
+        "review/textured/bow4_top.png",
+        "review/textured/bow4_threequarter.png",
+        "review/textured/bow4_low.png",
+        "review/textured/bow4_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/03-bows-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/bow4.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 375,
+    "native_reviews": [
+      "outdoor_5",
+      "indoor_5"
+    ]
+  },
+  "bow5": {
+    "status": "installed",
+    "name": "Stellar Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "e37fcb6bfbaf8413de2bdd3aa4b3e77db8d4ebce2059e85a5aaaa141fd55299b",
+    "binding": {
+      "icon": "bow5",
+      "model": "engine/world_items/models/item_bow5.glb",
+      "length": 205.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "stellar",
+    "construction": "bow",
+    "source_export": "work/exports/item_bow5.glb",
+    "triangles": 2186,
+    "dimensions": [
+      0.344424,
+      1.0,
+      0.048531
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2186
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#bow5",
+    "review": {
+      "clay": [
+        "review/clay/bow5_top.png",
+        "review/clay/bow5_threequarter.png",
+        "review/clay/bow5_low.png",
+        "review/clay/bow5_underside.png"
+      ],
+      "textured": [
+        "review/textured/bow5_top.png",
+        "review/textured/bow5_threequarter.png",
+        "review/textured/bow5_low.png",
+        "review/textured/bow5_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/04-bows-4.png",
+    "source_icon": "assets_dev/engine/icons_x2/bow5.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 333,
+    "native_reviews": []
+  },
+  "crsbow1": {
+    "status": "installed",
+    "name": "Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "644f7af91b1ceb08aaf2e474b95289494d993d47eaa335e4e45f854e0d880ff7",
+    "binding": {
+      "icon": "crsbow1",
+      "model": "engine/world_items/models/item_crsbow1.glb",
+      "length": 128.7
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "plain",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_crsbow1.glb",
+    "triangles": 1220,
+    "dimensions": [
+      0.727859,
+      1.0,
+      0.209573
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1220
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#crsbow1",
+    "review": {
+      "clay": [
+        "review/clay/crsbow1_top.png",
+        "review/clay/crsbow1_threequarter.png",
+        "review/clay/crsbow1_low.png",
+        "review/clay/crsbow1_underside.png"
+      ],
+      "textured": [
+        "review/textured/crsbow1_top.png",
+        "review/textured/crsbow1_threequarter.png",
+        "review/textured/crsbow1_low.png",
+        "review/textured/crsbow1_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/04-bows-4.png",
+    "source_icon": "assets_dev/engine/icons_x2/crsbow1.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 530,
+    "native_reviews": []
+  },
+  "crsbow2": {
+    "status": "installed",
+    "name": "Accurate Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "4d841146441fb7e6ea9914900d2f2ca4037414808ec9508fea4c953e35e1eb38",
+    "binding": {
+      "icon": "crsbow2",
+      "model": "engine/world_items/models/item_crsbow2.glb",
+      "length": 144.5
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "slender",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_crsbow2.glb",
+    "triangles": 1076,
+    "dimensions": [
+      0.737533,
+      1.0,
+      0.220183
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1076
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#crsbow2",
+    "review": {
+      "clay": [
+        "review/clay/crsbow2_top.png",
+        "review/clay/crsbow2_threequarter.png",
+        "review/clay/crsbow2_low.png",
+        "review/clay/crsbow2_underside.png"
+      ],
+      "textured": [
+        "review/textured/crsbow2_top.png",
+        "review/textured/crsbow2_threequarter.png",
+        "review/textured/crsbow2_low.png",
+        "review/textured/crsbow2_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/04-bows-4.png",
+    "source_icon": "assets_dev/engine/icons_x2/crsbow2.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 472,
+    "native_reviews": []
+  },
+  "crsbow3": {
+    "status": "installed",
+    "name": "True Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "9650d7af2514cd99655c36c4944c12a55f5f406c75118f3f90560bc3ff7b677a",
+    "binding": {
+      "icon": "crsbow3",
+      "model": "engine/world_items/models/item_crsbow3.glb",
+      "length": 148.5
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "lever",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_crsbow3.glb",
+    "triangles": 1468,
+    "dimensions": [
+      0.682147,
+      1.0,
+      0.195458
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1468
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#crsbow3",
+    "review": {
+      "clay": [
+        "review/clay/crsbow3_top.png",
+        "review/clay/crsbow3_threequarter.png",
+        "review/clay/crsbow3_low.png",
+        "review/clay/crsbow3_underside.png"
+      ],
+      "textured": [
+        "review/textured/crsbow3_top.png",
+        "review/textured/crsbow3_threequarter.png",
+        "review/textured/crsbow3_low.png",
+        "review/textured/crsbow3_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/04-bows-4.png",
+    "source_icon": "assets_dev/engine/icons_x2/crsbow3.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 460,
+    "native_reviews": []
+  },
+  "item056": {
+    "status": "installed",
+    "name": "Hunting Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "4437a1773232091bd36bc88ad3d2fa7d6c034b40c9e047d420f0b362d6bc6a8c",
+    "binding": {
+      "icon": "item056",
+      "model": "engine/world_items/models/item_item056.glb",
+      "length": 171.9
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "simple",
+    "construction": "bow",
+    "source_export": "work/exports/item_item056.glb",
+    "triangles": 1354,
+    "dimensions": [
+      0.272387,
+      1.0,
+      0.045334
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1354
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item056",
+    "review": {
+      "clay": [
+        "review/clay/item056_top.png",
+        "review/clay/item056_threequarter.png",
+        "review/clay/item056_low.png",
+        "review/clay/item056_underside.png"
+      ],
+      "textured": [
+        "review/textured/item056_top.png",
+        "review/textured/item056_threequarter.png",
+        "review/textured/item056_low.png",
+        "review/textured/item056_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/04-bows-4.png",
+    "source_icon": "assets_dev/engine/icons_x2/item056.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 397,
+    "native_reviews": []
+  },
+  "item057": {
+    "status": "installed",
+    "name": "Recurve Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "7fa490386bfb2b1ac07417d13da6a9e984db96362bdce089b400af0fe2b17045",
+    "binding": {
+      "icon": "item057",
+      "model": "engine/world_items/models/item_item057.glb",
+      "length": 174.6
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "recurve",
+    "construction": "bow",
+    "source_export": "work/exports/item_item057.glb",
+    "triangles": 1546,
+    "dimensions": [
+      0.26704,
+      1.0,
+      0.045569
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1546
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item057",
+    "review": {
+      "clay": [
+        "review/clay/item057_top.png",
+        "review/clay/item057_threequarter.png",
+        "review/clay/item057_low.png",
+        "review/clay/item057_underside.png"
+      ],
+      "textured": [
+        "review/textured/item057_top.png",
+        "review/textured/item057_threequarter.png",
+        "review/textured/item057_low.png",
+        "review/textured/item057_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/04-bows-4.png",
+    "source_icon": "assets_dev/engine/icons_x2/item057.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 391,
+    "native_reviews": []
+  },
+  "item058": {
+    "status": "installed",
+    "name": "Snakewood Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "6e51bbaf7c5c58068eeca0cc8c051e235c09848fe71a6b883b7e1275549bfb87",
+    "binding": {
+      "icon": "item058",
+      "model": "engine/world_items/models/item_item058.glb",
+      "length": 175.1
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "snakewood",
+    "construction": "bow",
+    "source_export": "work/exports/item_item058.glb",
+    "triangles": 2818,
+    "dimensions": [
+      0.268791,
+      1.0,
+      0.04523
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2818,
+      1408
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item058",
+    "review": {
+      "clay": [
+        "review/clay/item058_top.png",
+        "review/clay/item058_threequarter.png",
+        "review/clay/item058_low.png",
+        "review/clay/item058_underside.png"
+      ],
+      "textured": [
+        "review/textured/item058_top.png",
+        "review/textured/item058_threequarter.png",
+        "review/textured/item058_low.png",
+        "review/textured/item058_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/05-bows-5.png",
+    "source_icon": "assets_dev/engine/icons_x2/item058.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 390,
+    "native_reviews": []
+  },
+  "item059": {
+    "status": "installed",
+    "name": "Elven Warbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "502b1b4257a259ae6c2a8bfc1fb173b0a630c650accbe42cfca8e25afd5d2584",
+    "binding": {
+      "icon": "item059",
+      "model": "engine/world_items/models/item_item059.glb",
+      "length": 178.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "warbow",
+    "construction": "bow",
+    "source_export": "work/exports/item_item059.glb",
+    "triangles": 2886,
+    "dimensions": [
+      0.281093,
+      1.0,
+      0.051795
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2886,
+      1442
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item059",
+    "review": {
+      "clay": [
+        "review/clay/item059_top.png",
+        "review/clay/item059_threequarter.png",
+        "review/clay/item059_low.png",
+        "review/clay/item059_underside.png"
+      ],
+      "textured": [
+        "review/textured/item059_top.png",
+        "review/textured/item059_threequarter.png",
+        "review/textured/item059_low.png",
+        "review/textured/item059_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/05-bows-5.png",
+    "source_icon": "assets_dev/engine/icons_x2/item059.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 383,
+    "native_reviews": []
+  },
+  "item060": {
+    "status": "installed",
+    "name": "Devilbone Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "83f86d0eca40f5534af90b29f1b6ef09721ac5cdf7c571a8758ee9e5f37b411c",
+    "binding": {
+      "icon": "item060",
+      "model": "engine/world_items/models/item_item060.glb",
+      "length": 177.3
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "devilbone",
+    "construction": "bow",
+    "source_export": "work/exports/item_item060.glb",
+    "triangles": 3634,
+    "dimensions": [
+      0.294547,
+      1.0,
+      0.063783
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      3634,
+      1816
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item060",
+    "review": {
+      "clay": [
+        "review/clay/item060_top.png",
+        "review/clay/item060_threequarter.png",
+        "review/clay/item060_low.png",
+        "review/clay/item060_underside.png"
+      ],
+      "textured": [
+        "review/textured/item060_top.png",
+        "review/textured/item060_threequarter.png",
+        "review/textured/item060_low.png",
+        "review/textured/item060_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/05-bows-5.png",
+    "source_icon": "assets_dev/engine/icons_x2/item060.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 385,
+    "native_reviews": [
+      "outdoor_1",
+      "indoor_1"
+    ]
+  },
+  "item061": {
+    "status": "installed",
+    "name": "Light Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "6ef36e076205cfc9e1b558fd0df3df1adb1dd729e546929de8f5e4bc49866931",
+    "binding": {
+      "icon": "item061",
+      "model": "engine/world_items/models/item_item061.glb",
+      "length": 121.0
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "light",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_item061.glb",
+    "triangles": 1220,
+    "dimensions": [
+      0.724252,
+      1.0,
+      0.207806
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1220
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item061",
+    "review": {
+      "clay": [
+        "review/clay/item061_top.png",
+        "review/clay/item061_threequarter.png",
+        "review/clay/item061_low.png",
+        "review/clay/item061_underside.png"
+      ],
+      "textured": [
+        "review/textured/item061_top.png",
+        "review/textured/item061_threequarter.png",
+        "review/textured/item061_low.png",
+        "review/textured/item061_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/05-bows-5.png",
+    "source_icon": "assets_dev/engine/icons_x2/item061.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 564,
+    "native_reviews": []
+  },
+  "item062": {
+    "status": "installed",
+    "name": "Blood Drop Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "c73987a67670dfebb5fb54b635857de1062fff3e5b3aebe1a4274858b12684c3",
+    "binding": {
+      "icon": "item062",
+      "model": "engine/world_items/models/item_item062.glb",
+      "length": 121.0
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "blood",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_item062.glb",
+    "triangles": 1396,
+    "dimensions": [
+      0.721592,
+      1.0,
+      0.206761
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1396
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item062",
+    "review": {
+      "clay": [
+        "review/clay/item062_top.png",
+        "review/clay/item062_threequarter.png",
+        "review/clay/item062_low.png",
+        "review/clay/item062_underside.png"
+      ],
+      "textured": [
+        "review/textured/item062_top.png",
+        "review/textured/item062_threequarter.png",
+        "review/textured/item062_low.png",
+        "review/textured/item062_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/05-bows-5.png",
+    "source_icon": "assets_dev/engine/icons_x2/item062.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 564,
+    "native_reviews": []
+  },
+  "item063": {
+    "status": "installed",
+    "name": "Hunting Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "baebbcdc484b46a40784659594e207b13f848d56e53788696e2915034a472e5e",
+    "binding": {
+      "icon": "item063",
+      "model": "engine/world_items/models/item_item063.glb",
+      "length": 126.5
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "hunting",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_item063.glb",
+    "triangles": 1220,
+    "dimensions": [
+      0.716764,
+      1.0,
+      0.213983
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1220
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item063",
+    "review": {
+      "clay": [
+        "review/clay/item063_top.png",
+        "review/clay/item063_threequarter.png",
+        "review/clay/item063_low.png",
+        "review/clay/item063_underside.png"
+      ],
+      "textured": [
+        "review/textured/item063_top.png",
+        "review/textured/item063_threequarter.png",
+        "review/textured/item063_low.png",
+        "review/textured/item063_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/05-bows-5.png",
+    "source_icon": "assets_dev/engine/icons_x2/item063.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 540,
+    "native_reviews": []
+  },
+  "item064": {
+    "status": "installed",
+    "name": "Caravaner's Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "f415594d3f5b8a55530f9124f723bea4bbd341bf4c2f04c80ef1ddc812711b56",
+    "binding": {
+      "icon": "item064",
+      "model": "engine/world_items/models/item_item064.glb",
+      "length": 137.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "caravan",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_item064.glb",
+    "triangles": 1396,
+    "dimensions": [
+      0.723834,
+      1.0,
+      0.207686
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1396
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item064",
+    "review": {
+      "clay": [
+        "review/clay/item064_top.png",
+        "review/clay/item064_threequarter.png",
+        "review/clay/item064_low.png",
+        "review/clay/item064_underside.png"
+      ],
+      "textured": [
+        "review/textured/item064_top.png",
+        "review/textured/item064_threequarter.png",
+        "review/textured/item064_low.png",
+        "review/textured/item064_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/06-bows-6.png",
+    "source_icon": "assets_dev/engine/icons_x2/item064.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 498,
+    "native_reviews": []
+  },
+  "item065": {
+    "status": "installed",
+    "name": "Regnan Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "09591a10b91d07ab28977f64cd9d15e957b1e7cf9624977ff251b46578b100ea",
+    "binding": {
+      "icon": "item065",
+      "model": "engine/world_items/models/item_item065.glb",
+      "length": 142.7
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "regnan",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_item065.glb",
+    "triangles": 1436,
+    "dimensions": [
+      0.677959,
+      1.0,
+      0.202398
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1436
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item065",
+    "review": {
+      "clay": [
+        "review/clay/item065_top.png",
+        "review/clay/item065_threequarter.png",
+        "review/clay/item065_low.png",
+        "review/clay/item065_underside.png"
+      ],
+      "textured": [
+        "review/textured/item065_top.png",
+        "review/textured/item065_threequarter.png",
+        "review/textured/item065_low.png",
+        "review/textured/item065_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/06-bows-6.png",
+    "source_icon": "assets_dev/engine/icons_x2/item065.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 478,
+    "native_reviews": []
+  },
+  "item245": {
+    "status": "installed",
+    "name": "Longseeker",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "706ed2c9f4456c8663b2a26e676cac891c6704a366b73c7c4d6c27e79ebedfc7",
+    "binding": {
+      "icon": "item245",
+      "model": "engine/world_items/models/item_item245.glb",
+      "length": 179.1
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "longseeker",
+    "construction": "bow",
+    "source_export": "work/exports/item_item245.glb",
+    "triangles": 1902,
+    "dimensions": [
+      0.355763,
+      1.0,
+      0.061075
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1902
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item245",
+    "review": {
+      "clay": [
+        "review/clay/item245_top.png",
+        "review/clay/item245_threequarter.png",
+        "review/clay/item245_low.png",
+        "review/clay/item245_underside.png"
+      ],
+      "textured": [
+        "review/textured/item245_top.png",
+        "review/textured/item245_threequarter.png",
+        "review/textured/item245_low.png",
+        "review/textured/item245_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/06-bows-6.png",
+    "source_icon": "assets_dev/engine/icons_x2/item245.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 381,
+    "native_reviews": []
+  },
+  "item246": {
+    "status": "installed",
+    "name": "Lightning Crossbow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "508dcb77e65fa93a8f328c4f08d4c4b3c19393938b6889b68b89764427f6b1bb",
+    "binding": {
+      "icon": "item246",
+      "model": "engine/world_items/models/item_item246.glb",
+      "length": 141.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "lightning",
+    "construction": "crossbow",
+    "source_export": "work/exports/item_item246.glb",
+    "triangles": 1468,
+    "dimensions": [
+      0.684601,
+      1.0,
+      0.196429
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1468
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item246",
+    "review": {
+      "clay": [
+        "review/clay/item246_top.png",
+        "review/clay/item246_threequarter.png",
+        "review/clay/item246_low.png",
+        "review/clay/item246_underside.png"
+      ],
+      "textured": [
+        "review/textured/item246_top.png",
+        "review/textured/item246_threequarter.png",
+        "review/textured/item246_low.png",
+        "review/textured/item246_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/06-bows-6.png",
+    "source_icon": "assets_dev/engine/icons_x2/item246.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 481,
+    "native_reviews": [
+      "outdoor_2",
+      "indoor_2"
+    ]
+  },
+  "item336": {
+    "status": "installed",
+    "name": "Tournament Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "666c42af8a58f5435c01c04aa9862324a6a840cd6c7b20685613ba00b6be8496",
+    "binding": {
+      "icon": "item336",
+      "model": "engine/world_items/models/item_item336.glb",
+      "length": 178.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "warbow",
+    "construction": "bow",
+    "source_export": "work/exports/item_item336.glb",
+    "triangles": 2886,
+    "dimensions": [
+      0.281093,
+      1.0,
+      0.051795
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2886,
+      1442
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item336",
+    "review": {
+      "clay": [
+        "review/clay/item336_top.png",
+        "review/clay/item336_threequarter.png",
+        "review/clay/item336_low.png",
+        "review/clay/item336_underside.png"
+      ],
+      "textured": [
+        "review/textured/item336_top.png",
+        "review/textured/item336_threequarter.png",
+        "review/textured/item336_low.png",
+        "review/textured/item336_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/06-bows-6.png",
+    "source_icon": "assets_dev/engine/icons_x2/item336.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 383,
+    "native_reviews": []
+  },
+  "item344": {
+    "status": "installed",
+    "name": "Noblebone Bow",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "b6389aa77270b053cbe09fc93410be54e2cd182daeed2b3050c6924b7015a7bc",
+    "binding": {
+      "icon": "item344",
+      "model": "engine/world_items/models/item_item344.glb",
+      "length": 177.3
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "devilbone",
+    "construction": "bow",
+    "source_export": "work/exports/item_item344.glb",
+    "triangles": 3634,
+    "dimensions": [
+      0.294547,
+      1.0,
+      0.063783
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      3634,
+      1816
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item344",
+    "review": {
+      "clay": [
+        "review/clay/item344_top.png",
+        "review/clay/item344_threequarter.png",
+        "review/clay/item344_low.png",
+        "review/clay/item344_underside.png"
+      ],
+      "textured": [
+        "review/textured/item344_top.png",
+        "review/textured/item344_threequarter.png",
+        "review/textured/item344_low.png",
+        "review/textured/item344_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/06-bows-6.png",
+    "source_icon": "assets_dev/engine/icons_x2/item344.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 385,
+    "native_reviews": []
+  },
+  "7item064": {
+    "status": "installed",
+    "name": "Blaster",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "42af316419d7912cfa0fca11901740f7d8f10abd9ed6f7237c58ac093be0ff56",
+    "binding": {
+      "icon": "7item064",
+      "model": "engine/world_items/models/item_7item064.glb",
+      "length": 54.9
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "pistol",
+    "construction": "blaster",
+    "source_export": "work/exports/item_7item064.glb",
+    "triangles": 688,
+    "dimensions": [
+      0.300988,
+      1.0,
+      0.125059
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "lod_triangles": [
+      688
+    ],
+    "validation": "receipts/validation.json#7item064",
+    "review": {
+      "clay": [
+        "review/clay/7item064_top.png",
+        "review/clay/7item064_threequarter.png",
+        "review/clay/7item064_low.png",
+        "review/clay/7item064_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item064_top.png",
+        "review/textured/7item064_threequarter.png",
+        "review/textured/7item064_low.png",
+        "review/textured/7item064_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/07-blasters-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item064.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 1243,
+    "native_reviews": [
+      "outdoor_2",
+      "indoor_2"
+    ]
+  },
+  "7item065": {
+    "status": "installed",
+    "name": "Blaster Rifle",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "b39d08d01f00e8ceb7929aafaaca1852fd83f7afb7dbd5c05bb9dae41bae8b2d",
+    "binding": {
+      "icon": "7item065",
+      "model": "engine/world_items/models/item_7item065.glb",
+      "length": 111.6
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "carbine",
+    "construction": "blaster",
+    "source_export": "work/exports/item_7item065.glb",
+    "triangles": 752,
+    "dimensions": [
+      0.227724,
+      1.0,
+      0.094665
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      752
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item065",
+    "review": {
+      "clay": [
+        "review/clay/7item065_top.png",
+        "review/clay/7item065_threequarter.png",
+        "review/clay/7item065_low.png",
+        "review/clay/7item065_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item065_top.png",
+        "review/textured/7item065_threequarter.png",
+        "review/textured/7item065_low.png",
+        "review/textured/7item065_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/07-blasters-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item065.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 612,
+    "native_reviews": [
+      "outdoor_2",
+      "indoor_2"
+    ]
+  },
+  "blastsg": {
+    "status": "installed",
+    "name": "Blaster Shotgun",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "540aba0c2b40171e533d6e7f7d724d7c17980b04375d21927a0927bfbc066830",
+    "binding": {
+      "icon": "blastsg",
+      "model": "engine/world_items/models/item_blastsg.glb",
+      "length": 167.4
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "shotgun",
+    "construction": "blaster",
+    "source_export": "work/exports/item_blastsg.glb",
+    "triangles": 1788,
+    "dimensions": [
+      0.293421,
+      1.0,
+      0.186322
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1788
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#blastsg",
+    "review": {
+      "clay": [
+        "review/clay/blastsg_top.png",
+        "review/clay/blastsg_threequarter.png",
+        "review/clay/blastsg_low.png",
+        "review/clay/blastsg_underside.png"
+      ],
+      "textured": [
+        "review/textured/blastsg_top.png",
+        "review/textured/blastsg_threequarter.png",
+        "review/textured/blastsg_low.png",
+        "review/textured/blastsg_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/07-blasters-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/blastsg.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 408,
+    "native_reviews": [
+      "outdoor_2",
+      "indoor_2"
+    ]
+  },
+  "raygun1": {
+    "status": "installed",
+    "name": "Blaster",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "8c5e9ee96a7c2f31d9a290ab652be880314a78064122f19bf8cffc040ec71a62",
+    "binding": {
+      "icon": "raygun1",
+      "model": "engine/world_items/models/item_raygun1.glb",
+      "length": 92.7
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "ray_pistol",
+    "construction": "blaster",
+    "source_export": "work/exports/item_raygun1.glb",
+    "triangles": 1076,
+    "dimensions": [
+      0.28113,
+      1.0,
+      0.079865
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1076
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#raygun1",
+    "review": {
+      "clay": [
+        "review/clay/raygun1_top.png",
+        "review/clay/raygun1_threequarter.png",
+        "review/clay/raygun1_low.png",
+        "review/clay/raygun1_underside.png"
+      ],
+      "textured": [
+        "review/textured/raygun1_top.png",
+        "review/textured/raygun1_threequarter.png",
+        "review/textured/raygun1_low.png",
+        "review/textured/raygun1_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/07-blasters-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/raygun1.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 736,
+    "native_reviews": [
+      "outdoor_4",
+      "indoor_4"
+    ]
+  },
+  "raygun2": {
+    "status": "installed",
+    "name": "Blaster Rifle",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "5c4ba9ff291ce4068de5aba4adf10a22ef0114df6dbe9afc113a1de966bad253",
+    "binding": {
+      "icon": "raygun2",
+      "model": "engine/world_items/models/item_raygun2.glb",
+      "length": 211.5
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "ray_rifle",
+    "construction": "blaster",
+    "source_export": "work/exports/item_raygun2.glb",
+    "triangles": 732,
+    "dimensions": [
+      0.249495,
+      1.0,
+      0.065657
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      732
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#raygun2",
+    "review": {
+      "clay": [
+        "review/clay/raygun2_top.png",
+        "review/clay/raygun2_threequarter.png",
+        "review/clay/raygun2_low.png",
+        "review/clay/raygun2_underside.png"
+      ],
+      "textured": [
+        "review/textured/raygun2_top.png",
+        "review/textured/raygun2_threequarter.png",
+        "review/textured/raygun2_low.png",
+        "review/textured/raygun2_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/07-blasters-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/raygun2.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 323,
+    "native_reviews": [
+      "outdoor_2",
+      "indoor_2"
+    ]
+  },
+  "7item135": {
+    "status": "installed",
+    "name": "Wand of Fire",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "116cce7e3e44fafa3c25cdaba4b06a3ca29ac2105d9537249ac09e215d14616c",
+    "binding": {
+      "icon": "7item135",
+      "model": "engine/world_items/models/item_7item135.glb",
+      "length": 61.6
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "orb",
+    "construction": "wand",
+    "source_export": "work/exports/item_7item135.glb",
+    "triangles": 856,
+    "dimensions": [
+      0.073684,
+      1.0,
+      0.073677
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      856
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item135",
+    "review": {
+      "clay": [
+        "review/clay/7item135_top.png",
+        "review/clay/7item135_threequarter.png",
+        "review/clay/7item135_low.png",
+        "review/clay/7item135_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item135_top.png",
+        "review/textured/7item135_threequarter.png",
+        "review/textured/7item135_low.png",
+        "review/textured/7item135_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/08-wands-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item135.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 1108,
+    "native_reviews": []
+  },
+  "7item136": {
+    "status": "installed",
+    "name": "Fairy Wand of Light",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "4a82fd88caa882dc6ea1c66eba1610b02d0da27b1375dfa1ca0ce133808a8b90",
+    "binding": {
+      "icon": "7item136",
+      "model": "engine/world_items/models/item_7item136.glb",
+      "length": 82.6
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "crystal",
+    "construction": "wand",
+    "source_export": "work/exports/item_7item136.glb",
+    "triangles": 552,
+    "dimensions": [
+      0.110627,
+      1.0,
+      0.095766
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      552
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item136",
+    "review": {
+      "clay": [
+        "review/clay/7item136_top.png",
+        "review/clay/7item136_threequarter.png",
+        "review/clay/7item136_low.png",
+        "review/clay/7item136_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item136_top.png",
+        "review/textured/7item136_threequarter.png",
+        "review/textured/7item136_low.png",
+        "review/textured/7item136_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/08-wands-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item136.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 826,
+    "native_reviews": []
+  },
+  "7item137": {
+    "status": "installed",
+    "name": "Alacorn Wand of Fireballs",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "a6acd30b9c232e770bfff7f9712b649912331393b17838968de7799a03f8ca03",
+    "binding": {
+      "icon": "7item137",
+      "model": "engine/world_items/models/item_7item137.glb",
+      "length": 70.5
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "alacorn",
+    "construction": "wand",
+    "source_export": "work/exports/item_7item137.glb",
+    "triangles": 1988,
+    "dimensions": [
+      0.170997,
+      1.0,
+      0.09023
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1988
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item137",
+    "review": {
+      "clay": [
+        "review/clay/7item137_top.png",
+        "review/clay/7item137_threequarter.png",
+        "review/clay/7item137_low.png",
+        "review/clay/7item137_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item137_top.png",
+        "review/textured/7item137_threequarter.png",
+        "review/textured/7item137_low.png",
+        "review/textured/7item137_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/08-wands-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item137.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 968,
+    "native_reviews": [
+      "outdoor_4",
+      "indoor_4"
+    ]
+  },
+  "7item138": {
+    "status": "installed",
+    "name": "Warlock's Wand of Blasting",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "3f53d7789dde54fddc5a6d41fe6f435d6a832ac998b685bb245e9457a49a405e",
+    "binding": {
+      "icon": "7item138",
+      "model": "engine/world_items/models/item_7item138.glb",
+      "length": 73.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "skull",
+    "construction": "wand",
+    "source_export": "work/exports/item_7item138.glb",
+    "triangles": 1754,
+    "dimensions": [
+      0.25768,
+      1.0,
+      0.082198
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "lod_triangles": [
+      1754
+    ],
+    "validation": "receipts/validation.json#7item138",
+    "review": {
+      "clay": [
+        "review/clay/7item138_top.png",
+        "review/clay/7item138_threequarter.png",
+        "review/clay/7item138_low.png",
+        "review/clay/7item138_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item138_top.png",
+        "review/textured/7item138_threequarter.png",
+        "review/textured/7item138_low.png",
+        "review/textured/7item138_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/08-wands-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item138.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 933,
+    "native_reviews": [
+      "outdoor_2",
+      "indoor_2"
+    ]
+  },
+  "7item139": {
+    "status": "installed",
+    "name": "Mystic Wand of Implosion",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "cbeb81c21e9147f45c55a388761bcd8c6cb3936449ac9e3d650dc43a7defbd41",
+    "binding": {
+      "icon": "7item139",
+      "model": "engine/world_items/models/item_7item139.glb",
+      "length": 78.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "winged",
+    "construction": "wand",
+    "source_export": "work/exports/item_7item139.glb",
+    "triangles": 2180,
+    "dimensions": [
+      0.324919,
+      1.0,
+      0.058965
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2180
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#7item139",
+    "review": {
+      "clay": [
+        "review/clay/7item139_top.png",
+        "review/clay/7item139_threequarter.png",
+        "review/clay/7item139_low.png",
+        "review/clay/7item139_underside.png"
+      ],
+      "textured": [
+        "review/textured/7item139_top.png",
+        "review/textured/7item139_threequarter.png",
+        "review/textured/7item139_low.png",
+        "review/textured/7item139_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/08-wands-1.png",
+    "source_icon": "assets_dev/engine/icons_x2/7item139.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 866,
+    "native_reviews": [
+      "outdoor_3",
+      "indoor_3"
+    ]
+  },
+  "item152": {
+    "status": "installed",
+    "name": "Witch's Wand of Fire",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "94ff29c03c82dbb820261d757ea96271d4efd2f3c43876c19e52aed08f7863bb",
+    "binding": {
+      "icon": "item152",
+      "model": "engine/world_items/models/item_item152.glb",
+      "length": 63.7
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "antler",
+    "construction": "wand",
+    "source_export": "work/exports/item_item152.glb",
+    "triangles": 2294,
+    "dimensions": [
+      0.277563,
+      1.0,
+      0.056178
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2294
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item152",
+    "review": {
+      "clay": [
+        "review/clay/item152_top.png",
+        "review/clay/item152_threequarter.png",
+        "review/clay/item152_low.png",
+        "review/clay/item152_underside.png"
+      ],
+      "textured": [
+        "review/textured/item152_top.png",
+        "review/textured/item152_threequarter.png",
+        "review/textured/item152_low.png",
+        "review/textured/item152_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/09-wands-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/item152.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 1072,
+    "native_reviews": [
+      "outdoor_4",
+      "indoor_4"
+    ]
+  },
+  "item153": {
+    "status": "installed",
+    "name": "Shaman's Wand of Light",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "99164c15c5aa0a044337e5a6782f6aac758296127170e51c9b989a7dc12231c9",
+    "binding": {
+      "icon": "item153",
+      "model": "engine/world_items/models/item_item153.glb",
+      "length": 67.0
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "shaman",
+    "construction": "wand",
+    "source_export": "work/exports/item_item153.glb",
+    "triangles": 2866,
+    "dimensions": [
+      0.160725,
+      1.0,
+      0.071303
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2866,
+      1432
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item153",
+    "review": {
+      "clay": [
+        "review/clay/item153_top.png",
+        "review/clay/item153_threequarter.png",
+        "review/clay/item153_low.png",
+        "review/clay/item153_underside.png"
+      ],
+      "textured": [
+        "review/textured/item153_top.png",
+        "review/textured/item153_threequarter.png",
+        "review/textured/item153_low.png",
+        "review/textured/item153_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/09-wands-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/item153.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 1019,
+    "native_reviews": [
+      "outdoor_4",
+      "indoor_4"
+    ]
+  },
+  "item154": {
+    "status": "installed",
+    "name": "Serpent Wand of Blasting",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "cfacde7fcea3b0c9ecc1b738cf6145cca175395c3474bb455dd9eff32e851b43",
+    "binding": {
+      "icon": "item154",
+      "model": "engine/world_items/models/item_item154.glb",
+      "length": 70.7
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "serpent",
+    "construction": "wand",
+    "source_export": "work/exports/item_item154.glb",
+    "triangles": 2548,
+    "dimensions": [
+      0.110579,
+      1.0,
+      0.111233
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2548
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item154",
+    "review": {
+      "clay": [
+        "review/clay/item154_top.png",
+        "review/clay/item154_threequarter.png",
+        "review/clay/item154_low.png",
+        "review/clay/item154_underside.png"
+      ],
+      "textured": [
+        "review/textured/item154_top.png",
+        "review/textured/item154_threequarter.png",
+        "review/textured/item154_low.png",
+        "review/textured/item154_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/09-wands-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/item154.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 966,
+    "native_reviews": [
+      "outdoor_3",
+      "indoor_3"
+    ]
+  },
+  "item155": {
+    "status": "installed",
+    "name": "Wizard Wand of Fireballs",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "24ce6952da215e6614e15c21dfc8f1de2420a1a444d19d0e0b7f1fd8e8ce6c2a",
+    "binding": {
+      "icon": "item155",
+      "model": "engine/world_items/models/item_item155.glb",
+      "length": 67.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "orrery",
+    "construction": "wand",
+    "source_export": "work/exports/item_item155.glb",
+    "triangles": 1260,
+    "dimensions": [
+      0.129763,
+      1.0,
+      0.129627
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1260
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item155",
+    "review": {
+      "clay": [
+        "review/clay/item155_top.png",
+        "review/clay/item155_threequarter.png",
+        "review/clay/item155_low.png",
+        "review/clay/item155_underside.png"
+      ],
+      "textured": [
+        "review/textured/item155_top.png",
+        "review/textured/item155_threequarter.png",
+        "review/textured/item155_low.png",
+        "review/textured/item155_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/09-wands-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/item155.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 1007,
+    "native_reviews": [
+      "outdoor_3",
+      "indoor_3"
+    ]
+  },
+  "item156": {
+    "status": "installed",
+    "name": "Necrotic Wand of Implosion",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "3c0fe60935f8b5f3d9118c5a51a84d31321371ce6a36317f0cff052d1406033b",
+    "binding": {
+      "icon": "item156",
+      "model": "engine/world_items/models/item_item156.glb",
+      "length": 70.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "necrotic",
+    "construction": "wand",
+    "source_export": "work/exports/item_item156.glb",
+    "triangles": 2412,
+    "dimensions": [
+      0.267999,
+      1.0,
+      0.074438
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      2412
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#item156",
+    "review": {
+      "clay": [
+        "review/clay/item156_top.png",
+        "review/clay/item156_threequarter.png",
+        "review/clay/item156_low.png",
+        "review/clay/item156_underside.png"
+      ],
+      "textured": [
+        "review/textured/item156_top.png",
+        "review/textured/item156_threequarter.png",
+        "review/textured/item156_low.png",
+        "review/textured/item156_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/09-wands-2.png",
+    "source_icon": "assets_dev/engine/icons_x2/item156.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 972,
+    "native_reviews": [
+      "outdoor_4",
+      "indoor_4"
+    ]
+  },
+  "wand1": {
+    "status": "installed",
+    "name": "Sparkling Wand of Fire",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "051c7ecf45e282de58295c37bfea8ad6b19b463b8bd10f2900222368ac4a1576",
+    "binding": {
+      "icon": "wand1",
+      "model": "engine/world_items/models/item_wand1.glb",
+      "length": 82.1
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "crystal",
+    "construction": "wand",
+    "source_export": "work/exports/item_wand1.glb",
+    "triangles": 552,
+    "dimensions": [
+      0.110627,
+      1.0,
+      0.095766
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      552
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#wand1",
+    "review": {
+      "clay": [
+        "review/clay/wand1_top.png",
+        "review/clay/wand1_threequarter.png",
+        "review/clay/wand1_low.png",
+        "review/clay/wand1_underside.png"
+      ],
+      "textured": [
+        "review/textured/wand1_top.png",
+        "review/textured/wand1_threequarter.png",
+        "review/textured/wand1_low.png",
+        "review/textured/wand1_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/10-wands-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/wand1.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 832,
+    "native_reviews": []
+  },
+  "wand2": {
+    "status": "installed",
+    "name": "Druid Wand of Light",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "172c8aa6832d043f809e23508bd192a5991a5d0f38036d4791174ce6131e572f",
+    "binding": {
+      "icon": "wand2",
+      "model": "engine/world_items/models/item_wand2.glb",
+      "length": 95.6
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "tree",
+    "construction": "wand",
+    "source_export": "work/exports/item_wand2.glb",
+    "triangles": 1832,
+    "dimensions": [
+      0.294949,
+      1.0,
+      0.042269
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1832
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#wand2",
+    "review": {
+      "clay": [
+        "review/clay/wand2_top.png",
+        "review/clay/wand2_threequarter.png",
+        "review/clay/wand2_low.png",
+        "review/clay/wand2_underside.png"
+      ],
+      "textured": [
+        "review/textured/wand2_top.png",
+        "review/textured/wand2_threequarter.png",
+        "review/textured/wand2_low.png",
+        "review/textured/wand2_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/10-wands-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/wand2.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 714,
+    "native_reviews": [
+      "outdoor_3",
+      "indoor_3"
+    ]
+  },
+  "wand3": {
+    "status": "installed",
+    "name": "Cruel Wand of Fireballs",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "bcd99d44af2486883d8c289b8d9c6f7a7997ab578ebbccef40c81f2fbcca6808",
+    "binding": {
+      "icon": "wand3",
+      "model": "engine/world_items/models/item_wand3.glb",
+      "length": 76.7
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "horn",
+    "construction": "wand",
+    "source_export": "work/exports/item_wand3.glb",
+    "triangles": 1656,
+    "dimensions": [
+      0.093393,
+      1.0,
+      0.092465
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1656
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#wand3",
+    "review": {
+      "clay": [
+        "review/clay/wand3_top.png",
+        "review/clay/wand3_threequarter.png",
+        "review/clay/wand3_low.png",
+        "review/clay/wand3_underside.png"
+      ],
+      "textured": [
+        "review/textured/wand3_top.png",
+        "review/textured/wand3_threequarter.png",
+        "review/textured/wand3_low.png",
+        "review/textured/wand3_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/10-wands-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/wand3.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 890,
+    "native_reviews": [
+      "outdoor_3",
+      "indoor_3"
+    ]
+  },
+  "wand4": {
+    "status": "installed",
+    "name": "Arcane Wand of Blasting",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "cfbf1346fbd8d2e11ee1a12fb33ac6aad82eeba69c0ae4591f58af927e9f57f1",
+    "binding": {
+      "icon": "wand4",
+      "model": "engine/world_items/models/item_wand4.glb",
+      "length": 104.8
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "crystal",
+    "construction": "wand",
+    "source_export": "work/exports/item_wand4.glb",
+    "triangles": 852,
+    "dimensions": [
+      0.110627,
+      1.0,
+      0.095766
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      852
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#wand4",
+    "review": {
+      "clay": [
+        "review/clay/wand4_top.png",
+        "review/clay/wand4_threequarter.png",
+        "review/clay/wand4_low.png",
+        "review/clay/wand4_underside.png"
+      ],
+      "textured": [
+        "review/textured/wand4_top.png",
+        "review/textured/wand4_threequarter.png",
+        "review/textured/wand4_low.png",
+        "review/textured/wand4_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/10-wands-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/wand4.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 651,
+    "native_reviews": [
+      "outdoor_3",
+      "indoor_3"
+    ]
+  },
+  "wand5": {
+    "status": "installed",
+    "name": "Dragon Wand of Implosion",
+    "route": "Blender component modelling + painted UV material atlas",
+    "baseline_sha256": "b1d4ab75cb5068ce7c64c68d7ea7a088d9778cd5951f309586ab1a1a9b757d78",
+    "binding": {
+      "icon": "wand5",
+      "model": "engine/world_items/models/item_wand5.glb",
+      "length": 83.2
+    },
+    "meshy_jobs": [],
+    "credits": 0,
+    "defects": [],
+    "design": "dragon",
+    "construction": "wand",
+    "source_export": "work/exports/item_wand5.glb",
+    "triangles": 1646,
+    "dimensions": [
+      0.277784,
+      1.0,
+      0.074839
+    ],
+    "textures": {
+      "base": [
+        2048,
+        2048
+      ],
+      "mr": [
+        2048,
+        2048
+      ],
+      "normal": [
+        2048,
+        2048
+      ]
+    },
+    "lod_triangles": [
+      1646
+    ],
+    "checks": [
+      "closed positive-volume components",
+      "nondegenerate triangles",
+      "ground zero",
+      "centred footprint",
+      "UV bounds"
+    ],
+    "validation": "receipts/validation.json#wand5",
+    "review": {
+      "clay": [
+        "review/clay/wand5_top.png",
+        "review/clay/wand5_threequarter.png",
+        "review/clay/wand5_low.png",
+        "review/clay/wand5_underside.png"
+      ],
+      "textured": [
+        "review/textured/wand5_top.png",
+        "review/textured/wand5_threequarter.png",
+        "review/textured/wand5_low.png",
+        "review/textured/wand5_underside.png"
+      ]
+    },
+    "native_coverage": "review/native_coverage/10-wands-3.png",
+    "source_icon": "assets_dev/engine/icons_x2/wand5.png",
+    "physical_assembly": "one supported assembly",
+    "nominal_texels_per_metre": 821,
+    "native_reviews": [
+      "outdoor_4",
+      "indoor_4"
+    ]
+  }
+}

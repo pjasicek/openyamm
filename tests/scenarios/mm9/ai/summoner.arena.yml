@@ -1,0 +1,42 @@
+# AI arena: MM9's summoners (MM9_MONSTER_AI_PLAN.md phase 5, worlds/mm9/behaviors/summoner.lua) on thearena.blv.
+# Monster 0, a Power Lich placed as the Lich Lab's (Summoner.scr, ScriptParams "GhostPool 0 3"), with four spawn
+# points (the converter's summon points) and Specters (9140) as its class: its `startup` trigger at 2 s summons one at
+# every point and one more at a random point (OnMinionDied) as it plays RAttack1; each minion that dies brings the next.
+# Monster 1, a Power Lich placed as an Isle of Ashes summoner (Isle_Summoner.scr, a Skeletoid class, one point): seven
+# `spawn` triggers bring six Skeletoids (it removes its trigger only after the sixth: quirk). See README.md.
+name: mm9_summoner
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -5
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9208
+    position: [0, 700, 1]
+    yaw_degrees: 270
+    mm9_ai:
+      runaway_chance: 0
+      script: summoner.scr
+      script_params: GhostPool 0 3
+      summon: {class: "9140", points: [[-600, 900, 1], [600, 900, 1], [-600, 200, 1], [600, 200, 1]]}
+  - monster_id: 9208
+    position: [-1000, -200, 1]
+    yaw_degrees: 0
+    mm9_ai:
+      runaway_chance: 0
+      script: isle_summoner.scr
+      script_params: Skeletoid SummonPoint0
+      summon: {class: Skeletoid, points: [[-1000, 300, 1]]}
+events:
+  - {at: 2, trigger: [0, startup], note: the Lich Lab's TriggerLich}
+  - {at: 3, trigger: [1, spawn]}
+  - {at: 4, trigger: [1, spawn]}
+  - {at: 5, trigger: [1, spawn]}
+  - {at: 6, trigger: [1, spawn]}
+  - {at: 7, trigger: [1, spawn]}
+  - {at: 8, trigger: [1, spawn]}
+  - {at: 9, trigger: [1, spawn]}

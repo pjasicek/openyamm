@@ -29,6 +29,32 @@ void finalizeRow(
     }
 }
 
+// A leading quote opens a quoted cell only when its closing quote comes before the next tab. Quoted cells may span
+// lines but never hold a tab, while truncated cells such as `"Journal Entry, 2nd Janua` in scroll.txt never close
+// and would otherwise swallow the following records.
+bool hasClosingQuoteBeforeTab(const std::string &contents, size_t begin)
+{
+    for (size_t index = begin; index < contents.size(); ++index)
+    {
+        if (contents[index] == '\t')
+        {
+            return false;
+        }
+
+        if (contents[index] == '"')
+        {
+            if (index + 1 < contents.size() && contents[index + 1] == '"')
+            {
+                ++index;
+                continue;
+            }
+
+            return true;
+        }
+    }
+
+    return false;
+}
 }
 
 std::optional<TextTable> TextTable::parseTabSeparated(const std::string &contents)
@@ -53,7 +79,7 @@ std::optional<TextTable> TextTable::parseTabSeparated(const std::string &content
             {
                 isInsideQuotes = false;
             }
-            else if (currentCell.empty())
+            else if (currentCell.empty() && hasClosingQuoteBeforeTab(contents, index + 1))
             {
                 isInsideQuotes = true;
             }

@@ -1,0 +1,495 @@
+{
+ "id": "20261031-1455-mm9-bathhouse-01",
+ "world": "mm9",
+ "maps": [
+  "bathhouse.blv",
+  "dungeonofsecrets.blv"
+ ],
+ "created": "2026-10-31T13:55:38+00:00",
+ "textures": [
+  "mm9/karhq6l81q",
+  "mm9/karh5lt8cd",
+  "mm9/karhipxbp8",
+  "mm9/karhrjad72",
+  "mm9/roofduxzc7",
+  "mm9/coaldhtzzb",
+  "mm9/browhy3tts",
+  "mm9/dung2vlm4i",
+  "mm9/dungcmvp15",
+  "mm9/dung3c8gzq",
+  "mm9/gran681vfp",
+  "mm9/dungddkaax",
+  "mm9/dungx6hq7t",
+  "mm9/prmed9biyc",
+  "mm9/dungbmwm4n",
+  "mm9/dunggwzlna",
+  "mm9/dung8avcdl",
+  "mm9/prme7d9wfp",
+  "mm9/dungqe9vu8",
+  "mm9/dung6ssw4g",
+  "mm9/dungr9he4g",
+  "mm9/metapx2hxk",
+  "mm9/metacppdga",
+  "mm9/bwal6z6qn8"
+ ],
+ "requests": {
+  "mm9/karhq6l81q": {
+   "name": "karhq6l81q",
+   "versions": [
+    1
+   ],
+   "material": "a pair of pale blue-grey stone door leaves with carved diagonal feather-like grooves, crossed by two dark iron strap hinges with round bolts on each leaf, a narrow dark gap down the middle, frosty mottled surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karh5lt8cd": {
+   "name": "karh5lt8cd",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture; along the top a violet-blue carved band of a running lizard and scroll pattern in low relief",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhipxbp8": {
+   "name": "karhipxbp8",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rounded irregular grey stone blocks with dark mortar joints, pale weathered faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhrjad72": {
+   "name": "karhrjad72",
+   "versions": [
+    1
+   ],
+   "material": "a blue stone door slab with pale frosty streaks in a symmetric pattern of sweeping feather-like shapes radiating from the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/roofduxzc7": {
+   "name": "roofduxzc7",
+   "versions": [
+    1
+   ],
+   "material": "overlapping pinkish-brown clay roof tiles with rounded lower edges in staggered rows, soft shadows under each tile",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/coaldhtzzb": {
+   "name": "coaldhtzzb",
+   "versions": [
+    1
+   ],
+   "material": "glowing hot coals: bright red-orange and yellow embers with scattered dark grey charred lumps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/browhy3tts": {
+   "name": "browhy3tts",
+   "versions": [
+    1
+   ],
+   "material": "a carved golden-sandstone door wall covered in Egyptian-style hieroglyphs and rows of figures in low relief, a narrow door-shaped recess in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung2vlm4i": {
+   "name": "dung2vlm4i",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey stone dungeon wall with soft mottled stains, faint dark red streaks running down from a ragged line along the top, small dark pits",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungcmvp15": {
+   "name": "dungcmvp15",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey stone dungeon wall with soft mottled stains and small dark pits, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/dung2vlm4i"
+     ],
+     "fraction": 0.656
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung3c8gzq": {
+   "name": "dung3c8gzq",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey stone dungeon wall with soft mottled stains and small dark pits, a heavy carved grey stone frieze of horns and claws along the top with dark red streaks running down from it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/dung2vlm4i"
+     ],
+     "fraction": 0.655
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/gran681vfp": {
+   "name": "gran681vfp",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey granite with fine speckled grain, the word \"RUN!\" scratched into it in rough pale chalk-white letters",
+   "notes": {
+    "1": "copy the scratched word RUN! exactly as in the reference: same rough chalk letters, size, slant and position"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/granv1lmbw"
+     ],
+     "fraction": 0.8
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungddkaax": {
+   "name": "dungddkaax",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey stone surface with soft mottled stains and small dark pits, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungx6hq7t": {
+   "name": "dungx6hq7t",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "a dark grey stone surface with soft mottled stains and small dark pits, a darker horizontal shadow band across the middle",
+   "notes": {
+    "2": "keep the dark horizontal band, but the plaster above and below it must have the same brightness so the texture repeats vertically without a light/dark step",
+    "3": "keep the native's soft dark horizontal shadow band across the wall at 40% height, the same width and darkness; only the plaster above and below it must match in brightness at the top and bottom edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/dungddkaax"
+     ],
+     "fraction": 0.718
+    },
+    "2": {
+     "sources": [
+      "mm9/dungddkaax"
+     ],
+     "fraction": 0.718
+    },
+    "3": {
+     "sources": [
+      "mm9/dungddkaax"
+     ],
+     "fraction": 0.718
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     46
+    ]
+   }
+  },
+  "mm9/prmed9biyc": {
+   "name": "prmed9biyc",
+   "versions": [
+    1
+   ],
+   "material": "dark olive-grey worn metal plate with fine horizontal scratches, mottled grime and faint rust",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungbmwm4n": {
+   "name": "dungbmwm4n",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey stone ceiling with a faint pattern of dark red painted curling scroll shapes, mottled stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dunggwzlna": {
+   "name": "dunggwzlna",
+   "versions": [
+    1
+   ],
+   "material": "dark grey square stone floor tiles in a grid with dark red stains and splatters on them, narrow dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung8avcdl": {
+   "name": "dung8avcdl",
+   "versions": [
+    1
+   ],
+   "material": "a square dark grey stone panel inside a heavy carved silver-grey stone frame of horns and claw shapes at the corners, a raised inner border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prme7d9wfp": {
+   "name": "prme7d9wfp",
+   "versions": [
+    1
+   ],
+   "material": "dark olive-grey worn metal plate with fine horizontal brushed streaks and soft mottled grime",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungqe9vu8": {
+   "name": "dungqe9vu8",
+   "versions": [
+    1
+   ],
+   "material": "a vertical strip of pale silver-grey stacked rounded stone bars with bevelled ends, like a column of horizontal ribs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung6ssw4g": {
+   "name": "dung6ssw4g",
+   "versions": [
+    1
+   ],
+   "material": "a silver-grey carved stone trim band with a row of vertical ribbed segments and small carved claw shapes between thin raised borders",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dungr9he4g": {
+   "name": "dungr9he4g",
+   "versions": [
+    1
+   ],
+   "material": "a silver-grey carved stone trim band of evenly spaced vertical rounded ribs with soft highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/metapx2hxk": {
+   "name": "metapx2hxk",
+   "versions": [
+    1
+   ],
+   "material": "a vertical dark rusty iron bar with brown-red streaks and a soft cylindrical highlight, on black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/metacppdga": {
+   "name": "metacppdga",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "heavily rusted iron plate: warm orange and dark reddish-brown rust with patches of dull brown-grey bare metal and pale beige flecks",
+   "notes": {
+    "2": "keep the native's colours: warm orange-brown rust with neutral warm grey and beige bare-metal patches; no blue or blue-grey tint anywhere",
+    "3": "match the native's colour balance: mostly warm orange-brown; the bare-metal patches are neutral brownish grey, never blue"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm9/bwal6z6qn8": {
+   "name": "bwal6z6qn8",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey-green stone wall with mossy green patches near the bottom, below a dark carved stone band of square blocks along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

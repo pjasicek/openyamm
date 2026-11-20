@@ -1,0 +1,49 @@
+# Hand-written (2026-11-06, scr_audit G2; 2026-11-08: any order): Tjolnir's Healer quest and Gray Slemnir's Priest
+# quest start once their promotion row was asked (code keys 2083, 2084), whoever is in the party (the user 2026-11-08,
+# worlds/mm9/dialogue/promotions.yml; tests/scenarios/mm9/promotion_any_order.yml).
+id: mm9r.guberlandcity_promotions
+title: 'Guberland City (native BLV): the Healer and Priest quest starts (NPC128.scr, NPC129.scr)'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: guberlandcity.blv
+- advance_runtime:
+    seconds: 1.0
+- console: {line: player add Cleric}
+- note:
+    text: 'Tjolnir with a Cleric in the party: no quest before his promotion row (2083), key 206 after it.'
+- interact_actor: {actor_index: 11}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    dialog: {active: true, source_id: 128}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_clear: [90206]
+- setup_shortcut: {kind: set_qbit, id: 92083, value: true}
+- interact_actor: {actor_index: 11}
+- advance_runtime: {seconds: 0.3}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_set: [90206]
+- note:
+    text: 'Gray Slemnir with a Priest in the party: no quest before his promotion row (2084), keys 250-252 after it.'
+- console: {line: player add Priest}
+- interact_actor: {actor_index: 9}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    dialog: {active: true, source_id: 129}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_clear: [90250]
+- setup_shortcut: {kind: set_qbit, id: 92084, value: true}
+- interact_actor: {actor_index: 9}
+- advance_runtime: {seconds: 0.3}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_set: [90250, 90251, 90252]

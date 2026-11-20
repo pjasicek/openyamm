@@ -1,0 +1,649 @@
+{
+ "id": "20261009-1649-mm8-out05-23",
+ "world": "mm8",
+ "maps": [
+  "out05.odm",
+  "d32.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/t18a03c",
+  "mm8/t18b03c",
+  "mm8/t30a01",
+  "mm8/t18b07",
+  "mm8/t18b06",
+  "mm8/t18a04d",
+  "mm8/t18b12a",
+  "mm8/t18a02a",
+  "mm8/t18a02b",
+  "mm8/t18a05",
+  "mm8/t18a10b",
+  "mm8/t18a11a",
+  "mm8/t18a11b",
+  "mm8/t18a11c",
+  "mm8/t30a03b1",
+  "mm8/t30a03b2",
+  "mm8/t30a05a",
+  "mm8/t30a05c",
+  "mm8/t66b01",
+  "mm8/t66c01a",
+  "mm8/t66b07",
+  "mm8/t66b06",
+  "mm8/t66a01mx",
+  "mm8/t66a06"
+ ],
+ "requests": {
+  "mm8/t18a03c": {
+   "name": "t18a03c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar around an arched dark wooden plank door with iron bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b03c"
+     ],
+     "fraction": 0.957
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t18a07",
+     "right": "mm8/t18a06"
+    }
+   }
+  },
+  "mm8/t18b03c": {
+   "name": "t18b03c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar around an arched dark wooden plank door with iron bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a03c"
+     ],
+     "fraction": 0.957
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t18b04a",
+     "right": "mm8/t18b04a",
+     "top": "mm8/t18b04a"
+    }
+   }
+  },
+  "mm8/t30a01": {
+   "name": "t30a01",
+   "versions": [
+    1
+   ],
+   "material": "warm orange-tan irregular flagstone wall with dark joints under a pale yellow stone coping",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t18b07": {
+   "name": "t18b07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a recessed vertical stone channel beside carved stone quoin blocks, above a pale green stone ledge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a07",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.775
+    },
+    "2": {
+     "sources": [
+      "mm8/t18a07",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.775
+    },
+    "3": {
+     "sources": [
+      "mm8/t18a07",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.775
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t18b04a",
+     "left": "mm8/t18b12b",
+     "top": "mm8/t18a07"
+    }
+   }
+  },
+  "mm8/t18b06": {
+   "name": "t18b06",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a recessed vertical stone channel, above a pale green stone ledge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a06",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.76
+    },
+    "2": {
+     "sources": [
+      "mm8/t18a06",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.76
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t18b04a",
+     "right": "mm8/t18b12b",
+     "top": "mm8/t18a06"
+    }
+   }
+  },
+  "mm8/t18a04d": {
+   "name": "t18a04d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a small square wooden shutter window carved with a glyph",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a12b"
+     ],
+     "fraction": 0.609
+    },
+    "2": {
+     "sources": [
+      "mm8/t18a12b",
+      "mm8/t18b12b"
+     ],
+     "fraction": 0.596
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t18a06",
+     "left": "mm8/t18a07"
+    }
+   }
+  },
+  "mm8/t18b12a": {
+   "name": "t18b12a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a small barred iron grate set in a frame of rounded pale green stones, above a pale green stone ledge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18b01"
+     ],
+     "fraction": 0.481
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b01",
+      "mm8/t18b04b"
+     ],
+     "fraction": 0.481
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t18b04a",
+     "left": "mm8/t18b07",
+     "right": "mm8/t18b06"
+    }
+   }
+  },
+  "mm8/t18a02a": {
+   "name": "t18a02a",
+   "versions": [
+    1
+   ],
+   "material": "large mossy dark green-grey rough stone blocks with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.487
+    }
+   }
+  },
+  "mm8/t18a02b": {
+   "name": "t18a02b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "large dark green-black mossy stone blocks with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a02a"
+     ],
+     "fraction": 0.471
+    },
+    "2": {
+     "sources": [
+      "mm8/t18a02a"
+     ],
+     "fraction": 0.471
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t18b01b",
+     "bottom": "mm8/t18a04b"
+    }
+   }
+  },
+  "mm8/t18a05": {
+   "name": "t18a05",
+   "versions": [
+    1
+   ],
+   "material": "overlapping rounded pale green mossy roof tiles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t18a10b": {
+   "name": "t18a10b",
+   "versions": [
+    1
+   ],
+   "material": "vertical strip of mossy dark green rough stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t18a11a": {
+   "name": "t18a11a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "horizontal pale green stone ledge moulding with a darker underside",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t18b01"
+    }
+   }
+  },
+  "mm8/t18a11b": {
+   "name": "t18a11b",
+   "versions": [
+    1
+   ],
+   "material": "small pale green stone ledge moulding piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t18a11c": {
+   "name": "t18a11c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small pale green stone ledge moulding piece",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t30a03b1": {
+   "name": "t30a03b1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "warm orange-tan flagstone wall around an arched dark wooden plank door with a brass ring handle under a pale stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t30a03b2",
+     "top": "mm8/t30c01"
+    }
+   }
+  },
+  "mm8/t30a03b2": {
+   "name": "t30a03b2",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "warm orange-tan flagstone wall around an arched dark wooden plank door with a brass ring handle under a pale stone arch",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "5": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "5": {
+     "left": "mm8/t30a03b1",
+     "top": "mm8/t30c01"
+    }
+   }
+  },
+  "mm8/t30a05a": {
+   "name": "t30a05a",
+   "versions": [
+    1
+   ],
+   "material": "irregular grey-tan flagstones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t30a05c": {
+   "name": "t30a05c",
+   "versions": [
+    1
+   ],
+   "material": "irregular warm orange-tan flagstones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66b01": {
+   "name": "t66b01",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown wooden wall panel framed by carved wooden posts, above a carved wainscot with lion masks and scroll ornaments",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66c01a": {
+   "name": "t66c01a",
+   "versions": [
+    1
+   ],
+   "material": "warm tan-brown bricks in staggered courses with pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66b07": {
+   "name": "t66b07",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark reddish-brown wooden wall panel framed by carved wooden posts, above a carved wainscot with lion masks and scroll ornaments",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66b01"
+     ],
+     "fraction": 0.858
+    },
+    "2": {
+     "sources": [
+      "mm8/t66b01"
+     ],
+     "fraction": 0.82
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/t66b06": {
+   "name": "t66b06",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark reddish-brown wooden wall panel framed by carved wooden posts, above a carved wainscot with lion masks and scroll ornaments",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66b01"
+     ],
+     "fraction": 0.854
+    }
+   }
+  },
+  "mm8/t66a01mx": {
+   "name": "t66a01mx",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-beige cracked plaster wall framed by carved wooden posts above a carved wainscot, with a blue and white rolled parchment map scroll hanging at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66a01"
+     ],
+     "fraction": 0.758
+    }
+   }
+  },
+  "mm8/t66a06": {
+   "name": "t66a06",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough grey-beige cracked plaster wall framed by carved wooden posts above a carved wainscot with lion masks and scroll ornaments",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66a01"
+     ],
+     "fraction": 0.726
+    },
+    "2": {
+     "sources": [
+      "mm8/t66a04",
+      "mm8/t66a07"
+     ],
+     "fraction": 0.634
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  }
+ }
+}

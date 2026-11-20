@@ -1,0 +1,144 @@
+# The promotion quests of Enroth, Antagarich and Jadame for the MAW guide (tools/maw_site/classes.py).
+#
+# One entry per quest that promotes. classes.py works out which MAW class lines each quest counts for from MAW's own
+# table (rulesets/maw/data/promotions.yml: the quest bits that count as a kind's promotion on each world, and the
+# first-tier bits of MAW's four new lines), so this file only says what each quest is:
+#   continent   Enroth, Antagarich or Jadame
+#   npc         the NPC who promotes (npc.txt id); classes.py finds the house and map from the tables and scripts
+#   map         the map, when the NPC has no house door (met through a map script) or the tables place it wrongly
+#   promotes    what the quest itself does to a member of these classes (class names as class_extra.txt's notes):
+#               from -> to. Members of other classes get the "Honorary" bit, which also counts for MAW.
+#   bits        the quest bits the promotion sets (promoted, honorary)
+#   award       MM8's award for the promotion (MAW counts it like the bit)
+#   quest       the journal quest bit whose text is the task (english/quests.txt)
+#   task        the task in words, when the journal's text is missing or misleading
+#   path        MM7's Light or Dark path the quest needs
+#
+# Sources: Enroth, worlds/mm6/events/Global_mm6_mmmerge.lua promotionFamilies; Antagarich,
+# worlds/mm7/events/Global_mm7_mmmerge.lua (MM7.CompletePromotion calls); Jadame,
+# worlds/mm8/events/Global_mm8_promotions.lua. Chedian's promotions come from the MM9 guide's data.
+
+quests:
+  # Enroth (MM6): six lords, two quests each; the second opens after the first.
+  - {id: enroth_crusader, continent: Enroth, npc: 789, promotes: {Paladin: Crusader}, bits: [1635, 1636], quest: 1112}
+  - {id: enroth_hero, continent: Enroth, npc: 789, promotes: {Crusader: Hero}, bits: [1637, 1638], quest: 1113}
+  - {id: enroth_wizard, continent: Enroth, npc: 790, promotes: {Sorcerer: Wizard}, bits: [1639, 1640], quest: 1135}
+  - {id: enroth_master_wizard, continent: Enroth, npc: 790, promotes: {Wizard: Master Wizard}, bits: [1641, 1642],
+     quest: 1136}
+  - {id: enroth_cavalier, continent: Enroth, npc: 791, promotes: {Knight: Cavalier}, bits: [1643, 1644], quest: 1138,
+     task: "Get the Knight's nomination from Chadwick Blackpoole (Rockham's Pride tavern, Free Haven) and return."}
+  - {id: enroth_champion, continent: Enroth, npc: 791, promotes: {Cavalier: Champion}, bits: [1645, 1646], quest: 1139}
+  - {id: enroth_priest, continent: Enroth, npc: 801, promotes: {Cleric: Priest}, bits: [1647, 1648], quest: 1129}
+  - {id: enroth_high_priest, continent: Enroth, npc: 801, promotes: {Priest: High Priest}, bits: [1649, 1650],
+     quest: 1131}
+  - {id: enroth_great_druid, continent: Enroth, npc: 799, promotes: {Druid: Great Druid}, bits: [1651, 1652],
+     quest: 1142}
+  - {id: enroth_arch_druid, continent: Enroth, npc: 799, promotes: {Great Druid: Arch Druid}, bits: [1653, 1654],
+     quest: 1143}
+  - {id: enroth_warrior_mage, continent: Enroth, npc: 800, promotes: {Archer: Warrior Mage}, bits: [1655, 1656],
+     quest: 1145}
+  - {id: enroth_master_archer, continent: Enroth, npc: 800, promotes: {Warrior Mage: Master Archer},
+     bits: [1657, 1658], quest: 1146}
+
+  # Antagarich (MM7): a first promotion, then a Light or a Dark one by the path the party chose.
+  - {id: antagarich_rogue, continent: Antagarich, npc: 354, promotes: {Thief: Rogue}, bits: [1560, 1561], quest: 530}
+  - {id: antagarich_spy, continent: Antagarich, npc: 354, promotes: {Rogue: Spy}, bits: [1562, 1563], quest: 531,
+     path: Light}
+  - {id: antagarich_assassin, continent: Antagarich, npc: 355, promotes: {Rogue: Assassin}, bits: [1564, 1565],
+     quest: 533, path: Dark}
+  - {id: antagarich_crusader, continent: Antagarich, npc: 356, promotes: {Paladin: Crusader}, bits: [1590, 1591],
+     quest: 534}
+  - {id: antagarich_hero, continent: Antagarich, npc: 356, promotes: {Crusader: Hero}, bits: [1592, 1593], quest: 536,
+     path: Light}
+  - {id: antagarich_villain, continent: Antagarich, npc: 357, map: 7out05.odm, promotes: {Crusader: Villain},
+     bits: [1594, 1595], quest: 538, path: Dark}
+  - {id: antagarich_initiate, continent: Antagarich, npc: 377, promotes: {Monk: Initiate}, bits: [1572, 1573],
+     quest: 539}
+  - {id: antagarich_master, continent: Antagarich, npc: 377, promotes: {Initiate: Master}, bits: [1574, 1575],
+     quest: 540, path: Light}
+  - {id: antagarich_ninja, continent: Antagarich, npc: 378, promotes: {Initiate: Ninja}, bits: [1576, 1577],
+     quest: 541, path: Dark}
+  - {id: antagarich_warrior_mage, continent: Antagarich, npc: 380, promotes: {Archer: Warrior Mage},
+     bits: [1584, 1585], quest: 543}
+  - {id: antagarich_master_archer, continent: Antagarich, npc: 379, promotes: {Warrior Mage: Master Archer},
+     bits: [1586, 1587], quest: 542, path: Light}
+  - {id: antagarich_sniper, continent: Antagarich, npc: 380, promotes: {Warrior Mage: Sniper}, bits: [1588, 1589],
+     quest: 544, path: Dark}
+  - {id: antagarich_cavalier, continent: Antagarich, npc: 382, promotes: {Knight: Cavalier}, bits: [1566, 1567],
+     quest: 546}
+  - {id: antagarich_champion, continent: Antagarich, npc: 381, promotes: {Cavalier: Champion}, bits: [1568, 1569],
+     quest: 545, path: Light}
+  - {id: antagarich_black_knight, continent: Antagarich, npc: 382, promotes: {Cavalier: Black Knight},
+     bits: [1570, 1571], quest: 547, path: Dark}
+  - {id: antagarich_hunter, continent: Antagarich, npc: 391, map: 7d22.blv, promotes: {Ranger: Hunter},
+     bits: [1578, 1579], quest: 549}
+  - {id: antagarich_ranger_lord, continent: Antagarich, npc: 383, promotes: {Hunter: Ranger Lord}, bits: [1580, 1581],
+     quest: 548, path: Light}
+  - {id: antagarich_bounty_hunter, continent: Antagarich, npc: 384, promotes: {Hunter: Bounty Hunter},
+     bits: [1582, 1583], quest: 550, path: Dark}
+  - {id: antagarich_priest, continent: Antagarich, npc: 386, promotes: {Cleric: Priest}, bits: [1607, 1608],
+     quest: 555}
+  - {id: antagarich_priest_light, continent: Antagarich, npc: 385, promotes: {Priest: Priest of the Light},
+     bits: [1609, 1610], quest: 554, path: Light}
+  - {id: antagarich_priest_dark, continent: Antagarich, npc: 386, promotes: {Priest: Priest of the Dark},
+     bits: [1611, 1612], quest: 556, path: Dark}
+  - {id: antagarich_wizard, continent: Antagarich, npc: 387, map: 7d14.blv, promotes: {Sorcerer: Wizard},
+     bits: [1619, 1620], quest: 557}
+  - {id: antagarich_arch_mage, continent: Antagarich, npc: 387, map: 7d14.blv, promotes: {Wizard: Arch Mage},
+     bits: [1621, 1622], quest: 559, path: Light}
+  - id: antagarich_lich
+    continent: Antagarich
+    npc: 388
+    promotes: {Wizard: Lich, Necromancer: Lich}
+    bits: [1623, 1624]
+    quest: 560
+    path: Dark
+    task: >-
+      Retrieve the lich jars from the Proving Grounds in Celeste and bring them to Halfgild Wynac in the Pit. Each
+      Wizard or Necromancer who transforms needs a jar.
+  - {id: antagarich_great_druid, continent: Antagarich, npc: 389, promotes: {Druid: Great Druid}, bits: [1613, 1614],
+     quest: 561}
+  - {id: antagarich_arch_druid, continent: Antagarich, npc: 389, promotes: {Great Druid: Arch Druid},
+     bits: [1615, 1616], quest: 566, path: Light}
+  - {id: antagarich_warlock, continent: Antagarich, npc: 390, promotes: {Great Druid: Warlock}, bits: [1617, 1618],
+     quest: 567, path: Dark}
+
+  # Jadame (MM8): one promotion per line; MM8's racial classes start at the first tier.
+  - id: jadame_patriarch
+    continent: Jadame
+    npc: 42
+    map: out07.odm
+    promotes: {Dark Elf: Patriarch}
+    bits: [1537]
+    award: 20
+    quest: 39
+    task: >-
+      Find Cauri Blackthorne, turned to stone in Murmurwoods (Dantillion there gives the quest), and free her with
+      Stone to Flesh; she promotes on the spot.
+  - {id: jadame_war_troll, continent: Jadame, npc: 43, promotes: {Troll: War Troll}, bits: [1538, 1539], quest: 68}
+  - id: jadame_champion
+    continent: Jadame
+    npc: 15
+    promotes: {Knight: Champion, Cavalier: Champion}
+    bits: [1540, 1541]
+    quest: 70
+    task: >-
+      Find Blazen Stormlance and recover the spear Ebonest (Leane Stormlance in Garrote Gorge gives the quest), then
+      bring Ebonest to Sir Charles Quixote.
+  - {id: jadame_great_wyrm, continent: Jadame, npc: 17, promotes: {Dragon: Great Wyrm}, bits: [1543, 1544], quest: 74}
+  - {id: jadame_minotaur_lord, continent: Jadame, npc: 58, promotes: {Minotaur: Minotaur Lord}, bits: [1545],
+     award: 29, quest: 76}
+  - {id: jadame_priest_light, continent: Jadame, npc: 59, promotes: {Cleric: Priest of the Light,
+     Priest: Priest of the Light}, bits: [1546], award: 31, quest: 78}
+  - {id: jadame_nosferatu, continent: Jadame, npc: 62, promotes: {Vampire: Nosferatu}, bits: [1547], award: 33,
+     quest: 80}
+  - id: jadame_lich
+    continent: Jadame
+    npc: 61
+    promotes: {Necromancer: Lich}
+    bits: [1548]
+    award: 35
+    quest: 82
+    task: >-
+      Find the Lost Book of Khel and return it to Vetrinus Taleshire in Shadowspire. Each Necromancer needs a Lich
+      Jar in their own inventory before the transformation.

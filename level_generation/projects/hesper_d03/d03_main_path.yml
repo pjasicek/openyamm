@@ -1,0 +1,175 @@
+# Minimized headless run from output/hesper_stage/scenario_run; all controls use native picking.
+# The Scour's scour_exits scenario checks the connected Outer Gate round trip.
+id: hesper.d03.main_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow: &fresh
+    start_map: hes_d03.blv
+    party:
+      gold: 0
+      members:
+      - {name: Ada, class: Knight, level: 200, skills: [{name: Hacking, level: 1, mastery: 1}], equipment: {}}
+      - {name: Bram, class: Knight, level: 200, skills: [], equipment: {}}
+      - {name: Cyra, class: Knight, level: 200, skills: [{name: Hacking, level: 1, mastery: 3}], equipment: {}}
+      - {name: Dana, class: Knight, level: 200, skills: [], equipment: {}}
+# PICKUPS.md replaces fixed floor gold with scrap bundles; pickups.yml checks their clicks and saved state.
+- assert: {actor_visible: {actor_index: 0, hostile_to_party: true}}
+- set_pose: {map: hes_d03.blv, x: 7050, y: 2614, z: 0, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert: {mechanism: {kind: indoor_door, id: 51, state: open}}
+# Enter and immediately leave the open zone, once into a lane, once into the Roost mouth.
+- set_pose: {map: hes_d03.blv, x: 4800, y: 2000, z: -768, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 0.1}
+- set_pose: {map: hes_d03.blv, x: 4800, y: 2800, z: -768, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 4}
+- assert: {qbit_clear: [100403]}
+- set_pose: {map: hes_d03.blv, x: 4800, y: 2000, z: -768, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 0.1}
+- set_pose: {map: hes_d03.blv, x: 2168, y: 1500, z: -768, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 4}
+- assert: {qbit_clear: [100403]}
+- set_pose: {map: hes_d03.blv, x: 4800, y: 2000, z: -768, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 4}
+- assert: {qbit_set: [100403]}
+- assert: {actor_visible: {actor_index: 19, hostile_to_party: true, report_state: true}}
+- assert: {actor_visible: {actor_index: 10, hostile_to_party: true}}
+- advance_runtime: {seconds: 20}
+- assert: {runtime_event_variable: {id: 127, value: 0}}
+- assert: {actor_visible: {actor_index: 23, hostile_to_party: true, report_state: true}}
+# Fresh map state: novice hacking plus the Scour's P1 switch prevents the Yard alarm.
+- new_game_flow: *fresh
+- set_pose: {map: hes_d03.blv, x: 3800, y: 2620, z: -768, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- answer_input: {text: Yes}
+- assert: {qbit_set: [100402]}
+- setup_shortcut: {kind: set_qbit, id: 100401, value: true}
+- set_pose: {map: hes_d03.blv, x: 4800, y: 2000, z: -768, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 5}
+- assert: {qbit_clear: [100403]}
+# The East Stair's full 24-step descent, then both platform movers.
+- movement_segment:
+    input: forward
+    duration_ms: 2400
+    delta_game_minutes: 0
+    start: {map: hes_d03.blv, x: 6740, y: 1500, z: 0, yaw: 3.14159265, pitch: 0}
+    expect_stop: {map: hes_d03.blv, x: 5137, y: 1500, z: -768, yaw: 3.14159265, pitch: 0}
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose: {map: hes_d03.blv, x: 4900, y: 300, z: -768, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- movement_segment:
+    input: none
+    duration_ms: 5000
+    delta_game_minutes: 0
+    start: {x: 4900, y: 300, z: -768, map: hes_d03.blv, yaw: 3.14159265, pitch: 0}
+    expect_stop: {x: 4900, y: 300, z: -1536, map: hes_d03.blv, yaw: 3.14159265, pitch: 0}
+    tolerance_xy: 40
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose: {map: hes_d03.blv, x: 1850, y: 420, z: -1536, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- movement_segment:
+    input: none
+    duration_ms: 5000
+    delta_game_minutes: 0
+    start: {x: 1850, y: 420, z: -1536, map: hes_d03.blv, yaw: 3.14159265, pitch: 0}
+    expect_stop: {x: 1850, y: 420, z: -768, map: hes_d03.blv, yaw: 3.14159265, pitch: 0}
+    tolerance_xy: 40
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 2200
+    delta_game_minutes: 0
+    start: {map: hes_d03.blv, x: 2024, y: 1500, z: -768, yaw: 3.14159265, pitch: 0}
+    expect_stop: {map: hes_d03.blv, x: 411, y: 1500, z: 0, yaw: 3.14159265, pitch: 0}
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose: {map: hes_d03.blv, x: 312, y: 2232, z: 0, yaw: 1.5707963, pitch: 0}
+- advance_runtime: {seconds: 0.1}
+- assert: {runtime_event_variable: {id: 129, value: 1}}
+- advance_runtime: {seconds: 20}
+- assert: {runtime_event_variable: {id: 125, value: 1}}
+- assert: {actor_visible: {actor_index: 45, shield_raised: true}}
+- damage_actor: {actor_index: 44, amount: 100000, tier: kreegan_energy}
+- damage_actor: {actor_index: 44, amount: 100000, tier: kreegan_energy}
+- assert: {qbit_set: [100024]}
+- advance_runtime: {seconds: 0.1}
+- assert: {actor_visible: {actor_index: 45, shield_raised: false}}
+- assert: {item_visible: {item_id: 11022, source: world_item}}
+- assert: {item_visible: {item_id: 11332, source: world_item}}
+- assert: {gold: 10000}
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert: {mechanism: {kind: indoor_door, id: 54, state: open}}
+- set_pose: {map: hes_d03.blv, x: 700, y: 4950, z: 0, yaw: 1.5707963, pitch: -0.35}
+- press_interact: {}
+- assert: {chest_contains_quest_item: {chest_id: 2, item_id: 11474}}
+- assert: {item_received: {item_id: 11474, source: chest, chest_id: 2, destination: held}}
+- press_action: {action: cancel_dialog}
+- assert: {held_item: {active: false, item_id: 11474}}
+- assert: {inventory_any_member: [{item_id: 11474}]}
+# Optional controls are an independent fresh visit, outside the combat fixture.
+- new_game_flow: *fresh
+- set_pose: {map: hes_d03.blv, x: 1150, y: 5170, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {qbit_set: [100409]}
+- set_pose: {map: hes_d03.blv, x: 5950, y: -1300, z: -1536, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert: {mechanism: {id: 55, state: open}}
+- assert: {qbit_set: [100408]}
+- set_pose: {map: hes_d03.blv, x: 7250, y: -400, z: -1536, yaw: 0, pitch: -0.35}
+- press_interact: {}
+- assert: {chest_contains_quest_item: {chest_id: 1, item_id: 11130}}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d03.blv, x: 350, y: 1500, z: 0, yaw: 3.14159265, pitch: -0.2}
+- press_interact: {}
+- assert: {runtime_event_variable: {id: 126, value: 1}}
+- assert: {item_received: {item_id: 11300, source: chest, chest_id: 0, destination: held}}
+- assert: {held_item: {active: false, item_id: 11300}}
+- assert: {item_received: {item_id: 11300, source: chest, chest_id: 0, destination: held}}
+- assert: {held_item: {active: false, item_id: 11300}}
+- assert: {item_received: {item_id: 11302, source: chest, chest_id: 0, destination: held}}
+- assert: {held_item: {active: false, item_id: 11302}}
+- assert: {inventory_any_member: [{item_id: 11300}, {item_id: 11302}]}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d03.blv, x: 3950, y: -2580, z: -1536, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert: {mechanism: {id: 58, state: open}}
+# Master consoles stand down the placed turrets only.
+- new_game_flow: *fresh
+- press_action: {action: select_member, member_index: 2}
+- set_pose: {map: hes_d03.blv, x: 7700, y: 2900, z: 0, yaw: 1.5707963, pitch: -0.35}
+- press_interact: {}
+- assert: {actor_visible: {actor_index: 0, hostile_to_party: false}}
+- set_pose: {map: hes_d03.blv, x: 7650, y: -1300, z: -1536, yaw: 0, pitch: 0}
+- press_interact: {}
+- assert: {actor_visible: {actor_index: 57, hostile_to_party: false}}
+# The engine treats Hacking as party-wide; a party without that skill exercises the charge route.
+- new_game_flow:
+    start_map: hes_d03.blv
+    party:
+      gold: 0
+      members:
+      - {name: Bram, class: Knight, level: 200, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+- setup_shortcut: {kind: grant_item, item_id: 11304}
+# Save seeds the shortcut's inventory into the live runtime; reload also tests the carried charge.
+- save_game: {name: d03_charge_check}
+- load_game: {name: d03_charge_check}
+- set_pose: {map: hes_d03.blv, x: 3800, y: 2620, z: -768, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- answer_input: {text: Yes}
+- assert: {qbit_set: [100402]}

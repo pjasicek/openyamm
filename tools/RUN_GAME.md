@@ -3,6 +3,18 @@
 `./tools/run_game.sh [game arguments...]` launches the normal `build/game/openyamm` from the repository root,
 using the current desktop display and normal settings/saves. It does not rebuild the executable or force a renderer.
 
+## Minimized by default
+
+Both forms start the game minimized (`OPENYAMM_START_MINIMIZED=1`), so agent runs do not cover the desktop. The
+minimized window keeps rendering at its full size: native screenshots, tours, logs and the timed exit are unchanged.
+It never has input focus, so relative mouse look stays off; scripted input still uses the normal input frame.
+
+Use `--visible` to show the window: as the first argument for plain runs (`./tools/run_game.sh --visible --world mm6`),
+anywhere after the name for isolated runs. Use it for FPS and performance comparisons: GNOME throttles a minimized
+window irregularly with VSync on (61–179 FPS versus a steady 155–190 visible in the 2026-10-18 check). `run.json`
+records the mode in `window`. `tools/profile_game.sh` ignores the variable and always shows the window.
+Add `--show-fps` to an isolated run to print each per-second FPS sample to the terminal.
+
 ## Isolated, repeatable runs
 
 ```sh
@@ -10,7 +22,7 @@ using the current desktop display and normal settings/saves. It does not rebuild
   --world mm6 --map oute3.odm \
   --position -9728 -11319 161 --yaw-radians 4.758 --pitch-degrees -6.274 \
   --set video.terrain_decorations=true --set video.vsync=false \
-  --warmup 3 --seconds 15
+  --warmup 3 --seconds 15 --visible
 ```
 
 `--isolated --help` lists the options. Map arguments are asset filenames, not display names; `oute3.odm` is
@@ -46,6 +58,51 @@ use `--set video.ambient_occlusion=true` and optionally `--set video.ambient_occ
 It defaults to disabled; disabling it or setting strength to zero removes its render targets and GPU passes.
 It works independently of cinematic grading and applies to opaque world geometry and 3D models.
 
+## Indoor portal view
+
+The debug console's `portals` command shows how an indoor map (any BLV: MM6–MM8 dungeons, MM9 cities) is drawn: its
+portal faces, the sectors drawn this frame, and a readout of counts and timings. It is off at launch and never saved;
+while off the renderer only tests one flag per frame. Code: `game/indoor/IndoorRendererPortalDebug.cpp`,
+`IndoorPortalDebugView.h`.
+
+| Command | Effect |
+| --- | --- |
+| `portals on` / `portals off` | Portal faces (all), sector outlines and the readout together / everything off |
+| `portals faces all\|traversed\|off` | Portal faces as translucent cyan; `all` shows every portal and brightens the ones traversed this frame, `traversed` only those (with cyan edges) |
+| `portals sectors on\|off\|toggle` | The faces of the sectors drawn this frame outlined in a colour per sector, with each sector's id at the portals it was entered through |
+| `portals readout on\|off\|toggle` | The on-screen readout (top left) |
+| `portals gpu on\|off\|toggle` | Decorations, actors, open sky and translucent/effects each in its own bgfx view (220–223) with the bgfx profiler on, so the readout lists each pass's GPU time; transparencies then draw before ambient occlusion |
+| `portals rebuild on\|off\|toggle` | Rebuild the portal visibility every frame, as walking does (a still camera reuses the last build) |
+| `portals log on\|off\|toggle` | One `[PortalView]` line per second in the log: the counts below, the 1-second mean timings and every view's GPU time (`gpu_view[<id>_<name>]`) |
+| `portals tile <units>` | Cell size of the tile estimate (default 1024) |
+| `portals stats` | This frame's counts as one line in the console |
+| `portals map` | One `[PortalViewSector]` line per sector: faces, drawn faces, portal faces and links, open to the sky, bounds |
+
+The readout and the `[PortalView]` line give:
+
+- **Visibility:** sectors drawn, traversal nodes, portal candidates tested and traversed, rejections (facing, clipped,
+  other: ancestors and the 256-node cap), and the last build's time (`visibility_build_us`) with whether this frame
+  rebuilt it.
+- **World faces** (the opaque face batches: one sector's faces of one texture): batches, faces and triangles
+  submitted; `face_draws`, the draw calls they take, merged across sectors by draw group
+  ([devdocs/INDOOR_FACE_DRAW_GROUPS.md](../devdocs/INDOOR_FACE_DRAW_GROUPS.md); before 2026-11-01 one per batch); of
+  those faces, how many lie in the camera frustum and in their sector's portal frustums (what an exact cull would
+  keep); `batch_textures`, the distinct textures among the batches; and the tile estimate: each batch cut into plan
+  cells of `tile` units, with the cells in the portal frustums as draws and triangles.
+- **Per sector**, most faces first (`sectors=id:faces/facesInPortals/triangles/batches/tileDraws/tileTriangles/
+  portalsTested/totalFaces/nodes/portalLinks,...` in the log): `portalsTested` is the sector's portal links once per
+  traversal node in it.
+- **Frame:** bgfx draw calls and triangles; CPU microseconds of visibility, lighting, faces, decorations, actors, open
+  sky, translucent and the whole indoor render; with `portals gpu on`, GPU microseconds per view and for the frame.
+  bgfx's frame GPU time runs from the first to the last GPU command, so it also holds the render thread's and the
+  driver's submission time, which grows with the draw calls.
+
+The readout is an ImGui window: it needs the debug console (`[debug] console=true`) and a visible window (`--visible`;
+a minimized window draws no ImGui), and it shows in native screenshots. A tour can switch the view on in its first
+shot's `commands:` (for example `[portals faces traversed, portals readout on, portals log on]`). Counts are exact for
+a pose; timings are noisy whenever other games or builds share the machine. Thjorgard City's measurements:
+[devdocs/mm9_rework/CITY_STREET_COST.md](../devdocs/mm9_rework/CITY_STREET_COST.md).
+
 ## Native screenshots and YAML tours
 
 The normal `main` build includes engine-native PNG capture through bgfx's screenshot callback.
@@ -55,6 +112,59 @@ Rebuild with `cmake --build build --target openyamm -j25` after pulling the capt
 In the debug console, `screenshot coast` saves `output/screenshots/coast.png` relative to the game's
 working directory. Names allow letters, digits, underscores and hyphens; existing named images are overwritten.
 The command closes the console before capture so its text does not cover the screenshot.
+
+`pin <text>` (debug console) pins a note for the Map Studio: it writes `<date>-<time>-<map stem>.yml` (pins format 1:
+the text, world, map, the pose as `loc` prints it, the time, and the project and revision from a `<stem>.studio.yml`
+beside the map when the studio installed it) and the next frame as the `.png` of the same name into the pin inbox,
+`[debug] pin_inbox_path` (default `pins_inbox` in the user data folder; `--isolated` runs use the repository's
+`pins_inbox/`, not the run folder). A `;` in the text ends the command, as everywhere in the console.
+See `devdocs/map_studio/S5_BROWSER_EDITOR.md` 2.10.
+
+Two more launch directives serve the Map Studio's Play here (S5_BROWSER_EDITOR.md 2.10, D13), one-shot like the
+capture keys (read, never written back): `--set debug.startup_console_file=/absolute/start.console` runs that file's
+console commands once the first map has loaded (one per line, `#` comments, as `exec`), and
+`--set debug.exit_pose_path=/absolute/exit_pose.yml` writes where the party stands when the game closes: the world,
+the map and the pose `loc` prints (`position`, `yaw_radians`, `pitch_degrees`, `heading_yaw_units`, shaped as a pin's
+pose). `tp <x> <y> <z> [yaw-radians [pitch-degrees]]` takes the facing in `loc`'s units, so a start file of one
+`tp` line puts the party at a camera. `--extra-mount <folder>` (isolated runs) reads a development folder in front of
+the asset root, as the game's own option, in the preparation and the run: the studio's mount of builds. Headless
+check: `tests/scenarios/debug/play_here.yml`.
+
+## Video capture
+
+`video start /absolute/clip.mp4 [fps]` (debug console, default 60 fps) records every frame, HUD included, into an
+H.264 file (x264 CRF 12, a master for editing) through an `ffmpeg` process; `video stop` finishes it, `video status`
+reports the frames written. While recording the game runs on a fixed frame step of 1/fps
+(`EngineApplication::setFixedFrameSeconds`), so the clip plays smoothly at its rate however slowly the frames render
+and read back; `debug.time_scale` still slows the world for slow motion. No sound is recorded. Keep the window size
+fixed while recording (`--set video.resolution=1920x1080 --set video.window_mode=windowed`); frames of another size
+are skipped. Desktop only (`ffmpeg` on PATH). Code: `game/debug/VideoCapture.cpp`.
+
+Scripted clips combine it with a menu-input tour (below): `console:` steps start and stop the recording and play a
+cinematic, `action_down: forward` / `action: attack` drive the party. The tour's waits follow the game's frame steps,
+so they stay in step with a recording. `cinematic load /absolute/cameras.cinematics.yml` adds camera-only cinematics
+(the format of devdocs/mm9_rework/MM9_CUTSCENES.md, any map) to the map's own until it is left. The 2.0 trailer's
+scripts (`output/trailer_2_0/`, git-ignored) are a worked example.
+
+## Rulesets
+
+`--ruleset <id>[:<option>...]` starts the isolated new game under a ruleset package from `assets_dev/engine/rulesets/`,
+for example `--ruleset maw` (MAW's defaults) or `--ruleset maw:hell:horizontal`. Options are difficulty, progression
+and challenge-mode ids in any order, plus `randomizer`, `friendlyfire` (hits on non-hostile monsters count), `nobow` (MAW's Bow preference off) and `solo`
+(the augmented solo run: a party of one with the solo HUD and, with `[debug] view_model_path`, the first-person arms;
+devdocs/solo_action/HUD.md);
+unlisted ones keep the package defaults, and an option the package does not offer fails the preparation. It cannot be combined with `--save` (a save keeps its own ruleset) or
+`--menu` (choose the ruleset on the New Game screen). The game binary takes the same `--ruleset` argument for a
+direct start without a save, and headless scenarios accept it as `new_game_flow: {ruleset: maw:hell:horizontal}`.
+
+```bash
+./tools/run_game.sh --isolated maw_hell --world mm6 --map oute3.odm --ruleset maw:hell:horizontal
+```
+
+For a MAW party at a later stage of the game, the debug console's `testparty` starts a new MAW game with a test
+party (`testparty mid newclasses hell`) or replaces the current game's party (`testparty apply endgame classic
++legendary`); `testparty` lists the stages, parties and kits of `assets_dev/engine/rulesets/maw/debug/test_parties.yml`,
+whose header explains them. A tour's `console:` step can run it at launch.
 
 ## Menu checks with isolated saves
 
@@ -84,17 +194,39 @@ currently active field. `pointer_down`, `pointer_move` and `pointer_up` accept t
 `expect: text_input` and `expect: menu_cursor` fail the run when their screen/input condition is not met.
 The cursor check verifies visibility and disabled relative mode on the game window, independently of desktop focus.
 For gameplay checks, `action: quest` (or another keyboard binding INI key) presses the native gameplay action.
+`console: menu` opens the pause menu (gameplay reads Escape from the real keyboard, which a tour cannot press).
 `right_down: [x, y]` and `right_up: [x, y]` hold/release RMB for inspectors and modern cursor interaction.
 These operations use the same input frame as the real controls; they do not invoke UI renderer callbacks.
 For repeatable camera-rotation profiling in modern controls, `look_rate: [-400, 0]` supplies relative mouse
 motion in pixels per second during subsequent `wait` steps. `look_rate: [0, 0]` stops it. This uses ordinary
 gameplay mouse-look and leaves simulation running; begin after loading and any screenshot pose tour finishes.
 For walking, `action_down: forward`, followed by a `wait` and `action_up: forward`,
-holds and releases the configured gameplay action. Use these action steps for sustained gameplay input;
-raw `key_down`/`key_up` steps deliver screen keys after gameplay actions have already been resolved.
-With gameplay active, raw key steps enter the ordinary SDL event path, including the debug console. Use
-the backquote key, `text: "model pause 0"`, `key: Return`, and the backquote key again to issue a console command
-and close the console before a capture.
+holds and releases the configured gameplay action whatever key it is bound to. To test the bindings themselves
+(for example the classic scheme, `--set controls.control_scheme=classic`), hold the physical key instead:
+`key_down: PageDown`, a `wait`, then `key_up: PageDown` also holds every gameplay action bound to that key under the
+active settings, so it looks up in both schemes, while `key_down: Left` turns in classic and does nothing in modern.
+Raw key steps also enter the ordinary SDL event path, including the debug console.
+`console: loc` runs a debug console line directly and copies its output into the log as `Menu tour console:` lines;
+`loc` prints the party position, heading and pitch, so a tour can verify movement and camera changes numerically.
+Any console command works the same way, such as `console: event 104` to run a map event.
+
+```yaml
+output_dir: ../captures
+exit: true
+steps:
+  - wait: 2
+  - console: loc
+  - key_down: PageDown
+  - wait: 0.5
+  - key_up: PageDown
+  - key: Return            # Combat: enter turn-based mode
+  - wait: 1.5
+  - key_down: Left
+  - wait: 0.5
+  - key_up: Left
+  - console: loc           # expect a changed heading and an unchanged position in the classic scheme
+  - capture: turned
+```
 
 The tour waits for frame readback before exiting;
 `exit: false` returns control to normal input. Relative output directories resolve against the tour's directory.
@@ -112,6 +244,14 @@ For a delayed single capture, add these options to an isolated launch:
 The delay starts when gameplay is available and the loading overlay has closed. It must be between
 0 and 600 seconds. Allow enough launch time for loading, the delay and frame readback. Ordinary movement
 and gravity still apply to single captures; use a tour for exact elevated viewpoints.
+
+To judge motion (an animation blend, a gait), capture a burst: `--set debug.screenshot_burst_count=N` (1–1000) takes
+N captures, one every `--set debug.screenshot_burst_interval_ms=M` (1–60000, default 100) of real time from the delay,
+written as `<stem>_000<ext>`, `<stem>_001<ext>` ... next to `screenshot_path`. A capture waits for a rendered frame, so
+an interval shorter than the frame time captures every frame (a minimized window renders fewer frames); add
+`--set debug.time_scale=0.25` to slow the game instead. With an AI arena running, each capture's `Screenshot:` line in
+`game.log` ends with the arena trace clock (`(trace t=3.906)`), which matches frames with trace lines
+([AI arenas](../tests/scenarios/mm9/ai/README.md)).
 
 A YAML tour applies multiple poses in the current map, captures them in order, and optionally exits:
 
@@ -134,6 +274,11 @@ shots:
 `position` uses native party-foot coordinates, matching `loc`; yaw and pitch are **radians**.
 Outdoor heights are applied exactly, including airborne poses, without a Fly buff or floor snapping.
 Gameplay simulation is held during the tour so gravity, movement and combat cannot move the viewpoint.
+Indoors the clock, timers, face triggers and positioned transitions are held too; doors and lifts keep moving, as in
+turn-based mode. A shot's `time: "HH:MM"` moves the clock forward to that time (a full day when the clock is already
+past it); these jumps do not count as days without rest, so a long tour cannot weaken, starve or kill the party.
+Before 2026-11-01 the indoor clock ran on during the hold, so every shot at the same time as the last one jumped a
+day, and long BLV tours ended in the death video after four or more days without rest.
 Rendering continues during settling. Normal gameplay resumes after a tour with `exit: false`.
 Indoor placement uses the ordinary indoor position resolver. Tours do not switch maps or worlds.
 
@@ -161,8 +306,8 @@ It uses the selected reflection detail (512 by default), fades sprites between 3
 at most 64 sprites per water plane (indoors: 32 decorations and 32 creatures). It shares the existing reflection
 textures and animation refresh schedule; particles, projectiles and gameplay labels are excluded.
 
-The three `[debug]` keys `screenshot_path`, `screenshot_delay_seconds` and `screenshot_tour_path` are
-launch-only directives. Saving settings deliberately omits them so later launches do not repeat a capture.
+The `[debug]` keys `screenshot_path`, `screenshot_delay_seconds`, `screenshot_burst_count`,
+`screenshot_burst_interval_ms` and `screenshot_tour_path` are launch-only directives. Saving settings deliberately omits them so later launches do not repeat a capture.
 Use tours in isolated runs: their poses move the active party, and they are visual diagnostics, not gameplay
 or GPU-performance measurements.
 
@@ -243,7 +388,8 @@ It enables FPS/performance logging, but preserves other settings, including VSyn
 Assets are shared for reading, not duplicated. Startup scripts/simulation still run normally; this is not a frozen scene.
 
 For A/B comparisons, use the same save, pose, asset root, resolution, logging and warmup, changing only the intended
-setting. Keep the window focused, avoid input during measurement, and verify the renderer and loaded scene.
+setting. Pass `--visible`, keep the window focused, avoid input during measurement, and verify the renderer and
+loaded scene.
 The first/last per-second FPS samples may overlap the interval boundaries. These logs are frame-rate observations,
 not GPU timer measurements or CPU/GPU attribution. Detailed profiling tools remain separate work.
 

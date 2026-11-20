@@ -12,7 +12,7 @@ ReplaceMapEvent(376, nil, function()
     end
 
     SetQBit(QBit(752)) -- Talked to Roland
-    AddValue(History(26), 0)
+    AddValue(History(24), 0)
     ApplyRolandReleasedState()
     evt.SpeakNPC(626)
 end)

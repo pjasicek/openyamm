@@ -1,0 +1,152 @@
+# The rebuilt Harmondale (oymap build of this project, installed into output/studio_cal/mm7_7out02/mount) entered by a
+# new game: houses, the stable and its crate, off the south edge to the Barrow Downs and back.
+id: studio.s4b.harmondale.walk
+title: Rebuilt Harmondale, arrival and a walk
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calib_harmondale.odm
+  - assert: {map: calib_harmondale.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: -16896, y: 12288, radius: 64, z_min: 250, z_max: 480}}
+  # East along the low ground: 3 cells.
+  - walk_to: {x: -15360, y: 12288, z: 160, z_tolerance: 300, radius: 128, timeout_seconds: 90}
+  - assert: {party_position: {x: -15360, y: 12288, radius: 200}}
+  # A built hall: the door of "Harmondale Townhall" (round five: door at -13376, 13542 under the veranda, as the
+  # original's left leaf; looking south).
+  - set_pose: {map: calib_harmondale.odm, x: -13376, y: 13300, z: 192, yaw: 1.5708, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 203
+  - press_action: {action: cancel_dialog}
+  # A built shop with its gabled roof and its sign: "Tempered Steel" (round five: door at -6472, 14880 at the back of its open
+  # recess, as the original's; floor 0, looking south; set on the floor: at z 160 the eye stood inside the recess's
+  # ceiling and saw nothing).
+  - set_pose: {map: calib_harmondale.odm, x: -6472, y: 14650, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 9
+  - press_action: {action: cancel_dialog}
+  # Round two: the house doors carry the original's lock. While the guild debt has failed (qbit 695) the same door
+  # refuses ("This Door is Locked", no dialogue); cleared, it opens again.
+  - setup_shortcut: {kind: set_qbit, id: 695, value: true}
+  - set_pose: {map: calib_harmondale.odm, x: -6472, y: 14650, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: false}
+  - setup_shortcut: {kind: set_qbit, id: 695, value: false}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 9
+  - press_action: {action: cancel_dialog}
+  # Round one (2026-11-13): the stable, built as the original's open shed, opens The J.V.C Corral from its door
+  # (build.json: door at -5642, 10368, floor 0, looking west).
+  - set_pose: {map: calib_harmondale.odm, x: -5872, y: 10368, z: 160, yaw: 0, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 461
+  - press_action: {action: cancel_dialog}
+  # The crate in the stable with the two horseshoes (chest:thing:chest_4), reached through the open side and
+  # clicked on its own faces.
+  - set_pose: {map: calib_harmondale.odm, x: -4990, y: 11396, z: 160, yaw: 0, pitch: -0.66}
+  - press_interact:
+      expect:
+        kind: event_target
+  - play_lua:
+      source: |
+        wait(1)
+        if not take_chest() then error("the stable crate did not open: " .. status()) end
+        close()
+        if not has_item(1448) then error("no horseshoe in the stable crate") end
+  # Round two: the fort's trap. Stepping onto the floor round the hatch (thing:fort_trap, a step trigger) springs it
+  # once: qbit 760, fire from afar and four goblin bands.
+  # Round four: the party walks up the dais on foot, from the fort's floor by its north flight (the build now lays the
+  # original's hidden slope over every flight, so no jump: 0.7 s, as on the original map), stops on the top's north
+  # edge off the trap's floor, then walks onto the trap. (Round three had to set the party on the top.)
+  - assert: {qbit_clear: [760]}
+  - set_pose: {map: calib_harmondale.odm, x: 8192, y: 4796, z: 400, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {party_position: {x: 8192, y: 4796, radius: 64, z_min: 300, z_max: 340}}
+  - walk_to: {x: 8192, y: 4352, z: 384, z_tolerance: 200, radius: 24, timeout_seconds: 20}
+  - advance_runtime: {seconds: 0.5}
+  # The party rests at z 414.6 here, 30 over the top, on the hidden slope's plane carried past its edge: the original
+  # does the same at the same place (r4/probe/o2.log in the scratch folder), so the band is 380 to 420.
+  - assert: {party_position: {x: 8192, y: 4352, radius: 48, z_min: 380, z_max: 420}}
+  - assert: {qbit_clear: [760]}
+  - walk_to: {x: 8192, y: 4093, z: 400, z_tolerance: 200, radius: 96, timeout_seconds: 30}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [760]}
+  # Round five: the trap is the dais's top round the hatch's pit (four plates), the hatch lies in the top over the pit
+  # and the chest stands in the pit, as the original's Fort_. From the top's north edge a click on the closed hatch
+  # opens the chest under it: the game's pick passes the hatch's face and meets the chest, on the original exactly
+  # so (repro/hatch_pick in the scratch folder: event 117 at the same hit point). The chest holds the soldier's diary
+  # fragment (item 1509).
+  - set_pose: {map: calib_harmondale.odm, x: 8192, y: 4300, z: 400, yaw: -1.5708, pitch: -0.6}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - play_lua:
+      source: |
+        wait(1)
+        if not take_chest() then error("the fort's chest did not open: " .. status()) end
+        close()
+        if not has_item(1509) then error("no diary fragment in the fort's chest") end
+  # Round three: the west gorge, now with its walls where the original's are (cliff lines, the rock fin between its
+  # arms, the road on the original's cells): from inside the square down the gorge's floor; where the gorge crosses
+  # the square's west edge (node 19) the game offers the way to Erathia, as in the original. Declined.
+  - set_pose: {map: calib_harmondale.odm, x: -21504, y: -6144, z: 120, yaw: -2.5, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: -26112, y: -8960, z: 0, z_tolerance: 300, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert:
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  - assert: {map: calib_harmondale.odm}
+  # Leaving by the south road: across the travel square's south side to the Barrow Downs, and back to the rebuilt
+  # map's south arrival point.
+  - set_pose: {map: calib_harmondale.odm, x: -1024, y: -22800, z: 200, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: -1024, y: -23600, z: 0, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: out11.odm}
+  # Back from the Barrow Downs: north from its north arrival over its north edge, to the rebuilt map's south arrival.
+  - set_pose: {map: out11.odm, x: 14968, y: 22800, z: 1536, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 14968, y: 23600, z: 1536, z_tolerance: 2000, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: calib_harmondale.odm}
+  - assert: {party_position: {x: -1024, y: -22016, radius: 600}}
+  # Round three: the world's dimensional travel pedestal by the castle (thing:travel_pedestal, event 1777 of the
+  # original's overlay): its event opens the four continents' portals. Run by its number (ids.lock.yml
+  # evt:thing:travel_pedestal): a headless run loads no sprites, so a decoration cannot be clicked here.
+  - assert: {dimension_door: {pending: false}}
+  - execute_event: {id: 130}
+  - assert: {dimension_door: {pending: true}}

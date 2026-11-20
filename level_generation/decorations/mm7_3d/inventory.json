@@ -1,0 +1,4083 @@
+[
+ {
+  "name": "torch01",
+  "visible": true,
+  "count": 1888,
+  "outdoor": 0,
+  "indoor": 1888,
+  "maps": [
+   "7d05.blv",
+   "7d09.blv",
+   "7d10.blv",
+   "7d11.blv",
+   "7d12.blv",
+   "7d13.blv",
+   "7d15.blv",
+   "7d16.blv",
+   "7d17.blv",
+   "7d20.blv",
+   "7d24.blv",
+   "7d26.blv",
+   "7d29.blv",
+   "7d30.blv",
+   "7d31.blv",
+   "7d33.blv",
+   "d02.blv",
+   "mdr02.blv",
+   "mdr03.blv",
+   "mdt01.blv",
+   "mdt10.blv",
+   "mdt11.blv",
+   "mdt15.blv",
+   "t01.blv",
+   "t02.blv",
+   "t03.blv",
+   "t04.blv"
+  ],
+  "hint": "torch",
+  "flags": "0",
+  "light_radius": 512,
+  "frames": 8,
+  "loop": 16,
+  "textures": [
+   "torch01a",
+   "torch01b",
+   "torch01c",
+   "torch01d",
+   "torch01e",
+   "torch01f",
+   "torch01g",
+   "torch01h"
+  ],
+  "scale": 1.0,
+  "x2": "torch01a_p1.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 119,
+  "art_bottom": 4,
+  "bound_model": "engine/models/mm6_deco_torch01.glb"
+ },
+ {
+  "name": "torch07",
+  "visible": true,
+  "count": 656,
+  "outdoor": 0,
+  "indoor": 656,
+  "maps": [
+   "7d08.blv",
+   "7d12.blv",
+   "7d34.blv",
+   "d03.blv",
+   "d04.blv",
+   "mdk04.blv",
+   "mdt03.blv"
+  ],
+  "hint": "torch",
+  "flags": "0",
+  "light_radius": 512,
+  "frames": 8,
+  "loop": 16,
+  "textures": [
+   "torch07a",
+   "torch07b",
+   "torch07c",
+   "torch07d",
+   "torch07e",
+   "torch07f",
+   "torch07g",
+   "torch07h"
+  ],
+  "scale": 1.0,
+  "x2": "torch07a_p3.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 119,
+  "art_bottom": 4,
+  "bound_model": null
+ },
+ {
+  "name": "tree36",
+  "visible": true,
+  "count": 323,
+  "outdoor": 323,
+  "indoor": 0,
+  "maps": [
+   "7out13.odm",
+   "out10.odm",
+   "out12.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree36"
+  ],
+  "scale": 5.0,
+  "x2": "tree36_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1252,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree41",
+  "visible": true,
+  "count": 302,
+  "outdoor": 302,
+  "indoor": 0,
+  "maps": [
+   "7out05.odm",
+   "out09.odm",
+   "out11.odm",
+   "out12.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree41"
+  ],
+  "scale": 5.0,
+  "x2": "tree41_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1132,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree25",
+  "visible": true,
+  "count": 288,
+  "outdoor": 285,
+  "indoor": 3,
+  "maps": [
+   "7d22.blv",
+   "7out03.odm",
+   "7out04.odm",
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree25"
+  ],
+  "scale": 5.0,
+  "x2": "7tree25_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree42",
+  "visible": true,
+  "count": 256,
+  "outdoor": 256,
+  "indoor": 0,
+  "maps": [
+   "7out05.odm",
+   "out09.odm",
+   "out11.odm",
+   "out12.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree42"
+  ],
+  "scale": 5.0,
+  "x2": "tree42_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "torch05",
+  "visible": true,
+  "count": 246,
+  "outdoor": 0,
+  "indoor": 246,
+  "maps": [
+   "7d06.blv",
+   "7d19.blv",
+   "7d26.blv",
+   "mdk01.blv",
+   "mdr04.blv",
+   "mdt02.blv",
+   "t02.blv"
+  ],
+  "hint": "torch",
+  "flags": "0",
+  "light_radius": 512,
+  "frames": 8,
+  "loop": 16,
+  "textures": [
+   "torch05a",
+   "torch05b",
+   "torch05c",
+   "torch05d",
+   "torch05e",
+   "torch05f",
+   "torch05g",
+   "torch05h"
+  ],
+  "scale": 1.0,
+  "x2": "torch05a_p3.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 119,
+  "art_bottom": 4,
+  "bound_model": null
+ },
+ {
+  "name": "tree33",
+  "visible": true,
+  "count": 241,
+  "outdoor": 241,
+  "indoor": 0,
+  "maps": [
+   "7out13.odm",
+   "out10.odm",
+   "out12.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree33"
+  ],
+  "scale": 5.0,
+  "x2": "tree33_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1260,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree19",
+  "visible": true,
+  "count": 233,
+  "outdoor": 216,
+  "indoor": 17,
+  "maps": [
+   "7d22.blv",
+   "7out03.odm",
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree19"
+  ],
+  "scale": 5.0,
+  "x2": "7tree19_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1272,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec32",
+  "visible": true,
+  "count": 208,
+  "outdoor": 0,
+  "indoor": 208,
+  "maps": [
+   "7d11.blv",
+   "7d12.blv",
+   "7d14.blv",
+   "7d17.blv",
+   "7d20.blv",
+   "7d21.blv",
+   "7d24.blv",
+   "7d29.blv",
+   "7d30.blv",
+   "7d31.blv",
+   "7d32.blv",
+   "7d33.blv",
+   "d01.blv",
+   "d03.blv",
+   "d04.blv",
+   "t01.blv",
+   "t02.blv",
+   "t03.blv"
+  ],
+  "hint": "barrel",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec32"
+  ],
+  "scale": 1.0,
+  "x2": "7dec32_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 128,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "bush03",
+  "visible": true,
+  "count": 200,
+  "outdoor": 200,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm",
+   "out09.odm"
+  ],
+  "hint": "bush",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush03"
+  ],
+  "scale": 1.0,
+  "x2": "bush03_p120.png",
+  "logical": [
+   128,
+   135
+  ],
+  "height": 135,
+  "art_height": 122,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree16",
+  "visible": true,
+  "count": 198,
+  "outdoor": 193,
+  "indoor": 5,
+  "maps": [
+   "7d22.blv",
+   "7out02.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree16"
+  ],
+  "scale": 5.0,
+  "x2": "7tree16_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower01",
+  "visible": true,
+  "count": 180,
+  "outdoor": 180,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out02.odm",
+   "7out03.odm",
+   "out14.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower01"
+  ],
+  "scale": 1.0,
+  "x2": "flower01_p122.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 91,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree13",
+  "visible": true,
+  "count": 164,
+  "outdoor": 164,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree13"
+  ],
+  "scale": 5.0,
+  "x2": "7tree13_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1238,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "torch06",
+  "visible": true,
+  "count": 158,
+  "outdoor": 0,
+  "indoor": 158,
+  "maps": [
+   "7d32.blv",
+   "mdk02.blv",
+   "mdt04.blv"
+  ],
+  "hint": "torch",
+  "flags": "0",
+  "light_radius": 512,
+  "frames": 8,
+  "loop": 16,
+  "textures": [
+   "torch06a",
+   "torch06b",
+   "torch06c",
+   "torch06d",
+   "torch06e",
+   "torch06f",
+   "torch06g",
+   "torch06h"
+  ],
+  "scale": 1.0,
+  "x2": "torch06a_p3.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 119,
+  "art_bottom": 4,
+  "bound_model": null
+ },
+ {
+  "name": "7rock09",
+  "visible": true,
+  "count": 135,
+  "outdoor": 135,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "7out05.odm",
+   "7out06.odm",
+   "out11.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock09"
+  ],
+  "scale": 1.0,
+  "x2": "7rock09_p2.png",
+  "logical": [
+   96,
+   96
+  ],
+  "height": 96,
+  "art_height": 66,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree04",
+  "visible": true,
+  "count": 129,
+  "outdoor": 129,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree04"
+  ],
+  "scale": 5.0,
+  "x2": "7tree04_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1255,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower05",
+  "visible": true,
+  "count": 128,
+  "outdoor": 128,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "7out04.odm",
+   "out14.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower05"
+  ],
+  "scale": 1.0,
+  "x2": "flower05_p122.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 110,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower16",
+  "visible": true,
+  "count": 125,
+  "outdoor": 125,
+  "indoor": 0,
+  "maps": [
+   "out09.odm",
+   "out11.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower16"
+  ],
+  "scale": 1.0,
+  "x2": "flower16_p122.png",
+  "logical": [
+   128,
+   96
+  ],
+  "height": 96,
+  "art_height": 54,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7rock08",
+  "visible": true,
+  "count": 123,
+  "outdoor": 123,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "7out05.odm",
+   "7out06.odm",
+   "out11.odm",
+   "out14.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock08"
+  ],
+  "scale": 1.0,
+  "x2": "7rock08_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 93,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "bush10",
+  "visible": true,
+  "count": 94,
+  "outdoor": 94,
+  "indoor": 0,
+  "maps": [
+   "7out05.odm",
+   "7out06.odm"
+  ],
+  "hint": "cactus",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush10"
+  ],
+  "scale": 1.299988,
+  "x2": "bush10_p120.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 166,
+  "art_height": 163,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7rock01",
+  "visible": true,
+  "count": 92,
+  "outdoor": 92,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "7out04.odm",
+   "out09.odm",
+   "out10.odm",
+   "out14.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock01"
+  ],
+  "scale": 1.0,
+  "x2": "7rock01_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 100,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "bush14",
+  "visible": true,
+  "count": 85,
+  "outdoor": 85,
+  "indoor": 0,
+  "maps": [
+   "7out05.odm",
+   "7out06.odm"
+  ],
+  "hint": "cactus",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush14"
+  ],
+  "scale": 1.299988,
+  "x2": "bush14_p120.png",
+  "logical": [
+   106,
+   196
+  ],
+  "height": 255,
+  "art_height": 255,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower03",
+  "visible": true,
+  "count": 83,
+  "outdoor": 83,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "out14.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower03"
+  ],
+  "scale": 1.0,
+  "x2": "flower03_p122.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 107,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree07",
+  "visible": true,
+  "count": 73,
+  "outdoor": 73,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree07"
+  ],
+  "scale": 6.0,
+  "x2": "7tree07_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1536,
+  "art_height": 1407,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree30",
+  "visible": true,
+  "count": 65,
+  "outdoor": 65,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "out12.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree30"
+  ],
+  "scale": 5.0,
+  "x2": "7tree30_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower04",
+  "visible": true,
+  "count": 63,
+  "outdoor": 63,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower04"
+  ],
+  "scale": 1.0,
+  "x2": "flower04_p122.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 133,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree60",
+  "visible": true,
+  "count": 57,
+  "outdoor": 57,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out13.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree60"
+  ],
+  "scale": 5.0,
+  "x2": "tree60_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "bush11",
+  "visible": true,
+  "count": 56,
+  "outdoor": 56,
+  "indoor": 0,
+  "maps": [
+   "7out05.odm"
+  ],
+  "hint": "cactus",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush11"
+  ],
+  "scale": 0.599991,
+  "x2": "bush11_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 154,
+  "art_height": 154,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "torch02",
+  "visible": true,
+  "count": 56,
+  "outdoor": 0,
+  "indoor": 56,
+  "maps": [
+   "7d17.blv",
+   "d03.blv"
+  ],
+  "hint": "torch",
+  "flags": "0",
+  "light_radius": 512,
+  "frames": 4,
+  "loop": 8,
+  "textures": [
+   "torch02a",
+   "torch02b",
+   "torch02c",
+   "torch02d"
+  ],
+  "scale": 1.0,
+  "x2": "torch02a_p1.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 128,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree65",
+  "visible": true,
+  "count": 55,
+  "outdoor": 55,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out13.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree65"
+  ],
+  "scale": 5.0,
+  "x2": "tree65_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1278,
+  "art_bottom": 2,
+  "bound_model": null
+ },
+ {
+  "name": "flower02",
+  "visible": true,
+  "count": 53,
+  "outdoor": 53,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "7out03.odm",
+   "out14.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower02"
+  ],
+  "scale": 1.0,
+  "x2": "flower02_p122.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 98,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower06",
+  "visible": true,
+  "count": 51,
+  "outdoor": 51,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower06"
+  ],
+  "scale": 1.0,
+  "x2": "flower06_p122.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 102,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree63",
+  "visible": true,
+  "count": 44,
+  "outdoor": 44,
+  "indoor": 0,
+  "maps": [
+   "7out13.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree63"
+  ],
+  "scale": 5.0,
+  "x2": "7tree63_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree28",
+  "visible": true,
+  "count": 43,
+  "outdoor": 43,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree28"
+  ],
+  "scale": 5.0,
+  "x2": "7tree28_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "bush13",
+  "visible": true,
+  "count": 43,
+  "outdoor": 43,
+  "indoor": 0,
+  "maps": [
+   "7out06.odm"
+  ],
+  "hint": "cactus",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush13"
+  ],
+  "scale": 0.799988,
+  "x2": "bush13_p120.png",
+  "logical": [
+   145,
+   347
+  ],
+  "height": 278,
+  "art_height": 273,
+  "art_bottom": 2,
+  "bound_model": null
+ },
+ {
+  "name": "bush12",
+  "visible": true,
+  "count": 42,
+  "outdoor": 42,
+  "indoor": 0,
+  "maps": [
+   "7out05.odm"
+  ],
+  "hint": "cactus",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush12"
+  ],
+  "scale": 1.0,
+  "x2": "bush12_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 256,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower08",
+  "visible": true,
+  "count": 39,
+  "outdoor": 39,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower08"
+  ],
+  "scale": 1.0,
+  "x2": "flower08_p122.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 118,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower11",
+  "visible": true,
+  "count": 39,
+  "outdoor": 39,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower11"
+  ],
+  "scale": 1.0,
+  "x2": "flower11_p122.png",
+  "logical": [
+   128,
+   96
+  ],
+  "height": 96,
+  "art_height": 76,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7rock02",
+  "visible": true,
+  "count": 37,
+  "outdoor": 37,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "out09.odm",
+   "out10.odm",
+   "out14.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock02"
+  ],
+  "scale": 1.0,
+  "x2": "7rock02_p2.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 128,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7rock03",
+  "visible": true,
+  "count": 37,
+  "outdoor": 33,
+  "indoor": 4,
+  "maps": [
+   "7d29.blv",
+   "out09.odm",
+   "out10.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock03"
+  ],
+  "scale": 1.0,
+  "x2": "7rock03_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 88,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec19",
+  "visible": true,
+  "count": 36,
+  "outdoor": 33,
+  "indoor": 3,
+  "maps": [
+   "7d21.blv",
+   "7d28.blv",
+   "7d29.blv",
+   "out09.odm"
+  ],
+  "hint": "bones",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "dec19"
+  ],
+  "scale": 1.0,
+  "x2": "dec19_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 36,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7rock05",
+  "visible": true,
+  "count": 32,
+  "outdoor": 30,
+  "indoor": 2,
+  "maps": [
+   "7d29.blv",
+   "out09.odm",
+   "out10.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock05"
+  ],
+  "scale": 1.0,
+  "x2": "7rock05_p2.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 120,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "bush16",
+  "visible": true,
+  "count": 31,
+  "outdoor": 31,
+  "indoor": 0,
+  "maps": [
+   "7out06.odm"
+  ],
+  "hint": "cactus",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush16"
+  ],
+  "scale": 0.799988,
+  "x2": "bush16_p120.png",
+  "logical": [
+   131,
+   161
+  ],
+  "height": 129,
+  "art_height": 129,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7rock04",
+  "visible": true,
+  "count": 30,
+  "outdoor": 30,
+  "indoor": 0,
+  "maps": [
+   "out09.odm",
+   "out10.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock04"
+  ],
+  "scale": 1.0,
+  "x2": "7rock04_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 116,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "bush15",
+  "visible": true,
+  "count": 25,
+  "outdoor": 25,
+  "indoor": 0,
+  "maps": [
+   "7out06.odm"
+  ],
+  "hint": "cactus",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush15"
+  ],
+  "scale": 1.199997,
+  "x2": "bush15_p120.png",
+  "logical": [
+   163,
+   137
+  ],
+  "height": 164,
+  "art_height": 163,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree38",
+  "visible": true,
+  "count": 24,
+  "outdoor": 22,
+  "indoor": 2,
+  "maps": [
+   "7d22.blv",
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "out11.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree68"
+  ],
+  "scale": 5.0,
+  "x2": "tree68_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 990,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7rock07",
+  "visible": true,
+  "count": 23,
+  "outdoor": 23,
+  "indoor": 0,
+  "maps": [
+   "out09.odm",
+   "out10.odm"
+  ],
+  "hint": "rock",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7rock07"
+  ],
+  "scale": 1.0,
+  "x2": "7rock07_p2.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 177,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree37",
+  "visible": true,
+  "count": 22,
+  "outdoor": 21,
+  "indoor": 1,
+  "maps": [
+   "7d22.blv",
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "out11.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree67"
+  ],
+  "scale": 5.0,
+  "x2": "tree67_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 980,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec33",
+  "visible": true,
+  "count": 19,
+  "outdoor": 19,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out03.odm",
+   "7out04.odm"
+  ],
+  "hint": "buoy",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 8,
+  "loop": 38,
+  "textures": [
+   "7dec33a",
+   "7dec33b",
+   "7dec33c",
+   "7dec33d",
+   "7dec33e",
+   "7dec33f",
+   "7dec33g",
+   "7dec33h"
+  ],
+  "scale": 1.0,
+  "x2": "7dec33a_p2.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 235,
+  "art_bottom": 2,
+  "bound_model": null
+ },
+ {
+  "name": "7dec02",
+  "visible": true,
+  "count": 17,
+  "outdoor": 14,
+  "indoor": 3,
+  "maps": [
+   "7d18.blv",
+   "7d35.blv",
+   "7out01.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "out11.odm",
+   "out14.odm",
+   "t02.blv"
+  ],
+  "hint": "campfire",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 8,
+  "loop": 16,
+  "textures": [
+   "7dec02a",
+   "7dec02b",
+   "7dec02c",
+   "7dec02d",
+   "7dec02e",
+   "7dec02f",
+   "7dec02g",
+   "7dec02h"
+  ],
+  "scale": 1.0,
+  "x2": "7dec02a_p1.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 106,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower10",
+  "visible": true,
+  "count": 16,
+  "outdoor": 16,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower10"
+  ],
+  "scale": 1.0,
+  "x2": "flower10_p122.png",
+  "logical": [
+   128,
+   132
+  ],
+  "height": 132,
+  "art_height": 88,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree22",
+  "visible": true,
+  "count": 14,
+  "outdoor": 14,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree22"
+  ],
+  "scale": 5.0,
+  "x2": "7tree22_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower13",
+  "visible": true,
+  "count": 14,
+  "outdoor": 14,
+  "indoor": 0,
+  "maps": [
+   "out09.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower13"
+  ],
+  "scale": 1.0,
+  "x2": "flower13_p122.png",
+  "logical": [
+   128,
+   96
+  ],
+  "height": 96,
+  "art_height": 76,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec18",
+  "visible": true,
+  "count": 13,
+  "outdoor": 0,
+  "indoor": 13,
+  "maps": [
+   "7d16.blv",
+   "7d28.blv",
+   "7d29.blv",
+   "7d35.blv",
+   "mdr03.blv"
+  ],
+  "hint": "bones",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec18"
+  ],
+  "scale": 1.0,
+  "x2": "7dec18_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 60,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree01",
+  "visible": true,
+  "count": 11,
+  "outdoor": 10,
+  "indoor": 1,
+  "maps": [
+   "7d22.blv",
+   "7out01.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree01"
+  ],
+  "scale": 5.0,
+  "x2": "7tree01_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec01",
+  "visible": true,
+  "count": 10,
+  "outdoor": 4,
+  "indoor": 6,
+  "maps": [
+   "7d29.blv",
+   "out09.odm"
+  ],
+  "hint": "trash heap",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec01"
+  ],
+  "scale": 1.0,
+  "x2": "7dec01_p1.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 102,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower09",
+  "visible": true,
+  "count": 10,
+  "outdoor": 10,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower09"
+  ],
+  "scale": 1.0,
+  "x2": "flower09_p122.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 104,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec48",
+  "visible": true,
+  "count": 8,
+  "outdoor": 0,
+  "indoor": 8,
+  "maps": [
+   "7d29.blv"
+  ],
+  "hint": "goblet",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec48"
+  ],
+  "scale": 1.0,
+  "x2": "7dec48_p1.png",
+  "logical": [
+   32,
+   32
+  ],
+  "height": 32,
+  "art_height": 30,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree10",
+  "visible": true,
+  "count": 8,
+  "outdoor": 8,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree10"
+  ],
+  "scale": 5.0,
+  "x2": "7tree10_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "plant01a",
+  "visible": true,
+  "count": 8,
+  "outdoor": 8,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm"
+  ],
+  "hint": "plant",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "plant01a"
+  ],
+  "scale": 1.0,
+  "x2": "plant01a_p122.png",
+  "logical": [
+   128,
+   256
+  ],
+  "height": 256,
+  "art_height": 252,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec61",
+  "visible": true,
+  "count": 7,
+  "outdoor": 7,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "7out05.odm",
+   "7out06.odm",
+   "7out13.odm",
+   "out11.odm"
+  ],
+  "hint": "beacon fire",
+  "flags": "0",
+  "light_radius": 128,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec61a",
+   "dec61b",
+   "dec61c",
+   "dec61d",
+   "dec61e",
+   "dec61f",
+   "dec61g",
+   "dec61h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec61a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec70",
+  "visible": true,
+  "count": 7,
+  "outdoor": 7,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "7out05.odm",
+   "7out13.odm",
+   "7out15.odm",
+   "out10.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec70a",
+   "dec70b",
+   "dec70c",
+   "dec70d",
+   "dec70e",
+   "dec70f",
+   "dec70g",
+   "dec70h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec70a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec46",
+  "visible": true,
+  "count": 6,
+  "outdoor": 0,
+  "indoor": 6,
+  "maps": [
+   "t02.blv"
+  ],
+  "hint": "goblet",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec46"
+  ],
+  "scale": 1.5,
+  "x2": "7dec46_p3.png",
+  "logical": [
+   32,
+   32
+  ],
+  "height": 48,
+  "art_height": 46,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec55",
+  "visible": true,
+  "count": 6,
+  "outdoor": 0,
+  "indoor": 6,
+  "maps": [
+   "7d34.blv"
+  ],
+  "hint": "statue",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec55a"
+  ],
+  "scale": 1.199997,
+  "x2": "7dec55a0_p3.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 307,
+  "art_height": 171,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "plant11a",
+  "visible": true,
+  "count": 6,
+  "outdoor": 6,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm"
+  ],
+  "hint": "plant",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "plant11a"
+  ],
+  "scale": 1.0,
+  "x2": "plant11a_p122.png",
+  "logical": [
+   128,
+   256
+  ],
+  "height": 256,
+  "art_height": 256,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec06",
+  "visible": true,
+  "count": 5,
+  "outdoor": 0,
+  "indoor": 5,
+  "maps": [
+   "7d27.blv"
+  ],
+  "hint": "cage",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 12,
+  "loop": 24,
+  "textures": [
+   "7dec06a",
+   "7dec06b",
+   "7dec06c",
+   "7dec06d",
+   "7dec06e",
+   "7dec06f",
+   "7dec06g",
+   "7dec06f",
+   "7dec06e",
+   "7dec06d",
+   "7dec06c",
+   "7dec06b"
+  ],
+  "scale": 1.0,
+  "x2": "7dec06a_p1.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 218,
+  "art_bottom": 38,
+  "bound_model": null
+ },
+ {
+  "name": "bush02",
+  "visible": true,
+  "count": 5,
+  "outdoor": 5,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm"
+  ],
+  "hint": "bush",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "bush02"
+  ],
+  "scale": 1.0,
+  "x2": "bush02_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 190,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec66",
+  "visible": true,
+  "count": 5,
+  "outdoor": 5,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out03.odm",
+   "7out15.odm",
+   "out09.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec66a",
+   "dec66b",
+   "dec66c",
+   "dec66d",
+   "dec66e",
+   "dec66f",
+   "dec66g",
+   "dec66h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec66a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec05",
+  "visible": true,
+  "count": 4,
+  "outdoor": 0,
+  "indoor": 4,
+  "maps": [
+   "7d27.blv"
+  ],
+  "hint": "cage",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 12,
+  "loop": 24,
+  "textures": [
+   "7dec05a",
+   "7dec05b",
+   "7dec05c",
+   "7dec05d",
+   "7dec05e",
+   "7dec05f",
+   "7dec05g",
+   "7dec05f",
+   "7dec05e",
+   "7dec05d",
+   "7dec05c",
+   "7dec05b"
+  ],
+  "scale": 1.0,
+  "x2": "7dec05a_p1.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 220,
+  "art_bottom": 36,
+  "bound_model": null
+ },
+ {
+  "name": "dec69",
+  "visible": true,
+  "count": 4,
+  "outdoor": 4,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "out10.odm",
+   "out11.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec69a",
+   "dec69b",
+   "dec69c",
+   "dec69d",
+   "dec69e",
+   "dec69f",
+   "dec69g",
+   "dec69h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec69a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree66",
+  "visible": true,
+  "count": 4,
+  "outdoor": 4,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree66"
+  ],
+  "scale": 5.0,
+  "x2": "tree66_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree21",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree21"
+  ],
+  "scale": 5.0,
+  "x2": "7tree21_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1155,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec24x",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm"
+  ],
+  "hint": "burned out fire",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7dec24x"
+  ],
+  "scale": 1.0,
+  "x2": "7dec24x_p1.png",
+  "logical": [
+   64,
+   64
+  ],
+  "height": 64,
+  "art_height": 28,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec65",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm",
+   "7out06.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec65a",
+   "dec65b",
+   "dec65c",
+   "dec65d",
+   "dec65e",
+   "dec65f",
+   "dec65g",
+   "dec65h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec65a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec67",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm",
+   "7out06.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec67a",
+   "dec67b",
+   "dec67c",
+   "dec67d",
+   "dec67e",
+   "dec67f",
+   "dec67g",
+   "dec67h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec67a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec72",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "out09.odm",
+   "out11.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec72a",
+   "dec72b",
+   "dec72c",
+   "dec72d",
+   "dec72e",
+   "dec72f",
+   "dec72g",
+   "dec72h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec72a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec73",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "out09.odm",
+   "out12.odm",
+   "out14.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec73a",
+   "dec73b",
+   "dec73c",
+   "dec73d",
+   "dec73e",
+   "dec73f",
+   "dec73g",
+   "dec73h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec73a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec74",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "7out13.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec74a",
+   "dec74b",
+   "dec74c",
+   "dec74d",
+   "dec74e",
+   "dec74f",
+   "dec74g",
+   "dec74h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec74a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree26",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "7out04.odm",
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree26"
+  ],
+  "scale": 5.0,
+  "x2": "tree26_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree27",
+  "visible": true,
+  "count": 3,
+  "outdoor": 3,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree27"
+  ],
+  "scale": 5.0,
+  "x2": "tree27_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1100,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec03",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "out11.odm"
+  ],
+  "hint": "cauldron",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 7,
+  "loop": 14,
+  "textures": [
+   "7dec03a",
+   "7dec03b",
+   "7dec03c",
+   "7dec03d",
+   "7dec03e",
+   "7dec03f",
+   "7dec03g"
+  ],
+  "scale": 1.0,
+  "x2": "7dec03a_p1.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 128,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree14",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree14"
+  ],
+  "scale": 5.0,
+  "x2": "7tree14_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1252,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree15",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree15"
+  ],
+  "scale": 5.0,
+  "x2": "7tree15_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1190,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree17",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree17"
+  ],
+  "scale": 5.0,
+  "x2": "7tree17_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree18",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "out14.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree18"
+  ],
+  "scale": 5.0,
+  "x2": "7tree18_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1128,
+  "art_bottom": 2,
+  "bound_model": null
+ },
+ {
+  "name": "7tree20",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree20"
+  ],
+  "scale": 5.0,
+  "x2": "7tree20_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1278,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec62",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "out09.odm",
+   "out14.odm"
+  ],
+  "hint": "beacon fire",
+  "flags": "0",
+  "light_radius": 128,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec62a",
+   "dec62b",
+   "dec62c",
+   "dec62d",
+   "dec62e",
+   "dec62f",
+   "dec62g",
+   "dec62h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec62a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 190,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec63",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "out10.odm",
+   "out12.odm"
+  ],
+  "hint": "beacon fire",
+  "flags": "0",
+  "light_radius": 128,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec63a",
+   "dec63b",
+   "dec63c",
+   "dec63d",
+   "dec63e",
+   "dec63f",
+   "dec63g",
+   "dec63h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec63a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 190,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec64",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec64a",
+   "dec64b",
+   "dec64c",
+   "dec64d",
+   "dec64e",
+   "dec64f",
+   "dec64g",
+   "dec64h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec64a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec68",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "out12.odm",
+   "out14.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec68a",
+   "dec68b",
+   "dec68c",
+   "dec68d",
+   "dec68e",
+   "dec68f",
+   "dec68g",
+   "dec68h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec68a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec75",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "out10.odm",
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec75a",
+   "dec75b",
+   "dec75c",
+   "dec75d",
+   "dec75e",
+   "dec75f",
+   "dec75g",
+   "dec75h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec75a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "plant01b",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "out09.odm"
+  ],
+  "hint": "plant",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "plant01b"
+  ],
+  "scale": 1.0,
+  "x2": "plant01b_p122.png",
+  "logical": [
+   128,
+   256
+  ],
+  "height": 256,
+  "art_height": 141,
+  "art_bottom": 1,
+  "bound_model": null
+ },
+ {
+  "name": "plant02a",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm"
+  ],
+  "hint": "plant",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "plant02a"
+  ],
+  "scale": 1.0,
+  "x2": "plant02a_p122.png",
+  "logical": [
+   128,
+   256
+  ],
+  "height": 256,
+  "art_height": 246,
+  "art_bottom": 1,
+  "bound_model": null
+ },
+ {
+  "name": "plant07b",
+  "visible": true,
+  "count": 2,
+  "outdoor": 2,
+  "indoor": 0,
+  "maps": [
+   "out09.odm"
+  ],
+  "hint": "plant",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "plant07b"
+  ],
+  "scale": 1.0,
+  "x2": "plant07b_p122.png",
+  "logical": [
+   128,
+   256
+  ],
+  "height": 256,
+  "art_height": 170,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec07",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d27.blv"
+  ],
+  "hint": "cage",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 7,
+  "loop": 14,
+  "textures": [
+   "7dec07a",
+   "7dec07b",
+   "7dec07c",
+   "7dec07d",
+   "7dec07e",
+   "7dec07f",
+   "7dec07g"
+  ],
+  "scale": 1.0,
+  "x2": "7dec07a_p1.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 222,
+  "art_bottom": 34,
+  "bound_model": null
+ },
+ {
+  "name": "7dec08",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d29.blv"
+  ],
+  "hint": "fruit bowl",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec08"
+  ],
+  "scale": 1.0,
+  "x2": "7dec08_p1.png",
+  "logical": [
+   64,
+   64
+  ],
+  "height": 64,
+  "art_height": 39,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec10",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d29.blv"
+  ],
+  "hint": "trash heap",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec10"
+  ],
+  "scale": 1.0,
+  "x2": "7dec10_p2.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 202,
+  "art_bottom": 1,
+  "bound_model": null
+ },
+ {
+  "name": "7dec11",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d29.blv"
+  ],
+  "hint": "dirt",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec11"
+  ],
+  "scale": 1.0,
+  "x2": "7dec11_p2.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 256,
+  "art_height": 185,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec16",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out11.odm"
+  ],
+  "hint": "wood",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec16"
+  ],
+  "scale": 1.0,
+  "x2": "7dec16_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 127,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec20",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d28.blv"
+  ],
+  "hint": "skull",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec20"
+  ],
+  "scale": 0.599991,
+  "x2": "7dec20_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 77,
+  "art_height": 71,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec21",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d29.blv"
+  ],
+  "hint": "cask",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec21"
+  ],
+  "scale": 1.0,
+  "x2": "7dec21_p2.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 92,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7dec54",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d34.blv"
+  ],
+  "hint": "statue",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "7dec54a"
+  ],
+  "scale": 1.199997,
+  "x2": "7dec54a0_p3.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 307,
+  "art_height": 169,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree05",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree05"
+  ],
+  "scale": 5.0,
+  "x2": "7tree05_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1255,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree06",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out11.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree06"
+  ],
+  "scale": 5.0,
+  "x2": "7tree06_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1190,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree08",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree08"
+  ],
+  "scale": 5.0,
+  "x2": "7tree08_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1230,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree09",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree09"
+  ],
+  "scale": 5.0,
+  "x2": "7tree09_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree24",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree24"
+  ],
+  "scale": 5.0,
+  "x2": "7tree24_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1130,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "7tree29",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "7tree29"
+  ],
+  "scale": 5.0,
+  "x2": "7tree29_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec60",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm"
+  ],
+  "hint": "beacon fire",
+  "flags": "0",
+  "light_radius": 128,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec60a",
+   "dec60b",
+   "dec60c",
+   "dec60d",
+   "dec60e",
+   "dec60f",
+   "dec60g",
+   "dec60h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec60a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 190,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec71",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out12.odm"
+  ],
+  "hint": "magic pedastal",
+  "flags": "0",
+  "light_radius": 64,
+  "frames": 8,
+  "loop": 8,
+  "textures": [
+   "dec71a",
+   "dec71b",
+   "dec71c",
+   "dec71d",
+   "dec71e",
+   "dec71f",
+   "dec71g",
+   "dec71h"
+  ],
+  "scale": 1.599991,
+  "x2": "dec71a_p996.png",
+  "logical": [
+   64,
+   128
+  ],
+  "height": 205,
+  "art_height": 201,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec94",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out06.odm"
+  ],
+  "hint": "statue",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "dec94"
+  ],
+  "scale": 1.0,
+  "x2": "dec94_p2.png",
+  "logical": [
+   71,
+   125
+  ],
+  "height": 125,
+  "art_height": 125,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec95",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out14.odm"
+  ],
+  "hint": "statue",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "dec95"
+  ],
+  "scale": 1.0,
+  "x2": "dec95_p2.png",
+  "logical": [
+   37,
+   60
+  ],
+  "height": 60,
+  "art_height": 60,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec96",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out13.odm"
+  ],
+  "hint": "statue",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "dec96"
+  ],
+  "scale": 1.0,
+  "x2": "dec96_p2.png",
+  "logical": [
+   64,
+   52
+  ],
+  "height": 52,
+  "art_height": 52,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "dec97",
+  "visible": true,
+  "count": 1,
+  "outdoor": 0,
+  "indoor": 1,
+  "maps": [
+   "7d18.blv"
+  ],
+  "hint": "vase",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "dec97"
+  ],
+  "scale": 1.199997,
+  "x2": "dec97_p3.png",
+  "logical": [
+   64,
+   64
+  ],
+  "height": 77,
+  "art_height": 66,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "flower07",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out09.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower07"
+  ],
+  "scale": 1.0,
+  "x2": "flower07_p122.png",
+  "logical": [
+   128,
+   96
+  ],
+  "height": 96,
+  "art_height": 94,
+  "art_bottom": 2,
+  "bound_model": null
+ },
+ {
+  "name": "flower12",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out14.odm"
+  ],
+  "hint": "flower",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "flower12"
+  ],
+  "scale": 1.0,
+  "x2": "flower12_p122.png",
+  "logical": [
+   128,
+   128
+  ],
+  "height": 128,
+  "art_height": 72,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "plant03b",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out09.odm"
+  ],
+  "hint": "plant",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "plant03b"
+  ],
+  "scale": 1.0,
+  "x2": "plant03b_p122.png",
+  "logical": [
+   128,
+   256
+  ],
+  "height": 256,
+  "art_height": 142,
+  "art_bottom": 1,
+  "bound_model": null
+ },
+ {
+  "name": "plant04b",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "out09.odm"
+  ],
+  "hint": "plant",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 2,
+  "textures": [
+   "plant04b"
+  ],
+  "scale": 1.0,
+  "x2": "plant04b_p122.png",
+  "logical": [
+   128,
+   256
+  ],
+  "height": 256,
+  "art_height": 158,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree23",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm"
+  ],
+  "hint": "tree",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree23"
+  ],
+  "scale": 5.0,
+  "x2": "tree23_p121.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 1280,
+  "art_height": 1280,
+  "art_bottom": 0,
+  "bound_model": null
+ },
+ {
+  "name": "tree69",
+  "visible": true,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out04.odm"
+  ],
+  "hint": "tree69",
+  "flags": "0",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": 1,
+  "textures": [
+   "tree69"
+  ],
+  "scale": 8.0,
+  "x2": "tree69_p120.png",
+  "logical": [
+   256,
+   256
+  ],
+  "height": 2048,
+  "art_height": 2040,
+  "art_bottom": 8,
+  "bound_model": null
+ },
+ {
+  "name": "party start",
+  "visible": false,
+  "count": 63,
+  "outdoor": 5,
+  "indoor": 58,
+  "maps": [
+   "7d05.blv",
+   "7d06.blv",
+   "7d07.blv",
+   "7d08.blv",
+   "7d09.blv",
+   "7d10.blv",
+   "7d11.blv",
+   "7d12.blv",
+   "7d13.blv",
+   "7d14.blv",
+   "7d15.blv",
+   "7d16.blv",
+   "7d17.blv",
+   "7d18.blv",
+   "7d19.blv",
+   "7d20.blv",
+   "7d21.blv",
+   "7d22.blv",
+   "7d23.blv",
+   "7d24.blv",
+   "7d25.blv",
+   "7d26.blv",
+   "7d27.blv",
+   "7d28.blv",
+   "7d29.blv",
+   "7d30.blv",
+   "7d31.blv",
+   "7d32.blv",
+   "7d33.blv",
+   "7d34.blv",
+   "7d35.blv",
+   "7d36.blv",
+   "7d37.blv",
+   "7nwc.blv",
+   "7out01.odm",
+   "7out02.odm",
+   "d02.blv",
+   "d03.blv",
+   "d04.blv",
+   "mdk01.blv",
+   "mdk02.blv",
+   "mdk03.blv",
+   "mdk04.blv",
+   "mdk05.blv",
+   "mdr01.blv",
+   "mdr02.blv",
+   "mdr03.blv",
+   "mdr04.blv",
+   "mdr05.blv",
+   "mdt02.blv",
+   "mdt03.blv",
+   "mdt04.blv",
+   "mdt05.blv",
+   "mdt11.blv",
+   "mdt12.blv",
+   "mdt15.blv",
+   "out09.odm",
+   "out10.odm",
+   "out12.odm",
+   "t01.blv",
+   "t02.blv",
+   "t03.blv",
+   "t04.blv"
+  ],
+  "hint": "null",
+  "flags": "DontDraw",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "snd_brook",
+  "visible": false,
+  "count": 22,
+  "outdoor": 22,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out03.odm"
+  ],
+  "hint": "test",
+  "flags": "DontDraw",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "east start",
+  "visible": false,
+  "count": 6,
+  "outdoor": 6,
+  "indoor": 0,
+  "maps": [
+   "7out03.odm",
+   "7out05.odm",
+   "7out06.odm",
+   "7out13.odm",
+   "7out15.odm",
+   "out14.odm"
+  ],
+  "hint": "null",
+  "flags": "DontDraw",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "snd_boat",
+  "visible": false,
+  "count": 6,
+  "outdoor": 6,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "7out06.odm",
+   "out09.odm",
+   "out14.odm"
+  ],
+  "hint": "test",
+  "flags": "DontDraw",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "fire01",
+  "visible": false,
+  "count": 5,
+  "outdoor": 0,
+  "indoor": 5,
+  "maps": [
+   "7d26.blv",
+   "7d29.blv",
+   "7d33.blv"
+  ],
+  "hint": "large fire",
+  "flags": "EmitFire",
+  "light_radius": 256,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "north start",
+  "visible": false,
+  "count": 5,
+  "outdoor": 5,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "7out06.odm",
+   "out11.odm"
+  ],
+  "hint": "null",
+  "flags": "DontDraw",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "west start",
+  "visible": false,
+  "count": 5,
+  "outdoor": 5,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "out11.odm",
+   "out14.odm"
+  ],
+  "hint": "null",
+  "flags": "DontDraw",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "south start",
+  "visible": false,
+  "count": 4,
+  "outdoor": 4,
+  "indoor": 0,
+  "maps": [
+   "7out02.odm",
+   "7out03.odm",
+   "7out04.odm",
+   "7out05.odm"
+  ],
+  "hint": "null",
+  "flags": "DontDraw",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ },
+ {
+  "name": "snd_dragon",
+  "visible": false,
+  "count": 1,
+  "outdoor": 1,
+  "indoor": 0,
+  "maps": [
+   "7out01.odm"
+  ],
+  "hint": "test",
+  "flags": "DontDraw,SoundOnDawn,SoundOnDusk",
+  "light_radius": 0,
+  "frames": 1,
+  "loop": null,
+  "textures": [
+   "null"
+  ],
+  "scale": 0.0,
+  "x2": null,
+  "logical": null,
+  "height": null,
+  "art_height": null,
+  "art_bottom": null,
+  "bound_model": null
+ }
+]

@@ -1,0 +1,36 @@
+{
+  "creature_3d_identity": "mm7:m250",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 0
+  },
+  "scope": "BATCH_M model 8: MM7 copy of an installed MM8 model, no install (batch rule)",
+  "native_family": "mm7:m250",
+  "descriptor_ids": [
+    274,
+    275,
+    276
+  ],
+  "decision": "Same art, same palettes.",
+  "reuse_source": [
+    {
+      "path": "assets_source/worlds/mm8/models/mm8_m612.glb",
+      "sha256": "751a7d25dc9a48aba0f95add15ac92caf721a9f141725caea3435b3151232c2c"
+    }
+  ],
+  "selected_artifacts": {
+    "export_0": {
+      "path": "export/mm7_m250.glb",
+      "sha256": "49c98ae86c05b9f960ed9ae43ea33064d00c4feefd1107e0e8bf4fe16244c46c"
+    }
+  },
+  "credits_spent": 0,
+  "current_stage": "exported",
+  "current_substep": "awaiting user review / install decision",
+  "next_action": {
+    "owner": "user",
+    "action": "review; when installing, bind worlds/mm8/models/mm8_m612.glb (review/actors_binding.yml), no copy needed"
+  },
+  "user_artistic_acceptance": "pending",
+  "install_decision": "bind the installed MM8 mm8_m612.glb directly (recommended 2026-10-20); project export kept as fallback"
+}

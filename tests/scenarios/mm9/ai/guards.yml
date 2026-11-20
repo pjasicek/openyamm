@@ -1,0 +1,44 @@
+id: mm9.ai.guards
+title: MM9 town guards and monsters at war on sight; three party hits turn a guard, whose alert turns its fellow
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The guard notices the Bandit and fights it, the Bandit the guard (the
+        nearer enemy); neither is a friend of the other (worlds/mm9/relations.yml). The party is the guard's friend
+        until, from 4 s, it hits the second guard three times a second apart: the first two hits only count, the third
+        makes the party that guard's enemy; it rolls NewTargetCheck against the Bandit it took from the first guard's
+        alert and keeps the Bandit, so its alerts name the Bandit and the first guard stays the party's friend.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: guards.arena.yml}
+  - advance_runtime: {seconds: 4}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 6}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, event: target, target: actor:6, before: 1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, target: actor:6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, event: target, target: actor:5, before: 1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: turn_hostile, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: turn_hostile, detail: hit 1, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: turn_hostile, detail: hit 2, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: turn_hostile, detail: hit 3, after: 5.9, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: retarget, after: 5.9, before: 6.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: retarget, before: 5.9, max_count: 0}
+

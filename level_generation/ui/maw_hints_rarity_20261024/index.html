@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hints and Rarity Study</title>
+<!--
+  Browser study for MAW H.6's first pieces (devdocs/maw/GAPS.md §11 D.16): Nightmare's save cost, the real cost of a
+  skill raise, and rarity colours on item icons and on ground loot. Each piece has two or three options drawn over a
+  native 1600x900 capture of the current game, in the native fonts. Nothing here is wired into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Arrus; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; --warn: #e6a98a;
+  --bad: #ff6a5a; --good: #a8d99a;
+  --common: #ffffff; --uncommon: #1eff00; --rare: #0096ff; --epic: #a335ee; --ancient: #ff8000;
+  --primordial: #ff3232; --legendary: #ffff1e; --celestial: #78f0ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review .sep { width: 1px; height: 24px; background: #445044; margin: 0 6px; }
+.review span { color: #9aa597; }
+.caption { padding: 8px 18px 10px; font: 15px/1.5 Lucida, sans-serif; color: #c8c7a7; border-bottom: 1px solid #222a22;
+  min-height: 52px; }
+.caption b { color: #ecd7a8; font-weight: normal; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left;
+  overflow: hidden; background: #071012 0 0 / 100% 100% no-repeat; }
+.abs { position: absolute; }
+.hidden { display: none !important; }
+
+/* Save cost. */
+.cost-label { font: 15px Lucida, sans-serif; color: #b9bba9; letter-spacing: .4px; }
+.cost-value { font: 21px Arrus, serif; color: var(--ivory); }
+.cost-value .food { color: var(--gold); }
+.cost-value .warn { color: var(--bad); }
+.foot-cost { font: 16px Lucida, sans-serif; color: var(--gold); text-align: right; }
+.status-plate { padding: 4px 14px; background: #0a1210e6; border: 1px solid #5d6449; font: 16px Lucida, sans-serif;
+  color: var(--ivory); white-space: nowrap; transform: translateX(-50%); }
+
+/* Skill cost: masks over the native rows so the options can be drawn into them. */
+.cost-tag { font: 13px Lucida, sans-serif; color: var(--gold); text-align: right; white-space: nowrap; }
+.cost-tag s { color: #8a8a7a; margin-right: 4px; }
+.hover-row { background: #c9b07a24; outline: 1px solid #c9b07a66; }
+
+/* Rarity on icons: one overlay per item rectangle. */
+.item { pointer-events: none; }
+.item.tint { mix-blend-mode: normal; }
+.item .gem { position: absolute; width: 14px; height: 14px; transform: rotate(45deg);
+  border: 1px solid #000c; box-shadow: 0 0 6px currentColor; }
+.legend { left: 760px; top: 360px; width: 260px; padding: 12px 16px; background: #070e0ee6; border: 1px solid #8c815f; }
+.legend div { font: 15px/1.7 Lucida, sans-serif; }
+
+/* Rarity on the ground. */
+.halo { border-radius: 50%; pointer-events: none; }
+.beam { pointer-events: none; }
+.ground-label { padding: 3px 12px; background: #0a1210e6; border: 1px solid #5d6449; font: 17px Lucida, sans-serif;
+  white-space: nowrap; transform: translateX(-50%); }
+</style>
+</head>
+<body>
+<div class="review">
+  <strong style="font: 18px Fondamento, serif; color: #e9d4a6">Hints and rarity · study</strong>
+  <button data-piece="save">Save cost</button>
+  <button data-piece="skill">Skill cost</button>
+  <button data-piece="icons">Rarity · icons</button>
+  <button data-piece="ground">Rarity · ground</button>
+  <span class="sep"></span>
+  <span id="options"></span>
+</div>
+<div class="caption" id="caption"></div>
+<div id="wrap"><div id="stage"><div id="layer"></div></div></div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const Rarity = {common: 'Common', uncommon: 'Uncommon', rare: 'Rare', epic: 'Epic', ancient: 'Ancient',
+  primordial: 'Primordial', legendary: 'Legendary', celestial: 'Celestial'};
+// The items of the inventory capture, in its pixels (grid origin 212,58; cells about 60), with a rarity each.
+const Items = [
+  {x: 212, y: 58, w: 180, h: 180, r: 'uncommon'}, {x: 212, y: 238, w: 180, h: 180, r: 'rare'},
+  {x: 212, y: 418, w: 120, h: 120, r: 'epic'}, {x: 332, y: 418, w: 60, h: 120, r: 'ancient'},
+  {x: 212, y: 538, w: 120, h: 60, r: 'common'}, {x: 392, y: 58, w: 60, h: 300, r: 'primordial'},
+  {x: 452, y: 58, w: 60, h: 360, r: 'celestial'}, {x: 392, y: 358, w: 60, h: 240, r: 'legendary'},
+];
+const color = r => getComputedStyle(document.documentElement).getPropertyValue('--' + r).trim();
+
+const Pieces = {
+  save: {
+    background: 'captures/save.jpg',
+    what: '<b>What MAW does.</b> From Nightmare on, saving costs food: indoors 2, or 10 with enemies near; outdoors '
+      + 'nothing, or 3 with enemies near; nothing on a cleared map or for an autosave. MAW says nothing beforehand, only '
+      + '"Not enough food" when the party has too little. OpenYAMM already charges the same (MonsterRules::saveFoodCost).',
+    options: {
+      A: ['In the save details', 'A "Saving here costs" row under the save name, with the food the party carries and the '
+        + 'cost while enemies are near; red, and Save disabled, when the party is short.', () => `
+        <div class="abs cost-label" style="left:822px;top:704px">Saving here costs</div>
+        <div class="abs cost-value" style="left:822px;top:724px"><span class="food">2 food</span> · you carry 12</div>
+        <div class="abs cost-label" style="left:1132px;top:704px">With enemies near</div>
+        <div class="abs cost-value" style="left:1132px;top:724px"><span class="food">10 food</span></div>`],
+      B: ['On the footer', 'One line beside Save Adventure; nothing at all when saving is free.', () => `
+        <div class="abs foot-cost" style="left:700px;top:790px;width:226px">Costs 2 food<br><span style="color:#9fa594;font-size:13px">12 carried</span></div>`],
+      C: ['Quicksave line', 'The F9 quicksave says what it took, in play: "Quicksaved · 2 food" (or "Not enough food: '
+        + 'saving here costs 10"). Goes with A or B.', () => `
+        <div class="abs" style="left:0;top:0;width:1600px;height:900px;background:url(captures/ground.jpg) 0 0/100% 100%"></div>
+        <div class="abs status-plate" style="left:800px;top:664px">Quicksaved · <span style="color:var(--gold)">2 food</span> (10 left)</div>`],
+    },
+  },
+  skill: {
+    background: 'captures/skills.jpg',
+    what: '<b>What MAW does.</b> Raising a magic school charges the full new level, then refunds part of it when other '
+      + 'schools are at that level already: the real cost is ceil(new level / n), n counting the school itself and every '
+      + 'shared school at the new level or above. MAW never shows it. OpenYAMM charges the real cost directly '
+      + '(MawSkillRules::skillRaiseCost); for Lys: Fire and Air 10 → 11 cost 11, Water 7 → 8 costs 3 (Fire and Air are '
+      + 'at 8 or above), Earth 4 → 5 costs 2.',
+    options: {
+      A: ['Cost on every row', 'Each row the points can raise shows what the next level costs, in green when a shared '
+        + 'school makes it cheaper.', () => `
+        <div class="abs cost-tag" style="left:498px;top:273px;width:62px">11 pts</div>
+        <div class="abs cost-tag" style="left:498px;top:307px;width:62px">11 pts</div>
+        <div class="abs cost-tag" style="left:498px;top:341px;width:62px"><span style="color:var(--good)">3 pts</span></div>
+        <div class="abs cost-tag" style="left:498px;top:375px;width:62px"><span style="color:var(--good)">2 pts</span></div>
+        <div class="abs cost-tag" style="left:498px;top:175px;width:62px">5 pts</div>
+        <div class="abs cost-tag" style="left:922px;top:273px;width:62px">6 pts</div>`],
+      B: ['On hover', 'The row under the pointer says it on the status line: the next level, its cost and why.', () => `
+        <div class="abs hover-row" style="left:232px;top:332px;width:395px;height:30px"></div>
+        <div class="abs status-plate" style="left:653px;top:695px">Water Magic 7 → 8: <span style="color:var(--gold)">3 skill points</span> (8, shared with Fire and Air)</div>`],
+      C: ['Both', 'The tags of A, and B\'s line for the reason.', () => Pieces.skill.options.A[2]() + Pieces.skill.options.B[2]()],
+    },
+  },
+  icons: {
+    background: 'captures/inventory.jpg',
+    what: '<b>What MAW does.</b> Only the item\'s name in its popup is coloured (Uncommon green, Rare blue, Epic purple, '
+      + 'Ancient orange, Primordial red, Legendary yellow, Celestial cyan), which OpenYAMM does too '
+      + '(MawItemRules::nameColor). Icons are not marked. The rarities below are assigned for the study.',
+    options: {
+      A: ['Tinted cell', 'The cells under the item take a soft wash of its colour; Common has none.', () =>
+        Items.filter(i => i.r !== 'common').map(i => `<div class="abs item" style="left:${i.x}px;top:${i.y}px;`
+          + `width:${i.w}px;height:${i.h}px;background:radial-gradient(closest-side, ${color(i.r)}33, ${color(i.r)}10 75%, transparent);`
+          + `outline:1px solid ${color(i.r)}40;outline-offset:-2px"></div>`).join('') + legend()],
+      B: ['Rim', 'A thin rim in the rarity colour around the item\'s cells.', () =>
+        Items.filter(i => i.r !== 'common').map(i => `<div class="abs item" style="left:${i.x + 2}px;top:${i.y + 2}px;`
+          + `width:${i.w - 4}px;height:${i.h - 4}px;border:2px solid ${color(i.r)}cc;box-shadow:inset 0 0 8px ${color(i.r)}55"></div>`).join('') + legend()],
+      C: ['Corner gem', 'A small gem in the item\'s top-left corner; quiet, and readable even on cluttered icons.', () =>
+        Items.filter(i => i.r !== 'common').map(i => `<div class="abs item" style="left:${i.x}px;top:${i.y}px;width:${i.w}px;height:${i.h}px">`
+          + `<div class="gem" style="left:6px;top:6px;background:${color(i.r)};color:${color(i.r)}"></div></div>`).join('') + legend()],
+    },
+  },
+  ground: {
+    background: 'captures/ground.jpg',
+    what: '<b>What MAW does.</b> Nothing: ground loot looks the same whatever its rarity. Ground items are 2D sprites '
+      + 'or 3D models depending on the item (chainmail here), so the marker must not depend on the model. The rarity '
+      + 'shown is Epic.',
+    options: {
+      A: ['Light pool', 'A soft glow of the rarity colour on the ground around the item, Uncommon and up (drawn '
+        + 'under it in the game; here it can only ring it).', () => `
+        <div class="abs halo" style="left:590px;top:185px;width:420px;height:190px;mix-blend-mode:screen;
+          background:radial-gradient(closest-side, transparent 52%, ${color('epic')}70 68%, ${color('epic')}22 84%, transparent)"></div>`],
+      B: ['Name on hover', 'The item\'s name in its colour over it while the pointer is on it (or always, while a key is '
+        + 'held).', () => `<div class="abs ground-label" style="left:800px;top:150px;color:${color('epic')}">Siertal Chainmail of the Eagle</div>`],
+      C: ['Beam', 'A faint column of light from the item, Epic and up only, seen from afar.', () => `
+        <div class="abs beam" style="left:770px;top:0;width:60px;height:300px;
+          background:linear-gradient(to top, ${color('epic')}88, ${color('epic')}33 55%, transparent);filter:blur(6px)"></div>
+        <div class="abs halo" style="left:700px;top:230px;width:200px;height:80px;
+          background:radial-gradient(closest-side, ${color('epic')}55, transparent)"></div>`],
+    },
+  },
+};
+function legend() {
+  return `<div class="abs legend">${Object.keys(Rarity).map(r => `<div style="color:${color(r)}">${Rarity[r]}</div>`).join('')}</div>`;
+}
+
+let piece = 'save', option = 'A';
+function render() {
+  const p = Pieces[piece];
+  $('#stage').style.backgroundImage = `url(${p.background})`;
+  const [name, text, draw] = p.options[option];
+  $('#layer').innerHTML = draw();
+  $('#caption').innerHTML = p.what + `<br><b>${option} · ${name}.</b> ${text}`;
+  $('#options').innerHTML = Object.keys(p.options).map(o =>
+    `<button data-option="${o}" aria-pressed="${o === option}">${o} · ${p.options[o][0]}</button>`).join(' ');
+  $$('#options button').forEach(b => b.onclick = () => { option = b.dataset.option; render(); });
+  $$('.review button[data-piece]').forEach(b => b.setAttribute('aria-pressed', b.dataset.piece === piece));
+}
+$$('.review button[data-piece]').forEach(b => b.onclick = () => { piece = b.dataset.piece; option = 'A'; render(); });
+function fit() { $('#stage').style.transform = `scale(${$('#wrap').clientWidth / 1600})`; }
+const params = new URLSearchParams(location.search);
+if (params.get('piece')) piece = params.get('piece');
+if (params.get('option')) option = params.get('option');
+if (params.get('export')) { $('.review').classList.add('hidden'); $('#caption').classList.add('hidden'); }
+window.addEventListener('resize', fit);
+render();
+fit();
+</script>
+</body>
+</html>

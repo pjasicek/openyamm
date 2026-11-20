@@ -4,8 +4,9 @@
 // [4] map half size (0 = no edge fade), map centre x, y, aerial haze at the far distance;
 // [5] lit water colour of the open sea past the map edge (display space), sea visibility (0 in dense fog);
 // [6] camera height above the sea, distance at which the sea's haze reaches 63%, camera x, y from the map centre;
-// [7] sea past the west (-X), east (+X), south (-Y) and north (+Y) edges (0 = land, 1 = open sea).
-uniform vec4 u_skyFog[8];
+// [7] sea past the west (-X), east (+X), south (-Y) and north (+Y) edges (0 = land, 1 = open sea);
+// [8] onward: the map's mist (mist.sh, included below), all zero on a map without any.
+uniform vec4 u_skyFog[40];
 
 // Strongest share of the preset's aerial haze that distance alone adds before the view-distance fade.
 #define AerialHazeDepth 0.35
@@ -33,6 +34,8 @@ vec3 skyCameraPosition()
 {
     return mul(u_invView, vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 }
+
+#include "mist.sh"
 
 // Extra fog that reaches full strength where the view leaves the map, so terrain and water meet the fogged
 // horizon without a visible edge. Only with the Enhanced sky; visibility inside the map is unchanged.

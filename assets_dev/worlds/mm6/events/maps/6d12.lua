@@ -129,15 +129,15 @@ end, "Exit")
 
 RegisterEvent(22, nil, function()
     if IsQBitSet(QBit(1115)) then return end -- 91 D12 John Silver only talks to you once.
-    evt.SetFacetBit(1420, 16384, 1)
-    evt.SetTexture(1420, "john01")
+    evt.SetFacetBit(-1420, 16384, 1)
+    evt.SetTexture(-1420, "john01")
 end)
 
 RegisterEvent(23, nil, function()
     if IsQBitSet(QBit(1115)) then return end -- 91 D12 John Silver only talks to you once.
     SetQBit(QBit(1115)) -- 91 D12 John Silver only talks to you once.
-    evt.SetFacetBit(1420, 16384, 0)
-    evt.SetTexture(1420, "d5walc")
+    evt.SetFacetBit(-1420, 16384, 0)
+    evt.SetTexture(-1420, "d5walc")
     evt.SpeakNPC(1079) -- Ghost of John Silver
 end)
 

@@ -1,0 +1,76 @@
+format: 0
+id: calib_erathia
+name: Erathia
+world: mm7
+kind: outdoor
+profile: odm
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9703
+  reference: 7out03.odm
+  encounter_chance: 10
+  treasure_level: 1
+  trap_dice: 2
+  perception_difficulty: 4
+  refill_days: 672
+  music: 32
+  environment: plains
+  lock_difficulty: 4
+  slots:
+    - {monster: Fighter Leather, tier: 2, per_marker: [1, 3], weight: 50}
+    - {monster: Griffin, tier: 1, per_marker: [1, 3], weight: 50}
+neighbours:
+  - id: door:bandits
+    to: mdt14.blv
+    kind: door
+    notes: The bandit caves (event 509).
+  - id: door:castle
+    to: 7d33.blv
+    kind: door
+    notes: "Castle Gryphonheart (503; 504 the side door with Catherine's key, item 1462)."
+  - id: door:fort
+    to: 7d31.blv
+    kind: door
+    notes: "Fort Riverstride (events 502, 505)."
+  - id: door:sewers
+    to: d01.blv
+    kind: door
+    notes: "The Erathian Sewers, three outfalls (events 501, 506, 507)."
+  - id: door:tomb
+    to: mdt11.blv
+    kind: door
+    notes: The hidden tomb behind the five stones (event 508).
+  - id: edge:east
+    to: 7out02.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: The east road over Fort Riverstride and up the east valley to the east edge.
+    notes: "Harmondale (right, right, 5 days)."
+  - id: edge:north
+    to: 7out05.odm
+    kind: edge
+    side: north
+    days: 5
+    arrival_side: south
+    approach: The north-east road up the high valley to the north edge.
+    notes: "Deyja (outdoor_travels.txt: up, down, 5 days)."
+  - id: edge:south
+    to: 7out06.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: The south road down the middle valley to the south edge.
+    notes: The Bracada Desert.
+  - id: edge:west
+    to: 7out13.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival_side: east
+    approach: The west road out of Steadwick to the west edge.
+    notes: "Tatalia (left, left, 5 days): the party arrives on Tatalia's east side (S8g: was `arrival_side: west`, written for the studio's inverted arrival words)."
+notes: "Calibration rebuild of Erathia (MM7 7out03.odm), a map no one had rebuilt: the test of the outdoor words of batches O-A to O-F. map_stats as the original's row 64 (map_stats.txt), with its row as `reference`."

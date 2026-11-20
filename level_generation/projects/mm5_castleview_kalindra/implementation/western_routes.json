@@ -1,0 +1,77 @@
+{
+  "source": "../../mm5_world_feasibility/inventory.json",
+  "sourceSha256": "f70f72dc2072af56f163d96c4296147014a4427b8141d765dde716ff4ffee2a2",
+  "transfers": [
+    {
+      "source": 3,
+      "x": 4,
+      "y": 9,
+      "spatial": true,
+      "destination": 57,
+      "arrival": [
+        11,
+        8
+      ],
+      "kind": "keyed service entrance",
+      "questItem": 40,
+      "eventOffset": 1838,
+      "line": 0,
+      "sourceName": "Area A3",
+      "destinationName": "Western Tower Lvl 1",
+      "scope": "MM5"
+    },
+    {
+      "source": 57,
+      "x": 11,
+      "y": 8,
+      "spatial": true,
+      "destination": 3,
+      "arrival": [
+        5,
+        9
+      ],
+      "kind": "teleport/exit",
+      "eventOffset": 396,
+      "line": 3,
+      "sourceName": "Western Tower Lvl 1",
+      "destinationName": "Area A3",
+      "scope": "MM5"
+    },
+    {
+      "source": 60,
+      "x": 11,
+      "y": 8,
+      "spatial": true,
+      "destination": 91,
+      "arrival": [
+        4,
+        9
+      ],
+      "kind": "teleport/exit",
+      "eventOffset": 611,
+      "line": 0,
+      "sourceName": "Western Tower Lvl 4",
+      "destinationName": "Skyroad A3",
+      "scope": "MM5"
+    },
+    {
+      "source": 91,
+      "x": 4,
+      "y": 9,
+      "spatial": true,
+      "destination": 60,
+      "arrival": [
+        11,
+        8
+      ],
+      "kind": "teleport/exit",
+      "eventOffset": 37,
+      "line": 4,
+      "sourceName": "Skyroad A3",
+      "destinationName": "Western Tower Lvl 4",
+      "scope": "MM5"
+    }
+  ],
+  "active": false,
+  "limits": "Original MM5 ids and cells are provenance aliases; native doors use MM5-local placeholders, with BLV/Skyroad travel deferred."
+}

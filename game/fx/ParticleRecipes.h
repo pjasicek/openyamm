@@ -59,7 +59,7 @@ enum class ProjectileRecipe
     FireArrow,
     // Spells with no particle recipe of their own; the recipes only let engine/effects/projectiles.yml bind them
     // (see projectileRecipeIsBindingOnly). Charm to Control Undead are debuffs applied at once, which fly only when a
-    // map event casts them.
+    // map event casts them. The traps are the bursts of discharged chest traps, which never fly.
     DeadlySwarm,
     MassDistortion,
     SpiritLash,
@@ -73,6 +73,10 @@ enum class ProjectileRecipe
     Berserk,
     Enslave,
     ControlUndead,
+    FireTrap,
+    ElecTrap,
+    ColdTrap,
+    PoisonTrap,
     Armageddon,
     GenericParticleTrail,
     GenericFireTrail,

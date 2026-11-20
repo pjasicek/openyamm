@@ -1,0 +1,116 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.lichlab_chests
+title: Lich Lab (native BLV) - the eight MM9 treasure chests open from in front of their models
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lichlab.blv
+- set_pose:
+    map: lichlab.blv
+    x: -3926
+    y: -2900
+    z: 2377
+    yaw: -1.0455
+    pitch: -0.7276
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: lichlab.blv
+    x: -4506
+    y: 1774
+    z: 1312
+    yaw: 1.5708
+    pitch: -0.7277
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: lichlab.blv
+    x: -2124
+    y: 3981
+    z: 2377
+    yaw: -1.0455
+    pitch: -0.7276
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: lichlab.blv
+    x: 342
+    y: 4225
+    z: 2377
+    yaw: 2.255
+    pitch: -0.7276
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: lichlab.blv
+    x: -1393
+    y: 10620
+    z: 1312
+    yaw: 1.5708
+    pitch: -0.7277
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: lichlab.blv
+    x: 2197
+    y: 7730
+    z: 4
+    yaw: 3.1364
+    pitch: -0.7308
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: lichlab.blv
+    x: 1574
+    y: 2900
+    z: 1
+    yaw: -2.2811
+    pitch: -0.7287
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: lichlab.blv
+    x: 3505
+    y: 5619
+    z: 1
+    yaw: 0.8587
+    pitch: -0.7287
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 7
+- press_action:
+    action: cancel_dialog

@@ -1,0 +1,4 @@
+Use case: precise-object-edit
+Asset type: restored MM8 terrain pebble variant dirt1, square top-down texture.
+Input1 is the original native pebble-on-dirt tile to restore. Preserve the exact number, arrangement, sizes and silhouettes of the small grey-brown stones, including partially cropped stones at edges. Input2 is the already restored dirt master, a material/style reference for the earth.
+Resolve the original low-resolution stones into clearer painted game-art pebbles, retaining their muted grey-brown colour, restrained highlights and small grounding shadows. Match the original stone scale and positions precisely. Match the earth to input2; keep this a modest restoration in the original painted fantasy-game style, not photorealistic gravel. No added stones, changed composition, text, new large cracks, raised outlines, extra sharp lighting or decorative details. Return the entire square tile. Do not repeat multiple copies of the source tile inside the image.

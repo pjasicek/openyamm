@@ -1,0 +1,39 @@
+# The war council's cinematic (council_argument, thronheimcity.cinematics.yml; council.py) played through from Kira's
+# council door with both signatures (keys 90, 91): the stage actors replace the posed Jarls, no save while it plays,
+# :War's keys at Cam3 (21.2 s) and not before, the hall restored at :End2 (166.2 s), Yrsa 7 s later. README "Cinematics".
+id: mm9r.thronheimcity.cinematic_council_argument_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: thronheimcity.blv}
+- set_pose: {map: thronheimcity.blv, x: -11264, y: 15700, z: 3278, yaw: 1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90090}
+- setup_shortcut: {kind: set_qbit, id: 90091}
+- console: {line: cinematic list, expect_contains: council_argument}
+- note: {text: "KiraDoor1/2's click (event 232) opens the door and starts the cinematic"}
+- execute_event: {id: 232}
+- advance_runtime: {seconds: 2.0}
+- console: {line: cinematic list, expect_contains: playing council_argument}
+- note: {text: "stage: Kira's stage actor (50) and the Jarls (45-49, Markel 46) shown, Kira the Cold (41) hidden"}
+- assert: {actor_visible: {actor_index: 50, hidden: false}}
+- assert: {actor_visible: {actor_index: 46, hidden: false}}
+- assert: {actor_visible: {actor_index: 41, hidden: true}}
+- assert: {qbit_clear: [90040, 90184]}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 18.5}
+- assert: {qbit_clear: [90040]}
+- advance_runtime: {seconds: 1.5}
+- note: {text: ":Cam3 gosub War (21.2 s): keys 184, 40, 85, 93"}
+- assert: {qbit_set: [90184, 90040, 90085, 90093]}
+- advance_runtime: {seconds: 140}
+- console: {line: cinematic list, expect_contains: playing council_argument}
+- assert: {actor_visible: {actor_index: 50, hidden: false}}
+- advance_runtime: {seconds: 6}
+- note: {text: ":End2 (166.2 s): Kira's stage actor gone, Markel dead (hidden), Kira the Cold back, no Yrsa yet"}
+- assert: {actor_visible: {actor_index: 50, hidden: true}}
+- assert: {actor_visible: {actor_index: 46, hidden: true}}
+- assert: {actor_visible: {actor_index: 41, hidden: false}}
+- assert: {actor_visible: {actor_index: 42, hidden: true}}
+- advance_runtime: {seconds: 8}
+- note: {text: "ARG_Yrsa.scr :Appear2b (End2 + 7 s): Yrsa shows"}
+- assert: {actor_visible: {actor_index: 42, hidden: false}}

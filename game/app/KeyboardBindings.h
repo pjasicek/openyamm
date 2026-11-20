@@ -38,7 +38,9 @@ enum class KeyboardAction : uint8_t
     Cast,
     Pass,
     CharCycle,
-    Quest,
+    // Opens the inventory. Its settings key stays "quest", the name these settings had when the action was called
+    // Quest, so existing bindings keep working (OY-481).
+    Inventory,
     QuickRef,
     Rest,
     History,
@@ -54,11 +56,98 @@ enum class KeyboardAction : uint8_t
     FlyDown,
     Land,
     DoubleSpeed,
-    AutoRun,
+    // MAW's keys (devdocs/maw/GAPS.md §11 D.18), listed only in a MAW game: lift a stuck party, open the Workbench,
+    // gather corpses and crafting items, the skills page's switches; a lone Knight's charge at the monster under the
+    // cursor.
+    Unstuck,
+    OpenWorkbench,
+    GatherLoot,
+    SkillCover,
+    SkillManaShield,
+    SkillRotation,
+    KnightCharge,
+    // Held: items glow in their rarity colour (the gameplay.rarity_glow setting "hold").
+    ShowItemRarity,
+    // Held: item popups show what crafting would add (the gameplay.craft_preview setting "hold").
+    ShowCraftableStats,
+    // MMMerge's four extra quick spells (ExtraQuickSpells.lua): cast the active member's slot, else attack.
+    QuickSpell1,
+    QuickSpell2,
+    QuickSpell3,
+    QuickSpell4,
+    // MMMerge's follower keys (NPCFollowers.lua:345-351): toggle the follower panel, speak with follower 1-4.
+    FollowerPanel,
+    Follower1,
+    Follower2,
+    Follower3,
+    Follower4,
+    // MAW's multibag on the inventory page and a shop's or chest's inventory: open (and zoom) bag 1-4
+    // (zzMaw-MultiBag.lua:38-67); with Shift the number keys still select party members.
+    Bag1,
+    Bag2,
+    Bag3,
+    Bag4,
+    // MAW's crafting bag key (zzzMaw_CraftingBag.lua:49-55): with Shift, shows the party's crafting pouch on the
+    // inventory page (and the bags again).
+    CraftingBag,
+    // MAW: opens the Journal on its Progress tab (unbound by default).
+    OpenProgress,
+    // MAW: opens the aura panel (unbound by default).
+    OpenAuras,
+    // The potion radial (GAPS.md H.6): the active member's ring (with the quick item rings on; else the basebar's potion
+    // popup), the basebar's scroll popup, and each of the six quick slots.
+    QuickItemWheel,
+    ScrollPopup,
+    QuickItem1,
+    QuickItem2,
+    QuickItem3,
+    QuickItem4,
+    QuickItem5,
+    QuickItem6,
+    QuickSave,
+    QuickLoad,
+    // MM9's formation screen (the MM9 world, world.yml formations). MM9 opens it with F, OpenYAMM's Attack key, so it
+    // defaults to O (PARTYORDER, MM9's art for the screen).
+    PartyFormation,
+    // The playthrough statistics (the Quick Reference overlay's Statistics page). Every letter is taken: F1.
+    Statistics,
+    // The Battle Orders window over the spellbook (game/ui/GameplayBattleOrders.h); unbound by default.
+    BattleOrders,
+    // Upkeep (devdocs/BATTLE_ORDERS.md): a ready member casts the first due spell of their upkeep list.
+    Upkeep,
+    // The Journal on its Quests page, as MM7's Quest key opens the quest book (OY-481); unbound by default.
+    QuestBook,
+    // A solo run's weapon cycling (devdocs/solo_action/WEAPONS.md "Bow swap"): the next weapon of the melee weapon
+    // and the bow; with the bow drawn, Attack shoots even at melee range. The wheel, down for the next one
+    // (PreviousWeapon is wheel up).
+    NextWeapon,
+    // Auto-walk (OY-628): toggles walking forward as if Forward were held, as in the Elder Scrolls games. Num Lock, the
+    // usual auto-run key elsewhere, is free in both control schemes.
+    AutoWalk,
+    // The free cursor of the modern controls (OY-637), as GrayFace's patch gives the middle button: mouse look off and
+    // the cursor free while the world keeps running, until pressed again.
+    CursorMode,
+    // A solo run's weapon cycling the other way (see NextWeapon).
+    PreviousWeapon,
+    // A solo run's action bar (devdocs/solo_action/HUD.md): use slot 1-10, by default the number keys 1-0. In a solo
+    // run they win over the party's number keys, the bags' and the followers'.
+    ActionBar1,
+    ActionBar2,
+    ActionBar3,
+    ActionBar4,
+    ActionBar5,
+    ActionBar6,
+    ActionBar7,
+    ActionBar8,
+    ActionBar9,
+    ActionBar10,
     Count
 };
 
 constexpr size_t KeyboardActionCount = static_cast<size_t>(KeyboardAction::Count);
+
+// SDL reports mouse button state as a 32-bit mask, so button indices 1..32 can be bound.
+constexpr uint8_t MaxBindableMouseButton = 32;
 
 enum class InputBindingKind : uint8_t
 {
@@ -93,6 +182,8 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> &keyboardBindin
 const KeyboardBindingDefinition &keyboardBindingDefinition(KeyboardAction action);
 InputBinding keyboardInputBinding(SDL_Scancode scancode);
 InputBinding mouseButtonInputBinding(uint8_t button);
+// True when the SDL mouse button state flags report the given button (1-based SDL index, including X1/X2) held.
+bool mouseButtonHeldInFlags(SDL_MouseButtonFlags flags, uint8_t button);
 InputBinding mouseWheelInputBinding(float delta);
 std::array<InputBinding, KeyboardActionCount> createDefaultKeyboardBindings();
 SDL_Scancode parseKeyboardBindingName(const std::string &name);

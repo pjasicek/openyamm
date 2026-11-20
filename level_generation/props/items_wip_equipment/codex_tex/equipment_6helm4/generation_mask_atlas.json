@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Defender Helm (6helm4). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Gold round dome helmet with rectangular face opening, long cheek guards and two swept upward ivory horns with bronze bands. Exact material boundaries: Gold steel shell, cheek pieces and bronze horn bands RED. Ivory horns YELLOW. Small forehead jewel BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6helm4/inputs/guide_mask.png",
+  "input_guide_sha256": "5131fdb1c3347e4a941a87880b3c9a71dff10d8c758771eb7b7e5bf5b68426df",
+  "revision": 1,
+  "input_icon": "6helm4",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-e8aa2818-c063-4141-a79d-f8a47d02779f.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Superseded by reviewed per-face material labels or explicit exterior/lining materials.",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "cfa7f9308a1460843e484b8b38b55b031a11ecdadc72f903b8a0ab86b71be659",
+  "input_icon_path": "assets_dev/engine/icons_x2/6helm4.png",
+  "input_icon_sha256": "892658a7b6c730ad4e9acace7eaf9ccc9aaf03dbdf6f3328fe6cfd491ef74803",
+  "active_bytes_match": false,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

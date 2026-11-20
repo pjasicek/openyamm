@@ -1,0 +1,8 @@
+format: 1
+id: g3_clash
+name: "G3 test: a mod whose monster ids are MM9's"
+version: "1.0"
+author: OpenYAMM tests
+description: "Declares monster ids inside MM9's range (world.yml idRanges.monsters 9000-9999): refused at the start."
+idRanges:
+  monsters: {begin: 9500, end: 9510}

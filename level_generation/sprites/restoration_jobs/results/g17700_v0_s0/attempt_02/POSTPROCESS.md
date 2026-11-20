@@ -1,0 +1,1 @@
+Preserved detailed RGBA master. Common --adjust 0.99 0 0 and native opaque RGB gamma with unchanged alpha. Inspected full raw, native reference and final light/dark proofs; zero solid clipping recorded in registration_checks.json.

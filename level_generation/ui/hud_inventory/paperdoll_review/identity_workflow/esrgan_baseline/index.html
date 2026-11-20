@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paperdoll Real-ESRGAN comparison</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">OpenYAMM · paperdoll restoration</p>
+      <h1>Real-ESRGAN at 2×</h1>
+      <p>Original body and limb sprites enlarged with Real-ESRGAN x4plus, beside the retained painted restoration candidates.
+        All poses use the paperdoll table's layer positions. All 466 ESRGAN body/limb sprites were accepted by the user on 2026-09-24; painted candidates are deferred.</p>
+    </div>
+    <div class="head-links">
+      <a href="../../index.html">Equipment review browser</a>
+      <a href="../README.md">Method and findings</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="toolbar panel" aria-label="Comparison controls">
+      <div class="doll-control">
+        <label for="doll">Doll</label>
+        <div class="stepper">
+          <button id="previous" type="button" aria-label="Previous doll">←</button>
+          <select id="doll"></select>
+          <button id="next" type="button" aria-label="Next doll">→</button>
+        </div>
+      </div>
+      <div class="portrait" id="portrait"></div>
+      <div class="settings">
+        <label id="backgroundLabel"><input id="background" type="checkbox" checked> Game background</label>
+        <label for="surface">Transparent area</label>
+        <select id="surface">
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+          <option value="check">Checkerboard</option>
+        </select>
+        <label for="zoom">Display scale</label>
+        <select id="zoom">
+          <option value="1" selected>1×</option>
+          <option value="1.5">1.5×</option>
+          <option value="2">2×</option>
+        </select>
+      </div>
+      <p id="coverage" class="coverage"></p>
+    </section>
+
+    <section class="panel poses">
+      <div class="section-head">
+        <div><h2>Assembled poses</h2>
+          <p id="poseDescription">The body and separate limbs are layered at the character type's game table offsets.</p></div>
+        <div id="poseButtons" class="pose-buttons" role="group" aria-label="Hand pose"></div>
+      </div>
+      <div class="canvas-scroller">
+        <div class="compare-grid" id="poseGrid"></div>
+      </div>
+    </section>
+
+    <section class="panel parts">
+      <div class="section-head">
+        <div><h2>Individual sprites</h2>
+          <p>Click each body or limb state to inspect its edges and dimensions. Highlighted warnings come from the
+            existing registration check.</p></div>
+        <p id="partCount" class="count"></p>
+      </div>
+      <div id="partList" class="part-list"></div>
+      <div id="partMeta" class="part-meta"></div>
+      <div class="detail-grid" id="detailGrid"></div>
+    </section>
+  </main>
+  <script src="viewer_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

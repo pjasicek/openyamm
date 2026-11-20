@@ -1,0 +1,189 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "view": "back",
+  "status": "failed_brief_checks",
+  "selected_output": "paint_back.png",
+  "selected_does_not_mean_accepted": true,
+  "required_dimensions": [
+    1024,
+    1024
+  ],
+  "generation_count": 2,
+  "corrective_regenerations": 1,
+  "postprocessing": "None. Both PNGs are unresized, byte-identical copies of built-in tool returns.",
+  "guide": {
+    "sha256": "59c24fab7a29bf88a174fa9602369b9ef1534e62f621267d8bbfc4a58ccac30e",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "alpha_bbox": [
+      66,
+      66,
+      958,
+      958
+    ],
+    "alpha_128_bbox": [
+      67,
+      67,
+      957,
+      957
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_pixel_count": 696754,
+    "nonzero_alpha_quantiles": [
+      1,
+      255,
+      255,
+      255,
+      255
+    ],
+    "required_1024_square": true,
+    "alpha_identical_to_guide": true
+  },
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "corrective": false,
+      "prompt": "Use case: sketch-to-render.\nAsset type: orthographic BACK-view albedo texture source for the A Kreegan work camp collar node.\nProduce exactly ONE 1024 x 1024 PNG with a genuinely transparent RGBA background. Keep the original 1024 x 1024 canvas without resizing.\n\nINPUT ROLES, in supplied order:\n1. guide_back.png: EDIT TARGET and absolute geometry authority. Paint this exact grey model render in place.\n2. design_reference.png: approved design, colour and material reference ONLY; its three-quarter camera and lighting must not replace the back guide.\n3. concept_crop.png: original concept, secondary appearance reference ONLY.\n\nPRIMARY REQUEST:\nReplace only the grey surface colours of image 1 with the design reference's surface materials. The output must be an exact pixel-registered paintover of guide_back.png, retaining its orthographic rear camera, silhouette, alpha coverage, object position and scale, every polygon edge, shape boundary, opening, cable crossing, little collar, rock and detail. Retain the angular mesh geometry visible in the guide. No geometry redesign, smoothing, thickening, shifting, perspective change, cropping or reframing. No material paint or extra geometry outside the guide silhouette. The guide's total occupied bounds are x=66..957, y=66..957 on the 1024-square canvas; keep them. The two large adjacent oval rear plates high on the guide, the crown cable loops, the dense rear cable column, the asymmetric side plates, the splayed cable feet, the straight low plinth and every small base rock must stay exactly where the guide puts them. Keep all transparent openings between cables and crown loops. Do not add the front-facing three-lens vertical panel to this back view.\n\nMATERIALS:\nMatch the approved design reference: black-violet resin cable surfaces with dark red veins and restrained fine surface mottling, white ceramic plates with modest wear and brushed gold armour/trims/collars, violet-red magenta lens or seam colours on existing appropriate surface details, cracked pale grey stone plinth and stones. Treat the large rear oval armour faces as brushed gold armour, in keeping with the reference's circular gold housings; retain their exact guide shapes. Any existing visible white ceramic side armour remains white ceramic with gold trim. Preserve the dark violet resin material identity without painting sharp lighting reflections.\n\nLIGHTING — STRICT ALBEDO TEXTURE SOURCE:\nEven, flat, shadowless illumination from the viewer. Paint intrinsic material colours and surface texture only. No cast shadows, ambient-occlusion darkening, directional shading, strong specular highlights, environment reflections, rim light, glow bloom or coloured light spill. Glowing parts, sacs and seams use their intrinsic orange/red/magenta glowing colour with no illumination of surrounding surfaces. Do not copy the reference's dramatic lights or glossy white highlights.\n\nBACKGROUND:\nReal alpha transparency outside the guide silhouette and in its transparent holes. No black or white background, no checkerboard pixels, no floor, no scene, no fog, no text or labels. Prioritize exact guide geometry and flat material colour over cinematic presentation.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "59c24fab7a29bf88a174fa9602369b9ef1534e62f621267d8bbfc4a58ccac30e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: native tool return is 1254 x 1254 rather than 1024 x 1024; silhouette, cable edges and alpha differ from the guide. Resin has strong reflected highlights and cavity shading, unsuitable for strict flat albedo.",
+      "checks": {
+        "sha256": "90ba4c71b7b2db1e5d088be7fe98ed36d72f09afe2e11719bd4429a02fe1291f",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          29,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          81,
+          77,
+          1175,
+          1177
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1017096,
+        "nonzero_alpha_quantiles": [
+          1,
+          252,
+          252,
+          253,
+          255
+        ],
+        "required_1024_square": false,
+        "alpha_identical_to_guide": false,
+        "output": "paint_back_attempt_1.png",
+        "source": "/home/pjasicek/.codex/generated_images/01a16912-af69-7d20-8482-1286b29c0765/exec-f0076ab6-d3da-4089-ac1f-ef0c33ba3d6c.png",
+        "byte_identical_to_tool_return": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad black-violet resin, red-magenta seams, white ceramic, gold and pale cracked stone match the reference; geometry and placement differ.",
+        "flat_even_light": false,
+        "transparent_background": true,
+        "visual_notes": "Rounded and embellished edges depart from the guide's angular mesh; glossy highlights, dark cavities and small coloured fringes remain."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "CORRECTIVE GENERATION — ONE IMAGE, EXACTLY 1024 BY 1024 PIXELS.\nUse case: sketch-to-render. This is a constrained material paintover for a 3D-model ALBEDO texture source.\n\nInput 1, guide_back.png, is the actual image to edit. Preserve its 1024 x 1024 canvas and its original alpha mask, including every transparent opening, with pixel-for-pixel registration. Input 2, design_reference.png, supplies ONLY colour/material identity. Input 3, concept_crop.png, is a secondary colour/material reference. Neither reference controls dimensions, silhouette, camera or geometry.\n\nThe previous generation incorrectly returned a 1254 x 1254 canvas, changed shape edges and added highlights. Correct those failures. Return a native 1024 x 1024 RGBA PNG, not 1254, 1280, 1536 or a resized crop. Do not enlarge or recenter the guide. Do not change ANY shapes. Use guide_back.png as a fixed stencil; change RGB surface colour ONLY and preserve its alpha exactly. All solid surfaces must remain solid opaque; transparency only at original guide background, holes and antialiased edges.\n\nExact constraint: retain the guide's rear orthographic view, total silhouette bounds x=66 through 957 and y=66 through 957, shape sizes, positions, every faceted outline, both upper oval armour plates, loop crown, cable routes and crossings, clamps, asymmetrical plates, low plinth and scattered rocks. Keep every opening. No extra cables, rocks, gold fittings, broad plates or front-view lens column. No extra detail that changes mesh edges or silhouette. Do not interpret the two upper ovals as eyes or move them.\n\nPaint the guide surfaces with the design reference materials: black-violet resin with dark red veins; white ceramic plates; brushed gold armour and small existing collars; violet-red magenta lens/seam colours on existing appropriate surface features; cracked pale grey stone plinth. The two oval rear housing faces are brushed gold. Fine material texture stays restrained and does not resemble specular reflections.\n\nFLAT UNLIT ALBEDO: uniform even shadowless light from the viewer. Intrinsic colour only. No cast shadows, ambient occlusion, cavity blackening, directional gradients, strong specular spots or streaks, reflections, rim lights, metallic gleams or glow bloom. Convey resin and gold with base colour and subtle material grain. Bright orange/red/magenta features are flat emission colours, and cast absolutely no light on adjacent surfaces.\n\nTrue transparent alpha background; no floor or backdrop, no black fill, no checkerboard fill, no text. Output ONLY the painted back view on the original guide's exactly 1024-square canvas. Fixed geometry and exact canvas size have priority over decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "59c24fab7a29bf88a174fa9602369b9ef1534e62f621267d8bbfc4a58ccac30e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better available raw return: flatter resin, fewer reflected highlights and more angular guide-like shapes. Still fails the strict brief: 1254 x 1254, nonidentical silhouette/alpha, changed internal material/shape boundaries and residual shading. Saved unresized because the brief forbids resized returns; no further generation because the one-correction limit is reached.",
+      "checks": {
+        "sha256": "aff8c3551f5998609372f38f68870925ae760e01179dfbbc23d6b11cd648851c",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          24,
+          36,
+          1218,
+          1254
+        ],
+        "alpha_128_bbox": [
+          81,
+          80,
+          1173,
+          1174
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1024928,
+        "nonzero_alpha_quantiles": [
+          1,
+          252,
+          253,
+          253,
+          255
+        ],
+        "required_1024_square": false,
+        "alpha_identical_to_guide": false,
+        "output": "paint_back.png",
+        "source": "/home/pjasicek/.codex/generated_images/01a16912-af69-7d20-8482-1286b29c0765/exec-d106dae4-db29-4012-b74c-38ec5373055e.png",
+        "byte_identical_to_tool_return": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad reference palette retained, but red veins are prominent and some elongated white ceramic assignments differ from the design reference.",
+        "flat_even_light": false,
+        "transparent_background": true,
+        "visual_notes": "More faceted geometry and flatter surface colours than attempt 1; residual directional facet shading and dark cavities remain. Low-alpha stray pixels extend outside the main subject. Most material pixels have alpha 252-253 rather than the guide's solid 255."
+      }
+    }
+  ],
+  "limitations": [
+    "Neither generation satisfies the required native 1024 x 1024 dimensions.",
+    "Neither generation preserves the guide silhouette, internal shape boundaries or alpha exactly.",
+    "The selected output is a candidate requiring review, not a brief-compliant texture source.",
+    "No builds, runtime checks or model texture installation were performed."
+  ]
+}

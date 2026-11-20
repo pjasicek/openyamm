@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aura Panel Study</title>
+<!--
+  Browser study for MAW's aura panel (devdocs/maw/GAPS.md H.6, §11 D.16): which auras each member holds, what they
+  reserve, how strong they are, who they help, and releasing or moving them. Three options drawn over 1600x900 native
+  captures with the Carved Obsidian art. Numbers follow our formulas (game/rules/maw/MawAuras.cpp, MawSpellRules.cpp).
+  Nothing here is wired into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Alegreya; font-weight: 400 900; src: url(../../../assets_dev/engine/fonts/truetype/alegreya_variable.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; --brass: #8c815f;
+  --good: #8fe08a; --warn: #ffb347; --bad: #ff6a5a; --mana: #8fc3ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 600 16px Alegreya, serif; }
+.review { display: flex; gap: 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; font: 14px Lucida, sans-serif; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review label { color: #c8c7a7; display: inline-flex; gap: 5px; align-items: center; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left; overflow: hidden;
+  background: #071012 url(frame_backdrop.jpg) 0 0 / 100% 100%; }
+#stage.play { background-image: url(../maw_potion_radial_20261025/gameplay_backdrop.jpg); }
+body.export .review, body.export .notes { display: none; }
+.abs { position: absolute; }
+.title { font: 46px Fondamento, serif; color: var(--label); text-shadow: 0 3px 2px #000; text-align: center; }
+.sub { font: 600 17px Alegreya, serif; color: var(--muted); text-align: center; }
+.sub b { color: var(--gold); font-weight: 600; }
+.mana { color: var(--mana); } .hp { color: var(--good); } .good { color: var(--good); } .warn { color: var(--warn); }
+.bad { color: var(--bad); } .gold { color: var(--gold); } .muted { color: var(--muted); } .ivory { color: var(--ivory); }
+h3 { margin: 0; font: 22px Fondamento, serif; color: var(--label); font-weight: normal; }
+.icon { object-fit: contain; filter: drop-shadow(0 1px 1px #000); }
+
+/* The reservation bar, as option A of the reserve study: free pool, hatched locked span, gold mark at the cap. */
+.bar { position: relative; height: 12px; background: #0a1312; border: 1px solid #938666; }
+.bar .fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(#abcfd8, #73a4b7 45%, #2d596a); }
+.bar.hp .fill { background: linear-gradient(#acd69b, #80ad77 45%, #315834); }
+.bar .lock { position: absolute; top: 0; bottom: 0; right: 0;
+  background: repeating-linear-gradient(45deg, #5f88a0d9 0 2px, #1b2a36 2px 5px); }
+.bar.hp .lock { background: repeating-linear-gradient(45deg, #7f9a6cd9 0 2px, #25301f 2px 5px); }
+.bar .cap { position: absolute; top: -3px; bottom: -3px; width: 3px; margin-left: -1px; background: #e3c185;
+  box-shadow: 0 0 0 1px #000; }
+
+.pill { display: inline-block; padding: 0 8px; height: 22px; line-height: 21px; border-radius: 11px; font: 600 14px Alegreya, serif;
+  border: 1px solid; white-space: nowrap; }
+.pill.on { color: var(--good); border-color: #4f7d4c; background: #12241466; }
+.pill.part { color: var(--warn); border-color: #8a6a35; background: #2a1f0f66; }
+.pill.none { color: var(--warn); border-color: #8a6a35; background: #2a1f0f99; }
+.pill.off { color: var(--bad); border-color: #8a4a3a; background: #2a121066; }
+.pill.fixed { color: var(--mana); border-color: #4b6a80; background: #0f1d2a66; }
+
+.button { display: inline-flex; align-items: center; justify-content: center; width: 160px; height: 44px; cursor: pointer;
+  font: 21px Fondamento, serif; color: #e8d1a4; text-shadow: 0 2px 1px #000;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_default.png) 0 0 / 100% 100%; }
+.button:hover { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_hover.png); }
+.button.danger { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_danger_default.png); }
+.button.danger:hover { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_danger_hover.png); }
+.button.off { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_disabled.png); color: #8c8670; }
+.face { border-radius: 50%; border: 2px solid #8c815f; object-fit: cover; box-shadow: 0 0 0 1px #000; }
+.face.down { filter: grayscale(1) brightness(.55); }
+
+/* A: the ledger */
+.card { position: absolute; top: 122px; width: 184px; height: 124px; padding: 8px 10px; cursor: pointer;
+  background: #0a1312b3; border: 1px solid #4a5140; }
+.card.sel { border-color: #d6bb80; box-shadow: inset 0 0 0 1px #d6bb8055; }
+.card .face { position: absolute; left: 10px; top: 9px; width: 48px; height: 58px; }
+.card .n { position: absolute; left: 68px; top: 6px; font: 22px Fondamento, serif; color: var(--label); }
+.card .c { position: absolute; left: 68px; top: 36px; font: 600 15px Alegreya, serif; color: var(--muted); }
+.card .bar { position: absolute; left: 10px; right: 10px; top: 76px; }
+.card .t { position: absolute; left: 10px; right: 10px; top: 94px; font: 600 15px Alegreya, serif; color: var(--body);
+  display: flex; justify-content: space-between; }
+.card .down { position: absolute; left: 68px; top: 56px; font: 600 14px Alegreya, serif; color: var(--bad); }
+.list { position: absolute; left: 272px; top: 262px; width: 476px; }
+.list .head, .list .row { display: grid; grid-template-columns: 40px 1fr 74px 76px 96px; align-items: center; gap: 6px; }
+.list .head { height: 26px; font: 600 14px Alegreya, serif; color: var(--muted); border-bottom: 1px solid #4a5140; }
+.list .row { height: 35px; padding: 0 4px; font: 600 17px Alegreya, serif; color: var(--ivory); cursor: pointer; }
+.list .row.first { border-top: 1px solid #2f3a33; }
+.list .row:hover { background: #ffffff0d; }
+.list .row.sel { background: linear-gradient(90deg, #e3c18533, #e3c18511); box-shadow: inset 2px 0 0 #e3c185; }
+.list .row img { width: 36px; height: 31px; }
+.list .row .h { font: 600 15px Alegreya, serif; color: var(--body); }
+.list .row .r { text-align: right; color: var(--gold); font-size: 16px; }
+.list .row.dim { color: #b4ab92; }
+.list .row.dim img { filter: grayscale(.8) brightness(.6); }
+.divider { position: absolute; left: 760px; top: 266px; width: 2px; height: 576px; background: linear-gradient(#e3c18500, #c9a96a, #e3c18500); }
+.detail { position: absolute; left: 782px; top: 262px; width: 452px; height: 586px; }
+.detail .big { position: absolute; left: 0; top: 0; width: 82px; height: 70px; }
+.detail .nm { position: absolute; left: 94px; top: -4px; font: 32px Fondamento, serif; color: var(--label); }
+.detail .by { position: absolute; left: 94px; top: 40px; width: 360px; font: 600 16px Alegreya, serif; color: var(--muted); }
+.detail .flow { position: absolute; left: 0; top: 84px; width: 452px; }
+.detail .flow h3 { margin-top: 12px; }
+.detail .sect { position: absolute; left: 0; width: 452px; }
+.detail .line { display: flex; justify-content: space-between; gap: 10px; font: 600 17px/1.5 Alegreya, serif; color: var(--body); }
+.detail .line b { font-weight: 600; color: var(--ivory); }
+.detail .note { font: 600 15px/1.4 Alegreya, serif; color: var(--muted); }
+.detail .who { display: grid; grid-template-columns: 30px 82px 1fr; gap: 8px; align-items: center; height: 31px;
+  font: 600 16px Alegreya, serif; color: var(--body); border-bottom: 1px solid #ffffff0f; }
+.detail .who img { width: 26px; height: 31px; border-radius: 50%; object-fit: cover; border: 1px solid #8c815f; }
+.detail .who .v { color: var(--ivory); }
+.detail .who .v small { font-size: 14px; color: var(--muted); }
+.menu { position: absolute; width: 330px; padding: 8px 0; background: #0b1212f5; border: 1px solid var(--brass);
+  box-shadow: 0 6px 16px #000d; }
+.menu .mh { padding: 0 12px 6px; font: 19px Fondamento, serif; color: var(--label); border-bottom: 1px solid #3c4436; }
+.menu .mi { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; padding: 4px 12px;
+  font: 600 16px Alegreya, serif; color: var(--body); }
+.menu .mi img { width: 26px; height: 31px; border-radius: 50%; object-fit: cover; border: 1px solid #8c815f; }
+.menu .mi.hot { background: #e3c18526; }
+.menu .mi.no { color: #7f8578; }
+.menu .mf { padding: 6px 12px 0; font: 600 14px/1.35 Alegreya, serif; color: var(--muted); border-top: 1px solid #3c4436; margin-top: 4px; }
+.side { position: absolute; left: 1256px; width: 120px; text-align: center; font: 600 14px/1.35 Alegreya, serif; color: var(--muted); }
+.side .button { width: 120px; height: 46px; font-size: 19px; }
+
+/* B: the grid */
+.grid { position: absolute; left: 272px; top: 240px; width: 962px; }
+.grid .gh, .grid .gr { display: grid; grid-template-columns: 224px repeat(5, 104px) 1fr; align-items: center; }
+.grid .gr { height: 23px; font: 600 16px Alegreya, serif; color: var(--body); border-bottom: 1px solid #ffffff0c; }
+.grid .gr .a { display: flex; align-items: center; gap: 6px; color: var(--ivory); white-space: nowrap; overflow: hidden; }
+.grid .gr .a img { width: 26px; height: 22px; }
+.grid .gr .cell { height: 22px; margin: 0 4px; text-align: center; line-height: 21px; font-size: 15px; color: #6f7468; }
+.grid .gr .cell.can { color: var(--body); border: 1px solid #3c4436; }
+.grid .gr .cell.fit { color: var(--good); border: 1px solid #3f5e3c; }
+.grid .gr .cell.over { color: #c97a6c; border: 1px solid #5e3a33; }
+.grid .gr .cell.held { color: #1b1408; background: linear-gradient(#f0d496, #c9a25e); border: 1px solid #000; font-weight: 700; }
+.grid .gr .cell.held.down { background: repeating-linear-gradient(45deg, #b0705e 0 3px, #6b3c32 3px 7px); color: #fff; }
+.grid .gr .cell.hot { box-shadow: 0 0 0 2px #ffd98a; }
+.grid .gr .e { font-size: 15px; color: var(--muted); white-space: nowrap; overflow: hidden; padding-left: 8px; }
+.grid .gr .e b { color: var(--ivory); font-weight: 600; }
+.grid .gr.ns { border-top: 1px solid #6b6a4e; margin-top: 3px; }
+.grid .gr .a small { font: 13px Fondamento, serif; color: var(--gold); width: 38px; flex: none; }
+.colhead { position: absolute; top: 118px; width: 104px; text-align: center; }
+.colhead .face { width: 46px; height: 56px; }
+.colhead .n { font: 19px Fondamento, serif; color: var(--label); line-height: 1; margin-top: 2px; }
+.colhead .bar { margin: 5px 6px 2px; height: 10px; }
+.colhead .t { font: 600 13px Alegreya, serif; color: var(--muted); }
+.tip { position: absolute; width: 360px; padding: 10px 14px; background: #0b1212f5; border: 1px solid var(--brass);
+  box-shadow: 0 6px 16px #000d; font: 600 15px/1.45 Alegreya, serif; color: var(--body); }
+.tip h4 { margin: 0 0 4px; font: 21px Fondamento, serif; color: var(--label); font-weight: normal; }
+.tip .row { display: flex; justify-content: space-between; gap: 8px; }
+
+/* C: the drawer over play */
+.drawer { position: absolute; left: 8px; top: 166px; width: 476px; height: 538px;
+  border: 26px solid transparent; border-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_modal.png) 40 fill / 26px stretch;
+  box-shadow: 0 8px 22px #000c; }
+.drawer .in { position: absolute; inset: -8px -6px; }
+.grp { border-bottom: 1px solid #ffffff14; padding: 4px 0; }
+.grp .gh2 { display: grid; grid-template-columns: 44px 1fr 150px; gap: 8px; align-items: center; cursor: pointer; }
+.grp .gh2 .face { width: 36px; height: 44px; }
+.grp .gh2 .n { font: 20px Fondamento, serif; color: var(--label); line-height: 1; }
+.grp .gh2 .n small { font: 600 14px Alegreya, serif; color: var(--muted); }
+.grp .gh2 .ic { display: flex; gap: 2px; margin-top: 3px; }
+.grp .gh2 .ic img { width: 25px; height: 22px; }
+.grp .gh2 .ic img.dim { filter: grayscale(1) brightness(.5); }
+.grp .gh2 .bt { font: 600 14px Alegreya, serif; color: var(--muted); text-align: right; }
+.grp .gh2 .bt .bar { height: 9px; margin-bottom: 3px; }
+.grp .ar { display: grid; grid-template-columns: 30px 1fr 64px 82px 22px; gap: 6px; align-items: center; height: 28px;
+  padding-left: 48px; font: 600 16px Alegreya, serif; color: var(--ivory); }
+.grp .ar img { width: 28px; height: 24px; }
+.grp .ar .r { text-align: right; color: var(--gold); font-size: 15px; }
+.grp .ar .x { width: 22px; height: 22px; border: 1px solid #8a4a3a; color: #e88c7c; text-align: center; line-height: 19px;
+  font: 16px Lucida, sans-serif; cursor: pointer; background: #1d0f0d; }
+.grp .ex { margin: 0 0 4px 48px; padding: 5px 8px; background: #ffffff08; border-left: 2px solid #e3c185;
+  font: 600 15px/1.4 Alegreya, serif; color: var(--body); }
+.notes { padding: 12px 18px; font: 600 16px/1.5 Alegreya, serif; color: var(--body); max-width: 1100px; }
+.notes h2 { font: 24px Fondamento, serif; color: var(--label); font-weight: normal; margin: 6px 0; }
+</style>
+</head>
+<body>
+<div class="review">
+  <span>Option</span>
+  <button data-option="A">A · Ledger</button>
+  <button data-option="B">B · Grid</button>
+  <button data-option="C">C · Drawer over play</button>
+  <button data-option="open">Opening it</button>
+  <label><input id="down" type="checkbox"> Lys unconscious</label>
+  <label><input id="menu" type="checkbox"> Move-to menu (A)</label>
+  <span class="muted">Click an aura to select it.</span>
+</div>
+<div id="wrap"><div id="stage"></div></div>
+<div class="notes">
+  <h2>What the panel shows</h2>
+  Every held aura, its holder and what it reserves (percent of the holder's maximum and points); each member's
+  pool with the same hatched locked cap as the portrait arcs; each aura's strength at its holder's skill and level;
+  each member's actual benefit, including where a stronger source (Hour of Power, Day of the Gods, a potion) makes
+  an aura add nothing; suspended auras of an unconscious holder (effect off, reservation kept); fixed temple,
+  scroll and pedestal auras. Releasing is free (no recovery, A7.11); moving an aura casts it as the new holder.
+  Captures: <code>?option=A|B|C|open&amp;sel=SPELL&amp;down=1&amp;menu=1&amp;export=1</code>.
+</div>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const Icons = '../../../assets_dev/engine/icons_x2/';
+const Schools = ['f', 'a', 'w', 'e', 's', 'm', 'b', 'l', 'd'];
+const SchoolNames = ['Fire', 'Air', 'Water', 'Earth', 'Spirit', 'Mind', 'Body', 'Light', 'Dark'];
+const icon = id => `${Icons}sb${Schools[Math.floor((id - 1) / 11)]}${String((id - 1) % 11 + 1).padStart(2, '0')}a.png`;
+const school = id => Math.floor((id - 1) / 11);
+const fmt = (v, d = 1) => (Math.round(v * 10 ** d) / 10 ** d).toFixed(d).replace(/\.0+$/, '');
+const num = v => Math.round(v).toLocaleString('en-US');
+
+// Every MAW aura (devdocs/maw/data/buff_auras.yml): cost, utility (flat points), skill cap.
+const Auras = {
+  1: ['Torch Light', 5, 1], 3: ['Fire Resistance', 60], 4: ['Fire Aura', 90], 5: ['Haste', 120], 8: ['Immolation', 40],
+  12: ['Wizard Eye', 5, 1], 14: ['Air Resistance', 60], 17: ['Shield', 75],
+  25: ['Water Resistance', 60], 27: ['Water Walk', 20, 1], 28: ['Empower Magic', 150],
+  36: ['Earth Resistance', 60], 38: ['Stone Skin', 75],
+  46: ['Bless', 75], 47: ['Fate', 75], 50: ['Preservation', 120], 51: ['Heroism', 120],
+  56: ['Meditation', 120], 58: ['Mind Resistance', 60],
+  69: ['Body Resistance', 60], 71: ['Regeneration', 120], 73: ['Hammerhands', 75], 75: ['Protection from Magic', 180],
+  83: ['Day of the Gods', 200], 85: ['Day of Protection', 150], 86: ['Hour of Power', 300],
+  91: ['Vampiric Aura', 150], 95: ['Pain Reflection', 10],
+};
+const cap = id => [83, 85, 86].includes(id) ? 75 : 50;
+const Mastery = ['', 'Normal', 'Expert', 'Master', 'Grandmaster'];
+
+// The party. factor = class SP per level (HP per level for a legendary 32 wearer), enl = Enlightenment mastery.
+// skills: school index -> [skill, mastery]; knows: the auras the member can cast.
+const Party = [
+  { key: 'fredrick', name: 'Fredrick', cls: 'Crusader', level: 85, hp: [1310, 1820], sp: [150, 210], factor: 5, enl: 0,
+    health: true, skills: { 4: [20, 3], 6: [8, 2] }, knows: [46, 47, 50, 51, 69, 71], weapon: 'two-handed axe' },
+  { key: 'alexis', name: 'Alexis', cls: 'Champion', level: 88, hp: [2210, 2460], sp: [0, 0], factor: 0, enl: 0,
+    skills: {}, knows: [], weapon: 'sword' },
+  { key: 'serena', name: 'Serena', cls: 'Priest of Light', level: 92, hp: [1004, 1290], sp: [120, 1350], factor: 6, enl: 2,
+    skills: { 7: [30, 4], 6: [20, 3], 4: [12, 2], 5: [10, 2] }, knows: [83, 85, 86, 71, 73, 69, 75, 46, 47, 50, 51, 58], weapon: 'mace' },
+  { key: 'lys', name: 'Lys', cls: 'Arch Druid', level: 80, hp: [930, 1150], sp: [300, 980], factor: 6, enl: 0,
+    skills: { 0: [15, 2], 1: [12, 2], 2: [12, 2], 3: [25, 3], 4: [10, 2], 5: [15, 3], 6: [10, 2] },
+    knows: [1, 3, 4, 5, 12, 14, 17, 25, 27, 36, 38, 46, 56, 58, 69, 71], weapon: 'staff' },
+  { key: 'zoltan', name: 'Zoltan', cls: 'Arch Mage', level: 120, hp: [1260, 1480], sp: [702, 1460], factor: 6, enl: 4,
+    skills: { 0: [40, 4], 1: [35, 3], 2: [30, 3], 3: [10, 2], 5: [10, 2] },
+    knows: [1, 3, 4, 5, 8, 12, 14, 17, 25, 27, 28, 36, 38, 56, 58], weapon: 'staff' },
+];
+const Fixed = -1;
+// Spell -> holder index (Fixed: a pedestal's blessing, skill 7, Master, level 40).
+const Holders = { 46: 0, 86: 2, 83: 2, 71: 2, 3: 3, 36: 3, 38: 3, 56: 3, 5: 4, 4: 4, 8: 4, 17: 4, 1: 4, 12: 4, 27: Fixed };
+
+const state = { option: 'A', sel: 38, down: false, menu: false };
+const conscious = i => !(state.down && i === 3);
+
+function percentFor(m, id)
+{
+  const divisor = m.factor + m.enl / 2;
+  return divisor > 0 ? Auras[id][1] / divisor : Auras[id][1];
+}
+function pointsFor(m, id)
+{
+  const a = Auras[id];
+  if (a[2]) return Math.round(a[1] * (1 - m.enl / 10));
+  return Math.ceil(pool(m)[1] * percentFor(m, id) / 100);
+}
+const pool = m => m.health ? m.hp : m.sp;
+function reserved(i)
+{
+  const m = Party[i];
+  let percent = 0, flat = 0;
+  for (const [id, h] of Object.entries(Holders))
+  {
+    if (h !== i) continue;
+    if (Auras[id][2]) flat += Math.round(Auras[id][1] * (1 - m.enl / 10)); else percent += percentFor(m, +id);
+  }
+  return { percent, points: Math.min(pool(m)[1], Math.ceil(pool(m)[1] * percent / 100) + flat) };
+}
+function source(id)
+{
+  const h = Holders[id];
+  if (h === undefined) return null;
+  if (h === Fixed) return { s: 7, m: 3, level: 40, fixed: true };
+  if (!conscious(h)) return null;
+  const m = Party[h];
+  const sk = m.skills[school(id)] ?? [0, 0];
+  return { s: Math.min(sk[0], cap(id)), m: sk[1], level: m.level, holder: h };
+}
+const flat = (src, s = src.s) => (20 + src.level / 4) * (1 + 0.02 * s);
+const statPct = (s, dog) => Math.min(10 + s / (dog ? 7 : 5), 20);
+const E = level => level <= 50 ? 9.8 + (11.4 - 9.8) * (level - 40) / 10 : level <= 100 ? 11.4 + (19.1 - 11.4) * (level - 50) / 50
+  : 19.1 + (33.7 - 19.1) * (level - 100) / 100;
+
+// The effect of a held aura: summary lines, each member's benefit, and the state.
+function effect(id)
+{
+  const src = source(id);
+  const h = Holders[id];
+  const hop = source(86);
+  const all = v => Party.map(() => v);
+  if (!src)
+  {
+    return { state: 'off', lines: [['Off', `<span class="bad">while ${Party[h].name} is unconscious</span>`]],
+      who: all('<span class="bad">nothing</span> <small>until Lys wakes</small>') };
+  }
+  const r = { state: src.fixed ? 'fixed' : 'on', lines: [], who: all(''), notes: [] };
+  switch (id)
+  {
+    case 46:
+    {
+      const v = flat(src);
+      r.lines = [['Attack, melee and ranged', `+${fmt(v, 0)}`], ['Accuracy', `+${fmt(statPct(src.s), 0)} %`],
+        ['Hit chance', `+${fmt(5 + 5 * Math.min(src.s, 50) / 50)} %`]];
+      r.who = all(`+${fmt(v, 0)} attack, +${fmt(statPct(src.s), 0)} % Accuracy`);
+      break;
+    }
+    case 86:
+    {
+      const s = src.s / 1.5;
+      const z = source(5), sh = source(17), st = source(38);
+      const haste = 10 + 0.2 * s, shield = 15 + 0.3 * s, stone = flat(src, s), fate = 5 + 0.1 * s;
+      const zh = z ? 10 + 0.2 * z.s : 0, zs = sh ? 15 + 0.3 * sh.s : 0, ls = st ? flat(st) : 0;
+      r.lines = [
+        ['Haste, recovery', zh > haste ? `${fmt(haste)} % <span class="warn">· Zoltan's ${fmt(zh)} % is stronger</span>` : `${fmt(haste)} %`],
+        ['Shield, magic damage taken', zs > shield ? `−${fmt(shield)} % <span class="warn">· Zoltan's ${fmt(zs)} % is stronger</span>` : `−${fmt(shield)} %`],
+        ['Stone Skin, armour', ls > stone ? `+${fmt(stone)} <span class="warn">· Lys's ${fmt(ls)} is stronger</span>` : `+${fmt(stone)} <span class="good">in use</span>`],
+        ['Fate, critical chance', `+${fmt(fate)} % <span class="good">in use</span>`]];
+      const used = 2 + (zh > haste ? 0 : 1) + (zs > shield ? 0 : 1) - (ls > stone ? 1 : 0);
+      r.state = used < 4 ? 'part' : 'on';
+      r.summary = `${used} of its 4 parts in use`;
+      r.who = all(`armour +${fmt(stone)}, critical +${fmt(fate)} %`);
+      r.who[1] = `critical +${fmt(fate)} % <small>· own Stone Skin potion (AC +86) is stronger</small>`;
+      r.notes.push('Haste, Shield, Stone Skin and Fate each take the stronger of their own aura and Hour of Power at skill / 1.5; they never add up.');
+      break;
+    }
+    case 83:
+    {
+      const v = statPct(src.s, true);
+      const fr = source(3), er = source(36);
+      r.lines = [['All seven stats', `+${fmt(v)} %`]];
+      if (er && statPct(er.s) > v) r.lines.push(['Endurance', `<span class="warn">Lys's Earth Resistance ${fmt(statPct(er.s))} % is stronger</span>`]);
+      if (fr && statPct(fr.s) < v) r.lines.push(['Intellect', `+${fmt(v)} % <span class="good">beats Lys's ${fmt(statPct(fr.s))} %</span>`]);
+      r.state = er && statPct(er.s) > v ? 'part' : 'on';
+      r.summary = r.state === 'part' ? '6 of 7 stats in use' : '';
+      r.who = all(`stats +${fmt(v)} %`);
+      break;
+    }
+    case 71:
+    {
+      const k = Math.pow(Math.pow(src.level, 0.65) * (1 + 0.05 * src.s), 1.25) * 0.005;
+      r.lines = [['Each member, hit points per second', `√(max HP) × ${fmt(k, 3)}`],
+        ['Out of combat', '×2 after 20 s unhurt, ×4 more with no enemy near']];
+      r.who = Party.map(m => `${fmt(Math.sqrt(m.hp[1]) * k)} HP/s <small>· max ${num(m.hp[1])}</small>`);
+      break;
+    }
+    case 3: case 36:
+    {
+      const v = flat(src), st = statPct(src.s), dog = source(83);
+      const dv = dog ? statPct(dog.s, true) : 0;
+      const stat = id === 3 ? 'Intellect' : 'Endurance';
+      r.lines = [[`${id === 3 ? 'Fire' : 'Earth'} resistance`, `+${fmt(v, 0)}`],
+        [stat, dv > st ? `+${fmt(st)} % <span class="warn">· Day of the Gods ${fmt(dv)} % is stronger</span>` : `+${fmt(st)} % <span class="good">in use</span>`]];
+      r.state = dv > st ? 'part' : 'on';
+      r.summary = dv > st ? 'resistance in use, stat part outshone' : '';
+      r.who = all(`${id === 3 ? 'fire' : 'earth'} +${fmt(v, 0)}` + (dv > st ? '' : `, ${stat} +${fmt(st)} %`));
+      break;
+    }
+    case 38:
+    {
+      const v = flat(src), hv = hop ? flat(hop, hop.s / 1.5) : 0;
+      r.lines = [['Armour class', `+${fmt(v)}`]];
+      if (hv > v)
+      {
+        r.lines.push(['Hour of Power (Serena)', `+${fmt(hv)} <span class="warn">is stronger</span>`]);
+        r.state = 'none';
+        r.summary = 'while Hour of Power is held';
+        r.who = all(`<span class="warn">nothing</span> <small>· Hour of Power gives +${fmt(hv)}</small>`);
+        r.who[1] = `<span class="warn">nothing</span> <small>· own potion (AC +86) is stronger</small>`;
+        r.notes.push(`Releasing it frees ${pointsFor(Party[3], 38)} of Lys's spell points and costs the party 0.2 armour.`);
+      }
+      else
+      {
+        r.who = all(`armour +${fmt(v)}`);
+      }
+      break;
+    }
+    case 56:
+    {
+      const e = E(src.level);
+      r.lines = [['Each member, spell points per second', `(0.01·SP<sup>0.35</sup>·${fmt(e)}<sup>1.4</sup> + 1) × ${fmt(1 + 0.02 * src.s, 2)}`],
+        ['Out of combat', '×2 after 20 s without spending, ×4 more with no enemy near']];
+      r.who = Party.map(m => m.sp[1] > 0
+        ? `${fmt((0.01 * Math.pow(m.sp[1], 0.35) * Math.pow(e, 1.4) + 1) * (1 + 0.02 * src.s))} SP/s` : '<span class="muted">no spell points</span>');
+      break;
+    }
+    case 5:
+    {
+      const v = 10 + 0.2 * src.s;
+      r.lines = [['Attack and spell recovery', `÷ ${fmt(1 + v / 100, 2)} (${fmt(v)} %)`]];
+      if (hop) r.lines.push(['Hour of Power (Serena)', `${fmt(10 + 0.2 * hop.s / 1.5)} %, weaker`]);
+      r.who = all(`recovery ÷ ${fmt(1 + v / 100, 2)}`);
+      break;
+    }
+    case 17:
+    {
+      const v = 15 + 0.3 * src.s;
+      r.lines = [['Magic damage taken', `−${fmt(v)} %`]];
+      if (hop) r.lines.push(['Hour of Power (Serena)', `−${fmt(15 + 0.3 * hop.s / 1.5)} %, weaker`]);
+      r.who = all(`magic damage −${fmt(v)} %`);
+      break;
+    }
+    case 4:
+      r.lines = [['Weapons add fire', '25 % of the weapon\'s level damage'], ['At least', '24, or 48 two-handed'], ['Spells', 'also add it (÷ 2.5 on area spells)']];
+      r.who = Party.map(m => `fire on the ${m.weapon}` + (m.weapon.startsWith('two') ? ' <small>· floor 48</small>' : ''));
+      break;
+    case 8:
+      r.lines = [['Burns monsters near the party', `10 + 1–30 per point (${src.s})`]];
+      r.who = all('<small>damages monsters, not members</small>');
+      break;
+    case 1:
+      r.lines = [['Torch power', `${src.m + 1} (${Mastery[src.m]})`]];
+      r.who = all('<small>party-wide</small>');
+      break;
+    case 12:
+      r.lines = [['Minimap', 'monsters, items and chests']];
+      r.who = all('<small>party-wide</small>');
+      break;
+    case 27:
+      r.lines = [['Walk on water', 'the whole party'], ['Ends', 'on entering another outdoor map']];
+      r.who = all('<small>party-wide</small>');
+      break;
+  }
+  return r;
+}
+
+const StateNames = { on: 'Active', part: 'Partly used', none: 'Adds nothing', off: 'Suspended', fixed: 'Blessing' };
+const pill = s => `<span class="pill ${s}">${StateNames[s]}</span>`;
+const face = (m, w, h, extra = '') => `<img class="face ${extra}" src="face_${m.key}.jpg" style="width:${w}px;height:${h}px">`;
+const holderName = h => h === Fixed ? 'Pedestal' : Party[h].name;
+
+function bar(i, cls = '')
+{
+  const m = Party[i];
+  const [cur, max] = pool(m);
+  if (max === 0) return `<div class="bar ${cls}" style="opacity:.35"></div>`;
+  const res = reserved(i).points / max;
+  return `<div class="bar ${m.health ? 'hp' : ''} ${cls}"><div class="fill" style="width:${cur / max * 100}%"></div>`
+    + (res > 0 ? `<div class="lock" style="width:${res * 100}%"></div><div class="cap" style="left:${(1 - res) * 100}%"></div>` : '')
+    + '</div>';
+}
+function poolText(i)
+{
+  const m = Party[i];
+  const max = pool(m)[1];
+  if (max === 0) return ['<span class="muted">no spell points</span>', ''];
+  const r = reserved(i);
+  const u = m.health ? 'HP' : 'SP';
+  if (r.points === 0) return [`<span class="muted">holds nothing</span>`, `${num(max)} ${u}`];
+  return [`<span class="gold">${num(r.points)}</span> ${u} held`, `${num(max - r.points)} free`];
+}
+const heldOrder = () => Object.keys(Holders).map(Number).sort((a, b) =>
+  ((Holders[a] === Fixed ? 9 : Holders[a]) - (Holders[b] === Fixed ? 9 : Holders[b])) || a - b);
+
+function totals()
+{
+  let sp = 0, hp = 0;
+  Party.forEach((m, i) => { const r = reserved(i).points; if (m.health) hp += r; else sp += r; });
+  return `<b>${heldOrder().length}</b> auras held · <b>${num(sp)}</b> spell points and <b>${num(hp)}</b> hit points reserved · releasing is free`;
+}
+
+function viewA()
+{
+  let html = `<div class="abs title" style="left:262px;width:978px;top:28px">Auras</div>
+    <div class="abs sub" style="left:262px;width:978px;top:88px">${totals()}</div>`;
+  Party.forEach((m, i) =>
+  {
+    const t = poolText(i);
+    html += `<div class="card" style="left:${272 + i * 193.5}px">${face(m, 48, 58, conscious(i) ? '' : 'down')}
+      <div class="n">${m.name}</div><div class="c">${conscious(i) ? m.cls : '<span class="bad">Unconscious</span>'}</div>
+      ${bar(i)}<div class="t"><span>${t[0]}</span><span class="muted">${t[1]}</span></div></div>`;
+  });
+  html += `<div class="list"><div class="head"><span></span><span>Aura</span><span>Holder</span><span style="text-align:right">Reserved</span><span style="text-align:center">State</span></div>`;
+  let last = null;
+  for (const id of heldOrder())
+  {
+    const h = Holders[id];
+    const m = h === Fixed ? null : Party[h];
+    const e = effect(id);
+    const res = m ? (Auras[id][2] ? `${pointsFor(m, id)} ${m.health ? 'HP' : 'SP'}` : `${fmt(percentFor(m, id))} %`) : '—';
+    html += `<div class="row ${id === state.sel ? 'sel' : ''} ${h !== last ? 'first' : ''} ${e.state === 'off' ? 'dim' : ''}" data-sel="${id}">
+      <img class="icon" src="${icon(id)}"><span>${Auras[id][0]}</span><span class="h">${holderName(h)}</span>
+      <span class="r">${res}</span><span style="text-align:center">${pill(e.state)}</span></div>`;
+    last = h;
+  }
+  html += `</div><div class="divider"></div>${detailA()}`;
+  html += `<div class="side" style="top:48px"><div class="button danger">Release all</div><div style="margin-top:6px">Also R in the spellbook</div></div>
+    <div class="side" style="top:150px"><div class="button">Spellbook</div></div>
+    <div class="side" style="top:240px;text-align:left;padding:0 4px">
+      <div style="margin-bottom:6px">${pill('on')}</div>full effect
+      <div style="margin:8px 0 6px">${pill('part')}</div>a stronger source covers part
+      <div style="margin:8px 0 6px">${pill('none')}</div>a stronger source covers all
+      <div style="margin:8px 0 6px">${pill('off')}</div>holder unconscious: off, still reserved
+      <div style="margin:8px 0 6px">${pill('fixed')}</div>temple, scroll or pedestal; reserves nothing</div>`;
+  return html;
+}
+
+function detailA()
+{
+  const id = state.sel;
+  const h = Holders[id];
+  const m = h === Fixed ? null : Party[h];
+  const e = effect(id);
+  const sk = m ? (m.skills[school(id)] ?? [0, 0]) : [7, 3];
+  const by = m ? `Held by ${m.name} · ${SchoolNames[school(id)]} ${Mastery[sk[1]]}, skill ${Math.min(sk[0], cap(id))}${sk[0] > cap(id) ? ' (cap)' : ''} · level ${m.level}`
+    : 'Blessing of this place · fixed caster: skill 7, Master, level 40';
+  let res;
+  if (!m) res = ['Reserves', 'nothing'];
+  else if (Auras[id][2]) res = ['Reserves', `<span class="${m.health ? 'hp' : 'mana'}">${pointsFor(m, id)} ${m.health ? 'hit points' : 'spell points'}</span> (flat)`];
+  else res = ['Reserves', `<span class="${m.health ? 'hp' : 'mana'}">${fmt(percentFor(m, id))} %</span> of ${m.name}'s ${m.health ? 'hit points' : 'spell points'} · <b>${num(pointsFor(m, id))}</b>`];
+  let html = `<div class="detail"><img class="big icon" src="${icon(id)}"><div class="nm">${Auras[id][0]}</div><div class="by">${by}</div>
+    <div class="flow"><div class="line"><span>${res[0]}</span><span>${res[1]}</span></div>
+    <div class="line"><span>State</span><span>${pill(e.state)}${e.summary ? ` <span class="muted">${e.summary}</span>` : ''}</span></div>
+    ${m && m.health ? '<div class="note">Legendary 32: Fredrick\'s auras hold back hit points instead of mana.</div>' : ''}
+    ${e.state === 'off' ? `<div class="note bad">${m.name} is unconscious: the aura is off, but its ${num(pointsFor(m, id))} SP stay reserved. It returns when ${m.name} recovers.</div>` : ''}
+    <h3>Effect</h3>
+    ${e.lines.map(l => `<div class="line"><span>${l[0]}</span><b>${l[1]}</b></div>`).join('')}`;
+  html += `<h3>The party</h3>`
+    + Party.map((p, i) => `<div class="who"><img src="face_${p.key}.jpg" style="${conscious(i) ? '' : 'filter:grayscale(1) brightness(.55)'}">
+      <span>${p.name}</span><span class="v">${e.who[i]}</span></div>`).join('')
+    + (e.notes ?? []).map(n => `<div class="note" style="margin-top:6px">${n}</div>`).join('') + '</div>';
+  const canMove = Party.some((p, i) => i !== h && p.knows.includes(id));
+  html += `<div class="sect" style="top:540px;display:flex;gap:14px;align-items:center">
+    ${m ? '<div class="button danger">Release</div>' : '<div class="button danger">Release</div>'}
+    <div class="button ${canMove ? '' : 'off'}">Move to ▾</div>
+    <span class="note" style="width:120px">${m ? 'Release: free, no recovery' : 'Ends on another outdoor map'}</span></div></div>`;
+  if (state.menu) html += moveMenu(id);
+  return html;
+}
+
+function moveMenu(id)
+{
+  const h = Holders[id];
+  let html = `<div class="menu" style="left:900px;top:${790 - 44 - 8 * 34 - 56}px"><div class="mh">Move ${Auras[id][0]} to</div>`;
+  Party.forEach((p, i) =>
+  {
+    if (i === h) return;
+    if (!p.knows.includes(id))
+    {
+      html += `<div class="mi no"><img src="face_${p.key}.jpg" style="filter:grayscale(1)"><span>${p.name}</span><span>does not know it</span></div>`;
+      return;
+    }
+    const need = pointsFor(p, id);
+    const free = pool(p)[1] - reserved(i).points;
+    const fits = need <= free;
+    const u = p.health ? 'HP' : 'SP';
+    html += `<div class="mi ${fits && i === 4 ? 'hot' : ''}"><img src="face_${p.key}.jpg"><span>${p.name}</span>
+      <span class="${fits ? 'good' : 'bad'}">${Auras[id][2] ? '' : fmt(percentFor(p, id)) + ' % · '}${need} ${u}${fits ? '' : ` · ${free} free`}</span></div>`;
+  });
+  html += `<div class="mf">Moving casts it as the new holder: they must be ready and pay its recovery, and the old
+    holder's reservation is released. The strength follows the new holder's skill.</div></div>`;
+  return html;
+}
+
+function viewB()
+{
+  let html = `<div class="abs title" style="left:262px;width:978px;top:22px">Auras</div>
+    <div class="abs sub" style="left:262px;width:978px;top:80px">${totals()}</div>`;
+  Party.forEach((m, i) =>
+  {
+    const t = poolText(i);
+    const max = pool(m)[1];
+    const r = reserved(i);
+    html += `<div class="colhead" style="left:${272 + 224 + i * 104}px">${face(m, 46, 56, conscious(i) ? '' : 'down')}
+      <div class="n">${m.name}</div>${bar(i)}
+      <div class="t">${max === 0 ? 'no SP' : r.points ? `${fmt(r.points / max * 100, 0)} % · ${num(max - r.points)} free` : 'holds nothing'}</div></div>`;
+  });
+  html += `<div class="abs" style="left:280px;top:184px;width:210px;font:600 14px/1.35 Alegreya,serif;color:var(--muted)">
+    <span class="gold">Gold</span>: held · <span class="good">green</span>: fits the free pool · <span style="color:#c97a6c">red</span>: does not fit · —: cannot cast.
+    Click to hold, move or release.</div>`;
+  html += '<div class="grid">';
+  const ids = Object.keys(Auras).map(Number).filter(id => Holders[id] !== undefined || Party.some(p => p.knows.includes(id)));
+  let lastSchool = -1;
+  for (const id of ids)
+  {
+    const ns = school(id) !== lastSchool;
+    lastSchool = school(id);
+    const h = Holders[id];
+    html += `<div class="gr ${ns ? 'ns' : ''}"><span class="a"><small>${ns ? SchoolNames[lastSchool] : ''}</small><img class="icon" src="${icon(id)}">${Auras[id][0]}</span>`;
+    Party.forEach((p, i) =>
+    {
+      const u = p.health ? ' HP' : '';
+      if (h === i)
+      {
+        html += `<span class="cell held ${conscious(i) ? '' : 'down'} ${id === state.sel ? 'hot' : ''}">${Auras[id][2] ? pointsFor(p, id) + ' SP' : fmt(percentFor(p, id)) + ' %' + u}</span>`;
+      }
+      else if (p.knows.includes(id))
+      {
+        const fits = pointsFor(p, id) <= pool(p)[1] - reserved(i).points;
+        html += `<span class="cell ${fits ? 'fit' : 'over'}">${Auras[id][2] ? pointsFor(p, id) + ' SP' : fmt(percentFor(p, id)) + ' %' + u}</span>`;
+      }
+      else html += '<span class="cell">—</span>';
+    });
+    let e = '';
+    if (h !== undefined)
+    {
+      const ef = effect(id);
+      const first = ef.lines[0];
+      e = ef.state === 'off' ? '<span class="bad">suspended</span>' : ef.state === 'none' ? '<span class="warn">adds nothing</span>'
+        : h === Fixed ? '<span class="mana">pedestal blessing</span>' : `<b>${String(first[1]).replace(/<span.*$/, '')}</b> ${ef.state === 'part' ? '<span class="warn">· part</span>' : ''}`;
+    }
+    html += `<span class="e">${e}</span></div>`;
+  }
+  html += '</div>';
+  html += `<div class="side" style="top:48px"><div class="button danger">Release all</div><div style="margin-top:6px">Also R in the spellbook</div></div>
+    <div class="side" style="top:150px"><div class="button">Spellbook</div></div>`;
+  // The hover popup of the selected cell.
+  const sel = state.sel;
+  const ef = effect(sel);
+  const rowIndex = ids.indexOf(sel);
+  const schoolsBefore = new Set(ids.slice(0, rowIndex + 1).map(school)).size;
+  const y = 240 + rowIndex * 23 + schoolsBefore * 4;
+  const hx = 272 + 224 + (Holders[sel] === Fixed ? 0 : Holders[sel]) * 104;
+  html += `<div class="tip" style="left:${Math.max(hx - 372, 272)}px;top:${Math.min(y - 20, 520)}px"><h4>${Auras[sel][0]} · ${holderName(Holders[sel])}</h4>
+    ${ef.lines.map(l => `<div class="row"><span>${l[0]}</span><span class="ivory">${l[1]}</span></div>`).join('')}
+    <div style="border-top:1px solid #3c4436;margin:5px 0"></div>
+    ${Party.map((p, i) => `<div class="row"><span>${p.name}</span><span class="ivory">${ef.who[i]}</span></div>`).join('')}
+    <div class="muted" style="margin-top:4px">Click: release · click another member's cell: move it there</div></div>`;
+  return html;
+}
+
+function viewC()
+{
+  let html = `<div class="drawer"><div class="in">
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:30px Fondamento,serif;color:var(--label)">Auras</span>
+    <span class="button danger" style="width:120px;height:36px;font-size:17px">Release all</span></div>
+    <div style="font:600 14px Alegreya,serif;color:var(--muted);margin:-2px 0 4px">${num(2311)} SP · 273 HP reserved · the game keeps running</div>`;
+  const open = Holders[state.sel] === Fixed ? -2 : Holders[state.sel];
+  Party.forEach((m, i) =>
+  {
+    const ids = heldOrder().filter(id => Holders[id] === i);
+    if (!ids.length) return;
+    const t = poolText(i);
+    html += `<div class="grp"><div class="gh2">${face(m, 36, 44, conscious(i) ? '' : 'down')}
+      <div><div class="n">${m.name} ${conscious(i) ? '' : '<small class="bad">unconscious</small>'}</div>
+      <div class="ic">${ids.map(id => `<img class="icon ${effect(id).state === 'off' ? 'dim' : ''}" src="${icon(id)}">`).join('')}</div></div>
+      <div class="bt">${bar(i)}${t[0]} · ${t[1]}</div></div>`;
+    if (i === open)
+    {
+      for (const id of ids)
+      {
+        const e = effect(id);
+        html += `<div class="ar" data-sel="${id}"><img class="icon" src="${icon(id)}"><span>${Auras[id][0]}</span>
+          <span class="r">${Auras[id][2] ? pointsFor(m, id) + ' SP' : fmt(percentFor(m, id)) + ' %'}</span>
+          <span>${pill(e.state).replace(StateNames[e.state], { on: 'Active', part: 'Part', none: 'Nothing', off: 'Off', fixed: 'Fixed' }[e.state])}</span><span class="x">×</span></div>`;
+        if (id === state.sel)
+        {
+          html += `<div class="ex">${e.lines.slice(0, 2).map(l => `${l[0]}: <span class="ivory">${l[1]}</span>`).join('<br>')}</div>`;
+        }
+      }
+    }
+    html += '</div>';
+  });
+  html += `<div class="grp" style="border:0"><div class="gh2"><div style="width:40px;text-align:center"><img class="icon" src="${icon(27)}" style="width:34px;height:30px"></div>
+    <div><div class="n">Pedestal <small>Water Walk · until another outdoor map</small></div></div>
+    <div class="bt">reserves nothing</div></div></div>`;
+  html += '</div></div>';
+  html += `<div class="abs" style="left:6px;top:58px;width:214px;height:104px;border:2px solid #ffd98a;box-shadow:0 0 12px #ffd98a88"></div>`;
+  return html;
+}
+
+function viewOpen()
+{
+  // The hover popup on the party buff panels, today listing the buffs, plus the new click line.
+  const rows = heldOrder().slice(0, 9).map(id => `<div class="row"><span>${Auras[id][0]}</span><span class="muted">${Holders[id] === Fixed ? 'Blessing of this place' : 'Held by ' + Party[Holders[id]].name}</span></div>`).join('');
+  return `<div class="abs" style="left:6px;top:58px;width:214px;height:104px;border:2px solid #ffd98a;box-shadow:0 0 12px #ffd98a88"></div>
+    <div class="tip" style="left:228px;top:62px;width:380px"><h4>Party buffs</h4>${rows}
+    <div class="row muted"><span>… 6 more</span><span></span></div>
+    <div style="border-top:1px solid #3c4436;margin:5px 0"></div><div class="gold">Click: open the aura panel</div></div>
+    <div class="tip" style="left:1000px;top:560px;width:420px"><h4>Also</h4>
+    <div>· The key <span class="gold">Open Auras</span> (MAW key group, unbound by default)</div>
+    <div>· An <span class="gold">Auras</span> button on the spellbook, beside R (release all)</div>
+    <div>· The portrait arcs' reserve popup ends with "Auras: click the buff panels"</div></div>`;
+}
+
+function render()
+{
+  const stage = $('#stage');
+  stage.className = state.option === 'C' || state.option === 'open' ? 'play' : '';
+  stage.innerHTML = { A: viewA, B: viewB, C: viewC, open: viewOpen }[state.option]();
+  for (const b of document.querySelectorAll('[data-option]')) b.setAttribute('aria-pressed', b.dataset.option === state.option);
+  for (const el of stage.querySelectorAll('[data-sel]')) el.onclick = () => { state.sel = +el.dataset.sel; render(); };
+  fit();
+}
+function fit()
+{
+  const scale = $('#wrap').clientWidth / 1600;
+  $('#stage').style.transform = `scale(${scale})`;
+}
+
+const q = new URLSearchParams(location.search);
+state.option = q.get('option') ?? state.option;
+if (q.has('sel')) state.sel = +q.get('sel');
+state.down = q.get('down') === '1';
+state.menu = q.get('menu') === '1';
+if (q.get('export')) document.body.classList.add('export');
+$('#down').checked = state.down;
+$('#menu').checked = state.menu;
+for (const b of document.querySelectorAll('[data-option]')) b.onclick = () => { state.option = b.dataset.option; render(); };
+$('#down').onchange = e => { state.down = e.target.checked; render(); };
+$('#menu').onchange = e => { state.menu = e.target.checked; render(); };
+window.onresize = fit;
+document.fonts.ready.then(render);
+render();
+</script>
+</body>
+</html>

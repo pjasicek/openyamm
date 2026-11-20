@@ -1,0 +1,39 @@
+format: 0
+id: xeen_xd05
+name: Orc Caves
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-05
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 24], climbs: n}
+map_stats:
+  id: 9135
+  encounter_chance: 10
+  treasure_level: 1
+  trap_dice: 1
+  perception_difficulty: 1
+  refill_days: 672
+  music: cave
+  environment: cave
+  lock_difficulty: 1
+  slots:
+    - {monster: Orcs, tier: 1, per_marker: [2, 3], weight: 60}
+    - {monster: Bats, tier: 1, per_marker: [2, 3], weight: 25}
+    - {monster: Serpents, tier: 1, per_marker: [1, 2], weight: 15}
+neighbours:
+  - id: exit:x1_hills
+    to: X1
+    kind: door
+    arrival_hint: "In the north hills of X1, below the orc caves' skull-hung mouth, facing downhill."
+  - id: exit:x7_slopes
+    to: X7
+    kind: door
+    arrival_hint: "On the mild southern slopes of Mount Firestone (X7), at a barred cave door in a gully."
+    condition: {qbit: orc_back_gate_open}
+    notes: "The back gate is barred from the inside. Once the party lifts the bar (set:back_gate) it is a two-way door between the caves and X7, a back way north for an Act I party into the trap map."
+qbits:
+  captive_freed: 110052
+  orc_back_gate_open: 110051
+  war_drums_burned: 110050
+notes: "Xeen design brief, level L3, for a new map (no original to rebuild). Optional dungeon, no story step; MAPS.md lists it as 'Burn the war-drums'. Encounter slots are Xeen families from devdocs/xeen/MONSTERS_AND_ITEMS.md: 1 Orcs (Orc Archer 7), 2 Bats (Giant Bat 3), 3 Serpents (Giant Snake 5). Monster levels 3 to 9 in the map's body; the Drum-Master is an Orc Archer at 9 with boss hit points; the two Orc Guards at the optional back gate are level 12 (the family's rank b), above MAPS.md's 5-9 on purpose. Provisional ids: map_stats row 9135, qbits 110050-110052 (Xeen ranges, devdocs/xeen/PRODUCTION.md); none registered. No items: the drums burn on a click or a fire spell, and the cave has no key. The footprint grew from L1's 12 x 14 cells to 12 x 24 when the plan was drawn to scale (L3): the loop through the drum hall and back along the upper ledge is a long ring, and the back tunnel climbs 960 north of the hall."

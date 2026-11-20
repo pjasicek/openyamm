@@ -1,0 +1,46 @@
+id: rulesets.maw_solo_start_regeneration
+title: "Ruleset - solo run: a new solo character starts with Regeneration, a party does not"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo]
+steps:
+  - note:
+      text: >-
+        Every new solo run's character starts with Regeneration at 1 (makeSoloRunParty, SoloRunStartSkill; user,
+        2026-11-19), where the ruleset lets its class learn it: under MAW every class, by Lone Discipline. A Knight
+        has no Regeneration of its own, so the same Knight in an ordinary party starts without it.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Lone
+            class: Knight
+            level: 1
+            skills:
+              - {name: Sword, level: 1, mastery: 1}
+            equipment: {}
+  - console: {line: "skill get Regeneration", expect_contains: "Lone Regeneration 1 "}
+  - console: {line: "skill get Sword", expect_contains: "Lone Sword 1 "}
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: First
+            class: Knight
+            level: 1
+            skills:
+              - {name: Sword, level: 1, mastery: 1}
+            equipment: {}
+          - name: Second
+            class: Cleric
+            level: 1
+            skills:
+              - {name: Mace, level: 1, mastery: 1}
+            equipment: {}
+  - console: {line: "skill get Regeneration", expect_contains: "First has no Regeneration"}

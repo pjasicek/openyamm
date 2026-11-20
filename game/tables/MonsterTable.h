@@ -1,9 +1,14 @@
 #pragma once
 
 #include "game/party/SkillData.h"
+#include "game/tables/MonsterModifiers.h"
+#include "game/tables/MonsterRelationAddOns.h"
+#include "game/tables/MonsterShields.h"
+#include "game/tables/MonsterSpecialAttackKind.h"
 
 #include <array>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -11,34 +16,27 @@
 
 namespace OpenYAMM::Game
 {
-class MergedBolsterMonsterTable;
+class ActorModelManifest;
 
-enum class MonsterSpecialAttackKind : uint8_t
-{
-    None,
-    Curse,
-    Weak,
-    Sleep,
-    Fear,
-    Drunk,
-    Insane,
-    PoisonWeak,
-    PoisonMedium,
-    PoisonSevere,
-    DiseaseWeak,
-    DiseaseMedium,
-    DiseaseSevere,
-    Paralyze,
-    Unconscious,
-    Dead,
-    Petrify,
-    Eradicate,
-    BreakAny,
-    BreakArmor,
-    BreakWeapon,
-    Aging,
-    ManaDrain,
-};
+// Flags of MonsterStatsEntry::attackPreferences: whom a monster prefers to attack. The table gives them as a number or
+// as MM6/MM7 letters (K, P, A, D, C, S, R, T, M for classes, X/O/F for male/female, H, E, W, G for races).
+inline constexpr uint32_t MonsterAttackPreferenceKnight = 0x0001;
+inline constexpr uint32_t MonsterAttackPreferencePaladin = 0x0002;
+inline constexpr uint32_t MonsterAttackPreferenceArcher = 0x0004;
+inline constexpr uint32_t MonsterAttackPreferenceDruid = 0x0008;
+inline constexpr uint32_t MonsterAttackPreferenceCleric = 0x0010;
+inline constexpr uint32_t MonsterAttackPreferenceSorcerer = 0x0020;
+inline constexpr uint32_t MonsterAttackPreferenceRanger = 0x0040;
+inline constexpr uint32_t MonsterAttackPreferenceThief = 0x0080;
+inline constexpr uint32_t MonsterAttackPreferenceMonk = 0x0100;
+inline constexpr uint32_t MonsterAttackPreferenceMale = 0x0200;
+inline constexpr uint32_t MonsterAttackPreferenceFemale = 0x0400;
+inline constexpr uint32_t MonsterAttackPreferenceHuman = 0x0800;
+inline constexpr uint32_t MonsterAttackPreferenceElf = 0x1000;
+inline constexpr uint32_t MonsterAttackPreferenceDwarf = 0x2000;
+inline constexpr uint32_t MonsterAttackPreferenceGoblin = 0x4000;
+
+class MergedBolsterMonsterTable;
 
 enum class MonsterKind : uint32_t
 {
@@ -170,6 +168,9 @@ public:
         MonsterSpecialAttackKind specialAttackKind = MonsterSpecialAttackKind::None;
         int specialAttackLevel = 0;
         bool canFly = false;
+        // Fly column "S" (with Y: "YS"): MM9's AISwimFly swimmers (Sea Monsters, the Spores, Fish). On a map with
+        // scene water volumes one that starts in the water swims in it, bound to it; elsewhere it flies (Y) or walks.
+        bool swims = false;
         MonsterMovementType movementType = MonsterMovementType::Short;
         MonsterAiType aiType = MonsterAiType::Suicide;
         std::string attack1MissileType;
@@ -203,6 +204,11 @@ public:
         int lightResistance = 0;
         int darkResistance = 0;
         int physicalResistance = 0;
+        // The Special column's "explode,AdB+C,element" (MM8 Special 3: Gogs, Boulders, Light Elementals, Golems): it
+        // bursts when it dies (MonsterDeathExplosion.h).
+        bool explodesOnDeath = false;
+        DamageProfile deathExplosionDamage = {};
+        std::string deathExplosionType;
         std::string treasureDefinition;
         LootPrototype loot = {};
         uint16_t attackSoundId = 0;
@@ -263,12 +269,70 @@ public:
     const MonsterEntry *findByDisplayEntryId(int id) const;
     std::optional<std::string> findDisplayNameByInternalName(const std::string &internalName) const;
     std::optional<std::string> getUniqueName(int32_t uniqueNameIndex) const;
+    // Relations: a world's relations.yml add-on (relationAddOns) decides where it has a rule, then the current map's
+    // own cells of hostile.txt (setMapFactionRelation), else hostile.txt.
     int getRelationToParty(int16_t monsterId) const;
     int getRelationBetweenMonsters(int16_t leftMonsterId, int16_t rightMonsterId) const;
     bool isHostileToParty(int16_t monsterId) const;
     bool isLikelySameFaction(int16_t leftMonsterId, int16_t rightMonsterId) const;
+    // Whether a party hit on one monster alerts the other (MM8 0x4391ca): the same hostile.txt class, or both Dark Elf
+    // peasant classes. Pass relation monster ids, which already follow an actor's Ally class.
+    bool sharesAlertFaction(int16_t leftRelationMonsterId, int16_t rightRelationMonsterId) const;
+    // The loaded map's replacements for hostile.txt cells, as MMMerge's LocalHostileTxt() and map scripts: how
+    // `faction` treats `otherFaction` (0 is the party), in the table's faction numbers. Each map load clears them.
+    void setMapFactionRelation(uint32_t faction, uint32_t otherFaction, int relation);
+    // The same for how the monster's faction treats the party.
+    void setMapRelationToParty(int16_t monsterId, int relation);
+    void clearMapFactionRelations();
+    MonsterRelationAddOns &relationAddOns()
+    {
+        return m_relationAddOns;
+    }
+    const MonsterRelationAddOns &relationAddOns() const
+    {
+        return m_relationAddOns;
+    }
+    // Energy shields from the worlds' shields.yml; monsters without a profile never meet a shield rule.
+    MonsterShieldTable &shields()
+    {
+        return m_shields;
+    }
+    const MonsterShieldTable &shields() const
+    {
+        return m_shields;
+    }
+    const MonsterShieldProfile *findShieldProfile(int16_t monsterId) const
+    {
+        return m_shields.empty() ? nullptr : m_shields.find(monsterId);
+    }
+    // Modifiers (true aim, never staggers, kites party, blink) from the worlds' modifiers.yml.
+    MonsterModifierTable &modifiers()
+    {
+        return m_modifiers;
+    }
+    const MonsterModifierTable &modifiers() const
+    {
+        return m_modifiers;
+    }
+    const MonsterModifierSet *findModifiers(int16_t monsterId) const
+    {
+        return m_modifiers.empty() ? nullptr : m_modifiers.find(monsterId);
+    }
+    // The 3D models the monsters are drawn as (worlds' actors.yml), when actor models are on: their attack clips time
+    // the monsters' attacks where no sprite contact frame does (resolveActorAttackTiming). Null with models off.
+    void setActorModels(std::shared_ptr<const ActorModelManifest> pActorModels)
+    {
+        m_pActorModels = std::move(pActorModels);
+    }
+    const ActorModelManifest *actorModels() const
+    {
+        return m_pActorModels.get();
+    }
     const std::vector<MonsterEntry> &getEntries() const;
     const std::unordered_map<int, MonsterStatsEntry> &statsEntries() const;
+    // A world's own missile tokens (worlds/<world>/monster_projectiles.yml): an attack naming one is ranged, as one
+    // naming an engine token is. MM's tokens and the monsters that name them are untouched.
+    void acceptWorldMissileTokens(const std::vector<std::string> &tokens);
 
 private:
     static size_t relationIndexForMonsterId(int16_t monsterId);
@@ -286,8 +350,24 @@ private:
     std::unordered_map<std::string, int> m_statsIdByPictureName;
     std::vector<std::string> m_relationLabels;
     std::vector<std::vector<int>> m_relations;
+    // Keyed by mapFactionRelationKey(faction, otherFaction).
+    std::unordered_map<uint64_t, int> m_mapFactionRelations;
+    MonsterRelationAddOns m_relationAddOns;
+    MonsterShieldTable m_shields;
+    MonsterModifierTable m_modifiers;
+    std::shared_ptr<const ActorModelManifest> m_pActorModels;
     std::vector<MeleeHitMaterial> m_meleeHitMaterials;
     // Indexed like m_entries.
     std::vector<size_t> m_meleeHitMaterialIndexByEntry;
 };
+
+// Monster table cell parsers, shared with tables that describe monster-like combatants (MM9 hirelings).
+// "XdY+Z" or a flat "N"; an unparseable cell gives a zero profile.
+MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::string &value);
+// A number, or "Imm"/"Immune" (200); anything else is 0.
+int parseMonsterResistanceValue(const std::string &value);
+// "Name,Mastery,Skill" spell descriptors: the lowercased name, the skill rank and the mastery (N, B, E, M, G).
+std::string parseMonsterSpellName(const std::string &value);
+uint32_t parseMonsterSpellSkillLevel(const std::string &value);
+SkillMastery parseMonsterSpellSkillMastery(const std::string &value);
 }

@@ -1,0 +1,134 @@
+{
+ "sprite": "tree67_p120",
+ "output": "mm7_deco_tree37.glb",
+ "height_m": 6.0,
+ "note": "Apple tree after picking (22 placements; sprite tree67). tree38 (with apples) reuses this exact tree. Short trunk forking low into several stems, wide dense dark-green crown.",
+ "sapling": {
+  "autoTaper": false,
+  "taper": [
+   0.85,
+   0.85,
+   0.85,
+   1.0
+  ],
+  "closeTip": true,
+  "ratioPower": 1.0,
+  "curveRes": [
+   6,
+   4,
+   3,
+   1
+  ],
+  "downAngleV": [
+   0,
+   18,
+   10,
+   10
+  ],
+  "curveV": [
+   15,
+   40,
+   50,
+   0
+  ],
+  "scale": 8.2,
+  "baseSplits": 3,
+  "splitHeight": 0.3,
+  "splitAngle": [
+   22,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.24,
+  "branches": [
+   0,
+   26,
+   9,
+   8
+  ],
+  "length": [
+   1.0,
+   0.48,
+   0.4,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   66,
+   45,
+   45
+  ],
+  "segSplits": [
+   0.0,
+   0.2,
+   0.2,
+   0
+  ],
+  "seed": 737,
+  "ratio": 0.024,
+  "attractUp": [
+   0,
+   0.3,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.26,
+  "centre": 0.6,
+  "clumps": 120,
+  "inner_clumps": 20,
+  "gap": 0.78
+ },
+ "bark": {
+  "target_srgb": [
+   92,
+   70,
+   48
+  ],
+  "budget": [
+   1500,
+   520,
+   220
+  ],
+  "clip_below_crown": true,
+  "roots": 4,
+  "root_radius": 0.55,
+  "root_reach": 0.2
+ },
+ "leaves": {
+  "target_srgb": [
+   40,
+   156,
+   50
+  ],
+  "seeds": [
+   1137,
+   1153,
+   1169,
+   1185
+  ],
+  "value": [
+   0.8,
+   1.5
+  ],
+  "jitter_red": [
+   0.8,
+   1.15
+  ]
+ },
+ "occlusion": {
+  "floor": 0.32,
+  "range": 0.68,
+  "power": 1.2
+ },
+ "lod": {
+  "triangles": [
+   6500,
+   2500,
+   850
+  ]
+ },
+ "transparent_bounces": 64
+}

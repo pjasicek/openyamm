@@ -1,0 +1,9675 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "thronheimcity.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 17022,
+    "cog_number": 20019
+   },
+   {
+    "face_index": 17023,
+    "cog_number": 20018
+   },
+   {
+    "face_index": 17024,
+    "cog_number": 20018
+   },
+   {
+    "face_index": 17030,
+    "cog_number": 20019
+   },
+   {
+    "face_index": 17031,
+    "cog_number": 20019
+   },
+   {
+    "face_index": 17032,
+    "cog_number": 20018
+   },
+   {
+    "face_index": 17033,
+    "cog_number": 20018
+   },
+   {
+    "face_index": 17034,
+    "cog_number": 20018
+   },
+   {
+    "face_index": 17035,
+    "cog_number": 20018
+   },
+   {
+    "face_index": 3087,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3088,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3089,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3090,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3091,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3092,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3093,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3094,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3095,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3096,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3097,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3098,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3099,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3100,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3101,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3102,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3103,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3104,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3105,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3106,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3107,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3108,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3109,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3110,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3111,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3112,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3113,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3114,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3115,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3116,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3117,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3118,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3119,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9636,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9637,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9638,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9639,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9640,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9641,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9642,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9643,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9644,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9645,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9646,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9647,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9648,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9649,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9650,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9651,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9652,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9653,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9654,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9655,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9656,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9657,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9658,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9659,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9660,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12272,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12273,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12274,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12275,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12276,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12277,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12278,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12279,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12280,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12281,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12282,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12283,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12284,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12285,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12286,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12287,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12288,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12289,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12290,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12291,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12292,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12293,
+    "legacy_attributes": 4194304
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Ealusaid A'Norta a'thrakan",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 45,
+    "height": 106,
+    "move_speed": 0,
+    "position": {
+     "x": 6308,
+     "y": -164,
+     "z": 3114
+    },
+    "initial_yaw_units": 2000,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_leash": 768,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "script": "npc241.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 54,
+    "mm9_rude_id": 241
+   },
+   {
+    "actor_index": 1,
+    "name": "Muiredach A'Lanth",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 945,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 384,
+    "position": {
+     "x": 13435,
+     "y": 6390,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 5,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "profile": {
+      "archetype": "civilian",
+      "ranged": "none",
+      "skirmisher": false
+     },
+     "script": "honkies.scr",
+     "script_params": "271"
+    },
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 56,
+    "mm9_rude_id": 271,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_honkpamphlet.glb",
+      "node": "Socket_pamphlet"
+     }
+    ]
+   },
+   {
+    "actor_index": 2,
+    "name": "Yoltzin Tor",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 129,
+    "hostility_type": 0,
+    "monster_info_id": 9217,
+    "monster_id": 9217,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13107,
+     "y": 6717,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 5,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "profile": {
+      "archetype": "civilian",
+      "ranged": "none",
+      "skirmisher": false
+     },
+     "script": "honkies.scr",
+     "script_params": "279"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 57,
+    "mm9_rude_id": 279,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_honkpamphlet.glb",
+      "node": "Socket_pamphlet"
+     }
+    ]
+   },
+   {
+    "actor_index": 3,
+    "name": "Comgghan A'Feslo",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 945,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 384,
+    "position": {
+     "x": 9830,
+     "y": 6717,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 35,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 5,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "profile": {
+      "archetype": "civilian",
+      "ranged": "none",
+      "skirmisher": false
+     },
+     "script": "honkies.scr",
+     "script_params": "272"
+    },
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 58,
+    "mm9_rude_id": 272,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_honkpamphlet.glb",
+      "node": "Socket_pamphlet"
+     }
+    ]
+   },
+   {
+    "actor_index": 4,
+    "name": "Brynhildr the Money-wise",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9033,
+    "monster_id": 9033,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 16384,
+     "y": 3809,
+     "z": 3114
+    },
+    "initial_yaw_units": 1024,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 22,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "bankorb.scr",
+     "script_params": "Thronheim"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 59,
+    "mm9_rude_id": 243
+   },
+   {
+    "actor_index": 5,
+    "name": "Dagfari the Peevish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11141,
+     "y": 2458,
+     "z": 3124
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 13,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc242.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 60,
+    "mm9_rude_id": 242
+   },
+   {
+    "actor_index": 6,
+    "name": "Thorfinn Skullsplitter",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9051,
+    "monster_id": 9051,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11851,
+     "y": 2244,
+     "z": 3124
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 13,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc240.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 61,
+    "mm9_rude_id": 240
+   },
+   {
+    "actor_index": 7,
+    "name": "Dain Swordstrong",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 217,
+    "hostility_type": 0,
+    "monster_info_id": 9132,
+    "monster_id": 9132,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 0,
+    "position": {
+     "x": -9585,
+     "y": 16138,
+     "z": 3278
+    },
+    "initial_yaw_units": 1787,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 59,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "script": "dorude.scr",
+     "script_params": "278"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 62,
+    "mm9_rude_id": 278
+   },
+   {
+    "actor_index": 8,
+    "name": "Thorolf Ratatoskssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -3113,
+     "y": 9503,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 40,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc378.scr",
+     "script_params": "Thorolf0"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 63,
+    "mm9_rude_id": 378
+   },
+   {
+    "actor_index": 9,
+    "name": "Thorolf Ratatoskssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13025,
+     "y": 1147,
+     "z": 3093
+    },
+    "initial_yaw_units": 1530,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 12,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc378.scr",
+     "script_params": "Thorolf1"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 64,
+    "mm9_rude_id": 378
+   },
+   {
+    "actor_index": 10,
+    "name": "Desert Terror",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 525,
+    "hostility_type": 4,
+    "monster_info_id": 9238,
+    "monster_id": 9238,
+    "radius": 64,
+    "height": 256,
+    "move_speed": 384,
+    "position": {
+     "x": 9531,
+     "y": 1052,
+     "z": 3124
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 10,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 3,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "boss": true,
+     "script": "thronheimcity_badass.scr"
+    },
+    "mm9_source_object_index": 66
+   },
+   {
+    "actor_index": 11,
+    "name": "Guard1",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 217,
+    "hostility_type": 0,
+    "monster_info_id": 9107,
+    "monster_id": 9107,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 0,
+    "position": {
+     "x": 6876,
+     "y": 1270,
+     "z": 3114
+    },
+    "initial_yaw_units": 1536,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thronheimcity_guard.scr",
+     "dormant": {
+      "until": "trigger",
+      "pose": "sleep"
+     }
+    },
+    "mm9_source_object_index": 73,
+    "dormant": true
+   },
+   {
+    "actor_index": 12,
+    "name": "Guard2",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 217,
+    "hostility_type": 0,
+    "monster_info_id": 9107,
+    "monster_id": 9107,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 0,
+    "position": {
+     "x": 11725,
+     "y": 69,
+     "z": 3114
+    },
+    "initial_yaw_units": 1023,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 7168,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thronheimcity_guard.scr",
+     "dormant": {
+      "until": "trigger",
+      "pose": "sleep"
+     }
+    },
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 74,
+    "dormant": true
+   },
+   {
+    "actor_index": 13,
+    "name": "Fland A'Tryht",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 8914,
+     "y": -41,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_leash": 1280,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "script": "thronheimcity_actor.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 75,
+    "mm9_rude_id": 270
+   },
+   {
+    "actor_index": 14,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 9728,
+     "y": 389,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "path",
+     "path": [
+      [
+       9052,
+       445,
+       3218
+      ],
+      [
+       9651,
+       443,
+       3218
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "script": "thronheimcity_actor.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 76,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 15,
+    "name": "Erlend the Nay-sayer",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -8274,
+     "y": 11510,
+     "z": 3268
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 48,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc246.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 98,
+    "mm9_rude_id": 246
+   },
+   {
+    "actor_index": 16,
+    "name": "Ake Esbjornssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9008,
+    "monster_id": 9008,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 8520,
+     "y": -1229,
+     "z": 3114
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "ake.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 122,
+    "mm9_rude_id": 266
+   },
+   {
+    "actor_index": 17,
+    "name": "Ateed Bakari",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9061,
+    "monster_id": 9061,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 1147,
+     "y": 6144,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 26,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 123,
+    "mm9_rude_id": 280
+   },
+   {
+    "actor_index": 18,
+    "name": "Ran Tryygvadotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9029,
+    "monster_id": 9029,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -2867,
+     "y": 9093,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 40,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 124,
+    "mm9_rude_id": 275
+   },
+   {
+    "actor_index": 19,
+    "name": "Andvari Egilssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 1966,
+     "y": 13599,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 47,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 125,
+    "mm9_rude_id": 277
+   },
+   {
+    "actor_index": 20,
+    "name": "Olaf Frodessen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14909,
+     "y": 3604,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 126,
+    "mm9_rude_id": 262
+   },
+   {
+    "actor_index": 21,
+    "name": "Neda Haki",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9061,
+    "monster_id": 9061,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14746,
+     "y": 3768,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 28,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 127,
+    "mm9_rude_id": 263
+   },
+   {
+    "actor_index": 22,
+    "name": "Caitir A'Feslo",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 8847,
+     "y": 10322,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 35,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 128,
+    "mm9_rude_id": 264
+   },
+   {
+    "actor_index": 23,
+    "name": "Gudlaug Ragnarssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 8520,
+     "y": 9994,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 35,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 129,
+    "mm9_rude_id": 265
+   },
+   {
+    "actor_index": 24,
+    "name": "Allasan A'Washadi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 8110,
+     "y": -492,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_leash": 1024,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 130,
+    "mm9_rude_id": 268
+   },
+   {
+    "actor_index": 25,
+    "name": "Eimhir A'Mor",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9015,
+    "monster_id": 9015,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 9503,
+     "y": -328,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 131,
+    "mm9_rude_id": 269
+   },
+   {
+    "actor_index": 26,
+    "name": "Fland A'Tryht",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12370,
+     "y": 819,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 12,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 132,
+    "mm9_rude_id": 270
+   },
+   {
+    "actor_index": 27,
+    "name": "Cleirach A'Lyrae",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11223,
+     "y": 983,
+     "z": 3114
+    },
+    "initial_yaw_units": 1956,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_leash": 2560,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "script": "retainer.scr",
+     "script_params": "voices\\NPC\\NPC_281.wav 461"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 133,
+    "mm9_rude_id": 281
+   },
+   {
+    "actor_index": 28,
+    "name": "Knut Fastmouth",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9051,
+    "monster_id": 9051,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 8765,
+     "y": -1720,
+     "z": 3301
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "knutspeech.scr",
+     "script_params": "Ake"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 134,
+    "mm9_rude_id": 261
+   },
+   {
+    "actor_index": 29,
+    "name": "Bryan Hrutssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9008,
+    "monster_id": 9008,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -1311,
+     "y": 6144,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 30,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 135,
+    "mm9_rude_id": 273
+   },
+   {
+    "actor_index": 30,
+    "name": "Dagny Borkdotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9030,
+    "monster_id": 9030,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -2867,
+     "y": 7864,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 30,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 138,
+    "mm9_rude_id": 274
+   },
+   {
+    "actor_index": 31,
+    "name": "William the Framish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9054,
+    "monster_id": 9054,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 1126,
+     "y": 4936,
+     "z": 3152
+    },
+    "initial_yaw_units": 2045,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 24,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_247.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 140,
+    "mm9_rude_id": 247
+   },
+   {
+    "actor_index": 32,
+    "name": "Rustavius",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9054,
+    "monster_id": 9054,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -762,
+     "y": 10787,
+     "z": 3152
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 42,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_248.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 141,
+    "mm9_rude_id": 248
+   },
+   {
+    "actor_index": 33,
+    "name": "Bones the Pale",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 3604,
+     "y": 12452,
+     "z": 3152
+    },
+    "initial_yaw_units": 1033,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 52,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_249.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 142,
+    "mm9_rude_id": 249
+   },
+   {
+    "actor_index": 34,
+    "name": "Jofridr The Swillbowl",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9006,
+    "monster_id": 9006,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11530,
+     "y": 2734,
+     "z": 3175
+    },
+    "initial_yaw_units": 1734,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 13,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_254.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 143,
+    "mm9_rude_id": 254
+   },
+   {
+    "actor_index": 35,
+    "name": "Thakkrad Kjarssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14090,
+     "y": 4915,
+     "z": 3124
+    },
+    "initial_yaw_units": 1734,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 25,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_255.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 144,
+    "mm9_rude_id": 255
+   },
+   {
+    "actor_index": 36,
+    "name": "Robert Bloodstopper",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -4588,
+     "y": 14131,
+     "z": 3268
+    },
+    "initial_yaw_units": 1033,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 57,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_256.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 145,
+    "mm9_rude_id": 256
+   },
+   {
+    "actor_index": 37,
+    "name": "Erpr the Ankle-heavy",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 7864,
+     "y": 6625,
+     "z": 3155
+    },
+    "initial_yaw_units": 1849,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 32,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_258.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 146,
+    "mm9_rude_id": 258
+   },
+   {
+    "actor_index": 38,
+    "name": "Jormunrek Jonakrssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11315,
+     "y": 10680,
+     "z": 3134
+    },
+    "initial_yaw_units": 1146,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 46,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_259.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 147,
+    "mm9_rude_id": 259
+   },
+   {
+    "actor_index": 39,
+    "name": "Magnus ver Magnussen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -4915,
+     "y": 8356,
+     "z": 3152
+    },
+    "initial_yaw_units": 1033,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 31,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_260.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 148,
+    "mm9_rude_id": 260
+   },
+   {
+    "actor_index": 40,
+    "name": "Fjall Bodilssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 1147,
+     "y": 11878,
+     "z": 3093
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 47,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 151,
+    "mm9_rude_id": 276
+   },
+   {
+    "actor_index": 41,
+    "name": "Kira the Cold",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 1540,
+    "hostility_type": 0,
+    "monster_info_id": 9251,
+    "monster_id": 9251,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -11182,
+     "y": 16865,
+     "z": 3278
+    },
+    "initial_yaw_units": 1536,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc239.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 228,
+    "mm9_rude_id": 239
+   },
+   {
+    "actor_index": 42,
+    "name": "Yrsa the Troll",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9254,
+    "monster_id": 9254,
+    "radius": 76,
+    "height": 180,
+    "move_speed": 0,
+    "position": {
+     "x": -11039,
+     "y": 16845,
+     "z": 3278
+    },
+    "initial_yaw_units": 1459,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "arg_yrsa.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 230,
+    "mm9_rude_id": 1
+   },
+   {
+    "actor_index": 43,
+    "name": "Town Guard",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 100,
+    "hostility_type": 0,
+    "monster_info_id": 9107,
+    "monster_id": 9107,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 0,
+    "position": {
+     "x": 7557,
+     "y": 1531,
+     "z": 3124
+    },
+    "initial_yaw_units": 1536,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 4,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0
+   },
+   {
+    "actor_index": 44,
+    "name": "Sven Forkbeard",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9249,
+    "monster_id": 9249,
+    "radius": 31,
+    "height": 143,
+    "move_speed": 0,
+    "position": {
+     "x": -11510,
+     "y": 16671,
+     "z": 3277
+    },
+    "initial_yaw_units": 2045,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "respawns_on_refill": false,
+    "mm9_source_object_index": 219,
+    "posed": true,
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_ai": {
+     "profile": {
+      "passive": true
+     },
+     "script": "PropAnim.scr"
+    },
+    "mm9_rude_id": 3
+   },
+   {
+    "actor_index": 45,
+    "name": "Tryygva Ravenlocks",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9250,
+    "monster_id": 9250,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -11500,
+     "y": 16548,
+     "z": 3302
+    },
+    "initial_yaw_units": 2045,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_source_object_index": 220,
+    "posed": true,
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_ai": {
+     "profile": {
+      "passive": true
+     },
+     "script": "PropAnim.scr"
+    },
+    "mm9_rude_id": 180
+   },
+   {
+    "actor_index": 46,
+    "name": "Markel the Great",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9248,
+    "monster_id": 9248,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -11489,
+     "y": 16425,
+     "z": 3351
+    },
+    "initial_yaw_units": 2045,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_source_object_index": 221,
+    "posed": true,
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_ai": {
+     "profile": {
+      "passive": true
+     },
+     "script": "PropAnim.scr"
+    },
+    "mm9_rude_id": 127
+   },
+   {
+    "actor_index": 47,
+    "name": "Forad Darre",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9252,
+    "monster_id": 9252,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -11018,
+     "y": 16425,
+     "z": 3306
+    },
+    "initial_yaw_units": 1023,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_source_object_index": 222,
+    "posed": true,
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_ai": {
+     "profile": {
+      "passive": true
+     },
+     "script": "PropAnim.scr"
+    },
+    "mm9_rude_id": 2
+   },
+   {
+    "actor_index": 48,
+    "name": "Sigmund the Stressed",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9247,
+    "monster_id": 9247,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -11039,
+     "y": 16548,
+     "z": 3305
+    },
+    "initial_yaw_units": 1023,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_source_object_index": 223,
+    "posed": true,
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_ai": {
+     "profile": {
+      "passive": true
+     },
+     "script": "PropAnim.scr"
+    },
+    "mm9_rude_id": 87
+   },
+   {
+    "actor_index": 49,
+    "name": "Bjarni Thorvaldssen",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9246,
+    "monster_id": 9246,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -11028,
+     "y": 16691,
+     "z": 3299
+    },
+    "initial_yaw_units": 1023,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_source_object_index": 224,
+    "posed": true,
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_ai": {
+     "profile": {
+      "passive": true
+     },
+     "script": "PropAnim.scr"
+    },
+    "mm9_rude_id": 45
+   },
+   {
+    "actor_index": 50,
+    "name": "Kira the Cold",
+    "npc_id": 0,
+    "attributes": 65536,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9251,
+    "monster_id": 9251,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -11264,
+     "y": 16876,
+     "z": 3278
+    },
+    "initial_yaw_units": 1535,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 60,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_source_object_index": 181
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31080,
+     31081,
+     31082,
+     31083,
+     31084,
+     31085,
+     31086,
+     31087
+    ],
+    "face_ids": [
+     23273,
+     23274,
+     23275,
+     23276,
+     23277,
+     23278
+    ],
+    "sector_ids": [
+     54,
+     59
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -9308,
+     -9329,
+     -9185,
+     -9165,
+     -9185,
+     -9329,
+     -9308,
+     -9165
+    ],
+    "y_offsets": [
+     15575,
+     15596,
+     15739,
+     15718,
+     15739,
+     15596,
+     15575,
+     15718
+    ],
+    "z_offsets": [
+     3277,
+     3277,
+     3277,
+     3277,
+     3686,
+     3686,
+     3686,
+     3686
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -9308.16,
+       15595.52,
+       3481.6
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31088,
+     31089,
+     31090,
+     31091,
+     31092,
+     31093,
+     31094,
+     31095
+    ],
+    "face_ids": [
+     23279,
+     23280,
+     23281,
+     23282,
+     23283,
+     23284
+    ],
+    "sector_ids": [
+     54,
+     59
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -9042,
+     -9021,
+     -9165,
+     -9185,
+     -9185,
+     -9165,
+     -9021,
+     -9042
+    ],
+    "y_offsets": [
+     15882,
+     15862,
+     15718,
+     15739,
+     15739,
+     15718,
+     15862,
+     15882
+    ],
+    "z_offsets": [
+     3277,
+     3277,
+     3277,
+     3277,
+     3686,
+     3686,
+     3686,
+     3686
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -9041.92,
+       15861.76,
+       3481.6
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": 90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 5,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     31096,
+     31097,
+     31098,
+     31099,
+     31100,
+     31101,
+     31102,
+     31103
+    ],
+    "face_ids": [
+     23285,
+     23286,
+     23287,
+     23288,
+     23289,
+     23290
+    ],
+    "sector_ids": [
+     42
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -594,
+     -594,
+     -430,
+     -430,
+     -430,
+     -430,
+     -594,
+     -594
+    ],
+    "y_offsets": [
+     10086,
+     10066,
+     10066,
+     10086,
+     10086,
+     10066,
+     10066,
+     10086
+    ],
+    "z_offsets": [
+     3405,
+     3405,
+     3405,
+     3405,
+     3156,
+     3156,
+     3156,
+     3156
+    ],
+    "sounds": {
+     "jiggle": "Door/knock.wav"
+    }
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 5,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     31104,
+     31105,
+     31106,
+     31107,
+     31108,
+     31109,
+     31110,
+     31111
+    ],
+    "face_ids": [
+     23291,
+     23292,
+     23293,
+     23294,
+     23295,
+     23296
+    ],
+    "sector_ids": [
+     52
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4485,
+     4485,
+     4465,
+     4465,
+     4465,
+     4465,
+     4485,
+     4485
+    ],
+    "y_offsets": [
+     12370,
+     12534,
+     12534,
+     12370,
+     12534,
+     12370,
+     12370,
+     12534
+    ],
+    "z_offsets": [
+     3405,
+     3405,
+     3405,
+     3405,
+     3156,
+     3156,
+     3156,
+     3156
+    ],
+    "sounds": {
+     "jiggle": "Door/knock.wav"
+    }
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 3,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     31112,
+     31113,
+     31114,
+     31115,
+     31116,
+     31117,
+     31118,
+     31119,
+     31120,
+     31121,
+     31122,
+     31123
+    ],
+    "face_ids": [
+     23297,
+     23298,
+     23299,
+     23300,
+     23301,
+     23302,
+     23303,
+     23304,
+     23305,
+     23306
+    ],
+    "sector_ids": [
+     32
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     8274,
+     8356,
+     8376,
+     8294,
+     8294,
+     8376,
+     8356,
+     8274,
+     8438,
+     8458,
+     8438,
+     8458
+    ],
+    "y_offsets": [
+     6825,
+     6907,
+     6886,
+     6804,
+     6804,
+     6886,
+     6907,
+     6825,
+     6989,
+     6968,
+     6989,
+     6968
+    ],
+    "z_offsets": [
+     3157,
+     3157,
+     3157,
+     3157,
+     3485,
+     3485,
+     3485,
+     3485,
+     3157,
+     3157,
+     3485,
+     3485
+    ],
+    "sounds": {
+     "jiggle": "Door/knock.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 5,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     31124,
+     31125,
+     31126,
+     31127,
+     31128,
+     31129,
+     31130,
+     31131
+    ],
+    "face_ids": [
+     23307,
+     23308,
+     23309,
+     23310,
+     23311,
+     23312
+    ],
+    "sector_ids": [
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     11054,
+     11054,
+     11208,
+     11208,
+     11208,
+     11208,
+     11054,
+     11054
+    ],
+    "y_offsets": [
+     1597,
+     1577,
+     1577,
+     1597,
+     1597,
+     1577,
+     1577,
+     1597
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3369,
+     3369,
+     3128,
+     3128,
+     3128,
+     3128
+    ],
+    "sounds": {
+     "jiggle": "Door/knock.wav"
+    }
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31132,
+     31133,
+     31134,
+     31135,
+     31136,
+     31137,
+     31138,
+     31139
+    ],
+    "face_ids": [
+     23313,
+     23314,
+     23315,
+     23316,
+     23317,
+     23318
+    ],
+    "sector_ids": [
+     34,
+     47
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1997,
+     1976,
+     1976,
+     1997,
+     1997,
+     1976,
+     1976,
+     1997
+    ],
+    "y_offsets": [
+     7700,
+     7700,
+     7537,
+     7537,
+     7537,
+     7537,
+     7700,
+     7700
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3131,
+     3131,
+     3131,
+     3131
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1986.56,
+       7690.24,
+       3265.28
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31140,
+     31141,
+     31142,
+     31143,
+     31144,
+     31145,
+     31146,
+     31147
+    ],
+    "face_ids": [
+     23319,
+     23320,
+     23321,
+     23322,
+     23323,
+     23324
+    ],
+    "sector_ids": [
+     34,
+     47
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1997,
+     1976,
+     1976,
+     1997,
+     1997,
+     1976,
+     1976,
+     1997
+    ],
+    "y_offsets": [
+     7537,
+     7537,
+     7373,
+     7373,
+     7373,
+     7373,
+     7537,
+     7537
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3131,
+     3131,
+     3131,
+     3131
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1986.56,
+       7383.04,
+       3265.28
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 8,
+    "legacy_attributes": 0,
+    "door_id": 9,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31148,
+     31149,
+     31150,
+     31151,
+     31152,
+     31153,
+     31154,
+     31155
+    ],
+    "face_ids": [
+     23325,
+     23326,
+     23327,
+     23328,
+     23329,
+     23330
+    ],
+    "sector_ids": [
+     60,
+     59
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -11264,
+     -11387,
+     -11387,
+     -11264,
+     -11387,
+     -11264,
+     -11387,
+     -11264
+    ],
+    "y_offsets": [
+     15483,
+     15483,
+     15483,
+     15483,
+     15503,
+     15503,
+     15503,
+     15503
+    ],
+    "z_offsets": [
+     3523,
+     3523,
+     3277,
+     3277,
+     3277,
+     3277,
+     3523,
+     3523
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -11376.64,
+       15493.12,
+       3399.68
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 9,
+    "legacy_attributes": 0,
+    "door_id": 10,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31156,
+     31157,
+     31158,
+     31159,
+     31160,
+     31161,
+     31162,
+     31163
+    ],
+    "face_ids": [
+     23331,
+     23332,
+     23333,
+     23334,
+     23335,
+     23336
+    ],
+    "sector_ids": [
+     60,
+     59
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -11264,
+     -11141,
+     -11141,
+     -11264,
+     -11264,
+     -11141,
+     -11141,
+     -11264
+    ],
+    "y_offsets": [
+     15483,
+     15483,
+     15483,
+     15483,
+     15503,
+     15503,
+     15503,
+     15503
+    ],
+    "z_offsets": [
+     3277,
+     3277,
+     3523,
+     3523,
+     3277,
+     3277,
+     3523,
+     3523
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -11151.36,
+       15493.12,
+       3399.68
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 10,
+    "legacy_attributes": 0,
+    "door_id": 11,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31164,
+     31165,
+     31166,
+     31167,
+     31168,
+     31169,
+     31170,
+     31171
+    ],
+    "face_ids": [
+     23337,
+     23338,
+     23339,
+     23340,
+     23341,
+     23342
+    ],
+    "sector_ids": [
+     46,
+     35
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     10496,
+     10496,
+     10496,
+     10496,
+     10516,
+     10516,
+     10516,
+     10516
+    ],
+    "y_offsets": [
+     10506,
+     10629,
+     10629,
+     10506,
+     10629,
+     10506,
+     10629,
+     10506
+    ],
+    "z_offsets": [
+     3379,
+     3379,
+     3133,
+     3133,
+     3133,
+     3133,
+     3379,
+     3379
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       10506.24,
+       10618.88,
+       3256.32
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 11,
+    "legacy_attributes": 0,
+    "door_id": 12,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31172,
+     31173,
+     31174,
+     31175,
+     31176,
+     31177,
+     31178,
+     31179
+    ],
+    "face_ids": [
+     23343,
+     23344,
+     23345,
+     23346,
+     23347,
+     23348
+    ],
+    "sector_ids": [
+     46,
+     35
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     10496,
+     10496,
+     10496,
+     10496,
+     10516,
+     10516,
+     10516,
+     10516
+    ],
+    "y_offsets": [
+     10506,
+     10383,
+     10383,
+     10506,
+     10506,
+     10383,
+     10506,
+     10383
+    ],
+    "z_offsets": [
+     3133,
+     3133,
+     3379,
+     3379,
+     3133,
+     3133,
+     3379,
+     3379
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       10506.24,
+       10393.6,
+       3256.32
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 12,
+    "legacy_attributes": 0,
+    "door_id": 13,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31180,
+     31181,
+     31182,
+     31183,
+     31184,
+     31185,
+     31186,
+     31187
+    ],
+    "face_ids": [
+     23349,
+     23350,
+     23351,
+     23352,
+     23353,
+     23354
+    ],
+    "sector_ids": [
+     52,
+     47
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3123,
+     3103,
+     3103,
+     3123,
+     3123,
+     3103,
+     3103,
+     3123
+    ],
+    "y_offsets": [
+     12534,
+     12534,
+     12370,
+     12370,
+     12370,
+     12370,
+     12534,
+     12534
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3151,
+     3151,
+     3151,
+     3151
+    ],
+    "ai_open": [
+     13
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3112.96,
+       12380.16,
+       3275.52
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 13,
+    "legacy_attributes": 0,
+    "door_id": 14,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31188,
+     31189,
+     31190,
+     31191,
+     31192,
+     31193,
+     31194,
+     31195,
+     31196,
+     31197,
+     31198,
+     31199,
+     31200,
+     31201,
+     31202,
+     31203,
+     31204,
+     31205,
+     31206,
+     31207,
+     31208,
+     31209,
+     31210,
+     31211,
+     31212,
+     31213,
+     31214,
+     31215,
+     31216,
+     31217,
+     31218,
+     31219,
+     31220,
+     31221,
+     31222,
+     31223,
+     31224,
+     31225,
+     31226,
+     31227,
+     31228,
+     31229,
+     31230,
+     31231,
+     31232,
+     31233,
+     31234,
+     31235,
+     31236,
+     31237,
+     31238,
+     31239,
+     31240,
+     31241,
+     31242,
+     31243,
+     31244,
+     31245,
+     31246,
+     31247,
+     31248,
+     31249,
+     31250,
+     31251,
+     31252,
+     31253,
+     31254,
+     31255,
+     31256,
+     31257,
+     31258,
+     31259,
+     31260,
+     31261,
+     31262,
+     31263,
+     31264,
+     31265,
+     31266,
+     31267
+    ],
+    "face_ids": [
+     23355,
+     23356,
+     23357,
+     23358,
+     23359,
+     23360,
+     23361,
+     23362,
+     23363,
+     23364,
+     23365,
+     23366,
+     23367,
+     23368,
+     23369,
+     23370,
+     23371,
+     23372,
+     23373,
+     23374,
+     23375,
+     23376,
+     23377,
+     23378,
+     23379,
+     23380,
+     23381,
+     23382,
+     23383,
+     23384,
+     23385,
+     23386,
+     23387,
+     23388,
+     23389,
+     23390,
+     23391,
+     23392,
+     23393,
+     23394,
+     23395,
+     23396,
+     23397,
+     23398,
+     23399,
+     23400,
+     23401,
+     23402
+    ],
+    "sector_ids": [
+     10
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     9600,
+     9600,
+     9600,
+     9600,
+     9590,
+     9590,
+     9590,
+     9590,
+     9539,
+     9539,
+     9539,
+     9539,
+     9528,
+     9528,
+     9528,
+     9528,
+     9380,
+     9380,
+     9626,
+     9626,
+     9615,
+     9390,
+     9626,
+     9626,
+     9380,
+     9380,
+     9615,
+     9390,
+     9446,
+     9446,
+     9446,
+     9446,
+     9436,
+     9436,
+     9436,
+     9436,
+     9477,
+     9477,
+     9477,
+     9477,
+     9467,
+     9467,
+     9467,
+     9467,
+     9390,
+     9380,
+     9380,
+     9390,
+     9569,
+     9569,
+     9569,
+     9569,
+     9559,
+     9559,
+     9559,
+     9559,
+     9626,
+     9626,
+     9380,
+     9615,
+     9626,
+     9626,
+     9615,
+     9380,
+     9508,
+     9508,
+     9508,
+     9508,
+     9498,
+     9498,
+     9498,
+     9498,
+     9416,
+     9416,
+     9416,
+     9416,
+     9405,
+     9405,
+     9405,
+     9405
+    ],
+    "y_offsets": [
+     1408,
+     1408,
+     1418,
+     1418,
+     1418,
+     1418,
+     1408,
+     1408,
+     1408,
+     1408,
+     1418,
+     1418,
+     1418,
+     1418,
+     1408,
+     1408,
+     1423,
+     1423,
+     1423,
+     1423,
+     1423,
+     1423,
+     1403,
+     1403,
+     1403,
+     1403,
+     1403,
+     1403,
+     1408,
+     1408,
+     1418,
+     1418,
+     1418,
+     1418,
+     1408,
+     1408,
+     1408,
+     1408,
+     1418,
+     1418,
+     1418,
+     1418,
+     1408,
+     1408,
+     1423,
+     1423,
+     1403,
+     1403,
+     1408,
+     1408,
+     1418,
+     1418,
+     1418,
+     1418,
+     1408,
+     1408,
+     1423,
+     1423,
+     1423,
+     1423,
+     1403,
+     1403,
+     1403,
+     1403,
+     1408,
+     1408,
+     1418,
+     1418,
+     1418,
+     1418,
+     1408,
+     1408,
+     1408,
+     1408,
+     1418,
+     1418,
+     1418,
+     1418,
+     1408,
+     1408
+    ],
+    "z_offsets": [
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3492,
+     3492,
+     3482,
+     3482,
+     3482,
+     3482,
+     3492,
+     3492,
+     3482,
+     3482,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3133,
+     3133,
+     3133,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3123,
+     3123,
+     3133,
+     3123,
+     3133,
+     3133,
+     3123,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       9390.08,
+       1413.12,
+       3235.839
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door01.wav"
+    }
+   },
+   {
+    "door_index": 14,
+    "legacy_attributes": 0,
+    "door_id": 15,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31268,
+     31269,
+     31270,
+     31271,
+     31272,
+     31273,
+     31274,
+     31275,
+     31276,
+     31277,
+     31278,
+     31279,
+     31280,
+     31281,
+     31282,
+     31283,
+     31284,
+     31285,
+     31286,
+     31287,
+     31288,
+     31289,
+     31290,
+     31291,
+     31292,
+     31293,
+     31294,
+     31295,
+     31296,
+     31297,
+     31298,
+     31299,
+     31300,
+     31301,
+     31302,
+     31303,
+     31304,
+     31305,
+     31306,
+     31307,
+     31308,
+     31309,
+     31310,
+     31311,
+     31312,
+     31313,
+     31314,
+     31315,
+     31316,
+     31317,
+     31318,
+     31319,
+     31320,
+     31321,
+     31322,
+     31323,
+     31324,
+     31325,
+     31326,
+     31327,
+     31328,
+     31329,
+     31330,
+     31331,
+     31332,
+     31333,
+     31334,
+     31335,
+     31336,
+     31337,
+     31338,
+     31339,
+     31340,
+     31341,
+     31342,
+     31343,
+     31344,
+     31345,
+     31346,
+     31347
+    ],
+    "face_ids": [
+     23403,
+     23404,
+     23405,
+     23406,
+     23407,
+     23408,
+     23409,
+     23410,
+     23411,
+     23412,
+     23413,
+     23414,
+     23415,
+     23416,
+     23417,
+     23418,
+     23419,
+     23420,
+     23421,
+     23422,
+     23423,
+     23424,
+     23425,
+     23426,
+     23427,
+     23428,
+     23429,
+     23430,
+     23431,
+     23432,
+     23433,
+     23434,
+     23435,
+     23436,
+     23437,
+     23438,
+     23439,
+     23440,
+     23441,
+     23442,
+     23443,
+     23444,
+     23445,
+     23446,
+     23447,
+     23448,
+     23449,
+     23450
+    ],
+    "sector_ids": [
+     10,
+     4
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     9600,
+     9600,
+     9600,
+     9600,
+     9590,
+     9590,
+     9590,
+     9590,
+     9539,
+     9539,
+     9539,
+     9539,
+     9528,
+     9528,
+     9528,
+     9528,
+     9380,
+     9380,
+     9626,
+     9626,
+     9615,
+     9390,
+     9626,
+     9626,
+     9380,
+     9380,
+     9615,
+     9390,
+     9446,
+     9446,
+     9446,
+     9446,
+     9436,
+     9436,
+     9436,
+     9436,
+     9477,
+     9477,
+     9477,
+     9477,
+     9467,
+     9467,
+     9467,
+     9467,
+     9390,
+     9380,
+     9380,
+     9390,
+     9569,
+     9569,
+     9569,
+     9569,
+     9559,
+     9559,
+     9559,
+     9559,
+     9626,
+     9626,
+     9380,
+     9615,
+     9626,
+     9626,
+     9615,
+     9380,
+     9508,
+     9508,
+     9508,
+     9508,
+     9498,
+     9498,
+     9498,
+     9498,
+     9416,
+     9416,
+     9416,
+     9416,
+     9405,
+     9405,
+     9405,
+     9405
+    ],
+    "y_offsets": [
+     1859,
+     1859,
+     1869,
+     1869,
+     1869,
+     1869,
+     1859,
+     1859,
+     1859,
+     1859,
+     1869,
+     1869,
+     1869,
+     1869,
+     1859,
+     1859,
+     1874,
+     1874,
+     1874,
+     1874,
+     1874,
+     1874,
+     1853,
+     1853,
+     1853,
+     1853,
+     1853,
+     1853,
+     1859,
+     1859,
+     1869,
+     1869,
+     1869,
+     1869,
+     1859,
+     1859,
+     1859,
+     1859,
+     1869,
+     1869,
+     1869,
+     1869,
+     1859,
+     1859,
+     1874,
+     1874,
+     1853,
+     1853,
+     1859,
+     1859,
+     1869,
+     1869,
+     1869,
+     1869,
+     1859,
+     1859,
+     1874,
+     1874,
+     1874,
+     1874,
+     1853,
+     1853,
+     1853,
+     1853,
+     1859,
+     1859,
+     1869,
+     1869,
+     1869,
+     1869,
+     1859,
+     1859,
+     1859,
+     1859,
+     1869,
+     1869,
+     1869,
+     1869,
+     1859,
+     1859
+    ],
+    "z_offsets": [
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3492,
+     3492,
+     3482,
+     3482,
+     3482,
+     3482,
+     3492,
+     3492,
+     3482,
+     3482,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3133,
+     3133,
+     3133,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3123,
+     3123,
+     3133,
+     3123,
+     3133,
+     3133,
+     3123,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482,
+     3482,
+     3133,
+     3133,
+     3482,
+     3133,
+     3482,
+     3133,
+     3482
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       9390.08,
+       1413.12,
+       3235.839
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door01.wav"
+    }
+   },
+   {
+    "door_index": 15,
+    "legacy_attributes": 0,
+    "door_id": 16,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31348,
+     31349,
+     31350,
+     31351,
+     31352,
+     31353,
+     31354,
+     31355
+    ],
+    "face_ids": [
+     23451,
+     23452,
+     23453,
+     23454,
+     23455,
+     23456
+    ],
+    "sector_ids": [
+     11,
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7619,
+     7455,
+     7455,
+     7619,
+     7619,
+     7455,
+     7455,
+     7619
+    ],
+    "y_offsets": [
+     1341,
+     1341,
+     1321,
+     1321,
+     1321,
+     1321,
+     1341,
+     1341
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123
+    ],
+    "ai_open": [
+     16,
+     17
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7464.96,
+       1331.2,
+       3246.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 16,
+    "legacy_attributes": 0,
+    "door_id": 17,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31356,
+     31357,
+     31358,
+     31359,
+     31360,
+     31361,
+     31362,
+     31363
+    ],
+    "face_ids": [
+     23457,
+     23458,
+     23459,
+     23460,
+     23461,
+     23462
+    ],
+    "sector_ids": [
+     11,
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7619,
+     7619,
+     7782,
+     7782,
+     7782,
+     7782,
+     7619,
+     7619
+    ],
+    "y_offsets": [
+     1341,
+     1321,
+     1321,
+     1341,
+     1341,
+     1321,
+     1321,
+     1341
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123
+    ],
+    "ai_open": [
+     16,
+     17
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7772.16,
+       1331.2,
+       3246.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 17,
+    "legacy_attributes": 0,
+    "door_id": 18,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31364,
+     31365,
+     31366,
+     31367,
+     31368,
+     31369,
+     31370,
+     31371
+    ],
+    "face_ids": [
+     23463,
+     23464,
+     23465,
+     23466,
+     23467,
+     23468
+    ],
+    "sector_ids": [
+     11,
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6892,
+     6912,
+     6912,
+     6892,
+     6892,
+     6912,
+     6912,
+     6892
+    ],
+    "y_offsets": [
+     2099,
+     2099,
+     2263,
+     2263,
+     2263,
+     2263,
+     2099,
+     2099
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       6901.76,
+       2252.8,
+       3246.343
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 18,
+    "legacy_attributes": 0,
+    "door_id": 19,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31372,
+     31373,
+     31374,
+     31375,
+     31376,
+     31377,
+     31378,
+     31379
+    ],
+    "face_ids": [
+     23469,
+     23470,
+     23471,
+     23472,
+     23473,
+     23474
+    ],
+    "sector_ids": [
+     11,
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     6892,
+     6892,
+     6912,
+     6912,
+     6912,
+     6912,
+     6892,
+     6892
+    ],
+    "y_offsets": [
+     2099,
+     1935,
+     1935,
+     2099,
+     2099,
+     1935,
+     1935,
+     2099
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       6901.76,
+       1945.6,
+       3246.343
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 19,
+    "legacy_attributes": 0,
+    "door_id": 20,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31380,
+     31381,
+     31382,
+     31383,
+     31384,
+     31385,
+     31386,
+     31387
+    ],
+    "face_ids": [
+     23475,
+     23476,
+     23477,
+     23478,
+     23479,
+     23480
+    ],
+    "sector_ids": [
+     42,
+     51
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -1270,
+     -1270,
+     -1106,
+     -1106,
+     -1106,
+     -1106,
+     -1270,
+     -1270
+    ],
+    "y_offsets": [
+     11049,
+     11028,
+     11028,
+     11049,
+     11049,
+     11028,
+     11028,
+     11049
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3151,
+     3151,
+     3151,
+     3151
+    ],
+    "ai_open": [
+     20,
+     21
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -1259.52,
+       11038.72,
+       3275.52
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 20,
+    "legacy_attributes": 0,
+    "door_id": 21,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31388,
+     31389,
+     31390,
+     31391,
+     31392,
+     31393,
+     31394,
+     31395
+    ],
+    "face_ids": [
+     23481,
+     23482,
+     23483,
+     23484,
+     23485,
+     23486
+    ],
+    "sector_ids": [
+     42,
+     51
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -1106,
+     -1106,
+     -942,
+     -942,
+     -942,
+     -942,
+     -1106,
+     -1106
+    ],
+    "y_offsets": [
+     11049,
+     11028,
+     11028,
+     11049,
+     11049,
+     11028,
+     11028,
+     11049
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3151,
+     3151,
+     3151,
+     3151
+    ],
+    "ai_open": [
+     20,
+     21
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -952.32,
+       11038.72,
+       3275.52
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 21,
+    "legacy_attributes": 0,
+    "door_id": 22,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31396,
+     31397,
+     31398,
+     31399,
+     31400,
+     31401,
+     31402,
+     31403
+    ],
+    "face_ids": [
+     23487,
+     23488,
+     23489,
+     23490,
+     23491,
+     23492
+    ],
+    "sector_ids": [
+     40,
+     31
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -5489,
+     -5489,
+     -5325,
+     -5325,
+     -5325,
+     -5325,
+     -5489,
+     -5489
+    ],
+    "y_offsets": [
+     9124,
+     9124,
+     9124,
+     9124,
+     9103,
+     9103,
+     9103,
+     9103
+    ],
+    "z_offsets": [
+     3151,
+     3397,
+     3397,
+     3151,
+     3151,
+     3397,
+     3397,
+     3151
+    ],
+    "ai_open": [
+     22
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -5478.4,
+       9113.6,
+       3276.8
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 22,
+    "legacy_attributes": 0,
+    "door_id": 23,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31404,
+     31405,
+     31406,
+     31407,
+     31408,
+     31409,
+     31410,
+     31411
+    ],
+    "face_ids": [
+     23493,
+     23494,
+     23495,
+     23496,
+     23497,
+     23498
+    ],
+    "sector_ids": [
+     43,
+     44
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4004,
+     3983,
+     3983,
+     4004,
+     4004,
+     3983,
+     3983,
+     4004
+    ],
+    "y_offsets": [
+     9748,
+     9748,
+     9585,
+     9585,
+     9585,
+     9585,
+     9748,
+     9748
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3131,
+     3131,
+     3131,
+     3131
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3993.6,
+       9594.88,
+       3265.28
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 23,
+    "legacy_attributes": 0,
+    "door_id": 24,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31412,
+     31413,
+     31414,
+     31415,
+     31416,
+     31417,
+     31418,
+     31419
+    ],
+    "face_ids": [
+     23499,
+     23500,
+     23501,
+     23502,
+     23503,
+     23504
+    ],
+    "sector_ids": [
+     22,
+     28
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     15862,
+     15862,
+     15862,
+     15862,
+     15882,
+     15882,
+     15882,
+     15882
+    ],
+    "y_offsets": [
+     3722,
+     3722,
+     3907,
+     3907,
+     3907,
+     3907,
+     3722,
+     3722
+    ],
+    "z_offsets": [
+     3113,
+     3359,
+     3359,
+     3113,
+     3359,
+     3113,
+     3113,
+     3359
+    ],
+    "ai_open": [
+     24
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       15872.0,
+       3896.32,
+       3235.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 24,
+    "legacy_attributes": 0,
+    "door_id": 25,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31420,
+     31421,
+     31422,
+     31423,
+     31424,
+     31425,
+     31426,
+     31427
+    ],
+    "face_ids": [
+     23505,
+     23506,
+     23507,
+     23508,
+     23509,
+     23510
+    ],
+    "sector_ids": [
+     4,
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     11643,
+     11725,
+     11709,
+     11628,
+     11628,
+     11709,
+     11725,
+     11643
+    ],
+    "y_offsets": [
+     1628,
+     1710,
+     1725,
+     1644,
+     1644,
+     1725,
+     1710,
+     1628
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       11642.88,
+       1643.52,
+       3246.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 25,
+    "legacy_attributes": 0,
+    "door_id": 26,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31428,
+     31429,
+     31430,
+     31431,
+     31432,
+     31433,
+     31434,
+     31435
+    ],
+    "face_ids": [
+     23511,
+     23512,
+     23513,
+     23514,
+     23515,
+     23516
+    ],
+    "sector_ids": [
+     4,
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     11807,
+     11791,
+     11709,
+     11725,
+     11725,
+     11709,
+     11791,
+     11807
+    ],
+    "y_offsets": [
+     1792,
+     1807,
+     1725,
+     1710,
+     1710,
+     1725,
+     1807,
+     1792
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       11791.36,
+       1792.0,
+       3246.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 26,
+    "legacy_attributes": 0,
+    "door_id": 27,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31436,
+     31437,
+     31438,
+     31439,
+     31440,
+     31441,
+     31442,
+     31443
+    ],
+    "face_ids": [
+     23517,
+     23518,
+     23519,
+     23520,
+     23521,
+     23522
+    ],
+    "sector_ids": [
+     25,
+     28
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     13783,
+     13660,
+     13660,
+     13783,
+     13660,
+     13783,
+     13660,
+     13783
+    ],
+    "y_offsets": [
+     5207,
+     5207,
+     5207,
+     5207,
+     5217,
+     5217,
+     5217,
+     5217
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123,
+     3369,
+     3369
+    ],
+    "ai_open": [
+     27,
+     28
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       13777.92,
+       5212.16,
+       3246.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 27,
+    "legacy_attributes": 0,
+    "door_id": 28,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31444,
+     31445,
+     31446,
+     31447,
+     31448,
+     31449,
+     31450,
+     31451
+    ],
+    "face_ids": [
+     23523,
+     23524,
+     23525,
+     23526,
+     23527,
+     23528
+    ],
+    "sector_ids": [
+     25,
+     28
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     13660,
+     13537,
+     13537,
+     13660,
+     13537,
+     13660,
+     13537,
+     13660
+    ],
+    "y_offsets": [
+     5207,
+     5207,
+     5207,
+     5207,
+     5217,
+     5217,
+     5217,
+     5217
+    ],
+    "z_offsets": [
+     3369,
+     3369,
+     3123,
+     3123,
+     3123,
+     3123,
+     3369,
+     3369
+    ],
+    "ai_open": [
+     27,
+     28
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       13542.4,
+       5212.16,
+       3246.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 28,
+    "legacy_attributes": 0,
+    "door_id": 29,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 250,
+    "close_speed": 250,
+    "state": 2,
+    "vertex_ids": [
+     31452,
+     31453,
+     31454,
+     31455,
+     31456,
+     31457,
+     31458,
+     31459
+    ],
+    "face_ids": [
+     23529,
+     23530,
+     23531,
+     23532,
+     23533,
+     23534
+    ],
+    "sector_ids": [
+     59
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -8197,
+     -7972,
+     -7972,
+     -8197,
+     -8197,
+     -7972,
+     -7972,
+     -8197
+    ],
+    "y_offsets": [
+     16097,
+     16097,
+     16138,
+     16138,
+     16097,
+     16097,
+     16138,
+     16138
+    ],
+    "z_offsets": [
+     4096,
+     4096,
+     4096,
+     4096,
+     3850,
+     3850,
+     3850,
+     3850
+    ],
+    "ai_open": [
+     29,
+     30
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -8197.12,
+       16138.24,
+       3973.12
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": 90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 29,
+    "legacy_attributes": 0,
+    "door_id": 30,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 250,
+    "close_speed": 250,
+    "state": 2,
+    "vertex_ids": [
+     31460,
+     31461,
+     31462,
+     31463,
+     31464,
+     31465,
+     31466,
+     31467
+    ],
+    "face_ids": [
+     23535,
+     23536,
+     23537,
+     23538,
+     23539,
+     23540
+    ],
+    "sector_ids": [
+     59
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -8197,
+     -7972,
+     -7972,
+     -8197,
+     -7972,
+     -8197,
+     -8197,
+     -7972
+    ],
+    "y_offsets": [
+     16141,
+     16141,
+     16261,
+     16261,
+     16261,
+     16261,
+     16141,
+     16141
+    ],
+    "z_offsets": [
+     4096,
+     4096,
+     4096,
+     4096,
+     3850,
+     3850,
+     3850,
+     3850
+    ],
+    "ai_open": [
+     29,
+     30
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -8197.12,
+       16138.24,
+       3973.12
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": 90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 30,
+    "legacy_attributes": 0,
+    "door_id": 31,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31468,
+     31469,
+     31470,
+     31471,
+     31472,
+     31473,
+     31474,
+     31475
+    ],
+    "face_ids": [
+     23541,
+     23542,
+     23543,
+     23544,
+     23545,
+     23546
+    ],
+    "sector_ids": [
+     54,
+     48
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -8274,
+     -8151,
+     -8151,
+     -8274,
+     -8151,
+     -8274,
+     -8151,
+     -8274
+    ],
+    "y_offsets": [
+     12329,
+     12329,
+     12329,
+     12329,
+     12349,
+     12349,
+     12349,
+     12349
+    ],
+    "z_offsets": [
+     3267,
+     3267,
+     3512,
+     3512,
+     3512,
+     3512,
+     3267,
+     3267
+    ],
+    "ai_open": [
+     31,
+     32
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -8161.28,
+       12339.2,
+       3389.44
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 31,
+    "legacy_attributes": 0,
+    "door_id": 32,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31476,
+     31477,
+     31478,
+     31479,
+     31480,
+     31481,
+     31482,
+     31483
+    ],
+    "face_ids": [
+     23547,
+     23548,
+     23549,
+     23550,
+     23551,
+     23552
+    ],
+    "sector_ids": [
+     54,
+     48
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -8274,
+     -8274,
+     -8397,
+     -8397,
+     -8397,
+     -8397,
+     -8274,
+     -8274
+    ],
+    "y_offsets": [
+     12329,
+     12329,
+     12329,
+     12329,
+     12349,
+     12349,
+     12349,
+     12349
+    ],
+    "z_offsets": [
+     3267,
+     3512,
+     3512,
+     3267,
+     3267,
+     3512,
+     3512,
+     3267
+    ],
+    "ai_open": [
+     31,
+     32
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -8386.56,
+       12339.2,
+       3389.44
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 32,
+    "legacy_attributes": 0,
+    "door_id": 33,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31484,
+     31485,
+     31486,
+     31487,
+     31488,
+     31489,
+     31490,
+     31491
+    ],
+    "face_ids": [
+     23553,
+     23554,
+     23555,
+     23556,
+     23557,
+     23558
+    ],
+    "sector_ids": [
+     57,
+     54
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -5775,
+     -5775,
+     -5775,
+     -5775,
+     -5796,
+     -5796,
+     -5796,
+     -5796
+    ],
+    "y_offsets": [
+     14131,
+     14131,
+     14008,
+     14008,
+     14131,
+     14008,
+     14008,
+     14131
+    ],
+    "z_offsets": [
+     3267,
+     3512,
+     3512,
+     3267,
+     3512,
+     3512,
+     3267,
+     3267
+    ],
+    "ai_open": [
+     33,
+     34
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -5785.6,
+       14018.56,
+       3389.44
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 33,
+    "legacy_attributes": 0,
+    "door_id": 34,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31492,
+     31493,
+     31494,
+     31495,
+     31496,
+     31497,
+     31498,
+     31499
+    ],
+    "face_ids": [
+     23559,
+     23560,
+     23561,
+     23562,
+     23563,
+     23564
+    ],
+    "sector_ids": [
+     57,
+     54
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -5775,
+     -5775,
+     -5775,
+     -5775,
+     -5796,
+     -5796,
+     -5796,
+     -5796
+    ],
+    "y_offsets": [
+     14131,
+     14254,
+     14254,
+     14131,
+     14254,
+     14254,
+     14131,
+     14131
+    ],
+    "z_offsets": [
+     3267,
+     3267,
+     3512,
+     3512,
+     3267,
+     3512,
+     3512,
+     3267
+    ],
+    "ai_open": [
+     33,
+     34
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -5785.6,
+       14243.84,
+       3389.44
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 34,
+    "legacy_attributes": 0,
+    "door_id": 35,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31500,
+     31501,
+     31502,
+     31503,
+     31504,
+     31505,
+     31506,
+     31507
+    ],
+    "face_ids": [
+     23565,
+     23566,
+     23567,
+     23568,
+     23569,
+     23570
+    ],
+    "sector_ids": [
+     35
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     8576,
+     8591,
+     8714,
+     8699,
+     8699,
+     8714,
+     8591,
+     8576
+    ],
+    "y_offsets": [
+     6006,
+     5990,
+     6113,
+     6129,
+     6129,
+     6113,
+     5990,
+     6006
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3154,
+     3154,
+     3154,
+     3154
+    ],
+    "ai_open": [
+     35,
+     36
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       8698.88,
+       6113.28,
+       3276.8
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": 90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 35,
+    "legacy_attributes": 0,
+    "door_id": 36,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31508,
+     31509,
+     31510,
+     31511,
+     31512,
+     31513,
+     31514,
+     31515
+    ],
+    "face_ids": [
+     23571,
+     23572,
+     23573,
+     23574,
+     23575,
+     23576
+    ],
+    "sector_ids": [
+     35,
+     32
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     8591,
+     8576,
+     8453,
+     8468,
+     8591,
+     8468,
+     8453,
+     8576
+    ],
+    "y_offsets": [
+     5990,
+     6006,
+     5883,
+     5868,
+     5990,
+     5868,
+     5883,
+     6006
+    ],
+    "z_offsets": [
+     3400,
+     3400,
+     3400,
+     3400,
+     3154,
+     3154,
+     3154,
+     3154
+    ],
+    "ai_open": [
+     35,
+     36
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       8468.48,
+       5882.88,
+       3276.8
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 36,
+    "legacy_attributes": 0,
+    "door_id": 37,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31516,
+     31517,
+     31518,
+     31519,
+     31520,
+     31521,
+     31522,
+     31523
+    ],
+    "face_ids": [
+     23577,
+     23578,
+     23579,
+     23580,
+     23581,
+     23582
+    ],
+    "sector_ids": [
+     24,
+     26
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2181,
+     2181,
+     2181,
+     2181,
+     2202,
+     2202,
+     2202,
+     2202
+    ],
+    "y_offsets": [
+     4751,
+     4751,
+     4874,
+     4874,
+     4874,
+     4874,
+     4751,
+     4751
+    ],
+    "z_offsets": [
+     3151,
+     3397,
+     3397,
+     3151,
+     3151,
+     3397,
+     3397,
+     3151
+    ],
+    "ai_open": [
+     37,
+     38
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       2191.36,
+       4761.6,
+       3274.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 37,
+    "legacy_attributes": 0,
+    "door_id": 38,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31524,
+     31525,
+     31526,
+     31527,
+     31528,
+     31529,
+     31530,
+     31531
+    ],
+    "face_ids": [
+     23583,
+     23584,
+     23585,
+     23586,
+     23587,
+     23588
+    ],
+    "sector_ids": [
+     24,
+     26
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2181,
+     2181,
+     2181,
+     2181,
+     2202,
+     2202,
+     2202,
+     2202
+    ],
+    "y_offsets": [
+     4874,
+     4874,
+     4997,
+     4997,
+     4997,
+     4997,
+     4874,
+     4874
+    ],
+    "z_offsets": [
+     3151,
+     3397,
+     3397,
+     3151,
+     3151,
+     3397,
+     3397,
+     3151
+    ],
+    "ai_open": [
+     37,
+     38
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       2191.36,
+       4986.88,
+       3274.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 38,
+    "legacy_attributes": 0,
+    "door_id": 39,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     31532,
+     31533,
+     31534,
+     31535,
+     31536,
+     31537,
+     31538,
+     31539,
+     31540,
+     31541,
+     31542,
+     31543,
+     31544,
+     31545,
+     31546,
+     31547,
+     31548,
+     31549,
+     31550,
+     31551,
+     31552,
+     31553,
+     31554,
+     31555,
+     31556,
+     31557,
+     31558,
+     31559,
+     31560,
+     31561,
+     31562,
+     31563,
+     31564,
+     31565,
+     31566,
+     31567,
+     31568,
+     31569,
+     31570,
+     31571,
+     31572,
+     31573,
+     31574,
+     31575,
+     31576,
+     31577,
+     31578,
+     31579,
+     31580,
+     31581,
+     31582,
+     31583,
+     31584,
+     31585,
+     31586,
+     31587,
+     31588,
+     31589,
+     31590,
+     31591,
+     31592,
+     31593,
+     31594,
+     31595,
+     31596,
+     31597,
+     31598,
+     31599,
+     31600,
+     31601,
+     31602,
+     31603,
+     31604,
+     31605,
+     31606,
+     31607,
+     31608,
+     31609,
+     31610,
+     31611
+    ],
+    "face_ids": [
+     23589,
+     23590,
+     23591,
+     23592,
+     23593,
+     23594,
+     23595,
+     23596,
+     23597,
+     23598,
+     23599,
+     23600,
+     23601,
+     23602,
+     23603,
+     23604,
+     23605,
+     23606,
+     23607,
+     23608,
+     23609,
+     23610,
+     23611,
+     23612,
+     23613,
+     23614,
+     23615,
+     23616,
+     23617,
+     23618,
+     23619,
+     23620,
+     23621,
+     23622,
+     23623,
+     23624,
+     23625,
+     23626,
+     23627,
+     23628,
+     23629,
+     23630,
+     23631,
+     23632,
+     23633,
+     23634,
+     23635,
+     23636
+    ],
+    "sector_ids": [
+     22,
+     4
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     16512,
+     16512,
+     16522,
+     16522,
+     16522,
+     16522,
+     16512,
+     16512,
+     16512,
+     16512,
+     16522,
+     16522,
+     16522,
+     16522,
+     16512,
+     16512,
+     16527,
+     16527,
+     16527,
+     16527,
+     16507,
+     16507,
+     16507,
+     16507,
+     16512,
+     16512,
+     16522,
+     16522,
+     16522,
+     16522,
+     16512,
+     16512,
+     16527,
+     16527,
+     16527,
+     16527,
+     16507,
+     16507,
+     16507,
+     16507,
+     16512,
+     16512,
+     16522,
+     16522,
+     16522,
+     16522,
+     16512,
+     16512,
+     16512,
+     16512,
+     16522,
+     16522,
+     16522,
+     16522,
+     16512,
+     16512,
+     16512,
+     16512,
+     16522,
+     16522,
+     16522,
+     16522,
+     16512,
+     16512,
+     16512,
+     16512,
+     16522,
+     16522,
+     16522,
+     16522,
+     16512,
+     16512,
+     16527,
+     16527,
+     16507,
+     16507,
+     16527,
+     16527,
+     16507,
+     16507
+    ],
+    "y_offsets": [
+     4316,
+     4316,
+     4316,
+     4316,
+     4326,
+     4326,
+     4326,
+     4326,
+     4285,
+     4285,
+     4285,
+     4285,
+     4296,
+     4296,
+     4296,
+     4296,
+     4372,
+     4383,
+     4383,
+     4372,
+     4383,
+     4383,
+     4372,
+     4372,
+     4347,
+     4347,
+     4347,
+     4347,
+     4357,
+     4357,
+     4357,
+     4357,
+     4383,
+     4137,
+     4137,
+     4147,
+     4137,
+     4137,
+     4383,
+     4147,
+     4255,
+     4255,
+     4255,
+     4255,
+     4265,
+     4265,
+     4265,
+     4265,
+     4224,
+     4224,
+     4224,
+     4224,
+     4234,
+     4234,
+     4234,
+     4234,
+     4193,
+     4193,
+     4193,
+     4193,
+     4204,
+     4204,
+     4204,
+     4204,
+     4163,
+     4163,
+     4163,
+     4163,
+     4173,
+     4173,
+     4173,
+     4173,
+     4137,
+     4147,
+     4147,
+     4137,
+     4137,
+     4383,
+     4137,
+     4383
+    ],
+    "z_offsets": [
+     3348,
+     3123,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3348,
+     3123,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3123,
+     3348,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3348,
+     3123,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3359,
+     3359,
+     3348,
+     3348,
+     3348,
+     3359,
+     3359,
+     3348,
+     3348,
+     3123,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3348,
+     3123,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3348,
+     3123,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3348,
+     3123,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3348,
+     3123,
+     3123,
+     3123,
+     3123,
+     3113,
+     3113,
+     3113,
+     3113
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       9753.6,
+       8570.88,
+       19968.0
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door01.wav"
+    }
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    14377,
+    164,
+    3093
+   ],
+   "direction_degrees": 140
+  },
+  {
+   "start_index": 1,
+   "source_name": "StartPoint1",
+   "position": [
+    2048,
+    14664,
+    3093
+   ],
+   "direction_degrees": 270
+  },
+  {
+   "start_index": 2,
+   "source_name": "TownPortal",
+   "position": [
+    -10015,
+    11878,
+    3268
+   ],
+   "direction_degrees": 280
+  }
+ ],
+ "ladders": [
+  {
+   "id": "Ladder0",
+   "bottom": [
+    14167.04,
+    5176.32,
+    3123.2
+   ],
+   "top": [
+    14167.04,
+    5176.32,
+    3491.84
+   ],
+   "facing_degrees": 180.0,
+   "width": 112.64,
+   "reach": 48.0,
+   "top_exit": [
+    13952.0,
+    5094.4,
+    3496.96
+   ],
+   "grab_at_top": true
+  },
+  {
+   "id": "Ladder2",
+   "bottom": [
+    -8028.16,
+    15651.84,
+    3809.28
+   ],
+   "top": [
+    -8028.16,
+    15651.84,
+    4531.2
+   ],
+   "facing_degrees": 270.0,
+   "width": 112.64,
+   "reach": 48.0,
+   "top_exit": [
+    -8028.16,
+    15462.4,
+    4536.32
+   ],
+   "grab_at_top": true
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:thronheimcity:object:53",
+   "source_object_index": 53,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest5.ABC",
+   "source_skin": "Skins\\Props\\Chest5.dtx",
+   "source_position_lt": [
+    -2922.0,
+    1770.0,
+    5482.0
+   ],
+   "position": {
+    "x": -7480,
+    "y": 14034,
+    "z": 4531
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 4,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "front"
+ },
+ "opaque_faces": [
+  17458,
+  17459,
+  17460,
+  17461,
+  17462,
+  17463,
+  17464,
+  17465,
+  17466,
+  17467,
+  17468,
+  17469,
+  17470,
+  17471,
+  17472,
+  17473,
+  17474,
+  17475,
+  17476,
+  17477,
+  17478,
+  17479,
+  17480,
+  17481,
+  17482,
+  18161,
+  18162,
+  18163,
+  18164,
+  18165,
+  18166,
+  18167
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    17018,
+    17019,
+    17020,
+    17021,
+    17036,
+    17037,
+    17038,
+    17039,
+    17040,
+    17041,
+    17042,
+    17043
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  },
+  {
+   "faces": [
+    17022,
+    17023,
+    17024,
+    17030,
+    17031,
+    17032,
+    17033,
+    17034,
+    17035
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  },
+  {
+   "faces": [
+    17025,
+    17026,
+    17027,
+    17028,
+    17029
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  },
+  {
+   "faces": [
+    23236,
+    23237,
+    23238,
+    23239,
+    23240,
+    23241,
+    23242,
+    23243,
+    23244,
+    23245,
+    23246,
+    23247,
+    23248,
+    23249,
+    23250,
+    23251,
+    23252,
+    23253,
+    23254,
+    23255,
+    23256,
+    23257,
+    23258,
+    23259,
+    23260,
+    23261,
+    23262,
+    23263,
+    23264,
+    23265,
+    23266,
+    23267,
+    23268,
+    23269,
+    23270,
+    23271,
+    23272
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "actor_barriers": {
+  "faces": [
+   17280,
+   17281,
+   17282,
+   17283,
+   17284,
+   17285,
+   17286,
+   17287,
+   17288,
+   17289,
+   17290,
+   17291,
+   17741,
+   17742,
+   17743,
+   17744,
+   17745,
+   17746,
+   17747,
+   17748,
+   17749,
+   17750,
+   17751,
+   17752,
+   17753,
+   17754,
+   17755,
+   17756,
+   17757,
+   17758,
+   17895,
+   17896,
+   17897,
+   17898,
+   20415,
+   20416,
+   20417,
+   20418,
+   20419,
+   20420,
+   20421,
+   20422,
+   20423,
+   20424,
+   20425,
+   20426,
+   20427,
+   20428,
+   20429,
+   20430,
+   20431,
+   20432,
+   20433,
+   20434,
+   20435,
+   20436,
+   20437,
+   20438,
+   20691,
+   20692,
+   20693,
+   20694,
+   20695,
+   20696
+  ]
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [],
+ "destructibles": [
+  {
+   "id": 18,
+   "name": "DestructableBrush2",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.72,
+   "center": [
+    2458,
+    6963,
+    3779
+   ],
+   "cog": 20018
+  },
+  {
+   "id": 19,
+   "name": "DestructableBrush3",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.72,
+   "center": [
+    2888,
+    6533,
+    3779
+   ],
+   "cog": 20019
+  },
+  {
+   "id": 65,
+   "name": "PrisonWall",
+   "hp": 2000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    9508,
+    676,
+    3369
+   ],
+   "cog": 20065
+  },
+  {
+   "id": 301,
+   "name": "Bookcase47",
+   "hp": 100,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    -8090,
+    16189,
+    3791
+   ],
+   "decoration_cog": 20301
+  },
+  {
+   "id": 442,
+   "name": "Flowerboxes3",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    7823,
+    -1597,
+    3161
+   ],
+   "decoration_cog": 20442
+  },
+  {
+   "id": 443,
+   "name": "Flowerboxes5",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    8028,
+    -1224,
+    3161
+   ],
+   "decoration_cog": 20443
+  },
+  {
+   "id": 444,
+   "name": "Flowerboxes6",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    8028,
+    -1352,
+    3161
+   ],
+   "decoration_cog": 20444
+  },
+  {
+   "id": 445,
+   "name": "Flowerboxes7",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    7823,
+    -2314,
+    3161
+   ],
+   "decoration_cog": 20445
+  },
+  {
+   "id": 446,
+   "name": "Flowerboxes10",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    9370,
+    -1597,
+    3161
+   ],
+   "decoration_cog": 20446
+  },
+  {
+   "id": 447,
+   "name": "Flowerboxes12",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    9370,
+    -2314,
+    3161
+   ],
+   "decoration_cog": 20447
+  },
+  {
+   "id": 448,
+   "name": "Flowerboxes13",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    9175,
+    -1224,
+    3161
+   ],
+   "decoration_cog": 20448
+  },
+  {
+   "id": 449,
+   "name": "Flowerboxes14",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    9175,
+    -1352,
+    3161
+   ],
+   "decoration_cog": 20449
+  },
+  {
+   "id": 450,
+   "name": "Flowerboxes17",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    8950,
+    -1987,
+    3161
+   ],
+   "decoration_cog": 20450
+  },
+  {
+   "id": 451,
+   "name": "Flowerboxes18",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    8950,
+    -2314,
+    3161
+   ],
+   "decoration_cog": 20451
+  },
+  {
+   "id": 452,
+   "name": "Flowerboxes20",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    8253,
+    -2314,
+    3161
+   ],
+   "decoration_cog": 20452
+  },
+  {
+   "id": 453,
+   "name": "Flowerboxes19",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    8253,
+    -1987,
+    3161
+   ],
+   "decoration_cog": 20453
+  },
+  {
+   "id": 454,
+   "name": "Flowerboxes15",
+   "hp": 1000,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/crate_smash.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    8602,
+    -2386,
+    3348
+   ],
+   "decoration_cog": 20454
+  }
+ ],
+ "world_items": [
+  {
+   "source_id": "thronheimcity:Shield",
+   "source_object_index": 55,
+   "source_name": "Shield",
+   "position": {
+    "x": -11981,
+    "y": 15443,
+    "z": 3277
+   },
+   "item_id": 10375,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [
+    90216
+   ],
+   "pickup_qbits": [
+    90214
+   ],
+   "set_qbits": [
+    90216
+   ],
+   "pickup_event": 0,
+   "pose": {
+    "yaw": 180.0,
+    "pitch": -75.0,
+    "roll": 0.0
+   }
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 924,
+   "sound": "ambient/people/crowdnoise-ambience loop 01.wav",
+   "position": [
+    8602,
+    -1393,
+    3277
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1536,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 925,
+   "sound": "ambient/people/tavernambience.wav",
+   "position": [
+    11551,
+    2499,
+    3277
+   ],
+   "inner_radius": 256,
+   "outer_radius": 768,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 926,
+   "sound": "ambient/hammer hitting anvil.wav",
+   "position": [
+    1065,
+    4342,
+    3277
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    1.0,
+    5.0
+   ]
+  },
+  {
+   "key": 927,
+   "sound": "ambient/hammer hitting anvil.wav",
+   "position": [
+    -1106,
+    9830,
+    3277
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    1.0,
+    5.0
+   ]
+  },
+  {
+   "key": 928,
+   "sound": "ambient/magic-loop.wav",
+   "position": [
+    3768,
+    12452,
+    3277
+   ],
+   "inner_radius": 128,
+   "outer_radius": 768,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 929,
+   "sound": "ambient/people/chanting sound 02 ritual.wav",
+   "position": [
+    -8274,
+    11223,
+    3768
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    10.0,
+    30.0
+   ]
+  },
+  {
+   "key": 930,
+   "sound": "ambient/people/monks chanting.wav",
+   "position": [
+    -4915,
+    14131,
+    3768
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.157,
+   "loop": true
+  },
+  {
+   "key": 931,
+   "sound": "ambient/dogs/dog13.wav",
+   "position": [
+    -10732,
+    10772,
+    3277
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ]
+  },
+  {
+   "key": 932,
+   "sound": "ambient/dogs/dog13.wav",
+   "position": [
+    4465,
+    8315,
+    3277
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ]
+  },
+  {
+   "key": 933,
+   "sound": "ambient/dogs/dog13.wav",
+   "position": [
+    14131,
+    8233,
+    3277
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ]
+  },
+  {
+   "key": 934,
+   "sound": "ambient/birds/owl.wav",
+   "position": [
+    -7537,
+    14090,
+    5407
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 935,
+   "sound": "ambient/birds/owl.wav",
+   "position": [
+    14275,
+    5222,
+    4751
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 936,
+   "sound": "ambient/insects/cricket.wav",
+   "position": [
+    12800,
+    287,
+    3113
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 937,
+   "sound": "ambient/insects/cricket.wav",
+   "position": [
+    10936,
+    7700,
+    3113
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 938,
+   "sound": "ambient/insects/cricket.wav",
+   "position": [
+    -6226,
+    10752,
+    3113
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.262,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 103,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -11267,
+    17475,
+    3336
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 104,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3,
+    947,
+    -23
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 107,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -12109,
+    14815,
+    3336
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 276,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -12109,
+    14815,
+    3331
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "view_distance_scale": 0.5,
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   80,
+   80,
+   80
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   121,
+   133,
+   180
+  ],
+  "sun_gain": 4.0,
+  "sun_direction": [
+   0.2115,
+   -0.0252,
+   0.977
+  ]
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "arenvn3eay",
+    "tape9hcnxe",
+    "throiga3zi"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "ashrun2efs",
+    "thjojiwgib"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "anskg1vvmu",
+    "ansktwhusw",
+    "ashwahx503",
+    "ashwc9k8kr",
+    "darkjgjqs8",
+    "darkjhjfi9",
+    "dooko8ih77",
+    "drandtkl9o",
+    "drangvi8ss",
+    "dranjybqur",
+    "dungtogq7v",
+    "invib0beuz",
+    "invizvjn7n",
+    "keep2v1aa1",
+    "keepen1hqi",
+    "prmeccybx3",
+    "refi6i8c6x",
+    "stonerdn3k",
+    "stucrougk2",
+    "stur6vev4j",
+    "sturmkjyyf",
+    "sturo0ppwl",
+    "sturol8ay2",
+    "sturs4z7pm",
+    "sturtuff78",
+    "thjo0evfcr",
+    "thjo2ofjin",
+    "thjo4biequ",
+    "thjo5lfmmi",
+    "thjo7r3urr",
+    "thjo7rso44",
+    "thjo8x5opq",
+    "thjo9upapt",
+    "thjoc0s9ou",
+    "thjockuy0y",
+    "thjohdlfej",
+    "thjohyyf9u",
+    "thjok78y9i",
+    "thjonbwr6q",
+    "thjookpqku",
+    "thjop4u51e",
+    "thjopsktli",
+    "thjory8y1w",
+    "thjosabj3y",
+    "thjotgg91i",
+    "thjovo6jbj",
+    "thjozrklx1",
+    "thro31kgah",
+    "throi96jo3",
+    "throjhhvfb",
+    "thromnxmsb",
+    "throqzys6v",
+    "tilezvc84d"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "wate27jpcx"
+   ],
+   "walk_sound_id": 101,
+   "run_sound_id": 62
+  },
+  {
+   "texture_names": [
+    "ansk7tndqm",
+    "ashfyuwmhi",
+    "ashw5wt0xi",
+    "benc25qrwi",
+    "dark12wt8t",
+    "darkixxmfx",
+    "drana5s9ii",
+    "dung8ujjnp",
+    "oldwbgvrwh",
+    "ruin5x58q0",
+    "stur8fpuii",
+    "sturpy8ozj",
+    "thjo01nj31",
+    "thjo2vlg4n",
+    "thjo4ak6bc",
+    "thjo4xgsld",
+    "thjo5yiz06",
+    "thjo7ykbnp",
+    "thjo87u48r",
+    "thjoar0exg",
+    "thjoj5rw2p",
+    "thjokc1xmk",
+    "thjom1vt9b",
+    "thjonywk4u",
+    "thjoszlkbz",
+    "thjowbexzv",
+    "thjoxaa44b",
+    "thjoxnrgri",
+    "thjoxtx7kh",
+    "thjoylwudd",
+    "throguqhp1",
+    "traiyd3d3e",
+    "wall8a7bn7",
+    "wood5emx5q",
+    "wood7ehu0b",
+    "wood9zi2qf",
+    "woodh8w4vv",
+    "woodokospj",
+    "woodv944p9"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ]
+}

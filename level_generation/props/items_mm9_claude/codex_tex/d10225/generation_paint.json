@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png (third input) exactly in place. First input design_reference.png is detail/material reference only; second icon_x8.png is colour reference only (magenta is background). Output ONE transparent PNG, 1536x2048, 3:4 canvas. Guide has 3 columns by FOUR rows of 512-square cells. Rows 1-2 and 3-4 repeat identical five model views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve the actual guide orientations even where names seem unexpected. Each object must stay in exactly the guide position, size, outline and orientation. Paint grey surfaces only; never redraw, enlarge, move or redesign. Preserve all gaps and openings as transparent; column 3 rows 2 and 4 remain empty transparent.\nRows 1-2 PAINT: unlit base colour of Broderick's Hauberk: short-sleeved silver chain mail hauberk trimmed with bright blue cloth at neck, cuffs and edges of skirt split at front, pale blue-white belt with SILVER buckle at waist (silver per brief despite gold reference). Chainmail detail, engravings and scrollwork follow design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, outlines, text, ground or aura. Consistent material across all views.\nRows 3-4 MATERIAL MASK: exact same five guide silhouettes, filled with FLAT pure categorical colours only, NO shading texture outlines or antialiased blends inside: #FF0000 every metal including all chainmail and silver buckle; #00FF00 leather straps padding hide suede and fur, including leather belt body; #0000FF cloth including bright blue trims and cloth loops, lining, cords, ribbons, hair; #000000 gemstones crystal glass pearl enamel liquids. Every silhouette pixel exactly one category, nothing outside silhouettes. Chainmail is continuous solid red material region, NOT drawn individual rings in mask. Keep actual guide openings transparent. Change only surface colour; geometry and layout are immutable.\nCORRECTION, highest priority: The previous attempt had coloured splatter outside mask silhouettes and filled the large central opening in row3 col1. Strictly preserve the alpha silhouette of the ORIGINAL grey guide in all ten objects, including that fully transparent circular hole. Clean exact boundaries, absolutely no stray pixels, splatter or noise outside guide shapes. Material regions are clean flat shapes. Do not recreate the previous defects. Silver buckle must be solid RED in mask, belt leather green. Copy original guide positions precisely.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10225/design_reference.png",
+      "sha256": "4c80f7212b84209cb8bc52e0f13ce60ee4d4b4c8f1097ea8c8b3426c0c376a17"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10225/icon_x8.png",
+      "sha256": "10c97f50fa355eff7783e310dd524528e674b274a6682cb3cf69f8b23e0211fc"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10225/paint_mask_guide.png",
+      "sha256": "50f6e12bf5cdf9733e70546e15932791c676c3ed679612faac39f62643bd2aee"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0c-527a-79e0-9566-91ce0a28753c/exec-94a2b04c-5886-4385-b909-199f1b79b928.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10225/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: remaining stray edge pixels and incorrect mask opening; raw tool output preserved without modification."
+}

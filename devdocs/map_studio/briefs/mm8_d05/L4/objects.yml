@@ -1,0 +1,2396 @@
+format: 0
+start:
+  room: room:recess
+  at: [-3008, -1696]
+  facing: n
+doors:
+  - id: door:d1
+    opening: open:c22
+    kind: slide_up
+    fold: true
+    travel: 255
+    state: closed
+    thickness: 64
+    speed: 50
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05al, size: [128, 256]}, {texture: t65a05ar, size: [128, 256]}]
+    tile: true
+    notes: "Door 1, the maze's entry: a double door whose leaves change texture when opened (event 11)."
+  - id: door:d108
+    opening: open:corr11_crusher
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 64
+    speed: 75
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d109
+    opening: open:crusher_corr12
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 64
+    speed: 75
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d114
+    opening: open:cave_niche
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 32
+    speed: 75
+    surface: {texture: t6502b, size: [128, 128]}
+    secret: true
+    tile: true
+  - id: door:d115
+    opening: open:sanctum_niche
+    kind: slide_up
+    fold: true
+    travel: 127
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: t65a12, size: [128, 128]}
+    notes: "Door record 115: the panel over the secret niche; it rises into the lintel when the floor at the hall's middle is crossed (event 453)."
+  - id: door:d2_ne
+    opening: open:hall_alc_ne
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 32
+    speed: 50
+    tile: true
+    notes: "One of the four slabs of door record 2. In the original all four rise together the first time the hall's floor is touched (event 12, bound to the floor's faces); a door opened by walking somewhere cannot be said, so each opens when used."
+  - id: door:d2_nw
+    opening: open:hall_alc_nw
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 32
+    speed: 50
+    tile: true
+    notes: "One of the four slabs of door record 2. In the original all four rise together the first time the hall's floor is touched (event 12, bound to the floor's faces); a door opened by walking somewhere cannot be said, so each opens when used."
+  - id: door:d2_se
+    opening: open:hall_alc_se
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 32
+    speed: 50
+    tile: true
+    notes: "One of the four slabs of door record 2. In the original all four rise together the first time the hall's floor is touched (event 12, bound to the floor's faces); a door opened by walking somewhere cannot be said, so each opens when used."
+  - id: door:d2_sw
+    opening: open:hall_alc_sw
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 32
+    speed: 50
+    tile: true
+    notes: "One of the four slabs of door record 2. In the original all four rise together the first time the hall's floor is touched (event 12, bound to the floor's faces); a door opened by walking somewhere cannot be said, so each opens when used."
+  - id: door:d3
+    opening: open:corr5_clo_w
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 64
+    speed: 50
+    surface: {texture: t65b02, size: [128, 128]}
+    secret: true
+    tile: true
+  - id: door:d4
+    opening: open:corr5_clo_e
+    kind: slide_up
+    fold: true
+    travel: 239
+    state: closed
+    thickness: 64
+    speed: 50
+    surface: {texture: t65b02, size: [128, 128]}
+    secret: true
+    tile: true
+  - id: door:d5
+    opening: open:room7_hall8
+    kind: slide_up
+    fold: true
+    travel: 254
+    state: closed
+    thickness: 64
+    speed: 75
+    pictures:
+      - [{texture: t65b05l, size: [128, 256]}, {texture: t65b05r, size: [128, 256]}]
+    back_pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d52
+    opening: open:d52
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d53
+    opening: open:d53
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 320
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d54
+    opening: open:d54
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d55
+    opening: open:d55
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d56
+    opening: open:d56
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d57
+    opening: open:d57
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d58
+    opening: open:d58
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d59
+    opening: open:d59
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d6
+    opening: open:room7_n
+    kind: slide_down
+    travel: 254
+    state: closed
+    thickness: 128
+    speed: 75
+    surface: {texture: t65b02, size: [128, 128]}
+    secret: true
+    tile: true
+    notes: "Door 6: a block 128 thick that fills the doorway from the floor and sinks 254 into its doorway 255 high, its top left 1 above the floor as the original's (sunk all the way it lay in the floor's plane). The original marks only its north face secret (attribute 0x2); `secret` marks the whole leaf, the sunk top as well."
+  - id: door:d60
+    opening: open:d60
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d61
+    opening: open:d61
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d62
+    opening: open:d62
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d63
+    opening: open:d63
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d64
+    opening: open:d64
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d65
+    opening: open:d65
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d66
+    opening: open:d66
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d67
+    opening: open:d67
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d68
+    opening: open:d68
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d69
+    opening: open:d69
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d70
+    opening: open:d70
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d71
+    opening: open:d71
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d72
+    opening: open:d72
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d73
+    opening: open:d73
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d74
+    opening: open:d74
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d75
+    opening: open:d75
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d76
+    opening: open:d76
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d77
+    opening: open:d77
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d78
+    opening: open:d78
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d79
+    opening: open:d79
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d80
+    opening: open:d80
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d81
+    opening: open:d81
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d82
+    opening: open:d82
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d83
+    opening: open:d83
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d84
+    opening: open:d84
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d85
+    opening: open:d85
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d86
+    opening: open:d86
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d87
+    opening: open:d87
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 256
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d88
+    opening: open:d88
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d89
+    opening: open:d89
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d90
+    opening: open:d90
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d91
+    opening: open:d91
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d92
+    opening: open:d92
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+  - id: door:d93
+    opening: open:d93
+    kind: slide_up
+    fold: true
+    travel: 240
+    state: closed
+    thickness: 64
+    speed: 100
+    back_surface: {texture: t6502, size: [128, 128]}
+    pictures:
+      - [{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]
+    tile: true
+lifts:
+  - id: lift:step1_e
+    room: room:trap_hall
+    at: [288, 1344]
+    size: [64, 128]
+    travel: 128
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+  - id: lift:step1_w
+    room: room:trap_hall
+    at: [-160, 1344]
+    size: [64, 128]
+    travel: 128
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+  - id: lift:step2_e
+    room: room:trap_hall
+    at: [352, 1344]
+    size: [64, 128]
+    travel: 96
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+  - id: lift:step2_w
+    room: room:trap_hall
+    at: [-224, 1344]
+    size: [64, 128]
+    travel: 96
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+  - id: lift:step3_e
+    room: room:trap_hall
+    at: [416, 1344]
+    size: [64, 128]
+    travel: 64
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+  - id: lift:step3_w
+    room: room:trap_hall
+    at: [-288, 1344]
+    size: [64, 128]
+    travel: 64
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+  - id: lift:step4_e
+    room: room:trap_hall
+    at: [480, 1344]
+    size: [64, 128]
+    travel: 32
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+  - id: lift:step4_w
+    room: room:trap_hall
+    at: [-352, 1344]
+    size: [64, 128]
+    travel: 32
+    speed: 75
+    state: down
+    surface: {texture: t65o02c, size: [128, 128]}
+movers:
+  - id: mover:b10
+    room: room:h22
+    at: [8480, 1544]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 10: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b11
+    room: room:h22
+    at: [8544, 1544]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 11: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b12
+    room: room:h23a
+    at: [7584, 776]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 12: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b13
+    room: room:h23a
+    at: [7648, 776]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 13: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b14
+    room: room:h27a
+    at: [9376, 712]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 14: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b15
+    room: room:h27a
+    at: [9440, 712]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 15: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b16
+    room: room:h23b
+    at: [7200, 8]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 16: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b17
+    room: room:h23b
+    at: [7264, 8]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 17: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b18
+    room: room:h28a
+    at: [9760, -56]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 18: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b19
+    room: room:h28a
+    at: [9824, -56]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 19: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b20
+    room: room:h24a
+    at: [6560, -760]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 20: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b21
+    room: room:h24a
+    at: [6624, -760]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 21: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b22
+    room: room:h25
+    at: [7840, -760]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 22: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b23
+    room: room:h25
+    at: [7904, -760]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 23: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b24
+    room: room:h27b
+    at: [8992, -824]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 24: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b25
+    room: room:h27b
+    at: [9056, -824]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 25: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b26
+    room: room:h28b
+    at: [9952, -824]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 26: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b27
+    room: room:h28b
+    at: [10016, -824]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 27: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b28
+    room: room:h24b
+    at: [6368, -1528]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 28: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b29
+    room: room:h24b
+    at: [6432, -1528]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 29: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b30
+    room: room:h26a
+    at: [7456, -1528]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 30: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b31
+    room: room:h26a
+    at: [7520, -1528]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 31: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b32
+    room: room:h29a
+    at: [8800, -1592]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 32: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b33
+    room: room:h29a
+    at: [8864, -1592]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 33: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b34
+    room: room:h29a
+    at: [9568, -1592]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 34: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b35
+    room: room:h29a
+    at: [9632, -1592]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 35: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b36
+    room: room:h26b
+    at: [7264, -2296]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 36: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b37
+    room: room:h26b
+    at: [7328, -2296]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 37: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b38
+    room: room:h29b
+    at: [8608, -2360]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 38: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b39
+    room: room:h29b
+    at: [8672, -2360]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 39: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b40
+    room: room:h29c
+    at: [9760, -2360]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 40: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b41
+    room: room:h29c
+    at: [9824, -2360]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 41: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b42
+    room: room:h30
+    at: [7648, -3128]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 42: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b43
+    room: room:h30
+    at: [7712, -3128]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 43: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b44
+    room: room:h30
+    at: [8416, -3128]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 44: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b45
+    room: room:h30
+    at: [8480, -3128]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 45: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b46
+    room: room:h30
+    at: [9184, -3128]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 46: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b47
+    room: room:h30
+    at: [9248, -3128]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 47: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b48
+    room: room:h31
+    at: [7456, -3896]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 48: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b49
+    room: room:h31
+    at: [7520, -3896]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 49: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b50
+    room: room:h32
+    at: [8608, -3896]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 50: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:b51
+    room: room:h32
+    at: [8672, -3896]
+    size: [32, 16]
+    bottom: 80
+    height: 32
+    travel: [0, 16, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 51: a button 32 square, 16 proud of the wall pressed and 32 out (state on entry); pressing it moves it in and its partners out."
+  - id: mover:plate_e
+    room: room:crusher
+    at: [7295, 2432]
+    size: [2, 1280]
+    bottom: 48
+    floor_height: -736
+    height: 32
+    travel: [-638, 0, 0]
+    speed: 10
+    state: end
+    stretch: true
+    surface: {texture: t65a11, size: [64, 32]}
+    top_surface: {texture: t65c02, size: [128, 128]}
+    notes: "Door records 110 to 113: four floor plates, two at -656 over two at -704, each reaching from its wall to the room's middle; the trap draws them back into the walls at 10 units a second. Here a stub 2 wide that stretches 638 (the original's is 1 wide and stretches 639, as the west and south plates are here: a middle on the half unit next to the east or north wall is refused, see NOTES.md), standing on the room's floor at the wall (`floor_height: -736`; the funnel's bank begins 2 from the wall)."
+  - id: mover:plate_n
+    room: room:crusher
+    at: [6656, 3071]
+    size: [1280, 2]
+    bottom: 0
+    floor_height: -736
+    height: 32
+    travel: [0, -638, 0]
+    speed: 10
+    state: end
+    stretch: true
+    surface: {texture: t65a11, size: [64, 32]}
+    top_surface: {texture: t65c02, size: [128, 128]}
+    notes: "Door records 110 to 113: four floor plates, two at -656 over two at -704, each reaching from its wall to the room's middle; the trap draws them back into the walls at 10 units a second. Here a stub 2 wide that stretches 638 (the original's is 1 wide and stretches 639, as the west and south plates are here: a middle on the half unit next to the east or north wall is refused, see NOTES.md), standing on the room's floor at the wall (`floor_height: -736`; the funnel's bank begins 2 from the wall)."
+  - id: mover:plate_s
+    room: room:crusher
+    at: [6656, 1792.5]
+    size: [1280, 1]
+    bottom: 0
+    floor_height: -736
+    height: 32
+    travel: [0, 639, 0]
+    speed: 10
+    state: end
+    stretch: true
+    surface: {texture: t65a11, size: [64, 32]}
+    top_surface: {texture: t65c02, size: [128, 128]}
+    notes: "Door records 110 to 113: four floor plates, two at -656 over two at -704, each reaching from its wall to the room's middle; the trap draws them back into the walls at 10 units a second. As the original: a stub 1 wide at the wall that stretches 639, standing on the room's floor at the wall (`floor_height: -736`; the funnel's bank begins 2 from the wall)."
+  - id: mover:plate_w
+    room: room:crusher
+    at: [6016.5, 2432]
+    size: [1, 1280]
+    bottom: 48
+    floor_height: -736
+    height: 32
+    travel: [639, 0, 0]
+    speed: 10
+    state: end
+    stretch: true
+    surface: {texture: t65a11, size: [64, 32]}
+    top_surface: {texture: t65c02, size: [128, 128]}
+    notes: "Door records 110 to 113: four floor plates, two at -656 over two at -704, each reaching from its wall to the room's middle; the trap draws them back into the walls at 10 units a second. As the original: a stub 1 wide at the wall that stretches 639, standing on the room's floor at the wall (`floor_height: -736`; the funnel's bank begins 2 from the wall)."
+  - id: mover:step_1
+    room: room:alc_nw
+    at: [-796, 896]
+    size: [8, 32]
+    bottom: 128
+    height: 32
+    travel: [40, 0, 0]
+    speed: 100
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b02, size: [128, 128]}
+    end_surface: {texture: t65b02, size: [128, 128]}
+    notes: "Door record 100: a button 32 square standing 48 out of the alcove wall; pressed it goes in (here to 8 proud: a stretching mover keeps a stub)."
+  - id: mover:step_2
+    room: room:alc_ne
+    at: [924, 896]
+    size: [8, 32]
+    bottom: 128
+    height: 32
+    travel: [-40, 0, 0]
+    speed: 100
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b02, size: [128, 128]}
+    end_surface: {texture: t65b02, size: [128, 128]}
+    notes: "Door record 102: a button 32 square standing 48 out of the alcove wall; pressed it goes in (here to 8 proud: a stretching mover keeps a stub)."
+  - id: mover:step_3
+    room: room:alc_sw
+    at: [-796, 0]
+    size: [8, 32]
+    bottom: 128
+    height: 32
+    travel: [40, 0, 0]
+    speed: 100
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b02, size: [128, 128]}
+    end_surface: {texture: t65b02, size: [128, 128]}
+    notes: "Door record 104: a button 32 square standing 48 out of the alcove wall; pressed it goes in (here to 8 proud: a stretching mover keeps a stub)."
+  - id: mover:step_4
+    room: room:alc_se
+    at: [924, 0]
+    size: [8, 32]
+    bottom: 128
+    height: 32
+    travel: [-40, 0, 0]
+    speed: 100
+    state: end
+    stretch: true
+    surface: {texture: t65a13a, size: [32, 32]}
+    top_surface: {texture: t65b02, size: [128, 128]}
+    end_surface: {texture: t65b02, size: [128, 128]}
+    notes: "Door record 106: a button 32 square standing 48 out of the alcove wall; pressed it goes in (here to 8 proud: a stretching mover keeps a stub)."
+  - id: mover:stone_94
+    room: room:trap_hall
+    at: [64, -128]
+    size: [384, 128]
+    bottom: -128
+    height: 160
+    travel: [0, 0, 128]
+    speed: 30
+    state: end
+    surface: {texture: t65o02c, size: [128, 128]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 94: a stepping stone 160 high when the map is entered; it sinks to 32 (its stored pose) when stepped on and rises again when the south dais is stepped on."
+  - id: mover:stone_95
+    room: room:trap_hall
+    outline: [[256, 64], [320, 192], [64, 320], [0, 192]]
+    bottom: -128
+    height: 160
+    travel: [0, 0, 128]
+    speed: 40
+    state: end
+    surface: {texture: t65o02c, size: [128, 128]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 95: a stepping stone 160 high when the map is entered; it sinks to 32 (its stored pose) when stepped on and rises again when the south dais is stepped on."
+  - id: mover:stone_96
+    room: room:trap_hall
+    at: [-192, 448]
+    size: [128, 256]
+    bottom: -128
+    height: 160
+    travel: [0, 0, 128]
+    speed: 45
+    state: end
+    surface: {texture: t65o02c, size: [128, 128]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 96: a stepping stone 160 high when the map is entered; it sinks to 32 (its stored pose) when stepped on and rises again when the south dais is stepped on."
+  - id: mover:stone_97
+    room: room:trap_hall
+    outline: [[64, 576], [320, 704], [256, 832], [0, 704]]
+    bottom: -128
+    height: 160
+    travel: [0, 0, 128]
+    speed: 50
+    state: end
+    surface: {texture: t65o02c, size: [128, 128]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 97: a stepping stone 160 high when the map is entered; it sinks to 32 (its stored pose) when stepped on and rises again when the south dais is stepped on."
+  - id: mover:stone_98
+    room: room:trap_hall
+    at: [448, 1024]
+    size: [128, 128]
+    bottom: -128
+    height: 160
+    travel: [0, 0, 128]
+    speed: 60
+    state: end
+    surface: {texture: t65o02c, size: [128, 128]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 98: a stepping stone 160 high when the map is entered; it sinks to 32 (its stored pose) when stepped on and rises again when the south dais is stepped on."
+  - id: mover:stone_99
+    room: room:trap_hall
+    at: [0, 1024]
+    size: [256, 128]
+    bottom: -128
+    height: 160
+    travel: [0, 0, 128]
+    speed: 70
+    state: end
+    surface: {texture: t65o02c, size: [128, 128]}
+    top_surface: {texture: t65b04, size: [128, 128]}
+    notes: "Door record 99: a stepping stone 160 high when the map is entered; it sinks to 32 (its stored pose) when stepped on and rises again when the south dais is stepped on."
+plates:
+  - id: plate:fire_a
+    room: room:sanctum
+    outline: [[11648, 3328], [11904, 3328], [11904, 3567], [11648, 3567]]
+    secret: true
+  - id: plate:fire_b
+    room: room:sanctum
+    outline: [[11008, 2176], [11264, 2176], [11264, 2688], [11008, 2688]]
+    secret: true
+  - id: plate:fire_c
+    room: room:sanctum
+    outline: [[11520, 1664], [12032, 1664], [12032, 1920], [11520, 1920]]
+    secret: true
+  - id: plate:fire_d
+    room: room:sanctum
+    outline: [[12288, 2176], [12544, 2176], [12544, 2688], [12288, 2688]]
+    secret: true
+  - id: plate:fire_e
+    room: room:sanctum
+    outline: [[11648, 1297], [11904, 1297], [11904, 1536], [11648, 1536]]
+    secret: true
+  - id: plate:niche
+    room: room:sanctum
+    outline: [[11520, 2944], [12032, 2944], [12032, 3200], [11520, 3200]]
+    secret: true
+  - id: plate:spit_1a
+    room: room:sanctum
+    outline: [[12672, 2816], [12928, 2816], [12928, 3072], [12672, 3072]]
+    secret: true
+  - id: plate:spit_1b
+    room: room:sanctum
+    outline: [[13440, 2816], [13696, 2816], [13696, 3072], [13440, 3072]]
+    secret: true
+  - id: plate:spit_1c
+    room: room:sanctum
+    outline: [[13056, 3200], [13312, 3200], [13312, 3456], [13056, 3456]]
+    secret: true
+  - id: plate:spit_1d
+    room: room:sanctum
+    outline: [[13056, 2432], [13312, 2432], [13312, 2688], [13056, 2688]]
+    secret: true
+    notes: "The fourth plate round the first head (face 3629): secret, with no event, as the original's."
+  - id: plate:spit_2a
+    room: room:sanctum
+    outline: [[12672, 1792], [12928, 1792], [12928, 2048], [12672, 2048]]
+    secret: true
+  - id: plate:spit_2b
+    room: room:sanctum
+    outline: [[13056, 1408], [13312, 1408], [13312, 1664], [13056, 1664]]
+    secret: true
+  - id: plate:spit_2c
+    room: room:sanctum
+    outline: [[13440, 1792], [13696, 1792], [13696, 2048], [13440, 2048]]
+    secret: true
+  - id: plate:spit_2d
+    room: room:sanctum
+    outline: [[13056, 2176], [13312, 2176], [13312, 2432], [13056, 2432]]
+    secret: true
+    notes: "The fourth plate round the second head (face 1324): secret, with no event, as the original's."
+  - id: plate:spit_3a
+    room: room:sanctum
+    outline: [[9856, 1792], [10112, 1792], [10112, 2048], [9856, 2048]]
+    secret: true
+  - id: plate:spit_3b
+    room: room:sanctum
+    outline: [[10240, 1408], [10496, 1408], [10496, 1664], [10240, 1664]]
+    secret: true
+  - id: plate:spit_3c
+    room: room:sanctum
+    outline: [[10624, 1792], [10880, 1792], [10880, 2048], [10624, 2048]]
+    secret: true
+  - id: plate:spit_3d
+    room: room:sanctum
+    outline: [[10240, 2176], [10496, 2176], [10496, 2432], [10240, 2432]]
+    secret: true
+    notes: "The fourth plate round the third head (face 3630): secret, with no event, as the original's."
+  - id: plate:spit_4a
+    room: room:sanctum
+    outline: [[9856, 2816], [10112, 2816], [10112, 3072], [9856, 3072]]
+    secret: true
+  - id: plate:spit_4b
+    room: room:sanctum
+    outline: [[10240, 2432], [10496, 2432], [10496, 2688], [10240, 2688]]
+    secret: true
+  - id: plate:spit_4c
+    room: room:sanctum
+    outline: [[10240, 3200], [10496, 3200], [10496, 3456], [10240, 3456]]
+    secret: true
+  - id: plate:spit_4d
+    room: room:sanctum
+    outline: [[10624, 2816], [10880, 2816], [10880, 3072], [10624, 3072]]
+    secret: true
+lights:
+  - id: light:l08
+    room: room:trap_hall
+    at: [448, -608]
+    height: 320
+    radius: 128
+    color: [255, 100, 0]
+  - id: light:l09
+    room: room:trap_hall
+    at: [-320, -608]
+    height: 320
+    radius: 128
+    color: [255, 100, 0]
+  - id: light:l10
+    room: room:trap_hall
+    at: [448, 1376]
+    height: 320
+    radius: 128
+    color: [255, 100, 0]
+  - id: light:l11
+    room: room:trap_hall
+    at: [-320, 1376]
+    height: 320
+    radius: 128
+    color: [255, 100, 0]
+  - id: light:l12
+    room: room:sanctum
+    at: [10276, 2964]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l13
+    room: room:sanctum
+    at: [10276, 2924]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l14
+    room: room:sanctum
+    at: [10348, 3036]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l15
+    room: room:sanctum
+    at: [10388, 3036]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l16
+    room: room:sanctum
+    at: [10348, 2852]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l17
+    room: room:sanctum
+    at: [10388, 2852]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l18
+    room: room:sanctum
+    at: [10460, 2964]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l19
+    room: room:sanctum
+    at: [10460, 2924]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l20
+    room: room:sanctum
+    at: [13204, 3036]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l21
+    room: room:sanctum
+    at: [13164, 3036]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l22
+    room: room:sanctum
+    at: [13092, 2964]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l23
+    room: room:sanctum
+    at: [13092, 2924]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l24
+    room: room:sanctum
+    at: [13164, 2852]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l25
+    room: room:sanctum
+    at: [13204, 2852]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l26
+    room: room:sanctum
+    at: [13276, 2924]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l27
+    room: room:sanctum
+    at: [13276, 2964]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l28
+    room: room:sanctum
+    at: [13204, 1828]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l29
+    room: room:sanctum
+    at: [13164, 1828]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l30
+    room: room:sanctum
+    at: [13092, 1900]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l31
+    room: room:sanctum
+    at: [13092, 1940]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l32
+    room: room:sanctum
+    at: [13164, 2012]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l33
+    room: room:sanctum
+    at: [13204, 2012]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l34
+    room: room:sanctum
+    at: [13276, 1940]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l35
+    room: room:sanctum
+    at: [13276, 1900]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l36
+    room: room:sanctum
+    at: [10276, 1900]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l37
+    room: room:sanctum
+    at: [10276, 1940]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l38
+    room: room:sanctum
+    at: [10348, 1828]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l39
+    room: room:sanctum
+    at: [10388, 1828]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l40
+    room: room:sanctum
+    at: [10348, 2012]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l41
+    room: room:sanctum
+    at: [10388, 2012]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l42
+    room: room:sanctum
+    at: [10460, 1900]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l43
+    room: room:sanctum
+    at: [10460, 1940]
+    height: 176
+    radius: 16
+    color: [0, 200, 75]
+  - id: light:l44
+    room: room:sanctum
+    at: [11696, 2416]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l45
+    room: room:sanctum
+    at: [11696, 2448]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l46
+    room: room:sanctum
+    at: [11760, 2512]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l47
+    room: room:sanctum
+    at: [11792, 2512]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l48
+    room: room:sanctum
+    at: [11760, 2352]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l49
+    room: room:sanctum
+    at: [11792, 2352]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l50
+    room: room:sanctum
+    at: [11856, 2448]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l51
+    room: room:sanctum
+    at: [11856, 2416]
+    height: 72
+    radius: 24
+    color: [200, 50, 0]
+  - id: light:l52
+    room: room:sanctum
+    at: [11728, 2496]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:l53
+    room: room:sanctum
+    at: [11712, 2480]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:l54
+    room: room:sanctum
+    at: [11824, 2496]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:l55
+    room: room:sanctum
+    at: [11840, 2480]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:l56
+    room: room:sanctum
+    at: [11824, 2368]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:l57
+    room: room:sanctum
+    at: [11840, 2384]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:l58
+    room: room:sanctum
+    at: [11728, 2368]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:l59
+    room: room:sanctum
+    at: [11712, 2384]
+    height: 200
+    radius: 26
+    color: [255, 75, 0]
+  - id: light:panel_1
+    room: room:crusher
+    at: [6080, 2880]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 1 (z -480; the bank there is at -837.5), in front of panel 1: dark until the trap lights it (event 63), put out with its panel."
+  - id: light:panel_2
+    room: room:crusher
+    at: [6208, 3008]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 2 (z -480; the bank there is at -837.5), in front of panel 2: dark until the trap lights it (event 63), put out with its panel."
+  - id: light:panel_3
+    room: room:crusher
+    at: [7104, 3008]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 3 (z -480; the bank there is at -837.5), in front of panel 3: dark until the trap lights it (event 63), put out with its panel."
+  - id: light:panel_4
+    room: room:crusher
+    at: [7232, 2880]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 4 (z -480; the bank there is at -837.5), in front of panel 4: dark until the trap lights it (event 63), put out with its panel."
+  - id: light:panel_5
+    room: room:crusher
+    at: [7232, 1984]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 5 (z -480; the bank there is at -837.5), in front of panel 5: dark until the trap lights it (event 63), put out with its panel."
+  - id: light:panel_6
+    room: room:crusher
+    at: [7104, 1856]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 6 (z -480; the bank there is at -837.5), in front of panel 6: dark until the trap lights it (event 63), put out with its panel."
+  - id: light:panel_7
+    room: room:crusher
+    at: [6208, 1856]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 7 (z -480; the bank there is at -837.5), in front of panel 7: dark until the trap lights it (event 63), put out with its panel."
+  - id: light:panel_8
+    room: room:crusher
+    at: [6080, 1984]
+    height: 357.5
+    radius: 128
+    color: [255, 50, 25]
+    on: false
+    notes: "Original light 8 (z -480; the bank there is at -837.5), in front of panel 8: dark until the trap lights it (event 63), put out with its panel."
+switches:
+  - id: switch:panel_1
+    room: room:crusher
+    wall: west
+    along: 0.15
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+  - id: switch:panel_2
+    room: room:crusher
+    wall: north
+    along: 0.85
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+  - id: switch:panel_3
+    room: room:crusher
+    wall: north
+    along: 0.15
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+  - id: switch:panel_4
+    room: room:crusher
+    wall: east
+    along: 0.85
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+  - id: switch:panel_5
+    room: room:crusher
+    wall: east
+    along: 0.15
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+  - id: switch:panel_6
+    room: room:crusher
+    wall: south
+    along: 0.85
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+  - id: switch:panel_7
+    room: room:crusher
+    wall: south
+    along: 0.15
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+  - id: switch:panel_8
+    room: room:crusher
+    wall: west
+    along: 0.85
+    height: 256
+    size: [128, 64]
+    off: {texture: t65b11b, size: [128, 64]}
+    on: t65b11b
+chests:
+  - id: chest:c0
+    room: room:clo5_w
+    at: [-304, 1792]
+    facing: e
+    size: [112, 128, 96]
+    surface: {texture: t65b13, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    top_surface: {texture: t6502b, size: [128, 128]}
+    random_levels: [4, 3, 2, 1, 1]
+    items: [652]
+    trap_level: 1
+    notes: "Event 81: a stone chest 96 high, as the original's. Original chest 0: random items of levels 1, 1, 2, 4, 3 and the Prophecies of the Snake (652). Each roll at its own level (`random_levels`), trapped as all the original's chests are (flags 1)."
+  - id: chest:c1
+    room: room:clo5_e
+    at: [432, 1792]
+    facing: w
+    size: [112, 128, 96]
+    surface: {texture: t65b13, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    top_surface: {texture: t6502b, size: [128, 128]}
+    random_levels: [2, 2, 1, 1, 1, 1, 1]
+    items: [750]
+    trap_level: 1
+    notes: "Event 82. Original chest 1: random items of levels 1 (five) and 2 (two) and an Old Scroll (750)."
+  - id: chest:c19
+    room: room:niche
+    at: [10368, 3628]
+    facing: e
+    size: [128, 48, 128]
+    surface: {texture: cr_w128b, size: [128, 128]}
+    end_surface: {texture: t6502b, size: [128, 128]}
+    top_surface: {texture: t6502b, size: [128, 128]}
+    treasure_level: 1
+    random_items: 0
+    items: [630]
+    trap_level: 1
+    notes: "Event 100: in the niche behind the great hall's north wall (door record 115). The original's chest is a picture (cr_W128b, 128 square) on the niche's back wall 20 behind the hall's wall face, filling the niche; here a chest of the same face 48 deep whose front stands where that picture does (y 3604), its width along x (`facing: e`) across the niche. Original chest 19: the Idol of the Snake (630) and nothing else."
+  - id: chest:c2
+    room: room:hall8
+    at: [2368, 3136]
+    facing: e
+    size: [128, 128, 96]
+    surface: {texture: t65b13, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    top_surface: {texture: t6502b, size: [128, 128]}
+    random_levels: [2, 2, 2, 2]
+    trap_level: 1
+    notes: "Event 83: on the north-west corner slab. Original chest 2: four random items of level 2."
+  - id: chest:c3
+    room: room:hall8
+    at: [4160, 3136]
+    facing: w
+    size: [128, 128, 96]
+    surface: {texture: t65b13, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    top_surface: {texture: t6502b, size: [128, 128]}
+    random_levels: [3, 3, 2, 2, 1, 1, 1]
+    trap_level: 1
+    notes: "Event 84. Original chest 3: random items of levels 1, 1, 2, 3, 2, 3, 1, each at its own level here (`random_levels`)."
+  - id: chest:c4
+    room: room:hall8
+    at: [2368, 1472]
+    facing: e
+    size: [128, 128, 96]
+    surface: {texture: t65b13, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    top_surface: {texture: t6502b, size: [128, 128]}
+    random_levels: [3, 3, 2, 2, 1, 1, 1, 1]
+    trap_level: 1
+    notes: "Event 85. Original chest 4: random items of levels 1 (four), 2 (two), 3 (two), each at its own level here (`random_levels`)."
+  - id: chest:c5
+    room: room:hall8
+    at: [4160, 1472]
+    facing: w
+    size: [128, 128, 96]
+    surface: {texture: t65b13, size: [128, 128]}
+    end_surface: {texture: t65b04, size: [128, 128]}
+    top_surface: {texture: t6502b, size: [128, 128]}
+    random_levels: [3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1]
+    trap_level: 1
+    notes: "Event 86. Original chest 5: random items of levels 1 (seven), 2 (four), 3 (two), each at its own level here (`random_levels`)."
+spawns:
+  - id: spawn:s00
+    room: room:alc_nw
+    at: [-704, 896]
+    slot: 2
+    radius: 32
+  - id: spawn:s01
+    room: room:alc_sw
+    at: [-704, 0]
+    slot: 2
+    radius: 32
+  - id: spawn:s02
+    room: room:alc_ne
+    at: [832, 896]
+    slot: 2
+    radius: 32
+  - id: spawn:s03
+    room: room:alc_se
+    at: [832, 0]
+    slot: 2
+    radius: 32
+  - id: spawn:s04
+    room: room:hall8
+    at: [2624, 2112]
+    slot: 2
+    radius: 32
+  - id: spawn:s05
+    room: room:hall8
+    at: [3328, 1856]
+    slot: 2
+    radius: 32
+  - id: spawn:s06
+    room: room:hall8
+    at: [3136, 2816]
+    slot: 2
+    radius: 32
+  - id: spawn:s07
+    room: room:hall8
+    at: [3776, 2496]
+    slot: 2
+    radius: 32
+  - id: spawn:s08
+    room: room:cave
+    at: [10400, -3968]
+    slot: 2
+    radius: 32
+  - id: spawn:s09
+    room: room:cave
+    at: [11232, -3904]
+    slot: 2
+    radius: 32
+  - id: spawn:s10
+    room: room:sanctum
+    at: [10624, 3200]
+    slot: 2
+    radius: 32
+  - id: spawn:s11
+    room: room:sanctum
+    at: [12416, 3200]
+    slot: 2
+    radius: 32
+  - id: spawn:s12
+    room: room:sanctum
+    at: [12416, 1920]
+    slot: 2
+    radius: 32
+  - id: spawn:s13
+    room: room:sanctum
+    at: [10752, 1664]
+    slot: 2
+    radius: 32
+  - id: spawn:s14
+    room: room:sanctum
+    at: [12288, 2432]
+    slot: 2
+    radius: 32
+  - id: spawn:s15
+    room: room:sanctum
+    at: [10624, 2432]
+    slot: 2
+    radius: 32
+  - id: spawn:s16
+    room: room:s20_n
+    at: [13120, 2624]
+    slot: 1
+    radius: 32
+  - id: spawn:s17
+    room: room:s20_s
+    at: [12992, 2176]
+    slot: 1
+    radius: 32
+  - id: spawn:s18
+    room: room:cave
+    at: [10944, -3904]
+    slot: 2
+    radius: 32
+  - id: spawn:s19
+    room: room:pyramid
+    at: [-4992, 704]
+    slot: 2
+    radius: 32
+  - id: spawn:s20
+    room: room:pyramid
+    at: [-896, 768]
+    slot: 2
+    radius: 32
+  - id: spawn:s21
+    room: room:pyramid
+    at: [-4928, -3328]
+    slot: 2
+    radius: 32
+  - id: spawn:s22
+    room: room:pyramid
+    at: [-896, -3392]
+    slot: 2
+    radius: 32
+  - id: spawn:s23
+    room: room:pyramid
+    at: [-3520, -1856]
+    slot: 2
+    radius: 32
+  - id: spawn:s24
+    room: room:pyramid
+    at: [-2496, -1856]
+    slot: 2
+    radius: 32
+  - id: spawn:s25
+    room: room:h22
+    at: [8192, 1920]
+    slot: 2
+    radius: 32
+  - id: spawn:s26
+    room: room:h22
+    at: [8832, 1920]
+    slot: 2
+    radius: 32
+  - id: spawn:s27
+    room: room:cave
+    at: [10368, -4608]
+    slot: 1
+    radius: 32
+  - id: spawn:s28
+    room: room:cave
+    at: [11392, -4800]
+    slot: 1
+    radius: 32
+  - id: spawn:s29
+    room: room:cave
+    at: [10880, -4800]
+    slot: 1
+    radius: 32
+  - id: spawn:s30
+    room: room:cave
+    at: [10944, -4480]
+    slot: 1
+    radius: 32
+  - id: spawn:s31
+    room: room:cave
+    at: [11584, -4224]
+    slot: 1
+    radius: 32
+  - id: spawn:s32
+    room: room:h23b
+    at: [6912, 256]
+    slot: 1
+    radius: 32
+  - id: spawn:s33
+    room: room:h24a
+    at: [6656, -576]
+    slot: 1
+    radius: 32
+  - id: spawn:s34
+    room: room:h25
+    at: [8064, -576]
+    slot: 1
+    radius: 32
+  - id: spawn:s35
+    room: room:h27b
+    at: [9152, -640]
+    slot: 1
+    radius: 32
+  - id: spawn:s36
+    room: room:h28b
+    at: [9984, -640]
+    slot: 1
+    radius: 32
+  - id: spawn:s37
+    room: room:h29c
+    at: [9792, -2112]
+    slot: 1
+    radius: 32
+  - id: spawn:s38
+    room: room:h29b
+    at: [8576, -2048]
+    slot: 1
+    radius: 32
+  - id: spawn:s39
+    room: room:h26b
+    at: [7168, -1984]
+    slot: 1
+    radius: 32
+  - id: spawn:s40
+    room: room:h26a
+    at: [7616, -1216]
+    slot: 1
+    radius: 32
+  - id: spawn:s41
+    room: room:h24b
+    at: [6336, -1280]
+    slot: 1
+    radius: 32
+  - id: spawn:s42
+    room: room:h30
+    at: [7872, -2816]
+    slot: 1
+    radius: 32
+  - id: spawn:s43
+    room: room:h30
+    at: [9152, -2880]
+    slot: 1
+    radius: 32
+  - id: spawn:s44
+    room: room:h32
+    at: [8640, -3648]
+    slot: 1
+    radius: 32
+  - id: spawn:s45
+    room: room:h31
+    at: [7424, -3584]
+    slot: 1
+    radius: 32
+  - id: spawn:s46
+    room: room:cave_in
+    at: [9408, -3776]
+    slot: 1
+    radius: 32
+  - id: spawn:s47
+    room: room:h23a
+    at: [7616, 1024]
+    slot: 1
+    radius: 32
+  - id: spawn:s48
+    room: room:h27a
+    at: [9344, 960]
+    slot: 1
+    radius: 32
+  - id: spawn:s49
+    room: room:h22
+    at: [8512, 1728]
+    slot: 1
+    radius: 32
+  - id: spawn:s50
+    room: room:h22
+    at: [7808, 1728]
+    slot: 1
+    radius: 32
+  - id: spawn:s51
+    room: room:h22
+    at: [9280, 1664]
+    slot: 1
+    radius: 32
+items:
+  - id: item:diamond
+    room: room:cave
+    item: 186
+    at: [12192, -4288]
+    notes: "Sprite object 2: item 186, a Diamond, on the stand at the causeway's east end (z -496). Rounds one to four called it the Prophecies of the Snake; that book (652) is in chest 0 (chest:c0)."
+  - id: item:sun_niche
+    room: room:cave_n
+    item: 626
+    at: [10944, -3328]
+    notes: "Sprite object 1: a second Prophecies of the Sun on the floor of the niche behind the slab (z -640)."
+  - id: item:sun_stand
+    room: room:sanctum
+    item: 626
+    at: [11776, 2432]
+    notes: "Sprite object 0: the Prophecies of the Sun on the middle stand's top (z -384)."
+exits:
+  - id: exit:back
+    room: room:s20
+    wall: 4
+    size: [256, 256]
+    surface: {texture: solid01, size: [16, 16]}
+    to: exit:back_door
+    notes: "Event 502: the black doorway in the west recess."
+  - id: exit:front
+    room: room:recess
+    wall: south
+    size: [256, 256]
+    surface: {texture: solid01, size: [16, 16]}
+    to: exit:pyramid_top
+    notes: "Event 501: the black doorway at the back of the recess."

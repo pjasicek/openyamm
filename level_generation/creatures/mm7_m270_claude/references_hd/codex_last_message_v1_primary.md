@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m270_claude/references_hd/00_three_quarter.png), generated with the built-in tool: unresized 1024 × 1536 with true transparency.
+
+Both raw returns and exact prompts are recorded in [generation_runs.json](level_generation/creatures/mm7_m270_claude/references_hd/generation_runs.json). Selected the corrective return; remaining framing and camera differences are documented.

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Own one creature across agent turns; serialize its writes without sharing Blender scenes."""
+"""Own one creature across agent turns; serialize its writes without sharing Blender scenes.
+
+Use tools/run_creature_workspace.sh with the same arguments as a stable entry point.
+Keep ordinary workspace writes sandboxed; invoke the Blender and Meshy wrappers separately.
+"""
 
 import argparse
 from contextlib import contextmanager

@@ -1,0 +1,36 @@
+# The frenzy modifier on Starport Reach (engine: devdocs/MONSTER_MODIFIERS.md; data: the design's
+# monster_modifiers.yml, staged as worlds/hesper/modifiers.yml). Run from output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario \
+#       ../../../level_generation/projects/hesper_out1/frenzy.yml
+# Harrowers (10240: frenzy below half health, a 0.8 s roar, 6 s at x1.4 speed and x1.5 attack rate, 1.5 s spent; a
+# 700 Light shield over 2 400 HP) summoned on the open ground west of the lander's wreck that charge.yml uses.
+# "last" is the Harrower a spawn_actor step has just summoned.
+id: hesper.out1.frenzy
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+    party:
+      gold: 0
+      food: 10
+      members:
+      - {name: Kindled Knight, class: Knight, level: 80, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+- set_pose: {map: hes_out1.odm, x: -10000, y: -11000, z: 1400, yaw: -1.5708, pitch: 0}
+- advance_runtime: {seconds: 1}
+- assert: {charges: {frenzies: 0}}
+- note: {text: "Started by hand: the roar, then the frenzy."}
+- spawn_actor: {monster_id: 10240, x: -10000, y: -12000, z: 1380}
+- frenzy_actor: {actor_index: last}
+- assert: {charges: {frenzies: 1}}
+- advance_runtime: {seconds: 0.4}
+- note: {text: "By itself: a second Harrower 2 500 east loses its shield and falls below half health, and roars."}
+- spawn_actor: {monster_id: 10240, x: -7500, y: -11000, z: 1380}
+- advance_runtime: {seconds: 0.5}
+- assert: {charges: {frenzies: 1}}
+- console: {line: "actor damage last 800 kreegan_energy", expect_contains: "Actor damaged"}
+- console: {line: "actor damage last 1400", expect_contains: "Actor damaged"}
+- note: {text: "The trigger waits out the hit reaction, then the roar starts."}
+- advance_runtime: {seconds: 1.5}
+- assert: {charges: {frenzies: 2}}
+- assert: {actor_visible: {actor_index: last, report_state: true}}

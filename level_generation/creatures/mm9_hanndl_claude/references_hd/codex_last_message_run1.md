@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_hanndl_claude/references_hd/00_three_quarter.png), unresized at 1536×1024 with transparency, using built-in image generation. Raw returns, prompts and input hashes are retained.
+
+Stopped after run 1. Residual issue: narrow top/bottom margins; the correction introduced unwanted fabric patterns, so the original was selected.

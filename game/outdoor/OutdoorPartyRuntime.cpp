@@ -1,4 +1,5 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/tables/ItemTable.h"
@@ -31,9 +32,9 @@ void OutdoorPartyRuntime::initialize(float x, float y, float footZHint, bool res
     syncSpellMovementStatesFromPartyBuffs();
 }
 
-void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint)
+void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint, bool keepHeight)
 {
-    m_movementDriver.initialize(x, y, footZHint);
+    m_movementDriver.initialize(x, y, footZHint, keepHeight);
 }
 
 void OutdoorPartyRuntime::update(
@@ -42,10 +43,15 @@ void OutdoorPartyRuntime::update(
     GameplayWorldMovementFrameDiagnostics *pPerformanceDiagnostics)
 {
     m_movementStatusText.clear();
-    m_movementDriver.update(input, deltaSeconds, pPerformanceDiagnostics);
+    OutdoorMovementInput rulesInput = input;
+    // Not folded into movementSpeedScale, which the driver clamps to 1 (it cut every speed-up outdoors).
+    rulesInput.partySpeedMultiplier = m_party.movementMultiplier();
+    m_movementDriver.update(rulesInput, deltaSeconds, pPerformanceDiagnostics);
 
     uint64_t stageBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;
-    if (!input.turnBasedPhysicsStep)
+    // Turn-based walking spends the turn's movement points, not game time: the clock, buffs and regeneration
+    // advance once per turn (TurnBasedCombatRuntime), as in the original.
+    if (!input.turnBasedPhysicsStep && !input.turnBasedMovementStep)
     {
         // Running halves recovery speed, but only while the party actually runs.
         m_party.updateRecovery(deltaSeconds, m_movementDriver.isRunningMovement(input) ? 0.5f : 1.0f);
@@ -72,17 +78,7 @@ void OutdoorPartyRuntime::update(
         stageBeginTickCount = SDL_GetTicksNS();
     }
 
-    const OutdoorMovementEffects effects = m_movementDriver.consumePendingEffects();
-    m_party.applyMovementEffects(effects);
-
-    if (effects.burningDamageTicks > 0)
-    {
-        m_movementStatusText = "You are burning!";
-    }
-    else if (effects.waterDamageTicks > 0)
-    {
-        m_movementStatusText = "You are drowning!";
-    }
+    applyPendingMovementEffects();
 
     if (pPerformanceDiagnostics != nullptr)
     {
@@ -90,9 +86,36 @@ void OutdoorPartyRuntime::update(
     }
 }
 
+void OutdoorPartyRuntime::applyPendingMovementEffects()
+{
+    const OutdoorMovementEffects effects = m_movementDriver.consumePendingEffects();
+    m_party.applyMovementEffects(effects);
+
+    if (effects.burningDamageTicks > 0)
+    {
+        m_movementStatusText = Engine::tr("You are burning!");
+    }
+    else if (effects.waterDamageTicks > 0)
+    {
+        m_movementStatusText = Engine::tr("You are drowning!");
+    }
+}
+
+void OutdoorPartyRuntime::advanceTurnBasedHazards()
+{
+    m_movementStatusText.clear();
+    m_movementDriver.addTurnBasedHazardTicks();
+    applyPendingMovementEffects();
+}
+
 void OutdoorPartyRuntime::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)
 {
     m_movementDriver.setActorColliders(actorColliders);
+}
+
+void OutdoorPartyRuntime::setHiddenDecorationEntities(const std::vector<bool> &hiddenEntities)
+{
+    m_movementDriver.setHiddenDecorationEntities(hiddenEntities);
 }
 
 void OutdoorPartyRuntime::setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes)
@@ -103,6 +126,16 @@ void OutdoorPartyRuntime::setFaceAttributes(size_t bModelIndex, size_t faceIndex
 void OutdoorPartyRuntime::updateFaceGeometries(const std::vector<OutdoorFaceGeometryData> &geometries)
 {
     m_movementDriver.updateFaceGeometries(geometries);
+}
+
+void OutdoorPartyRuntime::lift(float height)
+{
+    m_movementDriver.lift(height);
+}
+
+void OutdoorPartyRuntime::requestDash(float velocityX, float velocityY, float seconds)
+{
+    m_movementDriver.requestDash(velocityX, velocityY, seconds);
 }
 
 bool OutdoorPartyRuntime::translateWithSupportedBModel(
@@ -203,6 +236,11 @@ void OutdoorPartyRuntime::toggleFlying()
     m_movementDriver.toggleFlying();
 }
 
+void OutdoorPartyRuntime::requestLanding()
+{
+    m_movementDriver.requestLanding();
+}
+
 void OutdoorPartyRuntime::toggleWaterWalk()
 {
     m_movementDriver.toggleWaterWalk();
@@ -221,6 +259,13 @@ void OutdoorPartyRuntime::setRunning(bool active)
 void OutdoorPartyRuntime::setDebugFlyingOverride(bool active)
 {
     m_debugFlyingOverride = active;
+    syncSpellMovementStatesFromPartyBuffs();
+}
+
+void OutdoorPartyRuntime::setUnderwater(bool active)
+{
+    m_underwater = active;
+    m_movementDriver.setSwimming(active);
     syncSpellMovementStatesFromPartyBuffs();
 }
 
@@ -248,7 +293,9 @@ void OutdoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()
 {
     m_movementDriver.setFeatherFallActive(m_party.hasPartyBuff(PartyBuffId::FeatherFall));
     m_movementDriver.setWaterWalkActive(m_party.hasPartyBuff(PartyBuffId::WaterWalk));
-    m_movementDriver.setFlyingAvailable(m_party.hasPartyBuff(PartyBuffId::Fly) || m_debugFlyingOverride);
+    m_movementDriver.setLevitateActive(m_party.hasPartyBuff(PartyBuffId::Levitate));
+    m_movementDriver.setFlyingAvailable(
+        m_party.hasPartyBuff(PartyBuffId::Fly) || m_debugFlyingOverride || m_underwater);
 }
 
 void OutdoorPartyRuntime::requestJump(std::optional<float> verticalVelocity, float lift)

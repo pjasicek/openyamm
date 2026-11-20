@@ -1,0 +1,16 @@
+rude_id	name	kind	portrait	monster_row	hire_qbit	hire_fee	wage	gold_share_percent	service	service_cooldown_hours	cured_conditions	passive	level	hp	ac	recovery_seconds	attack1_type	attack1_damage	attack2_type	attack2_damage	attack2_missile	spell1	spell1_share_percent	spell2	res_fire	res_air	res_water	res_earth	res_spirit	res_mind	res_body	res_light	res_dark	res_physical
+42	Hrolf Spearmaster	paid	9npc01-01	279	90450	300	300	2	none	0			34	276	21	2.310	Phys	2d9+17	Phys	5d3+10	Arrow		0		0	0	0	0	0	0	0	0	0	0
+43	Tesar Olin	paid	9npc02-01	280	90451	500	500	3	none	0			15	110	9	1.980	Phys	4d5+12	Phys	5d3+10	Arrow		0		10	10	10	10	10	10	10	10	10	20
+44	Arienh A'Klindor	paid	9npc03-01	281	90452	500	500	5	none	0			20	120	14	2.475	Phys	2d4+8	0	0	0	Fireball,E,6	60	Toxic Cloud,M,7	20	20	20	20	20	20	20	20	20	0
+85	Randver Headcrusher	paid	9npc04-01	282	90453	700	700	10	none	0			40	360	21	2.310	Phys	5d5+20	Phys	5d3+25	Arrow		0		10	10	10	10	10	10	10	10	10	30
+86	Ake the Righteous	paid	9npc05-01	283	90454	1000	1000	0	none	0			50	525	26	1.650	Phys	7d3+25	0	0	0	Sparks,E,3	60	Lightning Bolt,N,2	10	10	10	10	20	20	20	10	10	30
+125	Beagan A'Ghrie	paid	9npc06-01	284	90455	1000	1000	5	none	0		skill:DisarmTraps+4|skill:Perception+4	50	525	21	1.320	Phys	2d3+25	0	0	0		0		30	30	30	30	30	30	30	30	30	30
+126	Edina A'Mor	paid	9npc07-01	285	90456	700	700	10	none	0		gold_percent:20	7	43	10	2.640	Phys	2d4+3	0	0	0		0		5	5	5	5	5	5	5	5	5	5
+177	Alberik Gusmundssen	paid	9npc08-01	286	90457	500	500	2	none	0		skill:Merchant+6	8	47	10	2.640	Phys	2d4+4	0	0	0		0		5	5	5	5	5	5	5	5	5	5
+178	Alvar the Clumsy	paid	9npc09-01	287	90458	600	600	0	none	0		repair_always	8	66	17	2.640	Phys	2d4+4	0	0	0		0		5	5	5	5	5	5	5	5	5	5
+179	Ehwaz	paid	9npc10-01	288	90459	1000	1000	15	town_portal	24			11	91	11	2.640	Phys	2d4+5	0	0	0		0		5	5	5	5	5	5	5	5	5	5
+238	Sowelu Axeldotir	paid	9npc11-01	289	90460	1000	1000	10	heal	24			13	116	11	2.640	Phys	2d4+6	0	0	0		0		10	10	10	10	30	30	30	10	10	20
+281	Cleirach A'Lyrae	paid	9npc12-01	290	90461	1000	1000	20	none	0		experience_percent:10|identify_always	9	61	11	2.640	Phys	4d4+8	0	0	0		0		20	20	20	20	20	20	20	20	20	20
+308	Florie de Latharna A'Washadi	paid	9npc13-01	291	90462	2000	1000	20	heal_cure	24	Cursed|DiseaseWeak|DiseaseMedium|DiseaseSevere|Insane|PoisonWeak|PoisonMedium|PoisonSevere		25	169	16	2.310	Phys	4d4+13	0	0	0		0		20	20	20	20	20	20	20	20	20	20
+2	Forad Darre	story	9npc15-01	252	90029	0	0	0	none	0			50	525	50	1.485	Phys	9d3	0	0	0		0		40	40	40	40	40	40	40	30	40	30
+309	Tamur Leng	story	9npc14-01	292	90190	0	0	0	none	0			60	720	30	1.485	Phys	4d3+30	0	0	0		0		0	0	0	0	0	0	0	0	0	0

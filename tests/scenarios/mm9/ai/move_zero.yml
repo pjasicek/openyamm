@@ -1,0 +1,33 @@
+id: mm9.ai.move_zero
+title: MM9 rows with Move 0 walk (Magreeb, Forad Darre), a Lobber stays, a Wizard's Lab apprentice holds and casts
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The table generator made Move 0 rows Stationary; MM9 never reads Move
+        (MM9_AI_DATA_AND_SCRIPTS.md section 1), so only a row without velocities is. The Magreeb and Forad Darre notice
+        the party, run to it and strike; the Lobber never pursues; the apprentice on WizardSummoner.scr is a holder.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: move_zero.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, target: party, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: pursue, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: hold, target: party, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: attack_spell, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: pursue, max_count: 0}

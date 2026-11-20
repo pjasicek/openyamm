@@ -1,0 +1,47 @@
+{
+  "worker": "jewellery",
+  "date": "2026-10-18",
+  "status": "complete",
+  "examined": 91,
+  "replaced": 88,
+  "kept": 3,
+  "deferred": 0,
+  "kept_icons": [
+    "7item146",
+    "7item154",
+    "7item264"
+  ],
+  "source_scope": "assets_source/engine/world_items/models",
+  "runtime_scope": "assets_dev/engine/world_items/models",
+  "binding_changes": [],
+  "coordinator_changes_required": [],
+  "meshy_jobs": 0,
+  "meshy_credits": 0,
+  "imagegen_images": 3,
+  "release_promotion": false,
+  "triangles_total_replacements": 90520,
+  "triangle_range": [
+    32,
+    3168
+  ],
+  "validation": "work/validation.json",
+  "install_receipts": "work/install_receipts.json",
+  "ledger": "ledger.json",
+  "visual_review": "work/visual_review.json",
+  "native_records": "work/native_records",
+  "limitations": [
+    "Release promotion and Android release/device checks are outside the supplied development-only job."
+  ],
+  "checks": {
+    "assigned_export_geometry_uv_png_grounding_winding": "88 passed, including blended shell winding, normal-map UV areas and constant albedo bounds",
+    "source_runtime_receipt_hashes": "88 matched; three retained source hashes unchanged",
+    "cooked_desktop_wip_scope": "911 models / 751 textures; zero problems",
+    "finished_outdoor": "MM7 out10, all-items save, NVIDIA/OpenGL, exit 0; work/native_records/finished_outdoor_run.json",
+    "finished_indoor": "MM6 6d19, representative items, NVIDIA/OpenGL, exit 0; work/native_records/finished_indoor_run.json"
+  },
+  "art_status": "finished",
+  "distribution_status": "development_only_per_supplied_job",
+  "separate_glass_mesh_models": 57,
+  "unresolved_issues": [],
+  "material_contract": "Purpose-painted engraving baked to flat albedo, metallic/roughness and tangent normal maps. Glossy blended gem shells on separate mesh nodes over solid coloured cores; opaque jade and pearls."
+}

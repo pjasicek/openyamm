@@ -1,0 +1,83 @@
+# Lever 35 also clears the lava wall face 2255 (vlcwl3a, x 1024-1152, y 4608), which door 53 lists but cannot move
+# (the door has no vertices); a fix MAW carries (devdocs/maw/MAPS_CONTENT.md §3.1). The map gives the face no cog
+# number, so it gets an unused one here for evt.SetFacetBit (../events/maps/6d18_mmmerge.lua).
+# The lava floors (orfyrlga) were scripted: stepping on them set a map variable (event 51) that a one-minute timer
+# (event 54) read to deal 25 magic damage.
+# They are now native lava, as in MM8: the overrides below add the Lava flag (0x40000000) and drop the step
+# trigger (0x04000000), so the floors burn every second like any lava and Levitate protects. The event stays
+# bound; a save that already holds this map keeps its saved face flags, and so the scripted lava, until the map
+# resets.
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "6d18.blv"
+initial_state:
+  face_attribute_overrides:
+    - face_index: 2255
+      cog_number: 1
+    - face_index: 7
+      legacy_attributes: 0xc0000110
+    - face_index: 163
+      legacy_attributes: 0xc0000110
+    - face_index: 305
+      legacy_attributes: 0xc0000110
+    - face_index: 566
+      legacy_attributes: 0xc0000110
+    - face_index: 621
+      legacy_attributes: 0xc0000110
+    - face_index: 622
+      legacy_attributes: 0xc0000110
+    - face_index: 623
+      legacy_attributes: 0xc0000110
+    - face_index: 624
+      legacy_attributes: 0xc0000110
+    - face_index: 625
+      legacy_attributes: 0xc0000110
+    - face_index: 626
+      legacy_attributes: 0xc0000110
+    - face_index: 627
+      legacy_attributes: 0xc0000110
+    - face_index: 658
+      legacy_attributes: 0xc0000110
+    - face_index: 659
+      legacy_attributes: 0xc0000110
+    - face_index: 660
+      legacy_attributes: 0xc0000110
+    - face_index: 661
+      legacy_attributes: 0xc0000110
+    - face_index: 662
+      legacy_attributes: 0xc0000110
+    - face_index: 663
+      legacy_attributes: 0xc0000110
+    - face_index: 1087
+      legacy_attributes: 0xc0000110
+    - face_index: 1098
+      legacy_attributes: 0xc0000110
+    - face_index: 1208
+      legacy_attributes: 0xc0000110
+    - face_index: 1225
+      legacy_attributes: 0xc0000110
+    - face_index: 1256
+      legacy_attributes: 0xc0000110
+    - face_index: 1257
+      legacy_attributes: 0xc0000110
+    - face_index: 1262
+      legacy_attributes: 0xc0000110
+    - face_index: 1263
+      legacy_attributes: 0xc0000110
+    - face_index: 1269
+      legacy_attributes: 0xc0000110
+    - face_index: 1466
+      legacy_attributes: 0xc0000110
+    - face_index: 1720
+      legacy_attributes: 0xc0000110
+    - face_index: 1721
+      legacy_attributes: 0xc0000110
+    - face_index: 1722
+      legacy_attributes: 0xc0000110
+    - face_index: 2233
+      legacy_attributes: 0xc0000110
+    # Face 115 lies wholly inside face 118 on the same plane with the same texture and mapping: the duplicate
+    # z-fought with it (OY-155). Hidden (0x2000 Invisible) with the attributes it had (0x80000400).
+    - face_index: 115
+      legacy_attributes: 0x80002400

@@ -1,0 +1,185 @@
+id: hesper.d06_loud_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d06.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: set_qbit
+    id: 100210
+- set_pose:
+    map: hes_d06.blv
+    x: 2436
+    y: 6870
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 0
+- press_interact:
+    kind: world_item
+    world_item_index: 0
+    pose:
+      map: hes_d06.blv
+      x: 2950
+      y: 5900
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: -0.15
+- assert:
+    inventory_any_member:
+    - item_id: 11304
+- setup_shortcut:
+    kind: grant_item
+    item_id: 11304
+- setup_shortcut:
+    kind: grant_item
+    item_id: 11304
+- save_game: d06_carried_charges
+- load_game: d06_carried_charges
+- set_pose:
+    map: hes_d06.blv
+    x: 4800
+    y: 8156
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 2
+- set_pose:
+    map: hes_d06.blv
+    x: 5493
+    y: 6956
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 2
+      value: 2
+- set_pose:
+    map: hes_d06.blv
+    x: 4107
+    y: 6956
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 2
+- assert:
+    state_dump_map_var:
+      index: 5
+      value: 1
+- movement_segment:
+    input: none
+    seconds: 31
+    start:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 9
+      value: 31
+- set_pose:
+    map: hes_d06.blv
+    x: 4800
+    y: 300
+    z: 0
+    yaw: 0
+    pitch: 0
+- damage_actor:
+    actor_index: 22
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 22
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    qbit_set:
+    - 100010
+    qbit_clear:
+    - 100210
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 6
+        state: open
+- assert:
+    mechanism:
+      id: 5
+      state: closed
+- save_game: d06_loud
+- load_game: d06_loud
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 2
+- assert:
+    state_dump_map_var:
+      index: 2
+      value: 2
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 2
+- assert:
+    mechanism:
+      id: 5
+      state: closed

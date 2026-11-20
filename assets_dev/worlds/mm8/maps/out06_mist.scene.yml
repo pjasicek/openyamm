@@ -1,0 +1,16 @@
+format_version: 1
+kind: "outdoor_scene_overlay"
+source:
+  geometry_file: "out06.odm"
+# Shadowspire's ground mist (devdocs/MIST.md): a low, dense, pale grey-green layer over the lowlands and the shore (the
+# sea is at 0, half the land below 200): thick at the feet, thin at eye height, and seen lying on the ground from above.
+mist:
+  layer:
+    color_rgb: [150, 168, 158]
+    base_height: 100
+    falloff_height: 80
+    visibility: 720
+    max_opacity: 0.7
+    noise: 0.6
+    noise_size: 1100
+    drift: [16, 7]

@@ -1,0 +1,544 @@
+format: 0
+variables: [power, alarm]
+events:
+  - id: evt:bay1
+    preset: switch
+    source: switch:bay1
+    title: Pod bay 1
+    condition: {map_var: power}
+    toggles: [mover:bay1_upper, mover:bay1_lower]
+    notes: "Event 451: doors 1 and 5 toggle together."
+  - id: evt:bay2
+    preset: switch
+    source: switch:bay2
+    title: Pod bay 2
+    condition: {map_var: power}
+    toggles: [mover:bay2_upper, mover:bay2_lower]
+    notes: "Event 452: doors 2 and 6 toggle together."
+  - id: evt:bay3
+    preset: switch
+    source: switch:bay3
+    title: Pod bay 3
+    condition: {map_var: power}
+    toggles: [mover:bay3_upper, mover:bay3_lower]
+    notes: "Event 453: doors 3 and 7 toggle together."
+  - id: evt:bay4
+    preset: switch
+    source: switch:bay4
+    title: Pod bay 4
+    condition: {map_var: power}
+    toggles: [mover:bay4_upper, mover:bay4_lower]
+    notes: "Event 454: doors 4 and 8 toggle together."
+  - id: evt:bridge_w_gallery
+    preset: door
+    source: door:bridge_w_gallery
+    condition: {map_var: power}
+    action: open
+  - id: evt:cargo_corr
+    preset: door
+    source: door:cargo_corr
+    condition: {map_var: power}
+    notes: Event 8 toggles doors 15 and 16.
+  - id: evt:cell1_in
+    preset: switch
+    source: room:cell1
+    trigger: step
+    condition: {map_var: power}
+    opens: [mover:cell1_s, mover:cell1_n]
+    notes: "Event 459: the stasis beds (door 52) come out."
+  - id: evt:cell2_in
+    preset: switch
+    source: room:cell2
+    trigger: step
+    condition: {map_var: power}
+    opens: [mover:cell2_s, mover:cell2_n]
+    notes: "Event 463: the stasis beds (door 54) come out."
+  - id: evt:cell3_in
+    preset: switch
+    source: room:cell3
+    trigger: step
+    condition: {map_var: power}
+    opens: [mover:cell3_s, mover:cell3_n]
+    notes: "Event 467: the stasis beds (door 56) come out."
+  - id: evt:cell4_in
+    preset: switch
+    source: room:cell4
+    trigger: step
+    condition: {map_var: power}
+    opens: [mover:cell4_w, mover:cell4_e]
+    notes: "Event 471: the stasis beds (door 58) come out."
+  - id: evt:cells_out
+    preset: switch
+    source: room:corr_e
+    trigger: step
+    condition: {map_var: power}
+    closes: [mover:cell1_s, mover:cell1_n, mover:cell2_s, mover:cell2_n, mover:cell3_s, mover:cell3_n, mover:cell4_w, mover:cell4_e]
+    notes: "Events 460, 464, 468 and 472: each stasis room's beds go back into the wall when the party steps onto the floor strip in front of that room's doorway. The corridor is a tunnel now, and a plate cannot stand in a tunnel stretch with a side doorway, nor can one room's floor run two events: here one event on the corridor's floor sends all eight beds back."
+  - id: evt:chest_bay
+    preset: chest
+    source: chest:bay
+    title: Chest
+    notes: "Event 176: chest 1, on pod bay 2's lower deck."
+  - id: evt:chest_cargo_e
+    preset: chest
+    source: chest:cargo_e
+    title: Chest
+  - id: evt:chest_cargo_w
+    preset: chest
+    source: chest:cargo_w
+    title: Chest
+  - id: evt:chest_locker
+    preset: chest
+    source: chest:locker
+    title: Chest
+  - id: evt:console
+    preset: switch
+    source: switch:console
+    title: Console
+    condition: {map_var: power}
+    once: true
+    sets: {map_var: alarm}
+    effects:
+      - give_item: oscillation_overthruster
+      - qbit: got_scifi_part
+      - qbit: final_part_lost
+      - lights_off: light:l001
+      - lights_on: light:l002
+    notes: "Event 376: with power and without qbit 633 it gives the Oscillation Overthruster, sets qbits 633 and 748, closes door 80 (which the map does not have) and sets map var 5, which arms the Sparks timers 476 and 477 (evt:sparks_a, evt:sparks_b); then light 1 off and light 2 on (SetLight(1, 0), SetLight(2, 1)). The original switches the two lights again on every later click; here the console works once."
+  - id: evt:corr_cargo_e
+    preset: door
+    source: door:corr_cargo_e
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_cargo_low
+    preset: door
+    source: door:corr_cargo_low
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_cell1
+    preset: door
+    source: door:corr_cell1
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_cell2
+    preset: door
+    source: door:corr_cell2
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_cell3
+    preset: door
+    source: door:corr_cell3
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_cell4
+    preset: door
+    source: door:corr_cell4
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_lift_e1
+    preset: door
+    source: door:corr_lift_e1
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_top_hub
+    preset: switch
+    source: switch:top_1
+    condition: {map_var: power}
+    opens: [door:corr_top_hub]
+  - id: evt:corr_top_lab
+    preset: door
+    source: door:corr_top_lab
+    condition: {map_var: power}
+    action: open
+  - id: evt:corr_w_hall
+    preset: door
+    source: door:corr_w_hall
+    condition: {map_var: power}
+    action: open
+  - id: evt:crane_e1
+    preset: switch
+    source: switch:crane_e1
+    title: Crane
+    condition: {map_var: power}
+    toggles: [mover:crane_e]
+    notes: Event 456.
+  - id: evt:crane_e2
+    preset: switch
+    source: switch:crane_e2
+    title: Crane
+    condition: {map_var: power}
+    toggles: [mover:crane_e]
+    notes: Event 456.
+  - id: evt:crane_e_far
+    preset: switch
+    source: switch:crane_e_far
+    title: Crane
+    condition: {map_var: power}
+    toggles: [mover:crane_e]
+    notes: Event 456 from the west bay.
+  - id: evt:crane_w
+    preset: switch
+    source: switch:crane_w
+    title: Crane
+    condition: {map_var: power}
+    toggles: [mover:crane_w]
+    notes: Event 455.
+  - id: evt:crew_hall
+    preset: door
+    source: door:crew_hall
+    condition: {map_var: power}
+    action: open
+  - id: evt:deck_captain
+    preset: door
+    source: door:deck_captain
+    condition: {map_var: power}
+    action: open
+  - id: evt:droids_hidden
+    preset: script
+    trigger: load
+    lua: "evt.SetMonGroupBit(56, MonsterBits.Invisible, 1)"
+    notes: "The 17 placed droids (group 56) start invisible: their records carry the Invisible bit (0x10000) and the map's MMMerge supplement (event 65023, run on load) sets it and clears Hostile again on every entry; `hostile: false` in objects.yml says the second half. Nothing in the map's script makes them visible."
+  - id: evt:entered
+    preset: script
+    trigger: load
+    effects:
+      - lights_off: [light:l001, light:l002]
+    notes: "Event 1 (the map's on-load event): lights 1 and 2 off (evt.SetLight(1, 0), SetLight(2, 0)) on every entry. It also sets map vars 2 and 3 to 2; the rebuild keeps the cargo lift's state by its toggle (var 2) and nothing reads var 3."
+  - id: evt:floor15
+    preset: switch
+    source: plate:reactor_s
+    trigger: step
+    condition: {map_var: power}
+    opens: [door:gallery_east_landing]
+    notes: "Event 15 on the reactor room's floor by the lift tube: opens door 26 (the gallery's door to the east landing), far from it, as the original's handler does."
+  - id: evt:floor16
+    preset: switch
+    source: plate:gallery_w
+    trigger: step
+    condition: {map_var: power}
+    closes: [door:gallery_east_landing]
+    notes: "Event 16 on the reactor gallery's west floor: closes door 26, far from it, as the original's handler does."
+  - id: evt:floor18
+    preset: switch
+    source: plate:gallery_e
+    trigger: step
+    condition: {map_var: power}
+    opens: [lift:west, door:lift_w_gallery]
+    closes: [door:lift_w_hall]
+    notes: "Event 18 on the reactor gallery's east floor: the west lift's call to the gallery (door 37 to its upper stop, door 27 opens, door 28 shuts), far from the lift, as the original's handler does."
+  - id: evt:floor28
+    preset: switch
+    source: platform:mouth_slab
+    trigger: step
+    condition: {map_var: power}
+    closes: [door:hangar_corr]
+    notes: "Event 28 on the west lift's upper mouth (sector 8 at 1484): closes doors 35 and 36 (the hangar's corridor door), as the original's handler does."
+  - id: evt:floor30
+    preset: switch
+    source: room:lift_w_mouth
+    trigger: step
+    condition: {map_var: power}
+    opens: [door:corr_cargo_low]
+    notes: "Event 30 on the west lift's lower mouth (sector 8 at 1036): opens doors 39 and 40 (the lower hold's door), as the original's handler does."
+  - id: evt:floor50
+    preset: switch
+    source: plate:deck_e
+    trigger: step
+    condition: {map_var: power}
+    closes: [door:deck_captain]
+    notes: "Event 50 on the bridge floor before the captain's door: closes it (doors 67, 68)."
+  - id: evt:floor50_in
+    preset: switch
+    source: plate:captain_door
+    trigger: step
+    condition: {map_var: power}
+    closes: [door:deck_captain]
+    notes: "Event 50 on the cabin's floor inside the door: closes it behind the party."
+  - id: evt:floor52
+    preset: switch
+    source: platform:top_landing
+    trigger: step
+    condition: {map_var: power}
+    opens: [door:ramp_w_deck]
+    notes: "Event 52 on the top landing round the upper east lift (sector 21 at 1868): opens doors 75 and 76 (the west ramp's door to the bridge), as the original's handler does."
+  - id: evt:floor55_e
+    preset: switch
+    source: room:ramp_e
+    trigger: step
+    condition: {map_var: power}
+    closes: [door:gallery_ramp_e, door:gallery_ramp_w]
+    notes: "Event 55 on the east ramp, as on the west one."
+  - id: evt:floor55_w
+    preset: switch
+    source: room:ramp_w
+    trigger: step
+    condition: {map_var: power}
+    closes: [door:gallery_ramp_e, door:gallery_ramp_w]
+    notes: "Event 55 (doors 69, 70, 73, 74 close: the ramps' doors to the gallery). The original binds it to the ramp's upper part and event 56 to its lower part; a plate cannot lie on a sloping floor and one floor runs one event, so here the whole ramp runs 55."
+  - id: evt:floor56
+    preset: switch
+    source: room:east_landing
+    trigger: step
+    condition: {map_var: power}
+    closes: [door:ramp_e_deck, door:ramp_w_deck]
+    notes: "Event 56 on the east landing (sectors 10 and 21 at 1484): closes doors 71, 72, 75, 76 (the ramps' doors to the bridge). Its binding to the ramps' lower parts is not said (see evt:floor55_w)."
+  - id: evt:gallery_east_landing
+    preset: door
+    source: door:gallery_east_landing
+    condition: {map_var: power}
+    action: open
+  - id: evt:gallery_ramp_e
+    preset: door
+    source: door:gallery_ramp_e
+    condition: {map_var: power}
+    action: open
+  - id: evt:gallery_ramp_w
+    preset: door
+    source: door:gallery_ramp_w
+    condition: {map_var: power}
+    action: open
+  - id: evt:gallery_room_se
+    preset: door
+    source: door:gallery_room_se
+    condition: {map_var: power}
+    action: open
+  - id: evt:hall_corr_e
+    preset: door
+    source: door:hall_corr_e
+    condition: {map_var: power}
+    action: open
+  - id: evt:hangar_closet
+    preset: door
+    source: door:hangar_closet
+    condition: {map_var: power}
+    action: open
+  - id: evt:hangar_corr
+    preset: door
+    source: door:hangar_corr
+    action: open
+  - id: evt:hub_cross_n
+    preset: switch
+    source: switch:top_2
+    condition: {map_var: power}
+    opens: [door:hub_cross_n]
+  - id: evt:hub_cross_s
+    preset: switch
+    source: switch:top_3
+    condition: {map_var: power}
+    opens: [door:hub_cross_s]
+  - id: evt:leave
+    preset: exit
+    source: exit:hatch
+    title: Leave the Lincoln
+    condition: {item: wetsuit}
+    locked_text: You must all be wearing your wetsuits to exit the ship
+    notes: "The original asks for a wetsuit on every party member; the condition says only that the party carries one."
+  - id: evt:lift_cargo
+    preset: switch
+    source: lift:cargo
+    title: Lift
+    condition: {map_var: power}
+    toggles: [lift:cargo, mover:cargo_rim]
+  - id: evt:lift_e1_down
+    preset: switch
+    source: switch:lift_e1_top
+    title: Lift
+    condition: {map_var: power}
+    closes: [lift:east_lower, door:gallery_east_landing]
+    notes: "Event 156 (the panel at the upper stop): door 50 opens (the lift goes down) and door 26 (the gallery's door to the east landing) shuts."
+  - id: evt:lift_e1_up
+    preset: switch
+    source: switch:lift_e1_low
+    title: Lift
+    condition: {map_var: power}
+    opens: [lift:east_lower]
+    closes: [door:corr_lift_e1]
+    notes: "Event 155 (the panel at the lower stop): door 50 closes (the lift rises to the east landing) and door 51 (the corridor's door) shuts. The original's door 50 starts down and nothing calls it up from the landing (events 473 and 474 are bound to nothing): from there the way down is a drop into the shaft."
+  - id: evt:lift_e2_down
+    preset: switch
+    source: switch:lift_e2_top
+    title: Lift
+    condition: {map_var: power}
+    closes: [lift:east_upper, door:top_landing_corr]
+    notes: "Event 154 (the panel at the upper stop): door 47 opens (the lift goes down) and doors 48 and 49 (the top corridor's door) shut."
+  - id: evt:lift_e2_up
+    preset: switch
+    source: switch:lift_e2_low
+    title: Lift
+    condition: {map_var: power}
+    opens: [lift:east_upper, door:top_landing_corr]
+    notes: "Event 34 (the panel at the lower stop): doors 48 and 49 open and door 47 closes (the lift rises to the top deck)."
+  - id: evt:lift_reactor
+    preset: switch
+    source: lift:reactor
+    title: Lift
+    toggles: [lift:reactor]
+  - id: evt:lift_reactor_side
+    preset: switch
+    source: lift:reactor_side
+    title: Lift
+    toggles: [lift:reactor_side]
+  - id: evt:lift_w_gallery
+    preset: door
+    source: door:lift_w_gallery
+    condition: {map_var: power}
+    action: open
+  - id: evt:lift_w_hall
+    preset: door
+    source: door:lift_w_hall
+    condition: {map_var: power}
+    action: open
+  - id: evt:lift_west
+    preset: switch
+    source: lift:west
+    title: Lift
+    condition: {map_var: power}
+    toggles: [lift:west]
+  - id: evt:locker1
+    preset: switch
+    source: switch:locker1
+    title: Locker
+    condition: {map_var: power}
+    opens: [door:locker1]
+    notes: Event 157.
+  - id: evt:locker2
+    preset: switch
+    source: switch:locker2
+    title: Locker
+    condition: {map_var: power}
+    opens: [door:locker2]
+    notes: Event 158.
+  - id: evt:locker3
+    preset: switch
+    source: switch:locker3
+    title: Locker
+    condition: {map_var: power}
+    opens: [door:locker3]
+    notes: Event 159.
+  - id: evt:pad_e
+    preset: teleport
+    source: platform:pad_e
+    trigger: step
+    condition: {map_var: power}
+    to: [1536, -1909, 1037]
+    direction: 270
+  - id: evt:pad_w
+    preset: teleport
+    source: platform:pad_w
+    trigger: step
+    condition: {map_var: power}
+    to: [7165, -1629, 1037]
+    direction: 270
+  - id: evt:power
+    preset: switch
+    source: switch:power
+    title: Power panel
+    once: true
+    sets: {map_var: power}
+    effects:
+      - lights_on: light:l001
+    text: Power Restored
+  - id: evt:ramp_e_deck
+    preset: door
+    source: door:ramp_e_deck
+    condition: {map_var: power}
+    action: open
+  - id: evt:ramp_w_deck
+    preset: door
+    source: door:ramp_w_deck
+    condition: {map_var: power}
+    action: open
+  - id: evt:sparks_a
+    preset: script
+    trigger: timer
+    every: 4
+    condition: {map_var: alarm}
+    effects:
+      - cast:
+          spell: 15
+          from: [4448, -9376, 2272]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [2816, -8480, 1792]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [3104, -5600, 1888]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [3104, -1888, 320]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+    notes: "Event 476: Sparks from four points every two minutes once the console has raised the alarm (map var 5). The original's target is 0, 0, 0, as here."
+  - id: evt:sparks_b
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {map_var: alarm}
+    effects:
+      - cast:
+          spell: 15
+          from: [224, 1376, 992]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [5856, -8512, 1792]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [5600, -5664, 1888]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [4896, -3808, 1888]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [3104, -3680, 320]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [512, -736, 992]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+      - cast:
+          spell: 15
+          from: [512, 1344, 992]
+          to: [0, 0, 0]
+          mastery: master
+          level: 20
+    notes: "Event 477: Sparks from seven points every minute once the alarm is raised."
+  - id: evt:top_landing_corr
+    preset: switch
+    source: door:top_landing_corr
+    condition: {map_var: power}
+    opens: [door:top_landing_corr, lift:east_upper]
+    notes: "Event 34 is also bound to the leaves of doors 48 and 49: clicking the top corridor's door opens it and calls the upper lift up."
+  - id: evt:vest_station
+    preset: switch
+    source: switch:vest
+    title: Door panel
+    condition: {map_var: power}
+    opens: [door:vest_station]
+    notes: Event 10.
+notes: "Everything but the hangar's corridor door and the two reactor lifts waits for the power panel in the reactor room (the original's map var 4, event 475). Walk-on events as the original's: the transporter pads (457, 458), the stasis rooms (459 to 472) and the floors bound to events 15, 16, 18, 28, 30, 50, 52, 55, 56, each running what its handler runs even where that is far from the floor. Timers: the Sparks of events 476 and 477. Lift calls as the original's panels (events 34, 154, 155, 156; 473 and 474 are bound to nothing). Not said: event 56 on the ramps' lower parts, and the original's cross-bound click (event 40 on the hold door's inner faces opens the top deck control room)."

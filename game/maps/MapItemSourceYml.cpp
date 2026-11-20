@@ -189,7 +189,6 @@ bool readStringSequence(
 
 bool readWorldItem(const YAML::Node &node, MapWorldItemSource &source, std::string &errorMessage)
 {
-    const YAML::Node grantsNode = node["grant_items"];
     if (!node.IsMap()
         || !readSourceIdentity(
             node,
@@ -198,40 +197,29 @@ bool readWorldItem(const YAML::Node &node, MapWorldItemSource &source, std::stri
             source.sourceName,
             source.position,
             errorMessage)
-        || !readScalar(node, "kind", source.kind, errorMessage)
-        || !readScalar(node, "raw_primary_item_id", source.rawPrimaryItemId, errorMessage)
         || !readScalar(node, "item_id", source.itemId, errorMessage)
+        || !readUInt32Sequence(node, "random_item_pool", source.randomItemPool, errorMessage)
         || !readUInt32Sequence(node, "required_qbits", source.requiredQBits, errorMessage)
         || !readUInt32Sequence(node, "forbidden_qbits", source.forbiddenQBits, errorMessage)
-        || !readUInt32Sequence(node, "required_items", source.requiredItems, errorMessage)
-        || !readUInt32Sequence(node, "forbidden_items", source.forbiddenItems, errorMessage)
-        || !grantsNode || !grantsNode.IsSequence()
-        || !readUInt32Sequence(node, "take_items", source.takeItems, errorMessage)
+        || (node["pickup_qbits"] && !readUInt32Sequence(node, "pickup_qbits", source.pickupQBits, errorMessage))
         || !readUInt32Sequence(node, "set_qbits", source.setQBits, errorMessage)
-        || !readUInt32Sequence(node, "clear_qbits", source.clearQBits, errorMessage)
-        || !readUInt32Sequence(node, "random_item_pool", source.randomItemPool, errorMessage)
-        || !readScalar(node, "on_pickup_event", source.onPickupEvent, errorMessage)
-        || !readScalar(node, "consume_on_success", source.consumeOnSuccess, errorMessage))
+        || !readScalar(node, "pickup_event", source.pickupEvent, errorMessage))
     {
         return false;
     }
-    source.grantItems.reserve(grantsNode.size());
-    for (const YAML::Node &grantNode : grantsNode)
+
+    if (const YAML::Node poseNode = node["pose"])
     {
-        MapWorldItemGrant grant = {};
-        if (!grantNode.IsMap()
-            || !readScalar(grantNode, "raw_mm9_item_id", grant.rawMm9ItemId, errorMessage)
-            || !readScalar(grantNode, "item_id", grant.itemId, errorMessage)
-            || !readScalar(grantNode, "quantity", grant.quantity, errorMessage))
+        std::array<float, 3> pose = {};
+        if (!poseNode.IsMap()
+            || !readScalar(poseNode, "yaw", pose[0], errorMessage)
+            || !readScalar(poseNode, "pitch", pose[1], errorMessage)
+            || !readScalar(poseNode, "roll", pose[2], errorMessage))
         {
+            errorMessage = "world item pose needs yaw, pitch and roll";
             return false;
         }
-        if (grant.itemId == 0 || grant.quantity == 0)
-        {
-            errorMessage = "world-item grants must have positive item_id and quantity";
-            return false;
-        }
-        source.grantItems.push_back(grant);
+        source.poseDegrees = pose;
     }
 
     if (source.itemId == 0 && source.randomItemPool.empty())
@@ -267,9 +255,15 @@ bool readLootContainer(
         && readScalar(node, "trap_level", source.trapLevel, errorMessage)
         && readScalar(node, "should_repopulate", source.shouldRepopulate, errorMessage)
         && readFixedItems(node, source.fixedItems, errorMessage)
-        && readScalar(node, "remove_when_empty", source.removeWhenEmpty, errorMessage);
+        && readScalar(node, "remove_when_empty", source.removeWhenEmpty, errorMessage)
+        && readScalar(node, "random_records", source.randomRecords, errorMessage, false);
     if (!parsed)
     {
+        return false;
+    }
+    if (source.randomRecords == 0 || source.randomRecords + source.fixedItems.size() > 81)
+    {
+        errorMessage = "loot container random_records must be positive and fit the chest";
         return false;
     }
     if (!node["random_item_pool"] && !node["random_item_count"])

@@ -1,0 +1,418 @@
+# draft extracted from MAW ef23ee17
+#
+# MAW crafting items as data for an OpenYAMM "maw" ruleset (assets_dev/rulesets/maw/crafting_items.yml).
+# Investigation draft, not loaded by anything. Spec and sources: devdocs/maw/CRAFTING.md (section numbers in
+# comments). Values reproduce MAW; `deviation:` keys mark the places where the design proposes to fix a MAW bug
+# (devdocs/maw/CRAFTING_BENCH_DESIGN.md section 9). Item ids are MAW's raw MMMerge ids; a real table would use
+# canonical namespaced ids with these as import aliases.
+
+schema: 1
+source:
+  repository: Maw-Mod-MMMerge
+  commit: ef23ee17
+
+# Shared numbers ------------------------------------------------------------------------------------------------------
+
+constants:
+  gem_tiers: 20
+  gem_drop_max_tier: 16              # tiers 17-20 only through combining
+  gem_step: 3                        # stat enchants
+  gem_step_skill: 1                  # skill enchants (types 17-24)
+  enchant2_max_strength: 65535
+  cube_quality_max_percent: 20
+  crafting_cube_power_step: 4
+  crafting_cube_power_step_weapon_body: 2   # equip classes one_handed, two_handed, missile, body
+  crafting_cube_power_cap: 120              # GetPrimordialCharges(infinity)
+  item_level_per_power: 5
+  potion_power_cap: 500
+  orb_cooldown_frames: 60            # MAW only; the design drops it (explicit apply has no repeat problem)
+
+# Indexed by equip class; MAW indexes by the live item-table EquipStat (CRAFTING.md 3.2).
+slot_multiplier:
+  one_handed: 1.0
+  two_handed: 2.0                    # deviation: include MAW's twoHandedAxes regardless of Minotaur table edits
+  missile: 1.25
+  body: 1.5
+  shield: 1.0
+  helm: 1.25                         # gem caps ignore the hat x1.5 that enchant reads apply
+  belt: 1.0
+  cloak: 1.0
+  gauntlets: 1.25
+  boots: 1.25
+  ring: 0.75
+  amulet: 1.0
+
+# GetDifficultyExtraPower: the loot-curve multiplier that also scales the gem caps.
+difficulty_power:
+  easy: 1.0
+  normal: 1.0
+  maw: 1.0
+  hard: 1.0
+  hell: 1.0
+  nightmare: 1.05                    # true Nightmare only
+  doom: 1.1
+  road_to_insanity: 1.2
+  beyond_madness: 1.2
+  austerity: 1.0                     # caps use the normal curve; Austerity has no crafting sources
+
+# Hourglass cap multiplier: max((BolsterAmount - 100) / 1000 + 1, 1).
+hourglass_cap_multiplier:
+  easy: 1.0
+  normal: 1.0
+  maw: 1.0
+  hard: 1.05
+  hell: 1.1
+  nightmare: 1.2
+  doom: 1.5
+  road_to_insanity: 1.5
+  beyond_madness: 1.5
+
+# GetGemCap (CRAFTING.md 3.3). Reproduces every computed cap table exactly.
+gem_cap_formula:
+  primordial_max: round(ceil(100 * difficulty_power) * 25 / 20)   # 125, 131, 139 (MAW float), 150
+  primordial_max_values: {default: 125, nightmare: 131, doom: 139, insanity: 150}
+  deviation_doom_primordial_max: 138  # exact arithmetic; MAW's 139 comes from ceil(110.00000000000001)
+  stat_cap: ceil(round(tier / 20 * primordial_max) * slot_multiplier)
+  # r = round(tier / 20 * primordial_max)
+  skill_cap: ceil(ceil(max(sqrt(r), r / 10)) * slot_multiplier)
+
+# Pandora's Cube quality step by the item's current rarity (MawItemRarity).
+cube_quality_step:
+  common: 20
+  uncommon: 20
+  rare: 10
+  epic: 7
+  ancient: 5
+  primordial: 4
+  legendary: 4
+  celestial: 1
+  artifact: 2
+
+# Items ----------------------------------------------------------------------------------------------------------------
+#
+# Every item: name, icon, cells [w, h], value (ItemsTxt.Value, selling base), shop_price (buy screens),
+# operation and params, preconditions in check order, and failure messages. Fields MAW leaves at placeholder values
+# (EquipStat, Skill, Material for 1041-1050 and 1068-1070) are given explicitly here: class crafting_material.
+
+defaults:
+  unidentified_name: Crafting Item
+  item_class: crafting_material
+  stackable: true                    # proposal: identical gems stack in the workbench view; stateful items do not
+
+gems:
+  operation: raise_weakest_enchant
+  params: {step: 3, step_skill: 1, cap: gem_cap_formula, choose: lowest_fraction_of_cap}
+  preconditions:
+    - target: base_equipment          # IsBaseItemId: 1-151, 803-936, 1603-1736 (ancient blasters included)
+    - not_celestial: silent
+    - not_on_cooldown: silent         # MAW only
+    - level_requirement: {who: current_character, message: "Your level is too low (Level {level} required)"}
+      # deviation: who: item_owner
+    - has_base_enchant: {message: "No enchants"}            # enchant 1 or enchant 2; a special alone does not count
+    - below_cap: {message: "Gem power is not enough"}
+  combine: {count: 3, result: next_tier, max_input_tier: 19, requires: {strength_field: 0}}
+  tiers:
+    - {id: 1041, tier: 1, name: Lunar Shard, icon: vcraft1, value: 1000, shop_price: 1000}
+    - {id: 1042, tier: 2, name: Fire Topaz, icon: vcraft2, value: 2000, shop_price: 2000}
+    - {id: 1043, tier: 3, name: Amethyst Chunk, icon: vcraft3, value: 3000, shop_price: 4000}
+    - {id: 1044, tier: 4, name: Amber Droplet, icon: vcraft4, value: 4000, shop_price: 7000}
+    - {id: 1045, tier: 5, name: Royal Amethyst, icon: vcraft5, value: 5000, shop_price: 12000}
+    - {id: 1046, tier: 6, name: "Gemcutter's Ruby", icon: vcraft6, value: 6000, shop_price: 20000}
+    - {id: 1047, tier: 7, name: Solarstone, icon: vcraft7, value: 7000, shop_price: 30000}
+    - {id: 1048, tier: 8, name: Erudite Crystal, icon: vcraft8, value: 8000, shop_price: 40000}
+    - {id: 1049, tier: 9, name: Erathian Sapphire, icon: vcraft9, value: 9000, shop_price: 50000}
+    - {id: 1050, tier: 10, name: "Queen's Diamond", icon: vcraft10, value: 10000, shop_price: 60000}
+    - {id: 1051, tier: 11, name: Ascended Lunar Shard, icon: vcraft1asc, value: 11000, shop_price: 80000}
+    - {id: 1052, tier: 12, name: Ascended Fire Topaz, icon: vcraft2asc, value: 12000, shop_price: 100000}
+    - {id: 1053, tier: 13, name: Ascended Amethyst Chunk, icon: vcraft3asc, value: 13000, shop_price: 120000}
+    - {id: 1054, tier: 14, name: Ascended Amber Droplet, icon: vcraft4asc, value: 14000, shop_price: 140000}
+    - {id: 1055, tier: 15, name: Ascended Royal Amethyst, icon: vcraft5asc, value: 15000, shop_price: 160000}
+    - {id: 1056, tier: 16, name: "Ascended Gemcutter's Ruby", icon: vcraft6asc, value: 16000, shop_price: 180000}
+    - {id: 1057, tier: 17, name: Ascended Solarstone, icon: vcraft7asc, value: 17000, shop_price: 200000}
+    - {id: 1058, tier: 18, name: Ascended Erudite Crystal, icon: vcraft8asc, value: 18000, shop_price: 230000}
+    - {id: 1059, tier: 19, name: Ascended Erathian Sapphire, icon: vcraft9asc, value: 19000, shop_price: 260000}
+    - {id: 1060, tier: 20, name: "Ascended Queen's Diamond", icon: vcraft10asc, value: 20000, shop_price: 300000}
+  cells: [1, 1]
+
+items:
+  1061:
+    name: Eye of Void
+    icon: veye1
+    cells: [2, 2]
+    value: 30000
+    shop_price: 1250000
+    operation: add_special_enchant
+    params:
+      pool_grades: [D]                # SPCITEMS Lvl D, weighted by ChanceForSlot of the target's equip class
+      melee_caster_swap: false        # loot swaps 39/40 vs 46/41; the Eye does not
+    preconditions:
+      - target: base_equipment
+      - no_special_enchant: silent    # deviation: message "Already has a special enchantment"
+    seeded: true
+    # MAW seed: Number*10000 + MaxCharges*1000 + Bonus*100 + BonusStrength*10 + Charges
+    map_operation: {operation: unlock_map_affix, gate: "0 < active_affixes < 4"}
+    notes_claim: "needs 2 base enchants"   # not checked by MAW
+
+  1062:
+    name: "Creator's Hourglass"
+    icon: vhour1
+    cells: [1, 2]
+    value: 20000
+    shop_price: 750000
+    operation: add_second_base_enchant
+    params:
+      type: {range: stats_1_10, ring_range: stats_and_resistances_1_16, exclude: enchant1_type}
+      strength: min(round(enchant1_strength * (1 + 0.25 * random())), cap)
+      cap: min(100 * hourglass_cap_multiplier * slot_multiplier, 65535)
+      # deviation: preview and apply share this one formula (MAW's preview transforms HP/SP differently)
+    preconditions:
+      - target: base_equipment
+      - has_enchant1: silent
+      - no_enchant2: silent
+    seeded: true
+    map_operation: {operation: unlock_map_affix, gate: "0 < active_affixes < 4"}
+    notes_claim: "needs 1 base enchant and a special"   # special not checked by MAW
+
+  1063:
+    name: "Pandora's Cube"
+    icon: vcraft11
+    cells: [1, 1]
+    value: 15000
+    shop_price: 325000
+    operation: add_base_quality
+    params: {step: cube_quality_step, max_percent: 20, applies_to: [weapon_damage_rows, armor_class]}
+    preconditions:
+      - target: [base_equipment, artifact]
+      - equip_class_in: [one_handed, two_handed, missile, body, shield, helm, belt, cloak, gauntlets, boots,
+                         ring, amulet]
+        message: "Only weapons and armor can be refined"
+        # deviation: drop ring and amulet (no base stat to refine)
+      - level_requirement: {who: current_character, message: "Your level is too low (Level {level} required)"}
+      - below_max_quality: {message: "Item quality reached its limit"}
+    seeded: false                     # deterministic
+
+  1064:
+    name: "Archibald's Mirror"
+    icon: vmirror
+    cells: [2, 2]
+    value: 100000
+    shop_price: 6668999
+    operation: duplicate_item
+    params:
+      copied: [item_id, enchant1, enchant2, special, item_power, rarity_bits, legendary_affix, celestial, quality,
+               drop_level]
+      not_copied: [identified, broken, hardened, stolen]   # MAW: the copy is unidentified
+      # deviation: copy identified state; give the copy a fresh craft seed
+    preconditions:
+      - target: [base_equipment, artifact]   # decision: README says artifacts are excluded
+    result: the mirror item becomes the copy (needs a free cell in the workbench design)
+
+  1065:
+    name: Emerald of Power
+    icon: vcraft12
+    cells: [1, 2]
+    value: 60000
+    shop_price: 2000000
+    sellable: false                   # MAW: LOD Material 3 makes shops refuse it; probably unintended
+    operation: upgrade_base_type
+    params:
+      first: next_family_member       # item id + 1 with the same unidentified name
+      weapons: {same: [skill, equip_class], power: "(dice_count * dice_sides + 1) / 2 + mod2", pick: smallest_above}
+      armor: {same: [skill, equip_class], power: "dice_count + mod2", pick: smallest_above}
+      search_all_worlds: true
+      # deviation: weapon power count * (sides + 1) / 2 + mod2; do not close the house screen
+    preconditions:
+      - target: base_equipment
+      - upgrade_exists: silent
+    map_operation: {operation: raise_map_power, amount: 5, cap: 255}   # +50 monster levels
+
+  1066:
+    name: Pearl of Memory
+    icon: vcraft13
+    cells: [1, 1]
+    value: 25000
+    shop_price: 1000000
+    operation: remove_random_enchant
+    params: {pick: uniform_over_present, promote_enchant2_on_enchant1_removal: true, keeps_rarity_bits: true}
+    preconditions:
+      - target: base_equipment
+      - has_any_enchant: silent
+    seeded: false                     # deviation: seeded like the others, so the preview is exact
+
+  1067:
+    name: Orb of Creation             # every text calls it Oracle's Orb
+    icon: veternal2
+    cells: [2, 2]
+    value: 80000
+    shop_price: 3000000
+    state: {field: stored_legendary_affix, empty: 0}
+    operation: transfer_legendary_affix
+    params:
+      empty_on_legendary: {item: remove_affix, orb: store_affix, orb_consumed: false}
+      charged_on_any: {item: set_affix, keeps: [tier, celestial], orb_consumed: true, overwrites_existing: true}
+      # deviation: refuse or confirm when the target already has an affix
+    preconditions:
+      - target: base_equipment
+      - not_on_cooldown: silent
+
+  1068:
+    name: Celestial Orb
+    icon: veternal1
+    cells: [2, 3]
+    value: 200000
+    shop_price: null                  # never sold
+    state: {field: charged, empty: false}
+    operation: transfer_celestial
+    params:
+      charged_on_non_celestial: {item: set_celestial, orb_consumed: true}
+      empty_on_celestial: {item: clear_celestial, orb: charge, orb_consumed: false}
+    preconditions:
+      - target: base_equipment
+      - not_on_cooldown: silent
+    failure_message: "Invalid Item"
+
+  1069:
+    name: Endless Potion
+    icon: item280
+    unidentified_name: Potion Bottle
+    cells: [1, 2]
+    value: 0                          # unsellable
+    shop_price: null
+    state: {field: charges_to_add, from_drop: "min(best_party_alchemy_skill + 10, 100)"}
+    operation: add_potion_charges
+    params:
+      targets: [231, 232, 233, 237, 245, 251, 257, 263]
+      formula: "charges = (charges == 0 ? 6 : charges) + charges_to_add"   # MAW encoding: uses left = charges - 1
+    feedback: {sound: 12070, glow: false}
+
+  1070:
+    name: Crafting Cube
+    icon: cube                        # MAW reuses the Control Cube picture (item 2076)
+    cells: [2, 2]
+    value: 15000
+    shop_price: 250000
+    operation: add_item_power
+    params:
+      step: {default: 4, one_handed: 2, two_handed: 2, missile: 2, body: 2}
+      cap: min(floor(character_level / 5), 120)
+    preconditions:
+      - target: base_equipment
+      - not_celestial: silent
+      - below_power_cap: {who: current_character, message: "Item power reached the limit for your level ({cap})"}
+    map_operation:
+      operation: move_map_to_completed_dungeon
+      params: {same_kind: [outdoor, indoor], pool: completed_dungeons_except_current}
+      failure_message: "No other completed dungeon to move this map to"
+
+# Potions that act on items (CRAFTING.md 4). Power = the potion's power; checked before the target.
+potion_operations:
+  238:
+    name: Enchant Item
+    brew_mastery: expert
+    min_power: 0                      # text says 20; not enforced
+    operation: add_first_base_enchant
+    params:
+      type: {skill_chance: 0.1, skill_range: [17, 24], ring_range: [1, 16], range: [1, 10]}
+      strength: "ceil(min(power, 500) / 5 * slot_multiplier)"
+      skill_strength: "max(sqrt(strength), ceil(strength / 10))"
+      seed: per_save_list[item_id] + item_power   # list entry advances after each use
+    preconditions: [base_equipment, no_enchant1, no_enchant2, no_special]
+  243:
+    name: Lesser Element
+    brew_mastery: master
+    min_power: 40
+    operation: add_special_enchant
+    params: {choices: [5, 8, 11, 14]}  # Frost, Lightning, Flame, Venom; uniform, unseeded in MAW
+    preconditions: [base_equipment, weapon_skill_below_blaster, no_special]
+  244:
+    name: Swiftness
+    brew_mastery: master
+    min_power: 40
+    operation: add_special_enchant
+    params: {choices: [59]}            # Swift
+    preconditions: [base_equipment, weapon_skill_below_blaster, no_special]
+  255:
+    name: Greater Element
+    brew_mastery: master
+    min_power: 55
+    operation: add_special_enchant
+    params: {choices: [6, 9, 12, 15]}  # Ice, Thunderbolts, Infernos, Acid
+    preconditions: [base_equipment, weapon_skill_below_blaster, no_special]
+  256:
+    name: Darkness
+    brew_mastery: master
+    min_power: 100
+    operation: add_special_enchant
+    params: {choices: [41]}            # of Darkness
+    preconditions: [base_equipment, weapon_skill_below_blaster, no_special]
+  236:
+    name: Harden Item
+    brew_mastery: expert
+    operation: harden                  # MAW's handler is disabled; the engine default presumably applies
+  failure_message: "This potion has not enough power"
+
+# Dimension map item 290 (CRAFTING.md 5): field meaning, for the map operations above.
+dimension_map:
+  item_id: 290
+  fields: {target_map: BonusStrength, affixes: [BonusExpireTime, Bonus2, "Charges % 1000", "Charges / 1000"],
+           active_affixes: "Bonus (0 means 4)", power: MaxCharges}
+  monster_level: power * 10 + 20 + mean(map_low, map_mid, map_high)
+
+# Sources -------------------------------------------------------------------------------------------------------------
+
+drops:
+  # Per kill, CRAFTING.md 6.1. Not for reanimated or resurrected monsters; none in Austerity; none in Madness on
+  # bounty maps, zarena.blv, d42.blv, 7d05.blv. Seeded from the corpse's loot seed.
+  bonus_roll: sqrt(monster_level / 10) * extra / players_in_game
+  extra:
+    boss: 10                          # 220 <= NameId < 300
+    broodling_boss_divisor: 5 - variant
+    no_corpse_monsters: 3             # ids 82-84, 97-99, 241-243, 523-525, 529-534, 622-627
+    dimension_map: 1 + (map_power * affixes + 20 * affixes) / 800 * 1.5
+  gems:
+    chance: 0.006 * bonus_roll
+    mode_multiplier: {road_to_insanity: 1.5, beyond_madness: 1.5}
+    pity: false
+    tier: clamp(floor(normal(max(level^0.6 / 4 + 1, level / 40), 2)), 1, 16)
+  specials:
+    pity: {formula: "base ^ (1.38 - base * counter * 0.5)", counter_increment: round(bonus_roll), reset_on_drop: true}
+    chance: pity * bonus_roll
+    base:
+      1061: 0.0002
+      1062: 0.0002
+      1063: 0.001
+      1064: 0.00001
+      1065: 0.00025
+      1066: 0.0002
+      1067: 0.00006
+      1068: 0.0000025
+      1070: 0.001
+  endless_potion: {requires: party_alchemy_grandmaster, chance: 0.002, seeded: false}
+  water_monsters_to_inventory: [244, 245, 246, 532, 533, 534, 625, 626, 627]
+  # Computed expected drops per 1000 regular kills (renewal rate), level: [gems, Eye, Pandora, Mirror, Cel. Orb, Cube]
+  expected_per_1000_regular:
+    20: [8.5, 0.22, 1.13, 0.011, 0.0028, 1.13]
+    50: [13.4, 0.42, 2.11, 0.021, 0.0053, 2.11]
+    100: [19.0, 0.62, 3.11, 0.031, 0.0079, 3.11]
+    200: [26.8, 0.84, 4.21, 0.042, 0.0106, 4.21]
+    400: [37.9, 1.24, 6.20, 0.063, 0.0157, 6.20]
+
+shops:
+  # CRAFTING.md 6.2. Buy-screen stock generation, houses 1-110, not Austerity.
+  replaces: {non_equipment_chance: 0.3, gem_class: always}
+  special_chance: min((party_gold / 20000000) ^ 0.7, 1)
+  special_weights: {1061: 7, 1062: 7, 1063: 15, 1064: 2, 1065: 5, 1066: 7, 1067: 3, 1070: 15}
+  gem_tier: "1 + min(floor(banked_levels_continents_1_3 / 25) + k, 15)"
+  gem_tier_bonus: {0: 0.70, 1: 0.25, 2: 0.05}
+  house_ids: [1, 110]                 # decision: MAW's range includes only one alchemist
+
+map_completion:
+  # CRAFTING.md 6.3. First completion only; not Austerity.
+  normal: {items: [1070], gems: 2, gem_tier: "min(ceil((map_level + bolster) / 25 + 0.5), 16)",
+           bolster: {horizontal: 2 * map_level, free: 0, madness: madness_map_level, dimension: map_power * 10}}
+  dimension_map_madness_by_affixes: {0: null, 1: 1070, 2: 1061, 3: 1062, 4: 1065}
+
+storage:
+  # MAW's crafting bag and alchemy player, replaced in the design by routing rules.
+  route_on_pickup: crafting_materials   # ids 1041-1070
+  pull_key: {default: K, corpses: 30, items: 30, includes: [crafting_materials, dimension_map]}

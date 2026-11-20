@@ -1,0 +1,193 @@
+# Explicit conversion choices for MM9's Thjorad Mine (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: thjoradmine
+  display_name: Thjorad Mine
+  starts: [StartPoint0]               # the mine's entrance from Thjorgard (ThjoradMineExit)
+  monster_classes: [Troglodyte, TroglodyteGnoll, TroglodyteWren, SuccEbora, Cat, CommonerDwarfMaleA,
+                    CommonerDwarfMaleB, PrisonerDwarfMaleA, TownDwarfMaleA]
+  offset: [0, 0, 0]                   # the old map's frame: x -13 760..31 290, y -19 330..9 260, z -3 600..2 290 fit int16
+  ambient: 20
+  model_lighting: true                # MM9 model lighting for decorations and actors (devdocs/INDOOR_MODEL_LIGHTING.md)
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  deep: [-1200, -600]
+  mine: [-600, -250]
+  upper: [-250, 150]
+  top: [150, 1000]
+models:
+  # --- the entrance door (locked in MM9: the exit volume stands in front of it)
+  Door2: {group: Door2, motion: rotate}   # locked for good (MM9 Locked 1); nothing is built behind it, so no portal
+  # --- the refinery's sliding door with its handle and deadbolts (switch05 turns, the bolts draw, the door slides)
+  slidingdoor05: {group: slidingdoor05, motion: dat, doorway: true, portal: doorportal05, click: false}
+  deadboltbottom05: {group: deadboltbottom05, motion: dat, click: false}
+  deadbolttop05: {group: deadbolttop05, motion: dat, click: false}
+  switch05: {group: switch05, motion: rotate, click: false}
+  handletrigger05: {group: handletrigger05, motion: dat}
+  # --- the two lift-gates and the levers either side of each (Switch2/3 -> Door0, Switch4/5 -> Door1)
+  Door0: {group: Door0, motion: dat, doorway: true, portal: Portal0, click: false}
+  Door1: {group: Door1, motion: dat, doorway: true, portal: Portal1, click: false}
+  Switch2: {group: Switch2, motion: rotate, start_open: true}   # MM9 StartOpen 1
+  Switch3: {group: Switch3, motion: rotate, start_open: true}   # MM9 StartOpen 1
+  Switch4: {group: Switch4, motion: rotate, start_open: true}   # MM9 StartOpen 1
+  Switch5: {group: Switch5, motion: rotate, start_open: true}   # MM9 StartOpen 1
+  # --- barred walls nailed shut by six spikes each (SpikeDoorA/B.scr, SpikeDoorOpen.scr): locked until pulled
+  BarWall0: {group: BarWall0, motion: rotate}
+  BarWall1: {group: BarWall1, motion: rotate}
+  ABDoorBoards0: {group: ABDoorBoards0, motion: rotate}
+  FallingBoard0: {group: FallingBoard0, motion: rotate}
+  SteamValve0: {group: SteamValve0, motion: rotate}
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate}
+  RotatingDoor61: {group: RotatingDoor61, motion: rotate}
+  RotatingDoor62: {group: RotatingDoor62, motion: rotate}
+  RotatingDoor63: {group: RotatingDoor63, motion: rotate}
+  Stalagtite: {group: Stalagtite, motion: dat, click: false}
+  # --- the spikes (BoardSpike.scr: a click pulls one; it is gone): dropped out of sight
+  Spike0: {group: Spike0, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike1: {group: Spike1, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike2: {group: Spike2, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike3: {group: Spike3, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike4: {group: Spike4, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike5: {group: Spike5, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike6: {group: Spike6, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike7: {group: Spike7, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike8: {group: Spike8, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike9: {group: Spike9, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike10: {group: Spike10, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike11: {group: Spike11, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike12: {group: Spike12, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike13: {group: Spike13, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike14: {group: Spike14, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike15: {group: Spike15, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike16: {group: Spike16, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  Spike17: {group: Spike17, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false}
+  # --- the hard rock (tm_hardrock.scr "10 36 5000"): twelve blocks of 1 HP, scene destructibles (dungeon/destructibles.py
+  #     `break`): weapons break them, a click still does (the shared click: 38000 + the DAT index)
+  db12: {group: db12, motion: break}
+  db13: {group: db13, motion: break}
+  db14: {group: db14, motion: break}
+  db15: {group: db15, motion: break}
+  db16: {group: db16, motion: break}
+  db17: {group: db17, motion: break}
+  db18: {group: db18, motion: break}
+  db19: {group: db19, motion: break}
+  db20: {group: db20, motion: break}
+  db21: {group: db21, motion: break}
+  db22: {group: db22, motion: break}
+  db23: {group: db23, motion: break}
+  # --- breakable walls and blockers (DestructableBrush): scene destructibles; the machinery's scripts destroy the boards,
+  #     the cart's blocker and the second torch's holder (evt.DestroyDestructible); MM9's weapons break any of them. The
+  #     five cave-wall pieces keep one click for all (event 102), the cage walls (TriggerDestroyOnly) their clicks 111-113,
+  #     TorchHolder0 the falling torch's click 108; the boards, blocker and holder 1 had no click and take none
+  CaveWall0: {group: CaveWall, motion: break, click: 102}
+  CaveWall1: {group: CaveWall, motion: break, click: 102}
+  CaveWall2: {group: CaveWall, motion: break, click: 102}
+  CaveWall3: {group: CaveWall, motion: break, click: 102}
+  CaveWall4: {group: CaveWall, motion: break, click: 102}
+  CaveIn: {group: CaveIn, motion: break, click: false}            # CanDamage 0: Trigger7 destroys it
+  ABMineBoards0: {group: ABMineBoards0, motion: break, click: false}
+  ABMineBoards1: {group: ABMineBoards1, motion: break, click: false}
+  ABMineBoards2: {group: ABMineBoards2, motion: break, click: false}
+  ABMineBoards3: {group: ABMineBoards3, motion: break, click: false}
+  MCarBlocker1: {group: MCarBlocker1, motion: break, click: false}
+  TorchHolder0: {group: TorchHolder0, motion: break, click: 108}
+  TorchHolder1: {group: TorchHolder1, motion: break, click: false}
+  # the falling torches (WorldObject, TM_FallingTorch.scr / TM_FirstFallingTorch.scr): movers dropped out of sight; a
+  # missile on the torch drops it too (their OnDamage MoveToMarker; the torch stands in front of its 1 HP holder)
+  FallingWallTorch0: {group: FallingWallTorch0, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false,
+                      shoot: true}
+  FallingWallTorch1: {group: FallingWallTorch1, motion: slide, move_lt: [0, -1000, 0], speed: 20000, click: false,
+                      shoot: true}
+  BustOutBrush0: {group: BustOutBrush0, motion: break, click: 111}
+  BustOutBrush1: {group: BustOutBrush1, motion: break, click: 112}
+  BustOutBrush2: {group: BustOutBrush2, motion: break, click: 113}
+  DestructableBrush0: {group: DestructableBrush0, motion: break}   # the stalactite's holder (1 HP)
+  # --- static world objects
+  InvisibleBrush0: static
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  InvisibleBrush3: static
+  InvisibleBrush4: static
+  InvisibleBrush5: static
+  # --- volumes: their surfaces are the map's own faces (convert.py)
+  DirtyWater1: skip
+  BlueWater0: skip
+  molten steel0: skip
+# Seeds whose centre lies in the rock (relay triggers high in the rock, touch boxes centred under the floor, a
+# troglodyte and a mine-car chest sunk into the floor): they would flood the rock and the outside (work/leaks.py).
+seed_exclude: [DBEffectsTrigger1, DBEffectsTrigger0, DBEffectsTrigger2, DBEffectsTrigger3, TorchTrigger0, DBEffectsTrigger4, DBEffectsTrigger5, TriggerSpawn, TriggerLocation1A, TriggerLocation2A, TriggerLocation2B, TriggerLocation3A, TriggerLocation3B, TriggerLocation4C, TriggerLocation4A, TriggerLocation5B, TriggerLocation5C, TriggerLocation0, plightofftrigger, AB_Troglodyte24, MineCar14]
+skip_user_portals: [Portal2]       # the locked entrance door: nothing is built behind it
+model_patterns: {}
+portals:   # archway cuts: work/cuts/manual.yml by hand, auto_* from work/cuts/auto_cuts.py (README)
+  - {name: net_trunk_north, axis: z, point: [5095, -500, -1988], span: 220}
+  - {name: net_trunk_south, axis: z, point: [5051, -500, -3846], span: 220}
+  - {name: net_north_branch, axis: z, point: [7000, -500, -306], span: 220}
+  - {name: net_east_branch, axis: x, point: [8723, -500, -1014], span: 220}
+  - {name: net_south_west, axis: x, point: [3856, -500, -5085], span: 220}
+  - {name: net_south_mid, axis: x, point: [5626, -500, -5173], span: 220}
+  - {name: auto_1_3, axis: x, point: [-4920, 520, -56], span: 116}
+  - {name: auto_2_1, axis: x, point: [-4536, 632, -216], span: 320}
+  - {name: auto_3_5, axis: x, point: [-3656, 520, -1336], span: 116}
+  - {name: auto_5_1, axis: z, point: [-3512, 392, 392], span: 128}
+  - {name: auto_5_2, axis: z, point: [-3512, 392, -392], span: 116}
+  - {name: auto_5_3, axis: x, point: [-3128, 392, 8], span: 116}
+  - {name: auto_6_2, axis: z, point: [-3432, 504, 840], span: 224}
+  - {name: auto_7_1, axis: z, point: [-3000, 392, 1368], span: 116}
+  - {name: auto_7_4, axis: x, point: [-2568, 424, 2008], span: 140}
+  - {name: auto_8_3, axis: z, point: [-2616, 408, 792], span: 164}
+  - {name: auto_9_1, axis: z, point: [-2872, 488, -1528], span: 152}
+  - {name: auto_9_7, axis: x, point: [-2344, 472, -968], span: 200}
+  - {name: auto_11_7, axis: z, point: [-1848, 488, -1240], span: 116}
+  - {name: auto_12_1, axis: z, point: [-1816, 136, 1128], span: 140}
+  - {name: auto_12_6, axis: z, point: [-1208, 136, 2296], span: 116}
+  - {name: auto_12_7, axis: x, point: [-1064, 136, 1816], span: 116}
+  - {name: auto_13_1, axis: z, point: [-1208, 216, 328], span: 320}
+  - {name: auto_13_7, axis: x, point: [-840, 472, 584], span: 116}
+  - {name: auto_15_1, axis: x, point: [-1048, 536, -888], span: 236}
+  - {name: auto_19_1, axis: x, point: [-472, 104, 8], span: 320}
+  - {name: auto_19_2, axis: z, point: [8, 136, -456], span: 320}
+  - {name: auto_19_5, axis: x, point: [-200, 72, 1224], span: 116}
+  - {name: auto_19_7, axis: z, point: [8, 216, 1416], span: 224}
+  - {name: auto_19_17, axis: x, point: [328, -184, 8], span: 116}
+  - {name: auto_19_18, axis: x, point: [456, 136, -8], span: 320}
+  - {name: auto_24_1, axis: x, point: [1048, -808, 2936], span: 248}
+  - {name: auto_25_2, axis: z, point: [1096, -328, 376], span: 96}
+  - {name: auto_26_4, axis: z, point: [1096, -280, -488], span: 96}
+  - {name: auto_27_7, axis: x, point: [2600, -296, -1272], span: 140}
+  - {name: auto_28_7, axis: x, point: [2344, -392, -5112], span: 140}
+  - {name: auto_29_1, axis: x, point: [1720, -440, 8], span: 116}
+  - {name: auto_32_21, axis: z, point: [2744, -952, 1528], span: 260}
+  - {name: auto_33_3, axis: z, point: [3048, -504, -4728], span: 128}
+  - {name: auto_36_2, axis: z, point: [4136, -536, -5880], span: 140}
+  - {name: auto_38_9, axis: z, point: [6344, -520, 568], span: 128}
+  - {name: auto_39_1, axis: x, point: [5688, -504, -408], span: 164}
+  - {name: auto_40_3, axis: z, point: [6184, -488, -5736], span: 128}
+  - {name: auto_40_6, axis: x, point: [6872, -488, -6376], span: 128}
+  - {name: auto_41_1, axis: x, point: [6120, -456, -4120], span: 164}
+  - {name: auto_42_1, axis: x, point: [6216, -488, -2744], span: 164}
+  - {name: auto_43_5, axis: x, point: [7496, -440, -1656], span: 128}
+  - {name: auto_44_1, axis: x, point: [7480, -584, -6104], span: 128}
+  - {name: auto_44_8, axis: x, point: [8408, -584, -5640], span: 128}
+  - {name: auto_45_4, axis: z, point: [7912, -424, 920], span: 128}
+  - {name: auto_49_7, axis: z, point: [8792, -408, -5256], span: 128}
+  - {name: auto_50_9, axis: z, point: [10072, -536, -4120], span: 176}
+  - {name: auto_50_10, axis: z, point: [10104, -536, -3608], span: 176}
+  - {name: auto_50_11, axis: x, point: [10328, -536, -3912], span: 152}
+  - {name: auto_54_1, axis: x, point: [9928, -392, -2056], span: 128}
+  - {name: auto_55_3, axis: z, point: [10776, -664, -6744], span: 128}
+  - {name: auto_56_7, axis: z, point: [11048, -616, -4232], span: 164}
+  - {name: auto_57_1, axis: x, point: [10712, -568, -2824], span: 176}
+  - {name: auto_58_1, axis: x, point: [11320, -808, -5416], span: 128}
+exits:
+  ExitTrigger0: {bottom_lt: -352}   # the volume hangs 24 LT over the entrance floor (-352): reach it down
+textures:
+  "water:pool": {alias: WATE27JPCX, width: 128, height: 128}   # DirtyWater1's surface: MM9's water125.spr (first frame)
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  avoid_near:
+    - {name: Ebora, radius: 1200}

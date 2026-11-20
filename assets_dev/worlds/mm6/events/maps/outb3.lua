@@ -40,6 +40,11 @@ SetMapMetadata({
     [107] = { kind = "obelisk", source = "title" },
     [108] = { kind = "open_chest", source = "opcode", chestIds = {6, 7} },
     },
+    learnedEffect = {
+    [100] = { autonote = 426, effect = "+10 Elemental resistance permanent" },
+    [101] = { autonote = 427, effect = "+10 Seven statistics permanent" },
+    [102] = { autonote = 428, effect = "+50 Hit points temporary" },
+    },
     textureNames = {},
     spriteNames = {"ped03"},
     castSpellIds = {},

@@ -71,6 +71,20 @@ elements:
         scale: 0.6588235294117647
       notes: Food counter.
       offset_y: 0
+    - id: CharacterRunDeathsLabel
+      anchor: top_left
+      offset_x: 472
+      width: 160
+      height: 29
+      text:
+        value: '{run_deaths}'
+        font: Lucida
+        align_x: right
+        align_y: middle
+        color: '#e5dcc7'
+        scale: 0.6588235294117647
+      notes: A ruleset's run death count kept outside the save (MAW's Beyond Madness); empty otherwise.
+      offset_y: 0
   - id: CharacterDismissButton
     anchor: top_left
     offset_x: 525
@@ -495,9 +509,9 @@ elements:
       notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
     - id: CharacterStatHitPointsValue
       anchor: top_left
-      offset_x: 155.208333
+      offset_x: 115.208333
       offset_y: 180.933334
-      width: 85
+      width: 125
       height: 18
       text:
         value: '{hit_points_value}'
@@ -523,9 +537,9 @@ elements:
       notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
     - id: CharacterStatSpellPointsValue
       anchor: top_left
-      offset_x: 155.208333
+      offset_x: 115.208333
       offset_y: 198.933334
-      width: 85
+      width: 125
       height: 18
       text:
         value: '{spell_points_value}'
@@ -551,9 +565,9 @@ elements:
       notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
     - id: CharacterStatArmorClassValue
       anchor: top_left
-      offset_x: 155.208333
+      offset_x: 115.208333
       offset_y: 216.933334
-      width: 85
+      width: 125
       height: 18
       text:
         value: '{armor_class_value}'
@@ -619,6 +633,136 @@ elements:
         align_y: middle
         scale: 1.0588235294117647
       notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatsExtraRowFrame
+      anchor: top_left
+      offset_x: 16
+      offset_y: 285
+      width: 230.5
+      height: 20.5
+      asset:
+        default: obsidian_stats_extra_row
+      notes: The bottom-left box one row taller, down to the resistances box; drawn only with the rules' four rows of
+        powers (MAW).
+    - id: CharacterStatPowerRow1Label
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 246.5
+      width: 133.341667
+      height: 14
+      text:
+        value: '{power_row_1_label}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
+    - id: CharacterStatPowerRow1Value
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 246.5
+      width: 85
+      height: 14
+      text:
+        value: '{power_row_1_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
+    - id: CharacterStatPowerRow2Label
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 260.5
+      width: 133.341667
+      height: 14
+      text:
+        value: '{power_row_2_label}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
+    - id: CharacterStatPowerRow2Value
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 260.5
+      width: 85
+      height: 14
+      text:
+        value: '{power_row_2_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
+    - id: CharacterStatPowerRow3Label
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 274.5
+      width: 133.341667
+      height: 14
+      text:
+        value: '{power_row_3_label}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
+    - id: CharacterStatPowerRow3Value
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 274.5
+      width: 85
+      height: 14
+      text:
+        value: '{power_row_3_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
+    - id: CharacterStatPowerRow4Label
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 288.5
+      width: 133.341667
+      height: 14
+      text:
+        value: '{power_row_4_label}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
+    - id: CharacterStatPowerRow4Value
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 288.5
+      width: 85
+      height: 14
+      text:
+        value: '{power_row_4_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0
+      notes: The rules' rows of powers in place of Condition and Quick Spell (MAW's Melee, Ranged and Spell Power and
+        Vitality), drawn only with SkillRules::compactStatPowerRows.
     - id: CharacterStatAgeLabel
       anchor: top_left
       offset_x: 261.541667
@@ -747,9 +891,9 @@ elements:
       notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
     - id: CharacterStatMeleeDamageValue
       anchor: top_left
-      offset_x: 359.8
+      offset_x: 319.8
       offset_y: 126.933334
-      width: 85
+      width: 125
       height: 18
       text:
         value: '{melee_damage_value}'
@@ -803,9 +947,9 @@ elements:
       notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
     - id: CharacterStatRangedDamageValue
       anchor: top_left
-      offset_x: 359.8
+      offset_x: 319.8
       offset_y: 162.933334
-      width: 85
+      width: 125
       height: 18
       text:
         value: '{ranged_damage_value}'
@@ -1111,6 +1255,55 @@ elements:
             height: 18
             notes: Readable Lucida rows with 18-logical-pixel pitch. Viewport scrolls; RMB and row clicks share clipped
               geometry.
+            children:
+            - id: CharacterSkillsTechHeader
+              anchor: below
+              offset_x: 0
+              offset_y: 12
+              width: 120
+              height: 16
+              text:
+                value: Technology
+                font: Arrus
+                color: '#e4c793'
+                align_x: left
+                align_y: middle
+              notes: Technology skills (Hesper). Shown only when the character has one; follows the magic list height.
+              children:
+              - id: CharacterSkillsTechListRegion
+                anchor: below
+                offset_x: 0
+                offset_y: 6
+                width: 204
+                height: 18
+                notes: Readable Lucida rows with 18-logical-pixel pitch, as the other skill lists.
+              - id: CharacterSkillsTechPointsValue
+                anchor: right_of
+                offset_x: 0
+                offset_y: 0
+                width: 84
+                height: 16
+                text:
+                  value: 'Points: {tech_points_value}'
+                  font: Lucida
+                  color: '#e5dcc7'
+                  align_x: right
+                  align_y: middle
+                notes: Tech points raise technology skills only; positive colour when any are available.
+            - id: CharacterSkillsTechLevelHeader
+              anchor: below
+              offset_x: 156
+              offset_y: 12
+              width: 48
+              height: 16
+              text:
+                value: Level
+                font: Arrus
+                color: '#e4c793'
+                align_x: left
+                align_y: middle
+              notes: Follows the dynamic technology section start.
+              visible: false
         - id: CharacterSkillsMagicLevelHeader
           anchor: below
           offset_x: 176
@@ -1236,6 +1429,283 @@ elements:
         align_y: middle
         scale: 0.416667
       notes: 'Above Alchemy in the bottom-right panel (page origin is 0,24); regroups the inventory by item type.'
+    - id: CharacterInventoryBagOverview
+      anchor: top_left
+      offset_x: 172
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'Multibag rulesets on desktop: shows the bag overview (the four bags at once, two by two at half size);
+        selected while it shows. The 1-4 buttons zoom a bag to full size. The two by two icon is drawn by the renderer.'
+    - id: CharacterInventoryBag1
+      anchor: top_left
+      offset_x: 200
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '1'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): opens bag 1 at full size, selected while it is
+        zoomed; again, back to the overview. Shift+1 (a party of one: 1) does the same; Shift on Sort sorts every bag.'
+    - id: CharacterInventoryBag2
+      anchor: top_left
+      offset_x: 226
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '2'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): opens bag 2 at full size, selected while it is
+        zoomed; again, back to the overview. Shift+2 (a party of one: 2) does the same; Shift on Sort sorts every bag.'
+    - id: CharacterInventoryBag3
+      anchor: top_left
+      offset_x: 252
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '3'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): opens bag 3 at full size, selected while it is
+        zoomed; again, back to the overview. Shift+3 (a party of one: 3) does the same; Shift on Sort sorts every bag.'
+    - id: CharacterInventoryBag4
+      anchor: top_left
+      offset_x: 278
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '4'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): opens bag 4 at full size, selected while it is
+        zoomed; again, back to the overview. Shift+4 (a party of one: 4) does the same; Shift on Sort sorts every bag.'
+    - id: CharacterInventoryCraftingTag
+      anchor: top_left
+      offset_x: 310
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'Rulesets with pouches (ItemRules::hasPouches, MAW): shows the party''s crafting pouch in the bags'' place,
+        one grid without dividers that scrolls (every Workbench material the party has lies there and nowhere else);
+        again, or a bag button, returns to the bags. Shift+B does the same. Selected while its tab shows; the hammer
+        icon is drawn by the renderer.'
+    - id: CharacterInventoryAlchemyTag
+      anchor: top_left
+      offset_x: 336
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The same for the party''s alchemy pouch: its potions, bottles and reagents. Selected while its tab shows;
+        the potion icon is drawn by the renderer.'
+    - id: CharacterInventoryQuestTag
+      anchor: top_left
+      offset_x: 362
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The same for the party''s quest pouch (user, 2026-11-17): what is worth nothing and is no gear (keys,
+        letters, message scrolls, trophies). Selected while its tab shows; the key icon is drawn by the renderer. The
+        tab buttons and the item search start after it.'
+    - id: CharacterInventoryTab1
+      anchor: top_left
+      offset_x: 394
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'I'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW, a party of one (five tabs of four bags, ItemRules::bagCount 20; user, 2026-11-04): shows tab I, the
+        same bag of it as of the tab before; selected while it shows. Shift+1 does the same. Hidden in a party, whose
+        member keeps the other tabs until alone again; the item search then starts after the tab buttons.'
+    - id: CharacterInventoryTab2
+      anchor: top_left
+      offset_x: 420
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'II'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab II (Shift+2).'
+    - id: CharacterInventoryTab3
+      anchor: top_left
+      offset_x: 446
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'III'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab III (Shift+3).'
+    - id: CharacterInventoryTab4
+      anchor: top_left
+      offset_x: 472
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'IV'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab IV (Shift+4).'
+    - id: CharacterInventoryTab5
+      anchor: top_left
+      offset_x: 498
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'V'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab V (Shift+5).'
+    - id: CharacterInventorySearch
+      anchor: top_left
+      offset_x: 394
+      offset_y: -22
+      width: 238
+      height: 20
+      z_index: 300
+      interactive: true
+      text:
+        value: '{inventory_search}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 0.7
+        pad_x: 5
+      notes: 'Item search (ItemSearch): a click types into it; the words must all appear in an item, | gives alternatives,
+        ! excludes a word, quotes keep a phrase. Items that do not match are dimmed in every bag and for every member
+        until Escape clears it or the screen closes. Drawn by the renderer; the run death count gives it the bar.'
     - id: CharacterInventoryInfo
       anchor: top_left
       offset_x: 16
@@ -1399,6 +1869,35 @@ elements:
           width: 40
           height: 40
           notes: Jewelry overlay ring slot 6
+        - id: CharacterDollImplant1Slot
+          anchor: top_left
+          offset_x: 4
+          offset_y: 288
+          width: 30
+          height: 30
+          notes: Implant socket 1 (Hesper's Augment row; shown only for a character with Cybernetics or an implant). The
+            four sockets stay left of the magnifier button (x 137-170, y 277-327 here).
+        - id: CharacterDollImplant2Slot
+          anchor: top_left
+          offset_x: 37
+          offset_y: 288
+          width: 30
+          height: 30
+          notes: Implant socket 2 (Hesper's Augment row; shown only for a character with Cybernetics or an implant)
+        - id: CharacterDollImplant3Slot
+          anchor: top_left
+          offset_x: 70
+          offset_y: 288
+          width: 30
+          height: 30
+          notes: Implant socket 3 (Hesper's Augment row; shown only for a character with Cybernetics or an implant)
+        - id: CharacterDollImplant4Slot
+          anchor: top_left
+          offset_x: 103
+          offset_y: 288
+          width: 30
+          height: 30
+          notes: Implant socket 4 (Hesper's Augment row; shown only for a character with Cybernetics or an implant)
     - id: CharacterDollBowSlot
       anchor: top_left
       offset_x: 0

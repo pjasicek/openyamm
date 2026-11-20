@@ -1,0 +1,23 @@
+format: 0
+id: cal7d23
+name: The Lincoln
+world: mm7
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9712
+  reference: 7d23.blv
+neighbours:
+  - id: exit:shoals
+    to: 7out15.odm
+    kind: door
+    arrival: [-7005, 7856, 225]
+    direction: 22.5
+    notes: "evt.MoveToMap(-7005, 7856, 225, 128, ...) in the original's event 501."
+qbits:
+  final_part_lost: 748
+  got_scifi_part: 633
+items:
+  oscillation_overthruster: 1407
+  wetsuit: 1406
+migrated: [platform_in_sunken_level]

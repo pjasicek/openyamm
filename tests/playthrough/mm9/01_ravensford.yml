@@ -1,0 +1,120 @@
+# MM9 playthrough, segment 01: a new game in Ravensford (guide: Prologue, "Ravensford"). Chedian's start is
+# continent_settings.txt row 5, bootcamp.blv at (323, -8494, 1291), its StartPoint0; `new_game_flow` starts there
+# with a level-1 party of four of the classes Chedian offers (character_selection.yml). Grandpa greets the party
+# (NPC436.scr OnFoundPlayer), the training talk gives Interface I and II, the scrolls by him are picked up, the second
+# talk ("We're ready to leave") gives Strategy Tips and the Disarm Trap and Identify Item books (key 496); the party
+# walks out of the museum, by the store for the Shopkeepers scroll, and north past the Lobber Pods to the boat at the
+# dock (ExitTrigger0, six days) to the Isle of Ashes (key 473). Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 01
+id: mm9.playthrough.01_ravensford
+title: "MM9 playthrough 01: a new party trains in Ravensford and sails to the Isle of Ashes"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  # The party a player makes on the Chedian card: Knight, Cleric, Thief and Sorcerer at level 1 (each class's free
+  # skills and two chosen ones, the starting weapons; the Thief carries the party's bow), 200 gold and 5 food as a
+  # new game from party creation.
+  - new_game_flow:
+      start_map: bootcamp.blv
+      party:
+        gold: 200
+        food: 5
+        members:
+          - {name: Ragnar, class: Knight, level: 1, portrait_id: 77, race_id: 0, might: 20, intellect: 7,
+             personality: 9, endurance: 18, speed: 15, accuracy: 15, luck: 9,
+             skills: [{name: Sword, level: 1, mastery: 1}, {name: LeatherArmor, level: 1, mastery: 1},
+                      {name: Shield, level: 1, mastery: 1}, {name: Perception, level: 1, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 1, portrait_id: 89, race_id: 9, might: 16, intellect: 9,
+             personality: 18, endurance: 16, speed: 9, accuracy: 9, luck: 9,
+             skills: [{name: Mace, level: 1, mastery: 1}, {name: BodyMagic, level: 1, mastery: 1},
+                      {name: Shield, level: 1, mastery: 1}, {name: SpiritMagic, level: 1, mastery: 1}],
+             equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 1, portrait_id: 86, race_id: 8, might: 15, intellect: 9,
+             personality: 7, endurance: 13, speed: 17, accuracy: 17, luck: 13,
+             skills: [{name: Dagger, level: 1, mastery: 1}, {name: Stealing, level: 1, mastery: 1},
+                      {name: DisarmTraps, level: 1, mastery: 1}, {name: Bow, level: 1, mastery: 1}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 1, portrait_id: 82, race_id: 7, might: 7, intellect: 20,
+             personality: 9, endurance: 10, speed: 15, accuracy: 15, luck: 13,
+             skills: [{name: Staff, level: 1, mastery: 1}, {name: FireMagic, level: 1, mastery: 1},
+                      {name: AirMagic, level: 1, mastery: 1}, {name: IdentifyItem, level: 1, mastery: 1}],
+             equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: bootcamp.blv, party_position: {x: 323, y: -8494, radius: 32}, qbit_clear: [90473, 90474, 90475]}
+
+  # Grandpa (the Old Man, actor 20, RUDE 436) greets the party the first time he sees it.
+  - advance_runtime: {seconds: 2.5, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 436}}
+  - select_topic: {match_label: "We'd like to start our training."}
+  - select_topic: {match_label: "Where do we start?"}
+  - select_topic: {match_label: "What do we do when we're finished?"}
+  - select_topic: {match_label: "Why?"}
+  - select_topic: {match_label: "Goodbye, Grandpa."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90474]}
+  - play_lua:
+      source: |
+        if not (has_item(10579) and has_item(10580)) then error("no Interface I and II from Grandpa") end
+        log("Grandpa gives the Interface I and II scrolls")
+
+  # The scrolls on the museum's back wall (world items since the R11 promotion, 2026-11-08): Spells, Skills, Classes,
+  # Notes and six spell scrolls (Lightning Bolt, Wizard Eye, Dispel Magic, Fire Spike, Slow, Sparks: engine items 317,
+  # 311, 379, 306, 334, 314 by item_aliases.txt). The party walks up below each one and takes it with the use key
+  # (pick_up: the camera turned at it; the nearer of two in a line first).
+  - walk_to: {x: 376, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 10583, reach: 400}
+  - walk_to: {x: 364, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 10582, reach: 400}
+  - walk_to: {x: 268, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 10584, reach: 400}
+  - walk_to: {x: 282, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 10581, reach: 400}
+  - walk_to: {x: -404, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 311, reach: 400}
+  - walk_to: {x: -476, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 379, reach: 400}
+  - walk_to: {x: -343, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 317, reach: 400}
+  - walk_to: {x: 1050, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 334, reach: 400}
+  - walk_to: {x: 1009, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 306, reach: 400}
+  - walk_to: {x: 1111, y: -8190, z: 1291, radius: 12, plan: false, timeout_seconds: 20}
+  - pick_up: {item_id: 314, reach: 400}
+  - play_lua: {source: 'log("the museum''s ten scrolls are in the pack")'}
+
+  # Back to Grandpa: ready to leave. Strategy Tips, Disarm Trap and Identify Item skill books (key 496).
+  - walk_to: {x: 323, y: -8600, z: 1291, timeout_seconds: 30}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "We're ready to leave."}
+  - select_topic: {match_label: "Why?"}
+  - select_topic: {match_label: "Goodbye, Grandpa."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90475, 90496]}
+  - play_lua:
+      source: |
+        for _, i in ipairs({10589, 10298, 10302}) do
+          if not has_item(i) then error("Grandpa's gift " .. i .. " not in the pack") end
+        end
+        log("Strategy Tips, Disarm Trap Skill and Identify Item Skill are in the pack")
+
+  # Out of the museum (MuseumDoor2, a rotating door: clicked from outside its swing), to the store (its doors the
+  # same) for the Shopkeepers scroll on the counter.
+  - walk_to: {x: 523, y: -7950, z: 1291, timeout_seconds: 30}
+  - play_lua: {source: 'click(105); wait(2.5)'}
+  - walk_to: {x: -650, y: -3520, z: 1303, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(109); wait(3)'}
+  - walk_to: {x: -1562, y: -3130, z: 1303, radius: 15, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10585, reach: 400}
+  - walk_to: {x: -1350, y: -3520, z: 1303, timeout_seconds: 30}
+  - play_lua: {source: 'click(109); wait(3)'}
+  - walk_to: {x: -650, y: -3520, z: 1303, plan: false, timeout_seconds: 30}
+
+  # North past the Lobber Pods to the boat at the dock: ExitTrigger0 moves the party without a prompt, six days at
+  # sea, to the Isle of Ashes; Grandpa's Leave gives key 473 (training completed).
+  - walk_to: {x: 9129, y: 10634, z: 1289, timeout_seconds: 400, clear_hostiles: 2000, expect_map: isleofashes.blv}
+  - advance_runtime: {seconds: 1}
+  - assert: {map: isleofashes.blv, qbit_set: [90473]}
+  - save_game: {name: "01 Ravensford", path: output/playthrough/mm9/checkpoints/01_ravensford.oysav}

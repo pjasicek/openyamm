@@ -1,0 +1,769 @@
+{
+ "id": "20261009-1628-mm6-oute3-44",
+ "world": "mm6",
+ "maps": [
+  "oute3.odm",
+  "outd2.odm",
+  "outa3.odm",
+  "outc3.odm"
+ ],
+ "created": "2026-10-09T14:28:28+00:00",
+ "textures": [
+  "mm6/rblle",
+  "mm6/rblst1",
+  "mm6/t1wl4w",
+  "mm6/rblbw",
+  "mm6/thuniq1",
+  "mm6/thuniq2",
+  "mm6/cbeam2",
+  "mm6/sidert32",
+  "mm6/tdoora",
+  "mm6/tewdw",
+  "mm6/tewld",
+  "mm6/thctrw2",
+  "mm6/top32",
+  "mm6/solid09",
+  "mm6/tavgobln",
+  "mm6/6solid03",
+  "mm6/whrt",
+  "mm6/whrtw",
+  "mm6/whlftw",
+  "mm6/bmslgdr",
+  "mm6/whwin",
+  "mm6/bmsctrw1",
+  "mm6/brxdr",
+  "mm6/swplft3a"
+ ],
+ "requests": {
+  "mm6/rblle": {
+   "name": "rblle",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey rounded fieldstone rubble with dark mortar, with dressed rounded quoin stones along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rblst",
+      "mm6/rblmt",
+      "mm6/rblre"
+     ],
+     "fraction": 0.67
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/rblst1": {
+   "name": "rblst1",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey rounded fieldstone rubble with dark mortar, with a row of flatter capping stones along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rblst",
+      "mm6/rblle",
+      "mm6/rblre"
+     ],
+     "fraction": 0.588
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/t1wl4w": {
+   "name": "t1wl4w",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "pink and cream veined marble ashlar house facade with a tall arched window of pale blue glass panes in a brown wooden frame, framed by stepped marble blocks and a keystone; copy the composition exactly",
+   "notes": {
+    "2": "Bottom edge: the marble blocks run out of the picture as in the reference; no dark mortar line or hairline along the bottom border.",
+    "3": "Copy the composition exactly: the arched window, keystone and stepped frame blocks at the same height as in the reference. Marble blocks intact with crisp bevels and clean dark joints; no broken, eroded or crumbling edges, no white smears or dashed marks. Bottom edge: the marble blocks run out of the picture at even brightness, no pale hairline along the bottom border.",
+    "4": "Clean polished pink and cream marble blocks matching the reference layout exactly; the bottom row of blocks continues to the very edge with no dark band, line or shadow strip at the bottom.",
+    "5": "Clean polished pink and cream marble blocks matching the reference layout exactly, with dark grey mortar joints of the reference width; the bottom row continues to the very edge with no dark band at the bottom.",
+    "6": "Clean polished pink and cream marble blocks matching the reference layout exactly, with dark grey mortar joints of the reference width; the bottom row continues to the very edge with no dark band at the bottom.",
+    "7": "Clean polished pink and cream marble blocks matching the reference layout exactly, with dark grey mortar joints of the reference width; the bottom row continues to the very edge with no dark band at the bottom."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl4ctl",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctr"
+     ],
+     "fraction": 0.384
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl4ctl",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctr"
+     ],
+     "fraction": 0.384
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl4ctl",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctr"
+     ],
+     "fraction": 0.384
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl4ctl",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctr"
+     ],
+     "fraction": 0.382
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl4ctl",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctr"
+     ],
+     "fraction": 0.382
+    },
+    "6": {
+     "sources": [
+      "mm6/t1wl4ctl",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctr"
+     ],
+     "fraction": 0.382
+    },
+    "7": {
+     "sources": [
+      "mm6/t1wl4ctl",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctr"
+     ],
+     "fraction": 0.382
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {
+     "left": "mm6/t1wl5lea",
+     "right": "mm6/t1wl5rea",
+     "top": "mm6/pxshings"
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     191
+    ],
+    "3": [
+     0,
+     191
+    ],
+    "5": [
+     51,
+     0
+    ]
+   },
+   "pad": {
+    "7": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/rblbw": {
+   "name": "rblbw",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey rounded fieldstone rubble with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rblst"
+     ],
+     "fraction": 0.916
+    }
+   }
+  },
+  "mm6/thuniq1": {
+   "name": "thuniq1",
+   "versions": [
+    1
+   ],
+   "material": "red brick town hall facade with a green carved frieze band and an arched stone niche holding a carved statue of a hooded bearded man with a harp before turquoise leaded glass, over an inscribed stone plaque; copy the composition exactly and copy every letter shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thuniq2": {
+   "name": "thuniq2",
+   "versions": [
+    1
+   ],
+   "material": "red brick town hall facade with a green carved frieze band and an arched stone niche holding a carved statue of a robed woman holding a small child before turquoise leaded glass, over an inscribed stone plaque; copy the composition exactly and copy every letter shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thuniq1"
+     ],
+     "fraction": 0.278
+    }
+   }
+  },
+  "mm6/cbeam2": {
+   "name": "cbeam2",
+   "versions": [
+    1
+   ],
+   "material": "plain orange-brown wooden timber beam strip with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sidert32": {
+   "name": "sidert32",
+   "versions": [
+    1
+   ],
+   "material": "plain tan straw thatch edge strip with vertical fibres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tdoora": {
+   "name": "tdoora",
+   "versions": [
+    1
+   ],
+   "material": "weathered dark red-grey wooden plank door with two horizontal cross boards; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tewdw": {
+   "name": "tewdw",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal rubble stone church wall with dark mortar, with two pointed arched stained glass windows showing blue robed figures; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tewld": {
+   "name": "tewld",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal rubble stone church wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thctrw2": {
+   "name": "thctrw2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red brick town hall facade with a green carved frieze band and a tall double pointed-arch window of turquoise leaded glass in a brick surround over a stone sill; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.323
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/thre",
+     "left": "mm6/thle",
+     "bottom": "mm6/cbmxbrck"
+    }
+   }
+  },
+  "mm6/top32": {
+   "name": "top32",
+   "versions": [
+    1
+   ],
+   "material": "plain tan straw thatch strip with horizontal fibres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/solid09": {
+   "name": "solid09",
+   "versions": [
+    1
+   ],
+   "material": "flat uniform dark maroon red colour with no texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavgobln": {
+   "name": "tavgobln",
+   "versions": [
+    1
+   ],
+   "material": "tavern sign of a green tankard with yellow foam on brown planks between riveted teal metal side strips; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/6solid03": {
+   "name": "6solid03",
+   "versions": [
+    1
+   ],
+   "material": "flat uniform white colour with no texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/whrt": {
+   "name": "whrt",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house wall of weathered grey-brown horizontal wooden clapboard planks, with a dark green timber post and diagonal brace on the right with a copper bracket plate",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/whend",
+      "mm6/whcntr"
+     ],
+     "fraction": 0.88
+    },
+    "2": {
+     "sources": [
+      "mm6/whend",
+      "mm6/whcntr"
+     ],
+     "fraction": 0.88
+    },
+    "3": {
+     "sources": [
+      "mm6/whend",
+      "mm6/whcntr"
+     ],
+     "fraction": 0.88
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/whcntr"
+    },
+    "3": {
+     "left": "mm6/whcntr",
+     "top": "mm6/whend",
+     "bottom": "mm6/whend"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/whrtw": {
+   "name": "whrtw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "house wall of weathered grey-brown horizontal wooden clapboard planks, with a square window of dark glass behind iron grid bars in a dark green wooden frame and a dark green timber post with diagonal brace on the right; copy the composition exactly",
+   "notes": {
+    "3": "No dark or pale hairline along the bottom edge.",
+    "4": "No dark or pale hairline along the bottom edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/whcntr",
+      "mm6/whend"
+     ],
+     "fraction": 0.62
+    },
+    "2": {
+     "sources": [
+      "mm6/whcntr",
+      "mm6/whend"
+     ],
+     "fraction": 0.62
+    },
+    "3": {
+     "sources": [
+      "mm6/whrt",
+      "mm6/whcntr"
+     ],
+     "fraction": 0.62
+    },
+    "4": {
+     "sources": [
+      "mm6/whrt",
+      "mm6/whcntr",
+      "mm6/whend"
+     ],
+     "fraction": 0.605
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/whft"
+    },
+    "3": {
+     "left": "mm6/whft"
+    },
+    "4": {
+     "left": "mm6/whft",
+     "bottom": "mm6/whrt",
+     "top": "mm6/whrt"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     153
+    ]
+   },
+   "pad": {
+    "4": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/whlftw": {
+   "name": "whlftw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house wall of weathered grey-brown horizontal wooden clapboard planks, with a dark green timber post with diagonal brace on the left and a square window of dark glass behind iron grid bars in a dark green wooden frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark line along the right edge: the sandstone blocks continue at full brightness to the right border.",
+    "3": "No dark line along the right edge: the sandstone blocks continue at full brightness to the right border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/whft",
+      "mm6/whwin",
+      "mm6/whrtw",
+      "mm6/whrt"
+     ],
+     "fraction": 0.851
+    },
+    "2": {
+     "sources": [
+      "mm6/whft",
+      "mm6/whwin",
+      "mm6/whrtw",
+      "mm6/whrt"
+     ],
+     "fraction": 0.851
+    },
+    "3": {
+     "sources": [
+      "mm6/whft",
+      "mm6/whcntr",
+      "mm6/whrtw",
+      "mm6/whrt"
+     ],
+     "fraction": 0.849
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     152
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/whcntr"
+    },
+    "3": {
+     "right": "mm6/whcntr",
+     "top": "mm6/whft",
+     "bottom": "mm6/whft"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/bmslgdr": {
+   "name": "bmslgdr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "arched double door of brown wooden planks with oval red and gold stained glass panes and brass handles, in a mossy tan stone surround; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsde",
+      "mm6/bmsle",
+      "mm6/bmsre"
+     ],
+     "fraction": 0.392
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsde"
+     ],
+     "fraction": 0.33
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/whwin": {
+   "name": "whwin",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house wall of weathered grey-brown horizontal wooden clapboard planks, with a square window of dark glass behind iron grid bars in a dark green wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/whcntr"
+     ],
+     "fraction": 0.609
+    },
+    "2": {
+     "sources": [
+      "mm6/whcntr"
+     ],
+     "fraction": 0.609
+    },
+    "3": {
+     "sources": [
+      "mm6/whcntr",
+      "mm6/whrtw",
+      "mm6/whlftw"
+     ],
+     "fraction": 0.609
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/whrt",
+     "left": "mm6/whft"
+    },
+    "3": {
+     "right": "mm6/whrt",
+     "left": "mm6/whft",
+     "top": "mm6/whcntr",
+     "bottom": "mm6/whcntr"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/bmsctrw1": {
+   "name": "bmsctrw1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house wall of mossy tan sandstone blocks with a tall narrow blue glazed window in a carved stone frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Left edge continues the sandstone blocks."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsre1",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.591
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsre1",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.591
+    },
+    "3": {
+     "sources": [
+      "mm6/bmsctr1",
+      "mm6/bmsctr"
+     ],
+     "fraction": 0.591
+    }
+   },
+   "roll": {
+    "3": [
+     76,
+     0
+    ]
+   },
+   "context": {
+    "3": {
+     "bottom": "mm6/bmsctr1"
+    }
+   }
+  },
+  "mm6/brxdr": {
+   "name": "brxdr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "red-brown plank door with iron bands and a lock plate in a dark timber frame under a red brick lintel; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: keep the brick band, the door frame and the door straps at the same heights as in the reference.",
+    "3": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material.",
+    "4": "The top timber beam runs to the top border with even wood grain: no pale or dark hairline along the top edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   },
+   "roll": {
+    "4": [
+     0,
+     68
+    ]
+   }
+  },
+  "mm6/swplft3a": {
+   "name": "swplft3a",
+   "versions": [
+    1
+   ],
+   "material": "dark brown mud daub house wall with a weathered timber frame on the left with iron corner brackets and a small boarded window; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swplft3",
+      "mm6/swpend3",
+      "mm6/swpend3a"
+     ],
+     "fraction": 0.429
+    }
+   }
+  }
+ }
+}

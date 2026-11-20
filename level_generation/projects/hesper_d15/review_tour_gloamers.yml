@@ -1,0 +1,34 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d15/review/gloamers
+settle_seconds: 2
+exit: true
+shots:
+- name: freight_line
+  position:
+  - 2900
+  - 1120
+  - 0
+  yaw: 0
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true
+- name: flooded_cut
+  position:
+  - 14000
+  - 4400
+  - -512
+  yaw: 0
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true
+- name: cut_deep
+  position:
+  - 14300
+  - 7000
+  - -512
+  yaw: 0.7
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true

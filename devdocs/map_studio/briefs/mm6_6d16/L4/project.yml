@@ -1,0 +1,25 @@
+format: 0
+id: cal6d16
+name: Warlord's Fortress
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9708
+  reference: 6d16.blv
+neighbours:
+  - id: exit:silver_cove
+    to: outd1.odm
+    kind: door
+    arrival: [-18606, 9831, 160]
+    arrival_hint: "In front of the fortress gate, in the north-west of Silver Cove, facing south (away from the gate)."
+    direction: 270
+qbits:
+  statuette_found: 1076
+  statuette_seer_hint: 1211
+items:
+  eagle_statuette: 2073
+  storage_key_a: 2185
+  storage_key_b: 2191
+  warlord_key: 2184
+notes: "Rebuild of Warlord's Fortress (mm6 6d16.blv) by devdocs/map_studio/REBUILD_PROCEDURE.md, from the designer's hand-drawn L3 shell moved into the original's frame. NOTES.md beside this file holds the scores, the gaps and the tool defects."

@@ -1,0 +1,1 @@
+Preserved magenta master. Process --adjust 0.98 0 0, refresh before_tone backups, run restore_native_tone.py and queue check. Native RGB tone matching preserves alpha. Both final proofs reviewed; zero solid clipping.

@@ -4,7 +4,7 @@
 version: 1
 alpha_threshold: 250
 # Normal maps cook at this fraction of their source's largest power-of-two side (a class entry or a model's
-# <name>.cook.yml can set normal_scale too; an image's own max_size override still wins).
+# <name>.cook.yml can set normal_scale too, per profile or for all; an image's own max_size override still wins).
 normal_scale: 0.5
 
 # Block codec per profile and role. colour_hero applies to opaque colour of hero-quality assets. Burn maps (burn
@@ -33,19 +33,59 @@ codecs:
 # Asset classes by source path (relative to assets_source, fnmatch); the first match applies. max_size caps the
 # largest side per profile by dropping the largest mip levels.
 # A texture shared by models of different classes (corpses reuse creature skins) takes the larger size and the
-# higher-quality codec of its uses. A model's <name>.cook.yml sidecar can override quality, max_size and
-# normal_scale for the model, and max_size or codec for one image (by glTF image name).
+# higher-quality codec of its uses. A model's <name>.cook.yml sidecar can override quality, max_size, normal_scale,
+# normal_strength and colour_mip_sharpening for the model, and max_size or codec for one image (by glTF image name);
+# `back_faces: keep` skips the hidden back face pass (cook_model_geometry.py).
+#   normal_relief          {target, max}: each material's normalTexture.scale is multiplied so the map's 90th percentile
+#                          tilt |xy| reaches target, by at most max and never below 1 (tools/cook_models.py
+#                          normal_strength); a sidecar's normal_strength sets the multiplier instead.
+#   colour_mip_sharpening  unsharp-mask strength on colour mips below the first (0 or absent: plain filtering).
 classes:
   - match: "engine/models/mm*_deco_*.glb"
     quality: standard
     max_size: {desktop: 4096, android: 2048}
+  # Creatures and their attachments (2026-10-21, user decision after the MM8 creature audit): full-size normal maps on
+  # desktop, weak Meshy relief lifted (MM8 bodies were at a 90th percentile tilt of about 0.1, 6 degrees, so their
+  # normal maps barely relit anything), and sharpened colour mips, which the game samples at most viewing distances.
+  # A world's own ground items (MM9, 2026-11-05): the engine ground items' caps below. Before the creature class, which
+  # would also match this path.
+  - match: "worlds/*/world_items/models/*.glb"
+    quality: hero
+    max_size: {desktop: 512, android: 512}
+    role_max_size: {normal: 256, metallic_roughness: 256}
+    reduce: true
   - match: "worlds/*/models/*.glb"
     quality: hero
     max_size: {desktop: 2048, android: 2048}
     reduce: true
+    normal_scale: {desktop: 1, android: 0.5}
+    normal_relief: {target: 0.25, max: 3}
+    colour_mip_sharpening: 0.75
   - match: "engine/models/*.glb"
     quality: hero
     max_size: {desktop: 4096, android: 4096}
+    reduce: true
+  # The first-person view model (solo runs, 2026-11-14): the arms and dragon forelegs, always on screen and close to
+  # the eye, keep full-size normal maps on desktop; the weapon and shield templates (w_*, s_*: one shown at a time)
+  # halve theirs, which looked the same at 1600x900 and saves about 165 MB. The arms keep their two-sided skin
+  # (back_faces: keep in assets_source/engine/view_model/arms.cook.yml).
+  # Held weapons and shields (2048 sources): 2048 on desktop, 1024 on Android's small screens (user, 2026-11-14).
+  - match: "engine/view_model/[ws]_*.glb"
+    quality: hero
+    max_size: {desktop: 2048, android: 1024}
+    reduce: true
+  # The arms and dragon forelegs never cover more screen than a 2048 texture holds (user, 2026-11-14).
+  - match: "engine/view_model/*.glb"
+    quality: hero
+    max_size: {desktop: 2048, android: 2048}
+    reduce: true
+    normal_scale: {desktop: 1, android: 0.5}
+  # Ground items cover at most a few hundred pixels on screen (2026-10-18, user decision): colour 512, relief and
+  # roughness 256. role_max_size caps one role further than max_size.
+  - match: "engine/world_items/models/*.glb"
+    quality: hero
+    max_size: {desktop: 512, android: 512}
+    role_max_size: {normal: 256, metallic_roughness: 256}
     reduce: true
 
 # Visually lossless reductions for classes with `reduce: true` (creatures, attachments, satchels; 2026-10-14). Each is

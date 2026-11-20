@@ -7,16 +7,22 @@
 // [3] card centre in mesh space (xyz)
 uniform vec4 u_modelStatic[4];
 
-mat4 modelStaticMatrix()
+// The helpers take the placement matrix: the Metal shader build sees instance data only inside main().
+mat4 modelStaticMatrix(vec4 row0, vec4 row1, vec4 row2)
 {
-    return mtxFromRows(i_data0, i_data1, i_data2, vec4(0.0, 0.0, 0.0, 1.0));
+    return mtxFromRows(row0, row1, row2, vec4(0.0, 0.0, 0.0, 1.0));
+}
+
+vec3 modelStaticOrigin(mat4 model)
+{
+    return mul(model, vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 }
 
 // Per-placement phase from its position, so neighbouring decorations do not animate in step; a card billboard adds
 // its own centre, so the candles of one chandelier flicker and play their flames apart.
-float modelStaticPhase()
+float modelStaticPhase(mat4 model)
 {
-    vec2 seed = vec2(i_data0.w, i_data1.w);
+    vec2 seed = modelStaticOrigin(model).xy;
     if (u_modelStatic[0].w > 1.5)
     {
         seed += u_modelStatic[3].xy * 173.0 + u_modelStatic[3].zz * 61.0;
@@ -25,13 +31,13 @@ float modelStaticPhase()
 }
 
 // Animated texture coordinates: scrolling, or the current flipbook frame.
-vec2 modelStaticTexcoord(vec2 texcoord)
+vec2 modelStaticTexcoord(vec2 texcoord, mat4 model)
 {
     texcoord += u_modelStatic[1].xy * u_modelStatic[0].x;
     if (u_modelStatic[1].z > 0.5)
     {
         float frames = u_modelStatic[1].z * u_modelStatic[1].w;
-        float frame = floor(mod(u_modelStatic[0].x * u_modelStatic[2].x + modelStaticPhase() * frames, frames));
+        float frame = floor(mod(u_modelStatic[0].x * u_modelStatic[2].x + modelStaticPhase(model) * frames, frames));
         vec2 cell = vec2(mod(frame, u_modelStatic[1].z), floor(frame / u_modelStatic[1].z));
         texcoord = (cell + texcoord) / u_modelStatic[1].zw;
     }
@@ -39,7 +45,7 @@ vec2 modelStaticTexcoord(vec2 texcoord)
 }
 
 // Emission scale of a pulsing material (1 without a pulse), out of step between placements.
-float modelStaticPulse()
+float modelStaticPulse(mat4 model)
 {
     if (u_modelStatic[2].z <= 0.0)
     {
@@ -48,7 +54,7 @@ float modelStaticPulse()
     if (u_modelStatic[2].w < 0.0)
     {
         // Flicker: smoothed value noise at the given rate plus a faster, weaker octave, out of step per placement.
-        float t = u_modelStatic[0].x / -u_modelStatic[2].w + modelStaticPhase() * 97.0;
+        float t = u_modelStatic[0].x / -u_modelStatic[2].w + modelStaticPhase(model) * 97.0;
         float i = floor(t);
         float f = t - i;
         float a = fract(sin(i * 12.9898) * 43758.5453);
@@ -61,21 +67,21 @@ float modelStaticPulse()
             f2 * f2 * (3.0 - 2.0 * f2));
         return 1.0 + u_modelStatic[2].z * ((slow * 0.7 + fast * 0.3) * 2.0 - 1.0);
     }
-    return 1.0 + u_modelStatic[2].z * sin(6.2831853 * (u_modelStatic[0].x / u_modelStatic[2].w + modelStaticPhase()));
+    return 1.0 + u_modelStatic[2].z
+        * sin(6.2831853 * (u_modelStatic[0].x / u_modelStatic[2].w + modelStaticPhase(model)));
 }
 
 // Cloth flutter (vertex colour alpha = how free the vertex is; a wave travels along texture coordinate u).
-vec3 modelStaticFlutter(vec3 position, vec3 normal, vec2 texcoord, float freedom)
+vec3 modelStaticFlutter(vec3 position, vec3 normal, vec2 texcoord, float freedom, mat4 model)
 {
-    float wave = sin(u_modelStatic[0].x * 7.0 - texcoord.x * 9.0 + modelStaticPhase() * 6.2831853)
+    float wave = sin(u_modelStatic[0].x * 7.0 - texcoord.x * 9.0 + modelStaticPhase(model) * 6.2831853)
         + 0.35 * sin(u_modelStatic[0].x * 11.3 - texcoord.x * 15.0);
     return position + normal * (u_modelStatic[2].y * freedom * wave);
 }
 
-vec3 modelStaticPosition(vec3 position, vec3 cameraPosition)
+vec3 modelStaticPosition(vec3 position, vec3 cameraPosition, mat4 model)
 {
-    mat4 model = modelStaticMatrix();
-    vec3 origin = vec3(i_data0.w, i_data1.w, i_data2.w);
+    vec3 origin = modelStaticOrigin(model);
     vec3 world = mul(model, vec4(position, 1.0)).xyz;
     float scale = length(mul(model, vec4(1.0, 0.0, 0.0, 0.0)).xyz);
     if (u_modelStatic[0].w > 0.5)
@@ -103,15 +109,15 @@ vec3 modelStaticPosition(vec3 position, vec3 cameraPosition)
     return world;
 }
 
-vec3 modelStaticNormal(vec3 normal, vec3 cameraPosition)
+vec3 modelStaticNormal(vec3 normal, vec3 cameraPosition, mat4 model)
 {
     if (u_modelStatic[0].w > 0.5)
     {
-        vec2 pivot = u_modelStatic[0].w > 1.5 ? mul(modelStaticMatrix(), vec4(u_modelStatic[3].xyz, 1.0)).xy
-            : vec2(i_data0.w, i_data1.w);
+        vec2 pivot = u_modelStatic[0].w > 1.5 ? mul(model, vec4(u_modelStatic[3].xyz, 1.0)).xy
+            : modelStaticOrigin(model).xy;
         vec2 toCamera = cameraPosition.xy - pivot;
         toCamera *= inversesqrt(max(dot(toCamera, toCamera), 0.0001));
         return vec3(toCamera, 0.0);
     }
-    return normalize(mul(modelStaticMatrix(), vec4(normal, 0.0)).xyz);
+    return normalize(mul(model, vec4(normal, 0.0)).xyz);
 }

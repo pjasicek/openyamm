@@ -18,8 +18,9 @@ enum class JournalAutonoteCategory : uint8_t
 
 struct JournalAutonoteEntry
 {
-    uint32_t noteBit = 0;
+    uint32_t id = 0;
     std::string text;
+    std::string owner;
     JournalAutonoteCategory category = JournalAutonoteCategory::Misc;
 };
 

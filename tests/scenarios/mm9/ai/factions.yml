@@ -1,0 +1,28 @@
+id: mm9.ai.factions
+title: MM9 factions - two friendly monsters turn on each other at a hate trigger
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The wolf and the Horde Grunt stand side by side as friends until the 8 s
+        event sets the wolf on the grunt, which then takes its attacker.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: factions.arena.yml}
+  - advance_runtime: {seconds: 16}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, before: 8, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, before: 8, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: actor:6, after: 8, before: 10, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, target: actor:6, after: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: retarget, detail: no_target, target: actor:5, after: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, target: actor:5, after: 8, min_count: 1}

@@ -120,10 +120,10 @@ elements:
     notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
   - id: CreditsHeading0
     anchor: top_left
-    offset_x: 165.3333
-    offset_y: 157.9835
-    width: 244.0
-    height: 18.5584
+    offset_x: 101.7333
+    offset_y: 122.0
+    width: 200.0
+    height: 37.1168
     z_index: 10
     visible: true
     interactive: false
@@ -132,15 +132,15 @@ elements:
       font: fondamento
       color: '#e6d1a8'
       align_x: left
-      align_y: middle
+      align_y: bottom
       scale: 0.48333
       pad_x: 0.0
   - id: CreditsHeading1
     anchor: top_left
-    offset_x: 444.0
-    offset_y: 157.9835
-    width: 244.0
-    height: 18.5584
+    offset_x: 331.7333
+    offset_y: 122.0
+    width: 200.0
+    height: 37.1168
     z_index: 10
     visible: true
     interactive: false
@@ -149,14 +149,14 @@ elements:
       font: fondamento
       color: '#e6d1a8'
       align_x: left
-      align_y: middle
+      align_y: bottom
       scale: 0.48333
       pad_x: 0.0
   - id: CreditsHeading2
     anchor: top_left
-    offset_x: 165.3333
-    offset_y: 251.8416
-    width: 244.0
+    offset_x: 561.7333
+    offset_y: 122.0
+    width: 200.0
     height: 37.1168
     z_index: 10
     visible: true
@@ -166,14 +166,14 @@ elements:
       font: fondamento
       color: '#e6d1a8'
       align_x: left
-      align_y: middle
+      align_y: bottom
       scale: 0.48333
       pad_x: 0.0
   - id: CreditsHeading3
     anchor: top_left
-    offset_x: 444.0
-    offset_y: 251.8416
-    width: 244.0
+    offset_x: 561.7333
+    offset_y: 232.0
+    width: 200.0
     height: 18.5584
     z_index: 10
     visible: true
@@ -183,15 +183,32 @@ elements:
       font: fondamento
       color: '#e6d1a8'
       align_x: left
-      align_y: middle
+      align_y: bottom
+      scale: 0.48333
+      pad_x: 0.0
+  - id: CreditsHeading4
+    anchor: top_left
+    offset_x: 101.7333
+    offset_y: 232.0
+    width: 430.0
+    height: 18.5584
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: The MAW team
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: bottom
       scale: 0.48333
       pad_x: 0.0
   - id: CreditsText0
     anchor: top_left
-    offset_x: 165.3333
-    offset_y: 182.9419
-    width: 244.0
-    height: 36.3669
+    offset_x: 101.7333
+    offset_y: 166.0
+    width: 200.0
+    height: 54.5504
     z_index: 10
     visible: true
     interactive: false
@@ -205,9 +222,9 @@ elements:
       pad_x: 0.0
   - id: CreditsText1
     anchor: top_left
-    offset_x: 444.0
-    offset_y: 182.9419
-    width: 244.0
+    offset_x: 331.7333
+    offset_y: 166.0
+    width: 200.0
     height: 36.3669
     z_index: 10
     visible: true
@@ -222,9 +239,9 @@ elements:
       pad_x: 0.0
   - id: CreditsText2
     anchor: top_left
-    offset_x: 165.3333
-    offset_y: 295.3584
-    width: 244.0
+    offset_x: 561.7333
+    offset_y: 166.0
+    width: 200.0
     height: 36.3669
     z_index: 10
     visible: true
@@ -239,9 +256,9 @@ elements:
       pad_x: 0.0
   - id: CreditsText3
     anchor: top_left
-    offset_x: 444.0
-    offset_y: 276.8
-    width: 244.0
+    offset_x: 561.7333
+    offset_y: 256.0
+    width: 200.0
     height: 72.7333
     z_index: 10
     visible: true
@@ -256,9 +273,80 @@ elements:
       align_y: middle
       scale: 0.74105
       pad_x: 0.0
+  - id: CreditsText4
+    anchor: top_left
+    offset_x: 101.7333
+    offset_y: 256.0
+    width: 180.0
+    height: 109.1004
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: 'Malekith
+
+        Rawsugar
+
+        Eksekk
+
+        Yuji Sakai/Knightmarevive
+
+        2D (Perduelion)
+
+        Thor Thunderfist'
+      font: menu_arrus
+      color: '#c9c9b6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CreditsText5
+    anchor: top_left
+    offset_x: 290.0
+    offset_y: 256.0
+    width: 240.0
+    height: 109.1004
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: 'Lead developer and designer
+
+        Co-lead designer
+
+        Senior contributor
+
+        Contributor
+
+        Alchemy design
+
+        Skill limit removal'
+      font: menu_arrus
+      color: '#c9c9b6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CreditsText6
+    anchor: top_left
+    offset_x: 101.7333
+    offset_y: 370.0
+    width: 430.0
+    height: 18.1835
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: With thanks to GrayFace and Rodril.
+      font: menu_arrus
+      color: '#c9c9b6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
   - id: CreditsProjectLink
     anchor: top_left
-    offset_x: 444.0
+    offset_x: 561.7333
     offset_y: 358.6
     width: 184
     height: 26

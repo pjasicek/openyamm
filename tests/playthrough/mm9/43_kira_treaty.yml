@@ -1,0 +1,45 @@
+# MM9 playthrough, segment 43: Kira writes the treaty (guide: Chapter II, "Peace between Sturmford and Drangheim").
+# Drangheim to Thronheim (three days; outdoors the party is moved), the land gate, Kira agrees to write it (88), the
+# party rests in town past six in the morning (her clock: 180), and she hands over the Peace Treaty (89, 181:
+# 12 000 experience, item 10401).
+#   python3 tests/playthrough/mm9/run.py 43
+id: mm9.playthrough.43_kira_treaty
+title: "MM9 playthrough 43: Kira writes the peace treaty overnight"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/42_sigmund.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheim.blv, qbit_set: [90086, 90087], qbit_clear: [90088, 90089]}
+
+  - travel: {map: thronheim.blv, days: 3}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  - set_pose: {map: thronheimcity.blv, x: -11182, y: 16500, z: 3278, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "We need someone to write a peace treaty."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "We will see you tomorrow."}
+  - advance_runtime: {seconds: 2}
+  - assert: {qbit_set: [90088], qbit_clear: [90180]}
+
+  # A day's rest in town: the next 06:00 passes with the city loaded.
+  - advance_game_time: {hours: 24}
+  - advance_runtime: {seconds: 3}
+  - assert: {qbit_set: [90180]}
+
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "We've returned for the treaty."}
+  - select_topic: {match_label: "Thank you.  We will be back very soon."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90089, 90181]}
+  - play_lua: {source: 'if not has_item(10401) then error("no Peace Treaty") end; log("the Peace Treaty is in the pack")'}
+  - save_game: {name: "43 the Peace Treaty", path: output/playthrough/mm9/checkpoints/43_kira_treaty.oysav}

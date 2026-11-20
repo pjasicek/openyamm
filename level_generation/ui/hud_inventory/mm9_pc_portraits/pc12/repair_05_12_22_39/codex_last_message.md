@@ -1,0 +1,3 @@
+Saved [raw.png](level_generation/ui/hud_inventory/mm9_pc_portraits/pc12/repair_05_12_22_39/raw.png) and [generation.json](level_generation/ui/hud_inventory/mm9_pc_portraits/pc12/repair_05_12_22_39/generation.json) with prompt, hashes and checks. Built-in generation; RGBA transparency verified.
+
+No pixel edits or builds. Output is 2172×724; the five-reference tool limit required describing two consensus inputs in the prompt.

@@ -1,0 +1,32 @@
+{
+  "prompt": "Edit paint_mask_guide.png using the other two images as references. Use case: precise-object-edit. Output one transparent PNG, 1536x2048 or nearest 3:4 size. The guide is the EXACT positional and silhouette template: three columns by FOUR rows, each cell 512x512 at original resolution. Rows 1-2 and 3-4 contain duplicate five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve EXACT positions, sizes, outlines, gaps, orientation, and empty cells. Some views are tiny end-on or thin edge-on shapes: retain these EXACTLY, never replace them with broadside weapons. Paint only existing grey pixels, do not redraw, enlarge, move or redesign objects.\nRows 1-2 PAINT: unlit base colour faithfully extrapolating the MM9 Stouka Couta in MM6-MM8 inventory style from design_reference.png (material/detail master) and icon_x8.png (original palette; magenta is background). Broad tall gray single blade left of long narrow silver spear spike, small downward rear hook, pale-blue metal socket bands, dark charcoal-blue shaft, short copper-brown butt grip. Not a generic halberd. Facets, engravings, scrollwork and inner swirls follow the design reference at each view's scale. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, outlines, glow, sparkles, aura, ground or text.\nRows 3-4 MATERIAL MASK: same five silhouettes, fill every pixel with exactly one FLAT pure material colour, no shading/texture/outlines/antialiased internal blends: #FF0000 all metal (steel/iron/gold/silver/bronze/copper/brass); #00FF00 leather and fur; #0000FF cloth/cords/hair; #FFFF00 matte non-metal solids such as wood/bone/horn/stone; #000000 gemstones/crystal/glass/pearl/enamel/liquid through glass. Identify materials using the reference. Blade/spike/hook/socket bands and copper butt metal are red; dark wood shaft yellow. Nothing outside silhouettes.\nAll background and gaps transparent. Column 3 row 2 and column 3 row 4 entirely transparent. Exact guide layout has priority over any aesthetic presentation.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10192/paint_mask_guide.png",
+      "sha256": "6cbb861c3b1047974900a6c99c8e3a548db1f195a0da88f15f178993c3509b98"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10192/design_reference.png",
+      "sha256": "d3d0225d7d26a6886ef31de4b820bb7690578088d1575edd64b96f080148e8d3"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10192/icon_x8.png",
+      "sha256": "82ca078c76df5d96d9e828d40d3603508b844e3165ec8bebfc44f09a930f9f1c"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad06-eb8e-7572-b516-f9e0b075befa/exec-bedaa5cb-4a82-4f21-81eb-217565f81499.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10192/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_attempt": {
+    "prompt": "Edit paint_mask_guide.png using the other two images as references. Use case: precise-object-edit. Output one transparent PNG, 1536x2048 or nearest 3:4 size. The guide is the EXACT positional and silhouette template: three columns by FOUR rows, each cell 512x512 at original resolution. Rows 1-2 and 3-4 contain duplicate five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve EXACT positions, sizes, outlines, gaps, orientation, and empty cells. Some views are tiny end-on or thin edge-on shapes: retain these EXACTLY, never replace them with broadside weapons. Paint only existing grey pixels, do not redraw, enlarge, move or redesign objects.\nRows 1-2 PAINT: unlit base colour faithfully extrapolating the MM9 Stouka Couta in MM6-MM8 inventory style from design_reference.png (material/detail master) and icon_x8.png (original palette; magenta is background). Broad tall gray single blade left of long narrow silver spear spike, small downward rear hook, pale-blue metal socket bands, dark charcoal-blue shaft, short copper-brown butt grip. Not a generic halberd. Facets, engravings, scrollwork and inner swirls follow the design reference at each view's scale. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, outlines, glow, sparkles, aura, ground or text.\nRows 3-4 MATERIAL MASK: same five silhouettes, fill every pixel with exactly one FLAT pure material colour, no shading/texture/outlines/antialiased internal blends: #FF0000 all metal (steel/iron/gold/silver/bronze/copper/brass); #00FF00 leather and fur; #0000FF cloth/cords/hair; #FFFF00 matte non-metal solids such as wood/bone/horn/stone; #000000 gemstones/crystal/glass/pearl/enamel/liquid through glass. Identify materials using the reference. Blade/spike/hook/socket bands and copper butt metal are red; dark wood shaft yellow. Nothing outside silhouettes.\nAll background and gaps transparent. Column 3 row 2 and column 3 row 4 entirely transparent. Exact guide layout has priority over any aesthetic presentation.\nCORRECTION: Precisely preserve the smooth thin silhouettes in the supplied original grey guide. Absolutely no ragged stray pixels, enlarged shapes, protruding paint, or outlines around the lower material masks. Lower mask boundaries must be identical to upper painted boundaries and the original guide. Flat solid colours inside only. Paint base colours without specular highlights.",
+    "status": "rejected by image tool safety system (violence)"
+  },
+  "limitations": [
+    "Visible ragged mask edges; exact silhouette and pure-colour compliance not established."
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

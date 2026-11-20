@@ -1,0 +1,34 @@
+# Perception's way through Joe's street doors (XD-01 L4): the MM7 world's new-game party, whose best Perception is 3,
+# finds the loose shutter and the doors open for it without the warehouse key (playtest.yml takes the key's way with a
+# party that has no Perception). Event and door numbers are ids.lock.yml's.
+id: xeen.xd01.l4.perception
+title: Joe's Warehouse (XD-01 L4), the street doors by Perception 3
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd01.blv
+  - assert: {map: xeen_xd01.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua:
+      source: |
+        if has_item(2176) then error("the party already carries the warehouse key") end
+        if door_state(16) ~= "closed" or door_state(17) ~= "closed" then error("the street doors do not start shut") end
+        click(27); wait(1)
+  - assert:
+      dialog: {text_contains: "shutter is loose"}
+  - play_lua:
+      source: |
+        if not close() then error("the shutter opened no message window") end
+        click(31); wait(3)
+        if door_state(16) ~= "open" or door_state(17) ~= "open" then error("the street doors did not open for Perception 3: " .. door_state(16) .. " " .. door_state(17)) end
+  - walk_to: {x: 768, y: 400, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: 768, y: 400, radius: 160, z_min: -8, z_max: 8}}
+  # Out by the yard gate onto Warehouse Lane: X1 in front of the warehouse doors.
+  - execute_event: {id: 12}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  # On X1's warehouse lane in front of the loading doors, and off along the lane on foot.
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: -1930, y: 2918, radius: 128, z_min: 600, z_max: 700}}
+  - walk_to: {x: -2458, y: 3277, z: 640, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}

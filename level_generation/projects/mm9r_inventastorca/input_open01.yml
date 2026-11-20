@@ -1,0 +1,19 @@
+# Written by make_tour.py: console lines for the open01 review tour.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_inventastorca/review/open01_input
+steps:
+  - wait: 2
+  - console: event 170
+  - console: event 171
+  - console: event 172
+  - console: event 173
+  - console: event 180
+  - console: event 181
+  - console: event 182
+  - console: event 183
+  - console: event 190
+  - console: event 191
+  - console: event 133
+  - console: event 144
+  - console: event 145
+  - console: event 156
+  - wait: 120

@@ -1,12 +1,20 @@
 #include "doctest/doctest.h"
 
+#include "game/maps/SaveGame.h"
 #include "game/party/SpellIds.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/SpellbookUiLayout.h"
 
+#include <filesystem>
+#include <optional>
+#include <string>
+
 using OpenYAMM::Game::findSpellbookSchoolUiDefinition;
 using OpenYAMM::Game::findSpellbookSchoolUiDefinitionForSpellId;
 using OpenYAMM::Game::GameplayUiController;
+using OpenYAMM::Game::GameSaveData;
+using OpenYAMM::Game::loadGameDataFromPath;
+using OpenYAMM::Game::saveGameDataToPath;
 using OpenYAMM::Game::SpellbookSchoolUiDefinition;
 using OpenYAMM::Game::SpellId;
 using OpenYAMM::Game::spellbookSpellLayoutId;
@@ -53,7 +61,7 @@ TEST_CASE("spellbook ui layout uses canonical school slot mapping")
     CHECK(spellbookSpellLayoutId(GameplayUiController::SpellbookSchool::Light, 12).empty());
 }
 
-TEST_CASE("spellbook remembers selected school after closing")
+TEST_CASE("spellbook keeps its school and drops the selected spell when closed")
 {
     GameplayUiController uiController = {};
 
@@ -62,9 +70,24 @@ TEST_CASE("spellbook remembers selected school after closing")
     uiController.closeSpellbook();
 
     CHECK_FALSE(uiController.spellbook().active);
-    CHECK(uiController.spellbook().hasRememberedSchool);
     CHECK(uiController.spellbook().school == GameplayUiController::SpellbookSchool::Body);
     CHECK_EQ(uiController.spellbook().selectedSpellId, 0u);
+}
+
+TEST_CASE("a character's spellbook page survives a save and load")
+{
+    GameSaveData save;
+    save.party.members.resize(2);
+    save.party.members[0].spellbookSchool = int32_t(GameplayUiController::SpellbookSchool::Body);
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm_spellbook_school.oysav";
+    std::string error;
+    REQUIRE_MESSAGE(saveGameDataToPath(path, save, error), error.c_str());
+    const std::optional<GameSaveData> restored = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(restored.has_value(), error.c_str());
+    REQUIRE_EQ(restored->party.members.size(), 2u);
+    CHECK_EQ(restored->party.members[0].spellbookSchool, int32_t(GameplayUiController::SpellbookSchool::Body));
+    CHECK_EQ(restored->party.members[1].spellbookSchool, -1);
 }
 
 TEST_CASE("status bar hover text does not replace active event text")

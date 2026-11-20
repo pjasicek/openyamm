@@ -1,0 +1,22 @@
+# The item on the cursor stays on it through a map move (2026-11-08): closing a map's views cleared the UI state with
+# the cursor item, while the party's item queries kept it, so the item was gone but scripts still saw it, and a save
+# then lost it (found by the MM9 playthrough's save-and-load run: Thorir's Capstone of Order, given to the cursor, was
+# gone after the trip to the Isle of Ashes).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/cursor_item_survives_map_move.yml --scenario-no-color
+id: mm9.cursor_item_survives_map_move
+title: "An item an event gives to the cursor stays there through an exit into another map, and through a save and load"
+world: mm9
+mode: faithful
+tags: [mm9, items, maps]
+steps:
+  - load_map: {map: thronheim.blv}
+  - lua_event: {source: 'evt.GiveItem(10002)'}
+  - play_lua: {source: 'wait(0.2); if held() ~= 10002 then error("the item is not on the cursor") end'}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+  - play_lua: {source: 'if held() ~= 10002 or not has_item(10002) then error("the cursor item was lost in the map move") end'}
+  - reload: {}
+  - play_lua: {source: 'if held() ~= 10002 or not has_item(10002) then error("the cursor item was lost in the save and load") end'}

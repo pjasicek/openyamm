@@ -1,0 +1,1638 @@
+{
+  "profile": {
+    "world": "mm6",
+    "map": "oute3.odm",
+    "azimuth": 315,
+    "elevation": 45,
+    "samples": 64,
+    "sun_energy": 2.6,
+    "sky_energy": 0.35,
+    "units_per_texel": 32,
+    "building_page_size": 1024,
+    "terrain_size": 1024,
+    "preview_position": [
+      -13000,
+      -15000,
+      1600
+    ],
+    "preview_target": [
+      -9000,
+      -8000,
+      300
+    ],
+    "model_units_per_texel": {
+      "ArmoryW_geo": 4,
+      "TavFrntW_geo": 4,
+      "TavBckW_geo": 4,
+      "BridgeE_1_geo": 4,
+      "EvilKC_geo": 4,
+      "EvilKL_geo": 4,
+      "EvilKR_geo": 4,
+      "PierE_geo": 4,
+      "mm6_ship_477_1_geo": 4,
+      "mm6_ship_477_0_geo": 4,
+      "mm6_ship_477_2_geo": 4,
+      "mm6_ship_477_3_geo": 4,
+      "Wopr_geo": 12,
+      "Wopl_geo": 12,
+      "Wopr_1_geo": 12,
+      "Wopl_4_geo": 12,
+      "Wopr_3_geo": 12,
+      "Wopl_3_geo": 12,
+      "Wopr_4_geo": 12,
+      "Wer_geo": 12,
+      "Wopl_1_geo": 12,
+      "Wopr_2_geo": 12,
+      "Wopl_2_geo": 12,
+      "DEnterS_geo": 12,
+      "FountainW_geo": 12,
+      "TempleS_geo": 12,
+      "EntranceN_geo": 12,
+      "Fountain_1_geo": 12,
+      "BridgeE_geo": 12,
+      "Fountain_geo": 12,
+      "WellS_geo": 12,
+      "HseP2aN_2_geo": 12,
+      "HseP2aN_3_geo": 12,
+      "HseP2aS_3_geo": 12,
+      "HseP2aS_2_geo": 12,
+      "HseP2aS_geo": 12,
+      "HseP2aS_1_geo": 12,
+      "HseP2aN_4_geo": 12,
+      "HseP2aN_1_geo": 12,
+      "HseP2aN_geo": 12,
+      "WellN_geo": 12,
+      "Cel17_geo": 12,
+      "HseR3W_1_geo": 12,
+      "HseR3W_geo": 12,
+      "MagicS_geo": 12,
+      "MagicGS_geo": 12,
+      "StablesE_geo": 12,
+      "MercN_geo": 12,
+      "TownE_geo": 12,
+      "BlackSMW_geo": 12,
+      "GenStorE_geo": 12,
+      "ThievesN_geo": 12,
+      "BankE_geo": 12,
+      "TrainingE_geo": 12,
+      "HseP2aE_geo": 12,
+      "HseP2aW_geo": 12,
+      "SLuckN_geo": 12,
+      "HseP2aW_2_geo": 12,
+      "D18N_geo": 12,
+      "HseP2S_geo": 12,
+      "HseP2S_1_geo": 12,
+      "HseP2aW_1_geo": 12,
+      "SmKeepBck_geo": 12,
+      "SmKeepFrnt_geo": 12,
+      "AntiFlyE3W_geo": 12
+    }
+  },
+  "blender": "5.3.0",
+  "device": "CPU",
+  "sun_direction": [
+    0.5,
+    -0.5,
+    0.7071067690849304
+  ],
+  "bakes": [
+    {
+      "object": "terrain",
+      "term": "sun",
+      "seconds": 7.5465640670008725,
+      "max": 0.9062750339508057
+    },
+    {
+      "object": "terrain",
+      "term": "sky",
+      "seconds": 4.495662315006484,
+      "max": 0.3564938008785248
+    },
+    {
+      "object": "terrain",
+      "term": "sun_direct",
+      "seconds": 7.072038461003103,
+      "max": 0.8272045254707336
+    },
+    {
+      "object": "buildings_0",
+      "term": "sun",
+      "seconds": 4.136347882988048,
+      "max": 0.8576977252960205
+    },
+    {
+      "object": "buildings_0",
+      "term": "sky",
+      "seconds": 2.9011012879927875,
+      "max": 0.35090309381484985
+    },
+    {
+      "object": "buildings_0",
+      "term": "sun_direct",
+      "seconds": 3.260081355998409,
+      "max": 0.8252084255218506
+    },
+    {
+      "object": "buildings_1",
+      "term": "sun",
+      "seconds": 6.1680286600021645,
+      "max": 0.79837965965271
+    },
+    {
+      "object": "buildings_1",
+      "term": "sky",
+      "seconds": 4.072998674004339,
+      "max": 0.47655320167541504
+    },
+    {
+      "object": "buildings_1",
+      "term": "sun_direct",
+      "seconds": 4.6657675719907274,
+      "max": 0.7476985454559326
+    },
+    {
+      "object": "buildings_2",
+      "term": "sun",
+      "seconds": 5.852289970003767,
+      "max": 0.8511276841163635
+    },
+    {
+      "object": "buildings_2",
+      "term": "sky",
+      "seconds": 3.8129039269988425,
+      "max": 0.35000038146972656
+    },
+    {
+      "object": "buildings_2",
+      "term": "sun_direct",
+      "seconds": 4.177741808001883,
+      "max": 0.8048120141029358
+    },
+    {
+      "object": "buildings_3",
+      "term": "sun",
+      "seconds": 6.939581612998154,
+      "max": 0.8422159552574158
+    },
+    {
+      "object": "buildings_3",
+      "term": "sky",
+      "seconds": 4.529356473998632,
+      "max": 0.350351482629776
+    },
+    {
+      "object": "buildings_3",
+      "term": "sun_direct",
+      "seconds": 4.848368895007297,
+      "max": 0.8233245015144348
+    },
+    {
+      "object": "buildings_4",
+      "term": "sun",
+      "seconds": 7.39673587300058,
+      "max": 0.854783296585083
+    },
+    {
+      "object": "buildings_4",
+      "term": "sky",
+      "seconds": 4.8935669170023175,
+      "max": 0.3500003516674042
+    },
+    {
+      "object": "buildings_4",
+      "term": "sun_direct",
+      "seconds": 5.404548166989116,
+      "max": 0.8269563913345337
+    },
+    {
+      "object": "buildings_5",
+      "term": "sun",
+      "seconds": 7.316135558998212,
+      "max": 0.8303048014640808
+    },
+    {
+      "object": "buildings_5",
+      "term": "sky",
+      "seconds": 4.640275975005352,
+      "max": 0.35610494017601013
+    },
+    {
+      "object": "buildings_5",
+      "term": "sun_direct",
+      "seconds": 5.103017323999666,
+      "max": 0.8164117932319641
+    },
+    {
+      "object": "buildings_6",
+      "term": "sun",
+      "seconds": 8.104020835002302,
+      "max": 1.0649322271347046
+    },
+    {
+      "object": "buildings_6",
+      "term": "sky",
+      "seconds": 5.147421817004215,
+      "max": 0.4908589720726013
+    },
+    {
+      "object": "buildings_6",
+      "term": "sun_direct",
+      "seconds": 5.792174350994173,
+      "max": 0.8026372790336609
+    },
+    {
+      "object": "buildings_7",
+      "term": "sun",
+      "seconds": 6.902626652998151,
+      "max": 0.8475703597068787
+    },
+    {
+      "object": "buildings_7",
+      "term": "sky",
+      "seconds": 4.478942257002927,
+      "max": 0.35000044107437134
+    },
+    {
+      "object": "buildings_7",
+      "term": "sun_direct",
+      "seconds": 5.231290960990009,
+      "max": 0.824882984161377
+    },
+    {
+      "object": "buildings_8",
+      "term": "sun",
+      "seconds": 7.1835145889926935,
+      "max": 0.9965881109237671
+    },
+    {
+      "object": "buildings_8",
+      "term": "sky",
+      "seconds": 4.576425435006968,
+      "max": 0.5376196503639221
+    },
+    {
+      "object": "buildings_8",
+      "term": "sun_direct",
+      "seconds": 5.050698855993687,
+      "max": 0.7153565883636475
+    },
+    {
+      "object": "buildings_9",
+      "term": "sun",
+      "seconds": 6.706281167003908,
+      "max": 0.8293675184249878
+    },
+    {
+      "object": "buildings_9",
+      "term": "sky",
+      "seconds": 4.719224769010907,
+      "max": 0.3500004708766937
+    },
+    {
+      "object": "buildings_9",
+      "term": "sun_direct",
+      "seconds": 5.481726257989067,
+      "max": 0.8154338598251343
+    },
+    {
+      "object": "buildings_10",
+      "term": "sun",
+      "seconds": 7.254108560999157,
+      "max": 0.8279736042022705
+    },
+    {
+      "object": "buildings_10",
+      "term": "sky",
+      "seconds": 4.926494372994057,
+      "max": 0.3500005900859833
+    },
+    {
+      "object": "buildings_10",
+      "term": "sun_direct",
+      "seconds": 5.214065665000817,
+      "max": 0.8064848184585571
+    },
+    {
+      "object": "buildings_11",
+      "term": "sun",
+      "seconds": 7.241985430009663,
+      "max": 0.846592366695404
+    },
+    {
+      "object": "buildings_11",
+      "term": "sky",
+      "seconds": 4.60176022000087,
+      "max": 0.5099046230316162
+    },
+    {
+      "object": "buildings_11",
+      "term": "sun_direct",
+      "seconds": 5.123335958007374,
+      "max": 0.8239217400550842
+    },
+    {
+      "object": "buildings_12",
+      "term": "sun",
+      "seconds": 5.50232716499886,
+      "max": 0.8296179175376892
+    },
+    {
+      "object": "buildings_12",
+      "term": "sky",
+      "seconds": 3.6024602800025605,
+      "max": 0.3500005900859833
+    },
+    {
+      "object": "buildings_12",
+      "term": "sun_direct",
+      "seconds": 3.961969804004184,
+      "max": 0.7889389395713806
+    },
+    {
+      "object": "probes",
+      "term": "sun",
+      "seconds": 4.536361897989991,
+      "max": 0.7261582612991333
+    },
+    {
+      "object": "probes",
+      "term": "sky",
+      "seconds": 2.7159057399985613,
+      "max": 0.3499999940395355
+    },
+    {
+      "object": "probes",
+      "term": "sun_direct",
+      "seconds": 4.218894485005876,
+      "max": 0.5852763652801514
+    },
+    {
+      "object": "probes",
+      "term": "sun_indirect",
+      "seconds": 2.6222144860075787,
+      "max": 0.14098688960075378
+    }
+  ],
+  "dependencies": {
+    "worlds/mm6/maps/oute3.odm": 11914260246993222416,
+    "worlds/mm6/maps/oute3.scene.yml": 16651221673052722748,
+    "worlds/mm6/maps/oute3.bake.json": 13175685489164064864,
+    "worlds/mm6/textures/rblbw.bmp": 16811344718427804071,
+    "worlds/mm6/textures/tews.bmp": 5760985863024759162,
+    "worlds/mm6/textures/crdflr4.bmp": 10921060407708728419,
+    "worlds/mm6/textures/rblmt.bmp": 8623826072925317475,
+    "worlds/mm6/textures/tewd.bmp": 10359799830623786490,
+    "worlds/mm6/textures/tewm.bmp": 6362492193687768393,
+    "worlds/mm6/textures/trim.bmp": 11095605982592125846,
+    "worlds/mm6/textures/tdoora.bmp": 16337053522332854897,
+    "worlds/mm6/textures/tdortrim.bmp": 17244539271699128522,
+    "worlds/mm6/textures/bemhwal1.bmp": 12062912564040498965,
+    "worlds/mm6/textures/6wtrtyl.bmp": 9406111456710023471,
+    "worlds/mm6/textures/t1c3.bmp": 9278558006717234605,
+    "worlds/mm6/textures/t1wl5lec.bmp": 3405500852602123278,
+    "worlds/mm6/textures/t1d1.bmp": 1513647363292289207,
+    "worlds/mm6/textures/t1wl5rea.bmp": 10620464776615208514,
+    "worlds/mm6/textures/t1wl5lea.bmp": 7235897052731116815,
+    "worlds/mm6/textures/t1c2.bmp": 9278558006717234605,
+    "worlds/mm6/textures/t1wl4spb.bmp": 8099493961874404933,
+    "worlds/mm6/textures/t1f1.bmp": 11075053950627578465,
+    "worlds/mm6/textures/t1d3.bmp": 17819968587313962457,
+    "worlds/mm6/textures/top32.bmp": 8903440712381817289,
+    "worlds/mm6/textures/bemstart.bmp": 6347413378983472465,
+    "worlds/mm6/textures/sign128.bmp": 5888371049180735837,
+    "worlds/mm6/textures/sidert32.bmp": 2300985488251630275,
+    "worlds/mm6/textures/cbeam5.bmp": 4631056393383867535,
+    "worlds/mm6/textures/self-all.bmp": 13340562107104803719,
+    "worlds/mm6/textures/elem-all.bmp": 17157797481425009678,
+    "worlds/mm6/textures/cr64.bmp": 15380892883263745900,
+    "worlds/mm6/textures/cedhwal1.bmp": 18285221578656835893,
+    "worlds/mm6/textures/cedvwal1.bmp": 3495381551940494194,
+    "worlds/mm6/textures/pxshings.bmp": 16722150821915430407,
+    "worlds/mm6/textures/pbtrm.bmp": 13571943483522119002,
+    "worlds/mm6/textures/crdflr3.bmp": 11958637841335937900,
+    "worlds/mm6/textures/stables.bmp": 3895301868155491101,
+    "worlds/mm6/textures/plruf01.bmp": 2570557527859277597,
+    "worlds/mm6/textures/bemh32a.bmp": 15547423963333581490,
+    "worlds/mm6/textures/bemv32a.bmp": 16798266217809040222,
+    "worlds/mm6/textures/bemv32b.bmp": 8686368000758152182,
+    "worlds/mm6/textures/bemhwal.bmp": 9697211670963196860,
+    "worlds/mm6/textures/bemsv32a.bmp": 13102882428910677999,
+    "worlds/mm6/textures/t1wl5ct.bmp": 13828676525209287406,
+    "worlds/mm6/textures/cbmxbrck.bmp": 16898867838728361325,
+    "worlds/mm6/textures/solid10.bmp": 17550526628234352361,
+    "worlds/mm6/textures/magicpor.bmp": 539487257729002917,
+    "worlds/mm6/textures/thle.bmp": 13988408487417730250,
+    "worlds/mm6/textures/thre.bmp": 5139582333648660283,
+    "worlds/mm6/textures/thctr.bmp": 17379065803868700820,
+    "worlds/mm6/textures/mystrya.bmp": 12415185808018952147,
+    "worlds/mm6/textures/cbeam2.bmp": 15016265516201701814,
+    "worlds/mm6/textures/bemstara.bmp": 2478753058060224268,
+    "worlds/mm6/textures/bemdk3.bmp": 14028071350253621032,
+    "worlds/mm6/textures/bemtila.bmp": 15206506590563644232,
+    "worlds/mm6/textures/armorpor.bmp": 17100694796862019560,
+    "worlds/mm6/textures/plstrdr.bmp": 5159785000256588329,
+    "worlds/mm6/textures/t1wl4ctr.bmp": 1376826828455712132,
+    "worlds/mm6/textures/t3c2.bmp": 13876393627080344411,
+    "worlds/mm6/textures/bdksv16a.bmp": 16227026892960179689,
+    "worlds/mm6/textures/blksmmid.bmp": 4037016717790262175,
+    "worlds/mm6/textures/storemid.bmp": 4008342180419295884,
+    "worlds/mm6/textures/tav128wl.bmp": 13026438545210589486,
+    "worlds/mm6/textures/tavle.bmp": 18102425909747817146,
+    "worlds/mm6/textures/tavre.bmp": 9448182049512309509,
+    "worlds/mm6/textures/tavrf.bmp": 17368419235581015814,
+    "worlds/mm6/textures/bank.bmp": 17426546384415959505,
+    "worlds/mm6/textures/cbrdbrck.bmp": 15255192798025266796,
+    "worlds/mm6/textures/bemvwal1.bmp": 7580387433525019257,
+    "worlds/mm6/textures/bemob2b.bmp": 4035340996683635491,
+    "worlds/mm6/textures/training.bmp": 13016762765994321925,
+    "worlds/mm6/textures/tavmid.bmp": 13116101074870254571,
+    "worlds/mm6/textures/crside.bmp": 14177877917570819781,
+    "worlds/mm6/textures/rblst1.bmp": 6174931300261870068,
+    "worlds/mm6/textures/rblst.bmp": 14066955882712911202,
+    "worlds/mm6/textures/rblre.bmp": 9372981148667108220,
+    "worlds/mm6/textures/rblle.bmp": 5665209874783314851,
+    "worlds/mm6/textures/bemstarb.bmp": 2650630953976760023,
+    "worlds/mm6/textures/wood012.bmp": 12936497041978983508,
+    "worlds/mm6/textures/t1wl1lea1.bmp": 17153561736970452111,
+    "worlds/mm6/textures/t1wl1cts.bmp": 14007993414167314948,
+    "worlds/mm6/textures/t1wl1lea.bmp": 2774932145000688101,
+    "worlds/mm6/textures/t1wl1rea.bmp": 6507564491424592091,
+    "worlds/mm6/textures/t1w11a.bmp": 5995595384713854361,
+    "worlds/mm6/textures/bemob1b.bmp": 4685885607291621175,
+    "worlds/mm6/textures/bemob2.bmp": 14198870308196932105,
+    "worlds/mm6/textures/granite.bmp": 17897291008234945329,
+    "worlds/mm6/textures/bemstrt1.bmp": 2989861168862838587,
+    "worlds/mm6/textures/bemob1.bmp": 3613757351743061791,
+    "worlds/mm6/textures/bemsv16a.bmp": 15560635241618854274,
+    "worlds/mm6/textures/oflr.bmp": 16599915216022915247,
+    "worlds/mm6/textures/tavctr.bmp": 1717670096587135234,
+    "worlds/mm6/textures/tavldyle.bmp": 4018873950672607590,
+    "worlds/mm6/textures/bemstra1.bmp": 4050714203205457652,
+    "worlds/mm6/textures/tavldyre.bmp": 4271733689733310107,
+    "worlds/mm6/textures/tavwle.bmp": 4240585969663263412,
+    "worlds/mm6/textures/cedsqrdk.bmp": 10585567712928700068,
+    "worlds/mm6/textures/t1swbd.bmp": 11628560863976739790,
+    "worlds/mm6/textures/ns8s06.bmp": 4846463888969718586,
+    "worlds/mm6/textures/ns8s02.bmp": 1456706695863503550,
+    "worlds/mm6/textures/ns8s09.bmp": 13128722401446396630,
+    "worlds/mm6/textures/ns8s01.bmp": 13561454539873400366,
+    "worlds/mm6/textures/ns8s04.bmp": 5169377427050471715,
+    "worlds/mm6/textures/ns8s03.bmp": 9406962462611245000,
+    "worlds/mm6/textures/ns8s07.bmp": 4032851665362937550,
+    "worlds/mm6/textures/ns8s00.bmp": 4018015357220969441,
+    "worlds/mm6/textures/ns8s05.bmp": 16309893490410988911,
+    "worlds/mm6/textures/ns8s11.bmp": 1304369831916699417,
+    "worlds/mm6/textures/ns8s10.bmp": 17927415280971617889,
+    "worlds/mm6/textures/pxstrlew.bmp": 9873052405074171997,
+    "worlds/mm6/textures/pxstrre.bmp": 5796445469677819879,
+    "worlds/mm6/textures/pxstrle.bmp": 12139096225630325775,
+    "worlds/mm6/textures/pxstrst.bmp": 3233383248899285742,
+    "worlds/mm6/textures/pxstrdr.bmp": 17609504763545171785,
+    "worlds/mm6/textures/pxstrwb.bmp": 4804220679153931283,
+    "worlds/mm6/textures/tavsmdr.bmp": 1564022318302572752,
+    "worlds/mm6/textures/tavwre.bmp": 13167131264204779001,
+    "worlds/mm6/textures/tavlgdr.bmp": 3195044798690079067,
+    "worlds/mm6/textures/tavwctr.bmp": 384580526620632507,
+    "worlds/mm6/textures/tavcut.bmp": 6524951602985497076,
+    "worlds/mm6/textures/lgashlar.bmp": 7076997867702672130,
+    "worlds/mm6/textures/tewsw.bmp": 11620104243440275276,
+    "worlds/mm6/textures/tewrd.bmp": 13346188669402498693,
+    "worlds/mm6/textures/tewld.bmp": 10891393580361630002,
+    "worlds/mm6/textures/tdoorb.bmp": 14860201851397235977,
+    "worlds/mm6/textures/tewdw.bmp": 8874491665019899456,
+    "worlds/mm6/textures/tewls.bmp": 14541281312631658189,
+    "worlds/mm6/textures/d2lgdor.bmp": 4789750396051028146,
+    "worlds/mm6/textures/tewcut.bmp": 8271954449854270402,
+    "worlds/mm6/textures/tewrs.bmp": 14605485565270486016,
+    "worlds/mm6/textures/dockdeck.bmp": 10383457580604468861,
+    "worlds/mm6/textures/ns8s08.bmp": 17102593148085744221,
+    "worlds/mm6/textures/rblcut.bmp": 14144684243734120110,
+    "worlds/mm6/textures/t1cut.bmp": 11756442016394527607,
+    "worlds/mm6/textures/bemv.bmp": 2904538502205323310,
+    "worlds/mm6/textures/pxshcap.bmp": 9685426250955743588,
+    "worlds/mm6/textures/slatecap.bmp": 6454484641545387812,
+    "worlds/mm6/textures/pxstrwbx.bmp": 4804220679153931283,
+    "worlds/mm6/textures/plrcap.bmp": 3408469794293390585,
+    "worlds/mm6/textures/t1wl4w.bmp": 15238805904167022874,
+    "worlds/mm6/textures/thlgdr.bmp": 8368205389608728032,
+    "worlds/mm6/textures/thuniq2.bmp": 1113175531195580297,
+    "worlds/mm6/textures/thctrw2.bmp": 4222819491406630754,
+    "worlds/mm6/textures/thcut.bmp": 7243594840498023199,
+    "worlds/mm6/textures/rhctrw.bmp": 15447185206867526124,
+    "worlds/mm6/textures/rhctr.bmp": 7415783526178341740,
+    "worlds/mm6/textures/rhdr2.bmp": 1898866908292142207,
+    "worlds/mm6/textures/rhwood.bmp": 13484837881296546348,
+    "worlds/mm6/textures/rhle.bmp": 3830910520082947236,
+    "worlds/mm6/textures/thsmdr.bmp": 7532102931446886957,
+    "worlds/mm6/textures/cedvwal2.bmp": 3357040088618647699,
+    "worlds/mm6/textures/thuniq1.bmp": 11982329619027529541,
+    "worlds/mm6/textures/thctrw1.bmp": 10986526066568487012,
+    "worlds/mm6/textures/bemdorb.bmp": 14177101628244528120,
+    "worlds/mm6/textures/bemvwal.bmp": 4874833600822975655,
+    "worlds/mm6/textures/pbrre.bmp": 5330344412925828903,
+    "worlds/mm6/textures/pbrle.bmp": 9287195760450270191,
+    "worlds/mm6/textures/pbrdr.bmp": 9104275715927113442,
+    "worlds/mm6/textures/pbrwn.bmp": 5204393943582345016,
+    "worlds/mm6/textures/pbrst.bmp": 9778153958393298673,
+    "worlds/mm6/textures/rhdr1.bmp": 2676365538814091666,
+    "engine/data_tables/terrain_tile_data_3.txt": 8486407809018132909,
+    "worlds/mm6/textures/6wtrdrxse.bmp": 16828007893080575662,
+    "worlds/mm6/textures/6wtrdrs.bmp": 14093101174056231268,
+    "worlds/mm6/textures/6wtrdrxsw.bmp": 603891497860328588,
+    "worlds/mm6/textures/6wtrdre.bmp": 10146083175595806100,
+    "worlds/mm6/textures/voldrtnw.bmp": 13394614497871949105,
+    "worlds/mm6/textures/voldrtne.bmp": 12796276726427833727,
+    "worlds/mm6/textures/6wtrdrw.bmp": 7426220983548711631,
+    "worlds/mm6/textures/6wtrdrse.bmp": 3669633337490436336,
+    "worlds/mm6/textures/voldrtw.bmp": 2202950784643083922,
+    "worlds/mm6/textures/voldrte.bmp": 2511798411464805979,
+    "worlds/mm6/textures/6wtrdrsw.bmp": 11103216516896355642,
+    "worlds/mm6/textures/voldrtxnw.bmp": 5983052169403411267,
+    "worlds/mm6/textures/voldrtxne.bmp": 3617035864715187373,
+    "worlds/mm6/textures/6voltyl.bmp": 3340611693319672291,
+    "worlds/mm6/textures/voldrtn.bmp": 8649845680476422043,
+    "worlds/mm6/textures/6dirttyl.bmp": 11249514406592611394,
+    "worlds/mm6/textures/voldrtsw.bmp": 13332621193551301514,
+    "worlds/mm6/textures/voldrtxsw.bmp": 6940213831515792652,
+    "worlds/mm6/textures/6wtrdrxne.bmp": 6253163218129574229,
+    "worlds/mm6/textures/6wtrdrne.bmp": 16166296345308690914,
+    "worlds/mm6/textures/voldrts.bmp": 7458823763349425988,
+    "worlds/mm6/textures/6wtrdrn.bmp": 11494524167050091672,
+    "worlds/mm6/textures/voldrtxse.bmp": 17048168576132249909,
+    "worlds/mm6/textures/voldrtse.bmp": 840153237759418283,
+    "worlds/mm6/textures/6wtrdrnw.bmp": 11890313358932716586,
+    "worlds/mm6/textures/6wtrdrxnw.bmp": 9381513787404078768,
+    "worlds/mm6/textures/6grdrtnw.bmp": 16189003544977166531,
+    "worlds/mm6/textures/6grdrtn.bmp": 1386253010893440136,
+    "worlds/mm6/textures/6grdrtne.bmp": 12406902778792957922,
+    "worlds/mm6/textures/6grdrtw.bmp": 11795393303625011830,
+    "worlds/mm6/textures/6grdrtxse.bmp": 6892119936414837701,
+    "worlds/mm6/textures/6grdrtse.bmp": 11986068535231045162,
+    "worlds/mm6/textures/6grdrtxnw.bmp": 10702904807133020046,
+    "worlds/mm6/textures/6grdrte.bmp": 17159906231197599620,
+    "worlds/mm6/textures/6grdrtsw.bmp": 3795662737424924923,
+    "worlds/mm6/textures/6grdrtxsw.bmp": 5973531062151084630,
+    "worlds/mm6/textures/6grdrtxne.bmp": 11374679213459267387,
+    "worlds/mm6/textures/6grastyl.bmp": 3242509190879343068,
+    "worlds/mm6/textures/6grdrts.bmp": 5534008934634940146,
+    "worlds/mm6/textures/6drsrs_e.bmp": 8436020954710714159,
+    "worlds/mm6/textures/6drsrew.bmp": 17757800692211640504,
+    "worlds/mm6/textures/6drsrecap.bmp": 17666931488717464913,
+    "worlds/mm6/textures/6drsrwcap.bmp": 9260059314816446606,
+    "worlds/mm6/textures/6drsrs_w.bmp": 6484603213436273281,
+    "worlds/mm6/textures/6drsrns.bmp": 14007805895142009384,
+    "worlds/mm6/textures/6drsrn_e.bmp": 15632807452513309134,
+    "worlds/mm6/textures/6drsrn_w.bmp": 13983008881973360588,
+    "worlds/mm6/textures/6drsrew_s.bmp": 8761003612410462649
+  },
+  "probe_count": 62919,
+  "atlas_pages": 28,
+  "atlas_bytes": 115089216,
+  "terrain_triangles_on_floors": [
+    [
+      23,
+      84,
+      0
+    ],
+    [
+      24,
+      84,
+      1
+    ],
+    [
+      25,
+      84,
+      1
+    ],
+    [
+      25,
+      92,
+      0
+    ],
+    [
+      25,
+      92,
+      1
+    ],
+    [
+      25,
+      93,
+      0
+    ],
+    [
+      25,
+      94,
+      0
+    ],
+    [
+      25,
+      95,
+      0
+    ],
+    [
+      26,
+      92,
+      1
+    ],
+    [
+      26,
+      93,
+      0
+    ],
+    [
+      26,
+      93,
+      1
+    ],
+    [
+      26,
+      94,
+      1
+    ],
+    [
+      26,
+      95,
+      0
+    ],
+    [
+      26,
+      95,
+      1
+    ],
+    [
+      27,
+      93,
+      0
+    ],
+    [
+      27,
+      93,
+      1
+    ],
+    [
+      27,
+      94,
+      0
+    ],
+    [
+      27,
+      95,
+      0
+    ],
+    [
+      27,
+      95,
+      1
+    ],
+    [
+      28,
+      93,
+      0
+    ],
+    [
+      28,
+      93,
+      1
+    ],
+    [
+      28,
+      94,
+      0
+    ],
+    [
+      28,
+      95,
+      0
+    ],
+    [
+      29,
+      92,
+      0
+    ],
+    [
+      29,
+      92,
+      1
+    ],
+    [
+      29,
+      93,
+      0
+    ],
+    [
+      29,
+      93,
+      1
+    ],
+    [
+      29,
+      94,
+      0
+    ],
+    [
+      29,
+      94,
+      1
+    ],
+    [
+      29,
+      95,
+      0
+    ],
+    [
+      30,
+      72,
+      1
+    ],
+    [
+      30,
+      73,
+      0
+    ],
+    [
+      30,
+      73,
+      1
+    ],
+    [
+      30,
+      92,
+      1
+    ],
+    [
+      30,
+      93,
+      1
+    ],
+    [
+      30,
+      94,
+      1
+    ],
+    [
+      30,
+      95,
+      0
+    ],
+    [
+      30,
+      95,
+      1
+    ],
+    [
+      31,
+      72,
+      0
+    ],
+    [
+      31,
+      72,
+      1
+    ],
+    [
+      31,
+      73,
+      0
+    ],
+    [
+      31,
+      73,
+      1
+    ],
+    [
+      32,
+      72,
+      0
+    ],
+    [
+      32,
+      73,
+      0
+    ],
+    [
+      33,
+      72,
+      1
+    ],
+    [
+      33,
+      73,
+      0
+    ],
+    [
+      34,
+      72,
+      1
+    ],
+    [
+      34,
+      73,
+      1
+    ],
+    [
+      35,
+      76,
+      1
+    ],
+    [
+      35,
+      77,
+      0
+    ],
+    [
+      35,
+      78,
+      0
+    ],
+    [
+      35,
+      78,
+      1
+    ],
+    [
+      36,
+      76,
+      1
+    ],
+    [
+      36,
+      77,
+      0
+    ],
+    [
+      36,
+      77,
+      1
+    ],
+    [
+      36,
+      78,
+      0
+    ],
+    [
+      36,
+      78,
+      1
+    ],
+    [
+      37,
+      76,
+      1
+    ],
+    [
+      37,
+      77,
+      0
+    ],
+    [
+      37,
+      77,
+      1
+    ],
+    [
+      37,
+      78,
+      1
+    ],
+    [
+      38,
+      76,
+      0
+    ],
+    [
+      38,
+      76,
+      1
+    ],
+    [
+      38,
+      77,
+      0
+    ],
+    [
+      38,
+      77,
+      1
+    ],
+    [
+      39,
+      75,
+      1
+    ],
+    [
+      39,
+      76,
+      0
+    ],
+    [
+      39,
+      76,
+      1
+    ],
+    [
+      39,
+      77,
+      0
+    ],
+    [
+      39,
+      77,
+      1
+    ],
+    [
+      40,
+      76,
+      1
+    ],
+    [
+      40,
+      77,
+      0
+    ],
+    [
+      40,
+      77,
+      1
+    ],
+    [
+      41,
+      75,
+      0
+    ],
+    [
+      41,
+      75,
+      1
+    ],
+    [
+      41,
+      76,
+      0
+    ],
+    [
+      41,
+      76,
+      1
+    ],
+    [
+      41,
+      77,
+      0
+    ],
+    [
+      41,
+      77,
+      1
+    ],
+    [
+      42,
+      75,
+      1
+    ],
+    [
+      42,
+      76,
+      0
+    ],
+    [
+      42,
+      76,
+      1
+    ],
+    [
+      42,
+      77,
+      0
+    ],
+    [
+      42,
+      77,
+      1
+    ],
+    [
+      43,
+      65,
+      0
+    ],
+    [
+      43,
+      65,
+      1
+    ],
+    [
+      43,
+      66,
+      0
+    ],
+    [
+      44,
+      64,
+      0
+    ],
+    [
+      44,
+      64,
+      1
+    ],
+    [
+      44,
+      66,
+      1
+    ],
+    [
+      44,
+      67,
+      0
+    ],
+    [
+      44,
+      67,
+      1
+    ],
+    [
+      44,
+      83,
+      0
+    ],
+    [
+      44,
+      83,
+      1
+    ],
+    [
+      45,
+      64,
+      0
+    ],
+    [
+      45,
+      64,
+      1
+    ],
+    [
+      45,
+      66,
+      1
+    ],
+    [
+      45,
+      67,
+      0
+    ],
+    [
+      45,
+      67,
+      1
+    ],
+    [
+      45,
+      83,
+      0
+    ],
+    [
+      46,
+      65,
+      0
+    ],
+    [
+      46,
+      65,
+      1
+    ],
+    [
+      46,
+      66,
+      1
+    ],
+    [
+      47,
+      77,
+      0
+    ],
+    [
+      47,
+      78,
+      0
+    ],
+    [
+      47,
+      79,
+      0
+    ],
+    [
+      48,
+      77,
+      1
+    ],
+    [
+      48,
+      79,
+      0
+    ],
+    [
+      49,
+      77,
+      1
+    ],
+    [
+      49,
+      78,
+      0
+    ],
+    [
+      49,
+      79,
+      0
+    ],
+    [
+      50,
+      77,
+      1
+    ],
+    [
+      50,
+      78,
+      0
+    ],
+    [
+      50,
+      78,
+      1
+    ],
+    [
+      50,
+      79,
+      0
+    ],
+    [
+      50,
+      79,
+      1
+    ],
+    [
+      51,
+      77,
+      1
+    ],
+    [
+      51,
+      78,
+      0
+    ],
+    [
+      51,
+      78,
+      1
+    ],
+    [
+      51,
+      81,
+      0
+    ],
+    [
+      51,
+      81,
+      1
+    ],
+    [
+      51,
+      82,
+      0
+    ],
+    [
+      52,
+      65,
+      0
+    ],
+    [
+      52,
+      65,
+      1
+    ],
+    [
+      52,
+      66,
+      0
+    ],
+    [
+      52,
+      66,
+      1
+    ],
+    [
+      52,
+      77,
+      1
+    ],
+    [
+      52,
+      78,
+      1
+    ],
+    [
+      52,
+      81,
+      1
+    ],
+    [
+      52,
+      82,
+      0
+    ],
+    [
+      52,
+      82,
+      1
+    ],
+    [
+      53,
+      65,
+      0
+    ],
+    [
+      53,
+      66,
+      0
+    ],
+    [
+      53,
+      66,
+      1
+    ],
+    [
+      54,
+      65,
+      1
+    ],
+    [
+      54,
+      66,
+      1
+    ],
+    [
+      99,
+      77,
+      1
+    ],
+    [
+      99,
+      78,
+      0
+    ],
+    [
+      99,
+      78,
+      1
+    ],
+    [
+      100,
+      77,
+      1
+    ],
+    [
+      100,
+      78,
+      0
+    ],
+    [
+      100,
+      78,
+      1
+    ]
+  ],
+  "floors_on_terrain": {
+    "checked": 245,
+    "over_5_percent_black": [
+      {
+        "model": 94,
+        "face": 571,
+        "black_fraction": 0.07
+      },
+      {
+        "model": 94,
+        "face": 585,
+        "black_fraction": 0.831
+      },
+      {
+        "model": 94,
+        "face": 684,
+        "black_fraction": 0.193
+      },
+      {
+        "model": 115,
+        "face": 54,
+        "black_fraction": 0.2
+      },
+      {
+        "model": 115,
+        "face": 66,
+        "black_fraction": 0.087
+      },
+      {
+        "model": 115,
+        "face": 72,
+        "black_fraction": 0.115
+      },
+      {
+        "model": 115,
+        "face": 78,
+        "black_fraction": 0.197
+      },
+      {
+        "model": 115,
+        "face": 100,
+        "black_fraction": 0.136
+      },
+      {
+        "model": 116,
+        "face": 0,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 2,
+        "black_fraction": 0.833
+      },
+      {
+        "model": 116,
+        "face": 4,
+        "black_fraction": 0.667
+      },
+      {
+        "model": 116,
+        "face": 6,
+        "black_fraction": 0.667
+      },
+      {
+        "model": 116,
+        "face": 8,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 10,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 12,
+        "black_fraction": 0.5
+      },
+      {
+        "model": 116,
+        "face": 14,
+        "black_fraction": 0.667
+      },
+      {
+        "model": 116,
+        "face": 16,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 18,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 20,
+        "black_fraction": 0.667
+      },
+      {
+        "model": 116,
+        "face": 22,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 24,
+        "black_fraction": 0.833
+      },
+      {
+        "model": 116,
+        "face": 26,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 28,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 30,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 72,
+        "black_fraction": 0.667
+      },
+      {
+        "model": 116,
+        "face": 74,
+        "black_fraction": 0.833
+      },
+      {
+        "model": 116,
+        "face": 76,
+        "black_fraction": 0.833
+      },
+      {
+        "model": 116,
+        "face": 78,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 80,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 82,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 84,
+        "black_fraction": 0.833
+      },
+      {
+        "model": 116,
+        "face": 86,
+        "black_fraction": 0.667
+      },
+      {
+        "model": 116,
+        "face": 88,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 90,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 92,
+        "black_fraction": 0.833
+      },
+      {
+        "model": 116,
+        "face": 94,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 96,
+        "black_fraction": 0.167
+      },
+      {
+        "model": 116,
+        "face": 98,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 100,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 102,
+        "black_fraction": 1.0
+      },
+      {
+        "model": 116,
+        "face": 152,
+        "black_fraction": 0.25
+      },
+      {
+        "model": 116,
+        "face": 154,
+        "black_fraction": 0.4
+      },
+      {
+        "model": 116,
+        "face": 156,
+        "black_fraction": 0.4
+      },
+      {
+        "model": 116,
+        "face": 162,
+        "black_fraction": 0.4
+      },
+      {
+        "model": 116,
+        "face": 166,
+        "black_fraction": 0.2
+      },
+      {
+        "model": 116,
+        "face": 170,
+        "black_fraction": 0.2
+      },
+      {
+        "model": 116,
+        "face": 206,
+        "black_fraction": 0.6
+      },
+      {
+        "model": 116,
+        "face": 208,
+        "black_fraction": 0.4
+      },
+      {
+        "model": 116,
+        "face": 214,
+        "black_fraction": 0.25
+      },
+      {
+        "model": 116,
+        "face": 216,
+        "black_fraction": 0.4
+      },
+      {
+        "model": 116,
+        "face": 222,
+        "black_fraction": 0.4
+      },
+      {
+        "model": 116,
+        "face": 228,
+        "black_fraction": 0.2
+      },
+      {
+        "model": 116,
+        "face": 232,
+        "black_fraction": 0.2
+      },
+      {
+        "model": 118,
+        "face": 362,
+        "black_fraction": 0.103
+      },
+      {
+        "model": 118,
+        "face": 408,
+        "black_fraction": 0.414
+      },
+      {
+        "model": 118,
+        "face": 410,
+        "black_fraction": 0.109
+      },
+      {
+        "model": 134,
+        "face": 654,
+        "black_fraction": 0.167
+      },
+      {
+        "model": 134,
+        "face": 664,
+        "black_fraction": 0.092
+      },
+      {
+        "model": 135,
+        "face": 416,
+        "black_fraction": 0.185
+      },
+      {
+        "model": 139,
+        "face": 454,
+        "black_fraction": 0.222
+      },
+      {
+        "model": 139,
+        "face": 460,
+        "black_fraction": 0.236
+      },
+      {
+        "model": 143,
+        "face": 305,
+        "black_fraction": 0.333
+      },
+      {
+        "model": 143,
+        "face": 313,
+        "black_fraction": 0.542
+      }
+    ]
+  },
+  "model_sun_direction": [
+    0.5,
+    -0.5,
+    0.7071067690849304
+  ],
+  "model_direct_response": 0.8276057040778558,
+  "model_visibility_range": [
+    0.0,
+    1.0
+  ],
+  "retained_surface_and_sprite_lighting": false,
+  "direct_sun_pages": 14,
+  "direct_sun_compressed_bytes": 9645981,
+  "output_bytes": 79437130,
+  "output_sha256": "81567c64c716e05d9b142f07a4d6c5b4d6ff211fa41df674cd098d0c14e58b3f"
+}

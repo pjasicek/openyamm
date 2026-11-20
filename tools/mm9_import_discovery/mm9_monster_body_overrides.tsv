@@ -1,0 +1,258 @@
+# MM9 monster bodies by MM9's rule (devdocs/mm9_rework/MM9_MONSTER_COLLISION_RE.md), written by
+# mm9_monster_bodies.py --write-overrides and applied by generate_mm9_monster_tables.py after it copies the
+# legacy descriptor row. Columns are monster_descriptors.txt columns (Height = 3rd, Radius = 4th,
+# ToHitRadius = 6th; 0 = the actor's own radius); an empty cell keeps the copied value. Do not edit by hand:
+# rerun the writer (a deliberate exception belongs in mm9_monster_bodies.py, with its reason).
+row	source	Height	Radius	ToHitRadius
+9001	Commoner, PeasantDF1.abc FD_1 (12, 23, 12), Scale 1	118	31	0
+9002	Commoner, PeasantDF2.abc FD_2 (12, 23, 12), Scale 1	118	31	0
+9003	Town, PeasantDF4.abc FD_4 (12, 23, 12), Scale 1	118	31	0
+9004	Town, PeasantDF3.abc FD_3 (12, 23, 12), Scale 1	118	31	0
+9005	Shopkeeper, PeasantDF1.abc FD_1 (12, 23, 12), Scale 1	118	31	0
+9006	Shopkeeper, PeasantDF4.abc FD_4 (12, 23, 12), Scale 1	118	31	0
+9007	Prisoner, PeasantDF3.abc FD_3 (12, 23, 12), Scale 1	118	31	0
+9008	Commoner, PeasantDM1.abc Dwarf_1 (12, 23, 12), Scale 1	118	31	0
+9009	Commoner, PeasantDM2.abc Dwarf_2 (12, 23, 12), Scale 1	118	31	0
+9010	Town, PeasantDM4.abc Dwarf_4 (12, 24, 12), Scale 1	123	31	0
+9011	Town, PeasantDM3.abc Dwarf_3 (12, 23, 12), Scale 1	118	31	0
+9012	Shopkeeper, PeasantDM3.abc Dwarf_3 (12, 23, 12), Scale 1	118	31	0
+9013	Shopkeeper, PeasantDM1.abc Dwarf_1 (12, 23, 12), Scale 1	118	31	0
+9014	Shopkeeper, PeasantDM1.abc Dwarf_1 (12, 23, 12), Scale 1	118	31	0
+9015	Commoner, PeasantF8.abc PeasantF8a (12, 34, 12), Scale 1	174	31	0
+9016	Commoner, PeasantF8.abc PeasantF8a (12, 34, 12), Scale 1	174	31	0
+9017	Town, PeasantF6.abc PeasantF6a (12, 34, 12), Scale 1	174	31	0
+9018	Town, PeasantF7.abc PeasantF7a (12, 34, 12), Scale 1	174	31	0
+9019	Shopkeeper, PeasantF6.abc PeasantF6a (12, 34, 12), Scale 1	174	31	0
+9020	Shopkeeper, PeasantF7.abc PeasantF7a (12, 34, 12), Scale 1	174	31	0
+9021	Prisoner, PeasantF8.abc PeasantF8a (12, 34, 12), Scale 1	174	31	0
+9022	Commoner, PeasantM1d.abc MP_1e (12, 34, 12), Scale 1	174	31	0
+9023	Commoner, PeasantM8d.abc MP_8D (12, 34, 12), Scale 1	174	31	0
+9024	Town, PeasantM2d.abc MP_2d (12, 34, 12), Scale 1	174	31	0
+9025	Town, PeasantM7d.abc MP_7e (12, 34, 12), Scale 1	174	31	0
+9026	Shopkeeper, PeasantM2d.abc MP_2d (12, 34, 12), Scale 1	174	31	0
+9027	Shopkeeper, PeasantM7d.abc MP_7e (12, 34, 12), Scale 1	174	31	0
+9028	Prisoner, PeasantM1d.abc MP_1e (12, 34, 12), Scale 1	174	31	0
+9029	Commoner, PeasantF1.abc PeasantF1a (12, 34, 12), Scale 1	174	31	0
+9030	Commoner, PeasantF4.abc PeasantF4a (12, 34, 12), Scale 1	174	31	0
+9031	Town, PeasantF2.abc PeasantF2a (12, 34, 12), Scale 1	174	31	0
+9032	Town, PeasantF2.abc PeasantF2a (12, 34, 12), Scale 1	174	31	0
+9033	Shopkeeper, PeasantF1.abc PeasantF1a (12, 34, 12), Scale 1	174	31	0
+9034	Shopkeeper, PeasantF5.abc PeasantF5a (12, 34, 12), Scale 1	174	31	0
+9035	Prisoner, PeasantF3.abc PeasantF3a (12, 34, 12), Scale 1	174	31	0
+9036	Commoner, PeasantF5.abc PeasantF5a (12, 34, 12), Scale 1	174	31	0
+9037	Commoner, PeasantF4.abc PeasantF4a (12, 34, 12), Scale 1	174	31	0
+9038	Town, PeasantF2.abc PeasantF2a (12, 34, 12), Scale 1	174	31	0
+9039	Town, PeasantF2.abc PeasantF2a (12, 34, 12), Scale 1	174	31	0
+9040	Shopkeeper, PeasantF3.abc PeasantF3a (12, 34, 12), Scale 1	174	31	0
+9041	Shopkeeper, PeasantF5.abc PeasantF5a (12, 34, 12), Scale 1	174	31	0
+9042	Prisoner, PeasantF4.abc PeasantF4a (12, 34, 12), Scale 1	174	31	0
+9043	Commoner, PeasantM1.abc MP_1a (12, 34, 12), Scale 1	174	31	0
+9044	Commoner, PeasantM2.abc MP_2a (12, 34, 12), Scale 1	174	31	0
+9045	Town, PeasantM3.abc MP_3a (12, 34, 12), Scale 1	174	31	0
+9046	Town, PeasantM5.abc MP_5a (12, 34, 12), Scale 1	174	31	0
+9047	Shopkeeper, PeasantM6.abc MP_6a (12, 34, 12), Scale 1	174	31	0
+9048	Shopkeeper, PeasantM5.abc MP_5a (12, 34, 12), Scale 1	174	31	0
+9049	Prisoner, PeasantM4.abc MP_4b (12, 34, 12), Scale 1	174	31	0
+9050	Commoner, PeasantM2.abc MP_2a (12, 34, 12), Scale 1	174	31	0
+9051	Commoner, PeasantM7.abc MP_7b (12, 34, 12), Scale 1	174	31	0
+9052	Town, PeasantM3.abc MP_3a (12, 34, 12), Scale 1	174	31	0
+9053	Town, PeasantM7.abc MP_7b (12, 34, 12), Scale 1	174	31	0
+9054	Shopkeeper, PeasantM6.abc MP_6a (12, 34, 12), Scale 1	174	31	0
+9055	Shopkeeper, PeasantM8.abc MP_8a (12, 34, 12), Scale 1	174	31	0
+9056	Prisoner, PeasantM1.abc MP_1a (12, 34, 12), Scale 1	174	31	0
+9057	Commoner, PeasantHOM1.ABC Half_orc1 (15, 42, 15), Scale 1	215	38	0
+9058	Town, PeasantHOM1.ABC Half_orc1 (15, 42, 15), Scale 1	215	38	0
+9059	Shopkeeper, PeasantHOM2.ABC Half_orc2 (15, 43, 15), Scale 1	220	38	0
+9060	Prisoner, PeasantHOM1.ABC Half_orc1 (15, 42, 15), Scale 1	215	38	0
+9061	Commoner, PeasantHOF1.ABC F_Half_orc_1_rework05 (15, 38, 15), Scale 1	195	38	0
+9062	Town, PeasantHOF1.ABC F_Half_orc_1_rework05 (15, 38, 15), Scale 1	195	38	0
+9063	Shopkeeper, PeasantHOF1.ABC F_Half_orc_1_rework05 (15, 38, 15), Scale 1	195	38	0
+9064	Prisoner, PeasantHOF2.ABC F_Half_orc_3_rework04 (15, 38, 15), Scale 1	195	38	0
+9067	Commoner Child, PeasantDboy1.ABC static_model (10, 19, 10), Scale 1	97	26	0
+9068	Townsfolk Child, PeasantDboy1.ABC static_model (10, 19, 10), Scale 1	97	26	0
+9069	Commoner Child, Peasantboy1.ABC boy1 (128, 16, 16), Scale 1; exception: boy, PeasantBoy1 measured (mm9_peasantboy)	133	26	0
+9070	Townsfolk Child, Peasantboy2.ABC boy3 (128, 16, 16), Scale 1; exception: boy, PeasantBoy2 = PeasantBoy1 body, measured (mm9_peasantboy)	133	26	0
+9071	Commoner Child, PeasantGirl2.ABC Girl2 (128, 16, 16), Scale 1; exception: girl, PeasantGirl2 measured (mm9_peasantgirl)	130	21	0
+9072	Townsfolk Child, PeasantGirl3.ABC Girl3 (128, 16, 16), Scale 1; exception: girl, PeasantGirl3 = PeasantGirl2 body, measured (mm9_peasantgirl)	130	21	0
+9073	Commoner Child, Peasantboy1e.ABC boy2 (128, 16, 16), Scale 1; exception: boy, PeasantBoy1e = PeasantBoy1 body, measured (mm9_peasantboy)	133	26	0
+9074	Townsfolk Child, PeasantGirl1e.ABC Girl1 (128, 16, 16), Scale 1; exception: girl, PeasantGirl1e = PeasantGirl2 body, measured (mm9_peasantgirl1e)	130	21	0
+9075	Dragonfly Mite, Dragonfly.abc static_model (12, 18, 12), Scale 1	92	31	0
+9076	Dragonfly, Dragonfly.abc static_model (12, 18, 12), Scale 1	92	31	0
+9077	Fire Dragonfly, Dragonfly.abc static_model (12, 18, 12), Scale 1	92	31	0
+9078	Imply, Imp.abc stand (10, 24, 10), Scale 1	123	26	0
+9079	Imp, Imp.abc stand (10, 24, 10), Scale 1	123	26	0
+9080	Imp Elder, Imp.abc stand (10, 24, 10), Scale 1	123	26	0
+9081	Nagate Hatchling, nagate.abc stand (18, 10, 18), Scale 1	51	46	0
+9082	Nagate, nagate.abc stand (18, 10, 18), Scale 1.5	77	69	0
+9083	Nagate Elder, nagate.abc stand (18, 10, 18), Scale 3	154	138	0
+9084	Lobber Pod, LobberPod.ABC static_model (15, 12, 15), Scale 1	61	38	0
+9085	Lobber Pod, LobberPod.ABC static_model (15, 12, 15), Scale 2	123	77	0
+9086	Lobber, lobber.abc StandAir (15, 31, 15), Scale 1	159	38	0
+9087	Airborne Icky, flyingicky.abc ickysetup (12, 10, 12), Scale 0.5	26	15	0
+9088	Flying Icky, flyingicky.abc ickysetup (12, 10, 12), Scale 1	51	31	0
+9089	Astral Icky, flyingicky.abc ickysetup (12, 10, 12), Scale 2	102	61	0
+9090	Field Thrall, Thrall.abc stand (12, 34, 12), Scale 1	174	31	0
+9091	Thrall, Thrall.abc stand (12, 34, 12), Scale 1	174	31	0
+9092	Thrall Master, Thrall.abc stand (12, 34, 12), Scale 1	174	31	0
+9093	Bird, crow.abc stand (8, 8, 8), Scale 1	41	20	0
+9094	Bird, crow.abc stand (8, 8, 8), Scale 1.25	51	26	0
+9095	Bird, crow.abc stand (8, 8, 8), Scale 1.5	61	31	0
+9096	Troglodyte, troglodyte.abc static_model1 (15, 23, 15), Scale 0.8	94	31	0
+9097	Troglodyte Wren, troglodyte.abc static_model1 (15, 23, 15), Scale 1	118	38	0
+9098	Troglodyte Gnoll, troglodyte.abc static_model1 (15, 23, 15), Scale 1.25	147	48	0
+9099	Cutpurse, highwayman.abc stand (15, 36, 15), Scale 1	184	38	0
+9100	Burglar, highwayman.abc stand (15, 36, 15), Scale 1	184	38	0
+9101	Bandit, highwayman.abc stand (15, 36, 15), Scale 1	184	38	0
+9102	Half Orc Recruit, dookmilitia.abc static_model (15, 38, 15), Scale 1	195	38	0
+9103	Half Orc Soldier, dookmilitia.abc static_model (15, 38, 15), Scale 1	195	38	0
+9104	Half Orc Captain, dookmilitia.abc static_model (15, 38, 15), Scale 1	195	38	0
+9105	Ice Lobbercicle, LobberPod.ABC static_model (15, 12, 15), Scale 2	123	77	0
+9106	Ice Lobber, lobber.abc StandAir (15, 31, 15), Scale 1	159	38	0
+9107	Town Guard, guard.abc guardsetup (15, 36, 15), Scale 1	184	38	0
+9108	Town Guard, dookmilitia.abc static_model (15, 38, 15), Scale 1	195	38	0
+9109	Town Guard, guard.abc guardsetup (15, 36, 15), Scale 1	184	38	0
+9110	Town Guard, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9111	Guard, guard.abc guardsetup (15, 36, 15), Scale 1	184	38	0
+9112	Guard Segeant, guard.abc guardsetup (15, 36, 15), Scale 1	184	38	0
+9113	Guard Captain, guard.abc guardsetup (15, 36, 15), Scale 1	184	38	0
+9114	Grey Wolf, wolf.abc static_model (34, 45, 34), Scale 0.4	92	35	0
+9115	Red Wolf, wolf.abc static_model (34, 45, 34), Scale 0.5	115	44	0
+9116	Black Wolf, wolf.abc static_model (34, 45, 34), Scale 0.5	115	44	0
+9120	Dwarven Guard, dwarf.abc static_model1 (14, 24, 14), Scale 1	123	36	0
+9121	Dwarven Soldier, dwarf.abc static_model1 (14, 24, 14), Scale 1	123	36	0
+9122	Dwarven Commander, dwarf.abc static_model1 (14, 24, 14), Scale 1	123	36	0
+9123	Initiate, monk.abc static_model (11, 36, 11), Scale 1	184	28	0
+9124	Monk, monk.abc static_model (11, 36, 11), Scale 1	184	28	0
+9125	Reverend Monk, monk.abc static_model (11, 36, 11), Scale 1	184	28	0
+9129	Horde Grunt, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9130	Horde Warrior, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9131	Horde Leader, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9132	Clan Soldier, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9133	Clan Corporal, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9134	Clan Sergeant, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9135	Skeleton, skeleton.abc static_model (15, 35, 15), Scale 1	179	38	0
+9136	Skeleton Warrior, skeletonwarrior.abc static_model (15, 37, 15), Scale 1	189	38	0
+9137	Skeleton Master, skeletonwarrior.abc static_model (15, 37, 15), Scale 1	189	38	0
+9138	Shadow, ghost.abc ghoststatic (12, 32, 12), Scale 1.8	295	55	0
+9139	Apparition, ghost.abc ghoststatic (12, 32, 12), Scale 1.8	295	55	0
+9140	Specter, ghost.abc ghoststatic (12, 32, 12), Scale 1.8	295	55	0
+9144	Canopic Mummy, Mummy.abc static_model (12, 35, 12), Scale 1	179	31	0
+9145	Embalmed Mummy, Mummy.abc static_model (12, 35, 12), Scale 1	179	31	0
+9146	Petrified Mummy, Mummy.abc static_model (12, 35, 12), Scale 1	179	31	0
+9147	Dagrell, dagrell.abc static_model (25, 29, 25), Scale 1	148	64	0
+9148	Venomous Dagrell, dagrell.abc static_model (25, 29, 25), Scale 1	148	64	0
+9149	Spectre Dagrell, dagrell.abc static_model (25, 29, 25), Scale 1	148	64	0
+9150	Basilisk, basilisk.abc static_model1 (45, 21, 45), Scale 1	108	115	0
+9151	Fibrase Basilisk, basilisk.abc static_model1 (45, 21, 45), Scale 1	108	115	0
+9152	King Basilisk, basilisk.abc static_model1 (45, 21, 45), Scale 1	108	115	0
+9153	Baron, Nobleman.abc stand (15, 36, 15), Scale 1	184	38	0
+9154	Viscount, Nobleman.abc stand (15, 36, 15), Scale 1	184	38	0
+9155	Count, Nobleman.abc stand (15, 36, 15), Scale 1	184	38	0
+9156	Evil Apprentice, EvilSorcerer.abc static_model (15, 37, 15), Scale 1	189	38	0
+9157	Evil Sorcerer, EvilSorcerer.abc static_model (15, 37, 15), Scale 1	189	38	0
+9158	Evil Grand Sorcerer, EvilSorcerer.abc static_model (15, 37, 15), Scale 1	189	38	0
+9159	Winged Oddity, WingedMutant.abc static_model (18, 26, 18), Scale 1	133	46	0
+9160	Winged Mutant, WingedMutant.abc static_model (18, 26, 18), Scale 1	133	46	0
+9161	Winged Aberration, WingedMutant.abc static_model (18, 26, 18), Scale 1	133	46	0
+9162	Fright, banshee.abc bansetup (20, 30, 20), Scale 1	154	51	0
+9163	Dread, banshee.abc bansetup (20, 30, 20), Scale 1	154	51	0
+9164	Terror, banshee.abc bansetup (20, 30, 20), Scale 1	154	51	0
+9165	Trellborg, trellborg.abc setup (20, 43, 20), Scale 1	220	51	0
+9166	Kin Trellborg, trellborg.abc setup (20, 43, 20), Scale 1	220	51	0
+9167	Ancient Trellborg, trellborg.abc setup (20, 43, 20), Scale 1	220	51	0
+9168	Jellyspore, jellyspore.abc jellysetup (16, 26, 16), Scale 1	133	41	0
+9169	Gelatinous Spore, jellyspore.abc jellysetup (16, 26, 16), Scale 1	133	41	0
+9170	Nettle Spore, jellyspore.abc jellysetup (16, 26, 16), Scale 1	133	41	0
+9171	Gezzamptling, gezzampt.abc gezzexport (20, 50, 20), Scale 1	256	51	0
+9172	Gezzampt, gezzampt.abc gezzexport (20, 50, 20), Scale 1	256	51	0
+9173	Gezzampt Elder, gezzampt.abc gezzexport (20, 50, 20), Scale 1	256	51	0
+9174	Ghast, ghoul.abc static_model (14, 37, 14), Scale 1	189	36	0
+9175	Ghoul, ghoul.abc static_model (14, 37, 14), Scale 1	189	36	0
+9176	Revenant, ghoul.abc static_model (14, 37, 14), Scale 1	189	36	0
+9177	Sea Monster Male, seamonster.abc static_model (75, 35, 75), Scale 1	179	192	0
+9178	Sea Monster Female, seamonster.abc static_model (75, 35, 75), Scale 1.2	215	230	0
+9180	Rotter, Zombie.abc static_model (15, 35, 15), Scale 1	179	38	0
+9181	Dripper, Zombie.abc static_model (15, 35, 15), Scale 1	179	38	0
+9182	Zombie, Zombie.abc static_model (15, 35, 15), Scale 1	179	38	0
+9183	Skeletoid, skeleton.abc static_model (15, 35, 15), Scale 0.5	90	19	0
+9184	Bone Thrasher, skeleton.abc static_model (15, 35, 15), Scale 0.5	90	19	0
+9185	Skull Thrower, skeleton.abc static_model (15, 35, 15), Scale 0.5	90	19	0
+9186	Honk, honkfemale.abc femsetup (12, 38, 12), Scale 1	195	31	0
+9187	Elder Honk, honkmale.abc malsetup (12, 35, 12), Scale 1	179	31	0
+9188	Honk Seer, honkmale.abc malsetup (12, 35, 12), Scale 1	179	31	0
+9189	Lizard-Orc, lizardorc.abc static_model (15, 32, 15), Scale 1	164	38	0
+9190	Lizard-Orc Warrior, lizardorc.abc static_model (15, 32, 15), Scale 1	164	38	0
+9191	Lizard-Orc Mage, lizardorc.abc static_model (15, 32, 15), Scale 1	164	38	0
+9192	Skeleton, skeleton.abc static_model (15, 35, 15), Scale 1	179	38	0
+9195	Bloodsucker, nosferatu.abc static_model (12, 33, 12), Scale 1	169	31	0
+9196	Annelid, nosferatu.abc static_model (12, 33, 12), Scale 1	169	31	0
+9197	Vampir, nosferatu.abc static_model (12, 33, 12), Scale 1	169	31	0
+9198	Bigfoot, bigfoot.abc static_model (20, 47, 20), Scale 1	241	51	0
+9199	Sasquatch, bigfoot.abc static_model (20, 47, 20), Scale 1	241	51	0
+9200	Yeti, bigfoot.abc static_model (20, 47, 20), Scale 1	241	51	0
+9204	Plain Giant, Giant.ABC giantstatic (60, 165, 60), Scale 1	845	154	0
+9205	Forest Giant, Giant.ABC giantstatic (60, 165, 60), Scale 1	845	154	0
+9206	Yanmir, Yanmir.ABC stand (60, 187, 60), Scale 1	957	154	0
+9207	Lich, lich.abc static_model1 (10, 35, 10), Scale 1.2	215	31	0
+9208	Power Lich, lich.abc static_model1 (10, 35, 10), Scale 1.2	215	31	0
+9209	Lich King, lichking.abc static_model (12, 30, 12), Scale 1.35	207	41	0
+9212	Dragon King, dragon.abc gdsetup01 (200, 332, 200), Scale 1	1700	512	0
+9216	Honk, honkmale.abc malsetup (12, 35, 12), Scale 1	179	31	0
+9217	Elder Honk, honkfemale.abc femsetup (12, 38, 12), Scale 1	195	31	0
+9227	Fish, fish.abc swim (10, 16, 16), Scale 1	82	41	0
+9228	Eye, EvileyeTerror.abc static_model1 (20, 51, 20), Scale 1	261	51	0
+9229	Orbus, EvileyeTerror.abc static_model1 (20, 51, 20), Scale 1	261	51	0
+9230	Oculus, EvileyeTerror.abc static_model1 (20, 51, 20), Scale 1	261	51	0
+9234	Colloidal Soldier, ColloidalWarrior.abc static_model (35, 40, 35), Scale 1.5	307	134	0
+9235	Colloidal Warrior, ColloidalWarrior.abc static_model (35, 40, 35), Scale 1.75	358	157	0
+9236	Colloidal Guardian, ColloidalWarrior.abc static_model (35, 40, 35), Scale 2	410	179	0
+9237	Amphibious Terror, Terror.abc static_model (25, 50, 25), Scale 1	256	64	0
+9238	Desert Terror, Terror.abc static_model (25, 50, 25), Scale 1	256	64	0
+9239	Reptilian Terror, Terror.abc static_model (25, 50, 25), Scale 1	256	64	0
+9241	Lesser Demon, stage1demon.abc clopsetup (25, 51, 25), Scale 1	261	64	0
+9242	Greater Demon, stage2demon.abc skullsetup (28, 67, 28), Scale 1	343	72	0
+9244	MagreebBaby, Magreeb.abc static_model (30, 35, 30), Scale 0.7	125	54	0
+9245	Old Hag, hag.abc hag1 (12, 34, 12), Scale 1	174	31	0
+9246	Bjarni Thorvaldssen, Bjarni.abc Bjarni (12, 34, 12), Scale 1	174	31	0
+9247	Sigmund the Stressed, sigmund.abc sigmond (12, 34, 12), Scale 1	174	31	0
+9248	Markel the Great, Markel.abc Markel (12, 34, 12), Scale 1	174	31	0
+9249	Sven Svenssen, Sven.abc Sven (12, 34, 12), Scale 1.25; exception: sized by the standing animation	218	38	0
+9250	Tryggva Ravenlocks, Tryggva.abc Tyrggva (12, 34, 12), Scale 1	174	31	0
+9251	Kira the Cold, Kira.abc kirasetup02 (12, 34, 12), Scale 1	174	31	0
+9252	Forad Darre, ForadDarre.abc ForadDarre (12, 34, 12), Scale 1	174	31	0
+9254	Yrsa the Troll, Yrsa.abc static (12, 34, 12), Scale 1	174	31	0
+9255	Krohn, Krohn.abc krsetup (20, 54, 20), Scale 1	276	51	0
+9256	Fre, Fre.abc Fre (12, 34, 12), Scale 1	174	31	0
+9257	Skraelos, Skraelos.abc static (12, 34, 12), Scale 1	174	31	0
+9258	Bori, sheep.abc sheepsetup01 (22, 20, 22), Scale 1	102	56	0
+9259	Ratatosk, sheep.abc sheepsetup01 (22, 20, 22), Scale 1	102	56	0
+9260	Hanndl, Hanndl.abc Hanndl (12, 34, 12), Scale 1	174	31	0
+9261	Njam the Meddler, Njam.abc Njam (12, 34, 12), Scale 1.5	261	46	0
+9262	The Great Honk, goose.abc stand (10, 16, 15), Scale 1.5	123	58	0
+9263	Wyrde of the Known (Igrid), wyrd_old.abc wyrds_old (12, 34, 12), Scale 1	174	31	0
+9264	Wyrde of the Knowing (Verdandi), wyrd_mature.ABC wyrds_mature (12, 30, 12), Scale 1	154	31	0
+9265	Wyrde of the Unknown (Morgan), wyrd_young.ABC wyrdsyoung (12, 30, 12), Scale 1	154	31	0
+9266	Green Man, greenman.abc static_model (20, 45, 20), Scale 1	230	51	0
+9267	Cow, cow.abc static_model (15, 26, 35), Scale 1	133	90	0
+9268	Goat, goat.abc static_model (17, 17, 17), Scale 1	87	44	0
+9269	Hen, hen.abc static_model (10, 11.25, 10), Scale 1	58	26	0
+9270	Rooster, rooster.abc static_model (10, 15, 10), Scale 1	77	26	0
+9271	Pig, pig.abc static_model (10, 7, 10), Scale 1	36	26	0
+9272	Ewe, sheep.abc sheepsetup01 (22, 20, 22), Scale 1	102	56	0
+9273	Ram, ram.abc sheepsetup02 (22, 20, 22), Scale 1	102	56	0
+9274	Scholar, scholar.abc scholsetup (12, 36, 12), Scale 1	184	31	0
+9275	Master Scholar, scholar.abc scholsetup (12, 36, 12), Scale 1	184	31	0
+9276	Magreeb Spawn, Magreeb.abc static_model (30, 35, 30), Scale 1	179	77	0
+9277	Magreeb, Magreeb.abc static_model (30, 35, 30), Scale 1.5	269	115	0
+9278	Armored Magreeb, Magreeb.abc static_model (30, 35, 30), Scale 1.75	314	134	0
+9292	Tamur Leng, ClanSoldier.abc clansetup02 (15, 38, 15), Scale 1	195	38	0
+9293	Goose, goose.abc stand (10, 16, 15), Scale 1	82	38	0
+9294	cat, cat.abc static_model (5, 10, 5), Scale 2.5	128	32	0
+9295	dog, dog.abc static_model (19, 19, 19), Scale 1	97	49	0
+9296	RailTest, PeasantM1.abc MP_1a (12, 34, 12), Scale 1	174	31	0
+9297	Brown Cow, cow.abc static_model (15, 26, 35), Scale 1	133	90	0
+9299	mouse, mouse.abc stand (3, 1, 3), Scale 1	5	8	0
+9300	evil mouse, mouse.abc stand (3, 1, 3), Scale 1	5	8	0
+9301	Ebora, ebora.abc static_model00 (15, 36, 15), Scale 1	184	38	0
+9302	Concubine, ebora.abc static_model00 (15, 36, 15), Scale 1	184	38	0
+9303	Phantom Fighter, dookmilitia.abc static_model (15, 38, 15), Scale 1	195	38	0

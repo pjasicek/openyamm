@@ -1,0 +1,3153 @@
+{
+  "map": "6d02.blv",
+  "scope": "all 62 static textures",
+  "selected": [
+    {
+      "name": "wltil2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "9de7bbd7fcf1dde728476603972396f02e1cd8f449879dd058460755bc458961",
+      "construction": "shared plaster base",
+      "previous_demo_source": true
+    },
+    {
+      "name": "wywl",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        }
+      ],
+      "runtime_sha256": "221fbffb0ec29809a24e097ca5d7693e158734d915b998436247a6ddac162937",
+      "construction": "plaster + dado at native y=435",
+      "previous_demo_source": true
+    },
+    {
+      "name": "wywl2",
+      "native_size": [
+        256,
+        128
+      ],
+      "runtime_size": [
+        1024,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        }
+      ],
+      "runtime_sha256": "709c6c12a0cd1b259e022596a9511c59ce8d6f9e43a4133a8e94b503fe124a45",
+      "construction": "bottom 128 native rows of the identical wall base",
+      "previous_demo_source": true
+    },
+    {
+      "name": "wywt",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        },
+        {
+          "source": "generated/wywt_x4_overlay_clean_v1.png",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "source_sha256": "a0c8e09ee82402cd93cabec92943589c3cd4b735b784d92f49fd714078203652",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              253
+            ],
+            "transparent_pixels": 53750
+          },
+          "crop": [
+            24,
+            8,
+            1002,
+            1524
+          ],
+          "prompt": "prompts/wywt_x4_overlay_clean_v1.txt"
+        }
+      ],
+      "runtime_sha256": "717696ca6a6b406f5c8465a85f3d94d2f398d95e1df2adf33919eebfb1c30ec7",
+      "construction": "registered foreground over the identical shared wall; opaque native panel interiors",
+      "previous_demo_source": true
+    },
+    {
+      "name": "stabig2",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        },
+        {
+          "source": "generated/stabig2_x4_overlay_clean_v2.png",
+          "source_size": [
+            1083,
+            1452
+          ],
+          "source_sha256": "b015dcb6a91236c6e897bfc1facf8a811a93d073b99eef68011d4e3a57ffdb63",
+          "raw_alpha": {
+            "extrema": [
+              10,
+              252
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1083,
+            1452
+          ],
+          "prompt": "prompts/stabig2_x4_overlay_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "0c113f9f891cf4070ea0c545b6f9358df99eb3813936a1223af4c32cc074bc10",
+      "construction": "registered foreground over the identical shared wall; opaque native panel interiors",
+      "previous_demo_source": true
+    },
+    {
+      "name": "gset06",
+      "native_size": [
+        256,
+        32
+      ],
+      "runtime_size": [
+        1024,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/gset06_x4_v2.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "6784f5de3438978817cfec8f4d27838708d2a929d6895d24e1704e82594f306c",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1270340
+          },
+          "crop": [
+            0,
+            340,
+            1774,
+            502
+          ],
+          "body_crop_within_strip": [
+            177,
+            0,
+            1597,
+            162
+          ],
+          "prompt": "prompts/gset06_x4_v2.txt"
+        }
+      ],
+      "runtime_sha256": "1326fb0630e82e729e606247c67d5b4cc849d797f7e8b10dfd8298a3774d4a72",
+      "construction": "registered central repeat body from true-alpha extended master",
+      "previous_demo_source": true
+    },
+    {
+      "name": "gset05",
+      "native_size": [
+        256,
+        16
+      ],
+      "runtime_size": [
+        1024,
+        64
+      ],
+      "sources": [
+        {
+          "source": "generated/gset05_x4_v2.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "8b6c1c8a81f1fa6020876a8b8404bedecddae45443c4f06521489086126206c1",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 1379707
+          },
+          "crop": [
+            0,
+            396,
+            1774,
+            490
+          ],
+          "body_crop_within_strip": [
+            177,
+            0,
+            1597,
+            94
+          ],
+          "prompt": "prompts/gset05_x4_v2.txt"
+        }
+      ],
+      "runtime_sha256": "6ec731e8808fa92e413138ee42ff831d918f5729daf715654de5f1ff20dd52b6",
+      "construction": "registered central repeat body from true-alpha extended master",
+      "previous_demo_source": true
+    },
+    {
+      "name": "cekr4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/cekr4_x4_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "f8c9135cb51bcf91a5f091ad05e9fb0f7fdb2907b0811d970032ce7c24266712",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/cekr4_x4_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "a11e77fe5e4b45a17270372b44e3acf3e0e0f76c1b65b392fc88975c86099825",
+      "construction": "full fresh material master reduced to native 4x",
+      "previous_demo_source": true
+    },
+    {
+      "name": "ctflor3",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/ctflor3-v1.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b1ca9252186eae1e1110c6db071746005c7a14928253dd2f816f8c061a81fe00",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/ctflor3-v1.txt"
+        }
+      ],
+      "runtime_sha256": "09eb32bddaef1a1c528c5d91682ff200548c387c75ff3f62fe55271977ecd0d3",
+      "construction": "full fresh material master reduced to native 4x",
+      "previous_demo_source": true
+    },
+    {
+      "name": "ch1side",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/ch1side_full_v2.png",
+          "prompt": "prompts/ch1side_full_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c176bbec841da65bfc0b183102d0f83a73025d3736e3c106b2ea1e0296b5910f",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "d9b42e754c0cd6d486e0d1c226a0bd04c05896d6efbe8fa495a73a65599d0781",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1tpbv",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_lid_joined_v2.png",
+          "prompt": "prompts/chest_lid_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "0af3913798b8a4e776ca68a3843f5bbba3b93efb3d1e9cfb7f6a8ab7024393d7",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 595721
+          },
+          "crop": [
+            245,
+            212,
+            1010,
+            1036
+          ],
+          "rotation": 0,
+          "usable_size": [
+            765,
+            824
+          ]
+        }
+      ],
+      "runtime_sha256": "0b9c4925a626dbf5d34c7390b228b220f68a0b13249301d2d8b46de7a84d9495",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1tprev",
+      "native_size": [
+        64,
+        16
+      ],
+      "runtime_size": [
+        256,
+        64
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_lid_joined_v2.png",
+          "prompt": "prompts/chest_lid_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "0af3913798b8a4e776ca68a3843f5bbba3b93efb3d1e9cfb7f6a8ab7024393d7",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 595721
+          },
+          "crop": [
+            245,
+            1036,
+            1010,
+            1242
+          ],
+          "rotation": 0,
+          "usable_size": [
+            765,
+            206
+          ]
+        }
+      ],
+      "runtime_sha256": "ab3a032dde60a4bd4ee3eafda511ce9a9084c4460008e915dff5f061b34f1b5f",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1frle",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_front_joined_v2.png",
+          "prompt": "prompts/chest_front_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b820fc15fa82ada5cf4fe7b44727695a686b2ec2df09290573cd6bf057495b86",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 479923
+          },
+          "crop": [
+            8,
+            203,
+            214,
+            1055
+          ],
+          "rotation": 0,
+          "usable_size": [
+            206,
+            852
+          ]
+        }
+      ],
+      "runtime_sha256": "2e5d72ca57907dbdd4bba0873af496b387cb7ceef1b9c93d988599e940ad43bb",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1frre",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_front_joined_v2.png",
+          "prompt": "prompts/chest_front_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b820fc15fa82ada5cf4fe7b44727695a686b2ec2df09290573cd6bf057495b86",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 479923
+          },
+          "crop": [
+            1040,
+            203,
+            1247,
+            1055
+          ],
+          "rotation": 0,
+          "usable_size": [
+            207,
+            852
+          ]
+        }
+      ],
+      "runtime_sha256": "76a44432c8356bedc13cd226b23852f74c6a485c6a64f0a852c5783b04b7b89b",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1tplev",
+      "native_size": [
+        64,
+        16
+      ],
+      "runtime_size": [
+        256,
+        64
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_lid_joined_v2.png",
+          "prompt": "prompts/chest_lid_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "0af3913798b8a4e776ca68a3843f5bbba3b93efb3d1e9cfb7f6a8ab7024393d7",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 595721
+          },
+          "crop": [
+            245,
+            6,
+            1010,
+            212
+          ],
+          "rotation": 0,
+          "usable_size": [
+            765,
+            206
+          ]
+        }
+      ],
+      "runtime_sha256": "9bffeca5cc70c7a3d3d8238411f8485e444950aed6f56c80f8995f6a76ad339f",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1frntb",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_front_joined_v2.png",
+          "prompt": "prompts/chest_front_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b820fc15fa82ada5cf4fe7b44727695a686b2ec2df09290573cd6bf057495b86",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 479923
+          },
+          "crop": [
+            214,
+            203,
+            1040,
+            1055
+          ],
+          "rotation": 0,
+          "usable_size": [
+            826,
+            852
+          ]
+        }
+      ],
+      "runtime_sha256": "38820fcfdcf4e7092df8822f9b28f37a45aa795309c4dc7626eeb9d3d4d900c4",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ctdor4",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/ctdor4_full_v1.png",
+          "prompt": "prompts/ctdor4_full_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "4f567fed599aa90ceba23c9fa425840d1518ab7532a9771534c72dd374d9cbc7",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        }
+      ],
+      "runtime_sha256": "869ff07aa5c2c34800054d085ab41d3c8140c47559a7036935b32e5375ee2308",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1bkre",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_back_joined_v2.png",
+          "prompt": "prompts/chest_back_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "5ca19bc8220f959fc610ff40d8d7ad4fcd155a3c2a5b092afbd38085fbf35ebc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 497452
+          },
+          "crop": [
+            1037,
+            210,
+            1242,
+            1043
+          ],
+          "rotation": 0,
+          "usable_size": [
+            205,
+            833
+          ]
+        }
+      ],
+      "runtime_sha256": "7eb19df706bc34d053621eb6d23342677bf14fb0a1e463b1d53b6f21c929462a",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1bakb",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_back_joined_v2.png",
+          "prompt": "prompts/chest_back_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "5ca19bc8220f959fc610ff40d8d7ad4fcd155a3c2a5b092afbd38085fbf35ebc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 497452
+          },
+          "crop": [
+            218,
+            210,
+            1037,
+            1043
+          ],
+          "rotation": 0,
+          "usable_size": [
+            819,
+            833
+          ]
+        }
+      ],
+      "runtime_sha256": "140e371b130f7a0bcc0b4ec983d7c4537be365055335a6fdeb69055a0130efcf",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ch1bkle",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/chest_back_joined_v2.png",
+          "prompt": "prompts/chest_back_joined_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "5ca19bc8220f959fc610ff40d8d7ad4fcd155a3c2a5b092afbd38085fbf35ebc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 497452
+          },
+          "crop": [
+            13,
+            210,
+            218,
+            1043
+          ],
+          "rotation": 0,
+          "usable_size": [
+            205,
+            833
+          ]
+        }
+      ],
+      "runtime_sha256": "c073526b267b179a51dc933abc975c594269b362bfeecd0313ea91f410787b8c",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "ctceil1",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/ctceil1_full_v1.png",
+          "prompt": "prompts/ctceil1_full_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "e800b06f8e6d1a144e092565a0068a03af3ec7bc3c806f3c99bf0db2761596b7",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "375f5be86d193f61cf31dcb1d2ceca8eda674cc004bd1c3568f7014189ec69e9",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x"
+    },
+    {
+      "name": "d2ceil3",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2ceil3_v1.png",
+          "prompt": "prompts/full_x4/d2ceil3_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "7d82be76f19556ef4f6ffbcd0309c47009a6179b2bda8e66fa4bff9235fcb7da",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "47eee51b544322b672e75befc14c49d6ea062b4c18d8a21a7c42edc34fd9505b",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "d2wctra",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2wctra_v1.png",
+          "prompt": "prompts/full_x4/d2wctra_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "61654d29df457034ba0502ae90b9d0107c431f3c718849147eb158e84bbe5fda",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        }
+      ],
+      "runtime_sha256": "e119aeb151859de494b6fe1d29ad419bd9e53235e09eb5aafa837518046ca8b3",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "d2wlactr",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2wlactr_v1.png",
+          "prompt": "prompts/full_x4/d2wlactr_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "b3704c2ac47420e0b3c9785cbadb73abf8023418e4c9e079e3cebbd355ed9158",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        }
+      ],
+      "runtime_sha256": "964ed22c37507b486daba6bf8802aaeb47a353a568b60d63dd781906cae8ae93",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "d1wldle2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d1wldle2_v1.png",
+          "prompt": "prompts/full_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "74561236c9acd81b8bdb2952b6251ff5c46b48cba02aa70d7e03fb4cf105a32c",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "3812a54d4418aa017bb42a42091d3de49921648f31be228adad51aa11eecf47e",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "crdflr4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/crdflr4_v1.png",
+          "prompt": "prompts/full_x4/crdflr4_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "0acce48b620390b7ad269089651168555a07118e6b8c833815eb623e7838205f",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "030df545b71783aee2234ee8929bc770c9728a49b319b2e1c862f6c05c46e618",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "crdrf2",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/crdrf2_v1.png",
+          "prompt": "prompts/full_x4/crdrf2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "04277081e96245900e88b555a5c1fb48cb3b7e0ecd41ff5601f44b19cb5102de",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "27160f968d77eb196839e7a0ee8e3b5f65521dd38a9ab8ef9250bd9e066bc3e3",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "d2flor4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2flor4_wrap_v1.png",
+          "prompt": "prompts/full_x4/d2flor4_wrap_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "f377728a9095e001ec2b3f02d327ea73bd1042ab679c25a8e12cc9738e848d46",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "inverse_wrap_shift": [
+            -256,
+            -256
+          ]
+        }
+      ],
+      "runtime_sha256": "ea08bfb50942448566a15e2d287c3b191653428e2e4e44ab74f039aa642cba60",
+      "construction": "new material with imagegen centre-wrap repair; inverse half-period shift"
+    },
+    {
+      "name": "d2ceil1",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2ceil1_v1.png",
+          "prompt": "prompts/full_x4/d2ceil1_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "49aee455d59d20ae1b83d90a3569a940818a0cda3177b0cdbe51716d2d0b8e0e",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "681d7ed1bc229ef86394af72b0f5ff0c9f298dda2e38b4ce18f7cdefdcedcd2d",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "d5flora",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d5flora_v1.png",
+          "prompt": "prompts/full_x4/d5flora_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "340981f5c212c4d58abb0e64c5c8228f01630acb594293789c1b4c436d95f82f",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "f868f4fb2403d50404a6c364ab46586ab4c95c7f86ad35acb8b03258036b4d7c",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "ctflor4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctflor4_v1.png",
+          "prompt": "prompts/full_x4/ctflor4_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c71a7f6aecdf04d4a34b41045f77fd8b13b844ea2505d8bca46a40a2bf12bc7b",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "fca20b0d9a34185b056e2382141a7fd7bd4e4f47866d17caaa11f2143e0585d6",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "slabco2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/slabco2_v1.png",
+          "prompt": "prompts/full_x4/slabco2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "215c6a993f7dd673c993716cd503ed023bd6acf022994f850d46c50a22045945",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "4a02fa6eb85036e92b71645c4dba3d160d767691cc1a7890a4f4d3451d60188d",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "celtile",
+      "native_size": [
+        128,
+        64
+      ],
+      "runtime_size": [
+        512,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/celtile_v1.png",
+          "prompt": "prompts/full_x4/celtile_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "4095941cea99d848cd1d95ed577a78456b63d0b824a0c46d3b7d501641c7ac80",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ]
+        }
+      ],
+      "runtime_sha256": "a3f5b4d6c95db3ae678fb24b79f4589f07befd1544f3931728729a95a6349148",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "graysq",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/graysq_v1.png",
+          "prompt": "prompts/full_x4/graysq_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "0af64b9ce54780abfa4f20f269578e725436aadf2d5a3319d16fe4cc79a303c0",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "502e122853984eaaaaa57bb768eaf94ffa2d99c1ac36acb0f11536cc2efd5864",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "gset04",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/gset04_wrap_v1.png",
+          "prompt": "prompts/full_x4/gset04_wrap_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "fc7cdda3a13cc7324ebcaf1f267302a4a870723a2bc8eaf53c862ae756eb0a9d",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "inverse_wrap_shift": [
+            -256,
+            -256
+          ]
+        }
+      ],
+      "runtime_sha256": "6a610cf0a4ebd5da11962124289710d418dece508e089828816b6823f2a81f7c",
+      "construction": "new material with imagegen centre-wrap repair; inverse half-period shift"
+    },
+    {
+      "name": "bemhwal1",
+      "native_size": [
+        256,
+        128
+      ],
+      "runtime_size": [
+        1024,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ]
+        }
+      ],
+      "runtime_sha256": "b6931b75c79afcdb7a55bfe9b23f0ac1db499960662d3900c6775f1d244a90d6",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "bemdord",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemdord_v1.png",
+          "prompt": "prompts/full_x4/bemdord_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "016d9c4690a3adb2ffa5bbde8550061dd9e619e8ef5d07be07cfd2876bc7141b",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        }
+      ],
+      "runtime_sha256": "7918be328fa31404710114217388cb8b773d2e54f4ec606239592e8c0d25bba8",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "ceilbemh",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ceilbemh_v1.png",
+          "prompt": "prompts/full_x4/ceilbemh_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "ea076936064ed69f52182a46da5d724ccaf55ce60dce7ec83ba9b55fe9cf013e",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "77b89f2268f09b156b11f825a2ec867ba4b67e64da0044777e66c5d37e82ad38",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "ctceil2",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctceil2_v1.png",
+          "prompt": "prompts/full_x4/ctceil2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "f3126ddf96d90e003ef0a185233e3c2a53606265f29d6fa7555ee2653924d3f2",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "98eb23d1314264a62eb3157d746d0f71522172c9ace0a7f900cd9a1acb63c536",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "plnkdrk",
+      "native_size": [
+        64,
+        128
+      ],
+      "runtime_size": [
+        256,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/plnkdrk_v1.png",
+          "prompt": "prompts/full_x4/plnkdrk_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "00595997d0eb59524889d59a79ac92ec97bb13003f927c00b1dbf71f77b99ba2",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        }
+      ],
+      "runtime_sha256": "150e206ea4cba7c39f03b10868a509a543b42c092cea8afcaa7f9427bcaf81a7",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "gset07",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/gset07_v1.png",
+          "prompt": "prompts/full_x4/gset07_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "201f8253bb7a5a48dbf29e9c4757d01db854985968c355573e15bdb56cffa024",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "b23be9694b7e2b55a83843bcc6682af200e28e3b1e107fec16cc95ed8b1735ae",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "sndston",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/sndston_wrap_v1.png",
+          "prompt": "prompts/full_x4/sndston_wrap_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "8db272187203fc70a1db30e74798c28c0ea764a8cea559e13d04e5746f2ef94f",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "inverse_wrap_shift": [
+            -512,
+            -512
+          ]
+        }
+      ],
+      "runtime_sha256": "15741e7e996a7140e25e36bc5e4751a4ed3d295ad6df77675b707e45595bf0b7",
+      "construction": "new material with imagegen centre-wrap repair; inverse half-period shift"
+    },
+    {
+      "name": "ctdor2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctdor2_v1.png",
+          "prompt": "prompts/full_x4/ctdor2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "cef514afeea7ed9ce8a57bfadbb554dc993a5adb953a9551fdb88d9543701375",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "d4df3a3b56a5885722770e649f2978069d5886a21c13e3fc2ca9f24334e4b580",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "ctmura",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctmura_v1.png",
+          "prompt": "prompts/full_x4/ctmura_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c624c938189f847e0d9bebe6ab3755e7b174cfd294f12993446273e7b6c9e6fd",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "0c8153661adbb927ea108b05d6da58183c634c1b64f5e10555f400149c120b97",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "d1wldle3",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d1wldle3_v1.png",
+          "prompt": "prompts/full_x4/d1wldle3_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c0a99cdf3a30221eee68c6d21c0f23cef3f35d4510c00c7baba958d6cf923bc3",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "f366e54fead3e4af35c085a43ae8d0677a0eeee69f9581cbfad6e413af2edfc5",
+      "construction": "new fine material/illustration master reduced directly to native 4x"
+    },
+    {
+      "name": "d2flor5",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2flor4_wrap_v1.png",
+          "prompt": "prompts/full_x4/d2flor4_wrap_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "f377728a9095e001ec2b3f02d327ea73bd1042ab679c25a8e12cc9738e848d46",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "inverse_wrap_shift": [
+            -256,
+            -256
+          ]
+        }
+      ],
+      "runtime_sha256": "ea08bfb50942448566a15e2d287c3b191653428e2e4e44ab74f039aa642cba60",
+      "construction": "same new paving body as the native matching polygon-layout variant; shared joins"
+    },
+    {
+      "name": "beamplnh",
+      "native_size": [
+        256,
+        32
+      ],
+      "runtime_size": [
+        1024,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/beam_body_v1.png",
+          "prompt": "prompts/full_x4/beam_body_v1.txt",
+          "source_size": [
+            2173,
+            724
+          ],
+          "source_sha256": "5e66f93b5803a7b98c9acb1aa6d0d99940cb8bc90ac8cf4f08b2c09a74d1d6e7",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            2173,
+            724
+          ],
+          "rotation": 0,
+          "usable_size": [
+            2173,
+            724
+          ],
+          "body_crop_within_source": [
+            0,
+            241,
+            2173,
+            482
+          ]
+        }
+      ],
+      "runtime_sha256": "b0f1d1e5187c7cf236ff89014d1e07bf8c85a0dbf5ba6fdcd4c22c418cac97a1",
+      "construction": "new continuous timber body; no repeated end caps"
+    },
+    {
+      "name": "beamplnv",
+      "native_size": [
+        32,
+        256
+      ],
+      "runtime_size": [
+        128,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/beam_body_v1.png",
+          "prompt": "prompts/full_x4/beam_body_v1.txt",
+          "source_size": [
+            2173,
+            724
+          ],
+          "source_sha256": "5e66f93b5803a7b98c9acb1aa6d0d99940cb8bc90ac8cf4f08b2c09a74d1d6e7",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            2173,
+            724
+          ],
+          "rotation": 0,
+          "usable_size": [
+            2173,
+            724
+          ],
+          "body_crop_within_source": [
+            0,
+            241,
+            2173,
+            482
+          ],
+          "body_rotation": 90
+        }
+      ],
+      "runtime_sha256": "7416ce377993a8d6048b0bbe109f41fd30dd4495b127cb938c6b5b7a46f9bd6c",
+      "construction": "same new continuous timber body rotated; no repeated end caps"
+    },
+    {
+      "name": "bdksh32b",
+      "native_size": [
+        128,
+        32
+      ],
+      "runtime_size": [
+        512,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ],
+          "body_crop_within_source": [
+            0,
+            62,
+            1774,
+            239
+          ],
+          "body_rotation": 0
+        }
+      ],
+      "runtime_sha256": "91b8ad5e31d3719f74ccd9b8579f4bbbb5d62978136a7fb912fcec39c67ceedf",
+      "construction": "same freshly drawn wood body, registered crop and orientation"
+    },
+    {
+      "name": "bdksv32b",
+      "native_size": [
+        32,
+        128
+      ],
+      "runtime_size": [
+        128,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ],
+          "body_crop_within_source": [
+            0,
+            62,
+            1774,
+            239
+          ],
+          "body_rotation": 90
+        }
+      ],
+      "runtime_sha256": "4417a945906aa2055ed591b981cf09794ad3d01aa528998933d3c98f271303b3",
+      "construction": "same freshly drawn wood body, registered crop and orientation"
+    },
+    {
+      "name": "bemsv32a",
+      "native_size": [
+        32,
+        128
+      ],
+      "runtime_size": [
+        128,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ],
+          "body_crop_within_source": [
+            0,
+            358,
+            1774,
+            535
+          ],
+          "body_rotation": 90
+        }
+      ],
+      "runtime_sha256": "cea01f98a53ca502213b39245c1e21b69775f5477be033ed7d96c10abfe97f9a",
+      "construction": "same freshly drawn wood body, registered crop and orientation"
+    },
+    {
+      "name": "bemsv32c",
+      "native_size": [
+        32,
+        128
+      ],
+      "runtime_size": [
+        128,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ],
+          "body_crop_within_source": [
+            0,
+            653,
+            1774,
+            831
+          ],
+          "body_rotation": 90
+        }
+      ],
+      "runtime_sha256": "e565f644f9bdcefc710ffedec33b69ddd4b0b440c6a1a975beee859d72e0e80a",
+      "construction": "same freshly drawn wood body, registered crop and orientation"
+    },
+    {
+      "name": "d1wldle",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d1wldle2_v1.png",
+          "prompt": "prompts/full_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "74561236c9acd81b8bdb2952b6251ff5c46b48cba02aa70d7e03fb4cf105a32c",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "source": "generated/full_x4/d1_pillar_v1.png",
+          "prompt": "prompts/full_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "87c4d57bf4f8670baee95645899cfca4a5e25f123af2a8a2270da3a7edd21b96",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 918399
+          },
+          "crop": [
+            268,
+            0,
+            620,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            352,
+            1774
+          ],
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "6389645593de9fc82d4444b005a3f4a0c2b0214af40472137d874d752a0e0f59",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        0,
+        0,
+        32,
+        256
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "d1wldre",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d1wldle2_v1.png",
+          "prompt": "prompts/full_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "74561236c9acd81b8bdb2952b6251ff5c46b48cba02aa70d7e03fb4cf105a32c",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "source": "generated/full_x4/d1_pillar_v1.png",
+          "prompt": "prompts/full_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "87c4d57bf4f8670baee95645899cfca4a5e25f123af2a8a2270da3a7edd21b96",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 918399
+          },
+          "crop": [
+            268,
+            0,
+            620,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            352,
+            1774
+          ],
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "30424415ce8d8ba45f1d3f07dfcf1484fcb8d83b8085cd5362efa429a7d0be77",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        96,
+        0,
+        128,
+        256
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "d1wlele",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d1wldle2_v1.png",
+          "prompt": "prompts/full_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "74561236c9acd81b8bdb2952b6251ff5c46b48cba02aa70d7e03fb4cf105a32c",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "source": "generated/full_x4/d1_pillar_v1.png",
+          "prompt": "prompts/full_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "87c4d57bf4f8670baee95645899cfca4a5e25f123af2a8a2270da3a7edd21b96",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 918399
+          },
+          "crop": [
+            268,
+            0,
+            620,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            352,
+            1774
+          ],
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "6389645593de9fc82d4444b005a3f4a0c2b0214af40472137d874d752a0e0f59",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        0,
+        0,
+        32,
+        256
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "d1wlere",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d1wldle2_v1.png",
+          "prompt": "prompts/full_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "74561236c9acd81b8bdb2952b6251ff5c46b48cba02aa70d7e03fb4cf105a32c",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "source": "generated/full_x4/d1_pillar_v1.png",
+          "prompt": "prompts/full_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "87c4d57bf4f8670baee95645899cfca4a5e25f123af2a8a2270da3a7edd21b96",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 918399
+          },
+          "crop": [
+            268,
+            0,
+            620,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            352,
+            1774
+          ],
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "30424415ce8d8ba45f1d3f07dfcf1484fcb8d83b8085cd5362efa429a7d0be77",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        96,
+        0,
+        128,
+        256
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "d2wlale",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2wlactr_v1.png",
+          "prompt": "prompts/full_x4/d2wlactr_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "b3704c2ac47420e0b3c9785cbadb73abf8023418e4c9e079e3cebbd355ed9158",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        },
+        {
+          "source": "generated/full_x4/d2_pillar_v1.png",
+          "prompt": "prompts/full_x4/d2_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "12592142084a6b52371a3b7119f4b068fe08b2340e53405fc936a798f475b79c",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1125371
+          },
+          "crop": [
+            323,
+            1,
+            564,
+            1773
+          ],
+          "rotation": 0,
+          "usable_size": [
+            241,
+            1772
+          ],
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "f1badc50afba4a19314b6cfa6275eaeaae7a3c98ca35399a76b6a4a2caa8f979",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        0,
+        0,
+        32,
+        256
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "d2wlare",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2wlactr_v1.png",
+          "prompt": "prompts/full_x4/d2wlactr_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "b3704c2ac47420e0b3c9785cbadb73abf8023418e4c9e079e3cebbd355ed9158",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        },
+        {
+          "source": "generated/full_x4/d2_pillar_v1.png",
+          "prompt": "prompts/full_x4/d2_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "12592142084a6b52371a3b7119f4b068fe08b2340e53405fc936a798f475b79c",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1125371
+          },
+          "crop": [
+            323,
+            1,
+            564,
+            1773
+          ],
+          "rotation": 0,
+          "usable_size": [
+            241,
+            1772
+          ],
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "5df3f22d3147777a5c39f271634b402cb1fec2e45912b0029dbf39384ed833e9",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        96,
+        0,
+        128,
+        256
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "d1wldsp",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d1wldle2_v1.png",
+          "prompt": "prompts/full_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "74561236c9acd81b8bdb2952b6251ff5c46b48cba02aa70d7e03fb4cf105a32c",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "source": "generated/full_x4/d1_grate_v1.png",
+          "prompt": "prompts/full_x4/d1_grate_v1.txt",
+          "source_size": [
+            1100,
+            1430
+          ],
+          "source_sha256": "c6ed4a32cda5b8e7e08feb5968c0b73bc4c0e25e3985e8e4afca5527e84ac6d7",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 624721
+          },
+          "crop": [
+            0,
+            0,
+            1100,
+            1430
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1100,
+            1430
+          ],
+          "component_target_size": [
+            528,
+            688
+          ]
+        }
+      ],
+      "runtime_sha256": "2fa9f5f9d0f1ae46b39448f528416020e52393155d902637d8d36ca591cd94c6",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        62,
+        18,
+        194,
+        190
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "d2wlbmnk",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2wlactr_v1.png",
+          "prompt": "prompts/full_x4/d2wlactr_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "b3704c2ac47420e0b3c9785cbadb73abf8023418e4c9e079e3cebbd355ed9158",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        },
+        {
+          "source": "generated/full_x4/d2_relief_v1.png",
+          "prompt": "prompts/full_x4/d2_relief_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "7267db25a8608497ad814959ad1050b786cda0dea3746a468c244799101b9145",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 470708
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "component_target_size": [
+            896,
+            896
+          ]
+        }
+      ],
+      "runtime_sha256": "b88faf87053f9840e2743c2d6e3601be8281df09643be3a4bf318105d9d0e900",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "stain512",
+      "native_size": [
+        512,
+        512
+      ],
+      "runtime_size": [
+        2048,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/cekr4_x4_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "f8c9135cb51bcf91a5f091ad05e9fb0f7fdb2907b0811d970032ce7c24266712",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/cekr4_x4_clean_v2.txt"
+        },
+        {
+          "source": "generated/full_x4/reflection_v1.png",
+          "prompt": "prompts/full_x4/reflection_v1.txt",
+          "source_size": [
+            1339,
+            1174
+          ],
+          "source_sha256": "097e8a6d83f151a41425ce5d45c5e1c223516a2a5144ba6992a2bcd7e1d8a818",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 611244
+          },
+          "crop": [
+            0,
+            0,
+            1339,
+            1174
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1339,
+            1174
+          ],
+          "component_target_size": [
+            1168,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "506e36efb17309e92c664da4da5ad3d5154e2b5750ec3a15bacf13871c13748f",
+      "construction": "registered foreground on an identical shared material base",
+      "native_placement": [
+        48,
+        128,
+        340,
+        384
+      ],
+      "exact_exposed_base": true
+    },
+    {
+      "name": "carpt01",
+      "native_size": [
+        512,
+        256
+      ],
+      "runtime_size": [
+        2048,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/carpt01_left_v1.png",
+          "prompt": "prompts/full_x4/carpt01_left_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "99e9a43806b6f533a3b86f2f97896b28749358471fd389ecfe3f21d32499106f",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "core_crop_within_source": [
+            70,
+            70,
+            1184,
+            1184
+          ],
+          "component_target_size": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "source": "generated/full_x4/carpt01_right_v1.png",
+          "prompt": "prompts/full_x4/carpt01_right_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4497d11ecc6d59be473ba539a6f7862cf2868bd1dd97919198766e986a01441d",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "core_crop_within_source": [
+            70,
+            70,
+            1184,
+            1184
+          ],
+          "component_target_size": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "source": "generated/full_x4/carpet_join_v1.png",
+          "prompt": "prompts/full_x4/carpet_join_v1.txt",
+          "source_size": [
+            1330,
+            1182
+          ],
+          "source_sha256": "b4cc5de928c3219dbb0dde2e2daf27334f56712b6bcf85b9344aeec185d88aab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1330,
+            1182
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1330,
+            1182
+          ],
+          "component_target_size": [
+            1152,
+            1024
+          ],
+          "placement": [
+            448,
+            0,
+            1600,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "a46b0c8d6f6a6fb7b9ef6195b987e42cd101ebaf5e4e8c4ae41300a86217e06d",
+      "construction": "new registered halves, redrawn continuous centre and shared horizontal ornament bands",
+      "shared_border_mirror": true,
+      "repaired_join": true
+    }
+  ],
+  "stage": "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/full_x4/assets_dev",
+  "binary_sha256": "dddf9d461a34370550d630b91afbc0ee417273ae2c02c57b016ca61974c52bef",
+  "map_sha256": "065192c7f6afb8df019e55e587800731347764379b6857e56b76a54b149b7dd4",
+  "production_changed": false,
+  "static_esrgan_context_count": 0,
+  "excluded": [
+    "renderer-owned orwtrtyl water",
+    "sky_nit2 sky",
+    "invisible pending portals"
+  ],
+  "status": "exported_for_native_visual_review"
+}

@@ -1,0 +1,949 @@
+format: 0
+start:
+  room: room:hall
+  at: [-900, -127]
+  facing: 90
+  notes: "Shadowspire's door event moves the party to (-900, -127, 1) facing north (520 of 2048); the map's own Party Start stands at (-896, -128)."
+doors:
+  - id: door:east_se
+    opening: open:east_se
+    kind: slide_left
+    leaves: 2
+    fold: true
+    state: closed
+    thickness: 80
+    speed: 100
+    surface: {texture: GNecWal2, size: [128, 256]}
+    tile: true
+    notes: "Door records 55 and 56 (event 63): two GNecWal2 leaves 128 wide and 80 thick that part in the middle and fold 124 against the jambs at 100 a second, closed at the start (state 2 in the scene)."
+  - id: door:hall_east
+    opening: open:hall_east
+    kind: slide_left
+    leaves: 2
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 100
+    surface: {texture: GNecWal2, size: [128, 256]}
+    tile: true
+    notes: "Door records 53 and 54 (event 62): two GNecWal2 leaves 128 wide and 16 thick that part in the middle and fold 124 against the jambs at 100 a second, closed at the start (state 2 in the scene)."
+  - id: door:hall_west
+    opening: open:hall_west
+    kind: slide_left
+    leaves: 2
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 100
+    surface: {texture: GNecWal2, size: [128, 256]}
+    tile: true
+    notes: "Door records 51 and 52 (event 61): two GNecWal2 leaves 128 wide and 16 thick that part in the middle and fold 124 against the jambs at 100 a second, closed at the start (state 2 in the scene)."
+  - id: door:west_sw
+    opening: open:west_sw
+    kind: slide_left
+    leaves: 2
+    fold: true
+    state: closed
+    thickness: 80
+    speed: 100
+    surface: {texture: GNecWal2, size: [128, 256]}
+    tile: true
+    notes: "Door records 57 and 58 (event 64): two GNecWal2 leaves 128 wide and 80 thick that part in the middle and fold 124 against the jambs at 100 a second, closed at the start (state 2 in the scene)."
+movers:
+  - id: mover:lift
+    room: room:lift
+    at: [-928, 1538]
+    size: [384, 188]
+    bottom: 16
+    height: 16
+    travel: [0, 0, 513]
+    speed: 50
+    surface: {texture: GNecClg2, size: [128, 256]}
+    top_surface: {texture: GNecClg2, size: [128, 256]}
+    notes: "Door record 1: the lift, a slab 16 thick from 16 to 32 over the shaft floor (faces 128, 129, 154), rising 513 to the quarters floor at 545, speed 50; down at the start (state 0)."
+plates:
+  - id: plate:blades
+    room: room:c25
+    outline: [[-424, 3264], [-92, 3264], [-92, 3422], [-424, 3422]]
+    secret: true
+    notes: "Face 1286 (C1FL, event 102, secret flag): stepping on it throws the blades across the hall."
+  - id: plate:fire_e
+    room: room:c21
+    outline: [[2356, 2106], [2730, 2106], [2730, 2274], [2356, 2274]]
+    secret: true
+    notes: "Face 1309 (event 103, secret flag)."
+  - id: plate:fire_w
+    room: room:c21
+    outline: [[1302, 2106], [1676, 2106], [1676, 2274], [1302, 2274]]
+    secret: true
+    notes: "Face 1310 (event 103, secret flag)."
+lights:
+  - id: light:l00
+    room: room:hall
+    at: [-936, 1248]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 0.
+  - id: light:l01
+    room: room:hall
+    at: [-1440, 704]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 1.
+  - id: light:l02
+    room: room:hall
+    at: [-448, 712]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 2.
+  - id: light:l03
+    room: room:hall
+    at: [-1224, 136]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 3.
+  - id: light:l04
+    room: room:hall
+    at: [-656, 136]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 4.
+  - id: light:l05
+    room: room:hall
+    at: [-936, 264]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 5.
+  - id: light:l06
+    room: room:upper
+    at: [-1440, 704]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 6.
+  - id: light:l07
+    room: room:upper
+    at: [-936, 1248]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 7.
+  - id: light:l08
+    room: room:upper
+    at: [-448, 712]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 8.
+  - id: light:l09
+    room: room:upper
+    at: [-656, 136]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 9.
+  - id: light:l10
+    room: room:upper
+    at: [-936, 264]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 10.
+  - id: light:l11
+    room: room:upper
+    at: [-1224, 136]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 11.
+  - id: light:l12
+    room: room:se
+    at: [832, -168]
+    height: 8
+    radius: 256
+    color: [192, 192, 192]
+    brightness: 31
+    notes: Light record 12.
+  - id: light:l13
+    room: room:se
+    at: [824, -952]
+    height: 8
+    radius: 256
+    color: [192, 192, 192]
+    brightness: 31
+    notes: Light record 13.
+  - id: light:l14
+    room: room:se
+    at: [388, -504]
+    height: 8
+    radius: 256
+    color: [192, 192, 192]
+    brightness: 31
+    notes: Light record 14.
+  - id: light:l15
+    room: room:se
+    at: [172, 88]
+    height: 8
+    radius: 256
+    color: [192, 192, 192]
+    brightness: 31
+    notes: Light record 15.
+  - id: light:l16
+    room: room:se
+    at: [180, -1128]
+    height: 8
+    radius: 256
+    color: [192, 192, 192]
+    brightness: 31
+    notes: Light record 16.
+  - id: light:l17
+    room: room:sw
+    at: [-2100, -248]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 17.
+  - id: light:l18
+    room: room:sw
+    at: [-2356, -536]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 18.
+  - id: light:l19
+    room: room:sw
+    at: [-2088, -1080]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 19.
+  - id: light:l20
+    room: room:sw
+    at: [-2780, -988]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 20.
+  - id: light:l21
+    room: room:sw
+    at: [-2792, 40]
+    height: 8
+    radius: 512
+    color: [255, 255, 255]
+    brightness: 31
+    notes: Light record 21.
+chests:
+  - id: chest:c1
+    room: room:c26
+    at: [864, 5380]
+    kind: gt002
+    facing: n
+    random_levels: [3, 4]
+    items: [613, 628, 628]
+    trap_level: 6
+    notes: "Chest record 1 (event 82): the MM8 chest gt002 (96 by 64, 80 high, faces of event 82), trapped (flags 1); contents as the scene holds them."
+  - id: chest:c2
+    room: room:c26
+    at: [864, 5196]
+    kind: gt002
+    facing: n
+    random_levels: [3, 5]
+    items: [628, ebonest, 628]
+    trap_level: 6
+    notes: "Chest record 2 (event 83): the MM8 chest gt002 (96 by 64, 80 high, faces of event 83), trapped (flags 1); contents as the scene holds them."
+  - id: chest:c3
+    room: room:c13
+    at: [4576, -308]
+    kind: gt002
+    facing: s
+    random_levels: [3, 4]
+    items: [628, 628]
+    trap_level: 6
+    notes: "Chest record 3 (event 84): the MM8 chest gt002 (96 by 64, 80 high, faces of event 84), trapped (flags 1); contents as the scene holds them."
+  - id: chest:c4
+    room: room:c18
+    at: [4736, -4308]
+    kind: gt002
+    facing: e
+    random_levels: [4, 5, 5, 5, 5, 5]
+    items: [628]
+    trap_level: 6
+    notes: "Chest record 4 (event 85): the MM8 chest gt002 (96 by 64, 80 high, faces of event 85), trapped (flags 1); contents as the scene holds them."
+spawns:
+  - id: spawn:s00
+    room: room:sw
+    at: [-2288, -192]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 0: slot 1, group 10."
+  - id: spawn:s01
+    room: room:sw
+    at: [-2272, -944]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 1: slot 1, group 10."
+  - id: spawn:s02
+    room: room:se
+    at: [648, -200]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 2: slot 2, group 10."
+  - id: spawn:s03
+    room: room:se
+    at: [544, -1224]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 3: slot 2, group 10."
+  - id: spawn:s04
+    room: room:upper
+    at: [-544, 728]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 4: slot 2, group 10."
+  - id: spawn:s05
+    room: room:upper
+    at: [-1312, 256]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 5: slot 2, group 10."
+  - id: spawn:s06
+    room: room:west
+    at: [-2088, 672]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 6: slot 1, group 10."
+  - id: spawn:s07
+    room: room:hall
+    at: [-1400, 512]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 7: slot 1, group 10."
+  - id: spawn:s08
+    room: room:hall
+    at: [-456, 464]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 8: slot 2, group 10."
+  - id: spawn:s09
+    room: room:c26
+    at: [-704, 5360]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 9: slot 1, group 10."
+  - id: spawn:s10
+    room: room:c26
+    at: [-216, 5384]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 10: slot 2, group 10."
+  - id: spawn:s11
+    room: room:c26
+    at: [-408, 4960]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 11: slot 2, group 10."
+  - id: spawn:s12
+    room: room:c22
+    at: [328, 2584]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 12: slot 1, group 10."
+  - id: spawn:s13
+    room: room:c24
+    at: [-224, 608]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 13: slot 2, group 10."
+  - id: spawn:s14
+    room: room:c11
+    at: [1128, 848]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 14: slot 2, group 10."
+  - id: spawn:s15
+    room: room:c10
+    at: [-2368, -304]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 15: slot 2, group 10."
+  - id: spawn:s16
+    room: room:c17
+    at: [3400, -2496]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 16: slot 2, group 10."
+  - id: spawn:s17
+    room: room:c17
+    at: [3544, -5296]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 17: slot 1, group 10."
+  - id: spawn:s18
+    room: room:c18
+    at: [4720, -3856]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 18: slot 1, group 10."
+  - id: spawn:s19
+    room: room:c13
+    at: [4984, -320]
+    slot: 1
+    radius: 32
+    group: 10
+    notes: "Spawn record 19: slot 1, group 10."
+  - id: spawn:s20
+    room: room:c14
+    at: [4096, 264]
+    slot: 2
+    radius: 32
+    group: 10
+    notes: "Spawn record 20: slot 2, group 10."
+  - id: spawn:s21
+    room: room:c20
+    at: [3195, 1952]
+    slot: 3
+    radius: 32
+    group: 10
+    notes: "Spawn record 21: slot 3, group 10."
+  - id: spawn:s22
+    room: room:c14
+    at: [5384, 148]
+    slot: 3
+    radius: 32
+    group: 10
+    notes: "Spawn record 22: slot 3, group 10."
+  - id: spawn:s23
+    room: room:c17
+    at: [2955, -3699]
+    slot: 3
+    radius: 32
+    group: 10
+    notes: "Spawn record 23: slot 3, group 10."
+  - id: spawn:s24
+    room: room:c26
+    at: [44, 5103]
+    slot: 3
+    radius: 32
+    group: 10
+    notes: "Spawn record 24: slot 3, group 10."
+  - id: spawn:s25
+    room: room:c22
+    at: [357, 1712]
+    slot: 3
+    radius: 32
+    group: 10
+    notes: "Spawn record 25: slot 3, group 10."
+items:
+  - id: item:i00
+    room: room:west
+    item: 185
+    at: [-1930, 286]
+    floor_height: 144
+    notes: "Sprite object 0: item 185 on a rack at 144."
+  - id: item:i01
+    room: room:west
+    item: 220
+    at: [-1818, 294]
+    floor_height: 64
+    notes: "Sprite object 1: item 220 on a rack at 64."
+  - id: item:i02
+    room: room:west
+    item: 220
+    at: [-2842, 294]
+    floor_height: 64
+    notes: "Sprite object 2: item 220 on a rack at 64."
+  - id: item:i03
+    room: room:west
+    item: 220
+    at: [-2730, 286]
+    floor_height: 144
+    notes: "Sprite object 3: item 220 on a rack at 144."
+  - id: item:i04
+    room: room:sw
+    item: 209
+    at: [-1924, -148]
+    floor_height: 64
+    notes: "Sprite object 4: item 209 on a rack at 64."
+  - id: item:i05
+    room: room:sw
+    item: 211
+    at: [-1920, -272]
+    floor_height: 64
+    notes: "Sprite object 5: item 211 on a rack at 64."
+  - id: item:i06
+    room: room:sw
+    item: 212
+    at: [-1920, -376]
+    floor_height: 64
+    notes: "Sprite object 6: item 212 on a rack at 64."
+  - id: item:i07
+    room: room:sw
+    item: 213
+    at: [-1924, -148]
+    floor_height: 144
+    notes: "Sprite object 7: item 213 on a rack at 144."
+  - id: item:i08
+    room: room:sw
+    item: 214
+    at: [-1920, -272]
+    floor_height: 144
+    notes: "Sprite object 8: item 214 on a rack at 144."
+  - id: item:i09
+    room: room:sw
+    item: 215
+    at: [-1920, -376]
+    floor_height: 144
+    notes: "Sprite object 9: item 215 on a rack at 144."
+  - id: item:i10
+    room: room:sw
+    item: 217
+    at: [-1924, -148]
+    floor_height: 224
+    notes: "Sprite object 10: item 217 on a rack at 224."
+  - id: item:i11
+    room: room:sw
+    item: 220
+    at: [-1920, -272]
+    floor_height: 224
+    notes: "Sprite object 11: item 220 on a rack at 224."
+  - id: item:i12
+    room: room:sw
+    item: 220
+    at: [-1920, -376]
+    floor_height: 224
+    notes: "Sprite object 12: item 220 on a rack at 224."
+  - id: item:i13
+    room: room:sw
+    item: 217
+    at: [-1924, -1188]
+    floor_height: 224
+    notes: "Sprite object 13: item 217 on a rack at 224."
+  - id: item:i14
+    room: room:sw
+    item: 220
+    at: [-1920, -1064]
+    floor_height: 224
+    notes: "Sprite object 14: item 220 on a rack at 224."
+  - id: item:i15
+    room: room:sw
+    item: 220
+    at: [-1920, -960]
+    floor_height: 224
+    notes: "Sprite object 15: item 220 on a rack at 224."
+  - id: item:i16
+    room: room:sw
+    item: 215
+    at: [-1920, -960]
+    floor_height: 144
+    notes: "Sprite object 16: item 215 on a rack at 144."
+  - id: item:i17
+    room: room:sw
+    item: 214
+    at: [-1920, -1064]
+    floor_height: 144
+    notes: "Sprite object 17: item 214 on a rack at 144."
+  - id: item:i18
+    room: room:sw
+    item: 213
+    at: [-1924, -1188]
+    floor_height: 144
+    notes: "Sprite object 18: item 213 on a rack at 144."
+  - id: item:i19
+    room: room:sw
+    item: 209
+    at: [-1924, -1188]
+    floor_height: 64
+    notes: "Sprite object 19: item 209 on a rack at 64."
+  - id: item:i20
+    room: room:sw
+    item: 211
+    at: [-1920, -1064]
+    floor_height: 64
+    notes: "Sprite object 20: item 211 on a rack at 64."
+  - id: item:i21
+    room: room:sw
+    item: 212
+    at: [-1920, -960]
+    floor_height: 64
+    notes: "Sprite object 21: item 212 on a rack at 64."
+  - id: item:i22
+    room: room:se
+    item: 220
+    at: [1032, -1096]
+    floor_height: 224
+    notes: "Sprite object 22: item 220 on a rack at 224."
+  - id: item:i23
+    room: room:se
+    item: 220
+    at: [1028, -972]
+    floor_height: 224
+    notes: "Sprite object 23: item 220 on a rack at 224."
+  - id: item:i24
+    room: room:se
+    item: 220
+    at: [1028, -868]
+    floor_height: 224
+    notes: "Sprite object 24: item 220 on a rack at 224."
+  - id: item:i25
+    room: room:se
+    item: 216
+    at: [1028, -868]
+    floor_height: 144
+    notes: "Sprite object 25: item 216 on a rack at 144."
+  - id: item:i26
+    room: room:se
+    item: 216
+    at: [1028, -972]
+    floor_height: 144
+    notes: "Sprite object 26: item 216 on a rack at 144."
+  - id: item:i27
+    room: room:se
+    item: 216
+    at: [1032, -1096]
+    floor_height: 144
+    notes: "Sprite object 27: item 216 on a rack at 144."
+  - id: item:i28
+    room: room:se
+    item: 209
+    at: [1032, -1096]
+    floor_height: 64
+    notes: "Sprite object 28: item 209 on a rack at 64."
+  - id: item:i29
+    room: room:se
+    item: 211
+    at: [1028, -972]
+    floor_height: 64
+    notes: "Sprite object 29: item 211 on a rack at 64."
+  - id: item:i30
+    room: room:se
+    item: 212
+    at: [1028, -868]
+    floor_height: 64
+    notes: "Sprite object 30: item 212 on a rack at 64."
+  - id: item:i31
+    room: room:se
+    item: 239
+    at: [1032, -56]
+    floor_height: 64
+    notes: "Sprite object 31: item 239 on a rack at 64."
+  - id: item:i32
+    room: room:se
+    item: 239
+    at: [1028, -180]
+    floor_height: 64
+    notes: "Sprite object 32: item 239 on a rack at 64."
+  - id: item:i33
+    room: room:se
+    item: 239
+    at: [1028, -284]
+    floor_height: 64
+    notes: "Sprite object 33: item 239 on a rack at 64."
+  - id: item:i34
+    room: room:se
+    item: 251
+    at: [1032, -56]
+    floor_height: 144
+    notes: "Sprite object 34: item 251 on a rack at 144."
+  - id: item:i35
+    room: room:se
+    item: 251
+    at: [1028, -180]
+    floor_height: 144
+    notes: "Sprite object 35: item 251 on a rack at 144."
+  - id: item:i36
+    room: room:se
+    item: 251
+    at: [1028, -284]
+    floor_height: 144
+    notes: "Sprite object 36: item 251 on a rack at 144."
+  - id: item:i37
+    room: room:se
+    item: 220
+    at: [1032, -56]
+    floor_height: 224
+    notes: "Sprite object 37: item 220 on a rack at 224."
+  - id: item:i38
+    room: room:se
+    item: 220
+    at: [1028, -180]
+    floor_height: 224
+    notes: "Sprite object 38: item 220 on a rack at 224."
+  - id: item:i39
+    room: room:se
+    item: 220
+    at: [1028, -284]
+    floor_height: 224
+    notes: "Sprite object 39: item 220 on a rack at 224."
+  - id: item:i40
+    room: room:upper
+    item: 233
+    at: [-288, 564]
+    floor_height: 769
+    notes: "Sprite object 40: item 233 on a rack at 769."
+  - id: item:i41
+    room: room:upper
+    item: 241
+    at: [-288, 460]
+    floor_height: 689
+    notes: "Sprite object 41: item 241 on a rack at 689."
+  - id: item:i42
+    room: room:upper
+    item: 234
+    at: [-288, 460]
+    floor_height: 769
+    notes: "Sprite object 42: item 234 on a rack at 769."
+  - id: item:i43
+    room: room:upper
+    item: 235
+    at: [-292, 336]
+    floor_height: 769
+    notes: "Sprite object 43: item 235 on a rack at 769."
+  - id: item:i44
+    room: room:upper
+    item: 264
+    at: [-292, 336]
+    floor_height: 689
+    notes: "Sprite object 44: item 264 on a rack at 689."
+  - id: item:i45
+    room: room:upper
+    item: 241
+    at: [-292, 336]
+    floor_height: 609
+    notes: "Sprite object 45: item 241 on a rack at 609."
+  - id: item:i46
+    room: room:upper
+    item: 241
+    at: [-288, 564]
+    floor_height: 609
+    notes: "Sprite object 46: item 241 on a rack at 609."
+  - id: item:i47
+    room: room:upper
+    item: 241
+    at: [-288, 460]
+    floor_height: 609
+    notes: "Sprite object 47: item 241 on a rack at 609."
+  - id: item:i48
+    room: room:upper
+    item: 236
+    at: [-288, 564]
+    floor_height: 689
+    notes: "Sprite object 48: item 236 on a rack at 689."
+decorations:
+  - id: deco:bones_0
+    room: room:west
+    decoration: dec29
+    at: [-2058, 286]
+    floor_height: 64
+    notes: Bones (dec29) on a rack shelf.
+  - id: deco:bones_1
+    room: room:west
+    decoration: dec29
+    at: [-1834, 286]
+    floor_height: 144
+    notes: Bones (dec29) on a rack shelf.
+  - id: deco:bones_2
+    room: room:west
+    decoration: dec29
+    at: [-2034, 286]
+    floor_height: 224
+    notes: Bones (dec29) on a rack shelf.
+  - id: deco:bones_3
+    room: room:west
+    decoration: dec29
+    at: [-2602, 286]
+    floor_height: 64
+    notes: Bones (dec29) on a rack shelf.
+  - id: deco:bones_4
+    room: room:west
+    decoration: dec29
+    at: [-2826, 286]
+    floor_height: 144
+    notes: Bones (dec29) on a rack shelf.
+  - id: deco:bones_5
+    room: room:west
+    decoration: dec29
+    at: [-2626, 286]
+    floor_height: 224
+    notes: Bones (dec29) on a rack shelf.
+  - id: deco:torch_00
+    room: room:hall
+    decoration: dec56
+    at: [-1656, 864]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_01
+    room: room:hall
+    decoration: dec56
+    at: [-1656, 544]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_02
+    room: room:hall
+    decoration: dec56
+    at: [-264, 544]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_03
+    room: room:hall
+    decoration: dec56
+    at: [-264, 864]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_04
+    room: room:hall
+    decoration: dec56
+    at: [-1136, 1432]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_05
+    room: room:hall
+    decoration: dec56
+    at: [-720, 1432]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_06
+    room: room:upper
+    decoration: dec56
+    at: [-720, 1432]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_07
+    room: room:upper
+    decoration: dec56
+    at: [-1136, 1432]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_08
+    room: room:upper
+    decoration: dec56
+    at: [-720, -248]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_09
+    room: room:upper
+    decoration: dec56
+    at: [-1136, -248]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_10
+    room: room:hall
+    decoration: dec56
+    at: [-1136, -248]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_11
+    room: room:hall
+    decoration: dec56
+    at: [-720, -248]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_12
+    room: room:upper
+    decoration: dec56
+    at: [-1656, 864]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_13
+    room: room:upper
+    decoration: dec56
+    at: [-1656, 544]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_14
+    room: room:upper
+    decoration: dec56
+    at: [-264, 864]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_15
+    room: room:se
+    decoration: dec56
+    at: [-20, -868]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_16
+    room: room:se
+    decoration: dec56
+    at: [-20, -220]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_17
+    room: room:se
+    decoration: dec56
+    at: [1044, -568]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_18
+    room: room:sw
+    decoration: dec56
+    at: [-2964, -160]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_19
+    room: room:sw
+    decoration: dec56
+    at: [-2964, -808]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+  - id: deco:torch_20
+    room: room:sw
+    decoration: dec56
+    at: [-1900, -672]
+    height: 256
+    notes: "A wall torch (dec56) as the original places it, 8 off the wall."
+exits:
+  - id: exit:front_l
+    room: room:hall
+    at: [-992, -256]
+    size: [128, 256]
+    surface: {texture: GNecDr4R, size: [128, 256]}
+    to: exit:front
+    notes: "The west half of the front door (face 5, GNecDr4R; event 501)."
+  - id: exit:front_r
+    room: room:hall
+    at: [-864, -256]
+    size: [128, 256]
+    surface: {texture: GNecDr4L, size: [128, 256]}
+    to: exit:front
+    notes: "The east half (face 52, GNecDr4L; event 501)."

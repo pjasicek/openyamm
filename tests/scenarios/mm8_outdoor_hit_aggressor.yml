@@ -1,0 +1,53 @@
+# A monster that has not noticed the party sees it only within its relation's range (OY-605: the wimpy pirates of
+# Dagger Wound, hostile.txt relation 1, at 1024). A party hit sets MM8's hostility type 4 (0x403366) and the Aggressor
+# bit, and its faction alert (0x439278) does the same to the victim's class within 4096: they come for the party from
+# as far as their AI runs (re_mm8/PARTY_HIT_AGGRO.md). Before this, a pirate shot from 4400 outdoors stood still. On
+# Ravenshore's south shore, four monsters spawn while the party is invisible, so they forget it: a pirate 4400 west, a
+# pirate beside it, a wimpy crossbowman (another class) beside it and a pirate 3500 east. None of them notices the
+# party; after one hit, the pirate and its classmate come for it, through a save and load, and the other two stay.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm8_outdoor_hit_aggressor.yml --scenario-no-color
+id: mm8.outdoor_hit_aggressor
+title: "MM8: a monster hit beyond its relation's notice range comes for the party, and so do its classmates"
+world: mm8
+mode: faithful
+tags: [mm8, actors, ai, regression]
+steps:
+  - new_game_flow:
+      start_map: out02.odm
+  - set_pose: {map: out02.odm, x: 0, y: -4800, z: 81, yaw_degrees: 180, pitch: 0}
+  - console: {line: config toggle invisible}
+  - spawn_actor: {monster_id: 181, x: -4400, y: -4800, z: 1}
+  - spawn_actor: {monster_id: 181, x: -4700, y: -4500, z: 1}
+  - spawn_actor: {monster_id: 184, x: -4700, y: -4800, z: 1}
+  - spawn_actor: {monster_id: 181, x: 3500, y: -4800, z: 1}
+  - advance_runtime: {seconds: 3}
+  - console: {line: config toggle invisible}
+  - advance_runtime: {seconds: 4}
+  - assert:
+      actor_visible:
+        actor_index: last-3
+        combat_targeting_party: false
+        has_detected_party: false
+        near: {x: -4400, y: -4800, max_distance: 200}
+  - assert: {actor_visible: {actor_index: last-2, combat_targeting_party: false}}
+  - assert: {actor_visible: {actor_index: last-1, combat_targeting_party: false}}
+  - assert: {actor_visible: {actor_index: last, combat_targeting_party: false}}
+  - damage_actor: {actor_index: last-3, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - save_game: {name: hit_aggressor}
+  - load_game: {name: hit_aggressor}
+  - advance_runtime: {seconds: 5}
+  - assert:
+      actor_visible:
+        actor_index: last-3
+        combat_targeting_party: true
+        far: {x: -4400, y: -4800, min_distance: 1000}
+        report_state: true
+  - assert:
+      actor_visible:
+        actor_index: last-2
+        combat_targeting_party: true
+        far: {x: -4700, y: -4500, min_distance: 1000}
+        report_state: true
+  - assert: {actor_visible: {actor_index: last-1, combat_targeting_party: false, report_state: true}}
+  - assert: {actor_visible: {actor_index: last, combat_targeting_party: false, report_state: true}}

@@ -1,0 +1,186 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dragonstadium/review/v01_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a01_start
+  position:
+  - 1802
+  - -5734
+  - -163
+  yaw: 1.5708
+  pitch: 0.0
+- name: a02_tunnel
+  position:
+  - 1894
+  - -5120
+  - -86
+  yaw: 1.5308
+  pitch: 0.0
+- name: a03_arena_mouth
+  position:
+  - 1946
+  - -4224
+  - -10
+  yaw: 1.5708
+  pitch: 0.0
+- name: a04_exit
+  position:
+  - 1802
+  - -5888
+  - -198
+  yaw: -0.9428
+  pitch: 0.0
+- name: a05_side_tunnel
+  position:
+  - 2816
+  - -6758
+  - -73
+  yaw: 0.3097
+  pitch: 0.0
+- name: a06_side_tunnel_up
+  position:
+  - 4608
+  - -6554
+  - 615
+  yaw: -0.4502
+  pitch: 0.0
+- name: a07_back_to_start
+  position:
+  - 1946
+  - -3840
+  - -50
+  yaw: -1.6463
+  pitch: 0.0
+- name: b01_arena_south
+  position:
+  - 3328
+  - -2816
+  - -163
+  yaw: 1.8281
+  pitch: 0.0
+- name: b02_arena_centre_north
+  position:
+  - 2048
+  - -768
+  - -163
+  yaw: 1.5708
+  pitch: 0.0
+- name: b03_arena_west
+  position:
+  - -2304
+  - 768
+  - -159
+  yaw: 0.0
+  pitch: 0.0
+- name: b04_arena_east
+  position:
+  - 7168
+  - 768
+  - 57
+  yaw: 3.1416
+  pitch: 0.0
+- name: b05_arena_north
+  position:
+  - 2048
+  - 5120
+  - 76
+  yaw: -1.5708
+  pitch: 0.0
+- name: b06_arena_northeast
+  position:
+  - 6144
+  - 4352
+  - 508
+  yaw: -2.3562
+  pitch: 0.0
+- name: b07_arena_northwest
+  position:
+  - -1792
+  - 4864
+  - 385
+  yaw: -0.765
+  pitch: 0.0
+- name: b08_arena_southwest
+  position:
+  - -2048
+  - -2048
+  - 451
+  yaw: 0.7243
+  pitch: 0.0
+- name: b09_arena_southeast
+  position:
+  - 5888
+  - -1792
+  - 56
+  yaw: 2.3784
+  pitch: 0.0
+- name: c01_p1_south
+  position:
+  - 492
+  - -3456
+  - -25
+  yaw: 1.5708
+  pitch: 0.3142
+- name: c02_p1_east
+  position:
+  - 2432
+  - -1434
+  - -163
+  yaw: 3.1416
+  pitch: 0.2618
+- name: c03_p2_south
+  position:
+  - 256
+  - 1408
+  - -163
+  yaw: 1.617
+  pitch: 0.3142
+- name: c04_p2_east
+  position:
+  - 2432
+  - 3400
+  - -163
+  yaw: 3.1416
+  pitch: 0.2618
+- name: c05_p3_west
+  position:
+  - 2688
+  - 1106
+  - -163
+  yaw: 0.0
+  pitch: 0.2618
+- name: c06_p3_south
+  position:
+  - 4956
+  - -1152
+  - -163
+  yaw: 1.5708
+  pitch: 0.3142
+- name: d01_chest0
+  position:
+  - 1475
+  - 2432
+  - -163
+  yaw: 1.5708
+  pitch: -0.2094
+- name: d02_chest1
+  position:
+  - 3328
+  - 1536
+  - -163
+  yaw: 0.4696
+  pitch: -0.2094
+- name: d03_bones
+  position:
+  - 2125
+  - -1843
+  - -163
+  yaw: 1.5708
+  pitch: -0.2618
+- name: d04_dragon_place
+  position:
+  - 1864
+  - -1792
+  - -163
+  yaw: 1.5708
+  pitch: 0.2094

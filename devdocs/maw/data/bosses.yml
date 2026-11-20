@@ -1,0 +1,128 @@
+# draft extracted from MAW ef23ee17
+# Boss ("elite") monsters: spawning, stats, the 14 affixes, Broodlord/Broodling and Omnipotent.
+# Paths are relative to Maw-Mod-MMMerge/Scripts/. U(a,b) is a uniform float roll.
+# MAW stores the affix only as the first word of the boss name in Game.PlaceMonTxt[221..299] and parses it back
+# everywhere; a native port should store the affix id on the actor.
+format: 1
+source: {repo: Maw-Mod-MMMerge, commit: ef23ee17}
+
+spawning:                                     # General/zzMaw-Monsters.lua:2866-2958, run on AfterLoadMap (host)
+  enabled_when: "BolsterAmount >= 100"        # MAW difficulty and above; never on Easy/Normal
+  once_per_map_visit_record: "mapvars.bossGenerated (regenerated only when the map's mapvars are fresh)"
+  count: "ceil((Map.Monsters.Count - 30) / 150)"
+  count_doom_and_up: "ceil((Map.Monsters.Count - 30) / 60)"   # vars.Mode == 2
+  candidates: "C-tier (Id % 3 == 0), AIType ~= 1 (not peaceful), NameId == 0, not a multiplayer puppet"
+  pick: "uniform random candidate, without replacement"
+  name_ids: [221, 299]                        # NameId 220..300 is treated as 'boss' by most checks
+  map_affix_hooks:                            # dimension maps, see dimension_affixes.yml
+    16: "count = ceil(count x (1 + p/100))"
+    17: "before picking: each non-C monster becomes the next tier (Id + 1) with p% chance"
+    19: "before picking: each non-C, non-peaceful, unnamed monster becomes a boss with p% chance"
+    18: "every boss: HP mult and damage mult x (1 + p/100)"
+  other_sources:
+    - "BountyHunt.lua:210-224: the bounty target is a C-tier boss; Omnipotent bounties add 100-200 escorts"
+    - "zzMaw_Arena.lua:274-278: every arena sub-wave 6 is one C-tier boss"
+    - "on death of Broodlord/Broodling/Omnipotent (below)"
+
+stats:                                        # generateBoss, zzMaw-Monsters.lua:2972-3107
+  level: "MawBossLevel(Id): C-tier -> C + (C - B); B-tier -> C level; A-tier -> B level (totalLevel values), rounded"
+  level_field_cap: 255                        # mon.Level; the uncapped value is kept in mapvars.bossData[i].Level
+  hp_mult: "2.5 x (1 + L/255) x U(1, 1.5)"    # BOSS_HP_BASE 1, BOSS_HP_LEVEL_DIVISOR 255; L is the capped level
+  hp_mult_austerity: "2.5 x (1 + L/255/4) x U(1, 1.125)"   # AUSTERITY_BOSS_FLATTEN 4 divides both terms
+  damage_mult: "U(1.2, 1.4)"
+  spell_skill: "spell skill level x damage_mult (mastery kept)"
+  hp: "getMonsterHealth(mon) x hp_mult, i.e. family B-level HP x A/C ratio x hp_mult (boss level is NOT used)"
+  damage: "getMonsterDamage(mon) x damage_mult (family B level)"
+  treasure:                                   # :3013-3017 and zzMaw-Items.lua:263-293 at corpse pick-up
+    gold_dice: "sqrt(100 L) d sqrt(100 L)"
+    item_chance_percent: 100
+    item_type: "random 1..12"
+    item_level: "lvl/20 + 2 with stochastic rounding, clamped 2..6 (lvl = max(base level, map Low))"
+    rarity: "boss loot flag: rarity mult x2 (BOSS_RARITY_MULT), top-quarter band roll (BOSS_ROLL_DIVISOR 4)"
+    dimension_map_drop_mult: 10               # zzMaw-Maps.lua:874-883
+    crafting_drop_mult: 10                    # zzAlchemy.lua:1155-1157
+  sprite_scale: {indoor: 1.4, outdoor: 2.0, omnipotent_extra: "scale + (scale - 1) x 0.5"}   # :3641-3653
+  data_record: "mapvars.bossData[index] = {Name, NameId, Level, DamageMult, HealthMult, Skills}"
+
+affixes:                                      # SkillList, zzMaw-Monsters.lua:3110 (uniform pick)
+  - name: Summoner
+    trigger: "boss hits a player"             # Modules/MawCore/Damage.lua:1808-1811
+    effect: >-
+      40% chance (always on melee, DamageKind 4): spawn one monster of the boss family halfway between boss and
+      party, tier roll {A 75%, B 25%, C 0%}, hostile, Velocity 350
+  - name: Venomous
+    trigger: "boss hits a player"             # Damage.lua:1812-1813
+    effect: "target gets Poison3 (Game.Time)"
+  - name: Plagueborn
+    trigger: "boss hits a player"             # Damage.lua:1814-1815
+    effect: "target gets Disease3"
+  - name: Fixator
+    # zzMaw-Monsters.lua:3955-3968, zzMAW-Skills.lua:1240-1250, Damage.lua:1816
+    trigger: "target selection and boss hits"
+    effect: "always targets the conscious member with the lowest max HP; Cover cannot intercept; target gets Weak"
+  - name: Exploding
+    trigger: "boss hits a player"             # Damage.lua:1787-1800
+    effect: "the hit is halved; the other half is split evenly over the whole party (through Mana Shield)"
+  - name: Thorn
+    trigger: "player deals melee (DamageKind 4) damage to the boss"   # Damage.lua:912-917
+    effect: "the attacker takes the full dealt damage back as physical; the reflected hit becomes damage^0.85"
+  - name: Reflecting
+    trigger: "player deals non-melee damage to the boss"              # Damage.lua:919-928
+    effect: "the attacker takes the dealt damage back in the same kind (dragon kind 50 -> Energy 12), then ^0.85"
+  - name: Adamantite
+    trigger: "player damages the boss"        # Damage.lua:930-932
+    effect: "damage = round(max(damage - 4 x Level^1.15, damage / 4))"
+  - name: Swapper
+    trigger: "boss hits a player / player damages the boss"   # Damage.lua:1818-1821, 933-941
+    effect: >-
+      on hitting a player: boss and party swap positions and facing. When damaged: for every active, visible,
+      hostile non-boss monster on the map the boss swaps position with it (net: ends at the last one) and the hit
+      is set to 0 (no swap partner -> the hit lands)
+  - name: Regenerating
+    trigger: "every 0.1 s (eliteRegen, zzMaw-Monsters.lua:3585-3602); counter +1 per hit taken (Damage.lua:943-952)"
+    effect: "HP += FullHitPoints x 1% x 0.99^hits / (1 + Level/50) per tick (x elapsed/12.8 in turn-based); -1 = dead"
+  - name: Puller
+    trigger: "boss hits a player"             # Damage.lua:1822-1825
+    effect: "evt.Jump toward the boss (ZAngle 128, Speed 1000)"
+  - name: Leecher
+    trigger: "every 0.5 s (leecher, zzMaw-Monsters.lua:3390-3433)"
+    effect: >-
+      within 1500 units of a living boss: each member with HP >= 1 loses FullHP x 5% x ((1500 - d)/1500)^2
+      (not below 1 HP) and current SP x the same factor; x4 in turn-based mode
+  - name: Swift
+    trigger: "every frame (mawTick_SwiftBosses, zzMaw-Monsters.lua:3442-3467)"
+    effect: "per-frame displacement doubled when it moved < 100 units (position teleporting, not a speed stat)"
+  - name: Shadow
+    trigger: "every 0.5 s buff refresh (zzMaw-Spells.lua:2993-3005)"
+    effect: "Wizard Eye cancelled while a living Shadow (or Omnipotent) boss is within 2000 units"
+
+special:
+  broodlord:
+    chance: "1% x chanceMult per boss, rolled after the affix; not for bosses spawned by a Broodlord"
+    hp_mult: "x1.5 on top of the base boss HP mult"
+    damage_mult: "U(1.5, 1.8), replacing the base U(1.2, 1.4)"
+    on_death: "3 'Broodling' bosses of the same family, C-tier, Velocity 350, radius 256"   # :4105-4122
+  broodling:
+    stats: "a normal boss roll (affix name replaced by Broodling)"
+    on_death: "C broodling -> 3 B broodlings; B -> 3 A broodlings; A -> nothing"
+    item_chance_percent: {C: 30, B: 10, A: 4}                       # zzMaw-Items.lua:270-279
+    dimension_map_and_crafting_drop_mult: "10 / (5 - tier) (tier A=1, B=2, C=3)"
+  omnipotent:
+    chance: "0.1% x chanceMult per boss, rolled after Broodlord (can replace a Broodlord, then HP mult is x1.5 x4)"
+    hp_mult: "x4 on top of the base boss HP mult"
+    damage_mult: "U(2, 2.5), replacing the base roll"
+    affixes: "all 14 at once (every check tests skill == X or Omnipotent; Summoner, Venomous, Plagueborn, Fixator,
+      Swapper and Puller fire together on each hit)"
+    on_death: "one C-tier boss per affix (14) plus 3 Broodlings"    # zzMaw-Monsters.lua:4098-4104
+    loot: "omnipotent drop flag passed to the item roller"
+  chance_mult: {default: 1, doom: 2, insanity: 3, madness: 3}
+  seeded_madness:                             # zzMaw-Monsters.lua:3030-3047, 3115-3235; only with madnessMode
+    seed: "vars.MawBossSeed (os.time() at first use) + sum(byte_i x i over Map.Name) + MapStatsIndex x 7"
+    affix_roll: "x = ((seed + totalBossesSpawned x 31) x 9301 + 49297) % 233280 / 233280; SkillList[floor(x x 14) + 1]"
+    special_rolls: "same LCG with offset +123 (Broodlord) and +456 (Omnipotent)"
+    pity: "pity_chance(0.01 x chanceMult, broodlordPityCounter), pity_chance(0.001 x chanceMult, omnipotentPityCounter);
+      counters +1 per failed boss, reset on success; skipped in d42.blv and on completed maps"
+    broodlord: {hp_mult: "x2", damage_mult: "x1.5 on top of U(1.2, 1.4)"}
+    omnipotent: {hp_mult: "x4", damage_mult: "x2 on top of U(1.2, 1.4)"}
+
+multiplayer: "General/zzBossSync.lua mirrors names/bossSet/bossData from the host; no rules"

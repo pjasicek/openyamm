@@ -32,6 +32,8 @@ struct ActorPathResolveRequest
     size_t nodeLimit = 8000;
     size_t mapRevision = 0;
     float sourceSnapDistance = 0.0f;
+    // PathPlanRequest::goalDistance.
+    float goalDistance = 0.0f;
     float planningRange = 12000.0f;
     float waypointReachDistance = 0.0f;
     double nowSeconds = 0.0;
@@ -52,6 +54,9 @@ struct ActorPathResolveResult
     bool directReachable = false;
     bool pathActive = false;
     bool planned = false;
+    // This call started a new plan: queued it for a worker, or planned it in place without workers. Taking up a
+    // finished plan sets `planned` only.
+    bool requested = false;
     bool failed = false;
     bool cooldown = false;
     bool deferred = false;

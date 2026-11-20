@@ -1,0 +1,22 @@
+# D1's fixed chests (P4's ITEM_PLACEMENT; the integrator's follow-ups 28 and 44): chest A in the Security Office holds
+# the Drone Control Duty Log (11373) with an Engram and two Shield Cells, and the cache on the Power Plant's north
+# catwalk, before Drone Control, two Shield Cells and a Stim. Headless, from output/hesper_stage/scenario_run.
+id: hesper.d01.chests_and_cache
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d01.blv
+- set_pose: {map: hes_d01.blv, x: 9080, y: 4500, z: 0, yaw: 0, pitch: -0.35}
+- press_interact: {}
+- assert:
+    chest_contains_quest_item: {chest_id: 0, item_id: 11373}
+- assert:
+    chest_contains_quest_item: {chest_id: 0, item_id: 11331}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d01.blv, x: 4830, y: 3200, z: -768, yaw: 0, pitch: -0.35}
+- press_interact: {}
+- assert:
+    chest_contains_quest_item: {chest_id: 6, item_id: 11302}
+- assert:
+    chest_contains_quest_item: {chest_id: 6, item_id: 11300}

@@ -1,0 +1,120 @@
+# D4 mechanics; the outdoor round trip remains separate until out2_build.json exists.
+id: hesper.d04.main_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d04.blv
+    party:
+      members:
+      # This is a control/persistence test, not a combat-balance run; survive the unavoidable AI update ticks.
+      - {name: Ada, class: Knight, level: 200, skills: [{name: Hacking, level: 1, mastery: 1}], equipment: {}}
+      - {name: Bram, class: Knight, level: 200, skills: [], equipment: {}}
+      - {name: Cyra, class: Knight, level: 200, skills: [{name: Hacking, level: 1, mastery: 1}], equipment: {}}
+      - {name: Dana, class: Knight, level: 200, skills: [], equipment: {}}
+      - {name: Eli, class: Knight, level: 200, skills: [{name: Hacking, level: 1, mastery: 1}], equipment: {}}
+- assert: {actor_visible: {actor_index: 7, hostile_to_party: false}}
+- assert: {actor_visible: {actor_index: 20, hostile_to_party: true}}
+- save_game: d04_resting
+- load_game: d04_resting
+- assert: {actor_visible: {actor_index: 7, hostile_to_party: false}}
+- damage_actor: {actor_index: 7, amount: 1}
+- assert: {actor_visible: {actor_index: 8, hostile_to_party: true}}
+- set_pose: {map: hes_d04.blv, x: 4420, y: 3250, z: -512, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {kind: indoor_door, id: 53, state: open}}}
+- set_pose: {map: hes_d04.blv, x: 6880, y: 3250, z: -512, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {kind: indoor_door, id: 54, state: open}}}
+- set_pose: {map: hes_d04.blv, x: 7300, y: 3400, z: -512, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {qbit_set: [100025]}
+- press_action: {action: cancel_dialog}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {kind: indoor_door, id: 56, state: open}}}
+- set_pose: {map: hes_d04.blv, x: 7928, y: 2870, z: -512, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {kind: indoor_door, id: 55, state: open}}}
+- set_pose: {map: hes_d04.blv, x: 8600, y: 1050, z: -512, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {qbit_set: [100026]}
+- press_action: {action: cancel_dialog}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {kind: indoor_door, id: 57, state: open}}}
+- movement_segment:
+    input: forward
+    duration_ms: 500
+    delta_game_minutes: 0
+    start: {map: hes_d04.blv, x: 2900, y: 1090, z: -512, yaw: -1.5707963, pitch: 0}
+    expect_stop: {map: hes_d04.blv, x: 2900, y: 760, z: -512, yaw: -1.5707963, pitch: 0}
+    tolerance_xy: 150
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- assert: {state_dump_map_var: {index: 4, value: 1}}
+- movement_segment:
+    input: forward
+    duration_ms: 1500
+    delta_game_minutes: 0
+    start: {map: hes_d04.blv, x: 800, y: -100, z: -512, yaw: 1.5707963, pitch: 0}
+    expect_stop: {map: hes_d04.blv, x: 800, y: 1000, z: 0, yaw: 1.5707963, pitch: 0}
+    tolerance_xy: 250
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- set_pose: {map: hes_d04.blv, x: 3580, y: 700, z: 0, yaw: 0, pitch: 0}
+- press_interact: {}
+- answer_input: {text: 'Yes'}
+- assert: {qbit_set: [100027, 100720]}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 0.1}
+- assert: {actor_visible: {actor_index: 37, hostile_to_party: false}}
+- wait_until: {timeout_runtime_seconds: 2, assert: {mechanism: {kind: indoor_door, id: 59, state: open}}}
+- damage_actor: {actor_index: 36, amount: 100000, tier: kreegan_energy}
+- damage_actor: {actor_index: 36, amount: 100000, tier: kreegan_energy}
+- advance_runtime: {seconds: 3}
+- assert: {actor_visible: {actor_index: 36, dead: true, hp: 0}}
+- assert: {qbit_set: [100430]}
+- assert: {world_item_state: {item_id: 11483, present: true}}
+- assert: {world_item_state: {item_id: 11024, present: true}}
+- set_pose: {map: hes_d04.blv, x: 4900, y: 300, z: -512, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- movement_segment:
+    input: none
+    duration_ms: 5000
+    delta_game_minutes: 0
+    start: {map: hes_d04.blv, x: 4900, y: 300, z: -512, yaw: 1.5707963, pitch: 0}
+    expect_stop: {map: hes_d04.blv, x: 4900, y: 300, z: -1280, yaw: 1.5707963, pitch: 0}
+    tolerance_xy: 30
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- wait_until: {timeout_runtime_seconds: 5, assert: {mechanism: {kind: indoor_door, id: 60, state: open}}}
+- set_pose: {map: hes_d04.blv, x: 5300, y: -300, z: -1280, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 5, assert: {mechanism: {kind: indoor_door, id: 60, state: closed}}}
+- set_pose: {map: hes_d04.blv, x: 7400, y: 300, z: -512, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- movement_segment:
+    input: none
+    duration_ms: 5000
+    delta_game_minutes: 0
+    start: {map: hes_d04.blv, x: 7400, y: 300, z: -512, yaw: -1.5707963, pitch: 0}
+    expect_stop: {map: hes_d04.blv, x: 7400, y: 300, z: -1280, yaw: -1.5707963, pitch: 0}
+    tolerance_xy: 30
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- wait_until: {timeout_runtime_seconds: 5, assert: {mechanism: {kind: indoor_door, id: 61, state: open}}}
+- set_pose: {map: hes_d04.blv, x: 7400, y: -300, z: -1280, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 5, assert: {mechanism: {kind: indoor_door, id: 61, state: closed}}}
+- set_pose: {map: hes_d04.blv, x: 7700, y: -1200, z: -1280, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until: {timeout_runtime_seconds: 3, assert: {mechanism: {kind: indoor_door, id: 58, state: open}}}
+- save_game: d04_freed
+- load_game: d04_freed
+- assert: {qbit_set: [100025, 100026, 100027, 100430]}
+- save_game: d04_freed_reloaded

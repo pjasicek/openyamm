@@ -51,7 +51,7 @@ std::vector<float> blurred(const std::vector<float> &values, float sigma)
 }
 
 // Distance in cells from every corner to the nearest corner touching a water cell (two-pass 3-4 chamfer).
-std::vector<float> waterDistance(const OutdoorMapData &map)
+std::vector<float> waterDistance(const std::vector<uint8_t> &waterCells)
 {
     constexpr float Far = 1.0e6f;
     std::vector<float> distance(size_t(Side) * Side, Far);
@@ -59,9 +59,7 @@ std::vector<float> waterDistance(const OutdoorMapData &map)
     {
         for (int x = 0; x + 1 < Side; ++x)
         {
-            const float centerX = outdoorGridCornerWorldX(x) + 0.5f * OutdoorMapData::TerrainTileSize;
-            const float centerY = outdoorGridCornerWorldY(y) - 0.5f * OutdoorMapData::TerrainTileSize;
-            if (isOutdoorTerrainWater(map, centerX, centerY))
+            if (waterCells[size_t(y) * Side + x] != 0)
             {
                 for (int corner = 0; corner < 4; ++corner)
                 {
@@ -136,24 +134,40 @@ float OutdoorMeadowField::sample(float x, float y) const
 
 OutdoorMeadowField buildOutdoorMeadowField(const OutdoorMapData &map)
 {
-    OutdoorMeadowField field;
     if (map.noTerrain || map.heightMap.size() != size_t(Side) * Side)
     {
-        return field;
+        return {};
     }
     std::vector<float> heights(size_t(Side) * Side);
+    std::vector<uint8_t> waterCells(size_t(Side) * Side, 0);
     for (int y = 0; y < Side; ++y)
     {
         for (int x = 0; x < Side; ++x)
         {
             heights[size_t(y) * Side + x] = outdoorNativeTerrainHeight(map, float(x), float(y));
+            if (x + 1 < Side && y + 1 < Side)
+            {
+                const float centerX = outdoorGridCornerWorldX(x) + 0.5f * OutdoorMapData::TerrainTileSize;
+                const float centerY = outdoorGridCornerWorldY(y) - 0.5f * OutdoorMapData::TerrainTileSize;
+                waterCells[size_t(y) * Side + x] = isOutdoorTerrainWater(map, centerX, centerY) ? 1 : 0;
+            }
         }
+    }
+    return buildMeadowField(heights, waterCells);
+}
+
+OutdoorMeadowField buildMeadowField(const std::vector<float> &heights, const std::vector<uint8_t> &waterCells)
+{
+    OutdoorMeadowField field;
+    if (heights.size() != size_t(Side) * Side || waterCells.size() != heights.size())
+    {
+        return field;
     }
     // Relief against the surroundings at two scales: a knoll (about 1.5 cells) and a whole hill (about 5).
     const std::vector<float> near = blurred(heights, 3.0f);
     const std::vector<float> wide = blurred(heights, 10.0f);
     const std::vector<float> smooth = blurred(heights, 1.0f);
-    const std::vector<float> water = waterDistance(map);
+    const std::vector<float> water = waterDistance(waterCells);
     std::vector<float> values(heights.size());
     for (int y = 0; y < Side; ++y)
     {

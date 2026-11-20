@@ -1,0 +1,34 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint-only game texture view atlas.\nEdit target: guide_atlas.png (grey five-view sheet). Material/detail reference: design_reference.png. Colour reference: icon_x8.png (magenta is background, never paint magenta).\nOutput ONE 1536x1024 RGBA PNG, transparent background. Preserve the guide's exact 3-column x 2-row layout of 512x512 cells: FRONT, BACK, LEFT on first row; RIGHT, TOP, empty on second row. Paint only the existing grey object pixels, keeping every object in exactly its original position, size, orthographic projection and outline. Never redraw, enlarge, move or redesign geometry. Keep all gaps/openings and the bottom-right cell fully transparent.\nObject is an oval cushion-cut gemstone with many facets, flat top table and pointed faceted underside, lying on ground. Paint unlit base colour: fiery orange-red faceted topaz, rich red-orange rims and yellow-orange glowing colour in the middle of every facet. Match the master's internal fiery swirls and fine mineral detail scaled to each view. Facets and any reference details follow the reference while obeying guide geometry. The internal bright colours are material colour only.\nNo lighting, cast shadows, ambient occlusion, hot highlights, reflections, white specular glints, glow halo, sparkles or aura outside silhouette. No ground, outlines, text or labels. Preserve exact guide silhouettes and positions, including the four thin side views and single oval top view.\nCORRECTION, STRICT: Previous attempt widened silhouettes and added a background. Start from the original guide, preserve its alpha mask exactly. Background must be alpha=0 everywhere outside the original grey shapes, with absolutely NO halo. Front bounding box x77..434 y177..334, back x589..946 y177..334, left x1057..1502 y177..334, right x33..478 y689..846, top x589..946 y545..990 on 1536x1024 canvas. These silhouettes are immutable. Side views have small FLAT truncated bottom tips, not sharp points. Top view has the exact guide oval polygon outline. Only recolour pixels INSIDE these regions. No white highlights: orange, red and yellow-orange mineral base colours only.",
+  "initial_prompt": "Use case: precise-object-edit. Paint-only game texture view atlas.\nEdit target: guide_atlas.png (grey five-view sheet). Material/detail reference: design_reference.png. Colour reference: icon_x8.png (magenta is background, never paint magenta).\nOutput ONE 1536x1024 RGBA PNG, transparent background. Preserve the guide's exact 3-column x 2-row layout of 512x512 cells: FRONT, BACK, LEFT on first row; RIGHT, TOP, empty on second row. Paint only the existing grey object pixels, keeping every object in exactly its original position, size, orthographic projection and outline. Never redraw, enlarge, move or redesign geometry. Keep all gaps/openings and the bottom-right cell fully transparent.\nObject is an oval cushion-cut gemstone with many facets, flat top table and pointed faceted underside, lying on ground. Paint unlit base colour: fiery orange-red faceted topaz, rich red-orange rims and yellow-orange glowing colour in the middle of every facet. Match the master's internal fiery swirls and fine mineral detail scaled to each view. Facets and any reference details follow the reference while obeying guide geometry. The internal bright colours are material colour only.\nNo lighting, cast shadows, ambient occlusion, hot highlights, reflections, white specular glints, glow halo, sparkles or aura outside silhouette. No ground, outlines, text or labels. Preserve exact guide silhouettes and positions, including the four thin side views and single oval top view.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce3-5775-7a10-a557-0e35b8d027a6/exec-c916f40b-6912-43e7-99d5-18c85c63afb0.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem02/paint_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem02/guide_atlas.png",
+      "sha256": "584b0b47380371c5ad54b9a40b061d83854e6f8fb4ed84fa4a29b326f79d36da"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem02/design_reference.png",
+      "sha256": "31c06e1f4755a1d9bafcc8d587b68223e3e5c02585050ce8d09aeaba56c425f7"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem02/icon_x8.png",
+      "sha256": "9538316c36175846d9e7c048d961669769b4ae9aa6fceca3511edd9e4f31d0c7"
+    }
+  ],
+  "size": [
+    1536,
+    1024
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "limitations": "Corrective output still visibly contains exterior glow/background and highlights; does not fully meet transparent unlit brief. Raw tool output preserved without postprocessing."
+  }
+}

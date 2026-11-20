@@ -3,14 +3,17 @@
 // decisions; this tool only executes them.
 //   openyamm_model_texture_cook <jobs.tsv>     one job per line, tab-separated:
 //       input.png  output.oytex  codec  semantic(linear|srgb|normal)  alpha_cutoff  mips(0|1)  max_size
-//       linear_channels(0|1)  source_hash(hex)  [kind(model|surface|ui|ui_atlas|effect_atlas|terrain_material)]
+//       linear_channels(0|1)  source_hash(hex)  [kind(model|surface|ui|ui_atlas|effect_atlas|terrain_material)
+//       [mip_sharpening]]
+//     A model job with mip_sharpening (a strength > 0, colour and linear semantics only) sharpens its mips below the
+//     first like terrain materials, with clamped neighbours (atlases do not tile) and alpha left as filtered.
 //     A surface job (world BLV/ODM face texture, PNG or BMP) decodes as the map loader does: the magenta colour key
 //     becomes transparent, and the source size is kept exactly (UVs depend on it); a non-power-of-two surface fails.
 //     A ui job (HUD art) decodes and edge-bleeds as the HUD does and pads by edge replication, to whole 4x4 blocks
 //     (power-of-two sides when mipped), recording the content size. A ui_atlas job's input lists frames (see buildUiAtlas), packed into block-aligned cells of one texture.
 //     An effect_atlas job's input lists effect sprite frames (see buildEffectAtlas), packed as the effect renderer packs
 //     them at load and edge-bled as its Billboard upload does.
-//     A terrain_material job decodes as a model texture and sharpens its tiling mips (sharpenTileableMips).
+//     A terrain_material job decodes as a model texture and sharpens its tiling mips (sharpenMips).
 //   openyamm_model_texture_cook --verify <file.oytex>...   prints each file's header (path, codec, semantic, cutoff,
 //       width, height, levels, source hash, alpha use or "-" for version 1); fails on any invalid file
 //   openyamm_model_texture_cook --preview <in.oytex> <out.rgba> [level]   decodes one mip level (default the
@@ -72,6 +75,7 @@ struct Job
     bool linearChannels = false;
     uint64_t sourceHash = 0;
     JobKind kind = JobKind::Model;
+    float mipSharpening = 0.0f;
 };
 
 std::vector<uint8_t> read(const std::filesystem::path &path)
@@ -153,18 +157,18 @@ std::vector<Job> parseJobs(const std::filesystem::path &path)
         {
             fields.push_back(field);
         }
-        if (fields.size() != 9 && fields.size() != 10)
+        if (fields.size() < 9 || fields.size() > 11)
         {
-            throw std::runtime_error("Job needs nine or ten tab-separated fields: " + line);
+            throw std::runtime_error("Job needs nine to eleven tab-separated fields: " + line);
         }
         static const std::array<std::pair<std::string_view, JobKind>, 6> kinds = {{{"model", JobKind::Model},
             {"surface", JobKind::Surface}, {"ui", JobKind::Ui}, {"ui_atlas", JobKind::UiAtlas},
             {"effect_atlas", JobKind::EffectAtlas}, {"terrain_material", JobKind::TerrainMaterial}}};
         const auto kind = std::find_if(kinds.begin(), kinds.end(), [&](const auto &entry)
         {
-            return fields.size() == 10 && entry.first == fields[9];
+            return fields.size() >= 10 && entry.first == fields[9];
         });
-        if (fields.size() == 10 && kind == kinds.end())
+        if (fields.size() >= 10 && kind == kinds.end())
         {
             throw std::runtime_error("Unknown job kind: " + fields[9]);
         }
@@ -184,6 +188,16 @@ std::vector<Job> parseJobs(const std::filesystem::path &path)
         job.linearChannels = fields[7] == "1";
         job.sourceHash = std::stoull(fields[8], nullptr, 16);
         job.kind = kind == kinds.end() ? JobKind::Model : kind->second;
+        if (fields.size() == 11)
+        {
+            job.mipSharpening = std::stof(fields[10]);
+            if (job.kind != JobKind::Model || job.semantic == Engine::ImageMipSemantic::Normal
+                || !(job.mipSharpening > 0.0f && job.mipSharpening <= 4.0f))
+            {
+                throw std::runtime_error("Mip sharpening needs a colour or linear model job and a strength in (0, 4]: "
+                    + line);
+            }
+        }
         if (job.maxSize < 1 || job.maxSize > Engine::CookedTextureSizeLimit)
         {
             throw std::runtime_error("Invalid max size in job: " + line);
@@ -457,17 +471,17 @@ Engine::ImagePixelsBgra buildEffectAtlas(const std::filesystem::path &listPath)
     return atlas;
 }
 
-// Terrain material mips keep the contrast of fine detail at a distance: seen at a grazing angle, the ground uses levels
-// a few steps down, where a plain average flattens cracks and pebbles into their mean colour. Each level below the
-// first gets an unsharp mask over its wrapped neighbours (the materials tile), in the semantic's filtering space.
-// prepareBgraMipChain built every level from the unsharpened one above, so the sharpening never compounds.
-void sharpenTileableMips(std::vector<Engine::BgraMipLevel> &chain, Engine::ImageMipSemantic semantic)
+// Mips that keep the contrast of fine detail at a distance: seen from afar or at a grazing angle, a surface uses levels
+// a few steps down, where a plain average flattens cracks, pebbles, scales and cloth folds into their mean colour. Each
+// level below the first gets an unsharp mask (strength x the difference from the 3x3 mean), in the semantic's
+// filtering space. Terrain materials tile, so their neighbours wrap; model atlases clamp at the image edge and keep
+// their filtered alpha (cutout coverage). prepareBgraMipChain built every level from the unsharpened one above, so the
+// sharpening never compounds.
+void sharpenMips(std::vector<Engine::BgraMipLevel> &chain, Engine::ImageMipSemantic semantic, float strength,
+    bool tileable)
 {
-    // Strength 3 kept the most detail but shimmered at mid range while moving: the sharpened heights and normals feed
-    // the shader's height blends and relighting. 1 keeps about three quarters of that detail with 40 % less aliasing
-    // (level_generation/terrain/materials/README.md, "Sharpened mips").
-    constexpr float Strength = 1.0f;
     const bool srgb = semantic == Engine::ImageMipSemantic::Srgb;
+    const size_t channels = tileable ? 4 : 3;
     for (size_t level = 1; level < chain.size(); ++level)
     {
         Engine::BgraMipLevel &mip = chain[level];
@@ -487,12 +501,12 @@ void sharpenTileableMips(std::vector<Engine::BgraMipLevel> &chain, Engine::Image
         {
             for (int x = 0; x < width; ++x)
             {
-                for (size_t channel = 0; channel < 4; ++channel)
+                for (size_t channel = 0; channel < channels; ++channel)
                 {
                     const auto at = [&](int dx, int dy)
                     {
-                        const int column = (x + dx + width) % width;
-                        const int row = (y + dy + height) % height;
+                        const int column = tileable ? (x + dx + width) % width : std::clamp(x + dx, 0, width - 1);
+                        const int row = tileable ? (y + dy + height) % height : std::clamp(y + dy, 0, height - 1);
                         return values[(size_t(row) * width + column) * 4 + channel];
                     };
                     float neighbours = 0.0f;
@@ -504,7 +518,7 @@ void sharpenTileableMips(std::vector<Engine::BgraMipLevel> &chain, Engine::Image
                         }
                     }
                     const float centre = at(0, 0);
-                    float value = std::clamp(centre + Strength * (centre - neighbours / 9.0f), 0.0f, 1.0f);
+                    float value = std::clamp(centre + strength * (centre - neighbours / 9.0f), 0.0f, 1.0f);
                     if (srgb && channel < 3)
                     {
                         value = Engine::linearToSrgb(value);
@@ -571,7 +585,14 @@ size_t cook(const Job &job)
         uint16_t(decoded.height), decoded.pixels, job.alphaCutoff, job.semantic);
     if (job.kind == JobKind::TerrainMaterial)
     {
-        sharpenTileableMips(chain, job.semantic);
+        // Strength 3 kept the most detail but shimmered at mid range while moving: the sharpened heights and normals
+        // feed the shader's height blends and relighting. 1 keeps about three quarters of that detail with 40 % less
+        // aliasing (level_generation/terrain/materials/README.md, "Sharpened mips").
+        sharpenMips(chain, job.semantic, 1.0f, true);
+    }
+    else if (job.mipSharpening > 0.0f)
+    {
+        sharpenMips(chain, job.semantic, job.mipSharpening, false);
     }
     const auto first = std::find_if(chain.begin(), chain.end(), [&](const Engine::BgraMipLevel &level)
     {
@@ -896,7 +917,8 @@ int main(int argc, char **argv)
                     {
                         const size_t bytes = cook(jobs[index]);
                         const std::lock_guard lock(output);
-                        std::cout << "cooked\t" << jobs[index].output.string() << '\t' << bytes << '\n';
+                        // Flushed per texture: tools/cook_models.py shows progress from these lines.
+                        std::cout << "cooked\t" << jobs[index].output.string() << '\t' << bytes << '\n' << std::flush;
                     }
                     catch (const std::exception &exception)
                     {

@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Pinched Gauntlets (7item110). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single olive-bronze long gauntlet, four joined straight fingers and bent thumb, narrow wrist, flared cuff with a vertical row of gold studs. Exact material boundaries: Bronze plates on hand back, finger backs, cuff and rivets are METAL RED. Palm, flexible finger joints and inner cuff lining are LEATHER GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item110/inputs/guide_mask.png",
+  "input_guide_sha256": "b95fed8da8feefba65476c8c5af376fa037f9ff8fc268abc5ca4117f87b5ea77",
+  "revision": 1,
+  "input_icon": "7item110",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-0b1bea87-dbbd-425a-9eda-3e024fe19447.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "895c090cb34641b1013775c3ef27d490cf676675e7c0ff7c52e9e949adaff5e4",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item110.png",
+  "input_icon_sha256": "ccdac02979de03ae7fd0b49a4d3cf776adc7d6a789e5353496fab3686d219e83",
+  "active_bytes_match": false,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

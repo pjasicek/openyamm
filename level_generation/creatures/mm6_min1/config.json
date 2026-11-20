@@ -1,0 +1,22 @@
+{
+  "family": "min1",
+  "title": "MM6 Minotaur",
+  "descriptor_ids": [
+    580,
+    581,
+    582
+  ],
+  "base_palette": 771,
+  "mask_kind": "blue",
+  "description": "MM6 large muscular brown-furred bull-headed minotaur, long dark bovine muzzle, short curved pale horns, red eyes, gold nose ring, heavy engraved gold necklace and arm/wrist bands, brown furry bare chest and upper arms. Deep blue ragged waist skirt, heavy gold belt and calf guards over brown furry legs, dark cloven hooves. Holds the native enormous double-bladed pale silver axe with ornate gold engraving and brown wooden shaft diagonally across the body. Preserve exact axe grip, horns, muscular body proportions and native darker fur. No added armor, weapons, straps or redesign.",
+  "regions": "Blue waist skirt changes palette. Brown fur, gold jewelry/guards, pale metal axe, wooden handle and red eyes stay protected.",
+  "variant_names": {
+    "771": "MM6 Minotaur 1",
+    "772": "MM6 Minotaur 2",
+    "773": "MM6 Minotaur 3"
+  },
+  "material_mask_channels": 1,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py"
+}

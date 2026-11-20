@@ -1,0 +1,24 @@
+ston2cv4ks ACCEPT
+beams1v9u9 ACCEPT
+host317tuh ACCEPT
+colux2avfx ACCEPT
+stonpedfr2 ACCEPT
+goodx0snx9 ACCEPT # rim bottom: the native's own row of dark blocks along the bottom edge, reproduced
+karhhct6fu ACCEPT
+chatdood7j ACCEPT
+drdouyat5q ACCEPT # seam u/rim right: a door, the outer stiles meet at the u joint as in the native; leaf joint at the centre column, windows (2x4 panes), handles and hinges symmetric as in the native; slightly less red than the native (saturation -10 %), borderline
+arsehi74d9 ACCEPT
+thjova2wd7 ACCEPT # alpha/layout flags: the bars and scrolls lie within 4 px of the native's (98 %); the flag comes from the glass alpha (about 0.43 against the native's 0.15) and the native bars' alpha sitting at 127, so give the accepted master the native alpha (alpha-from-native, smooth) rather than regenerating
+pill92bjug ACCEPT # rim right: the native's half rope column at the left/right edges joins into a full twisted rope at the u joint
+cobb88lwbz RETRY roll=- note="keep the stones as squarish flat brown-grey paving blocks set into the ground at the native positions, with the grass the native's muted olive rather than vivid green" # colour flag: grass saturation +15 %, squared paving blocks became rounded blue-grey rocks; the green/dry step at the u joint is in the native too
+woodqa002d ACCEPT
+roofmqfcvw ACCEPT # colour flag: mean colour within 8 levels of the native, same two staggered tile rows; the gain flag comes from the darker gaps between tiles
+woodxqjuim ACCEPT
+thjo67d3jx RETRY roll=- note="keep the item grid exactly on the native's quarters: three item rows each one quarter of the height with dark divider lines at 1/4, 1/2 and 3/4, the plank strip filling the bottom quarter, and no extra plank line near the bottom edge" # shift +9 px / layout 0.46: the item rows sit about 10/256 higher than the native's, the top row is shortened and an extra plank strip appears along the bottom edge
+celt1qw2pn RETRY roll=- note="keep the verdigris border around the copper panel a dull grey-teal as in the native, not bright turquoise" # the border is far more saturated cyan than the native (edge mean 83,146,164 vs 109,133,139)
+ps6trcfk7q ACCEPT # seam v: the native's own cornice along the top edge meets the plaster at the bottom edge; no step beyond the native's
+stonb5urrt ACCEPT
+thjoe5db76 RETRY roll=- note="keep the stones the native's dark grey-green with an olive tint, without the blue-teal cast" # hue shifted about 17 degrees toward teal and more saturated than the native
+tape1b0xy7 ACCEPT
+extwb6wxjc ACCEPT
+door03pbhl ACCEPT # rim bottom: the native's own bottom frame rail; grille, two straps, ring, bolt and hinge plates at the native positions

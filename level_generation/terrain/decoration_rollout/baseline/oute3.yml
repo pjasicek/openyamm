@@ -1,0 +1,296 @@
+version: 1
+seed: 6127
+distance: 6144
+minimum_normal_z: 0.88
+density_variation: 0.8
+patch_size: 768
+tall_grass_chance: 0.08
+tall_grass_scale: 1.8
+tuft_texture: grass_variants.png
+tuft_atlas_grid:
+- 2
+- 2
+tuft_variants:
+- weight: 45
+  width_scale: 1.0
+  height_scale: 1.0
+- weight: 35
+  width_scale: 1.0
+  height_scale: 0.9
+- weight: 15
+  width_scale: 1.0
+  height_scale: 1.35
+- weight: 5
+  width_scale: 0.85
+  height_scale: 0.85
+rules:
+- texture: 6grastyl
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+- texture: 6dirttyl
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+- texture: 6grdrte
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrte.png
+- texture: 6grdrte
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrte.png
+  invert_mask: true
+- texture: 6grdrtn
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtn.png
+- texture: 6grdrtn
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtn.png
+  invert_mask: true
+- texture: 6grdrtne
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtne.png
+- texture: 6grdrtne
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtne.png
+  invert_mask: true
+- texture: 6grdrtnw
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtnw.png
+- texture: 6grdrtnw
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtnw.png
+  invert_mask: true
+- texture: 6grdrts
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrts.png
+- texture: 6grdrts
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrts.png
+  invert_mask: true
+- texture: 6grdrtse
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtse.png
+- texture: 6grdrtse
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtse.png
+  invert_mask: true
+- texture: 6grdrtsw
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtsw.png
+- texture: 6grdrtsw
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtsw.png
+  invert_mask: true
+- texture: 6grdrtw
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtw.png
+- texture: 6grdrtw
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtw.png
+  invert_mask: true
+- texture: 6grdrtxne
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxne.png
+- texture: 6grdrtxne
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtxne.png
+  invert_mask: true
+- texture: 6grdrtxnw
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxnw.png
+- texture: 6grdrtxnw
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtxnw.png
+  invert_mask: true
+- texture: 6grdrtxse
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxse.png
+- texture: 6grdrtxse
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtxse.png
+  invert_mask: true
+- texture: 6grdrtxsw
+  kind: grass
+  candidates: 50
+  width: 40
+  height: 30
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxsw.png
+- texture: 6grdrtxsw
+  kind: stone
+  candidates: 10
+  width: 12
+  height: 4
+  tint:
+  - 0.65
+  - 0.43
+  - 0.29
+  mask: masks/6grdrtxsw.png
+  invert_mask: true

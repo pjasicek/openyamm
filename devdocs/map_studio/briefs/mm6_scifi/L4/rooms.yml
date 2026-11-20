@@ -1,0 +1,3109 @@
+format: 0
+themes:
+  - id: theme:swaled_swfloor2b_swankdk
+    wall: {texture: swaled, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+  - id: theme:swaled_swfloor2b_swfloor5a
+    wall: {texture: swaled, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swfloor5a, size: [128, 128]}
+    notes: "Round six: the locked room door's recess on the room's side (faces 891, 892, 1351, 1352)."
+  - id: theme:swaled_swfloor2b_swll5dk
+    wall: {texture: swaled, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+  - id: theme:swall1_swfloor2b_swfloor5a
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swfloor5a, size: [128, 128]}
+    reveal: {texture: swr4dk, size: [64, 64]}
+    notes: "Round six: the locked room door's recess on the meeting hall's side (faces 894, 895, 1349, 1350; the jamb and the leaf's edge swr4dk, faces 893, 1173)."
+  - id: theme:swall1_swfloor2b_swgirder
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+  - id: theme:swall1_swfloor2b_swll5dk
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+  - id: theme:swall1_swfloor2b_swqur3
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swqur3, size: [256, 256]}
+  - id: theme:swall1_swfloor2b_swrdk2
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swrdk2, size: [128, 128]}
+  - id: theme:swall1_swfloor2b_swwala
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swwala, size: [256, 256]}
+  - id: theme:swall1_swfloor2b_swwala_frame
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swwala, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "Round six: the H-shaped room's and the panel room's door frames are swgirder at their sides, as the original's (faces 1179 to 1183, 1209 to 1213)."
+  - id: theme:swall2_swfloor2b_swflorb
+    wall: {texture: swall2, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swflorb, size: [128, 128]}
+  - id: theme:swall2_swfloor2b_swgirder
+    wall: {texture: swall2, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+  - id: theme:swall2_swfloor5a_swankdk
+    wall: {texture: swall2, size: [128, 256]}
+    floor: {texture: swfloor5a, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+  - id: theme:swall2_swfloor5a_swgirder
+    wall: {texture: swall2, size: [128, 256]}
+    floor: {texture: swfloor5a, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+  - id: theme:swall3_swfloor2b_swll5dk
+    wall: {texture: swall3, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+  - id: theme:swall3_swfloor2b_swwala
+    wall: {texture: swall3, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swwala, size: [256, 256]}
+  - id: theme:swall4_swfloor2b_swgirder
+    wall: {texture: swall4, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+  - id: theme:swall4_swfloor2b_swgirder_frame
+    wall: {texture: swall4, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "Round six: the east store's door frame is swgirder at its sides, as the original's (faces 633, 644, 1139, 1140)."
+  - id: theme:swall4_swrdk_swdoorc
+    wall: {texture: swall4, size: [128, 256]}
+    floor: {texture: swrdk, size: [128, 128]}
+    ceiling: {texture: swdoorc, size: [128, 256]}
+  - id: theme:swall5_swfloor2b_swankdk
+    wall: {texture: swall5, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+  - id: theme:swall5_swfloor2b_swwala
+    wall: {texture: swall5, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swwala, size: [256, 256]}
+  - id: theme:swankdk_swfloor2b_swwala
+    wall: {texture: swankdk, size: [128, 128]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swwala, size: [256, 256]}
+  - id: theme:swgirder_swfloor2b_swankdk
+    wall: {texture: swgirder, size: [64, 64]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+  - id: theme:swll2dk_swfloor2b_swll5dk
+    wall: {texture: swll2dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+  - id: theme:swll4dk_swfloor2b_swankdk
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+  - id: theme:swll4dk_swfloor2b_swankdk_bay
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+    reveal: {texture: swankdk, size: [128, 128]}
+    notes: "Round five: the north-east gallery's window bay is swankdk at its sides and top."
+  - id: theme:swll4dk_swfloor2b_swceilf
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swankdk, size: [128, 128]}
+    notes: "Round six: the corridor below the gate slab, under a swceilf ceiling (faces 571, 2732), the slab's jambs swankdk (faces 751, 752)."
+  - id: theme:swll4dk_swfloor2b_swfloor5a
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swfloor5a, size: [128, 128]}
+  - id: theme:swll4dk_swfloor2b_swfloor6
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swfloor6, size: [256, 256]}
+  - id: theme:swll4dk_swfloor2b_swflora
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swflora, size: [256, 256]}
+  - id: theme:swll4dk_swfloor2b_swgirder
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+  - id: theme:swll4dk_swfloor2b_swll4dk
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll4dk, size: [128, 256]}
+  - id: theme:swll4dk_swfloor2b_swll5dk
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+  - id: theme:swll4dk_swfloor2b_swll5dk_bay
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+    reveal: {texture: swankdk, size: [128, 128]}
+    notes: "Round five: the south-east gallery's window bay is swankdk at its sides and top."
+  - id: theme:swll4dk_swfloor2b_swll5dk_frame
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "Round six: the repair bay's door frame is swgirder at its sides, as the original's (faces 1226 to 1230)."
+  - id: theme:swll4dk_swfloor2b_swr4dk
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swr4dk, size: [64, 64]}
+    reveal: {texture: swr4dk, size: [64, 64]}
+    notes: "Round six: the west porch door's recess on the hall side (sector 1, faces 1283, 1341 to 1343, 1675 to 1678)."
+  - id: theme:swll4dk_swfloor2b_swrt3dk
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swrt3dk, size: [64, 64]}
+  - id: theme:swll4dk_swfloor2b_swwala
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swwala, size: [256, 256]}
+  - id: theme:swll4dk_swfloor5a_swankdk
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor5a, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+  - id: theme:swll4dk_swfloor5a_swgirder
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor5a, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+  - id: theme:swll4dk_swflorc_swcirc2
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swflorc, size: [256, 256]}
+    ceiling: {texture: swcirc2, size: [256, 256]}
+  - id: theme:swll4dk_swrdk2_swankdk
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swrdk2, size: [128, 128]}
+    ceiling: {texture: swankdk, size: [128, 128]}
+  - id: theme:swll4dk_swrdk2_swflorb
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swrdk2, size: [128, 128]}
+    ceiling: {texture: swflorb, size: [128, 128]}
+  - id: theme:swll5dk_swfloor2b_swfloor2b
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swfloor2b, size: [128, 128]}
+    reveal: {texture: swll4dk, size: [128, 256]}
+  - id: theme:swll5dk_swfloor2b_swll5dk
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swll5dk, size: [128, 256]}
+  - id: theme:swll5dk_swrdk2_swcirc2
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swrdk2, size: [128, 128]}
+    ceiling: {texture: swcirc2, size: [256, 256]}
+  - id: theme:swtrdk_swfloor2b_swrt3dk
+    wall: {texture: swtrdk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swrt3dk, size: [64, 64]}
+  - id: theme:swtrpnl_swfloor2b_swgirder
+    wall: {texture: swtrpnl, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swgirder, size: [64, 64]}
+defaults: {theme: theme:swaled_swfloor2b_swankdk, ambient: 21}
+rooms:
+  - id: room:hall_lower
+    name: "Reactor hall, lower level"
+    outline: [[-1186, -3544], [0, -3544], [0, -3151], [768, -3151], [768, -3544], [1975, -3544], [3556, -1965], [3556, -768], [3168, -768], [3168, 0], [3556, 0], [3556, 1197], [1975, 2777], [768, 2777], [768, 2383], [0, 2383], [0, 2777], [-1186, 2777], [-2767, 1197], [-2767, 0], [-2371, 0], [-2371, -768], [-2767, -768], [-2767, -1965]]
+    floor: 0
+    ceiling: 768
+    theme: theme:swll4dk_swflorc_swcirc2
+    walls:
+      - wall: 1
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 2
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 3
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 7
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 8
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 9
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 13
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 14
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 15
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 19
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 20
+        surface: {texture: swall5, size: [128, 256]}
+      - wall: 21
+        surface: {texture: swall5, size: [128, 256]}
+    pillars:
+      - {surface: {texture: swall5, size: [128, 256]}, outline: [[-384, -768], [0, -768], [0, -1175], [768, -1175], [768, -768], [1163, -768], [1163, 0], [768, 0], [768, 407], [0, 407], [0, 0], [-384, 0]]}
+    beams:
+      - path: [[-384, -384], [-593, -384]]
+        width: 768
+        depth: 512
+        bottom: 256
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[-593, -384], [-890, -384]]
+        width: 768
+        depth: 295
+        bottom: 473
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[-890, -384], [-1383, -384]]
+        width: 768
+        depth: 97
+        bottom: 671
+        bottom_end: 768
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[-1383, -384], [-1877, -384]]
+        width: 768
+        depth: 97
+        bottom: 768
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[-1877, -384], [-2174, -384]]
+        width: 768
+        depth: 295
+        bottom: 671
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[-2174, -384], [-2371, -384]]
+        width: 768
+        depth: 512
+        bottom: 473
+        bottom_end: 256
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[1163, -384], [1361, -384]]
+        width: 768
+        depth: 512
+        bottom: 256
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[1361, -384], [1658, -384]]
+        width: 768
+        depth: 295
+        bottom: 473
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[1658, -384], [2151, -384]]
+        width: 768
+        depth: 97
+        bottom: 671
+        bottom_end: 768
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[2151, -384], [2645, -384]]
+        width: 768
+        depth: 97
+        bottom: 768
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[2645, -384], [2942, -384]]
+        width: 768
+        depth: 295
+        bottom: 671
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[2942, -384], [3168, -384]]
+        width: 768
+        depth: 512
+        bottom: 473
+        bottom_end: 256
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, 407], [384, 604]]
+        width: 768
+        depth: 512
+        bottom: 256
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, 604], [384, 900]]
+        width: 768
+        depth: 295
+        bottom: 473
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, 900], [384, 1395]]
+        width: 768
+        depth: 97
+        bottom: 671
+        bottom_end: 768
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, 1395], [384, 1888]]
+        width: 768
+        depth: 97
+        bottom: 768
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, 1888], [384, 2185]]
+        width: 768
+        depth: 295
+        bottom: 671
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, 2185], [384, 2383]]
+        width: 768
+        depth: 512
+        bottom: 473
+        bottom_end: 256
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, -1175], [384, -1372]]
+        width: 768
+        depth: 512
+        bottom: 256
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, -1372], [384, -1668]]
+        width: 768
+        depth: 295
+        bottom: 473
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, -1668], [384, -2163]]
+        width: 768
+        depth: 97
+        bottom: 671
+        bottom_end: 768
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, -2163], [384, -2656]]
+        width: 768
+        depth: 97
+        bottom: 768
+        bottom_end: 671
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, -2656], [384, -2953]]
+        width: 768
+        depth: 295
+        bottom: 671
+        bottom_end: 473
+        surface: {texture: swall5, size: [128, 256]}
+      - path: [[384, -2953], [384, -3151]]
+        width: 768
+        depth: 512
+        bottom: 473
+        bottom_end: 256
+        surface: {texture: swall5, size: [128, 256]}
+    ambient: 21
+    notes: "Sector 1. Sectors 1 to 4 of the original (the four quadrants of one octagonal hall, 7,113 across, 768 high): its floor at 0 with the plus-shaped core in the middle as a pillar. The 256-high walkway that runs round the wall is the twelve walk rooms (a raised part of a floor may not touch the room's walls). The four arched arms between the core and the wall notches are raking beams, three for each haunch, measured from the original's soffit faces (256, 473, 671, 768); each beam's depth ends its low end at the ceiling, the rest of it lies inside the floor slab above. The four 448-square shafts up to the upper hall are the openings open:hall_shaft_*."
+  - id: room:hall_upper
+    name: "Reactor hall, upper level"
+    outline: [[-1152, -3968], [1920, -3968], [3968, -1920], [3968, 1152], [1920, 3200], [-1152, 3200], [-3200, 1152], [-3200, -1920]]
+    floor: 1184
+    ceiling: 1696
+    theme: theme:swll5dk_swfloor2b_swfloor2b
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 1152, length: 768, surface: {texture: swll5, size: [128, 256]}}
+    levels:
+      - outline: [[-384, -768], [-1664, -768], [-1664, -1792], [0, -1792], [0, -1152]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[-3072, -1792], [-2176, -1792], [-2176, -768], [-3072, -768]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[-1664, -2304], [-1664, -3328], [-1152, -3840], [0, -3840], [0, -2304]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[0, 384], [0, 1024], [-1664, 1024], [-1664, 0], [-384, 0]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[0, 1536], [0, 3072], [-1152, 3072], [-1664, 2560], [-1664, 1536]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[1152, 0], [2432, 0], [2432, 1024], [768, 1024], [768, 384]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[2432, 1536], [2432, 2560], [1920, 3072], [768, 3072], [768, 1536]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[768, -1152], [768, -1792], [2432, -1792], [2432, -768], [1152, -768]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[768, -2304], [768, -3840], [1920, -3840], [2432, -3328], [2432, -2304]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[3840, -768], [2944, -768], [2944, -1792], [3840, -1792]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[-2176, 0], [-2176, 1024], [-3072, 1024], [-3072, 0]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[3840, 1024], [2944, 1024], [2944, 0], [3840, 0]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[-2688, -2304], [-2176, -2816], [-2176, -2304]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swflora, size: [256, 256]}
+      - outline: [[3456, -2304], [2944, -2304], [2944, -2816]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swrdk2, size: [128, 128]}
+      - outline: [[-2688, 1536], [-2176, 1536], [-2176, 2048]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swrdk2, size: [128, 128]}
+      - outline: [[2944, 2048], [2944, 1536], [3456, 1536]]
+        floor: 1120
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swrdk2, size: [128, 128]}
+    ceiling_levels:
+      - ceiling: 2183
+        top_outline: [[-593, -2755], [1382, -2755], [2765, -1372], [2765, 604], [1382, 1986], [-593, 1986], [-1977, 604], [-1977, -1372]]
+        edge: {texture: swfloor2b, size: [128, 128]}
+        surface: {texture: sky_nit2, size: [512, 512]}
+      - outline: [[-593, -2755], [1382, -2755], [2765, -1372], [2765, 604], [1382, 1986], [-593, 1986], [-1977, 604], [-1977, -1372]]
+        ceiling: 2380
+        edge: {texture: swfloor2b, size: [128, 128]}
+        surface: {texture: sky_nit2, size: [512, 512]}
+    ambient: 21
+    notes: "Sector 5. Sector 5 of the original, standing on top of the lower hall (floor 1184 over the lower ceiling at 768): an octagon 7,168 across with 16 floor panels sunk 64 between walkways 512 wide, and four 448-square shafts through the floor (openings open:hall_shaft_*; the original's 32-wide swhorzdb rim round each is not said). The ceiling is the original's eight-sided pyramid from 1696 at the walls up to the lantern's rim at 2183 (its pitch, 22 degrees), as one narrowing ceiling level, and the lantern's upright drum (sector 67: swfloor2b, 197 high) as a second level standing on the pyramid's flat top, with the sky at 2380."
+  - id: room:s10_alcove
+    name: North corridor alcove
+    outline: [[889, 3600], [1382, 3600], [1382, 4061], [889, 4061]]
+    floor: 1184
+    ceiling: 1440
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 0
+        surface: {texture: swared, size: [128, 256]}
+    ambient: 18
+    notes: "Sector 10. An alcove of the corridor (sector 10). A room of its own because an opening takes the longest pair of facing walls of its two rooms: as part of the corridor its end wall faced the hall's north wall over a longer stretch than the gate passage does, and the hall's doorway was built into the alcove."
+  - id: room:s10_north_corridor
+    name: North corridor (upper)
+    outline: [[4768, 4456], [-692, 4456], [-692, 4061], [197, 4061], [197, 3200], [593, 3200], [593, 4061], [4768, 4061]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[-692, 4161, 1539], [296, 4161, 1539], [493, 4161, 1539], [3259, 4161, 1539], [3556, 4161, 1539], [4768, 4161, 1539], [-692, 4358, 1539], [4768, 4358, 1539], [296, 3200, 1539], [493, 3200, 1539], [3160, 4061, 1440], [3259, 4061, 1539], [3556, 4061, 1539], [3654, 4061, 1440]]
+    ceiling_lines:
+      - [[-692, 4161], [296, 4161], [493, 4161], [3259, 4161], [3556, 4161], [4768, 4161]]
+      - [[-692, 4358], [4768, 4358]]
+      - [[296, 3200], [296, 4161]]
+      - [[493, 3200], [493, 4161]]
+      - [[197, 4061], [296, 4161]]
+      - [[593, 4061], [493, 4161]]
+      - [[3160, 4061], [3259, 4161]]
+      - [[3654, 4061], [3556, 4161]]
+      - [[3259, 4061], [3259, 4161]]
+      - [[3556, 4061], [3556, 4161]]
+    ceiling_surfaces:
+      - {at: [2000, 4260], surface: {texture: swwala, size: [128, 256]}}
+      - {at: [2000, 4100], surface: {texture: swll4dk, size: [128, 256]}}
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 6
+        panels:
+          - {offset: 0, from: end, length: 1114, surface: {texture: swll5dk, size: [128, 256]}}
+    ambient: 18
+    notes: "Sector 10, one room with its stub to the hall (x 197 to 593), under the original's vault (round five, ceiling_points): it springs at 1440 from every wall and has a flat top 197 wide at 1539 (y 4161 to 4358 along the corridor, x 296 to 493 over the stub); where the stub and the mouth to sector 17 (x 3160 to 3654) meet the corridor the chamfers cross in groins. Surfaces as the original's faces: the corridor's top swwala, the south chamfer between the two groins swll4dk (face 2124), every other part swll5dk."
+  - id: room:s11_east_corridor
+    name: East corridor (upper)
+    outline: [[4768, -5027], [5163, -5027], [5163, 4456], [4768, 4456], [4768, -186], [3968, -186], [3968, -581], [4768, -581]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[4768, -4928, 1539], [5064, -4928, 1539], [4768, -4730, 1539], [4867, -4730, 1539], [4768, -4599, 1440], [4768, -4075, 1440], [4768, -3976, 1539], [4768, -3778, 1539], [4768, -3680, 1440], [4867, -3976, 1539], [4867, -3778, 1539], [3968, -484, 1539], [3968, -285, 1539], [4768, -484, 1539], [4768, -285, 1539], [4867, -484, 1539], [4867, -285, 1539], [4768, 209, 1440], [4768, 258, 1480], [4768, 456, 1480], [4768, 504, 1440], [4867, 209, 1539], [4867, 504, 1539], [4768, 2283, 1440], [4768, 2382, 1539], [4768, 2579, 1539], [4768, 2679, 1440], [4867, 2382, 1539], [4867, 2579, 1539], [4768, 4061, 1440], [4768, 4161, 1539], [4867, 4161, 1539], [4768, 4358, 1539], [5064, 4358, 1539]]
+    ceiling_lines:
+      - [[4867, -4730], [4867, -3976], [4867, -3778], [4867, -484], [4867, -285], [4867, 209], [4867, 504], [4867, 2382], [4867, 2579], [4867, 4161]]
+      - [[5064, -4928], [5064, 4358]]
+      - [[4768, -4928], [5064, -4928]]
+      - [[5064, -4928], [5163, -5027]]
+      - [[4768, -4730], [4867, -4730]]
+      - [[4768, -4599], [4867, -4730]]
+      - [[4768, -4075], [4867, -3976]]
+      - [[4768, -3976], [4867, -3976]]
+      - [[4768, -3778], [4867, -3778]]
+      - [[4768, -3680], [4867, -3778]]
+      - [[3968, -484], [4768, -484], [4867, -484]]
+      - [[3968, -285], [4768, -285], [4867, -285]]
+      - [[4768, -484], [4768, -285]]
+      - [[4768, -581], [4867, -484]]
+      - [[4768, -186], [4867, -285]]
+      - [[4768, 209], [4867, 209]]
+      - [[4768, 504], [4867, 504]]
+      - [[4768, 258], [4768, 456]]
+      - [[4768, 2283], [4867, 2382]]
+      - [[4768, 2382], [4867, 2382]]
+      - [[4768, 2579], [4867, 2579]]
+      - [[4768, 2679], [4867, 2579]]
+      - [[4768, 4061], [4867, 4161]]
+      - [[4768, 4161], [4867, 4161]]
+      - [[4768, 4358], [5064, 4358]]
+      - [[5064, 4358], [5163, 4456]]
+    ceiling_surfaces:
+      - {at: [4300, -385], surface: {texture: swwala, size: [128, 256]}}
+    theme: theme:swll5dk_swfloor2b_swll5dk
+    bands:
+      - {height: 256, surface: {texture: swll4dk, size: [128, 256]}}
+    ambient: 18
+    notes: "Sector 11, one room with its stub to the hall (x 3968 to 4768), under the original's vault (round five, ceiling_points): it springs at 1440 from the walls and has a flat top 197 wide at 1539 (x 4867 to 5064 along the corridor, y -484 to -285 over the stub); the side mouths (the stub, sectors 13 and 17) and the two corner joints with sectors 10 and 8 cross the west chamfer in groins. Over the door to the east cell (y 209 to 504) the west chamfer springs at 1480 (face 890); the original's two small upright triangles at its ends are leaning triangles here (49 long). The north chamfer of sector 8 is not 45 degrees (131 run for 99 rise) and runs on into this room's south corner. Surfaces as the original's: the stub's top swwala (face 173), all the rest swll5dk; the walls swll4dk to 1440 (the band)."
+  - id: room:s12_west_gate
+    name: South-west ramp and west gate passage (upper)
+    outline: [[-4446, -3150], [-4050, -3150], [-4050, -581], [-3200, -581], [-3200, -186], [-4050, -186], [-4050, 307], [-4446, 307]]
+    floor: 788
+    floor_points: [[-4446, -2656, 788], [-4050, -2656, 788], [-4446, -1075, 1184], [-4050, -1075, 1184], [-4050, -581, 1184], [-3200, -581, 1184], [-3200, -186, 1184], [-4050, -186, 1184], [-4050, 307, 1184], [-4446, 307, 1184]]
+    floor_lines:
+      - [[-4446, -2656], [-4050, -2656]]
+      - [[-4446, -1075], [-4050, -1075]]
+    ceiling: 1440
+    ceiling_points: [[-4346, -3150, 1539], [-4150, -3150, 1539], [-4150, -484, 1539], [-3200, -484, 1539], [-3200, -285, 1539], [-4150, -285, 1539], [-4150, 307, 1539], [-4346, 307, 1539]]
+    ceiling_lines:
+      - [[-4346, -3150], [-4346, 307]]
+      - [[-4150, -3150], [-4150, -484], [-3200, -484]]
+      - [[-3200, -285], [-4150, -285], [-4150, 307]]
+      - [[-4050, -581], [-4150, -484]]
+      - [[-4050, -186], [-4150, -285]]
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: "Sector 12, one room as in the original: the landing at 788, the ramp up to 1184 (y -2656 to -1075) and the T-shaped passage, under one vault that springs at 1440 from every wall and has a flat top 196 wide at 1539 (ceiling_points on the top's corners). Round two's three rooms had a flat ceiling at 1539."
+  - id: room:s13_east_stub
+    name: "South-east room, east arm"
+    outline: [[4640, -4075], [4768, -4075], [4768, -3680], [4640, -3680]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[4640, -3976, 1539], [4768, -3976, 1539], [4640, -3778, 1539], [4768, -3778, 1539]]
+    ceiling_lines:
+      - [[4640, -3976], [4768, -3976]]
+      - [[4640, -3778], [4768, -3778]]
+    theme: theme:swll4dk_swfloor2b_swankdk
+    ambient: 21
+    notes: "Part of sector 13 (round five): the arm 128 long to the east corridor under a vault of the corridors' section, all swankdk (faces 259 to 261). Rounds one to four: a doorway 128 deep with a flat top."
+  - id: room:s13_se_room
+    name: South-east room
+    outline: [[3168, -4471], [4640, -4471], [4640, -3552], [3168, -3552]]
+    floor: 1184
+    ceiling: 1712
+    theme: theme:swll4dk_swfloor2b_swankdk
+    ambient: 21
+    notes: Sector 13.
+  - id: room:s13_south_stub
+    name: "South-east room, south arm"
+    outline: [[3852, -4599], [4247, -4599], [4247, -4471], [3852, -4471]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[3951, -4599, 1539], [4148, -4599, 1539], [3951, -4471, 1539], [4148, -4471, 1539]]
+    ceiling_lines:
+      - [[3951, -4599], [3951, -4471]]
+      - [[4148, -4599], [4148, -4471]]
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: "Part of sector 13 (round five): the arm 128 long to the south corridor under a vault of the corridors' section, swll5dk (faces 245 to 247). Rounds one to four: a doorway 128 deep with a flat top."
+  - id: room:s14_se_gallery
+    name: South-east viewing room
+    outline: [[4640, -1965], [4148, -1965], [3264, -2849], [3264, -3360], [4640, -3360]]
+    floor: 1184
+    ceiling: 1472
+    theme: theme:swll4dk_swfloor2b_swll5dk_bay
+    ceiling_levels:
+      - outline: [[3328, -2848], [3328, -3296], [4576, -3296], [4576, -2016], [4192, -2016]]
+        ceiling: 1536
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 14.
+  - id: room:s15_east_cell_s
+    name: East cell (south)
+    outline: [[4096, -1760], [4640, -1760], [4640, -768], [4096, -768]]
+    floor: 1200
+    ceiling: 1456
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ceiling_levels:
+      - outline: [[4160, -1696], [4576, -1696], [4576, -832], [4160, -832]]
+        ceiling: 1520
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 15.
+  - id: room:s16_east_cell_n
+    name: East cell (north)
+    outline: [[4144, 16], [4640, 16], [4640, 1008], [4144, 1008]]
+    floor: 1192
+    ceiling: 1448
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ceiling_levels:
+      - outline: [[4576, 896], [4208, 896], [4208, 80], [4576, 80]]
+        ceiling: 1512
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 16.
+  - id: room:s17_east_arm
+    name: "North-east viewing room, east arm"
+    outline: [[3951, 2283], [4768, 2283], [4768, 2679], [3951, 2679]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[3951, 2382, 1539], [4768, 2382, 1539], [3951, 2579, 1539], [4768, 2579, 1539]]
+    ceiling_lines:
+      - [[3951, 2382], [4768, 2382]]
+      - [[3951, 2579], [4768, 2579]]
+    ceiling_surfaces:
+      - {at: [4300, 2480], surface: {texture: swwala, size: [128, 256]}}
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: "Part of sector 17 (round five): the arm to the east corridor under the corridors' vault (chamfers swll5dk from 1440, a flat top 197 wide at 1539 in swwala; faces 301 to 303). Rounds one to four drew it inside the room under its flat ceiling at 1579; the room's wall over the arm's mouth (1440 to 1579) is the original's faces 297 to 299."
+  - id: room:s17_ne_gallery
+    name: North-east viewing room
+    outline: [[3753, 1691], [3951, 1691], [3951, 3864], [2865, 3864], [2865, 2579]]
+    floor: 1184
+    ceiling: 1579
+    theme: theme:swll4dk_swfloor2b_swankdk_bay
+    ambient: 21
+    notes: "Sector 17 without its two arms (round five: they are s17_east_arm and s17_north_stub, each under its vault)."
+  - id: room:s17_north_stub
+    name: "North-east viewing room, north arm"
+    outline: [[3160, 3864], [3654, 3864], [3654, 4061], [3160, 4061]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[3160, 3864, 1381], [3259, 3864, 1539], [3556, 3864, 1539], [3654, 3864, 1381], [3259, 4061, 1539], [3556, 4061, 1539]]
+    ceiling_lines:
+      - [[3259, 3864], [3259, 4061]]
+      - [[3556, 3864], [3556, 4061]]
+      - [[3259, 4061], [3160, 3864]]
+      - [[3556, 4061], [3654, 3864]]
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: "Part of sector 17 (round five): the arm to the north corridor, the north corridor's groin run on 197 into the room. Its chamfers twist from 1440 at the corridor to 1381 at the room (faces 315, 317, 2162, 2163, two triangles each), its top is flat at 1539, all swll5dk; the room's wall over its mouth (1381 to 1579) is the original's faces 311 to 313."
+  - id: room:s18_ne_office
+    name: North-east office
+    outline: [[2172, 3271], [2370, 3074], [2667, 3074], [2667, 3864], [2172, 3864]]
+    floor: 1184
+    ceiling: 1579
+    theme: theme:swll4dk_swfloor2b_swankdk
+    ambient: 21
+    notes: Sector 18.
+  - id: room:s18_niche
+    name: "North-east office, wall niche"
+    outline: [[2074, 3672], [2172, 3672], [2172, 3864], [2074, 3864]]
+    floor: 1251
+    ceiling: 1349
+    theme: theme:swll4dk_swfloor2b_swankdk
+    ambient: 21
+    notes: "Part of sector 18 (round five): a niche 98 deep and 98 high in the office's west wall, its floor 67 above the office's (faces 946 to 950), under the terminal. Rounds one to four left it out."
+  - id: room:s19_south_closet
+    name: South closet
+    outline: [[889, -4599], [1382, -4599], [1382, -4138], [889, -4138]]
+    floor: 1184
+    ceiling: 1440
+    theme: theme:swll4dk_swfloor2b_swankdk
+    walls:
+      - wall: 2
+        surface: {texture: swared, size: [128, 256]}
+    ambient: 21
+    notes: Sector 19.
+  - id: room:s20_ne_cell
+    name: North-east cell
+    outline: [[4144, 2880], [4640, 2880], [4640, 3872], [4144, 3872]]
+    floor: 1184
+    ceiling: 1584
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    platforms:
+      - {id: platform:s20_shelf, rise: 99, outline: [[4544, 2880], [4640, 2880], [4640, 3376], [4544, 3376]], top_surface: {texture: swfloor2b, size: [128, 128]}, notes: "A shelf 99 high in the south-east corner (faces 955 to 957), round five."}
+    ceiling_levels:
+      - outline: [[4576, 3808], [4208, 3808], [4208, 2944], [4576, 2944]]
+        ceiling: 1648
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 20.
+  - id: room:s21_ramp_up_1
+    name: "South-west ramp, first rise"
+    outline: [[-5972, -3150], [-4446, -3150], [-4446, -2766], [-5972, -2766]]
+    floor: 393
+    slope: {to: 788, toward: east}
+    ceiling: 648
+    ceiling_slope: {to: 1184, toward: east}
+    theme: theme:swall5_swfloor2b_swwala
+    ambient: 21
+    notes: "Sector 21. The ceiling rises with the floor (255 clear at the foot, 396 at the head), as in the original."
+  - id: room:s22_west_junction
+    name: West junction
+    outline: [[-7508, -3150], [-5972, -3150], [-5972, -2766], [-7508, -2766]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swwala
+    ambient: 21
+    notes: Sector 22.
+  - id: room:s23_generator
+    name: Generator room
+    outline: [[-7904, -1965], [-6718, -1965], [-6320, -1550], [-6320, 802], [-6718, 1197], [-7904, 1197], [-8320, 802], [-8320, -1550]]
+    floor: 196
+    ceiling: 937
+    theme: theme:swall1_swfloor2b_swqur3
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 256, surface: {texture: swpipes, size: [128, 256]}}
+      - wall: 4
+        panels:
+          - {offset: 0, from: end, length: 256, surface: {texture: swpipes, size: [128, 256]}}
+      - wall: 6
+        panels:
+          - {offset: 354, length: 256, surface: {texture: swpipes, size: [128, 256]}}
+          - {offset: 677, length: 971, bottom: 414, height: 64, surface: {texture: swr1dk, size: [64, 64]}}
+          - {offset: 1712, length: 256, surface: {texture: swpipes, size: [128, 256]}}
+    platforms:
+      - {rise: 128, surface: {texture: swildk, size: [128, 128]}, outline: [[-7252, -1965], [-6718, -1965], [-6320, -1550], [-6320, 802], [-6718, 1197], [-7252, 1197], [-7252, 1069], [-6726, 1069], [-6448, 802], [-6448, -1550], [-6718, -1837], [-7252, -1837]], top_surface: {texture: swrdk2, size: [128, 128]}, bottom_surface: {texture: swankdk, size: [128, 128]}, base: 256, notes: "Round six: the balcony as the original's (faces 2536 to 2540): its top swrdk2 at 580, its sides swildk, its underside swankdk at 452, against the east walls and the two cut corners; rounds one to five had a beam whose corners stood 31 into the upper rooms (their floors flickered over it, geometry.coplanar) and whose top was swildk."}
+    ambient: 18
+    notes: "Sector 23. An eight-sided room 741 high with a balcony 128 wide at 580 along its east side (underside at 452), which the two upper rooms (sectors 27 and 35) open onto across the cut corners. The four pipe panels (swpipes, 256 wide, full height) and the swr1dk strip over the west lobby's doorway are panels (round three; round two had put outline points on the walls for them)."
+  - id: room:s24_ramp
+    name: "Generator room, south ramp"
+    outline: [[-7508, -2766], [-7252, -2766], [-7252, -2063], [-7508, -2063]]
+    floor: 393
+    slope: {to: 221, toward: north}
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 2
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 24.
+  - id: room:s25_west_lobby
+    name: West lobby
+    outline: [[-8960, -910], [-8320, -910], [-8320, 192], [-8960, 192]]
+    floor: 196
+    ceiling: 610
+    theme: theme:swll4dk_swfloor2b_swll4dk
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 128, length: 384, height: 316, surface: {texture: swall5, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {offset: 128, length: 384, height: 316, surface: {texture: swall5, size: [128, 256]}}
+    beams:
+      - path: [[-8640, -910], [-8640, 192]]
+        width: 384
+        depth: 98
+        bottom: 512
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 21
+    notes: "Sector 25. The ceiling is 610 along the two doorways and 512 over the middle: the lower middle is a beam 384 wide."
+  - id: room:s26_west_hall
+    name: West hall
+    outline: [[-9472, -1344], [-8960, -1344], [-8960, 320], [-9472, 320]]
+    floor: 196
+    ceiling: 708
+    theme: theme:swll4dk_swfloor2b_swwala
+    ambient: 21
+    notes: Sector 26.
+  - id: room:s27_east_arm
+    name: "Balcony room (south), east arm"
+    outline: [[-5744, -2190], [-5360, -2190], [-5360, -1934], [-5744, -1934]]
+    floor: 580
+    ceiling: 847
+    theme: theme:swll4dk_swfloor2b_swfloor5a
+    ambient: 21
+    notes: "Sector 27. Part of sector 27 (its floor rises 11 along the arm; drawn level). A room of its own because the opening to the upper corridor would otherwise take the room's longer north-east wall."
+  - id: room:s27_upper_room_s
+    name: Balcony room (south)
+    outline: [[-6320, -1550], [-6718, -1965], [-6718, -2190], [-5744, -2190], [-5744, -1550]]
+    floor: 580
+    ceiling: 868
+    theme: theme:swll4dk_swfloor2b_swfloor5a
+    ambient: 21
+    notes: Sector 27.
+  - id: room:s28_upper_corridor
+    name: Upper corridor
+    outline: [[-4976, -590], [-5232, -590], [-5232, -846], [-5360, -846], [-5360, -2190], [-4976, -2190]]
+    floor: 591
+    ceiling: 847
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: Sector 28.
+  - id: room:s29_upper_link
+    name: Upper link
+    outline: [[-4976, -1102], [-3504, -1102], [-3504, -846], [-4976, -846]]
+    floor: 591
+    ceiling: 847
+    theme: theme:swll4dk_swfloor2b_swwala
+    ambient: 21
+    notes: Sector 29.
+  - id: room:s30_passage
+    name: South passage
+    outline: [[208, -5518], [592, -5518], [592, -4222], [208, -4222]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 18
+    notes: Sector 30.
+  - id: room:s30_stair
+    name: South stair
+    outline: [[208, -4222], [592, -4222], [592, -3842], [208, -3842]]
+    floor: 293
+    slope: {to: 393, toward: south, steps: 6}
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 18
+    notes: Sector 30.
+  - id: room:s30_stair_head_e
+    name: "South stair head, east"
+    outline: [[592, -3842], [768, -3842], [768, -3644], [592, -3644]]
+    floor: 256
+    slope: {to: 293, toward: west}
+    ceiling: 739
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 18
+    notes: Sector 30.
+  - id: room:s30_stair_head_w
+    name: "South stair head, west"
+    outline: [[0, -3842], [208, -3842], [208, -3644], [0, -3644]]
+    floor: 256
+    slope: {to: 293, toward: east}
+    ceiling: 739
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 18
+    notes: Sector 30.
+  - id: room:s30_stair_top
+    name: "South stair, top"
+    outline: [[208, -3842], [592, -3842], [592, -3644], [208, -3644]]
+    floor: 293
+    ceiling: 739
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 18
+    notes: Sector 30.
+  - id: room:s31_south_corridor
+    name: South corridor
+    outline: [[-4016, -5774], [1104, -5774], [1104, -5518], [-4016, -5518]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swwala
+    walls:
+      - wall: 1
+        surface: {texture: swaled, size: [128, 256]}
+    ambient: 21
+    notes: Sector 31.
+  - id: room:s32_ramp
+    name: South-west corridor ramp
+    outline: [[-3760, -1868], [-3504, -1868], [-3504, -1102], [-3760, -1102]]
+    floor: 393
+    slope: {to: 591, toward: north}
+    ceiling: 790
+    ceiling_slope: {to: 847, toward: north}
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: Sector 32.
+  - id: room:s32_sw_corridor
+    name: South-west corridor
+    outline: [[-3760, -5518], [-3504, -5518], [-3504, -1868], [-3760, -1868]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swll5dk_frame
+    ambient: 21
+    notes: Sector 32.
+  - id: room:s33_ramp
+    name: Storage corridor ramp
+    outline: [[-8496, -3598], [-7706, -3598], [-7706, -3342], [-8496, -3342]]
+    floor: 393
+    slope: {to: 196, toward: west}
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swwala
+    walls:
+      - wall: 3
+        surface: {texture: swceilf, size: [256, 256]}
+    ambient: 21
+    notes: Sector 33.
+  - id: room:s33_storage_corridor
+    name: Storage corridor
+    outline: [[-7706, -3598], [-3760, -3598], [-3760, -3342], [-7706, -3342]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swwala
+    ambient: 21
+    notes: Sector 33.
+  - id: room:s34_repair_bay
+    name: Storage and repair bay
+    outline: [[-3200, -5376], [0, -5376], [0, -4224], [-3200, -4224]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swgirder
+    ceiling_levels:
+      - outline: [[-3136, -4288], [-3136, -5312], [-64, -5312], [-64, -4288]]
+        ceiling: 712
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swcirc2, size: [256, 256]}
+    ambient: 21
+    notes: Sector 34.
+  - id: room:s35_upper_room_n
+    name: Balcony room (north)
+    outline: [[-6320, 802], [-5730, 802], [-5730, 1010], [-5232, 1010], [-5232, -14], [-4720, -14], [-4720, 242], [-4976, 242], [-4976, 1395], [-6718, 1395], [-6718, 1197]]
+    floor: 580
+    ceiling: 847
+    theme: theme:swll4dk_swfloor2b_swfloor5a
+    walls:
+      - wall: 1
+        surface: {texture: swall2, size: [128, 256]}
+    ambient: 18
+    notes: Sector 35.
+  - id: room:s36_passage
+    name: North passage
+    outline: [[197, 2876], [593, 2876], [593, 4096], [197, 4096]]
+    floor: 256
+    ceiling: 600
+    ceiling_slope: {to: 630, toward: north}
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 0
+        surface: {texture: swll5, size: [128, 256]}
+    ambient: 21
+    notes: Sector 36.
+  - id: room:s36_ramp
+    name: North passage ramp
+    outline: [[197, 4096], [593, 4096], [593, 4753], [197, 4753]]
+    floor: 256
+    slope: {to: 393, toward: north}
+    ceiling: 630
+    ceiling_slope: {to: 649, toward: north}
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: Sector 36.
+  - id: room:s36_stair_head_e
+    name: "North stair head, east"
+    outline: [[593, 2876], [768, 2876], [768, 3074], [593, 3074]]
+    floor: 256
+    ceiling: 600
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 0
+        surface: {texture: swankdk, size: [128, 128]}
+      - wall: 2
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 36.
+  - id: room:s36_stair_head_w
+    name: "North stair head, west"
+    outline: [[0, 2876], [197, 2876], [197, 3074], [0, 3074]]
+    floor: 256
+    ceiling: 600
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 0
+        surface: {texture: swankdk, size: [128, 128]}
+      - wall: 2
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 36.
+  - id: room:s37_north_corridor
+    name: North corridor
+    outline: [[-3441, 4753], [1184, 4753], [1184, 5009], [-3441, 5009]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swall3_swfloor2b_swwala
+    walls:
+      - wall: 1
+        surface: {texture: swaled, size: [128, 256]}
+    ambient: 21
+    notes: Sector 37.
+  - id: room:s38_west_corridor
+    name: West corridor
+    outline: [[-3441, -14], [-3185, -14], [-3185, 4753], [-3441, 4753]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swall3_swfloor2b_swll5dk
+    ambient: 21
+    notes: Sector 38.
+  - id: room:s39_door_recess
+    name: "Locked room's door, recess on the meeting hall's side"
+    outline: [[-1312, 4061], [-1168, 4082], [-1168, 4337], [-1312, 4358]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swall1_swfloor2b_swfloor5a
+    ambient: 18
+    notes: "Round six: the original's sector 39 widens from the door (255) to 297 at the hall's wall, 144 deep, under a swfloor5a ceiling at 649 (faces 894, 895, 1350)."
+  - id: room:s39_meeting_hall
+    name: Meeting hall
+    outline: [[-3072, 3392], [-1312, 3392], [-1312, 4480], [-3072, 4480]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swall1_swfloor2b_swll5dk
+    ceiling_levels:
+      - outline: [[-3008, 3456], [-1376, 3456], [-1376, 4416], [-3008, 4416]]
+        ceiling: 713
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 39.
+  - id: room:s40_wedge_room
+    name: Wedge room
+    outline: [[-3040, 1984], [-2912, 1856], [-1920, 2976], [-1920, 3104], [-3040, 3104]]
+    floor: 393
+    ceiling: 713
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    bands:
+      - {height: 256, surface: {texture: swaled, size: [128, 256]}}
+    ambient: 18
+    notes: Sector 40.
+  - id: room:s41_h_bar
+    name: "H-shaped room, bar"
+    outline: [[-4992, 4864], [-4512, 4864], [-4512, 4992], [-4992, 4992]]
+    floor: 393
+    ceiling: 713
+    theme: theme:swgirder_swfloor2b_swankdk
+    bands:
+      - {height: 256, surface: {texture: swll4dk, size: [128, 256]}}
+    ambient: 18
+    notes: Sector 41.
+  - id: room:s41_h_room
+    name: "H-shaped room, east wing"
+    outline: [[-4512, 4480], [-4000, 4480], [-4000, 5248], [-4512, 5248]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swll4dk_swfloor2b_swgirder
+    ceiling_levels:
+      - outline: [[-4064, 5184], [-4448, 5184], [-4448, 4544], [-4064, 4544]]
+        ceiling: 713
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 18
+    notes: "Sector 41. Sector 41 is one H-shaped room; three rooms here, because the door from the corridor would otherwise be built into the west wing (an opening takes the first of two equally long pairs of facing walls)."
+  - id: room:s41_h_west
+    name: "H-shaped room, west wing"
+    outline: [[-5504, 4480], [-4992, 4480], [-4992, 5248], [-5504, 5248]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swll4dk_swfloor2b_swgirder
+    ceiling_levels:
+      - outline: [[-5440, 4544], [-5056, 4544], [-5056, 5184], [-5440, 5184]]
+        ceiling: 713
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 18
+    notes: Sector 41.
+  - id: room:s42_nw_corridor
+    name: North-west corridor (east run)
+    outline: [[-7508, 4032], [-3441, 4032], [-3441, 4288], [-7508, 4288]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swall1_swfloor2b_swwala_frame
+    walls:
+      - wall: 3
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 42.
+  - id: room:s43_door_recess
+    name: "Locked room's door, recess on the room's side"
+    outline: [[-1104, 4082], [-992, 4055], [-992, 4352], [-1104, 4337]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swaled_swfloor2b_swfloor5a
+    ambient: 18
+    notes: "Round six: the original's sector 43 widens from the door to 297 at the room's wall, 112 deep, swaled at its sides and swfloor5a overhead (faces 891, 892, 1351)."
+  - id: room:s43_locked_room
+    name: Room behind the meeting hall
+    outline: [[-992, 3424], [96, 3424], [96, 4480], [-992, 4480]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swll2dk_swfloor2b_swll5dk
+    ceiling_levels:
+      - outline: [[-928, 3488], [32, 3488], [32, 4416], [-928, 4416]]
+        ceiling: 713
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 43.
+  - id: room:s44_link
+    name: Link passage
+    outline: [[-4050, -14], [-3441, -14], [-3441, 242], [-4050, 242]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swll4dk_swfloor2b_swwala
+    walls:
+      - wall: 0
+        surface: {texture: swall3, size: [128, 256]}
+      - wall: 2
+        surface: {texture: swall3, size: [128, 256]}
+    ambient: 21
+    notes: Sector 44.
+  - id: room:s44_link_ramp
+    name: Link ramp
+    outline: [[-4720, -14], [-4050, -14], [-4050, 242], [-4720, 242]]
+    floor: 591
+    slope: {to: 393, toward: east}
+    ceiling: 905
+    theme: theme:swll4dk_swfloor2b_swwala
+    walls:
+      - wall: 1
+        surface: {texture: swceilf, size: [256, 256]}
+    ambient: 21
+    notes: Sector 44.
+  - id: room:s45_corridor
+    name: North-west corridor
+    outline: [[-7508, 2579], [-7252, 2579], [-7252, 4032], [-7508, 4032]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 0
+        surface: {texture: swankdk, size: [128, 128]}
+      - wall: 1
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 45.
+  - id: room:s45_gate_south
+    name: "North corridor, below the gate"
+    outline: [[-7508, 1986], [-7252, 1986], [-7252, 2382], [-7508, 2382]]
+    floor: 393
+    ceiling: 657
+    theme: theme:swll4dk_swfloor2b_swceilf
+    walls:
+      - wall: 2
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 18
+    notes: Sector 45.
+  - id: room:s45_ramp
+    name: "Generator room, north ramp"
+    outline: [[-7508, 1197], [-7252, 1197], [-7252, 1986], [-7508, 1986]]
+    floor: 196
+    slope: {to: 393, toward: north}
+    ceiling: 717
+    ceiling_slope: {to: 657, toward: north}
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 18
+    notes: Sector 45.
+  - id: room:s46_ramp_down
+    name: "North-west ramp, upper rise and landing"
+    outline: [[-4446, 307], [-4050, 307], [-4050, 2382], [-4446, 2382]]
+    floor: 788
+    floor_points: [[-4446, 307, 1184], [-4050, 307, 1184], [-4446, 1888, 788], [-4050, 1888, 788]]
+    floor_lines:
+      - [[-4446, 1888], [-4050, 1888]]
+    ceiling: 1440
+    ceiling_points: [[-4346, 307, 1539], [-4150, 307, 1539], [-4346, 2382, 1539], [-4150, 2382, 1539]]
+    ceiling_lines:
+      - [[-4346, 307], [-4346, 2382]]
+      - [[-4150, 307], [-4150, 2382]]
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: "Sector 46, one room as in the original: the ramp down from 1184 to 788 and its landing under the vault of sector 12 (1440 at the walls, 1539 over the middle 196)."
+  - id: room:s47_passage
+    name: North-west passage
+    outline: [[-7252, 1986], [-5928, 1986], [-5928, 2382], [-7252, 2382]]
+    floor: 393
+    ceiling: 657
+    theme: theme:swll4dk_swfloor2b_swwala
+    ambient: 18
+    notes: Sector 47.
+  - id: room:s47_ramp_up
+    name: "North-west ramp, lower rise"
+    outline: [[-5928, 1986], [-4446, 1986], [-4446, 2382], [-5928, 2382]]
+    floor: 393
+    slope: {to: 788, toward: east}
+    ceiling: 690
+    ceiling_slope: {to: 1184, toward: east}
+    theme: theme:swll4dk_swfloor2b_swwala
+    ambient: 18
+    notes: Sector 47.
+  - id: room:s48_panel_room
+    name: Panel room
+    outline: [[-5376, 3072], [-4352, 3072], [-4352, 3840], [-5376, 3840]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swtrpnl_swfloor2b_swgirder
+    ceiling_levels:
+      - outline: [[-5312, 3136], [-4416, 3136], [-4416, 3776], [-5312, 3776]]
+        ceiling: 713
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 18
+    notes: Sector 48.
+  - id: room:s49_east_hall
+    name: East hall
+    outline: [[5696, -1856], [8704, -1856], [8704, 448], [5696, 448]]
+    floor: -393
+    floor_points: [[5824, -1856, -393], [5824, 448, -393], [8576, -1856, -393], [8576, 448, -393]]
+    floor_lines:
+      - [[5824, -1856], [5824, 448]]
+      - [[8576, -1856], [8576, 448]]
+    floor_surfaces:
+      - {at: [5760, 0], surface: {texture: swrdk2, size: [128, 128]}}
+      - {at: [8640, 0], surface: {texture: swrdk2, size: [128, 128]}}
+    ceiling: -128
+    theme: theme:swll4dk_swfloor2b_swgirder
+    ceiling_levels:
+      - outline: [[5760, -1792], [8640, -1792], [8640, 384], [5760, 384]]
+        ceiling: -64
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 49.
+  - id: room:s50_east_lobby
+    name: East lobby
+    outline: [[7104, 512], [7360, 512], [7360, 2176], [7104, 2176]]
+    floor: -393
+    ceiling: -128
+    theme: theme:swaled_swfloor2b_swankdk
+    walls:
+      - wall: 2
+        surface: {texture: swceilge, size: [256, 256]}
+      - wall: 3
+        panels:
+          - {offset: 256, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 576, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+        notes: "Round six: the swgirder strips either side of the east store's door recess (faces 2560, 2561)."
+    ambient: 21
+    notes: Sector 50.
+  - id: room:s51_east_store
+    name: East store
+    outline: [[5760, 896], [6912, 896], [6912, 2176], [5760, 2176]]
+    floor: -393
+    ceiling: -128
+    theme: theme:swall4_swfloor2b_swgirder_frame
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 640, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 960, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+        notes: "Round six: the swgirder strips either side of the door recess (faces 2562, 2563)."
+    ceiling_levels:
+      - outline: [[6848, 960], [6848, 2112], [5824, 2112], [5824, 960]]
+        ceiling: -64
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 18
+    notes: Sector 51.
+  - id: room:s52_east_closet
+    name: East hatch room
+    outline: [[5696, -2176], [5953, -2176], [5953, -1856], [5696, -1856]]
+    floor: -393
+    ceiling: -64
+    theme: theme:swgirder_swfloor2b_swankdk
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 257, height: 265, surface: {texture: swall4, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {offset: 256, length: 64, height: 265, surface: {texture: swgirder, size: [64, 64]}}
+    bands:
+      - {height: 265, surface: {texture: swll4dk, size: [128, 256]}}
+    ambient: 21
+    notes: "Sector 52. Round six: the walls as the original's faces: swll4dk on the west wall, swall4 on the south wall (face 637), a swgirder strip beside the hatch (face 1659), swgirder from 265 up to the ceiling (faces 2556 to 2559)."
+  - id: room:s53_ramp_down
+    name: East ramp to the vault
+    outline: [[6016, -2176], [8320, -2176], [8320, -1920], [6016, -1920]]
+    floor: -417
+    slope: {to: -985, toward: east}
+    ceiling: -128
+    theme: theme:swll4dk_swfloor2b_swwala
+    walls:
+      - wall: 3
+        surface: {texture: swtrpnl, size: [128, 256]}
+    ambient: 21
+    notes: Sector 53.
+  - id: room:s53_vault_lobby
+    name: Vault lobby
+    outline: [[8384, -2784], [8640, -2784], [8640, -1920], [8320, -1920], [8320, -2176], [8384, -2176]]
+    floor: -985
+    ceiling: -725
+    theme: theme:swll4dk_swfloor2b_swwala
+    ambient: 21
+    notes: Sector 53.
+  - id: room:s54_vault
+    name: Vault
+    outline: [[7552, -3584], [9088, -3584], [9088, -2816], [7552, -2816]]
+    floor: -985
+    ceiling: -720
+    theme: theme:swll4dk_swfloor2b_swgirder
+    ceiling_levels:
+      - outline: [[7616, -3520], [9024, -3520], [9024, -2880], [7616, -2880]]
+        ceiling: -656
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 54.
+  - id: room:s55_plate_room
+    name: Pressure plate room
+    outline: [[-9616, -3792], [-9360, -3792], [-9360, -3598], [-8595, -3598], [-8595, -3342], [-8848, -3342], [-8848, -2062], [-9616, -2062]]
+    floor: 196
+    ceiling: 724
+    theme: theme:swll4dk_swfloor2b_swfloor6
+    walls:
+      - wall: 0
+        surface: {texture: swpipes, size: [256, 256]}
+    platforms:
+      - {at: [-9424, -2762], size: [384, 256], rise: 0, top_slope: {to: 92, toward: west}, notes: "The original's ramp (sector 55, face 1254), open on both sides, from the floor at x -9232 up 92 to the store door's sill at the west wall."}
+    ambient: 21
+    notes: "Sector 55. Round four: the ramp to the west door is a sloping platform in the room (round one had it as a room of its own with walls, 240 long)."
+  - id: room:s56_east_bay
+    name: "Entrance wing, east bay"
+    outline: [[-8784, 1600], [-8016, 1600], [-8016, 3200], [-8784, 3200]]
+    floor: 196
+    ceiling: 460
+    theme: theme:swll4dk_swfloor2b_swrt3dk
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 768, surface: {texture: swtrpnl, size: [128, 256]}}
+        notes: "Round six: the south wall is swtrpnl (face 1051), the others swtrdk to the ceiling's edge at 460 (264 high)."
+    bands:
+      - {height: 264, surface: {texture: swtrdk, size: [128, 256]}}
+    ceiling_levels:
+      - outline: [[-8720, 1664], [-8080, 1664], [-8080, 3136], [-8720, 3136]]
+        ceiling: 524
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 18
+    notes: Sector 56.
+  - id: room:s57_c_room
+    name: "Entrance wing, C-shaped store"
+    outline: [[-11376, 1009], [-9584, 1009], [-9584, 3313], [-11376, 3313], [-11376, 2545], [-10096, 2545], [-10096, 2033], [-11376, 2033]]
+    floor: 196
+    ceiling: 452
+    theme: theme:swll4dk_swfloor2b_swgirder
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 1536, length: 768, surface: {texture: swall1, size: [128, 256]}}
+      - wall: 2
+        surface: {texture: swall1, size: [128, 256]}
+        panels:
+          - {offset: 384, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 832, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 1024, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 1472, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 448, length: 384, height: 24, surface: {texture: swrdk2, size: [128, 128]}}
+          - {offset: 1088, length: 384, height: 24, surface: {texture: swrdk2, size: [128, 128]}}
+      - wall: 3
+        surface: {texture: swall1, size: [128, 256]}
+      - wall: 4
+        surface: {texture: swall1, size: [128, 256]}
+      - wall: 5
+        surface: {texture: swall1, size: [128, 256]}
+    ceiling_levels:
+      - outline: [[-11312, 1073], [-9648, 1073], [-9648, 1969], [-11312, 1969]]
+        ceiling: 516
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 256]}
+      - outline: [[-11312, 2609], [-9648, 2609], [-9648, 3249], [-11312, 3249]]
+        ceiling: 524
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 256]}
+      - outline: [[-10064, 2065], [-9744, 2065], [-9744, 2513], [-10064, 2513]]
+        ceiling: 516
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 57.
+  - id: room:s58_airlock_hall
+    name: Airlock hall
+    outline: [[-11312, 3377], [-9840, 3377], [-9840, 3889], [-11312, 3889]]
+    floor: 196
+    ceiling: 460
+    theme: theme:swall2_swfloor2b_swgirder
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 192, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 640, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 832, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 1280, length: 64, surface: {texture: swgirder, size: [64, 64]}}
+          - {offset: 256, length: 384, height: 24, surface: {texture: swrdk2, size: [128, 128]}}
+          - {offset: 256, length: 384, bottom: 248, height: 16, surface: {texture: swr1dk, size: [64, 64]}}
+          - {offset: 896, length: 384, height: 24, surface: {texture: swrdk2, size: [128, 128]}}
+          - {offset: 896, length: 384, bottom: 248, height: 16, surface: {texture: swr1dk, size: [64, 64]}}
+    ceiling_levels:
+      - outline: [[-9904, 3441], [-9904, 3825], [-11248, 3825], [-11248, 3441]]
+        ceiling: 524
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 58.
+  - id: room:s58_airlock_step
+    name: "Airlock hall, raised end"
+    outline: [[-11696, 3377], [-11312, 3377], [-11312, 3889], [-11696, 3889]]
+    floor: 228
+    ceiling: 492
+    theme: theme:swall2_swfloor5a_swgirder
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 512, bottom: 232, height: 32, surface: {texture: swfloor6a, size: [128, 128]}}
+        notes: "Round six: the step in the ceiling over the mouth to the hall (460 to 492), swfloor6a as the original's face 1298."
+    ceiling_levels:
+      - outline: [[-11632, 3441], [-11376, 3441], [-11376, 3825], [-11632, 3825]]
+        ceiling: 556
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swankdk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 58.
+  - id: room:s59_bend
+    name: "Way to the pit, bend"
+    outline: [[-8153, 3264], [-7616, 3264], [-7616, 3632], [-7872, 3632], [-7872, 3520], [-8153, 3520]]
+    floor: 0
+    ceiling: 452
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: Sector 59.
+  - id: room:s59_ramp_1
+    name: "Way to the pit, first ramp"
+    outline: [[-9024, 3264], [-8153, 3264], [-8153, 3520], [-9024, 3520]]
+    floor: 196
+    slope: {to: 0, toward: east}
+    ceiling: 452
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: Sector 59.
+  - id: room:s59_ramp_2
+    name: "Way to the pit, second ramp"
+    outline: [[-7872, 3632], [-7616, 3632], [-7616, 4441], [-7872, 4441]]
+    floor: 0
+    slope: {to: -196, toward: north}
+    ceiling: 452
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    walls:
+      - wall: 2
+        surface: {texture: swildk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 59.
+  - id: room:s60_low_ramp
+    name: Low passage ramp
+    outline: [[-4841, 434], [-3953, 434], [-3953, 562], [-4841, 562]]
+    floor: 196
+    slope: {to: 393, toward: east}
+    ceiling: 788
+    ceiling_slope: {to: 649, toward: east}
+    theme: theme:swall2_swfloor2b_swflorb
+    walls:
+      - wall: 3
+        surface: {texture: swall1, size: [128, 256]}
+    ambient: 18
+    notes: Sector 60.
+  - id: room:s60_low_top
+    name: "Low passage, behind the plug"
+    outline: [[-3953, 434], [-3696, 434], [-3696, 562], [-3953, 562]]
+    floor: 393
+    ceiling: 649
+    theme: theme:swall2_swfloor2b_swflorb
+    ambient: 18
+    notes: Sector 60.
+  - id: room:s61_low_passage
+    name: Low passage
+    outline: [[-6320, 434], [-4841, 434], [-4841, 562], [-6320, 562]]
+    floor: 196
+    ceiling: 452
+    theme: theme:swall2_swfloor2b_swflorb
+    ambient: 18
+    notes: Sector 61.
+  - id: room:s62_lounge
+    name: Lounge over the west passage
+    outline: [[-5874, -590], [-4320, -590], [-4150, -678], [-4150, -85], [-5874, -85]]
+    floor: 591
+    ceiling: 847
+    ceiling_points: [[-4334, -590, 847], [-4334, -85, 847], [-4320, -590, 850], [-4150, -678, 888], [-4150, -85, 888]]
+    ceiling_lines:
+      - [[-4334, -590], [-4334, -85]]
+    ceiling_surfaces:
+      - {at: [-4240, -300], surface: {texture: swankdk, size: [128, 128]}}
+    theme: theme:swll4dk_swfloor2b_swfloor5a
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, from: end, length: 14, surface: {texture: swankdk, size: [128, 128]}}
+      - wall: 1
+        surface: {texture: swankdk, size: [128, 128]}
+      - wall: 3
+        panels:
+          - {offset: 0, length: 184, surface: {texture: swankdk, size: [128, 128]}}
+    platforms:
+      - {rise: 128, surface: {texture: swildk, size: [128, 128]}, outline: [[-4334, -590], [-4320, -590], [-4320, -85], [-4334, -85]], top_surface: {texture: swfloor2b, size: [128, 128]}, notes: "The ledge at 719 behind the sloping sill (faces 764, 767)."}
+      - {rise: 128, surface: {texture: swankdk, size: [128, 128]}, outline: [[-4320, -590], [-4150, -678], [-4150, -85], [-4320, -85]], top_surface: {texture: swfloor2b, size: [128, 128]}, top_slope: {to: 0, toward: east}, notes: "The window's sill: it slopes from 719 down to the floor at the window (face 770)."}
+    ambient: 18
+    notes: "Sector 62. Round five: its east end as the original's: a ledge 14 wide at 719, a sill sloping from it down to the floor at the window, the room flaring to the window's full width (593), and a ceiling that rises from 847 to the window's top at 888 (swankdk). Rounds two to four: an upright sill 128 high and a window 505 wide."
+  - id: room:s63_east_cell_mid
+    name: East cell (middle)
+    outline: [[4144, 1200], [4640, 1200], [4640, 2192], [4144, 2192]]
+    floor: 1184
+    ceiling: 1448
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    platforms:
+      - {rise: 99, outline: [[4544, 1200], [4640, 1200], [4640, 1696], [4544, 1696]], top_surface: {texture: swfloor2b, size: [128, 128]}, notes: "A shelf 99 high in the south-east corner (faces 972 to 974), round five."}
+    ceiling_levels:
+      - outline: [[4208, 1264], [4576, 1264], [4576, 2128], [4208, 2128]]
+        ceiling: 1512
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 63.
+  - id: room:s64_se_closet
+    name: South-east closet
+    outline: [[2272, -4480], [2976, -4480], [2976, -3776], [2464, -3776], [2272, -3968]]
+    floor: 1184
+    ceiling: 1712
+    theme: theme:swll4dk_swfloor2b_swankdk
+    platforms:
+      - {id: platform:s64_shelf, rise: 99, surface: {texture: swr1dk, size: [128, 128]}, outline: [[2272, -3968], [2464, -3968], [2464, -3776]], top_surface: {texture: swfloor2b, size: [128, 128]}, notes: "A shelf 99 high against the diagonal wall (faces 1036 to 1038), round five."}
+    ambient: 21
+    notes: Sector 64.
+  - id: room:s65_entrance_corridor
+    name: Entrance corridor
+    outline: [[-9408, 320], [-9024, 320], [-9024, 3776], [-9408, 3776]]
+    floor: 196
+    ceiling: 452
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ceiling_levels:
+      - ceiling: 551
+        top_outline: [[-9312, 320], [-9120, 320], [-9120, 3776], [-9312, 3776]]
+        edge: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 65.
+  - id: room:s65_entry
+    name: Entry
+    outline: [[-9536, 3776], [-8896, 3776], [-8896, 4288], [-9536, 4288]]
+    floor: 196
+    ceiling: 452
+    theme: theme:swll4dk_swrdk2_swankdk
+    ambient: 18
+    notes: "Sector 65. The head of the entrance corridor, where the party arrives: the original's grated floor and lower panelled ceiling (the corridor's own ceiling is a shallow vault from 452 to 551, drawn flat at 551)."
+  - id: room:s66_pit
+    name: The pit
+    outline: [[-7349, 4544], [-5760, 4544], [-5760, 7104], [-7744, 7104], [-7744, 6592], [-7349, 6592]]
+    floor: -452
+    ceiling: 316
+    theme: theme:swll4dk_swfloor2b_swflora
+    platforms:
+      - {rise: 144, outline: [[-7744, 6592], [-7150, 6592], [-7150, 6691], [-6894, 6691], [-6894, 7104], [-7744, 7104]], top_surface: {texture: swrdk2, size: [128, 128]}, notes: "The landing (-308) between the two flights, run on under the second flight, which stands solid on it; its strip y 6592 to 6691 east of -7150 is the first flight's top step."}
+    flights:
+      - {from: [-7022, 5800], to: [-7022, 6691], width: 256, steps: 9, tread: {texture: swrdk2, size: [128, 128]}, notes: "Risers and sides take one surface: the room's wall (swll4dk), which the original has on this flight's two long sides; its risers are swrdk2."}
+      - {from: [-7150, 6848], to: [-7744, 6848], from_height: -308, to_height: -196, width: 512, steps: 7, riser: {texture: swrdk2, size: [128, 128]}, tread: {texture: swrdk2, size: [128, 128]}, notes: "Ends in the mouth of the upper floor (round five): seven risers, the last in that mouth's wall at x -7744 (face 914), six treads 99 deep."}
+    ambient: 18
+    notes: "Sector 66 less its upper floor: the low floor (-452) and the stair, the original's: nine steps of 16 north up to a landing at -308 (99 deep each), then seven west up to the upper floor (s66_pit_upper) at x -7744. The first flight's `to` lies one step (99) inside the landing, so its steps are 99 deep and its last tread is level with the landing (cut out of it). Round four had the upper floor as a platform of this room and the second flight's last tread inside it."
+  - id: room:s66_pit_upper
+    name: "The pit, upper floor"
+    outline: [[-8320, 4544], [-7349, 4544], [-7349, 6592], [-7744, 6592], [-7744, 7104], [-8320, 7104]]
+    floor: -196
+    ceiling: 316
+    theme: theme:swll4dk_swfloor2b_swflora
+    ambient: 18
+    notes: "Part of sector 66 (round five): the pit's west part, 256 above its low floor, open to it along its whole edge (three mouths) so that the second flight can end in the mouth at x -7744 (`to_height` on a wall). In the original it is one sector with the low floor; round four drew it as a platform against the walls."
+  - id: room:s68_plate_store
+    name: Store behind the plate door
+    outline: [[-10543, -3264], [-9776, -3264], [-9776, -2240], [-10543, -2240]]
+    floor: 288
+    ceiling: 544
+    theme: theme:swall4_swfloor2b_swgirder
+    ceiling_levels:
+      - outline: [[-10480, -3200], [-9840, -3200], [-9840, -2304], [-10480, -2304]]
+        ceiling: 608
+        edge: {texture: swgirder, size: [64, 64]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 68.
+  - id: room:s69_storage_1
+    name: Storage room 1
+    outline: [[-6953, -4816], [-6144, -4816], [-6144, -3792], [-6953, -3792]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ceiling_levels:
+      - outline: [[-6208, -4752], [-6208, -3856], [-6889, -3856], [-6889, -4752]]
+        ceiling: 712
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 69.
+  - id: room:s6_porch
+    name: East porch
+    outline: [[3264, -640], [3296, -640], [3296, -672], [4000, -672], [4000, -96], [3296, -96], [3296, -128], [3264, -128]]
+    floor: 0
+    floor_points: [[3840, -576, 0], [3968, -576, 0], [3968, -192, 0], [3840, -192, 0], [4000, -576, 0], [4000, -192, 0]]
+    floor_lines:
+      - [[3840, -576], [3968, -576], [3968, -192], [3840, -192], [3840, -576]]
+      - [[3968, -576], [4000, -576]]
+      - [[3968, -192], [4000, -192]]
+      - [[3296, -640], [3296, -128]]
+    floor_surfaces:
+      - {at: [3500, -384], surface: {texture: swrdk2, size: [128, 128]}}
+      - {at: [3904, -384], surface: {texture: swll5dk, size: [128, 256]}}
+    ceiling: 256
+    theme: theme:swall5_swfloor2b_swankdk
+    walls:
+      - wall: 0
+        surface: {texture: swhz3dk, size: [32, 32]}
+      - wall: 1
+        surface: {texture: swhz3dk, size: [32, 32]}
+      - wall: 2
+        surface: {texture: swtrdk, size: [128, 256]}
+      - wall: 3
+        surface: {texture: swhz3dk, size: [32, 32]}
+      - wall: 4
+        surface: {texture: swtrdk, size: [128, 256]}
+      - wall: 5
+        surface: {texture: swhz3dk, size: [32, 32]}
+      - wall: 6
+        surface: {texture: swhz3dk, size: [32, 32]}
+    ambient: 21
+    notes: Sector 6.
+  - id: room:s6_ramp
+    name: East ramp down
+    outline: [[4000, -640], [5630, -640], [5630, -128], [4000, -128]]
+    floor: 0
+    slope: {to: -393, toward: east}
+    ceiling: 384
+    ceiling_slope: {to: 15, toward: east}
+    theme: theme:swall5_swfloor2b_swankdk
+    walls:
+      - wall: 1
+        surface: {texture: swildk, size: [128, 128]}
+      - wall: 3
+        surface: {texture: swildk, size: [128, 128]}
+    ambient: 21
+    notes: Sector 6.
+  - id: room:s70_storage_2
+    name: Storage room 2
+    outline: [[-5984, -4816], [-5175, -4816], [-5175, -3792], [-5984, -3792]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ceiling_levels:
+      - outline: [[-5239, -4752], [-5239, -3856], [-5920, -3856], [-5920, -4752]]
+        ceiling: 712
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 70.
+  - id: room:s71_storage_3
+    name: Storage room 3
+    outline: [[-4969, -4816], [-4160, -4816], [-4160, -3792], [-4969, -3792]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ceiling_levels:
+      - outline: [[-4904, -3856], [-4904, -4752], [-4223, -4752], [-4223, -3856]]
+        ceiling: 712
+        edge: {texture: swll4dk, size: [128, 256]}
+        surface: {texture: swll5dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 71.
+  - id: room:s72_tube
+    name: "Tube, exit run"
+    path: [[-8260, -2944], [-7748, -2944]]
+    section: {outline: [[-64, 0], [64, 0], [154, 74], [154, 228], [64, 305], [-64, 305], [-154, 228], [-154, 74]]}
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 21
+    notes: "Sector 72. The tube's eight-sided section (floor strip 128 wide, banks rising 74, upright walls to 228, chamfers to the 128-wide ceiling at 305), measured from the original's faces. The last 48 to the door passage, where the original narrows from the section to the door, is the box room s72_tube_door."
+  - id: room:s72_tube_door
+    name: "Tube, before the exit door"
+    outline: [[-7748, -3098], [-7700, -3098], [-7700, -2790], [-7748, -2790]]
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 21
+    notes: "Sector 72, x -7748 to -7700: the original's sides run here in SWall5 triangles from the tube's section to the door passage's smaller octagon (192 wide floor, 648 high). Drawn as a box: no word for a transition from one section to another that is not a rectangle."
+  - id: room:s73_tube
+    name: "Tube, last south run"
+    path: [[-8467, -2088], [-8467, -2766]]
+    section: {outline: [[-64, 0], [64, 0], [154, 74], [154, 228], [64, 305], [-64, 305], [-154, 228], [-154, 74]]}
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 21
+    notes: "Sector 73. The tube's eight-sided section (floor strip 128 wide, banks rising 74, upright walls to 228, chamfers to the 128-wide ceiling at 305), measured from the original's faces."
+  - id: room:s73_tube_corner
+    name: "Tube, last corner"
+    outline: [[-8644, -3150], [-8260, -3150], [-8260, -2766], [-8644, -2766]]
+    floor: 393
+    ceiling: 698
+    theme: theme:swall4_swrdk_swdoorc
+    walls:
+      - wall: 0
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 1
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 2
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 3
+        surface: {texture: swll4dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 73.
+  - id: room:s74_tube
+    name: "Tube, east run"
+    path: [[-10692, -1882], [-8644, -1882]]
+    section: {outline: [[-64, 0], [64, 0], [154, 74], [154, 228], [64, 305], [-64, 305], [-154, 228], [-154, 74]]}
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 28
+    notes: "Sector 74. The tube's eight-sided section (floor strip 128 wide, banks rising 74, upright walls to 228, chamfers to the 128-wide ceiling at 305), measured from the original's faces."
+  - id: room:s74_tube_corner
+    name: "Tube, east corner"
+    outline: [[-8644, -2088], [-8260, -2088], [-8260, -1704], [-8644, -1704]]
+    floor: 393
+    ceiling: 698
+    theme: theme:swall4_swrdk_swdoorc
+    walls:
+      - wall: 0
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 3
+        surface: {texture: swll4dk, size: [128, 256]}
+    ambient: 28
+    notes: Sector 74.
+  - id: room:s75_tube
+    name: "Tube, short north run"
+    path: [[-10876, -2088], [-10876, -4032]]
+    section: {outline: [[-64, 0], [64, 0], [147, 74], [147, 228], [64, 305], [-64, 305], [-160, 228], [-160, 74]]}
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 28
+    notes: "Sector 75. The tube's eight-sided section (floor strip 128 wide, banks rising 74, upright walls to 228, chamfers to the 128-wide ceiling at 305), measured from the original's faces. This run is not centred on its strip: the west wall stands 147 from the strip's middle, the east one 160."
+  - id: room:s75_tube_corner
+    name: "Tube, middle corner"
+    outline: [[-11076, -2088], [-10692, -2088], [-10692, -1704], [-11076, -1704]]
+    floor: 393
+    ceiling: 698
+    theme: theme:swall4_swrdk_swdoorc
+    walls:
+      - wall: 0
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 1
+        surface: {texture: swll4dk, size: [128, 256]}
+    ambient: 28
+    notes: Sector 75.
+  - id: room:s76_tube
+    name: "Tube, south run"
+    path: [[-13632, -4239], [-11072, -4239]]
+    section: {outline: [[-64, 0], [64, 0], [154, 74], [154, 228], [64, 305], [-64, 305], [-154, 228], [-154, 74]]}
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 28
+    notes: "Sector 76. The tube's eight-sided section (floor strip 128 wide, banks rising 74, upright walls to 228, chamfers to the 128-wide ceiling at 305), measured from the original's faces."
+  - id: room:s76_tube_corner
+    name: "Tube, south corner"
+    outline: [[-11072, -4416], [-10688, -4416], [-10688, -4032], [-11072, -4032]]
+    floor: 393
+    ceiling: 698
+    theme: theme:swall4_swrdk_swdoorc
+    walls:
+      - wall: 2
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 3
+        surface: {texture: swll4dk, size: [128, 256]}
+    ambient: 28
+    notes: Sector 76.
+  - id: room:s77_bay_stall_w
+    name: Repair bay stall (west)
+    outline: [[-3328, -4608], [-3200, -4608], [-3200, -4480], [-3328, -4480]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 3
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 77.
+  - id: room:s78_bay_stall
+    name: Repair bay stall 1
+    outline: [[-2944, -4224], [-2816, -4224], [-2816, -3968], [-2944, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 78.
+  - id: room:s79_bay_stall
+    name: Repair bay stall 2
+    outline: [[-2560, -4224], [-2432, -4224], [-2432, -3968], [-2560, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 79.
+  - id: room:s7_south_gate
+    name: South gate passage
+    outline: [[197, -4599], [593, -4599], [593, -3968], [197, -3968]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[296, -4599, 1539], [493, -4599, 1539], [296, -3968, 1539], [493, -3968, 1539]]
+    ceiling_lines:
+      - [[296, -4599], [296, -3968]]
+      - [[493, -4599], [493, -3968]]
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: "Sector 7, under the original's vault (round five, ceiling_points; faces 135 to 137): chamfers from 1440 at the walls to a flat top 197 wide at 1539, open at both ends with the vault's whole profile. Rounds one to four: flat at 1539."
+  - id: room:s80_bay_stall
+    name: Repair bay stall 3
+    outline: [[-2176, -4224], [-2048, -4224], [-2048, -3968], [-2176, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 80.
+  - id: room:s81_bay_stall
+    name: Repair bay stall 4
+    outline: [[-1792, -4224], [-1664, -4224], [-1664, -3968], [-1792, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 81.
+  - id: room:s82_bay_stall
+    name: Repair bay stall 5
+    outline: [[-1408, -4224], [-1280, -4224], [-1280, -3968], [-1408, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 82.
+  - id: room:s83_bay_stall
+    name: Repair bay stall 6
+    outline: [[-1024, -4224], [-896, -4224], [-896, -3968], [-1024, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 83.
+  - id: room:s84_bay_stall
+    name: Repair bay stall 7
+    outline: [[-640, -4224], [-512, -4224], [-512, -3968], [-640, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 84.
+  - id: room:s85_bay_stall
+    name: Repair bay stall 8
+    outline: [[-256, -4224], [-128, -4224], [-128, -3968], [-256, -3968]]
+    floor: 393
+    ceiling: 648
+    theme: theme:swall1_swfloor2b_swrdk2
+    walls:
+      - wall: 2
+        surface: {texture: swll3dk, size: [128, 256]}
+    ambient: 21
+    notes: Sector 85.
+  - id: room:s8_south_corridor
+    name: South corridor (upper)
+    outline: [[-2560, -5027], [4768, -5027], [4768, -4599], [-2560, -4599]]
+    floor: 1184
+    ceiling: 1440
+    ceiling_points: [[-2560, -4928, 1539], [4768, -4928, 1539], [-2560, -4730, 1539], [296, -4730, 1539], [493, -4730, 1539], [3951, -4730, 1539], [4148, -4730, 1539], [4768, -4730, 1539], [197, -4599, 1440], [296, -4599, 1539], [493, -4599, 1539], [593, -4599, 1440], [3852, -4599, 1440], [3951, -4599, 1539], [4148, -4599, 1539], [4247, -4599, 1440]]
+    ceiling_lines:
+      - [[-2560, -4928], [4768, -4928]]
+      - [[-2560, -4730], [296, -4730], [493, -4730], [3951, -4730], [4148, -4730], [4768, -4730]]
+      - [[197, -4599], [296, -4730]]
+      - [[296, -4599], [296, -4730]]
+      - [[493, -4599], [493, -4730]]
+      - [[593, -4599], [493, -4730]]
+      - [[3852, -4599], [3951, -4730]]
+      - [[3951, -4599], [3951, -4730]]
+      - [[4148, -4599], [4148, -4730]]
+      - [[4247, -4599], [4148, -4730]]
+    ceiling_surfaces:
+      - {at: [0, -4830], surface: {texture: swwala, size: [128, 256]}}
+    theme: theme:swll4dk_swfloor2b_swll5dk
+    ambient: 21
+    notes: "Sector 8, under the original's vault (round five, ceiling_points): the south chamfer 99 wide at 45 degrees, the north one 131 wide (99 up), a flat top 198 wide at 1539 (swwala); the mouths to the south gate passage (x 197 to 593) and to the south-east room's stub (x 3852 to 4247) cross the north chamfer in groins (faces 144 to 146 and 250 to 252). Round two to four: a whole-ceiling level without the groins."
+  - id: room:s90_tube
+    name: "Tube, west run"
+    path: [[-13829, -4032], [-13829, 3424]]
+    section: {outline: [[-64, 0], [64, 0], [146, 74], [146, 228], [64, 305], [-64, 305], [-159, 228], [-159, 74]]}
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 28
+    notes: "Sector 90. The tube's eight-sided section (floor strip 128 wide, banks rising 74, upright walls to 228, chamfers to the 128-wide ceiling at 305), measured from the original's faces. Not centred on its strip: the east wall stands 146 from the strip's middle, the west one 159."
+  - id: room:s90_tube_corner
+    name: "Tube, south-west corner"
+    outline: [[-14016, -4416], [-13632, -4416], [-13632, -4032], [-14016, -4032]]
+    floor: 393
+    ceiling: 698
+    theme: theme:swall4_swrdk_swdoorc
+    walls:
+      - wall: 1
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 2
+        surface: {texture: swll4dk, size: [128, 256]}
+    ambient: 28
+    notes: Sector 90.
+  - id: room:s91_airlock
+    name: Airlock
+    outline: [[-12208, 3377], [-11760, 3377], [-11760, 3889], [-12208, 3889]]
+    floor: 228
+    ceiling: 492
+    theme: theme:swll4dk_swfloor5a_swankdk
+    ambient: 28
+    notes: Sector 91 (the airlock east of its raised west strip).
+  - id: room:s91_airlock_strip
+    name: "Airlock, west strip under the tube's mouth"
+    outline: [[-12272, 3377], [-12208, 3377], [-12208, 3889], [-12272, 3889]]
+    floor: 228
+    ceiling: 545
+    theme: theme:swll4dk_swfloor5a_swgirder
+    ambient: 28
+    notes: "Sector 91: the airlock's west 64, its ceiling raised to 545 (swGIRDER) so that the tube's mouth fits under it."
+  - id: room:s91_tube
+    name: "Tube, entry ramp"
+    path: [[-13634, 3630, 393], [-12272, 3630, 240]]
+    section: {outline: [[-64, 0], [64, 0], [154, 74], [154, 228], [64, 305], [-64, 305], [-154, 228], [-154, 74]]}
+    floor: 393
+    ceiling: 698
+    theme: theme:swll4dk_swrdk2_swflorb
+    ambient: 28
+    notes: "Sector 91. The tube's section on a ramp from 393 at the corner down to 240 at the airlock, measured from the original's faces (walls at 3477 and 3784, strip 3566 to 3694)."
+  - id: room:s91_tube_corner
+    name: "Tube, north-west corner"
+    outline: [[-14018, 3424], [-13634, 3424], [-13634, 3808], [-14018, 3808]]
+    floor: 393
+    ceiling: 698
+    theme: theme:swall4_swrdk_swdoorc
+    walls:
+      - wall: 0
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 1
+        surface: {texture: swll4dk, size: [128, 256]}
+    ambient: 28
+    notes: Sector 91.
+  - id: room:s9_porch
+    name: West porch
+    outline: [[-3359, -678], [-2456, -678], [-2456, -85], [-3359, -85]]
+    floor: 0
+    ceiling: 593
+    ceiling_slope: {to: 256, toward: east}
+    theme: theme:swankdk_swfloor2b_swwala
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 38, surface: {texture: swll5dk, size: [128, 256]}}
+          - {offset: 38, length: 129, surface: {texture: swll4dk, size: [128, 256]}}
+          - {offset: 423, length: 129, surface: {texture: swll4dk, size: [128, 256]}}
+          - {offset: 552, length: 41, surface: {texture: swll5dk, size: [128, 256]}}
+        notes: "Round six: the door's frame on the passage side, as the original's faces 1673 to 1677."
+    ambient: 18
+    notes: Sector 9.
+  - id: room:s9_porch_recess
+    name: "West porch door, recess on the hall side"
+    outline: [[-2392, -640], [-2371, -640], [-2371, -126], [-2392, -126]]
+    floor: 0
+    ceiling: 256
+    theme: theme:swll4dk_swfloor2b_swr4dk
+    ambient: 18
+    notes: "Round six: the original's hall (sector 1) has a recess 21 deep, 514 wide and 256 high in front of the west porch door, its back wall swll4dk either side of the doorway (faces 1676, 1678), its sides swll4dk and its top swr4dk (faces 1341, 1342, 1283)."
+  - id: room:s9_ramp
+    name: West passage ramp
+    outline: [[-4150, -678], [-3359, -678], [-3359, -85], [-4150, -85]]
+    floor: 196
+    slope: {to: 0, toward: east}
+    ceiling: 888
+    ceiling_slope: {to: 593, toward: east}
+    theme: theme:swankdk_swfloor2b_swwala
+    walls:
+      - wall: 3
+        panels:
+          - {offset: 0, length: 593, bottom: 267, height: 128, surface: {texture: swildk2, size: [128, 128]}}
+    ambient: 18
+    notes: "Sector 9. One sloping ceiling runs over this ramp and the porch, from 888 here down to 256 at the hall. The lounge above (sector 62) looks down through open:lounge_window, which stands over the passage's mouth in the same wall."
+  - id: room:s9_west_passage
+    name: West passage
+    outline: [[-6320, -678], [-4150, -678], [-4150, -85], [-6320, -85]]
+    floor: 196
+    ceiling: 463
+    theme: theme:swankdk_swfloor2b_swwala
+    walls:
+      - wall: 0
+        surface: {texture: swll4dk, size: [128, 256]}
+      - wall: 2
+        surface: {texture: swll4dk, size: [128, 256]}
+    ambient: 18
+    notes: Sector 9.
+  - id: room:walk_e_n
+    name: "Lower hall walkway, e n"
+    outline: [[3556, 0], [3951, 0], [3951, 1197], [3556, 1197]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_e_s
+    name: "Lower hall walkway, e s"
+    outline: [[3556, -1965], [3951, -1965], [3951, -768], [3556, -768]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_n_e
+    name: "Lower hall walkway, n e"
+    outline: [[768, 2777], [1975, 2777], [1975, 3172], [768, 3172]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_n_w
+    name: "Lower hall walkway, n w"
+    outline: [[-1186, 2777], [0, 2777], [0, 3172], [-1186, 3172]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_ne
+    name: "Lower hall walkway, ne"
+    outline: [[1975, 2777], [3556, 1197], [3951, 1197], [1975, 3172]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_nw
+    name: "Lower hall walkway, nw"
+    outline: [[-3162, 1197], [-2767, 1197], [-1186, 2777], [-1186, 3172]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_s_e
+    name: "Lower hall walkway, s e"
+    outline: [[768, -3940], [1975, -3940], [1975, -3544], [768, -3544]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_s_w
+    name: "Lower hall walkway, s w"
+    outline: [[-1186, -3940], [0, -3940], [0, -3544], [-1186, -3544]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_se
+    name: "Lower hall walkway, se"
+    outline: [[1975, -3544], [1975, -3940], [3951, -1965], [3556, -1965]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_sw
+    name: "Lower hall walkway, sw"
+    outline: [[-1186, -3940], [-1186, -3544], [-2767, -1965], [-3162, -1965]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_w_n
+    name: "Lower hall walkway, w n"
+    outline: [[-3162, 0], [-2767, 0], [-2767, 1197], [-3162, 1197]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+  - id: room:walk_w_s
+    name: "Lower hall walkway, w s"
+    outline: [[-3162, -1965], [-2767, -1965], [-2767, -768], [-3162, -768]]
+    floor: 256
+    ceiling: 768
+    theme: theme:swll5dk_swrdk2_swcirc2
+    ambient: 21
+    notes: Sector 1.
+openings:
+  - id: open:airlock_hall_e
+    from: room:s57_c_room
+    to: room:s58_airlock_hall
+    along: 0.261
+    width: 384
+    height: 224
+    sill: 24
+  - id: open:airlock_hall_w
+    from: room:s57_c_room
+    to: room:s58_airlock_hall
+    along: 0.695652
+    width: 384
+    height: 224
+    sill: 24
+  - id: open:balcony_slot
+    from: room:s35_upper_room_n
+    to: room:s60_low_ramp
+    from_wall: 7
+    to_wall: 3
+    width: full
+    height: 98
+    sill: 110
+  - id: open:c_room_n
+    from: room:s65_entrance_corridor
+    to: room:s57_c_room
+    along: 0.194
+    width: 256
+    height: 221
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:c_room_s
+    from: room:s65_entrance_corridor
+    to: room:s57_c_room
+    along: 0.819
+    width: 192
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:gate_slab
+    from: room:s45_gate_south
+    to: room:s45_corridor
+    width: full
+    height: 240
+    sill: 16
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:hall_s10_north_corridor
+    from: room:hall_upper
+    to: room:s10_north_corridor
+    width: full
+    height: full
+  - id: open:hall_s11_east_corridor
+    from: room:hall_upper
+    to: room:s11_east_corridor
+    width: full
+    height: full
+  - id: open:hall_s14_se_gallery
+    from: room:s14_se_gallery
+    to: room:hall_upper
+    along: 0.47
+    width: 700
+    height: 157
+    sill: 99
+    threshold: {texture: swfloor2b, size: [128, 128]}
+    notes: "A window: the original's sill is 99 above the floors."
+  - id: open:hall_s17_ne_gallery
+    from: room:s17_ne_gallery
+    to: room:hall_upper
+    along: 0.488
+    width: 904
+    height: 197
+    sill: 99
+    threshold: {texture: swfloor2b, size: [128, 128]}
+    notes: "A window: the original's sill is 99 above the floors and 229 deep through the hall's wall."
+  - id: open:hall_s6_porch
+    from: room:hall_lower
+    to: room:s6_porch
+    from_wall: 8
+    to_wall: 7
+    along: 0.5
+    width: full
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+    reveal: {texture: swankdk, size: [128, 128]}
+    back_reveal: {texture: swhz3dk, size: [32, 32]}
+  - id: open:hall_s7_south_gate
+    from: room:hall_upper
+    to: room:s7_south_gate
+    width: full
+    height: full
+  - id: open:hall_s9_porch
+    from: room:s9_porch_recess
+    to: room:s9_porch
+    along: 0.5
+    width: 256
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:hall_s9_porch_recess
+    from: room:hall_lower
+    to: room:s9_porch_recess
+    from_wall: 20
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:hall_shaft_ne
+    from: room:hall_upper
+    to: room:hall_lower
+    in: floor
+    at: [2688, 1280]
+    size: [448, 448]
+  - id: open:hall_shaft_nw
+    from: room:hall_upper
+    to: room:hall_lower
+    in: floor
+    at: [-1920, 1280]
+    size: [448, 448]
+  - id: open:hall_shaft_se
+    from: room:hall_upper
+    to: room:hall_lower
+    in: floor
+    at: [2688, -2048]
+    size: [448, 448]
+  - id: open:hall_shaft_sw
+    from: room:hall_upper
+    to: room:hall_lower
+    in: floor
+    at: [-1920, -2048]
+    size: [448, 448]
+  - id: open:hall_walk_e_n
+    from: room:hall_lower
+    to: room:walk_e_n
+    width: full
+    height: full
+  - id: open:hall_walk_e_s
+    from: room:hall_lower
+    to: room:walk_e_s
+    width: full
+    height: full
+  - id: open:hall_walk_n_e
+    from: room:hall_lower
+    to: room:walk_n_e
+    width: full
+    height: full
+  - id: open:hall_walk_n_w
+    from: room:hall_lower
+    to: room:walk_n_w
+    width: full
+    height: full
+  - id: open:hall_walk_ne
+    from: room:hall_lower
+    to: room:walk_ne
+    width: full
+    height: full
+  - id: open:hall_walk_nw
+    from: room:hall_lower
+    to: room:walk_nw
+    width: full
+    height: full
+  - id: open:hall_walk_s_e
+    from: room:hall_lower
+    to: room:walk_s_e
+    width: full
+    height: full
+  - id: open:hall_walk_s_w
+    from: room:hall_lower
+    to: room:walk_s_w
+    width: full
+    height: full
+  - id: open:hall_walk_se
+    from: room:hall_lower
+    to: room:walk_se
+    width: full
+    height: full
+  - id: open:hall_walk_sw
+    from: room:hall_lower
+    to: room:walk_sw
+    width: full
+    height: full
+  - id: open:hall_walk_w_n
+    from: room:hall_lower
+    to: room:walk_w_n
+    width: full
+    height: full
+  - id: open:hall_walk_w_s
+    from: room:hall_lower
+    to: room:walk_w_s
+    width: full
+    height: full
+  - id: open:lounge_window
+    from: room:s62_lounge
+    to: room:s9_ramp
+    width: full
+    height: full
+  - id: open:plug
+    from: room:s60_low_top
+    to: room:s38_west_corridor
+    width: full
+    height: 250
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s10_s10_alcove
+    from: room:s10_north_corridor
+    to: room:s10_alcove
+    from_wall: 6
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:s10_s11_east_corridor
+    from: room:s10_north_corridor
+    to: room:s11_east_corridor
+    width: full
+    height: full
+  - id: open:s10_s17_ne_gallery
+    from: room:s10_north_corridor
+    to: room:s17_north_stub
+    width: full
+    height: full
+  - id: open:s11_s13_se_room
+    from: room:s11_east_corridor
+    to: room:s13_east_stub
+    width: full
+    height: full
+  - id: open:s11_s16_east_cell_n
+    from: room:s11_east_corridor
+    to: room:s16_east_cell_n
+    from_wall: 3
+    to_wall: 1
+    along: 0.656
+    width: 198
+    height: 224
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s11_s17_ne_gallery
+    from: room:s11_east_corridor
+    to: room:s17_east_arm
+    width: full
+    height: full
+  - id: open:s12_hall_upper
+    from: room:s12_west_gate
+    to: room:hall_upper
+    width: full
+    height: 256
+  - id: open:s12_hall_upper_vault
+    from: room:s12_west_gate
+    to: room:hall_upper
+    width: 196
+    height: 99
+    sill: 256
+    notes: "The vault's end over the passage's mouth into the hall: with the doorway under it one mouth, as the original's portal (face 209) is, less two triangles 99 by 99 beside the top that stay wall."
+  - id: open:s12_s46_ramp_down
+    from: room:s12_west_gate
+    to: room:s46_ramp_down
+    width: full
+    height: 256
+  - id: open:s12_s46_ramp_down_vault
+    from: room:s12_west_gate
+    to: room:s46_ramp_down
+    width: 196
+    height: 99
+    sill: 256
+    notes: "The vault between the two ramps (the original's portal 2935): one mouth with the doorway under it, less two triangles 99 by 99 beside the top."
+  - id: open:s13_east_stub
+    from: room:s13_east_stub
+    to: room:s13_se_room
+    width: full
+    height: full
+  - id: open:s13_s14_se_gallery
+    from: room:s13_se_room
+    to: room:s14_se_gallery
+    along: 0.393
+    width: 296
+    height: 288
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s13_s64_se_closet
+    from: room:s13_se_room
+    to: room:s64_se_closet
+    along: 0.786
+    width: 197
+    height: 272
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s13_south_stub
+    from: room:s13_south_stub
+    to: room:s13_se_room
+    width: full
+    height: full
+  - id: open:s14_s15_east_cell_s
+    from: room:s15_east_cell_s
+    to: room:s14_se_gallery
+    along: 0.703
+    width: 198
+    height: 240
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s17_east_arm
+    from: room:s17_east_arm
+    to: room:s17_ne_gallery
+    width: full
+    height: full
+  - id: open:s17_north_stub
+    from: room:s17_north_stub
+    to: room:s17_ne_gallery
+    width: full
+    height: full
+  - id: open:s17_s18_ne_office
+    from: room:s18_ne_office
+    to: room:s17_ne_gallery
+    along: 0.562
+    width: 198
+    height: 272
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s17_s20_ne_cell
+    from: room:s20_ne_cell
+    to: room:s17_ne_gallery
+    along: 0.352
+    width: 198
+    height: 272
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s17_s63_east_cell_mid
+    from: room:s63_east_cell_mid
+    to: room:s17_ne_gallery
+    along: 0.509
+    width: 197
+    height: 232
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s18_niche
+    from: room:s18_ne_office
+    to: room:s18_niche
+    width: full
+    height: full
+  - id: open:s21_s12_ramp_landing
+    from: room:s21_ramp_up_1
+    to: room:s12_west_gate
+    width: full
+    height: 396
+  - id: open:s22_s21_ramp_up_1
+    from: room:s22_west_junction
+    to: room:s21_ramp_up_1
+    width: full
+    height: 255
+  - id: open:s22_s33_storage_corridor
+    from: room:s22_west_junction
+    to: room:s33_storage_corridor
+    along: 0.098
+    width: 253
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s22_s72_tube
+    from: room:s22_west_junction
+    to: room:s72_tube_door
+    along: 0.547
+    width: 256
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s23_s24_ramp
+    from: room:s23_generator
+    to: room:s24_ramp
+    width: full
+    height: 231
+  - id: open:s23_s25_west_lobby
+    from: room:s23_generator
+    to: room:s25_west_lobby
+    width: full
+    height: 414
+  - id: open:s23_s27_upper_room_s
+    from: room:s23_generator
+    to: room:s27_upper_room_s
+    width: full
+    height: 256
+  - id: open:s23_s35_upper_room_n
+    from: room:s23_generator
+    to: room:s35_upper_room_n
+    width: full
+    height: 256
+  - id: open:s23_s45_ramp
+    from: room:s23_generator
+    to: room:s45_ramp
+    width: full
+    height: 256
+  - id: open:s23_s61_low_passage
+    from: room:s23_generator
+    to: room:s61_low_passage
+    width: full
+    height: 256
+  - id: open:s23_s9_west_passage
+    from: room:s23_generator
+    to: room:s9_west_passage
+    width: full
+    height: full
+    notes: "The original's portal (face 358) is the passage's whole height, 196 to 463; at 256 the passage's end kept an 11-high strip in the generator wall's plane (faces in one plane, ninth merge round)."
+  - id: open:s24_s22_west_junction
+    from: room:s24_ramp
+    to: room:s22_west_junction
+    width: full
+    height: 255
+  - id: open:s25_s26_west_hall
+    from: room:s25_west_lobby
+    to: room:s26_west_hall
+    width: full
+    height: 414
+  - id: open:s26_s65_entrance_corridor
+    from: room:s26_west_hall
+    to: room:s65_entrance_corridor
+    width: full
+    height: full
+  - id: open:s27_s27_east_arm
+    from: room:s27_upper_room_s
+    to: room:s27_east_arm
+    width: full
+    height: full
+  - id: open:s27_s28_upper_corridor
+    from: room:s27_east_arm
+    to: room:s28_upper_corridor
+    width: full
+    height: 256
+  - id: open:s28_s29_upper_link
+    from: room:s28_upper_corridor
+    to: room:s29_upper_link
+    width: full
+    height: 240
+  - id: open:s28_s62_lounge
+    from: room:s28_upper_corridor
+    to: room:s62_lounge
+    from_wall: 0
+    to_wall: 0
+    width: full
+    height: 256
+  - id: open:s30_s30_passage
+    from: room:s30_stair
+    to: room:s30_passage
+    width: full
+    height: 255
+  - id: open:s30_s30_stair
+    from: room:s30_stair_top
+    to: room:s30_stair
+    width: full
+    height: 355
+  - id: open:s30_s30_stair_top
+    from: room:s30_stair_head_w
+    to: room:s30_stair_top
+    width: full
+    height: full
+  - id: open:s30_s30_stair_top_2
+    from: room:s30_stair_head_e
+    to: room:s30_stair_top
+    width: full
+    height: full
+  - id: open:s31_s30_passage
+    from: room:s31_south_corridor
+    to: room:s30_passage
+    width: full
+    height: 223
+  - id: open:s32_s29_upper_link
+    from: room:s32_ramp
+    to: room:s29_upper_link
+    width: full
+    height: 256
+  - id: open:s32_s31_south_corridor
+    from: room:s32_sw_corridor
+    to: room:s31_south_corridor
+    width: full
+    height: 255
+  - id: open:s32_s32_ramp
+    from: room:s32_sw_corridor
+    to: room:s32_ramp
+    width: full
+    height: 255
+  - id: open:s32_s33_storage_corridor
+    from: room:s32_sw_corridor
+    to: room:s33_storage_corridor
+    width: full
+    height: 255
+  - id: open:s32_s34_repair_bay
+    from: room:s32_sw_corridor
+    to: room:s34_repair_bay
+    along: 0.339
+    width: 255
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s33_s33_ramp
+    from: room:s33_storage_corridor
+    to: room:s33_ramp
+    width: full
+    height: 255
+  - id: open:s33_s55_plate_room
+    from: room:s33_ramp
+    to: room:s55_plate_room
+    width: full
+    height: 264
+  - id: open:s33_s69_storage_1
+    from: room:s33_storage_corridor
+    to: room:s69_storage_1
+    along: 0.499
+    width: 253
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s33_s70_storage_2
+    from: room:s33_storage_corridor
+    to: room:s70_storage_2
+    along: 0.501
+    width: 253
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s33_s71_storage_3
+    from: room:s33_storage_corridor
+    to: room:s71_storage_3
+    along: 0.499
+    width: 253
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s34_s77_bay_stall_w
+    from: room:s34_repair_bay
+    to: room:s77_bay_stall_w
+    width: full
+    height: 255
+  - id: open:s34_s78_bay_stall
+    from: room:s34_repair_bay
+    to: room:s78_bay_stall
+    width: full
+    height: 255
+  - id: open:s34_s79_bay_stall
+    from: room:s34_repair_bay
+    to: room:s79_bay_stall
+    width: full
+    height: 255
+  - id: open:s34_s80_bay_stall
+    from: room:s34_repair_bay
+    to: room:s80_bay_stall
+    width: full
+    height: 255
+  - id: open:s34_s81_bay_stall
+    from: room:s34_repair_bay
+    to: room:s81_bay_stall
+    width: full
+    height: 255
+  - id: open:s34_s82_bay_stall
+    from: room:s34_repair_bay
+    to: room:s82_bay_stall
+    width: full
+    height: 255
+  - id: open:s34_s83_bay_stall
+    from: room:s34_repair_bay
+    to: room:s83_bay_stall
+    width: full
+    height: 255
+  - id: open:s34_s84_bay_stall
+    from: room:s34_repair_bay
+    to: room:s84_bay_stall
+    width: full
+    height: 255
+  - id: open:s34_s85_bay_stall
+    from: room:s34_repair_bay
+    to: room:s85_bay_stall
+    width: full
+    height: 255
+  - id: open:s35_s44_link_ramp
+    from: room:s35_upper_room_n
+    to: room:s44_link_ramp
+    width: full
+    height: 256
+  - id: open:s36_s36_passage
+    from: room:s36_stair_head_w
+    to: room:s36_passage
+    width: full
+    height: full
+  - id: open:s36_s36_passage_2
+    from: room:s36_stair_head_e
+    to: room:s36_passage
+    width: full
+    height: full
+  - id: open:s36_s36_ramp
+    from: room:s36_passage
+    to: room:s36_ramp
+    width: full
+    height: full
+  - id: open:s36_s37_north_corridor
+    from: room:s36_ramp
+    to: room:s37_north_corridor
+    width: full
+    height: 256
+  - id: open:s38_s37_north_corridor
+    from: room:s38_west_corridor
+    to: room:s37_north_corridor
+    width: full
+    height: 256
+  - id: open:s38_s39_meeting_hall
+    from: room:s38_west_corridor
+    to: room:s39_meeting_hall
+    along: 0.38
+    width: 255
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s38_s40_wedge_room
+    from: room:s38_west_corridor
+    to: room:s40_wedge_room
+    along: 0.643
+    width: 255
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s38_s42_nw_corridor
+    from: room:s38_west_corridor
+    to: room:s42_nw_corridor
+    width: full
+    height: 256
+  - id: open:s38_s44_link
+    from: room:s38_west_corridor
+    to: room:s44_link
+    width: full
+    height: 256
+  - id: open:s39_s39_door_recess
+    from: room:s39_meeting_hall
+    to: room:s39_door_recess
+    width: full
+    height: full
+  - id: open:s39_s43_locked_room
+    from: room:s39_door_recess
+    to: room:s43_door_recess
+    width: full
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s41_s41_h_bar
+    from: room:s41_h_room
+    to: room:s41_h_bar
+    width: full
+    height: full
+  - id: open:s41_s41_h_west
+    from: room:s41_h_bar
+    to: room:s41_h_west
+    width: full
+    height: full
+  - id: open:s42_s41_h_room
+    from: room:s42_nw_corridor
+    to: room:s41_h_room
+    along: 0.479
+    width: 255
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s42_s45_corridor
+    from: room:s42_nw_corridor
+    to: room:s45_corridor
+    width: full
+    height: 256
+  - id: open:s42_s48_panel_room
+    from: room:s42_nw_corridor
+    to: room:s48_panel_room
+    along: 0.611
+    width: 255
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s43_s43_door_recess
+    from: room:s43_door_recess
+    to: room:s43_locked_room
+    width: full
+    height: full
+  - id: open:s44_s44_link
+    from: room:s44_link_ramp
+    to: room:s44_link
+    width: full
+    height: 256
+  - id: open:s45_s45_gate_south
+    from: room:s45_ramp
+    to: room:s45_gate_south
+    width: full
+    height: 264
+  - id: open:s45_s47_passage
+    from: room:s45_gate_south
+    to: room:s47_passage
+    width: full
+    height: 264
+  - id: open:s47_s46_ramp_landing
+    from: room:s47_ramp_up
+    to: room:s46_ramp_down
+    width: full
+    height: 396
+  - id: open:s47_s47_ramp_up
+    from: room:s47_passage
+    to: room:s47_ramp_up
+    width: full
+    height: 264
+  - id: open:s49_s50_east_lobby
+    from: room:s50_east_lobby
+    to: room:s49_east_hall
+    along: 0.5
+    width: full
+    height: 265
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s49_s52_east_closet
+    from: room:s49_east_hall
+    to: room:s52_east_closet
+    width: full
+    height: 265
+  - id: open:s50_s51_east_store
+    from: room:s51_east_store
+    to: room:s50_east_lobby
+    along: 0.65
+    width: 255
+    height: 265
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s52_s53_ramp_down
+    from: room:s52_east_closet
+    to: room:s53_ramp_down
+    width: full
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s53_s53_vault_lobby
+    from: room:s53_ramp_down
+    to: room:s53_vault_lobby
+    width: full
+    height: 260
+  - id: open:s53_s54_vault
+    from: room:s53_vault_lobby
+    to: room:s54_vault
+    along: 0.5
+    width: full
+    height: 260
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s55_s68_plate_store
+    from: room:s55_plate_room
+    to: room:s68_plate_store
+    along: 0.5098
+    width: 254
+    height: 255
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s58_s58_airlock_step
+    from: room:s58_airlock_hall
+    to: room:s58_airlock_step
+    width: full
+    height: full
+  - id: open:s58_s91_airlock
+    from: room:s58_airlock_step
+    to: room:s91_airlock
+    along: 0.518
+    width: full
+    height: 264
+    threshold: {texture: swfloor5a, size: [128, 128]}
+  - id: open:s59_s59_bend
+    from: room:s59_ramp_1
+    to: room:s59_bend
+    width: full
+    height: full
+  - id: open:s59_s59_ramp_2
+    from: room:s59_bend
+    to: room:s59_ramp_2
+    width: full
+    height: full
+  - id: open:s59_s66_pit
+    from: room:s59_ramp_2
+    to: room:s66_pit_upper
+    width: full
+    height: 512
+  - id: open:s60_s60_low_top
+    from: room:s60_low_ramp
+    to: room:s60_low_top
+    width: full
+    height: 256
+  - id: open:s61_s60_low_ramp
+    from: room:s61_low_passage
+    to: room:s60_low_ramp
+    width: full
+    height: 256
+  - id: open:s62_s35_upper_room_n
+    from: room:s62_lounge
+    to: room:s35_upper_room_n
+    along: 0.656
+    width: 161
+    height: 256
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s65_s56_east_bay
+    from: room:s65_entrance_corridor
+    to: room:s56_east_bay
+    along: 0.34
+    width: 192
+    height: 221
+    threshold: {texture: swfloor2b, size: [128, 128]}
+  - id: open:s65_s59_ramp_1
+    from: room:s65_entrance_corridor
+    to: room:s59_ramp_1
+    width: full
+    height: 256
+  - id: open:s65_s65_entry
+    from: room:s65_entrance_corridor
+    to: room:s65_entry
+    width: full
+    height: full
+  - id: open:s66_pit_upper_e
+    from: room:s66_pit_upper
+    to: room:s66_pit
+    from_wall: 1
+    to_wall: 5
+    width: full
+    height: full
+    notes: The upper floor's east edge over the low floor (x -7349).
+  - id: open:s66_pit_upper_n
+    from: room:s66_pit_upper
+    to: room:s66_pit
+    from_wall: 2
+    to_wall: 4
+    width: full
+    height: full
+    notes: The upper floor's edge along the second flight (y 6592).
+  - id: open:s66_pit_upper_w
+    from: room:s66_pit_upper
+    to: room:s66_pit
+    from_wall: 3
+    to_wall: 3
+    width: full
+    height: full
+    notes: The upper floor's edge at the second flight's head (x -7744).
+  - id: open:s6_s49_east_hall
+    from: room:s6_ramp
+    to: room:s49_east_hall
+    width: full
+    height: 265
+  - id: open:s6_s6_ramp
+    from: room:s6_porch
+    to: room:s6_ramp
+    width: full
+    height: 256
+  - id: open:s72_s72_tube_door
+    from: room:s72_tube
+    to: room:s72_tube_door
+    shape: section
+  - id: open:s73_s72_tube
+    from: room:s72_tube
+    to: room:s73_tube_corner
+    shape: section
+  - id: open:s73_s73_tube_corner
+    from: room:s73_tube
+    to: room:s73_tube_corner
+    shape: section
+  - id: open:s74_s73_tube
+    from: room:s73_tube
+    to: room:s74_tube_corner
+    shape: section
+  - id: open:s74_s74_tube_corner
+    from: room:s74_tube
+    to: room:s74_tube_corner
+    shape: section
+  - id: open:s75_s74_tube
+    from: room:s74_tube
+    to: room:s75_tube_corner
+    shape: section
+  - id: open:s75_s75_tube_corner
+    from: room:s75_tube
+    to: room:s75_tube_corner
+    shape: section
+  - id: open:s76_s75_tube
+    from: room:s75_tube
+    to: room:s76_tube_corner
+    shape: section
+  - id: open:s76_s76_tube_corner
+    from: room:s76_tube
+    to: room:s76_tube_corner
+    shape: section
+  - id: open:s7_s8_south_corridor
+    from: room:s7_south_gate
+    to: room:s8_south_corridor
+    width: full
+    height: full
+  - id: open:s8_s11_east_corridor
+    from: room:s8_south_corridor
+    to: room:s11_east_corridor
+    width: full
+    height: full
+  - id: open:s8_s13_se_room
+    from: room:s8_south_corridor
+    to: room:s13_south_stub
+    width: full
+    height: full
+  - id: open:s8_s19_south_closet
+    from: room:s8_south_corridor
+    to: room:s19_south_closet
+    width: full
+    height: 256
+  - id: open:s90_s76_tube
+    from: room:s76_tube
+    to: room:s90_tube_corner
+    shape: section
+  - id: open:s90_s90_tube_corner
+    from: room:s90_tube
+    to: room:s90_tube_corner
+    shape: section
+  - id: open:s91_airlock_strip
+    from: room:s91_airlock_strip
+    to: room:s91_airlock
+    width: full
+    height: full
+  - id: open:s91_s90_tube
+    from: room:s90_tube
+    to: room:s91_tube_corner
+    shape: section
+  - id: open:s91_s91_tube
+    from: room:s91_tube
+    to: room:s91_airlock_strip
+    shape: section
+  - id: open:s91_s91_tube_corner
+    from: room:s91_tube
+    to: room:s91_tube_corner
+    shape: section
+  - id: open:s9_s9_ramp
+    from: room:s9_porch
+    to: room:s9_ramp
+    width: full
+    height: full
+  - id: open:s9_s9_west_passage
+    from: room:s9_ramp
+    to: room:s9_west_passage
+    width: full
+    height: 267
+  - id: open:walk_s30_stair_head_e
+    from: room:walk_s_e
+    to: room:s30_stair_head_e
+    width: full
+    height: 483
+  - id: open:walk_s30_stair_head_w
+    from: room:walk_s_w
+    to: room:s30_stair_head_w
+    width: full
+    height: 483
+  - id: open:walk_s36_stair_head_e
+    from: room:walk_n_e
+    to: room:s36_stair_head_e
+    width: full
+    height: 344
+  - id: open:walk_s36_stair_head_w
+    from: room:walk_n_w
+    to: room:s36_stair_head_w
+    width: full
+    height: 344
+  - id: open:walk_walk_e_n
+    from: room:walk_ne
+    to: room:walk_e_n
+    width: full
+    height: full
+  - id: open:walk_walk_n_w
+    from: room:walk_nw
+    to: room:walk_n_w
+    width: full
+    height: full
+  - id: open:walk_walk_ne
+    from: room:walk_n_e
+    to: room:walk_ne
+    width: full
+    height: full
+  - id: open:walk_walk_nw
+    from: room:walk_w_n
+    to: room:walk_nw
+    width: full
+    height: full
+  - id: open:walk_walk_s_e
+    from: room:walk_se
+    to: room:walk_s_e
+    width: full
+    height: full
+  - id: open:walk_walk_se
+    from: room:walk_e_s
+    to: room:walk_se
+    width: full
+    height: full
+  - id: open:walk_walk_sw
+    from: room:walk_s_w
+    to: room:walk_sw
+    width: full
+    height: full
+  - id: open:walk_walk_w_s
+    from: room:walk_sw
+    to: room:walk_w_s
+    width: full
+    height: full
+notes: "The Control Center of MM6 (sci-fi.blv) in the original's own frame. Room ids carry the original's sector number (s23_generator is sector 23). Written from measurements of the original's sectors; see NOTES.md for what could not be said."

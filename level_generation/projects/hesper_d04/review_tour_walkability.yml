@@ -1,0 +1,74 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d04/review/walkability/captures
+settle_seconds: 2
+exit: true
+shots:
+- name: arrival-stair
+  position:
+  - 3100
+  - 4510
+  - -392
+  yaw: 1.57
+  pitch: 0.2
+- name: guard-chamfers
+  position:
+  - 1450
+  - 5100
+  - 120
+  yaw: 2.6
+  pitch: 0.2
+- name: terrace-ramp
+  position:
+  - 2900
+  - 3350
+  - -648
+  yaw: 1.57
+  pitch: 0.1
+- name: terrace-landing
+  position:
+  - 3400
+  - 3756
+  - -520
+  yaw: 2.6
+  pitch: 0.1
+- name: sleeping-pit
+  position:
+  - -900
+  - 3250
+  - -392
+  yaw: -0.6
+  pitch: 0.2
+- name: surgery-octagon
+  position:
+  - 7400
+  - 1050
+  - -392
+  yaw: 0.7
+  pitch: 0.25
+- name: hall-landing
+  position:
+  - 1650
+  - -200
+  - -392
+  yaw: 3.14
+  pitch: 0
+- name: balcony-stair
+  position:
+  - 800
+  - -200
+  - -392
+  yaw: 1.57
+  pitch: 0.3
+- name: waste-vault
+  position:
+  - 6200
+  - -1300
+  - -1160
+  yaw: 0.4
+  pitch: 0.25
+- name: sump-chamfers
+  position:
+  - 8500
+  - -1200
+  - -1160
+  yaw: 0
+  pitch: 0.25

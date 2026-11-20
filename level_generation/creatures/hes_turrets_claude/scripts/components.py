@@ -1,0 +1,69 @@
+"""List the connected components of a Meshy return after orienting it (barrel to -y, base at z = 0, scaled to the
+target height), and render them in random colours with their index labels written to a JSON.
+Args: -- <ward_turret|gate_bastion> <out prefix>"""
+import json
+import math
+import os
+import random
+import sys
+
+import bmesh
+import bpy
+import numpy as np
+from mathutils import Matrix, Vector
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(HERE, 'scripts'))
+import turret_common as tc  # noqa: E402
+
+name, prefix = sys.argv[sys.argv.index('--') + 1:][:2]
+obj = tc.import_raw(name)
+bm = bmesh.new(); bm.from_mesh(obj.data)
+labels = tc.component_labels(bm)
+co = np.array([v.co[:] for v in bm.verts])
+rows = []
+for c in range(labels.max() + 1):
+    p = co[labels == c]
+    rows.append({'c': c, 'n': int(len(p)), 'lo': p.min(0).round(3).tolist(), 'hi': p.max(0).round(3).tolist(),
+                 'mid': p.mean(0).round(3).tolist()})
+rows.sort(key=lambda r: r['mid'][2])
+for r in rows:
+    print('COMP', r['c'], r['n'], 'lo', r['lo'], 'hi', r['hi'], 'mid', r['mid'])
+json.dump(rows, open(prefix + '_components.json', 'w'), indent=0)
+print('BOUNDS', co.min(0).round(3), co.max(0).round(3))
+
+# colour per component (face attribute -> material per component is too many; use vertex colours)
+random.seed(3)
+cols = [(random.random(), random.random(), random.random(), 1) for _ in range(labels.max() + 1)]
+layer = bm.loops.layers.color.new('c')
+for f in bm.faces:
+    for l in f.loops:
+        l[layer] = cols[labels[l.vert.index]]
+bm.to_mesh(obj.data); bm.free()
+obj.data.color_attributes.active_color_name = 'c'
+obj.data.color_attributes.render_color_index = 0
+scene = bpy.context.scene
+scene.render.engine = 'BLENDER_WORKBENCH'
+scene.display.shading.light = 'STUDIO'
+scene.display.shading.color_type = 'VERTEX'
+scene.render.resolution_x, scene.render.resolution_y = 1000, 1000
+cam = bpy.data.objects.new('Cam', bpy.data.cameras.new('Cam'))
+scene.collection.objects.link(cam); scene.camera = cam
+cam.data.type = 'ORTHO'
+lo, hi = Vector(co.min(0)), Vector(co.max(0)); centre = (lo + hi) / 2; size = max(hi - lo)
+cam.data.ortho_scale = size * 1.1
+for view, (az, el) in {'34': (-35, 15), 'left': (-90, 0), 'front': (0, 0), 'top': (0, 89), 'back34': (150, 20)}.items():
+    a, e = math.radians(az), math.radians(el)
+    d = Vector((math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e)))
+    cam.location = centre + d * size * 3
+    cam.rotation_euler = (-d).to_track_quat('-Z', 'Y').to_euler()
+    scene.render.filepath = f'{prefix}_{view}.png'
+    bpy.ops.render.render(write_still=True)
+    from bpy_extras.object_utils import world_to_camera_view
+    marks = []
+    for r in rows:
+        if r['n'] < 30:
+            continue
+        p = world_to_camera_view(scene, cam, Vector(r['mid']))
+        marks.append((r['c'], p.x, 1 - p.y))
+    json.dump(marks, open(f'{prefix}_{view}_marks.json', 'w'))

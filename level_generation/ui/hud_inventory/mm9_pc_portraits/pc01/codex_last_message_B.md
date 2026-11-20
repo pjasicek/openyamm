@@ -1,0 +1,3 @@
+Saved [raw_B.png](level_generation/ui/hud_inventory/mm9_pc_portraits/pc01/raw_B.png) using built-in image generation: 1536×1024, 28 portraits, verified transparency. Exact prompts and hashes are in [generation_B.json](level_generation/ui/hud_inventory/mm9_pc_portraits/pc01/generation_B.json).
+
+No runtime checks performed. Some crops/gazes remain approximate, and bruising is stronger than requested.

@@ -1,0 +1,24 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/journal_map_pixels/images
+exit: true
+steps:
+- wait: 2
+- capture: gameplay-mm6
+- action: map_book
+- wait: 0.5
+- capture: map-mm6
+- action: zoom_in
+- capture: map-mm6-zoom1
+- action: zoom_in
+- capture: map-mm6-zoom2
+- pointer_down:
+  - 700
+  - 420
+- pointer_move:
+  - 805
+  - 485
+- pointer_up:
+  - 805
+  - 485
+- capture: map-mm6-pan
+- action: zoom_out
+- capture: map-mm6-zoom-back

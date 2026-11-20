@@ -1,0 +1,136 @@
+- door_index: 0
+  legacy_attributes: 0
+  door_id: 8
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020]
+  face_ids: [730, 731, 732, 733, 734, 735]
+  sector_ids: [9]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [6976, 6976, 6976, 6976, 7040, 7040, 7040, 7040]
+  y_offsets: [2816, 3328, 3328, 2816, 2816, 3328, 3328, 2816]
+  z_offsets: [1408, 1408, 896, 896, 896, 896, 1408, 1408]
+- door_index: 1
+  legacy_attributes: 0
+  door_id: 3
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028]
+  face_ids: [736, 737, 738, 739, 740, 741]
+  sector_ids: [11]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [5376, 5376, 5376, 5376, 5888, 5888, 5888, 5888]
+  y_offsets: [4224, 4288, 4288, 4224, 4224, 4288, 4288, 4224]
+  z_offsets: [1408, 1408, 896, 896, 896, 896, 1408, 1408]
+- door_index: 2
+  legacy_attributes: 0
+  door_id: 6
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 384
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036]
+  face_ids: [742, 743, 744, 745, 746, 747]
+  sector_ids: [11]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [5376, 5376, 5376, 5376, 5888, 5888, 5888, 5888]
+  y_offsets: [4544, 5056, 5056, 4544, 4544, 5056, 5056, 4544]
+  z_offsets: [768, 768, 704, 704, 704, 704, 768, 768]
+- door_index: 3
+  legacy_attributes: 0
+  door_id: 7
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044]
+  face_ids: [748, 749, 750, 751, 752, 753]
+  sector_ids: [18]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [5376, 5376, 5376, 5376, 5888, 5888, 5888, 5888]
+  y_offsets: [2056, 2120, 2120, 2056, 2056, 2120, 2120, 2056]
+  z_offsets: [1408, 1408, 896, 896, 896, 896, 1408, 1408]
+- door_index: 4
+  legacy_attributes: 0
+  door_id: 4
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1045, 1046, 1047, 1048, 1049, 1050, 1051, 1052]
+  face_ids: [754, 755, 756, 757, 758, 759]
+  sector_ids: [5]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [8448, 8448, 8448, 8448, 8960, 8960, 8960, 8960]
+  y_offsets: [3968, 4032, 4032, 3968, 3968, 4032, 4032, 3968]
+  z_offsets: [1408, 1408, 896, 896, 896, 896, 1408, 1408]
+- door_index: 5
+  legacy_attributes: 0
+  door_id: 5
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1053, 1054, 1055, 1056, 1057, 1058, 1059, 1060]
+  face_ids: [760, 761, 762, 763, 764, 765]
+  sector_ids: [7]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [1040, 1040, 1040, 1040, 1104, 1104, 1104, 1104]
+  y_offsets: [-256, 256, 256, -256, -256, 256, 256, -256]
+  z_offsets: [1792, 1792, 1280, 1280, 1280, 1280, 1792, 1792]
+- door_index: 6
+  legacy_attributes: 0
+  door_id: 1
+  time_since_triggered_ms: 0
+  direction: [65536, 0, 0]
+  move_length: 256
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1061, 1062, 1063, 1064, 1065, 1066, 1067, 1068]
+  face_ids: [766, 767, 768, 769, 770, 771]
+  sector_ids: [6]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [-512, -512, -512, -512, -256, -256, -256, -256]
+  y_offsets: [1256, 1320, 1320, 1256, 1256, 1320, 1320, 1256]
+  z_offsets: [1280, 1280, 768, 768, 768, 768, 1280, 1280]
+- door_index: 7
+  legacy_attributes: 0
+  door_id: 2
+  time_since_triggered_ms: 0
+  direction: [-65536, 0, 0]
+  move_length: 256
+  open_speed: 128
+  close_speed: 128
+  state: 2
+  vertex_ids: [1069, 1070, 1071, 1072, 1073, 1074, 1075, 1076]
+  face_ids: [772, 773, 774, 775, 776, 777]
+  sector_ids: [6]
+  delta_us: [0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0]
+  x_offsets: [256, 256, 256, 256, 512, 512, 512, 512]
+  y_offsets: [1256, 1320, 1320, 1256, 1256, 1320, 1320, 1256]
+  z_offsets: [1280, 1280, 768, 768, 768, 768, 1280, 1280]

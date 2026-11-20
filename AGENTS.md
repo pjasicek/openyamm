@@ -15,6 +15,19 @@ These rules apply to all AI-generated contributions in this repository.
 - To regenerate generated Lua events, run `tools/regenerate_lua_events.sh`. It emits shared
   `assets_dev/engine/events/Global.lua` once from the canonical MM8/default global source, then regenerates MM6/MM7/MM8
   map-local scripts with `--skip-global` so per-world exports do not duplicate or overwrite the shared global file.
+- MM9 map Lua (`assets_dev/worlds/mm9/events/maps/<stem>.lua`, headed "... convert.py writes this file") is generated
+  too: each map's converter in `level_generation/projects/mm9r_<map>*/` (`convert.py`, and `citylua.py`,
+  `regionlua.py`, `council.py` ... where the project has them; the regions' projects are `mm9r_<map>_blv`, whatever
+  the header says) writes it on every conversion, and promotion copies it over `assets_dev`. Never edit only the
+  installed file. Change the converter, then build the map into a scratch folder (`convert.py --scratch <dir>`), check
+  that `<dir>/runtime/<stem>.lua` differs from the installed file by your change alone, and install it into
+  `assets_dev` and the map's review root (`output/mm9_rework/isleofashes_blv_root` for the regions, Bootcamp and the
+  Afterworld, `output/mm9_rework/assets_dev` for the rest). A converter-wide change goes in
+  `level_generation/projects/mm9r_common/`. `tools/mm9_import_discovery/check_mm9_map_lua.py` lists the scripts that
+  differ from their review root (an edit in one place only); run it before and after MM9 map Lua work. The same holds
+  for the scene files the converters write (`<stem>.scene.yml`, `.blv`; a region's scratch scene lacks the `terrain`
+  block, which its convert.py adds only when installing). The hand-written MM9 Lua is
+  `worlds/mm9/events/common/mm9_common.lua` and `worlds/mm9/behaviors/*.lua`: edit those directly.
 - Prefer simple, maintainable solutions over clever abstractions.
 - Do not add adapter/forwarding layers that only hide duplicated ownership.
 - Keep temporary diagnostics and noisy logs out of final changes.
@@ -36,6 +49,17 @@ These rules apply to all AI-generated contributions in this repository.
   [MM8 outdoor rendering investigation](re_mm8/OUTDOOR_RENDERING.md) and its original-executable annotations.
   Compare original techniques with the existing renderer using
   [MM8 versus OpenYAMM rendering](re_mm8/OPENYAMM_RENDERING_COMPARISON.md) before proposing optimization changes.
+- For releases, packaging, the self-updater and the release server (GitHub Actions builds, signs and publishes on a
+  `vX.Y` tag; small download packages; user data in the installation folder), start with
+  [Releases](packaging/RELEASE.md) and [Incremental updates](packaging/UPDATER_PLAN.md).
+- Saves and changed maps: each saved map state records its map's layout identity, and a map rebuilt since the save
+  resets its state when entered (party state kept); see [Saved map states](devdocs/SAVED_MAP_STATE_IDENTITY.md).
+- For named mods (`mods/<id>/mod.yml`, `mods/enabled.yml`, their mount order, table rows and id-range checks, the
+  `mods` console command, saves of maps a mod brought), start with [Named mods](devdocs/NAMED_MODS.md).
+- When the user explicitly asks for mockups, always also build an HTML viewer page for them without being asked:
+  one page that shows every mockup live (scaled to fit, with a link to full size), switches between them and
+  their states, lists what each shows, and includes the captures. Keep it beside the mockups (`viewer.html`), publish
+  it as an Artifact with the mockups' files, and give the user its link. Delegated mockup work includes the viewer.
 - Start searches in relevant source directories; include `reference/`, `mm9/`, generated assets, and build trees only
   when needed.
 - Development compile command: `cmake --build build --target openyamm -j25`.
@@ -49,8 +73,15 @@ These rules apply to all AI-generated contributions in this repository.
   active global instructions.
 - When the user references an image by filename or bare id, such as `901.png` or `901`, first resolve it as
   `test_img/901.png` unless the user provided a different path.
+- For localization (interface languages, language packs in `assets_dev/languages/`, `tools/l10n.py`, the
+  pseudo-language `qps`), start with [Localization](devdocs/LOCALIZATION.md). English is the key: new player-visible
+  text in C++ goes through `Engine::tr()` (or `trn()` for counts) with named `{placeholders}`, never a sentence built
+  from pieces; Lua scripts pass whole sentences to `evt` functions or use `tr()`. Data tables and generated event
+  scripts stay English.
 - For the outdoor sky, sky-coloured fog, sky presets or sky textures, start with
   [Enhanced outdoor sky](level_generation/lighting/SKY_RENDERING.md), the only outdoor sky renderer.
+- For ground mist and local coloured fog volumes on indoor or outdoor maps (the scene's `mist` block, drawn inside
+  the fogging shaders through `game/shaders/mist.sh`; no volumetric lighting), start with [Mist](devdocs/MIST.md).
 - For outdoor rain, snow, wind, lightning, thunder, wet surfaces or `weather.yml`, start with
   [Outdoor weather](level_generation/lighting/WEATHER_PLAN.md).
 - For the outdoor terrain (blended ground materials on a smoothed terrain, the only terrain style: per-map weights
@@ -60,24 +91,85 @@ These rules apply to all AI-generated contributions in this repository.
   grass colour), start with [Grass level of detail](level_generation/terrain/GRASS_LOD.md).
 - For the grass art, plant families (tall patches, verges, wildflowers, undergrowth), the low 3D bushes, how the meadow
   reads from above and the ground's dry and lush tint, start with [Meadow](level_generation/terrain/MEADOW.md).
+- For relief, roughness, metal, glass and night-glowing windows on BLV and BModel face textures (surface material
+  maps: height and class maps generated per texture in `level_generation/surface_materials/`, cooked by
+  `tools/surface_materials.py`), start with [Surface materials](devdocs/SURFACE_MATERIALS_PLAN.md).
+- **Story and quest playthroughs are long checks, not routine tests.** The MM9 main story from a new game to its
+  ending is `tests/playthrough/mm9/` (about 60 segments chained by checkpoint saves); its side quests are
+  `tests/scenarios/mm9/side_quests/` (standalone, each from a new game); its promotion quests and their class table are
+  `tests/playthrough/mm9/promotions/` (a chain that starts from the main run's checkpoints, which are git-ignored: run
+  the main run first, then `promotions/run.py --start`). Each has its own `run.py` (and a
+  `--reload` mode that saves and loads back after every step). They take minutes to tens of minutes, so they are not
+  in CI (CI plays only `tests/scenarios/release/scenarios.txt`: never add them there) and are not run for ordinary
+  changes. Run them when the user asks, before a release, or after a change that can break a story (a story map's
+  converter or rebuild, event, dialogue, item or map-transition code, save format, the scenario runner), and then
+  only the affected segments or quests (`run.py NN`). A change that deliberately alters a story path (an item made a
+  world item, an event renumbered) updates the segments it breaks in the same change. How they are built, extended
+  and debugged: the [Playthrough playbook](tests/playthrough/PLAYBOOK.md).
+- For the solo action mode research and the first-person view model prototype (held weapon and shield, swings that
+  land at the blow, shield block, `[debug] view_model_path`), start with [Solo action mode](devdocs/solo_action/README.md).
 - For scripted monsters, bosses or encounters (per-actor Lua behaviours over the shared AI), start with
-  [Actor scripting](ACTOR_SCRIPTING_INVESTIGATION.md).
+  [Actor scripting](devdocs/ACTOR_SCRIPTING_INVESTIGATION.md).
+- For in-engine cinematics (camera cutscenes with letterbox, fades, sounds, subtitles and actor steps: a map's
+  `<stem>.cinematics.yml`, `evt.PlayCinematic`) and camera shake (`evt.CameraShake`), start with
+  [MM9 cutscenes](devdocs/mm9_rework/MM9_CUTSCENES.md); the format and runtime are shared by every world.
+- Bugs, requests and feedback from the Discord server are `OY-<n>` items in
+  [Discord triage](devdocs/discord_triage/README.md) (checks: `.agents/skills/discord-check`). Normal work never
+  needs to look them up; when a change is known to fix an item, put its `OY-<n>` in the commit message.
+- For turn-based combat (the turn queue, initiative, recovery in turns, actions that must spend a turn, fairness
+  bugs and their `tests/scenarios/turn_based/` scenarios), start with
+  [Turn-based combat audit](devdocs/TURN_BASED_COMBAT_AUDIT.md).
+- For battle orders (what each member's Attack does: ordered spells and weapons with conditions, the weapon or hold
+  fallback, the Battle Orders window over the spellbook, the spellbook's spell menu and the quick keys) and the upkeep
+  list (the buffs, heals and cures the Upkeep key casts when they are due, and the buff potions it drinks, with their
+  stock and auto-brew), start with [Battle orders](devdocs/BATTLE_ORDERS.md).
+- For per-world monster data add-ons: modifiers (`modifiers.yml`: true aim, never staggers, blink and the rest) are in
+  [Monster modifiers](devdocs/MONSTER_MODIFIERS.md); energy shields and faction relations (`shields.yml`,
+  `relations.yml`) are in [Energy shields and relations](devdocs/ENERGY_SHIELDS_AND_RELATIONS.md).
+- For the playthrough statistics (the Statistics page of the Quick Reference overlay, F1 and the top bar's tally
+  scroll; the sealed timeline in each save and the sealed lifetime sidecar `saves/playthroughs/<id>.<key>.oystats`, the
+  private release key source `OPENYAMM_STATS_KEY_SOURCE`, the assisted flags; gold and experience
+  reasons), start with [Playthrough statistics](devdocs/PLAYTHROUGH_STATISTICS_PLAN.md). Its "Saves by playthrough"
+  section covers the Load and Save screens' grouping by playthrough, playthrough names (`saves/playthroughs/names.yml`)
+  and each playthrough's own Quicksave and Autosave files.
+- For completion certificates (a world's `world.yml` `completion` block with the original certificate art, the
+  OpenYAMM composite in `engine/ui/certificates.yml` and the automatic `certificates/` PNGs), start with
+  [Completion certificates](level_generation/ui/certificates_20261031/README.md).
+- A world's own decorations (rows in its declared `decorations` range, its decoration sprites and bindings) go in its
+  world package, never into the engine's `decoration_data.txt`: see
+  [World decoration contributions](devdocs/WORLD_DECORATION_CONTRIBUTIONS.md).
 - For projectile visuals (flight and impact effects in `engine/effects/projectiles.yml`, generated by
   `tools/fx/generate_projectile_effects.py`; 3D models of solid projectiles in `engine/models/projectiles.yml`, built
-  in `level_generation/props/projectiles_claude/`), start with [All projectiles](PROJECTILE_VFX_ALL_PROPOSAL.md).
+  in `level_generation/props/projectiles_claude/`), start with [All projectiles](devdocs/PROJECTILE_VFX_ALL_PROPOSAL.md).
   There is no classic projectile style: no projectile or impact draws its native sprite. Only CC0/CC-BY or our own
   art may be committed; paid packs are reference only, and Fab content is incompatible with the GPL.
-- For items lying on the ground in 3D (one model per item generated from its inventory icon, `engine/models/items.yml`),
-  start with [Ground items in 3D](GROUND_ITEMS_3D_PLAN.md) (rolled back for now: items draw sprites; archive in
-  `assets_legacy/rollback_3d_20261016/`). Volumetric items (helmets, boots, potions, rings, cloaks)
-  follow the [3D ground item playbook](level_generation/props/items_claude/GROUND_ITEM_3D_PLAYBOOK.md): Codex HD
-  master, Meshy Smart Topology, Codex-painted views baked into PBR maps.
+- For items lying on the ground in 3D (one model per item generated from its inventory icon,
+  `engine/world_items/items.yml`), start with [Ground items in 3D](devdocs/GROUND_ITEMS_3D_PLAN.md). Ground items draw no
+  billboards: a missing model draws a loud placeholder, never the sprite
+  (see [behaviour](devdocs/GROUND_ITEMS_3D_BEHAVIOUR.md)); after installing an item model, run `tools/item_model_shapes.py`.
+  Volumetric items (helmets, boots, potions, rings, cloaks) follow the
+  [3D ground item playbook](level_generation/props/items_claude/GROUND_ITEM_3D_PLAYBOOK.md): Codex HD master, Meshy
+  Smart Topology, Codex-painted views baked into PBR maps.
 - For melee hit feedback (slash/thrust/crush effects at the contact point from `tools/fx/generate_melee_effects.py`,
   cooked to BC7/ASTC atlases by `tools/cook_effect_textures.py`; impact sounds and contact effects by struck material;
-  hitstop, optional flash and camera kick), start with [Melee hit feedback](MELEE_HIT_FEEDBACK_DESIGN.md).
+  hitstop, optional flash and camera kick), start with [Melee hit feedback](devdocs/MELEE_HIT_FEEDBACK_DESIGN.md).
 - The game does not check whether an outdoor lighting bake is older than its sources (a decoration model changed).
   Before a release or commit, run `tools/lighting/stale_bakes.py` (it writes `assets_dev/STALE_LIGHTING_BAKES.txt`)
   and re-bake what it lists (see `tools/lighting/baked_outdoors/README.md`).
+- For baked lighting of native indoor maps (BLV lightmaps: opt-in `<map>.lighting` sidecars, Cycles producer
+  `tools/lighting/bake_indoor.py`, also audited by `stale_bakes.py`), start with
+  [Indoor baked lighting](devdocs/INDOOR_BAKED_LIGHTING.md).
+- For animated decorations (moving parts such as chest lids and bells, whole moving models, skinned copies of
+  banners and statues; `evt.PlayDecorationClip`, `idle`, `use_clips`, chest lids opening with their chests; MM9's
+  props split by `level_generation/props/mm9_prop_parts/`), start with
+  [Animated decorations](devdocs/ANIMATED_DECORATIONS.md).
+- For rotating movers (hinged doors, levers, pivot traps, hatches: a door's opt-in `mover` block in the scene) and
+  climbable ladders in BLV maps (the scene's `ladders`), start with
+  [Indoor rotating movers and ladders](devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).
+- For breakable walls, boards and props on BLV maps (scene `destructibles`, the `evt.DamageDestructible` family, MM9's
+  DestructableBrush/Prop conversion), start with [Indoor destructibles](devdocs/INDOOR_DESTRUCTIBLES.md).
+  Pulsing lights (MM9's GlowingLight, scene `pulsing_lights`): [Indoor pulsing lights](devdocs/INDOOR_PULSING_LIGHTS.md).
+  Placed ambient sounds (MM9's AmbientSound, scene `ambient_sounds`): [Ambient sounds](devdocs/AMBIENT_SOUNDS.md).
 
 ### Native Game Visual Checks
 
@@ -88,6 +180,12 @@ These rules apply to all AI-generated contributions in this repository.
   See [Desktop game runs](tools/RUN_GAME.md) or `./tools/run_game.sh --isolated --help` for copied settings/saves,
   camera overrides, rendering settings and timed exit. Runs bypass the menu, retain records in a unique temporary
   directory, and close their own game process automatically (default: three-second warmup plus fifteen seconds).
+- Agent game runs start minimized so they do not cover the user's desktop: `./tools/run_game.sh` sets
+  `OPENYAMM_START_MINIMIZED=1` for plain and `--isolated` runs. The minimized game still renders at full size, so
+  engine screenshots, tours, logs and timed exit behave as usual; it never has input focus, so mouse look stays off.
+  Pass `--visible` (first argument for plain runs, any position for `--isolated`) only for FPS/performance
+  measurements, which a minimized window does not reproduce, or when the user asks to watch. `tools/profile_game.sh`
+  always shows the window. Launch the game binary directly only when no wrapper fits, with the same variable.
 - The user authorized this desktop launcher. When desktop access requires `require_escalated`, use the saved
   `./tools/run_game.sh` command-prefix approval when available, without asking again. Approval persistence is controlled
   by the client. This approval covers launching the game, not arbitrary profiler commands or system configuration.
@@ -113,6 +211,23 @@ These rules apply to all AI-generated contributions in this repository.
   for slow motion) are one-shot launch directives: parsed from the INI but never written back on save, so they fire
   only for the launch that requested them.
 - Captures use isolated saves/settings and do not establish real-hardware GPU performance. Inspect the images and logs.
+- Game runs may overlap: several agents' runs and the user's game can be up at once, so do not wait for another game
+  to close before launching. Use `--isolated` with a unique name so runs do not share settings or saves. Only
+  performance measurements and investigations need a single session, and the user arranges those.
+- When waiting for your own game run or helper script, wait on its exact PID (`kill -0 <pid>`). Never wait on
+  `pgrep -f <text>`: your own `bash -c` command line, heredoc or launcher
+  contains that text, so the wait matches itself and never ends. Run one sequential queue script rather than chained
+  background waiters.
+- For anything drawn on the gameplay HUD or the fullscreen gameplay screens, follow
+  [HUD rendering](devdocs/HUD_RENDERING.md): draw only through the HUD functions (they fill one draw list that is
+  drawn once per frame, in call order); read game state when drawing and keep no "changed" flags; a number that
+  needs a walk over actors or bags goes through `HudReading`; group fills, frames and text lines of a row into one
+  call. Check a change with `avg_hud_draws` in the run log and the `[HudDraw]` listing.
+- For "the FPS dropped" or "this mode is slower" questions, start with the fastest route in the
+  [perf workflow](tools/PERF_PROFILING.md#fastest-route-where-does-the-frame-time-go): two visible isolated runs for
+  the numbers (`[FramePerf]`, `[GameFramePerf]`, draws), then `perf record --call-graph dwarf` on the ordinary build,
+  `perf script --no-inline -F tid,ip,sym` and `tools/perf_stacks.py` (per thread: inclusive time, callees, callers).
+  Always pass `--no-inline`; never use `perf report -g` on this binary (addr2line runs for minutes at full CPU).
 - For CPU profiling, use `./tools/profile_game.sh` with its saved command-prefix approval; the user authorized
   this reusable OpenYAMM profiling wrapper. `--enable-user-perf` sets `perf_event_paranoid=2` until reboot when
   needed; administrator authentication is separate from sandbox approval. See [perf workflow](tools/PERF_PROFILING.md).
@@ -120,14 +235,27 @@ These rules apply to all AI-generated contributions in this repository.
 
 ### Level Generation
 
+- `level_generation/` is tracked only in part: its own `.gitignore` admits docs, scripts, review pages and small
+  hand-written data and skips the heavy folders (`work/`, `review/`, `meshy/`, renders, venvs). Models and images stay
+  local. After creating a project or a large text file there, run `python3 level_generation/update_gitignore.py`,
+  which lists the files over 256 KB that the rules would admit.
 - For creating or revising indoor/outdoor maps, start with [Level Generation](level_generation/README.md), even when
   the user does not name the document. Follow its applicable indoor/outdoor workflow, reference studies, calibration,
   and current pipeline-status notes; example maps are references, not universal layouts or exporters.
+- Geometric detail on existing MM6–MM8 BModels (an appended untouchable model with eaves, frames, sills, coping) is an
+  experimental project, shelved by the user on 2026-11-12: do not apply it to maps. To resume it, start with its
+  [handoff](level_generation/projects/mm6_sorpigal_geometry_pilot/HANDOFF.md), then the
+  [playbook](level_generation/projects/mm6_sorpigal_geometry_pilot/PLAYBOOK.md).
 - Use [Blender MCP Startup](level_generation/BLENDER_MCP_STARTUP.md) for agent-managed startup/reconnection.
   Prioritize visual authenticity and quick static wiring/build checks; follow the README's criteria for runtime
   scenarios rather than running a scenario for every face, service, or event binding.
 
 ### Creature Generation
+
+- For local creature viewer checks, screenshots and playback recordings, use the reusable
+  [creature review wrapper](tools/CREATURE_REVIEW.md): `python3 tools/run_creature_review.py`.
+  The user authorized this workflow and its saved command-prefix approval across creature sessions. Reuse that
+  prefix when Chrome requires desktop/socket access; do not request a new approval for each creature's capture script.
 
 - Treat `CREATURE_RESTORE <source-pattern>` as an explicit request to follow
   [Creature Restore](.agents/skills/creature-restore/SKILL.md), also invocable as `$creature-restore`.
@@ -161,6 +289,15 @@ These rules apply to all AI-generated contributions in this repository.
   [game asset modelling guidelines](level_generation/GAME_ASSET_MODELLING_GUIDELINES.md): silhouette-first triangle
   budgets, no micro or sliver triangles, hard edges on UV seams, consistent texel density, Khronos PBR ranges,
   transparent parts on their own mesh, about 50 % per LOD. Record engine-driven deviations in the project README.
+- Texture every Meshy-textured model for sharpness from the start: UVs from `claude_shared/uv_atlas.py` (since
+  2026-11-12 PartUV charts, seam pass and sparrow packing; `charts='xatlas', packer='xatlas', seam_rounds=0` switches
+  back), Meshy paint at 4K downsampled once to 2K, gentle grading, nearest-texel gutter re-fill (`gutter_fill.py`)
+  last, and the measured atlas/density targets met before install, per the
+  [texture quality pass](level_generation/creatures/claude_shared/TEXTURE_QUALITY_PASS.md). Smart UV layouts with 2K
+  paints came out smudged (MM9, 2026-10-30).
+- For a world-wide pass over installed 3D monsters (tier scales against the sprite tables, floor contact of every
+  clip, walk/run choice and playback rate, texture relief), follow the
+  [creature post-process](level_generation/creatures/CREATURE_POSTPROCESS.md); MM8 was done on 2026-10-21.
 - Only when the user asks to retopologise or repair an existing creature mesh, follow the
   [creature retopology playbook](level_generation/creatures/RETOPOLOGY_PLAYBOOK.md); it is not a default step.
 - Keep asset-generation checks focused on visuals and quick manifest/alpha/placement validation. Renderer work and
@@ -253,7 +390,7 @@ These rules apply to all AI-generated contributions in this repository.
   the right-hand Attack/Spell pair, clears Quick Cast and follows that group's party-frame displacement.
   The right group uses a 1024-wide scale reference (about 6% smaller at 2:1) to stay beside the full party bar;
   wider phones retain full size. The left group retains its 965-wide reference. Flight arrows are visible and
-  touchable only outdoors with the Fly party buff active.
+  touchable only outdoors with the Fly party buff active, or while the party is on an indoor ladder.
   This follow-up also installs Obsidian Lloyd's Beacon,
   jewelry/magnifier, context illustrations and teleport Close buttons, and removes the legacy shop frame fallback.
   Spellbook art remains intentional. Preserve the separate menu implementation when revisiting gameplay UI.
@@ -264,6 +401,15 @@ These rules apply to all AI-generated contributions in this repository.
   [runtime staging bundle](level_generation/ui/menu_study_20260928/runtime_stage/README.md).
   It preserves blank graphics, Fondamento/Arrus/Lucida fonts, layout YAML drafts and integration contracts.
   This is an approved design handoff; native menu activation remains separate work.
+- The party creation screen is the user-chosen **C2** layout (2026-11-01): a roster rail, an identity/attributes/race
+  strip, the learnable skills in three columns coloured by best mastery (grey Normal, white Expert, turquoise Master,
+  gold Grandmaster) and a full-height paperdoll, with portrait/voice/class pickers, a mastery table and a party board;
+  no skill planner. Start with the [party creation study](level_generation/ui/party_creation_study_20261101/README.md)
+  and its native implementation notes.
+- Potions and scrolls in play: the [basebar popups](level_generation/ui/potion_scroll_popups_20261102/README.md)
+  (2026-11-02): the frame's end ornaments carry carved sockets (socket v2), whose scroll (left) and potion (right)
+  buttons open paused lists of what the party carries. The per-portrait quick item rings of the earlier radial study
+  are a setting, off by default.
 
 ### Decoration And Effect Restoration
 
@@ -272,6 +418,8 @@ These rules apply to all AI-generated contributions in this repository.
   [chat bundle index](level_generation/ui/hud_inventory/CHAT_BUNDLES.md). The user selected a maximum of 64
   targets per sheet, constrained by the measured pixel budget; use fewer for larger art. Check retained results
   and superseded assignments before generating. Preparation and raw-return cataloguing do not accept artwork.
+- For MM9 player portraits as MM6–MM8 portrait families (56 slots, template family, Codex sheets, landmark
+  verification), follow the [MM9 PC portrait playbook](level_generation/ui/hud_inventory/mm9_pc_portraits/PLAYBOOK.md).
 - For MM6–MM8 non-creature sprite enhancement (decorations, items, projectiles, FX, weather or UI), start with
   [Prepared Sprite Restoration Jobs](level_generation/sprites/restoration_jobs/README.md). Use its exact prompts,
   palette references, resumable queue and imagegen skill; planning alone does not authorize generation.
@@ -313,7 +461,8 @@ Subsystem layers:
 
 - `engine/`
 - `game/`
-- `editor/`
+- `core/` (the code the game shares with Map Studio, `openyamm-studio/`: map formats, scene files,
+  collision and the map builds in `core/compile/`; see `core/CMakeLists.txt`)
 - `tools/`
 
 Treat gameplay systems as shared by default. Fixes for HUD, UI screens, input/keybind semantics, inventory, items,
@@ -343,6 +492,16 @@ missing world hooks. Prefer fixing the shared path or the world hook over adding
   world-local maps, events, and presentation assets. MM6/MM7/MM8 worlds must not own active TXT/BIN gameplay tables;
   import or migrate their references to the merged MMerge-owned tables under `assets_dev/engine/`. Do not add a
   separate campaign package layer for now.
+- Rulesets (Standard MMMerge, MAW, later vanilla MM6–MM8) are packages under `assets_dev/engine/rulesets/<id>/` with a
+  `ruleset.yml` (inside the engine package, so released updaters accept their packs). A ruleset may override cells of, or replace, named tables in `assets_dev/engine/data_tables/` through
+  its own patch files; this is the agreed exception to "worlds must not own gameplay tables". Never edit the engine
+  tables for a ruleset. Start with [the MAW handoff](devdocs/maw/HANDOFF.md).
+- MAW in MM9 (Chedian, MAW's fourth continent beside Jadame, Antagarich and Enroth): start with
+  [MAW in MM9](devdocs/maw/MM9_SUPPORT.md) and [its balance design](devdocs/maw/MM9_BALANCE_DESIGN.md). Every MM9
+  number MAW uses lives in `assets_dev/engine/rulesets/maw/worlds/mm9/balance.yml`; edit only that file, then run
+  `tools/maw/mm9_balance.py` (it checks it, writes `item_bases.yml` beside it and the testers' review page). MAW's
+  density in MM9 is each map's pack reserve (`rulesets/maw/maps/<stem>_zz_maw.scene.yml`), written by
+  `tools/maw/mm9_pack_reserve.py`; run it again after an MM9 map is reconverted (`mm9_balance.py --check` says which).
 - The flat base decides which worlds are mounted, which worlds can be chosen at new game start, and how cross-world
   travel, metaquests, difficulty profiles, and global overrides work.
 - Keep shared content in the engine/base scope when the party can carry it or when it defines base mechanics:
@@ -360,10 +519,16 @@ missing world hooks. Prefer fixing the shared path or the world hook over adding
   references only; import into normal world/mod architecture instead of reproducing MMerge's memory-hook runtime shape.
 - Keep restored merge-owned/global icons in `assets_dev/engine/icons_x2` and restored MM6–MM8 NPC portraits in
   `assets_dev/worlds/mm*/icons_x2`; keep lowercase filenames and 0644 permissions. `engine/icon_packages.txt`
-  declares the authoritative package tiers; MM9 retains its native `worlds/mm9/icons` scope. Original MM6–MM8
+  declares the authoritative package tiers; MM9's icons are x2 in `worlds/mm9/icons_x2` (installed by
+  `tools/mm9_import_discovery/install_mm9_item_art_x2.py` and `import_mm9_items.py`). Original MM6–MM8
   icons are archived outside runtime mounts under `assets_legacy/icons_20260926/`. Do not repopulate their retired
   `icons` folders. See `level_generation/ui/hud_inventory/runtime_install_20260926/README.md` for receipts and
   source mapping.
+- For the MM9 rework (rebuilding every MM9 map as native ODM/BLV with MM6–MM8 density, 3D creatures from the MM9
+  models, walk-in shops, Fleet Foot instead of Fly), start with [MM9 rework](devdocs/mm9_rework/README.md). It
+  holds the plan, the user's decisions and a triage of which `devdocs/mm9/` records are current, stale or superseded.
+- For Legends of Might and Magic content (LoMM maps rebuilt as standalone BLV dungeons, new monster candidates, the
+  git-ignored `reference/legends_of_mm/` install), start with [LoMM content](devdocs/lomm/README.md).
 - Follow `MM9_RUDE_SCR_INTEGRATION.md` for MM9 RUDE, dialogue-linked SCR, item, promotion, skill, and service work.
   Compile only the required NPC dialogue hooks at build time; do not add a general SCR runtime or MM9 spells/skills.
 - MM9 integration and implementation must not regress existing MM6/MM7/MM8 gameplay, data behavior, save/load,
@@ -380,18 +545,20 @@ missing world hooks. Prefer fixing the shared path or the world hook over adding
 - Keep original asset formats whenever practical: TXT gameplay data, WAV audio, MP3/FLAC music, OGV video, ZIP packages.
 - Development assets live under `assets_dev/`; runtime packages live under `assets/*.zip` and `assets/worlds/*.zip`.
 - 3D models (creatures, their held or worn attachments, decorations and props): the accepted GLB is a source in
-  `assets_source/worlds/<world>/models/` (shared models in `assets_source/engine/models/`). Decoration models of every
-  world (`mm6_deco_*`, `mm7_deco_*`, ...) are engine content, and so are their bindings: install them with `--engine`
-  and bind them in `engine/models/decorations.yml`, `indoor_decorations.yml` and `decoration_overlays.yml`, which every
-  world reads; a world may extend them with `worlds/<world>/models/` manifests of the same names. Before an install, run
-  `level_generation/decorations/mm8_3d/animated/scripts/check_winding.py <glb>` (0 inverted closed parts). Install
-  with `tools/install_model.py <export.glb>` (`--world`, `--engine`, `--name`), never by copying into `assets_dev`
-  directly. The tool then writes the runtime copy at the same path under `assets_dev`, cooked by
-  `tools/cook_models.py` ([ASSET_COOKING_PLAN.md](ASSET_COOKING_PLAN.md) §12). Never edit,
+  `assets_source/worlds/<world>/models/` (shared models in `assets_source/engine/models/`). Decoration models of the
+  MM6-MM8 worlds (`mm6_deco_*`, `mm7_deco_*`, `mm8_deco_*`) are engine content, and so are their bindings: install them
+  with `--engine` and bind them in `engine/models/decorations.yml`, `indoor_decorations.yml` and
+  `decoration_overlays.yml`, which every world reads; a world may extend them with `worlds/<world>/models/` manifests of
+  the same names. MM9's (`mm9_deco_*`) are MM9 world content: only MM9 binds them and MM9 ships as its own package, so
+  install them with `--world mm9` and bind them in `worlds/mm9/models/` (moved there on 2026-11-08). Before an
+  install, run `level_generation/decorations/mm8_3d/animated/scripts/check_winding.py <glb>` (0 inverted closed
+  parts). Install with `tools/install_model.py <export.glb>` (`--world`, `--engine`, `--name`), never by copying into
+  `assets_dev` directly. The tool then writes the runtime copy at the same path under `assets_dev`, cooked by
+  `tools/cook_models.py` ([ASSET_COOKING_PLAN.md](devdocs/ASSET_COOKING_PLAN.md) §12). Never edit,
   re-export or copy back from an `assets_dev` model, and run `tools/model_backface_split.py` only on such runtime
   copies, never on a source or a project export. Bindings and tables (`actors.yml`, `decorations.yml`) stay in
   `assets_dev`.
 - Renderer uses bgfx. Keep rendering simple: static meshes, sprites/billboards, UI, basic lighting, fog.
 - Audio uses SDL3 with an engine mixer layer for effects, music, volume groups, and fades.
 - Video uses FFmpeg OGV decoding with audio/video sync and looping/cutscene support.
-- Editor code must reuse runtime engine systems and must not duplicate gameplay logic.
+- Map Studio must reuse the shared core (`core/`) and must not duplicate gameplay logic.

@@ -1,0 +1,131 @@
+{
+  "sources": {
+    "water": {
+      "path": "mm6_new_sorpigal_water/raw/water_v1.png",
+      "sha256": "ec9acb90ba5ae3f7a41cabfeeb1ee78c03620931e0ca590ccf203a105eb4f296"
+    },
+    "grass": {
+      "path": "mm6_new_sorpigal_master_study/generated/v1/grass_512.png",
+      "sha256": "919c91dfa242557cc898229ad5582c32ead3d7025dc22ee5e081a3cf0ecfa37b"
+    },
+    "dirt": {
+      "path": "mm6_new_sorpigal_master_study/generated/v6/dirt_512.png",
+      "sha256": "80007862a6330f3e1c5f1acbe011fe6e159c9f91c7cf31f30d9004063e9d9811"
+    },
+    "volcano": {
+      "path": "mm6_new_sorpigal_master_study/generated/v2/volcano_512.png",
+      "sha256": "6bee53e395a867cedf455bc50c2aeaee034b06fefd3d33d39bcc5a41c9ae21b1"
+    },
+    "cobbles": {
+      "path": "mm6_new_sorpigal_master_study/generated/v1/cobbles_512.png",
+      "sha256": "e51154975e5de53bbb579bff2444853b6fc1ed158f7476a3ef11d594e318ec08"
+    }
+  },
+  "runtime_size": 256,
+  "files": {
+    "6grastyl.png": "284d25135da6cf053e84e7f9298c27316bca40b4106d0756e2cf105854d4d11b",
+    "voldrtsw.png": "dcb0c66bb429e778b0ba1eb195bf88c9e94950672cc8c37c90aac76d27443955",
+    "6grdrtxse.png": "a50e6a624d72084a83a3492d280eceacbaf13ef60197169031f1ce6ca9c1e0b1",
+    "6hdwtr004.png": "1a082a8eaa958c3801b28cd61e63f4e70f4015f3ef504dfeba7de2a1ee69bfdb",
+    "6grdrtne.png": "b5ed1e538ffcb11569970a1b4d77c7e3dcb41ef924f9d207ec1797dbfcd2bed3",
+    "6drsrew_s.png": "cde50777e2520b28a2fcad791c46f4a4fef9341843ddfceba597ede5a3c18a45",
+    "6grdrte.png": "75a16b936dc6a15410e7db69a45aad3c8abe80dbf69d6aa9b9896f91e3b28a60",
+    "voldrtxse.png": "9fd21196cf839ff9999841a0829b4502f1a0be5d9ff94f3f6323a3a7902700d1",
+    "6wtrdrxne.png": "9f4416208b27244b4c61fed5ed73bfb94cae8ae518b13452b88668263c1216b5",
+    "6hdwtr008.png": "0b0c8684abc22d7520109e946e97b8bf99d752880b8cd318853e5187de6c130b",
+    "6hdwtr013.png": "78beca52b7fb4923e40ef004c6fa6c5bdc6b8c1ed2fb7b026140d7b76324905f",
+    "6hdwtr010.png": "a05666d075c74d1dd1bf59d8b68261a7a47f6d84a225e03619b6d42d2dbf1808",
+    "6wtrdrs.png": "fadfb4e9956bde64512f36f6e899e7f8a94f9278d8fdfb57f4de97e3fac98698",
+    "6wtrdrnw.png": "1dd0930a8245de858b2258fc5e84c7167c1bc9fb76a9e94631f46c67bcb00159",
+    "6wtrdrw.png": "a5b50ff7e72eab4d374c85918d1ce46a4a6e62e099e468cc30f32fc7eaf4968c",
+    "voldrtne.png": "99bcbb2e334987c0cec730f95410cf11b37a083f9091b1a597ba2e4f1cbfdcf2",
+    "voldrtw.png": "c484532d35205d247b5ecedb1611ccdf1ac0655fcaa91793169dc2defaf2492a",
+    "6drsrs_e.png": "603738a600e41ed934fce5611563310bbdd7d3a2d517ca21c870f3831d41fb6d",
+    "6dirttyl.png": "da2e20314966e997b88589574c5ef824f7a967ba60af043f88dbe7d0167e0344",
+    "6hdwtr006.png": "a3049f9c2681cdd4ae5e5717df7c0de0ec978fd9e76c77b044487f74a6e51b06",
+    "6drsrn_e.png": "92f06580faad4e3a6dc5f4276bc3f20ca417fed79d9646809eb732611c7b1bed",
+    "6hdwtr003.png": "dada67a89d7daee423c00480993f07d124b27bcb2b62a8fdaa178a5b80463f77",
+    "6hdwtr007.png": "dbfdf3a746138e8cc376c24cb7ec8909c10a849ae00ea79f691c6946a4d69bad",
+    "6grdrts.png": "837eee7d437f079d6ff4dfcc72123a22e5d2b91f2e1eaa54175e053d37626f6c",
+    "6hdwtr002.png": "61e5d8e92c129dc8f7949b188dad3c599f5267b25d7f3eafd17e6fb56be44182",
+    "voldrtn.png": "928769080ec0daf3af55309a42cbd9efc69fd273856fd9e3755e852fc9174fb7",
+    "voldrtnw.png": "1911a4e3471cb2b1be250382bc76bdf874d3aaa76a1708667ebb8fd32520cd3b",
+    "6hdwtr001.png": "ab92e1be9a0a80e1893c884d9dbbf23f4ef2b655408d0dd888a3b95d97f85462",
+    "6wtrdrxsw.png": "4b1151342b7b3fde413001b857e102dc994dba72bcd54aab6cad3f47d0040c59",
+    "6hdwtr009.png": "c047809eb1508e252b7732d5c447f3a9a266a7d6152f16278747fc318dcce6b5",
+    "6grdrtxne.png": "bd468c21badbaceeac7edb9b26211061590e3e423ae7e0ae33be0943534c1bbc",
+    "6drsrn_w.png": "0a0e13017c8c45b04fb5ec18d998cfedae4946eae07efc0e59956dc226479df6",
+    "6grdrtnw.png": "54577a6ef67e1b1e3a93d187ea5d8cd70d951d0658bbe339a9b2155d9cb86cb0",
+    "6hdwtr011.png": "32cbf5f4f802f7e3e5db0000efdb6f5e4d454326c4420fdeb9f21d3729118629",
+    "6wtrdrxnw.png": "e9dd107097ff0000c1740c0c3929f5efc391850676951f372b18c563dfa1de9e",
+    "voldrte.png": "0102ac5b41b6dc05406e5f5ff715bb2357717c373e72f05ca1014538fe301ede",
+    "6wtrdrn.png": "28ddfacf969e61a1e8e4dc4c09585bea44bdf61bbef7d39e9edffdb848a274ef",
+    "voldrtxne.png": "1b70793ffe018050cd4b96c3d1a1f6cf3b6db84c5fc4e07590f304fe5ca68457",
+    "6grdrtxsw.png": "e9b4b4345054087a30a5a5d29d903f184a2b61317c3a513cb34b66cc0021def1",
+    "6grdrtn.png": "4ab4cb457faed2a4df47d03ef561c86c0eec668dd274093883b27d97e6b3b9c8",
+    "6drsrew.png": "43132e5a6aab8ef24f87d38e5f3f24ee2bbf4b73f718ab0a3ef6d54846fd5dae",
+    "6voltyl.png": "19781fc97db5c9bb3eb23d95c8a53b9947e07235f33c965c8c298fc65ef8b380",
+    "6wtrdrne.png": "cf44a807f682e59c19646fdf7d1e8ef854e2227c401cc5cb15dfc6ba4b9811fc",
+    "6drsrecap.png": "a740f5ac48251165a87aeb8fda84c06c9e6874706bbc3b80db18e92f4cade0b4",
+    "6hdwtr005.png": "26f724e2ca86988dce8a0baa024cf04c215f997f8be52e82c84593089c9f74dd",
+    "6grdrtw.png": "392315abba6a65e7fddfada906e0fc8c5dbcf1cce1e667336f6a935e904ee3c2",
+    "6drsrns.png": "5675f253fc44a8e2a860616cbdbb34c3d1c97215ca7f8e4032204d53cabd2516",
+    "6wtrdrse.png": "026d950bb0ac6555364049b43ac442aa3fbcf77f60a726b12b6a95d28c736dec",
+    "6grdrtsw.png": "8323a0dd27ad8f21da87dfd8e2d703102718c96ae09895e379cc7809546aaca3",
+    "voldrts.png": "8bd151f513360c71554c3c5036d3ee45134a630500bb8909e690b2f1733eaf24",
+    "6wtrdre.png": "99453754d0548eb96bb069a0e7ce40b3c249bc053b86a332d2c2f415a1063cb5",
+    "voldrtxnw.png": "e77e80e75b88acae26dc15433cb7933474eca3f5a118f0b8d1d162a521371787",
+    "6drsrwcap.png": "6681344e4708625f6b3d94205ecb27327e850f6ad9a9b1d5de6e1cc14be97e4c",
+    "6grdrtxnw.png": "15e3d47118073636a994498538935de297ca14f5ea5fe82b7f08acd9e23f30c8",
+    "6wtrtyl.png": "8ec7b462a4ce54b63dea25e5b331bdcd313907be0a9e7b77babc01d0f18ec5cd",
+    "6hdwtr012.png": "64b4de55d8aff1ee1c68f7f268297aa9f1ad0bf3517a257c4d35443e5f785d93",
+    "6wtrdrxse.png": "f787ac01c1b97d3991aaf58e49ec40dedcb5069f17cef58a6b9d281b099328dc",
+    "voldrtxsw.png": "0b6e6a3f1dd48a37ff4682c252d6d32a746fba955f3ee4826bc7abc4eedda8ec",
+    "voldrtse.png": "4005219e51cfdd4276d9fae074a22f3c28e31fbfff04ca0e79f930bbfe165c57",
+    "6hdwtr000.png": "8ec7b462a4ce54b63dea25e5b331bdcd313907be0a9e7b77babc01d0f18ec5cd",
+    "6drsrs_w.png": "2659604290984ed0c6c613fd2aa1b2cc9efa2aed17b22e09726b20d9f898e961",
+    "6grdrtse.png": "30eb448f4826a39b897a43c07839626346a28364a206eea3eb9b48189800a910",
+    "6wtrdrsw.png": "bae5621bbacdc68081b88e9eb5c19f6c78c0938a01e5f147af9d6295b65c4d3a"
+  },
+  "detail": {
+    "water": {
+      "before_border_detail_ratio": 0.5133775794284304,
+      "after_border_detail_ratio": 0.9443587192029702
+    },
+    "grass": {
+      "before_border_detail_ratio": 0.6964222922740586,
+      "after_border_detail_ratio": 1.021113348326649
+    },
+    "dirt": {
+      "before_border_detail_ratio": 0.6690029634926918,
+      "after_border_detail_ratio": 1.035116233216527
+    },
+    "volcano": {
+      "before_border_detail_ratio": 0.7652939614468492,
+      "after_border_detail_ratio": 1.0332155215587238
+    },
+    "cobbles": {
+      "before_border_detail_ratio": 0.7077658207487656,
+      "after_border_detail_ratio": 1.0641035187352041
+    }
+  },
+  "animation_steps": [
+    7.9821624755859375,
+    8.023635864257812,
+    8.064966837565104,
+    8.065994262695312,
+    8.044942220052084,
+    8.018946329752604,
+    7.9774017333984375,
+    7.9804941813151045,
+    8.034378051757812,
+    8.083511352539062,
+    8.068059285481771,
+    8.037694295247396,
+    8.015874226888021,
+    7.999491373697917
+  ],
+  "loop_step_ratio": 0.9963996257080536,
+  "central_384_square_master_pixels_unchanged": true,
+  "method": "Periodic donor strips with cyclic minimum-error cuts; wrapped material gutters; existing coverage and edge deltas reused."
+}

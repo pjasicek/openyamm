@@ -22,31 +22,13 @@ from mathutils import Matrix, Vector
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from bake_geometry import face_basis, pack_lightmap_charts, rle_bgra, surface_key
-from bake_assets import (bake_texture_paths, dependency_file, read_cooked_surface,
-                         runtime_surface_paths, runtime_terrain_albedo)
+from bake_geometry import (TERRAIN_CELL_TRIANGLES, face_basis, fnv, pack_lightmap_charts, point_in_polygon, rgbm,
+                           rle_bgra, surface_key, terrain_triangles_on_floors)
+from bake_assets import bake_texture_paths, dependency_file, source_roots, texture_logical_scale
+from bake_assets import read_cooked_surface, runtime_surface_paths, runtime_terrain_albedo
 
 sys.path.insert(0, str(ROOT / 'util'))
 from map_export import parse_odm_file
-
-
-def fnv(data):
-    h = 14695981039346656037
-    for b in data:
-        h = ((h ^ b) * 1099511628211) & 0xffffffffffffffff
-    return h
-
-
-def rgbm(pixels):
-    rgb = np.maximum(pixels[:, :, :3], 0)
-    if not np.isfinite(rgb).all() or float(rgb.max()) > 4:
-        raise ValueError('Lighting exceeds RGBM4 range or contains nonfinite samples')
-    m = np.maximum(np.ceil(rgb.max(axis=2) * 255 / 4), 1)
-    rgba = np.empty(pixels.shape, dtype=np.uint8)
-    rgba[:, :, :3] = np.rint(np.clip(rgb / (m[:, :, None] * 4 / 255), 0, 1) * 255)
-    rgba[:, :, 3] = m.astype(np.uint8)
-    # Blender bottom-up data is kept: runtime lighting UVs use the same coordinates.
-    return rgba[:, :, [2, 1, 0, 3]].tobytes()
 
 
 # The glTF importer turns glTF's Y-up space into Blender's Z-up one: Blender = GLTF_TO_BLENDER @ glTF.
@@ -70,7 +52,13 @@ def casting_faces_only(obj):
     return len(obj.data.polygons) > 0
 
 
-def decoration_model_casters(game_binary, profile, out, dependency):
+def terrain_tile_table_name(world):
+    """The engine's terrain tile table for a world (terrainTileDataFileNameForWorld): MM6 and MM7 have their own
+    merged tables; MM8 and every other world (Hesper borrows MM8's tiles) use the MM8 table."""
+    return {'mm6': 'terrain_tile_data_3.txt', 'mm7': 'terrain_tile_data_2.txt'}.get(world, 'terrain_tile_data.txt')
+
+
+def decoration_model_casters(game_binary, profile, out, dependency, assets, extra_sources):
     """Shadow-only copies of every 3D decoration placement; returns the objects and the decoration entity indices.
 
     The placements come from the game itself (openyamm --headless-export-decoration-models), so heights, height
@@ -79,12 +67,13 @@ def decoration_model_casters(game_binary, profile, out, dependency):
     Faces of blended or camera-facing materials (flame cards, foam) are removed first: the runtime shadows skip them
     too, since a camera-facing card has no fixed shadow and a flipbook card would cast its whole atlas."""
     export = out / 'decoration_models.json'
-    subprocess.check_call([str(game_binary), '--world', profile['world'], '--headless-export-decoration-models',
-                           profile['map'], str(export)], cwd=ROOT, stdout=subprocess.DEVNULL)
+    subprocess.check_call([str(game_binary), '--asset-root', str(assets), '--world', profile['world'],
+                           '--headless-export-decoration-models', profile['map'], str(export)], cwd=ROOT,
+                          stdout=subprocess.DEVNULL)
     placements = json.loads(export.read_text())
     # The engine manifest binds every world's decorations; a world may extend it with its own.
-    dependency(ROOT / 'assets_dev/engine/models/decorations.yml')
-    world_manifest = ROOT / 'assets_dev/worlds' / profile['world'] / 'models/decorations.yml'
+    dependency(assets / 'engine/models/decorations.yml')
+    world_manifest = assets / 'worlds' / profile['world'] / 'models/decorations.yml'
     if world_manifest.exists():
         dependency(world_manifest)
     to_bake = Matrix.Scale(1 / 128, 4)
@@ -93,7 +82,7 @@ def decoration_model_casters(game_binary, profile, out, dependency):
         if not model['placements']:
             continue
         # The model's source (assets_source): a cooked runtime copy references .oytex textures Blender cannot read.
-        path = dependency_file(ROOT / 'assets_dev', model['model'])
+        path = dependency_file(assets, model['model'], extra_sources)
         dependency(path)
         before = set(bpy.data.objects)
         bpy.ops.import_scene.gltf(filepath=str(path))
@@ -136,6 +125,10 @@ def main():
     parser.add_argument('--game-binary', type=Path, default=ROOT / 'build/game/openyamm',
                         help='OpenYAMM build that exports the 3D decoration placements')
     parser.add_argument('--preview-only', action='store_true')
+    parser.add_argument('--assets', type=Path, default=ROOT / 'assets_dev',
+                        help='Runtime asset tree holding the map (default assets_dev; a staged world: its stage)')
+    parser.add_argument('--sources', type=Path, action='append', default=[],
+                        help='Extra source art root beside the sibling assets_source (a stage\'s gathered sources)')
     migration = parser.add_mutually_exclusive_group()
     migration.add_argument('--model-probes-only', type=Path,
                         help='Extend an installed v3 bake with model lighting; retain every surface and sprite sample')
@@ -143,6 +136,7 @@ def main():
                            help='Extend an installed v4 bake with direct-only surface pages for moving mesh shadows')
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     assets = args.assets.resolve()
+    extra_sources = [path.resolve() for path in args.sources]
     profile = json.loads(args.profile.read_text())
     retained = None
     retained_path = args.model_probes_only or args.sun_direct_only
@@ -198,7 +192,7 @@ def main():
     deps = {}
     def dependency(path):
         # Recorded relative to the runtime tree; source art in assets_source keeps the same relative path.
-        base = ROOT / 'assets_source' if path.is_relative_to(ROOT / 'assets_source') else assets
+        base = next((root for root in source_roots(assets, extra_sources) if path.is_relative_to(root)), assets)
         rel = path.relative_to(base).as_posix()
         deps[rel] = fnv(path.read_bytes())
     dependency(source)
@@ -242,7 +236,7 @@ def main():
     toward_sun = Vector((math.cos(e)*math.cos(a), math.cos(e)*math.sin(a), math.sin(e)))
     sun.rotation_euler = (-toward_sun).to_track_quat('-Z', 'Y').to_euler()
     materials = {}
-    texture_paths, terrain_paths = bake_texture_paths(assets, world)
+    texture_paths, terrain_paths = bake_texture_paths(assets, world, extra_sources)
     runtime_materials = profile.get('material_source') == 'runtime'
     if runtime_materials:
         texture_paths = terrain_paths = runtime_surface_paths(assets, world)
@@ -305,7 +299,8 @@ def main():
         mat.node_tree.links.new(uv.outputs['UV'], tex.inputs['Vector'])
         mat.node_tree.links.new(tex.outputs['Color'], bsdf.inputs['Base Color'])
         mat.node_tree.links.new(tex.outputs['Alpha'], bsdf.inputs['Alpha'])
-        materials[key] = (mat, tuple(size // 4 for size in image.size) if runtime_materials else tuple(image.size))
+        scale = 4 if runtime_materials else texture_logical_scale(path)
+        materials[key] = (mat, (image.size[0] // scale, image.size[1] // scale))
         return materials[key]
 
     page_size = profile['building_page_size']
@@ -316,6 +311,10 @@ def main():
     unique_surfaces = {}
     duplicate_surfaces = []
     groups = {}
+    # A face that exactly repeats another (the same texture on the same corners, as Harmondale's two coincident bell
+    # towers, OY-231) is charted once: both copies would shade each other black. The copy shares the chart.
+    charted_faces = {}
+    duplicate_faces = []
     for bi, model in enumerate(native['bmodels']):
         for fi, face in enumerate(model['faces']):
             points = [Vector(tuple(model['vertices'][i][k] for k in 'xyz'))
@@ -325,6 +324,12 @@ def main():
             invisible = face['attributes'] & 0x2000 and face['cog_number'] not in revealed_cogs
             if len(points) < 3 or invisible or face['cog_number'] in excluded_cogs or not face['texture_name']:
                 continue
+            corners = tuple(tuple(round(p[k]) for k in range(3)) for p in points)
+            face_key = (face['texture_name'].lower(), tuple(sorted(corners)))
+            if face_key in charted_faces:
+                duplicate_faces.append((record, corners, charted_faces[face_key]))
+                continue
+            charted_faces[face_key] = (record, corners)
             basis = face_basis(points)
             if basis is None:
                 continue
@@ -336,7 +341,9 @@ def main():
             # UV bounds lie on texel centers, leaving size-1 raster intervals. Tiny
             # oblique faces need interior samples: a 2x2 chart can miss every sample
             # and bake completely black even when the face is exposed to the sky.
-            w, h = [max(4, math.ceil(v/profile['units_per_texel']) + 1) for v in span]
+            # A profile may give named models a finer texel spacing (detail geometry with small reliefs).
+            spacing = profile.get('model_units_per_texel', {}).get(model['name'], profile['units_per_texel'])
+            w, h = [max(4, math.ceil(v/spacing) + 1) for v in span]
             mat, (tw, th) = material(face['texture_name'])
             tex_uv = [((u+face['texture_delta_u'])/tw, 1-(v+face['texture_delta_v'])/th)
                       for u,v in zip(face['texture_us'],face['texture_vs'])]
@@ -359,6 +366,12 @@ def main():
         chart['record'].update(page=2+pi*2, uvs=light_uv)
         groups.setdefault(pi, []).append(
             (chart['points'], chart['material_uvs'], light_uv, chart['material']))
+    for record, corners, (charted, charted_corners) in duplicate_faces:
+        # The charted face's lightmap coordinates at each of the copy's corners, whatever order it lists them in.
+        uv_at = dict(zip(charted_corners, charted['uvs']))
+        record.update(page=charted['page'], uvs=[uv_at[corner] for corner in corners])
+    if duplicate_faces:
+        print('DUPLICATE FACES SHARING A CHART', len(duplicate_faces), flush=True)
 
     # Coincident native models may own distinct events. Keep their receiver records,
     # but do not let duplicate geometry occlude the surface during Cycles baking.
@@ -399,9 +412,7 @@ def main():
         return obj, dimensions
 
     # Exact native diagonal and world coordinates. One world-space terrain atlas in the first proof.
-    table_name = {'mm6': 'terrain_tile_data_3.txt', 'mm7': 'terrain_tile_data_2.txt',
-                  'mm8': 'terrain_tile_data.txt'}[world]
-    table = assets / 'engine/data_tables' / table_name
+    table = assets / 'engine/data_tables' / terrain_tile_table_name(world)
     dependency(table)
     descriptors = list(csv.DictReader(table.open(), delimiter='\t'))
     entries = []
@@ -429,6 +440,13 @@ def main():
         bsdf.inputs['Roughness'].default_value = 1
         bsdf.inputs['Specular IOR Level'].default_value = 0
         links.new(texture.outputs['Color'], bsdf.inputs['Base Color'])
+    # Flat terrain triangles lying in the plane of a charted building floor go into their own object that bakes
+    # into the terrain page but is invisible to other surfaces' rays: coinciding with the floor, they would shade
+    # it black (Ravenshore's crystal plaza). Found again from the geometry on every bake.
+    floors = [(chart['points'][0].z, [(p.x, p.y) for p in chart['points']]) for chart in charts
+              if all(p.z == chart['points'][0].z for p in chart['points'])]
+    on_floors = set(terrain_triangles_on_floors(heights, floors))
+    floor_entries = []
     for gy in range(127):
         for gx in range(127):
             corners = [(gx,gy),(gx,gy+1),(gx+1,gy),(gx+1,gy+1)]
@@ -439,10 +457,20 @@ def main():
             texcoords = [(x / 127, 1 - y / 127) for x, y in corners] if runtime_materials else [(0,1),(0,0),(1,1),(1,0)]
             light = [((x/127*(terrain_size-1)+.5)/terrain_size,
                       (y/127*(terrain_size-1)+.5)/terrain_size) for x,y in corners]
-            for indices in [(0,3,2),(0,1,3)]:
-                entries.append(([points[i] for i in indices], [texcoords[i] for i in indices],
-                                [light[i] for i in indices], mat))
+            for triangle, indices in enumerate(TERRAIN_CELL_TRIANGLES):
+                (floor_entries if (gx, gy, triangle) in on_floors else entries).append(
+                    ([points[i] for i in indices], [texcoords[i] for i in indices], [light[i] for i in indices], mat))
     objects = [make_mesh('terrain', entries, (terrain_size, terrain_size))]
+    # Objects baked together with an atlas object, into its page.
+    companions = {'terrain': []}
+    if floor_entries:
+        floor_terrain, _ = make_mesh('terrain_on_floors', floor_entries, (terrain_size, terrain_size))
+        floor_terrain.visible_shadow = False
+        floor_terrain.visible_diffuse = False
+        floor_terrain.visible_glossy = False
+        floor_terrain.visible_transmission = False
+        companions['terrain'].append(floor_terrain)
+    print('TERRAIN TRIANGLES ON FLOORS', len(floor_entries), flush=True)
     objects.extend(make_mesh('buildings_'+str(pi), groups[pi], building_dimensions[pi])
                    for pi in range(len(building_dimensions)))
     decoration_objects = []
@@ -453,11 +481,13 @@ def main():
         effective_profile.write_text(json.dumps(profile, indent=2) + '\n')
         decoration_report = json.loads(subprocess.check_output([
             str(args.asset_python), str(Path(__file__).with_name('bake_decorations.py')),
-            '--profile', str(effective_profile), '--output', str(out / 'decoration_masks')], text=True))
+            '--profile', str(effective_profile), '--output', str(out / 'decoration_masks'), '--assets', str(assets)],
+            text=True))
         for path in decoration_report['dependencies']:
             dependency(assets / path)
         # Decorations the game draws as 3D models cast with their meshes, placed exactly as the game places them.
-        model_casters, modelled = decoration_model_casters(args.game_binary, profile, out, dependency)
+        model_casters, modelled = decoration_model_casters(args.game_binary, profile, out, dependency, assets,
+                                                           extra_sources)
         decoration_report['cards'] = [card for card in decoration_report['cards'] if card['index'] not in modelled]
         decoration_report['model_casters'] = {'decorations': len(modelled), 'objects': len(model_casters)}
         card_materials = {}
@@ -577,10 +607,13 @@ def main():
     probe_object[0].visible_glossy = False
     objects.append(probe_object)
     probe_values = {}
+    # Sun plus sky light of each building page, for the check of the floors on flat terrain below.
+    building_light = {}
     stats = {'profile': profile, 'blender': bpy.app.version_string, 'device': scene.cycles.device,
              'sun_direction': list(toward_sun), 'bakes': [], 'dependencies': deps,
              'probe_count': len(probe_positions), 'atlas_pages': 2*(len(objects)-1),
              'atlas_bytes': sum(width*height*8 for obj,(width,height) in objects[:-1])}
+    stats['terrain_triangles_on_floors'] = sorted(on_floors)
     if decoration_report is not None:
         stats['decoration_shadows'] = decoration_report
     for obj, (width, height) in objects:
@@ -589,13 +622,15 @@ def main():
         if args.sun_direct_only and obj.name == 'probes':
             continue
         target = bpy.data.images.new(obj.name, width=width, height=height, float_buffer=True)
-        for mat in obj.data.materials:
+        baked = [obj] + companions.get(obj.name, [])
+        for mat in {mat for member in baked for mat in member.data.materials}:
             node = mat.node_tree.nodes.get('BakeTarget') or mat.node_tree.nodes.new('ShaderNodeTexImage')
             node.name = 'BakeTarget'
             node.image = target
             mat.node_tree.nodes.active = node
         bpy.ops.object.select_all(action='DESELECT')
-        obj.select_set(True)
+        for member in baked:
+            member.select_set(True)
         bpy.context.view_layer.objects.active = obj
         scene.render.bake.use_pass_color = False
         scene.render.bake.use_pass_direct = True
@@ -617,6 +652,15 @@ def main():
             bpy.ops.object.bake(type='DIFFUSE')
             pixels = np.array(target.pixels[:], dtype=np.float32).reshape(height,width,4)
             np.save(out / (obj.name+'_'+term+'.npy'), pixels)
+            if obj.name.startswith('buildings_') and term in ('sun', 'sky'):
+                building_light[obj.name] = building_light.get(obj.name, 0) + pixels[:, :, :3].sum(axis=2)
+            if profile.get('clamp_rgbm'):
+                # Opt-in for review bakes: clamp outliers instead of failing; the raw .npy above keeps them for
+                # tracing, and the count goes into the stats.
+                over = int((pixels[:, :, :3] > 4).any(axis=2).sum())
+                if over:
+                    stats.setdefault('clamped', []).append({'object': obj.name, 'term': term, 'texels': over})
+                    pixels[:, :, :3] = np.minimum(pixels[:, :, :3], 4)
             payload = rgbm(pixels)
             if obj.name == 'probes':
                 probe_values[term] = np.array([pixels[y,x,:3] for y,x in probe_texels])
@@ -628,6 +672,42 @@ def main():
                                    'max':float(pixels[:,:,:3].max())})
             print('BAKED', stats['bakes'][-1], flush=True)
         bpy.data.images.remove(target)
+    # Floors over a flat terrain triangle must not bake black there. A few dark texels can be real (a floor under
+    # a roof); most of a floor black is the coinciding-terrain fault coming back.
+    if building_light:
+        triangle_boxes = []
+        for gx, gy, triangle in on_floors:
+            corners = [(gx, gy), (gx, gy + 1), (gx + 1, gy), (gx + 1, gy + 1)]
+            xs = [(corners[i][0] - 64) * 512 for i in TERRAIN_CELL_TRIANGLES[triangle]]
+            ys = [(64 - corners[i][1]) * 512 for i in TERRAIN_CELL_TRIANGLES[triangle]]
+            z = heights[corners[TERRAIN_CELL_TRIANGLES[triangle][0]][1] * 128
+                        + corners[TERRAIN_CELL_TRIANGLES[triangle][0]][0]] * 32
+            triangle_boxes.append((z, min(xs), min(ys), max(xs), max(ys)))
+        checked = []
+        for chart in charts:
+            points = chart['points']
+            if any(p.z != points[0].z for p in points) or not any(
+                    z == points[0].z and min(p.x for p in points) < x1 and max(p.x for p in points) > x0
+                    and min(p.y for p in points) < y1 and max(p.y for p in points) > y0
+                    for z, x0, y0, x1, y1 in triangle_boxes):
+                continue
+            record = chart['record']
+            light = building_light.get('buildings_' + str((record['page'] - 2) // 2))
+            if light is None:
+                continue
+            height, width = light.shape
+            texels = [(u * width, v * height) for u, v in record['uvs']]
+            dark = total = 0
+            for row in range(int(min(v for _, v in texels)), int(math.ceil(max(v for _, v in texels)))):
+                for column in range(int(min(u for u, _ in texels)), int(math.ceil(max(u for u, _ in texels)))):
+                    if point_in_polygon(texels, column + .5, row + .5):
+                        total += 1
+                        dark += bool(light[row, column] < 1e-3)
+            checked.append({'model': record['model'], 'face': record['face'],
+                            'black_fraction': round(dark / total, 3) if total else 0})
+        black = [entry for entry in checked if entry['black_fraction'] > 0.05]
+        stats['floors_on_terrain'] = {'checked': len(checked), 'over_5_percent_black': black}
+        print('FLOORS ON FLAT TERRAIN', len(checked), 'checked,', len(black), 'over 5% black', black, flush=True)
     if retained is not None:
         page_count = struct.unpack_from('<I', retained, 32)[0]
         page_offset = struct.unpack_from('<I', retained, 48)[0]
@@ -653,7 +733,7 @@ def main():
             cursor += length
             if name.startswith('worlds/') and '/events/maps/' in name and name.endswith('.lua'):
                 continue
-            path = dependency_file(assets, name)
+            path = dependency_file(assets, name, extra_sources)
             if fnv(path.read_bytes()) != digest:
                 raise ValueError('Stale installed bake dependency: ' + name)
             old_dependencies[name] = digest

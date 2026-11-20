@@ -1,0 +1,11 @@
+# Flying dragon restoration review
+
+Accepted 78/78 unique native sources: 47 referenced images and 31 unused views/poses. Fourteen AI sheets cover the six-phase hovering idle, five-phase native flying cycle, attack/hit, disintegration and unused art. Native sequences, timings, mirrors, scale and source-relative anchoring remain intact; unused images are exported without invented animation bindings.
+
+Reviewed native/raw sheets, all base and mask contacts, five-view identity variants, standing variants and magnified light/dark edges. Ordered action contacts and offline viewer captures cover mirrored walk view 6 / palette 693 / frame 3, death view 0 / palette 694 / frame 3 and hovering view 0 / base 692 / frame 2. An initial disintegration sheet retained too much solid body; corrected sheets restore the native progressive breakup. Rejected sheets and prompts remain recorded. Wing strokes, bent legs, long tail and head angles follow native poses. Wing veins/scales are coarser and the enhanced surfaces more defined; horns are slightly dimmer. No missing poses, clipped atlas anatomy or matte halo found. Some long tails/wingtips extend outside the viewer comparison pane at its default zoom; atlas bounds and extraction checks are intact.
+
+Four enhanced-art coverage channels distinguish forest-green hide/struts, olive wing membranes, gold underside/fins/effect and pale horns/claws. Native usage-weighted sigma=4 luminance lookup tables derive blue 693 and red 694 from base 692, an exact bypass. Body gain .84 and preserved warm disintegration maintain tonal weight. Final ash has zero recolor masks. All provenance, source hashes, alpha, mask-weight, native sequence and atlas reconstruction checks pass. Residual magenta candidates are zero at all three stages.
+
+Decoded base plus RGBA masks: 277,701,072 bytes (264.84 MiB), excluding previews. This is staged art with the multi_mask_luminance_lut_v1 contract, requiring matching runtime support or deterministic variant baking before installation. No gameplay installation or GPU performance claim.
+
+Reproduce with process.py, package.py and ../mm6_peasants/build_viewer.py drg1. Rebuilding clears visual acceptance; review affected outputs again.

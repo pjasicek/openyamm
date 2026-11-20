@@ -27,6 +27,12 @@ constexpr float LadderFogStrongNumerator = 16192.0f;
 // Where ladder fog starts, it fades in from these distances.
 constexpr float LadderFogFadeWeak = 16384.0f;
 constexpr float LadderFogFadeStrong = 32768.0f;
+// A fog day starts at 3 am (as an outdoor map's daily fog) and the new day's fog blends in over the hour after.
+constexpr double FogDayStartMinutes = 180.0;
+constexpr float FogBlendMinutes = 60.0f;
+// A clear day's fog for blending into and out of a fog level: out of sight.
+constexpr float ClearFogNear = 65536.0f;
+constexpr float ClearFogFar = 131072.0f;
 
 // splitmix64: identical on every platform, unlike std:: distributions.
 class WeatherRandom
@@ -245,6 +251,37 @@ public:
         return true;
     }
 
+    bool readFlakes(const YAML::Node &parent, const char *pKey, WeatherFlakeLook &look)
+    {
+        const YAML::Node node = parent[pKey];
+
+        if (!node)
+        {
+            return true;
+        }
+
+        const std::string where = std::string("flakes.") + pKey;
+
+        if (!checkKeys(node, {"color", "fall_speed", "size", "alpha", "sway", "sway_rate", "haze"}, where)
+            || !readOptionalFloats(node, "color", look.color, 0.0f, 4.0f, where)
+            || !readOptionalFloat(node, "fall_speed", look.fallSpeed, 1.0f, 2000.0f, where)
+            || !readOptionalFloats(node, "size", look.size, 0.1f, 100.0f, where)
+            || !readOptionalFloats(node, "alpha", look.alpha, 0.0f, 1.0f, where)
+            || !readOptionalFloat(node, "sway", look.sway, 0.0f, 500.0f, where)
+            || !readOptionalFloat(node, "sway_rate", look.swayRate, 0.0f, 20.0f, where))
+        {
+            return false;
+        }
+
+        if (const YAML::Node haze = node["haze"]; haze && haze.IsScalar() && haze.as<std::string>() == "none")
+        {
+            look.haze = {0.0f, 0.0f};
+            return true;
+        }
+
+        return readRange(node, "haze", look.haze, 0.0f, 65536.0f, where);
+    }
+
 private:
     std::string &m_errorMessage;
 };
@@ -262,7 +299,8 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
 
         if (!parser.checkKeys(root, {"version", "chances", "month_multipliers", "maps", "intensities", "rain",
                 "snow", "cloud_lead", "cloud_linger", "variation", "event_intensity", "storm_threshold",
-                "strike_interval_seconds", "wet_minutes", "dry_minutes", "wind", "fade_seconds", "sounds"}, "weather"))
+                "strike_interval_seconds", "wet_minutes", "dry_minutes", "wind", "fade_seconds", "sounds", "ash",
+                "flakes", "open_sky_fog"}, "weather"))
         {
             return false;
         }
@@ -308,9 +346,60 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                 WeatherMapChances chances;
                 float value = 0.0f;
 
-                if (!parser.checkKeys(entry.second, {"rain", "snow"}, where))
+                if (!parser.checkKeys(entry.second,
+                        {"rain", "snow", "ash", "ash_look", "dry_lightning", "rain_color", "always", "peak", "fog"},
+                        where))
                 {
                     return false;
+                }
+
+                if (entry.second["always"])
+                {
+                    const std::string kind = toLowerCopy(entry.second["always"].as<std::string>());
+
+                    if (kind != "rain" && kind != "snow")
+                    {
+                        return parser.fail(where + ".always must be rain or snow");
+                    }
+
+                    chances.always = kind == "rain" ? PrecipitationKind::Rain : PrecipitationKind::Snow;
+                }
+
+                if (entry.second["peak"])
+                {
+                    if (!parser.readFloat(entry.second["peak"], value, 0.05f, 1.0f, where + ".peak"))
+                    {
+                        return false;
+                    }
+
+                    chances.alwaysPeak = value;
+                }
+
+                if (entry.second["ash_look"])
+                {
+                    chances.ashLook = entry.second["ash_look"].as<std::string>();
+                }
+
+                if (entry.second["dry_lightning"])
+                {
+                    if (!parser.readFloat(entry.second["dry_lightning"], value, 0.0f, 100.0f, where + ".dry_lightning"))
+                    {
+                        return false;
+                    }
+
+                    chances.dryLightningPercent = value;
+                }
+
+                if (entry.second["rain_color"])
+                {
+                    std::array<float, 3> color = DefaultRainColor;
+
+                    if (!parser.readOptionalFloats(entry.second, "rain_color", color, 0.0f, 4.0f, where))
+                    {
+                        return false;
+                    }
+
+                    chances.rainColor = color;
                 }
 
                 if (entry.second["rain"])
@@ -333,7 +422,45 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.snowPercent = value;
                 }
 
+                if (entry.second["ash"])
+                {
+                    if (!parser.readFloat(entry.second["ash"], value, 0.0f, 100.0f, where + ".ash"))
+                    {
+                        return false;
+                    }
+
+                    chances.ashPercent = value;
+                }
+
+                if (entry.second["fog"])
+                {
+                    std::array<float, 3> fog = {};
+
+                    if (!parser.readFloats(entry.second["fog"], fog, 0.0f, 100.0f, where + ".fog"))
+                    {
+                        return false;
+                    }
+
+                    if (fog[0] + fog[1] + fog[2] > 100.0f)
+                    {
+                        return parser.fail(where + ".fog chances add up to more than 100");
+                    }
+
+                    chances.fogPercent = fog;
+                }
+
                 rules.maps[mapName] = chances;
+            }
+        }
+
+        if (const YAML::Node fog = root["open_sky_fog"]; fog)
+        {
+            if (!parser.checkKeys(fog, {"small", "average", "dense"}, "open_sky_fog")
+                || !parser.readRange(fog, "small", rules.openSkyFog[0], 0.0f, 100000.0f, "open_sky_fog")
+                || !parser.readRange(fog, "average", rules.openSkyFog[1], 0.0f, 100000.0f, "open_sky_fog")
+                || !parser.readRange(fog, "dense", rules.openSkyFog[2], 0.0f, 100000.0f, "open_sky_fog"))
+            {
+                return false;
             }
         }
 
@@ -367,6 +494,7 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
 
         if (!parser.readShape(root, "rain", rules.rain)
             || !parser.readShape(root, "snow", rules.snow)
+            || !parser.readShape(root, "ash", rules.ash)
             || !parser.readOptionalFloat(root, "cloud_lead", rules.cloudLeadMinutes, 0.0f, 600.0f, "weather")
             || !parser.readOptionalFloat(root, "cloud_linger", rules.cloudLingerMinutes, 0.0f, 600.0f, "weather")
             || !parser.readOptionalFloat(root, "event_intensity", rules.eventIntensity, 0.0f, 1.0f, "weather")
@@ -388,6 +516,35 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     "variation"))
             {
                 return false;
+            }
+        }
+
+        if (const YAML::Node flakes = root["flakes"]; flakes)
+        {
+            if (!flakes.IsMap() || !parser.readFlakes(flakes, "snow", rules.snowFlakes)
+                || !parser.readFlakes(flakes, "ash", rules.ashFlakes))
+            {
+                return flakes.IsMap() ? false : parser.fail("flakes must be a map");
+            }
+
+            // Any other key is a named look (ember) built on the ash look.
+            for (const auto &entry : flakes)
+            {
+                const std::string name = entry.first.as<std::string>();
+
+                if (name == "snow" || name == "ash")
+                {
+                    continue;
+                }
+
+                WeatherFlakeLook look = rules.ashFlakes;
+
+                if (!parser.readFlakes(flakes, name.c_str(), look))
+                {
+                    return false;
+                }
+
+                rules.namedFlakes[toLowerCopy(name)] = look;
             }
         }
 
@@ -441,10 +598,11 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
 
         if (const YAML::Node wind = root["wind"]; wind)
         {
-            if (!parser.checkKeys(wind, {"calm", "rain", "snow", "gust_range"}, "wind")
+            if (!parser.checkKeys(wind, {"calm", "rain", "snow", "ash", "gust_range"}, "wind")
                 || !parser.readRange(wind, "calm", rules.calmWind, 0.0f, 2000.0f, "wind")
                 || !parser.readOptionalFloat(wind, "rain", rules.rainWind, 0.0f, 2000.0f, "wind")
                 || !parser.readOptionalFloat(wind, "snow", rules.snowWind, 0.0f, 2000.0f, "wind")
+                || !parser.readOptionalFloat(wind, "ash", rules.ashWind, 0.0f, 2000.0f, "wind")
                 || !parser.readRange(wind, "gust_range", rules.gustRange, 0.0f, 4.0f, "wind"))
             {
                 return false;
@@ -454,6 +612,14 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
     catch (const std::exception &exception)
     {
         return parser.fail(std::string("weather: ") + exception.what());
+    }
+
+    for (const auto &[mapName, chances] : rules.maps)
+    {
+        if (chances.ashLook && *chances.ashLook != "ash" && !rules.namedFlakes.contains(toLowerCopy(*chances.ashLook)))
+        {
+            return parser.fail("maps." + mapName + ".ash_look names no flakes entry: " + *chances.ashLook);
+        }
     }
 
     *this = std::move(rules);
@@ -489,6 +655,27 @@ WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t
     {
         settings.rainChancePercent = it->second.rainPercent.value_or(settings.rainChancePercent);
         settings.snowChancePercent = it->second.snowPercent.value_or(settings.snowChancePercent);
+        settings.ashChancePercent = it->second.ashPercent.value_or(0.0f);
+        settings.ashEnabled = settings.ashChancePercent > 0.0f;
+        settings.dryLightningPercent = it->second.dryLightningPercent.value_or(0.0f);
+        settings.rainColor = it->second.rainColor.value_or(DefaultRainColor);
+        settings.fogChancePercent = it->second.fogPercent.value_or(std::array<float, 3>{});
+
+        // Only a kind the map can have (the scene's or bolster row's rain and snow).
+        if ((it->second.always == PrecipitationKind::Rain && rainEnabled)
+            || (it->second.always == PrecipitationKind::Snow && snowEnabled))
+        {
+            settings.always = it->second.always;
+            settings.alwaysPeak = it->second.alwaysPeak;
+        }
+
+        if (it->second.ashLook)
+        {
+            if (const auto look = rules.namedFlakes.find(toLowerCopy(*it->second.ashLook)); look != rules.namedFlakes.end())
+            {
+                settings.ashLook = look->second;
+            }
+        }
     }
 
     return settings;
@@ -524,11 +711,31 @@ WeatherDayPlan planWeatherDay(const WeatherRules &rules, const WeatherMapSetting
     const float rampDownRoll = random.unit();
     const float periodRoll = random.unit();
     const float phaseRoll = random.unit();
+    // Drawn after every older roll, so maps without ash roll exactly the weather they always did.
+    const float ashRoll = random.unit() * 100.0f;
+    const float dryLightningRoll = random.unit() * 100.0f;
+    plan.dryLightning = dryLightningRoll < settings.dryLightningPercent;
     const size_t monthIndex = static_cast<size_t>(weatherMonthForDay(dayIndex) - 1);
     const float snowChance = settings.snowEnabled
         ? settings.snowChancePercent * rules.snowMonthMultipliers[monthIndex] : 0.0f;
     const float rainChance = settings.rainEnabled
         ? settings.rainChancePercent * rules.rainMonthMultipliers[monthIndex] : 0.0f;
+
+    if (settings.always != PrecipitationKind::None)
+    {
+        // A spell from each midnight past the next day's ramp up: the days overlap, so it never stops.
+        const WeatherSpellShape &shape = settings.always == PrecipitationKind::Snow ? rules.snow : rules.rain;
+        plan.kind = settings.always;
+        plan.peak = settings.alwaysPeak;
+        plan.startMinute = 0.0f;
+        plan.rampUpMinutes = shape.rampUpMinutes[0];
+        plan.rampDownMinutes = shape.rampDownMinutes[0];
+        plan.durationMinutes = static_cast<float>(MinutesPerDay) + 2.0f * (plan.rampUpMinutes + plan.rampDownMinutes);
+        plan.variationPeriodMinutes = rules.variationPeriodMinutes[0]
+            + (rules.variationPeriodMinutes[1] - rules.variationPeriodMinutes[0]) * periodRoll;
+        plan.variationPhase = phaseRoll * TwoPi;
+        return plan;
+    }
 
     if (snowRoll < snowChance)
     {
@@ -537,6 +744,11 @@ WeatherDayPlan planWeatherDay(const WeatherRules &rules, const WeatherMapSetting
     else if (rainRoll < rainChance)
     {
         plan.kind = PrecipitationKind::Rain;
+    }
+    else if (settings.ashEnabled && ashRoll < settings.ashChancePercent)
+    {
+        // Ash is not seasonal: no month multiplier.
+        plan.kind = PrecipitationKind::Ash;
     }
     else
     {
@@ -564,7 +776,8 @@ WeatherDayPlan planWeatherDay(const WeatherRules &rules, const WeatherMapSetting
         }
     }
 
-    const WeatherSpellShape &shape = plan.kind == PrecipitationKind::Snow ? rules.snow : rules.rain;
+    const WeatherSpellShape &shape = plan.kind == PrecipitationKind::Snow ? rules.snow
+        : plan.kind == PrecipitationKind::Ash ? rules.ash : rules.rain;
     plan.startMinute = startRoll * static_cast<float>(MinutesPerDay);
     plan.durationMinutes = shape.minMinutes + (shape.maxMinutes - shape.minMinutes) * lengthRoll;
     plan.rampUpMinutes = shape.rampUpMinutes[0] + (shape.rampUpMinutes[1] - shape.rampUpMinutes[0]) * rampUpRoll;
@@ -631,7 +844,8 @@ WeatherSample sampleRolledWeather(const WeatherRules &rules, const WeatherMapSet
         + std::sin(currentDay.windDirectionRadians) * currentDay.calmWindSpeed * dayBlend;
     const float calmSpeed = std::sqrt(calmX * calmX + calmY * calmY);
     const float extraSpeed = sample.precipitation == PrecipitationKind::Snow ? rules.snowWind * sample.intensity
-        : sample.precipitation == PrecipitationKind::Rain ? rules.rainWind * sample.intensity : 0.0f;
+        : sample.precipitation == PrecipitationKind::Rain ? rules.rainWind * sample.intensity
+        : sample.precipitation == PrecipitationKind::Ash ? rules.ashWind * sample.intensity : 0.0f;
     const float scale = calmSpeed > 0.001f ? (calmSpeed + extraSpeed) / calmSpeed : 0.0f;
     sample.windX = calmX * scale;
     sample.windY = calmY * scale;
@@ -642,6 +856,7 @@ WeatherSample sampleRolledWeather(const WeatherRules &rules, const WeatherMapSet
         sample.precipitation = PrecipitationKind::None;
     }
 
+    sample.dryLightning = currentDay.dryLightning && sample.precipitation != PrecipitationKind::Rain;
     return sample;
 }
 
@@ -709,7 +924,10 @@ int weatherLadderState(int dryState, int stateCount, const WeatherSample &sample
         state = std::max(state, overcast - 1);
     }
 
-    if (sample.precipitation != PrecipitationKind::None && sample.intensity >= LadderRainIntensity)
+    // Ash darkens the sky only through its clouds; the ladder's rain skies belong to rain and snow.
+    const bool wet = sample.precipitation == PrecipitationKind::Rain || sample.precipitation == PrecipitationKind::Snow;
+
+    if (wet && sample.intensity >= LadderRainIntensity)
     {
         state = std::max(state, rain);
     }
@@ -732,10 +950,83 @@ float weatherFogLadderPosition(int dryState, int stateCount, const WeatherSample
     const float overcast = static_cast<float>(ladderIndex(0.5f, stateCount));
     const float storm = static_cast<float>(ladderIndex(0.83f, stateCount));
     const float dry = static_cast<float>(std::clamp(dryState, 0, static_cast<int>(overcast)));
-    const float precipitation = sample.precipitation != PrecipitationKind::None
+    const bool wet = sample.precipitation == PrecipitationKind::Rain || sample.precipitation == PrecipitationKind::Snow;
+    const float precipitation = wet
         ? std::clamp(sample.intensity / std::max(stormThreshold, 0.05f), 0.0f, 1.0f) : 0.0f;
     const float position = sample.cloudCover * overcast + precipitation * (storm - overcast);
     return std::max(dry, position);
+}
+
+int weatherFogDayIndex(double gameMinutes)
+{
+    return static_cast<int>(std::floor(std::max(gameMinutes - FogDayStartMinutes, 0.0) / MinutesPerDay));
+}
+
+WeatherFogLevel rollDailyFog(const WeatherMapSettings &settings, int fogDayIndex)
+{
+    const std::array<float, 3> &chances = settings.fogChancePercent;
+
+    if (chances[0] + chances[1] + chances[2] <= 0.0f)
+    {
+        return WeatherFogLevel::None;
+    }
+
+    // Its own stream, so the fog never changes the rain, snow and wind a day rolls.
+    const uint64_t seed = 0x464f47464f474647ull
+        ^ (static_cast<uint64_t>(settings.mapId) * 0x9e3779b97f4a7c15ull)
+        ^ (static_cast<uint64_t>(static_cast<uint32_t>(std::max(fogDayIndex, 0))) * 0xc2b2ae3d27d4eb4full);
+    WeatherRandom random(seed);
+    const float roll = random.unit() * 100.0f;
+
+    if (roll < chances[0])
+    {
+        return WeatherFogLevel::Small;
+    }
+
+    if (roll < chances[0] + chances[1])
+    {
+        return WeatherFogLevel::Average;
+    }
+
+    return roll < chances[0] + chances[1] + chances[2] ? WeatherFogLevel::Dense : WeatherFogLevel::None;
+}
+
+WeatherOpenSkyFog sampleOpenSkyFog(const WeatherRules &rules, const WeatherMapSettings &settings, double gameMinutes,
+    std::optional<WeatherFogLevel> forcedLevel)
+{
+    const auto distances = [&rules](WeatherFogLevel level) -> std::array<float, 2>
+    {
+        return level == WeatherFogLevel::None ? std::array<float, 2>{ClearFogNear, ClearFogFar}
+                                              : rules.openSkyFog[static_cast<size_t>(level) - 1];
+    };
+
+    WeatherOpenSkyFog fog;
+    std::array<float, 2> shown = {};
+
+    if (forcedLevel)
+    {
+        shown = distances(*forcedLevel);
+    }
+    else
+    {
+        const int day = weatherFogDayIndex(gameMinutes);
+        const std::array<float, 2> today = distances(rollDailyFog(settings, day));
+        const float sinceStart = static_cast<float>(
+            std::max(gameMinutes - FogDayStartMinutes, 0.0) - static_cast<double>(day) * MinutesPerDay);
+        const float blend = day > 0 ? std::clamp(sinceStart / FogBlendMinutes, 0.0f, 1.0f) : 1.0f;
+        const std::array<float, 2> before = blend < 1.0f ? distances(rollDailyFog(settings, day - 1)) : today;
+        shown = {before[0] + (today[0] - before[0]) * blend, before[1] + (today[1] - before[1]) * blend};
+    }
+
+    if (shown[1] >= ClearFogFar)
+    {
+        return fog;
+    }
+
+    fog.foggy = true;
+    fog.nearDistance = shown[0];
+    fog.farDistance = std::max(shown[1], shown[0] + 1.0f);
+    return fog;
 }
 
 WeatherFogDistances weatherLadderFog(float position, int stateCount)
@@ -754,6 +1045,42 @@ WeatherFogDistances weatherLadderFog(float position, int stateCount)
         LadderFogFadeWeak + (LadderFogWeakNumerator / position - LadderFogFadeWeak) * fade));
     fog.strongDistance = static_cast<int32_t>(std::lround(
         LadderFogFadeStrong + (LadderFogStrongNumerator / position - LadderFogFadeStrong) * fade));
+    return fog;
+}
+
+const WeatherFlakeLook *weatherFlakeLook(
+    const WeatherRules &rules, PrecipitationKind kind, const WeatherMapSettings *pSettings)
+{
+    switch (kind)
+    {
+        case PrecipitationKind::Snow:
+            return &rules.snowFlakes;
+        case PrecipitationKind::Ash:
+            return pSettings != nullptr && pSettings->ashLook ? &*pSettings->ashLook : &rules.ashFlakes;
+        case PrecipitationKind::None:
+        case PrecipitationKind::Rain:
+        default:
+            return nullptr;
+    }
+}
+
+WeatherFogDistances weatherPrecipitationHaze(
+    const WeatherRules &rules, const WeatherSample &sample, const WeatherMapSettings *pSettings)
+{
+    WeatherFogDistances fog;
+    const WeatherFlakeLook *pLook = weatherFlakeLook(rules, sample.precipitation, pSettings);
+
+    if (pLook == nullptr || pLook->haze[1] <= 0.0f || sample.intensity <= 0.0f)
+    {
+        return fog;
+    }
+
+    const float strength = std::clamp(sample.intensity, 0.0f, 1.0f);
+    fog.foggy = true;
+    fog.weakDistance = static_cast<int32_t>(std::lround(
+        LadderFogFadeWeak + (pLook->haze[0] - LadderFogFadeWeak) * strength));
+    fog.strongDistance = static_cast<int32_t>(std::lround(
+        LadderFogFadeStrong + (pLook->haze[1] - LadderFogFadeStrong) * strength));
     return fog;
 }
 }

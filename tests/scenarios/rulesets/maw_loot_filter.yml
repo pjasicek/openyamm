@@ -1,0 +1,56 @@
+id: rulesets.maw_loot_filter
+title: "MAW loot filter - Very strict turns boss drops of Epic and below into gold, said in the combat log; Off keeps them"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, loot_filter]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal
+        loot_filter: very_strict
+  # A Swift boss drops an item every time (rulesets/maw_loot.yml); Very strict leaves only Ancient, Primordial and
+  # legendary gear.
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - assert:
+      combat_log: {loot_min: 1}
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal
+        loot_filter: "off"
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - spawn_actor: {monster_id: 195, near_party: true, boss_affix: 13}
+  - combat_loot: {actor_index: last}
+  - assert:
+      ruleset: {id: maw, rolled_items_min: 5}

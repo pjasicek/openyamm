@@ -85,6 +85,7 @@ std::optional<PortraitId> portraitIdFromName(std::string_view name)
         {"PurseLips1", PortraitId::PurseLips1},
         {"PurseLips2", PortraitId::PurseLips2},
         {"PurseLips3", PortraitId::PurseLips3},
+        {"Portrait32", PortraitId::Portrait32},
         {"AvoidDamage", PortraitId::AvoidDamage},
         {"DamageReceivedMinor", PortraitId::DamageReceivedMinor},
         {"DamageReceivedModerate", PortraitId::DamageReceivedModerate},
@@ -394,6 +395,8 @@ std::string portraitIdName(PortraitId portraitId)
             return "PurseLips2";
         case PortraitId::PurseLips3:
             return "PurseLips3";
+        case PortraitId::Portrait32:
+            return "Portrait32";
         case PortraitId::AvoidDamage:
             return "AvoidDamage";
         case PortraitId::DamageReceivedMinor:

@@ -953,4 +953,93 @@ float outdoorSmoothedTerrainHeight(const OutdoorMapData &map, float gridX, float
         highest + 16.0f);
     return native + MaximumTerrainSmoothingDeviation * std::tanh((cubic - native) / MaximumTerrainSmoothingDeviation) * smoothing;
 }
+
+void capRenderedTerrainUnderBModels(const OutdoorMapData &map, std::vector<float> &heights, int side, int steps)
+{
+    // A pool cut into a hillside sits a dozen units above a flat native terrace, while the bicubic surface bulges up
+    // to its rising neighbours. Under a face the ground stays this far below it, or at most drops back to native.
+    constexpr float Clearance = 4.0f;
+    // Faces steeper than this are walls; the terrain beside them is not covered.
+    constexpr float MinimumNormalZ = 0.25f;
+    const float spacing = float(OutdoorMapData::TerrainTileSize) / float(steps);
+    // Every rendered triangle overlapping a face keeps all three corners capped.
+    const float reach = spacing * 1.5f;
+    for (const OutdoorBModel &bmodel : map.bmodels)
+    {
+        for (const OutdoorBModelFace &face : bmodel.faces)
+        {
+            const bx::Vec3 normal = {float(face.planeNormalX), float(face.planeNormalY), float(face.planeNormalZ)};
+            const float normalLength = bx::length(normal);
+            if (face.vertexIndices.size() < 3 || normalLength <= 0.0f || normal.z < normalLength * MinimumNormalZ)
+            {
+                continue;
+            }
+            std::vector<bx::Vec3> points;
+            points.reserve(face.vertexIndices.size());
+            for (uint16_t index : face.vertexIndices)
+            {
+                if (index < bmodel.vertices.size())
+                {
+                    points.push_back(outdoorBModelVertexToWorld(bmodel.vertices[index]));
+                }
+            }
+            if (points.size() != face.vertexIndices.size())
+            {
+                continue;
+            }
+            float minX = points.front().x;
+            float maxX = minX;
+            float minY = points.front().y;
+            float maxY = minY;
+            for (const bx::Vec3 &point : points)
+            {
+                minX = std::min(minX, point.x);
+                maxX = std::max(maxX, point.x);
+                minY = std::min(minY, point.y);
+                maxY = std::max(maxY, point.y);
+            }
+            const int firstI = std::max(int(std::ceil((minX - reach + 32768.0f) / spacing)), 0);
+            const int lastI = std::min(int(std::floor((maxX + reach + 32768.0f) / spacing)), side - 1);
+            const int firstJ = std::max(int(std::ceil((32768.0f - maxY - reach) / spacing)), 0);
+            const int lastJ = std::min(int(std::floor((32768.0f - minY + reach) / spacing)), side - 1);
+            for (int j = firstJ; j <= lastJ; ++j)
+            {
+                for (int i = firstI; i <= lastI; ++i)
+                {
+                    const float x = float(i) * spacing - 32768.0f;
+                    const float y = 32768.0f - float(j) * spacing;
+                    bool inside = false;
+                    float nearestSquared = std::numeric_limits<float>::max();
+                    for (size_t a = 0, b = points.size() - 1; a < points.size(); b = a++)
+                    {
+                        const bx::Vec3 &p = points[a];
+                        const bx::Vec3 &q = points[b];
+                        if ((p.y > y) != (q.y > y) && x < p.x + (y - p.y) * (q.x - p.x) / (q.y - p.y))
+                        {
+                            inside = !inside;
+                        }
+                        const float edgeX = q.x - p.x;
+                        const float edgeY = q.y - p.y;
+                        const float edgeSquared = edgeX * edgeX + edgeY * edgeY;
+                        const float t = edgeSquared > 0.0f
+                            ? std::clamp(((x - p.x) * edgeX + (y - p.y) * edgeY) / edgeSquared, 0.0f, 1.0f) : 0.0f;
+                        const float dx = x - (p.x + edgeX * t);
+                        const float dy = y - (p.y + edgeY * t);
+                        nearestSquared = std::min(nearestSquared, dx * dx + dy * dy);
+                    }
+                    if (!inside && nearestSquared > reach * reach)
+                    {
+                        continue;
+                    }
+                    const bx::Vec3 &origin = points.front();
+                    const float faceZ = origin.z - (normal.x * (x - origin.x) + normal.y * (y - origin.y)) / normal.z;
+                    const float native =
+                        outdoorNativeTerrainHeight(map, float(i) / float(steps), float(j) / float(steps));
+                    float &height = heights[size_t(j) * size_t(side) + size_t(i)];
+                    height = std::min(height, std::max(native, faceZ - Clearance));
+                }
+            }
+        }
+    }
+}
 }

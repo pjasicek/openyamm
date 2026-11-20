@@ -1,0 +1,97 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/village3",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "gate0_outside",
+   "position": [
+    1908,
+    1853,
+    1280
+   ],
+   "yaw": 4.9859,
+   "pitch": 0.05
+  },
+  {
+   "name": "gate0_inside",
+   "position": [
+    2367,
+    216,
+    1280
+   ],
+   "yaw": 4.9859,
+   "pitch": 0.0
+  },
+  {
+   "name": "gate1_outside",
+   "position": [
+    131,
+    -3938,
+    1184
+   ],
+   "yaw": 0.702,
+   "pitch": 0.05
+  },
+  {
+   "name": "gate1_inside",
+   "position": [
+    1429,
+    -2840,
+    1280
+   ],
+   "yaw": 0.702,
+   "pitch": 0.0
+  },
+  {
+   "name": "plaza_0",
+   "position": [
+    3458,
+    -1218,
+    1280
+   ],
+   "yaw": 0.6,
+   "pitch": 0.02
+  },
+  {
+   "name": "plaza_1",
+   "position": [
+    2280,
+    -1252,
+    1280
+   ],
+   "yaw": 2.6,
+   "pitch": 0.02
+  },
+  {
+   "name": "plaza_2",
+   "position": [
+    2665,
+    -2279,
+    1280
+   ],
+   "yaw": 4.4,
+   "pitch": 0.02
+  },
+  {
+   "name": "aerial_a",
+   "position": [
+    -320,
+    -4213,
+    4080
+   ],
+   "yaw": 0.68,
+   "pitch": -0.62
+  },
+  {
+   "name": "aerial_b",
+   "position": [
+    5880,
+    1187,
+    3880
+   ],
+   "yaw": -2.4,
+   "pitch": -0.6
+  }
+ ]
+}

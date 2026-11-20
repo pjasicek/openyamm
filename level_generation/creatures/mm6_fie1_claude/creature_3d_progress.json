@@ -1,0 +1,49 @@
+{
+ "creature_3d_identity": "mm6:fie1",
+ "creature": "MM6 fire elemental (fie1), descriptors 529/530/531 ElemFire A/B/C (Fire Beast, Fire Spirit, Fire Elemental)",
+ "scope": "Complete family: MPFB figure on library clips inside a procedural flame cage from the restored x2 frames (no Meshy), all clips, three tiers by region ramps, LODs, runtime binding, regression and outdoor/indoor checks.",
+ "source": {
+  "world": "mm6",
+  "family": "fie1",
+  "descriptor_ids": [
+   529,
+   530,
+   531
+  ],
+  "palettes": [
+   204,
+   728,
+   729
+  ],
+  "restored_frames": "../mm6_fie1/redo_2x/aligned_2x"
+ },
+ "status": "awaiting_user_review",
+ "route": "MPFB figure + Mixamo clips (anim_library) inside alpha-blended flame shells and fringe fins with texture scroll (README.md); no Meshy, no HD masters (featureless figure, user-approved proposal 2026-10-13).",
+ "next_action": {
+  "owner": "user",
+  "action": "Review the in-game look; known limits in README.md."
+ },
+ "runtime": {
+  "source": "assets_source/worlds/mm6/models/mm6_fie1.glb",
+  "source_sha256": "9702fa8a61e8b207710db40a344fda5e44a854ff88d814d3d6077b6c92967758",
+  "runtime_copy": "assets_dev/worlds/mm6/models/mm6_fie1.glb",
+  "runtime_sha256": "9702fa8a61e8b207710db40a344fda5e44a854ff88d814d3d6077b6c92967758",
+  "binding": "assets_dev/worlds/mm6/models/actors.yml (ElemFire A/B/C)",
+  "regression": "mm6_fie1_actor_model_tiers_follow_sprite_scales"
+ },
+ "meshy": {
+  "credit_limit": 0,
+  "jobs": {}
+ },
+ "agent_visual_review": {
+  "status": "passed",
+  "evidence": [
+   "review/clips_attack_hit_death.png",
+   "review/ingame_indoor_tiers_attack_death.png",
+   "review/ingame_outdoor_placed.png",
+   "review/lods.png",
+   "review/standing_vs_restored_sprite.png",
+   "review/walking_vs_restored_sprite.png"
+  ]
+ }
+}

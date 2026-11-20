@@ -93,6 +93,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right live buff medallion; consumes click before portrait selection.
+      - id: ObsidianOverlayPc1Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianOverlayPc2
       anchor: top_left
       offset_x: 113
@@ -167,6 +181,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right live buff medallion; consumes click before portrait selection.
+      - id: ObsidianOverlayPc2Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianOverlayPc3
       anchor: top_left
       offset_x: 207
@@ -241,6 +269,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right live buff medallion; consumes click before portrait selection.
+      - id: ObsidianOverlayPc3Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianOverlayPc4
       anchor: top_left
       offset_x: 301
@@ -315,6 +357,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right live buff medallion; consumes click before portrait selection.
+      - id: ObsidianOverlayPc4Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianOverlayPc5
       anchor: top_left
       offset_x: 395
@@ -389,6 +445,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right live buff medallion; consumes click before portrait selection.
+      - id: ObsidianOverlayPc5Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
   - id: OutdoorStatusBar
     anchor: top_left
     offset_x: 14.4
@@ -457,6 +527,15 @@ elements:
   notes: 'Approved A split arcs. Dynamic width 46+80*n for 1..5 members, flush with screen bottom.
     Narrow frame and compact exterior ornaments; all portrait elements clear the border and corners.'
   children:
+  - id: MapProgressChannel
+    anchor: top_left
+    offset_x: 10.666667
+    offset_y: 1.6
+    width: 424.666667
+    height: 2.666667
+    notes: 'The map progress bar (MAW; level_generation/ui/maw_map_progress_20261025 option A): a 5 px channel in the
+      frame''s top stone band, its width following the frame (GameplayScreenRuntime). GameplayMapProgressBar draws it,
+      the numbers tab rising from the right corner and the hover popup; nothing here when the rules give no progress.'
   - id: OutdoorGameplayPartyStrip
     anchor: top_left
     offset_x: 0.0
@@ -538,6 +617,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right medallion; visible with individual effects; consumes click before portrait selection.
+      - id: ObsidianPc1Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianPc2
       anchor: top_left
       offset_x: 104
@@ -612,6 +705,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right medallion; visible with individual effects; consumes click before portrait selection.
+      - id: ObsidianPc2Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianPc3
       anchor: top_left
       offset_x: 184
@@ -686,6 +793,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right medallion; visible with individual effects; consumes click before portrait selection.
+      - id: ObsidianPc3Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianPc4
       anchor: top_left
       offset_x: 264
@@ -760,6 +881,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right medallion; visible with individual effects; consumes click before portrait selection.
+      - id: ObsidianPc4Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
     - id: ObsidianPc5
       anchor: top_left
       offset_x: 344
@@ -834,6 +969,20 @@ elements:
         interactive: true
         visible: false
         notes: Lower-right medallion; visible with individual effects; consumes click before portrait selection.
+      - id: ObsidianPc5Counter
+        anchor: top_left
+        offset_x: 1
+        offset_y: 1
+        width: 16
+        height: 14
+        text:
+          font: Lucida
+          color: '#f2d27a'
+          align_x: center
+          align_y: middle
+          scale: 0.75
+        notes: Text style of the class counter's number badge (MAW's Elementalist stacks); the counter's gems
+          are drawn beside the HP arc (GameplayPortraitGems).
   - id: OutdoorGameplayStatusBar
     anchor: center_above
     offset_x: 0.0
@@ -859,7 +1008,7 @@ elements:
   anchor: top_left
   offset_x: 0
   offset_y: 0
-  width: 268
+  width: 298
   height: 26
   scale:
     min: 0.5
@@ -870,7 +1019,7 @@ elements:
     anchor: top_left
     offset_x: 0
     offset_y: 0
-    width: 268
+    width: 298
     height: 26
     asset:
       default: obsidian_hud_topbar_flat
@@ -927,7 +1076,7 @@ elements:
     anchor: top_left
     offset_x: 144
     offset_y: 0
-    width: 120
+    width: 150
     height: 26
     children:
     - id: OutdoorButtonBooks
@@ -968,9 +1117,29 @@ elements:
         asset:
           default: obsidian_party
       interactive: true
-    - id: OutdoorButtonRest
+    - id: OutdoorButtonStatistics
       anchor: top_left
       offset_x: 60
+      offset_y: 0
+      width: 28
+      height: 26
+      asset:
+        hover: obsidian_hud_command_hover
+        pressed: obsidian_hud_buff_hover
+      children:
+      - id: ObsidianCommandIconStatistics
+        anchor: top_left
+        offset_x: 2.8
+        offset_y: 2.866667
+        width: 22.4
+        height: 20.266667
+        asset:
+          default: obsidian_statistics
+      interactive: true
+      notes: Opens the playthrough statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md).
+    - id: OutdoorButtonRest
+      anchor: top_left
+      offset_x: 90
       offset_y: 0
       width: 28
       height: 26
@@ -989,7 +1158,7 @@ elements:
       interactive: true
     - id: OutdoorButtonOptions
       anchor: top_left
-      offset_x: 90
+      offset_x: 120
       offset_y: 0
       width: 28
       height: 26
@@ -1041,11 +1210,58 @@ elements:
   interactive: true
   notes: Manually rendered layered buff panel, anchored below OutdoorTopBar by the shared resolver; compact Android
     size +7%.
+- id: SoloUnitFrame
+  anchor_space: screen
+  anchor: top_left
+  offset_x: 7.47
+  offset_y: 6.4
+  width: 220
+  height: 84
+  z_index: 200
+  notes: 'The solo run''s unit frame (devdocs/solo_action/HUD.md, the study''s frame=wow): in the top-left corner,
+    which the solo HUD frees by moving OutdoorTopBar to the top right (GameplayScreenRuntime::resolveHudLayoutElement);
+    its parts (medallion, box, bars, coin, weapon socket, the scroll and potion sockets, buff rows) are laid out in code
+    (game/ui/SoloHudLayout.h) and drawn by GameplaySoloHud. Shown only in a solo run.'
+- id: SoloActionBar
+  anchor: top_left
+  anchor_space: screen
+  offset_x: 7.47
+  offset_y: 94.9
+  width: 51.2
+  height: 382.4
+  z_index: 200
+  notes: 'The solo run''s action bar: one column of keys 1-0 down the left edge under the unit frame (the user''s
+    layout, level_generation/ui/solo_action_hud_20261113 view=a3: 64 px slots at 1600 x 900). Drawn by
+    GameplaySoloHud in the native frame pieces; on a screen too short for it the slots shrink to fit. The panel size and
+    the three slot elements decide the grid (SoloHudLayout.h soloActionBarGrid): one slot wide is the column; a wider
+    panel gives 2 x 5 (175.3 x 81.7), one row of ten (334 x 49.7) or 2 x 10 (334 x 81.7).'
+  children:
+  - id: SoloActionSlot
+    anchor: top_left
+    offset_x: 8.53
+    offset_y: 8.53
+    width: 34.13
+    height: 34.13
+    notes: The first slot (top left); its size is every slot's.
+  - id: SoloActionSlotRight
+    anchor: top_left
+    offset_x: 45.33
+    offset_y: 8.53
+    width: 34.13
+    height: 34.13
+    notes: The next slot in a row; the gap is its offset less the first's and a slot.
+  - id: SoloActionSlotBelow
+    anchor: top_left
+    offset_x: 8.53
+    offset_y: 45.33
+    width: 34.13
+    height: 34.13
+    notes: The first slot of the next row; the row gap likewise.
 - id: OutdoorFlyBuffIcon
   anchor_space: screen
   anchor: top_left
-  width: 32
-  height: 32
+  width: 48
+  height: 48
   scale:
     min: 0.6
     max: 8
@@ -1053,12 +1269,38 @@ elements:
   z_index: 200
   asset:
     default: sp21a10
-  notes: Separate flight indicator for Fly or Levitate; positioned beside the skull and animated while flying.
+  notes: Fly indicator (spell21), animated while flying; the movement indicators line up beside the skull.
+- id: OutdoorLevitateBuffIcon
+  anchor_space: screen
+  anchor: top_left
+  width: 48
+  height: 48
+  scale:
+    min: 0.6
+    max: 8
+    reference_width: 965
+  z_index: 200
+  asset:
+    default: sp109-01
+  notes: Levitate indicator, MM8's own sp109 animation; it stands for the Water Walk Levitate applies.
+- id: OutdoorFleetFootBuffIcon
+  anchor_space: screen
+  anchor: top_left
+  width: 48
+  height: 48
+  scale:
+    min: 0.6
+    max: 8
+    reference_width: 965
+  z_index: 200
+  asset:
+    default: fleetfoot01
+  notes: MM9's Fleet Foot indicator (its winged boot, worlds/mm9/icons_x2), animated while the buff lasts.
 - id: OutdoorWaterWalkBuffIcon
   anchor_space: screen
   anchor: top_left
-  width: 32
-  height: 32
+  width: 48
+  height: 48
   scale:
     min: 0.6
     max: 8
@@ -1066,7 +1308,7 @@ elements:
   z_index: 200
   asset:
     default: sp27a10
-  notes: Separate animated Water Walk indicator; positioned beside the flight indicator.
+  notes: Water Walk indicator (spell27), animated while on water; not shown for the Water Walk Levitate applies.
 - id: ObsidianPartyBuffStrip
   anchor: top_left
   offset_x: 14.933333
@@ -1375,6 +1617,31 @@ elements:
       align_x: center
       align_y: middle
       scale: 0.7
+  - id: ObsidianDeathTimerPlate
+    anchor: top_left
+    offset_x: 41.72
+    offset_y: 118
+    width: 42
+    height: 12
+    visible: false
+    asset:
+      default: obsidian_hud_clock_plate
+    notes: Under the minimap, the seconds until a pending death clears (MAW's Beyond Madness); drawn only then by
+      GameplayUiRenderer, so hidden from the layout pass.
+  - id: ObsidianDeathTimer
+    anchor: top_left
+    offset_x: 41.72
+    offset_y: 118
+    width: 42
+    height: 12
+    visible: false
+    text:
+      value: ''
+      font: Lucida
+      color: '#ff4a3d'
+      align_x: center
+      align_y: middle
+      scale: 0.6
   - id: OutdoorMinimap
     anchor: top_left
     offset_x: 6.72
@@ -1454,6 +1721,290 @@ elements:
     min: 0.5
     max: 8.0
   z_index: 200
+- id: Mm9HirelingRail
+  anchor: top_right
+  anchor_space: screen
+  offset_x: 0
+  offset_y: 178
+  width: 70
+  height: 194
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 210
+  notes: 'MM9 hirelings at the right edge (level_generation/ui/mm9_hirelings_20261106, revision 2): the basebar''s
+    panel (border scale 0.75), 6 units under the combat-log/followers row, 70 wide, an 8-unit band and 58 units a slot,
+    2 between. Its height is for three; GameplayHirelingRail ends it 8 units under the last live slot and draws
+    nothing without hirelings. Each slot: the face 34 x 46 (72 % of a party face) and its HP arc as a group centred in
+    the rail, no mana; the aggro diamond and buff medallion as the party''s.'
+  children:
+  - id: Mm9Hireling1
+    anchor: top_left
+    offset_x: 8
+    offset_y: 8
+    width: 54
+    height: 58
+    interactive: true
+    notes: A click makes the hireling the active combatant (its index after the party's), a click on the active
+      one or a double click opens its RUDE dialogue, held RMB inspects it.
+    children:
+    - id: Mm9Hireling1Face
+      anchor: top_left
+      offset_x: 12.3
+      offset_y: 6
+      width: 34
+      height: 46
+      notes: The animated face (the 9npcNN family); the whole slot takes the clicks (GameplayHirelingRail).
+    - id: Mm9Hireling1Rim
+      anchor: top_left
+      offset_x: 11.1
+      offset_y: 4.8
+      width: 36.4
+      height: 48.4
+      meter_arc:
+        start_degrees: -90
+        sweep_degrees: 360
+        stroke_width: 0.85
+    - id: Mm9Hireling1Selection
+      anchor: top_left
+      offset_x: 22.1
+      offset_y: -3.7
+      width: 14.4
+      height: 14.4
+      asset:
+        default: obsidian_hud_selection_diamond
+    - id: Mm9Hireling1Health
+      anchor: top_left
+      offset_x: 8.3
+      offset_y: 2
+      width: 42
+      height: 54
+      meter_arc:
+        start_degrees: 100
+        sweep_degrees: 160
+        stroke_width: 3.6
+    - id: Mm9Hireling1Readiness
+      anchor: top_left
+      offset_x: 1.7
+      offset_y: 42.4
+      width: 11.6
+      height: 13.2
+    - id: Mm9Hireling1PersonalBuffs
+      anchor: top_left
+      offset_x: 38.5
+      offset_y: 42.2
+      width: 13.6
+      height: 13.6
+      asset:
+        default: obsidian_personal_buffs
+  - id: Mm9Hireling2
+    anchor: top_left
+    offset_x: 8
+    offset_y: 68
+    width: 54
+    height: 58
+    interactive: true
+    children:
+    - id: Mm9Hireling2Face
+      anchor: top_left
+      offset_x: 12.3
+      offset_y: 6
+      width: 34
+      height: 46
+    - id: Mm9Hireling2Rim
+      anchor: top_left
+      offset_x: 11.1
+      offset_y: 4.8
+      width: 36.4
+      height: 48.4
+      meter_arc:
+        start_degrees: -90
+        sweep_degrees: 360
+        stroke_width: 0.85
+    - id: Mm9Hireling2Selection
+      anchor: top_left
+      offset_x: 22.1
+      offset_y: -3.7
+      width: 14.4
+      height: 14.4
+      asset:
+        default: obsidian_hud_selection_diamond
+    - id: Mm9Hireling2Health
+      anchor: top_left
+      offset_x: 8.3
+      offset_y: 2
+      width: 42
+      height: 54
+      meter_arc:
+        start_degrees: 100
+        sweep_degrees: 160
+        stroke_width: 3.6
+    - id: Mm9Hireling2Readiness
+      anchor: top_left
+      offset_x: 1.7
+      offset_y: 42.4
+      width: 11.6
+      height: 13.2
+    - id: Mm9Hireling2PersonalBuffs
+      anchor: top_left
+      offset_x: 38.5
+      offset_y: 42.2
+      width: 13.6
+      height: 13.6
+      asset:
+        default: obsidian_personal_buffs
+  - id: Mm9Hireling3
+    anchor: top_left
+    offset_x: 8
+    offset_y: 128
+    width: 54
+    height: 58
+    interactive: true
+    children:
+    - id: Mm9Hireling3Face
+      anchor: top_left
+      offset_x: 12.3
+      offset_y: 6
+      width: 34
+      height: 46
+    - id: Mm9Hireling3Rim
+      anchor: top_left
+      offset_x: 11.1
+      offset_y: 4.8
+      width: 36.4
+      height: 48.4
+      meter_arc:
+        start_degrees: -90
+        sweep_degrees: 360
+        stroke_width: 0.85
+    - id: Mm9Hireling3Selection
+      anchor: top_left
+      offset_x: 22.1
+      offset_y: -3.7
+      width: 14.4
+      height: 14.4
+      asset:
+        default: obsidian_hud_selection_diamond
+    - id: Mm9Hireling3Health
+      anchor: top_left
+      offset_x: 8.3
+      offset_y: 2
+      width: 42
+      height: 54
+      meter_arc:
+        start_degrees: 100
+        sweep_degrees: 160
+        stroke_width: 3.6
+    - id: Mm9Hireling3Readiness
+      anchor: top_left
+      offset_x: 1.7
+      offset_y: 42.4
+      width: 11.6
+      height: 13.2
+    - id: Mm9Hireling3PersonalBuffs
+      anchor: top_left
+      offset_x: 38.5
+      offset_y: 42.2
+      width: 13.6
+      height: 13.6
+      asset:
+        default: obsidian_personal_buffs
+- id: CombatLogToggle
+  anchor: top_right
+  offset_x: -28
+  offset_y: 146
+  width: 26
+  height: 26
+  asset:
+    default: obsidian_follower_toggle_normal
+    hover: obsidian_follower_toggle_hover
+    pressed: obsidian_follower_toggle_pressed
+    selected: obsidian_follower_toggle_selected
+  children:
+  - id: CombatLogToggleIcon
+    anchor: top_left
+    offset_x: 3
+    offset_y: 3
+    width: 20
+    height: 20
+    asset:
+      default: obsidian_action_attack
+  interactive: true
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 220
+  notes: Opens and closes the docked combat log (GAPS H.3); shown while the combat_log setting is on. Drawn by
+    GameplayUiRenderer, not the layout pass.
+- id: CombatLogPanel
+  anchor: bottom_left
+  offset_x: 4
+  offset_y: -4
+  width: 176
+  height: 136
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 205
+  notes: The docked combat log (level_generation/ui/maw_combat_log_20261024/, layout A) in the bottom-left corner.
+    GameplayCombatLogPanel narrows it to end beside the party frame, and lifts it above the frame when less than 150
+    units are left there. It places the title, filter chips, lines and scrollbar itself; the children are text
+    styles.
+  children:
+  - id: CombatLogTitle
+    anchor: top_left
+    offset_x: 6
+    offset_y: 2
+    width: 70
+    height: 16
+    text:
+      value: Combat log
+      font: Fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.4
+  - id: CombatLogChipText
+    anchor: top_left
+    offset_x: 0
+    offset_y: 0
+    width: 10
+    height: 10
+    text:
+      value: ''
+      font: Lucida
+      color: '#c8c7a7'
+      align_x: center
+      align_y: middle
+      scale: 0.55
+  - id: CombatLogText
+    anchor: top_left
+    offset_x: 0
+    offset_y: 0
+    width: 10
+    height: 10
+    text:
+      value: ''
+      font: Lucida
+      color: '#c8c7a7'
+      align_x: left
+      align_y: top
+      scale: 0.65
+  - id: CombatLogStageText
+    anchor: top_left
+    offset_x: 0
+    offset_y: 0
+    width: 10
+    height: 10
+    text:
+      value: ''
+      font: Lucida
+      color: '#b9c4b0'
+      align_x: left
+      align_y: top
+      scale: 0.58
 - id: OutdoorFollowerToggle
   anchor: top_right
   offset_x: 0
@@ -1481,6 +2032,21 @@ elements:
     max: 8.0
   z_index: 220
   notes: Right-edge head tab toggles the original three-slot followers panel. No separate followers text button.
+- id: Mm9FormationButton
+  anchor: top_right
+  offset_x: -4
+  offset_y: 148
+  width: 24
+  height: 24
+  interactive: true
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 220
+  notes: 'The MM9 world''s formation button (level_generation/ui/mm9_formation_20261106), in the followers'' place
+    (hidden in MM9): a carved slab with a 3 x 3 grid of brass diamonds, the front rank gold. Opens the formation
+    builder (mm9_formation.yml); shown with world.yml formations. Drawn by GameplayFormationBuilder.'
 - id: OutdoorFollowerPanel
   anchor_space: screen
   anchor: top_right

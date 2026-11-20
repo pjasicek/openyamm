@@ -1,0 +1,21 @@
+id: mm8.immobile_monsters
+title: Monsters of MM8's Immobile kind (Malevolent Boulders) stand still while they fight the party
+world: mm8
+mode: faithful
+tags: [mm8, actors, regression]
+steps:
+  - note:
+      text: >-
+        The boulders' bolster row (bolster_monsters.txt) gives them the Immobile kind in its ExtraType column; their
+        monster row walks (Long, Med, Short). The kind keeps them in place on every map, with bolster on or off.
+        An Ogre Warrior spawned beside the boulder shows that the party draws a mobile monster in the same time.
+  - new_game_flow:
+      start_map: out01.odm
+  - spawn_actor: {monster_id: 31, x: 5260, y: 7696, z: 545}
+  - advance_runtime: {seconds: 6}
+  - assert:
+      actor_visible: {actor_index: last, far: {x: 5260, y: 7696, min_distance: 200}, report_state: true}
+  - spawn_actor: {monster_id: 144, x: 5260, y: 7696, z: 545}
+  - advance_runtime: {seconds: 6}
+  - assert:
+      actor_visible: {actor_index: last, near: {x: 5260, y: 7696, max_distance: 4}, report_state: true}

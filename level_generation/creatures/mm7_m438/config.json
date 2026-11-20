@@ -1,0 +1,396 @@
+{
+  "label": "Zombie A",
+  "creature": "zombie",
+  "base_palette": 118,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "true_alpha": true,
+  "preserve_delivered_rgb": true,
+  "material_edge_hue_repair": false,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m438sa0",
+    "m438sa1",
+    "m438sa2",
+    "m438sa3",
+    "m438sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "Faithful restoration of the supplied original fantasy zombie game artwork. Adult male humanoid with slim upright build, gray-green skin, narrow gaunt face, short dark cropped hair, and a narrow olive cloth headband. Bare torso and bare feet. Worn dark olive-brown trousers with torn cuffs and native holes; thin pale gray rope waist belt with two hanging ends. His left hand holds the original separate forearm horizontally across the waist by its wrist; his right arm ends below the elbow exactly as pictured. Preserve every native body part, its position, silhouette and occlusion. Preserve the original small flat dark red and ivory accents on the torso, right arm and right lower leg without enlarging, intensifying or adding graphic detail. Restrained game illustration, dark tonal weight, no photorealistic injury detail. Reconstruct cloth weave, skin shading and facial features while faithfully retaining original proportions, asymmetry and materials. Only trousers and headband recolor offline; skin, rope, feet and original red/ivory details remain unchanged. No additional weapon, clothing, wounds, blood, particles, effects or scene.",
+  "materials": {
+    "regions": [
+      {
+        "name": "olive_clothing",
+        "selector": "burgundy",
+        "thresholds": [
+          0.08,
+          0.15
+        ],
+        "minimum_green_over_blue": [
+          0.1,
+          0.18
+        ],
+        "palette_indices": [
+          94,
+          96,
+          97,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          183,
+          184,
+          185,
+          186,
+          187,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          199,
+          200,
+          201,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5,
+        "native_palette_spatial_support": [
+          94,
+          96,
+          97,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          183,
+          184,
+          185,
+          186,
+          187,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          199,
+          200,
+          201,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "support_padding": 3,
+        "minimum_warm_chroma": [
+          0.22,
+          0.3
+        ],
+        "support_components_min_pixels": 30,
+        "maximum_red_over_green": [
+          0.22,
+          0.35
+        ],
+        "frame_exclude_polygons": {
+          "m438sa0": [
+            [
+              [
+                85,
+                185
+              ],
+              [
+                126,
+                185
+              ],
+              [
+                126,
+                256
+              ],
+              [
+                85,
+                256
+              ]
+            ]
+          ],
+          "m438sa1": [
+            [
+              [
+                90,
+                185
+              ],
+              [
+                127,
+                185
+              ],
+              [
+                127,
+                256
+              ],
+              [
+                90,
+                256
+              ]
+            ]
+          ],
+          "m438sa2": [
+            [
+              [
+                128,
+                185
+              ],
+              [
+                155,
+                185
+              ],
+              [
+                155,
+                256
+              ],
+              [
+                128,
+                256
+              ]
+            ]
+          ],
+          "m438sa3": [
+            [
+              [
+                129,
+                185
+              ],
+              [
+                170,
+                185
+              ],
+              [
+                170,
+                256
+              ],
+              [
+                129,
+                256
+              ]
+            ]
+          ],
+          "m438sa4": [
+            [
+              [
+                129,
+                185
+              ],
+              [
+                175,
+                185
+              ],
+              [
+                175,
+                256
+              ],
+              [
+                129,
+                256
+              ]
+            ]
+          ]
+        }
+      }
+    ],
+    "limitation": "Enhanced olive fabric is selected by warm chroma; neutral worn areas may partly retain the base shade. Skin, rope and original red accents are protected."
+  },
+  "reviewed_placement_translation_px": {
+    "m438sa1": [
+      -14,
+      0
+    ],
+    "m438sa2": [
+      12,
+      0
+    ],
+    "m438sa3": [
+      -10,
+      0
+    ],
+    "m438sa4": [
+      -20,
+      0
+    ]
+  }
+}

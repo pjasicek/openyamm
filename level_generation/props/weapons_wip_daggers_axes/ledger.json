@@ -1,0 +1,7227 @@
+[
+  {
+    "icon": "6ldagger4",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 2020,
+        "name": "Mordred"
+      }
+    ],
+    "name": "Mordred",
+    "status": "installed",
+    "length": 121.0,
+    "binding_unchanged": true,
+    "design_group": "w02_6ldagger4",
+    "matching_icon_variants": [
+      "6ldagger4",
+      "ldagger3"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_6ldagger4.glb",
+    "authoring_blend": "work/codex_tex/w02_6ldagger4.blend",
+    "export": "work/exports/w02_6ldagger4_export.glb",
+    "source": "assets_source/engine/world_items/models/item_6ldagger4.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_6ldagger4.glb",
+    "geometry": {
+      "sha256": "b4463d23310945419035ca0f9cc6de088920e2c2ba40a9fc52f8051eb4f8c9a3",
+      "triangles": 4916,
+      "triangles_all_lods": 8602,
+      "closed_boundaries": true,
+      "vertices": 10961,
+      "bounds_gltf": [
+        [
+          -0.12482522428035736,
+          0.0,
+          -0.49965277314186096
+        ],
+        [
+          0.12482522428035736,
+          0.07840652763843536,
+          0.49965277314186096
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_6ldagger4",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "8a681b1723261bbf0529daf0e240048d264a7ac27f65039a431f25d83d90d94b",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/01-6ldagger4.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14e9a-fde5-72fa-b9dd-c2f669cb5df7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4916,
+      2458,
+      1228
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9451285777468882
+  },
+  {
+    "icon": "7item015",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 817,
+        "name": "Improvised Dagger"
+      }
+    ],
+    "name": "Improvised Dagger",
+    "status": "installed",
+    "length": 89.5,
+    "binding_unchanged": true,
+    "design_group": "w02_7item015",
+    "matching_icon_variants": [
+      "7item015"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item015.glb",
+    "authoring_blend": "blends/w02_7item015.blend",
+    "export": "work/exports/w02_7item015_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item015.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item015.glb",
+    "geometry": {
+      "sha256": "9658de89b6cfc6358e6c8e98c7eb2ded12e3feab091522d19a47e28b8b670ca8",
+      "triangles": 1174,
+      "triangles_all_lods": 1174,
+      "closed_boundaries": true,
+      "vertices": 1055,
+      "bounds_gltf": [
+        [
+          -0.06499999761581421,
+          0.0,
+          -0.4864448606967926
+        ],
+        [
+          0.06499999761581421,
+          0.05802495777606964,
+          0.4864448606967926
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "de525bffaac3f5812767490b567d77d1fd66a745675cb507d95c41fa21b16099",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/02-7item015.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item016",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 818,
+        "name": "Dwarven Dagger"
+      }
+    ],
+    "name": "Dwarven Dagger",
+    "status": "installed",
+    "length": 91.4,
+    "binding_unchanged": true,
+    "design_group": "w02_7item016",
+    "matching_icon_variants": [
+      "7item016"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item016.glb",
+    "authoring_blend": "blends/w02_7item016.blend",
+    "export": "work/exports/w02_7item016_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item016.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item016.glb",
+    "geometry": {
+      "sha256": "21a209125525ecf654ff5d7f2f2ebd8f42f5c008a39dec712641c30a5b4c7861",
+      "triangles": 368,
+      "triangles_all_lods": 368,
+      "closed_boundaries": true,
+      "vertices": 500,
+      "bounds_gltf": [
+        [
+          -0.14000000059604645,
+          0.0,
+          -0.48653745651245117
+        ],
+        [
+          0.14000000059604645,
+          0.06532080471515656,
+          0.48653745651245117
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_blue",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "e59fb1aa7a9a68237bbe495a5cf287b75ab8caeebc52b92c1e69ae2a81f1cff2",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/03-7item016.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item017",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 819,
+        "name": "Sharktooth Dagger"
+      }
+    ],
+    "name": "Sharktooth Dagger",
+    "status": "installed",
+    "length": 75.6,
+    "binding_unchanged": true,
+    "design_group": "w02_7item017",
+    "matching_icon_variants": [
+      "7item017"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR + Blender physical repair",
+    "baseline": "baseline/item_7item017.glb",
+    "authoring_blend": "work/codex_tex/w02_7item017.blend",
+    "export": "work/exports/w02_7item017_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item017.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item017.glb",
+    "geometry": {
+      "sha256": "8bd81bd485cd7dcd29d7d7e0bd5d30cf5c4d339f81791a38e8c485c5dd21a668",
+      "triangles": 5500,
+      "triangles_all_lods": 9624,
+      "closed_boundaries": true,
+      "vertices": 12712,
+      "bounds_gltf": [
+        [
+          -0.23307600617408752,
+          0.0,
+          -0.4981931447982788
+        ],
+        [
+          0.23307600617408752,
+          0.13760720193386078,
+          0.4981931447982788
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item017",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "f355c209928bf437dd25cb91d603197a923875272cc408f7e3fb110ba8907735",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/04-7item017.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14e9b-087b-73bb-8696-7b2c889502dc",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      5500,
+      2750,
+      1374
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9304139979969196
+  },
+  {
+    "icon": "7item018",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 820,
+        "name": "Assassin's Dagger"
+      }
+    ],
+    "name": "Assassin's Dagger",
+    "status": "installed",
+    "length": 89.5,
+    "binding_unchanged": true,
+    "design_group": "w02_7item018",
+    "matching_icon_variants": [
+      "7item018"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_7item018.glb",
+    "authoring_blend": "work/codex_tex/w02_7item018.blend",
+    "export": "work/exports/w02_7item018_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item018.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item018.glb",
+    "geometry": {
+      "sha256": "6b4be460c4474ef4e46645f5b030f598d1b17827358eb6f3029c00722de6ebef",
+      "triangles": 4912,
+      "triangles_all_lods": 8596,
+      "closed_boundaries": true,
+      "vertices": 10170,
+      "bounds_gltf": [
+        [
+          -0.21414288878440857,
+          0.0,
+          -0.49903273582458496
+        ],
+        [
+          0.21414288878440857,
+          0.11362414062023163,
+          0.49903273582458496
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item018",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "964c2724fed23c45283bf4da7f8ca996eb4d994732984e0c1068c8c1f01d7837",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/05-7item018.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14e9b-11f6-748d-97b7-a13265b46695",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4912,
+      2456,
+      1228
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9550966572343306
+  },
+  {
+    "icon": "7item019",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 821,
+        "name": "Wonder Dagger"
+      }
+    ],
+    "name": "Wonder Dagger",
+    "status": "installed",
+    "length": 90.0,
+    "binding_unchanged": true,
+    "design_group": "w02_7item019",
+    "matching_icon_variants": [
+      "7item019",
+      "7item289"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_7item019.glb",
+    "authoring_blend": "work/codex_tex/w02_7item019.blend",
+    "export": "work/exports/w02_7item019_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item019.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item019.glb",
+    "geometry": {
+      "sha256": "87b80164112bbcdaa3ad3268af99697a4143e99a57510489e1e93bdb12ac14d8",
+      "triangles": 5500,
+      "triangles_all_lods": 9624,
+      "closed_boundaries": true,
+      "vertices": 10802,
+      "bounds_gltf": [
+        [
+          -0.159640371799469,
+          0.0,
+          -0.4993132948875427
+        ],
+        [
+          0.159640371799469,
+          0.12406625598669052,
+          0.4993132948875427
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item019",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          128,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "cb7d3d6de0605457e15864998cf107e22e844d4122bb829b70342addab5ada8b",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/06-7item019.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14e9b-1cad-7724-8b0a-d39426835c14",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      5500,
+      2750,
+      1374
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9878706512498664
+  },
+  {
+    "icon": "7item020",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 822,
+        "name": "Shoddy Long Dagger"
+      }
+    ],
+    "name": "Shoddy Long Dagger",
+    "status": "installed",
+    "length": 101.2,
+    "binding_unchanged": true,
+    "design_group": "w02_7item020",
+    "matching_icon_variants": [
+      "7item020"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item020.glb",
+    "authoring_blend": "blends/w02_7item020.blend",
+    "export": "work/exports/w02_7item020_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item020.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item020.glb",
+    "geometry": {
+      "sha256": "d1d2fcb01b9a25daea8e349d11fdc0557070ff1951ece9f87c6af5f55a57481d",
+      "triangles": 1490,
+      "triangles_all_lods": 1490,
+      "closed_boundaries": true,
+      "vertices": 1265,
+      "bounds_gltf": [
+        [
+          -0.11941635608673096,
+          0.0,
+          -0.48648494482040405
+        ],
+        [
+          0.11941635608673096,
+          0.0562063567340374,
+          0.48648494482040405
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "0f1725d1d7aec2efb91a8c1cbbb2ab1950c8b5bcc61f112a3b4f40d83c3c1006",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/07-7item020.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item021",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 823,
+        "name": "Erathian Long Dagger"
+      }
+    ],
+    "name": "Erathian Long Dagger",
+    "status": "installed",
+    "length": 95.4,
+    "binding_unchanged": true,
+    "design_group": "w02_7item021",
+    "matching_icon_variants": [
+      "7item021"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item021.glb",
+    "authoring_blend": "blends/w02_7item021.blend",
+    "export": "work/exports/w02_7item021_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item021.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item021.glb",
+    "geometry": {
+      "sha256": "1b749c3ee18b7f3201711df4e747d1e2ac458454a8f7a9adacb8fae4f16d57fb",
+      "triangles": 1222,
+      "triangles_all_lods": 1222,
+      "closed_boundaries": true,
+      "vertices": 1103,
+      "bounds_gltf": [
+        [
+          -0.09367506951093674,
+          0.0,
+          -0.48671454191207886
+        ],
+        [
+          0.09367506951093674,
+          0.07408607006072998,
+          0.48671454191207886
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_white",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "7f7013ef93b3e2580f2282045119f41d4591d377603a7511814f0396cf30b7d0",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_01.png",
+      "native_ordinary": "review/native_final/08-7item021.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item022",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 824,
+        "name": "Exquisite Long Dagger"
+      }
+    ],
+    "name": "Exquisite Long Dagger",
+    "status": "installed",
+    "length": 102.2,
+    "binding_unchanged": true,
+    "design_group": "w02_7item022",
+    "matching_icon_variants": [
+      "7item022"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item022.glb",
+    "authoring_blend": "blends/w02_7item022.blend",
+    "export": "work/exports/w02_7item022_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item022.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item022.glb",
+    "geometry": {
+      "sha256": "e6d1b0497f6e5f8ad9bef967b2a3cedb1e3447148ad07714b7e65efc1edd9fdc",
+      "triangles": 1190,
+      "triangles_all_lods": 1190,
+      "closed_boundaries": true,
+      "vertices": 1084,
+      "bounds_gltf": [
+        [
+          -0.1753305047750473,
+          0.0,
+          -0.48666638135910034
+        ],
+        [
+          0.1753305047750473,
+          0.07621459662914276,
+          0.48666638135910034
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_red",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "14d9b66ba20e27e2b25ae1fecb8f030a25706689ca3fcce0a4413427c6f89bb2",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/09-7item022.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item221",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1319,
+        "name": "Old Nick"
+      }
+    ],
+    "name": "Old Nick",
+    "status": "installed",
+    "length": 89.1,
+    "binding_unchanged": true,
+    "design_group": "w02_7item221",
+    "matching_icon_variants": [
+      "7item221"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_7item221.glb",
+    "authoring_blend": "work/codex_tex/w02_7item221.blend",
+    "export": "work/exports/w02_7item221_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item221.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item221.glb",
+    "geometry": {
+      "sha256": "ebd407851f0383b16359d06633d8bc659e627c1306700a92e6623a76ca735e7b",
+      "triangles": 4960,
+      "triangles_all_lods": 8680,
+      "closed_boundaries": true,
+      "vertices": 10387,
+      "bounds_gltf": [
+        [
+          -0.15249544382095337,
+          0.0,
+          -0.5003320574760437
+        ],
+        [
+          0.15249544382095337,
+          0.12384174019098282,
+          0.5003320574760437
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item221",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "db924032124560a9d874c7ab343a0b7e16576db195faded2bcf1bd1d25884b27",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/10-7item221.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14ea6-67b7-752a-9d19-842a3a6e9c06",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4960,
+      2480,
+      1240
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.7272683685281205
+  },
+  {
+    "icon": "7item289",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1342,
+        "name": "Lady Carmine's Dagger"
+      }
+    ],
+    "name": "Lady Carmine's Dagger",
+    "status": "installed",
+    "length": 90.0,
+    "binding_unchanged": true,
+    "design_group": "w02_7item019",
+    "matching_icon_variants": [
+      "7item019",
+      "7item289"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_7item289.glb",
+    "authoring_blend": "work/codex_tex/w02_7item019.blend",
+    "export": "work/exports/w02_7item289_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item289.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item289.glb",
+    "geometry": {
+      "sha256": "87b80164112bbcdaa3ad3268af99697a4143e99a57510489e1e93bdb12ac14d8",
+      "triangles": 5500,
+      "triangles_all_lods": 9624,
+      "closed_boundaries": true,
+      "vertices": 10802,
+      "bounds_gltf": [
+        [
+          -0.159640371799469,
+          0.0,
+          -0.4993132948875427
+        ],
+        [
+          0.159640371799469,
+          0.12406625598669052,
+          0.4993132948875427
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item019",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          128,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "c0cda217eca73d0a022b6c57fc0ae98cd9b716437d54a9688b6727d55d124d27",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/11-7item289.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14e9b-1cad-7724-8b0a-d39426835c14",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      5500,
+      2750,
+      1374
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9878706512498664
+  },
+  {
+    "icon": "dagger1",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1617,
+        "name": "Dagger"
+      }
+    ],
+    "name": "Dagger",
+    "status": "installed",
+    "length": 97.2,
+    "binding_unchanged": true,
+    "design_group": "w02_dagger1",
+    "matching_icon_variants": [
+      "dagger1"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_dagger1.glb",
+    "authoring_blend": "blends/w02_dagger1.blend",
+    "export": "work/exports/w02_dagger1_export.glb",
+    "source": "assets_source/engine/world_items/models/item_dagger1.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_dagger1.glb",
+    "geometry": {
+      "sha256": "b4aa486eb7b093b3d3c9c15b5a3907577a5309399478d9633fb783387d0aceb1",
+      "triangles": 1222,
+      "triangles_all_lods": 1222,
+      "closed_boundaries": true,
+      "vertices": 1116,
+      "bounds_gltf": [
+        [
+          -0.15808989107608795,
+          0.0,
+          -0.4865439534187317
+        ],
+        [
+          0.15808989107608795,
+          0.07711087167263031,
+          0.4865439534187317
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_black",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "6a2c4418e07add7e575a73b530d60c98375bb80a7bfd186551c73dbad855844e",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/12-dagger1.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "dagger2",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1618,
+        "name": "Blood Dagger"
+      }
+    ],
+    "name": "Blood Dagger",
+    "status": "installed",
+    "length": 109.4,
+    "binding_unchanged": true,
+    "design_group": "w02_dagger2",
+    "matching_icon_variants": [
+      "dagger2"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_dagger2.glb",
+    "authoring_blend": "blends/w02_dagger2.blend",
+    "export": "work/exports/w02_dagger2_export.glb",
+    "source": "assets_source/engine/world_items/models/item_dagger2.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_dagger2.glb",
+    "geometry": {
+      "sha256": "3285d02ad629ea3bd2112e686214f344664e91cdc2913e3894b11da06f3a592f",
+      "triangles": 276,
+      "triangles_all_lods": 276,
+      "closed_boundaries": true,
+      "vertices": 455,
+      "bounds_gltf": [
+        [
+          -0.11999999731779099,
+          0.0,
+          -0.4864479601383209
+        ],
+        [
+          0.11999999731779099,
+          0.07906210422515869,
+          0.4864479601383209
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_green",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "15b0a7a8929bf4f2f2a881fdf13cbe5821a1c62d5f92328da3f29cb686ea0aa8",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/13-dagger2.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "dagger3",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1619,
+        "name": "Shadow Dagger"
+      }
+    ],
+    "name": "Shadow Dagger",
+    "status": "installed",
+    "length": 109.8,
+    "binding_unchanged": true,
+    "design_group": "w02_dagger3",
+    "matching_icon_variants": [
+      "dagger3"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_dagger3.glb",
+    "authoring_blend": "blends/w02_dagger3.blend",
+    "export": "work/exports/w02_dagger3_export.glb",
+    "source": "assets_source/engine/world_items/models/item_dagger3.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_dagger3.glb",
+    "geometry": {
+      "sha256": "06c4f6476defce72f9ac136ffe688e906f644e7597cb0a13086452e30c96f190",
+      "triangles": 1314,
+      "triangles_all_lods": 1314,
+      "closed_boundaries": true,
+      "vertices": 1197,
+      "bounds_gltf": [
+        [
+          -0.14546126127243042,
+          0.0,
+          -0.48642903566360474
+        ],
+        [
+          0.14546126127243042,
+          0.06513574719429016,
+          0.48642903566360474
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_blue",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "2142a529a025fbcecc6f9569f02350bb667ffc1f87d20f5ac457932ad4ba4c6c",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/14-dagger3.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "dagger4",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1620,
+        "name": "Mage Dagger"
+      }
+    ],
+    "name": "Mage Dagger",
+    "status": "installed",
+    "length": 93.6,
+    "binding_unchanged": true,
+    "design_group": "w02_dagger4",
+    "matching_icon_variants": [
+      "dagger4"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_dagger4.glb",
+    "authoring_blend": "blends/w02_dagger4.blend",
+    "export": "work/exports/w02_dagger4_export.glb",
+    "source": "assets_source/engine/world_items/models/item_dagger4.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_dagger4.glb",
+    "geometry": {
+      "sha256": "bcad5e3f2b4a002612e608731dad455fc00eaf3a4114e9b7322dd910f5759495",
+      "triangles": 340,
+      "triangles_all_lods": 340,
+      "closed_boundaries": true,
+      "vertices": 491,
+      "bounds_gltf": [
+        [
+          -0.11753308027982712,
+          0.0,
+          -0.4865165054798126
+        ],
+        [
+          0.11753308027982712,
+          0.07874795794487,
+          0.4865165054798126
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_green",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "1beb5eba66d949decd89ae84c9e6917e7c4d11e9894ffd02eaa5d9f4c9ea02bb",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/15-dagger4.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "dagger5",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1621,
+        "name": "Jeweled Dagger"
+      }
+    ],
+    "name": "Jeweled Dagger",
+    "status": "installed",
+    "length": 100.4,
+    "binding_unchanged": true,
+    "design_group": "w02_dagger5",
+    "matching_icon_variants": [
+      "dagger5"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_dagger5.glb",
+    "authoring_blend": "blends/w02_dagger5.blend",
+    "export": "work/exports/w02_dagger5_export.glb",
+    "source": "assets_source/engine/world_items/models/item_dagger5.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_dagger5.glb",
+    "geometry": {
+      "sha256": "39b8bba24620ce9909543f6ff51f44bcba19e276619a5781d1d3c1a6cb105563",
+      "triangles": 970,
+      "triangles_all_lods": 970,
+      "closed_boundaries": true,
+      "vertices": 939,
+      "bounds_gltf": [
+        [
+          -0.15808989107608795,
+          0.0,
+          -0.4864707291126251
+        ],
+        [
+          0.15808989107608795,
+          0.07845477014780045,
+          0.4864707291126251
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_red",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "d3cc3e9ea1faba449399fdb6c7f6f08cfffc078d88d6fe98c2ba8a57a0796544",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_02.png",
+      "native_ordinary": "review/native_final/16-dagger5.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item021",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 21,
+        "name": "Crude Dagger"
+      }
+    ],
+    "name": "Crude Dagger",
+    "status": "installed",
+    "length": 87.3,
+    "binding_unchanged": true,
+    "design_group": "w02_item021",
+    "matching_icon_variants": [
+      "item021"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item021.glb",
+    "authoring_blend": "blends/w02_item021.blend",
+    "export": "work/exports/w02_item021_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item021.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item021.glb",
+    "geometry": {
+      "sha256": "d9823fe60f8b3d878cb4518e61a4e6eca32b4ae8cd49ce7574a157ec8999b93f",
+      "triangles": 1048,
+      "triangles_all_lods": 1048,
+      "closed_boundaries": true,
+      "vertices": 963,
+      "bounds_gltf": [
+        [
+          -0.11999999731779099,
+          0.0,
+          -0.48652562499046326
+        ],
+        [
+          0.11999999731779099,
+          0.05722328647971153,
+          0.48652562499046326
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "b2618cd051d250e78c557890acd70378c91a4883d2f309800bfa18cdd454907d",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/17-item021.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item022",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 22,
+        "name": "Crystal Dagger"
+      }
+    ],
+    "name": "Crystal Dagger",
+    "status": "installed",
+    "length": 85.0,
+    "binding_unchanged": true,
+    "design_group": "w02_item022",
+    "matching_icon_variants": [
+      "item022"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item022.glb",
+    "authoring_blend": "blends/w02_item022.blend",
+    "export": "work/exports/w02_item022_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item022.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item022.glb",
+    "geometry": {
+      "sha256": "f940f01ac8d1c0e3d50a5bf6bcde576ae9777e9332854b0cfd8ffa0cd6a9632f",
+      "triangles": 762,
+      "triangles_all_lods": 762,
+      "closed_boundaries": true,
+      "vertices": 833,
+      "bounds_gltf": [
+        [
+          -0.13474099338054657,
+          0.0,
+          -0.486739844083786
+        ],
+        [
+          0.13474099338054657,
+          0.07675261795520782,
+          0.486739844083786
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_white",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "ccf9bd88828c81bb0a89c4d2843e025a3894b30f7fbf9602f54c714f7abec54a",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/18-item022.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item023",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 23,
+        "name": "Merchantman's Dagger"
+      }
+    ],
+    "name": "Merchantman's Dagger",
+    "status": "installed",
+    "length": 88.7,
+    "binding_unchanged": true,
+    "design_group": "w02_item023",
+    "matching_icon_variants": [
+      "item023"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item023.glb",
+    "authoring_blend": "blends/w02_item023.blend",
+    "export": "work/exports/w02_item023_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item023.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item023.glb",
+    "geometry": {
+      "sha256": "b58b87c1fb3a259c568c4efcebfa3077347d1de9c2d6595905409a4e374e8c9a",
+      "triangles": 1364,
+      "triangles_all_lods": 1364,
+      "closed_boundaries": true,
+      "vertices": 1210,
+      "bounds_gltf": [
+        [
+          -0.1472816914319992,
+          0.0,
+          -0.4864509403705597
+        ],
+        [
+          0.1472816914319992,
+          0.05869860574603081,
+          0.4864509403705597
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "bfc0e55b898799cc2ceb592b013069791c11d89fcbbed562289f20b9050d11bd",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/19-item023.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item024",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 24,
+        "name": "Master's Dagger"
+      }
+    ],
+    "name": "Master's Dagger",
+    "status": "installed",
+    "length": 87.8,
+    "binding_unchanged": true,
+    "design_group": "w02_item024",
+    "matching_icon_variants": [
+      "item024"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item024.glb",
+    "authoring_blend": "blends/w02_item024.blend",
+    "export": "work/exports/w02_item024_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item024.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item024.glb",
+    "geometry": {
+      "sha256": "a10ac4cc6f024a8aeb5ad0f37b091881f2fc703e8d425c042c5211319bee3f72",
+      "triangles": 1164,
+      "triangles_all_lods": 1164,
+      "closed_boundaries": true,
+      "vertices": 1057,
+      "bounds_gltf": [
+        [
+          -0.1805034875869751,
+          0.0,
+          -0.4864619970321655
+        ],
+        [
+          0.1805034875869751,
+          0.06637245416641235,
+          0.4864619970321655
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_red",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "1569decb79676b0baf8e4faa2ee94d79624e65862c33e13d95bc3afe13f0d64a",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/20-item024.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item025",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 25,
+        "name": "Fanged Blade"
+      }
+    ],
+    "name": "Fanged Blade",
+    "status": "installed",
+    "length": 81.0,
+    "binding_unchanged": true,
+    "design_group": "w02_item025",
+    "matching_icon_variants": [
+      "item025"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_item025.glb",
+    "authoring_blend": "work/codex_tex/w02_item025.blend",
+    "export": "work/exports/w02_item025_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item025.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item025.glb",
+    "geometry": {
+      "sha256": "642d4aba6769b0a74ecadaf24887a31c53dc219e493c003ca4524db5db71248c",
+      "triangles": 5500,
+      "triangles_all_lods": 9624,
+      "closed_boundaries": true,
+      "vertices": 12546,
+      "bounds_gltf": [
+        [
+          -0.298586905002594,
+          0.0,
+          -0.49884629249572754
+        ],
+        [
+          0.298586905002594,
+          0.07699429243803024,
+          0.49884629249572754
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_item025",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "923c74f47a631baf19e9ed501034c0b0dda91e5b4d49d7b207fa67a85b197926",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/21-item025.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14ea6-7703-7201-8cd4-7f5addcfaaff",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      5500,
+      2750,
+      1374
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9791731454025431
+  },
+  {
+    "icon": "item026",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 26,
+        "name": "Long Dagger"
+      }
+    ],
+    "name": "Long Dagger",
+    "status": "installed",
+    "length": 103.0,
+    "binding_unchanged": true,
+    "design_group": "w02_item026",
+    "matching_icon_variants": [
+      "item026"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item026.glb",
+    "authoring_blend": "blends/w02_item026.blend",
+    "export": "work/exports/w02_item026_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item026.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item026.glb",
+    "geometry": {
+      "sha256": "7cc66646014a865e0aa37e0b73af59b2570927e3162d0f948bfe2b41976464d2",
+      "triangles": 1174,
+      "triangles_all_lods": 1174,
+      "closed_boundaries": true,
+      "vertices": 1011,
+      "bounds_gltf": [
+        [
+          -0.11999999731779099,
+          0.0,
+          -0.48651230335235596
+        ],
+        [
+          0.11999999731779099,
+          0.055184368044137955,
+          0.48651230335235596
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "20843d8636350586566e93c2b15876b5ecae3ec013794aedc670745a5b821b4a",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/22-item026.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item027",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 27,
+        "name": "Alvarian Poignard"
+      }
+    ],
+    "name": "Alvarian Poignard",
+    "status": "installed",
+    "length": 106.2,
+    "binding_unchanged": true,
+    "design_group": "w02_item027",
+    "matching_icon_variants": [
+      "item027"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item027.glb",
+    "authoring_blend": "blends/w02_item027.blend",
+    "export": "work/exports/w02_item027_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item027.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item027.glb",
+    "geometry": {
+      "sha256": "fd8cee229d0045c099e59a2c00a8223085e85d71a75e99b00b30d4c9da855d40",
+      "triangles": 1300,
+      "triangles_all_lods": 1300,
+      "closed_boundaries": true,
+      "vertices": 1171,
+      "bounds_gltf": [
+        [
+          -0.11999999731779099,
+          0.0,
+          -0.48644641041755676
+        ],
+        [
+          0.11999999731779099,
+          0.05839940160512924,
+          0.48644641041755676
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "9dfb7c43b2e61aa91bc6f38da2956b2ff4304dad56b92e361451d550fe89df93",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/23-item027.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item028",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 28,
+        "name": "Regnan Fighting Knife"
+      }
+    ],
+    "name": "Regnan Fighting Knife",
+    "status": "installed",
+    "length": 107.1,
+    "binding_unchanged": true,
+    "design_group": "w02_item028",
+    "matching_icon_variants": [
+      "item028"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_item028.glb",
+    "authoring_blend": "work/codex_tex/w02_item028.blend",
+    "export": "work/exports/w02_item028_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item028.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item028.glb",
+    "geometry": {
+      "sha256": "55b70b9e00031e16786d355e2f5efca3e80b148d1bbfed813c9935788db2d49d",
+      "triangles": 4734,
+      "triangles_all_lods": 8282,
+      "closed_boundaries": true,
+      "vertices": 9853,
+      "bounds_gltf": [
+        [
+          -0.10997802019119263,
+          0.0,
+          -0.49974948167800903
+        ],
+        [
+          0.10997802019119263,
+          0.054421961307525635,
+          0.49974948167800903
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_item028",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "0df3e0cfdf3548d436e00a8ef57860927b8654309fbcdab1690083d318a53313",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_03.png",
+      "native_ordinary": "review/native_final/24-item028.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14ebe-4c44-71f5-9fa5-3e07a017160a",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4734,
+      2366,
+      1182
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.8007030763361576
+  },
+  {
+    "icon": "item029",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 30,
+        "name": "Dueling Long Dagger"
+      }
+    ],
+    "name": "Dueling Long Dagger",
+    "status": "installed",
+    "length": 109.4,
+    "binding_unchanged": true,
+    "design_group": "w02_item029",
+    "matching_icon_variants": [
+      "item029"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_item029.glb",
+    "authoring_blend": "work/codex_tex/w02_item029.blend",
+    "export": "work/exports/w02_item029_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item029.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item029.glb",
+    "geometry": {
+      "sha256": "940a596a6d0544b24b88c2852106cde1e904ef8e42788b7b11ec5fb686de30c2",
+      "triangles": 5500,
+      "triangles_all_lods": 9624,
+      "closed_boundaries": true,
+      "vertices": 11791,
+      "bounds_gltf": [
+        [
+          -0.16242340207099915,
+          0.0,
+          -0.4982364773750305
+        ],
+        [
+          0.16242340207099915,
+          0.07387623190879822,
+          0.4982364773750305
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_item029",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "b8c4789335045473fc331275949454f01ad3c57529d390b7d9762f4d4bfa76a7",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/25-item029.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14ea6-859e-752a-8c28-441cbd2cf579",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      5500,
+      2750,
+      1374
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9842942217930146
+  },
+  {
+    "icon": "item030",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 29,
+        "name": "Twilight Kris"
+      }
+    ],
+    "name": "Twilight Kris",
+    "status": "installed",
+    "length": 109.8,
+    "binding_unchanged": true,
+    "design_group": "w02_item030",
+    "matching_icon_variants": [
+      "item030"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_item030.glb",
+    "authoring_blend": "work/codex_tex/w02_item030.blend",
+    "export": "work/exports/w02_item030_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item030.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item030.glb",
+    "geometry": {
+      "sha256": "e67ac7c6e2c20b38a77c9b3c5bddc9b7e1fcb18d8eaeefd210a7b196d49e1cf5",
+      "triangles": 4992,
+      "triangles_all_lods": 8736,
+      "closed_boundaries": true,
+      "vertices": 11120,
+      "bounds_gltf": [
+        [
+          -0.15945157408714294,
+          0.0,
+          -0.49973252415657043
+        ],
+        [
+          0.15945157408714294,
+          0.08706960827112198,
+          0.49973252415657043
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_item030",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "7530d4eb4151fdb7ac71bfd83badb54e7b638b61748dd28694429f141a908c7c",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/26-item030.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14ea6-9267-771b-9528-4c77e8969d6a",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4992,
+      2496,
+      1248
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9522468552464123
+  },
+  {
+    "icon": "item238",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 529,
+        "name": "Blade of Mercy"
+      }
+    ],
+    "name": "Blade of Mercy",
+    "status": "installed",
+    "length": 98.1,
+    "binding_unchanged": true,
+    "design_group": "w02_item238",
+    "matching_icon_variants": [
+      "item238"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_item238.glb",
+    "authoring_blend": "work/codex_tex/w02_item238.blend",
+    "export": "work/exports/w02_item238_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item238.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item238.glb",
+    "geometry": {
+      "sha256": "1e7c9cdcbb609502ec6b61c0f5c6b532016fa337aa4ddab5c5c20e9d5f607f6e",
+      "triangles": 4776,
+      "triangles_all_lods": 8358,
+      "closed_boundaries": true,
+      "vertices": 9778,
+      "bounds_gltf": [
+        [
+          -0.1274813562631607,
+          0.0,
+          -0.49965909123420715
+        ],
+        [
+          0.1274813562631607,
+          0.06821518391370773,
+          0.49965909123420715
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_item238",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "1580b53c1b6f0743847ed9e40987e916ad30efa710bae026b0e08c5821df5aee",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/27-item238.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb2-f877-7662-9a5f-59d4c0115159",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4776,
+      2388,
+      1194
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.8872714303351212
+  },
+  {
+    "icon": "item239",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 508,
+        "name": "Foulfang"
+      }
+    ],
+    "name": "Foulfang",
+    "status": "installed",
+    "length": 113.9,
+    "binding_unchanged": true,
+    "design_group": "w02_item239",
+    "matching_icon_variants": [
+      "item239"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_item239.glb",
+    "authoring_blend": "work/codex_tex/w02_item239.blend",
+    "export": "work/exports/w02_item239_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item239.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item239.glb",
+    "geometry": {
+      "sha256": "4aa5e16d899b1301b3b9eaaf4d20a6ea2fe5e5c9c7cc22de82ae1cc8cd43d07e",
+      "triangles": 4838,
+      "triangles_all_lods": 8464,
+      "closed_boundaries": true,
+      "vertices": 14998,
+      "bounds_gltf": [
+        [
+          -0.14917875826358795,
+          0.0,
+          -0.4993678033351898
+        ],
+        [
+          0.14917875826358795,
+          0.09322652965784073,
+          0.4993678033351898
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_item239",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "ebda7ff722c3dd51bce1eef4be0c23c156159bebc7ad1bd1ddf6c70bb8801db9",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/28-item239.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb3-528e-7191-bb40-23520ab02cab",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4838,
+      2418,
+      1208
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.7654726201973698
+  },
+  {
+    "icon": "ldagger1",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1622,
+        "name": "Fine Long Dagger"
+      }
+    ],
+    "name": "Fine Long Dagger",
+    "status": "installed",
+    "length": 113.4,
+    "binding_unchanged": true,
+    "design_group": "w02_ldagger1",
+    "matching_icon_variants": [
+      "ldagger1"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_ldagger1.glb",
+    "authoring_blend": "blends/w02_ldagger1.blend",
+    "export": "work/exports/w02_ldagger1_export.glb",
+    "source": "assets_source/engine/world_items/models/item_ldagger1.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_ldagger1.glb",
+    "geometry": {
+      "sha256": "2aecbb86c6568c544c0a05f93a6013720d7a738c94419ad421de296b2bfb4754",
+      "triangles": 1222,
+      "triangles_all_lods": 1222,
+      "closed_boundaries": true,
+      "vertices": 1151,
+      "bounds_gltf": [
+        [
+          -0.15808989107608795,
+          0.0,
+          -0.48654764890670776
+        ],
+        [
+          0.15808989107608795,
+          0.07670809328556061,
+          0.48654764890670776
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_black",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "8d7162e38c1b958eac1e2dcfcece32d7ff0977324df8a7919ed1a66b479fe96b",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/29-ldagger1.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "ldagger2",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1623,
+        "name": "Piercing Dagger"
+      }
+    ],
+    "name": "Piercing Dagger",
+    "status": "installed",
+    "length": 124.2,
+    "binding_unchanged": true,
+    "design_group": "w02_ldagger2",
+    "matching_icon_variants": [
+      "ldagger2"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_ldagger2.glb",
+    "authoring_blend": "blends/w02_ldagger2.blend",
+    "export": "work/exports/w02_ldagger2_export.glb",
+    "source": "assets_source/engine/world_items/models/item_ldagger2.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_ldagger2.glb",
+    "geometry": {
+      "sha256": "d1c19e115cc6b607ea5121c982e169103556a637a5d45c0580187ff15c615c68",
+      "triangles": 1364,
+      "triangles_all_lods": 1364,
+      "closed_boundaries": true,
+      "vertices": 1167,
+      "bounds_gltf": [
+        [
+          -0.13552694022655487,
+          0.0,
+          -0.4864470958709717
+        ],
+        [
+          0.13552694022655487,
+          0.0596650093793869,
+          0.4864470958709717
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "8cf7ecf8756ab888a80400fc4498c8aee894b85c9e184f383b1f7319d628fb29",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/30-ldagger2.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "ldagger3",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1624,
+        "name": "Divine Dagger"
+      }
+    ],
+    "name": "Divine Dagger",
+    "status": "installed",
+    "length": 121.0,
+    "binding_unchanged": true,
+    "design_group": "w02_6ldagger4",
+    "matching_icon_variants": [
+      "6ldagger4",
+      "ldagger3"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_ldagger3.glb",
+    "authoring_blend": "work/codex_tex/w02_6ldagger4.blend",
+    "export": "work/exports/w02_ldagger3_export.glb",
+    "source": "assets_source/engine/world_items/models/item_ldagger3.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_ldagger3.glb",
+    "geometry": {
+      "sha256": "b4463d23310945419035ca0f9cc6de088920e2c2ba40a9fc52f8051eb4f8c9a3",
+      "triangles": 4916,
+      "triangles_all_lods": 8602,
+      "closed_boundaries": true,
+      "vertices": 10961,
+      "bounds_gltf": [
+        [
+          -0.12482522428035736,
+          0.0,
+          -0.49965277314186096
+        ],
+        [
+          0.12482522428035736,
+          0.07840652763843536,
+          0.49965277314186096
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_6ldagger4",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "2e4e4c123e06c4559d69d5160cf1cc24398af2b0971c6fb0d269cf7b899fe5a4",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/31-ldagger3.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14e9a-fde5-72fa-b9dd-c2f669cb5df7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4916,
+      2458,
+      1228
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9451285777468882
+  },
+  {
+    "icon": "2haxe1",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1630,
+        "name": "Light Poleaxe"
+      }
+    ],
+    "name": "Light Poleaxe",
+    "status": "installed",
+    "length": 159.8,
+    "binding_unchanged": true,
+    "design_group": "w02_2haxe1",
+    "matching_icon_variants": [
+      "2haxe1"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_2haxe1.glb",
+    "authoring_blend": "blends/w02_2haxe1.blend",
+    "export": "work/exports/w02_2haxe1_export.glb",
+    "source": "assets_source/engine/world_items/models/item_2haxe1.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_2haxe1.glb",
+    "geometry": {
+      "sha256": "898c1f6452b9686641cdb65be901c88477bb70046fd689f2365f88be873ee0a9",
+      "triangles": 1588,
+      "triangles_all_lods": 1588,
+      "closed_boundaries": true,
+      "vertices": 1430,
+      "bounds_gltf": [
+        [
+          -0.15000000596046448,
+          0.0,
+          -0.4800480008125305
+        ],
+        [
+          0.15000000596046448,
+          0.05525433272123337,
+          0.4800480008125305
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "a69349b9b83b315f0639353e7a34a2bc1381e799d4de76359bcaba9e4916958a",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_04.png",
+      "native_ordinary": "review/native_final/32-2haxe1.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "2haxe2",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1631,
+        "name": "Heavy Poleaxe"
+      }
+    ],
+    "name": "Heavy Poleaxe",
+    "status": "installed",
+    "length": 226.8,
+    "binding_unchanged": true,
+    "design_group": "w02_2haxe2",
+    "matching_icon_variants": [
+      "2haxe2"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_2haxe2.glb",
+    "authoring_blend": "blends/w02_2haxe2.blend",
+    "export": "work/exports/w02_2haxe2_export.glb",
+    "source": "assets_source/engine/world_items/models/item_2haxe2.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_2haxe2.glb",
+    "geometry": {
+      "sha256": "77e8f92e11f56c5fbfe508b7705c848eecb83daf70ab400df7a5d0c585c01015",
+      "triangles": 710,
+      "triangles_all_lods": 710,
+      "closed_boundaries": true,
+      "vertices": 760,
+      "bounds_gltf": [
+        [
+          -0.07519999891519547,
+          0.0,
+          -0.482458233833313
+        ],
+        [
+          0.07519999891519547,
+          0.055334776639938354,
+          0.482458233833313
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_green",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "a1076d71f75002ef6d81cb5fefd4977d602df02f4965d442dc49882edac95d1e",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/33-2haxe2.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "2haxe3",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1632,
+        "name": "Grand Poleaxe"
+      }
+    ],
+    "name": "Grand Poleaxe",
+    "status": "installed",
+    "length": 238.5,
+    "binding_unchanged": true,
+    "design_group": "w02_2haxe3",
+    "matching_icon_variants": [
+      "2haxe3",
+      "62haxe4"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_2haxe3.glb",
+    "authoring_blend": "blends/w02_2haxe3.blend",
+    "export": "work/exports/w02_2haxe3_export.glb",
+    "source": "assets_source/engine/world_items/models/item_2haxe3.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_2haxe3.glb",
+    "geometry": {
+      "sha256": "b52fe0ce8adcea3cc57ed65711950a13426cf85f665a16ab550a60b88988c4ba",
+      "triangles": 1348,
+      "triangles_all_lods": 1348,
+      "closed_boundaries": true,
+      "vertices": 1296,
+      "bounds_gltf": [
+        [
+          -0.08749999850988388,
+          0.0,
+          -0.4800195097923279
+        ],
+        [
+          0.08749999850988388,
+          0.03491953760385513,
+          0.4800195097923279
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "163b1bf700bb635bd0655df459c874b8189443a4fe68c9273077bfd432aff519",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/34-2haxe3.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "62haxe4",
+    "family": "axes",
+    "items": [
+      {
+        "id": 2022,
+        "name": "Conan"
+      }
+    ],
+    "name": "Conan",
+    "status": "installed",
+    "length": 238.5,
+    "binding_unchanged": true,
+    "design_group": "w02_62haxe4",
+    "matching_icon_variants": [
+      "2haxe3",
+      "62haxe4"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_62haxe4.glb",
+    "authoring_blend": "blends/w02_62haxe4.blend",
+    "export": "work/exports/w02_62haxe4_export.glb",
+    "source": "assets_source/engine/world_items/models/item_62haxe4.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_62haxe4.glb",
+    "geometry": {
+      "sha256": "32556cd7042fa65a94959b11e1f38f802f6d51646fef3145918a3b99be3c194b",
+      "triangles": 1348,
+      "triangles_all_lods": 1348,
+      "closed_boundaries": true,
+      "vertices": 1296,
+      "bounds_gltf": [
+        [
+          -0.08749999850988388,
+          0.0,
+          -0.4800195097923279
+        ],
+        [
+          0.08749999850988388,
+          0.03491953760385513,
+          0.4800195097923279
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "b4b93a3834a131007fd3143e3e6af417ef1e442249100a49bdb8408da815e729",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/35-62haxe4.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "6axe7",
+    "family": "axes",
+    "items": [
+      {
+        "id": 2038,
+        "name": "Cronos"
+      }
+    ],
+    "name": "Cronos",
+    "status": "installed",
+    "length": 141.3,
+    "binding_unchanged": true,
+    "design_group": "w02_6axe7",
+    "matching_icon_variants": [
+      "6axe7",
+      "axe5"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_6axe7.glb",
+    "authoring_blend": "work/codex_tex/w02_6axe7.blend",
+    "export": "work/exports/w02_6axe7_export.glb",
+    "source": "assets_source/engine/world_items/models/item_6axe7.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_6axe7.glb",
+    "geometry": {
+      "sha256": "ab48952e5803cf72d579455d62750c38f3837c7c3a276712584a41b548118cc9",
+      "triangles": 4952,
+      "triangles_all_lods": 8666,
+      "closed_boundaries": true,
+      "vertices": 11856,
+      "bounds_gltf": [
+        [
+          -0.1649799793958664,
+          0.0,
+          -0.5000183582305908
+        ],
+        [
+          0.1649799793958664,
+          0.053495801985263824,
+          0.5000183582305908
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_6axe7",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "66803b99ce81f91f9dbe504dfe598fb75fdb374a3bb606b1998c0837182706a6",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/36-6axe7.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb3-5cc7-7737-b034-4b2a06d6aef7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4952,
+      2476,
+      1238
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.8394931929458352
+  },
+  {
+    "icon": "6axe8",
+    "family": "axes",
+    "items": [
+      {
+        "id": 2118,
+        "name": "Snergle's Axe"
+      }
+    ],
+    "name": "Snergle's Axe",
+    "status": "installed",
+    "length": 106.2,
+    "binding_unchanged": true,
+    "design_group": "w02_6axe8",
+    "matching_icon_variants": [
+      "6axe8",
+      "axe4"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_6axe8.glb",
+    "authoring_blend": "work/codex_tex/w02_6axe8.blend",
+    "export": "work/exports/w02_6axe8_export.glb",
+    "source": "assets_source/engine/world_items/models/item_6axe8.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_6axe8.glb",
+    "geometry": {
+      "sha256": "c11d06d76c8e92b40b5ead70ee70fbeabaeba6b6c840b3877ed36d5e379366fb",
+      "triangles": 4860,
+      "triangles_all_lods": 8504,
+      "closed_boundaries": true,
+      "vertices": 13169,
+      "bounds_gltf": [
+        [
+          -0.2374534159898758,
+          0.0,
+          -0.5001791715621948
+        ],
+        [
+          0.2374534159898758,
+          0.08107274770736694,
+          0.5001791715621948
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_6axe8",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "3a972099d0233d29659273e6938bdc947197d4387821574459f162e69434b24e",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/37-6axe8.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb3-0066-7015-88ec-c3ce707508a9",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4860,
+      2430,
+      1214
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.860189863801883
+  },
+  {
+    "icon": "7item023",
+    "family": "axes",
+    "items": [
+      {
+        "id": 825,
+        "name": "Crude Axe"
+      }
+    ],
+    "name": "Crude Axe",
+    "status": "installed",
+    "length": 102.6,
+    "binding_unchanged": true,
+    "design_group": "w02_7item023",
+    "matching_icon_variants": [
+      "7item023"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item023.glb",
+    "authoring_blend": "blends/w02_7item023.blend",
+    "export": "work/exports/w02_7item023_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item023.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item023.glb",
+    "geometry": {
+      "sha256": "f6e0b122e82153da1db63a8137b143830fd5d8b81245d16aca10f90c2229ba1d",
+      "triangles": 1122,
+      "triangles_all_lods": 1122,
+      "closed_boundaries": true,
+      "vertices": 1009,
+      "bounds_gltf": [
+        [
+          -0.12000000476837158,
+          0.0,
+          -0.46513885259628296
+        ],
+        [
+          0.12000000476837158,
+          0.05872334539890289,
+          0.46513885259628296
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "d3e0ffa18d12b14bb304755cc656bd5e2436973fd508439128e1787d8c40bbfb",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/38-7item023.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item024",
+    "family": "axes",
+    "items": [
+      {
+        "id": 826,
+        "name": "Battle Axe"
+      }
+    ],
+    "name": "Battle Axe",
+    "status": "installed",
+    "length": 103.0,
+    "binding_unchanged": true,
+    "design_group": "w02_7item024",
+    "matching_icon_variants": [
+      "7item024"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item024.glb",
+    "authoring_blend": "blends/w02_7item024.blend",
+    "export": "work/exports/w02_7item024_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item024.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item024.glb",
+    "geometry": {
+      "sha256": "b5a62defcfdcfa73ee428fd712fd14973408d4946591e7a5a578944e6d2c6538",
+      "triangles": 1294,
+      "triangles_all_lods": 1294,
+      "closed_boundaries": true,
+      "vertices": 1159,
+      "bounds_gltf": [
+        [
+          -0.125,
+          0.0,
+          -0.4800630807876587
+        ],
+        [
+          0.125,
+          0.06221543997526169,
+          0.4800630807876587
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "39d29f9d4b36489b624c57218cbbbd647e8e42bd238ad361531f88a1138b5001",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/39-7item024.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item025",
+    "family": "axes",
+    "items": [
+      {
+        "id": 827,
+        "name": "Dwarven Axe"
+      }
+    ],
+    "name": "Dwarven Axe",
+    "status": "installed",
+    "length": 120.6,
+    "binding_unchanged": true,
+    "design_group": "w02_7item025",
+    "matching_icon_variants": [
+      "7item025"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item025.glb",
+    "authoring_blend": "blends/w02_7item025.blend",
+    "export": "work/exports/w02_7item025_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item025.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item025.glb",
+    "geometry": {
+      "sha256": "4a9583beca5ed17942788d93ba0234b465c17004731c9ebcfbcc77049ad70a98",
+      "triangles": 782,
+      "triangles_all_lods": 782,
+      "closed_boundaries": true,
+      "vertices": 782,
+      "bounds_gltf": [
+        [
+          -0.10445000231266022,
+          0.0,
+          -0.48006075620651245
+        ],
+        [
+          0.10445000231266022,
+          0.058861277997493744,
+          0.48006075620651245
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "86a9a8ef652cef51404c9018f23fa8cdac21cbbe2b45299f63c079474a9e7063",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_05.png",
+      "native_ordinary": "review/native_final/40-7item025.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item026",
+    "family": "axes",
+    "items": [
+      {
+        "id": 828,
+        "name": "Steel Axe"
+      }
+    ],
+    "name": "Steel Axe",
+    "status": "installed",
+    "length": 138.6,
+    "binding_unchanged": true,
+    "design_group": "w02_7item026",
+    "matching_icon_variants": [
+      "7item026"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item026.glb",
+    "authoring_blend": "blends/w02_7item026.blend",
+    "export": "work/exports/w02_7item026_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item026.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item026.glb",
+    "geometry": {
+      "sha256": "5b8b0139a4166387609aa5824ef206a5eb55b2d4ada7bc72bc03495ddc6b52b0",
+      "triangles": 724,
+      "triangles_all_lods": 724,
+      "closed_boundaries": true,
+      "vertices": 1002,
+      "bounds_gltf": [
+        [
+          -0.125,
+          0.0,
+          -0.48356300592422485
+        ],
+        [
+          0.125,
+          0.058898262679576874,
+          0.48356300592422485
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "86615e47b75ce13bac0017607e8694768db5c83de70b06a36f7d4a00bde82127",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/41-7item026.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item027",
+    "family": "axes",
+    "items": [
+      {
+        "id": 829,
+        "name": "Minotaur Axe"
+      }
+    ],
+    "name": "Minotaur Axe",
+    "status": "installed",
+    "length": 130.1,
+    "binding_unchanged": true,
+    "design_group": "w02_7item027",
+    "matching_icon_variants": [
+      "7item027",
+      "7item305"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item027.glb",
+    "authoring_blend": "blends/w02_7item027.blend",
+    "export": "work/exports/w02_7item027_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item027.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item027.glb",
+    "geometry": {
+      "sha256": "e286047714ddcb7696d938ee1db3b4c99231a4142b84a752da41a95ffe96e7b4",
+      "triangles": 1094,
+      "triangles_all_lods": 1094,
+      "closed_boundaries": true,
+      "vertices": 1092,
+      "bounds_gltf": [
+        [
+          -0.20000000298023224,
+          0.0,
+          -0.48355311155319214
+        ],
+        [
+          0.20000000298023224,
+          0.0553608201444149,
+          0.48355311155319214
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "e67783570b6eea15f002c1c7d4f6de20f028f9c0beff8b56ad4f0283996bbee7",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/42-7item027.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item028",
+    "family": "axes",
+    "items": [
+      {
+        "id": 830,
+        "name": "Poleaxe"
+      }
+    ],
+    "name": "Poleaxe",
+    "status": "installed",
+    "length": 198.9,
+    "binding_unchanged": true,
+    "design_group": "w02_7item028",
+    "matching_icon_variants": [
+      "7item028"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item028.glb",
+    "authoring_blend": "blends/w02_7item028.blend",
+    "export": "work/exports/w02_7item028_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item028.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item028.glb",
+    "geometry": {
+      "sha256": "babc19f517630f7ccc4b9e1d3944a76e84ce9f193dc8ad30dbaa97103488ff55",
+      "triangles": 1580,
+      "triangles_all_lods": 1580,
+      "closed_boundaries": true,
+      "vertices": 1388,
+      "bounds_gltf": [
+        [
+          -0.125,
+          0.0,
+          -0.47502946853637695
+        ],
+        [
+          0.125,
+          0.0448247492313385,
+          0.47502946853637695
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "e7c5211027b638cec4bb6a445b20d8cc07a606c07f74866fded48fd4972e02f0",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/43-7item028.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item029",
+    "family": "axes",
+    "items": [
+      {
+        "id": 831,
+        "name": "Warrior's Poleaxe"
+      }
+    ],
+    "name": "Warrior's Poleaxe",
+    "status": "installed",
+    "length": 244.3,
+    "binding_unchanged": true,
+    "design_group": "w02_7item029",
+    "matching_icon_variants": [
+      "7item029"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item029.glb",
+    "authoring_blend": "blends/w02_7item029.blend",
+    "export": "work/exports/w02_7item029_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item029.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item029.glb",
+    "geometry": {
+      "sha256": "aec9799705bfc3c5b423c8bedad841cf01b4216ee18ab532eb2bbcd03d4d6b15",
+      "triangles": 1452,
+      "triangles_all_lods": 1452,
+      "closed_boundaries": true,
+      "vertices": 1552,
+      "bounds_gltf": [
+        [
+          -0.07999999821186066,
+          0.0,
+          -0.4750165343284607
+        ],
+        [
+          0.07999999821186066,
+          0.03311973065137863,
+          0.4750165343284607
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "cf39e3341bf9c70273df039a11cecb4a7d002d98926b020b63b0d811b5ff9181",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/44-7item029.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item030",
+    "family": "axes",
+    "items": [
+      {
+        "id": 832,
+        "name": "Headsman's Poleaxe"
+      }
+    ],
+    "name": "Headsman's Poleaxe",
+    "status": "installed",
+    "length": 243.0,
+    "binding_unchanged": true,
+    "design_group": "w02_7item030",
+    "matching_icon_variants": [
+      "7item030",
+      "7item304"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item030.glb",
+    "authoring_blend": "blends/w02_7item030.blend",
+    "export": "work/exports/w02_7item030_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item030.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item030.glb",
+    "geometry": {
+      "sha256": "a4d6973ae08b167ea6bb375df86b147c5b38c3ff865bacb453572a16b1abbec6",
+      "triangles": 1592,
+      "triangles_all_lods": 1592,
+      "closed_boundaries": true,
+      "vertices": 1353,
+      "bounds_gltf": [
+        [
+          -0.06684999912977219,
+          0.0,
+          -0.48002153635025024
+        ],
+        [
+          0.06685000658035278,
+          0.037936847656965256,
+          0.48002153635025024
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "73c786db7929e3d57fc6f764cde7581a7982a239d163e6c1a8752989d65ddade",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/45-7item030.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item223",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1308,
+        "name": "Splitter"
+      }
+    ],
+    "name": "Splitter",
+    "status": "installed",
+    "length": 104.4,
+    "binding_unchanged": true,
+    "design_group": "w02_7item223",
+    "matching_icon_variants": [
+      "7item223"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_7item223.glb",
+    "authoring_blend": "work/codex_tex/w02_7item223.blend",
+    "export": "work/exports/w02_7item223_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item223.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item223.glb",
+    "geometry": {
+      "sha256": "00b2009dcb745faa73a957e174d7dea5d827ee3d344e5f608d9b78a984ceddea",
+      "triangles": 4872,
+      "triangles_all_lods": 8526,
+      "closed_boundaries": true,
+      "vertices": 11268,
+      "bounds_gltf": [
+        [
+          -0.2653539776802063,
+          0.0,
+          -0.5001336336135864
+        ],
+        [
+          0.2653539776802063,
+          0.0981384739279747,
+          0.5001336336135864
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item223",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "60eda4f1de08357bce8ba7d58c1a52ce0ba8bf4ebe1b90730bb1624067e472f6",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/46-7item223.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb9-95a5-701e-9b0e-4ee91c2fcb75",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4872,
+      2436,
+      1218
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.9269553763753857
+  },
+  {
+    "icon": "7item224",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1320,
+        "name": "Amuck"
+      }
+    ],
+    "name": "Amuck",
+    "status": "installed",
+    "length": 144.0,
+    "binding_unchanged": true,
+    "design_group": "w02_7item224",
+    "matching_icon_variants": [
+      "7item224"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR + Blender physical repair",
+    "baseline": "baseline/item_7item224.glb",
+    "authoring_blend": "work/codex_tex/w02_7item224.blend",
+    "export": "work/exports/w02_7item224_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item224.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item224.glb",
+    "geometry": {
+      "sha256": "57bd08b5217c4b9d3861e3bdc171c60bc40771727fdb8582793c0783da8b9a7d",
+      "triangles": 4296,
+      "triangles_all_lods": 7518,
+      "closed_boundaries": true,
+      "vertices": 13719,
+      "bounds_gltf": [
+        [
+          -0.24059943854808807,
+          0.0,
+          -0.49459218978881836
+        ],
+        [
+          0.24059943854808807,
+          0.07634733617305756,
+          0.49459218978881836
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item224",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "22ca71e7d5586301d356ee04418fafb4599aa1da062707fdfcfb7bedb8cf2189",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/47-7item224.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb9-a317-7715-810c-b02aed329b25",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4296,
+      2148,
+      1074
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.8183624488511174
+  },
+  {
+    "icon": "7item226",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1309,
+        "name": "Ghoulsbane"
+      }
+    ],
+    "name": "Ghoulsbane",
+    "status": "installed",
+    "length": 246.6,
+    "binding_unchanged": true,
+    "design_group": "w02_7item226",
+    "matching_icon_variants": [
+      "7item226"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_7item226.glb",
+    "authoring_blend": "work/codex_tex/w02_7item226.blend",
+    "export": "work/exports/w02_7item226_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item226.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item226.glb",
+    "geometry": {
+      "sha256": "57b1674911856326b847eb58f9cbb1459a0bccc1bb8ffe7e7e56dc7cbfe1d37b",
+      "triangles": 4908,
+      "triangles_all_lods": 8588,
+      "closed_boundaries": true,
+      "vertices": 11042,
+      "bounds_gltf": [
+        [
+          -0.15624472498893738,
+          0.0,
+          -0.5017462968826294
+        ],
+        [
+          0.15624472498893738,
+          0.055024247616529465,
+          0.5017462968826294
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_7item226",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "79142271476e5108a5f422901dd70bac9750c7c505b592e4eb0b7e1dff25511f",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_06.png",
+      "native_ordinary": "review/native_final/48-7item226.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb9-b1a2-776d-9c0a-8a616ae1707c",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4908,
+      2454,
+      1226
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.8345923078766057
+  },
+  {
+    "icon": "7item304",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1351,
+        "name": "Zokarr's Axe"
+      }
+    ],
+    "name": "Zokarr's Axe",
+    "status": "installed",
+    "length": 243.0,
+    "binding_unchanged": true,
+    "design_group": "w02_7item304",
+    "matching_icon_variants": [
+      "7item030",
+      "7item304"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item304.glb",
+    "authoring_blend": "blends/w02_7item304.blend",
+    "export": "work/exports/w02_7item304_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item304.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item304.glb",
+    "geometry": {
+      "sha256": "2620b8ec948076cc09eea5c847cec75b443c28b03bb8c22a728030a4378fb086",
+      "triangles": 1592,
+      "triangles_all_lods": 1592,
+      "closed_boundaries": true,
+      "vertices": 1353,
+      "bounds_gltf": [
+        [
+          -0.06684999912977219,
+          0.0,
+          -0.48002153635025024
+        ],
+        [
+          0.06685000658035278,
+          0.037936847656965256,
+          0.48002153635025024
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "0c5fd65b2628fdec766e4f725fd46fa99c627633bde6fc2c7c0dc9476221fbb9",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/49-7item304.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "7item305",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1353,
+        "name": "Minotaur's Axe"
+      }
+    ],
+    "name": "Minotaur's Axe",
+    "status": "installed",
+    "length": 130.1,
+    "binding_unchanged": true,
+    "design_group": "w02_7item305",
+    "matching_icon_variants": [
+      "7item027",
+      "7item305"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_7item305.glb",
+    "authoring_blend": "blends/w02_7item305.blend",
+    "export": "work/exports/w02_7item305_export.glb",
+    "source": "assets_source/engine/world_items/models/item_7item305.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_7item305.glb",
+    "geometry": {
+      "sha256": "85649f360d1100583aa74fa593277d1bc15ed0d5e48ca9e16ebe35b6079ed928",
+      "triangles": 1094,
+      "triangles_all_lods": 1094,
+      "closed_boundaries": true,
+      "vertices": 1092,
+      "bounds_gltf": [
+        [
+          -0.20000000298023224,
+          0.0,
+          -0.48355311155319214
+        ],
+        [
+          0.20000000298023224,
+          0.0553608201444149,
+          0.48355311155319214
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "2ca4c3f9b89489f608a646d648e5396f72c1250f70123edc139a0a03f9e92a5a",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/50-7item305.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "axe1",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1625,
+        "name": "Hand Axe"
+      }
+    ],
+    "name": "Hand Axe",
+    "status": "installed",
+    "length": 98.1,
+    "binding_unchanged": true,
+    "design_group": "w02_axe1",
+    "matching_icon_variants": [
+      "axe1"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_axe1.glb",
+    "authoring_blend": "blends/w02_axe1.blend",
+    "export": "work/exports/w02_axe1_export.glb",
+    "source": "assets_source/engine/world_items/models/item_axe1.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_axe1.glb",
+    "geometry": {
+      "sha256": "cba7a42be75d948994071f1287b5663649e56102e76b18e25523a8c5970dbb31",
+      "triangles": 484,
+      "triangles_all_lods": 484,
+      "closed_boundaries": true,
+      "vertices": 612,
+      "bounds_gltf": [
+        [
+          -0.08370000123977661,
+          0.0,
+          -0.4527466297149658
+        ],
+        [
+          0.08370000123977661,
+          0.07648026943206787,
+          0.4527466297149658
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "742619d35c63fc436b8fbc96db071addc4ca2f82bba2fc5898df73836defb03c",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/51-axe1.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "axe2",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1626,
+        "name": "Barbarian Axe"
+      }
+    ],
+    "name": "Barbarian Axe",
+    "status": "installed",
+    "length": 127.4,
+    "binding_unchanged": true,
+    "design_group": "w02_axe2",
+    "matching_icon_variants": [
+      "axe2"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_axe2.glb",
+    "authoring_blend": "blends/w02_axe2.blend",
+    "export": "work/exports/w02_axe2_export.glb",
+    "source": "assets_source/engine/world_items/models/item_axe2.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_axe2.glb",
+    "geometry": {
+      "sha256": "92f339aa8326df0f92604310377f29dd5dec98f945f981619426cc940b736ff4",
+      "triangles": 444,
+      "triangles_all_lods": 444,
+      "closed_boundaries": true,
+      "vertices": 668,
+      "bounds_gltf": [
+        [
+          -0.125,
+          0.0,
+          -0.4881647527217865
+        ],
+        [
+          0.125,
+          0.06123415753245354,
+          0.4881647527217865
+        ]
+      ],
+      "materials": 2,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "jewel_blue",
+        "untextured_faceted_dielectric": true,
+        "metallic": 0,
+        "roughness": 0.2199999988079071
+      }
+    ],
+    "runtime_sha256": "2a02274591aed5b07a741262bfada2e1d7d816e8008d29c40bd9fe1df7dc5910",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/52-axe2.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "axe3",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1627,
+        "name": "War Axe"
+      }
+    ],
+    "name": "War Axe",
+    "status": "installed",
+    "length": 117.5,
+    "binding_unchanged": true,
+    "design_group": "w02_axe3",
+    "matching_icon_variants": [
+      "axe3"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_axe3.glb",
+    "authoring_blend": "blends/w02_axe3.blend",
+    "export": "work/exports/w02_axe3_export.glb",
+    "source": "assets_source/engine/world_items/models/item_axe3.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_axe3.glb",
+    "geometry": {
+      "sha256": "fb34ee2c6087b73ba43f2aa4b87512199f8b6d42e0eef37b9b463d8548b33e79",
+      "triangles": 918,
+      "triangles_all_lods": 918,
+      "closed_boundaries": true,
+      "vertices": 992,
+      "bounds_gltf": [
+        [
+          -0.12000000476837158,
+          0.0,
+          -0.48355773091316223
+        ],
+        [
+          0.12000000476837158,
+          0.05877423286437988,
+          0.48355773091316223
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "719e567b761c545167b24b2a3c5afdae4dd3cb07ac2ac525dc69a72aa1f9a52f",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/53-axe3.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "axe4",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1628,
+        "name": "Dwarven Noble Axe"
+      }
+    ],
+    "name": "Dwarven Noble Axe",
+    "status": "installed",
+    "length": 106.2,
+    "binding_unchanged": true,
+    "design_group": "w02_6axe8",
+    "matching_icon_variants": [
+      "6axe8",
+      "axe4"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_axe4.glb",
+    "authoring_blend": "work/codex_tex/w02_6axe8.blend",
+    "export": "work/exports/w02_axe4_export.glb",
+    "source": "assets_source/engine/world_items/models/item_axe4.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_axe4.glb",
+    "geometry": {
+      "sha256": "c11d06d76c8e92b40b5ead70ee70fbeabaeba6b6c840b3877ed36d5e379366fb",
+      "triangles": 4860,
+      "triangles_all_lods": 8504,
+      "closed_boundaries": true,
+      "vertices": 13169,
+      "bounds_gltf": [
+        [
+          -0.2374534159898758,
+          0.0,
+          -0.5001791715621948
+        ],
+        [
+          0.2374534159898758,
+          0.08107274770736694,
+          0.5001791715621948
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_6axe8",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "bb1a21eb6cdbb22b29a3e2a058361100762f4949808c6ccbb90a60b2211b3eca",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/54-axe4.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb3-0066-7015-88ec-c3ce707508a9",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4860,
+      2430,
+      1214
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.860189863801883
+  },
+  {
+    "icon": "axe5",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1629,
+        "name": "Supreme Axe"
+      }
+    ],
+    "name": "Supreme Axe",
+    "status": "installed",
+    "length": 141.3,
+    "binding_unchanged": true,
+    "design_group": "w02_6axe7",
+    "matching_icon_variants": [
+      "6axe7",
+      "axe5"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_axe5.glb",
+    "authoring_blend": "work/codex_tex/w02_6axe7.blend",
+    "export": "work/exports/w02_axe5_export.glb",
+    "source": "assets_source/engine/world_items/models/item_axe5.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_axe5.glb",
+    "geometry": {
+      "sha256": "ab48952e5803cf72d579455d62750c38f3837c7c3a276712584a41b548118cc9",
+      "triangles": 4952,
+      "triangles_all_lods": 8666,
+      "closed_boundaries": true,
+      "vertices": 11856,
+      "bounds_gltf": [
+        [
+          -0.1649799793958664,
+          0.0,
+          -0.5000183582305908
+        ],
+        [
+          0.1649799793958664,
+          0.053495801985263824,
+          0.5000183582305908
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_6axe7",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "964183885cd53f5fd59ba093ea83ab7251b3987806983bb1be466197b0893ca7",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/55-axe5.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb3-5cc7-7737-b034-4b2a06d6aef7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4952,
+      2476,
+      1238
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.8394931929458352
+  },
+  {
+    "icon": "item031",
+    "family": "axes",
+    "items": [
+      {
+        "id": 31,
+        "name": "Stone Axe"
+      }
+    ],
+    "name": "Stone Axe",
+    "status": "installed",
+    "length": 102.6,
+    "binding_unchanged": true,
+    "design_group": "w02_item031",
+    "matching_icon_variants": [
+      "item031"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item031.glb",
+    "authoring_blend": "blends/w02_item031.blend",
+    "export": "work/exports/w02_item031_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item031.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item031.glb",
+    "geometry": {
+      "sha256": "397a9ae49bb2bf1dee725d2b1ad01e0f7d98533cc392596af2d470f687892a22",
+      "triangles": 2038,
+      "triangles_all_lods": 2038,
+      "closed_boundaries": true,
+      "vertices": 1496,
+      "bounds_gltf": [
+        [
+          -0.09030000120401382,
+          0.0,
+          -0.46012741327285767
+        ],
+        [
+          0.09030000865459442,
+          0.062215350568294525,
+          0.46012741327285767
+        ]
+      ],
+      "materials": 2,
+      "textures": 4,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "carved stone",
+        "metallic": 0,
+        "roughness": 0.8299999833106995,
+        "texture_size": [
+          256,
+          256
+        ]
+      }
+    ],
+    "runtime_sha256": "a840b4d48ce586666d74174e62291ee919c775d0d9a5f57a7a8009e1f52f5725",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_07.png",
+      "native_ordinary": "review/native_final/56-item031.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        256,
+        256
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item032",
+    "family": "axes",
+    "items": [
+      {
+        "id": 32,
+        "name": "Battle Hatchet"
+      }
+    ],
+    "name": "Battle Hatchet",
+    "status": "installed",
+    "length": 106.2,
+    "binding_unchanged": true,
+    "design_group": "w02_item032",
+    "matching_icon_variants": [
+      "item032"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item032.glb",
+    "authoring_blend": "blends/w02_item032.blend",
+    "export": "work/exports/w02_item032_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item032.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item032.glb",
+    "geometry": {
+      "sha256": "7ab22e2e8271158be26a7b3e9640b7794c992ceaa0ec85235e314f1cdfe7249a",
+      "triangles": 1488,
+      "triangles_all_lods": 1488,
+      "closed_boundaries": true,
+      "vertices": 1305,
+      "bounds_gltf": [
+        [
+          -0.10499999672174454,
+          0.0,
+          -0.4526119828224182
+        ],
+        [
+          0.10499999672174454,
+          0.05874715745449066,
+          0.4526119828224182
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "016741f56584a8de72f04755e832cc320609e5a785c4ded30f87523cbfcbee73",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/57-item032.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item033",
+    "family": "axes",
+    "items": [
+      {
+        "id": 33,
+        "name": "Battleaxe"
+      }
+    ],
+    "name": "Battleaxe",
+    "status": "installed",
+    "length": 118.4,
+    "binding_unchanged": true,
+    "design_group": "w02_item033",
+    "matching_icon_variants": [
+      "item033"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item033.glb",
+    "authoring_blend": "blends/w02_item033.blend",
+    "export": "work/exports/w02_item033_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item033.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item033.glb",
+    "geometry": {
+      "sha256": "0bb52bbc74304efffa3521f57723d94ee374403d5f923afe4d61bd5c35e83fe8",
+      "triangles": 1154,
+      "triangles_all_lods": 1154,
+      "closed_boundaries": true,
+      "vertices": 1036,
+      "bounds_gltf": [
+        [
+          -0.09999999403953552,
+          0.0,
+          -0.4525967538356781
+        ],
+        [
+          0.09999999403953552,
+          0.05526694282889366,
+          0.4525967538356781
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "8664b59b0fa972c84142543ec6106845fcad77fdbec04c941be4b74044d11929",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/58-item033.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item034",
+    "family": "axes",
+    "items": [
+      {
+        "id": 34,
+        "name": "Dwarven Battleaxe"
+      }
+    ],
+    "name": "Dwarven Battleaxe",
+    "status": "installed",
+    "length": 129.6,
+    "binding_unchanged": true,
+    "design_group": "w02_item034",
+    "matching_icon_variants": [
+      "item034"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item034.glb",
+    "authoring_blend": "blends/w02_item034.blend",
+    "export": "work/exports/w02_item034_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item034.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item034.glb",
+    "geometry": {
+      "sha256": "34c12bd3939b84250dc1299b4776f2cd253418ccd5f4841f4f06def6636697b0",
+      "triangles": 1202,
+      "triangles_all_lods": 1202,
+      "closed_boundaries": true,
+      "vertices": 1176,
+      "bounds_gltf": [
+        [
+          -0.13294722139835358,
+          0.0,
+          -0.48004329204559326
+        ],
+        [
+          0.13294722139835358,
+          0.05514927953481674,
+          0.48004329204559326
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "cbe9d57b029514ad5efd3805fb587070a3307a7856fb88456a7fd92d2fdd0e07",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/59-item034.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item035",
+    "family": "axes",
+    "items": [
+      {
+        "id": 35,
+        "name": "Minotaur Battleaxe"
+      }
+    ],
+    "name": "Minotaur Battleaxe",
+    "status": "installed",
+    "length": 136.3,
+    "binding_unchanged": true,
+    "design_group": "w02_item035",
+    "matching_icon_variants": [
+      "item035"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item035.glb",
+    "authoring_blend": "blends/w02_item035.blend",
+    "export": "work/exports/w02_item035_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item035.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item035.glb",
+    "geometry": {
+      "sha256": "7bf17691d21f8f7e885ea1bb1a6081a03a70de304e7c9dd5752cd4206821cd96",
+      "triangles": 504,
+      "triangles_all_lods": 504,
+      "closed_boundaries": true,
+      "vertices": 745,
+      "bounds_gltf": [
+        [
+          -0.14499999582767487,
+          0.0,
+          -0.48006975650787354
+        ],
+        [
+          0.14499999582767487,
+          0.05910053476691246,
+          0.48006975650787354
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "bee6530ff7ca6ffb22d9a29167e2f32831733b93cb0c9dc00d5236d93f0d0415",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/60-item035.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item036",
+    "family": "axes",
+    "items": [
+      {
+        "id": 36,
+        "name": "Two-Handed Axe"
+      }
+    ],
+    "name": "Two-Handed Axe",
+    "status": "installed",
+    "length": 198.5,
+    "binding_unchanged": true,
+    "design_group": "w02_item036",
+    "matching_icon_variants": [
+      "item036"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item036.glb",
+    "authoring_blend": "blends/w02_item036.blend",
+    "export": "work/exports/w02_item036_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item036.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item036.glb",
+    "geometry": {
+      "sha256": "aca56ad4bc91554fb0292475c4f695429d0e163d4262f30b8f18495b6d7c173b",
+      "triangles": 1986,
+      "triangles_all_lods": 1986,
+      "closed_boundaries": true,
+      "vertices": 1478,
+      "bounds_gltf": [
+        [
+          -0.07519999891519547,
+          0.0,
+          -0.4835311770439148
+        ],
+        [
+          0.07519999891519547,
+          0.044274233281612396,
+          0.4835311770439148
+        ]
+      ],
+      "materials": 2,
+      "textures": 4,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      },
+      {
+        "name": "carved stone",
+        "metallic": 0,
+        "roughness": 0.8299999833106995,
+        "texture_size": [
+          256,
+          256
+        ]
+      }
+    ],
+    "runtime_sha256": "643075d828a288bf07dfd7b084726e08dd76634623da1073050b4adedaf567aa",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/61-item036.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        256,
+        256
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item037",
+    "family": "axes",
+    "items": [
+      {
+        "id": 38,
+        "name": "Minotaur War Axe"
+      }
+    ],
+    "name": "Minotaur War Axe",
+    "status": "installed",
+    "length": 198.9,
+    "binding_unchanged": true,
+    "design_group": "w02_item037",
+    "matching_icon_variants": [
+      "item037"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item037.glb",
+    "authoring_blend": "blends/w02_item037.blend",
+    "export": "work/exports/w02_item037_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item037.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item037.glb",
+    "geometry": {
+      "sha256": "fd7b04b0ca921bf4874cda46c163ffebf85a50f17ec20b8ca7e445b649dafd2f",
+      "triangles": 1772,
+      "triangles_all_lods": 1772,
+      "closed_boundaries": true,
+      "vertices": 1497,
+      "bounds_gltf": [
+        [
+          -0.10000000149011612,
+          0.0,
+          -0.4793604910373688
+        ],
+        [
+          0.09999999403953552,
+          0.04751870781183243,
+          0.4793604910373688
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "1757afb4b1090e111911183c3110ec2d48efb93d0bde255296557ad6fae96db2",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/62-item037.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item038",
+    "family": "axes",
+    "items": [
+      {
+        "id": 37,
+        "name": "Footman's Axe"
+      }
+    ],
+    "name": "Footman's Axe",
+    "status": "installed",
+    "length": 225.0,
+    "binding_unchanged": true,
+    "design_group": "w02_item038",
+    "matching_icon_variants": [
+      "item038"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item038.glb",
+    "authoring_blend": "blends/w02_item038.blend",
+    "export": "work/exports/w02_item038_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item038.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item038.glb",
+    "geometry": {
+      "sha256": "2f9d3188a3b9ea76b25313cb40815e9d752644e16e169bce77ef9c787695eeb2",
+      "triangles": 1488,
+      "triangles_all_lods": 1488,
+      "closed_boundaries": true,
+      "vertices": 1293,
+      "bounds_gltf": [
+        [
+          -0.0949999988079071,
+          0.0,
+          -0.4701036810874939
+        ],
+        [
+          0.0949999988079071,
+          0.044192731380462646,
+          0.4701036810874939
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "4112fb30f2043062c6f6a95708c7b0421ff0fbb4f2892031b7bb3cf1f0b4c60d",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/63-item038.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item039",
+    "family": "axes",
+    "items": [
+      {
+        "id": 39,
+        "name": "Elite Minotaur Axe"
+      }
+    ],
+    "name": "Elite Minotaur Axe",
+    "status": "installed",
+    "length": 230.4,
+    "binding_unchanged": true,
+    "design_group": "w02_item039",
+    "matching_icon_variants": [
+      "item039"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item039.glb",
+    "authoring_blend": "blends/w02_item039.blend",
+    "export": "work/exports/w02_item039_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item039.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item039.glb",
+    "geometry": {
+      "sha256": "239f5e7f072c074f138b7d623463f552807e0ae8350ef53897e020ab5b8e3b02",
+      "triangles": 958,
+      "triangles_all_lods": 958,
+      "closed_boundaries": true,
+      "vertices": 998,
+      "bounds_gltf": [
+        [
+          -0.0949999988079071,
+          0.0,
+          -0.4701007604598999
+        ],
+        [
+          0.0949999988079071,
+          0.04391898214817047,
+          0.4701007604598999
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "ca153a319e75042c4b8ad8fede3d2703015958f0dab3ce2f480a4d154f4cc86c",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_08.png",
+      "native_ordinary": "review/native_final/64-item039.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item040",
+    "family": "axes",
+    "items": [
+      {
+        "id": 40,
+        "name": "Minotaur Herdsman Axe"
+      }
+    ],
+    "name": "Minotaur Herdsman Axe",
+    "status": "installed",
+    "length": 243.9,
+    "binding_unchanged": true,
+    "design_group": "w02_item040",
+    "matching_icon_variants": [
+      "item040",
+      "item343"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item040.glb",
+    "authoring_blend": "blends/w02_item040.blend",
+    "export": "work/exports/w02_item040_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item040.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item040.glb",
+    "geometry": {
+      "sha256": "0fd97cfd1948f680b33e6e322798b260f6664aec075d8218da7dc54917452b4a",
+      "triangles": 1250,
+      "triangles_all_lods": 1250,
+      "closed_boundaries": true,
+      "vertices": 1361,
+      "bounds_gltf": [
+        [
+          -0.08750000596046448,
+          0.0,
+          -0.4835192561149597
+        ],
+        [
+          0.08750000596046448,
+          0.03785744309425354,
+          0.4835192561149597
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "5e079b9b4c106d90eb010206deaa7281fceec7eb8150276585fb878c86efb848",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_09.png",
+      "native_ordinary": "review/native_final/65-item040.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item240",
+    "family": "axes",
+    "items": [
+      {
+        "id": 504,
+        "name": "Elderaxe"
+      }
+    ],
+    "name": "Elderaxe",
+    "status": "installed",
+    "length": 135.0,
+    "binding_unchanged": true,
+    "design_group": "w02_item240",
+    "matching_icon_variants": [
+      "item240"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item240.glb",
+    "authoring_blend": "blends/w02_item240.blend",
+    "export": "work/exports/w02_item240_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item240.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item240.glb",
+    "geometry": {
+      "sha256": "69e05d7d1bed458e6506a9a42e516f7ef8c175805dd3c1bb604d849cc822f934",
+      "triangles": 456,
+      "triangles_all_lods": 456,
+      "closed_boundaries": true,
+      "vertices": 682,
+      "bounds_gltf": [
+        [
+          -0.1550000011920929,
+          0.0,
+          -0.4800793528556824
+        ],
+        [
+          0.1550000011920929,
+          0.06259633600711823,
+          0.4800793528556824
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "2c1d329558db0dd11d4cf3fc6b6c460bba33a865e60cda8c12229b59c603e42d",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_09.png",
+      "native_ordinary": "review/native_final/66-item240.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item241",
+    "family": "axes",
+    "items": [
+      {
+        "id": 505,
+        "name": "Volcano"
+      }
+    ],
+    "name": "Volcano",
+    "status": "installed",
+    "length": 241.2,
+    "binding_unchanged": true,
+    "design_group": "w02_item241",
+    "matching_icon_variants": [
+      "item241"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item241.glb",
+    "authoring_blend": "blends/w02_item241.blend",
+    "export": "work/exports/w02_item241_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item241.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item241.glb",
+    "geometry": {
+      "sha256": "c219ca65c5f8e7aa913e2d9e13917bd7e42cb93044cbddafed28d53d154dc843",
+      "triangles": 974,
+      "triangles_all_lods": 974,
+      "closed_boundaries": true,
+      "vertices": 1085,
+      "bounds_gltf": [
+        [
+          -0.08750000596046448,
+          0.0,
+          -0.4835139811038971
+        ],
+        [
+          0.08750000596046448,
+          0.03435477241873741,
+          0.4835139811038971
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "13c2d6c159bef2cb8c39b3aaac5d8119f7207c92b5bf23e32b8ff62ef7757b36",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_09.png",
+      "native_ordinary": "review/native_final/67-item241.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  },
+  {
+    "icon": "item248",
+    "family": "axes",
+    "items": [
+      {
+        "id": 526,
+        "name": "Hell's Cleaver"
+      }
+    ],
+    "name": "Hell's Cleaver",
+    "status": "installed",
+    "length": 141.3,
+    "binding_unchanged": true,
+    "design_group": "w02_item248",
+    "matching_icon_variants": [
+      "item248"
+    ],
+    "route": "Meshy Smart Topology + Codex painted mixed PBR",
+    "baseline": "baseline/item_item248.glb",
+    "authoring_blend": "work/codex_tex/w02_item248.blend",
+    "export": "work/exports/w02_item248_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item248.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item248.glb",
+    "geometry": {
+      "sha256": "b90d85c69656d2fed8aac56999e12a8934e320f41211307646018bd28f7680a7",
+      "triangles": 4834,
+      "triangles_all_lods": 8458,
+      "closed_boundaries": true,
+      "vertices": 11446,
+      "bounds_gltf": [
+        [
+          -0.2332991063594818,
+          0.0,
+          -0.5003732442855835
+        ],
+        [
+          0.2332991063594818,
+          0.09904250502586365,
+          0.5003732442855835
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "w02_item248",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          59,
+          99,
+          128,
+          179
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "36bcd1ce9549093286e90253a8e0436c580de5a52780ed09a5defb49f761922a",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_09.png",
+      "native_ordinary": "review/native_final/68-item248.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "meshy": {
+      "task_id": "01a14eb9-c3e1-7410-a152-a4dd3b3d103d",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "credits_shared_by_design_group": true
+    },
+    "lod_triangles": [
+      4834,
+      2416,
+      1208
+    ],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "paint_projection_coverage": 0.6180771746239372
+  },
+  {
+    "icon": "item343",
+    "family": "axes",
+    "items": [
+      {
+        "id": 541,
+        "name": "Axe of Balthazar"
+      }
+    ],
+    "name": "Axe of Balthazar",
+    "status": "installed",
+    "length": 243.9,
+    "binding_unchanged": true,
+    "design_group": "w02_item343",
+    "matching_icon_variants": [
+      "item040",
+      "item343"
+    ],
+    "route": "Blender physical components + generated material atlas",
+    "baseline": "baseline/item_item343.glb",
+    "authoring_blend": "blends/w02_item343.blend",
+    "export": "work/exports/w02_item343_export.glb",
+    "source": "assets_source/engine/world_items/models/item_item343.glb",
+    "runtime": "assets_dev/engine/world_items/models/item_item343.glb",
+    "geometry": {
+      "sha256": "cad04e94e9b227b2364c65671aa50afa0698ae2c3c723c785198165d9fbe9631",
+      "triangles": 1250,
+      "triangles_all_lods": 1250,
+      "closed_boundaries": true,
+      "vertices": 1361,
+      "bounds_gltf": [
+        [
+          -0.08750000596046448,
+          0.0,
+          -0.4835192561149597
+        ],
+        [
+          0.08750000596046448,
+          0.03785744309425354,
+          0.4835192561149597
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "material_details": [
+      {
+        "name": "weapon_material_atlas",
+        "metallic_values": [
+          0,
+          255
+        ],
+        "roughness_values": [
+          71,
+          92,
+          97,
+          99,
+          102,
+          107,
+          110,
+          122,
+          143,
+          158,
+          171,
+          173,
+          176,
+          181,
+          184
+        ],
+        "basecolor_range": [
+          30,
+          243
+        ]
+      }
+    ],
+    "runtime_sha256": "37f12e675ffbe6bd0622a83825c29d6dee07edb3dee1527194f312e80230838d",
+    "reviews": {
+      "five_clay_and_textured_angles": true,
+      "contact_sheet": "review/contact_09.png",
+      "native_ordinary": "review/native_final/69-item343.png",
+      "desktop_cook_verified": true
+    },
+    "remaining_defects": [],
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "lod_note": "One mesh: already simple, 276\u20132038 triangles."
+  }
+]

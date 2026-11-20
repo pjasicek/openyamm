@@ -1,0 +1,402 @@
+# The rebuild's critical path, on foot, killing what attacks (liches, eyes and ogres), with the teleporter puzzle as
+# round three wired it (the cubes' water panels are clicked, as the original's are): from the gate through the crypt
+# up to the keep; the great hall's cube before the east lever (it sends the party to the teleport chamber, whose
+# panel sends it back); the lever, hidden behind a stone panel until the sign beside it is read, pulled off and on
+# again; the cube again (it lowers the portcullis, a block in the arch); the north cavern, the gatehouse, the throne
+# hall and its gallery; the secret room and the closet behind its sliding block (door record 8); the west lever
+# (hidden likewise) and the throne hall's cube (it clears the forcefield); the west ward and court; the crystal
+# chamber's sign and cube (to the lich's study), the chest and the podium there (the Book of Liches), the study's
+# panel (to the end of the low tunnels) and the way out of the map.
+# Map variables as ids.lock.yml numbers them: 1 west_way_cleared, 2 fires_sign_read, 3 east_embers, 4 west_embers.
+# Events: 10 east lever, 11 west lever, 14 the crystal chamber's sign, 16 the crystal, 26 a chamber panel, 28 the
+# study's panel, 8 the chest, 9 the exit, 5 door record 8, 55 the west sarcophagus (map variable 6). Doors and movers:
+# 28 the portcullis, 7 the stair door, 5 door record 8, 10 and 11 the panels over the east and west levers.
+# Round four adds a visit to the south cavern under its dome and a loop round the outer caverns (east, south
+# before the gate, up the ramp block to the landing before door record 9, west, and back).
+# Round five: the cubes' panels and the podium are blocks clicked (platforms with an id), still by the keyboard's use
+# key from the floor; the Deck of Fate lying in the cell block is picked up; the Lich King (the original's one placed
+# monster, in the west court) stands there until the party meets and kills him; a save and a reload after the
+# forcefield is cleared keep it cleared (event 58, run when the map is entered).
+# Round six: the forcefield is the original's two unseen faces (platforms the throne hall's cube makes passable), so
+# it is checked by walking: before the west lever the party walks into it on the ward's landing and stops there, and
+# after the cube it walks through into the west court (after a save and a reload). The signs show message windows,
+# which are closed. The crystal in the crystal chamber gives the Memory Crystal Delta, and the west sarcophagus in the
+# study asks its question and, answered Yes, gives an item once. The Lich King is counted round his place, not over
+# the whole map.
+# Run from output/studio_cal/mm6_cd2/run (see NOTES.md).
+id: calib.darkmoor.walk
+title: Castle Darkmoor rebuild, from the gate to the west court
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calib_darkmoor.blv
+  - assert: {map: calib_darkmoor.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  # entry hall
+  - walk_to: {x: 19249, y: 1920, z: -690, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 19249, y: 1920, radius: 208, z_min: -702, z_max: -678}}
+  # crypt gallery
+  - walk_to: {x: 19249, y: 4224, z: -690, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 19249, y: 4224, radius: 208, z_min: -702, z_max: -678}}
+  # crypt west
+  - walk_to: {x: 15000, y: 3700, z: -690, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 15000, y: 3700, radius: 208, z_min: -702, z_max: -678}}
+  # sunken chamber
+  - walk_to: {x: 13000, y: 4300, z: -690, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 13000, y: 4300, radius: 208, z_min: -702, z_max: -678}}
+  # south crypt
+  - walk_to: {x: 14400, y: 600, z: -600, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 14400, y: 600, radius: 208, z_min: -612, z_max: -588}}
+  # octagon at the stair head
+  - walk_to: {x: 10400, y: 768, z: 0, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 10400, y: 768, radius: 208, z_min: -12, z_max: 12}}
+  # guard room
+  - walk_to: {x: 12200, y: 2000, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 12200, y: 2000, radius: 208, z_min: -192, z_max: -168}}
+  # cross hall
+  - walk_to: {x: 13729, y: 1920, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 13729, y: 1920, radius: 208, z_min: -192, z_max: -168}}
+  # Round four: the south cavern under its dome (its floor level to the banks), and back.
+  # south cavern
+  - walk_to: {x: 14500, y: -2500, z: -240, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 14500, y: -2500, radius: 208, z_min: -252, z_max: -228}}
+  # cross hall again
+  - walk_to: {x: 13729, y: 1920, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 13729, y: 1920, radius: 208, z_min: -192, z_max: -168}}
+  # east tall hall
+  - walk_to: {x: 15800, y: 3700, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 15800, y: 3700, radius: 208, z_min: -192, z_max: -168}}
+  # Round five: the Deck of Fate lying in the cell block (the original's sprite object at 16288, 352), picked up. The
+  # packs hold only the new party's things here, so it fits.
+  - walk_to: {x: 16288, y: 560, z: -180, radius: 64, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "remember('decks', item_count(2067))"}
+  - pick_up: {item_id: 2067}
+  - play_lua:
+      source: |
+        if item_count(2067) ~= recall('decks') + 1 then error("the Deck of Fate did not reach the packs") end
+  # east tall hall again
+  - walk_to: {x: 15800, y: 3700, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 15800, y: 3700, radius: 208, z_min: -192, z_max: -168}}
+  # great hall
+  - walk_to: {x: 14500, y: 5600, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 14500, y: 5600, radius: 208, z_min: -192, z_max: -168}}
+  # The great hall's cube before the lever: its south panel, clicked from the floor under it, sends the party to the
+  # teleport chamber.
+  - play_lua:
+      source: |
+        if door_state(28) ~= "closed" then error("the portcullis does not start shut: " .. door_state(28)) end
+  - walk_to: {x: 13632, y: 6400, z: -180, radius: 48, timeout_seconds: 300, clear_hostiles: 1500}
+  - set_pose: {map: calib_darkmoor.blv, x: 13632, y: 6400, z: -180, yaw_degrees: 90, pitch_degrees: 55}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 22768, y: 7504, radius: 200, z_min: 1160, z_max: 1200}}
+  - assert: {state_dump_map_var: {index: 3, value: 0}}
+  # One of the chamber's four panels sends the party back to the cross hall's south arm.
+  - play_lua:
+      source: |
+        click(26); wait(1)
+  - assert: {party_position: {x: 13744, y: 640, radius: 200, z_min: -192, z_max: -160}}
+  # lever closet
+  - walk_to: {x: 10000, y: 4608, z: 0, radius: 96, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 10000, y: 4608, radius: 176, z_min: -12, z_max: 12}}
+  # The lever hides behind a panel of wall stone; the sign beside it lowers the panel. (A mouse click on the panel
+  # does nothing; the scenario's interaction is the keyboard's, which takes the nearest event in front and does not
+  # see the panel, so that part is not played.)
+  - play_lua:
+      source: |
+        if door_state(10) ~= "closed" then error("the panel over the lever does not start shut: " .. door_state(10)) end
+  - set_pose: {map: calib_darkmoor.blv, x: 9800, y: 4576, z: 0, yaw_degrees: 180, pitch_degrees: 5}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close(); wait(0.5)"}
+  - play_lua:
+      source: |
+        -- the message window holds the world while it is open: the panel moves once it is closed
+        for _ = 1, 20 do if door_state(10) == "open" then break end wait(0.25) end
+        if door_state(10) ~= "open" then error("the sign did not lower the panel: " .. door_state(10)) end
+  # The lever itself by its event: the headless keyboard pick does not see the lowered panel moved and finds no
+  # target, while the desktop game's use key pulls it (output/studio_cal/mm6_cd2/tools_r3/cover_tour2.yml).
+  - play_lua: {source: "click(10); wait(2)"}
+  - play_lua:
+      source: |
+        if door_state(28) ~= "closed" then error("the lever alone moved the portcullis: " .. door_state(28)) end
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  # The original's lever switches back and forth.
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {state_dump_map_var: {index: 3, value: 0}}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  # great hall again
+  - walk_to: {x: 14500, y: 5600, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 14500, y: 5600, radius: 208, z_min: -192, z_max: -168}}
+  # The cube with its embers lit: its panel lowers the portcullis and the party stays where it is.
+  - walk_to: {x: 13632, y: 6400, z: -180, radius: 48, timeout_seconds: 300, clear_hostiles: 1500}
+  - set_pose: {map: calib_darkmoor.blv, x: 13632, y: 6400, z: -180, yaw_degrees: 90, pitch_degrees: 55}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - play_lua:
+      source: |
+        wait(4)
+        if door_state(28) ~= "open" then error("the cube did not lower the portcullis: " .. door_state(28)) end
+  - assert: {party_position: {x: 13632, y: 6400, radius: 120, z_min: -192, z_max: -168}}
+  # north passage
+  - walk_to: {x: 13000, y: 10032, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 13000, y: 10032, radius: 208, z_min: -192, z_max: -168}}
+  - play_lua:
+      source: |
+        if door_state(7) ~= "closed" then error("the stair door does not start shut") end
+        click(7); wait(4)
+        if door_state(7) ~= "open" then error("the stair door did not open: " .. door_state(7)) end
+  # behind the stair door
+  - walk_to: {x: 12530, y: 10016, z: -180, radius: 64, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 12530, y: 10016, radius: 144, z_min: -192, z_max: -168}}
+  # north passage, at the portcullis
+  - walk_to: {x: 14689, y: 10032, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 14689, y: 10032, radius: 208, z_min: -192, z_max: -168}}
+  # north cavern
+  - walk_to: {x: 12000, y: 13000, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 12000, y: 13000, radius: 208, z_min: -192, z_max: -168}}
+  # Round four: round the outer caverns (one room each, banks and roofs by points): the east cavern, the south
+  # cavern before the gate, up the ramp along the castle wall (a block open to the cave) to the landing before
+  # door record 9, the west cavern, and back.
+  # east cavern
+  - walk_to: {x: 5200, y: 9800, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 5200, y: 9800, radius: 208, z_min: -192, z_max: -168}}
+  # south cavern before the gate
+  - walk_to: {x: 0, y: 8600, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 0, y: 8600, radius: 208, z_min: -192, z_max: -168}}
+  # south cavern, west part
+  - walk_to: {x: -9000, y: 8600, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -9000, y: 8600, radius: 208, z_min: -192, z_max: -168}}
+  - walk_to: {x: -10560, y: 9856, z: -180, radius: 64, timeout_seconds: 300, clear_hostiles: 1500}
+  # landing at the head of the ramp
+  - walk_to: {x: -7304, y: 9856, z: 600, radius: 64, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -7304, y: 9856, radius: 96, z_min: 588, z_max: 612}}
+  # west cavern
+  - walk_to: {x: -17500, y: 15000, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -17500, y: 15000, radius: 208, z_min: -192, z_max: -168}}
+  # south cavern before the gate again
+  - walk_to: {x: 0, y: 8600, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 0, y: 8600, radius: 208, z_min: -192, z_max: -168}}
+  # east cavern again
+  - walk_to: {x: 5200, y: 9800, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 5200, y: 9800, radius: 208, z_min: -192, z_max: -168}}
+  # gatehouse
+  - walk_to: {x: 5570, y: 14208, z: -180, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 5570, y: 14208, radius: 208, z_min: -192, z_max: -168}}
+  # inner court
+  - walk_to: {x: 3700, y: 14208, z: 0, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 3700, y: 14208, radius: 208, z_min: -12, z_max: 12}}
+  # throne hall
+  - walk_to: {x: 0, y: 14650, z: 0, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 0, y: 14650, radius: 208, z_min: -12, z_max: 12}}
+  # north gallery
+  - walk_to: {x: 0, y: 16700, z: 450, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 0, y: 16700, radius: 208, z_min: 438, z_max: 462}}
+  # The secret room east of the gallery, and the closet its sliding block (door record 8) hides.
+  - walk_to: {x: 3300, y: 15500, z: 540, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: 3300, y: 15500, radius: 208, z_min: 528, z_max: 552}}
+  - play_lua:
+      source: |
+        if door_state(5) ~= "closed" then error("the sliding block does not start shut: " .. door_state(5)) end
+        click(5); wait(3)
+        if door_state(5) ~= "open" then error("the sliding block did not open: " .. door_state(5)) end
+  - walk_to: {x: 3090, y: 16100, z: 540, radius: 64, timeout_seconds: 120, clear_hostiles: 1500}
+  - assert: {party_position: {x: 3090, y: 16100, radius: 144, z_min: 528, z_max: 552}}
+  # throne hall again
+  - walk_to: {x: -2500, y: 14208, z: 0, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -2500, y: 14208, radius: 208, z_min: -12, z_max: 12}}
+  # tall corridor, foot of the ramp
+  - walk_to: {x: -4222, y: 12200, z: -90, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -4222, y: 12200, radius: 208, z_min: -102, z_max: -78}}
+  # Round six: to the forcefield before the west lever, by the south-west hall and the ward: walked into from the
+  # landing, it stops the party at the doorway (the original's face 4522, unseen and solid).
+  - walk_to: {x: -4750, y: 11290, z: -90, radius: 30, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - walk_to: {x: -4750, y: 11690, z: -210, radius: 24, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - walk_to: {x: -6000, y: 12500, z: -240, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -6310, y: 15408, z: -240, radius: 40, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -7480, y: 15408, z: -30, radius: 40, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -8000, y: 15168, z: -30, radius: 48, timeout_seconds: 300, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  - movement_segment:
+      input: forward
+      seconds: 2
+      actor_collision: false
+      actor_ai: false
+      start: {map: calib_darkmoor.blv, x: -7950, y: 15168, z: -30, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: calib_darkmoor.blv, x: -8150, y: 15168, z: -30, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 80
+  - assert: {party_position: {x: -8150, y: 15168, radius: 80, z_min: -42, z_max: -18}}
+  # back to the tall corridor
+  - walk_to: {x: -7480, y: 15408, z: -30, radius: 40, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -6310, y: 15408, z: -240, radius: 40, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -6000, y: 12500, z: -240, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -4750, y: 11690, z: -210, radius: 24, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -4750, y: 11290, z: -90, radius: 30, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -4222, y: 12200, z: -90, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  # lever gallery
+  - walk_to: {x: -4174, y: 15300, z: 774, radius: 96, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -4174, y: 15300, radius: 176, z_min: 762, z_max: 786}}
+  # The west lever hides behind its panel too; the sign beside it lowers the panel.
+  - play_lua:
+      source: |
+        if door_state(11) ~= "closed" then error("the panel over the west lever does not start shut: " .. door_state(11)) end
+  - set_pose: {map: calib_darkmoor.blv, x: -4192, y: 15400, z: 774, yaw_degrees: 90, pitch_degrees: 4}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close(); wait(0.5)"}
+  - play_lua:
+      source: |
+        -- the message window holds the world while it is open: the panel moves once it is closed
+        for _ = 1, 20 do if door_state(11) == "open" then break end wait(0.25) end
+        if door_state(11) ~= "open" then error("the sign did not lower the west panel: " .. door_state(11)) end
+  - play_lua: {source: "click(11); wait(2)"}
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  - assert: {state_dump_map_var: {index: 1, value: 0}}
+  # tall corridor, foot of the ramp
+  - walk_to: {x: -4222, y: 12200, z: -90, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -4222, y: 12200, radius: 208, z_min: -102, z_max: -78}}
+  # throne hall
+  - walk_to: {x: -2500, y: 14208, z: 0, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -2500, y: 14208, radius: 208, z_min: -12, z_max: 12}}
+  # Round five: the Lich King, behind the shut forcefield, is there (round six: counted in the west court).
+  - assert: {actor_count: {name: Lich King, near: [-13000, 13500, 3200], min: 1, max: 1}}
+  # The throne hall's cube with its embers lit: its south panel clears the forcefield (once).
+  - walk_to: {x: 448, y: 13800, z: 0, radius: 48, timeout_seconds: 300, clear_hostiles: 1500}
+  - set_pose: {map: calib_darkmoor.blv, x: 448, y: 13800, z: 0, yaw_degrees: 90, pitch_degrees: 48}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - play_lua: {source: "wait(2)"}
+  - assert: {party_position: {x: 448, y: 13800, radius: 120, z_min: -12, z_max: 12}}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  # Round five: the forcefield stays cleared over a save and a reload (event 58 makes its faces passable again on
+  # entering the map); round six: the walk into the west court below passes it after the reload.
+  - save_game: {name: darkmoor_r5_forcefield}
+  - load_game: {name: darkmoor_r5_forcefield}
+  - advance_runtime: {seconds: 1}
+  # throne hall, west end
+  - walk_to: {x: -2500, y: 14208, z: 0, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -2500, y: 14208, radius: 208, z_min: -12, z_max: 12}}
+  # tall corridor again
+  - walk_to: {x: -4222, y: 12200, z: -90, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -4222, y: 12200, radius: 208, z_min: -102, z_max: -78}}
+  # south-west hall, head of the steps to the west ward (the party drops 30 onto the landing: let it land)
+  - walk_to: {x: -4750, y: 11290, z: -90, radius: 30, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -4750, y: 11290, radius: 80, z_min: -102, z_max: -78}}
+  # doorway to the west ward
+  - walk_to: {x: -4750, y: 11690, z: -210, radius: 24, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -4750, y: 11690, radius: 100, z_min: -222, z_max: -198}}
+  # west ward
+  - walk_to: {x: -6000, y: 12500, z: -240, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -6000, y: 12500, radius: 208, z_min: -252, z_max: -228}}
+  # Up the ward's ramp to the forcefield's doorway (waypoints: the planner otherwise aims at the 210 step between
+  # the ward's floor and the doorway's landing and stands against it).
+  - walk_to: {x: -6310, y: 15408, z: -240, radius: 40, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -7480, y: 15408, z: -30, radius: 40, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: -8000, y: 15168, z: -30, radius: 48, timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {party_position: {x: -8000, y: 15168, radius: 128, z_min: -42, z_max: -18}}
+  # Round five: the Lich King stands in the west court behind the forcefield (the original's actor 0, a Power Lich of
+  # 600 hit points). The walk into the court kills only what comes within 900 of the party on the way; the walk to his
+  # place kills what blocks it within 600 (him, or the liches round him), and he is killed there (the original sets
+  # nothing on his death). He was counted alive before the forcefield
+  # was cleared.
+  # west court
+  - walk_to: {x: -12000, y: 13000, z: -240, radius: 128, timeout_seconds: 300, clear_hostiles: 900}
+  - assert: {party_position: {x: -12000, y: 13000, radius: 208, z_min: -252, z_max: -228}}
+  - walk_to: {x: -13600, y: 14500, z: -240, radius: 128, timeout_seconds: 300, clear_hostiles: 600}
+  # (He does not always stay at his place once the court is entered; the court is 5,400 across, so everything hostile
+  # in it is killed, as a player clearing it would.)
+  - clear_hostiles: {radius: 6000}
+  - assert: {actor_count: {name: Lich King, near: [-13000, 13500, 6000], max: 0}}
+  - walk_to: {x: -12000, y: 13000, z: -240, radius: 128, timeout_seconds: 300, clear_hostiles: 1500}
+  # The crystal chamber north of the west court: its sign, then the floor before the south side of its cube.
+  - walk_to: {x: -12300, y: 15560, z: -240, radius: 96, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(14); wait(1); close(); wait(0.5)
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  # Round six: the crystal on its stand in the chamber's west alcove (the original's event 57): the Memory Crystal
+  # Delta and the seer's quest item bit, once.
+  - walk_to: {x: -14250, y: 15936, z: -240, radius: 64, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if has_item(2172) then error("the party has the crystal before it was taken") end
+        click(16); wait(1)
+        if not has_item(2172) then error("the crystal did not give the Memory Crystal Delta") end
+        if not qbit(1217) then error("the crystal did not set quest bit 1217") end
+        -- the crystal comes into the hand (the original's AddValue(InventoryItem)): into the packs with it
+        stow(); wait(0.5)
+        remember('crystals', item_count(2172))
+        click(16); wait(1)
+        if item_count(2172) ~= recall('crystals') then error("the crystal gave a second Memory Crystal Delta") end
+  - walk_to: {x: -12816, y: 15600, z: -240, radius: 48, timeout_seconds: 120, clear_hostiles: 1500}
+  - set_pose: {map: calib_darkmoor.blv, x: -12816, y: 15600, z: -240, yaw_degrees: 90, pitch_degrees: 47}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 22080, y: -2192, radius: 200, z_min: -10, z_max: 30}}
+  # The lich's study: its chest, then the panel in its alcove, which sends the party to the end of the low tunnels.
+  # Round five: the chest is the original's record, trapped, with three random items (rolls of level 6). Room is made
+  # in the packs first (everything but the Deck of Fate picked up earlier is dropped, as a player drops spare things),
+  # then it is looted: loot_chest clicks again when the trap went off and left it shut, and takes all.
+  - play_lua:
+      source: |
+        local keep = {[2067] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        remember('pack_before', pack_items()); remember('gold_before', gold())
+        loot_chest(8); wait(1)
+        -- a roll may come out as gold instead of an item
+        if pack_items() == recall('pack_before') and gold() == recall('gold_before') then error("nothing was taken from the chest") end
+  - assert:
+      chest_opened: {scene_kind: indoor, chest_id: 0}
+  - play_lua: {source: "close(); wait(1)"}
+  # Round six: the west sarcophagus asks "Steal from the dead?"; answered Yes it gives an item of treasure level 6 and
+  # stays silent afterwards (map variable 6).
+  - walk_to: {x: 21650, y: -2560, z: 0, radius: 48, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: "remember('pack_sarcophagus', pack_items()); click(55); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  # (The item comes into the hand, as the original's GiveItem does; it is put into the packs.)
+  - play_lua:
+      source: |
+        local h = held()
+        if (h == nil or h == 0) and pack_items() == recall('pack_sarcophagus') then error("the sarcophagus gave nothing") end
+        stow(); wait(0.5)
+  # The podium: clicked, it destroys the Book of Liches (quest bit 1033), which ends the summons in the west ward.
+  - walk_to: {x: 21664, y: -2790, z: 0, radius: 32, timeout_seconds: 60, clear_hostiles: 1500}
+  - set_pose: {map: calib_darkmoor.blv, x: 21664, y: -2790, z: 0, yaw_degrees: -90, pitch_degrees: -35}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        if not qbit(1033) then error("the podium did not destroy the Book of Liches") end
+  - walk_to: {x: 22080, y: -2192, z: 0, radius: 48, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(28); wait(1)
+  - assert: {party_position: {x: 2528, y: 3568, radius: 200, z_min: -650, z_max: -610}}
+  # The way out (the gate's event, run from here: the walk back is the one already made).
+  - play_lua:
+      source: |
+        click(9); wait(1)
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: outc3.odm}

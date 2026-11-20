@@ -1,0 +1,7 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §2.3): the Pack Master of the Dire Wolf Den runs faster (MAW also clears its attribute
+# 0x200000).
+format_version: 1
+kind: indoor_scene_overlay
+initial_state:
+  actor_overrides:
+    - {actor_index: 0, move_speed: 300, clear_attributes: 0x200000}

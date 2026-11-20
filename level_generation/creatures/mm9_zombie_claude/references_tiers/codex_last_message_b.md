@@ -1,0 +1,3 @@
+Saved all four 1024×1536 run B images in [references_tiers](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_zombie_claude/references_tiers), with raw returns and `generation_runs_b.json` containing prompts, hashes, and selection reasons. Used built-in image generation.
+
+The results **do not fully meet the brief**: halos and silhouette differences remain after one correction per view. No builds or Meshy calls were run.

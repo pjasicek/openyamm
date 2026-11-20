@@ -321,11 +321,11 @@ end)
 
 RegisterEvent(54, "Wolf Altar", function()
     if HasItem(2079) or IsQBitSet(QBit(1044)) then -- Pearl of Purity
-        evt.SetTexture(5083, "d7wl1ctr2")
-        evt.SetTexture(5084, "d7wl1ctr2")
-        evt.SetTexture(5085, "d7wl1ctr2")
-        evt.SetTexture(5081, "d7wl1ctr2")
-        evt.SetTexture(5082, "d7wl1ctr2")
+        evt.SetTexture(-5079, "d7wl1ctr2")
+        evt.SetTexture(-5080, "d7wl1ctr2")
+        evt.SetTexture(-5081, "d7wl1ctr2")
+        evt.SetTexture(-5077, "d7wl1ctr2")
+        evt.SetTexture(-5078, "d7wl1ctr2")
         SetQBit(QBit(1041)) -- 17 D17, given when wolf altar is destroyed.
         evt.SetDoorState(53, DoorAction.Close)
     end
@@ -333,8 +333,8 @@ end, "Wolf Altar")
 
 RegisterEvent(55, nil, function()
     if IsQBitSet(QBit(1059)) then return end -- 35 D17 Brought back Black Pearl and Ghost will no longer show up.
-    evt.SetFacetBit(5286, 16384, 0)
-    evt.SetTexture(5286, "paladn01")
+    evt.SetFacetBit(-5286, 16384, 0)
+    evt.SetTexture(-5286, "paladn01")
 end)
 
 RegisterEvent(56, nil, function()
@@ -462,11 +462,11 @@ end, "Crate")
 
 RegisterEvent(74, nil, function()
     if IsQBitSet(QBit(1041)) then -- 17 D17, given when wolf altar is destroyed.
-        evt.SetTexture(5083, "d7wl1ctr2")
-        evt.SetTexture(5084, "d7wl1ctr2")
-        evt.SetTexture(5085, "d7wl1ctr2")
-        evt.SetTexture(5081, "d7wl1ctr2")
-        evt.SetTexture(5082, "d7wl1ctr2")
+        evt.SetTexture(-5079, "d7wl1ctr2")
+        evt.SetTexture(-5080, "d7wl1ctr2")
+        evt.SetTexture(-5081, "d7wl1ctr2")
+        evt.SetTexture(-5077, "d7wl1ctr2")
+        evt.SetTexture(-5078, "d7wl1ctr2")
     end
 end)
 

@@ -1,0 +1,446 @@
+{
+ "id": "20261101-1523-mm9-arslegardcity-01",
+ "world": "mm9",
+ "maps": [
+  "arslegardcity.blv"
+ ],
+ "created": "2026-11-01T14:23:55+00:00",
+ "textures": [
+  "mm9/extwb69r89",
+  "mm9/brkwdn2hg6",
+  "mm9/broo2y0cia",
+  "mm9/thjo4ak6bc",
+  "mm9/stur8fpuii",
+  "mm9/stonwclsu3",
+  "mm9/lighh9hiw1",
+  "mm9/slimdbv7ng",
+  "mm9/roofhijrv5",
+  "mm9/roofiwgh3x",
+  "mm9/dblafxc8wg",
+  "mm9/chatcqab5n",
+  "mm9/woodh8w4vv",
+  "mm9/celtjz7dt0",
+  "mm9/stonnbwioi",
+  "mm9/stret8gdi0",
+  "mm9/thjoxnrgri",
+  "mm9/plasbtosod",
+  "mm9/glypo5p25n",
+  "mm9/balcmoqixu",
+  "mm9/darkjhjfi9",
+  "mm9/sandsizmo1",
+  "mm9/bric49dlnm",
+  "mm9/wood7ehu0b"
+ ],
+ "requests": {
+  "mm9/extwb69r89": {
+   "name": "extwb69r89",
+   "versions": [
+    1
+   ],
+   "material": "mottled beige and grey stucco wall with a rust-orange wooden beam and small dark brackets along the top, a tall round-arched window in a pale stone frame in the centre with dark glass behind gold bars, and a dark wooden sill box below it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/brkwdn2hg6": {
+   "name": "brkwdn2hg6",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue rough stone block wall framed by dark wooden posts with iron rivets at left and right, under a rust-orange wooden beam with small dark brackets along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bricxbsdpf"
+     ],
+     "fraction": 0.171
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/broo2y0cia": {
+   "name": "broo2y0cia",
+   "versions": [
+    1
+   ],
+   "material": "roof of overlapping rounded fish-scale shingles in speckled dark grey slate, laid in staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo4ak6bc": {
+   "name": "thjo4ak6bc",
+   "versions": [
+    1
+   ],
+   "material": "weathered mid-brown wood with long vertical grain lines and fine dark cracks running top to bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur8fpuii": {
+   "name": "stur8fpuii",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden floorboards laid horizontally in staggered planks of varied length, with visible grain and knots",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonwclsu3": {
+   "name": "stonwclsu3",
+   "versions": [
+    1
+   ],
+   "material": "pale sandy-beige stone wall of large rectangular dressed blocks in staggered courses with thin light mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/lighh9hiw1": {
+   "name": "lighh9hiw1",
+   "versions": [
+    1
+   ],
+   "material": "wall of grey-brown rough stone blocks in staggered horizontal courses with pale mortar and patches of green moss",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/slimdbv7ng": {
+   "name": "slimdbv7ng",
+   "versions": [
+    1
+   ],
+   "material": "wall of mossy green-grey stone blocks of irregular sizes in staggered courses with dark recessed joints, slimy green weathering throughout",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/roofhijrv5": {
+   "name": "roofhijrv5",
+   "versions": [
+    1
+   ],
+   "material": "roof of overlapping rounded fish-scale shingles in speckled blue-grey slate with dark outlines, in staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/roofiwgh3x": {
+   "name": "roofiwgh3x",
+   "versions": [
+    1
+   ],
+   "material": "roof of rust-orange curved clay barrel tiles in vertical rows, each row of overlapping tiles with dark shadowed gaps between",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dblafxc8wg": {
+   "name": "dblafxc8wg",
+   "versions": [
+    1
+   ],
+   "material": "mottled golden-ochre stucco wall with a rust-orange wooden beam along the top edge, a dark shadowed recess beneath it and small dark wooden brackets hanging under the beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/chatcqab5n": {
+   "name": "chatcqab5n",
+   "versions": [
+    1
+   ],
+   "material": "mottled light grey and beige stucco wall with a thin dark brown wooden moulding strip along the top edge and a faint pale band at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/woodh8w4vv": {
+   "name": "woodh8w4vv",
+   "versions": [
+    1
+   ],
+   "material": "polished orange-brown wood with fine horizontal grain and darker swirling streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/celtjz7dt0": {
+   "name": "celtjz7dt0",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-green carved stone relief of an interlaced Celtic knot pattern of overlapping circles and pointed ovals",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonnbwioi": {
+   "name": "stonnbwioi",
+   "versions": [
+    1
+   ],
+   "material": "pale grey plaster wall over a dark grey stone base, a row of square stone blocks along the top edge, and a stone ledge with square stone pillar blocks along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stret8gdi0": {
+   "name": "stret8gdi0",
+   "versions": [
+    1
+   ],
+   "material": "ground of patchy green grass mixed with brown packed earth and small pebbles, a worn dirt path running down the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoxnrgri": {
+   "name": "thjoxnrgri",
+   "versions": [
+    1
+   ],
+   "material": "two vertical wooden planks with long grain, a lighter grey-brown plank on the left and a darker reddish-brown plank on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/plasbtosod": {
+   "name": "plasbtosod",
+   "versions": [
+    1
+   ],
+   "material": "smooth tan-orange plaster wall with a carved Greek-key meander frieze along the top edge and a vertical fluted wooden post down the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/glypo5p25n": {
+   "name": "glypo5p25n",
+   "versions": [
+    1
+   ],
+   "material": "pale cream stone surface carved with columns of small reddish-brown hieroglyph-like glyphs, divided into vertical panels by thin dark grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/balcmoqixu": {
+   "name": "balcmoqixu",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-blue stucco wall with a pair of round-arched windows with dark diamond lattice and a small column between them, a gilded column at the left, a dark dentil cornice along the top and a stone balustrade along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/darkjhjfi9": {
+   "name": "darkjhjfi9",
+   "versions": [
+    1
+   ],
+   "material": "dark brown-black marble with a dense network of golden-tan veins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sandsizmo1": {
+   "name": "sandsizmo1",
+   "versions": [
+    1
+   ],
+   "material": "fine smooth pale tan sand with faint wind ripples and slight variations of shade",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bric49dlnm": {
+   "name": "bric49dlnm",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue and ochre rough stone block wall of irregular coursed blocks with dark mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wood7ehu0b": {
+   "name": "wood7ehu0b",
+   "versions": [
+    1
+   ],
+   "material": "warm amber-brown wood with fine dense grain and dark flecks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

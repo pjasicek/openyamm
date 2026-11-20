@@ -1,10 +1,13 @@
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/indoor/IndoorMovers.h"
 
 #include "game/FaceEnums.h"
 #include "game/events/EvtEnums.h"
 #include "game/indoor/IndoorPortalGraph.h"
+#include "game/indoor/IndoorSectorFaceGrid.h"
 
 #include <algorithm>
+#include <span>
 #include <array>
 #include <cmath>
 #include <limits>
@@ -17,6 +20,7 @@ namespace
 {
 constexpr float GeometryEpsilon = 0.0001f;
 constexpr float FloorSlack = 8.0f;
+static_assert(FloorSlack <= IndoorSectorFaceGrid::PointSlack, "the sector face grid must cover the floor slack");
 constexpr float FloorContainmentSlack = 3.0f;
 constexpr float WalkableSlopeNormalZ = 0.68664550781f;
 constexpr float InitialActorPlacementWallMinHeight = 50.0f;
@@ -187,7 +191,7 @@ bool faceIsWalkable(const IndoorFace &face, const bx::Vec3 &normal)
 bool faceCanDefineFloorHeight(const IndoorFaceGeometryData &geometry)
 {
     return geometry.kind == IndoorFaceKind::Floor
-        || (geometry.facetType == 4 && geometry.normal.z > GeometryEpsilon);
+        || (geometry.facetType == 4 && geometry.normal.z >= IndoorMinimumSteepFloorNormalZ);
 }
 
 bool faceCanDefineCeilingHeight(const IndoorFaceGeometryData &geometry)
@@ -198,7 +202,7 @@ bool faceCanDefineCeilingHeight(const IndoorFaceGeometryData &geometry)
 
 bool faceIsSteepFloorCollisionSurface(const IndoorFaceGeometryData &geometry)
 {
-    if (geometry.normal.z <= 0.0f || geometry.normal.z >= WalkableSlopeNormalZ)
+    if (geometry.normal.z < IndoorMinimumSteepFloorNormalZ || geometry.normal.z >= WalkableSlopeNormalZ)
     {
         return false;
     }
@@ -692,6 +696,62 @@ int16_t indoorSectorBehindPortal(const IndoorFaceGeometryData &geometry, int16_t
     return -1;
 }
 
+namespace
+{
+// The sector behind a portal of the start's sector that the start already lies just beyond (at most FloorSlack, as
+// findIndoorSectorForPoint's floors take a point on a doorway: an actor a unit past a doorway keeps the sector it came
+// from), the line going on away from it; -1 if none. Without it such a line never crosses that portal and finds no
+// way into the sector it starts in.
+int16_t indoorSectorBehindStartPortal(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    const bx::Vec3 &start,
+    const bx::Vec3 &end,
+    int16_t sectorId)
+{
+    const IndoorSector &sector = indoorMapData.sectors[sectorId];
+
+    for (uint16_t faceId : sector.portalFaceIds)
+    {
+        const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(indoorMapData, vertices, faceId);
+
+        if (pGeometry == nullptr || !pGeometry->hasPlane || !pGeometry->isPortal || pGeometry->vertices.empty()
+            || indoorSectorBehindPortal(*pGeometry, sectorId) < 0
+            || !indoorSegmentMayTouchFaceBounds(start, end, *pGeometry, FloorSlack))
+        {
+            continue;
+        }
+
+        // Distances along the normal turned towards this sector: positive on its side.
+        const float toward = sectorId == static_cast<int16_t>(pGeometry->sectorId) ? 1.0f : -1.0f;
+        const bx::Vec3 &planePoint = pGeometry->vertices.front();
+        const float startSide = toward * indoorDotProduct(pGeometry->normal,
+            {start.x - planePoint.x, start.y - planePoint.y, start.z - planePoint.z});
+        const float endSide = toward * indoorDotProduct(pGeometry->normal,
+            {end.x - planePoint.x, end.y - planePoint.y, end.z - planePoint.z});
+
+        if (startSide > 0.0f || startSide < -FloorSlack || endSide >= startSide)
+        {
+            continue;
+        }
+
+        const bx::Vec3 onPlane = {
+            start.x - pGeometry->normal.x * toward * startSide,
+            start.y - pGeometry->normal.y * toward * startSide,
+            start.z - pGeometry->normal.z * toward * startSide
+        };
+
+        if (isPointInsideIndoorPolygonProjected(onPlane, pGeometry->vertices, pGeometry->normal))
+        {
+            return indoorSectorBehindPortal(*pGeometry, sectorId);
+        }
+    }
+
+    return -1;
+}
+}
+
 IndoorPortalSectorTrace traceIndoorLineThroughPortalSectors(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
@@ -793,6 +853,22 @@ IndoorPortalSectorTrace traceIndoorLineThroughPortalSectors(
             break;
         }
 
+        if (nextSectorId < 0 && portalStep == 0)
+        {
+            nextSectorId = indoorSectorBehindStartPortal(indoorMapData, vertices, geometryCache, start, end,
+                currentSectorId);
+        }
+
+        if (nextSectorId < 0
+            && indoorSectorBehindStartPortal(indoorMapData, vertices, geometryCache, end, start, targetSectorId)
+                == currentSectorId)
+        {
+            // The end lies just this side of a portal of its own sector (the same doorway as above, seen from here)
+            appendSectorId(targetSectorId);
+            trace.reachedTargetSector = true;
+            return trace;
+        }
+
         if (nextSectorId < 0 || nextSectorId == currentSectorId)
         {
             return trace;
@@ -844,6 +920,7 @@ void IndoorFaceGeometryCache::reset(size_t faceCount)
 {
     m_entryStates.assign(faceCount, 0);
     m_entries.resize(faceCount);
+    m_entryAttributes.assign(faceCount, 0);
 }
 
 void IndoorFaceGeometryCache::invalidateFace(size_t faceIndex)
@@ -856,15 +933,13 @@ void IndoorFaceGeometryCache::invalidateFace(size_t faceIndex)
 
 void IndoorFaceGeometryCache::setAttributeOverrides(const MapDeltaData *pMapDeltaData)
 {
-    const uint64_t attributeRevision = pMapDeltaData != nullptr ? pMapDeltaData->surfaceRevision : 0;
-
-    if (m_pAttributeOverrides == pMapDeltaData && m_attributeRevision == attributeRevision)
+    // The same delta with changed face bits keeps its entries: geometryForFace rebuilds the changed faces.
+    if (m_pAttributeOverrides == pMapDeltaData)
     {
         return;
     }
 
     m_pAttributeOverrides = pMapDeltaData;
-    m_attributeRevision = attributeRevision;
     std::fill(m_entryStates.begin(), m_entryStates.end(), 0);
 }
 
@@ -874,19 +949,52 @@ const IndoorFaceGeometryData *IndoorFaceGeometryCache::geometryForFace(
     size_t faceIndex
 )
 {
-    if (faceIndex >= m_entryStates.size() || faceIndex >= m_entries.size())
+    if (faceIndex >= m_entryStates.size() || faceIndex >= m_entries.size() || faceIndex >= indoorMapData.faces.size())
     {
         return nullptr;
     }
 
-    if (m_entryStates[faceIndex] == 0)
+    const uint32_t attributes =
+        m_pAttributeOverrides != nullptr && faceIndex < m_pAttributeOverrides->faceAttributes.size()
+            ? m_pAttributeOverrides->faceAttributes[faceIndex]
+            : indoorMapData.faces[faceIndex].attributes;
+
+    if (m_entryStates[faceIndex] == 0 || m_entryAttributes[faceIndex] != attributes)
     {
         const bool valid =
             buildIndoorFaceGeometry(indoorMapData, vertices, faceIndex, m_entries[faceIndex], m_pAttributeOverrides);
         m_entryStates[faceIndex] = valid ? 2 : 1;
+        m_entryAttributes[faceIndex] = attributes;
     }
 
     return m_entryStates[faceIndex] == 2 ? &m_entries[faceIndex] : nullptr;
+}
+
+void IndoorFaceGeometryCache::beginFaceVisit()
+{
+    ++m_faceVisitStamp;
+
+    if (m_faceVisitStamp == 0)
+    {
+        std::fill(m_faceVisitStamps.begin(), m_faceVisitStamps.end(), 0u);
+        m_faceVisitStamp = 1;
+    }
+}
+
+bool IndoorFaceGeometryCache::markFaceVisited(size_t faceIndex)
+{
+    if (faceIndex >= m_faceVisitStamps.size())
+    {
+        m_faceVisitStamps.resize(std::max(faceIndex + 1, m_entries.size()), 0u);
+    }
+
+    if (m_faceVisitStamps[faceIndex] == m_faceVisitStamp)
+    {
+        return false;
+    }
+
+    m_faceVisitStamps[faceIndex] = m_faceVisitStamp;
+    return true;
 }
 
 float fixedIndoorDoorDirectionComponentToFloat(int value)
@@ -894,9 +1002,15 @@ float fixedIndoorDoorDirectionComponentToFloat(int value)
     return static_cast<float>(value) / 65536.0f;
 }
 
-bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door)
+bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door, const IndoorMoverDefinition *pMover)
 {
-    return door.directionZ != 0;
+    if (door.directionZ != 0)
+    {
+        return true;
+    }
+
+    return pMover != nullptr && pMover->carry && !pMover->rotation
+        && (door.directionX != 0 || door.directionY != 0);
 }
 
 bool mechanismDoorContainsFace(const MapDeltaDoor &door, size_t faceIndex)
@@ -914,10 +1028,20 @@ bool mechanismDoorContainsFace(const MapDeltaDoor &door, size_t faceIndex)
 
 void applyIndoorMechanismDoorToVertices(
     const MapDeltaDoor &door,
+    const IndoorMoverDefinition *pMover,
     float distance,
-    std::vector<IndoorVertex> &vertices
+    int8_t rotationDirection,
+    std::vector<IndoorVertex> &vertices,
+    float spinDegrees
 )
 {
+    if (const std::optional<IndoorRigidMotion> motion =
+            indoorRotatingMoverMotion(door, pMover, distance, rotationDirection, spinDegrees))
+    {
+        applyIndoorRotatingMoverToVertices(door, *motion, vertices);
+        return;
+    }
+
     const size_t movableVertexCount = std::min(
         door.vertexIds.size(),
         std::min(door.xOffsets.size(), std::min(door.yOffsets.size(), door.zOffsets.size()))
@@ -975,6 +1099,8 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
             door.state == static_cast<uint16_t>(EvtMechanismState::Opening)
             || door.state == static_cast<uint16_t>(EvtMechanismState::Closing);
         float distance = runtimeMechanism.currentDistance;
+        int8_t rotationDirection = runtimeMechanism.rotationDirection;
+        float spinDegrees = 0.0f;
 
         if (pEventRuntimeState != nullptr)
         {
@@ -984,13 +1110,69 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
             if (mechanismIterator != pEventRuntimeState->mechanisms.end())
             {
                 distance = mechanismIterator->second.currentDistance;
+                rotationDirection = mechanismIterator->second.rotationDirection;
+                spinDegrees = mechanismIterator->second.spinDegrees;
             }
         }
 
-        applyIndoorMechanismDoorToVertices(door, distance, vertices);
+        applyIndoorMechanismDoorToVertices(door, findIndoorMoverDefinition(indoorMapData, door.doorId), distance,
+            rotationDirection, vertices, spinDegrees);
     }
 
     return vertices;
+}
+
+std::vector<std::optional<IndoorRigidMotion>> buildIndoorRotatingFaceMotions(
+    const IndoorMapData &indoorMapData,
+    const MapDeltaData *pIndoorMapDeltaData,
+    const EventRuntimeState *pEventRuntimeState)
+{
+    std::vector<std::optional<IndoorRigidMotion>> motions;
+
+    if (indoorMapData.moverDefinitions.empty() || pIndoorMapDeltaData == nullptr)
+    {
+        return motions;
+    }
+
+    motions.resize(indoorMapData.faces.size());
+
+    for (const MapDeltaDoor &door : pIndoorMapDeltaData->doors)
+    {
+        const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(indoorMapData, door.doorId);
+
+        if (pMover == nullptr || (!pMover->rotation && !pMover->spin))
+        {
+            continue;
+        }
+
+        RuntimeMechanismState mechanism = {};
+        mechanism.state = door.state;
+        mechanism.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
+        mechanism.currentDistance = calculateMechanismDistance(door, mechanism);
+
+        if (pEventRuntimeState != nullptr)
+        {
+            const auto iterator = pEventRuntimeState->mechanisms.find(door.doorId);
+
+            if (iterator != pEventRuntimeState->mechanisms.end())
+            {
+                mechanism = iterator->second;
+            }
+        }
+
+        const std::optional<IndoorRigidMotion> motion = indoorRotatingMoverMotion(
+            door, pMover, mechanism.currentDistance, mechanism.rotationDirection, mechanism.spinDegrees);
+
+        for (uint16_t faceId : door.faceIds)
+        {
+            if (faceId < motions.size())
+            {
+                motions[faceId] = motion;
+            }
+        }
+    }
+
+    return motions;
 }
 
 bx::Vec3 indoorVertexToWorld(const IndoorVertex &vertex)
@@ -1690,8 +1872,13 @@ IndoorFloorSample sampleIndoorFloor(
 {
     IndoorFloorSample bestSample = {};
     float bestScore = -std::numeric_limits<float>::infinity();
+    // The cache's sector face grid narrows a sector's floor and portal lists to the faces whose bounds may hold the
+    // point, in list order, so the same floor wins: a region's open air in one sector (an MM9 outdoor map, 25 000
+    // floors) made every floor query test them all (devdocs/mm9_rework/BLV_GEOMETRY_COSTS.md, E2).
+    const IndoorSectorFaceGrid *pFaceGrid = pGeometryCache != nullptr ? pGeometryCache->sectorFaceGrid() : nullptr;
+    const bool useFaceGrid = pFaceGrid != nullptr && !pFaceGrid->empty() && std::isfinite(x) && std::isfinite(y);
 
-    auto evaluateFloorFaces = [&](const std::vector<uint16_t> &faceIds)
+    auto evaluateFloorFaces = [&](std::span<const uint16_t> faceIds)
     {
         for (uint16_t faceId : faceIds)
         {
@@ -1731,21 +1918,29 @@ IndoorFloorSample sampleIndoorFloor(
         }
 
         const IndoorSector &sector = indoorMapData.sectors[sectorId];
-        evaluateFloorFaces(sector.floorFaceIds);
+        evaluateFloorFaces(useFaceGrid ? pFaceGrid->floorFacesAt(sectorId, x, y)
+                                       : std::span<const uint16_t>(sector.floorFaceIds));
 
         if ((sector.flags & 0x8) != 0)
         {
-            evaluateFloorFaces(sector.portalFaceIds);
+            evaluateFloorFaces(useFaceGrid ? pFaceGrid->portalFacesAt(sectorId, x, y)
+                                           : std::span<const uint16_t>(sector.portalFaceIds));
         }
 
         return bestSample.hasFloor;
     };
 
+    // The preferred (current) sector's floor wins when it is under the feet. When it lies well below them, the point
+    // may already stand in the next sector, on that sector's floor over this one's (an upper room through a doorway
+    // above a lower room of the current sector: Thjorgard City's houses, 2026-11-02). Taking the far floor left the
+    // party unsupported in the old sector, never on the new floor, and its recovery walked it back to the door.
+    constexpr float PreferredFloorBelowFeet = 16.0f;
+
     if (preferredSectorId
         && *preferredSectorId >= 0
         && static_cast<size_t>(*preferredSectorId) < indoorMapData.sectors.size())
     {
-        if (evaluateSectorFloorFaces(*preferredSectorId))
+        if (evaluateSectorFloorFaces(*preferredSectorId) && bestSample.height >= z - PreferredFloorBelowFeet)
         {
             return bestSample;
         }
@@ -1757,10 +1952,17 @@ IndoorFloorSample sampleIndoorFloor(
     if (resolvedSectorId
         && (!preferredSectorId || *resolvedSectorId != *preferredSectorId))
     {
-        if (evaluateSectorFloorFaces(*resolvedSectorId))
+        const IndoorFloorSample preferredSample = bestSample;
+        bestSample = {};
+        bestScore = -std::numeric_limits<float>::infinity();
+
+        if (evaluateSectorFloorFaces(*resolvedSectorId)
+            && (!preferredSample.hasFloor || bestSample.height > preferredSample.height))
         {
             return bestSample;
         }
+
+        return preferredSample;
     }
 
     return bestSample;
@@ -1792,11 +1994,67 @@ IndoorFloorSample sampleIndoorFloorOnFace(
         pGeometryCache);
 }
 
+namespace
+{
+// Whether a creature can stand on a sampled floor: a walkable face, not one of an open-air map's sky faces.
+bool indoorFloorSampleStandable(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    const IndoorFloorSample &sample)
+{
+    if (!sample.hasFloor || !sample.isWalkable)
+    {
+        return false;
+    }
+
+    const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(indoorMapData, vertices, sample.faceIndex);
+    return pGeometry != nullptr && !hasFaceAttribute(pGeometry->attributes, FaceAttribute::IndoorSky);
+}
+}
+
+std::optional<float> findIndoorStandingFloorHeight(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    float x,
+    float y,
+    float z,
+    float reach)
+{
+    const IndoorFloorSample sample =
+        sampleIndoorFloor(indoorMapData, vertices, x, y, z, reach, reach, std::nullopt, nullptr, &geometryCache);
+
+    if (indoorFloorSampleStandable(indoorMapData, vertices, geometryCache, sample))
+    {
+        return sample.height;
+    }
+
+    // The nearest floor is no ground (the sky shell just under a point below the terrain): the nearest standable one
+    // above, else below.
+    std::optional<float> ground;
+
+    for (const bool above : {true, false})
+    {
+        const IndoorFloorSample sideSample = sampleIndoorFloor(indoorMapData, vertices, x, y, z, above ? reach : 0.0f,
+            above ? 0.0f : reach, std::nullopt, nullptr, &geometryCache);
+
+        if (indoorFloorSampleStandable(indoorMapData, vertices, geometryCache, sideSample)
+            && (!ground || std::fabs(sideSample.height - z) < std::fabs(*ground - z)))
+        {
+            ground = sideSample.height;
+        }
+    }
+
+    return ground;
+}
+
 std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
     const IndoorMapData &indoorMapData,
     const MapDeltaData *pIndoorMapDeltaData,
     const EventRuntimeState *pEventRuntimeState,
-    uint32_t seed)
+    uint32_t seed,
+    std::span<const bx::Vec3> anchors)
 {
     if (indoorMapData.sectors.empty() || indoorMapData.faces.empty())
     {
@@ -1807,10 +2065,37 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
     constexpr float BountyFloorSampleDrop = 512.0f;
     constexpr float BountyWallFloorSampleRise = 4096.0f;
     constexpr float BountyWallFloorSampleDrop = 4096.0f;
+    constexpr float BountyAnchorFloorReach = 256.0f;
     constexpr size_t RandomAttempts = 16;
     const std::vector<IndoorVertex> vertices =
         buildIndoorMechanismAdjustedVertices(indoorMapData, pIndoorMapDeltaData, pEventRuntimeState);
     IndoorFaceGeometryCache geometryCache(indoorMapData.faces.size());
+    std::mt19937 rng(seed);
+
+    // The anchors in the seed's order: the first with ground under it.
+    if (!anchors.empty())
+    {
+        std::vector<size_t> order(anchors.size());
+
+        for (size_t index = 0; index < order.size(); ++index)
+        {
+            order[index] = index;
+        }
+
+        std::shuffle(order.begin(), order.end(), rng);
+
+        for (size_t index : order)
+        {
+            const bx::Vec3 &anchor = anchors[index];
+            const std::optional<float> floorZ = findIndoorStandingFloorHeight(
+                indoorMapData, vertices, geometryCache, anchor.x, anchor.y, anchor.z, BountyAnchorFloorReach);
+
+            if (floorZ)
+            {
+                return bx::Vec3{anchor.x, anchor.y, *floorZ};
+            }
+        }
+    }
 
     const auto resolveFloorFace =
         [&](uint16_t faceId) -> std::optional<bx::Vec3>
@@ -1818,7 +2103,9 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
             const IndoorFaceGeometryData *pGeometry =
                 geometryCache.geometryForFace(indoorMapData, vertices, faceId);
 
-            if (pGeometry == nullptr)
+            if (pGeometry == nullptr
+                || !pGeometry->isWalkable
+                || hasFaceAttribute(pGeometry->attributes, FaceAttribute::IndoorSky))
             {
                 return std::nullopt;
             }
@@ -1874,7 +2161,7 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
                     nullptr,
                     &geometryCache);
 
-            if (!floorSample.hasFloor)
+            if (!indoorFloorSampleStandable(indoorMapData, vertices, geometryCache, floorSample))
             {
                 return std::nullopt;
             }
@@ -1901,8 +2188,6 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
             wallSectorIds.push_back(sectorId);
         }
     }
-
-    std::mt19937 rng(seed);
 
     const auto tryRandomFaceFromSectorList =
         [&](const std::vector<size_t> &sectorIds, bool useFloorFaces) -> std::optional<bx::Vec3>
@@ -1993,7 +2278,11 @@ IndoorCeilingSample sampleIndoorCeiling(
     IndoorCeilingSample bestSample = {};
     float bestHeight = std::numeric_limits<float>::max();
 
-    auto evaluateCeilingFaces = [&](const std::vector<uint16_t> &faceIds)
+    // With a sector face grid, only the ceilings whose bounds may hold (x, y), in the sector list's order.
+    const IndoorSectorFaceGrid *pFaceGrid = pGeometryCache != nullptr ? pGeometryCache->sectorFaceGrid() : nullptr;
+    const bool useFaceGrid = pFaceGrid != nullptr && !pFaceGrid->empty() && std::isfinite(x) && std::isfinite(y);
+
+    auto evaluateCeilingFaces = [&](std::span<const uint16_t> faceIds)
     {
         for (uint16_t faceId : faceIds)
         {
@@ -2060,7 +2349,8 @@ IndoorCeilingSample sampleIndoorCeiling(
             return false;
         }
 
-        evaluateCeilingFaces(indoorMapData.sectors[sectorId].ceilingFaceIds);
+        evaluateCeilingFaces(useFaceGrid ? pFaceGrid->ceilingFacesAt(sectorId, x, y)
+                                         : std::span<const uint16_t>(indoorMapData.sectors[sectorId].ceilingFaceIds));
         return bestSample.hasCeiling;
     };
 
@@ -2108,22 +2398,21 @@ std::optional<int16_t> findIndoorSectorForPoint(
         float height = 0.0f;
     };
 
+    // Every floor (and floor portal) under or over the point, of every sector whose bounds hold it. MM8 kept the first
+    // five only; a tall open sector (a city's street air over a palace staircase) can take those five and hide the
+    // floor the point stands on, so the list is not capped (MM6-MM8 BLVs give the same sectors either way).
     std::vector<SectorFaceCandidate> candidates;
-    candidates.reserve(5);
+    candidates.reserve(8);
+    // The cache's sector face grid narrows each list to the faces whose bounds may hold the point, in list order, so
+    // the lookup gives the same sector. A non-finite point has no place in the grid.
+    const IndoorSectorFaceGrid *pFaceGrid = pGeometryCache != nullptr ? pGeometryCache->sectorFaceGrid() : nullptr;
+    const bool useFaceGrid =
+        pFaceGrid != nullptr && !pFaceGrid->empty() && std::isfinite(point.x) && std::isfinite(point.y);
     std::optional<int16_t> backupBoundingSectorId;
     std::optional<int16_t> singleSectorId;
     bool singleSector = true;
     const size_t startingSectorIndex = indoorMapData.sectors.size() > 1 ? 1 : 0;
 
-    auto appendSectorCandidate = [&](int16_t sectorId, float height)
-    {
-        if (candidates.size() >= 5)
-        {
-            return;
-        }
-
-        candidates.push_back({sectorId, height});
-    };
 
     for (size_t sectorIndex = startingSectorIndex; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
     {
@@ -2153,7 +2442,7 @@ std::optional<int16_t> findIndoorSectorForPoint(
             singleSector = false;
         }
 
-        const auto evaluateSectorFaces = [&](const std::vector<uint16_t> &faceIds)
+        const auto evaluateSectorFaces = [&](std::span<const uint16_t> faceIds)
         {
             for (uint16_t faceId : faceIds)
             {
@@ -2184,25 +2473,19 @@ std::optional<int16_t> findIndoorSectorForPoint(
                     continue;
                 }
 
-                appendSectorCandidate(static_cast<int16_t>(sectorIndex), calculateIndoorFaceHeight(*pGeometry, point.x, point.y));
-
-                if (candidates.size() >= 5)
-                {
-                    return;
-                }
+                candidates.push_back(
+                    {static_cast<int16_t>(sectorIndex), calculateIndoorFaceHeight(*pGeometry, point.x, point.y)});
             }
         };
 
-        evaluateSectorFaces(sector.floorFaceIds);
+        const int16_t sectorId = static_cast<int16_t>(sectorIndex);
+        evaluateSectorFaces(
+            useFaceGrid ? pFaceGrid->floorFacesAt(sectorId, point.x, point.y) : std::span(sector.floorFaceIds));
 
-        if ((sector.flags & 0x8) != 0 && candidates.size() < 5)
+        if ((sector.flags & 0x8) != 0)
         {
-            evaluateSectorFaces(sector.portalFaceIds);
-        }
-
-        if (candidates.size() >= 5)
-        {
-            break;
+            evaluateSectorFaces(
+                useFaceGrid ? pFaceGrid->portalFacesAt(sectorId, point.x, point.y) : std::span(sector.portalFaceIds));
         }
     }
 
@@ -2261,6 +2544,52 @@ std::optional<int16_t> findIndoorSectorForPoint(
     }
 
     return bestAboveSectorId;
+}
+
+bool indoorSectorHasFloorUnderPoint(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    int16_t sectorId,
+    const bx::Vec3 &point,
+    IndoorFaceGeometryCache *pGeometryCache
+)
+{
+    if (sectorId < 0 || static_cast<size_t>(sectorId) >= indoorMapData.sectors.size())
+    {
+        return false;
+    }
+
+    const IndoorSector &sector = indoorMapData.sectors[sectorId];
+    const auto hasFloorUnder = [&](const std::vector<uint16_t> &faceIds)
+    {
+        for (uint16_t faceId : faceIds)
+        {
+            IndoorFaceGeometryData geometryStorage = {};
+            const IndoorFaceGeometryData *pGeometry =
+                getIndoorFaceGeometry(indoorMapData, vertices, faceId, pGeometryCache, geometryStorage);
+
+            if (pGeometry == nullptr
+                || hasFaceAttribute(pGeometry->attributes, FaceAttribute::Untouchable)
+                || !faceCanDefineFloorHeight(*pGeometry)
+                || point.x < pGeometry->minX - FloorSlack
+                || point.x > pGeometry->maxX + FloorSlack
+                || point.y < pGeometry->minY - FloorSlack
+                || point.y > pGeometry->maxY + FloorSlack
+                || !isPointInsideFaceXYPolygon(point, pGeometry->vertices))
+            {
+                continue;
+            }
+
+            if (calculateIndoorFaceHeight(*pGeometry, point.x, point.y) <= point.z)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    return hasFloorUnder(sector.floorFaceIds) || ((sector.flags & 0x8) != 0 && hasFloorUnder(sector.portalFaceIds));
 }
 
 std::optional<DecorationWallContact> findIndoorWallContact(
@@ -2357,5 +2686,34 @@ std::optional<DecorationWallContact> findIndoorDecorationWall(
     constexpr float Reach = 64.0f;
     return findIndoorWallContact(indoorMapData, indoorMapData.vertices,
         {float(x), float(y), float(z) + height * 0.5f}, Reach);
+}
+
+bool indoorMoverFaceKeepsStoredTexels(
+    std::span<const IndoorProjectedFacePoint> geometryTexels,
+    std::span<const IndoorProjectedFacePoint> storedTexels
+)
+{
+    if (geometryTexels.size() != storedTexels.size() || geometryTexels.empty())
+    {
+        return false;
+    }
+
+    float minDifferenceU = std::numeric_limits<float>::max();
+    float maxDifferenceU = std::numeric_limits<float>::lowest();
+    float minDifferenceV = std::numeric_limits<float>::max();
+    float maxDifferenceV = std::numeric_limits<float>::lowest();
+
+    for (size_t index = 0; index < geometryTexels.size(); ++index)
+    {
+        const float differenceU = storedTexels[index].x - geometryTexels[index].x;
+        const float differenceV = storedTexels[index].y - geometryTexels[index].y;
+        minDifferenceU = std::min(minDifferenceU, differenceU);
+        maxDifferenceU = std::max(maxDifferenceU, differenceU);
+        minDifferenceV = std::min(minDifferenceV, differenceV);
+        maxDifferenceV = std::max(maxDifferenceV, differenceV);
+    }
+
+    return maxDifferenceU - minDifferenceU > IndoorMoverFaceTexelTolerance
+        || maxDifferenceV - minDifferenceV > IndoorMoverFaceTexelTolerance;
 }
 }

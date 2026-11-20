@@ -1,0 +1,90 @@
+{
+  "checks": [
+    {
+      "frame": 0,
+      "native_error": 3.6240594595449944,
+      "restored_error": 2.947364614981192,
+      "ratio": 0.8132771131054339
+    },
+    {
+      "frame": 1,
+      "native_error": 3.5970936188874423,
+      "restored_error": 2.986512179904514,
+      "ratio": 0.8302570064407228
+    },
+    {
+      "frame": 2,
+      "native_error": 3.8101560522008824,
+      "restored_error": 3.2538661702473957,
+      "ratio": 0.8539981369969994
+    },
+    {
+      "frame": 3,
+      "native_error": 4.2363094358091,
+      "restored_error": 3.5010639558015044,
+      "ratio": 0.8264419794756636
+    },
+    {
+      "frame": 4,
+      "native_error": 3.720356840910735,
+      "restored_error": 3.123800523546007,
+      "ratio": 0.8396507800529446
+    },
+    {
+      "frame": 5,
+      "native_error": 3.6544706952130355,
+      "restored_error": 3.201588355170356,
+      "ratio": 0.8760744365426416
+    },
+    {
+      "frame": 6,
+      "native_error": 3.6584958394368488,
+      "restored_error": 3.171100085223163,
+      "ratio": 0.8667770101144325
+    },
+    {
+      "frame": 7,
+      "native_error": 3.5898820213035303,
+      "restored_error": 3.2957540837040655,
+      "ratio": 0.9180675198087253
+    },
+    {
+      "frame": 8,
+      "native_error": 3.5933158874511717,
+      "restored_error": 3.135254934805411,
+      "ratio": 0.8725241623633945
+    },
+    {
+      "frame": 9,
+      "native_error": 3.769141224048756,
+      "restored_error": 3.0007020229763457,
+      "ratio": 0.7961235317558719
+    },
+    {
+      "frame": 10,
+      "native_error": 4.28724624633789,
+      "restored_error": 3.2934795690465855,
+      "ratio": 0.7682039658579987
+    },
+    {
+      "frame": 11,
+      "native_error": 3.787132127549913,
+      "restored_error": 3.711330470332393,
+      "ratio": 0.9799844170563544
+    },
+    {
+      "frame": 12,
+      "native_error": 3.7383184023256657,
+      "restored_error": 2.924681922064887,
+      "ratio": 0.7823522791010518
+    },
+    {
+      "frame": 13,
+      "native_error": 3.7737699777108653,
+      "restored_error": 3.0428373548719616,
+      "ratio": 0.8063123541826784
+    }
+  ],
+  "passed": true,
+  "method": "Native optical flow applied to both sequences; restored residual error must be <1.2x native"
+}

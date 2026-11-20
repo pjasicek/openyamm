@@ -1,0 +1,3 @@
+# monster_zombie (overnight-zombie)
+Phase: third pass (neck graft) done, installed, bound, viewer r15, review root refreshed, lease released. Credits 40/40 (third pass 0). Neck/chest in viewer light from up to 1.64 to 0.88-0.95 on all tiers; head ramps, grain band, hairline mask. Regression PASS, 147 descriptors on 58 models, 0 failed. README has the table and what remains. Earlier: second pass, viewer r10; project level_generation/creatures/mm9_zombie_claude.
+Remaining fails: collapse neck/head 20, body 20 (not zero); jitter gate 5 clips (AttackMelee R upper arm 1.9 deg/f, floor raises on Death, Resurrect, Wakeup); Wakeup script clip not corrected.

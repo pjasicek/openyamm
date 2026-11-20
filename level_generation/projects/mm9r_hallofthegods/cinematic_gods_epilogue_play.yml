@@ -1,0 +1,26 @@
+# gods_epilogue (WinMan.scr Part2 :Init on load with key 109 and without the Writ of Fate; cinematics_hall.py) played
+# through: the gods gather at 1 s, the Writ of Fate (394) at :End (101.6 s), the gods gone again at :Release (104.6 s).
+id: mm9r.hallofthegods.cinematic_gods_epilogue_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: hallofthegods.blv}
+- setup_shortcut: {kind: set_qbit, id: 90109}
+- console: {line: cinematic list, expect_contains: gods_epilogue}
+- note: {text: "the map's load event (WinMan.scr :Init) starts the cinematic"}
+- execute_event: {id: 1}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing gods_epilogue}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 1.0}
+- assert: {state_dump_named_map_var: {name: Cinema.gods_epilogue.step.gather, value: 1}}
+- advance_runtime: {seconds: 99.5}
+- assert: {state_dump_named_map_var: {name: Cinema.gods_epilogue.step.writ, value: 0}}
+- console: {line: cinematic list, expect_contains: playing gods_epilogue}
+- advance_runtime: {seconds: 1}
+- note: {text: ":End (101.6 s): the Writ of Fate"}
+- assert: {state_dump_named_map_var: {name: Cinema.gods_epilogue.step.writ, value: 1}}
+- assert: {state_dump_named_map_var: {name: CinemaDone, value: 0}}
+- advance_runtime: {seconds: 4}
+- note: {text: ":Release (104.6 s)"}
+- assert: {state_dump_named_map_var: {name: CinemaDone, value: 1}}

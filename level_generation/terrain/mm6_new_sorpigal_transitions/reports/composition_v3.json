@@ -1,0 +1,176 @@
+{
+  "masks": [
+    {
+      "tile": "6drsrecap",
+      "changed_mask_fraction": 0.00035858154296875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrew",
+      "changed_mask_fraction": 0.00078582763671875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrew_s",
+      "changed_mask_fraction": 0.002674102783203125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrn_e",
+      "changed_mask_fraction": 0.004833221435546875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrn_w",
+      "changed_mask_fraction": 0.0035552978515625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrns",
+      "changed_mask_fraction": 0.003238677978515625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrs_e",
+      "changed_mask_fraction": 0.003719329833984375,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrs_w",
+      "changed_mask_fraction": 0.00212860107421875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6drsrwcap",
+      "changed_mask_fraction": 0.00089263916015625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrte",
+      "changed_mask_fraction": 0.0016326904296875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtn",
+      "changed_mask_fraction": 0.002109527587890625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtne",
+      "changed_mask_fraction": 0.001667022705078125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtnw",
+      "changed_mask_fraction": 0.00203704833984375,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrts",
+      "changed_mask_fraction": 0.003101348876953125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtse",
+      "changed_mask_fraction": 0.002044677734375,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtsw",
+      "changed_mask_fraction": 0.00191497802734375,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtw",
+      "changed_mask_fraction": 0.002285003662109375,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtxne",
+      "changed_mask_fraction": 0.00347900390625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtxnw",
+      "changed_mask_fraction": 0.003475189208984375,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtxse",
+      "changed_mask_fraction": 0.006877899169921875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "6grdrtxsw",
+      "changed_mask_fraction": 0.00182342529296875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrte",
+      "changed_mask_fraction": 0.006832122802734375,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtn",
+      "changed_mask_fraction": 0.00278472900390625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtne",
+      "changed_mask_fraction": 0.00274658203125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtnw",
+      "changed_mask_fraction": 0.0034942626953125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrts",
+      "changed_mask_fraction": 0.0161590576171875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtse",
+      "changed_mask_fraction": 0.02130126953125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtsw",
+      "changed_mask_fraction": 0.00481414794921875,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtw",
+      "changed_mask_fraction": 0.004352569580078125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtxne",
+      "changed_mask_fraction": 0.0113525390625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtxnw",
+      "changed_mask_fraction": 0.009204864501953125,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtxse",
+      "changed_mask_fraction": 0.001163482666015625,
+      "interior_unchanged": true
+    },
+    {
+      "tile": "voldrtxsw",
+      "changed_mask_fraction": 0.00116729736328125,
+      "interior_unchanged": true
+    }
+  ],
+  "blend": "linear-light",
+  "mask_normalization": "AI coverage threshold at128, shared edge SDF constraints and narrow antialias",
+  "locked_strip": 8,
+  "repair_zone": 24,
+  "masters": "seam derivatives; accepted central448x448 interiors unchanged",
+  "runtime_size": 256,
+  "authoring_size": 512
+}

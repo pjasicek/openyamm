@@ -1,0 +1,629 @@
+{
+ "id": "20261009-1649-mm8-d41-22",
+ "world": "mm8",
+ "maps": [
+  "d41.blv",
+  "d26.blv",
+  "out05.odm"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/gkp1-rt",
+  "mm8/t66e01r1",
+  "mm8/t66d01p1",
+  "mm8/gkp2-l",
+  "mm8/gkp2-r",
+  "mm8/gkp4-flr",
+  "mm8/t18a01a",
+  "mm8/t18a01b",
+  "mm8/t18a04b",
+  "mm8/t18a12b",
+  "mm8/t18b01",
+  "mm8/t18b01b",
+  "mm8/t18b04c",
+  "mm8/t18b12b",
+  "mm8/t18a04a",
+  "mm8/t18b04b",
+  "mm8/t18a07",
+  "mm8/t18b03a",
+  "mm8/t18b03b",
+  "mm8/t18a03a",
+  "mm8/t18a03b",
+  "mm8/t18a06",
+  "mm8/t18b04a",
+  "mm8/t18a04c"
+ ],
+ "requests": {
+  "mm8/gkp1-rt": {
+   "name": "gkp1-rt",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints between brown wooden beams with a diagonal brace",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-ts",
+      "mm8/gkp1-rb"
+     ],
+     "fraction": 0.755
+    },
+    "2": {
+     "sources": [
+      "mm8/gkp1-ts",
+      "mm8/gkp1-rb"
+     ],
+     "fraction": 0.755
+    }
+   }
+  },
+  "mm8/t66e01r1": {
+   "name": "t66e01r1",
+   "versions": [],
+   "material": "thin horizontal brown wooden band with small round brass studs",
+   "notes": {}
+  },
+  "mm8/t66d01p1": {
+   "name": "t66d01p1",
+   "versions": [
+    1
+   ],
+   "material": "dark navy blue woven tapestry fabric with a pale gold arabesque scroll pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gkp2-l": {
+   "name": "gkp2-l",
+   "versions": [
+    1
+   ],
+   "material": "pale beige rough-hewn limestone blocks with a vertical recessed stone column",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp2-bs1"
+     ],
+     "fraction": 0.35
+    }
+   }
+  },
+  "mm8/gkp2-r": {
+   "name": "gkp2-r",
+   "versions": [
+    1
+   ],
+   "material": "pale beige rough-hewn limestone blocks with a vertical recessed stone column",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp2-bs1"
+     ],
+     "fraction": 0.35
+    }
+   }
+  },
+  "mm8/gkp4-flr": {
+   "name": "gkp4-flr",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone floor tile carved with a recessed cross pattern dividing four square panels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t18a01a": {
+   "name": "t18a01a",
+   "versions": [
+    1
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t18a01b": {
+   "name": "t18a01b",
+   "versions": [
+    1
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a small square iron-grated window in a stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.822
+    }
+   }
+  },
+  "mm8/t18a04b": {
+   "name": "t18a04b",
+   "versions": [
+    1
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a narrow round-topped dark window recess in a stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.591
+    }
+   }
+  },
+  "mm8/t18a12b": {
+   "name": "t18a12b",
+   "versions": [
+    1
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a small carved oval green stone medallion",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.861
+    }
+   }
+  },
+  "mm8/t18b01": {
+   "name": "t18b01",
+   "versions": [
+    1
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar above a pale green stone ledge and a darker base course",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.744
+    }
+   }
+  },
+  "mm8/t18b01b": {
+   "name": "t18b01b",
+   "versions": [],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a small square iron-grated window, above a pale green stone ledge",
+   "notes": {}
+  },
+  "mm8/t18b04c": {
+   "name": "t18b04c",
+   "versions": [],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a narrow round-topped dark window recess, above a pale green stone ledge",
+   "notes": {}
+  },
+  "mm8/t18b12b": {
+   "name": "t18b12b",
+   "versions": [],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with a small carved oval green stone medallion, above a pale green stone ledge",
+   "notes": {}
+  },
+  "mm8/t18a04a": {
+   "name": "t18a04a",
+   "versions": [
+    1
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with two narrow vertical slit windows glowing pale yellow",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.742
+    }
+   }
+  },
+  "mm8/t18b04b": {
+   "name": "t18b04b",
+   "versions": [],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with two narrow vertical slit windows glowing pale yellow, above a pale green stone ledge",
+   "notes": {}
+  },
+  "mm8/t18a07": {
+   "name": "t18a07",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar beside a column of pale green carved stone quoin blocks with spiral reliefs",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.567
+    },
+    "2": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.567
+    },
+    "3": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.567
+    },
+    "4": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.567
+    },
+    "5": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.567
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "5": {
+     "right": "mm8/t18a01b",
+     "left": "mm8/t18a01a"
+    }
+   }
+  },
+  "mm8/t18b03a": {
+   "name": "t18b03a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar around a tall pointed-arch gateway with a dark wooden portcullis of spiked bars",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18b01"
+     ],
+     "fraction": 0.152
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b01"
+     ],
+     "fraction": 0.152
+    },
+    "3": {
+     "sources": [
+      "mm8/t18b01"
+     ],
+     "fraction": 0.152
+    },
+    "4": {
+     "sources": [
+      "mm8/t18b01",
+      "mm8/t18b04b"
+     ],
+     "fraction": 0.152
+    },
+    "5": {
+     "sources": [
+      "mm8/t18b01",
+      "mm8/t18b04b"
+     ],
+     "fraction": 0.152
+    }
+   },
+   "pad": {
+    "4": [
+     16,
+     32
+    ],
+    "5": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "4": {
+     "top": "mm8/t18b01"
+    },
+    "5": {
+     "top": "mm8/t18b01"
+    }
+   }
+  },
+  "mm8/t18b03b": {
+   "name": "t18b03b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar around a tall pointed-arch gateway with a dark wooden portcullis of spiked bars",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18b01"
+     ],
+     "fraction": 0.15
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b04b"
+     ],
+     "fraction": 0.149
+    },
+    "3": {
+     "sources": [
+      "mm8/t18b04b"
+     ],
+     "fraction": 0.149
+    },
+    "4": {
+     "sources": [
+      "mm8/t18b04b"
+     ],
+     "fraction": 0.149
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t18b03a",
+     "top": "mm8/t18b01"
+    },
+    "4": {
+     "left": "mm8/t18b03a",
+     "top": "mm8/t18b01"
+    }
+   }
+  },
+  "mm8/t18a03a": {
+   "name": "t18a03a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar around a tall pointed-arch gateway with a dark wooden portcullis of spiked bars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18b03a",
+      "mm8/t18a12b"
+     ],
+     "fraction": 0.986
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b03a",
+      "mm8/t18a12b"
+     ],
+     "fraction": 0.986
+    },
+    "3": {
+     "sources": [
+      "mm8/t18b03a",
+      "mm8/t18a12b"
+     ],
+     "fraction": 0.977
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t18a07"
+    }
+   }
+  },
+  "mm8/t18a03b": {
+   "name": "t18a03b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar around a tall pointed-arch gateway with a dark wooden portcullis of spiked bars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18b03b",
+      "mm8/t18a04a"
+     ],
+     "fraction": 0.985
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b03b",
+      "mm8/t18a04a"
+     ],
+     "fraction": 0.977
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t18a03a",
+     "right": "mm8/t18a06"
+    }
+   }
+  },
+  "mm8/t18a06": {
+   "name": "t18a06",
+   "versions": [
+    1
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar beside a column of pale green carved stone quoin blocks with spiral reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18a01a"
+     ],
+     "fraction": 0.567
+    }
+   }
+  },
+  "mm8/t18b04a": {
+   "name": "t18b04a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with an arched window of glowing pale yellow leaded glass in a stone frame, above a pale green stone ledge",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18b01",
+      "mm8/t18a04b"
+     ],
+     "fraction": 0.487
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b04c",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.487
+    },
+    "3": {
+     "sources": [
+      "mm8/t18b04c",
+      "mm8/t18b01"
+     ],
+     "fraction": 0.487
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t18b01b",
+     "right": "mm8/t18b01",
+     "bottom": "mm8/t18b01b"
+    },
+    "3": {
+     "left": "mm8/t18b01b",
+     "right": "mm8/t18b01",
+     "bottom": "mm8/t18b01b"
+    }
+   }
+  },
+  "mm8/t18a04c": {
+   "name": "t18a04c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy dark green-grey rough stone blocks with dark mortar with an arched window of glowing pale yellow leaded glass in a stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t18b04a",
+      "mm8/t18a04b"
+     ],
+     "fraction": 0.972
+    },
+    "2": {
+     "sources": [
+      "mm8/t18b04a",
+      "mm8/t18a04b"
+     ],
+     "fraction": 0.972
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t18a07",
+     "right": "mm8/t18a06",
+     "bottom": "mm8/t18a01b"
+    }
+   }
+  }
+ }
+}

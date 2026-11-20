@@ -1,0 +1,47 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/rim",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "kreegan_road_notch",
+   "position": [
+    2880,
+    -21800,
+    1216
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0303
+  },
+  {
+   "name": "grafting_nw",
+   "position": [
+    -13300,
+    13300,
+    1120
+   ],
+   "yaw": 2.3562,
+   "pitch": -0.0119
+  },
+  {
+   "name": "south_edge_from_crown",
+   "position": [
+    2880,
+    -20200,
+    1152
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0152
+  },
+  {
+   "name": "top_down",
+   "position": [
+    0,
+    -1000,
+    26000
+   ],
+   "yaw": 1.5708,
+   "pitch": -1.55
+  }
+ ]
+}

@@ -1,0 +1,243 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.verhoffinruins_doors_exits
+title: Verhoffin Ruins (native BLV) - the exit, doors, a key door, a bolted door
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: verhoffinruins.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 230): the stair up to the Isle of Ashes, east of the start.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: verhoffinruins.blv
+      x: -1230
+      y: -5969
+      z: -327
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: verhoffinruins.blv
+      x: -830
+      y: -5969
+      z: -112
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 500
+    tolerance_z: 300
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 230
+- load_map:
+    map: verhoffinruins.blv
+- note:
+    text: DoubleDoorL1/R1 is shut and stops the party walking south into it.
+- assert:
+    mechanism:
+      id: 27
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: verhoffinruins.blv
+      x: -901
+      y: -1432
+      z: -327
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: verhoffinruins.blv
+      x: -901
+      y: -1702
+      z: -327
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 90
+    tolerance_z: 40
+- note:
+    text: A click on the leaves opens the pair; the party walks through.
+- set_pose:
+    map: verhoffinruins.blv
+    x: -901
+    y: -1632
+    z: -327
+    yaw: -1.5708
+    pitch: -0.2796
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 27
+      state: open
+- assert:
+    mechanism:
+      id: 28
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: verhoffinruins.blv
+      x: -901
+      y: -1432
+      z: -327
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: verhoffinruins.blv
+      x: -901
+      y: -2182
+      z: -327
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 40
+- note:
+    text: DoubleDoorL10/R10 (MM9 Locked, nothing unlocks it) stays shut on a click.
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4560
+    y: -5407
+    z: -327
+    yaw: 3.1416
+    pitch: -0.2796
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 29
+      state: closed
+- note:
+    text: Door5 (DoorLock.scr "559 1") stays locked without its key.
+- set_pose:
+    map: verhoffinruins.blv
+    x: -402
+    y: 492
+    z: -327
+    yaw: 3.1416
+    pitch: -0.2796
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 55
+      state: closed
+- note:
+    text: The key on the table (Prop0, givetake.scr 559), a world item, picked up.
+- set_pose:
+    map: verhoffinruins.blv
+    x: 3072
+    y: -5900
+    z: -327
+    yaw: -1.5708
+    pitch: -0.6772
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    inventory_any_member:
+    - item_id: 10559
+      count: 1
+- note:
+    text: With the key Door5 opens on a click and the key is taken.
+- set_pose:
+    map: verhoffinruins.blv
+    x: -402
+    y: 492
+    z: -327
+    yaw: 3.1416
+    pitch: -0.2796
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 55
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: Door5Unlocked
+      value: 1
+- note:
+    text: 'PrisonDoor2 is bolted (DestructableBrush12, a scene destructible of 50 hit points): a hit one short of them turns
+      its hint off (DamageTrigger) and leaves it and the door shut; a click on the bolt breaks it (the shared click''s killing
+      blow); then the door opens on a click.'
+- console:
+    line: destructible 648 damage 49
+    expect_contains: damage
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: BoltHintOff
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: BoltBroken
+      value: 0
+- assert:
+    mechanism:
+      id: 61
+      state: closed
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4506
+    y: -4416
+    z: -327
+    yaw: 1.5708
+    pitch: -0.1517
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    state_dump_named_map_var:
+      name: BoltBroken
+      value: 1
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4506
+    y: -4410
+    z: -327
+    yaw: 1.5708
+    pitch: -0.2796
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 61
+      state: open

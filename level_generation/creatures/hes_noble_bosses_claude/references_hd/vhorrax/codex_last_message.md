@@ -1,0 +1,3 @@
+Saved five transparent 1024×1536 masters, six raw returns, prompts/hashes in `generation_runs.json`, and [selected_views_review.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_noble_bosses_claude/references_hd/vhorrax/selected_views_review.png).
+
+Used built-in imagegen; stopped before modelling or builds. Exact few-pixel anatomy alignment remains unverified; review overlays are included.

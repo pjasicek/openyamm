@@ -1,0 +1,22 @@
+format: 0
+id: calib_mm8_d05
+name: Abandoned Temple
+world: mm8
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9711
+  reference: d05.blv
+neighbours:
+  - id: exit:back_door
+    to: out01.odm
+    kind: door
+    arrival: [21519, 21106, 97]
+    direction: 180
+  - id: exit:pyramid_top
+    to: out01.odm
+    kind: door
+    arrival: [-12789, 18734, 1857]
+    direction: 270
+migrated: [platform_in_sunken_level]
+notes: "Rebuild of MM8's Abandoned Temple (d05.blv) in the original's own frame, as a test of the studio's vocabulary. See NOTES.md."

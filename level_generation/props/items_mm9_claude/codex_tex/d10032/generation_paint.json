@@ -1,0 +1,31 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png exactly, a 1536x2048 transparent 3:4 atlas of 3 columns by FOUR rows of 512 square cells. Use case: precise-object-edit. Image 1 is the exact guide/edit target; image 2 design_reference.png is approved material/detail reference; image 3 icon_x8.png is binding original design and colour reference (magenta is background only).\nPreserve every guide silhouette, position, size, orientation, gaps, and outline EXACTLY. Do not enlarge, move, redraw or redesign geometry. The unusual end-on and edge-on views must remain end-on and edge-on, not turn into full swords.\nRows 1-2 PAINT: paint only the grey objects with unlit base colour. Faithfully reproduce original MM9 Baselard: broad straight double-edged spear-point steel blade, thin muted-gold guard, compact dark-brown leather grip, small gold pommel, restrained MM6-MM8 inventory style. Follow reference detail scaled to each view, no embellishment. No lighting, shadows, AO, hot highlights or reflections. Steel pale grey with restrained fine surface texture, muted gold metal, dark brown wrapped leather.\nRows 3-4 MATERIAL MASK: same five silhouettes and exact geometry as above, filled FLAT PURE COLOURS. Every metal surface including blade, guard and pommel pure red #FF0000. Leather grip pure green #00FF00. If present cloth/hair pure blue #0000FF; matte nonmetal solids pure yellow #FFFF00; gems/glass/enamel/liquid pure black #000000. No texture, shading, outlines or antialiased colour blends inside mask regions. Every silhouette pixel exactly one material colour.\nLayout of each two-row block: FRONT, BACK, LEFT / RIGHT, TOP, empty, as physically pictured in guide. Repeat same layout in lower two rows for masks. Column 3 of rows 2 and 4 stays completely transparent.\nOutput ONE PNG on genuine transparent alpha, 1536x2048 or nearest 3:4 size. Nothing outside silhouettes. No background, text, ground, outlines, glow, halo, sparkles. Paint sheet only.",
+  "mode": "built-in image_gen",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac43-c817-7be0-8d95-445c44f7c0f1/exec-20fcb0de-b246-4fab-8395-ac3fa1995c42.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10032/paint_mask_raw_v1.png",
+  "corrective_generation": {
+    "prompt": "Edit the attached paint_mask_guide.png exactly, a 1536x2048 transparent 3:4 atlas of 3 columns by FOUR rows of 512 square cells. Use case: precise-object-edit. Image 1 is the exact guide/edit target; image 2 design_reference.png is approved material/detail reference; image 3 icon_x8.png is binding original design and colour reference (magenta is background only).\nPreserve every guide silhouette, position, size, orientation, gaps, and outline EXACTLY. Do not enlarge, move, redraw or redesign geometry. The unusual end-on and edge-on views must remain end-on and edge-on, not turn into full swords.\nRows 1-2 PAINT: paint only the grey objects with unlit base colour. Faithfully reproduce original MM9 Baselard: broad straight double-edged spear-point steel blade, thin muted-gold guard, compact dark-brown leather grip, small gold pommel, restrained MM6-MM8 inventory style. Follow reference detail scaled to each view, no embellishment. No lighting, shadows, AO, hot highlights or reflections. Steel pale grey with restrained fine surface texture, muted gold metal, dark brown wrapped leather.\nRows 3-4 MATERIAL MASK: same five silhouettes and exact geometry as above, filled FLAT PURE COLOURS. Every metal surface including blade, guard and pommel pure red #FF0000. Leather grip pure green #00FF00. If present cloth/hair pure blue #0000FF; matte nonmetal solids pure yellow #FFFF00; gems/glass/enamel/liquid pure black #000000. No texture, shading, outlines or antialiased colour blends inside mask regions. Every silhouette pixel exactly one material colour.\nLayout of each two-row block: FRONT, BACK, LEFT / RIGHT, TOP, empty, as physically pictured in guide. Repeat same layout in lower two rows for masks. Column 3 of rows 2 and 4 stays completely transparent.\nOutput ONE PNG on genuine transparent alpha, 1536x2048 or nearest 3:4 size. Nothing outside silhouettes. No background, text, ground, outlines, glow, halo, sparkles. Paint sheet only.\nCORRECTION PRIORITY: The previous attempt produced ragged stray pixels outside the guide silhouettes and distorted blade edges. Match the original guide's clean silhouettes rigorously. Keep thin edge-on blades perfectly straight and narrow, no extra outline or duplicate contours. All outer pixels must be transparent. The bottom mask silhouettes must have clean edges and solid pure red and green interiors, with no noisy flecks or tendrils. Use the original guide as the spatial template.",
+    "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac43-c817-7be0-8d95-445c44f7c0f1/exec-5bdc4f29-9c4c-438f-9639-e03c5bd154d8.png",
+    "selected": false
+  },
+  "validation_notes": "Layout retained; edge artifacts and non-flat mask pixels remain after one permitted corrective generation. First generation selected as cleaner overall. Raw tool output copied unchanged.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10032/paint_mask_guide.png",
+      "sha256": "d16bf0c29694899a14b3c0e57586ee908b3131b27de53e09961b169972dd3cff"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10032/design_reference.png",
+      "sha256": "a3c25c5433b4180c8d5fb2c661d5a209d32f0fa24d43b5ef8423414e4a3e5a04"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10032/icon_x8.png",
+      "sha256": "a1c292154b8dc1dc38f49953457c16e5fc0b39f0649ea4eff7e09dfb49fffaf2"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "image_mode": "RGBA"
+}

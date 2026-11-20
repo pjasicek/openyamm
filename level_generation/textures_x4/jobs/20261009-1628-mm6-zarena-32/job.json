@@ -1,0 +1,825 @@
+{
+ "id": "20261009-1628-mm6-zarena-32",
+ "world": "mm6",
+ "maps": [
+  "zarena.blv",
+  "outc2.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/d7dor2s",
+  "mm6/tavctr",
+  "mm6/tavle",
+  "mm6/tavre",
+  "mm6/gbrtw",
+  "mm6/rokcsm",
+  "mm6/tav128wl",
+  "mm6/gblftw",
+  "mm6/gbwin",
+  "mm6/strrew",
+  "mm6/strre",
+  "mm6/strwin2",
+  "mm6/pbdorb1",
+  "mm6/strle",
+  "mm6/gbsmdr",
+  "mm6/rokrt",
+  "mm6/roklft",
+  "mm6/strlew",
+  "mm6/strwin1",
+  "mm6/rokwin",
+  "mm6/tavwle",
+  "mm6/rokend",
+  "mm6/rokdr2",
+  "mm6/pbrdr1"
+ ],
+ "requests": {
+  "mm6/d7dor2s": {
+   "name": "d7dor2s",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow rusty orange-brown weathered metal door edge strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/tavctr": {
+   "name": "tavctr",
+   "versions": [
+    1
+   ],
+   "material": "tavern house wall of rough brown sandstone blocks in irregular courses with soft dark shadowed joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/tavle": {
+   "name": "tavle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tavern house wall of rough brown sandstone blocks in irregular courses with soft dark shadowed joints",
+   "notes": {
+    "2": "Continue the neighbouring tavsmdr seamlessly across the right edge: the same stone blocks, mortar lines and brightness carry straight across the joint, with no vertical line or step."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tavctr"
+     ],
+     "fraction": 0.668
+    },
+    "2": {
+     "sources": [
+      "mm6/tavctr"
+     ],
+     "fraction": 0.668
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/tavsmdr"
+    },
+    "2": {
+     "right": "mm6/tavsmdr"
+    }
+   }
+  },
+  "mm6/tavre": {
+   "name": "tavre",
+   "versions": [
+    1
+   ],
+   "material": "tavern house wall of rough brown sandstone blocks in irregular courses with soft dark shadowed joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tavctr"
+     ],
+     "fraction": 0.707
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/tavle"
+    }
+   }
+  },
+  "mm6/gbrtw": {
+   "name": "gbrtw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house wall of dark charcoal bricks with reddish mortar, with a tall narrow golden ornamental leaded window in a dark stone frame and a raised dark stone pilaster on the right; copy the composition exactly",
+   "notes": {
+    "2": "Rebuilt on the corrected relative: no line or rim at the edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gbrt"
+     ],
+     "fraction": 0.651
+    },
+    "2": {
+     "sources": [
+      "mm6/gbrt"
+     ],
+     "fraction": 0.651
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/gbcnt"
+    },
+    "2": {
+     "left": "mm6/gbcnt"
+    }
+   }
+  },
+  "mm6/rokcsm": {
+   "name": "rokcsm",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey-green rounded fieldstones under a brown wooden beam at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/tav128wl": {
+   "name": "tav128wl",
+   "versions": [
+    1
+   ],
+   "material": "tavern house wall of rough brown sandstone blocks in irregular courses with soft dark shadowed joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tavle",
+      "mm6/tavre"
+     ],
+     "fraction": 0.936
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/tavle",
+     "right": "mm6/tavre",
+     "top": "mm6/tavle"
+    }
+   }
+  },
+  "mm6/gblftw": {
+   "name": "gblftw",
+   "versions": [
+    1
+   ],
+   "material": "house wall of dark charcoal bricks with reddish mortar, with a raised dark stone pilaster on the left and a tall narrow golden ornamental leaded window in a dark stone frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gblft",
+      "mm6/gbend",
+      "mm6/gbcnt",
+      "mm6/gbrtw"
+     ],
+     "fraction": 0.938
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/gbcnt"
+    }
+   }
+  },
+  "mm6/gbwin": {
+   "name": "gbwin",
+   "versions": [
+    1
+   ],
+   "material": "house wall of dark charcoal bricks with reddish mortar, with a tall narrow golden ornamental leaded window in a dark stone frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gbcnt",
+      "mm6/gbrt",
+      "mm6/gbrtw"
+     ],
+     "fraction": 0.908
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/gbrt",
+     "left": "mm6/gblft",
+     "bottom": "mm6/gbcnt",
+     "top": "mm6/gbcnt"
+    }
+   }
+  },
+  "mm6/strrew": {
+   "name": "strrew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house wall of mauve-brown irregular rounded flagstones with pale mortar, with an arched diamond-paned leaded window with an iron latch and a column of rounded quoin stones along the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.138
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.173
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/strctr"
+    },
+    "2": {
+     "left": "mm6/strctr"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/strre": {
+   "name": "strre",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house wall of mauve-brown irregular rounded flagstones with pale mortar, with a column of rounded quoin stones along the right edge",
+   "notes": {
+    "3": "The corner shadow on the right fades in gradually from the left; no straight vertical edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strctr",
+      "mm6/strrew"
+     ],
+     "fraction": 0.864
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr",
+      "mm6/strrew"
+     ],
+     "fraction": 0.866
+    },
+    "3": {
+     "sources": [
+      "mm6/strctr",
+      "mm6/strrew"
+     ],
+     "fraction": 0.864
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/strctr",
+     "bottom": "mm6/strctr"
+    },
+    "2": {
+     "left": "mm6/strctr",
+     "bottom": "mm6/strctr",
+     "top": "mm6/strctr",
+     "right": "mm6/bemdk4"
+    },
+    "3": {
+     "left": "mm6/strctr",
+     "bottom": "mm6/strctr",
+     "top": "mm6/strctr",
+     "right": "mm6/bemdk4"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/strwin2": {
+   "name": "strwin2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house wall of mauve-brown irregular rounded flagstones with pale mortar, with an arched diamond-paned leaded window with an iron latch in a rounded stone surround; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strrew",
+      "mm6/strctr"
+     ],
+     "fraction": 0.792
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr",
+      "mm6/strrew"
+     ],
+     "fraction": 0.806
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm6/strctr",
+     "right": "mm6/strre",
+     "top": "mm6/strctr",
+     "left": "mm6/strctr"
+    },
+    "2": {
+     "bottom": "mm6/strctr",
+     "right": "mm6/strre",
+     "top": "mm6/strctr",
+     "left": "mm6/strctr"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/pbdorb1": {
+   "name": "pbdorb1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "arched brown plank double door with iron straps and a latch plate set in a tan brick wall under a red-brown wooden lintel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrst"
+     ],
+     "fraction": 0.357
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrre",
+      "mm6/pbrle",
+      "mm6/pbrlew",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.355
+    },
+    "3": {
+     "sources": [
+      "mm6/pbrst",
+      "mm6/pbrre",
+      "mm6/pbrle"
+     ],
+     "fraction": 0.356
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/pbrre",
+     "left": "mm6/pbrle"
+    },
+    "2": {
+     "right": "mm6/pbrre",
+     "left": "mm6/pbrle"
+    },
+    "3": {
+     "right": "mm6/pbrre",
+     "left": "mm6/pbrle"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/strle": {
+   "name": "strle",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house wall of mauve-brown irregular rounded flagstones with pale mortar, with a column of rounded quoin stones along the left edge",
+   "notes": {
+    "3": "The left edge is a column of rounded corner stones from x=0, as in the native, then a soft shadow onto the copied wall."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.662
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.844
+    },
+    "3": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.734
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/strre",
+     "top": "mm6/strctr"
+    },
+    "2": {
+     "right": "mm6/strre",
+     "bottom": "mm6/strctr",
+     "top": "mm6/strctr",
+     "left": "mm6/bemdk4"
+    },
+    "3": {
+     "right": "mm6/strre",
+     "bottom": "mm6/strctr",
+     "top": "mm6/strctr",
+     "left": "mm6/bemdk4"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/gbsmdr": {
+   "name": "gbsmdr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark brown plank door with a gilded ornate lock plate and brass handle in a thin gilt frame; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: dark grey-brown brick door jambs on both the left and the right side as in the reference, the wooden door between them; the bricks are dark grey-brown with reddish mortar, not blue. One continuous gold trim along the top and bottom of the door.",
+    "3": "Copy the composition exactly: the dark brick lintel across the top as in the reference, with one single gold frieze band directly below it at the top of the door (not two); brick jambs on both sides; no stray gold fragments outside the door."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gbdor"
+     ],
+     "fraction": 0.749
+    },
+    "2": {
+     "sources": [
+      "mm6/gbdor"
+     ],
+     "fraction": 0.749
+    },
+    "3": {
+     "sources": [
+      "mm6/gbdor"
+     ],
+     "fraction": 0.749
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/gblft"
+    },
+    "2": {
+     "left": "mm6/gblft"
+    },
+    "3": {
+     "left": "mm6/gblft"
+    }
+   }
+  },
+  "mm6/rokrt": {
+   "name": "rokrt",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey-green rounded fieldstones under a brown wooden beam at the top, with a vertical brown timber post on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rokcsm"
+     ],
+     "fraction": 0.538
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/rokcsm"
+    }
+   }
+  },
+  "mm6/roklft": {
+   "name": "roklft",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey-green rounded fieldstones under a brown wooden beam at the top, with a vertical brown timber post on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rokcsm",
+      "mm6/rokrt"
+     ],
+     "fraction": 0.656
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/rokcsm"
+    }
+   }
+  },
+  "mm6/strlew": {
+   "name": "strlew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house wall of mauve-brown irregular rounded flagstones with pale mortar, with a column of rounded quoin stones along the left edge and a diamond-paned leaded window with an iron latch; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strle"
+     ],
+     "fraction": 0.265
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr",
+      "mm6/strle",
+      "mm6/strwin2"
+     ],
+     "fraction": 0.342
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/strctr"
+    },
+    "2": {
+     "right": "mm6/strctr"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/strwin1": {
+   "name": "strwin1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house wall of mauve-brown irregular rounded flagstones with pale mortar, with a diamond-paned leaded window with an iron latch in a rounded stone surround; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/strlew",
+      "mm6/strctr"
+     ],
+     "fraction": 0.556
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr",
+      "mm6/strlew"
+     ],
+     "fraction": 0.593
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/strre",
+     "left": "mm6/strle",
+     "bottom": "mm6/strctr"
+    },
+    "2": {
+     "right": "mm6/strctr",
+     "left": "mm6/strctr",
+     "bottom": "mm6/strctr",
+     "top": "mm6/wood018a"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/rokwin": {
+   "name": "rokwin",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey-green rounded fieldstones under a brown wooden beam at the top, with a window closed by brown wooden louvered shutters; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rokcsm"
+     ],
+     "fraction": 0.544
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/rokcsm",
+     "right": "mm6/rokcsm"
+    }
+   }
+  },
+  "mm6/tavwle": {
+   "name": "tavwle",
+   "versions": [
+    1
+   ],
+   "material": "tavern house wall of rough brown sandstone blocks in irregular courses with soft dark shadowed joints, with a carved stone lion face mask and a small painted window showing standing figures; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tavle",
+      "mm6/tav128wl"
+     ],
+     "fraction": 0.515
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/tav128wl",
+     "top": "mm6/tavle"
+    }
+   }
+  },
+  "mm6/rokend": {
+   "name": "rokend",
+   "versions": [
+    1
+   ],
+   "material": "house wall of grey-green rounded fieldstones under a brown wooden beam at the top, with vertical brown timber posts on both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rokcsm"
+     ],
+     "fraction": 0.512
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/rokdr2": {
+   "name": "rokdr2",
+   "versions": [
+    1
+   ],
+   "material": "wide brown plank double door with iron bands and handles under a timber beam set in a grey-green fieldstone wall; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rokcsm"
+     ],
+     "fraction": 0.239
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/rokrt",
+     "left": "mm6/roklft"
+    }
+   }
+  },
+  "mm6/pbrdr1": {
+   "name": "pbrdr1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brown plank door with iron bands and a lock plate set in a tan brick wall under a wooden lintel; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: two thin iron bands close together near the top of the door, one band across the middle, two close bands near the bottom, and a flat horizontal iron latch plate on the right just above the middle band; keep the brick rows at the reference positions.",
+    "3": "Copy the composition exactly: two thin iron bands close together near the top of the door, one band across the middle, two close bands near the bottom, and a flat horizontal iron latch plate on the right just above the middle band; keep the brick rows at the reference positions."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrst"
+     ],
+     "fraction": 0.353
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrst"
+     ],
+     "fraction": 0.353
+    },
+    "3": {
+     "sources": [
+      "mm6/pbrst",
+      "mm6/pbrrew",
+      "mm6/pbrle"
+     ],
+     "fraction": 0.353
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/pbrrew",
+     "left": "mm6/pbrlew"
+    },
+    "2": {
+     "right": "mm6/pbrrew",
+     "left": "mm6/pbrlew"
+    },
+    "3": {
+     "right": "mm6/pbrrew",
+     "bottom": "mm6/gset04",
+     "left": "mm6/pbrlew"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   }
+  }
+ }
+}

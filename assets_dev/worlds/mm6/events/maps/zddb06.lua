@@ -89,7 +89,7 @@ RegisterEvent(7, "Mine", function()
         AddValue(MapVar(5), 1)
         return
     end
-    evt.SetTexture(166, "d3ll6")
+    evt.SetTexture(-166, "d3ll6")
     evt.StatusText("The vein dried up.")
 end, "Mine")
 
@@ -106,7 +106,7 @@ RegisterEvent(8, "Mine", function()
         AddValue(MapVar(6), 1)
         return
     end
-    evt.SetTexture(54, "d3ll6")
+    evt.SetTexture(-54, "d3ll6")
     evt.StatusText("The vein dried up.")
 end, "Mine")
 
@@ -123,7 +123,7 @@ RegisterEvent(9, "Mine", function()
         AddValue(MapVar(7), 1)
         return
     end
-    evt.SetTexture(164, "d3ll6")
+    evt.SetTexture(-164, "d3ll6")
     evt.StatusText("The vein dried up.")
 end, "Mine")
 

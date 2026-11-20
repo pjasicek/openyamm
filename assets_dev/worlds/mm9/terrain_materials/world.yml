@@ -1,0 +1,113 @@
+# MM9 rework: terrain materials of the mm9 world (installed as worlds/mm9/terrain_materials/world.yml in the review
+# root by the map conversions). The keys are described in worlds/mm6/terrain_materials/world.yml. MM9 has no tiles
+# of its own: its remade maps use the MM8 tile table and MM8's native tile art, named here.
+version: 1
+tile_table: terrain_tile_data.txt
+tile_art_world: mm8
+edge_softness: 110
+fringe:
+  strength: 1.6
+  scale: 2048
+meadow:
+  dry: [1.2, 1.06, 0.64]
+  lush: [0.78, 0.94, 0.82]
+materials:
+  grass:
+    meadow: 1.0
+    library: grass_meadow
+    reference_tile: grastyl
+    cliff_from: dirt
+    variant: grass_patches
+    variant_amount: 0.25
+    repeat: 360
+    height_contrast: 0.45
+    macro_brightness: 0.15
+    macro_tint: [1.1, 1.05, 0.85]
+    cavity: 0.3
+  dirt:
+    library: soil
+    reference_tile: dirttyl
+    variant: dirt_stones
+    variant_amount: 0.12
+    repeat: 520
+    height_contrast: 0.4
+    macro_brightness: 0.18
+    macro_tint: [0.9, 0.86, 0.86]
+    cavity: 0.6
+    normal_strength: 1.5
+  # MM9's rock ground is rough and broken, not layered: MM6's volcanic rough ground material.
+  rock:
+    library: rock_ground
+    reference_tile: rktyl
+    repeat: 640
+    height_contrast: 0.5
+    macro_brightness: 0.15
+    cavity: 0.5
+    normal_strength: 1.5
+  cliff:
+    library: rock_cliff
+    reference_tile: dirttyl
+    tint_scale: [1.3, 1.3, 1.3]
+    repeat: 640
+    height_contrast: 0.5
+    macro_brightness: 0.15
+    cavity: 0.4
+    normal_strength: 1.3
+  grass_patches:
+    meadow: 0.8
+    library: grass_patchy
+    tint_scale: [0.68, 0.72, 0.6]
+    repeat: 640
+    height_contrast: 0.25
+    cavity: 0.35
+  dirt_stones:
+    library: soil_stony
+    tint_scale: [0.57, 0.49, 0.48]
+    repeat: 640
+    height_contrast: 0.5
+    cavity: 0.8
+    normal_strength: 1.8
+  sand:
+    library: sand_ripples
+    reference_tile: dirttyl
+    tint_scale: [1.45, 1.42, 1.35]
+    repeat: 520
+    height_contrast: 0.3
+    macro_brightness: 0.12
+    cavity: 0.35
+    normal_strength: 1.2
+shore:
+  material: sand
+  beach_width: 150
+  beach_slope: 0.3
+  seabed_slope: 0.4
+  seabed_depth: 96
+  opaque_depth: 72
+  detail_depth: 24
+  range: 1024
+tiles:
+  - match: [wtrtyl]
+    water: true
+  - match: [grastyl, grastyl2]
+    material: grass
+  - match: [dirttyl, dirt1, dirt2]
+    material: dirt
+  - match: [rktyl, rktylx]
+    material: rock
+  - match: ["grdrt*"]
+    materials: [grass, dirt]
+  - match: ["rk*"]
+    materials: [rock, dirt]
+  - match: ["wtrdr*"]
+    material: dirt
+# Per-map shades: MM9's hue over the MM8 reference tile's brightness (MM9 darkens its brighter textures with
+# lightmaps), with a moderate lift where MM9 reads clearly lighter. First pass, to be tuned on screenshots.
+maps:
+  isleofashes.odm:
+    rock: {shade: [1.65, 1.55, 1.3]}         # tan ash cliffs (ashcliff, ashrock2, NWROCK)
+    grass: {shade: [1.2, 1.02, 0.9]}         # dry olive scrub (ashrock, MainGrass)
+    cliff: {shade: [1.25, 1.15, 0.95]}
+slope:
+  material: cliff
+  start: 0.36
+  end: 0.56

@@ -1,0 +1,137 @@
+{
+  "family": "pman",
+  "title": "MM6 male peasant 1",
+  "base_palette": 798,
+  "matte": "magenta",
+  "mask_kind": "green",
+  "variant_names": {
+    "798": "Green tunic",
+    "799": "Charcoal tunic",
+    "800": "Red tunic"
+  },
+  "regions": "green tunic only; protect fair skin, auburn hair, brown leather belt/cuffs/shoes and pale leggings",
+  "description": "The same adult male villager, lean average human build, fair lightly weathered skin, short wavy auburn-brown hair and subtle upper-lip stubble, not a full beard. A muted forest-GREEN rough woven tunic with short sleeves, simple shallow V neck, and a short mid-thigh hem with shallow split/notched front and back; wide brown leather belt with a small round brass buckle, dark brown cuff bands just above elbows, pale off-white fitted leggings, plain low brown leather shoes. Preserve his native face, adult proportions, clothing construction and silhouette. No added armor, cloak, hat, jewelry or decorative embroidery. Use native poses to determine whether hands are empty or hold attack equipment.",
+  "action_notes": {
+    "standing": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "walk_0": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "walk_1": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "walk_2": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "walk_3": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "walk_4": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "hit": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "fidget": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "death_corpse": "Hands remain EMPTY in every cell, with native relaxed fists or gestures. No knife in this action.",
+    "attack": "Preserve the native small straight pointed SILVER dagger in his RIGHT hand, dark short grip and modest guard, with the exact thrust/sweep angle per cell. LEFT hand remains empty. No large sword or extra scabbard."
+  },
+  "neutral_material_polygons": {
+    "pmanata0": [
+      [
+        169,
+        254
+      ],
+      [
+        197,
+        257
+      ],
+      [
+        199,
+        273
+      ],
+      [
+        173,
+        265
+      ]
+    ],
+    "pmanatb0": [
+      [
+        115,
+        201
+      ],
+      [
+        166,
+        213
+      ],
+      [
+        168,
+        228
+      ],
+      [
+        118,
+        211
+      ]
+    ],
+    "pmanatc0": [
+      [
+        260,
+        191
+      ],
+      [
+        291,
+        152
+      ],
+      [
+        299,
+        153
+      ],
+      [
+        271,
+        199
+      ]
+    ],
+    "pmanatd0": [
+      [
+        421,
+        57
+      ],
+      [
+        477,
+        7
+      ],
+      [
+        483,
+        11
+      ],
+      [
+        430,
+        68
+      ]
+    ],
+    "pmanate0": [
+      [
+        390,
+        134
+      ],
+      [
+        447,
+        85
+      ],
+      [
+        453,
+        89
+      ],
+      [
+        397,
+        146
+      ]
+    ],
+    "pmanatf0": [
+      [
+        287,
+        235
+      ],
+      [
+        345,
+        210
+      ],
+      [
+        350,
+        217
+      ],
+      [
+        292,
+        247
+      ]
+    ]
+  },
+  "local_repair_note": "The silver dagger picked up slight green in matte-derived RGB and entered the tunic mask. Reviewed blade-only polygons preserve encoded luma and alpha while removing green and forcing zero variant coverage. Coordinates are physical pixels in aligned masters; review/attack_coordinates.png records the location."
+}

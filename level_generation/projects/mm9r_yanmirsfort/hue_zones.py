@@ -1,0 +1,20 @@
+"""Zones of YANMIRSFORT.dat for ../mm9r_common/hue_vs_lightmaps.py: boxes in MM9's own units (x0, y0, z0, x1, y1, z1),
+y up. Ground floors at about 0-100, the upper wings at 320-512, the trap's basement at -376 (work/rooms*.png)."""
+ZONES = {
+    "entrance": (-3500, -50, -1200, -1050, 450, -700),
+    "great_hall": (-1050, -50, -2150, 2250, 1100, 0),
+    "hall_north": (-500, -50, 0, 900, 1100, 1900),
+    "west_wing": (-4000, 150, 0, -1050, 1100, 3500),
+    "north_quarters": (-1000, 150, 1950, 1100, 1100, 3900),
+    "east_wing": (1100, -50, 0, 3200, 1100, 2400),
+    "cage_hall": (2300, -50, -2350, 3900, 600, -700),
+    "west_cave": (-3700, -150, -5700, -900, 900, -3300),
+    "trap_hall": (-50, -100, -4300, 450, 900, -2200),
+    "basement": (-50, -450, -4300, 450, -120, -2500),
+    "basement_corridor": (-50, -450, -5900, 450, -120, -4300),
+    "dormitory": (1000, -50, -6400, 1800, 600, -5300),
+    "east_cave": (4300, -50, -6400, 6500, 900, -4800),
+    "treasury": (-300, -50, -8500, 1800, 600, -6800),
+    "east_barracks": (6400, -50, -7000, 7600, 600, -4800),
+    "children_room": (6100, -50, -800, 6800, 600, 300),
+}

@@ -1,0 +1,168 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "best_available_returns_do_not_pass_exact_brief",
+  "postprocessing": "None. All PNGs copied byte-for-byte; no resizing or alpha edits.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Edit the first input, guide_front.png, into a painted texture-source image. The second input, design_reference.png, is ONLY the colour and material reference, not the composition reference.\nReturn one 1024 x 1024 PNG with true transparent background, maintaining the first input's exact orthographic front projection and pixel registration. Preserve its EXACT silhouette, outline, size, position, all shape edges, overlaps, openings, thin stems and faceted ground chunks. Do not round off or redesign the mesh edges. Do not add, remove, move or crop anything.\nPaint the guide surfaces with the reference's pale cream and ivory fungus flesh with soft natural speckles, fine violet gills running up the stems and radiating under the caps, dark brown composted soil and woody debris on the existing ground shapes, and faint blue-white glowing tips on the two thin-stemmed small mushrooms. Preserve every visible shape from the guide, painting materials only.\nLIGHTING: this is albedo for texture projection, not a beauty render. Even flat shadowless light from the viewer, with no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint glowing parts at their blue-white local colour without cast light, bloom or halo. No text. Match the approved reference's material colours while removing its directional lighting. Exact guide silhouette and all internal shape edges are mandatory.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "93740a866929303a0f931a0975082e5288146118c8cd07a54192a7391ec2f800"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16050-de09-7213-b645-2c26610c94f1/exec-b7c14618-1ff0-4efc-9cbd-f110b2cf2c97.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by correction with more faithful angular tips and cap edges. Wrong output dimensions and silhouette drift.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches cream/ivory flesh, muted violet gills and dark brown substrate; front has blue-white tips.",
+        "flat_even_light": "Partial: residual surface and crevice shading remains.",
+        "accepted_as_exact_brief_compliant": false
+      },
+      "output_sha256": "b6ea4383e899fb49c503b1efc3236da98ac3eb78dd1e252ea3d940ccd19805f0"
+    },
+    {
+      "view": "top",
+      "prompt": "Edit the first input, guide_top.png, into a painted texture-source image. The second input, design_reference.png, is ONLY the colour and material reference, not the composition reference.\nReturn one 1024 x 1024 PNG with true transparent background, maintaining the first input's exact orthographic directly overhead top projection and pixel registration. Preserve its EXACT silhouette, outline, size, position, all shape edges, overlaps, openings and faceted ground chunks. Do not round off or redesign the mesh edges. Do not add, remove, move or crop anything. Do not turn this into a front or three-quarter view.\nPaint the guide surfaces with the reference's pale cream and ivory fungus flesh with soft natural speckles and delicate cap surface texture, violet gills only where actually exposed in this top view, dark brown composted soil and woody debris only on the guide's existing exposed ground shapes, and faint blue-white glowing tips only where the two thin-stemmed small mushrooms are visible. The dominant overlapping broad cap tops must remain exactly in their guide positions and shapes.\nLIGHTING: this is albedo for texture projection, not a beauty render. Even flat shadowless light from the viewer, with no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint glowing parts at their local colour without cast light, bloom or halo. No text. Match the approved reference's material colours while removing its directional lighting. Exact guide silhouette and all internal shape edges are mandatory.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "3a4ad296f1902d539769e220b77d26729da7fd25710ec8ed620e4d62b94fd431"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16050-de09-7213-b645-2c26610c94f1/exec-1fae7497-bb8e-4b33-827c-a9a7f2cd7792.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded: invented visible blue mushrooms and shaded cap centres; wrong dimensions and silhouette drift.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches cream/ivory flesh, muted violet gills and dark brown substrate; front has blue-white tips.",
+        "flat_even_light": "Partial: residual surface and crevice shading remains.",
+        "accepted_as_exact_brief_compliant": false
+      },
+      "output_sha256": "305164ce8a5e3bafdab0cc3d5a20b54c1fd765ff1472fb3e450abd3cb5a98570"
+    },
+    {
+      "view": "front",
+      "prompt": "Edit the first input, guide_front.png, into a painted texture-source image. The second input, design_reference.png, is ONLY the colour and material reference, not the composition reference.\nReturn one 1024 x 1024 PNG with true transparent background, maintaining the first input's exact orthographic front projection and pixel registration. Preserve its EXACT silhouette, outline, size, position, all shape edges, overlaps, openings, thin stems and faceted ground chunks. Do not round off or redesign the mesh edges. Do not add, remove, move or crop anything.\nPaint the guide surfaces with the reference's pale cream and ivory fungus flesh with soft natural speckles, fine violet gills running up the stems and radiating under the caps, dark brown composted soil and woody debris on the existing ground shapes, and faint blue-white glowing tips on the two thin-stemmed small mushrooms. Preserve every visible shape from the guide, painting materials only.\nLIGHTING: this is albedo for texture projection, not a beauty render. Even flat shadowless light from the viewer, with no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint glowing parts at their blue-white local colour without cast light, bloom or halo. No text. Match the approved reference's material colours while removing its directional lighting. Exact guide silhouette and all internal shape edges are mandatory.\nCORRECTIVE REGENERATION, the only correction permitted: output dimensions MUST be exactly 1024 by 1024 pixels, not 1254 by 1254. Copy the guide's alpha silhouette and internal borders precisely. The guide's foreground bounding box is x=66..957, y=174..849 within the 1024 square. The prior result rounded and moved edges and altered the ground chunks. Preserve the guide's polygonal contour, every chunk and gap exactly. Paint flat colour and fine material detail directly on the guide; reduce all shading and eliminate occlusion shadows. Return an unresized native 1024x1024 image.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "93740a866929303a0f931a0975082e5288146118c8cd07a54192a7391ec2f800"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16050-de09-7213-b645-2c26610c94f1/exec-d673b369-9ab9-408f-be60-89b51825b6a8.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available after the one permitted correction; improved angular shapes and matching material palette. NOT fully compliant: native dimensions differ, silhouette and internal edges drift, some shading remains.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches cream/ivory flesh, muted violet gills and dark brown substrate; front has blue-white tips.",
+        "flat_even_light": "Partial: residual surface and crevice shading remains.",
+        "accepted_as_exact_brief_compliant": false
+      },
+      "output_sha256": "1aab1b1310583a6cd948a6b256b5b49bc77eb9a6e98b4060a380a0dfd6b48233"
+    },
+    {
+      "view": "top",
+      "prompt": "Edit the first input, guide_top.png, into a painted texture-source image. The second input, design_reference.png, is ONLY the colour and material reference, not the composition reference.\nReturn one 1024 x 1024 PNG with true transparent background, maintaining the first input's exact orthographic directly overhead top projection and pixel registration. Preserve its EXACT silhouette, outline, size, position, all shape edges, overlaps, openings and faceted ground chunks. Do not round off or redesign the mesh edges. Do not add, remove, move or crop anything. Do not turn this into a front or three-quarter view.\nPaint the guide surfaces with the reference's pale cream and ivory fungus flesh with soft natural speckles and delicate cap surface texture, violet gills only where actually exposed in this top view, dark brown composted soil and woody debris only on the guide's existing exposed ground shapes, and faint blue-white glowing tips only where the two thin-stemmed small mushrooms are visible. The dominant overlapping broad cap tops must remain exactly in their guide positions and shapes.\nLIGHTING: this is albedo for texture projection, not a beauty render. Even flat shadowless light from the viewer, with no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint glowing parts at their local colour without cast light, bloom or halo. No text. Match the approved reference's material colours while removing its directional lighting. Exact guide silhouette and all internal shape edges are mandatory.\nCORRECTIVE REGENERATION, the only correction permitted: output dimensions MUST be exactly 1024 by 1024 pixels, not 1254 by 1254. Copy the guide's alpha silhouette and internal borders precisely. The guide's foreground bounding box is x=66..957, y=113..910 within the 1024 square. The prior result rounded polygon edges, invented visible blue mushrooms and darkened the cap centres. Preserve every guide polygon contour and overlap exactly; never reveal hidden mushrooms. Paint cap centres the same pale cream local colour as the rest of the cap, without depth shading or dark funnels. Flat albedo, no occlusion. Return an unresized native 1024x1024 image.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "3a4ad296f1902d539769e220b77d26729da7fd25710ec8ed620e4d62b94fd431"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "da93333ab1293f928e20e28a3eea5dff6be16f8a29dcbfe91b8b2c18a8074102"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16050-de09-7213-b645-2c26610c94f1/exec-c000b55b-c97e-4e83-b082-c24da0abb52b.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available after the one permitted correction; flatter cream cap colours and no invented blue tips. NOT fully compliant: native dimensions differ, silhouette and internal edges drift, some shading remains.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches cream/ivory flesh, muted violet gills and dark brown substrate; front has blue-white tips.",
+        "flat_even_light": "Partial: residual surface and crevice shading remains.",
+        "accepted_as_exact_brief_compliant": false
+      },
+      "output_sha256": "235bf382bd4dce12fe4d6bc063e4a0b9f717b832528c484c0fa6690942f36505"
+    }
+  ]
+}

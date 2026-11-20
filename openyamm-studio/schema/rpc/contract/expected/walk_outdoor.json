@@ -1,0 +1,137 @@
+{
+ "00 build into the project": {
+  "result": {
+   "map": "calib_harmondale.odm",
+   "kind": "outdoor",
+   "counts": {
+    "buildings": 41,
+    "faces": 4859,
+    "vertices": 6411,
+    "events": 128,
+    "entities": 570,
+    "spawns": 49
+   },
+   "files": [
+    "calib_harmondale.odm",
+    "calib_harmondale.scene.yml",
+    "calib_harmondale.lua",
+    "build.json",
+    "calib_harmondale.walk.yml",
+    "calib_harmondale.walk.terrain"
+   ],
+   "ids_lock_changed": false
+  }
+ },
+ "01 load without the terrain pack": {
+  "error": {
+   "code": -32000,
+   "message": "walk.load: no terrain pack (<stem>.walk.terrain), or not one",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "02 load the walk": {
+  "result": {
+   "kind": "outdoor",
+   "faces": 4859,
+   "decoration_colliders": 294,
+   "party": {
+    "radius": 37,
+    "height": 192,
+    "eye_height": 176,
+    "max_step_height": 128
+   },
+   "doors": [],
+   "pose": {
+    "position": [
+     0,
+     0,
+     1
+    ],
+    "eye_z": 177,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "on_water": false,
+    "bits": "00000000000000003f80000000000000"
+   }
+  }
+ },
+ "03 a door outdoors": {
+  "error": {
+   "code": -32000,
+   "message": "walk.toggle moves indoor doors only: outdoor moving models are not toggled in walk mode",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "04 the recorded walk": {
+  "result": {
+   "frames": 720,
+   "hash": "056a1827ca4266e4",
+   "pose": {
+    "position": [
+     -2422.629,
+     3352.497,
+     889.015
+    ],
+    "eye_z": 1065.015,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "on_water": false,
+    "bits": "c5176a10455187f4445e40f000000000"
+   },
+   "trace": [
+    "c4fa0000453b80004437800000000000",
+    "c4fa0000453b80004437800000000000",
+    "c4f95782453bae064437800000000000",
+    "c4e161aa454fc11c44491c3043f00000",
+    "c4b2d1c7454f2a624434967cc2dc0000",
+    "c49a2f3a4562b2374447802042200000",
+    "c45c72eb4563b3574439c920c32a0000",
+    "c4bade4f458004cc445b2cb400000000",
+    "c50d6b3c4580ee9b448c3b8a00000000",
+    "c53608da45683f0b449597e3c3a50000",
+    "c54890fc453d0d3c448a5965c2f00000",
+    "c52fcbfc45475f3c445f3a6a00000000"
+   ]
+  }
+ },
+ "05 at the east bound": {
+  "result": {
+   "pose": {
+    "position": [
+     22800,
+     0,
+     829
+    ],
+    "eye_z": 1005,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "on_water": false,
+    "bits": "46b2200000000000444f400000000000"
+   }
+  }
+ },
+ "06 walk east past it": {
+  "result": {
+   "pose": {
+    "position": [
+     23106,
+     0,
+     764.875
+    ],
+    "eye_z": 940.875,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "on_water": false,
+    "bits": "46b4840000000000443f380000000000"
+   }
+  }
+ }
+}

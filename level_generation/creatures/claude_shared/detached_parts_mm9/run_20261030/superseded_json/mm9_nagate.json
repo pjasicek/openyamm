@@ -1,0 +1,299 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_nagate.glb",
+  "components": 20,
+  "body": 6,
+  "size": 1.201671838760376,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "11": {
+    "joint": "Xjawmid01",
+    "where": "below, +z",
+    "triangles": 87,
+    "extent": 0.1196,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00506,
+    "worst": {
+     "gap": 0.01283,
+     "to_body_cluster": 0.01283,
+     "clip": "AttackRanged",
+     "frame": 5,
+     "time": 0.1667,
+     "part_point": [
+      0.03022,
+      0.30799,
+      0.38238
+     ],
+     "attached_point": [
+      0.02366,
+      0.30916,
+      0.36935
+     ],
+     "kind": "parted",
+     "against": "Xback"
+    },
+    "detached_poses": 6,
+    "poses": 306,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.00921,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 1
+     },
+     "AttackRanged": {
+      "max_gap": 0.01283,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 5
+     }
+    },
+    "shallowest": {
+     "depth": -0.00074,
+     "on": "Xback",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_nagate_part11.png"
+   },
+   "13": {
+    "joint": "Xalegpiv02",
+    "where": "below, +x side, +z",
+    "triangles": 266,
+    "extent": 0.3038,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00995,
+    "worst": {
+     "gap": 0.00912,
+     "to_body_cluster": 0.00912,
+     "clip": "Death",
+     "frame": 27,
+     "time": 0.9,
+     "part_point": [
+      0.00428,
+      0.32989,
+      -0.21787
+     ],
+     "attached_point": [
+      0.00357,
+      0.3209,
+      -0.2165
+     ],
+     "kind": "parted",
+     "against": "Xback"
+    },
+    "detached_poses": 8,
+    "poses": 306,
+    "clips": {
+     "Death": {
+      "max_gap": 0.00912,
+      "frame": 27,
+      "time": 0.9,
+      "frames": 8
+     }
+    },
+    "shallowest": {
+     "depth": 0.00848,
+     "on": "Xback",
+     "clip": "Hit",
+     "frame": 6,
+     "time": 0.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_nagate_part13.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 20,
+   "attached_in_every_pose": 17
+  },
+  "concealed": {},
+  "shallow": {
+   "0": {
+    "joint": "Xblegpiv",
+    "where": "below, -x side",
+    "triangles": 132,
+    "extent": 0.4502,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.23567,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00362,
+     "on": "Xblegpiv",
+     "clip": "Fidget",
+     "frame": 37,
+     "time": 1.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "2": {
+    "joint": "Xblegpiv01",
+    "where": "below, -x side, -z",
+    "triangles": 136,
+    "extent": 0.5603,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03494,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00745,
+     "on": "Xblegpiv01",
+     "clip": "Dead",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "4": {
+    "joint": "Xalegpiv",
+    "where": "below, -x side, +z",
+    "triangles": 234,
+    "extent": 0.3116,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.16113,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0034,
+     "on": "Xback",
+     "clip": "Hit",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "5": {
+    "joint": "Xalegpiv",
+    "where": "below, -x side, +z",
+    "triangles": 114,
+    "extent": 0.3763,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.2004,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00412,
+     "on": "Xalegpiv",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "7": {
+    "joint": "Xback",
+    "where": "+z",
+    "triangles": 1323,
+    "extent": 1.0167,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0049,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00398,
+     "on": "Xback",
+     "clip": "Fidget",
+     "frame": 36,
+     "time": 1.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "10": {
+    "joint": "Xjawmid",
+    "where": "below, +z",
+    "triangles": 105,
+    "extent": 0.1207,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00602,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00134,
+     "on": "Xback",
+     "clip": "AttackRanged",
+     "frame": 6,
+     "time": 0.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "17": {
+    "joint": "Xblegpiv04",
+    "where": "below, +x side, -z",
+    "triangles": 138,
+    "extent": 0.5594,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02145,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00379,
+     "on": "Xback",
+     "clip": "Death",
+     "frame": 6,
+     "time": 0.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "19": {
+    "joint": "Xblegpiv05",
+    "where": "below, +x side",
+    "triangles": 124,
+    "extent": 0.4513,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.32252,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 306,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00783,
+     "on": "Xblegpiv05",
+     "clip": "Death",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 2
+   }
+  }
+ }
+]

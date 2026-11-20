@@ -1,0 +1,1180 @@
+{
+  "status": "Generated terrain source draft; not a packaged ODM",
+  "width": 128,
+  "height": 128,
+  "horizontalSpacing": 512,
+  "verticalUnit": 32,
+  "origin": [
+    -32768,
+    32768
+  ],
+  "rowDirection": "south",
+  "columnDirection": "east",
+  "sampleBounds": [
+    -32768,
+    32256,
+    -32256,
+    32768
+  ],
+  "travelBounds": [
+    -24576,
+    24576,
+    -24576,
+    24576
+  ],
+  "playableBounds": [
+    -24576,
+    24576,
+    -24576,
+    24576
+  ],
+  "renderedQuadShape": [
+    127,
+    127
+  ],
+  "bufferWidths": {
+    "west": 8192,
+    "north": 8192,
+    "east": 7680,
+    "south": 7680
+  },
+  "displayPolicy": "Default minimaps crop to travel bounds; full terrain is a separate authoring view. Travel envelope includes water/void: it is not an all-walkable collision mask.",
+  "triangleSplit": "NW\u2013NE\u2013SW when fractional column + fractional row <= 1; SE\u2013SW\u2013NE otherwise",
+  "files": {
+    "samplesU8": "heightmap_u8.png",
+    "worldUnitsU16": "heightmap_units_u16.png",
+    "raw": "heightmap.raw"
+  },
+  "terrainFitAdjustments": [
+    {
+      "owner": "ruby",
+      "before": [
+        -5376.0,
+        22272.0
+      ],
+      "after": [
+        -5632.0,
+        22272.0
+      ]
+    },
+    {
+      "owner": "emerald",
+      "before": [
+        -3840.0,
+        19200.0
+      ],
+      "after": [
+        -4096.0,
+        19200.0
+      ]
+    },
+    {
+      "owner": "sapphire",
+      "before": [
+        -768.0,
+        17664.0
+      ],
+      "after": [
+        -768.0,
+        17408.0
+      ]
+    },
+    {
+      "owner": "diamond",
+      "before": [
+        2304.0,
+        19200.0
+      ],
+      "after": [
+        2304.0,
+        18944.0
+      ]
+    },
+    {
+      "owner": "justine",
+      "before": [
+        -768,
+        -7300
+      ],
+      "after": [
+        -768,
+        -6788
+      ]
+    }
+  ],
+  "minimumHeight": 0,
+  "maximumHeight": 1536,
+  "waterLevels": {
+    "river": 256,
+    "acidPond": 768,
+    "void": 0
+  },
+  "lavaLevel": 1024,
+  "pads": [
+    {
+      "owner": "monks_n",
+      "height": 672,
+      "supportVertices": [
+        8635,
+        8636,
+        8637,
+        8638,
+        8763,
+        8764,
+        8765,
+        8766,
+        8891,
+        8892,
+        8893,
+        8894
+      ]
+    },
+    {
+      "owner": "jail",
+      "height": 672,
+      "supportVertices": [
+        8130,
+        8131,
+        8132,
+        8133,
+        8258,
+        8259,
+        8260,
+        8261,
+        8386,
+        8387,
+        8388,
+        8389,
+        8514,
+        8515,
+        8516,
+        8517,
+        8642,
+        8643,
+        8644,
+        8645
+      ]
+    },
+    {
+      "owner": "forge",
+      "height": 672,
+      "supportVertices": [
+        8510,
+        8511,
+        8512,
+        8513,
+        8514,
+        8638,
+        8639,
+        8640,
+        8641,
+        8642,
+        8766,
+        8767,
+        8768,
+        8769,
+        8770,
+        8894,
+        8895,
+        8896,
+        8897,
+        8898
+      ]
+    },
+    {
+      "owner": "guild",
+      "height": 672,
+      "supportVertices": [
+        8897,
+        8898,
+        8899,
+        8900,
+        9025,
+        9026,
+        9027,
+        9028,
+        9153,
+        9154,
+        9155,
+        9156,
+        9281,
+        9282,
+        9283,
+        9284
+      ]
+    },
+    {
+      "owner": "training",
+      "height": 672,
+      "supportVertices": [
+        7998,
+        7999,
+        8000,
+        8001,
+        8002,
+        8126,
+        8127,
+        8128,
+        8129,
+        8130,
+        8254,
+        8255,
+        8256,
+        8257,
+        8258,
+        8382,
+        8383,
+        8384,
+        8385,
+        8386
+      ]
+    },
+    {
+      "owner": "monks_s",
+      "height": 736,
+      "supportVertices": [
+        7994,
+        7995,
+        7996,
+        7997,
+        8122,
+        8123,
+        8124,
+        8125,
+        8250,
+        8251,
+        8252,
+        8253
+      ]
+    },
+    {
+      "owner": "herbalist",
+      "height": 640,
+      "supportVertices": [
+        8112,
+        8113,
+        8114,
+        8115,
+        8116,
+        8240,
+        8241,
+        8242,
+        8243,
+        8244,
+        8368,
+        8369,
+        8370,
+        8371,
+        8372,
+        8496,
+        8497,
+        8498,
+        8499,
+        8500
+      ]
+    },
+    {
+      "owner": "ranger",
+      "height": 640,
+      "supportVertices": [
+        8623,
+        8624,
+        8625,
+        8626,
+        8751,
+        8752,
+        8753,
+        8754,
+        8879,
+        8880,
+        8881,
+        8882
+      ]
+    },
+    {
+      "owner": "joe",
+      "height": 640,
+      "supportVertices": [
+        9271,
+        9272,
+        9273,
+        9399,
+        9400,
+        9401,
+        9527,
+        9528,
+        9529
+      ]
+    },
+    {
+      "owner": "workyard",
+      "height": 640,
+      "supportVertices": [
+        9264,
+        9265,
+        9266,
+        9267,
+        9392,
+        9393,
+        9394,
+        9395,
+        9520,
+        9521,
+        9522,
+        9523,
+        9648,
+        9649,
+        9650,
+        9651
+      ]
+    },
+    {
+      "owner": "mayor",
+      "height": 640,
+      "supportVertices": [
+        9267,
+        9268,
+        9269,
+        9270,
+        9271,
+        9395,
+        9396,
+        9397,
+        9398,
+        9399,
+        9523,
+        9524,
+        9525,
+        9526,
+        9527,
+        9651,
+        9652,
+        9653,
+        9654,
+        9655,
+        9779,
+        9780,
+        9781,
+        9782,
+        9783
+      ]
+    },
+    {
+      "owner": "lodging",
+      "height": 640,
+      "supportVertices": [
+        8372,
+        8373,
+        8374,
+        8375,
+        8500,
+        8501,
+        8502,
+        8503,
+        8628,
+        8629,
+        8630,
+        8631,
+        8756,
+        8757,
+        8758,
+        8759
+      ]
+    },
+    {
+      "owner": "bank",
+      "height": 640,
+      "supportVertices": [
+        8118,
+        8119,
+        8120,
+        8121,
+        8246,
+        8247,
+        8248,
+        8249,
+        8374,
+        8375,
+        8376,
+        8377
+      ],
+      "gradedSupportVertices": [
+        {
+          "index": 7990,
+          "height": 704
+        },
+        {
+          "index": 7991,
+          "height": 704
+        },
+        {
+          "index": 7992,
+          "height": 704
+        },
+        {
+          "index": 7993,
+          "height": 704
+        }
+      ],
+      "terrainTreatment": "Retain the authored floor elevation and buried 64-unit skirt; road-side support triangles are graded. Validate the actual shell edges and the three diviners entrance steps against native terrain."
+    },
+    {
+      "owner": "tavern",
+      "height": 640,
+      "supportVertices": [
+        8758,
+        8759,
+        8760,
+        8761,
+        8762,
+        8886,
+        8887,
+        8888,
+        8889,
+        8890,
+        9014,
+        9015,
+        9016,
+        9017,
+        9018,
+        9142,
+        9143,
+        9144,
+        9145,
+        9146,
+        9270,
+        9271,
+        9272,
+        9273,
+        9274
+      ]
+    },
+    {
+      "owner": "maps",
+      "height": 640,
+      "supportVertices": [
+        8881,
+        8882,
+        8883,
+        8884,
+        8885,
+        9009,
+        9010,
+        9011,
+        9012,
+        9013,
+        9137,
+        9138,
+        9139,
+        9140,
+        9141,
+        9265,
+        9266,
+        9267,
+        9268,
+        9269
+      ]
+    },
+    {
+      "owner": "nadia",
+      "height": 736,
+      "supportVertices": [
+        7728,
+        7729,
+        7730,
+        7731,
+        7856,
+        7857,
+        7858,
+        7859,
+        7984,
+        7985,
+        7986,
+        7987
+      ]
+    },
+    {
+      "owner": "king",
+      "height": 800,
+      "supportVertices": [
+        7087,
+        7088,
+        7089,
+        7090,
+        7091,
+        7215,
+        7216,
+        7217,
+        7218,
+        7219,
+        7343,
+        7344,
+        7345,
+        7346,
+        7347,
+        7471,
+        7472,
+        7473,
+        7474,
+        7475,
+        7599,
+        7600,
+        7601,
+        7602,
+        7603
+      ]
+    },
+    {
+      "owner": "workers",
+      "height": 864,
+      "supportVertices": [
+        7348,
+        7349,
+        7350,
+        7351,
+        7476,
+        7477,
+        7478,
+        7479,
+        7604,
+        7605,
+        7606,
+        7607
+      ]
+    },
+    {
+      "owner": "diviners",
+      "height": 864,
+      "supportVertices": [
+        7478,
+        7479,
+        7480,
+        7481,
+        7482,
+        7606,
+        7607,
+        7608,
+        7609,
+        7610,
+        7734,
+        7735,
+        7736,
+        7737,
+        7738,
+        7866
+      ],
+      "gradedSupportVertices": [
+        {
+          "index": 7862,
+          "height": 768
+        },
+        {
+          "index": 7863,
+          "height": 768
+        },
+        {
+          "index": 7864,
+          "height": 768
+        },
+        {
+          "index": 7865,
+          "height": 768
+        }
+      ],
+      "terrainTreatment": "Retain the authored floor elevation and buried 64-unit skirt; road-side support triangles are graded. Validate the actual shell edges and the three diviners entrance steps against native terrain."
+    },
+    {
+      "owner": "crafts",
+      "height": 864,
+      "supportVertices": [
+        6964,
+        6965,
+        6966,
+        6967,
+        6968,
+        7092,
+        7093,
+        7094,
+        7095,
+        7096,
+        7220,
+        7221,
+        7222,
+        7223,
+        7224,
+        7348,
+        7349,
+        7350,
+        7351,
+        7352
+      ]
+    },
+    {
+      "owner": "temple",
+      "height": 864,
+      "supportVertices": [
+        6840,
+        6841,
+        6842,
+        6843,
+        6844,
+        6968,
+        6969,
+        6970,
+        6971,
+        6972,
+        7096,
+        7097,
+        7098,
+        7099,
+        7100,
+        7224,
+        7225,
+        7226,
+        7227,
+        7228
+      ]
+    },
+    {
+      "owner": "puzzle",
+      "height": 832,
+      "supportVertices": [
+        6975,
+        6976,
+        6977,
+        6978,
+        6979,
+        6980,
+        6981,
+        7103,
+        7104,
+        7105,
+        7106,
+        7107,
+        7108,
+        7109,
+        7231,
+        7232,
+        7233,
+        7234,
+        7235,
+        7236,
+        7237,
+        7359,
+        7360,
+        7361,
+        7362,
+        7363,
+        7364,
+        7365,
+        7487,
+        7488,
+        7489,
+        7490,
+        7491,
+        7492,
+        7493
+      ]
+    },
+    {
+      "owner": "keeper",
+      "height": 832,
+      "supportVertices": [
+        7616,
+        7617,
+        7618,
+        7619,
+        7744,
+        7745,
+        7746,
+        7747,
+        7872,
+        7873,
+        7874,
+        7875
+      ]
+    },
+    {
+      "owner": "tower",
+      "height": 832,
+      "supportVertices": [
+        7356,
+        7357,
+        7358,
+        7359,
+        7360,
+        7484,
+        7485,
+        7486,
+        7487,
+        7488,
+        7612,
+        7613,
+        7614,
+        7615,
+        7616,
+        7740,
+        7741,
+        7742,
+        7743,
+        7744,
+        7868,
+        7869,
+        7870,
+        7871,
+        7872
+      ]
+    },
+    {
+      "owner": "dreyfus",
+      "height": 1056,
+      "supportVertices": [
+        4008,
+        4009,
+        4010,
+        4011,
+        4136,
+        4137,
+        4138,
+        4139,
+        4264,
+        4265,
+        4266,
+        4267,
+        4392,
+        4393,
+        4394,
+        4395
+      ]
+    },
+    {
+      "owner": "ruby",
+      "height": 1120,
+      "supportVertices": [
+        2484,
+        2485,
+        2486,
+        2612,
+        2613,
+        2614,
+        2740,
+        2741,
+        2742,
+        2868,
+        2869,
+        2870
+      ]
+    },
+    {
+      "owner": "emerald",
+      "height": 992,
+      "supportVertices": [
+        3255,
+        3256,
+        3257,
+        3383,
+        3384,
+        3385,
+        3511,
+        3512,
+        3513,
+        3639,
+        3640,
+        3641
+      ]
+    },
+    {
+      "owner": "sapphire",
+      "height": 832,
+      "supportVertices": [
+        3773,
+        3774,
+        3775,
+        3776,
+        3901,
+        3902,
+        3903,
+        3904,
+        4029,
+        4030,
+        4031,
+        4032
+      ]
+    },
+    {
+      "owner": "diamond",
+      "height": 800,
+      "supportVertices": [
+        3395,
+        3396,
+        3397,
+        3398,
+        3523,
+        3524,
+        3525,
+        3526,
+        3651,
+        3652,
+        3653,
+        3654
+      ]
+    },
+    {
+      "owner": "reger",
+      "height": 608,
+      "supportVertices": [
+        12564,
+        12565,
+        12692,
+        12693
+      ]
+    },
+    {
+      "owner": "luna",
+      "height": 576,
+      "supportVertices": [
+        5938,
+        5939,
+        5940,
+        5941,
+        6066,
+        6067,
+        6068,
+        6069,
+        6194,
+        6195,
+        6196,
+        6197
+      ]
+    },
+    {
+      "owner": "justine",
+      "height": 608,
+      "supportVertices": [
+        9789,
+        9790,
+        9791,
+        9792,
+        9917,
+        9918,
+        9919,
+        9920,
+        10045,
+        10046,
+        10047,
+        10048
+      ]
+    },
+    {
+      "owner": "yog",
+      "height": 1152,
+      "supportVertices": [
+        3282,
+        3283,
+        3284,
+        3285,
+        3410,
+        3411,
+        3412,
+        3413,
+        3538,
+        3539,
+        3540,
+        3541,
+        3666,
+        3667,
+        3668,
+        3669
+      ]
+    },
+    {
+      "owner": "vespar",
+      "height": 896,
+      "supportVertices": [
+        7509,
+        7510,
+        7511,
+        7512,
+        7637,
+        7638,
+        7639,
+        7640,
+        7765,
+        7766,
+        7767,
+        7768,
+        7893,
+        7894,
+        7895,
+        7896
+      ]
+    },
+    {
+      "owner": "kramer",
+      "height": 1152,
+      "supportVertices": [
+        6369,
+        6370,
+        6371,
+        6372,
+        6497,
+        6498,
+        6499,
+        6500,
+        6625,
+        6626,
+        6627,
+        6628,
+        6753,
+        6754,
+        6755,
+        6756
+      ]
+    },
+    {
+      "owner": "kalindra",
+      "height": 480,
+      "supportVertices": [
+        8348,
+        8349,
+        8350,
+        8351,
+        8352,
+        8353,
+        8354,
+        8355,
+        8356,
+        8357,
+        8476,
+        8477,
+        8478,
+        8479,
+        8480,
+        8481,
+        8482,
+        8483,
+        8484,
+        8485,
+        8604,
+        8605,
+        8606,
+        8607,
+        8608,
+        8609,
+        8610,
+        8611,
+        8612,
+        8613,
+        8732,
+        8733,
+        8734,
+        8735,
+        8736,
+        8737,
+        8738,
+        8739,
+        8740,
+        8741,
+        8860,
+        8861,
+        8862,
+        8863,
+        8864,
+        8865,
+        8866,
+        8867,
+        8868,
+        8869,
+        8988,
+        8989,
+        8990,
+        8991,
+        8992,
+        8993,
+        8994,
+        8995,
+        8996,
+        8997,
+        9116,
+        9117,
+        9118,
+        9119,
+        9120,
+        9121,
+        9122,
+        9123,
+        9124,
+        9125,
+        9244,
+        9245,
+        9246,
+        9247,
+        9248,
+        9249,
+        9250,
+        9251,
+        9252,
+        9253
+      ]
+    },
+    {
+      "owner": "western",
+      "height": 800,
+      "supportVertices": [
+        4380,
+        4381,
+        4382,
+        4383,
+        4508,
+        4509,
+        4510,
+        4511,
+        4636,
+        4637,
+        4638,
+        4639,
+        4764,
+        4765,
+        4766,
+        4767
+      ]
+    }
+  ],
+  "surfaceClasses": {
+    "0": "Xeen rim/void",
+    "1": "grassland",
+    "2": "dirt/road",
+    "3": "river water",
+    "4": "Acid Pond",
+    "5": "desert",
+    "6": "snow",
+    "7": "lava",
+    "8": "scorched ground",
+    "9": "swamp",
+    "10": "rock shelf"
+  },
+  "materialFamilies": {
+    "0": null,
+    "1": "mm8:grastyl",
+    "2": "mm8:dirttyl",
+    "3": "mm8:wtrtyl",
+    "4": "mm8:wtrtyl",
+    "5": "mm7:7sand",
+    "6": "mm7:7snow",
+    "7": "mm8:lavtyl",
+    "8": "mm8:plntyl",
+    "9": "mm8:gstyl",
+    "10": "mm8:rctyl"
+  },
+  "materialStatus": "Source-based palette families, not final native tile-bank assignments; Acid Pond needs its own water tint.",
+  "terrainContextMaps": [
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    10,
+    11,
+    12
+  ],
+  "authoring": "Broad hills and shared flat pads are authored adaptations; MM5 cells provide horizontal land/water geography, not recovered elevation.",
+  "sources": [
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0001.dat.json",
+      "sha256": "cd83320833568e140cd76bda8cc32637c95377fd6b7bd31a2cd36e1e094a9d75"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0002.dat.json",
+      "sha256": "902e3ee9aa1277b23d50624b268700fbe62ce7d580faf32535a985cc9c56d71f"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0003.dat.json",
+      "sha256": "c0d238262bcefe8b604c782a03bfc4549a06f55eb6003599e7b1cec845af84bf"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0004.dat.json",
+      "sha256": "df8e765221d4fcc4e5b376014780abb6c202cb34ae923af6b7302c32b187c622"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0005.dat.json",
+      "sha256": "3682ec9a0a6f1e6688ec9ffb0614e5fd4af789360b64cc281e1eb8f22c88485b"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0006.dat.json",
+      "sha256": "36a9c9e387c1f14eeaad9a9488fc367af973884d3dde5a6dcc08081a7e6d1bc1"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0007.dat.json",
+      "sha256": "08a043b2faaf8bc17edfdbf431a262dba26488908ca8a38053a87bb9792f10a2"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0008.dat.json",
+      "sha256": "42b8495eecbc1665e5a05be114565371b58ca5cc0ac31d36171f53c5e4769064"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0009.dat.json",
+      "sha256": "45a41a7109d4f2cbdcd63dddb600f7da80d85747a6add3e4a7657caad7ad9636"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0010.dat.json",
+      "sha256": "2dbb5d6e93e7b31ba597889829a587454000c3e7a72296d15716e61f185495fc"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0011.dat.json",
+      "sha256": "359bf1e871e02ca058ea0fb1dfcd954b514b2dcd520d39091da75a5ddb96f4be"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0012.dat.json",
+      "sha256": "83a877ab4f2dc5643331c6e0d75f8de6f13cb35b97571a057e7d53d44a4646fc"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0013.dat.json",
+      "sha256": "2ae5921cec39380ae0307c7df5cc827b769a4cd1699f2155e79904c02072dced"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0014.dat.json",
+      "sha256": "dd37e61fc1bcc40c62aa922d646e2f997a58ad555278d05970f2ea325b690940"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0015.dat.json",
+      "sha256": "f24f69edc80c0d097eac222bde7b41fa1af2f561211522da221a1c454b5e5074"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0016.dat.json",
+      "sha256": "b43d117f90aac7bf6e56d8e5efcebad59e06bffe8088f6561d7630f7aaf49ab8"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0017.dat.json",
+      "sha256": "82328e1b461182d93fa1b76420904d70a39d5d79d14e052383c3cb176ffe74a6"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0018.dat.json",
+      "sha256": "0619fe5a6e9791ea1c955c2285604307d1d35d8a9f1b59a2a59cf02b65d9eb48"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0019.dat.json",
+      "sha256": "50576d07340de4e017d80040300a3228dbd61c958da2177f1d8418c50f991174"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0020.dat.json",
+      "sha256": "c02053a24c446d3ace24b0ec18bb514737139856172afc9e92c9b699476b7193"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0021.dat.json",
+      "sha256": "ee99b96b53db9deea4a05c231a78db38df87640cbe2395a40270497a4e5ed852"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0022.dat.json",
+      "sha256": "bd2332131915ccdedbf3d79f34088dc7cfec7a66dcdb495e4de59cb600f6116c"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0023.dat.json",
+      "sha256": "4e1aad5bad8bc02694f9a6e44090eef41362314741840e94c401965a33fd701e"
+    },
+    {
+      "path": "reference/mm4_5_world_of_xeen/unpacked/maps/dark_initial_state/maze0024.dat.json",
+      "sha256": "5f6c39df251a90255634362e25d1781479d21d1f7c044dc2b9d8ad19875e3e8c"
+    }
+  ]
+}

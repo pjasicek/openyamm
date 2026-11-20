@@ -1,0 +1,479 @@
+{
+  "tool": "built-in image_gen",
+  "item": "hes_weave_suit",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "policy": "Unmodified, unresized generated PNG returns. At most one corrective regeneration per view. Selected does not mean all acceptance checks passed.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by editing the FIRST supplied image, the orthographic model guide. The SECOND image is design_reference.png, used ONLY for surface design, colours and materials. The guide is the absolute authority for geometry, projection, silhouette, alpha, every part edge, size and position. Keep the guide's original canvas; paint in place. Preserve every transparent pixel and opening, exactly. Do not rotate, reinterpret the named view, straighten, enlarge, shrink, recenter, crop, fill holes, or add geometry. The filenames describe model axes, not the conventional clothing pose.\nSubject: Hesper weave suit, ancient colonial work clothing woven with conductive thread. Apply the approved design's pale warm ivory densely woven cloth, narrow muted brushed-gold conductive seams and piping, subtly worn off-white ceramic strap/buckle plates, charcoal black-violet ribbed flexible side fabric and padded dark inner lining. Paint the blue-white light elements only on hardware visible in this exact view; no additional lights. Keep the reference's panel joins, seams and fine surface wear where appropriate. Unseen surfaces plausibly continue these same materials. Preserve the existing thicknesses and placement of the guide's parts.\nLighting: flat albedo/base-colour texture source, uniform shadowless illumination from the viewer. Remove the guide's light/shadow gradients. No cast shadows, no ambient occlusion darkening, no directional shading, no hot specular highlights, no reflections, no rim lighting, no vignette. Metals show their ochre-gold base colour with only a faint sheen; lamps are flat bright blue-white paint without bloom or light spill. Material microtexture and sewn/engraved lines are allowed but must not create baked lighting.\nBackground: true alpha transparency outside the original silhouette and through all original holes, NOT black paint or a drawn checkerboard. No floor, setting, text, numbers, letters, labels, logos or watermark. The complete item must remain exactly in the guide silhouette, with the guide's original transparent margins.\nView-specific geometry and material placement: guide_front.png: retain the compact horizontal ring-like projection exactly. Its nontransparent bounding box is x=219..804, y=280..743 on the 1024-square canvas. A broad elliptical opening faces the viewer and the smaller irregular central hole remains completely transparent. Much of the visible broad inside wall is dark padded cloth lining, with pale ivory woven outer lip and restrained gold edge piping. Preserve the small shoulder/strap contours at the top and small side protrusions. Do not turn this into an upright vest; do not put a frontal chest illustration inside the opening.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-c7ccf0d4-da61-443a-94fe-185dac617162.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: enlarged framing and strong baked shading/highlights; one corrective generation requested.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "85c54536889e02e3c7776e6791bb9801900bfd0d8d7b789bec570dd74c9dc891"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f5122f7f2d5cc297d6a4acbf15161506bdf8aee9850fa6297cf0e68212bc1a8c",
+      "resized": false,
+      "checks": {
+        "requested_dimensions": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.452086,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "lighting_notes": "Strong baked highlights and shadows.",
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1085028,
+        "alpha_opaque_pixels": 630
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit the FIRST image (guide_front.png) IN PLACE, using the SECOND image only as a material palette. Output exactly 1024 x 1024 with transparent alpha.\n\nThis is the one corrective pass: the previous attempt enlarged and redesigned the object. Fix ONLY by adhering rigidly to the supplied plain guide. Keep the guide's exact pixel silhouette, scale, projection and position. Outer bounds must remain x=219..804, y=280..743, so all 280 rows above it and all 280 rows below it stay transparent. Preserve the smaller central transparent hole and every original part edge. Keep the wide smooth elliptical rim, the shoulder humps at the top, and the small side tabs exactly where they are. DO NOT make the object fill the image. DO NOT redesign it as a helmet or upright vest.\n\nPaint this guide as the inside/edge projection of the reference woven sleeveless suit. The broad inner wall is flat dark charcoal padded textile, the rounded outer band is warm ivory finely woven cloth with restrained matte ochre-gold edge piping; tiny visible exterior fastenings are off-white ceramic with gold borders. Paint fine fabric weave and seams in place, with no extra projecting hardware and no extra lights.\n\nSTRICT ALBEDO ONLY: no 3D illumination, no shadows, no ambient occlusion, no dark crevices, no white specular glints, no reflections or gradients. Gold must be a uniform muted ochre base colour. Preserve only intrinsic dark textile versus ivory cloth colour differences. True transparent background and central hole. No text. The object must occupy the very same small central area as image 1.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-c3b9e530-ab5e-4e6e-a965-6fff164b5f29.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: much closer guide framing and flatter cloth/gold. Exact silhouette and shadowless lighting are not fully achieved; preserved raw tool return under the two-attempt limit.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "85c54536889e02e3c7776e6791bb9801900bfd0d8d7b789bec570dd74c9dc891"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "ee5fe5c3271e3b40daa3be4248e85cb75536894a2d3edbc1791376cbb5d1ee58",
+      "resized": false,
+      "checks": {
+        "requested_dimensions": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.934959,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "lighting_notes": "Flatter cloth and gold than first return, with residual lining seam and rim shading.",
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1296748,
+        "alpha_opaque_pixels": 902
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by editing the FIRST supplied image, the orthographic model guide. The SECOND image is design_reference.png, used ONLY for surface design, colours and materials. The guide is the absolute authority for geometry, projection, silhouette, alpha, every part edge, size and position. Keep the guide's original canvas; paint in place. Preserve every transparent pixel and opening, exactly. Do not rotate, reinterpret the named view, straighten, enlarge, shrink, recenter, crop, fill holes, or add geometry. The filenames describe model axes, not the conventional clothing pose.\nSubject: Hesper weave suit, ancient colonial work clothing woven with conductive thread. Apply the approved design's pale warm ivory densely woven cloth, narrow muted brushed-gold conductive seams and piping, subtly worn off-white ceramic strap/buckle plates, charcoal black-violet ribbed flexible side fabric and padded dark inner lining. Paint the blue-white light elements only on hardware visible in this exact view; no additional lights. Keep the reference's panel joins, seams and fine surface wear where appropriate. Unseen surfaces plausibly continue these same materials. Preserve the existing thicknesses and placement of the guide's parts.\nLighting: flat albedo/base-colour texture source, uniform shadowless illumination from the viewer. Remove the guide's light/shadow gradients. No cast shadows, no ambient occlusion darkening, no directional shading, no hot specular highlights, no reflections, no rim lighting, no vignette. Metals show their ochre-gold base colour with only a faint sheen; lamps are flat bright blue-white paint without bloom or light spill. Material microtexture and sewn/engraved lines are allowed but must not create baked lighting.\nBackground: true alpha transparency outside the original silhouette and through all original holes, NOT black paint or a drawn checkerboard. No floor, setting, text, numbers, letters, labels, logos or watermark. The complete item must remain exactly in the guide silhouette, with the guide's original transparent margins.\nView-specific geometry and material placement: guide_back.png: retain the compact horizontal ring-like projection exactly. Its nontransparent bounding box is x=219..804, y=280..743 on the 1024-square canvas. The central irregular round opening stays fully transparent. Retain the raised lengthwise strap strips at left and right and every stepped edge. Paint the visible outside fabric ivory with thin gold seams; existing raised strap sections get reference-matched off-white ceramic and gold borders. The inside visible edge is padded charcoal lining. Do not turn this into an upright vest.\nThe object must remain small and central with transparent margins of 280 pixels above and below; do not enlarge to fill the canvas. Treat this as recolouring the original pixels, not making another rendering.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-30173811-84b1-4855-843b-68f31c6322ae.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: shaded lower fabric, reflective piping and altered strap contours; corrective regeneration requested.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "78096d3817692454a3e09fd2c6073cd412aeece4dc91591b680bc077c481fbaf"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "d0f115feca0928f2fc23fa5ce5f6752dae0a2e9073aff4da6c8e508edc7bff41",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.972559,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Visible baked highlights, plate shadows and lower fabric darkening.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1270457,
+        "alpha_opaque_pixels": 494
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Edit image 1, guide_back.png, as an exact in-place surface painting; image 2 is the approved material/design reference. ONE square RGBA image, target 1024 x 1024.\n\nCORRECTION: preserve image 1's silhouette and asymmetric part edges pixel-for-pixel. Do not smooth its outline or replace its flat strips with larger rounded hardware. The only occupied area is x219..804, y280..743. All four original margins and the exact central irregular hole remain transparent. Keep the original simple flat strap faces and curved cutout, with no added geometry.\n\nPaint warm ivory fine woven cloth, narrow matte muted-gold conductive piping, off-white ceramic on the existing raised strap pieces, and charcoal-violet cloth lining on the visible inner bottom edge. Include the small blue-white indicator on visible ceramic strap faces as in the reference. Continue materials plausibly on other faces.\n\nMake this a genuinely unlit BASE COLOUR image: exactly even intrinsic material colour everywhere, including the lower half. Remove all bottom-to-top shading, shadows under plates, crevice darkness, white glints and bright edge highlights. Gold is muted ochre, not reflective. Fine textile weave, subtle ceramic wear and fine seam lines only. True transparent background and central opening. No text, lettering, floor or cast shadow. Do not change camera, size, placement, hole or edge shape.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-18f728e9-aa78-4f71-9421-eb61ae3c1396.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: flatter gold and ceramic and closer asymmetric outline. Still not an exact silhouette match; raw return preserved at attempt limit.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "78096d3817692454a3e09fd2c6073cd412aeece4dc91591b680bc077c481fbaf"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "18616f67aba774be18906ba0e4fd3b7ef859323f63307f472e8e217043a069a3",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.987894,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Reduced highlights, but residual plate shading and lower fabric darkening remain.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1275046,
+        "alpha_opaque_pixels": 670
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by editing the FIRST supplied image, the orthographic model guide. The SECOND image is design_reference.png, used ONLY for surface design, colours and materials. The guide is the absolute authority for geometry, projection, silhouette, alpha, every part edge, size and position. Keep the guide's original canvas; paint in place. Preserve every transparent pixel and opening, exactly. Do not rotate, reinterpret the named view, straighten, enlarge, shrink, recenter, crop, fill holes, or add geometry. The filenames describe model axes, not the conventional clothing pose.\nSubject: Hesper weave suit, ancient colonial work clothing woven with conductive thread. Apply the approved design's pale warm ivory densely woven cloth, narrow muted brushed-gold conductive seams and piping, subtly worn off-white ceramic strap/buckle plates, charcoal black-violet ribbed flexible side fabric and padded dark inner lining. Paint the blue-white light elements only on hardware visible in this exact view; no additional lights. Keep the reference's panel joins, seams and fine surface wear where appropriate. Unseen surfaces plausibly continue these same materials. Preserve the existing thicknesses and placement of the guide's parts.\nLighting: flat albedo/base-colour texture source, uniform shadowless illumination from the viewer. Remove the guide's light/shadow gradients. No cast shadows, no ambient occlusion darkening, no directional shading, no hot specular highlights, no reflections, no rim lighting, no vignette. Metals show their ochre-gold base colour with only a faint sheen; lamps are flat bright blue-white paint without bloom or light spill. Material microtexture and sewn/engraved lines are allowed but must not create baked lighting.\nBackground: true alpha transparency outside the original silhouette and through all original holes, NOT black paint or a drawn checkerboard. No floor, setting, text, numbers, letters, labels, logos or watermark. The complete item must remain exactly in the guide silhouette, with the guide's original transparent margins.\nView-specific geometry and material placement: guide_left.png: retain the horizontal side projection exactly, bounding box x=66..957, y=280..743. The shoulder/armhole is at the LEFT of the frame and the flared hem at the RIGHT. Keep the large teardrop-shaped armhole fully transparent and all irregular edges fixed. Reference-matched ivory cloth, thin lengthwise gold piping, gold-edged ivory armhole band, and charcoal ribbed flank insert crossed by small gold fastenings must follow this sideways geometry. Do not rotate the garment upright or move the opening.\nMaintain the exact guide's transparent margins: 280 pixels above and below, 66 pixels left and right. Preserve its side-on profile with the hem to the RIGHT. Paint the model, don't redesign or repose it. Flat base colour even across the whole silhouette, including edges and lower half.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-f7a74cec-ee96-4ce3-96d1-d4b2c92a87a5.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected first return: slightly better normalized mask overlap (0.740703 versus 0.736082) and more plausible flank panel placement than correction. Fails exact silhouette and shadowless lighting; retained unmodified at attempt limit.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "946f11a8457701539439d21106c06947d0362a9dd1e99be9952770b9b6fc148d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "f0d4ecb1507ee8a97bb438547543f858209a8e71144a883895c837cb5f70078f",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.740703,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Gold highlights, dark rim shading and relief shadows remain.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1115946,
+        "alpha_opaque_pixels": 613
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Paint directly onto image 1, guide_left.png, using image 2 solely for the colours/materials of this conductive woven suit. One 1024x1024 PNG with real transparent alpha.\n\nCORRECTIVE PASS: the exact unpainted guide silhouette is mandatory. Do not enlarge it or round off the shape. Keep every edge, armhole boundary, flat facet, shoulder peak, narrow waist and pointed hem precisely where image 1 has it. The silhouette begins at x66, ends x957, begins y280, ends y743. Retain the enormous empty transparent space above and below. Left end = shoulder and teardrop armhole; right end = open flared hem. This sideways view must not be rotated. Do not add new hardware beyond any edge.\n\nSurface paint: densely woven warm ivory cloth across the outer panels, slim matte ochre-gold conductive seams running shoulder to hem, an ivory-and-gold armhole border, a charcoal ribbed side insert beneath the armhole extending towards the waist with the reference's small gold cross-fasteners. Existing raised shoulder strap faces can be off-white ceramic bordered in gold. Continue the reference faithfully, do not add ornaments.\n\nFLAT UNLIT ALBEDO, uniform intrinsic colour on every material. No shadows, no AO, no fabric lighting gradients, no reflected shine, no metallic edge glints, no dark shading inside rim folds. Preserve fine weave and tiny wear as colour texture only. Gold is muted ochre. Leave the exact armhole and outside canvas fully transparent. No text. Copy the original guide geometry with pixel precision.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-b0aa1954-9d25-4e26-98c3-eaca6e6e261c.png",
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Rejected corrective return: mask overlap worsened to 0.736082 and hardware/panel placement drifted further. No further attempts permitted.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "946f11a8457701539439d21106c06947d0362a9dd1e99be9952770b9b6fc148d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "611d9863fbaae755e959b8f9c4cd42e93c788ee38627c7b123b772474553bd87",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.736082,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Gold highlights and dark shading around seam/strap relief remain despite albedo prompt.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1212822,
+        "alpha_opaque_pixels": 360
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by editing the FIRST supplied image, the orthographic model guide. The SECOND image is design_reference.png, used ONLY for surface design, colours and materials. The guide is the absolute authority for geometry, projection, silhouette, alpha, every part edge, size and position. Keep the guide's original canvas; paint in place. Preserve every transparent pixel and opening, exactly. Do not rotate, reinterpret the named view, straighten, enlarge, shrink, recenter, crop, fill holes, or add geometry. The filenames describe model axes, not the conventional clothing pose.\nSubject: Hesper weave suit, ancient colonial work clothing woven with conductive thread. Apply the approved design's pale warm ivory densely woven cloth, narrow muted brushed-gold conductive seams and piping, subtly worn off-white ceramic strap/buckle plates, charcoal black-violet ribbed flexible side fabric and padded dark inner lining. Paint the blue-white light elements only on hardware visible in this exact view; no additional lights. Keep the reference's panel joins, seams and fine surface wear where appropriate. Unseen surfaces plausibly continue these same materials. Preserve the existing thicknesses and placement of the guide's parts.\nLighting: flat albedo/base-colour texture source, uniform shadowless illumination from the viewer. Remove the guide's light/shadow gradients. No cast shadows, no ambient occlusion darkening, no directional shading, no hot specular highlights, no reflections, no rim lighting, no vignette. Metals show their ochre-gold base colour with only a faint sheen; lamps are flat bright blue-white paint without bloom or light spill. Material microtexture and sewn/engraved lines are allowed but must not create baked lighting.\nBackground: true alpha transparency outside the original silhouette and through all original holes, NOT black paint or a drawn checkerboard. No floor, setting, text, numbers, letters, labels, logos or watermark. The complete item must remain exactly in the guide silhouette, with the guide's original transparent margins.\nView-specific geometry and material placement: guide_right.png: retain the horizontal side projection exactly, bounding box x=66..957, y=280..743. The flared hem is at the LEFT of the frame and the shoulder/armhole at the RIGHT. Keep the large teardrop-shaped armhole fully transparent and all irregular edges fixed. Reference-matched ivory cloth, thin lengthwise gold piping, gold-edged ivory armhole band, and charcoal ribbed flank insert crossed by small gold fastenings must follow this sideways geometry. Do not rotate the garment upright or move the opening.\nKeep EXACTLY the thin flat side silhouette in the guide: large transparent top and bottom margins of 280 pixels, and 66 pixels at each side. Hem to LEFT, shoulder to RIGHT. No re-rendering or geometry embellishment. Keep all cloth panels flat ivory and all gold strips muted ochre with constant base colour, no shading on the lower half.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-2e28c778-1cf3-406e-a70d-1fa975114080.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected first return: slightly better normalized mask overlap (0.980896 versus 0.980589), more faithful lengthwise conductive seams and retained blue-white strap indicator. Exact outline and fully shadowless lighting not achieved; kept raw at attempt limit.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ab43989f43191941d6fecb684d90069d86815ceea272f94bece41711a8225121"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "e80888932e7d6a3d5e2f3cff6d49f2bb932e25270668b9a869cc2bbcc3c69fc5",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.980896,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Gold specular edges, bottom cloth darkening and shaded strap relief remain.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1209094,
+        "alpha_opaque_pixels": 374
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Recolour the FIRST attached image, guide_right.png, in place. Use the SECOND image ONLY as the suit material/design reference. Target 1024 x 1024 RGBA.\n\nThis corrective pass MUST preserve the exact guide alpha mask, including its large transparent teardrop armhole. Do not add padded bands inside that opening: the hole must retain the guide's exact size and boundary. Do not shift or shrink the garment or smooth the guide's irregular polygonal edges. Keep the hem on the LEFT and shoulder on the RIGHT. The occupied bounds remain x66..957, y280..743, with every part edge inside also fixed.\n\nPaint the existing surfaces with warm ivory fine woven cloth, fine muted ochre-gold conductive seams, sparse off-white ceramic on already raised strap faces, and reference-matched charcoal ribbed flank fabric with small gold crossbars. Gold piping must fit onto the guide's existing rim, never enlarge it. Plausibly continue the approved materials on unseen surfaces. No extra components.\n\nThis is PURE ALBEDO, not a shaded product render. Every ivory area is the same flat ivory base colour; every gold area the same muted matte ochre. Only fine weave, fine wear and narrow seam marks vary intrinsically. No lower-half darkening, no shadows behind straps, no AO at joins, no specular glints, no reflections or bloom. True transparent outside and exact transparent hole. No text or letters. Preserve the first image's exact outline, scale, position and all empty margins.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-233b795a-31f8-4ade-9253-f6361b849588.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Rejected corrective return: slightly worse mask overlap, conductive seams changed direction and blue-white strap indicator omitted. No further attempts permitted.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ab43989f43191941d6fecb684d90069d86815ceea272f94bece41711a8225121"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "82d75db585332bbd12480c5b332748625d85911359cad3941751acef539b8130",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.980589,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Gold highlights and dark shading around seam/strap relief remain despite albedo prompt.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 1205099,
+        "alpha_opaque_pixels": 408
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by editing the FIRST supplied image, the orthographic model guide. The SECOND image is design_reference.png, used ONLY for surface design, colours and materials. The guide is the absolute authority for geometry, projection, silhouette, alpha, every part edge, size and position. Keep the guide's original canvas; paint in place. Preserve every transparent pixel and opening, exactly. Do not rotate, reinterpret the named view, straighten, enlarge, shrink, recenter, crop, fill holes, or add geometry. The filenames describe model axes, not the conventional clothing pose.\nSubject: Hesper weave suit, ancient colonial work clothing woven with conductive thread. Apply the approved design's pale warm ivory densely woven cloth, narrow muted brushed-gold conductive seams and piping, subtly worn off-white ceramic strap/buckle plates, charcoal black-violet ribbed flexible side fabric and padded dark inner lining. Paint the blue-white light elements only on hardware visible in this exact view; no additional lights. Keep the reference's panel joins, seams and fine surface wear where appropriate. Unseen surfaces plausibly continue these same materials. Preserve the existing thicknesses and placement of the guide's parts.\nLighting: flat albedo/base-colour texture source, uniform shadowless illumination from the viewer. Remove the guide's light/shadow gradients. No cast shadows, no ambient occlusion darkening, no directional shading, no hot specular highlights, no reflections, no rim lighting, no vignette. Metals show their ochre-gold base colour with only a faint sheen; lamps are flat bright blue-white paint without bloom or light spill. Material microtexture and sewn/engraved lines are allowed but must not create baked lighting.\nBackground: true alpha transparency outside the original silhouette and through all original holes, NOT black paint or a drawn checkerboard. No floor, setting, text, numbers, letters, labels, logos or watermark. The complete item must remain exactly in the guide silhouette, with the guide's original transparent margins.\nView-specific geometry and material placement: guide_top.png: retain this exact upright broad chest-facing projection, bounding box x=219..804, y=66..957. The guide shows the entire fitted torso from neckline to flared hem with two raised shoulder strap pieces at their exact existing positions. Apply the approved reference chest design: ivory woven cloth, narrow vertical gold conductive seams, off-white ceramic/gold shoulder fasteners with small cyan-white indicators, and the central narrow off-white ceramic chest fitting with a blue-white circular inset lamp. The fitting is painted surface detail and does not change the silhouette. Keep all guide edges, neckline, arm openings and visible bottom interior exactly; inside lining is matte charcoal. Do not copy the reference's three-quarter pose or its lighting.\nPreserve exactly the guide's 219-pixel side margins and 66-pixel top and bottom margins. No perspective shift, no three-quarter turn. Apply the painted chest details directly to the guide's unchanged broad front-facing torso. The lower visible inside hem is flat dark charcoal textile, no directional shading. No extra geometry.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-0ed30165-b9eb-47ba-ba68-24e670757fef.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: strong bust/waist shading, metallic glints and depth shadows despite albedo prompt; corrective generation requested.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "4be9d388ee50842738fdfb275054bf9e3d672a3a1753214eb16de826ae3380b9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "434da9f2edf59540369f31ee52b19befc479a86d4b8aa2a18924fef2ba402bb3",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.992245,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Strong gold glints, bust/waist shadows and shaded strap relief.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 937338,
+        "alpha_opaque_pixels": 957
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Image 1 is guide_top.png, the fixed model projection and exact edit target. Image 2 is design_reference.png, the sole material/design authority. Produce one 1024x1024 RGBA PNG.\n\nCORRECTIVE PASS: recolour the exact existing image-1 geometry without rendering new geometry. Keep every silhouette pixel, arm edge, asymmetric strap position, neckline and lower hem. Exact guide bounds: x219..804, y66..957, centered with 219-pixel side margins. Do not narrow the waist, reshape the chest, enlarge the straps or round off the hem.\n\nPaint only the approved materials and chest design: pale ivory closely woven work-clothing fabric; narrow muted ochre-gold conductive seams down the torso; off-white subtly worn ceramic over the existing shoulder straps; the reference central narrow ceramic fitting with a blue-white circular inset; small blue-white slot indicators on strap plates; charcoal-violet ribbed flank inserts with small gold fastenings; flat charcoal lining at neck and inside lower hem. Preserve original part boundaries. Painted fittings must not alter the guide silhouette.\n\nThe crucial correction is COMPLETELY FLAT ALBEDO. The chest and waist must have the identical ivory base colour, with NO sculpted shading beneath breasts, down sides or at waist. Gold is flat muted ochre with only tiny intrinsic wear; NO white glints, specular edges, dark bevel shading or reflections. No shadows beneath plates, no ambient occlusion, no folds shaded by light, no gradient lighting. Lamps are solid light cyan-white, without bloom or cast light. Fine fabric weave, ceramic wear, stitching and narrow seam marks remain as intrinsic colour texture. Preserve the guide's exact shape and blank areas. Transparent background, no text or letters.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-901a-76e2-a361-fd1de56df5a3/exec-ec32c5b6-a0ee-45e6-a015-daa2209f0891.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return: substantially flatter cloth and gold, flat cyan chest lamp, main design retained. Outline/part edges still differ from the guide and slight seam/plate shading remains; raw return preserved at attempt limit.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "4be9d388ee50842738fdfb275054bf9e3d672a3a1753214eb16de826ae3380b9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "bb3dba6a83665422561807e984b0a88f103594dd7641ff282e3e59916d449382"
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "resized": false,
+      "sha256": "a0187ceedfca1ab0387eb157e6e24167e778b403f3b6d60aef76cbdfbe118d85",
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.973059,
+        "mask_comparison": "Alpha >=128 compared by normalized nearest sampling, for diagnostics only; saved image is unchanged.",
+        "colours_materials": "Reference ivory cloth, off-white ceramic, gold, charcoal lining and blue-white lamps visually checked; generated placement differs from the guide in places.",
+        "flat_even_shadowless_light": false,
+        "lighting_notes": "Much flatter intrinsic colours, but some dark seam and plate relief remains; strict fully shadowless criterion not met.",
+        "no_text_or_letters": true,
+        "requested_dimensions": false,
+        "edge_notes": "Generated alpha edges are not identical to guide; raw return retained without cleanup.",
+        "alpha_zero_pixels": 923441,
+        "alpha_opaque_pixels": 1007
+      },
+      "meets_all_brief_checks": false
+    }
+  ],
+  "status": "generation_complete_with_unmet_acceptance_checks",
+  "summary": {
+    "selected_outputs": [
+      "paint_front.png",
+      "paint_back.png",
+      "paint_left.png",
+      "paint_right.png",
+      "paint_top.png"
+    ],
+    "actual_return_dimensions": [
+      1254,
+      1254
+    ],
+    "all_saved_returns_unmodified": true,
+    "corrective_regenerations_per_view": 1,
+    "acceptance": "Not fully compliant: exact guide silhouette/part edges and strictly shadowless albedo were not achieved. Selected is the preferred generated attempt, not acceptance.",
+    "out_of_scope": "No builds, model edits, baking or engine installation."
+  }
+}

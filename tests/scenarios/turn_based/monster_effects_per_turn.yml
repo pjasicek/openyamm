@@ -1,0 +1,30 @@
+id: turn_based.monster_effects_per_turn
+title: Turn-based - a monster's spell effects run down by each turn's game time, not by actor AI time
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-6 in devdocs/TURN_BASED_COMBAT_AUDIT.md. The original expires actor buffs on the game clock, which in
+        turn-based play advances 213 ticks per completed turn (NextTurn), 1.664 real-second equivalents. OpenYAMM ran
+        the timers on actor AI time, which in turn-based play passes only in the wait stage and while monsters act.
+        The default party's first member paralyses Lizardman Peasant 11 (Light skill 10: 30 minutes, 1800 s;
+        Paralyze has no resistance roll), then the party passes ten turns: the paralysis must lose 10 x 1.664 s.
+  - new_game_flow:
+      start_map: out01.odm
+  - set_pose: {map: out01.odm, x: 12296, y: 8216, z: 736, yaw_degrees: -78}
+  - damage_actor: {actor_index: 11, amount: 1}
+  - assert: {actor_visible: {actor_index: 11, hostile_to_party: true}}
+  - press_action: combat
+  # Room for a nearby monster that rolled initiative 1 to finish its action (3 s at most).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true, stage: attack, front_member: "0", report: true}}
+  # The scenario cast spends no turn; the wait and the monsters' actions spend no game time.
+  - cast_spell: {member_index: 0, spell_id: 81, skill: 10, mastery: 2, actor_index: 11}
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {actor_index: 11, actor_effect: paralyze, effect_min: 1799.9, effect_max: 1800.0}}
+  - turn_based_turns: {count: 10}
+  # 1800 - 10 x 213 / 128 s.
+  - assert: {turn_based: {actor_index: 11, actor_effect: paralyze, effect_min: 1783.2, effect_max: 1783.5,
+      report: true}}

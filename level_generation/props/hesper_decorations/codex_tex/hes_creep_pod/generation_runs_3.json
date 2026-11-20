@@ -1,0 +1,230 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "Generated and saved; exact brief compliance not achieved.",
+  "postprocessing": "None. All PNG returns copied byte-for-byte without resizing, cropping, alpha replacement or repainting.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture projection, LEFT view. Produce ONE 1024 x 1024 PNG with a genuinely transparent background, unresized.\nImage 1 guide_left.png is the EDIT TARGET and the absolute pixel-space geometry authority. Image 2 design_reference.png is ONLY the colour/material authority. Image 3 concept_crop.png supports identity only.\nPaint the grey model in Image 1 in place. Keep its EXACT alpha silhouette, exact object size, position, orthographic LEFT camera, every spike, faceted edge, root, sac boundary, crossing rib and transparent opening. Do not use Image 2's camera or shape, do not introduce its extra ornament, spikes, gravel, rounded structures or ground. The model bounds in the 1024 square are x=66..957, y=220..803; highest tip near (519,220), base reaches (66,767) to (957,764) with a low central underside down to y=803. Leave those framing margins unchanged.\nApply the approved reference's materials: black-violet resin/chitin tendrils with faint restrained sheen; translucent fiery orange egg-sac membranes with darker branching veins and mottled amber/orange glowing-colour detail; dark root network and dark base. The existing broad swollen surfaces between the ribs become orange sacs, the existing angular ribs/spikes and roots become black-violet chitin. Preserve the exact polygonal geometry and edges instead of reshaping into the reference sculpture.\nLIGHTING IS STRICT ALBEDO: perfectly even, flat, shadowless frontal viewer light. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no directional shading. Orange sacs and seams are painted at their glowing colour, without bloom, light spill or illumination on surrounding chitin. Preserve detailed intrinsic material colour variation without baked lighting. No floor, no background, no checkerboard, no text. Transparent pixels stay transparent, all shape edges and holes precisely trace Image 1.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564a-b0f5-76e1-8037-7dfe83b6fb4c/exec-7e2a31e6-3676-48ca-be7a-c3f984191c03.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_left_attempt_1.png",
+      "selected": true,
+      "reason": "Selected as the better left return: less pronounced highlights than correction, recognizable reference materials and approximate guide layout. Does not meet exact dimensions, pixel silhouette or strict albedo requirements.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_left.png",
+          "sha256": "ac418acb3e5c086c37e248af6f84cbf29f87a4a4710f79df5654847afaef60df"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output_sha256": "50d02fe9074976bd85978692d490636da94a515010e08fe075b91857f38b9410",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          30,
+          1202,
+          1232
+        ],
+        "alpha_gt_127_bbox": [
+          79,
+          269,
+          1176,
+          986
+        ],
+        "faint_alpha_pixels_1_to_127": 17366,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Recognizable black-violet chitin and orange veined sacs; orange highlights remain on chitin.",
+        "flat_even_shadowless_albedo": false,
+        "visual_review": "Geometry approximately follows the respective guide; hard polygon edges retained, but exact openings/edges differ. Highlights, crevice darkening and glow variation remain."
+      },
+      "selected_output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_left.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit guide_left.png only, using design_reference.png for materials and concept_crop.png for identity. Return exactly 1024x1024 pixels, with transparent background. This is the single corrective attempt for LEFT orthographic texture-source view.\nThe previous attempt returned 1254x1254 and must be corrected: native output resolution MUST be 1024x1024. Copy the guide_left.png layout pixel for pixel. Exact alpha silhouette, internal openings, every rib edge and sac edge, all polygonal roots and spikes. Retain the same orthographic left view, same placement, scale and margins; bounds x66..957, y220..803 on the 1024x1024 canvas. Do not redraw or redesign the geometry. Keep the large base's low angular outline including its central underside.\nRecolour the grey guide in place with the approved design materials: dark glossy black-violet resin/chitin ribs and tendrils with faint sheen, dark roots, translucent orange egg sacs with darker veins. Intrinsic fiery orange/amber mottling within existing sac shapes. Preserve all existing faceted edges, openings and details. No extra spikes, roots or stones, no new detail that changes an edge.\nStrict unlit albedo painting, even flat shadowless viewer-facing illumination; no cast shadows, no AO, no directional shading, no bright specular or reflections, no rim light. Glow is painted orange colour only; no bloom or orange light on chitin. No background or floor or checkerboard. Fully transparent outside the guide silhouette, no stray alpha pixels. ONE 1024x1024 transparent PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564a-b0f5-76e1-8037-7dfe83b6fb4c/exec-86a26206-67a1-40ea-bca2-26abced6b1a8.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_left_attempt_2.png",
+      "selected": false,
+      "reason": "Correction did not fix native dimensions or exact silhouette and introduced stronger bright chitin highlights.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_left.png",
+          "sha256": "ac418acb3e5c086c37e248af6f84cbf29f87a4a4710f79df5654847afaef60df"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output_sha256": "a9119d23a651a1b59e587d4f193678c50a0482372e02e3b245950d471b35c522",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "alpha_gt_127_bbox": [
+          81,
+          269,
+          1175,
+          985
+        ],
+        "faint_alpha_pixels_1_to_127": 30302,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Recognizable black-violet chitin and orange veined sacs; orange highlights remain on chitin.",
+        "flat_even_shadowless_albedo": false,
+        "visual_review": "Geometry approximately follows the respective guide; hard polygon edges retained, but exact openings/edges differ. Highlights, crevice darkening and glow variation remain."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint Image 1 guide_right.png IN PLACE as an orthographic RIGHT-side albedo texture source. Image 2 design_reference.png is colour/material authority only; Image 3 concept_crop.png supports identity only. Return ONE native 1024x1024 PNG, genuinely transparent background.\nExact geometry lock: keep the grey guide's pixel silhouette, position, scale and orthographic right camera. Every edge, polygon facet, spike, root, crossed rib, sac boundary and transparent hole stays exactly where the guide places it. Bounds x=66..957, y=220..803 on this 1024 square. Highest long tip starts near (505,220) sweeping to the right outer arch; central upright blade near x510, left outer arch rooted near x232. Keep the low spread roots and angular central underside. Do not mirror, recenter, zoom, smooth the faceted geometry, or adopt the reference's three-quarter camera or outline.\nSurface colours/materials only: glossy black-violet organic resin/chitin ribs, spikes and tendrils with faint sheen, dark roots/base; existing swollen surfaces enclosed between ribs become translucent fiery orange sacs with dark branching veins and mottled amber/orange coloured membrane detail. Match approved material identity and palette. Do not add gravel, extra spikes, new structures or edges.\nLIGHTING: strict ALBEDO. Even flat shadowless viewer light, no cast shadows, no ambient occlusion darkening, no strong specular highlights/reflections, no rim light, no directional gradients. Orange sacs/seams have their glowing colour painted into the surface without bloom or light spilling onto chitin. No background, floor, text, checkerboard or shadow. Preserve guide transparency and every opening. Output 1024 by 1024, unresized.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564a-b0f5-76e1-8037-7dfe83b6fb4c/exec-a5ea0fcd-46c1-4583-b996-9464ce10db5e.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Wrong native dimensions, missing low central underside, bright highlights and baked darkening.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_right.png",
+          "sha256": "55ccd236f04365ed4e2bfc2d7452c765cf0b17d2747a34eaf572e6bb7e5fd5ca"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output_sha256": "71b3a83b08d19b5715db2a69557ca8cb61d8e9c9a134f5fa9239dec88c2606dd",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          49,
+          34,
+          1240,
+          1243
+        ],
+        "alpha_gt_127_bbox": [
+          81,
+          269,
+          1174,
+          947
+        ],
+        "faint_alpha_pixels_1_to_127": 19778,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Recognizable black-violet chitin and orange veined sacs; orange highlights remain on chitin.",
+        "flat_even_shadowless_albedo": false,
+        "visual_review": "Geometry approximately follows the respective guide; hard polygon edges retained, but exact openings/edges differ. Highlights, crevice darkening and glow variation remain."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective RIGHT-view texture-source painting. Image 1 guide_right.png is the immutable EDIT TARGET; Image 2 design_reference.png gives only surface colours/materials; Image 3 concept_crop.png gives identity. Make ONE 1024 x 1024 transparent PNG.\nCorrect these problems in the previous right-view attempt: native size was 1254x1254 instead of 1024x1024; low central underside of the base was omitted; too much lighting was baked in.\nRecolour Image 1 without changing ANY shape, edge, size, position, camera, transparent opening or alpha silhouette. Trace guide_right.png precisely at the same pixels on a 1024x1024 canvas. Bounds x66..957 and y220..803. Preserve the entire broad low base INCLUDING the angular central downward underside to y803. Long highest spike at (505,220), tall outer rib on image right, central narrow front blade, all roots and all crossing ribs must match the guide exactly. Keep guide facets, no smoother or added forms. Nothing outside its silhouette.\nUse intrinsic surface colours of approved reference: black-violet chitin/resin on ribs, spikes and roots with only faint sheen; amber-orange translucent sacs with dark branching membrane veins on the existing inflated shapes. Dark root base. Match material and colour identity without copying reference geometry, camera or gravel.\nStrict completely FLAT UNLIT ALBEDO. No light direction or shading, no cast shadow or AO even in crevices, no specular highlights, no reflections, no rim light, no orange glow spill on surrounding chitin, no bloom. The sacs contain orange colour variation, without lighting the frame around them. No floor, background, checkerboard, labels or extra objects. Outside guide alpha must be completely transparent, no scattered faint alpha pixels. Exact 1024x1024 output, do not rescale the model.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564a-b0f5-76e1-8037-7dfe83b6fb4c/exec-60e7f15e-2e31-4890-9dd0-4853aa21f57d.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_right_attempt_2.png",
+      "selected": true,
+      "reason": "Selected as the better right return: restores central underside and reduces highlights. Does not meet exact dimensions, pixel silhouette or strict albedo requirements.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_right.png",
+          "sha256": "55ccd236f04365ed4e2bfc2d7452c765cf0b17d2747a34eaf572e6bb7e5fd5ca"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output_sha256": "2886684a6102089626d33dc1d7386da54e37a313bb5becb004fb71810c89cba4",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1220,
+          1222
+        ],
+        "alpha_gt_127_bbox": [
+          81,
+          269,
+          1174,
+          986
+        ],
+        "faint_alpha_pixels_1_to_127": 18591,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Recognizable black-violet chitin and orange veined sacs; orange highlights remain on chitin.",
+        "flat_even_shadowless_albedo": false,
+        "visual_review": "Geometry approximately follows the respective guide; hard polygon edges retained, but exact openings/edges differ. Highlights, crevice darkening and glow variation remain."
+      },
+      "selected_output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_right.png"
+    }
+  ]
+}

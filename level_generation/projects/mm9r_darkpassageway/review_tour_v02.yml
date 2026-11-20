@@ -1,0 +1,333 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_darkpassageway/review/v02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_start_room
+  position:
+  - -18995
+  - 1946
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s02_start_corridor
+  position:
+  - -18995
+  - 384
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s03_scroll
+  position:
+  - -18688
+  - 307
+  - 1
+  yaw: -0.7003
+  pitch: -0.2618
+- name: b01_lake_from_ladder
+  position:
+  - -18995
+  - -1126
+  - 1
+  yaw: -1.526
+  pitch: -0.3491
+- name: b02_lake_east
+  position:
+  - -18995
+  - -1126
+  - 1
+  yaw: -1.0839
+  pitch: -0.2618
+- name: b03_lake_end
+  position:
+  - -19323
+  - -10394
+  - -1310
+  yaw: 1.5708
+  pitch: 0.0
+- name: b04_lake_teleporter
+  position:
+  - -19323
+  - -10752
+  - -1310
+  yaw: 1.5708
+  pitch: 0.0
+- name: c01_canyon_corridor
+  position:
+  - -19574
+  - -11021
+  - -1310
+  yaw: -2.3908
+  pitch: 0.0
+- name: c02_canyon_corridor_south
+  position:
+  - -21102
+  - -15227
+  - -1310
+  yaw: -1.5708
+  pitch: 0.0
+- name: c03_canyon_plateau
+  position:
+  - -21102
+  - -16512
+  - -1310
+  yaw: -1.4471
+  pitch: 0.0
+- name: c04_statue_ledge
+  position:
+  - -19456
+  - -16896
+  - 32
+  yaw: -2.1815
+  pitch: -0.1745
+- name: c05_canyon_door_ledge
+  position:
+  - -20224
+  - -21504
+  - -327
+  yaw: 1.7127
+  pitch: 0.0
+- name: c06_pit_bottom
+  position:
+  - -20480
+  - -19456
+  - -6553
+  yaw: 2.0899
+  pitch: 0.2618
+- name: c07_mountain_teleporter
+  position:
+  - -18432
+  - -22016
+  - -327
+  yaw: 0.3588
+  pitch: 0.0
+- name: m01_mountain_room
+  position:
+  - -16896
+  - -21248
+  - -327
+  yaw: 1.0705
+  pitch: 0.0
+- name: m02_forest_corridor
+  position:
+  - -16056
+  - -19712
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: f01_forest_south
+  position:
+  - -15401
+  - -16768
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: f02_forest_middle
+  position:
+  - -15401
+  - -15104
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: f03_painting
+  position:
+  - -14592
+  - -14976
+  - -327
+  yaw: 0.9237
+  pitch: 0.0
+- name: f04_hidden_room
+  position:
+  - -14080
+  - -14438
+  - -327
+  yaw: -1.1273
+  pitch: 0.0
+- name: f05_forest_north
+  position:
+  - -15401
+  - -12544
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: p01_forest_arrival
+  position:
+  - -15401
+  - -9472
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: p02_path_north
+  position:
+  - -14336
+  - -8448
+  - 1
+  yaw: 0.3218
+  pitch: 0.0
+- name: p03_path_east
+  position:
+  - -11520
+  - -9472
+  - -680
+  yaw: -1.4801
+  pitch: 0.0
+- name: p04_path_south
+  position:
+  - -12288
+  - -15872
+  - -368
+  yaw: -1.8546
+  pitch: 0.0
+- name: t01_tube_room
+  position:
+  - -13440
+  - -21248
+  - -695
+  yaw: -0.1049
+  pitch: -0.2618
+- name: o01_ocean_island
+  position:
+  - -7537
+  - -21453
+  - -3304
+  yaw: -1.5708
+  pitch: 0.0
+- name: o02_ocean_cage
+  position:
+  - -8064
+  - -21760
+  - -3300
+  yaw: 0.0
+  pitch: 0.0
+- name: r01_pillar_room
+  position:
+  - -7864
+  - -18560
+  - -818
+  yaw: 1.5708
+  pitch: 0.0
+- name: r02_pillar_room_south
+  position:
+  - -7680
+  - -16512
+  - -818
+  yaw: -1.6464
+  pitch: 0.0
+- name: d01_desert_entry
+  position:
+  - -7864
+  - -15488
+  - 262
+  yaw: 0.775
+  pitch: 0.0
+- name: d02_mirror0
+  position:
+  - -5888
+  - -13107
+  - -555
+  yaw: 3.1416
+  pitch: 0.0
+- name: d03_gemstone
+  position:
+  - -3968
+  - -12928
+  - -494
+  yaw: -0.2537
+  pitch: 0.0
+- name: d04_cages_west
+  position:
+  - -8704
+  - -10486
+  - -802
+  yaw: 3.1416
+  pitch: 0.0
+- name: d05_cages_east
+  position:
+  - -1280
+  - -10486
+  - -818
+  yaw: 0.0
+  pitch: 0.0
+- name: d06_desert_wide
+  position:
+  - -1792
+  - -7424
+  - -818
+  yaw: -2.3562
+  pitch: 0.0
+- name: d07_desert_door
+  position:
+  - -5571
+  - -6656
+  - -427
+  yaw: 1.5708
+  pitch: 0.0
+- name: k01_trap_corridor
+  position:
+  - -5248
+  - -4736
+  - -327
+  yaw: 1.876
+  pitch: 0.0
+- name: k02_spike_room
+  position:
+  - -5581
+  - -3968
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: k03_desert_teleporter
+  position:
+  - -4992
+  - -3328
+  - -327
+  yaw: 1.0594
+  pitch: 0.0
+- name: e01_desert_arrival
+  position:
+  - -5243
+  - -1280
+  - -816
+  yaw: 1.5708
+  pitch: 0.0
+- name: e02_exit_room
+  position:
+  - -5243
+  - 845
+  - -1187
+  yaw: 1.5708
+  pitch: 0.0
+- name: e03_riser
+  position:
+  - -4813
+  - 1229
+  - -1187
+  yaw: 2.7367
+  pitch: 0.0
+- name: w01_upper_corridor
+  position:
+  - -5243
+  - 2816
+  - -572
+  yaw: 1.1683
+  pitch: 0.0
+- name: w02_curve
+  position:
+  - -3584
+  - 5888
+  - -572
+  yaw: 0.2382
+  pitch: 0.0
+- name: w03_wyrde_room
+  position:
+  - -1152
+  - 6323
+  - -572
+  yaw: 0.0156
+  pitch: 0.0
+- name: w04_flame_cage
+  position:
+  - -348
+  - 5888
+  - -572
+  yaw: 0.5749
+  pitch: 0.0

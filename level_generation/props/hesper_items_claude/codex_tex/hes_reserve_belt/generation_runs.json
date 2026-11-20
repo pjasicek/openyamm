@@ -1,0 +1,559 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: painted orthographic albedo texture source for an existing game item.\nInput image 1 (design_reference.png) is the authority for materials, colours, and surface detailing ONLY. Input image 2 is the EDIT TARGET: a 1024 x 1024 orthographic model guide. Paint directly on image 2, keeping its exact camera, pixel placement, scale, silhouette, every component edge, and transparent alpha coverage. Do not use the silhouette or perspective of image 1.\nSubject: Hesper reserve belt, compact colonial equipment. Transfer the reference's dark charcoal leather with subtle grain and stitched seams, slightly warm white ceramic with fine wear and fine panel joins, and subdued brushed aged gold clamps onto the corresponding guide parts. Tiny existing charge-window surfaces are bright blue-white glass. Guide tints only identify material; do not copy their pale beige leather or pale yellow metal. Continue unseen surfaces plausibly in the same materials. Any extra surface detail must stay painted inside the existing guide parts, never change geometry.\nLighting: strictly flat even shadowless albedo. Uniform viewer-facing illumination, same material base colour on faces pointing different directions. Remove the guide's cast shadows and shading. No ambient occlusion, dark contact shadows, gradients caused by lighting, strong specular highlights, reflections, rim light, bloom, or projected glow. Gold is muted gold base colour with only faint brushed sheen; light parts are painted their bright blue-white base colour.\nOutput: one 1024 x 1024 RGBA PNG, real transparent background and holes. Preserve all the large empty margins exactly. No floor, backdrop, text, lettering, digits, logo, watermark, diagram, border, captions or layout sheet. Do not crop, enlarge, move, rotate, thicken, warp or rearrange the guide object. Keep the guide alpha mask exactly.\nView: FRONT. Match guide_front.png. Entire opaque silhouette lies within x=66..957, y=439..584. The long straight projected belt band spans about x=112..911, y=446..577. Five visible white ceramic block projections remain centred about x=89, 217, 512, 807, 935, with gold clamp tabs where the guide has them. The centre ceramic block stays ceramic; a larger gold buckle plate is visible only around its edges behind it. Do not replace the middle block with an invented full front-facing buckle or charge window. No visible oval opening from this level camera.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-750de1ce-3fa2-47ac-93dd-dc1a75b37e19.png",
+      "output": "paint_front_run1.png",
+      "selected": false,
+      "reason": "Rejected: stronger shading/highlights and poorer outline alignment (normalized silhouette IoU 0.9274).",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "2d5307974ba07988a33aabb7ecacb9af957a28e84b935b3d78de2551244abb6c"
+        }
+      ],
+      "returned_size": [
+        1263,
+        1246
+      ],
+      "output_sha256": "52ea8631b371da9273bfa383ef30248f1e7f30e6b739bb4fa8201392019fb6e2",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          68,
+          31,
+          1243,
+          1189
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          78,
+          531,
+          1186,
+          720
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.9274375804236638,
+        "zero_alpha_fraction": 0.8725028563294863,
+        "nonzero_alpha_outside_normalized_guide_pixels": 29096,
+        "alpha_1_to_15_pixels": 13527,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit input image 1, guide_front.png, in place. Input image 2 is design_reference.png, material reference only. Input image 3 is a rejected first painting: use its material colours but correct its silhouette drift, unwanted shadows/highlights, and wrong canvas dimensions.\n\nProduce a 1024 x 1024 transparent RGBA image. EXACTLY preserve image 1's alpha silhouette, component edges, orthographic projection and positioning. This is a texture paint-over, not a new rendering. Belt occupies only x=66..957, y=439..584; all other pixels fully transparent. No faint stray pixels outside that silhouette. Do not resize or recompose. Copy the outline of image 1, NOT image 3.\n\nApply charcoal leather grain and small stitch lines to the band, warm white lightly worn ceramic to white blocks, flat subdued brushed gold to clamp tabs and the central plate edges. Keep the centre ceramic block in front of the gold plate. Tiny blue-white charge-window paint details may appear within the ceramic surfaces as in reference; do not add hardware or change an edge. Keep the guide's asymmetric bevel edges and all five ceramic block projections exactly where they are.\n\nCRITICAL CORRECTION: eliminate all cast shadows, ambient occlusion, bevel shading, dark contact outlines, shiny edge highlights, reflections and directional lighting from image 3 and from the guide. This must be a flat shadowless ALBEDO texture, evenly illuminated, with fine surface wear and stitching but not photographic volume shading. Gold painted its ochre-gold base colour with a very faint sheen. Ceramic ivory-white on every facet. Leather evenly charcoal on every facet. No text, letters, numbers, watermark, backdrop, floor, bloom, enlargement or added objects.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-4b0c6abc-827d-456a-83ed-b6d57ab2073f.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected best available: flatter surfaces and improved outline alignment (IoU 0.9732). Still not exact; faint alpha specks and residual edge shading remain.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "2d5307974ba07988a33aabb7ecacb9af957a28e84b935b3d78de2551244abb6c"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        },
+        {
+          "file": "paint_front_run1.png",
+          "sha256": "52ea8631b371da9273bfa383ef30248f1e7f30e6b739bb4fa8201392019fb6e2"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e2b60678d9220634065d1dd7ef78db9e126c932fd1fc6e1b094f79b2d727a092",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          47,
+          35,
+          1226,
+          1238
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          84,
+          535,
+          1170,
+          719
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.9731657897873355,
+        "zero_alpha_fraction": 0.883403412111546,
+        "nonzero_alpha_outside_normalized_guide_pixels": 11555,
+        "alpha_1_to_15_pixels": 5092,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: painted orthographic albedo texture source for an existing game item.\nInput image 1 is the EDIT TARGET: a 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is the authority for materials, colours, and surface detailing ONLY. Paint directly on image 1, keeping its exact camera, pixel placement, scale, silhouette, every component edge, and transparent alpha coverage. Do not use the silhouette or perspective of image 2.\nSubject: Hesper reserve belt, compact colonial equipment. Transfer the reference's dark charcoal leather with subtle grain and stitched seams, slightly warm white ceramic with fine wear and fine panel joins, and subdued brushed aged gold clamps onto the corresponding guide parts. Tiny existing charge-window surfaces are bright blue-white glass. Guide tints only identify material; do not copy their pale beige leather or pale yellow metal. Continue unseen surfaces plausibly in the same materials. Any extra surface detail must stay painted inside the existing guide parts, never change geometry.\nLighting: strictly flat even shadowless albedo. Uniform viewer-facing illumination, same material base colour on faces pointing different directions. Remove the guide's cast shadows and shading. No ambient occlusion, dark contact shadows, gradients caused by lighting, strong specular highlights, reflections, rim light, bloom, or projected glow. Gold is muted gold base colour with only faint brushed sheen; light parts are painted their bright blue-white base colour.\nOutput: one 1024 x 1024 RGBA PNG, real transparent background and holes. Preserve all the large empty margins exactly. No floor, backdrop, text, lettering, digits, logo, watermark, diagram, border, captions or layout sheet. Do not crop, enlarge, move, rotate, thicken, warp or rearrange the guide object. Keep the guide alpha mask exactly.\nPrioritize an absolutely FLAT paint-over rather than photorealistic volume: eliminate bevel shading and contact shadows too. Retain 1024 x 1024 dimensions and copy the guide's alpha edges without adding even faint stray pixels.\nView: BACK. Match guide_back.png. Entire opaque silhouette lies within x=66..957, y=439..584. The long straight projected belt band spans about x=112..911, y=446..577. Preserve four white ceramic block projections near x=89, 217, 807, 935. The broad central gold rectangular bevelled buckle at x=446..577, y=439..584 contains the existing slender vertical blue-white window at x=497..525, y=469..555. Keep that exact window size and placement. No visible oval opening from this level camera.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-8bbd47fa-688c-4e72-be8b-d6abb9847ab9.png",
+      "output": "paint_back_run1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the flatter corrective painting; this attempt has stronger metal bevel highlights. Its outline alignment was slightly better (IoU 0.9768).",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "c936433e5300d051cc9e3a668dae41245c1e3b6549a6f78815d948bf5cd29c29"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "33f0ef4514d10dc38cd10b5c4e416952564f52b30810badc2aa2b706fe01d4fc",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          57,
+          23,
+          1175,
+          1182
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          82,
+          538,
+          1172,
+          719
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.976762715626405,
+        "zero_alpha_fraction": 0.8837493545375691,
+        "nonzero_alpha_outside_normalized_guide_pixels": 10944,
+        "alpha_1_to_15_pixels": 5068,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Make the one corrected BACK-view albedo painting. Input 1 guide_back.png is the exact geometry/alpha authority. Input 2 design_reference.png is material authority. Input 3 paint_back_run1.png is the first attempt to correct.\nUse exactly 1024 x 1024 RGBA. Copy input 1's silhouette and every part edge, with belt occupied bounds x=66..957,y=439..584, central gold plate x=446..577,y=439..584 and cyan-white vertical window x=497..525,y=469..555. Preserve all large transparent margins. Outside that precise silhouette every pixel has alpha zero. No faint stray pixels anywhere. Do not crop, enlarge, reframe or invent geometry.\nRetain the first attempt's charcoal stitched leather, warm white ceramic with fine wear, and muted gold clamps/central buckle. CORRECT its photographic shading: remove all bright gold bevel edge reflections, white ceramic edge highlights, dark bevel shading, contact shadows and ambient occlusion. All differently facing facets of the same material must have the same base brightness. Paint FLAT material colours with fine restrained wear/grain, seams and stitching; very faint brushed gold sheen only. Bright blue-white window is a flat light colour, no bloom. No cast shadows, directional light, specular lights, rim light, floor, background, text, letters, digits or watermark. This is albedo colour for projection onto a mesh, not a beauty render.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-a9792731-e869-43a1-8960-3c8846bd82bf.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected best available: much flatter central gold plate and reduced ceramic bevel shading, at a small outline-alignment cost (IoU 0.9620). Exact silhouette, clean margins and fully flat albedo are not achieved.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "c936433e5300d051cc9e3a668dae41245c1e3b6549a6f78815d948bf5cd29c29"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        },
+        {
+          "file": "paint_back_run1.png",
+          "sha256": "33f0ef4514d10dc38cd10b5c4e416952564f52b30810badc2aa2b706fe01d4fc"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "622e2b28c1ae9262ec3d0f739358ec0e44b9e22e3c1632cfc441075f9bb99e27",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          33,
+          1234,
+          1238
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          79,
+          537,
+          1175,
+          716
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.9620302794378757,
+        "zero_alpha_fraction": 0.8806759358887286,
+        "nonzero_alpha_outside_normalized_guide_pixels": 15769,
+        "alpha_1_to_15_pixels": 6992,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: painted orthographic albedo texture source for an existing game item.\nInput image 1 is the EDIT TARGET: a 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is the authority for materials, colours, and surface detailing ONLY. Paint directly on image 1, keeping its exact camera, pixel placement, scale, silhouette, every component edge, and transparent alpha coverage. Do not use the silhouette or perspective of image 2.\nSubject: Hesper reserve belt, compact colonial equipment. Transfer the reference's dark charcoal leather with subtle grain and stitched seams, slightly warm white ceramic with fine wear and fine panel joins, and subdued brushed aged gold clamps onto the corresponding guide parts. Tiny existing charge-window surfaces are bright blue-white glass. Guide tints only identify material; do not copy their pale beige leather or pale yellow metal. Continue unseen surfaces plausibly in the same materials. Any extra surface detail must stay painted inside the existing guide parts, never change geometry.\nLighting: strictly flat even shadowless albedo. Uniform viewer-facing illumination, same material base colour on faces pointing different directions. Remove the guide's cast shadows and shading. No ambient occlusion, dark contact shadows, gradients caused by lighting, strong specular highlights, reflections, rim light, bloom, or projected glow. Gold is muted gold base colour with only faint brushed sheen; light parts are painted their bright blue-white base colour.\nOutput: one 1024 x 1024 RGBA PNG, real transparent background and holes. Preserve all the large empty margins exactly. No floor, backdrop, text, lettering, digits, logo, watermark, diagram, border, captions or layout sheet. Do not crop, enlarge, move, rotate, thicken, warp or rearrange the guide object. Keep the guide alpha mask exactly.\nPrioritize an absolutely FLAT paint-over rather than photorealistic volume: eliminate bevel shading and contact shadows too. Retain 1024 x 1024 dimensions and copy the guide's alpha edges without adding even faint stray pixels.\nView: LEFT. Match guide_left.png. Entire opaque silhouette lies within x=167..856, y=439..584. Leather band runs approximately x=209..811, y=446..577. The gold buckle is seen EDGE-ON at the far LEFT x=168..208, y=439..584, with a slender existing cyan glass strip on its side. Preserve the three ceramic block projections around x=280,512,740 and the small edge-on ceramic block at far right around x=833. Keep every bevel and gold tab in the exact position in this guide. No visible oval opening from this level camera.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-08625cf6-6e51-41da-82fc-122f5f3f6e18.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected best available: substantially better placement and outline alignment (IoU 0.9812) than the corrective return. Residual bevel shading and alpha specks remain.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "5c407df0aa8d71505fb402ce08ace677f442294b78247236ae06e798829f667a"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "59a3977a341e710716b89ec2d40ec64dfd6bfa14d9889b8e8469367bfeeca252",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          23,
+          29,
+          1200,
+          1200
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          207,
+          539,
+          1046,
+          716
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.9811763467222177,
+        "zero_alpha_fraction": 0.9123245804812161,
+        "nonzero_alpha_outside_normalized_guide_pixels": 6766,
+        "alpha_1_to_15_pixels": 3749,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      },
+      "candidate_output": "paint_left_run1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "One corrective albedo paint-over. Input 1 guide_left.png is the EXACT geometry and alpha target. Input 2 design_reference.png is the material reference. Input 3 paint_left_run1.png is the initial painting to flatten and align.\nOutput one 1024 x 1024 transparent RGBA PNG, preserving input 1's margins, silhouette, part edges and orthographic LEFT camera. Occupied bounding region only x=167..856,y=439..584. All pixels outside the guide silhouette must be alpha zero, with no faint stray pixels. Do not enlarge, crop, reposition, or redraw any outline.\nView: LEFT. Match guide_left.png. Entire opaque silhouette lies within x=167..856, y=439..584. Leather band runs approximately x=209..811, y=446..577. The gold buckle is seen EDGE-ON at the far LEFT x=168..208, y=439..584, with a slender existing cyan glass strip on its side. Preserve the three ceramic block projections around x=280,512,740 and the small edge-on ceramic block at far right around x=833. Keep every bevel and gold tab in the exact position in this guide. No visible oval opening from this level camera.\nTransfer the first painting's dark charcoal leather grain/stitches, worn warm white ceramic, subdued brushed gold tabs and edge-on gold buckle, and narrow cyan-white glass strip. CORRECTION: paint entirely FLAT ALBEDO. Remove gold highlights, ceramic bright bevel edges, grey underside bevels, dark shadows under blocks and clamps, and lighting gradients across the leather. Every face of the same material has equal base brightness regardless of orientation. Use material colour and fine wear only, retaining tiny seams and stitch markings. No cast shadow, ambient occlusion, directional lighting, specular reflection, rim light, floor, background, text, letters, numbers, watermark or bloom. Keep all guide bevel shapes through boundaries, not fake lighting.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-795eafa7-4dcc-4152-821b-d911743b9275.png",
+      "output": "paint_left_run2.png",
+      "selected": false,
+      "reason": "Rejected: correction moved the object downward and reduced normalized silhouette IoU to 0.8072; it also retained shading.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "5c407df0aa8d71505fb402ce08ace677f442294b78247236ae06e798829f667a"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        },
+        {
+          "file": "paint_left_run1.png",
+          "sha256": "59a3977a341e710716b89ec2d40ec64dfd6bfa14d9889b8e8469367bfeeca252"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "070feb803eb96de3324e31b77496eba22c8f0e446249cc9ca71880279e6a0bbb",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          63,
+          1232,
+          1236
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          211,
+          555,
+          1046,
+          733
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.8072498477213578,
+        "zero_alpha_fraction": 0.9131888006226964,
+        "nonzero_alpha_outside_normalized_guide_pixels": 16539,
+        "alpha_1_to_15_pixels": 4763,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: painted orthographic albedo texture source for an existing game item.\nInput image 1 is the EDIT TARGET: a 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is the authority for materials, colours, and surface detailing ONLY. Paint directly on image 1, keeping its exact camera, pixel placement, scale, silhouette, every component edge, and transparent alpha coverage. Do not use the silhouette or perspective of image 2.\nSubject: Hesper reserve belt, compact colonial equipment. Transfer the reference's dark charcoal leather with subtle grain and stitched seams, slightly warm white ceramic with fine wear and fine panel joins, and subdued brushed aged gold clamps onto the corresponding guide parts. Tiny existing charge-window surfaces are bright blue-white glass. Guide tints only identify material; do not copy their pale beige leather or pale yellow metal. Continue unseen surfaces plausibly in the same materials. Any extra surface detail must stay painted inside the existing guide parts, never change geometry.\nLighting: strictly flat even shadowless albedo. Uniform viewer-facing illumination, same material base colour on faces pointing different directions. Remove the guide's cast shadows and shading. No ambient occlusion, dark contact shadows, gradients caused by lighting, strong specular highlights, reflections, rim light, bloom, or projected glow. Gold is muted gold base colour with only faint brushed sheen; light parts are painted their bright blue-white base colour.\nOutput: one 1024 x 1024 RGBA PNG, real transparent background and holes. Preserve all the large empty margins exactly. No floor, backdrop, text, lettering, digits, logo, watermark, diagram, border, captions or layout sheet. Do not crop, enlarge, move, rotate, thicken, warp or rearrange the guide object. Keep the guide alpha mask exactly.\nPrioritize an absolutely FLAT paint-over rather than photorealistic volume: eliminate bevel shading and contact shadows too. Retain 1024 x 1024 dimensions and copy the guide's alpha edges without adding even faint stray pixels.\nView: RIGHT. Match guide_right.png. Entire opaque silhouette lies within x=167..856, y=439..584. Leather band runs approximately x=212..813, y=446..577. The gold buckle is seen EDGE-ON at the far RIGHT x=816..856, y=439..584, with a slender existing cyan glass strip on its side. Preserve the three ceramic block projections around x=283,512,743 and the small edge-on ceramic block at far left around x=190. Keep every bevel and gold tab in the exact position in this guide. No visible oval opening from this level camera.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-30eb321c-e461-47b2-9ae8-0e1c7ce0eb31.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected best available: substantially closer guide alignment (IoU 0.9673) than the corrective return. Residual metal highlights, bevel shading and alpha specks remain.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "a64302e01e2272b358ecbbffc45497251e8be5b331f346dd99f8ff054ea8ebef"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3e50a1dc39db8992e57f121a15b730cde016a95ba0ac543f2fd5725bb7facdbc",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          115,
+          1095,
+          1158
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          206,
+          539,
+          1052,
+          717
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.9672732100577531,
+        "zero_alpha_fraction": 0.9103398629966245,
+        "nonzero_alpha_outside_normalized_guide_pixels": 9847,
+        "alpha_1_to_15_pixels": 3589,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      },
+      "candidate_output": "paint_right_run1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "One corrective RIGHT-view albedo painting. Input 1 guide_right.png is the exact geometry and alpha mask target; input 2 design_reference.png supplies materials; input 3 paint_right_run1.png is the initial painting to correct.\nPreserve image 1's exact composition, silhouette, every part edge, and large transparent margins. Output 1024 x 1024 RGBA. The complete belt occupies only x=167..856,y=439..584 and is centred at y=512. Outside the guide's object every pixel must be fully transparent alpha 0, with no stray pixels. Do not shift the object down or up, widen it, thicken it, crop it or alter any geometry.\nView: RIGHT. Match guide_right.png. Entire opaque silhouette lies within x=167..856, y=439..584. Leather band runs approximately x=212..813, y=446..577. The gold buckle is seen EDGE-ON at the far RIGHT x=816..856, y=439..584, with a slender existing cyan glass strip on its side. Preserve the three ceramic block projections around x=283,512,743 and the small edge-on ceramic block at far left around x=190. Keep every bevel and gold tab in the exact position in this guide. No visible oval opening from this level camera.\nKeep the initial painting's dark charcoal stitched leather, worn ivory-white ceramic blocks, aged brushed gold clamps and far-right edge-on buckle with thin blue-white glass detail. Correct the SHADING ONLY: eliminate the harsh shiny golden outline, reflective gold bevels, ceramic bright top edges, grey lower facets, dark creases caused by contact shadows, and all directional lighting. Use equal material colour brightness across different facets. Flat shadowless albedo, fine material grain and wear only, with restrained seams/stitches. Metal uses matte muted gold base colour with only a very faint sheen. No cast shadows, ambient occlusion, specular highlights, reflections, rim light, bloom, floor, backdrop, text, letters, digits or watermark.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-09eb512f-4d58-476b-b49b-e8d0e7df68b4.png",
+      "output": "paint_right_run2.png",
+      "selected": false,
+      "reason": "Rejected: correction shifted the object upward and reduced normalized silhouette IoU to 0.8766; lighting remains imperfect.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "a64302e01e2272b358ecbbffc45497251e8be5b331f346dd99f8ff054ea8ebef"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        },
+        {
+          "file": "paint_right_run1.png",
+          "sha256": "3e50a1dc39db8992e57f121a15b730cde016a95ba0ac543f2fd5725bb7facdbc"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "f2e752df2c0f12c505505ec088a7e6530c85a33cc0547b01711535f3ee17343b",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          55,
+          1242,
+          1150
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          205,
+          530,
+          1054,
+          706
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.8765503010189972,
+        "zero_alpha_fraction": 0.9064798068827281,
+        "nonzero_alpha_outside_normalized_guide_pixels": 19068,
+        "alpha_1_to_15_pixels": 11585,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: painted orthographic albedo texture source for an existing game item.\nInput image 1 is the EDIT TARGET: a 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is the authority for materials, colours, and surface detailing ONLY. Paint directly on image 1, keeping its exact camera, pixel placement, scale, silhouette, every component edge, and transparent alpha coverage. Do not use the silhouette or perspective of image 2.\nSubject: Hesper reserve belt, compact colonial equipment. Transfer the reference's dark charcoal leather with subtle grain and stitched seams, slightly warm white ceramic with fine wear and fine panel joins, and subdued brushed aged gold clamps onto the corresponding guide parts. Tiny existing charge-window surfaces are bright blue-white glass. Guide tints only identify material; do not copy their pale beige leather or pale yellow metal. Continue unseen surfaces plausibly in the same materials. Any extra surface detail must stay painted inside the existing guide parts, never change geometry.\nLighting: strictly flat even shadowless albedo. Uniform viewer-facing illumination, same material base colour on faces pointing different directions. Remove the guide's cast shadows and shading. No ambient occlusion, dark contact shadows, gradients caused by lighting, strong specular highlights, reflections, rim light, bloom, or projected glow. Gold is muted gold base colour with only faint brushed sheen; light parts are painted their bright blue-white base colour.\nOutput: one 1024 x 1024 RGBA PNG, real transparent background and holes. Preserve all the large empty margins exactly. No floor, backdrop, text, lettering, digits, logo, watermark, diagram, border, captions or layout sheet. Do not crop, enlarge, move, rotate, thicken, warp or rearrange the guide object. Keep the guide alpha mask exactly.\nPrioritize an absolutely FLAT paint-over rather than photorealistic volume: eliminate bevel shading and contact shadows too. Retain 1024 x 1024 dimensions and copy the guide's alpha edges without adding even faint stray pixels.\nView: TOP, precisely overhead. Match guide_top.png. Entire opaque silhouette lies within x=66..957, y=167..856. Preserve the narrow elliptical leather ring with its enormous transparent centre; its outer arc spans about x=111..912, y=211..812. Do not fill the centre or widen the ring. Keep all EIGHT attachment projections: the gold buckle edge at top centre (x=446..577,y=169..207), and seven ceramic blocks at upper-left, upper-right, left, right, lower-left, lower-right, bottom centre. All tangential rotations, widths and positions stay fixed. Gold clamps and tiny blue-white glass slivers only where the guide shows them. You see the narrow TOP EDGES of these blocks, not their front faces. No perspective tilt.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-4f9022b5-ef43-4b4e-90dc-ef50ebda62f8.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected best available: closer guide alignment (IoU 0.7054) than the corrective return, with all eight attachments and transparent centre. Ring thickness, component edges, metal highlights and faint alpha specks do not fully comply.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "ba549ef0d866a3ef8081ec33364d4b85d0428a779688d6ac169b2c36e38b29c2"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "018925fba3bd1082a73ce875522c1f11e14032ceb24ed9ecca29a672b652f3cf",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          9,
+          1240,
+          1220
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          79,
+          200,
+          1175,
+          1048
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.7053846537013713,
+        "zero_alpha_fraction": 0.8947641868190849,
+        "nonzero_alpha_outside_normalized_guide_pixels": 66273,
+        "alpha_1_to_15_pixels": 20305,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      },
+      "candidate_output": "paint_top_run1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Correct the TOP-view albedo painting, with exact silhouette accuracy as the overriding priority. Input image 1 guide_top.png is the actual edit target and its full alpha mask must be preserved. Image 2 design_reference.png supplies material colours and fine surface detail. Image 3 paint_top_run1.png is the REJECTED first attempt: its leather oval ring is too thick and its gold is too shiny.\n\nProduce one 1024 x 1024 transparent RGBA painting of IMAGE 1, using only material colours/detail from images 2 and 3. Preserve every contour and all empty space in IMAGE 1. Do not copy image 3's widened leather ring. The leather is a narrow top edge, only about 18 pixels thick at top/bottom on the 1024 canvas; trace IMAGE 1's OUTER AND INNER ellipse boundaries exactly. Preserve the giant transparent centre. Keep every ceramic block and clamp the exact size, orientation and position of image 1. Do not thicken the ring to fit stitches.\nView: TOP, precisely overhead. Match guide_top.png. Entire opaque silhouette lies within x=66..957, y=167..856. Preserve the narrow elliptical leather ring with its enormous transparent centre; its outer arc spans about x=111..912, y=211..812. Do not fill the centre or widen the ring. Keep all EIGHT attachment projections: the gold buckle edge at top centre (x=446..577,y=169..207), and seven ceramic blocks at upper-left, upper-right, left, right, lower-left, lower-right, bottom centre. All tangential rotations, widths and positions stay fixed. Gold clamps and tiny blue-white glass slivers only where the guide shows them. You see the narrow TOP EDGES of these blocks, not their front faces. No perspective tilt.\nLeather: evenly dark charcoal, subtle grain, extremely fine unobtrusive stitch detailing contained inside its exact thin contour. Ceramic: uniform warm white with fine wear and panel joins. Metal: uniform muted brushed gold, barely a sheen. Existing light slivers: flat blue-white. Top faces only, no visible front faces and no extra invented hardware. No cast shadow, contact darkening, ambient occlusion, bevel shading, bright edge highlights, specular reflection, rim light or bloom. Same base brightness on every facet of each material. Flat even albedo.\nEvery pixel outside the exact guide silhouette, including inside the ring, is alpha zero. No background, floor, text, letters, numbers, watermark, crop, reframing, scaling or perspective change.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16df2-d87b-7323-b6ce-6c9fd78ae1a5/exec-295fca3d-61a0-4a75-b687-afc522957804.png",
+      "output": "paint_top_run2.png",
+      "selected": false,
+      "reason": "Rejected: ring became thinner but moved upward, reducing normalized silhouette IoU to 0.6032; buckle highlights remained.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "ba549ef0d866a3ef8081ec33364d4b85d0428a779688d6ac169b2c36e38b29c2"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "89c2b7c4272cbb850724745a98a8ce8180830d77a1ace125f05ceef216f7bd4d"
+        },
+        {
+          "file": "paint_top_run1.png",
+          "sha256": "018925fba3bd1082a73ce875522c1f11e14032ceb24ed9ecca29a672b652f3cf"
+        }
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7ffb0b5f93ab32dc655995e2e1168e4563310cf15e5a1dee5ff9579dcd3352ec",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_bbox": [
+          17,
+          23,
+          1242,
+          1226
+        ],
+        "unresized": true,
+        "requested_dimensions_match": false,
+        "exact_guide_alpha_match": false,
+        "alpha_gt_127_bbox": [
+          75,
+          191,
+          1176,
+          1039
+        ],
+        "normalized_silhouette_iou_alpha_gt_127": 0.603209233584348,
+        "zero_alpha_fraction": 0.9005650816907428,
+        "nonzero_alpha_outside_normalized_guide_pixels": 63914,
+        "alpha_1_to_15_pixels": 22990,
+        "text_or_letters_seen": false,
+        "materials_visual_check": "Charcoal leather, warm white ceramic, gold metal and blue-white light colours recognizable from the reference.",
+        "flat_shadowless_albedo_pass": false,
+        "flat_shadowless_albedo_note": "Residual bevel/contact shading or metallic edge highlights remain; see selection reason.",
+        "fully_compliant_with_brief": false
+      }
+    }
+  ],
+  "validation_method": "All returned paintings visually inspected. Alpha checked numerically. Normalized silhouette IoU samples the guide on each returned canvas for comparison only; no image file was resampled or altered. IoU does not establish exact per-part alignment. Exact silhouette check fails when alpha or dimensions differ.",
+  "status": "Five best available unresized paintings saved; exact-silhouette and flat-albedo requirements were not fully met by the built-in tool after the allowed corrective attempts.",
+  "max_corrective_regenerations_per_view": 1,
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "limitations": [
+    "All five selected outputs are 1254 x 1254 instead of requested 1024 x 1024. Kept unresized as instructed.",
+    "All outputs have RGBA transparency but retain faint nonzero-alpha pixels outside the intended guide silhouette.",
+    "No selected silhouette is pixel-identical to its guide. Top-view ring thickness and component contours remain the largest geometry mismatch.",
+    "Residual contact/bevel shading and metallic highlights remain; these are not fully shadowless albedo sources.",
+    "No builds, mesh changes, texture baking, installation, resizing, masking or post-processing were performed."
+  ]
+}

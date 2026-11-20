@@ -1,0 +1,35 @@
+# Explicit conversion choices for MM9's Hall of the Gods (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: hallofthegods
+  display_name: Hall of the Gods
+  starts: [StartPoint0]               # start 0: inside the gate (Arslegard City and 1000 Terrors arrive here)
+  monster_classes: []                # no monsters: the gods, the Wyrdes and the Great Honk are placed by convert.py
+  offset: [0, 0, 0]                   # the old map's frame (fits int16): transitions stay valid
+  ambient: 31                         # sector minimum light 31: no frame ambient is subtracted from the decorations' light
+  model_lighting: false               # tried 2026-10-31 (review/model_lighting_compare.jpg): the statues, lions and gods drew
+                                      # far darker than the old path and MM9 (12 fill lights are bake-only: INDOOR_MODEL_LIGHTING.md)
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  thin_walls: true                    # walls under a voxel thick keep their far face (brief: thin partitions)
+plan_levels:
+  ground: [-600, 2400]
+models:
+  StainedGlassWindows: static         # the stained glass (windowlead1: translucent and fully bright in MM9)
+  WorldObject0: static                # the west hall's stained glass and its stucco
+  Snow: skip                          # DemoSkyWorldModel: MM9's sky box (Arslegaard*), drawn by the sky, not geometry
+  WorldObject42: static               # the pool's water115.spr surface (non-solid)
+  WorldObject6: static                # the exit's water115.spr shimmer at the gate (ExitTriggerHall)
+  WorldObject2: static                # the spiked fence at the gate and its invisible collision
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the 6 sky faces: the engine's projected sky (Chasm of the Dead's route)
+# MM9's leaded stained glass (windowlead1: translucent with its texture alpha 33-255, brush Alpha 1, fully bright):
+# translucent faces with the sky box behind them.
+glass:
+  windowlead1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated.
+# Frames and translucency; the scene file is a source of the map's lighting bake (tools/lighting/stale_bakes.py),
+# so a change here needs the bake again. Checked (2026-11-10, scratch build: only
+# `translucent_faces` changes): the gate's Water115 shimmer (WorldObject6, 1 face, two-sided) translucent
+# (enabled 2026-11-10 with the map's lighting re-transfer).
+spr_surfaces: {}

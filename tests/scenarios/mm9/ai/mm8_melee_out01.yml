@@ -1,0 +1,19 @@
+id: mm9.ai.mm8_melee_out01
+title: An MM8 melee monster pursues and strikes with MM8's AI on an outdoor map (MM6-MM8 regression anchor)
+world: mm8
+mode: faithful
+tags: [mm8, actors, ai, arena, regression]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+  - ai_arena: {path: mm8_melee_out01.arena.yml}
+  - advance_runtime: {seconds: 15}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: strafe_attack, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: evade, max_count: 0}

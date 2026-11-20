@@ -1,0 +1,27 @@
+id: rulesets.maw_ally_kills
+title: "Ruleset - MAW party allies: their kills give each conscious member a share; killing one gives nothing"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free, friendly_fire: true}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  # A Behemoth fighting for the party kills a hostile Peasant: the members share its experience
+  # (zzMaw-Monsters.lua:4082-4095, audit FMON-2-2).
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - spawn_actor: {monster_id: 209, near_party: true, party_ally: true}
+  - spawn_actor: {monster_id: 49, near_party: true}
+  - advance_runtime: {seconds: 30}
+  - assert:
+      actor_count: {hostile: true, max: 0}
+      runtime_event_variable: {id: 13, member_index: 0, min: 1}
+  # The party kills its own ally: nothing (zzMaw-Monsters.lua:4062-4065).
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - damage_actor: {actor_index: last-1, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {max: 0}
+      runtime_event_variable: {id: 13, member_index: 0, value: 0}

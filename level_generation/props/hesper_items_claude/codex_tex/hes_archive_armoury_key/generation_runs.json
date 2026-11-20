@@ -1,0 +1,539 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic game-model albedo texture-source painting.\nInput 1 is the edit target and exact geometry/mask authority: the named 1024 x 1024 guide. Input 2 is design_reference.png, appearance/material reference ONLY; do not copy its perspective, silhouette, lighting or composition.\nPaint ONLY the occupied pixels of the first image, preserving its exact alpha silhouette, dimensions, placement and every part edge. Keep the 1024 x 1024 canvas, without cropping, enlarging, recentering, rotation or perspective changes. Retain genuine transparent background everywhere outside the guide shape.\nItem: Hesper colony archive armoury key card, white ceramic with brushed gold edge and small blue status light, recovered from a drowned archivist. Apply the approved reference's slightly aged warm-white ceramic, fine hairline wear, restrained grey abrasions, subtle brown water staining, brushed ochre-gold metal and dark charcoal-violet resin where appropriate. The guide's pale material tints identify parts but are not final colours. Painted seams and small abstract markings may appear within existing parts; no new geometry. Continue unseen surfaces plausibly.\nLIGHTING: flat even shadowless frontal albedo, no cast shadows, no ambient occlusion, no dark edge shading or lighting gradient, no hot highlights, no reflections or rim light. Gold is its base ochre-gold colour with only a faint sheen. Blue luminous parts are solid bright blue-white with no bloom beyond their geometry. No text, letters, numbers, labels or watermark. No background, floor or additional objects.\nView FRONT: the guide is a thin horizontal SHORT EDGE of the card, NOT its broad decorated face. The occupied outline spans x=174..849, y=476..547. Main white ceramic strip spans approximately x=196..827, y=488..547; narrow gold end caps occupy x=174..207 and x=816..849 at y=482..547. Keep the tiny raised blue status light at the upper RIGHT, x=762..795, y=476..488. Preserve the long straight horizontal top/bottom and small steps exactly. Paint wear very finely at this scale. Do not show the broad face or large archive glyph. Output one transparent 1024 x 1024 PNG.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "6723c5e6ed34329e80bdd212a1a4cab4850e8769b723e4f0e9ac9d45d8afd85c",
+          "role": "edit target"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d",
+          "role": "appearance reference"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-fc05ec31-b867-41dd-a9eb-8be5dccb8532.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "selected": false,
+      "reason": "Initial output changes guide framing and silhouette; one corrective generation requested.",
+      "output_sha256": "80d9d89235d5add621ad7635658994ffece1e0eff8515347c543935f3e845729",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9501353245372384,
+        "alpha_bounds": [
+          39,
+          32,
+          1212,
+          1188
+        ],
+        "opaque_bounds": [
+          216,
+          589,
+          1038,
+          682
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.7585813348743138,
+        "normalized_guide_nonzero_alpha_outside_pixels": 18924,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "partial: specular edging remains"
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint a locked orthographic geometry guide as an albedo texture.\nIMAGE 1 is the approved design_reference.png: use ONLY its materials/colour/wear, never its camera, shape, proportions or lighting.\nIMAGE 2 (guide_front.png) is the EDIT TARGET. Its canvas is 1024 x 1024. Edit IMAGE 2 only, maintaining its alpha mask and all exact pixel positions.\nReturn a 1024 x 1024 transparent PNG with the entire canvas unchanged except for RGB painting INSIDE existing opaque guide pixels.\nThis is the FRONT narrow edge view: a thin horizontal strip at the centre of a mostly transparent square. The object's total bounds are x=174 through 849, y=476 through 547. Do not scale or recenter. White ceramic body x=196..827, y=488..547; brushed gold end caps x=174..207 and x=816..849 at y=482..547; tiny blue-white light upper RIGHT at x=762..795, y=476..488. Keep exactly these part boundaries.\nPaint aged warm-white ceramic with very fine scratches, a little grey abrasion and subtle brown water stain, brushed ochre-gold end caps, blue-white status light. It is a colonial archive key card. Continue reference materials plausibly on the narrow edge. No large face glyph is visible from this side.\nCORRECTION REQUIRED: keep top and bottom edges perfectly straight, retain the guide's tiny exact steps and clean alpha outline, remove any frayed/jagged white debris, perimeter glow, shadows and inflated light housing. No material/detail extends even one pixel outside the guide shape.\nFlat evenly lit albedo only: no highlights, shading, ambient occlusion, cast shadows, reflections, metallic gradients, rims or bloom. Gold has uniform gold base colour and fine brushed grain. No text, letters, numbers, labels. No black background, no floor. The final output must use IMAGE 2's square canvas and outline unchanged.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d",
+          "role": "appearance reference"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "6723c5e6ed34329e80bdd212a1a4cab4850e8769b723e4f0e9ac9d45d8afd85c",
+          "role": "edit target"
+        }
+      ],
+      "output": "paint_front.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-b33e7229-7f2f-49c8-b71a-dfe88ccd528c.png",
+      "selected": true,
+      "reason": "Best available after one corrective attempt: straighter edges, reduced fraying. Guide-exact outline still not achieved.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "eff70ecfec846a15fad3572b67f503813737726046c885f1bcc7e392af993936",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.955950845651173,
+        "alpha_bounds": [
+          55,
+          41,
+          1208,
+          1228
+        ],
+        "opaque_bounds": [
+          213,
+          582,
+          1041,
+          668
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9303409329946117,
+        "normalized_guide_nonzero_alpha_outside_pixels": 8319,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "partial: specular edging remains"
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic game-model albedo texture-source painting.\nInput 1 is design_reference.png, appearance/material reference ONLY; do not copy its perspective, silhouette, lighting or composition. Input 2 is the EDIT TARGET and exact geometry/mask authority: the named 1024 x 1024 guide. Edit ONLY image 2 and return its unchanged square 1024 x 1024 canvas.\nPaint ONLY the occupied pixels of the SECOND image, preserving its exact alpha silhouette, dimensions, placement and every part edge. Keep the 1024 x 1024 canvas, without cropping, enlarging, recentering, rotation or perspective changes. Retain genuine transparent background everywhere outside the guide shape.\nItem: Hesper colony archive armoury key card, white ceramic with brushed gold edge and small blue status light, recovered from a drowned archivist. Apply the approved reference's slightly aged warm-white ceramic, fine hairline wear, restrained grey abrasions, subtle brown water staining, brushed ochre-gold metal and dark charcoal-violet resin where appropriate. The guide's pale material tints identify parts but are not final colours. Painted seams and small abstract markings may appear within existing parts; no new geometry. Continue unseen surfaces plausibly.\nLIGHTING: flat even shadowless frontal albedo, no cast shadows, no ambient occlusion, no dark edge shading or lighting gradient, no hot highlights, no reflections or rim light. Gold is its base ochre-gold colour with only a faint sheen. Blue luminous parts are solid bright blue-white with no bloom beyond their geometry. No text, letters, numbers, labels or watermark. No background, floor or additional objects.\nView BACK: this is the thin horizontal SHORT EDGE of the card, NOT its broad face. The silhouette spans x=174..849, y=476..547. Main white ceramic strip x=196..827, y=488..547; gold end caps x=174..207 and x=816..849, y=482..547. Tiny raised blue status light at upper LEFT, x=227..261, y=476..488. Keep it on the LEFT. Preserve perfectly straight top/bottom and the exact small steps of the guide; no jagged debris, outline glow or relief outside this mask. Only very fine ceramic scratches and modest water stains within the ceramic; the edge has no broad-face glyph.\nOutput one transparent 1024 x 1024 PNG, keeping all untouched transparent pixels and every guide alpha edge unchanged. Restrict all texture painting strictly inside the original outline.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d",
+          "role": "appearance reference"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "2a49420b282dbea15732de8bfa1c6616c25aa5afa2fb56d4c6fcb8866797e35e",
+          "role": "edit target"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-6d7935d0-e61e-42a6-af19-3a166823594c.png",
+      "selected": false,
+      "reason": "Needs correction: guide outline is not exact and gold has directional highlights.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "29cb2741c7d53e80846d6148366d351ff1c4eaffed0ec6df0ee1d84f9206e4e2",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9545365516153731,
+        "alpha_bounds": [
+          49,
+          37,
+          1216,
+          1230
+        ],
+        "opaque_bounds": [
+          209,
+          579,
+          1045,
+          674
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.915245845839651,
+        "normalized_guide_nonzero_alpha_outside_pixels": 10454,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "partial: edge shading remains"
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic game-model albedo texture-source painting.\nInput 1 is design_reference.png, appearance/material reference ONLY; do not copy its perspective, silhouette, lighting or composition. Input 2 is the EDIT TARGET and exact geometry/mask authority: the named 1024 x 1024 guide. Edit ONLY image 2 and return its unchanged square 1024 x 1024 canvas.\nPaint ONLY the occupied pixels of the SECOND image, preserving its exact alpha silhouette, dimensions, placement and every part edge. Keep the 1024 x 1024 canvas, without cropping, enlarging, recentering, rotation or perspective changes. Retain genuine transparent background everywhere outside the guide shape.\nItem: Hesper colony archive armoury key card, white ceramic with brushed gold edge and small blue status light, recovered from a drowned archivist. Apply the approved reference's slightly aged warm-white ceramic, fine hairline wear, restrained grey abrasions, subtle brown water staining, brushed ochre-gold metal and dark charcoal-violet resin where appropriate. The guide's pale material tints identify parts but are not final colours. Painted seams and small abstract markings may appear within existing parts; no new geometry. Continue unseen surfaces plausibly.\nLIGHTING: flat even shadowless frontal albedo, no cast shadows, no ambient occlusion, no dark edge shading or lighting gradient, no hot highlights, no reflections or rim light. Gold is its base ochre-gold colour with only a faint sheen. Blue luminous parts are solid bright blue-white with no bloom beyond their geometry. No text, letters, numbers, labels or watermark. No background, floor or additional objects.\nView LEFT: this is the thin horizontal LONG EDGE of the card, NOT its broad face. Silhouette x=66..957, y=476..547. The long gold rail spans x=129..893, y=482..547; short white ceramic ends x=66..128 and x=894..957, y=488..547. Tiny blue light strip along the top at x=558..719, y=476..482. Keep the gold rail completely straight, at original width and height. Preserve flat level top/bottom and the exact small steps of the guide; no jagged debris, outline glow or relief outside this mask. Brushed gold fine grain, restrained fine scratches, subtle tarnish; tiny charcoal inset seams within the gold only if appropriate. No broad-face glyph.\nOutput one transparent 1024 x 1024 PNG, keeping all untouched transparent pixels and every guide alpha edge unchanged. Restrict all texture painting strictly inside the original outline.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d",
+          "role": "appearance reference"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "8005b9891c02d2aba47cde637b43b27fb5d43daa1d32858901ad681711dd896b",
+          "role": "edit target"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-9ac7ccc6-c569-46a5-95e1-a47aa5c964f7.png",
+      "selected": false,
+      "reason": "Needs correction: guide outline is not exact and gold has directional highlights.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "b9237d24e42eea9aa5bfb0d181c3c9d31ff946b2f77b7ce54a9b41d03e2f6099",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9364578802377845,
+        "alpha_bounds": [
+          33,
+          23,
+          1240,
+          1202
+        ],
+        "opaque_bounds": [
+          79,
+          583,
+          1175,
+          672
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9473446700786968,
+        "normalized_guide_nonzero_alpha_outside_pixels": 11478,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "fails: metallic highlights"
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic game-model albedo texture-source painting.\nInput 1 is design_reference.png, appearance/material reference ONLY; do not copy its perspective, silhouette, lighting or composition. Input 2 is the EDIT TARGET and exact geometry/mask authority: the named 1024 x 1024 guide. Edit ONLY image 2 and return its unchanged square 1024 x 1024 canvas.\nPaint ONLY the occupied pixels of the SECOND image, preserving its exact alpha silhouette, dimensions, placement and every part edge. Keep the 1024 x 1024 canvas, without cropping, enlarging, recentering, rotation or perspective changes. Retain genuine transparent background everywhere outside the guide shape.\nItem: Hesper colony archive armoury key card, white ceramic with brushed gold edge and small blue status light, recovered from a drowned archivist. Apply the approved reference's slightly aged warm-white ceramic, fine hairline wear, restrained grey abrasions, subtle brown water staining, brushed ochre-gold metal and dark charcoal-violet resin where appropriate. The guide's pale material tints identify parts but are not final colours. Painted seams and small abstract markings may appear within existing parts; no new geometry. Continue unseen surfaces plausibly.\nLIGHTING: flat even shadowless frontal albedo, no cast shadows, no ambient occlusion, no dark edge shading or lighting gradient, no hot highlights, no reflections or rim light. Gold is its base ochre-gold colour with only a faint sheen. Blue luminous parts are solid bright blue-white with no bloom beyond their geometry. No text, letters, numbers, labels or watermark. No background, floor or additional objects.\nView RIGHT: this is the thin horizontal LONG EDGE of the card, NOT its broad face. Silhouette x=66..957, y=476..547. The long gold rail spans x=129..893, y=482..547; short white ceramic ends x=66..128 and x=894..957, y=488..547. Tiny blue light strip along the top at x=304..465, y=476..482. Keep that strip LEFT of centre. Keep the gold rail completely straight, at original width and height. Preserve flat level top/bottom and the exact small steps of the guide; no jagged debris, outline glow or relief outside this mask. Brushed gold fine grain, restrained fine scratches, subtle tarnish; tiny charcoal inset seams within the gold only if appropriate. No broad-face glyph.\nOutput one transparent 1024 x 1024 PNG, keeping all untouched transparent pixels and every guide alpha edge unchanged. Restrict all texture painting strictly inside the original outline.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d",
+          "role": "appearance reference"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "6d2f686ce21619652b64ca7f12e908ce7a55a382d44c6d210dd54fe927d8024c",
+          "role": "edit target"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-de088564-5616-4421-b116-d3f8cf9f6d6c.png",
+      "selected": false,
+      "reason": "Needs correction: guide outline is not exact and gold has directional highlights.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e8286daae3c715e20be2a5c91e7736dc5e94bcb64a610f1b86bed6a6738fd35f",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9350124259466994,
+        "alpha_bounds": [
+          33,
+          21,
+          1208,
+          1254
+        ],
+        "opaque_bounds": [
+          78,
+          581,
+          1176,
+          671
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9402068837453167,
+        "normalized_guide_nonzero_alpha_outside_pixels": 13755,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "fails: metallic highlights"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic game-model albedo texture-source painting.\nInput 1 is design_reference.png, appearance/material reference ONLY; do not copy its perspective, silhouette, lighting or composition. Input 2 is the EDIT TARGET and exact geometry/mask authority: the named 1024 x 1024 guide. Edit ONLY image 2 and return its unchanged square 1024 x 1024 canvas.\nPaint ONLY the occupied pixels of the SECOND image, preserving its exact alpha silhouette, dimensions, placement and every part edge. Keep the 1024 x 1024 canvas, without cropping, enlarging, recentering, rotation or perspective changes. Retain genuine transparent background everywhere outside the guide shape.\nItem: Hesper colony archive armoury key card, white ceramic with brushed gold edge and small blue status light, recovered from a drowned archivist. Apply the approved reference's slightly aged warm-white ceramic, fine hairline wear, restrained grey abrasions, subtle brown water staining, brushed ochre-gold metal and dark charcoal-violet resin where appropriate. The guide's pale material tints identify parts but are not final colours. Painted seams and small abstract markings may appear within existing parts; no new geometry. Continue unseen surfaces plausibly.\nLIGHTING: flat even shadowless frontal albedo, no cast shadows, no ambient occlusion, no dark edge shading or lighting gradient, no hot highlights, no reflections or rim light. Gold is its base ochre-gold colour with only a faint sheen. Blue luminous parts are solid bright blue-white with no bloom beyond their geometry. No text, letters, numbers, labels or watermark. No background, floor or additional objects.\nView TOP: this is the broad decorated face of the card seen directly from above, perfectly orthographic, long axis vertical. Preserve guide mask occupying x=174..849, y=66..957, including every clipped/rounded corner and the two straight gold rails. White ceramic main slab x~196..827, y=66..957. Gold side rails x=174..206 and x=816..849 at y=130..893. Blue status-light part is the narrow VERTICAL rectangle at x~762..794, y=560..719 on the lower right area; keep it exactly there and that size. Paint a thin dark charcoal-violet resin housing within its guide bounds and a blue-white centre, without bloom or shadows. Transfer the approved central faded archive emblem as a non-linguistic angular geometric glyph: slim vertical spine, central hexagonal lozenge and paired open angular brackets with two small side diamonds. Centre it on the ceramic face, with faded grey mineral colour, not text or letters. White ceramic with restrained fine wear and slight water staining. Preserve guide part boundaries; do not enlarge frame, add corner hardware geometry, change any outside contour or use the perspective in the reference.\nOutput one transparent 1024 x 1024 PNG, keeping all untouched transparent pixels and every guide alpha edge unchanged. Restrict all texture painting strictly inside the original outline.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d",
+          "role": "appearance reference"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "38411f38582f06ff50ec1acafaeb545582aa7040ace3363c55e2c1a207968181",
+          "role": "edit target"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-b5350943-b8af-430b-97cd-27a75a767484.png",
+      "selected": false,
+      "reason": "Needs correction: light shifted and oversized, extra corner hardware, strong metal highlights, guide geometry not retained.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "bce45ac521645b6050391ecf72f22381cce0a8658e477d39186d522c8ab51c64",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.42609041815790744,
+        "alpha_bounds": [
+          0,
+          33,
+          1253,
+          1230
+        ],
+        "opaque_bounds": [
+          215,
+          78,
+          1040,
+          1179
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9885874468648583,
+        "normalized_guide_nonzero_alpha_outside_pixels": 14724,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "fails: metallic highlights"
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. This is one flat albedo painting for a Hesper colony archive armoury key card. The attached guide is the ONLY image to edit. Preserve its 1024 x 1024 square canvas and copy its transparency mask and every part edge exactly, pixel for pixel. All unoccupied canvas must stay truly transparent. Change RGB material colours inside occupied guide pixels only, never the silhouette.\nMaterial palette from the approved design: ceramic warm ivory-white #e8dfcc with fine pale scratches, occasional small neutral-grey wear patches and slight diffuse brown water stains; metal dull brushed ochre gold #b78d42 with fine fine grain and a few worn grey spots; resin charcoal violet #302e33; status light blue-white #9bddfa. Apply materials with uniform flat base colour and small albedo texture variation, no baked lighting. No white metal reflections, no gradients or edge highlights, no ambient occlusion, no shadows, no extrusion shading, no bloom. This is a texture map source, not a product render. Fine surface scratches and wear must stay INSIDE the guide shape. Nothing added or removed from the contour.\nThis is the one corrective attempt. Previous render copied shiny reference lighting and drifted from the guide. Correct those issues: follow the attached guide exactly; no hardware redesign. No text, letters, numbers, symbols resembling writing, labels or watermark. One transparent PNG, 1024 x 1024, no cropping or zooming.\nBACK edge: match the narrow horizontal strip at x=174..849, y=476..547. White ceramic middle x=196..827, y=488..547. Gold end caps x=174..207 and x=816..849, y=482..547. The small status light is at upper LEFT x=227..261, y=476..488. Keep all steps exact; no enlarged bezel. No broad face or central archive glyph is visible. Plausible ceramic short edge, gold caps, small blue light only.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "role": "edit target",
+          "sha256": "2a49420b282dbea15732de8bfa1c6616c25aa5afa2fb56d4c6fcb8866797e35e"
+        }
+      ],
+      "appearance_authority": {
+        "file": "design_reference.png",
+        "role": "Previously inspected appearance authority; material palette described in correction prompt; not attached to this correction.",
+        "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d"
+      },
+      "output": "paint_back.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-8f5011cd-0e70-4ea4-abc1-a2af73f84110.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter materials and smaller status-light geometry. Residual edge shading and alpha fringes remain; guide silhouette is not identical.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "1e51e1600bfab845732ca0e966789881ca1f9a04cd41b6f832a0d3b0ee6b9557",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.955599815836532,
+        "alpha_bounds": [
+          33,
+          29,
+          1210,
+          1190
+        ],
+        "opaque_bounds": [
+          212,
+          583,
+          1042,
+          672
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9339698698999351,
+        "normalized_guide_nonzero_alpha_outside_pixels": 8783,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "partial: edge shading remains"
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. This is one flat albedo painting for a Hesper colony archive armoury key card. The attached guide is the ONLY image to edit. Preserve its 1024 x 1024 square canvas and copy its transparency mask and every part edge exactly, pixel for pixel. All unoccupied canvas must stay truly transparent. Change RGB material colours inside occupied guide pixels only, never the silhouette.\nMaterial palette from the approved design: ceramic warm ivory-white #e8dfcc with fine pale scratches, occasional small neutral-grey wear patches and slight diffuse brown water stains; metal dull brushed ochre gold #b78d42 with fine fine grain and a few worn grey spots; resin charcoal violet #302e33; status light blue-white #9bddfa. Apply materials with uniform flat base colour and small albedo texture variation, no baked lighting. No white metal reflections, no gradients or edge highlights, no ambient occlusion, no shadows, no extrusion shading, no bloom. This is a texture map source, not a product render. Fine surface scratches and wear must stay INSIDE the guide shape. Nothing added or removed from the contour.\nThis is the one corrective attempt. Previous render copied shiny reference lighting and drifted from the guide. Correct those issues: follow the attached guide exactly; no hardware redesign. No text, letters, numbers, symbols resembling writing, labels or watermark. One transparent PNG, 1024 x 1024, no cropping or zooming.\nLEFT long edge: match horizontal strip x=66..957, y=476..547. Dull brushed gold rail x=129..893, y=482..547. White ceramic tips x=66..128 and x=894..957, y=488..547. Small bright blue-white light at x=558..719, y=476..482: exactly six pixels tall. No large black bezel or enlarged light. Make each part flat and continuous, modest wear only. No broad decorated face visible.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "edit target",
+          "sha256": "8005b9891c02d2aba47cde637b43b27fb5d43daa1d32858901ad681711dd896b"
+        }
+      ],
+      "appearance_authority": {
+        "file": "design_reference.png",
+        "role": "Previously inspected appearance authority; material palette described in correction prompt; not attached to this correction.",
+        "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d"
+      },
+      "output": "paint_left.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-75ff96fe-02b8-49dd-99b8-2bf092f269b8.png",
+      "selected": true,
+      "reason": "Selected corrective return for flat brushed gold and simpler blue light, closer to the guide part boundaries. Alpha fringes and outline differences remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "818ea992f9585f095f6582fb33d7bca7bc2fa3c739d17d9a44d4833b2328e777",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9422759450460282,
+        "alpha_bounds": [
+          73,
+          25,
+          1177,
+          1166
+        ],
+        "opaque_bounds": [
+          80,
+          588,
+          1174,
+          672
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9050426336890847,
+        "normalized_guide_nonzero_alpha_outside_pixels": 5419,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "closer to flat albedo"
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. This is one flat albedo painting for a Hesper colony archive armoury key card. The attached guide is the ONLY image to edit. Preserve its 1024 x 1024 square canvas and copy its transparency mask and every part edge exactly, pixel for pixel. All unoccupied canvas must stay truly transparent. Change RGB material colours inside occupied guide pixels only, never the silhouette.\nMaterial palette from the approved design: ceramic warm ivory-white #e8dfcc with fine pale scratches, occasional small neutral-grey wear patches and slight diffuse brown water stains; metal dull brushed ochre gold #b78d42 with fine fine grain and a few worn grey spots; resin charcoal violet #302e33; status light blue-white #9bddfa. Apply materials with uniform flat base colour and small albedo texture variation, no baked lighting. No white metal reflections, no gradients or edge highlights, no ambient occlusion, no shadows, no extrusion shading, no bloom. This is a texture map source, not a product render. Fine surface scratches and wear must stay INSIDE the guide shape. Nothing added or removed from the contour.\nThis is the one corrective attempt. Previous render copied shiny reference lighting and drifted from the guide. Correct those issues: follow the attached guide exactly; no hardware redesign. No text, letters, numbers, symbols resembling writing, labels or watermark. One transparent PNG, 1024 x 1024, no cropping or zooming.\nRIGHT long edge: match horizontal strip x=66..957, y=476..547. Dull brushed gold rail x=129..893, y=482..547. White ceramic tips x=66..128 and x=894..957, y=488..547. Small bright blue-white light at x=304..465, y=476..482: exactly six pixels tall and LEFT of centre. No large black bezel or enlarged light. Make each part flat and continuous, modest wear only. No broad decorated face visible.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "edit target",
+          "sha256": "6d2f686ce21619652b64ca7f12e908ce7a55a382d44c6d210dd54fe927d8024c"
+        }
+      ],
+      "appearance_authority": {
+        "file": "design_reference.png",
+        "role": "Previously inspected appearance authority; material palette described in correction prompt; not attached to this correction.",
+        "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d"
+      },
+      "output": "paint_right.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-5b82b118-f50c-4b1e-911b-35d204777a01.png",
+      "selected": true,
+      "reason": "Selected corrective return for flat brushed gold and simpler blue light, closer to the guide part boundaries. Alpha fringes and outline differences remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ba630108b83f13342c7b9015eec65a24a9b73fefa8ecefd5b86d371659a82cda",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9416794487305693,
+        "alpha_bounds": [
+          77,
+          80,
+          1177,
+          1077
+        ],
+        "opaque_bounds": [
+          80,
+          585,
+          1174,
+          672
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9236388976307153,
+        "normalized_guide_nonzero_alpha_outside_pixels": 6199,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "closer to flat albedo"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. This is one flat albedo painting for a Hesper colony archive armoury key card. The attached guide is the ONLY image to edit. Preserve its 1024 x 1024 square canvas and copy its transparency mask and every part edge exactly, pixel for pixel. All unoccupied canvas must stay truly transparent. Change RGB material colours inside occupied guide pixels only, never the silhouette.\nMaterial palette from the approved design: ceramic warm ivory-white #e8dfcc with fine pale scratches, occasional small neutral-grey wear patches and slight diffuse brown water stains; metal dull brushed ochre gold #b78d42 with fine fine grain and a few worn grey spots; resin charcoal violet #302e33; status light blue-white #9bddfa. Apply materials with uniform flat base colour and small albedo texture variation, no baked lighting. No white metal reflections, no gradients or edge highlights, no ambient occlusion, no shadows, no extrusion shading, no bloom. This is a texture map source, not a product render. Fine surface scratches and wear must stay INSIDE the guide shape. Nothing added or removed from the contour.\nThis is the one corrective attempt. Previous render copied shiny reference lighting and drifted from the guide. Correct those issues: follow the attached guide exactly; no hardware redesign. No text, letters, numbers, symbols resembling writing, labels or watermark. One transparent PNG, 1024 x 1024, no cropping or zooming.\nTOP broad face: retain the exact upright ivory ceramic slab with clipped rounded corners, x~196..827 and y=66..957. Keep the two narrow gold side rails x=174..206 and x=816..849, y=130..893. Do not extend the gold onto corners or top/bottom. Status-light part stays precisely x=762..794, y=560..719, a thin VERTICAL blue-white rectangle at lower right with at most a thin dark resin outline inside those bounds. Do not move it upward, enlarge it, or add a wide metal/resin housing. Paint a faded flat grey NON-TEXT abstract archive emblem on the centre of the ceramic: fine vertical spine, central elongated hexagonal lozenge, two open angular bracket shapes to left and right and one small diamond on each outer side. Emblem is a material marking, with no relief/shading. Delicate scratches, small grey wear patches and gentle faint tan water stains; keep mostly ivory. Flat albedo throughout, especially on gold: no shine or rim lights. No new panel geometry, frame shapes, bevels or corner armour.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "edit target",
+          "sha256": "38411f38582f06ff50ec1acafaeb545582aa7040ace3363c55e2c1a207968181"
+        }
+      ],
+      "appearance_authority": {
+        "file": "design_reference.png",
+        "role": "Previously inspected appearance authority; material palette described in correction prompt; not attached to this correction.",
+        "sha256": "01120fc0bc90aafacb96a1bf4056ab6d67f8699a0dd5b42702c7be279547973d"
+      },
+      "output": "paint_top.png",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6905-7d02-bfc5-df574db6447d/exec-6f4f9f75-5e57-4c6c-9a9e-8ea2deb818f0.png",
+      "selected": true,
+      "reason": "Selected corrective return: restores guide's simple rails and small lower-right status light, with flat ceramic and faded abstract glyph. Alpha fringes and outline differences remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "0a7e2d96d922db3e876fc7bc0b0e54b076f2abd1609c405ec48163d4b38729a4",
+      "checks": {
+        "unresized_tool_return": true,
+        "requested_dimensions_met": false,
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.4241769241139677,
+        "alpha_bounds": [
+          0,
+          17,
+          1238,
+          1216
+        ],
+        "opaque_bounds": [
+          212,
+          81,
+          1042,
+          1174
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9943125876379052,
+        "normalized_guide_nonzero_alpha_outside_pixels": 15842,
+        "mask_comparison_method": "Read-only normalized-coordinate sampling of the guide; opaque threshold 128. No output image modified.",
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, blue light and fine wear present; selected corrections have flatter colours. Front is more contrasty than the other selected views.",
+        "flat_light_visual_check": "closer to flat albedo"
+      }
+    }
+  ],
+  "selection_policy": "Selected means best available raw return within the allowed two attempts per view, not approval of guide-exact silhouette compliance.",
+  "status": "generation_finished_with_validation_failures",
+  "postprocessing": "None. Every output is a byte-for-byte copy of its built-in tool return; no resize, crop, recolour or alpha edit.",
+  "limits": [
+    "All returns are 1254 x 1254 instead of requested 1024 x 1024; preserved unresized as instructed.",
+    "None of the selected outputs has a pixel-identical guide silhouette. Generated alpha includes faint stray pixels and visible perimeter fringes.",
+    "Front retains some specular edging; back retains some edge shading despite flat-albedo prompts."
+  ]
+}

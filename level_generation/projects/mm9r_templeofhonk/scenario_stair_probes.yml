@@ -1,0 +1,201 @@
+id: lmroll.templeofhonk_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: templeofhonk.blv
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: templeofhonk.blv
+      x: 4122
+      y: 2852
+      z: 1271
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: templeofhonk.blv
+      x: 4122
+      y: 3036
+      z: 329
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: templeofhonk.blv
+      x: 4122
+      y: 3948
+      z: 1271
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: templeofhonk.blv
+      x: 4122
+      y: 3764
+      z: 329
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: templeofhonk.blv
+      x: 4764
+      y: 2852
+      z: 1271
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: templeofhonk.blv
+      x: 4764
+      y: 3036
+      z: 329
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id007
+      map: templeofhonk.blv
+      x: 4764
+      y: 3948
+      z: 1271
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop: *id007
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id008
+      map: templeofhonk.blv
+      x: 4764
+      y: 3764
+      z: 329
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop: *id008
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id009
+      map: templeofhonk.blv
+      x: -3558
+      y: 6436
+      z: 452
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id009
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id010
+      map: templeofhonk.blv
+      x: -3375
+      y: 6436
+      z: -521
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id010
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id011
+      map: templeofhonk.blv
+      x: -3558
+      y: 7078
+      z: 452
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id011
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id012
+      map: templeofhonk.blv
+      x: -3375
+      y: 7078
+      z: -521
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id012
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

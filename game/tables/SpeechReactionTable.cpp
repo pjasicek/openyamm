@@ -114,6 +114,8 @@ std::optional<SpeechId> speechIdFromName(const std::string &value)
         {"identifymonsterbig", SpeechId::IdentifyMonsterBig},
         {"identifymonsterfail", SpeechId::IdentifyMonsterFail},
         {"deathblow", SpeechId::DeathBlow},
+        {"drinkpotion", SpeechId::DrinkPotion},
+        {"tired", SpeechId::Tired},
     };
 
     const std::unordered_map<std::string, SpeechId>::const_iterator speechIt =

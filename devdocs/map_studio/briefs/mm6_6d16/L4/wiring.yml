@@ -1,0 +1,418 @@
+format: 0
+variables: [double_lock, switch_thrown, statuette_seen, keys_found, key_b_found, axe_taken]
+events:
+  - id: evt:axe
+    preset: script
+    source: deco:flamb00_03
+    condition: {not: {map_var: axe_taken}}
+    sets: {map_var: axe_taken}
+    effects:
+      - lua: "evt.GiveItem(6, 25)"
+    notes: "Original event 51, the secondary event of the flambeau at (4672, 576) in the great hall: once (map variable 51), GiveItem(6, 25), a random item of treasure level 6 and kind 25 (an axe). The give is Lua: `give_item` takes item numbers, not a level and a kind."
+  - id: evt:c10
+    preset: chest
+    source: chest:c10
+    title: Cabinet
+    notes: "Original event 35: OpenChest(10)."
+  - id: evt:c12
+    preset: chest
+    source: chest:c12
+    title: Chest
+    notes: "Original event 37: OpenChest(12)."
+  - id: evt:c13
+    preset: chest
+    source: chest:c13
+    title: Cabinet
+    notes: "Original event 38: OpenChest(13)."
+  - id: evt:c14
+    preset: chest
+    source: chest:c14
+    title: Chest
+    notes: "Original event 39: OpenChest(14)."
+  - id: evt:c15
+    preset: chest
+    source: chest:c15
+    title: Chest
+    notes: "Original event 40: OpenChest(15)."
+  - id: evt:c16
+    preset: chest
+    source: chest:c16
+    title: Chest
+    notes: "Original event 41: OpenChest(16)."
+  - id: evt:c17
+    preset: chest
+    source: chest:c17
+    title: Cabinet
+    notes: "Original event 42: OpenChest(17)."
+  - id: evt:c18
+    preset: chest
+    source: chest:c18
+    title: Cabinet
+    notes: "Original event 43: OpenChest(18)."
+  - id: evt:c19
+    preset: chest
+    source: chest:c19
+    title: Chest
+    notes: "Original event 44: OpenChest(19)."
+  - id: evt:c2
+    preset: chest
+    source: chest:c2
+    title: Chest
+    notes: "Original event 27: OpenChest(2)."
+  - id: evt:c3
+    preset: chest
+    source: chest:c3
+    title: Chest
+    notes: "Original event 28: OpenChest(3)."
+  - id: evt:c4
+    preset: chest
+    source: chest:c4
+    title: Chest
+    notes: "Original event 29: OpenChest(4)."
+  - id: evt:c5
+    preset: chest
+    source: chest:c5
+    title: Chest
+    notes: "Original event 30: OpenChest(5)."
+  - id: evt:c6
+    preset: chest
+    source: chest:c6
+    title: Chest
+    notes: "Original event 31: OpenChest(6)."
+  - id: evt:c7
+    preset: chest
+    source: chest:c7
+    title: Chest
+    notes: "Original event 32: OpenChest(7)."
+  - id: evt:c8
+    preset: chest
+    source: chest:c8
+    title: Chest
+    notes: "Original event 33: OpenChest(8)."
+  - id: evt:c9
+    preset: chest
+    source: chest:c9
+    title: Chest
+    notes: "Original event 34: OpenChest(9)."
+  - id: evt:cabinet_shared
+    preset: chest
+    source: chest:cabinet_shared
+    title: Cabinet
+    notes: "Original event 26 on the study's cabinet (faces 2352, 2354)."
+  - id: evt:cabinet_u15
+    preset: script
+    source: platform:cabinet_u15
+    title: Cabinet
+    effects:
+      - open_chest: chest:cabinet_shared
+    notes: "Original event 26: this cabinet opens the shared cabinet (chest record 1)."
+  - id: evt:cabinet_u5
+    preset: script
+    source: platform:cabinet_u5
+    title: Cabinet
+    effects:
+      - open_chest: chest:cabinet_shared
+    notes: "Original event 26: this cabinet opens the shared cabinet (chest record 1)."
+  - id: evt:d1
+    preset: door
+    source: door:d1
+    action: open
+    notes: "Original event 1: SetDoorState(1, 1), the door opens and stays open. No title (the secret wall), clicked from either side."
+  - id: evt:d10
+    preset: door
+    source: door:d10
+    side: room:u1
+    title: Door
+    action: open
+    notes: "Original event 10: SetDoorState(10, 1), the door opens and stays open. Bound only to the leaf's gallery face (725); from the barracks side the leaf does nothing."
+  - id: evt:d11
+    preset: door
+    source: door:d11
+    action: open
+    notes: "Original event 11: SetDoorState(11, 1), the door opens and stays open. No title (the closet wall)."
+  - id: evt:d12
+    preset: door
+    source: door:d12
+    title: Door
+    action: open
+    notes: "Original event 12: SetDoorState(12, 1), the door opens and stays open."
+  - id: evt:d13
+    preset: door
+    source: door:d13
+    title: Door
+    action: open
+    notes: "Original event 13: SetDoorState(13, 1), the door opens and stays open."
+  - id: evt:d14
+    preset: door
+    source: door:d14
+    title: Door
+    action: open
+    notes: "Original event 14: SetDoorState(14, 1), the door opens and stays open."
+  - id: evt:d15
+    preset: door
+    source: door:d15
+    title: Door
+    action: open
+    notes: "Original event 15: SetDoorState(15, 1), the door opens and stays open."
+  - id: evt:d16
+    preset: door
+    source: door:d16
+    title: Door
+    action: open
+    notes: "Original event 16: SetDoorState(16, 1), the door opens and stays open."
+  - id: evt:d17
+    preset: door
+    source: door:d17
+    action: open
+    notes: "Original event 17: SetDoorState(17, 1), the door opens and stays open. No title (the closet wall)."
+  - id: evt:d18
+    preset: door
+    source: door:d18
+    title: Door
+    action: open
+    notes: "Original event 18: SetDoorState(18, 1), the door opens and stays open."
+  - id: evt:d2
+    preset: door
+    source: door:d2
+    title: Door
+    action: open
+    notes: "Original event 2: SetDoorState(2, 1), the door opens and stays open."
+  - id: evt:d3
+    preset: door
+    source: door:d3
+    title: Door
+    action: open
+    notes: "Original event 3: SetDoorState(3, 1), the door opens and stays open."
+  - id: evt:d4
+    preset: door
+    source: door:d4
+    action: open
+    notes: "Original event 4: SetDoorState(4, 1), the door opens and stays open. No title (the sinking wall)."
+  - id: evt:d5
+    preset: door
+    source: door:d5
+    title: Door
+    action: open
+    notes: "Original event 5: SetDoorState(5, 1), the door opens and stays open."
+  - id: evt:d6
+    preset: door
+    source: door:d6
+    title: Door
+    condition: {all: [{item: storage_key_a}, {item: storage_key_b}]}
+    locked_text: The door is double locked.
+    action: open
+    effects:
+      - lua: "if IsAtLeast(MapVar(double_lock), 10) then RemoveItem(2185) RemoveItem(2191) else SetValue(MapVar(double_lock), 10) end"
+    notes: "Original event 6: both storage keys (2185, 2191) or \"The door is double locked.\"; the first of the two doors opened sets map variable 11 to 10, the second spends both keys. The spending only on the second door is a Lua step (no word makes an effect wait on a variable)."
+  - id: evt:d7
+    preset: door
+    source: door:d7
+    title: Door
+    condition: {all: [{item: storage_key_a}, {item: storage_key_b}]}
+    locked_text: The door is double locked.
+    action: open
+    effects:
+      - lua: "if IsAtLeast(MapVar(double_lock), 10) then RemoveItem(2185) RemoveItem(2191) else SetValue(MapVar(double_lock), 10) end"
+    notes: "Original event 7: both storage keys (2185, 2191) or \"The door is double locked.\"; the first of the two doors opened sets map variable 11 to 10, the second spends both keys. The spending only on the second door is a Lua step (no word makes an effect wait on a variable)."
+  - id: evt:d8
+    preset: door
+    source: door:d8
+    title: Door
+    action: open
+    notes: "Original event 8: SetDoorState(8, 1), the door opens and stays open."
+  - id: evt:d9
+    preset: door
+    source: door:d9
+    title: Door
+    condition: {item: warlord_key}
+    locked_text: The door is locked.
+    action: open
+    effects:
+      - take_item: warlord_key
+    notes: "Original event 9: the Warlord's Key (2184) opens the vault door and is spent."
+  - id: evt:drawers_study
+    preset: script
+    source: platform:drawers_study
+    title: Chest of Drawers
+    condition: {not: {map_var: keys_found}}
+    sets: {map_var: keys_found}
+    effects:
+      - give_item: warlord_key
+      - give_item: storage_key_a
+    text: "You have found two keys!"
+    notes: "Original event 45: once (map variable 2), the Warlord's Key (2184) and a Storage Key (2185)."
+  - id: evt:drawers_throne
+    preset: script
+    source: platform:drawers_throne
+    title: Chest of Drawers
+    condition: {not: {map_var: key_b_found}}
+    sets: {map_var: key_b_found}
+    effects:
+      - give_item: storage_key_b
+    text: "You have found a key!"
+    notes: "Original event 46: once (map variable 3), the second Storage Key (2191)."
+  - id: evt:exit
+    preset: exit
+    source: exit:gate
+    title: Exit
+    notes: "Original event 50: to Silver Cove (outd1.odm)."
+  - id: evt:false_door_20
+    preset: script
+    source: panel:false_door_c4s
+    title: Door
+    lua: |-
+      local r = PickRandomOption(20, 1, {1, 2, 3, 4})
+      if r == 1 then evt.MoveToMap(-2539, -512, -255, 1024, 0, 0, 0, 0)
+      elseif r == 2 then evt.MoveToMap(-1537, -788, -255, 512, 0, 0, 0, 0)
+      elseif r == 3 then evt.MoveToMap(-1012, -1284, -255, 1024, 0, 0, 0, 0)
+      elseif r == 4 then evt.MoveToMap(-1036, -1775, -255, 1536, 0, 0, 0, 0)
+      end
+    text: "You are pulled through the door!"
+    notes: "Original event 20 (the west cell's south door, face 79): one of four landings in the cellar at random, never the one beside this door; the random choice is Lua (no word picks one of several teleports). Its further bindings in the original (clicked spots on the tunnels' walls, floor and roof) cannot be said: see NOTES.md."
+  - id: evt:false_door_21
+    preset: script
+    source: panel:false_door_c4e
+    title: Door
+    lua: |-
+      local r = PickRandomOption(21, 1, {1, 2, 3, 4})
+      if r == 1 then evt.MoveToMap(-3586, -789, -255, 512, 0, 0, 0, 0)
+      elseif r == 2 then evt.MoveToMap(-1537, -788, -255, 512, 0, 0, 0, 0)
+      elseif r == 3 then evt.MoveToMap(-1012, -1284, -255, 1024, 0, 0, 0, 0)
+      elseif r == 4 then evt.MoveToMap(-1036, -1775, -255, 1536, 0, 0, 0, 0)
+      end
+    text: "You are pulled through the door!"
+    notes: "Original event 21 (the west cell's east door, face 68): one of four landings in the cellar at random, never the one beside this door; the random choice is Lua (no word picks one of several teleports). Its further bindings in the original (clicked spots on the tunnels' walls, floor and roof) cannot be said: see NOTES.md."
+  - id: evt:false_door_22
+    preset: script
+    source: panel:false_door_c5
+    title: Door
+    lua: |-
+      local r = PickRandomOption(22, 1, {1, 2, 3, 4})
+      if r == 1 then evt.MoveToMap(-3586, -789, -255, 512, 0, 0, 0, 0)
+      elseif r == 2 then evt.MoveToMap(-2539, -512, -255, 1024, 0, 0, 0, 0)
+      elseif r == 3 then evt.MoveToMap(-1012, -1284, -255, 1024, 0, 0, 0, 0)
+      elseif r == 4 then evt.MoveToMap(-1036, -1775, -255, 1536, 0, 0, 0, 0)
+      end
+    text: "You are pulled through the door!"
+    notes: "Original event 22 (the cellar hall's south arm, face 113): one of four landings in the cellar at random, never the one beside this door; the random choice is Lua (no word picks one of several teleports). Its further bindings in the original (clicked spots on the tunnels' walls, floor and roof) cannot be said: see NOTES.md."
+  - id: evt:false_door_23
+    preset: script
+    source: panel:false_door_c1
+    title: Door
+    lua: |-
+      local r = PickRandomOption(23, 1, {1, 2, 3, 4})
+      if r == 1 then evt.MoveToMap(-3586, -789, -255, 512, 0, 0, 0, 0)
+      elseif r == 2 then evt.MoveToMap(-2539, -512, -255, 1024, 0, 0, 0, 0)
+      elseif r == 3 then evt.MoveToMap(-1537, -788, -255, 512, 0, 0, 0, 0)
+      elseif r == 4 then evt.MoveToMap(-1036, -1775, -255, 1536, 0, 0, 0, 0)
+      end
+    text: "You are pulled through the door!"
+    notes: "Original event 23 (the hub's east end, face 53): one of four landings in the cellar at random, never the one beside this door; the random choice is Lua (no word picks one of several teleports). Its further bindings in the original (clicked spots on the tunnels' walls, floor and roof) cannot be said: see NOTES.md."
+  - id: evt:false_door_24
+    preset: script
+    source: panel:false_door_c2
+    title: Door
+    lua: |-
+      local r = PickRandomOption(24, 1, {1, 2, 3, 4})
+      if r == 1 then evt.MoveToMap(-3586, -789, -255, 512, 0, 0, 0, 0)
+      elseif r == 2 then evt.MoveToMap(-2539, -512, -255, 1024, 0, 0, 0, 0)
+      elseif r == 3 then evt.MoveToMap(-1537, -788, -255, 512, 0, 0, 0, 0)
+      elseif r == 4 then evt.MoveToMap(-1012, -1284, -255, 1024, 0, 0, 0, 0)
+      end
+    text: "You are pulled through the door!"
+    notes: "Original event 24 (the east cell's north door, face 39): one of four landings in the cellar at random, never the one beside this door; the random choice is Lua (no word picks one of several teleports). Its further bindings in the original (clicked spots on the tunnels' walls, floor and roof) cannot be said: see NOTES.md."
+  - id: evt:footlocker
+    preset: chest
+    source: chest:footlocker
+    title: Chest
+    notes: "Original event 25 on the shelf's box (faces 1035, 1036)."
+  - id: evt:locker_g3n
+    preset: script
+    source: platform:locker_g3n
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:locker_g3s
+    preset: script
+    source: platform:locker_g3s
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:locker_g6ne
+    preset: script
+    source: platform:locker_g6ne
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:locker_g6nw
+    preset: script
+    source: platform:locker_g6nw
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:locker_g6s
+    preset: script
+    source: platform:locker_g6s
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:locker_u4
+    preset: script
+    source: platform:locker_u4
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:locker_u8e
+    preset: script
+    source: platform:locker_u8e
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:locker_u8w
+    preset: script
+    source: platform:locker_u8w
+    title: Chest
+    effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 25: this box opens the shared footlocker (chest record 0)."
+  - id: evt:lure
+    preset: text
+    source: panel:lure_door
+    title: Door
+    text: This door won't open.
+    notes: "Original event 47 (face 1558): the door at the tunnel's end."
+  - id: evt:statuette
+    preset: chest
+    source: chest:statuette
+    title: Chest
+    condition: {any: [{not: {qbit: statuette_found}}, {map_var: statuette_seen}]}
+    effects:
+      - qbit: statuette_found
+      - qbit: statuette_seer_hint
+      - set:
+          var:
+            map_var: statuette_seen
+          value: 1
+    else_effects:
+      - open_chest: chest:footlocker
+    notes: "Original event 36: a party without qbit 1076 opens chest 11 and gets qbits 1076 and 1211 and map variable 22; once that is noted here, chest 11 again; a party that comes with qbit 1076 already set gets the shared footlocker (chest 0)."
+  - id: evt:switch
+    preset: switch
+    source: switch:portcullis
+    title: Switch
+    opens: [door:d19]
+    sets: {map_var: switch_thrown}
+    notes: "Original event 19: the plate turns to D8s2on (the switch's `on`), door 19 opens for good, map variable 21 is set."
+  - id: evt:switch_load
+    preset: switch
+    trigger: load
+    condition: {map_var: switch_thrown}
+    texture: {cog: 1, name: D8s2on}
+    notes: "Original event 48 (on load): once the switch is thrown, its plate shows D8s2on again (cog 1 is switch:portcullis in ids.lock.yml)."

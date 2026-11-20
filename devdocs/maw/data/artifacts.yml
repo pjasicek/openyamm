@@ -1,0 +1,4166 @@
+# draft extracted from MAW ef23ee17
+#
+# MAW (Might and Magic Merge mod) artifact rules, as data, for a future native OpenYAMM "MAW ruleset".
+# Source: /home/pjasicek/github/Maw-Mod-MMMerge at ef23ee17. Paths are relative to its Scripts/; "General/" and
+# "Modules/MawCore/" are dropped from file names below (zzMaw-Items.lua, zzzMaw_Artifacts.lua, Artifacts.lua,
+# ItemLevel.lua, Formulas.lua, Estimates.lua and Tooltip.lua are unique names). Numbers are copied, not rounded.
+#
+# Units
+#   One budget coefficient unit = one enchant of a perfectly rolled Epic on the same slot at the same level:
+#     stat_unit(L, id)  = encStrUp(GetLootTier(L)) * GetDifficultyExtraPower() * GetSlotMult(id)
+#                         (Artifacts.lua:65-73)
+#     skill_unit(L, id) = ceil(max(u^0.5, u/10)) * GetSlotMult(id), u = encStrUp(GetLootTier(L)) * difficulty
+#                         (Artifacts.lua:77-80, Formulas.lua:21-23)
+#   A perfect Epic is the top of ENCHANT_STRENGTH_DEFAULT {Min 8, Max 20} / ENCHANT_STRENGTH_DIV 20 = 1.0
+#   (zzMaw-Items.lua:673-674), so one unit is exactly encStrUp * difficulty * slot. A whole artifact is meant to be
+#   Artifacts.Slots = 3 units (Artifacts.lua:44); negative coefficients are drawbacks.
+#   Worn value per stat = round(coeff * stat_unit) after the read transform (Artifacts.lua:102-140):
+#     resistances (FireResistance..BodyResistance): on a ring (EquipStat 10) value * 100 / 200 (Formulas.lua:12-19)
+#     HP and SP: value * (1 + min(value / 50 / slot_mult, 5)) (Formulas.lua:25-30)
+#     skills: round(coeff * skill_unit); Flat entries are added after rounding, untransformed.
+#   round(x) is floor(x + 0.5) (zz_Maw-initialize.lua:315-322).
+#
+# Artifact level
+#   level = getTotalLevel() = vars.MMLVL[1] + [2] + [3] + [4], the party's summed per-continent levels
+#   (ItemLevel.lua:61-66, zzzMaw_Experience.lua:262-272). It is read live on every use, so an artifact scales with
+#   the party forever; the level written into BonusExpireTime at drop time is never read back (see rules.level).
+#
+# Drop, pity and selection
+#   Any generated base (enchantable) item outside shops can become an artifact with
+#   p = 0.005^(1.38 - 0.005 * failures * 0.5) (zzMaw-Items.lua:1006-1033, 4471-4478). failures counts misses since the
+#   last artifact; p starts at 0.000668, equals 0.005 at 152 failures and reaches 1 at 552. Mean wait 196 rolls.
+#   The id is picked from mawArtifacts with get_affix: weight of list slot k = 1 / (N * (count_k + 1)), N = 104
+#   list slots, count_k = how often slot k was rolled before (zzMaw-Items.lua:1372-1401).
+#
+# Chest re-roll
+#   On every map load a chest item that is in mawArtifacts, has MaxCharges 0, BonusStrength 0 and ITEMS.txt
+#   Value >= 20000 is replaced by Randomize(6, 0) through the boss loot path (zzMaw-Items.lua:4523-4535).
+#   The exemption list mawArtifactsKeep (zzMaw-Items.lua:4489-4521) is entirely inside a --[[ ]] comment, so it is
+#   empty; it lists MM6 2032 2033 2034 2023 2020, MM7 1340 1343 1351 1337 1338 1335 1336 1333 1334, MM8 501 503 541
+#   519 542 516 539 540 504 508 509 as guaranteed quest/obelisk/chest rewards. Today only the Value < 20000 ids
+#   (502 505 507 542 1332-1338) survive.
+#
+# Conventions: an absent key means the artifact has no such rule. "source" is file:line at ef23ee17.
+# Item ids are OpenYAMM items.txt ids; they equal the MMMerge/MAW ITEMS.txt ids for every entry (checked).
+# Per entry: name/equip_stat/skill/material are MAW ITEMS.txt (zMaw.T.lod) values; budget is artifactPower;
+# base describes the base damage or AC model (rules.weapon_damage / rules.armor_class), with slot_mult from
+# GetSlotMult and the default base_multiplier 1; maw_note is the power list printed in MAW's ITEMS.txt note. Those
+# note numbers are legacy text, not live values: the tooltip strips the note's leading "(...)" or "(Special ...)"
+# part and prints lines generated from the tables instead (Tooltip.lua:495-534).
+
+rules:
+  artifact_tests:
+    is_artifact_id:
+      ranges: [[500, 543], [1302, 1354], [2020, 2049]]
+      source: "zzMaw-Items.lua:101-103"
+    is_artifact_item:
+      rule: "IsArtifactId(id) or id in artWeap1h/artWeap2h or id in artArmors"
+      source: "zzMaw-Items.lua:2679-2688"
+    rarity_decoder_set:
+      rule: "ids in mawArtifacts; their BonusExpireTime without the rarity marker reads as no rarity"
+      source: "zMaw_ItemBits.lua:118-144"
+    enchantable_excludes:
+      rule: "IsBaseItemId(id) and id not in ancientWeapons; artifacts never take random enchants"
+      source: "zzMaw-Items.lua:95-112"
+
+  level:
+    artifact_level: "getTotalLevel() when vars.MMLVL exists, else MaxCharges * 5"
+    source: "ItemLevel.lua:61-66; zzzMaw_Experience.lua:262-272"
+    on_hit_level: "MawArtifactLevel() = getTotalLevel(), 0 before a game exists"
+    on_hit_level_source: "zzzMaw_Artifacts.lua:445-453"
+    drop_writes_bonus_expire_time: "min(max(round(getTotalLevel()), 1), 1000)"
+    drop_writes_source: "zzMaw-Items.lua:1024-1025"
+    drop_level_is_read: false  # DecodeRarity returns zeros for an artifact without the marker (zMaw_ItemBits:143)
+    tooltip_line: "Artifact Level: round(level)"
+    tooltip_source: "Tooltip.lua:532-533"
+    wear_level:
+      formula: "max(1, floor(d - (10 + 0.09 * d) - 6 [bolster >= 300] - 3 [Doom] - 3 [insanity]))"
+      d: "GetItemDropLevel (0 for artifacts) + TierLevels(id) = (clamp(ladder_tier, 1, 6) - 1) * 3"
+      result: "1 to 3 for every artifact"
+      source: "zzMaw-Items.lua:4351-4373; ItemLevel.lua:54-59, 70-75"
+
+  budget:
+    slots: 3
+    slots_source: "Artifacts.lua:44"
+    enchant_unit: "encStrUp(GetLootTier(level)) * GetDifficultyExtraPower()"
+    enchant_unit_source: "Artifacts.lua:65-67"
+    loot_tier: "level / TIER_LEVELS + min(1 + level / TIER_LEVELS, LOOT_STRENGTH_MAX)"
+    tier_levels: 15
+    loot_strength_max: 6
+    loot_tier_source: "zzMaw-Items.lua:482-490, 889"
+    enc_str_up_normal: "tier <= 12: 1 + tier * 2; else 25 + min((tier - 12) * 3, 75)"
+    enc_str_up_normal_source: "zzMaw-Items.lua:444-449"
+    enc_str_up_austerity: "tier <= 30: tier + 2; else 32 + (tier - 30) * 2"
+    enc_str_up_austerity_source: "zzMaw-Items.lua:451-456, 895-901 (vars.AusterityMode, set on BeforeLoadMap)"
+    # derived (normal mode, difficulty 1): level -> encStrUp / skill unit before slot multiplier
+    derived_units: {0: [3, 2], 15: [7, 3], 75: [23, 5], 100: [27, 6], 150: [37, 7], 300: [67, 9], 465: [100, 10]}
+    difficulty_power: {insanityMode: 1.2, Doom_vars_Mode_2: 1.1, trueNightmare: 1.05, default: 1}
+    difficulty_source: "zzMaw-Items.lua:552-561"
+    slot_mult_by_equip_stat:
+      {weapon_1h: 1, weapon_2h: 2, bow: 1.25, armor: 1.5, shield: 1, helm: 1.25, belt: 1, cloak: 1, gauntlets: 1.25,
+       boots: 1.25, ring: 0.75, amulet: 1}
+    slot_mult_hat: "helm with Mod2 == 0: 1.25 * 1.5 = 1.875"
+    slot_mult_source: "zzMaw-Items.lua:1405, 4407-4425"
+    skill_unit_formula: "ceil(max(u^0.5, u / 10)) * slot_mult"
+    skill_unit_source: "Artifacts.lua:77-80; Formulas.lua:21-23"
+    resistance_transform: "ring: value * 100 / ringReductionDivisor(200); other slots unchanged"
+    resistance_transform_source: "Artifacts.lua:85-88, 118-119; Formulas.lua:12-19"
+    vitality_transform: "value * (1 + min(value / vitalityEnchantHalfPoint(50) / slot_mult, vitalityEnchantCap(5)))"
+    vitality_transform_source: "Artifacts.lua:92-94, 120-121; Formulas.lua:25-30"
+    rounding: "stats and skills rounded per entry; Flat added after rounding"
+    rounding_source: "Artifacts.lua:123, 128, 133-137"
+    application: "stats into item-stat slot const.Stats id + 1; skills into slot skill id + 50"
+    application_source: "zzMaw-Items.lua:2797-2808"
+    resistance_channel_note: >-
+      Artifact resistances land in the base resistance stat (damage taken 1 / (res / (100 + 12 * monsterLevel) + 1)),
+      not in vars.normalEnchantResistance (1 / (res / 100 + 1)) where real resistance enchants go
+      (zzMaw-Items.lua:2743-2750, zzMaw-Stats.lua:1113-1135, Formulas.lua:65-74).
+    skill_cap: "a skill's total (base + all item bonuses) is capped at 2 x base skill level"
+    skill_cap_source: "zzMaw-Items.lua:2605-2611"
+    base_stat_multiplier_default: 1  # no artifactPower entry sets baseStatMultiplier at ef23ee17
+    base_stat_multiplier_source: "Artifacts.lua:145-148"
+    tooltip: "one line per stat and skill from BonusesOf, then MawArtifactOnHitText lines"
+    tooltip_source: "Tooltip.lua:495-534"
+
+  weapon_damage:
+    # artifact weapons (artWeap1h/artWeap2h) are "a tier-6 weapon at item level = party total level"; printed
+    # Mod2 and dice sides are ignored, only Mod1DiceCount is read.
+    item_power: "power = min(floor(max(level, 0) / 5), 100)  # PerPower 5, POWER_CAP 100: growth stops at level 500"
+    item_power_source: "ItemLevel.lua:4-21; Estimates.lua:123"
+    tier_flat: "WEAPON_TIER_FLAT_DAMAGE(16) * (clamp(tier, 1, 6) - 1) / 5; artifact weapons use tier 6 = 16"
+    tier_flat_source: "Estimates.lua:99-105; zzMaw-Items.lua:4562-4567"
+    rows: >-
+      flatPower = floor(power / 2); powerFlat = 2 * flatPower; powerDice = 2 * 2 * (power - flatPower);
+      diceOnly = 8 * 2 + powerDice; flatOnly = tier_flat + powerFlat; one-handed halves both
+    rows_source: "Estimates.lua:98-139"
+    character_rows: >-
+      attack/flat bonus = flatOnly * base_mult * quality; die sides = diceOnly / max(dice_count, 1) * base_mult *
+      quality
+    character_rows_source: "zzMaw-Items.lua:4585-4593"
+    two_handed: "EquipStat == 1 (Weapon2) or id in twoHandedAxes (axes with EquipStat 1)"
+    two_handed_source: "zzMaw-Items.lua:4555-4557; zzMAW-Skills.lua:1822-1837"
+    displayed_range: "min = dice_count + round(bonus); max = dice_count * round(sides) + round(bonus)"
+    displayed_range_source: "zzMaw-Items.lua:4598-4603"
+    quality_mult: "1 + cube_quality / 100; Pandora's Cube adds CUBE_QUALITY_STEP_ARTIFACT = 2 per use, max 20"
+    quality_source: "zzMaw-Items.lua:727, 738-746; zMaw_ItemBits.lua:254-269; zzAlchemy.lua:847-868"
+    blaster_rule: "a blaster in the main hand disables the offhand weapon, except for ancientWeapons themselves"
+    blaster_rule_source: "zzMaw-Items.lua:2816-2820"
+
+  armor_class:
+    applies_to: "ids in artArmors whose skill is Shield/Leather/Chain/Plate, or Misc with EquipStat != 12"
+    formula: "ceil((Mod1DiceCount + Mod2 + round(reference_ac * power / 40)) * base_mult), then round(* quality)"
+    power: "min(floor(level / 5), 100)"
+    reference_ac: >-
+      Mod2 + Mod1DiceCount of the LAST item in the run of consecutive ITEMS.txt rows that share this row's
+      NotIdentifiedName (built once for ids 0-2199)
+    source: "zzMaw-Items.lua:2614-2633, 2692-2717; Formulas.lua:291-294"
+    legendary_28: "acBonus * 1.5 after it has been added to armorAC/shieldAC"
+    legendary_28_source: "zzMaw-Items.lua:2713-2715"
+    non_list_items: "artifacts not in artArmors keep the printed Mod1DiceCount + Mod2 (MaxCharges is 0)"
+    tooltip_mismatch: >-
+      The tooltip scales AC for every IsArtifactId item with skill 8-11 or 40, using reference_ac or the printed AC
+      (Tooltip.lua:537-555), so non-artArmors artifacts print more AC than they give.
+
+  drop:
+    base_chance: 0.005
+    chance_multiplier: "drop.multiplier, always 1 (LootContext.set never passes multiplier)"
+    chance_source: "zzMaw-Items.lua:128-159, 304-308, 1008"
+    pity: "pity_chance(c, f) = 1 if c >= 1 else c^(PITY_EXPONENT - c * f * 0.5); PITY_EXPONENT = 1.38"
+    pity_source: "zzMaw-Items.lua:4467-4478"
+    pity_counter: "vars.artifactRollPity, += drop.multiplier per miss, reset to 0 on success"
+    pity_counter_source: "zzMaw-Items.lua:1009-1012, 1031"
+    derived: {p_at_0: 0.000668, p_at_100: 0.002511, p_at_152: 0.005, p_at_300: 0.03551, p_at_500: 0.5022,
+              certain_after_failures: 552, mean_rolls: 196}
+    eligible_items: "IsEnchantableItem(t.Item) and not in a shop (HouseScreen 2 or 95)"
+    skipped: "Map.MapStatsIndex == 0, t.Strength == 7 (engine artifact roll), screens 16 and 21"
+    eligibility_source: "zzMaw-Items.lua:974, 998-1007"
+    selection: "get_affix(vars.artPity): weight_k = 1 / (N * (vars.artPity[k] + 1)), N = #mawArtifacts = 104"
+    selection_source: "zzMaw-Items.lua:1013-1023, 1372-1401"
+    pity_slots_are_positions: true  # vars.artPity is indexed by list position; 533 owns two slots
+    on_success: "Number = artifact; BonusExpireTime = level; BonusStrength, Bonus2, Bonus, Charges = 0"
+    on_success_source: "zzMaw-Items.lua:1023-1029"
+    rng: "math.randomseed(vars.SeedList[base item number]) before the roll (save-seeded)"
+    rng_source: "zzMaw-Items.lua:987-996"
+
+  chest_reroll:
+    trigger: "events.AfterLoadMap, every load, all chests"
+    condition: >-
+      MaxCharges == 0 and id not in mawArtifactsKeep and id in mawArtifacts and ITEMS.txt Value >= 20000 and
+      BonusStrength == 0
+    action: "LootContext.markBoss(); Randomize(6, 0)"
+    keep_list: []  # all entries commented out, zzMaw-Items.lua:4489-4521
+    source: "zzMaw-Items.lua:4523-4535"
+
+  on_hit:
+    # artifactOnHit, stage "artifact-on-hit" of the damage pipeline: after "legendaries", before "damage-taken"
+    stage_source: "Damage.lua:1494-1496, 1532"
+    reference_enchant: 46  # enchantbonusdamage[46] = {20, 40, Type 0, Coeff 0.5}, "of The Dragon" in SPCITEMS.TXT
+    reference_enchant_source: "zzMaw-Items.lua:2061; zzzMaw_Artifacts.lua:445"
+    level_damage: >-
+      getWeaponLevelDamage(L, two_handed, tier_flat) = ((levelDamage + arms) * (1 + 0.02 * estimateSkill(L))
+      + statFlat) * (1 + GetMightDamageMultiplier(estimateStat(L), L)); levelDamage from the weapon rows,
+      arms = armsmaster damage at estimateSkill(L) * 1.5, statFlat = GetStatisticEffect(estimateStat(L)); arms and
+      statFlat halve for one-handed weapons
+    level_damage_source: "Estimates.lua:68-70, 120-158, 522"
+    range: >-
+      avg = level_damage * 0.5 * ENCHANT_DAMAGE_MULT(1); lo = max(avg * 20 / 30, 20 * f); hi = max(avg * 40 / 30,
+      40 * f); f = (two_handed ? 2 : 1) * ENCHANT_FLOOR_SHARE(0.5)
+    range_source: "zzMaw-Items.lua:2063-2082"
+    hit_damage: "random integer in [round(lo), round(hi)] * Damage * pace * MultVs[kind] / 2^(res / 100)"
+    pace: "GetPlayerBaseRecovery(pl, it) / 100: bow = its recovery, melee = mean recovery of held weapons (skill < 8)"
+    resistance: "target Resistances[index of DamageKind] % 1000; no DamageKind = Phys, still resisted"
+    monster_kind: "Game.Bolster.Monsters[monster.Id].Type, const.MonsterKind redefined by MAW"
+    hit_damage_source: "zzzMaw_Artifacts.lua:455-518; zzMaw-Items.lua:2106-2122; AdaptiveMonstersStats.lua:20-59"
+    slots: "melee (no Object, DamageKind 4): items in slots 0 and 1; ranged (Object.Spell 133 or Spell 135): slot 2"
+    elemental_share: "non-Phys on-hit damage is added to t.ElementalDamage for the spell leech"
+    slots_source: "zzzMaw_Artifacts.lua:523-550"
+    broken_items: "an item with it.Broken deals no on-hit damage and casts nothing"
+    spell_power: "castAt and the skill/mastery passed: wielder's skill in the item's Skill, or 7/3 for Skill >= 39"
+    spell_power_source: "zzzMaw_Artifacts.lua:52-64"
+    tooltip: "+round(lo * Damage)-round(hi * Damage) <kind> damage on hit; x<factor> damage vs <kinds>; Vampiric"
+    tooltip_source: "zzzMaw_Artifacts.lua:344-372"
+    dps_estimate: "MawArtifactOnHitPower (average, no MultVs, no resistance) is added to the sheet's DPS"
+    dps_estimate_source: "zzzMaw_Artifacts.lua:468-474; zzMaw-Stats.lua:1209-1234"
+
+  vampiric:
+    flag_reader: "MawArtifactVampiric(id) is only read by events.ItemAdditionalDamage, which sets t.Vampiric = false"
+    effect: "none: lifeLeech only checks Bonus2 16/41 (zzMaw-Items.lua:3248-3270); gotVamp/gotBowVamp are never read"
+    source: "zzzMaw_Artifacts.lua:283-286; zzMaw-Items.lua:2460-2491"
+
+  leech:
+    rule: "artifactLeech values are summed and added to lifeLeech[index].Melee only (ranged and spell untouched)"
+    source: "zzzMaw_Artifacts.lua:608-614; zzMaw-Items.lua:3221-3271"
+
+  drain:
+    rule: "per events.RegenTick, per worn item: HP += drain.HP unless pl.Class == ExemptClass"
+    tick_condition: "skipped for main condition 14, 15, 16 (dead, petrified, eradicated); capped at full HP"
+    source: "zzzMaw_Artifacts.lua:560-566, 602-625"
+
+  cycle_of_life:
+    item: 543
+    trigger: "events.RegenTick, per worn instance (two rings run it twice)"
+    skip: "Party.count == 1, wearer main condition 14 or 16, or wearer HP >= full HP"
+    algorithm: >-
+      donors = members with HP above the wearer; mid = floor((wearer.HP + sum(donor.HP)) / (1 + #donors));
+      need = mid - wearer.HP; each donor loses floor(min(max(donor.HP - mid, 0), need) / 2); the wearer gains the
+      sum of those losses; a positive result clears Conditions[13] (unconscious)
+    source: "zzzMaw_Artifacts.lua:568-600, 616-625"
+
+  wear_requirements:
+    hook: "events.CanWearItem: t.Available = false when Check(player) fails"
+    source: "zzzMaw_Artifacts.lua:628-726"
+    wetsuit_1406:
+      check: "doll type shows armor; equipped slots 0, 2, 4, 5, 6, 8 empty; main hand not EquipStat 1"
+      while_worn: "only EquipStat 0, 3, 8, 10, 11 items may be equipped"
+      source: "zzzMaw_Artifacts.lua:688-721"
+
+  buffs:
+    refresh: "every 2000 ms (Scheduler), for each worn item listed: ExpireTime = max(ExpireTime, now + 3 game min)"
+    power: "Power and Skill raised to the listed value when lower; OverlayId = 0"
+    horn_of_ros_2055: "any party member carrying item 2055 anywhere: party DetectLife refreshed at power 3"
+    source: "zzzMaw_Artifacts.lua:728-794"
+
+  immunities:
+    hook: "events.DoBadThingToPlayer: t.Allow = false when a worn artifact lists t.Thing"
+    source: "zzzMaw_Artifacts.lua:796-848"
+
+  attack_speed:
+    rule: "events.GetAttackDelay: t.Result *= (mod / 2 + 100) / 100 per worn listed item; mod -20 -> x0.9"
+    floor: "t.Result = max(t.Result, 0)"
+    source: "zzzMaw_Artifacts.lua:850-871"
+
+  hp_regen:
+    rule: "per worn listed item: + FHP * 0.02 / 10 HP per second = 0.2 % of max HP per second"
+    tick: "10 ticks per second; x2 after 200 undamaged ticks, x4 with no enemy detected (stacking to x8)"
+    source: "zzMaw-Items.lua:3836; zzMAW-Skills.lua:1358-1362, 1395-1409"
+
+  sp_regen:
+    rule: "per worn listed item: + FSP * 0.02 / 100 SP per tick = 0.2 % of max SP per second, same tick multipliers"
+    source: "zzMaw-Items.lua:3837; zzMAW-Skills.lua:1433-1465"
+    tooltip: "prints (ceil(FSP * n * 0.01) + 1) / 10 per second, half the applied rate"
+    tooltip_source: "zzMaw-Stats.lua:402-418"
+
+  spell_bonus:
+    rule: "events.GetSkill: + base_skill_level * ARTIFACT_SPELL_SKILL_BONUS per worn artifact listing that school"
+    bonus: 0.5
+    not_rounded: true
+    cap: "total skill capped at 2 x base level"
+    tooltip: "+50% skill in <schools>"
+    source: "zzMaw-Items.lua:2587-2611, 3839-3875; zzzMaw_Artifacts.lua:374-383"
+
+  legacy_dead_code:
+    artifact_power_mult:
+      formula: >-
+        customLevel >= 1: level = max(customLevel * 1.5, customLevel + 50); bol = (max(BolsterAmount, 100) / 100 - 1)
+        / 20 + 1; cap 550 (900 madness, 1500 with customLevel); mult = (min(level, cap) / 200 + 0.75) * bol, AC
+        variant / 250
+      used_by: "replaceNumber only, which nothing calls; the CalcStatBonusByItems user is commented out"
+      source: "zzMaw-Items.lua:2369-2377, 2383-2417, 4049-4072"
+    init_dice_upscaler:
+      rule: >-
+        GameInitialized2: artWeap1h sides = (sides + 1) * 2 - 1 and Mod2 * 2; artWeap2h sides = (sides + 1) * 3 - 1
+        and Mod2 * 3
+      still_read_by: >-
+        Game.ItemsTxt Mod2 in addWeaponACRes (weapon-skill AC/resistance for Staff, Sword, Spear: bonusBase = Mod2)
+        and referenceWeaponAttack; the damage model reads only Mod1DiceCount
+      source: "zzMaw-Items.lua:2329-2346, 3226-3246, 2614-2633"
+    commented_artifact_text: "zzMaw-Items.lua:2348-2367 (artifactTextBuilder, commented out)"
+    extra_artifacts_lua: "Global/ExtraArtifacts.lua ships empty to override the MMMerge file"
+    count_item_bonuses_stub: "Game.CountItemBonuses = function() end (zzzMaw_Artifacts.lua:880)"
+
+  lists:
+    art_weap_1h: [500, 501, 502, 503, 504, 506, 507, 508, 509, 510, 512, 523, 524, 526, 527, 528, 529, 538, 539, 542,
+                  1302, 1303, 1304, 1305, 1308, 1310, 1311, 1312, 1316, 1319, 1328, 1329, 1330, 1333, 1340, 1342, 1343,
+                  1344, 1345, 1353, 1354, 2020, 2021, 2023, 2025, 2035, 2036, 2037, 2038, 2040, 2118, 1666, 866]
+    art_weap_1h_source: "zzMaw-Items.lua:2330"
+    art_weap_2h: [505, 511, 525, 530, 540, 541, 1309, 1320, 1351, 2022, 2024, 2039, 1667, 867]
+    art_weap_2h_source: "zzMaw-Items.lua:2331"
+    art_armors: [513, 514, 515, 516, 517, 518, 520, 522, 533, 534, 1306, 1307, 1313, 1314, 1318, 1321, 1322, 1323,
+                 1324, 1326, 1327, 1331, 1332, 1334, 1335, 1336, 1337, 1346, 1349, 1350, 1352, 2026, 2027, 2028, 2030,
+                 2031, 2041, 2042, 2043, 2045, 2046]
+    art_armors_source: "zzMaw-Items.lua:2332"
+    ancient_weapons: [866, 867, 1666, 1667]
+    ancient_weapons_source: "zzMaw-Items.lua:2382"
+    hp_regen: [509, 520, 1337, 1331, 1335, 2027]
+    sp_regen: [513, 1334, 1331, 2024, 2032, 2033, 2034]
+    regen_source: "zzMaw-Items.lua:3836-3837"
+
+  openyamm_material:
+    parser: "items.txt column 9 (material) 'Artifact' / 'Relic' / 'Special' -> ItemRarity, anything else Common"
+    parser_source: "OpenYAMM game/tables/ItemTable.cpp:247-266, 420-422; game/tables/ItemTable.h:26-32"
+    artifact_test: "ItemRuntime treats only Artifact and Relic as artifacts"
+    artifact_test_source: "OpenYAMM game/items/ItemRuntime.cpp:128"
+
+artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entries, 533 twice)
+  500:
+    name: "Elsenrail"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Accuracy: 3}
+      source: "zzMaw-Items.lua:3515"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Light
+      damage: 1
+      source: "zzzMaw_Artifacts.lua:76-79"
+    maw_note: "Accuracy +60, 20-40 points of Light damage"
+  501:
+    name: "Glomenthal"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 3}
+      source: "zzMaw-Items.lua:3517"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Dark
+      damage: 1
+      source: "zzzMaw_Artifacts.lua:81-84"
+    maw_note: "Might +60, 20-40 points of Dark damage"
+  502:
+    name: "Terminus"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {AirResistance: 1.76}
+      skills: {Armsmaster: 1.24}
+      source: "zzMaw-Items.lua:3518-3519"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Armsmaster skill +7, Air Resistance +100"
+  503:
+    name: "Judicious Measure"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Endurance: 1.5, Luck: 1.5}
+      source: "zzMaw-Items.lua:3520-3521"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.8
+      mult_vs: {Ogre: 2}
+      source: "zzzMaw_Artifacts.lua:86-89"
+    maw_note: "Endurance +40, Luck +40, Ogre Slaying"
+  504:
+    name: "Elderaxe"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Axe
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 3}
+      source: "zzMaw-Items.lua:3522"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 4
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Water
+      damage: 0.6
+      source: "zzzMaw_Artifacts.lua:91-94"
+    wear_requirements:
+      text: "Minotaurs only"
+      check: "GetRace(pl) == const.Race.Minotaur"
+      source: "zzzMaw_Artifacts.lua:635-636"
+    maw_note: "Might +100, Swift, 12-24 points of Cold damage, Minotaur"
+    notes:
+      - >-
+          zzzMaw_Artifacts.lua:90 says "Swift ... live elsewhere", but 504 is not in artifactAttackSpeed: no
+          attack-speed bonus anywhere.
+  505:
+    name: "Volcano"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Axe
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {FireResistance: 3}
+      source: "zzMaw-Items.lua:3523"
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 3
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Fire
+      damage: 1
+      source: "zzzMaw_Artifacts.lua:96-99"
+    maw_note: "20-40 points of Fire damage, Fire Resistance +80"
+  506:
+    name: "Wyrm Spitter"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Endurance: 3}
+      source: "zzMaw-Items.lua:3524"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 1
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.8
+      mult_vs: {Dragon: 2}
+      source: "zzzMaw_Artifacts.lua:101-104"
+    maw_note: "Endurance +60, Dragon Slaying, Swift"
+    notes:
+      - "MAW note prints \"Swift\"; 506 is not in artifactAttackSpeed."
+  507:
+    name: "Guardian"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}
+      source: "zzMaw-Items.lua:3525-3531"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Body
+      damage: 1
+      source: "zzzMaw_Artifacts.lua:106-109"
+    maw_note: "+20 to all attributes, 20-40 points of Body damage"
+  508:
+    name: "Foulfang"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Dagger
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Body
+      damage: 0.5
+      vampiric: true  # dead flag, see open questions
+      source: "zzzMaw_Artifacts.lua:112-116"
+    wear_requirements:
+      text: "Vampires only"
+      check: "GetRace(pl) == const.Race.Vampire"
+      source: "zzzMaw_Artifacts.lua:638-639"
+    maw_note: "Vampiric, 20 points of Poison damage, Vampire"
+    notes:
+      - "No artifactPower entry: no stat budget."
+      - "Vampiric flag is dead (see open questions)."
+  509:
+    name: "Scepter of Kings"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Personality: 3}
+      source: "zzMaw-Items.lua:3532"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    hp_regen: {source: "zzMaw-Items.lua:3836"}
+    maw_note: "Personality + 80, Regenerate Hit Points"
+  510:
+    name: "Breaker"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 1.5, Endurance: 1.5}
+      source: "zzMaw-Items.lua:3533-3534"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Body
+      damage: 1
+      source: "zzzMaw_Artifacts.lua:118-121"
+    maw_note: "Might +30, Endurance +30, 20-40 points of Body damage"
+  511:
+    name: "Staff of the Swamp"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Staff
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 3
+      slot_mult: 2
+      base_multiplier: 1
+    maw_note: "of Shielding; Immune to disease, paralysis, and poison"
+    notes:
+      - >-
+          No rule data in any table (no budget, on-hit, immunity, buff). The MAW note's "of Shielding; Immune to
+          disease, paralysis, and poison" is not implemented; only the generic artifact base damage applies.
+  512:
+    name: "Longseeker"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Accuracy: 1.67}
+      skills: {Bow: 1.33}
+      source: "zzMaw-Items.lua:3535-3536"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 6
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "Accuracy +50, Swift, Bow skill +4"
+    notes:
+      - "MAW note prints \"Swift\"; 512 is not in artifactAttackSpeed."
+  513:
+    name: "Serendine's Preservation"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Leather
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Endurance: 3}
+      source: "zzMaw-Items.lua:3537"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 36
+      reference_ac: 36
+      slot_mult: 1.5
+      base_multiplier: 1
+    sp_regen: {source: "zzMaw-Items.lua:3837"}
+    maw_note: "Regenerates Spell Points, Endurance +70"
+  514:
+    name: "Glomenmail"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Chain
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 0.23, Intellect: 0.23, Personality: 0.23, Speed: 0.23, Accuracy: 0.23, Endurance: 0.23, Luck: 0.23,
+              FireResistance: 0.23, AirResistance: 0.23, WaterResistance: 0.23, EarthResistance: 0.23,
+              MindResistance: 0.23, BodyResistance: 0.23}
+      source: "zzMaw-Items.lua:3538-3550"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 50
+      reference_ac: 50
+      slot_mult: 1.5
+      base_multiplier: 1
+    wear_requirements:
+      text: "Dark Elves only"
+      check: "GetRace(pl) == const.Race.DarkElf"
+      source: "zzzMaw_Artifacts.lua:641-642"
+    maw_note: "+20 to all statistics, +20 to all resistances, Dark Elf"
+  515:
+    name: "Supreme Plate"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Plate
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 1.5, Accuracy: 1.5}
+      source: "zzMaw-Items.lua:3551-3552"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 80
+      reference_ac: 80
+      slot_mult: 1.5
+      base_multiplier: 1
+    wear_requirements:
+      text: "Knights only"
+      check: "pl.Class >= 16 and pl.Class <= 19"
+      source: "zzzMaw_Artifacts.lua:644-645"
+    attack_speed: {mod: -20, delay_mult: 0.9, source: "zzzMaw_Artifacts.lua:857"}
+    maw_note: "Swift, +45 Speed, +45 Accuracy, Knight"
+  517:
+    name: "Fleetfingers"
+    slot: gauntlets
+    equip_stat: "Gauntlets"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      skills: {DisarmTraps: 1, Bow: 1, Armsmaster: 1}
+      source: "zzMaw-Items.lua:3553-3555"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 3
+      reference_ac: 3
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "+8 to Disarm Trap, Bow, and Armsmaster skills"
+  518:
+    name: "Herald's Boots"
+    slot: boots
+    equip_stat: "Boots"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 3}
+      source: "zzMaw-Items.lua:3556"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 12
+      reference_ac: 12
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "Speed + 60, Swift, Immunity to Sleep"
+    notes:
+      - "MAW note prints \"Swift, Immunity to Sleep\"; neither is in the behaviour tables."
+  519:
+    name: "Ring of Planes"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75}
+      source: "zzMaw-Items.lua:3557-3560"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 0.75
+      base_multiplier: 1
+    maw_note: "+40 to Fire, Earth, Water and Air resistances"
+    notes:
+      - "Ring: resistance coefficients are halved by the ring read transform (Formulas.lua:14-19)."
+  520:
+    name: "Drogg's Helm"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Personality: 1.5, Intellect: 1.5}
+      source: "zzMaw-Items.lua:3561-3562"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 15
+      reference_ac: 15
+      slot_mult: 1.25
+      base_multiplier: 1
+    hp_regen: {source: "zzMaw-Items.lua:3836"}
+    maw_note: "Personality +60, Intellect +60, Regenerates Hit Points"
+  521:
+    name: "Crown of Final Dominion"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Intellect: 3}
+      source: "zzMaw-Items.lua:3563"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 1.875
+      base_multiplier: 1
+    wear_requirements:
+      text: "Liches only"
+      check: "pl.Class == 45"
+      source: "zzzMaw_Artifacts.lua:650-651"
+    spell_bonus: {skills: [20 Dark], source: "zzMaw-Items.lua:3845"}
+    maw_note: "Intellect +100, of Dark Magic, Lich"
+    notes:
+      - "Helm with Mod2 = 0 counts as a hat: slot multiplier 1.25 * 1.5 = 1.875 (zzMaw-Items.lua:4421-4423)."
+  522:
+    name: "Archangel Wings"
+    slot: cloak
+    equip_stat: "Cloak"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Intellect: 1.2, FireResistance: 0.3, AirResistance: 0.3, WaterResistance: 0.3, EarthResistance: 0.3,
+              MindResistance: 0.3, BodyResistance: 0.3}
+      source: "zzMaw-Items.lua:3564-3570"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 12
+      reference_ac: 12
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Feather Falling, Intellect + 40, All magic resistances + 10"
+    notes:
+      - "MAW note prints \"Feather Falling\"; no buff entry."
+  523:
+    name: "Snake"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Speed: 3, WaterResistance: -1.5, Personality: -0.45}
+      source: "zzMaw-Items.lua:3571-3573"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      text: "Slows the target on hit"
+      spells:
+        - >-
+            castAt(const.Spells.Slow) = evt.CastSpell(35 Slow) at the target, wielder Sword skill/mastery
+            (zzzMaw_Artifacts.lua:127)
+      source: "zzzMaw_Artifacts.lua:124-129"
+    maw_note: "Slows target, Speed +100, Water Resistance -50, Personality -15"
+  524:
+    name: "Havoc"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Speed: 1.5, Accuracy: 1.5, ArmorClass: -0.43}
+      source: "zzMaw-Items.lua:3574-3576"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Speed +70, Accuracy +70, Armor Class -20"
+  525:
+    name: "Finality"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Sword
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Accuracy: 3, Speed: -0.5}
+      source: "zzMaw-Items.lua:3577-3578"
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 4
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Fire
+      damage: 1
+      text: "Slows the target on hit"
+      spells:
+        - >-
+            castAt(const.Spells.Slow) = evt.CastSpell(35 Slow) at the target, wielder Sword skill/mastery
+            (zzzMaw_Artifacts.lua:136)
+      source: "zzzMaw_Artifacts.lua:131-138"
+    maw_note: "20-40 points of Fire damage, Slow, Speed -20, Accuracy +120"
+  526:
+    name: "Hell's Cleaver"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Axe
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 1.5, Accuracy: 1.5, Personality: -1.07, Intellect: -1.07}
+      source: "zzMaw-Items.lua:3579-3582"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 4
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Might + 70, Accuracy +70, Personality -50, Intellect -50"
+  527:
+    name: "Spiritslayer"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 3, Luck: -1.5}
+      source: "zzMaw-Items.lua:3583-3584"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 1
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      vampiric: true  # dead flag, see open questions
+      source: "zzzMaw_Artifacts.lua:140-142"
+    maw_note: "Vampiric, Might +80, Luck -40"
+    notes:
+      - "Vampiric flag is dead (see open questions)."
+  528:
+    name: "Trident of Rulership"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {WaterResistance: 3, FireResistance: -0.86}
+      source: "zzMaw-Items.lua:3585-3586"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Water Breathing, +140 Water Resistance, -40 Fire Resistance"
+    notes:
+      - "MAW note prints \"Water Breathing\"; no buff entry."
+  529:
+    name: "Blade of Mercy"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Dagger
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 1.5, Accuracy: 1.5}
+      source: "zzMaw-Items.lua:3587-3588"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Air
+      damage: 0.5
+      source: "zzzMaw_Artifacts.lua:144-147"
+    wear_requirements:
+      text: "Necromancers and Liches only"
+      check: "pl.Class == 44 or pl.Class == 45"
+      source: "zzzMaw_Artifacts.lua:653-654"
+    maw_note: "Might +100, Accuracy +100, 8-20 points Electrical damage, Necromancer"
+  530:
+    name: "Staff of Elements"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Staff
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {ArmorClass: -1.2}
+      source: "zzMaw-Items.lua:3590"
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 2
+      slot_mult: 2
+      base_multiplier: 1
+    spell_bonus: {skills: [12 Fire, 13 Air, 14 Water, 15 Earth], source: "zzMaw-Items.lua:3847"}
+    maw_note: "of Air Magic, of Fire Magic, of Water Magic, of Earth Magic, -40 Armor Class"
+    notes:
+      - "Comment at zzMaw-Items.lua:3589: the four spell schools are the item, the AC is the price."
+  531:
+    name: "Tournament Bow"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Accuracy: 2.14, ArmorClass: -0.43}
+      skills: {Bow: 0.86}
+      source: "zzMaw-Items.lua:3591-3593"
+    base:
+      model: ladder_weapon
+      list: "not in artWeap1h/2h"
+      tier: 3.5
+      tier_flat: 8.0
+      ladder_run: 531-531
+      two_handed: false
+      dice_count: 6
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "Accuracy +100, Bow skill + 5, Armor Class -20"
+    notes:
+      - "Not in artWeap1h/2h: base damage reads the ladder tier of its NotIdentifiedName run instead of tier 6."
+  533:
+    name: "Last Stage Cuirass"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Leather
+    material: Relic
+    drop_list: {slots: 2, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Intellect: 1.5, Personality: 1.5, MindResistance: -1.07, BodyResistance: -1.07}
+      source: "zzMaw-Items.lua:3596-3599"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 21
+      reference_ac: 21
+      slot_mult: 1.5
+      base_multiplier: 1
+    maw_note: "Personality +140, Intellect +140, -100 Mind and Body resistances"
+    notes:
+      - "Listed twice in mawArtifacts (zzMaw-Items.lua:4481): two pity slots, about double drop weight."
+  534:
+    name: "Herondale's Lost Shield"
+    slot: shield
+    equip_stat: "Shield"
+    skill: Shield
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Endurance: 3, Luck: -0.9}
+      source: "zzMaw-Items.lua:3600-3601"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 16
+      reference_ac: 16
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Immune to Fear, Stone, Paralysis, and Sleep; Endurance +50, Luck -15"
+    notes:
+      - "MAW note prints immunity to Fear, Stone, Paralysis and Sleep; no artifactImmunities entry."
+  535:
+    name: "Ring of Fusion"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Intellect: 1.64, Endurance: -0.55}
+      skills: {Alchemy: 1.36}
+      source: "zzMaw-Items.lua:3602-3604"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 0.75
+      base_multiplier: 1
+    spell_bonus: {skills: [14 Water], source: "zzMaw-Items.lua:3849"}
+    maw_note: "of Water, Alchemy skill + 5, Intellect +60, Endurance -20"
+    notes:
+      - "Ring: no resistance coefficients, so the ring transform does not apply."
+  536:
+    name: "Lucky Hat"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Luck: 3, Personality: -1.5}
+      source: "zzMaw-Items.lua:3605-3606"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 1.875
+      base_multiplier: 1
+    maw_note: "Luck + 100, Personality -50"
+    notes:
+      - "Helm with Mod2 = 0 counts as a hat: slot multiplier 1.875."
+  537:
+    name: "Berserker Belt"
+    slot: belt
+    equip_stat: "Belt"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 3, Accuracy: -0.75, ArmorClass: -0.38}
+      source: "zzMaw-Items.lua:3607-3609"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Might +120, Immune to Fear, Accuracy -30, Armor Class -15"
+    notes:
+      - "MAW note prints \"Immune to Fear\"; not implemented."
+  542:
+    name: "Noblebone Bow"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Special
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 6
+      slot_mult: 1.25
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 1
+      source: "zzzMaw_Artifacts.lua:170-172"
+    notes:
+      - "material is Special (not Artifact/Relic) in MAW, base and OpenYAMM tables."
+      - "No artifactPower entry: no stat budget."
+      - >-
+          zzzMaw_Artifacts.lua:168-169 calls this the "of Carnage" enchant; enchant 46 is "of The Dragon" in MAW
+          SPCITEMS.TXT (Carnage is 3).
+  1302:
+    name: "Puck"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 3}
+      source: "zzMaw-Items.lua:3614"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    attack_speed: {mod: -20, delay_mult: 0.9, source: "zzzMaw_Artifacts.lua:858"}
+    maw_note: "Speed +80, Swift"
+  1303:
+    name: "Iron Feather"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 3}
+      source: "zzMaw-Items.lua:3616"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 4
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Air
+      damage: 1.2
+      source: "zzzMaw_Artifacts.lua:186-189"
+    maw_note: "Might +80, 12-30 points of Electrical damage"
+    notes:
+      - >-
+          EquipStat is Weapon2 but the id sits in artWeap1h (zzMaw-Items.lua:2330): the legacy dice upscaler doubles
+          instead of triples. The damage model still treats it as two-handed (IsTwoHandedWeapon reads EquipStat).
+  1304:
+    name: "Wallace"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Personality: 0.86}
+      skills: {Armsmaster: 2.14}
+      source: "zzMaw-Items.lua:3618-3619"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Armsmaster skill +10, Personality +40"
+  1305:
+    name: "Corsair"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Luck: 1.33}
+      skills: {DisarmTraps: 1.67}
+      source: "zzMaw-Items.lua:3621-3622"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Stealing skill +5, Disarm skill +5, Luck +80"
+  1306:
+    name: "Governor's Armor"
+    slot: armor
+    equip_stat: "armor"
+    skill: Chain
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}
+      source: "zzMaw-Items.lua:3624-3630"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 42
+      reference_ac: 0
+      reference_ac_from: 1315
+      slot_mult: 1.5
+      base_multiplier: 1
+    buffs: {powers: {Shield: 3}, source: "zzzMaw_Artifacts.lua:736"}
+    maw_note: "Half damage from missile attacks, +10 to all statistics"
+    notes:
+      - >-
+          Reference AC comes from 1315 Ruler's Ring (0) because the whole 1302-1315 run shares the NotIdentifiedName
+          "Artifact": no level AC growth (see open questions).
+  1307:
+    name: "Yoruba"
+    slot: armor
+    equip_stat: "armor"
+    skill: Plate
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Endurance: 3}
+      source: "zzMaw-Items.lua:3632"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 70
+      reference_ac: 0
+      reference_ac_from: 1315
+      slot_mult: 1.5
+      base_multiplier: 1
+    immunities:
+      monster_bonus: [Insane, Disease1, Disease2, Disease3, Paralyze, Stone, Poison1, Poison2, Poison3, Asleep]
+      source: "zzzMaw_Artifacts.lua:802-811"
+    maw_note: "Immunity to disease, insanity, paralysis, poison, sleep, and stone conditions, Endurance +100"
+    notes:
+      - "Reference AC 0 from 1315 Ruler's Ring: no level AC growth."
+  1308:
+    name: "Splitter"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Axe
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      flat: {FireResistance: 65000}
+      source: "zzMaw-Items.lua:3634"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 4
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Fire
+      damage: 0.7
+      text: "Casts Fireball on hit"
+      spells:
+        - >-
+            CastSpellDirect(125, skill, mastery): spell 125 = "Wing Buffet" in mmmerge Spells.txt
+            (zzzMaw_Artifacts.lua:181)
+        - "castAt(6 Fireball) at the target, wielder Axe skill/mastery (zzzMaw_Artifacts.lua:182)"
+      source: "zzzMaw_Artifacts.lua:175-184"
+    maw_note: "Explosive impact, Fire Immunity"
+    notes:
+      - "Flat FireResistance 65000 is the immunity threshold (zzMaw-Stats.lua:1145)."
+  1309:
+    name: "Ghoulsbane"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Axe
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch:
+        - "Mod1/Mod2 ours 1d9 19 (= base MMMerge 1d9 19), MAW 1d18 30"
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 1
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Fire
+      damage: 1
+      mult_vs: {Undead: 2}
+      source: "zzzMaw_Artifacts.lua:191-195"
+    immunities:
+      monster_bonus: [Paralyze]
+      source: "zzzMaw_Artifacts.lua:813"
+    maw_note: "Undead slaying, Immunity to paralysis, 6-36 fire damage"
+    notes:
+      - "No artifactPower entry: no stat budget."
+  1310:
+    name: "Gibbet"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch:
+        - "Mod1/Mod2 ours 3d6 18 (= base MMMerge 3d6 18), MAW 3d9 30"
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Fire
+      damage: 0.9
+      mult_vs: {Undead: 2, Dragon: 2, Demon: 2}
+      source: "zzzMaw_Artifacts.lua:197-205"
+    maw_note: "Undead slaying, Dragon slaying, Demon slaying"
+    notes:
+      - "No artifactPower entry: no stat budget."
+      - "MAW note prints only slaying; no other effect."
+  1311:
+    name: "Charele"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch:
+        - "Mod1/Mod2 ours 3d9 18 (= base MMMerge 3d9 18), MAW 3d15 30"
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - "No rule data in any table (no budget, no on-hit): only the generic artifact base damage."
+  1312:
+    name: "Ullyses"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Accuracy: 3}
+      source: "zzMaw-Items.lua:3636"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 6
+      slot_mult: 1.25
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Water
+      damage: 1.2
+      source: "zzzMaw_Artifacts.lua:207-210"
+    maw_note: "Accuracy +80, 18-24 water damage"
+  1313:
+    name: "Hands of the Master"
+    slot: gauntlets
+    equip_stat: "Gauntlets"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      skills: {Unarmed: 1.5, Dodging: 1.5}
+      source: "zzMaw-Items.lua:3638-3639"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 15
+      reference_ac: 0
+      reference_ac_from: 1315
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "Unarmed skill +10, Dodging skill +10"
+    notes:
+      - "Reference AC 0 from 1315 Ruler's Ring: no level AC growth."
+  1314:
+    name: "Seven League Boots"
+    slot: boots
+    equip_stat: "Boots"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 3}
+      source: "zzMaw-Items.lua:3641"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 18
+      reference_ac: 0
+      reference_ac_from: 1315
+      slot_mult: 1.25
+      base_multiplier: 1
+    spell_bonus: {skills: [14 Water], source: "zzMaw-Items.lua:3851"}
+    maw_note: "Speed +80, of Water Magic"
+    notes:
+      - "Reference AC 0 from 1315 Ruler's Ring: no level AC growth."
+  1315:
+    name: "Ruler's Ring"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 0.75
+      base_multiplier: 1
+    spell_bonus: {skills: [17 Mind, 20 Dark], source: "zzMaw-Items.lua:3853"}
+    maw_note: "Of Mind Magic, of Dark Magic"
+    notes:
+      - "No artifactPower entry; the item is its spell-school bonus only."
+  1316:
+    name: "Mash"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 3, Intellect: -0.8, Personality: -0.8, Speed: -0.8}
+      source: "zzMaw-Items.lua:3643-3646"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 1
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Might +150, Intellect -40, Personality -40, Speed -40"
+  1317:
+    name: "Ethric's Staff"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Staff
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      skills: {Meditation: 3}
+      source: "zzMaw-Items.lua:3648"
+    base:
+      model: ladder_weapon
+      list: "not in artWeap1h/2h"
+      tier: 1.357
+      tier_flat: 1.142
+      ladder_run: 1316-1330
+      two_handed: true
+      dice_count: 2
+      slot_mult: 2
+      base_multiplier: 1
+    drain: {hp_per_regen_tick: -3, exempt_class: Lich, source: "zzzMaw_Artifacts.lua:604-606,616-625"}
+    spell_bonus: {skills: [20 Dark], source: "zzMaw-Items.lua:3855"}
+    maw_note: "Of Dark Magic, Meditation skill +8, Decrease Hit Points over time, Evil"
+    notes:
+      - >-
+          Not in artWeap1h/2h: base damage reads ladder tier 1.357 of the 1316-1330 "Relic" run, flat 16*(1.357-1)/5 =
+          1.143 instead of 16.
+      - "Meditation skill bonus is subject to the 2x base skill cap (zzMaw-Items.lua:2605-2611)."
+  1318:
+    name: "Hareck's Leather"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Leather
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Luck: 1.5, FireResistance: -0.3, AirResistance: -0.3, WaterResistance: -0.3, EarthResistance: -0.3,
+              MindResistance: -0.3, BodyResistance: -0.3}
+      skills: {Dagger: 0.75, Unarmed: 0.75}
+      source: "zzMaw-Items.lua:3650-3658"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 32
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1.5
+      base_multiplier: 1
+    buffs: {powers: {WaterBreathing: 0}, source: "zzzMaw_Artifacts.lua:737"}
+    maw_note: "Dagger skill +5, Disarm skill +5, Water Walking, Luck +100, All Resistances -20"
+    notes:
+      - "Reference AC 17 borrowed from 1330 Mekorig's Hammer (Mod2 15 + dice count 2)."
+      - "MAW note prints \"Water Walking\"; the buff table grants WaterBreathing instead."
+  1319:
+    name: "Old Nick"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Dagger
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      skills: {DisarmTraps: 3}
+      source: "zzMaw-Items.lua:3660"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Water
+      damage: 1.1
+      mult_vs: {Elf: 2}
+      source: "zzzMaw_Artifacts.lua:212-216"
+    maw_note: "Disarm Skill +5, 54 points of Poison damage, Elf Slaying, Evil"
+  1320:
+    name: "Amuck"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Axe
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 1.5, Endurance: 1.5, ArmorClass: -0.23}
+      source: "zzMaw-Items.lua:3662-3664"
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 3
+      slot_mult: 2
+      base_multiplier: 1
+    maw_note: "Might +100, Endurance +100, Armor Class -15"
+  1321:
+    name: "Glory Shield"
+    slot: shield
+    equip_stat: "Shield"
+    skill: Shield
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {BodyResistance: -1.2, MindResistance: -1.2}
+      skills: {Shield: 3}
+      source: "zzMaw-Items.lua:3666-3668"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 27
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1
+      base_multiplier: 1
+    spell_bonus: {skills: [16 Spirit], source: "zzMaw-Items.lua:3857"}
+    maw_note: "Of Spirit Magic, Shield skill +5, Body Resistance -20, Mind Resistance -20"
+    notes:
+      - "Reference AC 17 borrowed from 1330 Mekorig's Hammer."
+  1322:
+    name: "Kelebrim"
+    slot: shield
+    equip_stat: "Shield"
+    skill: Shield
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Endurance: 3, EarthResistance: -1.8}
+      source: "zzMaw-Items.lua:3670-3671"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 20
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1
+      base_multiplier: 1
+    buffs: {powers: {Shield: 3}, source: "zzzMaw_Artifacts.lua:738"}
+    immunities:
+      monster_bonus: [Stone]
+      source: "zzzMaw_Artifacts.lua:815"
+    maw_note: "Immunity to stone condition, Half damage from missile attacks, Endurance +100, Earth Resistance -60"
+    notes:
+      - "Reference AC 17 borrowed from 1330 Mekorig's Hammer."
+      - "\"Half damage from missile attacks\" is the Shield buff."
+  1323:
+    name: "Taledon's Helm"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 1.5, Personality: 1.5, Luck: -1.33}
+      source: "zzMaw-Items.lua:3673-3675"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 17
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1.25
+      base_multiplier: 1
+    spell_bonus: {skills: [19 Light], source: "zzMaw-Items.lua:3859"}
+    maw_note: "Of Light Magic, Personality +45, Might +45, Luck -40, Good"
+    notes:
+      - "Reference AC 17 borrowed from 1330 Mekorig's Hammer."
+  1324:
+    name: "Scholar's Cap"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Endurance: -1}
+      skills: {Learning: 3}
+      source: "zzMaw-Items.lua:3677-3678"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 2
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "Learning skill +15, Endurance -50"
+    notes:
+      - "Reference AC 17 borrowed from 1330 Mekorig's Hammer."
+  1325:
+    name: "Phynaxian Crown"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Personality: 0.69, WaterResistance: 2.31, ArmorClass: -0.46}
+      source: "zzMaw-Items.lua:3680-3682"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1.875
+      base_multiplier: 1
+    spell_bonus: {skills: [12 Fire], source: "zzMaw-Items.lua:3861"}
+    maw_note: "Of Fire Magic, Water Resistance +100, Personality +30, Armor Class -20"
+    notes:
+      - "Helm with Mod2 = 0 counts as a hat: slot multiplier 1.875."
+      - "Not in artArmors: worn AC stays 0, but the tooltip prints round(17*power/40) (Tooltip.lua:546-554)."
+  1326:
+    name: "Titan's Belt"
+    slot: belt
+    equip_stat: "Belt"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch:
+        - "Mod1/Mod2 ours 0 0 (= base MMMerge 0 0), MAW 1 19"
+    budget:
+      stats: {Might: 3, Speed: -1.04}
+      source: "zzMaw-Items.lua:3684-3685"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 20
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Might +115, Speed -40"
+    notes:
+      - "Reference AC 17 borrowed from 1330 Mekorig's Hammer."
+  1327:
+    name: "Twilight"
+    slot: cloak
+    equip_stat: "Cloak"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Speed: 1.5, Luck: 1.5, FireResistance: -0.9, AirResistance: -0.9, WaterResistance: -0.9,
+              EarthResistance: -0.9, MindResistance: -0.9, BodyResistance: -0.9}
+      source: "zzMaw-Items.lua:3687-3694"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 15
+      reference_ac: 17
+      reference_ac_from: 1330
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "Speed +80, Luck +80, All resistances -30, Evil"
+    notes:
+      - "Reference AC 17 borrowed from 1330 Mekorig's Hammer."
+  1328:
+    name: "Ania Selving"
+    slot: bow
+    equip_stat: "Bow"
+    skill: Bow
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch:
+        - "Equip Stat text ours \"Missile\", MAW \"Bow\" (same item type)"
+    budget:
+      stats: {Accuracy: 2.25, ArmorClass: -0.38}
+      skills: {Bow: 0.75}
+      source: "zzMaw-Items.lua:3696-3698"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 5
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "Accuracy +150, Bow skill +5, Armor Class -25"
+  1329:
+    name: "Justice"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch:
+        - "Mod1/Mod2 ours 2d4 16 (= base MMMerge 2d4 16), MAW 2d8 24"
+    budget:
+      stats: {Speed: -1.2}
+      source: "zzMaw-Items.lua:3700"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    spell_bonus: {skills: [17 Mind, 18 Body], source: "zzMaw-Items.lua:3863"}
+    maw_note: "Undead slaying, of Mind magic, of Body magic, -40 Speed, Good"
+    notes:
+      - "MAW note prints \"Undead slaying\"; there is no artifactOnHit entry."
+  1330:
+    name: "Mekorig's Hammer"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 3, AirResistance: -4}
+      source: "zzMaw-Items.lua:3702-3703"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    spell_bonus: {skills: [16 Spirit], source: "zzMaw-Items.lua:3865"}
+    maw_note: "Of Spirit magic, Might +75, Air Resistance -100"
+  1331:
+    name: "Hermes' Sandals"
+    slot: boots
+    equip_stat: "Boots"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 1.2, Accuracy: 0.6, AirResistance: 1.2}
+      source: "zzMaw-Items.lua:3705-3707"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 23
+      reference_ac: 23
+      slot_mult: 1.25
+      base_multiplier: 1
+    hp_regen: {source: "zzMaw-Items.lua:3836"}
+    sp_regen: {source: "zzMaw-Items.lua:3837"}
+    maw_note: "+100 Speed, +50 Accuracy, +50 Air Resistance, Regenerate HP, Regenerate SP, Feather Falling"
+    notes:
+      - "MAW note prints \"Feather Falling\"; no buff entry. NotIdentifiedName is \"Sandals\" (own ladder run)."
+  1332:
+    name: "Cloak of the Sheep"
+    slot: cloak
+    equip_stat: "Cloak"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Intellect: -0.6, Personality: -0.6}
+      source: "zzMaw-Items.lua:3709-3710"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 12
+      reference_ac: 12
+      slot_mult: 1
+      base_multiplier: 1
+    immunities:
+      monster_bonus: [Insane, Disease1, Disease2, Disease3, Paralyze, Stone, Poison1, Poison2, Poison3, Asleep]
+      source: "zzzMaw_Artifacts.lua:817-826"
+    maw_note: >-
+      Immunity to disease, insanity, paralysis, poison, sleep, and stone conditions, Intellect -20, Personality -20
+    notes:
+      - "Budget is drawbacks only; the item is its immunities."
+  1333:
+    name: "Elfbane"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 3}
+      source: "zzMaw-Items.lua:3712"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 4
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.8
+      mult_vs: {Elf: 2}
+      source: "zzzMaw_Artifacts.lua:220-223"
+    wear_requirements:
+      text: "Goblins only"
+      check: "GetRace(pl) == const.Race.Goblin"
+      source: "zzzMaw_Artifacts.lua:662-663"
+    buffs: {powers: {Shield: 3}, source: "zzzMaw_Artifacts.lua:739"}
+    maw_note: "Speed +100, Of Shielding, Elf Slayer, Goblin"
+    notes:
+      - "EquipStat is Weapon2 but the id sits in artWeap1h: legacy dice upscaler doubles instead of triples."
+      - "\"Of Shielding\" is the Shield buff."
+  1334:
+    name: "Mind's Eye"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Intellect: 1.5, Personality: 1.5}
+      source: "zzMaw-Items.lua:3714-3715"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 12
+      reference_ac: 12
+      slot_mult: 1.25
+      base_multiplier: 1
+    wear_requirements:
+      text: "Humans only"
+      check: "GetRace(pl) == const.Race.Human"
+      source: "zzzMaw_Artifacts.lua:665-666"
+    sp_regen: {source: "zzMaw-Items.lua:3837"}
+    maw_note: "+30 Intellect, +30 Personality, Regenerate SP, Human"
+  1335:
+    name: "Elven Chainmail"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Chain
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 1.5, Accuracy: 1.5}
+      source: "zzMaw-Items.lua:3717-3718"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 33
+      reference_ac: 33
+      slot_mult: 1.5
+      base_multiplier: 1
+    wear_requirements:
+      text: "Elves only"
+      check: "race is DarkElf or Elf"
+      source: "zzzMaw_Artifacts.lua:668-672"
+    hp_regen: {source: "zzMaw-Items.lua:3836"}
+    maw_note: "of Recovery, +30 Speed, +30 Accuracy, Elven"
+  1336:
+    name: "Forge Gauntlets"
+    slot: gauntlets
+    equip_stat: "Gauntlets"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 0.75, Endurance: 0.75, FireResistance: 1.5}
+      source: "zzMaw-Items.lua:3720-3722"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 12
+      reference_ac: 12
+      slot_mult: 1.25
+      base_multiplier: 1
+    wear_requirements:
+      text: "Dwarves only"
+      check: "GetRace(pl) == const.Race.Dwarf"
+      source: "zzzMaw_Artifacts.lua:674-675"
+    maw_note: "+60 Fire Resistance, +30 Might, +30 Endurance, Dwarven"
+  1337:
+    name: "Hero's Belt"
+    slot: belt
+    equip_stat: "Belt"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch:
+        - "Mod1/Mod2 ours 0 0 (= base MMMerge 0 0), MAW 1 24"
+    budget:
+      stats: {Might: 1.13}
+      skills: {Armsmaster: 1.88}
+      source: "zzMaw-Items.lua:3724-3725"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 25
+      reference_ac: 25
+      slot_mult: 1
+      base_multiplier: 1
+    wear_requirements:
+      text: "Men only"
+      check: "Game.CharacterPortraits[pl.Face].DefSex == 0"
+      source: "zzzMaw_Artifacts.lua:677-680"
+    hp_regen: {source: "zzMaw-Items.lua:3836"}
+    maw_note: "+5 Armsmaster skill, +30 Might, Regenerate HP, Male"
+  1338:
+    name: "Lady's Escort"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 15000, rerolled_if_placed: false, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {FireResistance: 0.5, AirResistance: 0.5, WaterResistance: 0.5, EarthResistance: 0.5, MindResistance: 0.5,
+              BodyResistance: 0.5}
+      source: "zzMaw-Items.lua:3727-3732"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 0.75
+      base_multiplier: 1
+    wear_requirements:
+      text: "Women only"
+      check: "Game.CharacterPortraits[pl.Face].DefSex == 1"
+      source: "zzzMaw_Artifacts.lua:682-685"
+    buffs: {powers: {WaterBreathing: 0}, source: "zzzMaw_Artifacts.lua:740"}
+    maw_note: "Water walking, Feather falling, all resistance +10, Female"
+    notes:
+      - "Ring: resistance coefficients halved."
+      - "MAW note prints \"Water walking, Feather falling\"; the buff table grants WaterBreathing instead."
+  2021:
+    name: "Thor"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 3}
+      source: "zzMaw-Items.lua:3734"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.7
+      text: "Casts Lightning Bolt on hit"
+      spells:
+        - "CastSpellDirect(125, 7, 3): fixed skill 7 mastery 3 (zzzMaw_Artifacts.lua:233)"
+        - >-
+            castAt(18 Lightning Bolt) only if t.Monster.HP - t.Result > 0, wielder Mace skill/mastery
+            (zzzMaw_Artifacts.lua:234-236)
+      source: "zzzMaw_Artifacts.lua:229-238"
+    maw_note: "Might +75, Force"
+  2022:
+    name: "Conan"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Axe
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Accuracy: 3}
+      source: "zzMaw-Items.lua:3736"
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 3
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.9
+      mult_vs: {Dragon: 2, Demon: 2}
+      source: "zzzMaw_Artifacts.lua:240-246"
+    maw_note: "Accuracy+150, Devil and Dragon Slaying"
+  2023:
+    name: "Excalibur"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 3}
+      source: "zzMaw-Items.lua:3738"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 1
+      mult_vs: {Dragon: 2}
+      source: "zzzMaw_Artifacts.lua:248-251"
+    buffs: {powers: {Bless: 3}, source: "zzzMaw_Artifacts.lua:743"}
+    maw_note: "+100 Might"
+  2024:
+    name: "Merlin"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Staff
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Intellect: 0.82, Personality: 0.82, SP: 1.36}
+      source: "zzMaw-Items.lua:3740-3742"
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 2
+      slot_mult: 2
+      base_multiplier: 1
+    attack_speed: {mod: -20, delay_mult: 0.9, source: "zzzMaw_Artifacts.lua:859"}
+    sp_regen: {source: "zzMaw-Items.lua:3837"}
+    maw_note: "Swiftness, Intellect +120, Personality +120, +200 Spell Points"
+    notes:
+      - "SP coefficient goes through the vitality read transform."
+  2025:
+    name: "Percival"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 3}
+      source: "zzMaw-Items.lua:3744"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 6
+      slot_mult: 1.25
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Fire
+      damage: 0.6
+      text: "Casts Fireball on hit"
+      spells:
+        - "castAt(6 Fireball) at the target, wielder Bow skill/mastery (zzzMaw_Artifacts.lua:258)"
+      source: "zzzMaw_Artifacts.lua:253-260"
+    attack_speed: {mod: -20, delay_mult: 0.9, source: "zzzMaw_Artifacts.lua:860"}
+    maw_note: "Speed +40, Swiftness and Carnage"
+  2026:
+    name: "Galahad"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Chain
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Endurance: 3}
+      source: "zzMaw-Items.lua:3746"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 44
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 1.5
+      base_multiplier: 1
+    buffs: {powers: {Shield: 3, Stoneskin: 20}, source: "zzzMaw_Artifacts.lua:744-745"}
+    maw_note: "Protection and +100 Endurance"
+    notes:
+      - "Reference AC 3 borrowed from 2034 Morgan (whole 2020-2034 run is \"Artifact\")."
+  2027:
+    name: "Pellinore"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Plate
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Endurance: 3}
+      source: "zzMaw-Items.lua:3748"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 66
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 1.5
+      base_multiplier: 1
+    buffs: {powers: {Stoneskin: 20}, source: "zzzMaw_Artifacts.lua:746"}
+    hp_regen: {source: "zzMaw-Items.lua:3836"}
+    maw_note: "+120 Endurance, Hit Recovery, and Hit Point Regeneration"
+    notes:
+      - "Reference AC 3 borrowed from 2034 Morgan."
+  2028:
+    name: "Valeria"
+    slot: shield
+    equip_stat: "Shield"
+    skill: Shield
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Accuracy: 3}
+      source: "zzMaw-Items.lua:3750"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 20
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 1
+      base_multiplier: 1
+    buffs: {powers: {Shield: 3}, source: "zzzMaw_Artifacts.lua:747"}
+    maw_note: "Shielding and +80 Accuracy"
+    notes:
+      - "Reference AC 3 borrowed from 2034 Morgan."
+  2029:
+    name: "Arthur"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Might: 0.25, Intellect: 0.25, Personality: 0.25, Endurance: 0.25, Accuracy: 0.25, Speed: 0.25, Luck: 0.25,
+              SP: 1.25}
+      source: "zzMaw-Items.lua:3752-3759"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 5
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "+20 all stats' and +100 Spell Points"
+    notes:
+      - "Not in artArmors: worn AC stays 5, but the tooltip prints 5 + round(3*power/40)."
+      - "SP coefficient goes through the vitality read transform."
+  2030:
+    name: "Pendragon"
+    slot: cloak
+    equip_stat: "cloak"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Luck: 0.86}
+      skills: {Dagger: 0.71, DisarmTraps: 1.43}
+      source: "zzMaw-Items.lua:3761-3763"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 13
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 1
+      base_multiplier: 1
+    immunities:
+      monster_bonus: [Poison1, Poison2, Poison3]
+      source: "zzzMaw_Artifacts.lua:830-832"
+    maw_note: "+60 Luck, +5 Dagger Skill, Immunity to Poison"
+    notes:
+      - "Reference AC 3 borrowed from 2034 Morgan."
+  2031:
+    name: "Lucius"
+    slot: boots
+    equip_stat: "Boots"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {Speed: 3}
+      source: "zzMaw-Items.lua:3765"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 17
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "+80 Speed"
+    notes:
+      - "Reference AC 3 borrowed from 2034 Morgan."
+  2032:
+    name: "Guinevere"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {SP: 3}
+      source: "zzMaw-Items.lua:3767"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 2
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 0.75
+      base_multiplier: 1
+    sp_regen: {source: "zzMaw-Items.lua:3837"}
+    spell_bonus: {skills: [19 Light, 20 Dark], source: "zzMaw-Items.lua:3871"}
+    maw_note: "+100 Spell Points, 'of Light Magic' and 'of Dark Magic'"
+    notes:
+      - "Not in artArmors: worn AC stays 2, tooltip prints 2 + round(3*power/40)."
+  2033:
+    name: "Igraine"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {SP: 3}
+      source: "zzMaw-Items.lua:3769"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 2
+      reference_ac: 3
+      reference_ac_from: 2034
+      slot_mult: 0.75
+      base_multiplier: 1
+    sp_regen: {source: "zzMaw-Items.lua:3837"}
+    spell_bonus: {skills: [16 Spirit, 18 Body, 17 Mind], source: "zzMaw-Items.lua:3873"}
+    maw_note: "+100 Spell Points and 'of Body, Mind, and Spirit Magic'"
+    notes:
+      - "Not in artArmors: worn AC stays 2, tooltip prints 2 + round(3*power/40)."
+  2034:
+    name: "Morgan"
+    slot: amulet
+    equip_stat: "Amulet"
+    skill: Misc
+    material: Artifact
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 20000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget:
+      stats: {SP: 3}
+      source: "zzMaw-Items.lua:3771"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 3
+      reference_ac: 3
+      slot_mult: 1
+      base_multiplier: 1
+    sp_regen: {source: "zzMaw-Items.lua:3837"}
+    spell_bonus: {skills: [12 Fire, 13 Air, 14 Water, 15 Earth], source: "zzMaw-Items.lua:3875"}
+    maw_note: "+80 Spell Points and 'of Fire, Air, Water, and Earth Magic'"
+    notes:
+      - "Not in artArmors: worn AC stays 3, tooltip prints 3 + round(3*power/40)."
+  2035:
+    name: "Hades"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Luck: 1.13}
+      skills: {DisarmTraps: 1.88}
+      source: "zzMaw-Items.lua:3773-3774"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Water
+      damage: 2
+      text: "Casts Acid Burst on hit"
+      spells:
+        - >-
+            CastSpellDirect(29 Acid Burst, skill, mastery): wielder Sword skill/mastery, no target coordinates
+            (zzzMaw_Artifacts.lua:268-269)
+      source: "zzzMaw_Artifacts.lua:263-271"
+    leech: {melee_life_leech_add: -0.1, source: "zzzMaw_Artifacts.lua:612-614; zzMaw-Items.lua:3257-3271"}
+    maw_note: "+20 Poison Damage, +60 Luck, Thievery, and Negative Regeneration"
+    notes:
+      - "On-hit coefficient 2 is paid for by the -0.1 leech (comment zzzMaw_Artifacts.lua:261-262)."
+  2036:
+    name: "Ares"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {FireResistance: 3}
+      source: "zzMaw-Items.lua:3776"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Fire
+      damage: 1.4
+      source: "zzzMaw_Artifacts.lua:273-276"
+    maw_note: "+30 Fire Damage, +100 Fire Resistance"
+  2037:
+    name: "Poseidon"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 1, Endurance: 1, Accuracy: 1, Speed: -0.25, ArmorClass: -0.25}
+      source: "zzMaw-Items.lua:3778-3782"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "+40 Might, +40 Endurance, +40 Accuracy, -10 Armor Class, and -10 Speed"
+  2038:
+    name: "Cronos"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Axe
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Endurance: 3, Luck: -1.5}
+      source: "zzMaw-Items.lua:3784-3785"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 4
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "+120 Endurance and -60 Luck"
+  2039:
+    name: "Hercules"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Sword
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 1.88, Endurance: 1.13, Intellect: -0.56}
+      source: "zzMaw-Items.lua:3787-3789"
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 4
+      slot_mult: 2
+      base_multiplier: 1
+    maw_note: "+100 Might, +60 Endurance, and -30 Intellect"
+  2040:
+    name: "Artemis"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {FireResistance: -0.6, AirResistance: -0.6, WaterResistance: -0.6, EarthResistance: -0.6}
+      source: "zzMaw-Items.lua:3791-3794"
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 6
+      slot_mult: 1.25
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Air
+      damage: 1.2
+      source: "zzzMaw_Artifacts.lua:278-281"
+    maw_note: "+40 Electricity damage, -20 to Elemental Resistances"
+  2041:
+    name: "Apollo"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Chain
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {FireResistance: 0.46, AirResistance: 0.46, WaterResistance: 0.46, EarthResistance: 0.46,
+              MindResistance: 0.46, BodyResistance: 0.46, Luck: 0.23, Endurance: -0.35}
+      source: "zzMaw-Items.lua:3796-3803"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 52
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 1.5
+      base_multiplier: 1
+    maw_note: "+40 to Resistances, +20 Luck, and -30 Endurance"
+    notes:
+      - "Reference AC 6 borrowed from 2049 Hera (whole 2035-2049 run is \"Relic\")."
+  2042:
+    name: "Zeus"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Plate
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Endurance: 1, Personality: 1, Luck: 1, Intellect: -1}
+      source: "zzMaw-Items.lua:3805-3808"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 74
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 1.5
+      base_multiplier: 1
+    maw_note: "+50 Endurance, +50 Personality, +50 Luck, and -50 Intellect"
+    notes:
+      - "Reference AC 6 borrowed from 2049 Hera."
+  2043:
+    name: "Aegis"
+    slot: shield
+    equip_stat: "Shield"
+    skill: Shield
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Luck: 3, Speed: -0.6}
+      source: "zzMaw-Items.lua:3810-3811"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 32
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 1
+      base_multiplier: 1
+    buffs: {powers: {Shield: 3}, source: "zzzMaw_Artifacts.lua:748"}
+    immunities:
+      monster_bonus: [Stone]
+      source: "zzzMaw_Artifacts.lua:834"
+    maw_note: "Immune to Flesh to Stone effects, Shielding +100 Luck, and -20 Speed"
+    notes:
+      - "Reference AC 6 borrowed from 2049 Hera."
+  2044:
+    name: "Odin"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75, Speed: -0.5}
+      source: "zzMaw-Items.lua:3813-3817"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 10
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "+60 to Elemental Resistances and -40 Speed"
+    notes:
+      - "Not in artArmors: worn AC stays 10, tooltip prints 10 + round(6*power/40)."
+  2045:
+    name: "Atlas"
+    slot: cloak
+    equip_stat: "cloak"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 3, Speed: -1}
+      source: "zzMaw-Items.lua:3819-3820"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 18
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "+120 Might and -40 Speed"
+    notes:
+      - "Reference AC 6 borrowed from 2049 Hera."
+  2046:
+    name: "Hermes"
+    slot: boots
+    equip_stat: "Boots"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Speed: 3, Accuracy: -0.86}
+      source: "zzMaw-Items.lua:3822-3823"
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 20
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 1.25
+      base_multiplier: 1
+    maw_note: "+140 Speed and -40 Accuracy"
+    notes:
+      - "Reference AC 6 borrowed from 2049 Hera."
+  2047:
+    name: "Aphrodite"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Personality: 3, Luck: -1.2}
+      source: "zzMaw-Items.lua:3825-3826"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 4
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 0.75
+      base_multiplier: 1
+    maw_note: "+100 Personality and -40 Luck"
+    notes:
+      - "Not in artArmors: worn AC stays 4, tooltip prints 4 + round(6*power/40)."
+  2048:
+    name: "Athena"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Intellect: 3, Might: -1.2}
+      source: "zzMaw-Items.lua:3828-3829"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 4
+      reference_ac: 6
+      reference_ac_from: 2049
+      slot_mult: 0.75
+      base_multiplier: 1
+    maw_note: "+100 Intellect and -40 Might"
+    notes:
+      - "Not in artArmors: worn AC stays 4, tooltip prints 4 + round(6*power/40)."
+  2049:
+    name: "Hera"
+    slot: amulet
+    equip_stat: "Amulet"
+    skill: Misc
+    material: Relic
+    drop_list: {slots: 1, source: "zzMaw-Items.lua:4481"}
+    chest_reroll: {value: 30000, rerolled_if_placed: true, source: "zzMaw-Items.lua:4523-4535"}
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {HP: 1.2, SP: 1.2, Luck: 0.6, Personality: -0.6}
+      source: "zzMaw-Items.lua:3831-3834"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 6
+      reference_ac: 6
+      slot_mult: 1
+      base_multiplier: 1
+    maw_note: "+100 Hit Points, +100 Spell Points, +50 Luck, and -50 Personality"
+    notes:
+      - "Not in artArmors: worn AC stays 6, tooltip prints 6 + round(6*power/40)."
+      - "HP and SP coefficients go through the vitality read transform."
+
+other_artifact_rules:  # ids with rules in the behaviour tables that are NOT in mawArtifacts
+  516:
+    name: "Eclipse"
+    slot: shield
+    equip_stat: "Shield"
+    skill: Shield
+    material: Artifact
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 24
+      reference_ac: 24
+      slot_mult: 1
+      base_multiplier: 1
+    wear_requirements:
+      text: "Clerics only"
+      check: "Game.ClassesExtra[pl.Class].Kind == 2"
+      source: "zzzMaw_Artifacts.lua:647-648"
+    spell_bonus: {skills: [16 Spirit, 18 Body, 17 Mind], source: "zzMaw-Items.lua:3843"}
+    notes:
+      - "Not in mawArtifacts: never dropped or chest re-rolled. In artArmors (level AC growth)."
+      - "Value 0 in ITEMS.txt."
+  532:
+    name: "Lightning Crossbow"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Relic
+    openyamm_check:
+      exists: true
+      material: Relic
+      rarity: Relic
+      mismatch: none
+    budget:
+      stats: {Might: 1.5, Speed: 1.5}
+      source: "zzMaw-Items.lua:3594-3595"
+    base:
+      model: ladder_weapon
+      list: "not in artWeap1h/2h"
+      tier: 3.5
+      tier_flat: 8.0
+      ladder_run: 532-532
+      two_handed: false
+      dice_count: 5
+      slot_mult: 1.25
+      base_multiplier: 1
+    wear_requirements:
+      text: "Elves only"
+      check: "race is DarkElf or Elf"
+      source: "zzzMaw_Artifacts.lua:656-660"
+    maw_note: "Swift, Might +60, Speed +60,  Dark Elf"
+    notes:
+      - "Not in mawArtifacts, yet has an artifactPower entry. Not in artWeap1h/2h: ladder tier 3.5 base damage."
+      - "MAW note prints \"Swift\"; 532 is not in artifactAttackSpeed."
+  538:
+    name: "Mace of the Sun"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Mace
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.8
+      mult_vs: {Elemental: 2}
+      source: "zzzMaw_Artifacts.lua:149-152"
+    notes:
+      - "Not in mawArtifacts. In artWeap1h: tier-6 base damage at party total level, but IsArtifactId is true."
+      - "Comment: \"its VarA special, stripped at roll time\"."
+  539:
+    name: "Ebonest"
+    slot: weapon_1h
+    equip_stat: "Weapon1or2"
+    skill: Spear
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.8
+      mult_vs: {Dragon: 2}
+      source: "zzzMaw_Artifacts.lua:154-157"
+    notes:
+      - "Not in mawArtifacts. In artWeap1h."
+  540:
+    name: "Sword of Whistlebone"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Sword
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 4
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      damage: 0.8
+      mult_vs: {Dragon: 2}
+      source: "zzzMaw_Artifacts.lua:159-162"
+    notes:
+      - "Not in mawArtifacts. In artWeap2h."
+  541:
+    name: "Axe of Balthazar"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Axe
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 3
+      slot_mult: 2
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Water
+      damage: 1
+      source: "zzzMaw_Artifacts.lua:164-167"
+    notes:
+      - "Not in mawArtifacts. In artWeap2h."
+  543:
+    name: "Cycle of Life"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget:
+      stats: {Endurance: 3}
+      source: "zzMaw-Items.lua:3611"
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 0.75
+      base_multiplier: 1
+    cycle_of_life: {rule: shared_life, source: "zzzMaw_Artifacts.lua:568-600,616-625"}
+    maw_note: "Shared life, Endurance + 20"
+    notes:
+      - "Not in mawArtifacts, yet has an artifactPower entry and the Cycle of Life rule."
+      - "Ring, Endurance coefficient (not a resistance), so no ring transform."
+  1341:
+    name: "Medusa's Mirror"
+    slot: amulet
+    equip_stat: "Amulet"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 1
+      base_multiplier: 1
+    immunities:
+      monster_bonus: [Stone]
+      source: "zzzMaw_Artifacts.lua:828"
+    notes:
+      - "Not in mawArtifacts. Immunity entry only."
+  1347:
+    name: "Ghost Ring"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      reference_ac_from: 1348
+      slot_mult: 0.75
+      base_multiplier: 1
+    buffs: {powers: {Preservation: 3}, source: "zzzMaw_Artifacts.lua:741"}
+    spell_bonus: {skills: [16 Spirit], source: "zzMaw-Items.lua:3867"}
+    notes:
+      - "Not in mawArtifacts. Buff and spell-school entries only."
+  1348:
+    name: "Faerie Ring"
+    slot: ring
+    equip_stat: "Ring"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: flat_ac
+      list: "not in artArmors"
+      printed_ac: 0
+      reference_ac: 0
+      slot_mult: 0.75
+      base_multiplier: 1
+    spell_bonus: {skills: [13 Air], source: "zzMaw-Items.lua:3869"}
+    notes:
+      - "Not in mawArtifacts. Spell-school entry only."
+  2020:
+    name: "Mordred"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Dagger
+    material: Artifact
+    openyamm_check:
+      exists: true
+      material: Artifact
+      rarity: Artifact
+      mismatch:
+        - "Mod1/Mod2 ours 2d3 10 (= base MMMerge 2d3 10), MAW 2d6 15"
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    on_hit:
+      damage_kind: Phys  # default, no DamageKind
+      vampiric: true  # dead flag, see open questions
+      source: "zzzMaw_Artifacts.lua:225-227"
+    maw_note: "Vampiric"
+    notes:
+      - "Not in mawArtifacts (keep-list comment calls it already outside). In artWeap1h."
+      - "Vampiric flag is dead (see open questions). ITEMS.txt dice: MAW 2d6 15, base/OpenYAMM 2d3 10."
+  1340:
+    name: "Lieutenant's Cutlass"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  1342:
+    name: "Lady Carmine's Dagger"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Dagger
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 2
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  1343:
+    name: "Villain's Blade"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  1344:
+    name: "The Perfect Bow"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 5
+      slot_mult: 1.25
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  1345:
+    name: "The Perfect Bow"
+    slot: bow
+    equip_stat: "Missile"
+    skill: Bow
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 6
+      slot_mult: 1.25
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  1346:
+    name: "Shadow's Mask"
+    slot: helm
+    equip_stat: "Helm"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 12
+      reference_ac: 12
+      slot_mult: 1.25
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artArmors (level AC
+          growth), which makes it IsArtifactItem: level = party total level.
+  1349:
+    name: "Sun Cloak"
+    slot: cloak
+    equip_stat: "Cloak"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 11
+      reference_ac: 11
+      reference_ac_from: 1350
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artArmors (level AC
+          growth), which makes it IsArtifactItem: level = party total level.
+  1350:
+    name: "Moon Cloak"
+    slot: cloak
+    equip_stat: "Cloak"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 11
+      reference_ac: 11
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artArmors (level AC
+          growth), which makes it IsArtifactItem: level = party total level.
+  1351:
+    name: "Zokarr's Axe"
+    slot: weapon_2h
+    equip_stat: "Weapon2"
+    skill: Axe
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: true
+      dice_count: 3
+      slot_mult: 2
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  1352:
+    name: "Vampire's Cape"
+    slot: cloak
+    equip_stat: "Cloak"
+    skill: Misc
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_armor
+      list: "artArmors (zzMaw-Items.lua:2332)"
+      printed_ac: 11
+      reference_ac: 11
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artArmors (level AC
+          growth), which makes it IsArtifactItem: level = party total level.
+  1353:
+    name: "Minotaur's Axe"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Axe
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 4
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  1354:
+    name: "Grognard's Cutlass"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Sword
+    material: Special
+    openyamm_check:
+      exists: true
+      material: Special
+      rarity: Special
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+  2118:
+    name: "Snergle's Axe"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Axe
+    material: 5
+    openyamm_check:
+      exists: true
+      material: 5
+      rarity: Common
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 4
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+      - "Outside the IsArtifactId bands; material column 5."
+  866:
+    name: "Blaster"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Blaster
+    material: 10
+    openyamm_check:
+      exists: true
+      material: 10
+      rarity: Common
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+      - "ancientWeapons: excluded from IsEnchantableItem; tooltip shows artifact base stats (Tooltip.lua:538)."
+  867:
+    name: "Blaster Rifle"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Blaster
+    material: 10
+    openyamm_check:
+      exists: true
+      material: 10
+      rarity: Common
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 5
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+      - "ancientWeapons: excluded from IsEnchantableItem; tooltip shows artifact base stats (Tooltip.lua:538)."
+      - "EquipStat is Weapon (one-handed) but listed in artWeap2h: two_handed false in the damage model."
+  1666:
+    name: "Blaster"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Blaster
+    material: 10
+    openyamm_check:
+      exists: true
+      material: 10
+      rarity: Common
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap1h (zzMaw-Items.lua:2330)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 3
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+      - "ancientWeapons: excluded from IsEnchantableItem; tooltip shows artifact base stats (Tooltip.lua:538)."
+  1667:
+    name: "Blaster Rifle"
+    slot: weapon_1h
+    equip_stat: "Weapon"
+    skill: Blaster
+    material: 10
+    openyamm_check:
+      exists: true
+      material: 10
+      rarity: Common
+      mismatch: none
+    budget: none  # no artifactPower entry (zzMaw-Items.lua:3506-3834)
+    base:
+      model: artifact_weapon
+      list: "artWeap2h (zzMaw-Items.lua:2331)"
+      tier: 6
+      tier_flat: 16
+      two_handed: false
+      dice_count: 5
+      slot_mult: 1
+      base_multiplier: 1
+    notes:
+      - >-
+          Not in mawArtifacts and in no behaviour table. Its only artifact rule is membership in artWeap1h/2h (tier-6
+          damage), which makes it IsArtifactItem: level = party total level.
+      - "ancientWeapons: excluded from IsEnchantableItem; tooltip shows artifact base stats (Tooltip.lua:538)."
+      - "EquipStat is Weapon (one-handed) but listed in artWeap2h: two_handed false in the damage model."
+  1406:
+    name: "Wetsuit"
+    slot: armor
+    equip_stat: "Armor"
+    skill: Leather
+    material: 3
+    openyamm_check:
+      exists: true
+      material: 3
+      rarity: Common
+      mismatch: none
+    budget: none  # outside the IsArtifactId bands, not an artifact item
+    wear_requirements: {text: none, check: "see rules.wear_requirements.wetsuit_1406",
+                        source: "zzzMaw_Artifacts.lua:688-726"}
+    buffs: {powers: {WaterBreathing: 0}, source: "zzzMaw_Artifacts.lua:742"}
+  2055:
+    name: "Horn of Ros"
+    slot: none
+    equip_stat: "N / A"
+    skill: Misc
+    material: 4
+    openyamm_check:
+      exists: true
+      material: 4
+      rarity: Common
+      mismatch: none
+    budget: none
+    carried_buff: {party_buff: DetectLife, power: 3, rule: "any party member carries it anywhere in the inventory",
+                   source: "zzzMaw_Artifacts.lua:751, 764-773, 787-789"}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# open questions / bugs
+#
+# 1. Counts. mawArtifacts (zzMaw-Items.lua:4481) has 104 entries and 103 unique ids, not 98. 98 is the number of
+#    artifactPower entries (zzMaw-Items.lua:3514-3834): 96 of them are in the drop list, 532 and 543 are not.
+#    Seven drop-list ids have no artifactPower entry: 508, 511, 542, 1309, 1310, 1311, 1315.
+# 2. 533 is listed twice and 532 is missing between 531 and 534 (532 has an artifactPower entry): probably a typo
+#    for 532. The duplicate owns two pity slots, so Last Stage Cuirass drops about twice as often. vars.artPity is
+#    indexed by list position, so any edit to the list shifts every saved counter onto a different artifact.
+# 3. Vampiric on artifacts (508, 527, 2020) does nothing: MawArtifactVampiric is read only by the old
+#    ItemAdditionalDamage hook, which disables engine vampirism and fills gotVamp/gotBowVamp, which nothing reads.
+#    lifeLeech only checks Bonus2 16/41 (zzMaw-Items.lua:3248-3270). The tooltip still prints "Vampiric".
+# 4. Reference AC for artifact armour is the last row of the NotIdentifiedName run. MM8 artifacts have unique names
+#    ("Artifact Plate Armor"), but MM7 1302-1315 are all "Artifact" (reference = 1315 Ruler's Ring = 0), 1316-1330
+#    all "Relic" (reference = 1330 Mekorig's Hammer = 17), MM6 2020-2034 "Artifact" (2034 Morgan = 3) and
+#    2035-2049 "Relic" (2049 Hera = 6). Yoruba (plate, 70 printed AC) gains nothing with level while Supreme Plate
+#    gains up to 80 * 2.5 = 200.
+# 5. The tooltip scales AC for artifacts outside artArmors (1325, 2029, 2032, 2033, 2034, 2044, 2047, 2048, 2049),
+#    the character sheet does not (Tooltip.lua:546-554 versus zzMaw-Items.lua:2698-2705).
+# 6. Artifact resistances are priced as resistance enchants (ring halving included) but are added to the base
+#    resistance stat, a much weaker channel at high monster level than vars.normalEnchantResistance.
+# 7. Weapons outside artWeap1h/2h read a ladder tier instead of tier 6: 531 (3.5, flat 8), 532 (3.5, flat 8),
+#    1317 (1.357, flat 1.143). artWeap1h holds two-handed 1303 and 1333; artWeap2h holds one-handed 867 and 1667.
+#    The list choice only matters for the legacy dice upscaler.
+# 8. Effects printed in MAW ITEMS.txt notes with no table rule (the tooltip strips the note's leading parenthesis):
+#    Swift on 504 (zzzMaw_Artifacts.lua:90 claims it lives elsewhere), 506, 512, 518, 532; Immunity to Sleep 518;
+#    immunities on 511 and 534; Immune to Fear 537; Shielding 511; Feather Falling 522, 1331, 1338; Water Breathing
+#    528; Water Walking 1318 and 1338 (both get WaterBreathing instead); Undead slaying 1329. 511 Staff of the Swamp
+#    and 1311 Charele have no rule data at all.
+# 9. mawArtifactsKeep is entirely commented out; quest/obelisk artifacts survive the chest re-roll only when their
+#    Value is under 20000. The re-roll runs on every map load and goes through the item generator, so the
+#    replacement can itself roll an artifact and advances the pity counter.
+# 10. BonusExpireTime = level is written on every dropped artifact and never read; level is always live.
+# 11. drop.multiplier is always 1 (LootContext.set never passes it), so 0.005 * multiplier and the pity increment
+#     by multiplier are dead parameters.
+# 12. artifactPowerMult and replaceNumber are dead; the init dice upscaler is half-dead: it no longer drives damage
+#     but still doubles/triples Mod2, which the weapon-skill AC/resistance bonus (Staff, Sword, Spear) reads.
+# 13. SP regen tooltip prints half the applied artifact rate (zzMaw-Stats.lua:410-417 vs zzMAW-Skills.lua:1460).
+# 14. Splitter and Thor call CastSpellDirect(125, ...); spell 125 is "Wing Buffet" in mmmerge Spells.txt. Purpose
+#     unclear (visual or sound?). Hades' Acid Burst is cast with no target coordinates.
+# 15. zzzMaw_Artifacts.lua comments name the reference enchant "of Carnage" (lines 30, 168-169); enchant 46 is
+#     "of The Dragon" in MAW SPCITEMS.TXT, Carnage is 3.
+# 16. Ranged on-hit test reads data.Object.Spell == 133 but data.Spell == 135 (zzzMaw_Artifacts.lua:544).
+# 17. Artifact skill bonuses obey the 2 x base skill cap, so a +3-unit Meditation (1317) or Learning (1324) bonus is
+#     worth nothing without base skill; spell-school bonuses (base * 0.5) are not rounded.
+# 18. Cycle of Life and drains run once per worn instance; two 543 rings share twice per tick.
+# 19. OpenYAMM items.txt equals base MMMerge, not MAW, for 1309, 1310, 1311, 1329, 2020 (dice/Mod2) and 1326, 1337
+#     (Mod1/Mod2 0 0 versus MAW 1 19 and 1 24). Weapon dice only change the legacy paths, but 1326/1337 lose 20 and
+#     25 printed AC and 1337 its whole reference AC (its run is itself). Notes text is base MMMerge everywhere.
+# 20. 542 Noblebone Bow has material Special: OpenYAMM ItemRuntime (and MMMerge rules keyed on material) do not see
+#     it as an artifact although MAW drops it as one.
+# ---------------------------------------------------------------------------------------------------------------------

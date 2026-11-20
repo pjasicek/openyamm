@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Lucky Hat (item115). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Soft tall navy-blue velvet cap drooping to the right, gold brim band and a broad crimson feather at the left. Exact material boundaries: Navy blue velvet body and crimson feather BLUE. Gold brim band RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item115/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "cc29e8f72bb60705b6d0431595fff873a4e46b005706350ef68adfd2b8bc8764",
+  "revision": 2,
+  "input_icon": "item115",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-d23581b9-2657-4ee4-a3ef-8b8ff4fcc5ad.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Superseded by reviewed per-face material labels or explicit exterior/lining materials.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "0f67ab8f761e38b0868372ce00b1080bacdc2041d8392543e21fbdde85220ba6",
+  "input_icon_path": "assets_dev/engine/icons_x2/item115.png",
+  "input_icon_sha256": "966d1f264f4861ea63a2c8e1bcd1f5739ef25bae41b932ba349bf8f1bd6f2eaf",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

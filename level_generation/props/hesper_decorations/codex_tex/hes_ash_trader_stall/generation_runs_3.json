@@ -1,0 +1,226 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated and saved best available unresized returns; not fully compliant.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA transparent image, paint_left.png, a flat albedo texture-source painting of the Ashrunner trader stall seen from the left.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry/camera authority. Input 2 design_reference.png is the approved colour/material authority ONLY. Input 3 concept_crop.png is supporting original concept reference ONLY.\nPaint directly over the grey surfaces of input 1, preserving its EXACT pixel silhouette, size, position, orthographic viewpoint, every shape edge, opening, overlap and detail. Keep every existing transparent pixel transparent. Do not rotate toward the three-quarter reference. Do not add reference objects missing from this guide. Nothing added outside its silhouette, nothing cropped. Preserve the 1024-square canvas and generous transparent margins exactly.\nApply dark and rusted steel to poles and metal crates, faded red and off-white canvas to tarps, chipped white ceramic with worn gold/brass salvage fittings, weathered crate wood where shown in the approved design, and warm amber lantern glass. Follow the approved reference's material identity while leaving all guide geometry unaltered.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background and no added floor. Paint existing ground fragments only within the guide's exact footprint. Lantern glowing areas must be their warm glowing colour with no light cast on surroundings and no bloom outside the silhouette. Retain surface colour wear and texture, not the reference's dramatic illumination. No text or watermark. Output one unresized 1024 x 1024 transparent painting of the left guide only.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "bede888133b44162397ddde3466ecfe9a3133bc72f0d1889efef6d2291c281a9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-83d0-77f2-a4e0-f02c41b075d0/exec-c154529e-c26f-4dc3-8f6e-f58549357891.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the single allowed corrective regeneration because of wrong size, invented edge details and dimensional shading.",
+      "checks": {
+        "materials_colours": "Visually consistent with faded red/off-white tarp, worn dark metal and gold/brass salvage.",
+        "flat_even_light": "FAIL: residual dimensional shading and specular accents remain.",
+        "silhouette_identical": "FAIL: visible geometry/edge differences; output canvas also differs from guide.",
+        "transparent_background": {
+          "mode": "RGBA",
+          "fully_transparent_pixels": 1199074,
+          "fully_opaque_pixels": 904,
+          "partial_alpha_pixels": 372538,
+          "alpha_bbox": [
+            0,
+            21,
+            1240,
+            1238
+          ],
+          "result": "Has actual transparency; alpha does not match guide exactly."
+        },
+        "size": {
+          "actual": [
+            1254,
+            1254
+          ],
+          "required": [
+            1024,
+            1024
+          ],
+          "pass": false
+        },
+        "unresized_return": true
+      },
+      "output_sha256": "c3ac2bfb40489e509d45bf13be1e677b221539b968d80c91c9d3911905eb975a"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA transparent image, paint_left.png, a flat albedo texture-source painting of the Ashrunner trader stall seen from the left.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry/camera authority. Input 2 design_reference.png is the approved colour/material authority ONLY. Input 3 concept_crop.png is supporting original concept reference ONLY.\nPaint directly over the grey surfaces of input 1, preserving its EXACT pixel silhouette, size, position, orthographic viewpoint, every shape edge, opening, overlap and detail. Keep every existing transparent pixel transparent. Do not rotate toward the three-quarter reference. Do not add reference objects missing from this guide. Nothing added outside its silhouette, nothing cropped. Preserve the 1024-square canvas and generous transparent margins exactly.\nApply dark and rusted steel to poles and metal crates, faded red and off-white canvas to tarps, chipped white ceramic with worn gold/brass salvage fittings, weathered crate wood where shown in the approved design, and warm amber lantern glass. Follow the approved reference's material identity while leaving all guide geometry unaltered.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background and no added floor. Paint existing ground fragments only within the guide's exact footprint. Lantern glowing areas must be their warm glowing colour with no light cast on surroundings and no bloom outside the silhouette. Retain surface colour wear and texture, not the reference's dramatic illumination. No text or watermark. Output one unresized 1024 x 1024 transparent painting of the left guide only.\nCORRECTIVE REGENERATION, final allowed attempt: the previous return was incorrectly 1254 x 1254 and introduced extra edges and dimensional lighting. Return EXACTLY 1024 x 1024 pixels without any change to the input guide's canvas. Its occupied footprint is x=140..884, y=223..800. Use the original guide as an exact stencil: preserve its alpha and EVERY straight polygon edge; paint texture inside the existing shape only. No invented tears/openings or enlarged rim/fittings. Suppress all rendered lighting; uniform albedo illumination, especially on dark metal and undersides. No metallic shine, black crevice shadows, or illumination gradients. Material wear only. Everything outside the original guide alpha is completely transparent.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "bede888133b44162397ddde3466ecfe9a3133bc72f0d1889efef6d2291c281a9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-83d0-77f2-a4e0-f02c41b075d0/exec-145ea069-821f-44a6-a156-c38c83c988da.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted unresized returns: closer to guide shapes and reduced lighting. NOT accepted as fully compliant: generated size, exact silhouette and flat-albedo requirements remain unmet.",
+      "checks": {
+        "materials_colours": "Visually consistent with faded red/off-white tarp, worn dark metal and gold/brass salvage.",
+        "flat_even_light": "FAIL: residual dimensional shading and specular accents remain.",
+        "silhouette_identical": "FAIL: visible geometry/edge differences; output canvas also differs from guide.",
+        "transparent_background": {
+          "mode": "RGBA",
+          "fully_transparent_pixels": 1199019,
+          "fully_opaque_pixels": 1218,
+          "partial_alpha_pixels": 372279,
+          "alpha_bbox": [
+            0,
+            19,
+            1230,
+            1254
+          ],
+          "result": "Has actual transparency; alpha does not match guide exactly."
+        },
+        "size": {
+          "actual": [
+            1254,
+            1254
+          ],
+          "required": [
+            1024,
+            1024
+          ],
+          "pass": false
+        },
+        "unresized_return": true
+      },
+      "output_sha256": "bbe681fb7c6c198996e03d18191697163df21e413eb140ab7c3a5b20fc64eb26"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA transparent image, paint_right.png, a flat albedo texture-source painting of the Ashrunner trader stall seen from the right.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry/camera authority. Input 2 design_reference.png is the approved colour/material authority ONLY. Input 3 concept_crop.png is supporting original concept reference ONLY.\nPaint directly over the grey surfaces of input 1, preserving its EXACT pixel silhouette, size, position, orthographic viewpoint, every shape edge, opening, overlap and detail. Keep every existing transparent pixel transparent. Do not rotate toward the three-quarter reference. Do not add reference objects missing from this guide. Nothing added outside its silhouette, nothing cropped. Preserve the 1024-square canvas and generous transparent margins exactly.\nApply dark and rusted steel to poles and metal crates, faded red and off-white canvas to tarps, chipped white ceramic with worn gold/brass salvage fittings, weathered crate wood where shown in the approved design, and warm amber lantern glass. Follow the approved reference's material identity while leaving all guide geometry unaltered.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background and no added floor. Paint existing ground fragments only within the guide's exact footprint. Lantern glowing areas must be their warm glowing colour with no light cast on surroundings and no bloom outside the silhouette. Retain surface colour wear and texture, not the reference's dramatic illumination. No text or watermark. Output one unresized 1024 x 1024 transparent painting of the right guide only.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0ffee3d6f00db305f1b9cbe2e7e89e250496fc365815d373f72e1653fdcb9600"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-83d0-77f2-a4e0-f02c41b075d0/exec-2a6d8ac1-8495-4cfe-8560-c166243aada4.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the single allowed corrective regeneration because of wrong size, invented edge details and dimensional shading.",
+      "checks": {
+        "materials_colours": "Visually consistent with faded red/off-white tarp, worn dark metal and gold/brass salvage.",
+        "flat_even_light": "FAIL: residual dimensional shading and specular accents remain.",
+        "silhouette_identical": "FAIL: visible geometry/edge differences; output canvas also differs from guide.",
+        "transparent_background": {
+          "mode": "RGBA",
+          "fully_transparent_pixels": 1200648,
+          "fully_opaque_pixels": 765,
+          "partial_alpha_pixels": 371103,
+          "alpha_bbox": [
+            0,
+            17,
+            1232,
+            1254
+          ],
+          "result": "Has actual transparency; alpha does not match guide exactly."
+        },
+        "size": {
+          "actual": [
+            1254,
+            1254
+          ],
+          "required": [
+            1024,
+            1024
+          ],
+          "pass": false
+        },
+        "unresized_return": true
+      },
+      "output_sha256": "3a63f0b68d2a068afcebec58c5c63a6908d5938061bcebe76c55d1dec6783362"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA transparent image, paint_right.png, a flat albedo texture-source painting of the Ashrunner trader stall seen from the right.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry/camera authority. Input 2 design_reference.png is the approved colour/material authority ONLY. Input 3 concept_crop.png is supporting original concept reference ONLY.\nPaint directly over the grey surfaces of input 1, preserving its EXACT pixel silhouette, size, position, orthographic viewpoint, every shape edge, opening, overlap and detail. Keep every existing transparent pixel transparent. Do not rotate toward the three-quarter reference. Do not add reference objects missing from this guide. Nothing added outside its silhouette, nothing cropped. Preserve the 1024-square canvas and generous transparent margins exactly.\nApply dark and rusted steel to poles and metal crates, faded red and off-white canvas to tarps, chipped white ceramic with worn gold/brass salvage fittings, weathered crate wood where shown in the approved design, and warm amber lantern glass. Follow the approved reference's material identity while leaving all guide geometry unaltered.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background and no added floor. Paint existing ground fragments only within the guide's exact footprint. Lantern glowing areas must be their warm glowing colour with no light cast on surroundings and no bloom outside the silhouette. Retain surface colour wear and texture, not the reference's dramatic illumination. No text or watermark. Output one unresized 1024 x 1024 transparent painting of the right guide only.\nCORRECTIVE REGENERATION, final allowed attempt: output MUST be EXACTLY 1024 x 1024, not 1254 x 1254. Preserve the original guide's full canvas. Original occupied footprint is x=139..883, y=223..800. Transfer material colour only onto the original geometry and alpha, using the guide as an exact stencil. Preserve every straight polygon edge and all existing negative spaces, no new tears/holes, no chains or objects in openings, no invented rope bundle on the rightmost upright. The large central shield must retain the guide's flat angular shape and its existing round fitting. Use uniform unlit albedo: remove all strong highlights, dimensional shading, black crevice shadows and ambient occlusion. Paint warm orange lantern panes uniformly, with no light spill. No new geometry or expanded edges. Retain original guide alpha exactly.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0ffee3d6f00db305f1b9cbe2e7e89e250496fc365815d373f72e1653fdcb9600"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-83d0-77f2-a4e0-f02c41b075d0/exec-9cc7fb73-f56c-4361-976a-809409e4696c.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted unresized returns: closer to guide shapes and reduced lighting. NOT accepted as fully compliant: generated size, exact silhouette and flat-albedo requirements remain unmet.",
+      "checks": {
+        "materials_colours": "Visually consistent with faded red/off-white tarp, worn dark metal and gold/brass salvage.",
+        "flat_even_light": "FAIL: residual dimensional shading and specular accents remain.",
+        "silhouette_identical": "FAIL: visible geometry/edge differences; output canvas also differs from guide.",
+        "transparent_background": {
+          "mode": "RGBA",
+          "fully_transparent_pixels": 1208312,
+          "fully_opaque_pixels": 1128,
+          "partial_alpha_pixels": 363076,
+          "alpha_bbox": [
+            19,
+            23,
+            1234,
+            1254
+          ],
+          "result": "Has actual transparency; alpha does not match guide exactly."
+        },
+        "size": {
+          "actual": [
+            1254,
+            1254
+          ],
+          "required": [
+            1024,
+            1024
+          ],
+          "pass": false
+        },
+        "unresized_return": true
+      },
+      "output_sha256": "61da51b375690fcb25bc5def9a94c8d9cb4a54be8906b08caa9bcd393f07b46c"
+    }
+  ]
+}

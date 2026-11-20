@@ -1,0 +1,32 @@
+{
+  "status": "visually_reviewed_for_road_edge_update",
+  "verdict": "GOOD",
+  "changed": [
+    "drsrne1.png",
+    "drsrne2.png",
+    "drsrnw1.png",
+    "drsrnw2.png",
+    "gdrdne1.png",
+    "gdrdne2.png",
+    "gdrdnw1.png",
+    "gdrdnw2.png"
+  ],
+  "unchanged_files": 231,
+  "masks_and_boundary_pixels": "identical to approved v8",
+  "findings": [
+    "Final256px stones inspected against accepted straight-road material: clear bevels, surface detail and mortar; v8 blur removed.",
+    "NE native path including straight-road entry/exit and repeated NW path inspected in connections.png.",
+    "Game capture at supplied poseB inspected: clear stone material and no visible repeating border line or gap."
+  ],
+  "scope": "Focused material and connection review; no full gallery rebuild or new animation/performance claim",
+  "evidence": {
+    "roads/v9/build.py": "4826e7512eca2e4d0f42e75388bcb8e7b88aed53658cf672a9075a693cbe682b",
+    "roads/v9/generation.json": "ce7c72556cfcc8d658f6d78a14e859878779489876f965c9d5bc76bbc71bc050",
+    "roads/v9/build.json": "c90202678508816ad8627a05db1ea9c721996216b6b0b39199cb8c0df8210d2c",
+    "roads/v9/validation.json": "3c6b762ad971aaf2befb6a92a7056449c37d78f1317c834beb1e0b00cb1f119b",
+    "roads/v9/connections.png": "7fecae447095c3d526e3800a6c7d7e21d3e6f2e56127accabad182e8ee5137d7",
+    "roads/v9/validate_update.py": "cad9f11bf2781a16515aa3674833a07f2847d5621dcee4493b3302e1e80e3766",
+    "roads/v9/captures/mm8_diagonal_v9_material_b.png": "7ecfa186cc41e085c6ee2628650249470817dd36dbb185031616b7ce25609bcf",
+    "roads/v9/captures/mm8_diagonal_v9_material_b.json": "0bbc0796fcefcdbe22ed680a70be527f3d8d6e9ddadcaf27e631f56158d8dc66"
+  }
+}

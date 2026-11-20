@@ -1,0 +1,642 @@
+{
+ "id": "20261009-1628-mm6-6d09-15",
+ "world": "mm6",
+ "maps": [
+  "6d09.blv",
+  "znwc.blv",
+  "6d05.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/d7dor1",
+  "mm6/d7dor1s",
+  "mm6/d7dor3",
+  "mm6/d7wl2ctr",
+  "mm6/d7wl4ctr",
+  "mm6/d7wl4re",
+  "mm6/mnwl2",
+  "mm6/bmsde",
+  "mm6/bmsre",
+  "mm6/bmsre1",
+  "mm6/bmsle1",
+  "mm6/bmsde1",
+  "mm6/bmsctr",
+  "mm6/bmsctr1",
+  "mm6/bmsle",
+  "mm6/swprrf1",
+  "mm6/swprrf2",
+  "mm6/bemob2b",
+  "mm6/mnwl1",
+  "mm6/swprf",
+  "mm6/t1f4",
+  "mm6/tdoord",
+  "mm6/d3dwal1",
+  "mm6/d3dwall"
+ ],
+ "requests": {
+  "mm6/d7dor1": {
+   "name": "d7dor1",
+   "versions": [
+    1
+   ],
+   "material": "weathered orange-brown carved wooden double door in a heavy timber frame, recessed panels, a carved demon-face mask knocker on each leaf, dark iron latch at the centre seam; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7dor1s": {
+   "name": "d7dor1s",
+   "versions": [
+    1
+   ],
+   "material": "plain weathered orange-brown wooden door-frame jamb strip with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7dor3": {
+   "name": "d7dor3",
+   "versions": [
+    1
+   ],
+   "material": "vertical weathered orange-brown wooden plank door with two iron-studded crossbands, a pale carved stone plaque bearing a skull and a small skeletal figure mounted near the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7wl2ctr": {
+   "name": "d7wl2ctr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "smooth tan-orange lime plaster wall with soft cloudy brown water stains and a few small chipped spots, a band of rough tan stone blocks along the top",
+   "notes": {
+    "2": "Weathered plaster with natural irregular grain and stains: no mosaic of small cells or flakes, no grid. Keep the stone block band along the top as in the reference.",
+    "3": "Natural weathered plaster with irregular stains: no mosaic of small polygonal cells, no grid.",
+    "4": "Soft continuous plaster with diffuse cloudy stains and fine natural grain: no crusty flakes, no mosaic of polygonal cells, no stair-stepped patch outlines."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "3": 2.5,
+    "4": 2.5
+   }
+  },
+  "mm6/d7wl4ctr": {
+   "name": "d7wl4ctr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "smooth weathered tan-orange stucco wall with faint vertical streaks and grime, a carved wooden lintel beam with small relief rosettes along the top",
+   "notes": {
+    "3": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "4": "Continue the neighbouring d7wl4re seamlessly across the right edge and d7wl4le across the left edge: the horizontal block joints and the carved top band at the same heights and tone. No dark line or shadow in the rightmost columns.",
+    "5": "Continue the neighbouring d7wl4le seamlessly across the left edge: the same pale tan stucco tone, the lintel beam and its mouldings at the same heights and tone, the horizontal block joints at the same heights; no visible change of colour at the left edge. Continue d7wl4re across the right edge the same way.",
+    "6": "Continue the neighbouring d7wl4le seamlessly across the left edge: the same pale tan stucco tone, the lintel beam and its mouldings at the same heights and tone, the horizontal block joints at the same heights; no visible change of colour at the left edge. Continue d7wl4re across the right edge the same way."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d7wl4le"
+    },
+    "3": {
+     "left": "mm6/d7wl4le",
+     "right": "mm6/d7wl4re"
+    },
+    "4": {
+     "left": "mm6/d7wl4le",
+     "right": "mm6/d7wl4re"
+    },
+    "5": {
+     "left": "mm6/d7wl4le",
+     "right": "mm6/d7wl4re"
+    },
+    "6": {
+     "left": "mm6/d7wl4le"
+    }
+   },
+   "match_neighbor": true,
+   "pad": {
+    "6": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/d7wl4re": {
+   "name": "d7wl4re",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth weathered tan-orange stucco wall with a carved wooden lintel beam along the top, with a fluted orange-brown carved wooden pillar with a spiral-twisted capital and a demon-face corbel on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d7wl4le"
+    },
+    "3": {
+     "left": "mm6/d7wl4le",
+     "right": "mm6/d7dor1"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/mnwl2": {
+   "name": "mnwl2",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown packed earth and sandstone rubble wall with pitted crumbly surface",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bmsde": {
+   "name": "bmsde",
+   "versions": [
+    1
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks, with a recessed column of small stacked stones and carved face medallions on both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bmsre": {
+   "name": "bmsre",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks, with a recessed column of small stacked stones and carved face medallions on the right edge",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsde"
+     ],
+     "fraction": 0.654
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsde"
+     ],
+     "fraction": 0.654
+    },
+    "3": {
+     "sources": [
+      "mm6/bmsde",
+      "mm6/bmslgdr",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.733
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "3": [
+     95,
+     0
+    ]
+   }
+  },
+  "mm6/bmsre1": {
+   "name": "bmsre1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks, with a recessed column of small stacked stones and carved face medallions on the right edge",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsre"
+     ],
+     "fraction": 0.939
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsre",
+      "mm6/bmsde1"
+     ],
+     "fraction": 0.974
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/bmsle1": {
+   "name": "bmsle1",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks, with a recessed column of small stacked stones and carved face medallions on the left edge",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along the right edge: the sandstone blocks and mortar continue at native brightness to the very last column.",
+    "4": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsde"
+     ],
+     "fraction": 0.632
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsde",
+      "mm6/bmsre"
+     ],
+     "fraction": 0.646
+    },
+    "3": {
+     "sources": [
+      "mm6/bmsde1",
+      "mm6/bmsde"
+     ],
+     "fraction": 0.695
+    },
+    "4": {
+     "sources": [
+      "mm6/bmsde"
+     ],
+     "fraction": 0.632
+    }
+   },
+   "context": {
+    "4": {}
+   }
+  },
+  "mm6/bmsde1": {
+   "name": "bmsde1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks, with a recessed column of small stacked stones and carved face medallions on both edges",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsde",
+      "mm6/bmsre"
+     ],
+     "fraction": 0.937
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsde",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.985
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/bmsctr": {
+   "name": "bmsctr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks",
+   "notes": {
+    "2": "No dark outline or shadow along the left edge; the outermost columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along the left edge: the outermost columns keep the same brightness as the interior; blocks and joints continue across the edge as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsre",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.976
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsre",
+      "mm6/bmsle1",
+      "mm6/bmsle"
+     ],
+     "fraction": 0.99
+    },
+    "3": {
+     "sources": [
+      "mm6/bmsre",
+      "mm6/bmsle1",
+      "mm6/bmsle"
+     ],
+     "fraction": 0.99
+    }
+   }
+  },
+  "mm6/bmsctr1": {
+   "name": "bmsctr1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks",
+   "notes": {
+    "2": "No dark outline or shadow along the left edge; the outermost columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along the left edge: the outermost columns keep the same brightness as the interior; blocks and joints continue across the edge as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsre1",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.984
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsre1",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.984
+    },
+    "3": {
+     "sources": [
+      "mm6/bmsre1",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.984
+    }
+   }
+  },
+  "mm6/bmsle": {
+   "name": "bmsle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks, with a recessed column of small stacked stones and carved face medallions on the left edge",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsle1",
+      "mm6/bmsde"
+     ],
+     "fraction": 0.946
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsle1",
+      "mm6/bmsde"
+     ],
+     "fraction": 0.946
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/swprrf1": {
+   "name": "swprrf1",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green rotting vertical wooden boards with black cracks and splits, damp swamp wood",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swprrf2": {
+   "name": "swprrf2",
+   "versions": [
+    1
+   ],
+   "material": "dark green mossy weathered wood grain with vertical streaks, damp swamp timber",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swprrf1"
+     ],
+     "fraction": 0.22
+    }
+   }
+  },
+  "mm6/bemob2b": {
+   "name": "bemob2b",
+   "versions": [
+    1
+   ],
+   "material": "rusty red-brown speckled granite stone surface",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mnwl1": {
+   "name": "mnwl1",
+   "versions": [
+    1
+   ],
+   "material": "dark orange-brown horizontal wooden plank wall with heavy vertical posts at both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swprf": {
+   "name": "swprf",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-teal horizontal overlapping wooden clapboard planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1f4": {
+   "name": "t1f4",
+   "versions": [
+    1
+   ],
+   "material": "blue glazed ceramic floor tile with a pale blue four-lobed quatrefoil scroll pattern around a central ornamental medallion on dark navy; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tdoord": {
+   "name": "tdoord",
+   "versions": [
+    1
+   ],
+   "material": "narrow weathered brown vertical plank wooden door with a dark iron lock plate and handle on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d3dwal1": {
+   "name": "d3dwal1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough earthen cave wall with thin cracked veins of golden-orange ore",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll6"
+     ],
+     "fraction": 0.866
+    }
+   }
+  },
+  "mm6/d3dwall": {
+   "name": "d3dwall",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough earthen cave wall with thin cracked veins of golden-orange ore and two glittering gold ore clusters; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll6"
+     ],
+     "fraction": 0.767
+    }
+   }
+  }
+ }
+}

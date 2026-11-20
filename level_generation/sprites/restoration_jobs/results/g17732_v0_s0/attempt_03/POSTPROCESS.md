@@ -1,0 +1,1 @@
+Built-in pixel_steps repair with user-requested genuine RGBA background. Raw alpha verified directly. Delivered alpha used without chroma removal. Common --adjust 0.98 0 0; native opaque RGB gamma preserves alpha. Full raw, original and final light/dark proofs inspected; zero clipping.

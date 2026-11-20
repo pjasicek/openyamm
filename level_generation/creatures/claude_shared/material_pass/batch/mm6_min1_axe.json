@@ -1,0 +1,119 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_min1_axe.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_min1_axe.glb",
+ "assignments": [
+  {
+   "match": "=MinotaurAxe",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_min1_codex/textures/axe_material_classes.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "axe_metal_rough_axe",
+   "size": [
+    640,
+    896
+   ],
+   "materials": [
+    "MinotaurAxe",
+    "MinotaurAxe",
+    "MinotaurAxe"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      640,
+      896
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 105008,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.8048,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_min1_codex/textures/axe_material_classes.png",
+     "class_share_in_uv": {
+      "metal": 0.9933,
+      "other": 0.0067
+     }
+    }
+   },
+   "class_share_total": {
+    "metal": 0.9933,
+    "other": 0.0067
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "metal": 0.235,
+    "other": 0.278
+   },
+   "new_specular_mean_by_class": {
+    "metal": 1.0,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "metal": 0.382,
+    "other": 0.701
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "MinotaurAxe": {
+     "median_srgb": [
+      84,
+      68,
+      55
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      31,
+      71,
+      169
+     ],
+     "share_below_srgb_30": 0.0952,
+     "share_below_srgb_90": 0.6048,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 255,
+     "mean": 246.4
+    },
+    "G": {
+     "min": 77,
+     "max": 204,
+     "mean": 101.2
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 242.7
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

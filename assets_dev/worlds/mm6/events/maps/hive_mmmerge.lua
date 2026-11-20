@@ -25,9 +25,6 @@ end
 
 local function goodEnd()
     SetQBit(QBit(784))
-    if CrossContinents ~= nil and CrossContinents.MarkContinentFinished ~= nil then
-        CrossContinents.MarkContinentFinished(3)
-    end
     ClearQBit(QBit(1222))
     evt.ForPlayer(Players.All)
     RemoveItem(2164) -- Ritual of the Void

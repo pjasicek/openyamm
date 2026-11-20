@@ -1,0 +1,156 @@
+id: levelgen.brackenford.loose_item_pickup
+title: Real ground-item picking and absence after native save/load, each item in a
+  fresh game
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: 21344
+    y: 3200
+    z: 1098
+    yaw: 1.5707963267948966
+    pitch: -0.78
+- assert:
+    world_item_state:
+      item_id: 5
+      present: true
+- press_interact: {}
+- assert:
+    inventory_any_member:
+    - item_id: 5
+- assert:
+    world_item_state:
+      item_id: 5
+      present: false
+- save_game: loose_5
+- load_game: loose_5
+- assert:
+    inventory_any_member:
+    - item_id: 5
+- assert:
+    world_item_state:
+      item_id: 5
+      present: false
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: 21504
+    y: 3200
+    z: 1088
+    yaw: 1.5707963267948966
+    pitch: -0.78
+- assert:
+    world_item_state:
+      item_id: 95
+      present: true
+- press_interact: {}
+- assert:
+    inventory_any_member:
+    - item_id: 95
+- assert:
+    world_item_state:
+      item_id: 95
+      present: false
+- save_game: loose_95
+- load_game: loose_95
+- assert:
+    inventory_any_member:
+    - item_id: 95
+- assert:
+    world_item_state:
+      item_id: 95
+      present: false
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: 21664
+    y: 3200
+    z: 1076
+    yaw: 1.5707963267948966
+    pitch: -0.78
+- assert:
+    world_item_state:
+      item_id: 145
+      present: true
+- press_interact: {}
+- assert:
+    inventory_any_member:
+    - item_id: 145
+- assert:
+    world_item_state:
+      item_id: 145
+      present: false
+- save_game: loose_145
+- load_game: loose_145
+- assert:
+    inventory_any_member:
+    - item_id: 145
+- assert:
+    world_item_state:
+      item_id: 145
+      present: false
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: 10080
+    y: -22912
+    z: 1136
+    yaw: 1.5707963267948966
+    pitch: -0.78
+- assert:
+    world_item_state:
+      item_id: 15
+      present: true
+- press_interact: {}
+- assert:
+    inventory_any_member:
+    - item_id: 15
+- assert:
+    world_item_state:
+      item_id: 15
+      present: false
+- save_game: loose_15
+- load_game: loose_15
+- assert:
+    inventory_any_member:
+    - item_id: 15
+- assert:
+    world_item_state:
+      item_id: 15
+      present: false
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: 10240
+    y: -22912
+    z: 1136
+    yaw: 1.5707963267948966
+    pitch: -0.78
+- assert:
+    world_item_state:
+      item_id: 65
+      present: true
+- press_interact: {}
+- assert:
+    inventory_any_member:
+    - item_id: 65
+- assert:
+    world_item_state:
+      item_id: 65
+      present: false
+- save_game: loose_65
+- load_game: loose_65
+- assert:
+    inventory_any_member:
+    - item_id: 65
+- assert:
+    world_item_state:
+      item_id: 65
+      present: false

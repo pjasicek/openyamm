@@ -102,8 +102,7 @@ std::vector<uint8_t> makeTwoPixelIndexedPcx()
 TEST_CASE("ImageAssetLoader decodes PNG pixels through shared loader")
 {
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
-    const std::filesystem::path pngPath =
-        sourceRoot / "editor" / "assets" / "editor_ux_work" / "mockups" / "Level editor UI redesign mockup.png";
+    const std::filesystem::path pngPath = sourceRoot / "assets_dev" / "engine" / "icons_x2" / "micon2.png";
     const std::vector<uint8_t> bytes = readBinaryFile(pngPath);
 
     REQUIRE_FALSE(bytes.empty());
@@ -273,7 +272,7 @@ TEST_CASE("restored icon preference settings round trip without changing explici
 {
     using namespace OpenYAMM;
     Game::GameSettings settings = Game::GameSettings::createDefault();
-    CHECK_FALSE(settings.assetScaleProfile.preferRestoredIcons);
+    CHECK(settings.assetScaleProfile.preferRestoredIcons);
     settings.assetScaleProfile.icons = Engine::AssetScaleTier::X4;
     const std::filesystem::path path = std::filesystem::temp_directory_path()
         / "openyamm_restored_icons_settings.ini";

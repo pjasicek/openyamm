@@ -34,7 +34,8 @@ inline bool hasAssetFilePermissions(const std::filesystem::path &path)
     return (permissions & required) == required;
 #else
     return (permissions & std::filesystem::perms::all) == (std::filesystem::perms::owner_read
-        | std::filesystem::perms::owner_write | std::filesystem::perms::group_read | std::filesystem::perms::others_read);
+        | std::filesystem::perms::owner_write | std::filesystem::perms::group_read
+        | std::filesystem::perms::others_read);
 #endif
 }
 }

@@ -1,0 +1,68 @@
+{
+  "tool": "built-in image_gen",
+  "view": "back",
+  "status": "best_available_return_saved_but_brief_validation_failed",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Produce exactly one 1024 x 1024 RGBA transparent PNG, an unresized texture-source albedo painting named paint_back.png. Input 1 guide_back.png is the exact edit target: a grey orthographic BACK view of the 3D model. Input 2 design_reference.png supplies ONLY the approved design colours and materials, not camera or geometry. Paint directly onto the grey guide, preserving its EXACT pixel silhouette, outline, position, scale, every shape edge, opening, stem, cap, bulb, planter and all occlusions. Keep the back view, tallest mushroom on the right, middle mushroom central-left, smallest mushroom left; keep the low frontal rear planter shape and every guide detail. Do not adopt the design reference's three-quarter camera, shape, perspective, proportions, or visible cap undersides. Nothing outside the guide silhouette; nothing cropped, moved, resized, added or removed. Materials: pale ivory and cream fungus flesh with delicate organic fibrous surface markings; soft violet cap rims, subtle violet cap veins, violet gills only where the guide exposes them; small blue-white luminous-colour bulbs; dark slate grey-green composite planter with worn ochre horizontal band, and dark soil only where visible in the guide. LIGHTING: this is albedo for texture projection. Even, flat, shadowless light from viewer; no cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light. Paint luminous parts at their luminous colour with no halo, bloom, or light cast on surroundings. Truly transparent background, no black backdrop, no floor, no text. Guide geometry and pixel registration are mandatory.",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native output is 1254 x 1254, not requested 1024 x 1024; altered cap silhouettes and introduced visible gill strips. Palette broadly matches. Alpha present.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "f379950e22f9002dca505d67561d75c396b53446c301623fa1ff6bf305a47509"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "output_sha256": "3f46a7ea31de8654f5b62f5e8d2f316739f9d64494c4ba808765716082aa68e4",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "output_mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Produce exactly one 1024 x 1024 RGBA transparent PNG, an unresized texture-source albedo painting named paint_back.png. Input 1 guide_back.png is the exact edit target: a grey orthographic BACK view of the 3D model. Input 2 design_reference.png supplies ONLY the approved design colours and materials, not camera or geometry. Paint directly onto the grey guide, preserving its EXACT pixel silhouette, outline, position, scale, every shape edge, opening, stem, cap, bulb, planter and all occlusions. Keep the back view, tallest mushroom on the right, middle mushroom central-left, smallest mushroom left; keep the low frontal rear planter shape and every guide detail. Do not adopt the design reference's three-quarter camera, shape, perspective, proportions, or visible cap undersides. Nothing outside the guide silhouette; nothing cropped, moved, resized, added or removed. Materials: pale ivory and cream fungus flesh with delicate organic fibrous surface markings; soft violet cap rims, subtle violet cap veins, violet gills only where the guide exposes them; small blue-white luminous-colour bulbs; dark slate grey-green composite planter with worn ochre horizontal band, and dark soil only where visible in the guide. LIGHTING: this is albedo for texture projection. Even, flat, shadowless light from viewer; no cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light. Paint luminous parts at their luminous colour with no halo, bloom, or light cast on surroundings. Truly transparent background, no black backdrop, no floor, no text. Guide geometry and pixel registration are mandatory.\nCORRECTION \u2014 the previous attempt failed the required dimensions and exact geometry. Return a native 1024-by-1024 pixel image, not 1254-by-1254. Use guide_back.png as a locked pixel template; retain its alpha mask exactly. Its nontransparent bounding box is x=201 through 822, y=66 through 957 in the 1024 square. Do not smooth out the guide's polygonal cap outlines, make new wavy rims, expose new gill strips, alter stem widths or add bulbs. The painted shape must register pixel-for-pixel over the guide. Keep all fully transparent pixels of the guide fully transparent, without stray pixels. Preserve guide cap perimeter and planter outer rectangle and internal edges. Paint only colour and material detail inside the unchanged guide. Use flat albedo colour, without highlights, shadows or bloom.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as closer back-view return after the one allowed correction, not accepted as brief-compliant. Removes added gill strips, but native dimensions remain 1254 x 1254 and silhouette is not pixel-identical; planter motifs and bulb details drift. Saved unresized and unedited as requested.",
+      "checks": {
+        "dimensions_1024": false,
+        "silhouette_identical": false,
+        "materials_colours": "Broadly matches ivory/cream, violet rims, blue-white bulbs, slate grey-green planter and ochre band.",
+        "flat_even_light": "Mostly even; some baked shading and bulb highlights remain.",
+        "transparent_background": true
+      },
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "f379950e22f9002dca505d67561d75c396b53446c301623fa1ff6bf305a47509"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "output_sha256": "008274b2563a32e73b6b560ba40cba9a4cc65a4bc069cef68c59188e583a5fc7",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "output_mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_tasaracademy/review/features02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: f01_brazier_side
+  position:
+  - 3154
+  - 154
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: f02_brazier_front
+  position:
+  - 2918
+  - 410
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: f03_pen_gates
+  position:
+  - 5120
+  - -11674
+  - 329
+  yaw: -1.5708
+  pitch: 0.0
+- name: f04_arena_skylight
+  position:
+  - 2867
+  - -3328
+  - 1
+  yaw: 1.5708
+  pitch: 0.6981
+- name: f05_library_lantern
+  position:
+  - 640
+  - -7424
+  - 533
+  yaw: 0.0
+  pitch: 0.5236
+- name: f06_trap_doors
+  position:
+  - 1270
+  - -5760
+  - 1
+  yaw: 1.5708
+  pitch: -0.4363

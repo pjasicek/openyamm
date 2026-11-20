@@ -1,0 +1,36 @@
+{
+  "creature_3d_identity": "mm7:7m480",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 0
+  },
+  "scope": "BATCH_M model 6: MM7 copy of an installed MM8 model, no install (batch rule)",
+  "native_family": "mm7:7m480",
+  "descriptor_ids": [
+    460,
+    461,
+    462
+  ],
+  "decision": "Same art: the MM8 Dragon body and colours.",
+  "reuse_source": [
+    {
+      "path": "assets_source/worlds/mm8/models/mm8_m492.glb",
+      "sha256": "360e5aa6c22c651c4809d32658ac5f2de089d672a7a6ffe708cc1ac2bebc20fd"
+    }
+  ],
+  "selected_artifacts": {
+    "export_0": {
+      "path": "export/mm7_7m480.glb",
+      "sha256": "ff9dc8574579c13b0a231ce5f7e0c246bd627ca93d3e6c1249e5da4b74f9f909"
+    }
+  },
+  "credits_spent": 0,
+  "current_stage": "exported",
+  "current_substep": "awaiting user review / install decision",
+  "next_action": {
+    "owner": "user",
+    "action": "review; when installing, bind worlds/mm8/models/mm8_m492.glb (review/actors_binding.yml), no copy needed"
+  },
+  "user_artistic_acceptance": "pending",
+  "install_decision": "bind the installed MM8 mm8_m492.glb directly (recommended 2026-10-20); project export kept as fallback"
+}

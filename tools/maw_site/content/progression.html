@@ -1,0 +1,189 @@
+<h2 id="banked-levels">Banked levels: the one rule behind both modes</h2>
+<p>Every map has a <strong>level band</strong>: three numbers, the level its weakest, middle and strongest native
+  monster family is pinned to (for example Ravenshore 14 / 14 / 17). The experience you earn is also
+  <strong>banked</strong> on the continent where you earn it, so your banks add up to about your party's level. The
+  journal's Progress tab shows each continent's bank. The progression mode decides what the banks do to monster
+  levels.</p>
+
+<h2 id="free-vs-horizontal">Free ("vertical") against Horizontal</h2>
+<div class="tbl"><table>
+  <thead><tr><th></th><th>Free (default)</th><th>Horizontal</th></tr></thead>
+  <tbody>
+    <tr><td>Idea</td><td>Play one continent from start to end, then the next one, which rises to meet you</td>
+      <td>The whole merged world is one ladder; travel to whichever continent has maps at your level</td></tr>
+    <tr><td>Monster level on a map</td><td>Its band, plus the levels banked on the <em>other</em> continents minus 4
+      (above level 100 a banked level adds a little less)</td><td>Fixed: about 2.5 × the band's average, minus 9. Your
+      banks change nothing</td></tr>
+    <tr><td>The continent you are on</td><td>Never scales to you: its maps keep their bands, 1–100</td>
+      <td>Its maps run from about 5 to 240</td></tr>
+    <tr><td>Starter maps</td><td>Their band</td><td>Their band with nothing banked elsewhere; banked levels lift them,
+      at most to 2.5 × the band</td></tr>
+    <tr><td>Expert / Master / Grandmaster need</td><td>skill 4 / 7 / 10</td><td>skill 6 / 12 / 20</td></tr>
+    <tr><td>Map completion experience</td><td>× 1</td><td>× 3</td></tr>
+    <tr><td>Completion gem tier</td><td>from the band</td><td>from 3 × the band (better gems)</td></tr>
+    <tr><td>Switching</td><td colspan="2">Allowed during play, both ways (not in Beyond Madness, which is always
+      Horizontal). Masteries you no longer qualify for switch off and come back when you qualify again</td></tr>
+  </tbody>
+</table></div>
+<p>The mastery rule covers weapons, armour, Shield, the magic schools, the racial abilities, Bodybuilding, Meditation,
+  Regeneration, Dodging, Unarmed, Armsmaster and Ascension. Identify Item, Merchant, Repair, Perception, Disarm Traps,
+  Identify Monster, Stealing and Alchemy keep 4 / 7 / 10 in every mode. Doom uses 6 / 12 / 20 even in Free.</p>
+<p>Starter maps (Horizontal): New Sorpigal, Goblinwatch, The Abandoned Temple (Enroth); Emerald Island, The Temple of
+  the Moon, The Dragon's Lair, Castle Harmondale (Antagarich); Dagger Wound Island, Abandoned Temple (Jadame);
+  Ravensford, Isle of Ashes, Beet Hoven, Anskram Keep (Chedian).</p>
+
+<h2 id="examples">Worked examples</h2>
+<p>Numbers are the native families' normal (middle-tier) monsters, from the bands in the game's data and the game's
+  own level formula. Bosses and the strong tier sit above them.</p>
+
+<h3>1. Free, one continent from the start</h3>
+<p>A new party starts on Jadame. Nothing is banked elsewhere, so every map is just its band:</p>
+<div class="tbl"><table>
+  <thead><tr><th>Map</th><th>Band</th><th>Monsters</th></tr></thead>
+  <tbody>
+    <tr><td>Dagger Wound Island</td><td>3 / 4 / 4</td><td>3–4</td></tr>
+    <tr><td>Ravenshore</td><td>14 / 14 / 17</td><td>14–17</td></tr>
+    <tr><td>Alvar</td><td>21 / 24 / 35</td><td>21–35</td></tr>
+    <tr><td>Garrote Gorge</td><td>38 / 45 / 50</td><td>38–50</td></tr>
+    <tr><td>Escaton's Crystal</td><td>70 / 80 / 90</td><td>70–90</td></tr>
+  </tbody>
+</table></div>
+
+<h3>2. Free, moving on: Enroth done at level 100, then Jadame</h3>
+<p>100 levels are banked on Enroth, so every Jadame map gains 100 − 4 = 96 levels on top of its band:</p>
+<div class="tbl"><table>
+  <thead><tr><th>Map</th><th>Monsters</th></tr></thead>
+  <tbody>
+    <tr><td>Dagger Wound Island</td><td>99–100</td></tr>
+    <tr><td>Ravenshore</td><td>110–112</td></tr>
+    <tr><td>Alvar</td><td>116–128</td></tr>
+    <tr><td>Garrote Gorge</td><td>130–139</td></tr>
+    <tr><td>Escaton's Crystal</td><td>154–168</td></tr>
+  </tbody>
+</table></div>
+<p>Jadame's first island is a fair fight for a level-100 party, and the continent climbs from there. Above level 100
+  the bonus shrinks a little (Escaton's Crystal gets about +80, not +96), because experience per level grows faster there.</p>
+
+<h3>3. The same level-100 party under Horizontal</h3>
+<div class="tbl"><table>
+  <thead><tr><th>Map</th><th>Monsters</th><th>For a level-100 party</th></tr></thead>
+  <tbody>
+    <tr><td>Dagger Wound Island (starter)</td><td>8–10</td><td>trivial: banks lift it only to 2.5 × its band</td></tr>
+    <tr><td>Ravenshore</td><td>28–31</td><td>far below</td></tr>
+    <tr><td>Alvar</td><td>52–66</td><td>below</td></tr>
+    <tr><td>Garrote Gorge</td><td>96–108</td><td>right</td></tr>
+    <tr><td>Escaton's Crystal</td><td>181–201</td><td>far above</td></tr>
+  </tbody>
+</table></div>
+<p>So at 100 you go to Garrote Gorge (or the maps of the other continents at the same level), not to Jadame's start.</p>
+
+<h3>4. Free, going back: Enroth at 100, then Jadame to 180, then Enroth again</h3>
+<p>Coming back, Enroth's maps gain what you banked <em>elsewhere</em>: the 80 levels earned on Jadame, minus 4. Free
+  Haven (band 6 / 12.5 / 19) is now 82–95 and Icewind Keep (20 / 23 / 26) 96–102: far below a level-180 party. Finish
+  what you want on a continent before you leave it.</p>
+
+<h2 id="which-mode">Which to pick</h2>
+<p>Pick <strong>Free</strong> to play the continents one after another, as the original games were: the next continent
+  always starts at your level and masteries come early (4 / 7 / 10). Pick <strong>Horizontal</strong> to roam all
+  four continents at once and clear everything: maps keep fixed levels up to about 240, completion pays three times
+  the experience, but masteries need 6 / 12 / 20.</p>
+
+<div data-guide="map-levels"></div>
+
+<h2 id="training">Training halls</h2>
+<p>Training takes 2 days. Each hall's level cap is round(cap<sup>1.5</sup> ÷ 20) × 10 (÷ 10 in Beyond Madness);
+  uncapped halls stay uncapped.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Original cap</th><th>MAW cap</th><th>Halls</th></tr></thead>
+  <tbody>
+    <tr><td>5</td><td>20</td><td>Rites of Passage (Dagger Wound), Island Training Grounds (Emerald Island)</td></tr>
+    <tr><td>15</td><td>30</td><td>Gymnasium (Ravenshore), Basic Principles (Harmondale), New Sorpigal Training Grounds</td></tr>
+    <tr><td>20</td><td>40</td><td>Training-by-the-Sea (Bootleg Bay)</td></tr>
+    <tr><td>25</td><td>60</td><td>Guild Training Hall (Alvar), Godric's Gauntlet (Garrote Gorge), In Her Majesty's Service (Erathia), The Proving Grounds (Tularean Forest)</td></tr>
+    <tr><td>30</td><td>80</td><td>Island Testing Center (Misty Islands)</td></tr>
+    <tr><td>40</td><td>130</td><td>Abdul's Discount Training Center (Silver Cove)</td></tr>
+    <tr><td>50</td><td>180</td><td>Training Essentials (Tatalia), Avlee Gymnasium, Riverside Academy (Frozen Highlands)</td></tr>
+    <tr><td>60</td><td>230</td><td>Free Haven Academy</td></tr>
+    <tr><td>80</td><td>360</td><td>Lone Tree Training (Kriegspire)</td></tr>
+    <tr><td>100</td><td>500</td><td>War College (Stone City), Wolf's Den (Blackshire)</td></tr>
+    <tr><td>200</td><td>1,410</td><td>Assassin's School (Shadowspire), Trial of Honor (Celeste), Perdition's Flame (The Pit), Royal Gymnasium (Castle Ironfist)</td></tr>
+    <tr><td>none</td><td>none</td><td>Balthazar Academy, Applied Instruction (Mount Nighon), The Sparring Ground (Paradise Valley)</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="travel">Travel between continents</h2>
+<p>New Sorpigal, Ravenshore and Harmondale each have a pedestal under a glowing orb ("You feel high magic presence
+  here."). It opens the dimensional travel list without the Cross Continents quest. Ravenshore becomes a destination
+  after Dadeross's letter and Harmondale after Emerald Island; before that the pedestal offers Dagger Wound and
+  Emerald Island.</p>
+
+<h2 id="chedian">Chedian (MM9)</h2>
+<p>Chedian is the fourth continent, with its own bank and ladder. Its bounties (the Jarls), skill reset and Dimensional
+  Maps (Hjordisa the Hag), extra monsters and promotions are on the <a href="#chedian">Chedian</a> page.</p>
+
+<h2 id="map-completion">Map completion</h2>
+<p>Kill the required share of a map's monsters once for a one-time reward. Hidden and peaceful monsters do not
+  count; kills by guards and summons do.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Monsters on the map</th><th>Share to kill</th></tr></thead>
+  <tbody>
+    <tr><td>under 100</td><td>100 %</td></tr>
+    <tr><td>100–199</td><td>99 %</td></tr>
+    <tr><td>200–299</td><td>98 % (1 % less per further 100)</td></tr>
+  </tbody>
+</table></div>
+<p>Road to Insanity and Beyond Madness: outdoor maps always need 100 %.</p>
+<ul>
+  <li><strong>Reward:</strong> experience, gold, a Crafting Cube and two gems (Austerity: experience and gold only).
+    Experience = ⌈slain<sup>0.7</sup> × (20 L + L<sup>1.8</sup>) ÷ 3 × M ÷ 1000⌉ × 1000, with L the band's average
+    (at most 100) and M = 1 in Free, 3 in Horizontal. Nightmare counts the slain × 0.67, the Doom modes × 0.5, Road to
+    Insanity and Beyond Madness a further × 0.8. Each member gets it × 5 ÷ party size, and it is banked. Gold is
+    ⌈experience<sup>0.9</sup> ÷ 1000⌉ × 1000.</li>
+  <li><strong>Refills:</strong> outdoor maps never refill, except Hermit's Isle, Paradise Valley, Sweet Water,
+    Dragonsand, The Land of the Giants, and the Planes of Air, Fire and Water and the Plane Between Planes; Celeste and
+    The Pit never do. Other maps refill on their own timer (7 to 672 days). Nothing refills in Road to Insanity and
+    Beyond Madness. A refilled map pays no second reward.</li>
+  <li><strong>Reset (+20 levels):</strong> entering a dungeon you cleared since its last refill offers a Reset: every
+    monster comes back 20 levels stronger (40 on the second reset, and so on), with full kill experience and better
+    loot but no second completion reward. Dungeons only; not in Road to Insanity or Beyond Madness.</li>
+  <li><strong>Revival at 65 %</strong> (Nightmare and the Doom modes, dungeons): leave below 65 % killed and the dead
+    rise where they fell. Past 65 % they stay down until a reset. The progress bar marks 65 % in red until passed.</li>
+</ul>
+<div class="tip">On Nightmare, push every dungeon past 65 % before you leave, even if you cannot finish it.</div>
+
+<h2 id="bounties">Bounties</h2>
+<ul>
+  <li><strong>Where:</strong> Chedian's Jarls (see <a href="#chedian/bounties">Chedian</a>), Enroth's town hall clerks (New Sorpigal, Misty Islands, Silver Cove), Antagarich's town
+    halls (Harmondale, Steadwick, Pierpont, Celeste, The Pit), Jadame's Guild of Bounty Hunters (Ravenshore,
+    Alvar).</li>
+  <li><strong>Needs:</strong> the town's map completed since its last refill ("You need to clear the area COMPLETELY
+    first.").</li>
+  <li><strong>The hunt:</strong> one boss from any monster family, with 5–15 escorts, marked on the map. Only your
+    party's kill counts: if a guard kills it, the bounty is off.</li>
+  <li><strong>Reward:</strong> (the target family's table level + all your banked levels) × 100 gold, worked out when
+    you claim. Example: table level 45, 120 levels banked: 16,500 gold.</li>
+  <li><strong>Months</strong> are 28 days; one bounty per town per month (one at a time in Road to Insanity; no reward
+    in Beyond Madness). Unclaimed at month's end, it expires.</li>
+</ul>
+<figure><img src="img/bounty_hall.jpg" alt="A town hall offering this month's bounty"><figcaption>A cleared town's hall offers a monthly bounty.</figcaption></figure>
+
+<h2 id="dimension-maps">Dimension maps</h2>
+<p>An end-game item that reopens a map you have completed, filled with three random monster families and 2–4
+  affixes.</p>
+<ol>
+  <li>With any character at level 80, ask the Oracle (Ravenshore), Judge Grey (Harmondale), the Seer (Castle
+    Ironfist area) or Hjordisa the Hag (Guberland) about <em>Dimensional Maps</em>.</li>
+  <li>Use the map on a character to travel there; clear it to the normal threshold.</li>
+  <li>Return for the reward: the map's level × 1,000 gold plus experience, then ask for the next tier.</li>
+</ol>
+<p>Tiers: 80, 110, 139, 167, 194, 220 … each step one smaller, down to steps of 10, ending at 490 and 500 (22
+  turn-ins). A tier-T map has power ⌊(T − 20) ÷ 10⌋; its monsters are power × 10 + 20 levels above the place's normal
+  level. Once tier 500 is claimed, monsters of level 100+ drop dimension maps (bosses ten times as often) and each
+  cleared run gives the next map one power higher. On the Workbench an Eye of Void or Hourglass unlocks a map's next
+  affix, a Crafting Cube moves it to another cleared place of the same kind.</p>
+<figure><img src="img/dimension_map_item.jpg" alt="A dimension map's popup with its level and affixes"><figcaption>A dimension map: its level and active affixes.</figcaption></figure>
+
+<h2 id="endless-arena">Endless Arena</h2>
+<p>The Arena Master in Jadame's Arena offers waves that never end: each cleared level pays its number × 20,000 gold.
+  Arena monsters carry no loot, and arena kills bank no levels. After the last family the waves start the list again
+  at the same levels.</p>

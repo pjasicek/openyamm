@@ -1,0 +1,35 @@
+{
+  "creature_3d_identity": "mm7:7m452",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "scope": "MM7 batch J triangle reduction of mm7_7m452_claude (user: \"OK reduce tris count now\"); no retexture, not installed",
+  "source": {
+    "work/mm7_7m452_source_pre_reduce.glb": "6109bec81c35f749fdb33dc07877fd2d1005841cd1994d2154621e32e5031dee",
+    "work/mm7_7m452_billhook_source_pre_reduce.glb": "8f22380af50cf9bf085d9fde2548fb1c822a7ed660a53b7dd9b265f4e1b4e13f"
+  },
+  "selected": {
+    "export/mm7_7m452.glb": "8c0dcbd20d214b3cb9ecbeadcc41aaa8899bf87f22943343daa0b3f4c4a2dfb7",
+    "export/mm7_7m452_billhook.glb": "8f22380af50cf9bf085d9fde2548fb1c822a7ed660a53b7dd9b265f4e1b4e13f"
+  },
+  "result": {
+    "lod0_before": 11791,
+    "lod0_after": 9045,
+    "lods": [
+      4521,
+      2080,
+      694
+    ],
+    "pick": "g Cand_76"
+  },
+  "status": {
+    "stage": "exported (reduced)",
+    "install": "not done (batch rule); commands in README.md",
+    "user_artistic_acceptance": "not recorded"
+  },
+  "next_action": {
+    "owner": "user",
+    "action": "review review/viewer/ (source vs reduced) and decide installation"
+  }
+}

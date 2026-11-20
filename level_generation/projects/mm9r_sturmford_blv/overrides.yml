@@ -1,0 +1,85 @@
+# Sturmford as a BLV open to the sky: the large-region check of "MM9 outdoor maps as BLVs" (README.md). Read by the
+# shared converter (../mm9r_common/dungeon) through convert.py and ../mm9r_common/outdoor_blv.py.
+map:
+  ambient_triggers: true             # touch Triggers switch AmbientSounds (dungeon/objects.py ambient_triggers)
+  stem: sturmford
+  display_name: Sturmford
+  # start index = the old map's party_start_points
+  starts: [StartPoint0, SturmfordDocks, Sturmfordcityexit, FTSturmford, Abandonedfortfront, Abandonedfortback]
+  monster_classes: [DragonFly, FieldThrall, DragonFlyMite, Basilisk, NettleSpore, Thrall, FireDragonFly, GelatinousSpore]
+  swim: true                          # the sea is swum, as on the Isle of Ashes (2026-11-04)
+  painted_minimap: true
+  generate_bsp: false                # the game uses no BSP; a region's one sector makes it quadratic (outdoor_blv.py)
+  # The terrain (LT x -10 984..9 016, z -9 989..10 016) centred: native = LT * 2.56 - offset spans x and y +-25 600
+  offset: [-2519, 35, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # MM9's grey fog (2 500-8 000 LT) is left to the outdoor view's haze later
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  PerceptionBrush: skip              # MM9's sensing volumes, no geometry
+models:
+  Terrain0: static
+  Ocean: static
+  BlueWater0: skip
+  Rain0: skip                        # MM9's rain volume
+  SkyBox0: skip
+  TOD_Sky0: skip
+  Weakwall: static
+  Weakwallperc: skip
+  Portchainperc: skip
+  Drawchainperc: skip
+  # the portcullis lever (a Switch, StartOpen): its Open/CloseTriggers toggle the Portcullis and move DoorChain4 (the
+  # counterweight chain); its click drives both (the Portcullis and its chain are PushOpen 0: no click of their own)
+  Portcullislever: {group: Portcullislever, motion: rotate, drives: [Portcullis, DoorChain4]}
+  DoorChain4: {group: DoorChain4, motion: dat, click: false}
+  Portcullis: {group: Portcullis, motion: dat, click: false}
+  RotatingDoor16: {group: RotatingDoor16, motion: rotate}
+  RotatingDoor15: {group: RotatingDoor16, motion: rotate}   # MM9's DoubleDoorName pair with RotatingDoor16
+  RotatingDoor13: {group: RotatingDoor13, motion: rotate}
+  RotatingDoor14: {group: RotatingDoor13, motion: rotate}   # MM9's DoubleDoorName pair with RotatingDoor13
+  RotatingDoor7: {group: RotatingDoor7, motion: rotate}
+  RotatingDoor8: {group: RotatingDoor7, motion: rotate}   # MM9's DoubleDoorName pair with RotatingDoor7
+  Hatch2: {group: Hatch2, motion: rotate}
+  Hatch1: {group: Hatch1, motion: rotate}
+  drawbridge: {group: drawbridge, motion: rotate}
+  DestructableBrush0: static
+  DestructableBrush1: static
+  Drawbridgechain: static
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false                  # the city pass for raised plinths: quadratic on a region, no plinths here
+outdoor:
+  # The pathing check (README) used `test_population: 200`: MM9's 56 monsters plus copies near them up to this many
+  # (MM6-MM8 outdoor density). Off since 2026-11-04 (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md): a measurement aid only.
+  test_population: 0
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py STURMFORD): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    sturmfordcliff: grass_patches   # 78 %: dark rock under moss; steep parts take the slope cliff
+    sturmfordgrass: grass            # 22 %: dense dark grass
+  slope: cliff
+# MM9's Ladder volumes (dungeon/rotation.py ladder_records; facing_lt: (x, z) toward the rungs, surface_lt: the rung
+# face along it, top_exit_lt: where the climber steps off), measured against the static geometry (2026-11-05).
+ladders:
+  Ladder0: {facing_lt: [0, -1], surface_lt: 6160, top_exit_lt: [5200, 832, 6166]}   # up through Hatch1 (rungs WorldObject0)
+  Ladder1: {facing_lt: [0, 1], surface_lt: 6896, top_exit_lt: [5200, 832, 6890]}    # up through Hatch2 (rungs WorldObject1)
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  themed_near: [BonePile0, BonePile1, BonePile2, BonePile3, BonePile4, BonePile5, BonePile6]

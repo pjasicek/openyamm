@@ -1,0 +1,8059 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "thjorgard.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 839,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 840,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 841,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 842,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 843,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 844,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 24074,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24075,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24076,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22687,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22688,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22689,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22690,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22691,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22692,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22693,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22694,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22695,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22696,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22697,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22698,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22699,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22700,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22701,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22702,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22703,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22704,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22705,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22706,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22707,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22708,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22709,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22710,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22711,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22712,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22713,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22714,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22715,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22716,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22717,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22718,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22719,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22720,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22721,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22722,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22723,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22724,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22725,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22726,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22727,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22728,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22729,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22730,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22731,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22732,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22733,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22734,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22735,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22736,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22737,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22738,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22739,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22740,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22741,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22742,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22743,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22744,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22745,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22746,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22747,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22748,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22749,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22750,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22751,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22752,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22753,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22754,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22755,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22756,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22757,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22758,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22759,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22760,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22761,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22762,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22763,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22764,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22765,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22766,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22767,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22768,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22769,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22770,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22771,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22772,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22773,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22774,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22775,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22776,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22777,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22778,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22779,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22780,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22781,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22782,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22783,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22784,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22785,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22786,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22787,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22788,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22789,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22790,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22791,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22792,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22793,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22794,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22795,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22796,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22797,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22798,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22799,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22800,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22801,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22802,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22803,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22804,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22805,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22806,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22807,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22808,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22809,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22810,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22811,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22812,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22813,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22814,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22815,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22816,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22817,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22818,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22819,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24077,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24078,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24079,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24080,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24081,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24082,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24083,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24084,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24085,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24086,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24087,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24088,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24089,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24090,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24091,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24092,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24093,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24094,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24095,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24096,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24097,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24098,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24099,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24100,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24101,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24102,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24103,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24104,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24105,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24106,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24107,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24108,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24109,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24110,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24111,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24112,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24113,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24114,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24115,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24116,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24117,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24118,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24119,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24120,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24121,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24122,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24123,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24124,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24125,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24126,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24127,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24128,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24129,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24130,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24131,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24132,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24133,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24134,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24135,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24136,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24137,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24138,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24139,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24140,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24141,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24142,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24143,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24144,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24145,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24146,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24147,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24148,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24149,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24150,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24151,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24152,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24153,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24154,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24155,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24156,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24157,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24158,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24159,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24160,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24161,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24162,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24163,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24164,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24165,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24166,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24167,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24168,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24169,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24170,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24171,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24172,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24173,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24174,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24175,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24176,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24177,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24178,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24179,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24180,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24181,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24182,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24183,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24184,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24185,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24186,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24187,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24188,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24189,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24190,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24191,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24192,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24193,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24194,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24195,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24196,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24197,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24198,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24199,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24200,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24201,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24202,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24203,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24204,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24205,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24206,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24207,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24208,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24209,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24210,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24211,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24212,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24213,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24214,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24215,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24216,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24217,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24218,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24219,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24220,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24221,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24222,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24223,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24224,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24225,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24226,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24227,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24228,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24229,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24230,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24231,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24232,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24233,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24234,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24235,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24236,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24237,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24238,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24239,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24240,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24241,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24242,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24243,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24244,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24245,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24246,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24247,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24248,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24249,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24250,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24251,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24252,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24253,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24254,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24255,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24256,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24257,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24258,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24259,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24260,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24261,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24262,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24263,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24264,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24265,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24266,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24267,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24268,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24269,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24270,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24271,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24272,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24273,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24274,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24275,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 24276,
+    "texture_name": "lqseamm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -5639,
+     "y": 11350,
+     "z": 1660
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 6144,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -8350,
+     "y": 11242,
+     "z": 1680
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 6144,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -8598,
+     "y": 11196,
+     "z": 1680
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 6144,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Airborne Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 29,
+    "hostility_type": 4,
+    "monster_info_id": 9087,
+    "monster_id": 9087,
+    "radius": 15,
+    "height": 26,
+    "move_speed": 384,
+    "position": {
+     "x": -4354,
+     "y": -12015,
+     "z": 3190
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 128,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "path",
+     "path": [
+      [
+       -2966,
+       -10523,
+       4204
+      ],
+      [
+       -3773,
+       -8309,
+       3858
+      ],
+      [
+       -4677,
+       -7420,
+       3858
+      ],
+      [
+       -6192,
+       -6988,
+       4224
+      ],
+      [
+       -8373,
+       -8506,
+       3968
+      ],
+      [
+       -8092,
+       -11145,
+       3840
+      ],
+      [
+       -7298,
+       -12448,
+       4073
+      ],
+      [
+       -5526,
+       -13541,
+       4073
+      ],
+      [
+       -2562,
+       -11905,
+       4096
+      ]
+     ],
+     "wander_wait": [
+      0.01,
+      0.01
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "MagreebBaby",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 95,
+    "hostility_type": 4,
+    "monster_info_id": 9244,
+    "monster_id": 9244,
+    "radius": 54,
+    "height": 125,
+    "move_speed": 192,
+    "position": {
+     "x": -18639,
+     "y": -16114,
+     "z": 2940
+    },
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 6144,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -604,
+     "y": -8250,
+     "z": 3200
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -437,
+       -7758,
+       3315
+      ],
+      [
+       -120,
+       -7226,
+       3315
+      ],
+      [
+       689,
+       -8137,
+       3315
+      ],
+      [
+       -611,
+       -8526,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "attack2",
+       "loop": true
+      },
+      {
+       "point": 1,
+       "wait": [
+        0.01,
+        0.01
+       ]
+      },
+      {
+       "point": 2,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "fidget0"
+      },
+      {
+       "point": 3,
+       "face": 270.4,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -980,
+     "y": -8872,
+     "z": 3205
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -724,
+       -8864,
+       3315
+      ],
+      [
+       -703,
+       -9929,
+       3315
+      ],
+      [
+       -1707,
+       -8885,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 50.0,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      },
+      {
+       "point": 1,
+       "face": 269.3,
+       "wait": [
+        3.0,
+        7.0
+       ],
+       "clip": "fidget"
+      },
+      {
+       "point": 2,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -642,
+     "y": -414,
+     "z": 4094
+    },
+    "initial_yaw_units": 1958,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2048,
+     "hearing": 1280,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2218,
+     "y": -101,
+     "z": 4386
+    },
+    "initial_yaw_units": 1021,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2048,
+     "hearing": 1280,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -15979,
+     "y": -15891,
+     "z": 3194
+    },
+    "initial_yaw_units": 1174,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -15411,
+       -19951,
+       3302
+      ]
+     ],
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -16069,
+     "y": -15797,
+     "z": 3203
+    },
+    "initial_yaw_units": 1174,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.0,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -16202,
+     "y": -20338,
+     "z": 3199
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 922,
+     "runaway_chance": 0.0,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_leash": 154,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -15912,
+     "y": -20604,
+     "z": 3200
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 922,
+     "runaway_chance": 0.0,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_leash": 154,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -16494,
+     "y": -20000,
+     "z": 3190
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 922,
+     "runaway_chance": 0.0,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_leash": 154,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -642,
+     "y": -414,
+     "z": 4094
+    },
+    "initial_yaw_units": 1958,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2048,
+     "hearing": 1280,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": 2218,
+     "y": -101,
+     "z": 4386
+    },
+    "initial_yaw_units": 1021,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2048,
+     "hearing": 1280,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "script": "thorgard_actor.scr"
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Magreeb",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9277,
+    "monster_id": 9277,
+    "radius": 115,
+    "height": 269,
+    "move_speed": 192,
+    "position": {
+     "x": -16934,
+     "y": -20179,
+     "z": 3190
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "scholarpromo.scr"
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Flying Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9088,
+    "monster_id": 9088,
+    "radius": 31,
+    "height": 51,
+    "move_speed": 384,
+    "position": {
+     "x": -8629,
+     "y": -12425,
+     "z": 3190
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 18,
+    "name": "Flying Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9088,
+    "monster_id": 9088,
+    "radius": 31,
+    "height": 51,
+    "move_speed": 384,
+    "position": {
+     "x": -9018,
+     "y": -11442,
+     "z": 3209
+    },
+    "initial_yaw_units": 284,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 19,
+    "name": "Astral Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 103,
+    "hostility_type": 4,
+    "monster_info_id": 9089,
+    "monster_id": 9089,
+    "radius": 61,
+    "height": 102,
+    "move_speed": 384,
+    "position": {
+     "x": -7493,
+     "y": -9509,
+     "z": 3195
+    },
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 20,
+    "name": "Astral Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 103,
+    "hostility_type": 4,
+    "monster_info_id": 9089,
+    "monster_id": 9089,
+    "radius": 61,
+    "height": 102,
+    "move_speed": 384,
+    "position": {
+     "x": -5875,
+     "y": -12561,
+     "z": 3202
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 21,
+    "name": "Astral Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 103,
+    "hostility_type": 4,
+    "monster_info_id": 9089,
+    "monster_id": 9089,
+    "radius": 61,
+    "height": 102,
+    "move_speed": 384,
+    "position": {
+     "x": -6120,
+     "y": -14773,
+     "z": 3191
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 22,
+    "name": "Gelatinous Spore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9169,
+    "monster_id": 9169,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": -6776,
+     "y": 22255,
+     "z": 425
+    },
+    "initial_yaw_units": 1479,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Gelatinous Spore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9169,
+    "monster_id": 9169,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 10264,
+     "y": 20945,
+     "z": 425
+    },
+    "initial_yaw_units": 1479,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Gelatinous Spore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9169,
+    "monster_id": 9169,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 2399,
+     "y": 20289,
+     "z": 425
+    },
+    "initial_yaw_units": 1479,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 25,
+    "name": "Gelatinous Spore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9169,
+    "monster_id": 9169,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 13540,
+     "y": 15702,
+     "z": 425
+    },
+    "initial_yaw_units": 1204,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 26,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -18081,
+     "y": 8329,
+     "z": 4438
+    },
+    "initial_yaw_units": 926,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 27,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -17917,
+     "y": 7837,
+     "z": 4455
+    },
+    "initial_yaw_units": 1237,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 28,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -18900,
+     "y": 8001,
+     "z": 4450
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 29,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19391,
+     "y": 6035,
+     "z": 4446
+    },
+    "initial_yaw_units": 1281,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 30,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -20866,
+     "y": 1939,
+     "z": 4308
+    },
+    "initial_yaw_units": 341,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 31,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -20374,
+     "y": 14391,
+     "z": 4453
+    },
+    "initial_yaw_units": 1769,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 32,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19719,
+     "y": 14555,
+     "z": 4443
+    },
+    "initial_yaw_units": 1423,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 33,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -20211,
+     "y": 13736,
+     "z": 4448
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 34,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19719,
+     "y": -7072,
+     "z": 3444
+    },
+    "initial_yaw_units": 210,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 35,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19555,
+     "y": -6417,
+     "z": 3488
+    },
+    "initial_yaw_units": 1725,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 36,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19228,
+     "y": -6908,
+     "z": 3446
+    },
+    "initial_yaw_units": 704,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 37,
+    "name": "Trollfin the Sailcutter",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9047,
+    "monster_id": 9047,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -12456,
+     "y": 12691,
+     "z": 1291
+    },
+    "initial_yaw_units": 1290,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "path",
+     "path": [
+      [
+       -12323,
+       12553,
+       1377
+      ],
+      [
+       -11384,
+       13428,
+       1405
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 292.3,
+       "wait": [
+        5.0,
+        10.0
+       ]
+      },
+      {
+       "point": 1,
+       "face": 40.0,
+       "wait": [
+        5.0,
+        15.0
+       ]
+      }
+     ],
+     "wander_wait": [
+      2.0,
+      5.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "profile": {
+      "passive": true
+     },
+     "script": "shopkeeper.scr",
+     "script_params": "voices\\npc\\NPC_018.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 1,
+    "mm9_rude_id": 18
+   },
+   {
+    "actor_index": 38,
+    "name": "Half-Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 159,
+    "hostility_type": 0,
+    "monster_info_id": 9103,
+    "monster_id": 9103,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 640,
+    "position": {
+     "x": 16653,
+     "y": -4287,
+     "z": 3288
+    },
+    "initial_yaw_units": 1024,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "armwrestle.scr",
+     "script_params": "2"
+    },
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 117
+   },
+   {
+    "actor_index": 39,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14851,
+     "y": -3119,
+     "z": 3207
+    },
+    "initial_yaw_units": 1535,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 6144,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "stonesplayer.scr",
+     "script_params": "Square 6"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 593,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 40,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14646,
+     "y": -3406,
+     "z": 3207
+    },
+    "initial_yaw_units": 95,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 594,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 41,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15056,
+     "y": -3406,
+     "z": 3200
+    },
+    "initial_yaw_units": 908,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 595,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 42,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13581,
+     "y": 137,
+     "z": 3197
+    },
+    "initial_yaw_units": 1532,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 660,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 43,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 16203,
+     "y": 874,
+     "z": 3197
+    },
+    "initial_yaw_units": 1532,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 661,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 44,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14605,
+     "y": 424,
+     "z": 3190
+    },
+    "initial_yaw_units": 1532,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 662,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 45,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15220,
+     "y": 628,
+     "z": 3191
+    },
+    "initial_yaw_units": 1532,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 663,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 46,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13909,
+     "y": 55,
+     "z": 3195
+    },
+    "initial_yaw_units": 1532,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 664,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 47,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13295,
+     "y": 55,
+     "z": 3193
+    },
+    "initial_yaw_units": 1532,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 665,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 48,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13540,
+     "y": -2239,
+     "z": 3205
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 666,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 49,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14196,
+     "y": -2280,
+     "z": 3222
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 667,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 50,
+    "name": "Peasant",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13827,
+     "y": -2239,
+     "z": 3217
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "thjorgardspectator.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 668,
+    "mm9_rude_id": 428
+   },
+   {
+    "actor_index": 51,
+    "name": "Huckster",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9045,
+    "monster_id": 9045,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 17800,
+     "y": -846,
+     "z": 3209
+    },
+    "initial_yaw_units": 1422,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "boatjudge.scr",
+     "script_params": "RacingBoat 0 3"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 669,
+    "mm9_rude_id": 429
+   },
+   {
+    "actor_index": 52,
+    "name": "Huckster",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9052,
+    "monster_id": 9052,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14575,
+     "y": -4205,
+     "z": 3200
+    },
+    "initial_yaw_units": 1593,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "huckstermod.scr",
+     "script_params": "0"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 673,
+    "mm9_rude_id": 429
+   },
+   {
+    "actor_index": 53,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -643,
+     "y": -8365,
+     "z": 3201
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -437,
+       -7758,
+       3315
+      ],
+      [
+       -120,
+       -7226,
+       3315
+      ],
+      [
+       689,
+       -8137,
+       3315
+      ],
+      [
+       -611,
+       -8526,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "attack2",
+       "loop": true
+      },
+      {
+       "point": 1,
+       "wait": [
+        0.01,
+        0.01
+       ]
+      },
+      {
+       "point": 2,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "fidget0"
+      },
+      {
+       "point": 3,
+       "face": 270.4,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 54,
+    "name": "Flying Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9088,
+    "monster_id": 9088,
+    "radius": 31,
+    "height": 51,
+    "move_speed": 384,
+    "position": {
+     "x": -8642,
+     "y": -12545,
+     "z": 3190
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 55,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -18214,
+     "y": 8316,
+     "z": 4439
+    },
+    "initial_yaw_units": 926,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 56,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -20508,
+     "y": 14399,
+     "z": 4455
+    },
+    "initial_yaw_units": 1769,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 57,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19684,
+     "y": -6943,
+     "z": 3457
+    },
+    "initial_yaw_units": 210,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 58,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -526,
+     "y": -8342,
+     "z": 3195
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -437,
+       -7758,
+       3315
+      ],
+      [
+       -120,
+       -7226,
+       3315
+      ],
+      [
+       689,
+       -8137,
+       3315
+      ],
+      [
+       -611,
+       -8526,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "attack2",
+       "loop": true
+      },
+      {
+       "point": 1,
+       "wait": [
+        0.01,
+        0.01
+       ]
+      },
+      {
+       "point": 2,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "fidget0"
+      },
+      {
+       "point": 3,
+       "face": 270.4,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 59,
+    "name": "Burglar",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 72,
+    "hostility_type": 4,
+    "monster_info_id": 9100,
+    "monster_id": 9100,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -484,
+     "y": -8237,
+     "z": 3193
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -437,
+       -7758,
+       3315
+      ],
+      [
+       -120,
+       -7226,
+       3315
+      ],
+      [
+       689,
+       -8137,
+       3315
+      ],
+      [
+       -611,
+       -8526,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "attack2",
+       "loop": true
+      },
+      {
+       "point": 1,
+       "wait": [
+        0.01,
+        0.01
+       ]
+      },
+      {
+       "point": 2,
+       "face": 360.0,
+       "wait": [
+        3.0,
+        5.0
+       ],
+       "clip": "fidget0"
+      },
+      {
+       "point": 3,
+       "face": 270.4,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 60,
+    "name": "Flying Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9088,
+    "monster_id": 9088,
+    "radius": 31,
+    "height": 51,
+    "move_speed": 384,
+    "position": {
+     "x": -8910,
+     "y": -11388,
+     "z": 3206
+    },
+    "initial_yaw_units": 284,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 61,
+    "name": "Flying Icky",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 52,
+    "hostility_type": 4,
+    "monster_info_id": 9088,
+    "monster_id": 9088,
+    "radius": 31,
+    "height": 51,
+    "move_speed": 384,
+    "position": {
+     "x": -8549,
+     "y": -12516,
+     "z": 3190
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3072,
+     "hearing": 2048,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true
+    },
+    "dormant": true
+   },
+   {
+    "actor_index": 62,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -896,
+     "y": -8959,
+     "z": 3210
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -724,
+       -8864,
+       3315
+      ],
+      [
+       -703,
+       -9929,
+       3315
+      ],
+      [
+       -1707,
+       -8885,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 50.0,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      },
+      {
+       "point": 1,
+       "face": 269.3,
+       "wait": [
+        3.0,
+        7.0
+       ],
+       "clip": "fidget"
+      },
+      {
+       "point": 2,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 63,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -1042,
+     "y": -8768,
+     "z": 3198
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -724,
+       -8864,
+       3315
+      ],
+      [
+       -703,
+       -9929,
+       3315
+      ],
+      [
+       -1707,
+       -8885,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 50.0,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      },
+      {
+       "point": 1,
+       "face": 269.3,
+       "wait": [
+        3.0,
+        7.0
+       ],
+       "clip": "fidget"
+      },
+      {
+       "point": 2,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 64,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -1065,
+     "y": -8958,
+     "z": 3205
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -724,
+       -8864,
+       3315
+      ],
+      [
+       -703,
+       -9929,
+       3315
+      ],
+      [
+       -1707,
+       -8885,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 50.0,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      },
+      {
+       "point": 1,
+       "face": 269.3,
+       "wait": [
+        3.0,
+        7.0
+       ],
+       "clip": "fidget"
+      },
+      {
+       "point": 2,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   },
+   {
+    "actor_index": 65,
+    "name": "Bandit",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9101,
+    "monster_id": 9101,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 320,
+    "position": {
+     "x": -875,
+     "y": -8812,
+     "z": 3207
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 2560,
+     "hearing": 1024,
+     "runaway_chance": 1.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -6072,
+       -11119,
+       3377
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       -724,
+       -8864,
+       3315
+      ],
+      [
+       -703,
+       -9929,
+       3315
+      ],
+      [
+       -1707,
+       -8885,
+       3315
+      ]
+     ],
+     "path_stops": [
+      {
+       "point": 0,
+       "face": 50.0,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget2"
+      },
+      {
+       "point": 1,
+       "face": 269.3,
+       "wait": [
+        3.0,
+        7.0
+       ],
+       "clip": "fidget"
+      },
+      {
+       "point": 2,
+       "wait": [
+        5.0,
+        10.0
+       ],
+       "clip": "fidget"
+      }
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    }
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 922,
+    "open_speed": 896,
+    "close_speed": 947,
+    "state": 2,
+    "vertex_ids": [
+     17796,
+     17797,
+     17798,
+     17799,
+     17800,
+     17801,
+     17802,
+     17803,
+     17804,
+     17805,
+     17806,
+     17807,
+     17808,
+     17809,
+     17810,
+     17811,
+     17812,
+     17813,
+     17814,
+     17815,
+     17816,
+     17817,
+     17818,
+     17819,
+     17820,
+     17821,
+     17822,
+     17823,
+     17824,
+     17825,
+     17826,
+     17827
+    ],
+    "face_ids": [
+     24647,
+     24648,
+     24649,
+     24650,
+     24651,
+     24652,
+     24653,
+     24654,
+     24655,
+     24656,
+     24657,
+     24658,
+     24659,
+     24660,
+     24661,
+     24662,
+     24663,
+     24664,
+     24665,
+     24666,
+     24667,
+     24668,
+     24669,
+     24670,
+     24671,
+     24672,
+     24673,
+     24674,
+     24675,
+     24676,
+     24677,
+     24678,
+     24679,
+     24680,
+     24681,
+     24682,
+     24683,
+     24684,
+     24685,
+     24686,
+     24687,
+     24688
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     16449,
+     16449,
+     16459,
+     16459,
+     16449,
+     16449,
+     16459,
+     16459,
+     16461,
+     16464,
+     16464,
+     16461,
+     16464,
+     16464,
+     16461,
+     16461,
+     16459,
+     16459,
+     16449,
+     16449,
+     16446,
+     16446,
+     16443,
+     16443,
+     16443,
+     16443,
+     16446,
+     16446,
+     16449,
+     16449,
+     16459,
+     16459
+    ],
+    "y_offsets": [
+     -4932,
+     -4952,
+     -4952,
+     -4932,
+     -4927,
+     -4927,
+     -4927,
+     -4927,
+     -4929,
+     -4932,
+     -4932,
+     -4929,
+     -4952,
+     -4952,
+     -4955,
+     -4955,
+     -4958,
+     -4958,
+     -4958,
+     -4958,
+     -4955,
+     -4955,
+     -4952,
+     -4952,
+     -4932,
+     -4932,
+     -4929,
+     -4929,
+     -4952,
+     -4932,
+     -4932,
+     -4952
+    ],
+    "z_offsets": [
+     4201,
+     4201,
+     4201,
+     4201,
+     4186,
+     4196,
+     4196,
+     4186,
+     4199,
+     4196,
+     4186,
+     4183,
+     4196,
+     4186,
+     4183,
+     4199,
+     4196,
+     4186,
+     4196,
+     4186,
+     4183,
+     4199,
+     4196,
+     4186,
+     4196,
+     4186,
+     4183,
+     4199,
+     4181,
+     4181,
+     4181,
+     4181
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 13,
+    "open_speed": 512,
+    "close_speed": 51,
+    "state": 2,
+    "vertex_ids": [
+     17828,
+     17829,
+     17830,
+     17831,
+     17832,
+     17833,
+     17834,
+     17835
+    ],
+    "face_ids": [
+     24689,
+     24690,
+     24691,
+     24692,
+     24693,
+     24694
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     16428,
+     16428,
+     16387,
+     16387,
+     16387,
+     16387,
+     16428,
+     16428
+    ],
+    "y_offsets": [
+     -4983,
+     -4983,
+     -4983,
+     -4983,
+     -4901,
+     -4901,
+     -4901,
+     -4901
+    ],
+    "z_offsets": [
+     3225,
+     3246,
+     3246,
+     3225,
+     3225,
+     3246,
+     3246,
+     3225
+    ],
+    "ai_open": [
+     2
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     65536
+    ],
+    "move_length": 31,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     17836,
+     17837,
+     17838,
+     17839,
+     17840,
+     17841,
+     17842,
+     17843,
+     17844,
+     17845,
+     17846,
+     17847,
+     17848,
+     17849,
+     17850,
+     17851,
+     17852,
+     17853,
+     17854,
+     17855,
+     17856,
+     17857,
+     17858,
+     17859
+    ],
+    "face_ids": [
+     24695,
+     24696,
+     24697,
+     24698,
+     24699,
+     24700,
+     24701,
+     24702,
+     24703,
+     24704,
+     24705,
+     24706,
+     24707,
+     24708,
+     24709,
+     24710
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     17626,
+     17626,
+     17647,
+     17647,
+     17647,
+     17647,
+     17626,
+     17626,
+     17621,
+     17626,
+     17626,
+     17621,
+     17621,
+     17626,
+     17626,
+     17626,
+     17626,
+     17621,
+     17626,
+     17647,
+     17647,
+     17647,
+     17647,
+     17626
+    ],
+    "y_offsets": [
+     -2991,
+     -2997,
+     -2997,
+     -2991,
+     -2991,
+     -2997,
+     -2997,
+     -2991,
+     -2997,
+     -2997,
+     -2956,
+     -2956,
+     -2956,
+     -2956,
+     -2956,
+     -2956,
+     -2997,
+     -2997,
+     -2961,
+     -2961,
+     -2956,
+     -2956,
+     -2961,
+     -2961
+    ],
+    "z_offsets": [
+     3348,
+     3348,
+     3348,
+     3348,
+     3338,
+     3338,
+     3338,
+     3338,
+     3353,
+     3353,
+     3353,
+     3353,
+     3333,
+     3348,
+     3338,
+     3333,
+     3333,
+     3333,
+     3348,
+     3348,
+     3348,
+     3338,
+     3338,
+     3338
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 600,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17860,
+     17861,
+     17862,
+     17863,
+     17864,
+     17865,
+     17866,
+     17867,
+     17868,
+     17869,
+     17870,
+     17871,
+     17872,
+     17873,
+     17874,
+     17875,
+     17876,
+     17877,
+     17878,
+     17879,
+     17880,
+     17881,
+     17882,
+     17883
+    ],
+    "face_ids": [
+     24711,
+     24712,
+     24713,
+     24714,
+     24715,
+     24716,
+     24717,
+     24718,
+     24719,
+     24720,
+     24721,
+     24722,
+     24723,
+     24724,
+     24725
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     13443,
+     13453,
+     13464,
+     13474,
+     13474,
+     13464,
+     13453,
+     13443,
+     13453,
+     13464,
+     13474,
+     13474,
+     13464,
+     13453,
+     13443,
+     13443,
+     13456,
+     13461,
+     13461,
+     13456,
+     13456,
+     13461,
+     13461,
+     13456
+    ],
+    "y_offsets": [
+     -4748,
+     -4748,
+     -4748,
+     -4748,
+     -4748,
+     -4748,
+     -4748,
+     -4748,
+     -4737,
+     -4737,
+     -4737,
+     -4737,
+     -4737,
+     -4737,
+     -4737,
+     -4737,
+     -4743,
+     -4743,
+     -4737,
+     -4737,
+     -4737,
+     -4737,
+     -4743,
+     -4743
+    ],
+    "z_offsets": [
+     3277,
+     3267,
+     3267,
+     3277,
+     3287,
+     3297,
+     3297,
+     3287,
+     3297,
+     3297,
+     3287,
+     3277,
+     3267,
+     3267,
+     3277,
+     3287,
+     3338,
+     3338,
+     3338,
+     3338,
+     3297,
+     3297,
+     3297,
+     3297
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       13458.48,
+       -4737.4,
+       3281.92
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "open_degrees": 60.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 450,
+    "close_speed": 450,
+    "state": 2,
+    "vertex_ids": [
+     17884,
+     17885,
+     17886,
+     17887,
+     17888,
+     17889,
+     17890,
+     17891
+    ],
+    "face_ids": [
+     24726,
+     24727,
+     24728,
+     24729,
+     24730,
+     24731
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -18654,
+     -18654,
+     -18818,
+     -18818,
+     -18654,
+     -18818,
+     -18818,
+     -18654
+    ],
+    "y_offsets": [
+     11278,
+     11278,
+     11278,
+     11278,
+     11257,
+     11257,
+     11257,
+     11257
+    ],
+    "z_offsets": [
+     4710,
+     4465,
+     4465,
+     4710,
+     4465,
+     4465,
+     4710,
+     4710
+    ],
+    "ai_open": [
+     5
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -18807.76,
+       11267.72,
+       4587.52
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door02open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door02close.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17892,
+     17893,
+     17894,
+     17895,
+     17896,
+     17897,
+     17898,
+     17899,
+     17900,
+     17901,
+     17902,
+     17903,
+     17904,
+     17905,
+     17906,
+     17907,
+     17908,
+     17909,
+     17910,
+     17911,
+     17912,
+     17913,
+     17914,
+     17915,
+     17916,
+     17917,
+     17918,
+     17919,
+     17920,
+     17921
+    ],
+    "face_ids": [
+     24732,
+     24733,
+     24734,
+     24735,
+     24736,
+     24737,
+     24738,
+     24739,
+     24740,
+     24741,
+     24742,
+     24743,
+     24744,
+     24745,
+     24746,
+     24747,
+     24748,
+     24749,
+     24750,
+     24751,
+     24752,
+     24753,
+     24754
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -16345,
+     -16345,
+     -16345,
+     -16345,
+     -16345,
+     -16355,
+     -16355,
+     -16355,
+     -16355,
+     -16355,
+     -16376,
+     -16381,
+     -16355,
+     -16355,
+     -16381,
+     -16355,
+     -16376,
+     -16355,
+     -16376,
+     -16381,
+     -16381,
+     -16376,
+     -16355,
+     -16355,
+     -16355,
+     -16355,
+     -16345,
+     -16345,
+     -16355,
+     -16355
+    ],
+    "y_offsets": [
+     12650,
+     12650,
+     12558,
+     12558,
+     12630,
+     12558,
+     12630,
+     12650,
+     12650,
+     12558,
+     12584,
+     12584,
+     12584,
+     12584,
+     12594,
+     12594,
+     12594,
+     12594,
+     12584,
+     12584,
+     12594,
+     12594,
+     12584,
+     12584,
+     12594,
+     12594,
+     12630,
+     12650,
+     12650,
+     12630
+    ],
+    "z_offsets": [
+     4465,
+     4628,
+     4628,
+     4465,
+     4465,
+     4465,
+     4465,
+     4465,
+     4628,
+     4628,
+     4562,
+     4557,
+     4557,
+     4562,
+     4557,
+     4557,
+     4562,
+     4562,
+     4582,
+     4588,
+     4588,
+     4582,
+     4582,
+     4588,
+     4588,
+     4582,
+     4449,
+     4449,
+     4449,
+     4449
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -16350.16,
+       12645.0,
+       4592.64
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17922,
+     17923,
+     17924,
+     17925,
+     17926,
+     17927,
+     17928,
+     17929,
+     17930,
+     17931,
+     17932,
+     17933,
+     17934,
+     17935,
+     17936,
+     17937,
+     17938,
+     17939,
+     17940,
+     17941,
+     17942,
+     17943,
+     17944,
+     17945,
+     17946,
+     17947,
+     17948,
+     17949,
+     17950,
+     17951
+    ],
+    "face_ids": [
+     24755,
+     24756,
+     24757,
+     24758,
+     24759,
+     24760,
+     24761,
+     24762,
+     24763,
+     24764,
+     24765,
+     24766,
+     24767,
+     24768,
+     24769,
+     24770,
+     24771,
+     24772,
+     24773,
+     24774,
+     24775,
+     24776,
+     24777
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -16345,
+     -16345,
+     -16345,
+     -16345,
+     -16345,
+     -16355,
+     -16355,
+     -16355,
+     -16355,
+     -16355,
+     -16345,
+     -16345,
+     -16355,
+     -16355,
+     -16355,
+     -16355,
+     -16381,
+     -16376,
+     -16381,
+     -16355,
+     -16376,
+     -16355,
+     -16376,
+     -16381,
+     -16355,
+     -16355,
+     -16381,
+     -16355,
+     -16376,
+     -16355
+    ],
+    "y_offsets": [
+     12558,
+     12466,
+     12466,
+     12486,
+     12558,
+     12486,
+     12558,
+     12466,
+     12466,
+     12558,
+     12466,
+     12486,
+     12486,
+     12466,
+     12522,
+     12522,
+     12522,
+     12522,
+     12532,
+     12532,
+     12532,
+     12532,
+     12522,
+     12522,
+     12522,
+     12522,
+     12532,
+     12532,
+     12532,
+     12532
+    ],
+    "z_offsets": [
+     4628,
+     4628,
+     4465,
+     4465,
+     4465,
+     4465,
+     4465,
+     4465,
+     4628,
+     4628,
+     4449,
+     4449,
+     4449,
+     4449,
+     4582,
+     4588,
+     4588,
+     4582,
+     4588,
+     4588,
+     4582,
+     4582,
+     4562,
+     4557,
+     4557,
+     4562,
+     4557,
+     4557,
+     4562,
+     4562
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -16350.16,
+       12470.92,
+       4592.64
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {}
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    -12830,
+    -19987,
+    3196
+   ],
+   "direction_degrees": 180
+  },
+  {
+   "start_index": 1,
+   "source_name": "MountainPassExit",
+   "position": [
+    1910,
+    -13848,
+    3356
+   ],
+   "direction_degrees": 90
+  },
+  {
+   "start_index": 2,
+   "source_name": "StartPoint0",
+   "position": [
+    -11665,
+    16700,
+    1291
+   ],
+   "direction_degrees": 270
+  },
+  {
+   "start_index": 3,
+   "source_name": "ThjoradMineExit",
+   "position": [
+    -16893,
+    12425,
+    4449
+   ],
+   "direction_degrees": 230
+  },
+  {
+   "start_index": 4,
+   "source_name": "ThjorgardCityDockExit",
+   "position": [
+    -9336,
+    4386,
+    1736
+   ],
+   "direction_degrees": 180
+  },
+  {
+   "start_index": 5,
+   "source_name": "ThjorgardCityTerrainExit",
+   "position": [
+    -796,
+    10100,
+    1664
+   ],
+   "direction_degrees": 20
+  },
+  {
+   "start_index": 6,
+   "source_name": "TrainingHallDoorExit",
+   "position": [
+    -5158,
+    -16063,
+    3193
+   ],
+   "direction_degrees": 90
+  },
+  {
+   "start_index": 7,
+   "source_name": "TrainingHallExit",
+   "position": [
+    -5690,
+    -18459,
+    4066
+   ],
+   "direction_degrees": 180
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:thjorgard:object:89",
+   "source_object_index": 89,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "skins\\props\\Chest1.dtx",
+   "source_position_lt": [
+    -1120.0,
+    1324.0,
+    -3264.0
+   ],
+   "position": {
+    "x": 843,
+    "y": -8383,
+    "z": 3389
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 4,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:thjorgard:object:410",
+   "source_object_index": 410,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest1.dtx",
+   "source_position_lt": [
+    -8870.0,
+    1754.0,
+    4300.0
+   ],
+   "position": {
+    "x": -18997,
+    "y": 10981,
+    "z": 4490
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 4,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "both"
+ },
+ "opaque_faces": [
+  24314,
+  24315,
+  24316,
+  24317,
+  24318,
+  24319,
+  24320,
+  24321,
+  24322,
+  24323,
+  24324,
+  24325,
+  24326,
+  24327,
+  24328,
+  24329,
+  24330,
+  24331,
+  24332,
+  24333
+ ],
+ "actor_barriers": {
+  "faces": [
+   24334,
+   24335,
+   24336,
+   24337,
+   24338,
+   24339,
+   24340,
+   24341,
+   24342,
+   24343,
+   24344,
+   24345,
+   24346,
+   24347,
+   24348,
+   24349,
+   24350,
+   24351,
+   24352,
+   24353,
+   24354,
+   24355,
+   24356,
+   24357,
+   24358,
+   24359,
+   24360,
+   24361,
+   24362,
+   24363,
+   24364,
+   24365,
+   24366,
+   24367,
+   24368,
+   24369,
+   24370,
+   24371,
+   24372,
+   24373,
+   24374,
+   24375,
+   24376,
+   24377,
+   24378,
+   24379,
+   24380,
+   24381,
+   24382,
+   24383,
+   24384,
+   24385,
+   24386,
+   24387,
+   24388,
+   24389,
+   24390,
+   24391,
+   24392,
+   24393,
+   24394,
+   24395,
+   24396,
+   24397,
+   24398,
+   24399,
+   24400,
+   24401,
+   24402,
+   24403,
+   24404,
+   24405,
+   24406,
+   24407,
+   24408,
+   24409,
+   24410,
+   24411,
+   24412,
+   24413,
+   24414,
+   24415,
+   24416,
+   24417,
+   24418,
+   24419,
+   24420,
+   24421,
+   24422,
+   24423,
+   24424,
+   24425,
+   24426,
+   24427,
+   24428,
+   24429,
+   24430,
+   24431,
+   24432,
+   24433,
+   24434,
+   24435,
+   24436,
+   24437,
+   24438,
+   24439,
+   24440,
+   24441,
+   24442,
+   24443,
+   24444,
+   24445,
+   24446,
+   24447,
+   24448,
+   24449,
+   24450,
+   24451,
+   24452,
+   24453,
+   24454,
+   24455,
+   24456,
+   24457,
+   24458,
+   24459,
+   24460,
+   24461,
+   24462,
+   24463,
+   24464,
+   24465,
+   24466,
+   24467,
+   24468,
+   24469,
+   24470,
+   24471,
+   24472,
+   24473,
+   24474,
+   24475,
+   24476,
+   24477,
+   24478,
+   24479,
+   24480,
+   24481,
+   24482,
+   24483,
+   24484,
+   24485,
+   24486,
+   24487,
+   24488,
+   24489,
+   24490,
+   24491,
+   24492,
+   24493,
+   24494,
+   24495,
+   24496,
+   24497,
+   24498,
+   24499,
+   24500,
+   24501,
+   24502,
+   24503,
+   24504,
+   24505,
+   24506,
+   24507,
+   24508,
+   24509,
+   24510,
+   24511,
+   24512,
+   24513,
+   24514,
+   24515,
+   24516,
+   24517,
+   24518,
+   24519,
+   24520,
+   24521,
+   24522,
+   24523,
+   24524,
+   24525,
+   24526,
+   24527,
+   24528,
+   24529,
+   24530,
+   24531,
+   24532,
+   24533,
+   24534,
+   24535,
+   24536,
+   24537,
+   24538,
+   24539,
+   24540,
+   24541,
+   24542,
+   24543,
+   24544,
+   24545,
+   24546,
+   24547,
+   24548,
+   24549,
+   24550,
+   24551,
+   24552,
+   24553,
+   24554,
+   24555,
+   24556,
+   24557,
+   24558,
+   24559,
+   24560,
+   24561,
+   24562,
+   24563,
+   24564,
+   24565,
+   24566
+  ]
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       12721.2,
+       1119.9
+      ],
+      [
+       17633.3,
+       1119.9
+      ],
+      [
+       17633.3,
+       -2156.9
+      ],
+      [
+       12721.2,
+       -2156.9
+      ]
+     ],
+     "bottom": 2723.8,
+     "top": 3143.7
+    },
+    {
+     "polygon": [
+      [
+       17633.3,
+       1119.9
+      ],
+      [
+       17800.2,
+       1119.9
+      ],
+      [
+       17800.2,
+       -2156.9
+      ],
+      [
+       17633.3,
+       -2156.9
+      ]
+     ],
+     "bottom": 2723.8,
+     "top": 3143.7
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater1",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       37788.7,
+       2594.4
+      ],
+      [
+       -36103.1,
+       2594.4
+      ],
+      [
+       -36103.1,
+       18323.1
+      ],
+      [
+       37788.7,
+       18323.1
+      ]
+     ],
+     "bottom": 0.0,
+     "top": 803.8
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     51
+    ],
+    "near_distance": 640.0,
+    "far_distance": 5120.0
+   },
+   "current": [
+    0.0,
+    -245.8,
+    0.0
+   ]
+  },
+  {
+   "id": "BlueWater3",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -36103.1,
+       18323.1
+      ],
+      [
+       -36103.1,
+       38639.2
+      ],
+      [
+       37788.7,
+       38639.2
+      ],
+      [
+       37788.7,
+       18323.1
+      ]
+     ],
+     "bottom": 0.0,
+     "top": 803.8
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     51
+    ],
+    "near_distance": 640.0,
+    "far_distance": 5120.0
+   },
+   "current": [
+    0.0,
+    -327.7,
+    0.0
+   ]
+  },
+  {
+   "id": "BlueWater2",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -24142.8,
+       -12806.5
+      ],
+      [
+       -19230.7,
+       -12806.5
+      ],
+      [
+       -19230.7,
+       -17718.6
+      ],
+      [
+       -24142.8,
+       -17718.6
+      ]
+     ],
+     "bottom": 2821.1,
+     "top": 3148.8
+    },
+    {
+     "polygon": [
+      [
+       -19230.7,
+       -17718.6
+      ],
+      [
+       -19230.7,
+       -21653.9
+      ],
+      [
+       -24142.8,
+       -21653.9
+      ],
+      [
+       -24142.8,
+       -17718.6
+      ]
+     ],
+     "bottom": 2821.1,
+     "top": 3148.8
+    },
+    {
+     "polygon": [
+      [
+       -19230.7,
+       -12806.5
+      ],
+      [
+       -16278.5,
+       -12806.5
+      ],
+      [
+       -16278.5,
+       -16741.8
+      ],
+      [
+       -16278.5,
+       -17718.6
+      ],
+      [
+       -19230.7,
+       -17718.6
+      ]
+     ],
+     "bottom": 2821.1,
+     "top": 3148.8
+    },
+    {
+     "polygon": [
+      [
+       -16278.5,
+       -17718.6
+      ],
+      [
+       -16278.5,
+       -21653.9
+      ],
+      [
+       -19230.7,
+       -21653.9
+      ],
+      [
+       -19230.7,
+       -17718.6
+      ]
+     ],
+     "bottom": 2821.1,
+     "top": 3148.8
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  }
+ ],
+ "destructibles": [
+  {
+   "id": 479,
+   "name": "DestructableBrush7",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.56,
+   "center": [
+    -5470,
+    -18444,
+    4260
+   ],
+   "cog": 20479,
+   "destroyed_event": 370
+  },
+  {
+   "id": 480,
+   "name": "DestructableBrush8",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.5,
+   "center": [
+    -5470,
+    -18428,
+    4296
+   ],
+   "cog": 20480,
+   "destroyed_event": 30480
+  },
+  {
+   "id": 481,
+   "name": "DestructableBrush9",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.5,
+   "center": [
+    -5470,
+    -18464,
+    4326
+   ],
+   "cog": 20481,
+   "destroyed_event": 30481
+  },
+  {
+   "id": 482,
+   "name": "DestructableBrush10",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.5,
+   "center": [
+    -5470,
+    -18469,
+    4347
+   ],
+   "cog": 20482,
+   "destroyed_event": 30482
+  },
+  {
+   "id": 483,
+   "name": "DestructableBrush11",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.5,
+   "center": [
+    -5470,
+    -18510,
+    4280
+   ],
+   "cog": 20483,
+   "destroyed_event": 30483
+  },
+  {
+   "id": 484,
+   "name": "DestructableBrush12",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.5,
+   "center": [
+    -5470,
+    -18510,
+    4326
+   ],
+   "cog": 20484,
+   "destroyed_event": 30484
+  },
+  {
+   "id": 485,
+   "name": "DestructableBrush13",
+   "hp": 15,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 0.5,
+   "center": [
+    -5470,
+    -18454,
+    4198
+   ],
+   "cog": 20485,
+   "destroyed_event": 30485
+  }
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    24611,
+    24612,
+    24613,
+    24614,
+    24615,
+    24616,
+    24617,
+    24618,
+    24619,
+    24620,
+    24621,
+    24622,
+    24623,
+    24624,
+    24625,
+    24626,
+    24627,
+    24628,
+    24629,
+    24630,
+    24631,
+    24632,
+    24633,
+    24634,
+    24635,
+    24636,
+    24637,
+    24638,
+    24639,
+    24640,
+    24641,
+    24642,
+    24643,
+    24644,
+    24645,
+    24646
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 489,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -13329,
+    16193,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 490,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -10544,
+    14227,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 491,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -11527,
+    11769,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 492,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -10544,
+    11278,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 493,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -9725,
+    12589,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 494,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -8906,
+    13736,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 495,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -7103,
+    13736,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 496,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -5629,
+    13736,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 497,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -5465,
+    12589,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 498,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -4072,
+    12589,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 499,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -3499,
+    11769,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 500,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -1861,
+    11769,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 501,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -58,
+    11769,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 502,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    1908,
+    11769,
+    983
+   ],
+   "inner_radius": 563,
+   "outer_radius": 3840,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 503,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    3546,
+    11278,
+    983
+   ],
+   "inner_radius": 563,
+   "outer_radius": 3840,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 504,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    6946,
+    11278,
+    983
+   ],
+   "inner_radius": 563,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 505,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    9772,
+    11933,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 506,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    11574,
+    13244,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 507,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    13868,
+    13244,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 508,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    16162,
+    14063,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 509,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    18292,
+    15210,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 510,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    20586,
+    16193,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 511,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    22715,
+    17340,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 512,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    24190,
+    18815,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 513,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -15295,
+    17832,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 514,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -17917,
+    18159,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 515,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -18900,
+    20617,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 516,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -20374,
+    22747,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 517,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -21521,
+    25041,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 518,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -23815,
+    25696,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 519,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -24634,
+    24057,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 520,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -24634,
+    21600,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 521,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -24634,
+    17176,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 522,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -24634,
+    19306,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 523,
+   "sound": "ambient/water/waves-ocean01.wav",
+   "position": [
+    -11527,
+    8657,
+    983
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3328,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 524,
+   "sound": "ambient/water/waterlapping.wav",
+   "position": [
+    -11527,
+    5544,
+    983
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3328,
+   "volume": 0.42,
+   "loop": true
+  },
+  {
+   "key": 526,
+   "sound": "ambient/birds/owl01.wav",
+   "position": [
+    4038,
+    8106,
+    3113
+   ],
+   "inner_radius": 512,
+   "outer_radius": 3072,
+   "volume": 0.42,
+   "loop": true,
+   "wait": [
+    0.3,
+    0.8
+   ],
+   "night_only": true
+  },
+  {
+   "key": 530,
+   "sound": "ambient/animals/wolf howl (distance).wav",
+   "position": [
+    9567,
+    -2648,
+    3441
+   ],
+   "inner_radius": 1536,
+   "outer_radius": 12800,
+   "volume": 0.525,
+   "loop": false,
+   "night_only": true
+  },
+  {
+   "key": 544,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    -9070,
+    17012,
+    983
+   ],
+   "inner_radius": 640,
+   "outer_radius": 3328,
+   "volume": 0.446,
+   "loop": true
+  },
+  {
+   "key": 545,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    13458,
+    -2590,
+    3523
+   ],
+   "inner_radius": 640,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 546,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    13540,
+    301,
+    3523
+   ],
+   "inner_radius": 640,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 547,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    16162,
+    956,
+    3523
+   ],
+   "inner_radius": 640,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 548,
+   "sound": "ambient/people/crowdnoise-ambience loop 02.wav",
+   "position": [
+    16490,
+    -4287,
+    3359
+   ],
+   "inner_radius": 640,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 83,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -585,
+    -8647,
+    3223
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 116,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -18695,
+    10684,
+    4490
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 694,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -19944,
+    14125,
+    4453
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   60,
+   60,
+   60
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   134,
+   143,
+   168
+  ],
+  "sun_gain": 4.0
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "blac2dkl75",
+    "cawnkbfjwl",
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "ropecjzjh7",
+    "sand3yuxai",
+    "thjo8gh81b",
+    "thjodbs7wo",
+    "thjomkoqrr"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "bricwsjo7y",
+    "cfawdnxynt",
+    "cwawa77oyy",
+    "darkgdkklk",
+    "invizvjn7n",
+    "lqseamm9",
+    "meta8rctzy",
+    "metak2vphu",
+    "rive8tpfdj",
+    "sky04",
+    "spid6cstdh",
+    "steeiybti4",
+    "thjo07yaja",
+    "thjo5lfmmi",
+    "thjo6wyx9k",
+    "thjo7r3urr",
+    "thjoaqnxo7",
+    "thjob3xi6b",
+    "thjohyyf9u",
+    "thjoppwwuj",
+    "thjotgg91i",
+    "thjov5txvm",
+    "trai0cm0oe",
+    "trai6v57oh",
+    "traip4qtf5",
+    "traiugli2q",
+    "traivhygca",
+    "wind0csopq"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "abnd5ur5fj",
+    "ruin4lpqlu",
+    "thjo4xgsld",
+    "thjoe86slm",
+    "thjokc1xmk",
+    "thjonywk4u",
+    "traiz9qwhp",
+    "woodv944p9"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": -17888,
+    "y": -20192,
+    "z": 3198
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -20576,
+    "y": 14496,
+    "z": 4454
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -20448,
+    "y": 14496,
+    "z": 4454
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -5088,
+    "y": 11424,
+    "z": 1659
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": -9056,
+    "y": 10912,
+    "z": 1679
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": -18272,
+    "y": 8736,
+    "z": 4450
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": -15328,
+    "y": -16224,
+    "z": 3194
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": -8672,
+    "y": -13408,
+    "z": 3191
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  }
+ ],
+ "terrain": {
+  "materials": "thjorgard_blv.yml",
+  "textures": [
+   "thjo07yaja",
+   "thjo8gh81b",
+   "thjob3xi6b",
+   "thjomkoqrr"
+  ],
+  "grass": "worlds/mm9/terrain_decorations/thjorgard_blv.yml"
+ }
+}

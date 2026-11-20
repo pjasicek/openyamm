@@ -5,6 +5,12 @@ The runtime mode intentionally mirrors OpenYAMM's current equipped-item suffix
 selection.  The complete mode uses the full MMerge convention (v1 through v5,
 plus the alternate ``a`` armor pose) so missing body-equipment art is visible
 before it is wired into the engine.
+
+Icons come from the packages declared in ``engine/icon_packages.txt`` with their
+scale tiers, and previews are composited at the physical scale the engine's
+native paperdoll composite uses (``PHYSICAL_SCALE`` times the logical 175x378
+doll): a lower-tier layer is enlarged with nearest-neighbour sampling and every
+table point is a logical pixel.
 """
 
 from __future__ import annotations
@@ -21,15 +27,19 @@ from PIL import Image, ImageDraw
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 ENGINE_TABLE_ROOT = REPOSITORY_ROOT / "assets_dev/engine/data_tables"
-ENGINE_ICON_ROOT = REPOSITORY_ROOT / "assets_dev/engine/icons"
+ICON_PACKAGES = REPOSITORY_ROOT / "assets_dev/engine/icon_packages.txt"
+ENGINE_ICON_ROOT = REPOSITORY_ROOT / "assets_dev/engine/icons_x2"
 MM9_TABLE_ROOT = REPOSITORY_ROOT / "assets_dev/worlds/mm9/data_tables"
 MM9_ICON_ROOT = REPOSITORY_ROOT / "assets_dev/worlds/mm9/icons"
-BODY_EQUIPMENT = {"Armor", "Boots", "Helm", "Belt"}
-CAN_EQUIP_COLUMN = {"Armor": 2, "Helm": 3, "Belt": 4, "Boots": 5}
+BODY_EQUIPMENT = {"Armor", "Boots", "Helm", "Belt", "Cloak"}
+CAN_EQUIP_COLUMN = {"Armor": 2, "Helm": 3, "Belt": 4, "Boots": 5, "Cloak": 6}
+BODY_Z_INDEX = 60
 HAND_Z_INDEX = 65
-ITEM_Z_INDEX = {"Armor": 66, "Boots": 64, "Helm": 66, "Belt": 67}
+# character.yml: the cloak hangs behind the body; armor, helm, belt and boots cover the hands.
+ITEM_Z_INDEX = {"Armor": 66, "Boots": 67, "Helm": 66, "Belt": 67, "Cloak": 52}
 PAPERDOLL_WIDTH = 175
 PAPERDOLL_HEIGHT = 378
+PHYSICAL_SCALE = 2
 
 
 @dataclass(frozen=True)
@@ -90,19 +100,50 @@ class PreviewDiagnostic:
 
 
 class AssetIndex:
-    def __init__(self, roots: Iterable[Path]):
-        self._paths: dict[str, Path] = {}
+    """Icon lookup over roots, each a path or a (path, scale tier) pair; earlier roots win, as a higher-priority
+    package does. A bare path's tier comes from its name (icons_x2 is tier 2)."""
 
-        for root in roots:
+    def __init__(self, roots: Iterable[Path | tuple[Path, int]]):
+        self._paths: dict[str, Path] = {}
+        self._tiers: dict[Path, int] = {}
+
+        for entry in roots:
+            root, tier = entry if isinstance(entry, tuple) else (entry, 2 if entry.name.endswith("_x2") else 1)
+
             if not root.is_dir():
                 continue
 
             for path in root.iterdir():
                 if path.is_file() and path.suffix.casefold() in {".bmp", ".pcx", ".png"}:
-                    self._paths.setdefault(path.stem.casefold(), path)
+                    if path.stem.casefold() not in self._paths:
+                        self._paths[path.stem.casefold()] = path
+                        self._tiers[path] = tier
 
     def find(self, asset_name: str) -> Path | None:
         return self._paths.get(asset_name.casefold())
+
+    def tier(self, path: Path) -> int:
+        return self._tiers.get(path, 1)
+
+
+def declared_icon_roots(packages_path: Path = ICON_PACKAGES) -> list[tuple[Path, int]]:
+    """The icon roots of engine/icon_packages.txt, worlds before the engine, with their scale tiers."""
+    roots: list[tuple[Path, int]] = []
+
+    for line in packages_path.read_text(encoding="utf-8").splitlines():
+        fields = line.split("#", 1)[0].split()
+
+        if len(fields) != 2:
+            continue
+
+        package, tier_name = fields
+        tier = int(tier_name.removeprefix("x"))
+        directory = "icons" if tier == 1 else f"icons_{tier_name}"
+        roots.append((packages_path.parents[1] / package / directory, tier))
+
+    return [root for root in roots if root[0] != ENGINE_ICON_ROOT] + [
+        root for root in roots if root[0] == ENGINE_ICON_ROOT
+    ]
 
 
 def parse_int(value: str, default: int = 0) -> int:
@@ -252,6 +293,9 @@ def representative_dolls(dolls: dict[int, CharacterDoll]) -> dict[int, Character
 
 
 def expected_suffixes(item: Item, doll_type: int, has_right_hand_weapon: bool) -> list[str]:
+    if item.equip_stat == "Cloak":
+        return runtime_suffixes(item, doll_type, has_right_hand_weapon)
+
     primary = f"v{doll_type + 1}"
 
     if item.equip_stat == "Armor":
@@ -271,6 +315,9 @@ def runtime_suffixes(item: Item, doll_type: int, has_right_hand_weapon: bool) ->
     if item.equip_stat == "Armor":
         alternate = f"{primary}a"
         return [primary, alternate] if has_right_hand_weapon else [alternate, primary]
+
+    if item.equip_stat == "Cloak":
+        return [f"{primary}a"]
 
     return [primary]
 
@@ -298,8 +345,13 @@ def resolve_item_asset(
     return item.icon_name, assets.find(item.icon_name), ""
 
 
-def load_layer(path: Path, color_key: bool) -> Image.Image:
+def load_layer(path: Path, color_key: bool, tier: int | None = None) -> Image.Image:
+    """The layer as stored, or with a scale tier, at physical scale (a lower tier enlarged nearest-neighbour)."""
     image = Image.open(path).convert("RGBA")
+
+    if tier is not None and tier != PHYSICAL_SCALE:
+        factor = PHYSICAL_SCALE // tier
+        image = image.resize((image.width * factor, image.height * factor), Image.Resampling.NEAREST)
 
     if not color_key or path.suffix.casefold() == ".png":
         return image
@@ -330,8 +382,12 @@ def composite_asset(canvas: Image.Image, assets: AssetIndex, asset_name: str, po
     if path is None:
         return
 
-    layer = load_layer(path, color_key=True)
-    canvas.alpha_composite(layer, point)
+    layer = load_layer(path, color_key=True, tier=assets.tier(path))
+    canvas.alpha_composite(layer, physical(point))
+
+
+def physical(point: tuple[int, int]) -> tuple[int, int]:
+    return point[0] * PHYSICAL_SCALE, point[1] * PHYSICAL_SCALE
 
 
 def render_preview(
@@ -345,13 +401,14 @@ def render_preview(
     assets: AssetIndex,
 ) -> tuple[Image.Image, PreviewDiagnostic]:
     background_path = assets.find(doll.background_asset)
+    width = PAPERDOLL_WIDTH * PHYSICAL_SCALE
+    height = PAPERDOLL_HEIGHT * PHYSICAL_SCALE
     canvas = (
-        load_layer(background_path, color_key=False)
+        load_layer(background_path, color_key=False, tier=assets.tier(background_path))
         if background_path is not None
-        else Image.new("RGBA", (PAPERDOLL_WIDTH, PAPERDOLL_HEIGHT), (20, 20, 20, 255))
+        else Image.new("RGBA", (width, height), (20, 20, 20, 255))
     )
-    canvas = canvas.crop((0, 0, PAPERDOLL_WIDTH, PAPERDOLL_HEIGHT))
-    composite_asset(canvas, assets, doll.body_asset, (doll.body_x, doll.body_y))
+    canvas = canvas.crop((0, 0, width, height))
 
     selected_name, selected_path, selected_suffix = resolve_item_asset(
         item, doll_type.id, has_right_hand_weapon, mode, assets
@@ -378,8 +435,19 @@ def render_preview(
         else (0, 0)
     )
 
-    if selected_path is not None and ITEM_Z_INDEX[item.equip_stat] < HAND_Z_INDEX:
-        canvas.alpha_composite(load_layer(selected_path, color_key=True), item_point)
+    item_layer = (
+        load_layer(selected_path, color_key=True, tier=assets.tier(selected_path))
+        if selected_path is not None
+        else None
+    )
+
+    if item_layer is not None and ITEM_Z_INDEX[item.equip_stat] < BODY_Z_INDEX:
+        canvas.alpha_composite(item_layer, physical(item_point))
+
+    composite_asset(canvas, assets, doll.body_asset, (doll.body_x, doll.body_y))
+
+    if item_layer is not None and BODY_Z_INDEX <= ITEM_Z_INDEX[item.equip_stat] < HAND_Z_INDEX:
+        canvas.alpha_composite(item_layer, physical(item_point))
 
     if has_right_hand_weapon:
         composite_asset(canvas, assets, doll.right_hand_hold_asset, doll_type.right_hand_closed)
@@ -388,8 +456,8 @@ def render_preview(
 
     composite_asset(canvas, assets, doll.left_hand_open_asset, doll_type.left_hand_fingers)
 
-    if selected_path is not None and ITEM_Z_INDEX[item.equip_stat] >= HAND_Z_INDEX:
-        canvas.alpha_composite(load_layer(selected_path, color_key=True), item_point)
+    if item_layer is not None and ITEM_Z_INDEX[item.equip_stat] >= HAND_Z_INDEX:
+        canvas.alpha_composite(item_layer, physical(item_point))
 
     if has_right_hand_weapon:
         composite_asset(canvas, assets, doll.right_hand_fingers_asset, doll_type.right_hand_fingers)
@@ -422,8 +490,8 @@ def draw_contact_sheet(
     output_path: Path,
 ) -> None:
     label_height = 39
-    cell_width = PAPERDOLL_WIDTH
-    cell_height = PAPERDOLL_HEIGHT + label_height
+    cell_width = PAPERDOLL_WIDTH * PHYSICAL_SCALE
+    cell_height = PAPERDOLL_HEIGHT * PHYSICAL_SCALE + label_height
     sheet = Image.new(
         "RGBA",
         (cell_width * len(character_ids), cell_height * len(item_ids)),
@@ -470,6 +538,12 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--output", type=Path, required=True, help="output contact-sheet PNG")
     parser.add_argument("--report", type=Path, help="optional JSON diagnostic report")
     parser.add_argument("--extra-icon-root", type=Path, help="higher-priority fitted-asset directory")
+    parser.add_argument("--extra-icon-scale", type=int, default=1, help="scale tier of --extra-icon-root (1 or 2)")
+    parser.add_argument(
+        "--extra-items-table",
+        type=Path,
+        help="additional items.txt rows (a world contribution such as Hesper's staged table)",
+    )
     parser.add_argument("--fail-on-issues", action="store_true", help="return failure when a supported render has issues")
     parser.add_argument(
         "--extra-complex-picture-table",
@@ -487,6 +561,10 @@ def main() -> int:
     items = read_items(ENGINE_TABLE_ROOT / "items.txt", "engine")
     mm9_items = read_items(MM9_TABLE_ROOT / "items.txt", "mm9")
     items.update(mm9_items)
+
+    if arguments.extra_items_table is not None:
+        items.update(read_items(arguments.extra_items_table, "mm9"))
+
     complex_offsets = read_complex_picture_offsets(ENGINE_TABLE_ROOT / "complex_item_pictures.txt")
     mm9_complex_picture_table = MM9_TABLE_ROOT / "complex_item_pictures.txt"
 
@@ -499,10 +577,10 @@ def main() -> int:
     portrait_adjustments = read_portrait_picture_adjustments(
         ENGINE_TABLE_ROOT / "complex_item_picture_offsets.txt"
     )
-    icon_roots = [MM9_ICON_ROOT, ENGINE_ICON_ROOT]
+    icon_roots = declared_icon_roots()
 
     if arguments.extra_icon_root is not None:
-        icon_roots.insert(0, arguments.extra_icon_root)
+        icon_roots.insert(0, (arguments.extra_icon_root, arguments.extra_icon_scale))
 
     assets = AssetIndex(icon_roots)
     doll_type_ids = [parse_int(value, -1) for value in arguments.doll_types.split(",")]

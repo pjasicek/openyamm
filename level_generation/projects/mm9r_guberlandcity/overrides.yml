@@ -1,0 +1,190 @@
+# Explicit conversion choices for MM9's Guberland City (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md.
+map:
+  ambient_triggers: true             # touch Triggers switch AmbientSounds (dungeon/objects.py ambient_triggers)
+  fog: lithtech                      # MM9's own fog model and its WeatherMan night fog (CITY_PLAYBOOK "Daylight and fog")
+  bright_scale_lights: true          # BLV light colour x MM9's BrightScale, as its lightmaps (CITY_PLAYBOOK "Street lights")
+  stem: guberlandcity
+  display_name: Guberland City
+  # start index = the old map's: 0 the city gate (from the Guberland wilderness), 1 Town Portal
+  starts: [StartPoint0, TownPortal]
+  monster_classes: [CommonerHalfOrcMaleA, ShopkeeperHuman2MaleA, CommonerHuman2MaleB, ShopkeeperHuman2MaleB,
+                    CommonerHumanMaleA, ShopKeeperHalfOrcFemaleA, PoorTownGuard1, CommonerHuman2MaleA,
+                    ShopkeeperElfMaleA, ShopkeeperHumanMaleA, MarkeltheGreat, ShopKeeperHalfOrcMaleA,
+                    CommonerHumanFemaleA]
+  painted_minimap: true               # MM9's painted city map (catalog entry kept); no outline pass (CITY_PLAYBOOK.md)
+  offset: [0, 0, 0]                   # the old map's frame: fits int16
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  street: [0, 200]
+  upper: [200, 640]
+models:
+  SkyBox0: skip                       # DemoSkyWorldModel: MM9's sky box (SnowMtns_*), drawn by the sky, not geometry
+  TOD_Sky0: skip                      # TOD_Sky: the night starfield shell
+  BlueWater0: skip                    # BlueWater volume in the magic shop's fish tank: its top face is added by convert.py
+  # --- static world objects
+  DestructableBrush0: static          # window panes (Invisible boxes with one pane): glass
+  DestructableBrush1: static
+  DestructableBrush2: static
+  DestructableBrush3: static
+  DestructableBrush6: static
+  DestructableBrush7: static
+  DestructableBrush8: static
+  DestructableBrush9: static
+  DestructableBrush10: static
+  DestructableBrush11: static
+  DestructableBrush13: static
+  DestructableBrush14: static         # skylight panes (Windowlead2x lying flat, 304 LT long) of the apothecary's hall
+  DestructableBrush15: static
+  DestructableBrush16: static
+  DestructableBrush17: static
+  DestructableBrush18: static
+  DestructableBrush19: static
+  Stainedglass: static                # the temple's stained glass (fleur-tall)
+  WorldObject0: static                # the palace's rose windows (WindowRose)
+  WorldObject1: static                # the bank's counter bars (MetalBar in an invisible shell)
+  WorldObject2: static                # the fish tank's glass (yanmiricenoise, Alpha 0.5)
+  WorldObject3: static                # window panes (window_frame_trans)
+  WorldObject5: static
+  WorldObject7: static                # hanging chains (ChainLink in invisible boxes): the signs' and lamps' chains
+  WorldObject8: static
+  WorldObject9: static
+  WorldObject10: static
+  WorldObject11: static
+  WorldObject12: static
+  WorldObject13: static
+  WorldObject14: static
+  WorldObject15: static
+  WorldObject16: static
+  WorldObject17: static
+  WorldObject18: static
+  WorldObject19: static
+  WorldObject53: static
+  WorldObject54: static
+  WorldObject55: static
+  WorldObject58: static
+  WorldObject59: static
+  WorldObject60: static
+  Carpet10: static                    # the throne room's carpets (AmazingTrim1c)
+  Carpet11: static
+  InvisibleBrush0: static             # Firethrough lids 255-512 LT over the four quarters' roofs (MM9 keeps the player off the roofs)
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  InvisibleBrush3: static
+  # --- doors (work/draft_rules.py, edited): pairs share a group; a PortalName or a pair makes a doorway
+  TavernL: {group: TavernL, motion: rotate, doorway: true}
+  TavernR: {group: TavernL, motion: rotate, doorway: true}
+  RotatingDoor16: {group: RotatingDoor16, motion: rotate, doorway: true}
+  RotatingDoor17: {group: RotatingDoor17, motion: rotate, doorway: true}
+  RotatingDoor19: {group: RotatingDoor19, motion: rotate, doorway: true}
+  RotatingDoor20: {group: RotatingDoor20, motion: rotate, doorway: true}
+  Bar: {group: Bar, motion: rotate}
+  Curtain: {group: Curtain, motion: dat}
+  TempleL: {group: TempleL, motion: rotate, doorway: true, portal: Templeportal}
+  TempleR: {group: TempleL, motion: rotate, doorway: true, portal: Templeportal}
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true}
+  RotatingDoor1: {group: RotatingDoor1, motion: rotate, doorway: true}
+  ThroneL: {group: ThroneL, motion: rotate, doorway: true, portal: Throneportal}
+  ThroneR: {group: ThroneL, motion: rotate, doorway: true, portal: Throneportal}
+  PalaceL: {group: PalaceL, motion: rotate, doorway: true, portal: Palaceportal}
+  PalaceR: {group: PalaceL, motion: rotate, doorway: true, portal: Palaceportal}
+  RotatingDoor10: {group: RotatingDoor10, motion: rotate, doorway: true}
+  RotatingDoor11: {group: RotatingDoor11, motion: rotate, doorway: true}
+  RotatingDoor12: {group: RotatingDoor12, motion: rotate, doorway: true} # locked
+  RotatingDoor13: {group: RotatingDoor13, motion: rotate, doorway: true} # locked
+  Apothdoor: {group: Apothdoor, motion: rotate, doorway: true}
+  Door2: {group: Door2, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door3: {group: Door3, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  BankL: {group: BankL, motion: rotate, doorway: true, portal: Bankportal}
+  BankR: {group: BankL, motion: rotate, doorway: true, portal: Bankportal}
+  Door32: {group: Door32, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0], doorway: true}   # locked, MoveDist 0: never opens (click: locked); a room behind it: doorway
+  Magidoor: {group: Magidoor, motion: rotate, doorway: true, portal: Magiportal}
+  Door6: {group: Door6, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door9: {group: Door9, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door10: {group: Door10, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door0: {group: Door0, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door4: {group: Door4, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door27: {group: Door27, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0], doorway: true}   # locked, MoveDist 0: never opens (click: locked); a room behind it: doorway
+  Door18: {group: Door18, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door1: {group: Door1, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door28: {group: Door28, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door30: {group: Door30, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0], doorway: true}   # locked, MoveDist 0: never opens (click: locked); a room behind it: doorway
+  Door31: {group: Door31, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door12: {group: Door12, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door11: {group: Door11, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door7: {group: Door7, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door13: {group: Door13, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door14: {group: Door14, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door8: {group: Door8, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door16: {group: Door16, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door20: {group: Door20, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door19: {group: Door19, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door17: {group: Door17, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door23: {group: Door23, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door21: {group: Door21, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door24: {group: Door24, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  RotatingDoor4: {group: RotatingDoor4, motion: rotate, doorway: true}
+  Door25: {group: Door25, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door29: {group: Door29, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door22: {group: Door22, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door15: {group: Door15, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  Door26: {group: Door26, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked); solid wall behind it
+  RotatingDoor2: {group: RotatingDoor2, motion: rotate, doorway: true}
+  RotatingDoor7: {group: RotatingDoor7, motion: rotate, doorway: true}
+  Gate8L: {group: Gate8L, motion: dat, doorway: true, portal: Gate8portal}   # quarter gate 8, left leaf (slides 120 LT; Gate8trigger opens it)
+  Gate8R: {group: Gate8L, motion: dat, doorway: true, portal: Gate8portal}   # quarter gate 8, right leaf (slides 120 LT; Gate8trigger opens it)
+  Gate7L: {group: Gate7L, motion: dat, doorway: true, portal: Gate7portal}   # quarter gate 7, left leaf (slides 120 LT; Gate7trigger opens it)
+  Gate7R: {group: Gate7L, motion: dat, doorway: true, portal: Gate7portal}   # quarter gate 7, right leaf (slides 120 LT; Gate7trigger opens it)
+  Gate6L: {group: Gate6L, motion: dat, doorway: true, portal: Gate6portal}   # quarter gate 6, left leaf (slides 120 LT; Gate6trigger opens it)
+  Gate6R: {group: Gate6L, motion: dat, doorway: true, portal: Gate6portal}   # quarter gate 6, right leaf (slides 120 LT; Gate6trigger opens it)
+  Gate5L: {group: Gate5L, motion: dat, doorway: true, portal: Gate5portal}   # quarter gate 5, left leaf (slides 120 LT; Gate5trigger opens it)
+  Gate5R: {group: Gate5L, motion: dat, doorway: true, portal: Gate5portal}   # quarter gate 5, right leaf (slides 120 LT; Gate5trigger opens it)
+  Gate4L: {group: Gate4L, motion: dat, doorway: true, portal: Gate4portal}   # quarter gate 4, left leaf (slides 120 LT; Gate4trigger opens it)
+  Gate4R: {group: Gate4L, motion: dat, doorway: true, portal: Gate4portal}   # quarter gate 4, right leaf (slides 120 LT; Gate4trigger opens it)
+  Gate3L: {group: Gate3L, motion: dat, doorway: true, portal: Gate3portal}   # quarter gate 3, left leaf (slides 120 LT; Gate3trigger opens it)
+  Gate3R: {group: Gate3L, motion: dat, doorway: true, portal: Gate3portal}   # quarter gate 3, right leaf (slides 120 LT; Gate3trigger opens it)
+  Gate1L: {group: Gate1L, motion: dat, doorway: true, portal: Gate1portal}   # quarter gate 1, left leaf (slides 120 LT; Gate1trigger opens it)
+  Gate1R: {group: Gate1L, motion: dat, doorway: true, portal: Gate1portal}   # quarter gate 1, right leaf (slides 120 LT; Gate1trigger opens it)
+  Gate2L: {group: Gate2L, motion: dat, doorway: true, portal: Gate2portal}   # quarter gate 2, left leaf (slides 120 LT; Gate2trigger opens it)
+  Gate2R: {group: Gate2L, motion: dat, doorway: true, portal: Gate2portal}   # quarter gate 2, right leaf (slides 120 LT; Gate2trigger opens it)
+  RotatingDoor3: {group: RotatingDoor3, motion: rotate, doorway: true} # locked
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the sky lid: IndoorSky faces (scene override)
+  'textures\leveltextures\misc\greenscreen.dtx': {alias: sky04, width: 512, height: 512}   # 218 sky-flagged (0x111) walls of the sky shell
+  "water:tank": {alias: WATEQOBX0Z, width: 128, height: 128}   # BlueWater0's surface: MM9's Water115flowing.spr at SurfaceAlpha 0.7 (Water115's first frame; liquids.py w115 at 0.7)
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # sound-only brushes: invisible collision
+# MM9's window panes (flag 0x8 only: convert.py): translucent faces, portals between rooms
+glass:
+  window_frame_trans.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  windowlead2x.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  iron_window.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  windowrose.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  windowknight.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  fleur-tall.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  yanmiricenoise.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# The city's open air (../mm9r_common/city/structure.py): street air under the roof line, the air over the roofs one
+# room per district, street cuts found automatically.
+city:
+  weather: rain                    # the outdoor weather over the open sky (the user's decision 2026-11-06; city.hooks.apply_weather)
+  merged_top_portals: true          # few large convex top portals over walls and roofs (CITY_PLAYBOOK "The open air" step 3)
+  daylight: true                     # sun and sky light on the sectors open to the sky (CITY_PLAYBOOK "Daylight and fog")
+  street_top_lt: 192                 # 176 LT over the streets (0-16): under the houses' eaves; the gates (to 160) stay under it
+  sky_preset: cloudy                 # the outdoor maps' high-definition sky (was sky_texture plansky3, the old import's)
+  outdoor_view: true                 # view distance and haze as an outdoor map's, not MM9's grey fog (INDOOR_OPEN_SKY.md)
+  view_distance_scale: 0.5           # 8 096 units at the default view distance setting (16 192), the user's choice
+  half_steps: true                   # invisible half steps up standable 50-66 rises (CITY_PLAYBOOK "Raised floors")
+
+# Markel's awards (Prize0-5, the Stuffed Dragon on the shelf of his hall) are world items (dungeon/pickups.py
+# NAMED_PICKUPS): drawn standing and facing the hall as MM9 placed them (yaw 180), not at a random turn.
+pickups:
+  Prize0: {pose: [180, 0, 0]}
+  Prize1: {pose: [180, 0, 0]}
+  Prize2: {pose: [180, 0, 0]}
+  Prize3: {pose: [180, 0, 0]}
+  Prize4: {pose: [180, 0, 0]}
+  Prize5: {pose: [180, 0, 0]}

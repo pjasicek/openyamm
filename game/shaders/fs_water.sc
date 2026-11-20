@@ -267,6 +267,7 @@ void main()
     fogRatio = skyWaterFogRatio(fogRatio, v_worldPosition, distanceToCamera, u_fogDistances.z);
     vec3 fogColor = skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition);
     gl_FragColor = mix(vec4(color, 1.0), vec4(fogColor, alpha), fogRatio);
+    gl_FragColor.rgb = mistApply(gl_FragColor.rgb, v_worldPosition);
     gl_FragColor.a *= coverage * shallowAlpha;
     if (flowingSprite)
     {

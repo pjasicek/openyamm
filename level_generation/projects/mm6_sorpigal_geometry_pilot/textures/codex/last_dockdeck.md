@@ -1,0 +1,3 @@
+Saved [dockdeck.png](/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_sorpigal_geometry_pilot/textures/codex/dockdeck.png) at 1024×1024 using built-in image generation and the brief, with one regeneration for seams and brightness. No other repository files changed.
+
+Checked half-tile offset and mean colour. A faint horizontal transition remains; the result is slightly darker than the reference. Not checked in-game.

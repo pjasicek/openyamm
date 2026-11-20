@@ -1,0 +1,1 @@
+Preserved magenta raw master. Process with --adjust 0.98 0 0, refresh before_tone backups, then run restore_native_tone.py and queue check. Native RGB gamma matching preserves alpha. Final light/dark proofs reviewed.

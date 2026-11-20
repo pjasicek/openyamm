@@ -1,0 +1,1 @@
+Process with --adjust 0.92 4 34. Preserve fresh ungraded output as .before_tone.png, run restore_native_tone.py, then queue.py check g08118_v0_s0. Native opaque RGB means guide channel gamma; alpha remains unchanged. Refresh the backup after new registration.

@@ -1,0 +1,28 @@
+# A live claw fight in slow motion (a quarter speed; the tour's waits are real time): Attack held on a Regnan
+# Brigadier in claw reach (level 50, a man's size) until it dies: right rake, left rake, right, left, bite. Fangs one
+# above Dragon Ability, so MAW's dragon blow does not throw it out of reach. Frames come from a screenshot burst:
+# cd /home/pjasicek/github/OpenYAMM && SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated claws_live_slow \
+#   --world mm6 --map oute3.odm --ruleset maw:solo --set video.resolution=1600x900 --set video.window_mode=windowed \
+#   --set debug.console=true --set debug.time_scale=0.25 \
+#   --set debug.screenshot_path=/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/renders/engine/live_slow/live.png \
+#   --set debug.screenshot_delay_seconds=12 --set debug.screenshot_burst_count=110 \
+#   --set debug.screenshot_burst_interval_ms=350 \
+#   --set debug.menu_input_tour_path=/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/tours/claws_engine_live_slow.yml \
+#   --seconds 120
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/renders/engine/live_slow
+exit: true
+steps:
+  - wait: 2
+  - console: testparty apply early solo_dragon
+  - console: config set immortal 1
+  - console: skill set Unarmed 11 E
+  - wait: 4
+  - console: actor spawn 12 1 -9728 -11060 161
+  - console: actor immobile last on
+  - console: viewmodel trace on
+  - wait: 5
+  - action_down: attack
+  - wait: 45
+  - action_up: attack
+  - wait: 2
+  - console: actor remaining

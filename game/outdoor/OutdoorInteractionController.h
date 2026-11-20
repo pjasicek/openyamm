@@ -48,10 +48,14 @@ public:
         OutdoorGameView::DecorationPickMode decorationPickMode,
         FacePickMode facePickMode = FacePickMode::AnyVisible,
         bool ignoreActors = false);
+    // The sprite a decoration billboard draws now; hidden is isDecorationEntityHidden.
     static uint16_t resolveDecorationBillboardSpriteId(
         const OutdoorGameView &view,
         const DecorationBillboard &billboard,
         bool &hidden);
+    // Whether a decoration entity is hidden now (isDecorationHidden: an evt.SetSprite override, else the map's
+    // invisible flag, or a cleared interactive decoration); hidden decorations neither draw, click nor collide.
+    static bool isDecorationEntityHidden(const OutdoorGameView &view, size_t entityIndex);
     static void buildDecorationBillboardSpatialIndex(OutdoorGameView &view);
     static void collectDecorationBillboardCandidates(
         const OutdoorGameView &view,
@@ -63,7 +67,6 @@ public:
     static const OutdoorWorldRuntime::MapActorState *runtimeActorStateForBillboard(
         const OutdoorGameView &view,
         const ActorPreviewBillboard &billboard);
-    static bool isInteractiveDecorationHidden(const OutdoorGameView &view, size_t entityIndex);
     // Interactive decoration state (a barrel's contents, 0 = drunk), or -1 for an entity without one.
     static int interactiveDecorationState(const OutdoorGameView &view, size_t entityIndex);
     static std::optional<uint16_t> resolveInteractiveDecorationEventId(
@@ -81,6 +84,8 @@ private:
     static OutdoorGameView::InspectHit pickKeyboardInteractionInspectHit(
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,
+        float crosshairX,
+        float crosshairY,
         int viewWidth,
         int viewHeight,
         const float *pViewMatrix,
@@ -165,7 +170,8 @@ private:
         size_t actorIndex,
         const GameplayPartyAttackFallbackQuery &query);
     static std::optional<size_t> resolveSpellActionHoveredActorIndex(const OutdoorGameView &view);
-    static std::optional<size_t> resolveClosestVisibleHostileActorIndex(
+    // The hostile actors on screen in line of sight of the source that have noticed the party, closest first.
+    static std::vector<size_t> resolveVisibleHostileActorIndices(
         const OutdoorGameView &view,
         float sourceX,
         float sourceY,

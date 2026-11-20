@@ -1,0 +1,3 @@
+Saved all five transparent views in `level_generation/creatures/mm6_bh_claude/references_hd/` using built-in image generation, plus the [contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_bh_claude/references_hd/selected_views_review.png) and [prompts, hashes and run history](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_bh_claude/references_hd/generation_runs.json).
+
+No builds or Meshy calls. **The 1024 × 1024 requirement remains unmet:** the tool returned 1254 × 1254 throughout; all five files preserve those unresized returns.

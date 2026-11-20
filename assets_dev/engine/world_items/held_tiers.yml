@@ -1,0 +1,44 @@
+# Tier skins of the solo run's first-person weapon templates (game/render/HeldWeapons.h, HeldSkinRules;
+# devdocs/solo_action/WEAPONS.md "Tier skins (2026-11-14)"). A template engine/view_model/w_<name>.glb is drawn as
+# w_<name>_t<tier>.glb when that file exists, else as itself.
+schema: openyamm.heldTiers.v1
+# held.yml kinds drawn with the view model's templates (swords, short swords, daggers, greatswords, axes, maces and
+# hammers, staves, bows, shields, and since 2026-11-14 spears, tridents, polearms, poleaxes, clubs, crossbows, wands and
+# blasters).
+# `viewmodel weapons ours` holds our ground model for every kind with a grip.
+template_kinds: [sword, shortsword, dagger, greatsword, axe, greataxe, mace, hammer, staff, bow, shield, spear, trident,
+  polearm, poleaxe, club, crossbow, wand, blaster]
+# held.yml kinds with a template of their own instead of their skill group's (devdocs/solo_action/WEAPONS.md "New
+# templates (2026-11-14)"): our own models, built in level_generation/props/items_claude/view_model_weapons_20261114.
+# max_tier caps the skin tier (clubs: every club is valued below the mid band, so the club has only low and mid
+# skins, the mid one for enchanted clubs).
+kind_templates:
+  # Cutlasses, scimitars, sabres and falchions (make_held_table.py's classify): Oblivion's short sword, not the
+  # longsword of the Sword skill.
+  shortsword: {file: w_shortsword.glb}
+  spear: {file: w_spear.glb}
+  trident: {file: w_trident.glb}
+  polearm: {file: w_halberd.glb}
+  poleaxe: {file: w_halberd.glb}
+  club: {file: w_club.glb, max_tier: 2}
+  crossbow: {file: w_crossbow.glb}
+  wand: {file: w_wand.glb}
+  blaster: {file: w_blaster.glb}
+# 1 low (crude iron, plain wood), 2 mid (clean steel, polished yew), 3 high (masterwork: polished, gilded), 4 legendary
+# (artifacts and relics: exotic dark metal with glowing runes or inlay and gem settings; bows exotic wood or bone and
+# gold).
+tiers: 4
+# Tier by the item's base value (items.txt Value) times its equip stat's scale: below 150 low, 150-599 mid, 600-4999
+# high, 5000 and up legendary. Two-handed weapons cost about twice their one-handed peers, so their value counts half.
+value_bands: [150, 600, 5000]
+value_scale: {Weapon2: 0.5}
+# Artifacts, relics and special items (items.txt material column, or the copy's own rarity).
+unique_tier: 4
+# A copy with a standard or special enchantment is one tier higher, but enchanting raises it at most to high: the
+# legendary look is for the uniques and the most valuable bases.
+enchanted_bonus: 1
+enchanted_max_tier: 3
+# An item rolled with a loot rarity (MAW) shows at least its rarity's tier: its value grows with its level, so the
+# base value says little (a Legendary Archangel Broadsword is a broadsword at base price). In order Common, Uncommon,
+# Rare, Epic, Ancient, Primordial, Legendary, Celestial.
+loot_rarity_tiers: [1, 2, 2, 3, 4, 4, 4, 4]

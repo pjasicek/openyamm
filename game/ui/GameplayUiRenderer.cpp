@@ -1,15 +1,26 @@
 #include "game/ui/GameplayHudGeometry.h"
+#include "engine/Localization.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "game/ui/GameplayPortraitGems.h"
 #include "game/ui/GameplayBuffHud.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/GameplayClock.h"
+#include "game/ui/GameplayMapProgressBar.h"
+#include "game/ui/GameplayMinimapTransform.h"
+#include "game/ui/GameplayQuickItems.h"
 #include "game/ui/GameplayUiRenderer.h"
+#include "game/ui/GameplayFormationBuilder.h"
 
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/mm9/Mm9HirelingHud.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
+#include "game/rules/ClassRules.h"
+#include "game/rules/GameRules.h"
 #include "game/StringUtils.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/NpcDialogTable.h"
@@ -27,14 +38,68 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+void renderBreathMeter(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &basebar, float breath,
+    float uiScale)
+{
+    GameplayUiRuntime &runtime = context.gameplayUiRuntime();
+    const auto solid = [&runtime](const char *pName, uint32_t abgr)
+    {
+        return runtime.ensureSolidHudTextureLoaded(pName, abgr);
+    };
+    const auto quad = [&context](const std::optional<GameplayHudTextureHandle> &texture, float x, float y, float w,
+        float h)
+    {
+        if (texture && w > 0.0f && h > 0.0f)
+        {
+            context.submitHudTexturedQuad(*texture, std::round(x), std::round(y), std::round(w), std::round(h));
+        }
+    };
+    // Sizes in the HUD's 480-high units.
+    const float plateWidth = std::round(124.0f * uiScale);
+    const float plateHeight = std::round(17.0f * uiScale);
+    const float plateX = std::round(basebar.x + (basebar.width - plateWidth) * 0.5f);
+    // Above the one-line status plate that stands on the basebar ("You are drowning!"), so the two never cover each
+    // other.
+    const float plateY = std::round(basebar.y - plateHeight - 26.0f * uiScale);
+    // The carved frame's corners at about five units.
+    GameplayUiSkin::renderPanel(context, {plateX, plateY, plateWidth, plateHeight, uiScale * 0.17f}, false, 1.0f, 240);
+
+    const float inset = 5.0f * uiScale;
+    float trackX = plateX + inset;
+    constexpr char LabelFont[] = "Lucida";
+    const float labelHeight = 6.5f * uiScale;
+    const float labelScale = labelHeight / float(std::max(1, context.hudFontHeight(LabelFont)));
+    const std::string label = Engine::tr("Breath");
+    context.renderHudTextLine(LabelFont, 0xff93c7e4u, label, std::round(trackX),
+        std::round(plateY + (plateHeight - labelHeight) * 0.5f - 0.5f * uiScale), labelScale);
+    trackX += context.measureHudTextWidth(LabelFont, label) * labelScale + 4.0f * uiScale;
+
+    const float trackWidth = plateX + plateWidth - inset - trackX;
+    const float trackHeight = std::max(3.0f, std::round(4.0f * uiScale));
+    const float trackY = std::round(plateY + (plateHeight - trackHeight) * 0.5f);
+    const float rim = std::max(1.0f, std::round(0.5f * uiScale));
+    quad(solid("__breath_rim__", 0xff5c91a8u), trackX - rim, trackY - rim, trackWidth + 2 * rim, trackHeight + 2 * rim);
+    quad(solid("__breath_track__", 0xff121a19u), trackX, trackY, trackWidth, trackHeight);
+    const bool out = breath <= 0.0f;
+    const bool low = breath <= 1.0f / 3.0f;
+    const float filled = std::round(trackWidth * breath);
+    quad(low ? solid("__breath_low__", 0xff6cc3e6u) : solid("__breath_fill__", 0xffe8b048u), trackX, trackY, filled,
+        trackHeight);
+    // A lighter line along the fill's top, the HP meter's sheen.
+    quad(low ? solid("__breath_low_sheen__", 0xffa8dcf2u) : solid("__breath_sheen__", 0xfff5d8a0u), trackX, trackY,
+        filled, std::max(1.0f, std::round(trackHeight * 0.3f)));
+
+    if (out)
+    {
+        quad(solid("__breath_out__", 0xc07582eeu), trackX, trackY, trackWidth, trackHeight);
+    }
+}
 constexpr float Pi = 3.14159265358979323846f;
-constexpr float OeMeleeAlertDistance = 307.2f;
-constexpr float OeYellowAlertDistance = 5120.0f;
 constexpr int EventNpcPortraitNativeWidth = 63;
 constexpr int EventNpcPortraitNativeHeight = 73;
 constexpr float EventNpcPortraitUvCropX = 2.0f;
 constexpr float EventNpcPortraitUvCropY = 2.0f;
-constexpr uint32_t MistformPortraitModulationAbgr = 0x80ffffffu;
+constexpr uint32_t TranslucentPortraitModulationAbgr = 0x80ffffffu;
 
 enum class PortraitAggroIndicator
 {
@@ -116,6 +181,20 @@ bool isOverlayHudState(GameplayHudScreenState hudScreenState)
         || hudScreenState == GameplayHudScreenState::QuickReference;
 }
 
+// The tint multiplied onto the white MAPDIR arrow on an indoor minimap (GameSettings::indoorMinimapArrow).
+uint32_t indoorMinimapArrowTintAbgr(const std::string &arrowColor)
+{
+    if (arrowColor == "green")
+    {
+        return 0xff40ff40u;
+    }
+    if (arrowColor == "cyan")
+    {
+        return 0xffffff40u;
+    }
+    return 0xffffffffu;
+}
+
 int outdoorMinimapArrowIndex(float yawRadians)
 {
     float normalizedYaw = std::fmod(yawRadians, Pi * 2.0f);
@@ -127,41 +206,6 @@ int outdoorMinimapArrowIndex(float yawRadians)
 
     const int octant = static_cast<int>(std::floor((normalizedYaw + Pi * 0.125f) / (Pi * 0.25f))) % 8;
     return (octant + 7) % 8;
-}
-
-float nearestHostileActorDistanceToParty(const IGameplayWorldRuntime *pWorldRuntime)
-{
-    if (pWorldRuntime == nullptr)
-    {
-        return std::numeric_limits<float>::max();
-    }
-
-    const float partyX = pWorldRuntime->partyX();
-    const float partyY = pWorldRuntime->partyY();
-    const float partyFootZ = pWorldRuntime->partyFootZ();
-    float nearestHostileDistance = std::numeric_limits<float>::max();
-
-    for (size_t actorIndex = 0; actorIndex < pWorldRuntime->mapActorCount(); ++actorIndex)
-    {
-        GameplayRuntimeActorState actorState = {};
-
-        if (!pWorldRuntime->actorRuntimeState(actorIndex, actorState)
-            || actorState.isDead
-            || actorState.isInvisible
-            || !actorState.hostileToParty)
-        {
-            continue;
-        }
-
-        const float deltaX = actorState.preciseX - partyX;
-        const float deltaY = actorState.preciseY - partyY;
-        const float deltaZ = actorState.preciseZ - partyFootZ;
-        const float centerDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-        const float edgeDistance = std::max(0.0f, centerDistance - static_cast<float>(actorState.radius));
-        nearestHostileDistance = std::min(nearestHostileDistance, edgeDistance);
-    }
-
-    return nearestHostileDistance;
 }
 
 PortraitAggroIndicator classifyPortraitAggroIndicator(
@@ -184,12 +228,12 @@ PortraitAggroIndicator classifyPortraitAggroIndicator(
         return PortraitAggroIndicator::Green;
     }
 
-    if (nearestHostileDistance < OeMeleeAlertDistance)
+    if (nearestHostileDistance < PartyRedAlertDistance)
     {
         return PortraitAggroIndicator::Red;
     }
 
-    if (nearestHostileDistance < OeYellowAlertDistance)
+    if (nearestHostileDistance < PartyYellowAlertDistance)
     {
         return PortraitAggroIndicator::Yellow;
     }
@@ -270,7 +314,8 @@ void submitQuadClipped(
     uint16_t scissorX,
     uint16_t scissorY,
     uint16_t scissorWidth,
-    uint16_t scissorHeight)
+    uint16_t scissorHeight,
+    uint32_t tintAbgr = 0xffffffffu)
 {
     if (!bgfx::isValid(texture.textureHandle) || quadWidth <= 0.0f || quadHeight <= 0.0f)
     {
@@ -283,6 +328,7 @@ void submitQuadClipped(
     quad.y = y;
     quad.width = quadWidth;
     quad.height = quadHeight;
+    quad.tintAbgr = tintAbgr;
     quad.clipped = true;
     quad.scissorX = scissorX;
     quad.scissorY = scissorY;
@@ -356,6 +402,243 @@ void submitLineClipped(
     queuedHudQuads.push_back(quad);
 }
 
+// A portrait's aggro diamond (lower left) and, while the member recovers, its recovery ring; the party's and the MM9
+// hirelings' alike.
+void renderPortraitReadiness(
+    GameplayScreenRuntime &context,
+    const std::optional<GameplayResolvedHudLayoutElement> &readinessRect,
+    const Character &member,
+    float nearestHostile,
+    float engagementRange,
+    GameplayPortraitMeterState &meter)
+{
+    const PortraitAggroIndicator readiness = classifyPortraitAggroIndicator(member, nearestHostile, engagementRange);
+    const char *pReadinessArt = readiness == PortraitAggroIndicator::Red ? "obsidian_aggro_combat"
+        : readiness == PortraitAggroIndicator::Yellow ? "obsidian_aggro_nearby"
+        : readiness == PortraitAggroIndicator::Green ? "obsidian_aggro_explore" : "obsidian_aggro_unlit";
+    const std::optional<GameplayHudTextureHandle> readinessArt =
+        context.gameplayUiRuntime().ensureHudTextureLoaded(pReadinessArt);
+    if (readinessRect && readinessArt)
+    {
+        const float unit = readinessRect->width / 22.0f;
+        context.submitHudTexturedQuad(*readinessArt, readinessRect->x - 8 * unit,
+            readinessRect->y - 8 * unit, 38 * unit, 41 * unit);
+    }
+    if (member.recoverySecondsRemaining <= 0)
+    {
+        meter.recoveryMaximum = 0;
+        return;
+    }
+    meter.recoveryMaximum = std::max(meter.recoveryMaximum, member.recoverySecondsRemaining);
+    if (!readinessRect || !GameMechanics::canAct(member))
+    {
+        return;
+    }
+    const float fraction = 1 - member.recoverySecondsRemaining / meter.recoveryMaximum;
+    const std::optional<GameplayHudTextureHandle> arc =
+        context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__obsidian_recovery__", 0xffc7dce5u);
+    if (!arc)
+    {
+        return;
+    }
+    const float cx = readinessRect->x + readinessRect->width * 0.5f;
+    const float cy = readinessRect->y + readinessRect->height * 0.5f;
+    const float radius = readinessRect->width * 0.65f;
+    std::vector<GameplayHudBatchQuad> ring;
+    for (int segment = 0; segment < 32 * fraction; ++segment)
+    {
+        const float angle = -Pi * 0.5f + segment * 2 * Pi / 32;
+        const float next = -Pi * 0.5f + std::min(float(segment + 1) / 32, fraction) * 2 * Pi;
+        GameplayHudBatchQuad line;
+        line.textureHandle = arc->textureHandle;
+        line.line = true;
+        line.width = std::max(1.0f, readinessRect->scale * 1.3f);
+        line.x = cx + std::cos(angle) * radius;
+        line.y = cy + std::sin(angle) * radius;
+        line.x2 = cx + std::cos(next) * radius;
+        line.y2 = cy + std::sin(next) * radius;
+        ring.push_back(line);
+    }
+    context.submitHudQuadBatch(ring);
+}
+
+// A solo HUD's alert (GameplaySoloHud::soloAlert) as a glow round the minimap circle, as round the portrait.
+void renderSoloAlertGlow(GameplayScreenRuntime &context, const Party &party, int width, int height,
+    float nearestHostile, float engagementRange)
+{
+    const std::optional<GameplayResolvedHudLayoutElement> frame =
+        context.resolveHudLayoutElement("OutdoorMinimapFrame", width, height, 0, 0);
+    const Character *pMember = party.activeMember();
+    if (!frame || pMember == nullptr)
+    {
+        return;
+    }
+    // The minimap circle (OutdoorMinimap) is centred at (62.72, 56) in the frame with a radius of 56.
+    constexpr float CenterX = 62.72f;
+    constexpr float CenterY = 56.0f;
+    constexpr float Radius = 56.0f;
+    const GameplayResolvedHudLayoutElement circle{frame->x + (CenterX - Radius) * frame->scale,
+        frame->y + (CenterY - Radius) * frame->scale, 2 * Radius * frame->scale, 2 * Radius * frame->scale,
+        frame->scale};
+    GameplaySoloHud::renderAlertGlow(context, circle, 9.0f * frame->scale,
+        GameplaySoloHud::soloAlert(context, *pMember, nearestHostile, engagementRange));
+}
+
+// The HP arc's short damage trail: where the arc stood before the latest loss, fading over 96 ticks.
+float updatePortraitHealthTrail(GameplayPortraitMeterState &meter, float health, uint32_t nowTicks)
+{
+    if (meter.health >= 0 && health < meter.health)
+    {
+        meter.damageFrom = meter.health;
+        meter.damagedTicks = nowTicks;
+    }
+    meter.health = health;
+    return health + std::max(0.0f, meter.damageFrom - health)
+        * std::max(0.0f, 1.0f - (nowTicks - meter.damagedTicks) / 96.0f);
+}
+
+// The MM9 hirelings at the right screen edge (devdocs/mm9/MM9_HIRELINGS_PLAN.md phase 6; the study
+// level_generation/ui/mm9_hirelings_20261106, revision 2): the basebar's panel around one slot per hireling, each the
+// animated face in the party's ellipse and rim, the party's HP arc on the left (no mana), the aggro diamond with its
+// recovery ring and the personal-buff medallion; greyed while it cannot act (a dead hireling keeps its face), the
+// party's selection rim and diamond while it is the active combatant.
+void renderMm9HirelingRail(
+    GameplayScreenRuntime &context,
+    int width,
+    int height,
+    size_t selectedCombatant,
+    bool showSelection,
+    float nearestHostile,
+    float engagementRange)
+{
+    const Party &party = *context.partyReadOnly();
+    const std::vector<Mm9PartyHireling> &hirelings = party.hirelings();
+    const size_t count = std::min(hirelings.size(), Party::MaxMm9Hirelings);
+    const std::optional<GameplayResolvedHudLayoutElement> rail =
+        context.resolveHudLayoutElement("Mm9HirelingRail", width, height, 0, 0);
+    const std::optional<GameplayResolvedHudLayoutElement> firstSlot = context.resolveHirelingSlotRect(width, height, 0);
+    const std::optional<GameplayResolvedHudLayoutElement> lastSlot =
+        count > 0 ? context.resolveHirelingSlotRect(width, height, count - 1) : std::nullopt;
+    if (!rail || !firstSlot || !lastSlot)
+    {
+        return;
+    }
+    const Mm9HirelingRailRect panel = mm9HirelingRailPanel({rail->x, rail->y, rail->width, rail->height},
+        {firstSlot->x, firstSlot->y, firstSlot->width, firstSlot->height},
+        {lastSlot->x, lastSlot->y, lastSlot->width, lastSlot->height});
+    // Half a unit past the right edge, so no frame seam shows at the screen's edge.
+    GameplayUiSkin::renderPanel(context,
+        {panel.x, panel.y, panel.width + 0.5f * rail->scale, panel.height, rail->scale}, false, 0.75f);
+
+    // The party's rim strokes at the hireling face's size (34 of a party face's 47.52 units).
+    constexpr float PortraitScale = 34.0f / 47.52f;
+    GameplayUiRuntime &uiRuntime = context.gameplayUiRuntime();
+    for (size_t i = 0; i < count; ++i)
+    {
+        const size_t combatantIndex = party.members().size() + i;
+        const Character &hireling = hirelings[i].character;
+        const std::string id = "Mm9Hireling" + std::to_string(i + 1);
+        const std::optional<GameplayResolvedHudLayoutElement> face =
+            context.resolveHudLayoutElement(id + "Face", width, height, 0, 0);
+        // A dead or eradicated hireling stays on the rail with its own face, greyed (the user, 2026-11-06), not the
+        // members' tombstone and ashes.
+        const bool down = hireling.portraitState == PortraitId::Dead
+            || hireling.portraitState == PortraitId::Eradicated;
+        const std::optional<GameplayHudTextureHandle> portrait = uiRuntime.ensureHudTextureLoaded(
+            down ? hireling.portraitTextureName : context.resolvePortraitTextureName(hireling));
+        if (portrait && face)
+        {
+            bgfx::TextureHandle texture = portrait->textureHandle;
+            if (party.hasCharacterBuff(combatantIndex, CharacterBuffId::Mistform)
+                || party.hasPartyBuff(PartyBuffId::Invisibility))
+            {
+                texture = uiRuntime.ensureHudTextureColorModulated(*portrait, TranslucentPortraitModulationAbgr);
+            }
+            if (!GameMechanics::canAct(hireling))
+            {
+                texture = uiRuntime.ensureHudTextureColorModulated(*portrait, 0xff888888u);
+            }
+            uiRuntime.submitHudTexturedEllipse(texture, face->x, face->y, face->width, face->height);
+            context.renderPortraitFx(combatantIndex, face->x, face->y, face->width, face->height);
+        }
+
+        const bool selected = showSelection && combatantIndex == selectedCombatant;
+        const UiLayoutManager::LayoutElement *pRimLayout = context.findHudLayoutElement(id + "Rim");
+        const std::optional<GameplayResolvedHudLayoutElement> rim =
+            context.resolveHudLayoutElement(id + "Rim", width, height, 0, 0);
+        if (pRimLayout != nullptr && pRimLayout->meterArc && rim)
+        {
+            const UiLayoutManager::MeterArc &arc = *pRimLayout->meterArc;
+            GameplayUiSkin::renderArc(context, *rim, 2.8f * PortraitScale, arc.startDegrees, arc.sweepDegrees,
+                GameplayUiSkin::ArcMaterial::Track);
+            GameplayUiSkin::renderArc(context, *rim, selected ? 1.5f * PortraitScale : arc.strokeWidth,
+                arc.startDegrees, arc.sweepDegrees,
+                selected ? GameplayUiSkin::ArcMaterial::SelectedRim : GameplayUiSkin::ArcMaterial::NormalRim);
+        }
+        if (selected)
+        {
+            const std::optional<GameplayResolvedHudLayoutElement> diamond =
+                context.resolveHudLayoutElement(id + "Selection", width, height, 0, 0);
+            const UiLayoutManager::LayoutElement *pDiamondLayout = context.findHudLayoutElement(id + "Selection");
+            const std::optional<GameplayHudTextureHandle> diamondArt = pDiamondLayout != nullptr
+                ? uiRuntime.ensureHudTextureLoaded(pDiamondLayout->primaryAsset) : std::nullopt;
+            if (diamond && diamondArt)
+            {
+                context.submitHudTexturedQuad(*diamondArt, diamond->x, diamond->y, diamond->width, diamond->height);
+            }
+        }
+
+        GameplayPortraitMeterState &meter = uiRuntime.portraitPresentationState().meters[combatantIndex];
+        renderPortraitReadiness(context, context.resolveHudLayoutElement(id + "Readiness", width, height, 0, 0),
+            hireling, nearestHostile, engagementRange, meter);
+
+        bool buffed = false;
+        for (size_t b = 0; b < CharacterBuffCount; ++b)
+        {
+            buffed = buffed || party.hasCharacterBuff(combatantIndex, static_cast<CharacterBuffId>(b));
+        }
+        const UiLayoutManager::LayoutElement *pBuffLayout = context.findHudLayoutElement(id + "PersonalBuffs");
+        const std::optional<GameplayResolvedHudLayoutElement> buffRect =
+            context.resolveHudLayoutElement(id + "PersonalBuffs", width, height, 0, 0);
+        const std::optional<GameplayHudTextureHandle> buffArt = buffed && pBuffLayout != nullptr
+            ? uiRuntime.ensureHudTextureLoaded(pBuffLayout->primaryAsset) : std::nullopt;
+        if (buffRect && buffArt)
+        {
+            context.submitHudTexturedQuad(*buffArt, buffRect->x, buffRect->y, buffRect->width, buffRect->height);
+        }
+
+        const UiLayoutManager::LayoutElement *pHealthLayout = context.findHudLayoutElement(id + "Health");
+        const std::optional<GameplayResolvedHudLayoutElement> healthRect =
+            context.resolveHudLayoutElement(id + "Health", width, height, 0, 0);
+        if (pHealthLayout == nullptr || !pHealthLayout->meterArc || !healthRect)
+        {
+            continue;
+        }
+        const int maximumHealth = GameMechanics::calculateEffectiveCharacterMaxHealth(hireling);
+        const float health = std::clamp(float(hireling.health) / std::max(1, maximumHealth), 0.0f, 1.0f);
+        const float trail = updatePortraitHealthTrail(meter, health, context.animationTicks());
+        const UiLayoutManager::MeterArc &arc = *pHealthLayout->meterArc;
+        using GameplayUiSkin::ArcMaterial;
+        GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 1.7f * PortraitScale,
+            arc.startDegrees, arc.sweepDegrees, ArcMaterial::TrackEdge);
+        GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 0.5f * PortraitScale,
+            arc.startDegrees, arc.sweepDegrees, ArcMaterial::Track);
+        if (trail > health)
+        {
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth,
+                arc.startDegrees, arc.sweepDegrees, ArcMaterial::Damage, health, trail);
+        }
+        const GameplayUiSkin::HealthBand band = GameplayUiSkin::healthBand(health);
+        if (health > 0)
+        {
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth, arc.startDegrees, arc.sweepDegrees,
+                band == GameplayUiSkin::HealthBand::High ? ArcMaterial::HealthHigh
+                    : band == GameplayUiSkin::HealthBand::Middle ? ArcMaterial::HealthMiddle
+                    : ArcMaterial::HealthLow, 0, health);
+        }
+    }
+}
+
 } // namespace
 
 void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, int width, int height)
@@ -379,8 +662,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     const float characterMouseX = pointerInput.mouseX;
     const float characterMouseY = pointerInput.mouseY;
     const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
+    // A world without the MM6-MM8 followers (MM9) shows neither their button nor their panel.
+    const bool followersShown = party.npcFollowersActive();
+    const bool followerPanelOpen = followersShown && context.interactionState().followerPanelOpen;
     std::vector<HiredNpcFollowerView> followerViews;
-    if (!isLimitedOverlayHud && context.interactionState().followerPanelOpen && context.worldRuntime() != nullptr
+    if (!isLimitedOverlayHud && followerPanelOpen && context.worldRuntime() != nullptr
         && context.worldRuntime()->eventRuntimeState() != nullptr && context.npcDialogTable() != nullptr
         && context.mergedNpcProfessionTable() != nullptr)
     {
@@ -423,12 +709,16 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             context.renderLayoutLabel(*pLayout, *rect, text);
         }
     };
+    const bool partyFrameHidden = activeEventDialogHidesPartyFrame(context.activeEventDialog());
     if (isLimitedOverlayHud)
     {
         draw("OutdoorBasebar");
     }
-    else
+    else if (!partyFrameHidden && !context.soloHud()
+        && (context.settingsSnapshot().partyFrame || hudScreenState != GameplayHudScreenState::Gameplay))
     {
+        // The frame setting applies to plain gameplay only; dialogues and other screens over the HUD keep it. A solo
+        // HUD has no frame at the bottom: its bar is a column on the left (GameplaySoloHud).
         const std::optional<GameplayResolvedHudLayoutElement> basebar =
             context.resolveHudLayoutElement("OutdoorGameplayBasebar", width, height, 0, 0);
         if (basebar)
@@ -436,21 +726,43 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             GameplayUiSkin::renderPartyBasebar(context, *basebar);
         }
     }
-    size_t selected = party.activeMemberIndex();
+    // The breath meter (scene water volumes; MM9's hud\breathmeter) while the party's eye is under water, draining
+    // over its 15 seconds of breath: a small Carved Obsidian plate centred above the party basebar, "Breath" and a
+    // brass-rimmed track whose fill turns from water blue to amber at a third and coral when it is out.
+    if (!isLimitedOverlayHud && hudScreenState == GameplayHudScreenState::Gameplay && context.worldRuntime() != nullptr)
+    {
+        const std::optional<float> breath = context.worldRuntime()->partyBreathFraction();
+        const std::optional<GameplayResolvedHudLayoutElement> basebar = breath
+            ? context.resolveHudLayoutElement("OutdoorGameplayBasebar", width, height, 0, 0)
+            : std::nullopt;
+        if (basebar)
+        {
+            renderBreathMeter(context, *basebar, std::clamp(*breath, 0.0f, 1.0f), uiScale);
+        }
+    }
+    // An acting MM9 hireling has the selection on the plain HUD; the screens over it keep the last active member.
+    size_t selected = isLimitedOverlayHud ? party.activeMemberIndex() : party.activeCombatantIndex();
     const GameplayUiController::CharacterScreenState &characterScreen = context.characterScreenReadOnly();
     if (characterScreen.open && characterScreen.source == GameplayUiController::CharacterScreenSource::Party)
     {
         selected = characterScreen.sourceIndex;
     }
-    const bool hasReadyMember = std::any_of(members.begin(), members.end(), [](const Character &member)
+    bool hasReadyMember = false;
+    for (size_t combatant = 0; combatant < party.actingCombatantCount() && !hasReadyMember; ++combatant)
     {
-        return GameMechanics::canAct(member) && member.recoverySecondsRemaining <= 0;
-    });
+        const Character &member = *party.combatant(combatant);
+        hasReadyMember = GameMechanics::canAct(member) && member.recoverySecondsRemaining <= 0;
+    }
     const bool showSelection = isLimitedOverlayHud || hasReadyMember;
-    const float nearestHostile = nearestHostileActorDistanceToParty(context.worldRuntime());
+    const float nearestHostile = context.worldRuntime() != nullptr
+        ? nearestHostileDistanceToParty(*context.worldRuntime())
+        : std::numeric_limits<float>::max();
     const float engagementRange = context.worldRuntime() != nullptr ? context.worldRuntime()->partyEngagementRange()
         : 10240.0f;
-    for (size_t i = 0; i < std::min(size_t{5}, members.size()); ++i)
+    // A solo run draws its unit frame and action bar (GameplaySoloHud) in place of the portraits on plain play.
+    const bool soloHud = !isLimitedOverlayHud && context.soloHud();
+    const size_t portraitCount = partyFrameHidden || soloHud ? 0 : std::min(size_t{5}, members.size());
+    for (size_t i = 0; i < portraitCount; ++i)
     {
         const Character &member = members[i];
         const std::string id = std::string(isLimitedOverlayHud ? "ObsidianOverlayPc" : "ObsidianPc")
@@ -458,13 +770,29 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         const std::optional<GameplayResolvedHudLayoutElement> face = context.resolvePartyPortraitRect(width, height, i);
         const std::optional<GameplayHudTextureHandle> portrait =
             context.gameplayUiRuntime().ensureHudTextureLoaded(context.resolvePortraitTextureName(member));
+        // Without the frame, each portrait keeps a dark obsidian backing the size of its rim, so portraits with a
+        // transparent background (the God Lich's) and the arcs do not stand on the scene (user, 2026-11-02).
+        if (face && !isLimitedOverlayHud && hudScreenState == GameplayHudScreenState::Gameplay
+            && !context.settingsSnapshot().partyFrame)
+        {
+            const std::optional<GameplayResolvedHudLayoutElement> backing =
+                context.resolveHudLayoutElement(id + "Rim", width, height, 0, 0);
+            const std::optional<GameplayHudTextureHandle> fill =
+                context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__portrait_backing__", 0xe8141a19u);
+            if (backing && fill)
+            {
+                context.gameplayUiRuntime().submitHudTexturedEllipse(fill->textureHandle, backing->x, backing->y,
+                    backing->width, backing->height);
+            }
+        }
         if (portrait && face)
         {
             bgfx::TextureHandle texture = portrait->textureHandle;
-            if (party.hasCharacterBuff(i, CharacterBuffId::Mistform))
+            // Mistform and party invisibility both show the portrait at half opacity.
+            if (party.hasCharacterBuff(i, CharacterBuffId::Mistform) || party.hasPartyBuff(PartyBuffId::Invisibility))
             {
                 texture = context.gameplayUiRuntime().ensureHudTextureColorModulated(
-                    *portrait, MistformPortraitModulationAbgr);
+                    *portrait, TranslucentPortraitModulationAbgr);
             }
             if (!GameMechanics::canAct(member))
             {
@@ -495,80 +823,41 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         {
             draw(id + "Selection");
         }
-        const bool canAct = GameMechanics::canAct(member);
-        const PortraitAggroIndicator readiness = classifyPortraitAggroIndicator(member, nearestHostile, engagementRange);
-        const char *pReadinessArt = readiness == PortraitAggroIndicator::Red ? "obsidian_aggro_combat"
-            : readiness == PortraitAggroIndicator::Yellow ? "obsidian_aggro_nearby"
-            : readiness == PortraitAggroIndicator::Green ? "obsidian_aggro_explore" : "obsidian_aggro_unlit";
-        const std::optional<GameplayResolvedHudLayoutElement> readinessRect =
-            context.resolveHudLayoutElement(id + "Readiness", width, height, 0, 0);
-        const std::optional<GameplayHudTextureHandle> readinessArt =
-            context.gameplayUiRuntime().ensureHudTextureLoaded(pReadinessArt);
-        if (readinessRect && readinessArt)
-        {
-            const float unit = readinessRect->width / 22.0f;
-            context.submitHudTexturedQuad(*readinessArt, readinessRect->x - 8 * unit,
-                readinessRect->y - 8 * unit, 38 * unit, 41 * unit);
-        }
         GameplayPortraitMeterState &meter = context.gameplayUiRuntime().portraitPresentationState().meters[i];
-        if (member.recoverySecondsRemaining <= 0)
-        {
-            meter.recoveryMaximum = 0;
-        }
-        else
-        {
-            meter.recoveryMaximum = std::max(meter.recoveryMaximum, member.recoverySecondsRemaining);
-            if (readinessRect && canAct)
-            {
-                const float fraction = 1 - member.recoverySecondsRemaining / meter.recoveryMaximum;
-                const std::optional<GameplayHudTextureHandle> arc =
-                    context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__obsidian_recovery__", 0xffc7dce5u);
-                if (arc)
-                {
-                    const float cx = readinessRect->x + readinessRect->width * 0.5f;
-                    const float cy = readinessRect->y + readinessRect->height * 0.5f;
-                    const float radius = readinessRect->width * 0.65f;
-                    std::vector<GameplayHudBatchQuad> ring;
-                    for (int segment = 0; segment < 32 * fraction; ++segment)
-                    {
-                        const float angle = -Pi * 0.5f + segment * 2 * Pi / 32;
-                        const float next = -Pi * 0.5f + std::min(float(segment + 1) / 32, fraction) * 2 * Pi;
-                        GameplayHudBatchQuad line;
-                        line.textureHandle = arc->textureHandle;
-                        line.line = true;
-                        line.width = std::max(1.0f, readinessRect->scale * 1.3f);
-                        line.x = cx + std::cos(angle) * radius;
-                        line.y = cy + std::sin(angle) * radius;
-                        line.x2 = cx + std::cos(next) * radius;
-                        line.y2 = cy + std::sin(next) * radius;
-                        ring.push_back(line);
-                    }
-                    context.submitHudQuadBatch(ring);
-                }
-            }
-        }
+        renderPortraitReadiness(context, context.resolveHudLayoutElement(id + "Readiness", width, height, 0, 0),
+            member, nearestHostile, engagementRange, meter);
         bool hasPersonalBuff = false;
         for (size_t b = 0; b < CharacterBuffCount; ++b)
         {
             hasPersonalBuff |= party.hasCharacterBuff(i, static_cast<CharacterBuffId>(b));
         }
+        // Potions a ruleset times on the member show as personal buffs too.
+        hasPersonalBuff = hasPersonalBuff || !gameplayPotionEffectLines(member, nullptr).empty()
+            || !gameplayUnslottedAuraLines(party, member, nullptr).empty();
+
         if (hasPersonalBuff)
         {
             draw(id + "PersonalBuffs");
+        }
+
+        // The class counter's gems beside the HP arc (MAW's combo points and Elementalist stacks).
+        if (const PortraitCounter counter = party.rules().classes.portraitCounter(member);
+            counter.kind != PortraitCounterKind::None)
+        {
+            const UiLayoutManager::LayoutElement *pHealthLayout = context.findHudLayoutElement(id + "Health");
+            const std::optional<GameplayResolvedHudLayoutElement> healthArc =
+                context.resolveHudLayoutElement(id + "Health", width, height, 0, 0);
+            if (pHealthLayout != nullptr && pHealthLayout->meterArc && healthArc)
+            {
+                renderPortraitCounterGems(context, counter, *healthArc, pHealthLayout->meterArc->strokeWidth,
+                    id + "Counter");
+            }
         }
         const int maximumHealth = GameMechanics::calculateEffectiveCharacterMaxHealth(member);
         const int maximumMana = GameMechanics::calculateEffectiveCharacterMaxSpellPoints(member);
         const float health = std::clamp(float(member.health) / std::max(1, maximumHealth), 0.0f, 1.0f);
         const float mana = std::clamp(float(member.spellPoints) / std::max(1, maximumMana), 0.0f, 1.0f);
-        const uint32_t nowTicks = context.animationTicks();
-        if (meter.health >= 0 && health < meter.health)
-        {
-            meter.damageFrom = meter.health;
-            meter.damagedTicks = nowTicks;
-        }
-        meter.health = health;
-        const float trail = health + std::max(0.0f, meter.damageFrom - health)
-            * std::max(0.0f, 1.0f - (nowTicks - meter.damagedTicks) / 96.0f);
+        const float trail = updatePortraitHealthTrail(meter, health, context.animationTicks());
         for (bool isHealth : {true, false})
         {
             if (!isHealth && maximumMana <= 0)
@@ -592,6 +881,16 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                     arc.startDegrees, arc.sweepDegrees, ArcMaterial::TrackEdge);
                 GameplayUiSkin::renderArc(context, *rect, arc.strokeWidth + 0.5f,
                     arc.startDegrees, arc.sweepDegrees, ArcMaterial::Track);
+                // The end of the gauge the member's auras hold, which the pool cannot fill.
+                const int reservedPoints = isHealth ? party.rules().spells.reservedHitPoints(party, i)
+                    : party.rules().spells.reservedSpellPoints(party, i);
+                const float reserved = std::clamp(
+                    float(reservedPoints) / std::max(1, isHealth ? maximumHealth : maximumMana), 0.0f, 1.0f);
+                if (reserved > 0)
+                {
+                    GameplayUiSkin::renderReservedArc(context, *rect, arc.strokeWidth,
+                        arc.startDegrees, arc.sweepDegrees, 1 - reserved, isHealth);
+                }
                 if (isHealth && trail > health)
                 {
                     GameplayUiSkin::renderArc(context, *rect, arc.strokeWidth,
@@ -606,6 +905,35 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 {
                     GameplayUiSkin::renderArc(context, *rect, arc.strokeWidth,
                         arc.startDegrees, arc.sweepDegrees, material, 0, amount);
+                }
+                if (reserved > 0)
+                {
+                    GameplayUiSkin::renderReservedMark(context, *rect, arc.strokeWidth,
+                        arc.startDegrees, arc.sweepDegrees, 1 - reserved);
+                }
+                if (isHealth && member.personalShieldCapacity > 0)
+                {
+                    // The personal energy shield: a thin cyan rim just outside the HP arc; it flashes white as it
+                    // breaks and stays dark while down (COMBAT.md, Party shields).
+                    const float offset = (arc.strokeWidth * 0.5f + 1.5f) * rect->scale;
+                    const GameplayResolvedHudLayoutElement rim = {rect->x - offset, rect->y - offset,
+                        rect->width + 2.0f * offset, rect->height + 2.0f * offset, rect->scale};
+                    const float shield = std::clamp(
+                        member.personalShield / float(member.personalShieldCapacity), 0.0f, 1.0f);
+                    const bool breaking = member.personalShieldSecondsSinceBreak >= 0.0f
+                        && member.personalShieldSecondsSinceBreak < 0.4f && shield <= 0.0f;
+                    GameplayUiSkin::renderArc(context, rim, 1.3f, arc.startDegrees, arc.sweepDegrees,
+                        ArcMaterial::ShieldDown);
+                    if (breaking)
+                    {
+                        GameplayUiSkin::renderArc(context, rim, 1.8f, arc.startDegrees, arc.sweepDegrees,
+                            ArcMaterial::ShieldFlash);
+                    }
+                    else if (shield > 0.0f)
+                    {
+                        GameplayUiSkin::renderArc(context, rim, 1.3f, arc.startDegrees, arc.sweepDegrees,
+                            ArcMaterial::Shield, 0, shield);
+                    }
                 }
                 continue;
             }
@@ -645,12 +973,24 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             }
         }
     }
+    if (soloHud && !partyFrameHidden)
+    {
+        flushQueuedHudQuads();
+        const Character *pSoloMember = party.activeMember();
+        GameplaySoloHud::renderHud(context, width, height, pSoloMember != nullptr
+            ? GameplaySoloHud::soloAlert(context, *pSoloMember, nearestHostile, engagementRange)
+            : GameplaySoloHud::SoloAlert::Unlit);
+    }
     if (isLimitedOverlayHud)
     {
         for (size_t i = members.size(); i < 5; ++i)
         {
             draw("CharShield_" + std::to_string(i + 1));
         }
+    }
+    else if (!party.hirelings().empty() && !partyFrameHidden)
+    {
+        renderMm9HirelingRail(context, width, height, selected, showSelection, nearestHostile, engagementRange);
     }
 
     GameplayMinimapState minimapState = {};
@@ -663,7 +1003,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         const std::string &layoutId = pLayout->id;
         const std::string &normalizedLayoutId = pLayout->normalizedId;
         const std::string &normalizedRoleId = entry.normalizedRoleId;
-        if (!pLayout->visible || !entry.visibleIn(gameplayHudLayout, context.interactionState().followerPanelOpen))
+        if (!pLayout->visible || !entry.visibleIn(gameplayHudLayout, followerPanelOpen))
         {
             continue;
         }
@@ -694,6 +1034,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             continue;
         }
 
+        if (!followersShown
+            && (normalizedRoleId == "outdoorfollowertoggle" || pLayout->parentId == "OutdoorFollowerToggle"))
+        {
+            continue;
+        }
         if (normalizedRoleId == "outdoorfollowertoggle")
         {
             flushQueuedHudQuads();
@@ -747,24 +1092,27 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             const float minimapZoomHeight = minimapState.zoomHeight > 0.0f
                 ? minimapState.zoomHeight
                 : minimapState.zoom;
-            minimapState.uSpan = std::min(1.0f, pLayout->width / std::max(1.0f, minimapZoomWidth));
-            minimapState.vSpan = std::min(1.0f, pLayout->height / std::max(1.0f, minimapZoomHeight));
-            minimapState.u0 = std::clamp(
-                minimapState.partyU - minimapState.uSpan * 0.5f,
-                0.0f,
-                1.0f - minimapState.uSpan);
-            minimapState.v0 = std::clamp(
-                minimapState.partyV - minimapState.vSpan * 0.5f,
-                0.0f,
-                1.0f - minimapState.vSpan);
+            // The view stays centred on the party, as in MM6-MM8, also where it reaches past the map image (a
+            // party near the border of a map whose image has no margin); the map surface colour fills that part.
+            minimapState.uSpan = pLayout->width / std::max(1.0f, minimapZoomWidth);
+            minimapState.vSpan = pLayout->height / std::max(1.0f, minimapZoomHeight);
+            minimapState.u0 = minimapState.partyU - minimapState.uSpan * 0.5f;
+            minimapState.v0 = minimapState.partyV - minimapState.vSpan * 0.5f;
 
+            const std::optional<GameplayHudTextureHandle> backgroundTexture =
+                context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
+                    "__obsidian_indoor_minimap_background__", GameplayUiSkin::MapSurface);
             const std::optional<GameplayHudTextureHandle> minimapTexture = minimapState.vectorBackground
-                ? context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
-                    "__obsidian_indoor_minimap_background__", GameplayUiSkin::MapSurface)
+                ? std::nullopt
                 : context.gameplayUiRuntime().ensureHudTextureLoaded(minimapState.textureName);
+            flushQueuedHudQuads();
+            if (backgroundTexture)
+            {
+                context.gameplayUiRuntime().submitHudTexturedEllipse(backgroundTexture->textureHandle,
+                    resolved->x, resolved->y, resolved->width, resolved->height);
+            }
             if (minimapTexture)
             {
-                flushQueuedHudQuads();
                 context.gameplayUiRuntime().submitHudTexturedEllipse(minimapTexture->textureHandle,
                     resolved->x, resolved->y, resolved->width, resolved->height,
                     minimapState.u0, minimapState.v0, minimapState.u0 + minimapState.uSpan,
@@ -833,28 +1181,41 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         std::string primaryAsset = pLayout->primaryAsset;
 
         const bool flyBuffIcon = normalizedRoleId == "outdoorflybufficon";
+        const bool levitateBuffIcon = normalizedRoleId == "outdoorlevitatebufficon";
         const bool waterWalkBuffIcon = normalizedRoleId == "outdoorwaterwalkbufficon";
-        if ((flyBuffIcon && !gameplayFlightBuff(party))
-            || (waterWalkBuffIcon && !party.hasPartyBuff(PartyBuffId::WaterWalk)))
+        const bool fleetFootBuffIcon = normalizedRoleId == "outdoorfleetfootbufficon";
+        const bool movementIcon = flyBuffIcon || levitateBuffIcon || waterWalkBuffIcon || fleetFootBuffIcon;
+        if (movementIcon)
         {
-            continue;
-        }
-        if (flyBuffIcon)
-        {
-            const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
-            const bool activelyFlying = pWorldRuntime != nullptr && pWorldRuntime->partyIsActivelyFlyingForHud();
-            const std::optional<std::string> animationFrame =
-                context.gameplayUiRuntime().flyBuffIconAnimationFrameTextureName(activelyFlying, 1);
+            const std::vector<GameplayMovementIndicator> indicators = gameplayMovementIndicators(party);
+            const bool shown = std::any_of(indicators.begin(), indicators.end(),
+                [&pLayout](const GameplayMovementIndicator &indicator) { return pLayout->id == indicator.pLayoutId; });
 
-            if (animationFrame)
+            if (!shown)
             {
-                primaryAsset = *animationFrame;
+                continue;
             }
-        }
-        else if (waterWalkBuffIcon)
-        {
+
+            // Fly blinks in its last minutes (gameplayBuffIndicatorLit, OY-508).
+            if (flyBuffIcon && !gameplayBuffIndicatorLit(party, PartyBuffId::Fly))
+            {
+                continue;
+            }
+
+            // Fly animates while flying, Water Walk while on water, Levitate (MM8's sp109) and Fleet Foot (MM9's
+            // winged boot) while they last.
+            const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+            const bool moving = levitateBuffIcon || fleetFootBuffIcon
+                || (pWorldRuntime != nullptr
+                    && (flyBuffIcon ? pWorldRuntime->partyIsActivelyFlyingForHud()
+                                    : pWorldRuntime->partyIsWalkingOnWaterForHud()));
+            const char *pAnimationName = levitateBuffIcon ? "sp109"
+                : fleetFootBuffIcon                       ? "fleetfoot"
+                : flyBuffIcon                             ? "spell21"
+                                                          : "spell27";
             const std::optional<std::string> animationFrame =
-                context.gameplayUiRuntime().iconAnimationFrameTextureName("spell27");
+                context.gameplayUiRuntime().movementIconAnimationFrameTextureName(pAnimationName, moving);
+
             if (animationFrame)
             {
                 primaryAsset = *animationFrame;
@@ -868,7 +1229,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
 
         const std::optional<GameplayResolvedHudLayoutElement> interactiveResolved =
             resolveLayout(context, layoutId, pLayout->width, pLayout->height, width, height);
-        const std::string *pAssetName = interactiveResolved && !flyBuffIcon && !waterWalkBuffIcon
+        const std::string *pAssetName = interactiveResolved && !movementIcon
             ? context.resolveInteractiveAssetName(*pLayout, *interactiveResolved,
                 characterMouseX, characterMouseY, isLeftMousePressed) : &primaryAsset;
         std::optional<GameplayHudTextureHandle> texture;
@@ -982,6 +1343,9 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             minimapState.wizardEyeActive ? uiRuntime.ensureHudPaletteColor(0xff00ffffu) : std::nullopt;
         const std::optional<GameplayHudPaletteColor> worldItemMarkerTexture =
             minimapState.wizardEyeShowsExpertObjects ? uiRuntime.ensureHudPaletteColor(0xffff0000u) : std::nullopt;
+        // Spotted ground items in teal-blue (ABGR) beside the others' blue.
+        const std::optional<GameplayHudPaletteColor> spottedWorldItemMarkerTexture =
+            minimapState.wizardEyeShowsExpertObjects ? uiRuntime.ensureHudPaletteColor(0xffdcbe00u) : std::nullopt;
         const std::optional<GameplayHudPaletteColor> projectileMarkerTexture =
             minimapState.wizardEyeShowsExpertObjects ? uiRuntime.ensureHudPaletteColor(0xff0000ffu) : std::nullopt;
         const std::optional<GameplayHudPaletteColor> decorationMarkerTexture =
@@ -1008,6 +1372,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 break;
             case GameplayMinimapMarkerType::WorldItem:
                 pTexture = worldItemMarkerTexture ? &*worldItemMarkerTexture : nullptr;
+                markerHalfExtent = worldItemMarkerHalfSize;
+                markerDrawSize = worldItemMarkerSize;
+                break;
+            case GameplayMinimapMarkerType::SpottedWorldItem:
+                pTexture = spottedWorldItemMarkerTexture ? &*spottedWorldItemMarkerTexture : nullptr;
                 markerHalfExtent = worldItemMarkerHalfSize;
                 markerDrawSize = worldItemMarkerSize;
                 break;
@@ -1053,12 +1422,17 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 minimapScissorHeight);
         }
 
-        const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+        const int arrowIndex = outdoorMinimapArrowIndex(
+            gameplayMinimapDisplayYaw(minimapState, context.gameplayCameraYawRadians()));
         const std::optional<GameplayHudTextureHandle> arrowTexture =
             context.gameplayUiRuntime().ensureHudTextureLoaded("MAPDIR" + std::to_string(arrowIndex + 1));
 
         if (arrowTexture)
         {
+            const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+            const uint32_t arrowTintAbgr = pWorldRuntime != nullptr && pWorldRuntime->isIndoorMap()
+                ? indoorMinimapArrowTintAbgr(context.settingsSnapshot().indoorMinimapArrow)
+                : 0xffffffffu;
             const float arrowWidth = static_cast<float>(arrowTexture->width) * minimapOverlay.scale;
             const float arrowHeight = static_cast<float>(arrowTexture->height) * minimapOverlay.scale;
             submitQuadClipped(
@@ -1071,11 +1445,12 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 minimapScissorX,
                 minimapScissorY,
                 minimapScissorWidth,
-                minimapScissorHeight);
+                minimapScissorHeight,
+                arrowTintAbgr);
         }
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     if (hudScreenState == GameplayHudScreenState::Gameplay)
     {
         const GameplayInputFrame *pInputFrame = context.currentGameplayInputFrame();
@@ -1115,10 +1490,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         flushQueuedHudQuads();
         draw("ObsidianTurnPlate");
         const TurnBasedCombatRuntime &turn = context.turnBasedCombatRuntime();
-        label("ObsidianTurnPhase", turn.stage() == TurnBasedCombatStage::Movement ? "Movement"
-            : turn.stage() == TurnBasedCombatStage::Attack ? "Attack" : "Waiting");
+        label("ObsidianTurnPhase", Engine::tr(turn.stage() == TurnBasedCombatStage::Movement ? "Movement"
+            : turn.stage() == TurnBasedCombatStage::Attack ? "Attack" : "Waiting"));
         label("ObsidianTurnDetail", turn.stage() == TurnBasedCombatStage::Movement
-            ? std::to_string(turn.movementActionPoints()) + " AP" : "Turn based");
+            ? Engine::tr("{points} AP", {{"points", int64_t(turn.movementActionPoints())}})
+            : Engine::tr("Turn based"));
     }
 
     flushQueuedHudQuads();
@@ -1127,8 +1503,58 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         renderGameplayBuffHud(context, width, height);
         if (context.worldRuntime() != nullptr)
         {
+            // A solo HUD's clock is a small plate on the minimap's lower rim: drawn here, over the minimap.
+            if (context.soloHud())
+            {
+                if (const std::optional<GameplayResolvedHudLayoutElement> clock =
+                        context.resolveHudLayoutElement("ObsidianMinimapClock", width, height, 0, 0))
+                {
+                    flushQueuedHudQuads();
+                    GameplayUiSkin::renderTexture(context, "obsidian_hud_clock_plate", *clock);
+                }
+                renderSoloAlertGlow(context, party, width, height, nearestHostile, engagementRange);
+            }
             label("ObsidianMinimapClock", formatGameplayClock(context.worldRuntime()->gameMinutes()));
+
+            // The map progress bar in the party frame's top band, while the rules give a progress (MAW).
+            if (hudScreenState == GameplayHudScreenState::Gameplay)
+            {
+                GameplayMapProgressBar::renderHud(context, width, height);
+            }
+
+            // The MM9 world's formation button under the minimap, on the plain gameplay HUD.
+            if (hudScreenState == GameplayHudScreenState::Gameplay)
+            {
+                flushQueuedHudQuads();
+                GameplayFormationBuilder::renderButton(context, width, height);
+            }
+
+            // The combat log's button and docked panel, while it is shown (GameplayScreenRuntime::combatLogShown).
+            if (context.combatLogShown())
+            {
+                // The followers' tab frame with a sword (CombatLogToggleIcon).
+                flushQueuedHudQuads();
+                GameplayUiSkin::renderButton(
+                    context, "CombatLogToggle", width, height, context.combatLogPanel().open());
+
+                flushQueuedHudQuads();
+                context.combatLogPanel().render(context, width, height);
+            }
+
+            if (const std::optional<int> seconds =
+                    party.rules().experience.deathPendingSeconds(context.worldRuntime()->gameMinutes()))
+            {
+                // Red while a death is pending (an R5G6B5 colour code, as the clearing share's).
+                draw("ObsidianDeathTimerPlate");
+                label("ObsidianDeathTimer", "\f63488" + std::to_string(*seconds));
+            }
         }
+    }
+
+    // The quick item buttons at the portraits and the open ring (the potion radial), over the gameplay HUD.
+    if (!isLimitedOverlayHud && hudScreenState == GameplayHudScreenState::Gameplay)
+    {
+        GameplayQuickItems::renderHud(context, width, height);
     }
 }
 

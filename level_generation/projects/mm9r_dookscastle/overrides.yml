@@ -1,0 +1,70 @@
+# Explicit conversion choices for MM9's Dook's Castle (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: dookscastle
+  display_name: Dook's Castle
+  starts: [StartPoint0]               # the gate (Guberland's DooksCastleExit side)
+  monster_classes: [HalfOrcCaptain, HalfOrcSoldier, Baron, Trellborg, KinTrellborg, AncientTrellborg, WingedOddity,
+                    WingedAberration, WingedMutant, Basilisk, KingBasilisk]
+  offset: [0, 0, 0]                   # the old bmodel_world map's frame (fits int16): transitions stay valid
+  ambient: 20
+  split_minor_rooms: true
+  thin_walls: true
+plan_levels:
+  castle: [-40, 700]
+  caves_upper: [-1000, -40]
+  caves_lower: [-2100, -1000]
+models:
+  # --- MM9 rotating double doors: one rotate mover per leaf, a click toggles the pair, doorway portal at the leaves
+  double door left 01: {group: door01, motion: rotate, doorway: true, portal: doorportal01}
+  double door right 01: {group: door01, motion: rotate, doorway: true, portal: doorportal01}
+  double door left 02: {group: door02, motion: rotate, doorway: true, portal: doorportal02}
+  double door right 02: {group: door02, motion: rotate, doorway: true, portal: doorportal02}
+  double door left 03: {group: door03, motion: rotate, doorway: true, portal: doorportal03}
+  double door right 03: {group: door03, motion: rotate, doorway: true, portal: doorportal03}
+  double door left 04: {group: door04, motion: rotate, doorway: true, portal: doorportal04}
+  double door right 04: {group: door04, motion: rotate, doorway: true, portal: doorportal04}
+  double door left 05: {group: door05, motion: rotate, doorway: true, portal: doorportal05}
+  double door right 05: {group: door05, motion: rotate, doorway: true, portal: doorportal05}
+  double door left 06: {group: door06, motion: rotate, doorway: true, portal: doorportal06}
+  double door right 06: {group: door06, motion: rotate, doorway: true, portal: doorportal06}
+  double door left 07: {group: door07, motion: rotate, doorway: true, portal: doorportal07}
+  double door right 07: {group: door07, motion: rotate, doorway: true, portal: doorportal07}
+  # --- the secret door and its button
+  doorslide: {group: doorslide, motion: dat, doorway: true, portal: secret doorportal, click: false}   # no PushOpen: the button opens it
+  Tempbutton: {group: Tempbutton, motion: rotate}
+  # --- static world objects
+  WorldObject0: static               # carpets
+  WorldObject1: static
+  WorldObject2: static
+  WorldObject3: static
+  WorldObject4: static
+  WorldObject32: static
+  WorldObject33: static
+  WorldObject35: static
+  WorldObject36: static
+  WorldObject5: static
+  ClearWater0: skip                  # the water volume: its surface is the map's own face (convert.py)
+seed_exclude: [TreasureChest6]     # the chest on the lake bed under the wading surface (convert.py, LAKE)
+model_patterns: {}
+portals:
+  - {name: castle_neck, axis: z, point: [0, 220, 1360], span: 200}        # the entrance hall's passage into the corridor
+  - {name: cave_west_arm, axis: x, point: [2150, -300, 3420], span: 400}  # the tunnel from the castle stair at the fork
+  - {name: lake_north, axis: z, point: [3780, -980, 2750], span: 300}     # the lake cavern's north tunnel
+  - {name: lake_west, axis: x, point: [2480, -960, 1720], span: 300}      # the lake cavern's west tunnel
+exits: {}
+# Ladder0: rungs at x 3564-3568 LT rising from the lake (foot -1456, 48 under the surface) to the bridge's platform at
+# -1212 on its east side; a climber faces east (+x). The scene hook puts its foot on the wading surface (-1504).
+ladders:
+  Ladder0: {facing_lt: [1, 0], surface_lt: 3560, top_exit_lt: [3610, -1212, 1150]}
+textures:
+  "water:lake": {alias: OCEABYM7AI, width: 128, height: 128}   # ClearWater0's surface: MM9's Ocean4.spr (first frame)
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [KingBasilisk0, KingBasilisk1, AncientTrellborg0, AncientTrellborg1, AncientTrellborg2]
+  themed_near: [Weaponrack0, Weaponrack1, Bookcase0, Bookcase1]
+  avoid_near:
+    - {name: dook, radius: 1500}

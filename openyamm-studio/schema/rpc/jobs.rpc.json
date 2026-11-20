@@ -1,0 +1,806 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: jobs",
+  "description": "The host's jobs (S5_BROWSER_EDITOR.md 2.4.3, 3.11, 3.15, D10; S5a5): lane J (a second core: checks, compare) and processes of their own (the Python checks of the repository, the game's pictures and playtests), each lane one job at a time, cancelled by killing. Host methods: the core has no handler for them. Every kind's answer has an output schema here ($defs/<kind>_job_result). Notices: job_progress {project, job} and job_done {project, job} with the job's summary.",
+  "x-group": "jobs",
+  "methods": {
+    "start": {
+      "summary": "Queues a job of the project on its lane: checks (check.audit with reach and, indoors, the solve), compare (compare.run), scale_bands (calibration/scale_bands.py: a new dungeon's room sizes), town_feel (calibration/town_feel.py: an outdoor map's figures against the shipped towns), building_shots (calibration/building_shots.py: every building beside the original's in the game; about 35 minutes for two maps), pins_tour (the game's own pictures at the pins' poses: pins.tour, built and installed into the project's play mount), playtest (the project's scenario in the game, `runs` times), lighting_bake (S6: the repository's Cycles bake, tools/lighting/bake_indoor.py or bake_outdoor.py, on the project's build in a scratch hard-link copy of the asset root, never the asset root itself; its lightmap pages and the game's view before and after the bake as pictures; needs Blender and the game). The Python ones run only where python3 is (local mode).",
+      "since": 1,
+      "lane": "host",
+      "backends": [
+        "host"
+      ],
+      "exposed": false,
+      "writes": "record",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "bad_request",
+        "invalid_params"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "kind"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "checks",
+              "compare",
+              "scale_bands",
+              "town_feel",
+              "building_shots",
+              "pins_tour",
+              "playtest",
+              "lighting_bake"
+            ]
+          },
+          "params": {
+            "$ref": "#/$defs/job_params"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "job"
+        ],
+        "properties": {
+          "job": {
+            "$ref": "#/$defs/job"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "list": {
+      "summary": "The project's jobs, newest first, without their results (the newest 40 are kept, in <project>/.oymap/jobs/<revision>/<job>/).",
+      "since": 1,
+      "lane": "host",
+      "backends": [
+        "host"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "not_a_project"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "jobs"
+        ],
+        "properties": {
+          "jobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/job"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "status": {
+      "summary": "One job of the project with its result.",
+      "since": 1,
+      "lane": "host",
+      "backends": [
+        "host"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "no_such_object",
+        "invalid_params"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "job"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "job": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "job"
+        ],
+        "properties": {
+          "job": {
+            "$ref": "#/$defs/job"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "cancel": {
+      "summary": "Drops a queued job, or stops a running one by killing lane J's core (started again for the next job) or the job's processes; a killed job leaves no half file.",
+      "since": 1,
+      "lane": "host",
+      "backends": [
+        "host"
+      ],
+      "exposed": false,
+      "writes": "record",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "no_such_object",
+        "invalid_params"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "job"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "job": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "job"
+        ],
+        "properties": {
+          "job": {
+            "$ref": "#/$defs/job"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "job": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "project",
+        "revision",
+        "state",
+        "background",
+        "params",
+        "created",
+        "started",
+        "finished",
+        "seconds",
+        "progress",
+        "error",
+        "line",
+        "pictures"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^j[0-9a-z]+-[0-9a-f]+$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "checks",
+            "compare",
+            "scale_bands",
+            "town_feel",
+            "building_shots",
+            "pins_tour",
+            "playtest",
+            "lighting_bake"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "project": {
+          "description": "The host's key of the project.",
+          "type": "string"
+        },
+        "revision": {
+          "description": "The source revision the job ran on: a result belongs to it.",
+          "$ref": "common.rpc.json#/$defs/revision"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "running",
+            "done",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "background": {
+          "description": "Queued by the host's background checks, not asked for.",
+          "type": "boolean"
+        },
+        "params": {
+          "$ref": "#/$defs/job_params"
+        },
+        "created": {
+          "type": "string"
+        },
+        "started": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "finished": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "x-decimals": 1
+        },
+        "progress": {
+          "description": "The last lines it printed.",
+          "$ref": "common.rpc.json#/$defs/strings"
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "line": {
+          "description": "One line: the last progress line while it runs, what it found when done, why it failed.",
+          "type": "string"
+        },
+        "pictures": {
+          "description": "Its pictures, relative to its folder (GET /job/<key>/<revision>/<job>/<picture>).",
+          "$ref": "common.rpc.json#/$defs/strings"
+        },
+        "has_result": {
+          "type": "boolean"
+        },
+        "result": {
+          "description": "Its kind's answer, by the output schemas of this file's $defs (<kind>_job_result).",
+          "type": "object",
+          "x-tree": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "job_params": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "description": "compare: another original than the project's map_stats.reference. A shipped map's file name, never a path.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+\\.(blv|odm)$"
+        },
+        "only": {
+          "description": "building_shots: only these buildings (ids of building_shots' list).",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 200
+        },
+        "pins": {
+          "description": "pins_tour: only these pins.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 200
+        },
+        "status": {
+          "description": "pins_tour: only pins of these states (default open, claimed, resolved).",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "open",
+              "claimed",
+              "resolved",
+              "accepted",
+              "declined"
+            ]
+          },
+          "maxItems": 5
+        },
+        "runs": {
+          "description": "playtest: how many times (a playtest that loots chests runs several times: four of four).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "scenario": {
+          "description": "playtest: the project's scenario file (default playtest.yml).",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+\\.yml$"
+        },
+        "start": {
+          "description": "town_feel: judge by the shipped start maps' ranges.",
+          "type": "boolean"
+        },
+        "samples": {
+          "description": "lighting_bake: Cycles samples per texel (default 32; the bake README's draft is 16, its finals 64 to 128).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "units_per_texel": {
+          "description": "lighting_bake, indoors: map units per lightmap texel (default 16; 24 or 32 for a quicker, coarser bake).",
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 64
+        }
+      },
+      "additionalProperties": false
+    },
+    "checks_job_result": {
+      "description": "check.audit's answer with reach and (indoors) the solve.",
+      "$ref": "check.rpc.json#/methods/audit/result",
+      "x-export": true
+    },
+    "compare_job_result": {
+      "$ref": "compare.rpc.json#/methods/run/result",
+      "x-export": true
+    },
+    "scale_bands_job_result": {
+      "type": "object",
+      "required": [
+        "map",
+        "shipped_maps",
+        "figures",
+        "below_p25"
+      ],
+      "properties": {
+        "map": {
+          "type": "string"
+        },
+        "shipped_maps": {
+          "description": "Shipped MM6-8 dungeons of ten rooms or more it is set against.",
+          "type": "integer"
+        },
+        "figures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "label",
+              "value",
+              "p25",
+              "median",
+              "percentile",
+              "below_p25"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "integer"
+              },
+              "p25": {
+                "type": "integer"
+              },
+              "median": {
+                "type": "integer"
+              },
+              "percentile": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "below_p25": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "below_p25": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "x-export": true
+    },
+    "town_feel_job_result": {
+      "type": "object",
+      "required": [
+        "map",
+        "start",
+        "town_box",
+        "houses_in_town",
+        "rules",
+        "outside",
+        "figures"
+      ],
+      "properties": {
+        "map": {
+          "type": "string"
+        },
+        "start": {
+          "description": "Judged by the start maps' ranges.",
+          "type": "boolean"
+        },
+        "town_box": {
+          "description": "x0, y0, x1, y1 of the town found (empty: none).",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 4
+        },
+        "houses_in_town": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "key",
+              "label",
+              "low",
+              "high",
+              "value",
+              "verdict"
+            ],
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "low": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "x-decimals": 4
+              },
+              "high": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "x-decimals": 4
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "x-decimals": 4
+              },
+              "verdict": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "out",
+                  "n/a"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "outside": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "figures": {
+          "description": "Every figure town_feel.py measured (its --json).",
+          "type": "object",
+          "x-tree": true
+        }
+      },
+      "additionalProperties": false,
+      "x-export": true
+    },
+    "building_shots_job_result": {
+      "type": "object",
+      "required": [
+        "original",
+        "rebuilt",
+        "views",
+        "pictures",
+        "buildings"
+      ],
+      "properties": {
+        "original": {
+          "type": "string"
+        },
+        "rebuilt": {
+          "type": "string"
+        },
+        "views": {
+          "type": "integer"
+        },
+        "pictures": {
+          "type": "integer"
+        },
+        "buildings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "views",
+              "skipped",
+              "pictures",
+              "contact"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "views": {
+                "$ref": "common.rpc.json#/$defs/strings"
+              },
+              "skipped": {
+                "$ref": "common.rpc.json#/$defs/strings"
+              },
+              "pictures": {
+                "$ref": "common.rpc.json#/$defs/strings"
+              },
+              "contact": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false,
+      "x-export": true
+    },
+    "pins_tour_job_result": {
+      "type": "object",
+      "required": [
+        "map",
+        "world",
+        "shots",
+        "skipped"
+      ],
+      "properties": {
+        "map": {
+          "type": "string"
+        },
+        "world": {
+          "type": "string"
+        },
+        "shots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "pin",
+              "name",
+              "picture"
+            ],
+            "properties": {
+              "pin": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "picture": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "skipped": {
+          "$ref": "common.rpc.json#/$defs/strings"
+        }
+      },
+      "additionalProperties": false,
+      "x-export": true
+    },
+    "playtest_job_result": {
+      "type": "object",
+      "required": [
+        "scenario",
+        "runs",
+        "passed",
+        "results",
+        "log"
+      ],
+      "properties": {
+        "scenario": {
+          "type": "string"
+        },
+        "runs": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "passed",
+              "failure"
+            ],
+            "properties": {
+              "passed": {
+                "type": "boolean"
+              },
+              "failure": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "log": {
+          "$ref": "common.rpc.json#/$defs/strings"
+        }
+      },
+      "additionalProperties": false,
+      "x-export": true
+    },
+    "lighting_bake_job_result": {
+      "type": "object",
+      "required": [
+        "map",
+        "world",
+        "family",
+        "version",
+        "pages",
+        "before",
+        "after",
+        "report"
+      ],
+      "properties": {
+        "map": {
+          "type": "string"
+        },
+        "world": {
+          "type": "string"
+        },
+        "family": {
+          "description": "indoor (OYILIT1, bake_indoor.py) or outdoor (OYMLIT1, bake_outdoor.py).",
+          "enum": [
+            "indoor",
+            "outdoor"
+          ]
+        },
+        "version": {
+          "type": "integer"
+        },
+        "pages": {
+          "description": "The sidecar's lightmap pages as pictures (2 shown as white, gamma 2.2; dark grey where no face is charted), each with its mean light over the charted texels.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "width",
+              "height",
+              "picture",
+              "mean",
+              "covered"
+            ],
+            "properties": {
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              },
+              "picture": {
+                "type": "string"
+              },
+              "mean": {
+                "description": "The mean light over the charted texels, in the renderer's units (1: a texture as it is).",
+                "type": "number",
+                "x-decimals": 3
+              },
+              "covered": {
+                "description": "How many texels a face's chart covers.",
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "before": {
+          "description": "The game's picture at the map's start without the bake (null: not taken).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "after": {
+          "description": "The same with the bake installed beside the map.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "report": {
+          "description": "What the producer reported (its report.json): faces lightmapped, texels, the bake's seconds.",
+          "type": "object",
+          "x-tree": true
+        },
+        "sidecar": {
+          "description": "The sidecar and its recipe, relative to the job's folder (to install by hand: beside the map).",
+          "$ref": "common.rpc.json#/$defs/strings"
+        }
+      },
+      "additionalProperties": false,
+      "x-export": true
+    }
+  }
+}

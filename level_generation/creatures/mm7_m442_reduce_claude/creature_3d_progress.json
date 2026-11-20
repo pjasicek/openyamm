@@ -1,0 +1,54 @@
+{
+  "creature_3d_identity": "mm7:m442_reduce",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 1
+  },
+  "creature": "MM7 Peasant Goblin Female m442 triangle reduction (batch K)",
+  "status": "installed_2026-10-20_reduced",
+  "source": {
+    "work/mm7_m442_source_pre_reduce.glb": "df54d5b4902856d7e123345f347acfa1e8b0f7ec663f3117254f25e90789b5db",
+    "work/mm7_m442_sickle_source_pre_reduce.glb": "76f745555e2360677c836db3ed02fd8e563dc1b1d552fdbcfb6675c9ed9a3506"
+  },
+  "exports": {
+    "export/mm7_m442.glb": "9f17eb60b043646a4bed935884eead0a0d7e269a2835dddbf415676a63aaf724",
+    "export/mm7_m442_sickle.glb": "f8e176891dca5df6b33872eb1c85a495660180795c6655b9a4d3671022435d38"
+  },
+  "pick": {
+    "config": "g",
+    "step": "r83",
+    "tris": [
+      7978,
+      3987,
+      1649,
+      515
+    ],
+    "source_tris": [
+      9534,
+      4758,
+      1690,
+      545
+    ],
+    "p99_mm": 4.27,
+    "max_mm": 24.55,
+    "iou": 0.9941,
+    "ssim": 0.9967
+  },
+  "checks": {
+    "compare_glb": "DIFFERENCES none",
+    "grip": "1139 hand vertices max 0.0003 mm, weights equal",
+    "winding": "0 inverted closed parts",
+    "viewer": "108 switches, no console errors"
+  },
+  "meshy_credits_spent": 0,
+  "next_action": {
+    "owner": "user",
+    "action": "review in review/viewer; install later (README)"
+  },
+  "last_update_utc": "2026-10-20",
+  "sickle_carry_fix_2026_10_20": "grip palm side fixed (source curl), thumb over index, palm-in carry; see README",
+  "installed": {
+    "source": "assets_source/worlds/mm7/models/mm7_m442.glb",
+    "binding": "assets_dev/worlds/mm7/models/actors.yml"
+  }
+}

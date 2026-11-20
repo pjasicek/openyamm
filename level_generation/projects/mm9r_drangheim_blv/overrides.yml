@@ -1,0 +1,65 @@
+# Drangheim as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  stem: drangheim
+  display_name: Drangheim
+  starts: [StartPoint0, DrangheimCityExit, FTDrangheim, DPSecretExit, DrangheimPrisonExit, ChasmOfTheDeadExit]   # the old map's party_start_points order
+  monster_classes: [Thrall, FieldThrall, FireDragonFly, Cutpurse, Bandit, ThrallMaster]
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [-2529, 27, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  Terrain0: static   # Terrain
+  Ocean: static   # WorldObject
+  'Well water': skip   # BlueWater
+  'cottage door': {group: cottage_door, motion: rotate}   # RotatingDoor
+  windows: static   # WorldObject
+  Door0: {group: Door0, motion: dat}   # Door
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate}   # RotatingDoor
+  TOD_Sky0: skip   # TOD_Sky
+  SkyBox0: skip   # DemoSkyWorldModel
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py DRANGHEIM): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    sturmfordcliff: grass_patches   # 88 %: Sturmford's mossy rock
+    sturmfordgrass: grass
+  slope: cliff
+# MM9's Ladder volumes (dungeon/rotation.py ladder_records; facing_lt: (x, z) toward the rungs, surface_lt: the rung
+# face along it, top_exit_lt: where the climber steps off), measured against the static geometry (2026-11-05).
+ladders:
+  Ladder5: {facing_lt: [0, 1], surface_lt: 431, top_exit_lt: [-2616, 928, 490]}   # the rope (WorldObject5) up to DPSecretExit
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [ThrallMaster0]
+  themed_near: [BonePile0, BonePile1, BonePile2, Cookpot0]

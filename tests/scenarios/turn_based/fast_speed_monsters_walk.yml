@@ -1,0 +1,24 @@
+id: turn_based.fast_speed_monsters_walk
+title: Turn-based - monsters walk as far each turn at a high game speed as at normal speed
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-11 in devdocs/TURN_BASED_COMBAT_AUDIT.md. Fast mode (F2, 1x to 4x) and the turn-based speed settings (up
+        to 4x) multiply each frame's time. The turn engine counted the whole sped-up time against the monsters' 64-tick
+        wait, but the world let actors catch up at most 0.1 s per frame, so a monster walked less each turn the faster
+        the game ran: at 16x speed and 30 frames a second, 18 % of its walk. Lizardman Peasant 11, made hostile,
+        walks about 355 units per turn at normal speed (away from the party: a peasant flees); at 16x it must walk
+        as far.
+  - new_game_flow:
+      start_map: out01.odm
+  - set_pose: {map: out01.odm, x: 12576, y: 5400, z: 736, yaw_degrees: 90}
+  - assert: {actor_visible: {actor_index: 11, near: {x: 12576, y: 6896, max_distance: 1}}}
+  - damage_actor: {actor_index: 11, amount: 1}
+  - press_action: combat
+  - assert: {turn_based: {active: true}}
+  - turn_based_turns: {count: 4, game_speed: 16}
+  # About 1090 units at any speed (the first turn's initiative roll varies it a little); 190 before the fix.
+  - assert: {actor_visible: {actor_index: 11, far: {x: 12576, y: 6896, min_distance: 950}, report_state: true}}

@@ -1,9 +1,12 @@
 #include "game/items/InventoryItemUseRuntime.h"
+#include "engine/Localization.h"
 
+#include "game/gameplay/GameMechanics.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SpellSchool.h"
+#include "game/rules/GameRules.h"
 
 #include <algorithm>
 #include <cctype>
@@ -23,10 +26,10 @@ constexpr uint32_t Mm6AppleItemId = 2104;
 constexpr uint32_t HorseshoeItemId = 656;
 constexpr uint32_t Mm7HorseshoeItemId = 1448;
 constexpr uint32_t Mm6HorseshoeItemId = 2083;
-constexpr uint32_t DimensionDoorScrollItemId = 190;
-constexpr uint32_t ChargedConnectorStoneItemId = 624;
-constexpr uint32_t DischargedConnectorStoneItemId = 625;
 constexpr uint32_t GenieLampItemId = 1418;
+// A spell scroll casts at skill 7, Master, as in MMMerge.
+constexpr uint32_t ScrollSpellSkillLevel = 7;
+
 constexpr uint32_t DeckOfFateItemId = 2067;
 constexpr uint32_t ExtraPotionPlayerBitBase = 200000;
 
@@ -141,63 +144,34 @@ bool restoreSpellPoints(Character &member, int amount)
     return member.spellPoints > previousSpellPoints;
 }
 
+// What a cure-all potion (Divine Cure) clears.
+constexpr std::array<CharacterCondition, 14> RestorableConditions = {
+    CharacterCondition::Cursed,
+    CharacterCondition::Weak,
+    CharacterCondition::Asleep,
+    CharacterCondition::Fear,
+    CharacterCondition::Drunk,
+    CharacterCondition::Insane,
+    CharacterCondition::PoisonWeak,
+    CharacterCondition::DiseaseWeak,
+    CharacterCondition::PoisonMedium,
+    CharacterCondition::DiseaseMedium,
+    CharacterCondition::PoisonSevere,
+    CharacterCondition::DiseaseSevere,
+    CharacterCondition::Paralyzed,
+    CharacterCondition::Zombie,
+};
+
 bool clearAllRestorableConditions(Party &party, size_t memberIndex)
 {
-    static constexpr std::array<CharacterCondition, 12> clearableConditions = {
-        CharacterCondition::Cursed,
-        CharacterCondition::Weak,
-        CharacterCondition::Asleep,
-        CharacterCondition::Fear,
-        CharacterCondition::Drunk,
-        CharacterCondition::Insane,
-        CharacterCondition::PoisonWeak,
-        CharacterCondition::DiseaseWeak,
-        CharacterCondition::PoisonMedium,
-        CharacterCondition::DiseaseMedium,
-        CharacterCondition::PoisonSevere,
-        CharacterCondition::DiseaseSevere,
-    };
-
     bool changed = false;
 
-    for (CharacterCondition condition : clearableConditions)
+    for (CharacterCondition condition : RestorableConditions)
     {
         changed = party.clearMemberCondition(memberIndex, condition) || changed;
     }
 
-    changed = party.clearMemberCondition(memberIndex, CharacterCondition::Paralyzed) || changed;
-    changed = party.clearMemberCondition(memberIndex, CharacterCondition::Zombie) || changed;
     return changed;
-}
-
-bool applyPermanentStatPotion(Character &member, uint32_t itemId)
-{
-    switch (itemId)
-    {
-        case 264:
-            member.permanentBonuses.luck += 50;
-            return true;
-        case 265:
-            member.permanentBonuses.speed += 50;
-            return true;
-        case 266:
-            member.permanentBonuses.intellect += 50;
-            return true;
-        case 267:
-            member.permanentBonuses.endurance += 50;
-            return true;
-        case 268:
-            member.permanentBonuses.personality += 50;
-            return true;
-        case 269:
-            member.permanentBonuses.accuracy += 50;
-            return true;
-        case 270:
-            member.permanentBonuses.might += 50;
-            return true;
-        default:
-            return false;
-    }
 }
 
 bool markExtraPotionUsed(Character &member, uint32_t itemId)
@@ -213,62 +187,30 @@ bool markExtraPotionUsed(Character &member, uint32_t itemId)
     return true;
 }
 
-void applyTemporaryStatPotion(Character &member, int CharacterStatBonuses::*field, int power)
+// MM8 keeps a buff that would outlast the potion's.
+void applyPotionBuff(
+    Party &party,
+    size_t memberIndex,
+    CharacterBuffId buffId,
+    float durationSeconds,
+    int buffPower)
 {
-    member.magicalBonuses.*field += std::max(1, power);
-}
+    const CharacterBuffState *pActiveBuff = party.characterBuff(memberIndex, buffId);
 
-void applyTemporaryResistancePotion(Character &member, int CharacterResistanceSet::*field, int power)
-{
-    member.magicalBonuses.resistances.*field += std::max(1, power);
-}
-
-bool applyBoostPotion(Character &member, uint32_t potionId, int power)
-{
-    switch (potionId)
+    if (pActiveBuff != nullptr && pActiveBuff->remainingSeconds >= durationSeconds)
     {
-        case 20:
-            applyTemporaryStatPotion(member, &CharacterStatBonuses::might, power);
-            return true;
-        case 21:
-            applyTemporaryStatPotion(member, &CharacterStatBonuses::intellect, power);
-            return true;
-        case 22:
-            applyTemporaryStatPotion(member, &CharacterStatBonuses::personality, power);
-            return true;
-        case 23:
-            applyTemporaryStatPotion(member, &CharacterStatBonuses::endurance, power);
-            return true;
-        case 24:
-            applyTemporaryStatPotion(member, &CharacterStatBonuses::speed, power);
-            return true;
-        case 25:
-            applyTemporaryStatPotion(member, &CharacterStatBonuses::accuracy, power);
-            return true;
-        case 35:
-            applyTemporaryStatPotion(member, &CharacterStatBonuses::luck, power);
-            return true;
-        case 36:
-            applyTemporaryResistancePotion(member, &CharacterResistanceSet::fire, power);
-            return true;
-        case 37:
-            applyTemporaryResistancePotion(member, &CharacterResistanceSet::air, power);
-            return true;
-        case 38:
-            applyTemporaryResistancePotion(member, &CharacterResistanceSet::water, power);
-            return true;
-        case 39:
-            applyTemporaryResistancePotion(member, &CharacterResistanceSet::earth, power);
-            return true;
-        case 40:
-            applyTemporaryResistancePotion(member, &CharacterResistanceSet::mind, power);
-            return true;
-        case 41:
-            applyTemporaryResistancePotion(member, &CharacterResistanceSet::body, power);
-            return true;
-        default:
-            return false;
+        return;
     }
+
+    party.applyCharacterBuff(
+        memberIndex,
+        buffId,
+        durationSeconds,
+        buffPower,
+        0,
+        0,
+        SkillMastery::Master,
+        static_cast<uint32_t>(memberIndex));
 }
 
 void decreaseBaseStat(uint32_t &stat, uint32_t amount)
@@ -276,137 +218,291 @@ void decreaseBaseStat(uint32_t &stat, uint32_t amount)
     stat = stat > amount ? stat - amount : 0;
 }
 
-bool applyEssencePotion(Character &member, uint32_t itemId, uint32_t Character::*primary, uint32_t Character::*penalty)
+void addPotionStat(Character &member, PotionStat stat, int amount, bool intoBonus)
 {
-    if (!markExtraPotionUsed(member, itemId))
+    uint32_t *pBase = nullptr;
+    int *pBonus = nullptr;
+
+    switch (stat)
     {
-        return false;
+        case PotionStat::Might:
+            pBase = &member.might;
+            pBonus = &member.permanentBonuses.might;
+            break;
+        case PotionStat::Intellect:
+            pBase = &member.intellect;
+            pBonus = &member.permanentBonuses.intellect;
+            break;
+        case PotionStat::Personality:
+            pBase = &member.personality;
+            pBonus = &member.permanentBonuses.personality;
+            break;
+        case PotionStat::Endurance:
+            pBase = &member.endurance;
+            pBonus = &member.permanentBonuses.endurance;
+            break;
+        case PotionStat::Accuracy:
+            pBase = &member.accuracy;
+            pBonus = &member.permanentBonuses.accuracy;
+            break;
+        case PotionStat::Speed:
+            pBase = &member.speed;
+            pBonus = &member.permanentBonuses.speed;
+            break;
+        case PotionStat::Luck:
+            pBase = &member.luck;
+            pBonus = &member.permanentBonuses.luck;
+            break;
     }
 
-    member.*primary += 15;
-    decreaseBaseStat(member.*penalty, 5);
-    return true;
+    if (intoBonus)
+    {
+        *pBonus += amount;
+    }
+    else if (amount >= 0)
+    {
+        *pBase += static_cast<uint32_t>(amount);
+    }
+    else
+    {
+        decreaseBaseStat(*pBase, static_cast<uint32_t>(-amount));
+    }
 }
 
-bool applyExtraPotionEffect(Party &party, size_t targetMemberIndex, Character &member, uint32_t potionId, uint32_t itemId, int power)
+int &potionResistance(Character &member, PotionResistance resistance)
 {
-    switch (potionId)
+    switch (resistance)
     {
-        case 51:
-            member.ageModifier -= std::max(1, static_cast<int>(std::ceil(static_cast<double>(power) / 10.0)));
-            return true;
-        case 52:
-            return applyEssencePotion(member, itemId, &Character::might, &Character::intellect);
-        case 53:
-            return applyEssencePotion(member, itemId, &Character::intellect, &Character::might);
-        case 54:
-            return applyEssencePotion(member, itemId, &Character::personality, &Character::speed);
-        case 55:
-            if (!markExtraPotionUsed(member, itemId))
-            {
-                return false;
-            }
-            decreaseBaseStat(member.might, 1);
-            decreaseBaseStat(member.intellect, 1);
-            decreaseBaseStat(member.personality, 1);
-            decreaseBaseStat(member.accuracy, 1);
-            decreaseBaseStat(member.speed, 1);
-            decreaseBaseStat(member.luck, 1);
-            member.endurance += 15;
-            return true;
-        case 56:
-            return applyEssencePotion(member, itemId, &Character::accuracy, &Character::luck);
-        case 57:
-            return applyEssencePotion(member, itemId, &Character::speed, &Character::personality);
-        case 58:
-            return applyEssencePotion(member, itemId, &Character::luck, &Character::accuracy);
-        case 59:
-            member.might += 1;
-            member.intellect += 1;
-            member.personality += 1;
-            member.endurance += 1;
-            member.accuracy += 1;
-            member.speed += 1;
-            member.luck += 1;
-            member.baseResistances.fire += 1;
-            member.baseResistances.air += 1;
-            member.baseResistances.water += 1;
-            member.baseResistances.earth += 1;
-            member.baseResistances.mind += 1;
-            member.baseResistances.body += 1;
-            member.ageModifier += 5;
-            return true;
-        case 60:
-            member.magicalBonuses.might += power * 3;
-            member.magicalBonuses.intellect += power * 3;
-            member.magicalBonuses.personality += power * 3;
-            member.magicalBonuses.endurance += power * 3;
-            member.magicalBonuses.accuracy += power * 3;
-            member.magicalBonuses.speed += power * 3;
-            member.magicalBonuses.luck += power * 3;
-            return true;
-        case 61:
-            member.magicalBonuses.resistances.fire += power * 3;
-            member.magicalBonuses.resistances.air += power * 3;
-            member.magicalBonuses.resistances.water += power * 3;
-            member.magicalBonuses.resistances.earth += power * 3;
-            member.magicalBonuses.resistances.mind += power * 3;
-            member.magicalBonuses.resistances.body += power * 3;
-            return true;
-        case 62:
-            member.levelModifier += 20;
-            return true;
-        case 63:
-            if (!markExtraPotionUsed(member, itemId))
-            {
-                return false;
-            }
-            member.might += 20;
-            member.intellect += 20;
-            member.personality += 20;
-            member.endurance += 20;
-            member.accuracy += 20;
-            member.speed += 20;
-            member.luck += 20;
-            member.ageModifier += 10;
-            return true;
-        case 64:
-            if (!markExtraPotionUsed(member, itemId)) return false;
-            member.baseResistances.fire += 40;
-            return true;
-        case 65:
-            if (!markExtraPotionUsed(member, itemId)) return false;
-            member.baseResistances.air += 40;
-            return true;
-        case 66:
-            if (!markExtraPotionUsed(member, itemId)) return false;
-            member.baseResistances.water += 40;
-            return true;
-        case 67:
-            if (!markExtraPotionUsed(member, itemId)) return false;
-            member.baseResistances.earth += 40;
-            return true;
-        case 68:
-            if (!markExtraPotionUsed(member, itemId)) return false;
-            member.baseResistances.mind += 40;
-            return true;
-        case 69:
-            if (!markExtraPotionUsed(member, itemId)) return false;
-            member.baseResistances.body += 40;
-            return true;
-        case 70:
-            party.applyPartyBuff(
-                PartyBuffId::ProtectionFromMagic,
-                30.0f * 60.0f * static_cast<float>(std::max(1, power)),
-                3,
-                0,
-                10,
-                SkillMastery::Grandmaster,
-                static_cast<uint32_t>(targetMemberIndex));
-            return true;
+        case PotionResistance::Fire:
+            return member.baseResistances.fire;
+        case PotionResistance::Air:
+            return member.baseResistances.air;
+        case PotionResistance::Water:
+            return member.baseResistances.water;
+        case PotionResistance::Earth:
+            return member.baseResistances.earth;
+        case PotionResistance::Mind:
+            return member.baseResistances.mind;
+        case PotionResistance::Body:
         default:
-            return false;
+            return member.baseResistances.body;
     }
+}
+
+// Sets a timed potion effect, replacing one of the same kind and key (a new drink restarts it at its own strength).
+void setTimedPotionEffect(Character &member, TimedPotionEffect::Kind kind, uint32_t key, int amount, float seconds)
+{
+    std::erase_if(
+        member.rulesetState.potionEffects,
+        [kind, key](const TimedPotionEffect &effect)
+        {
+            return effect.kind == kind && effect.key == key;
+        });
+    member.rulesetState.potionEffects.push_back({kind, key, amount, seconds});
+}
+
+// The step a best-step potion reaches at this power (MAW's black potions: one step per 50 power).
+int potionStep(const PotionDefinition &potion, int power)
+{
+    for (const PotionEffect &effect : potion.effects)
+    {
+        if (effect.limit == PotionLimit::BestStep && effect.amount.divisor > 0)
+        {
+            return power / effect.amount.divisor;
+        }
+    }
+
+    return 0;
+}
+
+// How much a best-step effect adds over the step the character reached before.
+int bestStepGain(const PotionEffect &effect, int step, int bestStep)
+{
+    const int divisor = std::max(1, effect.amount.divisor);
+    return effect.amount.evaluate(step * divisor) - effect.amount.evaluate(bestStep * divisor);
+}
+
+enum class PotionDrinkOutcome : uint8_t
+{
+    Drunk,
+    // A once-per-character potion the character drank before, or a best-step potion that does not beat their best.
+    NoBenefit,
+};
+
+// Drinks a potion defined in potion_effects.yml at `power` (already capped). Nothing changes on NoBenefit.
+PotionDrinkOutcome applyPotionEffects(
+    Party &party,
+    size_t memberIndex,
+    Character &member,
+    const PotionDefinition &potion,
+    float durationSeconds,
+    int power,
+    const PotionRules &potionRules)
+{
+    const int step = potionStep(potion, power);
+    const auto bestStep = member.rulesetState.potionSteps.find(potion.itemId);
+    const int previousStep = bestStep != member.rulesetState.potionSteps.end() ? bestStep->second : 0;
+    const bool hasBestStep = std::any_of(
+        potion.effects.begin(),
+        potion.effects.end(),
+        [](const PotionEffect &effect)
+        {
+            return effect.limit == PotionLimit::BestStep;
+        });
+
+    if (hasBestStep && step <= previousStep)
+    {
+        return PotionDrinkOutcome::NoBenefit;
+    }
+
+    if (potion.oncePerCharacter && !markExtraPotionUsed(member, potion.itemId))
+    {
+        return PotionDrinkOutcome::NoBenefit;
+    }
+
+    for (const PotionEffect &effect : potion.effects)
+    {
+        const int amount = effect.limit == PotionLimit::BestStep
+            ? bestStepGain(effect, step, previousStep)
+            : effect.amount.evaluate(power, potionRules.estimatedPool(effect.amount.pool, power));
+
+        switch (effect.kind)
+        {
+            case PotionEffectKind::Restore:
+                if (effect.pool == PotionPool::HitPoints)
+                {
+                    party.healMember(memberIndex, amount);
+                }
+                else
+                {
+                    restoreSpellPoints(member, amount);
+                }
+                break;
+            case PotionEffectKind::Cure:
+                for (CharacterCondition condition : effect.conditions)
+                {
+                    party.clearMemberCondition(memberIndex, condition);
+                }
+                break;
+            case PotionEffectKind::CureAllRestorable:
+                clearAllRestorableConditions(party, memberIndex);
+                break;
+            case PotionEffectKind::Buff:
+                if (effect.conditions.empty()
+                    || !member.conditions.test(static_cast<size_t>(effect.conditions.front())))
+                {
+                    applyPotionBuff(party, memberIndex, effect.buffId, durationSeconds, amount);
+                }
+                break;
+            case PotionEffectKind::PartyBuff:
+                party.applyPartyBuff(
+                    effect.partyBuffId,
+                    durationSeconds,
+                    amount,
+                    0,
+                    static_cast<uint32_t>(effect.partyBuffSkillLevel),
+                    effect.partyBuffMastery,
+                    static_cast<uint32_t>(memberIndex));
+                break;
+            case PotionEffectKind::PermanentStat:
+                for (PotionStat stat : effect.stats)
+                {
+                    addPotionStat(member, stat, amount, effect.intoBonus);
+                }
+                break;
+            case PotionEffectKind::PermanentResistance:
+                for (PotionResistance resistance : effect.resistances)
+                {
+                    potionResistance(member, resistance) += amount;
+                }
+                break;
+            case PotionEffectKind::Age:
+                if (effect.setYears > 0)
+                {
+                    member.birthYear = uint32_t(std::max(0, CharacterAgeReferenceYear - effect.setYears));
+                    member.ageModifier = 0;
+                }
+                else if (!effect.younger)
+                {
+                    member.ageModifier += amount;
+                }
+                else if (effect.clearMagicAgeFirst && member.ageModifier > 0)
+                {
+                    member.ageModifier = 0;
+                }
+                else
+                {
+                    member.ageModifier -= std::max(1, amount);
+                }
+                break;
+            case PotionEffectKind::LevelModifier:
+                member.levelModifier += amount;
+                break;
+            case PotionEffectKind::Immunity:
+                for (CharacterCondition condition : effect.conditions)
+                {
+                    setTimedPotionEffect(
+                        member, TimedPotionEffect::Kind::Immunity, uint32_t(condition), 1, durationSeconds);
+                }
+                break;
+            case PotionEffectKind::AuraBuff:
+                setTimedPotionEffect(member, TimedPotionEffect::Kind::Aura, effect.spellId, power, durationSeconds);
+                break;
+            case PotionEffectKind::SkillBonus:
+                setTimedPotionEffect(
+                    member,
+                    TimedPotionEffect::Kind::SkillBonus,
+                    skillIdForSkillName(effect.skillName).value_or(0),
+                    amount,
+                    durationSeconds);
+                break;
+            case PotionEffectKind::Regeneration:
+                setTimedPotionEffect(member, TimedPotionEffect::Kind::Regeneration, 0, amount, durationSeconds);
+                break;
+            case PotionEffectKind::SkillPoints:
+                member.skillPoints += uint32_t(std::max(0, amount));
+                break;
+        }
+    }
+
+    if (hasBestStep)
+    {
+        member.rulesetState.potionSteps[potion.itemId] = step;
+    }
+
+    party.rebuildMagicalBonusesFromBuffs();
+    return PotionDrinkOutcome::Drunk;
+}
+
+// Who pays a potion's recovery: the drinker when ready (MAW; not when the active member pays, as in the original
+// games), else the active member, else the first ready one.
+std::optional<size_t> potionRecoveryPayer(const Party &party, size_t drinkerIndex, bool activeMemberPays)
+{
+    const auto ready = [&party](size_t memberIndex)
+    {
+        const Character *pMember = party.member(memberIndex);
+        return pMember != nullptr && GameMechanics::canTakeGameplayAction(*pMember);
+    };
+
+    if (!activeMemberPays && ready(drinkerIndex))
+    {
+        return drinkerIndex;
+    }
+
+    if (ready(party.activeMemberIndex()))
+    {
+        return party.activeMemberIndex();
+    }
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        if (ready(memberIndex))
+        {
+            return memberIndex;
+        }
+    }
+
+    return std::nullopt;
 }
 
 std::optional<CharacterCondition> majorCondition(const Character &member)
@@ -508,35 +604,33 @@ std::string inactiveCharacterStatusText(const Character &member)
 
     if (condition)
     {
-        return "That player is " + conditionDisplayName(*condition);
+        return Engine::tr("That player is {condition}",
+            {{"condition", Engine::localize(conditionDisplayName(*condition))}});
     }
 
-    return "That player is not active";
+    return Engine::tr("That player is not active");
 }
 
 std::string itemDisplayNameForStatus(const ItemDefinition &itemDefinition)
 {
-    return itemDefinition.name.empty() ? "Item" : itemDefinition.name;
+    return itemDefinition.name.empty() ? Engine::tr("Item") : Engine::localize(itemDefinition.name);
 }
 
 std::string itemCannotBeUsedStatusText(const ItemDefinition &itemDefinition)
 {
-    return itemDisplayNameForStatus(itemDefinition) + " can not be used that way";
+    return Engine::tr("{item} can not be used that way", {{"item", itemDisplayNameForStatus(itemDefinition)}});
 }
 
 bool isFoodItem(uint32_t itemId)
 {
     return itemId == ToberskFruitItemId || itemId == GreenAppleItemId
         || itemId == Mm7RedAppleItemId || itemId == Mm6AppleItemId;
+
 }
 
 std::optional<SoundId> instrumentSoundId(const ItemDefinition &itemDefinition)
 {
-    if (itemNameContains(itemDefinition, "lute"))
-    {
-        return SoundId::LuteGuitar;
-    }
-
+    // The flutes first: "flute" and "pan flute" contain "lute".
     if (itemNameContains(itemDefinition, "faerie pipes")
         || itemNameContains(itemDefinition, "pan flute")
         || itemNameContains(itemDefinition, "panflute"))
@@ -544,14 +638,19 @@ std::optional<SoundId> instrumentSoundId(const ItemDefinition &itemDefinition)
         return SoundId::PanFlute;
     }
 
-    if (itemNameContains(itemDefinition, "trumpet"))
-    {
-        return SoundId::Trumpet;
-    }
-
     if (itemNameEquals(itemDefinition, "flute"))
     {
         return SoundId::Flute;
+    }
+
+    if (itemNameContains(itemDefinition, "lute"))
+    {
+        return SoundId::LuteGuitar;
+    }
+
+    if (itemNameContains(itemDefinition, "trumpet"))
+    {
+        return SoundId::Trumpet;
     }
 
     return std::nullopt;
@@ -575,43 +674,43 @@ std::string applyGenieLampReward(Party &party, Character &member, size_t memberI
     {
         case 0:
             addPermanentStatBonus(member, &CharacterStatBonuses::might, value);
-            return "+" + std::to_string(value) + " Might Permanent";
+            return Engine::tr("+{value} Might Permanent", {{"value", int64_t(value)}});
         case 1:
             addPermanentStatBonus(member, &CharacterStatBonuses::intellect, value);
-            return "+" + std::to_string(value) + " Intellect Permanent";
+            return Engine::tr("+{value} Intellect Permanent", {{"value", int64_t(value)}});
         case 2:
             addPermanentStatBonus(member, &CharacterStatBonuses::personality, value);
-            return "+" + std::to_string(value) + " Personality Permanent";
+            return Engine::tr("+{value} Personality Permanent", {{"value", int64_t(value)}});
         case 3:
             addPermanentStatBonus(member, &CharacterStatBonuses::endurance, value);
-            return "+" + std::to_string(value) + " Endurance Permanent";
+            return Engine::tr("+{value} Endurance Permanent", {{"value", int64_t(value)}});
         case 4:
             addPermanentStatBonus(member, &CharacterStatBonuses::accuracy, value);
-            return "+" + std::to_string(value) + " Accuracy Permanent";
+            return Engine::tr("+{value} Accuracy Permanent", {{"value", int64_t(value)}});
         case 5:
             addPermanentStatBonus(member, &CharacterStatBonuses::speed, value);
-            return "+" + std::to_string(value) + " Speed Permanent";
+            return Engine::tr("+{value} Speed Permanent", {{"value", int64_t(value)}});
         case 6:
             addPermanentStatBonus(member, &CharacterStatBonuses::luck, value);
-            return "+" + std::to_string(value) + " Luck Permanent";
+            return Engine::tr("+{value} Luck Permanent", {{"value", int64_t(value)}});
         case 7:
         {
             const int gold = 1000 * value;
-            party.addGold(gold);
-            return "+" + std::to_string(gold) + " Gold";
+            party.addGold(gold, GoldReason::Other);
+            return Engine::tr("+{value} Gold", {{"value", int64_t(gold)}});
         }
         case 8:
         {
             const int food = 5 * value;
             party.addFood(food);
-            return "+" + std::to_string(food) + " Food";
+            return Engine::tr("+{value} Food", {{"value", int64_t(food)}});
         }
         case 9:
             member.skillPoints += static_cast<uint32_t>(2 * value);
-            return "+" + std::to_string(2 * value) + " Skill Points";
+            return Engine::tr("+{value} Skill Points", {{"value", int64_t(2 * value)}});
         case 10:
             party.addExperienceToMember(memberIndex, 2500LL * value);
-            return "+" + std::to_string(2500 * value) + " Experience";
+            return Engine::tr("+{value} Experience", {{"value", int64_t(2500 * value)}});
         case 11:
         {
             static thread_local std::mt19937 rng(std::random_device{}());
@@ -621,22 +720,22 @@ std::string applyGenieLampReward(Party &party, Character &member, size_t memberI
             {
                 case 0:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::fire, value);
-                    return "+" + std::to_string(value) + " Fire Permanent";
+                    return Engine::tr("+{value} Fire Permanent", {{"value", int64_t(value)}});
                 case 1:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::air, value);
-                    return "+" + std::to_string(value) + " Air Permanent";
+                    return Engine::tr("+{value} Air Permanent", {{"value", int64_t(value)}});
                 case 2:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::water, value);
-                    return "+" + std::to_string(value) + " Water Permanent";
+                    return Engine::tr("+{value} Water Permanent", {{"value", int64_t(value)}});
                 case 3:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::earth, value);
-                    return "+" + std::to_string(value) + " Earth Permanent";
+                    return Engine::tr("+{value} Earth Permanent", {{"value", int64_t(value)}});
                 case 4:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::mind, value);
-                    return "+" + std::to_string(value) + " Mind Permanent";
+                    return Engine::tr("+{value} Mind Permanent", {{"value", int64_t(value)}});
                 default:
                     addPermanentResistanceBonus(member, &CharacterResistanceSet::body, value);
-                    return "+" + std::to_string(value) + " Body Permanent";
+                    return Engine::tr("+{value} Body Permanent", {{"value", int64_t(value)}});
             }
         }
         default:
@@ -654,40 +753,40 @@ std::string applyDeckOfFateReward(Character &member, float gameMinutes)
     {
         case 0:
             addPermanentStatBonus(member, &CharacterStatBonuses::might, value);
-            return "+" + std::to_string(value) + " Might!";
+            return Engine::tr("+{value} Might!", {{"value", int64_t(value)}});
         case 1:
             addPermanentStatBonus(member, &CharacterStatBonuses::intellect, value);
-            return "+" + std::to_string(value) + " Intellect!";
+            return Engine::tr("+{value} Intellect!", {{"value", int64_t(value)}});
         case 2:
             addPermanentStatBonus(member, &CharacterStatBonuses::personality, value);
-            return "+" + std::to_string(value) + " Personality!";
+            return Engine::tr("+{value} Personality!", {{"value", int64_t(value)}});
         case 3:
             addPermanentStatBonus(member, &CharacterStatBonuses::endurance, value);
-            return "+" + std::to_string(value) + " Endurance!";
+            return Engine::tr("+{value} Endurance!", {{"value", int64_t(value)}});
         case 4:
             addPermanentStatBonus(member, &CharacterStatBonuses::accuracy, value);
-            return "+" + std::to_string(value) + " Accuracy!";
+            return Engine::tr("+{value} Accuracy!", {{"value", int64_t(value)}});
         case 5:
             addPermanentStatBonus(member, &CharacterStatBonuses::speed, value);
-            return "+" + std::to_string(value) + " Speed!";
+            return Engine::tr("+{value} Speed!", {{"value", int64_t(value)}});
         case 6:
             addPermanentStatBonus(member, &CharacterStatBonuses::luck, value);
-            return "+" + std::to_string(value) + " Luck!";
+            return Engine::tr("+{value} Luck!", {{"value", int64_t(value)}});
         case 7:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::fire, value);
-            return "+" + std::to_string(value) + " Fire Resistance!";
+            return Engine::tr("+{value} Fire Resistance!", {{"value", int64_t(value)}});
         case 8:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::air, value);
-            return "+" + std::to_string(value) + " Air Resistance!";
+            return Engine::tr("+{value} Air Resistance!", {{"value", int64_t(value)}});
         case 9:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::water, value);
-            return "+" + std::to_string(value) + " Water Resistance!";
+            return Engine::tr("+{value} Water Resistance!", {{"value", int64_t(value)}});
         case 10:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::earth, value);
-            return "+" + std::to_string(value) + " Earth Resistance!";
+            return Engine::tr("+{value} Earth Resistance!", {{"value", int64_t(value)}});
         case 11:
             addPermanentResistanceBonus(member, &CharacterResistanceSet::body, value);
-            return "+" + std::to_string(value) + " Body Resistance!";
+            return Engine::tr("+{value} Body Resistance!", {{"value", int64_t(value)}});
         default:
             break;
     }
@@ -752,6 +851,32 @@ InventoryItemUseResult makeFailure(
 }
 }
 
+float InventoryItemUseRuntime::potionDurationSeconds(const Party &party, const PotionEffectTable &effects, int power)
+{
+    const float soloSeconds = party.soloRun() ? effects.soloDurationSeconds() : 0.0f;
+
+    if (effects.timedSecondsPerPower() > 0)
+    {
+        return std::max(effects.timedSecondsPerPower() * static_cast<float>(power), soloSeconds);
+    }
+
+    int bestGrandmasterSkill = 0;
+
+    for (const Character &member : party.members())
+    {
+        const CharacterSkill *pAlchemy = member.findSkill("Alchemy");
+
+        if (pAlchemy != nullptr && pAlchemy->mastery >= SkillMastery::Grandmaster)
+        {
+            bestGrandmasterSkill =
+                std::max(bestGrandmasterSkill, static_cast<int>(pAlchemy->level) + member.skillBonus("Alchemy"));
+        }
+    }
+
+    return std::max(effects.fixedDurationSeconds(), soloSeconds)
+        + effects.grandmasterAlchemySecondsPerSkill() * static_cast<float>(bestGrandmasterSkill);
+}
+
 InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
     const InventoryItem &item,
     const ItemTable &itemTable,
@@ -765,17 +890,6 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::None;
     }
 
-    if (item.objectDescriptionId == DimensionDoorScrollItemId)
-    {
-        return InventoryItemUseAction::UseDimensionDoorScroll;
-    }
-
-    if (item.objectDescriptionId == ChargedConnectorStoneItemId
-        || item.objectDescriptionId == DischargedConnectorStoneItemId)
-    {
-        return InventoryItemUseAction::UseConnectorStone;
-    }
-
     if (lowerAscii(pItemDefinition->useAction) == "learnskill")
     {
         return InventoryItemUseAction::LearnSkill;
@@ -784,6 +898,46 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
     if (lowerAscii(pItemDefinition->useAction) == "readtext")
     {
         return InventoryItemUseAction::ReadMessageScroll;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "granttechpoints")
+    {
+        return InventoryItemUseAction::GrantTechPoints;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "grantskillpoints")
+    {
+        return InventoryItemUseAction::GrantSkillPoints;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "useshieldcell")
+    {
+        return InventoryItemUseAction::UseShieldCell;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "useshieldburst")
+    {
+        return InventoryItemUseAction::UseShieldBurst;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "throwempgrenade")
+    {
+        return InventoryItemUseAction::ThrowEmpGrenade;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "usestim")
+    {
+        return InventoryItemUseAction::UseStim;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "placebreachcharge")
+    {
+        return InventoryItemUseAction::PlaceBreachCharge;
+    }
+
+    if (lowerAscii(pItemDefinition->useAction) == "eatfood")
+    {
+        return InventoryItemUseAction::EatFoodItem;
     }
 
     if (pItemDefinition->equipStat == "Sscroll")
@@ -886,7 +1040,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
     if (pItemDefinition == nullptr || pTargetMember == nullptr)
     {
-        return makeFailure(result.action, "Item can not be used that way");
+        return makeFailure(result.action, Engine::tr("Item can not be used that way"));
     }
 
     switch (result.action)
@@ -898,14 +1052,14 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                 return makeFailure(result.action, inactiveCharacterStatusText(*pTargetMember));
             }
 
-            if (context.underwater)
+            if (context.spellcastingForbidden)
             {
-                return makeFailure(result.action, "You can not do that while you are underwater!");
+                return makeFailure(result.action, Engine::tr("You can not do that while you are underwater!"));
             }
 
             if (pTargetMember->recoverySecondsRemaining > 0.0f)
             {
-                return makeFailure(result.action, "That player is not active");
+                return makeFailure(result.action, Engine::tr("That player is not active"));
             }
 
             const std::optional<uint32_t> spellId = tryParseSpellId(*pItemDefinition);
@@ -918,33 +1072,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             result.handled = true;
             result.consumed = true;
             result.spellId = *spellId;
-            result.spellSkillLevelOverride = 5;
-            result.spellSkillMasteryOverride = SkillMastery::Master;
-            result.spellBypassRequiredMastery = true;
-            return result;
-        }
-
-        case InventoryItemUseAction::UseDimensionDoorScroll:
-        {
-            if (!canUseSpellItem(*pTargetMember))
-            {
-                return makeFailure(result.action, inactiveCharacterStatusText(*pTargetMember));
-            }
-
-            if (context.underwater)
-            {
-                return makeFailure(result.action, "You can not do that while you are underwater!");
-            }
-
-            if (pTargetMember->recoverySecondsRemaining > 0.0f)
-            {
-                return makeFailure(result.action, "That player is not active");
-            }
-
-            result.handled = true;
-            result.consumed = true;
-            result.spellId = spellIdValue(SpellId::TownPortal);
-            result.spellSkillLevelOverride = 5;
+            result.spellSkillLevelOverride = ScrollSpellSkillLevel;
             result.spellSkillMasteryOverride = SkillMastery::Master;
             result.spellBypassRequiredMastery = true;
             return result;
@@ -977,31 +1105,33 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                     SpeechId::CantLearnSpell);
             }
 
-            const CharacterSkill *pSkill = pTargetMember->findSkill(*skillName);
+            // The same check the markers under spellbooks show (spellbookKnowledge).
+            const SpellbookLearnCheck check = checkSpellbookLearn(*pTargetMember, *spellId);
 
-            if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
+            if (check == SpellbookLearnCheck::ClassReadsNoBooks)
             {
                 return makeFailure(
                     result.action,
-                    "You don't have the skill to learn " + itemDisplayNameForStatus(*pItemDefinition),
+                    Engine::tr("{class}s can't learn spells from books",
+                        {{"class", Engine::localize(displayClassName(pTargetMember->className), "class")}}),
                     SpeechId::CantLearnSpell);
             }
 
-            const SkillMastery requiredMastery = requiredMasteryForSpell(*spellId);
-
-            if (requiredMastery != SkillMastery::None && pSkill->mastery < requiredMastery)
+            if (check == SpellbookLearnCheck::NoSkill || check == SpellbookLearnCheck::MasteryTooLow)
             {
                 return makeFailure(
                     result.action,
-                    "You don't have the skill to learn " + itemDisplayNameForStatus(*pItemDefinition),
+                    Engine::tr("You don't have the skill to learn {item}",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}),
                     SpeechId::CantLearnSpell);
             }
 
-            if (pTargetMember->knowsSpell(*spellId))
+            if (check == SpellbookLearnCheck::AlreadyKnown)
             {
                 result = makeFailure(
                     result.action,
-                    "You already know the " + itemDisplayNameForStatus(*pItemDefinition) + " spell");
+                    Engine::tr("You already know the {item} spell",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}));
                 result.alreadyKnown = true;
                 return result;
             }
@@ -1056,7 +1186,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 result = makeFailure(
                     result.action,
-                    "You already know one or more skills in " + itemDisplayNameForStatus(*pItemDefinition));
+                    Engine::tr("You already know one or more skills in {item}",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}));
                 result.alreadyKnown = true;
                 return result;
             }
@@ -1065,7 +1196,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 result = makeFailure(
                     result.action,
-                    "This character cannot learn the skills in " + itemDisplayNameForStatus(*pItemDefinition));
+                    Engine::tr("This character cannot learn the skills in {item}",
+                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}));
                 return result;
             }
 
@@ -1073,7 +1205,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             {
                 if (!party.learnMemberSkill(targetMemberIndex, skillName))
                 {
-                    return makeFailure(result.action, "The skill could not be learned");
+                    return makeFailure(result.action, Engine::tr("The skill could not be learned"));
                 }
             }
 
@@ -1081,191 +1213,103 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             result.consumed = true;
             result.learnedSkills = learnableSkills;
             result.statusText = learnableSkills.size() == 1
-                ? "Learned " + displaySkillName(learnableSkills.front())
-                : "Learned the skills in " + itemDisplayNameForStatus(*pItemDefinition);
+                ? Engine::tr("Learned {skill}",
+                    {{"skill", Engine::localize(displaySkillName(learnableSkills.front()), "skill")}})
+                : Engine::tr("Learned the skills in {item}", {{"item", itemDisplayNameForStatus(*pItemDefinition)}});
             return result;
         }
 
         case InventoryItemUseAction::ConsumePotion:
         {
-            const MergedPotionSettingEntry *pPotionSetting =
-                pPotionSettingTable != nullptr ? pPotionSettingTable->getByItemId(item.objectDescriptionId) : nullptr;
-            const uint32_t potionId = pPotionSetting != nullptr ? pPotionSetting->potionId : 0;
-            const int potionPower = std::max(1, static_cast<int>(item.standardEnchantPower));
+            const PotionDefinition *pPotion = pPotionSettingTable != nullptr
+                ? pPotionSettingTable->effects().find(item.objectDescriptionId)
+                : nullptr;
 
-            if (potionId >= 51 && potionId <= 70)
+            if (pPotion == nullptr || pPotion->effects.empty())
             {
-                if (applyExtraPotionEffect(
-                        party,
-                        targetMemberIndex,
-                        *pTargetMember,
-                        potionId,
-                        item.objectDescriptionId,
-                        potionPower))
-                {
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                }
-
                 return makeFailure(result.action, itemCannotBeUsedStatusText(*pItemDefinition), SpeechId::PotionFail);
             }
 
-            if (applyBoostPotion(*pTargetMember, potionId, potionPower))
+            const PotionEffectTable &effects = pPotionSettingTable->effects();
+            int potionPower = std::max(1, static_cast<int>(item.standardEnchantPower));
+
+            if (effects.powerCap() > 0)
             {
-                result.handled = true;
-                result.consumed = true;
-                return result;
+                potionPower = std::min(potionPower, effects.powerCap());
             }
 
-            switch (potionId)
+            if (potionPower < pPotion->minimumPower)
             {
-                case 4:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::Weak);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 5:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::DiseaseWeak);
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::DiseaseMedium);
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::DiseaseSevere);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 6:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::PoisonWeak);
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::PoisonMedium);
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::PoisonSevere);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 7:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::Asleep);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 8:
-                    party.applyPartyBuff(PartyBuffId::Haste, 30.0f * 60.0f * potionPower, potionPower, 0, potionPower,
-                        SkillMastery::Expert, static_cast<uint32_t>(targetMemberIndex));
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 9:
-                    party.applyPartyBuff(PartyBuffId::Heroism, 30.0f * 60.0f * potionPower, potionPower, 0, potionPower,
-                        SkillMastery::Expert, static_cast<uint32_t>(targetMemberIndex));
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 10:
-                    party.applyCharacterBuff(targetMemberIndex, CharacterBuffId::Bless, 30.0f * 60.0f * potionPower,
-                        potionPower, 0, potionPower, SkillMastery::Expert, static_cast<uint32_t>(targetMemberIndex));
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 11:
-                    party.applyCharacterBuff(targetMemberIndex, CharacterBuffId::Preservation, 30.0f * 60.0f * potionPower,
-                        potionPower, 0, potionPower, SkillMastery::Expert, static_cast<uint32_t>(targetMemberIndex));
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 12:
-                    party.applyPartyBuff(PartyBuffId::Shield, 30.0f * 60.0f * potionPower, potionPower, 0, potionPower,
-                        SkillMastery::Expert, static_cast<uint32_t>(targetMemberIndex));
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 14:
-                    party.applyPartyBuff(PartyBuffId::Stoneskin, 30.0f * 60.0f * potionPower, potionPower, 0, potionPower,
-                        SkillMastery::Expert, static_cast<uint32_t>(targetMemberIndex));
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 15:
-                    party.applyPartyBuff(PartyBuffId::WaterWalk, 30.0f * 60.0f * potionPower, potionPower, 0, potionPower,
-                        SkillMastery::Expert, static_cast<uint32_t>(targetMemberIndex));
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 17:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::Fear);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 18:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::Cursed);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 19:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::Insane);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                case 31:
-                    party.clearMemberCondition(targetMemberIndex, CharacterCondition::Paralyzed);
-                    result.handled = true;
-                    result.consumed = true;
-                    return result;
-                default:
-                    break;
+                return makeFailure(result.action, Engine::tr("This potion has not enough power"), SpeechId::PotionFail);
             }
 
-            if (item.objectDescriptionId == 222)
+            // A drink needs a ready member, who pays its recovery (the active member in Standard, as in the original
+            // games; MAW's drinker, near monsters only, AL:86-110); nobody ready, no drink.
+            std::optional<size_t> recoveryPayer;
+
+            if (effects.combatRecoveryTicks() > 0.0f)
             {
-                party.healMember(targetMemberIndex, 10);
-                result.handled = true;
-                result.consumed = true;
-                return result;
+                // In turn-based combat every member's recovery is zero; the turn queue says who may act.
+                recoveryPayer = context.turnBased
+                    ? context.turnBasedReadyMember
+                    : potionRecoveryPayer(party, targetMemberIndex, effects.combatRecoveryActiveMemberPays());
+
+                if (!recoveryPayer)
+                {
+                    return makeFailure(result.action, Engine::tr("Player must be active to consume the potion"));
+                }
+
+                // Turn-based combat is a fight whatever the alert says (monsters in the queue may not have seen the
+                // party yet), so a drink there always spends the ready member's turn.
+                if (effects.combatRecoveryOnlyNearEnemies() && !context.enemiesNear && !context.turnBased)
+                {
+                    recoveryPayer.reset();
+                }
             }
 
-            if (item.objectDescriptionId == 223)
+            const PotionDrinkOutcome outcome = applyPotionEffects(
+                party,
+                targetMemberIndex,
+                *pTargetMember,
+                *pPotion,
+                potionDurationSeconds(party, effects, potionPower),
+                potionPower,
+                gameRulesFor(&party).potions);
+
+            if (outcome == PotionDrinkOutcome::NoBenefit)
             {
-                restoreSpellPoints(*pTargetMember, 10);
-                result.handled = true;
-                result.consumed = true;
-                return result;
+                const std::optional<std::string> text = gameRulesFor(&party).potions.noBenefitText();
+                return makeFailure(
+                    result.action, text ? *text : itemCannotBeUsedStatusText(*pItemDefinition), SpeechId::PotionFail);
             }
 
-            if (item.objectDescriptionId == 252)
+            if (recoveryPayer)
             {
-                clearAllRestorableConditions(party, targetMemberIndex);
-                result.handled = true;
-                result.consumed = true;
-                return result;
+                result.recoveryPayer = recoveryPayer;
+                // In turn-based combat a drink takes at least a whole turn (100 ticks, as Standard's), also where the
+                // rules' real-time drink is quicker (MAW's 60), so a member drinks once a turn (user, 2026-11-14).
+                static constexpr float TurnBasedDrinkTicks = 100.0f;
+                const float ticks = context.turnBased
+                    ? std::max(effects.combatRecoveryTicks(), TurnBasedDrinkTicks)
+                    : effects.combatRecoveryTicks();
+                result.recoverySeconds = ticksToRecoverySeconds(static_cast<int>(ticks));
+                party.applyRecoveryToMember(*recoveryPayer, result.recoverySeconds);
             }
 
-            if (item.objectDescriptionId == 253)
+            // A bottle of several drinks keeps its uses in its charges, 0 meaning a full bottle. A potion of one drink
+            // is gone after it, whatever charges a mix carried over from a bottle of several (audit ALC-5).
+            const int usesBefore = pPotion->charges <= 1 ? 1
+                : item.currentCharges > 0                ? static_cast<int>(item.currentCharges)
+                                                         : pPotion->charges;
+            result.handled = true;
+            result.consumed = usesBefore <= 1;
+
+            if (!result.consumed)
             {
-                party.healMember(targetMemberIndex, 50);
-                result.handled = true;
-                result.consumed = true;
-                return result;
+                result.potionUsesLeft = static_cast<uint32_t>(usesBefore - 1);
             }
 
-            if (item.objectDescriptionId == 254)
-            {
-                restoreSpellPoints(*pTargetMember, 50);
-                result.handled = true;
-                result.consumed = true;
-                return result;
-            }
-
-            if (item.objectDescriptionId == 262)
-            {
-                party.clearMemberCondition(targetMemberIndex, CharacterCondition::Petrified);
-                result.handled = true;
-                result.consumed = true;
-                return result;
-            }
-
-            if (applyPermanentStatPotion(*pTargetMember, item.objectDescriptionId))
-            {
-                result.handled = true;
-                result.consumed = true;
-                return result;
-            }
-
-            return makeFailure(result.action, itemCannotBeUsedStatusText(*pItemDefinition), SpeechId::PotionFail);
+            return result;
         }
 
         case InventoryItemUseAction::ReadMessageScroll:
@@ -1284,8 +1328,10 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             }
 
             result.handled = true;
-            result.readableTitle = pItemDefinition->name.empty() ? pEntry->itemName : pItemDefinition->name;
-            result.readableBody = pEntry->text;
+            // The scroll and book tables stay English; their text is shown in the interface language.
+            result.readableTitle =
+                Engine::localize(pItemDefinition->name.empty() ? pEntry->itemName : pItemDefinition->name);
+            result.readableBody = Engine::localize(pEntry->text);
             return result;
         }
 
@@ -1294,9 +1340,96 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             pTargetMember->skillPoints += 2;
             result.handled = true;
             result.consumed = true;
-            result.statusText = "+2 Skill Points!";
+            result.statusText = Engine::tr("+2 Skill Points!");
             result.soundId = SoundId::Quest;
             result.speechId = SpeechId::QuestGot;
+            return result;
+        }
+
+        case InventoryItemUseAction::GrantTechPoints:
+        {
+            const uint32_t techPoints = static_cast<uint32_t>(std::max(1, pItemDefinition->varA));
+            pTargetMember->techPoints += techPoints;
+            result.handled = true;
+            result.consumed = true;
+            result.statusText = Engine::tr("+{points} Tech Points!", {{"points", int64_t(techPoints)}});
+            result.soundId = SoundId::Quest;
+            result.speechId = SpeechId::QuestGot;
+            return result;
+        }
+
+        case InventoryItemUseAction::GrantSkillPoints:
+        {
+            const uint32_t skillPoints = static_cast<uint32_t>(std::max(1, pItemDefinition->varA));
+            pTargetMember->skillPoints += skillPoints;
+            result.handled = true;
+            result.consumed = true;
+            result.statusText = Engine::trn("+{count} Skill Point!", "+{count} Skill Points!", skillPoints,
+                                            {{"count", skillPoints}});
+            result.soundId = SoundId::Quest;
+            result.speechId = SpeechId::QuestGot;
+            return result;
+        }
+
+        case InventoryItemUseAction::UseShieldCell:
+        {
+            result.handled = true;
+            result.consumed = party.chargePersonalShield(targetMemberIndex);
+            result.statusText = result.consumed ? Engine::tr("Shield charged") : "";
+            result.soundId = result.consumed ? SoundId::Drink : SoundId::Error;
+            return result;
+        }
+
+        case InventoryItemUseAction::UseShieldBurst:
+        {
+            result.handled = true;
+            result.consumed = party.burstPersonalShields();
+            result.statusText = Engine::tr(result.consumed ? "Shields charged" : "No shields to charge");
+            result.soundId = result.consumed ? SoundId::Drink : SoundId::Error;
+            return result;
+        }
+
+        case InventoryItemUseAction::UseStim:
+        {
+            if (pTargetMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+                || pTargetMember->conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
+            {
+                return makeFailure(result.action, inactiveCharacterStatusText(*pTargetMember));
+            }
+
+            const int percent = pItemDefinition->varA > 0 ? pItemDefinition->varA : 30;
+            party.healMember(targetMemberIndex,
+                std::max(1, party.member(targetMemberIndex)->maxHealth * percent / 100));
+            pTargetMember->conditions.reset(static_cast<size_t>(CharacterCondition::Weak));
+            result.handled = true;
+            result.consumed = true;
+            result.soundId = SoundId::Drink;
+            return result;
+        }
+
+        case InventoryItemUseAction::PlaceBreachCharge:
+        {
+            if (!canUseSpellItem(*pTargetMember))
+            {
+                return makeFailure(result.action, inactiveCharacterStatusText(*pTargetMember));
+            }
+
+            result.handled = true;
+            result.consumed = true;
+            result.statusText = Engine::tr("The charge blows!");
+            return result;
+        }
+
+        case InventoryItemUseAction::ThrowEmpGrenade:
+        {
+            if (!canUseSpellItem(*pTargetMember))
+            {
+                return makeFailure(result.action, inactiveCharacterStatusText(*pTargetMember));
+            }
+
+            result.handled = true;
+            result.consumed = true;
+            result.statusText = Engine::tr("EMP!");
             return result;
         }
 
@@ -1339,7 +1472,8 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
         case InventoryItemUseAction::EatFoodItem:
         {
-            party.addFood(1);
+            // An eatFood item (Hesper's rations) adds its VarA in food; MM's food items one.
+            party.addFood(lowerAscii(pItemDefinition->useAction) == "eatfood" ? std::max(1, pItemDefinition->varA) : 1);
             result.handled = true;
             result.consumed = true;
             result.soundId = SoundId::Eat;
@@ -1364,12 +1498,6 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             return makeFailure(result.action, itemCannotBeUsedStatusText(*pItemDefinition));
         }
 
-        case InventoryItemUseAction::UseConnectorStone:
-        {
-            result.handled = true;
-            return result;
-        }
-
         case InventoryItemUseAction::Equip:
         case InventoryItemUseAction::None:
         default:
@@ -1377,5 +1505,209 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             return makeFailure(result.action, itemCannotBeUsedStatusText(*pItemDefinition));
         }
     }
+}
+
+std::optional<SoundId> InventoryItemUseRuntime::instrumentSound(const ItemDefinition &itemDefinition)
+{
+    return instrumentSoundId(itemDefinition);
+}
+
+std::optional<uint32_t> InventoryItemUseRuntime::scrollSpellId(const ItemDefinition &itemDefinition)
+{
+    return tryParseSpellId(itemDefinition);
+}
+
+std::optional<uint32_t> InventoryItemUseRuntime::spellbookSpellId(const ItemDefinition &itemDefinition)
+{
+    if (itemDefinition.equipStat != "Book")
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<uint32_t> spellId = tryParseSpellId(itemDefinition);
+    return spellId && resolveMagicSkillName(*spellId) ? spellId : std::nullopt;
+}
+
+SpellbookLearnCheck InventoryItemUseRuntime::checkSpellbookLearn(const Character &member, uint32_t spellId)
+{
+    // Classes whose spells come from their school masteries or from casting (MAW) read no books.
+    if (!boundGameRules().classes.learnsSpellsFromBooks(member))
+    {
+        return SpellbookLearnCheck::ClassReadsNoBooks;
+    }
+
+    const std::optional<std::string> skillName = resolveMagicSkillName(spellId);
+    const CharacterSkill *pSkill = skillName ? member.findSkill(*skillName) : nullptr;
+
+    if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
+    {
+        return SpellbookLearnCheck::NoSkill;
+    }
+
+    const SkillMastery requiredMastery = requiredMasteryForSpell(spellId);
+
+    if (requiredMastery != SkillMastery::None && pSkill->mastery < requiredMastery)
+    {
+        return SpellbookLearnCheck::MasteryTooLow;
+    }
+
+    return member.knowsSpell(spellId) ? SpellbookLearnCheck::AlreadyKnown : SpellbookLearnCheck::CanLearn;
+}
+
+std::vector<SpellbookKnowledge> InventoryItemUseRuntime::spellbookKnowledge(
+    const Party &party,
+    const ItemDefinition &itemDefinition)
+{
+    const std::optional<uint32_t> spellId = spellbookSpellId(itemDefinition);
+
+    if (!spellId)
+    {
+        return {};
+    }
+
+    const std::string skillName = resolveMagicSkillName(*spellId).value_or("");
+    const SkillMastery requiredMastery = std::max(SkillMastery::Normal, requiredMasteryForSpell(*spellId));
+    const ClassSkillTable *pClassSkillTable = party.classSkillTable();
+    std::vector<SpellbookKnowledge> knowledge;
+    knowledge.reserve(party.memberCount());
+
+    for (const Character &member : party.members())
+    {
+        // A spell known by any means counts, also for a class that reads no books.
+        if (member.knowsSpell(*spellId))
+        {
+            knowledge.push_back(SpellbookKnowledge::Known);
+            continue;
+        }
+
+        switch (checkSpellbookLearn(member, *spellId))
+        {
+            case SpellbookLearnCheck::CanLearn:
+            case SpellbookLearnCheck::AlreadyKnown:
+                knowledge.push_back(SpellbookKnowledge::CanLearn);
+                break;
+
+            case SpellbookLearnCheck::NoSkill:
+            case SpellbookLearnCheck::MasteryTooLow:
+            {
+                const bool classReaches = pClassSkillTable != nullptr
+                    && pClassSkillTable->getEffectiveCap(member.className, member.raceId, skillName) >= requiredMastery;
+                knowledge.push_back(classReaches ? SpellbookKnowledge::NeedsTraining : SpellbookKnowledge::CannotLearn);
+                break;
+            }
+
+            case SpellbookLearnCheck::ClassReadsNoBooks:
+            default:
+                knowledge.push_back(SpellbookKnowledge::CannotLearn);
+                break;
+        }
+    }
+
+    return knowledge;
+}
+
+PotionPreview InventoryItemUseRuntime::previewPotion(
+    const Party &party,
+    size_t memberIndex,
+    const InventoryItem &item,
+    const MergedPotionSettingTable &potionSettingTable)
+{
+    PotionPreview preview;
+    const Character *pMember = party.member(memberIndex);
+    const PotionDefinition *pPotion = potionSettingTable.effects().find(item.objectDescriptionId);
+
+    if (pMember == nullptr || pPotion == nullptr || pPotion->effects.empty())
+    {
+        return preview;
+    }
+
+    preview.known = true;
+    const PotionEffectTable &effects = potionSettingTable.effects();
+    int power = std::max(1, static_cast<int>(item.standardEnchantPower));
+
+    if (effects.powerCap() > 0)
+    {
+        power = std::min(power, effects.powerCap());
+    }
+
+    const PotionRules &potionRules = gameRulesFor(&party).potions;
+    const auto addCure = [&preview, pMember](CharacterCondition condition)
+    {
+        if (pMember->conditions.test(static_cast<size_t>(condition))
+            && std::find(preview.cures.begin(), preview.cures.end(), condition) == preview.cures.end())
+        {
+            preview.cures.push_back(condition);
+        }
+    };
+
+    for (const PotionEffect &effect : pPotion->effects)
+    {
+        if (effect.limit == PotionLimit::BestStep)
+        {
+            preview.otherEffects = true;
+            continue;
+        }
+
+        const int amount = effect.amount.evaluate(power, potionRules.estimatedPool(effect.amount.pool, power));
+
+        switch (effect.kind)
+        {
+            case PotionEffectKind::Restore:
+                if (effect.pool == PotionPool::HitPoints)
+                {
+                    // As Party::healMember: up to the reachable maximum, nothing for the dead.
+                    const bool dead = pMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+                        || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Eradicated));
+
+                    if (!dead && amount > 0)
+                    {
+                        const int cap = std::max(pMember->health, party.reachableMaximumHealth(memberIndex));
+                        preview.healthBefore = pMember->health;
+                        preview.healthMaximum = Party::effectiveMaximumHealth(*pMember);
+                        preview.healthGain += std::max(0, std::min(pMember->health + amount, cap) - pMember->health);
+                    }
+                }
+                else
+                {
+                    const int maximum = maxSpellPointsForMember(*pMember);
+                    preview.spellPointsBefore = pMember->spellPoints;
+                    preview.spellPointsMaximum = maximum;
+                    preview.spellPointGain +=
+                        std::max(0, std::clamp(pMember->spellPoints + amount, 0, maximum) - pMember->spellPoints);
+                }
+                break;
+            case PotionEffectKind::Cure:
+                for (CharacterCondition condition : effect.conditions)
+                {
+                    addCure(condition);
+                }
+                break;
+            case PotionEffectKind::CureAllRestorable:
+                for (CharacterCondition condition : RestorableConditions)
+                {
+                    addCure(condition);
+                }
+                break;
+            default:
+                preview.otherEffects = true;
+                break;
+        }
+    }
+
+    return preview;
+}
+
+bool InventoryItemUseRuntime::drinkRecoveryApplies(const MergedPotionSettingTable *pPotionSettingTable)
+{
+    return pPotionSettingTable != nullptr && pPotionSettingTable->effects().combatRecoveryTicks() > 0.0f;
+}
+
+std::optional<size_t> InventoryItemUseRuntime::drinkRecoveryPayer(
+    const MergedPotionSettingTable &potionSettingTable,
+    const Party &party,
+    size_t drinkerIndex)
+{
+    return potionRecoveryPayer(
+        party, drinkerIndex, potionSettingTable.effects().combatRecoveryActiveMemberPays());
 }
 }

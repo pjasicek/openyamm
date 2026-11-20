@@ -1,0 +1,657 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "status": "generated_with_validation_failures",
+  "all_requested_outputs_written": true,
+  "strict_brief_checks_passed": false,
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "back": 1,
+    "left": 1,
+    "right": 1,
+    "top": 1
+  },
+  "blocked_request_note": "The first back-view request returned no image and does not count as a generation.",
+  "outputs_unmodified": true,
+  "validation_note": "Normalized mask measurements compare coordinates only. Saved PNGs are exact, unresized tool returns. A selected image is the best available candidate, not a claim that all strict gates passed.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper item model hes_ghulkats_collar_key.\nInput image 1 is the exact geometry/position/alpha edit target: the named plain orthographic guide. Input image 2 is design_reference.png, the approved colour and material authority ONLY, not a camera or silhouette reference.\nPaint ONLY the guide object's existing surfaces with the approved reference's materials. Preserve input image 1's EXACT silhouette, alpha outline, holes, internal part boundaries, projection, scale, placement, and wide transparent margins. Do not recompose, rotate, expand, crop, change the mesh, invent visible parts, or use the reference camera. Where parts overlap in this guide, keep that exact overlap. Keep every transparent pixel outside the object transparent. The requested canvas is exactly 1024 x 1024.\nMaterials: aged off-white ceramic with extremely fine warm wear and faint flecks; brushed muted gold/brass inset trims and long narrow inlay lines; very dark black-violet resin shell with fine irregular texture, seams and slight engraved lines; inset amber-orange lights where the corresponding sockets or slits appear. The central round lamp is bright orange. Use the reference design's distribution and forms, adapting only to the existing guide geometry. Unseen surfaces plausibly continue the same materials. No blue light, leather, cloth, paper, writing or symbols since this reference does not show them.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless light from the viewer. NO cast shadows, NO ambient occlusion darkening, NO strong specular highlights or reflections, NO rim light, NO bloom or spill around glowing parts. Gold reads as its base golden colour with only a faint sheen. Orange lights are painted as bright orange colour, not a lighting effect. Do not retain the clay guide's lighting gradients as dark shading. Fine material detail only; not dramatic product rendering.\nTrue transparent background, no floor, no background colour, no checkerboard painted into the image, no text or letters, no labels, no watermark. Return one unresized PNG of the selected guide view only.\nView: FRONT, as guide_front.png. Exact guide bounds approximately x66..957, y322..701 within the 1024 square. The long ceramic prongs point LEFT and overlap in this side-on view, so only the single guide-visible silhouette projects far left; do not split it into two side-by-side prongs. The curved dark resin body rises to the RIGHT toward its rear handle. Paint the existing raised long center panel ceramic with thin gold edging, the prong ceramic with narrow gold inlay, and side sockets/slits orange with gold/resin borders. Preserve the far-right upper spikes and all angled edges exactly.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "3c4b98e938989edbd93d4076a66ea6dd20769c6d3e5d4191ea3caebd67e0c1ee"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-93faf35b-da4b-4684-8fe7-230b0543e8b1.png",
+      "sha256": "dae18f0962fc1ba634d21db13b084913d5cda511065997448eda7ffe91bcd2ec",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        159,
+        1234,
+        1204
+      ],
+      "unresized": true,
+      "selected": false,
+      "reason": "Rejected: silhouette and interior geometry drifted from the guide, with strong highlights and cavity shading. Tool returned 1254x1254 rather than 1024x1024; retained unresized.",
+      "generation": 1,
+      "corrective_regeneration": false,
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          33,
+          159,
+          1234,
+          1204
+        ],
+        "alpha_bbox_at_128": [
+          80,
+          362,
+          1177,
+          819
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.612718,
+        "normalized_extra_pixels": 26174,
+        "normalized_missing_pixels": 27604
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit image 2 (guide_front.png), a 1024x1024 transparent orthographic render. Image 1 is ONLY a material colour reference; never copy its shape or lighting.\nThis is a corrective surface repaint: the earlier attempt changed the shape and added highlights. Now preserve image 2 pixel-for-pixel in silhouette, alpha, placement, size, projection and ALL internal part boundaries. Keep the existing white model's geometry unchanged, including its plain broad side panel. The two prongs overlap into the single long visible shape pointing left. Do not expose an extra central orange orb or invent slit holes on the main face where the guide has none. The body curves upward to the right. Preserve its spike exactly.\nPaint the surfaces with the reference materials: off-white ceramic prong and existing raised upper ceramic plate, thin muted brushed-gold inlay/trim, dark black-violet resin housing, small bright orange lights only in the guide's existing sockets and recesses. Plausibly continue these materials on the visible side. Tiny wear and resin grain, no text.\nCRITICAL: flat ALBEDO painting, perfectly even front light, no shadows or ambient occlusion, no highlights or reflections, no bright edging, no dramatic shading or glow spill. Metal is a flat muted gold base colour; lamps flat orange. Preserve every transparent pixel. No background, floor, text, symbols, letters or extra marks outside the guide silhouette.\nReturn one transparent PNG at exactly 1024x1024, unchanged framing. Object remains within the guide bounds x66..957 and y322..701. Do not enlarge or center it differently.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-a9763504-321e-46f6-9a13-5964e27d4721.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: much closer guide silhouette (normalized mask IoU 0.983493) and side geometry than the initial image. Strict silhouette and flat-light gates still fail; two image-edge pixels have alpha 1. Kept unresized.",
+      "generation": 2,
+      "corrective_regeneration": true,
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "strict_brief_checks_passed": false,
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "3c4b98e938989edbd93d4076a66ea6dd20769c6d3e5d4191ea3caebd67e0c1ee"
+        }
+      ],
+      "sha256": "88518c4e960c42992b64bef2a061799419c23cf4aec6241e20b057c25ee7b158",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": false,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          0,
+          19,
+          1230,
+          1222
+        ],
+        "alpha_bbox_at_128": [
+          82,
+          397,
+          1174,
+          857
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.983493,
+        "normalized_extra_pixels": 601,
+        "normalized_missing_pixels": 1269
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a flat ALBEDO texture source onto the existing white guide model, without changing any geometry.\nImage 1 is design_reference.png: use ONLY its material palette and fine surface details, not its camera, silhouette, shadows or reflections.\nImage 2 is the guide: this is the exact edit target and must keep its silhouette, alpha, camera, framing, scale, placement, apertures, occlusion and every internal edge unchanged. Recolour only existing surfaces. Do not sculpt or reinterpret the geometry and do not invent panels or extra exposed lights.\nMaterials from image 1: off-white ceramic with fine wear, muted brushed gold trims/inlays, dark black-violet finely textured resin housing, and saturated amber-orange for existing light sockets. Continue these same materials plausibly on unseen surfaces. No new symbols, text or letters.\nALBEDO ONLY: completely uniform flat shadowless illumination. Material base colours with tiny surface texture; no directional shading, no ambient occlusion, no darkened cavities, no cast shadows, no strong specular highlights, no bright edge highlights or reflections. Gold is its muted base colour with only a faint sheen. Lamp surfaces are bright orange without bloom or light spill.\nMaintain true transparent background and every guide hole, no floor, no checkerboard, no stray pixels. Paint strictly inside the guide silhouette.\nReturn a single transparent PNG, exactly 1024x1024, with the guide's original large transparent margins and exact object bounds. Do not zoom in or fill the frame.\nView: TOP, directly above as guide_top.png. Exact guide bounds x66..957, y302..721 within the 1024 square. Two straight separated parallel ceramic prongs point LEFT, the widened handle with its large transparent aperture is at RIGHT. Preserve the gap between the prongs and the handle aperture exactly. The long central tapered raised panel is off-white ceramic with thin gold border and a narrow gold inset line; the large round socket to its RIGHT is bright orange in a gold/dark resin ring. Both left prongs are off-white ceramic with narrow gold lengthwise inlays, following the guide edges exactly. Black-violet resin body, gold edge trim, and orange slit lights only where appropriate to the existing surfaces.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-0a46d590-df5d-4609-8510-0e77a7ccea97.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return: substantially closer guide framing and silhouette (normalized mask IoU 0.958203) than the enlarged corrective return (0.751187). Baked highlights, shaded recesses and minor geometry differences remain; strict gates fail. Kept unresized.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "generation": 1,
+      "corrective_regeneration": false,
+      "archived_output": "paint_top_attempt1.png",
+      "strict_brief_checks_passed": false,
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "1928e2a2822232d1bacfc678f192afb27270b4adc2f11986e748e04a6e2b2a4b"
+        }
+      ],
+      "sha256": "ebd0acbedf5f1f027f01c60a2e8f0098552f533c20e2891e5a5e54e7332e85fb",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          71,
+          35,
+          1230,
+          1236
+        ],
+        "alpha_bbox_at_128": [
+          79,
+          367,
+          1179,
+          882
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.958203,
+        "normalized_extra_pixels": 3592,
+        "normalized_missing_pixels": 4489
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a flat ALBEDO texture source onto the existing white guide model, without changing any geometry.\nImage 1 is design_reference.png: use ONLY its material palette and fine surface details, not its camera, silhouette, shadows or reflections.\nImage 2 is the guide: this is the exact edit target and must keep its silhouette, alpha, camera, framing, scale, placement, apertures, occlusion and every internal edge unchanged. Recolour only existing surfaces. Do not sculpt or reinterpret the geometry and do not invent panels or extra exposed lights.\nMaterials from image 1: off-white ceramic with fine wear, muted brushed gold trims/inlays, dark black-violet finely textured resin housing, and saturated amber-orange for existing light sockets. Continue these same materials plausibly on unseen surfaces. No new symbols, text or letters.\nALBEDO ONLY: completely uniform flat shadowless illumination. Material base colours with tiny surface texture; no directional shading, no ambient occlusion, no darkened cavities, no cast shadows, no strong specular highlights, no bright edge highlights or reflections. Gold is its muted base colour with only a faint sheen. Lamp surfaces are bright orange without bloom or light spill.\nMaintain true transparent background and every guide hole, no floor, no checkerboard, no stray pixels. Paint strictly inside the guide silhouette.\nReturn a single transparent PNG, exactly 1024x1024, with the guide's original large transparent margins and exact object bounds. Do not zoom in or fill the frame.\nView: BACK, as guide_back.png. Exact guide bounds approximately x66..957, y322..701 within the 1024 square. Long ceramic prongs project RIGHT, overlapping in this side-on view; do not add a separated prong. The curved black-violet shell and rear handle rise toward the LEFT. Continue the reference materials plausibly on this opposite side, with ceramic where the matching plate/prongs are, gold trim and orange lights in existing sockets/slits. Preserve the far-left upper spike, silhouette and exact geometry.",
+      "output": null,
+      "selected": false,
+      "reason": "No image returned: image tool rejected this benign fantasy key repaint as violence.",
+      "error": "moderation_blocked; request_id 3641848a-fb11-4938-a6c6-91e48c9da7f4",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "374985cfec8ab6942aef3a7149ed1921f537953ea627d788cf2821b01362f3bb"
+        }
+      ]
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "generation": 1,
+      "prompt": "Use case: precise-object-edit. Paint a flat ALBEDO texture source onto the existing white guide model, without changing any geometry.\nImage 1 is design_reference.png: use ONLY its material palette and fine surface details, not its camera, silhouette, shadows or reflections.\nImage 2 is the guide: this is the exact edit target and must keep its silhouette, alpha, camera, framing, scale, placement, apertures, occlusion and every internal edge unchanged. Recolour only existing surfaces. Do not sculpt or reinterpret the geometry and do not invent panels or extra exposed lights.\nMaterials from image 1: off-white ceramic with fine wear, muted brushed gold trims/inlays, dark black-violet finely textured resin housing, and saturated amber-orange for existing light sockets. Continue these same materials plausibly on unseen surfaces. No new symbols, text or letters.\nALBEDO ONLY: completely uniform flat shadowless illumination. Material base colours with tiny surface texture; no directional shading, no ambient occlusion, no darkened cavities, no cast shadows, no strong specular highlights, no bright edge highlights or reflections. Gold is its muted base colour with only a faint sheen. Lamp surfaces are bright orange without bloom or light spill.\nMaintain true transparent background and every guide hole, no floor, no checkerboard, no stray pixels. Paint strictly inside the guide silhouette.\nReturn a single transparent PNG, exactly 1024x1024, with the guide's original large transparent margins and exact object bounds. Do not zoom in or fill the frame.\nView: LEFT, as guide_left.png: this is the end-on view looking along the prongs toward the body. Exact guide bounds x302..721, y322..701 in the 1024 square; the object must remain SMALL at exactly this central placement, with large transparent margins. Two foreshortened prong ends are at bottom, and the flared resin handle/body is above. Ceramic on the two short visible prongs and central raised ceramic panel, gold edging on the existing collars/panels, dark black-violet resin shell, orange on the existing round lamp above the central plate. Keep the exact very foreshortened geometry; do not extend the prongs or switch camera.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-8cf767c7-e05c-40a1-847e-28741e996251.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected initial return: substantially closer guide size, position and silhouette (normalized mask IoU 0.981068) than the enlarged corrective return (0.405897). Some material highlights and shaded recesses remain; strict gates fail. Kept unresized.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "corrective_regeneration": false,
+      "archived_output": "paint_left_attempt1.png",
+      "strict_brief_checks_passed": false,
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b5a6a546ca801019bb9d953ff235707680658622c0136ffa19daeff7f9b52e8d"
+        }
+      ],
+      "sha256": "8e4e37ce11db06a988097bc758d53cddb281d49d03894d10e1afe2610d87a3da",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          73,
+          35,
+          1186,
+          1156
+        ],
+        "alpha_bbox_at_128": [
+          370,
+          393,
+          884,
+          859
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.981068,
+        "normalized_extra_pixels": 2044,
+        "normalized_missing_pixels": 0
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "generation": 1,
+      "prompt": "Use case: precise-object-edit. Paint a flat ALBEDO texture source onto the existing white guide model, without changing any geometry.\nImage 1 is design_reference.png: use ONLY its material palette and fine surface details, not its camera, silhouette, shadows or reflections.\nImage 2 is the guide: this is the exact edit target and must keep its silhouette, alpha, camera, framing, scale, placement, apertures, occlusion and every internal edge unchanged. Recolour only existing surfaces. Do not sculpt or reinterpret the geometry and do not invent panels or extra exposed lights.\nMaterials from image 1: off-white ceramic with fine wear, muted brushed gold trims/inlays, dark black-violet finely textured resin housing, and saturated amber-orange for existing light sockets. Continue these same materials plausibly on unseen surfaces. No new symbols, text or letters.\nALBEDO ONLY: completely uniform flat shadowless illumination. Material base colours with tiny surface texture; no directional shading, no ambient occlusion, no darkened cavities, no cast shadows, no strong specular highlights, no bright edge highlights or reflections. Gold is its muted base colour with only a faint sheen. Lamp surfaces are bright orange without bloom or light spill.\nMaintain true transparent background and every guide hole, no floor, no checkerboard, no stray pixels. Paint strictly inside the guide silhouette.\nReturn a single transparent PNG, exactly 1024x1024, with the guide's original large transparent margins and exact object bounds. Do not zoom in or fill the frame.\nView: RIGHT, as guide_right.png: rear end-on view through the handle aperture, with the prongs obscured behind the body. Exact guide bounds x302..721, y322..701 within the 1024 square; preserve the SMALL object and large transparent margins. Preserve the visible handle opening and its exact opaque/transparent regions: the guide shows rear body surfaces through parts of the opening. Dark black-violet resin on the rear shell; restrained gold trim on its existing edges; plausibly continue ceramic on any exposed prong backs and orange on only the small visible existing light surfaces. Do not create a new face, new holes or visible extended prongs. Keep the asymmetric high point on upper RIGHT.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-35dd8bee-7f56-4d64-af12-9ba558f91440.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Initial returned image; correction needed for baked lighting, minor silhouette drift, and interior geometry differences.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "corrective_regeneration": false,
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "c0ee9d1a9b47efd6e2bed24984649be238ada36a193d804a05b80fc6c36f9422"
+        }
+      ],
+      "sha256": "606ef0ededcbaf3c97ef31a76c40fb6205c9b89bd653047b49cea27bad3d5115",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          33,
+          33,
+          1240,
+          1230
+        ],
+        "alpha_bbox_at_128": [
+          364,
+          390,
+          900,
+          859
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.930821,
+        "normalized_extra_pixels": 6709,
+        "normalized_missing_pixels": 1083
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "generation": 1,
+      "prompt": "Use case: precise-object-edit. Paint a flat ALBEDO texture source onto the existing white guide model, without changing any geometry.\nImage 1 is design_reference.png: use ONLY its material palette and fine surface details, not its camera, silhouette, shadows or reflections.\nImage 2 is the guide: this is the exact edit target and must keep its silhouette, alpha, camera, framing, scale, placement, apertures, occlusion and every internal edge unchanged. Recolour only existing surfaces. Do not sculpt or reinterpret the geometry and do not invent panels or extra exposed lights.\nMaterials from image 1: off-white ceramic with fine wear, muted brushed gold trims/inlays, dark black-violet finely textured resin housing, and saturated amber-orange for existing light sockets. Continue these same materials plausibly on unseen surfaces. No new symbols, text or letters.\nALBEDO ONLY: completely uniform flat shadowless illumination. Material base colours with tiny surface texture; no directional shading, no ambient occlusion, no darkened cavities, no cast shadows, no strong specular highlights, no bright edge highlights or reflections. Gold is its muted base colour with only a faint sheen. Lamp surfaces are bright orange without bloom or light spill.\nMaintain true transparent background and every guide hole, no floor, no checkerboard, no stray pixels. Paint strictly inside the guide silhouette.\nReturn a single transparent PNG, exactly 1024x1024, with the guide's original large transparent margins and exact object bounds. Do not zoom in or fill the frame.\nView: BACK, as guide_back.png. Exact guide bounds approximately x66..957, y322..701 within the 1024 square. Long ceramic prongs project RIGHT, overlapping in this side-on view; do not add a separated prong. The curved black-violet shell and rear handle rise toward the LEFT. Continue the reference materials plausibly on this opposite side, with ceramic where the matching plate/prongs are, gold trim and orange lights in existing sockets/slits. Preserve the far-left upper spike, silhouette and exact geometry.\nThis is an ordinary fictional two-pronged puzzle key, an inanimate access tool. Paint only the supplied key model.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-a5e8eb6d-b322-40e8-9584-00ee20ab34ed.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected first successful generation: substantially closer framing and silhouette (normalized mask IoU 0.927092) than the corrective return (0.677415). The corrective return flattened the lights and removed the invented orb, but moved and enlarged the object. Selected image retains an invented exposed orange orb, baked lighting and geometry differences; strict gates fail. Kept unresized.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "corrective_regeneration": false,
+      "archived_output": "paint_back_attempt1.png",
+      "strict_brief_checks_passed": false,
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "374985cfec8ab6942aef3a7149ed1921f537953ea627d788cf2821b01362f3bb"
+        }
+      ],
+      "sha256": "fbe55acd49fde0b20fbb03184fe5b52126f705b88b8ec8061bcd3e22c355d4f0",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          57,
+          37,
+          1216,
+          1214
+        ],
+        "alpha_bbox_at_128": [
+          70,
+          384,
+          1203,
+          860
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.927092,
+        "normalized_extra_pixels": 7718,
+        "normalized_missing_pixels": 1061
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "generation": 2,
+      "corrective_regeneration": true,
+      "prompt": "Correct the painted top view for use as an UNLIT BASE-COLOUR TEXTURE.\nImage 1 is the approved design, for colours and materials only.\nImage 2 is the earlier painted top image to correct. It has unwanted baked lights, shading, and small shape deviations.\nImage 3 is guide_top.png, the authoritative exact 1024x1024 geometry and alpha mask. The final output must precisely match image 3's original size, framing, silhouette, every part edge, and transparent regions. Keep the object small within the original transparent margins.\nTask: use the guide's exact geometry, preserve the design's material colours, and REMOVE ALL BAKED LIGHTING from the earlier painting. Matte flat albedo, perfectly even illumination. Remove specular edge glints, light-to-dark gradients across surfaces, black shadow bands around seams, dark shaded undersides, and bright reflections. Resin is uniformly dark black-violet with subtle fine grain. Ceramic is evenly warm white with subtle tiny wear. Gold is evenly muted ochre-gold with fine brushed marks only. Orange inserts are a flat bright orange. No shadow, AO, bloom or reflected light. Fine engraved seams are material marks only, not lit bevels.\nThe guide has straight prongs and a precise handle opening: retain those exact edges and original asymmetries. Retain the ceramic top plate, thin gold inlays, orange round lamp and dark violet shell.\nReturn only one transparent PNG of the top view. Exactly 1024x1024. No labels, text or letters, no checkerboard, no floor, no background, no stray or faint pixels outside the guide silhouette.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-22dd61f9-61ac-4068-8749-f6f429632d9d.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: correction reduced some lighting but enlarged or shifted the object, worsening guide silhouette adherence. Kept unresized.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "lighting_note": "Flatter lamp and gold colours, but resin relief shading and edge glints remain.",
+        "no_cast_shadow_or_floor": true
+      },
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "paint_top_attempt1.png",
+          "sha256": "ebd0acbedf5f1f027f01c60a2e8f0098552f533c20e2891e5a5e54e7332e85fb"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "1928e2a2822232d1bacfc678f192afb27270b4adc2f11986e748e04a6e2b2a4b"
+        }
+      ],
+      "sha256": "845d00559c2a52ea58156b932e85071446240decd9d11c9f0d50588d4942a162",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          31,
+          20,
+          1238,
+          1178
+        ],
+        "alpha_bbox_at_128": [
+          36,
+          365,
+          1234,
+          915
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.751187,
+        "normalized_extra_pixels": 45110,
+        "normalized_missing_pixels": 13325
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "generation": 2,
+      "corrective_regeneration": true,
+      "prompt": "Correct the painted left view for use as an UNLIT BASE-COLOUR TEXTURE.\nImage 1 is the approved design, for colours and materials only.\nImage 2 is the earlier painted left image to correct. It has unwanted baked lights, shading, and small shape deviations.\nImage 3 is guide_left.png, the authoritative exact 1024x1024 geometry and alpha mask. The final output must precisely match image 3's original size, framing, silhouette, every part edge, and transparent regions. Keep the object small within the original transparent margins.\nTask: use the guide's exact geometry, preserve the design's material colours, and REMOVE ALL BAKED LIGHTING from the earlier painting. Matte flat albedo, perfectly even illumination. Remove specular edge glints, light-to-dark gradients across surfaces, black shadow bands around seams, dark shaded undersides, and bright reflections. Resin is uniformly dark black-violet with subtle fine grain. Ceramic is evenly warm white with subtle tiny wear. Gold is evenly muted ochre-gold with fine brushed marks only. Orange inserts are a flat bright orange. No shadow, AO, bloom or reflected light. Fine engraved seams are material marks only, not lit bevels.\nThe guide is an end-on view with two foreshortened prongs at bottom and an upper-left spike. Preserve the exact foreshortening and all panel boundaries. Do not make it a mask or face. Retain ceramic, thin gold inlays, orange lamp and violet shell only on existing parts.\nReturn only one transparent PNG of the left view. Exactly 1024x1024. No labels, text or letters, no checkerboard, no floor, no background, no stray or faint pixels outside the guide silhouette.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-8d03f7be-024a-4305-9e61-01011973302d.png",
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: correction reduced some lighting but enlarged or shifted the object, worsening guide silhouette adherence. Kept unresized.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "lighting_note": "Flatter lamp and gold colours, but resin relief shading and edge glints remain.",
+        "no_cast_shadow_or_floor": true
+      },
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "8e4e37ce11db06a988097bc758d53cddb281d49d03894d10e1afe2610d87a3da"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b5a6a546ca801019bb9d953ff235707680658622c0136ffa19daeff7f9b52e8d"
+        }
+      ],
+      "sha256": "7a7b12ba58092be9a17705f370867611509b36b6c1e59ffa2c882e31a8d8c2bc",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          25,
+          39,
+          1240,
+          1237
+        ],
+        "alpha_bbox_at_128": [
+          238,
+          269,
+          1040,
+          1018
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.405897,
+        "normalized_extra_pixels": 155037,
+        "normalized_missing_pixels": 0
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "generation": 2,
+      "corrective_regeneration": true,
+      "prompt": "Correct the painted right view for use as an UNLIT BASE-COLOUR TEXTURE.\nImage 1 is the approved design, for colours and materials only.\nImage 2 is the earlier painted right image to correct. It has unwanted baked lights, shading, and small shape deviations.\nImage 3 is guide_right.png, the authoritative exact 1024x1024 geometry and alpha mask. The final output must precisely match image 3's original size, framing, silhouette, every part edge, and transparent regions. Keep the object small within the original transparent margins.\nTask: use the guide's exact geometry, preserve the design's material colours, and REMOVE ALL BAKED LIGHTING from the earlier painting. Matte flat albedo, perfectly even illumination. Remove specular edge glints, light-to-dark gradients across surfaces, black shadow bands around seams, dark shaded undersides, and bright reflections. Resin is uniformly dark black-violet with subtle fine grain. Ceramic is evenly warm white with subtle tiny wear. Gold is evenly muted ochre-gold with fine brushed marks only. Orange inserts are a flat bright orange. No shadow, AO, bloom or reflected light. Fine engraved seams are material marks only, not lit bevels.\nThe guide is an end-on rear view. Preserve ALL internal occlusion: the broad grey central surface visible through the upper aperture is the BACK of the ceramic plate, not its decorated face. Paint that visible back plain ceramic; do not put a gold slot on it. The guide's little diamond below is an existing surface; do not cut a new hole. Do not replace opaque guide surfaces with transparency. No invented orange side slit holes where the guide has no recess.\nReturn only one transparent PNG of the right view. Exactly 1024x1024. No labels, text or letters, no checkerboard, no floor, no background, no stray or faint pixels outside the guide silhouette.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-0ab64c51-2317-4dd4-97be-5810301e2cee.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: slightly closer guide silhouette (normalized mask IoU 0.943394), flatter light colours, and corrected plain ceramic plate back. Residual shaded resin, orange slit details and silhouette/interior geometry differences remain; strict gates fail. Kept unresized.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "lighting_note": "Flatter lamp and gold colours, but resin relief shading and edge glints remain.",
+        "no_cast_shadow_or_floor": true
+      },
+      "archived_output": "paint_right_attempt2.png",
+      "strict_brief_checks_passed": false,
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "paint_right_attempt1.png",
+          "sha256": "606ef0ededcbaf3c97ef31a76c40fb6205c9b89bd653047b49cea27bad3d5115"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "c0ee9d1a9b47efd6e2bed24984649be238ada36a193d804a05b80fc6c36f9422"
+        }
+      ],
+      "sha256": "fde5ab3b13347a07031e90b5fb51e188fe4daf09e39f61cad08abe3b67ef267e",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          63,
+          102,
+          1168,
+          1198
+        ],
+        "alpha_bbox_at_128": [
+          367,
+          390,
+          888,
+          848
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.943394,
+        "normalized_extra_pixels": 3126,
+        "normalized_missing_pixels": 3047
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 3,
+      "generation": 2,
+      "corrective_regeneration": true,
+      "prompt": "Correct the painted back view for use as an UNLIT BASE-COLOUR TEXTURE.\nImage 1 is the approved design, for colours and materials only.\nImage 2 is the earlier painted back image to correct. It has unwanted baked lights, shading, and small shape deviations.\nImage 3 is guide_back.png, the authoritative exact 1024x1024 geometry and alpha mask. The final output must precisely match image 3's original size, framing, silhouette, every part edge, and transparent regions. Keep the object small within the original transparent margins.\nTask: use the guide's exact geometry, preserve the design's material colours, and REMOVE ALL BAKED LIGHTING from the earlier painting. Matte flat albedo, perfectly even illumination. Remove specular edge glints, light-to-dark gradients across surfaces, black shadow bands around seams, dark shaded undersides, and bright reflections. Resin is uniformly dark black-violet with subtle fine grain. Ceramic is evenly warm white with subtle tiny wear. Gold is evenly muted ochre-gold with fine brushed marks only. Orange inserts are a flat bright orange. No shadow, AO, bloom or reflected light. Fine engraved seams are material marks only, not lit bevels.\nThe guide's long prong projects RIGHT and the handle rises LEFT. Preserve the plain broad side surfaces and panel borders from the guide. Remove the invented exposed large round orange orb in the middle of the side; that area in the guide is a solid resin panel with a small raised/inset shape. Only small existing sockets/recesses are orange. Preserve the guide's lower spike and upper-left edge.\nReturn only one transparent PNG of the back view. Exactly 1024x1024. No labels, text or letters, no checkerboard, no floor, no background, no stray or faint pixels outside the guide silhouette.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e98-71d2-a049-13ac3c861ed2/exec-66b386fe-8b98-4c67-ba32-43b9207a48aa.png",
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: correction reduced some lighting but enlarged or shifted the object, worsening guide silhouette adherence. Kept unresized.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text_or_letters": true,
+        "flat_even_light": false,
+        "lighting_note": "Flatter lamp and gold colours, but resin relief shading and edge glints remain.",
+        "no_cast_shadow_or_floor": true
+      },
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "0405492ea2ff4c12a5d937a30ff3837d802a7a04c94ce50224d314f41e3c2a46"
+        },
+        {
+          "path": "paint_back_attempt1.png",
+          "sha256": "fbe55acd49fde0b20fbb03184fe5b52126f705b88b8ec8061bcd3e22c355d4f0"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "374985cfec8ab6942aef3a7149ed1921f537953ea627d788cf2821b01362f3bb"
+        }
+      ],
+      "sha256": "06bcbaeb025d44c02e6a74ed93bceb0f70b336773a7fdd8aa150ab00e71c8289",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_canvas_edges_clean": true,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_any": [
+          62,
+          33,
+          1220,
+          1230
+        ],
+        "alpha_bbox_at_128": [
+          66,
+          348,
+          1210,
+          844
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou_at_alpha128": 0.677415,
+        "normalized_extra_pixels": 28940,
+        "normalized_missing_pixels": 16749
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+id: mm7.mount_nighon_faction_alerts
+title: "Mount Nighon: hitting a wild warlock leaves the town's warlocks and peasants friendly"
+world: mm7
+mode: faithful
+tags: [mm7, actors, regression]
+steps:
+  - note:
+      text: >-
+        The map's load event turns spawn group 56 (wild warlocks, rocs, hydras) hostile. The town's Water Warlocks
+        (guard group 55) and its peasants allied to the warlock class (Ally 140) share the wild warlocks' relation
+        entry, but a hit on an already hostile actor does not turn friendly allies hostile. Hitting a town warlock
+        rouses the town.
+  - new_game_flow: {start_map: 7out01.odm}
+  - load_map: {map: out10.odm}
+  - advance_runtime: {seconds: 1}
+  # Town Water Warlocks 0, 1, 3 and peasants allied to the warlock class 13, 17, 19, 22, 25, all within 3400 of
+  # warlock 0 (3200, -8848, 512). Wild group 56 spawns also include Water Warlocks, so the checks go by index.
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 1, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 3, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 13, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 17, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 19, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 22, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 25, hostile_to_party: false}
+  # The load event makes the new group 56 warlock beside warlock 0 hostile.
+  - spawn_actor: {monster_id: 418, x: 3400, y: -8848, z: 512, group: 56}
+  - execute_event: {id: 1}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, hostile_to_party: true}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 1, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 3, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 13, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 17, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 19, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 22, hostile_to_party: false}
+  - assert:
+      actor_visible: {actor_index: 25, hostile_to_party: false}
+  - damage_actor: {actor_index: 0, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 3, hostile_to_party: true}
+  - assert:
+      actor_visible: {actor_index: 17, hostile_to_party: true}

@@ -1,0 +1,595 @@
+{
+ "id": "20261009-1649-mm8-out01-08",
+ "world": "mm8",
+ "maps": [
+  "out01.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/gt001a",
+  "mm8/gtrlrf1",
+  "mm8/gtrlrf3",
+  "mm8/pending",
+  "mm8/sgbank",
+  "mm8/sginn",
+  "mm8/sgtrain",
+  "mm8/t02a02",
+  "mm8/t02a02b",
+  "mm8/t02a05",
+  "mm8/t02a10a",
+  "mm8/t02a10b",
+  "mm8/t02a10c",
+  "mm8/t02a11b",
+  "mm8/t03a01a",
+  "mm8/t03a02a",
+  "mm8/t03a02b",
+  "mm8/t03a03a",
+  "mm8/t03a03b",
+  "mm8/t03a04a",
+  "mm8/t03a04b",
+  "mm8/t03a05a",
+  "mm8/t03a06a",
+  "mm8/t03a08b"
+ ],
+ "requests": {
+  "mm8/gt001a": {
+   "name": "gt001a",
+   "versions": [
+    1
+   ],
+   "material": "small brown wooden crate lid of vertical planks in a dark plank frame with iron rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gtrlrf1": {
+   "name": "gtrlrf1",
+   "versions": [
+    1
+   ],
+   "material": "horizontal overlapping reddish-brown wooden roof planks with straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gtrlrf3": {
+   "name": "gtrlrf3",
+   "versions": [
+    1
+   ],
+   "material": "vertical reddish-brown wooden roof planks with straight grain and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/pending": {
+   "name": "pending",
+   "versions": [
+    1
+   ],
+   "material": "clean flat graphic: a red prohibition circle with a diagonal bar on a flat cyan background, copy exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/sgbank": {
+   "name": "sgbank",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: green board with a blue-grey frame, a brown money sack and stacks of gold coins, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/sginn": {
+   "name": "sginn",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: pink-grey board with a blue-grey frame, two crossed golden keys and a red heart, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/sgtrain": {
+   "name": "sgtrain",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: light wooden board with a red and white archery target pierced by an arrow, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a02": {
+   "name": "t02a02",
+   "versions": [
+    1
+   ],
+   "material": "dry sandy ochre-tan dirt ground with small pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a02b": {
+   "name": "t02a02b",
+   "versions": [
+    1
+   ],
+   "material": "dry sandy grey-tan dirt ground with pale patches and small pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a05": {
+   "name": "t02a05",
+   "versions": [
+    1
+   ],
+   "material": "pale tan rounded pebbles packed together in sand",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a10a": {
+   "name": "t02a10a",
+   "versions": [
+    1
+   ],
+   "material": "vertical rounded grey-brown stone column strip with weathering",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a10b": {
+   "name": "t02a10b",
+   "versions": [
+    1
+   ],
+   "material": "vertical rounded grey-brown stone column strip with weathering",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a10c": {
+   "name": "t02a10c",
+   "versions": [
+    1
+   ],
+   "material": "vertical grey stone strip carved with a zigzag chevron pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a11b": {
+   "name": "t02a11b",
+   "versions": [
+    1
+   ],
+   "material": "horizontal grey stone strip carved with a zigzag chevron pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a01a": {
+   "name": "t03a01a",
+   "versions": [
+    1
+   ],
+   "material": "dark brown woven palm-bark panel with a large irregular dark hole torn in it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a02a": {
+   "name": "t03a02a",
+   "versions": [
+    1
+   ],
+   "material": "dry golden-green thatch straw with a grid of thin bamboo battens",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a02b": {
+   "name": "t03a02b",
+   "versions": [
+    1
+   ],
+   "material": "dry golden-green thatch straw with a grid of thin bamboo battens",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a03a": {
+   "name": "t03a03a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "lashed golden bamboo poles forming a door of vertical poles inside a bamboo frame, rope bindings",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "5": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11a",
+     "right": "mm8/t03a06b"
+    },
+    "6": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11a",
+     "right": "mm8/t03a06b"
+    },
+    "7": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11a",
+     "right": "mm8/t03a06b"
+    },
+    "8": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11a",
+     "right": "mm8/t03a06b"
+    }
+   }
+  },
+  "mm8/t03a03b": {
+   "name": "t03a03b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles with an oval woven motif",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "9": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "9": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ],
+    "9": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    },
+    "3": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    },
+    "4": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    },
+    "5": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    },
+    "6": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    },
+    "7": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    },
+    "8": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    },
+    "9": {
+     "right": "mm8/t03a08b",
+     "top": "mm8/t03a04a",
+     "left": "mm8/t03a09b"
+    }
+   }
+  },
+  "mm8/t03a04a": {
+   "name": "t03a04a",
+   "versions": [
+    1
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles with a bamboo window grid",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a04b": {
+   "name": "t03a04b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles with a small square woven bamboo window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a05a": {
+   "name": "t03a05a",
+   "versions": [
+    1
+   ],
+   "material": "dry pale grey-brown thatch straw, dense and windswept",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a06a": {
+   "name": "t03a06a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a08b": {
+   "name": "t03a08b",
+   "versions": [
+    1
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles with a bamboo window grid",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

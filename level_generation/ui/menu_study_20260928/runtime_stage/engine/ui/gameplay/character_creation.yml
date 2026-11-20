@@ -1,0 +1,1413 @@
+screen: CharacterCreation
+elements:
+- id: CharacterCreationRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Integration draft. Fit the complete 16:9 canvas; see contracts/theme.yml. The current menu resolver does
+    not yet honor this reference width.
+  children:
+  - id: CharacterCreationBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_title_backdrop
+    notes: Use the live dimmed game view instead when entered from Pause.
+  - id: CharacterCreationPanel
+    anchor: top_left
+    offset_x: 2.1333
+    offset_y: 2.1333
+    width: 849.0667
+    height: 475.7333
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_party_frame
+  - id: CharacterCreationTitle
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 26.6667
+    width: 174.5499
+    height: 27.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Create Your Party
+      font: fondamento
+      color: '#efe0bc'
+      align_x: left
+      align_y: middle
+      scale: 0.71667
+      pad_x: 0.0
+  - id: CharacterCreationHeadRule
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 63.2501
+    width: 791.4667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: CharacterCreationFooterRule
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 416.0
+    width: 791.4667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: CharacterCreationContinent
+    anchor: top_left
+    offset_x: 717.4832
+    offset_y: 34.8251
+    width: 104.9168
+    height: 11.2
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{world_name} · {starting_location}'
+      font: lucida
+      color: '#b9bba9'
+      align_x: left
+      align_y: middle
+      scale: 0.64
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationPortraitImage
+    anchor: top_left
+    offset_x: 58.9333
+    offset_y: 78.7168
+    width: 81.0667
+    height: 107.7333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: Native portrait texture from current character data.
+  - id: CharacterCreationDoll
+    anchor: top_left
+    offset_x: 697.6
+    offset_y: 92.0501
+    width: 118.4
+    height: 255.7419
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: Native paperdoll composition and layers from NewGameScreen; do not use the browser sample or replace
+      its rules with study data.
+  - id: CharacterCreationSection0
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 76.5835
+    width: 71.8581
+    height: 19.8336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Attributes
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: CharacterCreationSection1
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 76.5835
+    width: 96.2581
+    height: 19.8336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Starting skills
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: CharacterCreationSubsection0
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 150.8165
+    width: 118.8251
+    height: 16.6336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Choose two more
+      font: arrus
+      color: '#e4d5b5'
+      align_x: left
+      align_y: middle
+      scale: 0.80842
+      pad_x: 0.0
+  - id: CharacterCreationSubsection1
+    anchor: top_left
+    offset_x: 691.2
+    offset_y: 76.5835
+    width: 131.2
+    height: 9.0667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Appearance
+      font: lucida
+      color: '#bcb28d'
+      align_x: center
+      align_y: middle
+      scale: 0.52706
+      pad_x: 0.0
+  - id: CharacterCreationNameLabel
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 193.9168
+    width: 137.0667
+    height: 10.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Name
+      font: lucida
+      color: '#b6b8a5'
+      align_x: left
+      align_y: middle
+      scale: 0.56471
+      pad_x: 0.0
+  - id: CharacterCreationClassLabel
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 233.9168
+    width: 137.0667
+    height: 10.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Class
+      font: lucida
+      color: '#b6b8a5'
+      align_x: left
+      align_y: middle
+      scale: 0.56471
+      pad_x: 0.0
+  - id: CharacterCreationNameField
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 206.7168
+    width: 137.0667
+    height: 22.4
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_text_field
+    text:
+      value: '{character_name}'
+      font: lucida
+      color: '#e9dcc0'
+      align_x: left
+      align_y: middle
+      scale: 0.71529
+      pad_x: 6.9333
+    notes: Existing name input rules and encoding; browser mock limit is not authoritative. Controller supplies
+      live text; braces are draft placeholders.
+  - id: CharacterCreationClassValue
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 246.7168
+    width: 137.0667
+    height: 23.4667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_text_field
+    text:
+      value: '{class_name}'
+      font: lucida
+      color: '#e9dcc0'
+      align_x: left
+      align_y: middle
+      scale: 0.71529
+      pad_x: 6.9333
+    notes: Open a native choice list from available classes/races/world content; no browser hard-coded class restrictions.
+      Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationVoiceValue
+    anchor: top_left
+    offset_x: 37.4917
+    offset_y: 278.1835
+    width: 4.4832
+    height: 11.2
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Voice {voice_number} · {race_name}
+      font: lucida
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.64
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationBonusPoolValue
+    anchor: top_left
+    offset_x: 283.9669
+    offset_y: 80.6336
+    width: 69.1003
+    height: 11.7333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{bonus_points} points left'
+      font: lucida
+      color: '#e3c185'
+      align_x: left
+      align_y: middle
+      scale: 0.67765
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationMightLabel
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 110.8165
+    width: 85.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Might
+      font: arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CharacterCreationMightValue
+    anchor: top_left
+    offset_x: 308.8
+    offset_y: 110.8165
+    width: 21.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{might}'
+      font: arrus
+      color: '#eadfc6'
+      align_x: center
+      align_y: middle
+      scale: 0.70737
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationIntellectLabel
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 140.1499
+    width: 85.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Intellect
+      font: arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CharacterCreationIntellectValue
+    anchor: top_left
+    offset_x: 308.8
+    offset_y: 140.1499
+    width: 21.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{intellect}'
+      font: arrus
+      color: '#eadfc6'
+      align_x: center
+      align_y: middle
+      scale: 0.70737
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationPersonalityLabel
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 169.4832
+    width: 85.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Personality
+      font: arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CharacterCreationPersonalityValue
+    anchor: top_left
+    offset_x: 308.8
+    offset_y: 169.4832
+    width: 21.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{personality}'
+      font: arrus
+      color: '#eadfc6'
+      align_x: center
+      align_y: middle
+      scale: 0.70737
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationEnduranceLabel
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 198.8165
+    width: 85.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Endurance
+      font: arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CharacterCreationEnduranceValue
+    anchor: top_left
+    offset_x: 308.8
+    offset_y: 198.8165
+    width: 21.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{endurance}'
+      font: arrus
+      color: '#eadfc6'
+      align_x: center
+      align_y: middle
+      scale: 0.70737
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAccuracyLabel
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 228.1499
+    width: 85.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Accuracy
+      font: arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CharacterCreationAccuracyValue
+    anchor: top_left
+    offset_x: 308.8
+    offset_y: 228.1499
+    width: 21.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{accuracy}'
+      font: arrus
+      color: '#eadfc6'
+      align_x: center
+      align_y: middle
+      scale: 0.70737
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationSpeedLabel
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 257.4832
+    width: 85.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Speed
+      font: arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CharacterCreationSpeedValue
+    anchor: top_left
+    offset_x: 308.8
+    offset_y: 257.4832
+    width: 21.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{speed}'
+      font: arrus
+      color: '#eadfc6'
+      align_x: center
+      align_y: middle
+      scale: 0.70737
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationLuckLabel
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 286.8165
+    width: 85.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Luck
+      font: arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CharacterCreationLuckValue
+    anchor: top_left
+    offset_x: 308.8
+    offset_y: 286.8165
+    width: 21.3333
+    height: 13.8667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{luck}'
+      font: arrus
+      color: '#eadfc6'
+      align_x: center
+      align_y: middle
+      scale: 0.70737
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAttributeHelp
+    anchor: top_left
+    offset_x: 195.2
+    offset_y: 315.6165
+    width: 157.8667
+    height: 24.8
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Spend all {total_bonus_points} bonus points before beginning.
+      font: lucida
+      color: '#b7bba9'
+      align_x: left
+      align_y: middle
+      scale: 0.56471
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAssignedSkill0
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 106.0165
+    width: 139.7333
+    height: 32.0
+    z_index: 10
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_assigned_skill
+    text:
+      value: '{assigned_skill_0}'
+      font: arrus
+      color: '#f0dfb6'
+      align_x: left
+      align_y: middle
+      scale: 0.77474
+      pad_x: 9.6
+    notes: Noninteractive class-granted skill. Preserve the stronger r03 tiles. Controller supplies live text; braces
+      are draft placeholders.
+  - id: CharacterCreationAssignedSkill1
+    anchor: top_left
+    offset_x: 537.6
+    offset_y: 106.0165
+    width: 139.7333
+    height: 32.0
+    z_index: 10
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_assigned_skill
+    text:
+      value: '{assigned_skill_1}'
+      font: arrus
+      color: '#f0dfb6'
+      align_x: left
+      align_y: middle
+      scale: 0.77474
+      pad_x: 9.6
+    notes: Noninteractive class-granted skill. Preserve the stronger r03 tiles. Controller supplies live text; braces
+      are draft placeholders.
+  - id: CharacterCreationAvailableSkill0
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 172.7835
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_0}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill1
+    anchor: top_left
+    offset_x: 537.6
+    offset_y: 172.7835
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_1}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill2
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 202.6501
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_2}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill3
+    anchor: top_left
+    offset_x: 537.6
+    offset_y: 202.6501
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_3}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill4
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 232.5168
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_4}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill5
+    anchor: top_left
+    offset_x: 537.6
+    offset_y: 232.5168
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_5}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill6
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 262.3835
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_6}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill7
+    anchor: top_left
+    offset_x: 537.6
+    offset_y: 262.3835
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_7}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationAvailableSkill8
+    anchor: top_left
+    offset_x: 392.5333
+    offset_y: 292.2501
+    width: 139.7333
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_skill
+      selected: omenu_skill_selected
+    text:
+      value: '{optional_skill_8}'
+      font: arrus
+      color: '#c7ccb8'
+      align_x: left
+      align_y: middle
+      scale: 0.67368
+      pad_x: 6.4
+    notes: Two-column choices from class skill data; selection limit from character creation rules. Draw the plus/check
+      as an icon, and dim unavailable choices. Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationSkillCount
+    anchor: top_left
+    offset_x: 655.0581
+    offset_y: 153.8
+    width: 22.2752
+    height: 10.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{chosen_count} / {required_count}'
+      font: lucida
+      color: '#c1b183'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationReadiness
+    anchor: top_left
+    offset_x: 245.1835
+    offset_y: 433.9749
+    width: 304.6
+    height: 11.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{party_readiness_message}'
+      font: lucida
+      color: '#b8b9a8'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationColumnRule
+    anchor: top_left
+    offset_x: 378.1333
+    offset_y: 76.5835
+    width: 0.5333
+    height: 274.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: faint brass divider; keep the measured 48px extra section separation.'
+  - id: CharacterCreationPartySlot1Button
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 370.6667
+    width: 38.4
+    height: 41.0667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_party_slot
+      selected: omenu_party_slot_selected
+    notes: Native portrait for an occupied slot; next available slot is Add. Capacity comes from engine rules.
+  - id: CharacterCreationPartySlot2Button
+    anchor: top_left
+    offset_x: 75.7333
+    offset_y: 370.6667
+    width: 38.4
+    height: 41.0667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_party_slot
+      selected: omenu_party_slot_selected
+    notes: Native portrait for an occupied slot; next available slot is Add. Capacity comes from engine rules.
+  - id: CharacterCreationPartySlot3Button
+    anchor: top_left
+    offset_x: 120.5333
+    offset_y: 370.6667
+    width: 38.4
+    height: 41.0667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_party_slot
+      selected: omenu_party_slot_selected
+    notes: Native portrait for an occupied slot; next available slot is Add. Capacity comes from engine rules.
+  - id: CharacterCreationPartySlot4Button
+    anchor: top_left
+    offset_x: 165.3333
+    offset_y: 370.6667
+    width: 38.4
+    height: 41.0667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_party_slot
+      selected: omenu_party_slot_selected
+    notes: Native portrait for an occupied slot; next available slot is Add. Capacity comes from engine rules.
+  - id: CharacterCreationPartySlot5Button
+    anchor: top_left
+    offset_x: 210.1333
+    offset_y: 370.6667
+    width: 38.4
+    height: 41.0667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_party_slot
+      selected: omenu_party_slot_selected
+    notes: Native portrait for an occupied slot; next available slot is Add. Capacity comes from engine rules.
+  - id: CharacterCreationPartySummary
+    anchor: top_left
+    offset_x: 266.1333
+    offset_y: 381.6
+    width: 117.3333
+    height: 21.3333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{party_count} / {party_capacity} adventurers
+
+        {ready_count} ready'
+      font: lucida
+      color: '#b7b9a6'
+      align_x: left
+      align_y: middle
+      scale: 0.56471
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: CharacterCreationPortraitLeftButton
+    anchor: top_left
+    offset_x: 33.8667
+    offset_y: 123.7835
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: <
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationPortraitRightButton
+    anchor: top_left
+    offset_x: 147.4667
+    offset_y: 123.7835
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '>'
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationVoiceLeftButton
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 275.5168
+    width: 17.6
+    height: 16.5333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: <
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationVoiceRightButton
+    anchor: top_left
+    offset_x: 150.4
+    offset_y: 275.5168
+    width: 17.6
+    height: 16.5333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '>'
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationResetCharacterButton
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 297.3835
+    width: 49.5915
+    height: 20.2667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_small_default
+      highlighted: omenu_button_small_hover
+      pressed: omenu_button_small_pressed
+    text:
+      value: Default
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.3
+      pad_x: 9.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationRemoveCharacterButton
+    anchor: top_left
+    offset_x: 84.7915
+    offset_y: 297.3835
+    width: 51.5419
+    height: 20.2667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_small_default
+      highlighted: omenu_button_small_hover
+      pressed: omenu_button_small_pressed
+    text:
+      value: Remove
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.3
+      pad_x: 9.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationMightMinusButton
+    anchor: top_left
+    offset_x: 285.8667
+    offset_y: 108.9499
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '-'
+      font: arrus
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationMightPlusButton
+    anchor: top_left
+    offset_x: 335.4667
+    offset_y: 108.9499
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: +
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationIntellectMinusButton
+    anchor: top_left
+    offset_x: 285.8667
+    offset_y: 138.2832
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '-'
+      font: arrus
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationIntellectPlusButton
+    anchor: top_left
+    offset_x: 335.4667
+    offset_y: 138.2832
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: +
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationPersonalityMinusButton
+    anchor: top_left
+    offset_x: 285.8667
+    offset_y: 167.6165
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '-'
+      font: arrus
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationPersonalityPlusButton
+    anchor: top_left
+    offset_x: 335.4667
+    offset_y: 167.6165
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: +
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationEnduranceMinusButton
+    anchor: top_left
+    offset_x: 285.8667
+    offset_y: 196.9499
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '-'
+      font: arrus
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationEndurancePlusButton
+    anchor: top_left
+    offset_x: 335.4667
+    offset_y: 196.9499
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: +
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationAccuracyMinusButton
+    anchor: top_left
+    offset_x: 285.8667
+    offset_y: 226.2832
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '-'
+      font: arrus
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationAccuracyPlusButton
+    anchor: top_left
+    offset_x: 335.4667
+    offset_y: 226.2832
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: +
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationSpeedMinusButton
+    anchor: top_left
+    offset_x: 285.8667
+    offset_y: 255.6165
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '-'
+      font: arrus
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationSpeedPlusButton
+    anchor: top_left
+    offset_x: 335.4667
+    offset_y: 255.6165
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: +
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationLuckMinusButton
+    anchor: top_left
+    offset_x: 285.8667
+    offset_y: 284.9499
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: '-'
+      font: arrus
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationLuckPlusButton
+    anchor: top_left
+    offset_x: 335.4667
+    offset_y: 284.9499
+    width: 17.6
+    height: 17.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_square_default
+      highlighted: omenu_button_square_hover
+      pressed: omenu_button_square_pressed
+    text:
+      value: +
+      font: arrus
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.77474
+      pad_x: 1.0667
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationCancelButton
+    anchor: top_left
+    offset_x: 30.9333
+    offset_y: 426.6667
+    width: 66.1333
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_quiet_default
+      highlighted: omenu_button_quiet_hover
+      pressed: omenu_button_quiet_pressed
+    text:
+      value: Cancel
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: CharacterCreationConfirmButton
+    anchor: top_left
+    offset_x: 697.8917
+    offset_y: 426.6667
+    width: 124.5083
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_primary_default
+      highlighted: omenu_button_primary_hover
+      pressed: omenu_button_primary_pressed
+    text:
+      value: Begin Adventure
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'

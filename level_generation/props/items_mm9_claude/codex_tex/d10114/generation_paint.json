@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG 1536x2048, 3:4 canvas. The guide image is the authoritative layout, including its unusual view orientations: preserve all ten silhouettes EXACTLY where they are, their size, outlines, gaps, and orientations. Do not rearrange based on view names. Three columns by FOUR rows of 512x512 cells, with last cell of rows 2 and 4 empty. Upper half five objects are PAINT; lower half repeats are MATERIAL MASK. Paint ONLY existing grey objects, never redraw, enlarge, move or redesign. Upper half: unlit base colour of a long coat of charcoal-black plate covered by a dense lattice of polished gold bands crossing at right angles, gold rivets at crossings, high gold-rimmed collar, plain silver steel forearm guard on the near arm, gold-edged hem. Follow reference facets, engravings, scrollwork and inner swirls scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections. Lower half: fill same five silhouettes with FLAT pure material colours only: #FF0000 every metal including charcoal-black steel plates, gold bands/rivets and silver guard and metal footwear; #00FF00 leather/padding/hide/suede/fur; #0000FF cloth/linings/cords/ribbons/hair; #000000 gemstones/crystal/glass/pearl/enamel/liquid through glass. Every silhouette pixel exactly one of these colours; no shading, texture, outlines or antialiased colour blends inside. All armour metal is red regardless of its base colour. Every gap/opening stays as in guide and fully transparent. No ground, text, outlines, glow, aura, sparkles, or anything outside the exact guide silhouettes. Empty cells stay transparent.\nCORRECTION: preserve guide silhouettes with clean exact boundaries. Absolutely NO scattered pixels, spray, noise, red speckles, or painted pixels outside objects. Lower half must have solid continuous flat #FF0000 metal silhouettes with correct transparent openings, no internal linework or grain. Match guide shape rather than redesigning from master. Preserve canvas ratio exactly 3:4.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG 1536x2048, 3:4 canvas. The guide image is the authoritative layout, including its unusual view orientations: preserve all ten silhouettes EXACTLY where they are, their size, outlines, gaps, and orientations. Do not rearrange based on view names. Three columns by FOUR rows of 512x512 cells, with last cell of rows 2 and 4 empty. Upper half five objects are PAINT; lower half repeats are MATERIAL MASK. Paint ONLY existing grey objects, never redraw, enlarge, move or redesign. Upper half: unlit base colour of a long coat of charcoal-black plate covered by a dense lattice of polished gold bands crossing at right angles, gold rivets at crossings, high gold-rimmed collar, plain silver steel forearm guard on the near arm, gold-edged hem. Follow reference facets, engravings, scrollwork and inner swirls scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections. Lower half: fill same five silhouettes with FLAT pure material colours only: #FF0000 every metal including charcoal-black steel plates, gold bands/rivets and silver guard and metal footwear; #00FF00 leather/padding/hide/suede/fur; #0000FF cloth/linings/cords/ribbons/hair; #000000 gemstones/crystal/glass/pearl/enamel/liquid through glass. Every silhouette pixel exactly one of these colours; no shading, texture, outlines or antialiased colour blends inside. All armour metal is red regardless of its base colour. Every gap/opening stays as in guide and fully transparent. No ground, text, outlines, glow, aura, sparkles, or anything outside the exact guide silhouettes. Empty cells stay transparent.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acd8-67c6-7e93-89b1-66e4f12f1750/exec-90ea3e15-f31a-4e3b-931a-41e4c28c7d24.png",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10114/paint_mask_guide.png",
+      "sha256": "e111693f95f08943820516932bdea1f3cda91aceea0d8cf29823fc44c1e7590e"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10114/design_reference.png",
+      "sha256": "ee8358d5627297d4d291ab7fd5aa391815f9d6c409224cc5fe3258c6a1d81667"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10114/icon_x8.png",
+      "sha256": "27fdc1817ddd82d49ea5443576cc2f96974fa41b5f06aae8aa676532b9e40b4b"
+    }
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10114/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained, but stray pixels around mask silhouettes remain; raw output preserved without modification."
+}

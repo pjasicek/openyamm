@@ -200,6 +200,29 @@ selection, returned random value, candidate list, selected slot and subsequent h
 compare ordinary reloads with full process restarts. The earlier 25% statement describes the default selector's
 distribution, not proof that the reported live sequence is impossible.
 
+## Follow-up: resistance and visible hurt reactions
+
+Checked 2026-10-17 in the same fingerprinted MM7 installer executable. Ordinary resistance performs up to four
+successive integer halvings, rather than a separate full-resist roll. However, **there is no minimum-one clamp**:
+low damage can round to zero (`10 -> 5 -> 2 -> 1 -> 0`).
+
+- Incoming damage routine `0x48d499`: successful resistance checks apply `sar ..., 1` at `0x48d530`, `0x48d553`,
+  `0x48d576` and `0x48d599`. The elemental path returns the resulting integer at `0x48d609`.
+- Damage application `0x48dc04`: calls that routine at `0x48dc1a`, subtracts its result from HP at `0x48dc1f`,
+  and keeps the final damage amount. `0x48dcb8`–`0x48dcbb` skips the hurt reaction when that amount is zero.
+- For a nonzero amount, the routine additionally checks whether the character can act before calling reaction 24
+  at `0x48dccd`. Reaction dispatcher `0x4948a9` handles voice and face animation, calling the expression setter at
+  `0x494a11`. Thus a selected hit can cause no HP loss and skip the normal hurt voice/portrait reaction.
+
+For positive damage entering this resistance calculation at 16 or more, the four ordinary halvings alone leave
+at least 1. Special immunity is distinct: `0x48d4e7`–`0x48d4fd` returns zero for class `0x23` (reference name Lich)
+when the selected resistance is at least 200. Neither case diagnoses the attacks or party in the reported GIF.
+Other effects such as wake-up and attack recovery are not ruled out when the normal hurt reaction is skipped.
+
+The [mechanics reference](https://grayface.github.io/mm/mechanics/#resistances) describes the four resistance tiers.
+It also distinguishes actual spells from elemental monster ranged attacks: the latter can still fail a hit roll.
+Do not identify an attack as a spell solely from its appearance.
+
 ## Reproduction and limits
 
 Reusable labels/comments: [MM8 annotations](mm8_rel_5326d564_party_targeting.rz),

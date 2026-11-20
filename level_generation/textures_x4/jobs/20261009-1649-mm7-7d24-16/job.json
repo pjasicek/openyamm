@@ -1,0 +1,910 @@
+{
+ "id": "20261009-1649-mm7-7d24-16",
+ "world": "mm7",
+ "maps": [
+  "7d24.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/hdr1b",
+  "mm7/hdm2el",
+  "mm7/hdm2erw",
+  "mm7/hdm2elw",
+  "mm7/hdm2bs",
+  "mm7/hdr1el",
+  "mm7/hdm1erw",
+  "mm7/hdm1er",
+  "mm7/hdp1b",
+  "mm7/hdr1bw",
+  "mm7/hdp1el",
+  "mm7/hdp2el",
+  "mm7/hdp2erw",
+  "mm7/hdp2elw",
+  "mm7/hdr1elw",
+  "mm7/hdr1er",
+  "mm7/hdp2er",
+  "mm7/hdm1b",
+  "mm7/hdp2bw",
+  "mm7/7cdb1s",
+  "mm7/hdp2bs",
+  "mm7/hdp1elw",
+  "mm7/hdp1bw",
+  "mm7/hdr1erw",
+  "mm7/hdp1d"
+ ],
+ "requests": {
+  "mm7/hdr1b": {
+   "name": "hdr1b",
+   "versions": [
+    1
+   ],
+   "material": "polished reddish-brown wooden wall panel with fine vertical grain, a carved moulded cornice with a row of small triangular dentils across the top and a thin moulded skirting strip along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdm2el": {
+   "name": "hdm2el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale beige rough plaster wall in a dark weathered oak timber frame: a heavy top beam with pyramid-studded square blocks and a bottom beam with a row of pyramid studs, with an iron strap plate on the top beam at the left, one short wooden bracket under the top beam on the left, a vertical timber post on the left edge and a diagonal brace in the lower left corner; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm2b"
+     ],
+     "fraction": 0.59
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm2b"
+     ],
+     "fraction": 0.59
+    }
+   }
+  },
+  "mm7/hdm2erw": {
+   "name": "hdm2erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale beige rough plaster wall in a dark weathered oak timber frame: a heavy top beam with pyramid-studded square blocks and a bottom beam with a row of pyramid studs, with an iron strap plate on the top beam at the right, one short wooden bracket under the top beam on the right, a vertical timber post on the right edge, a diagonal brace in the lower right corner and a gilded bronze window ornament in the centre (a round-topped double latticed window flanked by curved horns on a short stem); copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm2er"
+     ],
+     "fraction": 0.783
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm2er"
+     ],
+     "fraction": 0.783
+    }
+   }
+  },
+  "mm7/hdm2elw": {
+   "name": "hdm2elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale beige rough plaster wall in a dark weathered oak timber frame: a heavy top beam with pyramid-studded square blocks and a bottom beam with a row of pyramid studs, with an iron strap plate on the top beam at the left, one short wooden bracket under the top beam on the left, a vertical timber post on the left edge, a diagonal brace in the lower left corner and a gilded bronze window ornament in the centre (a round-topped double latticed window flanked by curved horns on a short stem); copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm2el",
+      "mm7/hdm2erw"
+     ],
+     "fraction": 0.943
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm2el",
+      "mm7/hdm2erw"
+     ],
+     "fraction": 0.943
+    }
+   }
+  },
+  "mm7/hdm2bs": {
+   "name": "hdm2bs",
+   "versions": [
+    1
+   ],
+   "material": "pale beige rough plaster wall in a dark weathered oak timber frame: a heavy top beam with pyramid-studded square blocks and two short wooden brackets under it, and a bottom beam with a row of pyramid studs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm2b"
+     ],
+     "fraction": 0.914
+    }
+   }
+  },
+  "mm7/hdr1el": {
+   "name": "hdr1el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished reddish-brown wooden wall panel with fine vertical grain, a carved moulded cornice with a row of small triangular dentils across the top and a thin moulded skirting strip along the bottom, with a turned wooden column on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.741
+    },
+    "2": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.741
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hdr1b"
+    }
+   }
+  },
+  "mm7/hdm1erw": {
+   "name": "hdm1erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a tall carved pointed gothic arch relief with a narrow window of crossed dark bars over dark glass inside it, and a thin pale stone frame on the right edge; copy the composition exactly",
+   "notes": {
+    "2": "the wall is smooth worn carved stone, not wood and not separate masonry blocks; along the top keep the thin light pinkish-grey stone frame band above a dark recessed stone band, with the arch ribs crossing there as in the reference; no wooden lintel, beam or keystone block; behind the crossed bars the window glows amber",
+    "3": "the wall is smooth worn carved stone, not wood and not separate masonry blocks; along the top keep the thin light pinkish-grey stone frame band above a dark recessed stone band, with the arch ribs crossing there as in the reference; no wooden lintel, beam or keystone block; behind the crossed bars the window glows amber",
+    "4": "the left edge is plain grey-brown wall stone running right up to the border, with no pale frame strip or line there; the thin pale frame is only on the right edge, with a dark line outside it at the very right border, exactly as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1elw"
+     ],
+     "fraction": 0.441
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm1elw"
+     ],
+     "fraction": 0.441
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdm1er": {
+   "name": "hdm1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a tall carved pointed gothic arch relief with a carved interlaced ribbon ornament inside it, and a thin pale stone frame on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1erw",
+      "mm7/hdm1el"
+     ],
+     "fraction": 0.841
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdp1b": {
+   "name": "hdp1b",
+   "versions": [
+    1
+   ],
+   "material": "cracked blue-grey lime plaster wall with a network of dark crack lines, under a weathered gnarled wooden beam lashed with pale twisted vines along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdr1bw": {
+   "name": "hdr1bw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "polished reddish-brown wooden wall panel with fine vertical grain, a carved moulded cornice with a row of small triangular dentils across the top and a thin moulded skirting strip along the bottom, with a carved wooden window shutter in the centre pierced by a cross-shaped lattice of small square openings; copy the composition exactly",
+   "notes": {
+    "3": "below the carved window panel the plain wood is one even tone matching the sharp copied wood exactly; only a soft narrow shadow directly under the panel, no wavy horizontal tide line or darker patch anywhere on the planks",
+    "4": "under the panel there is only a soft, blurred drop shadow that fades out smoothly within a short distance; the wood around and below it has exactly the brightness and grain of the sharp copied wood further down, so there is no wavy edge, stain outline or tonal boundary where they meet"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.655
+    },
+    "2": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.655
+    },
+    "3": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.655
+    },
+    "4": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.655
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hdr1b",
+     "right": "mm7/hdr1b"
+    },
+    "3": {
+     "left": "mm7/hdr1b",
+     "right": "mm7/hdr1b"
+    },
+    "4": {
+     "left": "mm7/hdr1b",
+     "right": "mm7/hdr1b"
+    }
+   }
+  },
+  "mm7/hdp1el": {
+   "name": "hdp1el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: cracked blue-grey lime plaster wall with a network of dark crack lines, under a weathered gnarled wooden beam lashed with pale twisted vines along the top, with a gnarled vine-wrapped wooden post on the left edge and a diagonal branch brace - right part: cracked blue-grey lime plaster wall with a network of dark crack lines, under a weathered gnarled wooden beam lashed with pale twisted vines along the top, with a gnarled wooden doorframe around a dark plank door bearing a crossed iron axe and sword emblem and a horned round iron shield above it; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp1b"
+     ],
+     "fraction": 0.41
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp1elw",
+      "mm7/hdp1b",
+      "mm7/hdp1bw"
+     ],
+     "fraction": 0.66
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hdp1bw"
+    }
+   }
+  },
+  "mm7/hdp2el": {
+   "name": "hdp2el",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "weathered silver-grey vertical wooden planks with traces of faded red paint, thin reddish horizontal rails near the top and heavy nailed cross boards near the bottom, with a dark corner post on the left edge, a split gap between planks and a diagonal brace at the lower left",
+   "notes": {
+    "3": "the vertical post on the left runs straight off the left edge at the brightness of the wood beside it; no dark line or shadow on the outermost pixel column",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.545
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.545
+    },
+    "3": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.545
+    },
+    "4": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.545
+    },
+    "5": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.545
+    }
+   },
+   "roll": {
+    "5": [
+     0,
+     64
+    ]
+   },
+   "context": {
+    "4": {
+     "right": "mm7/hdp2b"
+    },
+    "5": {
+     "right": "mm7/hdp2b"
+    }
+   }
+  },
+  "mm7/hdp2erw": {
+   "name": "hdp2erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered silver-grey vertical wooden planks with traces of faded red paint, thin reddish horizontal rails near the top and heavy nailed cross boards near the bottom, with a dark corner post on the right edge and a small carved wooden window with a pointed gable frame and diamond lattice over amber glass in the centre; copy the composition exactly",
+   "notes": {
+    "3": "where the generated planks meet the sharp copied wood, continue the planks and board edges smoothly: no stepped rectangular notches or staircase outlines beside the boards; no dark line on the leftmost pixel column",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.237
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.237
+    },
+    "3": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.237
+    },
+    "4": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.237
+    }
+   },
+   "context": {
+    "4": {}
+   }
+  },
+  "mm7/hdp2elw": {
+   "name": "hdp2elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered silver-grey vertical wooden planks with traces of faded red paint, thin reddish horizontal rails near the top and heavy nailed cross boards near the bottom, with a dark corner post on the left edge and a small carved wooden window with a pointed gable frame and diamond lattice over amber glass in the centre; copy the composition exactly",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp2el",
+      "mm7/hdp2erw"
+     ],
+     "fraction": 0.816
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp2el",
+      "mm7/hdp2erw"
+     ],
+     "fraction": 0.816
+    },
+    "3": {
+     "sources": [
+      "mm7/hdp2el",
+      "mm7/hdp2erw"
+     ],
+     "fraction": 0.816
+    },
+    "4": {
+     "sources": [
+      "mm7/hdp2el",
+      "mm7/hdp2erw"
+     ],
+     "fraction": 0.816
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     64
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hdp2b"
+    },
+    "4": {
+     "right": "mm7/hdp2b"
+    }
+   }
+  },
+  "mm7/hdr1elw": {
+   "name": "hdr1elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished reddish-brown wooden wall panel with fine vertical grain, a carved moulded cornice with a row of small triangular dentils across the top and a thin moulded skirting strip along the bottom, with a turned wooden column on the left edge and a carved wooden window shutter in the centre pierced by a cross-shaped lattice of small square openings; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdr1el",
+      "mm7/hdr1bw"
+     ],
+     "fraction": 0.809
+    },
+    "2": {
+     "sources": [
+      "mm7/hdr1el",
+      "mm7/hdr1bw"
+     ],
+     "fraction": 0.809
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hdr1b"
+    }
+   }
+  },
+  "mm7/hdr1er": {
+   "name": "hdr1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "polished reddish-brown wooden wall panel with fine vertical grain, a carved moulded cornice with a row of small triangular dentils across the top and a thin moulded skirting strip along the bottom, with a turned wooden column on the right edge",
+   "notes": {
+    "3": "the wood panel continues straight into the neighbouring panel at the left edge; no dark vertical groove or line on the leftmost columns",
+    "4": "keep the cornice, dentil row and skirting at exactly the native's heights so they line up with the sharp neighbouring panel in the left margin; the wood continues straight across the left edge with no dark groove or line; no dark slots or notches under the cornice",
+    "5": "keep the cornice, dentil row and skirting at exactly the native's heights so they line up with the sharp neighbouring panel in the left margin; the wood continues straight across the left edge with no dark groove or line; no dark slots or notches under the cornice"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.269
+    },
+    "2": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.269
+    },
+    "3": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.269
+    },
+    "4": {
+     "sources": [
+      "mm7/hdr1b"
+     ],
+     "fraction": 0.269
+    },
+    "5": {
+     "sources": [
+      "mm7/hdr1b",
+      "mm7/hdr1bw"
+     ],
+     "fraction": 0.269
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hdr1bw"
+    },
+    "3": {},
+    "4": {
+     "left": "mm7/hdr1bw"
+    },
+    "5": {
+     "left": "mm7/hdr1bs2"
+    }
+   },
+   "roll": {
+    "3": [
+     95,
+     0
+    ]
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hdp2er": {
+   "name": "hdp2er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered silver-grey vertical wooden planks with traces of faded red paint, thin reddish horizontal rails near the top and heavy nailed cross boards near the bottom, with a dark corner post on the right edge and a diagonal brace at the lower right",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp2erw",
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.806
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp2erw",
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.806
+    },
+    "3": {
+     "sources": [
+      "mm7/hdp2erw",
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.806
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hdp2b"
+    }
+   }
+  },
+  "mm7/hdm1b": {
+   "name": "hdm1b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn grey-brown dressed stone wall with a shallow carved round-arched recess, a narrow stone ledge near the bottom and a carved diagonal lattice band along the bottom edge",
+   "notes": {
+    "2": "the recess is one plain smooth worn stone panel under a single shallow rounded arch moulding near the top; draw NO pointed arch, ribs, crossing X, chevron or broken rib fragments inside it; the panel continues seamlessly across the left and right edges with no vertical line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1el",
+      "mm7/hdm1erw"
+     ],
+     "fraction": 0.608
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm1el",
+      "mm7/hdm1erw"
+     ],
+     "fraction": 0.608
+    }
+   }
+  },
+  "mm7/hdp2bw": {
+   "name": "hdp2bw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered silver-grey vertical wooden planks with traces of faded red paint, thin reddish horizontal rails near the top and heavy nailed cross boards near the bottom, with a small carved wooden window with a pointed gable frame and diamond lattice over amber glass in the centre; copy the composition exactly",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp2b",
+      "mm7/hdp2erw"
+     ],
+     "fraction": 0.73
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp2b",
+      "mm7/hdp2erw"
+     ],
+     "fraction": 0.73
+    },
+    "3": {
+     "sources": [
+      "mm7/hdp2b",
+      "mm7/hdp2elw"
+     ],
+     "fraction": 0.731
+    },
+    "4": {
+     "sources": [
+      "mm7/hdp2b",
+      "mm7/hdp2elw"
+     ],
+     "fraction": 0.731
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     64
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hdp2er",
+     "left": "mm7/hdp2el"
+    },
+    "4": {
+     "right": "mm7/hdp2er",
+     "left": "mm7/hdp2el"
+    }
+   }
+  },
+  "mm7/7cdb1s": {
+   "name": "7cdb1s",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "yellow-ochre sandstone blocks in staggered courses with dark worn joints, with a dark recessed horizontal groove just below the top course",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7cdb"
+     ],
+     "fraction": 0.776
+    },
+    "2": {
+     "sources": [
+      "mm7/7cdb"
+     ],
+     "fraction": 0.776
+    }
+   }
+  },
+  "mm7/hdp2bs": {
+   "name": "hdp2bs",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered silver-grey vertical wooden planks with traces of faded red paint, thin reddish horizontal rails near the top and heavy nailed cross boards near the bottom, with a round carved wooden disc with a central knob and slot in the centre; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.691
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.691
+    },
+    "3": {
+     "sources": [
+      "mm7/hdp2b"
+     ],
+     "fraction": 0.691
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     64
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hdp2bw",
+     "left": "mm7/hdp2bw"
+    },
+    "3": {
+     "right": "mm7/hdp2bw",
+     "left": "mm7/hdp2bw"
+    }
+   }
+  },
+  "mm7/hdp1elw": {
+   "name": "hdp1elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cracked blue-grey lime plaster wall with a network of dark crack lines, under a weathered gnarled wooden beam lashed with pale twisted vines along the top, with a gnarled vine-wrapped wooden post on the left edge and a gnarled wooden window frame with a round rosette over amber glass in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp1el",
+      "mm7/hdp1b"
+     ],
+     "fraction": 0.57
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp1b"
+     ],
+     "fraction": 0.113
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hdp1er"
+    }
+   }
+  },
+  "mm7/hdp1bw": {
+   "name": "hdp1bw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cracked blue-grey lime plaster wall with a network of dark crack lines, under a weathered gnarled wooden beam lashed with pale twisted vines along the top, with a gnarled wooden window frame with a round rosette over amber glass in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdp1b",
+      "mm7/hdp1d",
+      "mm7/hdp1elw"
+     ],
+     "fraction": 0.574
+    },
+    "2": {
+     "sources": [
+      "mm7/hdp1b",
+      "mm7/hdp1elw"
+     ],
+     "fraction": 0.547
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hdp1er"
+    }
+   }
+  },
+  "mm7/hdr1erw": {
+   "name": "hdr1erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "polished reddish-brown wooden wall panel with fine vertical grain, a carved moulded cornice with a row of small triangular dentils across the top and a thin moulded skirting strip along the bottom, with a turned wooden column on the right edge and a carved wooden window shutter in the centre pierced by a cross-shaped lattice of small square openings; copy the composition exactly",
+   "notes": {
+    "3": "the plain wood below and around the window panel continues the sharp copied wood exactly in brightness, colour and grain; no horizontal tide line or tonal step under the panel",
+    "4": "the wood below the carved window panel is one even tone continuing the sharp wood exactly; no wavy horizontal tide line, darker band or tonal step anywhere across the planks under the panel"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdr1er"
+     ],
+     "fraction": 0.605
+    },
+    "2": {
+     "sources": [
+      "mm7/hdr1er"
+     ],
+     "fraction": 0.605
+    },
+    "3": {
+     "sources": [
+      "mm7/hdr1er"
+     ],
+     "fraction": 0.605
+    },
+    "4": {
+     "sources": [
+      "mm7/hdr1er"
+     ],
+     "fraction": 0.605
+    }
+   }
+  },
+  "mm7/hdp1d": {
+   "name": "hdp1d",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  }
+ }
+}

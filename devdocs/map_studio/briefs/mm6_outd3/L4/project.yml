@@ -1,0 +1,53 @@
+format: 0
+id: calib_ironfist
+name: Castle Ironfist
+world: mm6
+kind: outdoor
+profile: odm
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9604
+  reference: outd3.odm
+neighbours:
+  - id: door:corlagon
+    to: 6d11.blv
+    kind: door
+    notes: "Corlagon's Estate (D11prtE, event 93)."
+  - id: door:d05
+    to: 6d05.blv
+    kind: door
+    notes: "D05W, a porch in the hill (event 91)."
+  - id: door:dragoons
+    to: 6d06.blv
+    kind: door
+    notes: "Dragoons' Caverns (D06, event 92)."
+  - id: door:dungeon3
+    to: 6d03.blv
+    kind: door
+    notes: "Dungeon3, a stone box on a ridge (event 90)."
+  - id: door:temple_baa
+    to: 6t1.blv
+    kind: door
+    notes: "Temple of Baa (TempleS, event 94)."
+  - id: edge:east
+    to: oute3.odm
+    kind: edge
+    side: east
+    days: 5
+    one_way: true
+    notes: "New Sorpigal (outd3 right oute3, 5 days)."
+  - id: edge:north
+    to: outd2.odm
+    kind: edge
+    side: north
+    days: 5
+    notes: "Bootleg Bay (outdoor_travels.txt: outd3 up outd2, 5 days); both ways, so that the walk can leave and come back by an edge (the install rewrites outd2's row toward this map in the scratch root)."
+  - id: edge:west
+    to: outc3.odm
+    kind: edge
+    side: west
+    days: 5
+    one_way: true
+    notes: "Mire of the Damned (outd3 left outc3, 5 days)."
+notes: "Calibration rebuild of Castle Ironfist (MM6 outd3.odm), a map nobody had rebuilt, to test the studio's newer words; map_stats from the original's row 148 by `reference`."

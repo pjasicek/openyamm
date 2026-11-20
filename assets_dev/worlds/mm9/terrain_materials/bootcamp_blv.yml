@@ -1,0 +1,108 @@
+# Written by level_generation/projects/mm9r_common/terrain_blend.py for bootcamp.blv's terrain faces
+# (boot3dzfn6, bootblvw0u, mainakfoki, nwrob199j1, sand3yuxai).
+version: 1
+texels_per_cell: 16
+weights:
+- bootcamp_blv_weights0.png
+weighted_layers: 4
+fringe:
+  strength: 1.6
+  scale: 2048
+layers:
+- name: cliff_layered
+  library: rock_layered
+  tint:
+  - 0.8077
+  - 0.8077
+  - 0.6837
+  repeat: 640
+  height_contrast: 0.5
+  normal_strength: 1.4
+  cavity: 0.45
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  cliff_tint:
+  - 0.8441
+  - 0.8092
+  - 0.6837
+- name: grass_patches
+  library: grass_patchy
+  tint:
+  - 0.7655
+  - 0.7844
+  - 0.7861
+  repeat: 640
+  height_contrast: 0.25
+  normal_strength: 1.0
+  cavity: 0.35
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  meadow: 0.8
+  cliff_tint:
+  - 0.8441
+  - 0.8092
+  - 0.6837
+- name: sand
+  library: sand_ripples
+  tint:
+  - 0.9222
+  - 0.9162
+  - 0.8594
+  repeat: 520
+  height_contrast: 0.3
+  normal_strength: 1.2
+  cavity: 0.35
+  macro_brightness: 0.12
+  macro_tint:
+  - 1.0
+  - 1.0
+  - 1.0
+  fringe: 1.0
+  cliff_tint:
+  - 0.8441
+  - 0.8092
+  - 0.6837
+- name: grass
+  library: grass_meadow
+  tint:
+  - 1.0889
+  - 1.0844
+  - 1.0889
+  repeat: 360
+  height_contrast: 0.45
+  normal_strength: 1.0
+  cavity: 0.3
+  macro_brightness: 0.15
+  macro_tint:
+  - 1.1
+  - 1.05
+  - 0.85
+  fringe: 1.0
+  meadow: 1.0
+  variant: 1
+  variant_amount: 0.25
+  cliff_tint:
+  - 0.8441
+  - 0.8092
+  - 0.6837
+meadow:
+  dry:
+  - 1.2
+  - 1.06
+  - 0.64
+  lush:
+  - 0.78
+  - 0.94
+  - 0.82
+slope:
+  layer: 0
+  start: 0.36
+  end: 0.56

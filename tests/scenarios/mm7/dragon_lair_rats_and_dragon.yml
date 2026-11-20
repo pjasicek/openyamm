@@ -1,0 +1,26 @@
+id: mm7.dragon_lair_rats_and_dragon
+title: "Dragon's Lair: rats leave a far party to the dragon that hunts them (OY-605)"
+world: mm7
+mode: faithful
+tags: [mm7, actors, ai, regression]
+# The dragon hates rats (hostile.txt Rat row, ADragon column 4); rats have relation 2 to the party, so the original
+# (_SelectTarget, hostility type 0) has them notice it only within 2560. A rat farther away stays out of the party's
+# way while the dragon picks the lair's rats off: the distraction MAW's Madness players kill the dragon in.
+steps:
+  - new_game_flow: {start_map: 7out01.odm}
+  - load_map: {map: 7d28.blv}
+  - set_pose: {map: 7d28.blv, x: 752, y: 2229, z: 1, yaw_degrees: 180}
+  - console: {line: "arena trace on"}
+  # A giant rat 2900 from the party in the open cave, in its sight but beyond its relation's range.
+  - spawn_actor: {monster_id: 385, x: -2176, y: 512, z: 135, group: 51}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      ai_trace: {actor_index: last, event: target, target: party, max_count: 0}
+  # The dragon goes for the lair's rats.
+  - assert:
+      ai_trace: {actor_index: 0, event: target, target: actor, min_count: 1}
+  # A rat within 2560 of the party notices it.
+  - spawn_actor: {monster_id: 385, x: -1024, y: 2560, z: 0, group: 51}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      ai_trace: {actor_index: last, event: target, target: party, min_count: 1}

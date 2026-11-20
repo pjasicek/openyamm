@@ -1,0 +1,1851 @@
+id: studio.cal6d18.walk
+title: Gharik's Forge rebuild, the critical path and every mechanism on it
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: cal6d18.blv
+- assert:
+    map: cal6d18.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+# Round two: the lava and the events without a clicked object. Map variable 0 is on_lava (ids.lock.yml). Off the
+# bridge into the tower's lava: the lava floor's step event sets the variable; onto the island: its step event clears
+# the variable. Round five: the raised tile is clicked, as in the original (event 32, evt:tile32, a platform with an
+# id), and puts the party back at the start.
+# The lava burns as OpenYAMM ships the map (the user's decision, 2026-11-13): the floors carry the lava flag and the
+# timer stays (evt:lava_burn, event 54: 25 magic damage every two seconds of play while on_lava is set). The walk's party regains 80
+# hit points a second (measured: 1000 to 1400 in five seconds), more than the timer takes, so each check sets its hit
+# points to 1000 and reads them five seconds later (at least two runs of the timer): 1400 on the island (not hurt),
+# at least 50 less on the lava (hurt).
+- assert: {state_dump_map_var: {index: 0, value: 0}}
+- walk_to: {x: -2688, y: 640, z: 1152, radius: 56, timeout_seconds: 60}
+- walk_to: {x: -1800, y: 640, z: 1152, radius: 56, timeout_seconds: 60}
+- walk_to: {x: -1800, y: 1000, z: -512, radius: 90, plan: false, timeout_seconds: 60}
+- play_lua: {source: "wait(2)"}
+- assert: {party_position: {x: -1800, y: 1000, radius: 200, z_min: -516, z_max: -508}}
+- assert: {state_dump_map_var: {index: 0, value: 1}}
+- assert: {party_health: {full: true}}
+# The lead, 2026-11-13: a monster wandering into this short walk stopped it in two runs of about twenty
+# ("nearest actor 38 at 86"); the party clears what stands in its way, as its later walks do.
+- walk_to: {x: -1400, y: 900, z: -496, radius: 40, plan: false, timeout_seconds: 60, clear_hostiles: 2500}
+- assert: {party_position: {x: -1400, y: 900, radius: 60, z_min: -500, z_max: -492}}
+- assert: {state_dump_map_var: {index: 0, value: 0}}
+- setup_shortcut: {kind: set_member_points, member_index: 0, health: 1000}
+- setup_shortcut: {kind: immortal, value: false}
+- play_lua: {source: "wait(5)"}
+- assert: {member_points: {member_index: 0, health_min: 1395, health_max: 1405}}
+- setup_shortcut: {kind: immortal, value: true}
+- walk_to: {x: -1800, y: 1000, z: -512, radius: 90, plan: false, timeout_seconds: 60, clear_hostiles: 2500}
+- assert: {party_position: {x: -1800, y: 1000, radius: 200, z_min: -516, z_max: -508}}
+- assert: {state_dump_map_var: {index: 0, value: 1}}
+- setup_shortcut: {kind: set_member_points, member_index: 0, health: 1000}
+- setup_shortcut: {kind: immortal, value: false}
+- play_lua: {source: "wait(5)"}
+# On the lava the floor's lava flag burns as well as the timer: far more than the timer's two burns of 25 (330 left of
+# 1000 in four runs, 2026-11-13).
+- assert: {member_points: {member_index: 0, health_min: 1, health_max: 1000}}
+- setup_shortcut: {kind: immortal, value: true}
+- walk_to: {x: -1400, y: 900, z: -496, radius: 40, plan: false, timeout_seconds: 60, clear_hostiles: 2500}
+- assert: {party_position: {x: -1400, y: 900, radius: 60, z_min: -500, z_max: -492}}
+- assert: {state_dump_map_var: {index: 0, value: 0}}
+- play_lua: {source: "click(68); wait(1)"}
+- assert: {party_position: {x: -2688, y: 1152, radius: 120, z_min: 1148, z_max: 1156}}
+- assert: {state_dump_map_var: {index: 0, value: 0}}
+- walk_to:
+    x: -2688
+    y: 900
+    z: 1152
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -2688
+    y: 640
+    z: 1152
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -2300
+    y: 640
+    z: 1152
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -700
+    y: 640
+    z: 1152
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -550
+    y: 600
+    z: 1152
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -550
+    y: -330
+    z: 1024
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: -550
+      y: -330
+      radius: 90
+      z_min: 1010
+      z_max: 1070
+- walk_to:
+    x: -707
+    y: -445
+    z: 1024
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -850
+    y: -573
+    z: 1024
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1840
+    y: -573
+    z: 896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1981
+    y: -445
+    z: 896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -2109
+    y: -330
+    z: 896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -2109
+    y: 1600
+    z: 768
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1981
+    y: 1725
+    z: 768
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1850
+    y: 1853
+    z: 768
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -840
+    y: 1853
+    z: 640
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -707
+    y: 1725
+    z: 640
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -617
+    y: 1570
+    z: 640
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -617
+    y: -250
+    z: 512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -707
+    y: -445
+    z: 512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -920
+    y: -573
+    z: 512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1770
+    y: -573
+    z: 384
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1981
+    y: -445
+    z: 384
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -2109
+    y: -250
+    z: 384
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -2109
+    y: 1530
+    z: 256
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1981
+    y: 1725
+    z: 256
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1770
+    y: 1853
+    z: 256
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -920
+    y: 1853
+    z: 128
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -707
+    y: 1725
+    z: 128
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -550
+    y: 1550
+    z: 128
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -550
+    y: 800
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -576
+    y: 640
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: -576
+      y: 640
+      radius: 90
+      z_min: -4
+      z_max: 8
+- walk_to:
+    x: -300
+    y: 640
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 640
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 1100
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 1664
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 400
+    y: 1664
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+# Finishing round: door:d1 is the original's two halves that pass each other (doors 1 and 2: door:d1 is 5, its
+# upper half door:d1.leaf2 is 1); event 2 opens both.
+- play_lua:
+    source: 'if door_state(5) ~= "closed" or door_state(1) ~= "closed" then error("door:d1 does not start shut: " .. door_state(5) .. " " .. door_state(1)) end
+
+      click(23); wait(3)
+
+      if door_state(5) ~= "open" or door_state(1) ~= "open" then error("door:d1 did not open: " .. door_state(5) .. " " .. door_state(1)) end'
+- walk_to:
+    x: 800
+    y: 1664
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1150
+    y: 1664
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1280
+    y: 1000
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1480
+    y: 850
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(28) ~= "closed" then error("the bridge stub does not start retracted: " .. door_state(28)) end
+
+      click(38); wait(6)
+
+      if door_state(28) ~= "open" then error("the bridge did not stretch across: " .. door_state(28)) end'
+- walk_to:
+    x: 1280
+    y: 1000
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1150
+    y: 1664
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 1664
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 2000
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 2090
+    z: -16
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 2600
+    z: -16
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 128
+      y: 2600
+      radius: 90
+      z_min: -24
+      z_max: -8
+- walk_to:
+    x: 128
+    y: 3040
+    z: -16
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+# Round five: the wall over the north door (original event 91, evt:fire_wall, a wall panel with an id) gives its
+# fire resistance once: map variable 2 (fire_wall_used) is set by the first click and the second does nothing.
+- assert: {state_dump_map_var: {index: 2, value: 0}}
+- play_lua: {source: "click(57); wait(1); click(57); wait(1)"}
+- assert: {state_dump_map_var: {index: 2, value: 1}}
+- walk_to:
+    x: 128
+    y: 3200
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 128
+    y: 3968
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1600
+    y: 3968
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1740
+    y: 4040
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(20) ~= "closed" then error("door:d6 does not start shut: " .. door_state(20)) end
+
+      click(45); wait(3)
+
+      if door_state(20) ~= "open" then error("door:d6 did not open: " .. door_state(20)) end'
+- walk_to:
+    x: -1792
+    y: 4040
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1792
+    y: 4300
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: -1792
+      y: 4300
+      radius: 90
+      z_min: -4
+      z_max: 4
+- walk_to:
+    x: -1792
+    y: 5248
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -1600
+    y: 5270
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(6) ~= "closed" then error("door:d10 does not start shut: " .. door_state(6)) end
+
+      click(48); wait(3)
+
+      if door_state(6) ~= "open" then error("door:d10 did not open: " .. door_state(6)) end'
+- walk_to:
+    x: -1300
+    y: 5248
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -896
+    y: 5248
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: -896
+    y: 4992
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 640
+    y: 4992
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 640
+    y: 4736
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 4736
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 5000
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 5248
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+# Round three: gate 50 (full width, starts open) toggled shut and open again from the upper south-west balcony.
+- play_lua:
+    source: 'if door_state(24) ~= "open" then error("door:gate50 does not start open: " .. door_state(24)) end
+
+      click(40); wait(2)
+
+      if door_state(24) ~= "closed" then error("door:gate50 did not close: " .. door_state(24)) end
+
+      click(40); wait(2)
+
+      if door_state(24) ~= "open" then error("door:gate50 did not open again: " .. door_state(24)) end'
+- walk_to:
+    x: 1920
+    y: 5888
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 1920
+      y: 5888
+      radius: 90
+      z_min: -4
+      z_max: 4
+- walk_to:
+    x: 1920
+    y: 6500
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1860
+    y: 6800
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(25) ~= "closed" then error("door:gate51 does not start shut: " .. door_state(25)) end
+
+      click(42); wait(3)
+
+      if door_state(25) ~= "open" then error("door:gate51 did not open: " .. door_state(25)) end'
+- walk_to:
+    x: 1920
+    y: 7040
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 7296
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1024
+    y: 7296
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1024
+    y: 6700
+    z: -260
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1024
+    y: 6016
+    z: -260
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 1024
+      y: 6016
+      radius: 90
+      z_min: -264
+      z_max: -256
+- walk_to:
+    x: 700
+    y: 6016
+    z: -400
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 384
+    y: 6016
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 384
+    y: 7296
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 7296
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 7040
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 6800
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2002
+    y: 6850
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(23) ~= "closed" then error("door:gate49 does not start shut: " .. door_state(23)) end
+
+      click(46); wait(3)
+
+      if door_state(23) ~= "open" then error("door:gate49 did not open: " .. door_state(23)) end'
+- walk_to:
+    x: 1920
+    y: 7040
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1920
+    y: 7296
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 7296
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 7040
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 6800
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3118
+    y: 6850
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(26) ~= "closed" then error("door:gate52 does not start shut: " .. door_state(26)) end
+
+      click(44); wait(3)
+
+      if door_state(26) ~= "open" then error("door:gate52 did not open: " .. door_state(26)) end'
+- walk_to:
+    x: 3200
+    y: 7040
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 7296
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 384
+    y: 7296
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 384
+    y: 4476
+    z: -512
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 4476
+    z: -512
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 4800
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 5200
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3118
+    y: 5190
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+# Round five: the bridge's four posts are parts of its own mover (door 29), no longer four doors of their own.
+- play_lua:
+    source: 'if door_state(29) ~= "closed" then error("the machine bridge does not start at the west balconies: " .. door_state(29)) end
+
+      click(50); wait(8)
+
+      if door_state(29) ~= "open" then error("the machine bridge did not slide east: " .. door_state(29)) end'
+- walk_to:
+    x: 3200
+    y: 4800
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 4476
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 384
+    y: 4476
+    z: -512
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 384
+    y: 6016
+    z: -512
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 700
+    y: 6016
+    z: -400
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1024
+    y: 6016
+    z: -260
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1024
+    y: 5200
+    z: -260
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1024
+    y: 4736
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+# Round four: the "lava wall" (original door 53 and its face 2255 in the south hall's wall), from its lever on the
+# machine room's north-east balcony, then into the chest alcove through its neck and back.
+# Finishing round: the wall vanishes as the shipped map's does (event 35 with its supplement: the face made invisible
+# and untouchable; map variable 4 is lava_wall_gone), and comes back on the next pull. Walking south at it from the
+# hall stops 37 short of it (the party's radius) while it stands, and goes through the neck into the alcove once it
+# has gone. The leaf of door:lava_wall (27) never moves.
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start: {map: cal6d18.blv, x: 1088, y: 4736, z: 0, yaw_degrees: -90, pitch: 0}
+    expect_stop: {map: cal6d18.blv, x: 1088, y: 4645, z: 0, yaw_degrees: -90, pitch: 0}
+    tolerance_xy: 4
+    tolerance_z: 1
+- assert: {state_dump_map_var: {index: 4, value: 0}}
+- play_lua:
+    source: 'click(41); wait(1)
+
+      if door_state(27) ~= "closed" then error("door:lava_wall moved: " .. door_state(27)) end'
+- assert: {state_dump_map_var: {index: 4, value: 1}}
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start: {map: cal6d18.blv, x: 1088, y: 4736, z: 0, yaw_degrees: -90, pitch: 0}
+    expect_stop: {map: cal6d18.blv, x: 1088, y: 4133, z: 0, yaw_degrees: -90, pitch: 0}
+    tolerance_xy: 4
+    tolerance_z: 1
+- walk_to: {x: 1088, y: 4480, z: 0, radius: 40, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: 1088, y: 4224, z: 0, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- assert: {party_position: {x: 1088, y: 4224, radius: 80, z_min: -4, z_max: 4}}
+- walk_to: {x: 1088, y: 4736, z: 0, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- play_lua: {source: "click(41); wait(1)"}
+- assert: {state_dump_map_var: {index: 4, value: 0}}
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start: {map: cal6d18.blv, x: 1088, y: 4736, z: 0, yaw_degrees: -90, pitch: 0}
+    expect_stop: {map: cal6d18.blv, x: 1088, y: 4645, z: 0, yaw_degrees: -90, pitch: 0}
+    tolerance_xy: 4
+    tolerance_z: 1
+- play_lua: {source: "click(41); wait(1)"}
+- assert: {state_dump_map_var: {index: 4, value: 1}}
+- walk_to:
+    x: 3200
+    y: 4736
+    z: 0
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 5000
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 5248
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+# Round three: gate 48 (full width, starts open) toggled shut and open again from the upper south-east balcony.
+- play_lua:
+    source: 'if door_state(22) ~= "open" then error("door:gate48 does not start open: " .. door_state(22)) end
+
+      click(39); wait(2)
+
+      if door_state(22) ~= "closed" then error("door:gate48 did not close: " .. door_state(22)) end
+
+      click(39); wait(2)
+
+      if door_state(22) ~= "open" then error("door:gate48 did not open again: " .. door_state(22)) end'
+- walk_to:
+    x: 3200
+    y: 5888
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 3200
+      y: 5888
+      radius: 90
+      z_min: -4
+      z_max: 4
+- walk_to:
+    x: 3200
+    y: 6656
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 7050
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 7400
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 7808
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4992
+    y: 7808
+    z: 0
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 4992
+    y: 5800
+    z: 0
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 4930
+    y: 5740
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(9) ~= "closed" then error("door:d18 does not start shut: " .. door_state(9)) end
+
+      click(26); wait(3)
+
+      if door_state(9) ~= "open" then error("door:d18 did not open: " .. door_state(9)) end'
+- walk_to:
+    x: 4992
+    y: 5740
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4992
+    y: 5400
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4500
+    y: 4760
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4430
+    y: 4800
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(10) ~= "closed" then error("door:d20 does not start shut: " .. door_state(10)) end
+
+      click(27); wait(3)
+
+      if door_state(10) ~= "open" then error("door:d20 did not open: " .. door_state(10)) end'
+- walk_to:
+    x: 4430
+    y: 4736
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4200
+    y: 4736
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3968
+    y: 4736
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3968
+    y: 3456
+    z: 0
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+# Round three: door 23 (the split pair, here one leaf sliding north) into the chest room passage and back.
+- walk_to:
+    x: 3200
+    y: 3456
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3180
+    y: 3200
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+# Finishing round: door:d23 is the original's two halves (doors 23 and 24: door:d23 is 12, door:d23.leaf2 is 2).
+- play_lua:
+    source: 'if door_state(12) ~= "closed" or door_state(2) ~= "closed" then error("door:d23 does not start shut: " .. door_state(12) .. " " .. door_state(2)) end
+
+      click(24); wait(3)
+
+      if door_state(12) ~= "open" or door_state(2) ~= "open" then error("door:d23 did not open: " .. door_state(12) .. " " .. door_state(2)) end'
+- walk_to:
+    x: 2900
+    y: 3200
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- assert: {party_position: {x: 2900, y: 3200, radius: 90, z_min: -4, z_max: 4}}
+- walk_to:
+    x: 2688
+    y: 3700
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2900
+    y: 4100
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2688
+    y: 3700
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2900
+    y: 3200
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3180
+    y: 3200
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3200
+    y: 3456
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3968
+    y: 3456
+    z: 0
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 4040
+    y: 3400
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(11) ~= "closed" then error("door:d22 does not start shut: " .. door_state(11)) end
+
+      click(28); wait(3)
+
+      if door_state(11) ~= "open" then error("door:d22 did not open: " .. door_state(11)) end'
+- walk_to:
+    x: 4040
+    y: 3456
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4300
+    y: 3456
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4736
+    y: 3456
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4736
+    y: 2700
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4680
+    y: 2660
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(13) ~= "closed" then error("door:d26 does not start shut: " .. door_state(13)) end
+
+      click(29); wait(3)
+
+      if door_state(13) ~= "open" then error("door:d26 did not open: " .. door_state(13)) end'
+- walk_to:
+    x: 4736
+    y: 2660
+    z: 0
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4736
+    y: 2440
+    z: -16
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 4736
+      y: 2440
+      radius: 90
+      z_min: -24
+      z_max: -8
+- play_lua:
+    source: 'click(31); wait(13)
+
+      if door_state(4) ~= "closed" then error("the lift did not go down: " .. door_state(4)) end'
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 4736
+      y: 2440
+      radius: 90
+      z_min: -2050
+      z_max: -2030
+- walk_to:
+    x: 4736
+    y: 2200
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4690
+    y: 2130
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'click(32); wait(2)
+
+      if door_state(14) ~= "closed" then error("the laboratory door opened without the key") end'
+- grant_item:
+    item_id: 2107
+    member_index: 0
+- play_lua:
+    source: 'if door_state(14) ~= "closed" then error("door:d30 does not start shut: " .. door_state(14)) end
+
+      click(32); wait(3)
+
+      if door_state(14) ~= "open" then error("door:d30 did not open: " .. door_state(14)) end'
+- walk_to:
+    x: 4736
+    y: 2130
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4736
+    y: 1408
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 6016
+    y: 1408
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 6016
+    y: 1150
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 5960
+    y: 1110
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(15) ~= "closed" then error("door:d32 does not start shut: " .. door_state(15)) end
+
+      click(33); wait(3)
+
+      if door_state(15) ~= "open" then error("door:d32 did not open: " .. door_state(15)) end'
+- walk_to:
+    x: 6016
+    y: 1110
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 6016
+    y: 900
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 5700
+    y: 640
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 5200
+    y: 640
+    z: -1952
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 4736
+    y: 640
+    z: -1952
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 4736
+      y: 640
+      radius: 90
+      z_min: -1956
+      z_max: -1948
+- walk_to:
+    x: 4200
+    y: 640
+    z: -1990
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3700
+    y: 640
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3450
+    y: -128
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3390
+    y: -80
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(16) ~= "closed" then error("door:d34 does not start shut: " .. door_state(16)) end
+
+      click(34); wait(3)
+
+      if door_state(16) ~= "open" then error("door:d34 did not open: " .. door_state(16)) end'
+- walk_to:
+    x: 3390
+    y: -128
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3000
+    y: -128
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2300
+    y: -128
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2270
+    y: -80
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(17) ~= "closed" then error("door:d36 does not start shut: " .. door_state(17)) end
+
+      click(35); wait(3)
+
+      if door_state(17) ~= "open" then error("door:d36 did not open: " .. door_state(17)) end'
+- walk_to:
+    x: 2270
+    y: -128
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2000
+    y: -128
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1900
+    y: 400
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 1900
+    y: 573
+    z: -2048
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 700
+    y: 573
+    z: -1920
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 579
+    y: 573
+    z: -1920
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 579
+    y: -500
+    z: -1856
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 579
+    y: -573
+    z: -1856
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2000
+    y: -573
+    z: -1728
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2109
+    y: -573
+    z: -1728
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2109
+    y: 500
+    z: -1664
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2109
+    y: 573
+    z: -1664
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 660
+    y: 573
+    z: -1536
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 579
+    y: 590
+    z: -1536
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 579
+    y: -520
+    z: -1472
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 579
+    y: -590
+    z: -1472
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2040
+    y: -590
+    z: -1344
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2109
+    y: -590
+    z: -1344
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2109
+    y: 520
+    z: -1280
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2109
+    y: 590
+    z: -1280
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 640
+    y: 590
+    z: -1152
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 565
+    y: 600
+    z: -1152
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 565
+    y: -540
+    z: -1088
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 565
+    y: -600
+    z: -1088
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2060
+    y: -600
+    z: -960
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2120
+    y: -600
+    z: -960
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2120
+    y: 600
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 2120
+      y: 600
+      radius: 90
+      z_min: -900
+      z_max: -890
+- walk_to:
+    x: 2110
+    y: 615
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(18) ~= "closed" then error("door:d38 does not start shut: " .. door_state(18)) end
+
+      click(36); wait(3)
+
+      if door_state(18) ~= "open" then error("door:d38 did not open: " .. door_state(18)) end'
+- walk_to:
+    x: 2048
+    y: 615
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2048
+    y: 800
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2048
+    y: 1150
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2944
+    y: 1150
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2944
+    y: 1344
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 2944
+    y: 2000
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: wait(1)
+- assert:
+    party_position:
+      x: 2944
+      y: 2000
+      radius: 90
+      z_min: -900
+      z_max: -892
+- walk_to:
+    x: 2944
+    y: 2800
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 3300
+    y: 2944
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 5000
+    y: 2944
+    z: -896
+    radius: 56
+    timeout_seconds: 120
+    clear_hostiles: 2500
+- walk_to:
+    x: 5040
+    y: 2890
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'if door_state(19) ~= "closed" then error("door:d40 does not start shut: " .. door_state(19)) end
+
+      click(37); wait(3)
+
+      if door_state(19) ~= "open" then error("door:d40 did not open: " .. door_state(19)) end'
+- walk_to:
+    x: 5040
+    y: 2944
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 5400
+    y: 2944
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- walk_to:
+    x: 6500
+    y: 2864
+    z: -896
+    radius: 56
+    timeout_seconds: 60
+    clear_hostiles: 2500
+- play_lua:
+    source: 'loot_chest(20)
+
+      if not qbit(1029) then error("the hourglass chest did not set its quest bit") end
+
+      if not has_item(2053) then error("no Hourglass of Time in the chest") end'
+# Round four: chest contents from the original's chest records: chests 2 and 3 the letter and the journal scrap.
+# Round five: the bookcase is the original's clicked block again (event 62, evt:bookcase): searched five times it
+# gives one scroll of its six at random four times, and the fifth search finds nothing; map variable 1
+# (bookcase_searches) counts to 4.
+# The lead, 2026-11-12: by now the packs are nearly full of the earlier chests' random items, and whether chest 3's
+# scrap still fitted depended on what they rolled (the step failed in two runs of four). A player drops spare
+# things to make room; the things the walk has asserted or is about to are kept.
+- play_lua:
+    source: |
+      local scrolls = {1961, 1973, 1976, 1988, 1965, 1962}
+      local keep = {[2053] = true, [2148] = true, [2149] = true}
+      for _, id in ipairs(scrolls) do keep[id] = true end
+      local function make_room()
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+      end
+      local function scrolls_held()
+        local n = 0
+        for _, id in ipairs(scrolls) do n = n + item_count(id) end
+        return n
+      end
+      make_room()
+      local before = scrolls_held()
+      -- the game puts an item an event gives on the cursor, as a player sees it; the player stows it each time
+      for search = 1, 5 do click(56); wait(1); if held() ~= 0 then stow() end end
+      if scrolls_held() - before ~= 4 then error("five searches of the bookcase gave " .. (scrolls_held() - before) .. " scrolls, not 4") end
+      make_room()
+      loot_chest(17)
+      if not has_item(2148) then error("chest 2 did not give the Letter to Marcus") end
+      make_room()
+      loot_chest(18)
+      if not has_item(2149) then error("chest 3 did not give the Scrap from Gharik's Journal") end
+- assert: {state_dump_map_var: {index: 1, value: 4}}
+# Round five: the four escape tiles that remain (original events 31, 41, 42 on floor tiles 16 high on their islands,
+# 43 on the cavern recess's back wall), each a platform or a wall panel with an id, put the party where the
+# original's do.
+# Finishing round: the escape tiles in another order (the cavern's wall tile first), so that the last one, the first
+# lava hall's (event 42), leaves the party in the tower corridor; from there it climbs the tower's ramps to the
+# entrance landing, the way it came down, and leaves by the original's exit (event 90, evt:exit: the door to New
+# Sorpigal), confirming the map change.
+- play_lua: {source: "click(55); wait(1)"}
+- assert: {party_position: {x: 2324, y: -141, radius: 60, z_min: -2056, z_max: -2040}}
+- play_lua: {source: "click(52); wait(1)"}
+- assert: {party_position: {x: 1916, y: 6618, radius: 60, z_min: -8, z_max: 8}}
+- play_lua: {source: "click(53); wait(1)"}
+- assert: {party_position: {x: -1822, y: 4049, radius: 60, z_min: -8, z_max: 8}}
+- play_lua: {source: "click(54); wait(1)"}
+- assert: {party_position: {x: 134, y: 1151, radius: 60, z_min: -8, z_max: 8}}
+- assert: {state_dump_map_var: {index: 0, value: 0}}
+- walk_to: {x: 128, y: 1100, z: 0, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: 128, y: 640, z: 0, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -300, y: 640, z: 0, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -576, y: 640, z: 0, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -550, y: 800, z: 0, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -550, y: 1550, z: 128, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -707, y: 1725, z: 128, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -920, y: 1853, z: 128, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1770, y: 1853, z: 256, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1981, y: 1725, z: 256, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -2109, y: 1530, z: 256, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -2109, y: -250, z: 384, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1981, y: -445, z: 384, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1770, y: -573, z: 384, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -920, y: -573, z: 512, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -707, y: -445, z: 512, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -617, y: -250, z: 512, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -617, y: 1570, z: 640, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -707, y: 1725, z: 640, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -840, y: 1853, z: 640, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1850, y: 1853, z: 768, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1981, y: 1725, z: 768, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -2109, y: 1600, z: 768, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -2109, y: -330, z: 896, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1981, y: -445, z: 896, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -1840, y: -573, z: 896, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -850, y: -573, z: 1024, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -707, y: -445, z: 1024, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -550, y: -330, z: 1024, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -550, y: 600, z: 1152, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -700, y: 640, z: 1152, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -2300, y: 640, z: 1152, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -2688, y: 640, z: 1152, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- walk_to: {x: -2688, y: 1150, z: 1152, radius: 56, timeout_seconds: 60, clear_hostiles: 2500}
+- assert: {party_position: {x: -2688, y: 1150, radius: 90, z_min: 1148, z_max: 1156}}
+- play_lua: {source: "click(25); wait(1)"}
+- select_topic: {kind: map_transition_confirm, action_id: 0}
+- advance_runtime: {seconds: 1.0, follow_map_move: true}
+- assert: {map: oute3.odm}
+- assert: {party_position: {x: 15585, y: 11125, radius: 200}}

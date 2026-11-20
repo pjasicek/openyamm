@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MM6 demon — remaining native animation plans</title>
+<style>
+*{box-sizing:border-box}body{background:#171d23;color:#e7edf3;font:16px/1.55 system-ui;margin:0 auto;padding:24px;max-width:1400px}
+h1{font-size:26px;margin:0 0 6px}h2{font-size:18px;margin:0 0 8px}p{margin:6px 0 14px}a{color:#95d0f6}
+.muted{color:#abbac8}.notice{background:#273441;padding:14px;border-left:4px solid #efb767}
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0}label{display:flex;align-items:center;gap:8px}
+button,select{font:inherit;background:#344858;color:white;border:1px solid #8095a5;padding:7px 12px;border-radius:5px}
+button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f7be78;outline-offset:2px}
+.timeline{flex:1;min-width:220px}.timeline input{width:100%}output{font-variant-numeric:tabular-nums}
+.pair,.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:#202932;border:1px solid #465461;padding:14px;border-radius:6px;min-width:0}
+.bar{margin-top:18px}canvas{width:100%;height:auto;background:#222a32;image-rendering:pixelated}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px;border-bottom:1px solid #394652;vertical-align:top}
+th{color:#a7cadd}.scroll{overflow:auto}tr.active{background:#304454}td button{font-size:14px;padding:3px 8px}
+.r{color:#ffad56}.l{color:#63d6eb}.secondary{color:#c4b4ff}.effect{color:#fb8b8c}code{overflow-wrap:anywhere}
+.legend{font-size:14px}.compact{font-size:14px}#anchors td:nth-child(2){white-space:nowrap}#anchors td:first-child{min-width:160px}
+summary{cursor:pointer;font-size:18px;font-weight:600}.scroll table{min-width:740px}details[open] summary{margin-bottom:10px}
+@media(max-width:760px){.pair,.two{grid-template-columns:1fr}body{padding:14px}h1{font-size:22px}.controls{gap:10px}}
+</style>
+<h1>MM6 demon — remaining native animation plans</h1>
+<p>Standing, Walk, Hit, Fidget, Death and ash remains. Original frame order and unequal holds are preserved.
+<a href="../attack_study/index.html">Attack study</a> · <a href="../attack_animation_v3/README.md">Current Attack v3</a>.</p>
+<p class="notice">Planning stage. Native pixels appear on the left; estimated image guides appear on the right.
+Smooth transitions and hidden depth are proposed interpretations. These guides do not animate the 3D model or prove
+deformation quality. Death needs disappearance, plume/fragments and a separate ash asset.</p>
+<details class="card"><summary>Native animation inventory</summary><div class="scroll"><table>
+<thead><tr><th>Action</th><th>Source frames / timing</th><th>Views</th><th>End behavior</th></tr></thead>
+<tbody id="inventory"></tbody></table></div>
+<p class="muted compact">Attack2 uses Attack again. There is no separate native Running sequence; the existing
+Meshy Walking (1041.67 ms) and Running (666.67 ms) are preserved. Proposed native Walk lasts 1125 ms.</p></details>
+<div class="controls">
+<label for="action">Action <select id="action"></select></label>
+<label for="view">View <select id="view"></select></label>
+<button id="play" type="button">Play both</button>
+<label class="timeline" for="frame">Sample <input id="frame" type="range" min="0" step="1" value="0"></label>
+<output id="time" for="frame"></output>
+</div>
+<p id="summary"></p><p id="sourceInfo" class="muted compact"></p>
+<div class="pair">
+<section class="card"><h2 id="nativeTitle">Loading native references…</h2>
+<canvas id="native" width="708" height="660" aria-label="Native sprite at the selected time"></canvas>
+<p class="muted compact">Original RGBA and offsets, nearest-neighbor display. Row 329 marks the source canvas edge,
+not a recovered floor. Runtime scale/Center are listed separately.</p></section>
+<section class="card"><h2 id="guideTitle">Proposed image guide</h2>
+<canvas id="guide" width="708" height="660" aria-label="Interpolated screen guides between native poses"></canvas>
+<p class="legend"><span class="r">Right arm/leg</span> · <span class="l">Left arm/leg</span> ·
+<span class="secondary">Head/clasp/tail feature</span> · <span class="effect">Warm plume envelope</span>.
+S/E/W/P: shoulder/elbow/wrist/palm; H/K/A: hip/knee/ankle. Profile uses unassigned near/far traces.</p>
+<p id="guideNote" class="muted compact"></p></section>
+</div>
+<p id="observed" class="bar"></p>
+<div class="two bar">
+<section class="card"><h2>Movement for this sample</h2><p id="movement"></p><p id="support"></p>
+<p class="muted compact">Solve with fixed-length limbs and continuous rotations. The screen guides are fitting
+references; never translate individual joints onto the drawn lines.</p></section>
+<section class="card"><h2>Fitting and endpoint</h2><p id="endpoint"></p><p id="fitting"></p>
+<p class="muted compact">Hand-estimated landmarks have roughly ±8 native-pixel uncertainty. Occluded points remain
+unknown. No bone-local Euler values are recovered from these sprites.</p></section>
+</div>
+<section class="card bar"><h2>Original anchors and authoring plan</h2><div class="scroll"><table>
+<thead><tr><th>Source / phase</th><th>Start / hold / sample</th><th>Observed bitmap</th><th>Proposed movement</th></tr></thead>
+<tbody id="anchors"></tbody></table></div><p id="aliases" class="muted compact"></p>
+<a id="contact" href="native_walk_aligned.png">Aligned contact sheet, all stored views</a></section>
+<section class="card bar"><h2>Checks for eventual 3D authoring</h2><table><tbody id="checks"></tbody></table>
+<p class="muted compact">These are future review requirements. Preserve Attack v3, rest geometry, weights/bind pose,
+repaired jaw/claws, palm mapping and twist helpers. Review native keys, subframes and actual exports.</p></section>
+<p class="bar"><a href="README.md">Full authoring specification</a> ·
+<a href="planned_frames.csv">All 198 sample instructions</a> ·
+<a href="animation_motion_spec.json">Machine-readable plan</a> ·
+<a href="native_reference_audit.json">Native source audit</a>.</p>
+<script>
+/* STUDY_DATA */
+const $=id=>document.getElementById(id);
+const action=$('action'),view=$('view'),slider=$('frame'),play=$('play');
+const sprites={};let loaded=0,playing=false,start=0,playbackId=0;
+const viewNames=['Front','Front three-quarter','Profile','Rear three-quarter','Back',
+                 'Rear three-quarter — mirrored 3','Profile — mirrored 2','Front three-quarter — mirrored 1'];
+const params=new URLSearchParams(location.search);
+for(const [key,c] of Object.entries(spec.clips)){
+  action.add(new Option(c.label,key));
+  const tr=document.createElement('tr');tr.dataset.action=key;
+  const td=document.createElement('td'),button=document.createElement('button');
+  button.textContent=c.label;button.type='button';button.addEventListener('click',()=>{action.value=key;chooseAction()});
+  td.append(button);tr.append(td);
+  for(const text of [`${c.anchors.length} / ${c.hold_indefinitely?'static':c.duration_ms+' ms'}`,
+    c.single_view?'1 frontal (Image1)':key==='corpse'?'5 stored, same pixels + 3 mirrors':'5 stored + 3 mirrors',
+    c.endpoint_rule]){const cell=document.createElement('td');cell.textContent=text;tr.append(cell)}
+  $('inventory').append(tr);
+}
+action.value=Object.hasOwn(spec.clips,params.get('action'))?params.get('action'):'walk';
+function stop(){playing=false;playbackId++;play.textContent='Play both'}
+function chooseAction(){
+  stop();const c=spec.clips[action.value],old=view.value;view.replaceChildren();
+  for(const v of c.single_view?[0]:[0,1,2,3,4,5,6,7])view.add(new Option(viewNames[v],String(v)));
+  view.value=c.single_view?'0':old||'0';slider.max=c.endpoint_sample;slider.value=0;
+  $('summary').textContent=c.summary;
+  $('sourceInfo').textContent=`${c.native_group} · sprite ${c.native_binding.sprite_id} · 48 fps plan · `+
+    `${c.planned_frames.length} samples including endpoint · source scale ${c.native_binding.frames[0].scale}`+
+    (action.value==='corpse'?' · Center · fixed ash palette 496':' · palette 688');
+  $('endpoint').textContent=c.endpoint_rule;
+  $('contact').href=`native_${action.value}_aligned.png`;
+  $('aliases').textContent=action.value==='fidget'?
+    'Native order is A B C D E(C). Stored F equals B but is unused; it is not a sixth playback frame.':
+    action.value==='hit'?'Native order is A B C D E(C) F(B). The final pose is B, with an external Standing blend.':
+    action.value==='corpse'?'m498x references m496xa: ash scale 1.75 and Center differ from body scale/placement.':
+    action.value==='death'?'A–G hold 125 ms; H and I hold 187.5 ms. Plume guides are bright warm colour envelopes, not exact effect alpha.':'';
+  $('anchors').replaceChildren();
+  for(const a of c.anchors){
+    const tr=document.createElement('tr');tr.dataset.index=a.index;
+    const first=document.createElement('td'),button=document.createElement('button');
+    button.type='button';button.textContent=a.source;button.addEventListener('click',()=>{stop();slider.value=a.sample;render()});
+    const phase=document.createElement('div');phase.textContent=a.phase;first.append(button,phase);tr.append(first);
+    for(const text of [`${a.time_ms} ms / ${a.hold_ms} ms / ${a.sample}`,a.observed,a.movement]){
+      const td=document.createElement('td');td.textContent=text;tr.append(td)
+    }$('anchors').append(tr);
+  }
+  $('checks').replaceChildren();
+  for(const [key,text] of Object.entries(spec.checks)){
+    if(key==='E'&&!['death','corpse'].includes(action.value))continue;
+    const tr=document.createElement('tr'),th=document.createElement('th'),td=document.createElement('td');
+    th.textContent=key;td.textContent=text;tr.append(th,td);$('checks').append(tr)
+  }
+  document.querySelectorAll('#inventory tr').forEach(tr=>tr.classList.toggle('active',tr.dataset.action===action.value));
+  render();
+}
+function background(ctx){
+  ctx.clearRect(0,0,708,660);ctx.fillStyle='#222a32';ctx.fillRect(0,0,708,660);ctx.imageSmoothingEnabled=false;
+  ctx.strokeStyle='#697787';ctx.beginPath();ctx.moveTo(0,659);ctx.lineTo(708,659);ctx.stroke()
+}
+function sprite(ctx,name,mirror,opacity){
+  ctx.save();ctx.globalAlpha=opacity;if(mirror){ctx.translate(708,0);ctx.scale(-1,1)}
+  ctx.drawImage(sprites[name],0,0,708,660);ctx.restore()
+}
+function line(ctx,points,color,labels,mirror){
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=3;ctx.font='16px system-ui';ctx.beginPath();let active=false;
+  points.forEach((point,i)=>{if(!point){active=false;return}const x=(mirror?354-point[0]:point[0])*2,y=point[1]*2;
+    if(active)ctx.lineTo(x,y);else ctx.moveTo(x,y);active=true;
+  });ctx.stroke();
+  points.forEach((point,i)=>{if(!point)return;const x=(mirror?354-point[0]:point[0])*2,y=point[1]*2;
+    ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();ctx.fillText(labels[i]||'',x+7,y-5)
+  });
+}
+function render(){
+  if(loaded!==Object.keys(art).length)return;
+  const c=spec.clips[action.value],f=c.planned_frames[+slider.value],a=c.anchors[f.anchor_index],b=c.anchors[f.next_index];
+  const sequence=c.views[view.value],source=sequence[a.index],next=sequence[b.index];
+  const atLoopEndpoint=c.loop&&+slider.value===c.endpoint_sample;
+  const current=atLoopEndpoint?sequence[0]:source;
+  $('time').textContent=`${f.sample}/${c.endpoint_sample} · ${f.time_ms.toFixed(1)} ms`;
+  $('nativeTitle').textContent=`Native ${current.frame} — ${viewNames[+view.value]}`;
+  $('guideTitle').textContent=`Plan ${a.source.slice(-2,-1).toUpperCase()} → ${b.source.slice(-2,-1).toUpperCase()}`+
+    ` · ${(f.transition_fraction*100).toFixed(0)}%`;
+  const n=$('native').getContext('2d'),g=$('guide').getContext('2d');background(n);background(g);
+  sprite(n,current.frame,current.mirrored,1);sprite(g,source.frame,source.mirrored,.30);
+  if(source.frame!==next.frame)sprite(g,next.frame,next.mirrored,.18);
+  const originalView=[0,1,2,3,4,3,2,1][+view.value],guides=f.screen_guides[String(originalView)]||{};
+  for(const [key,points] of Object.entries(guides)){
+    const color=key.startsWith('right')||key.startsWith('near')?'#ffad56':
+                key.startsWith('left')||key.startsWith('far')?'#63d6eb':'#c4b4ff';
+    line(g,points,color,key.includes('arm')?['S','E','W','P']:key.includes('leg')?['H','K','A']:[''],source.mirrored)
+  }
+  if(action.value==='death'){
+    const p=c.plume_colour_bounds[a.index],q=c.plume_colour_bounds[b.index],u=f.transition_fraction;
+    const box=p.map((x,i)=>x*(1-u)+q[i]*u);g.strokeStyle='#fb8b8c';g.setLineDash([8,6]);
+    g.strokeRect(box[0]*2,box[1]*2,(box[2]-box[0])*2,(box[3]-box[1])*2);g.setLineDash([])
+  }
+  $('guideNote').textContent=Object.keys(guides).length?
+    'Manual image landmarks, smoothly interpolated. Profile traces do not identify hidden anatomical sides.':
+    action.value==='death'?'Hidden body landmarks are omitted. Bright warm plume bounds are an approximate colour envelope.':
+    'No joint landmarks assigned in this view; faint source poses show the endpoints. Use the native view as the reference.';
+  const observedAnchor=atLoopEndpoint?c.anchors[0]:a;
+  $('observed').textContent=`Observed ${observedAnchor.source}: ${observedAnchor.observed}`;
+  $('movement').textContent=f.movement;$('support').textContent=f.support_and_checks;
+  $('fitting').textContent=action.value==='death'?
+    'Fit visible A–C anatomy with the existing rig. Plan disappearance and plume/fragments separately; no unique hidden pose after C.':
+    action.value==='corpse'?'Keep body absent and place the ash independently using its own scale and Center semantics.':
+    action.value==='walk'?'Front guides establish side alternation; profile guides constrain stride depth and lifted trailing foot. Root travel and contact intervals remain inferred.':
+    action.value==='standing'?'Fit the held pose against all five stored views; do not invent a breath or tail cycle.':
+    'Fit frontal anchors first; infer depth from standing/profile anatomy and require surface clearance in all review views.';
+  document.querySelectorAll('#anchors tr').forEach(tr=>tr.classList.toggle('active',+tr.dataset.index===a.index));
+  window.studyState={action:action.value,view:+view.value,sample:f.sample,timeMs:f.time_ms,native:current.frame,
+    mirror:current.mirrored,anchor:a.index,next:b.index,fraction:f.transition_fraction,guideCount:Object.keys(guides).length};
+}
+action.addEventListener('change',chooseAction);view.addEventListener('change',()=>{stop();render()});
+slider.addEventListener('input',()=>{stop();render()});
+play.addEventListener('click',()=>{
+  if(playing){stop();return}if(+slider.value===+slider.max)slider.value=0;
+  playing=true;play.textContent='Pause';start=performance.now()-(+slider.value*1000/48);
+  const id=++playbackId;
+  function tick(now){
+    if(!playing||id!==playbackId)return;const c=spec.clips[action.value];let elapsed=now-start;
+    if(c.loop)elapsed%=c.duration_ms;
+    slider.value=Math.min(c.endpoint_sample,Math.floor(elapsed*48/1000));render();
+    if(!c.loop&&elapsed>=c.duration_ms){stop();return}requestAnimationFrame(tick)
+  }requestAnimationFrame(tick);
+});
+chooseAction();
+if([...view.options].some(o=>o.value===params.get('view')))view.value=params.get('view');
+if(params.has('sample'))slider.value=Math.max(0,Math.min(+slider.max,Number(params.get('sample'))||0));
+Object.entries(art).forEach(([name,url])=>{
+  const im=new Image();sprites[name]=im;im.onload=()=>{loaded++;render()};
+  im.onerror=()=>{$('nativeTitle').textContent='Native reference failed to load: '+name};im.src=url;
+});
+</script>
+</html>

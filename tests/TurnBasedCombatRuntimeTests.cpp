@@ -307,6 +307,47 @@ TEST_CASE("turn based runtime spends the movement budget by walking time while m
     CHECK_EQ(runtime.movementActionPoints(), 0);
 }
 
+TEST_CASE("turn based runtime lets classic turn keys turn freely in every stage")
+{
+    using OpenYAMM::Game::KeyboardAction;
+    using OpenYAMM::Game::keyboardActionIndex;
+
+    OpenYAMM::Game::Party party = makeTurnBasedParty(1);
+    OpenYAMM::Game::TurnBasedCombatRuntime runtime = {};
+
+    REQUIRE(runtime.begin(party, nullptr));
+    REQUIRE(runtime.stage() != OpenYAMM::Game::TurnBasedCombatStage::Movement);
+
+    OpenYAMM::Game::GameplayInputFrame input = {};
+    input.actions[keyboardActionIndex(KeyboardAction::Left)].held = true;
+    input.actions[keyboardActionIndex(KeyboardAction::Forward)].held = true;
+
+    // Outside the movement stage walking is blocked, but turning stays available.
+    CHECK_FALSE(runtime.noteMovementInput(input, 0.25f, true));
+    CHECK(input.action(KeyboardAction::Left).held);
+    CHECK_FALSE(input.action(KeyboardAction::Forward).held);
+
+    runtime.update(&party, nullptr, 0.6f);
+    REQUIRE(runtime.canBeginPlayerAction(party));
+    CHECK(runtime.applyPlayerAction(party, 0, 5.0f));
+    runtime.update(&party, nullptr, 0.016f);
+    REQUIRE(runtime.stage() == OpenYAMM::Game::TurnBasedCombatStage::Movement);
+
+    // Turning alone costs no movement points; the A key (Attack in the classic scheme) is not a strafe.
+    input = {};
+    input.actions[keyboardActionIndex(KeyboardAction::Right)].held = true;
+    input.keyboardHeld[SDL_SCANCODE_A] = true;
+    CHECK_FALSE(runtime.noteMovementInput(input, 0.25f, true));
+    CHECK(input.action(KeyboardAction::Right).held);
+    CHECK_EQ(runtime.movementActionPoints(), 130);
+
+    // The modern scheme still treats Left/Right as strafing movement.
+    input = {};
+    input.actions[keyboardActionIndex(KeyboardAction::Right)].held = true;
+    CHECK(runtime.noteMovementInput(input, 0.25f));
+    CHECK_EQ(runtime.movementActionPoints(), 98);
+}
+
 TEST_CASE("turn based runtime cycles party actions before OE movement phase")
 {
     OpenYAMM::Game::Party party = makeTurnBasedParty(2);

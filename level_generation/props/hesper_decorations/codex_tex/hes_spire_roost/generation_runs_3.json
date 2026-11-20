@@ -1,0 +1,294 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "attempt_limit_reached_requirements_unmet",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "selected_means": "Best available unmodified return saved under the requested filename; does not mean the brief's checks passed.",
+  "postprocessing": "None. All image files are byte-for-byte copies of the built-in tool outputs; no resizing, cropping, colour edits or alpha replacement.",
+  "limitations": [
+    "The built-in tool returned 1254x1254 images for every attempt despite explicit 1024x1024 instructions.",
+    "Neither selected return preserves the guide silhouette, geometry edges and transparent openings exactly.",
+    "Corrective returns reduce baked highlights, but residual shading and coloured edge fringe remain."
+  ],
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/paint_left_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687d-d6b1-7903-a7e8-92cf23e8f8fe/exec-4386b40f-aab8-481e-8416-1a0b271d5ecb.png",
+      "output_sha256": "3ceca1c05391efa52da62286f2d80871f31de5214785af5824a48dbe6d979984",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          49,
+          45,
+          1234,
+          1228
+        ],
+        "alpha_128_bbox": [
+          294,
+          78,
+          959,
+          1174
+        ],
+        "transparent_background": true,
+        "transparent_pixels": 1293390,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours_match": true,
+        "flat_even_light": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "clean_transparent_edges": false
+      },
+      "prompt": "Use case: precise-object-edit.\nCreate paint_left.png: ONE 1024 x 1024 RGBA texture-source painting by painting directly over the supplied guide_left.png. Return a native 1024 x 1024 square PNG with actual transparent background.\n\nINPUT ROLES, in supplied order:\n1. guide_left.png: EDIT TARGET and absolute geometry authority. Preserve its alpha mask, silhouette, position, size, orthographic LEFT-side viewpoint, every shape edge, spike tip and opening EXACTLY.\n2. design_reference.png: approved material, colour and design reference only; do not adopt its different camera, silhouette, scale, lighting, framing or background.\n3. concept_crop.png: supporting original material reference only. Do not include its creature or person.\n\nPaint ONLY the existing grey object pixels of image 1. Do not redesign, rotate, mirror, reframe, resize, smooth the outline, add or remove geometry, or fill the transparent openings. The guide occupies x=241..782 and y=66..957 in the 1024-square canvas; keep every pixel of silhouette and empty area registered to that guide. The great tusks, irregular spikes, nest rim, narrow shaft, flaring root base, and cutouts must remain exactly where image 1 places them. Keep all original geometric edges.\n\nSURFACE PAINT: apply the approved image 2 materials to those unchanged shapes: black-violet resin and chitin with deep plum-purple organic strands; warm ivory bone on the existing spikes and great tusks with fine natural bone seams; hot orange slit windows and sacs among the resin; dark woven resin nest cup on the existing cup surface. Keep original openings transparent. Depict the material identity of wet glossy resin through its colour and subtle surface texture, without painted-in strong highlights or reflections.\n\nLIGHTING IS ALBEDO: even flat shadowless frontal illumination, consistent material brightness across the object, zero cast shadows, zero ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Orange areas are painted saturated orange glowing colour only, with no light spill, bloom or illumination on nearby surfaces. Do not reproduce the dramatic lighting of image 2.\n\nNo background, floor, contact shadow, halo, atmosphere, extra object, creature, person, text, border or watermark. Transparent pixels must stay transparent. Uncropped entire guide object, original scale and position; only its surface colours/materials change.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/guide_left.png",
+          "sha256": "936204efffc7a75fb2cfc3906f6f133d86ea0e286b64686c62fc01170793ac9b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "selected": false,
+      "meets_brief": false,
+      "reason": "Rejected: native 1254x1254 return, changed silhouette/shape edges and openings, pronounced specular highlights and cavity shading. Palette matches; actual alpha transparency is present.",
+      "visual_review": {
+        "geometry": "General side-view structure is recognizable, but silhouette/shape edges and openings are not identical to the guide.",
+        "materials": "Ivory bone, deep plum/black-violet resin and orange slit-window colours match the reference palette.",
+        "lighting": "Strong highlights and cavity shading fail the flat-shadowless albedo check.",
+        "transparency": "Actual alpha background is present, with translucent coloured fringe/noise outside the main object."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/paint_left.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687d-d6b1-7903-a7e8-92cf23e8f8fe/exec-79985708-c429-4672-b098-0df77a112e22.png",
+      "output_sha256": "1e34daf6f42599ad197cf10647a41ec545344d733e6b56ce034019f495a0c698",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1220,
+          1200
+        ],
+        "alpha_128_bbox": [
+          295,
+          74,
+          958,
+          1175
+        ],
+        "transparent_background": true,
+        "transparent_pixels": 1290238,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours_match": true,
+        "flat_even_light": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "clean_transparent_edges": false
+      },
+      "prompt": "CORRECTIVE REGENERATION — left view, final allowed attempt. Use case: precise-object-edit. Output exactly one native 1024 x 1024 PNG, RGBA transparent, no rescaling. The previous return was incorrectly 1254 x 1254, changed shape edges, and used shiny highlights. Fix those failures.\n\nImage 1 (guide_left.png) is the image to EDIT IN PLACE. Its actual raster canvas is 1024 x 1024. Its alpha and all geometric edges are locked. Change only RGB colour on its existing visible surfaces. Copy the 1024 x 1024 alpha coverage and pixel coordinates of image 1 exactly, including every tip, triangular projection, thin gap and base opening. Object bounds x=241..782, y=66..957. Do not grow, shift, smooth, rotate, reframe, fill holes or invent shapes. Keep the guide's orthographic LEFT-side view and low-poly geometry exactly; texture surface details must stay within it.\n\nImage 2 (design_reference.png) supplies ONLY colour and material design: deep black-violet/plum resin/chitin, hot orange narrow slit windows/sacs, warm ivory bone spikes and great tusks, dark woven resin nest cup. Image 3 (concept_crop.png) is supporting original material reference only. No creature or person.\n\nPaint that palette over the original guide, matching its existing shapes. Ivory plates have subtle natural bone seams; dark purple resin has subtle organic stranding. Match the approved colours. Do not add new perforations or alter the guide's existing transparent openings.\n\nCRITICAL ALBEDO LIGHTING: an unlit base-colour texture pass, even flat shadowless frontal colour, zero directional shading, zero ambient occlusion, zero cast/contact shadows, zero reflected light, zero bright white shiny streaks or hotspots, zero specular or rim light. The material will become wet/glossy in the 3D shader; this RGB painting must NOT bake gloss highlights into it. Orange slit windows are solid luminous orange colour without bloom, halos or light spill onto bone/resin. Do not reproduce the studio lighting from image 2.\n\nTransparent empty canvas surrounding the object, not black colour or checkerboard artwork. No floor, background, drop shadow, text, border, watermark or extra elements. Preserve all guide geometry and its EXACT 1024-square framing. Native unresized 1024 x 1024 output.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/guide_left.png",
+          "sha256": "936204efffc7a75fb2cfc3906f6f133d86ea0e286b64686c62fc01170793ac9b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "selected": true,
+      "meets_brief": false,
+      "reason": "Selected only as the best available raw left-view return after the one permitted corrective regeneration; NOT accepted as meeting the brief. Highlights are substantially reduced and the ivory, plum and orange palette matches. Still 1254x1254, with altered edges/openings, translucent coloured fringe/noise and residual cavity shading. Preserved byte-for-byte without resizing or alpha replacement.",
+      "visual_review": {
+        "geometry": "General side-view structure is recognizable, but silhouette/shape edges and openings are not identical to the guide.",
+        "materials": "Ivory bone, deep plum/black-violet resin and orange slit-window colours match the reference palette.",
+        "lighting": "Reduced highlights; residual cavity shading means the strict flat-shadowless albedo check still fails.",
+        "transparency": "Actual alpha background is present, with translucent coloured fringe/noise outside the main object."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/paint_right_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687d-d6b1-7903-a7e8-92cf23e8f8fe/exec-bf9aeb88-9dd6-41da-89b5-c62300b8e823.png",
+      "output_sha256": "4b58332dbb65bcad6164050676ce058c3e1112b4381b9849e417846e05bee334",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          23,
+          1222,
+          1177
+        ],
+        "alpha_128_bbox": [
+          295,
+          81,
+          959,
+          1173
+        ],
+        "transparent_background": true,
+        "transparent_pixels": 1294030,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours_match": true,
+        "flat_even_light": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "clean_transparent_edges": false
+      },
+      "prompt": "Use case: precise-object-edit. Create paint_right.png by editing the supplied guide_right.png in place. Return ONE native 1024 x 1024 RGBA PNG with actual transparent background; retain the original 1024-square canvas, do not upscale to 1254 or another size.\n\nINPUT ROLES:\nImage 1, guide_right.png: EDIT TARGET and absolute geometry authority. Copy its alpha coverage and all geometric edges exactly. It is the orthographic RIGHT-side view of the exact existing 3D model.\nImage 2, design_reference.png: approved colour, material and design authority ONLY. Do not adopt its perspective view, outline, framing, background or dramatic lighting.\nImage 3, concept_crop.png: supporting original material reference only. Do not depict its creature or person.\n\nCHANGE ONLY THE SURFACE PAINT ON IMAGE 1. Preserve its silhouette pixel for pixel, every spike and tusk tip, every opening, cup rim, face edge, narrow shaft and flaring root base at the exact original coordinates. Bounds in the original 1024-square image are x=241..782, y=66..957. Keep its camera, object scale, position and shape. Do not mirror a left view, redesign, add details outside the existing silhouette, grow or shrink geometry, fill holes, crop or move anything.\n\nPaint the reference materials onto the unchanged surfaces: deep black-violet and plum resin/chitin with organic stranding, hot glowing orange slit windows and sacs, warm ivory bone on the existing spikes and great tusks with subtle natural seams, dark woven resin nest cup. Preserve existing transparent openings; no invented holes or geometry.\n\nTHIS IS AN ALBEDO TEXTURE SOURCE, an unlit base-colour pass: even flat shadowless frontal colour with consistent material brightness, zero cast/contact shadows, zero ambient occlusion or cavity-darkening, zero directional light, zero specular hotspots/streaks or reflections, no rim light. The intended material is wet glossy resin, but that gloss belongs to the runtime shader, not baked highlights in the texture. Orange areas are painted their saturated glowing orange colour, without light spilling onto neighbouring bone/resin, bloom or halos.\n\nTransparent empty background, no floor, shadow, backdrop, atmosphere, creature, person, extra object, text, border or watermark. Original guide silhouette and all internal shape edges remain fixed. Native unresized 1024 x 1024 output.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/guide_right.png",
+          "sha256": "1dea5adbee06077e64bf614eaaab1b6745c8c08fe46d1e029661ef0c6098b690"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "selected": false,
+      "meets_brief": false,
+      "reason": "Rejected: native 1254x1254 return with silhouette/shape-edge changes, altered nest visibility, shiny highlights and cavity shading. Palette matches; actual alpha transparency is present.",
+      "visual_review": {
+        "geometry": "General side-view structure is recognizable, but silhouette/shape edges and openings are not identical to the guide.",
+        "materials": "Ivory bone, deep plum/black-violet resin and orange slit-window colours match the reference palette.",
+        "lighting": "Strong highlights and cavity shading fail the flat-shadowless albedo check.",
+        "transparency": "Actual alpha background is present, with translucent coloured fringe/noise outside the main object."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/paint_right.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687d-d6b1-7903-a7e8-92cf23e8f8fe/exec-755c6798-2c6c-42b2-87b4-98b135746ab8.png",
+      "output_sha256": "e99ae30c6e673f076f2f6ff4096f580fe189ce1e04132ae0cdd931cc55dafc27",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          55,
+          1216,
+          1206
+        ],
+        "alpha_128_bbox": [
+          295,
+          77,
+          960,
+          1176
+        ],
+        "transparent_background": true,
+        "transparent_pixels": 1292925,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours_match": true,
+        "flat_even_light": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "clean_transparent_edges": false
+      },
+      "prompt": "CORRECTIVE REGENERATION, RIGHT VIEW, final allowed attempt. Edit image 1 in place. Produce EXACTLY 1024 x 1024 pixels RGBA; preserve the actual input canvas and alpha. The last output incorrectly became 1254 x 1254, changed outline/holes, and painted shiny highlights. Do not repeat those errors.\n\nUse case: precise-object-edit. Surface colour painting for an unlit albedo texture source.\nINPUT 1 guide_right.png = immutable geometry, exact orthographic right-view edit target. INPUT 2 design_reference.png = colour/material reference ONLY, no lighting or camera transfer. INPUT 3 concept_crop.png = supporting material reference only, ignore its creature/person.\n\nLOCK ALL GEOMETRY TO IMAGE 1. Preserve the silhouette/alpha exactly, including each existing hole, tip, triangular spike, straight facet edge, nest rim and base root. Work inside its original pixels without altering their positions. Exact object bounds x=241..782 and y=66..957 on the 1024 x 1024 canvas. Do not add holes or spikes. Do not fill openings. No smoothing, redesign, reframing, resizing, mirroring, rotation or perspective change. Keep the nest cup in the exact pose/visibility of the grey guide.\n\nOnly replace grey surface colours: warm ivory bone for the existing great tusks and spikes, deep black-violet/plum chitin and resin for the shaft/root strands and woven nest cup, saturated hot orange for slit windows/sacs in existing solid surfaces. Subtle bone seams and organic resin strands match the approved design. Existing transparent cutouts remain transparent.\n\nCRITICAL: completely flat shadowless even illumination, an UNLIT BASE COLOUR pass. No gloss highlights, no white shiny streaks, no reflections, no shaded crevices or ambient occlusion, no cast shadows, no gradient from directional lighting, no rim light. Wet glossy resin is the intended eventual material, but gloss must be supplied by the renderer, never baked into this albedo. Bone is uniformly warm ivory; resin uniformly deep plum/black-violet with restrained material detail; orange windows are painted bright orange without bloom/light spill onto their surroundings. No dramatic dark-to-light shading.\n\nActual transparent empty background, clean transparent edges without coloured fringe/noise, no floor, no halo, no background pixels, no text, watermark, creature or extra objects. Native 1024 x 1024 return, preserving the guide's original exact silhouette and registration.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/guide_right.png",
+          "sha256": "1dea5adbee06077e64bf614eaaab1b6745c8c08fe46d1e029661ef0c6098b690"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_roost/concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "selected": true,
+      "meets_brief": false,
+      "reason": "Selected only as the best available raw right-view return after the one permitted corrective regeneration; NOT accepted as meeting the brief. Flatter bone and orange colours reduce baked highlights, and the reference palette matches. Still 1254x1254, with altered edges/openings, translucent coloured fringe/noise and residual cavity shading. Preserved byte-for-byte without resizing or alpha replacement.",
+      "visual_review": {
+        "geometry": "General side-view structure is recognizable, but silhouette/shape edges and openings are not identical to the guide.",
+        "materials": "Ivory bone, deep plum/black-violet resin and orange slit-window colours match the reference palette.",
+        "lighting": "Reduced highlights; residual cavity shading means the strict flat-shadowless albedo check still fails.",
+        "transparency": "Actual alpha background is present, with translucent coloured fringe/noise outside the main object."
+      }
+    }
+  ]
+}

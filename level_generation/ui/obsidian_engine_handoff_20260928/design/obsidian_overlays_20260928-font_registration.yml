@@ -1,0 +1,21 @@
+# DESIGN CONTRACT. The existing independent descriptor is staged beside the font, not mounted.
+face: Fondamento
+file: engine/fonts/truetype/fondamento-regular.ttf
+license: engine/fonts/truetype/fondamento-ofl.txt
+nominal_logical_height: 13.3333333333
+usage: Button and tab labels, open dialogue topic rows.
+status: existing-independent-loader-ready-gameplay-hook-required
+current_loader:
+  source: engine/FontAsset.cpp
+  gameplay_path: GameplayHudCommon::loadHudFont currently uses legacy FNT lookup and loadFontAtlas.
+  available_path: engine/FontAsset.cpp already provides loadTrueTypeFontAtlas with independent FreeType metrics.
+  existing_caller: MenuScreenBase::ensureFont already uses it for fondamento and menu_* faces.
+  descriptor: engine/fonts/truetype/fondamento.yml uses metrics=freetype, height 32 and baseline 25.
+integration:
+  - Reuse loadTrueTypeFontAtlas and the existing Fondamento descriptor in the gameplay font path; do not implement another atlas builder.
+  - Apply logical label size / 32 as the descriptor-relative text scale; 13.333333px labels use 0.416666667.
+  - Keep faithful Arrus/Create/Lucida/Comic/Smallnum FNT+TTF pairs and enable those faithful faces through font settings.
+  - Check printable windows-1252 coverage and localized labels using the actual atlas builder.
+  - Match label size/shadows/state colours from theme.yml and the approved button study.
+  - Do not rename Fondamento to a legacy face or substitute its outlines into incompatible Lucida slots.
+  - Gameplay hookup and rendering checks are needed before the staged YAMLs can render faithfully.

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Party Creation A</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* Approach A: five MM7-style columns + a shared skill strip for the selected column. */
+.cols { position: absolute; left: 58px; top: 100px; width: 1484px; height: 458px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.col { position: relative; padding: 8px 9px 8px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; background: #0c1514c8; border: 1px solid #3f483d; }
+.col.sel { border-color: #d6bb82; background: linear-gradient(#2a2a1ec8, #0e1715d8 40%); box-shadow: 0 0 0 1px #d6bb8240, 0 0 22px #d6bb8226; }
+.col .num { position: absolute; left: -1px; top: -1px; }
+.col .corner { position: absolute; right: 6px; top: 6px; display: flex; gap: 4px; }
+.col .corner button { width: 24px; height: 22px; font: 15px/1 SourceSans, sans-serif; color: #a7a891; border: 1px solid #4f5848; background: #111a18; }
+.ctop { display: flex; gap: 8px; }
+.ctop .portrait { width: 84px; height: 106px; flex: none; }
+.cright { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding-top: 20px; }
+.cright .field { height: 30px; font-size: 19px; padding: 0 6px; }
+.clsbtn { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 6px; border: 1px solid #8c7a53; background: #18211dcc; font: 20px var(--action); color: #ecd5a6; text-align: left; white-space: nowrap; overflow: hidden; }
+.clsbtn .cn { overflow: hidden; text-overflow: ellipsis; }
+.clsbtn img { width: 26px; height: 26px; }
+.clsbtn .chev { margin-left: auto; font-size: 13px; color: #b9a27a; }
+.vbtn { display: flex; align-items: center; gap: 5px; height: 26px; font: 15px var(--small); color: #d7cdb3; border: 1px solid #535b4d; background: #111a18; padding: 0 6px; }
+.vbtn::before { content: "♪"; color: #d6bd84; }
+.rchips { font: 12.5px/1.3 var(--small); color: #c4c7a8; height: 38px; overflow: hidden; border-top: 1px solid #ffffff12; border-bottom: 1px solid #ffffff12; padding: 3px 0; }
+.rchips .rn { color: #e9dab6; margin-right: 4px; }
+.rchips .rs { color: #b7d38a; }
+.rchips .tr { margin-right: 3px; }
+.stats { display: flex; flex-direction: column; gap: 1px; }
+.stats .sh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px; }
+.stats .pts { font: 15px var(--small); color: #e9cf91; }
+.stats .pts.zero { color: var(--ok); }
+.stats .pts.neg { color: var(--bad); }
+.stat { height: 23px; font-size: 18px; }
+.stat .sq { width: 30px; height: 22px; font-size: 20px; }
+.stat .sv { width: 30px; font-size: 19px; }
+.sk-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.sk-slots .caption { grid-column: 1 / -1; }
+.sk-slots.many { grid-template-columns: 1fr 1fr 1fr; }
+.sk-slots.many .slot { height: 20px; font-size: 13px; padding: 0 3px; }
+.sk-slots.many .slot .sg { width: 10px; height: 10px; }
+.slot { display: flex; align-items: center; gap: 3px; height: 23px; padding: 0 4px; font: 15px var(--body); white-space: nowrap; overflow: hidden; border: 1px solid #4c5444; background: #101917; }
+.slot.fixed { border-color: #8e7a50; background: linear-gradient(90deg, #4a4029, #1b1d15); }
+.slot.chosen { border-color: #d9c590; }
+.slot.empty { border-style: dashed; color: #8b8e80; font: 14px var(--small); }
+.slot .ml { margin-left: auto; font-size: 12px; }
+.slot .sg { width: 13px; height: 13px; }
+.addcol { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; border: 1px dashed #5c6455; color: #b6ae93; font: 24px var(--action); background: #0a1211a0; }
+.addcol.dim { opacity: .35; }
+
+.strip { position: absolute; left: 58px; top: 568px; width: 1484px; height: 226px; padding: 6px 10px; background: #0b1413d6; border: 1px solid #5f5a45; }
+.strip .sh { display: flex; align-items: center; gap: 12px; height: 32px; }
+.strip .sh .h2 { font-size: 23px; }
+.legend { display: flex; gap: 12px; align-items: center; font: 13px var(--small); color: #a9ab9a; margin-left: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 3px; }
+.chips { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); grid-template-rows: repeat(5, 36px); gap: 4px 5px; margin-top: 4px; }
+.chip { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 0 6px 0 9px; border: 1px solid #39423a; background: #111b19; text-align: left; overflow: hidden; }
+.chip::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--g); }
+.chip .l1 { display: flex; align-items: center; gap: 4px; font: 16.5px/1.1 var(--body); white-space: nowrap; }
+.chip .l1 .nm { overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+.chip .l2 .ml { font-size: 13px; margin-left: auto; line-height: 12px; }
+.chip .l2 { display: flex; gap: 2px; height: 12px; margin-top: 1px; }
+.chip .l2 .mb { width: 12px; height: 12px; font-size: 9px; }
+.chip .sg { width: 14px; height: 14px; }
+.chip.fixed { background: linear-gradient(90deg, #463c26, #19190f); border-color: #8e7a50; }
+.chip.chosen { border-color: #e6d29e; background: linear-gradient(90deg, #3c3a2c, #141b18); }
+.chip.option { border-color: #6c6a52; }
+.mouse .chip.option:hover, .mouse .chip.chosen:hover { border-color: #fff0c0; }
+.chip.later { color: #a3a594; }
+.chip.promo { color: #7f8377; }
+.chip.none { color: #515650; background: #0d1413; }
+.chip.planned { border: 1px dashed var(--plan); }
+.chip .pf { position: absolute; right: 4px; top: 2px; font-size: 12px; color: var(--plan); }
+.chip.focus { box-shadow: 0 0 0 2px #ffe3a0; }
+</style>
+</head>
+<body>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+const GROUP_COLOURS = {Weapons: '#b8794f', Armour: '#8195a5', Magic: '#8e7fc9', Racial: '#7fb36a', Misc: '#b49a5c'};
+
+function columnHtml(m, i) {
+  const p = portraitById(m.portrait);
+  const sum = raceSummary(m);
+  const left = pool(m);
+  const fixed = fixedSkills(m);
+  const opts = optionalSkills(m);
+  const slot = (s, kind) => `<div class="slot ${kind}" data-skill="${s}" data-m="${i}"><span class="sg ${kind}"></span><span style="overflow:hidden;text-overflow:ellipsis">${esc(skillName(s).replace(/ Magic$/, ''))}</span></div>`;
+  const empties = Math.max(0, Math.min(2, opts.length) - m.chosen.length);
+  return `<div class="col${i === App.sel ? ' sel' : ''}" data-select="${i}" data-member="${i}">
+    <span class="num">${badge(i)}</span>
+    <span class="corner"><button data-reset="${i}" title="Default">↺</button><button data-remove="${i}" title="Remove" ${App.members.length < 2 ? 'disabled' : ''}>✕</button></span>
+    <div class="ctop">
+      <button class="portrait" data-portrait="${i}">${portraitImg(p)}<span class="edit">#${p.id} · change</span></button>
+      <div class="cright">
+        <input class="field" data-name="${i}" value="${esc(m.name)}" maxlength="15">
+        <button class="clsbtn" data-class="${i}"><img src="${classIcon(m.cls)}" alt=""><span class="cn">${esc(className(m.cls))}</span><span class="chev">▼</span></button>
+        <button class="vbtn" data-voice="${i}">${voiceLabel(m.voice)}${m.voice === p.voice ? '' : ' <span class="dim">(not own)</span>'}</button>
+      </div>
+    </div>
+    <div class="rchips"><span class="rn">${esc(race(m).name)}</span>${sum.stats.join('')}${sum.skills.length || sum.notes.length ? ' · ' : ''}${[...sum.skills, ...sum.notes.map(n => n.replace(/ \(\+1 per 10 skill levels\)/, ''))].join(', ')}</div>
+    <div class="stats"><div class="sh"><span class="caption">Attributes</span><span class="pts${left === 0 ? ' zero' : left < 0 ? ' neg' : ''}">${left} point${left === 1 ? '' : 's'} left</span></div>
+      ${D.statNames.map((n, si) => {
+        const t = statTrait(m, si), base = statRule(m, si).base, v = m.stats[si];
+        return `<div class="stat" title="${esc(n)}: base ${base}, max ${statRule(m, si).max}; ${t.text}"><span class="sn">${n}</span><span class="tr ${t.cls}">${t.mark}</span>
+          <button class="btn sq" data-dec="${i}:${si}" ${canDec(m, si) ? '' : 'disabled'}>−</button><span class="sv${v > base ? ' up' : v < base ? ' down' : ''}">${v}</span>
+          <button class="btn sq" data-inc="${i}:${si}" ${canInc(m, si) ? '' : 'disabled'}>+</button></div>`;
+      }).join('')}</div>
+    <div class="sk-slots${fixed.length + Math.max(m.chosen.length, Math.min(2, opts.length)) > 6 ? ' many' : ''}"><span class="caption">Starting skills</span>
+      ${fixed.map(s => slot(s, 'fixed')).join('')}${m.chosen.map(s => slot(s, 'chosen')).join('')}
+      ${'<div class="slot empty">+ choose</div>'.repeat(empties)}</div>
+  </div>`;
+}
+
+function chipHtml(m, s) {
+  const st = skillState(m, s);
+  const planned = m.plan.includes(s);
+  const now = capNow(m, s), best = capBest(m, s);
+  const focus = App.focus && App.focus.skill === s && App.focus.m === App.sel;
+  const group = skillGroups().find(([, list]) => list.includes(s))[0];
+  return `<button class="chip ${st}${planned ? ' planned' : ''}${focus ? ' focus' : ''}" style="--g:${GROUP_COLOURS[group]}" data-skill="${s}" data-m="${App.sel}">
+    <span class="l1"><span class="sg ${st}"></span><span class="nm">${esc(skillName(s))}</span>${raceMarks(m, s)}</span>
+    <span class="l2">${coverageBadges(s, -1)}${mastery(now, best)}</span>${planned ? '<span class="pf">⚑</span>' : ''}</button>`;
+}
+
+function render() {
+  const m = App.members[App.sel];
+  let cols = App.members.map(columnHtml).join('');
+  for (let i = App.members.length; i < 5; i++) {
+    cols += `<button class="addcol${i === App.members.length ? '' : ' dim'}" ${i === App.members.length ? 'data-add' : 'disabled'}><span style="font-size:44px">+</span>Add adventurer</button>`;
+  }
+  const order = skillGroups().flatMap(([, list]) => list);
+  const rows = 5, perCol = Math.ceil(order.length / rows);
+  el('#screen').innerHTML = headHtml() + `<div class="cols">${cols}</div>
+    <div class="strip" data-member="${App.sel}">
+      <div class="sh">${badge(App.sel)}<span class="h2">${esc(m.name)}'s skills</span><span class="caption" style="text-transform:none;letter-spacing:.5px">${esc(race(m).name)} ${esc(className(m.cls))} · choose ${Math.min(2, optionalSkills(m).length)} · ${m.chosen.length} chosen</span>
+        <span class="legend"><span><span class="sg fixed"></span>fixed</span><span><span class="sg option"></span>choosable</span><span><span class="sg later"></span>learn later</span>
+        <span><span class="ml"><span class="now" data-c="3">M</span><span class="later mc4">›G</span></span> now › after promotion</span><span>${badge(0)}${badge(1, true)} party has / plans</span></span>
+        <span style="flex:1"></span>${planToggleHtml()}<button class="btn tiny quiet" data-table="${App.sel}">Mastery table</button></div>
+      <div class="chips" style="grid-template-rows:repeat(${rows},36px)">${order.map(s => chipHtml(m, s)).join('')}</div>
+    </div>` + footHtml();
+  wireCommon(el('#screen'));
+}
+boot('a', render);
+</script>
+</body>
+</html>

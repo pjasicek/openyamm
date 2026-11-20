@@ -1,0 +1,95 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_1000terrors/review/lighting01u
+settle_seconds: 1.5
+exit: true
+shots:
+- name: m01_start
+  position:
+  - 5202
+  - -16435
+  - -142
+  yaw: 1.5708
+  pitch: 0.0
+- name: m04_central_north
+  position:
+  - 7936
+  - -11520
+  - -142
+  yaw: 1.5708
+  pitch: 0.0
+- name: m05_sorc_west
+  position:
+  - 6272
+  - -9298
+  - -142
+  yaw: 3.1416
+  pitch: 0.0
+- name: m08_water_hall_east
+  position:
+  - 11392
+  - -12196
+  - -127
+  yaw: 0.0
+  pitch: 0.0
+- name: m12_south_corridor
+  position:
+  - 14182
+  - -17152
+  - -127
+  yaw: -1.5708
+  pitch: 0.0
+- name: m17_treasure_room
+  position:
+  - 8704
+  - -22784
+  - -127
+  yaw: 3.1416
+  pitch: 0.0
+- name: l02_chess_board
+  position:
+  - 6554
+  - -15488
+  - -2748
+  yaw: 0.0
+  pitch: 0.0
+- name: l05_west_coffins
+  position:
+  - -9216
+  - -18268
+  - -2569
+  yaw: 0.0
+  pitch: 0.0
+- name: l08_lower_hall_west
+  position:
+  - -2304
+  - -8704
+  - -2569
+  yaw: 3.1416
+  pitch: 0.0
+- name: l11_lower_tomb
+  position:
+  - -707
+  - -3328
+  - -2411
+  yaw: 1.5708
+  pitch: 0.0
+- name: u01_foyer
+  position:
+  - 3594
+  - -16896
+  - 2254
+  yaw: 1.5708
+  pitch: 0.0
+- name: u03_demon_statues
+  position:
+  - 3604
+  - -12800
+  - 2254
+  yaw: 1.5708
+  pitch: 0.0
+- name: u04_njam_hall
+  position:
+  - 6912
+  - -11776
+  - 2735
+  yaw: 0.0
+  pitch: 0.0

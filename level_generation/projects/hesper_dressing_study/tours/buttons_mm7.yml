@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/buttons_mm7
+settle_seconds: 2.0
+exit: true
+shots:
+- name: button_ev5
+  position:
+  - -1333
+  - 4614
+  - -479
+  yaw: 0.393
+  pitch: -0.174
+- name: button_ev10
+  position:
+  - -7036
+  - 1152
+  - -607
+  yaw: 3.142
+  pitch: -0.174

@@ -1,0 +1,473 @@
+{
+ "map": "verhoffinruins",
+ "settings": {
+  "WorldInfo": "PBlockSize 1024 ; AmbientLight 50 50 50",
+  "WorldProperties": {
+   "LightScale": [
+    255.0,
+    255.0,
+    255.0
+   ],
+   "NightLightScale": [
+    255.0,
+    255.0,
+    255.0
+   ],
+   "PlayerLightOn": 1,
+   "DynamicLightDist": 2500.0,
+   "EnableFog": 0,
+   "FogColor": [
+    127.0,
+    127.0,
+    127.0
+   ]
+  },
+  "AmbientLight": [
+   50.0,
+   50.0,
+   50.0
+  ]
+ },
+ "shots": [
+  {
+   "shot": "a01_start_stair",
+   "eye_lt": [
+    -480.1,
+    -65.6,
+    -2330.9
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 82,
+   "all": {
+    "n": 2990,
+    "pred_luma": 48.4,
+    "pred_median": 46.0,
+    "pred_rgb": [
+     54,
+     48,
+     32
+    ],
+    "lm_rgb": [
+     145,
+     142,
+     115
+    ],
+    "lm_luma": 140.6,
+    "tex_luma": 87.1,
+    "tex_rgb": [
+     94,
+     87,
+     70
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 45.1,
+     "pred_median": 41.8,
+     "pred_rgb": [
+      52,
+      45,
+      27
+     ],
+     "lm_rgb": [
+      157,
+      153,
+      120
+     ],
+     "lm_luma": 151.2,
+     "tex_luma": 75.2,
+     "tex_rgb": [
+      84,
+      75,
+      56
+     ]
+    },
+    "middle": {
+     "n": 960,
+     "pred_luma": 46.1,
+     "pred_median": 41.5,
+     "pred_rgb": [
+      52,
+      46,
+      29
+     ],
+     "lm_rgb": [
+      134,
+      132,
+      109
+     ],
+     "lm_luma": 130.5,
+     "tex_luma": 87.9,
+     "tex_rgb": [
+      97,
+      87,
+      67
+     ]
+    },
+    "lower": {
+     "n": 1006,
+     "pred_luma": 53.9,
+     "pred_median": 54.0,
+     "pred_rgb": [
+      58,
+      54,
+      40
+     ],
+     "lm_rgb": [
+      143,
+      141,
+      117
+     ],
+     "lm_luma": 139.4,
+     "tex_luma": 98.4,
+     "tex_rgb": [
+      103,
+      98,
+      87
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 789,
+     "pred_luma": 55.1,
+     "pred_median": 56.2,
+     "pred_rgb": [
+      58,
+      55,
+      43
+     ],
+     "lm_rgb": [
+      144,
+      142,
+      117
+     ],
+     "lm_luma": 140.4,
+     "tex_luma": 100.1,
+     "tex_rgb": [
+      103,
+      100,
+      93
+     ],
+     "share": 0.26
+    },
+    "wall": {
+     "n": 1272,
+     "pred_luma": 47.5,
+     "pred_median": 45.4,
+     "pred_rgb": [
+      54,
+      47,
+      29
+     ],
+     "lm_rgb": [
+      136,
+      133,
+      111
+     ],
+     "lm_luma": 132.4,
+     "tex_luma": 89.6,
+     "tex_rgb": [
+      99,
+      89,
+      66
+     ],
+     "share": 0.44
+    },
+    "ceiling": {
+     "n": 929,
+     "pred_luma": 43.9,
+     "pred_median": 39.9,
+     "pred_rgb": [
+      50,
+      44,
+      26
+     ],
+     "lm_rgb": [
+      158,
+      153,
+      120
+     ],
+     "lm_luma": 152.0,
+     "tex_luma": 72.6,
+     "tex_rgb": [
+      80,
+      72,
+      56
+     ],
+     "share": 0.3
+    }
+   },
+   "textures": {
+    "ver-cobble": {
+     "n": 786,
+     "pred_luma": 55.2,
+     "pred_median": 56.2,
+     "pred_rgb": [
+      58,
+      56,
+      43
+     ],
+     "lm_rgb": [
+      145,
+      142,
+      118
+     ],
+     "lm_luma": 140.6,
+     "tex_luma": 100.3,
+     "tex_rgb": [
+      103,
+      100,
+      94
+     ],
+     "share": 0.26
+    },
+    "ver-scuffed 01": {
+     "n": 531,
+     "pred_luma": 57.6,
+     "pred_median": 60.5,
+     "pred_rgb": [
+      66,
+      57,
+      37
+     ],
+     "lm_rgb": [
+      130,
+      129,
+      112
+     ],
+     "lm_luma": 127.6,
+     "tex_luma": 114.4,
+     "tex_rgb": [
+      129,
+      113,
+      84
+     ],
+     "share": 0.17
+    },
+    "ver-scuffed": {
+     "n": 514,
+     "pred_luma": 51.6,
+     "pred_median": 49.5,
+     "pred_rgb": [
+      58,
+      52,
+      31
+     ],
+     "lm_rgb": [
+      164,
+      159,
+      124
+     ],
+     "lm_luma": 157.9,
+     "tex_luma": 82.5,
+     "tex_rgb": [
+      90,
+      82,
+      64
+     ],
+     "share": 0.17
+    },
+    "wood1": {
+     "n": 379,
+     "pred_luma": 28.5,
+     "pred_median": 26.9,
+     "pred_rgb": [
+      33,
+      28,
+      16
+     ],
+     "lm_rgb": [
+      152,
+      148,
+      119
+     ],
+     "lm_luma": 146.6,
+     "tex_luma": 49.0,
+     "tex_rgb": [
+      55,
+      49,
+      34
+     ],
+     "share": 0.14
+    },
+    "Beamceilng02": {
+     "n": 248,
+     "pred_luma": 37.5,
+     "pred_median": 36.9,
+     "pred_rgb": [
+      46,
+      37,
+      22
+     ],
+     "lm_rgb": [
+      153,
+      147,
+      112
+     ],
+     "lm_luma": 145.5,
+     "tex_luma": 65.0,
+     "tex_rgb": [
+      75,
+      64,
+      49
+     ],
+     "share": 0.08
+    }
+   },
+   "unlit_models": {
+    "PhysicsBSP": 36,
+    "PrisonDoor3": 45,
+    "WorldObject0": 1
+   },
+   "lights": [
+    {
+     "class": "Light",
+     "name": "DirLight3",
+     "distance": 301,
+     "radius": 400,
+     "colour": [
+      255,
+      255,
+      191
+     ],
+     "bright_scale": 0.5,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light1",
+     "distance": 302,
+     "radius": 150,
+     "colour": [
+      255,
+      251,
+      170
+     ],
+     "bright_scale": 0.33,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Fire",
+     "name": "BreakOutDust1",
+     "distance": 495,
+     "radius": 80,
+     "colour": [
+      255,
+      190,
+      130
+     ],
+     "bright_scale": null,
+     "inside": false,
+     "extra": {
+      "LightMinRadius": 55.0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "DirLight113",
+     "distance": 547,
+     "radius": 300,
+     "colour": [
+      255,
+      255,
+      191
+     ],
+     "bright_scale": 0.5,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light58",
+     "distance": 552,
+     "radius": 150,
+     "colour": [
+      255,
+      251,
+      170
+     ],
+     "bright_scale": 0.33,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light67",
+     "distance": 715,
+     "radius": 450,
+     "colour": [
+      230,
+      217,
+      228
+     ],
+     "bright_scale": 0.3,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Fire",
+     "name": "BreakOutDust0",
+     "distance": 811,
+     "radius": 80,
+     "colour": [
+      255,
+      190,
+      130
+     ],
+     "bright_scale": null,
+     "inside": false,
+     "extra": {
+      "LightMinRadius": 55.0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light21",
+     "distance": 926,
+     "radius": 800,
+     "colour": [
+      255,
+      254,
+      191
+     ],
+     "bright_scale": 0.45,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "DirLight14",
+     "distance": 946,
+     "radius": 500,
+     "colour": [
+      255,
+      255,
+      191
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light4",
+     "distance": 951,
+     "radius": 150,
+     "colour": [
+      255,
+      251,
+      170
+     ],
+     "bright_scale": 0.33,
+     "inside": false,
+     "extra": {}
+    }
+   ]
+  }
+ ]
+}

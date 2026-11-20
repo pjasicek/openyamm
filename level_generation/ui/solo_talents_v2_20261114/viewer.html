@@ -1,0 +1,128 @@
+<title>Solo Talents v2 Mockups</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fondamento&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: a header, a strip of view tabs, then one live 1024×768 mockup scaled to the column, with notes and the captures below. Deliberately one look: the game's dark obsidian and brass. */
+:root {
+  --bg: #0f1214;
+  --panel: #171b1e;
+  --sunk: #0b0d0f;
+  --fg: #ece6d6;
+  --muted: #a59e8c;
+  --line: #2f363b;
+  --brass: #d2ad62;
+  --display: "Fondamento", "Palatino Linotype", Georgia, serif;
+  --body: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 56px; }
+main { max-width: 1120px; margin: 0 auto; display: grid; gap: 22px; }
+h1, h2 { font-family: var(--display); font-weight: 400; color: var(--brass); margin: 0; text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
+h2 { font-size: 1.35rem; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.eyebrow { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 8px; max-width: 72ch; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tabs a { font: inherit; font-size: .95rem; color: var(--fg); text-decoration: none; background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 7px 12px; }
+.tabs a[aria-current="page"] { background: var(--brass); color: var(--sunk); border-color: var(--brass); }
+.tabs a:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.stage { display: grid; gap: 10px; }
+.screen { position: relative; width: 100%; max-width: 1024px; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: var(--sunk); }
+.screen iframe { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; border: 0; transform-origin: 0 0; }
+.bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; font-size: .9rem; }
+.bar a { color: var(--brass); }
+.notes { display: grid; gap: 6px; max-width: 72ch; margin: 0; padding-left: 1.2em; }
+.shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+figure img { width: 100%; max-width: 100%; border: 1px solid var(--line); border-radius: 4px; display: block; }
+figcaption { font-size: .85rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">OpenYAMM · MAW solo run · Talents page · 2026-11-14</div>
+    <h1>Solo Talents v2 Mockups</h1>
+    <p class="muted">Two ways to show the proposed talent tree v2 (devdocs/maw/solo_sim/proposals/TALENT_TREE_V2.md) on the solo run's Talents page. Both show Vardis, a level-500 Death Knight on Beyond Madness. Points come only from levels (one per 15 levels, so 33 at level 500, all spent); the three trees are Arms, Archery and Arcana, which a character combines (Archery is bows only, never a Dragon's breath); keystones fill five slots, one per 150 levels (150 to 750), and Warlord, Deadeye and Archon each need 10 points in their tree; Unbroken is for anyone. The other classes each have an Oath keystone of their own; the Death Knight has none since Lichborne was removed. His three open slots hold Unbroken, Warlord and Archon. The mockups are live: hover a row to see it in the detail card, click to keep it there, click keystone sockets.</p>
+  </header>
+
+  <nav class="tabs" aria-label="Mockup views" id="tabs"></nav>
+
+  <section class="stage">
+    <div class="screen" id="screen"><iframe id="frame" title="Talents page mockup" src="mockup_a.html"></iframe></div>
+    <div class="bar"><span id="viewName"></span><a id="openFull" href="mockup_a.html" target="_blank" rel="noopener">Open at full size</a></div>
+    <ul class="notes" id="viewNotes"></ul>
+  </section>
+
+  <section class="stage">
+    <h2>Captures</h2>
+    <div class="shots">
+      <figure><img src="previews/a.png" alt="Mockup A, the Talents page with the keystone strip, the trees and the detail card showing the points"><figcaption>A: the built layout extended; the detail card shows the points</figcaption></figure>
+      <figure><img src="previews/a_tip_sweeping.png" alt="Mockup A with Sweeping Blows in the detail card"><figcaption>A: Sweeping Blows (the 120° arc, Warlord's change)</figcaption></figure>
+      <figure><img src="previews/a_tip_cleave.png" alt="Mockup A with Cleave in the detail card"><figcaption>A: Cleave, the 120° arc in front (±60°)</figcaption></figure>
+      <figure><img src="previews/a_tip_frenzy.png" alt="Mockup A with Onslaught in the detail card"><figcaption>A: Onslaught, now a passive: attack-speed stacks on kills</figcaption></figure>
+      <figure><img src="previews/a_tip_multishot.png" alt="Mockup A with Multishot in the detail card"><figcaption>A: Multishot (Archery), the ±30° cone of bow attacks</figcaption></figure>
+      <figure><img src="previews/a_tip_slot4.png" alt="Mockup A with locked keystone slot 4 in the detail card"><figcaption>A: slot 4, locked; only Deadeye is left and needs 10 more points in Archery; no Oath for a Death Knight</figcaption></figure>
+      <figure><img src="previews/a_tip_archon.png" alt="Mockup A with Archon, bound in keystone slot 3, in the detail card"><figcaption>A: Archon in slot 3; it does nothing without Mana Shield, a weak pick for him</figcaption></figure>
+      <figure><img src="previews/a_slot3_open.png" alt="Mockup A with keystone slot 3 open to choose"><figcaption>A: slot 3 open; Archon available but idle without Mana Shield, Deadeye 10 points short</figcaption></figure>
+      <figure><img src="previews/b.png" alt="Mockup B, Keystones sub-page with the picker open"><figcaption>B: keystone ring and picker on slot 3 (Archon, a weak pick for him); the Death Knight has no Oath</figcaption></figure>
+      <figure><img src="previews/b_choose.png" alt="Mockup B with slot 3 waiting for a choice"><figcaption>B: slot 3 waiting for a keystone (Archon offered, Deadeye 10 points short)</figcaption></figure>
+      <figure><img src="previews/b_slot4.png" alt="Mockup B picker on locked keystone slot 4"><figcaption>B: slot 4's picker: nothing available, Deadeye needs 10 more</figcaption></figure>
+      <figure><img src="previews/b_trees.png" alt="Mockup B, Trees sub-page"><figcaption>B: the Trees sub-page</figcaption></figure>
+      <figure><img src="previews/b_trees_tip.png" alt="Mockup B Trees sub-page with Sweeping Blows in the detail card"><figcaption>B: Trees with Sweeping Blows in the detail card</figcaption></figure>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  const VIEWS = {
+    a: { name: 'A · built layout extended', src: 'mockup_a.html', notes: [
+      'Points header: 33 from levels (one per 15 levels), 33 spent, 0 to spend; the points card gives the next point (level 510) and what every row costs (65 points, level 975).',
+      'Keystone strip: five sockets, one per 150 levels: 150 / 300 / 450 / 600 / 750 (filled, open with a glowing +, locked with its level).',
+      'Three tree columns, Arms, Archery and Arcana, named for what is trained: a character combines them. Whirlwind is gone, Sweeping Blows sits under Cleave, which it needs. Cleave and Sweeping Blows strike in the 120° arc in front (±60°).',
+      'Multishot replaces Volley in Archery: 2 / 3 / 4 bow attacks across a ±30° cone, 75 % each. Steady Aim is +5 % Luck per rank while standing still. The Archery header says "bows only": none of its rows or Deadeye touches a Dragon\'s breath.',
+      'Spending: Arms 17 of 20 first (Shield Wall left out, he fights two-handed), Bloodthirst 3, then Arcana 13 (Attunement 5, Resolve 5, Blink 3), above Archon\'s gate of 10; Archery 0. With nothing to spend no row is teal.',
+      'Keystone sockets and their cards show each requirement: Warlord, Deadeye and Archon need 10 points in Arms, Archery or Arcana; Unbroken is for anyone. He binds Unbroken (150), Warlord (300, 17 in Arms) and Archon (450, 13 in Arcana). The Death Knight has no Oath (Lichborne is removed); the other classes keep theirs.',
+      'Any-tree line: Bloodthirst, and Lone Discipline as an innate badge (no ranks).',
+      'The detail card under the trees is back: it shows the hovered entry (a click keeps it) and the points when nothing is hovered.'] },
+    'a-sweeping': { name: 'A · Sweeping Blows', src: 'mockup_a.html?tip=row:sweeping', notes: ['Sweeping Blows (Arms, under Cleave, which it needs): every swing also strikes up to 3 more in the 120° arc in front (±60°) at 50 %; the gold line is Warlord\'s change.'] },
+    'a-cleave': { name: 'A · Cleave', src: 'mockup_a.html?tip=row:cleave', notes: ['Cleave (Arms, active): 150 % to everything in the 120° arc in front (±60°) and a 1 s stagger.'] },
+    'a-frenzy': { name: 'A · Onslaught', src: 'mockup_a.html?tip=row:frenzy', notes: ['Onslaught (Arms) is now a passive, drawn without the active double rim and with no action-bar key: each kill gives a stack of +1 % attack speed, up to 10 / 20 / 30 stacks by rank (+10 / 20 / 30 %); the stacks last 30 s and every kill refreshes them. The learned actives sit on keys 1 to 3: Cleave, Charge, Blink.'] },
+    'a-multishot': { name: 'A · Multishot', src: 'mockup_a.html?tip=row:multishot', notes: ['Multishot, the Archery active that replaces Volley: a shotgun of 2 / 3 / 4 bow attacks across a ±30° cone at 75 % each; every arrow hits the first monster in its line, so point-blank all land on the target and against a spread group they split. Cooldown 12 / 10 / 8 s.', 'Its kind line reads "Archery (bows only, never a Dragon\'s breath)"; with no points left the hint gives the next point\'s level (510).'] },
+    'a-slot4': { name: 'A · locked slot 4', src: 'mockup_a.html?tip=ks:3', notes: ['Slot 4 opens at level 600; slots open one per 150 levels. Its card lists the keystones left: only Deadeye, which needs 10 more points in Archery. A last line says the Death Knight has no Oath (the other classes each have their own).'] },
+    'a-archon': { name: 'A · Archon in slot 3', src: 'mockup_a.html?tip=ks:2', notes: ['Archon is bound in slot 3 (he has 13 of the 10 points it needs in Arcana). Its "For you" line is red: it works only through Mana Shield, which a Death Knight does not train, so in practice it is a weak pick; it costs no points, and nothing else is open to him (Deadeye needs 10 points in Archery).'] },
+    'a-open': { name: 'A · keystone slot 3 open', src: 'mockup_a.html?slot3=open&tip=ks:2', notes: ['The third socket waits for a choice; Unbroken and Warlord are bound in slots 1 and 2. The detail card lists Archon as available (13 in Arcana) but doing nothing without Mana Shield, Deadeye as needing 10 more points in Archery, and that the Death Knight has no Oath.'] },
+    b: { name: 'B · keystones on their own page', src: 'mockup_b.html', notes: [
+      'Talents gets two sub-tabs, Trees and Keystones.',
+      'The five sockets sit on a ring around the portrait that doubles as the level track.',
+      'The picker lists Unbroken (for anyone), Warlord, Deadeye and Archon with their gate: 10 points in Arms, Archery or Arcana and what he has; a line under them says the Death Knight has no Oath (the other classes each have their own).',
+      'Each entry is tagged THIS SLOT, SLOT n, AVAILABLE (CHOOSE when offered for an open slot) or NEEDS n MORE; the selected one adds a "for you" line. Archon, bound in slot 3 (13 in Arcana), shows its "for you" line in red: it works only through Mana Shield, which a Death Knight does not train, so it is a weak pick. Deadeye (+30 % bow damage, not a Dragon\'s breath) needs 10 more in Archery.',
+      'Binding a keystone is a deliberate action (Bind); rebinding rules are still open.'] },
+    'b-choose': { name: 'B · slot 3 to choose', src: 'mockup_b.html?slot3=open', notes: ['Slot 3 is open: the sub-tab carries a "new" badge and Archon, the only keystone left that he can bind, is offered (Bind Archon) with its red "for you" warning; Deadeye needs 10 more points in Archery.'] },
+    'b-slot4': { name: 'B · slot 4 picker', src: 'mockup_b.html?pick=3', notes: ['The picker on locked slot 4: nothing is available; Deadeye needs 10 more points in Archery and the other three are bound.'] },
+    'b-trees': { name: 'B · Trees sub-page', src: 'mockup_b.html?view=trees', notes: ['The Arms, Archery and Arcana trees without the keystone strip, which lives on its own sub-page; five small sockets beside the sub-tabs open it on a slot.', 'The same detail card as A under the trees.'] },
+    'b-trees-tip': { name: 'B · Trees, Sweeping Blows', src: 'mockup_b.html?view=trees&tip=row:sweeping', notes: ['The Trees sub-page with Sweeping Blows kept in the detail card, as on A.'] }
+  };
+  const tabs = document.getElementById('tabs'), frame = document.getElementById('frame'), screen = document.getElementById('screen');
+  Object.entries(VIEWS).forEach(([id, v]) => tabs.insertAdjacentHTML('beforeend', `<a href="#${id}" data-id="${id}">${v.name}</a>`));
+  function fit() { frame.style.transform = `scale(${screen.clientWidth / 1024})`; }
+  function show() {
+    const id = VIEWS[location.hash.slice(1)] ? location.hash.slice(1) : 'a';
+    const v = VIEWS[id];
+    if (frame.getAttribute('src') !== v.src) frame.setAttribute('src', v.src);
+    document.getElementById('openFull').href = v.src;
+    document.getElementById('viewName').textContent = v.name;
+    document.getElementById('viewNotes').innerHTML = v.notes.map(n => `<li>${n}</li>`).join('');
+    [...tabs.children].forEach(a => a.setAttribute('aria-current', a.dataset.id === id ? 'page' : 'false'));
+    fit();
+  }
+  window.addEventListener('hashchange', show);
+  window.addEventListener('resize', fit);
+  show();
+})();
+</script>

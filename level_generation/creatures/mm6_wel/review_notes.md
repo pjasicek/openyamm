@@ -1,0 +1,13 @@
+# Water elemental visual acceptance
+
+Accepted staging: 71/71 unique native BMPs, including 59 referenced images and 12 unused side-fidget poses. Descriptors 532–534, base palette 730 with deterministic 731/732 variants. Twelve compact built-in imagegen sheets; prompts, raw outputs, source hashes and two rejected sheets remain in the project.
+
+Reviewed native palettes, every native/raw batch, final all-frame base and mask contacts, all standing variants, worst edges on dark/light backgrounds, and native/enhanced viewer samples: mirrored walk 6 palette 731 frame 3, attack palette 732 frame 3, and death palette 730 frame 4. Ordered contacts cover the complete walks, trident action, recoil, fidget and sinking sequence. Stored views, mirrors, frame durations, native per-variant scale and empty NULL corpse action are retained. The native final walk frame is unusually larger; this is preserved rather than equalized.
+
+Corrections: regenerated rear walk to recover the crossed tail fins; regenerated four unused side poses after a wrong rear-facing output. Final material masks separate skin, tail, hair and red metal on enhanced artwork. Native ROI color samples are filtered to reject unrelated dither colors. Expanded skin coverage restores pink variant 731; saturation protection keeps pale fins out of metal recoloring. Base RGB gain .82 preserves native weight. Recoloring never changes alpha and base palette is an exact bypass.
+
+All automated placement, crop/atlas extraction, source/palette/provenance hashes, sequence, mask-weight and zero-mask checks pass. Residual matte candidates above threshold 16: zero in cleaned, exported and atlas-extracted frames. Decoded base plus RGBA material masks and atlas padding: 134,881,632 bytes (128.63 MiB), excluding offline variant previews.
+
+Limitations: enhanced scales and foam are broader painted forms than native dithering; the trident retains deeper shadows and fewer bright pinpoints. Generated standing detail is roughly comparable in pixel height to the large native figure on the wide reference canvas; 2× is the physical runtime export tier, not a claim of twice the generated detail. Viewer checks are offline sequence/pose review, not a real-GPU performance test. Runtime integration requires LUT-aware loading or deterministic variant baking. No gameplay installation.
+
+Resume/rebuild: python3 level_generation/creatures/mm6_wel/process.py, then package.py in that directory, then python3 level_generation/creatures/mm6_peasants/build_viewer.py wel. Rebuilding resets visual acceptance; review affected outputs before accepting again. Do not rerun prepare_configured.py over retained corrective prompts.

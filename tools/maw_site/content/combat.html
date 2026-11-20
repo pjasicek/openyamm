@@ -1,0 +1,134 @@
+<h2 id="stats">Stats</h2>
+<p>From 25 up, every 5 points of a stat give +1 of its usual effect, with no cap. Each stat also has a percentage
+  effect.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Stat</th><th>In MAW</th></tr></thead>
+  <tbody>
+    <tr><td>Might</td><td>Melee and bow damage: its flat effect plus 1 % per 10 points</td></tr>
+    <tr><td>Intellect</td><td>Spell damage (+1 % per 10; only the higher of Intellect and Personality counts) and spell critical damage. No SP</td></tr>
+    <tr><td>Personality</td><td>All spell points (counted twice), cheaper spells, stronger heals</td></tr>
+    <tr><td>Endurance</td><td>HP: adds levels' worth of HP, then +1 % per 10 points</td></tr>
+    <tr><td>Accuracy</td><td>Critical damage of melee and bow hits</td></tr>
+    <tr><td>Speed</td><td>Attack speed (+1 % per 10), cast speed (+1 % per 20), a chance that monster attacks miss</td></tr>
+    <tr><td>Luck</td><td>Critical chance; +1 to every resistance per 5 points</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="mitigation">Armour and resistances</h2>
+<p>Armor Class and resistances cut damage against the attacker's level:</p>
+<ul>
+  <li>Damage taken = hit ÷ (AC ÷ (200 + L) + 1): armour of <strong>200 + the monster's level</strong> halves a
+    physical hit.</li>
+  <li>Damage taken = hit ÷ (resistance ÷ (100 + L) + 1): a resistance of <strong>100 + the monster's level</strong>
+    halves its element.</li>
+  <li>A hit is never cut below 10 % of its size. Grandmaster Shield takes a further 15 % off every hit.</li>
+  <li>Light uses the lower of your Mind and Body resistance, Dark your lowest elemental one, Energy your lowest of
+    all.</li>
+</ul>
+<p>Example: AC 600 against a level-100 monster: 600 ÷ 300 + 1 = 3, so a third of the hit gets through (67 % cut).</p>
+<div data-guide="mitigation-calculator"></div>
+<ul>
+  <li><strong>Your hits</strong> compare your Attack with a typical character of the monster's level: 75 % at par,
+    between 25 % and 100 %. Spells always hit.</li>
+  <li><strong>Their hits</strong> do not roll against your AC; Speed decides whether a blow misses.</li>
+  <li><strong>Monster resistances</strong>: each 100 halves damage, capped at 200. Monsters never resist Energy.</li>
+</ul>
+
+<h2 id="crits">Criticals and speed</h2>
+<p>Crit chance = 5 % + Luck ÷ (500 + 5 × monster level); crit damage × (1.5 + Accuracy ÷ (250 + 2.5 × level)).
+  Heals never crit.</p>
+<p>Base recovery by weapon (lower is faster): Blaster 40, Dagger 60, Sword 80, Bow, Mace and Club 100, Staff and Spear
+  120, Axe 140. Higher-level weapons are slower but hit proportionally harder; two weapons average their recoveries.
+  Armour you lack the skill for slows attacks and casting.</p>
+
+<h2 id="skills">Skills that changed</h2>
+<div class="tbl"><table>
+  <thead><tr><th>Skill</th><th>In MAW</th></tr></thead>
+  <tbody>
+    <tr><td>Bodybuilding</td><td>+0.5 / 1 / 1.5 / 2 % HP per point by mastery, plus HP levels</td></tr>
+    <tr><td>Meditation</td><td>Regenerates SP; adds no SP itself</td></tr>
+    <tr><td>Regeneration</td><td>Regenerates HP; Grandmaster regenerates more the more HP is missing</td></tr>
+    <tr><td>Armsmaster</td><td>Damage, speed and attack per point (not with staves). Knights get Supreme Armsmaster</td></tr>
+    <tr><td>Dodging</td><td>AC without body armour; Grandmaster adds a dodge chance</td></tr>
+    <tr><td>Ascension (was Learning)</td><td>A power dial for spells (see <a href="#spells">Spells</a>)</td></tr>
+    <tr><td>Armour skills, Shield</td><td>Raise the armour's AC and resistances by a percent per point</td></tr>
+    <tr><td>Cover (new)</td><td>10 % + 1 % per point (max 40 % at 30) to take a hit meant for an ally; Novice covers
+      physical hits, Expert elemental, Master spells. Learned at training halls; P toggles it</td></tr>
+    <tr><td>Retaliation (new)</td><td>Learned when Cover reaches 30. A cover can store a counterattack for your next
+      melee hit: extra damage, a stun chance, a faster recovery</td></tr>
+    <tr><td>Mana Shield (new)</td><td>Mana absorbs 25 / 50 / 75 / 100 % of each hit by mastery; learned at magic shops;
+      M toggles it</td></tr>
+    <tr><td>Enlightenment (new)</td><td>More maximum SP and cheaper auras; learned at magic shops</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="auras">Auras</h2>
+<p>Buff spells do not run out: they are <strong>auras</strong>. Casting one costs no mana; it reserves part of the
+  caster's maximum mana while held, and the reserved part cannot be spent or regenerated.</p>
+<ul>
+  <li>Cast it again with the same character to release it (free, instant); cast it with another to move it.
+    <strong>R</strong> in the spellbook releases every aura.</li>
+  <li>Auras do not expire: resting, travel and monster Dispel do not end them. A knocked-out holder's aura pauses but
+    keeps its reservation.</li>
+  <li>One holder per aura for the party, and auras never stack: the strongest source wins. A potion of the same buff
+    gives its drinker whichever is stronger.</li>
+  <li><strong>Reserved share</strong> = the aura's weight ÷ (class SP per level + Enlightenment mastery ÷ 2), as a
+    percent of maximum SP. Torch Light, Wizard Eye and Water Walk reserve a flat 5, 5 and 20 SP instead.</li>
+  <li>Death Knights and the Thief line hold auras for free. Temple, scroll and pedestal blessings are weak fixed auras
+    that reserve nothing.</li>
+  <li>Fly, Invisibility, Feather Fall, Detect Life and racial buffs stay timed spells.</li>
+</ul>
+<div class="tbl"><table>
+  <thead><tr><th>Aura (weight)</th><th>1 SP/level</th><th>3</th><th>4</th><th>6</th><th>6 + GM Enlightenment</th></tr></thead>
+  <tbody>
+    <tr><td>Resistances (60)</td><td>60 %</td><td>20 %</td><td>15 %</td><td>10 %</td><td>7.5 %</td></tr>
+    <tr><td>Shield, Stone Skin, Bless, Fate, Hammerhands (75)</td><td>75 %</td><td>25 %</td><td>18.8 %</td><td>12.5 %</td><td>9.4 %</td></tr>
+    <tr><td>Fire Aura (90)</td><td>90 %</td><td>30 %</td><td>22.5 %</td><td>15 %</td><td>11.3 %</td></tr>
+    <tr><td>Haste, Heroism, Preservation, Meditation, Regeneration (120)</td><td>—</td><td>40 %</td><td>30 %</td><td>20 %</td><td>15 %</td></tr>
+    <tr><td>Empower Magic, Day of Protection, Vampiric Aura (150)</td><td>—</td><td>50 %</td><td>37.5 %</td><td>25 %</td><td>18.8 %</td></tr>
+    <tr><td>Protection from Magic (180)</td><td>—</td><td>60 %</td><td>45 %</td><td>30 %</td><td>22.5 %</td></tr>
+    <tr><td>Day of the Gods (200)</td><td>—</td><td>66.7 %</td><td>50 %</td><td>33.3 %</td><td>25 %</td></tr>
+    <tr><td>Hour of Power (300)</td><td>—</td><td>100 %</td><td>75 %</td><td>50 %</td><td>37.5 %</td></tr>
+  </tbody>
+</table></div>
+<div class="tip">Spread auras over several casters: an Arch Mage (6 SP per level) holding Haste, Shield, Stone Skin,
+  Heroism and Fire Resistance already reserves 75 %.</div>
+
+<h2 id="crowd-control">Crowd control</h2>
+<p>Control spells always land, but a monster that has been controlled lately gets less of it. The game looks at how much
+  of the last 20 seconds the monster spent under the same kind of control:</p>
+<div class="tbl"><table>
+  <thead><tr><th>Time under control in the last 20 s</th><th>Next effect lasts</th></tr></thead>
+  <tbody>
+    <tr><td>under 15 %</td><td>full</td></tr>
+    <tr><td>15–30 %</td><td>75 %</td></tr>
+    <tr><td>30–45 %</td><td>50 %</td></tr>
+    <tr><td>45–60 %</td><td>25 %</td></tr>
+    <tr><td>60 % or more</td><td>immune</td></tr>
+  </tbody>
+</table></div>
+<ul>
+  <li><strong>Two kinds share a history:</strong> fear and control (Fear, Mass Fear, Charm, Berserk, Enslave, Turn and
+    Control Undead), and paralysis (Paralyze and weapon stuns). Slow, Shrinking Ray and Dark Grasp never wear thin.</li>
+  <li>A cast's base length grows with mastery (½, 0.65, 0.8, full from Novice to Grandmaster) and Ascension, and
+    shrinks with the target's resistance (÷ (1 + resistance ÷ 100)). Bosses take half. A party of one gets twice as
+    long.</li>
+  <li>So a Fear lasts its full time once, about half the second time, and the target is soon immune: control one
+    monster briefly, then the next.</li>
+</ul>
+
+<h2 id="leech">Leech</h2>
+<p>Leech heals by how much of a monster you took, not by the damage number: a hit that deals a normal monster of that
+  family its whole HP is worth your whole HP, times your leech share. Overkill does not count.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Source</th><th>Melee</th><th>Ranged</th><th>Spells</th></tr></thead>
+  <tbody>
+    <tr><td>Vampiric or "of Darkness" weapon (any one; a second adds nothing)</td><td>10 %</td><td>5 %</td><td>10 % (Vampiric) / –</td></tr>
+    <tr><td>"Lich's" weapon</td><td>–</td><td>–</td><td>10 %</td></tr>
+    <tr><td>Vampiric Aura (Dark)</td><td>5 %</td><td>2.5 %</td><td>2.5 %</td></tr>
+    <tr><td>Vampire race (doubled for the Vampire class)</td><td>5 %</td><td>2.5 %</td><td>2.5 %</td></tr>
+    <tr><td>Death Knight</td><td>10 %</td><td>5 %</td><td>–</td></tr>
+  </tbody>
+</table></div>
+<p>Example: a Vampire Nosferatu with a Vampiric sword deals a third of a normal monster's HP in one blow: 1/3 × 20 % =
+  6.7 % of its own maximum HP back. More maximum HP means bigger heals.</p>

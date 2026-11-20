@@ -1,0 +1,494 @@
+[
+  {
+    "id": "tiger_three_quarter_v1",
+    "family": "tiger_statuette",
+    "role": "primary",
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Tiger Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept.\nOutput: exactly ONE LANDSCAPE 1536 x 1024 PNG with genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 gold statuette cropped and enlarged 8x nearest-neighbour. This is the design, pose, proportions and silhouette authority. Magenta is background; the grey strip along the bottom is the pedestal top, NOT part of the statuette.\nInput 2: whole ORIGINAL native sprite enlarged 3x, for context and to see complete paws and tail. Its marble pedestal is context ONLY and MUST NOT be generated. The sprite shows the animal's LEFT side, head toward image left.\n\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet and tail tip end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\nIdentity (from the native sprite): a lean big cat (tiger) standing on all four legs in a stalking stride, long low body, head forward and slightly raised, rounded ears, long thin tail curving down and back to touch the ground behind it; no stripes are sculpted (plain polished gold). Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal.\nPreserve the native elongated almost horizontal back, lean belly, smooth sculpted neck, small forward-facing cat head, distinct rounded ears, slender front legs, folded powerful but lean hind haunches and long trailing tail. Preserve the original leg placements rather than inventing a new stride. Reconstruct all FOUR legs in their fixed body-space stance with naturally separated paws where the view allows. The original full sprite supplies the uncropped paws and trailing tail tip.\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. No sculpted or painted tiger stripes, no separate coloured eyes, no hairy coat, no aggressive open mouth. No magenta spill, opaque backdrop, painted checkerboard, haze or glow. Render only the solid gold statuette: exterior pixels alpha 0 except narrow antialias edges.\nChecks: one statuette, pose and silhouette as the sprite, all four legs and complete tail present, legs separated as drawn with natural perspective occlusion, transparent background, nothing cropped, same statuette in all three views.\n\nCamera for this PRIMARY view: FRONT-LEFT THREE-QUARTER, camera orbited exactly 40 degrees from the native LEFT SIDE PROFILE toward the animal's face (50 degrees from straight front), elevated about 20 degrees above the body. Show the left flank and front of the same figurine together. Its head points toward image left and slightly toward the viewer, tail trails to image right. Rotate the CAMERA only; preserve the sprite's body-space stance, proportions and leg positions. Whole figure including all paws and full tail tip in frame with comfortable empty transparent margins on every side. This image alone will be supplied to a 3D generator, so cleanly readable complete sculpt geometry is essential.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png"
+    ],
+    "selected": false,
+    "reason": "Superseded: camera remains too close to side profile, tail tip curves upward above the paw plane, and margins are too tight.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-49569877-2db8-41fe-a4a7-dd3a6a1dd5ea.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_three_quarter_v1.png",
+    "raw_sha256": "cd2d9755196322c53f6e6c68794df2f72827c2b327356f9b239567e1fe2542a4",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      40,
+      103,
+      1512,
+      925
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "supersedes": [],
+    "superseded_by": "tiger_three_quarter_v2"
+  },
+  {
+    "id": "tiger_three_quarter_v2",
+    "family": "tiger_statuette",
+    "role": "primary",
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Tiger Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept.\nOutput: exactly ONE LANDSCAPE 1536 x 1024 PNG with genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 gold statuette cropped and enlarged 8x nearest-neighbour. This is the design, pose, proportions and silhouette authority. Magenta is background; the grey strip along the bottom is the pedestal top, NOT part of the statuette.\nInput 2: whole ORIGINAL native sprite enlarged 3x, for context and to see complete paws and tail. Its marble pedestal is context ONLY and MUST NOT be generated. The sprite shows the animal's LEFT side, head toward image left.\n\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet and tail tip end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\nIdentity (from the native sprite): a lean big cat (tiger) standing on all four legs in a stalking stride, long low body, head forward and slightly raised, rounded ears, long thin tail curving down and back to touch the ground behind it; no stripes are sculpted (plain polished gold). Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal.\nPreserve the native elongated almost horizontal back, lean belly, smooth sculpted neck, small forward-facing cat head, distinct rounded ears, slender front legs, folded powerful but lean hind haunches and long trailing tail. Preserve the original leg placements rather than inventing a new stride. Reconstruct all FOUR legs in their fixed body-space stance with naturally separated paws where the view allows. The original full sprite supplies the uncropped paws and trailing tail tip.\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. No sculpted or painted tiger stripes, no separate coloured eyes, no hairy coat, no aggressive open mouth. No magenta spill, opaque backdrop, painted checkerboard, haze or glow. Render only the solid gold statuette: exterior pixels alpha 0 except narrow antialias edges.\nChecks: one statuette, pose and silhouette as the sprite, all four legs and complete tail present, legs separated as drawn with natural perspective occlusion, transparent background, nothing cropped, same statuette in all three views.\n\nInput 3: current HD reconstruction, for the same plain polished gold sculpt identity, material and native stance. CORRECT ONLY its camera, tail-end curve and framing; do not redesign the cat.\nPRIMARY CAMERA CORRECTION: true FRONT-LEFT THREE-QUARTER, 40 degrees away from the exact left side view toward its face (50 degrees from straight front), and about 20 degrees above the body. Show a CLEAR front surface of the chest, front of muzzle, both cheeks/eyes where naturally visible, and left flank together. The torso must be foreshortened by the actual 40-degree camera orbit; do not merely turn the head on a lateral body. The nearer left shoulder is clearly ahead of the farther shoulder in the projection. The nose points diagonally toward image left AND toward the viewer; tail trails diagonally away toward image right. Camera rotation only, never change the sprite's fixed standing stalking-stride pose.\nTAIL CORRECTION: retain the native long thin tail descending back behind the hindquarters. Its distal portion curves DOWN gently to the invisible ground plane behind the rear feet. Its tip rests on EXACTLY the same invisible flat ground plane as the paws. Do not curl the tail tip upward or let it float above the plane. No floor or contact shadow is drawn.\nFRAMING CORRECTION: centre the WHOLE complete statuette on a landscape 1536 x 1024 canvas, with at least 110 pixels of empty transparent margin around EVERY extremity, including the muzzle, ears, all paws and full tail tip. Zoom the near-orthographic camera out, rather than crop, resize or add padding after generation. This image alone is sent to a 3D generator.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-49569877-2db8-41fe-a4a7-dd3a6a1dd5ea.png"
+    ],
+    "selected": false,
+    "reason": "Superseded: face rotated but torso remains too lateral; tail remains lifted/upturned and right margin remains tight. Restart from native references with a stronger camera-only spec.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-dacff18a-f370-4d75-ba91-b143d7f1e55f.png",
+    "supersedes": [
+      "tiger_three_quarter_v1"
+    ],
+    "superseded_by": "tiger_three_quarter_v3",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-49569877-2db8-41fe-a4a7-dd3a6a1dd5ea.png",
+        "sha256": "cd2d9755196322c53f6e6c68794df2f72827c2b327356f9b239567e1fe2542a4"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_three_quarter_v2.png",
+    "raw_sha256": "36d7bf5731c1fb78cfbd9c284af1b90a239d06517d5d1c292fbdaa1b7809a8cf",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      84,
+      140,
+      1511,
+      921
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "tiger_three_quarter_v3",
+    "family": "tiger_statuette",
+    "role": "primary",
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Tiger Statuette\", a small solid cast-gold animal figurine, from the supplied ORIGINAL sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept. ONE transparent LANDSCAPE 1536 x 1024 PNG, native unresized return.\n\nInput 1 = ORIGINAL native MM6 sprite's gold statuette, cropped and enlarged 8x nearest-neighbour: design, pose, proportions and silhouette authority. Magenta is background, grey strip at bottom is pedestal top, not part of the figurine.\nInput 2 = whole native sprite enlarged 3x, for context and complete paws/tail. Do not recreate any marble pedestal.\nReconstruct only the native small cast-GOLD TIGER in 3D, NOT the pedestal. No additional object.\n\nCAMERA IS THE PRIORITY: render a clear FRONT-LEFT THREE-QUARTER view, with the orthographic camera turned 40 degrees from the animal's left side TOWARD its FACE, slightly above (20-degree elevation). The head, CHEST and ENTIRE BODY are seen at the SAME three-quarter angle. The face AND FRONT of the chest face the viewer diagonally toward image left; the left flank recedes diagonally away toward image right. This is NOT a side-profile body with a turned head. Actual three-dimensional camera orbit, no pose change. The torso is naturally foreshortened and the near shoulder/forepaw are in front of the far shoulder/forepaw. Allow a coherent 3D depth projection. This is the primary and sole 3D modelling input.\n\nIdentity and body-space stance from sprite: lean big cat tiger; small head forward and slightly raised, rounded ears; elongated low nearly horizontal body; standing on all FOUR paws in the exact native stalking stride; slim legs, folded rear haunches, smooth belly. A long slender tail descends from the rump and slopes gently DOWN AND BACK, and its VERY TIP lies flat touching the same invisible ground plane as the paws behind the animal. Native tail is NOT raised, NOT suspended, NOT hooked upward. The complete tail is visible. In this elevated camera projection the distant paws and tail tip may appear higher in the image, but all four paws and tip physically contact the SAME flat invisible plane.\nPolished slightly worn yellow GOLD throughout, crisp restrained sculpture detail, sculpted slightly stylised forms of a small museum casting, not a hairy real animal. NO stripes sculpted or painted. No black nose/eyes, no new colours.\nEven soft neutral studio light illuminating ONLY the object; no dramatic lights.\n\nONE whole statuette centred with GENEROUS margins: fit ALL silhouette inside x=170..1366 and y=140..884 on the 1536x1024 landscape canvas. If necessary pull the orthographic camera back. Muzzle, ears, all four paws, whole tail and tip stay inside those limits.\nGenuine transparent background alpha 0 outside narrow antialiased edges. NO base, plinth, pedestal, stand, floor, shadow, haze, scenery, text, gems, armour, saddle, extra limbs or animals. Do not crop or change the native pose/proportions. Do not bake any grey strip or magenta background into the object.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png"
+    ],
+    "selected": false,
+    "reason": "Superseded: complete plain-gold native-inspired figure, but camera is still too lateral and silhouette margins are tight.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-487812ab-25cb-4e50-99b5-c39125190520.png",
+    "supersedes": [
+      "tiger_three_quarter_v2"
+    ],
+    "superseded_by": "tiger_three_quarter_v4",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_three_quarter_v3.png",
+    "raw_sha256": "2c7b095d348cdb2e956b3c9deb954269b562e2ca4fde6abb2744e27cb43b3b18",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      88,
+      102,
+      1515,
+      904
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "tiger_three_quarter_v4",
+    "family": "tiger_statuette",
+    "role": "primary",
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "Re-render the SAME MM6 Tiger Statuette in image 3 with a DIFFERENT CAMERA. Use case: identity-preserve, faithful fantasy-game 3D modelling reference.\nImages 1 and 2 are original native sprite design/stance/proportion authority; their magenta background and marble pedestal must be omitted. Image 3 is the same reconstructed plain yellow-gold lean cast tiger, not a new animal.\nThe requested output camera is FRONT-LEFT THREE-QUARTER, about 50 degrees from frontal (40 degrees from exact left profile toward the face), 20 degrees elevated. This means the camera is in FRONT of the animal and on its LEFT side. We must see the FRONT chest surface substantially, both shoulders with the near one clearly nearer, and the left side receding toward the rump. The four feet are naturally offset by perspective. Animal's long axis runs diagonally AWAY from viewer, from head/chest at lower left to rump/tail at upper right. Do not copy image 3's side camera or simply turn its head.\nPreserve the same small rounded-ear feline head forward and slightly raised, long low body, smooth back/belly, native stalking-stride four-legged stance, folded haunches and plain polished slightly worn GOLD casting with restrained crisp sculpted face/paw detail. No stripes, fur, new colours or pose changes. The long thin tail curves DOWN and back until the tip physically touches the same invisible flat ground plane as the paws behind the rump.\nONE whole statuette, near-orthographic projection, even soft neutral studio light. Output ONE landscape 1536 x 1024 PNG with genuine alpha transparency. Make the entire object about 70 percent of the canvas WIDTH and 70 percent of its HEIGHT and centre it, so there is a broad empty alpha border beyond every part. Complete muzzle, ears, all four paws and full tail inside frame.\nNO pedestal, base, plinth, stand, floor, cast shadow, text, background, scenery, extra animals, limbs, gems, armour or saddle. Exterior pixels are fully transparent, no haze or painted checkerboard.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-487812ab-25cb-4e50-99b5-c39125190520.png"
+    ],
+    "selected": false,
+    "reason": "Superseded for framing: usable front-left three-quarter body projection, same plain-gold native-inspired stance, four complete paws and tail. Pull back camera to leave more generous margins.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-b9c1d3c2-46d7-4bc4-9e5f-1a027561c66e.png",
+    "supersedes": [
+      "tiger_three_quarter_v3"
+    ],
+    "superseded_by": "tiger_three_quarter_v5",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-487812ab-25cb-4e50-99b5-c39125190520.png",
+        "sha256": "2c7b095d348cdb2e956b3c9deb954269b562e2ca4fde6abb2744e27cb43b3b18"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_three_quarter_v4.png",
+    "raw_sha256": "f60fd60f0c4ba19c95e09c83ba749b5a02de847f1fc5dcc984cb77287639ff39",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      133,
+      131,
+      1467,
+      916
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "tiger_three_quarter_v5",
+    "family": "tiger_statuette",
+    "role": "primary",
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "Use case: identity-preserve / faithful MM6 Tiger Statuette 3D modelling reference.\nEDIT IMAGE 1, the existing plain cast-GOLD Tiger Statuette. Images 2 and 3 are the original MM6 sprite's native design and exact pose references; magenta and marble pedestal are not part of the statuette.\nCHANGE ONLY FRAMING: pull the near-orthographic camera back so the COMPLETE animal is 20 percent SMALLER on the SAME landscape 1536 x 1024 canvas. Centre its entire silhouette, leaving broad completely transparent margins on all sides. Keep image 1's front-left three-quarter camera (40 degrees from the left side toward the face) and 20-degree elevated view. Do not revert to side profile.\nPreserve image 1's EXACT statuette: same long low body, forward and slightly raised head, rounded ears, plain polished slightly worn yellow-gold casting, crisp sculpted face and paws, all FOUR legs and same native stalking-stride stance, same haunches and long slender tail descending backward to the invisible paw ground plane. No sculpted stripes or fur. Preserve its three-dimensional body orientation, four-foot separation, gold details and soft even neutral lighting. Only zoom out; do not change anything about the anatomy, pose or camera angle.\nONE landscape 1536 x 1024 PNG, actual alpha transparency, unresized return. No base, plinth, pedestal, floor, stand, shadow, haze, opaque backdrop, text, scenery, extra animals or limbs, gems, armour or saddle. Full ears, muzzle, every paw and full tail tip stay in frame.",
+    "inputs": [
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-b9c1d3c2-46d7-4bc4-9e5f-1a027561c66e.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png"
+    ],
+    "selected": true,
+    "reason": "Selected: front-left three-quarter body projection with elevated camera, four complete naturally separated paws, long descending tail, plain polished slightly worn yellow gold, native-inspired lean proportions and fixed stance, generous transparent margins and no pedestal. Framing-only regeneration of v4.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-75cc0a7e-c77b-4d8f-806b-8f96244a30df.png",
+    "supersedes": [
+      "tiger_three_quarter_v4"
+    ],
+    "superseded_by": null,
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-b9c1d3c2-46d7-4bc4-9e5f-1a027561c66e.png",
+        "sha256": "f60fd60f0c4ba19c95e09c83ba749b5a02de847f1fc5dcc984cb77287639ff39"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_three_quarter_v5.png",
+    "raw_sha256": "1f1cc152e353f9726996c0cb7210a20f1cd4a3208ab12a52a1ec78729b6eef22",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      266,
+      226,
+      1319,
+      827
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png",
+    "output_sha256": "1f1cc152e353f9726996c0cb7210a20f1cd4a3208ab12a52a1ec78729b6eef22",
+    "review": {
+      "method": "Visual comparison to native sprite and selected primary, light/dark alpha contact sheet, dimensions, alpha, margins and byte-identity checks.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "one_plain_gold_statuette_without_base": true,
+      "legs_and_tail": "Four paws and long tail present; profile/front projection naturally hides portions of far-side legs and trailing tail.",
+      "camera": "Front-left three-quarter, slight elevation; requested 40-degree orbit from side and about 20-degree elevation.",
+      "camera_angle_measurement": "Visually assessed from 2D generated references; no 3D camera metadata is supplied by the tool.",
+      "review_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/selected_views_review.png"
+    }
+  },
+  {
+    "id": "tiger_left_v1",
+    "family": "tiger_statuette",
+    "role": "left",
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Tiger Statuette\", a small solid cast-gold animal figurine, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve. ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\nInput 1: original native statuette x8, the design, pose, proportions and silhouette authority. Magenta is background; grey strip at bottom is pedestal top, not statuette.\nInput 2: whole native sprite x3, for the complete paws and tail and original left-side outline. Its marble pedestal is context only, omit completely.\nInput 3: SELECTED HD primary view of the SAME gold statuette, the fixed identity/geometry/material and body-space pose reference for this camera rotation.\n\nRender that EXACT SAME statuette in EXACT LEFT SIDE PROFILE, matching input 1 and input 2: animal faces image LEFT. Near-orthographic PURE LATERAL camera, level with the body, no elevation, no perspective showing the chest front or two eyes. Show one near eye, near shoulder and hip naturally occluding their far-side counterparts. Rotate the camera ONLY, preserve all four legs and the original stalking-stride stance. Far-side legs may naturally overlap in profile as in the sprite; don't change the stride to expose them.\nIdentity: lean tiger, long low body, head forward and slightly raised, rounded ears, long thin tail curving DOWN AND BACK so the very tip touches the invisible flat ground plane behind it. All four paws and tail tip end on the SAME horizontal invisible ground plane. Reproduce original side silhouette and native proportions. Same sculpted slightly stylised cast figurine forms as input 3, plain polished slightly worn yellow GOLD throughout, restrained crisp face/toe detail, NO stripes or fur. This is not a photo of a real tiger.\nWhole single statuette centred with broad transparent margins like input 3; muzzle, ears, all paws and the full trailing tail must remain comfortably in frame. Even soft neutral studio light on the statuette only.\nNO base, plinth, pedestal, stand, floor, cast shadow, text, gems, armour, saddle, scenery, extra limbs or animals, opaque backdrop, haze or painted checkerboard. Exterior pixels alpha 0 except narrow antialias edge. No other colours, cropping, or pose change.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png"
+    ],
+    "selected": false,
+    "reason": "Superseded: left-facing profile identity retained, but tail tip ends above the paw baseline and horizontal margins are tight.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-0a19b2bc-28f8-4bd6-b18c-fbaa14a85129.png",
+    "supersedes": [],
+    "superseded_by": "tiger_left_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png",
+        "sha256": "1f1cc152e353f9726996c0cb7210a20f1cd4a3208ab12a52a1ec78729b6eef22"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_left_v1.png",
+    "raw_sha256": "d1e92f223907f663f78761deb7950b5727d42823fe0362189665559e21eef0a1",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      62,
+      199,
+      1502,
+      863
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "tiger_left_v2",
+    "family": "tiger_statuette",
+    "role": "left",
+    "selected_filename": "01_left.png",
+    "prompt": "Use case: identity-preserve, existing MM6 Tiger Statuette 3D modelling reference.\nImages 1 and 2 = original native sprite design and pose authority, ignore magenta and marble pedestal. Image 3 = SELECTED HD primary of the exact SAME gold statuette and fixed pose. Image 4 = LEFT PROFILE to correct, preserving its same sculpted identity, left-facing orientation and exact native stance.\nRender corrected image 4. CHANGE ONLY FRAMING AND TAIL TIP CONTACT:\n1. Pull the near-orthographic camera back so the whole statuette is 20 percent SMALLER on the SAME LANDSCAPE 1536 x 1024 canvas. Centre it. Leave broad empty transparent margins beyond the muzzle, ears, paws and tail.\n2. Extend the descending tail's distal curve gently DOWN until the very end TOUCHES THE SAME HORIZONTAL PAW BASELINE, as in native image 2. In a level side-profile view, the bottom of the tail tip must align at EXACTLY THE SAME IMAGE Y as the bottoms of the paws. Do not curl its tip upward, suspend it, or end it 50 pixels above the paws. Retain its long slim shape and its natural backward descent behind the rump. No drawn ground.\nEXACT LEFT SIDE PROFILE camera, level with body, no elevation, no frontal chest view. The SAME small solid cast-gold lean tiger, head forward slightly raised, rounded ears, long low body, four native stalking-stride legs, folded haunches, smooth plain gold casting, slightly worn polished yellow gold with restrained crisp sculpted face/paw detail, NO stripes or fur. Preserve all FOUR legs with natural lateral occlusion, not extra limbs. Do not alter any leg position or animal proportions. Soft even neutral studio light.\nONE actual transparent PNG 1536 x 1024, native unresized return. No base, pedestal, plinth, stand, floor, cast shadow, text, props, other colours, scenery, haze, opaque backdrop or checkerboard. Nothing cropped.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-0a19b2bc-28f8-4bd6-b18c-fbaa14a85129.png"
+    ],
+    "selected": true,
+    "reason": "Selected: left-facing lateral view matching the native stance and selected gold sculpt; far foreleg naturally occluded in profile, both rear paws present, complete long descending tail ending at the paw baseline, no pedestal, broad transparent margins.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-b5d38dbb-480d-4b16-8d28-137857bf802e.png",
+    "supersedes": [
+      "tiger_left_v1"
+    ],
+    "superseded_by": null,
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png",
+        "sha256": "1f1cc152e353f9726996c0cb7210a20f1cd4a3208ab12a52a1ec78729b6eef22"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-0a19b2bc-28f8-4bd6-b18c-fbaa14a85129.png",
+        "sha256": "d1e92f223907f663f78761deb7950b5727d42823fe0362189665559e21eef0a1"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_left_v2.png",
+    "raw_sha256": "34342080e786ab81b7ffc94ad497a430b991eb7bb722027ce7b9fe4355677c17",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      299,
+      297,
+      1305,
+      780
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/01_left.png",
+    "output_sha256": "34342080e786ab81b7ffc94ad497a430b991eb7bb722027ce7b9fe4355677c17",
+    "review": {
+      "method": "Visual comparison to native sprite and selected primary, light/dark alpha contact sheet, dimensions, alpha, margins and byte-identity checks.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "one_plain_gold_statuette_without_base": true,
+      "legs_and_tail": "Four paws and long tail present; profile/front projection naturally hides portions of far-side legs and trailing tail.",
+      "camera": "Left-facing lateral camera, approximately body level.",
+      "camera_angle_measurement": "Visually assessed from 2D generated references; no 3D camera metadata is supplied by the tool.",
+      "review_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/selected_views_review.png"
+    }
+  },
+  {
+    "id": "tiger_front_v1",
+    "family": "tiger_statuette",
+    "role": "front",
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Tiger Statuette\", a small solid cast-gold animal figurine, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve. ONE LANDSCAPE 1536 x 1024 PNG with genuine transparent background, unresized native return.\nInput 1: ORIGINAL native cropped statuette x8, the design, pose, proportions and silhouette authority. Magenta is background; grey bottom strip is pedestal, not part of the statuette.\nInput 2: full ORIGINAL native sprite x3, complete paws and tail and context only; OMIT its marble pedestal.\nInput 3: selected PRIMARY HD reconstruction, the exact SAME statuette, polished slightly worn yellow-gold material, sculpture identity, anatomy and fixed body-space stance.\n\nRender this EXACT SAME statuette viewed STRAIGHT FROM THE FRONT: face points directly TOWARD THE CAMERA, level near-orthographic camera at body height, no elevation, no yaw. Symmetrical frontal projection of the head with BOTH rounded ears and both sculpted GOLD eyes, gold feline muzzle and nose facing the viewer. Front of chest visible; long body and rump recede behind it. Do not make a three-quarter or side image. Camera rotation ONLY: keep the original standing stalking-stride pose with all four legs/paws in their same body-space positions; do not turn the head independently, splay the legs, crouch, sit, or invent another stride. Far/rear features may naturally occlude from front; keep the identifiable projected paws distinct where naturally visible.\nIdentity: lean big cat tiger, long low body, small head forward and slightly raised, rounded ears, folded hind haunches, long thin tail curving down and back to touch the invisible paw ground plane behind it. Preserve image 3's same restrained crisp sculpted face and toe detail, proportions, slim legs, shoulders, haunches and native pose. Plain solid polished slightly worn yellow GOLD throughout, no stripes sculpted or painted, no fur, no coloured eyes/nose. Sculpted slightly stylised cast figurine, not a photo of a real animal.\nSingle whole statuette centred, generous empty alpha margins on all sides similar to input 3, full ears and all paw/tail silhouette inside frame. Even soft neutral studio light, no dramatic lighting.\nNO base, plinth, pedestal, stand, floor, cast shadow, text, gems, armour, saddle, scenery, extra limbs or animals, opaque background, haze or checkerboard. Genuine alpha 0 exterior apart from narrow antialias edges. Do not crop, change colours or pose.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png"
+    ],
+    "selected": false,
+    "reason": "Superseded: head faces camera but body remains oblique and camera is elevated; required straight-front level projection not met.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-c554aba6-b903-4680-ac09-94827b18c85b.png",
+    "supersedes": [],
+    "superseded_by": "tiger_front_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png",
+        "sha256": "1f1cc152e353f9726996c0cb7210a20f1cd4a3208ab12a52a1ec78729b6eef22"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_front_v1.png",
+    "raw_sha256": "17c61dc67078a38e96c3215985fbfee4324a1088807cf5be1cbf0483ced3a65c",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      478,
+      91,
+      1237,
+      934
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "tiger_front_v2",
+    "family": "tiger_statuette",
+    "role": "front",
+    "selected_filename": "02_front.png",
+    "prompt": "Use case: identity-preserve / faithful MM6 Tiger Statuette restoration for 3D modelling.\nImages 1 and 2: original native sprite, design and standing stalking-stride pose authority. Magenta and marble pedestal are background/context only, omit them.\nImage 3: SELECTED same plain polished yellow-gold statuette identity and fixed body-space pose.\nImage 4: wrong oblique body camera, to correct. Preserve its sculpt identity/material but replace its camera, do NOT preserve its angle.\n\nRENDER A STRICT ORTHOGRAPHIC FRONT ELEVATION. Camera yaw = ZERO: positioned exactly on the nose-to-tail longitudinal centreline IN FRONT of the cat. Camera pitch = ZERO: horizontal optical axis, level with body. Face AND CHEST AND BODY are all aligned straight at the viewer. The rump is DIRECTLY BEHIND the chest in the projection, NOT offset to image right or left. NO flank visible. Do not show the long side of the torso at either side of the chest. Do not keep a three-quarter torso with a frontal head.\nThe muzzle, breastbone and hidden rump lie on ONE vertical image centreline. Both rounded ears, both gold eyes and the paired frontal shoulders face the viewer. Farther legs/tail naturally overlap behind the forelegs in this exact front projection; don't move them sideways merely to expose a full side silhouette. Visible portions of rear paws may peek through naturally. All paws end on the same invisible horizontal ground plane, with NO downward-looking camera.\nKeep the SAME lean gold tiger figurine, small forward slightly raised feline head, long low body, native four-legged stalking-stride pose, folded haunches, long slender descending trailing tail resting on the invisible paw plane. No pose change, no independent head swivel, no splaying. Same restrained crisp cast-metal face/paw details, plain smooth polished slightly worn yellow GOLD, NO stripes, fur or colour differences. Even soft neutral studio light on the object only.\nOne complete statuette centred. Pull back the orthographic camera: the full height from ear tips to paw bottoms should occupy about 60 percent of the 1024-pixel HEIGHT. Generous completely transparent margins around the whole object.\nONE LANDSCAPE 1536 x 1024 PNG, actual alpha transparency, native unresized return. NO base, pedestal, plinth, floor, stand, cast shadow, backdrop, haze, text, props, gems, armour, saddle or extra limbs/animals. Nothing cropped.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-c554aba6-b903-4680-ac09-94827b18c85b.png"
+    ],
+    "selected": true,
+    "reason": "Selected: straight-front body and face alignment, rounded ears and two gold eyes, four paws with natural rear overlap, projected tail visible between/behind legs, matching plain polished slightly worn yellow-gold sculpture, no pedestal, complete silhouette and broad transparent margins.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-c8d159c9-4ee6-490a-ac60-a8c9555eb274.png",
+    "supersedes": [
+      "tiger_front_v1"
+    ],
+    "superseded_by": null,
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_statuette_x8.png",
+        "sha256": "e5839c5f9f2984accc218ed278bba6dd14baf1a4a6ff7a3a9d15fead995eabbc"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/native_full_x3.png",
+        "sha256": "9777777fdd4ae6a80425190de29eb5acf5a2b6cb7891400a21b42fcea41fd771"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/00_three_quarter.png",
+        "sha256": "1f1cc152e353f9726996c0cb7210a20f1cd4a3208ab12a52a1ec78729b6eef22"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7902-a895-fab97aea47f7/exec-c554aba6-b903-4680-ac09-94827b18c85b.png",
+        "sha256": "17c61dc67078a38e96c3215985fbfee4324a1088807cf5be1cbf0483ced3a65c"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/raw/tiger_front_v2.png",
+    "raw_sha256": "53052d90196a7eacf39c0600dde099a4a8678e01bda8c4abda168dda9c1b4546",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      606,
+      140,
+      932,
+      885
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/02_front.png",
+    "output_sha256": "53052d90196a7eacf39c0600dde099a4a8678e01bda8c4abda168dda9c1b4546",
+    "review": {
+      "method": "Visual comparison to native sprite and selected primary, light/dark alpha contact sheet, dimensions, alpha, margins and byte-identity checks.",
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "one_plain_gold_statuette_without_base": true,
+      "legs_and_tail": "Four paws and long tail present; profile/front projection naturally hides portions of far-side legs and trailing tail.",
+      "camera": "Straight-front face and torso alignment, approximately body level.",
+      "camera_angle_measurement": "Visually assessed from 2D generated references; no 3D camera metadata is supplied by the tool.",
+      "review_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/tiger/references_hd/selected_views_review.png"
+    }
+  }
+]

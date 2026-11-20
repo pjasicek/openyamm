@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_engine_handoff_20260928/refinement_2132/images
+exit: true
+steps:
+- wait: 2
+- capture: 4by3-followers
+- wait: 0.5
+- right_down:
+  - 1568
+  - 247.5
+- click:
+  - 1568
+  - 247.5
+- capture: 4by3-gameplay
+- wait: 0.5
+- click:
+  - 1568
+  - 247.5
+- click:
+  - 1490
+  - 992.5
+- capture: 4by3-followers-scrolled
+- wait: 0.5
+- right_up:
+  - 1490
+  - 992.5

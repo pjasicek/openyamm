@@ -1,0 +1,102 @@
+{
+  "paint_front": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 0,
+    "ratios": [
+      1.012401352874859,
+      1.0011890606420928
+    ],
+    "strict_pass": true
+  },
+  "mask_front": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 6,
+    "ratios": [
+      1.015783540022548,
+      0.9881093935790726
+    ],
+    "strict_pass": true
+  },
+  "paint_back": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 1,
+    "ratios": [
+      0.9684329199549042,
+      0.9916765755053508
+    ],
+    "strict_pass": true
+  },
+  "mask_back": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 7,
+    "ratios": [
+      0.9684329199549042,
+      0.9833531510107015
+    ],
+    "strict_pass": true
+  },
+  "paint_left": {
+    "raw": "paint_mask_raw_v1.png",
+    "sha256": "09380e6317757bfaa7109717e59825a49a1d1472e268de4060ddcf904e5e63b4",
+    "tile": 2,
+    "ratios": [
+      0.9628796400449944,
+      1.0546967895362664
+    ],
+    "strict_pass": false
+  },
+  "mask_left": {
+    "raw": "paint_mask_raw_v1.png",
+    "sha256": "09380e6317757bfaa7109717e59825a49a1d1472e268de4060ddcf904e5e63b4",
+    "tile": 8,
+    "ratios": [
+      0.9662542182227222,
+      1.051129607609988
+    ],
+    "strict_pass": true
+  },
+  "paint_right": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 3,
+    "ratios": [
+      0.9853768278965129,
+      1.0011890606420928
+    ],
+    "strict_pass": true
+  },
+  "mask_right": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 9,
+    "ratios": [
+      0.9910011248593926,
+      0.9940546967895363
+    ],
+    "strict_pass": true
+  },
+  "paint_top": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 4,
+    "ratios": [
+      1.0090191657271703,
+      0.9561304836895388
+    ],
+    "strict_pass": true
+  },
+  "mask_top": {
+    "raw": "paint_mask_raw_v2.png",
+    "sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+    "tile": 10,
+    "ratios": [
+      1.012401352874859,
+      0.96962879640045
+    ],
+    "strict_pass": true
+  }
+}

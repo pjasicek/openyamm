@@ -49,6 +49,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 2.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -68,9 +69,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.31810489296913147
-      value: 0.727272720336914
+      value: 1.454545440673828
     - time: 1.0
-      value: 0.37818180084228514
+      value: 0.7563636016845703
     motion_keys: []
   - type: sprite_system
     id: 4
@@ -104,6 +105,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 2.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -121,11 +123,11 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 0.48900169134140015
-      value: 1.3963636779785156
+      value: 2.792727355957031
     - time: 1.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     motion_keys: []
   - type: sprite
     id: 5
@@ -140,6 +142,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: world_plane
     plane_right:
     - 0.0
@@ -164,9 +167,9 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
   - type: sprite_system
     id: 6
@@ -200,6 +203,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -219,9 +223,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -280,6 +284,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -299,9 +304,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -360,6 +365,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -379,9 +385,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -440,6 +446,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -459,9 +466,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -520,6 +527,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -539,9 +547,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -600,6 +608,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -619,9 +628,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -680,6 +689,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -699,9 +709,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -760,6 +770,7 @@ effects:
     stretch_u: 2.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -779,9 +790,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -878,7 +889,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys:
     - time: 0.0
       value:
@@ -949,7 +960,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys:
     - time: 0.0
       value:
@@ -1016,17 +1027,117 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.25599998474121094
+      value: 0.5119999694824219
     - time: 0.5989847779273987
-      value: 1.454545440673828
+      value: 2.909090881347656
     - time: 1.0
-      value: 0.25599998474121094
+      value: 0.5119999694824219
     motion_keys: []
   - type: sound
     id: 12
     start_seconds: 0.0
     end_seconds: 1.0
     sound_resource: mm9:sound/spells/paralyze
+    spatial: true
+    loop: false
+    volume: 1.0
+    pitch: 1.0
+    inner_radius: 256.0
+    outer_radius: 1280.0
+    follows_emitter: true
+- id: mm9:skullcurse
+  source_name: spell-skullcurse
+  source_offset: 26359
+  source_phase_seconds: 3.0
+  duration_seconds: 3.000000238418579
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - model_path
+  - sound
+  - sprite_system
+  components:
+  - type: model_path
+    id: 22
+    start_seconds: 0.0
+    end_seconds: 3.000000238418579
+    repeat_count: 1
+    model_resource: mm9:model/spells/headtwirl
+    animation_clip: headtwirling
+    offset:
+    - 0.0
+    - 0.0
+    - 38.4
+    visible: false
+  - type: sprite_system
+    id: 23
+    start_seconds: 0.0
+    end_seconds: 3.000000238418579
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/spells/skull
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.10000000149011612
+    particle_lifetime_seconds: 1.0
+    emission_shape: point
+    radius: 2.56
+    plane_direction:
+    - 0.0
+    - 1.0
+    - 1.0
+    velocity: 25.6
+    wind_direction:
+    - 0.0
+    - 0.0
+    - -128.0
+    wind_amount: 4.0
+    offset:
+    - 0.0
+    - 0.0
+    - 25.6
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 1.0
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 0
+      - 64
+      transparency: 8
+    - time: 0.46611571311950684
+      rgb:
+      - 91
+      - 35
+      - 92
+      transparency: 118
+    - time: 1.0
+      rgb:
+      - 128
+      - 0
+      - 128
+      transparency: 231
+    scale_keys:
+    - time: 0.0
+      value: 0.5120000076293946
+    - time: 1.0
+      value: 0.11636363983154296
+    motion_keys: []
+    linked_component_id: 22
+    linked_node: Xend
+    body_anchor: tail_or_user_node_8
+  - type: sound
+    id: 24
+    start_seconds: 0.0
+    end_seconds: 3.000000238418579
+    sound_resource: mm9:sound/spells/curse
     spatial: true
     loop: false
     volume: 1.0
@@ -1077,6 +1188,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -1096,7 +1208,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.46869713068008423
-      value: 0.4072727203369141
+      value: 0.8145454406738282
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -1132,6 +1244,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -1151,7 +1264,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.46869713068008423
-      value: 0.4072727203369141
+      value: 0.8145454406738282
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -1235,7 +1348,7 @@ effects:
       transparency: 142
     scale_keys:
     - time: 0.0
-      value: 3.2
+      value: 6.4
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -1252,6 +1365,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: world_plane
     plane_right:
     - 1.0
@@ -1278,11 +1392,11 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.25380709767341614
-      value: 9.890908813476562
+      value: 19.781817626953124
     - time: 0.5025380849838257
-      value: 0.8727272033691407
+      value: 1.7454544067382813
     - time: 0.7428088188171387
-      value: 9.309091186523437
+      value: 18.618182373046874
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -1318,6 +1432,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -1341,7 +1456,7 @@ effects:
       transparency: 243
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -1405,7 +1520,7 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.8145454406738282
+      value: 1.6290908813476563
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -1470,9 +1585,9 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
 - id: mm9:disease
   source_name: spell-disease
@@ -1542,9 +1657,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.2909090995788574
+      value: 0.5818181991577148
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys: []
   - type: sprite_system
     id: 33
@@ -1595,9 +1710,9 @@ effects:
       transparency: 237
     scale_keys:
     - time: 0.0
-      value: 0.96
+      value: 1.92
     - time: 0.5008460283279419
-      value: 0.2909090995788574
+      value: 0.5818181991577148
     - time: 1.0
       value: 0.0
     motion_keys:
@@ -1695,11 +1810,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.11636363983154296
+      value: 0.23272727966308593
     - time: 0.31979694962501526
-      value: 0.7563636016845703
+      value: 1.5127272033691406
     - time: 1.0
-      value: 1.105454559326172
+      value: 2.210909118652344
     motion_keys: []
   - type: sound
     id: 37
@@ -1779,9 +1894,9 @@ effects:
       transparency: 127
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
   - type: sprite_system
     id: 29
@@ -1852,9 +1967,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.2909090995788574
+      value: 0.5818181991577148
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -1944,7 +2059,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.48561760783195496
-      value: 0.2909090995788574
+      value: 0.5818181991577148
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -2026,9 +2141,9 @@ effects:
       transparency: 213
     scale_keys:
     - time: 0.0
-      value: 0.523636360168457
+      value: 1.047272720336914
     - time: 1.0
-      value: 0.6109090805053711
+      value: 1.2218181610107421
     motion_keys:
     - time: 0.0
       value:
@@ -2095,9 +2210,9 @@ effects:
       transparency: 213
     scale_keys:
     - time: 0.0
-      value: 0.523636360168457
+      value: 1.047272720336914
     - time: 1.0
-      value: 0.6109090805053711
+      value: 1.2218181610107421
     motion_keys:
     - time: 0.0
       value:
@@ -2158,9 +2273,9 @@ effects:
       transparency: 240
     scale_keys:
     - time: 0.0
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 0.05818181991577148
+      value: 0.11636363983154296
     motion_keys: []
   - type: sprite_system
     id: 7
@@ -2211,9 +2326,9 @@ effects:
       transparency: 186
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 1.0
-      value: 1.047272720336914
+      value: 2.094545440673828
     motion_keys: []
   - type: sound
     id: 10
@@ -2253,6 +2368,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -2269,9 +2385,9 @@ effects:
       transparency: 53
     scale_keys:
     - time: 0.0
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
-      value: 1.6290908813476563
+      value: 3.2581817626953127
     motion_keys:
     - time: 0.0
       value:
@@ -2296,6 +2412,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -2312,13 +2429,13 @@ effects:
       transparency: 252
     scale_keys:
     - time: 0.0
-      value: 2.909090881347656
+      value: 5.818181762695312
     - time: 0.07614213228225708
-      value: 9.6
+      value: 19.2
     - time: 0.11675126850605011
-      value: 3.4909091186523438
+      value: 6.9818182373046875
     - time: 0.18612521886825562
-      value: 9.309091186523437
+      value: 18.618182373046874
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -2371,9 +2488,9 @@ effects:
       transparency: 127
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 1.0
-      value: 0.23272727966308593
+      value: 0.46545455932617186
     motion_keys: []
   - type: sprite_system
     id: 20
@@ -2424,9 +2541,9 @@ effects:
       transparency: 219
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 1.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     motion_keys: []
   - type: sprite_system
     id: 22
@@ -2483,9 +2600,9 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.1454545497894287
+      value: 0.2909090995788574
     - time: 1.0
-      value: 1.5709091186523438
+      value: 3.1418182373046877
     motion_keys:
     - time: 0.0
       value:
@@ -2552,9 +2669,9 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 1.0
-      value: 2.0363636779785157
+      value: 4.072727355957031
     motion_keys:
     - time: 0.0
       value:
@@ -2617,9 +2734,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 0.8727272796630859
+      value: 1.7454545593261719
     motion_keys: []
   - type: sprite_system
     id: 26
@@ -2670,11 +2787,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 0.8727272796630859
+      value: 1.7454545593261719
     motion_keys: []
   - type: null_transform
     id: 28
@@ -2773,11 +2890,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.552727279663086
+      value: 1.105454559326172
     - time: 0.46023687720298767
-      value: 1.0181818389892578
+      value: 2.0363636779785157
     - time: 1.0
-      value: 0.727272720336914
+      value: 1.454545440673828
     motion_keys: []
   - type: sprite_system
     id: 12
@@ -2836,7 +2953,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 0.32
+      value: 0.64
     motion_keys: []
   - type: sprite_system
     id: 13
@@ -2895,7 +3012,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 0.32
+      value: 0.64
     motion_keys: []
   - type: sound
     id: 14
@@ -2970,11 +3087,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.05818181991577148
+      value: 0.11636363983154296
     - time: 0.31641286611557007
-      value: 0.4072727203369141
+      value: 0.8145454406738282
     - time: 1.0
-      value: 0.14545455932617188
+      value: 0.29090911865234376
     motion_keys: []
   - type: sprite
     id: 8
@@ -2989,6 +3106,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -3005,11 +3123,11 @@ effects:
       transparency: 17
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 0.4822334945201874
-      value: 6.4
+      value: 12.8
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
   - type: sprite_system
     id: 9
@@ -3043,6 +3161,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 3.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -3062,9 +3181,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.46869713068008423
-      value: 0.727272720336914
+      value: 1.454545440673828
     - time: 1.0
-      value: 0.37818180084228514
+      value: 0.7563636016845703
     motion_keys: []
   - type: sound
     id: 10
@@ -3138,7 +3257,7 @@ effects:
       transparency: 222
     scale_keys:
     - time: 0.0
-      value: 0.6109090805053711
+      value: 1.2218181610107421
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -3193,7 +3312,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 1.9490908813476564
+      value: 3.898181762695313
     motion_keys: []
   - type: sound
     id: 5
@@ -3268,9 +3387,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.5008460283279419
-      value: 0.2909090995788574
+      value: 0.5818181991577148
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -3379,9 +3498,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.27072757482528687
-      value: 0.23272727966308593
+      value: 0.46545455932617186
     - time: 1.0
-      value: 0.08727272987365722
+      value: 0.17454545974731445
     motion_keys: []
 - id: mm9:poison_cloud
   source_name: spell-poison cloud
@@ -3448,11 +3567,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 0.4788494110107422
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     motion_keys: []
 - id: mm9:transfusion
   source_name: spell-transfusion
@@ -3521,9 +3640,9 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 1.105454559326172
+      value: 2.210909118652344
     - time: 0.41624364256858826
-      value: 0.11636363983154296
+      value: 0.23272727966308593
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -3540,6 +3659,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -3556,11 +3676,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 0.475465327501297
-      value: 4.945454406738281
+      value: 9.890908813476562
     - time: 1.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     motion_keys: []
   - type: sprite
     id: 3
@@ -3575,6 +3695,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -3599,9 +3720,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.49238577485084534
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
   - type: sound
     id: 4
@@ -3659,6 +3780,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 0.5
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -3678,7 +3800,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.3130287528038025
-      value: 0.49454544067382816
+      value: 0.9890908813476563
     - time: 1.0
       value: 0.0
     motion_keys:
@@ -3762,9 +3884,9 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
   - type: sprite_system
     id: 9
@@ -3798,6 +3920,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 0.5
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -3817,7 +3940,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.3130287528038025
-      value: 0.49454544067382816
+      value: 0.9890908813476563
     - time: 1.0
       value: 0.0
     motion_keys:
@@ -3920,6 +4043,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.5
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -3939,7 +4063,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.3130287528038025
-      value: 0.49454544067382816
+      value: 0.9890908813476563
     - time: 1.0
       value: 0.0
     motion_keys:
@@ -4017,9 +4141,9 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
   - type: sprite_system
     id: 9
@@ -4053,6 +4177,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -4070,9 +4195,9 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.3490909194946289
+      value: 0.6981818389892578
     - time: 0.3113367259502411
-      value: 0.6690908813476563
+      value: 1.3381817626953125
     - time: 1.0
       value: 0.0
     motion_keys:
@@ -4164,6 +4289,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -4181,11 +4307,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.05818181991577148
+      value: 0.11636363983154296
     - time: 0.31641286611557007
-      value: 0.4072727203369141
+      value: 0.8145454406738282
     - time: 1.0
-      value: 0.14545455932617188
+      value: 0.29090911865234376
     motion_keys: []
   - type: sprite
     id: 11
@@ -4200,6 +4326,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -4230,7 +4357,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 9.4545458984375
+      value: 18.909091796875
     motion_keys: []
   - type: sprite_system
     id: 10
@@ -4291,7 +4418,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 4.538181762695313
+      value: 9.076363525390626
     motion_keys: []
   - type: sound
     id: 12
@@ -4368,7 +4495,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.46869713068008423
-      value: 0.4072727203369141
+      value: 0.8145454406738282
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -4478,9 +4605,9 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 1.7454545593261719
+      value: 3.4909091186523438
     - time: 1.0
-      value: 18.909091796875
+      value: 37.81818359375
     motion_keys: []
   - type: sprite_system
     id: 21
@@ -4514,6 +4641,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 2.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -4537,9 +4665,9 @@ effects:
       transparency: 169
     scale_keys:
     - time: 0.0
-      value: 0.5120000076293946
+      value: 1.0240000152587891
     - time: 1.0
-      value: 0.5120000076293946
+      value: 1.0240000152587891
     motion_keys: []
   - type: sprite
     id: 23
@@ -4554,6 +4682,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: world_plane
     plane_right:
     - 0.0
@@ -4590,11 +4719,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.3490909576416016
+      value: 0.6981819152832032
     - time: 0.3350253701210022
-      value: 13.2654541015625
+      value: 26.530908203125
     - time: 1.0
-      value: 15.36
+      value: 30.72
     motion_keys: []
   - type: sprite_system
     id: 26
@@ -4657,11 +4786,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 0.4788494110107422
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     motion_keys: []
   - type: sound
     id: 27
@@ -4736,11 +4865,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46869713068008423
-      value: 0.523636360168457
+      value: 1.047272720336914
     - time: 1.0
-      value: 0.8727272796630859
+      value: 1.7454545593261719
     motion_keys: []
   - type: sprite_system
     id: 2
@@ -4791,11 +4920,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 1.1636367797851563
+      value: 2.3272735595703127
     motion_keys: []
   - type: sprite_system
     id: 3
@@ -4846,11 +4975,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 1.1636367797851563
+      value: 2.3272735595703127
     motion_keys: []
   - type: sprite_system
     id: 4
@@ -4901,11 +5030,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 1.1636367797851563
+      value: 2.3272735595703127
     motion_keys: []
   - type: sprite
     id: 1
@@ -4920,6 +5049,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: world_plane
     plane_right:
     - 0.0
@@ -4962,11 +5092,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 18.32727294921875
+      value: 36.6545458984375
     - time: 0.4043993353843689
-      value: 34.909091796875
+      value: 69.81818359375
     - time: 1.0
-      value: 37.52727294921875
+      value: 75.0545458984375
     motion_keys: []
   - type: null_transform
     id: 6
@@ -5048,11 +5178,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46869713068008423
-      value: 0.523636360168457
+      value: 1.047272720336914
     - time: 1.0
-      value: 0.8727272796630859
+      value: 1.7454545593261719
     motion_keys: []
   - type: sprite_system
     id: 2
@@ -5103,11 +5233,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 1.1636367797851563
+      value: 2.3272735595703127
     motion_keys: []
   - type: sprite_system
     id: 3
@@ -5158,11 +5288,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 1.1636367797851563
+      value: 2.3272735595703127
     motion_keys: []
   - type: sprite_system
     id: 4
@@ -5213,11 +5343,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.46700507402420044
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 1.1636367797851563
+      value: 2.3272735595703127
     motion_keys: []
   - type: sprite
     id: 1
@@ -5232,6 +5362,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: world_plane
     plane_right:
     - 0.0
@@ -5274,11 +5405,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 18.32727294921875
+      value: 36.6545458984375
     - time: 0.4043993353843689
-      value: 34.909091796875
+      value: 69.81818359375
     - time: 1.0
-      value: 37.52727294921875
+      value: 75.0545458984375
     motion_keys: []
   - type: null_transform
     id: 6
@@ -5322,6 +5453,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -5352,9 +5484,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.3807106614112854
-      value: 0.9309091186523437
+      value: 1.8618182373046874
     - time: 1.0
-      value: 1.2218181610107421
+      value: 2.4436363220214843
     motion_keys: []
   - type: sprite
     id: 7
@@ -5369,6 +5501,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -5393,9 +5526,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.3807106614112854
-      value: 1.5127272033691406
+      value: 3.025454406738281
     - time: 1.0
-      value: 2.094545440673828
+      value: 4.189090881347656
     motion_keys: []
 - id: mm9:GreaterDemon
   source_name: GreaterDemon
@@ -5457,9 +5590,9 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 0.2560000038146973
+      value: 0.5120000076293946
     - time: 1.0
-      value: 1.047272720336914
+      value: 2.094545440673828
     motion_keys: []
   - type: sprite_system
     id: 16
@@ -5493,6 +5626,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 2.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -5510,11 +5644,11 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 0.25599998474121094
+      value: 0.5119999694824219
     - time: 0.5279187560081482
-      value: 0.64
+      value: 1.28
     - time: 1.0
-      value: 0.17454544067382813
+      value: 0.34909088134765626
     motion_keys: []
   - type: sprite
     id: 19
@@ -5529,6 +5663,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -5551,14 +5686,508 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.5818181991577148
+      value: 1.1636363983154296
     - time: 0.1658206433057785
-      value: 10.181818237304688
+      value: 20.363636474609375
     - time: 0.8798646330833435
-      value: 12.363636474609375
+      value: 24.72727294921875
     - time: 1.0
       value: 0.0
     motion_keys: []
+- id: mm9:dragon_smoke
+  source_name: dragon smoke
+  source_offset: 232758
+  source_phase_seconds: 1.5
+  duration_seconds: 1.5
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 1.2000000476837158
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/smoke/smokenoise
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.20000000298023224
+    particle_lifetime_seconds: 0.8999999761581421
+    emission_shape: cone
+    radius: 128.0
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 102.4
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 76.8
+    wind_amount: 2.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 2.0
+    blend: alpha
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 0
+      - 0
+      transparency: 20
+    - time: 1.0
+      rgb:
+      - 185
+      - 255
+      - 185
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 1.0
+      value: 4.014545593261719
+    motion_keys: []
+    body_anchor: tail_or_user_node_8
+  - type: sprite_system
+    id: 3
+    start_seconds: 0.0
+    end_seconds: 1.2000000476837158
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/smoke/smokenoise
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.20000000298023224
+    particle_lifetime_seconds: 0.8999999761581421
+    emission_shape: cone
+    radius: 128.0
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 102.4
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 76.8
+    wind_amount: 2.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 2.0
+    blend: alpha
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 0
+      - 0
+      transparency: 20
+    - time: 1.0
+      rgb:
+      - 185
+      - 255
+      - 185
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 1.0
+      value: 4.014545593261719
+    motion_keys: []
+    body_anchor: tail_or_user_node_9
+- id: mm9:redyeldots
+  source_name: redyeldots
+  source_offset: 235988
+  source_phase_seconds: 2.0
+  duration_seconds: 2.0
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 2.0
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/blurredredyelstar
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 25.6
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 38.4
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 0.5
+    stretch_v: 0.5
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 255
+      - 0
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 128
+      - 0
+      - 64
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 3.3745455932617188
+    - time: 1.0
+      value: 0.0
+    motion_keys: []
+    body_anchor: left_hand
+  - type: sprite_system
+    id: 1
+    start_seconds: 0.0
+    end_seconds: 2.0
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/blurredredyelstar
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 25.6
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 38.4
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 0.5
+    stretch_v: 0.5
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 255
+      - 0
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 128
+      - 0
+      - 64
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 3.3745455932617188
+    - time: 1.0
+      value: 0.0
+    motion_keys: []
+    body_anchor: right_hand
+- id: mm9:greenyeldots
+  source_name: greenyeldots
+  source_offset: 239264
+  source_phase_seconds: 2.0
+  duration_seconds: 2.0
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 2.0
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/greenoraringexplode
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 0.5
+    stretch_v: 0.5
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 1.7454545593261719
+    - time: 1.0
+      value: 0.0
+    motion_keys: []
+    body_anchor: left_hand
+  - type: sprite_system
+    id: 1
+    start_seconds: 0.0
+    end_seconds: 1.999000072479248
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/greenoraringexplode
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 0.5
+    stretch_v: 0.5
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 1.7454545593261719
+    - time: 1.0
+      value: 0.0
+    motion_keys: []
+    body_anchor: right_hand
+- id: mm9:bluedots
+  source_name: bluedots
+  source_offset: 242540
+  source_phase_seconds: 2.0
+  duration_seconds: 2.0
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 2.0
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/flareparticle
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 1.0
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 1.7454545593261719
+    - time: 1.0
+      value: 1.3963636779785156
+    motion_keys: []
+    body_anchor: left_hand
+  - type: sprite_system
+    id: 1
+    start_seconds: 0.0
+    end_seconds: 1.9970000982284546
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/flareparticle
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 12.8
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 51.2
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 1.0
+    stretch_v: 1.0
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 128
+      - 255
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 0
+      - 128
+      - 0
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 1.7454545593261719
+    - time: 1.0
+      value: 1.3963636779785156
+    motion_keys: []
+    body_anchor: right_hand
 - id: mm9:smoke
   source_name: smoke
   source_offset: 245816
@@ -5620,9 +6249,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.44500845670700073
-      value: 2.0072727966308594
+      value: 4.014545593261719
     - time: 1.0
-      value: 2.0072727966308594
+      value: 4.014545593261719
     motion_keys: []
 - id: mm9:smokestack
   source_name: smokestack
@@ -5685,9 +6314,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.44500845670700073
-      value: 2.0072727966308594
+      value: 4.014545593261719
     - time: 1.0
-      value: 2.0072727966308594
+      value: 4.014545593261719
     motion_keys: []
 - id: mm9:firefly
   source_name: firefly
@@ -5725,6 +6354,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -5747,9 +6377,9 @@ effects:
       transparency: 127
     scale_keys:
     - time: 0.0
-      value: 0.33279998779296877
+      value: 0.6655999755859375
     - time: 1.0
-      value: 0.33279998779296877
+      value: 0.6655999755859375
     motion_keys:
     - time: 0.0
       value:
@@ -5924,6 +6554,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -5946,9 +6577,9 @@ effects:
       transparency: 127
     scale_keys:
     - time: 0.0
-      value: 0.33279998779296877
+      value: 0.6655999755859375
     - time: 1.0
-      value: 0.33279998779296877
+      value: 0.6655999755859375
     motion_keys:
     - time: 0.0
       value:
@@ -6110,6 +6741,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -6144,11 +6776,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 0.576988160610199
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys:
     - time: 0.0
       value:
@@ -6245,11 +6877,11 @@ effects:
       transparency: 219
     scale_keys:
     - time: 0.0
-      value: 0.7563636016845703
+      value: 1.5127272033691406
     - time: 0.4483925402164459
-      value: 0.9018181610107422
+      value: 1.8036363220214844
     - time: 1.0
-      value: 1.4254545593261718
+      value: 2.8509091186523436
     motion_keys: []
 - id: mm9:oval
   source_name: oval
@@ -6274,6 +6906,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     alignment: camera_facing
     color_keys:
     - time: 0.0
@@ -6308,9 +6941,9 @@ effects:
       transparency: 127
     scale_keys:
     - time: 0.0
-      value: 3.84
+      value: 7.68
     - time: 1.0
-      value: 3.84
+      value: 7.68
     motion_keys: []
 - id: mm9:mist
   source_name: mist
@@ -6383,11 +7016,11 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.9309091186523437
+      value: 1.8618182373046874
     - time: 0.4788494110107422
-      value: 0.7854545593261719
+      value: 1.5709091186523438
     - time: 1.0
-      value: 0.25599998474121094
+      value: 0.5119999694824219
     motion_keys: []
 - id: mm9:fireblue
   source_name: fireblue
@@ -6448,10 +7081,78 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 0.25599998474121094
+      value: 0.5119999694824219
     - time: 1.0
-      value: 1.0472726440429687
+      value: 2.0945452880859374
     motion_keys: []
+- id: mm9:LichKingRes
+  source_name: LichKingRes
+  source_offset: 265208
+  source_phase_seconds: 1.5
+  duration_seconds: 2.0
+  compatibility_profile: mm9_native_60hz
+  support: supported
+  anchor_fallback: origin
+  capabilities:
+  - sprite_system
+  components:
+  - type: sprite_system
+    id: 0
+    start_seconds: 0.0
+    end_seconds: 2.0
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/blurredredyelstar
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.05000000074505806
+    particle_lifetime_seconds: 0.5
+    emission_shape: point
+    radius: 25.6
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 38.4
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 0.0
+    wind_amount: 0.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - -0.0
+    - -0.0
+    - -0.0
+    stretch_u: 0.5
+    stretch_v: 0.5
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 255
+      - 0
+      - 0
+      transparency: 145
+    - time: 1.0
+      rgb:
+      - 128
+      - 0
+      - 64
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.0
+    - time: 0.5752961039543152
+      value: 3.3745455932617188
+    - time: 1.0
+      value: 0.0
+    motion_keys: []
+    body_anchor: tail_or_user_node_8
 - id: mm9:redpops
   source_name: redpops
   source_offset: 266914
@@ -6494,6 +7195,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -6513,13 +7215,13 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.23519457876682281
-      value: 0.727272720336914
+      value: 1.454545440673828
     - time: 0.4940778315067291
-      value: 0.20363636016845704
+      value: 0.4072727203369141
     - time: 0.8544839024543762
-      value: 0.9309091186523437
+      value: 1.8618182373046874
     - time: 1.0
-      value: 0.17454545974731445
+      value: 0.3490909194946289
     motion_keys: []
 - id: mm9:greenpool
   source_name: greenpool
@@ -6563,6 +7265,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 2.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -6582,9 +7285,9 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.20642977952957153
-      value: 0.6690908813476563
+      value: 1.3381817626953125
     - time: 1.0
-      value: 0.14545455932617188
+      value: 0.29090911865234376
     motion_keys: []
   - type: sprite_system
     id: 15
@@ -6618,6 +7321,7 @@ effects:
     stretch_u: 1.0
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: camera_facing
     color_keys:
@@ -6637,15 +7341,15 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 0.2385786771774292
-      value: 0.8145454406738282
+      value: 1.6290908813476563
     - time: 0.4568527936935425
       value: 0.0
     - time: 0.5786802172660828
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 0.7292724251747131
-      value: 0.05818181991577148
+      value: 0.11636363983154296
     - time: 0.8646361827850342
-      value: 0.6981818389892578
+      value: 1.3963636779785156
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -6681,6 +7385,7 @@ effects:
     stretch_u: 0.800000011920929
     stretch_v: 1.0
     blend: additive
+    additive_texture_alpha: false
     particle_space: world
     alignment: world_plane
     plane_right:
@@ -6712,7 +7417,7 @@ effects:
       transparency: 243
     scale_keys:
     - time: 0.0
-      value: 1.3381817626953125
+      value: 2.676363525390625
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -6733,7 +7438,7 @@ effects:
     end_seconds: 3.000000238418579
     repeat_count: 1
     model_resource: mm9:model/spells/pathup
-    animation_clip: pathup
+    animation_clip: wormpath
     offset:
     - 0.0
     - 0.0
@@ -6788,13 +7493,13 @@ effects:
       transparency: 237
     scale_keys:
     - time: 0.0
-      value: 0.7563636016845703
+      value: 1.5127272033691406
     - time: 0.2808798551559448
-      value: 1.28
+      value: 2.56
     - time: 0.49069374799728394
-      value: 0.43636363983154297
+      value: 0.8727272796630859
     - time: 0.710659921169281
-      value: 1.454545440673828
+      value: 2.909090881347656
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -6806,7 +7511,7 @@ effects:
     end_seconds: 3.000000238418579
     repeat_count: 1
     model_resource: mm9:model/spells/pathup
-    animation_clip: pathup
+    animation_clip: wormpath
     offset:
     - 0.0
     - 0.0
@@ -6861,13 +7566,13 @@ effects:
       transparency: 237
     scale_keys:
     - time: 0.0
-      value: 0.7563636016845703
+      value: 1.5127272033691406
     - time: 0.2808798551559448
-      value: 1.28
+      value: 2.56
     - time: 0.49069374799728394
-      value: 0.43636363983154297
+      value: 0.8727272796630859
     - time: 0.710659921169281
-      value: 1.454545440673828
+      value: 2.909090881347656
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -6879,7 +7584,7 @@ effects:
     end_seconds: 3.000000238418579
     repeat_count: 1
     model_resource: mm9:model/spells/pathup
-    animation_clip: pathup
+    animation_clip: wormpath
     offset:
     - 0.0
     - 0.0
@@ -6934,13 +7639,13 @@ effects:
       transparency: 237
     scale_keys:
     - time: 0.0
-      value: 0.7563636016845703
+      value: 1.5127272033691406
     - time: 0.2808798551559448
-      value: 1.28
+      value: 2.56
     - time: 0.49069374799728394
-      value: 0.43636363983154297
+      value: 0.8727272796630859
     - time: 0.710659921169281
-      value: 1.454545440673828
+      value: 2.909090881347656
     - time: 1.0
       value: 0.0
     motion_keys: []
@@ -6952,7 +7657,7 @@ effects:
     end_seconds: 3.000000238418579
     repeat_count: 1
     model_resource: mm9:model/spells/pathup
-    animation_clip: pathup
+    animation_clip: wormpath
     offset:
     - 0.0
     - 0.0
@@ -7009,7 +7714,7 @@ effects:
     - time: 0.0
       value: 0.0
     - time: 1.0
-      value: 1.5127272033691406
+      value: 3.025454406738281
     motion_keys: []
     linked_component_id: 35
     linked_node: Xmain03
@@ -7060,9 +7765,9 @@ effects:
       transparency: 0
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
     motion_keys: []
   - type: sprite_system
     id: 1002
@@ -7113,7 +7818,106 @@ effects:
       transparency: 255
     scale_keys:
     - time: 0.0
-      value: 2.56
+      value: 5.12
     - time: 1.0
-      value: 2.56
+      value: 5.12
+    motion_keys: []
+- id: mm9:explosion_sparks
+  source_name: hardcoded projectile explosion Sparks (PROJECTILE.txt)
+  source_evidence: re_mm8/mm9_vfx/README.md
+  duration_seconds: 1.1
+  compatibility_profile: mm9_native_60hz
+  support: supported_approximation
+  capabilities:
+  - sprite
+  - sprite_system
+  components:
+  - type: sprite
+    id: 2001
+    start_seconds: 0.0
+    end_seconds: 0.8
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/explosion1
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    stretch_u: 1.0
+    stretch_v: 1.0
+    blend: additive
+    additive_texture_alpha: false
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 0
+    - time: 1.0
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 0
+    scale_keys:
+    - time: 0.0
+      value: 2.64
+    - time: 1.0
+      value: 6.864000000000001
+    motion_keys: []
+  - type: sprite_system
+    id: 2002
+    start_seconds: 0.0
+    end_seconds: 0.034
+    repeat_count: 1
+    sprite_resource: mm9:effect-sprite/weapons/blurredwhitestar
+    sprites_per_emission: 20
+    emission_interval_seconds: 0.019
+    particle_lifetime_seconds: 1.1
+    emission_shape: point
+    radius: 0.0
+    plane_direction:
+    - 0.0
+    - 0.0
+    - 1.0
+    velocity: 768.0
+    wind_direction:
+    - 0.0
+    - 0.0
+    - 393.6
+    wind_amount: 1.0
+    gravity: 1664.0
+    offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    rotation_per_tick:
+    - 0.0
+    - 0.0
+    - 0.0
+    stretch_u: 1.0
+    stretch_v: 1.0
+    blend: additive
+    additive_texture_alpha: false
+    particle_space: world
+    alignment: camera_facing
+    color_keys:
+    - time: 0.0
+      rgb:
+      - 192
+      - 192
+      - 192
+      transparency: 0
+    - time: 1.0
+      rgb:
+      - 192
+      - 192
+      - 192
+      transparency: 255
+    scale_keys:
+    - time: 0.0
+      value: 0.75
+    - time: 1.0
+      value: 0.75
     motion_keys: []

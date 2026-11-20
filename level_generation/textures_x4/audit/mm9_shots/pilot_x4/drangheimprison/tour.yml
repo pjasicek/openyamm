@@ -1,0 +1,35 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_x4/drangheimprison
+settle_seconds: 2.0
+exit: true
+shots:
+- name: pris68v3ri-d44-closed-front
+  position:
+  - 3236
+  - -2674
+  - -3584
+  yaw: -1.5708
+  pitch: 0.057
+- name: pris68v3ri-d44-joint-graze
+  position:
+  - 3116
+  - -2974
+  - -3584
+  yaw: -0.9273
+  pitch: 0.15
+- name: pris68v3ri-d44-closed-back
+  position:
+  - 3236
+  - -3593
+  - -3584
+  yaw: 1.5708
+  pitch: 0.057
+- name: pris68v3ri-d44-open-front
+  position:
+  - 3236
+  - -2674
+  - -3584
+  yaw: -1.5708
+  pitch: 0.057
+  commands:
+  - event 110
+  settle_seconds: 5.0

@@ -1,0 +1,42 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §2.3): the Naga Vault holds more nagas, and its four guardians are the Naga Empress,
+# faster and slimmer (MAW also clears their attribute 0x200000). Its raised health (467 -> 1500) is left to its monster
+# rules.
+format_version: 1
+kind: indoor_scene_overlay
+removals:
+  spawns:
+    - {position: [-556, -954, -112], index: 1}
+    - {position: [-224, -892, -112], index: 1}
+    - {position: [-640, -768, 0], index: 2}
+    - {position: [-1024, -1024, 0], index: 2}
+authored_content:
+  spawns:
+    - {position: {x: 266, y: 376, z: -144}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: -520, y: -172, z: -128}, radius: 32, type_id: 3, index: 1, group: 0}
+    - {position: {x: 470, y: -473, z: -128}, radius: 32, type_id: 3, index: 10, group: 0}
+    - {position: {x: 1651, y: 359, z: -128}, radius: 32, type_id: 3, index: 7, group: 0}
+    - {position: {x: 1642, y: 503, z: -128}, radius: 32, type_id: 3, index: 7, group: 0}
+    - {position: {x: 291, y: 1273, z: -128}, radius: 32, type_id: 3, index: 10, group: 0}
+    - {position: {x: 1648, y: 419, z: -128}, radius: 32, type_id: 3, index: 10, group: 0}
+    - {position: {x: 5798, y: -1698, z: 704}, radius: 32, type_id: 3, index: 1, group: 0}
+    - {position: {x: 4004, y: 282, z: 760}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: 758, y: -468, z: -128}, radius: 32, type_id: 3, index: 10, group: 0}
+    - {position: {x: 6052, y: -1465, z: 704}, radius: 32, type_id: 3, index: 1, group: 0}
+    - {position: {x: 3751, y: 96, z: 754}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: -166, y: -959, z: -144}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: 546, y: 712, z: -144}, radius: 32, type_id: 3, index: 1, group: 0}
+    - {position: {x: 3450, y: 293, z: 760}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: 3526, y: -268, z: 760}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: 560, y: -41, z: -144}, radius: 32, type_id: 3, index: 1, group: 0}
+    - {position: {x: 1006, y: -463, z: -128}, radius: 32, type_id: 3, index: 10, group: 0}
+    - {position: {x: -933, y: -959, z: -144}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: 290, y: -476, z: -128}, radius: 32, type_id: 3, index: 10, group: 0}
+    - {position: {x: 539, y: 1274, z: -128}, radius: 32, type_id: 3, index: 10, group: 0}
+    - {position: {x: 3906, y: -274, z: 760}, radius: 32, type_id: 3, index: 2, group: 0}
+    - {position: {x: 5805, y: -1325, z: 704}, radius: 32, type_id: 3, index: 1, group: 0}
+initial_state:
+  actor_overrides:
+    - {actor_index: 0, unique_name_index: 205, move_speed: 235, radius: 90, clear_attributes: 0x200000}
+    - {actor_index: 1, unique_name_index: 205, move_speed: 235, radius: 90, clear_attributes: 0x200000}
+    - {actor_index: 2, unique_name_index: 205, move_speed: 235, radius: 90, clear_attributes: 0x200000}
+    - {actor_index: 3, unique_name_index: 205, move_speed: 235, radius: 90, clear_attributes: 0x200000}

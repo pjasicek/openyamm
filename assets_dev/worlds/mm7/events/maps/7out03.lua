@@ -126,6 +126,13 @@ SetMapMetadata({
     [508] = { kind = "enter_dungeon", source = "opcode", targetMap = "mdt11.blv", targetName = "The Hidden Tomb" },
     [509] = { kind = "enter_dungeon", source = "opcode", targetMap = "mdt14.blv", targetName = "The Bandit Caves" },
     },
+    learnedEffect = {
+    [203] = { autonote = 264, effect = "+2 Might (Permanent)" },
+    [204] = { autonote = 266, effect = "+20 Body Resistance (Temporary)" },
+    [208] = { autonote = 267, effect = "+50 Might (Temporary)" },
+    [209] = { autonote = 263, effect = "+10 Accuracy (Temporary)" },
+    [210] = { autonote = 268, effect = "+5 Personality (Temporary)" },
+    },
     textureNames = {},
     spriteNames = {"0", "7tree19", "7tree20", "7tree21", "7tree25", "7tree28", "7tree30", "tree26", "tree27", "tree37"},
     castSpellIds = {},

@@ -1,0 +1,933 @@
+{
+ "id": "20261009-1247-mm6-cd1-07",
+ "world": "mm6",
+ "maps": [
+  "cd1.blv",
+  "6d01.blv"
+ ],
+ "created": "2026-10-09T10:48:45+00:00",
+ "textures": [
+  "mm6/oraltmrb",
+  "mm6/d1wrec",
+  "mm6/d1wlec",
+  "mm6/orflrl64",
+  "mm6/d1wld",
+  "mm6/oflrl48",
+  "mm6/orfyr64a",
+  "mm6/d2wlbdrn",
+  "mm6/ch2tpbv",
+  "mm6/orceilb",
+  "mm6/ch2tprev",
+  "mm6/ch2tplev",
+  "mm6/t3oor3",
+  "mm6/t3c2",
+  "mm6/t3c1",
+  "mm6/d6wlalg",
+  "mm6/t1f1",
+  "mm6/t1f3",
+  "mm6/t3wsbp",
+  "mm6/t1w11a",
+  "mm6/t3f2",
+  "mm6/t3c3",
+  "mm6/t3wbltd",
+  "mm6/t1wl3cts"
+ ],
+ "requests": {
+  "mm6/oraltmrb": {
+   "name": "oraltmrb",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream-white polished marble with soft warm cloudy veins",
+   "notes": {}
+  },
+  "mm6/d1wrec": {
+   "name": "d1wrec",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "olive-brown stacked sandstone brick wall with a narrow stone pilaster on the right edge",
+   "notes": {},
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm6/d1wcntr",
+     "bottom": "mm6/d8florc",
+     "right": "mm6/d8wlele"
+    }
+   }
+  },
+  "mm6/d1wlec": {
+   "name": "d1wlec",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "olive-brown stacked sandstone brick wall with a narrow stone pilaster on the left edge",
+   "notes": {}
+  },
+  "mm6/orflrl64": {
+   "name": "orflrl64",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "polished rusty red-brown granite with fine black and pale crystals, thin dark border",
+   "notes": {
+    "2": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid.",
+    "3": "Fine-grained natural polished granite with small irregular crystals of varied sizes: no mosaic of uniform cells, no grid.",
+    "4": "Fine-grained natural polished granite with small irregular crystals of varied sizes: no mosaic of uniform cells, no grid, no confetti noise."
+   },
+   "ref_blur": {
+    "3": 2.5,
+    "4": 2.5
+   }
+  },
+  "mm6/d1wld": {
+   "name": "d1wld",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "olive-brown stacked sandstone brick wall with a small dark vent opening and a dark damp stain running down below it",
+   "notes": {}
+  },
+  "mm6/oflrl48": {
+   "name": "oflrl48",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished rusty pinkish granite with fine black and pale crystals, thin dark border",
+   "notes": {
+    "2": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid.",
+    "3": "Fine-grained natural polished granite with small irregular crystals of varied sizes: no mosaic of uniform cells, no grid."
+   },
+   "ref_blur": {
+    "3": 2.5
+   }
+  },
+  "mm6/orfyr64a": {
+   "name": "orfyr64a",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth glowing molten lava stone, bright orange-red with soft darker cooling crust patches and a thin dark border",
+   "notes": {
+    "2": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid.",
+    "3": "Smooth continuous molten surface only: no lace, net, mosaic or grid texture anywhere."
+   },
+   "ref_blur": {
+    "3": 2.0
+   }
+  },
+  "mm6/d2wlbdrn": {
+   "name": "d2wlbdrn",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown rough stone brick wall with a round barred iron drain opening framed by stone voussoirs",
+   "notes": {}
+  },
+  "mm6/ch2tpbv": {
+   "name": "ch2tpbv",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "teal-green painted iron chest lid with an embossed circular ornament between red-brown wooden edge bands",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orceilb": {
+   "name": "orceilb",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale salmon-pink polished marble with fine swirling veins",
+   "notes": {}
+  },
+  "mm6/ch2tprev": {
+   "name": "ch2tprev",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "v",
+    "size": [
+     1024,
+     576
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "teal-green painted iron chest lid edge piece with a dark iron rim",
+   "notes": {}
+  },
+  "mm6/ch2tplev": {
+   "name": "ch2tplev",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "v",
+    "size": [
+     1024,
+     576
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "teal-green painted iron chest lid edge piece with a dark iron rim",
+   "notes": {}
+  },
+  "mm6/t3oor3": {
+   "name": "t3oor3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cracked dry red-brown earth with dark fissures",
+   "notes": {}
+  },
+  "mm6/t3c2": {
+   "name": "t3c2",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished granite with large cloudy patches of dark green-black and pale pink-grey, thin dark border",
+   "notes": {
+    "2": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid.",
+    "3": "Fine-grained natural polished granite with small irregular crystals of varied sizes: no mosaic of uniform cells, no grid."
+   },
+   "ref_blur": {
+    "3": 2.5
+   }
+  },
+  "mm6/t3c1": {
+   "name": "t3c1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark ceiling of grey stone ribs in a grid overgrown with green ivy, deep shadowed gaps",
+   "notes": {}
+  },
+  "mm6/d6wlalg": {
+   "name": "d6wlalg",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown earthen cave wall with thin pale roots and cracks",
+   "notes": {}
+  },
+  "mm6/t1f1": {
+   "name": "t1f1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble floor tile with a pale eight-pointed star inlay outlined in dark red",
+   "notes": {}
+  },
+  "mm6/t1f3": {
+   "name": "t1f3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished granite with large cloudy patches of dark teal-green and pale pink-grey, square tiles set on the diagonal with thin dark grout",
+   "notes": {
+    "3": "Natural granite crystals of varied sizes: no mosaic of small uniform cells."
+   },
+   "ref_blur": {
+    "3": 2.5
+   }
+  },
+  "mm6/t3wsbp": {
+   "name": "t3wsbp",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-violet stone bricks with dark mortar and dripping dark red bloodstains",
+   "notes": {}
+  },
+  "mm6/t1w11a": {
+   "name": "t1w11a",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "material": "pale pink-cream polished stone bricks with grey mortar",
+   "notes": {
+    "4": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "5": "Keep the native's edge columns exactly: no added dark band or hairline at the edges; the outermost pixels continue the material.",
+    "6": "Clean pink marble bricks with even dark grey mortar of constant width; no marks, crosses or ticks in the mortar, especially along the left edge.",
+    "7": "Vertical mortar only at the left edge, as in the reference; the right edge ends in plain marble brick face with no dark strip; no dashes or ticks inside the bricks near the left edge.",
+    "8": "Brick face runs to the right edge in every course with no mortar or shadow at the right edge; keep the dark vertical mortar at the left edge in every course as in the reference.",
+    "9": "Keep both edges as now; in the top course restore the vertical mortar joint at about 77% of the width so two bricks are separate; no plus-shaped light smudge and no black streak inside any brick.",
+    "10": "Keep the layout and both edges as now; the top-left brick is plain clean marble with no dark crack or streak."
+   },
+   "ref_blur": {
+    "4": 2.0,
+    "5": 2.0,
+    "6": 2.0
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1"
+     ],
+     "fraction": 0.793
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1"
+     ],
+     "fraction": 0.793
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1spcl1"
+     ],
+     "fraction": 0.789
+    },
+    "6": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl1lea",
+      "mm6/t1curtr",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.81
+    },
+    "7": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl1lea",
+      "mm6/t1curtr",
+      "mm6/t1wl3rea",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.815
+    },
+    "8": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl1lea",
+      "mm6/t1curtr",
+      "mm6/t1wl3rea",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.815
+    },
+    "9": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl1lea",
+      "mm6/t1curtr",
+      "mm6/t1wl3rea",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.815
+    },
+    "10": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl3cts",
+      "mm6/t1wl1lea",
+      "mm6/t1curtr",
+      "mm6/t1wl3rea",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.82
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {
+     "top": "mm6/t1wl9cts",
+     "left": "mm6/t1curtl",
+     "right": "mm6/t1curtr"
+    },
+    "7": {
+     "top": "mm6/t1wl9cts",
+     "left": "mm6/t1wl9rea",
+     "right": "mm6/t1curtr"
+    },
+    "8": {
+     "top": "mm6/t1wl9cts",
+     "left": "mm6/t1wl9rea",
+     "right": "mm6/t1curtr"
+    },
+    "9": {
+     "top": "mm6/t1wl9cts",
+     "left": "mm6/t1wl9rea",
+     "right": "mm6/t1curtr"
+    },
+    "10": {
+     "top": "mm6/t1wl9cts",
+     "left": "mm6/t1wl9rea",
+     "right": "mm6/t1curtr"
+    }
+   },
+   "pad": {
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ],
+    "9": [
+     32,
+     32
+    ],
+    "10": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/t3f2": {
+   "name": "t3f2",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "red-brown marble floor tile with a diagonal cross of green ivy growing over it",
+   "notes": {
+    "2": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid.",
+    "3": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid."
+   }
+  },
+  "mm6/t3c3": {
+   "name": "t3c3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "square recessed grey-violet stone ceiling coffer overgrown with green ivy around its stepped frame",
+   "notes": {
+    "2": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid.",
+    "3": "Natural continuous stone (or leaves) with organic irregular shapes: no mosaic of small square cells, no checker or pixel grid."
+   }
+  },
+  "mm6/t3wbltd": {
+   "name": "t3wbltd",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "grey-violet stone bricks with dark mortar under a top course of rust-red bricks",
+   "notes": {}
+  },
+  "mm6/t1wl3cts": {
+   "name": "t1wl3cts",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     640,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "pale pink-cream polished stone bricks between carved silver-grey ornamental borders top and bottom",
+   "notes": {
+    "4": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "5": "Copy the carved silver-grey ornament bands top and bottom exactly as in the reference: the same small scroll motifs at the same spacing and heights, not large flowers; keep every band and brick row at its reference height.",
+    "6": "Keep the native's edge columns exactly: no added dark band or hairline at the edges; the outermost pixels continue the material.",
+    "7": "Copy the reference composition exactly; even dark grey mortar of constant width with no marks, crosses or ticks along the edges.",
+    "8": "Keep the reference's wide dark vertical mortar joint at the left edge in courses 2 and 4; no dark line at the right edge in any course.",
+    "9": "In courses 2 and 4 the dark vertical mortar at the left edge is as wide as the other vertical mortar joints in the wall (about four reference pixels), followed by the brick's bevel; no dark line at the right edge."
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.473
+    },
+    "4": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1"
+     ],
+     "fraction": 0.473
+    },
+    "5": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1"
+     ],
+     "fraction": 0.473
+    },
+    "6": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1curtr"
+     ],
+     "fraction": 0.475
+    },
+    "7": {
+     "sources": [
+      "mm6/t1wl2ctl",
+      "mm6/t1wl1cts",
+      "mm6/t1wl3rea",
+      "mm6/t1spcl1",
+      "mm6/t1curtr"
+     ],
+     "fraction": 0.617
+    },
+    "8": {
+     "sources": [
+      "mm6/t1wl2ctl",
+      "mm6/t1wl1cts",
+      "mm6/t1wl3rea",
+      "mm6/t1spcl1",
+      "mm6/t1curtr"
+     ],
+     "fraction": 0.617
+    },
+    "9": {
+     "sources": [
+      "mm6/t1wl2ctl",
+      "mm6/t1wl1cts",
+      "mm6/t1wl3rea",
+      "mm6/t1spcl1",
+      "mm6/t1curtr"
+     ],
+     "fraction": 0.617
+    }
+   },
+   "ref_blur": {
+    "4": 2.0
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {
+     "right": "mm6/t1wl3rea",
+     "left": "mm6/t1wl3rea"
+    },
+    "8": {
+     "right": "mm6/t1wl3rea",
+     "left": "mm6/t1wl3rea"
+    },
+    "9": {
+     "right": "mm6/t1wl3rea",
+     "left": "mm6/t1wl3rea"
+    }
+   },
+   "pad": {
+    "7": [
+     32,
+     16
+    ],
+    "8": [
+     32,
+     16
+    ],
+    "9": [
+     32,
+     16
+    ]
+   }
+  }
+ }
+}

@@ -33,6 +33,7 @@ bool compileDxilShader(
     return writeUnsupportedBackendMessage("DXIL shader compilation is not enabled.\n", pMessageWriter);
 }
 
+#if !defined(OPENYAMM_SHADERC_ENABLE_METAL)
 bool compileMetalShader(
     const Options &options,
     uint32_t version,
@@ -43,6 +44,7 @@ bool compileMetalShader(
     BX_UNUSED(options, version, code, pShaderWriter);
     return writeUnsupportedBackendMessage("Metal shader compilation is not enabled.\n", pMessageWriter);
 }
+#endif
 
 bool compilePSSLShader(
     const Options &options,

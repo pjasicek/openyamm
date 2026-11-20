@@ -1,0 +1,631 @@
+{
+  "status": "completed_with_deviations",
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "brief_sha256": "1fe9360c5089dbc965e26697eea0ec29bb944ac5a86344326df0fe00011a99cc",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returned_size": [
+    1254,
+    1254
+  ],
+  "postprocessing": "None. Byte-for-byte copies of tool outputs; no resizing, masking, alpha cleanup, painting or compositing outside image_gen.",
+  "selection_note": "Selected means the preferred result from the allowed two attempts, not that the strict silhouette/albedo gates passed.",
+  "limitations": [
+    "All returns are 1254 x 1254, preserved unresized as required.",
+    "No return preserves the guide silhouette exactly; normalized silhouette comparisons are included per run.",
+    "Residual contour/edge alpha artifacts and some shading or sheen remain.",
+    "One corrective generation was used per view; no further regeneration was performed."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting.\nInput image 1 is design_reference.png, used ONLY as the colour, material and surface-detail authority. Input image 2 (the LAST image) is the EXACT 1024 x 1024 orthographic geometry guide and edit target.\nPaint directly inside image 2's existing silhouette. Preserve its original alpha silhouette pixel-for-pixel, exact canvas, object size, orientation, position, every part boundary, polygonal contour, hole and gap. Keep all empty margins. Do not rotate toward the design reference, enlarge the object, change the camera, smooth the outline, reconnect separated parts or add geometry. The guide overrides the design reference for ALL geometry. Copy no lighting or grey material tints from the guide.\nMaterials from image 1: warm white/ivory ceramic with fine restrained tan wear, fine scratches and hairline seams; satin brushed ochre gold metal with delicate etched geometric grooves; tiny dark charcoal/black-violet resin recesses with blue-white light where appropriate; dark charcoal leather with restrained grain and wrapping seams on the existing leather component. Paint the existing light element pale luminous ice-blue/white with subtle blue technical circular segmentation. Follow the reference's precise geometric panel joins and gold tracery on the existing surfaces, without enlarging any part. Continue unseen surfaces plausibly in the same design. The reference has blue-white, not orange, light.\nLIGHTING: unlit albedo texture source, completely even flat shadowless light from viewer. Eliminate the guide's grey shading, undercuts, contact shadows and ambient occlusion. Gold is its fairly even ochre-gold base colour with only a faint sheen, never white or yellow specular streaks. No directional gradients, cast shadows, darkened underside, AO, hot highlights, reflections, rim light, bloom or glow spill. Bright light colour is confined inside the light element. Fine material grain and shallow drawn seams are allowed, dramatic depth shading is not.\nBackground: real fully transparent alpha, including holes and gaps; no black backdrop, checkerboard pixels, floor or cast shadow. No text, letters, numerals, labels, logos or watermark. Return only the single painted view, not a collage. Preserve the unresized 1024 x 1024 guide composition.\nView: FRONT, exactly guide_front.png. The body is the short, broad end-on oval occupying approximately x310..714, y348..650; a horizontal gold equatorial rim at x286..738, y473..515; a small ice-blue dome at x449..575, y301..327 with gold collar x429..595, y326..352; a narrow edge-on leather tip projects down at x490..533, y648..721. Paint this tip dark charcoal leather, not gold or ivory. Keep the small object centred with the same generous empty margin. The main circular emitter is seen edge-on ONLY as that little dome at the top. Do not invent a circular medallion on the vertical-facing ceramic. Continue restrained reference-style ivory panels, fine seams and gold decoration on this end-on surface.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "273c5be99a40ffeb424535ddf4d5becd1d9d93d76add867d2351d1652d18eed6",
+          "role": "design / material reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "15bdac90ce2b63224de13519a5682593957ff1b33dced3684a6aec4916daf87a",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette/placement match. Attempt 2 flattened lighting but substantially enlarged the object. This selection still has lower-body shading, metal highlights and contour differences; retained unresized.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-5978cd5c-b9ae-4106-9852-6acf8c1fb9bd.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "dbe52f3419b9484f30d096c77fdb857a38a3b1530d7048f9ce7dcb25490776c8",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.954431,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          19,
+          1234,
+          1231
+        ],
+        "opaque_bbox": [
+          354,
+          374,
+          900,
+          894
+        ],
+        "transparent_pixel_count": 1407075,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 6822,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Residual lower-body shading and metal highlights remain.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting.\nInput image 1 is design_reference.png, used ONLY as the colour, material and surface-detail authority. Input image 2 (the LAST image) is the EXACT 1024 x 1024 orthographic geometry guide and edit target.\nPaint directly inside image 2's existing silhouette. Preserve its original alpha silhouette pixel-for-pixel, exact canvas, object size, orientation, position, every part boundary, polygonal contour, hole and gap. Keep all empty margins. Do not rotate toward the design reference, enlarge the object, change the camera, smooth the outline, reconnect separated parts or add geometry. The guide overrides the design reference for ALL geometry. Copy no lighting or grey material tints from the guide.\nMaterials from image 1: warm white/ivory ceramic with fine restrained tan wear, fine scratches and hairline seams; satin brushed ochre gold metal with delicate etched geometric grooves; tiny dark charcoal/black-violet resin recesses with blue-white light where appropriate; dark charcoal leather with restrained grain and wrapping seams on the existing leather component. Paint the existing light element pale luminous ice-blue/white with subtle blue technical circular segmentation. Follow the reference's precise geometric panel joins and gold tracery on the existing surfaces, without enlarging any part. Continue unseen surfaces plausibly in the same design. The reference has blue-white, not orange, light.\nLIGHTING: unlit albedo texture source, completely even flat shadowless light from viewer. Eliminate the guide's grey shading, undercuts, contact shadows and ambient occlusion. Gold is its fairly even ochre-gold base colour with only a faint sheen, never white or yellow specular streaks. No directional gradients, cast shadows, darkened underside, AO, hot highlights, reflections, rim light, bloom or glow spill. Bright light colour is confined inside the light element. Fine material grain and shallow drawn seams are allowed, dramatic depth shading is not.\nBackground: real fully transparent alpha, including holes and gaps; no black backdrop, checkerboard pixels, floor or cast shadow. No text, letters, numerals, labels, logos or watermark. Return only the single painted view, not a collage. Preserve the unresized 1024 x 1024 guide composition.\nView: BACK, exactly guide_back.png. The short broad end-on oval body occupies x310..714, y348..650, the gold equatorial rim x286..738, y473..515, the ice-blue dome x449..575, y301..327 and gold collar x429..595, y326..352. At the centre of the rim is an existing gold polygonal attachment around x475..550, y464..531; the narrow visible edge of the leather loop descends in front of the lower body at x490..533, y503..721. Preserve that overlap and tip and paint the strap dark charcoal leather. Keep all proportions and empty margins. The emitter is visible only as the small dome above the body; no circular medallion on the facing ceramic. Carry the ivory, restrained gold geometric tracery and fine seams plausibly around the back.\nFinal priority: flat ALBEDO paint, both ceramic hemispheres the same bright ivory, no upper/lower lighting difference. Every gold facet the same ochre-gold colour, no specular stripes. Preserve pointed leather tip and all original margins.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "273c5be99a40ffeb424535ddf4d5becd1d9d93d76add867d2351d1652d18eed6",
+          "role": "design / material reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "a88e3a6686e548932f161ae8202c7edd0c3134ce73b9a86cf709eacd9ec85f4e",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favour of attempt 2. Body and strap were substantially enlarged and lower body was shaded. Retained unresized.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-6ad3da9a-e0f0-418f-bb20-76f9ea601774.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ec3038bbdea346a5445d7f574a1de7d40830656df4699068170af257ffc4caef",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.620929,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1180,
+          1190
+        ],
+        "opaque_bbox": [
+          286,
+          330,
+          968,
+          978
+        ],
+        "transparent_pixel_count": 1306432,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 105233,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Residual lower-body shading and metal highlights remain.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting.\nInput image 1 is design_reference.png, used ONLY as the colour, material and surface-detail authority. Input image 2 (the LAST image) is the EXACT 1024 x 1024 orthographic geometry guide and edit target.\nPaint directly inside image 2's existing silhouette. Preserve its original alpha silhouette pixel-for-pixel, exact canvas, object size, orientation, position, every part boundary, polygonal contour, hole and gap. Keep all empty margins. Do not rotate toward the design reference, enlarge the object, change the camera, smooth the outline, reconnect separated parts or add geometry. The guide overrides the design reference for ALL geometry. Copy no lighting or grey material tints from the guide.\nMaterials from image 1: warm white/ivory ceramic with fine restrained tan wear, fine scratches and hairline seams; satin brushed ochre gold metal with delicate etched geometric grooves; tiny dark charcoal/black-violet resin recesses with blue-white light where appropriate; dark charcoal leather with restrained grain and wrapping seams on the existing leather component. Paint the existing light element pale luminous ice-blue/white with subtle blue technical circular segmentation. Follow the reference's precise geometric panel joins and gold tracery on the existing surfaces, without enlarging any part. Continue unseen surfaces plausibly in the same design. The reference has blue-white, not orange, light.\nLIGHTING: unlit albedo texture source, completely even flat shadowless light from viewer. Eliminate the guide's grey shading, undercuts, contact shadows and ambient occlusion. Gold is its fairly even ochre-gold base colour with only a faint sheen, never white or yellow specular streaks. No directional gradients, cast shadows, darkened underside, AO, hot highlights, reflections, rim light, bloom or glow spill. Bright light colour is confined inside the light element. Fine material grain and shallow drawn seams are allowed, dramatic depth shading is not.\nBackground: real fully transparent alpha, including holes and gaps; no black backdrop, checkerboard pixels, floor or cast shadow. No text, letters, numerals, labels, logos or watermark. Return only the single painted view, not a collage. Preserve the unresized 1024 x 1024 guide composition.\nView: LEFT, exactly guide_left.png. The horizontally elongated side-on ceramic body occupies x334..925, y342..651, with the gold equatorial rim from x303..958 at y473..515. An existing gold attachment projects left at x267..340, y463..540. The dark leather ring is the SEPARATE polygonal loop at x66..286, y502..722; retain its exact hole, silhouette and transparent gap to the body, without adding a connecting strap. The emitter is ONLY the low ice-blue dome above the body at x583..708, y301..327, with its gold collar x563..729,y326..352. Preserve all positions and polygonal edges. Paint both the upper and lower ceramic the same evenly lit warm ivory. Wrap fine reference-style panel seams and restrained gold tracery around the side, and paint the left loop dark charcoal leather.\nFlat albedo priority: upper AND lower ceramic are equally bright ivory; gold facets equally mid ochre gold. No shaded lower hemisphere. Preserve exact guide margins and do not increase the height of the body or dome.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "273c5be99a40ffeb424535ddf4d5becd1d9d93d76add867d2351d1652d18eed6",
+          "role": "design / material reference"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "3fbd80ae70705ba68e7260940d6515b8f1c77dec67c048ea2ff1610e70a1cdee",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected for the closer guide silhouette and part placement (normalized silhouette IoU 0.973193). The correction flattened lighting but introduced more scale/position drift. Residual shading and highlights remain; exact silhouette/albedo gates are not met.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-fc8f1f2b-e95e-4ec8-b40e-65fd7aff640c.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "a9766ef916d5fbd3be9f0f6dd83a08d0f7e28d51a41c6f233830bf5e2384704f",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.973193,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          45,
+          1218,
+          1230
+        ],
+        "opaque_bbox": [
+          80,
+          370,
+          1174,
+          885
+        ],
+        "transparent_pixel_count": 1289442,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 18020,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Residual lower-body shading and metal highlights remain.",
+        "strict_brief_checks_passed": false
+      },
+      "retained_input_copy": "paint_left_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting.\nInput image 1 is design_reference.png, used ONLY as the colour, material and surface-detail authority. Input image 2 (the LAST image) is the EXACT 1024 x 1024 orthographic geometry guide and edit target.\nPaint directly inside image 2's existing silhouette. Preserve its original alpha silhouette pixel-for-pixel, exact canvas, object size, orientation, position, every part boundary, polygonal contour, hole and gap. Keep all empty margins. Do not rotate toward the design reference, enlarge the object, change the camera, smooth the outline, reconnect separated parts or add geometry. The guide overrides the design reference for ALL geometry. Copy no lighting or grey material tints from the guide.\nMaterials from image 1: warm white/ivory ceramic with fine restrained tan wear, fine scratches and hairline seams; satin brushed ochre gold metal with delicate etched geometric grooves; tiny dark charcoal/black-violet resin recesses with blue-white light where appropriate; dark charcoal leather with restrained grain and wrapping seams on the existing leather component. Paint the existing light element pale luminous ice-blue/white with subtle blue technical circular segmentation. Follow the reference's precise geometric panel joins and gold tracery on the existing surfaces, without enlarging any part. Continue unseen surfaces plausibly in the same design. The reference has blue-white, not orange, light.\nLIGHTING: unlit albedo texture source, completely even flat shadowless light from viewer. Eliminate the guide's grey shading, undercuts, contact shadows and ambient occlusion. Gold is its fairly even ochre-gold base colour with only a faint sheen, never white or yellow specular streaks. No directional gradients, cast shadows, darkened underside, AO, hot highlights, reflections, rim light, bloom or glow spill. Bright light colour is confined inside the light element. Fine material grain and shallow drawn seams are allowed, dramatic depth shading is not.\nBackground: real fully transparent alpha, including holes and gaps; no black backdrop, checkerboard pixels, floor or cast shadow. No text, letters, numerals, labels, logos or watermark. Return only the single painted view, not a collage. Preserve the unresized 1024 x 1024 guide composition.\nView: RIGHT, exactly guide_right.png. The horizontally elongated side-on ceramic body occupies x99..690,y342..651, the gold equatorial rim x66..721 at y473..515. The existing gold attachment projects right at x684..757,y463..540. The dark leather ring is the SEPARATE polygonal loop at x737..958,y502..722; retain its exact hole, silhouette and transparent gap to the body, without adding a connecting strap. The emitter is ONLY the low ice-blue dome at x315..441,y301..327, with gold collar x295..461,y326..352. Preserve all positions and polygonal edges. Paint both upper and lower ceramic the same evenly lit warm ivory. Wrap fine reference-style panel seams and restrained gold tracery around this opposite side, and paint the right loop dark charcoal leather.\nFlat albedo priority: upper AND lower ceramic are equally bright ivory; gold facets equally mid ochre gold. No shaded lower hemisphere. Preserve exact guide margins and do not increase the height of the body or dome.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "273c5be99a40ffeb424535ddf4d5becd1d9d93d76add867d2351d1652d18eed6",
+          "role": "design / material reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "fe05a15494af123a660d3917441fad4ac575413d8057c0faf8b90720155c8bf0",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected for the closer guide silhouette and part placement (normalized silhouette IoU 0.973711). The correction flattened lighting but introduced more scale/position drift. Residual shading and highlights remain; exact silhouette/albedo gates are not met.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-2ef88662-64a5-4d10-9cb5-63a653bd50bb.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "06a4526f558d7608b96452caeb5a4155b5693f490ba10b35323e2443d791e19e",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.973711,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          25,
+          1242,
+          1218
+        ],
+        "opaque_bbox": [
+          82,
+          372,
+          1174,
+          883
+        ],
+        "transparent_pixel_count": 1285402,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 22375,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Residual lower-body shading and metal highlights remain.",
+        "strict_brief_checks_passed": false
+      },
+      "retained_input_copy": "paint_right_attempt1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting.\nInput image 1 is the EXACT orthographic geometry guide and edit target. Input image 2 is design_reference.png, used ONLY as the colour, material and surface-detail authority.\nPaint directly inside image 1's existing silhouette. Preserve its original alpha silhouette pixel-for-pixel, exact canvas, object size, orientation, position, every part boundary, polygonal contour, hole and gap. Keep all empty margins. Do not rotate toward the design reference, enlarge the object, change the camera, smooth the outline, reconnect separated parts or add geometry. The guide overrides the design reference for ALL geometry. Copy no lighting or grey material tints from the guide.\nMaterials from image 2: warm white/ivory ceramic with fine restrained tan wear, fine scratches and hairline seams; satin brushed ochre gold metal with delicate etched geometric grooves; tiny dark charcoal/black-violet resin recesses with blue-white light where appropriate; dark charcoal leather with restrained grain and wrapping seams on the existing leather component. Paint the existing light element pale luminous ice-blue/white with subtle blue technical circular segmentation. Follow the reference's precise geometric panel joins and gold tracery on the existing surfaces, without enlarging any part. Continue unseen surfaces plausibly in the same design. The reference has blue-white, not orange, light.\nLIGHTING: unlit albedo texture source, completely even flat shadowless light from viewer. Eliminate the guide's grey shading, undercuts, contact shadows and ambient occlusion. Gold is its fairly even ochre-gold base colour with only a faint sheen, never white or yellow specular streaks. No directional gradients, cast shadows, darkened underside, AO, hot highlights, reflections, rim light, bloom or glow spill. Bright light colour is confined inside the light element. Fine material grain and shallow drawn seams are allowed, dramatic depth shading is not.\nBackground: real fully transparent alpha, including holes and gaps; no black backdrop, checkerboard pixels, floor or cast shadow. No text, letters, numerals, labels, logos or watermark. Return only the single painted view, not a collage. Preserve the unresized 1024 x 1024 guide composition.\nView: TOP, exactly guide_top.png, orthographic directly above. Preserve the vertical oval ceramic body x306..715,y337..925 and its existing gold rim within x285..739,y303..958. The circular light is at x451..573,y585..708, inside the existing gold ring x430..593,y565..727: this is the ONLY circular emitter, NOT at the canvas centre. Put the design reference's blue-white circular segmented glass-like light detail into that exact disk. The existing gold attachment is x474..550,y267..338. Above it the leather loop is seen EDGE-ON as a narrow vertical strip x490..533,y66..268 with pointed end. Paint this strip dark charcoal leather; never turn it into an open ring. Translate the reference's ivory panel seams and elegant gold structural tracery onto the oval face while keeping those lines strictly inside the guide and preserving the ring size and placement. Reference side flanges may be suggested as flat surface decoration only; do not add projecting horns or alter the rim.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f2911fb9d275e09c70661acd674cd3dfa5405239da3629f6413f1187a61f2cd8",
+          "role": "geometry guide / edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "273c5be99a40ffeb424535ddf4d5becd1d9d93d76add867d2351d1652d18eed6",
+          "role": "design / material reference"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: the tool returned 1254 x 1254 and changed relative part sizes/placement; lighting also contains stronger sheen than requested. Retained unresized. One corrective generation will use the guide as the final image/edit target.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-0b602fde-1b45-4dc5-a216-5814a41242f0.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ee5fdf2838cc9b8f07354b501c67d46d5f3b6b8d9f04f6dbb1977d1dc4622868",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.873943,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          17,
+          21,
+          1228,
+          1254
+        ],
+        "opaque_bbox": [
+          359,
+          58,
+          894,
+          1129
+        ],
+        "transparent_pixel_count": 1216944,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 21348,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Residual lower-body shading and metal highlights remain.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Edit ONLY the LAST input image, guide_top.png (1024 x 1024). The first input is solely a material reference. Return a 1024 x 1024 RGBA PNG with real transparent background.\nThis is a strict texture paint-over, not a new object illustration. LOCK every pixel of the guide's silhouette, all empty margins, exact contour, part sizes and positions. Especially keep the light disk small at (512,647), radius 60 pixels, inside its original ring. Do not enlarge it. Keep the topmost leather strip at x490..533,y66..268, the existing gold attachment x474..550,y267..338, and the oval body/rim spanning x285..739,y303..958. Do not recenter, scale, straighten or smooth any outline.\nPaint the grey body warm white ceramic with restrained fine tan wear and thin panel seams, the existing beige rim and emitter collar flat brushed ochre gold, the narrow edge-on upper strap dark charcoal leather with subtle grain and fine wrap seams, and the existing light disk pale ice-blue white with delicate blue circular technical segmentation. Reference-style narrow gold panel trims may decorate the ceramic surface, without changing part boundaries or making the light disk larger. Do not add an open loop, fins, protrusions, letters or symbols.\nCorrection priority: exact guide placement and flat albedo. No rendered lighting at all: no cast/contact shadow, no ambient occlusion, no dark contour shading, no metal highlights, no reflection, no rim light or bloom. Use evenly coloured flat material swatches with fine texture and drawn seams only. All gold has essentially the same ochre-gold base tone; all ceramic has essentially the same warm ivory base tone. Preserve transparency completely outside the original guide and in its gaps. The target is the LAST image, not the reference.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "273c5be99a40ffeb424535ddf4d5becd1d9d93d76add867d2351d1652d18eed6",
+          "role": "design / material reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "f2911fb9d275e09c70661acd674cd3dfa5405239da3629f6413f1187a61f2cd8",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected over attempt 1: smaller correctly placed emitter and flatter lighting. Exact guide silhouette is not preserved; contour and strap-end deviations remain. Retained unresized; corrective-generation limit reached.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-b883ba17-abdb-4979-aba3-a94abc8a29a1.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d15906ce6c786e32770ba8125e5565b2ee9dd7533f7ccfcead3966f4fde3aaa5",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.971109,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          38,
+          1240,
+          1190
+        ],
+        "opaque_bbox": [
+          347,
+          84,
+          906,
+          1165
+        ],
+        "transparent_pixel_count": 1200327,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 12333,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Flatter colours and reduced glare; some edge/seam shading and sheen remain.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "15bdac90ce2b63224de13519a5682593957ff1b33dced3684a6aec4916daf87a",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: flatter lighting, but substantially enlarged object and changed panel design compared with guide. Kept unresized; one correction limit reached.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Paint the supplied guide_front.png IN PLACE as a 1024 x 1024 RGBA albedo texture source. This supplied image is the exact target. Preserve its alpha silhouette pixel for pixel, its polygonal contour, all part edges, its exact position/size in frame, and its empty margins.\nChange only the interior surface colour and detail. Grey shell -> warm white ivory ceramic, a few fine tan scratches and restrained thin geometric panel seams. Beige horizontal rim and top collar -> even satin ochre gold, fine brushed grain and engraved linework. Blue dome -> pale blue-white luminous glass with fine blue segmented lines. Narrow beige tip below body -> matte black-charcoal worn leather with grain and small wrap seams. Paint elegant narrow geometric gold trim framing the ivory panels in the Hesper device's approved style; keep the emitter only as the existing dome above the body, never add a light on the front face.\nCRITICAL CORRECTION: use flat diffuse ALBEDO colours, not a rendered shiny object. The entire lower ceramic hemisphere must be the SAME BRIGHT IVORY as the upper ceramic hemisphere. Remove every shadow and shading gradient from the guide. The horizontal gold rim has the SAME GOLD COLOUR on all visible facets. No darkened underside, occlusion, cast/contact shadows, dark outlines used as shading, bright specular lines, reflections, bloom, rim lighting, surface glare or hot highlights. Only fine material wear/texture and thin seam lines.\nThe exact guide body is x310..714,y348..650, horizontal rim x286..738,y473..515, top light dome x449..575,y301..327, collar x429..595,y326..352, and narrow leather tip x490..533,y648..721. Keep the guide's original pointed tip; do not round it. Do not enlarge, recenter, rotate, smooth or redesign any shape. Fully transparent alpha outside original silhouette; no background, ground, text, letters, numbers or watermark. Return only the single painted view at exactly 1024 x 1024.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-0fa37434-a61e-4147-9398-e20379d7ef04.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "4f960750946f4e9ce04c8e5fa2928145f290e00bddd8cf3bf10d62e1cb1a9976",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.513676,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          39,
+          1178,
+          1229
+        ],
+        "opaque_bbox": [
+          254,
+          271,
+          1000,
+          1014
+        ],
+        "transparent_pixel_count": 1249496,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 162169,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Flatter colours and reduced glare; some edge/seam shading and sheen remain.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Paint directly over the LAST image (guide_back.png), keeping its exact pixel footprint on a 1024 x 1024 transparent canvas. The first image is ONLY a colour/material reference. Do not compose a new image or zoom the object. Use the guide as a stencil and do not change its contour.\nExact framing: the TOTAL object extends x286 to x738, y301 to y722 on the 1024-square canvas: only 44.1% of canvas width and 41.1% of its height, with roughly 29% blank margin left and right and 29% blank margin above and below. Keep this SMALL central silhouette, not a large closeup. Keep the ceramic body, narrow equatorial rim, dome at top and overlapping edge-on strap precisely where the guide draws them. The strap is narrow, 43 pixels wide, and has a pointed end. No added parts.\nPaint the existing grey shell warm white ceramic with fine restrained tan wear and delicate geometric panel seams. Paint existing beige gold parts evenly ochre gold with very fine brushed texture. Paint the existing blue dome pale ice-blue white with fine blue segmented linework. Paint the overlapping leather strip black-charcoal with grain and wraps. Use the first image's materials and geometric detailing, applied within guide parts only.\nThis is FLAT UNLIT ALBEDO, not a shaded render: both top and bottom ceramic hemispheres the SAME bright ivory; gold facets the SAME mid ochre-gold base colour. No shadows, ambient occlusion, darker underside, specular highlights, shine, rim light, reflections, bloom or background. All shading in the guide must be replaced by even albedo. Fine wear, grain and engraved seams only. No text, letters, numbers, logos or watermarks. Transparent alpha everywhere outside the exact original guide silhouette. Return one 1024 x 1024 RGBA image.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "273c5be99a40ffeb424535ddf4d5becd1d9d93d76add867d2351d1652d18eed6",
+          "role": "design / material reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "a88e3a6686e548932f161ae8202c7edd0c3134ce73b9a86cf709eacd9ec85f4e",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected over attempt 1: restored small central framing and substantially reduced lower-body shading. Contour, emitter-collar and strap-width deviations remain; retained unresized.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-245a4ca4-00aa-47f0-87c7-5eb7f540796e.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7b0c3653763b65c145d86020da89441061424f574759f603eef5ee1ac40760c5",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.976592,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          150,
+          1162,
+          1083
+        ],
+        "opaque_bbox": [
+          354,
+          365,
+          900,
+          889
+        ],
+        "transparent_pixel_count": 1404499,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 7519,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Flatter colours and reduced glare; some edge/seam shading and sheen remain.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "a9766ef916d5fbd3be9f0f6dd83a08d0f7e28d51a41c6f233830bf5e2384704f",
+          "role": "first painting / edit target"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "3fbd80ae70705ba68e7260940d6515b8f1c77dec67c048ea2ff1610e70a1cdee",
+          "role": "exact geometry guide"
+        }
+      ],
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: substantially flatter colour, but worse silhouette/placement match (normalized silhouette IoU 0.938148). Retained unresized; one corrective generation used.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Produce the LEFT orthographic albedo painting. Image 1 is the first painting to correct. Image 2 is the original geometry guide. Preserve image 1's detailed ceramic panels, gold detailing, blue light and leather grain, but REMOVE ALL LIGHTING AND REFLECTIONS from their colours.\nThe entire ceramic, including its lower hemisphere, must be uniform bright warm ivory apart from fine tan wear. Gold must be uniform moderately saturated ochre-gold base colour apart from fine brushing and engraved seams. Remove shiny white/yellow metal edges and glare patches. Leather stays matte charcoal with subtle grain, no shiny highlights. Light components remain pale blue-white, with no bloom. No cast shadows, AO, dark underside, shading gradients, specular glints, reflections or rim light anywhere.\nKeep the exact silhouette, every part, position, size, margins, the separate leather ring, its empty hole and gap from the body as fixed by image 2. Do not enlarge or reposition the object. Match the guide's original polygonal contours and part boundaries, with no extra geometry or light spilling beyond them. Return the single 1024 x 1024 transparent RGBA painting with the guide's exact composition. Fully transparent outside the silhouette and inside loop/gaps. No background, floor, text, letters or watermark.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-01ed4fb1-f6fd-49f8-8950-735250c7a775.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "4db3b660bb4400e55f956fd13f46aad7962f426e0bbe01609eb27032c7af4340",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.938148,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1232,
+          1254
+        ],
+        "opaque_bbox": [
+          76,
+          369,
+          1177,
+          887
+        ],
+        "transparent_pixel_count": 1278276,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 29743,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Flatter colours and reduced glare; some edge/seam shading and sheen remain.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "paint_right_attempt1.png",
+          "sha256": "06a4526f558d7608b96452caeb5a4155b5693f490ba10b35323e2443d791e19e",
+          "role": "first painting / edit target"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "fe05a15494af123a660d3917441fad4ac575413d8057c0faf8b90720155c8bf0",
+          "role": "exact geometry guide"
+        }
+      ],
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: substantially flatter colour, but worse silhouette/placement match (normalized silhouette IoU 0.859432). Retained unresized; one corrective generation used.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Produce the RIGHT orthographic albedo painting. Image 1 is the first painting to correct. Image 2 is the original geometry guide. Preserve image 1's detailed ceramic panels, gold detailing, blue light and leather grain, but REMOVE ALL LIGHTING AND REFLECTIONS from their colours.\nThe entire ceramic, including its lower hemisphere, must be uniform bright warm ivory apart from fine tan wear. Gold must be uniform moderately saturated ochre-gold base colour apart from fine brushing and engraved seams. Remove shiny white/yellow metal edges and glare patches. Leather stays matte charcoal with subtle grain, no shiny highlights. Light components remain pale blue-white, with no bloom. No cast shadows, AO, dark underside, shading gradients, specular glints, reflections or rim light anywhere.\nKeep the exact silhouette, every part, position, size, margins, the separate leather ring, its empty hole and gap from the body as fixed by image 2. Do not enlarge or reposition the object. Match the guide's original polygonal contours and part boundaries, with no extra geometry or light spilling beyond them. Return the single 1024 x 1024 transparent RGBA painting with the guide's exact composition. Fully transparent outside the silhouette and inside loop/gaps. No background, floor, text, letters or watermark.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dd5-65f2-7c60-b7ab-b3013e7aa0fd/exec-1ae2b796-3228-4f93-8b48-fdcfa402b3f2.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "bee0eeb7216994075dec960081e860a2eaa53efd85c1ee1372d7304a6f457b1a",
+      "unresized_unmodified_return": true,
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.859432,
+        "normalized_silhouette_method": "Compare alpha >= 128 at the same normalized canvas coordinates; guide sampling is diagnostic only. Output pixels were never resized or changed.",
+        "rgba_with_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          148,
+          1197,
+          1238
+        ],
+        "opaque_bbox": [
+          62,
+          368,
+          1194,
+          907
+        ],
+        "transparent_pixel_count": 1266017,
+        "nonzero_alpha_pixels_outside_normalized_guide_mask": 45446,
+        "no_text_or_letters_visual_check": true,
+        "material_palette_visual_check": "Ivory ceramic, ochre gold, blue-white light and charcoal leather are represented; generated detailing varies by view.",
+        "flat_even_light_visual_check": "Flatter colours and reduced glare; some edge/seam shading and sheen remain.",
+        "strict_brief_checks_passed": false
+      }
+    }
+  ]
+}

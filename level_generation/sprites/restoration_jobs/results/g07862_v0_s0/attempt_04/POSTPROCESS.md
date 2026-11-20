@@ -1,0 +1,1 @@
+Use recorded magenta matte and mask.png. After process replay calibrate_orb_gamma.py from before_orb_grade backups, then queue.py check. Exact mask request: state/g07862_v0_s0.mask_repair.txt. Earlier cyan metadata was explicitly corrected using submitted prompt and inspected raw; repair_review.json describes resolved defects.

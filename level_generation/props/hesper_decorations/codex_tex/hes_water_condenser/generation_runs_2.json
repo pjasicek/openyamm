@@ -1,0 +1,107 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit.\nCreate exactly one 1024 x 1024 RGBA image with a genuinely transparent background, an unresized texture-source painting.\nInput 1 design_reference.png is the approved design, colour and material authority only.\nInput 2 guide_back.png is the EDIT TARGET: a plain grey orthographic BACK view of the exact water condenser model. Paint directly onto this guide, retaining its exact pixel silhouette, outline, size, position, camera, all shape edges, openings, fins, supports, bolts, tank, bottom cone and bowl. Do not reinterpret the geometry or use the reference's three-quarter view. Every empty opening in the guide remains transparent. Nothing added outside the silhouette and nothing cropped.\nPaint the surface materials of the reference onto the guide: lightly weathered white and pale grey prefab composite tank and cap; a broad teal band with a narrow orange stripe beneath it around the lower tank; brushed steel cooling fins and structural metal details; glass gauge with blue water and dark rubber hoses only where existing geometry is visible in this back view. Do not invent a front gauge or tap on the back. Preserve all guide geometry exactly, including central rear support.\nLIGHTING: texture source ALBEDO. Even flat shadowless lighting from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Metal is represented by its base colour and subtle brushed texture rather than dark shaded crevices or reflective lighting. Glowing parts are painted their glowing colour without light cast on surroundings.\nOutput only the painted back view, at exactly 1024 x 1024 with true alpha transparency.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "77e1d65e323e6108d25470ed40523609381eb25313a08cb0ead99b4d83e476c1"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1604a-4463-7071-86ae-e4c220015c96/exec-b2152ebb-e809-4783-af0a-41d2fb4c93bd.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Incorrect native resolution, silhouette drift and stray edge pixels; baked shadows. Used the one allowed corrective generation.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1242,
+          1222
+        ],
+        "guide_alpha_bbox": [
+          343,
+          66,
+          681,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White/pale grey composite, teal and orange bands, brushed steel appearance match reference visually.",
+        "flat_even_light": "Fail: baked shading remains on core, fins, cone and feet.",
+        "unresized_return": true
+      },
+      "output_sha256": "be70d54e666ad0c47baa4ebc698dc0e288bc199d3921ae36d49c1f781396cda0"
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit.\nCreate exactly one 1024 x 1024 RGBA image with a genuinely transparent background, an unresized texture-source painting.\nInput 1 design_reference.png is the approved design, colour and material authority only.\nInput 2 guide_back.png is the EDIT TARGET: a plain grey orthographic BACK view of the exact water condenser model. Paint directly onto this guide, retaining its exact pixel silhouette, outline, size, position, camera, all shape edges, openings, fins, supports, bolts, tank, bottom cone and bowl. Do not reinterpret the geometry or use the reference's three-quarter view. Every empty opening in the guide remains transparent. Nothing added outside the silhouette and nothing cropped.\nPaint the surface materials of the reference onto the guide: lightly weathered white and pale grey prefab composite tank and cap; a broad teal band with a narrow orange stripe beneath it around the lower tank; brushed steel cooling fins and structural metal details; glass gauge with blue water and dark rubber hoses only where existing geometry is visible in this back view. Do not invent a front gauge or tap on the back. Preserve all guide geometry exactly, including central rear support.\nLIGHTING: texture source ALBEDO. Even flat shadowless lighting from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Metal is represented by its base colour and subtle brushed texture rather than dark shaded crevices or reflective lighting. Glowing parts are painted their glowing colour without light cast on surroundings.\nOutput only the painted back view, at exactly 1024 x 1024 with true alpha transparency.\nCORRECTIVE GENERATION, final permitted attempt: The previous return incorrectly used 1254 x 1254, changed the silhouette, had stray edge pixels and baked dark shading. Correct these issues. Output native 1024 x 1024, absolutely no other resolution. Use guide_back.png as the actual canvas: its object bounding box is x=343 through 680 and y=66 through 957 in the 1024-square canvas. Keep its alpha silhouette pixel-for-pixel, including every hole, with zero stray opaque or semitransparent pixels outside it. Do not expand, recenter, zoom, rotate or reshape it. Retain the guide's flat geometry and paint surface base colours ONLY. ALL steel fins and the core between them must have even mid-light grey base colour, without black shading, occlusion, highlights or gradients from lighting. The cone and feet must be evenly coloured, too. This is a flat albedo projection for baking, not a rendered product photograph. Preserve the reference's pale composite and teal/orange palette with fine surface wear.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "77e1d65e323e6108d25470ed40523609381eb25313a08cb0ead99b4d83e476c1"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1604a-4463-7071-86ae-e4c220015c96/exec-3ab608ce-dc69-4b5d-a27b-02a02a10aa3f.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best available return after the single permitted correction: lighter core and closer back geometry, with matching white/teal/orange materials. Not fully compliant: resolution and exact silhouette requirements failed, stray edge pixels and baked shading remain. Preserved unresized and unmodified.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          20,
+          1232,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          343,
+          66,
+          681,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White/pale grey composite, teal and orange bands, brushed steel appearance match reference visually.",
+        "flat_even_light": "Fail: baked shading remains on core, fins, cone and feet.",
+        "unresized_return": true
+      },
+      "output_sha256": "99c3b4692e441b69c0de92e0defed90ad3678d474e990b7b7a8fd9da62027111"
+    }
+  ]
+}

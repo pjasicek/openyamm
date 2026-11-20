@@ -1,0 +1,59 @@
+# STAGED CANDIDATE; requires the renderer/input work in INTEGRATION.md.
+party_effects:
+- id: TorchLight
+  icon: obsidian_buff_sbf01a
+- id: WizardEye
+  icon: obsidian_buff_sba01a
+- id: FeatherFall
+  icon: obsidian_buff_sba02a
+- id: DetectLife
+  icon: obsidian_buff_sbs01a
+- id: WaterWalk
+  icon: obsidian_buff_sbw05a
+- id: Fly
+  icon: obsidian_buff_sba10a
+- id: Invisibility
+  icon: obsidian_buff_sba08a
+- id: Stoneskin
+  icon: obsidian_buff_sbe05a
+- id: DayOfGods
+  icon: obsidian_buff_sbl06a
+- id: ProtectionFromMagic
+  icon: obsidian_buff_sbb09a
+- id: FireResistance
+  icon: obsidian_buff_sbf03a
+- id: WaterResistance
+  icon: obsidian_buff_sbw03a
+- id: AirResistance
+  icon: obsidian_buff_sba03a
+- id: EarthResistance
+  icon: obsidian_buff_sbe03a
+- id: MindResistance
+  icon: obsidian_buff_sbm03a
+- id: BodyResistance
+  icon: obsidian_buff_sbb03a
+- id: Shield
+  icon: obsidian_buff_sba06a
+- id: Heroism
+  icon: obsidian_buff_sbs07a
+- id: Haste
+  icon: obsidian_buff_sbf05a
+- id: Immolation
+  icon: obsidian_buff_sbf08a
+- id: Glamour
+  icon: obsidian_buff_sbde01a
+- id: Levitate
+  icon: obsidian_buff_sbv02a
+character_effects:
+- Bless
+- Fate
+- Preservation
+- Regeneration
+- Hammerhands
+- PainReflection
+- FireAura
+- VampiricWeapon
+- Mistform
+- Glamour
+character_button: obsidian_personal_buffs
+note: Use live effects; glyph-free top-left strip covers party enums, personal effects stay owner-scoped.

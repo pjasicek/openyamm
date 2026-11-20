@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit paint_mask_guide.png (image 3), using image 1 design_reference.png for materials/details and image 2 icon_x8.png for colour only. Produce ONE transparent PNG 1536x2048, 3:4 canvas, exact guide layout 3 columns x 4 rows of 512x512 cells. Preserve every guide silhouette's exact position, size, outline, and orientation. Do not rotate the views despite the item description 'source-faithful vertical key bow-up'. The guide is authoritative geometry: several thin horizontal edge views and one broad key view per half. Paint grey objects ONLY. Rows 1-2 PAINT: unlit base colour of aged golden brass Book Key, matching reference's worn ochre golden brass, subtle mottling, wear and fine scratches, no lighting, cast shadows, AO, hot highlights or reflections. Match facets and details scaled to each view without changing geometry. Rows 3-4 MATERIAL MASK: same five guide silhouettes filled entirely FLAT PURE RED #FF0000 because all parts are metal. No texture, shading, outlines or internal colour blends in material masks. Other possible classification colours only if actually present: leather/fur green #00FF00, cloth/hair blue #0000FF, matte nonmetal yellow #FFFF00; this key is all metal. Preserve every gap/opening exactly as guide and fully transparent; do not introduce reference bow holes where the guide silhouette is solid. Empty column 3 row 2 and column 3 row 4 stay transparent. Background truly transparent, no ground, glow, halo, sparkles, aura, outlines or text. Do not redraw, enlarge, move or redesign any object. Output only atlas.\nCORRECTION: Output MUST have width 1536 height 2048 (3:4), not a tall narrow canvas. Copy original guide's normalized coordinates exactly: first-row strips centered at y=0.125; second-row objects centered y=0.375; third-row strips y=0.625; fourth-row objects y=0.875. Columns centered x=1/6, 1/2, 5/6. Original guide silhouettes are the exact alpha stencil. No stray pixels or splatters anywhere outside them. Lower half solid pure red clean silhouettes without black lines or texture.",
+  "initial_prompt": "Edit paint_mask_guide.png (image 3), using image 1 design_reference.png for materials/details and image 2 icon_x8.png for colour only. Produce ONE transparent PNG 1536x2048, 3:4 canvas, exact guide layout 3 columns x 4 rows of 512x512 cells. Preserve every guide silhouette's exact position, size, outline, and orientation. Do not rotate the views despite the item description 'source-faithful vertical key bow-up'. The guide is authoritative geometry: several thin horizontal edge views and one broad key view per half. Paint grey objects ONLY. Rows 1-2 PAINT: unlit base colour of aged golden brass Book Key, matching reference's worn ochre golden brass, subtle mottling, wear and fine scratches, no lighting, cast shadows, AO, hot highlights or reflections. Match facets and details scaled to each view without changing geometry. Rows 3-4 MATERIAL MASK: same five guide silhouettes filled entirely FLAT PURE RED #FF0000 because all parts are metal. No texture, shading, outlines or internal colour blends in material masks. Other possible classification colours only if actually present: leather/fur green #00FF00, cloth/hair blue #0000FF, matte nonmetal yellow #FFFF00; this key is all metal. Preserve every gap/opening exactly as guide and fully transparent; do not introduce reference bow holes where the guide silhouette is solid. Empty column 3 row 2 and column 3 row 4 stay transparent. Background truly transparent, no ground, glow, halo, sparkles, aura, outlines or text. Do not redraw, enlarge, move or redesign any object. Output only atlas.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0e-4efd-7900-b281-af4005e2e2f3/exec-bc5f3532-6f2f-44b7-a82a-06c62d3571ec.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10244/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10244/design_reference.png",
+      "sha256": "4a1a772f0c23f8fddf4cf8fe5d2c4f42584cc154601b0aa48ba8bdaa34de2818"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10244/icon_x8.png",
+      "sha256": "5cacf15819e86e69d69a9e80f618c2cd0b69c9fc63f5e7502431d68768d1332b"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10244/paint_mask_guide.png",
+      "sha256": "32d648acebd1015e161153531f3966665d392befec2320d518d40d57dccdabd1"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "note": "Raw generated output preserved. Visible stray edge pixels remain; exact silhouette and pure mask compliance not achieved."
+  }
+}

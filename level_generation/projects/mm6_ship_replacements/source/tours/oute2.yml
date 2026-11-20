@@ -1,0 +1,32 @@
+output_dir: ../../review/oute2
+settle_seconds: 1.5
+exit: true
+shots:
+- name: adventure_overview
+  position:
+  - -2500
+  - -17580
+  - 1412
+  yaw: 2.1907963267948967
+  pitch: -0.3
+- name: adventure_boarding
+  position:
+  - -4102
+  - -14608
+  - 176
+  yaw: 3.141592653589793
+  pitch: -0.2
+- name: adventure_return
+  position:
+  - -4648
+  - -14608
+  - 105
+  yaw: 0.0
+  pitch: -0.12
+- name: adventure_cabin
+  position:
+  - -4800
+  - -14384
+  - 105
+  yaw: 1.5707963267948966
+  pitch: 0

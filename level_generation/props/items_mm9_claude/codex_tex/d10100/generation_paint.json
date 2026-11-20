@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png (input 1) precisely, using design_reference.png (input 2) as material/detail reference and icon_x8.png (input 3) as colour reference (magenta is background).\nProduce ONE transparent PNG, 3:4 canvas 1536x2048 or nearest 3:4 size. The guide is three columns by FOUR rows of equal cells, rows 1-2 duplicated in rows 3-4. Preserve exact positions, sizes, silhouettes, orientations and openings of ALL TEN objects. Paint only existing grey object pixels; never redraw, enlarge, move, redesign or rearrange them. Guide views FRONT, BACK, LEFT / RIGHT, TOP, empty. The unusual orientations in the guide are intentional and must remain.\nRows 1-2 PAINT: unlit base colour silver-grey short-sleeved chain mail shirt ending at waist, pointed V-shaped bib of finer denser mail from neck over chest, no trim or other colours. Follow reference mail detail scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only, no shading, texture, outlines or internal antialiased blends. #FF0000 every metal part including all chainmail; #00FF00 leather/fur; #0000FF cloth/hair; #000000 gemstones/glass/enamel/liquid. This item is entirely chainmail metal so ALL FIVE LOWER silhouettes must be SOLID PURE RED #FF0000, including visible inner surfaces. Every silhouette pixel exactly one material colour, nothing outside.\nKeep every guide gap and opening fully transparent. Empty cells column 3 row 2 and column 3 row 4 stay fully transparent. No background. Strictly preserve guide geometry.\nCORRECTION: The previous attempt had extensive stray red pixels outside the lower silhouettes and filled transparent openings. Start from the original grey guide supplied here. Absolutely clean transparent background outside every silhouette, no stray marks whatsoever. Lower five shapes must match the upper five shapes exactly, preserving every neck/arm opening as transparency, and be solid flat red without any pattern, speckles, shading or gradients. Maintain the precise original guide silhouette edges.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10100/paint_mask_guide.png",
+      "sha256": "2fcea87fbbb3a0f70a43e44aab2bdaa6a960f72a1f2f20c78f4628f308c38901"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10100/design_reference.png",
+      "sha256": "27dd91f4bf08198184fe41560a259db31cd5846b3a872976e66e7256c5ce704d"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10100/icon_x8.png",
+      "sha256": "a78324eee330b3ec0e88c015477594878d1316679df59995576ca6bca464f725"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acaa-87ae-7802-9b26-99f20e815244/exec-ccfda04b-8026-488f-b720-b618a3d88104.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10100/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained, but stray red pixels outside material silhouettes and incorrect openings remain. Raw tool output preserved without edits."
+}

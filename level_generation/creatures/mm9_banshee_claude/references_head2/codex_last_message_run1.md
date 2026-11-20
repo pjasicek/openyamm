@@ -1,0 +1,3 @@
+Saved run 1 to [a/00_three_quarter.png](level_generation/creatures/mm9_banshee_claude/references_head2/a/00_three_quarter.png), unresized with transparency. Both raw returns, prompts and input hashes are recorded in [generation_runs.json](level_generation/creatures/mm9_banshee_claude/references_head2/generation_runs.json).
+
+Stopped after the one allowed correction; runs 2–3 untouched. The result still exceeds the requested head size and retains excess hair volume and a short neck.

@@ -718,6 +718,11 @@ GameplayMonsterBolsterResult resolveGameplayMonsterBolster(
     result.spell1SkillMastery = stats.spell1SkillMastery;
     result.spell2SkillLevel = stats.spell2SkillLevel;
     result.spell2SkillMastery = stats.spell2SkillMastery;
+    // MM8's Immobile kind (trees, boulders, reactors) never moves, on every map, as does a Stationary monster.
+    const bool immobile =
+        (stats.kindFlags & monsterKindFlag(MonsterKind::Immobile)) != 0
+        || stats.movementType == MonsterTable::MonsterMovementType::Stationary;
+    result.immobile = immobile;
 
     if (context.pMap == nullptr
         || context.pMonsterTable == nullptr
@@ -739,9 +744,6 @@ GameplayMonsterBolsterResult resolveGameplayMonsterBolster(
     const uint32_t monsterId = static_cast<uint32_t>(std::max(0, stats.id));
     const MergedBolsterMonsterEntry *pMonsterSettings = context.pBolsterMonsterTable->findById(monsterId);
     const uint16_t monsterHeight = pMonsterEntry != nullptr ? pMonsterEntry->height : uint16_t(160);
-    const bool immobile =
-        (pMonsterSettings != nullptr && lowercaseCopy(pMonsterSettings->type) == "immobile")
-        || stats.movementType == MonsterTable::MonsterMovementType::Stationary;
     const int basePartyLevel =
         gameplayBolsterAveragePartyLevel(context.pParty) + static_cast<int>(pMapSettings->bolsterExtra);
     const int familyLevel = monsterFamilyLevel(*context.pMonsterTable, context.pBolsterMonsterTable, monsterId);
@@ -761,7 +763,6 @@ GameplayMonsterBolsterResult resolveGameplayMonsterBolster(
     result.statsEnabled = statsEnabled;
     result.mapAllowsSpells = pMapSettings->spells;
     result.mapAllowsSummons = pMapSettings->summons;
-    result.immobile = immobile;
     result.partyLevel = basePartyLevel;
     result.monsterFamilyLevel = familyLevel;
     result.bolsterStep =

@@ -1,0 +1,431 @@
+/* Author mode's frame parts (S5_BROWSER_EDITOR.md 3.2, 3.3, 3.9). Colours from the tokens. */
+.modes, .presets
+{
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.mode, .preset
+{
+    padding: var(--space-1) var(--space-4);
+    border: 0;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.mode + .mode, .preset + .preset
+{
+    border-left: 1px solid var(--line);
+}
+
+.mode[data-pressed], .preset[data-pressed]
+{
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.stages
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    height: 30px;
+    padding: 0 var(--space-3);
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: var(--size-s);
+}
+
+.stage, .stageOn
+{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 24px;
+    padding: 0 var(--space-4);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: none;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.stage:hover
+{
+    border-color: var(--line);
+    background: var(--surface);
+}
+
+.stageOn
+{
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.stageNumber
+{
+    font-family: var(--mono);
+    color: var(--text-dim);
+}
+
+.stageCount
+{
+    padding: 0 var(--space-2);
+    border-radius: 8px;
+    background: var(--surface-3);
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-weight: 400;
+}
+
+.spacer
+{
+    flex: 1;
+}
+
+.saving
+{
+    color: var(--warn);
+}
+
+.saved
+{
+    color: var(--text-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 50%;
+}
+
+.refused
+{
+    color: var(--bad);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 55%;
+}
+
+.rail
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    height: 100%;
+    padding: var(--space-3) var(--space-2);
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+}
+
+.tool, .toolOn
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    height: 28px;
+    padding: 0 var(--space-3);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: none;
+    color: var(--text);
+    font-size: var(--size-s);
+    cursor: pointer;
+    text-align: left;
+}
+
+.tool:hover
+{
+    border-color: var(--line);
+    background: var(--surface-2);
+}
+
+.toolOn
+{
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.toolLabel
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.toolKey
+{
+    flex: none;
+    min-width: 16px;
+    padding: 0 var(--space-1);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-align: center;
+    color: var(--text-dim);
+}
+
+.later
+{
+    margin: var(--space-3) var(--space-2);
+    font-size: var(--size-s);
+    color: var(--text-dim);
+}
+
+.tip
+{
+    max-width: 320px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+    font-size: var(--size-s);
+    line-height: 1.45;
+    z-index: 20;
+}
+
+.toolbar
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex: none;
+    height: 32px;
+    padding: 0 var(--space-3);
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    font-size: var(--size-s);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.toolName
+{
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.option
+{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.optionLabel
+{
+    color: var(--text-dim);
+}
+
+.select
+{
+    height: 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+}
+
+.toggle
+{
+    height: 22px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text-dim);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.toggle[data-pressed]
+{
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.hint
+{
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-dim);
+}
+
+.button, .danger, .settingsButton
+{
+    height: 22px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.button:hover:not(:disabled), .settingsButton:hover
+{
+    border-color: var(--line-strong);
+    background: var(--surface-2);
+}
+
+.button:disabled, .danger:disabled
+{
+    opacity: 0.45;
+    cursor: default;
+}
+
+.danger
+{
+    border-color: var(--bad);
+    color: var(--bad);
+    background: var(--bad-soft);
+}
+
+.settingsButton
+{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.markTag
+{
+    padding: 0 var(--space-2);
+    border-radius: 8px;
+    background: var(--warn-soft);
+    color: var(--warn);
+    font-weight: 600;
+}
+
+.positioner
+{
+    z-index: 30;
+}
+
+.settings
+{
+    width: 420px;
+    padding: var(--space-4) var(--space-5);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 28px rgb(0 0 0 / 0.22);
+    font-size: var(--size-m);
+    line-height: 1.45;
+}
+
+.settingsTitle
+{
+    margin: 0 0 var(--space-3);
+    font-size: var(--size-l);
+}
+
+.settingsSection
+{
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--line);
+}
+
+.settingsSection h4
+{
+    margin: 0 0 var(--space-2);
+    font-size: var(--size-s);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+}
+
+.settingsSection p
+{
+    margin: 0 0 var(--space-3);
+}
+
+.markLine b
+{
+    color: var(--warn);
+}
+
+.dim
+{
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: var(--size-s);
+}
+
+.confirm
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+}
+
+.confirm p
+{
+    flex-basis: 100%;
+    margin: 0;
+}
+
+.message
+{
+    margin: var(--space-3) 0 0;
+    color: var(--warn);
+}
+
+.banners
+{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.noticeBad, .noticeWarn
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--size-m);
+}
+
+.noticeBad
+{
+    background: var(--bad-soft);
+    color: var(--bad);
+}
+
+.noticeWarn
+{
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.noticeBad > span, .noticeWarn > span
+{
+    flex: 1;
+}
+
+.noticeBad > button, .noticeWarn > button
+{
+    flex: none;
+}

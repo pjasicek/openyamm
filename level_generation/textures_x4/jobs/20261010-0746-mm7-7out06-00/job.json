@@ -1,0 +1,185 @@
+{
+ "id": "20261010-0746-mm7-7out06-00",
+ "world": "mm7",
+ "maps": [
+  "7out06.odm",
+  "7out04.odm"
+ ],
+ "created": "2026-10-10T05:46:21+00:00",
+ "textures": [
+  "mm7/hwm1bsw",
+  "mm7/hep1bs1",
+  "mm7/hep1bs",
+  "mm7/hep1bw"
+ ],
+ "requests": {
+  "mm7/hwm1bsw": {
+   "name": "hwm1bsw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, two carved wooden panels with ornate leaf relief below, framed by dark brown timber posts and beams, with a small arched window of wooden lattice in the upper boards",
+   "notes": {
+    "1": "every edge keeps the reference colours right up to the last pixel row and column: no pale, green or dark line along any edge",
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale, green or dark line along any edge",
+    "3": "the posts at the left and right edges continue the sharp posts in the side margins plank for plank at the same tone: their outermost pixel columns are plain lit post wood like the margin, with no black seam, groove or shadow line on the boundary; every edge keeps the reference colours right up to the last pixel row and column",
+    "4": "each vertical post is two lit planks with only a thin soft brown seam between them, never a black groove",
+    "5": "the right-hand post is one wide lit plank right up to the right edge: no seam, groove or dark line anywhere in the last few pixel columns; all rivets are dark grey iron like those in the side margins"
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "top": "mm7/hwm1bs1",
+     "left": "mm7/hwm1bs1",
+     "right": "mm7/hwm1bs1"
+    },
+    "3": {
+     "top": "mm7/hwm1bs1",
+     "left": "mm7/hwm1bs1",
+     "right": "mm7/hwm1bs1"
+    },
+    "4": {
+     "top": "mm7/hwm1bs1"
+    },
+    "5": {
+     "top": "mm7/hwm1bs1",
+     "left": "mm7/hwm1bs1",
+     "right": "mm7/hwm1bs1"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ]
+   },
+   "roll": {
+    "4": [
+     95,
+     0
+    ]
+   },
+   "ref_blur": {
+    "5": 2.0
+   }
+  },
+  "mm7/hep1bs1": {
+   "name": "hep1bs1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with a low clump of dark green ivy along the bottom",
+   "notes": {
+    "1": "every edge keeps the reference colours right up to the last pixel row and column: no pale, green or dark line along any edge",
+    "2": "the grey fieldstone continues across the left and right edges at full brightness: no dark joint, shadow or line along either side edge"
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hep1rw",
+     "left": "mm7/hep1lw"
+    },
+    "2": {
+     "right": "mm7/hep1rw",
+     "left": "mm7/hep1lw"
+    }
+   }
+  },
+  "mm7/hep1bs": {
+   "name": "hep1bs",
+   "versions": [
+    1
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with a vertical green-painted wooden pole in the centre overgrown with climbing dark green ivy",
+   "notes": {
+    "1": "every edge keeps the reference colours right up to the last pixel row and column: no pale, green or dark line along any edge"
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hep1rw",
+     "left": "mm7/hep1lw"
+    }
+   }
+  },
+  "mm7/hep1bw": {
+   "name": "hep1bw",
+   "versions": [
+    1
+   ],
+   "material": "rough grey stone wall under a green-painted wooden beam with a thin lattice rail along the top, with green-painted wooden posts on both side edges and a green-framed arched window over amber glass half covered by climbing dark green ivy and bare golden-brown vines; copy the composition exactly",
+   "notes": {
+    "1": "every edge keeps the reference colours right up to the last pixel row and column: no pale, green or dark line along any edge"
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hep1el",
+     "right": "mm7/hep1d"
+    }
+   }
+  }
+ }
+}

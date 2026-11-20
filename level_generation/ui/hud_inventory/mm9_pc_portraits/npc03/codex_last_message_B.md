@@ -1,0 +1,3 @@
+Saved [raw_B.png](level_generation/ui/hud_inventory/mm9_pc_portraits/npc03/raw_B.png) and [generation_B.json](level_generation/ui/hud_inventory/mm9_pc_portraits/npc03/generation_B.json) with prompts and hashes. Preserved the rejected attempt.
+
+Confirmed 28 portraits and real transparency. No pixel edits or builds. Remaining mismatch: first head turns opposite the template; ducking crops are approximate.

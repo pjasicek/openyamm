@@ -1,11 +1,14 @@
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/FaceEnums.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/TravelRuntime.h"
+#include "game/rules/GameRules.h"
 
 #include <SDL3/SDL.h>
 
 #include <cmath>
+#include <numbers>
 
 namespace OpenYAMM::Game
 {
@@ -28,7 +31,7 @@ std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorld
             || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dying
             || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dead
             || pActor->isInvisible
-            || !pActor->hostileToParty
+            || !worldRuntime.mapActorBlocksPartyMovement(*pActor)
             || pActor->radius == 0
             || pActor->height == 0)
         {
@@ -126,34 +129,66 @@ float mmergeStraightTravelCoordinate(float coordinate)
     const float sign = coordinate > 0.0f ? -1.0f : 1.0f;
     return (std::abs(coordinate) - 30.0f) * sign;
 }
+}
 
-void applyMergedStraightTravelArrival(
-    EventRuntimeState::PendingMapMove &move,
+EventRuntimeState::PendingMapMove buildBoundaryTravelMapMove(
     const MapEdgeTransition &transition,
-    const OutdoorMoveState &moveState)
+    MapBoundaryEdge edge,
+    float x,
+    float y,
+    float footZ,
+    float yawRadians)
 {
-    if (!transition.straightTravel || !transition.straightTravelSide.has_value())
+    EventRuntimeState::PendingMapMove move = {};
+    move.mapName = transition.destinationMapFileName;
+    move.directionDegrees = transition.directionDegrees;
+    move.useMapStartPosition = transition.useMapStartPosition;
+    move.traceSourceKind = "map_boundary";
+    move.traceSourceId = static_cast<uint32_t>(edge);
+    move.traceDestinationName = transition.destinationMapFileName;
+
+    if (!transition.useMapStartPosition
+        && transition.arrivalX.has_value()
+        && transition.arrivalY.has_value()
+        && transition.arrivalZ.has_value())
     {
-        return;
+        move.x = *transition.arrivalX;
+        move.y = *transition.arrivalY;
+        move.z = *transition.arrivalZ;
+        return move;
     }
 
-    move.useMapStartPosition = false;
-    move.x = roundedOutdoorCoordinate(moveState.x);
-    move.y = roundedOutdoorCoordinate(moveState.y);
-    move.z = roundedOutdoorCoordinate(moveState.footZ);
+    if (!transition.straightTravel || !transition.arrivalSide.has_value())
+    {
+        move.startPointName = mapStartPointName(transition.arrivalSide);
+        return move;
+    }
 
-    switch (*transition.straightTravelSide)
+    // MMerge mirrors the crossing coordinate 30 units inside the opposite edge and keeps the party's heading.
+    move.useMapStartPosition = false;
+    move.x = roundedOutdoorCoordinate(x);
+    move.y = roundedOutdoorCoordinate(y);
+    move.z = roundedOutdoorCoordinate(footZ);
+
+    switch (*transition.arrivalSide)
     {
         case MapBoundaryEdge::North:
         case MapBoundaryEdge::South:
-            move.y = roundedOutdoorCoordinate(mmergeStraightTravelCoordinate(moveState.y));
+            move.y = roundedOutdoorCoordinate(mmergeStraightTravelCoordinate(y));
             break;
         case MapBoundaryEdge::East:
         case MapBoundaryEdge::West:
-            move.x = roundedOutdoorCoordinate(mmergeStraightTravelCoordinate(moveState.x));
+            move.x = roundedOutdoorCoordinate(mmergeStraightTravelCoordinate(x));
             break;
     }
-}
+
+    if (!move.directionDegrees.has_value())
+    {
+        const int32_t degrees = static_cast<int32_t>(std::lround(yawRadians * 180.0f / std::numbers::pi_v<float>));
+        move.directionDegrees = ((degrees % 360) + 360) % 360;
+    }
+
+    return move;
 }
 
 OutdoorSceneRuntime::OutdoorSceneRuntime(
@@ -305,6 +340,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
 
     uint64_t stageBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;
     m_pPartyRuntime->setActorColliders(buildRuntimeActorColliders(*m_pWorldRuntime));
+    m_pPartyRuntime->setHiddenDecorationEntities(m_pWorldRuntime->refreshHiddenDecorationEntities());
     if (pPerformanceDiagnostics != nullptr)
     {
         pPerformanceDiagnostics->actorColliderBuildNanoseconds += SDL_GetTicksNS() - stageBeginTickCount;
@@ -332,8 +368,12 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
 
     result.shouldOpenEventDialog = processMonsterKilledEvents();
 
+    // Turn-based walking and falling take no game time: the clock and its timers advance once per completed turn
+    // (advanceTurnBasedGameMinutes), as indoors.
+    const bool turnBasedStep = movementInput.turnBasedMovementStep || movementInput.turnBasedPhysicsStep;
+
     if (m_pWorldRuntime->updateTimers(
-            deltaSeconds,
+            turnBasedStep ? 0.0f : deltaSeconds,
             m_eventRuntime,
             m_localEventProgram,
             m_globalEventProgram,
@@ -444,13 +484,17 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
         {
             result.shouldOpenEventDialog = result.shouldOpenEventDialog
                 || activation->pTransition->askPlayer;
-            if (!activation->pTransition->askPlayer)
-            {
-                applyTravelDaysSideEffects(
+            // An exit that does not ask is a voyage (Ravensford's ship to the Isle of Ashes, its boat on to Sturmford):
+            // the days pass, but only a walk between regions, which always asks, eats food.
+            if (!activation->pTransition->askPlayer
+                && applyTravelDaysSideEffects(
                     m_pPartyRuntime->party(),
                     m_pWorldRuntime,
                     activation->pTransition->travelDays,
-                    std::max(0, activation->pTransition->travelDays));
+                    0)
+                && pEventRuntimeState->pendingMapMove)
+            {
+                pEventRuntimeState->pendingMapMove->travelTimeApplied = true;
             }
         }
     }
@@ -468,32 +512,21 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
             && pTransition->has_value()
             && !(*pTransition)->destinationMapFileName.empty()
             && canOfferMapTransition(*m_pPartyRuntime, moveState, **pTransition)
-            && transitionQuestRequirementsMet(m_pPartyRuntime->party(), **pTransition))
+            && transitionQuestRequirementsMet(m_pPartyRuntime->party(), **pTransition)
+            && !m_pPartyRuntime->party().rules().monsters.mapTravelRefusal())
         {
+            const MapBoundaryEdge edge = *m_pPartyRuntime->movementEvents().blockedBoundaryEdge;
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::MapTransition;
-            context.sourceId = static_cast<uint32_t>(*m_pPartyRuntime->movementEvents().blockedBoundaryEdge);
-            EventRuntimeState::PendingMapMove transitionMove = {};
-            transitionMove.mapName = (*pTransition)->destinationMapFileName;
-            transitionMove.directionDegrees = (*pTransition)->directionDegrees;
-            transitionMove.useMapStartPosition = (*pTransition)->useMapStartPosition;
-            transitionMove.traceSourceKind = "map_boundary";
-            transitionMove.traceSourceId = context.sourceId;
-            transitionMove.traceDestinationName = (*pTransition)->destinationMapFileName;
-
-            if (!(*pTransition)->useMapStartPosition
-                && (*pTransition)->arrivalX.has_value()
-                && (*pTransition)->arrivalY.has_value()
-                && (*pTransition)->arrivalZ.has_value())
-            {
-                transitionMove.x = *(*pTransition)->arrivalX;
-                transitionMove.y = *(*pTransition)->arrivalY;
-                transitionMove.z = *(*pTransition)->arrivalZ;
-            }
-            else
-            {
-                applyMergedStraightTravelArrival(transitionMove, **pTransition, moveState);
-            }
+            context.sourceId = static_cast<uint32_t>(edge);
+            context.boundaryTravel = true;
+            const EventRuntimeState::PendingMapMove transitionMove = buildBoundaryTravelMapMove(
+                **pTransition,
+                edge,
+                moveState.x,
+                moveState.y,
+                moveState.footZ,
+                m_pWorldRuntime->gameplayCameraYawRadians());
 
             GAMEPLAY_DEBUG_TRACE(
                 std::string("map_transition_requested source_kind=\"map_boundary\"")
@@ -533,7 +566,10 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
         stageBeginTickCount = SDL_GetTicksNS();
     }
 
-    m_pWorldRuntime->queueActorAiUpdate(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
+    // Nor do the monsters live through the party's turn-based walk: queued, it reached the next wait stage as one
+    // step (shield regeneration and modifier cooldowns for the whole walk).
+    m_pWorldRuntime->queueActorAiUpdate(
+        turnBasedStep ? 0.0f : deltaSeconds, moveState.x, moveState.y, moveState.footZ);
     notifyFriendlyActorContacts(*m_pWorldRuntime, moveState, m_pPartyRuntime->movementEvents());
 
     if (pPerformanceDiagnostics != nullptr)
@@ -571,6 +607,8 @@ bool OutdoorSceneRuntime::executeEventById(
     const std::optional<ScriptedEventProgram> emptyLocalProgram;
     const std::optional<ScriptedEventProgram> &effectiveLocalEventProgram =
         activeDecorationContext.has_value() && allowGlobalFallback ? emptyLocalProgram : localEventProgram;
+    const std::vector<int64_t> statsBefore =
+        activeDecorationContext ? partyBaseStatSnapshot(m_pPartyRuntime->party()) : std::vector<int64_t>{};
 
     const bool executed = m_eventRuntime.executeEventById(
         effectiveLocalEventProgram,
@@ -583,6 +621,12 @@ bool OutdoorSceneRuntime::executeEventById(
         allowGlobalFallback
     );
     pEventRuntimeState->activeDecorationContext.reset();
+
+    if (executed && activeDecorationContext)
+    {
+        reportDecorationStatGain(
+            m_pPartyRuntime->party(), *pEventRuntimeState, activeDecorationContext->decorVarIndex, statsBefore);
+    }
 
     if (!executed)
     {
@@ -709,6 +753,7 @@ bool OutdoorSceneRuntime::processMonsterKilledEvents()
         context.kind = EventRuntimeHookKind::MonsterKilled;
         context.actorIndex = event.actorIndex;
         context.monsterId = event.monsterId;
+        context.byParty = event.byParty;
         pState->activeHookContext = std::move(context);
         executed = executeEventHooks(EventRuntimeHookKind::MonsterKilled) || executed;
     }

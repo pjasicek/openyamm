@@ -1,0 +1,865 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.anskramkeep_scripted
+title: 'Anskram Keep (native BLV): MM9''s gate, plates, crushers, cages and Imp gates as native events'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: anskramkeep.blv
+- note:
+    text: 'The gate is an airlock: the outer leaves stand apart, the inner ones shut. Switch0/1 are hidden until SwitchLever0
+      slides the lever panels and locked until PanelLever.'
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 9300
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 10452
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 16
+- note:
+    text: In the airlock a click on the shut inner gate (event 89) does nothing before the levers.
+- &id001
+  set_pose:
+    map: anskramkeep.blv
+    x: 0
+    y: 10300
+    z: -491
+    yaw: 1.5708
+    pitch: 0
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 70
+      state: closed
+- execute_event:
+    id: 73
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 70
+      state: closed
+- execute_event:
+    id: 71
+- execute_event:
+    id: 72
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 72
+      state: open
+- assert:
+    mechanism:
+      id: 100
+      state: open
+- note:
+    text: 'Both levers pulled: the same click on the inner gate works it like a switch (the user''s save AK_DOOR_NOT_OPEN
+      stood here, Switch0 behind it).'
+- *id001
+- press_interact: {}
+- advance_runtime:
+    seconds: 7
+- assert:
+    mechanism:
+      id: 74
+      state: closed
+- assert:
+    mechanism:
+      id: 75
+      state: closed
+- assert:
+    mechanism:
+      id: 70
+      state: open
+- assert:
+    mechanism:
+      id: 71
+      state: open
+- note:
+    text: 'Now the outer gate is shut and the inner one open: from the vestibule the party walks on north; from the south
+      it stops at the outer gate.'
+- movement_segment:
+    input: forward
+    seconds: 1.25
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 9950
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 10910
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 16
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 9300
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 9630
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 16
+- note:
+    text: Switch0 (event 73) swaps the gates back, and again.
+- execute_event:
+    id: 73
+- advance_runtime:
+    seconds: 7
+- assert:
+    mechanism:
+      id: 74
+      state: open
+- assert:
+    mechanism:
+      id: 75
+      state: open
+- assert:
+    mechanism:
+      id: 70
+      state: closed
+- assert:
+    mechanism:
+      id: 71
+      state: closed
+- execute_event:
+    id: 73
+- advance_runtime:
+    seconds: 7
+- assert:
+    mechanism:
+      id: 70
+      state: open
+- note:
+    text: ShooterPlate8 sinks under the party and Shooter8 fires a fire bolt (event 63; ShotsFired counts the bolts the engine
+      accepted).
+- movement_segment:
+    input: forward
+    seconds: 0.42
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: -3646
+      y: 3817
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: -3646
+      y: 4137
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- assert:
+    mechanism:
+      id: 96
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: ShotsFired
+      value: 1
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 96
+      state: closed
+- note:
+    text: 'CeilingCrushPlate1: CeilingCrush1 drops and strikes the party on its plate (event 66, CrushHits; the headless party
+      regenerates the 20 at once), then rises after 3 s.'
+- movement_segment:
+    input: forward
+    seconds: 0.29
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 4424
+      y: 3057
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 4424
+      y: 3277
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 1.2
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: CrushHits
+      value: 1
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- note:
+    text: 'TriggerNagateBust: CritterBreakOut0 sinks and the caged Nagate Hatchlings get out.'
+- assert:
+    mechanism:
+      id: 7
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 4424
+      y: 3814
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 4424
+      y: 4014
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 7
+      state: open
+- note:
+    text: 'TriggerClosetGate1 starts ImpGateSpawner1: an Imp (9079) appears at its gate (11 placed Imps count; the hidden
+      Giant Imp does not).'
+- assert:
+    actor_count:
+      monster_id: 9079
+      max: 11
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 4424
+      y: 8729
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 4424
+      y: 8929
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 1
+- assert:
+    actor_count:
+      monster_id: 9079
+      min: 12
+- note:
+    text: 'The Imp gates: each pad starts its gate, its five Imps die one by one, and it gives its key (510 + k); the eighth
+      gives the quest key 39 (QBit 90039, Anskrammainline.scr).'
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90511
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate1
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 2130
+      y: 12160
+      z: -491
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 2130
+      y: 11960
+      z: -491
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 6
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90510
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate0
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: -4424
+      y: 8729
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: -4424
+      y: 8929
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 11
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90512
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate2
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: -2130
+      y: 12160
+      z: -491
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: -2130
+      y: 11960
+      z: -491
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 16
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90513
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate3
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 5016
+      y: 8684
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 4816
+      y: 8684
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 21
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90514
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate4
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 5016
+      y: 6062
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 4816
+      y: 6062
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 26
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90515
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate5
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: -4488
+      y: 2130
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: -4688
+      y: 2130
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 31
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90516
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate6
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.26
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: -4488
+      y: 5407
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: -4688
+      y: 5407
+      z: -491
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 36
+- assert:
+    qbit_clear:
+    - 90039
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: last
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90517
+- assert:
+    state_dump_named_map_var:
+      name: ImpGate7
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: ImpsSummoned
+      value: 40
+- assert:
+    qbit_set:
+    - 90039
+- note:
+    text: 'TriggerGiantImp: the slabs fall and the lift raises the Giant Imp from its shaft; the lift''s lower disc closes
+      the shaft level with the hall floor.'
+- assert:
+    mechanism:
+      id: 65
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.68
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 11430
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 11950
+      z: -491
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 6
+- assert:
+    state_dump_named_map_var:
+      name: GiantImp
+      value: 1
+- assert:
+    mechanism:
+      id: 66
+      state: open
+- assert:
+    mechanism:
+      id: 65
+      state: open
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: false
+- note:
+    text: The party walks through the raised lift, on its disc at floor height.
+- movement_segment:
+    input: forward
+    seconds: 1.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: anskramkeep.blv
+      x: 0
+      y: 12020
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: anskramkeep.blv
+      x: 0
+      y: 13020
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 16

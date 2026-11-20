@@ -1,0 +1,7598 @@
+{
+  "world": "mm6",
+  "map": "6d02.blv",
+  "kind": "indoor",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm6/maps/6d02.blv",
+      "sha256": "065192c7f6afb8df019e55e587800731347764379b6857e56b76a54b149b7dd4"
+    },
+    {
+      "path": "assets_dev/worlds/mm6/maps/6d02.scene.yml",
+      "sha256": "55e810ac741109379778e6b071f88894e83e6384a5f38f8374b5a237070a54da"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/decoration_data.txt",
+      "sha256": "0ad51cc583a71f2e4255211fb79be965e2adb1a51f7baeb0d603f777073bca7f"
+    },
+    {
+      "path": "assets_dev/engine/rendering/sprite_frame_data_common.yml",
+      "sha256": "197b5a71379e4d38b08f2ab2c31f74aea0de38e4dc6b724e7bb4beeba953726b"
+    }
+  ],
+  "records": [
+    {
+      "index": 0,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -24664,
+        -10640,
+        -2101
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 1,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -23520,
+        -9984,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 2,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -21912,
+        -8368,
+        -2150
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 3,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -16328,
+        -5104,
+        -1376
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 4,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -12088,
+        -6768,
+        -1104
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 5,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -12320,
+        -10192,
+        -1559
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 6,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -14472,
+        -9240,
+        -1152
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 7,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -5720,
+        -9568,
+        -1032
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 8,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -11504,
+        -9784,
+        -1000
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 9,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -17152,
+        -9216,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 10,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -29560,
+        -10416,
+        -2112
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 11,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        3544,
+        3992,
+        -520
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 12,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        3600,
+        8840,
+        -768
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 13,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        4584,
+        9080,
+        -1008
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 14,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        5440,
+        8840,
+        -1248
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 15,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        6680,
+        9080,
+        -1544
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 16,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        7768,
+        8840,
+        -1768
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 17,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        7928,
+        9472,
+        -1768
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 18,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        3208,
+        8232,
+        -832
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 19,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        17368,
+        544,
+        -336
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 20,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        5896,
+        4288,
+        -496
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 21,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -12272,
+        -7896,
+        -1016
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 22,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -6080,
+        -7376,
+        -1112
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 23,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        10880,
+        7936,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 24,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        9232,
+        5504,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 25,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        13792,
+        5024,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 26,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        14304,
+        6992,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 27,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        12560,
+        4720,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 28,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        12904,
+        7688,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 29,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -23256,
+        -9288,
+        -2120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 30,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -22200,
+        -9416,
+        -2128
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 31,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -23096,
+        -8064,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 32,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -23904,
+        -7464,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 33,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -24320,
+        -8040,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 34,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -23552,
+        -7896,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 35,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -23320,
+        -6632,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 36,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -22600,
+        -6720,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 37,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -22520,
+        -7296,
+        -2100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 38,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -21752,
+        -7904,
+        -2075
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 39,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -21328,
+        -8176,
+        -2075
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 40,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -20904,
+        -9052,
+        -1664
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 41,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -20424,
+        -9364,
+        -1664
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 42,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -19448,
+        -9168,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 43,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -18752,
+        -8976,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 44,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -17256,
+        -10256,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 45,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -16192,
+        -10224,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 46,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -16896,
+        -8376,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 47,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -17120,
+        -7704,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 48,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -19184,
+        -7096,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 49,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -18240,
+        -7248,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 50,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -18112,
+        -6624,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 51,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -17808,
+        -5808,
+        -1576
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 52,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -15216,
+        -5712,
+        -1312
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 53,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -14448,
+        -5072,
+        -1200
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 54,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -13104,
+        -6456,
+        -1136
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 55,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -12600,
+        -4880,
+        -1136
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 56,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -11968,
+        -3616,
+        -1120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 57,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        4912,
+        3984,
+        -491
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 58,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        5904,
+        5056,
+        -496
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 59,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        8840,
+        7144,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 60,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        9824,
+        5104,
+        -256
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 61,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        17600,
+        5408,
+        -632
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 62,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        17056,
+        3856,
+        -632
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 63,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -10512,
+        -4800,
+        -1136
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 64,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -10288,
+        -7488,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 65,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -8816,
+        -7504,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 66,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -7616,
+        -4880,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 67,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -8736,
+        -4848,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 68,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -9088,
+        -5280,
+        -1136
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 69,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -10208,
+        -6592,
+        -1136
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 70,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -7008,
+        -6096,
+        -1136
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 71,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -7024,
+        -6400,
+        -1136
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 72,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -7152,
+        -10656,
+        -1032
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 73,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -5056,
+        -8432,
+        -1096
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 74,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -7984,
+        -9248,
+        -1032
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 75,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -9584,
+        -8336,
+        -1032
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 76,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -10752,
+        -8416,
+        -1032
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 77,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -11344,
+        -7360,
+        -1032
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 78,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -13120,
+        -7792,
+        -1032
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 79,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -15488,
+        -7968,
+        -1120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 80,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -14736,
+        -9632,
+        -1591
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 81,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -6256,
+        -2976,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 82,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -6912,
+        -2032,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 83,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -6144,
+        -768,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 84,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -8272,
+        -800,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 85,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -8160,
+        1040,
+        -1568
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 86,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -8560,
+        -1840,
+        -944
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 87,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -6432,
+        16,
+        -864
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 88,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -6688,
+        2464,
+        -832
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 89,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -3552,
+        2800,
+        -672
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 90,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -1904,
+        1824,
+        -672
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 91,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -704,
+        2896,
+        -640
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 92,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        1936,
+        2480,
+        -640
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 93,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        704,
+        1360,
+        -640
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 94,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        3200,
+        3184,
+        -491
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 95,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        2272,
+        3392,
+        -491
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 96,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        1280,
+        4080,
+        -640
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 97,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        1200,
+        4984,
+        -672
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 98,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        2496,
+        4736,
+        -928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 99,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        2552,
+        5936,
+        -896
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 100,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        4224,
+        5920,
+        -896
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 101,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        3712,
+        7168,
+        -792
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 102,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        2816,
+        7152,
+        -792
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 103,
+      "source_name": "smlbarel",
+      "id": 156,
+      "name": "smlbarel",
+      "hint": "keg",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17789,
+      "category": "props",
+      "position": [
+        17344,
+        -15296,
+        224
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/smlbarel.bmp",
+        "pixels": [
+          65,
+          89
+        ],
+        "scale": 1.0,
+        "palette_id": 547,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/smlbarel.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal547.act"
+      }
+    },
+    {
+      "index": 104,
+      "source_name": "Bucket",
+      "id": 147,
+      "name": "bucket",
+      "hint": "bucket",
+      "radius": 29,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17880,
+      "category": "props",
+      "position": [
+        17664,
+        -15616,
+        224
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/bucket.bmp",
+        "pixels": [
+          63,
+          67
+        ],
+        "scale": 1.0,
+        "palette_id": 547,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/bucket.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal547.act"
+      }
+    },
+    {
+      "index": 105,
+      "source_name": "bag01",
+      "id": 146,
+      "name": "bag01",
+      "hint": "bag",
+      "radius": 49,
+      "height": 60,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17877,
+      "category": "props",
+      "position": [
+        17472,
+        -16320,
+        224
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/bag01.bmp",
+        "pixels": [
+          69,
+          92
+        ],
+        "scale": 1.0,
+        "palette_id": 547,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/bag01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal547.act"
+      }
+    },
+    {
+      "index": 106,
+      "source_name": "Bonecage",
+      "id": 148,
+      "name": "bonecage",
+      "hint": "bone cage",
+      "radius": 29,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17879,
+      "category": "props",
+      "position": [
+        7744,
+        10464,
+        -1880
+      ],
+      "facing": 0,
+      "event": 22,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/bonecage.bmp",
+        "pixels": [
+          141,
+          250
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/bonecage.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 107,
+      "source_name": "",
+      "id": 0,
+      "name": "null",
+      "hint": "null",
+      "radius": 8,
+      "height": 8,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        7296,
+        10368,
+        -1768
+      ],
+      "facing": 0,
+      "event": 18,
+      "visible": false,
+      "initial_flags": 1
+    },
+    {
+      "index": 108,
+      "source_name": "",
+      "id": 0,
+      "name": "null",
+      "hint": "null",
+      "radius": 8,
+      "height": 8,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        7296,
+        10048,
+        -1768
+      ],
+      "facing": 0,
+      "event": 17,
+      "visible": false,
+      "initial_flags": 1
+    },
+    {
+      "index": 109,
+      "source_name": "",
+      "id": 0,
+      "name": "null",
+      "hint": "null",
+      "radius": 8,
+      "height": 8,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        7296,
+        9728,
+        -1768
+      ],
+      "facing": 0,
+      "event": 16,
+      "visible": false,
+      "initial_flags": 1
+    },
+    {
+      "index": 110,
+      "source_name": "",
+      "id": 0,
+      "name": "null",
+      "hint": "null",
+      "radius": 8,
+      "height": 8,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        8320,
+        10368,
+        -1768
+      ],
+      "facing": 0,
+      "event": 21,
+      "visible": false,
+      "initial_flags": 1
+    },
+    {
+      "index": 111,
+      "source_name": "",
+      "id": 0,
+      "name": "null",
+      "hint": "null",
+      "radius": 8,
+      "height": 8,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        8320,
+        10048,
+        -1768
+      ],
+      "facing": 0,
+      "event": 20,
+      "visible": false,
+      "initial_flags": 1
+    },
+    {
+      "index": 112,
+      "source_name": "",
+      "id": 0,
+      "name": "null",
+      "hint": "null",
+      "radius": 8,
+      "height": 8,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        8320,
+        9728,
+        -1768
+      ],
+      "facing": 0,
+      "event": 19,
+      "visible": false,
+      "initial_flags": 1
+    },
+    {
+      "index": 113,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        7424,
+        9904,
+        -1680
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 114,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        7424,
+        10192,
+        -1680
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 115,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        8192,
+        10192,
+        -1680
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 116,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        8192,
+        9904,
+        -1680
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 117,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        7808,
+        10112,
+        -1680
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 118,
+      "source_name": "Bonecage",
+      "id": 148,
+      "name": "bonecage",
+      "hint": "bone cage",
+      "radius": 29,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17879,
+      "category": "props",
+      "position": [
+        7872,
+        10464,
+        -1880
+      ],
+      "facing": 0,
+      "event": 23,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/bonecage.bmp",
+        "pixels": [
+          141,
+          250
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/bonecage.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 119,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        7808,
+        10520,
+        -1768
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 120,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        7968,
+        9608,
+        -1768
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 121,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        7640,
+        9608,
+        -1768
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 122,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -30464,
+        -10080,
+        -2118
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 123,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -30464,
+        -10416,
+        -2118
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 124,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -26864,
+        -8744,
+        -1571
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 125,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -26864,
+        -11704,
+        -1571
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 126,
+      "source_name": "brazir2f",
+      "id": 143,
+      "name": "brazir2f",
+      "hint": "brazier",
+      "radius": 30,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17752,
+      "category": "lights",
+      "position": [
+        -24568,
+        -10048,
+        -2101
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/brazir2f.bmp",
+        "pixels": [
+          50,
+          150
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/brazir2f.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 127,
+      "source_name": "dec04",
+      "id": 231,
+      "name": "dec04",
+      "hint": "campfire",
+      "radius": 16,
+      "height": 0,
+      "light_radius": 128,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 173,
+      "category": "lights",
+      "position": [
+        15991,
+        -18592,
+        752
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/dec04a.bmp",
+        "pixels": [
+          171,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 8,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/dec04.png",
+        "palette_path": "assets_dev/worlds/mm8/textures/pal008.act"
+      }
+    },
+    {
+      "index": 128,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16136,
+        -15136,
+        324
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 129,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16632,
+        -15136,
+        324
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 130,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16704,
+        -14168,
+        224
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 131,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16080,
+        -13936,
+        224
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 132,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16720,
+        -13656,
+        224
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 133,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16376,
+        -13232,
+        204
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 134,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        17000,
+        -13224,
+        204
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 135,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16952,
+        -12560,
+        184
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 136,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        17496,
+        -12184,
+        164
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 137,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        16952,
+        -11504,
+        144
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 138,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        17544,
+        -11080,
+        124
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 139,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        17504,
+        -10248,
+        44
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 140,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        18168,
+        -10312,
+        44
+      ],
+      "facing": 0,
+      "event": 35,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 141,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        17832,
+        -9600,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 142,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        18312,
+        -9072,
+        -20
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 143,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        18008,
+        -8216,
+        -100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 144,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        18664,
+        -8136,
+        -100
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 145,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        18584,
+        -7504,
+        -140
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 146,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        19160,
+        -7112,
+        -160
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 147,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        18616,
+        -6400,
+        -200
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 148,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        19208,
+        -5984,
+        -240
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 149,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        19152,
+        -5184,
+        -260
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 150,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        19832,
+        -5224,
+        -260
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 151,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        19984,
+        -4448,
+        -300
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 152,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        19424,
+        -4136,
+        -380
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 153,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        20032,
+        -4128,
+        -380
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 154,
+      "source_name": "6rock02",
+      "id": 86,
+      "name": "6rock02",
+      "hint": "rock",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17813,
+      "category": "rocks",
+      "position": [
+        -9856,
+        -5760,
+        -1235
+      ],
+      "facing": 0,
+      "event": 15,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/rok2.bmp",
+        "pixels": [
+          175,
+          116
+        ],
+        "scale": 1.0,
+        "palette_id": 142,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6rock02.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal142.act"
+      }
+    },
+    {
+      "index": 155,
+      "source_name": "6rock04",
+      "id": 90,
+      "name": "6rock04",
+      "hint": "rock",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17815,
+      "category": "rocks",
+      "position": [
+        -10752,
+        -5632,
+        -1235
+      ],
+      "facing": 0,
+      "event": 15,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/rok4.bmp",
+        "pixels": [
+          169,
+          111
+        ],
+        "scale": 1.0,
+        "palette_id": 142,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6rock04.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal142.act"
+      }
+    },
+    {
+      "index": 156,
+      "source_name": "6rock06",
+      "id": 92,
+      "name": "6rock06",
+      "hint": "rock",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17817,
+      "category": "rocks",
+      "position": [
+        -11648,
+        -5888,
+        -1235
+      ],
+      "facing": 0,
+      "event": 15,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/rok6.bmp",
+        "pixels": [
+          128,
+          92
+        ],
+        "scale": 1.0,
+        "palette_id": 142,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6rock06.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal142.act"
+      }
+    },
+    {
+      "index": 157,
+      "source_name": "6rock06",
+      "id": 92,
+      "name": "6rock06",
+      "hint": "rock",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17817,
+      "category": "rocks",
+      "position": [
+        -10112,
+        -6400,
+        -1235
+      ],
+      "facing": 0,
+      "event": 15,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/rok6.bmp",
+        "pixels": [
+          128,
+          92
+        ],
+        "scale": 1.0,
+        "palette_id": 142,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6rock06.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal142.act"
+      }
+    },
+    {
+      "index": 158,
+      "source_name": "6rock06",
+      "id": 92,
+      "name": "6rock06",
+      "hint": "rock",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17817,
+      "category": "rocks",
+      "position": [
+        -9600,
+        -6144,
+        -1235
+      ],
+      "facing": 0,
+      "event": 15,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/rok6.bmp",
+        "pixels": [
+          128,
+          92
+        ],
+        "scale": 1.0,
+        "palette_id": 142,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6rock06.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal142.act"
+      }
+    },
+    {
+      "index": 159,
+      "source_name": "Party Start",
+      "id": 14,
+      "name": "party start",
+      "hint": "null",
+      "radius": 16,
+      "height": 16,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "DontDraw",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        16384,
+        -18816,
+        752
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 0
+    },
+    {
+      "index": 160,
+      "source_name": "Corinth",
+      "id": 149,
+      "name": "corinth",
+      "hint": "column",
+      "radius": 29,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17881,
+      "category": "props",
+      "position": [
+        16000,
+        -17504,
+        752
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/corinth.bmp",
+        "pixels": [
+          56,
+          253
+        ],
+        "scale": 1.799988,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/corinth.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 161,
+      "source_name": "Corinth",
+      "id": 149,
+      "name": "corinth",
+      "hint": "column",
+      "radius": 29,
+      "height": 40,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 17881,
+      "category": "props",
+      "position": [
+        16928,
+        -17504,
+        752
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/corinth.bmp",
+        "pixels": [
+          56,
+          253
+        ],
+        "scale": 1.799988,
+        "palette_id": 546,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/corinth.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    }
+  ],
+  "missing_sprites": [],
+  "models": [],
+  "counts": {
+    "native": 162,
+    "visible": 155,
+    "categories": {
+      "lights": 143,
+      "props": 7,
+      "rocks": 5
+    },
+    "palette": {
+      "brazir2f": 106,
+      "6torch01": 36,
+      "6rock06": 3,
+      "bonecage": 2,
+      "corinth": 2,
+      "smlbarel": 1,
+      "bucket": 1,
+      "bag01": 1,
+      "dec04": 1,
+      "6rock02": 1,
+      "6rock04": 1
+    },
+    "light_emitters": 37
+  }
+}

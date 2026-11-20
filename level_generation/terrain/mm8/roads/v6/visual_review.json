@@ -1,0 +1,84 @@
+{
+  "status": "visually_reviewed_for_road_edge_update",
+  "changed": [
+    "drsrne1.png",
+    "drsrne2.png",
+    "gdrdne1.png",
+    "gdrdne2.png"
+  ],
+  "unchanged_files": 235,
+  "poses": [
+    [
+      5913.83,
+      5672.083,
+      545.0,
+      5.446,
+      -0.230994327
+    ],
+    [
+      6304.584,
+      5271.343,
+      545.0,
+      5.41,
+      -0.375018896
+    ]
+  ],
+  "movement_samples": 13,
+  "observations": [
+    "Both supplied poses compared with v5; repeated deep dirt bites removed.",
+    "Connected native patch and all four tiles inspected; consistent band with small stone-edge irregularity.",
+    "13 walking samples inspected; no return of the deep bay while approaching tile joins.",
+    "Grey companions share the contour, with grey substrate contact shading."
+  ],
+  "limitations": [
+    "Fixed openings constrain the band: former bulges are narrower; native width is not identical.",
+    "Small polygonal edge protrusions remain; this is not a perfectly smooth outline.",
+    "Actors partially occlude later walking samples; views are sampled, not exhaustive.",
+    "Xvfb captures do not establish hardware GPU performance."
+  ],
+  "evidence": {
+    "roads/v6/build.json": "ea24dca17a76c240ab3c794dca78f4f672bbe272934e82390e5e00a4c8086f37",
+    "roads/v6/validation.json": "aa4f7dfaf457a5e7224f808ae23e4a53719e6ee030362cab92750d25eb00f191",
+    "roads/v6/review_stage.json": "1e10a5ef32c800fd288cc23d3950848edf875fe05342c3d09058cee592de4cde",
+    "roads/v6/generation_receipts.json": "3446dc74108786a73de9db6d5432fdb753f897f3f32ba8f020ddf5fcf5a157f7",
+    "roads/v6/compose.py": "e98ca6d8e99ceaf0dc469f9238eadda7c7f1da0ffea9ee254d2b8e3de52d3382",
+    "roads/v6/prepare_guides.py": "4a9bb5762ab97c3ce9004a4ee4ebc34f2ed1b1ace842d548503a399f05bb9613",
+    "roads/v6/exact_comparison.png": "08578dd2fabf0d388b810ffcc5ae274b5ce93793dcdd8712afe147084a37c6ea",
+    "roads/v6/tile_comparison.png": "0426f320378243a09c0d45ecf4faad60661512698ab6e549aaa4d4202245a98a",
+    "roads/v6/connected_width.json": "3ad19cf56acb72ddbb3ab65a7c509f5db7d6ea3c182c1a3f27bd4cb10c9f3246",
+    "roads/v6/v5_connected.png": "fcf8f34f0609133d88ae8e98f01f1a0c89c65760a1a6298d299a342e4ebfadbd",
+    "roads/v6/v6_connected.png": "1df9bf1fb81b5e6dcc5587894d38dcf29db03f7550d88c74a709e9fb9e39453a",
+    "roads/v6/raw/drsrne1_attempt1.png": "e830f6ff581bc7b86aa2ba015add7e544de2837fc184c856a9dc7a19f36e6b2f",
+    "roads/v6/raw/drsrne2.png": "052eb053cd360e7005a3e1cb37c39f202076507a5c312bb93f751b392e2e1056",
+    "roads/v6/raw/drsrne1.png": "c5d1993b3880294f9591e264850e0539fe944335f1a8b9b6485163d831dd6c79",
+    "roads/v6/prompts/diagonal.txt": "b45ef149c1e9f7e1c606e104faffc5c2f779805d0f4dfd97499facfb7fa8d8d8",
+    "roads/v6/prompts/drsrne1.txt": "18af768d03e6fd19fe87748f01f1c0283e183ce7c70e56f63a88f7f08ac9a6ea",
+    "roads/v6/prompts/drsrne2.txt": "79ef15b317cde27988a552b93f0df553bfb9e301b29f49e5fc122a1785e49fda",
+    "roads/v6/inputs/guides.json": "bc11ca9760ed3f1d07d592f625e4da879388306a562b615f8795b20c4326288b",
+    "roads/v6/inputs/drsrne1_coverage.png": "e1015164c7607b09d213699f06ae49364f871d2d19df81ba6f5e4db4feffa614",
+    "roads/v6/inputs/drsrne2_coverage.png": "28327144298a214448f3077cb11079ad4bf2f44d139c3a4bdb05dc988f7297da",
+    "roads/v6/movement_01.png": "b0248292c6a695917b5111e464a51566f277b7b994254f93b3c2d7faa2d3daf1",
+    "roads/v6/movement_00.png": "d0b1764a8750f06609e1431ad36f1739cd176c68ad7333183d869d2524765691",
+    "roads/v6/movement_02.png": "5287a2f3879d06395023c47361148f97102bc6cee49e35903f01abb42f3537ec",
+    "roads/v6/movement_03.png": "4787a54a2dce90f72e701ceb384448dace364a80ca2b6ddd300d5874527f9d15",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_00.png": "1c83cc8a74363b31636af0489a9043003f8232846700c96e97467c464473d42f",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_01.png": "eda2f48dbd8c6cdf69954613de41eb90070f76d82dc478200ab4aa996aadc204",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_02.png": "222ae7e8435d7ea354edfa2859e9056ac3fa3c8d420588541e6dbe8351a05272",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_03.png": "2a3283f2dfe8dc982d11f50bd7a6e616c5e9dcf7fdaa05caba557970e3705f05",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_04.png": "b9157cd000923b40610dec6946d0842e3d3db673dd3fb9296894af794bdbd9da",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_05.png": "e0031f3439f73b926724514c421c4820fe4d085b68bf59356d751fb0b98a41f8",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_06.png": "30ba8d0a1aa6239033cafc4841865981d85f6eaea90a5f71219456615661ed75",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_07.png": "10cbec139d4f0ff2c74119c3aabe4bc75414b4b5a0b51036e3cedf76cbfe5d02",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_08.png": "540f215a7d72c2a22d14ae8a77f1c9894d9b2374b2e6e8799708cbd4579ee764",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_09.png": "119c293d3a7332ebb72bdc6d55ec78a2cfd7ffdf9b8e760b0d00f750e5aab7da",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_10.png": "d04e06773463d2701cc7fcb3e444184ab517824ecfb043b0cbd1bb68452132d0",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_11.png": "fa3eb795d6443d5307e635a995c0b07c03b95c42ed9dc3059f51dc1553c95f27",
+    "roads/v6/captures/mm8_diagonal_v6_walk_walk_start.png": "987ebde89b038ebf2433de9343d2b2761f989697cc138b1acd713f9c5da35062",
+    "roads/v6/captures/mm8_diagonal_v6_pose_a.png": "08e7f6f17e1e533d969afd539a123c2b7fa8c5dee9826124ac6afd9fe9c1cffd",
+    "roads/v6/captures/mm8_diagonal_v6_pose_a.json": "7e82e9a6b4da32051521264600431cdabddf8be92985ffda52127f4f0fceca14",
+    "roads/v6/captures/mm8_diagonal_v6_pose_b.png": "54ac0f4c114e6db14ec24d9a834824fd4714e6af073064d44f7d405a8de568b0",
+    "roads/v6/captures/mm8_diagonal_v6_pose_b.json": "88ffd1824ea707a69dd8918ea25c12ef03659fd5f1a32bd24e935e6eb3ed0b24",
+    "roads/v6/captures/mm8_diagonal_v6_walk.png": "0056a0706ce64ecd6c590b999d94e514cbaa277b03e31f7e6b1d1acac9f98b36",
+    "roads/v6/captures/mm8_diagonal_v6_walk.json": "cfd0ab7657796a55fa14eb480a22abeb5fd1a913e7126dec34dfc89f533e24c0"
+  }
+}

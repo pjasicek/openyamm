@@ -1,0 +1,29 @@
+# Integrator capture: fresh map, shared stage/engine locks, minimized launcher.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d07/review/pickups
+settle_seconds: 1.5
+exit: true
+shots:
+- name: t1_supply_store
+  position:
+  - 2440
+  - 6500
+  - -512
+  yaw: -2.5
+  pitch: -0.3
+  commands:
+  - config toggle immortal
+  - config toggle invisible
+- name: satchel_guard_hall
+  position:
+  - 3600
+  - 2050
+  - 0
+  yaw: 3.141592653589793
+  pitch: -0.4
+- name: satchel_assembly_line
+  position:
+  - 9000
+  - 6700
+  - -512
+  yaw: 1.5707963267948966
+  pitch: -0.45

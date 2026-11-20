@@ -1,0 +1,197 @@
+# MM9 promotion playthrough, segment 25: the Tree of Life from the Ruined Temple (guide: side_b.yml
+# find-a-new-tree-of-life). Out of Frosgard City by its gate, the party is placed by the temple's door in Frosgard and
+# walks in (ExitTrigger3). The temple is walked: the skylight's glass breaks and the party drops into the hall
+# (FloorFallen), the altar door (101), north through the main temple to the pew hall, the Sun Button (201) opens the
+# hidden door into the elevator room for 10 s, the two hinted symbols (Star Button 1, 210; Diamond Button 2, 213) and the
+# lift's Main Button (216) take the lift down. The prison entrance (102), the crypt hall: Prison Button 2 (220) drops the
+# counterbalance onto the crypt lid; the party steps into the crypt and breaks the six plugs of packed dirt one after
+# another (a click on the dirt at its feet, 38339-38344; it drops to the next each time) to the shaft's foot. The
+# corner stair and the spiral ramps (east strip north, north strip west, west strip south, south strip east, east
+# strip north, north strip west) up into the tunnel behind the cell; Prison Button 3 (221) raises the escape slab and
+# the cell opens: the Tree of Life (item 241, a world item: its pickup gives key 256 and arms the second cave-in). Out
+# by the cell door, the ladder up to the chest room, Hidden Button 2 (206) opens the hidden door south, the corridor to
+# the spiral room (TriggerCaveIn1: the ceiling comes down behind the party), up the spiral to Hidden Door 2, whose
+# button on that side (Sun Button 3, 203) opens it (converter fix 2026-11-08: it was a decoy and the party was shut
+# in), Left Door (207, unlocked by Hidden Door 2) onto the gallery, down into the main temple, the altar door, the hall,
+# the Up Door (104) to the stair and the upper floor, the exit. Research: prep/C_healer_priest.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 25
+id: mm9.promotions.25_ruined_temple_tree
+title: "MM9 promotions 25: the Ruined Temple walked; the Tree of Life"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/24_nathi_ritual.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgardcity.blv, qbit_set: [90251], qbit_clear: [90256]}
+
+  # Out of the city by its gate (ExitTrigger0), then by the Ruined Temple's door in Frosgard's north-east.
+  - set_pose: {map: frosgardcity.blv, x: 11983, y: 7700, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11983, y: 8146, z: 428, z_tolerance: 800, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgard.blv}
+  - set_pose: {map: frosgard.blv, x: 17550, y: 20733, z: 1936, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 17960, y: 20733, z: 2099, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: ruinedtemple.blv}
+
+  # The skylight: the glass gives way and the party drops into the hall below.
+  - walk_to: {x: 0, y: -1500, z: -2416, z_tolerance: 2000, radius: 40, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 2}
+  - assert: {state_dump_named_map_var: {name: FloorFallen, value: 1}}
+  - walk_to: {x: 0, y: -800, z: -2416, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500}
+
+  # The altar door, the main temple, north to the pew hall.
+  - walk_to: {x: 0, y: -500, z: -2293, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(1) == "closed" then click(101); wait(2) end
+        log("the altar door: " .. door_state(1) .. ", " .. door_state(2))
+        if door_state(1) ~= "open" then error("the altar door did not open") end
+  - walk_to: {x: 0, y: 200, z: -2293, z_tolerance: 300, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - walk_to: {x: -2212, y: 3900, z: -2293, z_tolerance: 300, timeout_seconds: 120, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+
+  # The Sun Button in the pew hall's north-west wall opens the hidden door (10 s); the elevator room's puzzle: Star
+  # Button 1 (west wall) and Diamond Button 2 (east wall), the two the perception hints mark; the Main Button on the lift.
+  - walk_to: {x: -2212, y: 4060, z: -2293, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(201); wait(1.5)
+        log("the hidden door: " .. door_state(32))
+        if door_state(32) ~= "open" then error("the hidden door did not open") end
+  - walk_to: {x: -2212, y: 4420, z: -2293, z_tolerance: 200, plan: false, timeout_seconds: 20}
+  - walk_to: {x: -2400, y: 4556, z: -2293, z_tolerance: 200, plan: false, timeout_seconds: 20}
+  - play_lua: {source: 'click(210); wait(0.5); log("Star Button 1 pressed")'}
+  - walk_to: {x: -2100, y: 4628, z: -2293, z_tolerance: 200, plan: false, timeout_seconds: 20}
+  - play_lua: {source: 'click(213); wait(0.5); log("Diamond Button 2 pressed")'}
+  - walk_to: {x: -2193, y: 4580, z: -2293, z_tolerance: 200, plan: false, timeout_seconds: 20}
+  - play_lua:
+      source: |
+        click(216); wait(6)
+        if mapvar("LiftDown") ~= 1 then error("the lift did not go down") end
+        log("Main Button: the lift goes down")
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -2193, y: 4580, radius: 200, z_min: -2900, z_max: -2800}}
+
+  # The prison corridor (its entrance, 102, shuts by itself after 5 s) to the crypt hall.
+  - walk_to: {x: -780, y: 4628, z: -2866, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(44) ~= "open" then click(102); wait(1.5) end
+        log("the prison entrance: " .. door_state(44))
+  - walk_to: {x: -500, y: 4628, z: -2866, z_tolerance: 200, plan: false, timeout_seconds: 20}
+  - walk_to: {x: 451, y: 5517, z: -2866, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500}
+
+  # Prison Button 2: the counterbalance breaks the crypt lid. Into the crypt; the six dirt plugs, one under the other.
+  - play_lua:
+      source: |
+        click(220); wait(3)
+        if mapvar("CryptOpen") ~= 1 then error("the crypt lid did not break") end
+        log("Prison Button 2: the counterbalance smashes the crypt lid")
+  - walk_to: {x: 155, y: 5243, z: -2948, z_tolerance: 300, radius: 30, plan: false, timeout_seconds: 30}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua:
+      source: |
+        for k = 0, 5 do
+          click(38339 + k); wait(2.0)
+          if mapvar("BrokenDestructableBrush" .. k) ~= 1 then error("plug " .. k .. " did not break") end
+        end
+        log("the six plugs of packed dirt broken; the party is at the shaft's foot")
+  - clear_hostiles: {radius: 2000}
+  - assert: {party_position: {x: 155, y: 5243, radius: 150, z_min: -4700, z_max: -4500}}
+
+  # The corner stair and the spiral ramps up to the tunnel behind the cell.
+  - walk_to: {x: 256, y: 5888, z: -4585, z_tolerance: 200, plan: false, timeout_seconds: 20}
+  - walk_to: {via: [[563, 6323, -4259]], x: 880, y: 6050, z: -4237, z_tolerance: 100, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'log("JUMP the walk hops onto the east ramp''s foot from the landing (762, 6050): its lip stops a walk")'}
+  - walk_to: {via: [[880, 6656, -4014]], x: 25, y: 6676, z: -3768, z_tolerance: 100, plan: false, timeout_seconds: 30}
+  - walk_to: {via: [[-80, 6676, -3768], [-80, 6021, -3564]], x: -80, y: 5940, z: -3564, z_tolerance: 100, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'log("JUMP the walk hops onto the north-west landing (-23, 6715, -3768) at the north ramp''s top")'}
+  - walk_to: {via: [[300, 5940, -3564], [880, 5940, -3359]], x: 880, y: 6676, z: -3154, z_tolerance: 100, plan: false, timeout_seconds: 30}
+  - walk_to: {x: 300, y: 6676, z: -2949, z_tolerance: 100, plan: false, timeout_seconds: 30}
+  - walk_to: {x: 0, y: 6156, z: -2949, z_tolerance: 100, timeout_seconds: 30}
+
+  # Prison Button 3: the escape slab rises, the cell opens; the Tree of Life.
+  - play_lua:
+      source: |
+        click(221); wait(7)
+        log("escape slab " .. door_state(12) .. ", cell door " .. door_state(43) .. ", bars " .. door_state(42))
+        if door_state(12) ~= "open" then error("the escape slab did not rise") end
+  - walk_to: {via: [[246, 6150, -2949]], x: 246, y: 6000, z: -2867, z_tolerance: 100, plan: false, timeout_seconds: 30}
+  - pick_up: {item_id: 10241}
+  - assert: {qbit_set: [90256], state_dump_named_map_var: {name: CaveIn1Armed, value: 1}}
+  - play_lua: {source: 'if not has_item(10241) then error("no Tree of Life") end; log("the Tree of Life is in the pack")'}
+
+  # Out of the cell into the crypt hall, the ladder up to the chest room.
+  - play_lua:
+      source: |
+        for _ = 1, 20 do if door_state(43) == "open" then break end; wait(0.5) end
+        log("cell door " .. door_state(43) .. ", bars " .. door_state(42))
+  - walk_to: {x: 246, y: 5550, z: -2867, z_tolerance: 100, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - play_lua: {source: 'log("JUMP the walk hops from the tunnel (-2929) over the escape slab''s sill into the cell (-2867)")'}
+  - climb: {ladder: Ladder}
+  # The chest room's south door (PrisonEntrance2, 103; it shuts by itself after 5 s).
+  - walk_to: {x: 530, y: 4530, z: -2273, z_tolerance: 100, plan: false, timeout_seconds: 20, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(45) ~= "open" then click(103); wait(1.5) end
+        log("the chest room's door: " .. door_state(45))
+        if door_state(45) ~= "open" then error("the chest room's door did not open") end
+  - walk_to: {x: 530, y: 4250, z: -2273, z_tolerance: 100, plan: false, timeout_seconds: 20}
+
+  # Hidden Button 2 opens the hidden door south of the chest room (10 s); the corridor to the spiral room.
+  - walk_to: {x: 1515, y: 3260, z: -2273, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(206); wait(1.5)
+        log("hidden door 3: " .. door_state(34))
+        if door_state(34) ~= "open" then error("hidden door 3 did not open") end
+  - walk_to: {x: 1515, y: 2950, z: -2273, z_tolerance: 100, plan: false, timeout_seconds: 20}
+  - walk_to: {x: 1874, y: 1946, z: -2272, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        wait(2)
+        if mapvar("CaveIn1Done") ~= 1 then error("no cave-in at the spiral stair") end
+        log("TriggerCaveIn1: the ceiling comes down by the spiral stair")
+
+  # Up the spiral to Hidden Door 2: Sun Button 3 opens it and unlocks Left Door; Left Door onto the gallery.
+  - walk_to: {x: 1802, y: 1800, z: -1719, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(203); wait(1.5)
+        log("hidden door 2: " .. door_state(33) .. ", Left Door unlocked " .. mapvar("LeftDoorUnlocked"))
+        if door_state(33) ~= "open" then error("hidden door 2 did not open") end
+  - walk_to: {x: 1802, y: 1450, z: -1719, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 1500}
+  - walk_to: {x: 1120, y: 1240, z: -1719, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(207); wait(2)
+        log("Left Door: " .. door_state(35))
+        if door_state(35) ~= "open" then error("Left Door did not open") end
+  - walk_to: {x: 850, y: 1240, z: -1719, z_tolerance: 200, plan: false, timeout_seconds: 20}
+
+  # Down into the main temple, the altar door, the hall; the Up Door to the stair and the hall's upper floor; out.
+  - walk_to: {x: 0, y: 200, z: -2293, z_tolerance: 200, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(1) == "closed" then click(101); wait(2) end
+        log("the altar door: " .. door_state(1) .. ", " .. door_state(2))
+  - walk_to: {x: 0, y: -800, z: -2416, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - walk_to: {x: -560, y: -1720, z: -2416, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(54) ~= "open" then click(104); wait(2) end
+        log("the Up Door: " .. door_state(54))
+  - walk_to: {x: -850, y: -1720, z: -2416, z_tolerance: 300, plan: false, timeout_seconds: 20}
+  - walk_to: {x: 0, y: -858, z: -1719, z_tolerance: 200, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 0, y: -400, z: -1719, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgard.blv, qbit_set: [90256]}
+  - play_lua: {source: 'if has_item(10241) and has_item(10430) then log("out of the Ruined Temple with the Tree of Life; the Ritual still in the pack") end'}
+  - save_game: {name: "25 the Tree of Life", path: output/playthrough/mm9/promotions/checkpoints/25_ruined_temple_tree.oysav}

@@ -1,0 +1,228 @@
+# The MM9 formation builder (devdocs/mm9/MM9_HIRELINGS_PLAN.md phase 10; the accepted design
+# level_generation/ui/mm9_formation_20261106): MM9's 3 x 3 party formation (front, middle and rear rank, one member a
+# cell) on the basebar's Obsidian panel, centred over the dimmed, paused game. GameplayFormationBuilder draws and
+# handles it; the numbers are the study's (index.html), in HUD units of the centred 640 x 480 frame.
+screen: Mm9Formation
+elements:
+- id: Mm9FormationRoot
+  anchor: center
+  width: 640
+  height: 480
+  scale:
+    min: 0.5
+    max: 8.0
+  children:
+    - id: Mm9FormationPanel
+      anchor: top_left
+      offset_x: 155
+      offset_y: 38
+      width: 330
+      height: 334
+      notes: 'The basebar''s panel (GameplayUiSkin::renderPanel, border scale 0.75).'
+    - id: Mm9FormationTitle
+      anchor: top_left
+      offset_x: 155
+      offset_y: 52
+      width: 330
+      height: 22
+      text:
+        value: 'Party Formation'
+        font: Fondamento
+        color: '#efe3c2'
+        align_x: center
+        align_y: middle
+        scale: 0.47
+    - id: Mm9FormationTitleRule
+      anchor: top_left
+      offset_x: 195
+      offset_y: 74
+      width: 250
+      height: 0.8
+      notes: 'A brass rule under the title, fading at both ends.'
+    - id: Mm9FormationFrontRank
+      anchor: top_left
+      offset_x: 177
+      offset_y: 109
+      width: 90
+      height: 14
+      text:
+        value: 'Front rank'
+        font: Fondamento
+        color: '#efe3c2'
+        align_x: left
+        align_y: middle
+        scale: 0.344
+    - id: Mm9FormationFrontChance
+      anchor: top_left
+      offset_x: 177
+      offset_y: 122.5
+      width: 90
+      height: 11
+      text:
+        value: '70 % of blows'
+        font: Fondamento
+        color: '#9c9277'
+        align_x: left
+        align_y: middle
+        scale: 0.25
+    - id: Mm9FormationMiddleRank
+      anchor: top_left
+      offset_x: 177
+      offset_y: 181
+      width: 90
+      height: 14
+      text:
+        value: 'Middle rank'
+        font: Fondamento
+        color: '#efe3c2'
+        align_x: left
+        align_y: middle
+        scale: 0.344
+    - id: Mm9FormationMiddleChance
+      anchor: top_left
+      offset_x: 177
+      offset_y: 194.5
+      width: 90
+      height: 11
+      text:
+        value: '20 % of blows'
+        font: Fondamento
+        color: '#9c9277'
+        align_x: left
+        align_y: middle
+        scale: 0.25
+    - id: Mm9FormationRearRank
+      anchor: top_left
+      offset_x: 177
+      offset_y: 253
+      width: 90
+      height: 14
+      text:
+        value: 'Rear rank'
+        font: Fondamento
+        color: '#efe3c2'
+        align_x: left
+        align_y: middle
+        scale: 0.344
+    - id: Mm9FormationRearChance
+      anchor: top_left
+      offset_x: 177
+      offset_y: 266.5
+      width: 90
+      height: 11
+      text:
+        value: '10 % of blows'
+        font: Fondamento
+        color: '#9c9277'
+        align_x: left
+        align_y: middle
+        scale: 0.25
+    - id: Mm9FormationGrid
+      anchor: top_left
+      offset_x: 273
+      offset_y: 86
+      width: 174
+      height: 210
+      notes: 'Nine cells (Mm9FormationCell) spread evenly: three a rank, the front rank on top, columns left to right.'
+    - id: Mm9FormationCell
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 54
+      height: 66
+      notes: 'A recessed cell (size only; placed by the grid). Empty cells have a dashed border; the drop target a
+        gold one.'
+    - id: Mm9FormationFace
+      anchor: top_left
+      offset_x: 7
+      offset_y: 6
+      width: 40
+      height: 54
+      notes: 'The member''s oval animated face in its cell (offset from the cell), with a brass ring; the dragged
+        face is 42 x 57.'
+    - id: Mm9FormationHirelingMark
+      anchor: top_left
+      offset_x: 44
+      offset_y: 3
+      width: 7
+      height: 7
+      notes: 'The small brass diamond in a hireling''s cell (offset from the cell).'
+    - id: Mm9FormationInstruction
+      anchor: top_left
+      offset_x: 155
+      offset_y: 304
+      width: 330
+      height: 16
+      text:
+        value: 'Drag a portrait onto an empty cell. Nobody may stand behind an empty cell.'
+        font: Fondamento
+        color: '#9c9277'
+        align_x: center
+        align_y: middle
+        scale: 0.297
+    - id: Mm9FormationRefusal
+      anchor: top_left
+      offset_x: 155
+      offset_y: 304
+      width: 330
+      height: 16
+      notes: 'Replaces the instruction when Accept is refused (MM9: the front line must be covered).'
+      text:
+        value: 'The front line must be covered: nobody may stand behind an empty cell.'
+        font: Fondamento
+        color: '#ffb347'
+        align_x: center
+        align_y: middle
+        scale: 0.297
+    - id: Mm9FormationCancelButton
+      anchor: top_left
+      offset_x: 226
+      offset_y: 332
+      width: 86
+      height: 26
+      interactive: true
+      notes: 'Keeps the old formation (also Escape).'
+      asset:
+        default: obsidian_button_tab_normal
+        hover: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+      text:
+        value: Cancel
+        font: Fondamento
+        color: '#efe3c2'
+        align_x: center
+        align_y: middle
+        scale: 0.344
+    - id: Mm9FormationAcceptButton
+      anchor: top_left
+      offset_x: 328
+      offset_y: 332
+      width: 86
+      height: 26
+      interactive: true
+      notes: 'Applies the formation, unless someone stands behind an empty cell.'
+      asset:
+        default: obsidian_button_tab_normal
+        hover: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+      text:
+        value: Accept
+        font: Fondamento
+        color: '#efe3c2'
+        align_x: center
+        align_y: middle
+        scale: 0.344
+    - id: Mm9FormationTooltip
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 10
+      height: 10
+      notes: 'The name of the member under the pointer (text style only; padded 5 x 2 units, beside the cell).'
+      text:
+        value: ''
+        font: Fondamento
+        color: '#efe3c2'
+        align_x: center
+        align_y: middle
+        scale: 0.3125

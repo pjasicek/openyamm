@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ruleset Choice Mockup</title>
+<!--
+  Browser mockup for MAW phase 1 (devdocs/maw/HANDOFF.md): the ruleset switch on "Choose Starting Continent"
+  and the Rules panel. Built from the native Carved Obsidian menu graphics and fonts at their native positions
+  (the 853.33x480 layout canvas times 1.875), so approved geometry carries straight into continent_selection.yml.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Arrus; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #b9bba9; --rule: #b5a47755; --gold: #e3c185;
+  --warn: #e6a98a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 14px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review span { color: #9aa597; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left;
+  overflow: hidden; background: #071012; }
+.abs { position: absolute; }
+.img { background-size: 100% 100%; background-repeat: no-repeat; }
+.backdrop { left: -36px; top: -20px; width: 1672px; height: 941px;
+  background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_title_backdrop.png); }
+.frame { left: 118px; top: 91px; width: 1364px; height: 782px;
+  background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_frame.png); }
+.seal { left: 141px; top: 27px; width: 45px; height: 45px;
+  background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_seal.png); }
+.wordmark { left: 204px; top: 24px; font: 31px/1 Fondamento, serif; color: #e9d4a6; text-shadow: 0 2px 3px #000; }
+.subtitle { left: 204px; top: 63px; font: 13px/1 Arrus, serif; color: #c2b69b; letter-spacing: .5px; }
+.title { left: 172px; top: 160px; font: 43px Fondamento, serif; color: var(--ivory); text-shadow: 0 2px #000; }
+.step { right: 172px; top: 166px; font: 17px Lucida, sans-serif; color: var(--muted); word-spacing: 4px; }
+.rule { height: 1px; background: var(--rule); }
+.label { font: 13px Lucida, sans-serif; color: #c2b084; letter-spacing: 2px; text-transform: uppercase; }
+.button { display: flex; align-items: center; justify-content: center; font: 26px Fondamento, serif;
+  color: #e8d1a4; text-shadow: 0 2px 1px #000; cursor: pointer; user-select: none; }
+.button.quiet { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_quiet_default.png);
+  color: #cbc5af; }
+.button.quiet:hover { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_quiet_hover.png); }
+.button.primary { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_primary_default.png);
+  color: #ffe4ac; }
+.button.primary:hover { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_primary_hover.png); }
+.button.small { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_default.png);
+  font-size: 22px; }
+.button.small:hover { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_hover.png); }
+
+/* Ruleset switch: two native tabs side by side inside a brass outline. */
+.switch { border: 1px solid #8c815f; background: #0b16148c; }
+.tab { position: absolute; top: 3px; height: 50px; display: flex; align-items: center; justify-content: center;
+  font: 25px Fondamento, serif; color: #bfc1b2; cursor: pointer; text-shadow: 0 2px 1px #000; }
+.tab:hover { color: #ecd7a8; }
+.tab.on { background: url(../../../assets_dev/engine/hud_x2/menus/omenu_tab_selected.png) 0 0 / 100% 100% no-repeat;
+  color: #f5dfae; }
+.summary { font: 20px Arrus, serif; color: var(--body); text-align: right; }
+.summary b { font-weight: normal; color: var(--gold); }
+
+/* Continent cards (native world card art). */
+.card { width: 403px; height: 417px; cursor: pointer;
+  background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_world_card.png); }
+.card:hover, .card.on { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_world_card_selected.png); }
+.card .globe { left: 89px; top: 22px; width: 225px; height: 225px; }
+.card .game { left: 0; width: 100%; top: 262px; text-align: center; font: 17px Lucida, sans-serif; color: #c5c9b6; }
+.card .name { left: 0; width: 100%; top: 290px; text-align: center; font: 37px Fondamento, serif; color: var(--label);
+  text-shadow: 0 2px #000; }
+.card .start { left: 0; width: 100%; top: 368px; text-align: center; font: 14px Lucida, sans-serif; color: var(--body); }
+
+/* Rules panel: one scrolling body between the head rule and the footer rule. The scrollbar copies
+   MenuDesignScreen::scrollViewport (12-unit track, 3-unit line, 6-unit thumb, shown only when the content overflows). */
+.viewport { overflow: hidden; }
+#rules-content { position: absolute; left: 0; top: 0; width: 1256px; }
+.col { position: absolute; top: 8px; }
+.scroll-track { position: absolute; right: 0; top: 0; width: 22.5px; height: 100%; cursor: pointer; }
+.scroll-line { position: absolute; left: 8.4px; top: 0; width: 5.6px; height: 100%; background: #2a3829; }
+.scroll-thumb { position: absolute; left: 5.6px; width: 11.25px; background: #ac8d6a; }
+.scroll-track:hover .scroll-thumb, .scroll-thumb.drag { background: #dabe90; }
+.label-row { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 10px; }
+.label-row + .label-row, .section { margin-top: 26px; }
+.table-head { position: relative; height: 30px; font: 13px Lucida, sans-serif; color: #bdb28e; letter-spacing: 1.4px;
+  text-transform: uppercase; }
+.row { position: relative; width: 724px; height: 48px; margin-bottom: 2px; cursor: pointer; font: 21px Arrus, serif;
+  color: #d7d3bb; background: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row.png) 0 0 / 100% 100%; }
+.row.on { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row_selected.png); color: #f5dfae; }
+.row.locked { cursor: default; opacity: .45; }
+.row:hover:not(.on) { filter: brightness(1.15); }
+.row > div, .table-head > div { position: absolute; top: 0; height: 100%; display: flex; align-items: center; }
+.col-name { left: 22px; width: 170px; }
+.col-hp { left: 196px; width: 110px; justify-content: center; }
+.col-dmg { left: 310px; width: 120px; justify-content: center; }
+.col-spawn { left: 434px; width: 100px; justify-content: center; }
+.col-loot { left: 538px; width: 90px; justify-content: center; }
+.col-mark { left: 632px; width: 80px; justify-content: center; font: 15px Lucida, sans-serif; color: var(--muted); }
+.row.on .col-mark { color: var(--gold); }
+.detail { width: 724px; min-height: 112px; margin-top: 6px; border-left: 2px solid #ac9663; background: #bbab6118;
+  padding: 10px 17px; font: 16px/1.5 Lucida, sans-serif; color: #c7c5ae; }
+.detail h4 { margin: 0 0 4px; font: 22px Fondamento, serif; color: var(--label); }
+.detail .warn { color: var(--warn); }
+.credits { width: 724px; margin-top: 12px; font: 13px/1.5 Lucida, sans-serif; color: #9fa594; }
+.setting { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 18px;
+  border-bottom: 1px solid #8086642b; padding: 8px 2px; min-height: 56px; }
+.setting:last-child { border-bottom: 0; }
+.setting .name { font: 21px Arrus, serif; color: #e2d8bd; }
+.setting .desc { grid-column: 1 / -1; font: 14px/1.4 Lucida, sans-serif; color: #aeb5a5; margin-top: 4px; }
+.setting .desc .warn { color: var(--warn); }
+.toggle { flex-shrink: 0; width: 96px; height: 39px; display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 22px; font: 17px Lucida, sans-serif; color: #b8b8a9; cursor: pointer;
+  background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_toggle_off.png); }
+.toggle.on { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_toggle_on.png); color: #e8d5a1; }
+.select { flex-shrink: 0; width: 236px; white-space: nowrap; height: 39px; display: flex; align-items: center; padding: 0 40px 0 13px;
+  font: 18px Lucida, sans-serif; color: #e9dcc0; cursor: pointer; position: relative;
+  background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_text_field.png); }
+.select::after { content: ""; position: absolute; right: 9px; top: 11px; width: 24px; height: 16px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_chevron_down.png) center / 100% 100%; }
+.seg { position: relative; width: 448px; height: 50px; }
+.seg .tab { width: 220px; height: 44px; top: 2px; font-size: 23px; }
+.seg.locked .tab { cursor: default; }
+.seg.locked .tab:not(.on) { opacity: .4; }
+.prog-desc { margin-top: 8px; font: 15px/1.45 Lucida, sans-serif; color: #c0c1ad; }
+.lock { font: 13px Lucida, sans-serif; color: #c9ab78; letter-spacing: .4px; }
+.footer-note { font: 16px Lucida, sans-serif; color: var(--muted); text-align: center; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="review">
+  <strong style="font: 18px Fondamento, serif; color: #e9d4a6">Ruleset choice · mockup</strong>
+  <button data-view="standard">Continent · Standard</button>
+  <button data-view="maw">Continent · MAW</button>
+  <button data-view="rules">Rules panel</button>
+  <span>Click the switch, difficulty rows, progression and toggles. Browser only; nothing is saved.</span>
+</div>
+<div id="wrap"><div id="stage">
+  <div class="abs img backdrop"></div>
+  <div class="abs img frame"></div>
+  <div class="abs img seal"></div>
+  <div class="abs wordmark">OpenYAMM</div>
+  <div class="abs subtitle">Universe of Might and Magic</div>
+  <div class="abs title" id="title">Choose Starting Continent</div>
+  <div class="abs step" id="step">01 · Continent &nbsp;/&nbsp; 02 · Party</div>
+  <div class="abs rule" style="left:172px; top:232px; width:1256px"></div>
+  <div class="abs rule" style="left:172px; top:757px; width:1256px"></div>
+
+  <!-- Continent screen -->
+  <div id="continent">
+    <div class="abs label" style="left:172px; top:270px">Ruleset</div>
+    <div class="abs switch" style="left:282px; top:246px; width:498px; height:58px">
+      <div class="tab" data-ruleset="mmerge" style="left:3px; width:244px">Standard MMMerge</div>
+      <div class="tab" data-ruleset="maw" style="left:249px; width:244px">MAW</div>
+    </div>
+    <div class="abs summary" id="summary" style="right:172px; top:262px; width:600px"></div>
+    <div class="abs summary" id="summary-maw" style="right:372px; top:262px; width:440px; white-space:nowrap"></div>
+    <div class="abs img button small" id="rules-button" style="left:1256px; top:250px; width:172px; height:50px">Rules…</div>
+
+    <div class="abs img card" style="left:172px; top:322px">
+      <div class="abs img globe" style="background-image:url(../../../assets_dev/engine/hud_x2/menus/omenu_continent_enroth.png)"></div>
+      <div class="abs game">Might and Magic VI</div><div class="abs name">Enroth</div>
+      <div class="abs start">Begin in New Sorpigal</div>
+    </div>
+    <div class="abs img card" style="left:598px; top:322px">
+      <div class="abs img globe" style="background-image:url(../../../assets_dev/engine/hud_x2/menus/omenu_continent_antagarich.png)"></div>
+      <div class="abs game">Might and Magic VII</div><div class="abs name">Antagarich</div>
+      <div class="abs start">Begin in Emerald Island</div>
+    </div>
+    <div class="abs img card" style="left:1025px; top:322px">
+      <div class="abs img globe" style="background-image:url(../../../assets_dev/engine/hud_x2/menus/omenu_continent_jadame.png)"></div>
+      <div class="abs game">Might and Magic VIII</div><div class="abs name">Jadame</div>
+      <div class="abs start">Begin in Dagger Wound Islands</div>
+    </div>
+    <div class="abs img button quiet" style="left:172px; top:777px; width:124px; height:49px">Cancel</div>
+    <div class="abs footer-note" id="continent-note" style="left:420px; top:792px; width:760px"></div>
+  </div>
+
+  <!-- Rules panel: replaces the continent content inside the same frame; Back returns to it. -->
+  <div id="rules" class="hidden">
+    <div class="abs viewport" id="rules-viewport" style="left:172px; top:244px; width:1256px; height:504px">
+      <div id="rules-content">
+        <div class="col" style="left:0; width:724px">
+          <div class="label-row"><span class="label">Difficulty</span>
+            <span class="lock" id="difficulty-lock"></span></div>
+          <div class="table-head">
+            <div class="col-name">Level</div><div class="col-hp">Monster HP</div><div class="col-dmg">Monster dmg</div>
+            <div class="col-spawn">Groups</div><div class="col-loot">Loot</div>
+          </div>
+          <div id="rows"></div>
+          <div class="detail" id="detail"></div>
+          <div class="credits">
+            MAW by Malekith, Rawsugar, Eksekk, Yuji Sakai/Knightmarevive, 2D (Perduelion) and Thor Thunderfist, with
+            thanks to GrayFace and Rodril. Rules of MAW <i>ef23ee17</i>, reimplemented for OpenYAMM.
+          </div>
+        </div>
+
+        <div class="col" style="left:768px; width:448px">
+          <div class="label-row"><span class="label">Progression</span><span class="lock" id="progression-lock"></span></div>
+          <div class="switch seg" id="progression">
+            <div class="tab" data-progression="free" style="left:3px">Free</div>
+            <div class="tab" data-progression="horizontal" style="left:225px">Horizontal</div>
+          </div>
+          <div class="prog-desc" id="prog-desc"></div>
+
+          <div class="label-row section"><span class="label">Challenge</span>
+            <span class="lock">Chosen once · fixed for the adventure</span></div>
+          <div class="setting"><div class="name">Challenge mode</div><div class="select" id="challenge"></div>
+            <div class="desc" id="challenge-desc"></div></div>
+          <div class="setting"><div class="name">Randomizer</div><div class="toggle" id="randomizer"></div>
+            <div class="desc">Shuffles 101 quest items and 452 monster groups between the maps, from a seed fixed at
+              the start.</div></div>
+
+          <div class="label-row section"><span class="label">Preferences</span><span class="lock">Change any time</span></div>
+          <div class="setting"><div class="name">Homing projectiles</div><div class="toggle" data-pref="homing"></div>
+            <div class="desc">Your missiles follow their target.</div></div>
+          <div class="setting"><div class="name">Friendly fire</div><div class="toggle" data-pref="friendly"></div>
+            <div class="desc">Your attacks and spells can hurt peaceful townsfolk and guards.</div></div>
+          <div class="setting"><div class="name">Loot filter</div><div class="select" id="loot"></div>
+            <div class="desc">Monster loot of this rarity or lower turns into its gold value when picked up.</div></div>
+        </div>
+      </div>
+      <div class="scroll-track" id="scroll-track"><div class="scroll-line"></div><div class="scroll-thumb" id="scroll-thumb"></div></div>
+    </div>
+
+    <div class="abs img button quiet" id="rules-back" style="left:172px; top:777px; width:110px; height:49px">Back</div>
+    <div class="abs footer-note" id="rules-note" style="left:300px; top:792px; width:640px"></div>
+    <div class="abs img button quiet" id="rules-defaults" style="left:960px; top:777px; width:214px; height:49px">Restore Defaults</div>
+    <div class="abs img button primary" id="rules-apply" style="left:1188px; top:777px; width:240px; height:49px">Use These Rules</div>
+  </div>
+</div></div>
+
+<script>
+'use strict';
+// Monster HP and damage relative to MAW difficulty for a level-100 party: devdocs/maw/data/difficulty.yml
+// relative_to_maw.level_100. Groups are monster group sizes (density); loot is the rarity weight multiplier.
+// Normal uses MAW's unreachable index 2 (Easy and Normal play identically in MAW; README §6 bug).
+const DIFFICULTIES = [
+  {id: 'easy', name: 'Easy', hp: '×0.50', dmg: '×0.50', groups: '1–3', loot: '—',
+   rules: 'No bosses. Monsters have half the health and deal half the damage of MAW.'},
+  {id: 'normal', name: 'Normal', hp: '×0.75', dmg: '×0.70', groups: '1–3', loot: '—',
+   rules: 'No bosses. A gentler start for players new to MAW.'},
+  {id: 'maw', name: 'MAW', hp: '×1.00', dmg: '×1.00', groups: '1–3', loot: '—', mark: 'default',
+   rules: 'The intended experience. Every map has bosses with special abilities.'},
+  {id: 'hard', name: 'Hard', hp: '×1.29', dmg: '×1.11', groups: '1–4', loot: '+10 %',
+   rules: 'Larger groups and better loot. Attacking while flying ends Fly on most maps.'},
+  {id: 'hell', name: 'Hell', hp: '×1.58', dmg: '×1.23', groups: '1–4', loot: '+20 %',
+   rules: 'As Hard; melee monsters outdoors can also gain a ranged attack.'},
+  {id: 'nightmare', name: 'Nightmare', hp: '×1.93', dmg: '×1.41', groups: '2–4', loot: '+40 %', mark: 'locks',
+   rules: 'Saving costs food and Lloyd’s Beacon and Town Portal fail near enemies; dungeons left below 65 % '
+     + 'cleared revive their dead.',
+   warn: 'Cannot be lowered later.'},
+];
+const PROGRESSION = {
+  free: 'Monsters on a new continent gain the levels you earned elsewhere. Suits playing one continent at a time.',
+  horizontal: 'Every map has a fixed level, about 2.5× its original band; travel between continents to progress. '
+    + 'Suits clearing the whole game.',
+};
+// MAW's game modes. Beyond Madness forces horizontal progression; every mode keeps the difficulty chosen here.
+const CHALLENGES = [
+  {id: 'none', name: 'None', desc: 'MAW’s rules with no extra challenge.'},
+  {id: 'doom', name: 'Doom', desc: 'Monster hits cause conditions, more and stronger monsters spawn, items must be '
+    + 'identified before wearing and hirelings are limited. Starts with 5,000 gold and bonus experience.'},
+  {id: 'insanity', name: 'Road to Insanity', desc: 'Doom’s monsters, harder masteries and no map refills. Starts '
+    + 'with 5,000 gold and bonus experience.'},
+  {id: 'madness', name: 'Beyond Madness', desc: 'Insanity, and the party restarts at level 1, maps reach level 500, '
+    + 'bosses are seeded and every death counts, including loading during combat. No mercenaries.'},
+  {id: 'austerity', name: 'Austerity', desc: 'No legendary items, and armour follows stricter rules.'},
+];
+const LOOT_FILTER = ['Off', 'Common', 'Uncommon', 'Rare', 'Epic', 'Ancient', 'Primordial'];
+// MAW's defaults for a new game: MAW difficulty, free progression, no challenge, no randomizer, homing on,
+// friendly fire off, loot filter off.
+const DEFAULTS = {difficulty: 'maw', progression: 'free', challenge: 'none', randomizer: false, homing: true,
+  friendly: false, loot: 0};
+const S = {view: 'standard', ruleset: 'mmerge', scroll: 0, ...DEFAULTS};
+
+const $ = selector => document.querySelector(selector);
+const $$ = selector => [...document.querySelectorAll(selector)];
+const difficulty = () => DIFFICULTIES.find(item => item.id === S.difficulty);
+const challenge = () => CHALLENGES.find(item => item.id === S.challenge);
+const progression = () => S.challenge === 'madness' ? 'horizontal' : S.progression;
+const onOff = value => value ? 'On' : 'Off';
+
+function masteries() {
+  if (S.challenge === 'madness') return '10, 24 and 40';
+  if (S.challenge === 'insanity') return '8, 16 and 25';
+  if (S.challenge === 'doom' || progression() === 'horizontal') return '6, 12 and 20';
+  return '4, 7 and 10';
+}
+
+function rulesNote() {
+  if (S.challenge !== 'none')
+    return `${challenge().name} keeps this difficulty for the whole adventure; preferences can change.`;
+  if (S.difficulty === 'nightmare') return 'Nightmare cannot be lowered later; progression and preferences can change.';
+  return 'Difficulty, progression and preferences can change during play.';
+}
+
+function summary() {
+  const extras = [S.challenge !== 'none' ? challenge().name : '', S.randomizer ? 'Randomizer' : ''].filter(Boolean);
+  const progressionName = progression() === 'free' ? 'Free' : 'Horizontal';
+  if (!extras.length) return `<b>${difficulty().name}</b> difficulty · <b>${progressionName}</b> progression`;
+  return [difficulty().name, progressionName, ...extras].map(text => `<b>${text}</b>`).join(' · ');
+}
+
+// Mirrors MenuDesignScreen::scrollViewport: 33-unit wheel step, 20-unit minimum thumb, a page per track click.
+const UNIT = 1.875;
+const VIEWPORT_HEIGHT = 504;
+let drag = null;
+const stageScale = () => $('#wrap').clientWidth / 1600;
+const contentHeight = () => Math.max(...$$('#rules-content .col').map(col => col.offsetTop + col.offsetHeight)) + 16;
+const maxScroll = () => Math.max(0, contentHeight() - VIEWPORT_HEIGHT);
+const thumbHeight = () => Math.min(VIEWPORT_HEIGHT, Math.max(20 * UNIT, VIEWPORT_HEIGHT ** 2 / contentHeight()));
+
+function layoutScroll() {
+  const max = maxScroll();
+  S.scroll = Math.min(Math.max(S.scroll, 0), max);
+  $('#rules-content').style.top = `${-S.scroll}px`;
+  $('#scroll-track').classList.toggle('hidden', max === 0);
+  const thumb = $('#scroll-thumb');
+  thumb.style.height = `${thumbHeight()}px`;
+  thumb.style.top = max ? `${(VIEWPORT_HEIGHT - thumbHeight()) * S.scroll / max}px` : '0';
+  thumb.classList.toggle('drag', drag !== null);
+}
+
+function render() {
+  const rules = S.view === 'rules';
+  $('#continent').classList.toggle('hidden', rules);
+  $('#rules').classList.toggle('hidden', !rules);
+  $('#title').textContent = rules ? 'MAW Rules' : 'Choose Starting Continent';
+  $('#step').innerHTML = rules ? 'Might and Magic rebalance' : '01 · Continent &nbsp;/&nbsp; 02 · Party';
+  $$('[data-ruleset]').forEach(tab => tab.classList.toggle('on', tab.dataset.ruleset === S.ruleset));
+  const maw = S.ruleset === 'maw';
+  $('#summary').classList.toggle('hidden', maw);
+  $('#summary-maw').classList.toggle('hidden', !maw);
+  $('#rules-button').classList.toggle('hidden', !maw);
+  $('#summary').textContent = 'The merged Might and Magic VI–VIII rules.';
+  $('#summary-maw').innerHTML = summary();
+  $('#summary-maw').style.fontSize = S.challenge !== 'none' || S.randomizer ? '17px' : '';
+  $('#continent-note').textContent = maw
+    ? 'MAW rebalances monsters, items, skills and spells.'
+    : 'Choose a continent to create your party.';
+
+  $('#rows').innerHTML = DIFFICULTIES.map(item => `
+    <div class="img row${item.id === S.difficulty ? ' on' : ''}" data-difficulty="${item.id}">
+      <div class="col-name">${item.name}</div><div class="col-hp">${item.hp}</div><div class="col-dmg">${item.dmg}</div>
+      <div class="col-spawn">${item.groups}</div><div class="col-loot">${item.loot}</div>
+      <div class="col-mark">${item.mark || ''}</div></div>`).join('');
+  const current = difficulty();
+  $('#detail').innerHTML = `<h4>${current.name}</h4>${current.rules}`
+    + (current.warn ? ` <span class="warn">${current.warn}</span>` : '');
+  $('#difficulty-lock').textContent = S.challenge !== 'none' ? `Fixed by ${challenge().name}` : '';
+
+  const forced = S.challenge === 'madness';
+  $('#progression').classList.toggle('locked', forced);
+  $('#progression-lock').textContent = forced ? 'Set by Beyond Madness' : '';
+  $$('[data-progression]').forEach(tab => tab.classList.toggle('on', tab.dataset.progression === progression()));
+  $('#prog-desc').textContent = `${PROGRESSION[progression()]} Masteries need skill ${masteries()}.`;
+  $('#challenge').textContent = challenge().name;
+  $('#challenge-desc').textContent = challenge().desc;
+  $('#randomizer').classList.toggle('on', S.randomizer);
+  $('#randomizer').textContent = onOff(S.randomizer);
+  $$('[data-pref]').forEach(toggle => {
+    toggle.classList.toggle('on', S[toggle.dataset.pref]);
+    toggle.textContent = onOff(S[toggle.dataset.pref]);
+  });
+  $('#loot').textContent = LOOT_FILTER[S.loot];
+  $('#rules-note').textContent = rulesNote();
+  $$('.review [data-view]').forEach(button => button.setAttribute('aria-pressed', button.dataset.view === S.view));
+  if (rules) layoutScroll();
+}
+
+function setView(view) {
+  S.view = view;
+  if (view === 'standard') S.ruleset = 'mmerge';
+  if (view === 'maw' || view === 'rules') S.ruleset = 'maw';
+  render();
+}
+
+document.addEventListener('click', event => {
+  const target = event.target.closest('[data-view],[data-ruleset],[data-difficulty],[data-progression],[data-pref],'
+    + '#rules-button,#rules-back,#rules-apply,#rules-defaults,#loot,#challenge,#randomizer');
+  if (!target) return;
+  if (target.dataset.view) setView(target.dataset.view);
+  else if (target.dataset.ruleset) setView(target.dataset.ruleset === 'maw' ? 'maw' : 'standard');
+  else if (target.dataset.difficulty) S.difficulty = target.dataset.difficulty;
+  else if (target.dataset.progression) { if (S.challenge !== 'madness') S.progression = target.dataset.progression; }
+  else if (target.dataset.pref) S[target.dataset.pref] = !S[target.dataset.pref];
+  else if (target.id === 'rules-button') { S.view = 'rules'; S.scroll = 0; }
+  else if (target.id === 'rules-back' || target.id === 'rules-apply') S.view = 'maw';
+  else if (target.id === 'rules-defaults') Object.assign(S, DEFAULTS);
+  else if (target.id === 'loot') S.loot = (S.loot + 1) % LOOT_FILTER.length;
+  else if (target.id === 'randomizer') S.randomizer = !S.randomizer;
+  else if (target.id === 'challenge')
+    S.challenge = CHALLENGES[(CHALLENGES.indexOf(challenge()) + 1) % CHALLENGES.length].id;
+  render();
+});
+
+$('#rules-viewport').addEventListener('wheel', event => {
+  event.preventDefault();
+  S.scroll += Math.sign(event.deltaY) * 33 * UNIT;
+  layoutScroll();
+}, {passive: false});
+$('#scroll-track').addEventListener('mousedown', event => {
+  event.preventDefault();
+  const y = (event.clientY - $('#scroll-track').getBoundingClientRect().top) / stageScale();
+  const thumbTop = parseFloat($('#scroll-thumb').style.top) || 0;
+  if (y >= thumbTop && y <= thumbTop + thumbHeight()) drag = y - thumbTop;
+  else S.scroll += (y < thumbTop ? -1 : 1) * VIEWPORT_HEIGHT;
+  layoutScroll();
+});
+document.addEventListener('mousemove', event => {
+  if (drag === null) return;
+  const y = (event.clientY - $('#scroll-track').getBoundingClientRect().top) / stageScale();
+  const travel = VIEWPORT_HEIGHT - thumbHeight();
+  S.scroll = travel > 0 ? Math.min(Math.max((y - drag) / travel, 0), 1) * maxScroll() : 0;
+  layoutScroll();
+});
+document.addEventListener('mouseup', () => { drag = null; if (S.view === 'rules') layoutScroll(); });
+
+function resize() {
+  $('#stage').style.transform = `scale(${stageScale()})`;
+}
+new ResizeObserver(resize).observe($('#wrap'));
+const params = new URLSearchParams(location.search);
+for (const key of ['difficulty', 'progression', 'challenge']) if (params.get(key)) S[key] = params.get(key);
+if (params.get('randomizer')) S.randomizer = true;
+if (params.get('export')) $('.review').classList.add('hidden');
+setView(params.get('view') || 'standard');
+if (params.get('scroll') === 'bottom') { S.scroll = 1e9; render(); }
+</script>
+</body>
+</html>

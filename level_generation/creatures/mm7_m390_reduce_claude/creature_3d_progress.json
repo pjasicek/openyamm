@@ -1,0 +1,42 @@
+{
+  "creature_3d_identity": "mm7:m390_reduce",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 1
+  },
+  "scope": "Triangle reduction of mm7_m390_claude (user: all 3 good, reduce tris); no install, no Meshy",
+  "source": {
+    "path": "work/source_pre_reduce.glb",
+    "sha256": "03e851597e18dcea9d2582ef2f1977781bb7827b56b114e9a28c8387db0ea30e"
+  },
+  "picked": {
+    "run": "g4",
+    "step": "r54",
+    "group_ratios": {
+      "legs": 0.7,
+      "head": 0.5,
+      "belly": 0.6
+    },
+    "lod_tris": [
+      6237,
+      3118,
+      1542,
+      742
+    ],
+    "p99_mm": 2.07,
+    "max_mm": 6.55
+  },
+  "selected_artifacts": {
+    "export": {
+      "path": "export/mm7_m390.glb",
+      "sha256": "25f54029de84ca912cb4b705ad1b7a8d745bc70ce6deae60b00fb8b8f818ecfd"
+    }
+  },
+  "credits_spent": 0,
+  "current_stage": "exported",
+  "user_artistic_acceptance": "pending",
+  "next_action": {
+    "owner": "user",
+    "action": "review viewer current vs reduced; install reduced export"
+  }
+}

@@ -1,0 +1,963 @@
+{
+  "room_footprints": {
+    "tech": [
+      [
+        4300,
+        2028
+      ],
+      [
+        4364,
+        1964
+      ],
+      [
+        5236,
+        1964
+      ],
+      [
+        5300,
+        2028
+      ],
+      [
+        5300,
+        2900
+      ],
+      [
+        5236,
+        2964
+      ],
+      [
+        4364,
+        2964
+      ],
+      [
+        4300,
+        2900
+      ]
+    ],
+    "parts": [
+      [
+        4300,
+        132
+      ],
+      [
+        4396,
+        36
+      ],
+      [
+        5204,
+        36
+      ],
+      [
+        5300,
+        132
+      ],
+      [
+        5300,
+        940
+      ],
+      [
+        5204,
+        1036
+      ],
+      [
+        4396,
+        1036
+      ],
+      [
+        4300,
+        940
+      ]
+    ],
+    "militia": [
+      [
+        6000,
+        2092
+      ],
+      [
+        6128,
+        1964
+      ],
+      [
+        7008,
+        1964
+      ],
+      [
+        7136,
+        2092
+      ],
+      [
+        7136,
+        2836
+      ],
+      [
+        7008,
+        2964
+      ],
+      [
+        6128,
+        2964
+      ],
+      [
+        6000,
+        2836
+      ]
+    ],
+    "range": [
+      [
+        5600,
+        164
+      ],
+      [
+        5728,
+        36
+      ],
+      [
+        7008,
+        36
+      ],
+      [
+        7136,
+        164
+      ],
+      [
+        7136,
+        908
+      ],
+      [
+        7008,
+        1036
+      ],
+      [
+        5728,
+        1036
+      ],
+      [
+        5600,
+        908
+      ]
+    ],
+    "cockpit": [
+      [
+        1580,
+        1350
+      ],
+      [
+        2020,
+        1350
+      ],
+      [
+        2020,
+        1800
+      ],
+      [
+        1580,
+        1800
+      ]
+    ],
+    "reactor": [
+      [
+        -2264,
+        1200
+      ],
+      [
+        -2064,
+        1000
+      ],
+      [
+        -264,
+        1000
+      ],
+      [
+        -64,
+        1200
+      ],
+      [
+        -64,
+        2800
+      ],
+      [
+        -264,
+        3000
+      ],
+      [
+        -2064,
+        3000
+      ],
+      [
+        -2264,
+        2800
+      ]
+    ],
+    "fuel": [
+      [
+        300,
+        -1836
+      ],
+      [
+        428,
+        -1964
+      ],
+      [
+        2572,
+        -1964
+      ],
+      [
+        2700,
+        -1836
+      ],
+      [
+        2700,
+        -192
+      ],
+      [
+        2572,
+        -64
+      ],
+      [
+        428,
+        -64
+      ],
+      [
+        300,
+        -192
+      ]
+    ],
+    "stair": [
+      [
+        -1364,
+        3064
+      ],
+      [
+        236,
+        3064
+      ],
+      [
+        236,
+        3700
+      ],
+      [
+        -1364,
+        3700
+      ]
+    ],
+    "control": [
+      [
+        300,
+        3128
+      ],
+      [
+        364,
+        3064
+      ],
+      [
+        2652,
+        3064
+      ],
+      [
+        2700,
+        3112
+      ],
+      [
+        2700,
+        3636
+      ],
+      [
+        2636,
+        3700
+      ],
+      [
+        364,
+        3700
+      ],
+      [
+        300,
+        3636
+      ]
+    ],
+    "bay_w": [
+      [
+        0,
+        300
+      ],
+      [
+        300,
+        0
+      ],
+      [
+        1200,
+        0
+      ],
+      [
+        1200,
+        3000
+      ],
+      [
+        300,
+        3000
+      ],
+      [
+        0,
+        2700
+      ]
+    ],
+    "bay_c": [
+      [
+        1200,
+        0
+      ],
+      [
+        2400,
+        0
+      ],
+      [
+        2400,
+        3000
+      ],
+      [
+        1200,
+        3000
+      ]
+    ],
+    "bay_e": [
+      [
+        2400,
+        0
+      ],
+      [
+        3300,
+        0
+      ],
+      [
+        3600,
+        300
+      ],
+      [
+        3600,
+        2700
+      ],
+      [
+        3300,
+        3000
+      ],
+      [
+        2400,
+        3000
+      ]
+    ],
+    "aisle_w": [
+      [
+        3664,
+        1100
+      ],
+      [
+        5400,
+        1100
+      ],
+      [
+        5400,
+        1900
+      ],
+      [
+        3664,
+        1900
+      ]
+    ],
+    "aisle_e": [
+      [
+        5400,
+        1100
+      ],
+      [
+        7136,
+        1100
+      ],
+      [
+        7136,
+        1900
+      ],
+      [
+        5400,
+        1900
+      ]
+    ],
+    "ramp_foot": [
+      [
+        7200,
+        1228
+      ],
+      [
+        7328,
+        1100
+      ],
+      [
+        7872,
+        1100
+      ],
+      [
+        8000,
+        1228
+      ],
+      [
+        8000,
+        1900
+      ],
+      [
+        7328,
+        1900
+      ],
+      [
+        7200,
+        1772
+      ]
+    ]
+  },
+  "pickups": [
+    [
+      "parts",
+      751,
+      5050,
+      850,
+      0,
+      240
+    ],
+    [
+      "parts",
+      752,
+      4700,
+      250,
+      0,
+      30
+    ],
+    [
+      "tech",
+      753,
+      4400,
+      2800,
+      0,
+      135
+    ],
+    [
+      "tech",
+      754,
+      5120,
+      2050,
+      0,
+      20
+    ],
+    [
+      "militia",
+      755,
+      6750,
+      2800,
+      0,
+      180
+    ],
+    [
+      "range",
+      756,
+      5750,
+      300,
+      0,
+      45
+    ],
+    [
+      "aisle_w",
+      757,
+      4000,
+      1750,
+      0,
+      200
+    ],
+    [
+      "aisle_e",
+      758,
+      6250,
+      1200,
+      0,
+      70
+    ],
+    [
+      "bay_w",
+      759,
+      400,
+      1300,
+      0,
+      15
+    ],
+    [
+      "bay_e",
+      760,
+      3000,
+      2100,
+      0,
+      160
+    ],
+    [
+      "bay_e",
+      761,
+      3000,
+      550,
+      0,
+      30
+    ],
+    [
+      "reactor",
+      762,
+      -2100,
+      2700,
+      0,
+      110
+    ],
+    [
+      "reactor",
+      763,
+      -500,
+      1300,
+      0,
+      250
+    ],
+    [
+      "fuel",
+      764,
+      2450,
+      -1100,
+      0,
+      210
+    ],
+    [
+      "fuel",
+      765,
+      1300,
+      -1800,
+      0,
+      10
+    ],
+    [
+      "control",
+      766,
+      450,
+      3450,
+      640,
+      100
+    ],
+    [
+      "control",
+      767,
+      2300,
+      3550,
+      640,
+      240
+    ],
+    [
+      "ramp_foot",
+      768,
+      7800,
+      1250,
+      0,
+      30
+    ]
+  ],
+  "arrivals": {
+    "surface_door": {
+      "position": [
+        7600,
+        3650,
+        482
+      ],
+      "direction_degrees": 270
+    },
+    "bay": {
+      "position": [
+        3300,
+        1500,
+        0
+      ],
+      "direction_degrees": 180
+    }
+  },
+  "actors": [
+    {
+      "monster": 10050,
+      "position": [
+        7450,
+        2700,
+        205
+      ],
+      "yaw_degrees": 270,
+      "group": 1,
+      "posted": false,
+      "name": "",
+      "sector": 15
+    },
+    {
+      "monster": 10050,
+      "position": [
+        7750,
+        3150,
+        320
+      ],
+      "yaw_degrees": 270,
+      "group": 1,
+      "posted": false,
+      "name": "",
+      "sector": 15
+    },
+    {
+      "monster": 10090,
+      "position": [
+        6050,
+        1350,
+        0
+      ],
+      "yaw_degrees": 200,
+      "group": 2,
+      "posted": false,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10090,
+      "position": [
+        6300,
+        1600,
+        0
+      ],
+      "yaw_degrees": 160,
+      "group": 2,
+      "posted": false,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10054,
+      "position": [
+        6950,
+        300,
+        0
+      ],
+      "yaw_degrees": 180,
+      "group": 3,
+      "posted": true,
+      "name": "",
+      "sector": 4
+    },
+    {
+      "monster": 10054,
+      "position": [
+        6950,
+        800,
+        0
+      ],
+      "yaw_degrees": 180,
+      "group": 3,
+      "posted": true,
+      "name": "",
+      "sector": 4
+    },
+    {
+      "monster": 10050,
+      "position": [
+        900,
+        2300,
+        0
+      ],
+      "yaw_degrees": 0,
+      "group": 4,
+      "posted": false,
+      "name": "",
+      "sector": 9
+    },
+    {
+      "monster": 10050,
+      "position": [
+        2900,
+        2200,
+        0
+      ],
+      "yaw_degrees": 180,
+      "group": 4,
+      "posted": false,
+      "name": "",
+      "sector": 11
+    },
+    {
+      "monster": 10050,
+      "position": [
+        2900,
+        700,
+        0
+      ],
+      "yaw_degrees": 180,
+      "group": 4,
+      "posted": false,
+      "name": "",
+      "sector": 11
+    },
+    {
+      "monster": 10050,
+      "position": [
+        900,
+        600,
+        0
+      ],
+      "yaw_degrees": 0,
+      "group": 4,
+      "posted": false,
+      "name": "",
+      "sector": 9
+    },
+    {
+      "monster": 10050,
+      "position": [
+        -2000,
+        1300,
+        0
+      ],
+      "yaw_degrees": 90,
+      "group": 5,
+      "posted": false,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10050,
+      "position": [
+        -1600,
+        1300,
+        0
+      ],
+      "yaw_degrees": 90,
+      "group": 5,
+      "posted": false,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10050,
+      "position": [
+        -1200,
+        1300,
+        0
+      ],
+      "yaw_degrees": 90,
+      "group": 5,
+      "posted": false,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10050,
+      "position": [
+        -800,
+        1300,
+        0
+      ],
+      "yaw_degrees": 90,
+      "group": 5,
+      "posted": false,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10050,
+      "position": [
+        -400,
+        1300,
+        0
+      ],
+      "yaw_degrees": 90,
+      "group": 5,
+      "posted": false,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10050,
+      "position": [
+        -1600,
+        2700,
+        0
+      ],
+      "yaw_degrees": 270,
+      "group": 5,
+      "posted": false,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10054,
+      "position": [
+        2550,
+        3480,
+        640
+      ],
+      "yaw_degrees": 180,
+      "group": 6,
+      "posted": true,
+      "name": "",
+      "sector": 8
+    },
+    {
+      "monster": 10090,
+      "position": [
+        1000,
+        -280,
+        0
+      ],
+      "yaw_degrees": 0,
+      "group": 7,
+      "posted": false,
+      "name": "",
+      "sector": 6
+    },
+    {
+      "monster": 10090,
+      "position": [
+        1300,
+        -1050,
+        0
+      ],
+      "yaw_degrees": 250,
+      "group": 7,
+      "posted": false,
+      "name": "",
+      "sector": 6
+    },
+    {
+      "monster": 10090,
+      "position": [
+        1900,
+        -1050,
+        0
+      ],
+      "yaw_degrees": 130,
+      "group": 7,
+      "posted": false,
+      "name": "",
+      "sector": 6
+    },
+    {
+      "monster": 10090,
+      "position": [
+        2500,
+        -1050,
+        0
+      ],
+      "yaw_degrees": 10,
+      "group": 7,
+      "posted": false,
+      "name": "",
+      "sector": 6
+    },
+    {
+      "monster": 10090,
+      "position": [
+        1100,
+        -1750,
+        0
+      ],
+      "yaw_degrees": 70,
+      "group": 7,
+      "posted": false,
+      "name": "",
+      "sector": 6
+    }
+  ],
+  "door_ids": {
+    "tech": 1,
+    "parts": 2,
+    "militia": 3,
+    "range": 4,
+    "reactor": 5,
+    "fuel": 6,
+    "control": 7,
+    "roof_w": 8,
+    "roof_e": 9
+  },
+  "chest_events": {
+    "30": 0,
+    "31": 1,
+    "32": 2,
+    "33": 3
+  },
+  "sockets": {
+    "cockpit": {
+      "event": 20,
+      "cog": 31
+    },
+    "coil": {
+      "event": 21,
+      "cog": 32
+    },
+    "nav": {
+      "event": 22,
+      "cog": 33
+    },
+    "engine": {
+      "event": 23,
+      "cog": 34
+    },
+    "ring": {
+      "event": 24,
+      "cog": 35
+    }
+  },
+  "map": "hes_d00.blv",
+  "events": {
+    "40": "tech",
+    "44": "parts",
+    "41": "militia",
+    "42": "reactor",
+    "43": "fuel",
+    "60": "control",
+    "50": "surface_door",
+    "15": "info_panel_6",
+    "11": "info_panel_2",
+    "25": "practice_terminal",
+    "12": "info_panel_3",
+    "13": "info_panel_4",
+    "26": "range_lever",
+    "14": "info_panel_5",
+    "10": "info_panel_1",
+    "19": "lander_console",
+    "70": "cell_charger",
+    "27": "breaker_a",
+    "28": "breaker_b",
+    "29": "reactor_terminal",
+    "17": "reactor_placard",
+    "34": "pilot_link",
+    "16": "info_panel_7",
+    "35": "roof_controls",
+    "18": "hazard_sign"
+  },
+  "decorations": 83,
+  "sectors": [
+    "room_tech",
+    "room_parts",
+    "room_militia",
+    "room_range",
+    "room_reactor",
+    "room_fuel",
+    "room_stair",
+    "room_control",
+    "room_bay_w",
+    "room_bay_c",
+    "room_bay_e",
+    "room_aisle_w",
+    "room_aisle_e",
+    "room_ramp_foot",
+    "room_ramp",
+    "room_cockpit"
+  ],
+  "doors": {
+    "tech": 1,
+    "parts": 2,
+    "militia": 3,
+    "range": 4,
+    "reactor": 5,
+    "fuel": 6,
+    "control": 7,
+    "roof_w": 8,
+    "roof_e": 9
+  }
+}

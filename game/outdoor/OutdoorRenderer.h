@@ -30,6 +30,8 @@ public:
     static void destroySkyResources(OutdoorGameView &view);
     // Sets u_skyFog for the following fog shaders (zero, i.e. flat fog, without an enhanced sky frame).
     static void applySkyFogUniform(const OutdoorGameView &view);
+    // Loads the map's decoration models once (also on the first world pass); without them decorations are sprites.
+    static void ensureDecorationModels(OutdoorGameView &view);
 
     static void renderWorldPasses(
         OutdoorGameView &view,
@@ -82,6 +84,11 @@ private:
         const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
         Engine::ModelInstanceHandle instance, const Engine::ModelBounds &modelBounds, uint32_t &modelProbeSamples,
         bool selectPointLights);
+    // The light on a model at the eye (the first-person view model's): creatureModelLighting's at that point, with its
+    // own probe cache and the nearest lights as a list.
+    static Engine::ModelRenderLighting eyeModelLighting(OutdoorGameView &view, const ModelSceneLighting &scene,
+        const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
+        const std::array<float, 3> &eye);
     // Whether a resolved bmodel group has a texture to draw this frame, and which animation frame (arrayed groups and
     // arrayed materials are single-frame).
     static bool resolvedBModelGroupFrame(const OutdoorGameView &view,
@@ -91,6 +98,10 @@ private:
     static void bindLightGrid(OutdoorGameView &view, bool mainCamera);
     static void submitResolvedBModelDrawGroup(OutdoorGameView &view,
         const OutdoorGameView::ResolvedBModelDrawGroup &group, uint16_t viewId, size_t frameIndex, uint32_t transform);
+    // Binds a lightmapped group's surface material maps and their uniforms; false when it draws without them (none,
+    // animated, or the setting is off).
+    static bool bindSurfaceMaterial(OutdoorGameView &view, const OutdoorGameView::ResolvedBModelDrawGroup &group,
+        const OutdoorGameView::BModelTextureAnimationHandle *pAnimation, size_t frameIndex, uint16_t viewId);
     static void ensureTerrainDecorations(OutdoorGameView &view, const OutdoorMapData &outdoorMapData);
     // Builds the map's terrain from its materials once; false (with the error printed) when they cannot load.
     static bool ensureTerrainMaterials(OutdoorGameView &view);
@@ -99,7 +110,6 @@ private:
     // The main view's dynamic lights come from the light grid, a reflection's from the shared uniform list.
     static void submitTerrainMaterials(OutdoorGameView &view, uint16_t viewId, const ViewFrustum &frustum,
         const bx::Vec3 &cameraPosition, bool openWater, bool sunShadows, bool reflection);
-    static void ensureDecorationModels(OutdoorGameView &view);
     // Light (baked probes, as decoration models) and distance fade of the low bushes placed with the grass.
     static void updateTerrainBushes(OutdoorGameView &view, const OutdoorLightingData *pBakedLighting,
         const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const std::array<float, 3> &camera);
@@ -155,6 +165,8 @@ private:
     static bool ensureAlphaToCoveragePrograms(OutdoorGameView &view);
     static void applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition);
     static void destroyResolvedBModelDrawGroups(OutdoorGameView &view);
+    // Loads the textures events swap onto faces (evt.SetTexture) that no face of the map uses, as 2D textures.
+    static void ensureSwapTextures(OutdoorGameView &view, const EventRuntimeState *pEventRuntimeState);
     static void rebuildResolvedBModelDrawGroups(OutdoorGameView &view);
     static void destroyBModelWorldRenderChunks(OutdoorGameView &view);
     static bool buildBModelWorldRenderChunks(

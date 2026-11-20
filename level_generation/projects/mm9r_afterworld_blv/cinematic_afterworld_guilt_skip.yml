@@ -1,0 +1,15 @@
+# SixFires.inc :Guilt skipped at 1 s: key 381 and Skraelos' greeting (RUDE 336) still come. See README "Cinematics".
+id: mm9r.afterworld_blv.cinematic_afterworld_guilt_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: afterworld.blv}
+- setup_shortcut: {kind: set_qbit, id: 90380}
+- execute_event: {id: 50094}
+- advance_runtime: {seconds: 1.0}
+- console: {line: cinematic list, expect_contains: playing afterworld_guilt}
+- assert: {qbit_clear: [90381]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5, present_dialogs: true}
+- assert: {qbit_set: [90381]}
+- assert: {dialog: {active: true, source_id: 336}}

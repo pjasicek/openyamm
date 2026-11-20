@@ -1,0 +1,47 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/review/fix02",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "d4_door_bay",
+   "position": [
+    3456,
+    -9214,
+    1096
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.1194
+  },
+  {
+   "name": "west_edge_arrival",
+   "position": [
+    -22406,
+    -2592,
+    1288
+   ],
+   "yaw": -0.1368,
+   "pitch": 0.0577
+  },
+  {
+   "name": "signature_sw_gate",
+   "position": [
+    -3917,
+    806,
+    2504
+   ],
+   "yaw": 0.8373,
+   "pitch": -0.3903
+  },
+  {
+   "name": "kreegan_road_cut",
+   "position": [
+    2880,
+    14400,
+    2280
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.0822
+  }
+ ]
+}

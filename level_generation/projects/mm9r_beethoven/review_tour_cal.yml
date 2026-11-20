@@ -1,0 +1,137 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_beethoven/review/cal
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a01_south_arrival
+  position:
+  - -9805
+  - 543
+  - 533
+  yaw: 0.0
+  pitch: 0.0
+- name: a06_hub
+  position:
+  - -1720
+  - -1229
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: a07_caldarium
+  position:
+  - -3932
+  - 5632
+  - -1637
+  yaw: 1.5708
+  pitch: 0.0
+- name: a08_well
+  position:
+  - -12032
+  - -24658
+  - -3563
+  yaw: 3.1416
+  pitch: 0.0
+- name: a09_manuscript
+  position:
+  - -8525
+  - -6912
+  - -3112
+  yaw: -1.5708
+  pitch: 0.0
+- name: r01_a
+  position:
+  - -10783
+  - -19057
+  - -3563
+  yaw: -2.5515
+  pitch: 0.0
+- name: r03_b
+  position:
+  - -15319
+  - -5729
+  - -2088
+  yaw: -1.5708
+  pitch: 0.0
+- name: r07_a
+  position:
+  - -11402
+  - -5071
+  - -1883
+  yaw: 0.2304
+  pitch: 0.0
+- name: r10_b
+  position:
+  - -4964
+  - -2294
+  - -3112
+  yaw: -2.536
+  pitch: 0.0
+- name: r14_a
+  position:
+  - -10813
+  - -609
+  - -1883
+  yaw: -1.2361
+  pitch: 0.0
+- name: r16_b
+  position:
+  - -10813
+  - 253
+  - -3112
+  yaw: -1.6248
+  pitch: 0.0
+- name: r19_a
+  position:
+  - -9434
+  - -77
+  - 83
+  yaw: 1.5708
+  pitch: 0.0
+- name: r21_b
+  position:
+  - -8161
+  - -95
+  - 83
+  yaw: 0.9047
+  pitch: 0.0
+- name: r24_a
+  position:
+  - -7693
+  - 3461
+  - 41
+  yaw: 0.9447
+  pitch: 0.0
+- name: r26_b
+  position:
+  - -4214
+  - 3722
+  - -1637
+  yaw: 1.475
+  pitch: 0.0
+- name: r29_a
+  position:
+  - -6287
+  - 8832
+  - 83
+  yaw: 2.3799
+  pitch: 0.0
+- name: r32_b
+  position:
+  - -6799
+  - 11840
+  - 83
+  yaw: 2.6253
+  pitch: 0.0
+- name: r35_a
+  position:
+  - 4303
+  - 14287
+  - 41
+  yaw: -2.0048
+  pitch: 0.0
+- name: r37_b
+  position:
+  - 5169
+  - 17572
+  - 1005
+  yaw: 3.1416
+  pitch: 0.0

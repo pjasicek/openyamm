@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MM6–MM8 outdoor decoration survey</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#18211e;color:#e0e5d9;font:15px system-ui}
+header,main{max-width:1500px;margin:auto;padding:22px}h1{font-size:27px;margin:0 0 12px}h2{font-size:20px}
+p{line-height:1.6;max-width:1100px}a{color:#b9d99b}select,input,button{font:inherit;padding:7px;background:#303c34;color:#eff4e8;border:1px solid #72836d;border-radius:4px}
+button{cursor:pointer}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.layout{display:grid;grid-template-columns:minmax(450px,900px) minmax(260px,1fr);gap:24px}
+canvas{width:100%;height:auto;background:#445248;border:1px solid #829079}.muted{color:#adb8ab;font-size:13px}
+#hover{min-height:72px;padding:12px;background:#263129}table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:left;padding:7px;border-bottom:1px solid #445347}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}.card{padding:14px;background:#253128;border:1px solid #52644e}
+.card img{display:block;height:130px;max-width:100%;object-fit:contain;margin:8px auto;image-rendering:auto}.card h3{margin:4px 0;font-size:16px}
+.card button{font-size:12px;margin:3px;padding:5px}.swatch{display:inline-block;width:12px;height:12px;margin-right:7px}
+@media(max-width:900px){.layout{display:block}}
+</style>
+<header><h1>MM6–MM8 outdoor decoration survey</h1>
+<p>All 42 mounted outdoor ODM maps. Explore which decorations occur, where they sit and how tightly they cluster.
+Colours show analytical roles; the terrain background is a schematic material/height preview, not an in-game minimap.
+Grey rectangles are BModel envelopes, including non-building geometry.</p>
+<p><a href="../../OUTDOOR_DECORATION_CALIBRATION.md">Design guidelines</a> · <a href="README.md">Scope and measurement definitions</a> ·
+<a href="map_summary.csv">Map counts CSV</a> · <a href="decoration_usage.csv">Every decoration × map CSV</a> ·
+<a href="validation.json">Validation</a></p></header>
+<main>
+<div class="controls"><label>Map <select id="map"></select></label><label>Role <select id="role"><option value="">All roles</option></select></label>
+<label><input type="checkbox" id="central" checked> Central analytical window</label>
+<label><input type="checkbox" id="hidden"> Include hidden / markers</label><button id="clear">Clear asset highlight</button></div>
+<div class="layout"><section><canvas id="plan" width="900" height="900"></canvas><div id="hover">Hover over a decoration for its source index, coordinates and event.</div>
+<p class="muted">The dashed square is the ±24,576-unit analytical window, not the map's travel boundary.
+Sprite dots measure anchors, not crown area or collision. Hidden records and nonvisual markers are off by default.
+Smoke/fire emitters use outlined squares. Counts are initial scene state, before Lua lifecycle changes.</p></section>
+<aside><h2 id="title"></h2><div id="stats"></div><h2>Role counts</h2><table id="roles"></table>
+<p id="links"></p><p class="muted">“Far” means nonwater terrain-cell centres more than 2,048 units from any initially visible sprite anchor.
+This excludes BModels, monsters and texture detail. It is not a boredom score or a requirement to fill those cells.</p></aside></div>
+<h2>Native decoration palette and usage</h2>
+<div class="controls"><input id="search" placeholder="Search names or hints" aria-label="Search decorations">
+<label><input id="current" type="checkbox" checked> Only this map</label><span id="paletteCount"></span></div>
+<p class="muted">Frames are fitted independently; use pixel dimensions × frame scale and collision dimensions when selecting sizes.
+The role “trees” includes species and bare/snow variants with generic native hints. Inspect the artwork and map usage.
+Event 0 does not establish that a prop is inert: native interactive-decoration rules may provide behavior.</p>
+<div id="cards" class="cards"></div>
+</main><script src="data.js"></script><script>
+const $=id=>document.getElementById(id), types=new Map(survey.types.map(t=>[t.id,t]));
+let selected=null,currentMap=null,points=[],request=0;
+function text(tag,value,parent){const el=document.createElement(tag);el.textContent=value;parent.append(el);return el}
+survey.maps.forEach(m=>{const option=text('option',`${m.world.toUpperCase()} · ${m.name} (${m.map})`,$('map'));option.value=m.key});
+Object.keys(survey.colors).forEach(role=>{const option=text('option',role.replaceAll('_',' '),$('role'));option.value=role});
+$('map').value='mm8_out02';
+async function draw(){
+ const tick=++request,m=survey.maps.find(m=>m.key===$('map').value);currentMap=m;
+ const canvas=$('plan'),ctx=canvas.getContext('2d'),central=$('central').checked;
+ const min=central?-24576:-32768,max=central?24576:32256,span=max-min,maxY=central?24576:32768;
+ const px=x=>(x-min)/span*900,py=y=>(maxY-y)/span*900;
+ const image=new Image();image.src=`terrain/${m.key}.png`;await image.decode();if(tick!==request)return;
+ ctx.clearRect(0,0,900,900);ctx.imageSmoothingEnabled=false;
+ ctx.drawImage(image,px(-32768),py(32768),65024/span*900,65024/span*900);
+ ctx.strokeStyle='#434747';ctx.fillStyle='#59605b66';ctx.lineWidth=.7;
+ for(const model of m.models){const [lo,hi]=model.bounds;ctx.fillRect(px(lo[0]),py(hi[1]),(hi[0]-lo[0])/span*900,(hi[1]-lo[1])/span*900)}
+ ctx.strokeStyle='#f8e4b5';ctx.setLineDash([7,5]);ctx.strokeRect(px(-24576),py(24576),49152/span*900,49152/span*900);ctx.setLineDash([]);
+ points=[];const role=$('role').value;
+ for(const r of m.records){
+  if(!r.visible&&!r.emitter&&!$('hidden').checked)continue;
+  if(role&&r.role!==role)continue;
+  const x=px(r.position[0]),y=py(r.position[1]);if(x<0||y<0||x>900||y>900)continue;
+  const active=selected===null||r.descriptor_id===selected;
+  ctx.globalAlpha=active?((r.visible||r.emitter) ? .9 : .5):.12;ctx.fillStyle=survey.colors[r.role];
+  ctx.strokeStyle=selected===r.descriptor_id?'#ffffff':survey.colors[r.role];ctx.lineWidth=1.2;
+  if(r.emitter){ctx.strokeRect(x-3,y-3,6,6)}else{ctx.beginPath();ctx.arc(x,y,selected===r.descriptor_id?5:2.8,0,Math.PI*2);ctx.fill();if(selected===r.descriptor_id)ctx.stroke()}
+  points.push({x,y,r});
+ }ctx.globalAlpha=1;
+ $('title').textContent=`${m.name} · ${m.biome}`;
+ $('stats').replaceChildren();
+ const facts=[`${m.counts.visible} initially visible sprites / ${m.counts.visible_types} types`,
+ `${m.counts.records} total records; ${m.counts.hidden} hidden; ${m.counts.emitters} active emitter records`,
+ `${m.counts.bmodels} BModels; ${m.counts.outside_central_window} visible sprites outside the central window`,
+ `${m.density.central_land_decorations} sprites on ${m.density.central_nonwater_cells} central nonwater cells`,
+ `${m.density.per_4096_square??'N/A'} sprites per 4,096 × 4,096 nonwater area`,
+ `${m.density.land_farther_than_2048_pct??'N/A'}% nonwater land far from sprite anchors`,
+ `${m.density.gentle_land_farther_than_2048_pct??'N/A'}% gentle nonwater land far from sprite anchors`,
+ `Densest 2,048-unit square: ${m.density.max_in_2048_square} land sprites`];
+ facts.forEach(f=>text('p',f,$('stats')));
+ if(m.special_comparison)text('p','Special environment: do not pool its density with ordinary ground-based regions.',$('stats'));
+ $('roles').replaceChildren();
+ for(const [role,s] of Object.entries(m.roles)){const row=document.createElement('tr');const cell=text('td',role.replaceAll('_',' '),row);
+ const dot=document.createElement('span');dot.className='swatch';dot.style.background=survey.colors[role];cell.prepend(dot);text('td',s.count,row);$('roles').append(row)}
+ $('links').replaceChildren();const link=text('a','Full placement records, distances and script-state references',$('links'));link.href=`maps/${m.key}.json`;
+ palette();
+}
+function palette(){
+ const query=$('search').value.toLowerCase(),role=$('role').value;
+ const entries=survey.types.filter(t=>(!$('current').checked||t.maps[currentMap.key])&&(!role||t.role===role)&&
+                                    `${t.name} ${t.hint} ${(t.appearance_tags||[]).join(' ')}`.toLowerCase().includes(query));
+ $('cards').replaceChildren();$('paletteCount').textContent=`${entries.length} descriptors`;
+ for(const t of entries){const card=document.createElement('article');card.className='card';text('h3',`${t.name} · #${t.id}`,card);
+  text('p',`${t.hint} · ${t.role.replaceAll('_',' ')}`,card);
+  if(t.appearance_tags&&t.appearance_tags.length)text('p',t.appearance_tags.join(' · '),card);
+  const preview=t.previews[currentMap.world]||Object.values(t.previews).find(p=>p&&p.path);
+  if(preview&&preview.path){const img=document.createElement('img');img.src=preview.path;img.loading='lazy';img.alt=t.hint;card.append(img);
+   text('p',`${preview.pixel_size.join('×')} pixels · frame scale ${preview.frame_scale}`,card)}
+  text('p',`Collision radius ${t.radius}, height ${t.height}; light radius ${t.light_radius}`,card);
+  text('p',`Descriptor flags: ${t.flags}`,card);
+  for(const [key,usage] of Object.entries(t.maps)){const m=survey.maps.find(m=>m.key===key),b=text('button',`${m.world} ${m.name}: ${usage.visible}/${usage.total}`,card);
+   b.title='Initially visible / total source records';b.onclick=()=>{selected=t.id;$('map').value=key;draw();$('plan').scrollIntoView({behavior:'smooth',block:'start'})}}
+  $('cards').append(card);
+ }
+}
+$('plan').addEventListener('mousemove',event=>{const rect=event.target.getBoundingClientRect(),x=(event.clientX-rect.left)/rect.width*900,y=(event.clientY-rect.top)/rect.height*900;
+ let near=null,best=8;for(const p of points){const d=Math.hypot(p.x-x,p.y-y);if(d<best){best=d;near=p.r}}
+ if(near){const t=types.get(near.descriptor_id);$('hover').textContent=`${t.name} — ${t.hint}; entity ${near.index}; XYZ ${near.position.join(', ')}; terrain ${near.terrain_texture}; secondary event ${near.event_secondary}; nearest BModel ${near.nearest_model??'none'}`}
+});
+['map','role','central','hidden'].forEach(id=>$(id).addEventListener('change',draw));
+$('search').addEventListener('input',palette);$('current').addEventListener('change',palette);
+$('clear').onclick=()=>{selected=null;draw()};draw();
+</script></html>

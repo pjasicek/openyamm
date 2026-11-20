@@ -1,0 +1,3 @@
+Saved run 1’s selected return as [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantdm1_claude/references_hd/00_three_quarter.png), unresized at 1536×1024. Raw returns, prompts, input hashes and review notes are recorded.
+
+Stopped after the permitted correction; run 2 was not started. The generator still failed the halo, opaque-figure, arm-angle and margin requirements.

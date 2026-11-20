@@ -1,0 +1,144 @@
+# draft extracted from MAW ef23ee17
+# How MAW resolves a monster's level, HP, damage, AC, resistances, experience and treasure.
+# Paths are relative to Maw-Mod-MMMerge/Scripts/ (Monsters = General/zzMaw-Monsters.lua,
+# Damage = Modules/MawCore/Damage.lua, Estimates = Modules/MawCore/Estimates.lua).
+# Formulas use: base = MONSTERS.txt row of this id (basetable, Monsters:157-197), LB = level of the family's B row
+# (BLevel, Monsters:40-48), L = resolved level (totalLevel[id]), X = the map band value (low/mid/high, map_levels.yml).
+# Full derivation and examples: devdocs/maw/BALANCE_MODEL.md.
+format: 1
+source: {repo: Maw-Mod-MMMerge, commit: ef23ee17}
+
+families:
+  size: 3
+  tier_of_id: {A: "Id % 3 == 1", B: "Id % 3 == 2", C: "Id % 3 == 0"}
+  stat_source_tier: B          # MawTierB (Monsters:18-25): HP and damage always come from the B row's level
+  template_count: 651           # rows 1..651 are rewritten on every map load (row 652 Reactor is not)
+
+level:                          # recalculateMonsterTable, Monsters:416-665 (BeforeLoadMap, LoadMap, AfterLoadMap)
+  party_bolster: "getPartyLevel() - 4 (levels banked on the OTHER continents), Austerity: ^1.015, floor 0"
+  reset_bonus: "+20 x vars.mapResetCount[map file]"
+  natives: >-
+    MapStats Monster1Pic..3Pic matched to '<pic> B' rows; up to 3 families sorted by base B level; with 3 families
+    they take low/mid/high, with 2 they take low/high (a pic listed twice counts twice)
+  extra_bolster:
+    native: "X - LB"
+    non_native_below_band: "(low - LB) / 2"
+    non_native_above_band: "(high - LB) / 2"
+    otherwise: 0
+  adjust: "(mean(low, mid, high) - X) x 1.5 for natives (x1 in madness), 0 otherwise"
+  modes:
+    free_progression: "L = bolsteredLevel(party_bolster + reset_bonus, base.Level + extra_bolster)"
+    horizontal_starter_map: >-
+      L = max(min((base.Level + extra_bolster) x 2.5, bolsteredLevel(party_bolster + 2 x reset_bonus,
+      base.Level + extra_bolster)), 1)    # the reset bonus is added twice in the cap (Monsters:542)
+    horizontal_other_map: >-
+      L = max(2.5 base.Level + 2.5 extra_bolster - 1.5 (base.Level - LB) + adjust - 9 + reset_bonus, 5);
+      for natives this simplifies to X + 1.5 mean - 9 + (base.Level - LB) + reset_bonus
+    madness_fixed_map: >-
+      M = madness map level; offset = 2 (Xslot - mean) + 2 (base.Level - LB) where Xslot is the native slot value (0
+      for non-natives); L = max(offset >= 0 ? bolsteredLevel(M, offset) : 2M - bolsteredLevel(M, -offset), 5)
+    madness_other_map: "horizontal rules with adjust x1 (party_bolster from the banks)"
+    dimension_map: "L = base.Level + extra_bolster + Power x 10 + 20 (no party bolster, no x2.5)"
+    arena_d42: >-
+      L = max(6 base.Level - 4.8 (base.Level - LB) + 2 adjust, 5); + 600 + 3.5 x ((highestArenaWave + 1) x 3 - #monTbl)
+      once (highestArenaWave + 1) x 3 > #monTbl (#monTbl = C-tier non-peaceful families, ids 462 and 579 removed)
+    the_arena_by_name: "maps named 'The Arena' or 'Arena': extra_bolster and party bolster forced to 0"
+    bounty_map: "L = base.Level + mawBounty, mawBounty = max(getPartyLevel(4) - LB(target) / 1.5, 0), never cleared"
+  final: "round(max(L, 1)); engine field min(L, 255); the real value stays in totalLevel[id]"
+  bolstered_level: >-
+    bolsteredLevel(f, n) = n <= 0 ? f + n : calcLevel(calcExp(max(f,0)) + 500 (t (t - 1) - f (f - 1))), t = f + n:
+    climbs n VANILLA levels' worth of experience on top of the MAW curve at f (Monsters:5-13)
+  unique_monsters:              # NameId 1..219, Monsters:229-311, stored once per map in mapvars.oldUniqueMonsterTable
+    free_or_horizontal_starter: "bolsteredLevel(getPartyLevel(), old level)   # no -4"
+    horizontal_other: "2.5 x old level"
+    madness_fixed_map: "madness level + 2 (high - mid)"
+    madness_other: "3 x old level"
+    hp_and_damage: "from the family B level like any other monster; the unique level only feeds display/AC/crit/resists"
+  boss_level: "see bosses.yml"
+
+hp:                             # getMonsterHealth, Estimates:678-726
+  formula: "getPlayerEstimatedPower(L_B) x monster_hp_hits[difficulty] x tier_ratio x boss.HealthMult"
+  tier_ratio: "A: FullHP(A)/FullHP(B), C: FullHP(C)/FullHP(B) from MONSTERS.txt, clamped to [0.6, 1.8]; B: 1"
+  template: "MonstersTxt HP = min(round(HP), 32000), rounded to tens above 1000 (Monsters:619-628)"
+  real_pool: >-
+    above 32000 the real HP is kept in mapvars.MawMonsterHP[index] = {max, hp, proxy}; damage is converted to proxy
+    damage that keeps the bar percentage; death sends 32500 (Modules/MawCore/MonsterHP.lua)
+  stale_template_quirk: >-
+    templates for A-tier rows are computed before their B row in the same pass, so they use the previous map's B level;
+    live monsters are re-synced from getMonsterHealth(mon) afterwards (recalculateMawMonster, Monsters:206-227)
+
+damage:                         # getMonsterDamage, Estimates:458-495; applied in Damage:1583-1800
+  formula: "getPlayerEstimatedVitality(L_B) / player_hits_to_die[difficulty] x tier_mult x boss.DamageMult"
+  tier_mult: {A: 0.66, B: 1.0, C: 1.5}
+  attack1: "model damage (the MONSTERS.txt dice are ignored)"
+  attack2: "model damage x avg(Attack2 dice) / avg(Attack1 dice); damage kind = Attack2 type"
+  spells: "model damage x monsterSpellMultiplierList[spell] (spell < 100), spell kind"
+  random_roll: "x (U{75..125} + U{75..125}) / 200"
+  debuff_mult: {DamageHalved (Dark Grasp): 0.7, ShrinkingRay: 0.7}   # Damage:1575-1578, lowest applies
+  then: "player mitigation (calcMawDamage, attacker level), solo Cover x0.5, disease x1.25/1.5/2 (bonus halved solo)"
+  dodge: "GM Dodging: 1 - 1/(1 + (skill + 10)/200), dragons 0; plus the speed-dodge roll for melee/missiles"
+  traps_and_environment: >-
+    getMonsterDamage(nil, getTotalLevel()) (/3 for SpellType 15), x min((11 - 2 x Perception mastery)/10, 1),
+    for damage without a monster attacker, except outdoor drowning (Water) and falling (Physical) (Damage:1617-1650)
+  monster_vs_monster: "getMonsterDamage(attacker) / 3 / 2^(physical res / 100)"   # Damage:233-241
+  spell_multipliers:            # Monsters:1937-1963; Ice Blast is listed twice, the second (0.75) wins
+    FireBolt: 0.75
+    LightningBolt: 0.95
+    PoisonSpray: 0.5
+    Fireball: 0.5
+    LightBolt: 1.1
+    Incinerate: 1.35
+    AcidBurst: 1.15
+    IceBlast: 0.75               # first entry 1.2 is overwritten
+    Blades: 1.1
+    RockBlast: 0.6
+    Sparks: 0.5
+    Implosion: 0.8
+    MassDistortion: 0.4
+    Shrapmetal: 0.4
+    MindBlast: 0.8
+    DragonBreath: 0.7
+    Harm: 0.75
+    ToxicCloud: 1.15
+    PsychicShock: 1.25
+    MeteorShower: 0.3
+    DeadlySwarm: 0.85
+    SpiritLash: 0.65
+
+armor_class: "base.AC x (L + 10) / (LB + 10)"   # Monsters:616 (note: LB, not the row's own base level)
+resistances: >-
+  every resistance except index 5: min(base + affix12, 200 + affix12, 999), so 'Imm' (200) is the cap and nothing is
+  immune; player damage to monsters is divided by 2^(res/100) (Damage:39-41)   # Monsters:600-605
+experience:                     # Monsters:607-614, repeated on kill at :4072-4081
+  formula: "round((lb x 20 + lb^1.8) x L / lb) x density exp_mult, lb = min(max(base.Level, L / 3), 100)"
+  mm7_bonus: "min(x2, +1000) when the global currentWorld == 2 (set only by the training code, so usually stale)"
+  awarded: "see exp_curve.yml (kill experience)"
+
+movement_and_ai:
+  speed_bonus: "Velocity > 150 and Attack1 not a missile, hostile: v -> v + (400 - v)/2 + 100 = v/2 + 300"   # :77-118
+  summoned_adds_velocity: 350
+  ai_type: "every MonstersTxt AIType ~= 1 becomes 0 (aggressive) on BeforeLoadMap and on live monsters"   # :3655-3661
+  steal_bonus: "special attack Bonus 20 (steal) becomes 17"   # :47-54
+  disease_below_level_20: "Disease1/2/3 special attacks become Poison1/2/3"   # :3741-3747
+  broken_spell_skill_fix: "SpellSkill in (64, 1024) -> SpellSkill % 64"   # :92-94
+  sprite_shrink_0_75: [207, 208, 209, 300, 301, 302, 578, 579, 580, 498, 499, 500, 501, 502, 503]   # :3615-3631
+  extra_ranged_attack:          # :633-658
+    when: "outdoors, BolsterAmount >= 200, not out01/out02/7out01/7out02/oute3/outd3; or any bounty map"
+    who: "base Attack1 melee, no Attack2 chance, no spell chance, not flying"
+    attack2: {chance_percent: {A: 10, B: 20, C: 30}, add: "ceil(Attack1 add / 2)",
+              dice_count: "ceil(count / 1.4)", dice_sides: "ceil(sides / 1.4)", missile: 1}
+
+treasure:                       # PickCorpse, General/zzMaw-Items.lua:207-293 (seeded per monster)
+  gold: >-
+    expected new gold = (bolsterLevel2 + LB) x 7.5 (A x0.5, C x2); if the row has gold dice and the new value is
+    larger: dice count = dice sides = min(sqrt(new), 255)
+  item_percent: "ceil(sqrt(mon.Level) x (1 + tier) x 0.5 + min(row %, 50) x 0.3); Doom+ x0.5, Nightmare x0.75"
+  item_level: >-
+    t = (max(LB, map low) + 10 x tier) / 20 with stochastic rounding, clamped 1..6; t <= 0 also scales % by 2^(t-1);
+    70% of drops get item type 0 (any)
+  resurrected: "NameId > 300: item % / 4, gold sides / 4"
+  bosses: "see bosses.yml"
+  bolster_level_2_quirk: >-
+    bolsterLevel2 is the party/madness/dimension bolster saved before the per-monster loop; the global bolsterLevel is
+    overwritten inside the loop on horizontal non-starter maps and in the arena (Monsters:550, 579), so later readers
+    (chest gold, zzMaw-Items.lua:907-922) see the last monster's base level x 2.5 (or x 6)

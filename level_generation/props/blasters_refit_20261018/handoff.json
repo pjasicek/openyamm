@@ -1,0 +1,80 @@
+{
+  "status": "complete_wip",
+  "icons": [
+    "7item064",
+    "7item065",
+    "raygun1",
+    "raygun2",
+    "blastsg"
+  ],
+  "replaced": 5,
+  "kept": 0,
+  "deferred": 0,
+  "unresolved_defects": [],
+  "ownership": "ownership.json",
+  "ledger": "ledger.json",
+  "mesh_jobs": 5,
+  "mesh_credits": 75,
+  "mesh_lease": "released",
+  "imagegen_calls": 7,
+  "texture_size": 1024,
+  "maps_per_model": 3,
+  "maximum_source_triangles": 4900,
+  "totals": {
+    "source_triangles": 23394,
+    "runtime_triangles": 23394,
+    "model_bytes": 933468,
+    "unique_textures": 15,
+    "texture_bytes": 8446196,
+    "texture_paths": [
+      "assets_dev/engine/world_items/models/textures/0029da3ae336fffe8b4bde1208544365.oytex",
+      "assets_dev/engine/world_items/models/textures/04284b53e24035b9aaef1fe785a29b22.oytex",
+      "assets_dev/engine/world_items/models/textures/140c14aa0e9a454f5b67159ec5457e50.oytex",
+      "assets_dev/engine/world_items/models/textures/262aa7e9629c741bf44e7fdc02779b80.oytex",
+      "assets_dev/engine/world_items/models/textures/2dc0e4e5277ba30f2b7b0774151e9412.oytex",
+      "assets_dev/engine/world_items/models/textures/3e0c674272c31d69c88a806fd9d9fe40.oytex",
+      "assets_dev/engine/world_items/models/textures/62d4c71eae22fc0cc7bd2781734bf160.oytex",
+      "assets_dev/engine/world_items/models/textures/6348ab3f358f09b093d154f7b5adf32b.oytex",
+      "assets_dev/engine/world_items/models/textures/667de1a85b7073da189270e743f25124.oytex",
+      "assets_dev/engine/world_items/models/textures/7e8d2ad09b996fec710ce7cb87af3ec2.oytex",
+      "assets_dev/engine/world_items/models/textures/8326093fdc2f85ebd63e57e9cb7af4db.oytex",
+      "assets_dev/engine/world_items/models/textures/95dc026799438feb903861d4102258e1.oytex",
+      "assets_dev/engine/world_items/models/textures/9b751ea2e498de30c61d653761c211ad.oytex",
+      "assets_dev/engine/world_items/models/textures/c43898ea0eb6a30531e938cf0db85c8e.oytex",
+      "assets_dev/engine/world_items/models/textures/c88c2109802afd12f4c4c4999e977569.oytex"
+    ]
+  },
+  "seven_emitters": "receipts/shotgun_bank.json",
+  "all_binding_lengths_preserved": true,
+  "scale_proposals": [],
+  "native": {
+    "outdoor": "10 normal/low captures, actual items in MM7 out10.odm",
+    "indoor": "10 dim/low captures, shared model fixture on flat MM6 6d19.blv entrance floor at actual binding lengths",
+    "renderer": "NVIDIA vendor 0x10de, OpenGL 3.3, Wayland",
+    "binary_sha256": {
+      "outdoor": "4028f4bad531eb891d59453fd1344753d8d2344af8ed5b05e67074b3b9f65b51",
+      "indoor": "4028f4bad531eb891d59453fd1344753d8d2344af8ed5b05e67074b3b9f65b51"
+    },
+    "run_records": {
+      "outdoor": "receipts/native/outdoor/run.json",
+      "indoor": "receipts/native/indoor/run.json"
+    },
+    "metal_adjustment": null,
+    "note": "Pure metal is visibly dark in the unlit cave; binary masks retained. Geometry/material identity and the seven mouths remain distinguishable; daylight and studio captures establish full colours.",
+    "same_binary": true,
+    "bounds_integration_rechecked": true
+  },
+  "comparison": "review/comparison.png",
+  "validation": "receipts/validation.json",
+  "installs": "receipts/installed.json",
+  "supersedes": "Only these five files from weapons_wip_ranged_magic; other ranged models and original project unchanged.",
+  "release_status": "Isolated WIP, not promoted",
+  "not_checked": [
+    "Android cooking/device rendering",
+    "release packaging",
+    "renderer performance benchmarking"
+  ],
+  "binding_bounds": "bindings_with_bounds.json",
+  "binding_bounds_applied": true,
+  "binding_bounds_changes": "receipts/bounds_changes.json"
+}

@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (first input), using design_reference.png for materials/details and icon_x8.png for color (magenta is background only). Produce ONE transparent PNG at 1536x2048 or nearest 3:4 size. Preserve the guide's exact silhouettes, positions, sizes, openings, and orthographic views. Three columns FOUR rows: FRONT, BACK, LEFT / RIGHT, TOP, EMPTY / FRONT, BACK, LEFT / RIGHT, TOP, EMPTY. Paint grey objects only; do not redraw, enlarge, move, redesign or smooth their outlines. Rows 1-2: unlit base color of sabatons, stacked horizontal polished steel rings with dark steel between rings, chain mail strip at ankles, rounded steel plates over feet, brown leather soles and inner leather padding as reference. Detailed material color without lighting, hot highlights, reflections, cast shadows or ambient occlusion. Follow reference detail scaled to each exact view. Rows 3-4: corresponding five silhouettes as MATERIAL MASK, flat pure colors only: #FF0000 every metal including chainmail, #00FF00 every leather/padding/hide/fur, #0000FF cloth/lining/cord/hair, #FFFF00 matte non-metal solids wood/bone/horn/stone/paper/wax. Every interior silhouette pixel exactly one pure color, no shading, texture, outlines or blended mask colors. Keep all existing gaps/openings transparent exactly as guide. Empty column 3 row 2 and row 4 remain transparent. No background, ground, text, halo, sparkles, aura or outlines. Preserve alpha. Highest priority exact guide layout and silhouettes; reference images give appearance only.\nCORRECTION: The mask must have absolutely clean silhouette boundaries matching the guide. NO stray colored pixels, spray, noise, flecks or halos outside any silhouette. Bottom-half masks must be solid flat #FF0000 regions with #00FF00 leather regions only, WITHOUT black lines between rings, WITHOUT chainmail pattern, WITHOUT dark contour lines, WITHOUT any shading whatsoever. Rings and chainmail are a single uninterrupted red fill. The grey guide is the precise alpha/geometry stencil. Upper half must be flat unlit albedo, remove directional highlights. Preserve guide composition exactly.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10131/paint_mask_guide.png",
+      "sha256": "31de2b93bb5f4eff99bb0ec9bfe07b7ca3b48571d4cbc60ad5e7874dc004ff81"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10131/design_reference.png",
+      "sha256": "dae053a8aa6f38e1949d96a6fb2cd46f40ec1cb13a4cd6836e9af1827de2d201"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10131/icon_x8.png",
+      "sha256": "a1e8755f6787ca68b02f47e598ffbbb3dd62f575ed895908af1f4795581a88d5"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-a22d-7a22-a87f-480d4eeda54d/exec-66a5a640-5eca-443f-b1db-e7af5f546945.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10131/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained visually, but stray mask pixels and non-flat colors remain; not compliant with exact mask requirements."
+}

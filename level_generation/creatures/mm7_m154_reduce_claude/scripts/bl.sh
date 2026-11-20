@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Run one project Blender script under the workspace lease (TOKEN) through tools/run_creature_blender.sh and print
+# its log. Usage: TOKEN=<lease> scripts/bl.sh <script.py> [args...]
+set -uo pipefail
+P="$(cd "$(dirname "$0")/.." && pwd)"; ROOT="$(cd "$P/../../.." && pwd)"
+s=$1; shift
+out=$("$ROOT/tools/run_creature_blender.sh" --token "${TOKEN:?set TOKEN}" "level_generation/creatures/mm7_m154_reduce_claude/scripts/$s" "$@" 2>&1); rc=$?
+log=$(echo "$out" | grep -o '/tmp/openyamm-creature-blender-[A-Za-z0-9]*\.log' | head -1)
+[ -n "$log" ] && { grep -v "^Read blend\|^Info:\|^$" "$log"; rm -f "$log"; } || echo "$out"
+exit $rc

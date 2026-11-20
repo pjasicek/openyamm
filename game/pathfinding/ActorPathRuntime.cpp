@@ -1,5 +1,7 @@
 #include "game/pathfinding/ActorPathRuntime.h"
 
+#include <cstdlib>
+
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -13,6 +15,7 @@ constexpr size_t MaxShortcutWaypointScan = 24;
 constexpr size_t MaxGroundShortcutWaypointScan = 6;
 constexpr float MaxGroundShortcutStepMultiplier = 6.0f;
 constexpr double WaypointStallSeconds = 0.35;
+constexpr double WaypointBlockedSeconds = 2.0;
 constexpr float WaypointProgressEpsilon = 2.0f;
 constexpr float RecoverySourceReachDistance = 4.0f;
 constexpr float RecoveryBestReachDistance = 16.0f;
@@ -47,7 +50,8 @@ bool directCheckObjectMatchesRequest(const ActorPathState &state, const ActorPat
         && previousObject.height == object.height
         && previousObject.stepLength == object.stepLength
         && previousObject.stepHeight == object.stepHeight
-        && previousObject.dropHeight == object.dropHeight;
+        && previousObject.dropHeight == object.dropHeight
+        && previousObject.riserHeight == object.riserHeight;
 }
 
 bool directCheckMatchesRequest(const ActorPathState &state, const ActorPathResolveRequest &request)
@@ -149,6 +153,15 @@ ActorPathRuntime::~ActorPathRuntime()
 
 void ActorPathRuntime::setWorkerCount(size_t workerCount)
 {
+    // Headless runs simulate many seconds in a few wall-clock milliseconds, so a plan on a worker would land long
+    // after the moment it was asked for (or never): they plan on the calling thread (main.cpp sets the variable).
+    static const bool synchronousPlans = std::getenv("OPENYAMM_SYNCHRONOUS_PATH_PLANS") != nullptr;
+
+    if (synchronousPlans)
+    {
+        workerCount = 0;
+    }
+
     if (workerCount == m_workers.size())
     {
         return;
@@ -419,6 +432,16 @@ ActorPathResolveResult ActorPathRuntime::resolveWaypointInternal(
     if (!result.planned)
     {
         result.stalledWaypointCount += advanceStalledWaypoint(pathMap, state, request);
+
+        if (state.replanHeldRoute)
+        {
+            state.replanHeldRoute = false;
+
+            if (request.allowPlan && !state.inProgress && state.failedUntilSeconds <= request.nowSeconds)
+            {
+                queuePlan(pathMap, pathMapSnapshot, state, request, result);
+            }
+        }
     }
 
     if (state.waypointIndex < state.waypoints.size())
@@ -616,8 +639,10 @@ bool ActorPathRuntime::queuePlan(
     planRequest.nodeLimit = request.nodeLimit;
     planRequest.mapRevision = static_cast<uint32_t>(request.mapRevision);
     planRequest.sourceSnapDistance = request.sourceSnapDistance;
+    planRequest.goalDistance = request.goalDistance;
     planRequest.allowDirect = request.allowDirect;
     planRequest.allowPartialPath = request.allowPartialPath;
+    result.requested = true;
 
     if (m_workers.empty())
     {
@@ -736,11 +761,13 @@ size_t ActorPathRuntime::advanceReachedWaypoints(
                     ? RecoveryBestReachDistance
                     : request.waypointReachDistance)))
     {
+        // The step to the next waypoint is a short trace outside the frame's reachability budget: waiting for the
+        // budget held an actor jittering on a reached waypoint, so crowded indoor monsters crawled along their routes.
         if (state.waypointIndex + 1 < state.waypoints.size()
-            && (!consumeReachabilityCheck(request.actorIndex) || !pathMap.canReachDirectly(
+            && !pathMap.canReachDirectly(
                 request.source,
                 state.waypoints[state.waypointIndex + 1],
-                request.object)))
+                request.object))
         {
             break;
         }
@@ -876,11 +903,15 @@ size_t ActorPathRuntime::advanceStalledWaypoint(
             state.waypoints[state.waypointIndex + 1],
             request.object))
     {
-        if (nearWaypoint)
+        // Near its waypoint it may still slide round the corner; one held there this long is stuck, and its route
+        // is dropped to be planned again from where it stands. Kept for ever, it held Hjarrand (Thjorad Mine) at a
+        // ramp's foot for good, his script's walk never ending.
+        if (nearWaypoint && request.nowSeconds - state.lastWaypointProgressSeconds < WaypointBlockedSeconds)
         {
             return 0;
         }
 
+        state.replanHeldRoute = nearWaypoint;
         state.waypointIndex = state.waypoints.size();
     }
     else

@@ -1,0 +1,69 @@
+mm9_id	name	equip	skill	material	content_flags	mod1	mod2	treatment	artifact_skeleton
+10175	Sing Sword	Weapon	Sword	Artifact	Unique|World:mm9	2d6	17	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 34, stats: TODO}
+10176	Excala Banna	Weapon	Sword	Relic	Unique|World:mm9	4d6	10	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 20, stats: TODO}
+10178	Mevan Sword	Weapon	Sword	Relic	Unique|World:mm9	10d5	5	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 10, guard: 10, stats: TODO}
+10179	Jorhgamesh	Weapon	Sword	Relic	Unique|World:mm9	3d6	14	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 28, stats: TODO}
+10180	Black's Heart	Weapon	Dagger	Artifact	Unique|NoRandom|World:mm9	5d6	6	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5, guard: 12, stats: TODO}
+10181	Integris	Weapon	Dagger	Artifact	Unique|World:mm9	2d6	17	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 34, stats: TODO}
+10182	Bloodaxe	Weapon2	Axe	Artifact	Unique|World:mm9	3d6	18	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 54, stats: TODO}
+10183	Sygnir	Weapon	Axe	Artifact	Unique|World:mm9	3d6	14	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 28, stats: TODO}
+10184	Everstrike	Missile	Bow	Artifact	Unique|NoRandom|World:mm9	5d3	10	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 20, stats: TODO}
+10185	Trolleri	Missile	Throwing	Artifact	Unique|World:mm9|ExtraProjectileAtGrandmaster	7d3	6	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 7, guard: 12, stats: TODO}
+10186	Tillhygge	Missile	Throwing	Artifact	Unique|World:mm9	5d3	10	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 20, stats: TODO}
+10187	Kraftig Bage	Missile	Bow	Artifact	Unique|World:mm9	5d4	8	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 16, stats: TODO}
+10188	Blackpowder	Missile	Bow	Relic	Unique|World:mm9	5d3	10	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 20, stats: TODO}
+10189	Gungnir	Weapon2	Spear	Artifact	Unique|NoRandom|World:mm9	3d9	15	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 45, stats: TODO}
+10190	Formanir	Weapon2	Spear	Relic	Unique|World:mm9	2d9	18	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 2, guard: 54, stats: TODO}
+10191	Einherjar	Weapon2	Spear	Relic	Unique|World:mm9	5d6	12	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 5, guard: 36, stats: TODO}
+10192	Stouka Couta	Weapon2	Spear	Artifact	Unique|World:mm9	4d10	8	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 24, stats: TODO}
+10193	Vanir's Hammer	Weapon	Mace	Artifact	Unique|World:mm9	2d5	18	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 36, stats: TODO}
+10194	Blutterbunger	Weapon	Mace	Relic	Unique|World:mm9	6d6	5	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 6, guard: 10, stats: TODO}
+10195	Manarus	Weapon	Mace	Artifact	Unique|World:mm9	5d6	6	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5, guard: 12, stats: TODO}
+10196	Samarjit	Weapon2	Staff	Relic	Unique|World:mm9	6d4	15	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 6, guard: 45, stats: TODO}
+10197	Thjorad	Weapon2	Mace	Artifact	Quest|NoRandom|NoShop|Unique|World:mm9	5d4	18	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 5, guard: 54, stats: TODO}
+10198	Spencer's Obedience	Weapon	Mace	Artifact	Unique|NoRandom|World:mm9	8d4	5	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 8, guard: 10, stats: TODO}
+10199	Mjulnir	Weapon	Mace	Relic	Unique|World:mm9	3d6	14	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 28, stats: TODO}
+10200	Igdrasine	Armor	Leather	Artifact	Unique|World:mm9	3	18	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1.5, printed_ac: 21, reference_ac: 21, stats: TODO}
+10201	Poltergeist	Armor	Chain	Artifact	Unique|World:mm9	6	20	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1.5, printed_ac: 26, reference_ac: 26, stats: TODO}
+10202	Swordsbane	Armor	Plate	Artifact	Unique|World:mm9	18	57	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1.5, printed_ac: 75, reference_ac: 75, stats: TODO}
+10203	Witchbane	Helm	Misc	Artifact	Unique|World:mm9	1	14	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, stats: TODO}
+10204	Brongnoker	Helm	Misc	Artifact	Unique|World:mm9	1	14	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, stats: TODO}
+10205	Walking Boots	Boots	Misc	Artifact	Unique|World:mm9	1	14	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, stats: TODO}
+10206	Laet'ax	Gauntlets	Misc	Relic	Unique|World:mm9	1	14	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, stats: TODO}
+10207	Arrowfoe	Shield	Shield	Artifact	Unique|World:mm9	4	28	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: armor, slot_mult: 1, printed_ac: 64, reference_ac: 64, stats: TODO}
+10208	Hubris	Belt	Misc	Artifact	Unique|World:mm9	0	6	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 1, printed_ac: 6, stats: TODO}
+10209	Weregild	Ring	Misc	Relic	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 0.75, printed_ac: 0, stats: TODO}
+10210	Soulband	Ring	Misc	Artifact	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 0.75, printed_ac: 0, stats: TODO}
+10211	Sturkabygel	Ring	Misc	Artifact	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 0.75, printed_ac: 0, stats: TODO}
+10212	Lubricious	Ring	Misc	Relic	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 0.75, printed_ac: 0, stats: TODO}
+10213	The Green Man	Amulet	Misc	Artifact	Unique|NoRandom|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 1, printed_ac: 0, stats: TODO}
+10214	Mountbatten	Amulet	Misc	Artifact	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 1, printed_ac: 0, stats: TODO}
+10215	Pendant of the Spheres	Amulet	Misc	Artifact	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 1, printed_ac: 0, stats: TODO}
+10217	Screever	Amulet	Misc	Relic	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 1, printed_ac: 0, stats: TODO}
+10218	Fre's Heart	Amulet	Misc	Relic	Unique|World:mm9	0	0	MAW artifact entry (drop 0; budgets from MM9 item_effects) or keep fixed MM9 effects	{drop: 0, base: flat, slot_mult: 1, printed_ac: 0, stats: TODO}
+10219	Prize Gladius	Weapon	Sword	Special	Unique|NoRandom	5d3	14	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10220	Prize Plate	Armor	Plate	Special	Unique|NoRandom	18	57	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10221	Prize Skullcap	Helm	Misc	Special	Unique|NoRandom	1	7	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10222	Prize Ring	Ring	Misc	Special	Unique|NoRandom	0	0	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10223	Prize Shield	Shield	Shield	Special	Unique|NoRandom	4	4	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10224	Broderick's Two-handed Sword	Weapon2	Sword	Special	Unique|NoRandom	5d2	18	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10225	Broderick's Hauberk	Armor	Chain	Special	Unique|NoRandom	6	32	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10226	Broderick's Helm	Helm	Misc	Special	Unique|NoRandom	1	12	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10227	Broderick's Gloves	Gauntlets	Misc	Special	Unique|NoRandom	1	10	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10228	Broderick's Amulet	Amulet	Misc	Special	Unique|NoRandom	0	0	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10229	Death Hammer	Weapon	Mace	Special	Unique|NoRandom	4d4	14	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10230	Death Cuirass	Armor	Leather	Special	Unique|NoRandom	3	29	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10231	Death Cap	Helm	Misc	Special	Unique|NoRandom	1	8	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10232	Death Ring	Ring	Misc	Special	Unique|NoRandom	0	0	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10233	Death Boots	Boots	Misc	Special	Unique|NoRandom	1	7	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10234	Fre's Smooth Mace	Weapon	Mace	Special	Unique|NoRandom	8d2	12	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10235	Fre's Ring	Ring	Misc	Special	Unique|NoRandom	0	0	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10236	Fre's Helm	Helm	Misc	Special	Unique|NoRandom	1	13	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10237	Fre's Gloves	Gauntlets	Misc	Special	Unique|NoRandom	1	7	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10238	Fre's Chain Boots	Boots	Misc	Special	Unique|NoRandom	1	7	no base: unique set piece, keeps MM9 fixed effects and set bonus (as MM6-8 Special uniques)	
+10362	Wooden Sword	Weapon	Sword	8	Quest|NoRandom|NoShop	1d3	0	no base: Bootcamp/quest gear (Quest|NoRandom|NoShop, value 0)	
+10363	Wooden Shield	Shield	Shield	4	Quest|NoRandom|NoShop	4	1	no base: Bootcamp/quest gear (Quest|NoRandom|NoShop, value 0)	
+10364	Fur Cap	Helm	Misc	6	Quest|NoRandom|NoShop	1	1	no base: Bootcamp/quest gear (Quest|NoRandom|NoShop, value 0)	
+10365	Cloth Gloves	Gauntlets	Misc	6	Quest|NoRandom|NoShop	1	1	no base: Bootcamp/quest gear (Quest|NoRandom|NoShop, value 0)	
+10366	Fuzzy Slippers	Boots	Misc	3	Quest|NoRandom|NoShop	1	1	no base: Bootcamp/quest gear (Quest|NoRandom|NoShop, value 0)	
+10367	Quilted Armor	Armor	Leather	3	Quest|NoRandom|NoShop	3	1	no base: Bootcamp/quest gear (Quest|NoRandom|NoShop, value 0)	

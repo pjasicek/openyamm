@@ -1,0 +1,138 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_lobberpod.glb",
+  "components": 6,
+  "body": 2,
+  "size": 0.8413492441177368,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 6,
+   "attached_in_every_pose": 5
+  },
+  "concealed": {},
+  "shallow": {
+   "3": {
+    "joint": "Xblegpiv",
+    "where": "below",
+    "triangles": 131,
+    "extent": 0.1802,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04954,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 261,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00306,
+     "on": "Xclaw",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.04008,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 14,
+     "time": 0.4667
+    }
+   }
+  },
+  "root_lift": {
+   "1": {
+    "joint": "Xclaw",
+    "where": "above, -x side, -z",
+    "triangles": 764,
+    "extent": 0.4947,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0143,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 261,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.01133,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02192,
+     "on": "XCENTER",
+     "clip": "AttackMelee",
+     "frame": 7,
+     "time": 0.2333
+    }
+   },
+   "3": {
+    "joint": "Xblegpiv",
+    "where": "below",
+    "triangles": 131,
+    "extent": 0.1802,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04954,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 261,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00306,
+     "on": "Xclaw",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.04008,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 14,
+     "time": 0.4667
+    }
+   },
+   "5": {
+    "joint": "Xclaw01",
+    "where": "above, +x side, -z",
+    "triangles": 768,
+    "extent": 0.4934,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02188,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 261,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.02083,
+     "on": "XCENTER",
+     "clip": "Fidget",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02922,
+     "on": "XCENTER",
+     "clip": "Death",
+     "frame": 20,
+     "time": 0.6667
+    }
+   }
+  }
+ }
+]

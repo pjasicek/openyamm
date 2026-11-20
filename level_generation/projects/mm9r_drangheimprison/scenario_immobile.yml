@@ -1,0 +1,77 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimprison_immobile
+title: Drangheim Prison (native BLV) - immobile actors hold position
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimprison.blv
+- advance_runtime:
+    seconds: 30
+- assert:
+    actor_visible:
+      actor_index: 41
+      near:
+        x: -1147
+        y: -492
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 52
+      near:
+        x: -1948
+        y: -6964
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 53
+      near:
+        x: -2396
+        y: -6963
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 54
+      near:
+        x: -2191
+        y: -6339
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 55
+      near:
+        x: 611
+        y: 416
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 59
+      near:
+        x: -1638
+        y: -420
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 64
+      near:
+        x: 983
+        y: -4833
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 65
+      near:
+        x: 287
+        y: -3789
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 66
+      near:
+        x: 287
+        y: -4833
+        max_distance: 8

@@ -1,0 +1,503 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper striking lattice.\nInput 1 is the EXACT guide to paint over: it controls every part's contour, occlusion, silhouette, canvas position, scale and camera. Input 2 is the approved design reference and controls surface design, colours and materials ONLY; never copy its perspective or change guide geometry to resemble it.\nRepaint the guide's existing surfaces with the reference's warm ivory-white ceramic, fine subtle wear, warm brushed gold with delicate engraved lines and fine seams, and deep emerald green glass/crystal with a small bright green core where the existing central crystal is visible. The reference's green gem is the colour authority; do not copy the guide's pale blue tint. Outer frames can carry ivory ceramic panels edged in gold; lattice bars and connector pins are gold; round housings carry ivory ceramic and inset gold boss detailing where visible. Keep such ornament strictly inside existing part boundaries. Continue unseen surfaces plausibly in these same materials.\nLIGHTING: texture source, albedo, even flat shadowless illumination from viewer. Gold should be its warm gold base colour with only faint satin sheen and subtle brush grain. Ceramic is nearly uniform ivory with fine wear. No baked shadows, ambient occlusion, contact shadows, dark gradients, strong specular highlights, white hot spots, reflections, rim light or glow spilling into transparency. Paint luminous areas as bright colour, not a light source illuminating the object.\nPreserve the guide silhouette and all internal transparent spaces EXACTLY, with unchanged framing and each part's edge in precisely the same location. Absolutely no added geometry, no extra protrusions, no camera rotation, no perspective change, no cropping, no enlarging or recentering the object. Transparent RGBA background, no black backdrop, no checkerboard pixels, no floor, no text, labels, letters or watermark. Single 1024 x 1024 PNG.\nVIEW: FRONT. Paint input 1 guide_front.png in place. This is a thin edge-on horizontal view, NOT the diamond face shown in the design reference. Keep all the large transparent space above and below. Visible object bounding box is x=179..844, y=458..565 on the 1024 canvas. Three rounded low polygon housings lie across the horizontal gold frame: left around x250, middle x512, right x774. A small emerald crystal cap projects upward above the middle housing. TWO tiny gold connector ends are visible on the front of the middle housing; retain exactly their existing shapes and positions. Preserve the guide's flat horizontal profile and faceted outline. Do not unfold or reveal the diamond-shaped lattice face.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-b5d508ca-0b33-40c5-bc8f-45d288748495.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Candidate retained; visible gold highlights and softened or shifted contours warrant the permitted corrective generation.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "709e1cd03bfd1a30d36616cadf7b176fed5fe5b3d5f19f2f8343893f3fba4ef1"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "aae2c855ac9c6849bc6058de4cbe79760b41ab3892de4636eecd44411fb06ce0"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "b5943c7cc3c406401b7434fa69c12462df40fbd457da752cdcce7c3974cebad9",
+      "alpha_bbox": [
+        25,
+        21,
+        1176,
+        1212
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1483992,
+        "alpha_128_bbox": [
+          219,
+          584,
+          1033,
+          725
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.556001,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Residual directional shading and metallic highlights.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit the SECOND attached image (guide_front.png) directly, retaining its 1024 x 1024 canvas and EXACT alpha silhouette. The FIRST image is a material and colour reference ONLY. Return one transparent 1024 x 1024 PNG.\nTask: paint the very thin horizontal front edge profile of this existing 3D lattice model as a flat diffuse ALBEDO texture source. Preserve the second image's silhouette pixel for pixel: the visible object remains at x179..844 and y458..565, with enormous empty transparent space above and below; no rotation, resizing, repositioning, curving, remodelling, extra trim or added geometry.\nRetain three original faceted rounded housings, the two tiny hexagonal connector ends on the centre housing, the horizontal bars, and the thin raised trapezoid crystal cap above the centre exactly as drawn in the second image. Do not show a diamond face or invent any more parts.\nColours from the first image: matte warm ivory ceramic with tiny fine wear on the pale housings; warm ochre-gold brushed metal on the bars and connectors with subtle fine engraved lines. Thin gold seams and ivory inlay may be painted INSIDE the existing surface edges only. The top crystal cap becomes deep emerald green with a tiny bright green core. No blue.\nCORRECTION PRIORITY: completely FLAT even albedo colours, NOT a lit product render. No bright gold highlight stripes, no white highlights on metal, no reflections, no gradients darkening the lower half, no ambient occlusion, no shadows underneath anything. Use only faint fine material texture. Texture must not alter any of the guide's faceted edges. Pure transparency outside the exact guide mask, no stray pixels, no background, floor, text, lettering or watermark.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-9dd4ee04-31cf-4b1a-9725-288734e966b4.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter lighting. Contour and placement drift remain; exact guide silhouette is not satisfied. Preserved unresized as requested.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "aae2c855ac9c6849bc6058de4cbe79760b41ab3892de4636eecd44411fb06ce0"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "709e1cd03bfd1a30d36616cadf7b176fed5fe5b3d5f19f2f8343893f3fba4ef1"
+        }
+      ],
+      "dimensions": [
+        1261,
+        1247
+      ],
+      "resized": false,
+      "output_sha256": "8c8157717aea650eac22c15195db7c6885912645ee314bfc52d29c30355b998f",
+      "alpha_bbox": [
+        72,
+        19,
+        1260,
+        1190
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1474825,
+        "alpha_128_bbox": [
+          200,
+          558,
+          1063,
+          707
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.800073,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Improved in corrective return, but residual shading and edge accents remain.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Edit the SECOND attached image directly. The FIRST image is the approved material/colour reference ONLY; never reproduce its pose. Return one 1024 x 1024 PNG with transparent background.\nPaint only the surfaces inside the exact guide alpha silhouette. Preserve its canvas, position, scale, camera, faceted outlines and each part's boundary without alteration. This is an orthographic ALBEDO TEXTURE SOURCE of the Hesper striking lattice.\nUse matte warm ivory-white ceramic with tiny fine wear and fine seams on the rounded housings. Paint the bars and connectors in a consistent warm ochre-gold base colour with fine brushed grain and delicate engraved lines. The existing raised crystal is deep emerald green with a small bright green core, as in the design reference, not the blue tint from the guide. Thin gold seam details and ivory inlay can be painted strictly inside the existing boundaries. Continue the unseen surfaces plausibly in these same materials. No invented protrusions, jewels, wires or other geometry.\nAlbedo means completely flat even frontal shadowless lighting: no shiny gold highlight stripes, reflections, white specular points, rim lights, shadows, ambient occlusion, darkening of lower halves or glowing bloom. The gold has at most a very faint sheen; material colours and fine marks do the work. The ceramic stays warm ivory. Bright gem details are painted as colour only.\nTransparent background and all holes fully transparent, with no stray pixels beyond the exact guide silhouette. No floor, background, labels, text, letters or watermark. The guide fixes the anatomy; the design reference fixes surface palette. DO NOT redesign or recompose.\nBACK EDGE VIEW. The object is a very thin horizontal profile with its visible bounds x179..844, y458..565 on the 1024-square canvas. Keep the huge empty area above and below. Three low-polygon rounded housings are at left x250, centre x512 and right x774, linked by horizontal gold bars. A thin emerald trapezoid crystal cap shows above the middle housing. The middle housing here has NO connector ends: keep the back surface unpunctured, with a quiet ceramic panel and fine gold seams only. Retain every original angle and occlusion. Do not show the diamond face. Do not make this front view.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-0f983ee6-af70-4222-a156-47b2a5b994b7.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "First return has contour drift and residual directional highlights; retained while using the single permitted corrective pass.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "aae2c855ac9c6849bc6058de4cbe79760b41ab3892de4636eecd44411fb06ce0"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "17598fada9bce5b37314ca77ec0055dcd652910cc5fb7425eb2be19c012c5ae0"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "6cf50bb6913bb166a0ef87a573ff87f5f807e967b6df94a40a1dd93321c68b13",
+      "alpha_bbox": [
+        0,
+        53,
+        1200,
+        1197
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1485349,
+        "alpha_128_bbox": [
+          196,
+          555,
+          1058,
+          694
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.834572,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Residual directional shading and metallic highlights.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Edit the SECOND attached image directly. The FIRST image is the approved material/colour reference ONLY; never reproduce its pose. Return one 1024 x 1024 PNG with transparent background.\nPaint only the surfaces inside the exact guide alpha silhouette. Preserve its canvas, position, scale, camera, faceted outlines and each part's boundary without alteration. This is an orthographic ALBEDO TEXTURE SOURCE of the Hesper striking lattice.\nUse matte warm ivory-white ceramic with tiny fine wear and fine seams on the rounded housings. Paint the bars and connectors in a consistent warm ochre-gold base colour with fine brushed grain and delicate engraved lines. The existing raised crystal is deep emerald green with a small bright green core, as in the design reference, not the blue tint from the guide. Thin gold seam details and ivory inlay can be painted strictly inside the existing boundaries. Continue the unseen surfaces plausibly in these same materials. No invented protrusions, jewels, wires or other geometry.\nAlbedo means completely flat even frontal shadowless lighting: no shiny gold highlight stripes, reflections, white specular points, rim lights, shadows, ambient occlusion, darkening of lower halves or glowing bloom. The gold has at most a very faint sheen; material colours and fine marks do the work. The ceramic stays warm ivory. Bright gem details are painted as colour only.\nTransparent background and all holes fully transparent, with no stray pixels beyond the exact guide silhouette. No floor, background, labels, text, letters or watermark. The guide fixes the anatomy; the design reference fixes surface palette. DO NOT redesign or recompose.\nLEFT EDGE VIEW. Thin horizontal profile with visible bounds x66..957, y458..565 on the 1024-square canvas. Keep huge transparent spaces above/below. Three low-polygon rounded housings at left x140, middle x480, right x820 are linked by gold bars. The thin emerald crystal cap shows above the middle. The small existing horizontal rectangular connector at the FAR RIGHT remains exactly at x880..957, y509..538; paint it brushed gold. No extension on the far left. Retain every original angle and occlusion; do not reveal the diamond face.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-5ccfac16-77e3-4f4a-91d8-62b05b3c4819.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "First return has contour drift and residual directional highlights; retained while using the single permitted corrective pass.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "aae2c855ac9c6849bc6058de4cbe79760b41ab3892de4636eecd44411fb06ce0"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "7a12a5493ed9a19ffd40318edd153496f7851e8bee31136a64dd2532ec44a39a"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "ed22dd9a0d5d85c1e33423cdc6a26a22c84f27961acd5ad448a95110a8d15547",
+      "alpha_bbox": [
+        0,
+        57,
+        1236,
+        1204
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1459040,
+        "alpha_128_bbox": [
+          88,
+          557,
+          1199,
+          701
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.90147,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Residual directional shading and metallic highlights.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Edit the SECOND attached image directly. The FIRST image is the approved material/colour reference ONLY; never reproduce its pose. Return one 1024 x 1024 PNG with transparent background.\nPaint only the surfaces inside the exact guide alpha silhouette. Preserve its canvas, position, scale, camera, faceted outlines and each part's boundary without alteration. This is an orthographic ALBEDO TEXTURE SOURCE of the Hesper striking lattice.\nUse matte warm ivory-white ceramic with tiny fine wear and fine seams on the rounded housings. Paint the bars and connectors in a consistent warm ochre-gold base colour with fine brushed grain and delicate engraved lines. The existing raised crystal is deep emerald green with a small bright green core, as in the design reference, not the blue tint from the guide. Thin gold seam details and ivory inlay can be painted strictly inside the existing boundaries. Continue the unseen surfaces plausibly in these same materials. No invented protrusions, jewels, wires or other geometry.\nAlbedo means completely flat even frontal shadowless lighting: no shiny gold highlight stripes, reflections, white specular points, rim lights, shadows, ambient occlusion, darkening of lower halves or glowing bloom. The gold has at most a very faint sheen; material colours and fine marks do the work. The ceramic stays warm ivory. Bright gem details are painted as colour only.\nTransparent background and all holes fully transparent, with no stray pixels beyond the exact guide silhouette. No floor, background, labels, text, letters or watermark. The guide fixes the anatomy; the design reference fixes surface palette. DO NOT redesign or recompose.\nRIGHT EDGE VIEW. Thin horizontal profile with visible bounds x66..957, y458..565 on the 1024-square canvas. Keep huge transparent spaces above/below. Three low-polygon rounded housings at left x204, middle x544, right x884 are linked by gold bars. The thin emerald crystal cap shows above the middle. The small existing horizontal rectangular connector at the FAR LEFT remains exactly at x66..143, y509..538; paint it brushed gold. No extension on the far right. Retain every original angle and occlusion; do not reveal the diamond face.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-72ec06ae-f3a2-4d6c-bbd1-8f47e4b9b277.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "First return has contour drift and residual directional highlights; retained while using the single permitted corrective pass.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "aae2c855ac9c6849bc6058de4cbe79760b41ab3892de4636eecd44411fb06ce0"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "9cfd8003955f1fc9a6fb4085fed2e198835f27bff92c92fa42bc01d524e15c17"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "6bc66e26742dced9ba5368920528446fc247540559a51143b618dd8851a126ac",
+      "alpha_bbox": [
+        33,
+        71,
+        1219,
+        1254
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1470757,
+        "alpha_128_bbox": [
+          80,
+          562,
+          1173,
+          691
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.911255,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Residual directional shading and metallic highlights.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Edit the SECOND attached image directly. The FIRST image is the approved material/colour reference ONLY; never reproduce its pose. Return one 1024 x 1024 PNG with transparent background.\nPaint only the surfaces inside the exact guide alpha silhouette. Preserve its canvas, position, scale, camera, faceted outlines and each part's boundary without alteration. This is an orthographic ALBEDO TEXTURE SOURCE of the Hesper striking lattice.\nUse matte warm ivory-white ceramic with tiny fine wear and fine seams on the rounded housings. Paint the bars and connectors in a consistent warm ochre-gold base colour with fine brushed grain and delicate engraved lines. The existing raised crystal is deep emerald green with a small bright green core, as in the design reference, not the blue tint from the guide. Thin gold seam details and ivory inlay can be painted strictly inside the existing boundaries. Continue the unseen surfaces plausibly in these same materials. No invented protrusions, jewels, wires or other geometry.\nAlbedo means completely flat even frontal shadowless lighting: no shiny gold highlight stripes, reflections, white specular points, rim lights, shadows, ambient occlusion, darkening of lower halves or glowing bloom. The gold has at most a very faint sheen; material colours and fine marks do the work. The ceramic stays warm ivory. Bright gem details are painted as colour only.\nTransparent background and all holes fully transparent, with no stray pixels beyond the exact guide silhouette. No floor, background, labels, text, letters or watermark. The guide fixes the anatomy; the design reference fixes surface palette. DO NOT redesign or recompose.\nDIRECTLY ABOVE / TOP VIEW. The upright diamond lattice face fills bounds x179..844, y66..957 on the 1024-square canvas. Four original low-polygon rounded corner housings stay centred at top (512,138), left (250,480), right (774,480), bottom (512,820). Preserve their exact faceted silhouettes. The four wide straight diagonal rails form a tall diamond. Paint ivory ceramic panels inside these outer rails edged in brushed gold. The thin straight interior lattice bars stay in EXACTLY their original straight arrangement and thickness; paint them brushed gold. Keep ALL the guide's transparent lattice openings precisely intact. Do not replace the grid with the reference's curving ribs. The centre faceted diamond-shaped crystal at (512,480) stays exactly the guide's shape and position, but is emerald green with a small bright green core. At the bottom, keep exactly the guide's TWO parallel short gold connector pins at their original positions; the reference's three-pin perspective is not geometry authority. Rounded housings can have gold circular boss detailing painted within ivory panels, never added thickness or contour changes.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-6256e817-e89e-454a-bcf9-d4ff6617de1a.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "First return has contour drift and residual directional highlights; retained while using the single permitted corrective pass.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "aae2c855ac9c6849bc6058de4cbe79760b41ab3892de4636eecd44411fb06ce0"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "23c5b3f6bafd04ed98e823bbff71db1afd6d5d871b7d7e88f1ca55c9cb443d7c"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "e4a68f7a31290f16769a186cacbcad640ad2dfafba762007678470bce07c2ffe",
+      "alpha_bbox": [
+        0,
+        22,
+        1228,
+        1254
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1199009,
+        "alpha_128_bbox": [
+          217,
+          74,
+          1035,
+          1179
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.939891,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Residual directional shading and metallic highlights.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit this guide image directly as a precise surface repaint. It is a fixed 1024 x 1024 orthographic guide. Return exactly 1024 x 1024, transparent RGBA.\nThis is the corrective pass: preserve the guide's exact alpha mask, unchanged pixel positions, outlines, all polygon corners and every edge of every part. Do not round, bevel, reshape or redraw the geometry. Do not widen the item or add edging outside existing silhouettes. Keep all original margins and empty holes.\nOnly change the material colours and surface markings. Match the previously supplied approved Hesper striking lattice design: ivory-white ceramic with very delicate wear; subdued warm gold metal with fine brushed grain and discreet incised gold linework; deep emerald green crystal with a small bright green centre. The guide's light blue glass is emerald green in the finished piece. The design's pale ceramic is warm ivory, the metal is golden ochre. Use clean detailed hand-painted albedo material texture.\nCORRECTION: remove ALL lighting effects. Use uniformly illuminated matte base colours, no light-dark bands across bars, no gradients across housings, no specular highlights, no white glints, no contact shadows or AO, no reflections or directional shading. Surface linework is fine colour variation, not raised or recessed cast shading. No red or yellow fringes, no contamination in the transparent margin. No background, floor, text, writing, letters, symbols or watermark.\nThis is a texture paintover, not a product illustration; do not recompose. The existing guide geometry is absolute.\nBACK EDGE VIEW. The object is a very thin horizontal profile with its visible bounds x179..844, y458..565 on the 1024-square canvas. Keep the huge empty area above and below. Three low-polygon rounded housings are at left x250, centre x512 and right x774, linked by horizontal gold bars. A thin emerald trapezoid crystal cap shows above the middle housing. The middle housing here has NO connector ends: keep the back surface unpunctured, with a quiet ceramic panel and fine gold seams only. Retain every original angle and occlusion. Do not show the diamond face. Do not make this front view.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-3e625287-0b06-420e-bb88-5462ab8ac940.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter material colours and closer faceted geometry. Exact guide silhouette still not achieved; contour/placement differences and edge artifacts remain. Preserved unresized; one corrective regeneration limit reached.",
+      "design_reference_usage": "Palette and material description carried from the approved reference inspected and attached in attempt 1; corrective tool call directly attached only the geometry guide.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "17598fada9bce5b37314ca77ec0055dcd652910cc5fb7425eb2be19c012c5ae0"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "ef6fc07bf82689236404be8089d3d4d7989a1705608fa905a6b0f9db3e263616",
+      "alpha_bbox": [
+        0,
+        118,
+        1224,
+        1080
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1491337,
+        "alpha_128_bbox": [
+          210,
+          561,
+          1045,
+          690
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.821534,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Improved in corrective return, but residual shading and edge accents remain.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit this guide image directly as a precise surface repaint. It is a fixed 1024 x 1024 orthographic guide. Return exactly 1024 x 1024, transparent RGBA.\nThis is the corrective pass: preserve the guide's exact alpha mask, unchanged pixel positions, outlines, all polygon corners and every edge of every part. Do not round, bevel, reshape or redraw the geometry. Do not widen the item or add edging outside existing silhouettes. Keep all original margins and empty holes.\nOnly change the material colours and surface markings. Match the previously supplied approved Hesper striking lattice design: ivory-white ceramic with very delicate wear; subdued warm gold metal with fine brushed grain and discreet incised gold linework; deep emerald green crystal with a small bright green centre. The guide's light blue glass is emerald green in the finished piece. The design's pale ceramic is warm ivory, the metal is golden ochre. Use clean detailed hand-painted albedo material texture.\nCORRECTION: remove ALL lighting effects. Use uniformly illuminated matte base colours, no light-dark bands across bars, no gradients across housings, no specular highlights, no white glints, no contact shadows or AO, no reflections or directional shading. Surface linework is fine colour variation, not raised or recessed cast shading. No red or yellow fringes, no contamination in the transparent margin. No background, floor, text, writing, letters, symbols or watermark.\nThis is a texture paintover, not a product illustration; do not recompose. The existing guide geometry is absolute.\nLEFT EDGE VIEW. Thin horizontal profile with visible bounds x66..957, y458..565 on the 1024-square canvas. Keep huge transparent spaces above/below. Three low-polygon rounded housings at left x140, middle x480, right x820 are linked by gold bars. The thin emerald crystal cap shows above the middle. The small existing horizontal rectangular connector at the FAR RIGHT remains exactly at x880..957, y509..538; paint it brushed gold. No extension on the far left. Retain every original angle and occlusion; do not reveal the diamond face.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-d2d783b5-a754-412d-bae5-0dd67fbce3a0.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter material colours and closer faceted geometry. Exact guide silhouette still not achieved; contour/placement differences and edge artifacts remain. Preserved unresized; one corrective regeneration limit reached.",
+      "design_reference_usage": "Palette and material description carried from the approved reference inspected and attached in attempt 1; corrective tool call directly attached only the geometry guide.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "7a12a5493ed9a19ffd40318edd153496f7851e8bee31136a64dd2532ec44a39a"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "3fa246cbf9c03672b619c2fa8fb00a78fdc0621554232a50182952098c7244a1",
+      "alpha_bbox": [
+        73,
+        71,
+        1177,
+        1228
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1471734,
+        "alpha_128_bbox": [
+          81,
+          561,
+          1174,
+          694
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.888259,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Improved in corrective return, but residual shading and edge accents remain.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit this guide image directly as a precise surface repaint. It is a fixed 1024 x 1024 orthographic guide. Return exactly 1024 x 1024, transparent RGBA.\nThis is the corrective pass: preserve the guide's exact alpha mask, unchanged pixel positions, outlines, all polygon corners and every edge of every part. Do not round, bevel, reshape or redraw the geometry. Do not widen the item or add edging outside existing silhouettes. Keep all original margins and empty holes.\nOnly change the material colours and surface markings. Match the previously supplied approved Hesper striking lattice design: ivory-white ceramic with very delicate wear; subdued warm gold metal with fine brushed grain and discreet incised gold linework; deep emerald green crystal with a small bright green centre. The guide's light blue glass is emerald green in the finished piece. The design's pale ceramic is warm ivory, the metal is golden ochre. Use clean detailed hand-painted albedo material texture.\nCORRECTION: remove ALL lighting effects. Use uniformly illuminated matte base colours, no light-dark bands across bars, no gradients across housings, no specular highlights, no white glints, no contact shadows or AO, no reflections or directional shading. Surface linework is fine colour variation, not raised or recessed cast shading. No red or yellow fringes, no contamination in the transparent margin. No background, floor, text, writing, letters, symbols or watermark.\nThis is a texture paintover, not a product illustration; do not recompose. The existing guide geometry is absolute.\nRIGHT EDGE VIEW. Thin horizontal profile with visible bounds x66..957, y458..565 on the 1024-square canvas. Keep huge transparent spaces above/below. Three low-polygon rounded housings at left x204, middle x544, right x884 are linked by gold bars. The thin emerald crystal cap shows above the middle. The small existing horizontal rectangular connector at the FAR LEFT remains exactly at x66..143, y509..538; paint it brushed gold. No extension on the far right. Retain every original angle and occlusion; do not reveal the diamond face.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-433e0ec4-a5e7-4d0c-8990-b6af176f3785.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter material colours and closer faceted geometry. Exact guide silhouette still not achieved; contour/placement differences and edge artifacts remain. Preserved unresized; one corrective regeneration limit reached.",
+      "design_reference_usage": "Palette and material description carried from the approved reference inspected and attached in attempt 1; corrective tool call directly attached only the geometry guide.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "9cfd8003955f1fc9a6fb4085fed2e198835f27bff92c92fa42bc01d524e15c17"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "f1b84d7d83c547a4eb48d39ec58b5fc3516c96bebc8f6821c138e706a399f59a",
+      "alpha_bbox": [
+        25,
+        23,
+        1180,
+        1182
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1459190,
+        "alpha_128_bbox": [
+          80,
+          560,
+          1173,
+          694
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.966351,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Improved in corrective return, but residual shading and edge accents remain.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Edit this guide image directly as a precise surface repaint. It is a fixed 1024 x 1024 orthographic guide. Return exactly 1024 x 1024, transparent RGBA.\nThis is the corrective pass: preserve the guide's exact alpha mask, unchanged pixel positions, outlines, all polygon corners and every edge of every part. Do not round, bevel, reshape or redraw the geometry. Do not widen the item or add edging outside existing silhouettes. Keep all original margins and empty holes.\nOnly change the material colours and surface markings. Match the previously supplied approved Hesper striking lattice design: ivory-white ceramic with very delicate wear; subdued warm gold metal with fine brushed grain and discreet incised gold linework; deep emerald green crystal with a small bright green centre. The guide's light blue glass is emerald green in the finished piece. The design's pale ceramic is warm ivory, the metal is golden ochre. Use clean detailed hand-painted albedo material texture.\nCORRECTION: remove ALL lighting effects. Use uniformly illuminated matte base colours, no light-dark bands across bars, no gradients across housings, no specular highlights, no white glints, no contact shadows or AO, no reflections or directional shading. Surface linework is fine colour variation, not raised or recessed cast shading. No red or yellow fringes, no contamination in the transparent margin. No background, floor, text, writing, letters, symbols or watermark.\nThis is a texture paintover, not a product illustration; do not recompose. The existing guide geometry is absolute.\nDIRECTLY ABOVE / TOP VIEW. The upright diamond lattice face fills bounds x179..844, y66..957 on the 1024-square canvas. Four original low-polygon rounded corner housings stay centred at top (512,138), left (250,480), right (774,480), bottom (512,820). Preserve their exact faceted silhouettes. The four wide straight diagonal rails form a tall diamond. Paint ivory ceramic panels inside these outer rails edged in brushed gold. The thin straight interior lattice bars stay in EXACTLY their original straight arrangement and thickness; paint them brushed gold. Keep ALL the guide's transparent lattice openings precisely intact. Do not replace the grid with the reference's curving ribs. The centre faceted diamond-shaped crystal at (512,480) stays exactly the guide's shape and position, but is emerald green with a small bright green core. At the bottom, keep exactly the guide's TWO parallel short gold connector pins at their original positions; the reference's three-pin perspective is not geometry authority. Rounded housings can have gold circular boss detailing painted within ivory panels, never added thickness or contour changes.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e05-bd88-70e2-9d2a-2cd393b7158f/exec-65dda525-9b41-466a-a4ab-8dd58611c15b.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter material colours and closer faceted geometry. Exact guide silhouette still not achieved; contour/placement differences and edge artifacts remain. Preserved unresized; one corrective regeneration limit reached.",
+      "design_reference_usage": "Palette and material description carried from the approved reference inspected and attached in attempt 1; corrective tool call directly attached only the geometry guide.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "23c5b3f6bafd04ed98e823bbff71db1afd6d5d871b7d7e88f1ca55c9cb443d7c"
+        }
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "538f2ecb08c2dcf4a23573ba339917519d5e0ce223f150963d165ca55839264e",
+      "alpha_bbox": [
+        0,
+        22,
+        1240,
+        1213
+      ],
+      "size_note": "Tool return preserved unresized; requested 1024 x 1024.",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1207897,
+        "alpha_128_bbox": [
+          218,
+          71,
+          1036,
+          1179
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_canvas_silhouette_iou_alpha_128": 0.95226,
+        "metric_note": "IoU samples the guide in normalized canvas coordinates for measurement only. Saved outputs are unresized.",
+        "colours_and_materials": "Ivory ceramic, brushed gold and emerald crystal match the reference palette; surface ornament is an interpretation.",
+        "flat_even_light": "Improved in corrective return, but residual shading and edge accents remain.",
+        "no_text_or_letters": true,
+        "inspection": "Visual review of tool return plus PNG/alpha checks."
+      }
+    }
+  ],
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None: all selected and alternate PNGs are byte-for-byte copies of built-in tool returns.",
+  "status": "Generated five selected paintings; strict silhouette and fully flat lighting checks not fully satisfied after one corrective regeneration per view.",
+  "design_reference": {
+    "file": "design_reference.png",
+    "sha256": "aae2c855ac9c6849bc6058de4cbe79760b41ab3892de4636eecd44411fb06ce0"
+  }
+}

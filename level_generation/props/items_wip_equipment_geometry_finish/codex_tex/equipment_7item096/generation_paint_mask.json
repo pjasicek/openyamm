@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit ONLY image 1, an exact geometry guide for the Might and Magic Fancy Hat. Image 2 is the inventory icon colour/material reference. Preserve image 1's EXACT 3:4 portrait canvas, three equal columns and four equal rows, every object silhouette, size, location, shape edge, opening and transparent background. It is a production texture and material-mask sheet, NOT a redesigned object. No text, borders, floor or shadows.\nTOP TWO ROWS: paint realistic, UNLIT base colour over the five grey guide views. Row 1 FRONT/BACK/LEFT, row 2 RIGHT/TOP/EMPTY. Match icon: warm tan-gold velvet padded cap, darker tan rolled cloth brim, one small dark green oval front gem in an antique brass setting. Cloth has fine restrained velvet grain and soft broad folds, flat even shadowless illumination with NO baked directional light, specular highlights or ambient occlusion. The worn interior is tan cloth. Keep all solid guide surfaces opaque; do not add tears or holes.\nBOTTOM TWO ROWS: the exact same five corresponding views become flat material-ID masks, without texture or shading. EVERY cloth surface and lining is pure BLUE #0000ff. ONLY actual brass gem setting is pure RED #ff0000. ONLY the small green gem is pure BLACK #000000. All backgrounds stay transparent. Mask boundaries must align precisely to the painted objects above. No coloured outlines around silhouettes. Bottom right tile and row 2 right tile stay empty transparent. Output one 1536x2048 transparent PNG. Exact guide registration matters more than beauty.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-d1c8c918-5d7a-4e1d-b706-5562c9da9c20.png",
+  "inputs": [
+    "level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item096/paint_mask_guide.png",
+    "level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item096.png"
+  ],
+  "selected": true,
+  "reason": "Accepted views are explicitly listed in final_view_sources.json; final GLB hash is in the acceptance receipt.",
+  "raw_sha256": "fdbb7e4aa1c43fafca203f6c1a0c3d6e13c6278a2a095c2463cbbc26a589d2e4",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original output retained byte-for-byte",
+  "input_sha256": {
+    "level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item096/paint_mask_guide.png": "e9849e9405d74de4d9aaf50e6423b98c6ffbe7e44cb34e17fdb9c3055d5ab1db",
+    "level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item096.png": "bf9c8bf94f078aff86c94865558e7c94b1a416a8c858586a65100e7075ec66f6"
+  }
+}

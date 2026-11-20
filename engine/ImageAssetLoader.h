@@ -70,6 +70,16 @@ std::optional<std::string> findCookedOrImageAssetPath(
     AssetPathLookupCache &assetPathByKey
 );
 
+// A world surface texture's logical size (its native texels, the size face UVs are measured in) as the game resolves
+// it through findCookedOrImageAssetPath: the cooked file or the image in the best scale tier, scaled back to the
+// native tier. Empty when there is none.
+std::optional<std::array<int, 2>> findSurfaceTextureLogicalSize(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &textureName,
+    DirectoryAssetPathCache &directoryAssetPathsByPath,
+    AssetPathLookupCache &assetPathByKey
+);
+
 std::optional<ImagePixelsBgra> decodeImagePixelsBgra(
     const std::vector<uint8_t> &imageBytes,
     std::string_view virtualPath,

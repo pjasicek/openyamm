@@ -1,0 +1,848 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shared vocabularies of the Map Studio project format, schema v0",
+  "$defs": {
+    "relations": {
+      "description": "The map's own monster relations, set by an event of the build's own on entering the map (evt.SetMonsterRelation): a kind the monster table (engine/data_tables/hostile.txt) has friendly made hostile to the party (MM7's dwarves in a Xeen mine: {of: [229, 230, 231], toward: party, relation: hostile}; the game sets the party's foes by kind, so name every tier that stands or spawns in the map), or two kinds or groups set on each other or kept apart ({of: [277, 278, 279], toward: 211, relation: friendly, both_ways: true}). `relation` friendly, hostile, or 0 (friendly) to 4 (hostile at any distance) as hostile.txt; `both_ways: true` sets the other side's toward these too. The build warns where hostile.txt leaves a slot's monsters peaceful to the party or sets two of the map's hostile kinds on each other and the project has not said so.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "x-flow": true,
+        "required": [
+          "of",
+          "toward",
+          "relation"
+        ],
+        "properties": {
+          "of": {
+            "description": "A monster kind (its number or name in monster_data.txt), a list of kinds, or {group: <n>}: the placed monsters and spawn points of that `group`.",
+            "x-flow": true
+          },
+          "toward": {
+            "description": "party, a monster kind (number or name), or {group: <n>}."
+          },
+          "relation": {
+            "anyOf": [
+              {
+                "enum": [
+                  "friendly",
+                  "hostile"
+                ]
+              },
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4,
+                "x-unit": "none"
+              }
+            ],
+            "x-labels": [
+              "word",
+              "number"
+            ]
+          },
+          "both_ways": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "id": {
+      "description": "A stable, readable id: <kind>:<name>, for example room:vault, door:gate, evt:lever_gate. Lower case letters, digits and underscores.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z0-9][a-z0-9_]*$"
+    },
+    "notes": {
+      "description": "Free text for people and agents. Project files carry no YAML comments; this field is their place.",
+      "type": "string"
+    },
+    "point2": {
+      "description": "A position on the plan, [x, y] in map units (x east, y north).",
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "x-geom": {
+        "shape": "point",
+        "space": "map"
+      }
+    },
+    "point3": {
+      "description": "A position [x, y, z] in map units (z up).",
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "x-geom": {
+        "shape": "point3",
+        "space": "map"
+      }
+    },
+    "range": {
+      "description": "[low, high]",
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "x-geom": false,
+      "x-unit": "none"
+    },
+    "size_class": {
+      "description": "Plan-level size of an indoor room by floor area in million square units: XS under 0.15 (closet), S 0.15 to 0.5, M 0.5 to 1.5, L 1.5 to 3, XL over 3. Outdoor zones use `share` instead.",
+      "enum": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
+    },
+    "condition": {
+      "description": "When something is allowed, open or present. One vocabulary for doors, presets, encounters, points of interest and states, so the flow graph can reason about all of them. Exactly the keys that apply are given; several keys must all hold. `any` and `not` combine conditions.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "qbit": {
+          "description": "Quest bit set (a number, or a name declared in project.yml qbits).",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "x-unit": "index",
+          "x-labels": [
+            "number",
+            "name"
+          ]
+        },
+        "item": {
+          "description": "The party carries this item (item id or a name declared in project.yml items), or every item of a list.",
+          "type": [
+            "integer",
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "item number",
+              "item name"
+            ]
+          },
+          "x-unit": "index",
+          "x-labels": [
+            "item number",
+            "item name",
+            "every item of a list"
+          ]
+        },
+        "item_count": {
+          "description": "With `item`: at least this many.",
+          "type": "integer",
+          "minimum": 1,
+          "x-unit": "count"
+        },
+        "consume": {
+          "description": "With `item`: the item is taken when the condition is used.",
+          "type": "boolean"
+        },
+        "map_var": {
+          "description": "A map variable of this map is non-zero (a number, or a name declared in wiring.yml variables). In an indoor project's wiring.yml also a count of it: {name: searches, at_least: 4}, {name: searches, below: 4}, {name: step, equals: 2}; `at_least`, `below` and `equals` given together must all hold. Example: a bookcase searched at most four times: condition: {map_var: {name: bookcase_searches, below: 4}}, effects: [{add: {var: {map_var: bookcase_searches}, value: 1}}, {give_item: {one_of: [1961, 1973, 1976]}}]. (An outdoor sketch takes the plain form only.)",
+          "type": [
+            "integer",
+            "string",
+            "object"
+          ],
+          "x-flow": true,
+          "properties": {
+            "name": {
+              "description": "The variable: a name declared in wiring.yml variables, or a number 0 to 74.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "number",
+                "name"
+              ]
+            },
+            "at_least": {
+              "description": "The variable is this or more.",
+              "type": "number",
+              "x-unit": "none"
+            },
+            "below": {
+              "description": "The variable is less than this.",
+              "type": "number",
+              "x-unit": "none"
+            },
+            "equals": {
+              "description": "The variable is exactly this.",
+              "type": "number",
+              "x-unit": "none"
+            }
+          },
+          "additionalProperties": false,
+          "x-unit": "index",
+          "x-labels": [
+            "number",
+            "name",
+            "a count of it"
+          ]
+        },
+        "award": {
+          "description": "A party member holds this award.",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "x-unit": "index",
+          "x-labels": [
+            "number",
+            "name"
+          ]
+        },
+        "player_bit": {
+          "description": "The bit of the member who uses the thing is set: {not: {player_bit: 59}} lets each character do it once (the Forge's fire-resistance wall, event 91: IsPlayerBitSet(PlayerBit(59))). Set and cleared by the effects `player_bit` and `clear_player_bit`. Shipped maps use 1 to 99; a project's own from 10000 on.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535,
+          "x-unit": "index"
+        },
+        "autonote": {
+          "description": "An autonote is in the journal.",
+          "type": "integer",
+          "x-unit": "index"
+        },
+        "lua": {
+          "description": "wiring.yml: a Lua expression of the game's scripts that must be true, for a test the other keys cannot say: {lua: \"evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 279, 0, false)\"}, {lua: \"IsAtLeast(MapVar(3), 2) and not IsQBitSet(QBit(110012))\"}. It is one expression (no statements, no `return`) and stands in the handler's condition with the other keys, so it guards the doors, `sets`, `effects` and `text` that follow, which the handler's own `lua` lines (run last) cannot. It may be used inside `not`, `any` and `all`. The build runs the handler and refuses a call to a function the game does not have; `oymap flow` and `oymap solve` take a test they cannot read both ways. `MapVar(name)` with a name declared in wiring.yml `variables` is turned into the variable's number.",
+          "type": "string",
+          "minLength": 1
+        },
+        "stat": {
+          "description": "A stat or skill check.",
+          "type": "object",
+          "x-flow": true,
+          "required": [
+            "name",
+            "at_least"
+          ],
+          "properties": {
+            "name": {
+              "description": "The name of a selector of the game's scripts: BaseLuck, BaseMight, MightBonus, HP, SP, a skill such as DisarmTrapSkill (`oymap script-reference` lists them all).",
+              "type": "string"
+            },
+            "at_least": {
+              "type": "number",
+              "x-unit": "none"
+            }
+          },
+          "additionalProperties": false
+        },
+        "time": {
+          "description": "Time of day.",
+          "enum": [
+            "day",
+            "night"
+          ]
+        },
+        "month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "x-unit": "index"
+        },
+        "day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 28,
+          "x-unit": "index"
+        },
+        "password": {
+          "description": "A typed answer.",
+          "type": "string"
+        },
+        "choice": {
+          "description": "A dialogue choice made earlier (id of the choice).",
+          "type": "string"
+        },
+        "kills": {
+          "description": "A kill count reached. In wiring.yml the build makes it the game's own test (`evt.CheckMonstersKilled`): {group: 2} holds when every monster with that `group` number is dead, {group: 2, at_least: 3} when so many of them are, {monster: monster:boss} when that placed monster of objects.yml is dead, {all: true} when every monster of the map is dead and {at_least: 5} when so many of any kind are. `group` and `monster` do not go together. An event that is to run when a boss dies is a `trigger: timer` event with this condition and `once: true`: {id: evt:boss_dead, preset: script, trigger: timer, every: 2, once: true, condition: {kills: {group: 2}}, effects: [{qbit: 110011}]}. (In plan.yml the words are free: a population's id, a family's name.)",
+          "type": "object",
+          "x-flow": true,
+          "properties": {
+            "group": {
+              "description": "A population id or actor group number. wiring.yml: the `group` number of placed monsters (objects.yml `monsters[].group`); a group no placed monster has is refused.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "none",
+              "x-labels": [
+                "group number",
+                "population id (not lowered)"
+              ]
+            },
+            "monster": {
+              "description": "A monster family or name. wiring.yml: the `id` of one placed monster (monster:boss).",
+              "type": "string",
+              "x-id-kinds": [
+                "monster"
+              ]
+            },
+            "at_least": {
+              "type": "integer",
+              "x-unit": "count"
+            },
+            "all": {
+              "description": "Every one on the map.",
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "gold": {
+          "description": "The party's gold: at least, or below (a fountain that pays only the nearly broke).",
+          "type": "object",
+          "x-flow": true,
+          "properties": {
+            "at_least": {
+              "type": "number",
+              "x-unit": "gold"
+            },
+            "below": {
+              "type": "number",
+              "x-unit": "gold"
+            },
+            "include_bank": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "season": {
+          "description": "Season of the 12-month year: spring is months 3 to 5, summer 6 to 8, autumn 9 to 11, winter 12 to 2.",
+          "enum": [
+            "spring",
+            "summer",
+            "autumn",
+            "winter"
+          ]
+        },
+        "all": {
+          "description": "Every one of these holds (the same as giving their keys together; for lists of the same key).",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/condition"
+          }
+        },
+        "any": {
+          "description": "At least one of these holds.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          }
+        },
+        "not": {
+          "$ref": "#/$defs/condition"
+        },
+        "destroyed": {
+          "description": "Holds once a destructible is broken (evt.IsDestructibleDestroyed).",
+          "$ref": "#/$defs/id",
+          "x-id-kinds": [
+            "destructible"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "x-groups": [
+        [
+          "Quest",
+          [
+            "qbit",
+            "award",
+            "autonote",
+            "player_bit",
+            "choice",
+            "password"
+          ]
+        ],
+        [
+          "Items and gold",
+          [
+            "item",
+            "item_count",
+            "consume",
+            "gold"
+          ]
+        ],
+        [
+          "Map",
+          [
+            "map_var",
+            "kills",
+            "lua",
+            "destroyed"
+          ]
+        ],
+        [
+          "Party",
+          [
+            "stat"
+          ]
+        ],
+        [
+          "Time",
+          [
+            "time",
+            "month",
+            "day",
+            "season"
+          ]
+        ],
+        [
+          "Combine",
+          [
+            "all",
+            "any",
+            "not"
+          ]
+        ]
+      ]
+    },
+    "population": {
+      "description": "Who lives in a room or zone, at plan level.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "x-flow": true,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "description": "Names the group so conditions (kills.group) and states can refer to it.",
+            "x-id-kinds": [
+              "pop"
+            ]
+          },
+          "slot": {
+            "description": "Encounter slot of the map card (1 to 3), or omit for a fixed actor.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3,
+            "x-unit": "index"
+          },
+          "actor": {
+            "description": "A fixed actor: monster id or name.",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "monster number",
+              "monster name"
+            ]
+          },
+          "role": {
+            "description": "For a fixed actor before a monster is chosen: its part (swordsman, captain, shopkeeper).",
+            "type": "string"
+          },
+          "actors": {
+            "description": "A mixed fixed group.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-flow": true,
+              "properties": {
+                "actor": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ],
+                  "x-unit": "index",
+                  "x-labels": [
+                    "monster number",
+                    "monster name"
+                  ]
+                },
+                "role": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "x-unit": "count"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "groups": {
+            "description": "Number of spawn points (markers) or fixed actors.",
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "count"
+          },
+          "per_marker": {
+            "$ref": "common.schema.json#/$defs/range",
+            "description": "Monsters per spawn point, [low, high].",
+            "x-unit": "count"
+          },
+          "packs": {
+            "description": "Number of packs when several markers form one pack.",
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "count"
+          },
+          "spacing": {
+            "description": "Typical distance between packs or singles, map units or [low, high].",
+            "type": [
+              "number",
+              "array"
+            ],
+            "items": {
+              "type": "number"
+            },
+            "x-unit": "map",
+            "x-geom": false,
+            "x-labels": [
+              "distance",
+              "[low, high]"
+            ]
+          },
+          "levels": {
+            "$ref": "common.schema.json#/$defs/range",
+            "description": "Monster levels, [low, high].",
+            "x-unit": "none"
+          },
+          "level_vs_slots": {
+            "description": "For fixed actors: strength against the map's slot monsters (several levels above, equal ...).",
+            "type": "string"
+          },
+          "placed": {
+            "description": "true: placed actors with fixed positions; false: spawn points.",
+            "type": "boolean"
+          },
+          "clear_of": {
+            "description": "Keeps this far from these spaces.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-flow": true,
+              "required": [
+                "space"
+              ],
+              "properties": {
+                "space": {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "space"
+                  ]
+                },
+                "distance": {
+                  "description": "Map units, or a share of the map below 1.",
+                  "type": "number",
+                  "x-unit": "map"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "strength": {
+            "enum": [
+              "light",
+              "pack",
+              "heavy",
+              "boss"
+            ]
+          },
+          "shape": {
+            "description": "How a group stands: tight pack or loose singles.",
+            "enum": [
+              "tight",
+              "loose"
+            ]
+          },
+          "rank": {
+            "description": "Monster rank within its family; `mixed` is a set mix of ranks, `any` is drawn from the map's difficulty.",
+            "enum": [
+              "a",
+              "b",
+              "c",
+              "mixed",
+              "any"
+            ]
+          },
+          "faction": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "none",
+            "x-labels": [
+              "number",
+              "name"
+            ]
+          },
+          "condition": {
+            "$ref": "common.schema.json#/$defs/condition",
+            "description": "Present when this holds."
+          },
+          "hostile": {
+            "description": "Hostile always (true), never (false), or once a condition holds.",
+            "type": [
+              "boolean",
+              "object"
+            ],
+            "x-labels": [
+              "always or never",
+              "once a condition holds"
+            ]
+          },
+          "hidden_until": {
+            "$ref": "common.schema.json#/$defs/condition",
+            "description": "On the map but hidden until this holds."
+          },
+          "drops": {
+            "description": "A named item the actor carries.",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "item number",
+              "item name"
+            ]
+          },
+          "notes": {
+            "$ref": "#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": false,
+        "x-groups": [
+          [
+            "Group",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "Who",
+            [
+              "slot",
+              "actor",
+              "role",
+              "actors",
+              "levels",
+              "level_vs_slots",
+              "rank",
+              "strength",
+              "faction",
+              "drops"
+            ]
+          ],
+          [
+            "How many",
+            [
+              "groups",
+              "per_marker",
+              "packs",
+              "spacing",
+              "shape",
+              "placed",
+              "clear_of"
+            ]
+          ],
+          [
+            "When",
+            [
+              "condition",
+              "hostile",
+              "hidden_until"
+            ]
+          ]
+        ]
+      }
+    },
+    "treasure": {
+      "description": "What can be found in a room or zone, at plan level.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "x-flow": true,
+        "properties": {
+          "kind": {
+            "enum": [
+              "chest",
+              "secret_container",
+              "floor_item",
+              "bookcase",
+              "cabinet",
+              "drawers",
+              "corpse",
+              "decoration",
+              "actor_drop"
+            ]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "count"
+          },
+          "tier": {
+            "description": "Treasure level, or [low, high].",
+            "type": [
+              "integer",
+              "array"
+            ],
+            "items": {
+              "type": "integer"
+            },
+            "x-unit": "none",
+            "x-geom": false,
+            "x-labels": [
+              "level",
+              "[low, high]"
+            ]
+          },
+          "items": {
+            "description": "Random items per container: a number or [low, high].",
+            "type": [
+              "integer",
+              "array"
+            ],
+            "items": {
+              "type": "integer"
+            },
+            "x-unit": "count",
+            "x-geom": false,
+            "x-labels": [
+              "number",
+              "[low, high]"
+            ]
+          },
+          "pool": {
+            "description": "The items a container draws from (bookcases giving one scroll of a list).",
+            "type": "array",
+            "items": {
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "item number",
+                "item name"
+              ]
+            }
+          },
+          "once": {
+            "description": "Gives only once.",
+            "type": "boolean"
+          },
+          "item": {
+            "description": "A named item delivered here (quest items).",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "item number",
+              "item name"
+            ]
+          },
+          "shared_with": {
+            "$ref": "common.schema.json#/$defs/id",
+            "description": "A container declared in plan.yml containers, whose contents this one shares.",
+            "x-id-kinds": [
+              "container"
+            ]
+          },
+          "container": {
+            "$ref": "common.schema.json#/$defs/id",
+            "description": "A container declared in plan.yml containers.",
+            "x-id-kinds": [
+              "container"
+            ]
+          },
+          "reached_by": {
+            "$ref": "#/$defs/reached_by"
+          },
+          "condition": {
+            "$ref": "#/$defs/condition"
+          },
+          "notes": {
+            "$ref": "#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": false,
+        "x-groups": [
+          [
+            "Container",
+            [
+              "kind",
+              "count",
+              "container",
+              "shared_with",
+              "reached_by"
+            ]
+          ],
+          [
+            "Contents",
+            [
+              "tier",
+              "items",
+              "pool",
+              "item",
+              "once"
+            ]
+          ],
+          [
+            "When",
+            [
+              "condition"
+            ]
+          ],
+          [
+            "Notes",
+            [
+              "notes"
+            ]
+          ]
+        ]
+      }
+    },
+    "reached_by": {
+      "description": "How the place is reached.",
+      "enum": [
+        "road",
+        "off_road",
+        "water",
+        "flight",
+        "jump",
+        "secret"
+      ]
+    },
+    "key": {
+      "description": "A sub-object's key, unique within its list in its parent (S5 format 1): what selections, pins, provenance and patches name it by (room:hall/pillars/pillar2). Optional in files: a missing key reads as the one the core gives from the list's kind and the item's position (pillar2 for the second pillar), and the core writes it on its next write of the file.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    }
+  }
+}

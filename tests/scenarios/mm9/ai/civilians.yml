@@ -1,0 +1,40 @@
+id: mm9.ai.civilians
+title: MM9 townsfolk run to a town guard and call for help; the guard turns on the culprit
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). At 2 s the party hits Commoner 0: it runs to the Town Guard north
+        (NPCBase.inc BaseRunFindHidingPlace), calling for help on the way and on arrival; the guard hears the help call
+        about its friend the party and makes it its enemy. The party's second hit on the Commoner, which runs from the
+        party, is ignored.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: civilians.arena.yml}
+  - advance_runtime: {seconds: 2}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - advance_runtime: {seconds: 14}
+  - ai_trace_dump: {decisions_only: true}
+  # Commoner 0 runs from the party to the guard, calls for help and arrives; the party's second hit changes nothing.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee_decision, detail: hit, target: party, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: hide, detail: guard, after: 1.9, before: 2.2, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: call_help, detail: hide, after: 2, before: 12, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: hide, detail: arrived, after: 2, before: 14, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, max_count: 0}
+  # The guard: the help call about the party makes it its enemy; it takes the party and goes for it.
+  - assert:
+      ai_trace: {arena_monster: 1, decision: turn_hostile, detail: help, after: 2, before: 16, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, target: party, after: 2, before: 16, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: turn_hostile, before: 2, max_count: 0}

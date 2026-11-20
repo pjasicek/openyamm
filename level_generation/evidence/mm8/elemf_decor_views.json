@@ -1,0 +1,25 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          -12928.0,
+          18496.0,
+          5504.0
+        ],
+        "span": 12500
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm8/elemf_decor_settlement.png",
+      "camera_position": [
+        -7268.30712890625,
+        7176.6142578125,
+        19338.806640625
+      ],
+      "highlighted": []
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

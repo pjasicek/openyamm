@@ -1,0 +1,130 @@
+id: mm9r.ta_probe_dagrell_door_shut
+title: dagrell_door_shut
+world: mm9
+mode: faithful
+tags:
+- mm9
+- draft
+steps:
+- load_map:
+    map: tasaracademy.blv
+- set_pose:
+    map: tasaracademy.blv
+    x: 6912
+    y: -512
+    z: 1
+    yaw: 0.6
+    pitch: 0
+- advance_runtime:
+    seconds: 3
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: tasaracademy.blv
+    x: 4880
+    y: -1413
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+- advance_runtime:
+    seconds: 2

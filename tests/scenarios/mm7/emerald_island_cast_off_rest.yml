@@ -1,0 +1,18 @@
+id: mm7.emerald_island_cast_off_rest
+title: MM7 - Lord Markham's two-week cast-off to Harmondale rests the party, so a Haste still running ends without weakness
+world: mm7
+mode: faithful
+tags: [mm7, events]
+steps:
+  - new_game_flow:
+      start_map: 7out01.odm
+  - cast_spell: {member_index: 0, spell_id: 5, skill: 5, mastery: 2}
+  - assert:
+      buff: {spell_id: 5, present: true}
+  # Global event 783, "Cast Off to Harmondale": fourteen days pass on the voyage.
+  - execute_event: {id: 783}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      map: 7out02.odm
+      buff: {spell_id: 5, present: false}
+      condition: {name: weak, present: false}

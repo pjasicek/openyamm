@@ -1,0 +1,92 @@
+# Yorwick as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  stem: yorwick
+  display_name: Yorwick
+  starts: [StartPoint0, WizardLabExit, LichLabExit, YorwickExit1, YorwickExit2]   # the old map's party_start_points order
+  monster_classes: [Apparition, EvilSorcerer, Shadow, Bloodsucker, EvilGrandSorcerer, EvilApprentice, Vampir, Specter]   # the ewe (Ewe0) is in outdoor.people
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [-2518, 33, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  Terrain0: static   # Terrain
+  TOD_Sky0: skip   # TOD_Sky
+  SkyBox0: skip   # DemoSkyWorldModel
+  CTgate: {group: CTgate, motion: rotate}   # RotatingDoor
+  board0: static   # DestructableBrush
+  board1: static   # DestructableBrush
+  board2: static   # DestructableBrush
+  board3: static   # DestructableBrush
+  board4: static   # DestructableBrush
+  gateboard: static   # DestructableBrush
+  Ocean: static   # WorldObject
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate}   # RotatingDoor
+  RotatingDoor1: {group: RotatingDoor1, motion: rotate}   # RotatingDoor
+  RotatingDoor2: {group: RotatingDoor2, motion: rotate}   # RotatingDoor
+  RotatingDoor3: {group: RotatingDoor3, motion: rotate}   # RotatingDoor
+  StoreFrontDoor: {group: StoreFrontDoor, motion: rotate}   # RotatingDoor
+  OutfitterDoor1: {group: OutfitterDoor1, motion: rotate}   # RotatingDoor
+  OutfitterDoor2: {group: OutfitterDoor1, motion: rotate}   # RotatingDoor
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+  # Sven (Svenspeech.scr, a Prop on SVEN.abc): an actor for the battlefield cinematic (regionlua.py scenes), hidden
+  # outside it; row 9249 binds mm9_sven.glb (its Talk clip plays for his speech)
+  # Mary's ewe (MarySheep.scr, row 272): a person, not a monster, so that a click runs its 53000 event (regionlua.py:
+  # it follows the party back to Mary); it stands where placed until then (MM9: WanderON)
+  people: {Sven: {name: Sven Svenssen, monster_id: 9249}, Ewe0: {name: Ewe, monster_id: 9272}}
+  # Hallvard Ormssen, Hallvard's Tomes (the user, 2026-11-09): a seller of every Master and Grandmaster spellbook that
+  # MM9 does not have (RUDE 500, worlds/mm9/dialogue/rude/NPC500.rude; vendor 30500, generate_mm9_vendors.py
+  # ADDED_VENDORS). He stands in the corner of the stone hall's L facing the green, placed as Ulf (shopkeeper.scr) on
+  # the bell-sleeved shopkeeper (row 47, mm9_annud).
+  added_people:
+    - {name: Hallvard Ormssen, rude: 500, row: 47, filename: 'models\PeasantM6.abc',
+       like: CommonerFemale1, at: [-13150, -19720, 1120], yaw: 189}
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py YORWICK): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    refinerycliff2561e: rock        # 57 %: dark grey rock
+    thjorgardcliffgrass2: grass      # 24 %
+    refinerycliff2561f: rock
+    thjorgardcliffgrass: grass_patches
+    refinerycliff2561h: rock
+    refinerycliff2561fcave-a: rock
+  slope: cliff
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [EvilGrandSorcerer0, EvilGrandSorcerer3, EvilGrandSorcerer4, EvilGrandSorcerer5]
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated.
+# Frames and translucency; the scene file is a source of the map's lighting bake (tools/lighting/stale_bakes.py),
+# so a change here needs the bake again. Checked (2026-11-10, scratch build: only
+# `translucent_faces` changes): the exit gate's Water115 shimmer (WorldObject2, 1 face, two-sided) translucent
+# (enabled 2026-11-10 with the map's lighting re-transfer).
+spr_surfaces: {}

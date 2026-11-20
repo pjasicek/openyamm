@@ -3,7 +3,7 @@
 `assets_dev/engine/sprites_new` is the desktop **cooked runtime installation**.
 `assets_cooked/android/sprites_new` holds the separately cooked Android installation.
 Both profiles belong in normal Git; authoring inputs remain local or in optional LFS banks.
-Each release `engine.zip` contains exactly one GPU texture profile. Windows/Linux use the same desktop
+Each release's engine content packs contain exactly one GPU texture profile. Windows/Linux use the same desktop
 profile; Android uses its own profile. The files share a container/schema, not a combined payload.
 
 ## Authoring and installation
@@ -146,7 +146,7 @@ unverified in this historical migration record. The local Android SDK was instal
 
 ## Release packaging
 
-Windows release ZIP and Flatpak paths use `tools/package_runtime_assets.py`. A manual desktop build is:
+Release content packs come from `tools/package_runtime_assets.py`. A manual desktop build is:
 
 ```sh
 cmake --build build --target openyamm_verify_sprite_atlases -j25
@@ -157,28 +157,28 @@ Android packaging uses the checked-in Android profile and does not run texture e
 
 ```sh
 android/repack_runtime_assets.sh
-# Reads assets_cooked/android/sprites_new; writes build/android-assets/engine.zip (+ world ZIPs).
+# Reads assets_cooked/android/sprites_new; writes build/android-assets/index.json and packs/.
 android/build_release_apk.sh
 ```
 
-`engine.zip` has the existing flat engine-relative paths (`sprites_new/...`) and a tiny
+The engine packs keep the flat engine-relative paths (`sprites_new/...`) and a tiny
 `sprite_texture_profile.json` marker. The Android override replaces the **entire** `sprites_new`
 directory during packaging; it does not add another profile beside the desktop files. The packager
 requires exactly the installed family set, identical animation/placement metadata and byte-identical
-palette lookups across profiles, and validates all pages before writing the ZIP. Cooked
+palette lookups across profiles, and validates all pages before writing the packs. Cooked
 pages are stored without ZIP deflate because they already contain Zstandard; other normal assets
 retain their ordinary ZIP compression. Android also marks `.oyatlas` as uncompressed APK entries.
-Gradle rejects an engine ZIP without the Android profile marker.
+Gradle rejects a content index of another profile.
 
-For external Android ZIPs, pass `-Popenyamm.android.runtimeAssetsDir=/absolute/path` to Gradle. For the
+For external Android content, pass `-Popenyamm.android.runtimeAssetsDir=/absolute/path` to Gradle. For the
 repacking script, `OPENYAMM_ANDROID_ASSETS_DIR` selects its output; use the same path in Gradle.
-World ZIPs and native sprites still needed by unconverted content remain governed by their normal
+World packs and native sprites still needed by unconverted content remain governed by their normal
 asset pipeline. This change does not claim that every original bitmap across all three games is
 already superseded or removable.
 
 Installed outdoor lighting also validates hashes of its bake inputs. The packager reads those
 dependency records and includes only referenced `assets_dev/_legacy/sprites_original` files in
-`engine.zip`; omitting them breaks map loading. Unreferenced archives stay outside the release.
+the engine packs; omitting them breaks map loading. Unreferenced archives stay outside the release.
 
 ## Dependencies
 

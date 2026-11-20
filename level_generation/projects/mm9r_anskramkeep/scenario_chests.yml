@@ -1,0 +1,199 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.anskramkeep_chests
+title: 'Anskram Keep (native BLV): the seven MM9 chests open from in front of their models'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: anskramkeep.blv
+- note:
+    text: TreasureChest1 sits behind PivotTreasurePanel1, which slides up (event 70); headless picking does not see moved
+      doors, so the chest's event runs.
+- set_pose:
+    map: anskramkeep.blv
+    x: 3441
+    y: 1380
+    z: -491
+    yaw: -1.5708
+    pitch: -0.0724
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 80
+      state: open
+- execute_event:
+    id: 41
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: anskramkeep.blv
+    x: -3534
+    y: 7741
+    z: -491
+    yaw: 3.1416
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: anskramkeep.blv
+    x: 2036
+    y: 7741
+    z: -491
+    yaw: 3.1416
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: anskramkeep.blv
+    x: -3428
+    y: 4096
+    z: -491
+    yaw: 0.0
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: anskramkeep.blv
+    x: -1954
+    y: 5571
+    z: -491
+    yaw: 0.0
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: anskramkeep.blv
+    x: -2130
+    y: 5394
+    z: -491
+    yaw: -1.5708
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: anskramkeep.blv
+    x: -3604
+    y: 3920
+    z: -491
+    yaw: -1.5708
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop3: the scroll (BookLetter.scr DoLetter) on a click.'
+- set_pose:
+    map: anskramkeep.blv
+    x: -4938
+    y: 7532
+    z: -491
+    yaw: 3.1416
+    pitch: -0.3308
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop4: the scroll (BookLetter.scr DoLetter) on a click.'
+- set_pose:
+    map: anskramkeep.blv
+    x: -5010
+    y: 4255
+    z: -491
+    yaw: 3.1416
+    pitch: -0.3308
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop5: the scroll (BookLetter.scr DoLetter) on a click.'
+- set_pose:
+    map: anskramkeep.blv
+    x: 5179
+    y: 6221
+    z: -491
+    yaw: 3.1416
+    pitch: -0.3308
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop6: the scroll (BookLetter.scr DoLetter) on a click.'
+- set_pose:
+    map: anskramkeep.blv
+    x: 5138
+    y: 8842
+    z: -491
+    yaw: 3.1416
+    pitch: -0.3308
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop7: the scroll (BookLetter.scr DoLetter) on a click.'
+- set_pose:
+    map: anskramkeep.blv
+    x: 3638
+    y: 7916
+    z: -491
+    yaw: 3.1416
+    pitch: -0.5048
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog

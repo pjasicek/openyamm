@@ -1,0 +1,99 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "view": "back",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit.\nAsset type: 3D model texture-source painting (albedo), back orthographic view.\nDeliver exactly ONE 1024 x 1024 RGBA PNG with a truly transparent background, at the same resolution and framing as image 1.\n\nINPUT ROLES:\nImage 1, guide_back.png: the EDIT TARGET and absolute geometry authority. Paint directly over this exact grey orthographic render, retaining its existing alpha silhouette and all shape edges.\nImage 2, design_reference.png: approved design, colour and material authority ONLY. Do not use its camera, proportions, outline, lighting or background.\nImage 3, concept_crop.png: supporting original concept for the same surface materials ONLY.\n\nPRIMARY REQUEST:\nReplace the grey surfaces of image 1 with the materials from image 2, retaining the exact model as viewed from the BACK. This is a registered surface painting, not a new design or a new render. Keep the guide's exact outline, size, position, asymmetry, spikes, horn tips, lattice members, opening boundaries, internal gaps, arched recesses, faceted edges and detail positions. The full object occupies the same pixels as the guide (approximately x=142..881 and y=66..957 in the 1024-square canvas). Preserve every transparent hole and the transparent lower arch. Do not move, stretch, reframe, crop, add or remove any shape; do not convert to the three-quarter front view.\n\nMATERIALS:\nPaint the existing lattice ribs and chitin in rich black-violet / dark aubergine resin; paint the existing arched sacs and enclosed panels in saturated glowing orange and amber; paint the existing central spike and corresponding large outer bone horns in warm ivory bone with the subtle gold-brown organic detailing shown in the design. Convey polished resin through its surface colour and fine texture, with no strong specular marks. Recessed surfaces and cavities must remain readable and flat-lit. Add surface colour detail only, never new ribs, holes or geometry. Preserve the guide's low-poly geometric edges exactly.\n\nLIGHTING:\nUnlit base-colour / albedo texture source. Even, flat, shadowless illumination from the viewer across every visible surface. No cast shadows, no ambient-occlusion darkening, no baked directional shading, no strong specular highlights or reflections, no rim light. Orange sacs and seams have their glowing colour painted into them, with no light cast on nearby resin or bone and no bloom or halo. Do not reproduce the dramatic studio lighting of image 2.\n\nBACKGROUND:\nGenuine alpha transparency everywhere outside the exact guide silhouette and in its open gaps. No black or coloured backdrop, no checkerboard painted into the image, no floor, no environmental scene, no text. Return the full 1024 x 1024 image without resizing.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "d5ad2d4ff30352e86e3180a73d79b4eee4487c0f1c9191ffd373aeba5a08e2e5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: raw return is 1254x1254 rather than 1024x1024, changes guide edges and adds internal geometry, with strong baked highlights.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "silhouette_identical": false,
+        "materials_colours_match": "Palette matches; shape/material boundaries have drifted.",
+        "flat_even_light": false,
+        "transparent_background": true
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16898-bae8-7922-94fd-a0b4c56112e5/exec-c8b06059-c796-4974-93e5-d18dc8aae367.png",
+      "output_sha256": "158485232a108b666cc20026ff1cc2e60f8171197fd3b3b90f901c0f44d264db"
+    },
+    {
+      "view": "back",
+      "prompt": "Edit image 1 (guide_back.png) in place. Output exactly 1024 x 1024 pixels, PNG RGBA, transparent background. This precise pixel size is a deliverable requirement. Keep the entire original 1024-square canvas unchanged.\n\nImage 1 is the exact back-view model geometry and alpha mask. Image 2 (design_reference.png) is ONLY a material and colour reference. Image 3 (concept_crop.png) is supporting colour reference. Paint colours onto the surfaces of image 1 without redesigning or redrawing any geometry. Preserve every existing faceted shape, edge, opening and silhouette pixel at its exact original position. Retain the transparent cutouts. Keep the central spike tip at approximately (513,66), the leftmost silhouette at x142, the rightmost at x881 and the bottom at y957. No resizing, reframing, extra ribs, extra spikes, extra arches, or additional openings.\n\nPaint the existing resin/chitin lattice in black-violet and dark aubergine, the existing enclosed sacs/arched panels in saturated glowing orange/amber, and the existing central spire and large bone horns in warm ivory. Use fine material colour texture from image 2, constrained to existing shapes. Do not borrow image 2's camera or architecture.\n\nCritical correction: the previous attempt was 1254-square and changed geometry, added many openings and used strong shiny highlights. Deliver 1024-square this time, retaining image 1's EXACT silhouette and simple existing surface structure. This must look like image 1 with only grey surface colours replaced. Preserve the actual guide geometry even where it is simpler than the design reference.\n\nTEXTURE SOURCE ALBEDO: uniformly lit flat base colours, no directional shading, no ambient-occlusion darkening, no shadows, no white specular dots, no reflections, no rim lighting. The resin material is naturally glossy but its gloss is NOT baked as lighting into this albedo image. Orange panels carry bright orange pigment only; no light spill, glow halos or bloom. Fully opaque object interiors with smoothly antialiased boundaries and alpha=0 outside the original guide silhouette. No background, floor, text or checkerboard.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "d5ad2d4ff30352e86e3180a73d79b4eee4487c0f1c9191ffd373aeba5a08e2e5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two raw returns: simpler painted structures and less intense glow than attempt 1. NOT accepted as fully brief-compliant: still 1254x1254, silhouette and internal edges differ from the guide, and baked highlights/shading remain. The single permitted corrective generation is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16898-bae8-7922-94fd-a0b4c56112e5/exec-785ee925-2e8a-4d40-8c9b-3146107e15ef.png",
+      "output_sha256": "e87bcc52b9d2b1142ca854357c418cff1e8482b27448a7848be559d36ed64131",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "materials_colours_match": "Violet resin, orange sacs and ivory bone palette matches broadly; some material assignments and internal details deviate.",
+        "flat_even_light": false,
+        "lighting_notes": "Reduced glow versus attempt 1, but resin highlights and crevice shading remain.",
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1148384,
+        "alpha_ge_128_bbox": [
+          171,
+          73,
+          1083,
+          1177
+        ],
+        "transparency_notes": "Contains genuine transparency. Object pixels are mostly alpha 252-253, with faint semitransparent edge pixels outside the main silhouette.",
+        "unresized_return": true
+      }
+    }
+  ],
+  "status": "incomplete_requirements_not_met",
+  "corrective_regenerations": 1,
+  "postprocessing": "None. Both outputs are byte-identical copies of the built-in tool returns; no resizing or masking."
+}

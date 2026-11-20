@@ -1,0 +1,149 @@
+# Kite roosts replacing the pass and Crown-road turrets: both clearance bits persist after reload.
+# The historical scenario filename remains registered in the shared regression queue; no turret shields or autonote.
+id: hesper.out3.brood_turrets
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out3.odm
+- assert:
+    qbit_clear:
+    - 100501
+    - 100502
+- damage_actor:
+    actor_index: 0
+    amount: 100000
+- damage_actor:
+    actor_index: 1
+    amount: 100000
+- damage_actor:
+    actor_index: 73
+    amount: 100000
+- damage_actor:
+    actor_index: 74
+    amount: 100000
+- damage_actor:
+    actor_index: 2
+    amount: 100000
+- damage_actor:
+    actor_index: 3
+    amount: 100000
+- damage_actor:
+    actor_index: 75
+    amount: 100000
+- damage_actor:
+    actor_index: 76
+    amount: 100000
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_visible:
+      actor_index: 0
+      dead: true
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 1
+      dead: true
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 73
+      dead: true
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 74
+      dead: true
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 2
+      dead: true
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 3
+      dead: true
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 75
+      dead: true
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 76
+      dead: true
+      report_state: true
+- load_map:
+    map: hes_out3.odm
+- assert:
+    qbit_set:
+    - 100501
+    qbit_clear:
+    - 100502
+- assert:
+    actor_visible:
+      actor_index: 0
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 1
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 73
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 74
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 2
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 3
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 75
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 76
+      dead: true
+- damage_actor:
+    actor_index: 4
+    amount: 100000
+- damage_actor:
+    actor_index: 5
+    amount: 100000
+- damage_actor:
+    actor_index: 77
+    amount: 100000
+- damage_actor:
+    actor_index: 78
+    amount: 100000
+- damage_actor:
+    actor_index: 6
+    amount: 100000
+- damage_actor:
+    actor_index: 7
+    amount: 100000
+- damage_actor:
+    actor_index: 79
+    amount: 100000
+- damage_actor:
+    actor_index: 80
+    amount: 100000
+- advance_runtime:
+    seconds: 3
+- load_map:
+    map: hes_out3.odm
+- assert:
+    qbit_set:
+    - 100501
+    - 100502

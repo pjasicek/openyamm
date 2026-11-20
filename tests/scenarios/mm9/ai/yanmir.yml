@@ -1,0 +1,38 @@
+id: mm9.ai.yanmir
+title: MM9 Yanmir - hunting Ice Lobbercicles, the shoe wipe, physical immunity, the party's 45 s chase limit
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, boss]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Yanmir's first bug search comes 3 s after he starts: a random Ice
+        Lobbercicle within 500 LT (15 s chase limit); he squashes it and wipes his shoe, and 3 s after it the search
+        goes on. A physical hit does nothing; he answers no alert. At 24 s the party stands in front of him.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: yanmir.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - damage_actor: {actor_index: last-2, amount: 500, tier: physical, expect: refused}
+  - advance_runtime: {seconds: 4}
+  - set_pose: {map: thearena.blv, x: 0, y: 150, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 6}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: "bug actor:", after: 3, before: 3.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: chase_limit 15, min_count: 1}
+  # His shots squash it (a script's target is no friend of its shots), and the second bug comes 3-5 s later.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, detail: dead, target: actor:6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: "bug actor:7 of 1", min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: wipe, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: alert, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, event: damaged, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: target party chase_limit 45, after: 24, min_count: 1}

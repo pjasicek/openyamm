@@ -52,12 +52,8 @@ public:
         const bx::Vec3 &cameraPosition,
         const ViewFrustum &frustum,
         const WaterRenderer::Reflection *pReflection = nullptr);
-    static void renderRuntimeWorldItems(
-        OutdoorGameView &view,
-        uint16_t viewId,
-        const float *pViewMatrix,
-        const bx::Vec3 &cameraPosition,
-        const ViewFrustum &frustum);
+    // Hover and context-action outlines of the item models on the ground.
+    static void outlineRuntimeWorldItems(OutdoorGameView &view, const float *pViewMatrix);
     static void renderRuntimeProjectiles(
         OutdoorGameView &view,
         uint16_t viewId,

@@ -1,0 +1,38 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- capture: five-gameplay
+- right_down:
+  - 950
+  - 802
+- click:
+  - 950
+  - 802
+- right_up:
+  - 950
+  - 802
+- capture: selected-fourth
+- right_down:
+  - 554
+  - 869
+- click:
+  - 554
+  - 869
+- right_up:
+  - 554
+  - 869
+- capture: personal-buffs
+- right_down:
+  - 554
+  - 869
+- click:
+  - 554
+  - 869
+- right_up:
+  - 554
+  - 869
+- action: quest
+- wait: 0.5
+- capture: inventory-retained
+- key: Escape

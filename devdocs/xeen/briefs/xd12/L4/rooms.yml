@@ -1,0 +1,1931 @@
+format: 0
+themes:
+  - id: theme:darzog
+    wall: {texture: cnb, size: [128, 256]}
+    floor: {texture: tfb03, size: [128, 128]}
+    ceiling: {texture: t4s1fl, size: [128, 128]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "Darzog's floor (2304): Castle Gloaming's state rooms: keep stone with its portraits cnbport, banners necro-a/b and the tapestry tap10, the inlaid rug tfb1r4 in the hall."
+  - id: theme:gate
+    wall: {texture: cnb, size: [128, 256]}
+    floor: {texture: tfb03, size: [128, 128]}
+    ceiling: {texture: t4s1fl, size: [128, 128]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "Gate floor (0): Castle Gloaming (MM7 d03) as that map lays it: grey keep stone cnb on the walls, its green-black blocks t4s1fl overhead, its rusty flags tfb03 underfoot, brick cwb in the doorways, plank leaves 7trimd."
+  - id: theme:library
+    wall: {texture: twb2, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: tfb2, size: [128, 128]}
+    reveal: {texture: 7t1s2b, size: [128, 256]}
+    door: {texture: hhm1d2, size: [128, 256]}
+    notes: "The library (1536): the School of Sorcery (MM7 7d14) as it lays it: block walls twb2, flags 7tfb1, plaster ceilings tfb2, its carved doors hhm1d2, bookcases 7t1books, its cracked flags c1t1fl (the trapdoors' tell) and its summoning circle td1."
+  - id: theme:outside
+    wall: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    floor: {texture: 7grastyl, size: [128, 128]}
+    ceiling: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    reveal: {texture: cnb, size: [128, 256]}
+    notes: "Outside the keep (seen, never walked): the keep's outer wall in Gloaming's stone, the island's grass (7grastyl), Lake Darzog (7wtrtyl), the open sky beyond."
+  - id: theme:roof
+    wall: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    floor: {texture: tfb03, size: [128, 128]}
+    ceiling: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    reveal: {texture: cnb, size: [128, 256]}
+    notes: "The roof: Gloaming's flags under the open sky; every wall a parapet of keep stone (the band) with sky above it."
+  - id: theme:shaft
+    wall: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    reveal: {texture: cwb, size: [128, 256]}
+    notes: "The Well: Gloaming's keep stone from the gate floor to the sky, brick courses (cwb) at every floor, open to the sky above the roof."
+  - id: theme:sky_stair
+    wall: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    floor: {texture: tfb03, size: [128, 128]}
+    ceiling: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "The sky stair: Darzog's floor's keep stone (the band, up to the roof's parapet) under the open sky."
+  - id: theme:works
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: t4s1fl, size: [128, 128]}
+    reveal: {texture: cnb, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "The construct works (768): Castle Gloaming's red rock cwb1 (its lower halls' walls and ceilings), red granite cfb1 floors, the same ceiling blocks; lava channels as Gloaming has them."
+defaults: {theme: theme:gate, ambient: 16}
+rooms:
+  - id: room:assembly
+    name: Assembly hall
+    outline: [[-1792, -3072], [1792, -3072], [1792, -1920], [-1792, -1920]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+    platforms:
+      - {at: [-1152, -2944], size: [512, 96], rise: 256, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A rack of iron limbs along the south wall.}
+      - {at: [-384, -2944], size: [512, 96], rise: 256, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A rack of iron limbs along the south wall.}
+      - {at: [384, -2944], size: [512, 96], rise: 256, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A rack of iron limbs along the south wall.}
+      - {at: [1152, -2944], size: [512, 96], rise: 256, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A rack of iron limbs along the south wall.}
+    ambient: 14
+  - id: room:bedchamber
+    name: Darzog's bedchamber
+    outline: [[1920, 1920], [3072, 1920], [3072, 2432], [2432, 2432], [2432, 3072], [1920, 3072]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 192, length: 128, bottom: 64, height: 256, surface: {texture: tap10, size: [128, 256]}, notes: Tapestry.}
+    platforms:
+      - {at: [2176, 2880], size: [256, 256], rise: 56, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: Darzog's bed.}
+    ambient: 22
+    notes: "L-shaped round the secret cell in the tower's north-east corner; the portrait on its north wall is the cell's door."
+  - id: room:cells
+    name: Cells
+    outline: [[-3072, -3072], [-1920, -3072], [-1920, -1920], [-3072, -1920]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    ambient: 20
+  - id: room:cistern
+    name: Cistern
+    outline: [[-1792, -3072], [1792, -3072], [1792, -1920], [-1792, -1920]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    levels:
+      - id: level:cistern
+        outline: [[-1024, -2752], [1024, -2752], [1024, -2240], [-1024, -2240]]
+        floor: -160
+        edge: {texture: cwb, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The cistern: water 160 down, walked round."
+  - id: room:cloister_e
+    name: East cloister
+    outline: [[1024, -1024], [1792, -1024], [1792, 1792], [1024, 1792]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    ambient: 14
+  - id: room:cloister_n
+    name: North cloister
+    outline: [[-1792, 1024], [1024, 1024], [1024, 1792], [-1792, 1792]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+  - id: room:cloister_s
+    name: South cloister
+    outline: [[-1024, -1792], [1792, -1792], [1792, -1024], [-1024, -1024]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+  - id: room:cloister_w
+    name: West cloister
+    outline: [[-1792, -1792], [-1024, -1792], [-1024, 1024], [-1792, 1024]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+  - id: room:clone_vats
+    name: Clone vats
+    outline: [[1920, -3072], [3072, -3072], [3072, -1920], [1920, -1920]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+    platforms:
+      - {at: [2240, -2240], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+      - {at: [2752, -2240], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+      - {at: [2240, -2752], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+      - {at: [2752, -2752], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+    ambient: 16
+  - id: room:crodo_cell
+    name: Crodo's cell
+    outline: [[2560, 2560], [3072, 2560], [3072, 3072], [2560, 3072]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+    platforms:
+      - {at: [2752, 2752], size: [96, 96], rise: 40, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A stool.}
+    ambient: 20
+    notes: "The secret room: a bare cell 512 square behind Darzog's portrait, where Crodo has sat since he vanished."
+  - id: room:crypt
+    name: Crypt of the apprentices
+    outline: [[-3072, 1920], [-1920, 1920], [-1920, 3072], [-3072, 3072]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    platforms:
+      - {at: [-2752, 2176], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
+      - {at: [-2432, 2176], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
+      - {at: [-2112, 2176], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
+      - {at: [-2752, 2880], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
+      - {at: [-2432, 2880], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
+    ambient: 20
+  - id: room:darzog_hall
+    name: Darzog's hall
+    outline: [[-1792, 1920], [1792, 1920], [1792, 3072], [-1792, 3072]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+    walls:
+      - wall: n
+        panels:
+          - {offset: 192, length: 128, bottom: 96, height: 256, surface: {texture: necro-a, size: [128, 256]}, notes: Banner.}
+      - wall: s
+        panels:
+          - {offset: 1856, length: 128, bottom: 96, height: 256, surface: {texture: necro-b, size: [128, 256]}, notes: Banner.}
+      - wall: e
+        panels:
+          - {at: centre, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-2, size: [128, 256]}, notes: The Baron's portrait.}
+    platforms:
+      - {at: [1536, 2496], size: [128, 192], rise: 192, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: tfb1r4a, size: [128, 128]}, notes: Darzog's chair of red stone on the dais.}
+      - {id: platform:rug_0, at: [-1280, 2496], size: [512, 384], rise: 4, surface: {texture: tfb1r4j, size: [64, 64]}, top_surface: {texture: tfb1r4i, size: [64, 64]}, notes: A length of the inlaid rug (Castle Gloaming's tfb1r4).}
+      - {id: platform:rug_1, at: [-640, 2496], size: [512, 384], rise: 4, surface: {texture: tfb1r4j, size: [64, 64]}, top_surface: {texture: tfb1r4i, size: [64, 64]}, notes: A length of the inlaid rug (Castle Gloaming's tfb1r4).}
+      - {id: platform:rug_2, at: [0, 2496], size: [512, 384], rise: 4, surface: {texture: tfb1r4j, size: [64, 64]}, top_surface: {texture: tfb1r4i, size: [64, 64]}, notes: A length of the inlaid rug (Castle Gloaming's tfb1r4).}
+      - {id: platform:rug_3, at: [640, 2496], size: [512, 384], rise: 4, surface: {texture: tfb1r4j, size: [64, 64]}, top_surface: {texture: tfb1r4i, size: [64, 64]}, notes: A length of the inlaid rug (Castle Gloaming's tfb1r4).}
+    levels:
+      - id: level:dais
+        outline: [[1216, 2176], [1664, 2176], [1664, 2816], [1216, 2816]]
+        floor: 2368
+        edge: {texture: ckb, size: [128, 256]}
+        surface: {texture: tfb03, size: [128, 128]}
+        notes: The Baron's dais at the east end.
+    ceiling_levels:
+      - outline: [[-1536, 2176], [1536, 2176], [1536, 2816], [-1536, 2816]]
+        ceiling: 3040
+        edge: {texture: cwb, size: [128, 256]}
+        notes: A raised coffer over the length of the hall.
+    ambient: 20
+  - id: room:darzog_study
+    name: Darzog's study
+    outline: [[-3072, 1920], [-1920, 1920], [-1920, 3072], [-3072, 3072]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+    walls:
+      - wall: n
+        panels:
+          - {at: centre, length: 768, height: 512, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcases.}
+    platforms:
+      - {at: [-2496, 2560], size: [384, 192], rise: 80, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Darzog's desk.}
+      - {id: platform:journal, at: [-2560, 2560], size: [96, 64], rise: 16, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books, size: [128, 256]}, base: 80, notes: "Darzog's journal, open on the desk."}
+    ambient: 20
+  - id: room:east_stair
+    name: East stair hall
+    outline: [[1920, -1792], [3072, -1792], [3072, 1792], [1920, 1792]]
+    floor: 768
+    ceiling: 2176
+    theme: theme:works
+    platforms:
+      - {id: platform:east_stair_gallery, rise: 32, outline: [[1920, -1792], [3072, -1792], [3072, -1152], [2304, -1152], [2304, 1792], [1920, 1792]], base: 736, notes: "The hanging gallery at the upper floor, along the end the stair rises to and the inner wall."}
+    flights:
+      - {from: [2816, 1408], to: [2816, -1152], open_below: 32, to_height: 1536, width: 384, steps: 24, notes: "One long flight up the outer wall, 24 steps of 32, open underneath."}
+    ambient: 14
+    notes: "The works to the library (768 to 1536): the flight up the east wall rises south to a gallery across the south end and along the west wall."
+  - id: room:forge
+    name: Forge of the Hands
+    outline: [[-1792, 1920], [1792, 1920], [1792, 3072], [-1792, 3072]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+    platforms:
+      - {at: [-1024, 2304], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
+      - {at: [-384, 2304], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
+      - {at: [384, 2304], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
+    levels:
+      - id: level:forge_lava
+        outline: [[-1536, 2752], [1536, 2752], [1536, 2944], [-1536, 2944]]
+        floor: 672
+        edge: {texture: cwb1, size: [128, 256]}
+        surface: {texture: lava, size: [256, 256], liquid: lava, flow: left}
+        notes: "The lava channel along the north wall, a step down: it burns."
+    ambient: 12
+  - id: room:gate_hall
+    name: Gate hall
+    outline: [[1920, -1792], [3072, -1792], [3072, 1792], [1920, 1792]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    walls:
+      - wall: e
+        panels:
+          - {at: centre, length: 128, height: 256, surface: {texture: 7trimd, size: [128, 256]}, notes: "Behind the tower door's exit face: the door's own planks, so it lies on one face."}
+    platforms:
+      - {at: [2944, -1280], size: [96, 384], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A bench along the east wall.}
+      - {at: [2944, 1280], size: [96, 384], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A bench along the east wall.}
+    ambient: 16
+  - id: room:great_library
+    name: Great library
+    outline: [[-1792, -3072], [1792, -3072], [1792, -1920], [-1792, -1920]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    platforms:
+      - {at: [-1024, -2304], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [0, -2304], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [-1024, -2752], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [0, -2752], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [1152, -2304], size: [384, 192], rise: 80, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The Chief Librarian's desk.}
+      - {id: platform:lectern_accuracy, at: [1600, -2752], size: [64, 128], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Accuracy."}
+    ambient: 18
+  - id: room:guard_hall
+    name: Guard hall
+    outline: [[-3072, -3072], [-1920, -3072], [-1920, -1920], [-3072, -1920]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+    platforms:
+      - {at: [-2752, -2976], size: [384, 96], rise: 256, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A weapon rack.}
+      - {at: [-2240, -2976], size: [384, 96], rise: 256, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A weapon rack.}
+  - id: room:guardroom
+    name: Guardroom
+    outline: [[1920, 1920], [3072, 1920], [3072, 3072], [1920, 3072]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    platforms:
+      - {at: [2496, 2496], size: [384, 192], rise: 72, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: Guards' table.}
+  - id: room:hall_of_hands
+    name: Hall of Hands
+    outline: [[-1792, 1920], [1792, 1920], [1792, 3072], [-1792, 3072]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    platforms:
+      - {id: platform:plinth_00, at: [-1408, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_01, at: [-704, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_02, at: [0, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_03, at: [704, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_04, at: [1408, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_10, at: [-1408, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_11, at: [-704, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_12, at: [0, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_13, at: [704, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_14, at: [1408, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+    ambient: 16
+  - id: room:library_e
+    name: East reading walk
+    outline: [[1024, -1024], [1792, -1024], [1792, 1792], [1024, 1792]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:warning_note, offset: 1120, length: 64, bottom: 128, height: 128, surface: {texture: t2bedsht, size: [128, 256], scale: 0.5}, notes: "An apprentice's note pinned to the wall at the head of the east stair (stand-in: the sheet t2bedsht; a parchment note is to be generated)."}
+  - id: room:library_n
+    name: North reading walk
+    outline: [[-1792, 1024], [1024, 1024], [1024, 1792], [-1792, 1792]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    walls:
+      - wall: n
+        panels:
+          - {offset: 256, length: 768, height: 448, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcases along the walk.}
+  - id: room:library_s
+    name: South reading walk
+    outline: [[-1024, -1792], [1792, -1792], [1792, -1024], [-1024, -1024]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    walls:
+      - wall: s
+        panels:
+          - {offset: 256, length: 768, height: 448, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcases along the walk.}
+  - id: room:library_stair
+    name: Library stair hall
+    outline: [[-3072, -1792], [-1920, -1792], [-1920, 1792], [-3072, 1792]]
+    floor: 1536
+    ceiling: 2944
+    theme: theme:library
+    platforms:
+      - {id: platform:library_stair_gallery, rise: 32, outline: [[-3072, -1792], [-1920, -1792], [-1920, 1792], [-2304, 1792], [-2304, -1152], [-3072, -1152]], base: 736, notes: "The hanging gallery at the upper floor, along the end the stair rises to and the inner wall."}
+    flights:
+      - {from: [-2816, 1408], to: [-2816, -1152], open_below: 32, to_height: 2304, width: 384, steps: 24, notes: "One long flight up the outer wall, 24 steps of 32, open underneath."}
+    ambient: 16
+    notes: "The library to Darzog's floor (1536 to 2304): the flight up the west wall rises south to a gallery across the south end and along the east wall."
+  - id: room:library_w
+    name: West reading walk
+    outline: [[-1792, -1792], [-1024, -1792], [-1024, 1024], [-1792, 1024]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+  - id: room:out_e
+    name: "Island and lake, east"
+    outline: [[3328, 16384], [3328, -3328], [16384, -3328], [16384, 16384]]
+    floor: 0
+    floor_points: [[3328, 16384, -64], [16384, 16384, -64], [16384, -3328, -64], [3328, 3712, 0], [3712, 3712, 0], [3712, -3328, 0], [3328, 3840, -64], [3840, 3840, -64], [3840, -3328, -64]]
+    floor_lines:
+      - [[3328, 3712], [3712, 3712], [3712, -3328]]
+      - [[3328, 3840], [3840, 3840], [3840, -3328]]
+    floor_surfaces:
+      - {at: [6400, 0], surface: {texture: 7wtrtyl, liquid: water}}
+      - {steeper_than: 0.1, surface: {texture: 7dirt1, size: [128, 128]}}
+    ceiling: 4224
+    theme: theme:outside
+    walls:
+      - wall: 2
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+      - wall: 3
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+    bands:
+      - {height: 3200, surface: {texture: cnb, size: [128, 256]}}
+    ambient: 0
+    notes: "Seen from the windows and the roof, never walked: the island's grass at the keep's foot, a muddy bank, and Lake Darzog beyond under the open sky. A fall from the keep lands here and leaves the map for X2."
+  - id: room:out_n
+    name: "Island and lake, north"
+    outline: [[-16384, 3328], [3328, 3328], [3328, 16384], [-16384, 16384]]
+    floor: 0
+    floor_points: [[-16384, 3328, -64], [-16384, 16384, -64], [3328, 16384, -64], [-3712, 3328, 0], [-3712, 3712, 0], [3328, 3712, 0], [-3840, 3328, -64], [-3840, 3840, -64], [3328, 3840, -64]]
+    floor_lines:
+      - [[-3712, 3328], [-3712, 3712], [3328, 3712]]
+      - [[-3840, 3328], [-3840, 3840], [3328, 3840]]
+    floor_surfaces:
+      - {at: [0, 6400], surface: {texture: 7wtrtyl, liquid: water}}
+      - {steeper_than: 0.1, surface: {texture: 7dirt1, size: [128, 128]}}
+    ceiling: 4224
+    theme: theme:outside
+    walls:
+      - wall: 2
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+      - wall: 3
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+    bands:
+      - {height: 3200, surface: {texture: cnb, size: [128, 256]}}
+    ambient: 0
+    notes: "Seen from the windows and the roof, never walked: the island's grass at the keep's foot, a muddy bank, and Lake Darzog beyond under the open sky. A fall from the keep lands here and leaves the map for X2."
+  - id: room:out_s
+    name: "Island and lake, south"
+    outline: [[16384, -3328], [-3328, -3328], [-3328, -16384], [16384, -16384]]
+    floor: 0
+    floor_points: [[16384, -3328, -64], [16384, -16384, -64], [-3328, -16384, -64], [3712, -3328, 0], [3712, -3712, 0], [-3328, -3712, 0], [3840, -3328, -64], [3840, -3840, -64], [-3328, -3840, -64]]
+    floor_lines:
+      - [[3712, -3328], [3712, -3712], [-3328, -3712]]
+      - [[3840, -3328], [3840, -3840], [-3328, -3840]]
+    floor_surfaces:
+      - {at: [0, -6400], surface: {texture: 7wtrtyl, liquid: water}}
+      - {steeper_than: 0.1, surface: {texture: 7dirt1, size: [128, 128]}}
+    ceiling: 4224
+    theme: theme:outside
+    walls:
+      - wall: 2
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+      - wall: 3
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+    bands:
+      - {height: 3200, surface: {texture: cnb, size: [128, 256]}}
+    platforms:
+      - {id: platform:lake_balcony, rise: 32, surface: {texture: cnb, size: [128, 256]}, outline: [[-160, -3712], [160, -3712], [160, -3328], [-160, -3328]], top_surface: {texture: tfb03, size: [128, 128]}, bottom_surface: {texture: cnb, size: [128, 256]}, base: 3040, notes: "A balcony of stone 320 wide hanging 384 out from the south battlement, railed on three sides: from its rail the island, its trees and Lake Darzog lie 3,000 below."}
+      - {rise: 48, surface: {texture: cnb, size: [128, 256]}, outline: [[-160, -3712], [-144, -3712], [-144, -3328], [-160, -3328]], top_surface: {texture: cnb, size: [128, 256]}, base: 3072, notes: Rail of the balcony.}
+      - {rise: 48, surface: {texture: cnb, size: [128, 256]}, outline: [[144, -3712], [160, -3712], [160, -3328], [144, -3328]], top_surface: {texture: cnb, size: [128, 256]}, base: 3072, notes: Rail of the balcony.}
+      - {rise: 48, surface: {texture: cnb, size: [128, 256]}, outline: [[-144, -3712], [144, -3712], [144, -3696], [-144, -3696]], top_surface: {texture: cnb, size: [128, 256]}, base: 3072, notes: Rail of the balcony.}
+    ambient: 0
+    notes: "Seen from the windows and the roof, never walked: the island's grass at the keep's foot, a muddy bank, and Lake Darzog beyond under the open sky. A fall from the keep lands here and leaves the map for X2."
+  - id: room:out_w
+    name: "Island and lake, west"
+    outline: [[-3328, -16384], [-3328, 3328], [-16384, 3328], [-16384, -16384]]
+    floor: 0
+    floor_points: [[-3328, -16384, -64], [-16384, -16384, -64], [-16384, 3328, -64], [-3328, -3712, 0], [-3712, -3712, 0], [-3712, 3328, 0], [-3328, -3840, -64], [-3840, -3840, -64], [-3840, 3328, -64]]
+    floor_lines:
+      - [[-3328, -3712], [-3712, -3712], [-3712, 3328]]
+      - [[-3328, -3840], [-3840, -3840], [-3840, 3328]]
+    floor_surfaces:
+      - {at: [-6400, 0], surface: {texture: 7wtrtyl, liquid: water}}
+      - {steeper_than: 0.1, surface: {texture: 7dirt1, size: [128, 128]}}
+    ceiling: 4224
+    theme: theme:outside
+    walls:
+      - wall: 2
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+      - wall: 3
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+        bands: false
+    bands:
+      - {height: 3200, surface: {texture: cnb, size: [128, 256]}}
+    ambient: 0
+    notes: "Seen from the windows and the roof, never walked: the island's grass at the keep's foot, a muddy bank, and Lake Darzog beyond under the open sky. A fall from the keep lands here and leaves the map for X2."
+  - id: room:parts_store
+    name: Parts store
+    outline: [[1920, -3072], [3072, -3072], [3072, -1920], [1920, -1920]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+  - id: room:portrait_hall
+    name: Portrait hall
+    outline: [[-1792, -3072], [1792, -3072], [1792, -1920], [-1792, -1920]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+    walls:
+      - wall: n
+        panels:
+          - {offset: 256, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-1, size: [128, 256]}, notes: A portrait.}
+          - {offset: 768, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-2, size: [128, 256]}, notes: A portrait.}
+          - {offset: 1280, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-3, size: [128, 256]}, notes: A portrait.}
+          - {offset: 2176, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-4, size: [128, 256]}, notes: A portrait.}
+          - {offset: 2688, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-1, size: [128, 256]}, notes: A portrait.}
+          - {offset: 3200, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-2, size: [128, 256]}, notes: A portrait.}
+      - wall: s
+        panels:
+          - {offset: 512, length: 128, bottom: 96, height: 256, surface: {texture: tap10, size: [128, 256]}}
+          - {offset: 1536, length: 128, bottom: 96, height: 256, surface: {texture: necro-a, size: [128, 256]}}
+          - {offset: 2432, length: 128, bottom: 96, height: 256, surface: {texture: necro-b, size: [128, 256]}}
+    ambient: 20
+  - id: room:quarters
+    name: Apprentices' quarters
+    outline: [[-3072, -3072], [-1920, -3072], [-1920, -1920], [-3072, -1920]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+    platforms:
+      - {at: [-2880, -2112], size: [256, 128], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: An apprentice's bed.}
+      - {at: [-2880, -2624], size: [256, 128], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: An apprentice's bed.}
+      - {at: [-2112, -2880], size: [128, 256], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: An apprentice's bed.}
+      - {at: [-2432, -2880], size: [128, 256], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: An apprentice's bed.}
+      - {at: [-2304, -2304], size: [256, 192], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A table.}
+  - id: room:reading_room
+    name: Reading room
+    outline: [[-1792, 1920], [1792, 1920], [1792, 3072], [-1792, 3072]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    walls:
+      - wall: n
+        panels:
+          - {offset: 128, length: 512, height: 512, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcase.}
+          - {at: centre, length: 768, height: 512, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcases.}
+    platforms:
+      - {at: [-768, 2304], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
+      - {at: [0, 2304], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
+      - {at: [768, 2304], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
+      - {id: platform:lectern_speed, at: [-1600, 2496], size: [64, 128], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Speed."}
+    ambient: 18
+  - id: room:roof_e
+    name: "Roof, east"
+    outline: [[1024, -1024], [1920, -1024], [1920, 1024], [1024, 1024], [1024, 528], [912, 528], [912, -528], [1024, -528]]
+    floor: 3072
+    ceiling: 4224
+    theme: theme:roof
+    bands:
+      - {height: 128, surface: {texture: cnb, size: [128, 256]}}
+    ambient: 24
+    notes: "The roof reaches over the keep's outer wall to 32 short of the open air, and to 16 short of the Well's four flat faces, so its parapets are thin and the party can look down over them."
+  - id: room:roof_n
+    name: "Roof, north"
+    outline: [[-3296, 1024], [-528, 1024], [-528, 912], [528, 912], [528, 1024], [1920, 1024], [1920, 1792], [3296, 1792], [3296, 3296], [-3296, 3296]]
+    floor: 3072
+    ceiling: 4224
+    theme: theme:roof
+    bands:
+      - {height: 128, surface: {texture: cnb, size: [128, 256]}}
+    platforms:
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3168, 3262], [-3040, 3262], [-3040, 3294], [-3168, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-2784, 3262], [-2656, 3262], [-2656, 3294], [-2784, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-2400, 3262], [-2272, 3262], [-2272, 3294], [-2400, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-2016, 3262], [-1888, 3262], [-1888, 3294], [-2016, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-1632, 3262], [-1504, 3262], [-1504, 3294], [-1632, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-1248, 3262], [-1120, 3262], [-1120, 3294], [-1248, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-864, 3262], [-736, 3262], [-736, 3294], [-864, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-480, 3262], [-352, 3262], [-352, 3294], [-480, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-96, 3262], [32, 3262], [32, 3294], [-96, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[288, 3262], [416, 3262], [416, 3294], [288, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[672, 3262], [800, 3262], [800, 3294], [672, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[1056, 3262], [1184, 3262], [1184, 3294], [1056, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[1440, 3262], [1568, 3262], [1568, 3294], [1440, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[1824, 3262], [1952, 3262], [1952, 3294], [1824, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[2208, 3262], [2336, 3262], [2336, 3294], [2208, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[2592, 3262], [2720, 3262], [2720, 3294], [2592, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[2976, 3262], [3104, 3262], [3104, 3294], [2976, 3294]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, 1152], [-3262, 1152], [-3262, 1280], [-3294, 1280]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, 1536], [-3262, 1536], [-3262, 1664], [-3294, 1664]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, 1920], [-3262, 1920], [-3262, 2048], [-3294, 2048]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, 2304], [-3262, 2304], [-3262, 2432], [-3294, 2432]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, 2688], [-3262, 2688], [-3262, 2816], [-3294, 2816]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, 1920], [3294, 1920], [3294, 2048], [3262, 2048]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, 2304], [3294, 2304], [3294, 2432], [3262, 2432]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, 2688], [3294, 2688], [3294, 2816], [3262, 2816]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {at: [0, 2240], size: [384, 128], rise: 32, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {at: [0, 2368], size: [384, 128], rise: 64, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {at: [0, 2496], size: [384, 128], rise: 96, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {at: [0, 2624], size: [384, 128], rise: 128, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {id: platform:cloud_top, at: [0, 2752], size: [384, 128], rise: 160, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: "The cloud stair: white steps of cloud climbing toward the sky."}
+    ambient: 24
+    notes: "The roof reaches over the keep's outer wall to 32 short of the open air, and to 16 short of the Well's four flat faces, so its parapets are thin and the party can look down over them."
+  - id: room:roof_s
+    name: "Roof, south"
+    outline: [[-3296, -3296], [3296, -3296], [3296, -1792], [1920, -1792], [1920, -1024], [528, -1024], [528, -912], [-528, -912], [-528, -1024], [-3296, -1024]]
+    floor: 3072
+    ceiling: 4224
+    theme: theme:roof
+    bands:
+      - {height: 128, surface: {texture: cnb, size: [128, 256]}}
+    platforms:
+      - {rise: 64, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -3294], [-160, -3294], [-160, -3262], [-3294, -3262]], top_surface: {texture: cnb, size: [128, 256]}, notes: "The south parapet (a block: the battlement is open above the roof here), broken by the way onto the balcony."}
+      - {rise: 64, surface: {texture: cnb, size: [128, 256]}, outline: [[160, -3294], [3294, -3294], [3294, -3262], [160, -3262]], top_surface: {texture: cnb, size: [128, 256]}, notes: "The south parapet, east of the balcony."}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-3168, -3294], [-3040, -3294], [-3040, -3262], [-3168, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-2784, -3294], [-2656, -3294], [-2656, -3262], [-2784, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-2400, -3294], [-2272, -3294], [-2272, -3262], [-2400, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-2016, -3294], [-1888, -3294], [-1888, -3262], [-2016, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-1632, -3294], [-1504, -3294], [-1504, -3262], [-1632, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-1248, -3294], [-1120, -3294], [-1120, -3262], [-1248, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-864, -3294], [-736, -3294], [-736, -3262], [-864, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[-480, -3294], [-352, -3294], [-352, -3262], [-480, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[288, -3294], [416, -3294], [416, -3262], [288, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[672, -3294], [800, -3294], [800, -3262], [672, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[1056, -3294], [1184, -3294], [1184, -3262], [1056, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[1440, -3294], [1568, -3294], [1568, -3262], [1440, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[1824, -3294], [1952, -3294], [1952, -3262], [1824, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[2208, -3294], [2336, -3294], [2336, -3262], [2208, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[2592, -3294], [2720, -3294], [2720, -3262], [2592, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 96, surface: {texture: cnb, size: [128, 256]}, outline: [[2976, -3294], [3104, -3294], [3104, -3262], [2976, -3262]], top_surface: {texture: cnb, size: [128, 256]}, base: 64, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -3104], [-3262, -3104], [-3262, -2976], [-3294, -2976]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -2720], [-3262, -2720], [-3262, -2592], [-3294, -2592]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -2336], [-3262, -2336], [-3262, -2208], [-3294, -2208]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -1952], [-3262, -1952], [-3262, -1824], [-3294, -1824]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -1568], [-3262, -1568], [-3262, -1440], [-3294, -1440]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, -3104], [3294, -3104], [3294, -2976], [3262, -2976]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, -2720], [3294, -2720], [3294, -2592], [3262, -2592]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, -2336], [3294, -2336], [3294, -2208], [3262, -2208]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+    ambient: 24
+    notes: "The roof reaches over the keep's outer wall to 32 short of the open air, and to 16 short of the Well's four flat faces, so its parapets are thin and the party can look down over them."
+  - id: room:roof_w
+    name: "Roof, west"
+    outline: [[-3296, -1024], [-1024, -1024], [-1024, -528], [-912, -528], [-912, 528], [-1024, 528], [-1024, 1024], [-3296, 1024]]
+    floor: 3072
+    ceiling: 4224
+    theme: theme:roof
+    bands:
+      - {height: 128, surface: {texture: cnb, size: [128, 256]}}
+    platforms:
+      - {rise: 64, surface: {texture: cnb, size: [128, 256]}, outline: [[-944, 128], [-914, 128], [-914, 526], [-944, 526]], top_surface: {texture: cnb, size: [128, 256]}, notes: "Parapet of the Well's west rim, beside the way onto the overlook."}
+      - {rise: 64, surface: {texture: cnb, size: [128, 256]}, outline: [[-944, -526], [-914, -526], [-914, -128], [-944, -128]], top_surface: {texture: cnb, size: [128, 256]}, notes: "Parapet of the Well's west rim, beside the way onto the overlook."}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -896], [-3262, -896], [-3262, -768], [-3294, -768]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -512], [-3262, -512], [-3262, -384], [-3294, -384]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, -128], [-3262, -128], [-3262, 0], [-3294, 0]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, 256], [-3262, 256], [-3262, 384], [-3294, 384]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[-3294, 640], [-3262, 640], [-3262, 768], [-3294, 768]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
+    ambient: 24
+    notes: "The roof reaches over the keep's outer wall to 32 short of the open air, and to 16 short of the Well's four flat faces, so its parapets are thin and the party can look down over them."
+  - id: room:scrap_hall
+    name: Scrap hall
+    outline: [[-3072, 1920], [-1920, 1920], [-1920, 3072], [-3072, 3072]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+  - id: room:sky_stair
+    name: Sky stair
+    outline: [[1920, -1792], [3072, -1792], [3072, 1792], [1920, 1792]]
+    floor: 2304
+    ceiling: 4224
+    theme: theme:sky_stair
+    walls:
+      - wall: n
+        surface: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    bands:
+      - {height: 896, surface: {texture: cnb, size: [128, 256]}}
+    platforms:
+      - {id: platform:sky_stair_gallery, rise: 32, outline: [[1920, -1792], [2304, -1792], [2304, 1152], [3072, 1152], [3072, 1792], [1920, 1792]], base: 736, notes: "The hanging gallery at the upper floor, along the end the stair rises to and the inner wall."}
+    flights:
+      - {from: [2816, -1408], to: [2816, 1152], open_below: 32, to_height: 3072, width: 384, steps: 24, notes: "One long flight up the outer wall, 24 steps of 32, open underneath."}
+    ambient: 18
+    notes: "Darzog's floor to the roof (2304 to 3072), open to the sky: the flight up the east wall rises north to the roof's level."
+  - id: room:smelter
+    name: Smelter
+    outline: [[1920, 1920], [3072, 1920], [3072, 3072], [1920, 3072]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+    levels:
+      - id: level:smelter_pit
+        outline: [[2240, 2240], [2752, 2240], [2752, 2752], [2240, 2752]]
+        floor: 640
+        edge: {texture: cwb1, size: [128, 256]}
+        surface: {texture: lava, size: [256, 256], liquid: lava, flow: left}
+        notes: "The smelting pit: lava a step down."
+  - id: room:state_e
+    name: East state gallery
+    outline: [[1024, -1024], [1792, -1024], [1792, 1792], [1024, 1792]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+  - id: room:state_n
+    name: North state gallery
+    outline: [[-1792, 1024], [1024, 1024], [1024, 1792], [-1792, 1792]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+  - id: room:state_s
+    name: South state gallery
+    outline: [[-1024, -1792], [1792, -1792], [1792, -1024], [-1024, -1024]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+  - id: room:state_w
+    name: West state gallery
+    outline: [[-1792, -1792], [-1024, -1792], [-1024, 1024], [-1792, 1024]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:darzog
+  - id: room:storeroom
+    name: Storeroom
+    outline: [[1920, -3072], [3072, -3072], [3072, -1920], [1920, -1920]]
+    floor: 0
+    ceiling: 640
+    theme: theme:gate
+    platforms:
+      - {at: [2112, -2944], size: [128, 128], rise: 128, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A crate.}
+      - {at: [2368, -2944], size: [128, 128], rise: 128, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A crate.}
+      - {at: [2944, -2368], size: [128, 128], rise: 128, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A crate.}
+      - {at: [2944, -2112], size: [128, 128], rise: 128, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A crate.}
+  - id: room:study_ne
+    name: Study of the Voice
+    outline: [[1920, 1920], [3072, 1920], [3072, 3072], [1920, 3072]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    platforms:
+      - {id: platform:lectern_personality, at: [2880, 2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Personality."}
+      - {at: [2496, 2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
+    ambient: 18
+  - id: room:study_nw
+    name: Study of the Mind
+    outline: [[-3072, 1920], [-1920, 1920], [-1920, 3072], [-3072, 3072]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    platforms:
+      - {id: platform:lectern_intellect, at: [-2880, 2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Intellect."}
+      - {at: [-2496, 2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
+    ambient: 18
+  - id: room:study_se
+    name: Study of the Arm
+    outline: [[1920, -3072], [3072, -3072], [3072, -1920], [1920, -1920]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    platforms:
+      - {id: platform:lectern_might, at: [2880, -2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Might."}
+      - {at: [2496, -2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
+    ambient: 18
+  - id: room:study_sw
+    name: Study of the Body
+    outline: [[-3072, -3072], [-1920, -3072], [-1920, -1920], [-3072, -1920]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:library
+    platforms:
+      - {id: platform:lectern_endurance, at: [-2880, -2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Endurance."}
+      - {at: [-2496, -2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
+    ambient: 18
+  - id: room:well
+    name: The Well
+    outline: [[-512, -896], [512, -896], [896, -512], [896, 512], [512, 896], [-512, 896], [-896, 512], [-896, -512]]
+    floor: 0
+    ceiling: 4224
+    theme: theme:shaft
+    bands:
+      - {height: 704, surface: {texture: cnb, size: [128, 256]}}
+      - {height: 768, surface: {texture: cwb, size: [128, 256]}}
+      - {height: 1472, surface: {texture: cnb, size: [128, 256]}}
+      - {height: 1536, surface: {texture: cwb, size: [128, 256]}}
+      - {height: 2240, surface: {texture: cnb, size: [128, 256]}}
+      - {height: 2304, surface: {texture: cwb, size: [128, 256]}}
+      - {height: 3008, surface: {texture: cnb, size: [128, 256]}}
+      - {height: 3072, surface: {texture: cwb, size: [128, 256]}}
+      - {height: 3200, surface: {texture: cnb, size: [128, 256]}}
+    platforms:
+      - {id: platform:well_overlook, rise: 32, surface: {texture: cnb, size: [128, 256]}, outline: [[-896, -128], [-448, -128], [-448, 128], [-896, 128]], top_surface: {texture: tfb03, size: [128, 128]}, bottom_surface: {texture: cnb, size: [128, 256]}, base: 3040, notes: "The overlook: a stone pier 448 long out over the Well from the roof's west rim, railed on three sides; from its end the Well drops 3,072 to the rune circle."}
+      - {rise: 48, surface: {texture: cnb, size: [128, 256]}, outline: [[-880, 112], [-448, 112], [-448, 128], [-880, 128]], top_surface: {texture: cnb, size: [128, 256]}, base: 3072, notes: Rail of the overlook.}
+      - {rise: 48, surface: {texture: cnb, size: [128, 256]}, outline: [[-880, -128], [-448, -128], [-448, -112], [-880, -112]], top_surface: {texture: cnb, size: [128, 256]}, base: 3072, notes: Rail of the overlook.}
+      - {rise: 48, surface: {texture: cnb, size: [128, 256]}, outline: [[-464, -112], [-448, -112], [-448, 112], [-464, 112]], top_surface: {texture: cnb, size: [128, 256]}, base: 3072, notes: Rail of the overlook.}
+      - {id: platform:rune_circle, at: [0, 0], size: [768, 768], rise: 16, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: td1, size: [512, 512], scale: 1.5}, notes: "The rune circle at the Well's foot (the School of Sorcery's summoning circle td1), where Darzog's lightning rises."}
+    ambient: 10
+    notes: "The tower's core: an octagonal well 1,792 across from the gate floor to the open sky, 4,224 high. Every floor looks into it (arches on the gate floor, railed windows above, the roof's parapet at the top); Darzog's disc rides its north face from the gate floor to his own floor."
+  - id: room:west_stair
+    name: West stair hall
+    outline: [[-3072, -1792], [-1920, -1792], [-1920, 1792], [-3072, 1792]]
+    floor: 0
+    ceiling: 1408
+    theme: theme:gate
+    platforms:
+      - {id: platform:west_stair_gallery, rise: 32, outline: [[-3072, 1152], [-2304, 1152], [-2304, -1792], [-1920, -1792], [-1920, 1792], [-3072, 1792]], base: 736, notes: "The hanging gallery at the upper floor, along the end the stair rises to and the inner wall."}
+    flights:
+      - {from: [-2816, -1408], to: [-2816, 1152], open_below: 32, to_height: 768, width: 384, steps: 24, notes: "One long flight up the outer wall, 24 steps of 32, open underneath."}
+    ambient: 14
+    notes: "Gate floor to the works (0 to 768), two storeys high: one long flight up the west wall to a hanging gallery across the north end and along the east wall."
+  - id: room:works_e
+    name: East walk of the works
+    outline: [[1024, -1024], [1792, -1024], [1792, 1792], [1024, 1792]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+  - id: room:works_n
+    name: North walk of the works
+    outline: [[-1792, 1024], [1024, 1024], [1024, 1792], [-1792, 1792]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+  - id: room:works_s
+    name: South walk of the works
+    outline: [[-1024, -1792], [1792, -1792], [1792, -1024], [-1024, -1024]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+  - id: room:works_w
+    name: West walk of the works
+    outline: [[-1792, -1792], [-1024, -1792], [-1024, 1024], [-1792, 1024]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:works
+openings:
+  - id: open:arch_e
+    from: room:cloister_e
+    to: room:well
+    from_wall: 3
+    to_wall: 2
+    along: 0.5
+    width: 512
+    height: 384
+    shape: arch
+    apex: 512
+  - id: open:arch_n
+    from: room:cloister_n
+    to: room:well
+    from_wall: 0
+    to_wall: 4
+    along: 0.5
+    width: 512
+    height: 384
+    shape: arch
+    apex: 512
+  - id: open:arch_s
+    from: room:cloister_s
+    to: room:well
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 512
+    height: 384
+    shape: arch
+    apex: 512
+  - id: open:arch_w
+    from: room:cloister_w
+    to: room:well
+    from_wall: 1
+    to_wall: 6
+    along: 0.5
+    width: 512
+    height: 384
+    shape: arch
+    apex: 512
+  - id: open:assembly_parts
+    from: room:assembly
+    to: room:parts_store
+    from_wall: 1
+    to_wall: 3
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:assembly_quarters
+    from: room:assembly
+    to: room:quarters
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:battlement_e
+    from: room:sky_stair
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.5
+    width: 3520
+    height: full
+    sill: 880
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:battlement_n
+    from: room:roof_n
+    to: room:out_n
+    from_wall: 8
+    to_wall: 0
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:battlement_ne
+    from: room:roof_n
+    to: room:out_e
+    from_wall: 7
+    to_wall: 0
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:battlement_nw
+    from: room:roof_n
+    to: room:out_w
+    from_wall: 9
+    to_wall: 0
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:battlement_s
+    from: room:roof_s
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    width: full
+    height: full
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:battlement_se
+    from: room:roof_s
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:battlement_sw
+    from: room:roof_s
+    to: room:out_w
+    from_wall: 9
+    to_wall: 0
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:battlement_w
+    from: room:roof_w
+    to: room:out_w
+    from_wall: 7
+    to_wall: 0
+    along: 0.5
+    width: 1984
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:bedchamber_cell
+    from: room:bedchamber
+    to: room:crodo_cell
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 128
+    height: 256
+  - id: open:cistern_cells
+    from: room:cistern
+    to: room:cells
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:cistern_store
+    from: room:cistern
+    to: room:storeroom
+    from_wall: 1
+    to_wall: 3
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:cloister_cistern
+    from: room:cloister_s
+    to: room:cistern
+    from_wall: 0
+    to_wall: 2
+    along: 0.5
+    width: 512
+    height: 384
+  - id: open:cloister_hands
+    from: room:cloister_n
+    to: room:hall_of_hands
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 512
+    height: 384
+  - id: open:cloister_wstair
+    from: room:cloister_w
+    to: room:west_stair
+    from_wall: 3
+    to_wall: 1
+    along: 0.6364
+    width: 384
+    height: 384
+  - id: open:disc_landing
+    from: room:state_n
+    to: room:well
+    from_wall: 0
+    to_wall: 4
+    along: 0.5
+    width: 384
+    height: 320
+  - id: open:estair_library_e
+    from: room:east_stair
+    to: room:library_e
+    from_wall: 3
+    to_wall: 1
+    along: 0.4091
+    width: 384
+    height: 352
+  - id: open:estair_study_ne
+    from: room:east_stair
+    to: room:study_ne
+    from_wall: 2
+    to_wall: 0
+    along: 0.8333
+    width: 256
+    height: 320
+  - id: open:estair_study_se
+    from: room:east_stair
+    to: room:study_se
+    from_wall: 0
+    to_wall: 2
+    along: 0.6111
+    width: 256
+    height: 320
+  - id: open:f0_ring_ne
+    from: room:cloister_n
+    to: room:cloister_e
+    from_wall: 1
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:f0_ring_nw
+    from: room:cloister_w
+    to: room:cloister_n
+    from_wall: 2
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:f0_ring_se
+    from: room:cloister_e
+    to: room:cloister_s
+    from_wall: 0
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:f0_ring_sw
+    from: room:cloister_s
+    to: room:cloister_w
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:f1_ring_ne
+    from: room:works_n
+    to: room:works_e
+    from_wall: 1
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:f1_ring_nw
+    from: room:works_w
+    to: room:works_n
+    from_wall: 2
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:f1_ring_se
+    from: room:works_e
+    to: room:works_s
+    from_wall: 0
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:f1_ring_sw
+    from: room:works_s
+    to: room:works_w
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:f2_ring_ne
+    from: room:library_n
+    to: room:library_e
+    from_wall: 1
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:f2_ring_nw
+    from: room:library_w
+    to: room:library_n
+    from_wall: 2
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:f2_ring_se
+    from: room:library_e
+    to: room:library_s
+    from_wall: 0
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:f2_ring_sw
+    from: room:library_s
+    to: room:library_w
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:f3_ring_ne
+    from: room:state_n
+    to: room:state_e
+    from_wall: 1
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:f3_ring_nw
+    from: room:state_w
+    to: room:state_n
+    from_wall: 2
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:f3_ring_se
+    from: room:state_e
+    to: room:state_s
+    from_wall: 0
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:f3_ring_sw
+    from: room:state_s
+    to: room:state_w
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:forge_scrap
+    from: room:forge
+    to: room:scrap_hall
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:forge_smelter
+    from: room:forge
+    to: room:smelter
+    from_wall: 1
+    to_wall: 3
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:gate_cloister
+    from: room:gate_hall
+    to: room:cloister_e
+    from_wall: 3
+    to_wall: 1
+    along: 0.6364
+    width: 768
+    height: 448
+    shape: arch
+    apex: 576
+  - id: open:gate_guardroom
+    from: room:gate_hall
+    to: room:guardroom
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:gate_store
+    from: room:gate_hall
+    to: room:storeroom
+    from_wall: 0
+    to_wall: 2
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:great_study_se
+    from: room:great_library
+    to: room:study_se
+    from_wall: 1
+    to_wall: 3
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:great_study_sw
+    from: room:great_library
+    to: room:study_sw
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:hall_bedchamber
+    from: room:darzog_hall
+    to: room:bedchamber
+    from_wall: 1
+    to_wall: 5
+    along: 0.2778
+    width: 256
+    height: 320
+  - id: open:hall_study
+    from: room:darzog_hall
+    to: room:darzog_study
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:hands_crypt
+    from: room:hall_of_hands
+    to: room:crypt
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:hands_guardroom
+    from: room:hall_of_hands
+    to: room:guardroom
+    from_wall: 1
+    to_wall: 3
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:library_great
+    from: room:library_s
+    to: room:great_library
+    from_wall: 0
+    to_wall: 2
+    along: 0.5
+    width: 512
+    height: 384
+  - id: open:library_lstair
+    from: room:library_w
+    to: room:library_stair
+    from_wall: 3
+    to_wall: 1
+    along: 0.1364
+    width: 384
+    height: 384
+  - id: open:library_reading
+    from: room:library_n
+    to: room:reading_room
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 512
+    height: 384
+  - id: open:library_win_e
+    from: room:library_e
+    to: room:well
+    from_wall: 3
+    to_wall: 2
+    along: 0.5
+    width: 512
+    height: 320
+    sill: 96
+  - id: open:library_win_n
+    from: room:library_n
+    to: room:well
+    from_wall: 0
+    to_wall: 4
+    along: 0.5
+    width: 512
+    height: 320
+    sill: 96
+  - id: open:library_win_s
+    from: room:library_s
+    to: room:well
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 512
+    height: 320
+    sill: 96
+  - id: open:library_win_w
+    from: room:library_w
+    to: room:well
+    from_wall: 1
+    to_wall: 6
+    along: 0.5
+    width: 512
+    height: 320
+    sill: 96
+  - id: open:lstair_guard
+    from: room:library_stair
+    to: room:guard_hall
+    from_wall: 0
+    to_wall: 2
+    along: 0.3889
+    width: 256
+    height: 320
+  - id: open:lstair_state_w
+    from: room:library_stair
+    to: room:state_w
+    from_wall: 1
+    to_wall: 3
+    along: 0.8636
+    width: 384
+    height: 352
+  - id: open:lstair_study
+    from: room:library_stair
+    to: room:darzog_study
+    from_wall: 2
+    to_wall: 0
+    along: 0.1667
+    width: 256
+    height: 320
+  - id: open:out_ne
+    from: room:out_n
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:out_nw
+    from: room:out_w
+    to: room:out_n
+    from_wall: 1
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:out_se
+    from: room:out_e
+    to: room:out_s
+    from_wall: 1
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:out_sw
+    from: room:out_s
+    to: room:out_w
+    from_wall: 1
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:portraits_guard
+    from: room:portrait_hall
+    to: room:guard_hall
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:portraits_vats
+    from: room:portrait_hall
+    to: room:clone_vats
+    from_wall: 1
+    to_wall: 3
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:reading_study_ne
+    from: room:reading_room
+    to: room:study_ne
+    from_wall: 1
+    to_wall: 3
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:reading_study_nw
+    from: room:reading_room
+    to: room:study_nw
+    from_wall: 3
+    to_wall: 1
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:roof_ne
+    from: room:roof_e
+    to: room:roof_n
+    from_wall: 2
+    to_wall: 4
+    width: full
+    height: full
+  - id: open:roof_nw
+    from: room:roof_w
+    to: room:roof_n
+    from_wall: 6
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:roof_se
+    from: room:roof_e
+    to: room:roof_s
+    from_wall: 0
+    to_wall: 4
+    width: full
+    height: full
+  - id: open:roof_sw
+    from: room:roof_w
+    to: room:roof_s
+    from_wall: 0
+    to_wall: 8
+    width: full
+    height: full
+  - id: open:roof_well_e
+    from: room:roof_e
+    to: room:well
+    from_wall: 5
+    to_wall: 2
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:roof_well_n
+    from: room:roof_n
+    to: room:well
+    from_wall: 2
+    to_wall: 4
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:roof_well_s
+    from: room:roof_s
+    to: room:well
+    from_wall: 6
+    to_wall: 0
+    width: full
+    height: full
+    sill: 64
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:roof_well_w
+    from: room:roof_w
+    to: room:well
+    from_wall: 3
+    to_wall: 6
+    width: full
+    height: full
+    threshold: {texture: cnb, size: [128, 256]}
+    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+  - id: open:skystair_roof_e
+    from: room:sky_stair
+    to: room:roof_e
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:skystair_roof_n
+    from: room:sky_stair
+    to: room:roof_n
+    from_wall: 2
+    to_wall: 6
+    width: full
+    height: full
+  - id: open:skystair_roof_s
+    from: room:sky_stair
+    to: room:roof_s
+    from_wall: 0
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:state_hall
+    from: room:state_n
+    to: room:darzog_hall
+    from_wall: 2
+    to_wall: 0
+    along: 0.5455
+    width: 512
+    height: 384
+  - id: open:state_portraits
+    from: room:state_s
+    to: room:portrait_hall
+    from_wall: 0
+    to_wall: 2
+    along: 0.5
+    width: 512
+    height: 384
+  - id: open:state_skystair
+    from: room:state_e
+    to: room:sky_stair
+    from_wall: 1
+    to_wall: 3
+    along: 0.1818
+    width: 384
+    height: 384
+  - id: open:state_win_e
+    from: room:state_e
+    to: room:well
+    from_wall: 3
+    to_wall: 2
+    along: 0.5
+    width: 640
+    height: 384
+    sill: 96
+  - id: open:state_win_s
+    from: room:state_s
+    to: room:well
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 640
+    height: 384
+    sill: 96
+  - id: open:state_win_w
+    from: room:state_w
+    to: room:well
+    from_wall: 1
+    to_wall: 6
+    along: 0.5
+    width: 640
+    height: 384
+    sill: 96
+  - id: open:trap1
+    from: room:library_n
+    to: room:works_n
+    in: floor
+    at: [-1152, 1408]
+    size: [256, 256]
+    reveal: {texture: cfb1, size: [128, 128]}
+  - id: open:trap2
+    from: room:reading_room
+    to: room:forge
+    in: floor
+    at: [1216, 2496]
+    size: [256, 256]
+    reveal: {texture: cfb1, size: [128, 128]}
+  - id: open:trap3
+    from: room:library_w
+    to: room:works_w
+    in: floor
+    at: [-1408, -1152]
+    size: [256, 256]
+    reveal: {texture: cfb1, size: [128, 128]}
+  - id: open:trap4
+    from: room:study_se
+    to: room:parts_store
+    in: floor
+    at: [2240, -2560]
+    size: [256, 256]
+    reveal: {texture: cfb1, size: [128, 128]}
+  - id: open:trap5
+    from: room:study_nw
+    to: room:scrap_hall
+    in: floor
+    at: [-2496, 2304]
+    size: [256, 256]
+    reveal: {texture: cfb1, size: [128, 128]}
+  - id: open:vats_skystair
+    from: room:clone_vats
+    to: room:sky_stair
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 320
+  - id: open:window_00
+    from: room:hall_of_hands
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.7143
+    width: 64
+    height: 256
+    sill: 160
+  - id: open:window_01
+    from: room:hall_of_hands
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.2857
+    width: 64
+    height: 256
+    sill: 160
+  - id: open:window_02
+    from: room:cistern
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.5
+    width: 64
+    height: 256
+    sill: 160
+  - id: open:window_03
+    from: room:gate_hall
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.1786
+    width: 64
+    height: 256
+    sill: 160
+  - id: open:window_04
+    from: room:gate_hall
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.8214
+    width: 64
+    height: 256
+    sill: 160
+  - id: open:window_05
+    from: room:guardroom
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.5
+    width: 64
+    height: 256
+    sill: 160
+  - id: open:window_06
+    from: room:storeroom
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.5
+    width: 64
+    height: 256
+    sill: 160
+  - id: open:window_07
+    from: room:cells
+    to: room:out_w
+    from_wall: 3
+    to_wall: 0
+    along: 0.5
+    width: 64
+    height: 192
+    sill: 224
+  - id: open:window_08
+    from: room:crypt
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 64
+    height: 192
+    sill: 224
+  - id: open:window_09
+    from: room:west_stair
+    to: room:out_w
+    from_wall: 3
+    to_wall: 0
+    along: 0.3571
+    width: 256
+    height: 512
+    sill: 384
+  - id: open:window_10
+    from: room:forge
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_11
+    from: room:assembly
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_12
+    from: room:smelter
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_13
+    from: room:scrap_hall
+    to: room:out_w
+    from_wall: 3
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_14
+    from: room:parts_store
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_15
+    from: room:quarters
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_16
+    from: room:east_stair
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.3571
+    width: 256
+    height: 512
+    sill: 384
+  - id: open:window_17
+    from: room:reading_room
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.75
+    width: 256
+    height: 320
+    sill: 160
+  - id: open:window_18
+    from: room:reading_room
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.25
+    width: 256
+    height: 320
+    sill: 160
+  - id: open:window_19
+    from: room:great_library
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.25
+    width: 256
+    height: 320
+    sill: 160
+  - id: open:window_20
+    from: room:great_library
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.75
+    width: 256
+    height: 320
+    sill: 160
+  - id: open:window_21
+    from: room:study_ne
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_22
+    from: room:study_nw
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_23
+    from: room:study_se
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_24
+    from: room:study_sw
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_25
+    from: room:library_stair
+    to: room:out_w
+    from_wall: 3
+    to_wall: 0
+    along: 0.6429
+    width: 256
+    height: 512
+    sill: 384
+  - id: open:window_26
+    from: room:darzog_hall
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.8214
+    width: 256
+    height: 320
+    sill: 160
+  - id: open:window_27
+    from: room:darzog_hall
+    to: room:out_n
+    from_wall: 2
+    to_wall: 0
+    along: 0.1786
+    width: 256
+    height: 320
+    sill: 160
+  - id: open:window_28
+    from: room:darzog_study
+    to: room:out_w
+    from_wall: 3
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_29
+    from: room:bedchamber
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 192
+    sill: 192
+  - id: open:window_30
+    from: room:portrait_hall
+    to: room:out_s
+    from_wall: 0
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_31
+    from: room:clone_vats
+    to: room:out_e
+    from_wall: 1
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:window_32
+    from: room:guard_hall
+    to: room:out_w
+    from_wall: 3
+    to_wall: 0
+    along: 0.5
+    width: 256
+    height: 256
+    sill: 160
+  - id: open:works_assembly
+    from: room:works_s
+    to: room:assembly
+    from_wall: 0
+    to_wall: 2
+    along: 0.5
+    width: 512
+    height: 384
+  - id: open:works_estair
+    from: room:works_e
+    to: room:east_stair
+    from_wall: 1
+    to_wall: 3
+    along: 0.5909
+    width: 384
+    height: 384
+  - id: open:works_forge
+    from: room:works_n
+    to: room:forge
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 512
+    height: 384
+  - id: open:works_win_e
+    from: room:works_e
+    to: room:well
+    from_wall: 3
+    to_wall: 2
+    along: 0.5
+    width: 640
+    height: 352
+    sill: 96
+  - id: open:works_win_n
+    from: room:works_n
+    to: room:well
+    from_wall: 0
+    to_wall: 4
+    along: 0.5
+    width: 640
+    height: 352
+    sill: 96
+  - id: open:works_win_s
+    from: room:works_s
+    to: room:well
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 640
+    height: 352
+    sill: 96
+  - id: open:works_win_w
+    from: room:works_w
+    to: room:well
+    from_wall: 1
+    to_wall: 6
+    along: 0.5
+    width: 640
+    height: 352
+    sill: 96
+  - id: open:wstair_cells
+    from: room:west_stair
+    to: room:cells
+    from_wall: 0
+    to_wall: 2
+    along: 0.3889
+    width: 256
+    height: 320
+  - id: open:wstair_crypt
+    from: room:west_stair
+    to: room:crypt
+    from_wall: 2
+    to_wall: 0
+    along: 0.6111
+    width: 256
+    height: 320
+  - id: open:wstair_quarters
+    from: room:west_stair
+    to: room:quarters
+    from_wall: 0
+    to_wall: 2
+    along: 0.8333
+    width: 256
+    height: 320
+  - id: open:wstair_scrap
+    from: room:west_stair
+    to: room:scrap_hall
+    from_wall: 2
+    to_wall: 0
+    along: 0.6111
+    width: 256
+    height: 320
+  - id: open:wstair_works_w
+    from: room:west_stair
+    to: room:works_w
+    from_wall: 1
+    to_wall: 3
+    along: 0.3636
+    width: 384
+    height: 352
+notes: "XD-12 Darzog's Tower: a square keep 6,144 across round a central well open to the sky; four floors 768 apart (gate 0, works 768, library 1536, Darzog's 2304) and a battlemented roof at 3072; two-storey stair halls alternate west and east; the island and Lake Darzog round the keep under the open sky. Written by output/studio_cal/xd12/tools/emit.py."

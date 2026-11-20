@@ -1,0 +1,24 @@
+id: rulesets.maw_indoor_combat_save_load
+title: Ruleset - indoors, MAW sizes a map's monsters, a kill pays MAW experience, and the actors' ruleset facts survive save and load
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal
+  - damage_actor: {actor_index: 0, amount: 100000}
+  - assert:
+      actor_visible: {actor_index: 0, current_hp: 0}
+  - save_game: maw_combat
+  - load_game: maw_combat
+  - assert:
+      map: 6d01.blv
+      actor_visible: {actor_index: 0, current_hp: 0}
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal

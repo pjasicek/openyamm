@@ -17,6 +17,9 @@ from typing import Any
 import yaml
 from PIL import Image
 
+from mm9_item_balance import EngineReference, balance_effect, balance_rows, random_item_rows, round_price
+from mm9_spellbooks import install_icons as install_spellbook_icons, spellbook_item_id, spellbook_rows
+
 
 GLOBAL_ITEM_ID_BASE = 10000
 GLOBAL_ITEM_ID_BEGIN = 10000
@@ -27,7 +30,7 @@ WORLD_ITEM_SPRITE_ID_BASE = 24000
 EXCLUDED_CATEGORIES = {"magic", "magic scroll", "magic runestone", "potion", "wand"}
 ENGINE_ITEM_MAPPINGS: dict[int, tuple[int, str]] = {
     253: (222, "MM9 Cure Wounds potion mapped to the shared Cure Wounds potion"),
-    347: (419, "MM9 Eye of the Storm spellbook mapped to the shared Implosion spellbook"),
+    347: (spellbook_item_id(20), "MM9 Eye of the Storm spellbook mapped to MM9's Implosion spellbook (mm9_spellbooks.py)"),
     511: (317, "MM9 Chain Lightning scroll mapped to the shared Lightning Bolt scroll"),
     523: (311, "MM9 Eye of Leggib scroll mapped to the shared Wizard Eye scroll"),
     532: (306, "MM9 Magic Mine scroll mapped to the shared Fire Spike scroll"),
@@ -36,6 +39,9 @@ ENGINE_ITEM_MAPPINGS: dict[int, tuple[int, str]] = {
     555: (334, "MM9 Wrath of Bugs scroll mapped to the shared Slow scroll"),
 }
 ITEM_COLUMN_COUNT = 45
+# MM9's icon package is x2 (engine/icon_packages.txt): inventory art goes to icons_x2, world-item sprites stay x1.
+ICON_SCALE = 2
+ICON_DIRECTORY = "icons_x2"
 EQUIPMENT_VISUAL_EQUIP_STATS = {"Weapon", "Weapon2", "Missile", "Shield"}
 EQUIPMENT_VISUAL_REVIEW_STATES = {"candidate", "reviewed"}
 BODY_EQUIPMENT_COVERAGE_PROFILES = {"short_torso", "hip_length", "thigh_length", "full_harness"}
@@ -515,98 +521,6 @@ def inventory_slots_from_pixels(pixel_size: int) -> int:
     return max(1, 1 + (max(14, pixel_size) - 14) // 32)
 
 
-def normalized_icon_dimensions(item: SourceItem, equip_stat: str) -> tuple[int, int]:
-    """Return an MM6-MM8-scale low-resolution canvas for the generated inventory art."""
-    subtype = item.subtype.casefold()
-    source_skill = item.source_skill.casefold()
-
-    if item.icon_stem.casefold() == "scroll":
-        return 72, 40
-    if item.icon_stem.casefold() == "greatbookreal":
-        return 72, 64
-
-    if equip_stat == "Weapon":
-        skill = normalized_skill(item)
-        if skill == "Dagger":
-            return 36, 112
-        if skill == "Sword":
-            return 40, 160
-        if skill in {"Axe", "Mace"}:
-            return 56, 144
-        return 48, 144
-    if equip_stat == "Weapon2":
-        skill = normalized_skill(item)
-        if skill == "Sword":
-            return 44, 196
-        if skill == "Axe":
-            return 72, 260
-        if skill == "Spear":
-            return (72, 282) if subtype == "halberd" else (40, 282)
-        if skill == "Staff":
-            return 48, 282
-        return 64, 220
-    if equip_stat == "Missile":
-        if source_skill == "thrown":
-            if item.raw_id == 34:
-                return 72, 112
-            return (36, 112) if "dagger" in subtype else (56, 144)
-        if "crossbow" in subtype or "cannon" in subtype:
-            return 72, 144
-        return 56, 200
-    if equip_stat == "Armor":
-        skill = normalized_skill(item)
-        if skill == "Leather":
-            return 104, 112
-        if skill == "Chain":
-            return 104, 150
-        return 120, 150
-    if equip_stat == "Shield":
-        return (72, 72) if "small" in subtype or "buckler" in subtype else (96, 128)
-    if equip_stat == "Helm":
-        return 64, 64
-    if equip_stat == "Gauntlets":
-        return 40, 72
-    if equip_stat == "Belt":
-        return 72, 32
-    if equip_stat == "Boots":
-        return 64, 72
-    if equip_stat == "Ring":
-        return 40, 40
-    if equip_stat == "Amulet":
-        return 40, 64
-    if equip_stat == "LearnSkill":
-        return 72, 64
-    if equip_stat == "Mscroll":
-        return 72, 40
-
-    if "sword" in subtype:
-        return 40, 160
-    if "shield" in subtype:
-        return 96, 128
-    if "book" in subtype or "manuscript" in subtype:
-        return 72, 64
-    if "key" in subtype:
-        return 40, 72
-    if subtype == "ticket":
-        return 64, 32
-    if any(token in subtype for token in ("jar", "potion", "fluid", "holy relic", "holy symbol")):
-        return 40, 64
-    if "skin" in subtype:
-        return 72, 96
-    if "plow" in subtype:
-        return 96, 64
-    if any(token in subtype for token in ("basket", "keg", "bag", "machine part")):
-        return 64, 64
-    if any(token in subtype for token in ("ore", "stone", "orb", "clover", "prize", "lock of hair")):
-        return 40, 40
-    return 64, 64
-
-
-def normalized_inventory_footprint(item: SourceItem, equip_stat: str) -> tuple[int, int]:
-    width, height = normalized_icon_dimensions(item, equip_stat)
-    return inventory_slots_from_pixels(width), inventory_slots_from_pixels(height)
-
-
 def normalized_value(item: SourceItem, equip_stat: str, tier: int) -> tuple[int, str]:
     source_value = max(0, parse_int(item.cells[10]))
     if item.quest_item:
@@ -617,7 +531,158 @@ def normalized_value(item: SourceItem, equip_stat: str, tier: int) -> tuple[int,
     target = targets[tier - 1]
     minimum = max(1, (target * 3 + 3) // 4)
     maximum = max(minimum, (target * 5) // 4)
-    return max(minimum, min(maximum, source_value)), "openyamm_category_tier_value_envelope"
+    return round_price(max(minimum, min(maximum, source_value))), "openyamm_category_tier_value_envelope"
+
+
+# Artifacts and relics with a fixed source: hand-placed in a black chest (Black's Heart, Everstrike, Gungnir,
+# Spencer's Obedience) or a quest reward (The Green Man, Frosgard). They keep NoRandom; every other artifact and relic
+# rolls from the black chests' level-7 slots (BALANCE_PLAN.md section 3.8), which pick only items without NoRandom.
+# Every MM9 artifact and relic is World:mm9, so random loot rolls them only in MM9 and MM9 only them.
+# mm9_balance_report.py checks this list against the scenes and event scripts.
+FIXED_SOURCE_RARE_RAW_IDS = {180, 184, 189, 198, 213}
+
+# Artifacts and relics end their description with an "(Effects: ...)" list. MM9's own lists name MM9's enchantments
+# ("+10 to Magic", "of the Jajarb") and miss the balance changes, so the importer writes the list from the item's final
+# effect (OY-588). Set pieces keep MM9's list: it also describes the set bonus.
+EFFECT_TEXT_RAW_IDS = range(175, 219)
+EFFECT_TEXT_STATS = ["might", "intellect", "personality", "endurance", "speed", "accuracy", "luck"]
+EFFECT_TEXT_FIELDS = {
+    "max_health": "HP", "max_sp": "SP", "armor_class": "AC", "melee_attack": "to hit", "melee_damage": "damage",
+    "ranged_attack": "ranged to hit", "ranged_damage": "ranged damage", "all_resistances": "to all resistances",
+    "fire_resistance": "Fire resistance", "air_resistance": "Air resistance", "water_resistance": "Water resistance",
+    "earth_resistance": "Earth resistance", "mind_resistance": "Mind resistance", "body_resistance": "Body resistance",
+    "spirit_resistance": "Spirit resistance",
+}
+MAGIC_SCHOOLS = ["FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic", "MindMagic", "BodyMagic",
+                 "LightMagic", "DarkMagic"]
+ARMOR_SKILLS = ["LeatherArmor", "ChainArmor", "PlateArmor"]
+EFFECT_FLAG_TEXT = {
+    "BreakAfterFirstAttack": "breaks after its first attack",
+    "PoisonOnHit40Grandmaster": "40% chance to poison the target at Grandmaster",
+    "PerfectAccuracy": "always hits",
+    "TripleProjectile": "three projectiles per throw",
+    "HalveTargetArmor": "halves the target's AC",
+    "BreakChance2SelfDamage": "2% chance per shot to break and hurt the wielder",
+    "BypassArmorChance20": "20% chance to ignore the target's AC",
+    "Vampiric": "Vampiric",
+    "WeeklyInsanityChance10": "10% chance of insanity each week",
+    "WeeklyHealthLossChance10": "10% chance each week to lose a tenth of HP",
+    "EnrageOnHit5Grandmaster": "5% chance to enrage the target at Grandmaster",
+    "StunOnHit5": "5% chance to stun the target",
+    "SelfKnockoutOnFailedStun70": "70% chance to knock the wielder unconscious when a hit does not stun",
+    "KillOnHit10": "10% chance to kill the target outright",
+    "ReelOnHit": "stuns the target on every hit",
+    "DisableDivineIntervention": "Divine Intervention always fails",
+    "FearOnHit10": "10% chance to frighten the target on a hit",
+    "MeleeArmor40": "+40 AC against melee attacks",
+    "RangedArmorMinus10": "-10 AC against missiles",
+    "MagicArmor20": "+20 AC against magic",
+    "MissileArmor30": "+30 AC against missiles",
+    "Amelioration": "immune to weakness and drunkenness",
+    "Everlasting": "never breaks",
+    "WeeklyGold1000": "1,000 gold each week",
+    "PartyEnduranceMinus40": "-40 Endurance for the whole party",
+    "PhysicalDamageReduction3Percent": "3% less physical damage taken",
+    "EncounterChancePlus15Percent": "random encounters 15% more likely",
+    "AllConditionImmunity": "immune to all conditions",
+    "ExperienceGainMinus15Percent": "15% less experience",
+}
+WEAPON_DAMAGE_KIND = {"PoisonWeaponDamage": "poison ", "DiseaseWeaponDamage": "disease "}
+
+# MM9's spelling slips in the artifact and set piece stories, corrected in the imported text. Each must still occur.
+DESCRIPTION_CORRECTIONS: dict[int, list[tuple[str, str]]] = {
+    175: [("weilder", "wielder")],
+    179: [("comissioned", "commissioned"), ("Clans of Chedian ", "Clans of Chedian. ")],
+    180: [("lead by", "led by"), ("it's contents", "its contents")],
+    181: [("commited", "committed")],
+    184: [("missle", "missile")],
+    188: [("paticular invetion", "particular invention"), ("it's muzzle", "its muzzle")],
+    189: [("forsaw", "foresaw"), ("surfaced in Chedian ", "surfaced in Chedian. ")],
+    190: [("Desipte", "Despite")],
+    191: [("It's first", "Its first"), ("carries is long", "carries are long")],
+    194: [("extremly", "extremely")],
+    197: [("suceeded", "succeeded")],
+    198: [("intstead", "instead")],
+    207: [("sheild", "shield"), ("possesed", "possessed")],
+    209: [("suitor's became", "suitors became")],
+    210: [("it's life", "its life"), ("it's new owner", "its new owner"), ("piece of them with when",
+                                                                         "piece of them with it when")],
+    216: [("preceeds", "precedes")],
+    217: [("Beggers", "Beggars"), ("the begger", "the beggar"), ("One begger", "One beggar")],
+    218: [("it's inhabitants", "its inhabitants"), ("exorborant", "exorbitant"), ("This ring", "This amulet")],
+    **{raw_id: [("Hundred's", "Hundreds")] for raw_id in range(234, 239)},
+    221: [("Regenereration", "Regeneration")],
+    226: [("Regenereration", "Regeneration")],
+    236: [("+ 10", "+10")],
+}
+
+
+def signed(value: int) -> str:
+    return f"+{value}" if value > 0 else str(value)
+
+
+def skill_label(name: str) -> str:
+    return re.sub(r"(?<=[a-z])(?=[A-Z])", " ", name)
+
+
+def effect_text(effect: dict[str, Any]) -> str:
+    """The "(Effects: ...)" list of an artifact or relic, written from its final effect."""
+    parts: list[str] = []
+    stats = [effect.get(name, 0) for name in EFFECT_TEXT_STATS]
+    if stats[0] and len(set(stats)) == 1:
+        parts.append(f"{signed(stats[0])} to all stats")
+    else:
+        parts += [f"{signed(value)} {name.capitalize()}" for name, value in zip(EFFECT_TEXT_STATS, stats) if value]
+    parts += [f"{signed(effect[name])} {label}" for name, label in EFFECT_TEXT_FIELDS.items() if effect.get(name)]
+
+    skills = dict(effect.get("skill_bonuses", {}))
+    for group, label in ((MAGIC_SCHOOLS, "to all magic skills"), (ARMOR_SKILLS, "to the armor skills")):
+        amounts = {skills.get(name) for name in group}
+        if len(amounts) == 1 and None not in amounts:
+            parts.append(f"{signed(amounts.pop())} {label}")
+            for name in group:
+                del skills[name]
+    parts += [f"{signed(amount)} {skill_label(name)}" for name, amount in skills.items()]
+
+    flags = list(effect.get("flags", []))
+    if effect.get("weapon_damage"):
+        kind = next((WEAPON_DAMAGE_KIND[flag] for flag in flags if flag in WEAPON_DAMAGE_KIND), "")
+        parts.append(f"{signed(effect['weapon_damage'])} {kind}damage per hit")
+    recovery = effect.get("recovery_reduction_ticks", 0)
+    if recovery:
+        parts.append("faster recovery" if recovery > 0 else "slower recovery")
+    if effect.get("health_regen_per_second"):
+        parts.append("regenerates HP")
+    if effect.get("spell_regen_per_second"):
+        parts.append("regenerates SP")
+    for flag in flags:
+        if flag in WEAPON_DAMAGE_KIND or flag == "CarriedPartyEffect":
+            continue
+        if flag not in EFFECT_FLAG_TEXT:
+            raise ValueError(f"effect flag {flag!r} has no description text")
+        parts.append(EFFECT_FLAG_TEXT[flag])
+
+    if not parts:
+        raise ValueError("an artifact effect without any description text")
+    text = ", ".join(parts)
+    if "CarriedPartyEffect" in flags:
+        text = "while carried, for the whole party: " + text
+    return f"(Effects: {text[0].upper()}{text[1:]})"
+
+
+def item_description(item: SourceItem, effect: dict[str, Any] | None) -> str:
+    """MM9's description with its spelling corrected and, on an artifact or relic, the effect list rewritten."""
+    description = item.description
+    for wrong, right in DESCRIPTION_CORRECTIONS.get(item.raw_id, []):
+        if wrong not in description:
+            raise ValueError(f"raw item {item.raw_id}: description correction {wrong!r} no longer matches")
+        description = description.replace(wrong, right)
+    if item.raw_id in EFFECT_TEXT_RAW_IDS and effect is not None:
+        start = description.find("(Effects:")
+        if start < 0:
+            raise ValueError(f"raw item {item.raw_id}: description has no effect list")
+        description = description[:start].rstrip() + " " + effect_text(effect)
+    return description
 
 
 def item_flags(item: SourceItem, readable_texts: dict[int, tuple[str, str]]) -> list[str]:
@@ -629,7 +694,11 @@ def item_flags(item: SourceItem, readable_texts: dict[int, tuple[str, str]]) -> 
     if item.category_key == "items_skill":
         flags.extend(["SkillLearning", "NoRandom"])
     if normalized_tier(item) == 7:
-        flags.extend(["Unique", "NoRandom"])
+        flags.append("Unique")
+        if normalized_material(item) not in {"Artifact", "Relic"} or item.raw_id in FIXED_SOURCE_RARE_RAW_IDS:
+            flags.append("NoRandom")
+        if normalized_material(item) in {"Artifact", "Relic"}:
+            flags.append("World:mm9")   # a world's artifacts and relics drop only in it (devdocs/LOOT_POOL.md)
     if item.source_skill.casefold() == "thrown" and "dagger" in item.subtype.casefold():
         flags.append("ExtraProjectileAtGrandmaster")
     return list(dict.fromkeys(flags))
@@ -639,7 +708,7 @@ def normalized_item_row(
     item: SourceItem,
     canonical_id: str,
     readable_texts: dict[int, tuple[str, str]],
-    generated_art_item_ids: set[int],
+    icon_dimensions: tuple[int, int],
     equipment_visual: dict[str, Any] | None,
     body_equipment_visual: dict[str, Any] | None,
 ) -> list[str]:
@@ -651,7 +720,7 @@ def normalized_item_row(
     source_skill_key = item.source_skill.casefold()
     use_target = SKILL_BOOK_TARGETS.get(source_skill_key, "") if item.category_key == "items_skill" else ""
     required_might, required_accuracy = normalized_stat_requirements(item)
-    inventory_width, inventory_height = normalized_inventory_footprint(item, equip_stat)
+    inventory_width, inventory_height = (inventory_slots_from_pixels(size) for size in icon_dimensions)
     item_value, value_rule = normalized_value(item, equip_stat, tier)
     if item.category_key == "items_skill" and not use_target:
         raise ValueError(f"raw item {item.raw_id} has unmapped learning skill {item.source_skill!r}")
@@ -668,7 +737,8 @@ def normalized_item_row(
     row[9] = str(max(0, parse_int(item.cells[13])))
     row[10] = item.subtype or item.name
     row[11] = str(normalized_ground_object_id(item))
-    row[12] = "0"
+    # MM9's Clover gives the character who uses it one skill point (cshell.dll 0x100249c4, item 590).
+    row[12] = "1" if item.raw_id == CLOVER_RAW_ID else "0"
     row[13] = "0"
     row[14] = str(equipment_visual["equip_anchor"][0]) if equipment_visual is not None else "0"
     row[15] = str(equipment_visual["equip_anchor"][1]) if equipment_visual is not None else "0"
@@ -681,6 +751,7 @@ def normalized_item_row(
     row[22] = (
         "LearnSkill" if item.category_key == "items_skill"
         else "ReadText" if item.raw_id in readable_texts
+        else "GrantSkillPoints" if item.raw_id == CLOVER_RAW_ID
         else ""
     )
     row[23] = use_target
@@ -696,7 +767,7 @@ def normalized_item_row(
     elif body_equipment_visual is not None:
         row[31] = "generated_body_variants_" + str(body_equipment_visual["review_status"])
     else:
-        row[31] = "generated_inventory_icon" if item.raw_id in generated_art_item_ids else "provisional_source_icon"
+        row[31] = "generated_inventory_icon"
     row[32] = str(item.raw_id)
     row[33] = canonical_id
     row[34] = item.category
@@ -735,41 +806,19 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def convert_icon(source_path: Path, output_path: Path) -> tuple[int, int]:
-    with Image.open(source_path) as source_image:
-        rgba = source_image.convert("RGBA")
-        pixels = []
-        for red, green, blue, _alpha in rgba.getdata():
-            alpha = 0 if red <= 8 and green <= 8 and blue <= 8 else 255
-            pixels.append((red, green, blue, alpha))
-        rgba.putdata(pixels)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        rgba.save(output_path, format="PNG", optimize=False, compress_level=9)
-        return rgba.size
-
-
-def load_generated_art_manifest(
-    path: Path | None,
-) -> tuple[dict[int, dict[str, Any]], dict[str, dict[str, Any]]]:
-    if path is None or not path.exists():
-        return {}, {}
+def load_generated_art_manifest(path: Path) -> dict[int, dict[str, Any]]:
+    """The inventory art per raw item id (install_mm9_item_art_x2.py): x2 PNGs installed into icons_x2."""
     with path.open("r", encoding="utf-8") as source_file:
         document = yaml.safe_load(source_file) or {}
-    if document.get("format_version") != 1:
-        raise ValueError(f"unsupported generated item art manifest version in {path}")
+    if document.get("format_version") != 2 or document.get("scale") != ICON_SCALE:
+        raise ValueError(f"unsupported generated item art manifest in {path}: expected format 2 at x{ICON_SCALE}")
     definitions: dict[int, dict[str, Any]] = {}
     for raw_id_text, definition in document.get("items", {}).items():
         raw_id = int(raw_id_text)
-        if raw_id in definitions or not isinstance(definition, dict):
-            raise ValueError(f"invalid duplicate generated art definition for raw item {raw_id}")
+        if raw_id in definitions or not isinstance(definition, dict) or not definition.get("asset"):
+            raise ValueError(f"invalid generated art definition for raw item {raw_id}")
         definitions[raw_id] = definition
-    shared_icons: dict[str, dict[str, Any]] = {}
-    for icon_stem_text, definition in document.get("shared_icons", {}).items():
-        icon_stem = str(icon_stem_text).casefold()
-        if icon_stem in shared_icons or not isinstance(definition, dict):
-            raise ValueError(f"invalid duplicate shared generated art definition for icon {icon_stem_text}")
-        shared_icons[icon_stem] = definition
-    return definitions, shared_icons
+    return definitions
 
 
 def load_equipment_visual_overlay(path: Path | None) -> dict[int, dict[str, Any]]:
@@ -894,27 +943,34 @@ def read_equipment_visual_reference_ids(path: Path) -> set[int]:
     }
 
 
-def copy_generated_icon(
-    manifest_path: Path,
-    definition: dict[str, Any],
-    expected_dimensions: tuple[int, int],
-    output_path: Path,
-) -> tuple[int, int, Path]:
-    asset_value = str(definition.get("asset", ""))
-    if not asset_value:
-        raise ValueError(f"generated art definition has no asset: {definition}")
-    asset_path = manifest_path.parent / asset_value
+def generated_asset_path(manifest_path: Path, definition: dict[str, Any]) -> Path:
+    asset_path = manifest_path.parent / str(definition["asset"])
     if not asset_path.is_file():
         raise ValueError(f"generated item art asset does not exist: {asset_path}")
+    if definition.get("asset_sha256") and sha256_file(asset_path) != definition["asset_sha256"]:
+        raise ValueError(f"generated item art changed after its manifest was written: {asset_path}")
+    return asset_path
+
+
+def logical_icon_dimensions(manifest_path: Path, definition: dict[str, Any]) -> tuple[int, int]:
+    """The icon's size in logical (x1) pixels, rounded up as the engine rounds a scaled tier."""
+    with Image.open(generated_asset_path(manifest_path, definition)) as image:
+        return tuple(-(-size // ICON_SCALE) for size in image.size)
+
+
+def copy_generated_icon(manifest_path: Path, definition: dict[str, Any], output_path: Path) -> Path:
+    asset_path = generated_asset_path(manifest_path, definition)
     with Image.open(asset_path) as source_image:
-        if source_image.size != expected_dimensions:
-            raise ValueError(
-                f"generated item art {asset_path} is {source_image.size}, expected {expected_dimensions}")
         if "A" not in source_image.getbands() or source_image.getchannel("A").getextrema()[0] == 255:
             raise ValueError(f"generated item art has no transparent alpha pixels: {asset_path}")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(asset_path, output_path)
-    return expected_dimensions[0], expected_dimensions[1], asset_path
+    return asset_path
+
+
+def read_plain_tsv(path: Path) -> list[list[str]]:
+    with path.open("r", encoding="cp1252", newline="") as source_file:
+        return [line.rstrip("\r\n").split("\t") for line in source_file]
 
 
 def write_tsv(path: Path, rows: list[list[str]]) -> None:
@@ -963,10 +1019,12 @@ def write_world_item_sprite_artifacts(
         with Image.open(icon_path) as icon_image:
             if "A" not in icon_image.getbands() or icon_image.getchannel("A").getextrema()[0] == 255:
                 raise ValueError(f"raw item {item.raw_id} WorldItem art has no transparent alpha pixels")
-            width, height = icon_image.size
+            # The sprite keeps the native x1 scale of world sprites: the x2 icon halved (premultiplied alpha).
+            width, height = (-(-size // ICON_SCALE) for size in icon_image.size)
+            sprite = icon_image.convert("RGBa").resize((width, height), Image.Resampling.LANCZOS).convert("RGBA")
 
         sprite_path.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(icon_path, sprite_path)
+        sprite.save(sprite_path, format="PNG", optimize=False, compress_level=9)
         object_rows.append([
             f"MM9 World Item {item.raw_id} {item.name}",
             texture_name,
@@ -1084,7 +1142,7 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
     generated_art_manifest_path = getattr(args, "generated_art_manifest", None)
     if generated_art_manifest_path is None:
         generated_art_manifest_path = Path(__file__).resolve().with_name("mm9_item_generated_art.yml")
-    generated_art, shared_generated_art = load_generated_art_manifest(generated_art_manifest_path)
+    generated_art = load_generated_art_manifest(generated_art_manifest_path)
     equipment_visual_overlay_path = getattr(args, "equipment_visual_overlay", None)
     if equipment_visual_overlay_path is None:
         equipment_visual_overlay_path = Path(__file__).resolve().with_name("mm9_item_equipment_visuals.yml")
@@ -1108,19 +1166,13 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
         raise ValueError(
             "MM9 equipment visual overlay has unusable reference item ids: "
             f"{sorted(unknown_equipment_visual_reference_ids)}")
-    source_raw_ids = {item.raw_id for item in items}
-    unknown_generated_ids = set(generated_art) - source_raw_ids
-    if unknown_generated_ids:
-        raise ValueError(f"generated art manifest has unknown raw item ids: {sorted(unknown_generated_ids)}")
-    source_icon_stems = {item.icon_stem.casefold() for item in items}
-    unknown_shared_icons = set(shared_generated_art) - source_icon_stems
-    if unknown_shared_icons:
-        raise ValueError(f"generated art manifest has unknown shared icon stems: {sorted(unknown_shared_icons)}")
-    generated_art_item_ids = {
-        item.raw_id
-        for item in items
-        if item.raw_id in generated_art or item.icon_stem.casefold() in shared_generated_art
-    }
+    imported_raw_ids = {item.raw_id for item in items if classify_item(item)[0] == "imported"}
+    unknown_generated_ids = set(generated_art) - imported_raw_ids
+    missing_generated_ids = imported_raw_ids - set(generated_art)
+    if unknown_generated_ids or missing_generated_ids:
+        raise ValueError(
+            "generated art manifest must cover exactly the imported items; "
+            f"missing={sorted(missing_generated_ids)}, extra={sorted(unknown_generated_ids)}")
     expected_equipment_visual_ids = {
         item.raw_id
         for item in items
@@ -1149,12 +1201,6 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
             "MM9 body-equipment visual overlay coverage mismatch; "
             f"missing={sorted(missing_body_visual_ids)}, extra={sorted(unexpected_body_visual_ids)}")
 
-    missing_generated_equipment_art_ids = expected_equipment_visual_ids - generated_art_item_ids
-
-    if missing_generated_equipment_art_ids:
-        raise ValueError(
-            "MM9 equipment visual overlay requires generated art; "
-            f"missing={sorted(missing_generated_equipment_art_ids)}")
     with args.object_table.open("r", encoding="cp1252", newline="") as object_file:
         object_rows = csv.DictReader(object_file, delimiter="\t")
         renderable_object_ids = {
@@ -1198,26 +1244,31 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
         if status == "mapped":
             mapped_item_id = ENGINE_ITEM_MAPPINGS[item.raw_id][0]
             report_entry["mapped_item_id"] = mapped_item_id
+            own_item = GLOBAL_ITEM_ID_BASE <= mapped_item_id <= GLOBAL_ITEM_ID_END
             id_mappings.append({
                 "raw_mm9_id": item.raw_id,
                 "item_id": mapped_item_id,
-                "kind": "engine_mapping",
-                "canonical_id": f"engine:item/{mapped_item_id}",
+                "kind": "mm9_mapping" if own_item else "engine_mapping",
+                "canonical_id": f"{'mm9' if own_item else 'engine'}:item/{mapped_item_id}",
             })
         elif status == "imported":
             canonical_id = ids[item.raw_id]
             equipment_visual = equipment_visuals.get(item.raw_id)
             body_equipment_visual = body_equipment_visuals.get(item.raw_id)
+            generated_definition = generated_art[item.raw_id]
+            icon_width, icon_height = logical_icon_dimensions(generated_art_manifest_path, generated_definition)
             normalized_row = normalized_item_row(
                 item,
                 canonical_id,
                 readable_texts,
-                generated_art_item_ids,
+                (icon_width, icon_height),
                 equipment_visual,
                 body_equipment_visual,
             )
+            authored_effect = effect_definitions.get(str(item.raw_id))
+            normalized_row[16] = item_description(
+                item, balance_effect(item.raw_id, authored_effect) if authored_effect is not None else None)
             if equipment_visual is not None:
-                icon_width, icon_height = normalized_icon_dimensions(item, normalized_row[4])
                 equip_x, equip_y = equipment_visual["equip_anchor"]
 
                 if not 0 <= equip_x < icon_width or not 0 <= equip_y < icon_height:
@@ -1282,25 +1333,8 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
             source_icon = icon_index.get(item.icon_stem.casefold())
             if source_icon is None:
                 raise ValueError(f"raw item {item.raw_id} references missing icon {item.icon_stem!r}")
-            output_icon = args.output_root / "icons" / f"mm9_item_{global_id}.png"
-            generated_definition = generated_art.get(item.raw_id)
-            if generated_definition is None:
-                generated_definition = shared_generated_art.get(item.icon_stem.casefold())
-            generated_asset: Path | None = None
-            if generated_definition is None:
-                width, height = convert_icon(source_icon, output_icon)
-                visual_source = "mm9_source_icon"
-                transparency = "rgb_black_key_le_8"
-            else:
-                expected_dimensions = normalized_icon_dimensions(item, normalized_row[4])
-                width, height, generated_asset = copy_generated_icon(
-                    generated_art_manifest_path,
-                    generated_definition,
-                    expected_dimensions,
-                    output_icon,
-                )
-                visual_source = "generated_inventory_art"
-                transparency = "rgba_alpha"
+            output_icon = args.output_root / ICON_DIRECTORY / f"mm9_item_{global_id}.png"
+            generated_asset = copy_generated_icon(generated_art_manifest_path, generated_definition, output_icon)
             icon_record = {
                 "item_id": global_id,
                 "raw_mm9_id": item.raw_id,
@@ -1308,15 +1342,14 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
                 "source_sha256": sha256_file(source_icon),
                 "output": output_icon.relative_to(args.output_root).as_posix(),
                 "output_sha256": sha256_file(output_icon),
-                "width": width,
-                "height": height,
-                "transparency": transparency,
-                "visual_source": visual_source,
+                "width": icon_width,
+                "height": icon_height,
+                "scale": ICON_SCALE,
+                "transparency": "rgba_alpha",
+                "visual_source": "generated_inventory_art",
+                "generated_asset": generated_asset.relative_to(generated_art_manifest_path.parent).as_posix(),
+                "design_id": generated_definition.get("design_id"),
             }
-            if generated_asset is not None:
-                icon_record["generated_asset"] = generated_asset.relative_to(
-                    generated_art_manifest_path.parent).as_posix()
-                icon_record["generation_tool"] = str(generated_definition.get("generation_tool", ""))
             if equipment_visual is not None:
                 icon_record["equip_anchor"] = list(equipment_visual["equip_anchor"])
                 icon_record["anchor_reference_item_id"] = equipment_visual["reference_item_id"]
@@ -1331,7 +1364,28 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
         report_rows.append(report_entry)
 
     write_world_item_sprite_artifacts(args, items, icon_records)
-    write_tsv(args.output_root / "data_tables" / "items.txt", [ITEM_HEADERS, *imported_rows])
+    # Balance profile v2: MM9 equipment on MM6-MM8 scales, weighed and priced like MM6-MM8's items of its family and
+    # tier (mm9_item_balance.py, BALANCE_PLAN.md sections 3.4-3.5).
+    engine_tables = Path(__file__).resolve().parents[2] / "assets_dev" / "engine" / "data_tables"
+    engine_item_rows = read_plain_tsv(getattr(args, "engine_items", None) or engine_tables / "items.txt")
+    engine_random_rows = read_plain_tsv(getattr(args, "engine_random_items", None) or engine_tables / "random_items.txt")
+    reference = EngineReference.from_tables(engine_item_rows, engine_random_rows)
+    item_columns = {name: index for index, name in enumerate(ITEM_HEADERS)}
+    balance_rows(imported_rows, item_columns, reference)
+    # MM9's own spellbooks, one per spell, drawn by the spell's mastery (mm9_spellbooks.py).
+    book_rows, book_random_rows = spellbook_rows(
+        ITEM_HEADERS,
+        engine_item_rows,
+        engine_random_rows,
+        read_plain_tsv(engine_tables / "spells.txt"),
+        install_spellbook_icons(args.output_root, Path(__file__).resolve().parents[2]),
+    )
+    write_tsv(args.output_root / "data_tables" / "items.txt", [ITEM_HEADERS, *imported_rows, *book_rows])
+    write_tsv(
+        args.output_root / "data_tables" / "random_items.txt",
+        [["Item #", "Pic File", "1", "2", "3", "4", "5", "6", "Name"],
+         *random_item_rows(imported_rows, item_columns, reference), *book_random_rows],
+    )
     write_tsv(
         args.output_root / "data_tables" / "readable_items.txt",
         [["Item#", "message text", "Location", "Item Name"], *readable_rows],
@@ -1350,7 +1404,7 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
     effect_rows = [
         effect_row(
             [str(GLOBAL_ITEM_ID_BASE + raw_id), f"mm9:item_effect/{raw_id}"],
-            effect_definitions[str(raw_id)],
+            balance_effect(raw_id, effect_definitions[str(raw_id)]),
         )
         for raw_id in sorted(required_effect_ids)
     ]
@@ -1369,7 +1423,8 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
         if not set_id or required_pieces <= 0 or not profile or threshold_key in seen_set_thresholds:
             raise ValueError(f"invalid or duplicate authored set definition: {definition}")
         seen_set_thresholds.add(threshold_key)
-        set_rows.append(effect_row([set_id, str(required_pieces), profile], definition.get("effect", {})))
+        set_rows.append(effect_row([set_id, str(required_pieces), profile],
+                                   balance_effect(0, definition.get("effect", {}))))
     write_tsv(
         args.output_root / "data_tables" / "item_sets.txt",
         [["set_id", "required_piece_count", "effect_profile", *CONTENT_EFFECT_FIELDS], *set_rows],
@@ -1415,7 +1470,8 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
             reference["resolution"] = "world_definition"
             reference["item_id"] = GLOBAL_ITEM_ID_BASE + reference["raw_mm9_id"]
         elif source_item["status"] == "mapped":
-            reference["resolution"] = "engine_mapping"
+            own_item = GLOBAL_ITEM_ID_BASE <= source_item["mapped_item_id"] <= GLOBAL_ITEM_ID_END
+            reference["resolution"] = "mm9_mapping" if own_item else "engine_mapping"
             reference["item_id"] = source_item["mapped_item_id"]
         else:
             reference["resolution"] = "excluded_requires_explicit_mapping"

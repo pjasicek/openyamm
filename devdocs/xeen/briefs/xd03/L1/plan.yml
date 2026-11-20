@@ -1,0 +1,485 @@
+format: 0
+level: L1
+pitch: "Below the Red Dwarf Mines the Mad Dwarf Clan has carved itself a stronghold around an old smelter. The Deep Line cart stops at a landing; a sentry cut leads to a gallery with a great gong, looking down on the Furnace Hall, where a channel of glowing slag splits the floor and two narrow bridges cross it. The King's Gate is barred twice: one bar is worked from a lever in the sergeants' barracks, the other from a lever in a little tower across the slag. Behind it the Clan King holds court in a six-sided hall under a cracked geode roof, on an anvil throne at the top of a stepped dais. His key opens the hoard behind the throne and the counterweight shaft he kept for his own escape, straight up to the hills of Vertigo. A side grotto of crystal and webs hides the Red Dwarves' first vault."
+purpose: "Story step M3, second half: kill the Clan King (the kill sets the quest bit; Mayor Gunther gives the Red Dwarf Badge on X1). Short, dense and harder than XD-02: clan sergeants, spiders at their middle and top ranks, tiger moles, bat queens, and a boss with a second phase. Optional: gems in the geode grotto and the hidden Red Dwarf vault. Monster levels 7 to 18; a party of about level 8 to 10."
+mood: "Hot and red: slag glow from below, soot, the clang of the gong. The geode grotto is the cold blue exception; the King's hall is the climax, glittering and brutal."
+datum: arrival
+spaces:
+  - id: room:armoury
+    name: Clan armoury
+    kind: room
+    size: S
+    extent: [768, 640]
+    shape: "Narrow room off the barracks, weapon racks in angled bays."
+    where: "North-west, behind the barracks."
+    floor: -480
+    clear_height: 384
+    relief: flat
+    purpose: A chest of clan arms.
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3], notes: Weapons and armour of the clan.}
+  - id: room:barracks
+    name: Sergeants' barracks
+    kind: room
+    size: M
+    extent: [1536, 1024]
+    shape: "Long hall with bunk bays on both sides, a back stair up to the gong gallery at its far end; lever A in an alcove."
+    where: West side of the furnace hall.
+    floor: -512
+    clear_height: 448
+    relief: flat
+    purpose: "Lever A of the King's Gate; the sergeants, who pour out if the gong is rung (set:gong_alarm)."
+    population:
+      - {actors: [{actor: Clan Sergeant, role: sergeant, count: 3}, {actor: Mad Dwarf, role: dwarf, count: 2}], groups: 1, levels: [7, 12], placed: true, strength: heavy, notes: Behind closed doors until the gong rings or the party opens them.}
+  - id: room:deep_landing
+    name: Deep landing
+    kind: room
+    size: S
+    extent: [1024, 768]
+    shape: "Rock platform at the foot of the Deep Line with a buffer stop; the line comes down steeply out of the roof."
+    where: South-east corner.
+    floor: 0
+    clear_height: [512, 896]
+    relief: flat
+    purpose: "Arrival from the cart; the way back to XD-02. Safe."
+    empty: true
+  - id: room:escape_shaft
+    name: Escape shaft
+    kind: room
+    size: XS
+    extent: [512, 512]
+    shape: "Square shaft with a counterweight cage, going straight up out of sight."
+    where: Behind the hoard.
+    floor: -320
+    clear_height: 2048
+    relief: flat
+    purpose: "The quick way out to X1 once its lever is thrown, and a quick way back in afterwards."
+    empty: true
+  - id: room:furnace_hall
+    name: Furnace Hall
+    kind: room
+    size: L
+    extent: [2560, 1792]
+    shape: "Irregular hall round a ruined smelter, its long axis bent; a channel of glowing slag about 384 wide runs diagonally across the floor, crossed by two narrow stone bridges, one near each end; the gong gallery overhangs the east side."
+    where: Centre of the map.
+    floor: {level: -512, range: [-640, -512]}
+    clear_height: [640, 1024]
+    relief: pit
+    features:
+      - {kind: channel, rise: -128, where: Diagonally across the floor, notes: "Slag: harmful floor (lava faces); a ramp at its south end lets anyone who falls in climb out."}
+      - {kind: bridge, count: 2, where: Near the north and south ends of the channel, notes: "About 192 wide, no rails."}
+    purpose: "Middle of the map: clan dwarves on both sides of the slag, the barracks to the west, the furnace tower across the slag to the north-east, the King's antechamber to the north."
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], strength: pack, rank: mixed, notes: "One group each side of the channel; rank a with a sergeant each."}
+  - id: room:furnace_tower
+    name: Furnace tower
+    kind: room
+    size: S
+    extent: [768, 768]
+    shape: "Round tower room built on the smelter's old stack, eight steps up from the hall, reached only over the north bridge; lever B on its wall."
+    where: "North-east of the furnace hall, across the slag."
+    floor: -256
+    clear_height: 512
+    relief: flat
+    purpose: Lever B of the King's Gate.
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 2], strength: light, rank: b}
+  - id: room:geode_grotto
+    name: Geode grotto
+    kind: room
+    size: M
+    extent: [1792, 1280]
+    shape: "Natural cave widening into a hollow geode lined with blue crystal points, the floor falling in uneven terraces; webs between the crystals."
+    where: "South-west, off the furnace hall."
+    floor: [-768, -512]
+    clear_height: [512, 896]
+    relief: uneven
+    purpose: "Optional: gem clusters (gems are the world's second currency), spiders and bat queens, and the singing crystal wall that hides the Red Dwarf vault."
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 3], strength: pack, rank: mixed, notes: Ranks b and c (10 and 14).}
+      - {actor: Bat Queen, role: bat queen, groups: 2, levels: [10, 10], placed: true, strength: light, notes: Hanging in the geode's dome.}
+  - id: room:gong_gallery
+    name: Gong gallery
+    kind: room
+    size: M
+    extent: [1792, 768]
+    shape: "Curved gallery overhanging the furnace hall along its east side, behind a parapet; a great bronze gong at its north end; stairs down at its south end, the back stair to the barracks at its north end."
+    where: "East side of the map, 384 above the furnace hall."
+    floor: -128
+    clear_height: 512
+    relief: flat
+    purpose: "First real fight and the alarm: a sentry stands at the gong (set:gong_alarm). The view down over the slag."
+    population:
+      - {actor: Clan Sergeant, role: gong sentry, groups: 1, levels: [12, 12], placed: true, strength: light, notes: At the gong.}
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: pack, rank: a}
+  - id: room:king_hall
+    name: The Clan King's hall
+    kind: room
+    size: XL
+    extent: [2560, 2304]
+    shape: "Six-sided hall under a cracked geode dome that glitters in the slag light. A stepped dais of six steps (192) rises against the north wall to the anvil throne; two slag gutters run down the side walls; four squat pillars stand in a ring round the middle."
+    where: North of the map.
+    floor: -512
+    clear_height: [768, 1280]
+    relief: steps
+    islands: 4
+    features:
+      - {kind: dais, rise: 192, where: North wall, notes: The anvil throne on top.}
+      - {kind: gutter, count: 2, where: Along the east and west walls, notes: Empty until the King's second phase (set:clan_king).}
+    purpose: Signature room and the boss fight.
+    population:
+      - {actor: Clan King, role: boss, groups: 1, levels: [18, 18], placed: true, strength: boss, drops: clan_king_key, notes: "Hit points about three times the curve; a second phase at half health."}
+      - {actors: [{actor: Clan Sergeant, role: sergeant, count: 2}, {actor: Mad Dwarf, role: dwarf, count: 2}], groups: 1, levels: [7, 12], placed: true, strength: heavy, notes: Round the dais.}
+  - id: room:king_hoard
+    name: The King's hoard
+    kind: room
+    size: S
+    extent: [1024, 768]
+    shape: "Trapezoid vault behind and above the throne, up a short stair from the dais."
+    where: Behind the King's hall.
+    floor: -320
+    clear_height: 448
+    relief: flat
+    purpose: The King's treasure and the escape shaft's lever.
+    empty: true
+    treasure:
+      - {kind: chest, count: 2, tier: 2, items: [3, 4], notes: "The King's chests; the best of the two mines."}
+  - id: room:kings_antechamber
+    name: Antechamber
+    kind: room
+    size: S
+    extent: [1024, 768]
+    shape: "Wedge narrowing toward the King's Gate, two statues of Red Dwarf kings with their faces hacked off."
+    where: North of the furnace hall.
+    floor: -512
+    clear_height: 512
+    relief: flat
+    purpose: The double-barred King's Gate and its two guards.
+    population:
+      - {actor: Clan Sergeant, role: gate guard, groups: 2, levels: [12, 12], placed: true, strength: pack}
+  - id: room:mole_warren
+    name: Mole warren
+    kind: room
+    size: M
+    extent: [1536, 1280]
+    shape: "A knot of round burrows bored by tiger moles, meeting in a central hollow; the burrows loop round two rock cores."
+    where: "South, below the furnace hall."
+    floor: -768
+    clear_height: [384, 512]
+    relief: uneven
+    islands: 2
+    purpose: "Optional side fight with tiger moles; a dead prospector."
+    population:
+      - {slot: 3, groups: 2, per_marker: [1, 2], strength: pack, rank: a}
+    treasure:
+      - {kind: corpse, count: 1, tier: 2, items: [1, 2], notes: A prospector the moles caught.}
+  - id: room:red_dwarf_vault
+    name: Red Dwarf vault
+    kind: room
+    size: S
+    extent: [768, 768]
+    shape: "Round vault of dressed stone, older than anything else here, with a carved door-ring of runes on the floor."
+    where: Behind the geode grotto's crystal wall.
+    floor: -768
+    clear_height: 512
+    relief: flat
+    purpose: "The Red Dwarves' first vault, untouched by the clan: a chest and the history of the mine (lore for the dwarves who reopen it after M3)."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3]}
+    secret: true
+  - id: room:sentry_cut
+    name: Sentry cut
+    kind: room
+    size: S
+    extent: [384, 1536]
+    shape: "Narrow rock cut zig-zagging north and down from the landing, with a lookout niche halfway."
+    floor: [-128, 0]
+    clear_height: 384
+    relief: slope
+    purpose: "The way in; a pair of lookouts in the niche."
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 2], strength: light, rank: a, notes: In the lookout niche.}
+  - id: void:geode_dome
+    name: Geode dome
+    kind: void
+    part_of: room:king_hall
+    size: L
+    extent: [1792, 1792]
+    shape: "Cracked hemisphere of crystal over the hall; slag light glitters in it."
+    top: 1280
+    purpose: "The hall's crown, seen from the gate as it opens."
+  - id: zone:slag_channel
+    name: Slag channel
+    kind: zone
+    part_of: room:furnace_hall
+    extent: [384, 2560]
+    shape: "Channel about 384 wide and 128 deep running diagonally across the furnace hall, glowing; a ramp at its south end."
+    floor: -640
+    relief: pit
+    purpose: "Splits the hall in two; harmful floor (set:slag_channel). Crossed by the two bridges."
+    empty: true
+regions:
+  - id: region:clan_hold
+    name: The clan's hold
+    spaces: [room:deep_landing, room:sentry_cut, room:gong_gallery, room:furnace_hall, room:furnace_tower, room:barracks, room:armoury, room:kings_antechamber]
+    theme: "Dwarven masonry, soot-blackened; slag light"
+  - id: region:king
+    name: The King's quarters
+    spaces: [room:king_hall, void:geode_dome, room:king_hoard, room:escape_shaft]
+    theme: "Dressed red stone, gold leaf, crystal"
+  - id: region:natural_caves
+    name: Natural caves
+    spaces: [room:geode_grotto, room:red_dwarf_vault, room:mole_warren]
+    theme: "Blue crystal, webs, raw rock"
+links:
+  - id: link:antechamber_king_hall
+    from: room:kings_antechamber
+    to: room:king_hall
+    kind: double_door
+    motion: swing
+    condition: {all: [{map_var: gate_bar_a}, {map_var: gate_bar_b}]}
+    notes: "The King's Gate: two iron bars across it, each lifted by its own lever (lever A in the barracks, lever B in the furnace tower). Clicking it before both are up: 'The gate is barred from within.'"
+  - id: link:barracks_armoury
+    from: room:barracks
+    to: room:armoury
+    kind: door
+    rise: 32
+  - id: link:barracks_gong_back_stair
+    from: room:barracks
+    to: room:gong_gallery
+    kind: stairs
+    rise: 384
+    notes: "Back stair, 12 steps of 32 in a turning flight."
+  - id: link:furnace_antechamber
+    from: room:furnace_hall
+    to: room:kings_antechamber
+    kind: open
+  - id: link:furnace_barracks
+    from: room:furnace_hall
+    to: room:barracks
+    kind: double_door
+    motion: swing
+    notes: "Heavy doors; flung open by the gong alarm."
+  - id: link:furnace_geode
+    from: room:furnace_hall
+    to: room:geode_grotto
+    kind: ramp
+    notes: A rough opening where the smelter's workers broke into the natural cave.
+  - id: link:furnace_mole_warren
+    from: room:furnace_hall
+    to: room:mole_warren
+    kind: ramp
+    rise: -256
+    notes: A burrow mouth in the hall's south wall.
+  - id: link:furnace_tower_bridge
+    from: room:furnace_hall
+    to: room:furnace_tower
+    kind: bridge
+    rise: 256
+    crosses: [zone:slag_channel]
+    notes: "The north bridge over the slag, then 8 steps of 32 up into the tower."
+  - id: link:geode_vault
+    from: room:geode_grotto
+    to: room:red_dwarf_vault
+    kind: secret_door
+    motion: sink
+    notes: "A wall of crystal that hums when touched; clicking it sinks it into the floor. The vault's runes are visible through it as shadows."
+  - id: link:gong_furnace_stairs
+    from: room:gong_gallery
+    to: room:furnace_hall
+    kind: stairs
+    rise: -384
+    notes: "South end; 12 steps of 32 down along the wall."
+  - id: link:hoard_escape_shaft
+    from: room:king_hoard
+    to: room:escape_shaft
+    kind: open
+  - id: link:king_hall_hoard
+    from: room:king_hall
+    to: room:king_hoard
+    kind: door
+    condition: {item: clan_king_key}
+    rise: 192
+    notes: "A small door behind the throne, at the top of the dais (the hoard floor is level with the dais top)."
+  - id: link:landing_sentry_cut
+    from: room:deep_landing
+    to: room:sentry_cut
+    kind: open
+  - id: link:sentry_cut_gong
+    from: room:sentry_cut
+    to: room:gong_gallery
+    kind: door
+loops:
+  - id: loop:barracks_ring
+    spaces: [room:gong_gallery, room:furnace_hall, room:barracks]
+    notes: "Down the gallery stairs, across the hall, through the barracks and up its back stair to the gallery: the alarmed sergeants can come round behind the party."
+entrances:
+  - id: entrance:cart
+    space: room:deep_landing
+    kind: both
+    neighbour: exit:deep_cart
+    facing: n
+    how: "Stepping off the Deep Line cart at the buffer stop; boarding it again rides back up."
+  - id: entrance:escape_shaft
+    space: room:escape_shaft
+    kind: both
+    neighbour: exit:x1_shaft
+    how: "The counterweight cage; up to the X1 hills, and down again from there once open."
+    condition: {qbit: escape_shaft_open}
+critical_path: [room:deep_landing, room:sentry_cut, room:gong_gallery, room:furnace_hall, room:barracks, room:furnace_hall, room:furnace_tower, room:furnace_hall, room:kings_antechamber, room:king_hall]
+return_path: [room:king_hall, room:king_hoard, room:escape_shaft]
+goals:
+  - id: goal:clan_king
+    space: room:king_hall
+    kind: kill
+    what: Kill the Clan King.
+    story: M3
+    handed_in_at: X1
+    gives:
+      qbit: clan_king_slain
+    notes: Mayor Gunther in Vertigo gives the Red Dwarf Badge (a party award) and the dwarves reopen their mine as a shop and a teacher (QUESTS.md M3).
+  - id: goal:escape_shaft
+    space: room:king_hoard
+    kind: set
+    what: "Optional: throw the shaft lever in the hoard, so the cage runs to the X1 hills."
+    gives:
+      qbit: escape_shaft_open
+keys:
+  - id: key:clan_king_key
+    grants: {item: clan_king_key}
+    found_in: room:king_hall
+    how: actor drop (the Clan King)
+  - id: key:lever_a
+    grants: {map_var: gate_bar_a}
+    found_in: room:barracks
+    how: "lever: lifts the King's Gate's lower bar"
+  - id: key:lever_b
+    grants: {map_var: gate_bar_b}
+    found_in: room:furnace_tower
+    how: "lever: lifts the King's Gate's upper bar"
+points_of_interest:
+  - id: poi:gem_clusters
+    space: room:geode_grotto
+    count: 4
+    kind: crystal cluster
+    behaviour: Prising out a cluster gives one or two gems (the low gems of the loot tables).
+    uses: {times: 1, per: party, reset: never}
+    after_use: {hides: [crystal cluster]}
+  - id: poi:gong
+    space: room:gong_gallery
+    kind: gong
+    behaviour: "Rung by the sentry (set:gong_alarm) or by the party: either way the barracks doors burst open and the sergeants come."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: alarm_rung
+  - id: poi:lever_a
+    space: room:barracks
+    kind: lever
+    behaviour: "Lifts the lower bar of the King's Gate; a distant clank."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: gate_bar_a
+  - id: poi:lever_b
+    space: room:furnace_tower
+    kind: lever
+    behaviour: "Lifts the upper bar of the King's Gate; a distant clank."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: gate_bar_b
+  - id: poi:shaft_lever
+    space: room:king_hoard
+    kind: lever
+    behaviour: "Releases the counterweight: the cage in the escape shaft can be ridden to the X1 hills and back."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: escape_shaft_open
+landmarks:
+  - id: landmark:anvil_throne
+    space: room:king_hall
+    what: "The anvil throne at the top of the stepped dais, under the glittering dome."
+    seen_from: [room:kings_antechamber, room:king_hall]
+  - id: landmark:slag_channel
+    space: zone:slag_channel
+    what: "The glowing slag channel cutting across the hall; it lights the whole hold from below."
+    seen_from: [room:gong_gallery, room:furnace_hall, room:furnace_tower]
+sightlines:
+  - id: sightline:gate_opens
+    from: room:kings_antechamber
+    to: [landmark:anvil_throne, void:geode_dome]
+    what: "As the King's Gate swings open: the throne on its dais straight ahead, the dome glittering above."
+  - id: sightline:gong_overlook
+    from: room:gong_gallery
+    to: [room:furnace_hall, landmark:slag_channel, room:furnace_tower]
+    what: "From the parapet, the whole Furnace Hall: the slag, both bridges, the tower beyond."
+set_pieces:
+  - id: set:clan_king
+    kind: boss
+    spaces: [room:king_hall]
+    rule: "The Clan King fights from the dais with his guard. At half health he kicks over the forge braziers beside the throne: slag pours down the two side gutters, which become harmful floor for the rest of the fight (and stay so), and he comes down off the dais. He drops his key. His death sets the quest bit."
+    inputs: [the King's health]
+    states: [on the dais, second phase (gutters burning), dead]
+    gives:
+      qbit: clan_king_slain
+    population:
+      - {actor: Clan King, role: boss, groups: 1, levels: [18, 18], placed: true, strength: boss, drops: clan_king_key}
+  - id: set:gong_alarm
+    kind: ambush
+    spaces: [room:gong_gallery, room:furnace_hall, room:barracks]
+    rule: "If the gong sentry lives for a few seconds after seeing the party, he rings the gong: the barracks doors burst open and the sergeants come round by the hall and up the back stair. Killing him first keeps the barracks shut and asleep until opened. Ringing it later does the same."
+    inputs: [sentry sees the party, sentry killed, gong rung]
+    states: [quiet, alarm rung]
+    gives:
+      map_var: alarm_rung
+  - id: set:kings_gate
+    kind: puzzle
+    spaces: [room:barracks, room:furnace_tower, room:kings_antechamber]
+    rule: "The King's Gate has two bars. Lever A (barracks) lifts one, lever B (furnace tower, over the north bridge) the other; the gate opens only with both lifted. Each lever clanks and its bar is seen rising from the antechamber."
+    inputs: [lever A, lever B]
+    states: [both down, one up, both up (gate opens)]
+    solution: "Throw both levers, in either order."
+  - id: set:slag_channel
+    kind: trap
+    spaces: [room:furnace_hall, zone:slag_channel]
+    effect: {damage: "fire, per moment in the slag"}
+    rule: "The slag channel is harmful floor (fire damage each moment in it). The bridges have no rails; a party knocked or stepping off falls 128 in and climbs out by the ramp at the channel's south end."
+mechanisms:
+  - {kind: barred double gate (two levers), count: 1}
+  - {kind: lever, count: 3}
+  - {kind: ordinary door, count: 3}
+  - {kind: heavy double door, count: 1}
+  - {kind: keyed door, count: 1}
+  - {kind: secret crystal wall, count: 1}
+  - {kind: counterweight cage (lift to another map), count: 1}
+  - {kind: gong (alarm), count: 1}
+  - {kind: harmful floor (slag), count: 3, notes: "The channel; the two hall gutters after the King's second phase."}
+height_bands:
+  - id: band:arrival
+    range: [-128, 0]
+    spaces: [room:deep_landing, room:gong_gallery]
+    partly: [room:sentry_cut]
+  - id: band:hall
+    range: [-640, -256]
+    spaces: [room:furnace_hall, room:barracks, room:armoury, room:furnace_tower, room:kings_antechamber, room:king_hall, room:king_hoard]
+    partly: [room:geode_grotto, room:escape_shaft]
+  - id: band:low
+    level: -768
+    spaces: [room:mole_warren, room:red_dwarf_vault]
+    partly: [room:geode_grotto]
+diagram: {file: diagram.txt}
+totals:
+  chests: 4
+  critical_path_length: 8500
+  doors: 6
+  fixed_actors: 17
+  floor_area_munits2: 27
+  height_range: 768
+  loops: 1
+  monsters_about: 34
+  rooms: 14
+  secret_faces: 1
+  sectors: 17
+  spawn_points: 8
+  traps: 1
+notes: "Size S at the top of its band (about 34 monsters in about 17 sectors, 2 per sector) because it is the Act I mine's finale. Most fighters are placed: sergeants and the King are characters of the hold, not spawns. Distribution: nothing at the landing; light in the sentry cut; the alarm fight at the gong; packs on both sides of the slag; the barracks heavy if alarmed; quiet armoury, vault and hoard; the boss room heaviest. Non-orthogonal: the zig-zag cut, curved gallery, bent hall with a diagonal channel, round tower, six-sided hall, wedge antechamber, trapezoid hoard, round vault, geode and burrows. Risers are 32 (the dais is six steps); the lowest ceiling is 384."

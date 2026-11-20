@@ -1,0 +1,14 @@
+output_dir: /tmp/obsidian-native-journal
+exit: true
+steps:
+  - wait: 1
+  - action: map_book
+  - click: [1315, 654]
+  - capture: notes
+  - click: [1175, 203]
+  - capture: notes-next
+  - click: [1175, 573]
+  - capture: seer
+  - key: Escape
+  - action: rest
+  - capture: rest

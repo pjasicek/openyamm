@@ -1,0 +1,1 @@
+Retain original detailed master; reproduce with queue.py process g08050_v0_s0 --adjust 1 0 3. Common vertical correction restores native y256 ground contact, without scale changes. Final bounds delta [0,-2,0.5,0], no warnings; both final proofs inspected.

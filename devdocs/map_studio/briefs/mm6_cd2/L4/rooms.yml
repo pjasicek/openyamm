@@ -1,0 +1,4219 @@
+format: 0
+themes:
+  - id: theme:ct_niche
+    wall: {texture: cttrim1, size: [32, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: cttrim1, size: [32, 256]}
+    notes: "The sarcophagi's niches: CTTRIM1 sides and roof, ctFlor1 floor (faces 4372 to 4381, 4389 to 4392, 4397)."
+  - id: theme:ctdor4_ctflor5_ctceil2
+    wall: {texture: ctdor4, size: [128, 256]}
+    floor: {texture: ctflor5, size: [128, 128]}
+    ceiling: {texture: ctceil2, size: [128, 128]}
+    notes: "Variant: walls ctdor4, floor ctflor5, ceiling ctceil2, read off the original; 1 room(s)."
+  - id: theme:ctwl2_ctflor1_ctceil1
+    wall: {texture: ctwl2, size: [256, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: ctceil1, size: [128, 128]}
+    notes: "Variant: walls ctwl2, floor ctflor1, ceiling ctceil1, read off the original; 1 room(s)."
+  - id: theme:d2ceil3_crdrf2_d2ceil3
+    wall: {texture: d2ceil3, size: [256, 256]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2ceil3, floor crdrf2, ceiling d2ceil3, read off the original; 8 room(s)."
+  - id: theme:d2ceil3_d2ceil3_d2ceil3
+    wall: {texture: d2ceil3, size: [256, 256]}
+    floor: {texture: d2ceil3, size: [256, 256]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2ceil3, floor d2ceil3, ceiling d2ceil3, read off the original; 29 room(s)."
+  - id: theme:d2wctra_crdflr4_d2wctra
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: crdflr4, size: [128, 128]}
+    ceiling: {texture: d2wctra, size: [128, 256]}
+    notes: "Variant: walls d2wctra, floor crdflr4, ceiling d2wctra, read off the original; 1 room(s)."
+  - id: theme:d2wctra_crdrf2_d2ceil2
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2ceil2, size: [256, 256]}
+    notes: "Variant: walls d2wctra, floor crdrf2, ceiling d2ceil2, read off the original; 2 room(s)."
+  - id: theme:d2wctra_crdrf2_d2wctra
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2wctra, size: [128, 256]}
+    notes: "Variant: walls d2wctra, floor crdrf2, ceiling d2wctra, read off the original; 19 room(s)."
+  - id: theme:d2wctra_d2ceil3_d2ceil3
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: d2ceil3, size: [256, 256]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wctra, floor d2ceil3, ceiling d2ceil3, read off the original; 6 room(s)."
+  - id: theme:d2wctra_d2flor4_d2ceil3
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wctra, floor d2flor4, ceiling d2ceil3, read off the original; 8 room(s)."
+  - id: theme:d2wctra_d2flor5_d2ceil3
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: d2flor5, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wctra, floor d2flor5, ceiling d2ceil3, read off the original; 1 room(s)."
+  - id: theme:d2wctra_d2wlcctr_d2ceil3
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: d2wlcctr, size: [256, 256]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wctra, floor d2wlcctr, ceiling d2ceil3, read off the original; 1 room(s)."
+  - id: theme:d2wlactr_crdrf2_d2ceil3
+    wall: {texture: d2wlactr, size: [128, 256]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wlactr, floor crdrf2, ceiling d2ceil3, read off the original; 1 room(s)."
+  - id: theme:d2wlactr_d2flor4_d2ceil3
+    wall: {texture: d2wlactr, size: [128, 256]}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wlactr, floor d2flor4, ceiling d2ceil3, read off the original; 3 room(s)."
+  - id: theme:d2wlare_d2flor4_d2ceil3
+    wall: {texture: d2wlare, size: [128, 256]}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wlare, floor d2flor4, ceiling d2ceil3, read off the original; 1 room(s)."
+  - id: theme:d2wlbmed_crdrf2_d2ceil3
+    wall: {texture: d2wlbmed, size: [256, 256]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wlbmed, floor crdrf2, ceiling d2ceil3, read off the original; 1 room(s)."
+  - id: theme:d2wlbpos_crdrf2_d2ceil3
+    wall: {texture: d2wlbpos, size: [128, 256]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d2wlbpos, floor crdrf2, ceiling d2ceil3, read off the original; 1 room(s)."
+  - id: theme:d6roofb_crdrf2_d2ceil3
+    wall: {texture: d6roofb, size: [128, 128]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Variant: walls d6roofb, floor crdrf2, ceiling d2ceil3, read off the original; 1 room(s)."
+  - id: theme:darkmoor
+    wall: {texture: d2wctra, size: [128, 256]}
+    floor: {texture: crdrf2, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "The castle stone, about 98 %% of the original by area: walls d2wctra, floor crdrf2, ceiling d2ceil3, read off the original; 224 room(s)."
+  - id: theme:t3ll5
+    wall: {texture: t3ll5, size: [256, 256]}
+    floor: {texture: t3ll5, size: [256, 256]}
+    ceiling: {texture: t3ll5, size: [256, 256]}
+    notes: "The levers' niches: T3LL5 on every side (faces 4509 to 4513, 4544 to 4548)."
+defaults: {theme: theme:darkmoor, ambient: 13}
+rooms:
+  - id: room:s001
+    name: South cavern
+    outline: [[17713, 0], [10033, 0], [10129, -1152], [10897, -3456], [11761, -4320], [12358, -4356], [14434, -4848], [15949, -4788], [18016, -4071], [18481, -3216], [18481, -2448], [18097, -960]]
+    floor: -240
+    floor_points: [[17713, 0, 60], [10033, 0, 60], [10129, -1152, -90], [10897, -3456, -90], [11761, -4320, -90], [12358, -4356, -30], [14434, -4848, -30], [15949, -4788, -30], [18016, -4071, -30], [18481, -3216, -60], [18481, -2448, -60], [18097, -960, -90], [12913, 0, -240], [12502, -594, -240], [11269, -1365, -240], [10777, -2505, -240], [11137, -3372, -240], [10993, -3552, -240], [11569, -4128, -240], [12010, -3924, -240], [14722, -4665, -240], [17170, -4250, -240], [16474, -1278, -240], [15094, -747, -240], [14641, 0, -240], [11089, -672, -90], [12337, 0, -90], [16561, -672, -90], [15601, 0, -90], [11359, 0, -26], [12241, 0, -84], [12625, 0, -165], [14833, 0, -210]]
+    floor_lines:
+      - [[12913, 0], [12502, -594], [11269, -1365], [10777, -2505], [11137, -3372], [10993, -3552]]
+      - [[11569, -4128], [12010, -3924], [14722, -4665], [17170, -4250], [16474, -1278], [15094, -747], [14641, 0]]
+      - [[12913, 0], [12337, 0], [11269, -1365], [11089, -672], [10129, -1152], [10777, -2505], [10897, -3456], [11137, -3372]]
+      - [[18016, -4071], [17170, -4250], [15949, -4788], [14722, -4665], [14434, -4848]]
+      - [[17713, 0], [16561, -672], [18097, -960], [16474, -1278]]
+      - [[12502, -594], [12337, 0], [11089, -672], [10777, -2505]]
+      - [[14722, -4665], [12358, -4356], [12010, -3924], [11761, -4320]]
+      - [[16474, -1278], [16561, -672], [15094, -747], [15601, 0], [14641, 0]]
+      - [[16561, -672], [15601, 0]]
+      - [[10897, -3456], [10993, -3552]]
+      - [[11089, -672], [10033, 0]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil3, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 828
+    ceiling_points: [[17713, 0, 76], [10033, 0, 76], [10129, -1152, -74], [10897, -3456, -74], [11761, -4320, -74], [12358, -4356, -14], [14434, -4848, -14], [15949, -4788, -14], [18016, -4071, -14], [18481, -3216, 510], [18481, -2448, 510], [18097, -960, -74], [10705, 0, 828], [11581, 0, 1470], [13105, 0, 2160], [15217, 0, 1380], [16561, 0, 588], [10780, -1935, 828], [12769, -3327, 828], [15319, -3585, 828], [17068, -3090, 828], [17584, -1515, 828], [12217, -936, 1746], [13492, -2409, 1746], [15880, -1971, 1746], [11137, -3696, 450], [11377, -3936, 540], [11552, -4111, 252], [10457, -2136, -74], [18335, -2035, 283]]
+    ceiling_lines:
+      - [[10780, -1935], [12769, -3327], [15319, -3585], [17068, -3090], [17584, -1515]]
+      - [[12217, -936], [13492, -2409], [15880, -1971]]
+      - [[14434, -4848], [12769, -3327], [11377, -3936], [11137, -3696], [10897, -3456], [10457, -2136], [10129, -1152], [10780, -1935], [10033, 0], [10705, 0], [12217, -936], [13105, 0], [13492, -2409], [15319, -3585], [15949, -4788], [17068, -3090], [18016, -4071]]
+      - [[17068, -3090], [15880, -1971], [15319, -3585], [14434, -4848]]
+      - [[11581, 0], [10705, 0], [10780, -1935], [12217, -936], [12769, -3327], [11137, -3696]]
+      - [[11377, -3936], [11552, -4111], [11761, -4320], [12769, -3327], [13492, -2409], [15217, 0], [15880, -1971], [17584, -1515], [16561, 0], [18097, -960], [18335, -2035]]
+      - [[10897, -3456], [10780, -1935], [11137, -3696]]
+      - [[18097, -960], [17584, -1515], [18335, -2035]]
+      - [[13105, 0], [15217, 0], [16561, 0], [15880, -1971]]
+      - [[11552, -4111], [12769, -3327], [12358, -4356]]
+      - [[16561, 0], [17713, 0]]
+      - [[11581, 0], [12217, -936]]
+    walls:
+      - wall: 1
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 2
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 3
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 4
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 5
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 6
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 7
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 8
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 9
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 10
+        surface: {texture: d2ceil3, size: [256, 256]}
+      - wall: 11
+        surface: {texture: d2ceil3, size: [256, 256]}
+    platforms:
+      - {at: [13729, -96], size: [1440, 192], rise: 30}
+      - {at: [13729, -48], size: [1248, 96], rise: 30, base: 30}
+    notes: "Original sector 1. Round four: the floor level at -240 out to the foot of the rock banks, the banks rising to the rim (-30 to -90, +60 in the corners at the castle wall) and a terrace at -90 in the north-west corner (floor_points, the foot as floor_lines); the dome from the rim up through the original's rings at 828 and 1,746 to its point at 2,160 against the castle wall, the castle wall's top as the roof's edge (ceiling_points, the rings as ceiling_lines). Points are the original's vertices one for one (31 floor points, a few over the procedure's 25: fewer would leave out the foot where it reaches the east rock wall or the terrace). The roof stands 16 above the floor along the rim, where the original's meet. Banks take the floor's surface (one floor surface). Rounds two and three: a level floor under three ceiling levels."
+  - id: room:s002
+    name: "Cross hall, south arm"
+    outline: [[14257, 1152], [13201, 1152], [13201, 0], [14257, 0]]
+    floor: -180
+    ceiling: 372
+    notes: Original sector 2.
+  - id: room:s004
+    name: Battlement gallery over the south cavern
+    outline: [[10609, 576], [10609, 48], [15217, 48], [15217, 576]]
+    floor: 528
+    ceiling: 1380
+    notes: Original sector 4.
+  - id: room:s005
+    name: Cross hall
+    outline: [[13201, 2496], [13201, 1344], [14257, 1344], [14257, 2496]]
+    floor: -180
+    ceiling: 372
+    notes: Original sector 5.
+  - id: room:s008
+    name: East tall hall
+    outline: [[16657, 4512], [14929, 4512], [14833, 4416], [14833, 2688], [14929, 2592], [16369, 2592], [16753, 2976], [16753, 4416]]
+    floor: -180
+    ceiling: 912
+    notes: "Original sector 8. Round five: the arch passage to the great hall (y 4512 to 4896) is room:s008_v under its vault; the hall's walls are numbered without it."
+  - id: room:s008_v
+    name: "East tall hall, arch to the great hall"
+    outline: [[15025, 4512], [16561, 4512], [16561, 4896], [15025, 4896]]
+    floor: -180
+    ceiling: 660
+    ceiling_points: [[15025, 4512, 150], [15025, 4896, 150], [15121, 4512, 300], [15121, 4896, 300], [15217, 4512, 420], [15217, 4896, 420], [15409, 4512, 555], [15409, 4896, 555], [15601, 4512, 630], [15601, 4896, 630], [15793, 4512, 660], [15793, 4896, 660], [15985, 4512, 630], [15985, 4896, 630], [16177, 4512, 555], [16177, 4896, 555], [16369, 4512, 420], [16369, 4896, 420], [16465, 4512, 300], [16465, 4896, 300], [16561, 4512, 150], [16561, 4896, 150]]
+    ceiling_lines:
+      - [[15025, 4512], [15025, 4896]]
+      - [[15121, 4512], [15121, 4896]]
+      - [[15217, 4512], [15217, 4896]]
+      - [[15409, 4512], [15409, 4896]]
+      - [[15601, 4512], [15601, 4896]]
+      - [[15793, 4512], [15793, 4896]]
+      - [[15985, 4512], [15985, 4896]]
+      - [[16177, 4512], [16177, 4896]]
+      - [[16369, 4512], [16369, 4896]]
+      - [[16465, 4512], [16465, 4896]]
+      - [[16561, 4512], [16561, 4896]]
+    notes: "Original sector 8, its arch passage to the great hall: a barrel vault by ceiling_points (150 at its sides to the crown at 660, the original's vertices one for one, each strip's crease a ceiling_line), open to the hall under the vault's line and to the great hall likewise. Rounds one to four: part of the hall under its flat 912, the great hall's arch an `arch` shape 840 high."
+  - id: room:s009
+    name: Middle tall hall
+    outline: [[13105, 2688], [13201, 2592], [14353, 2592], [14449, 2688], [14449, 4416], [14353, 4512], [13201, 4512], [13105, 4416]]
+    floor: -180
+    ceiling: 912
+    notes: Original sector 9.
+  - id: room:s010
+    name: West tall hall
+    outline: [[10897, 4512], [10801, 4416], [10801, 2976], [11281, 2592], [12625, 2592], [12721, 2688], [12721, 4416], [12625, 4512]]
+    floor: -180
+    ceiling: 912
+    notes: Original sector 10.
+  - id: room:s012
+    name: Guard room
+    outline: [[12817, 2496], [11569, 2496], [11377, 2304], [11377, 1536], [13009, 1536], [13009, 2304]]
+    floor: -180
+    ceiling: 120
+    ceiling_levels:
+      - outline: [[12817, 2208], [12721, 2304], [11665, 2304], [11569, 2208], [11569, 1728], [12817, 1728]]
+        ceiling: 168
+    notes: Original sector 12.
+  - id: room:s014
+    name: Stair hall
+    outline: [[10225, 1440], [10609, 1440], [10897, 1728], [10897, 2112], [10609, 2400], [10609, 2592], [10225, 2592], [10225, 2400], [9937, 2112], [9937, 1728]]
+    floor: 0
+    ceiling: 426
+    ceiling_levels:
+      - outline: [[10033, 2016], [10033, 1824], [10321, 1536], [10513, 1536], [10801, 1824], [10801, 2016], [10513, 2304], [10321, 2304]]
+        ceiling: 474
+    notes: Original sector 14.
+  - id: room:s015
+    name: Steps from the guard room to the stair hall
+    outline: [[10993, 1728], [11377, 1728], [11377, 2112], [10993, 2112]]
+    floor: -150
+    slope: {to: -30, toward: 3, steps: 4}
+    ceiling: 210
+    notes: Original sector 15.
+  - id: room:s015_a
+    name: Steps from the guard room to the stair hall
+    outline: [[10897, 1728], [10993, 1728], [10993, 2112], [10897, 2112]]
+    floor: -30
+    ceiling: 240
+    notes: Original sector 15.
+  - id: room:s016
+    name: Lever closet
+    outline: [[10225, 4800], [9664, 4800], [9664, 4416], [10225, 4416]]
+    floor: 0
+    ceiling: 252
+    notes: Original sector 16.
+  - id: room:s016_niche
+    name: East lever niche
+    outline: [[9664, 4672], [9632, 4672], [9632, 4640], [9664, 4640]]
+    floor: 128
+    ceiling: 160
+    theme: theme:t3ll5
+    notes: "The east lever's niche, 32 square and 32 deep in the closet's west wall (sector 16, faces 4509 to 4513). Rounds one to five: not drawn, the lever a plate on the wall."
+  - id: room:s017
+    name: North passage of the stair hall
+    outline: [[10225, 4800], [10225, 2592], [10609, 2592], [10609, 4800]]
+    floor: 0
+    ceiling: 396
+    notes: Original sector 17.
+  - id: room:s019
+    name: Octagon at the stair head
+    outline: [[9728, 1056], [9728, 608], [10033, 192], [10801, 192], [11089, 480], [11089, 1056], [10801, 1344], [10033, 1344]]
+    floor: 0
+    ceiling: 480
+    notes: Original sector 19.
+  - id: room:s020
+    name: Long ramp from the stair hall down to the crypt
+    outline: [[11089, 480], [12817, 480], [12817, 1056], [11089, 1056]]
+    floor: -570
+    slope: {to: -30, toward: 3}
+    ceiling: -152
+    ceiling_slope: {to: 388, toward: 3}
+    notes: "Original sector 20. Round three: one ramp under one sloping ceiling, as the original's single floor face; rounds one and two cut it into 3 pieces with stepped ceilings."
+  - id: room:s020_a
+    name: Long ramp from the stair hall down to the crypt
+    outline: [[12817, 1056], [12817, 480], [12913, 480], [12913, 1056]]
+    floor: -570
+    ceiling: -152
+    ceiling_slope: {to: -182, toward: 2}
+    notes: Original sector 20.
+  - id: room:s020_b
+    name: Long ramp from the stair hall down to the crypt
+    outline: [[12913, 480], [13009, 480], [13009, 1056], [12913, 1056]]
+    floor: -600
+    slope: {to: -570, toward: 3, steps: 1}
+    ceiling: -270
+    notes: Original sector 20.
+  - id: room:s021
+    name: East room
+    outline: [[15505, 2496], [14545, 2496], [14353, 2304], [14353, 1536], [15505, 1536]]
+    floor: -180
+    ceiling: 168
+    notes: Original sector 21.
+  - id: room:s022
+    name: East anteroom
+    outline: [[15505, 2496], [15505, 1920], [16369, 1920], [16369, 2496]]
+    floor: -180
+    ceiling: 168
+    notes: Original sector 22.
+  - id: room:s024
+    name: Cell block
+    outline: [[15505, 960], [15505, 288], [16369, 288], [16369, 960]]
+    floor: -180
+    ceiling: 85
+    notes: Original sector 24.
+  - id: room:s025
+    name: Cell block passage
+    outline: [[16177, 1920], [16177, 960], [16369, 960], [16369, 1920]]
+    floor: -180
+    ceiling: 85
+    notes: Original sector 25.
+  - id: room:s026
+    name: Cell
+    outline: [[15121, 864], [14545, 864], [14545, 288], [15121, 288]]
+    floor: -180
+    ceiling: 85
+    notes: Original sector 26.
+  - id: room:s027
+    name: Cell doorway
+    outline: [[15121, 606], [15121, 384], [15505, 384], [15505, 606]]
+    floor: -180
+    ceiling: 85
+    notes: Original sector 27.
+  - id: room:s028
+    name: Cell
+    outline: [[16081, 960], [16081, 1344], [15793, 1344], [15793, 960]]
+    floor: -180
+    ceiling: 85
+    notes: Original sector 28.
+  - id: room:s030
+    name: Arrow slit
+    outline: [[14737, 1440], [15121, 1440], [15121, 1536], [14737, 1536]]
+    floor: -60
+    ceiling: 60
+    notes: Original sector 30.
+  - id: room:s031
+    name: South crypt hall
+    outline: [[14449, 480], [14449, 576], [15808, 576], [15808, 960], [14449, 960], [14449, 1056], [13009, 1056], [13009, 480], [13105, 192], [14353, 192]]
+    floor: -600
+    ceiling: -270
+    notes: Original sector 31.
+  - id: room:s032
+    name: Stepped crypt landing
+    outline: [[13969, 1056], [13969, 1920], [13681, 1920], [13681, 1056]]
+    floor: -600
+    ceiling: -270
+    notes: Original sector 32.
+  - id: room:s032_a
+    name: Stepped crypt landing
+    outline: [[14353, 1440], [14737, 1440], [14737, 1920], [14353, 1920]]
+    floor: -690
+    ceiling: -270
+    notes: Original sector 32.
+  - id: room:s032_b
+    name: Stepped crypt landing
+    outline: [[13489, 1440], [13681, 1440], [13681, 1920], [13489, 1920]]
+    floor: -630
+    ceiling: -270
+    notes: Original sector 32.
+  - id: room:s032_c
+    name: Stepped crypt landing
+    outline: [[13969, 1920], [13969, 1440], [14161, 1440], [14161, 1920]]
+    floor: -630
+    ceiling: -270
+    notes: Original sector 32.
+  - id: room:s032_d
+    name: Stepped crypt landing
+    outline: [[13297, 1440], [13489, 1440], [13489, 1920], [13297, 1920]]
+    floor: -660
+    ceiling: -270
+    notes: Original sector 32.
+  - id: room:s032_e
+    name: Stepped crypt landing
+    outline: [[14161, 1920], [14161, 1440], [14353, 1440], [14353, 1920]]
+    floor: -660
+    ceiling: -270
+    notes: Original sector 32.
+  - id: room:s033
+    name: East side chamber
+    outline: [[17041, 4128], [16849, 3936], [16849, 3168], [17041, 2976], [17425, 2976], [17617, 3168], [17617, 3936], [17425, 4128]]
+    floor: -180
+    ceiling: 150
+    ceiling_levels:
+      - outline: [[17137, 4032], [16945, 3840], [16945, 3264], [17137, 3072], [17329, 3072], [17521, 3264], [17521, 3840], [17329, 4032]]
+        ceiling: 198
+    notes: Original sector 33.
+  - id: room:s035
+    name: South-east crypt hall
+    outline: [[16000, 1344], [15808, 1152], [15808, 384], [16000, 192], [17600, 192], [17792, 384], [17792, 1152], [17600, 1344]]
+    floor: -600
+    ceiling: -224
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 35.
+  - id: room:s036
+    name: Ramp from the crypt to the ground floor
+    outline: [[17041, 1344], [17425, 1344], [17425, 2976], [17041, 2976]]
+    floor: -600
+    floor_points: [[17041, 1728, -600], [17425, 1728, -600], [17041, 2976, -180], [17425, 2976, -180]]
+    floor_lines:
+      - [[17041, 1728], [17425, 1728]]
+    ceiling: -366
+    ceiling_points: [[17041, 1344, -366], [17137, 1344, -270], [17329, 1344, -270], [17425, 1344, -366], [17041, 1632, -366], [17137, 1632, -270], [17329, 1632, -270], [17425, 1632, -366], [17041, 2976, 54], [17137, 2976, 150], [17329, 2976, 150], [17425, 2976, 54]]
+    ceiling_lines:
+      - [[17137, 1344], [17137, 1632], [17137, 2976]]
+      - [[17329, 1344], [17329, 1632], [17329, 2976]]
+      - [[17041, 1632], [17137, 1632], [17329, 1632], [17425, 1632]]
+    notes: "Original sector 36. Round four: one room as the original's sector, the level landing and the ramp by floor_points, the vault (leaning sides 96 wide up to a flat top 192 wide, climbing from 1632 on) by ceiling_points, the original's vertices one for one. Round three: a ramp under a plane at the vault's mean and a landing room."
+  - id: room:s037
+    name: Crypt corridor
+    outline: [[13969, 3264], [13681, 3264], [13681, 1920], [13969, 1920]]
+    floor: -600
+    ceiling: -270
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 37.
+  - id: room:s038
+    name: Sunken chamber with the broad steps
+    outline: [[11857, 3264], [13297, 3264], [13297, 5376], [11857, 5376]]
+    floor: -690
+    ceiling: -270
+    notes: Original sector 38.
+  - id: room:s038_a
+    name: Sunken chamber with the broad steps
+    outline: [[13969, 3264], [13969, 3744], [13681, 3744], [13681, 3264]]
+    floor: -600
+    ceiling: -270
+    notes: Original sector 38.
+  - id: room:s038_b
+    name: Sunken chamber with the broad steps
+    outline: [[13297, 3264], [13489, 3264], [13489, 3744], [13297, 3744]]
+    floor: -660
+    ceiling: -270
+    notes: Original sector 38.
+  - id: room:s038_c
+    name: Sunken chamber with the broad steps
+    outline: [[14161, 3744], [14161, 3264], [14353, 3264], [14353, 3744]]
+    floor: -660
+    ceiling: -270
+    notes: Original sector 38.
+  - id: room:s038_d
+    name: Sunken chamber with the broad steps
+    outline: [[13489, 3264], [13681, 3264], [13681, 3744], [13489, 3744]]
+    floor: -630
+    ceiling: -270
+    notes: Original sector 38.
+  - id: room:s038_e
+    name: Sunken chamber with the broad steps
+    outline: [[13969, 3264], [14161, 3264], [14161, 3744], [13969, 3744]]
+    floor: -630
+    ceiling: -270
+    notes: Original sector 38.
+  - id: room:s039
+    name: South-west vault
+    outline: [[11857, 1440], [13297, 1440], [13297, 2688], [11857, 2688]]
+    floor: -690
+    ceiling: -270
+    notes: Original sector 39.
+  - id: room:s040
+    name: Cell passage
+    outline: [[14353, 1920], [14737, 1920], [14737, 2592], [14353, 2592]]
+    floor: -690
+    ceiling: -270
+    notes: Original sector 40.
+  - id: room:s042
+    name: Trap-floor cell
+    outline: [[15601, 1728], [15601, 1920], [15697, 1920], [15697, 2880], [14929, 2880], [14929, 1920], [15313, 1920], [15313, 1728]]
+    floor: -690
+    ceiling: -360
+    notes: Original sector 42.
+  - id: room:s043
+    name: Cell
+    outline: [[15697, 2208], [16657, 2208], [16657, 2496], [15697, 2496]]
+    floor: -690
+    ceiling: -360
+    notes: Original sector 43.
+  - id: room:s044
+    name: Stepped cell
+    outline: [[15872, 1728], [16896, 1728], [16896, 2048], [15872, 2048]]
+    floor: -690
+    ceiling: -360
+    theme: theme:d2wctra_crdrf2_d2ceil2
+    ceiling_levels:
+      - outline: [[15936, 1984], [15936, 1744], [16832, 1744], [16832, 1984]]
+        ceiling: -328
+        edge: {texture: d2wlactr, size: [128, 256]}
+        notes: "Round four: its upright sides in d2wlactr, as the original's faces 4087 to 4090."
+    notes: Original sector 44.
+  - id: room:s044_a
+    name: Stepped cell
+    outline: [[15872, 1536], [16896, 1536], [16896, 1728], [15872, 1728]]
+    floor: -660
+    slope: {to: -600, toward: 0, steps: 2}
+    ceiling: -328
+    theme: theme:d2wctra_crdrf2_d2ceil2
+    notes: Original sector 44.
+  - id: room:s044_b
+    name: Stepped cell
+    outline: [[15872, 1472], [16896, 1472], [16896, 1536], [15872, 1536]]
+    floor: -600
+    ceiling: -360
+    notes: Original sector 44.
+  - id: room:s045
+    name: Cell
+    outline: [[15793, 2688], [16657, 2688], [16657, 3456], [15793, 3456]]
+    floor: -690
+    ceiling: -360
+    notes: Original sector 45.
+  - id: room:s046
+    name: Cell corridor
+    outline: [[16657, 3456], [16657, 3168], [18001, 3168], [18001, 3456]]
+    floor: -690
+    ceiling: -360
+    notes: Original sector 46.
+  - id: room:s047
+    name: East vault
+    outline: [[17713, 3168], [17713, 1536], [18481, 1536], [18481, 3168]]
+    floor: -690
+    ceiling: -360
+    notes: Original sector 47.
+  - id: room:s048
+    name: West crypt chamber
+    outline: [[14353, 4416], [14353, 2976], [15601, 2976], [15697, 3072], [15697, 4416]]
+    floor: -690
+    ceiling: -270
+    notes: Original sector 48.
+  - id: room:s049
+    name: Crypt passage
+    outline: [[15697, 4416], [15697, 4032], [18769, 4032], [18769, 4416]]
+    floor: -690
+    ceiling: -270
+    notes: Original sector 49.
+  - id: room:s050
+    name: Entry gallery
+    outline: [[19729, 1152], [19729, 4416], [18769, 4416], [18769, 1152]]
+    floor: -690
+    ceiling: -270
+    notes: Original sector 50.
+  - id: room:s051
+    name: Entry hall (the way out to the Darkmoor region)
+    outline: [[19729, 2304], [19729, 1536], [21248, 1536], [21248, 2304]]
+    floor: -690
+    ceiling: -330
+    notes: Original sector 51.
+  - id: room:s052
+    name: "Spiral ramp, first quarter"
+    outline: [[8785, 1152], [8365, 903], [9312, 608]]
+    floor: 120
+    ceiling: 600
+    notes: Original sector 52.
+  - id: room:s052_a
+    name: "Spiral ramp, first quarter"
+    outline: [[9349, 1047], [8785, 1152], [9312, 608]]
+    floor: 90
+    ceiling: 540
+    notes: Original sector 52.
+  - id: room:s052_b
+    name: "Spiral ramp, first quarter"
+    outline: [[9349, 1047], [9312, 608], [9728, 608]]
+    floor: 60
+    ceiling: 510
+    notes: Original sector 52.
+  - id: room:s052_c
+    name: "Spiral ramp, first quarter"
+    outline: [[9728, 1056], [9349, 1047], [9728, 608]]
+    floor: 30
+    ceiling: 490
+    notes: Original sector 52.
+  - id: room:s053
+    name: "Spiral ramp, second quarter"
+    outline: [[8107, 1875], [8113, 1152], [8467, 1575]]
+    floor: 210
+    ceiling: 660
+    notes: Original sector 53.
+  - id: room:s053_a
+    name: "Spiral ramp, second quarter"
+    outline: [[8785, 1152], [8467, 1575], [8365, 903]]
+    floor: 150
+    ceiling: 600
+    notes: Original sector 53.
+  - id: room:s053_b
+    name: "Spiral ramp, second quarter"
+    outline: [[8107, 1875], [7825, 1440], [8113, 1152]]
+    floor: 240
+    ceiling: 690
+    notes: Original sector 53.
+  - id: room:s053_c
+    name: "Spiral ramp, second quarter"
+    outline: [[8113, 1152], [8365, 903], [8467, 1575]]
+    floor: 180
+    ceiling: 630
+    notes: Original sector 53.
+  - id: room:s053_d
+    name: "Spiral ramp, second quarter"
+    outline: [[7825, 1920], [7825, 1440], [8107, 1875]]
+    floor: 270
+    ceiling: 750
+    notes: Original sector 53.
+  - id: room:s054
+    name: "Spiral ramp, third quarter"
+    outline: [[7279, 1848], [6865, 1524], [7486, 1368]]
+    floor: 360
+    ceiling: 800
+    notes: Original sector 54.
+  - id: room:s054_a
+    name: "Spiral ramp, third quarter"
+    outline: [[7825, 1920], [7279, 1848], [7825, 1440]]
+    floor: 300
+    ceiling: 750
+    notes: Original sector 54.
+  - id: room:s054_b
+    name: "Spiral ramp, third quarter"
+    outline: [[6865, 1524], [6673, 1152], [7249, 1152]]
+    floor: 420
+    ceiling: 900
+    notes: Original sector 54.
+  - id: room:s054_c
+    name: "Spiral ramp, third quarter"
+    outline: [[7279, 1848], [7486, 1368], [7825, 1440]]
+    floor: 330
+    ceiling: 760
+    notes: Original sector 54.
+  - id: room:s054_d
+    name: "Spiral ramp, third quarter"
+    outline: [[6865, 1524], [7249, 1152], [7486, 1368]]
+    floor: 390
+    ceiling: 820
+    notes: Original sector 54.
+  - id: room:s055
+    name: "Spiral ramp, last quarter"
+    outline: [[7633, 384], [6976, 198], [7633, -192]]
+    floor: 600
+    ceiling: 1050
+    notes: Original sector 55.
+  - id: room:s055_a
+    name: "Spiral ramp, last quarter"
+    outline: [[7432, 567], [6655, 657], [6976, 198]]
+    floor: 540
+    ceiling: 990
+    notes: Original sector 55.
+  - id: room:s055_b
+    name: "Spiral ramp, last quarter"
+    outline: [[6673, 1152], [6655, 657], [7225, 774]]
+    floor: 480
+    ceiling: 930
+    notes: Original sector 55.
+  - id: room:s055_c
+    name: "Spiral ramp, last quarter"
+    outline: [[6673, 1152], [7225, 774], [7249, 1152]]
+    floor: 450
+    ceiling: 900
+    notes: Original sector 55.
+  - id: room:s055_d
+    name: "Spiral ramp, last quarter"
+    outline: [[7432, 567], [6976, 198], [7633, 384]]
+    floor: 570
+    ceiling: 1020
+    notes: Original sector 55.
+  - id: room:s055_e
+    name: "Spiral ramp, last quarter"
+    outline: [[6655, 657], [7432, 567], [7225, 774]]
+    floor: 510
+    ceiling: 960
+    notes: Original sector 55.
+  - id: room:s056
+    name: Great hall
+    outline: [[10897, 4896], [16657, 4896], [16753, 4992], [16753, 6336], [16657, 6432], [16657, 6528], [16753, 6624], [16753, 7968], [16657, 8064], [16657, 8160], [16753, 8256], [16753, 9600], [16657, 9696], [12145, 9696], [11827, 9141], [11191, 9228], [10609, 9504], [9457, 8352], [9472, 6906], [9745, 5472]]
+    floor: -180
+    floor_points: [[10321, 9216, -180], [10609, 9504, 204], [11191, 9228, 204], [11827, 9141, 204], [12145, 9696, 204], [11899, 8870, -180], [12721, 9696, -180]]
+    floor_lines:
+      - [[10321, 9216], [11899, 8870], [12721, 9696]]
+      - [[11827, 9141], [11899, 8870], [12145, 9696], [12721, 9696]]
+      - [[10609, 9504], [10321, 9216], [11191, 9228], [11899, 8870]]
+    steep_floor: true
+    ceiling: 828
+    ceiling_points: [[10897, 4896, 1920], [16657, 4896, 1920], [16753, 4992, 1920], [12928, 6784, 1920], [14848, 6784, 1920], [16753, 5280, 1218], [16753, 6336, 1218], [16657, 6432, 1218], [16657, 6528, 1218], [16753, 6624, 1218], [16753, 7488, 1218], [16753, 7680, 828], [10513, 7104, 1428], [12928, 8320, 1428], [10471, 8268, 828], [11776, 8505, 828], [12721, 9696, 828], [15793, 8544, 828], [15716, 9004, 828], [9745, 5472, -164], [9472, 6906, -164], [9457, 8352, -164], [10321, 5184, 828], [9937, 8832, 660], [10469, 9364, 298], [10609, 9504, 220], [11191, 9228, 220], [11827, 9141, 220], [12145, 9696, 220], [12193, 9696, 256], [11526, 8813, 561]]
+    ceiling_lines:
+      - [[9745, 5472], [10513, 7104], [12928, 8320], [12928, 6784], [10321, 5184], [10897, 4896]]
+      - [[12928, 6784], [10513, 7104], [10321, 5184], [9745, 5472]]
+      - [[9472, 6906], [10513, 7104], [10471, 8268], [11776, 8505], [12721, 9696], [12928, 8320], [14848, 6784], [16753, 6624]]
+      - [[16753, 6336], [14848, 6784], [16753, 7488], [16753, 7680], [15793, 8544], [12928, 8320], [11776, 8505], [10513, 7104], [9457, 8352], [10471, 8268], [11191, 9228], [11526, 8813], [11827, 9141]]
+      - [[16753, 5280], [14848, 6784], [16753, 7680]]
+      - [[16657, 6432], [14848, 6784], [15793, 8544]]
+      - [[12721, 9696], [12193, 9696], [12145, 9696], [11776, 8505], [11827, 9141]]
+      - [[12193, 9696], [11776, 8505], [11526, 8813]]
+      - [[9457, 8352], [9937, 8832], [10469, 9364], [10471, 8268], [10609, 9504]]
+      - [[9937, 8832], [10471, 8268]]
+    platforms:
+      - {at: [13516.5, 6604.5], size: [25, 25], rise: 231, base: 308}
+      - {at: [13747, 6604.5], size: [26, 25], rise: 231, base: 308}
+      - {at: [13516.5, 6835], size: [25, 26], rise: 231, base: 308}
+      - {at: [13747, 6835], size: [26, 26], rise: 231, base: 308}
+      - {at: [13631.5, 6604.5], size: [205, 25], rise: 26, base: 308}
+      - {at: [13631.5, 6835], size: [205, 26], rise: 26, base: 308}
+      - {at: [13516.5, 6719.5], size: [25, 205], rise: 26, base: 308}
+      - {at: [13747, 6719.5], size: [26, 205], rise: 26, base: 308}
+      - {at: [13632, 6720], size: [256, 256], rise: 25, base: 539}
+      - {id: platform:cube_hall_e, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[13734, 6617], [13760, 6617], [13760, 6822], [13734, 6822]], base: 334, notes: "Face 4221 of the original (event 31), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_hall_n, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[13529, 6822], [13734, 6822], [13734, 6848], [13529, 6848]], base: 334, notes: "Face 4220 of the original (event 30), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_hall_s, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[13529, 6592], [13734, 6592], [13734, 6617], [13529, 6617]], base: 334, notes: "Face 4222 of the original (event 28), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_hall_u, rise: 26, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[13529, 6617], [13734, 6617], [13734, 6822], [13529, 6822]], base: 308, notes: "Face 4219 of the original (event 32), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_hall_w, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[13504, 6617], [13529, 6617], [13529, 6822], [13504, 6822]], base: 334, notes: "Face 4223 of the original (event 29), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+    beams:
+      - path: [[13632, 6656], [13632, 6784]]
+        width: 128
+        depth: 1536
+        bottom: 384
+    notes: "Original sector 56. Round four: one room under the original's fan vault, by ceiling_points: the flat crown at 1,920 along the south wall out to the two apex points (12928, 6784) and (14848, 6784), the vault's points at 1,428, the ring at 828 along the north and the north wall, 1,218 on the east wall from 5280 to 7488; the west side's rock comes down to the floor at the west rim (16 above it, where the original's meet) and the north-west rock rises to 204 under a roof that comes down to it (floor_points; its foot moved 11899, 8870 from the original's 11851, 8970, since the original's rises 2.3 to 3.6 for each unit of run and the build makes floors up to 2). The original's vertices one for one, its triangle edges as creases. Rounds two and three: two leaning ceiling levels and two rooms for the west rock; the crown ended 2,000 short of the east wall."
+  - id: room:s057
+    name: East balcony of the great hall
+    outline: [[16849, 6336], [16849, 4992], [16945, 4896], [18481, 4896], [18481, 10176], [18385, 10272], [16945, 10272], [16849, 10176], [16753, 10176], [16753, 9888], [16849, 9888], [16945, 9792], [16945, 9696], [16849, 9600], [16849, 8256], [16945, 8160], [16945, 8064], [16849, 7968], [16849, 6624], [16945, 6528], [16945, 6432]]
+    floor: 236
+    ceiling: 828
+    notes: Original sector 57.
+  - id: room:s058
+    name: North passage under the gallery
+    outline: [[12721, 10272], [12721, 9792], [16657, 9792], [16753, 9888], [16753, 10176], [16657, 10272]]
+    floor: -180
+    ceiling: 156
+    notes: Original sector 58.
+  - id: room:s059
+    name: North gallery
+    outline: [[16657, 9792], [16753, 9888], [16753, 10176], [16657, 10272], [12721, 10272], [12721, 9792]]
+    floor: 236
+    ceiling: 872
+    notes: Original sector 59.
+  - id: room:s060
+    name: North-east corner room
+    outline: [[18193, 9888], [17809, 10272], [16945, 10272], [16849, 10176], [16753, 10176], [16753, 9888], [16849, 9888], [16945, 9792], [17809, 9792], [17905, 9696], [18193, 9696]]
+    floor: -180
+    ceiling: 156
+    notes: Original sector 60.
+  - id: room:s063
+    name: Great arch between the west and middle halls
+    outline: [[12721, 4320], [12721, 2784], [13105, 2784], [13105, 4320]]
+    floor: -180
+    ceiling: 660
+    ceiling_points: [[12721, 2784, 120], [12721, 2880, 285], [12721, 2976, 390], [12721, 3168, 525], [12721, 3360, 615], [12721, 3552, 660], [12721, 3744, 615], [12721, 3936, 525], [12721, 4128, 390], [12721, 4224, 285], [12721, 4320, 120], [13105, 2784, 120], [13105, 2880, 285], [13105, 2976, 390], [13105, 3168, 525], [13105, 3360, 615], [13105, 3552, 660], [13105, 3744, 615], [13105, 3936, 525], [13105, 4128, 390], [13105, 4224, 285], [13105, 4320, 120]]
+    ceiling_lines:
+      - [[12721, 2784], [13105, 2784]]
+      - [[12721, 2880], [13105, 2880]]
+      - [[12721, 2976], [13105, 2976]]
+      - [[12721, 3168], [13105, 3168]]
+      - [[12721, 3360], [13105, 3360]]
+      - [[12721, 3552], [13105, 3552]]
+      - [[12721, 3744], [13105, 3744]]
+      - [[12721, 3936], [13105, 3936]]
+      - [[12721, 4128], [13105, 4128]]
+      - [[12721, 4224], [13105, 4224]]
+      - [[12721, 4320], [13105, 4320]]
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: "Original sector 63. Round five: the arch's barrel vault by ceiling_points (120 at its two sides to the crown at 660, in ten strips; the original's vertices one for one, each strip's crease a ceiling_line); its two mouths, `width: full, height: full`, follow the vault. Rounds one to four: a flat ceiling at 660."
+  - id: room:s064
+    name: Great arch between the middle and east halls
+    outline: [[14449, 2784], [14833, 2784], [14833, 4320], [14449, 4320]]
+    floor: -180
+    ceiling: 660
+    ceiling_points: [[14449, 2784, 120], [14449, 2880, 285], [14449, 2976, 390], [14449, 3168, 525], [14449, 3360, 615], [14449, 3552, 660], [14449, 3744, 615], [14449, 3936, 525], [14449, 4128, 390], [14449, 4224, 285], [14449, 4320, 120], [14833, 2784, 120], [14833, 2880, 285], [14833, 2976, 390], [14833, 3168, 525], [14833, 3360, 615], [14833, 3552, 660], [14833, 3744, 615], [14833, 3936, 525], [14833, 4128, 390], [14833, 4224, 285], [14833, 4320, 120]]
+    ceiling_lines:
+      - [[14449, 2784], [14833, 2784]]
+      - [[14449, 2880], [14833, 2880]]
+      - [[14449, 2976], [14833, 2976]]
+      - [[14449, 3168], [14833, 3168]]
+      - [[14449, 3360], [14833, 3360]]
+      - [[14449, 3552], [14833, 3552]]
+      - [[14449, 3744], [14833, 3744]]
+      - [[14449, 3936], [14833, 3936]]
+      - [[14449, 4128], [14833, 4128]]
+      - [[14449, 4224], [14833, 4224]]
+      - [[14449, 4320], [14833, 4320]]
+    theme: theme:d2wctra_crdflr4_d2wctra
+    notes: "Original sector 64. Round five: the arch's barrel vault by ceiling_points (120 at its two sides to the crown at 660, in ten strips; the original's vertices one for one, each strip's crease a ceiling_line); its two mouths, `width: full, height: full`, follow the vault. Rounds one to four: a flat ceiling at 660."
+  - id: room:s065
+    name: Great arch to the great hall
+    outline: [[10993, 4896], [10993, 4512], [12529, 4512], [12529, 4896]]
+    floor: -180
+    ceiling: 660
+    ceiling_points: [[10993, 4512, 150], [10993, 4896, 150], [11089, 4512, 300], [11089, 4896, 300], [11185, 4512, 420], [11185, 4896, 420], [11377, 4512, 555], [11377, 4896, 555], [11569, 4512, 630], [11569, 4896, 630], [11761, 4512, 660], [11761, 4896, 660], [11953, 4512, 630], [11953, 4896, 630], [12145, 4512, 555], [12145, 4896, 555], [12337, 4512, 420], [12337, 4896, 420], [12433, 4512, 300], [12433, 4896, 300], [12529, 4512, 150], [12529, 4896, 150]]
+    ceiling_lines:
+      - [[10993, 4512], [10993, 4896]]
+      - [[11089, 4512], [11089, 4896]]
+      - [[11185, 4512], [11185, 4896]]
+      - [[11377, 4512], [11377, 4896]]
+      - [[11569, 4512], [11569, 4896]]
+      - [[11761, 4512], [11761, 4896]]
+      - [[11953, 4512], [11953, 4896]]
+      - [[12145, 4512], [12145, 4896]]
+      - [[12337, 4512], [12337, 4896]]
+      - [[12433, 4512], [12433, 4896]]
+      - [[12529, 4512], [12529, 4896]]
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: "Original sector 65. Round five: the arch's barrel vault by ceiling_points (120 at its two sides to the crown at 660, in ten strips; the original's vertices one for one, each strip's crease a ceiling_line); its two mouths, `width: full, height: full`, follow the vault. Rounds one to four: a flat ceiling at 660."
+  - id: room:s066
+    name: North cavern
+    outline: [[3121, 6528], [6481, 7794], [8497, 9984], [10336, 11439], [11377, 11712], [11941, 11271], [12241, 10368], [15697, 10368], [16072, 11100], [16243, 11826], [15376, 13740], [14407, 14526], [11377, 16104], [8305, 18240], [6193, 16128], [6193, 12288], [3121, 9984]]
+    floor: -180
+    floor_points: [[3121, 6528, 360], [6481, 7794, 360], [8497, 9984, 360], [10336, 11439, 360], [11377, 11712, 204], [11941, 11271, 204], [12241, 10368, 204], [16072, 11100, 204], [16243, 11826, 204], [15376, 13740, 204], [14407, 14526, 204], [11377, 16104, 204], [8305, 18240, 360], [3121, 6912, -180], [4624, 7548, -180], [6889, 9030, -180], [8113, 10368, -180], [9589, 11601, -180], [10636, 11953, -180], [11377, 12288, -180], [12478, 11394, -180], [12721, 10368, -180], [15823, 11289, -180], [14284, 14061, -180], [11377, 15528, -180], [9589, 16176, -180], [7729, 17664, -180]]
+    floor_lines:
+      - [[3121, 6912], [4624, 7548], [6889, 9030], [8113, 10368], [9589, 11601], [10636, 11953], [11377, 12288], [12478, 11394], [12721, 10368]]
+      - [[15697, 10368], [15823, 11289], [14284, 14061], [11377, 15528], [9589, 16176], [7729, 17664]]
+      - [[7729, 17664], [8305, 18240], [9589, 16176], [11377, 16104], [11377, 15528], [14407, 14526], [14284, 14061], [15376, 13740]]
+      - [[14284, 14061], [16243, 11826], [15823, 11289], [16072, 11100]]
+      - [[12721, 10368], [12241, 10368], [12478, 11394], [11941, 11271], [11377, 12288], [11377, 11712], [10636, 11953], [10336, 11439], [9589, 11601], [8497, 9984], [8113, 10368]]
+      - [[3121, 6912], [3121, 6528], [4624, 7548], [6481, 7794], [6889, 9030], [8497, 9984]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil3, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 1170
+    ceiling_points: [[3121, 6528, 376], [6481, 7794, 376], [8497, 9984, 376], [10336, 11439, 376], [11377, 11712, 220], [11941, 11271, 220], [12241, 10368, 220], [16072, 11100, 220], [16243, 11826, 220], [15376, 13740, 220], [14407, 14526, 220], [11377, 16104, 220], [8305, 18240, 376], [3121, 7680, 1170], [5818, 8994, 1170], [7729, 10752, 1170], [9007, 11955, 1170], [9188, 13792, 1170], [9309, 15005, 1170], [9406, 15975, 1170], [7345, 17280, 1170], [11377, 12864, 828], [12655, 11739, 828], [15547, 11988, 828], [14152, 13962, 828], [11377, 14760, 828], [11377, 13608, 1128], [13408, 13344, 1128], [13734, 13137, 1082], [12522, 10368, 502], [12721, 10368, 714], [14545, 10368, 960], [15313, 10368, 828], [12346, 10716, 362], [8021, 10460, 862], [10851, 11765, 418], [9176, 12020, 1145], [9117, 12032, 1168], [10472, 14693, 1147], [15697, 10368, 204]]
+    ceiling_lines:
+      - [[3121, 7680], [5818, 8994], [7729, 10752], [9007, 11955], [9188, 13792], [9309, 15005], [9406, 15975], [7345, 17280]]
+      - [[11377, 12864], [12655, 11739], [15547, 11988], [14152, 13962], [11377, 14760]]
+      - [[11377, 13608], [13408, 13344], [13734, 13137]]
+      - [[15697, 10368], [15313, 10368], [14545, 10368], [15547, 11988], [15376, 13740], [14152, 13962], [14407, 14526], [11377, 14760], [11377, 13608], [11377, 12864], [9176, 12020], [11377, 11712], [12655, 11739], [11941, 11271], [12346, 10716], [12522, 10368], [12721, 10368]]
+      - [[11377, 12864], [11377, 11712], [10851, 11765], [10336, 11439], [9007, 11955], [9176, 12020], [9117, 12032], [11377, 13608], [14152, 13962], [13408, 13344], [15547, 11988], [15313, 10368], [16072, 11100]]
+      - [[16243, 11826], [15547, 11988], [16072, 11100]]
+      - [[7345, 17280], [8305, 18240], [9406, 15975], [11377, 16104], [11377, 14760], [10472, 14693], [11377, 13608]]
+      - [[13734, 13137], [15547, 11988]]
+      - [[12522, 10368], [12241, 10368], [12346, 10716], [12655, 11739], [12721, 10368], [14545, 10368]]
+      - [[12655, 11739], [14545, 10368]]
+      - [[10851, 11765], [9007, 11955], [9117, 12032]]
+      - [[6481, 7794], [5818, 8994], [8497, 9984], [9007, 11955]]
+      - [[11377, 14760], [9406, 15975], [10472, 14693]]
+      - [[3121, 7680], [3121, 6528], [5818, 8994]]
+      - [[7729, 10752], [8497, 9984]]
+    theme: theme:d2ceil3_crdrf2_d2ceil3
+    walls:
+      - wall: 6
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 14
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 15
+        surface: {texture: d2wctra, size: [128, 256]}
+    notes: "Round four: one room as the original's sector, its floor level at -180 out to the foot of the rock bank, the bank rising to the rim at 360 (204 round the east chamber) where the roof comes down to it (floor_points, the foot as floor_lines); the roof flat at 1,170 inside the ring where its lean begins, leaning down to the rim (ceiling_points, the ring as ceiling_lines). The points are the original's own vertices of the rim, the foot and the ring, one for one. The roof stands 16 above the floor along the rim (the original's meet). The bank takes the floor's surface (one floor surface: the original's banks are d2ceil3). The east chamber's vault: a ring at 828 (the original's points) up to a ridge at 1,082 to 1,128; over the south wall the roof's line as the original's (502, 714, 960, 828). Rounds two and three drew this sector as three rooms with five bank and two lean rooms. Since round four the room holds the original's sector 74 as well (the east cavern, west of the junction from 6193, 12288 to 8497, 9984): one room more would put a wall across the bank and the roof's lean there. Original sectors 66 and 74."
+  - id: room:s067
+    name: Portcullis arch
+    outline: [[14065, 10272], [15313, 10272], [15313, 10368], [14065, 10368]]
+    floor: -180
+    ceiling: 156
+    theme: theme:d2wctra_crdflr4_d2wctra
+    notes: "Original sector 67: the arch between the north passage and the north cavern, 1248 wide and 96 deep. Rounds one and two drew it as the thickness of one opening with a door filling it. Its arched top (upright to 0, then three steps of slope to a flat crown at 156) is drawn flat at the crown."
+  - id: room:s071
+    name: North-west cavern
+    outline: [[-9166, 24960], [-9166, 20736], [-8398, 20736], [-6094, 18432], [3121, 18432], [6193, 16128], [8305, 18240], [3121, 21120], [880, 22608], [-3145, 22926], [-6094, 23424], [-8398, 24576]]
+    floor: -180
+    floor_points: [[8305, 18240, 360], [3121, 21120, 360], [880, 22608, 360], [-3145, 22926, 360], [-6094, 23424, 360], [-8398, 24576, 360], [-9166, 24960, 360], [7729, 17664, -180], [5642, 19400, -180], [3121, 20736, -180], [718, 21831, -180], [-1897, 22137, -180], [-6094, 22656, -180], [-8398, 24192, -180], [-9166, 24384, -180]]
+    floor_lines:
+      - [[7729, 17664], [5642, 19400], [3121, 20736], [718, 21831], [-1897, 22137], [-6094, 22656], [-8398, 24192], [-9166, 24384]]
+      - [[7729, 17664], [8305, 18240], [5642, 19400], [3121, 21120], [718, 21831], [880, 22608], [-1897, 22137], [-3145, 22926], [-6094, 22656], [-6094, 23424], [-8398, 24192], [-8398, 24576], [-9166, 24384], [-9166, 24960]]
+      - [[3121, 21120], [3121, 20736]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil3, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 1170
+    ceiling_points: [[8305, 18240, 376], [3121, 21120, 376], [880, 22608, 376], [-3145, 22926, 376], [-6094, 23424, 376], [-8398, 24576, 376], [-9166, 24960, 376], [7345, 17280, 1170], [5290, 18819, 1170], [3121, 19776, 1170], [823, 20487, 1170], [-45, 20543, 1170], [-2440, 20700, 1170], [-6094, 21312, 1170], [-8398, 22848, 1170], [-9166, 23424, 1170], [-1533, 21221, 948], [-5628, 23195, 417]]
+    ceiling_lines:
+      - [[7345, 17280], [5290, 18819], [3121, 19776], [823, 20487], [-45, 20543], [-2440, 20700], [-6094, 21312], [-8398, 22848], [-9166, 23424]]
+      - [[-6094, 21312], [-6094, 23424], [-2440, 20700], [-1533, 21221], [880, 22608], [823, 20487], [3121, 21120], [5290, 18819], [8305, 18240], [7345, 17280]]
+      - [[-3145, 22926], [-5628, 23195], [-6094, 23424], [-8398, 22848], [-8398, 24576], [-9166, 23424], [-9166, 24960]]
+      - [[-1533, 21221], [-45, 20543]]
+      - [[3121, 21120], [3121, 19776]]
+    theme: theme:d2ceil3_crdrf2_d2ceil3
+    walls:
+      - wall: 0
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 1
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 2
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 3
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 4
+        surface: {texture: d2wctra, size: [128, 256]}
+    notes: "Round four: one room as the original's sector, its floor level at -180 out to the foot of the rock bank, the bank rising to the rim at 360 where the roof comes down to it (floor_points, the foot as floor_lines); the roof flat at 1,170 inside the ring where its lean begins, leaning down to the rim (ceiling_points, the ring as ceiling_lines). The points are the original's own vertices of the rim, the foot and the ring, one for one. The roof stands 16 above the floor along the rim (the original's meet). The bank takes the floor's surface (one floor surface: the original's banks are d2ceil3). One foot point is moved 90 from the original's (see the project's NOTES.md). Original sector 71."
+  - id: room:s072
+    name: West cavern
+    outline: [[-13774, 5952], [-13774, 9984], [-16078, 12288], [-16078, 18432], [-13774, 20736], [-13008, 20736], [-13008, 25152], [-13774, 24960], [-17026, 24147], [-19144, 21444], [-20302, 18432], [-21262, 12288], [-20737, 10272], [-18193, 7782]]
+    floor: -180
+    floor_points: [[-13008, 25152, 360], [-13774, 24960, 360], [-17026, 24147, 360], [-19144, 21444, 360], [-20302, 18432, 360], [-21262, 12288, 360], [-20737, 10272, 360], [-18193, 7782, 360], [-13774, 5952, 360], [-13774, 6912, -180], [-16366, 8109, -180], [-19852, 10374, -180], [-20302, 12288, -180], [-20461, 14904, -180], [-19534, 18432, -180], [-18457, 20481, -180], [-16714, 23181, -180], [-13774, 24192, -180], [-13008, 24384, -180]]
+    floor_lines:
+      - [[-13774, 6912], [-16366, 8109], [-19852, 10374], [-20302, 12288], [-20461, 14904], [-19534, 18432], [-18457, 20481], [-16714, 23181], [-13774, 24192], [-13008, 24384]]
+      - [[-13774, 6912], [-13774, 5952], [-16366, 8109], [-18193, 7782], [-19852, 10374], [-20737, 10272], [-20302, 12288], [-21262, 12288], [-20461, 14904], [-20302, 18432], [-19534, 18432], [-19144, 21444], [-18457, 20481]]
+      - [[-17026, 24147], [-16714, 23181], [-19144, 21444]]
+      - [[-16714, 23181], [-13774, 24960], [-13774, 24192], [-13008, 25152], [-13008, 24384]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil3, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 1170
+    ceiling_points: [[-13008, 25152, 376], [-13774, 24960, 376], [-17026, 24147, 376], [-19144, 21444, 376], [-20302, 18432, 376], [-21262, 12288, 376], [-20737, 10272, 376], [-18193, 7782, 376], [-13774, 5952, 376], [-13774, 7296, 1170], [-16210, 8439, 1170], [-18337, 10035, 1170], [-18958, 12288, 1170], [-19183, 15882, 1170], [-17998, 18432, 1170], [-17038, 21888, 1170], [-13774, 23424, 1170], [-13008, 24000, 1170]]
+    ceiling_lines:
+      - [[-13774, 7296], [-16210, 8439], [-18337, 10035], [-18958, 12288], [-19183, 15882], [-17998, 18432], [-17038, 21888], [-13774, 23424], [-13008, 24000]]
+      - [[-13774, 7296], [-13774, 5952], [-16210, 8439], [-18193, 7782], [-18337, 10035], [-20737, 10272], [-18958, 12288], [-21262, 12288], [-19183, 15882], [-20302, 18432], [-17998, 18432], [-19144, 21444], [-17038, 21888], [-17026, 24147]]
+      - [[-13008, 25152], [-13008, 24000], [-13774, 24960], [-13774, 23424]]
+      - [[-17038, 21888], [-13774, 24960]]
+    theme: theme:d2ceil3_crdrf2_d2ceil3
+    walls:
+      - wall: 1
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 2
+        surface: {texture: d2wctra, size: [128, 256]}
+        panels:
+          - {offset: 768, length: 2304, bottom: 840, height: 510, surface: {texture: d2wlcctr, size: [256, 256]}}
+      - wall: 3
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 4
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 5
+        surface: {texture: d2wctra, size: [128, 256]}
+    notes: "Round four: one room as the original's sector, its floor level at -180 out to the foot of the rock bank, the bank rising to the rim at 360 where the roof comes down to it (floor_points, the foot as floor_lines); the roof flat at 1,170 inside the ring where its lean begins, leaning down to the rim (ceiling_points, the ring as ceiling_lines). The points are the original's own vertices of the rim, the foot and the ring, one for one. The roof stands 16 above the floor along the rim (the original's meet). The bank takes the floor's surface (one floor surface: the original's banks are d2ceil3). Original sector 72."
+  - id: room:s073
+    name: South cavern before the gate
+    outline: [[-13774, 5952], [-10252, 5460], [-4462, 5574], [-3220, 6360], [-2446, 6720], [-1312, 6360], [22, 5409], [3121, 6528], [3121, 9984], [-2446, 9984], [-7176, 9984], [-7432, 9984], [-13006, 9984], [-13774, 9984]]
+    floor: -180
+    floor_points: [[-13774, 5952, 360], [-10252, 5460, 360], [-4462, 5574, 360], [-3220, 6360, 360], [-2446, 6720, 360], [-1312, 6360, 360], [22, 5409, 360], [3121, 6528, 360], [-13774, 6912, -180], [-10705, 6456, -180], [-7222, 5874, -180], [-4573, 6288, -180], [-3523, 6757, -180], [-2446, 7296, -180], [-661, 6813, -180], [-76, 6117, -180], [3121, 6912, -180], [-4573, 9984, -180], [-3406, 9984, 60], [-2446, 9984, 450], [-1870, 9984, 60], [-1102, 9984, -180], [-3427, 9447, -180], [-3211, 9825, 60], [-2446, 9896, 361], [-2446, 9600, 60], [-2446, 9216, -180], [-1519, 9543, -180]]
+    floor_lines:
+      - [[-13774, 6912], [-10705, 6456], [-7222, 5874], [-4573, 6288], [-3523, 6757], [-2446, 7296], [-661, 6813], [-76, 6117], [3121, 6912]]
+      - [[-4573, 9984], [-3427, 9447], [-2446, 9216], [-1519, 9543], [-1102, 9984]]
+      - [[3121, 6912], [3121, 6528], [-76, 6117], [22, 5409], [-661, 6813], [-1312, 6360]]
+      - [[-3523, 6757], [-3220, 6360], [-4573, 6288], [-4462, 5574], [-7222, 5874], [-10252, 5460], [-10705, 6456], [-13774, 5952], [-13774, 6912]]
+      - [[-4573, 9984], [-3406, 9984], [-3427, 9447], [-3211, 9825], [-2446, 9984], [-2446, 9600], [-1870, 9984], [-2446, 9216]]
+      - [[-1519, 9543], [-1870, 9984], [-2446, 9984], [-3406, 9984], [-3211, 9825], [-2446, 9896], [-2446, 9600], [-2446, 9216]]
+      - [[-661, 6813], [-2446, 6720]]
+      - [[-1102, 9984], [-1870, 9984]]
+      - [[-2446, 9896], [-2446, 9984]]
+      - [[-3211, 9825], [-2446, 9600], [-3427, 9447]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil3, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 1170
+    ceiling_points: [[-13774, 5952, 376], [-10252, 5460, 376], [-4462, 5574, 376], [-3220, 6360, 376], [-2446, 6720, 376], [-1312, 6360, 376], [22, 5409, 376], [3121, 6528, 376], [-13774, 7296, 1170], [-8479, 6915, 1170], [-5081, 7141, 1170], [-4153, 7203, 1170], [-2446, 7872, 1170], [-94, 7032, 1170], [76, 6972, 1170], [3121, 7680, 1170], [-1669, 6836, 615], [-2446, 9984, 750], [-2446, 9408, 1170], [-3790, 9984, 1170], [-1678, 9984, 1170]]
+    ceiling_lines:
+      - [[-13774, 7296], [-8479, 6915], [-5081, 7141], [-4153, 7203], [-2446, 7872], [-94, 7032], [76, 6972], [3121, 7680]]
+      - [[-3790, 9984], [-2446, 9408], [-1678, 9984]]
+      - [[3121, 6528], [3121, 7680], [22, 5409], [76, 6972], [-1312, 6360], [-1669, 6836], [-2446, 6720], [-2446, 7872]]
+      - [[-13774, 5952], [-8479, 6915], [-10252, 5460]]
+      - [[-8479, 6915], [-4462, 5574], [-4153, 7203], [-3220, 6360]]
+      - [[-3790, 9984], [-2446, 9984], [-2446, 9408]]
+      - [[-2446, 6720], [-4153, 7203]]
+      - [[-2446, 7872], [-1669, 6836], [-94, 7032]]
+      - [[-2446, 9984], [-1678, 9984]]
+    theme: theme:d2ceil3_crdrf2_d2ceil3
+    walls:
+      - wall: 8
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 9
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 10
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 11
+        surface: {texture: d2wlactr, size: [128, 256]}
+        panels:
+          - {offset: 966, length: 4608, bottom: 840, height: 510, surface: {texture: d2wlcctr, size: [256, 256]}}
+      - wall: 12
+        surface: {texture: d2wctra, size: [128, 256]}
+    platforms:
+      - {rise: 0, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-10648, 9728], [-7432, 9728], [-7432, 9984], [-10648, 9984]], top_surface: {texture: d2flor4, size: [128, 128]}, top_slope: {to: 780, toward: east}, notes: "The ramp up to the gate bridge (the original's faces 4065, 4073; its south side 4066)."}
+      - {rise: 780, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-7432, 9728], [-7176, 9728], [-7176, 9984], [-7432, 9984]], top_surface: {texture: d2flor4, size: [128, 128]}, notes: "The landing at 600 before door record 9 (the original's face 4064; its east side 4067)."}
+    notes: "Round four: one room as the original's sector, its floor level at -180 out to the foot of the rock bank, the bank rising to the rim at 360 where the roof comes down to it (floor_points, the foot as floor_lines); the roof flat at 1,170 inside the ring where its lean begins, leaning down to the rim (ceiling_points, the ring as ceiling_lines). The points are the original's own vertices of the rim, the foot and the ring, one for one. The roof stands 16 above the floor along the rim (the original's meet). The bank takes the floor's surface (one floor surface: the original's banks are d2ceil3). The rock against the castle wall east of the gate (the original's faces 1306 to 1315, up to 450 at the wall, the roof down to 750 over it) is floor and roof points too. The ramp along the castle wall and its landing are blocks (a wedge with a sloping top and a block 780 high), open to the cave on their south side as the original's; door record 9 is in the castle wall over the landing. Original sector 73."
+  - id: room:s073_b
+    name: Bridge between the gate towers
+    outline: [[-7616, 10048], [-6720, 10048], [-6720, 10752], [-7616, 10752]]
+    floor: 600
+    ceiling: 1170
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    walls:
+      - wall: 0
+        surface: {texture: d2wlactr, size: [128, 256]}
+        panels:
+          - {offset: 0, length: 896, bottom: 256, height: 314, surface: {texture: d2wctra, size: [128, 256]}}
+    notes: "Original sector 73: the floor at 600 behind the castle wall, between the two gate towers; door record 9 (a panel 254 wide and 256 high in the wall, 64 thick) closes it from the ramp's landing. Wall 0 panel: round three, the original's face 3948, castle stone over the whole wall from the door's head (856) to the ceiling."
+  - id: room:s075
+    name: Gatehouse
+    outline: [[5041, 13536], [5137, 13536], [5137, 13440], [6097, 13440], [6097, 14976], [5137, 14976], [5137, 14880], [5041, 14880]]
+    floor: -180
+    ceiling: 846
+    ceiling_points: [[5041, 13536, 543], [5041, 13632, 633], [5041, 13824, 684], [5041, 14016, 813], [5041, 14208, 846], [5041, 14400, 813], [5041, 14592, 684], [5041, 14784, 633], [5041, 14880, 543], [5137, 13440, 396], [5137, 13536, 543], [5137, 14880, 543], [5137, 14976, 396], [5185, 13440, 396], [5185, 14976, 396], [5233, 13440, 396], [5233, 14976, 396], [5329, 13440, 396], [5329, 14976, 396], [5425, 13440, 396], [5425, 14976, 396], [5473, 13440, 396], [5473, 14976, 396], [5521, 13440, 396], [5521, 14976, 396], [6097, 13440, 396], [6097, 13536, 543], [6097, 13632, 633], [6097, 13824, 744], [6097, 14016, 813], [6097, 14208, 846], [6097, 14400, 813], [6097, 14592, 744], [6097, 14784, 633], [6097, 14880, 543], [6097, 14976, 396]]
+    ceiling_lines:
+      - [[5137, 13440], [5185, 13440], [5233, 13440], [5329, 13440], [5425, 13440], [5473, 13440], [5521, 13440], [6097, 13440]]
+      - [[5041, 13536], [5137, 13536], [6097, 13536]]
+      - [[5041, 13632], [6097, 13632]]
+      - [[5041, 13824], [6097, 13824]]
+      - [[5041, 14016], [6097, 14016]]
+      - [[5041, 14208], [6097, 14208]]
+      - [[5041, 14400], [6097, 14400]]
+      - [[5041, 14592], [6097, 14592]]
+      - [[5041, 14784], [6097, 14784]]
+      - [[5041, 14880], [5137, 14880], [6097, 14880]]
+      - [[5137, 14976], [5185, 14976], [5233, 14976], [5329, 14976], [5425, 14976], [5473, 14976], [5521, 14976], [6097, 14976]]
+    ceiling_surfaces:
+      - {at: [5617, 13488], surface: {texture: d2ceil3, size: [256, 256]}}
+      - {at: [5617, 14928], surface: {texture: d2ceil3, size: [256, 256]}}
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: "Original sector 75. Round five: the barrel vault by ceiling_points (543 at the side walls to the crown at 846, in eight strips, and the two side bays coming down to 396 in the original's rock), the original's vertices one for one (its east end at 6193, in the opening's thickness, read at the room's wall at 6097); the mouth onto the north cavern follows the vault. Rounds one to four: flat at 846."
+  - id: room:s075_a
+    name: Gatehouse
+    outline: [[5041, 13824], [5041, 14592], [4945, 14592], [4945, 13824]]
+    floor: -84
+    ceiling: 684
+    notes: Original sector 75.
+  - id: room:s076
+    name: Gatehouse step
+    outline: [[5521, 13344], [5521, 13440], [5137, 13440], [5137, 13344]]
+    floor: -150
+    ceiling: 255
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 76.
+  - id: room:s077
+    name: Gatehouse stair
+    outline: [[5521, 13152], [5137, 13344], [5041, 13248], [5233, 12864]]
+    floor: -90
+    ceiling: 384
+    notes: Original sector 77.
+  - id: room:s077_a
+    name: Gatehouse stair
+    outline: [[5521, 13152], [5521, 13344], [5137, 13344]]
+    floor: -120
+    ceiling: 384
+    notes: Original sector 77.
+  - id: room:s077_b
+    name: Gatehouse stair
+    outline: [[5041, 13248], [5041, 12864], [5233, 12864]]
+    floor: -60
+    ceiling: 384
+    notes: Original sector 77.
+  - id: room:s077_c
+    name: Gatehouse stair
+    outline: [[5041, 13248], [4945, 13248], [4945, 12864], [5041, 12864]]
+    floor: -30
+    ceiling: 384
+    notes: Original sector 77.
+  - id: room:s078
+    name: Inner court
+    outline: [[4561, 13440], [4561, 14976], [4561, 15744], [4561, 16320], [3889, 16320], [3889, 12096], [4561, 12096], [4561, 12672]]
+    floor: 0
+    ceiling: 1050
+    notes: "Original sector 78. Round five: its west alcove under the barrel vault is room:s078_v; the court's walls are numbered without it."
+  - id: room:s078_a
+    name: Inner court
+    outline: [[3889, 12048], [3889, 12000], [4561, 12000], [4561, 12048]]
+    floor: 600
+    ceiling: 960
+    notes: Original sector 78.
+  - id: room:s078_b
+    name: Inner court
+    outline: [[4561, 16368], [4561, 16416], [3889, 16416], [3889, 16368]]
+    floor: 600
+    ceiling: 960
+    notes: Original sector 78.
+  - id: room:s078_n
+    name: "Inner court, bay before the stair to 79"
+    outline: [[4561, 12672], [4657, 12672], [4657, 13440], [4561, 13440]]
+    floor: 0
+    ceiling: 384
+    notes: "Original sector 78: the bay before the gatehouse stair's doorway, its ceiling at 384 (face 1483). Rounds one to four: part of the court under 1050."
+  - id: room:s078_s
+    name: "Inner court, bay before the stair to 97"
+    outline: [[4561, 14976], [4657, 14976], [4657, 15744], [4561, 15744]]
+    floor: 0
+    ceiling: 384
+    notes: "Original sector 78: the bay before the second gatehouse stair's doorway, its ceiling at 384 (face 1857). Rounds one to four: part of the court under 1050."
+  - id: room:s078_v
+    name: "Inner court, west alcove"
+    outline: [[2833, 13440], [3793, 13440], [3793, 13536], [3889, 13536], [3889, 14880], [3793, 14880], [3793, 14976], [2833, 14976]]
+    floor: 0
+    ceiling: 1026
+    ceiling_points: [[2833, 13440, 576], [2833, 13536, 723], [2833, 13632, 813], [2833, 13824, 924], [2833, 14016, 993], [2833, 14208, 1026], [2833, 14400, 993], [2833, 14592, 924], [2833, 14784, 813], [2833, 14880, 723], [2833, 14976, 576], [3793, 13440, 576], [3793, 13536, 723], [3793, 14880, 723], [3793, 14976, 576], [3889, 13536, 723], [3889, 13632, 813], [3889, 13824, 924], [3889, 14016, 993], [3889, 14208, 1026], [3889, 14400, 993], [3889, 14592, 924], [3889, 14784, 813], [3889, 14880, 723]]
+    ceiling_lines:
+      - [[2833, 13440], [3793, 13440]]
+      - [[2833, 13536], [3793, 13536], [3889, 13536]]
+      - [[2833, 13632], [3889, 13632]]
+      - [[2833, 13824], [3889, 13824]]
+      - [[2833, 14016], [3889, 14016]]
+      - [[2833, 14208], [3889, 14208]]
+      - [[2833, 14400], [3889, 14400]]
+      - [[2833, 14592], [3889, 14592]]
+      - [[2833, 14784], [3889, 14784]]
+      - [[2833, 14880], [3793, 14880], [3889, 14880]]
+      - [[2833, 14976], [3793, 14976]]
+    ceiling_surfaces:
+      - {at: [3313, 13488], surface: {texture: d2ceil3, size: [256, 256]}}
+      - {at: [3313, 14928], surface: {texture: d2ceil3, size: [256, 256]}}
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: "Original sector 78, its west alcove: a barrel vault by ceiling_points (723 at its sides to the crown at 1026 in eight strips of the castle stone, the two side bays down to 576 in rock), the original's vertices one for one (its west end at 2737, in the opening's thickness, read at the room's wall at 2833), open to the court and to the throne hall under the vault's line. Rounds one to four: part of the court under its flat 1050."
+  - id: room:s079
+    name: Gatehouse stair doorway
+    outline: [[4945, 13248], [4657, 13248], [4657, 12864], [4945, 12864]]
+    floor: 0
+    ceiling: 360
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 79.
+  - id: room:s080
+    name: Throne hall
+    outline: [[-3022, 13248], [-3022, 11904], [2737, 11904], [2737, 16512], [-3022, 16512], [-3022, 15168], [-3790, 15168], [-3790, 13248]]
+    floor: 0
+    ceiling: 1305
+    ceiling_points: [[-3022, 11904, 1035], [-3022, 12288, 1215], [-3022, 12672, 1305], [-3022, 15744, 1305], [-3022, 16128, 1215], [-3022, 16512, 1035], [2737, 11904, 1035], [2737, 12288, 1215], [2737, 12672, 1305], [2737, 15744, 1305], [2737, 16128, 1215], [2737, 16512, 1035]]
+    ceiling_lines:
+      - [[-3022, 12288], [2737, 12288]]
+      - [[-3022, 12672], [2737, 12672]]
+      - [[-3022, 15744], [2737, 15744]]
+      - [[-3022, 16128], [2737, 16128]]
+    pillars:
+      - {outline: [[-430, 15264], [-430, 15168], [-334, 15072], [-238, 15072], [-142, 15168], [-142, 15264], [-238, 15360], [-334, 15360]]}
+      - {outline: [[-334, 13344], [-430, 13248], [-430, 13152], [-334, 13056], [-238, 13056], [-142, 13152], [-142, 13248], [-238, 13344]]}
+      - {outline: [[-1774, 15072], [-1678, 15168], [-1678, 15264], [-1774, 15360], [-1870, 15360], [-1966, 15264], [-1966, 15168], [-1870, 15072]]}
+      - {outline: [[-1966, 13152], [-1870, 13056], [-1774, 13056], [-1678, 13152], [-1678, 13248], [-1774, 13344], [-1870, 13344], [-1966, 13248]]}
+      - {outline: [[1297, 15072], [1393, 15168], [1393, 15264], [1297, 15360], [1201, 15360], [1105, 15264], [1105, 15168], [1201, 15072]]}
+      - {outline: [[1105, 13152], [1201, 13056], [1297, 13056], [1393, 13152], [1393, 13248], [1297, 13344], [1201, 13344], [1105, 13248]]}
+    platforms:
+      - {at: [332.5, 14028.5], size: [25, 25], rise: 231, base: 274}
+      - {at: [563, 14028.5], size: [26, 25], rise: 231, base: 274}
+      - {at: [332.5, 14259], size: [25, 26], rise: 231, base: 274}
+      - {at: [563, 14259], size: [26, 26], rise: 231, base: 274}
+      - {at: [447.5, 14028.5], size: [205, 25], rise: 26, base: 274}
+      - {at: [447.5, 14259], size: [205, 26], rise: 26, base: 274}
+      - {at: [332.5, 14143.5], size: [25, 205], rise: 26, base: 274}
+      - {at: [563, 14143.5], size: [26, 205], rise: 26, base: 274}
+      - {at: [448, 14144], size: [256, 256], rise: 25, base: 505}
+      - {id: platform:cube_throne_e, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[550, 14041], [576, 14041], [576, 14246], [550, 14246]], base: 300, notes: "Face 4267 of the original (event 36), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_throne_n, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[345, 14246], [550, 14246], [550, 14272], [345, 14272]], base: 300, notes: "Face 4266 of the original (event 33), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_throne_s, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[345, 14016], [550, 14016], [550, 14041], [345, 14041]], base: 300, notes: "Face 4268 of the original (event 33), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_throne_u, rise: 26, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[345, 14041], [550, 14041], [550, 14246], [345, 14246]], base: 274, notes: "Face 4265 of the original (event 37), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_throne_w, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[320, 14041], [345, 14041], [345, 14246], [320, 14246]], base: 300, notes: "Face 4269 of the original (event 35), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+    beams:
+      - path: [[448, 14080], [448, 14208]]
+        width: 128
+        depth: 775
+        bottom: 530
+    notes: "Original sector 80. Round four: the coved ceiling by ceiling_points, the original's heights: 1,035 at the two long walls, 1,215 384 in, the flat 1,305 from 12672 to 15744 (rounds one to three: flat at 1,305, so the long walls stood 270 too high)."
+  - id: room:s081
+    name: North gallery of the throne hall
+    outline: [[-3022, 16896], [-3022, 16608], [2737, 16608], [2737, 16896]]
+    floor: 450
+    ceiling: 971
+    ceiling_slope: {to: 780, toward: north}
+    notes: "Original sector 81. Round four: its ceiling slopes as the original's, from 1,035 over the hall's wall (971 at this room's front, 96 behind it) down to 780 at the back wall."
+  - id: room:s082
+    name: South gallery of the throne hall
+    outline: [[-3022, 11808], [-3022, 11520], [2737, 11520], [2737, 11808]]
+    floor: 450
+    ceiling: 971
+    ceiling_slope: {to: 780, toward: south}
+    notes: "Original sector 82. Round four: its ceiling slopes as the original's, from 1,035 over the hall's wall (971 at this room's front, 96 behind it) down to 780 at the back wall."
+  - id: room:s082_a
+    name: South gallery of the throne hall
+    outline: [[-3022, 11904], [-3022, 11808], [2737, 11808], [2737, 11904]]
+    floor: 510
+    ceiling: 1035
+    ceiling_slope: {to: 971, toward: south}
+    notes: Original sector 82.
+  - id: room:s083
+    name: North-west gallery stair
+    outline: [[-3118, 16512], [-3790, 16512], [-3790, 15264], [-3118, 15264]]
+    floor: 60
+    slope: {to: 450, toward: 0}
+    ceiling: 780
+    notes: Original sector 83.
+  - id: room:s083_a
+    name: North-west gallery stair
+    outline: [[-3118, 16512], [-3118, 16896], [-3790, 16896], [-3790, 16512]]
+    floor: 450
+    ceiling: 780
+    theme: theme:d2wlactr_crdrf2_d2ceil3
+    walls:
+      - wall: 1
+        surface: {texture: d2wctra, size: [128, 256]}
+    notes: Original sector 83.
+  - id: room:s083_b
+    name: North-west gallery stair
+    outline: [[-3118, 15264], [-3790, 15264], [-3790, 15168], [-3118, 15168]]
+    floor: 30
+    ceiling: 660
+    notes: Original sector 83.
+  - id: room:s084
+    name: South-west gallery stair
+    outline: [[-3790, 13152], [-3790, 11904], [-3118, 11904], [-3118, 13152]]
+    floor: 30
+    slope: {to: 450, toward: 1}
+    ceiling: 780
+    notes: Original sector 84.
+  - id: room:s084_a
+    name: South-west gallery stair
+    outline: [[-3790, 11520], [-3118, 11520], [-3118, 11904], [-3790, 11904]]
+    floor: 450
+    ceiling: 780
+    notes: Original sector 84.
+  - id: room:s084_b
+    name: South-west gallery stair
+    outline: [[-3790, 13152], [-3118, 13152], [-3118, 13248], [-3790, 13248]]
+    floor: 30
+    ceiling: 660
+    notes: Original sector 84.
+  - id: room:s085
+    name: North-west tower room
+    outline: [[-3790, 17664], [-4174, 17664], [-4174, 16608], [-3790, 16608]]
+    floor: 450
+    ceiling: 834
+    notes: Original sector 85.
+  - id: room:s086
+    name: South-west tower room
+    outline: [[-3790, 11808], [-4174, 11808], [-4174, 10656], [-3790, 10656]]
+    floor: 450
+    ceiling: 822
+    walls:
+      - wall: 2
+        surface: {texture: d1wctrb, size: [128, 256]}
+    notes: Original sector 86.
+  - id: room:s087
+    name: Gallery passage
+    outline: [[2737, 11808], [2737, 11520], [3409, 11520], [3409, 11808]]
+    floor: 450
+    ceiling: 780
+    notes: Original sector 87.
+  - id: room:s088
+    name: South-east upper hall
+    outline: [[4561, 11712], [3889, 11712], [3601, 12000], [3409, 12000], [3409, 10656], [3505, 10560], [3697, 10560], [5233, 11808], [5233, 12000], [4849, 12000]]
+    floor: 450
+    ceiling: 960
+    notes: Original sector 88.
+  - id: room:s088_a
+    name: South-east upper hall
+    outline: [[3889, 11712], [4561, 11712], [4849, 12000], [4753, 12000], [4561, 11808], [3889, 11808], [3697, 12000], [3601, 12000]]
+    floor: 480
+    ceiling: 960
+    notes: Original sector 88.
+  - id: room:s088_b
+    name: South-east upper hall
+    outline: [[3889, 11808], [4561, 11808], [4753, 12000], [4657, 12000], [4561, 11904], [3889, 11904], [3793, 12000], [3697, 12000]]
+    floor: 510
+    ceiling: 960
+    notes: Original sector 88.
+  - id: room:s088_c
+    name: South-east upper hall
+    outline: [[3793, 12000], [3889, 11904], [4561, 11904], [4657, 12000]]
+    floor: 540
+    ceiling: 960
+    notes: Original sector 88.
+  - id: room:s089
+    name: Upper east room
+    outline: [[4753, 12096], [5617, 12096], [6097, 12480], [6097, 13344], [5617, 13344], [4753, 12480]]
+    floor: 480
+    ceiling: 900
+    notes: Original sector 89.
+  - id: room:s090
+    name: Closet
+    outline: [[4945, 13344], [4753, 13152], [4753, 12672], [5425, 13344]]
+    floor: 480
+    ceiling: 690
+    notes: Original sector 90.
+  - id: room:s093
+    name: Ramp from the south range up to the upper hall
+    outline: [[1681, 11040], [3409, 11040], [3409, 11424], [1681, 11424]]
+    floor: -90
+    floor_points: [[1777, 11040, -90], [1777, 11424, -90], [3409, 11040, 450], [3409, 11424, 450]]
+    floor_lines:
+      - [[1777, 11040], [1777, 11424]]
+    ceiling: 240
+    ceiling_points: [[1681, 11040, 240], [1681, 11136, 294], [1681, 11232, 315], [1681, 11328, 294], [1681, 11424, 240], [1777, 11040, 240], [1777, 11136, 294], [1777, 11232, 315], [1777, 11328, 294], [1777, 11424, 240], [3409, 11040, 750], [3409, 11136, 804], [3409, 11232, 825], [3409, 11328, 804], [3409, 11424, 750]]
+    ceiling_lines:
+      - [[1681, 11136], [1777, 11136], [3409, 11136]]
+      - [[1681, 11232], [1777, 11232], [3409, 11232]]
+      - [[1681, 11328], [1777, 11328], [3409, 11328]]
+      - [[1777, 11040], [1777, 11136], [1777, 11232], [1777, 11328], [1777, 11424]]
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: "Original sector 93. Round four: one room as the original's sector, the level landing (1681 to 1777) and the ramp up to 450 by floor_points, the vault (240 at the springing, 294 and 315 toward the crown, rising with the ramp to 750, 804, 825) by ceiling_points, the original's vertices one for one. Round three had it in three rooms (a cut where the corridor runs under the high end, refused then as overlap; the ceiling a plane)."
+  - id: room:s094
+    name: West court
+    outline: [[-9934, 15360], [-15310, 15360], [-15310, 12672], [-13390, 10752], [-8398, 10752], [-8398, 13824]]
+    floor: -240
+    ceiling: 1170
+    platforms:
+      - {id: platform:forcefield_court, rise: 600, outline: [[-8398, 13824], [-9934, 15360], [-9940, 15354], [-8404, 13818]], visible: false, base: 30, notes: "The forcefield's second face (4575: unseen, from 30 over the court's floor to 390) across the court's stair foot, along the line between this room and room:s094_a, 8 thick on the court's side."}
+    notes: Original sector 94.
+  - id: room:s094_a
+    name: West court
+    outline: [[-8398, 13824], [-8398, 14784], [-8974, 15360], [-9934, 15360]]
+    floor: -210
+    slope: {to: -60, toward: 1, steps: 5}
+    ceiling: 960
+    notes: Original sector 94.
+  - id: room:s094_b
+    name: West court
+    outline: [[-8974, 15360], [-8398, 14784], [-8398, 14976], [-8782, 15360]]
+    floor: -60
+    ceiling: 960
+    notes: Original sector 94.
+  - id: room:s094_c
+    name: West court
+    outline: [[-8782, 15360], [-8398, 14976], [-8398, 15360]]
+    floor: -30
+    ceiling: 960
+    notes: Original sector 94.
+  - id: room:s096
+    name: Gatehouse stair
+    outline: [[5137, 15072], [5521, 15264], [5233, 15552], [5041, 15168]]
+    floor: -90
+    ceiling: 384
+    notes: Original sector 96.
+  - id: room:s096_a
+    name: Gatehouse stair
+    outline: [[5137, 15072], [5521, 15072], [5521, 15264]]
+    floor: -120
+    ceiling: 384
+    notes: Original sector 96.
+  - id: room:s096_b
+    name: Gatehouse stair
+    outline: [[5041, 15168], [5233, 15552], [5041, 15552]]
+    floor: -60
+    ceiling: 384
+    notes: Original sector 96.
+  - id: room:s096_c
+    name: Gatehouse stair
+    outline: [[4945, 15168], [5041, 15168], [5041, 15552], [4945, 15552]]
+    floor: -30
+    ceiling: 384
+    notes: Original sector 96.
+  - id: room:s097
+    name: Gatehouse stair doorway
+    outline: [[4657, 15168], [4945, 15168], [4945, 15552], [4657, 15552]]
+    floor: 0
+    ceiling: 360
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 97.
+  - id: room:s098
+    name: "Wall walk, south"
+    outline: [[-8398, 10656], [-13006, 10656], [-13006, 10080], [-8398, 10080]]
+    floor: 600
+    ceiling: 1170
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    notes: Original sector 98.
+  - id: room:s098_a
+    name: "Wall walk, south"
+    outline: [[-8398, 10656], [-8398, 10752], [-13006, 10752], [-13006, 10656]]
+    floor: 660
+    ceiling: 1170
+    theme: theme:d2wctra_d2wlcctr_d2ceil3
+    notes: Original sector 98.
+  - id: room:s099
+    name: "Wall walk, south-west corner"
+    outline: [[-13678, 10080], [-13102, 10080], [-13102, 10656], [-13486, 10656], [-15406, 12576], [-15406, 12960], [-15982, 12960], [-15982, 12384]]
+    floor: 600
+    ceiling: 1050
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    notes: Original sector 99.
+  - id: room:s100
+    name: "Wall walk, west"
+    outline: [[-15502, 15360], [-15982, 15360], [-15982, 13056], [-15502, 13056]]
+    floor: 600
+    ceiling: 1170
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    notes: Original sector 100.
+  - id: room:s101
+    name: "Wall walk, north-west room"
+    outline: [[-15982, 15456], [-15408, 15456], [-15408, 15856], [-15982, 15856]]
+    floor: 600
+    ceiling: 1050
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    notes: Original sector 101.
+  - id: room:s103
+    name: North-east upper hall
+    outline: [[3793, 15840], [3793, 16416], [4561, 16416], [4561, 17088], [3505, 17856], [3409, 17760], [3409, 15840]]
+    floor: 540
+    ceiling: 960
+    notes: Original sector 103.
+  - id: room:s103_a
+    name: North-east upper hall
+    outline: [[3121, 16896], [3121, 16608], [3409, 16608], [3409, 16896]]
+    floor: 510
+    ceiling: 960
+    notes: Original sector 103.
+  - id: room:s103_b
+    name: North-east upper hall
+    outline: [[2929, 16608], [3121, 16608], [3121, 16896], [2929, 16896]]
+    floor: 480
+    ceiling: 960
+    notes: Original sector 103.
+  - id: room:s103_c
+    name: North-east upper hall
+    outline: [[2929, 16608], [2929, 16896], [2833, 16896], [2833, 16608]]
+    floor: 450
+    ceiling: 960
+    notes: Original sector 103.
+  - id: room:s104
+    name: Secret room behind the sliding wall
+    outline: [[2833, 15168], [3793, 15168], [3793, 15840], [2833, 15840]]
+    floor: 540
+    ceiling: 960
+    notes: "Original sector 104, its main part; the closet north of its west end is room:s104_c, behind door record 8. Round three: rounds one and two drew this room with its closet as one room and put door record 8 on the plain doorway to room:s103, which the original leaves open."
+  - id: room:s104_c
+    name: Closet behind the sliding wall
+    outline: [[2833, 15904], [3217, 15904], [3217, 16320], [2833, 16320]]
+    floor: 540
+    ceiling: 810
+    notes: "Original sector 104, the closet (ceiling 810) that door record 8, a stone block 64 thick, hides from the main part."
+  - id: room:s105
+    name: Upper stair
+    outline: [[4561, 16800], [4561, 16512], [4849, 16512], [5041, 16800]]
+    floor: 510
+    ceiling: 900
+    notes: Original sector 105.
+  - id: room:s105_a
+    name: Upper stair
+    outline: [[4945, 16416], [4945, 16224], [5233, 16224], [5233, 16608]]
+    floor: 450
+    ceiling: 900
+    notes: Original sector 105.
+  - id: room:s105_b
+    name: Upper stair
+    outline: [[4849, 16512], [4945, 16416], [5233, 16608], [5041, 16800]]
+    floor: 480
+    ceiling: 900
+    notes: Original sector 105.
+  - id: room:s106
+    name: North-east tower room
+    outline: [[4945, 16224], [4945, 15648], [5329, 15264], [6097, 15264], [6097, 16032], [5809, 16224]]
+    floor: 420
+    ceiling: 1110
+    notes: Original sector 106.
+  - id: room:s109
+    name: Ramp from the north range up to the upper hall
+    outline: [[1681, 16992], [3409, 16992], [3409, 17376], [1681, 17376]]
+    floor: 0
+    floor_points: [[1777, 16992, 0], [1777, 17376, 0], [3409, 16992, 510], [3409, 17376, 510]]
+    floor_lines:
+      - [[1777, 16992], [1777, 17376]]
+    ceiling: 330
+    ceiling_points: [[1681, 16992, 330], [1681, 17088, 384], [1681, 17184, 405], [1681, 17280, 384], [1681, 17376, 330], [1777, 16992, 330], [1777, 17088, 384], [1777, 17184, 405], [1777, 17280, 384], [1777, 17376, 330], [3409, 16992, 840], [3409, 17088, 894], [3409, 17184, 915], [3409, 17280, 894], [3409, 17376, 840]]
+    ceiling_lines:
+      - [[1681, 17088], [1777, 17088], [3409, 17088]]
+      - [[1681, 17184], [1777, 17184], [3409, 17184]]
+      - [[1681, 17280], [1777, 17280], [3409, 17280]]
+      - [[1777, 16992], [1777, 17088], [1777, 17184], [1777, 17280], [1777, 17376]]
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: "Original sector 109. Round four: one room as the original's sector, the level landing (1681 to 1777) and the ramp up to 510 by floor_points, the vault (330 at the springing, 384 and 405 toward the crown, rising with the ramp to 840, 894, 915) by ceiling_points, the original's vertices one for one. Round three had it in three rooms (a cut where the corridor runs under the high end, refused then as overlap; the ceiling a plane)."
+  - id: room:s110
+    name: North-east lower room
+    outline: [[6001, 15552], [6001, 16032], [4945, 16800], [4753, 16800], [4753, 15936], [5041, 15744], [5425, 15744], [5617, 15552]]
+    floor: -60
+    ceiling: 300
+    notes: Original sector 110.
+  - id: room:s111
+    name: Closet
+    outline: [[5617, 15552], [5617, 15168], [6001, 15168], [6001, 15552]]
+    floor: -60
+    ceiling: 180
+    notes: Original sector 111.
+  - id: room:s112
+    name: North-east passage
+    outline: [[3601, 16800], [3601, 16416], [4753, 16416], [4753, 16800]]
+    floor: -60
+    ceiling: 300
+    notes: Original sector 112.
+  - id: room:s113
+    name: Alcove
+    outline: [[3793, 16800], [4465, 16800], [4465, 17088], [4273, 17280], [3793, 17280]]
+    floor: -60
+    ceiling: 210
+    notes: Original sector 113.
+  - id: room:s114
+    name: North-east corridor
+    outline: [[3217, 16416], [3601, 16416], [3601, 17472], [3217, 17472]]
+    floor: -60
+    ceiling: 300
+    notes: Original sector 114.
+  - id: room:s115
+    name: North room
+    outline: [[1873, 17472], [3601, 17472], [3601, 17664], [2929, 18240], [2161, 18240], [2161, 17760], [1873, 17760]]
+    floor: -60
+    ceiling: 300
+    notes: Original sector 115.
+  - id: room:s116
+    name: North stair room
+    outline: [[1681, 17856], [1777, 17856], [1777, 18240], [1297, 18240], [1297, 16992], [1681, 16992]]
+    floor: 0
+    ceiling: 420
+    notes: Original sector 116.
+  - id: room:s116_a
+    name: North stair room
+    outline: [[2161, 17856], [2161, 18240], [1969, 18240], [1969, 17856]]
+    floor: -60
+    ceiling: 360
+    notes: Original sector 116.
+  - id: room:s116_b
+    name: North stair room
+    outline: [[1969, 17856], [1969, 18240], [1777, 18240], [1777, 17856]]
+    floor: -30
+    ceiling: 360
+    notes: Original sector 116.
+  - id: room:s117
+    name: North range room
+    outline: [[-814, 17760], [-814, 16992], [1009, 16992], [1009, 17760]]
+    floor: -70
+    ceiling: 360
+    notes: Original sector 117.
+  - id: room:s118
+    name: North range corridor
+    outline: [[-4270, 17856], [1009, 17856], [1009, 18240], [-4270, 18240]]
+    floor: -90
+    ceiling: 360
+    notes: Original sector 118.
+  - id: room:s118_a
+    name: North range corridor
+    outline: [[-4270, 17856], [-4270, 18240], [-5134, 18240], [-5134, 17856]]
+    floor: -60
+    ceiling: 360
+    notes: Original sector 118.
+  - id: room:s118_b
+    name: North range corridor
+    outline: [[1009, 17856], [1201, 17856], [1201, 18240], [1009, 18240]]
+    floor: -60
+    slope: {to: 0, toward: 1, steps: 2}
+    ceiling: 360
+    notes: Original sector 118.
+  - id: room:s118_c
+    name: North range corridor
+    outline: [[1201, 18240], [1201, 17856], [1297, 17856], [1297, 18240]]
+    floor: 0
+    ceiling: 345
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 118.
+  - id: room:s118_d
+    name: North range corridor
+    outline: [[-5230, 17856], [-5134, 17856], [-5134, 18240], [-5230, 18240]]
+    floor: -30
+    ceiling: 339
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 118.
+  - id: room:s119
+    name: North range room
+    outline: [[-2542, 17760], [-2542, 16992], [-1006, 16992], [-1006, 17760]]
+    floor: -70
+    ceiling: 360
+    notes: Original sector 119.
+  - id: room:s120
+    name: North range end room
+    outline: [[-2638, 17664], [-3886, 17664], [-3886, 16992], [-2638, 16992]]
+    floor: -70
+    ceiling: 360
+    notes: Original sector 120.
+  - id: room:s121
+    name: Barred room
+    outline: [[2929, 15360], [3601, 15360], [3601, 16224], [3217, 16224], [3217, 15936], [2929, 15936]]
+    floor: -60
+    ceiling: 300
+    notes: Original sector 121.
+  - id: room:s122
+    name: South-east room
+    outline: [[1969, 10848], [1969, 10080], [3025, 10080], [3025, 10848]]
+    floor: -150
+    ceiling: 210
+    notes: Original sector 122.
+  - id: room:s122_a
+    name: South-east room
+    outline: [[1681, 10080], [1969, 10080], [1969, 10848], [1681, 10848]]
+    floor: -120
+    ceiling: 210
+    notes: Original sector 122.
+  - id: room:s124
+    name: South-east corridor
+    outline: [[3505, 12960], [3601, 12960], [3601, 13248], [3025, 13248], [3025, 12960], [3121, 12960], [3121, 10464], [3409, 10464], [3505, 10560]]
+    floor: -150
+    ceiling: 210
+    notes: Original sector 124.
+  - id: room:s125
+    name: East lower room
+    outline: [[6001, 12288], [6001, 13056], [5617, 13056], [5425, 12864], [5425, 12672], [4945, 12672], [4945, 11808], [5329, 11808]]
+    floor: -150
+    ceiling: 210
+    notes: Original sector 125.
+  - id: room:s126
+    name: South range hall
+    outline: [[-3982, 11328], [-3982, 10272], [-1966, 10272], [-1966, 11328]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 126.
+  - id: room:s127
+    name: South range room
+    outline: [[-1294, 10656], [-1294, 10752], [-1198, 10752], [-1198, 10848], [-814, 10848], [-814, 11136], [-1198, 11136], [-1198, 11232], [-1294, 11232], [-1294, 11328], [-1966, 11328], [-1966, 10656]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 127.
+  - id: room:s129
+    name: South range room
+    outline: [[-718, 10656], [145, 10656], [145, 11328], [-718, 11328]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 129.
+  - id: room:s130
+    name: South range room
+    outline: [[337, 10656], [1105, 10656], [1105, 11328], [337, 11328]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 130.
+  - id: room:s131
+    name: South corridor under the gallery
+    outline: [[1201, 11712], [-3982, 11712], [-3982, 12000], [-4366, 12000], [-4366, 11424], [1201, 11424]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 131.
+  - id: room:s133
+    name: South range closet
+    outline: [[-1678, 10560], [-1678, 10272], [-1486, 10080], [-1198, 10080], [-1198, 10464], [-1294, 10560]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 133.
+  - id: room:s134
+    name: South-east lower room
+    outline: [[3793, 10752], [4753, 11424], [4753, 12000], [3793, 12000], [3601, 11808], [3601, 10944]]
+    floor: -150
+    ceiling: 210
+    notes: Original sector 134.
+  - id: room:s135
+    name: South range cross passage
+    outline: [[1297, 10080], [1681, 10080], [1681, 11424], [1297, 11424]]
+    floor: -90
+    ceiling: 330
+    notes: Original sector 135.
+  - id: room:s137
+    name: South range stepped passage
+    outline: [[721, 10464], [721, 10080], [1201, 10080], [1201, 10464]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s137_a
+    name: South range stepped passage
+    outline: [[529, 10080], [529, 10464], [145, 10464], [145, 10080]]
+    floor: -150
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s137_b
+    name: South range stepped passage
+    outline: [[-46, 10464], [-430, 10464], [-430, 10080], [-46, 10080]]
+    floor: -90
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s137_c
+    name: South range stepped passage
+    outline: [[-910, 10080], [-622, 10080], [-622, 10464], [-910, 10464]]
+    floor: -150
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s137_d
+    name: South range stepped passage
+    outline: [[-1102, 10464], [-1102, 10080], [-910, 10080], [-910, 10464]]
+    floor: -120
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s137_e
+    name: South range stepped passage
+    outline: [[-622, 10464], [-622, 10080], [-430, 10080], [-430, 10464]]
+    floor: -120
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s137_f
+    name: South range stepped passage
+    outline: [[529, 10080], [721, 10080], [721, 10464], [529, 10464]]
+    floor: -120
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s137_g
+    name: South range stepped passage
+    outline: [[-46, 10080], [145, 10080], [145, 10464], [-46, 10464]]
+    floor: -120
+    ceiling: 270
+    notes: Original sector 137.
+  - id: room:s142
+    name: "South cavern, west arm"
+    outline: [[8977, -4512], [9967, -4527], [11212, -4338], [11761, -4320], [10897, -3456], [10639, -3594], [9871, -3666], [8977, -3648]]
+    floor: -240
+    ceiling: 240
+    ceiling_slope: {to: 500, toward: 3}
+    theme: theme:d2ceil3_crdrf2_d2ceil3
+    notes: "Original sector 142. A tube: level floor about 500 wide, rock banks rising 150 to the rim on both sides, the ceiling leaning in from the rim to a ridge strip that climbs from 240 at the west end to 450-540 at the cavern's mouth. Drawn: the rim as upright walls and the ridge's climb as a sloping ceiling. NOT drawn: the banks and the leaning sides (a ridge ceiling needs a convex room and two such rooms cannot be joined over their whole section: see NOTES.md)."
+  - id: room:s143
+    name: "South cavern, far west arm"
+    outline: [[5521, -2880], [5998, -3426], [7036, -4074], [8074, -4332], [8977, -4512], [8977, -3648], [8527, -3537], [7555, -3264], [6769, -2880]]
+    floor: -240
+    ceiling: 180
+    theme: theme:d2ceil3_crdrf2_d2ceil3
+    walls:
+      - wall: 8
+        surface: {texture: d1wctrb, size: [128, 256]}
+    notes: "Original sector 143. A bent tube like 142, its ridge strip level at 180. Drawn as its rim with upright walls under a level ceiling."
+  - id: room:s144
+    name: West ward with the sunken ring
+    outline: [[-8206, 11712], [-4558, 11712], [-4558, 15552], [-8206, 15552]]
+    floor: -240
+    ceiling: 960
+    platforms:
+      - {rise: 210, outline: [[-8206, 14880], [-7918, 14880], [-7534, 15264], [-7534, 15552], [-8206, 15552]], notes: "The landing at -30 in the north-west corner (the original's face 2949), before the forcefield."}
+      - {rise: 210, outline: [[-7534, 15264], [-7438, 15264], [-7438, 15552], [-7534, 15552]], notes: "The head of the ramp, level (face 2948)."}
+      - {rise: 0, outline: [[-7438, 15264], [-6286, 15264], [-6286, 15552], [-7438, 15552]], top_slope: {to: 210, toward: west}, notes: "The ramp down from the landing along the north wall (face 2947), open to the ward."}
+      - {id: platform:forcefield, rise: 988, outline: [[-8206, 14976], [-8198, 14976], [-8198, 15360], [-8206, 15360]], visible: false, base: 210, notes: "The forcefield across the doorway to the west court (face 4522: unseen, solid until the throne hall's cube makes it passable). 8 thick against the ward's west wall, on the landing, up to 2 under the ceiling."}
+    levels:
+      - outline: [[-7054, 13824], [-7054, 13440], [-6670, 13056], [-6286, 13056], [-5902, 13440], [-5902, 13824], [-6286, 14208], [-6670, 14208]]
+        floor: -270
+    notes: "Original sector 144. Round four: one room; the north-west landing (-30) and the ramp down from it along the north wall are blocks open to the ward, as the original's (rounds one to three: rooms walled to the ceiling). A floor at -300 sunk inside the level at -270 is not drawn (a level cannot hold another)."
+  - id: room:s145
+    name: South-west hall
+    outline: [[-5326, 10848], [-4558, 10848], [-4558, 11232], [-4942, 11232], [-4942, 11520], [-8206, 11520], [-8206, 10176], [-5326, 10176]]
+    floor: -60
+    ceiling: 324
+    notes: Original sector 145.
+  - id: room:s145_a
+    name: South-west hall
+    outline: [[-4942, 11328], [-4558, 11328], [-4558, 11520], [-4942, 11520]]
+    floor: -150
+    slope: {to: -90, toward: 0, steps: 2}
+    ceiling: 324
+    notes: Original sector 145.
+  - id: room:s145_b
+    name: South-west hall
+    outline: [[-4558, 11232], [-4558, 11328], [-4942, 11328], [-4942, 11232]]
+    floor: -90
+    ceiling: 324
+    notes: Original sector 145.
+  - id: room:s146
+    name: Passage to the south range
+    outline: [[-4750, 10656], [-4750, 10272], [-3982, 10272], [-3982, 10656]]
+    floor: -90
+    ceiling: 324
+    notes: Original sector 146.
+  - id: room:s146_a
+    name: Passage to the south range
+    outline: [[-5326, 10656], [-5326, 10272], [-4750, 10272], [-4750, 10656]]
+    floor: -60
+    ceiling: 324
+    notes: Original sector 146.
+  - id: room:s147
+    name: Doorway
+    outline: [[-4558, 11616], [-4558, 11712], [-4942, 11712], [-4942, 11616]]
+    floor: -210
+    ceiling: 309
+    theme: theme:d2wctra_crdrf2_d2wctra
+    notes: Original sector 147.
+  - id: room:s148
+    name: North-west end room
+    outline: [[-8206, 19584], [-8206, 18528], [-6478, 18528], [-7534, 19584]]
+    floor: -30
+    ceiling: 354
+    notes: Original sector 148.
+  - id: room:s149
+    name: North-west hall
+    outline: [[-4942, 15744], [-4942, 16128], [-4558, 16128], [-4558, 17568], [-5230, 17568], [-5230, 18240], [-6094, 18240], [-6094, 15744]]
+    floor: -30
+    ceiling: 354
+    notes: Original sector 149.
+  - id: room:s149_a
+    name: North-west hall
+    outline: [[-4942, 15744], [-4558, 15744], [-4558, 16032], [-4942, 16032]]
+    floor: -150
+    slope: {to: -60, toward: 2, steps: 3}
+    ceiling: 354
+    notes: Original sector 149.
+  - id: room:s149_b
+    name: North-west hall
+    outline: [[-4558, 16128], [-4942, 16128], [-4942, 16032], [-4558, 16032]]
+    floor: -60
+    ceiling: 354
+    notes: Original sector 149.
+  - id: room:s150
+    name: North-west great room
+    outline: [[-6286, 18240], [-6478, 18240], [-6478, 18528], [-7054, 18528], [-7054, 18240], [-8206, 18240], [-8206, 15744], [-6286, 15744]]
+    floor: -30
+    ceiling: 354
+    notes: Original sector 150.
+  - id: room:s151
+    name: Tower room at the top of the spiral
+    outline: [[7825, 768], [7825, -192], [9265, -192], [9265, 768]]
+    floor: 630
+    ceiling: 1050
+    notes: Original sector 151.
+  - id: room:s152
+    name: Upper passage from the tower
+    outline: [[9457, 48], [10609, 48], [10609, 576], [9457, 576]]
+    floor: 528
+    ceiling: 978
+    notes: Original sector 152.
+  - id: room:s152_a
+    name: Upper passage from the tower
+    outline: [[9361, 576], [9265, 576], [9265, 48], [9361, 48]]
+    floor: 594
+    ceiling: 978
+    notes: Original sector 152.
+  - id: room:s152_b
+    name: Upper passage from the tower
+    outline: [[9361, 48], [9457, 48], [9457, 576], [9361, 576]]
+    floor: 558
+    slope: {to: 594, toward: 3, steps: 1}
+    ceiling: 978
+    notes: Original sector 152.
+  - id: room:s153
+    name: North-west room over the hall
+    outline: [[11953, 10272], [11953, 10560], [11761, 10752], [11761, 11040], [11473, 11328], [10897, 11328], [10705, 11136], [10705, 9792], [10993, 9600], [11761, 9600], [11953, 9792], [12721, 9792], [12721, 10272]]
+    floor: 236
+    ceiling: 492
+    notes: Original sector 153.
+  - id: room:s153_a
+    name: North-west room over the hall
+    outline: [[10705, 10560], [10225, 10560], [10225, 9984], [10705, 9984]]
+    floor: 156
+    slope: {to: 236, toward: 3}
+    ceiling: 492
+    notes: Original sector 153.
+  - id: room:s154
+    name: Ramp passage down to the skull room
+    outline: [[9937, 10560], [8209, 8832], [8209, 8544], [8785, 8544], [10225, 9984], [10225, 10560]]
+    floor: 156
+    ceiling: 492
+    notes: Original sector 154.
+  - id: room:s154_a
+    name: Ramp passage down to the skull room
+    outline: [[8785, 7392], [8785, 8544], [8209, 8544], [8209, 7392]]
+    floor: -312
+    slope: {to: 156, toward: 1}
+    ceiling: 492
+    notes: Original sector 154.
+  - id: room:s154_b
+    name: Ramp passage down to the skull room
+    outline: [[8209, 7392], [8209, 7200], [8785, 7200], [8785, 7392]]
+    floor: -312
+    ceiling: 492
+    notes: Original sector 154.
+  - id: room:s155
+    name: Skull room
+    outline: [[9169, 7008], [8977, 7008], [8785, 7200], [8209, 7200], [8017, 7008], [7537, 7008], [7537, 5952], [9169, 5952]]
+    floor: -312
+    ceiling: 96
+    notes: Original sector 155.
+  - id: room:s156
+    name: Ramp behind the skull door
+    outline: [[8017, 4896], [8275, 4896], [8275, 5920], [8017, 5920]]
+    floor: -600
+    slope: {to: -288, toward: 2}
+    ceiling: 96
+    notes: Original sector 156.
+  - id: room:s156_a
+    name: Ramp behind the skull door
+    outline: [[8017, 4896], [8017, 4800], [8275, 4800], [8275, 4896]]
+    floor: -600
+    ceiling: 96
+    notes: Original sector 156.
+  - id: room:s157
+    name: Door passage
+    outline: [[8017, 3744], [8275, 3744], [8275, 4800], [8017, 4800], [8017, 4736], [8049, 4736], [8049, 4704], [8017, 4704], [8017, 4416], [8049, 4416], [8049, 4384], [8017, 4384]]
+    floor: -636
+    ceiling: -252
+    walls:
+      - wall: 7
+        surface: {texture: d2lgdor, size: [256, 256]}
+    notes: Original sector 157.
+  - id: room:s158
+    name: Long low tunnel
+    path: [[2737, 4032], [8017, 4032]]
+    section: {outline: [[-192, 0], [192, 0], [192, 126], [144, 216], [96, 285], [48, 315], [-48, 315], [-96, 285], [-144, 216], [-192, 126]], wall: {texture: d2wctra, size: [128, 256]}, upper: {texture: d2ceil3, size: [256, 256]}, ceiling: {texture: d2ceil3, size: [256, 256]}}
+    floor: -636
+    ceiling: -321
+    notes: "Original sector 158. Round four: a tunnel (path room with a section): upright walls 126 high and a vault of four leaning steps to a flat crown at 315, the original's cross-section one for one but for its crown point 9 higher (a section's top is flat: its sides must stay 16 under the ceiling) (portals 4123, 4144); its two ends are mouths in the tunnel's section. Rounds one to three: a box 324 high."
+  - id: room:s159
+    name: Stair down to the low tunnels
+    outline: [[11281, 9888], [12433, 9888], [12433, 10144], [11281, 10144]]
+    floor: -636
+    slope: {to: -180, toward: 1}
+    ceiling: 108
+    notes: Original sector 159.
+  - id: room:s159_a
+    name: Stair down to the low tunnels
+    outline: [[11281, 9888], [11281, 10144], [11089, 10144], [11089, 9888]]
+    floor: -636
+    ceiling: 108
+    notes: Original sector 159.
+  - id: room:s159_b
+    name: Stair down to the low tunnels
+    outline: [[12433, 9888], [12624, 9888], [12624, 10144], [12433, 10144]]
+    floor: -180
+    ceiling: 108
+    notes: Original sector 159.
+  - id: room:s160
+    name: "Low tunnel, east-west"
+    outline: [[6769, 10144], [6769, 9888], [11089, 9888], [11089, 10144]]
+    floor: -636
+    ceiling: -396
+    notes: Original sector 160.
+  - id: room:s161
+    name: "Low tunnel, north-south"
+    outline: [[7057, 9888], [6769, 9888], [6769, 4416], [7057, 4416]]
+    floor: -636
+    ceiling: -396
+    notes: Original sector 161.
+  - id: room:s162
+    name: Low tunnel end
+    outline: [[7985, 4416], [7985, 4672], [7057, 4672], [7057, 4416]]
+    floor: -636
+    ceiling: -396
+    walls:
+      - wall: 0
+        surface: {texture: d2lgdor, size: [256, 256]}
+    notes: Original sector 162.
+  - id: room:s163
+    name: Tall corridor with the long ramp
+    outline: [[-3982, 12384], [-4078, 12384], [-4078, 14592], [-4366, 14592], [-4366, 12000], [-3982, 12000]]
+    floor: -90
+    ceiling: 1020
+    notes: Original sector 163.
+  - id: room:s163_a
+    name: Tall corridor with the long ramp
+    outline: [[-3982, 12384], [-3982, 14592], [-4078, 14592], [-4078, 12384]]
+    floor: -54
+    floor_points: [[-3982, 12384, -54], [-4078, 12384, -54], [-3982, 12480, -54], [-4078, 12480, -54], [-3982, 14592, 738], [-4078, 14592, 738]]
+    floor_lines:
+      - [[-3982, 12480], [-4078, 12480]]
+    ceiling: 1020
+    notes: "Original sector 163: the ramp, 96 wide, from its foot at -54 climbing to 738 along the tall corridor's east side and open to it. Round five: one room with its foot, by floor_points (the original's vertices one for one), its west side open; rounds one to four: a `slope` room and a foot room, walled on that side."
+  - id: room:s164
+    name: Lever gallery at the head of the ramp
+    outline: [[-4366, 15552], [-4366, 15360], [-4510, 15216], [-4510, 15024], [-4366, 14880], [-4366, 14592], [-3982, 14592], [-3982, 15552]]
+    floor: 774
+    ceiling: 1020
+    notes: Original sector 164.
+  - id: room:s164_a
+    name: Lever gallery at the head of the ramp
+    outline: [[-4510, 15216], [-4558, 15216], [-4558, 15024], [-4510, 15024]]
+    floor: 870
+    ceiling: 960
+    notes: Original sector 164.
+  - id: room:s164_niche
+    name: West lever niche
+    outline: [[-4096, 15584], [-4128, 15584], [-4128, 15552], [-4096, 15552]]
+    floor: 902
+    ceiling: 934
+    theme: theme:t3ll5
+    notes: "The west lever's niche in the lever gallery's north wall (sector 164, faces 4544 to 4548). Rounds one to five: not drawn."
+  - id: room:s165
+    name: Cellar under the lever gallery
+    outline: [[-3886, 15744], [-3886, 16128], [-4174, 16128], [-4174, 15744]]
+    floor: -234
+    ceiling: 138
+    notes: Original sector 165.
+  - id: room:s165_a
+    name: Cellar under the lever gallery
+    outline: [[-3886, 14592], [-3886, 14880], [-4078, 14880], [-4078, 14784], [-4366, 14784], [-4366, 14592]]
+    floor: -90
+    ceiling: 120
+    notes: Original sector 165.
+  - id: room:s165_b
+    name: Cellar under the lever gallery
+    outline: [[-3886, 15648], [-4078, 15648], [-4078, 15168], [-3886, 15168]]
+    floor: -234
+    ceiling: 138
+    notes: Original sector 165.
+  - id: room:s165_c
+    name: Cellar under the lever gallery
+    outline: [[-4078, 14880], [-3886, 14880], [-3886, 15168], [-4078, 15168]]
+    floor: -234
+    slope: {to: -90, toward: 0}
+    ceiling: 138
+    notes: Original sector 165.
+  - id: room:s165_d
+    name: Cellar under the lever gallery
+    outline: [[-3886, 15744], [-4078, 15744], [-4078, 15648], [-3886, 15648]]
+    floor: -210
+    ceiling: 138
+    notes: Original sector 165.
+  - id: room:s166
+    name: North-east stair
+    outline: [[18193, 8064], [18193, 8736], [18289, 8832], [18289, 9216], [18193, 9312], [18193, 9696], [17905, 9696], [17905, 8064]]
+    floor: -180
+    ceiling: 156
+    notes: Original sector 166.
+  - id: room:s166_a
+    name: North-east stair
+    outline: [[18193, 8064], [17905, 8064], [17905, 7392], [18193, 7392]]
+    floor: -396
+    slope: {to: -180, toward: 0}
+    ceiling: 156
+    notes: Original sector 166.
+  - id: room:s166_b
+    name: North-east stair
+    outline: [[17905, 7392], [17905, 7008], [18193, 7008], [18193, 7392]]
+    floor: -396
+    ceiling: 156
+    notes: Original sector 166.
+  - id: room:s167
+    name: North-east ramp
+    outline: [[18673, 7680], [19057, 7680], [19057, 8736], [18673, 8736]]
+    floor: -180
+    slope: {to: 180, toward: 0}
+    ceiling: 108
+    ceiling_slope: {to: 492, toward: 0}
+    notes: "Original sector 167. Round three: one ramp under one sloping ceiling, as the original's floor face 3399 and ceiling faces 3469 and 4663; rounds one and two cut it in two with a stepped ceiling."
+  - id: room:s167_a
+    name: North-east ramp
+    outline: [[18673, 9216], [18289, 9216], [18289, 8832], [18577, 8832], [18673, 8736], [19057, 8736], [19057, 8832]]
+    floor: -180
+    ceiling: 108
+    notes: Original sector 167.
+  - id: room:s168
+    name: "North-east ramp, upper leg"
+    outline: [[18673, 6240], [19057, 6240], [19057, 7680], [18673, 7680]]
+    floor: 204
+    slope: {to: 236, toward: 0}
+    ceiling: 492
+    notes: Original sector 168.
+  - id: room:s168_a
+    name: "North-east ramp, upper leg"
+    outline: [[18577, 5760], [18769, 5760], [19057, 6048], [19057, 6240], [18673, 6240], [18577, 6144]]
+    floor: 236
+    ceiling: 492
+    notes: Original sector 168.
+  - id: room:s169
+    name: North-east cellar
+    outline: [[16849, 5664], [16945, 5568], [18193, 5568], [18289, 5664], [18289, 6912], [18193, 7008], [16945, 7008], [16849, 6912], [16849, 6624], [16945, 6528], [16945, 6432], [16849, 6336]]
+    floor: -396
+    ceiling: -12
+    notes: Original sector 169.
+  - id: room:s170
+    name: Crystal chamber
+    outline: [[-11854, 15360], [-11854, 15744], [-11086, 15744], [-11086, 16128], [-14542, 16128], [-14542, 15744], [-13774, 15744], [-13774, 15360]]
+    floor: -240
+    ceiling: 1170
+    walls:
+      - wall: 2
+        surface: {texture: d2wlbmed, size: [256, 256]}
+      - wall: 4
+        surface: {texture: d2wlbmed, size: [256, 256]}
+    platforms:
+      - {at: [-12931.5, 15820.5], size: [25, 25], rise: 231, base: 258}
+      - {at: [-12701, 15820.5], size: [26, 25], rise: 231, base: 258}
+      - {at: [-12931.5, 16051], size: [25, 26], rise: 231, base: 258}
+      - {at: [-12701, 16051], size: [26, 26], rise: 231, base: 258}
+      - {at: [-12816.5, 15820.5], size: [205, 25], rise: 26, base: 258}
+      - {at: [-12816.5, 16051], size: [205, 26], rise: 26, base: 258}
+      - {at: [-12931.5, 15935.5], size: [25, 205], rise: 26, base: 258}
+      - {at: [-12701, 15935.5], size: [26, 205], rise: 26, base: 258}
+      - {at: [-12816, 15936], size: [256, 256], rise: 25, base: 489}
+      - {id: platform:cube_crystal_e, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[-12714, 15833], [-12688, 15833], [-12688, 16038], [-12714, 16038]], base: 284, notes: "Face 4300 of the original (event 41), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_crystal_n, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[-12919, 16038], [-12714, 16038], [-12714, 16064], [-12919, 16064]], base: 284, notes: "Face 4299 of the original (event 40), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_crystal_s, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[-12919, 15808], [-12714, 15808], [-12714, 15833], [-12919, 15833]], base: 284, notes: "Face 4301 of the original (event 38), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_crystal_u, rise: 26, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[-12919, 15833], [-12714, 15833], [-12714, 16038], [-12919, 16038]], base: 258, notes: "Face 4298 of the original (event 42), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+      - {id: platform:cube_crystal_w, rise: 205, surface: {texture: orwtrtyl, size: [128, 128]}, outline: [[-12944, 15833], [-12919, 15833], [-12919, 16038], [-12944, 16038]], base: 284, notes: "Face 4302 of the original (event 39), a water panel of the teleporter cube that the player clicks. A block clicked (round three: a mover that never moved)."}
+    beams:
+      - path: [[-12816, 15872], [-12816, 16000]]
+        width: 128
+        depth: 896
+        bottom: 274
+    notes: Original sector 170.
+  - id: room:s170_a
+    name: Crystal chamber
+    outline: [[-12430, 16128], [-12430, 16224], [-13198, 16224], [-13198, 16128]]
+    floor: 60
+    ceiling: 828
+    theme: theme:d6roofb_crdrf2_d2ceil3
+    walls:
+      - wall: 0
+        surface: {texture: d2wctra, size: [128, 256]}
+      - wall: 2
+        surface: {texture: d2wctra, size: [128, 256]}
+    notes: Original sector 170.
+  - id: room:s170_b
+    name: Crystal chamber
+    outline: [[-14656, 15872], [-14542, 15872], [-14542, 16000], [-14656, 16000]]
+    floor: -112
+    ceiling: 16
+    theme: theme:d2wlbmed_crdrf2_d2ceil3
+    notes: Original sector 170.
+  - id: room:s172
+    name: Tunnel end
+    outline: [[2353, 4224], [2353, 3456], [2737, 3456], [2737, 4224]]
+    floor: -636
+    ceiling: -204
+    notes: Original sector 172.
+  - id: room:s174
+    name: Upper west passage
+    outline: [[14833, 672], [14833, 2496], [14448, 2496], [14448, 672]]
+    floor: 540
+    ceiling: 924
+    notes: Original sector 174.
+  - id: room:s176
+    name: Upper hall
+    outline: [[14929, 1536], [15025, 1440], [16369, 1440], [16465, 1536], [16465, 2400], [16369, 2496], [16153, 2496], [16081, 2568], [15313, 2568], [15241, 2496], [15025, 2496], [14929, 2400]]
+    floor: 540
+    ceiling: 924
+    notes: Original sector 176.
+  - id: room:s178
+    name: Upper east passage
+    outline: [[16561, 1824], [18961, 1824], [18961, 2208], [16561, 2208]]
+    floor: 540
+    ceiling: 924
+    notes: Original sector 178.
+  - id: room:s179
+    name: Upper south room
+    outline: [[15025, 1344], [14929, 1248], [14929, 864], [15025, 768], [16369, 768], [16465, 864], [16465, 1248], [16369, 1344]]
+    floor: 540
+    ceiling: 924
+    notes: Original sector 179.
+  - id: room:s181
+    name: Ramp from the upper floor down to the balcony
+    outline: [[18289, 4320], [17905, 4320], [17905, 2880], [18289, 2880]]
+    floor: 236
+    slope: {to: 540, toward: 2}
+    ceiling: 924
+    notes: Original sector 181.
+  - id: room:s181_a
+    name: Ramp from the upper floor down to the balcony
+    outline: [[18289, 2304], [18289, 2880], [17905, 2880], [17905, 2304]]
+    floor: 540
+    ceiling: 924
+    notes: Original sector 181.
+  - id: room:s181_b
+    name: Ramp from the upper floor down to the balcony
+    outline: [[18289, 4320], [18289, 4800], [17905, 4800], [17905, 4320]]
+    floor: 236
+    ceiling: 588
+    notes: Original sector 181.
+  - id: room:s184
+    name: "Gate tower, west"
+    outline: [[-8302, 10752], [-8302, 10048], [-7680, 10048], [-7680, 10752]]
+    floor: 600
+    ceiling: 1170
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    notes: Original sector 184.
+  - id: room:s185
+    name: "Gate tower, east"
+    outline: [[-6656, 10048], [-5426, 10048], [-5426, 11200], [-6656, 11200]]
+    floor: 600
+    ceiling: 1170
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    walls:
+      - wall: 0
+        surface: {texture: d2wlactr, size: [128, 256]}
+    notes: "Original sector 185. Round six: its north bay under the low ceiling is room:s185_n."
+  - id: room:s185_n
+    name: "Gate tower, east: the bay before door 6"
+    outline: [[-6656, 11200], [-5426, 11200], [-5426, 11392], [-6656, 11392]]
+    floor: 600
+    ceiling: 856
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    walls:
+      - wall: 2
+        surface: {texture: d2wlactr, size: [128, 256]}
+    notes: "Original sector 185, its north bay from y 11200 under the ceiling at 856 (faces 3971 to 3974, 4054)."
+  - id: room:s186
+    name: Hidden room behind the gate tower
+    outline: [[-7424, 10944], [-7424, 11648], [-8320, 11648], [-8320, 10944]]
+    floor: 600
+    ceiling: 1170
+    notes: Original sector 186.
+  - id: room:s187
+    name: Hidden passage
+    outline: [[-6720, 11200], [-6720, 11328], [-7424, 11328], [-7424, 11200]]
+    floor: 600
+    ceiling: 856
+    theme: theme:d2wlbpos_crdrf2_d2ceil3
+    walls:
+      - wall: 0
+        surface: {texture: d2wctra, size: [128, 256]}
+    notes: Original sector 187.
+  - id: room:s188
+    name: Secret passage
+    outline: [[-15344, 15728], [-14752, 15728], [-14752, 15856], [-15344, 15856]]
+    floor: 600
+    ceiling: 856
+    theme: theme:d2wlactr_d2flor4_d2ceil3
+    walls:
+      - wall: 1
+        surface: {texture: d2wlare, size: [128, 256]}
+      - wall: 3
+        surface: {texture: d2wctra, size: [128, 256]}
+    notes: Original sector 188.
+  - id: room:s189
+    name: Secret passage
+    outline: [[-14752, 16880], [-14880, 16880], [-14880, 15856], [-14752, 15856]]
+    floor: 600
+    ceiling: 856
+    theme: theme:d2wlactr_d2flor4_d2ceil3
+    walls:
+      - wall: 0
+        surface: {texture: d2wlare, size: [128, 256]}
+      - wall: 2
+        surface: {texture: d2wlale, size: [128, 256]}
+    notes: Original sector 189.
+  - id: room:s190
+    name: Secret passage
+    outline: [[-15312, 16880], [-15312, 16752], [-14880, 16752], [-14880, 16880]]
+    floor: 600
+    ceiling: 856
+    theme: theme:d2wlare_d2flor4_d2ceil3
+    walls:
+      - wall: 2
+        surface: {texture: d2wlale, size: [128, 256]}
+      - wall: 3
+        surface: {texture: d2wlactr, size: [128, 256]}
+    notes: Original sector 190.
+  - id: room:s191
+    name: Secret treasure room
+    outline: [[-15312, 17152], [-15888, 17152], [-15888, 16752], [-15312, 16752]]
+    floor: 600
+    ceiling: 1050
+    theme: theme:d2wctra_d2flor4_d2ceil3
+    notes: Original sector 191.
+  - id: room:s192
+    name: Teleport chamber (reached only by teleport)
+    outline: [[23296, 6912], [23296, 7936], [22272, 7936], [22272, 6912]]
+    floor: 1170
+    ceiling: 1458
+    theme: theme:d2wctra_d2flor5_d2ceil3
+    notes: Original sector 192.
+  - id: room:s193
+    name: The lich's study (reached only by teleport)
+    outline: [[22112, -2304], [22112, -2048], [21504, -2048], [21504, -3072], [22528, -3072], [22528, -2048], [22400, -2048], [22400, -2304]]
+    floor: 0
+    ceiling: 512
+    theme: theme:ctwl2_ctflor1_ctceil1
+    walls:
+      - wall: 0
+        surface: {texture: ctdor4, size: [128, 256]}
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+          - {offset: 352, length: 32, bottom: 0, height: 256, surface: {texture: cttrim4, size: [32, 64]}}
+          - {offset: 640, length: 32, bottom: 0, height: 256, surface: {texture: cttrim4, size: [32, 64]}}
+          - {offset: 352, length: 320, bottom: 256, height: 64, surface: {texture: cttrim5, size: [32, 64]}}
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+          - {offset: 384, length: 32, bottom: 0, height: 256, surface: {texture: cttrim4, size: [32, 64]}}
+          - {offset: 672, length: 32, bottom: 0, height: 256, surface: {texture: cttrim4, size: [32, 64]}}
+          - {offset: 384, length: 320, bottom: 256, height: 64, surface: {texture: cttrim5, size: [32, 64]}}
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+          - {offset: 352, length: 32, bottom: 0, height: 256, surface: {texture: cttrim4, size: [32, 64]}}
+          - {offset: 640, length: 32, bottom: 0, height: 256, surface: {texture: cttrim4, size: [32, 64]}}
+          - {offset: 352, length: 320, bottom: 256, height: 64, surface: {texture: cttrim5, size: [32, 64]}}
+      - wall: 5
+        surface: {texture: ctwl2re, size: [128, 256]}
+      - wall: 6
+        surface: {texture: ctdor4, size: [128, 256]}
+      - wall: 7
+        panels:
+          - {offset: 0, length: 32, surface: {texture: cttrim1, size: [32, 256]}}
+          - {offset: 256, length: 32, surface: {texture: cttrim1, size: [32, 256]}}
+          - {offset: 32, length: 224, bottom: 0, height: 16, surface: {texture: cttrim3, size: [32, 32]}}
+          - {offset: 32, length: 224, bottom: 480, height: 32, surface: {texture: cttrim3, size: [32, 32]}}
+    platforms:
+      - {id: platform:podium, at: [21664, -2944], size: [64, 64], rise: 96, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: desktop, size: [128, 64], offset: [32, 32]}, top_slope: {to: 128, toward: south}, notes: "Original faces 4560 to 4564: the lich's podium, 64 square, its desk top (event 34, clicked) sloping from 96 at the north to 128 at the south. A block clicked (round three: a mover that never moved, with a level top)."}
+    notes: "Original sector 193. Wall 7 panel: round three, the original's faces 4358 (an edge strip, the whole height) and 4396. Wall 7 panel: round three, the original's face 4394, a trim strip beside the alcove, 256 high. Round six: the three sarcophagus niches are rooms of their own, 256 high under a CTTRIM5 band (256 to 320) with CTTRIM4 jambs 32 wide and 256 high either side, ctwl2RE at the corners (faces 4352 to 4396); rounds one to five drew the niches up to the ceiling."
+  - id: room:s193_a
+    name: The lich's study (reached only by teleport)
+    outline: [[22368, -2112], [22144, -2112], [22144, -2304], [22368, -2304]]
+    floor: 16
+    ceiling: 480
+    theme: theme:ctdor4_ctflor5_ctceil2
+    notes: Original sector 193.
+  - id: room:s193_n61
+    name: "Sarcophagus niche, south"
+    outline: [[22176, -3072], [21920, -3072], [21920, -3104], [22176, -3104]]
+    floor: 0
+    ceiling: 256
+    theme: theme:ct_niche
+    walls:
+      - wall: 2
+        panels:
+          - {id: panel:sarcophagus61, offset: 0, length: 256, bottom: 0, height: 256, surface: {texture: ctspcl1, size: [256, 256]}}
+    notes: "A sarcophagus in its niche (32 deep, 256 wide and high) in the lich's study; its back is the clicked face."
+  - id: room:s193_n62
+    name: "Sarcophagus niche, east"
+    outline: [[22560, -2432], [22528, -2432], [22528, -2688], [22560, -2688]]
+    floor: 0
+    ceiling: 256
+    theme: theme:ct_niche
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:sarcophagus62, offset: 0, length: 256, bottom: 0, height: 256, surface: {texture: ctspcl2, size: [256, 256]}}
+    notes: "A sarcophagus in its niche (32 deep, 256 wide and high) in the lich's study; its back is the clicked face."
+  - id: room:s193_n63
+    name: "Sarcophagus niche, west"
+    outline: [[21504, -2432], [21472, -2432], [21472, -2688], [21504, -2688]]
+    floor: 0
+    ceiling: 256
+    theme: theme:ct_niche
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:sarcophagus63, offset: 0, length: 256, bottom: 0, height: 256, surface: {texture: ctspcl1, size: [256, 256]}}
+    notes: "A sarcophagus in its niche (32 deep, 256 wide and high) in the lich's study; its back is the clicked face."
+openings:
+  - id: open:s001_s002
+    from: room:s001
+    to: room:s002
+    width: full
+    height: 552
+  - id: open:s001_s142
+    from: room:s001
+    to: room:s142
+    from_wall: 3
+    to_wall: 3
+    width: full
+    height: full
+    notes: "Round five: the whole mouth of the west arm, from rim to rim: its sill follows the cavern's banks (-90 at the rim, -240 between 10993 and 11569) and its top the lower of the two roofs (the cavern's -74 at the rim, 450, 540, 252; the arm's sloping ceiling, 500 at this wall), so it reaches 500 at 11377 where the original's reaches 540 (the arm's ridge, which the arm's flat-across ceiling cannot follow). Round four: 800 wide where the floor was level, ending at the lowest roof over it (136)."
+  - id: open:s004_s001_e
+    from: room:s004
+    to: room:s001
+    along: 0.6771
+    width: 2208
+    height: 384
+    shape: arch
+    apex: 582
+    shoulders: [[0.087, 1]]
+    sill: 60
+    notes: "Round four: the battlement gallery's east opening onto the south cavern (the original's portal 109: 12625 to 14833, 588 to 1,170, its top corners cut from 972 up to 1,170 over 192; round five: the original's 192 (0.087), over the floor point at 14641, builds since the floor under it is the original's again; round four drew 199)."
+  - id: open:s004_s001_w
+    from: room:s004
+    to: room:s001
+    along: 0.2585
+    width: 882
+    height: 390
+    shape: arch
+    apex: 582
+    shoulders: [[0.34, 1]]
+    sill: 60
+    notes: "Round four: the battlement gallery's west opening onto the south cavern (the original's portal 95: 11359 to 12241, 588 to 1,170, its top corners cut from 978 and 972 up to 1,170, 414 in on the west side and 192 on the east; drawn with the same cut, 300 in, on both). Rounds two and three could not draw it."
+  - id: open:s004_s152
+    from: room:s004
+    to: room:s152
+    width: full
+    height: full
+  - id: open:s004_s174
+    from: room:s004
+    to: room:s174
+    width: full
+    height: 162
+    shape: arch
+    apex: 297
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 173
+  - id: open:s005_s002
+    from: room:s005
+    to: room:s002
+    width: full
+    height: 360
+    shape: arch
+    apex: 456
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 3
+  - id: open:s005_s021
+    from: room:s005
+    to: room:s021
+    along: 0.5
+    width: 384
+    height: 120
+    sill: 120
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 7
+  - id: open:s008_s008_v
+    from: room:s008
+    to: room:s008_v
+    width: full
+    height: full
+    notes: "pieces of sector 8: the hall and its arch passage, open under the vault."
+  - id: open:s008_s022
+    from: room:s008
+    to: room:s022
+    along: 0.4444
+    width: 384
+    height: 300
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 23
+  - id: open:s008_s033
+    from: room:s008
+    to: room:s033
+    along: 0.5
+    width: 384
+    height: 330
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 34
+  - id: open:s008_s064
+    from: room:s008
+    to: room:s064
+    width: full
+    height: full
+  - id: open:s009_s005
+    from: room:s009
+    to: room:s005
+    along: 0.5
+    width: 288
+    height: 120
+    sill: 120
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 6
+  - id: open:s009_s063
+    from: room:s009
+    to: room:s063
+    width: full
+    height: full
+  - id: open:s009_s064
+    from: room:s009
+    to: room:s064
+    width: full
+    height: full
+  - id: open:s010_s063
+    from: room:s010
+    to: room:s063
+    width: full
+    height: full
+  - id: open:s010_s065
+    from: room:s010
+    to: room:s065
+    width: full
+    height: full
+  - id: open:s012_s005
+    from: room:s012
+    to: room:s005
+    along: 0.625
+    width: 384
+    height: 300
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 11
+  - id: open:s012_s010
+    from: room:s012
+    to: room:s010
+    along: 0.4091
+    width: 672
+    height: 120
+    sill: 120
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 13
+  - id: open:s012_s015
+    from: room:s012
+    to: room:s015
+    width: full
+    height: full
+  - id: open:s015_a_s014
+    from: room:s015_a
+    to: room:s014
+    width: full
+    height: full
+  - id: open:s015_s015_a
+    from: room:s015
+    to: room:s015_a
+    width: full
+    height: full
+    notes: pieces of sector 15
+  - id: open:s016_niche
+    from: room:s016
+    to: room:s016_niche
+    width: full
+    height: full
+  - id: open:s017_s014
+    from: room:s017
+    to: room:s014
+    width: full
+    height: full
+  - id: open:s017_s016
+    from: room:s017
+    to: room:s016
+    width: full
+    height: full
+  - id: open:s019_s014
+    from: room:s019
+    to: room:s014
+    width: full
+    height: 300
+    shape: arch
+    apex: 396
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 18
+  - id: open:s019_s020_r2
+    from: room:s019
+    to: room:s020
+    width: full
+    height: full
+  - id: open:s019_s052_c
+    from: room:s019
+    to: room:s052_c
+    width: full
+    height: full
+  - id: open:s020_a_s020_b
+    from: room:s020_a
+    to: room:s020_b
+    width: full
+    height: full
+    notes: pieces of sector 20
+  - id: open:s020_s020_a
+    from: room:s020
+    to: room:s020_a
+    width: full
+    height: full
+    notes: pieces of sector 20
+  - id: open:s021_s030
+    from: room:s021
+    to: room:s030
+    width: full
+    height: full
+  - id: open:s022_s021
+    from: room:s022
+    to: room:s021
+    width: full
+    height: full
+  - id: open:s022_s025
+    from: room:s022
+    to: room:s025
+    width: full
+    height: full
+  - id: open:s024_s025
+    from: room:s024
+    to: room:s025
+    width: full
+    height: full
+  - id: open:s024_s027
+    from: room:s024
+    to: room:s027
+    width: full
+    height: full
+  - id: open:s024_s028
+    from: room:s024
+    to: room:s028
+    width: full
+    height: full
+  - id: open:s026_s027
+    from: room:s026
+    to: room:s027
+    width: full
+    height: full
+  - id: open:s028_s025
+    from: room:s028
+    to: room:s025
+    along: 0.7083
+    width: 192
+    height: 265
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 29
+  - id: open:s031_s020_b
+    from: room:s031
+    to: room:s020_b
+    width: full
+    height: full
+  - id: open:s031_s032
+    from: room:s031
+    to: room:s032
+    width: full
+    height: full
+  - id: open:s031_s035
+    from: room:s031
+    to: room:s035
+    width: full
+    height: full
+  - id: open:s032_a_s032_e
+    from: room:s032_a
+    to: room:s032_e
+    width: full
+    height: full
+    notes: pieces of sector 32
+  - id: open:s032_b_s032_d
+    from: room:s032_b
+    to: room:s032_d
+    width: full
+    height: full
+    notes: pieces of sector 32
+  - id: open:s032_c_s032_e
+    from: room:s032_c
+    to: room:s032_e
+    width: full
+    height: full
+    notes: pieces of sector 32
+  - id: open:s032_s032_b
+    from: room:s032
+    to: room:s032_b
+    width: full
+    height: full
+    notes: pieces of sector 32
+  - id: open:s032_s032_c
+    from: room:s032
+    to: room:s032_c
+    width: full
+    height: full
+    notes: pieces of sector 32
+  - id: open:s032_s037
+    from: room:s032
+    to: room:s037
+    width: full
+    height: full
+  - id: open:s033_s036_r1
+    from: room:s033
+    to: room:s036
+    width: full
+    height: 234
+  - id: open:s033_s036_r1_crown
+    from: room:s033
+    to: room:s036
+    width: 192
+    height: 96
+    sill: 234
+    notes: "Round four: the crown of the vault's mouth over open:s033_s036_r1 (one mouth in two parts: an opening ends at the lowest roof over it). The original's 54 to 150."
+  - id: open:s035_s036_a
+    from: room:s035
+    to: room:s036
+    width: full
+    height: 234
+  - id: open:s035_s036_a_crown
+    from: room:s035
+    to: room:s036
+    width: 192
+    height: 96
+    sill: 234
+    notes: "Round four: the crown of the vault's mouth over open:s035_s036_a (one mouth in two parts: an opening ends at the lowest roof over it). The original's -366 to -270."
+  - id: open:s035_s044_b
+    from: room:s035
+    to: room:s044_b
+    along: 0.5179
+    width: 608
+    height: 230
+    sill: 10
+  - id: open:s038_a_s037
+    from: room:s038_a
+    to: room:s037
+    width: full
+    height: full
+  - id: open:s038_a_s038_d
+    from: room:s038_a
+    to: room:s038_d
+    width: full
+    height: full
+    notes: pieces of sector 38
+  - id: open:s038_a_s038_e
+    from: room:s038_a
+    to: room:s038_e
+    width: full
+    height: full
+    notes: pieces of sector 38
+  - id: open:s038_b_s038_d
+    from: room:s038_b
+    to: room:s038_d
+    width: full
+    height: full
+    notes: pieces of sector 38
+  - id: open:s038_c_s038_e
+    from: room:s038_c
+    to: room:s038_e
+    width: full
+    height: full
+    notes: pieces of sector 38
+  - id: open:s038_c_s048
+    from: room:s038_c
+    to: room:s048
+    width: full
+    height: full
+  - id: open:s038_s038_b
+    from: room:s038
+    to: room:s038_b
+    width: full
+    height: full
+    notes: pieces of sector 38
+  - id: open:s039_s032_d
+    from: room:s039
+    to: room:s032_d
+    width: full
+    height: full
+  - id: open:s040_s032_a
+    from: room:s040
+    to: room:s032_a
+    width: full
+    height: full
+  - id: open:s042_s040
+    from: room:s042
+    to: room:s040
+    along: 0.2381
+    width: 288
+    height: 330
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 41
+  - id: open:s042_s043
+    from: room:s042
+    to: room:s043
+    width: full
+    height: full
+  - id: open:s043_s044
+    from: room:s043
+    to: room:s044
+    along: 0.7962
+    width: 288
+    height: 330
+  - id: open:s044_a_s044_b
+    from: room:s044_a
+    to: room:s044_b
+    width: full
+    height: full
+    notes: pieces of sector 44
+  - id: open:s044_s044_a
+    from: room:s044
+    to: room:s044_a
+    width: full
+    height: full
+    notes: pieces of sector 44
+  - id: open:s045_s043
+    from: room:s045
+    to: room:s043
+    along: 0.5
+    width: 288
+    height: 330
+  - id: open:s045_s046
+    from: room:s045
+    to: room:s046
+    width: full
+    height: full
+  - id: open:s046_s047
+    from: room:s046
+    to: room:s047
+    width: full
+    height: full
+  - id: open:s048_s049
+    from: room:s048
+    to: room:s049
+    width: full
+    height: full
+  - id: open:s049_s050
+    from: room:s049
+    to: room:s050
+    width: full
+    height: full
+  - id: open:s050_s051
+    from: room:s050
+    to: room:s051
+    width: full
+    height: full
+  - id: open:s052_a_s052_b
+    from: room:s052_a
+    to: room:s052_b
+    width: full
+    height: full
+    notes: pieces of sector 52
+  - id: open:s052_b_s052_c
+    from: room:s052_b
+    to: room:s052_c
+    width: full
+    height: full
+    notes: pieces of sector 52
+  - id: open:s052_s052_a
+    from: room:s052
+    to: room:s052_a
+    width: full
+    height: full
+    notes: pieces of sector 52
+  - id: open:s052_s053_a
+    from: room:s052
+    to: room:s053_a
+    width: full
+    height: full
+  - id: open:s053_a_s053_c
+    from: room:s053_a
+    to: room:s053_c
+    width: full
+    height: full
+    notes: pieces of sector 53
+  - id: open:s053_b_s053_d
+    from: room:s053_b
+    to: room:s053_d
+    width: full
+    height: full
+    notes: pieces of sector 53
+  - id: open:s053_d_s054_a
+    from: room:s053_d
+    to: room:s054_a
+    width: full
+    height: full
+  - id: open:s053_s053_b
+    from: room:s053
+    to: room:s053_b
+    width: full
+    height: full
+    notes: pieces of sector 53
+  - id: open:s053_s053_c
+    from: room:s053
+    to: room:s053_c
+    width: full
+    height: full
+    notes: pieces of sector 53
+  - id: open:s054_a_s054_c
+    from: room:s054_a
+    to: room:s054_c
+    width: full
+    height: full
+    notes: pieces of sector 54
+  - id: open:s054_b_s054_d
+    from: room:s054_b
+    to: room:s054_d
+    width: full
+    height: full
+    notes: pieces of sector 54
+  - id: open:s054_b_s055_c
+    from: room:s054_b
+    to: room:s055_c
+    width: full
+    height: full
+  - id: open:s054_s054_c
+    from: room:s054
+    to: room:s054_c
+    width: full
+    height: full
+    notes: pieces of sector 54
+  - id: open:s054_s054_d
+    from: room:s054
+    to: room:s054_d
+    width: full
+    height: full
+    notes: pieces of sector 54
+  - id: open:s055_a_s055_d
+    from: room:s055_a
+    to: room:s055_d
+    width: full
+    height: full
+    notes: pieces of sector 55
+  - id: open:s055_a_s055_e
+    from: room:s055_a
+    to: room:s055_e
+    width: full
+    height: full
+    notes: pieces of sector 55
+  - id: open:s055_b_s055_c
+    from: room:s055_b
+    to: room:s055_c
+    width: full
+    height: full
+    notes: pieces of sector 55
+  - id: open:s055_b_s055_e
+    from: room:s055_b
+    to: room:s055_e
+    width: full
+    height: full
+    notes: pieces of sector 55
+  - id: open:s055_s055_d
+    from: room:s055
+    to: room:s055_d
+    width: full
+    height: full
+    notes: pieces of sector 55
+  - id: open:s055_s151
+    from: room:s055
+    to: room:s151
+    width: full
+    height: full
+  - id: open:s056_s008
+    from: room:s056
+    to: room:s008_v
+    width: full
+    height: full
+    notes: "Round five: the original's portal 891, up to the arch passage's vault point by point. Round four: an arch 330 high to its shoulders, apex 840, under the hall's flat ceiling."
+  - id: open:s056_s057
+    from: room:s056
+    to: room:s057
+    from_wall: 2
+    to_wall: 0
+    width: full
+    height: 180
+    shape: arch
+    apex: 558
+    sill: 16
+    threshold: {texture: d2wctra, size: [128, 256]}
+    notes: frame sector 62
+  - id: open:s056_s057_n
+    from: room:s056
+    to: room:s057
+    from_wall: 10
+    to_wall: 13
+    width: full
+    height: 180
+    shape: arch
+    apex: 558
+    sill: 16
+    threshold: {texture: d2wctra, size: [128, 256]}
+    notes: "The east balcony's north arch (original frame sector 61); round one could draw one opening between two rooms' longest pair of walls only."
+  - id: open:s056_s058
+    from: room:s056
+    to: room:s058
+    along: 0.1707
+    width: 1152
+    height: 336
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 68
+  - id: open:s056_s058_w
+    from: room:s056
+    to: room:s058
+    along: 0.8293
+    width: 1152
+    height: 336
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: "The west arch to the north passage (original frame sector 69), under the gallery's window."
+  - id: open:s056_s065
+    from: room:s056
+    to: room:s065
+    width: full
+    height: full
+  - id: open:s057_s059
+    from: room:s057
+    to: room:s059
+    from_wall: 8
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:s058_s159_b
+    from: room:s058
+    to: room:s159_b
+    width: full
+    height: 255
+  - id: open:s059_s056
+    from: room:s059
+    to: room:s056
+    along: 0.1707
+    width: 576
+    height: 120
+    sill: 64
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 70
+  - id: open:s060_s058
+    from: room:s060
+    to: room:s058
+    width: full
+    height: full
+  - id: open:s060_s166
+    from: room:s060
+    to: room:s166
+    width: full
+    height: full
+  - id: open:s066_s067
+    from: room:s066
+    to: room:s067
+    width: full
+    height: full
+  - id: open:s067_s058
+    from: room:s067
+    to: room:s058
+    width: full
+    height: full
+  - id: open:s071_s066
+    from: room:s071
+    to: room:s066
+    from_wall: 5
+    to_wall: 13
+    width: full
+    height: full
+    notes: "Round four: the mouth where floor and roof are level (from the castle wall to 7345, 17280); the bank and the roof's lean beyond, to the rim at 8305, 18240, are wall."
+  - id: open:s073_a_s073_b
+    from: room:s073
+    to: room:s073_b
+    from_wall: 10
+    width: full
+    height: 256
+    notes: "Door record 9, over the landing at the head of the ramp (the landing is a block since round four)."
+  - id: open:s073_a_s185
+    from: room:s073_b
+    to: room:s185
+    along: 0.1136
+    width: 128
+    height: 570
+  - id: open:s073_s072
+    from: room:s073
+    to: room:s072
+    from_wall: 13
+    to_wall: 0
+    width: full
+    height: full
+    notes: "Round four: the mouth where floor and roof are level (y 7296 to 9984); the bank and the roof's lean from 7296 to the rim at 5952 are wall (an opening needs a level sill and ends at the lowest roof over it)."
+  - id: open:s073_s074
+    from: room:s073
+    to: room:s066
+    from_wall: 7
+    to_wall: 16
+    width: full
+    height: full
+    notes: "Round four: the mouth where floor and roof are level (y 7680 to 9984); the bank and the roof's lean from 7680 to the rim at 6528 are wall."
+  - id: open:s075_s066
+    from: room:s075
+    to: room:s066
+    along: 0.5
+    width: 1344
+    height: full
+    notes: "Round five: up to the gatehouse's vault point by point (543 at its sides, 846 at the crown), as the original's portal 4146. Round four: a rectangle 1,026 high (to 846)."
+  - id: open:s075_s075_a
+    from: room:s075
+    to: room:s075_a
+    width: full
+    height: full
+    notes: pieces of sector 75
+  - id: open:s075_s076
+    from: room:s075
+    to: room:s076
+    width: full
+    height: full
+  - id: open:s077_a_s076
+    from: room:s077_a
+    to: room:s076
+    width: full
+    height: full
+  - id: open:s077_b_s077_c
+    from: room:s077_b
+    to: room:s077_c
+    width: full
+    height: full
+    notes: pieces of sector 77
+  - id: open:s077_c_s079
+    from: room:s077_c
+    to: room:s079
+    width: full
+    height: full
+  - id: open:s077_s077_a
+    from: room:s077
+    to: room:s077_a
+    width: full
+    height: full
+    notes: pieces of sector 77
+  - id: open:s077_s077_b
+    from: room:s077
+    to: room:s077_b
+    width: full
+    height: full
+    notes: pieces of sector 77
+  - id: open:s078_s078_n
+    from: room:s078
+    to: room:s078_n
+    width: full
+    height: full
+    notes: "pieces of sector 78: the court and its bay, open up to the bay's 384."
+  - id: open:s078_s078_s
+    from: room:s078
+    to: room:s078_s
+    width: full
+    height: full
+    notes: "pieces of sector 78: the court and its bay, open up to the bay's 384."
+  - id: open:s078_s078_v
+    from: room:s078
+    to: room:s078_v
+    from_wall: 4
+    to_wall: 3
+    width: full
+    height: full
+    notes: "pieces of sector 78: the court and its west alcove, open under the vault."
+  - id: open:s078_s079
+    from: room:s078_n
+    to: room:s079
+    width: full
+    height: full
+  - id: open:s078_s097
+    from: room:s078_s
+    to: room:s097
+    width: full
+    height: full
+  - id: open:s080_s078
+    from: room:s080
+    to: room:s078_v
+    along: 0.5
+    width: 1344
+    height: full
+    notes: "Round five: the original's portal 1545, 1,344 wide, up to the alcove's vault point by point (723 at its sides, 1,026 at the crown). Round four: an arch 723 to its shoulders with its apex at 1026."
+  - id: open:s080_s081
+    from: room:s080
+    to: room:s081
+    width: full
+    height: full
+    sill: 60
+  - id: open:s080_s082_a
+    from: room:s080
+    to: room:s082_a
+    width: full
+    height: full
+  - id: open:s080_s083_b
+    from: room:s080
+    to: room:s083_b
+    from_wall: 5
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:s080_s084_b
+    from: room:s080
+    to: room:s084_b
+    from_wall: 7
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:s082_s082_a
+    from: room:s082
+    to: room:s082_a
+    width: full
+    height: full
+    notes: pieces of sector 82
+  - id: open:s082_s084_a
+    from: room:s082
+    to: room:s084_a
+    width: full
+    height: full
+  - id: open:s083_a_s081
+    from: room:s083_a
+    to: room:s081
+    width: full
+    height: full
+  - id: open:s083_s083_a
+    from: room:s083
+    to: room:s083_a
+    width: full
+    height: full
+    notes: pieces of sector 83
+  - id: open:s083_s083_b
+    from: room:s083
+    to: room:s083_b
+    width: full
+    height: full
+    notes: pieces of sector 83
+  - id: open:s084_a_s086
+    from: room:s084_a
+    to: room:s086
+    width: full
+    height: full
+  - id: open:s084_s084_a
+    from: room:s084
+    to: room:s084_a
+    width: full
+    height: full
+    notes: pieces of sector 84
+  - id: open:s084_s084_b
+    from: room:s084
+    to: room:s084_b
+    width: full
+    height: full
+    notes: pieces of sector 84
+  - id: open:s085_s083_a
+    from: room:s085
+    to: room:s083_a
+    width: full
+    height: full
+  - id: open:s087_s082
+    from: room:s087
+    to: room:s082
+    width: full
+    height: full
+  - id: open:s087_s088
+    from: room:s087
+    to: room:s088
+    width: full
+    height: full
+  - id: open:s088_a_s088_b
+    from: room:s088_a
+    to: room:s088_b
+    from_wall: 4
+    to_wall: 0
+    width: full
+    height: full
+    notes: pieces of sector 88
+  - id: open:s088_a_s088_b_e
+    from: room:s088_a
+    to: room:s088_b
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+    notes: "Round five: pieces of sector 88, the tread's diagonal arm (rounds one to four: a wall across the step)."
+  - id: open:s088_a_s088_b_w
+    from: room:s088_a
+    to: room:s088_b
+    from_wall: 5
+    to_wall: 7
+    width: full
+    height: full
+    notes: "Round five: pieces of sector 88, the tread's diagonal arm (rounds one to four: a wall across the step)."
+  - id: open:s088_b_s088_c
+    from: room:s088_b
+    to: room:s088_c
+    from_wall: 4
+    to_wall: 1
+    width: full
+    height: full
+    notes: pieces of sector 88
+  - id: open:s088_b_s088_c_e
+    from: room:s088_b
+    to: room:s088_c
+    from_wall: 3
+    to_wall: 2
+    width: full
+    height: full
+    notes: "Round five: pieces of sector 88, the tread's diagonal arm (rounds one to four: a wall across the step)."
+  - id: open:s088_b_s088_c_w
+    from: room:s088_b
+    to: room:s088_c
+    from_wall: 5
+    to_wall: 0
+    width: full
+    height: full
+    notes: "Round five: pieces of sector 88, the tread's diagonal arm (rounds one to four: a wall across the step)."
+  - id: open:s088_c_s078_a
+    from: room:s088_c
+    to: room:s078_a
+    width: full
+    height: full
+  - id: open:s088_s088_a
+    from: room:s088
+    to: room:s088_a
+    from_wall: 0
+    to_wall: 0
+    width: full
+    height: full
+    notes: pieces of sector 88
+  - id: open:s088_s088_a_e
+    from: room:s088
+    to: room:s088_a
+    from_wall: 9
+    to_wall: 1
+    width: full
+    height: full
+    notes: "Round five: pieces of sector 88, the tread's diagonal arm (rounds one to four: a wall across the step)."
+  - id: open:s088_s088_a_w
+    from: room:s088
+    to: room:s088_a
+    from_wall: 1
+    to_wall: 7
+    width: full
+    height: full
+    notes: "Round five: pieces of sector 88, the tread's diagonal arm (rounds one to four: a wall across the step)."
+  - id: open:s088_s089
+    from: room:s088
+    to: room:s089
+    width: full
+    height: full
+  - id: open:s088_s093_r2
+    from: room:s088
+    to: room:s093
+    width: full
+    height: 300
+  - id: open:s088_s093_r2_crown
+    from: room:s088
+    to: room:s093
+    width: 192
+    height: 54
+    sill: 300
+    notes: "Round four: the crown of the vault's mouth over open:s088_s093_r2 (one mouth in two parts: an opening ends at the lowest roof over it). The original's 750 to 825."
+  - id: open:s089_s066
+    from: room:s089
+    to: room:s066
+    along: 0.5
+    width: 672
+    height: 360
+    sill: 60
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 92
+  - id: open:s090_s089
+    from: room:s090
+    to: room:s089
+    along: 0.5
+    width: 407
+    height: 210
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 91
+  - id: open:s094_a_s094_b
+    from: room:s094_a
+    to: room:s094_b
+    width: full
+    height: full
+    notes: pieces of sector 94
+  - id: open:s094_b_s094_c
+    from: room:s094_b
+    to: room:s094_c
+    width: full
+    height: full
+    notes: pieces of sector 94
+  - id: open:s094_c_s144_a
+    from: room:s094_c
+    to: room:s144
+    width: full
+    height: full
+  - id: open:s094_s094_a
+    from: room:s094
+    to: room:s094_a
+    width: full
+    height: full
+    notes: pieces of sector 94
+  - id: open:s094_s098_a
+    from: room:s094
+    to: room:s098_a
+    width: full
+    height: full
+  - id: open:s094_s100
+    from: room:s094
+    to: room:s100
+    width: full
+    height: full
+    sill: 60
+  - id: open:s094_s170
+    from: room:s094
+    to: room:s170
+    from_wall: 0
+    to_wall: 7
+    width: full
+    height: 192
+    shape: arch
+    apex: 1350
+  - id: open:s096_a_s075
+    from: room:s096_a
+    to: room:s075
+    width: full
+    height: 210
+    shape: arch
+    apex: 375
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 95
+  - id: open:s096_b_s096_c
+    from: room:s096_b
+    to: room:s096_c
+    width: full
+    height: full
+    notes: pieces of sector 96
+  - id: open:s096_c_s097
+    from: room:s096_c
+    to: room:s097
+    width: full
+    height: full
+  - id: open:s096_s096_a
+    from: room:s096
+    to: room:s096_a
+    width: full
+    height: full
+    notes: pieces of sector 96
+  - id: open:s096_s096_b
+    from: room:s096
+    to: room:s096_b
+    width: full
+    height: full
+    notes: pieces of sector 96
+  - id: open:s098_s098_a
+    from: room:s098
+    to: room:s098_a
+    width: full
+    height: full
+    notes: pieces of sector 98
+  - id: open:s098_s099
+    from: room:s098
+    to: room:s099
+    along: 0.5
+    width: 384
+    height: 225
+    shape: arch
+    apex: 324
+  - id: open:s098_s184
+    from: room:s098
+    to: room:s184
+    along: 0.5
+    width: 384
+    height: 225
+    shape: arch
+    apex: 324
+    threshold: {texture: d2flor4, size: [128, 128]}
+    notes: frame sector 102
+  - id: open:s100_s099
+    from: room:s100
+    to: room:s099
+    along: 0.5667
+    width: 384
+    height: 225
+    shape: arch
+    apex: 324
+  - id: open:s101_s100
+    from: room:s101
+    to: room:s100
+    along: 0.5667
+    width: 384
+    height: 225
+    shape: arch
+    apex: 324
+  - id: open:s101_s188
+    from: room:s101
+    to: room:s188
+    from_wall: 1
+    to_wall: 3
+    width: full
+    height: 256
+  - id: open:s103_a_s103_b
+    from: room:s103_a
+    to: room:s103_b
+    width: full
+    height: full
+    notes: pieces of sector 103
+  - id: open:s103_b_s103_c
+    from: room:s103_b
+    to: room:s103_c
+    width: full
+    height: full
+    notes: pieces of sector 103
+  - id: open:s103_c_s081
+    from: room:s103_c
+    to: room:s081
+    width: full
+    height: 330
+  - id: open:s103_s078_b
+    from: room:s103
+    to: room:s078_b
+    from_wall: 1
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:s103_s103_a
+    from: room:s103
+    to: room:s103_a
+    width: full
+    height: full
+    notes: pieces of sector 103
+  - id: open:s103_s109_r2
+    from: room:s103
+    to: room:s109
+    width: full
+    height: 300
+  - id: open:s103_s109_r2_crown
+    from: room:s103
+    to: room:s109
+    width: 192
+    height: 54
+    sill: 300
+    notes: "Round four: the crown of the vault's mouth over open:s103_s109_r2 (one mouth in two parts: an opening ends at the lowest roof over it). The original's 840 to 915."
+  - id: open:s104_s103
+    from: room:s104
+    to: room:s103
+    width: full
+    height: 360
+    notes: "The original's plain doorway (portal face 2050, x 3409 to 3793, 540 to 900): no door."
+  - id: open:s104_s104_c
+    from: room:s104
+    to: room:s104_c
+    from_wall: 2
+    width: full
+    height: full
+    notes: "The passage door record 8 fills (x 2833 to 3214, y 15840 to 15904): the whole shared stretch, 384 (an opening of 381 needs 16 of wall each side); the leaf moves 258 so that 126 stays shut, as the original's. Rounds one to five: 222 wide at its east end, since a sliding leaf needed room in the wall."
+  - id: open:s105_a_s105_b
+    from: room:s105_a
+    to: room:s105_b
+    width: full
+    height: full
+    notes: pieces of sector 105
+  - id: open:s105_s103
+    from: room:s105
+    to: room:s103
+    width: full
+    height: full
+  - id: open:s105_s105_b
+    from: room:s105
+    to: room:s105_b
+    width: full
+    height: full
+    notes: pieces of sector 105
+  - id: open:s106_s066
+    from: room:s106
+    to: room:s066
+    along: 0.7917
+    width: 288
+    height: 615
+    sill: 60
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 108
+  - id: open:s106_s066_2
+    from: room:s106
+    to: room:s066
+    along: 0.2083
+    width: 288
+    height: 615
+    sill: 60
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 107
+  - id: open:s106_s105_a
+    from: room:s106
+    to: room:s105_a
+    width: full
+    height: full
+  - id: open:s109_a_s116
+    from: room:s109
+    to: room:s116
+    from_wall: 3
+    to_wall: 5
+    width: full
+    height: 330
+  - id: open:s109_a_s116_crown
+    from: room:s109
+    to: room:s116
+    from_wall: 3
+    to_wall: 5
+    width: 192
+    height: 54
+    sill: 330
+    notes: "Round four: the crown of the vault's mouth over open:s109_a_s116 (one mouth in two parts: an opening ends at the lowest roof over it). The original's 330 to 405."
+  - id: open:s110_s111
+    from: room:s110
+    to: room:s111
+    width: full
+    height: full
+  - id: open:s110_s112
+    from: room:s110
+    to: room:s112
+    width: full
+    height: 345
+  - id: open:s112_s113
+    from: room:s112
+    to: room:s113
+    width: full
+    height: full
+  - id: open:s114_s112
+    from: room:s114
+    to: room:s112
+    width: full
+    height: 345
+  - id: open:s115_s114
+    from: room:s115
+    to: room:s114
+    width: full
+    height: full
+  - id: open:s115_s116_a
+    from: room:s115
+    to: room:s116_a
+    from_wall: 4
+    to_wall: 0
+    width: full
+    height: 345
+  - id: open:s116_a_s116_b
+    from: room:s116_a
+    to: room:s116_b
+    width: full
+    height: full
+    notes: pieces of sector 116
+  - id: open:s116_s116_b
+    from: room:s116
+    to: room:s116_b
+    width: full
+    height: full
+    notes: pieces of sector 116
+  - id: open:s117_s118
+    from: room:s117
+    to: room:s118
+    along: 0.4737
+    width: 383
+    height: 415
+  - id: open:s118_a_s118_d
+    from: room:s118_a
+    to: room:s118_d
+    width: full
+    height: full
+    notes: pieces of sector 118
+  - id: open:s118_b_s118_c
+    from: room:s118_b
+    to: room:s118_c
+    width: full
+    height: full
+    notes: pieces of sector 118
+  - id: open:s118_c_s116
+    from: room:s118_c
+    to: room:s116
+    width: full
+    height: full
+  - id: open:s118_s118_a
+    from: room:s118
+    to: room:s118_a
+    width: full
+    height: full
+    notes: pieces of sector 118
+  - id: open:s118_s118_b
+    from: room:s118
+    to: room:s118_b
+    width: full
+    height: full
+    notes: pieces of sector 118
+  - id: open:s119_s118
+    from: room:s119
+    to: room:s118
+    along: 0.5
+    width: 384
+    height: 415
+  - id: open:s120_s119
+    from: room:s120
+    to: room:s119
+    along: 0.4286
+    width: 384
+    height: 415
+  - id: open:s121_s114
+    from: room:s121
+    to: room:s114
+    along: 0.5
+    width: 192
+    height: 192
+    sill: 72
+  - id: open:s122_a_s135
+    from: room:s122_a
+    to: room:s135
+    width: full
+    height: full
+  - id: open:s122_s122_a
+    from: room:s122
+    to: room:s122_a
+    width: full
+    height: full
+    notes: pieces of sector 122
+  - id: open:s122_s124
+    from: room:s122
+    to: room:s124
+    width: full
+    height: 345
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 123
+  - id: open:s125_s134
+    from: room:s125
+    to: room:s134
+    width: full
+    height: full
+  - id: open:s126_s146
+    from: room:s126
+    to: room:s146
+    width: full
+    height: 198
+    shape: arch
+    apex: 333
+  - id: open:s127_s126
+    from: room:s127
+    to: room:s126
+    width: full
+    height: full
+  - id: open:s129_s137_b
+    from: room:s129
+    to: room:s137_b
+    width: full
+    height: 345
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 140
+  - id: open:s130_s137
+    from: room:s130
+    to: room:s137
+    width: full
+    height: 345
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 139
+  - id: open:s131_s129
+    from: room:s131
+    to: room:s129
+    along: 0.3893
+    width: 288
+    height: 336
+    sill: 24
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 171
+  - id: open:s131_s130
+    from: room:s131
+    to: room:s130
+    along: 0.5625
+    width: 288
+    height: 336
+    sill: 24
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 132
+  - id: open:s133_s127
+    from: room:s133
+    to: room:s127
+    width: full
+    height: 345
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 128
+  - id: open:s133_s137_d
+    from: room:s133
+    to: room:s137_d
+    width: full
+    height: 345
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 141
+  - id: open:s134_s124
+    from: room:s134
+    to: room:s124
+    along: 0.4444
+    width: 384
+    height: 345
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 136
+  - id: open:s135_s093_a
+    from: room:s135
+    to: room:s093
+    width: full
+    height: 330
+  - id: open:s135_s093_a_crown
+    from: room:s135
+    to: room:s093
+    width: 192
+    height: 54
+    sill: 330
+    notes: "Round four: the crown of the vault's mouth over open:s135_s093_a (one mouth in two parts: an opening ends at the lowest roof over it). The original's 240 to 315."
+  - id: open:s137_a_s137_f
+    from: room:s137_a
+    to: room:s137_f
+    width: full
+    height: full
+    notes: pieces of sector 137
+  - id: open:s137_a_s137_g
+    from: room:s137_a
+    to: room:s137_g
+    width: full
+    height: full
+    notes: pieces of sector 137
+  - id: open:s137_b_s137_e
+    from: room:s137_b
+    to: room:s137_e
+    width: full
+    height: full
+    notes: pieces of sector 137
+  - id: open:s137_b_s137_g
+    from: room:s137_b
+    to: room:s137_g
+    width: full
+    height: full
+    notes: pieces of sector 137
+  - id: open:s137_c_s137_d
+    from: room:s137_c
+    to: room:s137_d
+    width: full
+    height: full
+    notes: pieces of sector 137
+  - id: open:s137_c_s137_e
+    from: room:s137_c
+    to: room:s137_e
+    width: full
+    height: full
+    notes: pieces of sector 137
+  - id: open:s137_s135
+    from: room:s137
+    to: room:s135
+    width: full
+    height: 345
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 138
+  - id: open:s137_s137_f
+    from: room:s137
+    to: room:s137_f
+    width: full
+    height: full
+    notes: pieces of sector 137
+  - id: open:s142_s143
+    from: room:s142
+    to: room:s143
+    width: full
+    height: full
+  - id: open:s144_s147
+    from: room:s144
+    to: room:s147
+    width: full
+    height: full
+  - id: open:s144_s149_a
+    from: room:s144
+    to: room:s149_a
+    width: full
+    height: 489
+  - id: open:s144_s164_a
+    from: room:s144
+    to: room:s164_a
+    width: full
+    height: full
+  - id: open:s145_a_s145_b
+    from: room:s145_a
+    to: room:s145_b
+    width: full
+    height: full
+    notes: pieces of sector 145
+  - id: open:s145_a_s147
+    from: room:s145_a
+    to: room:s147
+    width: full
+    height: full
+  - id: open:s145_s145_b
+    from: room:s145
+    to: room:s145_b
+    from_wall: 2
+    to_wall: 3
+    width: full
+    height: full
+    notes: pieces of sector 145
+  - id: open:s145_s146_a
+    from: room:s145
+    to: room:s146_a
+    from_wall: 7
+    to_wall: 0
+    width: full
+    height: 228
+    shape: arch
+    apex: 363
+    notes: "Round five: pinned to the walls of the original's portal (3176, x -5326); rounds one to four took the longest facing pair, which put it through the wrong wall."
+  - id: open:s146_s146_a
+    from: room:s146
+    to: room:s146_a
+    width: full
+    height: full
+    notes: pieces of sector 146
+  - id: open:s148_s150
+    from: room:s148
+    to: room:s150
+    from_wall: 1
+    to_wall: 2
+    width: full
+    height: 384
+    notes: "Round five: pinned to the walls of the original's portal (2971, y 18528); rounds one to four took the longest facing pair, which put it through the wrong wall."
+  - id: open:s149_a_s149_b
+    from: room:s149_a
+    to: room:s149_b
+    width: full
+    height: full
+    notes: pieces of sector 149
+  - id: open:s149_s118_d
+    from: room:s149
+    to: room:s118_d
+    from_wall: 4
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:s149_s149_b
+    from: room:s149
+    to: room:s149_b
+    from_wall: 1
+    to_wall: 0
+    width: full
+    height: full
+    notes: pieces of sector 149
+  - id: open:s150_s144_a
+    from: room:s150
+    to: room:s144
+    along: 0.15
+    width: 384
+    height: 369
+  - id: open:s150_s149
+    from: room:s150
+    to: room:s149
+    along: 0.2308
+    width: 384
+    height: 369
+  - id: open:s152_a_s151
+    from: room:s152_a
+    to: room:s151
+    width: full
+    height: full
+  - id: open:s152_a_s152_b
+    from: room:s152_a
+    to: room:s152_b
+    width: full
+    height: full
+    notes: pieces of sector 152
+  - id: open:s152_s152_b
+    from: room:s152
+    to: room:s152_b
+    width: full
+    height: full
+    notes: pieces of sector 152
+  - id: open:s153_a_s154
+    from: room:s153_a
+    to: room:s154
+    width: full
+    height: full
+  - id: open:s153_s059
+    from: room:s153
+    to: room:s059
+    width: full
+    height: full
+  - id: open:s153_s153_a
+    from: room:s153
+    to: room:s153_a
+    width: full
+    height: full
+    notes: pieces of sector 153
+  - id: open:s154_a_s154_b
+    from: room:s154_a
+    to: room:s154_b
+    width: full
+    height: full
+    notes: pieces of sector 154
+  - id: open:s154_s154_a
+    from: room:s154
+    to: room:s154_a
+    width: full
+    height: full
+    notes: pieces of sector 154
+  - id: open:s155_s154_b
+    from: room:s155
+    to: room:s154_b
+    width: full
+    height: full
+  - id: open:s155_s156
+    from: room:s155
+    to: room:s156
+    along: 0.5
+    width: full
+    height: 384
+    threshold: {texture: crdrf2, size: [128, 128]}
+    reveal: {texture: bemsv32c, size: [32, 128]}
+    notes: "Door record 1's doorway: the original's east jamb (face 3856) is BemSV32c, the red strip beside the open leaf; its sill is CrDRf2 (face 4188)."
+  - id: open:s156_s156_a
+    from: room:s156
+    to: room:s156_a
+    width: full
+    height: full
+    notes: pieces of sector 156
+  - id: open:s157_s156_a
+    from: room:s157
+    to: room:s156_a
+    from_wall: 2
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:s157_s158
+    from: room:s158
+    to: room:s157
+    shape: section
+  - id: open:s157_s162
+    from: room:s157
+    to: room:s162
+    from_wall: 7
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:s158_s172
+    from: room:s158
+    to: room:s172
+    shape: section
+  - id: open:s159_a_s160
+    from: room:s159_a
+    to: room:s160
+    width: full
+    height: full
+  - id: open:s159_s159_a
+    from: room:s159
+    to: room:s159_a
+    width: full
+    height: full
+    notes: pieces of sector 159
+  - id: open:s159_s159_b
+    from: room:s159
+    to: room:s159_b
+    width: full
+    height: full
+    notes: pieces of sector 159
+  - id: open:s160_s161
+    from: room:s160
+    to: room:s161
+    width: full
+    height: full
+  - id: open:s162_s161
+    from: room:s162
+    to: room:s161
+    width: full
+    height: full
+  - id: open:s163_a_s164
+    from: room:s163_a
+    to: room:s164
+    width: full
+    height: full
+  - id: open:s163_s131
+    from: room:s163
+    to: room:s131
+    width: full
+    height: full
+  - id: open:s163_s163_a_foot
+    from: room:s163
+    to: room:s163_a
+    from_wall: 0
+    to_wall: 3
+    width: full
+    height: full
+    notes: pieces of sector 163
+  - id: open:s163_s163_a_side
+    from: room:s163
+    to: room:s163_a
+    from_wall: 1
+    to_wall: 2
+    width: full
+    height: full
+    notes: "Round five: the ramp open along its west side to the tall corridor, above the ramp and its foot (the original's walls 3336 and 4036 stand under them only). Rounds one to four: walled."
+  - id: open:s163_s164
+    from: room:s163
+    to: room:s164
+    from_wall: 2
+    to_wall: 5
+    width: 256
+    height: full
+    notes: "Round six: the gallery over the tall corridor (the original's portal 3360, its sill the gallery's floor at 774). 256 of the 288: the ramp's own mouth (open:s163_a_s164) shares the wall, and two openings in one wall need 16 of wall between them and at the ends, so two posts 16 wide stand where the original has none."
+  - id: open:s163_s165_a
+    from: room:s163
+    to: room:s165_a
+    width: full
+    height: full
+  - id: open:s164_niche
+    from: room:s164
+    to: room:s164_niche
+    width: full
+    height: full
+  - id: open:s164_s164_a
+    from: room:s164
+    to: room:s164_a
+    width: full
+    height: full
+    notes: pieces of sector 164
+  - id: open:s165_a_s165_c
+    from: room:s165_a
+    to: room:s165_c
+    width: full
+    height: full
+    notes: pieces of sector 165
+  - id: open:s165_b_s165_c
+    from: room:s165_b
+    to: room:s165_c
+    width: full
+    height: full
+    notes: pieces of sector 165
+  - id: open:s165_b_s165_d
+    from: room:s165_b
+    to: room:s165_d
+    width: full
+    height: full
+    notes: pieces of sector 165
+  - id: open:s165_s165_d
+    from: room:s165
+    to: room:s165_d
+    width: full
+    height: full
+    notes: pieces of sector 165
+  - id: open:s166_a_s166_b
+    from: room:s166_a
+    to: room:s166_b
+    width: full
+    height: full
+    notes: pieces of sector 166
+  - id: open:s166_s166_a
+    from: room:s166
+    to: room:s166_a
+    width: full
+    height: full
+    notes: pieces of sector 166
+  - id: open:s166_s167_a
+    from: room:s166
+    to: room:s167_a
+    width: full
+    height: full
+  - id: open:s167_r1_s168
+    from: room:s167
+    to: room:s168
+    width: full
+    height: full
+  - id: open:s167_s167_a
+    from: room:s167
+    to: room:s167_a
+    width: full
+    height: full
+    notes: pieces of sector 167
+  - id: open:s168_a_s057
+    from: room:s168_a
+    to: room:s057
+    width: full
+    height: full
+  - id: open:s168_s168_a
+    from: room:s168
+    to: room:s168_a
+    width: full
+    height: full
+    notes: pieces of sector 168
+  - id: open:s169_s166_b
+    from: room:s169
+    to: room:s166_b
+    width: full
+    height: full
+  - id: open:s170_s170_a
+    from: room:s170
+    to: room:s170_a
+    width: full
+    height: full
+    notes: pieces of sector 170
+  - id: open:s170_s170_b
+    from: room:s170
+    to: room:s170_b
+    width: full
+    height: full
+    notes: pieces of sector 170
+  - id: open:s176_s008
+    from: room:s176
+    to: room:s008
+    from_wall: 7
+    to_wall: 4
+    width: full
+    height: 237
+    sill: 72
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: "The upper hall's window into the east tall hall (original frame sector 183, 612 to 849), over the door to the east anteroom."
+  - id: open:s176_s174
+    from: room:s176
+    to: room:s174
+    along: 0.3333
+    width: 384
+    height: 174
+    shape: arch
+    apex: 309
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 175
+  - id: open:s176_s178
+    from: room:s176
+    to: room:s178
+    width: full
+    height: 174
+    shape: arch
+    apex: 309
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 177
+  - id: open:s179_s176
+    from: room:s179
+    to: room:s176
+    along: 0.7143
+    width: 384
+    height: 174
+    shape: arch
+    apex: 309
+  - id: open:s179_s176_2
+    from: room:s179
+    to: room:s176
+    along: 0.2857
+    width: 384
+    height: 174
+    shape: arch
+    apex: 309
+  - id: open:s181_a_s178
+    from: room:s181_a
+    to: room:s178
+    width: full
+    height: 174
+    shape: arch
+    apex: 309
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 180
+  - id: open:s181_b_s057
+    from: room:s181_b
+    to: room:s057
+    width: full
+    height: 142
+    shape: arch
+    apex: 277
+    threshold: {texture: crdrf2, size: [128, 128]}
+    notes: frame sector 182
+  - id: open:s181_s181_a
+    from: room:s181
+    to: room:s181_a
+    width: full
+    height: full
+    notes: pieces of sector 181
+  - id: open:s181_s181_b
+    from: room:s181
+    to: room:s181_b
+    width: full
+    height: full
+    notes: pieces of sector 181
+  - id: open:s184_s073_a
+    from: room:s184
+    to: room:s073_b
+    along: 0.8864
+    width: 128
+    height: 570
+  - id: open:s185_s185_n
+    from: room:s185
+    to: room:s185_n
+    width: full
+    height: full
+    notes: "Round six: the tower and its low north bay (the original's face 3971 over it, d2wctrA from 856 to 1170)."
+  - id: open:s187_s185
+    from: room:s185_n
+    to: room:s187
+    from_wall: 3
+    to_wall: 0
+    width: full
+    height: 256
+    notes: "Door record 6. Round three: from the gate tower, so that the door's faces belong to the tower's side: `oymap solve` credits a door's click to the sector that owns its faces (the opening's `from` room) and could not open it from the tower."
+  - id: open:s187_s186
+    from: room:s187
+    to: room:s186
+    width: full
+    height: full
+  - id: open:s188_s189
+    from: room:s188
+    to: room:s189
+    width: full
+    height: full
+  - id: open:s189_s190
+    from: room:s189
+    to: room:s190
+    width: full
+    height: full
+  - id: open:s191_s190
+    from: room:s191
+    to: room:s190
+    width: full
+    height: full
+  - id: open:s193_n61
+    from: room:s193
+    to: room:s193_n61
+    width: full
+    height: full
+  - id: open:s193_n62
+    from: room:s193
+    to: room:s193_n62
+    width: full
+    height: full
+  - id: open:s193_n63
+    from: room:s193
+    to: room:s193_n63
+    width: full
+    height: full
+  - id: open:s193_s193_a
+    from: room:s193
+    to: room:s193_a
+    from_wall: 7
+    to_wall: 2
+    width: full
+    height: full
+    notes: pieces of sector 193

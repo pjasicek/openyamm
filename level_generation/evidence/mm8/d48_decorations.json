@@ -1,0 +1,61 @@
+{
+  "world": "mm8",
+  "map": "d48.blv",
+  "kind": "indoor",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm8/maps/d48.blv",
+      "sha256": "ab5d655c42a84528a737ba9e4203765476a8f0f56b476ad9c4b79595e77b4b34"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/d48.scene.yml",
+      "sha256": "4b0818fb2abe4010a0bc99a474edcf0a4e0f5a0d38eec7806b981faf796759e7"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/decoration_data.txt",
+      "sha256": "0ad51cc583a71f2e4255211fb79be965e2adb1a51f7baeb0d603f777073bca7f"
+    },
+    {
+      "path": "assets_dev/engine/rendering/sprite_frame_data_common.yml",
+      "sha256": "197b5a71379e4d38b08f2ab2c31f74aea0de38e4dc6b724e7bb4beeba953726b"
+    }
+  ],
+  "records": [
+    {
+      "index": 0,
+      "source_name": "Party Start",
+      "id": 14,
+      "name": "party start",
+      "hint": "null",
+      "radius": 16,
+      "height": 16,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "DontDraw",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        2088,
+        9420,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 0
+    }
+  ],
+  "missing_sprites": [],
+  "models": [],
+  "counts": {
+    "native": 1,
+    "visible": 0,
+    "categories": {},
+    "palette": {},
+    "light_emitters": 0
+  }
+}

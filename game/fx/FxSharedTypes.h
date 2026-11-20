@@ -34,6 +34,8 @@ enum class FxParticleTag
     DecorationEmitter,
     Buff,
     Misc,
+    // A map's drifting mist wisps (game/fx/MistWisps.h).
+    MapMist,
 };
 
 enum class FxParticleMotion

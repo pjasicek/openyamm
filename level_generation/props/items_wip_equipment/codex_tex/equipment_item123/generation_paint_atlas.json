@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Moon Temple Cloak (item123). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Neat rectangular folded blue brocade cloak, three visible thick edge layers, diagonal blue flap and round silver spiral clasp. Exact material boundaries: Blue brocade cloth BLUE; silver spiral clasp RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item123/inputs/guide_paint.png",
+  "input_guide_sha256": "57ce14b399008632d92366b27480dfbe3b342162f00981c5806fea4f4942e23e",
+  "revision": 1,
+  "input_icon": "item123",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-169902a1-3cd6-43ed-9e3b-4e5394c8b346.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "96a7ebe0d64d2e8024d864526ab3776393d91e0a85d8a6f235677500380f3337",
+  "input_icon_path": "assets_dev/engine/icons_x2/item123.png",
+  "input_icon_sha256": "8aa06f6a81a87b5e97fb797daf81c468dfa0fdfbe436c463a3686b1cacd521d9",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

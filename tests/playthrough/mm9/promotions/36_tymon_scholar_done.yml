@@ -1,0 +1,65 @@
+# MM9 promotion playthrough, segment 36: the Scholar promotion (guide: side_c.yml "study-a-magreeb", step 4). Back
+# into Thjorgard City by the west gate, Tymon the Nord: "We studied the Magreeb.", "Alright.", the colour a player saw
+# ("Green": olive-green chitin; segment 35), "Thank you.", "Goodbye.". The talk's close (NPC161.scr, thjorgardcity.lua)
+# with key 204 gives key 205, 11 000 experience each and 1 000 gold, and promotes every Sorcerer to Wizard
+# (MM9.Promotions scholar): member 3. ("Red", what Tymon's texts say, would pay 16 500: a decision for the user.)
+# Then Johannes Bem's first page offers "Promote our eligible characters." (the Mage quest is done and a Wizard is
+# eligible now); it is not picked: the Wizard stays a Wizard for the Lich (block B).
+#   python3 tests/playthrough/mm9/promotions/run.py 36
+id: mm9.promotions.36_tymon_scholar_done
+title: "MM9 promotions 36: the Magreeb was green: Scholar, the Sorcerer becomes a Wizard; Johannes offers the Mage promotion"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/35_tymon_magreeb.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgard.blv, qbit_set: [90201, 90202, 90294], qbit_clear: [90205]}
+
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  - play_lua:
+      source: |
+        remember("classes", classes()); remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        log("CLASSES before the Scholar promotion: " .. classes())
+  - set_pose: {map: thjorgardcity.blv, x: 4915, y: 12550, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "We studied the Magreeb."}
+  - select_topic: {match_label: "Alright."}
+  - select_topic: {match_label: "Green"}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90204, 90205]}
+  - play_lua:
+      source: |
+        local before, after = {}, {}
+        for w in recall("classes"):gmatch("%S+") do before[#before + 1] = w end
+        for w in classes():gmatch("%S+") do after[#after + 1] = w end
+        log("CLASSES after the Scholar promotion: " .. classes())
+        if before[4] ~= "Sorcerer" or after[4] ~= "Wizard" then error("member 3: " .. before[4] .. " -> " .. after[4]) end
+        for i = 1, 3 do if before[i] ~= after[i] then error("member " .. (i - 1) .. " changed: " .. before[i] .. " -> " .. after[i]) end end
+        if gold() - recall("gold") ~= 1000 then error("Scholar gold " .. (gold() - recall("gold")) .. ", expected 1000") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain < 11000 then error("member " .. i .. " gained " .. gain .. " experience, expected 11000") end
+        end
+        log("Scholar done (key 205): member 3 Sorcerer -> Wizard, +1000 gold, +11000 experience each")
+
+  # Johannes: the Mage promotion is now offered for the Wizard; the party leaves without it.
+  - set_pose: {map: thjorgardcity.blv, x: 5079, y: 12250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {active: true, source_id: 4, action_label_present: "Promote our eligible characters."}}
+  - play_lua: {source: 'log("Johannes offers \"Promote our eligible characters.\"; not taken (the Wizard is kept for the Lich)")'}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'local c = {}; for w in classes():gmatch("%S+") do c[#c + 1] = w end; if c[4] ~= "Wizard" then error("member 3 is no longer a Wizard: " .. classes()) end'}
+  - save_game: {name: "36 Scholar", path: output/playthrough/mm9/promotions/checkpoints/36_tymon_scholar_done.oysav}

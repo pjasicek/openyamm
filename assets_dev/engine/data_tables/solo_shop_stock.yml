@@ -1,0 +1,18 @@
+# A solo run's extra shop stock (HouseEntry::soloStock, HouseServiceRuntime). Each time a house below rolls a fresh
+# standard stock in a solo run, its last slots hold these stacks, in order from the last slot; party games keep the
+# stock as rolled.
+#
+# houses: <house id from house_data.txt>:
+#   - item: <item id>
+#     quantity: N or [min, max]       a stack of N, or a random size from min to max, sold one at a time
+#
+# Invisibility scrolls (the user, 2026-11-16): a lone adventurer's way past a fight. Free Haven has no alchemist, so its
+# magic shop "Alchemy and Incantations" sells them.
+
+houses:
+  111: # Ravenshore (MM8): Apothecary
+    - {item: 318, quantity: [3, 5]} # Invisibility scroll
+  107: # Free Haven (MM6): Alchemy and Incantations
+    - {item: 318, quantity: [3, 5]}
+  118: # Erathia (MM7): Lead Transformations
+    - {item: 318, quantity: [3, 5]}

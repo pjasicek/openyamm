@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Phynaxian Crown (7item241). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Royal red velvet domed crown with silver arches, pearl-studded silver rim, red gems and a tiny gold-and-silver cross finial. Exact material boundaries: Red velvet cap BLUE. Silver arches/rim and gold finial RED. Pearls and coloured jewels BLACK. CORRECTION: the exact grey mesh guide is authoritative for every outline and every hole. The inventory icon supplies colour and materials only. Do not widen or shrink the object, fingers, horns or cloth. Every solid grey surface stays opaque, including inner faces, chainmail panels and tiny fingers. Never make new openings or transparent pattern cutouts. Black gemstones must be opaque black, alpha 255. All five views retain exact guide framing. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item241/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "898c08b7b6b9313749cbd61b17e67dd89f46bb5c41c8b647962a7b5d1efc4102",
+  "revision": 2,
+  "input_icon": "7item241",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-947e8321-2a86-4a09-82b3-e7ed20d3c546.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Superseded by reviewed per-face material labels or explicit exterior/lining materials.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "c5a5e2d4f38051687f9c777df6d25f1104e146781d1287ee568400e7b2a9fca5",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item241.png",
+  "input_icon_sha256": "3febe733b53bd2c0250bda4e23c47aad882eb621c6dc7b3e06bfa60119bf686c",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

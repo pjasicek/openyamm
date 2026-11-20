@@ -1,0 +1,99 @@
+"""Reduce the weighted body (after weighting), unwrap it and write the neutral upload for the Meshy retexture.
+
+Args: <in blend> <out blend> <upload glb> <report json> <config json>
+config: "head_bones" (faces mostly weighted to them keep "head_ratio"), "hand_bones" ("hand_ratio"), the rest
+"body_ratio"; "head_uv_scale" (face/hair islands this much denser than the body).
+Collapse decimation carries the vertex groups. UVs: Smart UV Project, head islands scaled, packed.
+"""
+import bpy, sys, os, json
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                                'claude_shared'))
+
+argv = sys.argv[sys.argv.index('--') + 1:]
+IN, OUT, UPLOAD, REP, CFG = argv
+cfg = json.load(open(CFG))
+bpy.ops.wm.open_mainfile(filepath=IN)
+ob = bpy.data.objects['Body']
+me = ob.data
+rig = bpy.data.objects['MM9_Rig']
+for b in rig.pose.bones:
+    b.matrix_basis.identity()
+before = len(me.polygons)
+
+
+def group_ids(names):
+    return {ob.vertex_groups[n].index for n in names if n in ob.vertex_groups}
+
+
+HEAD = group_ids(cfg['head_bones'])
+HAND = group_ids(cfg['hand_bones'])
+
+
+def share(v, ids):
+    return sum(g.weight for g in v.groups if g.group in ids)
+
+
+vh = [share(v, HEAD) for v in me.vertices]
+vk = [share(v, HAND) for v in me.vertices]
+
+
+def klass(p):
+    h = sum(vh[i] for i in p.vertices) / len(p.vertices)
+    k = sum(vk[i] for i in p.vertices) / len(p.vertices)
+    return 'head' if h >= 0.5 else ('hand' if k >= 0.5 else 'body')
+
+
+def run(kind, ratio):
+    if ratio >= 0.999:
+        return
+    bpy.context.view_layer.objects.active = ob
+    for o in bpy.data.objects:
+        o.select_set(o == ob)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    global vh, vk
+    vh = [share(v, HEAD) for v in me.vertices]
+    vk = [share(v, HAND) for v in me.vertices]
+    for v in me.vertices:
+        v.select = False
+    for e in me.edges:
+        e.select = False
+    for p in me.polygons:
+        p.select = klass(p) == kind
+    for p in me.polygons:
+        if p.select:
+            for i in p.vertices:
+                me.vertices[i].select = True
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_mode(type='FACE')
+    bpy.ops.mesh.decimate(ratio=ratio, use_vertex_group=False)
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+
+counts = {}
+for kind in ('head', 'hand', 'body'):
+    counts[kind + '_before'] = sum(1 for p in me.polygons if klass(p) == kind)
+run('body', cfg['body_ratio'])
+run('hand', cfg['hand_ratio'])
+run('head', cfg['head_ratio'])
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='SELECT')
+bpy.ops.mesh.quads_convert_to_tris()
+bpy.ops.object.mode_set(mode='OBJECT')
+vh = [share(v, HEAD) for v in me.vertices]
+vk = [share(v, HAND) for v in me.vertices]
+for kind in ('head', 'hand', 'body'):
+    counts[kind + '_after'] = sum(1 for p in me.polygons if klass(p) == kind)
+# renormalise and limit to four influences after the collapse
+for v in me.vertices:
+    gs = sorted([(g.weight, g.group) for g in v.groups if g.weight > 0], reverse=True)
+    keep = gs[:4]
+    tot = sum(w for w, _ in keep) or 1.0
+    for w, gi in gs[4:]:
+        ob.vertex_groups[gi].remove([v.index])
+    for w, gi in keep:
+        ob.vertex_groups[gi].add([v.index], w / tot, 'REPLACE')
+
+bpy.ops.wm.save_as_mainfile(filepath=OUT)
+rep = {'before': before, 'after': len(me.polygons), **counts}
+json.dump(rep, open(REP, 'w'), indent=1)
+print('REDUCE ' + json.dumps(rep))

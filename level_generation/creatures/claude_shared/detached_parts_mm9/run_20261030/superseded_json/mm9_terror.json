@@ -1,0 +1,294 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_terror.glb",
+  "components": 18,
+  "body": 0,
+  "size": 3.2199268341064453,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "1": {
+    "joint": "Bip01 Head",
+    "where": "above, -x side",
+    "triangles": 198,
+    "extent": 0.3736,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.09271,
+    "worst": {
+     "gap": 0.02065,
+     "to_body_cluster": 0.02065,
+     "clip": "Death",
+     "frame": 12,
+     "time": 0.4,
+     "part_point": [
+      -0.40202,
+      0.83179,
+      -0.10305
+     ],
+     "attached_point": [
+      -0.41919,
+      0.84268,
+      -0.10626
+     ],
+     "kind": "parted",
+     "against": "Bip01 Head"
+    },
+    "detached_poses": 4,
+    "poses": 346,
+    "clips": {
+     "Death": {
+      "max_gap": 0.02065,
+      "frame": 12,
+      "time": 0.4,
+      "frames": 4
+     }
+    },
+    "shallowest": {
+     "depth": 0.08877,
+     "on": "Bip01 Head",
+     "clip": "AttackRanged",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 10,
+    "worst_concealed": {
+     "gap": 0.03747,
+     "clip": "AttackRanged",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_terror_part1.png"
+   },
+   "5": {
+    "joint": "Bone37",
+    "where": "above, +z",
+    "triangles": 40,
+    "extent": 0.2014,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0299,
+    "worst": {
+     "gap": 0.01357,
+     "to_body_cluster": 0.01357,
+     "clip": "Fidget",
+     "frame": 7,
+     "time": 0.2333,
+     "part_point": [
+      -0.14273,
+      1.57873,
+      0.90334
+     ],
+     "attached_point": [
+      -0.12942,
+      1.5809,
+      0.90186
+     ],
+     "kind": "floating",
+     "against": "Bone37"
+    },
+    "detached_poses": 31,
+    "poses": 346,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.01347,
+      "frame": 29,
+      "time": 0.9667,
+      "frames": 2
+     },
+     "Death": {
+      "max_gap": 0.01024,
+      "frame": 3,
+      "time": 0.1,
+      "frames": 1
+     },
+     "Fidget": {
+      "max_gap": 0.01357,
+      "frame": 7,
+      "time": 0.2333,
+      "frames": 6
+     },
+     "Hit": {
+      "max_gap": 0.01353,
+      "frame": 32,
+      "time": 1.0667,
+      "frames": 8
+     },
+     "Running": {
+      "max_gap": 0.01293,
+      "frame": 1,
+      "time": 0.0333,
+      "frames": 14
+     }
+    },
+    "shallowest": {
+     "depth": -0.00247,
+     "on": "Bone35",
+     "clip": "AttackMelee",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 5,
+    "worst_concealed": {
+     "gap": 0.01341,
+     "clip": "Death",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_terror_part5.png"
+   },
+   "15": {
+    "joint": "Bone37",
+    "where": "above, +z",
+    "triangles": 41,
+    "extent": 0.2047,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0418,
+    "worst": {
+     "gap": 0.02523,
+     "to_body_cluster": 0.02523,
+     "clip": "AttackRanged",
+     "frame": 11,
+     "time": 0.3667,
+     "part_point": [
+      0.0473,
+      2.08635,
+      0.56723
+     ],
+     "attached_point": [
+      0.05603,
+      2.08962,
+      0.54379
+     ],
+     "kind": "parted",
+     "against": "Bip01 Head"
+    },
+    "detached_poses": 60,
+    "poses": 346,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.02407,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 16
+     },
+     "AttackRanged": {
+      "max_gap": 0.02523,
+      "frame": 11,
+      "time": 0.3667,
+      "frames": 23
+     },
+     "Fidget": {
+      "max_gap": 0.00985,
+      "frame": 25,
+      "time": 0.8333,
+      "frames": 9
+     },
+     "Hit": {
+      "max_gap": 0.02115,
+      "frame": 9,
+      "time": 0.3,
+      "frames": 12
+     }
+    },
+    "shallowest": {
+     "depth": 0.03605,
+     "on": "Bip01 Head",
+     "clip": "Fidget",
+     "frame": 38,
+     "time": 1.2667
+    },
+    "concealed_poses": 122,
+    "worst_concealed": {
+     "gap": 0.03071,
+     "clip": "Fidget",
+     "frame": 68,
+     "time": 2.2667
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_terror_part15.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 18,
+   "attached_in_every_pose": 14
+  },
+  "concealed": {
+   "2": {
+    "joint": "Bone38",
+    "where": "above",
+    "triangles": 198,
+    "extent": 0.2756,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.13427,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 346,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.12488,
+     "on": "Bip01 Head",
+     "clip": "AttackRanged",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 42,
+    "worst_concealed": {
+     "gap": 0.07896,
+     "clip": "AttackRanged",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "carried_poses": 0
+   }
+  },
+  "shallow": {
+   "4": {
+    "joint": "Bone35",
+    "where": "above, +z",
+    "triangles": 42,
+    "extent": 0.1899,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0471,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 346,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00153,
+     "on": "Bone35",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "7": {
+    "joint": "Bone35",
+    "where": "above, +z",
+    "triangles": 42,
+    "extent": 0.2016,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04105,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 346,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00296,
+     "on": "Bone35",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   }
+  }
+ }
+]

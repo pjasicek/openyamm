@@ -1,0 +1,6 @@
+Use case: style-transfer. Targeted palette/contrast correction of an existing MM6 sky restoration.
+Image 1 is the edit target: our restored 6plansky1 cloud tile. Image 2 is the authoritative native MM6 palette/reference.
+Keep Image 1's cloud silhouettes, placement, diagonal bands, open areas, fine wisps and seamless both-axis tiling unchanged. Correct ONLY its colour and tonal intensity to match Image 2 more faithfully.
+The open blue background in Image 2 is RGB(48,72,140), hex #30488C. Image 1 drifted toward RGB(35,69,146), which is too saturated and too cyan-blue. Restore the native slightly muted blue #30488C throughout clear areas, without adding a gradient or noise.
+Match Image 2's warm pale yellow/cream cloud brightness and subdued lavender-grey shadows. Avoid increasing yellow saturation, highlights or cloud contrast. Retain the restored fine cloud detail; do not redesign, thicken clouds, blur or sharpen their boundaries.
+Flat opaque RGB overhead game texture, 1024x1024. Natural seamless repetition across BOTH edges. No horizon, land, sun, text, added objects, borders, mirrored strips or edge fading. Return only the colour-corrected tile.

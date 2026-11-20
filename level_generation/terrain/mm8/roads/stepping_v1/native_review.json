@@ -1,0 +1,52 @@
+{
+  "status": "two_native_orientation_pilots_reviewed",
+  "captures": [
+    {
+      "name": "stepping_ew",
+      "quality": "x1",
+      "metadata": "captures/mm8_stepping_ew_x1.json",
+      "metadata_sha256": "e0ea3837339f4449ebab2c7bb7a83b91fe6f12259b10633d28df426e21fa5d4e",
+      "screenshot_sha256": "16bf84affd8f10420207f3f1260632ee237e9a804ddf663248014eb1e784b699"
+    },
+    {
+      "name": "stepping_ew",
+      "quality": "x2",
+      "metadata": "captures/mm8_stepping_ew_x2.json",
+      "metadata_sha256": "b30bdb76b3c72c6b613a2197e89cd4b80b13de72ff289cfdae4cc916d97c8bda",
+      "screenshot_sha256": "4559e625d8855c2f53baf2b397d2dc48e854138d88a088bc1c14f06999240124"
+    },
+    {
+      "name": "stepping_ns_south",
+      "quality": "x1",
+      "metadata": "captures/mm8_stepping_ns_south_x1.json",
+      "metadata_sha256": "c66560fb1694ed1b2d2e07096db1616ee539d03804c988a8d9e1030767ab3590",
+      "screenshot_sha256": "5a250c7dfb028da7bf4529e74542044db950d53930af15a41cce1ec7511b218e"
+    },
+    {
+      "name": "stepping_ns_south",
+      "quality": "x2",
+      "metadata": "captures/mm8_stepping_ns_south_x2.json",
+      "metadata_sha256": "06f93b7a4cee911a643a489196bacdbd4229828472c6e01d580fe675893bfa73",
+      "screenshot_sha256": "cceb1848480baf168a4a8f950d463d3921c342f0fd2e7869f7861a90ee7e7e76"
+    }
+  ],
+  "observations": [
+    "East-west and north-south native paths retain separated flat stones, broad size/placement and native orange-brown palette.",
+    "Restored stone striations and soil read more clearly; no continuous pavement fill or obvious repeating join fragments in the reviewed views.",
+    "North-south southern view is unobstructed. East-west view has active enemy/projectile effects; terrain remains visible but effect pixels differ between captures."
+  ],
+  "rejected": [
+    {
+      "name": "stepping_ns",
+      "reason": "Troll Warrior obscures most of terrain in both qualities"
+    }
+  ],
+  "limits": [
+    "Two populated still views only; do not certify all12 tiles in-game, flat fixtures, motion or all mip levels.",
+    "Terrain triangle boundaries are also visible in original captures; these asset checks do not diagnose their renderer cause.",
+    "Initial default-size Xvfb attempts remained at cropped menu; rerun with1600x1200 screen succeeded."
+  ],
+  "build_sha256": "4d122d220efd3ab4e60f8d4e3e257e7d62feb91d37491fb5cdb01584d60543f0",
+  "validation_sha256": "09a6e55e8e5d97e84f9e95a39daadd4d3c0dcb657d7549c483b7476687d291b7",
+  "comparison_sha256": "6139974cd5a03661d5f0d27c3e70f9c93e400a40ee106c5887a27f66f026608a"
+}

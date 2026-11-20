@@ -2,6 +2,14 @@
   "asset_helper_sha256": "6e47d8ae999b063ad7ae3ea60d9b4ee3d9b6df4ed4b1285da40d5532d5674809",
   "backend": "5.2.2 LTS",
   "geometry_helper_sha256": "791c7cc5333fc0299872f71ce003e8d6114656580e3ed79c2885d78a3b6472e3",
+  "nonvisual_source_revalidation": {
+    "after_sha256": "d58e456865daa55a5d103c81132555a08d3aa64aed93a1bfb68cd3ef3ec4c70f",
+    "before_revision": "7429884d0",
+    "before_sha256": "9476fffc499a5b7b82e54961cebaf2ea19fc7cd948480036795ffb318e605ee6",
+    "dependency": "worlds/mm7/maps/7out03.scene.yml",
+    "reason": "Only initial actor hostility fields changed; all visual scene data is identical.",
+    "retained_lighting_sha256": "b2b4c7f346b69d0b2464eb892cd64d8df57f44b31d283f0368980961f2e780d0"
+  },
   "producer_sha256": "c2d26ef6c2992aa0449d5460eada190633ac5dcb85bb9a6dde0a6157f6411556",
   "profile": {
     "azimuth": 315,
@@ -26,12 +34,9 @@
     "world": "mm7"
   },
   "runtime_lighting": {
+    "producer_sha256": "381c528fd2dca0e58556ee4768877316d24bebde94bad94f64d34b4090646239",
     "profile": {
-      "world": "mm7",
       "map": "7out03.odm",
-      "revealed_cogs": [
-        17
-      ],
       "point_lights": [
         {
           "color_abgr": 4280034867,
@@ -51,7 +56,11 @@
           ],
           "radius": 240
         }
-      ]
+      ],
+      "revealed_cogs": [
+        17
+      ],
+      "world": "mm7"
     },
     "retained_sha256": "dc4a828dfddfad745a5c3def1cfb894200fb73c935c0f851d3a2c32f45d36737",
     "revealed_receivers": [
@@ -79,7 +88,6 @@
         106,
         39
       ]
-    ],
-    "producer_sha256": "381c528fd2dca0e58556ee4768877316d24bebde94bad94f64d34b4090646239"
+    ]
   }
 }

@@ -1,0 +1,130 @@
+# Explicit conversion choices for MM9's Lindisfarne Monastery (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: lindisfarnemonastery
+  display_name: Lindisfarne Monastery
+  starts: [StartPoint0]               # start 0: inside the front door (Lindisfarne ExitTrigger0 arrives here)
+  monster_classes: [Initiate, Monk, ReverendMonk]
+  offset: [0, 0, 0]                   # the old map's frame: x -4915..7301, y -16302..12452 fit int16
+  ambient: 31                         # sector minimum light 31: no frame ambient is subtracted from the decorations' light
+                                      # (Inventa Storca "Black tables", Klusos House); the bake keeps its floor by ambient_scale
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  thin_walls: true                    # walls under a voxel thick keep their far face (brief: thin partitions)
+plan_levels:
+  ground: [-40, 200]                  # nave, cloister, courtyard, kitchens (floor 0 LT)
+  upper: [200, 700]                   # libraries and galleries (floor 384 LT)
+  top: [700, 2100]                    # organ loft, bell tower (floor 896 LT and up)
+models:
+  # --- MM9 rotating doors: one rotate mover per leaf, a click toggles the pair, doorway portal at the leaves
+  anavedoor1: {group: NaveDoor1, motion: rotate, doorway: true, portal: naveportal1}
+  bnavedoor1: {group: NaveDoor1, motion: rotate, doorway: true, portal: naveportal1}
+  anavedoor2: {group: NaveDoor2, motion: rotate, doorway: true, portal: naveportal2}
+  bnavedoor2: {group: NaveDoor2, motion: rotate, doorway: true, portal: naveportal2}
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true, portal: naveportal3}
+  RotatingDoor1: {group: RotatingDoor1, motion: rotate, doorway: true, portal: towerportal1}
+  RotatingDoor2: {group: RotatingDoor2, motion: rotate, doorway: true, portal: monkportal1}
+  RotatingDoor3: {group: RotatingDoor3, motion: rotate, doorway: true, portal: towerportal2}
+  RotatingDoor4: {group: RotatingDoor4, motion: rotate, doorway: true, portal: towerportal4}
+  RotatingDoor5: {group: RotatingDoor5, motion: rotate, doorway: true, portal: towerportal5}
+  # --- the organ's 25 keys (Door, MoveDir down, MoveDist 2 LT): a click presses one and plays its note
+  #     (OpenStartSound Sounds\Music\<note>.wav); one_node keeps the group's name ('#' is no Lua identifier)
+  'A1': {group: OrganA1, motion: dat, one_node: true}
+  'A#1': {group: OrganAs1, motion: dat, one_node: true}
+  'B1': {group: OrganB1, motion: dat, one_node: true}
+  'C1': {group: OrganC1, motion: dat, one_node: true}
+  'C#1': {group: OrganCs1, motion: dat, one_node: true}
+  'D1': {group: OrganD1, motion: dat, one_node: true}
+  'D#1': {group: OrganDs1, motion: dat, one_node: true}
+  'E1': {group: OrganE1, motion: dat, one_node: true}
+  'F1': {group: OrganF1, motion: dat, one_node: true}
+  'F#1': {group: OrganFs1, motion: dat, one_node: true}
+  'G1': {group: OrganG1, motion: dat, one_node: true}
+  'G#1': {group: OrganGs1, motion: dat, one_node: true}
+  'A2': {group: OrganA2, motion: dat, one_node: true}
+  'A#2': {group: OrganAs2, motion: dat, one_node: true}
+  'B2': {group: OrganB2, motion: dat, one_node: true}
+  'C2': {group: OrganC2, motion: dat, one_node: true}
+  'C#2': {group: OrganCs2, motion: dat, one_node: true}
+  'D2': {group: OrganD2, motion: dat, one_node: true}
+  'D#2': {group: OrganDs2, motion: dat, one_node: true}
+  'E2': {group: OrganE2, motion: dat, one_node: true}
+  'F2': {group: OrganF2, motion: dat, one_node: true}
+  'F#2': {group: OrganFs2, motion: dat, one_node: true}
+  'G2': {group: OrganG2, motion: dat, one_node: true}
+  'G#2': {group: OrganGs2, motion: dat, one_node: true}
+  'E3': {group: OrganE3, motion: dat, one_node: true}
+  # --- the bell tower's five ropes (Door, 32 LT down): each pull rings one bell (OpenTrigger0 'use' on its Bell)
+  Rope1: {group: Rope1, motion: dat}
+  Rope2: {group: Rope2, motion: dat}
+  Rope3: {group: Rope3, motion: dat}
+  Rope4: {group: Rope4, motion: dat}
+  Rope5: {group: Rope5, motion: dat}
+  # --- static world objects
+  WorldObject0: static                # the ladders' rungs (r_wood_ladder) beside Ladder0-5, Ladder10
+  WorldObject1: static
+  WorldObject2: static
+  WorldObject3: static
+  WorldObject4: static
+  WorldObject5: static
+  WorldObject9: static
+  WorldObject6: static                # the rose window over the front door (WindowRose, in invisible collision)
+  WorldObject7: static                # a window pane (window_03) in invisible collision
+  WorldObject42: static               # the courtyard fountain's water (Ocean4.spr)
+  InvisibleBrush0: static
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  InvisibleBrush3: static
+  InvisibleBrush4: static
+  InvisibleBrush5: static             # in the front doorway: MM9 keeps the party in (the exit volume is in front of it)
+  InvisibleBrush6: static
+  InvisibleBrush7: static
+  Terrain0: static                    # the hillside seen through the front door
+  Carpet0: static
+  Carpet1: static
+  Carpet2: static
+  Carpet3: static
+  Carpet4: static
+  Carpet5: static
+  Carpet6: static
+  Carpet7: static
+  Carpet8: static
+  Carpet9: static
+  Carpet10: static
+  Carpet11: static
+  Carpet12: static
+  Carpet13: static
+  Carpet14: static
+  Carpet15: static
+  Carpet16: static
+  Carpet17: static
+  Carpet18: static
+  Carpet19: static
+  Carpet20: static
+  Carpet21: static
+  Carpet22: static
+  # --- not built
+  TOD_Sky0: skip                      # sky objects far outside the map
+  SkyBox0: skip
+model_patterns: {}
+portals:
+  # the narthex's front wall (z -512..-544/-576): two door arches, two low windows (InvisibleBrush6/7 keep the party
+  # in) and two high windows; the porch beyond it and the hillside are their own room
+  - {name: front_wall, axis: z, points: [[-256, 80, -528], [0, 80, -528], [-552, 88, -528], [296, 88, -528], [-448, 236, -528], [192, 236, -528]], span: 200}
+exits:
+  ExitTrigger0: {}
+textures:
+  'TEXTURES\Skybox\SkyMarker.dtx': {alias: sky04, width: 512, height: 512}
+  'TEXTURES\LevelTextures\Misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # the fountain garden's sound-only box: invisible collision
+# Scene ladders: facing_lt toward the rungs from where the climber stands, surface_lt where the climber stops, top_exit_lt
+# the floor point (LT x, y, z) the climber steps onto at the top.
+ladders:
+  Ladder0: {facing_lt: [0, 1], surface_lt: 366, top_exit_lt: [-678, 634, 440]}      # west tower: 144 -> the 632 loft
+  Ladder10: {facing_lt: [0, 1], surface_lt: 366, top_exit_lt: [422, 634, 440]}     # east tower: 144 -> the 632 loft
+  Ladder1: {facing_lt: [0, 1], surface_lt: 2694, top_exit_lt: [-818, 898, 2770]}   # west library 384 -> the 896 attic
+  Ladder2: {facing_lt: [0, 1], surface_lt: 2694, top_exit_lt: [550, 898, 2770]}    # east scriptorium 384 -> the 896 attic
+  Ladder3: {facing_lt: [0, -1], surface_lt: 2330, top_exit_lt: [-344, 1266, 2430]} # crossing attic 896 -> bell floor 1264
+  Ladder4: {facing_lt: [0, 1], surface_lt: 3046, top_exit_lt: [-890, 386, 2960]}   # west transept 0 -> library 384
+  Ladder5: {facing_lt: [0, 1], surface_lt: 3046, top_exit_lt: [630, 386, 2960]}    # east transept 0 -> scriptorium 384
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated, translucent where MM9's are.
+spr_surfaces: {}   # the fountain's Stream.spr (opaque in MM9): its frames

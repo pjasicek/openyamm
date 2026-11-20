@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Walking Boots (item132). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of plain russet leather walking boots, cylindrical open shafts, simple ankle straps and gold buckles. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item132/inputs/guide_paint.png",
+  "input_guide_sha256": "0453eb374326bdf3047c065792a2266cf57d5bcaf32a9034765815e5f24a0df1",
+  "revision": 1,
+  "input_icon": "item132",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-f8827d92-6be4-4d01-af6d-1db11d9262cf.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "18cec8c0cd9d0e87546fe64ebab24b8ee0766c1c711d7fdde332e537095dbdbc",
+  "input_icon_path": "assets_dev/engine/icons_x2/item132.png",
+  "input_icon_sha256": "09559d3385e779f43fecc119590f01afc02927bedd3e6b070cdca391a9f684db",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

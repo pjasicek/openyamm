@@ -1,0 +1,22 @@
+{
+  "family": "ooz",
+  "title": "MM6 Ooze",
+  "descriptor_ids": [
+    589,
+    590,
+    591
+  ],
+  "base_palette": 780,
+  "mask_kind": "green",
+  "description": "MM6 bright moss-green irregular ooze puddle, low broad lumpy crawling organic slime mass, knobbly uneven wet surface with a few small dimples and folds, rounded finger-like perimeter lobes. No face, eyes, skeleton, objects or new effects. Retain the native distinctive irregular outline, thickness, lumpy texture and small soft highlights; no modern glassy translucent jelly or smooth generic disk.",
+  "regions": "Green slime is the recolorable body; preserve original shading and alpha.",
+  "variant_names": {
+    "780": "MM6 Ooze 1",
+    "781": "MM6 Ooze 2",
+    "782": "MM6 Ooze 3"
+  },
+  "material_mask_channels": 1,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py"
+}

@@ -1,0 +1,97 @@
+{
+  "repeated_diagonal_checks": [
+    {
+      "a": "drsrne1",
+      "side": "S",
+      "b": "drsrne2",
+      "score": 0.8772827019781246,
+      "boundary_p95": 1.3568343042492708,
+      "boundary_max": 1.6384302139338298,
+      "interior_p95": 1.5466329168349473,
+      "interior_p999": 2.323054608245339,
+      "passed": true
+    },
+    {
+      "a": "drsrne2",
+      "side": "E",
+      "b": "drsrne1",
+      "score": 0.8357372540170872,
+      "boundary_p95": 1.2048543632486426,
+      "boundary_max": 1.3971661975894027,
+      "interior_p95": 1.441666453729737,
+      "interior_p999": 1.9970953219378342,
+      "passed": true
+    },
+    {
+      "a": "drsrnw1",
+      "side": "E",
+      "b": "drsrnw2",
+      "score": 0.8399910320879626,
+      "boundary_p95": 1.2057592125985646,
+      "boundary_max": 1.3971661975894027,
+      "interior_p95": 1.435442958958042,
+      "interior_p999": 2.018902147009289,
+      "passed": true
+    },
+    {
+      "a": "drsrnw1",
+      "side": "S",
+      "b": "drsrnw2",
+      "score": 0.9247312731817292,
+      "boundary_p95": 1.4023006846363046,
+      "boundary_max": 1.6384302139338291,
+      "interior_p95": 1.5164412898153634,
+      "interior_p999": 2.3163442573968642,
+      "passed": true
+    },
+    {
+      "a": "gdrdne1",
+      "side": "S",
+      "b": "gdrdne2",
+      "score": 0.7978791769729072,
+      "boundary_p95": 1.1213006753037087,
+      "boundary_max": 1.2273675488354445,
+      "interior_p95": 1.4053514713315842,
+      "interior_p999": 2.323555709932098,
+      "passed": true
+    },
+    {
+      "a": "gdrdne2",
+      "side": "E",
+      "b": "gdrdne1",
+      "score": 0.7932452449879633,
+      "boundary_p95": 1.1144340022681565,
+      "boundary_max": 1.3001135149146805,
+      "interior_p95": 1.4049047369771084,
+      "interior_p999": 1.8943890104781111,
+      "passed": true
+    },
+    {
+      "a": "gdrdnw1",
+      "side": "E",
+      "b": "gdrdnw2",
+      "score": 0.7918446312991926,
+      "boundary_p95": 1.1144340022681565,
+      "boundary_max": 1.3001135149146805,
+      "interior_p95": 1.4073897305329786,
+      "interior_p999": 1.9827728335563217,
+      "passed": true
+    },
+    {
+      "a": "gdrdnw1",
+      "side": "S",
+      "b": "gdrdnw2",
+      "score": 0.802384816599774,
+      "boundary_p95": 1.1213006753037085,
+      "boundary_max": 1.2273675488354436,
+      "interior_p95": 1.3974599869117517,
+      "interior_p999": 2.333410279881995,
+      "passed": true
+    }
+  ],
+  "all_masks_pass": true,
+  "protected_non_diagonals": 28,
+  "donor": "roads/v7/runtime/drsrew.png",
+  "donor_sha256": "117f83806b5c5ccde493d17162eb643692f90f73931d5de5ae6ed206df8f58e4",
+  "policy": "Retain raw metric failures at bends; do not modify continuous diagonal coverage to force one straight junction to match."
+}

@@ -1,0 +1,3 @@
+Saved the unmodified built-in generation to [raw_A.png](level_generation/ui/hud_inventory/mm9_pc_portraits/npc10/raw_A.png), with exact prompt, hashes and self-check in [generation_A.json](level_generation/ui/hud_inventory/mm9_pc_portraits/npc10/generation_A.json). Verified 7×4 layout and real transparency.
+
+No pixel edits or builds. Hair is shorter than requested; slot 9 reads more bruised than diseased.

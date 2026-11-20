@@ -1,0 +1,21 @@
+{
+  "family": "bar1",
+  "title": "MM6 Barbarian",
+  "descriptor_ids": [
+    478,
+    479,
+    480
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 664,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original MM6 adult female barbarian B: athletic brown-skinned warrior with shoulder-length dark reddish brown hair and small golden forehead band. Native light blue steel breastplate, small flared shoulder plates with gold edging, blue overlapping scale loin panel, exposed midriff and thighs, gold jeweled hip belt, black upper-arm bands with gold trim, reddish brown gloves and tall boots with blue knee plates and gold detailing. Broad straight silver blade with ornate golden hilt held in her right hand, long brown/red scabbard behind hip. Preserve native practical old pre-rendered fantasy design, exact anatomy, face, equipment, sword perspective and view-dependent occlusion. No new accessories, armor pieces or scenery.",
+  "regions": "Base B only: blue steel breastplate, shoulder/knee plates and scale panel distinct from reddish brown gloves and boots. Protect gold, brown skin, hair, silver blade and straps. Native variants later change metal and glove/boot colors independently.",
+  "variant_names": {
+    "663": "Barbarian A / pale steel and brown leather",
+    "664": "Barbarian B / blue steel and red leather",
+    "665": "Barbarian C / pale gold and green leather"
+  },
+  "material_module": "materials.py"
+}

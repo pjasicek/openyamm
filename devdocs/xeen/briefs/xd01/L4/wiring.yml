@@ -1,0 +1,290 @@
+format: 0
+variables: [feeding_time, mr_split, mrs_split]
+events:
+  - id: evt:barn_doors
+    preset: door
+    source: door:barn
+    title: Barn doors
+  - id: evt:bay_sign
+    preset: text
+    source: panel:bay_sign
+    title: Sign
+    effects:
+      - message: JOE THE EXTERMINATOR - ALWAYS FIRST ON THE SCENE.
+  - id: evt:cabinet
+    preset: chest
+    source: chest:cabinet
+    title: Cabinet
+  - id: evt:culvert_door
+    preset: door
+    source: door:culvert
+    title: Iron door
+  - id: evt:desk
+    preset: text
+    source: platform:desk
+    title: Joe's desk
+    effects:
+      - message: "Bills, piled by customer. 'Mayor's cellar: doom bugs removed, 400 gold.' 'Mayor's cellar: doom bugs removed again, 400 gold.' 'Mayor's cellar: slimes, 400 gold.' Under them a list headed SUPPLIERS, with every line scratched out."
+  - id: evt:feeding_sign
+    preset: text
+    source: panel:feeding_time
+    title: Sign
+    effects:
+      - message: FEEDING TIME
+  - id: evt:feeding_time
+    preset: switch
+    source: switch:feeding_time
+    title: FEEDING TIME
+    opens: [mover:pen_1_bars, mover:pen_2_bars, mover:pen_3_bars, mover:pen_4_bars, mover:pen_5_bars, mover:pen_6_bars]
+    once: true
+    sets: {map_var: feeding_time}
+    effects:
+      - lights_on: light:feeding_lamp
+    text: "FEEDING TIME! A red lamp flashes, and every set of bars in the cistern clanks up at once."
+    notes: "set:feeding_time: one use; lifts all six pens' bars and lights the red lamp over the lever, and does nothing else."
+  - id: evt:heart_gate
+    preset: door
+    source: door:heart_gate
+    title: Heart-painted gate
+    action: open
+  - id: evt:heart_sign
+    preset: text
+    source: panel:heart_sign
+    title: Sign
+    effects:
+      - message: "MR & MRS WOBBLES - DO NOT SEPARATE"
+  - id: evt:invoice_crate
+    preset: chest
+    source: chest:invoice
+    title: Crate
+    sets: {qbit: joe_invoice_found}
+    text: "Under a puff of itching powder, an invoice: 'Breeder Slimes, 1 mated pair. Doom Bugs, 5 (assorted). Deliver to J. the Exterminator, rear door. Pay on delivery.'"
+    notes: "goal:invoice and set:invoice_reveal: the invoice (joes_invoice) and the quest bit joe_invoice_found."
+  - id: evt:keep_out
+    preset: door
+    source: door:keep_out
+    title: KEEP OUT
+    condition: {item: pen_key}
+    locked_text: "KEEP OUT (THIS MEANS YOU, GUNTHER). The door is locked."
+    action: open
+    text: Joe's key turns in the lock.
+  - id: evt:keep_out_sign
+    preset: text
+    source: panel:keep_out
+    title: Sign
+    effects:
+      - message: "KEEP OUT (THIS MEANS YOU, GUNTHER)"
+  - id: evt:lane
+    preset: exit
+    source: exit:lane
+    title: Warehouse Lane
+  - id: evt:ledger
+    preset: text
+    source: panel:ledger
+    title: Joe's ledgers
+    effects:
+      - message: "Pest removal, Mayor's cellar: 400 gold. Pest supply: 20 gold. Profit! The last line, underlined twice: Retirement fund - behind the Chow."
+  - id: evt:loft_chest
+    preset: chest
+    source: chest:loft
+    title: Chest
+  - id: evt:mr_splits
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {kills: {monster: monster:mr_wobbles}}
+    once: true
+    sets: {map_var: mr_split}
+    effects:
+      - summon:
+          slot: 1
+          at: [1850, 7050, -416]
+          count: 2
+          tier: a
+          group: 2
+    text: "Mr Wobbles bursts and splits in two!"
+    notes: "set:mated_pair's split (the brief: below half health, by an actor script; here on death, the nearest the wiring says): two Slime 2 (stand-in Giant Rats of slot 1) in the pair's group, at his nest."
+  - id: evt:mrs_splits
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {kills: {monster: monster:mrs_wobbles}}
+    once: true
+    sets: {map_var: mrs_split}
+    effects:
+      - summon:
+          slot: 1
+          at: [2560, 7050, -416]
+          count: 2
+          tier: a
+          group: 2
+    text: "Mrs Wobbles bursts and splits in two!"
+  - id: evt:nest
+    preset: text
+    source: deco:honeymoon_nest
+    title: Nest
+    once: true
+    effects:
+      - gold: 75
+    text: "You dig through the pair's nest of slime and straw and find the rival exterminator's purse: 75 gold."
+    notes: "The nest is searched (the user's walk: nothing said it could be clicked). Its hover name says Nest, the scroll on the straw beside it draws the eye, and it gives the rival's purse once."
+  - id: evt:notice_board
+    preset: text
+    source: panel:notice_board
+    title: Notice board
+    effects:
+      - message: "JOE THE EXTERMINATOR. Pests gone or your money back! And, much smaller: (Money not back.)"
+  - id: evt:office_door
+    preset: door
+    source: door:office
+    title: Office door
+  - id: evt:pair_slain
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {all: [{kills: {group: 2}}, {map_var: mr_split}, {map_var: mrs_split}]}
+    once: true
+    sets: {qbit: joe_pair_slain}
+    effects:
+      - lights_off: light:heart_candle
+    text: The pink candle gutters out. Mr and Mrs Wobbles are separated at last.
+    notes: "goal:mated_pair: both breeder slimes and what they split into (all of group 2) dead sets the bonus bit (joe_pair_slain, 110011) and puts out the heart's candle. The map variables make sure both splits have happened, so the bit cannot come between a death and its split."
+  - id: evt:pen_1
+    preset: switch
+    source: mover:pen_1_bars
+    title: Barred gate
+    opens: [mover:pen_1_bars]
+    notes: "A pen's bars, clicked on themselves: they rise into the pen's ceiling and stay up (one pen at a time, the brief's other way)."
+  - id: evt:pen_2
+    preset: switch
+    source: mover:pen_2_bars
+    title: Barred gate
+    opens: [mover:pen_2_bars]
+    notes: "Clicked on the bars themselves: they rise into the pen's ceiling and stay up."
+  - id: evt:pen_3
+    preset: switch
+    source: mover:pen_3_bars
+    title: Barred gate
+    opens: [mover:pen_3_bars]
+    notes: "Clicked on the bars themselves: they rise into the pen's ceiling and stay up."
+  - id: evt:pen_4
+    preset: switch
+    source: mover:pen_4_bars
+    title: Barred gate
+    opens: [mover:pen_4_bars]
+    notes: "Clicked on the bars themselves: they rise into the pen's ceiling and stay up."
+  - id: evt:pen_5
+    preset: switch
+    source: mover:pen_5_bars
+    title: Barred gate
+    opens: [mover:pen_5_bars]
+    notes: "Clicked on the bars themselves: they rise into the pen's ceiling and stay up."
+  - id: evt:pen_6
+    preset: switch
+    source: mover:pen_6_bars
+    title: Barred gate
+    opens: [mover:pen_6_bars]
+    notes: "Clicked on the bars themselves: they rise into the pen's ceiling and stay up."
+  - id: evt:pest_notice
+    preset: text
+    source: panel:pest_notice
+    title: Notice
+    effects:
+      - message: "PEST OF THE MONTH: the Doom Bug. Last month: the Doom Bug. Next month: ask Joe."
+  - id: evt:river
+    preset: exit
+    source: exit:river
+    title: The riverbank
+  - id: evt:river_grate
+    preset: door
+    source: door:river_grate
+    title: River grate
+    action: open
+    sets: {qbit: culvert_grate_open}
+    text: "You heave the grate up; it catches and stays. The riverbank lies beyond."
+    notes: "set:culvert_grate: lifted from the inside; from now on X1's riverbank grate is a second way in."
+  - id: evt:rules
+    preset: text
+    source: panel:rules
+    title: Sign
+    effects:
+      - message: WAREHOUSE RULES. 1. No Gunther. 2. Do not feed the stock (Joe feeds the stock). 3. Do not pull the FEEDING TIME lever. 4. See rule 1.
+  - id: evt:shipping_door
+    preset: door
+    source: door:shipping
+    title: Shipping room door
+  - id: evt:shutter
+    preset: text
+    source: panel:shutter
+    title: Shuttered window
+    condition: {stat: {name: PerceptionSkill, at_least: 3}}
+    effects:
+      - message: One shutter is loose. Through the gap a hand can reach the bar of the loading doors.
+    else_effects:
+      - message: "A shuttered window, nailed fast."
+  - id: evt:slime_bucket
+    preset: script
+    source: plate:bucket
+    trigger: step
+    once: true
+    effects:
+      - damage:
+          amount: 4
+          kind: body
+          who: current
+      - text: A bucket of slime tips over the doorway. Joe thanks you for your interest.
+    notes: "set:slime_bucket: the first step into the office; spent afterwards."
+  - id: evt:stash_chest
+    preset: chest
+    source: chest:stash
+    title: Chest
+  - id: evt:stash_door
+    preset: door
+    source: door:stash
+    title: Sacks of JOE'S PREMIUM SLIME CHOW
+    action: open
+    text: The stack of sacks slides aside on a hidden runner.
+  - id: evt:street_doors
+    preset: door
+    source: door:street
+    title: Loading doors
+    condition: {any: [{item: warehouse_key}, {stat: {name: PerceptionSkill, at_least: 3}}]}
+    locked_text: "The loading doors are barred from inside. Joe's spare key would open them; so might a sharp eye on those shutters."
+    action: open
+    text: "The bar lifts, and the loading doors roll apart."
+    notes: "entrance:street_doors: the warehouse key (the drunk's rumour on X1) or a character with Perception 3 (the loose shutter); either opens the doors for good."
+  - id: evt:strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:tank_1
+    preset: text
+    source: platform:tank_1
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_2
+    preset: text
+    source: platform:tank_2
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_3
+    preset: text
+    source: platform:tank_3
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_4
+    preset: text
+    source: platform:tank_4
+    title: Bug tank
+    text: "The glass of this tank is cracked low down, and it is empty but for slime. Whatever was in it is out."
+  - id: evt:tank_5
+    preset: text
+    source: platform:tank_5
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_6
+    preset: text
+    source: platform:tank_6
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+notes: "Every mechanism is a preset; the scripts (the bucket trap, the pair's splits and their death check) are written with conditions and effects, no Lua."

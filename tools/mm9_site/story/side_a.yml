@@ -1,0 +1,336 @@
+# Side and promotion quest walkthroughs, part A: Sturmford and Drangheim (format: BRIEF_SIDE.md).
+quests:
+  # ---- Sturmford: the Gladiator promotion (Fridleif Gjukissen's three labours) --------------------------------------
+  - quest: kill-a-basilisk
+    from: {map: sturmfordcity, npc: "Fridleif Gjukissen"}
+    to: {map: sturmfordcity, npc: "Fridleif Gjukissen"}
+    summary: "The first Gladiatorial Labour: bring Fridleif Gjukissen a basilisk skin."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. The Gladiator promotion advances a Cavalier to Champion, an Initiate to Master, a Minotaur to Minotaur Lord, a Troll to War Troll and a Dragon to Great Wyrm."
+    steps:
+      - "Fridleif is the clerk on the upper floor of the town hall, the building just north of Bjarni's longhouse. Say 'We have heard that you can promote Mercenaries', then 'Yes, we have members who would like to be Gladiators'."
+      - "Ask about the three labours if you like, then say 'We shall do all of these things'. This starts all three labours at once."
+      - "Basilisks roam outside the walls of Anskram Keep, just south-west of its gates on the Sturmford map. More live in the Thronheim wilderness (Basilisks, Fibrase and King Basilisks) and in Dook's Castle."
+      - "Get a Basilisk Skin or a King Basilisk Skin. The labour checks only that you carry one, not who killed the basilisk."
+      - "Click Fridleif with the skin in your packs, then say 'We have the Basilisk Skin'. He does not take it."
+      - "When all three labours are done, tell him 'We've completed all the labors'."
+    tips:
+      - "If you have no skin, The Golden Dryad and Hreidmar's Stuff in Thjorgard City and Stonecaster's Scrolls in Frosgard City can have them in stock."
+      - "Basilisks spit poison. Shoot them from range."
+    reward: "After all three labours: 37,500 XP, 5,000 gold and the Gladiator promotion for every eligible member."
+    points:
+      - {map: sturmford, name: "Basilisk"}
+      - {map: sturmford, name: "To Anskram Keep"}
+    maps:
+      - {map: sturmfordcity, focus: "Fridleif", caption: "Fridleif is upstairs in the town hall, north of the Jarl's longhouse."}
+      - {map: sturmford, focus: "Basilisk", caption: "Basilisks gather just outside Anskram Keep's gates."}
+
+  - quest: get-kira-s-shield
+    from: {map: sturmfordcity, npc: "Fridleif Gjukissen"}
+    to: {map: sturmfordcity, npc: "Fridleif Gjukissen"}
+    summary: "The second Gladiatorial Labour: steal Kira the Cold's shield from her palace in Thronheim."
+    requires: "The labours accepted from Fridleif ('We shall do all of these things'). Without them you cannot take the shield."
+    steps:
+      - "Go to Thronheim City. Kira's palace is in the corner of the city farthest from the land gate, beyond the dock gate."
+      - "The shield lies in the hallway just outside Kira's council room. Pick it up to take Kira's Shield. Nobody stops you."
+      - "Return to Fridleif in Sturmford City and say 'We have Kira's Shield'. He keeps the shield when the conversation ends."
+    reward: "Counts toward the Gladiator promotion (37,500 XP, 5,000 gold once all three labours are done)."
+    points:
+      - {map: thronheimcity, name: "Shield"}
+      - {map: thronheimcity, name: "Kira the Cold"}
+    maps:
+      - {map: thronheimcity, focus: "Shield", caption: "The shield is outside Kira's door, in the palace in the far corner of the city."}
+
+  - quest: win-in-the-arena
+    from: {map: sturmfordcity, npc: "Fridleif Gjukissen"}
+    to: {map: sturmfordcity, npc: "Fridleif Gjukissen"}
+    summary: "The third Gladiatorial Labour: win a fight at Lord level in the Arena in Thjorgard City."
+    requires: "The labours accepted from Fridleif before you pick the fight. A Lord fight without them pays gold and does not count."
+    steps:
+      - "Enter the Arena from the east edge of Thjorgard City and talk to the Arena Master at the entrance: 'We're here to fight', then 'We're the best there is! Send us in at Lord!'."
+      - "Walk down the hall and through the double doors into the arena. They lock behind you, and one to five opponents come out of the two side pens."
+      - "Kill them all. The crowd cheers and the doors unlock."
+      - "Go back to the Arena Master and say 'We won!'. The labour is done; it pays no purse."
+      - "Report to Fridleif in Sturmford City: 'We have won in the Arena'."
+    tips:
+      - "Opponents are drawn at 1 to 2.5 times your party's average level, so the fight is easier while your characters are low-level."
+      - "The Arena Master runs one fight per visit. Leave the Arena and come back for another."
+      - "The journal's 'won' note says to return to Fridleif 'of Guberland'. That is a slip in the original text: he is in Sturmford."
+      - "During Grehgknak's crusade to save Jarl Sven, the Arena holds no fights until Byri the Scarred has been exposed."
+    reward: "Counts toward the Gladiator promotion (37,500 XP, 5,000 gold once all three labours are done)."
+    points:
+      - {map: thjorgardcity, name: "To The Arena"}
+      - {map: thearena, name: "Arena Master"}
+    maps:
+      - {map: thearena, focus: "Arena Master", caption: "The Arena Master stands at the entrance; the fighting floor is through the doors at the end of the hall."}
+      - {map: thjorgardcity, focus: "Arena", caption: "The Arena entrance is on the east edge of Thjorgard City."}
+
+  # ---- Sturmford: Grehgknak's crusades (Paladin promotion), the Oord family -------------------------------------------
+  - quest: arrest-the-thief
+    from: {map: sturmfordcity, npc: "Fridleif Gjukissen"}
+    to: {map: sturmfordcity, npc: "Jail guard"}
+    summary: "Find who is stealing from Sturmford's shopkeepers, arrest him and lock him in the town hall jail."
+    requires: "Grehgknak the Right's Three Crusades accepted at Lindisfarne Monastery (the Paladin promotion). This is the crusade to 'damn a family'."
+    steps:
+      - "Ask Fridleif, the clerk upstairs in Sturmford's town hall, 'Have you had any trouble with thieves lately?'. He confirms it. The clerks in the other towns have no thief."
+      - "The thief is Hatlati Oord, an old man on the temple grounds at the east edge of the city."
+      - "Tell him 'We've been watching you, Hat'lai', then 'Yes. We're going to have to arrest you', 'You've committed a crime...' and 'Sorry.'."
+      - "Go to the jail on the ground floor of the town hall and talk to the guard beside the cell: 'We have a criminal here'. When the conversation ends, Hatlati is locked in the cell."
+    tips:
+      - "If you leave the city before seeing the guard, Hatlati is in the cell when you come back."
+      - "Do not kill Hatlati. A dead Hatlati never reaches the cell."
+    points:
+      - {map: sturmfordcity, name: "Hatlati Oord"}
+      - {map: sturmfordcity, name: "Jaildoor"}
+    maps:
+      - {map: sturmfordcity, focus: "Hatlati", caption: "Hatlati is by the temple on the east edge of the city. The jail is in the town hall, north of the longhouse."}
+
+  - quest: help-the-oor-ds-help-themselves
+    from: {map: sturmfordcity, npc: "Hatlati Oord"}
+    to: {map: sturmfordcity, npc: "Itlor Oord"}
+    summary: "With their father in jail, find a way for Hatlati's children to provide for themselves."
+    requires: "Hatlati arrested (Arrest the thief)."
+    steps:
+      - "The Oord home is in the north of the city, just west of Ludwig's house. Itlor, the eldest son, is upstairs. His younger siblings Yoltzin, Cetzpal and Mazat are there too."
+      - "Tell Itlor 'And now he's in jail', then 'Why don't you get a job?' and 'Maybe we can help you with that'."
+      - "That ends this note and starts Find Itlor a job."
+    tips:
+      - "The younger children only react to the news. Talking to them is optional."
+    points:
+      - {map: sturmfordcity, name: "Yoltzin Oord"}
+      - {map: sturmfordcity, name: "Cetzpal Oord"}
+      - {map: sturmfordcity, name: "Mazat Oord"}
+    maps:
+      - {map: sturmfordcity, focus: "Itlor", caption: "The Oords live in the north of the city, west of Ludwig's house."}
+
+  - quest: find-itlor-a-job
+    from: {map: sturmfordcity, npc: "Itlor Oord"}
+    to: {map: sturmfordcity, npc: "Itlor Oord"}
+    summary: "Find someone in Sturmford who will give Itlor Oord honest work, then report to Grehgknak the Right."
+    requires: "Itlor asked for help (Help the Oor'ds help themselves)."
+    steps:
+      - "Go to Injor Gostat's magic shop, Magical Touches, in the south of the city. Ask 'Are you looking for any help?', then 'We might have the perfect person' and 'Itlor Oord is looking for work'."
+      - "Go back to Itlor: 'We've found you a job', then 'At the Magic Shop. Injor needs someone to help out'."
+      - "Optional: tell Hatlati in his cell 'Your children will be taken care of, Hatlati'."
+      - "For the promotion, return to Grehgknak the Right at Lindisfarne Monastery and say 'We have completed our Crusades'. You also need his first crusade, saving Jarl Sven."
+    reward: "No reward from the Oords. Grehgknak's Paladin promotion pays 37,500 XP and 5,000 gold and promotes every Crusader to Hero."
+    points:
+      - {map: sturmfordcity, name: "Injor Gostat"}
+    maps:
+      - {map: sturmfordcity, focus: "Injor", caption: "Injor's magic shop is in the south of the city; Itlor lives in the north."}
+
+  # ---- Sturmford: other side quests --------------------------------------------------------------------------------
+  - quest: find-the-saboteur
+    from: {map: sturmfordcity, npc: "Bjarni Herjolfssen"}
+    to: {map: sturmfordcity, npc: "Bjarni Herjolfssen"}
+    summary: "Find the Drangheim agent who has been sabotaging Sturmford's defences."
+    steps:
+      - "Bjarni Herjolfssen, no relation to the Jarl, drinks in the tavern by the docks in the north-east corner of the city. Say 'Perhaps we can buy you a drink?' and 'What's your trouble?'."
+      - "Then 'We'd be happy to help', 'You think someone's been deliberately breaking these things?', 'You can't do anything about it?' and 'We will try to sniff out the spies for you'."
+      - "The spy is Randver the Storm, one of the Jarl's scribes, on the ground floor of the town hall. Say 'We'd like to ask you a few questions', then 'What do you know about Anskram Keep?'."
+      - "Follow with ''Those' Sturmfordians? What do you mean?', 'Why do I think that you're lying to us?' and 'What do you know about sabotage?'. He blurts out that he unlocked the town gates."
+      - "When the conversation ends, Randver escapes by Town Portal and is gone for good."
+      - "Back in the tavern, tell Bjarni Herjolfssen 'We've discovered who the saboteur is', then 'A man named Randver the Storm' and 'He disappeared'."
+    tips:
+      - "Randver's telling questions appear only after Herjolfssen has given you the task. 'What do you know about Bjarni Thorvaldssen?' leads to the same confession."
+    reward: "800 XP when Randver flees; 2,000 XP and 500 gold from Bjarni Herjolfssen."
+    points:
+      - {map: sturmfordcity, name: "Randver the Storm"}
+    maps:
+      - {map: sturmfordcity, focus: "Randver", caption: "Herjolfssen is in the tavern in the north-east; Randver is in the town hall north of the Jarl's palace."}
+
+  - quest: take-love-letter-to-kira-the-cold
+    from: {map: sturmfordcity, npc: "Jarl Bjarni Thorvaldssen"}
+    to: {map: sturmfordcity, npc: "Jarl Bjarni Thorvaldssen"}
+    summary: "Deliver Jarl Bjarni's love poem to Kira the Cold in Thronheim and bring back her answer."
+    requires: "Offered only before the war council (Chapter II)."
+    steps:
+      - "On his throne in the Jarl's palace in Sturmford City, ask Bjarni 'Is there anything we can do for you?', then 'What can we do for you?' and 'Of course. We would be happy to aid you'. He hands you the Love Letter when the conversation ends."
+      - "Go to Kira the Cold in her palace in Thronheim City: 'We've been sent by Bjarni Thorvaldssen', then 'He gave us this letter to give to you', 'He seems quite taken with you', 'What should we tell him for you?' and 'Alright. So we should tell him the truth.'. She keeps the letter."
+      - "Return to Bjarni: 'We have come with a response from Kira the Cold'. Either answer ('...no.' or '...smiled.') finishes the quest and pays the same."
+    tips:
+      - "Kira's palace is in the corner of Thronheim City farthest from the land gate."
+      - "Sturmford has no boat to Thronheim: take the Dragon Passage to Drangheim, the Black Hammer to Guberland and the Flying Bird to Thronheim (7 days); the Raider brings you back to Sturmford in 4."
+    reward: "12,000 XP from Kira when she takes the letter; 12,500 XP and 2,000 gold from Bjarni."
+    points:
+      - {map: thronheimcity, name: "Kira the Cold"}
+    maps:
+      - {map: sturmfordcity, focus: "Jarl Bjarni", caption: "Bjarni sits on his throne in the Jarl's palace."}
+      - {map: thronheimcity, focus: "Kira the Cold", caption: "Kira's palace is in the far corner of Thronheim City."}
+
+  - quest: retrieve-ludwig-s-manuscript
+    from: {map: sturmfordcity, npc: "Ludwig"}
+    to: {map: sturmfordcity, npc: "Ludwig"}
+    summary: "Fetch the manuscript Ludwig Van dropped down the drain of his Beet Hoven, from the sewers under Sturmford."
+    steps:
+      - "Ludwig keeps the Beet Hoven, the house north of the town hall. He is hard of hearing: say 'We'd like you ask you a few questions', 'You don't look that busy to us', 'What happened to your manuscript?', 'Why can't you go down there?', both 'Perhaps we could go down there for you' lines, and 'We'll get your manuscript for you'."
+      - "Click the drain grate in his house to open it, then step down into the sewers. Other sewer entrances are by the tavern, at the east edge beyond the temple and in the south-west corner of the city."
+      - "The upper level is a ring of sewage channels. Follow the channel south to the round shaft and climb down its long ladder into the flooded cavern; swim under the shaft's south wall and climb out onto the sill of the catacombs."
+      - "The manuscript, a bundle of papers called 'My Evermore Beloved', lies at the dead end of the tunnel under the catacombs, against a grate. Go west through the catacombs to the double door on their south side and drop through the gap in the tall room's floor into the tunnel, then follow it west and south. Take it."
+      - "The only way back up is through the lower sewers: west to the ladder up to the catacombs, east through the catacombs to the cavern, then up the long ladder. The east exit, behind a door at the end of the upper channels, brings you out in the city's south-west corner."
+      - "Return to Ludwig: 'We've found your manuscript', then 'WE FOUND YOUR MANUSCRIPT!!' and 'You're welcome'. He takes the manuscript when you leave."
+    tips:
+      - "When you enter by a sewer entrance, a bottle bobs on the sewage, then drifts through the channels and the catacombs to the manuscript. Follow it."
+      - "Touching a raised coffin opens it, and the Petrified Mummy inside wakes and kicks its way out. Chests here are trapped."
+      - "At the south end of the tunnel, either lever opens the great door to the hedge maze of skeletons. The well in the maze gives +5 Speed permanently."
+      - "If you find the manuscript first, ask Ludwig 'Does it look like this?'."
+    reward: "10,500 XP and 2,000 gold."
+    points:
+      - {map: beethoven, name: "Manuscript"}
+      - {map: sturmfordcity, name: "To Beet Hoven"}
+    maps:
+      - {map: beethoven, focus: "Manuscript", caption: "The manuscript is on the lower level, in the tunnel under the catacombs' tall room."}
+      - {map: sturmfordcity, focus: "Ludwig", caption: "Ludwig's house with the drain grate, north of the town hall."}
+
+  - quest: find-out-who-is-spreading-gossip
+    from: {map: drangheimcity, npc: "Sigmund the Stressed"}
+    to: {map: drangheimcity, npc: "Sigmund the Stressed"}
+    summary: "Trace the rumours troubling Jarl Sigmund back to their source and tell the gossip to stop."
+    steps:
+      - "In the Town Hall on the west side of Drangheim City, on its upper floor, tell Sigmund 'We'd like to ask you a few questions', then 'Do you have any news?', 'What rumors?', 'That is a problem.' and 'We will do this.'."
+      - "Find Greudach A'Dorad at the south edge of the city: 'We'd like to talk to you about your \"news\"', then 'We want to know who you have been hearing it from', 'Not everyone...' and 'We promise.'. She names Marsaili A'Lanth in Sturmford."
+      - "Marsaili walks the streets east of Sturmford's town hall, north of the Jarl's palace. Say 'We'd like to talk to you about your news', 'We understand you've been spreading gossip to Drangheim.', then 'We've come to ask you to stop', 'Perhaps we will inform the Jarl', 'Not Bjarni. Sigmund.' and 'Alright. Should have kept your mouth shut.'. She refuses."
+      - "Report to Sigmund: 'We've found out who's been spreading the gossip', then 'A person named Marsaili A'Lanth in Sturmford'."
+    tips:
+      - "Telling Sigmund only 'Greudach A'Dorad talked' just sends you on to Sturmford."
+    reward: "5,000 XP and 5,000 gold."
+    points:
+      - {map: drangheimcity, name: "Greudach A'Dorad"}
+      - {map: sturmfordcity, name: "Marsaili A'Lanth"}
+    maps:
+      - {map: drangheimcity, focus: "Greudach", caption: "Sigmund's Town Hall is on the west side of the city; Greudach stands at its south edge."}
+      - {map: sturmfordcity, focus: "Marsaili", caption: "Marsaili is by the town hall, north of the palace."}
+
+  # ---- Drangheim: the Crusader promotion (Keith Bloodaxe) and the villagers' things --------------------------------
+  - quest: defeat-the-yobboes
+    from: {map: drangheimcity, npc: "Keith Bloodaxe"}
+    to: {map: drangheimcity, npc: "Keith Bloodaxe"}
+    summary: "The Crusader trial: wipe out the Yobboe Gang outside Drangheim and give the villagers back what the gang took."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. The Crusader promotion advances a Paladin to Crusader, a Ranger to Hunter and a Monk to Initiate."
+    steps:
+      - "Keith Bloodaxe is in the temple, the octagonal building north of the city centre. Say 'We have come seeking promotions', then 'Yes. Some of us would like to become Crusaders', 'What is the task?' and 'We will accept this task'."
+      - "Leave the city. The Yobboe camp is in the valley north-east of the city gate, west of the mountain. Three Bandits (level 22) and four Cutpurses camp there. The sixth kill finishes the gang (6,000 XP)."
+      - "At the back of the camp, take the Farmer's Plow, the Midwife's Bag of Herbs and the Dolly. They appear only once you have Keith's task."
+      - "Take each item to its owner in the village north-west of the city gate: the plow to Hring the Plowhands, the herbs to Ragnheid Lifegiver and the dolly to the girl Tyock A'Norta a'leipshi (see Return the Plow, Herbs and Dolly)."
+      - "Report to Keith: 'We have completed the task'. This needs all six kills and all three items returned."
+    tips:
+      - "The Bandits hit hard for this stage of the game. Pull them away from the camp one or two at a time."
+    reward: "6,000 XP for the gang, 2,000 XP and 500 gold per returned item, then 16,500 XP, 5,000 gold and the Crusader promotion from Keith."
+    points:
+      - {map: drangheim, name: "Bandit"}
+      - {map: drangheim, name: "Plow"}
+      - {map: drangheim, name: "To Drangheim City"}
+    maps:
+      - {map: drangheim, focus: "Plow", caption: "The Yobboe camp lies north-east of the city gate; the village with the three owners is on the hill north-west of the gate."}
+      - {map: drangheimcity, focus: "Keith", caption: "Keith Bloodaxe is in the temple north of the centre."}
+
+  - quest: return-the-plow
+    from: {map: drangheim, npc: "Hring the Plowhands"}
+    summary: "Give Hring the Plowhands back the plow the Yobboes took."
+    requires: "Keith Bloodaxe's Crusader task accepted (the plow is not there before)."
+    steps:
+      - "Accept Keith Bloodaxe's Crusader task in the Drangheim City temple first (see Defeat the Yobboes). The Yobboes' loot is not at the camp before that."
+      - "Take the Farmer's Plow from the back of the Yobboe camp, north-east of the Drangheim City gate. You do not have to kill the gang first, but it guards the spot."
+      - "Hring stands with the other villagers by the houses north-west of the city gate. Say 'We have your plow'. He takes it when the conversation ends."
+    reward: "2,000 XP and 500 gold."
+    points:
+      - {map: drangheim, name: "Plow"}
+    maps:
+      - {map: drangheim, focus: "Hring", caption: "The plow is at the Yobboe camp; Hring is in the village north-west of the city gate."}
+
+  - quest: return-the-dolly
+    from: {map: drangheim, npc: "Tyock A'Norta a'leipshi"}
+    summary: "Give little Tyock A'Norta a'leipshi back her doll, Lori, which the Yobboes took."
+    requires: "Keith Bloodaxe's Crusader task accepted (the dolly is not there before)."
+    steps:
+      - "Accept Keith Bloodaxe's Crusader task in the Drangheim City temple first (see Defeat the Yobboes). The Yobboes' loot is not at the camp before that."
+      - "Take the Dolly from the back of the Yobboe camp, north-east of the Drangheim City gate. You do not have to kill the gang first, but it guards the spot."
+      - "Tyock stands with her mother Iosobail by the houses north-west of the city gate. Say 'We've found your dolly'. She takes it when the conversation ends."
+    reward: "2,000 XP and 500 gold."
+    points:
+      - {map: drangheim, name: "Dolly"}
+    maps:
+      - {map: drangheim, focus: "Tyock", caption: "The dolly is at the Yobboe camp; Tyock is in the village north-west of the city gate."}
+
+  - quest: return-the-herbs
+    from: {map: drangheim, npc: "Ragnheid Lifegiver"}
+    summary: "Give the midwife Ragnheid Lifegiver back the herbs the Yobboes took."
+    requires: "Keith Bloodaxe's Crusader task accepted (the herbs are not there before)."
+    steps:
+      - "Accept Keith Bloodaxe's Crusader task in the Drangheim City temple first (see Defeat the Yobboes). The Yobboes' loot is not at the camp before that."
+      - "Take the Midwife's Bag of Herbs from the back of the Yobboe camp, north-east of the Drangheim City gate. You do not have to kill the gang first, but it guards the spot."
+      - "Ragnheid stands with the other villagers by the houses north-west of the city gate. Say 'We've got your bag of herbs'. She takes it when the conversation ends."
+    reward: "2,000 XP and 500 gold."
+    points:
+      - {map: drangheim, name: "Herbs"}
+    maps:
+      - {map: drangheim, focus: "Ragnheid", caption: "The herbs are at the Yobboe camp; Ragnheid is in the village north-west of the city gate."}
+
+  # ---- Drangheim: the Assassin promotion (Atli the Quick) ------------------------------------------------------------
+  - quest: steal-the-knife
+    from: {map: drangheimcity, npc: "Atli the Quick"}
+    to: {map: drangheimcity, npc: "Atli the Quick"}
+    summary: "The Assassin's Trial, first task: break into Lord Kluso's house in Drangheim City and steal the dagger he guards."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. The Assassin promotion advances a Rogue to Assassin and a Vampire to Nosferatu."
+    steps:
+      - "Atli the Quick drinks in The Dancing Bard, the tavern south of the city centre. Say 'We have come seeking promotions', then 'Yes.', hear both tasks, and say 'We will do this.'. You get both tasks at once (see Kill Guaire A'Velsi)."
+      - "Kluso's House is the large house in the north of the city. Walk up to its locked front door on the south side and you are taken inside, onto the ground floor."
+      - "Four Guard Captains (level 33) and Lord Kluso are awake on the ground floor. Eight more guards sleep upstairs, and seven hidden guards wait for the alarm. Clear the ground floor first."
+      - "The dagger is on the mantle in the library, the ground-floor room in the corner farthest from the front door, next to a black chest. Open the chest before you take the dagger: it holds Black's Heart, a strong Assassin weapon, and the Chedian Chain (trap level 18)."
+      - "Click the dagger to take it. An alarm bell rings, the hidden guards appear and the sleepers wake. Leave by the nearest exit rather than fight them all."
+      - "Return to Atli. Once Guaire is also dead, say 'We have completed your tasks'."
+    tips:
+      - "The upstairs window on the north side of the house (it glows red for a party with enough Perception) is a second way in. It puts you on the upper floor, right above the library, among the sleeping guards."
+    reward: "Both tasks done: 37,500 XP, 5,000 gold and the Assassin promotion for every eligible member."
+    points:
+      - {map: drangheimcity, name: "To Kluso's House"}
+      - {map: klusoshouse, name: "Chest L6"}
+    maps:
+      - {map: klusoshouse, focus: "Chest", caption: "Ground floor: the dagger is on the library mantle beside the black chest, across the house from the front door and the stairs."}
+      - {map: drangheimcity, focus: "Kluso", caption: "Kluso's House is in the north of the city: front door on its south side, window on its north side."}
+
+  - quest: kill-guaire-a-velsi
+    from: {map: drangheimcity, npc: "Atli the Quick"}
+    to: {map: drangheimcity, npc: "Atli the Quick"}
+    summary: "The Assassin's Trial, second task: find Guaire A'Velsi in Drangheim City and kill him."
+    requires: "Atli's two tasks accepted. Guaire is not in town before that."
+    steps:
+      - "Guaire A'Velsi looks like a bandit, not a townsman. He hangs around the well just west of the tavern."
+      - "If you talk to him, he asks whether you are following him: answer 'Of course not'."
+      - "Attack and kill him. He has about 300 hit points. His death completes the task and he is gone for good."
+      - "Return to Atli in the tavern. With the dagger also stolen, say 'We have completed your tasks'."
+    tips:
+      - "Atli asks for the kill 'in broad daylight', but the rework does not check the time of day."
+    reward: "Both tasks done: 37,500 XP, 5,000 gold and the Assassin promotion."
+    points:
+      - {map: drangheimcity, name: "Guaire A'Velsi"}
+    maps:
+      - {map: drangheimcity, focus: "Guaire", caption: "Guaire stays near the well west of the tavern, where Atli sits."}
+
+  # ---- The Lich promotion: instructions in the Chasm of the Dead, the engine in the Lich Lab -------------------------
+  - quest: become-a-lich
+    from: {map: chasmofthedead, npc: "Lich Instructions"}
+    summary: "Find the Lich Instructions in the Chasm of the Dead, brew an Elixir of Defedation in the Lich Lab and let its Transmutation Engine turn your Wizards into Liches."
+    requires: "A Wizard in the party (a Sorcerer promoted by the Scholar quest). Each would-be Lich needs their own elixir; the lab has jars for four."
+    steps:
+      - "Optional: in Frosgard City, Skulkil the Dark (near the tavern) tells you about the Lich's Transmutation when you ask 'Do you have any news?'. You do not need him."
+      - "Enter the Chasm of the Dead, north-east of Drangheim City, and go down into the chasm along the canyon's ledge path. Partway down, a door in the west wall of the ledge path opens on a corridor; follow it west and down the stairs to the X-shaped hall. Take the Lich Instructions from the top of the pyramid in its centre."
+      - "Travel to Yorwick through the Connecting Tunnels from Thronheim, and enter the Lich Lab. The entrance is on Level B."
+      - "Level B: the storeroom just south of the great central hall holds four jars and seven bags of herbs. Take one Jar and one Elixir Ingredients for each would-be Lich."
+      - "Level A: in the kitchen at the east end, click the cook pot with Elixir Ingredients to get Elixir Fluid. Then click the burner beside it with the fluid and a jar to get an Elixir of Defedation. Repeat for each Lich."
+      - "Put each elixir into the pack of the Wizard who will use it. The engine takes it from there; do not use it beforehand."
+      - "Level C: the Transmutation Engine fills the central chamber. Step into the south-east of the four pods at its base and click the switch inside. The glass lid drops, and lightning strikes three seconds later."
+      - "Every Wizard carrying an elixir becomes a Lich. The pod rises again two seconds later."
+    tips:
+      - "Without the Lich Instructions the engine only shudders, so get them first."
+      - "The lever on the catwalk console above the engine only moves. The switch in the pod is what counts."
+      - "The lab is full of undead. A summoner raises Spectres from four ghost pools, up to ten, until you kill it. The cage rooms burst open when you walk in, and the skeleton transformers' switches spawn skeletons."
+      - "The Elixir Instructions note lies in the kitchen."
+    reward: "55,500 XP at the first transmutation."
+    points:
+      - {map: frosgardcity, name: "Skulkil the Dark"}
+      - {map: yorwick, name: "To Lich Lab"}
+      - {map: lichlab, name: "To Yorwick"}
+      - {map: lichlab, name: "Engine Lever"}
+    maps:
+      - {map: chasmofthedead, focus: "Lich Instructions", caption: "The instructions lie in the X-shaped hall, reached by a door off the canyon's ledge path."}
+      - {map: lichlab, focus: "Engine Lever", caption: "Level C: the engine fills the central chamber; the working pod with the switch is on its south-east side."}

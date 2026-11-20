@@ -1,0 +1,28 @@
+id: rulesets.maw_quick_load_warning
+title: "Ruleset - Beyond Madness: during a fight the first quick load (F10) only warns that loading counts a death; a second press loads"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, challenge_mode: beyond_madness}
+  - save_game: madness_quiet
+  # Out of a fight there is nothing to warn about: one press loads.
+  - quick_load: {save: madness_quiet, expect: loaded}
+  - assert:
+      ruleset: {id: maw, madness_pending: false, madness_deaths: 0}
+  # A Skeleton Bowman's arrow hits the party.
+  - spawn_actor: {monster_id: 172, near_party: true}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      ruleset: {id: maw, madness_pending: true, madness_deaths: 0}
+  # The first press only warns; nothing is loaded and no death counted.
+  - quick_load: {save: madness_quiet, expect: warned, expect_status: "will count as death, are you sure to proceed? Press again to load."}
+  - assert:
+      ruleset: {id: maw, madness_pending: true, madness_deaths: 0}
+  # The second press (within ten seconds) loads, and the load counts the death.
+  - quick_load: {save: madness_quiet, expect: loaded}
+  - assert:
+      ruleset: {id: maw, madness_pending: false, madness_deaths: 1}

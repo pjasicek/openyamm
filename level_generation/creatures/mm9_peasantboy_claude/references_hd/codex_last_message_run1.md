@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantboy_claude/references_hd/00_three_quarter.png), unresized at 1536×1024 using built-in image generation. Both raw returns, prompts and input hashes are recorded in `generation_runs.json`.
+
+Stopped after run 1 and one correction. Residual faults: halo, tight margins and swept fringe; individual fingers remain difficult to verify.

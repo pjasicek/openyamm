@@ -1,0 +1,98 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          9484.0,
+          9450.0,
+          1568.0
+        ],
+        "span": 12500
+      },
+      "image": "level_generation/evidence/mm8/out01_decor_settlement.png",
+      "camera_position": [
+        15143.693359375,
+        -1869.3857421875,
+        15402.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 14,
+          "name": "tree04",
+          "position": [
+            8392,
+            9216,
+            1344
+          ]
+        },
+        {
+          "index": 423,
+          "name": "plant03",
+          "position": [
+            9584,
+            10640,
+            1344
+          ]
+        },
+        {
+          "index": 422,
+          "name": "rock19",
+          "position": [
+            7040,
+            12376,
+            960
+          ]
+        },
+        {
+          "index": 778,
+          "name": "dec03",
+          "position": [
+            8552,
+            7424,
+            960
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          -512,
+          960,
+          1632
+        ],
+        "span": 13000
+      },
+      "image": "level_generation/evidence/mm8/out01_decor_landscape.png",
+      "camera_position": [
+        5374.08056640625,
+        -10812.1611328125,
+        16020.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 45,
+          "name": "tree06",
+          "position": [
+            -512,
+            960,
+            1632
+          ]
+        },
+        {
+          "index": 409,
+          "name": "plant15",
+          "position": [
+            -3200,
+            128,
+            1632
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

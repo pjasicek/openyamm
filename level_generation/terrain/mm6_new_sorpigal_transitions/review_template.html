@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>New Sorpigal — land transition bench</title>
+<style>
+body{background:#172029;color:#e9e3d7;font:16px/1.5 system-ui;margin:24px}a{color:#a8d5ff}
+.controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:14px 0}select,button,input{font:inherit}
+#case{max-width:95vw}#viewport{overflow:auto;max-height:75vh;border:1px solid #596774}canvas{display:block}
+.note{padding:12px;background:#293943}#status{white-space:pre-wrap}details{margin:16px 0}
+</style>
+<h1>New Sorpigal — land transition bench</h1>
+<p>Flat, north-up texture assemblies. Water cells are blank. This browser view checks shapes and image joins;
+engine mipmaps, oblique sampling and anisotropy need the separate in-game gate.</p>
+<p><a href="review.html">In-game results and download</a> · <a href="README.md">Mask inventory and iteration policy</a> · <a href="mask_inventory.json">33 mask jobs</a> ·
+<a href="source_conflicts.json">Original-map conflicts</a> · <a href="adjacency_constraints.json">Edge constraints</a></p>
+<div class="controls"><label>Cases <select id="group"></select></label><button id="prev">Previous</button>
+<button id="next">Next</button><label>View <select id="mode"><option value="original">Original tiles</option>
+<option value="master">Selected masters + original mixed tiles</option><option value="candidate" selected>Connected v5 composites</option>
+<option value="mask">Connected v4 masks (white = foreground)</option></select></label></div>
+<select id="case" aria-label="Review case"></select>
+<div class="controls"><label>Pixels/tile <select id="size"><option>64</option><option>128</option>
+<option selected>256</option><option>512</option></select></label>
+<label><input type="checkbox" id="grid">Grid and tile names</label>
+<label><input type="checkbox" id="smooth">Browser smoothing</label>
+<button id="export">Save view PNG</button></div>
+<details><summary>Load a candidate iteration</summary>
+<p>Select PNGs named with native tile names, for example <code>6grdrtn.png</code>. Masks and composites load
+separately. Load a complete iteration each time; loading replaces the previous set. Unknown names and wrong sizes
+are rejected. Missing candidates stay blank so incomplete families cannot look finished.</p>
+<p><label>Runtime composites (256×256) <input type="file" id="composites" multiple accept="image/png"></label></p>
+<p><label>Authoring masks (512×512) <input type="file" id="masks" multiple accept="image/png"></label></p>
+</details>
+<p class="note" id="status"></p><div id="viewport"><canvas id="canvas"></canvas></div>
+<details><summary>Case data / feedback reference</summary><pre id="caseData"></pre></details>
+<script>
+const data=__DATA__;
+const $=id=>document.getElementById(id), canvas=$('canvas'), ctx=canvas.getContext('2d');
+const cache=new Map(), loaded={candidate:new Map(),mask:new Map()}, loadErrors={candidate:[],mask:[]};
+const maskNames=new Set(data.masks.map(m=>m.tile)); let filtered=[],generation=0;
+for(const group of new Set(data.cases.map(c=>c.group))) $('group').add(new Option(group,group));
+function fill(){filtered=data.cases.filter(c=>c.group===$('group').value);$('case').replaceChildren();
+ filtered.forEach((c,i)=>$('case').add(new Option(c.label,i)));render();}
+function image(url){if(!cache.has(url))cache.set(url,new Promise((resolve,reject)=>{const im=new Image();
+ im.onload=()=>resolve(im);im.onerror=()=>reject(new Error('Cannot load '+url));im.src=url;}));return cache.get(url);}
+async function render(){const ticket=++generation,c=filtered[Number($('case').value)||0];if(!c)return;
+ const size=Number($('size').value),mode=$('mode').value;let missing=0,fallback=0;
+ canvas.width=c.tiles[0].length*size;canvas.height=c.tiles.length*size;
+ ctx.fillStyle='#36414a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=$('smooth').checked;
+ for(let y=0;y<c.tiles.length;y++)for(let x=0;x<c.tiles[y].length;x++){
+ const name=c.tiles[y][x];if(!name)continue;let im=null;
+ try{if(mode==='candidate'||mode==='mask')im=loaded[mode].get(name);
+ else{const record=data.images[name],url=mode==='master'?(record.master||record.original):record.original;
+ if(mode==='master'&&!record.master)fallback++;if(url)im=await image(url);}
+ }catch(error){if(ticket===generation)$('status').textContent=error.message;return;}
+ if(ticket!==generation)return;
+ if(im)ctx.drawImage(im,x*size,y*size,size,size);else{missing++;ctx.fillStyle='#613e50';ctx.fillRect(x*size,y*size,size,size);
+ ctx.fillStyle='white';ctx.font='12px system-ui';ctx.fillText('Missing: '+name,x*size+5,y*size+20);}
+ if($('grid').checked){ctx.strokeStyle='#fff8';ctx.strokeRect(x*size+.5,y*size+.5,size-1,size-1);
+ ctx.fillStyle='#000b';ctx.fillRect(x*size,y*size,size,22);ctx.fillStyle='white';ctx.font='12px system-ui';ctx.fillText(name,x*size+4,y*size+16);}}
+ $('status').textContent=`${c.id}\n${missing} missing images; ${fallback} original mixed-tile fallbacks. `+
+ (c.conflict?'SOURCE TOPOLOGY CONFLICT: this case needs separate map-layout review. ':'')+
+ (mode==='mask'?'Masks use family-specific foreground polarity; compare global material coverage, not white across different families. ':'')+
+ ((loadErrors[mode]||[]).join(' '));$('caseData').textContent=JSON.stringify(c,null,2);
+}
+async function load(event,kind,size){loaded[kind].clear();loadErrors[kind]=[];
+ for(const file of event.target.files){const name=file.name.replace(/\.png$/i,'').toLowerCase();
+ if(!data.images[name]||(kind==='mask'&&!maskNames.has(name))){loadErrors[kind].push('Unknown name: '+file.name);continue;}
+ const url=URL.createObjectURL(file);try{const im=await image(url);if(im.width!==size||im.height!==size)
+ loadErrors[kind].push('Wrong size: '+file.name);else loaded[kind].set(name,im);}
+ catch(error){loadErrors[kind].push(error.message);}finally{cache.delete(url);URL.revokeObjectURL(url);}}
+ $('mode').value=kind;render();}
+$('group').onchange=fill;for(const id of ['case','mode','size','grid','smooth'])$(id).onchange=render;
+$('prev').onclick=()=>{$('case').selectedIndex=($('case').selectedIndex+filtered.length-1)%filtered.length;render();};
+$('next').onclick=()=>{$('case').selectedIndex=($('case').selectedIndex+1)%filtered.length;render();};
+$('composites').onchange=e=>load(e,'candidate',256);$('masks').onchange=e=>load(e,'mask',512);
+$('export').onclick=()=>{const a=document.createElement('a');a.download='terrain-'+filtered[$('case').selectedIndex].id.replace(/[^a-z0-9_-]/gi,'_')+'.png';a.href=canvas.toDataURL();a.click();};
+const query=new URLSearchParams(location.search),initial=data.cases.find(c=>c.id===query.get('case'));
+if(initial)$('group').value=initial.group;
+if(['original','master','candidate','mask'].includes(query.get('mode')))$('mode').value=query.get('mode');
+async function start(){
+ for(const [name,record] of Object.entries(data.images))for(const kind of ['candidate','mask']){
+  if(record[kind])try{loaded[kind].set(name,await image(record[kind]));}
+  catch(error){loadErrors[kind].push(error.message);}
+ }
+ fill();if(initial){$('case').value=filtered.findIndex(c=>c.id===initial.id);render();}
+}
+start();
+</script></html>

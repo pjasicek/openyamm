@@ -1,0 +1,594 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_mer1.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_mer1.glb",
+ "assignments": [
+  {
+   "match": "=MerchantHeadL0_A",
+   "body": null,
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_head_material_classes.png"
+  },
+  {
+   "match": "=MerchantHandsL0_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_head_material_classes.png"
+  },
+  {
+   "match": "=MerchantL0_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "MerchantL0_A_specular_roughness_metal",
+   "size": [
+    2048,
+    2048
+   ],
+   "materials": [
+    "MerchantL0_A",
+    "MerchantL0_B",
+    "MerchantL0_C",
+    "MerchantL1_A",
+    "MerchantL1_B",
+    "MerchantL1_C",
+    "MerchantL2_A",
+    "MerchantL2_B",
+    "MerchantL2_C",
+    "MerchantL3_A",
+    "MerchantL3_B",
+    "MerchantL3_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      2048,
+      2048
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 1148500,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.6975,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_body_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.3071,
+      "cloth": 0.2011,
+      "metal": 0.0063,
+      "other": 0.4854
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.3071,
+    "cloth": 0.2011,
+    "metal": 0.0063,
+    "other": 0.4854
+   },
+   "kept_classes": [
+    "skin",
+    "cloth"
+   ],
+   "kept_texels": 583693,
+   "old_specular_mean_by_class": {
+    "skin": 0.091,
+    "cloth": 0.119,
+    "metal": 0.062,
+    "other": 0.121
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.091,
+    "cloth": 0.119,
+    "metal": 1.0,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.87,
+    "cloth": 0.854,
+    "metal": 0.38,
+    "other": 0.7
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "MerchantL0_A": {
+     "median_srgb": [
+      40,
+      69,
+      38
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      49,
+      62,
+      75
+     ],
+     "share_below_srgb_30": 0.0175,
+     "share_below_srgb_90": 1.0,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL0_B": {
+     "median_srgb": [
+      23,
+      16,
+      32
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      7,
+      19,
+      57
+     ],
+     "share_below_srgb_30": 0.679,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL0_C": {
+     "median_srgb": [
+      59,
+      0,
+      0
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      17,
+      26,
+      57
+     ],
+     "share_below_srgb_30": 0.6522,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL1_A": {
+     "median_srgb": [
+      40,
+      69,
+      38
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      49,
+      62,
+      75
+     ],
+     "share_below_srgb_30": 0.0175,
+     "share_below_srgb_90": 1.0,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL1_B": {
+     "median_srgb": [
+      23,
+      16,
+      32
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      7,
+      19,
+      57
+     ],
+     "share_below_srgb_30": 0.679,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL1_C": {
+     "median_srgb": [
+      59,
+      0,
+      0
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      17,
+      26,
+      57
+     ],
+     "share_below_srgb_30": 0.6522,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL2_A": {
+     "median_srgb": [
+      40,
+      69,
+      38
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      49,
+      62,
+      75
+     ],
+     "share_below_srgb_30": 0.0175,
+     "share_below_srgb_90": 1.0,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL2_B": {
+     "median_srgb": [
+      23,
+      16,
+      32
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      7,
+      19,
+      57
+     ],
+     "share_below_srgb_30": 0.679,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL2_C": {
+     "median_srgb": [
+      59,
+      0,
+      0
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      17,
+      26,
+      57
+     ],
+     "share_below_srgb_30": 0.6522,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL3_A": {
+     "median_srgb": [
+      40,
+      69,
+      38
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      49,
+      62,
+      75
+     ],
+     "share_below_srgb_30": 0.0175,
+     "share_below_srgb_90": 1.0,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL3_B": {
+     "median_srgb": [
+      23,
+      16,
+      32
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      7,
+      19,
+      57
+     ],
+     "share_below_srgb_30": 0.679,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "MerchantL3_C": {
+     "median_srgb": [
+      59,
+      0,
+      0
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      17,
+      26,
+      57
+     ],
+     "share_below_srgb_30": 0.6522,
+     "share_below_srgb_90": 1.0,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 13,
+     "max": 255,
+     "mean": 54.9
+    },
+    "G": {
+     "min": 77,
+     "max": 232,
+     "mean": 196.3
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 0.9
+    }
+   }
+  },
+  {
+   "image": "MerchantHeadL0_A_specular_roughness_metal",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "MerchantHeadL0_A",
+    "MerchantHeadL1_A",
+    "MerchantHeadL2_A",
+    "MerchantHeadL3_A"
+   ],
+   "layout": [
+    {
+     "part": "head",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "head": {
+     "uv_covered_texels": 608540,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.3627,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.5361,
+      "fur": 0.1196,
+      "other": 0.3443
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.5361,
+    "fur": 0.1196,
+    "other": 0.3443
+   },
+   "kept_classes": [
+    "skin",
+    "fur"
+   ],
+   "kept_texels": 399026,
+   "old_specular_mean_by_class": {
+    "skin": 0.173,
+    "fur": 0.239,
+    "other": 0.107
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.173,
+    "fur": 0.239,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.826,
+    "fur": 0.772,
+    "other": 0.7
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "MerchantHeadL0_A": null,
+    "MerchantHeadL1_A": null,
+    "MerchantHeadL2_A": null,
+    "MerchantHeadL3_A": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 20,
+     "max": 77,
+     "mean": 59.0
+    },
+    "G": {
+     "min": 153,
+     "max": 230,
+     "mean": 196.6
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "MerchantHandsL0_A_specular_roughness_metal",
+   "size": [
+    512,
+    512
+   ],
+   "materials": [
+    "MerchantHandsL0_A",
+    "MerchantHandsL1_A",
+    "MerchantHandsL2_A",
+    "MerchantHandsL3_A"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      512,
+      512
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "constant",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 39251,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.7971,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mer1_codex/textures/mer1_body_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.2715,
+      "cloth": 0.185,
+      "metal": 0.0069,
+      "other": 0.5367
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.2715,
+    "cloth": 0.185,
+    "metal": 0.0069,
+    "other": 0.5367
+   },
+   "kept_classes": [
+    "skin",
+    "cloth"
+   ],
+   "kept_texels": 17916,
+   "old_specular_mean_by_class": {
+    "skin": 0.302,
+    "cloth": 0.302,
+    "metal": 0.302,
+    "other": 0.302
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.302,
+    "cloth": 0.302,
+    "metal": 1.0,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.722,
+    "cloth": 0.722,
+    "metal": 0.38,
+    "other": 0.7
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "MerchantHandsL0_A": {
+     "median_srgb": [
+      241,
+      178,
+      154
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      169,
+      191,
+      213
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.0,
+     "flag": null,
+     "verdict": "plausible"
+    },
+    "MerchantHandsL1_A": {
+     "median_srgb": [
+      241,
+      178,
+      154
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      169,
+      191,
+      213
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.0,
+     "flag": null,
+     "verdict": "plausible"
+    },
+    "MerchantHandsL2_A": {
+     "median_srgb": [
+      241,
+      178,
+      154
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      169,
+      191,
+      213
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.0,
+     "flag": null,
+     "verdict": "plausible"
+    },
+    "MerchantHandsL3_A": {
+     "median_srgb": [
+      241,
+      178,
+      154
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      169,
+      191,
+      213
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.0,
+     "flag": null,
+     "verdict": "plausible"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 255,
+     "mean": 77.6
+    },
+    "G": {
+     "min": 97,
+     "max": 184,
+     "mean": 181.1
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 0.9
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

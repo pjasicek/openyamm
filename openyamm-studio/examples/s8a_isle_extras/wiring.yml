@@ -1,0 +1,26 @@
+format: 0
+events:
+  - id: evt:s8a_stone
+    preset: text
+    replaces: evt:e390
+    title: Humming stone
+    condition: {kills: {monster: monster:s8a_guard}}
+    effects:
+      - gold: 7
+    else_effects:
+      - gold: 1
+    text: The stone hums.
+cinematics:
+  - id: cinematic:book_sinking
+    notes: Replaces the Isle's own (17 s, the sink at 4.5 s) by a shot of 3 s that sinks the boat at 1 s.
+    shots:
+      - {seconds: 3, at: [92, 6625, 655], look_at: [-399, 5849, 260]}
+    cues:
+      - {at: 1, event: evt:e31014}
+  - id: cinematic:s8a_guard_watch
+    letterbox: false
+    shots:
+      - {seconds: 2, at: [1500, 3250, 1250], look_at: monster:s8a_guard}
+    cues:
+      - {at: 0.5, monster: monster:s8a_guard, action: face, look_at: [1324, 3440, 1000]}
+      - {at: 1, sound: Events/stonecrumble.wav}

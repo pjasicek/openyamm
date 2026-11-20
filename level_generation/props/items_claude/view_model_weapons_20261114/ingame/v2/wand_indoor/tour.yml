@@ -1,0 +1,57 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/v2/wand_indoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit onehand w_wand.glb 0
+  - wait: 2
+  - console: viewmodel tier 1
+  - wait: 1.2
+  - capture: t1_idle
+  - console: viewmodel pose onehandblockidle 0.5
+  - wait: 0.5
+  - capture: t1_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.5
+  - capture: t1_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 2
+  - wait: 1.2
+  - capture: t2_idle
+  - console: viewmodel pose onehandblockidle 0.5
+  - wait: 0.5
+  - capture: t2_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.5
+  - capture: t2_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 3
+  - wait: 1.2
+  - capture: t3_idle
+  - console: viewmodel pose onehandblockidle 0.5
+  - wait: 0.5
+  - capture: t3_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.5
+  - capture: t3_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 4
+  - wait: 1.2
+  - capture: t4_idle
+  - console: viewmodel pose onehandblockidle 0.5
+  - wait: 0.5
+  - capture: t4_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.5
+  - capture: t4_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier auto
+  - console: viewmodel weapons ours
+  - console: viewmodel held wand1
+  - wait: 2
+  - capture: ours_idle
+  - console: viewmodel pose onehandblockidle 0.5
+  - wait: 0.5
+  - capture: ours_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.5
+  - capture: ours_swing2

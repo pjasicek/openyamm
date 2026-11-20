@@ -1,0 +1,681 @@
+{
+  "map": "lg01.odm",
+  "world": "mm8",
+  "grid_samples": [
+    128,
+    128
+  ],
+  "grid_spacing": 512,
+  "original_tile_pixels": 128,
+  "experiment_tile_pixels": 256,
+  "package_sha256": "8504475bea327477cb74e1771706d938f264fc20b2ce70461ab13229f8b0787c",
+  "native_map_sha256": "1042e98eda5e9cce9feda806ef469ee0f7c9a9e9fed304b7ad30288768df51a5",
+  "terrain_source_sha256": "3754f6909be29994cf0c5ba455e754bab071dd15591e28897ed03e95aaa22a45",
+  "method": {
+    "smooth2x": "ImageMagick Mitchell resampling; no invented detail",
+    "ai2x": "smooth2x plus built-in imagegen grass; 40% interior blend, original edges",
+    "ai_scope": [
+      "grastyl"
+    ],
+    "ai_master_sha256": "dfb5a505f119b45a1d79f2dda818a21aa46b101962324522d8f1c5e4f0c10247",
+    "ai_prompt": "reference/grass_ai_prompt.txt"
+  },
+  "tiles": [
+    {
+      "name": "dirt1",
+      "source": "worlds/mm8/textures/DIRT1.bmp",
+      "source_sha256": "184d41f1c85667b5975f3fe66cf1573ac9d7ea58b2de35e88e5f62baea7dece0",
+      "painted_cells": 68,
+      "smooth2x_sha256": "8bbcf7f2e3138e01a34ee96e8ffed77a9080e4715f44b9127b4bb753d9623636",
+      "ai2x_sha256": "8bbcf7f2e3138e01a34ee96e8ffed77a9080e4715f44b9127b4bb753d9623636"
+    },
+    {
+      "name": "dirt2",
+      "source": "worlds/mm8/textures/DIRT2.bmp",
+      "source_sha256": "30492c1ee757d80024abb0082465c5322ca23ddb9d400c3c779deb84c1cc5b38",
+      "painted_cells": 58,
+      "smooth2x_sha256": "4f75e3d008ba95c8feb744ebbb93fedf5c48fb7190b4e2074e7aaacfeaf92fd8",
+      "ai2x_sha256": "4f75e3d008ba95c8feb744ebbb93fedf5c48fb7190b4e2074e7aaacfeaf92fd8"
+    },
+    {
+      "name": "dirttyl",
+      "source": "worlds/mm8/textures/DIRTtyl.bmp",
+      "source_sha256": "c69a5ccb5ffcf56e5b6930e936aea354747c21faa9e1b223c28c206e52030e98",
+      "painted_cells": 1343,
+      "smooth2x_sha256": "718c036fcc2c62e2959135c3533e31051978c8ed47e41d2b0e542deb38d6a809",
+      "ai2x_sha256": "718c036fcc2c62e2959135c3533e31051978c8ed47e41d2b0e542deb38d6a809"
+    },
+    {
+      "name": "drsrcros",
+      "source": "worlds/mm8/textures/DRSRCROS.bmp",
+      "source_sha256": "46d648b806643ae1928f5f395aee667e24bd3227726648da16f6ad9167a6894b",
+      "painted_cells": 0,
+      "smooth2x_sha256": "3961ad40880145b5c2b5f395212d8fc30c8c8d33539551e3df9f29231a93d571",
+      "ai2x_sha256": "3961ad40880145b5c2b5f395212d8fc30c8c8d33539551e3df9f29231a93d571"
+    },
+    {
+      "name": "drsrcros1",
+      "source": "worlds/mm8/textures/DRSRCROS1.bmp",
+      "source_sha256": "bd89e6a112eb12b0eaa8719d9f28690f2288365c4923d95a7c26a132e4f9e053",
+      "painted_cells": 0,
+      "smooth2x_sha256": "7cd1f0d4a388be0109f9d909b9a9cceb54e336543d4a49ce07f313ca2360cbd1",
+      "ai2x_sha256": "7cd1f0d4a388be0109f9d909b9a9cceb54e336543d4a49ce07f313ca2360cbd1"
+    },
+    {
+      "name": "drsrcros2",
+      "source": "worlds/mm8/textures/DRSRCROS2.bmp",
+      "source_sha256": "85a9afbc7a67ba0a2af1e10fa2bc51dcd3df051f8488f5def04f9f8fd78efd07",
+      "painted_cells": 0,
+      "smooth2x_sha256": "62ef4c3fe227757825106bdedaa11a6be26c3df35354f5ca04051534b6e45cc8",
+      "ai2x_sha256": "62ef4c3fe227757825106bdedaa11a6be26c3df35354f5ca04051534b6e45cc8"
+    },
+    {
+      "name": "drsrcros3",
+      "source": "worlds/mm8/textures/DRSRCROS3.bmp",
+      "source_sha256": "e477f1bdb6868142bdafa071be35cda1e48984ce9b2db43092b9e13e8cb0605c",
+      "painted_cells": 0,
+      "smooth2x_sha256": "6139c81c4874b7d2e1a585ab854bd5c3ba8fd0e5dfaeb755fe96e7b92be6d091",
+      "ai2x_sha256": "6139c81c4874b7d2e1a585ab854bd5c3ba8fd0e5dfaeb755fe96e7b92be6d091"
+    },
+    {
+      "name": "drsrcros4",
+      "source": "worlds/mm8/textures/DRSRCROS4.bmp",
+      "source_sha256": "84fb3d7539e82d8a62cdd25d3eeb35843dd41a83cf845fa95e45b7a8ff0814df",
+      "painted_cells": 0,
+      "smooth2x_sha256": "c6f95976576292804a9a2cb229d7b9e67e58eeaa59b467a93b75b90b95b78a65",
+      "ai2x_sha256": "c6f95976576292804a9a2cb229d7b9e67e58eeaa59b467a93b75b90b95b78a65"
+    },
+    {
+      "name": "drsrecap",
+      "source": "worlds/mm8/textures/DRSRECAP.bmp",
+      "source_sha256": "cbfbe4dfcccfbc020b7c581253e2bc8abd630bba7e31bdaeb5713544a10b85bc",
+      "painted_cells": 1,
+      "smooth2x_sha256": "7b4595f89b8dd5d6d884e20b74a9b1762d14b4f96e4f8e4c7c58f6745ebde761",
+      "ai2x_sha256": "7b4595f89b8dd5d6d884e20b74a9b1762d14b4f96e4f8e4c7c58f6745ebde761"
+    },
+    {
+      "name": "drsrew",
+      "source": "worlds/mm8/textures/DRSREW.bmp",
+      "source_sha256": "9d2c5a0382e6591103c9925d4de644ecce4a2a5ee2d8744044f27951b4096ea9",
+      "painted_cells": 104,
+      "smooth2x_sha256": "c83ea963a309054fb8a6f947007f331b88c213f7810230d69f2adf478da07e48",
+      "ai2x_sha256": "c83ea963a309054fb8a6f947007f331b88c213f7810230d69f2adf478da07e48"
+    },
+    {
+      "name": "drsrew_n",
+      "source": "worlds/mm8/textures/DRSREW_N.bmp",
+      "source_sha256": "09c6a81af6e7384a4d0f0e1fbc577ba222d97d4135fa6128d50f32a1ca126cd5",
+      "painted_cells": 3,
+      "smooth2x_sha256": "a207fe16e3264a69a57636e8c821fb59062527a2630dc2c0d4fba73686dd7cc3",
+      "ai2x_sha256": "a207fe16e3264a69a57636e8c821fb59062527a2630dc2c0d4fba73686dd7cc3"
+    },
+    {
+      "name": "drsrew_s",
+      "source": "worlds/mm8/textures/DRSREW_S.bmp",
+      "source_sha256": "4a5be820efc86ff1355cc6f0d5f9f1f16621fb13204f0bb3e1c013591d5f62d2",
+      "painted_cells": 2,
+      "smooth2x_sha256": "c7d93d212ee31302b7d9ac7c72636e2c5d2783c276ef548c751f8776899e4296",
+      "ai2x_sha256": "c7d93d212ee31302b7d9ac7c72636e2c5d2783c276ef548c751f8776899e4296"
+    },
+    {
+      "name": "drsrn_e",
+      "source": "worlds/mm8/textures/DRSRN_E.bmp",
+      "source_sha256": "ea84eda7a2e70cfdf6390161c8f5fc91faf61c2b03acb4eae6516df017b71a75",
+      "painted_cells": 5,
+      "smooth2x_sha256": "fcd4676a102af9d4689df4c86c71d6484d83e9368987ce2e7ea1e917989a9a18",
+      "ai2x_sha256": "fcd4676a102af9d4689df4c86c71d6484d83e9368987ce2e7ea1e917989a9a18"
+    },
+    {
+      "name": "drsrn_w",
+      "source": "worlds/mm8/textures/DRSRN_W.bmp",
+      "source_sha256": "6012624c20223614630f0d7bf66b203dba79a4ed3bc0db4cd1256c4cab8f46c9",
+      "painted_cells": 11,
+      "smooth2x_sha256": "1db9e7432b97f66e05e226f1ac929dafa97654f35730403b46956fb67d231f99",
+      "ai2x_sha256": "1db9e7432b97f66e05e226f1ac929dafa97654f35730403b46956fb67d231f99"
+    },
+    {
+      "name": "drsrncap",
+      "source": "worlds/mm8/textures/DRSRNCAP.bmp",
+      "source_sha256": "cbfae859465210ea1794a3bd0addee88b0c11e725d81d5851bfbbbb5a711aec7",
+      "painted_cells": 2,
+      "smooth2x_sha256": "e550a8f54abeb10d88fdd12a5b0f6651d1989c54463860ca2a64aca9656b192e",
+      "ai2x_sha256": "e550a8f54abeb10d88fdd12a5b0f6651d1989c54463860ca2a64aca9656b192e"
+    },
+    {
+      "name": "drsrne1",
+      "source": "worlds/mm8/textures/DRSRNE1.bmp",
+      "source_sha256": "c344024bf697449ad1ac9eaa6f13687a05ff57830025057e698518bac78c8919",
+      "painted_cells": 6,
+      "smooth2x_sha256": "71e06253056d578163f1bea67d8b045730cee764ddf072a1dce43bb6c055a2e1",
+      "ai2x_sha256": "71e06253056d578163f1bea67d8b045730cee764ddf072a1dce43bb6c055a2e1"
+    },
+    {
+      "name": "drsrne2",
+      "source": "worlds/mm8/textures/DRSRNE2.bmp",
+      "source_sha256": "64f3e4d30b9e9c788dfd84e9c13e46d791701f5760dcad5db2741af097577910",
+      "painted_cells": 6,
+      "smooth2x_sha256": "e66162304fd0eecfb311991ba6d4f1b4c44d5163d5ae371915e0e9c9ac7b4e23",
+      "ai2x_sha256": "e66162304fd0eecfb311991ba6d4f1b4c44d5163d5ae371915e0e9c9ac7b4e23"
+    },
+    {
+      "name": "drsrns",
+      "source": "worlds/mm8/textures/DRSRNS.bmp",
+      "source_sha256": "9dacc236c92b6a0fdd3e69df0846209d43fa1daa594cbe363d164fecf7afad5c",
+      "painted_cells": 120,
+      "smooth2x_sha256": "123aae03e712aba3fa98a7e93d5c66de357e606d6ccb50224eaedda5d56b833f",
+      "ai2x_sha256": "123aae03e712aba3fa98a7e93d5c66de357e606d6ccb50224eaedda5d56b833f"
+    },
+    {
+      "name": "drsrns_e",
+      "source": "worlds/mm8/textures/DRSRNS_E.bmp",
+      "source_sha256": "58cf7264a6f05c60687bf4fde2c45c2f8e5b62607fddc19a39a74698f2cbf77a",
+      "painted_cells": 2,
+      "smooth2x_sha256": "325b82b2c5050a9431bce75e745e72a437e9efbfbc731d12cf6cfd43d11ed553",
+      "ai2x_sha256": "325b82b2c5050a9431bce75e745e72a437e9efbfbc731d12cf6cfd43d11ed553"
+    },
+    {
+      "name": "drsrns_w",
+      "source": "worlds/mm8/textures/DRSRNS_W.bmp",
+      "source_sha256": "4023828d9da8618cd225f1f7a7d71960859bdf8f2ca411195f91cc081ff5a3d2",
+      "painted_cells": 1,
+      "smooth2x_sha256": "36db5a92a01409c3651afbdb70ee816b79a6f323d6a29cf8f844f4c7116bd658",
+      "ai2x_sha256": "36db5a92a01409c3651afbdb70ee816b79a6f323d6a29cf8f844f4c7116bd658"
+    },
+    {
+      "name": "drsrnw1",
+      "source": "worlds/mm8/textures/DRSRNW1.bmp",
+      "source_sha256": "102d83d00e59ba639d5fa39aa425a839dba06880ce5acd17f1d4c5fc31a32f46",
+      "painted_cells": 0,
+      "smooth2x_sha256": "4e9c2c68486c22d32cf98b3e972e7675ac3cd92f438efdf976d564a06d6f0323",
+      "ai2x_sha256": "4e9c2c68486c22d32cf98b3e972e7675ac3cd92f438efdf976d564a06d6f0323"
+    },
+    {
+      "name": "drsrnw2",
+      "source": "worlds/mm8/textures/DRSRNW2.bmp",
+      "source_sha256": "80720b5d6226943b18b371ac7c821d0410d05383419bbfa4dc9b433d52003399",
+      "painted_cells": 0,
+      "smooth2x_sha256": "8bd9f3670d25a5c506089571095e09a80afabccc9c9038a72a13ee3b592208d8",
+      "ai2x_sha256": "8bd9f3670d25a5c506089571095e09a80afabccc9c9038a72a13ee3b592208d8"
+    },
+    {
+      "name": "drsrs_e",
+      "source": "worlds/mm8/textures/DRSRS_E.bmp",
+      "source_sha256": "48059c00f779cffc02c1b813e71ed3d317b4862f3c1d9e1c16b947abcdbb0167",
+      "painted_cells": 9,
+      "smooth2x_sha256": "184ec469c491b80f0e27a65de7283696e4c29b9f24d099369f976b54ab38f288",
+      "ai2x_sha256": "184ec469c491b80f0e27a65de7283696e4c29b9f24d099369f976b54ab38f288"
+    },
+    {
+      "name": "drsrs_w",
+      "source": "worlds/mm8/textures/DRSRS_W.bmp",
+      "source_sha256": "f1ab004ac10885382001fecc568b5e54f6c58a4007e9b0774f273b26414d4d96",
+      "painted_cells": 5,
+      "smooth2x_sha256": "b5a440bf5df926a4659b48681f85bfd260799913c4189b3847b0f0be02fb057c",
+      "ai2x_sha256": "b5a440bf5df926a4659b48681f85bfd260799913c4189b3847b0f0be02fb057c"
+    },
+    {
+      "name": "drsrscap",
+      "source": "worlds/mm8/textures/DRSRSCAP.bmp",
+      "source_sha256": "446937764755a8eb117fde7c18f8909c1d981be4ff0eb2a431362afb6793b8ab",
+      "painted_cells": 0,
+      "smooth2x_sha256": "cd93985e66b2e5c74eefc8a385681fa6d3ff961ec1f937df35b905b1fdbd2e74",
+      "ai2x_sha256": "cd93985e66b2e5c74eefc8a385681fa6d3ff961ec1f937df35b905b1fdbd2e74"
+    },
+    {
+      "name": "drsrwcap",
+      "source": "worlds/mm8/textures/DRSRWCAP.bmp",
+      "source_sha256": "b874624d85d16d92ab2aefe09e59f2b26cc01715ac15a98e0d1867be5dd6a731",
+      "painted_cells": 1,
+      "smooth2x_sha256": "037b622619f598b7a17ef69876e211da607bfe2f67b9357ea2aafc72325bc285",
+      "ai2x_sha256": "037b622619f598b7a17ef69876e211da607bfe2f67b9357ea2aafc72325bc285"
+    },
+    {
+      "name": "grastyl",
+      "source": "worlds/mm8/textures/Grastyl.bmp",
+      "source_sha256": "f1de1a65cde3580d8ed25318876ef21667abadd21336bc4524ade7d50149fe0c",
+      "painted_cells": 8265,
+      "smooth2x_sha256": "7e51f919745749a8288613307789d7e0582a7b53bf526f6f450cfcda0612b8d3",
+      "ai2x_sha256": "12b851b7ffaff81c10b28691993e83889b7fceada2c6f48a6fab9edfe343f7ba"
+    },
+    {
+      "name": "grastyl2",
+      "source": "worlds/mm8/textures/Grastyl2.bmp",
+      "source_sha256": "2f16545c0de52000940e84c81d31ba01a1d0c4eb6f83c916553e90b76cd39f1a",
+      "painted_cells": 464,
+      "smooth2x_sha256": "6263cc32f28fe3a407c00d8abf82a03e04ed8e4da6d99e428cc0f6f0ff9fa71e",
+      "ai2x_sha256": "6263cc32f28fe3a407c00d8abf82a03e04ed8e4da6d99e428cc0f6f0ff9fa71e"
+    },
+    {
+      "name": "grdrte",
+      "source": "worlds/mm8/textures/GrdrtE.bmp",
+      "source_sha256": "43455f4d2a2e8afdb75569e1d1e7498821232487d67bb756ea1ae3281d1d359d",
+      "painted_cells": 333,
+      "smooth2x_sha256": "54b4db8c535ca791fa823ea4d79624f61c412a936cfaa13f0886ded5dae53604",
+      "ai2x_sha256": "54b4db8c535ca791fa823ea4d79624f61c412a936cfaa13f0886ded5dae53604"
+    },
+    {
+      "name": "grdrtn",
+      "source": "worlds/mm8/textures/GrdrtN.bmp",
+      "source_sha256": "f173201c80a77f2b19714b1bf0b0fd81816ecd7d4a85c74d6299d8f6af0ddde5",
+      "painted_cells": 223,
+      "smooth2x_sha256": "8e002204ca0a88729e612af509de39ccf215cc1558f976cd478cee009aabcc40",
+      "ai2x_sha256": "8e002204ca0a88729e612af509de39ccf215cc1558f976cd478cee009aabcc40"
+    },
+    {
+      "name": "grdrtne",
+      "source": "worlds/mm8/textures/GrdrtNE.bmp",
+      "source_sha256": "0785b2df6515678f48e90b103cd5f55a389ce9aafaab860ff5f1ed4bfaa707d6",
+      "painted_cells": 70,
+      "smooth2x_sha256": "b0aea2848229f369b6e356701159624a19fec0f36b8945ad8221518031e8edd8",
+      "ai2x_sha256": "b0aea2848229f369b6e356701159624a19fec0f36b8945ad8221518031e8edd8"
+    },
+    {
+      "name": "grdrtnw",
+      "source": "worlds/mm8/textures/GrdrtNW.bmp",
+      "source_sha256": "66337b53d63f465c4001a6d5c3b486a07d2f3c717f19becb7322ab1c4f5d089c",
+      "painted_cells": 78,
+      "smooth2x_sha256": "f5773ce31918461219c3cd511ce55022dd091343ed73673b4afda9178cfaccc3",
+      "ai2x_sha256": "f5773ce31918461219c3cd511ce55022dd091343ed73673b4afda9178cfaccc3"
+    },
+    {
+      "name": "grdrts",
+      "source": "worlds/mm8/textures/GrdrtS.bmp",
+      "source_sha256": "8f3d31e32865693df5131400fc962bb177f7313264485bb424b8f5c4aac12cb6",
+      "painted_cells": 245,
+      "smooth2x_sha256": "40c357c97498237516472616ba2d6bc57d36e73e769c95bd32942a4c245906a3",
+      "ai2x_sha256": "40c357c97498237516472616ba2d6bc57d36e73e769c95bd32942a4c245906a3"
+    },
+    {
+      "name": "grdrtse",
+      "source": "worlds/mm8/textures/GrdrtSE.bmp",
+      "source_sha256": "b63cb74d4684c2cf52a7046a07670561211f31840b93fafe83bd133bfd1cc3aa",
+      "painted_cells": 50,
+      "smooth2x_sha256": "7dbed4ddbff427945d037943cb0faec3ba154b160fbf43273a7b3610f48523f9",
+      "ai2x_sha256": "7dbed4ddbff427945d037943cb0faec3ba154b160fbf43273a7b3610f48523f9"
+    },
+    {
+      "name": "grdrtsw",
+      "source": "worlds/mm8/textures/GrdrtSW.bmp",
+      "source_sha256": "c061d0e1a19f05c7ac69eb50d0930d04ba6ae0b0b76ea2027d1d3af30e957843",
+      "painted_cells": 76,
+      "smooth2x_sha256": "9ab3d43104b195d63e3b214b9bd42fba66d654c5ec2865b9d9d71d6539f52c56",
+      "ai2x_sha256": "9ab3d43104b195d63e3b214b9bd42fba66d654c5ec2865b9d9d71d6539f52c56"
+    },
+    {
+      "name": "grdrtw",
+      "source": "worlds/mm8/textures/GrdrtW.bmp",
+      "source_sha256": "eabe3103ec2472e53207e4a7385f591ac9bbb09ba0429af3aaefa8fbba666cf1",
+      "painted_cells": 299,
+      "smooth2x_sha256": "cf6b63bd5ea00f44d3a33cdde00a5ac7778286b4c1cb64b6512cd6a6dbfc52a0",
+      "ai2x_sha256": "cf6b63bd5ea00f44d3a33cdde00a5ac7778286b4c1cb64b6512cd6a6dbfc52a0"
+    },
+    {
+      "name": "grdrtxne",
+      "source": "worlds/mm8/textures/GrdrtXNE.bmp",
+      "source_sha256": "71b9465c2d03cac2e2adee29e3269363a86ee88df1f255eafc66095ad9333201",
+      "painted_cells": 73,
+      "smooth2x_sha256": "b59b07701088e31eae7bd77c8a3cfb2b9ef3e0aba13830357b601eb067049e07",
+      "ai2x_sha256": "b59b07701088e31eae7bd77c8a3cfb2b9ef3e0aba13830357b601eb067049e07"
+    },
+    {
+      "name": "grdrtxnw",
+      "source": "worlds/mm8/textures/GrdrtXNW.bmp",
+      "source_sha256": "f379e97ef991a09f58d7e4cca284463255d36ebd80db407c42a2a7a2cbf39c8d",
+      "painted_cells": 81,
+      "smooth2x_sha256": "f4824914f7d266d85884ac2f08f89bc6afe5e79867fcc5a20a1c0e7420400406",
+      "ai2x_sha256": "f4824914f7d266d85884ac2f08f89bc6afe5e79867fcc5a20a1c0e7420400406"
+    },
+    {
+      "name": "grdrtxse",
+      "source": "worlds/mm8/textures/GrdrtXSE.bmp",
+      "source_sha256": "d7f47e6c00da68e22ba7c89c975498877e426dbd5aaa29eada5e877a16b17f1c",
+      "painted_cells": 53,
+      "smooth2x_sha256": "a1e48a98ffb116204007cf073ae30ab7536b930e7e0afa1fb55992e7d2322fb8",
+      "ai2x_sha256": "a1e48a98ffb116204007cf073ae30ab7536b930e7e0afa1fb55992e7d2322fb8"
+    },
+    {
+      "name": "grdrtxsw",
+      "source": "worlds/mm8/textures/GrdrtXSW.bmp",
+      "source_sha256": "1fe53ed7139d8e1a1bddd52984f1d99d6f24325e13b2a305fcfef4ca5d987a4c",
+      "painted_cells": 79,
+      "smooth2x_sha256": "af3b5799f415ad74924bfc95d05ea1f0ade791fa3887a445eb67e4c9b3417ef1",
+      "ai2x_sha256": "af3b5799f415ad74924bfc95d05ea1f0ade791fa3887a445eb67e4c9b3417ef1"
+    },
+    {
+      "name": "hdwtr000",
+      "source": "engine/terrain/hdwtr000.bmp",
+      "source_sha256": "886d8d8e75d1188c1d0baac6ac4081213bd226934aff6e69bee3c7da3b92fcee",
+      "painted_cells": 0,
+      "smooth2x_sha256": "53c0ee192b3c0d797f3fe1c9c5c4e5f1dda91f36cb8726d61de755da0badca11",
+      "ai2x_sha256": "53c0ee192b3c0d797f3fe1c9c5c4e5f1dda91f36cb8726d61de755da0badca11"
+    },
+    {
+      "name": "hdwtr001",
+      "source": "engine/terrain/hdwtr001.bmp",
+      "source_sha256": "4c9583b891a1855ae4b95f7785245740fa870c9744285b898c568533a5085fa3",
+      "painted_cells": 0,
+      "smooth2x_sha256": "9f3b501d0c70d7be64b4c0ca9f57310b07b643c9d2170cee62a7b4fe44327cbb",
+      "ai2x_sha256": "9f3b501d0c70d7be64b4c0ca9f57310b07b643c9d2170cee62a7b4fe44327cbb"
+    },
+    {
+      "name": "hdwtr002",
+      "source": "engine/terrain/hdwtr002.bmp",
+      "source_sha256": "96477e13382a439923095d2549eef20a4c79e3d0287a1397f65646497b47e736",
+      "painted_cells": 0,
+      "smooth2x_sha256": "69603ba443a0f390d70108b7e958a187c84e415f3d1a28f8b1bf0927bbcd0daf",
+      "ai2x_sha256": "69603ba443a0f390d70108b7e958a187c84e415f3d1a28f8b1bf0927bbcd0daf"
+    },
+    {
+      "name": "hdwtr003",
+      "source": "engine/terrain/hdwtr003.bmp",
+      "source_sha256": "5410c9dc2f1deae18a09c0b1a0b3713d396a3b08fd3939285c33ab886340dc46",
+      "painted_cells": 0,
+      "smooth2x_sha256": "5b0d3e0e6634ad8ea57fc00dbab19d1482572ec9343aae3c8d4772a379d2d7e1",
+      "ai2x_sha256": "5b0d3e0e6634ad8ea57fc00dbab19d1482572ec9343aae3c8d4772a379d2d7e1"
+    },
+    {
+      "name": "hdwtr004",
+      "source": "engine/terrain/hdwtr004.bmp",
+      "source_sha256": "2cd1fe5f5a046186bc7108fd3d275cc27dc6f2e1b614b3cd4216facae89a6109",
+      "painted_cells": 0,
+      "smooth2x_sha256": "2ac4271f889fdf64398332d1dd0f122c0609a4dd66a77ff95cc8214955d20d8a",
+      "ai2x_sha256": "2ac4271f889fdf64398332d1dd0f122c0609a4dd66a77ff95cc8214955d20d8a"
+    },
+    {
+      "name": "hdwtr005",
+      "source": "engine/terrain/hdwtr005.bmp",
+      "source_sha256": "0274729d1788343886fe5c54c1120f74d6fc504b59f2c63a6cc7209df4f60251",
+      "painted_cells": 0,
+      "smooth2x_sha256": "96164eed5504ac8a0ea01df786e8f28cdd5ebff1ce8d81e105a86c497b0ced24",
+      "ai2x_sha256": "96164eed5504ac8a0ea01df786e8f28cdd5ebff1ce8d81e105a86c497b0ced24"
+    },
+    {
+      "name": "hdwtr006",
+      "source": "engine/terrain/hdwtr006.bmp",
+      "source_sha256": "12ad75d1a5c171e2c60e0d10d98e2b59c681ec311c45e06abfb94ded62cb8312",
+      "painted_cells": 0,
+      "smooth2x_sha256": "807c7cf1b7d8b3aefca1a9ce4ce36072ef774ef73cee3cd34daab4219b272a2d",
+      "ai2x_sha256": "807c7cf1b7d8b3aefca1a9ce4ce36072ef774ef73cee3cd34daab4219b272a2d"
+    },
+    {
+      "name": "hdwtr007",
+      "source": "engine/terrain/hdwtr007.bmp",
+      "source_sha256": "d89c7454b15880ab35bc3f6d2d7115baddedebe17167cff362450dde09ed46aa",
+      "painted_cells": 0,
+      "smooth2x_sha256": "83baff16118b55c754c67133bb9dea95b25e2b7c2fc82ff603403df966a8d870",
+      "ai2x_sha256": "83baff16118b55c754c67133bb9dea95b25e2b7c2fc82ff603403df966a8d870"
+    },
+    {
+      "name": "hdwtr008",
+      "source": "engine/terrain/hdwtr008.bmp",
+      "source_sha256": "b068ce714cb68853487c93550728683a7091fff407264213fce66b02e113a1b0",
+      "painted_cells": 0,
+      "smooth2x_sha256": "f8c3a4cb538e846ef6974eba58756a244172cc912cf249324eb6f15b5841e771",
+      "ai2x_sha256": "f8c3a4cb538e846ef6974eba58756a244172cc912cf249324eb6f15b5841e771"
+    },
+    {
+      "name": "hdwtr009",
+      "source": "engine/terrain/hdwtr009.bmp",
+      "source_sha256": "7de8d2ba5afd76bbc9bfed38dc6ac858b745080358b897a49522d41e246da7f6",
+      "painted_cells": 0,
+      "smooth2x_sha256": "c4cb7894b662a980fee41ff5aef241946bb02efe4297287cc76a4d1ea1f3386d",
+      "ai2x_sha256": "c4cb7894b662a980fee41ff5aef241946bb02efe4297287cc76a4d1ea1f3386d"
+    },
+    {
+      "name": "hdwtr010",
+      "source": "engine/terrain/hdwtr010.bmp",
+      "source_sha256": "d62cb8c23b5043635cfe9283046f2a00f23bdd279e8cf33d0c2eda2e157e82b1",
+      "painted_cells": 0,
+      "smooth2x_sha256": "56d8343551ef6f0cf98be727146c1c353ff7b8b7fbcb3daa2118d7c1eb16f92f",
+      "ai2x_sha256": "56d8343551ef6f0cf98be727146c1c353ff7b8b7fbcb3daa2118d7c1eb16f92f"
+    },
+    {
+      "name": "hdwtr011",
+      "source": "engine/terrain/hdwtr011.bmp",
+      "source_sha256": "d396c39d741deb8d703b0b2d6095d48099bbb1bd029ee27a9415a7ad2f87ca75",
+      "painted_cells": 0,
+      "smooth2x_sha256": "b9552250513812463e3811796dc1cdbc1ccca5439436291dcfce34681dee58cb",
+      "ai2x_sha256": "b9552250513812463e3811796dc1cdbc1ccca5439436291dcfce34681dee58cb"
+    },
+    {
+      "name": "hdwtr012",
+      "source": "engine/terrain/hdwtr012.bmp",
+      "source_sha256": "3b9ab105f7afa373e848f358f98820293eb92ce43c0ffe0a7d3ce1b6853c8adb",
+      "painted_cells": 0,
+      "smooth2x_sha256": "d46bf41e57537ef8db7c66c1125546bd839ba16eb9ddc83fccbbf8c9f910d5ad",
+      "ai2x_sha256": "d46bf41e57537ef8db7c66c1125546bd839ba16eb9ddc83fccbbf8c9f910d5ad"
+    },
+    {
+      "name": "hdwtr013",
+      "source": "engine/terrain/hdwtr013.bmp",
+      "source_sha256": "1979f33c86c3bcf865903991dc7bbb3bba025d5da8dd7c863884b398836a6618",
+      "painted_cells": 0,
+      "smooth2x_sha256": "ffeec8e90449bbd0975dc09f1ad5b48f80bc39fd2d627a57339a033df161e65b",
+      "ai2x_sha256": "ffeec8e90449bbd0975dc09f1ad5b48f80bc39fd2d627a57339a033df161e65b"
+    },
+    {
+      "name": "pending",
+      "source": "worlds/mm8/textures/PENDING.bmp",
+      "source_sha256": "c1572f94a203b5c2f13e5591db56ce2f01f5754e08ba765f1bac0880d103bca7",
+      "painted_cells": 0,
+      "smooth2x_sha256": "40a9b5f0d1e9a32ad2b0895bd9c745c68854e32bf81672ba937bcc8b59dac593",
+      "ai2x_sha256": "40a9b5f0d1e9a32ad2b0895bd9c745c68854e32bf81672ba937bcc8b59dac593"
+    },
+    {
+      "name": "rde",
+      "source": "worlds/mm8/textures/RdE.bmp",
+      "source_sha256": "3f4e8d80313c75de206d0997ffbb071c6f28db2139b9954e69a691b74fa1d52d",
+      "painted_cells": 158,
+      "smooth2x_sha256": "ba6fd51a1d2242f1d9dcfe97b95f2220d1fdc7adf9ba75731b6903aaffd52688",
+      "ai2x_sha256": "ba6fd51a1d2242f1d9dcfe97b95f2220d1fdc7adf9ba75731b6903aaffd52688"
+    },
+    {
+      "name": "rdn",
+      "source": "worlds/mm8/textures/RdN.bmp",
+      "source_sha256": "d42987f62a940347597e4484b56d56b24fb56961eff4933b6df624e59b79593a",
+      "painted_cells": 168,
+      "smooth2x_sha256": "2df83c2eedbcc19a8e91df98236904dd70125f64f05beba7b6d776c9462fb447",
+      "ai2x_sha256": "2df83c2eedbcc19a8e91df98236904dd70125f64f05beba7b6d776c9462fb447"
+    },
+    {
+      "name": "rdne",
+      "source": "worlds/mm8/textures/RdNE.bmp",
+      "source_sha256": "a858aaed3d634ca3c20618e3e05b9e34ea524e3b0d670ffcb235d5eb35813082",
+      "painted_cells": 60,
+      "smooth2x_sha256": "c4ce91f746d01fd35b94d6958bbe9b4c92d239fb069a5c557e58599089c4d060",
+      "ai2x_sha256": "c4ce91f746d01fd35b94d6958bbe9b4c92d239fb069a5c557e58599089c4d060"
+    },
+    {
+      "name": "rdnw",
+      "source": "worlds/mm8/textures/RdNW.bmp",
+      "source_sha256": "51af44f84fbfbf15a0f35fdcd70b350ff97ff65b403d99c3c2c9f23b879b7ed6",
+      "painted_cells": 43,
+      "smooth2x_sha256": "4ec8c6a802425cd09a7dd6900b766261b4ff00132b845d8578b166a715ff1b6b",
+      "ai2x_sha256": "4ec8c6a802425cd09a7dd6900b766261b4ff00132b845d8578b166a715ff1b6b"
+    },
+    {
+      "name": "rds",
+      "source": "worlds/mm8/textures/RdS.bmp",
+      "source_sha256": "541494e71869422082aac3d68727710871cdfe5f21667097644be03ace5176b3",
+      "painted_cells": 144,
+      "smooth2x_sha256": "886b2c17ee722020e019fee587a51debe9724f743b1e1ceac39d52c6a4e368d1",
+      "ai2x_sha256": "886b2c17ee722020e019fee587a51debe9724f743b1e1ceac39d52c6a4e368d1"
+    },
+    {
+      "name": "rdse",
+      "source": "worlds/mm8/textures/RdSE.bmp",
+      "source_sha256": "d5605be5113c5be14e45b98b49118a12fdd4733195346a7dbd7cdfcbe031a2f5",
+      "painted_cells": 66,
+      "smooth2x_sha256": "6241e30705d4be5e1a62031a71c1cd07b98fdba1f26c4c54e4c8846771b7ec3c",
+      "ai2x_sha256": "6241e30705d4be5e1a62031a71c1cd07b98fdba1f26c4c54e4c8846771b7ec3c"
+    },
+    {
+      "name": "rdsw",
+      "source": "worlds/mm8/textures/RdSW.bmp",
+      "source_sha256": "7028ed51ca3182f85fd847ab569acf445763683129bd50cd840e09aed075374a",
+      "painted_cells": 58,
+      "smooth2x_sha256": "468c30f43f4be5f3beb3465cd0e1321378380238257cd794ac49e7ed97957a4b",
+      "ai2x_sha256": "468c30f43f4be5f3beb3465cd0e1321378380238257cd794ac49e7ed97957a4b"
+    },
+    {
+      "name": "rdtyl",
+      "source": "worlds/mm8/textures/RdTyl.bmp",
+      "source_sha256": "31c33ebe75d4523119e5591b0946b573370bbf00de7966a4d30f24ae12483519",
+      "painted_cells": 2695,
+      "smooth2x_sha256": "39b2bea244d4e2925962bfe173e0e288e5af8a1f2919abb15bad1342228c7923",
+      "ai2x_sha256": "39b2bea244d4e2925962bfe173e0e288e5af8a1f2919abb15bad1342228c7923"
+    },
+    {
+      "name": "rdtylx",
+      "source": "worlds/mm8/textures/RdTylx.bmp",
+      "source_sha256": "d5764fd798b064f34dbca947111b5ace5b5dd94120d1ffaa53ca53178179eea7",
+      "painted_cells": 0,
+      "smooth2x_sha256": "ed6f7cf25591175dfa1061069b2bad7e730f2fe31baa350886692db44dd89018",
+      "ai2x_sha256": "ed6f7cf25591175dfa1061069b2bad7e730f2fe31baa350886692db44dd89018"
+    },
+    {
+      "name": "rdw",
+      "source": "worlds/mm8/textures/RdW.bmp",
+      "source_sha256": "feddd798ab8940ba540887c13dce49edd50a9dd5083a411b15224202066c9890",
+      "painted_cells": 186,
+      "smooth2x_sha256": "f75a85bfa1013989c7d761d74726e8d771f1c2d0c33e2835f2bccf5a9b4b3f22",
+      "ai2x_sha256": "f75a85bfa1013989c7d761d74726e8d771f1c2d0c33e2835f2bccf5a9b4b3f22"
+    },
+    {
+      "name": "rdxne",
+      "source": "worlds/mm8/textures/RdXNE.bmp",
+      "source_sha256": "42415d4ea2d4874bb93f065baec0c8ba1166fb97729776b0f517ce8e22e7421d",
+      "painted_cells": 44,
+      "smooth2x_sha256": "49565124f935ab3a7d0393bd8d064d5ac8d3a91704faf2513ed0bc52be1c1926",
+      "ai2x_sha256": "49565124f935ab3a7d0393bd8d064d5ac8d3a91704faf2513ed0bc52be1c1926"
+    },
+    {
+      "name": "rdxnw",
+      "source": "worlds/mm8/textures/RdXNW.bmp",
+      "source_sha256": "b82c2780a81e089f064e18841271aba399604bfe6c3b6a45f7e383a4eca12756",
+      "painted_cells": 28,
+      "smooth2x_sha256": "7033558742ab592d2ffc961b8eafa3908cef5b9c2a3db62fbf91fc0a22585113",
+      "ai2x_sha256": "7033558742ab592d2ffc961b8eafa3908cef5b9c2a3db62fbf91fc0a22585113"
+    },
+    {
+      "name": "rdxse",
+      "source": "worlds/mm8/textures/RdXSE.bmp",
+      "source_sha256": "0eb00f33acdf30c37437cd5eb98b3375add8e5c88501b3288f2153fad5ca7d75",
+      "painted_cells": 49,
+      "smooth2x_sha256": "49cc00e18e8642d43dcfaeb7e665622ae87092d663f233f009422efbda03c65b",
+      "ai2x_sha256": "49cc00e18e8642d43dcfaeb7e665622ae87092d663f233f009422efbda03c65b"
+    },
+    {
+      "name": "rdxsw",
+      "source": "worlds/mm8/textures/RdXSW.bmp",
+      "source_sha256": "3641d5ab361dfe871fdcbbc029487e351c5235ad41002911b7481c6ddc6469f7",
+      "painted_cells": 42,
+      "smooth2x_sha256": "acbaff753cbe77cfe019562bb999b267d8dd7abbcff8bc6783c206a00a03e7ed",
+      "ai2x_sha256": "acbaff753cbe77cfe019562bb999b267d8dd7abbcff8bc6783c206a00a03e7ed"
+    },
+    {
+      "name": "wtrdre",
+      "source": "worlds/mm8/textures/wtrdrE.bmp",
+      "source_sha256": "d512e696873141d35917475c7ac16e4429e263bb151c21514be498f4208d403f",
+      "painted_cells": 115,
+      "smooth2x_sha256": "e4c721128f54848ff231b10e7b4b73591e95f6eccb50f120e4a1988ced49277c",
+      "ai2x_sha256": "e4c721128f54848ff231b10e7b4b73591e95f6eccb50f120e4a1988ced49277c"
+    },
+    {
+      "name": "wtrdrn",
+      "source": "worlds/mm8/textures/wtrdrN.bmp",
+      "source_sha256": "f2592962c7ae05a305d17e51da4406bcf8da17684d6fe20797f71b7b0257deb4",
+      "painted_cells": 4,
+      "smooth2x_sha256": "d6203b12365a98de86203cfcddba460d76ededb42c8aa5661a11085b1881206f",
+      "ai2x_sha256": "d6203b12365a98de86203cfcddba460d76ededb42c8aa5661a11085b1881206f"
+    },
+    {
+      "name": "wtrdrne",
+      "source": "worlds/mm8/textures/wtrdrNE.bmp",
+      "source_sha256": "48b2b1eae9fb5727348de521a3c85c6e1cbc9105c4477260d12252f83bfcbd92",
+      "painted_cells": 8,
+      "smooth2x_sha256": "ee62e9e800905e11d162d3580f74b21d4b2cbfca0895d48976ac93ff31026ceb",
+      "ai2x_sha256": "ee62e9e800905e11d162d3580f74b21d4b2cbfca0895d48976ac93ff31026ceb"
+    },
+    {
+      "name": "wtrdrnw",
+      "source": "worlds/mm8/textures/wtrdrNW.bmp",
+      "source_sha256": "f161062455a6db5cac9bf1b9a0aad33921b6786824ee6a0eef4f2ecf1462be8b",
+      "painted_cells": 8,
+      "smooth2x_sha256": "acc3474f220f88db9be25fb6cd29cc1a694bd56ca3b0b5e67b481444de8e746f",
+      "ai2x_sha256": "acc3474f220f88db9be25fb6cd29cc1a694bd56ca3b0b5e67b481444de8e746f"
+    },
+    {
+      "name": "wtrdrs",
+      "source": "worlds/mm8/textures/wtrdrS.bmp",
+      "source_sha256": "ea387adaf1a386ea4237eb3998e516c2739e05852810fc9c501cdfe85f0db1f6",
+      "painted_cells": 2,
+      "smooth2x_sha256": "0b1ab6abf657c3b8663d28faa23d393d73744e4ef21603d0fbf00b90cc124ed5",
+      "ai2x_sha256": "0b1ab6abf657c3b8663d28faa23d393d73744e4ef21603d0fbf00b90cc124ed5"
+    },
+    {
+      "name": "wtrdrse",
+      "source": "worlds/mm8/textures/wtrdrSE.bmp",
+      "source_sha256": "23691241e185467ece07ba6fe6ef912c195f2996c2311c631fc095db027e74be",
+      "painted_cells": 9,
+      "smooth2x_sha256": "a29076f288484f9bcc4db2c45786651484062fa1a7d19c3d162d8aa882cd1d43",
+      "ai2x_sha256": "a29076f288484f9bcc4db2c45786651484062fa1a7d19c3d162d8aa882cd1d43"
+    },
+    {
+      "name": "wtrdrsw",
+      "source": "worlds/mm8/textures/wtrdrSW.bmp",
+      "source_sha256": "ef22d92798a99b5572a07bab7b4cd74673013498edeb1f6a402ea293946926a1",
+      "painted_cells": 9,
+      "smooth2x_sha256": "83cbf3e51b607f1b41f2572be38c534833580e40c178d2d9b63d64e1edf470cd",
+      "ai2x_sha256": "83cbf3e51b607f1b41f2572be38c534833580e40c178d2d9b63d64e1edf470cd"
+    },
+    {
+      "name": "wtrdrw",
+      "source": "worlds/mm8/textures/wtrdrW.bmp",
+      "source_sha256": "defb54bcf5d4b49926fdab0a85a3c78e3d1bf2e206ad4ab7c31bde6cc2a1c989",
+      "painted_cells": 115,
+      "smooth2x_sha256": "e6da245308e7d8f38e9ae637756c7b249b81eb6145fbabc878de00d6b11cfb31",
+      "ai2x_sha256": "e6da245308e7d8f38e9ae637756c7b249b81eb6145fbabc878de00d6b11cfb31"
+    },
+    {
+      "name": "wtrdrxne",
+      "source": "worlds/mm8/textures/wtrdrXNE.bmp",
+      "source_sha256": "731afbe047201cf00ff2dc7ef3254a77cd008577a433489edd93e26af085f812",
+      "painted_cells": 7,
+      "smooth2x_sha256": "ce00f324252e62ca28dcffa572772d88ce8a4bd13d826a793dd472e3a8e982ce",
+      "ai2x_sha256": "ce00f324252e62ca28dcffa572772d88ce8a4bd13d826a793dd472e3a8e982ce"
+    },
+    {
+      "name": "wtrdrxnw",
+      "source": "worlds/mm8/textures/wtrdrXNW.bmp",
+      "source_sha256": "8a217b7ce24c03e0f764c3994b4b02f8d76f6d58a8898cd554fe3712adff2b1b",
+      "painted_cells": 7,
+      "smooth2x_sha256": "a798646c40abba7bb3a59e5c91ba5acab730d35a080e72f526689144ad706998",
+      "ai2x_sha256": "a798646c40abba7bb3a59e5c91ba5acab730d35a080e72f526689144ad706998"
+    },
+    {
+      "name": "wtrdrxse",
+      "source": "worlds/mm8/textures/wtrdrXSE.bmp",
+      "source_sha256": "610747eb78b0dfab7828a347f040a40e1705ef660d3d7bcc9df9fa02efba11a8",
+      "painted_cells": 8,
+      "smooth2x_sha256": "8281b87eaa6264a6f0622330daf10ea60517954c8dda3b34749e87c6f29402ea",
+      "ai2x_sha256": "8281b87eaa6264a6f0622330daf10ea60517954c8dda3b34749e87c6f29402ea"
+    },
+    {
+      "name": "wtrdrxsw",
+      "source": "worlds/mm8/textures/wtrdrXSW.bmp",
+      "source_sha256": "7b16681f94c969c54983460655d519dc115d02f91ec23f707a86581d56356710",
+      "painted_cells": 8,
+      "smooth2x_sha256": "a6eb44f3b96cadfa7cdd350ef8d403066d9971e7a80fad4577a8eef6f85f4ff1",
+      "ai2x_sha256": "a6eb44f3b96cadfa7cdd350ef8d403066d9971e7a80fad4577a8eef6f85f4ff1"
+    },
+    {
+      "name": "wtrtyl",
+      "source": "worlds/mm8/textures/WtrTyl.bmp",
+      "source_sha256": "4237a0f17445e12ce7f2b3e9ae1155aabdb0c2cfbb9a240e2c3c883014a67957",
+      "painted_cells": 207,
+      "smooth2x_sha256": "e242efd007082dc76c6cacb9a82c09f96b389148d6312b289e0671e46a303fb3",
+      "ai2x_sha256": "e242efd007082dc76c6cacb9a82c09f96b389148d6312b289e0671e46a303fb3"
+    }
+  ]
+}

@@ -1,0 +1,525 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item.\nEdit input image 1 (the geometry guide) in place. Input image 2 is design_reference.png, used ONLY as the authority for surface materials, colours and fine surface detail, NEVER for camera, shape, size or placement.\nReturn exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background. Copy the guide's alpha silhouette EXACTLY, pixel for pixel: same outline, size, position, negative spaces and every part edge. Keep all transparent gaps. No cropping, scaling, reframing, rotating, shifting, enlarging, adding parts or removing parts. Large empty margins are intentional. Repaint surfaces only.\nItem materials: warm white ceramic with subtle fine tan wear and fine panel joins, brushed muted antique gold corners, bezel and chain, and bright blue-white glass lens. Very dark blue-violet resin may occur only as fine material seams/inlays consistent with the reference. Do not introduce materials absent from the reference. Fine engraving and scratches must stay inside existing parts. Plausibly continue these materials on surfaces absent from the design reference.\nTEXTURE SOURCE ALBEDO ONLY: even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside shading, no directional gradients, no strong specular highlights, no reflections, no rim light, no bloom or glow outside the silhouette. Metal is its muted golden base colour with at most faint sheen; lens is bright light blue-white pigment with subtle glass colour detail, no white hotspot. Remove the guide's lighting/shadows while preserving its geometry. No background, floor, text, letters, numerals, labels or watermark.\n\nView: FRONT as in guide_front.png. This is an extremely thin EDGE-ON horizontal view of the pendant lying flat; do NOT show the diamond face or an upright hanging necklace. Preserve the exact tiny centered profile occupying only x=300..722 and y=455..567 in the 1024-square canvas. Ceramic side wall spans x=368..655, y=496..550; lens is the small shallow dome centered x=512 above the wall; its narrow gold bezel spans x=438..585, y=478..497. Keep the left and right gold points, central gold diamond-shaped detail, and tiny partially occluded gold links along the lower edge EXACTLY where the guide places them. Most of the chain is occluded in this view and must remain occluded.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_front.png",
+          "sha256": "9d67ef17f9e201fb4fd4f595dc9936a2b2dd252d6b42fb3464f8e54674922b28"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/design_reference.png",
+          "sha256": "79e9151f5c4c96f3c7a98e02f5378850af371e8b3596d69c8ae99f0f38a5b857"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-9895b6f5-e057-4d01-a89c-a8a3154a3702.png",
+      "output": "raw_front_01.png",
+      "selected": false,
+      "reason": "Not selected: initial output has rendered highlights/shading; retained unchanged for audit and as a corrective input where used.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1136,
+          1214
+        ],
+        "opaque_bbox": [
+          364,
+          585,
+          891,
+          726
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.4534169755726642,
+        "output_sha256": "66b69ba2be3d590a7096db239641402254edced0d8699e6acde970f7b1f134a0",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": false,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 18097,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 15456,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item.\nEdit input image 2 (the geometry guide) in place. Input image 1 is design_reference.png, used ONLY as the authority for surface materials, colours and fine surface detail, NEVER for camera, shape, size or placement.\nReturn exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background. Copy the guide's alpha silhouette EXACTLY, pixel for pixel: same outline, size, position, negative spaces and every part edge. Keep all transparent gaps. No cropping, scaling, reframing, rotating, shifting, enlarging, adding parts or removing parts. Large empty margins are intentional. Repaint surfaces only.\nItem materials: warm white ceramic with subtle fine tan wear and fine panel joins, brushed muted antique gold corners, bezel and chain, and bright blue-white glass lens. Very dark blue-violet resin may occur only as fine material seams/inlays consistent with the reference. Do not introduce materials absent from the reference. Fine engraving and scratches must stay inside existing parts. Plausibly continue these materials on surfaces absent from the design reference.\nTEXTURE SOURCE ALBEDO ONLY: even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside shading, no directional gradients, no strong specular highlights, no reflections, no rim light, no bloom or glow outside the silhouette. Metal is its muted golden base colour with at most faint sheen; lens is bright light blue-white pigment with subtle glass colour detail, no white hotspot. Remove the guide's lighting/shadows while preserving its geometry. No background, floor, text, letters, numerals, labels or watermark.\n\nView: BACK as in guide_back.png. This is an extremely thin EDGE-ON horizontal view of the pendant lying flat; do NOT show an upright pendant face. Preserve the tiny centered profile occupying only x=300..722 and y=455..567. The ceramic side wall is x=368..655, y=496..550. A shallow lens dome and narrow gold bezel sit centrally above it. Keep the angular gold point at each end, the small central gold attachment, and the linked gold chain crossing IN FRONT of the lower wall, around y=523..555, exactly as pictured. The chain's visible links, holes and occlusions must remain unchanged.\n\nUse the SECOND image's native 1024x1024 canvas as the output canvas. Guide geometry is absolute; colours only may change. Keep gold flat and matte, without bevel highlights or directional shading.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/design_reference.png",
+          "sha256": "79e9151f5c4c96f3c7a98e02f5378850af371e8b3596d69c8ae99f0f38a5b857"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_back.png",
+          "sha256": "c981bbc994e16a9eee0b4e7f2824365c6ad48aa8bd65d717118b2d55ce5fd2b5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-609425d4-fefc-4778-b600-214778954d5c.png",
+      "output": "raw_back_01.png",
+      "selected": false,
+      "reason": "Not selected: initial output has rendered highlights/shading; retained unchanged for audit and as a corrective input where used.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          2,
+          79,
+          1111,
+          1198
+        ],
+        "opaque_bbox": [
+          366,
+          559,
+          888,
+          696
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9249631549524826,
+        "output_sha256": "50e9a5aa9f373ada54e9bf794241dfbd7aa1a7e3fb10db2dac37f5fb13ba3d14",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": false,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 5682,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 1408,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item.\nEdit input image 2 (the geometry guide) in place. Input image 1 is design_reference.png, used ONLY as the authority for surface materials, colours and fine surface detail, NEVER for camera, shape, size or placement.\nReturn exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background. Copy the guide's alpha silhouette EXACTLY, pixel for pixel: same outline, size, position, negative spaces and every part edge. Keep all transparent gaps. No cropping, scaling, reframing, rotating, shifting, enlarging, adding parts or removing parts. Large empty margins are intentional. Repaint surfaces only.\nItem materials: warm white ceramic with subtle fine tan wear and fine panel joins, brushed muted antique gold corners, bezel and chain, and bright blue-white glass lens. Very dark blue-violet resin may occur only as fine material seams/inlays consistent with the reference. Do not introduce materials absent from the reference. Fine engraving and scratches must stay inside existing parts. Plausibly continue these materials on surfaces absent from the design reference.\nTEXTURE SOURCE ALBEDO ONLY: even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside shading, no directional gradients, no strong specular highlights, no reflections, no rim light, no bloom or glow outside the silhouette. Metal is its muted golden base colour with at most faint sheen; lens is bright light blue-white pigment with subtle glass colour detail, no white hotspot. Remove the guide's lighting/shadows while preserving its geometry. No background, floor, text, letters, numerals, labels or watermark.\n\nView: LEFT as in guide_left.png. Preserve this long very thin EDGE-ON horizontal profile occupying x=66..957 and y=455..568. The chain lies to the LEFT from x=66 to about 449, with exactly the guide's links and holes; its large attachment ring is near x=455,y=531. The ceramic side wall is x=489..885,y=496..550; the shallow lens dome is centered x=687, with its narrow gold bezel above the wall. Keep the small central gold diamond detail and the separate far-right gold point at x=900..957. Preserve every gap, including between the point and body. No upright hanging necklace, no diamond-face view.\n\nUse the SECOND image's native 1024x1024 canvas as the output canvas. Guide geometry is absolute; colours only may change. Keep gold flat and matte, without bevel highlights or directional shading.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/design_reference.png",
+          "sha256": "79e9151f5c4c96f3c7a98e02f5378850af371e8b3596d69c8ae99f0f38a5b857"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_left.png",
+          "sha256": "7d8cabf67e6e50a30907c17284ea277275ec443393d70bada9a73805ae299c9f"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-983c2cdb-dcef-4afa-a7db-7c0838e0e669.png",
+      "output": "raw_left_01.png",
+      "selected": false,
+      "reason": "Not selected: initial output has rendered highlights/shading; retained unchanged for audit and as a corrective input where used.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          23,
+          1226,
+          1230
+        ],
+        "opaque_bbox": [
+          81,
+          561,
+          1173,
+          694
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8974487892696693,
+        "output_sha256": "f759e1b0985679025d5a1c44ed04bf0eab014bda13ecb145f9ee30d94f5dda3e",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": false,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 9549,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 1059,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item.\nEdit input image 2 (the geometry guide) in place. Input image 1 is design_reference.png, used ONLY as the authority for surface materials, colours and fine surface detail, NEVER for camera, shape, size or placement.\nReturn exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background. Copy the guide's alpha silhouette EXACTLY, pixel for pixel: same outline, size, position, negative spaces and every part edge. Keep all transparent gaps. No cropping, scaling, reframing, rotating, shifting, enlarging, adding parts or removing parts. Large empty margins are intentional. Repaint surfaces only.\nItem materials: warm white ceramic with subtle fine tan wear and fine panel joins, brushed muted antique gold corners, bezel and chain, and bright blue-white glass lens. Very dark blue-violet resin may occur only as fine material seams/inlays consistent with the reference. Do not introduce materials absent from the reference. Fine engraving and scratches must stay inside existing parts. Plausibly continue these materials on surfaces absent from the design reference.\nTEXTURE SOURCE ALBEDO ONLY: even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside shading, no directional gradients, no strong specular highlights, no reflections, no rim light, no bloom or glow outside the silhouette. Metal is its muted golden base colour with at most faint sheen; lens is bright light blue-white pigment with subtle glass colour detail, no white hotspot. Remove the guide's lighting/shadows while preserving its geometry. No background, floor, text, letters, numerals, labels or watermark.\n\nView: RIGHT as in guide_right.png. Preserve this long very thin EDGE-ON horizontal profile occupying x=66..957 and y=455..568. The chain lies to the RIGHT from about x=576 to 957, with exactly the guide's links and holes; its large attachment ring is near x=566,y=531. The ceramic side wall is x=138..534,y=496..550; the shallow lens dome is centered x=336, with its narrow gold bezel above the wall. Keep the small central gold diamond detail and the separate far-left gold point at x=66..122. Preserve every gap. No upright hanging necklace, no diamond-face view.\n\nUse the SECOND image's native 1024x1024 canvas. Exact alpha-lock geometry; colours only may change. Keep ALL faces of every gold component nearly the SAME matte ochre-gold albedo, with no bevel lighting. The lens has NO reflection or specular highlight; paint its BLUE-WHITE intrinsic colour. Preserve the guide's polygonal outlines and hard edges, not rounded reinterpreted shapes.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/design_reference.png",
+          "sha256": "79e9151f5c4c96f3c7a98e02f5378850af371e8b3596d69c8ae99f0f38a5b857"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_right.png",
+          "sha256": "ece838078c4eaa0b77cddcdba7b1410054af42c825ff8b75d71a70c25d523152"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-1d3cabe7-c6de-4faf-b6a0-6df945e38128.png",
+      "output": "raw_right_01.png",
+      "selected": false,
+      "reason": "Not selected: initial output has rendered highlights/shading; retained unchanged for audit and as a corrective input where used.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          51,
+          29,
+          1212,
+          1198
+        ],
+        "opaque_bbox": [
+          81,
+          560,
+          1173,
+          695
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9392536270734838,
+        "output_sha256": "4194e4f33b705c0062234f5f16b68a71c83b2ee184609da86a004c5a46d8908d",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": false,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 8594,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 811,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item.\nEdit input image 2 (the geometry guide) in place. Input image 1 is design_reference.png, used ONLY as the authority for surface materials, colours and fine surface detail, NEVER for camera, shape, size or placement.\nReturn exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background. Copy the guide's alpha silhouette EXACTLY, pixel for pixel: same outline, size, position, negative spaces and every part edge. Keep all transparent gaps. No cropping, scaling, reframing, rotating, shifting, enlarging, adding parts or removing parts. Large empty margins are intentional. Repaint surfaces only.\nItem materials: warm white ceramic with subtle fine tan wear and fine panel joins, brushed muted antique gold corners, bezel and chain, and bright blue-white glass lens. Very dark blue-violet resin may occur only as fine material seams/inlays consistent with the reference. Do not introduce materials absent from the reference. Fine engraving and scratches must stay inside existing parts. Plausibly continue these materials on surfaces absent from the design reference.\nTEXTURE SOURCE ALBEDO ONLY: even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside shading, no directional gradients, no strong specular highlights, no reflections, no rim light, no bloom or glow outside the silhouette. Metal is its muted golden base colour with at most faint sheen; lens is bright light blue-white pigment with subtle glass colour detail, no white hotspot. Remove the guide's lighting/shadows while preserving its geometry. No background, floor, text, letters, numerals, labels or watermark.\n\nView: TOP as in guide_top.png, directly overhead orthographic, with no perspective. Preserve the full tall narrow arrangement occupying x=300..723 and y=66..957. The chain forms the EXACT polygonal loop in the upper half, attachment near x=512,y=450. White ceramic diamond has top (512,491), left (368,687), bottom (512,886), right (655,687). Lens center (512,687), pale blue circular glass radius about 52 within the gold bezel radius about 73. Keep the separate left and right gold corner points and bottom gold tip, including ALL transparent gaps between them and the ceramic. Paint the chain, attachments and corner parts muted brushed gold. Transfer the reference's fine ceramic panel joins, very fine dark resin seams and lens concentric blue-white rings/crosshair markings only inside existing surfaces. Crosshair uses simple unlettered fine lines. The diamond must stay this exact size and location; do not expand or reshape it to match the reference.\n\nUse the SECOND image's native 1024x1024 canvas. Exact alpha-lock geometry; colours only may change. Keep ALL faces of every gold component nearly the SAME matte ochre-gold albedo, with no bevel lighting. The lens has NO reflection or specular highlight; paint its BLUE-WHITE intrinsic colour. Preserve the guide's polygonal outlines and hard edges, not rounded reinterpreted shapes.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/design_reference.png",
+          "sha256": "79e9151f5c4c96f3c7a98e02f5378850af371e8b3596d69c8ae99f0f38a5b857"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_top.png",
+          "sha256": "f266468267b1ee0dcf28ace278884dd5d9b7c27f723cfd45156e2960dc032889"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-d1337d2e-a54c-41cf-bfe7-197c3f809361.png",
+      "output": "raw_top_01.png",
+      "selected": false,
+      "reason": "Not selected: initial output has rendered highlights/shading; retained unchanged for audit and as a corrective input where used.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          27,
+          22,
+          1103,
+          1254
+        ],
+        "opaque_bbox": [
+          369,
+          77,
+          886,
+          1177
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8618710948015699,
+        "output_sha256": "e3d8921e649dd121ffa30c26ac2ba9b8bd72bf3d0e2eb45a7c7a3a264f8ba7ec",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": false,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 38119,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 11631,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item.\nEdit input image 2 (the geometry guide) in place. Input image 1 is design_reference.png, used ONLY as the authority for surface materials, colours and fine surface detail, NEVER for camera, shape, size or placement.\nReturn exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background. Copy the guide's alpha silhouette EXACTLY, pixel for pixel: same outline, size, position, negative spaces and every part edge. Keep all transparent gaps. No cropping, scaling, reframing, rotating, shifting, enlarging, adding parts or removing parts. Large empty margins are intentional. Repaint surfaces only.\nItem materials: warm white ceramic with subtle fine tan wear and fine panel joins, brushed muted antique gold corners, bezel and chain, and bright blue-white glass lens. Very dark blue-violet resin may occur only as fine material seams/inlays consistent with the reference. Do not introduce materials absent from the reference. Fine engraving and scratches must stay inside existing parts. Plausibly continue these materials on surfaces absent from the design reference.\nTEXTURE SOURCE ALBEDO ONLY: even flat shadowless light from the viewer. No cast shadows, no ambient occlusion, no dark underside shading, no directional gradients, no strong specular highlights, no reflections, no rim light, no bloom or glow outside the silhouette. Metal is its muted golden base colour with at most faint sheen; lens is bright light blue-white pigment with subtle glass colour detail, no white hotspot. Remove the guide's lighting/shadows while preserving its geometry. No background, floor, text, letters, numerals, labels or watermark.\n\nView: FRONT as in guide_front.png. This is an extremely thin EDGE-ON horizontal view of the pendant lying flat; do NOT show the diamond face or an upright hanging necklace. Preserve the exact tiny centered profile occupying only x=300..722 and y=455..567 in the 1024-square canvas. Ceramic side wall spans x=368..655, y=496..550; lens is the small shallow dome centered x=512 above the wall; its narrow gold bezel spans x=438..585, y=478..497. Keep the left and right gold points, central gold diamond-shaped detail, and tiny partially occluded gold links along the lower edge EXACTLY where the guide places them. Most of the chain is occluded in this view and must remain occluded.\n\nONE CORRECTIVE REGENERATION from the ORIGINAL guide. Correct two defects of the earlier attempt: it placed the entire object too low and added rendered lighting. This time copy image 2's silhouette and every internal part edge literally. Ceramic wall center is at (512,523) in the native 1024-square guide, NOT y=545; shallow lens peak at y=455. The full opaque object must stay within x=300..722,y=455..567. Preserve disconnected regions and tiny edge shapes; NO fuzzy alpha specks elsewhere. Every gold face must have approximately the SAME base ochre-gold colour (around #b39857), decorated only with small fine scratches, without dark bottom facets or bright upper facets. Ceramic is flat warm off-white (#e8e4dc), fine tan scuffs and thin seam lines only. Blue-white lens is flat icy blue (#b5dcf1) with subtle pale intrinsic detail, NO reflection. This is an unlit painted material pass, not studio lighting. Return 1024x1024 if possible and do not enlarge the object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/design_reference.png",
+          "sha256": "79e9151f5c4c96f3c7a98e02f5378850af371e8b3596d69c8ae99f0f38a5b857"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_front.png",
+          "sha256": "9d67ef17f9e201fb4fd4f595dc9936a2b2dd252d6b42fb3464f8e54674922b28"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-08eb10d5-417d-4eb9-a50d-d78e98289eb5.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction: improves normalized silhouette IoU from 0.4534 to 0.8684 and corrects most vertical displacement. Gold facets and lens still contain visible lighting. Exact silhouette requirement remains unmet.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1216,
+          1198
+        ],
+        "opaque_bbox": [
+          372,
+          567,
+          882,
+          698
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8683666614995091,
+        "output_sha256": "203168c5af774ac4a43233c6803f610b8c71d967c5e3ef7b3d9b9759d439c28c",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": false,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 5576,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 1431,
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "raw_front_02.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective albedo paint-over, one single 1024x1024 transparent RGBA image.\nImage 1 is the previous painting: its white ceramic, aged gold, icy blue glass and fine wear are the approved material family, but its LIGHTING IS WRONG.\nImage 2 is the original guide: copy its exact alpha silhouette, exact part boundaries, size, location, shapes and empty spaces. Do not round off the polygonal links. Retain the exact 1024x1024 guide canvas and position. Repaint only inside its existing opaque areas.\nView: BACK as in guide_back.png. This is an extremely thin EDGE-ON horizontal view of the pendant lying flat; do NOT show an upright pendant face. Preserve the tiny centered profile occupying only x=300..722 and y=455..567. The ceramic side wall is x=368..655, y=496..550. A shallow lens dome and narrow gold bezel sit centrally above it. Keep the angular gold point at each end, the small central gold attachment, and the linked gold chain crossing IN FRONT of the lower wall, around y=523..555, exactly as pictured. The chain's visible links, holes and occlusions must remain unchanged.\nCORRECTION: flatten all illumination entirely. Paint an UNLIT BASE COLOUR texture, like a diffuse channel with lights disabled, not a beauty render. Every face of each gold piece is the SAME medium muted ochre gold #b39857 with tiny low-contrast scratches; there are no dark underside facets, no shiny edge stripes and no lighting gradients around chain links. Fine gold wear is colour variation only. White ceramic is uniform warm off-white #e8e4dc with a few tan fine scuffs and narrow surface seams. Blue glass is pale icy blue #b5dcf1 with faint blue-white intrinsic detail: remove all glare, specular dots and environment reflections. No ambient occlusion even between links; holes remain fully transparent. No outline shadows. Copy all the guide's contours exactly, including the chain crossing the lower ceramic wall. All background pixels must be fully transparent, no noise specks or faint ghosting. No text, letters, digits, captions or watermark. Materials continue the approved design_reference.png but without its photographic lighting.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/raw_back_01.png",
+          "sha256": "50e9a5aa9f373ada54e9bf794241dfbd7aa1a7e3fb10db2dac37f5fb13ba3d14"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_back.png",
+          "sha256": "c981bbc994e16a9eee0b4e7f2824365c6ad48aa8bd65d717118b2d55ce5fd2b5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-33372186-c916-4228-8038-93b5bcfdee89.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction: flatter albedo and improved normalized silhouette IoU from 0.9250 to 0.9649. Exact silhouette requirement remains unmet.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1224,
+          1215
+        ],
+        "opaque_bbox": [
+          367,
+          561,
+          887,
+          696
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9649433143040926,
+        "output_sha256": "c3d99d3eedf66176dbd2f78b27d111e97f2b4529c684db2b9d830d6b345e3a61",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": true,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 2721,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 161,
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "raw_back_02.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective albedo paint-over, one single 1024x1024 transparent RGBA image.\nImage 1 is the previous painting: its white ceramic, aged gold, icy blue glass and fine wear are the approved material family, but its LIGHTING IS WRONG.\nImage 2 is the original guide: copy its exact alpha silhouette, exact part boundaries, size, location, shapes and empty spaces. Do not round off the polygonal links. Retain the exact 1024x1024 guide canvas and position. Repaint only inside its existing opaque areas.\nView: LEFT as in guide_left.png. Preserve this long very thin EDGE-ON horizontal profile occupying x=66..957 and y=455..568. The chain lies to the LEFT from x=66 to about 449, with exactly the guide's links and holes; its large attachment ring is near x=455,y=531. The ceramic side wall is x=489..885,y=496..550; the shallow lens dome is centered x=687, with its narrow gold bezel above the wall. Keep the small central gold diamond detail and the separate far-right gold point at x=900..957. Preserve every gap, including between the point and body. No upright hanging necklace, no diamond-face view.\nCORRECTION: flatten all illumination entirely. Paint an UNLIT BASE COLOUR texture, like a diffuse channel with lights disabled, not a beauty render. Every face of each gold piece is the SAME medium muted ochre gold #b39857 with tiny low-contrast scratches; there are no dark underside facets, no shiny edge stripes and no lighting gradients around chain links. Fine gold wear is colour variation only. White ceramic is uniform warm off-white #e8e4dc with a few tan fine scuffs and narrow surface seams. Blue glass is pale icy blue #b5dcf1 with faint blue-white intrinsic detail: remove all glare, specular dots and environment reflections. No ambient occlusion even between links; holes remain fully transparent. No outline shadows. Copy all the guide's contours exactly, including the chain to the LEFT of the wall and the visible gap before the far RIGHT point. All background pixels must be fully transparent, no noise specks or faint ghosting. No text, letters, digits, captions or watermark. Materials continue the approved design_reference.png but without its photographic lighting.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/raw_left_01.png",
+          "sha256": "f759e1b0985679025d5a1c44ed04bf0eab014bda13ecb145f9ee30d94f5dda3e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_left.png",
+          "sha256": "7d8cabf67e6e50a30907c17284ea277275ec443393d70bada9a73805ae299c9f"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-927057df-4742-4288-aa00-365934f4955b.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: substantially flatter gold and glass. Minor reduction in normalized silhouette IoU (0.8974 to 0.8835); chain thickness and holes still differ from the guide.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1192,
+          1182
+        ],
+        "opaque_bbox": [
+          84,
+          560,
+          1170,
+          695
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8835041333051825,
+        "output_sha256": "c19d8b82039b6d2df7208ac383901ce3b2a3081f342a6ab3a012d0e3baf084ed",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": true,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 7857,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 1175,
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "raw_left_02.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective albedo paint-over, one single 1024x1024 transparent RGBA image.\nImage 1 is the previous painting: its white ceramic, aged gold, icy blue glass and fine wear are the approved material family, but its LIGHTING IS WRONG.\nImage 2 is the original guide: copy its exact alpha silhouette, exact part boundaries, size, location, shapes and empty spaces. Do not round off the polygonal links. Retain the exact 1024x1024 guide canvas and position. Repaint only inside its existing opaque areas.\nView: RIGHT as in guide_right.png. Preserve this long very thin EDGE-ON horizontal profile occupying x=66..957 and y=455..568. The chain lies to the RIGHT from about x=576 to 957, with exactly the guide's links and holes; its large attachment ring is near x=566,y=531. The ceramic side wall is x=138..534,y=496..550; the shallow lens dome is centered x=336, with its narrow gold bezel above the wall. Keep the small central gold diamond detail and the separate far-left gold point at x=66..122. Preserve every gap. No upright hanging necklace, no diamond-face view.\nCORRECTION: flatten all illumination entirely. Paint an UNLIT BASE COLOUR texture, like a diffuse channel with lights disabled, not a beauty render. Every face of each gold piece is the SAME medium muted ochre gold #b39857 with tiny low-contrast scratches; there are no dark underside facets, no shiny edge stripes and no lighting gradients around chain links. Fine gold wear is colour variation only. White ceramic is uniform warm off-white #e8e4dc with a few tan fine scuffs and narrow surface seams. Blue glass is pale icy blue #b5dcf1 with faint blue-white intrinsic detail: remove all glare, specular dots and environment reflections. No ambient occlusion even between links; holes remain fully transparent. No outline shadows. Copy all the guide's contours exactly, including the chain to the RIGHT of the wall and the visible gap before the far LEFT point. All background pixels must be fully transparent, no noise specks or faint ghosting. No text, letters, digits, captions or watermark. Materials continue the approved design_reference.png but without its photographic lighting.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/raw_right_01.png",
+          "sha256": "4194e4f33b705c0062234f5f16b68a71c83b2ee184609da86a004c5a46d8908d"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_right.png",
+          "sha256": "ece838078c4eaa0b77cddcdba7b1410054af42c825ff8b75d71a70c25d523152"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-9dff2ce6-9d58-47f9-9f8a-c472fa866249.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction for substantially flatter gold and glass. Normalized silhouette IoU decreased from 0.9393 to 0.8600; chain shape, holes and end detail drift remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          73,
+          23,
+          1194,
+          1180
+        ],
+        "opaque_bbox": [
+          78,
+          557,
+          1181,
+          694
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.859983854441581,
+        "output_sha256": "1d2ab59b48eb9c8de6cd7e50cff63effd863806d025aaa212f4087bd91344973",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": true,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 10790,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 3363,
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "raw_right_02.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective albedo paint-over, one single 1024x1024 transparent RGBA image.\nImage 1 is the previous painting: its white ceramic, aged gold, blue-white glass and fine wear are the material design, but its LIGHTING IS WRONG and it rounded/expanded the chain and bridged the lower gold-tip gap.\nImage 2 is the original guide: copy its exact alpha silhouette, exact part boundaries, size, location, shapes and empty spaces. Do not round off the polygonal links. Retain the exact 1024x1024 guide canvas and position. Repaint only inside its existing opaque areas.\nView: TOP as in guide_top.png, directly overhead orthographic, with no perspective. Preserve the full tall narrow arrangement occupying x=300..723 and y=66..957. The chain forms the EXACT polygonal loop in the upper half, attachment near x=512,y=450. White ceramic diamond has top (512,491), left (368,687), bottom (512,886), right (655,687). Lens center (512,687), pale blue circular glass radius about 52 within the gold bezel radius about 73. Keep the separate left and right gold corner points and bottom gold tip, including ALL transparent gaps between them and the ceramic. Paint the chain, attachments and corner parts muted brushed gold. Transfer the reference's fine ceramic panel joins, very fine dark resin seams and lens concentric blue-white rings/crosshair markings only inside existing surfaces. Crosshair uses simple unlettered fine lines. The diamond must stay this exact size and location; do not expand or reshape it to match the reference.\nCORRECTION: flatten all illumination entirely. Paint an UNLIT BASE COLOUR texture, like a diffuse channel with lights disabled, not a beauty render. Every face of each gold piece is the SAME medium muted ochre gold #b39857 with tiny low-contrast scratches; there are no dark underside facets, no shiny edge stripes and no lighting gradients around chain links. Fine gold wear is colour variation only. White ceramic is uniform warm off-white #e8e4dc with a few tan fine scuffs and narrow surface seams. Blue lens: a pale bright blue-white center, blue concentric inlaid rings and four fine gold crosshair lines consistent with the reference; these are intrinsic colours only. Remove all glare, specular dots, white hotspots and environment reflections. No ambient occlusion even between links; holes remain fully transparent. No outline shadows. Copy all guide contours exactly: polygonal upper chain, diamond body, separate side gold points, and separate bottom gold point. Preserve the TRANSPARENT GAP from y=886 to y=900 between ceramic diamond bottom and detached bottom gold point. All background pixels must be fully transparent, no noise specks or faint ghosting. No text, letters, digits, captions or watermark. Materials continue the approved design_reference.png but without its photographic lighting.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/raw_top_01.png",
+          "sha256": "e3d8921e649dd121ffa30c26ac2ba9b8bd72bf3d0e2eb45a7c7a3a264f8ba7ec"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_surveyors_pendant/guide_top.png",
+          "sha256": "f266468267b1ee0dcf28ace278884dd5d9b7c27f723cfd45156e2960dc032889"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e08-1097-7322-8d0a-157570fdab03/exec-1a8ebda0-0742-433b-a3ca-171d7c01c333.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction for flatter albedo and removal of strong lens/metal highlights. Normalized silhouette IoU decreased from 0.8619 to 0.7909; enlarged chain and altered gaps remain. Some bevel shading persists.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          39,
+          1230,
+          1229
+        ],
+        "opaque_bbox": [
+          367,
+          69,
+          887,
+          1183
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.7908663295875072,
+        "output_sha256": "8c59b63c300c28ce0786a0ec17781279c1b18c4366e36bf2799331ac44fac261",
+        "requested_dimensions_met": false,
+        "no_text_or_letters": true,
+        "material_family_matches_reference": true,
+        "no_background_floor_or_cast_shadow": true,
+        "flat_even_lighting": false,
+        "pixels_with_nonzero_alpha_outside_normalized_guide": 40201,
+        "pixels_with_opaque_alpha_outside_normalized_guide": 19699,
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "raw_top_02.png"
+    }
+  ],
+  "status": "Five paintings saved; strict silhouette and some lighting checks failed after the permitted single corrective regeneration per view.",
+  "selection_note": "Selected denotes the saved candidate, not acceptance against all brief requirements.",
+  "checks_method": "Read-only PIL/numpy inspection. Exact alpha equality requires identical dimensions and alpha values. Normalized silhouette IoU compares alpha >=128 against the guide sampled at normalized pixel-center coordinates; no output image was resized, cropped, masked or otherwise edited. Materials, lighting and text checks are visual review.",
+  "limits": [
+    "Every return is 1254x1254 instead of the requested 1024x1024; preserved unresized as instructed.",
+    "Every selected output has silhouette drift and nonzero alpha outside the guide.",
+    "Front retains visible facet shading and lens highlights; top retains some bevel shading.",
+    "Exactly two calls per view: initial generation plus one correction.",
+    "Only files in the brief folder were written by workspace operations; image generation also created its tool-managed originals. No builds, model edits or runtime installation."
+  ]
+}

@@ -1,0 +1,3 @@
+Saved [raw_B.png](level_generation/ui/hud_inventory/mm9_pc_portraits/npc06/raw_B.png) using built-in image generation: 28 portraits, 1536×1024, verified transparency. Exact prompts and hashes are in [generation_B.json](level_generation/ui/hud_inventory/mm9_pc_portraits/npc06/generation_B.json); first attempt preserved.
+
+No runtime checks. Some poses remain approximate, particularly the ducking portrait.

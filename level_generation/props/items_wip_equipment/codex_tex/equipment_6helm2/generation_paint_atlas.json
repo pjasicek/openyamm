@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Steel Helm (6helm2). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Dark silver round dome helmet with long straight cheek guards, horizontal narrow rectangular eye opening and tiny top spike. Exact material boundaries: Use the icon and identity; red only for actual metal fittings, keep leather, horn and fabric in their own classes. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6helm2/inputs/guide_paint.png",
+  "input_guide_sha256": "3c4db0c2d6db3fe44e95b124fbd3e99df55c497d39be6e4e7422ee0d9a3e56f0",
+  "revision": 1,
+  "input_icon": "6helm2",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-8ac8df5c-2c2a-437e-ab4c-d7478c7cf1ea.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "5b2ed73844655ad2bd37792c79856b1908e05afbd982a57e44c3a6162b916d7b",
+  "input_icon_path": "assets_dev/engine/icons_x2/6helm2.png",
+  "input_icon_sha256": "cb0daceaf3921d2cb1a5d2d9cc97b97a086a42d33c0ff3d405ee86d4710cb651",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

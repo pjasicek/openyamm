@@ -1,0 +1,31 @@
+id: mm9.ai.ranged
+title: An MM9 skull thrower at long range throws at a standing party at its Range.inc shot check, then closes in
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Before phase 2 the thrower flipped between MM8's ranged orbit and the
+        skirmisher's throttle every AI step (the native distance roll against ShouldRunAfter). On MM9's Range.inc it
+        throws at its first shot check (2.2 s, clear line) on the run and then closes in to melee; no orbit.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: ranged.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: shot_check, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, min_count: 1}
+  # In reach it strikes, its blows strafe attacks with this seed (MM9's 0.99 s recovery from the clip's end, which its
+  # own 0.8 s clip now times; in reach always a blow, no Att% roll), and they land.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: strafe_attack, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, detail: attack2, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, event: impact, detail: attack2, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: orbit, max_count: 0}

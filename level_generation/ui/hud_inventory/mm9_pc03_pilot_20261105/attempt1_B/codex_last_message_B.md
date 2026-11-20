@@ -1,0 +1,3 @@
+Saved built-in generation as [raw_B.png](level_generation/ui/hud_inventory/mm9_pc03_pilot_20261105/raw_B.png), with exact prompts, hashes and self-check in [generation_B.json](level_generation/ui/hud_inventory/mm9_pc03_pilot_20261105/generation_B.json). First attempt preserved as requested.
+
+No pixel edits or builds. Transparency verified; hair, expressions and lighting still deviate from the brief.

@@ -1,0 +1,31 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png precisely. It is the edit target; design_reference.png is the approved material/detail reference and icon_x8.png is the original colour reference (magenta is background, never paint magenta). Output one transparent PNG at 1536x2048, 3:4 aspect ratio. Preserve exactly the guide's three-column FOUR-row 512x512 cell layout and ALL silhouettes, positions, sizes, orientations, openings and empty space. Do not reinterpret the unusual views: keep the narrow horizontal edge-on views precisely as given. Each two-row group contains FRONT, BACK, LEFT / RIGHT, TOP, empty. The two groups are geometrically identical.\nRows 1-2: paint only the grey objects with unlit base colour in MM6-MM8 inventory style faithfully matching the original MM9 icon and approved HD reference: broad bright-silver crescent flat metal blade, small narrow upward rear metal spike, gold socket collar, slim reddish-brown wooden handle, silver lower grip with raised metal rings and metal pommel. Preserve reference rivets and plate contours. Facets, engravings, scrollwork and inner swirls follow the reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections.\nRows 3-4: same five silhouettes filled with FLAT pure material colours, no shading, texture, outlines or antialiased colour blends inside. All metal including silver head, spike, rivets, gold collar, lower metal grip/rings/pommel = pure red #FF0000. Wooden shaft = pure yellow #FFFF00. If present leather/fur = pure green #00FF00; cloth/hair = pure blue #0000FF; gemstones/crystal/glass/pearl/enamel/liquid through glass = pure black #000000. Every silhouette pixel gets exactly one material colour, nothing outside silhouettes.\nOnly paint the existing guide shapes. Never redraw, enlarge, move or redesign. Keep all gaps and openings fully transparent. Row 2 column 3 and row 4 column 3 stay empty transparent. Genuine alpha background, no ground, no outlines, no text, no glow halo, sparkles or aura. This is a static fantasy prop texture sheet, not an item showcase.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10040/paint_mask_guide.png",
+      "sha256": "f95dd0e0b2207e54b4a2bcf38f1acbcb28b688f3751b75c841decdd1cac09bfe"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10040/design_reference.png",
+      "sha256": "22d57e6edf37594bcfd061f885b9191e14c854f95fcb0acf1ff66701b4a4e144"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10040/icon_x8.png",
+      "sha256": "22625d4bc9726f9a6bf5902f5bceb68ce4c82179c7d7f013a343e8a2fb5537c4"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad27-2db1-79f0-8c65-023054e6fc93/exec-aa7a9f35-dc00-4598-abb7-05eee497ddce.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10040/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_attempt": {
+    "prompt": "Edit the supplied paint_mask_guide.png precisely. It is the edit target; design_reference.png is the approved material/detail reference and icon_x8.png is the original colour reference (magenta is background, never paint magenta). Output one transparent PNG at 1536x2048, 3:4 aspect ratio. Preserve exactly the guide's three-column FOUR-row 512x512 cell layout and ALL silhouettes, positions, sizes, orientations, openings and empty space. Do not reinterpret the unusual views: keep the narrow horizontal edge-on views precisely as given. Each two-row group contains FRONT, BACK, LEFT / RIGHT, TOP, empty. The two groups are geometrically identical.\nRows 1-2: paint only the grey objects with unlit base colour in MM6-MM8 inventory style faithfully matching the original MM9 icon and approved HD reference: broad bright-silver crescent flat metal blade, small narrow upward rear metal spike, gold socket collar, slim reddish-brown wooden handle, silver lower grip with raised metal rings and metal pommel. Preserve reference rivets and plate contours. Facets, engravings, scrollwork and inner swirls follow the reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections.\nRows 3-4: same five silhouettes filled with FLAT pure material colours, no shading, texture, outlines or antialiased colour blends inside. All metal including silver head, spike, rivets, gold collar, lower metal grip/rings/pommel = pure red #FF0000. Wooden shaft = pure yellow #FFFF00. If present leather/fur = pure green #00FF00; cloth/hair = pure blue #0000FF; gemstones/crystal/glass/pearl/enamel/liquid through glass = pure black #000000. Every silhouette pixel gets exactly one material colour, nothing outside silhouettes.\nOnly paint the existing guide shapes. Never redraw, enlarge, move or redesign. Keep all gaps and openings fully transparent. Row 2 column 3 and row 4 column 3 stay empty transparent. Genuine alpha background, no ground, no outlines, no text, no glow halo, sparkles or aura. This is a static fantasy prop texture sheet, not an item showcase.\nCORRECTION PRIORITY: Trace the supplied grey guide's alpha boundary exactly. Absolutely no stray pixels or coloured fringes outside it. The lower material-mask group must be solid flat fills, with NO drawn rivets, rings, strokes, dark edges, gradients or lighting: metal details merge into an uninterrupted pure-red region. Only wood is flat yellow. The lower metal grip occupies the lower approximately 29% of the whole upright item; apply consistent material positions in ALL edge-on views. Keep original guide silhouettes and proportions strictly.",
+    "status": "rejected by image generation safety system (violence)",
+    "request_id": "c47cbbec-21a1-45b6-b74c-c728e1427b6f"
+  },
+  "validation_notes": "Raw generated image has stray silhouette-edge pixels and shaded material mask details; corrective generation failed. No postprocessing applied.",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

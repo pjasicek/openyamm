@@ -10,7 +10,7 @@ import sys
 
 import yaml
 
-from compile_effect_library import effect_id, normalized_reference, properties
+from compile_effect_library import BODY_ANCHORS, effect_id, normalized_reference, properties
 from convert_abc_model import read_abc, rigid_piece_node_indices
 
 
@@ -21,18 +21,6 @@ from inspect_assets import read_fxf  # noqa: E402
 
 
 SUPPORTED_COMPONENTS = {"SpriteSystem", "Sprite", "PlaySound", "Model", "Null"}
-BODY_ANCHORS = {
-    2: "left_hand",
-    3: "right_hand",
-    4: "left_foot",
-    5: "right_foot",
-    6: "head",
-    7: "tail_or_user_node_7",
-    8: "tail_or_user_node_8",
-    9: "tail_or_user_node_9",
-}
-
-
 def resource_references(group: dict) -> set[str]:
     result = set()
     for key in group["keys"]:
@@ -62,7 +50,7 @@ def visible_model_blockers(group: dict, bindings: dict[str, dict]) -> tuple[list
             models.append(record)
             continue
         try:
-            model = read_abc(Path(binding["source"]["path"]))
+            model = read_abc(REPOSITORY_ROOT / binding["source"]["path"])
             rigid_piece_node_indices(model, 0)
             record["mode"] = "rigid"
         except (OSError, ValueError) as exception:
@@ -112,8 +100,7 @@ def generate_report(fxf_path: Path, manifest_path: Path, library_path: Path) -> 
                         "anchor": BODY_ANCHORS.get(mode, f"user_node_{mode}"),
                     }
                 )
-        if body_anchors:
-            blockers.append("needs_body_anchors")
+        anchor_fallback = bool(body_anchors)
 
         model_blockers, models = visible_model_blockers(group, bindings)
         blockers.extend(model_blockers)
@@ -153,6 +140,7 @@ def generate_report(fxf_path: Path, manifest_path: Path, library_path: Path) -> 
                 "missingResources": missing_resources,
                 "unpackagedResources": unpackaged_resources,
                 "bodyAnchors": body_anchors,
+                **({"anchorFallback": "origin"} if anchor_fallback else {}),
                 "models": models,
                 "looping": "unsupported_until_native_continuous_key_semantics_are_implemented",
             }
@@ -171,7 +159,7 @@ def generate_report(fxf_path: Path, manifest_path: Path, library_path: Path) -> 
             "spawnMode": "one_shot",
             "looping": "unsupported",
             "visibleDeformingModels": "unsupported",
-            "actorBodyAnchors": "unsupported",
+            "actorBodyAnchors": "origin_fallback",
             "knownGlobalDifferences": [
                 "Native continuous-key loop behavior remains unresolved.",
                 "Legacy texture-stage state and source mip upload are approximated by PNG and generated mipmaps.",

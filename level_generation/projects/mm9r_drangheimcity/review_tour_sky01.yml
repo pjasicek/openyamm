@@ -1,0 +1,68 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_drangheimcity/review/sky01
+settle_seconds: 2.0
+exit: true
+shots:
+- name: s07_north_plaza_0630
+  position:
+  - 16128
+  - -768
+  - 348
+  yaw: 0.0
+  pitch: 0.35
+  time: 06:30
+- name: s07_north_plaza_1200
+  position:
+  - 16128
+  - -768
+  - 348
+  yaw: 0.0
+  pitch: 0.35
+  time: '12:00'
+- name: s07_north_plaza_1930
+  position:
+  - 16128
+  - -768
+  - 348
+  yaw: 0.0
+  pitch: 0.35
+  time: '19:30'
+- name: s07_north_plaza_2330
+  position:
+  - 16128
+  - -768
+  - 348
+  yaw: 0.0
+  pitch: 0.35
+  time: '23:30'
+- name: s18_town_from_hill_0630
+  position:
+  - 13312
+  - -3840
+  - 1002
+  yaw: 0.2709
+  pitch: 0.3
+  time: 06:30
+- name: s18_town_from_hill_1200
+  position:
+  - 13312
+  - -3840
+  - 1002
+  yaw: 0.2709
+  pitch: 0.3
+  time: '12:00'
+- name: s18_town_from_hill_1930
+  position:
+  - 13312
+  - -3840
+  - 1002
+  yaw: 0.2709
+  pitch: 0.3
+  time: '19:30'
+- name: s18_town_from_hill_2330
+  position:
+  - 13312
+  - -3840
+  - 1002
+  yaw: 0.2709
+  pitch: 0.3
+  time: '23:30'

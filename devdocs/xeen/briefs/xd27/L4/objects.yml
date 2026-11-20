@@ -1,0 +1,763 @@
+format: 0
+start:
+  room: room:mouth
+  at: [0, 448]
+  facing: 90
+  notes: "Inside the bone-strewn mouth, facing in; daylight behind."
+doors:
+  - id: door:gate
+    opening: open:gate
+    kind: hinged
+    hinge: left
+    thickness: 24
+    speed: 60
+    surface: {texture: t68a10a, size: [32, 64], uneven: true}
+    back_surface: {texture: t68a10a, size: [32, 64], uneven: true}
+    edge_surface: {texture: t68a10a, size: [32, 64], scale: 2}
+    top_surface: {texture: t68a10a, size: [32, 64], scale: 2}
+    notes: "The log gate: a leaf of d08's upright planks, hinged at its west post. Barred from the gate yard's side (mover:gate_bar)."
+  - id: door:larder
+    opening: open:chief_larder
+    kind: hinged
+    hinge: right
+    thickness: 24
+    speed: 60
+    surface: {texture: t68a13mm, size: [128, 128], uneven: true}
+    back_surface: {texture: t68a13mm, size: [128, 128], uneven: true}
+    edge_surface: {texture: t68a10a, size: [32, 64], scale: 2}
+    top_surface: {texture: t68a10a, size: [32, 64], scale: 2}
+    notes: "The larder's heavy plank door (the middle of d08's own nine-part door); the Chieftain carries its key."
+movers:
+  - id: mover:gate_bar
+    room: room:gate_yard
+    at: [0, 1148]
+    size: [576, 32]
+    bottom: 144
+    height: 40
+    travel: [0, 0, 256]
+    speed: 96
+    surface: {texture: t68a11, size: [64, 32], scale: 2}
+    top_surface: {texture: t68a11, size: [64, 32], scale: 2}
+    end_surface: {texture: t68a10a, size: [32, 64], scale: 2}
+    notes: "The gate's bar: a log beam across the gate resting on two forked posts; lifted, it rises clear above the gate."
+  - id: mover:heap_1
+    room: room:river_ledge
+    outline: [[2706, 5392], [2798, 5392], [2864, 5458], [2864, 5550], [2798, 5616], [2706, 5616], [2640, 5550], [2640, 5458]]
+    height: 112
+    travel: [0, -800, -64]
+    speed: 400
+    surface: {texture: gcav1flr, size: [256, 256], scale: 0.5}
+    top_surface: {texture: gcav1flr, size: [256, 256], scale: 0.5}
+    notes: "The boulder heap, its foot: rolls south down the slide into the rock."
+  - id: mover:heap_2
+    room: room:river_ledge
+    outline: [[2711, 5416], [2777, 5416], [2824, 5463], [2824, 5529], [2777, 5576], [2711, 5576], [2664, 5529], [2664, 5463]]
+    bottom: 112
+    height: 80
+    travel: [0, -800, -64]
+    speed: 400
+    surface: {texture: gcav1flr, size: [256, 256], scale: 0.5}
+    top_surface: {texture: gcav1flr, size: [256, 256], scale: 0.5}
+    notes: "The heap, a boulder on top."
+  - id: mover:rack_bar
+    room: room:river_ledge
+    at: [2752, 5632]
+    size: [304, 24]
+    bottom: 48
+    height: 48
+    travel: [0, 0, -112]
+    speed: 160
+    surface: {texture: t68a11, size: [64, 32], scale: 2}
+    top_surface: {texture: t68a11, size: [64, 32], scale: 2}
+    end_surface: {texture: t68a10a, size: [32, 64], scale: 2}
+    notes: "The rack's cross-beam that holds the heap; knocked out, it drops."
+plates:
+  - id: plate:chute_trap
+    room: room:chute
+    at: [1680, 6000]
+    size: [96, 96]
+    notes: "Halfway down the chute: the boulder trap (invisible, the chute's own planks)."
+floors:
+  - {id: floor:river, of: room:gorge, kind: water}
+sounds:
+  - {id: sound:pit_fire, room: room:feast_cave, at: [-192, 3136], sound: 7campfire, radius: 1600, inner_radius: 400, volume: 0.6, notes: The fire in the cooking pit.}
+  - {id: sound:river, room: room:gorge, at: [3680, 6176], sound: rushing water loop, radius: 3600, inner_radius: 1400, volume: 0.8, notes: "The river's roar in the gorge, heard on the ledge and in the chute."}
+lights:
+  - id: light:chief_fire
+    room: room:chief_den
+    at: [-2272, 3840]
+    height: 120
+    radius: 1300
+    color: [255, 140, 70]
+    pulse: {intensity: [0.7, 1], frequency: 1, phase: 0.2}
+  - id: light:chief_torches
+    room: room:chief_den
+    at: [-2752, 3700]
+    height: 300
+    radius: 900
+    color: [255, 160, 80]
+  - id: light:chute_day
+    room: room:chute
+    at: [2000, 6080]
+    height: 300
+    radius: 900
+    color: [255, 248, 228]
+    notes: Daylight from the ledge ahead.
+  - id: light:den_fire
+    room: room:bone_den
+    at: [-2176, 2560]
+    height: 120
+    radius: 1300
+    color: [255, 140, 70]
+    pulse: {intensity: [0.7, 1], frequency: 1.1, phase: 0.4}
+  - id: light:feast_rim_e
+    room: room:feast_cave
+    at: [640, 2560]
+    height: 300
+    radius: 1000
+    color: [255, 160, 80]
+  - id: light:feast_rim_w
+    room: room:feast_cave
+    at: [-1000, 3600]
+    height: 300
+    radius: 1000
+    color: [255, 160, 80]
+  - id: light:gorge_day
+    room: room:gorge
+    at: [3680, 6176]
+    height: 700
+    radius: 3000
+    color: [255, 248, 228]
+    notes: The open sky over the gorge.
+  - id: light:kennel
+    room: room:kennel
+    at: [1472, 3168]
+    height: 300
+    radius: 800
+    color: [255, 160, 80]
+  - id: light:larder_torch
+    room: room:larder
+    at: [-3300, 3700]
+    height: 200
+    radius: 900
+    color: [255, 160, 80]
+  - id: light:ledge_day
+    room: room:river_ledge
+    at: [3000, 6176]
+    height: 450
+    radius: 1300
+    color: [240, 225, 195]
+    notes: Daylight from the gorge.
+  - id: light:ledge_rack
+    room: room:river_ledge
+    at: [2752, 5760]
+    height: 260
+    radius: 800
+    color: [255, 160, 80]
+  - id: light:mouth_day
+    room: room:mouth
+    at: [0, 192]
+    height: 320
+    radius: 1500
+    color: [255, 248, 228]
+    notes: The X2 hills' daylight through the mouth.
+  - id: light:mouth_gate
+    room: room:mouth
+    at: [0, 900]
+    height: 300
+    radius: 700
+    color: [255, 160, 80]
+    notes: The skull torches either side of the gate.
+  - id: light:pit_fire
+    room: room:feast_cave
+    at: [-192, 3136]
+    height: 40
+    radius: 2200
+    color: [255, 150, 70]
+    pulse: {intensity: [0.75, 1], frequency: 1.3, phase: 0.1}
+    notes: The fire in the cooking pit.
+  - id: light:quarry_fire
+    room: room:quarry
+    at: [256, 5728]
+    height: 120
+    radius: 1300
+    color: [255, 140, 70]
+    pulse: {intensity: [0.7, 1], frequency: 1.2, phase: 0.5}
+  - id: light:quarry_torches
+    room: room:quarry
+    at: [-448, 6200]
+    height: 300
+    radius: 900
+    color: [255, 160, 80]
+  - id: light:yard_fire
+    room: room:gate_yard
+    at: [320, 1700]
+    height: 120
+    radius: 1100
+    color: [255, 140, 70]
+    pulse: {intensity: [0.7, 1], frequency: 1.2, phase: 0.7}
+chests:
+  - id: chest:bundle
+    room: room:bone_den
+    at: [-2752, 2880]
+    kind: gt002
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 150
+    notes: A bundle of plunder in the far sleeping heap.
+  - id: chest:cargo
+    room: room:larder
+    at: [-3968, 4128]
+    kind: gt002
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 300
+    notes: A cargo chest from the boats.
+  - id: chest:chief
+    room: room:chief_den
+    at: [-2336, 4288]
+    kind: gt002
+    facing: s
+    treasure_level: 2
+    random_items: 3
+    notes: The Chieftain's own chest by the north wall.
+  - id: chest:strongbox
+    room: room:larder
+    at: [-3808, 3696]
+    kind: gt002
+    facing: n
+    treasure_level: 3
+    random_items: 3
+    gold: 800
+    notes: "A ship's strongbox from Nystor's sunk boats: the map's hoard, one treasure level up."
+spawns:
+  - id: spawn:chief
+    room: room:chief_den
+    at: [-2176, 3712]
+    slot: 3
+    tier: a
+    group: 51
+    notes: The Chieftain's shamans.
+  - id: spawn:den_e
+    room: room:bone_den
+    at: [-1920, 2880]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:den_w
+    room: room:bone_den
+    at: [-2560, 2304]
+    slot: 1
+    tier: a
+    group: 51
+    notes: Asleep on their heaps.
+  - id: spawn:feast_e
+    room: room:feast_cave
+    at: [576, 3008]
+    slot: 1
+    tier: a
+    group: 51
+    notes: "Round the pit, east."
+  - id: spawn:feast_n
+    room: room:feast_cave
+    at: [-512, 3840]
+    slot: 1
+    tier: b
+    group: 51
+    notes: "Round the pit, north: the bigger ones (Ogre Raiders)."
+  - id: spawn:feast_pit
+    room: room:feast_cave
+    at: [128, 3424]
+    slot: 3
+    tier: a
+    group: 51
+    notes: The shaman by the cauldron.
+  - id: spawn:kennel
+    room: room:kennel
+    at: [1536, 3168]
+    slot: 2
+    tier: b
+    group: 51
+    notes: The dogs.
+  - id: spawn:midden
+    room: room:midden
+    at: [-1780, 1040]
+    slot: 2
+    tier: b
+    group: 51
+    notes: Dogs gnawing bones at the bend.
+  - id: spawn:quarry
+    room: room:quarry
+    at: [64, 6016]
+    slot: 1
+    tier: a
+    group: 51
+    notes: Ogres at work in the quarry.
+  - id: spawn:yard
+    room: room:gate_yard
+    at: [32, 1700]
+    slot: 1
+    tier: a
+    group: 51
+    notes: The gate guards round their fire.
+monsters:
+  - id: monster:chieftain
+    room: room:river_ledge
+    monster: 593
+    at: [2752, 6400]
+    facing: 180
+    hostile: true
+    group: 2
+    name: Ogre Chieftain
+    carries: larder_key
+    notes: "The Ogre Chieftain: the Ogres family's rank b (MM6's Ogre Raider, level 20) with a name; he carries the larder key."
+  - id: monster:thrower_1
+    room: room:river_ledge
+    monster: 592
+    at: [2960, 5952]
+    facing: 0
+    hostile: true
+    group: 3
+    name: Boulder Thrower
+    notes: "A thrower at the parapet (MM6's Ogre, level 15)."
+  - id: monster:thrower_2
+    room: room:river_ledge
+    monster: 592
+    at: [2960, 6560]
+    facing: 0
+    hostile: true
+    group: 3
+    name: Boulder Thrower
+  - id: monster:thrower_3
+    room: room:river_ledge
+    monster: 592
+    at: [2752, 6848]
+    facing: 0
+    hostile: true
+    group: 3
+    name: Boulder Thrower
+decorations:
+  - id: deco:chief_bones
+    room: room:chief_den
+    decoration: 7dec18
+    at: [-1920, 4096]
+  - id: deco:chief_fire
+    room: room:chief_den
+    decoration: 7dec02
+    at: [-2272, 3840]
+  - id: deco:chief_rock_1
+    room: room:chief_den
+    decoration: 6rock01
+    at: [-2928, 3904]
+    floor_height: 64
+  - id: deco:chief_rock_2
+    room: room:chief_den
+    decoration: 6rock08
+    at: [-2576, 3904]
+    floor_height: 64
+  - id: deco:chief_skull
+    room: room:chief_den
+    decoration: 7dec20
+    at: [-1856, 3520]
+  - id: deco:chief_skulls_1
+    room: room:chief_den
+    decoration: sklplrev
+    at: [-3008, 3808]
+  - id: deco:chief_skulls_2
+    room: room:chief_den
+    decoration: sklplrev
+    at: [-2496, 3808]
+  - id: deco:chief_torch_e
+    room: room:chief_den
+    decoration: torskul0
+    at: [-2560, 3680]
+  - id: deco:chief_torch_w
+    room: room:chief_den
+    decoration: torskul0
+    at: [-2944, 3680]
+  - id: deco:den_bed_1
+    room: room:bone_den
+    decoration: 7dec01
+    at: [-2560, 2176]
+  - id: deco:den_bed_2
+    room: room:bone_den
+    decoration: trasheap
+    at: [-2816, 2528]
+  - id: deco:den_bed_3
+    room: room:bone_den
+    decoration: 7dec01
+    at: [-2432, 3072]
+  - id: deco:den_bed_4
+    room: room:bone_den
+    decoration: trasheap
+    at: [-1856, 3008]
+  - id: deco:den_bed_5
+    room: room:bone_den
+    decoration: 7dec01
+    at: [-1792, 2112]
+  - id: deco:den_bones_1
+    room: room:bone_den
+    decoration: 7dec18
+    at: [-2304, 2304]
+  - id: deco:den_bones_2
+    room: room:bone_den
+    decoration: dec19
+    at: [-2048, 2816]
+  - id: deco:den_bones_3
+    room: room:bone_den
+    decoration: dec29
+    at: [-2624, 2816]
+  - id: deco:den_fire
+    room: room:bone_den
+    decoration: 7dec02
+    at: [-2176, 2560]
+  - id: deco:den_keg
+    room: room:bone_den
+    decoration: smlbarel
+    at: [-1600, 2240]
+  - id: deco:den_skeleton
+    room: room:bone_den
+    decoration: dec05
+    at: [-1984, 2304]
+  - id: deco:feast_barrel
+    room: room:feast_cave
+    decoration: bigbarel
+    at: [-448, 3968]
+  - id: deco:feast_bones_1
+    room: room:feast_cave
+    decoration: 7dec10
+    at: [704, 3520]
+  - id: deco:feast_bones_2
+    room: room:feast_cave
+    decoration: trasheap
+    at: [-960, 3584]
+  - id: deco:feast_bones_3
+    room: room:feast_cave
+    decoration: dec29
+    at: [256, 2432]
+  - id: deco:feast_bowls
+    room: room:feast_cave
+    decoration: dec32
+    at: [-128, 3744]
+    floor_height: 24
+  - id: deco:feast_cask
+    room: room:feast_cave
+    decoration: 7dec21
+    at: [768, 2752]
+  - id: deco:feast_keg
+    room: room:feast_cave
+    decoration: smlbarel
+    at: [784, 2896]
+  - id: deco:feast_plate_2
+    room: room:feast_cave
+    decoration: dec36
+    at: [0, 2528]
+    floor_height: 24
+  - id: deco:feast_plate_3
+    room: room:feast_cave
+    decoration: dec36
+    at: [432, 3008]
+    floor_height: 24
+  - id: deco:feast_plates_1
+    room: room:feast_cave
+    decoration: dec37
+    at: [-320, 2528]
+    floor_height: 24
+  - id: deco:feast_skeleton
+    room: room:feast_cave
+    decoration: dec05
+    at: [-576, 2368]
+  - id: deco:feast_torch_1
+    room: room:feast_cave
+    decoration: torskul0
+    at: [-1088, 3584]
+  - id: deco:feast_torch_2
+    room: room:feast_cave
+    decoration: torskul0
+    at: [576, 2432]
+  - id: deco:feast_torch_3
+    room: room:feast_cave
+    decoration: torskul0
+    at: [-320, 3968]
+  - id: deco:kennel_bones_1
+    room: room:kennel
+    decoration: dec29
+    at: [1408, 3008]
+  - id: deco:kennel_bones_2
+    room: room:kennel
+    decoration: 7dec18
+    at: [1856, 3200]
+  - id: deco:kennel_bowl
+    room: room:kennel
+    decoration: foodbowl
+    at: [1536, 3600]
+  - id: deco:kennel_bucket
+    room: room:kennel
+    decoration: Bucket
+    at: [1408, 3584]
+  - id: deco:kennel_straw_1
+    room: room:kennel
+    decoration: 7dec01
+    at: [1728, 2944]
+  - id: deco:kennel_straw_2
+    room: room:kennel
+    decoration: 7dec01
+    at: [1664, 3456]
+  - id: deco:larder_barrel_1
+    room: room:larder
+    decoration: bigbarel
+    at: [-4032, 3712]
+  - id: deco:larder_barrel_2
+    room: room:larder
+    decoration: dec03
+    at: [-3584, 3680]
+  - id: deco:larder_barrel_3
+    room: room:larder
+    decoration: 7dec32
+    at: [-3456, 3712]
+  - id: deco:larder_bones
+    room: room:larder
+    decoration: 7dec18
+    at: [-3904, 4256]
+  - id: deco:larder_carcass
+    room: room:larder
+    decoration: Corpse02
+    at: [-3680, 3968]
+    facing: 90
+  - id: deco:larder_cask
+    room: room:larder
+    decoration: 7dec21
+    at: [-3712, 4224]
+  - id: deco:larder_sack_1
+    room: room:larder
+    decoration: floursac
+    at: [-4032, 3904]
+  - id: deco:larder_sack_2
+    room: room:larder
+    decoration: bag01
+    at: [-3456, 4224]
+  - id: deco:larder_sack_3
+    room: room:larder
+    decoration: bag_A
+    at: [-3584, 4256]
+  - id: deco:larder_torch
+    room: room:larder
+    decoration: torch01
+    at: [-3168, 3712]
+    wall: east
+    height: 160
+  - id: deco:ledge_bones
+    room: room:river_ledge
+    decoration: dec29
+    at: [2496, 6560]
+  - id: deco:ledge_rock_1
+    room: room:river_ledge
+    decoration: 6rock02
+    at: [3040, 6880]
+  - id: deco:ledge_rock_2
+    room: room:river_ledge
+    decoration: 6rock12
+    at: [2400, 6880]
+  - id: deco:ledge_skull
+    room: room:river_ledge
+    decoration: 7dec20
+    at: [2368, 5888]
+  - id: deco:ledge_torch_e
+    room: room:river_ledge
+    decoration: torskul0
+    at: [3040, 5568]
+  - id: deco:ledge_torch_w
+    room: room:river_ledge
+    decoration: torskul0
+    at: [2464, 5568]
+  - id: deco:midden_bones_1
+    room: room:midden
+    decoration: dec29
+    at: [-1440, 592]
+  - id: deco:midden_bones_2
+    room: room:midden
+    decoration: 7dec18
+    at: [-1800, 1200]
+  - id: deco:midden_heap_1
+    room: room:midden
+    decoration: trasheap
+    at: [-1120, 480]
+  - id: deco:midden_heap_2
+    room: room:midden
+    decoration: 7dec10
+    at: [-1600, 704]
+  - id: deco:midden_heap_3
+    room: room:midden
+    decoration: 7dec01
+    at: [-1904, 1488]
+  - id: deco:midden_skull
+    room: room:midden
+    decoration: 7dec20
+    at: [-1840, 1700]
+  - id: deco:mouth_boatman
+    room: room:mouth
+    decoration: Corpse04
+    at: [-512, 448]
+    facing: 0
+    notes: A drowned boatman the ogres dragged up from the river.
+  - id: deco:mouth_bones_1
+    room: room:mouth
+    decoration: 7dec18
+    at: [-224, 384]
+  - id: deco:mouth_bones_2
+    room: room:mouth
+    decoration: dec19
+    at: [288, 576]
+  - id: deco:mouth_bones_3
+    room: room:mouth
+    decoration: dec29
+    at: [-512, 640]
+  - id: deco:mouth_rock_e
+    room: room:mouth
+    decoration: 6rock05
+    at: [544, 352]
+  - id: deco:mouth_rock_w
+    room: room:mouth
+    decoration: 6rock02
+    at: [-512, 192]
+  - id: deco:mouth_skulls_e
+    room: room:mouth
+    decoration: sklplrev
+    at: [352, 860]
+  - id: deco:mouth_skulls_w
+    room: room:mouth
+    decoration: sklplrev
+    at: [-352, 860]
+  - id: deco:mouth_torch_e
+    room: room:mouth
+    decoration: torskul0
+    at: [256, 960]
+  - id: deco:mouth_torch_w
+    room: room:mouth
+    decoration: torskul0
+    at: [-256, 960]
+  - id: deco:pit_cauldron
+    room: room:feast_cave
+    decoration: cauld00
+    at: [-96, 3168]
+    inside: deco:pit_cookfire
+  - id: deco:pit_cookfire
+    room: room:feast_cave
+    decoration: ckfyr00
+    at: [-96, 3168]
+  - id: deco:pit_fire
+    room: room:feast_cave
+    decoration: dec04
+    at: [-320, 3136]
+  - id: deco:quarry_fire
+    room: room:quarry
+    decoration: 7dec02
+    at: [256, 5728]
+  - id: deco:quarry_heap_1
+    room: room:quarry
+    decoration: 6rock01
+    at: [-384, 5664]
+  - id: deco:quarry_heap_2
+    room: room:quarry
+    decoration: 6rock03
+    at: [-256, 5600]
+  - id: deco:quarry_heap_3
+    room: room:quarry
+    decoration: 6rock09
+    at: [-320, 5760]
+  - id: deco:quarry_heap_4
+    room: room:quarry
+    decoration: 6rock12
+    at: [512, 6304]
+  - id: deco:quarry_heap_5
+    room: room:quarry
+    decoration: 6rock13
+    at: [384, 6368]
+  - id: deco:quarry_heap_6
+    room: room:quarry
+    decoration: rock10
+    at: [608, 5536]
+  - id: deco:quarry_heap_7
+    room: room:quarry
+    decoration: rock03
+    at: [704, 5632]
+  - id: deco:quarry_rubble_1
+    room: room:quarry
+    decoration: 7dec11
+    at: [-704, 6176]
+  - id: deco:quarry_rubble_2
+    room: room:quarry
+    decoration: 6rock06
+    at: [-832, 5888]
+  - id: deco:quarry_torch_1
+    room: room:quarry
+    decoration: torskul0
+    at: [-448, 6240]
+  - id: deco:quarry_torch_2
+    room: room:quarry
+    decoration: torskul0
+    at: [640, 6048]
+  - id: deco:ramp_bones
+    room: room:quarry_ramp
+    decoration: dec29
+    at: [-128, 4640]
+  - id: deco:ramp_rock
+    room: room:quarry_ramp
+    decoration: 6rock04
+    at: [-288, 4352]
+  - id: deco:yard_bones
+    room: room:gate_yard
+    decoration: dec29
+    at: [-384, 1536]
+  - id: deco:yard_cask
+    room: room:gate_yard
+    decoration: 7dec21
+    at: [640, 1504]
+  - id: deco:yard_fire
+    room: room:gate_yard
+    decoration: 7dec02
+    at: [320, 1700]
+  - id: deco:yard_keg
+    room: room:gate_yard
+    decoration: smlbarel
+    at: [608, 1376]
+  - id: deco:yard_rock
+    room: room:gate_yard
+    decoration: 6rock06
+    at: [-544, 1888]
+placeholders:
+  - id: placeholder:carcasses
+    room: room:larder
+    stands_for: "Carcasses (a deer, a boar, a cow) hanging from hooks on the meat beam"
+    at: [-3648, 4096]
+    size: [640, 64, 192]
+  - id: placeholder:figurehead
+    room: room:chief_den
+    stands_for: "The carved figurehead of one of Captain Nystor's boats, propped beside the seat"
+    at: [-2528, 4160]
+    size: [96, 64, 256]
+  - id: placeholder:sledge
+    room: room:quarry
+    stands_for: "A timber sledge the ogres drag boulders on, and the levers (long beams) leaning on the rock"
+    at: [-128, 6304]
+    size: [256, 128, 64]
+  - id: placeholder:spits
+    room: room:feast_cave
+    stands_for: Roasting spits on forked posts over the fire in the cooking pit
+    at: [-320, 3136]
+    size: [320, 32, 192]
+  - id: placeholder:trough
+    room: room:kennel
+    stands_for: A hollowed log as the dogs' water trough
+    at: [1344, 3456]
+    size: [256, 64, 48]
+exits:
+  - id: exit:x2
+    room: room:mouth
+    wall: south
+    size: [1024, 448]
+    surface: {texture: xodaylt, size: [256, 128], scale: 4, uneven: true}
+    to: exit:x2_hills
+    notes: "The daylight of the X2 hills: the mouth's south wall (XD-05's generated hills view)."

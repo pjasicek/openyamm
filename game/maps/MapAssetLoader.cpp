@@ -1,16 +1,21 @@
 #include "game/render/WaterCoverage.h"
 #include "game/data/ActorNameResolver.h"
 #include "game/events/EvtEnums.h"
+#include "game/FaceEnums.h"
+#include "game/content/WorldDecorations.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/maps/ActorModelManifest.h"
 #include "game/maps/DecorationModelManifest.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapAssetLoader.h"
+#include "game/maps/SceneOverlayPaths.h"
 #include "game/maps/MapDecorationTextures.h"
 #include "game/maps/MapIdentity.h"
+#include "game/maps/MapLayoutIdentity.h"
 #include "game/maps/MapPresentation.h"
 #include "game/maps/OutdoorSceneYml.h"
 #include "game/maps/TerrainTileData.h"
+#include "game/indoor/IndoorBakedLighting.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorNavigationData.h"
@@ -235,7 +240,8 @@ std::string monsterSpriteFrameFamilyDirectory()
     return "Data/rendering/sprite_frames/monsters";
 }
 
-constexpr uint16_t LevelDecorationInvisible = 0x0020;
+// How far over a decoration's base its sector is looked up (buildIndoorDecorationBillboardSet's sector pass).
+constexpr float DecorationSectorProbeLift = 32.0f;
 constexpr uint32_t EnvironmentFlagRain = 0x01;
 constexpr uint32_t EnvironmentFlagSnow = 0x02;
 constexpr uint32_t EnvironmentFlagUnderwater = 0x04;
@@ -412,14 +418,9 @@ DecorationLookupResult resolveDecorationEntry(
     return decorationTable.resolveMapDecoration(entity.decorationListId, entity.name);
 }
 
-template <typename EntityType>
-bool shouldSkipDecorationCollision(const EntityType &entity, const DecorationEntry &decoration)
+// Invisible decorations (map flag or evt.SetSprite) are skipped at runtime, since an event can show them again.
+bool shouldSkipDecorationCollision(const DecorationEntry &decoration)
 {
-    if ((entity.aiAttributes & LevelDecorationInvisible) != 0)
-    {
-        return true;
-    }
-
     if (hasDecorationFlag(decoration.flags, DecorationDescFlag::MoveThrough)
         || hasDecorationFlag(decoration.flags, DecorationDescFlag::DontDraw))
     {
@@ -591,26 +592,12 @@ bool loadDecorationRows(
         return true;
     }
 
-    const std::optional<std::string> contents =
-        assetFileSystem.readTextFile(engineDataTablePath("decoration_data.txt"));
+    std::string errorMessage;
 
-    if (!contents)
+    if (!loadDecorationTableRows(assetFileSystem, rows, errorMessage))
     {
+        std::cerr << "Failed to load the decoration table: " << errorMessage << '\n';
         return false;
-    }
-
-    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*contents);
-
-    if (!parsedTable)
-    {
-        return false;
-    }
-
-    rows.reserve(parsedTable->getRowCount());
-
-    for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
-    {
-        rows.push_back(parsedTable->getRow(rowIndex));
     }
 
     if (pSharedCache != nullptr)
@@ -733,6 +720,44 @@ void appendMonsterSpriteFamilies(
         else if (isWorldPrefixedMonsterSpriteName(spriteName))
         {
             worldPrefixedSpriteNames.insert(toLowerCopy(spriteName));
+        }
+    }
+}
+
+// A tier sized from another tier's standing sprite (actors.yml scale_reference) needs that tier's frames too, even when
+// only it is on the map (the MM7 dragon lair places ADragon B and C): the model scale reads both frame scales.
+void appendScaleReferenceSpriteFamilies(
+    std::unordered_set<std::string> &families,
+    std::unordered_set<std::string> &worldPrefixedSpriteNames,
+    const MonsterTable &monsterTable,
+    const ActorModelManifest *pActorModels)
+{
+    if (pActorModels == nullptr)
+    {
+        return;
+    }
+
+    for (const auto &[descriptor, entry] : pActorModels->entries())
+    {
+        const YAML::Node reference = entry.node["scale_reference"];
+        const MonsterEntry *pMonsterEntry = reference ? monsterTable.findByInternalName(descriptor) : nullptr;
+
+        if (pMonsterEntry == nullptr || pMonsterEntry->spriteNames[0].empty())
+        {
+            continue;
+        }
+
+        const std::string &standing = pMonsterEntry->spriteNames[0];
+        const std::optional<std::string> familyRoot = monsterSpriteFamilyRoot(standing);
+        const bool needed = familyRoot ? families.contains(*familyRoot)
+                                       : worldPrefixedSpriteNames.contains(toLowerCopy(standing));
+
+        if (needed)
+        {
+            appendMonsterSpriteFamilies(
+                families,
+                worldPrefixedSpriteNames,
+                monsterTable.findByInternalName(reference.as<std::string>()));
         }
     }
 }
@@ -991,6 +1016,12 @@ std::optional<SpriteFrameTable> parseCommonSpriteFrameTable(const Engine::AssetF
         }
     }
 
+    if (!appendWorldDecorationSpriteFrames(assetFileSystem, spriteFrameTable, errorMessage))
+    {
+        std::cerr << "Failed to load world decoration sprite frame data: " << errorMessage << '\n';
+        return std::nullopt;
+    }
+
     // Contact frames and attack sound delays of monster attack sprites; an attack sprite without a contact frame
     // applies its attack at the animation's end, and without a delay plays its sound as the attack starts.
     const std::string attackTimingPath = "Data/rendering/sprite_attack_timing.yml";
@@ -1176,13 +1207,43 @@ SurfaceAnimationSequence staticSurfaceAnimation(const std::string &textureName)
     return animation;
 }
 
+// An animated indoor face whose texture name is no frame table sequence falls back to the sequence index stored at
+// face +0x3A. Haunted Mansion (7d37) face 1844 keeps the leftover water name hdwtr010 over the cleric portrait
+// sequence 13. A stored sequence that is itself a liquid stays with the liquid shader.
+std::optional<SurfaceAnimationSequence> resolveStoredFaceAnimation(
+    const std::string &textureName,
+    uint32_t faceAttributes,
+    int16_t textureFrameTableIndex,
+    const TextureFrameTable *pTextureFrameTable,
+    const LiquidTable *pLiquidTable)
+{
+    if (pTextureFrameTable == nullptr
+        || !hasFaceAttribute(faceAttributes, FaceAttribute::Animated)
+        || textureFrameTableIndex <= 0
+        || pTextureFrameTable->findAnimationSequenceByName(textureName))
+    {
+        return std::nullopt;
+    }
+
+    std::optional<SurfaceAnimationSequence> animation =
+        pTextureFrameTable->findAnimationSequenceByIndex(static_cast<size_t>(textureFrameTableIndex));
+
+    if (!animation || animation->frames.empty()
+        || (pLiquidTable != nullptr
+            && pLiquidTable->findMatch(animation->frames.front().textureName, faceAttributes, false) != nullptr))
+    {
+        return std::nullopt;
+    }
+
+    return animation;
+}
+
 SurfaceAnimationSequence resolveSurfaceAnimation(
     const std::string &textureName,
     uint32_t faceAttributes,
     bool isTerrain,
     const TextureFrameTable *pTextureFrameTable,
-    const LiquidTable *pLiquidTable,
-    std::optional<size_t> textureFrameTableIndex = std::nullopt)
+    const LiquidTable *pLiquidTable)
 {
     // Liquids are drawn by the liquid shader: their legacy frame animations are never loaded.
     if (pLiquidTable != nullptr && pLiquidTable->findMatch(textureName, faceAttributes, isTerrain) != nullptr)
@@ -1194,15 +1255,6 @@ SurfaceAnimationSequence resolveSurfaceAnimation(
     {
         if (const std::optional<SurfaceAnimationSequence> animation =
                 pTextureFrameTable->findAnimationSequenceByName(textureName))
-        {
-            return *animation;
-        }
-    }
-
-    if (!isTerrain && pTextureFrameTable != nullptr && textureFrameTableIndex && *textureFrameTableIndex > 0)
-    {
-        if (const std::optional<SurfaceAnimationSequence> animation =
-                pTextureFrameTable->findAnimationSequenceByIndex(*textureFrameTableIndex))
         {
             return *animation;
         }
@@ -1360,6 +1412,8 @@ struct BitmapLoadCache
     MapAssetLoadSharedCache *pSharedCache = nullptr;
     bool retainBinaryFiles = true;
     bool retainDecodedPixels = true;
+    // Face textures read their surface material maps (MapCompanionLoadOptions::surfaceMaterials).
+    bool surfaceMaterials = false;
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
     std::unordered_map<std::string, std::optional<std::string>> bitmapPathByKey;
     std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
@@ -1774,6 +1828,62 @@ OutdoorBitmapTexture decodeCookedSurfaceTexture(
     return texture;
 }
 
+// A cooked surface material map beside a surface texture, or null when the texture has none: the colour texture's size
+// halved (tools/surface_materials.py MAP_REDUCTION) with the full mip chain below it. The maps share its texture
+// coordinates, and every texture of one size its arrays.
+std::shared_ptr<const Engine::CookedTexture> decodeSurfaceMaterialMap(const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &path, const Engine::CookedTexture &color)
+{
+    const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile(path);
+    if (!bytes)
+    {
+        return nullptr;
+    }
+    std::shared_ptr<Engine::CookedTexture> map;
+    try
+    {
+        map = std::make_shared<Engine::CookedTexture>(Engine::decodeCookedTexture(*bytes));
+    }
+    catch (const std::exception &exception)
+    {
+        throw std::runtime_error("Cannot load surface material map " + path + ": " + exception.what());
+    }
+    if (map->semantic != Engine::ImageMipSemantic::Linear || map->width * 2 != color.width
+        || map->height * 2 != color.height
+        || map->levels != Engine::cookedTextureFullChainLevels(map->width, map->height))
+    {
+        throw std::runtime_error("Surface material map " + path
+            + " does not match its texture's size or mips; run tools/cook_surface_textures.py");
+    }
+    return map;
+}
+
+// The surface material maps of a cooked surface texture (tools/surface_materials.py): <stem>_n.oytex and
+// <stem>_d.oytex in the surface_materials folder of the same scale tier beside its textures folder. Safe on any
+// thread.
+void loadSurfaceMaterialMaps(const Engine::AssetFileSystem &assetFileSystem, const std::string &texturePath,
+    OutdoorBitmapTexture &texture)
+{
+    const std::filesystem::path path(texturePath);
+    const std::string folder = path.parent_path().filename().string();
+    if (!folder.starts_with("textures") || texture.cookedTexture == nullptr)
+    {
+        return;
+    }
+    const std::string materialFolder =
+        (path.parent_path().parent_path() / ("surface_materials" + folder.substr(8))).generic_string();
+    const std::string stem = path.stem().string();
+    texture.materialNormal =
+        decodeSurfaceMaterialMap(assetFileSystem, materialFolder + "/" + stem + "_n.oytex", *texture.cookedTexture);
+    texture.materialDetail =
+        decodeSurfaceMaterialMap(assetFileSystem, materialFolder + "/" + stem + "_d.oytex", *texture.cookedTexture);
+    if ((texture.materialNormal == nullptr) != (texture.materialDetail == nullptr))
+    {
+        throw std::runtime_error("Surface texture " + texturePath
+            + " has only one of its two material maps; run tools/cook_surface_textures.py");
+    }
+}
+
 std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &directoryPath,
@@ -1783,7 +1893,8 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     bool applyTransparencyKey,
     BitmapLoadCache &bitmapLoadCache,
     int16_t paletteId = 0,
-    const std::string &paletteWorldId = {}
+    const std::string &paletteWorldId = {},
+    Engine::AssetScaleTier *pLoadedTier = nullptr
 )
 {
     const std::string cacheKey =
@@ -1813,6 +1924,10 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
 
             width = cachedPixelsIt->second->width;
             height = cachedPixelsIt->second->height;
+            if (pLoadedTier != nullptr)
+            {
+                *pLoadedTier = cachedPixelsIt->second->assetScaleTier;
+            }
             return cachedPixelsIt->second->pixels;
         }
     }
@@ -1893,10 +2008,15 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     width = image->width;
     height = image->height;
     std::vector<uint8_t> pixels = std::move(image->pixels);
+    const Engine::AssetScaleTier loadedTier = Engine::assetScaleTierFromResolvedPath(*bitmapPath);
+    if (pLoadedTier != nullptr)
+    {
+        *pLoadedTier = loadedTier;
+    }
 
     if (pPixelCache != nullptr)
     {
-        (*pPixelCache)[cacheKey] = MapAssetBitmapPixelsResult{width, height, pixels};
+        (*pPixelCache)[cacheKey] = MapAssetBitmapPixelsResult{width, height, pixels, loadedTier};
     }
 
     return pixels;
@@ -2128,12 +2248,6 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
             continue;
         }
         pumpMapLoadProgress(progressPump);
-        if (std::optional<OutdoorBitmapTexture> restored = loadRestoredDecorationTexture(
-                assetFileSystem, textureRequest.textureName, textureRequest.paletteId))
-        {
-            billboardSet.textures.push_back(std::move(*restored));
-            continue;
-        }
         int textureWidth = 0;
         int textureHeight = 0;
         std::optional<std::vector<uint8_t>> pixels =
@@ -2189,6 +2303,7 @@ std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
     }
 
     OutdoorDecorationCollisionSet collisionSet = {};
+    collisionSet.clearRules = decorationClearRules(std::span<const EntityType>(entities), decorationTable);
 
     for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
     {
@@ -2201,7 +2316,7 @@ std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
             continue;
         }
 
-        if (shouldSkipDecorationCollision(entity, *pDecoration))
+        if (shouldSkipDecorationCollision(*pDecoration))
         {
             continue;
         }
@@ -2423,6 +2538,9 @@ std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
     }
 
     std::vector<int16_t> entitySectorIds(indoorMapData.entities.size(), -1);
+    size_t listedDecorationCount = 0;
+    std::optional<size_t> firstListingSector;
+    bool listsSpanSectors = false;
 
     for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
     {
@@ -2435,7 +2553,21 @@ std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
                 entitySectorIds[decorationId] = static_cast<int16_t>(sectorIndex);
             }
         }
+
+        listedDecorationCount += sector.decorationIds.size();
+
+        if (!sector.decorationIds.empty())
+        {
+            listsSpanSectors = listsSpanSectors || (firstListingSector && *firstListingSector != sectorIndex);
+            firstListingSector = firstListingSector.value_or(sectorIndex);
+        }
     }
+
+    // A converted map lists every decoration once, in the room of the air it stands in; MM6-MM8's lists hold all of a
+    // map's decorations in one sector, or miss some.
+    const bool decorationListsComplete = listsSpanSectors
+        && listedDecorationCount == entitySectorIds.size()
+        && std::find(entitySectorIds.begin(), entitySectorIds.end(), int16_t(-1)) == entitySectorIds.end();
 
     // Match the editor's room assignment for legacy maps that do not already carry complete decoration lists.
     // This runs while loading the indoor billboard asset; render frames only consume cached sector ids.
@@ -2443,6 +2575,8 @@ std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
 
     for (DecorationBillboard &billboard : billboardSet->billboards)
     {
+        // Probed a little over its base: a decoration whose base is a few units under the floor it stands on (MM6's
+        // pyramid torches by a ramp, MM9's sunk stone benches) otherwise takes the sector of a floor far below.
         const std::optional<int16_t> resolvedSectorId =
             findIndoorSectorForPoint(
                 indoorMapData,
@@ -2450,17 +2584,40 @@ std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
                 {
                     static_cast<float>(billboard.x),
                     static_cast<float>(billboard.y),
-                    static_cast<float>(billboard.z)
+                    static_cast<float>(billboard.z) + DecorationSectorProbeLift
                 },
                 &geometryCache);
+
+        const int16_t listedSectorId =
+            billboard.entityIndex < entitySectorIds.size() ? entitySectorIds[billboard.entityIndex] : int16_t(-1);
 
         if (resolvedSectorId)
         {
             billboard.sectorId = *resolvedSectorId;
+
+            // Sunk well under its floor (MM9's bookcases and tapestries, 80-107 units), the probe can miss its room's
+            // box and find only a floor over it in another sector (Thjorgard City's bookcases took the roof room and
+            // never drew in their houses). No floor of that sector under it: it does not stand there, the list knows.
+            if (decorationListsComplete
+                && listedSectorId >= 0
+                && listedSectorId != *resolvedSectorId
+                && !indoorSectorHasFloorUnderPoint(
+                    indoorMapData,
+                    indoorMapData.vertices,
+                    *resolvedSectorId,
+                    {
+                        static_cast<float>(billboard.x),
+                        static_cast<float>(billboard.y),
+                        static_cast<float>(billboard.z) + DecorationSectorProbeLift
+                    },
+                    &geometryCache))
+            {
+                billboard.sectorId = listedSectorId;
+            }
         }
         else if (billboard.entityIndex < entitySectorIds.size())
         {
-            billboard.sectorId = entitySectorIds[billboard.entityIndex];
+            billboard.sectorId = listedSectorId;
         }
     }
 
@@ -2477,7 +2634,6 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const ObjectTable &objectTable,
     const std::optional<MapDeltaData> &mapDeltaData,
-    bool preloadAllObjectSprites,
     const std::string &worldId,
     BitmapLoadCache &bitmapLoadCache,
     const MapLoadProgressPump &progressPump,
@@ -2496,22 +2652,9 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
 
     billboardSet.spriteFrameTable = *spriteFrameTable;
 
+    // Only placed objects that draw a sprite need one. Items on the ground are models and spell missiles and impacts
+    // are models and effects, so nothing is preloaded for objects the map might spawn later.
     std::vector<BitmapTextureRequest> textureRequests;
-
-    // OE initializes every object descriptor once at startup, not only objects already placed in the current map.
-    // Do the equivalent for items before gameplay, so a dropped item cannot trigger bitmap decoding and GPU upload on
-    // its first rendered frame. Unpickable objects (spell missiles, impacts) never draw their sprite: models and
-    // effects present them.
-    if (preloadAllObjectSprites)
-    {
-        for (const ObjectEntry &objectEntry : objectTable.entries())
-        {
-            if ((objectEntry.flags & ObjectDescUnpickable) == 0)
-            {
-                appendSpriteFrameTextures(textureRequests, billboardSet.spriteFrameTable, objectEntry.spriteId);
-            }
-        }
-    }
 
     if (mapDeltaData)
     {
@@ -3219,6 +3362,12 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
         }
     }
 
+    appendScaleReferenceSpriteFamilies(
+        neededMonsterFamilies,
+        neededWorldPrefixedMonsterSpriteNames,
+        monsterTable,
+        billboardSet.actorModels.get());
+
     const std::optional<SpriteFrameTable> spriteFrameTable =
         loadSpriteFrameTable(
             assetFileSystem,
@@ -3243,7 +3392,10 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     appendSpawnActors(billboardSet, textureRequests, map, monsterTable, spawns, pOutdoorMapData);
     appendSummonableMonsters(textureRequests, billboardSet, map, monsterTable);
 
-    if (billboardSet.billboards.empty() && textureRequests.empty() && !map.arena)
+    // A map without placed actors keeps the set while its encounter monsters (models now, no sprites) can be summoned:
+    // their models build with the map and their tier scales read its sprite-frame table.
+    if (billboardSet.billboards.empty() && textureRequests.empty() && billboardSet.modelDescriptors.empty()
+        && !map.arena)
     {
         return std::nullopt;
     }
@@ -3320,9 +3472,65 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     return billboardSet;
 }
 
+// Per raw tile id: whether the tile is a shallow liquid (liquids.yml depth: shallow), waded through rather than deep
+// water. All false when the world has no shallow liquid.
+std::array<bool, 256> shallowLiquidTiles(
+    const std::vector<TerrainTileDescriptor> &tileDescriptors,
+    const LiquidTable *pLiquidTable)
+{
+    std::array<bool, 256> shallow = {};
+
+    if (pLiquidTable == nullptr || !pLiquidTable->hasShallowLiquids())
+    {
+        return shallow;
+    }
+
+    for (size_t tileIndex = 0; tileIndex < shallow.size() && tileIndex < tileDescriptors.size(); ++tileIndex)
+    {
+        const LiquidDefinition *pLiquid =
+            findTerrainLiquidForDescriptor(tileDescriptors[tileIndex], tileDescriptors, pLiquidTable, nullptr);
+        shallow[tileIndex] = pLiquid != nullptr && pLiquid->shallow;
+    }
+
+    return shallow;
+}
+
+// A shallow liquid's cells are never deep water: the party wades through them instead of drowning.
+void applyShallowLiquidTerrainAttributes(
+    const Engine::AssetFileSystem &assetFileSystem,
+    OutdoorMapData &outdoorMapData,
+    const LiquidTable *pLiquidTable)
+{
+    if (pLiquidTable == nullptr || !pLiquidTable->hasShallowLiquids())
+    {
+        return;
+    }
+
+    const std::optional<std::vector<TerrainTileDescriptor>> tileDescriptors =
+        loadTerrainTileDescriptors(assetFileSystem, outdoorMapData);
+
+    if (!tileDescriptors)
+    {
+        return;
+    }
+
+    const std::array<bool, 256> shallow = shallowLiquidTiles(*tileDescriptors, pLiquidTable);
+    const size_t cellCount = std::min(outdoorMapData.attributeMap.size(), outdoorMapData.tileMap.size());
+
+    for (size_t cellIndex = 0; cellIndex < cellCount; ++cellIndex)
+    {
+        if (shallow[outdoorMapData.tileMap[cellIndex]])
+        {
+            outdoorMapData.attributeMap[cellIndex] =
+                static_cast<uint8_t>(outdoorMapData.attributeMap[cellIndex] & ~TerrainTileFlagWater);
+        }
+    }
+}
+
 std::optional<std::vector<uint8_t>> buildOutdoorLandMask(
     const Engine::AssetFileSystem &assetFileSystem,
-    const OutdoorMapData &outdoorMapData
+    const OutdoorMapData &outdoorMapData,
+    const LiquidTable *pLiquidTable
 )
 {
     const std::optional<std::vector<TerrainTileDescriptor>> tileDescriptors =
@@ -3332,6 +3540,8 @@ std::optional<std::vector<uint8_t>> buildOutdoorLandMask(
     {
         return std::nullopt;
     }
+
+    const std::array<bool, 256> shallow = shallowLiquidTiles(*tileDescriptors, pLiquidTable);
 
     std::vector<uint8_t> landMask(
         static_cast<size_t>(OutdoorMapData::TerrainWidth - 1) * static_cast<size_t>(OutdoorMapData::TerrainHeight - 1),
@@ -3346,7 +3556,7 @@ std::optional<std::vector<uint8_t>> buildOutdoorLandMask(
                 static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
             const uint8_t rawTileId = outdoorMapData.tileMap[tileMapIndex];
             const bool isWaterTile =
-                hasTerrainTileFlag((*tileDescriptors)[rawTileId], TerrainTileFlagWater);
+                hasTerrainTileFlag((*tileDescriptors)[rawTileId], TerrainTileFlagWater) && !shallow[rawTileId];
             landMask[static_cast<size_t>(gridY * (OutdoorMapData::TerrainWidth - 1) + gridX)] = isWaterTile ? 0 : 1;
         }
     }
@@ -3439,6 +3649,7 @@ std::optional<OutdoorTerrainTiles> buildOutdoorTerrainTiles(
         tile.transitionOverlay = liquidEdge;
         tile.liquid = pLiquid != nullptr ? pLiquid->kind : LiquidKind::None;
         tile.waterColorAbgr = pLiquid != nullptr ? pLiquid->colorAbgr : 0;
+        tile.liquidReflects = pLiquid == nullptr || pLiquid->reflects;
 
         if (liquidEdge)
         {
@@ -3481,7 +3692,7 @@ OutdoorBitmapTexture liquidFaceTexture(const std::string &textureName, const Liq
     texture.physicalWidth = PlaceholderSize;
     texture.physicalHeight = PlaceholderSize;
     texture.liquid = liquid.kind;
-    texture.waterColorAbgr = liquid.colorAbgr;
+    texture.waterColorAbgr = liquidFaceColorAbgr(liquid);
     const std::array<uint8_t, 4> bgra = {
         uint8_t(liquid.colorAbgr >> 16), uint8_t(liquid.colorAbgr >> 8), uint8_t(liquid.colorAbgr), 255};
     for (int pixel = 0; pixel < PlaceholderSize * PlaceholderSize; ++pixel)
@@ -3500,8 +3711,6 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
     const MapLoadProgressPump &progressPump)
 {
     std::vector<OutdoorBitmapTexture> textures;
-    const Engine::AssetScaleTier textureAssetScaleTier =
-        assetFileSystem.getAssetScaleTier(Engine::AssetScaleCategory::Textures);
 
     // Cooked files resolve through the load's caches here, then read and decode on the load workers.
     struct CookedSlot
@@ -3531,7 +3740,9 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
             }
         }
     }
-    Engine::parallelFor(cookedSlots.size(), [&assetFileSystem, &textureNames, &cookedSlots](size_t index)
+    const bool surfaceMaterials = bitmapLoadCache.surfaceMaterials;
+    Engine::parallelFor(cookedSlots.size(), [&assetFileSystem, &textureNames, &cookedSlots, surfaceMaterials](
+        size_t index)
     {
         CookedSlot &slot = cookedSlots[index];
         if (!slot.path)
@@ -3544,6 +3755,10 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
         }
         slot.texture = decodeCookedSurfaceTexture(textureNames[index], *slot.path,
             slot.pCachedBytes != nullptr ? *slot.pCachedBytes : slot.readBytes);
+        if (surfaceMaterials)
+        {
+            loadSurfaceMaterialMaps(assetFileSystem, *slot.path, *slot.texture);
+        }
     });
 
     for (size_t index = 0; index < textureNames.size(); ++index)
@@ -3566,6 +3781,7 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
         }
         int textureWidth = 0;
         int textureHeight = 0;
+        Engine::AssetScaleTier loadedTier = Engine::AssetScaleTier::X1;
         const std::optional<std::vector<uint8_t>> pixels =
             loadBitmapPixelsBgra(
                 assetFileSystem,
@@ -3574,7 +3790,10 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
                 textureWidth,
                 textureHeight,
                 false,
-                bitmapLoadCache
+                bitmapLoadCache,
+                0,
+                {},
+                &loadedTier
             );
 
         if (!pixels || textureWidth <= 0 || textureHeight <= 0)
@@ -3584,8 +3803,8 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
 
         OutdoorBitmapTexture texture = {};
         texture.textureName = textureName;
-        texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, textureAssetScaleTier);
-        texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, textureAssetScaleTier);
+        texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, loadedTier);
+        texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, loadedTier);
         texture.physicalWidth = textureWidth;
         texture.physicalHeight = textureHeight;
         updateBitmapAlphaInfo(texture, *pixels);
@@ -3701,18 +3920,18 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
         }
 
         const std::string normalizedName = toLowerCopy(face.textureName);
-        const std::optional<size_t> textureFrameTableIndex =
-            face.textureFrameTableIndex > 0 ? std::optional<size_t>(face.textureFrameTableIndex) : std::nullopt;
-        const SurfaceAnimationSequence animation =
-            resolveSurfaceAnimation(
+        const std::optional<SurfaceAnimationSequence> storedAnimation =
+            resolveStoredFaceAnimation(
                 face.textureName,
                 face.attributes,
-                false,
+                face.textureFrameTableIndex,
                 pTextureFrameTable,
-                pLiquidTable,
-                textureFrameTableIndex);
+                pLiquidTable);
+        const SurfaceAnimationSequence animation = storedAnimation
+            ? *storedAnimation
+            : resolveSurfaceAnimation(face.textureName, face.attributes, false, pTextureFrameTable, pLiquidTable);
 
-        if (const LiquidDefinition *pLiquid = pLiquidTable != nullptr
+        if (const LiquidDefinition *pLiquid = pLiquidTable != nullptr && !storedAnimation
                 ? pLiquidTable->findMatch(normalizedName, face.attributes, false) : nullptr)
         {
             liquidTextures.try_emplace(normalizedName, pLiquid);
@@ -3741,59 +3960,14 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
 
     return textureSet;
 }
-
-bool isSceneOverlayFileName(const std::string &entryName, const std::string &sceneFileName)
-{
-    const std::string lowerEntryName = toLowerCopy(entryName);
-    const std::string lowerSceneFileName = toLowerCopy(sceneFileName);
-
-    if (!lowerEntryName.ends_with(".yml") || lowerEntryName == lowerSceneFileName)
-    {
-        return false;
-    }
-
-    if (lowerEntryName.ends_with(".scene.yml"))
-    {
-        const std::string underscoreOverlayPrefix =
-            lowerSceneFileName.substr(0, lowerSceneFileName.size() - 10) + "_";
-
-        if (lowerEntryName.starts_with(underscoreOverlayPrefix))
-        {
-            return true;
-        }
-    }
-
-    const std::string numberedOverlayPrefix = lowerSceneFileName.substr(0, lowerSceneFileName.size() - 4) + ".";
-    return lowerEntryName.starts_with(numberedOverlayPrefix);
-}
-
-std::vector<std::string> buildSceneOverlayPathCandidates(
-    const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &sceneFileName)
-{
-    std::vector<std::string> candidates;
-
-    for (const std::string &entryName : assetFileSystem.enumerate("Data/games"))
-    {
-        if (isSceneOverlayFileName(entryName, sceneFileName))
-        {
-            candidates.push_back("Data/games/" + entryName);
-        }
-    }
-
-    std::sort(candidates.begin(), candidates.end(), [](const std::string &left, const std::string &right)
-    {
-        return toLowerCopy(left) < toLowerCopy(right);
-    });
-    return candidates;
-}
 }
 
 bool ensureMonsterSpriteFramesLoaded(
     const Engine::AssetFileSystem &assetFileSystem,
     const MonsterTable &monsterTable,
     int16_t monsterId,
-    SpriteFrameTable &spriteFrameTable)
+    SpriteFrameTable &spriteFrameTable,
+    const ActorModelManifest *pActorModels)
 {
     const MonsterEntry *pMonsterEntry = monsterTable.findById(monsterId);
 
@@ -3802,21 +3976,52 @@ bool ensureMonsterSpriteFramesLoaded(
         return false;
     }
 
-    for (const std::string &spriteName : pMonsterEntry->spriteNames)
+    // The monster, and the tier its model is sized from (actors.yml scale_reference). A family already in the table
+    // (one of its sprites is there) is not loaded again: the table rejects a family loaded twice, which stopped the
+    // load of a second tier sized from the same reference (MM7 Harpy C summoned after Harpy B).
+    std::vector<const MonsterEntry *> monsterEntries = {pMonsterEntry};
+    const ActorModelManifest::Entry *pModel =
+        pActorModels != nullptr ? pActorModels->find(pMonsterEntry->internalName) : nullptr;
+
+    if (pModel != nullptr && pModel->node["scale_reference"])
     {
-        if (!spriteName.empty() && spriteFrameTable.findFrameIndexBySpriteName(spriteName))
-        {
-            return true;
-        }
+        monsterEntries.push_back(monsterTable.findByInternalName(pModel->node["scale_reference"].as<std::string>()));
     }
 
     std::unordered_set<std::string> monsterFamilies;
+    std::unordered_set<std::string> loadedFamilies;
     std::unordered_set<std::string> worldPrefixedMonsterSpriteNames;
-    appendMonsterSpriteFamilies(monsterFamilies, worldPrefixedMonsterSpriteNames, pMonsterEntry);
+
+    for (const MonsterEntry *pEntry : monsterEntries)
+    {
+        if (pEntry == nullptr)
+        {
+            continue;
+        }
+
+        for (const std::string &spriteName : pEntry->spriteNames)
+        {
+            const bool present = spriteFrameTable.findFrameIndexBySpriteName(spriteName).has_value();
+
+            if (const std::optional<std::string> familyRoot = monsterSpriteFamilyRoot(spriteName))
+            {
+                (present ? loadedFamilies : monsterFamilies).insert(*familyRoot);
+            }
+            else if (!present && isWorldPrefixedMonsterSpriteName(spriteName))
+            {
+                worldPrefixedMonsterSpriteNames.insert(toLowerCopy(spriteName));
+            }
+        }
+    }
+
+    for (const std::string &familyRoot : loadedFamilies)
+    {
+        monsterFamilies.erase(familyRoot);
+    }
 
     if (monsterFamilies.empty() && worldPrefixedMonsterSpriteNames.empty())
     {
-        return false;
+        return spriteFrameTable.findFrameIndexBySpriteName(pMonsterEntry->spriteNames[0]).has_value();
     }
 
     if (!appendMonsterSpriteFrameFamilies(
@@ -3865,6 +4070,32 @@ std::optional<OutdoorBitmapTexture> loadCookedSurfaceTexture(
     return decodeCookedSurfaceTexture(textureName, *path, cachedIt->second);
 }
 
+bool hasSurfaceMaterialMaps(const std::vector<OutdoorBitmapTexture> &textures)
+{
+    return std::any_of(textures.begin(), textures.end(), [](const OutdoorBitmapTexture &texture)
+    {
+        return texture.materialNormal != nullptr;
+    });
+}
+
+std::optional<OutdoorBitmapTexture> loadSurfaceTexture(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &textureName)
+{
+    BitmapLoadCache bitmapLoadCache = {};
+    bitmapLoadCache.retainBinaryFiles = false;
+    bitmapLoadCache.retainDecodedPixels = false;
+    std::vector<OutdoorBitmapTexture> textures =
+        loadFaceTextures(assetFileSystem, {toLowerCopy(textureName)}, {}, bitmapLoadCache, {});
+
+    if (textures.empty())
+    {
+        return std::nullopt;
+    }
+
+    return std::move(textures.front());
+}
+
 namespace
 {
 size_t texturePixelBytes(const std::vector<OutdoorBitmapTexture> &textures)
@@ -3873,7 +4104,9 @@ size_t texturePixelBytes(const std::vector<OutdoorBitmapTexture> &textures)
 
     for (const OutdoorBitmapTexture &texture : textures)
     {
-        byteCount += texture.pixels.size() + (texture.cookedTexture ? texture.cookedTexture->blocks.size() : 0);
+        byteCount += texture.pixels.size() + (texture.cookedTexture ? texture.cookedTexture->blocks.size() : 0)
+            + (texture.materialNormal ? texture.materialNormal->blocks.size() : 0)
+            + (texture.materialDetail ? texture.materialDetail->blocks.size() : 0);
     }
 
     return byteCount;
@@ -3885,6 +4118,8 @@ void clearTexturePixels(std::vector<OutdoorBitmapTexture> &textures)
     {
         std::vector<uint8_t>().swap(texture.pixels);
         texture.cookedTexture.reset();
+        texture.materialNormal.reset();
+        texture.materialDetail.reset();
     }
 }
 
@@ -4057,6 +4292,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 ) const
 {
     BitmapLoadCache bitmapLoadCache = {};
+    bitmapLoadCache.surfaceMaterials = companionLoadOptions.surfaceMaterials;
     if (pSharedCache != nullptr)
     {
         pSharedCache->beginLoad(assetFileSystem.contentGeneration());
@@ -4157,7 +4393,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.sceneSize = sceneText->size();
                 logStageComplete("scene yml loaded");
 
-                for (const std::string &overlayPath : buildSceneOverlayPathCandidates(assetFileSystem, *sceneFileName))
+                for (const std::string &overlayPath : buildSceneOverlayPathCandidates(
+                         assetFileSystem, *sceneFileName, companionLoadOptions.rulesetRoot))
                 {
                     const std::optional<std::string> overlayText = assetFileSystem.readTextFile(overlayPath);
 
@@ -4225,9 +4462,18 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     {
         textureFrameTable = loadTextureFrameTable(assetFileSystem, pSharedCache);
         logStageComplete("texture frame table loaded");
-        liquidTable = loadLiquidTable(assetFileSystem, pSharedCache);
-        logStageComplete("liquids loaded");
     }
+
+    // Liquids decide how liquid tiles and faces look and, for every load, which liquid terrain is only waded
+    // through. The map's world sees its own liquids before the shared ones.
+    liquidTable = loadLiquidTable(assetFileSystem, pSharedCache);
+
+    if (liquidTable)
+    {
+        liquidTable = liquidTable->forWorld(map.worldId);
+    }
+
+    logStageComplete("liquids loaded");
 
     const std::string normalizedFileName = toLowerCopy(map.fileName);
 
@@ -4440,6 +4686,9 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 std::cerr << "Failed to apply outdoor terrain tile flags for " << map.fileName << '\n';
             }
 
+            applyShallowLiquidTerrainAttributes(
+                assetFileSystem, *assetInfo.outdoorMapData, liquidTable ? &*liquidTable : nullptr);
+
             if (assetInfo.outdoorMapDeltaData)
             {
                 uint32_t mapExtraBitsRaw = 0;
@@ -4491,7 +4740,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
             if (loadRenderSurfaces)
             {
-                assetInfo.outdoorLandMask = buildOutdoorLandMask(assetFileSystem, *assetInfo.outdoorMapData);
+                assetInfo.outdoorLandMask = buildOutdoorLandMask(
+                    assetFileSystem, *assetInfo.outdoorMapData, liquidTable ? &*liquidTable : nullptr);
                 logStageComplete("outdoor land mask built");
                 assetInfo.outdoorTileColors = buildOutdoorTileColors(assetFileSystem, *assetInfo.outdoorMapData);
                 logStageComplete("outdoor tile colors built");
@@ -4563,7 +4813,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetFileSystem,
                         objectTable,
                         assetInfo.outdoorMapDeltaData,
-                        purpose == MapLoadPurpose::FullGameplay,
                         map.worldId,
                         bitmapLoadCache,
                         progressPump,
@@ -4632,6 +4881,36 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
         if (assetInfo.indoorMapData)
         {
             assetInfo.indoorMapData->mapPresentation = mapPresentation;
+
+            // Opt-in baked lighting: a valid sidecar lightmaps the map; a stale or broken one is ignored (the map
+            // renders with its point lights and ambient, as every map without one does) and tools/lighting/
+            // stale_bakes.py lists it.
+            const std::optional<std::string> lightingDataFileName = buildLightingDataFileName(map.fileName);
+            const std::optional<std::string> lightingDataPath = lightingDataFileName && loadFullPresentation
+                ? findAssetPath(assetFileSystem, map.worldId, *lightingDataFileName)
+                : std::nullopt;
+            const std::optional<std::vector<uint8_t>> lightingDataBytes =
+                lightingDataPath ? assetFileSystem.readBinaryFile(*lightingDataPath) : std::nullopt;
+
+            if (lightingDataBytes)
+            {
+                std::string lightingError;
+                std::optional<IndoorBakedLighting> lighting = loadIndoorBakedLighting(
+                    *lightingDataBytes, *geometryBytes, *assetInfo.indoorMapData, lightingError);
+
+                if (lighting)
+                {
+                    assetInfo.lightingDataPath = *lightingDataPath;
+                    assetInfo.lightingDataSize = lightingDataBytes->size();
+                    assetInfo.indoorMapData->bakedLighting =
+                        std::make_shared<const IndoorBakedLighting>(std::move(*lighting));
+                    logStageComplete("indoor baked lighting loaded");
+                }
+                else
+                {
+                    std::cerr << "Ignoring the baked lighting of " << map.fileName << ": " << lightingError << '\n';
+                }
+            }
 
             if (sceneText)
             {
@@ -4704,6 +4983,25 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 }
             }
 
+            // Shallow liquid floors slow the party wading through them (liquids.yml wade_speed).
+            if (liquidTable)
+            {
+                const std::vector<IndoorFace> &faces = assetInfo.indoorMapData->faces;
+
+                for (size_t faceIndex = 0; faceIndex < faces.size(); ++faceIndex)
+                {
+                    const LiquidDefinition *pLiquid = faces[faceIndex].isPortal ? nullptr
+                        : liquidTable->findMatch(toLowerCopy(faces[faceIndex].textureName), faces[faceIndex].attributes,
+                            false);
+
+                    if (pLiquid != nullptr && pLiquid->wadeSpeed < 1.0f)
+                    {
+                        assetInfo.indoorFaceWadeSpeeds.resize(faces.size(), 1.0f);
+                        assetInfo.indoorFaceWadeSpeeds[faceIndex] = pLiquid->wadeSpeed;
+                    }
+                }
+            }
+
             if (loadFullPresentation)
             {
                 assetInfo.indoorTextureSet = buildIndoorTextureSet(
@@ -4759,7 +5057,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetFileSystem,
                         objectTable,
                         assetInfo.indoorMapDeltaData,
-                        purpose == MapLoadPurpose::FullGameplay,
                         map.worldId,
                         bitmapLoadCache,
                         progressPump,
@@ -4814,6 +5111,17 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 }
             }
         }
+    }
+
+    if (assetInfo.indoorMapData)
+    {
+        assetInfo.layoutIdentity =
+            computeIndoorMapLayoutIdentity(*assetInfo.indoorMapData, assetInfo.indoorMapDeltaData);
+    }
+    else if (assetInfo.outdoorMapData)
+    {
+        assetInfo.layoutIdentity =
+            computeOutdoorMapLayoutIdentity(*assetInfo.outdoorMapData, assetInfo.outdoorMapDeltaData);
     }
 
     logStageComplete("map asset load complete");
@@ -4967,7 +5275,7 @@ std::optional<std::string> MapAssetLoader::buildLightingDataFileName(const std::
 {
     const std::string normalized = toLower(fileName);
 
-    if (normalized.size() < 4 || !normalized.ends_with(".odm"))
+    if (normalized.size() < 4 || (!normalized.ends_with(".odm") && !normalized.ends_with(".blv")))
     {
         return std::nullopt;
     }

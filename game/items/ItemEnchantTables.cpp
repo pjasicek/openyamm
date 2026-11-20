@@ -1,6 +1,10 @@
 #include "game/items/ItemEnchantTables.h"
+#include "engine/Localization.h"
+
+#include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 
 namespace OpenYAMM::Game
@@ -556,6 +560,16 @@ SpecialItemEnchantKind parseSpecialEnchantKind(const std::string &value)
         return SpecialItemEnchantKind::FeatherFalling;
     }
 
+    static const std::array<const char *, 9> RulesetSpecials = {
+        "of ascension", "lichs'", "paladins'", "warriormage'", "shadows'", "rangers'", "elementals'", "selfs'",
+        "divines'",
+    };
+
+    if (std::find(RulesetSpecials.begin(), RulesetSpecials.end(), normalized) != RulesetSpecials.end())
+    {
+        return SpecialItemEnchantKind::RulesetSpecial;
+    }
+
     return SpecialItemEnchantKind::None;
 }
 
@@ -583,35 +597,20 @@ ItemEnchantPriceModifier parsePriceModifier(const std::string &value)
 
 bool StandardItemEnchantTable::load(const std::vector<std::vector<std::string>> &rows)
 {
-    return load(rows, rows);
-}
-
-bool StandardItemEnchantTable::load(
-    const std::vector<std::vector<std::string>> &localizedRows,
-    const std::vector<std::vector<std::string>> &semanticRows)
-{
     m_entries.clear();
 
-    if (localizedRows.size() != semanticRows.size())
+    for (const std::vector<std::string> &row : rows)
     {
-        return false;
-    }
-
-    for (size_t rowIndex = 0; rowIndex < localizedRows.size(); ++rowIndex)
-    {
-        const std::vector<std::string> &row = localizedRows[rowIndex];
-        const std::vector<std::string> &semanticRow = semanticRows[rowIndex];
         const std::string statName = getCell(row, 0);
         const std::string suffix = getCell(row, 1);
-        const std::string semanticStatName = getCell(semanticRow, 0);
 
-        if (statName.empty() || suffix.empty() || semanticStatName == "Bonus Stat")
+        if (statName.empty() || suffix.empty() || statName == "Bonus Stat")
         {
             continue;
         }
 
         StandardItemEnchantEntry entry = {};
-        entry.kind = parseStandardEnchantKind(semanticStatName);
+        entry.kind = parseStandardEnchantKind(statName);
         entry.statName = statName;
         entry.suffix = suffix;
 
@@ -624,6 +623,22 @@ bool StandardItemEnchantTable::load(
     }
 
     return !m_entries.empty();
+}
+
+bool StandardItemEnchantTable::addAt(uint16_t enchantId, StandardItemEnchantEntry entry)
+{
+    if (enchantId == 0 || (enchantId <= m_entries.size() && m_entries[enchantId - 1].kind != StandardItemEnchantKind::None))
+    {
+        return false;
+    }
+
+    if (m_entries.size() < enchantId)
+    {
+        m_entries.resize(enchantId);
+    }
+
+    m_entries[enchantId - 1] = std::move(entry);
+    return true;
 }
 
 const std::vector<StandardItemEnchantEntry> &StandardItemEnchantTable::entries() const
@@ -644,36 +659,27 @@ const StandardItemEnchantEntry *StandardItemEnchantTable::get(uint16_t enchantId
 
 bool SpecialItemEnchantTable::load(const std::vector<std::vector<std::string>> &rows)
 {
-    return load(rows, rows);
-}
-
-bool SpecialItemEnchantTable::load(
-    const std::vector<std::vector<std::string>> &localizedRows,
-    const std::vector<std::vector<std::string>> &semanticRows)
-{
     m_entries.clear();
 
-    if (localizedRows.size() != semanticRows.size())
+    for (const std::vector<std::string> &row : rows)
     {
-        return false;
-    }
-
-    for (size_t rowIndex = 0; rowIndex < localizedRows.size(); ++rowIndex)
-    {
-        const std::vector<std::string> &row = localizedRows[rowIndex];
-        const std::vector<std::string> &semanticRow = semanticRows[rowIndex];
         const std::string name = getCell(row, 0);
         const std::string suffix = getCell(row, 1);
-        const std::string semanticName = getCell(semanticRow, 0);
-        const std::string semanticSuffix = getCell(semanticRow, 1);
 
-        if (name.empty() || suffix.empty() || semanticName == "Bonus Stat")
+        // The enchantments end at the first blank row; the notes below it are not enchantments, so a ruleset can
+        // add ids after the last one.
+        if (name.empty() && suffix.empty() && !m_entries.empty())
+        {
+            break;
+        }
+
+        if (name.empty() || suffix.empty() || name == "Bonus Stat")
         {
             continue;
         }
 
         SpecialItemEnchantEntry entry = {};
-        entry.kind = parseSpecialEnchantKind(semanticSuffix);
+        entry.kind = parseSpecialEnchantKind(suffix);
         entry.name = name;
         entry.suffix = suffix;
 
@@ -686,11 +692,161 @@ bool SpecialItemEnchantTable::load(
         const std::string rarityText = getCell(row, 15);
         entry.rarityLevel = rarityText.empty() ? 0 : rarityText[0];
         entry.description = getCell(row, 16);
-        entry.displayAsPrefix = !toLowerCopy(semanticSuffix).starts_with("of ");
+        entry.displayAsPrefix = !toLowerCopy(entry.suffix).starts_with("of ");
         m_entries.push_back(std::move(entry));
     }
 
     return !m_entries.empty();
+}
+
+bool SpecialItemEnchantTable::addAt(uint16_t enchantId, SpecialItemEnchantEntry entry)
+{
+    if (enchantId == 0 || (enchantId <= m_entries.size() && m_entries[enchantId - 1].kind != SpecialItemEnchantKind::None))
+    {
+        return false;
+    }
+
+    if (m_entries.size() < enchantId)
+    {
+        m_entries.resize(enchantId);
+    }
+
+    m_entries[enchantId - 1] = std::move(entry);
+    return true;
+}
+
+bool loadWorldEnchantments(const std::string &text, const std::string &worldId, StandardItemEnchantTable &standard,
+    SpecialItemEnchantTable &special, std::string &errorMessage)
+{
+    const std::string where = "worlds/" + worldId + "/enchantments.yml: ";
+
+    try
+    {
+        const YAML::Node root = YAML::Load(text);
+
+        if (!root.IsMap() || root["schema"].as<std::string>("") != "openyamm.worldEnchantments.v1")
+        {
+            errorMessage = where + "expected schema openyamm.worldEnchantments.v1";
+            return false;
+        }
+
+        const auto readId = [&where, &errorMessage](const YAML::Node &node, uint16_t &id)
+        {
+            id = node["id"].as<uint16_t>(0);
+
+            if (id < 100 || id > 999)
+            {
+                errorMessage = where + "enchantment ids must lie in 100-999";
+                return false;
+            }
+
+            return true;
+        };
+
+        for (const YAML::Node &node : root["standard"])
+        {
+            StandardItemEnchantEntry entry = {};
+            uint16_t id = 0;
+            const YAML::Node slots = node["slots"];
+
+            if (!readId(node, id) || node["stat"].as<std::string>("") != "energy_resistance" || !slots.IsSequence()
+                || slots.size() != entry.slotValues.size())
+            {
+                errorMessage = errorMessage.empty()
+                    ? where + "a standard enchantment needs stat: energy_resistance and nine slot weights"
+                    : errorMessage;
+                return false;
+            }
+
+            entry.kind = StandardItemEnchantKind::EnergyResistance;
+            entry.statName = Engine::trNoop("Energy Resistance");
+            entry.suffix = node["name"].as<std::string>();
+            entry.worlds = {worldId};
+
+            for (size_t slot = 0; slot < entry.slotValues.size(); ++slot)
+            {
+                entry.slotValues[slot] = slots[slot].as<int>();
+            }
+
+            if (!standard.addAt(id, std::move(entry)))
+            {
+                errorMessage = where + "standard enchantment id " + std::to_string(id) + " is taken";
+                return false;
+            }
+        }
+
+        for (const YAML::Node &node : root["special"])
+        {
+            SpecialItemEnchantEntry entry = {};
+            uint16_t id = 0;
+            const YAML::Node slots = node["slots"];
+            const std::string rarity = node["rarity"].as<std::string>("");
+
+            if (!readId(node, id) || !slots.IsSequence() || slots.size() != entry.slotWeights.size()
+                || rarity.size() != 1 || rarity[0] < 'A' || rarity[0] > 'D')
+            {
+                errorMessage = errorMessage.empty()
+                    ? where + "a special enchantment needs a rarity A-D and twelve slot weights"
+                    : errorMessage;
+                return false;
+            }
+
+            entry.kind = SpecialItemEnchantKind::World;
+            entry.suffix = node["name"].as<std::string>();
+            entry.name = node["description"].as<std::string>(entry.suffix);
+            entry.description = entry.name;
+            entry.rarityLevel = rarity[0];
+            entry.priceModifier.amount = node["value"].as<int>(0);
+            entry.displayAsPrefix = !toLowerCopy(entry.suffix).starts_with("of ");
+            entry.requiredContentFlag = node["requires_flag"].as<std::string>("");
+            entry.worlds = {worldId};
+
+            for (size_t slot = 0; slot < entry.slotWeights.size(); ++slot)
+            {
+                entry.slotWeights[slot] = slots[slot].as<int>();
+            }
+
+            WorldEnchantEffect &effect = entry.worldEffect;
+            const YAML::Node effectNode = node["effect"];
+            effect.shieldDamagePercent = effectNode["shield_damage"].as<int>(0);
+            effect.exposedDamagePercent = effectNode["exposed_damage"].as<int>(0);
+            effect.overloadChancePercent = effectNode["overload_chance"].as<int>(0);
+            effect.bonusDamagePercent = effectNode["bonus_damage"].as<int>(0);
+            effect.personalShield = effectNode["personal_shield"].as<int>(0);
+            effect.energyDamageTakenPercent = effectNode["energy_damage_taken"].as<int>(0);
+
+            if (const YAML::Node energy = effectNode["energy_damage"])
+            {
+                effect.energyDamageMinimum = energy[0].as<int>();
+                effect.energyDamageMaximum = energy[1].as<int>();
+            }
+
+            for (const YAML::Node &range : effectNode["against"])
+            {
+                effect.bonusMonsterIds.emplace_back(range[0].as<int>(), range[1].as<int>());
+            }
+
+            if (effect.energyDamageMaximum < effect.energyDamageMinimum
+                || (effect.bonusDamagePercent != 0) != !effect.bonusMonsterIds.empty())
+            {
+                errorMessage = where + entry.suffix + ": energy_damage is [min, max]; bonus_damage needs against";
+                return false;
+            }
+
+            if (!special.addAt(id, std::move(entry)))
+            {
+                errorMessage = where + "special enchantment id " + std::to_string(id) + " is taken";
+                return false;
+            }
+        }
+    }
+    catch (const YAML::Exception &exception)
+    {
+        errorMessage = where + exception.what();
+        return false;
+    }
+
+    return true;
 }
 
 const std::vector<SpecialItemEnchantEntry> &SpecialItemEnchantTable::entries() const
@@ -707,6 +863,19 @@ const SpecialItemEnchantEntry *SpecialItemEnchantTable::get(uint16_t enchantId) 
 
     const size_t index = static_cast<size_t>(enchantId - 1);
     return index < m_entries.size() ? &m_entries[index] : nullptr;
+}
+
+uint16_t SpecialItemEnchantTable::findId(SpecialItemEnchantKind kind) const
+{
+    for (size_t index = 0; index < m_entries.size(); ++index)
+    {
+        if (m_entries[index].kind == kind)
+        {
+            return static_cast<uint16_t>(index + 1);
+        }
+    }
+
+    return 0;
 }
 
 }

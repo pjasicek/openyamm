@@ -1,0 +1,71 @@
+{
+  "accepted_visual_reviews": 697,
+  "coverage": {
+    "jobs": 1381,
+    "referenced_files": 2571,
+    "rendered_assets": 2482,
+    "triage_files": 152,
+    "valid": true
+  },
+  "focused_tests": {
+    "command": "python3 level_generation/sprites/restoration_jobs/test_pipeline.py",
+    "covers": [
+      "native octants and mirrors",
+      "common registration preserves motion",
+      "delivered alpha preserves material colors",
+      "soft tails survive beyond seven pixels",
+      "black physical material remains opaque",
+      "yellow matte channel permutation"
+    ],
+    "passed": 7
+  },
+  "imagegen_calls_during_preparation": 709,
+  "limitations": [
+    "Future AI outputs still require visual review",
+    "Soft and companion-mask extraction are estimates",
+    "152 unbound originals require evidenced dispositions",
+    "390 missing names remain a recorded input limitation",
+    "The resumable queue is intentionally incomplete until all generation and triage jobs are accepted or explicitly deferred."
+  ],
+  "markdown_links": "checked; no broken links in worker/goal/review/triage guides",
+  "native_reference_processing_smoke": {
+    "distinct_drawings": 3,
+    "job": "g00166_v0_s0",
+    "purpose": "Registration/cleanup verification on native input, not enhanced artwork acceptance",
+    "warnings": []
+  },
+  "offline_worker_smoke": {
+    "checks": [
+      "payload preparation",
+      "existing benchmark draft import and proofs",
+      "defer and resume selection",
+      "export stays incomplete without accepted jobs"
+    ],
+    "isolated_temporary_directory": true,
+    "passed": true
+  },
+  "prepared_date": "2026-09-09",
+  "queue_status": {
+    "accepted": 697,
+    "deferred": 2,
+    "ready": 672,
+    "review_existing": 10
+  },
+  "runtime_assets_modified": false,
+  "placement_calibration": {
+    "checks_version": 2,
+    "focused_tests_passed": 13,
+    "reprocessed_without_imagegen": [
+      "g00297_v0_s0",
+      "g17687_v0_s0",
+      "g17833_v0_s0"
+    ],
+    "accepted_scan_jobs": 697,
+    "flagged_jobs": 30,
+    "legacy_acceptances_requiring_verification": 694,
+    "remaining_work": "Review remaining flagged animated props/effects; seven reviewed sheets need art/tone repair, final campfire phases are deferred, and older acceptances still need verification. Complete pending generation and triage afterward.",
+    "notes": "PLACEMENT_CALIBRATION.md",
+    "latest_batch": "audit/placement_batch_03.json",
+    "current_checks_accepted_jobs": 17
+  }
+}

@@ -1,0 +1,37 @@
+id: rulesets.maw_bounty
+title: "Ruleset - MAW bounty hunts: none until the town is cleared, then a named boss target with its kin and map note"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - speak_npc: {source_id: 1076}
+  - select_topic: {action_id: 1712}
+  # No target yet: only the map's own two bosses (maw_map_boss_count.yml) and no Bounty note.
+  - assert:
+      actor_count: {boss: true, max: 2}
+      journal_map_note: {map: oute3.odm, id: 9999, present: false}
+  - press_action: {action: cancel_dialog}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - speak_npc: {source_id: 1076}
+  - select_topic: {action_id: 1712}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {boss: true, min: 1}
+      # The texts name the boss as spawned and a "Bounty" note marks its spot (GAPS H.11). The scenario's fixed root
+      # seed rolls a Reflecting Greater Wererat.
+      journal_map_note: {map: oute3.odm, id: 9999, text: Bounty}
+      dialog: {text_contains: "Reflecting Greater Wererat"}
+  # The target's death takes the note down; the reward names it too.
+  - press_action: {action: cancel_dialog}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      journal_map_note: {map: oute3.odm, id: 9999, present: false}
+  - speak_npc: {source_id: 1076}
+  - select_topic: {action_id: 1712}
+  - assert:
+      dialog: {text_contains: "defeating the Reflecting Greater Wererat"}

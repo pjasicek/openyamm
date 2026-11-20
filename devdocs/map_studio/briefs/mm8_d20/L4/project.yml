@@ -1,0 +1,23 @@
+format: 0
+id: calib_mm8_d20
+name: Mad Necromancer's Lab
+world: mm8
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9720
+  reference: d20.blv
+neighbours:
+  - id: exit:front
+    to: out06.odm
+    kind: door
+    arrival: [-13071, 16397, 1057]
+    arrival_hint: "Shadowspire, before the laboratory's door."
+    direction: 270
+qbits:
+  blazen_found: 71
+  blazen_in_party: 435
+  ebonest_lost: 199
+items:
+  ebonest: 539
+notes: "Rebuild of MM8's Mad Necromancer's Lab (d20.blv) in the original's own frame, a held-out test of the studio and its procedure (devdocs/map_studio/REBUILD_PROCEDURE.md). NOTES.md beside this file holds the scores, the gaps and the tool defects."

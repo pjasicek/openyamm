@@ -1,0 +1,1 @@
+Built-in pixel_steps repair replaces coarse rim with continuous facets. Delivered alpha retained. Common --adjust 0.98 0 0; pooled native RGB gamma preserves alpha. Full raw, native reference and final light/dark proofs inspected. Zero clipping in registration_checks.json.

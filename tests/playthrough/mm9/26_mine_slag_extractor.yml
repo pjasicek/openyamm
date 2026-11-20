@@ -1,0 +1,75 @@
+# MM9 playthrough, segment 26: the refinery fixed (guide: Chapter I, "Fix the refinery machine"). Out of Thjorgard
+# City and back into the Thjorad Mine; through the crossing and the east gate into the refinery, up its spiral and out
+# by the west gate. Hjarrand Fixer waits in the corridor beside the slag extractor: he is asked whether the machine
+# is fixed and goes to look (he paces round the hatch the party left open and marks the broken spot: key 364). The new
+# Slag Extractor goes into the machine's base (key 37). Back out of the mine to Thjorgard. Research:
+# prep/20_34_thjorgard_guberland.md (24 there).
+#   python3 tests/playthrough/mm9/run.py 26
+id: mm9.playthrough.26_mine_slag_extractor
+title: "MM9 playthrough 26: the new Slag Extractor installed; the mine works again"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/25_hjarrand_gunnar.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90035, 90036, 90362, 99514], qbit_clear: [90037]}
+
+  # The dock gate, the mine's entrance.
+  - set_pose: {map: thjorgardcity.blv, x: 655, y: -400, z: -19, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 655, y: -819, z: -19, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+  - set_pose: {map: thjorgard.blv, x: -16893, y: 12425, z: 4449, yaw: -0.35, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -16534, y: 12292, z: 4598, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjoradmine.blv}
+
+  # North to the crossing, west to the refinery's east gate (its lever lifts Door1), along the tank's floor north of
+  # Njal, up the spiral to the west gate (Door0).
+  - walk_to: {x: 2683, y: 0, z: -982, z_tolerance: 300, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2000, y: -150, z: -691, z_tolerance: 400, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(63); wait(4)'}
+  - walk_to: {via: [[1318, -136, -655], [1000, 0, -654], [800, 110, -654], [500, 100, -654]], x: 300, y: 0, z: -654, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {via: [[400, 350, -655], [100, 560, -655], [-250, 500, -600], [-480, 300, -450], [-560, 0, -280], [-530, -250, -150], [-450, -480, -30], [-350, -650, 0], [-550, -950, 0], [-900, -700, 0], [-1100, -250, 0]], x: -1200, y: 0, z: 1, z_tolerance: 900, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(62); wait(4)'}
+
+  # Hjarrand in the corridor beside the machine room.
+  - walk_to: {via: [[-2000, 0, 1]], x: -2250, y: 20, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 60}
+  - interact_actor: {actor_index: 45}
+  - select_topic: {match_label: "Is the machine fixed yet?"}
+  - select_topic: {match_label: "Alright."}
+  - play_lua:
+      max_seconds: 120
+      source: |
+        for i = 1, 90 do if qbit(90364) then break end; wait(1) end
+        if not qbit(90364) then error("Hjarrand never marks the machine (HjarrandStop " .. mapvar("HjarrandStop") .. ")") end
+        log("Hjarrand marks the broken spot on the machine")
+  - assert: {qbit_set: [90364]}
+
+  # The machine's base takes the new part.
+  - walk_to: {via: [[-2300, 110, 1], [-2550, 260, 1], [-2600, 600, 1]], x: -2593, y: 978, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(131); wait(1)
+        if has_item(10399) then error("the base did not take the Slag Extractor") end
+        log("the new Slag Extractor goes in: the refinery works again")
+  - assert: {qbit_set: [90037]}
+
+  # Out the same way: the west gate, the spiral's foot, the east gate, the entrance.
+  - walk_to: {via: [[-2550, 260, 1], [-2300, 110, 1]], x: -2000, y: 0, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(62); wait(4)'}
+  - walk_to: {x: 500, y: -123, z: -654, z_tolerance: 200, timeout_seconds: 120}
+  - walk_to: {via: [[500, 100, -654], [800, 110, -654], [1000, 0, -654]], x: 1350, y: -150, z: -691, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'click(63); wait(4)'}
+  - walk_to: {x: 2683, y: 0, z: -982, z_tolerance: 300, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 2785, y: -2785, z: -900, z_tolerance: 300, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2785, y: -3195, z: -900, z_tolerance: 300, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv, qbit_set: [90035, 90036, 90037]}
+  - save_game: {name: "26 the refinery fixed", path: output/playthrough/mm9/checkpoints/26_mine_slag_extractor.oysav}

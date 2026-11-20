@@ -1,0 +1,214 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_bathhouse/review/v01_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: entrance
+  position:
+  - -768
+  - -896
+  - -281
+  yaw: 0.0
+  pitch: 0.0
+- name: hall_pool
+  position:
+  - 256
+  - 768
+  - -304
+  yaw: -0.4049
+  pitch: 0.0
+- name: hall_east
+  position:
+  - 6144
+  - 0
+  - -242
+  yaw: 3.1416
+  pitch: 0.0
+- name: hall_colonnade
+  position:
+  - 3328
+  - -2432
+  - -242
+  yaw: 3.1416
+  pitch: 0.0
+- name: hall_north_doors
+  position:
+  - 3072
+  - 768
+  - -304
+  yaw: 1.5708
+  pitch: 0.0
+- name: room_a
+  position:
+  - 640
+  - 2048
+  - -281
+  yaw: 0.0
+  pitch: 0.0
+- name: room_b
+  position:
+  - 4352
+  - 2048
+  - -281
+  yaw: 3.1416
+  pitch: 0.0
+- name: room_c
+  position:
+  - 5888
+  - 2048
+  - -242
+  yaw: -0.4636
+  pitch: 0.0
+- name: ne_corridor
+  position:
+  - 6784
+  - 2048
+  - -242
+  yaw: -1.5708
+  pitch: 0.0
+- name: ne_room
+  position:
+  - 7552
+  - 640
+  - -242
+  yaw: -0.4636
+  pitch: 0.0
+- name: corridor2
+  position:
+  - 3328
+  - -3072
+  - -242
+  yaw: 0.0
+  pitch: 0.0
+- name: sw_room
+  position:
+  - 0
+  - -3328
+  - -242
+  yaw: -1.5708
+  pitch: 0.0
+- name: sw_pool
+  position:
+  - 512
+  - -3584
+  - -147
+  yaw: -0.8761
+  pitch: 0.0
+- name: pool_b
+  position:
+  - 1843
+  - -3328
+  - 1
+  yaw: -1.049
+  pitch: 0.0
+- name: furnace
+  position:
+  - 3686
+  - -4352
+  - -122
+  yaw: -1.5708
+  pitch: 0.0
+- name: pool_a
+  position:
+  - 4352
+  - -3712
+  - -122
+  yaw: -1.0517
+  pitch: 0.0
+- name: tub
+  position:
+  - 6528
+  - -3456
+  - -242
+  yaw: -2.1294
+  pitch: 0.0
+- name: vents
+  position:
+  - 6400
+  - -5427
+  - -199
+  yaw: 0.0
+  pitch: 0.0
+- name: east_room
+  position:
+  - 6912
+  - -2560
+  - -242
+  yaw: -0.8961
+  pitch: 0.0
+- name: diagonal
+  position:
+  - 8320
+  - -2432
+  - -242
+  yaw: 0.9273
+  pitch: 0.0
+- name: stairs_top
+  position:
+  - 10179
+  - -1664
+  - -242
+  yaw: 1.5708
+  pitch: 0.0
+- name: flood_ledge
+  position:
+  - 11136
+  - 256
+  - -849
+  yaw: 0.0
+  pitch: 0.0
+- name: flood_floor
+  position:
+  - 12544
+  - -256
+  - -1092
+  yaw: 3.1416
+  pitch: 0.0
+- name: flood_doors
+  position:
+  - 14208
+  - -256
+  - -818
+  yaw: 0.0
+  pitch: 0.0
+- name: east_corridor
+  position:
+  - 15104
+  - -768
+  - -818
+  yaw: 1.5708
+  pitch: 0.0
+- name: chests_south
+  position:
+  - 15616
+  - -3840
+  - -818
+  yaw: -0.9828
+  pitch: 0.0
+- name: switch_room
+  position:
+  - 9216
+  - -1152
+  - -1259
+  yaw: 1.7506
+  pitch: 0.0
+- name: switch_shelf
+  position:
+  - 9267
+  - -256
+  - -1064
+  yaw: 1.1398
+  pitch: 0.0
+- name: chamber
+  position:
+  - 2816
+  - -768
+  - -1259
+  yaw: 0.0
+  pitch: 0.0
+- name: chamber_channel
+  position:
+  - 4352
+  - -256
+  - -1259
+  yaw: -1.2867
+  pitch: 0.0

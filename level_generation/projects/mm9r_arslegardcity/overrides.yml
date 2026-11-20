@@ -1,0 +1,144 @@
+# Explicit conversion choices for MM9's Arslegard City (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md.
+map:
+  stem: arslegardcity
+  display_name: Arslegard City
+  fog: lithtech                      # MM9's own fog model and night fog (CITY_PLAYBOOK "Daylight and fog")
+  bright_scale_lights: true          # BLV light colour x MM9's BrightScale, as its lightmaps (CITY_PLAYBOOK "Street lights")
+  # start index = the old map's: 0 the Bath House door, 1 the Great Gate (StartPoint0: MM9's arrival after death,
+  # the default), 2 the Hall of the Gods' gate, 3 the Thousand Terrors' door
+  starts: [BathHouseExit, StartPoint0, HallOfTheGodsExit, 1000TerrorsExit]
+  monster_classes: [CommonerHuman2MaleA, ShopkeeperHuman2FemaleA, ShopkeeperHuman2MaleB, ShopkeeperHuman2MaleA, Hanndl,
+                    CommonerDwarfMaleA, CommonerHalfOrcMaleA, CommonerHuman2MaleB, CommonerHalfOrcFemaleA,
+                    CommonerElfFemaleB, CommonerHuman2FemaleA, ShopkeeperHumanMaleA, CommonerHumanMaleA,
+                    CommonerHumanFemaleB, CommonerElfMaleB, CommonerHuman2FemaleB, CommonerElfMaleA,
+                    CommonerDwarfFemaleA, SvenSvenssen, NjamtheMeddler]
+  painted_minimap: true               # MM9's painted city map (catalog entry kept, bounds shifted); no outline pass
+  # The DAT spans native y -34 488..-5 734 (LT z -13 472..-2 240): over int16. The frame is shifted 20 000 native
+  # along y (native y = LT z x 2.56 + 20 000: -14 488..14 266); convert.py moves the transitions, the props and the
+  # painted map's bounds by the same offset (Connecting Tunnels' route).
+  offset: [0, -20000, 0]
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  street: [-200, 0]
+  raised: [0, 300]
+  upper: [300, 1300]
+models:
+  SkyBox0: skip                       # DemoSkyWorldModel: MM9's Arslegaard sky box, drawn by the sky, not geometry
+  BlueWater0: skip                    # the fountains' water volumes: their surfaces are WorldObject7/8
+  BlueWater1: skip
+  BlueWater2: skip
+  BlueWater3: skip
+  Terrain0: static                    # the grass and cliffs of the west park (abndfortgrass, darkcliff)
+  WorldObject0: static                # wooden stair ladders (r_wood_ladder) in invisible boxes
+  WorldObject1: static
+  WorldObject2: static
+  WorldObject3: static
+  WorldObject4: static                # the bank counter's bars (thjorbars) in an invisible shell (convert.py: cut-out)
+  WorldObject5: static                # a leaded pane (windowlead1, non-solid): glass
+  WorldObject6: static                # the Hall of the Gods gate's shimmer (Water115, non-solid) at ExitTriggerHall
+  WorldObject7: static                # the fountains' water surfaces (water115_0017, non-solid)
+  WorldObject8: static
+  WorldObject11: static               # ladder rungs (xeenstairs) beside Ladder6 / Ladder7
+  WorldObject12: static
+  Carpet10: static                    # the temple's carpets (AmazingTrim1c) and Njam's (tapestry_green)
+  Carpet11: static
+  Carpet12: static
+  Carpet13: static
+  WorldObject13: static               # hanging chains of the signs (ChainLink)
+  WorldObject14: static
+  WorldObject15: static
+  WorldObject16: static
+  WorldObject17: static
+  WorldObject18: static
+  WorldObject19: static
+  WorldObject20: static
+  WorldObject21: static
+  WorldObject22: static
+  WorldObject23: static
+  WorldObject24: static
+  WorldObject25: static
+  WorldObject26: static
+  WorldObject27: static
+  WorldObject28: static
+  WorldObject29: static
+  WorldObject53: static
+  WorldObject55: static
+  WorldObject57: static
+  WorldObject58: static
+  WorldObject59: static
+  WorldObject60: static
+  WorldObject61: static
+  WorldObject62: static
+  # --- doors (work/draft_rules.py): pairs share a group; a PortalName or a pair makes a doorway
+  TavernDoor0: {group: TavernDoor0, motion: rotate, doorway: true, portal: TavernPortal}
+  TavernDoor1: {group: TavernDoor0, motion: rotate, doorway: true, portal: TavernPortal}
+  BankDoor0: {group: BankDoor0, motion: rotate, doorway: true, portal: BankPortal}
+  BankDoor1: {group: BankDoor0, motion: rotate, doorway: true, portal: BankPortal}
+  WeaponDoor0: {group: WeaponDoor0, motion: rotate, doorway: true, portal: WeaponPortal}
+  WeaponDoor1: {group: WeaponDoor0, motion: rotate, doorway: true, portal: WeaponPortal}
+  ArmorDoor0: {group: ArmorDoor0, motion: rotate, doorway: true, portal: ArmorPortal}
+  ArmorDoor1: {group: ArmorDoor0, motion: rotate, doorway: true, portal: ArmorPortal}
+  LibraryDoor1: {group: LibraryDoor0, motion: rotate, doorway: true, portal: LibraryPortal}
+  LibraryDoor0: {group: LibraryDoor0, motion: rotate, doorway: true, portal: LibraryPortal}
+  NjamDoor0: {group: NjamDoor0, motion: rotate, doorway: true, portal: NjamPortal}   # locked: Doorlock.scr, item 576
+  NjamDoor1: {group: NjamDoor0, motion: rotate, doorway: true, portal: NjamPortal}   # locked: Doorlock.scr, item 576
+  NjamBackDoor0: {group: NjamBackDoor0, motion: rotate, doorway: true, portal: NjamBackDoorPortal}   # locked, no key
+  MagicDoor0: {group: MagicDoor0, motion: rotate, doorway: true, portal: MagicPortal}
+  MagicDoor1: {group: MagicDoor0, motion: rotate, doorway: true, portal: MagicPortal}
+  TrainingDoor0: {group: TrainingDoor0, motion: rotate, doorway: true, portal: TrainingPortal}
+  TrainingDoor1: {group: TrainingDoor0, motion: rotate, doorway: true, portal: TrainingPortal}
+  TempleDoor1: {group: TempleDoor0, motion: rotate, doorway: true, portal: TemplePortal}
+  TempleDoor0: {group: TempleDoor0, motion: rotate, doorway: true, portal: TemplePortal}
+  CounterDoor: {group: CounterDoor, motion: rotate}   # a counter flap (Sticky): not a doorway
+  GeneralDoor0: {group: GeneralDoor0, motion: rotate, doorway: true, portal: GeneralPortal}
+  GeneralDoor1: {group: GeneralDoor0, motion: rotate, doorway: true, portal: GeneralPortal}
+  ClankDoor1: {group: ClankDoor1, motion: rotate, doorway: true}   # locked: the double door to the Thousand Terrors
+  ClankDoor2: {group: ClankDoor1, motion: rotate, doorway: true}   # locked
+  GeneralDoor3: {group: GeneralDoor2, motion: rotate, doorway: true, portal: GeneralPortal1}
+  GeneralDoor2: {group: GeneralDoor2, motion: rotate, doorway: true, portal: GeneralPortal1}
+  Njamdoor: {group: Njamdoor, motion: rotate}   # locked, Sticky: Njam's cell door; NjamChase.scr unlocks it
+  RotatingDoor1: {group: RotatingDoor0, motion: rotate, doorway: true}   # locked: the Great Gate (WritMan.scr opens it)
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true}   # locked
+  Door0: {group: Door0, motion: dat}   # the peephole in the Great Gate (Hanndl's; the cinema's)
+# The Bath House's painted door: MM9's exit volume ends 1 unit over the top step (LT -156) the party stands on: reach
+# it down to the step
+exits:
+  ExitTrigger0: {bottom_lt: -160}
+# The temple front's two ladders (rungs WorldObject11/12 on the inner face of the front wall, LT x 1164): upright, from
+# the towers' upper floors at LT 176 (reached by the temple's ramps, its balcony at 176 and a doorway in each tower's
+# back wall; the bays under those floors open on the porch at 32) to the gallery over the door at 288.
+ladders:
+  Ladder6: {facing_lt: [1, 0], surface_lt: 1164, top_exit_lt: [1078, 288, -8382]}
+  Ladder7: {facing_lt: [1, 0], surface_lt: 1164, top_exit_lt: [1078, 288, -7554]}
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the sky shell: IndoorSky faces (scene override)
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # sound-only brushes: invisible collision
+glass:
+  windowlead1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+city:
+  weather: rain                    # the outdoor weather over the open sky (the user's decision 2026-11-06; city.hooks.apply_weather)
+  merged_top_portals: true          # few large convex top portals over walls and roofs (CITY_PLAYBOOK "The open air" step 3)
+  daylight: true                     # sun and sky light on the open sectors (CITY_PLAYBOOK "Daylight and fog")
+  street_top_lt: 192                 # 384 LT over the streets (-192): under the eaves (208-240 along the streets)
+  sky_preset: cloudy                 # the outdoor maps' high-definition sky (was sky_texture plansky3, the old import's)
+  outdoor_view: true                 # view distance and haze as an outdoor map's, not MM9's grey fog (INDOOR_OPEN_SKY.md)
+  view_distance_scale: 0.5           # 8 096 units at the default view distance setting (16 192), the user's choice
+  # Arslegard's streets are wide plazas joined by short streets: a denser, wider automatic search than the default
+  # (1 280 / 768 / 128)
+  cut_spacing_lt: 640
+  max_cut_width_lt: 1024
+  corridor_lt: 96
+  half_steps: true                   # invisible half steps up standable 50-66 rises (CITY_PLAYBOOK "Raised floors")
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated.
+# Frames and translucency; the scene file is a source of the map's lighting bake (tools/lighting/stale_bakes.py),
+# so a change here needs the bake again. Checked (2026-11-10, scratch build: only
+# `translucent_faces` changes): the Hall of the Gods gate's Water115 shimmer (WorldObject6, 1 face, two-sided)
+# translucent (enabled 2026-11-10 with the map's lighting re-transfer).
+spr_surfaces: {}

@@ -10,16 +10,6 @@ source:
   path: tests/playthrough_scenarios/mm6/08_the_hive_finale.txt
   note: "Generated draft. Sanitize aliases, poses, shortcuts, and checkpoints before using as a runnable scenario."
 steps:
-  - source_line: 1
-    trace_observation:
-      event: named_global_var_changed
-      fields:
-        map: ""
-        operation: set
-        name: MMerge.CrossContinents.MeetTime
-        previous: 0
-        current: 322560
-      note: "timer/bootstrap-driven variable; not converted to a hard replay assertion"
   - source_line: 2
     note: "trace_session_begin configured_world_id=mm6 gameplay_trace=true map_load_timing=false route_trace=false startup_map=oute3.odm trace_file=tests/playthrough_scenarios/mm6/08_the_hive_finale.txt unix_time=1778365463 world_id=mm6"
   - source_line: 3
@@ -49,16 +39,6 @@ steps:
         qbit: 52
       encoding: base64+zlib+json
       data: "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"
-  - source_line: 156
-    trace_observation:
-      event: named_global_var_changed
-      fields:
-        map: ""
-        operation: set
-        name: MMerge.CrossContinents.MeetTime
-        previous: 0
-        current: 322560
-      note: "timer/bootstrap-driven variable; not converted to a hard replay assertion"
   - source_line: 157
     assert:
       map_loaded: oracle.blv
@@ -92,16 +72,6 @@ steps:
         qbit: 52
       encoding: base64+zlib+json
       data: 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
-  - source_line: 309
-    trace_observation:
-      event: named_global_var_changed
-      fields:
-        map: ""
-        operation: set
-        name: MMerge.CrossContinents.MeetTime
-        previous: 0
-        current: 322560
-      note: "timer/bootstrap-driven variable; not converted to a hard replay assertion"
   - source_line: 311
     load_map:
       target: "The Hive"
@@ -551,22 +521,6 @@ steps:
         map: hive.blv
         yaw: 1.20604
         pitch: -0.3405
-  - source_line: 346
-    assert:
-      named_global_var_changed:
-        map: hive.blv
-        operation: set
-        name: MMerge.CrossContinents.ScrollGenerated
-        previous: 0
-        current: 1
-  - source_line: 347
-    assert:
-      named_global_var_changed:
-        map: hive.blv
-        operation: set
-        name: MMerge.CrossContinents.ScrollItemId
-        previous: 0
-        current: 772
   - source_line: 348
     assert:
       chest_opened:
@@ -2153,16 +2107,6 @@ steps:
         world: indoor
         event_id: 62
         face_index: 3543
-  - source_line: 530
-    trace_observation:
-      event: named_global_var_changed
-      fields:
-        map: ""
-        operation: set
-        name: MMerge.CrossContinents.MeetTime
-        previous: 0
-        current: 322560
-      note: "timer/bootstrap-driven variable; not converted to a hard replay assertion"
   - source_line: 532
     load_map:
       target: "Castle Ironfist"
@@ -2840,16 +2784,6 @@ steps:
         active_source_id: 797
         house_dialog: false
         action_count: 1
-  - source_line: 581
-    trace_observation:
-      event: named_global_var_changed
-      fields:
-        map: ""
-        operation: set
-        name: MMerge.CrossContinents.MeetTime
-        previous: 0
-        current: 322560
-      note: "timer/bootstrap-driven variable; not converted to a hard replay assertion"
   - source_line: 582
     load_map:
       map: hive.blv
@@ -3129,14 +3063,6 @@ steps:
     assert:
       qbit_set:
         - 784
-  - source_line: 607
-    assert:
-      named_global_var_changed:
-        map: hive.blv
-        operation: set
-        name: MMerge.CrossContinents.Finished.3
-        previous: 0
-        current: 1
   - source_line: 608
     assert:
       qbit_clear:
@@ -3146,24 +3072,6 @@ steps:
       award_acquired:
         - id: 78
           member_index: 0
-  - source_line: 610
-    trace_observation:
-      event: named_global_var_changed
-      fields:
-        map: ""
-        operation: set
-        name: MMerge.CrossContinents.MeetTime
-        previous: 0
-        current: 322560
-      note: "timer/bootstrap-driven variable; not converted to a hard replay assertion"
-  - source_line: 611
-    assert:
-      named_global_var_changed:
-        map: oute3.odm
-        operation: set
-        name: MMerge.CrossContinents.Reward.3
-        previous: 0
-        current: 1
   - source_line: 612
     load_map:
       map: oute3.odm
@@ -3182,283 +3090,6 @@ steps:
         pos: "(0,0,0)"
         direction_degrees: "none"
       game_minutes: 122794.867188
-  - source_line: 614
-    speak_npc:
-      map: oute3.odm
-      source_id: 803
-      title: Verdant
-      reason: "replay recorded automatic Verdant dialog opened by evt.SpeakNPC after map arrival"
-  - source_line: 615
-    select_topic:
-      kind: npc_topic
-      source_id: 803
-      action_id: 1778
-      secondary_id: 1778
-      selection_index: 0
-      house_dialog: false
-      enabled: true
-      label: "The Important Matter"
-      expect_before:
-        dialog:
-          active: true
-          house_dialog: false
-          source_id: 803
-          title: Verdant
-          house_title: ""
-          line_count: 0
-          text_hash: 1469598103934665603
-          action_count: 1
-          actions:
-            - index: 0
-              kind: npc_topic
-              id: 1778
-              secondary_id: 1778
-              enabled: true
-              text_only: false
-              label: "The Important Matter"
-  - source_line: 616
-    assert:
-      named_global_var_changed:
-        map: oute3.odm
-        operation: set
-        name: MMerge.CrossContinents.MetVerdant
-        previous: 0
-        current: 1
-  - source_line: 617
-    assert:
-      named_global_var_changed:
-        map: oute3.odm
-        operation: set
-        name: MMerge.CrossContinents.IntroStep
-        previous: 0
-        current: 1
-  - source_line: 619
-    select_topic:
-      kind: npc_topic
-      source_id: 803
-      action_id: 1778
-      secondary_id: 1778
-      selection_index: 0
-      house_dialog: false
-      enabled: true
-      label: "The Important Matter"
-      expect_before:
-        dialog:
-          active: true
-          house_dialog: false
-          source_id: 803
-          title: Verdant
-          house_title: ""
-          line_count: 1
-          text_hash: 179779451304874518
-          action_count: 1
-          actions:
-            - index: 0
-              kind: npc_topic
-              id: 1778
-              secondary_id: 1778
-              enabled: true
-              text_only: false
-              label: "The Important Matter"
-  - source_line: 620
-    assert:
-      named_global_var_changed:
-        map: oute3.odm
-        operation: set
-        name: MMerge.CrossContinents.IntroStep
-        previous: 1
-        current: 2
-  - source_line: 622
-    select_topic:
-      kind: npc_topic
-      source_id: 803
-      action_id: 1778
-      secondary_id: 1778
-      selection_index: 0
-      house_dialog: false
-      enabled: true
-      label: "The Important Matter"
-      expect_before:
-        dialog:
-          active: true
-          house_dialog: false
-          source_id: 803
-          title: Verdant
-          house_title: ""
-          line_count: 1
-          text_hash: 4476082394023557755
-          action_count: 1
-          actions:
-            - index: 0
-              kind: npc_topic
-              id: 1778
-              secondary_id: 1778
-              enabled: true
-              text_only: false
-              label: "The Important Matter"
-  - source_line: 623
-    assert:
-      named_global_var_changed:
-        map: oute3.odm
-        operation: set
-        name: MMerge.CrossContinents.IntroStep
-        previous: 2
-        current: 3
-  - source_line: 625
-    select_topic:
-      kind: npc_topic
-      source_id: 803
-      action_id: 1778
-      secondary_id: 1778
-      selection_index: 0
-      house_dialog: false
-      enabled: true
-      label: "The Important Matter"
-      expect_before:
-        dialog:
-          active: true
-          house_dialog: false
-          source_id: 803
-          title: Verdant
-          house_title: ""
-          line_count: 1
-          text_hash: 5299867509789570617
-          action_count: 1
-          actions:
-            - index: 0
-              kind: npc_topic
-              id: 1778
-              secondary_id: 1778
-              enabled: true
-              text_only: false
-              label: "The Important Matter"
-  - source_line: 626
-    assert:
-      named_global_var_changed:
-        map: oute3.odm
-        operation: set
-        name: MMerge.CrossContinents.GotMainQuest
-        previous: 0
-        current: 1
-  - source_line: 627
-    assert:
-      named_global_var_changed:
-        map: oute3.odm
-        operation: set
-        name: MMerge.CrossContinents.StartedContinent
-        previous: 0
-        current: 3
-  - source_line: 629
-    select_topic:
-      kind: npc_topic
-      source_id: 803
-      action_id: 1784
-      secondary_id: 1784
-      selection_index: 0
-      house_dialog: false
-      enabled: true
-      label: Enroth
-      expect_before:
-        dialog:
-          active: true
-          house_dialog: false
-          source_id: 803
-          title: Verdant
-          house_title: ""
-          line_count: 1
-          text_hash: 16929019184549478155
-          action_count: 2
-          actions:
-            - index: 0
-              kind: npc_topic
-              id: 1784
-              secondary_id: 1784
-              enabled: true
-              text_only: false
-              label: Enroth
-            - index: 1
-              kind: npc_topic
-              id: 1781
-              secondary_id: 1781
-              enabled: true
-              text_only: false
-              label: "Time Travel Guide"
-  - source_line: 633
-    select_topic:
-      kind: npc_topic
-      source_id: 803
-      action_id: 1781
-      secondary_id: 1781
-      selection_index: 1
-      house_dialog: false
-      enabled: true
-      label: "Time Travel Guide"
-      expect_before:
-        dialog:
-          active: true
-          house_dialog: false
-          source_id: 803
-          title: Verdant
-          house_title: ""
-          line_count: 1
-          text_hash: 11946108190823712309
-          action_count: 2
-          actions:
-            - index: 0
-              kind: npc_topic
-              id: 1784
-              secondary_id: 1784
-              enabled: true
-              text_only: false
-              label: Enroth
-            - index: 1
-              kind: npc_topic
-              id: 1781
-              secondary_id: 1781
-              enabled: true
-              text_only: false
-              label: "Time Travel Guide"
-  - source_line: 637
-    press_action:
-      action: cancel_dialog
-      expect:
-        dialogue_canceled:
-          kind: npc_talk
-          active_source_id: 803
-          house_dialog: false
-          action_count: 2
-      expect_before:
-        dialog:
-          active: true
-          house_dialog: false
-          source_id: 803
-          title: Verdant
-          house_title: ""
-          line_count: 1
-          text_hash: 15491241777478057664
-          action_count: 2
-          actions:
-            - index: 0
-              kind: npc_topic
-              id: 1784
-              secondary_id: 1784
-              enabled: true
-              text_only: false
-              label: Enroth
-            - index: 1
-              kind: npc_topic
-              id: 1781
-              secondary_id: 1781
-              enabled: true
-              text_only: false
-              label: "Time Travel Guide"
-  - source_line: 637
-    assert:
-      dialogue_canceled:
-        kind: npc_talk
-        active_source_id: 803
-        house_dialog: false
-        action_count: 2
   - source_line: 638
     save_game: save4
   - source_line: 639

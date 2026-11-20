@@ -1,0 +1,184 @@
+# White stars around the retained smoke disc; three tilted rings share one additive sprite batch.
+schema: openyamm.effectLibrary.v1
+effects:
+- id: mm8:fx/wisp_stars
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: local
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.06
+    particle_lifetime_seconds: 0.45
+    emission_shape: plane_out
+    radius: 32
+    plane_direction:
+    - 0
+    - 0
+    - 1
+    velocity: 3
+    random_roll: true
+    spin_speed: 1.2
+    wind_direction:
+    - 0
+    - 0
+    - 1
+    wind_amount: 2
+    scale_keys:
+    - time: 0
+      value: 0.045
+    - time: 0.2
+      value: 0.15
+    - time: 0.5
+      value: 0.13
+    - time: 1
+      value: 0.025
+    color_keys:
+    - time: 0
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 255
+    - time: 0.18
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 15
+    - time: 0.55
+      rgb:
+      - 245
+      - 250
+      - 255
+      transparency: 50
+    - time: 1
+      rgb:
+      - 225
+      - 240
+      - 255
+      transparency: 255
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: local
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.06
+    particle_lifetime_seconds: 0.45
+    emission_shape: plane_out
+    radius: 32
+    plane_direction:
+    - 0.85
+    - 0
+    - 0.53
+    velocity: 3
+    random_roll: true
+    spin_speed: 1.2
+    wind_direction:
+    - 0
+    - 0
+    - 1
+    wind_amount: 2
+    scale_keys:
+    - time: 0
+      value: 0.045
+    - time: 0.2
+      value: 0.15
+    - time: 0.5
+      value: 0.13
+    - time: 1
+      value: 0.025
+    color_keys:
+    - time: 0
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 255
+    - time: 0.18
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 15
+    - time: 0.55
+      rgb:
+      - 245
+      - 250
+      - 255
+      transparency: 50
+    - time: 1
+      rgb:
+      - 225
+      - 240
+      - 255
+      transparency: 255
+    motion_keys: []
+  - id: 3
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: local
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.06
+    particle_lifetime_seconds: 0.45
+    emission_shape: plane_out
+    radius: 32
+    plane_direction:
+    - 0.2
+    - 0.95
+    - 0.24
+    velocity: 3
+    random_roll: true
+    spin_speed: 1.2
+    wind_direction:
+    - 0
+    - 0
+    - 1
+    wind_amount: 2
+    scale_keys:
+    - time: 0
+      value: 0.045
+    - time: 0.2
+      value: 0.15
+    - time: 0.5
+      value: 0.13
+    - time: 1
+      value: 0.025
+    color_keys:
+    - time: 0
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 255
+    - time: 0.18
+      rgb:
+      - 255
+      - 255
+      - 255
+      transparency: 15
+    - time: 0.55
+      rgb:
+      - 245
+      - 250
+      - 255
+      transparency: 50
+    - time: 1
+      rgb:
+      - 225
+      - 240
+      - 255
+      transparency: 255
+    motion_keys: []

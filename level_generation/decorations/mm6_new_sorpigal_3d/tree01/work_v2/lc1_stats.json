@@ -1,0 +1,56 @@
+{
+ "Tree": {
+  "mean_rgb": [
+   24.6,
+   42.6,
+   20.7
+  ],
+  "opaque_px": 57433,
+  "coverage_vs_lod0": 1.0
+ },
+ "Tree_LOD1": {
+  "mean_rgb": [
+   25.2,
+   44.4,
+   21.1
+  ],
+  "opaque_px": 58238,
+  "coverage_vs_lod0": 1.014,
+  "mean_diff_vs_previous": [
+   0.6,
+   1.8,
+   0.4
+  ],
+  "coverage_diff_vs_previous": 0.014
+ },
+ "Tree_LOD2": {
+  "mean_rgb": [
+   27.4,
+   47.6,
+   22.4
+  ],
+  "opaque_px": 53837,
+  "coverage_vs_lod0": 0.937,
+  "mean_diff_vs_previous": [
+   2.2,
+   3.2,
+   1.3
+  ],
+  "coverage_diff_vs_previous": -0.076
+ },
+ "Tree_LOD3": {
+  "mean_rgb": [
+   31.0,
+   53.4,
+   24.5
+  ],
+  "opaque_px": 49732,
+  "coverage_vs_lod0": 0.866,
+  "mean_diff_vs_previous": [
+   3.6,
+   5.8,
+   2.1
+  ],
+  "coverage_diff_vs_previous": -0.076
+ }
+}

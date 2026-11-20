@@ -1,0 +1,82 @@
+output_dir: ../replay/refinement-layouts
+exit: true
+steps:
+- click:
+  - 327.0
+  - 670.0
+- capture: settings-gameplay
+- click:
+  - 1330.0
+  - 488.75
+- capture: toggle-mouse
+- key: Tab
+- capture: toggle-tab
+- click:
+  - 1330.0
+  - 488.75
+- capture: focus-cleared
+- pointer_down:
+  - 1417
+  - 325
+- pointer_move:
+  - 1417
+  - 735
+- pointer_up:
+  - 1417
+  - 735
+- capture: settings-drag-bottom
+- click:
+  - 263.5
+  - 339.594
+- capture: settings-video
+- click:
+  - 263.5
+  - 413.594
+- capture: settings-audio
+- click:
+  - 263.5
+  - 505.594
+- capture: settings-controls
+- click:
+  - 263.5
+  - 597.594
+- capture: settings-keyboard
+- click:
+  - 805.0
+  - 307.78
+- expect: text_input
+- text: attack
+- capture: keyboard-search-typed
+- key: Escape
+- key: Escape
+- click:
+  - 327.0
+  - 536.0
+- capture: continent
+- click:
+  - 374
+  - 500
+- capture: party
+- click:
+  - 116
+  - 826
+- click:
+  - 327
+  - 434
+- wait: 3
+- expect: gameplay
+- key: Escape
+- expect: pause
+- expect: menu_cursor
+- wait: 3
+- capture: pause-main-load-indoor
+- key_down: Escape
+- wait: 0.5
+- expect: gameplay
+- key_up: Escape
+- wait: 0.5
+- capture: resumed-indoor
+- key: Escape
+- expect: pause
+- expect: menu_cursor
+- capture: pause-indoor-again

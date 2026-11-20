@@ -1,0 +1,19 @@
+# AI arena: MM9's doors (BaseDoor.inc). A Skeletoid (9183) patrols from the east pen out into the arena and back; the
+# pen's door (an AI-triggerable MM9 door, scene `ai_open`) is shut. Walking into it, the Skeletoid stops, faces it,
+# opens it (both leaves) and waits its opening time with its timers paused, then walks on. It sees only 400 LT, so the
+# party at the south end goes unnoticed. See README.md.
+name: mm9_door
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 45
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9183
+    position: [1800, 0, 1]
+    yaw_degrees: 180
+    mm9_ai: {sight: 1024, hearing: 369, wander: path, path: [[1800, 0, 1], [900, 300, 1]], wander_wait: [1, 2]}

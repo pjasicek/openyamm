@@ -1,0 +1,48 @@
+id: mm9.ai.spawn
+title: MM9 spawn-in and death spawn - Greater Demons appearing, a spawned Lesser Demon's corpse spawning one
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The Greater Demon spawns in (hidden 1.1 s, Spawn 2.5 s, Aware 1.5 s),
+        then notices the party. At 1 s the scenario kills both Lesser Demons: the spawned one's corpse spawns a Greater
+        Demon (actor last + 1, traced as a spawn of the arena) when its death clip ends, which spawns in; the placed
+        one spawns nothing.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: spawn.arena.yml}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {actor_index: last-1, amount: 5000}
+  - damage_actor: {actor_index: last, amount: 5000}
+  - advance_runtime: {seconds: 14}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: spawn_in, detail: hidden, before: 0.1, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: spawn_in, detail: spawn, after: 1.05, before: 1.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: spawn_in, detail: aware, after: 3.5, before: 3.7, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: spawn_in, detail: begin, after: 5, before: 5.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, before: 5.1, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: taunt_detect, before: 5.1, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party, after: 5.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: death_spawn, detail: marker 9242, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: death_spawn, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: spawn_in, max_count: 0}
+  # The death spawn: actor 8 (after the arena's three monsters at 5-7) spawns in.
+  - assert:
+      ai_trace: {actor_index: 8, decision: spawn_in, detail: hidden, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {actor_index: 8, decision: spawn_in, detail: begin, min_count: 1}
+  - assert:
+      ai_trace: {actor_index: 8, decision: pursue, target: party, min_count: 1}

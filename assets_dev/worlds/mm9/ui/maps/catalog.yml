@@ -1,0 +1,625 @@
+format_version: 1
+kind: "world_map_presentation_catalog"
+maps:
+  - map: 1000terrors
+    world_bounds:
+      min_x: -11120.64
+      max_x: 19159.04
+      min_y: -24760.32
+      max_y: 5406.72
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/1000terrorsa.png
+        width: 806
+        height: 803
+        minimum_z: 1226.24
+        maximum_z: 4339.2
+      - texture: ui/maps/1000terrorsb.png
+        width: 818
+        height: 815
+        minimum_z: -739.84
+        maximum_z: 1226.24
+      - texture: ui/maps/1000terrorsc.png
+        width: 818
+        height: 816
+  - map: afterworld
+    world_bounds:
+      min_x: -14652.56
+      max_x: 14510.96
+      min_y: -15987.08
+      max_y: 12193.4
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/afterworld.png
+        width: 837
+        height: 805
+  - map: anskramkeep
+    world_bounds:
+      min_x: -6881.28
+      max_x: 6922.24
+      min_y: -696.32
+      max_y: 16015.36
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/anskramkeep.png
+        width: 666
+        height: 807
+  - map: arslegardcity
+    world_bounds:
+      min_x: -1638.4
+      max_x: 22282.24
+      min_y: -14488.32
+      max_y: 14265.6
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/arslegardcity.png
+        width: 587
+        height: 705
+  - map: bathhouse
+    world_bounds:
+      min_x: -3883.52
+      max_x: 16363.52
+      min_y: -5703.68
+      max_y: 2877.44
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/bathhousea.png
+        width: 916
+        height: 388
+        minimum_z: -1067.52
+        maximum_z: 939.52
+      - texture: ui/maps/bathhouseb.png
+        width: 876
+        height: 371
+  - map: beethoven
+    world_bounds:
+      min_x: -18186.24
+      max_x: 5524.48
+      min_y: -30965.76
+      max_y: 18831.36
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/beethovena.png
+        width: 411
+        height: 861
+        minimum_z: -412.16
+        maximum_z: 1881.6
+      - texture: ui/maps/beethovenb.png
+        width: 407
+        height: 855
+  - map: bootcamp
+    world_bounds:
+      min_x: -37442.48
+      max_x: 34647.12
+      min_y: -12918.12
+      max_y: 27058.84
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/bootcamp.png
+        width: 1000
+        height: 570
+  - map: chasmofthedead
+    world_bounds:
+      min_x: -17162.24
+      max_x: 11632.64
+      min_y: -19333.12
+      max_y: 28672
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/chasmofthedead.png
+        width: 437
+        height: 728
+  - map: connectingtunnels
+    world_bounds:
+      min_x: -20031.04
+      max_x: 20150.72
+      min_y: -15564.8
+      max_y: 12001.28
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/connectingtunnels.png
+        width: 796
+        height: 548
+  - map: darkpassageway
+    world_bounds:
+      min_x: -23838.72
+      max_x: 652.8
+      min_y: -23633.92
+      max_y: 7208.96
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/darkpassageway.png
+        width: 543
+        height: 683
+  - map: dookscastle
+    world_bounds:
+      min_x: -6144
+      max_x: 14827.52
+      min_y: -983.04
+      max_y: 11939.84
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/dookscastle.png
+        width: 833
+        height: 514
+  - map: dragonstadium
+    world_bounds:
+      min_x: -4081.9
+      max_x: 9025.3
+      min_y: -8081.63
+      max_y: 6454.55
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/dragonstadium.png
+        width: 546
+        height: 622
+  - map: drangheim
+    world_bounds:
+      min_x: -39414.04
+      max_x: 45782.76
+      min_y: -28862.84
+      max_y: 31430.28
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/drangheim.png
+        width: 876
+        height: 600
+  - map: drangheimcity
+    world_bounds:
+      min_x: -5898.24
+      max_x: 22609.92
+      min_y: -13107.2
+      max_y: 5898.24
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/drangheimcity.png
+        width: 1140
+        height: 790
+  - map: drangheimprison
+    world_bounds:
+      min_x: -6840.32
+      max_x: 9175.04
+      min_y: -9461.76
+      max_y: 2129.92
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/drangheimprisona.png
+        width: 880
+        height: 637
+        minimum_z: -1149.44
+        maximum_z: 366.08
+      - texture: ui/maps/drangheimprisonb.png
+        width: 880
+        height: 637
+        minimum_z: -2705.92
+        maximum_z: -1149.44
+      - texture: ui/maps/drangheimprisonc.png
+        width: 907
+        height: 657
+  - map: dungeonofsecrets
+    world_bounds:
+      min_x: -2949.12
+      max_x: 7536.64
+      min_y: -2334.72
+      max_y: 5038.08
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/dungeonofsecrets.png
+        width: 1004
+        height: 706
+  - map: frosgard
+    world_bounds:
+      min_x: -40347
+      max_x: 39606.92
+      min_y: -34972.52
+      max_y: 29580.44
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/frosgard.png
+        width: 1010
+        height: 816
+  - map: frosgardcity
+    world_bounds:
+      min_x: -32768
+      max_x: 47185.92
+      min_y: -30801.92
+      max_y: 13762.56
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/frosgardcity.png
+        width: 917
+        height: 506
+  - map: guberland
+    world_bounds:
+      min_x: -26611.88
+      max_x: 41545.56
+      min_y: -38229.88
+      max_y: 43034.76
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/guberland.png
+        width: 675
+        height: 795
+  - map: guberlandcity
+    world_bounds:
+      min_x: -9175.04
+      max_x: 7864.32
+      min_y: -19660.8
+      max_y: 1310.72
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/guberlandcity.png
+        width: 651
+        height: 803
+  - map: hallofthegods
+    world_bounds:
+      min_x: -9748.48
+      max_x: 10567.68
+      min_y: -3028.48
+      max_y: 9175.04
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/hallofthegods.png
+        width: 695
+        height: 433
+  - map: inventastorca
+    world_bounds:
+      min_x: -11837.44
+      max_x: 1351.68
+      min_y: -7905.28
+      max_y: 1392.64
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/inventastorca.png
+        width: 736
+        height: 519
+  - map: isleofashes
+    world_bounds:
+      min_x: -42639.36
+      max_x: 43868.16
+      min_y: -41431.04
+      max_y: 45076.48
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/isleofashes.png
+        width: 705
+        height: 706
+  - map: klusoshouse
+    world_bounds:
+      min_x: -5270.67
+      max_x: 1249.91
+      min_y: -9266.73
+      max_y: 8561.7
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/klusoshousea.png
+        width: 260
+        height: 718
+        minimum_z: -166.4
+        maximum_z: 284.16
+      - texture: ui/maps/klusoshouseb.png
+        width: 260
+        height: 718
+  - map: lichlab
+    world_bounds:
+      min_x: -9502.72
+      max_x: 7864.32
+      min_y: -5283.84
+      max_y: 12451.84
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/lichlaba.png
+        width: 682
+        height: 695
+        minimum_z: 1594.88
+        maximum_z: 3622.4
+      - texture: ui/maps/lichlabb.png
+        width: 678
+        height: 691
+        minimum_z: 570.88
+        maximum_z: 1594.88
+      - texture: ui/maps/lichlabc.png
+        width: 677
+        height: 690
+  - map: lindisfarne
+    world_bounds:
+      min_x: -41567.56
+      max_x: 26589.88
+      min_y: -43112.92
+      max_y: 38151.72
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/lindisfarne.png
+        width: 567
+        height: 675
+  - map: lindisfarnemonastery
+    world_bounds:
+      min_x: -4351.26
+      max_x: 7367.03
+      min_y: -15984.58
+      max_y: 12697.63
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/lindisfarnemonastery.png
+        width: 400
+        height: 942
+  - map: mountainpass
+    world_bounds:
+      min_x: -26317.84
+      max_x: 26110.96
+      min_y: -22693.8
+      max_y: 23181.4
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/mountainpass.png
+        width: 747
+        height: 654
+  - map: ruinedtemple
+    world_bounds:
+      min_x: -3103.22
+      max_x: 2552.17
+      min_y: -3792.42
+      max_y: 6823.74
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/ruinedtemple.png
+        width: 380
+        height: 714
+  - map: sturmford
+    world_bounds:
+      min_x: -27627.56
+      max_x: 43151.32
+      min_y: -41978.04
+      max_y: 37975.88
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/sturmford.png
+        width: 573
+        height: 590
+  - map: sturmfordcity
+    world_bounds:
+      min_x: -5772.8
+      max_x: 16294.4
+      min_y: -1541.12
+      max_y: 20144.64
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/sturmfordcity.png
+        width: 675
+        height: 662
+  - map: tasaracademy
+    world_bounds:
+      min_x: -3031.04
+      max_x: 8806.4
+      min_y: -12390.4
+      max_y: 1172.48
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/tasaracademy.png
+        width: 543
+        height: 622
+  - map: templeofhonk
+    world_bounds:
+      min_x: -5942.19
+      max_x: 5778.35
+      min_y: -868.32
+      max_y: 8059.52
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/templeofhonk.png
+        width: 765
+        height: 583
+  - map: thearena
+    world_bounds:
+      min_x: -2949.12
+      max_x: 2949.12
+      min_y: -3932.16
+      max_y: 2949.12
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/thearena.png
+        width: 561
+        height: 654
+  - map: thjoradmine
+    world_bounds:
+      min_x: -13939.58
+      max_x: 31342.83
+      min_y: -19966.46
+      max_y: 9507.85
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/thjoradmine.png
+        width: 887
+        height: 578
+  - map: thjorgard
+    world_bounds:
+      min_x: -42165.2
+      max_x: 39099.44
+      min_y: -27552.12
+      max_y: 40605.32
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/thjorgard.png
+        width: 977
+        height: 820
+  - map: thjorgardcity
+    world_bounds:
+      min_x: -9073.18
+      max_x: 10406.03
+      min_y: -4477.72
+      max_y: 27052.19
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/thjorgardcity.png
+        width: 440
+        height: 712
+  - map: thronheim
+    world_bounds:
+      min_x: -27996.84
+      max_x: 37539.16
+      min_y: -35404.44
+      max_y: 39306.6
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/thronheim.png
+        width: 560
+        height: 615
+  - map: thronheimcity
+    world_bounds:
+      min_x: -12734.89
+      max_x: 17213.92
+      min_y: -3233.51
+      max_y: 18085.92
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/thronheimcity.png
+        width: 933
+        height: 663
+  - map: traininghall
+    world_bounds:
+      min_x: -3927.2
+      max_x: 5534.56
+      min_y: -8939.01
+      max_y: 3504.53
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/traininghalla.png
+        width: 477
+        height: 624
+        minimum_z: -353.28
+        maximum_z: 3809.28
+      - texture: ui/maps/traininghallb.png
+        width: 466
+        height: 610
+  - map: verhoffinruins
+    world_bounds:
+      min_x: -7577.6
+      max_x: 3809.28
+      min_y: -6359.04
+      max_y: 655.36
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/verhoffinruins.png
+        width: 791
+        height: 487
+  - map: wizardslab
+    world_bounds:
+      min_x: -22077.44
+      max_x: 5578.24
+      min_y: -716.8
+      max_y: 17323.52
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/wizardslab.png
+        width: 818
+        height: 539
+  - map: yanmirsfort
+    world_bounds:
+      min_x: -10485.96
+      max_x: 21050.16
+      min_y: -22331.21
+      max_y: 10192.86
+    flip_u: false
+    flip_v: true
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/yanmirsfort.png
+        width: 804
+        height: 830
+  - map: yorwick
+    world_bounds:
+      min_x: -42046.48
+      max_x: 27094
+      min_y: -40665.32
+      max_y: 37322.52
+    flip_u: true
+    flip_v: false
+    reveal_entire_map: true
+    variants:
+      - texture: ui/maps/yorwick.png
+        width: 700
+        height: 740

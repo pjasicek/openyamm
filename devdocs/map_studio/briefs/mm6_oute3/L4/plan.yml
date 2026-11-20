@@ -1,0 +1,77 @@
+format: 0
+level: L3
+pitch: "New Sorpigal, the MM6 starting town: a walled market town on a flat green island in a sea of islands, with Goblinwatch on its hill to the south-west, the Abandoned Temple in the west hills and Gharik's Forge on a volcanic island to the north-east."
+datum: sea_level
+spaces:
+  - id: town:new_sorpigal
+    name: New Sorpigal
+    kind: district
+    population:
+      - {id: pop:townsfolk, actor: Peasant, placed: true, hostile: false}
+      - {id: pop:guards, actor: Guard, placed: true, hostile: false}
+  - id: water:pond
+    name: Ponds
+    kind: water
+  - id: water:sea
+    name: The sea
+    kind: water
+  - id: zone:wild
+    name: The islands
+    kind: zone
+    population:
+      - {id: pop:goblins, slot: 1, actor: Goblin}
+      - {id: pop:apprentices, slot: 2, actor: Apprentice Mage}
+links:
+  - id: road:east_lane
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: road
+  - id: road:gate_street
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: path
+  - id: road:goblinwatch_path
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: path
+  - id: road:north_path
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: path
+  - id: road:northeast_path
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: path
+  - id: road:shore_road
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: road
+  - id: road:south_lane
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: road
+  - id: road:temple_path
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: path
+  - id: road:town_ring
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: road
+  - id: road:west_road
+    from: town:new_sorpigal
+    to: zone:wild
+    kind: road
+entrances:
+  - id: entrance:start
+    space: town:new_sorpigal
+    kind: arrival
+    facing: n
+    how: "The party start of a new game, before the south gate inside the walls."
+  - id: entrance:west
+    space: zone:wild
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: The west road at the map edge.
+sketch: {file: sketch.yml, grid: 512}

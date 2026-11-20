@@ -1,0 +1,972 @@
+# APPROVED VISUAL DESIGN / RUNTIME DRAFT. Not mounted. See staging/INTEGRATION.md.
+# Keep existing IDs, actions and dynamic content. New bindings are explicitly noted.
+screen: OutdoorHud
+elements:
+- id: OutdoorBasebar
+  anchor: bottom_center
+  width: 640
+  height: 114
+  z_index: 200
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: obsidian_basebar
+  notes: Approved full-screen Carved Obsidian basebar; portrait/bars review shift (+3,+5) equals (+1.6,+2.666667)
+    logical. Other gameplay branches remain reference-only.
+  children:
+  - id: OutdoorPartyStrip
+    anchor: top_left
+    width: 483
+    height: 114
+    asset:
+      selected: selring
+      frame: manaFRM
+      health_bar: ManaG
+      mana_bar: manaB
+    notes: Legacy party strip used by overlay screens.
+  - id: OutdoorStatusBar
+    anchor: center_in
+    offset_x: -78.5
+    offset_y: -47
+    width: 483
+    height: 15
+    text:
+      font: Lucida
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+    notes: Legacy one-line status region used by overlay screens.
+  - id: CharShield_1
+    anchor: top_left
+    offset_x: 15
+    offset_y: 22
+    width: 67
+    height: 92
+    asset:
+      default: IBshield01
+    notes: Empty overlay slot shield 1.
+  - id: CharShield_2
+    anchor: top_left
+    offset_x: 113
+    offset_y: 22
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_01
+    notes: Empty slot only; approved master requires .7 saturation/.86 brightness/.88 opacity; see shared HUD contract.
+  - id: CharShield_3
+    anchor: top_left
+    offset_x: 211
+    offset_y: 22
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_02
+    notes: Empty slot only; approved master requires .7 saturation/.86 brightness/.88 opacity; see shared HUD contract.
+  - id: CharShield_4
+    anchor: top_left
+    offset_x: 308
+    offset_y: 22
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_03
+    notes: Empty slot only; approved master requires .7 saturation/.86 brightness/.88 opacity; see shared HUD contract.
+  - id: CharShield_5
+    anchor: top_left
+    offset_x: 405
+    offset_y: 22
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_04
+    notes: Empty slot only; approved master requires .7 saturation/.86 brightness/.88 opacity; see shared HUD contract.
+- id: OutdoorStandardBasebar
+  anchor: bottom_center
+  width: 640
+  height: 114
+  z_index: 200
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: Basebar
+  notes: Standard gameplay base bar matching the original centered layout.
+  children:
+  - id: OutdoorStandardPartyStrip
+    anchor: top_left
+    width: 483
+    height: 114
+    asset:
+      selected: selring
+      frame: manaFRM
+      health_bar: ManaG
+      mana_bar: manaB
+    notes: Standard gameplay party strip.
+  - id: OutdoorStandardStatusBar
+    anchor: center_in
+    offset_x: -78.5
+    offset_y: -47
+    width: 483
+    height: 15
+    text:
+      font: Lucida
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+    notes: Standard gameplay status text region.
+  - id: OutdoorStandardMinimap
+    anchor: right
+    offset_x: -19
+    width: 122
+    height: 83
+    asset:
+      default: MINIMAP
+    notes: Standard gameplay minimap.
+  - id: OutdoorStandardMinimapFrame
+    anchor: right
+    width: 159
+    height: 113
+    asset:
+      default: mapframe
+    notes: Standard gameplay minimap frame.
+    children:
+    - id: OutdoorStandardMinimapZoomIn
+      anchor: top_right
+      offset_x: -4
+      offset_y: 6
+      width: 13
+      height: 15
+      interactive: true
+      asset:
+        default: map+up
+        pressed: map+dn
+      notes: Standard gameplay minimap zoom in button.
+    - id: OutdoorStandardMinimapZoomOut
+      anchor: bottom_right
+      offset_x: -4
+      offset_y: -5
+      width: 13
+      height: 15
+      interactive: true
+      asset:
+        default: map-up
+        pressed: map-dn
+      notes: Standard gameplay minimap zoom out button.
+  - id: OutdoorStandardCharShield_1
+    anchor: top_left
+    offset_x: 15
+    offset_y: 22
+    width: 67
+    height: 92
+    asset:
+      default: IBshield01
+    notes: Empty standard gameplay slot shield 1.
+  - id: OutdoorStandardCharShield_2
+    anchor: top_left
+    offset_x: 113
+    offset_y: 22
+    width: 67
+    height: 92
+    asset:
+      default: IBshield01
+    notes: Empty standard gameplay slot shield 2.
+  - id: OutdoorStandardCharShield_3
+    anchor: top_left
+    offset_x: 211
+    offset_y: 22
+    width: 67
+    height: 92
+    asset:
+      default: IBshield02
+    notes: Empty standard gameplay slot shield 3.
+  - id: OutdoorStandardCharShield_4
+    anchor: top_left
+    offset_x: 308
+    offset_y: 22
+    width: 67
+    height: 92
+    asset:
+      default: IBshield03
+    notes: Empty standard gameplay slot shield 4.
+  - id: OutdoorStandardCharShield_5
+    anchor: top_left
+    offset_x: 405
+    offset_y: 22
+    width: 67
+    height: 92
+    asset:
+      default: IBshield04
+    notes: Empty standard gameplay slot shield 5.
+- id: OutdoorStandardTopBar
+  anchor: top_center
+  width: 640
+  height: 29
+  z_index: 50
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: topbar
+  notes: Standard gameplay top bar.
+  children:
+  - id: OutdoorStandardButtonOptions
+    anchor: center_in
+    offset_x: 220
+    width: 50
+    height: 22
+    interactive: true
+    asset:
+      default: butn4u
+      highlighted: butn4d
+      pressed: butn4d
+    notes: Standard options button.
+  - id: OutdoorStandardButtonQuickReference
+    anchor: center_in
+    offset_x: 165
+    width: 60
+    height: 24
+    interactive: true
+    asset:
+      default: butn3u
+      highlighted: butn3d
+      pressed: butn3d
+    notes: Standard quick reference button.
+  - id: OutdoorStandardButtonRest
+    anchor: center_in
+    offset_x: 115
+    width: 40
+    height: 24
+    interactive: true
+    asset:
+      default: butn2u
+      highlighted: butn2d
+      pressed: butn2d
+    notes: Standard rest button.
+  - id: OutdoorStandardButtonBooks
+    anchor: center_in
+    offset_x: 72.5
+    width: 40
+    height: 24
+    interactive: true
+    asset:
+      default: butn1u
+      highlighted: butn1d
+      pressed: butn1d
+    notes: Standard books button.
+  - id: OutdoorStandardGoldFoodIcon
+    anchor: center_in
+    offset_x: -165
+    width: 134
+    height: 21
+    asset:
+      default: scoreBG
+    notes: Standard gold and food background.
+  - id: OutdoorStandardFoodLabel
+    anchor: center_in
+    offset_x: -180
+    width: 28
+    height: 14
+    text:
+      value: '{food}'
+      font: SMALLNUM
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+    notes: Standard food counter text.
+  - id: OutdoorStandardGoldLabel
+    anchor: center_in
+    offset_x: -85
+    width: 28
+    height: 14
+    text:
+      value: '{gold}'
+      font: SMALLNUM
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+    notes: Standard gold counter text.
+  - id: OutdoorStandardFlyBuffIcon
+    anchor: top_left
+    offset_x: 6
+    offset_y: 31
+    width: 64
+    height: 64
+    asset:
+      default: sp21a10
+    notes: Standard Fly buff icon.
+  - id: OutdoorStandardCompassFront
+    anchor: center_in
+    width: 49
+    height: 19
+    asset:
+      default: compcovr
+    notes: Standard compass overlay art.
+  - id: OutdoorStandardBuffSkullPanel
+    anchor: top_right
+    width: 64
+    height: 64
+    asset:
+      default: asiR00
+    notes: Standard skull buff panel.
+    children:
+    - id: OutdoorStandardBuffSkull_FeatherFall
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiR07
+      notes: Standard Feather Fall buff icon.
+    - id: OutdoorStandardBuffSkull_Stoneskin
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiR01
+      notes: Standard Stoneskin buff icon.
+    - id: OutdoorStandardBuffSkull_DayOfGods
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiR05
+      notes: Standard Day of the Gods buff icon.
+    - id: OutdoorStandardBuffSkull_Torchlight
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiR06
+      notes: Standard Torchlight buff icon.
+    - id: OutdoorStandardBuffSkull_WizardEye
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiR02
+      notes: Standard Wizard Eye buff icon.
+    - id: OutdoorStandardBuffSkull_ProtectionFromGods
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiR04
+      notes: Standard Protection from Magic buff icon.
+  - id: OutdoorStandardBuffBodyPanel
+    anchor: top_left
+    width: 64
+    height: 64
+    asset:
+      default: asiL00
+    notes: Standard body buff panel.
+    children:
+    - id: OutdoorStandardBuffBody_FireResistance
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL01
+      notes: Standard Fire Resistance buff icon.
+    - id: OutdoorStandardBuffBody_WaterResistance
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL02
+      notes: Standard Water Resistance buff icon.
+    - id: OutdoorStandardBuffBody_AirResistance
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL03
+      notes: Standard Air Resistance buff icon.
+    - id: OutdoorStandardBuffBody_EarthResistance
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL04
+      notes: Standard Earth Resistance buff icon.
+    - id: OutdoorStandardBuffBody_MindResistance
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL05
+      notes: Standard Mind Resistance buff icon.
+    - id: OutdoorStandardBuffBody_BodyResistance
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL06
+      notes: Standard Body Resistance buff icon.
+    - id: OutdoorStandardBuffBody_Shield
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL07
+      notes: Standard Shield buff icon.
+    - id: OutdoorStandardBuffBody_Heroism
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL08
+      notes: Standard Heroism buff icon.
+    - id: OutdoorStandardBuffBody_Haste
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL09
+      notes: Standard Haste buff icon.
+    - id: OutdoorStandardBuffBody_Immolation
+      anchor: center_in
+      width: 64
+      height: 64
+      asset:
+        default: asiL10
+      notes: Standard Immolation buff icon.
+- id: OutdoorGameplayBasebar
+  anchor_space: screen
+  anchor: bottom_center
+  offset_y: 1
+  width: 485
+  height: 94
+  z_index: 200
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: Basebar_cut
+  notes: Gameplay-only centered base bar cropped to current party size.
+  children:
+  - id: OutdoorGameplayPartyStrip
+    anchor: top_left
+    width: 471
+    height: 92
+    asset:
+      selected: selring
+      frame: manaFRM
+      health_bar: ManaG
+      mana_bar: manaB
+    notes: Gameplay-only party strip assets.
+  - id: OutdoorGameplayStatusBar
+    anchor: center_above
+    offset_y: -3
+    height: 18
+    asset:
+      default: status_bar
+    text:
+      font: Lucida
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+    notes: Gameplay-only centered status banner above the party strip.
+  - id: OutdoorGameplayBasebar_OrnLeft1
+    anchor: bottom_left
+    offset_x: 15
+    offset_y: -32
+    width: 33
+    height: 32
+    z_index: 10
+    asset:
+      default: UI-OrL
+  - id: OutdoorGameplayBasebar_OrnLeft2
+    anchor: bottom_left
+    offset_x: 6
+    offset_y: -64
+    width: 33
+    height: 32
+    z_index: 10
+    asset:
+      default: UI-OrL
+  - id: OutdoorGameplayBasebar_OrnRight1
+    anchor: bottom_right
+    offset_x: 22
+    offset_y: -32
+    width: 39
+    height: 32
+    z_index: 10
+    asset:
+      default: UI-OrR
+  - id: OutdoorGameplayBasebar_OrnRight2
+    anchor: bottom_right
+    offset_x: 14
+    offset_y: -64
+    width: 39
+    height: 32
+    z_index: 10
+    asset:
+      default: UI-OrR
+- id: OutdoorOptionsBar
+  anchor_space: screen
+  anchor: bottom_left
+  width: 185
+  height: 34
+  z_index: 60
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: topbar
+  notes: Gameplay command strip at the lower-left screen corner.
+  children:
+  - id: OutdoorOptionsBarFrame
+    anchor: center
+    width: 185
+    height: 34
+    z_index: 70
+    asset:
+      default: UI-FrMnu
+  - id: OutdoorButtonBooks
+    anchor: top_left
+    offset_x: 5
+    offset_y: 7
+    width: 33
+    height: 24
+    interactive: true
+    asset:
+      default: butn1u
+      highlighted: butn1d
+      pressed: butn1d
+    notes: Books button.
+  - id: OutdoorButtonQuickReference
+    anchor: top_left
+    offset_x: 55
+    offset_y: 5
+    width: 60
+    height: 24
+    interactive: true
+    asset:
+      default: butn3u
+      highlighted: butn3d
+      pressed: butn3d
+    notes: Quick reference button.
+  - id: OutdoorButtonOptions
+    anchor: top_left
+    offset_x: 130
+    offset_y: 6
+    width: 50
+    height: 22
+    interactive: true
+    asset:
+      default: butn4u
+      highlighted: butn4d
+      pressed: butn4d
+    notes: Options button.
+- id: OutdoorGoldBar
+  anchor_space: screen
+  anchor: top_left
+  width: 125
+  height: 25
+  z_index: 60
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: topbar
+  children:
+  - id: OutdoorGoldBar_Frame
+    anchor: center_in
+    width: 125
+    height: 25
+    asset:
+      default: Ui-FrGol
+  - id: OutdoorGoldIcon
+    anchor: top_left
+    offset_x: 8
+    offset_y: 2
+    width: 45
+    height: 23
+    asset:
+      default: scoreBG_gold
+  - id: OutdoorGoldLabel
+    anchor: top_left
+    offset_x: 60
+    offset_y: 5
+    width: 34
+    height: 14
+    text:
+      value: '{gold}'
+      font: SMALLNUM
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+- id: OutdoorFlyBuffIcon
+  anchor_space: screen
+  anchor: top_left
+  offset_x: 6
+  offset_y: 31
+  width: 64
+  height: 64
+  z_index: 61
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: sp21a10
+  notes: Fly buff icon.
+- id: OutdoorFoodRestBar
+  anchor_space: screen
+  anchor: top_right
+  width: 125
+  height: 25
+  z_index: 60
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: topbar
+  children:
+  - id: OutdoorFoodRestBar_Frame
+    anchor: center_in
+    width: 125
+    height: 25
+    asset:
+      default: Ui-FrGol
+  - id: OutdoorFoodIcon
+    anchor: top_left
+    offset_x: 5
+    offset_y: 2
+    width: 45
+    height: 23
+    asset:
+      default: scoreBG_food
+  - id: OutdoorFoodLabel
+    anchor: top_left
+    offset_x: 40
+    offset_y: 5
+    width: 34
+    height: 14
+    text:
+      value: '{food}'
+      font: SMALLNUM
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+  - id: OutdoorButtonRest
+    anchor: top_left
+    offset_x: 83
+    offset_y: 2
+    width: 40
+    height: 24
+    interactive: true
+    asset:
+      default: butn2u
+      highlighted: butn2d
+      pressed: butn2d
+    notes: Rest button.
+- id: OutdoorBuffBodyPanel
+  anchor_space: screen
+  anchor: bottom_left
+  offset_x: 6
+  offset_y: -39
+  width: 64
+  height: 64
+  z_index: 58
+  asset:
+    default: asiL00
+  notes: Body buff panel.
+  children:
+  - id: OutdoorBuffBody_Frame
+    anchor: center_in
+    width: 67
+    height: 67
+    asset:
+      default: Ui-FrSp
+  - id: OutdoorBuffBody_FireResistance
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL01
+    notes: Fire Resistance buff icon.
+  - id: OutdoorBuffBody_WaterResistance
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL02
+    notes: Water Resistance buff icon.
+  - id: OutdoorBuffBody_AirResistance
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL03
+    notes: Air Resistance buff icon.
+  - id: OutdoorBuffBody_EarthResistance
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL04
+    notes: Earth Resistance buff icon.
+  - id: OutdoorBuffBody_MindResistance
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL05
+    notes: Mind Resistance buff icon.
+  - id: OutdoorBuffBody_BodyResistance
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL06
+    notes: Body Resistance buff icon.
+  - id: OutdoorBuffBody_Shield
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL07
+    notes: Shield buff icon.
+  - id: OutdoorBuffBody_Heroism
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL08
+    notes: Heroism buff icon.
+  - id: OutdoorBuffBody_Haste
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL09
+    notes: Haste buff icon.
+  - id: OutdoorBuffBody_Immolation
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiL10
+    notes: Immolation buff icon.
+- id: OutdoorBuffSkullPanel
+  anchor_space: screen
+  anchor: bottom_left
+  offset_x: 77
+  offset_y: -39
+  width: 64
+  height: 64
+  z_index: 58
+  asset:
+    default: asiR00
+  notes: Skull buff panel.
+  children:
+  - id: OutdoorBuffSkull_Frame
+    anchor: center_in
+    width: 67
+    height: 67
+    asset:
+      default: Ui-FrSp
+  - id: OutdoorBuffSkull_FeatherFall
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiR07
+    notes: Feather Fall buff icon.
+  - id: OutdoorBuffSkull_Stoneskin
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiR01
+    notes: Stoneskin buff icon.
+  - id: OutdoorBuffSkull_DayOfGods
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiR05
+    notes: Day of the Gods buff icon.
+  - id: OutdoorBuffSkull_Torchlight
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiR06
+    notes: Torchlight buff icon.
+  - id: OutdoorBuffSkull_WizardEye
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiR02
+    notes: Wizard Eye buff icon.
+  - id: OutdoorBuffSkull_ProtectionFromGods
+    anchor: center_in
+    width: 64
+    height: 64
+    asset:
+      default: asiR04
+    notes: Protection from Magic buff icon.
+- id: OutdoorMinimapFrame
+  anchor_space: screen
+  anchor: bottom_right
+  offset_x: 1
+  width: 159
+  height: 113
+  z_index: 70
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: mapframe
+  notes: Gameplay minimap frame in the lower-right corner.
+  children:
+  - id: OutdoorMinimap
+    anchor: center_in
+    offset_x: -1
+    offset_y: 1
+    width: 122
+    height: 83
+    asset:
+      default: MINIMAP
+    notes: Moving minimap texture crop.
+  - id: OutdoorMinimapZoomIn
+    anchor: top_right
+    offset_x: -4
+    offset_y: 6
+    width: 13
+    height: 15
+    interactive: true
+    asset:
+      default: map+up
+      pressed: map+dn
+    notes: Minimap zoom in button.
+  - id: OutdoorMinimapZoomOut
+    anchor: bottom_right
+    offset_x: -4
+    offset_y: -5
+    width: 13
+    height: 15
+    interactive: true
+    asset:
+      default: map-up
+      pressed: map-dn
+    notes: Minimap zoom out button.
+- id: OutdoorFollowerPanel
+  anchor_space: screen
+  anchor: right
+  offset_y: -56
+  width: 91
+  height: 292
+  z_index: 110
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: npcpnl
+  notes: MMerge follower panel, moved to the right screen edge and centered vertically for the widescreen HUD.
+  children:
+  - id: OutdoorFollowerSlot_1
+    anchor: top_left
+    offset_x: 10
+    offset_y: 20
+    width: 71
+    height: 81
+    interactive: true
+    asset:
+      default: evtnpc-b
+    notes: MMerge follower portrait slot 1.
+  - id: OutdoorFollowerPortrait_1
+    anchor: top_left
+    offset_x: 14
+    offset_y: 24
+    width: 63
+    height: 73
+    notes: Dynamic follower portrait 1 draw region.
+  - id: OutdoorFollowerSlot_2
+    anchor: top_left
+    offset_x: 10
+    offset_y: 105
+    width: 71
+    height: 81
+    interactive: true
+    asset:
+      default: evtnpc-b
+    notes: MMerge follower portrait slot 2.
+  - id: OutdoorFollowerPortrait_2
+    anchor: top_left
+    offset_x: 14
+    offset_y: 109
+    width: 63
+    height: 73
+    notes: Dynamic follower portrait 2 draw region.
+  - id: OutdoorFollowerSlot_3
+    anchor: top_left
+    offset_x: 10
+    offset_y: 190
+    width: 71
+    height: 81
+    interactive: true
+    asset:
+      default: evtnpc-b
+    notes: MMerge follower portrait slot 3.
+  - id: OutdoorFollowerPortrait_3
+    anchor: top_left
+    offset_x: 14
+    offset_y: 194
+    width: 63
+    height: 73
+    notes: Dynamic follower portrait 3 draw region.
+  - id: OutdoorFollowerScrollUp
+    anchor: top_left
+    offset_x: 7
+    offset_y: 5
+    width: 77
+    height: 12
+    interactive: true
+    asset:
+      default: npcupa
+      pressed: npcupb
+    notes: MMerge follower panel scroll-up button.
+  - id: OutdoorFollowerScrollDown
+    anchor: top_left
+    offset_x: 7
+    offset_y: 275
+    width: 77
+    height: 12
+    interactive: true
+    asset:
+      default: npcdwa
+      pressed: npcdwb
+    notes: MMerge follower panel scroll-down button.
+- id: OutdoorFollowerToggle
+  anchor_space: screen
+  anchor: bottom_right
+  offset_y: -113
+  width: 26
+  height: 26
+  z_index: 111
+  scale:
+    min: 1.0
+    max: 8.0
+  interactive: true
+  asset:
+    default: npcopenup
+    pressed: npcopendw
+  notes: MMerge follower panel open/close toggle button, placed at the right screen edge above the minimap.
+- id: OutdoorMobileContextActionButton
+  anchor_space: screen
+  anchor: bottom_right
+  offset_x: -8
+  offset_y: -8
+  width: 260
+  height: 56
+  z_index: 101
+  interactive: true
+  visible: false
+  scale:
+    min: 1.0
+    max: 8.0
+  notes: Runtime context action popup target; enabled by setting for mobile or desktop testing.

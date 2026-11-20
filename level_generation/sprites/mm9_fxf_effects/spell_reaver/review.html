@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spell Reaver — restored sprites</title>
+<style>
+body { margin: 28px auto; padding: 0 24px; max-width: 1150px; background: #11151c; color: #e7ecf4;
+       font: 16px/1.5 system-ui, sans-serif; }
+h1 { margin-bottom: 4px; } p { color: #b9c4d6; }
+nav { display: flex; flex-wrap: wrap; gap: 20px; margin: 24px 0; align-items: center; }
+button, select, input { accent-color: #a49aff; font: inherit; }
+button, select { color: #e7ecf4; background: #293344; border: 1px solid #58637a; padding: 5px 10px; }
+section { background: #1c2430; padding: 18px; margin: 20px 0; border-radius: 10px; }
+h2 { font-size: 20px; margin: 0 0 4px; }
+.pair { display: flex; gap: 12px; flex-wrap: wrap; } figure { margin: 0; }
+canvas { width: 256px; height: 256px; } figcaption { color: #b9c4d6; }
+.meta { font-size: 14px; color: #9facbf; margin-bottom: 12px; }
+a { color: #b8b2ff; }
+</style>
+<h1>Spell Reaver</h1>
+<p>Native and restored sprites at equal logical size. 22 textures across four families, exported at 2× resolution.
+Archived experiment, discarded in favor of the native effects. Original textures are active in the game. This viewer compares individual sprites;
+<a href="runtime_restored.png">the historical restored Reaver capture</a> shows the assembled effect.</p>
+<nav>
+<button id="play">Pause</button>
+<label>Frame <input id="frame" type="range" min="0" max="9" value="0"> <output id="frameNumber">0</output></label>
+<label>Background <select id="background"><option value="24">Dark</option><option value="232">Light</option>
+<option value="0">Black</option></select></label>
+<label>Blend <select id="blend"><option value="source-over">Alpha</option><option value="lighter">Additive</option>
+</select></label>
+<label>Scale <select id="scale"><option value="3">3× logical size</option><option value="1">1× logical size</option>
+<option value="2">2× logical size</option></select></label>
+<label>Speed <select id="speed"><option value="1">Normal · 15 fps</option><option value="0.25">Quarter speed</option>
+</select></label>
+</nav>
+<main id="families"></main>
+<p><a href="README.md">Restoration notes</a> · <a href="checks.json">Measurements</a> ·
+<a href="export_manifest.yml">Export manifest</a></p>
+<script src="preview_data.js"></script>
+<script>
+const controls = Object.fromEntries(['play','frame','frameNumber','background','blend','scale','speed']
+    .map(id => [id, document.getElementById(id)]));
+const query = new URLSearchParams(location.search);
+let playing = !query.has('frame');
+let elapsed = Number(query.get('frame') || 0) / 15;
+if (query.has('background')) controls.background.value = query.get('background');
+if (query.has('blend')) controls.blend.value = query.get('blend');
+controls.play.textContent = playing ? 'Pause' : 'Play';
+const items = families.map(family => {
+    const section = document.createElement('section');
+    section.innerHTML = `<h2>${family.name}</h2><div class="meta">${family.count} frame(s) · ${family.fps} fps ·
+        ${family.width}×${family.height} logical canvas</div><div class="pair"></div>`;
+    document.getElementById('families').append(section);
+    const variants = ['native', 'export'].map((kind, index) => {
+        const figure = document.createElement('figure');
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 256;
+        figure.append(canvas);
+        const caption = document.createElement('figcaption');
+        caption.textContent = index ? 'Restored · 2× texture' : 'Native · linear filtering';
+        figure.append(caption);
+        section.querySelector('.pair').append(figure);
+        const images = Array.from({length: family.count}, (_, frame) => {
+            const image = new Image();
+            image.src = `${family.name}/${kind}/${String(frame).padStart(2, '0')}.png`;
+            return image;
+        });
+        return {canvas, images};
+    });
+    return {family, variants};
+});
+controls.play.onclick = () => {
+    playing = !playing;
+    controls.play.textContent = playing ? 'Pause' : 'Play';
+};
+controls.frame.oninput = () => {
+    playing = false;
+    elapsed = Number(controls.frame.value) / 15;
+    controls.play.textContent = 'Play';
+};
+let previous = performance.now();
+function draw(now) {
+    if (playing) elapsed += Math.min((now - previous) / 1000, 0.1) * Number(controls.speed.value);
+    previous = now;
+    const frame = Math.floor(elapsed * 15 + 0.00001) % 10;
+    controls.frame.value = frame;
+    controls.frameNumber.value = frame;
+    for (const {family, variants} of items) {
+        for (const {canvas, images} of variants) {
+            const ctx = canvas.getContext('2d');
+            ctx.globalCompositeOperation = 'source-over';
+            const gray = controls.background.value;
+            ctx.fillStyle = `rgb(${gray},${gray},${gray})`;
+            ctx.fillRect(0, 0, 256, 256);
+            ctx.globalCompositeOperation = controls.blend.value;
+            ctx.imageSmoothingEnabled = true;
+            const width = family.width * Number(controls.scale.value);
+            const height = family.height * Number(controls.scale.value);
+            const image = images[frame % family.count];
+            if (image.complete && image.naturalWidth) ctx.drawImage(image, (256-width)/2, (256-height)/2, width, height);
+        }
+    }
+    requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+</script>
+</html>

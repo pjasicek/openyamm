@@ -1,0 +1,72 @@
+.gallery
+{
+    padding: var(--space-5);
+}
+
+.title
+{
+    margin: 0;
+    font-size: 20px;
+}
+
+.lead
+{
+    color: var(--text-dim);
+}
+
+.section
+{
+    margin: var(--space-5) 0 var(--space-3);
+    font-size: var(--size-l);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--space-2);
+}
+
+.grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(560px, 1fr));
+    gap: var(--space-5);
+    align-items: start;
+}
+
+.wide
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.card
+{
+    margin: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+}
+
+.caption
+{
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--size-s);
+    font-weight: 600;
+    background: var(--surface-3);
+    border-bottom: 1px solid var(--line);
+}
+
+.body
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.inline
+{
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-2);
+}

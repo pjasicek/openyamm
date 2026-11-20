@@ -1,0 +1,960 @@
+{
+  "fixtures": {
+    "roads_dirt": {
+      "folder": "fixtures/roads_v1/roads_dirt",
+      "map_id": "out02",
+      "master_tile": 0,
+      "lookup": [
+        90,
+        126,
+        342,
+        414
+      ],
+      "poses": {
+        "west": [
+          -4864,
+          2304,
+          0,
+          0,
+          -0.3
+        ],
+        "east": [
+          256,
+          2304,
+          0,
+          3.1415926536,
+          -0.3
+        ],
+        "south": [
+          -2304,
+          -256,
+          0,
+          1.5707963268,
+          -0.3
+        ],
+        "north": [
+          -2304,
+          4864,
+          0,
+          4.7123889804,
+          -0.3
+        ],
+        "overview": [
+          -2304,
+          -512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "loop": [
+          4864,
+          -512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrcros": [
+          -13056.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrecap": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrew": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrew_n": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrew_s": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrn_e": [
+          -13056.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrn_w": [
+          -8448.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrncap": [
+          -3840.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrne1": [
+          768.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrne2": [
+          5376.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrns": [
+          -13056.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrns_e": [
+          -8448.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrns_w": [
+          -3840.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrnw1": [
+          768.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrnw2": [
+          5376.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrs_e": [
+          -13056.0,
+          -22016,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrs_w": [
+          -8448.0,
+          -22016,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrscap": [
+          -3840.0,
+          -22016,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "drsrwcap": [
+          768.0,
+          -22016,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "placements": [
+        {
+          "tile": "drsrcros",
+          "native_map": "out01",
+          "native_row": 73,
+          "native_col": 7,
+          "row": 76,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrecap",
+          "native_map": "out03",
+          "native_row": 42,
+          "native_col": 94,
+          "row": 76,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrew",
+          "native_map": "out03",
+          "native_row": 38,
+          "native_col": 72,
+          "row": 76,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrew_n",
+          "native_map": "out03",
+          "native_row": 28,
+          "native_col": 64,
+          "row": 76,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrew_s",
+          "native_map": "out02",
+          "native_row": 89,
+          "native_col": 87,
+          "row": 76,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrn_e",
+          "native_map": "out03",
+          "native_row": 79,
+          "native_col": 42,
+          "row": 85,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrn_w",
+          "native_map": "out03",
+          "native_row": 48,
+          "native_col": 88,
+          "row": 85,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrncap",
+          "native_map": "out02",
+          "native_row": 71,
+          "native_col": 80,
+          "row": 85,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrne1",
+          "native_map": "out03",
+          "native_row": 100,
+          "native_col": 107,
+          "row": 85,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrne2",
+          "native_map": "out03",
+          "native_row": 101,
+          "native_col": 107,
+          "row": 85,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrns",
+          "native_map": "out03",
+          "native_row": 76,
+          "native_col": 24,
+          "row": 94,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrns_e",
+          "native_map": "out02",
+          "native_row": 86,
+          "native_col": 90,
+          "row": 94,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrns_w",
+          "native_map": "out02",
+          "native_row": 89,
+          "native_col": 90,
+          "row": 94,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrnw1",
+          "native_map": "out03",
+          "native_row": 102,
+          "native_col": 35,
+          "row": 94,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrnw2",
+          "native_map": "out03",
+          "native_row": 100,
+          "native_col": 38,
+          "row": 94,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrs_e",
+          "native_map": "out03",
+          "native_row": 36,
+          "native_col": 52,
+          "row": 103,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrs_w",
+          "native_map": "out03",
+          "native_row": 57,
+          "native_col": 52,
+          "row": 103,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrscap",
+          "native_map": "out03",
+          "native_row": 41,
+          "native_col": 75,
+          "row": 103,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "drsrwcap",
+          "native_map": "out02",
+          "native_row": 94,
+          "native_col": 85,
+          "row": 103,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        }
+      ],
+      "road_names": [
+        "drsrcros",
+        "drsrecap",
+        "drsrew",
+        "drsrew_n",
+        "drsrew_s",
+        "drsrn_e",
+        "drsrn_w",
+        "drsrncap",
+        "drsrne1",
+        "drsrne2",
+        "drsrns",
+        "drsrns_e",
+        "drsrns_w",
+        "drsrnw1",
+        "drsrnw2",
+        "drsrs_e",
+        "drsrs_w",
+        "drsrscap",
+        "drsrwcap"
+      ],
+      "odm_sha256": "7ee1ac8155d26bb471c73a7c186a76b53ecd644319ef3726ccd8ae4b53009ba7"
+    },
+    "roads_grey": {
+      "folder": "fixtures/roads_v1/roads_grey",
+      "map_id": "out06",
+      "master_tile": 2,
+      "lookup": [
+        702,
+        738,
+        666,
+        774
+      ],
+      "poses": {
+        "west": [
+          -4864,
+          768,
+          0,
+          0,
+          -0.3
+        ],
+        "east": [
+          256,
+          768,
+          0,
+          3.1415926536,
+          -0.3
+        ],
+        "south": [
+          -3840,
+          -256,
+          0,
+          1.5707963268,
+          -0.3
+        ],
+        "north": [
+          -3840,
+          4864,
+          0,
+          4.7123889804,
+          -0.3
+        ],
+        "overview": [
+          -2304,
+          -512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "loop": [
+          4864,
+          -512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdecap": [
+          -13056.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdew": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdew_n": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdew_s": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdn_e": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdn_w": [
+          -13056.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdncap": [
+          -8448.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdne1": [
+          -3840.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdne2": [
+          768.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdns": [
+          5376.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdns_e": [
+          -13056.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdns_w": [
+          -8448.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdnw1": [
+          -3840.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdnw2": [
+          768.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrds_e": [
+          5376.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrds_w": [
+          -13056.0,
+          -22016,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gdrdwcap": [
+          -8448.0,
+          -22016,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "placements": [
+        {
+          "tile": "gdrdecap",
+          "native_map": "out06",
+          "native_row": 0,
+          "native_col": 70,
+          "row": 76,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdew",
+          "native_map": "out06",
+          "native_row": 87,
+          "native_col": 65,
+          "row": 76,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdew_n",
+          "native_map": "out06",
+          "native_row": 98,
+          "native_col": 55,
+          "row": 76,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdew_s",
+          "native_map": "out06",
+          "native_row": 90,
+          "native_col": 46,
+          "row": 76,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdn_e",
+          "native_map": "out06",
+          "native_row": 88,
+          "native_col": 81,
+          "row": 76,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdn_w",
+          "native_map": "out06",
+          "native_row": 88,
+          "native_col": 85,
+          "row": 85,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdncap",
+          "native_map": "out06",
+          "native_row": 86,
+          "native_col": 94,
+          "row": 85,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdne1",
+          "native_map": "out06",
+          "native_row": 77,
+          "native_col": 28,
+          "row": 85,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdne2",
+          "native_map": "out06",
+          "native_row": 75,
+          "native_col": 20,
+          "row": 85,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdns",
+          "native_map": "out06",
+          "native_row": 74,
+          "native_col": 75,
+          "row": 85,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdns_e",
+          "native_map": "out06",
+          "native_row": 90,
+          "native_col": 41,
+          "row": 94,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdns_w",
+          "native_map": "out06",
+          "native_row": 90,
+          "native_col": 55,
+          "row": 94,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdnw1",
+          "native_map": "out06",
+          "native_row": 80,
+          "native_col": 88,
+          "row": 94,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdnw2",
+          "native_map": "out06",
+          "native_row": 91,
+          "native_col": 41,
+          "row": 94,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrds_e",
+          "native_map": "out06",
+          "native_row": 78,
+          "native_col": 84,
+          "row": 94,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrds_w",
+          "native_map": "out06",
+          "native_row": 75,
+          "native_col": 26,
+          "row": 103,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "gdrdwcap",
+          "native_map": "out06",
+          "native_row": 94,
+          "native_col": 37,
+          "row": 103,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        }
+      ],
+      "road_names": [
+        "gdrdecap",
+        "gdrdew",
+        "gdrdew_n",
+        "gdrdew_s",
+        "gdrdn_e",
+        "gdrdn_w",
+        "gdrdncap",
+        "gdrdne1",
+        "gdrdne2",
+        "gdrdns",
+        "gdrdns_e",
+        "gdrdns_w",
+        "gdrdnw1",
+        "gdrdnw2",
+        "gdrds_e",
+        "gdrds_w",
+        "gdrdwcap"
+      ],
+      "odm_sha256": "fa7292e82e7181dd68c8378a49c414d4c1d12a367c7f8302cba546c2e77e17bd"
+    },
+    "roads_plains": {
+      "folder": "fixtures/roads_v1/roads_plains",
+      "map_id": "out04",
+      "master_tile": 0,
+      "lookup": [
+        594,
+        558,
+        450,
+        522
+      ],
+      "poses": {
+        "plrdew": [
+          -13056.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdn_e": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdn_w": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdncap": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdne1": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdne2": [
+          -13056.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdns": [
+          -8448.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdnw1": [
+          -3840.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdnw2": [
+          768.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrds_e": [
+          5376.0,
+          -12800,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrds_w": [
+          -13056.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plrdwcap": [
+          -8448.0,
+          -17408,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "placements": [
+        {
+          "tile": "plrdew",
+          "native_map": "out04",
+          "native_row": 96,
+          "native_col": 16,
+          "row": 76,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdn_e",
+          "native_map": "out04",
+          "native_row": 101,
+          "native_col": 72,
+          "row": 76,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdn_w",
+          "native_map": "out04",
+          "native_row": 107,
+          "native_col": 77,
+          "row": 76,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdncap",
+          "native_map": "out04",
+          "native_row": 118,
+          "native_col": 80,
+          "row": 76,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdne1",
+          "native_map": "out04",
+          "native_row": 78,
+          "native_col": 71,
+          "row": 76,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdne2",
+          "native_map": "out04",
+          "native_row": 79,
+          "native_col": 71,
+          "row": 85,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdns",
+          "native_map": "out04",
+          "native_row": 76,
+          "native_col": 36,
+          "row": 85,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdnw1",
+          "native_map": "out04",
+          "native_row": 87,
+          "native_col": 29,
+          "row": 85,
+          "col": 56,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdnw2",
+          "native_map": "out04",
+          "native_row": 88,
+          "native_col": 29,
+          "row": 85,
+          "col": 65,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrds_e",
+          "native_map": "out04",
+          "native_row": 107,
+          "native_col": 74,
+          "row": 85,
+          "col": 74,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrds_w",
+          "native_map": "out04",
+          "native_row": 117,
+          "native_col": 80,
+          "row": 94,
+          "col": 38,
+          "outside_native_grid": "plain substrate padding"
+        },
+        {
+          "tile": "plrdwcap",
+          "native_map": "out04",
+          "native_row": 101,
+          "native_col": 0,
+          "row": 94,
+          "col": 47,
+          "outside_native_grid": "plain substrate padding"
+        }
+      ],
+      "road_names": [
+        "plrdew",
+        "plrdn_e",
+        "plrdn_w",
+        "plrdncap",
+        "plrdne1",
+        "plrdne2",
+        "plrdns",
+        "plrdnw1",
+        "plrdnw2",
+        "plrds_e",
+        "plrds_w",
+        "plrdwcap"
+      ],
+      "odm_sha256": "e84952d32aa14c6a5f4bf435e63aafd29b6b1fa13a4c76f7f1f3b40f0083f5fe"
+    }
+  },
+  "inventory_sha256": "33863a0e1c7b10752b48d442ecf47acae7c091a9c164fb84fa37ea27a3e0ddb3",
+  "script_sha256": "708af4182c527b3ac08bde2ab0ad33d32658eb4cd7c90db0adde81c88b899844"
+}

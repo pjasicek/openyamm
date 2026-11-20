@@ -1,0 +1,12 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_undervault/review/bulkhead01",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {"name": "bulkhead_shut", "position": [1000, -2048, -1024], "yaw": 3.14159, "pitch": 0.08},
+  {"name": "bulkhead_shut_near", "position": [620, -2048, -1024], "yaw": 3.14159, "pitch": 0.12},
+  {"name": "bulkhead_open", "position": [1000, -2048, -1024], "yaw": 3.14159, "pitch": 0.08,
+   "commands": ["skill set Hacking 10 G", "event 17", "reload map"], "settle_seconds": 6.0},
+  {"name": "bulkhead_open_near", "position": [620, -2048, -1024], "yaw": 3.14159, "pitch": 0.12}
+ ]
+}

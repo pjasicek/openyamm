@@ -1,0 +1,298 @@
+{
+  "runs": [
+    {
+      "id": "00_three_quarter_run_01",
+      "tool": "image_gen.imagegen",
+      "prompt": "Generate ONLY the first-run primary modelling reference, 00_three_quarter.png, following this specification exactly. Use case: stylized-concept, faithful HD game-creature anatomy reference.\nINPUTS in order: 1 native_views.png is the original MM8 m492 Dragon identity authority (ignore its background); 2 dragon_master_01_front.png is the accepted whole-dragon HD front material, colour and foreleg reference; 3 dragon_master_03_left.png is the accepted HD left material/colour/anatomy reference. Reconstruct THIS dragon's foreleg, not a new design.\nONE anatomical RIGHT foreleg only, shoulder joint to talon tips. Clean shoulder termination at top: flat oval surface of plain dark scaled skin, no gore. No body, chest, wing or neck.\nCharcoal-black small tightly overlapping scales on upper arm and forearm, thin dark-red seams and edges like the masters; slightly larger plates on front forearm and back of hand. Narrow small gold-amber scute strip down BACK of upper arm, matching master ventral scales. ONE short ivory bone spur at wrist pointing backward, distinct from digits; no other spikes.\nExactly FOUR digits and FOUR talons: THREE long forward fingers, each three scaled segments, spread as a downward fan, plus ONE shorter INNER thumb/dewclaw higher on inside wrist. Make all four visibly identifiable and separated. Each digit has one long hooked ivory-cream talon, darker base, thick glossy sharp downward curve, longer than last digit segment. No two talons touch or overlap. Dark leathery pads underside palm/digits. Broad hand; muscular forearm longer than hand.\nPose: shoulder cut at top, leg hangs down, elbow slightly bent, forearm vertical, wrist straight, hand opens down. Three long forward digits fan downward, short inner digit clear. Correct right-side anatomy.\nCamera: FRONT THREE-QUARTER showing front and OUTER side of right foreleg, slightly above, near-orthographic at elbow height. The front is the back of the hand/front forearm. Preserve visible inner digit on opposite edge.\nCanvas requested 1024x1536 PORTRAIT. Truly transparent alpha background. Entire shoulder cut and all talon tips inside generous margins, nothing cropped. Soft even neutral studio lighting, no dramatic shadows, rim light or glow (lighting will be baked into texture). Sharp high-definition scale/talon detail faithful to reference materials.\nNO floor, cast shadow, text, flames, scenery, ground, other body parts, armour, rings, bracelets, gems, chains, scars, extra spikes, extra digits, green/blue/bronze/white scales, perspective distortion or motion blur. Only one view of one foreleg.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/native_views.png",
+          "sha256": "2708765fed82312d6f34e8c6f260eb12ce539eda0f3efa00119d70c91e0afe10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_01_front.png",
+          "sha256": "1d34cede1fd338d0231474449dc6fc5612249a5760818894009c757b451032aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_03_left.png",
+          "sha256": "d615ee1de7c23bd33cb18775f6b03c0217bb54d5a19fc579fa691bc79f24550b"
+        }
+      ],
+      "output_path": "level_generation/solo_action_dragon_20261113/references_hd/00_three_quarter.png",
+      "source_output_path": "/home/pjasicek/.codex/generated_images/01a1d71d-f3fc-7e13-bf2d-324c465db5af/exec-da7ae77c-82fe-47bb-8ef2-5a5ff664d248.png",
+      "selected": true,
+      "reason": "Selected after visual inspection of anatomy and alpha-composited review: one right foreleg, three forward digits plus one higher inner digit, four separated ivory talons, one wrist spur, reference colours, intact shoulder and talon tips. Native 1024x1536 RGBA retained unchanged.",
+      "superseded_runs": [],
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          254
+        ],
+        "resized": false,
+        "review_sheet": "selected_views_review.png"
+      },
+      "output_sha256": "c8d35648f50638f389739db5d144362240ecb6d0b505323f115155f73bdbfeaf"
+    },
+    {
+      "id": "01_front_run_01",
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: stylized-concept. Generate ONE faithful HD modelling reference of the SAME anatomical RIGHT dragon foreleg as input 4. Input 1 native_views.png: original MM8 m492 identity authority. Inputs 2 and 3: accepted whole-dragon HD material and colour references. Input 4 00_three_quarter.png: SELECTED PRIMARY, absolute authority for limb shape, scale layout, proportions, pose, digits, wrist spur and colours. Rotate only the camera around this exact limb; do not redesign or repose it.\nONE foreleg shoulder to talon tips. Flat oval shoulder cut capped with plain dark scaled skin; no gore/body/chest/wing/neck. Muscular upper arm and forearm; elbow slightly bent, forearm vertical, wrist straight, hand hanging down in the same fan spread as primary. Charcoal-black overlapping scales with thin dark-red seams, larger front forearm and dorsal hand plates, narrow gold-amber strip on BACK of upper arm. Exactly FOUR anatomical digits: three long forward digits of three scaled segments plus one shorter higher INNER digit, each with a long downward-hooked ivory cream talon with darker base, glossy thick and sharp. ONE short backward-pointing ivory WRIST SPUR distinct from these four talons, same placement as primary. Dark leathery pads on palm and underside of fingers. No added spikes. All anatomy fixed across views.\n1024x1536 portrait canvas. TRUE TRANSPARENT ALPHA background, no coloured backdrop from references. Entire limb within generous margins, shoulder and tips uncropped. Near-orthographic camera at elbow height, soft even NEUTRAL studio light, no dramatic shadows, glow or rim lighting. No floor/cast shadow/text/scenery/flames/other body parts/armour/jewellery/scars/extra digits or spikes/green blue bronze or white scales/perspective distortion/motion blur. One view only.\nVIEW for 01_front.png: FRONT view: camera directly faces the BACK OF THE HAND (dorsal scales) and FRONT of forearm. Inner thumb appears on viewer RIGHT, as in primary; three long forward fingers fan downward. Show all four separated talons and the single wrist spur. This is a frontal view, not three-quarter.",
+      "source_output_path": "/home/pjasicek/.codex/generated_images/01a1d720-112f-7732-83a5-03dd46ba7ec3/exec-7a7a862c-0f1a-4c92-8724-17af8d927f1e.png",
+      "output_path": "level_generation/solo_action_dragon_20261113/references_hd/01_front.png",
+      "selected": true,
+      "reason": "Front/dorsal view with four talons and one spur; retains primary colours and anatomy.",
+      "superseded_runs": [],
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/native_views.png",
+          "sha256": "2708765fed82312d6f34e8c6f260eb12ce539eda0f3efa00119d70c91e0afe10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_01_front.png",
+          "sha256": "1d34cede1fd338d0231474449dc6fc5612249a5760818894009c757b451032aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_03_left.png",
+          "sha256": "d615ee1de7c23bd33cb18775f6b03c0217bb54d5a19fc579fa691bc79f24550b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references_hd/00_three_quarter.png",
+          "sha256": "c8d35648f50638f389739db5d144362240ecb6d0b505323f115155f73bdbfeaf"
+        }
+      ],
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          254
+        ],
+        "resized": false,
+        "review_sheet": "selected_views_review.png"
+      },
+      "output_sha256": "78cb1eecce4857e45f995eae84fa5dbd440da848487ceebd82bc037a3e370964"
+    },
+    {
+      "id": "02_back_run_01",
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: stylized-concept. Generate ONE faithful HD modelling reference of the SAME anatomical RIGHT dragon foreleg as input 4. Input 1 native_views.png: original MM8 m492 identity authority. Inputs 2 and 3: accepted whole-dragon HD material and colour references. Input 4 00_three_quarter.png: SELECTED PRIMARY, absolute authority for limb shape, scale layout, proportions, pose, digits, wrist spur and colours. Rotate only the camera around this exact limb; do not redesign or repose it.\nONE foreleg shoulder to talon tips. Flat oval shoulder cut capped with plain dark scaled skin; no gore/body/chest/wing/neck. Muscular upper arm and forearm; elbow slightly bent, forearm vertical, wrist straight, hand hanging down in the same fan spread as primary. Charcoal-black overlapping scales with thin dark-red seams, larger front forearm and dorsal hand plates, narrow gold-amber strip on BACK of upper arm. Exactly FOUR anatomical digits: three long forward digits of three scaled segments plus one shorter higher INNER digit, each with a long downward-hooked ivory cream talon with darker base, glossy thick and sharp. ONE short backward-pointing ivory WRIST SPUR distinct from these four talons, same placement as primary. Dark leathery pads on palm and underside of fingers. No added spikes. All anatomy fixed across views.\n1024x1536 portrait canvas. TRUE TRANSPARENT ALPHA background, no coloured backdrop from references. Entire limb within generous margins, shoulder and tips uncropped. Near-orthographic camera at elbow height, soft even NEUTRAL studio light, no dramatic shadows, glow or rim lighting. No floor/cast shadow/text/scenery/flames/other body parts/armour/jewellery/scars/extra digits or spikes/green blue bronze or white scales/perspective distortion/motion blur. One view only.\nVIEW for 02_back.png: BACK view, rotate camera 180 degrees from front: see PALM with dark leathery pads on palm and digit undersides, and BACK of upper arm with its narrow gold-amber strip. Inner thumb now on viewer LEFT. Same four fingers and wrist spur, same fixed bent elbow and splayed downward fingers. Not another dorsal-hand view.",
+      "source_output_path": "/home/pjasicek/.codex/generated_images/01a1d720-112f-7732-83a5-03dd46ba7ec3/exec-4b58fa00-f18b-4345-b4a2-8e84a253eb26.png",
+      "output_path": "level_generation/solo_action_dragon_20261113/references_hd/02_back.png",
+      "selected": true,
+      "reason": "Palm-side view with four talons, dark palm pads and gold upper-arm strip.",
+      "superseded_runs": [],
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/native_views.png",
+          "sha256": "2708765fed82312d6f34e8c6f260eb12ce539eda0f3efa00119d70c91e0afe10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_01_front.png",
+          "sha256": "1d34cede1fd338d0231474449dc6fc5612249a5760818894009c757b451032aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_03_left.png",
+          "sha256": "d615ee1de7c23bd33cb18775f6b03c0217bb54d5a19fc579fa691bc79f24550b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references_hd/00_three_quarter.png",
+          "sha256": "c8d35648f50638f389739db5d144362240ecb6d0b505323f115155f73bdbfeaf"
+        }
+      ],
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          254
+        ],
+        "resized": false,
+        "review_sheet": "selected_views_review.png"
+      },
+      "output_sha256": "15320fe5afcba98898837ac04bc23e78b5a8df65b209c7f4d35c58f80d4abb95"
+    },
+    {
+      "id": "03_left_run_01",
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: stylized-concept. Generate ONE faithful HD modelling reference of the SAME anatomical RIGHT dragon foreleg as input 4. Input 1 native_views.png: original MM8 m492 identity authority. Inputs 2 and 3: accepted whole-dragon HD material and colour references. Input 4 00_three_quarter.png: SELECTED PRIMARY, absolute authority for limb shape, scale layout, proportions, pose, digits, wrist spur and colours. Rotate only the camera around this exact limb; do not redesign or repose it.\nONE foreleg shoulder to talon tips. Flat oval shoulder cut capped with plain dark scaled skin; no gore/body/chest/wing/neck. Muscular upper arm and forearm; elbow slightly bent, forearm vertical, wrist straight, hand hanging down in the same fan spread as primary. Charcoal-black overlapping scales with thin dark-red seams, larger front forearm and dorsal hand plates, narrow gold-amber strip on BACK of upper arm. Exactly FOUR anatomical digits: three long forward digits of three scaled segments plus one shorter higher INNER digit, each with a long downward-hooked ivory cream talon with darker base, glossy thick and sharp. ONE short backward-pointing ivory WRIST SPUR distinct from these four talons, same placement as primary. Dark leathery pads on palm and underside of fingers. No added spikes. All anatomy fixed across views.\n1024x1536 portrait canvas. TRUE TRANSPARENT ALPHA background, no coloured backdrop from references. Entire limb within generous margins, shoulder and tips uncropped. Near-orthographic camera at elbow height, soft even NEUTRAL studio light, no dramatic shadows, glow or rim lighting. No floor/cast shadow/text/scenery/flames/other body parts/armour/jewellery/scars/extra digits or spikes/green blue bronze or white scales/perspective distortion/motion blur. One view only.\nVIEW for 03_left.png: LEFT SIDE of the anatomical RIGHT foreleg: INNER/MEDIAL side toward where the chest would be. Inner short thumb/dewclaw is nearest viewer and clearly visible, not hidden. True near-orthographic side profile of the unchanged primary pose, front/dorsal hand faces image LEFT and palm faces image RIGHT; the talons curl toward image RIGHT. Separate talon contours as far as anatomically possible without changing the pose. Preserve four digits, even if long fingers partly occlude.",
+      "source_output_path": "/home/pjasicek/.codex/generated_images/01a1d720-112f-7732-83a5-03dd46ba7ec3/exec-16578524-4b5a-4c37-a9af-24c9e4687ef3.png",
+      "output_path": "level_generation/solo_action_dragon_20261113/references_hd/03_left_run_01_unselected.png",
+      "selected": false,
+      "reason": "Superseded: too close to a dorsal three-quarter view.",
+      "superseded_runs": [],
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/native_views.png",
+          "sha256": "2708765fed82312d6f34e8c6f260eb12ce539eda0f3efa00119d70c91e0afe10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_01_front.png",
+          "sha256": "1d34cede1fd338d0231474449dc6fc5612249a5760818894009c757b451032aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_03_left.png",
+          "sha256": "d615ee1de7c23bd33cb18775f6b03c0217bb54d5a19fc579fa691bc79f24550b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references_hd/00_three_quarter.png",
+          "sha256": "c8d35648f50638f389739db5d144362240ecb6d0b505323f115155f73bdbfeaf"
+        }
+      ],
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          254
+        ],
+        "resized": false,
+        "review_sheet": "selected_views_review.png"
+      },
+      "output_sha256": "5d567f47a669847e9fcc3e606ce96b0c50c9eda5440cc2c2e147eec97d702552"
+    },
+    {
+      "id": "04_right_run_01",
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: stylized-concept. Generate ONE faithful HD modelling reference of the SAME anatomical RIGHT dragon foreleg as input 4. Input 1 native_views.png: original MM8 m492 identity authority. Inputs 2 and 3: accepted whole-dragon HD material and colour references. Input 4 00_three_quarter.png: SELECTED PRIMARY, absolute authority for limb shape, scale layout, proportions, pose, digits, wrist spur and colours. Rotate only the camera around this exact limb; do not redesign or repose it.\nONE foreleg shoulder to talon tips. Flat oval shoulder cut capped with plain dark scaled skin; no gore/body/chest/wing/neck. Muscular upper arm and forearm; elbow slightly bent, forearm vertical, wrist straight, hand hanging down in the same fan spread as primary. Charcoal-black overlapping scales with thin dark-red seams, larger front forearm and dorsal hand plates, narrow gold-amber strip on BACK of upper arm. Exactly FOUR anatomical digits: three long forward digits of three scaled segments plus one shorter higher INNER digit, each with a long downward-hooked ivory cream talon with darker base, glossy thick and sharp. ONE short backward-pointing ivory WRIST SPUR distinct from these four talons, same placement as primary. Dark leathery pads on palm and underside of fingers. No added spikes. All anatomy fixed across views.\n1024x1536 portrait canvas. TRUE TRANSPARENT ALPHA background, no coloured backdrop from references. Entire limb within generous margins, shoulder and tips uncropped. Near-orthographic camera at elbow height, soft even NEUTRAL studio light, no dramatic shadows, glow or rim lighting. No floor/cast shadow/text/scenery/flames/other body parts/armour/jewellery/scars/extra digits or spikes/green blue bronze or white scales/perspective distortion/motion blur. One view only.\nVIEW for 04_right.png: RIGHT SIDE of the anatomical RIGHT foreleg: OUTER/LATERAL side. Inner short thumb/dewclaw is hidden BEHIND hand, not on near side. True near-orthographic opposite-side profile of unchanged primary pose, front/dorsal hand faces image RIGHT and palm faces image LEFT; talons curve toward image LEFT. Preserve four anatomical digits even though inner digit occluded. Show the single wrist spur; do not mistake spur for thumb. Separate talon contours as far as anatomically possible without reposing.",
+      "source_output_path": "/home/pjasicek/.codex/generated_images/01a1d720-112f-7732-83a5-03dd46ba7ec3/exec-296d6449-513f-49b3-85e0-110c90d55d3f.png",
+      "output_path": "level_generation/solo_action_dragon_20261113/references_hd/04_right_run_01_unselected.png",
+      "selected": false,
+      "reason": "Superseded: broad three-quarter view exposes inner digit.",
+      "superseded_runs": [],
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/native_views.png",
+          "sha256": "2708765fed82312d6f34e8c6f260eb12ce539eda0f3efa00119d70c91e0afe10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_01_front.png",
+          "sha256": "1d34cede1fd338d0231474449dc6fc5612249a5760818894009c757b451032aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_03_left.png",
+          "sha256": "d615ee1de7c23bd33cb18775f6b03c0217bb54d5a19fc579fa691bc79f24550b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references_hd/00_three_quarter.png",
+          "sha256": "c8d35648f50638f389739db5d144362240ecb6d0b505323f115155f73bdbfeaf"
+        }
+      ],
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          254
+        ],
+        "resized": false,
+        "review_sheet": "selected_views_review.png"
+      },
+      "output_sha256": "14eb21e0a5c59628ca36f030c433e0f8eba40770888675911c51f6db33c0a060"
+    },
+    {
+      "id": "03_left_run_02",
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: stylized-concept. Generate ONE faithful HD modelling reference of the SAME anatomical RIGHT dragon foreleg as input 4. Input 1 native_views.png: original MM8 m492 identity authority. Inputs 2 and 3: accepted whole-dragon HD material and colour references. Input 4 00_three_quarter.png: SELECTED PRIMARY, absolute authority for limb shape, scale layout, proportions, pose, digits, wrist spur and colours. Rotate only the camera around this exact limb; do not redesign or repose it.\nONE foreleg shoulder to talon tips. Flat oval shoulder cut capped with plain dark scaled skin; no gore/body/chest/wing/neck. Muscular upper arm and forearm; elbow slightly bent, forearm vertical, wrist straight, hand hanging down in the same fan spread as primary. Charcoal-black overlapping scales with thin dark-red seams, larger front forearm and dorsal hand plates, narrow gold-amber strip on BACK of upper arm. Exactly FOUR anatomical digits: three long forward digits of three scaled segments plus one shorter higher INNER digit, each with a long downward-hooked ivory cream talon with darker base, glossy thick and sharp. ONE short backward-pointing ivory WRIST SPUR distinct from these four talons, same placement as primary. Dark leathery pads on palm and underside of fingers. No added spikes. All anatomy fixed across views.\n1024x1536 portrait canvas. TRUE TRANSPARENT ALPHA background, no coloured backdrop from references. Entire limb within generous margins, shoulder and tips uncropped. Near-orthographic camera at elbow height, soft even NEUTRAL studio light, no dramatic shadows, glow or rim lighting. No floor/cast shadow/text/scenery/flames/other body parts/armour/jewellery/scars/extra digits or spikes/green blue bronze or white scales/perspective distortion/motion blur. One view only.\nVIEW for 03_left.png: LEFT SIDE of the anatomical RIGHT foreleg: INNER/MEDIAL side toward where the chest would be. Inner short thumb/dewclaw is nearest viewer and clearly visible, not hidden. True near-orthographic side profile of the unchanged primary pose, front/dorsal hand faces image LEFT and palm faces image RIGHT; the talons curl toward image RIGHT. Separate talon contours as far as anatomically possible without changing the pose. Preserve four digits, even if long fingers partly occlude.\nCORRECTIVE GENERATION (only allowed retry): previous attempt remained a front three-quarter view. Rotate the camera fully NINETY DEGREES around the primary to its INNER SIDE. Strict PROFILE, narrow hand edge silhouette, NOT broad dorsal hand. The higher inner thumb is the nearest digit. Long fingers recede in depth; no fan spread across screen invented to show them all. Talon hooks all point toward image RIGHT. Keep vertical forearm and exact primary bend, four anatomical digits and one wrist spur. Background must be genuinely transparent, not the primary's smoky preview backdrop.",
+      "source_output_path": "/home/pjasicek/.codex/generated_images/01a1d720-112f-7732-83a5-03dd46ba7ec3/exec-e9b2c911-f95d-46f7-b02b-78278eb26476.png",
+      "output_path": "level_generation/solo_action_dragon_20261113/references_hd/03_left.png",
+      "selected": true,
+      "reason": "Best available after allowed correction: narrower inner-side view with visible inner digit; remains somewhat oblique.",
+      "superseded_runs": [
+        "03_left_run_01"
+      ],
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/native_views.png",
+          "sha256": "2708765fed82312d6f34e8c6f260eb12ce539eda0f3efa00119d70c91e0afe10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_01_front.png",
+          "sha256": "1d34cede1fd338d0231474449dc6fc5612249a5760818894009c757b451032aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_03_left.png",
+          "sha256": "d615ee1de7c23bd33cb18775f6b03c0217bb54d5a19fc579fa691bc79f24550b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references_hd/00_three_quarter.png",
+          "sha256": "c8d35648f50638f389739db5d144362240ecb6d0b505323f115155f73bdbfeaf"
+        }
+      ],
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          254
+        ],
+        "resized": false,
+        "review_sheet": "selected_views_review.png"
+      },
+      "output_sha256": "e35889c4448e593556eff17f1426ecff23654f1a4b611330736469dd27298af5"
+    },
+    {
+      "id": "04_right_run_02",
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: stylized-concept. Generate ONE faithful HD modelling reference of the SAME anatomical RIGHT dragon foreleg as input 4. Input 1 native_views.png: original MM8 m492 identity authority. Inputs 2 and 3: accepted whole-dragon HD material and colour references. Input 4 00_three_quarter.png: SELECTED PRIMARY, absolute authority for limb shape, scale layout, proportions, pose, digits, wrist spur and colours. Rotate only the camera around this exact limb; do not redesign or repose it.\nONE foreleg shoulder to talon tips. Flat oval shoulder cut capped with plain dark scaled skin; no gore/body/chest/wing/neck. Muscular upper arm and forearm; elbow slightly bent, forearm vertical, wrist straight, hand hanging down in the same fan spread as primary. Charcoal-black overlapping scales with thin dark-red seams, larger front forearm and dorsal hand plates, narrow gold-amber strip on BACK of upper arm. Exactly FOUR anatomical digits: three long forward digits of three scaled segments plus one shorter higher INNER digit, each with a long downward-hooked ivory cream talon with darker base, glossy thick and sharp. ONE short backward-pointing ivory WRIST SPUR distinct from these four talons, same placement as primary. Dark leathery pads on palm and underside of fingers. No added spikes. All anatomy fixed across views.\n1024x1536 portrait canvas. TRUE TRANSPARENT ALPHA background, no coloured backdrop from references. Entire limb within generous margins, shoulder and tips uncropped. Near-orthographic camera at elbow height, soft even NEUTRAL studio light, no dramatic shadows, glow or rim lighting. No floor/cast shadow/text/scenery/flames/other body parts/armour/jewellery/scars/extra digits or spikes/green blue bronze or white scales/perspective distortion/motion blur. One view only.\nVIEW for 04_right.png: RIGHT SIDE of the anatomical RIGHT foreleg: OUTER/LATERAL side. Inner short thumb/dewclaw is hidden BEHIND hand, not on near side. True near-orthographic opposite-side profile of unchanged primary pose, front/dorsal hand faces image RIGHT and palm faces image LEFT; talons curve toward image LEFT. Preserve four anatomical digits even though inner digit occluded. Show the single wrist spur; do not mistake spur for thumb. Separate talon contours as far as anatomically possible without reposing.\nCORRECTIVE GENERATION (only allowed retry): previous attempt was broad dorsal three-quarter and incorrectly exposed thumb. Rotate camera fully NINETY DEGREES to the OUTER SIDE, opposite the inner view. STRICT SIDE PROFILE, narrow edge of hand, not broad dorsal fan. Short inner thumb MUST be fully OCCLUDED behind hand; do not display it to camera. Three long fingers recede in depth, with tips staggered naturally. Talons hook toward image LEFT. ONE visible short backward wrist spur. Same unchanged primary limb, vertical forearm and fixed elbow bend. True transparent background.",
+      "source_output_path": "/home/pjasicek/.codex/generated_images/01a1d720-112f-7732-83a5-03dd46ba7ec3/exec-7b99e29c-7346-46a6-9f0b-7cb407223e96.png",
+      "output_path": "level_generation/solo_action_dragon_20261113/references_hd/04_right.png",
+      "selected": true,
+      "reason": "Best available after allowed correction: narrow hand with three visible talons, but opposite-side orientation and exact digit occlusion remain uncertain; not a verified orthographic match.",
+      "superseded_runs": [
+        "04_right_run_01"
+      ],
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/native_views.png",
+          "sha256": "2708765fed82312d6f34e8c6f260eb12ce539eda0f3efa00119d70c91e0afe10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_01_front.png",
+          "sha256": "1d34cede1fd338d0231474449dc6fc5612249a5760818894009c757b451032aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references/dragon_master_03_left.png",
+          "sha256": "d615ee1de7c23bd33cb18775f6b03c0217bb54d5a19fc579fa691bc79f24550b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/references_hd/00_three_quarter.png",
+          "sha256": "c8d35648f50638f389739db5d144362240ecb6d0b505323f115155f73bdbfeaf"
+        }
+      ],
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          254
+        ],
+        "resized": false,
+        "review_sheet": "selected_views_review.png"
+      },
+      "output_sha256": "9a99f930334f5b0f322a8516eacf04e3dd84785e10a7de35308825a09f641189"
+    }
+  ]
+}

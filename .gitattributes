@@ -4,5 +4,23 @@
 # Cooked sprite atlas test fixtures: their pages hash the manifest bytes.
 /tests/fixtures/sprite_atlas/** -filter !diff !merge !text
 
+# Avoid loading large binary asset revisions merely to classify them during diff/merge.
+*.lighting binary
+*.oytex binary
+*.glb binary
+*.bmp binary
+*.png binary
+*.wav binary
+*.mp3 binary
+*.flac binary
+*.ogv binary
+*.zip binary
+*.oysav binary
+
+# Lighting dependencies hash exact scene and recipe bytes on every platform.
+*.scene.yml -text
+*.bake.json -text
+/assets_dev/engine/liquids/liquids.yml -text
+
 # Unified patch context prefixes precede the upstream file's indentation.
 *.patch whitespace=-space-before-tab

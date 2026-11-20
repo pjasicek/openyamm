@@ -56,53 +56,97 @@ OpenYAMM::Game::MapStats loadMapStats()
     return mapStats;
 }
 
-void checkTransition(
-    const std::optional<OpenYAMM::Game::MapEdgeTransition> &transition,
-    const char *pExpectedDestination)
+struct ExpectedEdge
 {
-    if (pExpectedDestination == nullptr)
+    const char *pDestination = nullptr;
+    int travelDays = 0;
+    OpenYAMM::Game::MapBoundaryEdge arrivalSide = OpenYAMM::Game::MapBoundaryEdge::North;
+};
+
+void checkEdge(const std::optional<OpenYAMM::Game::MapEdgeTransition> &transition, const ExpectedEdge &expected)
+{
+    if (expected.pDestination == nullptr)
     {
         CHECK_FALSE(transition.has_value());
         return;
     }
 
     REQUIRE(transition.has_value());
-    CHECK_EQ(transition->destinationMapFileName, pExpectedDestination);
+    CHECK_EQ(transition->destinationMapFileName, expected.pDestination);
+    CHECK_EQ(transition->travelDays, expected.travelDays);
+    CHECK(transition->useMapStartPosition);
+    CHECK_FALSE(transition->straightTravel);
+    REQUIRE(transition->arrivalSide.has_value());
+    CHECK_EQ(*transition->arrivalSide, expected.arrivalSide);
 }
 }
 
-TEST_CASE("map navigation matches authoritative world map")
+TEST_CASE("mm8 foot travel matches the original executable table")
 {
+    using OpenYAMM::Game::MapBoundaryEdge;
+
     struct ExpectedMapTransitions
     {
         const char *pFileName = nullptr;
-        const char *pNorth = nullptr;
-        const char *pSouth = nullptr;
-        const char *pEast = nullptr;
-        const char *pWest = nullptr;
+        ExpectedEdge north;
+        ExpectedEdge south;
+        ExpectedEdge east;
+        ExpectedEdge west;
     };
 
+    // Destination, base days and arrival start point of each edge, from the foot travel tables of MM8-Rel.exe
+    // (destinations at 0x4fe95b, days and arrival sides 0x34 and 0x68 bytes later).
     const OpenYAMM::Game::MapStats mapStats = loadMapStats();
+    static constexpr ExpectedEdge None = {};
     static constexpr std::array<ExpectedMapTransitions, 9> ExpectedMaps = {{
-        {"Out01.odm", nullptr, nullptr, nullptr, nullptr},
-        {"Out02.odm", "Out03.odm", nullptr, "Out06.odm", "Out05.odm"},
-        {"Out03.odm", nullptr, "Out02.odm", "Out04.odm", "Out07.odm"},
-        {"Out04.odm", nullptr, "Out05.odm", nullptr, "Out03.odm"},
-        {"Out05.odm", "Out04.odm", "Out08.odm", "Out02.odm", nullptr},
-        {"Out06.odm", "Out07.odm", nullptr, nullptr, "Out02.odm"},
-        {"Out07.odm", nullptr, "Out06.odm", "Out03.odm", nullptr},
-        {"Out08.odm", "Out05.odm", nullptr, nullptr, nullptr},
-        {"Out13.odm", nullptr, nullptr, nullptr, nullptr},
+        {"out01.odm", None, None, None, None},
+        {"out02.odm",
+            {"out03.odm", 5, MapBoundaryEdge::South},
+            {"out06.odm", 10, MapBoundaryEdge::West},
+            {"out06.odm", 5, MapBoundaryEdge::West},
+            {"out05.odm", 5, MapBoundaryEdge::East}},
+        {"out03.odm",
+            {"out04.odm", 10, MapBoundaryEdge::West},
+            {"out02.odm", 5, MapBoundaryEdge::North},
+            {"out04.odm", 5, MapBoundaryEdge::West},
+            {"out07.odm", 5, MapBoundaryEdge::East}},
+        {"out04.odm",
+            {"out03.odm", 10, MapBoundaryEdge::North},
+            {"out06.odm", 5, MapBoundaryEdge::North},
+            {"out06.odm", 10, MapBoundaryEdge::East},
+            {"out03.odm", 5, MapBoundaryEdge::East}},
+        {"out05.odm",
+            {"out07.odm", 5, MapBoundaryEdge::South},
+            {"out08.odm", 5, MapBoundaryEdge::North},
+            {"out02.odm", 5, MapBoundaryEdge::West},
+            {"out08.odm", 10, MapBoundaryEdge::North}},
+        {"out06.odm",
+            {"out04.odm", 5, MapBoundaryEdge::South},
+            {"out02.odm", 10, MapBoundaryEdge::East},
+            {"out04.odm", 10, MapBoundaryEdge::South},
+            {"out02.odm", 5, MapBoundaryEdge::East}},
+        {"out07.odm",
+            {"out03.odm", 10, MapBoundaryEdge::North},
+            {"out05.odm", 5, MapBoundaryEdge::North},
+            {"out03.odm", 5, MapBoundaryEdge::West},
+            {"out05.odm", 10, MapBoundaryEdge::West}},
+        {"out08.odm",
+            {"out05.odm", 5, MapBoundaryEdge::South},
+            {"out05.odm", 15, MapBoundaryEdge::South},
+            {"out05.odm", 10, MapBoundaryEdge::South},
+            {"out05.odm", 10, MapBoundaryEdge::South}},
+        {"out13.odm", None, None, None, None},
     }};
 
     for (const ExpectedMapTransitions &expected : ExpectedMaps)
     {
+        INFO("map=" << expected.pFileName);
         const OpenYAMM::Game::MapStatsEntry *pEntry = mapStats.findByFileName(expected.pFileName);
         REQUIRE(pEntry != nullptr);
-        checkTransition(pEntry->northTransition, expected.pNorth);
-        checkTransition(pEntry->southTransition, expected.pSouth);
-        checkTransition(pEntry->eastTransition, expected.pEast);
-        checkTransition(pEntry->westTransition, expected.pWest);
+        checkEdge(pEntry->northTransition, expected.north);
+        checkEdge(pEntry->southTransition, expected.south);
+        checkEdge(pEntry->eastTransition, expected.east);
+        checkEdge(pEntry->westTransition, expected.west);
     }
 }
 
@@ -199,11 +243,21 @@ TEST_CASE("map stats normalize non-audio redbook track")
 TEST_CASE("MM9 map music uses globally unique world track ids")
 {
     const OpenYAMM::Game::MapStats mapStats = loadMapStats();
-    const OpenYAMM::Game::MapStatsEntry *pRavensford = mapStats.findByFileName("bootcamp.odm");
+    const OpenYAMM::Game::MapStatsEntry *pRavensford = mapStats.findByFileName("bootcamp.blv");
 
     REQUIRE(pRavensford != nullptr);
     CHECK_EQ(pRavensford->worldId, "mm9");
-    CHECK_EQ(pRavensford->redbookTrack, 90007);
+    // MAPSTATS Music Track N plays MM9-Song(N-1), track 90000 + N - 1 (MM9_AMBIENT_AUDIO_RE.md section 2): Ravensford's
+    // 7 is Song06.
+    CHECK_EQ(pRavensford->redbookTrack, 90006);
+
+    // Thousand Terrors' 18 is Song17; Temple of Honk (blank: MM9 keeps the song it was entered with) has Guberland's.
+    const OpenYAMM::Game::MapStatsEntry *pThousandTerrors = mapStats.findByFileName("1000terrors.blv");
+    const OpenYAMM::Game::MapStatsEntry *pTempleOfHonk = mapStats.findByFileName("templeofhonk.blv");
+    REQUIRE(pThousandTerrors != nullptr);
+    REQUIRE(pTempleOfHonk != nullptr);
+    CHECK_EQ(pThousandTerrors->redbookTrack, 90017);
+    CHECK_EQ(pTempleOfHonk->redbookTrack, 90006);
 }
 
 TEST_CASE("MM6 named locations use their fixed soundtrack assignments")
@@ -299,10 +353,9 @@ TEST_CASE("merged outdoor travels add mm6 map boundary transitions")
     CHECK_EQ(pNewSorpigal->westTransition->travelDays, 5);
     CHECK_FALSE(pNewSorpigal->westTransition->useMapStartPosition);
     CHECK(pNewSorpigal->westTransition->straightTravel);
-    REQUIRE(pNewSorpigal->westTransition->straightTravelSide.has_value());
-    CHECK_EQ(*pNewSorpigal->westTransition->straightTravelSide, OpenYAMM::Game::MapBoundaryEdge::West);
-    REQUIRE(pNewSorpigal->westTransition->directionDegrees.has_value());
-    CHECK_EQ(*pNewSorpigal->westTransition->directionDegrees, 180);
+    REQUIRE(pNewSorpigal->westTransition->arrivalSide.has_value());
+    CHECK_EQ(*pNewSorpigal->westTransition->arrivalSide, OpenYAMM::Game::MapBoundaryEdge::East);
+    CHECK_FALSE(pNewSorpigal->westTransition->directionDegrees.has_value());
 }
 
 TEST_CASE("merged outdoor travels add Avlee Shoals special transition")
@@ -321,40 +374,6 @@ TEST_CASE("merged outdoor travels add Avlee Shoals special transition")
     CHECK_EQ(pAvlee->westTransition->requiredQuestBitsAny[0], 642u);
     CHECK_EQ(pAvlee->westTransition->requiredQuestBitsAny[1], 643u);
     CHECK_EQ(pAvlee->westTransition->requiredQuestBitsAny[2], 783u);
-}
-
-TEST_CASE("merged outdoor travels preserve original mm8 boundary transitions")
-{
-    const OpenYAMM::Game::MapStats mapStats = loadMapStats();
-    const OpenYAMM::Game::MapStatsEntry *pRavenshore = mapStats.findByFileName("out02.odm");
-    const OpenYAMM::Game::MapStatsEntry *pAlvar = mapStats.findByFileName("out03.odm");
-    const OpenYAMM::Game::MapStatsEntry *pShadowspire = mapStats.findByFileName("out06.odm");
-
-    REQUIRE(pRavenshore != nullptr);
-    REQUIRE(pAlvar != nullptr);
-    REQUIRE(pShadowspire != nullptr);
-
-    REQUIRE(pRavenshore->northTransition.has_value());
-    CHECK_EQ(pRavenshore->northTransition->destinationMapFileName, "Out03.odm");
-    CHECK_EQ(pRavenshore->northTransition->travelDays, 1);
-    REQUIRE(pRavenshore->northTransition->arrivalX.has_value());
-    CHECK_EQ(*pRavenshore->northTransition->arrivalX, -15104);
-    REQUIRE(pRavenshore->eastTransition.has_value());
-    CHECK_EQ(pRavenshore->eastTransition->destinationMapFileName, "Out06.odm");
-    CHECK_EQ(pRavenshore->eastTransition->travelDays, 1);
-    REQUIRE(pRavenshore->westTransition.has_value());
-    CHECK_EQ(pRavenshore->westTransition->destinationMapFileName, "Out05.odm");
-    CHECK_EQ(pRavenshore->westTransition->travelDays, 1);
-
-    REQUIRE(pAlvar->eastTransition.has_value());
-    CHECK_EQ(pAlvar->eastTransition->destinationMapFileName, "Out04.odm");
-    CHECK_EQ(pAlvar->eastTransition->travelDays, 1);
-    REQUIRE(pAlvar->westTransition.has_value());
-    CHECK_EQ(pAlvar->westTransition->destinationMapFileName, "Out07.odm");
-    CHECK_EQ(pAlvar->westTransition->travelDays, 1);
-    REQUIRE(pShadowspire->westTransition.has_value());
-    CHECK_EQ(pShadowspire->westTransition->destinationMapFileName, "Out02.odm");
-    CHECK_EQ(pShadowspire->westTransition->travelDays, 1);
 }
 
 TEST_CASE("map stats assign default canonical MM8 map identity")
@@ -439,7 +458,20 @@ TEST_CASE("map stats parse chest trap difficulty and damage dice")
 
 TEST_CASE("map navigation rows apply explicit arrival positions")
 {
-    const OpenYAMM::Game::MapStats mapStats = loadMapStats();
+    OpenYAMM::Game::MapStats mapStats = {};
+    REQUIRE(mapStats.loadFromRows(loadTextTableRows("assets_dev/engine/data_tables/map_stats.txt")));
+
+    // North edge with an explicit arrival position, east edge without one, south and west edges unused.
+    const std::vector<std::vector<std::string>> navigationRows = {{
+        "Out02.odm", "-23143", "23143", "-23143", "23143",
+        "Out03.odm", "1", "0",
+        "0", "0", "0",
+        "Out06.odm", "1", "0",
+        "0", "0", "0",
+        "-15104", "-22200", "192",
+    }};
+    REQUIRE(mapStats.applyOutdoorNavigationRows(navigationRows));
+
     const OpenYAMM::Game::MapStatsEntry *pRavenshore = mapStats.findByFileName("Out02.odm");
     REQUIRE(pRavenshore != nullptr);
 
@@ -454,24 +486,10 @@ TEST_CASE("map navigation rows apply explicit arrival positions")
     CHECK_EQ(*pRavenshore->northTransition->arrivalZ, 192);
 
     CHECK_FALSE(pRavenshore->southTransition.has_value());
+    CHECK_FALSE(pRavenshore->westTransition.has_value());
 
     REQUIRE(pRavenshore->eastTransition.has_value());
     CHECK_EQ(pRavenshore->eastTransition->destinationMapFileName, "Out06.odm");
-    CHECK_FALSE(pRavenshore->eastTransition->useMapStartPosition);
-    REQUIRE(pRavenshore->eastTransition->arrivalX.has_value());
-    REQUIRE(pRavenshore->eastTransition->arrivalY.has_value());
-    REQUIRE(pRavenshore->eastTransition->arrivalZ.has_value());
-    CHECK_EQ(*pRavenshore->eastTransition->arrivalX, -22080);
-    CHECK_EQ(*pRavenshore->eastTransition->arrivalY, -5776);
-    CHECK_EQ(*pRavenshore->eastTransition->arrivalZ, 480);
-
-    REQUIRE(pRavenshore->westTransition.has_value());
-    CHECK_EQ(pRavenshore->westTransition->destinationMapFileName, "Out05.odm");
-    CHECK_FALSE(pRavenshore->westTransition->useMapStartPosition);
-    REQUIRE(pRavenshore->westTransition->arrivalX.has_value());
-    REQUIRE(pRavenshore->westTransition->arrivalY.has_value());
-    REQUIRE(pRavenshore->westTransition->arrivalZ.has_value());
-    CHECK_EQ(*pRavenshore->westTransition->arrivalX, 22096);
-    CHECK_EQ(*pRavenshore->westTransition->arrivalY, 296);
-    CHECK_EQ(*pRavenshore->westTransition->arrivalZ, 360);
+    CHECK(pRavenshore->eastTransition->useMapStartPosition);
+    CHECK_FALSE(pRavenshore->eastTransition->arrivalX.has_value());
 }

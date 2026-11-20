@@ -1,0 +1,43 @@
+# In-game check of the dragon forelegs (run when a display is available):
+# cd /home/pjasicek/github/OpenYAMM && SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated claws_fp --world mm6 \
+#   --map oute3.odm --ruleset maw:solo --set video.resolution=1600x900 --set video.window_mode=windowed \
+#   --set debug.console=true --set gameplay.enemy_health_bars=off \
+#   --set debug.view_model_path=/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/export/dragon_forelegs_h2h.glb \
+#   --set debug.menu_input_tour_path=/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/tours/claws_ingame.yml --seconds 70
+# The _h2h GLB carries the claws' motion under the unarmed (handtohand) names and casttarget, so today's engine plays
+# it on an unarmed kit; the live part attacks a goblin twice (right then left swipe at their Hit keys).
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/renders/ingame
+exit: true
+steps:
+  - wait: 3
+  - console: render hud off
+  - console: actor spawn 271 1 -9728 -11080 161
+  - console: actor immobile last on
+  - console: viewmodel kit handtohand none 0
+  - console: viewmodel pose handtohandidle 0.5
+  - wait: 2
+  - capture: idle
+  - console: viewmodel pose handtohandattackright 0.1
+  - wait: 0.5
+  - capture: right_wind
+  - console: viewmodel pose handtohandattackright 0.2
+  - wait: 0.5
+  - capture: right_hit
+  - console: viewmodel pose handtohandattackleft 0.2
+  - wait: 0.5
+  - capture: left_hit
+  - console: viewmodel pose handtohandblockidle 0.3
+  - wait: 0.5
+  - capture: guard
+  - console: viewmodel pose casttarget 0.35
+  - wait: 0.5
+  - capture: breath_inhale
+  - console: viewmodel pose off
+  - wait: 1
+  - action: attack
+  - wait: 0.2
+  - capture: live_swipe_1
+  - wait: 1.2
+  - action: attack
+  - wait: 0.2
+  - capture: live_swipe_2

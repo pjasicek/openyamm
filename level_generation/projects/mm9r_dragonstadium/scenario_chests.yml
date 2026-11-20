@@ -1,0 +1,38 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dragonstadium_chests
+title: Dragon Stadium (native BLV) - both chests open from in front of them
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dragonstadium.blv
+- set_pose:
+    map: dragonstadium.blv
+    x: 1564
+    y: 2993
+    z: -163
+    yaw: 2.2061
+    pitch: -0.733
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: dragonstadium.blv
+    x: 3930
+    y: 1760
+    z: -163
+    yaw: 0.9791
+    pitch: -0.733
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog

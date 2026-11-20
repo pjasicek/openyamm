@@ -1,0 +1,27 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_cob_old.glb",
+ "patch_materials": {
+  "Cobra_A": {
+   "specular": 0.0,
+   "specular_mask": false
+  },
+  "Cobra_B": {
+   "specular": 0.0,
+   "specular_mask": false
+  },
+  "Cobra_C": {
+   "specular": 0.0,
+   "specular_mask": false
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_cob_old",
+ "size": 300,
+ "front": "-y"
+}

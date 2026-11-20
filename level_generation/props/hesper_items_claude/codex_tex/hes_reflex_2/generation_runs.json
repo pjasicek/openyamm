@@ -1,0 +1,691 @@
+{
+  "tool": "built-in image_gen",
+  "scope": "image generation only",
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper hes_reflex_2 game item (+20% melee damage).\nINPUT ROLES: Image 1 is the exact geometry/placement edit target (the specified guide). Image 2 is design_reference.png, the colour/material/design reference ONLY; its camera, silhouette, pose and lighting must not be copied.\nPRIMARY REQUEST: Paint Image 1's white model surfaces with Image 2's materials. Return ONE 1024 x 1024 RGBA image, true transparent background. Preserve Image 1's complete alpha silhouette, all part edges, view, scale, position, occlusion and framing exactly, including every connector prong. This is a surface-colour edit of the existing guide, not a new model render. Preserve the large empty transparent margins. Do not zoom, rotate, reframe, enlarge, move, add, remove, straighten, round off or reconstruct any part.\nMATERIALS: warm off-white/ivory ceramic plates with fine restrained wear and thin engraved panel seams; brushed yellow-gold structural frame, collars, end fittings and connector prongs; near-black plum/violet resin and ribbed connective surfaces in existing recesses; vivid amethyst purple crystal/light inserts with pale lilac bright centers, matching the approved reference's actual purple palette. Continue these same materials plausibly on hidden reference faces. Small markings are only material wear and seams, never writing.\nLIGHTING: flat unlit diffuse ALBEDO/base-colour texture source, evenly lit from the viewer. Remove the guide's grey directional shading instead of copying it. Metals show their gold base colour with at most a faint satin sheen. Crystals/light strips show their bright intrinsic colour, with no reflected lighting or bloom. No baked shadows, cast shadows, ambient-occlusion darkening, dark shading gradients, strong specular highlights, white glints, reflections, rim lights, floor or background. Dark resin is dark material colour, never a cast shadow.\nABSOLUTE INVARIANTS: guide silhouette and visible geometry exactly unchanged; genuine transparent alpha outside it; no painted checkerboard; no text, letters, numbers, labels or watermark; no added elements outside the outline.\nVIEW-SPECIFIC GEOMETRY: FRONT view. The foreground arm points toward the viewer near the upper middle of the object, and the other arms extend left and right. Maintain all foreshortening exactly. The object occupies only x=66..957 and y=331..692 of the 1024-square canvas.",
+      "output": "paint_front.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      },
+      "selected": true,
+      "reason": "Selected best available: closer guide outline (normalized silhouette IoU 0.886374 versus 0.798465). Exact silhouette and flat albedo checks still fail.",
+      "raw_output": "paint_front_attempt1.png",
+      "selection_status": "best_available_not_brief_compliant",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "12cfeec002f4bfdbf29cd4b0825bdce9ffd185ec37b427569ef53c94db01c5bb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-702a0306-0efb-4709-8a5a-a120f32f41e1.png",
+      "output_sha256": "abd9dac806a86efd9c991eace391463198f9a74cad2348110c86718b7617ec04",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          39,
+          40,
+          1224,
+          1232
+        ],
+        "opaque_bbox": [
+          57,
+          378,
+          1196,
+          834
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.886374,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper hes_reflex_2 game item (+20% melee damage).\nINPUT ROLES: Image 2 is the exact geometry/placement edit target (the specified guide). Image 1 is design_reference.png, the colour/material/design reference ONLY; its camera, silhouette, pose and lighting must not be copied.\nPRIMARY REQUEST: Paint Image 2's white model surfaces with Image 1's materials. Return ONE 1024 x 1024 RGBA image, true transparent background. Preserve Image 2's complete alpha silhouette, all part edges, view, scale, position, occlusion and framing exactly, including every connector prong. This is a surface-colour edit of the existing guide, not a new model render. Preserve the large empty transparent margins. Do not zoom, rotate, reframe, enlarge, move, add, remove, straighten, round off or reconstruct any part.\nMATERIALS: warm off-white/ivory ceramic plates with fine restrained wear and thin engraved panel seams; brushed yellow-gold structural frame, collars, end fittings and connector prongs; near-black plum/violet resin and ribbed connective surfaces in existing recesses; vivid amethyst purple crystal/light inserts with pale lilac bright centers, matching the approved reference's actual purple palette. Continue these same materials plausibly on hidden reference faces. Small markings are only material wear and seams, never writing.\nLIGHTING: flat unlit diffuse ALBEDO/base-colour texture source, evenly lit from the viewer. Remove the guide's grey directional shading instead of copying it. Metals show their gold base colour with at most a faint satin sheen. Crystals/light strips show their bright intrinsic colour, with no reflected lighting or bloom. No baked shadows, cast shadows, ambient-occlusion darkening, dark shading gradients, strong specular highlights, white glints, reflections, rim lights, floor or background. Dark resin is dark material colour, never a cast shadow.\nABSOLUTE INVARIANTS: guide silhouette and visible geometry exactly unchanged; genuine transparent alpha outside it; no painted checkerboard; no text, letters, numbers, labels or watermark; no added elements outside the outline.\nVIEW-SPECIFIC GEOMETRY: BACK view. Keep the wide left and right barrel housings and the rounded rear-facing arm behind the middle exactly as pictured. Continue the reference materials plausibly on these back and underside faces. The object occupies only x=66..957 and y=331..692.\nUse the SECOND input's 1024x1024 canvas and exact pixel outline, not the first input's 1254x1254 dimensions. Keep the entire image footprint unchanged. Base colours only: gold is softly brushed ochre, not shiny yellow-white, ceramic is uniformly ivory with fine wear, resin is uniformly plum, light insets are pale violet without bloom.",
+      "output": "paint_back.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      },
+      "selected": true,
+      "reason": "Selected best available: closer guide outline (normalized silhouette IoU 0.924918 versus 0.906038). Exact silhouette and flat albedo checks still fail.",
+      "raw_output": "paint_back_attempt1.png",
+      "selection_status": "best_available_not_brief_compliant",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "0beda2b5de2d6c6432b684844cd153b058ac517e30a566214b59a666235da894"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-3be1aae1-e845-49bd-a5d3-7d5d2f1ac8d6.png",
+      "output_sha256": "3a859e64965802d168c3ff09e4e3f5d27e89788d2bb90b2bba980cd8092472bc",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          57,
+          33,
+          1236,
+          1230
+        ],
+        "opaque_bbox": [
+          77,
+          408,
+          1196,
+          846
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.924918,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper hes_reflex_2 game item (+20% melee damage).\nINPUT ROLES: Image 2 is the exact geometry/placement edit target (the specified guide). Image 1 is design_reference.png, the colour/material/design reference ONLY; its camera, silhouette, pose and lighting must not be copied.\nPRIMARY REQUEST: Paint Image 2's white model surfaces with Image 1's materials. Return ONE 1024 x 1024 RGBA image, true transparent background. Preserve Image 2's complete alpha silhouette, all part edges, view, scale, position, occlusion and framing exactly, including every connector prong. This is a surface-colour edit of the existing guide, not a new model render. Preserve the large empty transparent margins. Do not zoom, rotate, reframe, enlarge, move, add, remove, straighten, round off or reconstruct any part.\nMATERIALS: warm off-white/ivory ceramic plates with fine restrained wear and thin engraved panel seams; brushed yellow-gold structural frame, collars, end fittings and connector prongs; near-black plum/violet resin and ribbed connective surfaces in existing recesses; vivid amethyst purple crystal/light inserts with pale lilac bright centers, matching the approved reference's actual purple palette. Continue these same materials plausibly on hidden reference faces. Small markings are only material wear and seams, never writing.\nLIGHTING: flat unlit diffuse ALBEDO/base-colour texture source, evenly lit from the viewer. Remove the guide's grey directional shading instead of copying it. Metals show their gold base colour with at most a faint satin sheen. Crystals/light strips show their bright intrinsic colour, with no reflected lighting or bloom. No baked shadows, cast shadows, ambient-occlusion darkening, dark shading gradients, strong specular highlights, white glints, reflections, rim lights, floor or background. Dark resin is dark material colour, never a cast shadow.\nABSOLUTE INVARIANTS: guide silhouette and visible geometry exactly unchanged; genuine transparent alpha outside it; no painted checkerboard; no text, letters, numbers, labels or watermark; no added elements outside the outline.\nVIEW-SPECIFIC GEOMETRY: LEFT view. The near circular end cap is at lower left, the opposite long barrel slopes toward upper right, and the third arm is partially occluded behind the left side. Preserve this specific asymmetric profile. The object occupies only x=158..865 and y=331..692.\nUse the SECOND input's 1024x1024 canvas and exact pixel outline, not the first input's 1254x1254 dimensions. Keep the entire image footprint unchanged. Base colours only: gold is softly brushed ochre, not shiny yellow-white, ceramic is uniformly ivory with fine wear, resin is uniformly plum, light insets are pale violet without bloom.",
+      "output": "paint_left.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical. Near cap connector projections were replaced with a crystal inset.",
+        "geometry_edges_identical": false
+      },
+      "selected": true,
+      "reason": "Selected best available: substantially closer guide outline (normalized silhouette IoU 0.985940 versus 0.891980). Known internal geometry deviation: near connector projections were replaced by a crystal inset. Exact geometry and flat albedo checks fail.",
+      "raw_output": "paint_left_attempt1.png",
+      "selection_status": "best_available_not_brief_compliant",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "51186d395fd2aa2437d420abdc4a77a4896ec6f2ab8772a0f05fcff888694dfb"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-6c8c314f-7ce9-4efa-9ada-42f8c3a85b19.png",
+      "output_sha256": "6c125563e48b04d5aaf90a9c3313cabe03af66687094b9edb297d71c175aa823",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          33,
+          1224,
+          1240
+        ],
+        "opaque_bbox": [
+          194,
+          405,
+          1061,
+          848
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.98594,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical. Near cap connector projections were replaced with a crystal inset.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper hes_reflex_2 game item (+20% melee damage).\nINPUT ROLES: Image 2 is the exact geometry/placement edit target (the specified guide). Image 1 is design_reference.png, the colour/material/design reference ONLY; its camera, silhouette, pose and lighting must not be copied.\nPRIMARY REQUEST: Paint Image 2's white model surfaces with Image 1's materials. Return ONE 1024 x 1024 RGBA image, true transparent background. Preserve Image 2's complete alpha silhouette, all part edges, view, scale, position, occlusion and framing exactly, including every connector prong. This is a surface-colour edit of the existing guide, not a new model render. Preserve the large empty transparent margins. Do not zoom, rotate, reframe, enlarge, move, add, remove, straighten, round off or reconstruct any part.\nMATERIALS: warm off-white/ivory ceramic plates with fine restrained wear and thin engraved panel seams; brushed yellow-gold structural frame, collars, end fittings and connector prongs; near-black plum/violet resin and ribbed connective surfaces in existing recesses; vivid amethyst purple crystal/light inserts with pale lilac bright centers, matching the approved reference's actual purple palette. Continue these same materials plausibly on hidden reference faces. Small markings are only material wear and seams, never writing.\nLIGHTING: flat unlit diffuse ALBEDO/base-colour texture source, evenly lit from the viewer. Remove the guide's grey directional shading instead of copying it. Metals show their gold base colour with at most a faint satin sheen. Crystals/light strips show their bright intrinsic colour, with no reflected lighting or bloom. No baked shadows, cast shadows, ambient-occlusion darkening, dark shading gradients, strong specular highlights, white glints, reflections, rim lights, floor or background. Dark resin is dark material colour, never a cast shadow.\nABSOLUTE INVARIANTS: guide silhouette and visible geometry exactly unchanged; genuine transparent alpha outside it; no painted checkerboard; no text, letters, numbers, labels or watermark; no added elements outside the outline.\nVIEW-SPECIFIC GEOMETRY: RIGHT view. The near circular end cap is at upper right, the opposite long barrel slopes toward upper left, and the third arm is occluded behind the right side. Preserve this specific asymmetric profile. The object occupies only x=158..865 and y=331..692.\nUse the SECOND input's 1024x1024 canvas and exact pixel outline, not the first input's 1254x1254 dimensions. Keep the entire image footprint unchanged. Base colours only: gold is softly brushed ochre, not shiny yellow-white, ceramic is uniformly ivory with fine wear, resin is uniformly plum, light insets are pale violet without bloom.",
+      "output": "paint_right.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      },
+      "selected": true,
+      "reason": "Selected best available: substantially closer guide outline (normalized silhouette IoU 0.938401 versus 0.792167). Exact silhouette and flat albedo checks still fail.",
+      "raw_output": "paint_right_attempt1.png",
+      "selection_status": "best_available_not_brief_compliant",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "7e0a7f98dda8cc3b7e67c2e6aa46831dc7b914662a876a3c575c3949cc852b48"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-bf1db17d-a90a-48ec-9468-df4130d3577f.png",
+      "output_sha256": "c85b6a330b140691e2690c540674f29d141aeba04d70b4682b14aac04aa417f6",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          63,
+          1226,
+          1254
+        ],
+        "opaque_bbox": [
+          192,
+          402,
+          1086,
+          855
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.938401,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper hes_reflex_2 game item (+20% melee damage).\nINPUT ROLES: Image 2 is the exact geometry/placement edit target (the specified guide). Image 1 is design_reference.png, the colour/material/design reference ONLY; its camera, silhouette, pose and lighting must not be copied.\nPRIMARY REQUEST: Paint Image 2's white model surfaces with Image 1's materials. Return ONE 1024 x 1024 RGBA image, true transparent background. Preserve Image 2's complete alpha silhouette, all part edges, view, scale, position, occlusion and framing exactly, including every connector prong. This is a surface-colour edit of the existing guide, not a new model render. Preserve the large empty transparent margins. Do not zoom, rotate, reframe, enlarge, move, add, remove, straighten, round off or reconstruct any part.\nMATERIALS: warm off-white/ivory ceramic plates with fine restrained wear and thin engraved panel seams; brushed yellow-gold structural frame, collars, end fittings and connector prongs; near-black plum/violet resin and ribbed connective surfaces in existing recesses; vivid amethyst purple crystal/light inserts with pale lilac bright centers, matching the approved reference's actual purple palette. Continue these same materials plausibly on hidden reference faces. Small markings are only material wear and seams, never writing.\nLIGHTING: flat unlit diffuse ALBEDO/base-colour texture source, evenly lit from the viewer. Remove the guide's grey directional shading instead of copying it. Metals show their gold base colour with at most a faint satin sheen. Crystals/light strips show their bright intrinsic colour, with no reflected lighting or bloom. No baked shadows, cast shadows, ambient-occlusion darkening, dark shading gradients, strong specular highlights, white glints, reflections, rim lights, floor or background. Dark resin is dark material colour, never a cast shadow.\nABSOLUTE INVARIANTS: guide silhouette and visible geometry exactly unchanged; genuine transparent alpha outside it; no painted checkerboard; no text, letters, numbers, labels or watermark; no added elements outside the outline.\nVIEW-SPECIFIC GEOMETRY: TOP view, looking directly down. Keep the Y arrangement with arms toward upper left, upper right, and bottom, and the central polygonal inset exactly as the guide. The object occupies only x=66..957 and y=158..865.\nUse the SECOND input's 1024x1024 canvas and exact pixel outline, not the first input's 1254x1254 dimensions. Keep the entire image footprint unchanged. Base colours only: gold is softly brushed ochre, not shiny yellow-white, ceramic is uniformly ivory with fine wear, resin is uniformly plum, light insets are pale violet without bloom.",
+      "output": "paint_top_attempt1.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      },
+      "selected": false,
+      "reason": "Rejected initial return: corrected return has slightly closer silhouette, a more faithful many-sided center inset and flatter crystal colours.",
+      "raw_output": "paint_top_attempt1.png",
+      "selection_status": "not_selected",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "282ec2628a1d01495c884db450dc3adede479f7db6406e356cc47703ef76a303"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-3f30aea2-30c0-4434-8a54-e0c84a2066d6.png",
+      "output_sha256": "92336f08aaa1c79021dd9e85d7b600f1c8e980dae4cefa8b7747515fc69a0880",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          43,
+          23,
+          1206,
+          1205
+        ],
+        "opaque_bbox": [
+          73,
+          192,
+          1180,
+          1059
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.963938,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: material palette is appropriate, but gold/resin highlights and recess shading remain; silhouette is not pixel-identical.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT PASS, one texture source only.\nImage 1 is the mandatory 1024\u00d71024 geometry guide and edit canvas. Image 2 is the approved colour/material reference. Paint directly on Image 1. COPY IMAGE 1'S ALPHA OUTLINE, LOCATION, SCALE AND ALL PART EDGES PIXEL FOR PIXEL. Keep its faceted model geometry and the exact positions, number, lengths and cross-sections of all visible connector pins. Do not round off or re-model the guide. Do not change the camera. Preserve its large empty transparent margins.\nThe previous generation's errors were shape drift and baked shiny lighting. Correct those two issues. Apply the reference's ivory ceramic, brushed gold, dark plum resin, amethyst crystal and pale-violet light inserts as FLAT DIFFUSE BASE COLOURS. Preserve fine ceramic wear, engraved seams and joins. Place these materials only on the existing surfaces. Undepicted surfaces continue those materials plausibly. No added physical parts.\nALBEDO ONLY: no lighting gradients; no darkening at seams or overlaps; no ambient occlusion; no shadows; no reflections; no specular white/yellow strips or shiny metal glints. Gold reads as an even medium gold base colour with tiny brushing marks, only a barely perceptible satin sheen. White ceramic stays even warm ivory everywhere; dark plum is resin colour only; crystal facets differ only subtly in intrinsic purple colour. Light insets are evenly pale violet, without bloom or glow spill. Keep texture detail very fine. Do not copy the design illustration's studio lighting.\nOUTPUT: one 1024\u00d71024 RGBA PNG with true alpha transparency. No background, floor, labels, text, letters, numbers, border, watermark or checkerboard. This is a colour-only paintover of Image 1, with exact unchanged silhouette and geometry.\nEXACT VIEW: FRONT view. The foreground arm points toward the viewer near the upper middle of the object, and the other arms extend left and right. Maintain all foreshortening exactly. The object occupies only x=66..957 and y=331..692 of the 1024-square canvas.",
+      "output": "paint_front_attempt2.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      },
+      "selected": false,
+      "reason": "Rejected correction: reduced crystal shine, but substantially worse placement and outline fidelity (IoU 0.798465).",
+      "raw_output": "paint_front_attempt2.png",
+      "selection_status": "not_selected",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "12cfeec002f4bfdbf29cd4b0825bdce9ffd185ec37b427569ef53c94db01c5bb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-5e2c3d0c-38c0-4087-94d0-b295cc7aea4d.png",
+      "output_sha256": "fad61815a636f4702b40c56911075bbafdcb363a539a93183ceaaaad95780d7d",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          21,
+          9,
+          1240,
+          1193
+        ],
+        "opaque_bbox": [
+          78,
+          435,
+          1176,
+          877
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.798465,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT PASS, one texture source only.\nImage 1 is the mandatory 1024\u00d71024 geometry guide and edit canvas. Image 2 is the approved colour/material reference. Paint directly on Image 1. COPY IMAGE 1'S ALPHA OUTLINE, LOCATION, SCALE AND ALL PART EDGES PIXEL FOR PIXEL. Keep its faceted model geometry and the exact positions, number, lengths and cross-sections of all visible connector pins. Do not round off or re-model the guide. Do not change the camera. Preserve its large empty transparent margins.\nThe previous generation's errors were shape drift and baked shiny lighting. Correct those two issues. Apply the reference's ivory ceramic, brushed gold, dark plum resin, amethyst crystal and pale-violet light inserts as FLAT DIFFUSE BASE COLOURS. Preserve fine ceramic wear, engraved seams and joins. Place these materials only on the existing surfaces. Undepicted surfaces continue those materials plausibly. No added physical parts.\nALBEDO ONLY: no lighting gradients; no darkening at seams or overlaps; no ambient occlusion; no shadows; no reflections; no specular white/yellow strips or shiny metal glints. Gold reads as an even medium gold base colour with tiny brushing marks, only a barely perceptible satin sheen. White ceramic stays even warm ivory everywhere; dark plum is resin colour only; crystal facets differ only subtly in intrinsic purple colour. Light insets are evenly pale violet, without bloom or glow spill. Keep texture detail very fine. Do not copy the design illustration's studio lighting.\nOUTPUT: one 1024\u00d71024 RGBA PNG with true alpha transparency. No background, floor, labels, text, letters, numbers, border, watermark or checkerboard. This is a colour-only paintover of Image 1, with exact unchanged silhouette and geometry.\nEXACT VIEW: BACK view. Keep the wide left and right barrel housings and the rounded rear-facing arm behind the middle exactly as pictured. Continue the reference materials plausibly on these back and underside faces. The object occupies only x=66..957 and y=331..692.",
+      "output": "paint_back_attempt2.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      },
+      "selected": false,
+      "reason": "Rejected correction: altered arm placement and lower silhouette agreement (IoU 0.906038); ceramic/metal highlights also remain.",
+      "raw_output": "paint_back_attempt2.png",
+      "selection_status": "not_selected",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "0beda2b5de2d6c6432b684844cd153b058ac517e30a566214b59a666235da894"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-41cc1b27-5a47-4749-9512-37917f58fb84.png",
+      "output_sha256": "7173994037615ff857b2bca84e41e987eca4c5b0ccd3d0049af982db065f1567",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1248,
+          1222
+        ],
+        "opaque_bbox": [
+          82,
+          389,
+          1206,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.906038,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT PASS, one texture source only.\nImage 1 is the mandatory 1024\u00d71024 geometry guide and edit canvas. Image 2 is the approved colour/material reference. Paint directly on Image 1. COPY IMAGE 1'S ALPHA OUTLINE, LOCATION, SCALE AND ALL PART EDGES PIXEL FOR PIXEL. Keep its faceted model geometry and the exact positions, number, lengths and cross-sections of all visible connector pins. Do not round off or re-model the guide. Do not change the camera. Preserve its large empty transparent margins.\nThe previous generation's errors were shape drift and baked shiny lighting. Correct those two issues. Apply the reference's ivory ceramic, brushed gold, dark plum resin, amethyst crystal and pale-violet light inserts as FLAT DIFFUSE BASE COLOURS. Preserve fine ceramic wear, engraved seams and joins. Place these materials only on the existing surfaces. Undepicted surfaces continue those materials plausibly. No added physical parts.\nALBEDO ONLY: no lighting gradients; no darkening at seams or overlaps; no ambient occlusion; no shadows; no reflections; no specular white/yellow strips or shiny metal glints. Gold reads as an even medium gold base colour with tiny brushing marks, only a barely perceptible satin sheen. White ceramic stays even warm ivory everywhere; dark plum is resin colour only; crystal facets differ only subtly in intrinsic purple colour. Light insets are evenly pale violet, without bloom or glow spill. Keep texture detail very fine. Do not copy the design illustration's studio lighting.\nOUTPUT: one 1024\u00d71024 RGBA PNG with true alpha transparency. No background, floor, labels, text, letters, numbers, border, watermark or checkerboard. This is a colour-only paintover of Image 1, with exact unchanged silhouette and geometry.\nEXACT VIEW: LEFT view. The near circular end cap is at lower left, the opposite long barrel slopes toward upper right, and the third arm is partially occluded behind the left side. Preserve this specific asymmetric profile. The object occupies only x=158..865 and y=331..692.\nCRITICAL: Keep the polygonal connector projections on the near left circular end cap as solid gold pins in their exact guide positions. Never replace this connector with a purple gem or a flat ring. Keep the distant top-right pins in the guide's exact alignment.",
+      "output": "paint_left_attempt2.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      },
+      "selected": false,
+      "reason": "Rejected correction: restores near connector projections and reduces crystal shine, but substantially distorts guide placement/outline (IoU 0.891980).",
+      "raw_output": "paint_left_attempt2.png",
+      "selection_status": "not_selected",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "51186d395fd2aa2437d420abdc4a77a4896ec6f2ab8772a0f05fcff888694dfb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-ace8d19e-6576-4614-9bc6-f446a9608a0d.png",
+      "output_sha256": "e89fb40240bf85c75ac482ffd216aa76b9050f4c1d6b47de53a07c09263de8bc",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          47,
+          1218,
+          1232
+        ],
+        "opaque_bbox": [
+          209,
+          416,
+          1067,
+          854
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.89198,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT PASS, one texture source only.\nImage 1 is the mandatory 1024\u00d71024 geometry guide and edit canvas. Image 2 is the approved colour/material reference. Paint directly on Image 1. COPY IMAGE 1'S ALPHA OUTLINE, LOCATION, SCALE AND ALL PART EDGES PIXEL FOR PIXEL. Keep its faceted model geometry and the exact positions, number, lengths and cross-sections of all visible connector pins. Do not round off or re-model the guide. Do not change the camera. Preserve its large empty transparent margins.\nThe previous generation's errors were shape drift and baked shiny lighting. Correct those two issues. Apply the reference's ivory ceramic, brushed gold, dark plum resin, amethyst crystal and pale-violet light inserts as FLAT DIFFUSE BASE COLOURS. Preserve fine ceramic wear, engraved seams and joins. Place these materials only on the existing surfaces. Undepicted surfaces continue those materials plausibly. No added physical parts.\nALBEDO ONLY: no lighting gradients; no darkening at seams or overlaps; no ambient occlusion; no shadows; no reflections; no specular white/yellow strips or shiny metal glints. Gold reads as an even medium gold base colour with tiny brushing marks, only a barely perceptible satin sheen. White ceramic stays even warm ivory everywhere; dark plum is resin colour only; crystal facets differ only subtly in intrinsic purple colour. Light insets are evenly pale violet, without bloom or glow spill. Keep texture detail very fine. Do not copy the design illustration's studio lighting.\nOUTPUT: one 1024\u00d71024 RGBA PNG with true alpha transparency. No background, floor, labels, text, letters, numbers, border, watermark or checkerboard. This is a colour-only paintover of Image 1, with exact unchanged silhouette and geometry.\nEXACT VIEW: RIGHT view. The near circular end cap is at upper right, the opposite long barrel slopes toward upper left, and the third arm is occluded behind the right side. Preserve this specific asymmetric profile. The object occupies only x=158..865 and y=331..692.\nCRITICAL: Keep the three individual connector pins on the near right circular end cap in precisely their guide positions and with their guide cross-sections. Keep the left sloping barrel and its visible projections exactly within the guide silhouette.",
+      "output": "paint_right_attempt2.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      },
+      "selected": false,
+      "reason": "Rejected correction: reduced crystal shine, but substantially worse guide placement/outline (IoU 0.792167).",
+      "raw_output": "paint_right_attempt2.png",
+      "selection_status": "not_selected",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "7e0a7f98dda8cc3b7e67c2e6aa46831dc7b914662a876a3c575c3949cc852b48"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-9fb1da3b-a153-44bf-9d1a-ee0989c70353.png",
+      "output_sha256": "db111428e67dd350a87cb1c67c780c704b0076ffe1a6074c2078f71040eb9712",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          18,
+          1194,
+          1228
+        ],
+        "opaque_bbox": [
+          200,
+          376,
+          1069,
+          817
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.792167,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE PAINT PASS, one texture source only.\nImage 1 is the mandatory 1024\u00d71024 geometry guide and edit canvas. Image 2 is the approved colour/material reference. Paint directly on Image 1. COPY IMAGE 1'S ALPHA OUTLINE, LOCATION, SCALE AND ALL PART EDGES PIXEL FOR PIXEL. Keep its faceted model geometry and the exact positions, number, lengths and cross-sections of all visible connector pins. Do not round off or re-model the guide. Do not change the camera. Preserve its large empty transparent margins.\nThe previous generation's errors were shape drift and baked shiny lighting. Correct those two issues. Apply the reference's ivory ceramic, brushed gold, dark plum resin, amethyst crystal and pale-violet light inserts as FLAT DIFFUSE BASE COLOURS. Preserve fine ceramic wear, engraved seams and joins. Place these materials only on the existing surfaces. Undepicted surfaces continue those materials plausibly. No added physical parts.\nALBEDO ONLY: no lighting gradients; no darkening at seams or overlaps; no ambient occlusion; no shadows; no reflections; no specular white/yellow strips or shiny metal glints. Gold reads as an even medium gold base colour with tiny brushing marks, only a barely perceptible satin sheen. White ceramic stays even warm ivory everywhere; dark plum is resin colour only; crystal facets differ only subtly in intrinsic purple colour. Light insets are evenly pale violet, without bloom or glow spill. Keep texture detail very fine. Do not copy the design illustration's studio lighting.\nOUTPUT: one 1024\u00d71024 RGBA PNG with true alpha transparency. No background, floor, labels, text, letters, numbers, border, watermark or checkerboard. This is a colour-only paintover of Image 1, with exact unchanged silhouette and geometry.\nEXACT VIEW: TOP view, looking directly down. Keep the Y arrangement with arms toward upper left, upper right, and bottom, and the central polygonal inset exactly as the guide. The object occupies only x=66..957 and y=158..865.\nCRITICAL: The central crystal must occupy the guide's exact central many-sided inset boundary, without turning it into a different polygon. Preserve each arm's asymmetry, every visible pin count and all silhouette notches.",
+      "output": "paint_top.png",
+      "visual_checks": {
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      },
+      "selected": true,
+      "reason": "Selected best available: improved silhouette (normalized IoU 0.968673 versus 0.963938), more faithful many-sided central inset and flatter crystal colours. Exact silhouette and completely shadowless albedo checks still fail.",
+      "raw_output": "paint_top_attempt2.png",
+      "selection_status": "best_available_not_brief_compliant",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "282ec2628a1d01495c884db450dc3adede479f7db6406e356cc47703ef76a303"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "44c8e2b602f2b727eb6edec85ce5bce95706fd86a8fa08edf43a058ea321f3e7"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16f03-8472-7df0-be02-7beb76983b09/exec-9bba48b2-b254-4979-a7c1-542c72a4b043.png",
+      "output_sha256": "0e6d31e4698904a8e3c5e931e5e2daadf8cc3388d0499eec6c2c5e127d8c4bde",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          20,
+          1224,
+          1254
+        ],
+        "opaque_bbox": [
+          82,
+          196,
+          1179,
+          1053
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.968673,
+        "comparison_method": "Guide mask sampled at output pixel centers for analysis only; saved images are untouched.",
+        "materials_match_reference_palette": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "notes": "Visual review: flatter crystals and reduced specular detail, but some metal/ceramic highlights, recess shading and geometry drift remain.",
+        "geometry_edges_identical": false
+      }
+    }
+  ],
+  "status": "Completed permitted generation attempts; best available selections do not fully satisfy brief.",
+  "brief": {
+    "path": "CODEX_BRIEF.md",
+    "sha256": "92d88e68fb66f642a665794fa10a89a4e87e4d981ca3f03942f1f2e91ea310da"
+  },
+  "return_policy": "All tool returns preserved byte-for-byte at native 1254 x 1254. No resizing, alpha replacement, warping or image postprocessing.",
+  "selected_outputs": {
+    "front": "paint_front.png",
+    "back": "paint_back.png",
+    "left": "paint_left.png",
+    "right": "paint_right.png",
+    "top": "paint_top.png"
+  },
+  "remaining_issues": [
+    "Tool returned 1254 x 1254 for every 1024 x 1024 request; kept unresized as directed.",
+    "No selection has a pixel-identical silhouette or unchanged internal geometry.",
+    "Shading and highlights remain, so these are not fully shadowless albedo sources.",
+    "Selected left view replaces small near-end connector projections with a crystal inset."
+  ],
+  "scope_checks": {
+    "builds_run": false,
+    "runtime_changes": false,
+    "project_writes_limited_to_requested_folder": true
+  }
+}

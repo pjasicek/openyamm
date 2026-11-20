@@ -105,7 +105,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=REPOSITORY_ROOT / "MM9_ITEM_SOURCE_AUDIT.md",
+        default=REPOSITORY_ROOT / "devdocs/mm9/MM9_ITEM_SOURCE_AUDIT.md",
     )
     arguments = parser.parse_args()
 

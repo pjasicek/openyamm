@@ -1,0 +1,170 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: sketch-to-render. Texture-source surface painting of the exact existing Kreegan forward outpost 3D model. Output exactly 1024 x 1024 PNG with real transparent background, unresized.\nInput 1 is the EDIT TARGET and absolute geometry authority: the grey orthographic guide. Preserve its exact alpha silhouette, every outline, opening, internal shape edge, position and scale pixel-for-pixel. Paint only its existing surfaces. Do not rotate, change camera, recompose, crop, move, add or remove geometry. Inputs 2 and 3 are appearance references only: design_reference.png is the approved material and colour authority; concept_crop.png is the original concept. Never import their perspective, silhouette or lighting.\nPaint chipped ivory-white ceramic panels with aged gold bands, black-violet resin/chitin wrapping the structure with vivid orange veins/sacs in its seams, rusty scaffold, black glass rubble, and the existing banner as worn dark red cloth with its reference white motif. Preserve every scaffold beam, rope, spike, doorway and hole exactly where the guide places it.\nLIGHTING: This is albedo for texture projection, NOT a beauty render. Flat even shadowless viewer-facing light on all surfaces. No cast shadows, no ambient occlusion, no directional shading or recess darkening, no strong specular highlights or reflections, no rim light. The dark resin is its inherent black-violet colour, without white shiny streaks. Orange glowing seams are painted orange only; no light spill or bloom on surrounding materials. No background, no floor, no labels. Preserve guide transparency including all openings and small detached fragments.\nVIEW: FRONT. Paint directly over guide_front.png, maintaining the exact straight-on orthographic projection and all its geometric boundaries.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "eb613752a1795b5ac4f85c14f428848593c4ed055e6f74a0a5ba0fd50831a60e"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d98-e4b3-7ee1-9fbe-9b9f78d3565e/exec-3e9f4704-fe73-4307-8877-61e159202393.png",
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Correction needed: raw return is 1254 x 1254 instead of 1024 x 1024; visible geometry drift and residual shading/highlights.",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "flat_even_light": false,
+      "unresized_raw_return": true,
+      "fully_compliant": false
+    },
+    "output_sha256": "dec59133b9740e6bb4dcde4ccc2396680dfccbdb762a45d9366fb2384d3e355f"
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: sketch-to-render. Texture-source surface painting of the exact existing Kreegan forward outpost 3D model. Output exactly 1024 x 1024 PNG with real transparent background, unresized.\nInput 1 is the EDIT TARGET and absolute geometry authority: the grey orthographic guide. Preserve its exact alpha silhouette, every outline, opening, internal shape edge, position and scale pixel-for-pixel. Paint only its existing surfaces. Do not rotate, change camera, recompose, crop, move, add or remove geometry. Inputs 2 and 3 are appearance references only: design_reference.png is the approved material and colour authority; concept_crop.png is the original concept. Never import their perspective, silhouette or lighting.\nPaint chipped ivory-white ceramic panels with aged gold bands, black-violet resin/chitin wrapping the structure with vivid orange veins/sacs in its seams, rusty scaffold, black glass rubble, and the existing banner as worn dark red cloth with its reference white motif. Preserve every scaffold beam, rope, spike, doorway and hole exactly where the guide places it.\nLIGHTING: This is albedo for texture projection, NOT a beauty render. Flat even shadowless viewer-facing light on all surfaces. No cast shadows, no ambient occlusion, no directional shading or recess darkening, no strong specular highlights or reflections, no rim light. The dark resin is its inherent black-violet colour, without white shiny streaks. Orange glowing seams are painted orange only; no light spill or bloom on surrounding materials. No background, no floor, no labels. Preserve guide transparency including all openings and small detached fragments.\nVIEW: TOP. Paint directly over guide_top.png. Keep its exact straight-down orthographic camera, the full irregular rubble footprint, all overlapping top-facing surfaces, spikes, circular tower opening, scaffold beams and banner edges precisely in place. Do not turn this into a front, oblique or three-quarter view. The broad pale shapes must receive their appropriate ceramic, black-violet resin, rusty scaffold or worn red banner materials according to the reference design and the guide's existing geometry.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "cdb17c258525fb5044dee6ec9dbacde52af18d22d8bb9ca767ed950fa5f5e9d8"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d98-e4b3-7ee1-9fbe-9b9f78d3565e/exec-ec9e17f4-d1af-4fa6-ac1e-6a67d62c70c5.png",
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Correction needed: raw return is 1254 x 1254 instead of 1024 x 1024; visible geometry drift and residual shading/highlights.",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "flat_even_light": false,
+      "unresized_raw_return": true,
+      "fully_compliant": false
+    },
+    "output_sha256": "b5b8aabf4c1403f8d517a25c96a4793368167ff34031d9ce16363b87b1c9036a"
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: sketch-to-render. Texture-source surface painting of the exact existing Kreegan forward outpost 3D model. Output exactly 1024 x 1024 PNG with real transparent background, unresized.\nInput 1 is the EDIT TARGET and absolute geometry authority: the grey orthographic guide. Preserve its exact alpha silhouette, every outline, opening, internal shape edge, position and scale pixel-for-pixel. Paint only its existing surfaces. Do not rotate, change camera, recompose, crop, move, add or remove geometry. Inputs 2 and 3 are appearance references only: design_reference.png is the approved material and colour authority; concept_crop.png is the original concept. Never import their perspective, silhouette or lighting.\nPaint chipped ivory-white ceramic panels with aged gold bands, black-violet resin/chitin wrapping the structure with vivid orange veins/sacs in its seams, rusty scaffold, black glass rubble, and the existing banner as worn dark red cloth with its reference white motif. Preserve every scaffold beam, rope, spike, doorway and hole exactly where the guide places it.\nLIGHTING: This is albedo for texture projection, NOT a beauty render. Flat even shadowless viewer-facing light on all surfaces. No cast shadows, no ambient occlusion, no directional shading or recess darkening, no strong specular highlights or reflections, no rim light. The dark resin is its inherent black-violet colour, without white shiny streaks. Orange glowing seams are painted orange only; no light spill or bloom on surrounding materials. No background, no floor, no labels. Preserve guide transparency including all openings and small detached fragments.\nVIEW: FRONT. Paint directly over guide_front.png, maintaining the exact straight-on orthographic projection and all its geometric boundaries.\nCORRECTIVE REGENERATION (the only correction allowed). Deliver a native 1024 by 1024 pixel image, not 1254 or any other size. Repaint input 1 in place; lock the image extent and all pixel positions to that 1024 x 1024 guide. The previous attempt drifted and looked like a shaded beauty render. Instead use entirely FLAT MATERIAL COLOURS with subtle albedo wear. No shiny white streaks on chitin, no black shadows beneath beams, no orange cast light. Do not elaborate geometry or change the guide outlines. Keep the existing front doorway, scaffold, banner and every spike exactly the guide shape. Do not increase detail by adding silhouette elements. The supplied guide's existing alpha and camera are mandatory.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "eb613752a1795b5ac4f85c14f428848593c4ed055e6f74a0a5ba0fd50831a60e"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d98-e4b3-7ee1-9fbe-9b9f78d3565e/exec-5137ce80-73fe-40f1-aabb-a5d4675d0f65.png",
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected as the final raw corrective return within the one-correction limit, not accepted as fully compliant. Requested palette and transparency present; geometry drift and residual shading/highlights remain.",
+    "checks": {
+      "materials_colours": "Requested ivory/gold, black-violet, orange and rust palette present; exact material placement not guaranteed.",
+      "flat_even_light": false,
+      "silhouette_identical": false,
+      "visual_notes": "Geometry and position drift, altered internal edges; residual chitin highlights and recessed shading.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "unresized_raw_return": true,
+      "fully_compliant": false
+    },
+    "output_sha256": "7039f0494b1f731426032c0361d48c679cdab508b1b63d6f2f2372749834b1dc"
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Use case: sketch-to-render. Texture-source surface painting of the exact existing Kreegan forward outpost 3D model. Output exactly 1024 x 1024 PNG with real transparent background, unresized.\nInput 1 is the EDIT TARGET and absolute geometry authority: the grey orthographic guide. Preserve its exact alpha silhouette, every outline, opening, internal shape edge, position and scale pixel-for-pixel. Paint only its existing surfaces. Do not rotate, change camera, recompose, crop, move, add or remove geometry. Inputs 2 and 3 are appearance references only: design_reference.png is the approved material and colour authority; concept_crop.png is the original concept. Never import their perspective, silhouette or lighting.\nPaint chipped ivory-white ceramic panels with aged gold bands, black-violet resin/chitin wrapping the structure with vivid orange veins/sacs in its seams, rusty scaffold, black glass rubble, and the existing banner as worn dark red cloth with its reference white motif. Preserve every scaffold beam, rope, spike, doorway and hole exactly where the guide places it.\nLIGHTING: This is albedo for texture projection, NOT a beauty render. Flat even shadowless viewer-facing light on all surfaces. No cast shadows, no ambient occlusion, no directional shading or recess darkening, no strong specular highlights or reflections, no rim light. The dark resin is its inherent black-violet colour, without white shiny streaks. Orange glowing seams are painted orange only; no light spill or bloom on surrounding materials. No background, no floor, no labels. Preserve guide transparency including all openings and small detached fragments.\nVIEW: TOP. Paint directly over guide_top.png. Keep its exact straight-down orthographic camera, the full irregular rubble footprint, all overlapping top-facing surfaces, spikes, circular tower opening, scaffold beams and banner edges precisely in place. Do not turn this into a front, oblique or three-quarter view. The broad pale shapes must receive their appropriate ceramic, black-violet resin, rusty scaffold or worn red banner materials according to the reference design and the guide's existing geometry.\nCORRECTIVE REGENERATION (only correction allowed). Required native output 1024 by 1024 pixels, NOT 1254 or any other size. Preserve input 1's exact 1024 x 1024 canvas and alpha coverage in place. The previous attempt enlarged/repositioned the shape and invented a prominent banner and many extra details. Copy the grey guide geometry precisely: its outer footprint, detached fragments, center tower opening and all internal edges must match. Do not invent additional exposed banner shapes, rails, spikes or holes. Apply only surface colour to the exact existing shapes. Remove all glossy highlights, ambient occlusion, cast shadows and orange light spill. Use subtle chipped material albedo and flat evenly lit colours, with black-violet resin and saturated orange seams, white ceramic, gold bands, rusty scaffold and black glass rubble. No artistic reframing.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "cdb17c258525fb5044dee6ec9dbacde52af18d22d8bb9ca767ed950fa5f5e9d8"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d98-e4b3-7ee1-9fbe-9b9f78d3565e/exec-9d757cbf-775e-4611-bc75-2578a66152be.png",
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected as the final raw corrective return within the one-correction limit, not accepted as fully compliant. Requested palette and transparency present; geometry drift and residual shading/highlights remain.",
+    "checks": {
+      "materials_colours": "Requested ivory/gold, black-violet, orange and rust palette present; exact material placement not guaranteed.",
+      "flat_even_light": false,
+      "silhouette_identical": false,
+      "visual_notes": "Footprint approximates guide but internal surfaces/edges drift; banner placement invented; residual highlights and occlusion.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "unresized_raw_return": true,
+      "fully_compliant": false
+    },
+    "output_sha256": "77ff7700a35d09fe17e71e4a280c269eb1b4521b44193776148b398bfdc1eb24"
+  }
+]

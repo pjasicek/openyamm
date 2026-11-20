@@ -1,0 +1,78 @@
+{
+  "creature": "mm8:m552",
+  "fps": 24,
+  "forward": "-Y Blender / +Z glTF",
+  "rig_bones": 62,
+  "procedural": true,
+  "exact_frame_reconstruction": false,
+  "clips": {
+    "Fly": {
+      "seconds": 1.0,
+      "frames": 24,
+      "loop": true,
+      "minimum_z": -0.26620882749557495,
+      "source": "Native m552 flight/attack/recoil/back-roll pose study, interpreted as continuous 3D bird movement"
+    },
+    "Attack": {
+      "seconds": 1.2083333333333333,
+      "frames": 29,
+      "loop": false,
+      "minimum_z": -0.07913568615913391,
+      "source": "Native m552 flight/attack/recoil/back-roll pose study, interpreted as continuous 3D bird movement",
+      "impact_seconds": 0.875
+    },
+    "Cast": {
+      "seconds": 1.2083333333333333,
+      "frames": 29,
+      "loop": false,
+      "minimum_z": -0.03482234477996826,
+      "source": "Native m552 flight/attack/recoil/back-roll pose study, interpreted as continuous 3D bird movement",
+      "impact_seconds": 0.875
+    },
+    "Hit": {
+      "seconds": 0.75,
+      "frames": 18,
+      "loop": false,
+      "minimum_z": -0.028540298342704773,
+      "source": "Native m552 flight/attack/recoil/back-roll pose study, interpreted as continuous 3D bird movement"
+    },
+    "Death": {
+      "seconds": 0.625,
+      "frames": 15,
+      "loop": false,
+      "minimum_z": 0.0009999722242355347,
+      "source": "Native m552 flight/attack/recoil/back-roll pose study, interpreted as continuous 3D bird movement"
+    },
+    "Dead": {
+      "seconds": 1.0,
+      "frames": 24,
+      "loop": false,
+      "minimum_z": 0.0009999945759773254,
+      "source": "Native m552 flight/attack/recoil/back-roll pose study, interpreted as continuous 3D bird movement"
+    }
+  },
+  "role_aliases": {
+    "standing": "Fly",
+    "walking": "Fly",
+    "running": "Fly",
+    "fidget": "Fly",
+    "attack_melee": "Attack",
+    "attack_ranged": "Attack",
+    "cast": "Cast",
+    "hit": "Hit",
+    "dying": "Death",
+    "dead": "Dead"
+  },
+  "sockets": {
+    "head": "HeadSocket"
+  },
+  "required_components": [
+    "body_head_beak",
+    "paired_feather_wings",
+    "paired_talons",
+    "tail_fan"
+  ],
+  "geometry_notes": "Closed feather shells and eight separate toes; no equipment",
+  "deformation_evidence": "review/final_deformation_audit.json",
+  "runtime_impact": "Native gameplay timing unchanged; presentation impact/release at .875 s"
+}

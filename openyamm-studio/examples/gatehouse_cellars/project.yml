@@ -1,0 +1,22 @@
+format: 0
+id: studio01
+name: The Gatehouse Cellars
+world: mm6
+kind: indoor
+profile: dungeon
+units: {plan_grid: 512, snap: 64}
+map_stats:
+  id: 9301
+  reference: 6d01.blv
+  encounter_chance: 10
+  treasure_level: 1
+neighbours:
+  - id: exit:new_sorpigal
+    to: oute3.odm
+    kind: door
+    arrival: [-18400, -14982, 1600]
+    direction: 90
+    notes: "Arrives where Goblinwatch's own exit door does, until the cellars get a door of their own on the surface."
+items:
+  vault_key: 2177
+notes: "The vertical slice of milestone S0 (devdocs/map_studio/PLAN.md section 12): the first map written as a Map Studio project and built by oymap. Plain on purpose. It exists to exercise the project format end to end: rooms, openings, a click door, a lever-operated gate, a keyed door, chests, spawns, lights and an exit."

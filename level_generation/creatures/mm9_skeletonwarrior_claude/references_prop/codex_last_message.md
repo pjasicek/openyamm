@@ -1,0 +1,3 @@
+Saved [scimitar_flat.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_skeletonwarrior_claude/references_prop/scimitar_flat.png), unresized at 1536×1024, using built-in image generation. Raw outputs and prompts are recorded in `raw/` and `references_hd/generation_runs.json`.
+
+The permitted correction still left a halo and insufficient margins, so the result does **not fully meet the brief**. No builds or Meshy work performed.

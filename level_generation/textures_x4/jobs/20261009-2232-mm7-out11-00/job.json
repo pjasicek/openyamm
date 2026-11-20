@@ -1,0 +1,39 @@
+{
+ "id": "20261009-2232-mm7-out11-00",
+ "world": "mm7",
+ "maps": [
+  "out11.odm"
+ ],
+ "created": "2026-10-09T20:32:39+00:00",
+ "textures": [
+  "mm7/hdm1b"
+ ],
+ "requests": {
+  "mm7/hdm1b": {
+   "name": "hdm1b",
+   "versions": [
+    1
+   ],
+   "material": "worn grey-brown dressed stone wall: one plain mottled stone face under a broad shallow carved stone arch moulding that spans the full width near the top, with a narrow stone ledge and a carved diagonal lattice band along the bottom; nothing else on the face",
+   "notes": {
+    "1": "the top row is the pale stone band at full brightness; the bottom rows end dark exactly like the reference; no vertical line near the left or right edge"
+   },
+   "standalone": true,
+   "roll": {
+    "1": [
+     60,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

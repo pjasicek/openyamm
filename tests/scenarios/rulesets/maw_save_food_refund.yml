@@ -1,0 +1,27 @@
+id: rulesets.maw_save_food_refund
+title: "Ruleset - MAW Nightmare: a save indoors costs food; a save that cannot be written gives the food back"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+      ruleset: {id: maw, difficulty: nightmare, progression: horizontal}
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Saver, class: Knight, level: 20, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - assert:
+      food: 20
+  # A folder where the save file would go: the write fails and the food comes back.
+  - save_game: {name: blocked, block_with_directory: true, expect_failure: true}
+  - assert:
+      food: 20
+  # A written save keeps the food spent (2 indoors with no enemy near), and the save holds the party after paying.
+  - save_game: paid
+  - assert:
+      food: 18
+  - load_game: paid
+  - assert:
+      food: 18

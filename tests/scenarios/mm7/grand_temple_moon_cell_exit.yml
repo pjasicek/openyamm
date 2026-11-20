@@ -1,0 +1,30 @@
+id: mm7.grand_temple_moon_cell_exit
+title: The Grand Temple of the Moon cell's open door lets the party out past the purple wall torch
+world: mm7
+mode: faithful
+tags: [mm7, movement, regression]
+steps:
+  - note:
+      text: >-
+        The purple, green and red wall torches (torch05/06/07) had a 100-unit collision radius, so the torch beside
+        the cell's west doorway (door 15, open) blocked the passage like an invisible wall. They now take the 8 of
+        the other wall torches.
+  - new_game_flow:
+      continent: antagarich
+      start_map: 7out03.odm
+  - load_map: {map: 7d19.blv}
+  - note:
+      text: The cell button (event 19, flipped with the Telekinesis scroll in play) opens door 15.
+  - execute_event: {id: 19}
+  - advance_runtime: {seconds: 4}
+  - assert: {mechanism: {id: 15, state: open}}
+  - movement_segment:
+      input: forward
+      seconds: 1.2
+      actor_collision: false
+      actor_ai: false
+      start: {map: 7d19.blv, x: 2307, y: 3406, z: 0, yaw_degrees: 176, pitch: 0}
+      expect_stop: {map: 7d19.blv, x: 1609, y: 3455, z: 0, yaw_degrees: 176, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 8

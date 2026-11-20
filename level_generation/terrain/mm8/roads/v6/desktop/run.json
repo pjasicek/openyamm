@@ -1,0 +1,53 @@
+{
+  "request": {
+    "name": "mm8-diagonal-v6",
+    "world": "mm8",
+    "map": "out01.odm",
+    "save": null,
+    "position": [
+      6304.584,
+      5271.343,
+      545.0
+    ],
+    "yaw_radians": 5.41,
+    "pitch_degrees": -21.487,
+    "settings": "/home/pjasicek/github/OpenYAMM/settings.ini",
+    "assets": "/home/pjasicek/github/OpenYAMM/assets_dev",
+    "set": [
+      "video_quality.terrain=x2"
+    ],
+    "seconds": 2.0,
+    "warmup": 1.0,
+    "prepare_only": false
+  },
+  "run_directory": "/tmp/openyamm-desktop-mm8-diagonal-v6-k7z2oo_h",
+  "status": "completed",
+  "timing_note": "FPS log samples include ordinary simulation/rendering; these are not GPU timer results.",
+  "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3",
+  "settings_sha256": "467c77cfede7e972d5bcbcb9031d989441d06b7734893ba816e7df7d88e2ef44",
+  "save_sha256": "af41d83e6003ce4e76a902ae606ae41c1a9d7284f6115c582609ca6f20f69bda",
+  "assets": "/home/pjasicek/github/OpenYAMM/assets_dev",
+  "display": ":1",
+  "command": [
+    "/home/pjasicek/github/OpenYAMM/build/game/openyamm",
+    "--world",
+    "mm8"
+  ],
+  "pid": 365113,
+  "loaded_camera": {
+    "x": 6304.58,
+    "y": 5271.34,
+    "z": 545.0,
+    "yaw_radians": -0.873186,
+    "pitch_radians": -0.375019
+  },
+  "loaded_map": "out01.odm",
+  "startup_seconds": 5.107710812999358,
+  "measurement_seconds": 2.0029636660001415,
+  "fps_samples": [
+    1782.74,
+    1994.6
+  ],
+  "median_fps": 1888.67,
+  "exit_code": 0
+}

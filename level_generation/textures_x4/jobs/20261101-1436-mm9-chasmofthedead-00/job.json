@@ -1,0 +1,519 @@
+{
+ "id": "20261101-1436-mm9-chasmofthedead-00",
+ "world": "mm9",
+ "maps": [
+  "chasmofthedead.blv",
+  "lindisfarnemonastery.blv"
+ ],
+ "created": "2026-11-01T13:36:43+00:00",
+ "textures": [
+  "mm9/koen2plffs",
+  "mm9/koenq860hm",
+  "mm9/koeneq84q1",
+  "mm9/sandc0zjor",
+  "mm9/koendhc3vq",
+  "mm9/koen5ocrm3",
+  "mm9/koenpfg1bv",
+  "mm9/koenjudp27",
+  "mm9/koenl6kdix",
+  "mm9/koengm2jvu",
+  "mm9/koenpbpqqo",
+  "mm9/koenu2a2d9",
+  "mm9/koen7muvnt",
+  "mm9/koenxcqd4s",
+  "mm9/koendcgkr4",
+  "mm9/koenkzb1w4",
+  "mm9/koen9duqmo",
+  "mm9/koenvi4whb",
+  "mm9/koenzsi17e",
+  "mm9/koen0l6sai",
+  "mm9/koen0qs023",
+  "mm9/stonrv9ibu",
+  "mm9/sturcwaq6d",
+  "mm9/sturfpaxnn"
+ ],
+ "requests": {
+  "mm9/koen2plffs": {
+   "name": "koen2plffs",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green limestone wall with faint cracks, a thin carved ledge along the top edge and a faint vertical joint",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenq860hm": {
+   "name": "koenq860hm",
+   "versions": [
+    1
+   ],
+   "material": "grey-green limestone panel with a raised border framing a field of thin horizontal carved courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/koen2plffs"
+     ],
+     "fraction": 0.203
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koeneq84q1": {
+   "name": "koeneq84q1",
+   "versions": [
+    1
+   ],
+   "material": "a narrow grey-green limestone moulding strip with a thin carved groove line",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sandc0zjor": {
+   "name": "sandc0zjor",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown packed sandy earth with soft streaks and grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koendhc3vq": {
+   "name": "koendhc3vq",
+   "versions": [
+    1
+   ],
+   "material": "grey-green limestone wall of large rectangular dressed blocks with thin mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koen5ocrm3": {
+   "name": "koen5ocrm3",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green limestone wall, mottled and streaked, with faint carved vertical joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenpfg1bv": {
+   "name": "koenpfg1bv",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown weathered stone with dark hairline cracks and mottled stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenjudp27": {
+   "name": "koenjudp27",
+   "versions": [
+    1
+   ],
+   "material": "an ancient Assyrian-style bas-relief carved into grey-green limestone: a rider on a horse followed by walking robed figures, worn and streaked, over faint horizontal courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenl6kdix": {
+   "name": "koenl6kdix",
+   "versions": [
+    1
+   ],
+   "material": "smooth grey-blue limestone panel with faint veins, a narrow carved band of tiny glyphs along the top and a moulding along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koengm2jvu": {
+   "name": "koengm2jvu",
+   "versions": [
+    1
+   ],
+   "material": "an ancient Assyrian-style bas-relief in grey-green limestone: a rider and robed walking figures, worn and streaked, over faint horizontal courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenpbpqqo": {
+   "name": "koenpbpqqo",
+   "versions": [
+    1
+   ],
+   "material": "a round-arched niche carved in grey-green limestone, its recess lined with thin horizontal courses, a heavy arch frame, worn and streaked",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenu2a2d9": {
+   "name": "koenu2a2d9",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown weathered limestone with a carved vertical pilaster band of stacked blocks in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koen7muvnt": {
+   "name": "koen7muvnt",
+   "versions": [
+    1
+   ],
+   "material": "stacked bands of carved grey-green and olive limestone mouldings and courses, horizontal stripes of ledges and grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenxcqd4s": {
+   "name": "koenxcqd4s",
+   "versions": [
+    1
+   ],
+   "material": "an ancient Assyrian-style bas-relief in grey-green limestone: tall bearded robed figures in procession, worn and streaked",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koendcgkr4": {
+   "name": "koendcgkr4",
+   "versions": [
+    1
+   ],
+   "material": "a square recessed stone panel with a heavy raised limestone frame, olive-grey weathered stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenkzb1w4": {
+   "name": "koenkzb1w4",
+   "versions": [
+    1
+   ],
+   "material": "a tall narrow recessed stone panel with a heavy raised limestone frame, olive-grey weathered stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koen9duqmo": {
+   "name": "koen9duqmo",
+   "versions": [
+    1
+   ],
+   "material": "grey-green limestone wall with a carved vertical column of stacked blocks in the centre and incised cuneiform-like glyphs on both sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenvi4whb": {
+   "name": "koenvi4whb",
+   "versions": [
+    1
+   ],
+   "material": "an ancient Assyrian-style bas-relief in grey-green limestone: a procession of worn robed figures with a large shield-like shape, over faint horizontal courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenzsi17e": {
+   "name": "koenzsi17e",
+   "versions": [
+    1
+   ],
+   "material": "an ancient Assyrian-style bas-relief in pale grey-green limestone: a procession of worn robed walking figures",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koen0l6sai": {
+   "name": "koen0l6sai",
+   "versions": [
+    1
+   ],
+   "material": "an ancient Assyrian-style bas-relief in grey-green limestone: worn figures with camels or horses in procession, over faint horizontal courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koen0qs023": {
+   "name": "koen0qs023",
+   "versions": [
+    1
+   ],
+   "material": "an ancient Assyrian-style bas-relief in pale grey-green limestone: worn robed figures and a large leaf-shaped shield in procession",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonrv9ibu": {
+   "name": "stonrv9ibu",
+   "versions": [
+    1
+   ],
+   "material": "a wall of large irregular grey-green fieldstone blocks with dark rust-brown mortar gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturcwaq6d": {
+   "name": "sturcwaq6d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a grey stone wall section of thin brick courses with a carved stone arch frame and a ring-shaped carved opening outline, stone posts on both sides",
+   "notes": {
+    "2": "copy the native's layout exactly: ONE large ring outline in the middle made of two carved arcs that bow OUTWARD like ( ), their flared feet and capitals pointing away from the centre; brick courses inside and outside the ring; a dentil cornice along the TOP only, no cornice at the bottom (the bricks run to the bottom edge); one continuous picture with no vertical joint in the middle"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ]
+   }
+  },
+  "mm9/sturfpaxnn": {
+   "name": "sturfpaxnn",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a grey stone wall section of thin brick courses with a carved stone arch frame and a crenellated top cornice, stone posts on both sides",
+   "notes": {
+    "2": "regular thin brick courses everywhere around the arch ring, inside and outside, down to the bottom edge; no broken stones, fragments or larger blocks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturcwaq6d"
+     ],
+     "fraction": 0.444
+    },
+    "2": {
+     "sources": [
+      "mm9/sturcwaq6d"
+     ],
+     "fraction": 0.444
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,16 @@
+format: 0
+id: calscifi
+name: The Control Center (rebuild)
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9713
+  reference: sci-fi.blv
+neighbours:
+  - id: exit:oracle
+    to: oracle.blv
+    kind: door
+    arrival: [-1433, 2204, -495]
+    direction: 270
+notes: "Rebuild of MM6's Control Center (sci-fi.blv) as a Map Studio project, in the original's own frame, per devdocs/map_studio/REBUILD_PROCEDURE.md. See NOTES.md."

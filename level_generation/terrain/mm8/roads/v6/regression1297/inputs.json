@@ -1,0 +1,85 @@
+{
+  "map": "out01",
+  "rows": [
+    51,
+    57
+  ],
+  "columns": [
+    74,
+    79
+  ],
+  "layout": [
+    [
+      "grdrte",
+      "drsrns",
+      "grdrtw",
+      "grastyl",
+      "grastyl",
+      "grdrte"
+    ],
+    [
+      "grdrte",
+      "drsrns",
+      "grdrtsw",
+      "grdrtxsw",
+      "grastyl",
+      "grdrte"
+    ],
+    [
+      "grdrte",
+      "drsrne2",
+      "drsrne1",
+      "grdrtsw",
+      "grdrtxsw",
+      "grdrtxne"
+    ],
+    [
+      "grdrtxne",
+      "grdrtne",
+      "drsrne2",
+      "drsrne1",
+      "grdrtsw",
+      "grdrtxsw"
+    ],
+    [
+      "grastyl",
+      "grdrtxne",
+      "grdrtne",
+      "drsrne2",
+      "drsrne1",
+      "grdrtsw"
+    ],
+    [
+      "grastyl",
+      "grastyl",
+      "grdrtxne",
+      "grdrtne",
+      "drsrne2",
+      "drsrew"
+    ],
+    [
+      "grastyl",
+      "grastyl",
+      "grastyl",
+      "grdrtxne",
+      "grdrtn",
+      "grdrtn"
+    ]
+  ],
+  "source": "/home/pjasicek/github/OpenYAMM/assets_dev/worlds/mm8/terrain_x2",
+  "files": {
+    "drsrew.png": "29d3e391edb3e9235c7ea4c3e532dbdea62ae6be78e212682fa9b27780e31308",
+    "drsrne1.png": "9c4e0629f8406c7594420a741662a29bad3f3f7c766166402c1a2f3f3b790ea9",
+    "drsrne2.png": "941f7e19ab807bd07ce7117ddfa5594c149719de0b9d8c0fa63847fad1ff562c",
+    "drsrns.png": "6bd3693bf55735203d2f35477b2557aa31482da54b46475b7bf95e782f2f1bc1",
+    "grastyl.png": "852c340377036427672b3979ad097d51b11bbb730238ee5c5fa96e5ec24bc9d1",
+    "grdrte.png": "81160a6f9dbc62afb755a324358780fb45925335c020034046d93b27e7507eab",
+    "grdrtn.png": "32a18e87db054c9edeca26d5b70a1eab17384293d9fd8f4df85d5045c05c903a",
+    "grdrtne.png": "b0faf69649880b8f6c9ca1f24e0199237ad00056a649831e1417d5a7c3db2861",
+    "grdrtsw.png": "91f50edc1eb33a64c5c3715ff0b59610717c636e4948401f6e24c6b37d411534",
+    "grdrtw.png": "2793f0d8641eca62f70b4d316906445acd4e58eb770a8f3ac2b996340e54c90e",
+    "grdrtxne.png": "b6f3a8f1d36ba5c235ddd15fcdd9cfb1ad20659a29a1524a2cc76e946893f616",
+    "grdrtxsw.png": "3ea1ee26c4cac3a52a117bbd122d10f42aae9be30897e0648a3fbeceb1ee0b1a"
+  },
+  "screenshot_sha256": "fb44ae988e9c2547f9be8b33ef17798667403ee31bc989ed139f9499aa87b7f8"
+}

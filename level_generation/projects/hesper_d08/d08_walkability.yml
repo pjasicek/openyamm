@@ -1,0 +1,109 @@
+# Walkability pass (2026-10-24): a Drudge Brute spawned where the old geometry stopped monsters reaches the party at
+# each spot of the user's D8 play (review/user_play_20261024 in hesper_stage): a smelting-floor bridge (user_65), the
+# middle belt's top (user_66), the Forgemaster's Hall's raised west edge (user_67) and, with the jam cleared, the main
+# belt's mouth over the lowered crates (user_68-70). Monsters melee from an edge distance of 307
+# (IndoorWorldRuntime.cpp ActorMeleeRange), about 400 between centres, so each spot sets the party where a monster
+# gets that close only by crossing the fixed geometry. The map's own 72 actors keep indices 0-71 (pack order in
+# author_d08_blender.py); each fight restarts and first clears the packs around its spot.
+# Each defender takes two energy hits: the first only breaks its energy shield (overflow is lost), the second
+# (skip_dead) kills it, so no surviving defender charges or blocks the party during a pursuit.
+id: hesper.d08.walkability
+world: hesper
+mode: faithful
+steps:
+- &start
+  new_game_flow:
+    start_map: hes_d08.blv
+    party:
+      members:
+      - {name: Foundry tester, class: Knight, level: 1000, equipment: {}, skills: [{name: Sword, level: 1, mastery: 1}]}
+# user_65: the bridges are flush with the floor; a Drudge north of channel C2 walks onto the bridge to the party at
+# its south end.
+- damage_actor: {actor_index: 8, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 8, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 9, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 9, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 10, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 10, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 11, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 11, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 16, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 16, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 22, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 22, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 23, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 23, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 24, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 24, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- set_pose: {map: hes_d08.blv, x: 6400, y: 3010, z: 0, yaw: 1.5707963, pitch: 0}
+- spawn_actor: {monster_id: 10001, count: 1, x: 6400, y: 3800, z: 0}
+- advance_runtime: {seconds: 8}
+- assert: {actor_visible: {actor_index: 72, report_state: true, dead: false, near: {x: 6400, y: 3010, max_distance: 400}}}
+# user_66: the party at the east end of the middle belt; a Drudge from the maze's west end follows it (the belts'
+# guards stood inside the belts).
+- *start
+- damage_actor: {actor_index: 34, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 34, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 35, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 35, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 36, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 36, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 37, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 37, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 38, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 38, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 39, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 39, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- set_pose: {map: hes_d08.blv, x: 5800, y: 6900, z: 896, yaw: 3.1415927, pitch: 0}
+- spawn_actor: {monster_id: 10001, count: 1, x: 2450, y: 6650, z: 768}
+- advance_runtime: {seconds: 30}
+- assert: {actor_visible: {actor_index: 72, report_state: true, dead: false, near: {x: 5800, y: 6900, max_distance: 400}}}
+# user_67: the party against the wall on the raised west edge, out of reach from below (the edge's foot is 420 from
+# it); a Drudge on the hall floor comes up the railed ramp in front of it. (A pursuing melee monster walks straight at
+# the party; one that must detour to a ramp waits on a path plan: see the builder's report in requests/P3.md.)
+- *start
+- damage_actor: {actor_index: 67, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 67, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 68, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 68, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 69, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 69, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 70, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 70, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 71, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 71, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- set_pose: {map: hes_d08.blv, x: 2440, y: 11200, z: 128, yaw: 0, pitch: 0}
+- spawn_actor: {monster_id: 10001, count: 1, x: 4000, y: 11200, z: 0}
+- advance_runtime: {seconds: 15}
+- assert: {actor_visible: {actor_index: 72, report_state: true, dead: false, near: {x: 2440, y: 11200, max_distance: 400}}}
+# user_68-70: the diverters drop the crates flush into the belt; a Drudge from Fab Line A climbs its stair, crosses the
+# mouth at belt level and the lowered crates to the party on the main belt.
+- *start
+- execute_event: {id: 74}
+- execute_event: {id: 75}
+- execute_event: {id: 76}
+- wait_until: {timeout_runtime_seconds: 4, assert: {mechanism: {id: 64, state: open}}}
+- assert: {mechanism: {id: 62, state: open}}
+- assert: {mechanism: {id: 63, state: open}}
+- damage_actor: {actor_index: 34, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 35, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 36, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 37, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 38, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 39, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 40, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 40, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 41, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 41, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 42, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 42, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 43, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 43, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 44, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 44, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- damage_actor: {actor_index: 45, amount: 1000000, tier: kreegan_energy}
+- damage_actor: {actor_index: 45, amount: 1000000, tier: kreegan_energy, skip_dead: true}
+- set_pose: {map: hes_d08.blv, x: 5000, y: 6400, z: 896, yaw: 0, pitch: 0}
+- spawn_actor: {monster_id: 10001, count: 1, x: 6700, y: 6420, z: 768}
+- advance_runtime: {seconds: 15}
+- assert: {actor_visible: {actor_index: 72, report_state: true, dead: false, near: {x: 5000, y: 6400, max_distance: 400}}}

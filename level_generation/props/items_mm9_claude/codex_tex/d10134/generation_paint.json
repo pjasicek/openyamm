@@ -1,0 +1,31 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as color reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. The guide is authoritative: three columns by FOUR rows of square cells. Rows 1-2 and 3-4 repeat the same five exact orthographic model views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint the grey objects only; never redraw, enlarge, move, rotate or redesign them. Keep each exact outline, position, size, gap and opening. Empty cells column 3 row 2 and row 4 remain transparent.\nObject: leather gauntlets, source-faithful pair vertical cuffs-down; respect the actual orientations of every guide view.\nRows 1-2 PAINT: unlit base colour, brown leather with gold/brass studs matching the original icon and approved detailed reference. Leather grain, stitching, seams, facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections.\nRows 3-4 MATERIAL MASK: repeat the exact five guide silhouettes, FLAT pure colors only, no shading, texture, outlines, or antialiased colour blends inside. Pure red #FF0000 for ALL metal including gold/brass studs; pure green #00FF00 for ALL leather including straps, padding, hide, suede and fur; pure blue #0000FF for cloth, linings, cords, ribbons and hair; pure black #000000 for gemstones, crystal, glass, pearl, enamel or liquid through glass. This item is brown leather with brass studs, so corresponding regions should be green and red. Every silhouette pixel gets exactly one material color. Nothing outside silhouettes.\nKeep all gaps/openings fully transparent. No glow halo, sparkles, aura, ground, outlines or text. Preserve the guide layout exactly. Reference images must not replace the guide poses.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-bd43-7991-b192-2b1dc3e82f2a/exec-91b49972-a4df-4a05-b228-b0c236e56a4b.png",
+  "corrective_attempt": {
+    "prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as color reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. The guide is authoritative: three columns by FOUR rows of square cells. Rows 1-2 and 3-4 repeat the same five exact orthographic model views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint the grey objects only; never redraw, enlarge, move, rotate or redesign them. Keep each exact outline, position, size, gap and opening. Empty cells column 3 row 2 and row 4 remain transparent.\nObject: leather gauntlets, source-faithful pair vertical cuffs-down; respect the actual orientations of every guide view.\nRows 1-2 PAINT: unlit base colour, brown leather with gold/brass studs matching the original icon and approved detailed reference. Leather grain, stitching, seams, facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections.\nRows 3-4 MATERIAL MASK: repeat the exact five guide silhouettes, FLAT pure colors only, no shading, texture, outlines, or antialiased colour blends inside. Pure red #FF0000 for ALL metal including gold/brass studs; pure green #00FF00 for ALL leather including straps, padding, hide, suede and fur; pure blue #0000FF for cloth, linings, cords, ribbons and hair; pure black #000000 for gemstones, crystal, glass, pearl, enamel or liquid through glass. This item is brown leather with brass studs, so corresponding regions should be green and red. Every silhouette pixel gets exactly one material color. Nothing outside silhouettes.\nKeep all gaps/openings fully transparent. No glow halo, sparkles, aura, ground, outlines or text. Preserve the guide layout exactly. Reference images must not replace the guide poses.\nCRITICAL corrective regeneration: the prior attempt had huge green noisy splatters outside the lower silhouettes. This is forbidden. Use the original grey guide as the exact alpha silhouette stencil for ALL ten objects. Lower five masks must have perfectly clean exterior contours exactly matching the upper five and the guide, with absolutely NO pixels outside. Flat solid pure green leather and pure red studs, NO internal line drawings or shading. Preserve precise guide placement. Upper five paint views should be matte unlit brown, without directional highlights.",
+    "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-bd43-7991-b192-2b1dc3e82f2a/exec-170f308d-c742-4f58-b348-cdd5bd57c6e3.png",
+    "selected": false
+  },
+  "tool": "built-in image_gen",
+  "validation": "Both attempts contain stray green mask pixels outside silhouettes and non-flat mask colors. First selected because corrective attempt also introduced holes. Raw output preserved without modification; not compliant with exact mask requirements.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10134/paint_mask_guide.png",
+      "sha256": "9c9e7598769807b3269fa3e94f93e2803ed342585897b057d4bc07ae3ecff95b"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10134/design_reference.png",
+      "sha256": "ebaeab5338d8b18987df1fae8ba9d8d699d6202ef5711f2eb794327a85b4ee05"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10134/icon_x8.png",
+      "sha256": "f4e250fac2cc17132ec7e470a8b0d795e1dc0e8745d61a599740c2d1e42afd96"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10134/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

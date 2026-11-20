@@ -14,8 +14,10 @@
 namespace OpenYAMM::Game
 {
 class ItemTable;
+struct ItemDefinition;
 class MergedPotionSettingTable;
 class MergedReagentSettingTable;
+class PotionEffectTable;
 
 enum class InventoryItemUseAction : uint8_t
 {
@@ -33,14 +35,32 @@ enum class InventoryItemUseAction : uint8_t
     PlayInstrument,
     UseTempleInABottle,
     UseReagent,
-    UseDimensionDoorScroll,
-    UseConnectorStone,
+    // An item whose use action is grantTechPoints (Hesper's Engrams): its VarA in tech points to the target.
+    GrantTechPoints,
+    // An item whose use action is grantSkillPoints (MM9's Clover, one point as in MM9): its VarA in skill points.
+    GrantSkillPoints,
+    // Personal energy shields (use actions useShieldCell, useShieldBurst; Party::chargePersonalShield and
+    // burstPersonalShields).
+    UseShieldCell,
+    UseShieldBurst,
+    // throwEmpGrenade: consumed here; the caller applies it to the world (GameplayItemService).
+    ThrowEmpGrenade,
+    // useStim: heals VarA % of the target's maximum health (30 without) and cures Weakness.
+    UseStim,
+    // placeBreachCharge: consumed here; the caller blasts the hostile actors around the party (GameplayItemService),
+    // VarA damage (300 without).
+    PlaceBreachCharge,
 };
 
 struct InventoryItemUseContext
 {
-    bool underwater = false;
+    bool spellcastingForbidden = false;
     float gameMinutes = 0.0f;
+    // Hostile monsters near the party (the yellow alert): drinking may then cost recovery.
+    bool enemiesNear = false;
+    // Turn-based combat: only the member whose turn it is (none while monsters act) pays a drink, with its turn.
+    bool turnBased = false;
+    std::optional<size_t> turnBasedReadyMember;
 };
 
 struct InventoryItemUseResult
@@ -59,11 +79,65 @@ struct InventoryItemUseResult
     std::optional<SoundId> soundId;
     std::string readableTitle;
     std::string readableBody;
+    // A potion of several drinks that is not used up: the uses its bottle has left (its new charges).
+    std::optional<uint32_t> potionUsesLeft;
+    // The member who paid the drink's recovery, and how much; in turn-based combat the caller spends its turn.
+    std::optional<size_t> recoveryPayer;
+    float recoverySeconds = 0.0f;
+};
+
+// What drinking a potion would do for a member now, without drinking it (the basebar potion popup's preview).
+struct PotionPreview
+{
+    // False when the item is no potion of potion_effects.yml.
+    bool known = false;
+    int healthGain = 0;
+    int healthBefore = 0;
+    int healthMaximum = 0;
+    int spellPointGain = 0;
+    int spellPointsBefore = 0;
+    int spellPointsMaximum = 0;
+    // The conditions the member has that it removes.
+    std::vector<CharacterCondition> cures;
+    // A buff, a permanent or timed effect: something beyond restoring and curing.
+    bool otherEffects = false;
+
+    // Restores nothing, cures nothing the member has, and does nothing else.
+    bool noEffectNow() const
+    {
+        return known && healthGain == 0 && spellPointGain == 0 && cures.empty() && !otherEffects;
+    }
+};
+
+// Why a member can or cannot learn a spellbook's spell, in the order learning checks it.
+enum class SpellbookLearnCheck : uint8_t
+{
+    ClassReadsNoBooks,
+    NoSkill,
+    MasteryTooLow,
+    AlreadyKnown,
+    CanLearn
+};
+
+// What a spellbook means to one member, as the markers under a book show it.
+enum class SpellbookKnowledge : uint8_t
+{
+    Known,
+    CanLearn,
+    // Has the school below the mastery the book needs, or lacks it, but the class can train to that mastery.
+    NeedsTraining,
+    CannotLearn
 };
 
 class InventoryItemUseRuntime
 {
 public:
+    // The spell a spellbook teaches; none for other items.
+    static std::optional<uint32_t> spellbookSpellId(const ItemDefinition &itemDefinition);
+    static SpellbookLearnCheck checkSpellbookLearn(const Character &member, uint32_t spellId);
+    // One entry per party member, in portrait order; empty for items that are not spellbooks.
+    static std::vector<SpellbookKnowledge> spellbookKnowledge(const Party &party, const ItemDefinition &itemDefinition);
+
     static InventoryItemUseAction classifyItemUse(
         const InventoryItem &item,
         const ItemTable &itemTable,
@@ -79,5 +153,26 @@ public:
         const MergedPotionSettingTable *pPotionSettingTable = nullptr,
         const MergedReagentSettingTable *pReagentSettingTable = nullptr,
         const InventoryItemUseContext &context = {});
+    // The spell a spell scroll casts (its Mod1 "S<id>"); none for other items.
+    static std::optional<uint32_t> scrollSpellId(const ItemDefinition &itemDefinition);
+    // The sound an instrument plays when used; none for other items.
+    static std::optional<SoundId> instrumentSound(const ItemDefinition &itemDefinition);
+    static PotionPreview previewPotion(
+        const Party &party,
+        size_t memberIndex,
+        const InventoryItem &item,
+        const MergedPotionSettingTable &potionSettingTable);
+    // How long a potion's timed effects last: Standard a number of minutes per point of power; MAW a fixed time plus
+    // minutes per Alchemy point of the party's best Grandmaster alchemist. A solo run's are at least the table's solo
+    // time (plus that alchemist's minutes).
+    static float potionDurationSeconds(const Party &party, const PotionEffectTable &effects, int power);
+    // Whether a drink costs a ready member recovery under the rules' potion effects.
+    static bool drinkRecoveryApplies(const MergedPotionSettingTable *pPotionSettingTable);
+    // Who pays a drink's recovery: the drinker if ready (unless the active member pays), else the active member, else
+    // the first ready one.
+    static std::optional<size_t> drinkRecoveryPayer(
+        const MergedPotionSettingTable &potionSettingTable,
+        const Party &party,
+        size_t drinkerIndex);
 };
 }

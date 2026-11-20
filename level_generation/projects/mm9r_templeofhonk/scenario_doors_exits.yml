@@ -1,0 +1,166 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.templeofhonk_doors_exits
+title: 'Temple of Honk (native BLV): a double door stops the party and opens, DoubleDoor13 needs the Golden Honk quest, the
+  exit asks to leave'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: templeofhonk.blv
+- note:
+    text: 'DoubleDoor9 (main hall -> north-west corridor): the rotating leaves swing away from the party; the closed door
+      stops it.'
+- assert:
+    mechanism:
+      id: 25
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -655
+      y: 4117
+      z: 42
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -655
+      y: 4577
+      z: 42
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 24
+- execute_event:
+    id: 112
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 25
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -655
+      y: 4117
+      z: 42
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -655
+      y: 4877
+      z: 45
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 24
+- note:
+    text: DoubleDoor13 (the corridor -> the entrance hall's gallery) is locked without the Golden Honk quest (Honk.scr, key
+      343 = QBit 90343).
+- execute_event:
+    id: 130
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 9
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3011
+      y: 5013
+      z: 42
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3011
+      y: 5273
+      z: 42
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 24
+- setup_shortcut:
+    kind: set_qbit
+    id: 90343
+- execute_event:
+    id: 130
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 9
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3011
+      y: 5013
+      z: 42
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3011
+      y: 5613
+      z: 42
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 24
+- note:
+    text: 'ExitTrigger0 (DAT object 282) north of the start: back to Guberland.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3011
+      y: 7670
+      z: -521
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3011
+      y: 7970
+      z: -521
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 24
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 282

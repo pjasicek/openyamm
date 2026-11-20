@@ -1,0 +1,535 @@
+format: 0
+grid: 512
+notes: "Harmondale, L3 sketch on the 512-unit plan grid. Coordinates are terrain cells [x, y] of the 128 x 128 map, x east, y south, origin the north-west corner; a cell [x, y] is the world point X = (x - 64) * 512, Y = (64 - y) * 512 (the native outdoor convention: world origin at the map centre, world Y pointing north, terrain sample row y and column x at cell corner [x, y]). Integers everywhere except road centrelines and plot corners, which may use half cells. Heights (h, level, drop) are game units above the plan datum (zone:central_basin: the basin floor and town street, 0, which is also the lowest ground on the map); the coarse grid is in units of 64. Points, band polygons and cliff lines win over the grid. Group members are addressed by `index`; the index meanings are in the building's plan notes. Positions were measured from the original's data at design level and simplified: polygons have few points, roads few bends, and only key heights are given."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: north, span: [93, 104], neighbour: edge:north, notes: "The north-east valley floor (height 0) between rising slopes; the high road crosses at x 95."}
+    - {side: west, span: [77, 81], neighbour: edge:west, notes: "A narrow gorge 4 cells wide with 1,700 to 3,000 walls; the west road crosses at y 77."}
+    - {side: south, span: [56, 78], neighbour: edge:south, notes: "The south road valley floor at 640, the road in its cutting at x 58 to 63 and the outlet ravine at x 71 to 78."}
+    - {side: east, span: [24, 62], neighbour: edge:east, notes: "No road: a bare shelf at 640 between the north-east valley's walls and the hill north of the Arbiter's knoll. Off-road, one-way."}
+  notes: "The travel prompt fires at the playable square's sides (about 23,100 units from the centre). Arrivals stand just inside it, at the mouths of the three road valleys. Outside it, a backdrop strip of hills 19 cells wide on every side, where the north, west and south roads run on to the true map edge."
+heights:
+  points:
+    - {at: [44, 39], h: 0, notes: town street (datum)}
+    - {at: [27, 39], h: 480, notes: castle shoulder}
+    - {at: [31, 40], h: 384, notes: "forecourt at the arrival, sloping down to the street"}
+    - {at: [48, 30], h: 288, notes: "lowest guild terrace (Body, Mind)"}
+    - {at: [43, 33], h: 384, notes: "middle guild terrace (Spirit, Fire)"}
+    - {at: [43, 29], h: 480, notes: Water guild terrace}
+    - {at: [46, 26], h: 640, notes: top guild terrace (Air)}
+    - {at: [39, 31], h: 0, notes: Earth guild pocket at the terrace foot}
+    - {at: [40, 47], h: 640, notes: residential shelf}
+    - {at: [56, 50], h: 2656, notes: "knoll above the town gate, beacon on top"}
+    - {at: [65, 24], h: 2784, notes: white-capped knoll on the north rim}
+    - {at: [80, 56], h: 320, notes: fort mound}
+    - {at: [99, 55], h: 3200, notes: steep spire knoll east of the fort}
+    - {at: [102, 70], h: 2304, notes: white-capped hill north of the Arbiter's shelf}
+    - {at: [105, 76], h: 640, notes: Arbiter's shelf}
+    - {at: [109, 44], h: 640, notes: east shelf at the travel side}
+    - {at: [95, 20], h: 0, notes: north valley floor at the arrival}
+    - {at: [97, 22], h: 800, notes: north watch fire rise}
+    - {at: [93, 40], h: 0, notes: high road bend}
+    - {at: [45, 78], h: 0, notes: hamlet}
+    - {at: [20, 77], h: 0, notes: west gorge floor at the arrival}
+    - {at: [21, 79], h: 2080, notes: west watch fire hill}
+    - {at: [28, 57], h: 2624, notes: "hermit ridge, Skinner's hut"}
+    - {at: [34, 55], h: 2432, notes: "hermit ridge, Torrent's hut"}
+    - {at: [47, 60], h: 2944, notes: ridge crest between the town and the west road}
+    - {at: [24, 25], h: 2432, notes: orchard hill}
+    - {at: [21, 95], h: 3456, notes: highland summit}
+    - {at: [28, 96], h: 2880, notes: knoll with the peak chest}
+    - {at: [66, 100], h: 640, notes: south road valley floor}
+    - {at: [60, 100], h: 0, notes: "south road, in its cutting under the bridge"}
+    - {at: [62, 107], h: 0, notes: "south arrival, in the cutting"}
+    - {at: [65, 104], h: 640, notes: south watch fire}
+    - {at: [84, 90], h: 640, notes: spit between the west lake's tail and the lower lake}
+    - {at: [95, 82], h: 416, notes: upper lake shore}
+    - {at: [92, 108], h: 3584, notes: top of the white massif}
+    - {at: [43, 10], h: 4000, notes: "north rim, the map's maximum"}
+    - {at: [14, 10], h: 3520, notes: north-west rim}
+    - {at: [110, 5], h: 3584, notes: north-east rim}
+    - {at: [9, 41], h: 3744, notes: west rim}
+    - {at: [121, 93], h: 3840, notes: east rim}
+    - {at: [6, 108], h: 3616, notes: south-west rim}
+    - {at: [30, 117], h: 3712, notes: south rim}
+  bands:
+    - band: band:low_ground
+      polygon: [[33, 35], [50, 34], [56, 30], [58, 36], [56, 45], [47, 46], [47, 43], [33, 44]]
+      notes: town floor
+    - band: band:low_ground
+      polygon: [[60, 34], [84, 32], [92, 36], [100, 40], [100, 51], [95, 51], [95, 53], [77, 53], [77, 74], [66, 76], [62, 74], [64, 40]]
+      notes: "the basin, west and north of the fort mound; the mound (320) and the spire knoll (to 3,200) are left out"
+    - band: band:low_ground
+      polygon: [[83, 53], [95, 53], [95, 59], [100, 59], [100, 64], [90, 72], [77, 74], [77, 59], [83, 59]]
+      notes: "the basin, east and south of the fort mound, round the spire knoll"
+    - band: band:low_ground
+      polygon: [[38, 72], [56, 72], [58, 84], [58, 92], [54, 92], [52, 84], [38, 84]]
+      notes: hamlet and the trunk's low ground
+    - band: band:low_ground
+      polygon: [[76, 76], [89, 76], [88, 80], [88, 87], [84, 89], [80, 91], [77, 92], [77, 80]]
+      notes: "west lake floor, up to the spit (a ridge at 640) that parts it from the lower lake"
+    - band: band:low_ground
+      polygon: [[90, 89], [100, 89], [100, 92], [97, 94], [93, 96], [78, 97], [78, 94], [82, 93], [86, 91]]
+      notes: "lower lake floor, south-east of the spit, under the white cliffs"
+    - band: band:shelves
+      polygon: [[25, 36], [31, 36], [31, 43], [25, 43]]
+      notes: castle shoulder
+    - band: band:shelves
+      polygon: [[33, 46], [41, 46], [41, 44], [43, 43], [47, 43], [47, 50], [33, 50]]
+      notes: residential shelf
+    - band: band:shelves
+      polygon: [[41, 25], [51, 24], [51, 26], [47, 27], [47, 32], [48, 35], [41, 35]]
+      notes: "guild terrace, stepping from 384 to 640; its lowest step at its east side (Body, Mind, 288) lies below the band and is left out"
+    - band: band:shelves
+      polygon: [[92, 78], [95, 77], [100, 77], [101, 80], [101, 86], [100, 88], [92, 88], [89, 86], [90, 80]]
+      notes: the upper lake's shelf (about 416) inside its 640 rim
+    - band: band:shelves
+      polygon: [[102, 73], [109, 73], [109, 86], [104, 86], [102, 80]]
+      notes: the Arbiter's shelf
+    - band: band:highlands
+      polygon: [[20, 84], [32, 80], [44, 88], [52, 96], [52, 108], [20, 108]]
+    - band: band:rim
+      polygon: [[0, 0], [90, 0], [88, 18], [56, 20], [30, 22], [0, 22]]
+      notes: north-west and north rim
+    - band: band:rim
+      polygon: [[104, 0], [128, 0], [128, 30], [110, 30], [104, 20]]
+      notes: north-east rim
+    - band: band:rim
+      polygon: [[0, 22], [20, 22], [22, 50], [18, 76], [0, 76]]
+      notes: west rim
+    - band: band:rim
+      polygon: [[0, 82], [19, 82], [24, 110], [56, 112], [56, 128], [0, 128]]
+      notes: south-west and south rim
+    - band: band:rim
+      polygon: [[78, 104], [112, 100], [112, 128], [78, 128]]
+      notes: white massif and the south-east rim
+    - band: band:rim
+      polygon: [[112, 30], [128, 30], [128, 100], [112, 100]]
+      notes: east rim
+  cliffs:
+    - line: [[57, 92], [59, 96], [60, 100], [59, 106], [56, 110], [57, 114], [60, 118], [60, 124]]
+      drop: 640
+      down: left
+      notes: west bank of the south road's cutting
+    - line: [[59, 92], [61, 96], [62, 100], [64, 104], [63, 108], [62, 112], [62, 118], [62, 124]]
+      drop: 640
+      down: right
+      notes: east bank of the south road's cutting
+    - line: [[76, 97], [75, 104], [73, 108], [71, 112], [69, 116], [67, 120], [66, 123]]
+      drop: 640
+      down: left
+      notes: west bank of the outlet ravine
+    - line: [[81, 97], [82, 104], [78, 110], [75, 116], [73, 120], [71, 123]]
+      drop: 640
+      down: right
+      notes: "east bank of the outlet ravine; from about y 105 the bank is the white massif's foot, 1,500 and more"
+    - line: [[83, 96], [93, 96], [97, 94], [99, 92]]
+      drop: 1600
+      down: left
+      notes: "the white cliffs: the massif's north face rising straight out of the lower lake"
+    - line: [[34, 46], [41, 46], [41, 44], [42, 43], [46, 43], [47, 46], [48, 49]]
+      drop: 640
+      down: left
+      notes: "residential shelf edge, above the street and the south lane"
+    - line: [[42, 30], [41, 35]]
+      drop: 384
+      down: right
+      notes: terrace face over the Earth guild pocket
+  grid:
+    step: 4
+    unit: 64
+    rows: [[10, 12, 11, 14, 19, 14, 14, 16, 19, 18, 13, 12, 12, 16, 11, 10, 14, 17, 17, 14, 17, 18, 16, 12, 5, 10, 16, 24, 21, 16, 14, 8], [13, 40, 38, 40, 44, 30, 34, 32, 23, 34, 42, 37, 31, 33, 27, 21, 28, 35, 35, 30, 41, 37, 30, 21, 5, 13, 38, 53, 45, 42, 36, 10], [24, 51, 53, 52, 38, 20, 20, 24, 28, 46, 58, 56, 42, 37, 39, 31, 26, 29, 27, 22, 37, 25, 16, 13, 5, 10, 19, 28, 31, 38, 39, 12], [21, 49, 49, 40, 27, 24, 22, 19, 18, 23, 26, 25, 23, 22, 17, 14, 13, 16, 18, 16, 19, 12, 8, 6, 1, 5, 2, 9, 30, 45, 37, 15], [17, 39, 35, 29, 32, 35, 31, 26, 24, 27, 22, 21, 27, 29, 26, 24, 25, 26, 27, 23, 14, 13, 11, 1, 0, 0, 2, 8, 28, 35, 25, 10], [20, 39, 31, 28, 38, 42, 36, 30, 34, 41, 28, 20, 25, 33, 38, 39, 40, 37, 31, 26, 19, 17, 18, 9, 4, 7, 13, 10, 22, 31, 18, 8], [20, 33, 25, 35, 42, 41, 36, 33, 35, 36, 21, 12, 12, 23, 35, 41, 41, 34, 25, 21, 20, 21, 21, 6, 20, 23, 18, 11, 17, 38, 32, 11], [16, 25, 29, 45, 48, 42, 37, 33, 24, 15, 8, 7, 4, 10, 21, 29, 28, 20, 13, 9, 17, 23, 15, 15, 28, 25, 20, 11, 13, 34, 35, 12], [12, 25, 38, 47, 49, 42, 38, 26, 11, 2, 4, 6, 2, 1, 9, 11, 10, 5, 1, 0, 4, 18, 17, 10, 25, 18, 3, 10, 13, 30, 39, 11], [22, 41, 47, 45, 48, 36, 12, 8, 3, 0, 2, 1, 0, 0, 2, 3, 0, 1, 2, 0, 1, 4, 14, 4, 11, 2, 2, 10, 17, 28, 43, 14], [29, 49, 51, 35, 37, 28, 11, 7, 2, 0, 1, 1, 0, 0, 18, 18, 1, 2, 4, 1, 2, 1, 3, 0, 0, 0, 4, 10, 12, 23, 37, 11], [26, 50, 47, 31, 34, 31, 20, 10, 9, 5, 8, 8, 0, 6, 33, 23, 1, 1, 1, 0, 0, 6, 2, 3, 0, 0, 6, 10, 12, 40, 37, 9], [21, 43, 39, 35, 42, 40, 30, 16, 12, 13, 13, 13, 18, 34, 38, 12, 0, 2, 0, 0, 2, 1, 1, 1, 0, 0, 6, 10, 14, 42, 41, 12], [22, 42, 29, 36, 42, 43, 40, 32, 31, 30, 29, 28, 31, 35, 29, 3, 0, 0, 0, 3, 3, 1, 0, 0, 13, 7, 8, 10, 16, 34, 47, 20], [26, 43, 23, 26, 34, 40, 42, 40, 38, 39, 40, 42, 38, 31, 17, 9, 1, 4, 3, 3, 4, 2, 3, 0, 7, 5, 3, 10, 21, 34, 45, 19], [20, 38, 16, 16, 26, 33, 34, 31, 31, 33, 38, 44, 42, 35, 17, 7, 1, 1, 0, 1, 1, 1, 3, 5, 1, 2, 9, 10, 19, 43, 48, 14], [11, 18, 17, 22, 27, 29, 24, 18, 18, 20, 27, 37, 40, 36, 17, 2, 1, 2, 0, 5, 1, 1, 1, 1, 6, 19, 22, 14, 18, 44, 48, 17], [8, 11, 19, 30, 29, 23, 16, 11, 6, 10, 17, 28, 34, 31, 15, 2, 0, 0, 6, 2, 3, 3, 1, 1, 15, 33, 31, 17, 12, 30, 34, 15], [8, 16, 11, 27, 32, 13, 8, 3, 8, 3, 5, 6, 12, 13, 5, 1, 0, 3, 2, 1, 2, 3, 1, 1, 16, 28, 16, 15, 11, 22, 31, 10], [15, 33, 36, 14, 26, 7, 10, 12, 24, 17, 0, 0, 8, 9, 10, 9, 6, 19, 5, 0, 0, 0, 2, 6, 9, 11, 10, 12, 10, 16, 39, 13], [21, 39, 41, 10, 18, 35, 19, 13, 21, 21, 2, 1, 9, 8, 17, 26, 29, 29, 21, 1, 0, 0, 7, 6, 6, 6, 12, 23, 15, 11, 25, 11], [11, 26, 41, 46, 46, 42, 29, 19, 17, 16, 14, 9, 3, 3, 18, 27, 30, 30, 26, 9, 0, 0, 6, 6, 6, 7, 20, 42, 26, 11, 19, 8], [10, 29, 44, 47, 50, 49, 39, 29, 25, 23, 20, 12, 7, 8, 9, 23, 27, 26, 22, 5, 1, 3, 4, 0, 0, 7, 25, 50, 31, 23, 45, 12], [18, 42, 52, 47, 51, 53, 45, 38, 35, 33, 29, 15, 15, 11, 3, 13, 18, 18, 15, 6, 2, 0, 0, 0, 11, 15, 20, 44, 27, 27, 52, 14], [15, 34, 43, 42, 49, 51, 47, 46, 46, 44, 37, 27, 11, 12, 9, 1, 11, 11, 10, 0, 2, 5, 5, 23, 32, 23, 21, 38, 24, 18, 35, 9], [11, 25, 27, 30, 40, 43, 44, 49, 51, 48, 41, 32, 23, 12, 10, 3, 10, 10, 10, 1, 6, 14, 18, 20, 18, 15, 25, 39, 28, 13, 11, 7], [17, 40, 34, 20, 26, 32, 38, 45, 48, 47, 41, 32, 23, 15, 9, 0, 4, 4, 4, 0, 28, 38, 45, 44, 34, 32, 40, 42, 26, 16, 21, 9], [22, 51, 40, 16, 19, 25, 31, 37, 40, 39, 35, 28, 21, 12, 3, 2, 8, 8, 1, 11, 37, 39, 48, 48, 36, 34, 37, 31, 17, 22, 40, 12], [21, 49, 40, 16, 14, 24, 35, 39, 38, 35, 38, 26, 18, 10, 2, 6, 10, 8, 0, 10, 16, 17, 26, 26, 18, 16, 17, 15, 14, 30, 42, 13], [18, 42, 41, 24, 21, 31, 42, 52, 47, 34, 32, 21, 33, 24, 10, 5, 9, 2, 0, 8, 20, 32, 41, 30, 29, 36, 23, 17, 29, 38, 34, 10], [17, 28, 20, 14, 12, 15, 21, 35, 34, 30, 27, 21, 37, 22, 10, 5, 5, 0, 6, 12, 28, 34, 30, 28, 41, 40, 16, 13, 23, 26, 16, 8], [8, 8, 8, 8, 8, 8, 8, 9, 9, 16, 14, 10, 10, 8, 7, 4, 6, 6, 8, 11, 14, 11, 8, 9, 12, 12, 8, 7, 8, 8, 8, 6]]
+    notes: "Each value is the mean of its 4 x 4 block of cells, the block's centre at [4i + 2, 4j + 2]; rows run north to south."
+water:
+  bodies:
+    - id: zone:lake_chain
+      index: 1
+      kind: lake
+      level: 0
+      polygon: [[78, 76], [82, 77], [85, 80], [86, 84], [84, 88], [81, 92], [79, 91], [78, 85], [77, 79]]
+      notes: "west lake; its tail runs south into the lower lake"
+    - id: zone:lake_chain
+      index: 2
+      kind: lake
+      level: 384
+      polygon: [[93, 77], [100, 77], [103, 79], [104, 82], [102, 85], [92, 85], [90, 82], [91, 79]]
+      notes: "upper lake on a shelf under the Arbiter's knoll; it spills west into the lower lake"
+    - id: zone:lake_chain
+      index: 3
+      kind: lake
+      level: 0
+      polygon: [[84, 88], [90, 87], [95, 88], [96, 91], [94, 95], [88, 97], [81, 96], [80, 93]]
+      notes: "lower lake at the foot of the white cliffs; the outlet leaves it at its south-west corner"
+  rivers:
+    - id: zone:lake_chain
+      line: [[79, 96], [78, 100], [77, 104], [75, 108], [72, 112], [70, 116], [68, 120], [67, 123]]
+      width_cells: 2
+      notes: "the outlet stream, in a ravine 640 deep cut through the south road valley floor; it dies out about 4 cells short of the south edge"
+  shores:
+    - line: [[77, 79], [78, 85], [79, 91]]
+      kind: beach
+      notes: west lake's west shore
+    - line: [[86, 84], [84, 88]]
+      kind: beach
+      notes: spit between the west and lower lakes
+    - line: [[92, 85], [102, 85]]
+      kind: beach
+      notes: upper lake's south shore
+    - line: [[83, 96], [93, 96], [97, 94]]
+      kind: cliff
+      notes: the white cliffs
+roads:
+  - link: link:main_street_west
+    line: [[31.5, 39.5], [41, 39.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:main_street_east
+    line: [[41, 39.5], [50.5, 39.5], [50.5, 36.5], [57.5, 36.5]]
+    width: road
+    surface: road_pebbles
+    notes: "The street dog-legs at the south lane's head: three cells north, then east through the gate."
+  - link: link:town_gate
+    line: [[57.5, 36.5], [65.5, 36.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:lane_civic
+    line: [[38.5, 39.5], [38.5, 42.5]]
+    width: lane
+    surface: road_pebbles
+  - link: link:lane_south
+    line: [[49.5, 39.5], [49.5, 45.5]]
+    width: lane
+    surface: road_pebbles
+  - link: link:guild_slope
+    line: [[44.5, 39.5], [44.5, 35.5], [45.5, 31.5], [46, 27]]
+    width: lane
+    surface: grass
+    notes: "Unpaved: steps and ramps up the terraces."
+  - link: link:high_road_basin
+    line: [[65.5, 36.5], [82.5, 36.5], [85.5, 39.5], [93.5, 40.5]]
+    width: high_road
+    surface: road_pebbles
+  - link: link:high_road_valley
+    line: [[93.5, 40.5], [93.5, 36], [91.5, 31], [93.5, 25.5], [95.5, 21], [95.5, 16.5], [97.5, 14], [97.5, 0]]
+    width: high_road
+    surface: road_pebbles
+  - link: link:trunk
+    line: [[65.5, 36.5], [65.5, 46.5], [62.5, 50.5], [63.5, 54], [65.5, 56], [64.5, 62], [64.5, 70], [62, 73], [57, 74], [52, 75.5], [47.5, 76.5], [45.5, 78.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:west_road
+    line: [[45.5, 78.5], [42.5, 78], [39.5, 74], [35.5, 71], [31.5, 71.5], [27, 74], [21, 76], [17.5, 79.5], [14.5, 81.5], [12.5, 79], [12.5, 73], [10.5, 71.5], [2, 71.5]]
+    width: road
+    surface: road_pebbles
+    notes: Beyond x 19 it runs on through the backdrop to the map edge.
+  - link: link:south_road
+    line: [[45.5, 78.5], [45.5, 82.5], [47, 84], [50, 84.5], [53.5, 83.5], [54.5, 86], [55.5, 88.5], [57, 92], [58.5, 94], [60.5, 97], [60.5, 102.5], [61.5, 105], [61.5, 108], [59.5, 111], [58.5, 113], [60.5, 116], [60.5, 126]]
+    width: road
+    surface: road_pebbles
+    notes: "From about y 92 the road runs in a cutting 640 deep under the valley floor (heights, cliffs); the stone bridge at y 100 spans the cutting. It does not cross water."
+  - link: link:cave_footbridge
+    line: [[74.5, 100.5], [82.5, 100.5]]
+    width: lane
+    surface: timber
+    bridge: true
+    notes: "Over the outlet ravine, from the valley floor at 640 to the cave mouth."
+districts:
+  - space: zone:outer_rim
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    rest: true
+    notes: "Everything not inside another top-level district: the outer strip and the hills between the zones (above the town's north side, west of the castle, the wall east of the north-east valley). A ring with holes cannot be drawn."
+  - space: zone:town_bowl
+    polygon: [[24, 34], [30, 28], [37, 24], [44, 22], [51, 22], [56, 28], [58, 33], [58, 36], [62, 40], [63, 52], [60, 54], [56, 52], [44, 51], [32, 51], [24, 46]]
+    plots:
+      - {building: building:town_hall, at: [36, 35.5], facing: s, door_to: link:main_street_west}
+      - {building: building:temple, at: [36.5, 43], facing: n, door_to: link:lane_civic, notes: The spire stands at the front's middle.}
+      - {building: building:training, at: [42.5, 40.5], facing: n, door_to: link:main_street_east}
+      - {building: building:alchemist, at: [45, 37], facing: s, door_to: link:main_street_east}
+      - {building: building:magic_shop, at: [47.5, 37], facing: s, door_to: link:main_street_east, notes: "Beside the alchemist on the street's north side, facing the training hall and the bank."}
+      - {building: building:bank, at: [47, 40], facing: n, door_to: link:main_street_east}
+      - {building: building:weapon_shop, at: [50, 34], facing: s, door_to: link:main_street_east}
+      - {building: building:armour_shop, at: [53.5, 34], facing: s, door_to: link:main_street_east}
+      - {building: building:tavern, at: [51.5, 38], facing: n, door_to: link:main_street_east}
+      - {building: building:stable, at: [53, 40.5], facing: w, door_to: link:lane_south}
+      - {building: building:town_gate_sign, at: [57.5, 35.5], facing: e, door_to: link:town_gate, notes: A frame over the road.}
+      - {building: building:market_well, at: [50.5, 43.5], facing: n, door_to: link:lane_south}
+      - {building: building:guild_earth, at: [38.5, 30.5], facing: s, door_to: link:guild_slope}
+      - {building: building:guild_spirit, at: [42, 32], facing: s, door_to: link:guild_slope}
+      - {building: building:guild_fire, at: [46.5, 33], facing: w, door_to: link:guild_slope}
+      - {building: building:guild_water, at: [42, 28], facing: e, door_to: link:guild_slope}
+      - {building: building:guild_mind, at: [48, 30], facing: w, door_to: link:guild_slope}
+      - {building: building:guild_body, at: [48, 27], facing: s, door_to: link:guild_slope}
+      - {building: building:guild_air, at: [45, 25], facing: s, door_to: link:guild_slope}
+      - {building: building:terrace_well, at: [46.5, 28.5], facing: n, door_to: link:guild_slope}
+      - {building: building:town_houses, index: 1, at: [51.5, 31], facing: s, door_to: link:main_street_east}
+      - {building: building:town_houses, index: 2, at: [48.5, 46], facing: n, door_to: link:lane_south, notes: Closes the lane's south end.}
+      - {building: building:town_houses, index: 3, at: [34, 47.5], facing: n, notes: "On the shelf, its door onto open ground behind the temple: no road."}
+      - {building: building:town_houses, index: 4, at: [52.5, 45], facing: w, door_to: link:lane_south}
+      - {building: building:town_double_house, at: [43, 44.5], facing: w, notes: "On the shelf; its two doors at the north and south ends of the west side open onto the shelf: no road."}
+      - {building: building:town_poor_houses, index: 1, at: [46.5, 42.5], facing: e, door_to: link:lane_south}
+      - {building: building:town_poor_houses, index: 2, at: [47.5, 44.5], facing: e, door_to: link:lane_south}
+    notes: "About 34 x 30 cells with its enclosing slopes, including the knoll south of the gate; the floor is about 24 x 12."
+  - space: zone:castle_shoulder
+    polygon: [[24, 35], [33, 35], [33, 45], [24, 45]]
+    plots:
+      - {building: building:castle, at: [25.5, 36.5], facing: e, door_to: link:main_street_west}
+  - space: zone:castle_forecourt
+    polygon: [[29, 37], [33, 37], [33, 42], [29, 42]]
+  - space: zone:civic_corner
+    polygon: [[33, 34], [41, 34], [41, 40], [45, 40], [45, 46], [33, 46]]
+    notes: "The street's west stretch runs through it: town hall north of the street, temple and training south of it."
+  - space: zone:guild_terrace
+    polygon: [[37, 28], [44, 23], [51, 23], [51, 36], [41, 36], [41, 34], [37, 34]]
+  - space: zone:town_street
+    polygon: [[41, 36], [50, 36], [50, 39], [49, 39], [49, 42], [45, 42], [45, 40], [41, 40]]
+    notes: "The street's middle stretch; its west stretch crosses the civic corner."
+  - space: zone:market_end
+    polygon: [[51, 30], [56, 30], [58, 33], [58, 38], [56, 40], [56, 45], [49, 45], [49, 39], [50, 39], [50, 36], [51, 36]]
+  - space: zone:stable_yard
+    polygon: [[52, 40], [56, 40], [56, 45], [52, 45]]
+  - space: zone:south_shelf
+    polygon: [[45, 42], [49, 42], [49, 45], [56, 45], [56, 51], [44, 51], [33, 51], [33, 46], [45, 46]]
+    notes: "Street-level houses along the south lane and, behind the shelf edge, two houses at 640."
+  - space: zone:central_basin
+    polygon: [[58, 33], [64, 30], [84, 30], [88, 34], [96, 34], [100, 36], [104, 40], [104, 62], [96, 66], [96, 72], [90, 72], [86, 76], [66, 76], [62, 77], [52, 77], [52, 72], [58, 70], [62, 66], [62, 56], [60, 54], [63, 52], [62, 40], [58, 36]]
+    plots:
+      - {building: building:trunk_sign, at: [66, 36.5], facing: s, door_to: link:trunk}
+      - {building: building:shrine, at: [78.5, 73.5], facing: n, door_to: link:basin_lakes}
+  - space: zone:hill_fort
+    polygon: [[78, 51], [82, 51], [85, 54], [85, 58], [82, 61], [78, 61], [75, 58], [75, 54]]
+    plots:
+      - {building: building:hill_fort, at: [78, 54], facing: n, door_to: link:basin_fort, notes: "No one door: the pressure plate and hatch are at the keep's centre; a tower stands at each corner."}
+    notes: "The ring: a low built wall 128 to 256 high, 10 cells across."
+  - space: zone:ne_valley
+    polygon: [[86, 19], [100, 19], [104, 24], [108, 30], [108, 38], [100, 36], [96, 34], [88, 34], [84, 30]]
+    plots:
+      - {building: building:obelisk, at: [104.5, 33], facing: w}
+      - {building: building:fire_pit_north, at: [97, 22], facing: s}
+  - space: zone:east_knoll
+    polygon: [[96, 66], [104, 62], [109, 62], [109, 86], [105, 86], [105, 80], [102, 78], [96, 72]]
+    plots:
+      - {building: building:arbiter_hall, at: [103, 74], facing: n, door_to: link:basin_east, notes: "The door is on the small building's north face, at about [105, 76]."}
+    notes: "A white-capped hill (2,300) in the north, the Arbiter's shelf at 640 under its south side."
+  - space: zone:west_valley
+    polygon: [[19, 51], [24, 46], [32, 51], [44, 51], [56, 52], [60, 54], [62, 56], [62, 66], [58, 70], [52, 72], [36, 72], [36, 78], [30, 80], [19, 82]]
+    plots:
+      - {building: building:fire_pit_west, at: [21, 79], facing: e}
+    notes: The ridge (north half) and the winding valley floor (south half).
+  - space: zone:hermit_ridge
+    polygon: [[26, 53], [36, 53], [36, 59], [26, 59]]
+    plots:
+      - {building: building:hermit_huts, index: 1, at: [27.5, 56.5], facing: e, door_to: link:ridge_climb}
+      - {building: building:hermit_huts, index: 2, at: [33.5, 54.5], facing: s, door_to: link:ridge_climb}
+  - space: zone:orchard_hill
+    polygon: [[20, 21], [27, 21], [27, 27], [20, 27]]
+  - space: zone:south_hamlet
+    polygon: [[36, 72], [52, 72], [52, 80], [48, 84], [38, 84], [36, 78]]
+    plots:
+      - {building: building:hamlet_houses, index: 1, at: [39, 76], facing: n, door_to: link:west_road}
+      - {building: building:hamlet_houses, index: 2, at: [43.5, 81.5], facing: e, door_to: link:south_road}
+      - {building: building:hamlet_houses, index: 3, at: [40.5, 80], facing: e, door_to: link:south_road}
+      - {building: building:hamlet_long_house, at: [42.5, 74.5], facing: s, door_to: link:trunk}
+      - {building: building:hamlet_well, at: [43.5, 77.5], facing: n, door_to: link:west_road}
+      - {building: building:hamlet_sign, at: [44.5, 78.5], facing: e, door_to: link:south_road}
+  - space: zone:sw_highlands
+    polygon: [[19, 82], [30, 80], [36, 78], [38, 84], [48, 84], [52, 90], [52, 109], [19, 109]]
+  - space: zone:se_lakes
+    polygon: [[48, 84], [52, 80], [52, 77], [62, 77], [66, 76], [86, 76], [90, 72], [96, 72], [102, 78], [105, 80], [105, 86], [109, 86], [109, 109], [52, 109], [52, 90]]
+    plots:
+      - {building: building:cave_footbridge, at: [75, 100], facing: e, door_to: link:cave_footbridge}
+  - space: zone:south_road_valley
+    polygon: [[48, 84], [52, 80], [56, 80], [58, 86], [62, 92], [74, 92], [76, 97], [82, 97], [82, 104], [80, 109], [52, 109], [52, 90]]
+    plots:
+      - {building: building:ravine_bridge, at: [58.5, 99.5], facing: e, notes: "Spans the south road's cutting from bank to bank; the road passes under it."}
+      - {building: building:fire_pit_south, at: [65, 104], facing: w}
+    notes: "Valley floor at 640 from about y 92, with the road in its cutting and the outlet in its ravine."
+  - space: zone:lake_chain
+    polygon: [[76, 76], [100, 76], [103, 79], [104, 86], [98, 88], [98, 97], [76, 97]]
+  - space: zone:white_cliffs
+    polygon: [[82, 97], [98, 97], [98, 88], [104, 86], [109, 86], [109, 109], [80, 109], [82, 104]]
+    plots:
+      - {building: building:cave_mouth, at: [82.5, 98], facing: w, door_to: link:cave_footbridge}
+points:
+  - {id: entrance:party_start, at: [31, 40], facing: e}
+  - {id: entrance:castle_door, at: [28, 40], facing: e}
+  - {id: poi:castle_door, at: [28, 40]}
+  - {id: entrance:stable_yard, at: [53, 42], facing: w, notes: Arrivals by stable and from the Arena stand at the stable's open west side.}
+  - {id: entrance:north_road, at: [96, 20], facing: s}
+  - {id: entrance:west_road, at: [20, 77], facing: ne}
+  - {id: entrance:south_road, at: [62, 107], facing: n}
+  - {id: entrance:east_edge, at: [109, 44], notes: "Any point of the east side's span; no marker, nothing arrives here."}
+  - {id: entrance:cave_mouth, at: [83, 99], facing: w}
+  - {id: zone:gate_junction, at: [65, 36]}
+  - {id: junction:high_road_bend, at: [93, 40]}
+  - {id: junction:south_fork, at: [45, 78]}
+  - {id: poi:sign_gate, at: [66, 37]}
+  - {id: poi:sign_hamlet, at: [45, 79]}
+  - {id: poi:well_market, at: [51, 44]}
+  - {id: poi:well_terrace, at: [47, 29]}
+  - {id: poi:fountain, at: [44, 29], notes: In the Water guild's east forecourt.}
+  - {id: poi:fruit_tree_town, at: [40, 43]}
+  - {id: poi:fruit_trees_orchard, index: 1, at: [23, 24]}
+  - {id: poi:fruit_trees_orchard, index: 2, at: [22, 26]}
+  - {id: poi:fruit_trees_orchard, index: 3, at: [25, 24]}
+  - {id: poi:fruit_trees_orchard, index: 4, at: [24, 25]}
+  - {id: poi:fruit_trees_highlands, index: 1, at: [37, 90]}
+  - {id: poi:fruit_trees_highlands, index: 2, at: [39, 89]}
+  - {id: poi:fruit_trees_highlands, index: 3, at: [41, 93]}
+  - {id: poi:shrine_altar, at: [79, 74]}
+  - {id: poi:obelisk, at: [105, 34]}
+  - {id: poi:watch_fire_north, at: [97, 22]}
+  - {id: poi:watch_fire_west, at: [21, 79]}
+  - {id: poi:watch_fire_south, at: [65, 104]}
+  - {id: poi:well_hamlet, at: [44, 78]}
+  - {id: poi:arbiter_hall, at: [105, 76], facing: n}
+  - {id: landmark:castle, at: [27, 39]}
+  - {id: landmark:temple_spire, at: [38, 43]}
+  - {id: landmark:town, at: [45, 38]}
+  - {id: landmark:hill_fort, at: [80, 56]}
+  - {id: landmark:arbiter_tower, at: [105, 76]}
+  - {id: landmark:white_cliffs, at: [90, 100]}
+areas:
+  - id: pop:basin_goblins
+    kind: encounter
+    count: 22
+    polygon: [[64, 37], [74, 38], [84, 41], [88, 46], [88, 62], [78, 66], [72, 74], [63, 75], [62, 60], [63, 48]]
+    notes: "Round the fort on all sides, four of them inside its ring, one by each tower."
+  - id: pop:east_goblins
+    kind: encounter
+    count: 4
+    polygon: [[88, 50], [96, 50], [99, 58], [98, 63], [88, 62]]
+    notes: "The basin's east side under the spire knoll, not on the Arbiter's knoll itself."
+  - id: pop:ne_goblins
+    kind: encounter
+    count: 9
+    polygon: [[78, 32], [90, 26], [94, 26], [104, 36], [104, 47], [96, 47], [88, 44], [84, 40], [77, 37]]
+    notes: "Round the high road bend and north of the basin; only one up the valley itself."
+  - id: pop:lakeside_goblins
+    kind: encounter
+    count: 3
+    circle: {at: [72, 98], r: 3}
+    notes: At the lake outlet by the footbridge.
+  - id: pop:cliff_goblins
+    kind: encounter
+    count: 5
+    polygon: [[84, 100], [92, 98], [102, 90], [107, 91], [106, 98], [102, 105], [84, 105]]
+  - id: pop:swordsmen
+    index: 1
+    kind: encounter
+    count: 7
+    polygon: [[68, 49], [76, 49], [76, 66], [67, 66]]
+    notes: The west and south-west camp.
+  - id: pop:swordsmen
+    index: 2
+    kind: encounter
+    count: 3
+    circle: {at: [89, 53], r: 3}
+    notes: The east camp.
+  - id: pop:keep_hobgoblins
+    kind: encounter
+    count: 4
+    circle: {at: [80, 56], r: 2}
+  - id: pop:fort_waves
+    index: 1
+    kind: encounter
+    circle: {at: [80, 50], r: 1}
+    notes: "North wave, about 3,000 from the keep."
+  - id: pop:fort_waves
+    index: 2
+    kind: encounter
+    circle: {at: [86, 56], r: 1}
+    notes: East wave.
+  - id: pop:fort_waves
+    index: 3
+    kind: encounter
+    circle: {at: [80, 62], r: 1}
+    notes: South wave.
+  - id: pop:fort_waves
+    index: 4
+    kind: encounter
+    circle: {at: [74, 56], r: 1}
+    notes: West wave.
+  - id: pop:raiders
+    kind: encounter
+    polygon: [[22, 82], [32, 81], [40, 92], [40, 98], [28, 104], [22, 102]]
+    notes: "Six camps, each a ring: four of 12 to 16 and one of 8 over the highlands (the lord in the south-west camp), and one of 8 on the slope just south-west of the hamlet."
+  - id: pop:peasants
+    kind: encounter
+    polygon: [[34, 28], [50, 26], [56, 32], [56, 46], [34, 46]]
+  - id: pop:town_guards
+    kind: encounter
+    polygon: [[28, 36], [56, 35], [56, 38], [46, 41], [40, 44], [28, 42]]
+    notes: Along the main street from the castle to the gate.
+  - id: pop:town_squad
+    kind: encounter
+    polygon: [[28, 28], [47, 26], [57, 35], [57, 40], [52, 46], [40, 48], [28, 45]]
+  - id: pop:hamlet_peasants
+    kind: encounter
+    polygon: [[38, 73], [48, 73], [48, 83], [38, 83]]
+  - id: set_piece:fort_towers
+    kind: keep_clear
+    circle: {at: [80, 56], r: 9}
+    notes: "Fields of fire: no trees inside about 4,500 of the keep; the towers' target points are 3 to 9 cells out, one sector each."
+  - id: zone:se_lakes
+    kind: open
+    polygon: [[75, 75], [105, 76], [105, 88], [99, 98], [75, 98]]
+    notes: "The lake shores: bare, quiet ground, no trees."
+views:
+  - {id: sightline:street, at: [58, 37], height: 200, look: [27, 39], purpose: "From the gate the castle closes the street; the dog-leg at the lane head must not hide it."}
+  - {id: entrance:party_start, at: [31, 40], height: 200, look: [58, 37], purpose: The first view down the main street.}
+  - {id: landmark:hill_fort, at: [72, 36], height: 200, look: [80, 56], purpose: "From the high road: the ring and four towers."}
+  - {id: landmark:temple_spire, at: [76, 40], height: 200, look: [38, 43], purpose: "From the basin only the spire and the castle show over the knoll; the town's roofs stay hidden (landmark:town)."}
+  - {id: landmark:arbiter_tower, at: [86, 60], height: 200, look: [105, 76], purpose: Across the basin to the lone building on its shelf.}
+  - {id: landmark:white_cliffs, at: [80, 70], height: 200, look: [90, 100], purpose: "From the shrine: the lakes and the bright cliffs behind them."}
+  - {id: entrance:north_road, at: [96, 20], height: 200, look: [93, 40], purpose: "Arrival from the north: down the valley to the basin."}
+  - {id: entrance:west_road, at: [20, 77], height: 200, look: [42, 78], purpose: "Arrival from the west: out of the gorge along the valley to the hamlet."}
+  - {id: entrance:south_road, at: [62, 107], height: 200, look: [60, 92], purpose: "Arrival from the south: up the cutting, under the bridge."}
+  - {id: landmark:castle, at: [64, 40], height: 1500, look: [27, 39], purpose: Overview of the whole town from above the gate junction.}
+ground:
+  - material: soil
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "Base: the outer strip, the east rim, and the basin, where grass and soil lie in patches about evenly."
+  - material: grass_meadow
+    polygon: [[4, 12], [108, 12], [110, 30], [88, 44], [66, 44], [64, 62], [62, 76], [72, 92], [74, 124], [4, 124]]
+    notes: "The town, the ridge, the highlands, the hamlet and the north band."
+  - material: sand_ripples
+    polygon: [[75, 75], [105, 76], [105, 88], [99, 98], [75, 98]]
+    notes: Lake shores under the water bodies.
+  - material: snow
+    polygon: [[5, 7], [17, 7], [17, 10], [12, 15], [6, 15], [5, 11]]
+  - material: snow
+    polygon: [[37, 7], [51, 7], [50, 11], [38, 11]]
+  - material: snow
+    polygon: [[59, 22], [67, 22], [69, 25], [66, 28], [60, 27]]
+  - material: snow
+    polygon: [[107, 5], [123, 5], [123, 8], [107, 8]]
+  - material: snow
+    polygon: [[7, 39], [10, 39], [10, 48], [7, 48]]
+  - material: snow
+    polygon: [[3, 54], [7, 54], [7, 61], [3, 61]]
+  - material: snow
+    polygon: [[57, 41], [61, 41], [61, 50], [56, 50]]
+  - material: snow
+    polygon: [[117, 31], [124, 31], [124, 46], [117, 46]]
+  - material: snow
+    polygon: [[116, 58], [121, 58], [121, 72], [116, 72]]
+  - material: snow
+    polygon: [[100, 66], [107, 66], [107, 72], [100, 72]]
+  - material: snow
+    polygon: [[33, 77], [39, 77], [39, 82], [33, 82]]
+  - material: snow
+    polygon: [[60, 82], [68, 82], [69, 88], [61, 88]]
+  - material: snow
+    polygon: [[97, 92], [108, 86], [108, 97], [97, 100]]
+  - material: snow
+    polygon: [[77, 105], [96, 104], [112, 104], [112, 110], [100, 113], [80, 112]]
+    notes: "The white massif, the largest cap."
+  - material: snow
+    polygon: [[86, 117], [103, 117], [103, 122], [86, 122]]
+  - material: snow
+    polygon: [[3, 105], [8, 105], [8, 121], [3, 121]]
+  - material: snow
+    polygon: [[28, 116], [35, 116], [35, 121], [28, 121]]
+  - material: snow
+    polygon: [[119, 108], [124, 108], [124, 120], [119, 120]]

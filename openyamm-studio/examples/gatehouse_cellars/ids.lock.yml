@@ -1,0 +1,38 @@
+format: 0
+sectors:
+  room:entry: 1
+  room:guard: 2
+  room:hall: 3
+  room:passage: 4
+  room:store: 5
+  room:vault: 6
+events:
+  evt:exit: 1
+  evt:gate: 2
+  evt:gate_lever: 3
+  evt:guard_door: 4
+  evt:store_chest: 5
+  evt:store_door: 6
+  evt:vault_chest: 7
+  evt:vault_door: 8
+doors:
+  door:gate: 1
+  door:guard: 2
+  door:store: 3
+  door:vault: 4
+containers:
+  chest:store: 0
+  chest:vault: 1
+cogs:
+  switch:gate_lever: 1
+map_vars:
+  gate_raised: 1
+  once.gate_lever: 0
+decorations:
+  deco:torch_entry_e: 0
+  deco:torch_entry_w: 1
+  deco:torch_guard: 2
+  deco:torch_hall_n1: 3
+  deco:torch_hall_n2: 4
+  deco:torch_vault_e: 5
+  deco:torch_vault_w: 6

@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>MM8 Dark Elf Warrior restoration</title>
+<style>body{font:16px system-ui;background:#202126;color:#eee;margin:24px}select,button,input{font:inherit;margin:6px}canvas{border:1px solid #666;max-width:100%}.controls{display:flex;flex-wrap:wrap;align-items:center}a{color:#b9d7ff}#caption{white-space:pre-wrap}label{margin-right:16px}</style></head><body>
+<h1>Dark Elf Warrior — staged restoration</h1><p>Compare native motion and restored artwork. Black armor, green sleeve bands, teal armor disks, silver hair, dark skin and the long steel sword retain the native palette; all variants share the same shapes and animation.</p>
+<div class="controls"><label>Actor <select id="actor"></select></label><label>Action <select id="action"></select></label><label>View <select id="view"></select></label><label>Palette <select id="palette"></select></label></div>
+<div class="controls"><button id="play">Pause</button><label>Frame <input id="frame" type="range" min="0" value="0"></label><label>Stored pose <select id="stored"><option value="">Animation</option></select></label><label>Background <select id="background"><option value="#232323">Dark</option><option value="#ececec">Light</option></select></label></div>
+<p>__COVERAGE__</p><p>Native · restored atlas/base or baked variant · palette coverage</p><canvas id="canvas" width="1536" height="560"></canvas><p id="caption"></p><p><a href="draft_manifest.json">Placement and animation metadata</a> · <a href="sources.json">Native source audit</a> · <a href="review/edge_audit.json">Edge audit</a></p>
+<script>
+const DATA=__DATA__, M=DATA.manifest, $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search), cache=new Map();
+let playing=!params.has('frame'), epoch=performance.now(), selected=0;
+function image(path){if(!cache.has(path)){const im=new Image();im.src=path;cache.set(path,im)}return cache.get(path)}
+function options(select,entries){select.replaceChildren(...entries.map(([value,label])=>new Option(label,value)))}
+options($('actor'),Object.entries(M.animations).map(([id,d])=>[id,d.label]));
+options($('palette'),Object.keys(M.variants.palette_deltas).map(p=>[p,(Number(p)===M.variants.base_palette?'Base ':'Variant ')+p]));
+options($('view'),Array.from({length:8},(_,i)=>[String(i),String(i)]));
+for(const n of Object.keys(M.frames).sort())$('stored').add(new Option(n+(M.frames[n].referenced?'':' (unbound)'),n));
+function actions(){options($('action'),Object.keys(M.animations[$('actor').value].actions).map(x=>[x,x]));epoch=performance.now()}
+actions();
+for(const key of ['actor','view','palette','stored'])if(params.has(key))$(key).value=params.get(key);
+actions();if(params.has('action'))$('action').value=params.get('action');
+if(params.has('frame'))$('frame').value=params.get('frame');
+function choose(steps,playback,time){const total=steps.reduce((n,s)=>n+s.duration_ms,0);if(total<=0)return steps.length-1;let t=playback==='loop'?time%total:Math.min(time,Math.max(0,total-.001));for(let i=0;i<steps.length;i++){if(t<steps[i].duration_ms)return i;t-=steps[i].duration_ms}return steps.length-1}
+function paint(ctx,im,x,y,w,h,mirror){if(!im.complete||!im.naturalWidth)return;ctx.save();if(mirror){ctx.translate(x+w,y);ctx.scale(-1,1);ctx.drawImage(im,0,0,w,h)}else ctx.drawImage(im,x,y,w,h);ctx.restore()}
+function render(now){
+ const group=M.animations[$('actor').value].actions[$('action').value], steps=group.views[$('view').value];
+ $('frame').max=Math.max(0,steps.length-1);
+ selected=playing?choose(steps,group.playback,Math.max(0,now-epoch)):Math.min(Number($('frame').value),steps.length-1);
+ if(params.has('t'))selected=choose(steps,group.playback,Number(params.get('t')));
+ if(playing)$('frame').value=selected;
+ const step=steps[selected], name=$('stored').value||step.frame, mirror=!$('stored').value&&step.mirrored;
+ const ctx=$('canvas').getContext('2d');ctx.fillStyle=$('background').value;ctx.fillRect(0,0,1536,560);
+ if(!name){$('caption').textContent='Native null frame';return}
+ const f=M.frames[name], pal=$('palette').value, xx=512, yy=24;
+ ctx.imageSmoothingEnabled=false;paint(ctx,image('native_variants/'+name+'_'+pal+'.png'),0,yy,512,512,mirror);ctx.imageSmoothingEnabled=true;
+ if(!f){$('caption').textContent=name+' — restoration missing; native timing retained. See generation failure record.';return}
+ const origin=f.aligned_canvas_origin_px;
+ if(Number(pal)===M.variants.base_palette){
+  const page=image(M.pages[f.page].base),[sx,sy,w,h]=f.atlas_xywh,[cx,cy]=f.crop_origin_px;
+  if(page.complete&&page.naturalWidth){ctx.save();if(mirror){ctx.translate(xx+512,yy);ctx.scale(-1,1)}else ctx.translate(xx,yy);ctx.drawImage(page,sx,sy,w,h,cx,cy,w,h);ctx.restore()}
+ }else{const im=image('previews/'+name+'_'+pal+'.png');ctx.save();if(mirror){ctx.translate(xx+512,yy);ctx.scale(-1,1)}else ctx.translate(xx,yy);if(im.complete&&im.naturalWidth)ctx.drawImage(im,origin[0],origin[1]);ctx.restore()}
+ const mask=image('runtime_masks_2x/'+name+'.png');paint(ctx,mask,1024+origin[0],yy+origin[1],f.aligned_canvas_size_px[0],f.aligned_canvas_size_px[1],mirror);
+ $('caption').textContent=name+($('stored').value?' — stored pose; no assigned playback timing':' — '+step.duration_ms+' ms; '+group.playback+'; view '+$('view').value+(mirror?' mirrored':''))+'\n256 × 256 logical pixels; 2× stored artwork. '+Object.keys(M.frames).length+' native frames.';
+}
+$('actor').onchange=actions;
+for(const key of ['action','view','palette','stored','background'])$(key).onchange=()=>{epoch=performance.now();render(epoch)};
+$('frame').oninput=()=>{playing=false;$('play').textContent='Play';params.delete('t');render(performance.now())};
+$('play').onclick=()=>{playing=!playing;epoch=performance.now();$('play').textContent=playing?'Pause':'Play'};
+if(!playing)$('play').textContent='Play';
+function tick(now){render(now);requestAnimationFrame(tick)}requestAnimationFrame(tick);
+</script></body></html>

@@ -1,0 +1,1608 @@
+{
+  "status": "bank_candidates_require_visual_and_phase_review",
+  "tiles": [
+    {
+      "name": "lvdre",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 5.019066498846235,
+      "exact_background_fraction": 0.167236328125,
+      "shade_min": 0.4373367428779602,
+      "shade_max": 1.1474725008010864,
+      "runtime_sha256": "92b656f53eb331cfd8a5c1df88b555b650c9c994854439d3e93ed3dc9cfd498d",
+      "field_sha256": "e95d34f4b29b1e86d5437c9a0e27f725111e33db08acd6d2843676e662b418f9",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 7,
+      "void_components": 7,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.7047557830810547
+    },
+    {
+      "name": "lvdrn",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 3.96912013536379,
+      "exact_background_fraction": 0.2666015625,
+      "shade_min": 0.43665942549705505,
+      "shade_max": 1.1466575860977173,
+      "runtime_sha256": "5946cb82e262b0091b8194da7bb5860887035131aa247ea1e9e2ab2cafca6452",
+      "field_sha256": "b9713094a29b49e79d1609431a5c6e34691b3b8aaab92b3cec0e8b70cf325e6c",
+      "original_components": 7,
+      "components": 7,
+      "original_void_components": 4,
+      "void_components": 4,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.63446044921875
+    },
+    {
+      "name": "lvdrne",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 3.9148942985265855,
+      "exact_background_fraction": 0.2889404296875,
+      "shade_min": 0.437059223651886,
+      "shade_max": 1.1487253904342651,
+      "runtime_sha256": "881910195d4bdebb8a9e79fe358467caec9095dc988a535146ea3795f9a04d4f",
+      "field_sha256": "d6dc3ef8d946cd04fb9e97ada44ced3f15981dc85b81e7bf178250b778d015c3",
+      "original_components": 6,
+      "components": 6,
+      "original_void_components": 5,
+      "void_components": 5,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "lvdrnw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 3.1030834569625045,
+      "exact_background_fraction": 0.36529541015625,
+      "shade_min": 0.43821337819099426,
+      "shade_max": 1.1492791175842285,
+      "runtime_sha256": "ef7e82d58da36251fa6fdbe91dcd9626b767cbb7c54855158afd4023f34f4c3e",
+      "field_sha256": "41ebbb5e4332bc494e45c081e5c1964da7e1a700d4a8e6897154e9383f996158",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 5,
+      "void_components": 5,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "lvdrs",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 4.976774369977702,
+      "exact_background_fraction": 0.19976806640625,
+      "shade_min": 0.43641912937164307,
+      "shade_max": 1.1352778673171997,
+      "runtime_sha256": "a1a449089d0eb222da2a8627467b630bf7d66781dd33d5785bb1494d1e7db14c",
+      "field_sha256": "57718d5604530dc89e356ccd83c227930dfa469c010ae80c0ae9e28bf3cf5c75",
+      "original_components": 7,
+      "components": 7,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "lvdrse",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 3.2824651452164813,
+      "exact_background_fraction": 0.34735107421875,
+      "shade_min": 0.4368540048599243,
+      "shade_max": 1.1473501920700073,
+      "runtime_sha256": "8ab00b390b72a8b78a84b9be6095595e43f895e900ac8e5044c451c5bec18df1",
+      "field_sha256": "3d2d1bd74914b1dea1e4815708cf42c9c289f8b955810976fc393a825e43e01c",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 4,
+      "void_components": 4,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.7047557830810547
+    },
+    {
+      "name": "lvdrsw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 2.8488710611198416,
+      "exact_background_fraction": 0.420166015625,
+      "shade_min": 0.4369995594024658,
+      "shade_max": 1.1486759185791016,
+      "runtime_sha256": "80b70b2f65ff8aeda6629a4fe92e16d0c33e291f0fadbc70a469aeb121331b82",
+      "field_sha256": "fe330e21b824d24329cf4414f4d4fb273054fe92a8fb8ecb7326d104f5b17788",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "lvdrw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 3.888562934307615,
+      "exact_background_fraction": 0.25341796875,
+      "shade_min": 0.4364970028400421,
+      "shade_max": 1.1486760377883911,
+      "runtime_sha256": "86cb6d1b6cdd99740b702be18de0f3ada3a67d1d159c0c2d435b225329d68dcd",
+      "field_sha256": "d968e7ef3f334454c56e14ecf110a8294c452ed251e091a4b68985be10aaff39",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 5,
+      "void_components": 5,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "lvdrxne",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 6.204042541187091,
+      "exact_background_fraction": 0.114501953125,
+      "shade_min": 0.4364970028400421,
+      "shade_max": 1.1474725008010864,
+      "runtime_sha256": "795e9fbe5e2fffb34b6aac08612fa986f884b53a97a8e29763bfef4e9a08b507",
+      "field_sha256": "c4f1ec558272170ffcc7296a58486a5fe2b86094ba80c41ca727a45c7c6318f6",
+      "original_components": 11,
+      "components": 11,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.6494521930083741
+    },
+    {
+      "name": "lvdrxnw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 7.486421643695763,
+      "exact_background_fraction": 0.0679931640625,
+      "shade_min": 0.4374801516532898,
+      "shade_max": 1.1464803218841553,
+      "runtime_sha256": "1c21bba6065697289bbe24548b06a075025e2636e6045d5bdc68ad5cf938c317",
+      "field_sha256": "564409a8b93002b7956c15b5d171980d0c7657b6f84a76b6823bf2f785126b0e",
+      "original_components": 10,
+      "components": 10,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.6433204114437103
+    },
+    {
+      "name": "lvdrxse",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 5.992518996200761,
+      "exact_background_fraction": 0.151611328125,
+      "shade_min": 0.4374808669090271,
+      "shade_max": 1.0733317136764526,
+      "runtime_sha256": "5fe77881b37453cf451bd508fb7b507dcf23f1d162cd7790f4ec0fd11756abc0",
+      "field_sha256": "e4c8d29fb05ce1e24cebe48a41be067dbf1cc9fb85e3f490a46b1b49e143e1e5",
+      "original_components": 11,
+      "components": 11,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "lvdrxsw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 6.743159244706396,
+      "exact_background_fraction": 0.10357666015625,
+      "shade_min": 0.4350077509880066,
+      "shade_max": 1.1046288013458252,
+      "runtime_sha256": "016aa6c653106d4f938871316dfad410d64b007f1a3076794b12c6f4c3c7d994",
+      "field_sha256": "373bc7f9a09ec884ef43a58d6b34c791f42fa96b3a377da61fc54ec5e3d5f405",
+      "original_components": 11,
+      "components": 11,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.649107224767872
+    },
+    {
+      "name": "lve",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.1791363048484278,
+      "exact_background_fraction": 0.0284423828125,
+      "shade_min": 0.44590169191360474,
+      "shade_max": 1.3513340950012207,
+      "runtime_sha256": "eedd207d84e67ed553db4e97c15aac78aaf27e5df294fd0ce5b8308114542c16",
+      "field_sha256": "d06d1a825b511f03ee8ab86760286d03044f993069222afed31b96e4ca644c2e",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvn",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.3634633240482825,
+      "exact_background_fraction": 0.0235595703125,
+      "shade_min": 0.4513494372367859,
+      "shade_max": 1.3336542844772339,
+      "runtime_sha256": "b1788eca01f86a0eaca4453b05c230fab4fcfff4bb008266d9444d5f6e3f9962",
+      "field_sha256": "cc4ee691d366dbfefb26c6fe9d87cb04742bab0c736772310a54cb77d43c64f4",
+      "original_components": 7,
+      "components": 7,
+      "original_void_components": 14,
+      "void_components": 14,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvne",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.0650347944431608,
+      "exact_background_fraction": 0.04010009765625,
+      "shade_min": 0.455710768699646,
+      "shade_max": 1.3497153520584106,
+      "runtime_sha256": "970ec8af968fe668d9d995f343ec0db753d223012619efb1cd493ab37ff45aa9",
+      "field_sha256": "3b7c08e1441cc706bb72d5712ad3a7daf0f7c351e0a5f0c5d287d53547b900bd",
+      "original_components": 2,
+      "components": 2,
+      "original_void_components": 31,
+      "void_components": 31,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvnw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.201028067408511,
+      "exact_background_fraction": 0.02880859375,
+      "shade_min": 0.4439562261104584,
+      "shade_max": 1.3546247482299805,
+      "runtime_sha256": "6e426191b12d6b76eea43936386d987a2a9eef586685cc36008ed33476ef969e",
+      "field_sha256": "b6e89a9ff3a7cb92ea5920156a0d21fdd35e818d86b48771305d58182a5bcc13",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 24,
+      "void_components": 24,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvs",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.2568434367694625,
+      "exact_background_fraction": 0.0233154296875,
+      "shade_min": 0.4467293322086334,
+      "shade_max": 1.3540321588516235,
+      "runtime_sha256": "34254c00db9114e95c3788409755e3b5881b8ed5e2ab421c59fb9991c5ca0653",
+      "field_sha256": "5a62b093e5fe1d25f8c106d07d45d86c88c6259f5df331f035078e9cc3f52baf",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 42,
+      "void_components": 42,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvse",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.1334936499586685,
+      "exact_background_fraction": 0.0391845703125,
+      "shade_min": 0.44723787903785706,
+      "shade_max": 1.3470360040664673,
+      "runtime_sha256": "0ae8a903b18aa0e01f83989cc463c2bf893a89f82e0929fd8bdf59e55e3e4f6c",
+      "field_sha256": "f55dfaaf33f9d54ae84ca8c291ea7a009a1ae203f85975c0f35045ead81f5b92",
+      "original_components": 2,
+      "components": 2,
+      "original_void_components": 34,
+      "void_components": 34,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvsw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.118017500892903,
+      "exact_background_fraction": 0.04144287109375,
+      "shade_min": 0.44961467385292053,
+      "shade_max": 1.3466346263885498,
+      "runtime_sha256": "c865a3f335463d264c6c266b5907c9a87572dff9cfca97c258f42d6771c0a83f",
+      "field_sha256": "69898b0844fa89a687f21c1ffd3a78e5efa7270c0bfbb6bc6c77f50c8a6a85c3",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 28,
+      "void_components": 28,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.1911604575763142,
+      "exact_background_fraction": 0.03057861328125,
+      "shade_min": 0.4465184509754181,
+      "shade_max": 1.3378044366836548,
+      "runtime_sha256": "9831c2b42007cfee981b8590c28be9dec72e437b61d6f37b168b2ceb7185bcf5",
+      "field_sha256": "ab826ce5e54c7b72f659880141c8a85b1ae58f7124af609d84e081f75c3febb3",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 34,
+      "void_components": 34,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvxne",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.3637769176009968,
+      "exact_background_fraction": 0.015380859375,
+      "shade_min": 0.4519353210926056,
+      "shade_max": 1.341225266456604,
+      "runtime_sha256": "56df6f712102a6ab8ac9e3b938b7abb68ca9906d130a648291ee29c80a3e14e9",
+      "field_sha256": "7ef482bdd245bae7d47dd5fd3ae6fde26da33748287cc33e09b877e174bdde0c",
+      "original_components": 7,
+      "components": 7,
+      "original_void_components": 26,
+      "void_components": 26,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvxnw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.3302147571134917,
+      "exact_background_fraction": 0.010498046875,
+      "shade_min": 0.4461733102798462,
+      "shade_max": 1.3430707454681396,
+      "runtime_sha256": "b31771d3f9731bfec0c5162293a01662db1fe18bdb886c8dac4909c9dfc1acb0",
+      "field_sha256": "e217956437388721b6bc67fc60a134ff8cbc2245908412b1b7f4620951dcb792",
+      "original_components": 9,
+      "components": 9,
+      "original_void_components": 17,
+      "void_components": 17,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvxse",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.1782895899611172,
+      "exact_background_fraction": 0.00970458984375,
+      "shade_min": 0.44390591979026794,
+      "shade_max": 1.3427343368530273,
+      "runtime_sha256": "3483f53c49205e3c917e83470d1a4368713e981edd8b3bd58e13f1872548200e",
+      "field_sha256": "168b00d9af89381a16f0542e194190318e36db2519e3e2c96ae4c93ea76433d0",
+      "original_components": 6,
+      "components": 6,
+      "original_void_components": 13,
+      "void_components": 13,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "lvxsw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.180371732026144,
+      "exact_background_fraction": 0.00994873046875,
+      "shade_min": 0.4516230821609497,
+      "shade_max": 1.3376085758209229,
+      "runtime_sha256": "ce138862f1660ce4c2b18de18c9c13a73852d6361ed8ff6523c32390c796c0ec",
+      "field_sha256": "5d36e5b0d058abd9300c5d9a53dec79f5c0dbb712e66b78cf0ecd9680a9953f0",
+      "original_components": 6,
+      "components": 6,
+      "original_void_components": 8,
+      "void_components": 8,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "tre",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.6547619047619048,
+      "exact_background_fraction": 0.315185546875,
+      "shade_min": 0.47099894285202026,
+      "shade_max": 1.1207869052886963,
+      "runtime_sha256": "9fc9b499416c66ef1432c1f62acb4ba72b675ad7df0cd3ef74cd6d7605914a7f",
+      "field_sha256": "df0bb52fe3ddd2d677e97d1e9e59ae4237bac91cd870c22bf12dfaad833d00b1",
+      "original_components": 17,
+      "components": 17,
+      "original_void_components": 158,
+      "void_components": 158,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trn",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.6498055298829329,
+      "exact_background_fraction": 0.31610107421875,
+      "shade_min": 0.4961586594581604,
+      "shade_max": 1.198994517326355,
+      "runtime_sha256": "058391556fe224f1006756ebc92af014895a3d72cb786f246ef0677e14cdc74c",
+      "field_sha256": "350be4f7d04a4ab89686420a378a9fbaac7db4d3b34f1f0ac42eb90cd5eb7fcb",
+      "original_components": 22,
+      "components": 22,
+      "original_void_components": 141,
+      "void_components": 141,
+      "corrected_native_pixels": 37,
+      "max_alpha_change": 0.2031874656677246
+    },
+    {
+      "name": "trne",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.6542889087656529,
+      "exact_background_fraction": 0.4329833984375,
+      "shade_min": 0.537298858165741,
+      "shade_max": 1.1076909303665161,
+      "runtime_sha256": "edac2a1783c1ab104f920c139d0d5d406e684cf3b4b98d7b628f8b44fe75cd03",
+      "field_sha256": "a0428fdb8bdd83317ef34fa14d1a51e36897bd26b42ab4c4537e136b5830fc9e",
+      "original_components": 11,
+      "components": 11,
+      "original_void_components": 144,
+      "void_components": 144,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trnw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.6603701280493505,
+      "exact_background_fraction": 0.4022216796875,
+      "shade_min": 0.4873447120189667,
+      "shade_max": 1.0918761491775513,
+      "runtime_sha256": "f19c8f66153a3ccc29c280c478303267fa3f5cc5989a6b60f5111ceee92a9a8f",
+      "field_sha256": "78c3d594765cf5b1daacfc212531bd81c0a5cafa0d07487b9652bda72923777a",
+      "original_components": 14,
+      "components": 14,
+      "original_void_components": 154,
+      "void_components": 154,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trs",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.6638390368966671,
+      "exact_background_fraction": 0.28814697265625,
+      "shade_min": 0.480482816696167,
+      "shade_max": 1.303471326828003,
+      "runtime_sha256": "656455348b126b385ab9afdd4f43e1bf9b117d6d9c9570dba134e3b9305243c4",
+      "field_sha256": "5c42ce08613bed2a1ec055dbafd192d699f0588685212f789e80e3fe110042d4",
+      "original_components": 13,
+      "components": 13,
+      "original_void_components": 121,
+      "void_components": 121,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trse",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.6379126436781609,
+      "exact_background_fraction": 0.3746337890625,
+      "shade_min": 0.46645787358283997,
+      "shade_max": 1.2860831022262573,
+      "runtime_sha256": "a2160a0a9119549ac93698e32cf89defdaf2a858f579f89f492aa7ef134afc73",
+      "field_sha256": "59bc2a43cf32b9172d250db15482afd024b8143527fc9a5bafd51d8a837982e7",
+      "original_components": 14,
+      "components": 14,
+      "original_void_components": 177,
+      "void_components": 177,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trsw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.6651407584977566,
+      "exact_background_fraction": 0.39263916015625,
+      "shade_min": 0.4905301630496979,
+      "shade_max": 1.2864766120910645,
+      "runtime_sha256": "246827c789b095acbc09422f3590b296a1232ea58387e44ce47b2f8294054cf8",
+      "field_sha256": "4812b619b42946f24dd8ef52d5b9e5407899217d6233d13806b5bcfcf8d9a2ef",
+      "original_components": 6,
+      "components": 6,
+      "original_void_components": 172,
+      "void_components": 172,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.6562074365417533,
+      "exact_background_fraction": 0.33270263671875,
+      "shade_min": 0.4961903691291809,
+      "shade_max": 1.253387689590454,
+      "runtime_sha256": "4c3df2f8ddedf8d7c95507a165211b44f065083f5a4929bb853c81a08db23b13",
+      "field_sha256": "037d154dc1bb629f28c9ff4fd0cd738828ee452ecc95a8ea336ca299994a62e1",
+      "original_components": 9,
+      "components": 9,
+      "original_void_components": 125,
+      "void_components": 125,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trxne",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.5848025094424173,
+      "exact_background_fraction": 0.135498046875,
+      "shade_min": 0.498222291469574,
+      "shade_max": 1.1273683309555054,
+      "runtime_sha256": "5932c8f631b5411778f85f5680e7cf3f8d2a15f327a8199c3ccbe9ff690d88e5",
+      "field_sha256": "6e3a98524b8172f45e2552bc79ddd419d78abce731aef07fb94795e173c8c792",
+      "original_components": 10,
+      "components": 10,
+      "original_void_components": 124,
+      "void_components": 124,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trxnw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.604682389937107,
+      "exact_background_fraction": 0.14300537109375,
+      "shade_min": 0.4934214651584625,
+      "shade_max": 1.2805930376052856,
+      "runtime_sha256": "1b8bb8756b21f1db9ca88f06859b24fda62159f33977c3b122e57d3ac28dcc35",
+      "field_sha256": "7d9ac98c264fe81174d46a86d5b38837d423e1609749e5e9e52ad33b13f63187",
+      "original_components": 16,
+      "components": 16,
+      "original_void_components": 125,
+      "void_components": 125,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trxse",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.5980208333333336,
+      "exact_background_fraction": 0.16900634765625,
+      "shade_min": 0.5151012539863586,
+      "shade_max": 1.1081927640043432,
+      "runtime_sha256": "7a9de712b3b374826cf2d6d2277b9191d6bf8af421ed35e486ecf94c4b0328f1",
+      "field_sha256": "f06651d9ce631eadc1c6a9e92f0a463a29971e7e2871cef0722c6972ff42c477",
+      "original_components": 14,
+      "components": 14,
+      "original_void_components": 119,
+      "void_components": 119,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "trxsw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.5168708998638447,
+      "exact_background_fraction": 0.12091064453125,
+      "shade_min": 0.501790463924408,
+      "shade_max": 1.2510424852371216,
+      "runtime_sha256": "9689624966c051a74767f0edd20d12f513213481c67598658f26202b3699e9fe",
+      "field_sha256": "d4ae9213ff4d1728cc2822d069e45c2f9527b7e5059bb8203cafde6ddd861ee9",
+      "original_components": 12,
+      "components": 12,
+      "original_void_components": 134,
+      "void_components": 134,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "wae",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.6117600407015025,
+      "exact_background_fraction": 0.335693359375,
+      "shade_min": 0.5005296468734741,
+      "shade_max": 1.3196836709976196,
+      "runtime_sha256": "9e8f11d66a0c652b9201d98a8ce615c2e52a86b87bc59c347a7f38a5f4d8337b",
+      "field_sha256": "edd74758b2fc368437c34489d1b74e97604f95c026c65d7ef7d99e820f03a825",
+      "original_components": 2,
+      "components": 2,
+      "original_void_components": 8,
+      "void_components": 8,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "wan",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.5828101145038169,
+      "exact_background_fraction": 0.29156494140625,
+      "shade_min": 0.4876439571380615,
+      "shade_max": 1.3141001462936401,
+      "runtime_sha256": "0d2e9de8d91e0defebaf663781cf9d58277ad972cd2a0856692d38efcd6dc77f",
+      "field_sha256": "bb202a7cb9f15ce82cd15f33abd2c047a77be6a8e3f7391c2a0fdedd5ba070d9",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 8,
+      "void_components": 8,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "wane",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.6362848917261235,
+      "exact_background_fraction": 0.4171142578125,
+      "shade_min": 0.47147008776664734,
+      "shade_max": 1.3013042211532593,
+      "runtime_sha256": "d4c09af838a3af72112a445c5aba29c29e7a56e5f0b01a3695b101fea3a3217d",
+      "field_sha256": "c56b9d925fec28c6b4cb990c43a98c381eb5e7cbeb0806b552072829c31d82ad",
+      "original_components": 2,
+      "components": 2,
+      "original_void_components": 13,
+      "void_components": 13,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "wanw",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.617320581369079,
+      "exact_background_fraction": 0.39056396484375,
+      "shade_min": 0.4849841892719269,
+      "shade_max": 1.3089900016784668,
+      "runtime_sha256": "a94c2a4352c7eb0c3cd7ab818df45f9cb1fc5fa5cc1c79f0ce04c424a76c088f",
+      "field_sha256": "8285e93af0a8fba0d85d155991ce202712abfab68f62e7c450d57f697ac3ad2f",
+      "original_components": 4,
+      "components": 4,
+      "original_void_components": 10,
+      "void_components": 10,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "was",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.5489756158873808,
+      "exact_background_fraction": 0.263916015625,
+      "shade_min": 0.5025386810302734,
+      "shade_max": 1.3224892616271973,
+      "runtime_sha256": "1bfeb646a6d96a65881c3b72d8b42300ead2d6e4d269f2fcec8d198734c0c78e",
+      "field_sha256": "4e61c4261e76f44e4fbee1ae5b1f2175947677442b47b24460c9a7a37b84a06a",
+      "original_components": 4,
+      "components": 4,
+      "original_void_components": 7,
+      "void_components": 7,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "wase",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.6519279107792176,
+      "exact_background_fraction": 0.46307373046875,
+      "shade_min": 0.5043586492538452,
+      "shade_max": 1.302006721496582,
+      "runtime_sha256": "97fc40dd9d90bf432aa82a12904c5f9dc27895c9e50e9fa5cb8c031ae521400d",
+      "field_sha256": "cdb02542b0971e64fd591078b5de0131fa423dae43179566fb567064f9c135b7",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 12,
+      "void_components": 12,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "waxne",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.4571597322483267,
+      "exact_background_fraction": 0.12261962890625,
+      "shade_min": 0.4829154908657074,
+      "shade_max": 1.2968944311141968,
+      "runtime_sha256": "d1ff4fe43b65a7c92d5b6d5ed18dbec6425862087553f86477649bc9a7152ea7",
+      "field_sha256": "9303e063597ec8ff091d562a91cf96cfd7c157cf9f17e3d93db0a7af4771906f",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 6,
+      "void_components": 6,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "waxnw",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.4681193806193807,
+      "exact_background_fraction": 0.1522216796875,
+      "shade_min": 0.49102580547332764,
+      "shade_max": 1.3104164600372314,
+      "runtime_sha256": "8ea840ed15517cb9963c4d8e1adf990a206e87f9bc291d09d41c985eb6d773f7",
+      "field_sha256": "a8aba62624e478a51289b2292d744d0ddea5e5faa1383f8a8e2cf3648c1ebdf8",
+      "original_components": 4,
+      "components": 4,
+      "original_void_components": 8,
+      "void_components": 8,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "waxse",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.4368417966459483,
+      "exact_background_fraction": 0.12054443359375,
+      "shade_min": 0.48864126205444336,
+      "shade_max": 1.3044856786727905,
+      "runtime_sha256": "c5e8a65eb216c31de15bae5e07f2d859d06f4e1121e7b850e150d07c805660e6",
+      "field_sha256": "130185f52fef94c6f51da41f49730a1ce1fac0a0ce74b6107cae14df0afdcc7e",
+      "original_components": 7,
+      "components": 7,
+      "original_void_components": 9,
+      "void_components": 9,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.0
+    },
+    {
+      "name": "wtrdre",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 6.771332074680092,
+      "exact_background_fraction": 0.129638671875,
+      "shade_min": 0.5308307409286499,
+      "shade_max": 1.3602325916290283,
+      "runtime_sha256": "7b7823d9bf462b6a455cb25cd89446070a70976001880b57ad744875dc668d6e",
+      "field_sha256": "f5754af405258fbc420de7a4950202b9efe4c3f08a0553401c8d47a1bffbdf0b",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 7,
+      "void_components": 7,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.7047557830810547
+    },
+    {
+      "name": "wtrdrn",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 4.788619218838127,
+      "exact_background_fraction": 0.2164306640625,
+      "shade_min": 0.6013926267623901,
+      "shade_max": 1.3602627515792847,
+      "runtime_sha256": "0bda82b6d1b728f9dd55de5403bcb11dc8b56a91bfc4a980192402239d48b873",
+      "field_sha256": "f24dd164d7a44de2ffc4bc7e6acf7db031c263724424d2a21587a8d7e049a039",
+      "original_components": 7,
+      "components": 7,
+      "original_void_components": 4,
+      "void_components": 4,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.63446044921875
+    },
+    {
+      "name": "wtrdrne",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 5.450015252737866,
+      "exact_background_fraction": 0.22772216796875,
+      "shade_min": 0.6511242985725403,
+      "shade_max": 1.3586777448654175,
+      "runtime_sha256": "66bc66920b9803d15a3201abbb523fd05c9774f7d258004382226d8e1b49749d",
+      "field_sha256": "bf1549828b58cddafb30a6f1e6bec2fbcbd0f5b25641017f60bbb0dfc9f4c5c2",
+      "original_components": 6,
+      "components": 6,
+      "original_void_components": 5,
+      "void_components": 5,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "wtrdrnw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 4.308453326351922,
+      "exact_background_fraction": 0.2752685546875,
+      "shade_min": 0.6128060817718506,
+      "shade_max": 1.3579002618789673,
+      "runtime_sha256": "36a6f936eba4888616b864c37a791891af637370bc8661e2ed0fc242fa039aa9",
+      "field_sha256": "62673a73543e6d3ddf3be26003fc51258e851dce44a3a1aaacc8fba2a6b04968",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 5,
+      "void_components": 5,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "wtrdrs",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 6.229858218688206,
+      "exact_background_fraction": 0.14501953125,
+      "shade_min": 0.6546371579170227,
+      "shade_max": 1.3591896295547485,
+      "runtime_sha256": "0d0c80bdb7e176a60e143dd47234eed916170b57ac90892270a0758548610d87",
+      "field_sha256": "6d72287b43c137edac24c1617ed906fb8331ea7d6f2f145136443110ac9df65d",
+      "original_components": 7,
+      "components": 7,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "wtrdrse",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 5.240123299680438,
+      "exact_background_fraction": 0.244873046875,
+      "shade_min": 0.5734885931015015,
+      "shade_max": 1.3599754571914673,
+      "runtime_sha256": "2692eb8a67148208f0cdd7f18e7f0d76147ba1c698502b6cb990928f7015da1c",
+      "field_sha256": "85cad9b8460ea599d86dfdaae4434d235d5d29af9468f081d1eb3f12d7644f5e",
+      "original_components": 3,
+      "components": 3,
+      "original_void_components": 4,
+      "void_components": 4,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.7047557830810547
+    },
+    {
+      "name": "wtrdrsw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 4.307934276183387,
+      "exact_background_fraction": 0.28515625,
+      "shade_min": 0.6461948156356812,
+      "shade_max": 1.359000563621521,
+      "runtime_sha256": "f2c8c5e640087b576cb4e3b583d43295f4332bc452e3ae2e82ee2bb217567eaf",
+      "field_sha256": "b416d630f1bd9a370711938e0368435d70ddf39295fd81bf7ab983da9e3ebf6f",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "wtrdrw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 7.162216132960813,
+      "exact_background_fraction": 0.15386962890625,
+      "shade_min": 0.49589627981185913,
+      "shade_max": 1.359786868095398,
+      "runtime_sha256": "12de189791787c0e34ce46eaadd31701039f71619b27b0ae3fa965ee93c55449",
+      "field_sha256": "cf3413770fb87790efd3c720aeb43b66ccec5eebb311e7c233c7fc9030bf4378",
+      "original_components": 5,
+      "components": 5,
+      "original_void_components": 5,
+      "void_components": 5,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "wtrdrxne",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 7.722566446588791,
+      "exact_background_fraction": 0.07183837890625,
+      "shade_min": 0.6130717992782593,
+      "shade_max": 1.3591521978378296,
+      "runtime_sha256": "61d508a0c2b7168248296a94b790ae72d4c060d39af416dd2cbdc76c0c03b8ee",
+      "field_sha256": "85d22065f5c9316e4611a4e7bdb35a9e2e0faf13d0182b08d7e956787eccbbaa",
+      "original_components": 11,
+      "components": 11,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "wtrdrxnw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 8.573794939108874,
+      "exact_background_fraction": 0.05426025390625,
+      "shade_min": 0.6259874626084638,
+      "shade_max": 1.3582379817962646,
+      "runtime_sha256": "1c42ccec456557e0fc3167f695a8eafdc539b000cb45a94bdc6595e1a448180e",
+      "field_sha256": "2d83e9b71ae978629201e3cbde4915e872012c747f03ba55d50f5494539bf9eb",
+      "original_components": 10,
+      "components": 10,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.6433204114437103
+    },
+    {
+      "name": "wtrdrxse",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 6.751582183563288,
+      "exact_background_fraction": 0.10198974609375,
+      "shade_min": 0.6716175675392151,
+      "shade_max": 1.3580825328826904,
+      "runtime_sha256": "26a4ad04ba6b72396c6aa7684479eb9f9f76717cf7af8fb25e6a2d498735cc45",
+      "field_sha256": "7e2f2e4c269b6850e1487ae48ac28fae5b69908115a653f0449dc01f819fc949",
+      "original_components": 11,
+      "components": 11,
+      "original_void_components": 1,
+      "void_components": 1,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.634160041809082
+    },
+    {
+      "name": "wtrdrxsw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 8.069200422292605,
+      "exact_background_fraction": 0.06915283203125,
+      "shade_min": 0.6454102993011475,
+      "shade_max": 1.3595426082611084,
+      "runtime_sha256": "96e428a45dcd00d3b64663673b5e390253595b80cb0ed16ee467a6361007c88c",
+      "field_sha256": "baab37ca8b9833076bb500208a339eea478ecf7db1f9f54e08c138e270769a2d",
+      "original_components": 11,
+      "components": 11,
+      "original_void_components": 3,
+      "void_components": 3,
+      "corrected_native_pixels": 0,
+      "max_alpha_change": 0.6719144092868072
+    }
+  ],
+  "source_build_sha256": "f2431af66fe6f31c26f90a77f856841948e164ce7fdf1b8a58a7fb460004c334",
+  "script_sha256": "5cb5ba9b6f779aceb18fb03968ca70d75efb1919ed95738828b52c0f1c436687",
+  "masters": {
+    "dirt": "88f9379ecad45e35a4b3888654abb972f428809e9f101d8c4321f7926d669dea",
+    "grey_dirt": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0",
+    "plains": "aad28c8345d14309fe95a48c8b9cf0b933cffd37f840cc96dfefbfb5c17c7a18"
+  }
+}

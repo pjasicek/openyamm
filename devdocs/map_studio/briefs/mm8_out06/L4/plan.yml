@@ -1,0 +1,55 @@
+format: 0
+level: L3
+pitch: "Shadowspire, the necromancers' town of Jadame: a walled-in dark town of steep-roofed houses on the shore of a grey bay in the south-west, a waste of tar pools in the north-west round the Mad Necromancer's Lab, and in the east a field of rock pinnacles with the Necromancers' Guild on the highest of them, the Vampire Crypt and a cave."
+datum: sea_level
+spaces:
+  - id: edge:east
+    kind: junction
+  - id: edge:north
+    kind: junction
+  - id: edge:south
+    kind: junction
+  - id: edge:west
+    kind: junction
+  - id: town:shadowspire
+    name: Shadowspire
+    kind: town
+  - id: water:sea
+    name: The bay
+    kind: water
+  - id: water:tar
+    name: Tar pools
+    kind: water
+  - id: zone:pinnacles
+    name: The pinnacles
+    kind: zone
+  - id: zone:waste
+    name: The tar waste
+    kind: zone
+    population:
+      - {id: pop:monsters, actor: Vampire, notes: "The map's three slots (out06 row: vampires, skeleton archers, bone dragons); each area names its slot."}
+      - {id: pop:items, actor: none, notes: Item spawn points of the original.}
+links:
+  - id: road:roads
+    from: town:shadowspire
+    to: town:shadowspire
+    kind: road
+    notes: "Every road of the map: the north road down the middle, the west road along the shore and the town's streets."
+entrances:
+  - id: entrance:east
+    space: edge:east
+    kind: exit
+    neighbour: edge:east
+  - id: entrance:north
+    space: edge:north
+    kind: both
+    neighbour: edge:north
+  - id: entrance:south
+    space: edge:south
+    kind: exit
+    neighbour: edge:south
+  - id: entrance:west
+    space: edge:west
+    kind: both
+    neighbour: edge:west
+sketch: {file: sketch.yml, grid: 512}

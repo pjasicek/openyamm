@@ -17,19 +17,8 @@ struct OutdoorBModelRuntimeTransformState
 float outdoorMechanismOpenFraction(
     const RuntimeMechanismState &mechanism,
     const EventRuntimeState::OutdoorModelMechanismDefinition &definition);
-void queueOutdoorMechanismMovementAudio(
-    EventRuntimeState &runtimeState,
-    uint32_t mechanismId,
-    const EventRuntimeState::OutdoorModelMechanismDefinition &definition,
-    uint16_t previousState,
-    bool wasMoving,
-    const RuntimeMechanismState &mechanism);
-void queueOutdoorMechanismCompletionAudio(
-    EventRuntimeState &runtimeState,
-    uint32_t mechanismId,
-    const EventRuntimeState::OutdoorModelMechanismDefinition &definition,
-    const RuntimeMechanismState &mechanism);
-void queueOutdoorMechanismAudioStop(EventRuntimeState &runtimeState, uint32_t mechanismId);
+// The outdoor model mechanisms' sound key (MechanismAudio.h: their busy loop, its stop).
+uint64_t outdoorMechanismAudioKey(uint32_t mechanismId);
 std::optional<uint16_t> outdoorBModelRuntimeInteractionEventId(
     const EventRuntimeState *pEventRuntimeState,
     size_t bModelIndex);

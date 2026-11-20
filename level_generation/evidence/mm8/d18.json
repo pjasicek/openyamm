@@ -1,0 +1,682 @@
+{
+  "kind": "indoor",
+  "world": "mm8",
+  "map": "d18.blv",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm8/maps/d18.blv",
+      "sha256": "f62e52f4defb85f5006389495e4e251dfbed05e9dd8aac55b03f7787530da606"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/d18.scene.yml",
+      "sha256": "9718cc89500b5719bcff45a2ed4c13de3e3fd6c9cc6357fcf0bf153ceb8e7d2a"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/d18.lua",
+      "sha256": "9482759c8b78894c35e75fc2732496205349c2a44822dfac9c91c9ba50c90512"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/map_stats.txt",
+      "sha256": "15c97e7fa3a23f1857be2646cf732e89c5000a06b3b3ee252f9a36a4250e5ed6"
+    },
+    {
+      "path": "reference/mmext-scripts/Decompiled_Scripts/mm8orig/txt/D18.txt",
+      "sha256": "d33d91099fc868796941cddedf6befaa64d92ca0ed1c7dd025d292332fcc9bc1"
+    }
+  ],
+  "map_stats": {
+    "id": 29,
+    "name": "Naga Vault",
+    "line": 32,
+    "perception": 7,
+    "refill_days": 336,
+    "disarm": 12,
+    "trap_d20": 7,
+    "treasure": 3,
+    "encounter_chance": 10,
+    "music": "2",
+    "encounters": [
+      {
+        "name": "Naga",
+        "difficulty": "2",
+        "count": "1-4",
+        "weight": 100
+      },
+      {
+        "name": "Serpentmen",
+        "difficulty": "3",
+        "count": "1-3",
+        "weight": 0
+      },
+      {
+        "name": "0",
+        "difficulty": "1",
+        "count": "1-3",
+        "weight": 0
+      }
+    ]
+  },
+  "source_version": 8,
+  "scene_counts": {
+    "face_attribute_overrides": 0,
+    "decoration_flags": 0,
+    "actors": 4,
+    "sprite_objects": 1,
+    "chests": 20,
+    "doors": 14
+  },
+  "entities": 21,
+  "spawn_records": 18,
+  "decorations": {
+    "Party Start": 1,
+    "dec56": 20
+  },
+  "unique_actors": [],
+  "declared_event_count": 82,
+  "vertices": 1974,
+  "faces": 1486,
+  "sectors": [
+    {
+      "floors": 0,
+      "walls": 0,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 0,
+      "ambient": 22
+    },
+    {
+      "floors": 13,
+      "walls": 52,
+      "ceilings": 10,
+      "portals": 1,
+      "faces": 76,
+      "ambient": 22
+    },
+    {
+      "floors": 10,
+      "walls": 26,
+      "ceilings": 23,
+      "portals": 2,
+      "faces": 61,
+      "ambient": 22
+    },
+    {
+      "floors": 81,
+      "walls": 126,
+      "ceilings": 50,
+      "portals": 6,
+      "faces": 263,
+      "ambient": 22
+    },
+    {
+      "floors": 1,
+      "walls": 3,
+      "ceilings": 4,
+      "portals": 1,
+      "faces": 9,
+      "ambient": 22
+    },
+    {
+      "floors": 1,
+      "walls": 3,
+      "ceilings": 4,
+      "portals": 1,
+      "faces": 9,
+      "ambient": 22
+    },
+    {
+      "floors": 1,
+      "walls": 3,
+      "ceilings": 4,
+      "portals": 1,
+      "faces": 9,
+      "ambient": 22
+    },
+    {
+      "floors": 63,
+      "walls": 78,
+      "ceilings": 52,
+      "portals": 2,
+      "faces": 195,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 16,
+      "ceilings": 9,
+      "portals": 1,
+      "faces": 29,
+      "ambient": 22
+    },
+    {
+      "floors": 37,
+      "walls": 72,
+      "ceilings": 42,
+      "portals": 2,
+      "faces": 153,
+      "ambient": 22
+    },
+    {
+      "floors": 27,
+      "walls": 54,
+      "ceilings": 64,
+      "portals": 3,
+      "faces": 148,
+      "ambient": 22
+    },
+    {
+      "floors": 4,
+      "walls": 7,
+      "ceilings": 10,
+      "portals": 2,
+      "faces": 23,
+      "ambient": 22
+    },
+    {
+      "floors": 84,
+      "walls": 151,
+      "ceilings": 51,
+      "portals": 2,
+      "faces": 288,
+      "ambient": 22
+    },
+    {
+      "floors": 9,
+      "walls": 92,
+      "ceilings": 74,
+      "portals": 1,
+      "faces": 176,
+      "ambient": 22
+    },
+    {
+      "floors": 15,
+      "walls": 36,
+      "ceilings": 8,
+      "portals": 1,
+      "faces": 60,
+      "ambient": 22
+    }
+  ],
+  "occupied_sectors": 14,
+  "portal_faces": 13,
+  "outlines": 1079,
+  "bsp_nodes": 823,
+  "lights": 23,
+  "light_radius_range": [
+    384,
+    384
+  ],
+  "facet_types": {
+    "1": 732,
+    "3": 237,
+    "5": 108,
+    "4": 112,
+    "6": 297
+  },
+  "bounds": [
+    [
+      -1153,
+      -2128,
+      -272
+    ],
+    [
+      6993,
+      1760,
+      1400
+    ]
+  ],
+  "doors": [
+    {
+      "door_index": 0,
+      "legacy_attributes": 1,
+      "door_id": 1,
+      "time_since_triggered_ms": 0,
+      "move_length": 384,
+      "open_speed": 100,
+      "close_speed": 100,
+      "state": 2
+    },
+    {
+      "door_index": 1,
+      "legacy_attributes": 1,
+      "door_id": 2,
+      "time_since_triggered_ms": 0,
+      "move_length": 384,
+      "open_speed": 100,
+      "close_speed": 100,
+      "state": 2
+    },
+    {
+      "door_index": 2,
+      "legacy_attributes": 1,
+      "door_id": 3,
+      "time_since_triggered_ms": 0,
+      "move_length": 384,
+      "open_speed": 100,
+      "close_speed": 100,
+      "state": 2
+    },
+    {
+      "door_index": 3,
+      "legacy_attributes": 1,
+      "door_id": 4,
+      "time_since_triggered_ms": 0,
+      "move_length": 384,
+      "open_speed": 100,
+      "close_speed": 100,
+      "state": 2
+    },
+    {
+      "door_index": 4,
+      "legacy_attributes": 1,
+      "door_id": 5,
+      "time_since_triggered_ms": 0,
+      "move_length": 384,
+      "open_speed": 100,
+      "close_speed": 100,
+      "state": 2
+    },
+    {
+      "door_index": 5,
+      "legacy_attributes": 0,
+      "door_id": 71,
+      "time_since_triggered_ms": 0,
+      "move_length": 8,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 0
+    },
+    {
+      "door_index": 6,
+      "legacy_attributes": 0,
+      "door_id": 72,
+      "time_since_triggered_ms": 0,
+      "move_length": 8,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 0
+    },
+    {
+      "door_index": 7,
+      "legacy_attributes": 0,
+      "door_id": 73,
+      "time_since_triggered_ms": 0,
+      "move_length": 8,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 0
+    },
+    {
+      "door_index": 8,
+      "legacy_attributes": 0,
+      "door_id": 74,
+      "time_since_triggered_ms": 0,
+      "move_length": 8,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 0
+    },
+    {
+      "door_index": 9,
+      "legacy_attributes": 0,
+      "door_id": 75,
+      "time_since_triggered_ms": 0,
+      "move_length": 8,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 0
+    },
+    {
+      "door_index": 10,
+      "legacy_attributes": 1,
+      "door_id": 6,
+      "time_since_triggered_ms": 0,
+      "move_length": 240,
+      "open_speed": 100,
+      "close_speed": 100,
+      "state": 2
+    },
+    {
+      "door_index": 11,
+      "legacy_attributes": 1,
+      "door_id": 76,
+      "time_since_triggered_ms": 0,
+      "move_length": 512,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 2
+    },
+    {
+      "door_index": 12,
+      "legacy_attributes": 1,
+      "door_id": 8,
+      "time_since_triggered_ms": 0,
+      "move_length": 253,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 2
+    },
+    {
+      "door_index": 13,
+      "legacy_attributes": 0,
+      "door_id": 77,
+      "time_since_triggered_ms": 0,
+      "move_length": 8,
+      "open_speed": 50,
+      "close_speed": 50,
+      "state": 0
+    }
+  ],
+  "face_flags": {
+    "secret": 2,
+    "invisible": 19,
+    "animated": 0,
+    "clickable": 62,
+    "pressure_plate": 0,
+    "trigger_monster": 0,
+    "trigger_object": 0
+  },
+  "textures": {
+    "TFB11": 601,
+    "GSton1WL": 467,
+    "GSton1FL": 95,
+    "Tfb1": 83,
+    "GStn1TP1": 63,
+    "GStn1BOT": 42,
+    "solid01": 36,
+    "gt002b": 20,
+    "HHR1P": 20,
+    "GCav2flr": 16,
+    "T01A01A": 10,
+    "gt002a": 8,
+    "gt003b": 6,
+    "gt002g": 4,
+    "gt002c": 4,
+    "": 3,
+    "gt003a": 3,
+    "C1FL": 3,
+    "gt002e": 2
+  },
+  "bound_events": [
+    {
+      "id": 11,
+      "binding_count": 1,
+      "line": 130,
+      "calls": [
+        "SetDoorState",
+        "SummonMonsters"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        1,
+        71
+      ],
+      "destinations": [],
+      "position": [
+        544.0,
+        432.0,
+        -32.0
+      ]
+    },
+    {
+      "id": 12,
+      "binding_count": 1,
+      "line": 138,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        2,
+        72
+      ],
+      "destinations": [],
+      "position": [
+        544.0,
+        432.0,
+        48.0
+      ]
+    },
+    {
+      "id": 13,
+      "binding_count": 1,
+      "line": 143,
+      "calls": [
+        "SetDoorState",
+        "SummonMonsters"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        3,
+        73
+      ],
+      "destinations": [],
+      "position": [
+        544.0,
+        352.0,
+        80.0
+      ]
+    },
+    {
+      "id": 14,
+      "binding_count": 1,
+      "line": 151,
+      "calls": [
+        "SetDoorState",
+        "SummonMonsters"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        4,
+        74
+      ],
+      "destinations": [],
+      "position": [
+        544.0,
+        272.0,
+        48.0
+      ]
+    },
+    {
+      "id": 15,
+      "binding_count": 1,
+      "line": 159,
+      "calls": [
+        "SetDoorState",
+        "SummonMonsters"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        5,
+        75
+      ],
+      "destinations": [],
+      "position": [
+        544.0,
+        272.0,
+        -32.0
+      ]
+    },
+    {
+      "id": 16,
+      "binding_count": 1,
+      "line": 167,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        6
+      ],
+      "destinations": [],
+      "position": [
+        1888.0,
+        368.0,
+        -120.0
+      ]
+    },
+    {
+      "id": 17,
+      "binding_count": 1,
+      "line": 171,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        8
+      ],
+      "destinations": [],
+      "position": [
+        6753.0,
+        -1456.0,
+        1006.0
+      ]
+    },
+    {
+      "id": 76,
+      "binding_count": 5,
+      "line": 347,
+      "calls": [
+        "CastSpell",
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        76,
+        77
+      ],
+      "destinations": [],
+      "position": [
+        1533.5,
+        -1461.5,
+        897.6
+      ]
+    },
+    {
+      "id": 82,
+      "binding_count": 19,
+      "line": 360,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        1
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        6913.0,
+        -1451.0,
+        807.421052631579
+      ]
+    },
+    {
+      "id": 83,
+      "binding_count": 28,
+      "line": 364,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        2
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        2516.1428571428573,
+        19.0,
+        564.8571428571429
+      ]
+    },
+    {
+      "id": 453,
+      "binding_count": 1,
+      "calls": [],
+      "unresolved": true,
+      "position": [
+        -823.8571428571429,
+        -1481.142857142857,
+        41.142857142857146
+      ]
+    },
+    {
+      "id": 454,
+      "binding_count": 1,
+      "calls": [],
+      "unresolved": true,
+      "position": [
+        -202.14285714285714,
+        -1481.142857142857,
+        41.142857142857146
+      ]
+    },
+    {
+      "id": 501,
+      "binding_count": 1,
+      "line": 436,
+      "calls": [
+        "MoveToMap"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [],
+      "destinations": [
+        "out05.odm"
+      ],
+      "position": [
+        -513.0,
+        -1664.0,
+        148.57142857142858
+      ]
+    },
+    {
+      "id": 6355,
+      "binding_count": 2,
+      "calls": [],
+      "unresolved": true,
+      "position": [
+        2618.7617260787993,
+        1519.8899312070043,
+        333.3808630393996
+      ]
+    }
+  ],
+  "bound_chest_slots": [
+    1,
+    2
+  ],
+  "bound_door_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77
+  ],
+  "bound_call_counts": {
+    "SetDoorState": 8,
+    "SummonMonsters": 4,
+    "CastSpell": 1,
+    "OpenChest": 2,
+    "MoveToMap": 1
+  }
+}

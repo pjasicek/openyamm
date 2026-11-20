@@ -1,0 +1,113 @@
+# Bootcamp as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  stem: bootcamp
+  display_name: Bootcamp
+  starts: [StartPoint1]   # the old map's party_start_points order
+  # + MM9's farm animals (7 goats, 4 cows, 4 brown cows: rows 268, 267, 297) + BC_Manager.scr's CacheOnly templates (never
+  # placed; regionlua.py spawns their rows for the museum's shows)
+  monster_classes: [LobberPod, LobberPodB, Goat, Cow, BrownCow, EvilGrandSorcerer, Oculus, ReverendMonk]
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [25646, 1777, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  SkyBox0: skip   # DemoSkyWorldModel
+  TOD_Sky0: skip   # TOD_Sky
+  Ocean: static   # WorldObject
+  MonsterDoor1: {group: MonsterDoor1, motion: rotate}   # RotatingDoor
+  MonsterDoor2: {group: MonsterDoor1, motion: rotate}   # RotatingDoor
+  barflap1: {group: barflap1, motion: rotate}   # RotatingDoor
+  barflap2: {group: barflap1, motion: rotate}   # RotatingDoor
+  'Transparent Chain': static   # WorldObject
+  'Transparent Chain2': static   # WorldObject
+  'Transparent Chain3': static   # WorldObject
+  'Transparent Chain4': static   # WorldObject
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate}   # RotatingDoor
+  RotatingDoor1: {group: RotatingDoor0, motion: rotate}   # RotatingDoor
+  Tavernzone: skip   # PortalZone (helper volume)
+  Tavernwindow: static   # WorldObject
+  NewHouseDoor1: {group: NewHouseDoor1, motion: rotate}   # RotatingDoor
+  NewHouseDoor0: {group: NewHouseDoor1, motion: rotate}   # RotatingDoor
+  TrainingDoor1: {group: TrainingDoor1, motion: rotate}   # RotatingDoor
+  TrainingDoor0: {group: TrainingDoor1, motion: rotate}   # RotatingDoor
+  RotatingDoor2: {group: RotatingDoor2, motion: rotate}   # RotatingDoor
+  SwitchLever0: static   # Switch
+  Portcullislever: static   # Switch
+  'timer lever 03a': static   # Button
+  Button1: static   # Button
+  'Transparent Bars': static   # WorldObject
+  Switch0: {group: Switch0, motion: dat}   # Door
+  Switch1: {group: Switch1, motion: dat}   # Door
+  Door0: {group: Door0, motion: dat}   # Door
+  Door1: {group: Door0, motion: dat}   # Door; MM9's DoubleDoorName pair: both leaves move together
+  Door2: {group: Door2, motion: dat}   # Door
+  Door3: {group: Door2, motion: dat}   # Door; MM9's DoubleDoorName pair: both leaves move together
+  MuseumDoor2: {group: MuseumDoor2, motion: rotate}   # RotatingDoor
+  MuseumDoor3: {group: MuseumDoor2, motion: rotate}   # RotatingDoor
+  MuseumDoor0: {group: MuseumDoor0, motion: rotate}   # RotatingDoor
+  MuseumDoor1: {group: MuseumDoor0, motion: rotate}   # RotatingDoor
+  Storezone: skip   # PortalZone (helper volume)
+  Storewindow0: static   # WorldObject
+  StoreDoorLeft: {group: StoreDoorLeft, motion: rotate}   # RotatingDoor
+  Terrain0: static   # Terrain
+  StoreDoorRight: {group: StoreDoorLeft, motion: rotate}   # RotatingDoor
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+  'textures\leveltextures\misc\invisible.dtx': {alias: INVIZVJN7N, width: 64, height: 64}   # the AIBarriers' faces
+# The New House's barred cell (bars ~16 LT apart close the voxel pass, playbook "Bars close the voxel pass"): without a
+# portal in each bar window the cell and the hall round it were two rooms with no portal between them, so from the cell
+# (the party at its door) the hall and the cell's own floor vanished (player report 2026-11-13, native -2410, -5558).
+rect_portals:
+  - {name: newhouse_bars_west, min_lt: [8981.5, 536, -1384], max_lt: [8982.5, 608, -1196]}    # cell | hall
+  - {name: newhouse_bars_east, min_lt: [9161.5, 536, -1384], max_lt: [9162.5, 608, -1196]}    # cell | hall
+  - {name: newhouse_bars_north, min_lt: [8996, 536, -1194.5], max_lt: [9148, 608, -1193.5]}   # cell | hall
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py BOOTCAMP): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    nwrock: cliff_layered           # 75 %: the isle's tan rock
+    bootgrass: grass_patches         # 15 %: moss on rock
+    bootgrass2: grass
+    sand: sand
+    maingrass: grass
+  slope: cliff_layered
+# MM9's Ladder volumes (dungeon/rotation.py ladder_records; facing_lt: (x, z) toward the rungs, surface_lt: the rung
+# face along it, top_exit_lt: where the climber steps off), measured against the static geometry (2026-11-05).
+ladders:
+  Ladder3: {facing_lt: [0, 1], surface_lt: -1162, top_exit_lt: [12230, 950, -1110]}   # rungs WorldObject8
+  Ladder4: {facing_lt: [-1, 0], surface_lt: 12348, top_exit_lt: [12300, 934, -676]}   # rungs WorldObject9
+  Ladder5: {facing_lt: [0, -1], surface_lt: -126, top_exit_lt: [12226, 774, -170]}    # the dock ladder (WorldObject10) from the sea
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated.
+# Frames and translucency; the scene file is a source of the map's lighting bake (tools/lighting/stale_bakes.py),
+# so a change here needs the bake again. Checked (2026-11-10): enabled 2026-11-10 with the
+# map's lighting re-transfer: the two water123 orbs on the pedestals (Alpha 0.4)
+# become 119 one-sided translucent faces and their 47 cap faces no liquid (the scratch build's scene differs by
+# `translucent_faces`, those faces' liquid texture overrides and lqw123o40 leaving a footstep list).
+spr_surfaces: {}
+liquids: {not_water: [WorldObject85, WorldObject87]}   # the orbs: translucent sprites, not water

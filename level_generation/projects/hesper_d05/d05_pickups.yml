@@ -1,0 +1,77 @@
+# Native clicks at every authored pickup; shared mechanics are covered by hesper_pickups_test/pickups.yml.
+id: hesper.d05.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d05.blv
+    party:
+      members:
+      - {name: Ada, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Bram, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Cyra, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Dana, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}
+# 751: Armoury
+- set_pose: {"map": "hes_d05.blv", "x": 1250, "y": 2350, "z": 1024, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 72}}
+# 752: Armoury
+- set_pose: {"map": "hes_d05.blv", "x": 2420, "y": 2350, "z": 1024, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 73}}
+# 753: Root Hall
+- set_pose: {"map": "hes_d05.blv", "x": 900, "y": 5020, "z": 0, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 74}}
+# 754: Root Hall
+- set_pose: {"map": "hes_d05.blv", "x": 5480, "y": 5020, "z": 0, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 75}}
+# 755: Root Gallery
+- set_pose: {"map": "hes_d05.blv", "x": 1700, "y": 2300, "z": 0, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 76}}
+# 756: Root Gallery
+- set_pose: {"map": "hes_d05.blv", "x": 5540, "y": 2260, "z": 0, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 77}}
+# 757: Coolant Roots
+- set_pose: {"map": "hes_d05.blv", "x": 1500, "y": 880, "z": -1024, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 78}}
+# 758: Coolant Roots
+- set_pose: {"map": "hes_d05.blv", "x": 5500, "y": 880, "z": -1024, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 79}}
+# 759: Root Heart
+- set_pose: {"map": "hes_d05.blv", "x": 2640, "y": 3920, "z": -1024, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 80}}
+# 760: Root Heart
+- set_pose: {"map": "hes_d05.blv", "x": 3760, "y": 3920, "z": -1024, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 81}}
+# 761: Barracks
+- set_pose: {"map": "hes_d05.blv", "x": 1340, "y": 3900, "z": 1024, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 82}}
+# 762: Barracks
+- set_pose: {"map": "hes_d05.blv", "x": 5200, "y": 4080, "z": 1024, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 83}}
+# 763: Drill Floor
+- set_pose: {"map": "hes_d05.blv", "x": 3080, "y": 1170, "z": 1024, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 84}}
+# 764: Drill Floor
+- set_pose: {"map": "hes_d05.blv", "x": 3450, "y": 2270, "z": 1024, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 85}}
+# 765: Signal Looms
+- set_pose: {"map": "hes_d05.blv", "x": 5140, "y": 4920, "z": 2048, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 86}}
+# 766: Loom Control
+- set_pose: {"map": "hes_d05.blv", "x": 1550, "y": 2470, "z": 2048, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 87}}
+# 767: Weavers' Walk
+- set_pose: {"map": "hes_d05.blv", "x": 5200, "y": 1260, "z": 2048, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 88}}
+# 768: Coil Gallery
+- set_pose: {"map": "hes_d05.blv", "x": 5200, "y": 3320, "z": 2048, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 89}}
+# 769: Overseer Nests (north)
+- set_pose: {"map": "hes_d05.blv", "x": 1730, "y": 3880, "z": 3072, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 90}}
+# 770: Overseer Nests (south)
+- set_pose: {"map": "hes_d05.blv", "x": 5200, "y": 2340, "z": 3072, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 91}}
+- save_game: d05_pickups
+- load_game: d05_pickups

@@ -1,0 +1,2755 @@
+{
+ "00 open": {
+  "result": {
+   "revision": "626dbff62e362b9c1bbacdece9fc6b43",
+   "lock_hash": "35cedcd08bde120c7d75ef281c0ff45b",
+   "files": {
+    "project.yml": {
+     "tree": {
+      "format": 0,
+      "id": "s6_lamps",
+      "world": "mm6",
+      "kind": "indoor",
+      "profile": "dungeon",
+      "base": "6d01.blv",
+      "neighbours": [
+       {
+        "id": "exit:oute3",
+        "to": "oute3.odm at -18400, -14982, 1600 (direction, look, speed, house, icon: 512, 0, 0, 0, 0)",
+        "kind": "door"
+       }
+      ]
+     }
+    },
+    "plan.yml": {
+     "tree": {
+      "format": 0,
+      "level": "L1",
+      "spaces": [
+       {
+        "id": "room:s1",
+        "kind": "room",
+        "size": "M",
+        "area": 0.73,
+        "floor": [
+         0,
+         192
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s2",
+        "kind": "room",
+        "size": "S",
+        "area": 0.26,
+        "floor": 0,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s20",
+        "kind": "room",
+        "size": "M",
+        "area": 0.52,
+        "floor": [
+         -256,
+         0
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s21",
+        "kind": "room",
+        "size": "M",
+        "area": 0.79,
+        "floor": [
+         -768,
+         -256
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s22",
+        "kind": "room",
+        "size": "M",
+        "area": 0.72,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s23",
+        "kind": "room",
+        "size": "M",
+        "area": 0.76,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s24",
+        "kind": "room",
+        "size": "M",
+        "area": 0.79,
+        "floor": [
+         -768,
+         -656
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s25",
+        "kind": "room",
+        "size": "M",
+        "area": 0.76,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s26",
+        "kind": "room",
+        "size": "M",
+        "area": 0.79,
+        "floor": [
+         -768,
+         -656
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s27",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.64,
+        "floor": [
+         -968,
+         -784
+        ],
+        "clear_height": 346
+       },
+       {
+        "id": "room:s28",
+        "kind": "room",
+        "size": "M",
+        "area": 1.13,
+        "floor": [
+         -968,
+         -748
+        ],
+        "clear_height": 510
+       },
+       {
+        "id": "room:s29",
+        "kind": "room",
+        "size": "M",
+        "area": 1.48,
+        "floor": [
+         -868,
+         -698
+        ],
+        "clear_height": 542
+       },
+       {
+        "id": "room:s3",
+        "kind": "room",
+        "size": "S",
+        "area": 0.5,
+        "floor": 0,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s30",
+        "kind": "room",
+        "size": "M",
+        "area": 1.09,
+        "floor": [
+         -868,
+         -584
+        ],
+        "clear_height": 414
+       },
+       {
+        "id": "room:s31",
+        "kind": "room",
+        "size": "XL",
+        "area": 8.17,
+        "floor": [
+         -832,
+         -524
+        ],
+        "clear_height": 530
+       },
+       {
+        "id": "room:s32",
+        "kind": "room",
+        "size": "L",
+        "area": 2,
+        "floor": [
+         -832,
+         -492
+        ],
+        "clear_height": 530
+       },
+       {
+        "id": "room:s33",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.17,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s34",
+        "kind": "room",
+        "size": "L",
+        "area": 2.08,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s35",
+        "kind": "room",
+        "size": "XL",
+        "area": 9.04,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s36",
+        "kind": "room",
+        "size": "S",
+        "area": 0.41,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s37",
+        "kind": "room",
+        "size": "S",
+        "area": 0.46,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s38",
+        "kind": "room",
+        "size": "XL",
+        "area": 7.68,
+        "floor": [
+         -832,
+         -460
+        ],
+        "clear_height": 1042
+       },
+       {
+        "id": "room:s39",
+        "kind": "room",
+        "size": "L",
+        "area": 2,
+        "floor": [
+         -832,
+         -492
+        ],
+        "clear_height": 530
+       },
+       {
+        "id": "room:s4",
+        "kind": "room",
+        "size": "L",
+        "area": 2.02,
+        "floor": [
+         0,
+         510
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s40",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.17,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s41",
+        "kind": "room",
+        "size": "L",
+        "area": 2.08,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s42",
+        "kind": "room",
+        "size": "XL",
+        "area": 4.63,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s43",
+        "kind": "room",
+        "size": "XL",
+        "area": 4.25,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s44",
+        "kind": "room",
+        "size": "XL",
+        "area": 6.89,
+        "floor": [
+         128,
+         436
+        ],
+        "clear_height": 978
+       },
+       {
+        "id": "room:s45",
+        "kind": "room",
+        "size": "L",
+        "area": 1.79,
+        "floor": [
+         0,
+         128
+        ],
+        "clear_height": 394
+       },
+       {
+        "id": "room:s46",
+        "kind": "room",
+        "size": "XS",
+        "area": 0.07,
+        "floor": -768,
+        "clear_height": 906
+       },
+       {
+        "id": "room:s47",
+        "kind": "room",
+        "size": "M",
+        "area": 1.03,
+        "floor": [
+         -1280,
+         -768
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s48",
+        "kind": "room",
+        "size": "M",
+        "area": 1.21,
+        "floor": [
+         -768,
+         -256
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s49",
+        "kind": "room",
+        "size": "M",
+        "area": 1.22,
+        "floor": [
+         -1280,
+         -768
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s5",
+        "kind": "room",
+        "size": "S",
+        "area": 0.29,
+        "floor": [
+         -256,
+         0
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s50",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.67,
+        "floor": [
+         -1280,
+         -1216
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s51",
+        "kind": "room",
+        "size": "L",
+        "area": 1.64,
+        "floor": [
+         128,
+         319
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s52",
+        "kind": "room",
+        "size": "S",
+        "area": 0.36,
+        "floor": [
+         0,
+         96
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s53",
+        "kind": "room",
+        "size": "S",
+        "area": 0.36,
+        "floor": 0,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s54",
+        "kind": "room",
+        "size": "S",
+        "area": 0.25,
+        "floor": -968,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s55",
+        "kind": "room",
+        "size": "S",
+        "area": 0.29,
+        "floor": [
+         -968,
+         -776
+        ],
+        "clear_height": 474
+       },
+       {
+        "id": "room:s56",
+        "kind": "room",
+        "size": "S",
+        "area": 0.31,
+        "floor": [
+         -760,
+         -632
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s57",
+        "kind": "room",
+        "size": "XS",
+        "area": 0.15,
+        "floor": [
+         -768,
+         -640
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s6",
+        "kind": "room",
+        "size": "S",
+        "area": 0.45,
+        "floor": [
+         -512,
+         -256
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s7",
+        "kind": "room",
+        "size": "L",
+        "area": 1.57,
+        "floor": -512,
+        "clear_height": 266
+       }
+      ],
+      "links": [
+       {
+        "id": "link:s1_s2",
+        "from": "room:s1",
+        "to": "room:s2",
+        "kind": "door"
+       },
+       {
+        "id": "link:s1_s20",
+        "from": "room:s1",
+        "to": "room:s20",
+        "kind": "door"
+       },
+       {
+        "id": "link:s1_s5",
+        "from": "room:s1",
+        "to": "room:s5",
+        "kind": "door"
+       },
+       {
+        "id": "link:s20_s21",
+        "from": "room:s20",
+        "to": "room:s21",
+        "kind": "open"
+       },
+       {
+        "id": "link:s21_s22",
+        "from": "room:s21",
+        "to": "room:s22",
+        "kind": "open"
+       },
+       {
+        "id": "link:s21_s48",
+        "from": "room:s21",
+        "to": "room:s48",
+        "kind": "door"
+       },
+       {
+        "id": "link:s22_s23",
+        "from": "room:s22",
+        "to": "room:s23",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s24",
+        "from": "room:s22",
+        "to": "room:s24",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s25",
+        "from": "room:s22",
+        "to": "room:s25",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s26",
+        "from": "room:s22",
+        "to": "room:s26",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s36",
+        "from": "room:s22",
+        "to": "room:s36",
+        "kind": "open"
+       },
+       {
+        "id": "link:s23_s24",
+        "from": "room:s23",
+        "to": "room:s24",
+        "kind": "open"
+       },
+       {
+        "id": "link:s25_s26",
+        "from": "room:s25",
+        "to": "room:s26",
+        "kind": "open"
+       },
+       {
+        "id": "link:s27_s28",
+        "from": "room:s27",
+        "to": "room:s28",
+        "kind": "open"
+       },
+       {
+        "id": "link:s27_s54",
+        "from": "room:s27",
+        "to": "room:s54",
+        "kind": "open"
+       },
+       {
+        "id": "link:s28_s29",
+        "from": "room:s28",
+        "to": "room:s29",
+        "kind": "open"
+       },
+       {
+        "id": "link:s29_s30",
+        "from": "room:s29",
+        "to": "room:s30",
+        "kind": "open"
+       },
+       {
+        "id": "link:s29_s31",
+        "from": "room:s29",
+        "to": "room:s31",
+        "kind": "open"
+       },
+       {
+        "id": "link:s2_s3",
+        "from": "room:s2",
+        "to": "room:s3",
+        "kind": "open"
+       },
+       {
+        "id": "link:s30_s31",
+        "from": "room:s30",
+        "to": "room:s31",
+        "kind": "open"
+       },
+       {
+        "id": "link:s31_s32",
+        "from": "room:s31",
+        "to": "room:s32",
+        "kind": "open"
+       },
+       {
+        "id": "link:s32_s33",
+        "from": "room:s32",
+        "to": "room:s33",
+        "kind": "open"
+       },
+       {
+        "id": "link:s33_s34",
+        "from": "room:s33",
+        "to": "room:s34",
+        "kind": "open"
+       },
+       {
+        "id": "link:s34_s35",
+        "from": "room:s34",
+        "to": "room:s35",
+        "kind": "open"
+       },
+       {
+        "id": "link:s35_s37",
+        "from": "room:s35",
+        "to": "room:s37",
+        "kind": "open"
+       },
+       {
+        "id": "link:s36_s37",
+        "from": "room:s36",
+        "to": "room:s37",
+        "kind": "open"
+       },
+       {
+        "id": "link:s36_s43",
+        "from": "room:s36",
+        "to": "room:s43",
+        "kind": "open"
+       },
+       {
+        "id": "link:s38_s39",
+        "from": "room:s38",
+        "to": "room:s39",
+        "kind": "open"
+       },
+       {
+        "id": "link:s38_s57",
+        "from": "room:s38",
+        "to": "room:s57",
+        "kind": "open"
+       },
+       {
+        "id": "link:s39_s40",
+        "from": "room:s39",
+        "to": "room:s40",
+        "kind": "open"
+       },
+       {
+        "id": "link:s3_s4",
+        "from": "room:s3",
+        "to": "room:s4",
+        "kind": "open"
+       },
+       {
+        "id": "link:s3_s45",
+        "from": "room:s3",
+        "to": "room:s45",
+        "kind": "door"
+       },
+       {
+        "id": "link:s40_s41",
+        "from": "room:s40",
+        "to": "room:s41",
+        "kind": "open"
+       },
+       {
+        "id": "link:s41_s42",
+        "from": "room:s41",
+        "to": "room:s42",
+        "kind": "open"
+       },
+       {
+        "id": "link:s42_s43",
+        "from": "room:s42",
+        "to": "room:s43",
+        "kind": "open"
+       },
+       {
+        "id": "link:s44_s46",
+        "from": "room:s44",
+        "to": "room:s46",
+        "kind": "open"
+       },
+       {
+        "id": "link:s44_s51",
+        "from": "room:s44",
+        "to": "room:s51",
+        "kind": "door"
+       },
+       {
+        "id": "link:s45_s51",
+        "from": "room:s45",
+        "to": "room:s51",
+        "kind": "door"
+       },
+       {
+        "id": "link:s46_s47",
+        "from": "room:s46",
+        "to": "room:s47",
+        "kind": "open"
+       },
+       {
+        "id": "link:s47_s50",
+        "from": "room:s47",
+        "to": "room:s50",
+        "kind": "open"
+       },
+       {
+        "id": "link:s48_s49",
+        "from": "room:s48",
+        "to": "room:s49",
+        "kind": "open"
+       },
+       {
+        "id": "link:s49_s50",
+        "from": "room:s49",
+        "to": "room:s50",
+        "kind": "open"
+       },
+       {
+        "id": "link:s4_s52",
+        "from": "room:s4",
+        "to": "room:s52",
+        "kind": "door"
+       },
+       {
+        "id": "link:s4_s53",
+        "from": "room:s4",
+        "to": "room:s53",
+        "kind": "door"
+       },
+       {
+        "id": "link:s54_s55",
+        "from": "room:s54",
+        "to": "room:s55",
+        "kind": "open"
+       },
+       {
+        "id": "link:s55_s56",
+        "from": "room:s55",
+        "to": "room:s56",
+        "kind": "open"
+       },
+       {
+        "id": "link:s5_s6",
+        "from": "room:s5",
+        "to": "room:s6",
+        "kind": "open"
+       },
+       {
+        "id": "link:s6_s7",
+        "from": "room:s6",
+        "to": "room:s7",
+        "kind": "door"
+       }
+      ],
+      "totals": {
+       "decorations": 178,
+       "doors": 38,
+       "fixed_actors": 0,
+       "floor_area_millions": 86.64,
+       "handlers": 55,
+       "lights": 159,
+       "links": 48,
+       "sectors": 45,
+       "spawn_points": 66
+      },
+      "notes": "Derived from 6d01.blv by oymap import. The geometry stays in the base map."
+     }
+    },
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "scene": {
+       "lights": [
+        {
+         "id": "light:vault_glow",
+         "position": [
+          7456,
+          3164,
+          256
+         ],
+         "color": [
+          120,
+          180,
+          255
+         ],
+         "intensity": [
+          0.4,
+          1
+         ],
+         "radius": [
+          300,
+          700
+         ],
+         "frequency": 0.7,
+         "notes": "A blue glow where the first treasure roll lies."
+        }
+       ],
+       "sounds": [
+        {
+         "id": "sound:drip",
+         "position": [
+          7456,
+          3164,
+          200
+         ],
+         "sound": "01_01.wav",
+         "radius": 900,
+         "wait": [
+          3,
+          8
+         ]
+        }
+       ],
+       "spawns": [
+        {
+         "id": "spawn:extra_guard",
+         "position": [
+          7300,
+          3000,
+          128
+         ],
+         "slot": 1
+        }
+       ],
+       "removals": [
+        "spawn:s1"
+       ]
+      },
+      "notes": "S6's overlay example on an MM6 map (devdocs/map_studio/S6_PLAN.md item O): a pulsing light and a placed sound that Goblinwatch's scene never had, one spawn point more and one less. Build with --assets; it writes 6d01_s6_lamps.scene.yml."
+     }
+    },
+    "ids.lock.yml": {
+     "tree": {
+      "format": 0,
+      "sectors": {
+       "room:s1": 1,
+       "room:s2": 2,
+       "room:s20": 20,
+       "room:s21": 21,
+       "room:s22": 22,
+       "room:s23": 23,
+       "room:s24": 24,
+       "room:s25": 25,
+       "room:s26": 26,
+       "room:s27": 27,
+       "room:s28": 28,
+       "room:s29": 29,
+       "room:s3": 3,
+       "room:s30": 30,
+       "room:s31": 31,
+       "room:s32": 32,
+       "room:s33": 33,
+       "room:s34": 34,
+       "room:s35": 35,
+       "room:s36": 36,
+       "room:s37": 37,
+       "room:s38": 38,
+       "room:s39": 39,
+       "room:s4": 4,
+       "room:s40": 40,
+       "room:s41": 41,
+       "room:s42": 42,
+       "room:s43": 43,
+       "room:s44": 44,
+       "room:s45": 45,
+       "room:s46": 46,
+       "room:s47": 47,
+       "room:s48": 48,
+       "room:s49": 49,
+       "room:s5": 5,
+       "room:s50": 50,
+       "room:s51": 51,
+       "room:s52": 52,
+       "room:s53": 53,
+       "room:s54": 54,
+       "room:s55": 55,
+       "room:s56": 56,
+       "room:s57": 57,
+       "room:s6": 6,
+       "room:s7": 7
+      },
+      "events": {
+       "evt:e1": 1,
+       "evt:e10": 10,
+       "evt:e11": 11,
+       "evt:e12": 12,
+       "evt:e13": 13,
+       "evt:e14": 14,
+       "evt:e15": 15,
+       "evt:e16": 16,
+       "evt:e17": 17,
+       "evt:e18": 18,
+       "evt:e19": 19,
+       "evt:e2": 2,
+       "evt:e20": 20,
+       "evt:e21": 21,
+       "evt:e22": 22,
+       "evt:e23": 23,
+       "evt:e24": 24,
+       "evt:e25": 25,
+       "evt:e26": 26,
+       "evt:e27": 27,
+       "evt:e28": 28,
+       "evt:e29": 29,
+       "evt:e3": 3,
+       "evt:e30": 30,
+       "evt:e31": 31,
+       "evt:e32": 32,
+       "evt:e33": 33,
+       "evt:e34": 34,
+       "evt:e4": 4,
+       "evt:e41": 41,
+       "evt:e42": 42,
+       "evt:e43": 43,
+       "evt:e44": 44,
+       "evt:e45": 45,
+       "evt:e46": 46,
+       "evt:e47": 47,
+       "evt:e48": 48,
+       "evt:e49": 49,
+       "evt:e5": 5,
+       "evt:e50": 50,
+       "evt:e51": 51,
+       "evt:e55": 55,
+       "evt:e6": 6,
+       "evt:e60": 60,
+       "evt:e61": 61,
+       "evt:e62": 62,
+       "evt:e63": 63,
+       "evt:e64": 64,
+       "evt:e65": 65,
+       "evt:e65000": 65000,
+       "evt:e65001": 65001,
+       "evt:e66": 66,
+       "evt:e7": 7,
+       "evt:e8": 8,
+       "evt:e9": 9
+      },
+      "doors": {
+       "door:d1": 1,
+       "door:d10": 10,
+       "door:d11": 11,
+       "door:d12": 12,
+       "door:d13": 13,
+       "door:d14": 14,
+       "door:d15": 15,
+       "door:d16": 16,
+       "door:d17": 17,
+       "door:d18": 18,
+       "door:d2": 2,
+       "door:d23": 23,
+       "door:d3": 3,
+       "door:d30": 30,
+       "door:d31": 31,
+       "door:d32": 32,
+       "door:d36": 36,
+       "door:d38": 38,
+       "door:d4": 4,
+       "door:d40": 40,
+       "door:d44": 44,
+       "door:d45": 45,
+       "door:d46": 46,
+       "door:d47": 47,
+       "door:d48": 48,
+       "door:d5": 5,
+       "door:d51": 51,
+       "door:d52": 52,
+       "door:d55": 55,
+       "door:d56": 56,
+       "door:d57": 57,
+       "door:d58": 58,
+       "door:d59": 59,
+       "door:d6": 6,
+       "door:d60": 60,
+       "door:d7": 7,
+       "door:d8": 8,
+       "door:d9": 9
+      },
+      "lights": {
+       "light:vault_glow": 49001
+      },
+      "sounds": {
+       "sound:drip": 60001
+      },
+      "spawns": {
+       "spawn:s0": 0,
+       "spawn:s1": 1,
+       "spawn:s10": 10,
+       "spawn:s11": 11,
+       "spawn:s12": 12,
+       "spawn:s13": 13,
+       "spawn:s14": 14,
+       "spawn:s15": 15,
+       "spawn:s16": 16,
+       "spawn:s17": 17,
+       "spawn:s18": 18,
+       "spawn:s19": 19,
+       "spawn:s2": 2,
+       "spawn:s20": 20,
+       "spawn:s21": 21,
+       "spawn:s22": 22,
+       "spawn:s23": 23,
+       "spawn:s24": 24,
+       "spawn:s25": 25,
+       "spawn:s26": 26,
+       "spawn:s27": 27,
+       "spawn:s28": 28,
+       "spawn:s29": 29,
+       "spawn:s3": 3,
+       "spawn:s30": 30,
+       "spawn:s31": 31,
+       "spawn:s32": 32,
+       "spawn:s33": 33,
+       "spawn:s34": 34,
+       "spawn:s35": 35,
+       "spawn:s36": 36,
+       "spawn:s37": 37,
+       "spawn:s38": 38,
+       "spawn:s39": 39,
+       "spawn:s4": 4,
+       "spawn:s40": 40,
+       "spawn:s41": 41,
+       "spawn:s42": 42,
+       "spawn:s43": 43,
+       "spawn:s44": 44,
+       "spawn:s45": 45,
+       "spawn:s46": 46,
+       "spawn:s47": 47,
+       "spawn:s48": 48,
+       "spawn:s49": 49,
+       "spawn:s5": 5,
+       "spawn:s50": 50,
+       "spawn:s51": 51,
+       "spawn:s52": 52,
+       "spawn:s53": 53,
+       "spawn:s54": 54,
+       "spawn:s55": 55,
+       "spawn:s56": 56,
+       "spawn:s57": 57,
+       "spawn:s58": 58,
+       "spawn:s59": 59,
+       "spawn:s6": 6,
+       "spawn:s60": 60,
+       "spawn:s61": 61,
+       "spawn:s62": 62,
+       "spawn:s63": 63,
+       "spawn:s64": 64,
+       "spawn:s65": 65,
+       "spawn:s7": 7,
+       "spawn:s8": 8,
+       "spawn:s9": 9
+      }
+     }
+    }
+   },
+   "ids": [
+    {
+     "id": "exit:oute3",
+     "file": "project.yml",
+     "list": "neighbours"
+    },
+    {
+     "id": "room:s1",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s2",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s20",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s21",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s22",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s23",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s24",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s25",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s26",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s27",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s28",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s29",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s3",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s30",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s31",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s32",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s33",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s34",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s35",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s36",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s37",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s38",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s39",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s4",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s40",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s41",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s42",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s43",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s44",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s45",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s46",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s47",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s48",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s49",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s5",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s50",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s51",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s52",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s53",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s54",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s55",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s56",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s57",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s6",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s7",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "link:s1_s2",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s1_s20",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s1_s5",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s20_s21",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s21_s22",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s21_s48",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s23",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s24",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s25",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s26",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s36",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s23_s24",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s25_s26",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s27_s28",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s27_s54",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s28_s29",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s29_s30",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s29_s31",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s2_s3",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s30_s31",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s31_s32",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s32_s33",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s33_s34",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s34_s35",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s35_s37",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s36_s37",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s36_s43",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s38_s39",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s38_s57",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s39_s40",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s3_s4",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s3_s45",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s40_s41",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s41_s42",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s42_s43",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s44_s46",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s44_s51",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s45_s51",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s46_s47",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s47_s50",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s48_s49",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s49_s50",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s4_s52",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s4_s53",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s54_s55",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s55_s56",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s5_s6",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s6_s7",
+     "file": "plan.yml",
+     "list": "links"
+    }
+   ],
+   "issues": [],
+   "keys": [
+    {
+     "address": "/scene/lights/light:vault_glow",
+     "file": "objects.yml"
+    },
+    {
+     "address": "/scene/sounds/sound:drip",
+     "file": "objects.yml"
+    },
+    {
+     "address": "/scene/spawns/spawn:extra_guard",
+     "file": "objects.yml"
+    }
+   ]
+  }
+ },
+ "01 validate": {
+  "result": {
+   "ok": true,
+   "with_assets": true,
+   "issues": [],
+   "notes": []
+  }
+ },
+ "02 the scene things on the base map": {
+  "result": {
+   "base": "6d01.blv",
+   "world": "mm6",
+   "profile": "dungeon",
+   "bounds": [
+    -20672,
+    -224,
+    18672,
+    10496
+   ],
+   "scene_keys": [
+    "authored_content",
+    "removals",
+    "pulsing_lights",
+    "ambient_sounds"
+   ],
+   "things": [
+    {
+     "id": "spawn:s0",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7456,
+      3164,
+      128
+     ],
+     "radius": 32,
+     "label": "item roll 3"
+    },
+    {
+     "id": "spawn:s1",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "removed",
+     "at": [
+      512,
+      1024,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s2",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      228,
+      2992,
+      0
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s3",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6665,
+      7033,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s4",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      16640,
+      8448,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s5",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2334,
+      3725,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s6",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7660,
+      8487,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s7",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6784,
+      5760,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s8",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10362,
+      5826,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s9",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -256,
+      5248,
+      -256
+     ],
+     "radius": 32,
+     "label": "monsters 4"
+    },
+    {
+     "id": "spawn:s10",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      9648,
+      5241,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s11",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1859,
+      7210,
+      -512
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s12",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3624,
+      2336,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s13",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10610,
+      4838,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s14",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -640,
+      3456,
+      1
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s15",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6942,
+      5586,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s16",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7708,
+      1666,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s17",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10147,
+      4260,
+      -1280
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s18",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      236,
+      3228,
+      0
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s19",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3512,
+      3696,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s20",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10724,
+      9824,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s21",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3456,
+      2688,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s22",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12380,
+      9608,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s23",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3968,
+      6912,
+      -512
+     ],
+     "radius": 32,
+     "label": "monsters 10"
+    },
+    {
+     "id": "spawn:s24",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -13036,
+      8824,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s25",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -19200,
+      6144,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s26",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      16128,
+      9088,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s27",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -14435,
+      7881,
+      -868
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s28",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1832,
+      3600,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s29",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11496,
+      8880,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s30",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      11385,
+      5739,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s31",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -40,
+      3036,
+      96
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s32",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18560,
+      6784,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s33",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      14614,
+      8242,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s34",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3129,
+      2866,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s35",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2113,
+      2871,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s36",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1664,
+      2368,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s37",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -19944,
+      7809,
+      -696
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s38",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4096,
+      2048,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s39",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1164,
+      4100,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s40",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -20620,
+      7801,
+      -696
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s41",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18304,
+      6016,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s42",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3328,
+      3592,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 2"
+    },
+    {
+     "id": "spawn:s43",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7424,
+      8256,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 10"
+    },
+    {
+     "id": "spawn:s44",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10752,
+      9088,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s45",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12096,
+      7861,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s46",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12256,
+      8168,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s47",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -736,
+      3024,
+      0
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s48",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7716,
+      4766,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s49",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      768,
+      4096,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s50",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12136,
+      8128,
+      -768
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s51",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1850,
+      4304,
+      -512
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s52",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3641,
+      431,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s53",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -717,
+      4355,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 4"
+    },
+    {
+     "id": "spawn:s54",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11136,
+      8448,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s55",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2006,
+      4878,
+      0
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s56",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10376,
+      2526,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s57",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5457,
+      4873,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s58",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      15744,
+      8448,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s59",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      256,
+      3456,
+      1
+     ],
+     "radius": 32,
+     "label": "monsters 3"
+    },
+    {
+     "id": "spawn:s60",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2942,
+      3652,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s61",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6528,
+      4224,
+      128
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s62",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -17723,
+      6747,
+      -968
+     ],
+     "radius": 32,
+     "label": "monsters 1"
+    },
+    {
+     "id": "spawn:s63",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6116,
+      3000,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s64",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1536,
+      1393,
+      -768
+     ],
+     "radius": 32,
+     "label": "monsters 2"
+    },
+    {
+     "id": "spawn:s65",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1792,
+      3712,
+      -656
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "light:vault_glow",
+     "kind": "light",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      7456,
+      3164,
+      256
+     ],
+     "radius": 700,
+     "label": "pulsing light 49001"
+    },
+    {
+     "id": "sound:drip",
+     "kind": "sound",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      7456,
+      3164,
+      200
+     ],
+     "radius": 900,
+     "label": "01_01.wav"
+    },
+    {
+     "id": "spawn:extra_guard",
+     "kind": "spawn",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      7300,
+      3000,
+      128
+     ],
+     "radius": 128,
+     "label": "monsters 1"
+    }
+   ],
+   "issues": []
+  }
+ },
+ "03 build, dry run": {
+  "result": {
+   "map": "6d01.blv",
+   "kind": "overlay",
+   "counts": {
+    "replaced_events": 0
+   },
+   "files": [],
+   "warnings": [],
+   "ids_lock_changed": false
+  }
+ },
+ "04 build": {
+  "result": {
+   "map": "6d01.blv",
+   "kind": "overlay",
+   "counts": {
+    "replaced_events": 0
+   },
+   "files": [
+    "6d01_s6_lamps.scene.yml",
+    "build.json"
+   ],
+   "warnings": [],
+   "ids_lock_changed": false
+  }
+ },
+ "05 the lock keeps the new numbers": {
+  "result": {
+   "revision": "626dbff62e362b9c1bbacdece9fc6b43",
+   "file": "ids.lock.yml",
+   "text": "format: 0\nsectors:\n  room:s1: 1\n  room:s2: 2\n  room:s20: 20\n  room:s21: 21\n  room:s22: 22\n  room:s23: 23\n  room:s24: 24\n  room:s25: 25\n  room:s26: 26\n  room:s27: 27\n  room:s28: 28\n  room:s29: 29\n  room:s3: 3\n  room:s30: 30\n  room:s31: 31\n  room:s32: 32\n  room:s33: 33\n  room:s34: 34\n  room:s35: 35\n  room:s36: 36\n  room:s37: 37\n  room:s38: 38\n  room:s39: 39\n  room:s4: 4\n  room:s40: 40\n  room:s41: 41\n  room:s42: 42\n  room:s43: 43\n  room:s44: 44\n  room:s45: 45\n  room:s46: 46\n  room:s47: 47\n  room:s48: 48\n  room:s49: 49\n  room:s5: 5\n  room:s50: 50\n  room:s51: 51\n  room:s52: 52\n  room:s53: 53\n  room:s54: 54\n  room:s55: 55\n  room:s56: 56\n  room:s57: 57\n  room:s6: 6\n  room:s7: 7\nevents:\n  evt:e1: 1\n  evt:e10: 10\n  evt:e11: 11\n  evt:e12: 12\n  evt:e13: 13\n  evt:e14: 14\n  evt:e15: 15\n  evt:e16: 16\n  evt:e17: 17\n  evt:e18: 18\n  evt:e19: 19\n  evt:e2: 2\n  evt:e20: 20\n  evt:e21: 21\n  evt:e22: 22\n  evt:e23: 23\n  evt:e24: 24\n  evt:e25: 25\n  evt:e26: 26\n  evt:e27: 27\n  evt:e28: 28\n  evt:e29: 29\n  evt:e3: 3\n  evt:e30: 30\n  evt:e31: 31\n  evt:e32: 32\n  evt:e33: 33\n  evt:e34: 34\n  evt:e4: 4\n  evt:e41: 41\n  evt:e42: 42\n  evt:e43: 43\n  evt:e44: 44\n  evt:e45: 45\n  evt:e46: 46\n  evt:e47: 47\n  evt:e48: 48\n  evt:e49: 49\n  evt:e5: 5\n  evt:e50: 50\n  evt:e51: 51\n  evt:e55: 55\n  evt:e6: 6\n  evt:e60: 60\n  evt:e61: 61\n  evt:e62: 62\n  evt:e63: 63\n  evt:e64: 64\n  evt:e65: 65\n  evt:e65000: 65000\n  evt:e65001: 65001\n  evt:e66: 66\n  evt:e7: 7\n  evt:e8: 8\n  evt:e9: 9\ndoors:\n  door:d1: 1\n  door:d10: 10\n  door:d11: 11\n  door:d12: 12\n  door:d13: 13\n  door:d14: 14\n  door:d15: 15\n  door:d16: 16\n  door:d17: 17\n  door:d18: 18\n  door:d2: 2\n  door:d23: 23\n  door:d3: 3\n  door:d30: 30\n  door:d31: 31\n  door:d32: 32\n  door:d36: 36\n  door:d38: 38\n  door:d4: 4\n  door:d40: 40\n  door:d44: 44\n  door:d45: 45\n  door:d46: 46\n  door:d47: 47\n  door:d48: 48\n  door:d5: 5\n  door:d51: 51\n  door:d52: 52\n  door:d55: 55\n  door:d56: 56\n  door:d57: 57\n  door:d58: 58\n  door:d59: 59\n  door:d6: 6\n  door:d60: 60\n  door:d7: 7\n  door:d8: 8\n  door:d9: 9\nlights:\n  light:vault_glow: 49001\nsounds:\n  sound:drip: 60001\nspawns:\n  spawn:s0: 0\n  spawn:s1: 1\n  spawn:s10: 10\n  spawn:s11: 11\n  spawn:s12: 12\n  spawn:s13: 13\n  spawn:s14: 14\n  spawn:s15: 15\n  spawn:s16: 16\n  spawn:s17: 17\n  spawn:s18: 18\n  spawn:s19: 19\n  spawn:s2: 2\n  spawn:s20: 20\n  spawn:s21: 21\n  spawn:s22: 22\n  spawn:s23: 23\n  spawn:s24: 24\n  spawn:s25: 25\n  spawn:s26: 26\n  spawn:s27: 27\n  spawn:s28: 28\n  spawn:s29: 29\n  spawn:s3: 3\n  spawn:s30: 30\n  spawn:s31: 31\n  spawn:s32: 32\n  spawn:s33: 33\n  spawn:s34: 34\n  spawn:s35: 35\n  spawn:s36: 36\n  spawn:s37: 37\n  spawn:s38: 38\n  spawn:s39: 39\n  spawn:s4: 4\n  spawn:s40: 40\n  spawn:s41: 41\n  spawn:s42: 42\n  spawn:s43: 43\n  spawn:s44: 44\n  spawn:s45: 45\n  spawn:s46: 46\n  spawn:s47: 47\n  spawn:s48: 48\n  spawn:s49: 49\n  spawn:s5: 5\n  spawn:s50: 50\n  spawn:s51: 51\n  spawn:s52: 52\n  spawn:s53: 53\n  spawn:s54: 54\n  spawn:s55: 55\n  spawn:s56: 56\n  spawn:s57: 57\n  spawn:s58: 58\n  spawn:s59: 59\n  spawn:s6: 6\n  spawn:s60: 60\n  spawn:s61: 61\n  spawn:s62: 62\n  spawn:s63: 63\n  spawn:s64: 64\n  spawn:s65: 65\n  spawn:s7: 7\n  spawn:s8: 8\n  spawn:s9: 9\n",
+   "canonical": true,
+   "tree": {
+    "format": 0,
+    "sectors": {
+     "room:s1": 1,
+     "room:s2": 2,
+     "room:s20": 20,
+     "room:s21": 21,
+     "room:s22": 22,
+     "room:s23": 23,
+     "room:s24": 24,
+     "room:s25": 25,
+     "room:s26": 26,
+     "room:s27": 27,
+     "room:s28": 28,
+     "room:s29": 29,
+     "room:s3": 3,
+     "room:s30": 30,
+     "room:s31": 31,
+     "room:s32": 32,
+     "room:s33": 33,
+     "room:s34": 34,
+     "room:s35": 35,
+     "room:s36": 36,
+     "room:s37": 37,
+     "room:s38": 38,
+     "room:s39": 39,
+     "room:s4": 4,
+     "room:s40": 40,
+     "room:s41": 41,
+     "room:s42": 42,
+     "room:s43": 43,
+     "room:s44": 44,
+     "room:s45": 45,
+     "room:s46": 46,
+     "room:s47": 47,
+     "room:s48": 48,
+     "room:s49": 49,
+     "room:s5": 5,
+     "room:s50": 50,
+     "room:s51": 51,
+     "room:s52": 52,
+     "room:s53": 53,
+     "room:s54": 54,
+     "room:s55": 55,
+     "room:s56": 56,
+     "room:s57": 57,
+     "room:s6": 6,
+     "room:s7": 7
+    },
+    "events": {
+     "evt:e1": 1,
+     "evt:e10": 10,
+     "evt:e11": 11,
+     "evt:e12": 12,
+     "evt:e13": 13,
+     "evt:e14": 14,
+     "evt:e15": 15,
+     "evt:e16": 16,
+     "evt:e17": 17,
+     "evt:e18": 18,
+     "evt:e19": 19,
+     "evt:e2": 2,
+     "evt:e20": 20,
+     "evt:e21": 21,
+     "evt:e22": 22,
+     "evt:e23": 23,
+     "evt:e24": 24,
+     "evt:e25": 25,
+     "evt:e26": 26,
+     "evt:e27": 27,
+     "evt:e28": 28,
+     "evt:e29": 29,
+     "evt:e3": 3,
+     "evt:e30": 30,
+     "evt:e31": 31,
+     "evt:e32": 32,
+     "evt:e33": 33,
+     "evt:e34": 34,
+     "evt:e4": 4,
+     "evt:e41": 41,
+     "evt:e42": 42,
+     "evt:e43": 43,
+     "evt:e44": 44,
+     "evt:e45": 45,
+     "evt:e46": 46,
+     "evt:e47": 47,
+     "evt:e48": 48,
+     "evt:e49": 49,
+     "evt:e5": 5,
+     "evt:e50": 50,
+     "evt:e51": 51,
+     "evt:e55": 55,
+     "evt:e6": 6,
+     "evt:e60": 60,
+     "evt:e61": 61,
+     "evt:e62": 62,
+     "evt:e63": 63,
+     "evt:e64": 64,
+     "evt:e65": 65,
+     "evt:e65000": 65000,
+     "evt:e65001": 65001,
+     "evt:e66": 66,
+     "evt:e7": 7,
+     "evt:e8": 8,
+     "evt:e9": 9
+    },
+    "doors": {
+     "door:d1": 1,
+     "door:d10": 10,
+     "door:d11": 11,
+     "door:d12": 12,
+     "door:d13": 13,
+     "door:d14": 14,
+     "door:d15": 15,
+     "door:d16": 16,
+     "door:d17": 17,
+     "door:d18": 18,
+     "door:d2": 2,
+     "door:d23": 23,
+     "door:d3": 3,
+     "door:d30": 30,
+     "door:d31": 31,
+     "door:d32": 32,
+     "door:d36": 36,
+     "door:d38": 38,
+     "door:d4": 4,
+     "door:d40": 40,
+     "door:d44": 44,
+     "door:d45": 45,
+     "door:d46": 46,
+     "door:d47": 47,
+     "door:d48": 48,
+     "door:d5": 5,
+     "door:d51": 51,
+     "door:d52": 52,
+     "door:d55": 55,
+     "door:d56": 56,
+     "door:d57": 57,
+     "door:d58": 58,
+     "door:d59": 59,
+     "door:d6": 6,
+     "door:d60": 60,
+     "door:d7": 7,
+     "door:d8": 8,
+     "door:d9": 9
+    },
+    "lights": {
+     "light:vault_glow": 49001
+    },
+    "sounds": {
+     "sound:drip": 60001
+    },
+    "spawns": {
+     "spawn:s0": 0,
+     "spawn:s1": 1,
+     "spawn:s10": 10,
+     "spawn:s11": 11,
+     "spawn:s12": 12,
+     "spawn:s13": 13,
+     "spawn:s14": 14,
+     "spawn:s15": 15,
+     "spawn:s16": 16,
+     "spawn:s17": 17,
+     "spawn:s18": 18,
+     "spawn:s19": 19,
+     "spawn:s2": 2,
+     "spawn:s20": 20,
+     "spawn:s21": 21,
+     "spawn:s22": 22,
+     "spawn:s23": 23,
+     "spawn:s24": 24,
+     "spawn:s25": 25,
+     "spawn:s26": 26,
+     "spawn:s27": 27,
+     "spawn:s28": 28,
+     "spawn:s29": 29,
+     "spawn:s3": 3,
+     "spawn:s30": 30,
+     "spawn:s31": 31,
+     "spawn:s32": 32,
+     "spawn:s33": 33,
+     "spawn:s34": 34,
+     "spawn:s35": 35,
+     "spawn:s36": 36,
+     "spawn:s37": 37,
+     "spawn:s38": 38,
+     "spawn:s39": 39,
+     "spawn:s4": 4,
+     "spawn:s40": 40,
+     "spawn:s41": 41,
+     "spawn:s42": 42,
+     "spawn:s43": 43,
+     "spawn:s44": 44,
+     "spawn:s45": 45,
+     "spawn:s46": 46,
+     "spawn:s47": 47,
+     "spawn:s48": 48,
+     "spawn:s49": 49,
+     "spawn:s5": 5,
+     "spawn:s50": 50,
+     "spawn:s51": 51,
+     "spawn:s52": 52,
+     "spawn:s53": 53,
+     "spawn:s54": 54,
+     "spawn:s55": 55,
+     "spawn:s56": 56,
+     "spawn:s57": 57,
+     "spawn:s58": 58,
+     "spawn:s59": 59,
+     "spawn:s6": 6,
+     "spawn:s60": 60,
+     "spawn:s61": 61,
+     "spawn:s62": 62,
+     "spawn:s63": 63,
+     "spawn:s64": 64,
+     "spawn:s65": 65,
+     "spawn:s7": 7,
+     "spawn:s8": 8,
+     "spawn:s9": 9
+    }
+   }
+  }
+ }
+}

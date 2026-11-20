@@ -1,0 +1,128 @@
+{
+ "sprite": "6tree19",
+ "output": "mm6_deco_tree19.glb",
+ "height_m": 3.82,
+ "note": "18 placements. Wide flat umbrella crown on long curving thin forked limbs.",
+ "sapling": {
+  "scale": 2.7,
+  "baseSplits": 0,
+  "splitHeight": 0.3,
+  "splitAngle": [
+   28,
+   20,
+   15,
+   0
+  ],
+  "downAngle": [
+   90,
+   48,
+   45,
+   45
+  ],
+  "attractUp": [
+   0,
+   0.35,
+   0.3,
+   0
+  ],
+  "branches": [
+   0,
+   9,
+   25,
+   8
+  ],
+  "seed": 31,
+  "segSplits": [
+   0,
+   0.2,
+   0.3,
+   0
+  ],
+  "scaleV": 0.3,
+  "baseSize": 0.38,
+  "ratio": 0.055,
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "length": [
+   1.0,
+   0.6,
+   0.35,
+   0.3
+  ],
+  "downAngleV": [
+   0,
+   12,
+   10,
+   10
+  ],
+  "curve": [
+   0,
+   25,
+   0,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.41,
+  "centre": 0.645,
+  "clumps": 35,
+  "inner_clumps": 6,
+  "outer_radius": [
+   0.34,
+   0.54
+  ],
+  "inner_radius": [
+   0.32,
+   0.45
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   70,
+   64,
+   42
+  ],
+  "min_thickness": [
+   0.02,
+   0.035,
+   0.06
+  ],
+  "clip_below_crown": true,
+  "root_reach": 0.25
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "tone": [
+   1.0,
+   0.92,
+   [
+    0.88,
+    1.22,
+    0.69
+   ]
+  ],
+  "lod2_card_scale": 0.95
+ },
+ "leaves": {
+  "target_srgb": [
+   38,
+   138,
+   30
+  ],
+  "seeds": [
+   13,
+   29,
+   41,
+   57
+  ]
+ },
+ "impostor_dilate": 6
+}

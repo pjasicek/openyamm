@@ -1,0 +1,1206 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenYAMM\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm8/events/Global_mm8_promotions.lua:29
+msgid ""
+"The Necromancer in party slot {slot} needs a Lich Jar in their own inventory before the transformation can begin."
+msgstr ""
+"Nekromanta na miejscu {slot} w drużynie musi mieć Naczynie Lisza we własnym ekwipunku, zanim przemiana będzie mogła się rozpocząć."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1248 assets_dev/worlds/mm8/events/maps/d05.lua:1264 assets_dev/worlds/mm8/events/maps/d05.lua:1280
+msgid "The button will not move"
+msgstr "Przycisk jest zablokowany"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1001 assets_dev/worlds/mm8/events/maps/d05.lua:1015 assets_dev/worlds/mm8/events/maps/d05.lua:1017
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1031 assets_dev/worlds/mm8/events/maps/d05.lua:1033 assets_dev/worlds/mm8/events/maps/d05.lua:1047
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1049 assets_dev/worlds/mm8/events/maps/d05.lua:1063 assets_dev/worlds/mm8/events/maps/d05.lua:1065
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1079 assets_dev/worlds/mm8/events/maps/d05.lua:1081 assets_dev/worlds/mm8/events/maps/d05.lua:1095
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1097 assets_dev/worlds/mm8/events/maps/d05.lua:1111 assets_dev/worlds/mm8/events/maps/d05.lua:1234
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1241 assets_dev/worlds/mm8/events/maps/d05.lua:1243 assets_dev/worlds/mm8/events/maps/d05.lua:1257
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1259 assets_dev/worlds/mm8/events/maps/d05.lua:1273 assets_dev/worlds/mm8/events/maps/d05.lua:1275
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1288 assets_dev/worlds/mm8/events/maps/d05.lua:244 assets_dev/worlds/mm8/events/maps/d05.lua:249
+#: assets_dev/worlds/mm8/events/maps/d05.lua:251 assets_dev/worlds/mm8/events/maps/d05.lua:256 assets_dev/worlds/mm8/events/maps/d05.lua:258
+#: assets_dev/worlds/mm8/events/maps/d05.lua:263 assets_dev/worlds/mm8/events/maps/d05.lua:265 assets_dev/worlds/mm8/events/maps/d05.lua:280
+#: assets_dev/worlds/mm8/events/maps/d05.lua:282 assets_dev/worlds/mm8/events/maps/d05.lua:287 assets_dev/worlds/mm8/events/maps/d05.lua:289
+#: assets_dev/worlds/mm8/events/maps/d05.lua:294 assets_dev/worlds/mm8/events/maps/d05.lua:296 assets_dev/worlds/mm8/events/maps/d05.lua:301
+#: assets_dev/worlds/mm8/events/maps/d05.lua:303 assets_dev/worlds/mm8/events/maps/d05.lua:308 assets_dev/worlds/mm8/events/maps/d05.lua:310
+#: assets_dev/worlds/mm8/events/maps/d05.lua:325 assets_dev/worlds/mm8/events/maps/d05.lua:327 assets_dev/worlds/mm8/events/maps/d05.lua:332
+#: assets_dev/worlds/mm8/events/maps/d05.lua:334 assets_dev/worlds/mm8/events/maps/d05.lua:339 assets_dev/worlds/mm8/events/maps/d05.lua:341
+#: assets_dev/worlds/mm8/events/maps/d05.lua:356 assets_dev/worlds/mm8/events/maps/d05.lua:358 assets_dev/worlds/mm8/events/maps/d05.lua:363
+#: assets_dev/worlds/mm8/events/maps/d05.lua:365 assets_dev/worlds/mm8/events/maps/d05.lua:380 assets_dev/worlds/mm8/events/maps/d05.lua:382
+#: assets_dev/worlds/mm8/events/maps/d05.lua:397 assets_dev/worlds/mm8/events/maps/d05.lua:399 assets_dev/worlds/mm8/events/maps/d05.lua:404
+#: assets_dev/worlds/mm8/events/maps/d05.lua:406 assets_dev/worlds/mm8/events/maps/d05.lua:421 assets_dev/worlds/mm8/events/maps/d05.lua:423
+#: assets_dev/worlds/mm8/events/maps/d05.lua:438 assets_dev/worlds/mm8/events/maps/d05.lua:440 assets_dev/worlds/mm8/events/maps/d05.lua:455
+#: assets_dev/worlds/mm8/events/maps/d05.lua:457 assets_dev/worlds/mm8/events/maps/d05.lua:472 assets_dev/worlds/mm8/events/maps/d05.lua:474
+#: assets_dev/worlds/mm8/events/maps/d05.lua:479 assets_dev/worlds/mm8/events/maps/d05.lua:481 assets_dev/worlds/mm8/events/maps/d05.lua:486
+#: assets_dev/worlds/mm8/events/maps/d05.lua:488 assets_dev/worlds/mm8/events/maps/d05.lua:497 assets_dev/worlds/mm8/events/maps/d05.lua:499
+#: assets_dev/worlds/mm8/events/maps/d05.lua:522 assets_dev/worlds/mm8/events/maps/d05.lua:524 assets_dev/worlds/mm8/events/maps/d05.lua:547
+#: assets_dev/worlds/mm8/events/maps/d05.lua:549 assets_dev/worlds/mm8/events/maps/d05.lua:559 assets_dev/worlds/mm8/events/maps/d05.lua:561
+#: assets_dev/worlds/mm8/events/maps/d05.lua:576 assets_dev/worlds/mm8/events/maps/d05.lua:578 assets_dev/worlds/mm8/events/maps/d05.lua:593
+#: assets_dev/worlds/mm8/events/maps/d05.lua:595 assets_dev/worlds/mm8/events/maps/d05.lua:600 assets_dev/worlds/mm8/events/maps/d05.lua:602
+#: assets_dev/worlds/mm8/events/maps/d05.lua:617 assets_dev/worlds/mm8/events/maps/d05.lua:619 assets_dev/worlds/mm8/events/maps/d05.lua:634
+#: assets_dev/worlds/mm8/events/maps/d05.lua:636 assets_dev/worlds/mm8/events/maps/d05.lua:651 assets_dev/worlds/mm8/events/maps/d05.lua:653
+#: assets_dev/worlds/mm8/events/maps/d05.lua:666 assets_dev/worlds/mm8/events/maps/d05.lua:668 assets_dev/worlds/mm8/events/maps/d05.lua:699
+#: assets_dev/worlds/mm8/events/maps/d05.lua:701 assets_dev/worlds/mm8/events/maps/d05.lua:732 assets_dev/worlds/mm8/events/maps/d05.lua:734
+#: assets_dev/worlds/mm8/events/maps/d05.lua:747 assets_dev/worlds/mm8/events/maps/d05.lua:749 assets_dev/worlds/mm8/events/maps/d05.lua:780
+#: assets_dev/worlds/mm8/events/maps/d05.lua:782 assets_dev/worlds/mm8/events/maps/d05.lua:795 assets_dev/worlds/mm8/events/maps/d05.lua:797
+#: assets_dev/worlds/mm8/events/maps/d05.lua:812 assets_dev/worlds/mm8/events/maps/d05.lua:814 assets_dev/worlds/mm8/events/maps/d05.lua:829
+#: assets_dev/worlds/mm8/events/maps/d05.lua:831 assets_dev/worlds/mm8/events/maps/d05.lua:846 assets_dev/worlds/mm8/events/maps/d05.lua:848
+#: assets_dev/worlds/mm8/events/maps/d05.lua:863 assets_dev/worlds/mm8/events/maps/d05.lua:985 assets_dev/worlds/mm8/events/maps/d05.lua:999
+#: assets_dev/worlds/mm8/events/maps/d12.lua:183 assets_dev/worlds/mm8/events/maps/d12.lua:186 assets_dev/worlds/mm8/events/maps/d19.lua:200
+#: assets_dev/worlds/mm8/events/maps/d19.lua:202 assets_dev/worlds/mm8/events/maps/d19.lua:204 assets_dev/worlds/mm8/events/maps/d19.lua:206
+#: assets_dev/worlds/mm8/events/maps/d19.lua:208 assets_dev/worlds/mm8/events/maps/d19.lua:211 assets_dev/worlds/mm8/events/maps/d19.lua:239
+#: assets_dev/worlds/mm8/events/maps/d19.lua:250 assets_dev/worlds/mm8/events/maps/d19.lua:252 assets_dev/worlds/mm8/events/maps/d19.lua:263
+#: assets_dev/worlds/mm8/events/maps/d20.lua:158 assets_dev/worlds/mm8/events/maps/d20.lua:161 assets_dev/worlds/mm8/events/maps/d20.lua:163
+#: assets_dev/worlds/mm8/events/maps/d20.lua:166 assets_dev/worlds/mm8/events/maps/d25.lua:150 assets_dev/worlds/mm8/events/maps/d25.lua:152
+#: assets_dev/worlds/mm8/events/maps/d29.lua:144 assets_dev/worlds/mm8/events/maps/d29.lua:147 assets_dev/worlds/mm8/events/maps/d29.lua:153
+#: assets_dev/worlds/mm8/events/maps/d29.lua:159 assets_dev/worlds/mm8/events/maps/d35.lua:275 assets_dev/worlds/mm8/events/maps/d35.lua:278
+#: assets_dev/worlds/mm8/events/maps/d35.lua:290 assets_dev/worlds/mm8/events/maps/d35.lua:293 assets_dev/worlds/mm8/events/maps/d35.lua:300
+#: assets_dev/worlds/mm8/events/maps/d35.lua:303 assets_dev/worlds/mm8/events/maps/d35.lua:315 assets_dev/worlds/mm8/events/maps/d35.lua:318
+#: assets_dev/worlds/mm8/events/maps/d37.lua:332 assets_dev/worlds/mm8/events/maps/d37.lua:335
+msgid "Button"
+msgstr "Przycisk"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1193 assets_dev/worlds/mm8/events/maps/d05.lua:1195 assets_dev/worlds/mm8/events/maps/d05.lua:1197
+#: assets_dev/worlds/mm8/events/maps/d05.lua:1199 assets_dev/worlds/mm8/events/maps/d05.lua:896 assets_dev/worlds/mm8/events/maps/d05.lua:898
+msgid "Leave the Abandoned Temple"
+msgstr "Wyjdź z budynku"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d06.lua:349 assets_dev/worlds/mm8/events/maps/d06.lua:357 assets_dev/worlds/mm8/events/maps/d12.lua:161
+#: assets_dev/worlds/mm8/events/maps/d12.lua:168 assets_dev/worlds/mm8/events/maps/d12.lua:170 assets_dev/worlds/mm8/events/maps/d12.lua:181
+msgid "Key Hole"
+msgstr "Dziurka od klucza"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm8/events/maps/d06.lua:352 assets_dev/worlds/mm8/events/maps/d06.lua:390
+msgid "You don't have the Key"
+msgstr "Nie macie odpowiedniego klucza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d06.lua:444 assets_dev/worlds/mm8/events/maps/d34.lua:414
+msgid "Submarine"
+msgstr "Łódź podwodna"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d06.lua:446 assets_dev/worlds/mm8/events/maps/d06.lua:454 assets_dev/worlds/mm8/events/maps/d06_mmmerge.lua:16
+#: assets_dev/worlds/mm8/events/maps/d34.lua:416 assets_dev/worlds/mm8/events/maps/d34.lua:423 assets_dev/worlds/mm8/events/maps/d34_mmmerge.lua:5
+msgid "Enter the Submarine"
+msgstr "Wejdź do łodzi podwodnej"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d06.lua:471 assets_dev/worlds/mm8/events/maps/d06.lua:473
+msgid "Leave the Regnan Pirate Outpost"
+msgstr "Opuść posterunek regnańskich piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d07.lua:531 assets_dev/worlds/mm8/events/maps/d07.lua:533
+msgid "Leave Smuggler's Cove"
+msgstr "Opuść jaskinię przemytników"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d08.lua:134 assets_dev/worlds/mm8/events/maps/out02.lua:924
+msgid "You have killed all of the Dire Wolves"
+msgstr "Wszystkie dzikie wilki zostały zabite"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d08.lua:427 assets_dev/worlds/mm8/events/maps/d08.lua:429
+msgid "Leave the Dire Wolf Den"
+msgstr "Opuść norę dzikich wilków"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d09.lua:134 assets_dev/worlds/mm8/events/maps/d09.lua:140 assets_dev/worlds/mm8/events/maps/d09.lua:503
+#: assets_dev/worlds/mm8/events/maps/d09.lua:529 assets_dev/worlds/mm8/events/maps/d09.lua:531 assets_dev/worlds/mm8/events/maps/d09.lua:535
+#: assets_dev/worlds/mm8/events/maps/d09.lua:537 assets_dev/worlds/mm8/events/maps/d09.lua:563 assets_dev/worlds/mm8/events/maps/d09.lua:565
+#: assets_dev/worlds/mm8/events/maps/d09.lua:591 assets_dev/worlds/mm8/events/maps/d09.lua:593 assets_dev/worlds/mm8/events/maps/d09.lua:619
+#: assets_dev/worlds/mm8/events/maps/d09.lua:621 assets_dev/worlds/mm8/events/maps/d09.lua:647 assets_dev/worlds/mm8/events/maps/d09.lua:649
+#: assets_dev/worlds/mm8/events/maps/d09.lua:653 assets_dev/worlds/mm8/events/maps/d09.lua:655 assets_dev/worlds/mm8/events/maps/d09.lua:657
+#: assets_dev/worlds/mm8/events/maps/d09.lua:659 assets_dev/worlds/mm8/events/maps/d09.lua:661 assets_dev/worlds/mm8/events/maps/d09.lua:663
+#: assets_dev/worlds/mm8/events/maps/d09.lua:665 assets_dev/worlds/mm8/events/maps/d09.lua:667 assets_dev/worlds/mm8/events/maps/d09.lua:669
+#: assets_dev/worlds/mm8/events/maps/d09.lua:671 assets_dev/worlds/mm8/events/maps/d09.lua:673 assets_dev/worlds/mm8/events/maps/d09.lua:675
+#: assets_dev/worlds/mm8/events/maps/d09.lua:677 assets_dev/worlds/mm8/events/maps/d09.lua:679 assets_dev/worlds/mm8/events/maps/d16.lua:189
+#: assets_dev/worlds/mm8/events/maps/d16.lua:191 assets_dev/worlds/mm8/events/maps/d16.lua:475 assets_dev/worlds/mm8/events/maps/d20.lua:496
+#: assets_dev/worlds/mm8/events/maps/d20.lua:515 assets_dev/worlds/mm8/events/maps/d20.lua:517 assets_dev/worlds/mm8/events/maps/d20.lua:536
+#: assets_dev/worlds/mm8/events/maps/d20.lua:538 assets_dev/worlds/mm8/events/maps/d20.lua:557 assets_dev/worlds/mm8/events/maps/d20.lua:559
+#: assets_dev/worlds/mm8/events/maps/d20.lua:578 assets_dev/worlds/mm8/events/maps/d40.lua:476 assets_dev/worlds/mm8/events/maps/d40.lua:497
+#: assets_dev/worlds/mm8/events/maps/d40.lua:499 assets_dev/worlds/mm8/events/maps/d40.lua:520 assets_dev/worlds/mm8/events/maps/d40.lua:522
+#: assets_dev/worlds/mm8/events/maps/d40.lua:543 assets_dev/worlds/mm8/events/maps/d40.lua:545 assets_dev/worlds/mm8/events/maps/d40.lua:566
+#: assets_dev/worlds/mm8/events/maps/d40.lua:568 assets_dev/worlds/mm8/events/maps/d40.lua:589 assets_dev/worlds/mm8/events/maps/d40.lua:591
+#: assets_dev/worlds/mm8/events/maps/d40.lua:612 assets_dev/worlds/mm8/events/maps/d40.lua:614 assets_dev/worlds/mm8/events/maps/d40.lua:635
+#: assets_dev/worlds/mm8/events/maps/d40.lua:637 assets_dev/worlds/mm8/events/maps/d40.lua:658 assets_dev/worlds/mm8/events/maps/d40.lua:660
+#: assets_dev/worlds/mm8/events/maps/d40.lua:681 assets_dev/worlds/mm8/events/maps/d40.lua:683 assets_dev/worlds/mm8/events/maps/d40.lua:704
+#: assets_dev/worlds/mm8/events/maps/d40.lua:706 assets_dev/worlds/mm8/events/maps/d40.lua:708 assets_dev/worlds/mm8/events/maps/d44.lua:475
+#: assets_dev/worlds/mm8/events/maps/d44.lua:496
+msgid "Bookshelf"
+msgstr "Półka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d09.lua:681 assets_dev/worlds/mm8/events/maps/d09.lua:683 assets_dev/worlds/mm8/events/maps/d09.lua:685
+#: assets_dev/worlds/mm8/events/maps/d09.lua:687
+msgid "Leave Merchant House of Alvar"
+msgstr "Opuść dom kupców z Alvar"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d10.lua:905 assets_dev/worlds/mm8/events/maps/d10.lua:907 assets_dev/worlds/mm8/events/maps/d10.lua:909
+#: assets_dev/worlds/mm8/events/maps/d10.lua:913
+msgid "Leave Escaton's Crystal"
+msgstr "Opuść kryształ Escatona"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d11.lua:412 assets_dev/worlds/mm8/events/maps/d11.lua:414 assets_dev/worlds/mm8/events/maps/d11.lua:416
+#: assets_dev/worlds/mm8/events/maps/d11.lua:418 assets_dev/worlds/mm8/events/maps/d11.lua:420 assets_dev/worlds/mm8/events/maps/d11.lua:422
+msgid "Leave the Wasp Nest"
+msgstr "Opuść gniazdo os"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d12.lua:146
+msgid "You have Killed all of the Ogres"
+msgstr "Wszystkie ogry zostały zabite"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d12.lua:490 assets_dev/worlds/mm8/events/maps/d12.lua:492
+msgid "Leave the Ogre Raiding Fortress"
+msgstr "Opuść fortecę ogrów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d13.lua:1045 assets_dev/worlds/mm8/events/maps/d13.lua:1047
+msgid "Leave the Troll Tomb"
+msgstr "Opuść grobowiec trolli"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d13.lua:604
+msgid "Vilebite is now at rest !"
+msgstr "Vilebite teraz odpoczywa!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d14.lua:449 assets_dev/worlds/mm8/events/maps/d14.lua:451
+msgid "Leave the Cyclops Larder"
+msgstr "Opuść spiżarnię cyklopów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d15.lua:419 assets_dev/worlds/mm8/events/maps/d15.lua:421 assets_dev/worlds/mm8/events/maps/d15.lua:423
+#: assets_dev/worlds/mm8/events/maps/d15.lua:425
+msgid "Leave the Chain of Fire"
+msgstr "Opuść łańcuch ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d16.lua:168 assets_dev/worlds/mm8/events/maps/out05.lua:415 assets_dev/worlds/mm8/events/maps/out05_mmmerge.lua:21
+msgid "You have killed all of the Dragon Hunters"
+msgstr "Wszyscy łowcy smoków zostali zabici"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d16.lua:497 assets_dev/worlds/mm8/events/maps/d16.lua:499
+msgid "Leave the Dragon Hunter's Camp"
+msgstr "Opuść obóz łowców smoków"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d17.lua:139 assets_dev/worlds/mm8/events/maps/out05.lua:381 assets_dev/worlds/mm8/events/maps/out05_mmmerge.lua:12
+msgid "You have killed all of the Dragons"
+msgstr "Wszystkie smoki zostały zabite"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d17.lua:268 assets_dev/worlds/mm8/events/maps/d17.lua:270
+msgid "Leave the dragon cave"
+msgstr "Opuść smoczą jamę"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d18.lua:437 assets_dev/worlds/mm8/events/maps/d18.lua:439
+msgid "Leave the Naga Vault"
+msgstr "Opuść siedlisko przeraz"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d19.lua:262
+msgid "The Door will not move"
+msgstr "Drzwi są zablokowane"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d19.lua:265 assets_dev/worlds/mm8/events/maps/d19.lua:292 assets_dev/worlds/mm8/events/maps/d19.lua:294
+#: assets_dev/worlds/mm8/events/maps/d19.lua:322 assets_dev/worlds/mm8/events/maps/d19.lua:324 assets_dev/worlds/mm8/events/maps/d19.lua:351
+#: assets_dev/worlds/mm8/events/maps/d19.lua:353 assets_dev/worlds/mm8/events/maps/d19.lua:381 assets_dev/worlds/mm8/events/maps/d19.lua:383
+#: assets_dev/worlds/mm8/events/maps/d19.lua:411 assets_dev/worlds/mm8/events/maps/d24.lua:231 assets_dev/worlds/mm8/events/maps/d24.lua:277
+#: assets_dev/worlds/mm8/events/maps/d24.lua:279 assets_dev/worlds/mm8/events/maps/d24.lua:285 assets_dev/worlds/mm8/events/maps/d24.lua:287
+#: assets_dev/worlds/mm8/events/maps/d24.lua:296 assets_dev/worlds/mm8/events/maps/d24.lua:298 assets_dev/worlds/mm8/events/maps/d24.lua:307
+#: assets_dev/worlds/mm8/events/maps/d24.lua:309 assets_dev/worlds/mm8/events/maps/d24.lua:315 assets_dev/worlds/mm8/events/maps/d24.lua:317
+#: assets_dev/worlds/mm8/events/maps/d24.lua:329 assets_dev/worlds/mm8/events/maps/d24.lua:331 assets_dev/worlds/mm8/events/maps/d24.lua:343
+#: assets_dev/worlds/mm8/events/maps/d24.lua:345 assets_dev/worlds/mm8/events/maps/d24.lua:357 assets_dev/worlds/mm8/events/maps/d24.lua:359
+#: assets_dev/worlds/mm8/events/maps/d24.lua:368 assets_dev/worlds/mm8/events/maps/d24.lua:370 assets_dev/worlds/mm8/events/maps/d24.lua:379
+#: assets_dev/worlds/mm8/events/maps/d24.lua:381 assets_dev/worlds/mm8/events/maps/d24.lua:390 assets_dev/worlds/mm8/events/maps/d24.lua:392
+#: assets_dev/worlds/mm8/events/maps/d24.lua:423 assets_dev/worlds/mm8/events/maps/d25.lua:366 assets_dev/worlds/mm8/events/maps/d25.lua:369
+#: assets_dev/worlds/mm8/events/maps/d35.lua:250 assets_dev/worlds/mm8/events/maps/d35.lua:253 assets_dev/worlds/mm8/events/maps/d35.lua:255
+#: assets_dev/worlds/mm8/events/maps/d35.lua:258 assets_dev/worlds/mm8/events/maps/d35.lua:260 assets_dev/worlds/mm8/events/maps/d35.lua:263
+#: assets_dev/worlds/mm8/events/maps/d35.lua:265 assets_dev/worlds/mm8/events/maps/d35.lua:268 assets_dev/worlds/mm8/events/maps/d35.lua:270
+#: assets_dev/worlds/mm8/events/maps/d35.lua:273 assets_dev/worlds/mm8/events/maps/d35.lua:280 assets_dev/worlds/mm8/events/maps/d35.lua:283
+#: assets_dev/worlds/mm8/events/maps/d35.lua:285 assets_dev/worlds/mm8/events/maps/d35.lua:288 assets_dev/worlds/mm8/events/maps/d35.lua:295
+#: assets_dev/worlds/mm8/events/maps/d35.lua:298 assets_dev/worlds/mm8/events/maps/d35.lua:305 assets_dev/worlds/mm8/events/maps/d35.lua:308
+#: assets_dev/worlds/mm8/events/maps/d35.lua:310 assets_dev/worlds/mm8/events/maps/d35.lua:313
+msgid "Lever"
+msgstr "Dźwignia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d19.lua:268 assets_dev/worlds/mm8/events/maps/d19.lua:271 assets_dev/worlds/mm8/events/maps/d19.lua:274
+#: assets_dev/worlds/mm8/events/maps/d19.lua:277 assets_dev/worlds/mm8/events/maps/d19.lua:280 assets_dev/worlds/mm8/events/maps/d19.lua:291
+#: assets_dev/worlds/mm8/events/maps/d19.lua:296 assets_dev/worlds/mm8/events/maps/d19.lua:299 assets_dev/worlds/mm8/events/maps/d19.lua:302
+#: assets_dev/worlds/mm8/events/maps/d19.lua:305 assets_dev/worlds/mm8/events/maps/d19.lua:316 assets_dev/worlds/mm8/events/maps/d19.lua:319
+#: assets_dev/worlds/mm8/events/maps/d19.lua:326 assets_dev/worlds/mm8/events/maps/d19.lua:329 assets_dev/worlds/mm8/events/maps/d19.lua:332
+#: assets_dev/worlds/mm8/events/maps/d19.lua:335 assets_dev/worlds/mm8/events/maps/d19.lua:338 assets_dev/worlds/mm8/events/maps/d19.lua:348
+#: assets_dev/worlds/mm8/events/maps/d19.lua:355 assets_dev/worlds/mm8/events/maps/d19.lua:358 assets_dev/worlds/mm8/events/maps/d19.lua:369
+#: assets_dev/worlds/mm8/events/maps/d19.lua:372 assets_dev/worlds/mm8/events/maps/d19.lua:378 assets_dev/worlds/mm8/events/maps/d19.lua:385
+#: assets_dev/worlds/mm8/events/maps/d19.lua:388 assets_dev/worlds/mm8/events/maps/d19.lua:391 assets_dev/worlds/mm8/events/maps/d19.lua:402
+#: assets_dev/worlds/mm8/events/maps/d19.lua:405 assets_dev/worlds/mm8/events/maps/d19.lua:408
+msgid "The lever will not move"
+msgstr "Dźwignia jest zablokowana"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d19.lua:413 assets_dev/worlds/mm8/events/maps/d19.lua:425
+msgid "Door Beam"
+msgstr "Zasuwa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d19.lua:415
+msgid "The Beam will not move"
+msgstr "Zasuwa jest zablokowana"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d19.lua:965 assets_dev/worlds/mm8/events/maps/d19.lua:967
+msgid "Leave the Necromancers' Guild"
+msgstr "Opuść gildię nekromantów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d20.lua:492 assets_dev/worlds/mm8/events/maps/d20.lua:494 assets_dev/worlds/mm8/events/maps/d35.lua:474
+#: assets_dev/worlds/mm8/events/maps/d35.lua:476 assets_dev/worlds/mm8/events/maps/elema.lua:230 assets_dev/worlds/mm8/events/maps/elema.lua:238
+#: assets_dev/worlds/mm8/events/maps/eleme.lua:515 assets_dev/worlds/mm8/events/maps/eleme.lua:523 assets_dev/worlds/mm8/events/maps/elemf.lua:219
+#: assets_dev/worlds/mm8/events/maps/elemf.lua:227 assets_dev/worlds/mm8/events/maps/elemw.lua:213 assets_dev/worlds/mm8/events/maps/elemw.lua:221
+msgid "Take a Drink"
+msgstr "Napij się"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d20.lua:493
+msgid "Refreshing !"
+msgstr "Orzeźwiające"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d20.lua:580 assets_dev/worlds/mm8/events/maps/d20.lua:582
+msgid "Leave the Mad Necromancer's Lab"
+msgstr "Opuść budynek"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d21.lua:412 assets_dev/worlds/mm8/events/maps/d21.lua:414
+msgid "Leave the Vampire Crypt"
+msgstr "Opuść kryptę wampirów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d22.lua:514 assets_dev/worlds/mm8/events/maps/d22.lua:516
+msgid "Leave the Temple of the Sun"
+msgstr "Opuść Świątynię Słońca"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d23.lua:443 assets_dev/worlds/mm8/events/maps/d23.lua:445
+msgid "Leave the Druid Circle"
+msgstr "Opuść krąg druidów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d24.lua:791 assets_dev/worlds/mm8/events/maps/d24.lua:799
+msgid "Drink from the Fountain"
+msgstr "Napij się z fontanny"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm8/events/maps/d24.lua:797
+msgid "Your wounds begin to heal"
+msgstr "Wasze rany zaczęły się goić"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d24.lua:941 assets_dev/worlds/mm8/events/maps/d24.lua:943 assets_dev/worlds/mm8/events/maps/d24.lua:945
+#: assets_dev/worlds/mm8/events/maps/d24.lua:947
+msgid "Leave Balthazar Lair"
+msgstr "Opuść Jamę Balthazara"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d25.lua:451 assets_dev/worlds/mm8/events/maps/d25.lua:453 assets_dev/worlds/mm8/events/maps/d25.lua:455
+#: assets_dev/worlds/mm8/events/maps/d25.lua:457 assets_dev/worlds/mm8/events/maps/d25.lua:459 assets_dev/worlds/mm8/events/maps/d25.lua:461
+#: assets_dev/worlds/mm8/events/maps/d25.lua:463 assets_dev/worlds/mm8/events/maps/d25.lua:465
+msgid "Leave the Barbarian Fortress"
+msgstr "Opuść fortecę barbarzyńców"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d26.lua:463 assets_dev/worlds/mm8/events/maps/d26.lua:465
+msgid "Leave the Crypt of Korbu"
+msgstr "Opuść kryptę Korbu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d27.lua:478 assets_dev/worlds/mm8/events/maps/d27.lua:480
+msgid "Leave the Castle Air"
+msgstr "Opuść zamek powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d28.lua:416 assets_dev/worlds/mm8/events/maps/d28.lua:418
+msgid "Leave the Tomb of Lord Brinne"
+msgstr "Opuść grobowiec lorda Brinne"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d29.lua:454 assets_dev/worlds/mm8/events/maps/d29.lua:456
+msgid "Leave the Castle of Fire"
+msgstr "Opuść zamek ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d30.lua:415 assets_dev/worlds/mm8/events/maps/d30.lua:417
+msgid "Leave the War Camp"
+msgstr "Opuść obóz wojenny"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d31.lua:138 assets_dev/worlds/mm8/events/maps/d31.lua:140 assets_dev/worlds/mm8/events/maps/d31.lua:142
+#: assets_dev/worlds/mm8/events/maps/d31.lua:144 assets_dev/worlds/mm8/events/maps/d31.lua:146 assets_dev/worlds/mm8/events/maps/d31.lua:148
+#: assets_dev/worlds/mm8/events/maps/d31.lua:150 assets_dev/worlds/mm8/events/maps/d31.lua:152
+msgid "Lift"
+msgstr "Winda"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d31.lua:451 assets_dev/worlds/mm8/events/maps/d31.lua:453 assets_dev/worlds/mm8/events/maps/d31.lua:455
+#: assets_dev/worlds/mm8/events/maps/d31.lua:457
+msgid "Leave the Pirate Stronghold"
+msgstr "Opuść warownię piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d32.lua:488 assets_dev/worlds/mm8/events/maps/d32.lua:497 assets_dev/worlds/mm8/events/maps/d32.lua:506
+#: assets_dev/worlds/mm8/events/maps/d32.lua:515
+msgid "The ship begins to sink"
+msgstr "Okręt zaczyna tonąć"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d32.lua:523 assets_dev/worlds/mm8/events/maps/d32.lua:525 assets_dev/worlds/mm8/events/maps/d32.lua:527
+#: assets_dev/worlds/mm8/events/maps/d32.lua:529
+msgid "Leave the Abandoned Pirate Keep"
+msgstr "Opuść porzuconą warownię piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d33.lua:413 assets_dev/worlds/mm8/events/maps/d33.lua:415 assets_dev/worlds/mm8/events/maps/d33.lua:417
+#: assets_dev/worlds/mm8/events/maps/d33.lua:419 assets_dev/worlds/mm8/events/maps/d33.lua:421 assets_dev/worlds/mm8/events/maps/d33.lua:428
+#: assets_dev/worlds/mm8/events/maps/d33.lua:430 assets_dev/worlds/mm8/events/maps/d33.lua:437
+msgid "Leave the Passage Under Regna"
+msgstr "Opuść przejście pod Regną"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d34.lua:425 assets_dev/worlds/mm8/events/maps/d34.lua:427
+msgid "Leave the Small Sub Pen"
+msgstr "Opuść hangar małej łodzi podwodnej"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d35.lua:475 assets_dev/worlds/mm8/events/maps/elema.lua:237 assets_dev/worlds/mm8/events/maps/eleme.lua:522
+#: assets_dev/worlds/mm8/events/maps/elemf.lua:226 assets_dev/worlds/mm8/events/maps/elemw.lua:220 assets_dev/worlds/mm8/events/maps/out01.lua:387
+#: assets_dev/worlds/mm8/events/maps/out01.lua:397 assets_dev/worlds/mm8/events/maps/out01.lua:403 assets_dev/worlds/mm8/events/maps/out01.lua:406
+#: assets_dev/worlds/mm8/events/maps/out01.lua:413 assets_dev/worlds/mm8/events/maps/out01.lua:417 assets_dev/worlds/mm8/events/maps/out01.lua:427
+#: assets_dev/worlds/mm8/events/maps/out02.lua:863 assets_dev/worlds/mm8/events/maps/out02.lua:872 assets_dev/worlds/mm8/events/maps/out02.lua:880
+#: assets_dev/worlds/mm8/events/maps/out02.lua:883 assets_dev/worlds/mm8/events/maps/out02.lua:886 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:11
+#: assets_dev/worlds/mm8/events/maps/out03.lua:446 assets_dev/worlds/mm8/events/maps/out03.lua:456 assets_dev/worlds/mm8/events/maps/out03.lua:460
+#: assets_dev/worlds/mm8/events/maps/out03.lua:473 assets_dev/worlds/mm8/events/maps/out04.lua:269 assets_dev/worlds/mm8/events/maps/out04.lua:275
+#: assets_dev/worlds/mm8/events/maps/out04.lua:278 assets_dev/worlds/mm8/events/maps/out04.lua:286 assets_dev/worlds/mm8/events/maps/out04.lua:290
+#: assets_dev/worlds/mm8/events/maps/out05.lua:314 assets_dev/worlds/mm8/events/maps/out05.lua:317 assets_dev/worlds/mm8/events/maps/out05.lua:325
+#: assets_dev/worlds/mm8/events/maps/out05.lua:335 assets_dev/worlds/mm8/events/maps/out05.lua:345 assets_dev/worlds/mm8/events/maps/out06.lua:423
+#: assets_dev/worlds/mm8/events/maps/out06.lua:429 assets_dev/worlds/mm8/events/maps/out06.lua:432 assets_dev/worlds/mm8/events/maps/out06.lua:440
+#: assets_dev/worlds/mm8/events/maps/out06.lua:444 assets_dev/worlds/mm8/events/maps/out06.lua:457 assets_dev/worlds/mm8/events/maps/out07.lua:268
+#: assets_dev/worlds/mm8/events/maps/out07.lua:272 assets_dev/worlds/mm8/events/maps/out08.lua:231 assets_dev/worlds/mm8/events/maps/out08.lua:234
+#: assets_dev/worlds/mm8/events/maps/out08.lua:241 assets_dev/worlds/mm8/events/maps/out08.lua:250 assets_dev/worlds/mm8/events/maps/out08.lua:254
+#: assets_dev/worlds/mm8/events/maps/out13.lua:303 assets_dev/worlds/mm8/events/maps/out13.lua:307 assets_dev/worlds/mm8/events/maps/out13.lua:311
+#: assets_dev/worlds/mm8/events/maps/out13.lua:315
+msgid "Refreshing"
+msgstr "Orzeźwiające"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d35.lua:478 assets_dev/worlds/mm8/events/maps/d35.lua:480
+msgid "Leave Escaton's Palace"
+msgstr "Opuść pałac Escatona"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d36.lua:415 assets_dev/worlds/mm8/events/maps/d36.lua:417
+msgid "Leave the Prison of the Lord of Air"
+msgstr "Opuść więzienie władcy powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d37.lua:421 assets_dev/worlds/mm8/events/maps/d37.lua:423
+msgid "Leave the Prison of the Lord of Fire"
+msgstr "Opuść więzienie władcy ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d38.lua:415 assets_dev/worlds/mm8/events/maps/d38.lua:417
+msgid "Leave Prison of the Lord of Water"
+msgstr "Opuść więzienie władcy wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d39.lua:430 assets_dev/worlds/mm8/events/maps/d39.lua:432
+msgid "Leave the Prison of the Lord of Earth"
+msgstr "Opuść więzienie władcy ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d40.lua:490 assets_dev/worlds/mm8/events/maps/d40.lua:495 assets_dev/worlds/mm8/events/maps/d40.lua:513
+#: assets_dev/worlds/mm8/events/maps/d40.lua:518 assets_dev/worlds/mm8/events/maps/d40.lua:536 assets_dev/worlds/mm8/events/maps/d40.lua:541
+#: assets_dev/worlds/mm8/events/maps/d40.lua:559 assets_dev/worlds/mm8/events/maps/d40.lua:564 assets_dev/worlds/mm8/events/maps/d40.lua:582
+#: assets_dev/worlds/mm8/events/maps/d40.lua:587 assets_dev/worlds/mm8/events/maps/d40.lua:605 assets_dev/worlds/mm8/events/maps/d40.lua:610
+#: assets_dev/worlds/mm8/events/maps/d40.lua:628 assets_dev/worlds/mm8/events/maps/d40.lua:633 assets_dev/worlds/mm8/events/maps/d40.lua:651
+#: assets_dev/worlds/mm8/events/maps/d40.lua:656 assets_dev/worlds/mm8/events/maps/d40.lua:674 assets_dev/worlds/mm8/events/maps/d40.lua:679
+#: assets_dev/worlds/mm8/events/maps/d40.lua:697 assets_dev/worlds/mm8/events/maps/d40.lua:702 assets_dev/worlds/mm8/events/maps/d40.lua:707
+msgid "You found nothing of interest"
+msgstr "Nic interesującego"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d40.lua:710 assets_dev/worlds/mm8/events/maps/d40.lua:712
+msgid "Leave the Uplifted Library"
+msgstr "Opuść Wielką Bibliotekę"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d41.lua:415 assets_dev/worlds/mm8/events/maps/d41.lua:417
+msgid "Leave the Dark Dwarf Compound"
+msgstr "Opuść schronienie mrocznych krasnoludów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d42.lua:406 assets_dev/worlds/mm8/events/maps/d42.lua:408
+msgid "Talk to the Arena Master"
+msgstr "Rozmawiaj z mistrzem areny"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d42.lua:434 assets_dev/worlds/mm8/events/maps/d42.lua:436 assets_dev/worlds/mm8/events/maps/d42_mmmerge.lua:13
+#: assets_dev/worlds/mm8/events/maps/d42_mmmerge.lua:14
+msgid "Leave the Arena"
+msgstr "Opuść Arenę"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d43.lua:135
+msgid "You have Killed all of the Basilisks in this Ancient Troll Home"
+msgstr "Wszystkie bazyliszki w pradawnym domu trolli zostały zabite"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d43.lua:420 assets_dev/worlds/mm8/events/maps/d43.lua:422
+msgid "Leave the Ancient Troll Home"
+msgstr "Opuść pradawny dom trolli"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d44.lua:489 assets_dev/worlds/mm8/events/maps/d44.lua:494
+msgid "You found nothing useful"
+msgstr "Nic interesującego"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d44.lua:498 assets_dev/worlds/mm8/events/maps/d44.lua:500
+msgid "Leave the Grand Temple of Eep"
+msgstr "Opuść Wielką Świątynię Eepa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d45.lua:436 assets_dev/worlds/mm8/events/maps/d45.lua:438
+msgid "Leave the Chapel of Eep"
+msgstr "Opuść kaplicę Eepa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d46.lua:490 assets_dev/worlds/mm8/events/maps/d46.lua:492
+msgid "Leave the Church of Eep"
+msgstr "Opuść kościół Eepa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d47.lua:417 assets_dev/worlds/mm8/events/maps/d47.lua:419
+msgid "Leave Old Loeb's Cave"
+msgstr "Opuść jaskinię starego Loeba"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d48.lua:417 assets_dev/worlds/mm8/events/maps/d48.lua:419
+msgid "Leave Ilsingore's Cave"
+msgstr "Opuść jaskinię Ilsingore'a"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/d49.lua:417 assets_dev/worlds/mm8/events/maps/d49.lua:419
+msgid "Leave Yaardrake's Cave"
+msgstr "Opuść jaskinię Yaardrake'a"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm8/events/maps/d50.lua:425 assets_dev/worlds/mm8/events/maps/d50.lua:427
+msgid "Leave New World Computing"
+msgstr "Opuść New World Computing"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elema.lua:226
+msgid "Raven Man Nest"
+msgstr "Gniazdo ludzi-kruków"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elema.lua:228
+msgid "Gate out of the Plane of Air"
+msgstr "Wyjście z wymiaru powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elema.lua:233
+msgid "Air Resistance +10 (Permanent)"
+msgstr "Odporność na magię powietrza +10 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elema.lua:240 assets_dev/worlds/mm8/events/maps/elema.lua:242
+msgid "Enter the Castle of Air"
+msgstr "Wejdź do zamku powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elema.lua:244 assets_dev/worlds/mm8/events/maps/elema.lua:246
+msgid "Leave the Plane of Air"
+msgstr "Opuść wymiar powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/eleme.lua:513
+msgid "Gate out of the Plane of Earth"
+msgstr "Wyjście z wymiaru ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/eleme.lua:518
+msgid "Earth Resistance +10 (Permanent)"
+msgstr "Odporność na magię ziemi +10 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/eleme.lua:525 assets_dev/worlds/mm8/events/maps/eleme.lua:527
+msgid "Leave the Plane of Earth"
+msgstr "Opuść wymiar ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemf.lua:217
+msgid "Gate out of the Plane of Fire"
+msgstr "Wyjście z wymiaru ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemf.lua:222
+msgid "Fire Resistance +25 (Temporary)"
+msgstr "Odporność na Magię Ognia +25 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemf.lua:241 assets_dev/worlds/mm8/events/maps/elemf.lua:243
+msgid "Enter the Castle of Fire"
+msgstr "Wejdź do zamku ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemf.lua:245 assets_dev/worlds/mm8/events/maps/elemf.lua:247
+msgid "Enter the War Camp"
+msgstr "Wejdź do obozu wojennego"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemf.lua:249 assets_dev/worlds/mm8/events/maps/elemf.lua:251
+msgid "Leave the Plane of Fire"
+msgstr "Opuść wymiar ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemw.lua:211
+msgid "Gate out of the Plane of Water"
+msgstr "Wyjście z wymiaru wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemw.lua:216
+msgid "Water Resistance +10 (Permanent)"
+msgstr "Odporność na magię wody +10 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/elemw.lua:223 assets_dev/worlds/mm8/events/maps/elemw.lua:225
+msgid "Leave the Plane of Water"
+msgstr "Opuść wymiar wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:104 assets_dev/worlds/mm8/events/maps/out01.lua:383
+msgid "Intellect +15 (Temporary)"
+msgstr "Intelekt +15 (czasowo)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:105 assets_dev/worlds/mm8/events/maps/out01.lua:393
+msgid "Luck +2 (Permanent)"
+msgstr "Szczęście +2 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:348 assets_dev/worlds/mm8/events/maps/out01.lua:350 assets_dev/worlds/mm8/events/maps/out01.lua:352
+#: assets_dev/worlds/mm8/events/maps/out01.lua:354 assets_dev/worlds/mm8/events/maps/out01.lua:356 assets_dev/worlds/mm8/events/maps/out01.lua:358
+#: assets_dev/worlds/mm8/events/maps/out01.lua:360 assets_dev/worlds/mm8/events/maps/out01.lua:362 assets_dev/worlds/mm8/events/maps/out01.lua:364
+#: assets_dev/worlds/mm8/events/maps/out01.lua:366 assets_dev/worlds/mm8/events/maps/out01.lua:368 assets_dev/worlds/mm8/events/maps/out01.lua:370
+#: assets_dev/worlds/mm8/events/maps/out01.lua:372 assets_dev/worlds/mm8/events/maps/out01.lua:374 assets_dev/worlds/mm8/events/maps/out01.lua:376
+#: assets_dev/worlds/mm8/events/maps/out01.lua:378 assets_dev/worlds/mm8/events/maps/out08.lua:166 assets_dev/worlds/mm8/events/maps/out08.lua:168
+msgid "Open Crate"
+msgstr "Otwórz skrzynię"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:380 assets_dev/worlds/mm8/events/maps/out01.lua:388 assets_dev/worlds/mm8/events/maps/out01.lua:390
+#: assets_dev/worlds/mm8/events/maps/out01.lua:398 assets_dev/worlds/mm8/events/maps/out01.lua:400 assets_dev/worlds/mm8/events/maps/out01.lua:418
+#: assets_dev/worlds/mm8/events/maps/out02.lua:856 assets_dev/worlds/mm8/events/maps/out02.lua:864 assets_dev/worlds/mm8/events/maps/out02.lua:866
+#: assets_dev/worlds/mm8/events/maps/out02.lua:869 assets_dev/worlds/mm8/events/maps/out02.lua:871 assets_dev/worlds/mm8/events/maps/out02.lua:873
+#: assets_dev/worlds/mm8/events/maps/out03.lua:439 assets_dev/worlds/mm8/events/maps/out03.lua:447 assets_dev/worlds/mm8/events/maps/out03.lua:449
+#: assets_dev/worlds/mm8/events/maps/out03.lua:457 assets_dev/worlds/mm8/events/maps/out03.lua:459 assets_dev/worlds/mm8/events/maps/out03.lua:461
+#: assets_dev/worlds/mm8/events/maps/out04.lua:262 assets_dev/worlds/mm8/events/maps/out04.lua:270 assets_dev/worlds/mm8/events/maps/out04.lua:272
+#: assets_dev/worlds/mm8/events/maps/out04.lua:287 assets_dev/worlds/mm8/events/maps/out04.lua:289 assets_dev/worlds/mm8/events/maps/out04.lua:291
+#: assets_dev/worlds/mm8/events/maps/out05.lua:311 assets_dev/worlds/mm8/events/maps/out05.lua:326 assets_dev/worlds/mm8/events/maps/out05.lua:328
+#: assets_dev/worlds/mm8/events/maps/out05.lua:336 assets_dev/worlds/mm8/events/maps/out05.lua:338 assets_dev/worlds/mm8/events/maps/out05.lua:346
+#: assets_dev/worlds/mm8/events/maps/out06.lua:416 assets_dev/worlds/mm8/events/maps/out06.lua:424 assets_dev/worlds/mm8/events/maps/out06.lua:426
+#: assets_dev/worlds/mm8/events/maps/out06.lua:441 assets_dev/worlds/mm8/events/maps/out06.lua:443 assets_dev/worlds/mm8/events/maps/out06.lua:445
+#: assets_dev/worlds/mm8/events/maps/out07.lua:254 assets_dev/worlds/mm8/events/maps/out07.lua:259 assets_dev/worlds/mm8/events/maps/out07.lua:261
+#: assets_dev/worlds/mm8/events/maps/out07.lua:269 assets_dev/worlds/mm8/events/maps/out07.lua:271 assets_dev/worlds/mm8/events/maps/out07.lua:273
+#: assets_dev/worlds/mm8/events/maps/out08.lua:228 assets_dev/worlds/mm8/events/maps/out08.lua:242 assets_dev/worlds/mm8/events/maps/out08.lua:244
+#: assets_dev/worlds/mm8/events/maps/out08.lua:251 assets_dev/worlds/mm8/events/maps/out08.lua:253 assets_dev/worlds/mm8/events/maps/out08.lua:255
+#: assets_dev/worlds/mm8/events/maps/out13.lua:296 assets_dev/worlds/mm8/events/maps/out13.lua:304 assets_dev/worlds/mm8/events/maps/out13.lua:306
+#: assets_dev/worlds/mm8/events/maps/out13.lua:308 assets_dev/worlds/mm8/events/maps/out13.lua:310 assets_dev/worlds/mm8/events/maps/out13.lua:312
+msgid "Drink from the well"
+msgstr "Napij się ze studni"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:420 assets_dev/worlds/mm8/events/maps/out01.lua:428 assets_dev/worlds/mm8/events/maps/out02.lua:875
+#: assets_dev/worlds/mm8/events/maps/out02.lua:893 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:18 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:6
+#: assets_dev/worlds/mm8/events/maps/out03.lua:463 assets_dev/worlds/mm8/events/maps/out03.lua:474 assets_dev/worlds/mm8/events/maps/out06.lua:447
+#: assets_dev/worlds/mm8/events/maps/out06.lua:458 assets_dev/worlds/mm8/events/maps/out13.lua:314 assets_dev/worlds/mm8/events/maps/out13.lua:318
+msgid "Drink from the fountain"
+msgstr "Napij się z fontanny"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:423
+msgid "Your Wounds begin to Heal"
+msgstr "Wasze rany zaczynają się goić"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:432
+msgid "summerday"
+msgstr "dkulata"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:511
+msgid "Regnan Pirate Outpost"
+msgstr "Posterunek regnańskich piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:515
+msgid "Gate to the Plane of Earth"
+msgstr "Portal do wymiaru ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:517 assets_dev/worlds/mm8/events/maps/out01.lua:519 assets_dev/worlds/mm8/events/maps/out01.lua:521
+msgid "Pirate Ship"
+msgstr "Okręt piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:523
+msgid "Landing Craft"
+msgstr "Prom"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:541 assets_dev/worlds/mm8/events/maps/out01.lua:751 assets_dev/worlds/mm8/events/maps/out01.lua:768
+#: assets_dev/worlds/mm8/events/maps/out01.lua:781
+msgid "You need a power stone to operate this teleporter"
+msgstr "Musicie mieć kamień mocy, aby uruchomić ten teleport"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:608 assets_dev/worlds/mm8/events/maps/out01.lua:611 assets_dev/worlds/mm8/events/maps/out01.lua:613
+#: assets_dev/worlds/mm8/events/maps/out01.lua:616 assets_dev/worlds/mm8/events/maps/out01.lua:618 assets_dev/worlds/mm8/events/maps/out01.lua:621
+#: assets_dev/worlds/mm8/events/maps/out01.lua:634 assets_dev/worlds/mm8/events/maps/out01.lua:637 assets_dev/worlds/mm8/events/maps/out01.lua:639
+#: assets_dev/worlds/mm8/events/maps/out01.lua:642
+msgid "Fire the Cannon !"
+msgstr "Odpal z działa!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:745 assets_dev/worlds/mm8/events/maps/out02.lua:1114 assets_dev/worlds/mm8/events/maps/out08.lua:286
+msgid "Sealed Crate"
+msgstr "Zamknięta skrzynia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:836 assets_dev/worlds/mm8/events/maps/out01.lua:857
+msgid "Palm tree"
+msgstr "Palma"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:875 assets_dev/worlds/mm8/events/maps/out01.lua:881 assets_dev/worlds/mm8/events/maps/out01.lua:883
+#: assets_dev/worlds/mm8/events/maps/out01.lua:889 assets_dev/worlds/mm8/events/maps/out02.lua:1295 assets_dev/worlds/mm8/events/maps/out02.lua:1301
+msgid "Buoy"
+msgstr "Boja"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:897 assets_dev/worlds/mm8/events/maps/out01.lua:899 assets_dev/worlds/mm8/events/maps/out01.lua:909
+#: assets_dev/worlds/mm8/events/maps/out01.lua:911
+msgid "Enter the Abandoned Temple"
+msgstr "Wejdź do opuszczonej świątyni"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:901 assets_dev/worlds/mm8/events/maps/out01.lua:903
+msgid "Enter the Regnan Pirate Outpost"
+msgstr "Wejdź do posterunku regnańskich piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:905 assets_dev/worlds/mm8/events/maps/out01.lua:907
+msgid "Enter the Uplifted Library"
+msgstr "Wejdź do podniesionej biblioteki"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out01.lua:913 assets_dev/worlds/mm8/events/maps/out01.lua:915
+msgid "Enter the Plane of Earth"
+msgstr "Przejdź do wymiaru ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1110
+msgid "The Tomb of Lord Brinne"
+msgstr "Grobowiec Lorda Brinne"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1244 assets_dev/worlds/mm8/events/maps/out13.lua:494
+msgid "The door is locked"
+msgstr "Drzwi są zamknięte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1270 assets_dev/worlds/mm8/events/maps/out02.lua:1293 assets_dev/worlds/mm8/events/maps/out04.lua:226
+#: assets_dev/worlds/mm8/events/maps/out04.lua:228 assets_dev/worlds/mm8/events/maps/out04.lua:381 assets_dev/worlds/mm8/events/maps/out04.lua:395
+#: assets_dev/worlds/mm8/events/maps/out08.lua:178 assets_dev/worlds/mm8/events/maps/out08.lua:180
+msgid "Rock"
+msgstr "Kamień"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:128 assets_dev/worlds/mm8/events/maps/out02.lua:859
+msgid "Might +25 (Temporary)"
+msgstr "Moc +25 (czasowo)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1303 assets_dev/worlds/mm8/events/maps/out02.lua:1305
+msgid "Enter Smuggler's Cove"
+msgstr "Wejdź do jaskini przemytników"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1307 assets_dev/worlds/mm8/events/maps/out02.lua:1309
+msgid "Enter the Dire Wolf Den"
+msgstr "Wejdź do nory dzikich wilków"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1311 assets_dev/worlds/mm8/events/maps/out02.lua:1317 assets_dev/worlds/mm8/events/maps/out02.lua:1328
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1330
+msgid "Enter the Merchant House of Alvar"
+msgstr "Wejdź do domu kupców z Alvar"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1319 assets_dev/worlds/mm8/events/maps/out02.lua:1326 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:32
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:218 assets_dev/worlds/mm8/events/maps/pbp.lua:220
+msgid "Enter Escaton's Crystal"
+msgstr "Wejdź do Kryształu Escatona"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1332 assets_dev/worlds/mm8/events/maps/out02.lua:1334
+msgid "Enter the Tomb of Lord Brinne"
+msgstr "Wejdź do grobowca Lorda Brinne"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1336 assets_dev/worlds/mm8/events/maps/out02.lua:1338
+msgid "Enter the Chapel of Eep"
+msgstr "Wejdź do kaplicy Eepa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:1116 assets_dev/worlds/mm8/events/maps/out02.lua:839 assets_dev/worlds/mm8/events/maps/out02.lua:854
+msgid "The Vault of Time"
+msgstr "Krypta czasu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:867 assets_dev/worlds/mm8/events/maps/out07.lua:255
+msgid "That was not so refreshing"
+msgstr "To nie było zbyt orzeźwiające"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:903
+msgid "The Invaders have been defeated!"
+msgstr "Najeźdźcy zostali pokonani!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out02.lua:931
+msgid "ethesunsh"
+msgstr "czasgdysło"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:36 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:38
+msgid "Dimensional Travel"
+msgstr "Podróż międzywymiarowa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:120 assets_dev/worlds/mm8/events/maps/out03.lua:442
+msgid "Personality +25 (Temporary)"
+msgstr "Osobowość +25 (czasowo)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:121 assets_dev/worlds/mm8/events/maps/out03.lua:452
+msgid "Might +2 (Permanent)"
+msgstr "Moc +2 (na stałe)"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:469 assets_dev/worlds/mm8/events/maps/out06.lua:453
+msgid "You mind clears, and you recover some Mana"
+msgstr "Wasze umysły rozjaśniają się i odzyskujecie nieco many"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:490
+msgid "You have killed all of the Ogres"
+msgstr "Wszystkie ogry zostały zabite"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:495
+msgid "ubjectsap"
+msgstr "danychpoja"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:700 assets_dev/worlds/mm8/events/maps/out03.lua:714 assets_dev/worlds/mm8/events/maps/out03.lua:716
+#: assets_dev/worlds/mm8/events/maps/out03.lua:739
+msgid "Pine tree"
+msgstr "Drzewo iglaste"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:741 assets_dev/worlds/mm8/events/maps/out03.lua:743 assets_dev/worlds/mm8/events/maps/out03.lua:753
+#: assets_dev/worlds/mm8/events/maps/out03.lua:755
+msgid "Enter the Wasp Nest"
+msgstr "Wejdź do gniazda os"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:745 assets_dev/worlds/mm8/events/maps/out03.lua:747
+msgid "Enter the Ogre Raiding Fort"
+msgstr "Wejdź do fortu ogrów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out03.lua:749 assets_dev/worlds/mm8/events/maps/out03.lua:751
+msgid "Enter the Dark Dwarf Compound"
+msgstr "Wejdź do schronienia mrocznych krasnoludów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:295
+msgid "thornskey"
+msgstr "ykluczthornaw"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:330 assets_dev/worlds/mm8/events/maps/out06.lua:539 assets_dev/worlds/mm8/events/maps/out13.lua:383
+msgid "A Cave"
+msgstr "Jaskinia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:332
+msgid "Gate to the Plane of Fire"
+msgstr "Portal do wymiaru ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:334
+msgid "Destroyed Building"
+msgstr "Zniszczony budynek"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:358 assets_dev/worlds/mm8/events/maps/out04.lua:379
+msgid "Cactus"
+msgstr "Kaktus"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:397 assets_dev/worlds/mm8/events/maps/out04.lua:399
+msgid "Enter the Troll Tomb"
+msgstr "Wejdź do grobowca trolli"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:401 assets_dev/worlds/mm8/events/maps/out04.lua:403
+msgid "Enter the Cyclops Larder"
+msgstr "Wejdź do Spiżarni Cyklopów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:405 assets_dev/worlds/mm8/events/maps/out04.lua:407 assets_dev/worlds/mm8/events/maps/out04.lua:413
+#: assets_dev/worlds/mm8/events/maps/out04.lua:415
+msgid "Enter the Chain of Fire"
+msgstr "Wejdź do Łańcucha Ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:409 assets_dev/worlds/mm8/events/maps/out04.lua:411
+msgid "Enter the Plane of Fire"
+msgstr "Przejdź do wymiaru ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:417 assets_dev/worlds/mm8/events/maps/out04.lua:419 assets_dev/worlds/mm8/events/maps/out06.lua:649
+#: assets_dev/worlds/mm8/events/maps/out06.lua:651 assets_dev/worlds/mm8/events/maps/out13.lua:520 assets_dev/worlds/mm8/events/maps/out13.lua:522
+#: assets_dev/worlds/mm8/events/maps/out13.lua:524 assets_dev/worlds/mm8/events/maps/out13.lua:526
+msgid "Enter the Cave"
+msgstr "Wejdź do jaskini"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out04.lua:265 assets_dev/worlds/mm8/events/maps/out04.lua:78 assets_dev/worlds/mm8/events/maps/out08.lua:247
+msgid "Endurance +2 (Permanent)"
+msgstr "Wytrzymałość +2 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:271 assets_dev/worlds/mm8/events/maps/out05.lua:273
+msgid "Flowers"
+msgstr "Kwiaty"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:439
+msgid "theunicornkin"
+msgstr "króljednorożc"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:533 assets_dev/worlds/mm8/events/maps/out05.lua:535
+msgid "Enter the Dragon Hunter's Camp"
+msgstr "Wejdź do obozu Łowców Smoków"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:537 assets_dev/worlds/mm8/events/maps/out05.lua:539
+msgid "Enter the Dragon Cave"
+msgstr "Wejdź do smoczej jamy"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:541 assets_dev/worlds/mm8/events/maps/out05.lua:543
+msgid "Enter the Naga Vault"
+msgstr "Wejdź do gniazda nag"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:545 assets_dev/worlds/mm8/events/maps/out05.lua:547
+msgid "Enter the Grand Temple of Eep"
+msgstr "Wejdź do Wielkiej Świątyni Eepa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:331 assets_dev/worlds/mm8/events/maps/out05.lua:85
+msgid "Fire Resistance +2 (Permanent)"
+msgstr "Odporność na magię ognia +2 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out05.lua:341 assets_dev/worlds/mm8/events/maps/out05.lua:86
+msgid "Accuracy +2 (Permanent)"
+msgstr "Celność +2 (na stałe)"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm8/events/maps/out06.lua:102
+msgid "Mad Necromancer's Lab "
+msgstr "Laboratorium szalonej nekromantki "
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out06.lua:107 assets_dev/worlds/mm8/events/maps/out06.lua:419
+msgid "Intellect +2 (permanent)"
+msgstr "Intelekt +2 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out06.lua:462
+msgid "inesonmid"
+msgstr "ńcelśniwśro"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out06.lua:573 assets_dev/worlds/mm8/events/maps/out06.lua:594 assets_dev/worlds/mm8/events/maps/out06.lua:596
+#: assets_dev/worlds/mm8/events/maps/out06.lua:610 assets_dev/worlds/mm8/events/maps/out06.lua:612 assets_dev/worlds/mm8/events/maps/out06.lua:635
+msgid "Rune post"
+msgstr "Kamień runiczny"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out06.lua:637 assets_dev/worlds/mm8/events/maps/out06.lua:639
+msgid "Enter the Necromancers' Guild"
+msgstr "Wejdź do gildii nekromantów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out06.lua:641 assets_dev/worlds/mm8/events/maps/out06.lua:643
+msgid "Enter the Mad Necromancer's Lab"
+msgstr "Wejdź do laboratorium szalonej nekromantki"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out06.lua:645 assets_dev/worlds/mm8/events/maps/out06.lua:647
+msgid "Enter the Vampire Crypt"
+msgstr "Wejdź do krypty wampirów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:334
+msgid "pearswhil"
+msgstr "wiasiępod"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:351
+msgid "The Temple of the Sun"
+msgstr "Świątynia Słońca"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:353
+msgid "A Druid Circle"
+msgstr "Krąg Druidów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:357
+msgid "Gate to the Plane of Air"
+msgstr "Portal do wymiaru powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:486 assets_dev/worlds/mm8/events/maps/out07.lua:488
+msgid "Enter the Temple of the Sun"
+msgstr "Wejdź do Świątyni Słońca"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:490 assets_dev/worlds/mm8/events/maps/out07.lua:492
+msgid "Enter the Druid Circle"
+msgstr "Wejdź do Kręgu Druidów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:494 assets_dev/worlds/mm8/events/maps/out07.lua:496
+msgid "Enter the Plane of Air"
+msgstr "Przejdź do wymiaru powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:498 assets_dev/worlds/mm8/events/maps/out07.lua:505
+msgid "Enter the Ancient Troll Home"
+msgstr "Wejdź do pradawnego domu trolli"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out07.lua:264 assets_dev/worlds/mm8/events/maps/out07.lua:73
+msgid "Personality +2 (Permanent)"
+msgstr "Osobowość +2 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out08.lua:259
+msgid "amonghiss"
+msgstr "śródswychpod"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out08.lua:284
+msgid "Gate to the Plane of Water"
+msgstr "Portal do wymiaru wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out08.lua:305 assets_dev/worlds/mm8/events/maps/out08.lua:307 assets_dev/worlds/mm8/events/maps/out08.lua:317
+#: assets_dev/worlds/mm8/events/maps/out08.lua:319
+msgid "Enter the Balthazar Lair"
+msgstr "Wejdź do jamy Balthazara"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out08.lua:309 assets_dev/worlds/mm8/events/maps/out08.lua:311 assets_dev/worlds/mm8/events/maps/out08.lua:321
+#: assets_dev/worlds/mm8/events/maps/out08.lua:323 assets_dev/worlds/mm8/events/maps/out08.lua:325 assets_dev/worlds/mm8/events/maps/out08.lua:327
+#: assets_dev/worlds/mm8/events/maps/out08.lua:329 assets_dev/worlds/mm8/events/maps/out08.lua:331
+msgid "Enter the Barbarian Fortress"
+msgstr "Wejdź do fortecy barbarzyńców"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out08.lua:313 assets_dev/worlds/mm8/events/maps/out08.lua:315
+msgid "Enter the Crypt of Korbu"
+msgstr "Wejdź do krypty korbu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out08.lua:333 assets_dev/worlds/mm8/events/maps/out08.lua:335
+msgid "Enter the Plane of Water"
+msgstr "Przejdź do wymiaru wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out08.lua:337 assets_dev/worlds/mm8/events/maps/out08.lua:339
+msgid "Enter the Church of Eep"
+msgstr "Wejdź do kościoła Eepa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:322
+msgid "gholdsold"
+msgstr "rożcówdzierżystar"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:379
+msgid "Tower"
+msgstr "Wieża"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:385
+msgid "Regnan Ship"
+msgstr "Okręt regnański"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:387
+msgid "Sunk Regnan Ship"
+msgstr "Zatop okręt regnański"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:393 assets_dev/worlds/mm8/events/maps/out13.lua:407 assets_dev/worlds/mm8/events/maps/out13_mmmerge.lua:18
+msgid "Fire the cannon !"
+msgstr "Odpal z działa!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:399 assets_dev/worlds/mm8/events/maps/out13_mmmerge.lua:9
+msgid "You hear a low rumbling noise"
+msgstr "Słyszysz niski odgłos grzmotu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:406 assets_dev/worlds/mm8/events/maps/out13_mmmerge.lua:17
+msgid "You do not see the right kind of ammunition anywhere"
+msgstr "Nigdzie nie widzisz odpowiedniej amunicji"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:504 assets_dev/worlds/mm8/events/maps/out13.lua:506
+msgid "Enter the Pirate Stronghold"
+msgstr "Wejdź do warowni piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:508 assets_dev/worlds/mm8/events/maps/out13.lua:510
+msgid "Enter the Abandoned Pirate Keep"
+msgstr "Wejdź do opuszczonej warowni piratów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:512 assets_dev/worlds/mm8/events/maps/out13.lua:518 assets_dev/worlds/mm8/events/maps/out13.lua:528
+#: assets_dev/worlds/mm8/events/maps/out13.lua:534
+msgid "Enter the Tower"
+msgstr "Wejdź do wieży"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/out13.lua:299 assets_dev/worlds/mm8/events/maps/out13.lua:91
+msgid "Speed +2 (Permanent)"
+msgstr "Szybkość +2 (na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:168
+msgid "Prison of the Air Lord"
+msgstr "Więzienie władcy powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:170
+msgid "Prison of the Earth Lord"
+msgstr "Więzienie władcy ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:172
+msgid "Prison of the Fire Lord"
+msgstr "Więzienie władcy ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:174
+msgid "Prison of the Water Lord"
+msgstr "Więzienie władcy wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:178 assets_dev/worlds/mm8/events/maps/pbp.lua:180
+msgid "Enter Escaton's Palace"
+msgstr "Wejdź do pałacu Escatona"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:182 assets_dev/worlds/mm8/events/maps/pbp.lua:189 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:5
+msgid "Enter the Prison of the Air Lord"
+msgstr "Wejdź do więzienia władcy powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:191 assets_dev/worlds/mm8/events/maps/pbp.lua:198 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:10
+msgid "Enter the Prison of the Fire Lord"
+msgstr "Wejdź do więzienia władcy ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:200 assets_dev/worlds/mm8/events/maps/pbp.lua:207 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:15
+msgid "Enter the Prison of the Water Lord"
+msgstr "Wejdź do więzienia władcy wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:209 assets_dev/worlds/mm8/events/maps/pbp.lua:216 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:20
+msgid "Enter the Prison of the Earth Lord"
+msgstr "Wejdź do więzienia władcy ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm8/events/maps/pbp.lua:222 assets_dev/worlds/mm8/events/maps/pbp.lua:226
+msgid "A giant's sword"
+msgstr "Miecz olbrzyma"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm8/world.yml:18
+msgid ""
+"Excellent work! By thwarting the Destroyer of Worlds, you have pulled your world from the brink of unending oblivion. Not only may life continue, but a new peace reigns over Jadame. The mighty alliance you forged will see to the land's restoration and eventual prosperity."
+msgstr ""
+"Doskonała robota! Powstrzymując Niszczyciela Światów, wyrwaliście swój świat ze skraju wiecznej zagłady. Życie nie tylko może toczyć się dalej, lecz nad Jadame zapanował nowy pokój. Potężne przymierze, które zawarliście, zadba o odbudowę krainy i jej przyszły dobrobyt."
+
+# machine translation (Claude), review
+#~ msgid "MMMerge were-rat kill tracker"
+#~ msgstr "MMMerge: licznik zabitych szczurołaków"
+
+# machine translation (Claude), review
+#~ msgid "MMMerge Dimension Door tile"
+#~ msgstr "MMMerge: kafel wrót wymiarów"
+
+# machine translation (Claude), review
+#~ msgid "Unicorn King appearance"
+#~ msgstr "Pojawienie się Króla Jednorożców"

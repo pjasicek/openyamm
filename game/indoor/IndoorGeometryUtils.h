@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/indoor/IndoorMapData.h"
+#include "game/indoor/IndoorMovers.h"
 #include "game/events/EventRuntime.h"
 #include "game/maps/DecorationModelPlacement.h"
 #include "game/maps/MapDeltaData.h"
@@ -10,10 +11,16 @@
 #include <cstddef>
 #include <cstdint>
 #include <optional>
+#include <span>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
+// Integer vertex rounding tilts many vertical in-between facets slightly upward (one unit over a 256-unit cave wall
+// gives 0.004). Facets steeper than about 84 degrees have almost no floor footprint, so they are walls: they neither
+// define floor height nor act as steep floors.
+inline constexpr float IndoorMinimumSteepFloorNormalZ = 0.1f;
+
 enum class IndoorProjectionAxis : uint8_t
 {
     DropX = 0,
@@ -58,6 +65,8 @@ struct IndoorFaceGeometryData
     std::vector<IndoorProjectedFacePoint> projectedVertices;
 };
 
+class IndoorSectorFaceGrid;
+
 class IndoorFaceGeometryCache
 {
 public:
@@ -72,12 +81,32 @@ public:
         const std::vector<IndoorVertex> &vertices,
         size_t faceIndex
     );
+    // De-duplication of face lists without sorting: beginFaceVisit() starts an empty set, and markFaceVisited()
+    // returns true only the first time a face is marked in it.
+    void beginFaceVisit();
+    bool markFaceVisited(size_t faceIndex);
+    // The sector face grid (IndoorSectorFaceGrid.h) that queries through this cache may use; none by default. It must
+    // belong to the map and vertices the cache serves.
+    void setSectorFaceGrid(const IndoorSectorFaceGrid *pGrid)
+    {
+        m_pSectorFaceGrid = pGrid;
+    }
+
+    const IndoorSectorFaceGrid *sectorFaceGrid() const
+    {
+        return m_pSectorFaceGrid;
+    }
 
 private:
+    const IndoorSectorFaceGrid *m_pSectorFaceGrid = nullptr;
     const MapDeltaData *m_pAttributeOverrides = nullptr;
-    uint64_t m_attributeRevision = 0;
     std::vector<uint8_t> m_entryStates;
     std::vector<IndoorFaceGeometryData> m_entries;
+    // The face attributes each entry was built with: a face whose bits changed since is rebuilt when next asked for,
+    // so a face hidden or made untouchable redoes that face alone.
+    std::vector<uint32_t> m_entryAttributes;
+    std::vector<uint32_t> m_faceVisitStamps;
+    uint32_t m_faceVisitStamp = 1;
 };
 
 struct IndoorFloorSample
@@ -123,17 +152,32 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
     const MapDeltaData *pIndoorMapDeltaData,
     const EventRuntimeState *pEventRuntimeState
 );
+// A door's vertices at `distance`: linear doors as the original engines move them; a door with a rotating mover
+// (pMover, devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md) turned about its hinge, `rotationDirection` its open-away
+// sign; a spinning mover turned `spinDegrees` into its spin first (RuntimeMechanismState::spinDegrees).
 void applyIndoorMechanismDoorToVertices(
     const MapDeltaDoor &door,
+    const IndoorMoverDefinition *pMover,
     float distance,
-    std::vector<IndoorVertex> &vertices
+    int8_t rotationDirection,
+    std::vector<IndoorVertex> &vertices,
+    float spinDegrees = 0.0f
 );
 std::vector<std::vector<uint16_t>> buildNeighboringIndoorSectorIds(
     const IndoorMapData &indoorMapData,
     const MapDeltaData *pMapDeltaData = nullptr);
 float fixedIndoorDoorDirectionComponentToFloat(int value);
-bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door);
+// Whether a linear door carries what stands on its faces. A door that moves up or down always does, as in the
+// original games; one that slides level does only when its scene `mover` block opts in with `carry`. A rotating
+// `carry` mover carries by its own rule (IndoorSceneRuntime::carryPartyOnRotatingMovers).
+bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door, const IndoorMoverDefinition *pMover = nullptr);
 bool mechanismDoorContainsFace(const MapDeltaDoor &door, size_t faceIndex);
+// Per face, the motion of the rotating mover that moves it from its stored pose to its current pose; empty when the
+// map has no rotating mover (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).
+std::vector<std::optional<IndoorRigidMotion>> buildIndoorRotatingFaceMotions(
+    const IndoorMapData &indoorMapData,
+    const MapDeltaData *pIndoorMapDeltaData,
+    const EventRuntimeState *pEventRuntimeState);
 bx::Vec3 indoorVertexToWorld(const IndoorVertex &vertex);
 bool buildIndoorFaceGeometry(
     const IndoorMapData &indoorMapData,
@@ -227,11 +271,28 @@ IndoorFloorSample sampleIndoorFloorOnFace(
     const std::vector<uint8_t> *pFaceExclusionMask = nullptr,
     IndoorFaceGeometryCache *pGeometryCache = nullptr
 );
+// The ground a creature stands on at (x, y) when it appears beside a point at height z: the floor nearest to z within
+// reach above or below (on a slope an offset point's ground lies above or below the centre's), if a creature can
+// stand there (walkable, not a sky face). Without it, a point under a slope's surface took the floor below it: on an
+// open-air BLV the sky shell under the terrain (Guberland's bounty, 2026-11-11).
+std::optional<float> findIndoorStandingFloorHeight(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    float x,
+    float y,
+    float z,
+    float reach
+);
+// A bounty target's spot on an indoor map (MAW's BountyHunt.lua NewBHSpawnPoint): by the seed, the ground under one of
+// the anchors (the caller's: where the map placed its walking monsters), else a random floor face's, else a wall room's
+// floor; always ground a creature can stand on (findIndoorStandingFloorHeight's rule).
 std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
     const IndoorMapData &indoorMapData,
     const MapDeltaData *pIndoorMapDeltaData,
     const EventRuntimeState *pEventRuntimeState,
-    uint32_t seed
+    uint32_t seed,
+    std::span<const bx::Vec3> anchors = {}
 );
 IndoorCeilingSample sampleIndoorCeiling(
     const IndoorMapData &indoorMapData,
@@ -250,6 +311,14 @@ std::optional<int16_t> findIndoorSectorForPoint(
     IndoorFaceGeometryCache *pGeometryCache = nullptr,
     bool allowBoundingSectorFallback = true
 );
+// Whether one of the sector's floors (as findIndoorSectorForPoint takes them) lies at or under the point.
+bool indoorSectorHasFloorUnderPoint(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    int16_t sectorId,
+    const bx::Vec3 &point,
+    IndoorFaceGeometryCache *pGeometryCache = nullptr
+);
 // The wall face nearest to a point among the solid (non-portal) faces as steep as walls (cave walls are often
 // classed as ceilings or floors), within reach: the nearest point of the face and its horizontal normal turned
 // toward the point.
@@ -259,6 +328,21 @@ std::optional<DecorationWallContact> findIndoorWallContact(
     const bx::Vec3 &point,
     float reach
 );
+// Texels a door-moved face may differ by from the original engines' door mapping and still count as that mapping:
+// integer texels on integer vertices round by up to a texel either way.
+inline constexpr float IndoorMoverFaceTexelTolerance = 2.0f;
+
+// Whether a face that moves whole with its door keeps its stored texels. The original engines redraw a door face
+// from its geometry at one texel per unit (the projection's texels per vertex, `geometryTexels`), ignoring the BLV's
+// texels (`storedTexels`, with the face's delta, in the BLV's vertex pose). Every MM6-MM8 face that moves whole
+// stores that mapping up to a constant offset (within the tolerance), so it keeps the geometric rule. A converted
+// map's mover (the MM9 rework's doors, about 0.52 texels per unit and often rotated) stores its own mapping, which
+// then moves with the face as MM9 draws it.
+bool indoorMoverFaceKeepsStoredTexels(
+    std::span<const IndoorProjectedFacePoint> geometryTexels,
+    std::span<const IndoorProjectedFacePoint> storedTexels
+);
+
 // Where a wall-mounted decoration standing at (x, y, z) hangs: the nearest wall within a few dozen units, measured
 // at half its height.
 std::optional<DecorationWallContact> findIndoorDecorationWall(

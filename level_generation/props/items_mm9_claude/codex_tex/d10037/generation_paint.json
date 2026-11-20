@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png as an exact registered texture painting atlas. Output ONE transparent RGBA PNG 1536x2048 (3:4). Input roles: paint_mask_guide.png is the edit target and absolute layout/silhouette authority; design_reference.png is the approved material/detail reference; icon_x8.png is original colour reference (ignore magenta background). Keep all ten objects at exactly their existing positions, sizes, outlines and orientations. Three columns and four rows of 512x512 cells: rows 1-2 five views FRONT BACK LEFT / RIGHT TOP empty, repeated rows 3-4. The small end-on and edge-on views MUST stay end-on and edge-on, not replaced by upright axes. Paint grey objects only, never enlarge, move or redesign. Rows 1-2: unlit base colour, pale-gray steel single-bit axe head, rounded lower cutting edge, tall top spike, smaller rear spike, central steel socket, long slender plain brown wood handle, steel butt cap. Faithfully match approved reference and original MM9 colours in MM6-MM8 inventory style. Preserve long slender haft, total height at least 2.4 times head width already provided by guide. Fine wood grain and subtle steel material detail but NO illumination, AO, shadows, bright specular highlights or reflections. Rows 3-4: matching five silhouettes with strictly FLAT material classification colours: every metal portion pure red #FF0000; wooden haft pure yellow #FFFF00. If present only: leather/fur green #00FF00, cloth/hair blue #0000FF, gems/glass/enamel/liquid black #000000. No shading, textures, outlines, or colour blending in material masks. Every silhouette pixel exactly one material colour. Keep all gaps transparent. No ground, text, halo, sparkles, cast shadows, or background. Column 3 rows 2 and 4 stay fully transparent. The guide geometry and placement take precedence over any reference illustration framing.\nCORRECTIVE GENERATION: The previous attempt leaked red/yellow brush marks outside objects and made ragged enlarged mask shapes. Strict clean alpha silhouette boundaries are essential. Use the ORIGINAL grey guide alpha as the exact silhouette stencil. No paint splatter, no stray pixels, no red/yellow fringe in upper paint rows. Lower mask shapes must match original grey outlines precisely with clean solid fills. Preserve the guide's thin shaft widths. Output clean exact registered atlas.",
+  "initial_prompt": "Edit the attached paint_mask_guide.png as an exact registered texture painting atlas. Output ONE transparent RGBA PNG 1536x2048 (3:4). Input roles: paint_mask_guide.png is the edit target and absolute layout/silhouette authority; design_reference.png is the approved material/detail reference; icon_x8.png is original colour reference (ignore magenta background). Keep all ten objects at exactly their existing positions, sizes, outlines and orientations. Three columns and four rows of 512x512 cells: rows 1-2 five views FRONT BACK LEFT / RIGHT TOP empty, repeated rows 3-4. The small end-on and edge-on views MUST stay end-on and edge-on, not replaced by upright axes. Paint grey objects only, never enlarge, move or redesign. Rows 1-2: unlit base colour, pale-gray steel single-bit axe head, rounded lower cutting edge, tall top spike, smaller rear spike, central steel socket, long slender plain brown wood handle, steel butt cap. Faithfully match approved reference and original MM9 colours in MM6-MM8 inventory style. Preserve long slender haft, total height at least 2.4 times head width already provided by guide. Fine wood grain and subtle steel material detail but NO illumination, AO, shadows, bright specular highlights or reflections. Rows 3-4: matching five silhouettes with strictly FLAT material classification colours: every metal portion pure red #FF0000; wooden haft pure yellow #FFFF00. If present only: leather/fur green #00FF00, cloth/hair blue #0000FF, gems/glass/enamel/liquid black #000000. No shading, textures, outlines, or colour blending in material masks. Every silhouette pixel exactly one material colour. Keep all gaps transparent. No ground, text, halo, sparkles, cast shadows, or background. Column 3 rows 2 and 4 stay fully transparent. The guide geometry and placement take precedence over any reference illustration framing.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac43-c836-7f93-a736-d9a58271be4f/exec-cf7e119f-df3c-486d-9cd9-797ca0efd569.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10037/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained; visible edge spill and imperfect material classification remain after the permitted corrective regeneration. Raw tool output preserved without edits.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10037/paint_mask_guide.png",
+      "sha256": "146370dd7bf0b77d175f72344ac9c944fbc64889c3593ddbe48e7b358d94c8d3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10037/design_reference.png",
+      "sha256": "518ffe258aa3149f62f2434e42cb7165b10e8e582d3e85375c2e6807baf1f7c2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10037/icon_x8.png",
+      "sha256": "83708a1f712f127977fbbc736dd4e86aa7791608f6b0a2cbde0c0f5ba150daa8"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

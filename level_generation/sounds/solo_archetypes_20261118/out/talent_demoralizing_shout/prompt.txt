@@ -1,0 +1,11 @@
+Fantasy warrior demoralizing shout ability: a huge terrifying guttural male roar, long and menacing, with a deep rumbling sub bass shockwave rolling outward and a dark fading echo
+
+kind: sfx
+duration: 1.8
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.5
+highpass_hz: 30
+loudness_db: -8
+score_bias: power

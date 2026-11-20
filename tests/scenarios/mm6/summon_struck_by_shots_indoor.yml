@@ -1,0 +1,18 @@
+id: mm6.summon_struck_by_shots_indoor
+title: Hostile monsters' missiles and spells strike a party summon indoors, whatever their factions
+world: mm6
+mode: faithful
+tags: [mm6, spells, actors, regression]
+steps:
+  - note:
+      text: >-
+        A monster's shot passed through a party summon whenever the shooter's faction was at peace with the summon's
+        monster: the relation table decided, not the side the summon fights on. Summoned Will o' Wisps cleared rooms of
+        casters without a scratch (Discord, Temple of Baa). The AI already set the monsters on the summon.
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6t3.blv}
+  - ai_arena: {path: summon_struck_by_shots_indoor.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, event: damaged, min_count: 1}

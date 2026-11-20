@@ -73,7 +73,6 @@ CHEST_INVENTORY_MATRIX_OFFSET = CHEST_ITEMS_OFFSET + CHEST_ITEMS_SIZE
 ACTOR_NPC_ID_OFFSET = 0x20
 ACTOR_ATTRIBUTES_OFFSET = 0x24
 ACTOR_HP_OFFSET = 0x28
-ACTOR_HOSTILITY_TYPE_OFFSET = 0x2C
 ACTOR_MONSTER_INFO_ID_OFFSET = 0x6A
 ACTOR_MONSTER_ID_OFFSET = 0x7C
 ACTOR_RADIUS_OFFSET = 0x90
@@ -587,10 +586,9 @@ def parse_actor_vector(reader: ByteReader, offset: int) -> tuple[list[dict[str, 
                 f"actor {actor_index} attributes"
             ),
             "hp": reader.read_i16(actor_offset + ACTOR_HP_OFFSET, f"actor {actor_index} hp"),
-            "hostility_type": reader.read_u8(
-                actor_offset + ACTOR_HOSTILITY_TYPE_OFFSET,
-                f"actor {actor_index} hostility type"
-            ),
+            # Not authored: the raw field (0x3D) is a snapshot of the monster table's Hst, and 0x2C is a live pointer.
+            # 0 means calm; the runtime gives actors hostile to the party their Hst value.
+            "hostility_type": 0,
             "monster_info_id": reader.read_i16(
                 actor_offset + ACTOR_MONSTER_INFO_ID_OFFSET,
                 f"actor {actor_index} monster info id"

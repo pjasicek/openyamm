@@ -1,0 +1,15 @@
+{
+  "status": "initial_liquid_native_capture_set_rejected",
+  "reason": "Party exposed to liquid hazards. Final screenshots show death cutscene for every family/quality. Lava burst itself includes black/death frames and projectile effects. Water/tar burst samples show liquids but do not substitute for a clean full capture set.",
+  "artifacts": [
+    "native_comparison.png",
+    "motion_measurements.json",
+    "water_x1_motion_samples.png",
+    "water_x2_motion_samples.png",
+    "lava_x1_motion_samples.png",
+    "lava_x2_motion_samples.png",
+    "tar_x1_motion_samples.png",
+    "tar_x2_motion_samples.png"
+  ],
+  "next": "Saved flying poses with real Fly buffs, no second teleport; capture as liquid_*_flying."
+}

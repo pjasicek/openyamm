@@ -1,0 +1,17 @@
+# AI arena: an MM9 walker with Range.inc type 1 (Bandit, 9101: throws knives, BaseMelee footwork) at long range from a
+# party standing still. It chases, takes a shot at each 1-2.5 s check outside its attack range (always with a clear
+# line), and strikes once in reach. See README.md.
+name: mm9_archer
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9101
+    position: [0, 1300, 1]
+    yaw_degrees: 270

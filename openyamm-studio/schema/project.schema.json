@@ -1,0 +1,738 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "project.yml: the map card of a Map Studio project, schema v0",
+  "type": "object",
+  "required": [
+    "format",
+    "id",
+    "world",
+    "kind"
+  ],
+  "properties": {
+    "format": {
+      "description": "Version of the project format. This is version 0.",
+      "const": 0
+    },
+    "id": {
+      "description": "The map's file stem (lower case, as in <id>.blv or <id>.odm).",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "name": {
+      "description": "The map's name as the player sees it.",
+      "type": "string"
+    },
+    "world": {
+      "description": "The world package the map belongs to (mm6, mm7, mm8, mm9, or a new world's id).",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "kind": {
+      "enum": [
+        "indoor",
+        "outdoor"
+      ]
+    },
+    "profile": {
+      "description": "What sort of map it is: an ODM outdoor map, a dungeon, an open-air BLV region or city.",
+      "enum": [
+        "odm",
+        "dungeon",
+        "region",
+        "city"
+      ]
+    },
+    "base": {
+      "description": "For an overlay project: the shipped map this project changes. The project then stores only its changes.",
+      "type": "string"
+    },
+    "map_code": {
+      "description": "The map's code in its world project (for example X1 or XD-04).",
+      "type": "string"
+    },
+    "new": {
+      "description": "Whether the map is a new dungeon or land of its own, not a rebuild of a shipped map. Default: true where the project has a `map_code` (a new world's map), else false. A new dungeon is warned of when nothing tells the player on arrival why he is there (a wiring event `trigger: timer, every: 1, once: true` with a `message` or `text`; a `load` event's status line counts, its message window is not shown in the game).",
+      "type": "boolean"
+    },
+    "units": {
+      "description": "The scales the project is drawn on.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "plan_grid": {
+          "description": "Grid of plan-level positions (briefs use no finer coordinates).",
+          "type": "integer",
+          "minimum": 1,
+          "x-unit": "map"
+        },
+        "snap": {
+          "description": "Grid the core snaps shell geometry to.",
+          "type": "integer",
+          "minimum": 1,
+          "x-unit": "map"
+        }
+      },
+      "additionalProperties": false
+    },
+    "extent": {
+      "description": "How much room the map takes.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "terrain_cells": {
+          "description": "Outdoor: cells of terrain used (128 for a full map).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128,
+          "x-unit": "cell"
+        },
+        "footprint_cells": {
+          "$ref": "common.schema.json#/$defs/range",
+          "description": "Indoor: the plan's footprint in plan-grid cells, [east-west, north-south].",
+          "x-unit": "count"
+        },
+        "climbs": {
+          "description": "The direction the map rises in.",
+          "enum": [
+            "n",
+            "ne",
+            "e",
+            "se",
+            "s",
+            "sw",
+            "w",
+            "nw"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "map_stats": {
+      "description": "The map's row in the world's map statistics: encounter slots, treasure level, difficulty, music, rest and refill.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The row's number in map_stats.txt. New maps use 9000 and above until worlds declare their ranges.",
+          "type": "integer",
+          "minimum": 1,
+          "x-unit": "index"
+        },
+        "reference": {
+          "description": "A shipped map whose row supplies every column this card does not set. Optional: a calibration brief must not name its original, and gives `slots` instead.",
+          "type": "string"
+        },
+        "continent": {
+          "description": "Outdoor: the continent the map lies on, a row of engine/data_tables/continent_settings.txt: 1 Jadame (Might and Magic 8), 2 Antagarich (7), 3 Enroth (6), 4 the land between time, 5 Chedian (9). The continent gives the map its skies from clear to storm (and with them the colour of its fog), its colour grading and the continent of its journal entries. `oymap install` writes it into the map's row of engine/data_tables/bolster_maps.txt, keyed by `id`; a map without that row is drawn under the game's fallback sky. Left out: the reference map's, else the world's own (mm8 1, mm7 2, mm6 3, mm9 5).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99,
+          "x-unit": "index"
+        },
+        "bolster": {
+          "description": "How the game strengthens the map's monsters to the party (MMerge's bolster), the `Bolster kind` of the map's row of engine/data_tables/bolster_maps.txt: LowerToEqual (the shipped maps' kind: monsters below the party's level are strengthened toward it), AllToEqual (every monster, as MM7's Arena), OriginalStats (new attacks and spells, the tables' numbers) or none. `oymap install` writes it into the row keyed by `id`. An outdoor map always gets its row (left out: the reference's kind, else none); an indoor map gets one only when it says `bolster` (S8g): the reference's row when it has one, else a plain row on the world's continent whose monsters may take new spells, as the shipped dungeons' rows.",
+          "enum": [
+            "LowerToEqual",
+            "AllToEqual",
+            "OriginalStats",
+            "none"
+          ]
+        },
+        "monsters": {
+          "description": "Encounter slots 1 to 3: monster family names.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3
+        },
+        "encounter_chance": {
+          "description": "Chance of an encounter on rest, percent.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "x-unit": "percent"
+        },
+        "treasure_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6,
+          "x-unit": "none"
+        },
+        "trap_dice": {
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "count"
+        },
+        "disarm_difficulty": {
+          "description": "Older name of lock_difficulty (the same column); prefer lock_difficulty.",
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "none"
+        },
+        "perception_difficulty": {
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "none"
+        },
+        "refill_days": {
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "days"
+        },
+        "music": {
+          "description": "Music track id or name.",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "x-unit": "index",
+          "x-labels": [
+            "track number",
+            "name"
+          ]
+        },
+        "environment": {
+          "description": "Sound environment (cave, stone hall ...).",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "x-unit": "index",
+          "x-labels": [
+            "number",
+            "name"
+          ]
+        },
+        "lock_difficulty": {
+          "description": "How hard the map's locks are to pick (map_stats column 9, 'Lock').",
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "none"
+        },
+        "slots": {
+          "description": "Encounter slots 1 to 3 in full, for a map without a reference row.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "monster"
+            ],
+            "properties": {
+              "monster": {
+                "description": "Monster family name.",
+                "type": "string"
+              },
+              "tier": {
+                "description": "Difficulty grade of the slot (the row's 'Dif' column).",
+                "type": "integer",
+                "minimum": 0,
+                "x-unit": "none"
+              },
+              "per_marker": {
+                "$ref": "common.schema.json#/$defs/range",
+                "description": "Monsters per spawn point, [low, high].",
+                "x-unit": "count"
+              },
+              "weight": {
+                "description": "Share of rest encounters, percent.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "x-unit": "percent"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 3
+        },
+        "steal_fine": {
+          "description": "Fine for stealing (map_stats column 8).",
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "gold"
+        },
+        "alert_days": {
+          "description": "Days the map stays alerted after the party is caught.",
+          "type": "integer",
+          "minimum": 0,
+          "x-unit": "days"
+        },
+        "steal_perm": {
+          "description": "Stealing is punished permanently here (the map_stats 'StealPerm' column).",
+          "type": [
+            "integer",
+            "boolean"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "x-groups": [
+        [
+          "Row",
+          [
+            "id",
+            "reference",
+            "continent"
+          ]
+        ],
+        [
+          "Monsters",
+          [
+            "monsters",
+            "slots",
+            "encounter_chance",
+            "bolster"
+          ]
+        ],
+        [
+          "Treasure and traps",
+          [
+            "treasure_level",
+            "trap_dice",
+            "lock_difficulty",
+            "disarm_difficulty",
+            "perception_difficulty"
+          ]
+        ],
+        [
+          "Sound",
+          [
+            "music",
+            "environment"
+          ]
+        ],
+        [
+          "Time and law",
+          [
+            "refill_days",
+            "steal_fine",
+            "alert_days",
+            "steal_perm"
+          ]
+        ]
+      ]
+    },
+    "neighbours": {
+      "description": "Where the map leads and how: exits to other maps, with the arrival on the other side.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "to"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "neighbour"
+            ],
+            "x-kinds": "all"
+          },
+          "to": {
+            "description": "Target map stem or map code.",
+            "type": "string",
+            "x-kinds": "all"
+          },
+          "kind": {
+            "enum": [
+              "edge",
+              "door",
+              "boat",
+              "stable",
+              "teleport",
+              "fall",
+              "roof",
+              "pyramid",
+              "mirror",
+              "scripted"
+            ],
+            "x-kinds": "all"
+          },
+          "side": {
+            "description": "For map edges.",
+            "enum": [
+              "north",
+              "south",
+              "east",
+              "west"
+            ],
+            "x-kinds": [
+              "edge"
+            ]
+          },
+          "days": {
+            "type": "integer",
+            "minimum": 0,
+            "x-unit": "days",
+            "x-kinds": "all"
+          },
+          "schedule": {
+            "description": "For boats and stables: how often the route runs.",
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "per_week": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 7,
+                "x-unit": "count"
+              },
+              "weekdays": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false,
+            "x-kinds": [
+              "boat",
+              "stable"
+            ]
+          },
+          "service": {
+            "description": "Who runs the route (a house or operator id or name).",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "number",
+              "name"
+            ],
+            "x-kinds": [
+              "boat",
+              "stable"
+            ]
+          },
+          "arrival": {
+            "description": "Where the party appears on the target map: an anchor id there, or [x, y, z].",
+            "type": [
+              "string",
+              "array"
+            ],
+            "items": {
+              "type": "number"
+            },
+            "x-unit": "map",
+            "x-geom": {
+              "shape": "point3",
+              "space": "other_map"
+            },
+            "x-labels": [
+              "anchor",
+              "[x, y, z]"
+            ],
+            "x-kinds": "all"
+          },
+          "arrival_side": {
+            "description": "Until the target map has anchors: the side of it the party arrives on.",
+            "enum": [
+              "north",
+              "south",
+              "east",
+              "west",
+              "centre"
+            ],
+            "x-kinds": [
+              "edge"
+            ]
+          },
+          "arrival_hint": {
+            "description": "In words: in front of the fortress gate, beside the dungeon entrance.",
+            "type": "string",
+            "x-kinds": "all"
+          },
+          "approach": {
+            "description": "The character of the way there on this map (a rock cut, a causeway).",
+            "type": "string",
+            "x-kinds": "all"
+          },
+          "screened": {
+            "description": "The destination cannot be seen from the approach.",
+            "type": "boolean",
+            "x-kinds": "all"
+          },
+          "listed_only": {
+            "description": "The travel table lists it but it is not a real route.",
+            "type": "boolean",
+            "x-kinds": "all"
+          },
+          "direction": {
+            "description": "The way the party faces on arrival, degrees (0 east, 90 north).",
+            "type": "number",
+            "x-unit": "deg",
+            "x-kinds": "all"
+          },
+          "condition": {
+            "$ref": "common.schema.json#/$defs/condition",
+            "x-kinds": "all"
+          },
+          "one_way": {
+            "type": "boolean",
+            "x-kinds": "all"
+          },
+          "screen": {
+            "description": "The screen shown before the map loads, the shipped scripts' seventh and eighth numbers of evt.MoveToMap: `house` the row of the house table whose text it shows (default 0), `picture` its picture (default 1). The MM8 dungeons' exits show {picture: 1} (the Mad Necromancer's Lab, the Abandoned Temple); left out, 0 and 0 (MM6 and MM7's dungeons): the game's own question.",
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "house": {
+                "type": "integer",
+                "minimum": 0,
+                "x-unit": "index"
+              },
+              "picture": {
+                "type": "integer",
+                "minimum": 0,
+                "x-unit": "index"
+              }
+            },
+            "additionalProperties": false,
+            "x-kinds": "all"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes",
+            "x-kinds": "all"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": {
+          "property": "kind",
+          "default": "door"
+        },
+        "x-groups": [
+          [
+            "Neighbour",
+            [
+              "id",
+              "to",
+              "kind",
+              "notes"
+            ]
+          ],
+          [
+            "Arrival",
+            [
+              "arrival",
+              "arrival_side",
+              "arrival_hint",
+              "direction",
+              "screen"
+            ]
+          ],
+          [
+            "Way",
+            [
+              "side",
+              "approach",
+              "screened",
+              "one_way",
+              "listed_only",
+              "condition"
+            ]
+          ],
+          [
+            "Route",
+            [
+              "days",
+              "schedule",
+              "service"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "qbits": {
+      "description": "Names for the quest bits this map uses, so files can say qbit: gate_open instead of a number.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1,
+        "x-unit": "index"
+      }
+    },
+    "items": {
+      "description": "Names for the items this map refers to (keys, quest items): name to item id.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1,
+        "x-unit": "index"
+      }
+    },
+    "migrated": {
+      "description": "Changes of the build's rules that this project has taken note of. When a rule of the build changes, the build warns on every build where a project has something the change touches, so that nothing moves unseen; once the author has checked those places, naming the change here ends its warning for this project. `platform_in_sunken_level` (2026-11-12): a platform with `base` or `top_size` whose middle lies in a sunken level is measured from that level's floor, no longer from the room's. `ceiling_level_sides` (2026-11-12): the upright sides of ceiling levels that narrow take the room's wall surface where the level has no `edge`, no longer the ceiling's. `object_on_wall_floor` (2026-11-12): a switch's or an exit's height is measured from the highest floor in front of it where a level or a platform reaches its wall (one object is also answered by its own `floor_height`).",
+      "type": "array",
+      "items": {
+        "enum": [
+          "platform_in_sunken_level",
+          "ceiling_level_sides",
+          "object_on_wall_floor"
+        ]
+      }
+    },
+    "rules": {
+      "description": "Map-wide rules.",
+      "type": "object",
+      "properties": {
+        "no_fly": {
+          "type": "boolean"
+        },
+        "no_spells": {
+          "description": "No spell works on the map (S8g): the spellbook, quick spells and scrolls are refused, as in MM7's Shoals. `oymap build` writes the scene's `runtime_restrictions: {allow_spellcasting: false}` (indoor and outdoor maps; not an overlay project). The game's refusal line is its underwater one.",
+          "type": "boolean"
+        },
+        "no_teleport": {
+          "type": "boolean"
+        },
+        "weather": {
+          "type": "string"
+        },
+        "town_buffer": {
+          "description": "Radius around towns without spawns.",
+          "type": "number",
+          "x-unit": "map"
+        },
+        "rim": {
+          "description": "The world rim: sides, cliff band, and what a fall does.",
+          "type": "object",
+          "additionalProperties": true
+        },
+        "fall_through": {
+          "description": "Open-air floors that drop the party to a target map.",
+          "type": "object",
+          "additionalProperties": true
+        },
+        "home_town": {
+          "description": "The town the map belongs to for respawn and reputation.",
+          "type": "string"
+        },
+        "respawn": {
+          "description": "Where a defeated party wakes: an entrance or point of interest id, or a map.",
+          "type": "string"
+        },
+        "town_portal_anchor": {
+          "$ref": "common.schema.json#/$defs/id",
+          "description": "The entrance or point of interest that sets the Town Portal point.",
+          "x-id-kinds": [
+            "entrance",
+            "poi"
+          ]
+        },
+        "playable_square": {
+          "description": "Share of the map's width inside the travel prompts (0 to 1).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio"
+        }
+      },
+      "additionalProperties": false,
+      "x-groups": [
+        [
+          "Magic",
+          [
+            "no_fly",
+            "no_spells",
+            "no_teleport"
+          ]
+        ],
+        [
+          "World",
+          [
+            "weather",
+            "rim",
+            "fall_through",
+            "playable_square"
+          ]
+        ],
+        [
+          "Towns",
+          [
+            "home_town",
+            "town_buffer",
+            "respawn",
+            "town_portal_anchor"
+          ]
+        ]
+      ]
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/notes"
+    },
+    "edited_by_hand": {
+      "description": "The hand-edit mark (S5 2.8): written by the core at the first change a person makes through the studio, or by \"Protect this project\" (oymap protect). From then on agents change the project through operations, never by running a generator again (a generator run would erase the hand edits). Only a person clears it.",
+      "type": "object",
+      "properties": {
+        "since": {
+          "description": "The day the mark was set.",
+          "type": "string"
+        },
+        "revision": {
+          "description": "The source revision before the marking change: the last state agents alone made, so a diff from it shows all the hand work.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "since",
+        "revision"
+      ],
+      "additionalProperties": false,
+      "x-flow": true
+    }
+  },
+  "additionalProperties": false,
+  "x-discriminator": false,
+  "x-groups": [
+    [
+      "Map",
+      [
+        "format",
+        "id",
+        "name",
+        "world",
+        "kind",
+        "profile",
+        "map_code",
+        "new",
+        "base",
+        "notes"
+      ]
+    ],
+    [
+      "Scale",
+      [
+        "units",
+        "extent"
+      ]
+    ],
+    [
+      "Game data",
+      [
+        "map_stats",
+        "qbits",
+        "items",
+        "rules"
+      ]
+    ],
+    [
+      "Ways out",
+      [
+        "neighbours"
+      ]
+    ],
+    [
+      "Project",
+      [
+        "migrated",
+        "edited_by_hand"
+      ]
+    ]
+  ]
+}

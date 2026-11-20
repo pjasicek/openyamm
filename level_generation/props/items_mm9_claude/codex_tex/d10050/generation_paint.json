@@ -1,0 +1,26 @@
+{
+  "prompt": "# Decorative prop d10050: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10050/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: preserve the rounded rectangular outline, doubled dark string, green-white segmented limb, gold grip, and pale guard.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A harmless static decorative prop for a cosy fantasy game, texture sheet only. preserve the rounded rectangular outline, doubled dark string, green-white segmented limb, gold grip, and pale guard\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10050/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nInput roles: image 1 design_reference.png appearance reference; image 2 icon_x8.png colour reference; image 3 paint_mask_guide.png exact edit target. Edit the third image, preserving all ten silhouettes and all empty space precisely. Output only the requested atlas.\nCORRECTION: The prior attempt had large red speckles and paint spills outside silhouettes and moved the bottom-row views upward. Strictly copy the alpha outlines and placements of the original grey guide, including bottom row centers at y=1792 on a 2048-high canvas. NO stray pixels, noise, red fringes or splatter anywhere. All outside pixels transparent. Material masks clean flat solid regions; bone pale guard and ivory bands/spikes are matte bone YELLOW, gold shaft and bronze end fittings RED, leather grip GREEN, doubled cord BLUE. Preserve the guide's silhouette exactly even where its cord looks broad. Paint rows must contain no mask colours leaking around their edges.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10050/design_reference.png",
+      "sha256": "1f29a12158d101a70191a23d1bbe4c879af91295a2700db50d3b23fe9e233ebd"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10050/icon_x8.png",
+      "sha256": "0fd5e8b64b2a075d37af3b38b0bcaa538c02da17ff7ba2f9ea9e41c9ad4da7d5"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10050/paint_mask_guide.png",
+      "sha256": "7d1bd1a1136420870286b094c8b59e144ea796c77357d3766deace0f8cca5351"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad27-2df3-7b01-b718-3fad12cb5d7c/exec-6f073f12-409c-48fd-9ff9-bbb9353a54ca.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10050/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout visually reviewed; residual coloured fringes and silhouette deviations remain after the permitted correction."
+}

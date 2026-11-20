@@ -1,0 +1,27 @@
+id: mm9.ai.turn_based_townsfolk
+title: MM9 townsfolk keep their facing through turn-based mode
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, turn_based]
+steps:
+  - note:
+      text: >-
+        Thjorgard City's tavern (MM9_MONSTER_AI_PLAN.md "Townsfolk facing the party"): Knut, Dagfinnr and Berggren
+        stand facing each other, as MM9 places them. Entering and leaving turn-based mode turned every actor to the
+        party (MM8's TurnEngine: AI_StandOrBored toward the party), and MM9 never turns an idle townsperson back, so
+        they stayed facing it. Townsfolk on MM9's loop that are not hostile now keep their facing.
+  - new_game_flow:
+      start_map: thjorgardcity.blv
+  - set_pose: {map: thjorgardcity.blv, x: -797, y: 1221, z: 0, yaw_degrees: 166}
+  - advance_runtime: {seconds: 1}
+  - press_action: combat
+  - advance_runtime: {seconds: 2}
+  - press_action: combat
+  - advance_runtime: {seconds: 1}
+  # Dagfinnr (actor 5) and Knut (actor 4) face west toward Berggren, Berggren (actor 6) east toward them.
+  - assert:
+      actor_visible: {actor_index: 5, faces: {x: -1500, y: 1229, within_degrees: 3}}
+  - assert:
+      actor_visible: {actor_index: 4, faces: {x: -1500, y: 1393, within_degrees: 3}}
+  - assert:
+      actor_visible: {actor_index: 6, faces: {x: -1000, y: 1311, within_degrees: 3}}

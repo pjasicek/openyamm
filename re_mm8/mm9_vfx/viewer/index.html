@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>OpenYAMM · Effects viewer</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <aside>
+        <header><span class="eyebrow">OPENYAMM + MM9</span><h1>Effects viewer</h1><p>Original effects &amp; MM9 library</p></header>
+        <label class="search"><span class="sr-only">Search effects</span>
+            <input id="search" type="search" placeholder="Search spells & effects…" autocomplete="off"></label>
+        <div class="list-header"><span>AVAILABLE EFFECTS</span><span id="count">—</span></div>
+        <nav id="effects" aria-label="Available effects"></nav>
+        <footer>Drag to orbit · Scroll to zoom<br>Right-drag to pan · Space to pause</footer>
+    </aside>
+    <main>
+        <div class="topbar"><div><span class="eyebrow" id="category">SPELL EFFECT</span>
+            <h2 id="title">Loading effects…</h2></div>
+            <button id="resetCamera" class="secondary">Reset camera</button></div>
+        <section id="stage" aria-label="Effect preview">
+            <canvas id="canvas" aria-label="3D spell effect"></canvas>
+            <div id="loading">Reading effect libraries…</div>
+            <div id="warning" role="status" hidden></div>
+            <div class="stage-label"><span class="dot"></span><span id="status">Loading</span></div>
+            <div id="stats">0 particles</div>
+        </section>
+        <section class="controls" aria-label="Playback controls">
+            <div class="transport">
+                <button id="replay" title="Restart the selected effect (R)">↻ Replay</button>
+                <button id="pause" class="secondary">Pause</button>
+                <input id="timeline" aria-label="Playback position" type="range" min="0" max="5" step="0.01" value="0">
+                <output id="time">0.00 / 0.00 s</output>
+                <label class="check"><input id="repeat" type="checkbox" checked>Repeat</label>
+            </div>
+            <div class="settings">
+                <label>Speed<select id="speed"><option value="0.25">¼×</option><option value="0.5">½×</option>
+                    <option value="1" selected>1×</option><option value="2">2×</option></select></label>
+                <label>Frame rate<select id="fps"><option>30</option><option selected>60</option><option>120</option></select></label>
+                <label>Detail<select id="detail"><option value="1">High</option><option value="0.5">Medium</option>
+                    <option value="0.15">Low</option></select></label>
+                <label>Background<select id="background"><option value="slate">Slate</option>
+                    <option value="black">Black</option><option value="stone">Stone</option></select></label>
+                <label class="check"><input id="monk" type="checkbox" checked>Target monk</label>
+                <label class="check"><input id="grid" type="checkbox" checked>Grid</label>
+                <label class="check"><input id="sound" type="checkbox">Sound</label>
+                <input id="volume" title="Sound volume" aria-label="Sound volume" type="range" min="0" max="1" step=".05" value=".5">
+            </div>
+        </section>
+        <details id="info"><summary>Effect details <span id="summary"></span></summary>
+            <p id="fidelity">Preview using recovered MM9 timing, emission and transparency rules. Original-game rendering parity
+                is still being investigated. Model animation, lighting and sound spatialization are preview approximations.</p>
+            <label class="check"><input id="helpers" type="checkbox">Show untextured model paths</label>
+            <div id="components"></div>
+        </details>
+    </main>
+    <script type="module" src="/app.mjs"></script>
+</body>
+</html>

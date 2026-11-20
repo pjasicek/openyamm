@@ -1,0 +1,18 @@
+{
+  "source": "assets_dev/worlds/mm7/maps/7d23.blv",
+  "kind": "indoor",
+  "view": "ceiling-free isometric",
+  "camera_position": [
+    100.09375,
+    -131.5,
+    151.0625
+  ],
+  "camera_target": [
+    33.46875,
+    -39.25,
+    7.5625
+  ],
+  "scale_game_units_per_blender_unit": 128,
+  "missing_textures": [],
+  "limitations": "Inspection lighting; no actors, decoration billboards, gameplay state, or animated water compositing"
+}

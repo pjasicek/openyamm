@@ -1,0 +1,133 @@
+{
+  "creature_3d_identity": "hesper:kreegan",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 40
+  },
+  "armour_pass": {
+    "date": "2026-10-22",
+    "state": "superseded by skinned_shell",
+    "resumed_after": "interrupted run (v2 spec built and gated once, a3 at 19:15, then killed)",
+    "meshy_credits": 0,
+    "clearance_cm": {
+      "living_max": 0.38,
+      "death_max": 1.9
+    },
+    "lod0_tris_per_tier": {
+      "A_C": 13912,
+      "B": 13888,
+      "body": 9408,
+      "carbine": 780
+    },
+    "gates": "arm/hand, wrists <= 45 living, carbine up/roll PASS, soles unchanged, key times PASS, plates over floor PASS (carbine lifted in export), winding 0, lod_atlas PASS, viewer check PASS",
+    "new_nodes": [
+      "B_L_Pauldron2",
+      "B_R_Pauldron2",
+      "B_L_Spikes",
+      "B_R_Spikes"
+    ],
+    "removed_attachments": [
+      "hes_kreegan_upperarm_l",
+      "hes_kreegan_upperarm_r"
+    ],
+    "review": [
+      "review/tiers_before_after.jpg",
+      "review/attack_before_after.jpg",
+      "review/tiers_abc.jpg",
+      "review/clips_v3.jpg"
+    ]
+  },
+  "skinned_shell": {
+    "date": "2026-10-22",
+    "state": "superseded by bulky_v4",
+    "meshy_credits": 0,
+    "exports": [
+      "export/hes_kreegan.glb (bare base)",
+      "export/hes_kreegan_trooper.glb (Trooper caste, skinned shell)"
+    ],
+    "attachments": [
+      "groin",
+      "crest",
+      "pauldron_l/r",
+      "carapace_l/r",
+      "spikes_l/r",
+      "buckler",
+      "carbine"
+    ],
+    "clearance_cm": {
+      "living_max": 0.37,
+      "death_max": 2.74
+    },
+    "shell_stretch": {
+      "living_p99": 1.071,
+      "living_max": 1.073
+    },
+    "shell_leak": "PASS every clip",
+    "lod0_tris_per_tier": {
+      "A_C": 13750,
+      "B": 13726
+    },
+    "skin_faces_removed": 470,
+    "open": "thigh plates front-lateral only (a medial/front plate meets the swinging tasset in Running); two per-thigh tassets would allow full front plates",
+    "review": [
+      "review/tiers_before_after.jpg",
+      "review/attack_vs_concept.jpg",
+      "review/tiers_abc.jpg",
+      "review/clips_v3.jpg"
+    ]
+  },
+  "bulky_v4": {
+    "date": "2026-10-23",
+    "state": "done",
+    "meshy_credits": 0,
+    "exports": [
+      "export/hes_kreegan.glb (bare, thin)",
+      "export/hes_kreegan_trooper.glb (bulked body + v4 shell)"
+    ],
+    "attachments": [
+      "crest",
+      "pauldron_l/r",
+      "carapace_l/r",
+      "spikes_l/r",
+      "buckler",
+      "carbine"
+    ],
+    "clearance_cm": {
+      "living_max": 0.09,
+      "death_max": 2.6
+    },
+    "shell_stretch_living": [
+      1.074,
+      1.084
+    ],
+    "shell_leak": "PASS",
+    "silhouette_ratio": {
+      "concept": 1.15,
+      "v3": 1.5,
+      "v4": 1.4
+    },
+    "running_hip_flex_deg": {
+      "source": 88,
+      "limited": [
+        69,
+        75
+      ]
+    },
+    "lod0_tris_per_tier": {
+      "A_C": 14135,
+      "B": 14111
+    },
+    "trooper_body_lods": [
+      12225,
+      6106,
+      4515,
+      2205
+    ],
+    "review": [
+      "review/tiers_before_after.jpg",
+      "review/attack_vs_concept.jpg",
+      "review/tiers_abc.jpg",
+      "review/clips_v3.jpg"
+    ]
+  }
+}

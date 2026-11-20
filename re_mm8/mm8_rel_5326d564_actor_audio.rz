@@ -1,0 +1,61 @@
+# Original MM8-Rel.exe; SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b.
+# Verify the full hash before loading. Read-only research labels, not recovered original symbols.
+# Evidence, comparison and implementation record: ACTOR_AUDIO.md.
+f+ ref.mm8rel.Monsters @ 0x61c458
+f+ ref.mm8rel.ActorPlaySound @ 0x402e43
+f+ ref.mm8rel.ActorDie @ 0x402ec9
+f+ ref.mm8rel.ActorResurrect @ 0x4031a6
+f+ ref.mm8rel.ActorBored @ 0x403207
+f+ ref.mm8rel.ActorStun @ 0x40332f
+f+ ref.mm8rel.ActorWanderHomeBiased @ 0x403537
+f+ ref.mm8rel.ActorPursue3 @ 0x4027d6
+f+ ref.mm8rel.ActorAttackRanged1 @ 0x40373b
+f+ ref.mm8rel.ActorAttackRanged2 @ 0x403953
+f+ ref.mm8rel.ActorAttackSpell1 @ 0x403b2c
+f+ ref.mm8rel.ActorAttackSpell2 @ 0x403d3d
+f+ ref.mm8rel.ActorAttackMelee @ 0x403f4e
+f+ ref.mm8rel.ActorStandOrBored @ 0x40424b
+f+ ref.mm8rel.ActorAiDispatch @ 0x401ad8
+f+ ref.mm8rel.BuildOutdoorActiveActors @ 0x40151a
+f+ ref.mm8rel.BuildIndoorActiveActors @ 0x40172e
+f+ ref.mm8rel.AudioPlaySound @ 0x4aa8b7
+f+ ref.mm8rel.AudioUpdateSources @ 0x4ab58b
+f+ ref.mm8rel.AudioIndoorViewTransform @ 0x4ab462
+f+ ref.mm8rel.AudioPartyRelativePan @ 0x4abc33
+f+ ref.mm8rel.AudioDistanceVolume @ 0x4abc78
+f+ ref.mm8rel.ApproximateLength3d @ 0x46155d
+CC "Actor slots at plus 0xd4: attack 0, death 1, hit 2, bored 3. Zero sound is skipped." @ 0x402e53
+CC "Shrink power 4 playback rate 55125; power 3 rate 44100; power 2 rate 33075. Other-power path needs care." @ 0x402e87
+CC "Actor identity passed as index shifted 3 OR 3. Helper has no range, hostility or visibility gate." @ 0x402ead
+CC "Death vocalization when entering Dying, not on later transition to Dead." @ 0x402f44
+CC "Resurrection also requests death slot 1." @ 0x4031f9
+CC "MM8 assigns target yaw BEFORE fidget-facing test. Local OE tests old yaw first." @ 0x40325c
+CC "Front-octant fidget test against camera position; rejected actors stand silently." @ 0x4032ca
+CC "Fidget rand modulo 100 below 5 requests slot 3, once per accepted action." @ 0x40331c
+CC "Hit sound is inside stun-state entry guard, suppressed during attacks or prior stun unless forced." @ 0x403433
+CC "Committed wandering has separate 2 percent bored-slot chance without fidget-facing test." @ 0x403728
+CC "Special pursuit has 2 percent HIT-slot chance, verified original oddity." @ 0x402957
+CC "Melee vocalization at attack start after target LOS succeeds." @ 0x4040d4
+CC "Ranged-1 attack-start vocalization." @ 0x4038d3
+CC "Ranged-2 attack-start vocalization." @ 0x403aad
+CC "Spell-1 attack-start vocalization, separate from spell effect sounds." @ 0x403c86
+CC "Spell-2 attack-start vocalization, separate from spell effect sounds." @ 0x403e97
+CC "Background action expiry can request StandOrBored outside the full-AI list." @ 0x401e9d
+CC "Real-time background pass traverses the full actor array, including indoors; no visited-sector or detection gate." @ 0x401c9a
+CC "Background entry guards skip Dead, Removed, Disabled and full-AI actors, not unvisited rooms." @ 0x401ccb
+CC "Actor detection/cached flag selects full AI; it is not a background vocalization prerequisite." @ 0x40194c
+CC "Same-current-sector addition to full AI, not a sector visitation requirement for actor audio." @ 0x4019b7
+CC "Turn-based idle branch invokes common fidget helper after 50 percent selection." @ 0x407164
+CC "Turn-based waiting branch invokes common fidget helper after 50 percent selection." @ 0x407b8e
+CC "Indoor distance candidate pass below 10240; selection also has detection, cached and sector rules." @ 0x401820
+CC "Full-AI outdoor cap 30 is not an audio channel or hearing limit." @ 0x4016fe
+CC "Full-AI indoor final cap 30 is not an audio channel or hearing limit." @ 0x401a78
+CC "Optional Miles 3D path requires active provider AND sound flag 2." @ 0x4aa94f
+CC "3D provider distances max 100 min 20; positions scaled by 100 over 8192. Not ordinary volume formula." @ 0x4aaebe
+CC "Ordinary actor samples use channels 0 through 3 and actor-foot positional volume." @ 0x4ab023
+CC "Same actor and sound suppresses duplicate; different sound stops old actor voice." @ 0x4ab0cb
+CC "When actor channels full, select an existing voice strictly quieter than newcomer or drop newcomer." @ 0x4ab16f
+CC "Audio source refresh interval reset to 32 timer ticks; moving actor positions fetched again." @ 0x4ab5cd
+CC "Approximate 3D length: sorted abs deltas a,b,c gives a plus floor 11b/32 plus floor c/4." @ 0x461580
+CC "Ordinary positional cutoff is distance GREATER THAN 8192; exactly 8192 remains volume 14." @ 0x4abcb7
+CC "Ordinary channel volume is 114 minus trunc 100d/8192 inside cutoff, before other output gains." @ 0x4abcc7

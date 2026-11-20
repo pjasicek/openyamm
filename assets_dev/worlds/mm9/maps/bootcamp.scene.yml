@@ -1,0 +1,6033 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "bootcamp.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 2816,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2817,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2818,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8278,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8279,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8280,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8281,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8282,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8283,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8284,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8285,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8286,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8287,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8288,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8289,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8290,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8291,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 15081,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 5980,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11798,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11799,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11800,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11801,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11802,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11803,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11804,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11805,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11806,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11807,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11808,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11809,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11810,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11811,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11812,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11813,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11814,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11815,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11816,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11817,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11818,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11819,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11820,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11821,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11822,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11823,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11824,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11825,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11826,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11827,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11828,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11829,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11830,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11831,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11832,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11833,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11834,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11835,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11836,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11837,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11838,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11839,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11840,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11841,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11842,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11843,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11844,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11845,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11846,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11847,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11848,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11849,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11850,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11851,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11852,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11853,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11854,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11855,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11856,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11857,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11858,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11859,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11860,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11861,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11862,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11863,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11864,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11865,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11866,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11867,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11868,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11869,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11870,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11871,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11872,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11873,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11874,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11875,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11876,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11877,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11878,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11879,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11880,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11881,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11882,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11883,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11884,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11885,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11886,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11887,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11888,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11889,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11890,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11891,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11892,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11893,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11894,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11895,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11896,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11897,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11898,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11899,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11900,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11901,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11902,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11903,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11904,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11905,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11906,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11907,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11908,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11909,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11910,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11911,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11912,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11913,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11914,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11915,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11916,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11917,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11918,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11919,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11920,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11921,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11922,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11923,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11924,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11925,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11926,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11927,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11928,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11929,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11930,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11931,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11932,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11974,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11975,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11976,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11977,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11978,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11979,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11980,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11981,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11982,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11983,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11984,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11985,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11986,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11987,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11988,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11989,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11990,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11991,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11992,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11993,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11994,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11995,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11996,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 11997,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15082,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15083,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15084,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15085,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15086,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15087,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15088,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15089,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15090,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15091,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15092,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15093,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15094,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15095,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15096,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15097,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15098,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15099,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15100,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15101,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15102,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15103,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15104,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15105,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15106,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15107,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15108,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15109,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15110,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15111,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15112,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15113,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15114,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15115,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15116,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15117,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15118,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15119,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15120,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15121,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15122,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15123,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15124,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15125,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15126,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15127,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15128,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15129,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15130,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15131,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15132,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15133,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15134,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15135,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15136,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15137,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 15138,
+    "texture_name": "lqseamm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 192,
+    "position": {
+     "x": -11249,
+     "y": -10399,
+     "z": 1264
+    },
+    "initial_yaw_units": 284,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 192,
+    "position": {
+     "x": -11330,
+     "y": -10010,
+     "z": 1264
+    },
+    "initial_yaw_units": 42,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 192,
+    "position": {
+     "x": -11187,
+     "y": -9416,
+     "z": 1264
+    },
+    "initial_yaw_units": 398,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 192,
+    "position": {
+     "x": -10716,
+     "y": -10153,
+     "z": 1264
+    },
+    "initial_yaw_units": 730,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9267,
+    "monster_id": 9267,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -9774,
+     "y": -8884,
+     "z": 1268
+    },
+    "initial_yaw_units": 837,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Brown Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9297,
+    "monster_id": 9297,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -9631,
+     "y": -6610,
+     "z": 1264
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Brown Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9297,
+    "monster_id": 9297,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -10757,
+     "y": -6057,
+     "z": 1264
+    },
+    "initial_yaw_units": 94,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9267,
+    "monster_id": 9267,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -10552,
+     "y": -4071,
+     "z": 1264
+    },
+    "initial_yaw_units": 284,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9267,
+    "monster_id": 9267,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -9713,
+     "y": -4521,
+     "z": 1264
+    },
+    "initial_yaw_units": 873,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Brown Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9297,
+    "monster_id": 9297,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -7931,
+     "y": -8187,
+     "z": 1265
+    },
+    "initial_yaw_units": 1778,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9267,
+    "monster_id": 9267,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -8463,
+     "y": -9539,
+     "z": 1265
+    },
+    "initial_yaw_units": 837,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Brown Cow",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9297,
+    "monster_id": 9297,
+    "radius": 90,
+    "height": 133,
+    "move_speed": 192,
+    "position": {
+     "x": -6620,
+     "y": -8843,
+     "z": 1264
+    },
+    "initial_yaw_units": 1778,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 192,
+    "position": {
+     "x": -10573,
+     "y": -3088,
+     "z": 1264
+    },
+    "initial_yaw_units": 1934,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 192,
+    "position": {
+     "x": -10982,
+     "y": -3333,
+     "z": 1264
+    },
+    "initial_yaw_units": 1832,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Goat",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9268,
+    "monster_id": 9268,
+    "radius": 44,
+    "height": 87,
+    "move_speed": 192,
+    "position": {
+     "x": -10163,
+     "y": -3170,
+     "z": 1264
+    },
+    "initial_yaw_units": 1556,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Lobber Pod",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 4,
+    "hostility_type": 4,
+    "monster_info_id": 9084,
+    "monster_id": 9084,
+    "radius": 38,
+    "height": 61,
+    "move_speed": 288,
+    "position": {
+     "x": 6139,
+     "y": 1746,
+     "z": 1234
+    },
+    "initial_yaw_units": 757,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Lobber Pod",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 4,
+    "hostility_type": 4,
+    "monster_info_id": 9084,
+    "monster_id": 9084,
+    "radius": 38,
+    "height": 61,
+    "move_speed": 288,
+    "position": {
+     "x": 7941,
+     "y": 2892,
+     "z": 1264
+    },
+    "initial_yaw_units": 1245,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Lobber Pod",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 4,
+    "hostility_type": 4,
+    "monster_info_id": 9084,
+    "monster_id": 9084,
+    "radius": 38,
+    "height": 61,
+    "move_speed": 288,
+    "position": {
+     "x": 9088,
+     "y": 5350,
+     "z": 1264
+    },
+    "initial_yaw_units": 1565,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Lobber Pod",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 4,
+    "hostility_type": 4,
+    "monster_info_id": 9084,
+    "monster_id": 9084,
+    "radius": 38,
+    "height": 61,
+    "move_speed": 288,
+    "position": {
+     "x": 8515,
+     "y": 5022,
+     "z": 1264
+    },
+    "initial_yaw_units": 1609,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.5,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Lobber Pod",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9085,
+    "monster_id": 9085,
+    "radius": 77,
+    "height": 123,
+    "move_speed": 288,
+    "position": {
+     "x": 7040,
+     "y": 2237,
+     "z": 1252
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Old Man",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 323,
+     "y": -8822,
+     "z": 1291
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 8,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc436.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 207,
+    "mm9_rude_id": 436
+   },
+   {
+    "actor_index": 21,
+    "name": "Thorkatla the Indiscreet",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9040,
+    "monster_id": 9040,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 2453,
+     "y": -3170,
+     "z": 1304
+    },
+    "initial_yaw_units": 1023,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 17,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 209,
+    "mm9_rude_id": 101
+   },
+   {
+    "actor_index": 22,
+    "name": "Dearbhorgaill A'Washadi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9019,
+    "monster_id": 9019,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -1754,
+     "y": -2750,
+     "z": 1304
+    },
+    "initial_yaw_units": 6,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 18,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 210,
+    "mm9_rude_id": 204
+   },
+   {
+    "actor_index": 23,
+    "name": "Fiachna A'Lanth",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9012,
+    "monster_id": 9012,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -2422,
+     "y": -4743,
+     "z": 1332
+    },
+    "initial_yaw_units": 1533,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 16,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 211,
+    "mm9_rude_id": 206
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 205,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     20958,
+     20959,
+     20960,
+     20961,
+     20962,
+     20963,
+     20964,
+     20965,
+     20966,
+     20967
+    ],
+    "face_ids": [
+     15194,
+     15195,
+     15196,
+     15197,
+     15198,
+     15199,
+     15200
+    ],
+    "sector_ids": [
+     8
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -993,
+     -993,
+     -993,
+     -993,
+     -993,
+     -973,
+     -973,
+     -973,
+     -973,
+     -973
+    ],
+    "y_offsets": [
+     -8149,
+     -8392,
+     -8392,
+     -8210,
+     -8149,
+     -8392,
+     -8149,
+     -8149,
+     -8210,
+     -8392
+    ],
+    "z_offsets": [
+     1311,
+     1311,
+     1761,
+     1731,
+     1638,
+     1311,
+     1311,
+     1638,
+     1731,
+     1761
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 205,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     20968,
+     20969,
+     20970,
+     20971,
+     20972,
+     20973,
+     20974,
+     20975,
+     20976,
+     20977
+    ],
+    "face_ids": [
+     15201,
+     15202,
+     15203,
+     15204,
+     15205,
+     15206,
+     15207
+    ],
+    "sector_ids": [
+     8
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -993,
+     -993,
+     -993,
+     -993,
+     -993,
+     -973,
+     -973,
+     -973,
+     -973,
+     -973
+    ],
+    "y_offsets": [
+     -8802,
+     -8802,
+     -9045,
+     -9045,
+     -8984,
+     -9045,
+     -8802,
+     -9045,
+     -8984,
+     -8802
+    ],
+    "z_offsets": [
+     1761,
+     1311,
+     1311,
+     1638,
+     1731,
+     1311,
+     1311,
+     1638,
+     1731,
+     1761
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 205,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     20978,
+     20979,
+     20980,
+     20981,
+     20982,
+     20983,
+     20984,
+     20985,
+     20986,
+     20987
+    ],
+    "face_ids": [
+     15208,
+     15209,
+     15210,
+     15211,
+     15212,
+     15213,
+     15214
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1618,
+     1618,
+     1618,
+     1618,
+     1618,
+     1638,
+     1638,
+     1638,
+     1638,
+     1638
+    ],
+    "y_offsets": [
+     -8149,
+     -8392,
+     -8392,
+     -8210,
+     -8149,
+     -8392,
+     -8149,
+     -8149,
+     -8210,
+     -8392
+    ],
+    "z_offsets": [
+     1311,
+     1311,
+     1761,
+     1731,
+     1638,
+     1311,
+     1311,
+     1638,
+     1731,
+     1761
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 205,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     20988,
+     20989,
+     20990,
+     20991,
+     20992,
+     20993,
+     20994,
+     20995,
+     20996,
+     20997
+    ],
+    "face_ids": [
+     15215,
+     15216,
+     15217,
+     15218,
+     15219,
+     15220,
+     15221
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1618,
+     1618,
+     1618,
+     1618,
+     1618,
+     1638,
+     1638,
+     1638,
+     1638,
+     1638
+    ],
+    "y_offsets": [
+     -8802,
+     -8802,
+     -9045,
+     -9045,
+     -8984,
+     -9045,
+     -8802,
+     -9045,
+     -8984,
+     -8802
+    ],
+    "z_offsets": [
+     1761,
+     1311,
+     1311,
+     1638,
+     1731,
+     1311,
+     1311,
+     1638,
+     1731,
+     1761
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400,
+    "state": 2,
+    "vertex_ids": [
+     20998,
+     20999,
+     21000,
+     21001,
+     21002,
+     21003,
+     21004,
+     21005
+    ],
+    "face_ids": [
+     15222,
+     15223,
+     15224,
+     15225,
+     15226,
+     15227
+    ],
+    "sector_ids": [
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -4603,
+     -4603,
+     -4603,
+     -4603,
+     -4582,
+     -4582,
+     -4582,
+     -4582
+    ],
+    "y_offsets": [
+     -6958,
+     -7184,
+     -7184,
+     -6958,
+     -7184,
+     -6958,
+     -7184,
+     -6958
+    ],
+    "z_offsets": [
+     1262,
+     1262,
+     1610,
+     1610,
+     1610,
+     1610,
+     1262,
+     1262
+    ],
+    "ai_open": [
+     5,
+     6
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -4592.56,
+       -7173.48,
+       1436.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/door06close.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400,
+    "state": 2,
+    "vertex_ids": [
+     21006,
+     21007,
+     21008,
+     21009,
+     21010,
+     21011,
+     21012,
+     21013
+    ],
+    "face_ids": [
+     15228,
+     15229,
+     15230,
+     15231,
+     15232,
+     15233
+    ],
+    "sector_ids": [
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -4603,
+     -4603,
+     -4603,
+     -4603,
+     -4582,
+     -4582,
+     -4582,
+     -4582
+    ],
+    "y_offsets": [
+     -6733,
+     -6958,
+     -6958,
+     -6733,
+     -6958,
+     -6733,
+     -6733,
+     -6958
+    ],
+    "z_offsets": [
+     1262,
+     1262,
+     1610,
+     1610,
+     1610,
+     1610,
+     1262,
+     1262
+    ],
+    "ai_open": [
+     5,
+     6
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -4592.56,
+       -6743.4,
+       1436.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 10.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/door06close.wav"
+    }
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21014,
+     21015,
+     21016,
+     21017,
+     21018,
+     21019,
+     21020,
+     21021
+    ],
+    "face_ids": [
+     15234,
+     15235,
+     15236,
+     15237,
+     15238,
+     15239
+    ],
+    "sector_ids": [
+     8,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -5,
+     -5,
+     -169,
+     -169,
+     -169,
+     -169,
+     -5,
+     -5
+    ],
+    "y_offsets": [
+     -7788,
+     -7788,
+     -7788,
+     -7788,
+     -7767,
+     -7767,
+     -7767,
+     -7767
+    ],
+    "z_offsets": [
+     1290,
+     1638,
+     1638,
+     1290,
+     1290,
+     1638,
+     1638,
+     1290
+    ],
+    "ai_open": [
+     7,
+     8
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -158.64,
+       -7777.64,
+       1443.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21022,
+     21023,
+     21024,
+     21025,
+     21026,
+     21027,
+     21028,
+     21029
+    ],
+    "face_ids": [
+     15240,
+     15241,
+     15242,
+     15243,
+     15244,
+     15245
+    ],
+    "sector_ids": [
+     8,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     159,
+     159,
+     -5,
+     -5,
+     -5,
+     -5,
+     159,
+     159
+    ],
+    "y_offsets": [
+     -7788,
+     -7788,
+     -7788,
+     -7788,
+     -7767,
+     -7767,
+     -7767,
+     -7767
+    ],
+    "z_offsets": [
+     1290,
+     1638,
+     1638,
+     1290,
+     1290,
+     1638,
+     1638,
+     1290
+    ],
+    "ai_open": [
+     7,
+     8
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       148.56,
+       -7777.64,
+       1443.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 8,
+    "legacy_attributes": 0,
+    "door_id": 9,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21030,
+     21031,
+     21032,
+     21033,
+     21034,
+     21035,
+     21036,
+     21037
+    ],
+    "face_ids": [
+     15246,
+     15247,
+     15248,
+     15249,
+     15250,
+     15251
+    ],
+    "sector_ids": [
+     8,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     650,
+     650,
+     486,
+     486,
+     486,
+     486,
+     650,
+     650
+    ],
+    "y_offsets": [
+     -7788,
+     -7788,
+     -7788,
+     -7788,
+     -7767,
+     -7767,
+     -7767,
+     -7767
+    ],
+    "z_offsets": [
+     1290,
+     1638,
+     1638,
+     1290,
+     1290,
+     1638,
+     1638,
+     1290
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       496.72,
+       -7777.64,
+       1443.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 9,
+    "legacy_attributes": 0,
+    "door_id": 10,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21038,
+     21039,
+     21040,
+     21041,
+     21042,
+     21043,
+     21044,
+     21045
+    ],
+    "face_ids": [
+     15252,
+     15253,
+     15254,
+     15255,
+     15256,
+     15257
+    ],
+    "sector_ids": [
+     8,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     814,
+     814,
+     650,
+     650,
+     650,
+     650,
+     814,
+     814
+    ],
+    "y_offsets": [
+     -7788,
+     -7788,
+     -7788,
+     -7788,
+     -7767,
+     -7767,
+     -7767,
+     -7767
+    ],
+    "z_offsets": [
+     1290,
+     1638,
+     1638,
+     1290,
+     1290,
+     1638,
+     1638,
+     1290
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       803.92,
+       -7777.64,
+       1443.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 10,
+    "legacy_attributes": 0,
+    "door_id": 11,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21046,
+     21047,
+     21048,
+     21049,
+     21050,
+     21051,
+     21052,
+     21053
+    ],
+    "face_ids": [
+     15258,
+     15259,
+     15260,
+     15261,
+     15262,
+     15263
+    ],
+    "sector_ids": [
+     19,
+     15
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2422,
+     -2545,
+     -2545,
+     -2422,
+     -2545,
+     -2422,
+     -2545,
+     -2422
+    ],
+    "y_offsets": [
+     -5689,
+     -5689,
+     -5689,
+     -5689,
+     -5668,
+     -5668,
+     -5668,
+     -5668
+    ],
+    "z_offsets": [
+     1536,
+     1536,
+     1290,
+     1290,
+     1290,
+     1290,
+     1536,
+     1536
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2534.32,
+       -5678.44,
+       1413.12
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 11,
+    "legacy_attributes": 0,
+    "door_id": 12,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21054,
+     21055,
+     21056,
+     21057,
+     21058,
+     21059,
+     21060,
+     21061
+    ],
+    "face_ids": [
+     15264,
+     15265,
+     15266,
+     15267,
+     15268,
+     15269
+    ],
+    "sector_ids": [
+     15,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2422,
+     -2299,
+     -2299,
+     -2422,
+     -2422,
+     -2299,
+     -2299,
+     -2422
+    ],
+    "y_offsets": [
+     -5689,
+     -5689,
+     -5689,
+     -5689,
+     -5668,
+     -5668,
+     -5668,
+     -5668
+    ],
+    "z_offsets": [
+     1290,
+     1290,
+     1536,
+     1536,
+     1290,
+     1290,
+     1536,
+     1536
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2309.04,
+       -5678.44,
+       1413.12
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 12,
+    "legacy_attributes": 0,
+    "door_id": 13,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21062,
+     21063,
+     21064,
+     21065,
+     21066,
+     21067,
+     21068,
+     21069
+    ],
+    "face_ids": [
+     15270,
+     15271,
+     15272,
+     15273,
+     15274,
+     15275
+    ],
+    "sector_ids": [
+     17,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1462,
+     1462,
+     1482,
+     1482,
+     1462,
+     1462,
+     1482,
+     1482
+    ],
+    "y_offsets": [
+     -3062,
+     -2898,
+     -2898,
+     -3062,
+     -2898,
+     -3062,
+     -2898,
+     -3062
+    ],
+    "z_offsets": [
+     1303,
+     1303,
+     1303,
+     1303,
+     1577,
+     1577,
+     1577,
+     1577
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1472.08,
+       -2908.52,
+       1464.32
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door03open.wav",
+     "close_stop": "Door/door03close.wav"
+    }
+   },
+   {
+    "door_index": 13,
+    "legacy_attributes": 0,
+    "door_id": 14,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21070,
+     21071,
+     21072,
+     21073,
+     21074,
+     21075,
+     21076,
+     21077
+    ],
+    "face_ids": [
+     15276,
+     15277,
+     15278,
+     15279,
+     15280,
+     15281
+    ],
+    "sector_ids": [
+     17,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1482,
+     1482,
+     1482,
+     1482,
+     1462,
+     1462,
+     1462,
+     1462
+    ],
+    "y_offsets": [
+     -3062,
+     -3062,
+     -3226,
+     -3226,
+     -3062,
+     -3062,
+     -3226,
+     -3226
+    ],
+    "z_offsets": [
+     1303,
+     1577,
+     1577,
+     1303,
+     1303,
+     1577,
+     1303,
+     1577
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1472.08,
+       -3215.72,
+       1464.32
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door03open.wav",
+     "close_stop": "Door/door03close.wav"
+    }
+   },
+   {
+    "door_index": 14,
+    "legacy_attributes": 0,
+    "door_id": 15,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21078,
+     21079,
+     21080,
+     21081,
+     21082,
+     21083,
+     21084,
+     21085
+    ],
+    "face_ids": [
+     15282,
+     15283,
+     15284,
+     15285,
+     15286,
+     15287
+    ],
+    "sector_ids": [
+     14,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4757,
+     4757,
+     4879,
+     4879,
+     4757,
+     4879,
+     4879,
+     4757
+    ],
+    "y_offsets": [
+     -6062,
+     -6062,
+     -6062,
+     -6062,
+     -6047,
+     -6047,
+     -6047,
+     -6047
+    ],
+    "z_offsets": [
+     1526,
+     1280,
+     1280,
+     1526,
+     1280,
+     1280,
+     1526,
+     1526
+    ],
+    "ai_open": [
+     15
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       4764.24,
+       -6054.76,
+       1402.88
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 15,
+    "legacy_attributes": 0,
+    "door_id": 16,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400,
+    "state": 2,
+    "vertex_ids": [
+     21086,
+     21087,
+     21088,
+     21089,
+     21090,
+     21091,
+     21092,
+     21093
+    ],
+    "face_ids": [
+     15288,
+     15289,
+     15290,
+     15291,
+     15292,
+     15293
+    ],
+    "sector_ids": [
+     18,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -998,
+     -998,
+     -998,
+     -998,
+     -1019,
+     -1019,
+     -1019,
+     -1019
+    ],
+    "y_offsets": [
+     -3682,
+     -3518,
+     -3518,
+     -3682,
+     -3518,
+     -3682,
+     -3518,
+     -3682
+    ],
+    "z_offsets": [
+     1303,
+     1303,
+     1631,
+     1631,
+     1631,
+     1631,
+     1303,
+     1303
+    ],
+    "ai_open": [
+     16,
+     17
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -1008.56,
+       -3671.4,
+       1454.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -80.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 16,
+    "legacy_attributes": 0,
+    "door_id": 17,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400,
+    "state": 2,
+    "vertex_ids": [
+     21094,
+     21095,
+     21096,
+     21097,
+     21098,
+     21099,
+     21100,
+     21101
+    ],
+    "face_ids": [
+     15294,
+     15295,
+     15296,
+     15297,
+     15298,
+     15299
+    ],
+    "sector_ids": [
+     18,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -998,
+     -998,
+     -998,
+     -998,
+     -1019,
+     -1019,
+     -1019,
+     -1019
+    ],
+    "y_offsets": [
+     -3354,
+     -3354,
+     -3518,
+     -3518,
+     -3354,
+     -3518,
+     -3518,
+     -3354
+    ],
+    "z_offsets": [
+     1303,
+     1631,
+     1631,
+     1303,
+     1631,
+     1631,
+     1303,
+     1303
+    ],
+    "ai_open": [
+     16,
+     17
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -1008.56,
+       -3364.2,
+       1454.08
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -80.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 17,
+    "legacy_attributes": 0,
+    "door_id": 18,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 8,
+    "open_speed": 51,
+    "close_speed": 51,
+    "state": 2,
+    "vertex_ids": [
+     21102,
+     21103,
+     21104,
+     21105,
+     21106,
+     21107,
+     21108,
+     21109,
+     21110,
+     21111,
+     21112,
+     21113,
+     21114,
+     21115,
+     21116,
+     21117
+    ],
+    "face_ids": [
+     15300,
+     15301,
+     15302,
+     15303,
+     15304,
+     15305,
+     15306,
+     15307,
+     15308,
+     15309
+    ],
+    "sector_ids": [
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2606,
+     2611,
+     2611,
+     2606,
+     2596,
+     2591,
+     2591,
+     2596,
+     2596,
+     2591,
+     2606,
+     2611,
+     2611,
+     2606,
+     2596,
+     2591
+    ],
+    "y_offsets": [
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033
+    ],
+    "z_offsets": [
+     1485,
+     1490,
+     1500,
+     1505,
+     1505,
+     1500,
+     1490,
+     1485,
+     1485,
+     1490,
+     1485,
+     1490,
+     1500,
+     1505,
+     1505,
+     1500
+    ],
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "close_busy": "Events/boulderroll.wav"
+    }
+   },
+   {
+    "door_index": 18,
+    "legacy_attributes": 0,
+    "door_id": 19,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     65536,
+     0
+    ],
+    "move_length": 8,
+    "open_speed": 51,
+    "close_speed": 51,
+    "state": 2,
+    "vertex_ids": [
+     21118,
+     21119,
+     21120,
+     21121,
+     21122,
+     21123,
+     21124,
+     21125,
+     21126,
+     21127,
+     21128,
+     21129,
+     21130,
+     21131,
+     21132,
+     21133
+    ],
+    "face_ids": [
+     15310,
+     15311,
+     15312,
+     15313,
+     15314,
+     15315,
+     15316,
+     15317,
+     15318,
+     15319
+    ],
+    "sector_ids": [
+     2
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -1951,
+     -1946,
+     -1946,
+     -1951,
+     -1961,
+     -1966,
+     -1966,
+     -1961,
+     -1961,
+     -1966,
+     -1951,
+     -1946,
+     -1946,
+     -1951,
+     -1961,
+     -1966
+    ],
+    "y_offsets": [
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10044,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033,
+     -10033
+    ],
+    "z_offsets": [
+     1485,
+     1490,
+     1500,
+     1505,
+     1505,
+     1500,
+     1490,
+     1485,
+     1485,
+     1490,
+     1485,
+     1490,
+     1500,
+     1505,
+     1505,
+     1500
+    ],
+    "sounds": {
+     "open_busy": "Door/DoorSlideStone.wav",
+     "close_busy": "Events/boulderroll.wav"
+    }
+   },
+   {
+    "door_index": 19,
+    "legacy_attributes": 0,
+    "door_id": 20,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21134,
+     21135,
+     21136,
+     21137,
+     21138,
+     21139,
+     21140,
+     21141
+    ],
+    "face_ids": [
+     15320,
+     15321,
+     15322,
+     15323,
+     15324,
+     15325
+    ],
+    "sector_ids": [
+     14,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4030,
+     4030,
+     4030,
+     4030,
+     4019,
+     4019,
+     4019,
+     4019
+    ],
+    "y_offsets": [
+     -6682,
+     -6559,
+     -6559,
+     -6682,
+     -6682,
+     -6559,
+     -6682,
+     -6559
+    ],
+    "z_offsets": [
+     1280,
+     1280,
+     1526,
+     1526,
+     1280,
+     1280,
+     1526,
+     1526
+    ],
+    "ai_open": [
+     20,
+     21
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       4024.4,
+       -6564.2,
+       1402.88
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 20,
+    "legacy_attributes": 0,
+    "door_id": 21,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21142,
+     21143,
+     21144,
+     21145,
+     21146,
+     21147,
+     21148,
+     21149
+    ],
+    "face_ids": [
+     15326,
+     15327,
+     15328,
+     15329,
+     15330,
+     15331
+    ],
+    "sector_ids": [
+     14,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4030,
+     4030,
+     4030,
+     4030,
+     4019,
+     4019,
+     4019,
+     4019
+    ],
+    "y_offsets": [
+     -6682,
+     -6805,
+     -6805,
+     -6682,
+     -6805,
+     -6682,
+     -6805,
+     -6682
+    ],
+    "z_offsets": [
+     1526,
+     1526,
+     1280,
+     1280,
+     1280,
+     1280,
+     1526,
+     1526
+    ],
+    "ai_open": [
+     20,
+     21
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       4024.4,
+       -6799.72,
+       1402.88
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 21,
+    "legacy_attributes": 0,
+    "door_id": 22,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21150,
+     21151,
+     21152,
+     21153,
+     21154,
+     21155,
+     21156,
+     21157,
+     21158,
+     21159,
+     21160,
+     21161,
+     21162,
+     21163,
+     21164,
+     21165,
+     21166,
+     21167,
+     21168,
+     21169,
+     21170,
+     21171,
+     21172,
+     21173,
+     21174,
+     21175,
+     21176,
+     21177
+    ],
+    "face_ids": [
+     15332,
+     15333,
+     15334,
+     15335,
+     15336,
+     15337,
+     15338,
+     15339,
+     15340,
+     15341,
+     15342,
+     15343,
+     15344,
+     15345,
+     15346,
+     15347,
+     15348,
+     15349,
+     15350,
+     15351,
+     15352
+    ],
+    "sector_ids": [
+     17
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2581,
+     2581,
+     2575,
+     2575,
+     2575,
+     2581,
+     2575,
+     2581,
+     2780,
+     2780,
+     2780,
+     2780,
+     2581,
+     2581,
+     2581,
+     2581,
+     2581,
+     2581,
+     2780,
+     2780,
+     2780,
+     2780,
+     2581,
+     2581,
+     2780,
+     2780,
+     2581,
+     2581
+    ],
+    "y_offsets": [
+     -3487,
+     -3482,
+     -3482,
+     -3487,
+     -3482,
+     -3482,
+     -3487,
+     -3487,
+     -3380,
+     -3382,
+     -3372,
+     -3374,
+     -3372,
+     -3374,
+     -3380,
+     -3382,
+     -3500,
+     -3510,
+     -3510,
+     -3500,
+     -3510,
+     -3372,
+     -3372,
+     -3510,
+     -3508,
+     -3502,
+     -3502,
+     -3508
+    ],
+    "z_offsets": [
+     1413,
+     1413,
+     1413,
+     1413,
+     1408,
+     1408,
+     1408,
+     1408,
+     1416,
+     1413,
+     1413,
+     1416,
+     1413,
+     1416,
+     1416,
+     1413,
+     1413,
+     1413,
+     1413,
+     1413,
+     1408,
+     1408,
+     1408,
+     1408,
+     1416,
+     1416,
+     1416,
+     1416
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       2575.44,
+       -3484.52,
+       1408.0
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 22,
+    "legacy_attributes": 0,
+    "door_id": 23,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     21178,
+     21179,
+     21180,
+     21181,
+     21182,
+     21183,
+     21184,
+     21185
+    ],
+    "face_ids": [
+     15353,
+     15354,
+     15355,
+     15356,
+     15357,
+     15358
+    ],
+    "sector_ids": [
+     17
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2581,
+     2581,
+     2575,
+     2575,
+     2575,
+     2581,
+     2575,
+     2581
+    ],
+    "y_offsets": [
+     -3403,
+     -3397,
+     -3397,
+     -3403,
+     -3397,
+     -3397,
+     -3403,
+     -3403
+    ],
+    "z_offsets": [
+     1413,
+     1413,
+     1413,
+     1413,
+     1408,
+     1408,
+     1408,
+     1408
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       2575.44,
+       -3400.04,
+       1408.0
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {}
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    323,
+    -8494,
+    1291
+   ],
+   "direction_degrees": 269
+  }
+ ],
+ "ladders": [
+  {
+   "id": "Ladder3",
+   "bottom": [
+    5662.8,
+    -4751.72,
+    1295.36
+   ],
+   "top": [
+    5662.8,
+    -4751.72,
+    2421.76
+   ],
+   "facing_degrees": 90.0,
+   "width": 143.36,
+   "reach": 48.0,
+   "top_exit": [
+    5662.8,
+    -4618.6,
+    2432.0
+   ],
+   "grab_at_top": true
+  },
+  {
+   "id": "Ladder4",
+   "bottom": [
+    5964.88,
+    -3507.56,
+    1971.2
+   ],
+   "top": [
+    5964.88,
+    -3507.56,
+    2462.72
+   ],
+   "facing_degrees": 180.0,
+   "width": 122.88,
+   "reach": 48.0,
+   "top_exit": [
+    5842.0,
+    -3507.56,
+    2391.04
+   ],
+   "grab_at_top": true
+  },
+  {
+   "id": "Ladder5",
+   "bottom": [
+    5652.56,
+    -2099.56,
+    947.2
+   ],
+   "top": [
+    5652.56,
+    -2099.56,
+    1971.2
+   ],
+   "facing_degrees": 270.0,
+   "width": 143.36,
+   "reach": 48.0,
+   "top_exit": [
+    5652.56,
+    -2212.2,
+    1981.44
+   ],
+   "grab_at_top": true
+  }
+ ],
+ "loot_containers": [],
+ "static_lights": {
+  "sides": "both"
+ },
+ "opaque_faces": [
+  13072,
+  13073,
+  13074,
+  13075,
+  13076,
+  13077,
+  13078,
+  13079,
+  13080,
+  13081,
+  13082,
+  14387,
+  14388,
+  14389,
+  14390,
+  14391,
+  14392,
+  14393,
+  14394,
+  14395,
+  14396,
+  14397
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    12150,
+    12151,
+    12152,
+    12153,
+    12154,
+    12155,
+    12156,
+    12157,
+    12158,
+    12159,
+    12160,
+    12161,
+    12162,
+    12163,
+    12164,
+    12165,
+    12166,
+    12198,
+    12199,
+    12200,
+    12201,
+    12202,
+    12203,
+    12204,
+    12205,
+    12206,
+    12207,
+    12208,
+    12209,
+    12210,
+    12211,
+    12212,
+    12213,
+    12214,
+    12245,
+    12246,
+    12247,
+    12248,
+    12249,
+    12250,
+    12251,
+    12252,
+    12253,
+    12254,
+    12255,
+    12256,
+    12257,
+    12258,
+    12259,
+    12260,
+    12261,
+    12262,
+    12263,
+    12264,
+    12265,
+    12266,
+    12267,
+    12268,
+    12269,
+    12270,
+    12271,
+    12272,
+    12273,
+    12274,
+    12275,
+    12276,
+    12277,
+    12278
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    12167,
+    12168,
+    12196,
+    12197,
+    12279,
+    12280,
+    12281,
+    12282
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    12169,
+    12170,
+    12171,
+    12172,
+    12173,
+    12174,
+    12175,
+    12176,
+    12177,
+    12178,
+    12179,
+    12180,
+    12181,
+    12182,
+    12183,
+    12184,
+    12185,
+    12186,
+    12224,
+    12225,
+    12226,
+    12227,
+    12228,
+    12229,
+    12230,
+    12231,
+    12232,
+    12233,
+    12234,
+    12235,
+    12236,
+    12237,
+    12238,
+    12239,
+    12240,
+    12241,
+    12291,
+    12292,
+    12293,
+    12294,
+    12295,
+    12296
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    12187,
+    12188,
+    12189,
+    12190,
+    12191,
+    12192,
+    12193,
+    12194,
+    12195,
+    12215,
+    12216,
+    12217,
+    12218,
+    12219,
+    12220,
+    12221,
+    12222,
+    12223
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    12242,
+    12243,
+    12244
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    12283,
+    12284,
+    12285,
+    12286
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    12287,
+    12288,
+    12289,
+    12290
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    15173,
+    15174,
+    15175,
+    15176,
+    15177,
+    15178,
+    15179,
+    15180,
+    15181,
+    15182,
+    15183,
+    15184,
+    15185,
+    15186,
+    15187,
+    15188,
+    15189,
+    15190,
+    15191,
+    15192,
+    15193
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  },
+  {
+   "faces": [
+    13145,
+    13146,
+    13147,
+    13148,
+    13149,
+    13150,
+    13151,
+    13152,
+    13153,
+    13154,
+    13155,
+    13156,
+    13157,
+    13158,
+    13159,
+    13160,
+    13161,
+    13162,
+    13163,
+    13164,
+    13165,
+    13166,
+    13167,
+    13168,
+    13169,
+    13170,
+    13171,
+    13172,
+    13173,
+    13174,
+    13175,
+    13176,
+    13177,
+    13178,
+    13179,
+    13180,
+    13181,
+    13182,
+    13183,
+    13184,
+    13185,
+    13186,
+    13187,
+    13188,
+    13189,
+    13190,
+    13191,
+    13192,
+    13193,
+    13194,
+    13195,
+    13196,
+    13197,
+    13198,
+    13199,
+    13200,
+    13201,
+    13202,
+    13203,
+    13204,
+    13205,
+    13206,
+    13207,
+    13208,
+    13209,
+    13210,
+    13211,
+    13212,
+    13213,
+    13214,
+    13215,
+    13216,
+    13217,
+    13218,
+    13219,
+    13220,
+    13221,
+    13222,
+    13223,
+    13224,
+    13225,
+    13226,
+    13227,
+    13228,
+    13229,
+    13230,
+    13231,
+    13232,
+    13233,
+    13234,
+    13235,
+    13236,
+    13237,
+    13238,
+    13239,
+    13240,
+    13241,
+    13242,
+    13243,
+    13244,
+    13245,
+    13246,
+    13247,
+    13248,
+    13249,
+    13250,
+    13251,
+    13252,
+    13253,
+    13254,
+    13255,
+    13256,
+    15074,
+    15075,
+    15076,
+    15077,
+    15078,
+    15079,
+    15080
+   ],
+   "opacity": 0.4,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  }
+ ],
+ "actor_barriers": {
+  "faces": [
+   15139,
+   15140,
+   15141,
+   15142,
+   15143,
+   15144,
+   15145,
+   15146,
+   15147,
+   15148,
+   15149,
+   15150,
+   15151,
+   15152,
+   15153,
+   15154,
+   15155,
+   15156,
+   15157,
+   15158,
+   15159,
+   15160,
+   15161,
+   15162,
+   15163,
+   15164,
+   15165,
+   15166,
+   15167,
+   15168,
+   15169,
+   15170,
+   15171,
+   15172
+  ]
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       4172.9,
+       -1777.0
+      ],
+      [
+       7777.4,
+       -1777.0
+      ],
+      [
+       7777.4,
+       -5709.2
+      ],
+      [
+       4172.9,
+       -5709.2
+      ]
+     ],
+     "bottom": 942.1,
+     "top": 1187.8
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater1",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       6098.0,
+       13132.4
+      ],
+      [
+       12856.4,
+       13132.4
+      ],
+      [
+       12856.4,
+       7275.2
+      ],
+      [
+       6098.0,
+       7275.2
+      ]
+     ],
+     "bottom": 41.0,
+     "top": 1024.0
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     64
+    ],
+    "near_distance": 768.0,
+    "far_distance": 5120.0
+   }
+  }
+ ],
+ "searchable_loot_props": [
+  {
+   "source_id": "mm9:bootcamp:object:362",
+   "source_object_index": 362,
+   "source_class": "BonePile",
+   "source_name": "BonePile0",
+   "source_model": "models\\Props\\bonepile.ABC",
+   "source_skin": "skins\\props\\bonepile.dtx",
+   "source_position_lt": [
+    9580.0,
+    594.0,
+    -2992.0
+   ],
+   "position": {
+    "x": -1121,
+    "y": -9437,
+    "z": 1521
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 0,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 0,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 0,
+   "keep_visual_after_search": true
+  }
+ ],
+ "world_items": [
+  {
+   "source_id": "bootcamp:obj_Prop6",
+   "source_object_index": 205,
+   "source_name": "obj_Prop6",
+   "position": {
+    "x": 376,
+    "y": -8057,
+    "z": 1381
+   },
+   "item_id": 10583,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop7",
+   "source_object_index": 206,
+   "source_name": "obj_Prop7",
+   "position": {
+    "x": 268,
+    "y": -8057,
+    "z": 1381
+   },
+   "item_id": 10584,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop35",
+   "source_object_index": 212,
+   "source_name": "obj_Prop35",
+   "position": {
+    "x": -1562,
+    "y": -2929,
+    "z": 1418
+   },
+   "item_id": 10585,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop36",
+   "source_object_index": 213,
+   "source_name": "obj_Prop36",
+   "position": {
+    "x": 4439,
+    "y": -6180,
+    "z": 1368
+   },
+   "item_id": 10586,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop37",
+   "source_object_index": 214,
+   "source_name": "obj_Prop37",
+   "position": {
+    "x": 4149,
+    "y": -6997,
+    "z": 1368
+   },
+   "item_id": 10587,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop38",
+   "source_object_index": 215,
+   "source_name": "obj_Prop38",
+   "position": {
+    "x": 5688,
+    "y": -3502,
+    "z": 2381
+   },
+   "item_id": 10588,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop40",
+   "source_object_index": 218,
+   "source_name": "obj_Prop40",
+   "position": {
+    "x": -476,
+    "y": -7982,
+    "z": 1383
+   },
+   "item_id": 379,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop39",
+   "source_object_index": 219,
+   "source_name": "obj_Prop39",
+   "position": {
+    "x": -404,
+    "y": -8034,
+    "z": 1383
+   },
+   "item_id": 311,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop3",
+   "source_object_index": 220,
+   "source_name": "obj_Prop3",
+   "position": {
+    "x": -343,
+    "y": -7982,
+    "z": 1383
+   },
+   "item_id": 317,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop4",
+   "source_object_index": 221,
+   "source_name": "obj_Prop4",
+   "position": {
+    "x": 282,
+    "y": -7975,
+    "z": 1381
+   },
+   "item_id": 10581,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop5",
+   "source_object_index": 222,
+   "source_name": "obj_Prop5",
+   "position": {
+    "x": 364,
+    "y": -7975,
+    "z": 1381
+   },
+   "item_id": 10582,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop41",
+   "source_object_index": 223,
+   "source_name": "obj_Prop41",
+   "position": {
+    "x": 1009,
+    "y": -7972,
+    "z": 1383
+   },
+   "item_id": 306,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop42",
+   "source_object_index": 224,
+   "source_name": "obj_Prop42",
+   "position": {
+    "x": 1050,
+    "y": -8034,
+    "z": 1383
+   },
+   "item_id": 334,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  },
+  {
+   "source_id": "bootcamp:obj_Prop43",
+   "source_object_index": 225,
+   "source_name": "obj_Prop43",
+   "position": {
+    "x": 1111,
+    "y": -7982,
+    "z": 1383
+   },
+   "item_id": 314,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 318,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    6794,
+    12641,
+    1475
+   ],
+   "inner_radius": 2458,
+   "outer_radius": 8960,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 319,
+   "sound": "ambient/water/waves02.wav",
+   "position": [
+    11054,
+    9364,
+    1475
+   ],
+   "inner_radius": 2458,
+   "outer_radius": 8960,
+   "volume": 0.367,
+   "loop": true
+  },
+  {
+   "key": 320,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    4992,
+    20505,
+    1475
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 11520,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 321,
+   "sound": "ambient/water/waves-ocean02.wav",
+   "position": [
+    14003,
+    19031,
+    1475
+   ],
+   "inner_radius": 2560,
+   "outer_radius": 11520,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 322,
+   "sound": "ambient/birds/seagulls 02b.wav",
+   "position": [
+    6794,
+    8053,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 323,
+   "sound": "ambient/birds/seagulls 02b.wav",
+   "position": [
+    10399,
+    7070,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ],
+   "day_only": true
+  },
+  {
+   "key": 331,
+   "sound": "ambient/insects/single_cricket.wav",
+   "position": [
+    -2217,
+    25,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.499,
+   "loop": true,
+   "wait": [
+    0.01,
+    2.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 332,
+   "sound": "ambient/insects/single_cricket.wav",
+   "position": [
+    2043,
+    -1285,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.499,
+   "loop": true,
+   "wait": [
+    0.01,
+    2.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 333,
+   "sound": "ambient/insects/single_cricket.wav",
+   "position": [
+    -5002,
+    -3415,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.499,
+   "loop": true,
+   "wait": [
+    0.01,
+    2.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 334,
+   "sound": "ambient/insects/single_cricket.wav",
+   "position": [
+    -11720,
+    -8494,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.499,
+   "loop": true,
+   "wait": [
+    0.01,
+    2.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 335,
+   "sound": "ambient/insects/single_cricket.wav",
+   "position": [
+    -4347,
+    -8331,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.499,
+   "loop": true,
+   "wait": [
+    0.01,
+    2.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 336,
+   "sound": "ambient/insects/single_cricket.wav",
+   "position": [
+    6630,
+    -5873,
+    1475
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 6400,
+   "volume": 0.499,
+   "loop": true,
+   "wait": [
+    0.01,
+    2.0
+   ],
+   "night_only": true
+  },
+  {
+   "key": 337,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    241,
+    -5054,
+    1311
+   ],
+   "inner_radius": 563,
+   "outer_radius": 3072,
+   "volume": 0.157,
+   "loop": true
+  },
+  {
+   "key": 590,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1480,
+    -3968,
+    1344
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   80,
+   80,
+   80
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   206
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "sun_gain": 4.0,
+  "sun_direction": [
+   0.0,
+   0.0,
+   1.0
+  ]
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "sand3yuxai"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "boot3dzfn6",
+    "bootblvw0u",
+    "mainakfoki"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "chaif3vq5b",
+    "dook6tkv63",
+    "invizvjn7n",
+    "keepen1hqi",
+    "lqseamm9",
+    "marbga5jqp",
+    "nwrob199j1",
+    "plasabaarc",
+    "prmec33zu9",
+    "prmed9biyc",
+    "refixbtk8r",
+    "ruinjl7lyh",
+    "sky04",
+    "ston6favlb",
+    "sturcwaq6d",
+    "sturfpaxnn",
+    "sturs4z7pm",
+    "sturt570g4",
+    "sturtuff78",
+    "sturxvor0t",
+    "tablgbrez4",
+    "thjo4biequ",
+    "thjo5lfmmi",
+    "thjo7r3urr",
+    "thjoc0s9ou",
+    "thjop7hfw6",
+    "thjotgg91i",
+    "tilezvc84d",
+    "wallh6tsef",
+    "yanm29w4jz"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "oceascd7jx",
+    "wate1xksqp"
+   ],
+   "walk_sound_id": 101,
+   "run_sound_id": 62
+  },
+  {
+   "texture_names": [
+    "abnd5ur5fj",
+    "benc25qrwi",
+    "lindjkwme0",
+    "signqbd5l6",
+    "stur8fpuii",
+    "sturfhkfq9",
+    "sturqy4dke",
+    "tablykizbr",
+    "thjo2vlg4n",
+    "thjo4xgsld",
+    "thjokc1xmk",
+    "thjom1vt9b",
+    "thjookgsq6",
+    "wood5q8g6f",
+    "wood7ehu0b",
+    "woodj4b5cr",
+    "woodv944p9"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "terrain": {
+  "materials": "bootcamp_blv.yml",
+  "textures": [
+   "boot3dzfn6",
+   "bootblvw0u",
+   "mainakfoki",
+   "nwrob199j1",
+   "sand3yuxai"
+  ],
+  "grass": "worlds/mm9/terrain_decorations/bootcamp_blv.yml"
+ }
+}

@@ -1,0 +1,452 @@
+{
+ "id": "20261101-1523-mm9-thronheimcity-09",
+ "world": "mm9",
+ "maps": [
+  "thronheimcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/thjoszlkbz",
+  "mm9/thjopsktli",
+  "mm9/thjonbwr6q",
+  "mm9/thjos61wd8",
+  "mm9/thjo3573pd",
+  "mm9/thjop4u51e",
+  "mm9/thjon9hsly",
+  "mm9/thjoc0s9ou",
+  "mm9/thjoskg842",
+  "mm9/thjo2ofjin",
+  "mm9/thjoda97gk",
+  "mm9/thro31kgah",
+  "mm9/thromnxmsb",
+  "mm9/thjo71rzcn",
+  "mm9/tilezvc84d",
+  "mm9/thjozrklx1",
+  "mm9/thjowbexzv",
+  "mm9/thjojf68un",
+  "mm9/thjoar0exg",
+  "mm9/thjo418eeo",
+  "mm9/thjosabj3y",
+  "mm9/drandtkl9o",
+  "mm9/thjomsomek",
+  "mm9/thjoo8q2x1"
+ ],
+ "requests": {
+  "mm9/thjoszlkbz": {
+   "name": "thjoszlkbz",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey and rust-brown wooden shingles in overlapping horizontal rows with vertical grain streaks and staggered joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjopsktli": {
+   "name": "thjopsktli",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown flagstone wall of large irregular angular slabs fitted together with dark cracked joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjonbwr6q": {
+   "name": "thjonbwr6q",
+   "versions": [
+    1
+   ],
+   "material": "pinkish-brown wall of small rectangular stone bricks in staggered courses with pale mortar, a dark brown wooden beam along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjos61wd8": {
+   "name": "thjos61wd8",
+   "versions": [
+    1
+   ],
+   "material": "grey-green stone floor of square flagstones outlined by dark incised lines, with recessed square panels with bevelled corners set at regular intervals",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo3573pd": {
+   "name": "thjo3573pd",
+   "versions": [
+    1
+   ],
+   "material": "grey-green wall of small elongated rough stones stacked upright in vertical columns with greenish mortar between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjop4u51e": {
+   "name": "thjop4u51e",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "reddish-brown rough plaster or stone wall with a single pale vertical pilaster strip near the right side",
+   "notes": {
+    "2": "keep the faint grid of large rectangular stone blocks across the reddish wall and the thin dark groove along the right side of the light vertical stripe, as in the native"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/thjon9hsly": {
+   "name": "thjon9hsly",
+   "versions": [
+    1
+   ],
+   "material": "light grey wall of small flat stone bricks in staggered courses, topped by a dark brown rough stone or wooden band along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoc0s9ou": {
+   "name": "thjoc0s9ou",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown stone wall of large rough rectangular blocks in staggered courses with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoskg842": {
+   "name": "thjoskg842",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of grey-green rough stonework divided by dark brown wooden beams, a vertical post down the middle and a horizontal rail across the centre, diagonal braces below with a peg at the joint",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo2ofjin": {
+   "name": "thjo2ofjin",
+   "versions": [
+    1
+   ],
+   "material": "roof of grey-brown mottled clay barrel tiles in overlapping vertical columns with curved tile lips",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoda97gk": {
+   "name": "thjoda97gk",
+   "versions": [
+    1
+   ],
+   "material": "dark grey rough granite wall of large rectangular blocks in staggered courses with thin dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thro31kgah": {
+   "name": "thro31kgah",
+   "versions": [
+    1
+   ],
+   "material": "grey-beige stone brick wall with a dark wooden vertical post down the centre and curved wooden brackets at the top joining a horizontal beam along the upper edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thromnxmsb": {
+   "name": "thromnxmsb",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown wall of small rectangular stone bricks in staggered courses with light mortar and mottled tones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo71rzcn": {
+   "name": "thjo71rzcn",
+   "versions": [
+    1
+   ],
+   "material": "brown and grey stone brick wall in staggered courses with a narrow vertical pale stone quoin strip down the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tilezvc84d": {
+   "name": "tilezvc84d",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green slate roof of large square shingles in overlapping staggered rows with fine vertical grain lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjozrklx1": {
+   "name": "thjozrklx1",
+   "versions": [
+    1
+   ],
+   "material": "brown stone panel with a pale grey carved interlace ornament: a diagonal cross whose arms end in squared hook spirals in each corner",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjowbexzv": {
+   "name": "thjowbexzv",
+   "versions": [
+    1
+   ],
+   "material": "olive-green and bronze roof of rounded fish-scale shingles in overlapping staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjojf68un": {
+   "name": "thjojf68un",
+   "versions": [
+    1
+   ],
+   "material": "brown rough stone panel framed by a pale stone border, an inner square of pale stone bands with diagonal lines running to the corners, like a recessed coffered panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoar0exg": {
+   "name": "thjoar0exg",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden wall of horizontal overlapping clapboard planks with grain and shadowed lower edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo418eeo": {
+   "name": "thjo418eeo",
+   "versions": [
+    1
+   ],
+   "material": "dark red brick wall in staggered courses with a light wooden vertical post down the centre and curved wooden brackets supporting a horizontal beam with a small plate along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjosabj3y": {
+   "name": "thjosabj3y",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of pinkish-brown stone bricks with dark wooden beams forming a Y: a vertical post up the centre meeting two diagonal braces that rise to the upper corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/drandtkl9o": {
+   "name": "drandtkl9o",
+   "versions": [
+    1
+   ],
+   "material": "dark grey stone wall of rectangular blocks in staggered courses with thin black joints and rough surfaces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjomsomek": {
+   "name": "thjomsomek",
+   "versions": [
+    1
+   ],
+   "material": "round-arched recess framed in dark carved stone with bracket bands on the sides, filled with pale cream and green rough fieldstone wall, a dark stone sill along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoo8q2x1": {
+   "name": "thjoo8q2x1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden lattice of broad planks crossing diagonally in an X with smaller notched boards between them, over an olive-green rough plaster background",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

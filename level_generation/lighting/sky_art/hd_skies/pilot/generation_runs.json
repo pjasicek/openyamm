@@ -1,0 +1,715 @@
+[
+  {
+    "sky": "sky06",
+    "file": "sky06_hd_try1.png",
+    "prompt": "Use case: style-transfer. Asset type: high-resolution hand-painted, seamlessly repeating game sky texture. Input image 1 is the ONLY edit target and exact composition authority, an original low-resolution Might and Magic sky tile. Repaint THIS SAME IMAGE at 2048 x 2048 pixels, square, highest available native resolution (at least 1024 x 1024). This is a faithful restoration, not a reinterpretation. Every existing cloud must keep its EXACT position, outline, size, orientation, and direction of flow. Preserve all the large and small cloud formations, negative spaces, colour distribution, palette, original lighting direction and mood. Change only resolution and surface quality: replace 8-bit dithering, banding and pixel blocks with smooth hand-painted gradients and fine soft wisps, billows and subtle internal cloud shading. Preserve the modest painterly style of the original, no photographic look, no extra contrast or brightness. The image fills the entire canvas edge to edge, no framing or crop. The original repeats on BOTH axes: left edge clouds must continue naturally into the right edge, and top edge clouds into bottom. Maintain the exact original edge-crossing clouds and periodic colour/shape continuity with no seam when tiled 2 x 2. Generate just ONE texture, not a collage, contact sheet or tiled preview. Absolutely no sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes, borders, margins or watermarks.\nSky-specific constraints: open blue sky with soft mauve-grey clouds. Paint EVERY open gap between clouds as one perfectly flat solid even sRGB colour #3d5994 (RGB 61,89,148), identical at every clear-sky pixel everywhere on the canvas. No gradient, noise, haze, paper/canvas grain or texture whatsoever in that blue background. All fine painterly detail is confined to the existing clouds, whose soft edges blend naturally against this single flat blue. Keep the source's cloud coverage and all blue openings exactly. Original palette, brightest first: #9b8e9e, #797990, #5c678b, #495f91, #3d5994. Keep the muted lavender-grey highlights and cool blue-grey shadows; do not turn clouds bright white or make the blue vivid.",
+    "selected": false,
+    "reason": "Rejected: 12 sampled clear-sky gaps vary between RGB (64,94,151) and (66,95,152), rather than the required flat RGB (61,89,148). Composition, square size and visual tiling otherwise passed.",
+    "checks": {
+      "canvas_px": [
+        1254,
+        1254
+      ],
+      "square_minimum_1024": true,
+      "requested_native_size_px": [
+        2048,
+        2048
+      ],
+      "native_output_preserved": true,
+      "forbidden_elements_present": false,
+      "cloud_layout_visual_review": "Pass: original cloud groups and openings retained, with painterly fine detail.",
+      "edge_to_edge": true,
+      "edge_metrics": {
+        "top_bottom": {
+          "boundary_mean_absolute_rgb_difference": 5.133,
+          "boundary_p95_rgb_difference": 15.0
+        },
+        "left_right": {
+          "boundary_mean_absolute_rgb_difference": 4.129,
+          "boundary_p95_rgb_difference": 11.0
+        }
+      },
+      "tiling_visual_review": "Pass: inspected a 2 x 2 repeat; no conspicuous seam or cut-off cloud.",
+      "flat_background": {
+        "required_hex": "#3d5994",
+        "required_rgb": [
+          61,
+          89,
+          148
+        ],
+        "pass": false,
+        "clear_gap_samples": [
+          {
+            "input_xy": [
+              125,
+              92
+            ],
+            "master_xy": [
+              307,
+              226
+            ],
+            "rgb": [
+              65,
+              94,
+              152
+            ]
+          },
+          {
+            "input_xy": [
+              131,
+              93
+            ],
+            "master_xy": [
+              322,
+              229
+            ],
+            "rgb": [
+              64,
+              94,
+              151
+            ]
+          },
+          {
+            "input_xy": [
+              327,
+              21
+            ],
+            "master_xy": [
+              802,
+              52
+            ],
+            "rgb": [
+              66,
+              95,
+              151
+            ]
+          },
+          {
+            "input_xy": [
+              511,
+              75
+            ],
+            "master_xy": [
+              1252,
+              184
+            ],
+            "rgb": [
+              64,
+              94,
+              153
+            ]
+          },
+          {
+            "input_xy": [
+              116,
+              210
+            ],
+            "master_xy": [
+              285,
+              515
+            ],
+            "rgb": [
+              65,
+              94,
+              151
+            ]
+          },
+          {
+            "input_xy": [
+              204,
+              230
+            ],
+            "master_xy": [
+              500,
+              564
+            ],
+            "rgb": [
+              65,
+              95,
+              152
+            ]
+          },
+          {
+            "input_xy": [
+              76,
+              295
+            ],
+            "master_xy": [
+              187,
+              723
+            ],
+            "rgb": [
+              65,
+              93,
+              151
+            ]
+          },
+          {
+            "input_xy": [
+              471,
+              283
+            ],
+            "master_xy": [
+              1154,
+              694
+            ],
+            "rgb": [
+              66,
+              94,
+              152
+            ]
+          },
+          {
+            "input_xy": [
+              5,
+              398
+            ],
+            "master_xy": [
+              13,
+              976
+            ],
+            "rgb": [
+              66,
+              94,
+              152
+            ]
+          },
+          {
+            "input_xy": [
+              220,
+              450
+            ],
+            "master_xy": [
+              540,
+              1103
+            ],
+            "rgb": [
+              66,
+              95,
+              152
+            ]
+          },
+          {
+            "input_xy": [
+              305,
+              503
+            ],
+            "master_xy": [
+              748,
+              1233
+            ],
+            "rgb": [
+              65,
+              94,
+              151
+            ]
+          },
+          {
+            "input_xy": [
+              472,
+              446
+            ],
+            "master_xy": [
+              1157,
+              1093
+            ],
+            "rgb": [
+              65,
+              94,
+              151
+            ]
+          }
+        ],
+        "pixels_exactly_matching_required_rgb": 1
+      }
+    },
+    "tool": "built-in image_gen"
+  },
+  {
+    "sky": "sunsetclouds",
+    "file": "sunsetclouds_hd.png",
+    "prompt": "Use case: style-transfer. Asset type: high-resolution hand-painted, seamlessly repeating game sky texture. Input image 1 is the ONLY edit target and exact composition authority, an original low-resolution Might and Magic sky tile. Repaint THIS SAME IMAGE at 2048 x 2048 pixels, square, highest available native resolution (at least 1024 x 1024). This is a faithful restoration, not a reinterpretation. Every existing cloud must keep its EXACT position, outline, size, orientation, and direction of flow. Preserve all the large and small cloud formations, negative spaces, colour distribution, palette, original lighting direction and mood. Change only resolution and surface quality: replace 8-bit dithering, banding and pixel blocks with smooth hand-painted gradients and fine soft wisps, billows and subtle internal cloud shading. Preserve the modest painterly style of the original, no photographic look, no extra contrast or brightness. The image fills the entire canvas edge to edge, no framing or crop. The original repeats on BOTH axes: left edge clouds must continue naturally into the right edge, and top edge clouds into bottom. Maintain the exact original edge-crossing clouds and periodic colour/shape continuity with no seam when tiled 2 x 2. Generate just ONE texture, not a collage, contact sheet or tiled preview. Absolutely no sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes, borders, margins or watermarks.\nSky-specific constraints: FULLY painted dense sunset cloud tile; the clouds cover the whole square. Keep every area painted; there is NO open blue sky or empty background to flatten. Preserve the original arrangement of muted ember-red billows and charcoal/mauve shadows, including the sparse subdued warm grey cloud highlights in their exact locations. Original palette, brightest first: #904a44, #714140, #554045, #5c3a3b, #48353a. Keep this dark, dusty red and smoky plum palette and original value range. No bright orange, yellow highlights, visible sun, horizon glow or newly introduced light source.",
+    "selected": true,
+    "reason": "Selected: 1254 x 1254 native output; faithful cloud layout and subdued ember-red/charcoal palette; fully painted cloud coverage; edge-to-edge artwork with no forbidden additions. Visual 2 x 2 tiling review found no conspicuous seam or truncated cloud.",
+    "checks": {
+      "canvas_px": [
+        1254,
+        1254
+      ],
+      "square_minimum_1024": true,
+      "requested_native_size_px": [
+        2048,
+        2048
+      ],
+      "native_output_preserved": true,
+      "forbidden_elements_present": false,
+      "cloud_layout_visual_review": "Pass: original cloud groups and openings retained, with painterly fine detail.",
+      "edge_to_edge": true,
+      "edge_metrics": {
+        "top_bottom": {
+          "boundary_mean_absolute_rgb_difference": 4.481,
+          "boundary_p95_rgb_difference": 13.0
+        },
+        "left_right": {
+          "boundary_mean_absolute_rgb_difference": 3.698,
+          "boundary_p95_rgb_difference": 10.0
+        }
+      },
+      "tiling_visual_review": "Pass: inspected a 2 x 2 repeat; no conspicuous seam or cut-off cloud.",
+      "fully_painted_cloud_coverage": true
+    },
+    "tool": "built-in image_gen"
+  },
+  {
+    "sky": "sky06",
+    "file": "sky06_hd_try2.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the HD sky06 restoration to edit; Image 2 is the original composition authority. Make ONE targeted correction to Image 1: replace all clear blue sky between its existing clouds with an EXACT DIGITAL SOLID FILL of sRGB #3d5994, RGB (61, 89, 148). The blue MUST be perfectly flat and mathematically uniform: every fully clear blue pixel must be exactly (61,89,148), not an approximation. Remove all grain, noise, brush texture, dithering, haze, gradient, mottling and colour variation from the BLUE BACKGROUND ONLY. Think of the blue as an untextured, solid colour fill behind the cloud painting. Preserve the soft cloud transitions over that flat colour. Do not repaint, reposition, brighten, enlarge, shrink, add or remove any clouds: preserve Image 1's existing finely painted mauve-grey cloud detail and all its positions/outlines, and the exact cloud arrangement of Image 2. Keep the original subdued hand-painted palette #9b8e9e, #797990, #5c678b, #495f91 against #3d5994. Both edges must wrap seamlessly: left-right and top-bottom cloud forms continue without any cut or seam, preserving the existing edge-crossing shapes. Square single texture filling canvas edge to edge. Output the largest available native square resolution, 2048 x 2048 if possible, at least 1024 x 1024; do not draw a tiled preview. No sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, borders, margins, vignettes or watermarks. No photographic look. The sole requested visual change is exact uniform solid-blue clear sky.",
+    "selected": false,
+    "reason": "Rejected: the second attempt still varies across sampled clear-sky gaps (RGB 65-67,93-95,149-152); none of its pixels equal the required RGB (61,89,148). Composition and square size passed; the flat-background requirement did not.",
+    "checks": {
+      "canvas_px": [
+        1254,
+        1254
+      ],
+      "square_minimum_1024": true,
+      "requested_native_size_px": [
+        2048,
+        2048
+      ],
+      "native_output_preserved": true,
+      "forbidden_elements_present": false,
+      "cloud_layout_visual_review": "Pass: original cloud groups and openings retained, with painterly fine detail.",
+      "edge_to_edge": true,
+      "edge_metrics": {
+        "top_bottom": {
+          "boundary_mean_absolute_rgb_difference": 6.432,
+          "boundary_p95_rgb_difference": 20.0
+        },
+        "left_right": {
+          "boundary_mean_absolute_rgb_difference": 4.867,
+          "boundary_p95_rgb_difference": 15.0
+        }
+      },
+      "tiling_visual_review": "Pass: inspected a 2 x 2 repeat; no conspicuous seam or cut-off cloud.",
+      "flat_background": {
+        "required_hex": "#3d5994",
+        "required_rgb": [
+          61,
+          89,
+          148
+        ],
+        "pass": false,
+        "clear_gap_samples": [
+          {
+            "input_xy": [
+              125,
+              92
+            ],
+            "master_xy": [
+              307,
+              226
+            ],
+            "rgb": [
+              67,
+              94,
+              150
+            ]
+          },
+          {
+            "input_xy": [
+              131,
+              93
+            ],
+            "master_xy": [
+              322,
+              229
+            ],
+            "rgb": [
+              67,
+              94,
+              150
+            ]
+          },
+          {
+            "input_xy": [
+              327,
+              21
+            ],
+            "master_xy": [
+              802,
+              52
+            ],
+            "rgb": [
+              67,
+              95,
+              150
+            ]
+          },
+          {
+            "input_xy": [
+              511,
+              75
+            ],
+            "master_xy": [
+              1252,
+              184
+            ],
+            "rgb": [
+              66,
+              94,
+              152
+            ]
+          },
+          {
+            "input_xy": [
+              116,
+              210
+            ],
+            "master_xy": [
+              285,
+              515
+            ],
+            "rgb": [
+              65,
+              94,
+              149
+            ]
+          },
+          {
+            "input_xy": [
+              204,
+              230
+            ],
+            "master_xy": [
+              500,
+              564
+            ],
+            "rgb": [
+              66,
+              94,
+              150
+            ]
+          },
+          {
+            "input_xy": [
+              76,
+              295
+            ],
+            "master_xy": [
+              187,
+              723
+            ],
+            "rgb": [
+              66,
+              93,
+              149
+            ]
+          },
+          {
+            "input_xy": [
+              471,
+              283
+            ],
+            "master_xy": [
+              1154,
+              694
+            ],
+            "rgb": [
+              67,
+              94,
+              151
+            ]
+          },
+          {
+            "input_xy": [
+              5,
+              398
+            ],
+            "master_xy": [
+              13,
+              976
+            ],
+            "rgb": [
+              67,
+              94,
+              150
+            ]
+          },
+          {
+            "input_xy": [
+              220,
+              450
+            ],
+            "master_xy": [
+              540,
+              1103
+            ],
+            "rgb": [
+              67,
+              94,
+              150
+            ]
+          },
+          {
+            "input_xy": [
+              305,
+              503
+            ],
+            "master_xy": [
+              748,
+              1233
+            ],
+            "rgb": [
+              67,
+              94,
+              150
+            ]
+          },
+          {
+            "input_xy": [
+              472,
+              446
+            ],
+            "master_xy": [
+              1157,
+              1093
+            ],
+            "rgb": [
+              66,
+              94,
+              150
+            ]
+          }
+        ],
+        "pixels_exactly_matching_required_rgb": 0
+      }
+    },
+    "tool": "built-in image_gen"
+  },
+  {
+    "sky": "sky06",
+    "file": "sky06_hd_try3.png",
+    "prompt": "Edit the provided sky texture. ONE correction only: flood-fill the CLEAR BLUE BACKGROUND with the single precise sRGB colour #3d5994 = RGB 61, 89, 148. Use one perfectly uniform digital solid-colour swatch for ALL clear sky gaps. It must have ZERO pixel variation, zero noise, zero gradient and zero texture. Previously generated backgrounds were incorrectly RGB 65-67,94-95,149-152 with noise: do not repeat this. This is a technical colour-keyed game texture whose clear sky is tested by sampling RGB values, so (61,89,148) must be exact at every unobstructed clear-sky pixel. Cloud edges may softly blend into that solid swatch. Image 1 is the HD repaint to correct; image 2 is the original that fixes all cloud positions, sizes, shapes and flow. Preserve Image 1's existing soft, hand-painted mauve-grey clouds and their subtle internal detail; restore every cloud outline/placement exactly to Image 2 where necessary. Keep the colours and original lighting/mood: cloud palette #9b8e9e, #797990, #5c678b, #495f91. No cloud added or removed, no bright white clouds, no photographic style. Preserve exact seamlessly repeating left-right and top-bottom clouds, without a seam or edge cut-off. Output ONE square PNG texture edge to edge with no borders or margins, largest available native square size, preferably 2048 x 2048 and at least 1024 x 1024. No sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks. Do not generate a tiled preview or comparison sheet. The only correction is mathematically flat #3d5994 clear blue sky, leaving the painterly clouds unchanged.",
+    "selected": false,
+    "reason": "Rejected: third and final allowed attempt still has varying blue in clear-sky gaps instead of exactly flat #3d5994. Native square size and cloud composition passed. No sky06 master was selected because all three attempts failed the required background check.",
+    "checks": {
+      "canvas_px": [
+        1254,
+        1254
+      ],
+      "square_minimum_1024": true,
+      "requested_native_size_px": [
+        2048,
+        2048
+      ],
+      "native_output_preserved": true,
+      "forbidden_elements_present": false,
+      "cloud_layout_visual_review": "Pass: original cloud groups and openings retained, with painterly fine detail.",
+      "edge_to_edge": true,
+      "edge_metrics": {
+        "top_bottom": {
+          "boundary_mean_absolute_rgb_difference": 7.424,
+          "boundary_p95_rgb_difference": 22.0
+        },
+        "left_right": {
+          "boundary_mean_absolute_rgb_difference": 5.041,
+          "boundary_p95_rgb_difference": 16.0
+        }
+      },
+      "tiling_visual_review": "Reviewed: 2 x 2 repeat preserves edge-crossing cloud groups without conspicuous cut-off clouds; flat-background requirement still fails.",
+      "flat_background": {
+        "required_hex": "#3d5994",
+        "required_rgb": [
+          61,
+          89,
+          148
+        ],
+        "pass": false,
+        "clear_gap_samples": [
+          {
+            "input_xy": [
+              125,
+              92
+            ],
+            "master_xy": [
+              307,
+              226
+            ],
+            "rgb": [
+              65,
+              95,
+              153
+            ]
+          },
+          {
+            "input_xy": [
+              131,
+              93
+            ],
+            "master_xy": [
+              322,
+              229
+            ],
+            "rgb": [
+              66,
+              95,
+              153
+            ]
+          },
+          {
+            "input_xy": [
+              327,
+              21
+            ],
+            "master_xy": [
+              802,
+              52
+            ],
+            "rgb": [
+              66,
+              95,
+              154
+            ]
+          },
+          {
+            "input_xy": [
+              511,
+              75
+            ],
+            "master_xy": [
+              1252,
+              184
+            ],
+            "rgb": [
+              64,
+              94,
+              154
+            ]
+          },
+          {
+            "input_xy": [
+              116,
+              210
+            ],
+            "master_xy": [
+              285,
+              515
+            ],
+            "rgb": [
+              65,
+              94,
+              152
+            ]
+          },
+          {
+            "input_xy": [
+              204,
+              230
+            ],
+            "master_xy": [
+              500,
+              564
+            ],
+            "rgb": [
+              66,
+              95,
+              154
+            ]
+          },
+          {
+            "input_xy": [
+              76,
+              295
+            ],
+            "master_xy": [
+              187,
+              723
+            ],
+            "rgb": [
+              66,
+              95,
+              154
+            ]
+          },
+          {
+            "input_xy": [
+              471,
+              283
+            ],
+            "master_xy": [
+              1154,
+              694
+            ],
+            "rgb": [
+              66,
+              95,
+              153
+            ]
+          },
+          {
+            "input_xy": [
+              5,
+              398
+            ],
+            "master_xy": [
+              13,
+              976
+            ],
+            "rgb": [
+              64,
+              95,
+              153
+            ]
+          },
+          {
+            "input_xy": [
+              220,
+              450
+            ],
+            "master_xy": [
+              540,
+              1103
+            ],
+            "rgb": [
+              66,
+              95,
+              153
+            ]
+          },
+          {
+            "input_xy": [
+              305,
+              503
+            ],
+            "master_xy": [
+              748,
+              1233
+            ],
+            "rgb": [
+              66,
+              94,
+              153
+            ]
+          },
+          {
+            "input_xy": [
+              472,
+              446
+            ],
+            "master_xy": [
+              1157,
+              1093
+            ],
+            "rgb": [
+              65,
+              95,
+              153
+            ]
+          }
+        ],
+        "pixels_exactly_matching_required_rgb": 0
+      }
+    },
+    "tool": "built-in image_gen"
+  }
+]

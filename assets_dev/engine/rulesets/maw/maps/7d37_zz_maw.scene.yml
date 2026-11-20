@@ -1,0 +1,7 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §3.4): the Haunted Mansion's bookcase switch opens doors 15 and 16; the map gives its
+# face the empty-bookcase event instead (zzMaw-BookSwitches.lua).
+format_version: 1
+kind: indoor_scene_overlay
+initial_state:
+  face_attribute_overrides:
+    - {face_index: 896, cog_triggered: 10}

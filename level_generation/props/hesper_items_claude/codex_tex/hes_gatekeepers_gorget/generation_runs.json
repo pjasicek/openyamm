@@ -1,0 +1,554 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Asset: paint_front.png, a 1024 x 1024 transparent RGBA albedo texture-source painting.\nInput image 1 (guide_front.png) is the EDIT TARGET and the absolute authority for every pixel of geometry, silhouette, alpha boundary, position, scale, framing and camera. Input image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY, never a composition reference.\nPaint directly onto the existing white model in image 1. Preserve the exact orthographic shallow edge-on front view. The whole model occupies x=66..957 and y=325..698 on the 1024 canvas, with large empty margins above and below. Preserve these dimensions and placement exactly. Preserve every chain-link hole and the large central opening as fully transparent. Retain every part's outline and edge; do not smooth or redesign the faceted mesh, enlarge, move, rotate or reframe the object. Do not switch to the reference's broad upright hero view.\nSubject: the Gatekeeper's Gorget, a compact crescent-shaped amulet of three overlapping black-violet resin plates in a brushed gold frame, pale bone end caps, small central blue-white shield lens, short thick gold chain.\nPaint the visible recessed plate surfaces very dark black-violet resin with fine restrained purple mineral hairline veins and fine wear. The raised curved rims, layered plate borders, center spines, chain links, chain attachments and pointed outer trim are muted warm brushed gold, with delicate engraved lines and fine scratches. Side end-cap sleeves are pale warm ivory bone/ceramic with subtle fine cracks. The small visible central domed lens, foreshortened behind the central gold spine in this view, is pale luminous blue-white crystal with subtle internal texture. Match the material distribution from image 2 onto image 1's actual surfaces. Continue materials plausibly on thickness edges; do not add new ornament, extra parts or hidden faces.\nLIGHTING: flat unlit base-colour/albedo, uniformly illuminated from the viewer. No cast shadows, no ambient occlusion, no contact shadows, no directional gradients, no bright metal highlights, reflections, rim lighting or bloom. Gold is its base ochre-gold colour with only a faint sheen; resin is dark violet base colour without white gloss. Luminous lens is painted its bright blue-white colour without emitted light on neighbors.\nReturn only this single painted view as a native 1024 x 1024 PNG with genuine transparent background. Preserve target alpha and all openings. No ground, backdrop, checkerboard pixels, text, letters, watermark or labels. The input guide's exact outline and flat lighting are more important than presentation polish.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "a7450a08ac8b46802bb3c8cf2c73006852d5466a3897bbab8f2b737eec67d561"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "output": "paint_front_run1.png",
+    "selected": false,
+    "reason": "Corrective regeneration requested: returned 1254x1254; visible silhouette and panel-edge drift, reference-like metal highlights and stray low-alpha pixels. Retained unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "906d206094499a4ad89d28dc6fb7ce5bea6bc609c0dea9f5c3a3a3291d9cb573",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        53,
+        17,
+        1230,
+        1196
+      ],
+      "opaque_bbox": [
+        84,
+        373,
+        1170,
+        848
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.8803634084478992,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Corrective regeneration requested: returned 1254x1254; visible silhouette and panel-edge drift, reference-like metal highlights and stray low-alpha pixels. Retained unchanged."
+    },
+    "status": "superseded"
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. This is a painted ALBEDO TEXTURE SOURCE for an existing model, not a new product illustration.\nInput 1 design_reference.png: colour/material authority only. Input 2 guide_front.png: the edit target. Paint input 2 in place. Its exact silhouette, transparent alpha mask, orthographic camera, framing, scale, every part edge and empty space are LOCKED.\nReturn native 1024 x 1024 transparent PNG. Do not adopt input 1's canvas size, framing, camera, geometry, lighting, stray edge speckles or highlights. Keep input 2's exact transparent boundary and fully transparent holes and margins. No pixel outside its original silhouette may become visible. Do not redraw, round off or redesign the mesh.\nMATERIALS: three overlapping dark black-violet resin plates with delicate subdued purple hairline veins and tiny wear, in a warm muted brushed-gold frame. Raised plate rims, center spine, bezels, chain and attachment loops are gold. End-cap sleeves are pale ivory bone/ceramic with very fine warm cracks. The existing small central shield lens is soft blue-white crystal, painted bright but without bloom. Match input 1's material distribution on the actual surfaces of input 2; hidden surfaces continue materials plausibly.\nLIGHTING: unlit base colour, completely flat, even and shadowless. Remove the guide's lighting gradients. No cast or contact shadows, no ambient occlusion darkening, no reflections, white hot highlights, directional metallic gradients, rim lighting or bloom. Gold must be flat ochre gold with only microscopic brushed texture and faint sheen; dark resin has no bright gloss. Texture detail must never simulate dramatic lighting.\nNo text, letters, labels, watermark, new ornaments, added shapes, ground or background. Preserve the exact guide outline and interior part boundaries above all else.\nCORRECTIVE FRONT VIEW: preserve input 2 exactly. On this 1024-square canvas the shallow edge-on object extends from x=66 to957, y=325 to698. Do not make it taller or more front-facing. Leave the large blank space above and below. The three stepped plates form the upper arc; the chain stays almost horizontal across the bottom with the same faceted links and holes; the existing two end fittings remain in precisely their positions. The little dome at upper center is foreshortened blue-white crystal behind its gold central spine. Preserve all step heights and edge profiles. Correct the tendency to broaden plates, move the chain, sharpen the sculpture, add highlights or increase the canvas. Only replace white surface colours with the specified flat materials.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      },
+      {
+        "path": "guide_front.png",
+        "sha256": "a7450a08ac8b46802bb3c8cf2c73006852d5466a3897bbab8f2b737eec67d561"
+      }
+    ],
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected corrective return: front orientation retained and metal highlights reduced relative to first attempt. Materials follow the approved reference; no text. Residual geometry drift, shaded gold and stray low-alpha edge pixels remain; exact-silhouette and flat-albedo requirements are not fully met. Correction allowance exhausted. Returned pixels preserved unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "549d6e028a06c69602e70b3c67df49c9733bae5afac5b5e847a49e3150f62aef",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        35,
+        1198,
+        1214
+      ],
+      "opaque_bbox": [
+        78,
+        373,
+        1176,
+        857
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9143013132140347,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Selected corrective return: front orientation retained and metal highlights reduced relative to first attempt. Materials follow the approved reference; no text. Residual geometry drift, shaded gold and stray low-alpha edge pixels remain; exact-silhouette and flat-albedo requirements are not fully met. Correction allowance exhausted. Returned pixels preserved unchanged."
+    },
+    "status": "selected_with_known_limitations"
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Colour the supplied white model render IN PLACE, keeping its precise alpha mask, all contours and interior part boundaries intact. Output a single 1024 x 1024 transparent PNG at exactly the same scale, coordinates and camera. This is an unlit albedo texture source for projection onto this exact mesh. Change surface colour only. Preserve the polygonal contours; do not reinterpret the object as a newly designed illustration.\nThe approved design reference, studied separately, specifies these materials: very dark black-violet resin for the three crescent plates, restrained fine purple mineral hairline veins; muted warm ochre brushed gold for all raised borders, rim, central spine, pointed trim, bezels, attachment loops and thick chain; pale warm ivory bone end-cap sleeves with tiny fine cracks and gentle wear; pale luminous blue-white crystal for the existing lens where visible. Continue these materials on rear/underside faces. No added geometry, decoration, seams or invented lens on rear surfaces.\nREQUIRED: completely flat evenly coloured texture without baked lighting. No cast shadows, no ambient occlusion darkening, no dark crevices from lighting, no directional gradients, no highlights, reflections, rim light or bloom. Metal reads through base golden colour and microscopic brushed texture only. Resin is matte dark violet with subtle veins. Bone is evenly lit ivory. Maintain existing holes and all empty surroundings as alpha zero.\nNo text, letters, labels, background, ground, borders or watermark. Do not change the framing, enlarge the item or rotate it. Every visible edge must stay where it is in the input. No visible pixels outside the original silhouette.\nThis is the BACK view guide_back.png. The model occupies x=66..957, y=325..698 with extensive empty space above and below. Keep this exact shallow rear view. The broad curved inner/back face is smooth dark black-violet resin with restrained fine veins; the surrounding thin rim and existing small central spine on top are brushed gold. The side sleeves are pale ivory bone bounded by gold collars and gold loop fittings. The existing chain is in the foreground at the bottom and is entirely muted gold. Preserve every chain link and hole at its original exact coordinates. The lens is on the other side: do not paint a new gemstone on the blank back.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "1286dec9ea7bfd8348f14831c3983dc261da3d4b0a8e8e50db096c997fb310cc"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_back.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_back_run1.png",
+    "selected": false,
+    "reason": "Correction requested for residual metallic shading and guide contour drift. Rear material continuation is plausible and no front lens is invented. Returned pixels retained unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "42389fc974f5f836a17e686a8ce76c8471e41fad2817b14112a7f8c0a0f216ca",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        47,
+        35,
+        1186,
+        1182
+      ],
+      "opaque_bbox": [
+        83,
+        399,
+        1171,
+        853
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9676745963207565,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Correction requested for residual metallic shading and guide contour drift. Rear material continuation is plausible and no front lens is invented. Returned pixels retained unchanged."
+    },
+    "status": "superseded"
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Paint this exact white rear-view model without changing any outline or part boundary. It must remain this same shape, pose, scale and position on its 1024 x 1024 transparent canvas, including all chain-link holes. This is the single corrective run for paint_back.png.\nUse flat matte BASE COLOURS with fine surface texture: the broad curved plate is very dark black-violet resin with faint purple hairline veins; its thin rim, central spine, chain, collars, loops and pointed trim are muted ochre-gold; the two end-cap sleeves alone are warm ivory bone with fine cracks. Chain attachment loops must be gold. No jewel is visible from the back.\nCritical correction: eliminate lighting from all surfaces. Every gold face must have the same medium ochre base value, including undersides, recesses and bevels: no bright edges or dark shadowed facets. Resin is the same dark violet value across its entire width. Ivory has no directional shading. Paint tiny scratches, fine brushed grain and hairline veins at low contrast only.\nTrace the guide's exact contours and chain openings. Preserve geometry down to the small existing facets and all empty margins. Nothing may extend outside the original alpha mask. Do not move any part, make the item taller, reinterpret the camera or invent additional trim lines. Transparent background, no shadows, reflections, highlights, bloom, text or letters. Return one 1024 x 1024 RGBA PNG.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "1286dec9ea7bfd8348f14831c3983dc261da3d4b0a8e8e50db096c997fb310cc"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_back.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected correction: substantially flatter gold, correct gold chain attachments and plausible resin underside, no text or added rear jewel. Residual facet shading, low-alpha edge speckles and contour differences remain; exact silhouette not achieved. Corrective allowance exhausted. Pixels kept unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "a806b7408269b9a4b4f9644ecbdb66aa8107f5b95cf31e3a3ad669c1ce4bd943",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        109,
+        1230,
+        1212
+      ],
+      "opaque_bbox": [
+        83,
+        394,
+        1170,
+        853
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9515146287819514,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Selected correction: substantially flatter gold, correct gold chain attachments and plausible resin underside, no text or added rear jewel. Residual facet shading, low-alpha edge speckles and contour differences remain; exact silhouette not achieved. Corrective allowance exhausted. Pixels kept unchanged."
+    },
+    "status": "selected_with_known_limitations"
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Colour the supplied white model render IN PLACE, keeping its precise alpha mask, all contours and interior part boundaries intact. Output a single 1024 x 1024 transparent PNG at exactly the same scale, coordinates and camera. This is an unlit albedo texture source for projection onto this exact mesh. Change surface colour only. Preserve the polygonal contours; do not reinterpret the object as a newly designed illustration.\nThe approved design reference, studied separately, specifies these materials: very dark black-violet resin for the three crescent plates, restrained fine purple mineral hairline veins; muted warm ochre brushed gold for all raised borders, rim, central spine, pointed trim, bezels, attachment loops and thick chain; pale warm ivory bone end-cap sleeves with tiny fine cracks and gentle wear; pale luminous blue-white crystal for the existing lens where visible. Continue these materials on rear/underside faces. No added geometry, decoration, seams or invented lens on rear surfaces.\nREQUIRED: completely flat evenly coloured texture without baked lighting. No cast shadows, no ambient occlusion darkening, no dark crevices from lighting, no directional gradients, no highlights, reflections, rim light or bloom. Metal reads through base golden colour and microscopic brushed texture only. Resin is matte dark violet with subtle veins. Bone is evenly lit ivory. Maintain existing holes and all empty surroundings as alpha zero.\nNo text, letters, labels, background, ground, borders or watermark. Do not change the framing, enlarge the item or rotate it. Every visible edge must stay where it is in the input. No visible pixels outside the original silhouette.\nThis is the LEFT view guide_left.png. Preserve its shallow side-on view exactly: the short chain is at the far LEFT, the large ivory sleeve is at middle-left, and the layered crescent plates rise and extend to the RIGHT. The existing lens dome near the upper-right/upper-center is pale blue-white. Preserve its extreme foreshortening. Keep the model within its original x=66..957,y=325..698 bounds and leave all empty margins untouched. The horizontal thickness edge at the right end is resin with a narrow gold border, not a new vertical plate. The projecting pointed trim beside the bone sleeve is muted gold. Retain each step and rib where it exists. Render all gold faces with the same medium ochre value, no contrasting bevel lighting.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "08c8907497344e4c48b9c5835aa4386ffbb1ed1cbf72eed8944190a94c7a0f66"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_left.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_left_run1.png",
+    "selected": false,
+    "reason": "Correction requested: chain attachment between the collar and chain was painted ivory but must be gold; residual contour differences and lighting remain. Return retained unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "f23a1fa17da4e924190d3f17f7a2ff4a80d18ace945bfd06f05a5b2fb0bc6cfc",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        27,
+        37,
+        1216,
+        1230
+      ],
+      "opaque_bbox": [
+        81,
+        398,
+        1173,
+        857
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9786309500152353,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Correction requested: chain attachment between the collar and chain was painted ivory but must be gold; residual contour differences and lighting remain. Return retained unchanged."
+    },
+    "status": "superseded"
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Colour the supplied white model render IN PLACE, keeping its precise alpha mask, all contours and interior part boundaries intact. Output a single 1024 x 1024 transparent PNG at exactly the same scale, coordinates and camera. This is an unlit albedo texture source for projection onto this exact mesh. Change surface colour only. Preserve the polygonal contours; do not reinterpret the object as a newly designed illustration.\nThe approved design reference, studied separately, specifies these materials: very dark black-violet resin for the three crescent plates, restrained fine purple mineral hairline veins; muted warm ochre brushed gold for all raised borders, rim, central spine, pointed trim, bezels, attachment loops and thick chain; pale warm ivory bone end-cap sleeves with tiny fine cracks and gentle wear; pale luminous blue-white crystal for the existing lens where visible. Continue these materials on rear/underside faces. No added geometry, decoration, seams or invented lens on rear surfaces.\nREQUIRED: completely flat evenly coloured texture without baked lighting. No cast shadows, no ambient occlusion darkening, no dark crevices from lighting, no directional gradients, no highlights, reflections, rim light or bloom. Metal reads through base golden colour and microscopic brushed texture only. Resin is matte dark violet with subtle veins. Bone is evenly lit ivory. Maintain existing holes and all empty surroundings as alpha zero.\nNo text, letters, labels, background, ground, borders or watermark. Do not change the framing, enlarge the item or rotate it. Every visible edge must stay where it is in the input. No visible pixels outside the original silhouette.\nSingle corrective regeneration for LEFT guide. Important material correction: from the far-left chain links through the large elongated chain attachment loop to the upright collar at x\u2248290, ALL of this attachment assembly is GOLD. The only ivory bone area is the broad central tapered sleeve between that upright collar and the stepped plate assembly. Do not paint the loop/shaft between the chain and the collar ivory.\nKeep the exact guide silhouette, framing and part boundaries. The chain stays at far left and three resin plates extend to the right. The large angular projecting trim below the sleeve is gold, with the same contour as the guide. Preserve the flat stepped plates, the thin existing gold ribs, and the foreshortened pale blue-white lens dome above. Use the exact x=66..957,y=325..698 bounds on a 1024-square transparent canvas.\nReduce ALL surface lighting to uniform matte base colour. Gold ribs and trim have identical medium ochre colour on every face; no dark sides, bright edges, contact shadows or reflections. The resin is uniformly black-violet with subtle fine mineral veins. Fine crackle and wear only on ivory sleeve. Exact silhouette and material placement take priority over rendered realism.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "08c8907497344e4c48b9c5835aa4386ffbb1ed1cbf72eed8944190a94c7a0f66"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_left.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected correction: attachment is now gold, end cap ivory, plates black-violet, and metal is substantially flatter; no text. Residual geometric drift, facet value variation and stray low-alpha pixels remain. Corrective allowance exhausted; exact silhouette not achieved. Pixels retained unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "ef520b07009207d1bb042eb99182d10c814808ab17f0306d95279ae1c0c25a5d",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        25,
+        21,
+        1210,
+        1228
+      ],
+      "opaque_bbox": [
+        81,
+        398,
+        1173,
+        857
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9798209558774625,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Selected correction: attachment is now gold, end cap ivory, plates black-violet, and metal is substantially flatter; no text. Residual geometric drift, facet value variation and stray low-alpha pixels remain. Corrective allowance exhausted; exact silhouette not achieved. Pixels retained unchanged."
+    },
+    "status": "selected_with_known_limitations"
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Colour the supplied white model render IN PLACE, keeping its precise alpha mask, all contours and interior part boundaries intact. Output a single 1024 x 1024 transparent PNG at exactly the same scale, coordinates and camera. This is an unlit albedo texture source for projection onto this exact mesh. Change surface colour only. Preserve the polygonal contours; do not reinterpret the object as a newly designed illustration.\nThe approved design reference, studied separately, specifies these materials: very dark black-violet resin for the three crescent plates, restrained fine purple mineral hairline veins; muted warm ochre brushed gold for all raised borders, rim, central spine, pointed trim, bezels, attachment loops and thick chain; pale warm ivory bone end-cap sleeves with tiny fine cracks and gentle wear; pale luminous blue-white crystal for the existing lens where visible. Continue these materials on rear/underside faces. No added geometry, decoration, seams or invented lens on rear surfaces.\nREQUIRED: completely flat evenly coloured texture without baked lighting. No cast shadows, no ambient occlusion darkening, no dark crevices from lighting, no directional gradients, no highlights, reflections, rim light or bloom. Metal reads through base golden colour and microscopic brushed texture only. Resin is matte dark violet with subtle veins. Bone is evenly lit ivory. Maintain existing holes and all empty surroundings as alpha zero.\nNo text, letters, labels, background, ground, borders or watermark. Do not change the framing, enlarge the item or rotate it. Every visible edge must stay where it is in the input. No visible pixels outside the original silhouette.\nThis is the RIGHT view guide_right.png. Paint the supplied guide, do not mirror another painting. The three layered resin plates extend to the LEFT, the large tapered ivory end-cap sleeve is at middle-right, and the short chain is at far RIGHT. The raised central dome toward upper-left is pale blue-white crystal in a gold bezel, with gold spines beside it. Keep all ribs and stepped edges in the exact guide positions and preserve the very shallow side view. Bounds must stay x=66..957,y=325..698 on a 1024-square canvas.\nMATERIAL PRECISION: ONLY the broad sleeve between its two collars is ivory. The elongated chain attachment loop beyond the upright outer collar, all the way to the small chain links at far right, is entirely GOLD. The large projecting angular trim below the sleeve is gold. The thick outer edge of the crescent is gold; recessed plate fields are resin. Gold has a uniform muted medium ochre base colour on every face, without bright or shadowed bevels. Resin is matte very dark violet with restrained thin veins. No occlusion shadows under ribs.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "2f55b650d14c802c3d9912658ccf1a7dd2f9349508ea5459815d757f13ebea42"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_right.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_right_run1.png",
+    "selected": false,
+    "reason": "Correction requested to reduce bright metal edge highlights and residual outline drift. Material placement and orientation are consistent; no text. Unaltered return retained.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "619b7ca583fd3b566f22e92eb99f3d9ffd83156b1699a83680c95eea670635f4",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        33,
+        35,
+        1218,
+        1254
+      ],
+      "opaque_bbox": [
+        80,
+        398,
+        1174,
+        854
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9877324042745637,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Correction requested to reduce bright metal edge highlights and residual outline drift. Material placement and orientation are consistent; no text. Unaltered return retained."
+    },
+    "status": "superseded"
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Colour the supplied white model render IN PLACE, keeping its precise alpha mask, all contours and interior part boundaries intact. Output a single 1024 x 1024 transparent PNG at exactly the same scale, coordinates and camera. This is an unlit albedo texture source for projection onto this exact mesh. Change surface colour only. Preserve the polygonal contours; do not reinterpret the object as a newly designed illustration.\nThe approved design reference, studied separately, specifies these materials: very dark black-violet resin for the three crescent plates, restrained fine purple mineral hairline veins; muted warm ochre brushed gold for all raised borders, rim, central spine, pointed trim, bezels, attachment loops and thick chain; pale warm ivory bone end-cap sleeves with tiny fine cracks and gentle wear; pale luminous blue-white crystal for the existing lens where visible. Continue these materials on rear/underside faces. No added geometry, decoration, seams or invented lens on rear surfaces.\nREQUIRED: completely flat evenly coloured texture without baked lighting. No cast shadows, no ambient occlusion darkening, no dark crevices from lighting, no directional gradients, no highlights, reflections, rim light or bloom. Metal reads through base golden colour and microscopic brushed texture only. Resin is matte dark violet with subtle veins. Bone is evenly lit ivory. Maintain existing holes and all empty surroundings as alpha zero.\nNo text, letters, labels, background, ground, borders or watermark. Do not change the framing, enlarge the item or rotate it. Every visible edge must stay where it is in the input. No visible pixels outside the original silhouette.\nThis is the RIGHT view guide_right.png. Paint the supplied guide, do not mirror another painting. The three layered resin plates extend to the LEFT, the large tapered ivory end-cap sleeve is at middle-right, and the short chain is at far RIGHT. The raised central dome toward upper-left is pale blue-white crystal in a gold bezel, with gold spines beside it. Keep all ribs and stepped edges in the exact guide positions and preserve the very shallow side view. Bounds must stay x=66..957,y=325..698 on a 1024-square canvas.\nMATERIAL PRECISION: ONLY the broad sleeve between its two collars is ivory. The elongated chain attachment loop beyond the upright outer collar, all the way to the small chain links at far right, is entirely GOLD. The large projecting angular trim below the sleeve is gold. The thick outer edge of the crescent is gold; recessed plate fields are resin. Gold has a uniform muted medium ochre base colour on every face, without bright or shadowed bevels. Resin is matte very dark violet with restrained thin veins. No occlusion shadows under ribs.\nSINGLE CORRECTIVE PASS: follow the supplied original white guide pixel for pixel, not the earlier coloured painting. Keep its original 1024-square dimensions and exact alpha boundary. In particular preserve the mesh's unrounded pointed projection below the ivory sleeve, right chain facets and chain silhouette, and all steps of the left plate edge. The image must be usable as an overlay with zero contour movement.\nFlatten the gold to a consistent muted ochre base colour on front faces, top faces and side faces alike. Eliminate bright yellow rim lines and dark facet shading. Allow only faint low-contrast brushed grain. Remove all cast or contact shadow beneath ribs; preserve the resin's dark violet as a material colour. Keep the lens blue-white without highlights or glow spilling outside its boundary. No stray semitransparent speckles in the empty canvas.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "2f55b650d14c802c3d9912658ccf1a7dd2f9349508ea5459815d757f13ebea42"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_right.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected correction: metal highlights reduced, gold chain fittings and ivory sleeve retained, no text. Residual faceted shading, mineral veins slightly strong, low-alpha stray pixels and contour drift remain. Exact silhouette not achieved; corrective allowance exhausted. Return retained unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "937e447ec5e966ce9a4485ce657205fad573265145b25bc130e3da8c2c98b5fd",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        23,
+        1218,
+        1254
+      ],
+      "opaque_bbox": [
+        81,
+        399,
+        1172,
+        855
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9898636652932704,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Selected correction: metal highlights reduced, gold chain fittings and ivory sleeve retained, no text. Residual faceted shading, mineral veins slightly strong, low-alpha stray pixels and contour drift remain. Exact silhouette not achieved; corrective allowance exhausted. Return retained unchanged."
+    },
+    "status": "selected_with_known_limitations"
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Colour the supplied white model render IN PLACE, keeping its precise alpha mask, all contours and interior part boundaries intact. Output a single 1024 x 1024 transparent PNG at exactly the same scale, coordinates and camera. This is an unlit albedo texture source for projection onto this exact mesh. Change surface colour only. Preserve the polygonal contours; do not reinterpret the object as a newly designed illustration.\nThe approved design reference, studied separately, specifies these materials: very dark black-violet resin for the three crescent plates, restrained fine purple mineral hairline veins; muted warm ochre brushed gold for all raised borders, rim, central spine, pointed trim, bezels, attachment loops and thick chain; pale warm ivory bone end-cap sleeves with tiny fine cracks and gentle wear; pale luminous blue-white crystal for the existing lens where visible. Continue these materials on rear/underside faces. No added geometry, decoration, seams or invented lens on rear surfaces.\nREQUIRED: completely flat evenly coloured texture without baked lighting. No cast shadows, no ambient occlusion darkening, no dark crevices from lighting, no directional gradients, no highlights, reflections, rim light or bloom. Metal reads through base golden colour and microscopic brushed texture only. Resin is matte dark violet with subtle veins. Bone is evenly lit ivory. Maintain existing holes and all empty surroundings as alpha zero.\nNo text, letters, labels, background, ground, borders or watermark. Do not change the framing, enlarge the item or rotate it. Every visible edge must stay where it is in the input. No visible pixels outside the original silhouette.\nThis is the TOP view guide_top.png, directly above the model, with a square compact silhouette. The whole model spans x=66..957,y=66..957. The short thick linked chain arches across the top; the large hollow center must remain transparent. The two ivory sleeves sit on the upper-left and upper-right sides. Three crescent-shaped overlapping resin plates fill the lower half, with a pointed bottom at exactly the guide's position. Gold ribs and outer border surround the plates. The circular central lens at about (512,675) is pale blue-white within the existing gold bezel. The spike above it and long center strip down to the bottom point are gold. Paint them at their EXACT existing guide sizes, positions and edges, without enlarging the jewel or sharpening the guide's polygonal curves.\nOnly the two tapered sleeves are ivory. The loops between the sleeves and chain are entirely gold, as are sleeve collars and outer pointed fittings. Do not paint any chain attachment ivory. All chain holes must remain identical to the guide.\nUse dark black-violet resin with very fine restrained veins, matte ochre gold with tiny low-contrast brushed grain, fine worn ivory, and pale blue-white lens. Flat shadowless base colour only. Do not imitate the approved reference's glossy highlights or dramatic reflections.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "aefdb2edfea61f0803cd22bd02c5ad6c5041e94d6758f2c2e1553a52505a9300"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_top.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_top_run1.png",
+    "selected": false,
+    "reason": "Correction requested: outer portions of chain attachment loops above collars were painted ivory and must be gold; reduce residual metallic shading and contour drift. No text; return kept unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "810b62f7cdc8b1285809551e920b10964ccd999eff1c8ed69bdd6d89277bdc2a",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        33,
+        1240,
+        1238
+      ],
+      "opaque_bbox": [
+        79,
+        79,
+        1175,
+        1174
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9742936675194122,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Correction requested: outer portions of chain attachment loops above collars were painted ivory and must be gold; reduce residual metallic shading and contour drift. No text; return kept unchanged."
+    },
+    "status": "superseded"
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Colour the supplied white model render IN PLACE, keeping its precise alpha mask, all contours and interior part boundaries intact. Output a single 1024 x 1024 transparent PNG at exactly the same scale, coordinates and camera. This is an unlit albedo texture source for projection onto this exact mesh. Change surface colour only. Preserve the polygonal contours; do not reinterpret the object as a newly designed illustration.\nThe approved design reference, studied separately, specifies these materials: very dark black-violet resin for the three crescent plates, restrained fine purple mineral hairline veins; muted warm ochre brushed gold for all raised borders, rim, central spine, pointed trim, bezels, attachment loops and thick chain; pale warm ivory bone end-cap sleeves with tiny fine cracks and gentle wear; pale luminous blue-white crystal for the existing lens where visible. Continue these materials on rear/underside faces. No added geometry, decoration, seams or invented lens on rear surfaces.\nREQUIRED: completely flat evenly coloured texture without baked lighting. No cast shadows, no ambient occlusion darkening, no dark crevices from lighting, no directional gradients, no highlights, reflections, rim light or bloom. Metal reads through base golden colour and microscopic brushed texture only. Resin is matte dark violet with subtle veins. Bone is evenly lit ivory. Maintain existing holes and all empty surroundings as alpha zero.\nNo text, letters, labels, background, ground, borders or watermark. Do not change the framing, enlarge the item or rotate it. Every visible edge must stay where it is in the input. No visible pixels outside the original silhouette.\nThis is the TOP view guide_top.png, directly above the model, with a square compact silhouette. The whole model spans x=66..957,y=66..957. The short thick linked chain arches across the top; the large hollow center must remain transparent. The two ivory sleeves sit on the upper-left and upper-right sides. Three crescent-shaped overlapping resin plates fill the lower half, with a pointed bottom at exactly the guide's position. Gold ribs and outer border surround the plates. The circular central lens at about (512,675) is pale blue-white within the existing gold bezel. The spike above it and long center strip down to the bottom point are gold. Paint them at their EXACT existing guide sizes, positions and edges, without enlarging the jewel or sharpening the guide's polygonal curves.\nOnly the two tapered sleeves are ivory. The loops between the sleeves and chain are entirely gold, as are sleeve collars and outer pointed fittings. Do not paint any chain attachment ivory. All chain holes must remain identical to the guide.\nUse dark black-violet resin with very fine restrained veins, matte ochre gold with tiny low-contrast brushed grain, fine worn ivory, and pale blue-white lens. Flat shadowless base colour only. Do not imitate the approved reference's glossy highlights or dramatic reflections.\nSINGLE CORRECTIVE REGENERATION, MATERIAL MAP FIX: The U-shaped attachment loops ABOVE the two sleeve collars (approximately y=185..310 on the 1024 guide) are SOLID GOLD on their ENTIRE visible area. They are NOT ivory or bone on their outer curve. All surfaces from the sleeve collars upwards through the loop fittings and the short chain are gold. Ivory exists ONLY in the two broad tapered sleeves BELOW the collars, approximately y=315..500. The pointed lower side fittings are also gold.\nReproduce guide_top.png's exact silhouette, faceted outer edges, hollow center, link geometry and part edges. Keep its native 1024x1024 framing. Remove every stray background pixel; retain the original guide alpha exactly.\nFlatten all lighting: muted ochre gold of one even base value, no shiny gold borders or dark underside shading. Dark black-violet plate fields should be evenly flat, with delicate very thin low-contrast veins, not bold lightning veins. Blue-white lens should have uniform luminous material colour with fine internal crystalline detail only. No shadows beneath ribs. Do not change silhouette to beautify it.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "aefdb2edfea61f0803cd22bd02c5ad6c5041e94d6758f2c2e1553a52505a9300"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "67be268a791e266e7a208f331efd6412141587059026e3bab92a0d454339dc6e"
+      }
+    ],
+    "referenced_image_paths": [
+      "guide_top.png"
+    ],
+    "reference_use": "Approved design inspected by assistant; materials described in prompt.",
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected correction: upper chain attachment loops are now gold, two sleeves ivory, three plates resin and lens blue-white; no text. Residual metallic shading and highlights, stronger-than-reference veins, low-alpha stray pixels and contour differences remain. Exact silhouette and fully flat albedo not achieved. Corrective allowance exhausted; return kept unchanged.",
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "47036ca7f48c2f3bc96dfed7e5c3efd8dbfbf60cef62cfe9344fe1edcdfb2b8b",
+    "checks": {
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        21,
+        1253,
+        1254
+      ],
+      "opaque_bbox": [
+        79,
+        79,
+        1175,
+        1175
+      ],
+      "alpha_identical_to_guide": false,
+      "normalized_silhouette_iou": 0.9749887069452287,
+      "silhouette_iou_method": "Compare alpha >=128 masks at guide coordinates via normalized nearest pixel lookup for measurement only; no image resampling or alteration saved.",
+      "text_or_letters": "None visible on visual inspection.",
+      "flat_even_light": "Not fully met: residual facet shading and/or metallic highlights remain; see reason.",
+      "material_review": "Selected correction: upper chain attachment loops are now gold, two sleeves ivory, three plates resin and lens blue-white; no text. Residual metallic shading and highlights, stronger-than-reference veins, low-alpha stray pixels and contour differences remain. Exact silhouette and fully flat albedo not achieved. Corrective allowance exhausted; return kept unchanged."
+    },
+    "status": "selected_with_known_limitations"
+  }
+]

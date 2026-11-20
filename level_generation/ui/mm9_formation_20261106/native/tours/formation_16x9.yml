@@ -1,0 +1,45 @@
+# 1920 x 1080: five members and three hirelings, the builder opened by the button under the minimap; the default
+# layout with the pointer on Forad (his name), then a drag of Hrolf from the rear centre to the empty rear right.
+# Pointer coordinates are the menu tour's 1600 x 900 canvas (x 1.2 at this size).
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/mm9_formation_20261106/native
+exit: true
+steps:
+- wait: 4
+- console: hireling add 2
+- console: hireling add 126
+- console: hireling add 42
+- wait: 1
+- capture: hud_16x9
+- click: [1570, 300]
+- wait: 1
+- pointer_move: [987, 358]
+- wait: 1
+- capture: formation_16x9
+- pointer_down: [891, 510]
+- wait: 0.3
+- pointer_move: [960, 497]
+- wait: 0.2
+- pointer_move: [1023, 484]
+- wait: 1
+- capture: formation_16x9_drag
+- pointer_up: [1023, 484]
+- wait: 0.5
+- pointer_move: [620, 520]
+- wait: 0.5
+- capture: formation_16x9_dropped
+- pointer_down: [875, 223]
+- wait: 0.3
+- pointer_move: [875, 360]
+- wait: 0.2
+- pointer_up: [875, 493]
+- wait: 0.5
+- click: [896, 647]
+- wait: 1
+- capture: formation_16x9_refused
+- click: [704, 647]
+- wait: 1
+- action: party_formation
+- wait: 1
+- capture: formation_16x9_reopened
+- key: Escape
+- wait: 1

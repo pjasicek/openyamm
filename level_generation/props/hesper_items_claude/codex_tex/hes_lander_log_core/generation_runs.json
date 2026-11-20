@@ -1,0 +1,531 @@
+{
+  "item": "hes_lander_log_core",
+  "brief": "CODEX_BRIEF.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "status": "Five deliverables saved; strict silhouette and fully shadowless checks not satisfied.",
+  "notes": [
+    "All PNGs are byte-for-byte copies of built-in tool returns. No resizing, cropping, alpha replacement, compositing or other postprocessing was performed.",
+    "All outputs returned at 1254 x 1254 and were retained at that size as instructed.",
+    "Each view used exactly one initial generation and one corrective regeneration; initial returns retained as paint_<view>_attempt1.png.",
+    "The selected paintings preserve the general guide layouts and reference palette, but exact silhouette/part-edge identity is not achieved. Edge artifacts and minor residual shading remain.",
+    "No builds, runtime integration or other project files were modified."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: sketch-to-render. Asset: orthographic albedo texture-source painting for the Hesper lander black-box log core.\nEdit image 1, the exact 1024 x 1024 orthographic geometry guide. Image 2, design_reference.png, is ONLY the approved design/color/material reference, NOT the camera or geometry reference. Produce one 1024 x 1024 PNG with true transparent alpha background.\nThe guide is an immutable registration template: preserve its alpha silhouette EXACTLY, its placement, scale, orthographic camera, orientation, every part boundary and every bevel edge. Paint only inside existing surfaces. Keep the original transparent margins. Do not recenter, enlarge, crop, rotate, round off corners, change proportions, add geometry, or invent projecting components. The pale guide colors are material IDs, not the desired palette. Ignore the guide's directional shading.\nMaterials from image 2: warm off-white ceramic with fine gray wear and tiny chips, muted brushed antique gold, very dark charcoal black-violet resin with fine pale scratches, and blue-white luminous glass only wherever the guide already has a light panel. Keep wear restrained and on the surface, no changes to the silhouette. Engraved lines and panel joins may be painted as fine surface details. Do not import leather, cloth, paper or other materials absent from this item.\nLighting: flat, shadowless, evenly lit ALBEDO texture source. No cast shadows, no ambient occlusion darkening, no lighting gradients, no strong specular highlights, no reflections, no rim light. Gold is its base gold color with at most a very faint brushed sheen; ceramic is equally light all around, including lower bevels. Luminous panels are painted their bright pale cyan/blue-white color, with no bloom outside their borders. No background, floor, drop shadow, labels, text, letters, digits, runes, logos or watermarks.\n\nFRONT view. The guide's outer octagonal cap occupies x=239..784 and y=233..790, with top and bottom pointed vertices near (512,234) and (512,789); keep those exact eight straight outer edges and the narrow bevel. Most of the cap is warm white ceramic. Keep the existing small concentric central assembly exactly where it is: the gold annulus is roughly x=405..618, y=404..621, centered on (512,512), surrounding the smaller faceted steel/resin connector disk roughly x=445..577, y=446..577. Apply brushed gold to that annulus and reference-like dark connector material with restrained gold contact details painted within the central disk only. Any panel seams on the ceramic are thin surface-painted seams; never enlarge the center assembly to match the perspective reference. Erase the guide's gray cast shadow below/left of the central ring by continuing the underlying ceramic material without darkening. Straight-on front view only.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "ef5e604bf38017a27f37c88f6fd07fe2a22b5a4331c8ae4ca863917ab0a65604"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9ddd26f444ea1bcb298c561fd53c56583d7b7c6af52bf333c6865bc44afe4349"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-019b9b7e-f6e8-4ee9-8e4d-db13e7a10954.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: central assembly enlarged relative to guide, silhouette scale drift, strong highlights and shaded recesses. Tool returned 1254 x 1254 instead of requested 1024 x 1024; retained unresized.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Failed; see rejection reason.",
+        "no_strong_hot_highlights": false,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e2ff0127224af0e983b1ee15ade67482ceb4bf4babd822c6ba466195d8f898d1",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          219,
+          206,
+          1035,
+          1048
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.671946,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit the SECOND attached image (guide_front.png) in place. The FIRST image is only a material swatch/reference. Output at the second image's native 1024 x 1024 size with its existing transparent background.\n\nPaint the simple model in image 2 without rebuilding or redesigning anything. It must remain an almost entirely WHITE solid octagonal face with one SMALL gold ring and a SMALL charcoal center. The small ring has diameter 213 pixels; the inner dark disk has diameter 132 pixels. Do NOT turn it into the large complex face in image 1. Keep all part outlines exactly as image 2. The overall octagon remains at x239..784 and y233..790, with all eight vertices untouched and broad transparent margins.\n\nApply off-white ceramic with fine gray chips/scratches to the large face, muted ochre brushed gold to the existing small annular ring, charcoal black-violet resin to the small central disk with tiny flat gold contacts only within this disk. Preserve the image 2 shapes and sizes exactly. Fine thin surface seams may be painted on the ceramic but add no bevels, holes, framing or geometry.\n\nThis is a diffuse albedo texture, not a render. Completely even flat front lighting, no shadows at all, no specular, no highlights, no dark occlusion around the ring, no directional gradients. Replace the gray shadow below the ring with the same ivory ceramic as elsewhere. Gold is matte muted golden ochre. No text, letters, digits, symbols, floor or backdrop. Keep alpha exactly as image 2.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9ddd26f444ea1bcb298c561fd53c56583d7b7c6af52bf333c6865bc44afe4349"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "ef5e604bf38017a27f37c88f6fd07fe2a22b5a4331c8ae4ca863917ab0a65604"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-1e5899de-94b1-4714-80f3-64759797d9d6.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction: restores broad ceramic face and small central connector, with much flatter lighting. Returned size and strict silhouette deviations recorded in checks; no further generation allowed for this view.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Improved; faint edge/seam shading remains, so the strict shadowless requirement is not fully met.",
+        "no_strong_hot_highlights": true,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "5ce8578690e9dbff15429feb75de0a60f12aa3a08c68d351947331e020f4ff07",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          293,
+          289,
+          961,
+          964
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.981784,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: sketch-to-render. Asset: orthographic albedo texture-source painting for the Hesper lander black-box log core.\nEdit image 2, the exact 1024 x 1024 orthographic geometry guide, IN PLACE. Image 1, design_reference.png, is ONLY the approved design/color/material reference, NOT the camera or geometry reference. Produce one 1024 x 1024 PNG with true transparent alpha background.\nThe guide is an immutable registration template: preserve its alpha silhouette EXACTLY, its placement, scale, orthographic camera, orientation, every part boundary and every bevel edge. Paint only inside existing surfaces. Keep the original transparent margins. Do not recenter, enlarge, crop, rotate, round off corners, change proportions, add geometry, or invent projecting components. The pale guide colors are material IDs, not the desired palette. Ignore the guide's directional shading.\nMaterials from image 1: warm off-white ceramic with fine gray wear and tiny chips, muted brushed antique gold, very dark charcoal black-violet resin with fine pale scratches, and blue-white luminous glass only wherever the guide already has a light panel. Keep wear restrained and on the surface, no changes to the silhouette. Engraved lines and panel joins may be painted as fine surface details. Do not import leather, cloth, paper or other materials absent from this item.\nLighting: flat, shadowless, evenly lit ALBEDO texture source. No cast shadows, no ambient occlusion darkening, no lighting gradients, no strong specular highlights, no reflections, no rim light. Gold is its base gold color with at most a very faint brushed sheen; ceramic is equally light all around, including lower bevels. Luminous panels are painted their bright pale cyan/blue-white color, with no bloom outside their borders. No background, floor, drop shadow, labels, text, letters, digits, runes, logos or watermarks.\n\nBACK view. Preserve exactly the guide's blank octagonal end cap, x=239..784, y=233..790, top vertex (512,234), right vertex (784,512), bottom vertex (512,789), left vertex (239,512), and narrow bevel. This is the solid rear ceramic end, NOT the front connector: do not add a center hub, sockets, pins or light. Continue the approved white ceramic and restrained edge wear plausibly over the entire flat rear surface. Fine engraved panel joins and sparse hairline gold seam inlays may continue the reference's design language only as FLAT surface paint within this existing unbroken cap. The underlying shape remains completely flat and unchanged. No large new structural panels. Uniform ceramic base color on all sides, no dark lower-edge lighting.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9ddd26f444ea1bcb298c561fd53c56583d7b7c6af52bf333c6865bc44afe4349"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "ec01c887824e943d27f451756b26d8b03e48f79f84238b5a4f805689f93adecf"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-484fbf41-2f48-4f42-9e09-6ecf6e4379f8.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: enlarged cap, added raised border structure, shaded seams and highlights. Use one correction to restore simple guide geometry and scale.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Failed; see rejection reason.",
+        "no_strong_hot_highlights": false,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "692bd4d0f344805c47654c9054fa2ee0abc49beeab3e25f34c8ade4e428bbcef",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          122,
+          116,
+          1129,
+          1133
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.454337,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9ddd26f444ea1bcb298c561fd53c56583d7b7c6af52bf333c6865bc44afe4349"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "ec01c887824e943d27f451756b26d8b03e48f79f84238b5a4f805689f93adecf"
+        }
+      ],
+      "prompt": "Edit the SECOND attached image (guide_back.png) in place. The FIRST image is only a material reference. Output at the second image's native 1024 x 1024 size with its existing transparent background.\n\nKeep this exact simple blank octagonal cap, at the exact same scale and position. Its topmost tip is y233, bottommost tip y790, leftmost point x239, rightmost point x784. Keep all eight straight edges and the thin bevel. Broad transparent margins remain. No enlargement. No added perimeter panels, no central hub, no added rim, no gold border. The model is a plain uninterrupted white ceramic rear cap.\n\nChange only its surface: off-white ceramic from the first image with fine gray scratches and small worn gray specks, concentrated near the existing edges. This is FLAT ALBEDO, not a rendered object. Uniform color under even front light, zero shadows, zero highlights, zero reflections, zero ambient occlusion. The narrow bevel uses the same light ivory base color, not darker shading. No text, letters, numbers, symbols or background. Preserve the guide silhouette and all transparency exactly.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-35e710e0-7707-4dfd-b0ea-6575be03d81a.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction: restores simple ceramic cap and substantially improves guide scale, position and flat lighting. Fine edge deviations remain; exact guide silhouette is not achieved. One correction limit reached.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Improved; faint edge/seam shading remains, so the strict shadowless requirement is not fully met.",
+        "no_strong_hot_highlights": true,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e25159c3e12b4bea949fe1e0ba28cde81c50eea65dfe5de48e243e536cf21f2c",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          293,
+          283,
+          958,
+          962
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.975738,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Edit the SECOND attached image in place. The FIRST image is only a material/color reference. Output at the second image's native 1024 x 1024 size, transparent background.\n\nThis is an ALBEDO texture paintover of the simple model in image 2. Keep its EXACT silhouette, exact framing, all its part edges and original geometry. Change only the surface colors and texture. Do not redesign the model to look like image 1. Do not enlarge, rotate, recenter or change its margins. No new components or added bevels.\n\nPaint ceramic warm off-white with fine gray wear, the gold bands muted brushed gold, and the gray central body dark charcoal black-violet resin with fine pale scratches. Paint the guide's existing light panel bright pale cyan/blue-white. Keep each material inside its exact guide part.\nCompletely flat even lighting: no cast shadows, no ambient occlusion, no reflections, no bright specular highlights, no directional lighting gradients. Remove the guide's shadows and shading. Gold has only a faint sheen. All facets of a material share its base color. No text, letters, numbers, symbols, background, floor, shadow or bloom.\n\nLEFT view. Horizontal long axis. Preserve all guide outlines and part locations exactly, full bounds x=66..957, y=233..790. White ceramic rear end collar at left x~66..248 and white ceramic front end collar at right x~729..913. Central broad body x~248..729 is charcoal black-violet resin with subtle pale scratches and fine panel seams. Two existing angled pale-gold retaining bands keep their exact zigzag paths near x~238..366 and x~684..800; paint muted brushed gold. The existing thin cyan horizontal glass strip at x~338..640, y~279..316 stays exactly that narrow size and location: bright flat blue-white/cyan glass with restrained internal lines, no bloom, no projecting frame. The small connector projects on the RIGHT only: gold at x~912..944,y~403..622, dark steel tip at x~943..958,y~444..580. Preserve every stepped edge, no extra pins beyond that outline. All guide gray shading becomes the consistent base material, including the bottom body facet. Direct orthographic side view, no visible front or rear face added.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9ddd26f444ea1bcb298c561fd53c56583d7b7c6af52bf333c6865bc44afe4349"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "301f4c1a00beeec0ee03c20dff4a7a682c4bb0a13689fe6246d5cb9c3662aec5"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-30904145-d05d-4c0d-8e4b-2c3b57e38f8a.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Initial left view follows major part layout and palette, but inherits gray directional shading on lower ceramic facets and body, shiny bands and some silhouette drift. One correction requested.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Failed; see rejection reason.",
+        "no_strong_hot_highlights": false,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "df345418cfcac2f20584626d327b1b6e2998c14a9e7365dc9e990f90315159d9",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          77,
+          291,
+          1189,
+          969
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.973322,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "inputs": [
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "df345418cfcac2f20584626d327b1b6e2998c14a9e7365dc9e990f90315159d9"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "301f4c1a00beeec0ee03c20dff4a7a682c4bb0a13689fe6246d5cb9c3662aec5"
+        }
+      ],
+      "prompt": "Correct the first image's lighting and registration using the second image as an immutable geometry template. Output one 1024 x 1024 transparent PNG. Keep the first image's worn white ceramic, gold and charcoal material textures, but paint them onto exactly the second image's geometry at exactly its size and position.\n\nThis must be an unlit DIFFUSE ALBEDO image. Eliminate every directional shadow and specular highlight from image 1. Both end collars must have the SAME warm off-white base color from their tops to their bottoms, including the darkest bottom facets. The horizontal gray bands across those collars are lighting errors: remove them. The charcoal body must use one consistent base charcoal color across every facet, including the darker lower half. Gold bands must be a uniform muted golden ochre with fine brushed texture and NO bright edge highlights. Fine painted wear remains, but there must be NO broad brightness gradients or cast shadows. The existing cyan strip is flat bright blue-white, no glow outside its border.\n\nPreserve all original guide edges and part sizes, with connector projecting to the RIGHT, existing narrow cyan strip along the top, exact diagonal gold band paths. Match guide bounds x66..957,y233..790 on the 1024 canvas. Copy its alpha outline exactly. No enlarged silhouette, no displaced bevels, no added frame, no extra geometry. No text, letters, digits or backdrop.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-0bddf391-0dc6-49e0-b336-aa878238de6d.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: greatly reduces broad ceramic/body shading and metallic highlights while keeping the side layout. Exact silhouette/part-edge match is not achieved; minor seam shading remains. One correction limit reached.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Improved; faint edge/seam shading remains, so the strict shadowless requirement is not fully met.",
+        "no_strong_hot_highlights": true,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c61332525b763f67c704ef4f24a254355aec34628c4b6f2e704e4b1660e731a6",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          80,
+          287,
+          1180,
+          982
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.962676,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Edit the SECOND attached image in place. The FIRST image is only a material/color reference. Output at the second image's native 1024 x 1024 size, transparent background.\n\nThis is an ALBEDO texture paintover of the simple model in image 2. Keep its EXACT silhouette, exact framing, all its part edges and original geometry. Change only the surface colors and texture. Do not redesign the model to look like image 1. Do not enlarge, rotate, recenter or change its margins. No new components or added bevels.\n\nPaint ceramic warm off-white with fine gray wear, the gold bands muted brushed gold, and the gray central body dark charcoal black-violet resin with fine pale scratches. Paint the guide's existing light panel bright pale cyan/blue-white. Keep each material inside its exact guide part.\nCompletely flat even lighting: no cast shadows, no ambient occlusion, no reflections, no bright specular highlights, no directional lighting gradients. Remove the guide's shadows and shading. Gold has only a faint sheen. All facets of a material share its base color. No text, letters, numbers, symbols, background, floor, shadow or bloom.\n\nRIGHT view. Horizontal long axis. Preserve all guide outlines and part locations exactly, full bounds x=66..957, y=233..790. White ceramic front collar at left x~111..294 and white ceramic rear collar at right x~774..958. Central broad body x~294..774 is charcoal black-violet resin with subtle pale scratches and fine panel seams. Two existing angled pale-gold retaining bands keep their exact zigzag paths near x~282..411 and x~728..846; paint muted brushed gold. The existing thin cyan horizontal glass strip at x~383..686,y~279..316 stays exactly that narrow size and location: bright flat blue-white/cyan glass with restrained internal lines, no bloom, no projecting frame. The small connector projects on the LEFT only: gold at x~80..112,y~403..622, dark steel tip at x~66..81,y~444..580. Preserve every stepped edge, no extra pins beyond that outline. All guide gray shading becomes the consistent base material, including the bottom body facet. Direct orthographic side view, no visible front or rear face added.\nThe gray lower halves of the guide's ceramic collars are lighting errors, NOT material zones. Paint both collars one consistent light ivory color all the way down; do not reproduce horizontal gray shading bands. Likewise the body facets all share one charcoal base value. No glossy edge lighting on gold.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9ddd26f444ea1bcb298c561fd53c56583d7b7c6af52bf333c6865bc44afe4349"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "31f47e6f44b12bf2156388c34bd6af7b1c43b1a56ab4e4dc32ff8b43cb0cb10a"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-bf499f4d-45ad-4823-8790-23c81e884417.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Initial right view has correct connector side and overall materials, but retains shaded lower ceramic facets, body shading and gold highlights, plus silhouette drift. One correction requested.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Failed; see rejection reason.",
+        "no_strong_hot_highlights": false,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "941b63eefb32aa7949a59b0bdcc508228e08b14faa9eef203e92d01a1f60cbfc",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          58,
+          281,
+          1183,
+          970
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.955334,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "inputs": [
+        {
+          "path": "paint_right_attempt1.png",
+          "sha256": "941b63eefb32aa7949a59b0bdcc508228e08b14faa9eef203e92d01a1f60cbfc"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "31f47e6f44b12bf2156388c34bd6af7b1c43b1a56ab4e4dc32ff8b43cb0cb10a"
+        }
+      ],
+      "prompt": "Correct the first image's lighting and registration using the second image as an immutable geometry template. Output one 1024 x 1024 transparent PNG. Keep the first image's worn white ceramic, gold and charcoal material textures, but paint them onto exactly the second image's geometry at exactly its size and position.\n\nThis must be an unlit DIFFUSE ALBEDO image. Eliminate every directional shadow and specular highlight from image 1. Both end collars must have the SAME warm off-white base color from their tops to their bottoms, including the darkest bottom facets. The horizontal gray bands across those collars are lighting errors: remove them. The charcoal body must use one consistent base charcoal color across every facet, including the darker lower half. Gold bands must be a uniform muted golden ochre with fine brushed texture and NO bright edge highlights. Fine painted wear remains, but there must be NO broad brightness gradients or cast shadows. The existing cyan strip is flat bright blue-white, no glow outside its border.\n\nPreserve all original guide edges and part sizes, with connector projecting to the LEFT, existing narrow cyan strip along the top, exact diagonal gold band paths. Match guide bounds x66..957,y233..790 on the 1024 canvas. Copy its alpha outline exactly. No enlarged silhouette, no displaced bevels, no added frame, no extra geometry. No text, letters, digits or backdrop.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-f6cd3951-ba97-4d6b-95dd-f59cbf1c9153.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction: improves silhouette alignment and removes broad directional shading from ceramic, resin and gold. Small edge artifacts, part-edge deviations and minor seam shading remain. One correction limit reached.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Improved; faint edge/seam shading remains, so the strict shadowless requirement is not fully met.",
+        "no_strong_hot_highlights": true,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e0df5e577174517e0934773c72421c0623bae1438cff8d05b82e5aa68a1332f2",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          78,
+          285,
+          1176,
+          975
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.974687,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Edit the SECOND attached image in place. The FIRST image is only a material/color reference. Output at the second image's native 1024 x 1024 size, transparent background.\n\nThis is an ALBEDO texture paintover of the simple model in image 2. Keep its EXACT silhouette, exact framing, all its part edges and original geometry. Change only the surface colors and texture. Do not redesign the model to look like image 1. Do not enlarge, rotate, recenter or change its margins. No new components or added bevels.\n\nPaint ceramic warm off-white with fine gray wear, the gold bands muted brushed gold, and the gray central body dark charcoal black-violet resin with fine pale scratches. Paint the guide's existing light panel bright pale cyan/blue-white. Keep each material inside its exact guide part.\nCompletely flat even lighting: no cast shadows, no ambient occlusion, no reflections, no bright specular highlights, no directional lighting gradients. Remove the guide's shadows and shading. Gold has only a faint sheen. All facets of a material share its base color. No text, letters, numbers, symbols, background, floor, shadow or bloom.\n\nTOP view, directly overhead, with the item's long axis VERTICAL. Preserve all guide outlines and part locations exactly, full bounds x=239..784,y=66..957. White ceramic rear collar across x~239..785,y~66..249; white ceramic front collar across x~239..785,y~730..913. Central body x~281..744,y~249..730 is charcoal black-violet resin with subtle pale scratches and fine panel seams. Preserve the two existing DIAGONAL thin gold retaining straps exactly along the guide's paths, one rising from left near (255,350) toward (686,180), the other from (338,802) toward (770,622); do not straighten or relocate them. Their fine tips are part of the guide silhouette. The sole existing luminous window is the vertical rectangle x~422..603,y~339..641; keep exactly that size and position, painting pale cyan/blue-white crystal/glass with fine internal parallel details and no bloom or reflections. Keep its panel boundary exactly, no larger bezel. At bottom only the small connector extends: gold x~405..619,y~912..944 and dark steel tip x~444..580,y~943..958. Erase all guide cast shadows under the straps and light panel by continuing the underlying resin. Orthographic top view, not perspective, no end face added.\nDo not paint the gray shadows that the guide has under its straps or window. Fill them with the same flat charcoal as the surrounding body. Ceramic is uniform light ivory across every facet; do not shade its left side gray. Gold is matte base golden ochre with no bright edge lighting. The image must look like flat painted material swatches on the exact guide shapes.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9ddd26f444ea1bcb298c561fd53c56583d7b7c6af52bf333c6865bc44afe4349"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "28a35c807f371c0d3c08af66190bc5d6fd73013318f9ef4d5a3a8f356ba7302e"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-ae541944-8729-4e58-8f10-3af367b09ab6.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial top view keeps vertical layout and diagonal straps, but has stray edge pixels, shaded ceramic bevels, highlights on straps and residual panel/strap shading. One correction requested.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Failed; see rejection reason.",
+        "no_strong_hot_highlights": false,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "fa0b29966970b652d1fb3bd1835d2d85ddaed6ff53602faeabc22103748e0c2d",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          292,
+          80,
+          963,
+          1176
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.985593,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "inputs": [
+        {
+          "path": "paint_top_attempt1.png",
+          "sha256": "fa0b29966970b652d1fb3bd1835d2d85ddaed6ff53602faeabc22103748e0c2d"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "28a35c807f371c0d3c08af66190bc5d6fd73013318f9ef4d5a3a8f356ba7302e"
+        }
+      ],
+      "prompt": "Correct the first image into a flat albedo texture-source painting, using the second image as the exact geometry and transparency template. Output 1024 x 1024 PNG with transparent background. Keep the worn ivory ceramic, brushed gold, charcoal resin and pale blue-white glass textures from image 1. Keep every part at the exact location and size in image 2.\n\nRemove the first image's remaining lighting: both ceramic end collars, including ALL narrow bevels, must be the same light ivory base value. Remove the gray strips across their lower edges. Both diagonal gold straps must be uniform muted golden ochre with subtle fine brushing, no bright top edges, dark sides or shadows underneath. The charcoal body must be the same base color across ALL facets, no darkening below straps or around the window. The central rectangular window stays pale blue-white with fine vertical internal lines, no specular reflections, hot highlights or bloom. No directional light, rim light, ambient occlusion or cast shadows anywhere.\n\nExact orthographic top view, long axis vertical, full guide bounds x239..784,y66..957. Do not rotate or enlarge. Keep diagonal strap paths and pointed tips exactly as the guide, window at x422..603,y339..641, small connector at the bottom only. Preserve all guide silhouette edges. Every pixel outside the guide silhouette must be fully transparent; remove detached flecks and fringe artifacts. No text, letters, digits, symbols, backdrop or floor.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ddb-11a6-7b31-930f-f23be40e7433/exec-d9aa4ff6-b39b-4e6d-9513-9b98e501fdff.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction: removes broad shaded bevels and gold highlights, retains diagonal straps and vertical luminous window. Silhouette scale/part boundaries drift and edge flecks remain; exact guide silhouette is not achieved. One correction limit reached.",
+      "visual_review": {
+        "materials_match_reference": true,
+        "materials_note": "Visually reviewed against approved reference: worn warm white ceramic, antique gold, dark charcoal resin and pale cyan/blue-white glass where present.",
+        "no_text_or_letters": true,
+        "flat_even_light": "Improved; faint edge/seam shading remains, so the strict shadowless requirement is not fully met.",
+        "no_strong_hot_highlights": true,
+        "every_part_edge_identical_to_guide": false,
+        "silhouette_note": "Generated return is not a pixel-identical guide paintover; selection denotes the preferred allowed return, not full brief acceptance."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ec148fc4fb9354dc7dce42e9d34ea29477c380f5e6092b5af1c53d2a897200b7",
+      "checks": {
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_silhouette_bbox": [
+          296,
+          69,
+          958,
+          1191
+        ],
+        "size_matches_requested": false,
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.96242,
+        "normalized_measurement_note": "Compared native output mask to guide sampled on normalized coordinates; output pixels are never resized or modified.",
+        "unresized_and_unmodified": true
+      }
+    }
+  ]
+}

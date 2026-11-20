@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""mm8_m560_claude/scripts/viewer_tiers.py with paths: bake the native palette ramps (that project's textures) into
+browser review GLBs of <glb>. Usage: viewer_tiers.py <glb> <tag> [texture dir, default that project's]
+-> review/viewer/mm8_m560_<tier>_<tag>.glb (the rebuilt/retextured export passes this project's textures/)"""
+import io, json, struct, sys
+from pathlib import Path
+import numpy as np
+from PIL import Image
+HERE = Path(__file__).resolve().parents[1]; ROOT = HERE.parent / 'mm8_m560_claude'
+GLB, TAG = Path(sys.argv[1]), sys.argv[2]
+TEX = Path(sys.argv[3]) if len(sys.argv) > 3 else ROOT / 'textures'
+W = np.array([0.2126, 0.7152, 0.0722], np.float32)
+lin = lambda c: np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) ** 2.4)
+srgb = lambda c: np.where(c <= 0.0031308, c * 12.92, 1.055 * np.clip(c, 0, None) ** (1 / 2.4) - 0.055)
+
+
+def read_glb(path):
+    raw = path.read_bytes(); n = struct.unpack_from('<I', raw, 12)[0]
+    return json.loads(raw[20:20 + n]), bytearray(raw[28 + n:])
+
+
+def write_glb(path, doc, binary):
+    binary += b'\0' * (-len(binary) % 4)
+    doc['buffers'][0]['byteLength'] = len(binary)
+    enc = json.dumps(doc, separators=(',', ':')).encode(); enc += b' ' * (-len(enc) % 4)
+    path.write_bytes(struct.pack('<III', 0x46546c67, 2, 28 + len(enc) + len(binary))
+                     + struct.pack('<II', len(enc), 0x4e4f534a) + enc + struct.pack('<II', len(binary), 0x004e4942) + binary)
+
+
+def ramp(colors, t):
+    c = np.array(colors, np.float32); x = np.clip(t, 0, 1) * (len(c) - 1)
+    i = np.minimum(x.astype(int), len(c) - 2); f = (x - i)[..., None]
+    return c[i] * (1 - f) + c[i + 1] * f
+
+
+R = json.load(open(TEX / 'wyvern_ramps.json'))
+SOURCES = {'Wyvern_A': 'wyvern_basecolor.png'}
+
+
+def load(material):
+    image = Image.open(TEX / SOURCES[material]).convert('RGBA')
+    rgba = np.asarray(image, np.float32) / 255
+    entry = next(m for m in R['materials'] if m['base'] == material)
+    # per channel: resizing an RGBA image premultiplies by alpha, and unused channels are 0
+    mask = np.stack([np.asarray(ch.resize(image.size, Image.BILINEAR), np.float32) / 255
+                     for ch in Image.open(TEX / entry['mask']).convert('RGBA').split()], -1)
+    return lin(rgba[..., :3]), rgba[..., 3:4], mask, entry
+
+
+cache = {}
+for variant in R['variants']:
+    doc, binary = read_glb(GLB)
+    for mat in doc['materials']:
+        name = 'Wyvern_A' if mat['name'].startswith('Wyvern') else mat['name']
+        if name not in SOURCES:
+            continue
+        base, alpha, mask, entry = cache.setdefault(name, load(name))
+        lum = base @ W; out = base.copy()
+        for c, reg in enumerate(entry['ramps'][variant]):
+            lo, hi = reg['range']
+            out = out * (1 - mask[..., c:c + 1]) + ramp(reg['colors'], (lum - lo) / (hi - lo)) * mask[..., c:c + 1]
+        pixels = np.clip(srgb(out), 0, 1)
+        im = Image.fromarray((pixels * 255 + 0.5).astype(np.uint8)); pass
+        buf = io.BytesIO(); im.save(buf, 'PNG')
+        binary += b'\0' * (-len(binary) % 4)
+        doc['bufferViews'].append({'buffer': 0, 'byteOffset': len(binary), 'byteLength': len(buf.getvalue())})
+        binary += buf.getvalue()
+        doc['images'].append({'bufferView': len(doc['bufferViews']) - 1, 'mimeType': 'image/png',
+                              'name': f'{name}_{variant}'})
+        info = mat['pbrMetallicRoughness']['baseColorTexture']
+        doc['textures'].append(dict(doc['textures'][info['index']], source=len(doc['images']) - 1))
+        info['index'] = len(doc['textures']) - 1
+    write_glb(HERE / 'review' / 'viewer' / f'mm8_{variant}_{TAG}.glb', doc, binary)
+    print('VIEWER', f'mm8_{variant}_{TAG}.glb')

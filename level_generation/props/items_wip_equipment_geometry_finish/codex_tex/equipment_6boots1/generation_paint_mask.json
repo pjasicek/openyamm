@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, exact 3D guide for Old Leather Boots; image 2 is icon colour reference. Preserve EXACT 3:4 transparent canvas, three columns and four rows and the five views' positions duplicated in each half. Previous painting was oversized. Make EVERY object in its exact guide slot 3% SMALLER than the gray silhouette, centred at the original guide centre; this small registration correction is the only shape change. Do this in both paint and mask halves. Keep model shape, all gaps and openings, no redesign. TOP TWO ROWS: FRONT/BACK/LEFT then RIGHT/TOP/EMPTY. Paint realistic UNLIT BASE COLOUR, no directional shading, highlights or ambient occlusion. Warm cognac brown worn leather boots with a subtle leather grain, dark brown leather shafts, interiors, sole and heel. Tiny brass square buckles on brown leather straps. BOTTOM TWO ROWS: the same five objects at exactly corresponding sizes/positions, flat material IDs with no texture/shading: All leather GREEN #00ff00; ONLY brass buckle frames RED #ff0000. No text, outlines, speckles, ground, shadows or glow. Empty last slots remain transparent. Output one 1536x2048 transparent PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots1/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots1.png"
+  ],
+  "revision": 2,
+  "selected": true,
+  "reason": "Accepted views are explicitly listed in final_view_sources.json; final GLB hash is in the acceptance receipt.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-7de86508-1809-4df1-ab62-c2591b7022f9.png",
+  "raw_sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots1/paint_mask_guide.png": "344399946d72a6a4d1c5d582c9b0f05628c9ff0db4c70334d8453ac2e15f581c",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots1.png": "aab29ec55f00b281df426138279d2b256af2daca73a414cbf1620c18fab41950"
+  },
+  "prepared_scene_sha256": "948575324f3e5d41a993202843d61d043d5b4953b814c33f937f7772fd3f13c3"
+}

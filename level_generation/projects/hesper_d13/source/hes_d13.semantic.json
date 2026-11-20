@@ -1,0 +1,534 @@
+{
+  "door_ids": {
+    "door_3": 3,
+    "door_4": 4,
+    "door_2": 2,
+    "debris_1": 5,
+    "debris_2": 6,
+    "shaft_platform": 1
+  },
+  "arrivals": {
+    "shaft_bottom": {
+      "position": [
+        400,
+        1000,
+        0
+      ],
+      "direction_degrees": 0
+    },
+    "tap_ring": {
+      "position": [
+        5228,
+        1000,
+        0
+      ],
+      "direction_degrees": 0
+    }
+  },
+  "room_bounds": {
+    "shaft": [
+      0,
+      200,
+      1600,
+      1800,
+      -1,
+      768
+    ],
+    "exch0": [
+      1664,
+      0,
+      3064,
+      2000,
+      -1,
+      640
+    ],
+    "exch1": [
+      3064,
+      0,
+      4464,
+      2000,
+      -1,
+      640
+    ],
+    "control0": [
+      4928,
+      -400,
+      5861,
+      2400,
+      -769,
+      1024
+    ],
+    "control1": [
+      5861,
+      -400,
+      6795,
+      2400,
+      -769,
+      1024
+    ],
+    "control2": [
+      6795,
+      -400,
+      7728,
+      2400,
+      -769,
+      1024
+    ],
+    "debris0": [
+      4528,
+      2464,
+      6328,
+      4264,
+      -1,
+      640
+    ],
+    "debris1": [
+      6328,
+      2464,
+      8128,
+      4264,
+      -1,
+      640
+    ],
+    "cstair": [
+      5528,
+      4328,
+      7128,
+      5528,
+      -1,
+      896
+    ],
+    "upper0": [
+      3928,
+      5592,
+      4700,
+      6792,
+      511,
+      1152
+    ],
+    "upper1": [
+      4700,
+      5592,
+      7528,
+      6792,
+      511,
+      1152
+    ],
+    "loop0": [
+      3928,
+      6856,
+      4700,
+      7656,
+      511,
+      1024
+    ],
+    "loop1": [
+      4700,
+      6856,
+      7528,
+      7656,
+      511,
+      1024
+    ],
+    "lift": [
+      2664,
+      5592,
+      3864,
+      6792,
+      511,
+      960
+    ],
+    "vein": [
+      8192,
+      2900,
+      10792,
+      4400,
+      -1,
+      640
+    ]
+  },
+  "obstacles": [
+    [
+      "exch",
+      2264,
+      150,
+      0,
+      3864,
+      450,
+      512
+    ],
+    [
+      "exch",
+      2264,
+      1550,
+      0,
+      3864,
+      1850,
+      512
+    ],
+    [
+      "control",
+      5355,
+      1477,
+      0,
+      5483,
+      1573,
+      192
+    ],
+    [
+      "control",
+      6264,
+      -98,
+      0,
+      6392,
+      -2,
+      192
+    ],
+    [
+      "control",
+      7173,
+      1477,
+      0,
+      7301,
+      1573,
+      192
+    ],
+    [
+      "control",
+      5200,
+      1800,
+      0,
+      5400,
+      2000,
+      64
+    ],
+    [
+      "debris",
+      5728.0,
+      3064.0,
+      0,
+      6928.0,
+      3664.0,
+      640
+    ]
+  ],
+  "completed_through": "escape",
+  "pickups": [
+    {
+      "model": "hes_stim_canister",
+      "event": 701,
+      "room": "shaft",
+      "position": [
+        450,
+        1600,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 702,
+      "room": "shaft",
+      "position": [
+        650,
+        1600,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 703,
+      "room": "shaft",
+      "position": [
+        850,
+        1600,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 704,
+      "room": "shaft",
+      "position": [
+        1050,
+        1600,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 705,
+      "room": "shaft",
+      "position": [
+        1250,
+        1600,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 706,
+      "room": "exch",
+      "position": [
+        1850,
+        1400,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 707,
+      "room": "exch",
+      "position": [
+        1850,
+        1600,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 708,
+      "room": "exch",
+      "position": [
+        1850,
+        1800,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 709,
+      "room": "debris",
+      "position": [
+        7800,
+        3900,
+        0
+      ]
+    },
+    {
+      "model": "hes_stim_canister",
+      "event": 710,
+      "room": "debris",
+      "position": [
+        8000,
+        3900,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 751,
+      "room": "shaft",
+      "position": [
+        1400,
+        450,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 752,
+      "room": "shaft",
+      "position": [
+        1350,
+        1550,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 753,
+      "room": "exch",
+      "position": [
+        2000,
+        200,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 754,
+      "room": "exch",
+      "position": [
+        4000,
+        450,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 755,
+      "room": "exch",
+      "position": [
+        4200,
+        1350,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 756,
+      "room": "debris",
+      "position": [
+        4800,
+        2850,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 757,
+      "room": "debris",
+      "position": [
+        7800,
+        3700,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 758,
+      "room": "upper",
+      "position": [
+        7000,
+        6500,
+        512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 759,
+      "room": "upper",
+      "position": [
+        4100,
+        5750,
+        512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 760,
+      "room": "loop",
+      "position": [
+        5600,
+        7450,
+        512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 761,
+      "room": "loop",
+      "position": [
+        7100,
+        7450,
+        512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 762,
+      "room": "lift",
+      "position": [
+        2900,
+        6500,
+        512
+      ]
+    }
+  ],
+  "plan_checks": {
+    "completed_through": "escape",
+    "max_lights": 4,
+    "worst_point": [
+      "Core Tap Control",
+      6752,
+      1808
+    ],
+    "ceiling_problems": [],
+    "stacking_problems": [],
+    "budget": {
+      "map": "d13_deepwell",
+      "extent": [
+        8128,
+        8056
+      ],
+      "floor_area_m_units": 33.0,
+      "floors": 2,
+      "rooms": 8,
+      "sectors": 14,
+      "doors": 3,
+      "monsters": 28,
+      "chests": 0,
+      "interactables": 6,
+      "houses": 0,
+      "lights": 23,
+      "max_lights_at_a_point": 4
+    }
+  },
+  "tap_centre": [
+    6328,
+    1000
+  ],
+  "tap_locks": [
+    [
+      5419,
+      1525
+    ],
+    [
+      6328,
+      -50
+    ],
+    [
+      7237,
+      1525
+    ]
+  ],
+  "exit_arrivals": {
+    "50": [
+      "hes_d12.blv",
+      "shaft_head"
+    ],
+    "51": [
+      "hes_out4.odm",
+      "pad_lift"
+    ]
+  },
+  "map": "hes_d13.blv",
+  "events": {
+    "73": "door_3",
+    "74": "door_4",
+    "72": "door_2",
+    "80": "lock_1_control0",
+    "81": "lock_2_control1",
+    "82": "lock_3_control2",
+    "84": "collapse_plate_84_debris0",
+    "85": "collapse_plate_85_upper1",
+    "50": "shaft_lift_shaft",
+    "51": "service_lift_lift"
+  },
+  "decorations": 50,
+  "sectors": [
+    "room_shaft",
+    "room_exch0",
+    "room_exch1",
+    "room_control0",
+    "room_control1",
+    "room_control2",
+    "room_debris0",
+    "room_debris1",
+    "room_cstair",
+    "room_upper0",
+    "room_upper1",
+    "room_loop0",
+    "room_loop1",
+    "room_lift",
+    "room_vein"
+  ],
+  "doors": {
+    "door_3": 3,
+    "door_4": 4,
+    "door_2": 2,
+    "debris_1": 5,
+    "debris_2": 6,
+    "shaft_platform": 1
+  }
+}

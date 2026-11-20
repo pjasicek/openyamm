@@ -1,0 +1,3 @@
+Saved [throat_front_edit.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_lizardorc_claude/references_head/throat/throat_front_edit.png), raw returns, and prompt log using built-in image generation. Verified 1024×1024 and unchanged pixels outside the mask.
+
+The one permitted correction still left marked steel patches and some streaking; the result does **not fully meet the brief**. No builds or model changes performed.

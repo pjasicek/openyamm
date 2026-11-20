@@ -1,0 +1,105 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "best available unmodified candidate saved; strict brief checks not all satisfied",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None. Selected output copied byte-for-byte; no resizing, cropping, alpha masking or repainting.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic back-view albedo texture source for an existing 3D decoration.\nPrimary request: Paint ONLY the surfaces of input image 1 (guide_back.png), keeping the grey guide's geometry and composition EXACTLY. Return ONE 1024 x 1024 RGBA PNG on a genuinely transparent background.\n\nInput roles:\n1. guide_back.png is the EDIT TARGET and absolute geometry authority. It shows the statue strictly from BEHIND: a broken headless neck, broad short shoulder mantle, long back cloak with the exact visible folds, broken left-side arm stump, long right-side arm descending diagonally toward an upright broken slab, and a low wide arrangement of rubble. Preserve every outline, internal shape boundary, occlusion, opening and little rubble piece in precisely the original location.\n2. design_reference.png is ONLY the approved colour/material authority. Transfer its white-and-bone ceramic stone, weathered chipped surfaces, thin tarnished gold trim and grey-violet ash coloration onto the BACK shapes of input 1. Do not transfer its front camera, pose, composition or lighting.\n3. concept_crop.png is supporting original design reference only.\n\nComposition/framing invariants: pixel-for-pixel same framing, silhouette, scale, position, view and shape edges as guide_back.png. The total object fits guide bounds approximately x=66..957, y=181..842 on the 1024 canvas; do not enlarge or center differently. Keep the broken neck top at y=181, the low rubble base at y=842, and all the empty transparent margins. Back view only. No head, face, chest pendant or front belt details added to this rear view. Preserve the angular geometry of the guide rather than redesigning it.\n\nMaterials: warm off-white / bone ceramic stone throughout statue, cloak and stone rubble; scattered subtle brown-grey weathering, fine hairline cracks, sparse chipped patches exposing slightly darker stone, matching the reference's material. Thin worn tarnished gold on existing robe hem and sash/trim edges where visible from behind; thin matching trim along the existing shoulder-mantle edge. Soft grey-violet ash colour deposits in folds and on the existing low plinth/rubble, painted as local pigment, never as lighting. Keep large surfaces predominantly pale stone rather than covering them with dense grime.\n\nLIGHTING: pure albedo TEXTURE SOURCE, even flat shadowless illumination from the viewer. REMOVE the grey guide's baked shading. NO directional lighting, NO cast shadows, NO ambient-occlusion darkening in folds or between rubble, NO strong specular highlight, NO reflections, NO rim light. Material colour variation only. No backdrop, no floor plane, no text, no additions outside the exact guide silhouette. Actual alpha transparency; never paint black or a checkerboard as the background. Keep all geometric boundaries fixed while applying the material.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/guide_back.png",
+          "sha256": "61c951f440b5008d745e6995b4848054c9f3344338a89594643ce03b70544447",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/design_reference.png",
+          "sha256": "d02cdc88197846aeb51a16ee4fa69322a11fa20ae602ce7dff0d7c6d4bc99ff2",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/concept_crop.png",
+          "sha256": "e9d006b1bf8e606f17ba7406dd966e506b615bec12e93fb718b8dbc24f0f5312",
+          "role": "supporting original concept"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/paint_back.png",
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a1563f-708e-73f0-9d28-b129a30543e8/exec-2161d31c-4eb2-48b9-9f37-d8a9de89edfb.png",
+      "output_sha256": "52127a7e89aceff4c437a9bd58f00a165fd9da9b24a698fda8d70c1c8e265321",
+      "selected": true,
+      "reason": "Closer guide silhouette than the corrective return; selected only as the best available candidate, not as a fully compliant result.",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "diagnostic_normalized_alpha_iou": 0.9906428738078237,
+        "diagnostic_note": "IoU compares alpha >=128 with the guide after in-memory normalization for measurement only. Saved output was not resized. This metric does not establish identical silhouette or internal edges.",
+        "materials": "Pale weathered white-and-bone ceramic stone with chipped surfaces and tarnished gold; grey-violet ash is subdued.",
+        "flat_even_shadowless_light": false,
+        "lighting_note": "Visible fold, trim and rubble shading remains."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "Corrective generation, final allowed attempt. Output exactly 1024 by 1024 pixels, native resolution, one RGBA PNG with genuine alpha transparency. This pixel size is mandatory: do not return 1254, 1536 or any other size.\n\nUse case: precise-object-edit. Paint an ALBEDO texture-source BACK view of the broken founder statue.\nINPUT 1 guide_back.png: edit target. LOCK its canvas dimensions and alpha silhouette. This is the exact 1024 x 1024 image to colour in place. Keep every original shape boundary and fold edge, each piece of rubble, all openings, the broken neck, shoulder mantle, left arm stump and descending right arm exactly at the same pixel coordinates. Do not redraw, reposition, smooth, enlarge or change perspective. Subject extents in the 1024 image are x=66 to 957, y=181 to 842. Keep the exact empty margins around that outline. Rear view only.\nINPUT 2 design_reference.png: material/colour authority ONLY; its front three-quarter pose and lighting must NOT be copied.\nINPUT 3 concept_crop.png: supporting colour/design reference.\nINPUT 4 previous attempt: shows the desired ceramic stone and gold material, but has WRONG dimensions and excessive lighting; use it only to understand the correction. Return to input 1's geometry and 1024 canvas.\n\nPAINT: reference-matching predominantly pale warm white-and-bone ceramic stone, weathered and chipped, fine irregular cracks and sparse darker brown-grey chips. Thin matte tarnished gold trim on existing robe hem and sash, and shoulder-mantle rim as appropriate to the reference. Grey-violet ash deposits in folds and on the existing low plinth. Rear cloak is stone carved as cloth. Broken rubble is the same pale stone.\nFLAT ALBEDO: every surface receives the same even shadowless viewer illumination. NO cast shadows, NO ambient occlusion, NO darker sides of rubble, NO dark fold shading, NO strong highlights or reflections, NO rim light. Show shape with exact guide boundaries and pigment variation only. De-light the guide and the previous painting. Pale matte local colours even in recesses.\nNo additions, no floor, no background, no head, no front chest pendant, no text. Preserve the exact original guide alpha, including small rubble pieces; all outside pixels transparent. Output native 1024 x 1024, unresized, full original framing.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/guide_back.png",
+          "sha256": "61c951f440b5008d745e6995b4848054c9f3344338a89594643ce03b70544447",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/design_reference.png",
+          "sha256": "d02cdc88197846aeb51a16ee4fa69322a11fa20ae602ce7dff0d7c6d4bc99ff2",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/concept_crop.png",
+          "sha256": "e9d006b1bf8e606f17ba7406dd966e506b615bec12e93fb718b8dbc24f0f5312",
+          "role": "supporting original concept"
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1563f-708e-73f0-9d28-b129a30543e8/exec-2161d31c-4eb2-48b9-9f37-d8a9de89edfb.png",
+          "sha256": "52127a7e89aceff4c437a9bd58f00a165fd9da9b24a698fda8d70c1c8e265321",
+          "role": "previous output used to explain dimension and lighting correction"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1563f-708e-73f0-9d28-b129a30543e8/exec-90aaf69b-8c2c-4b6e-9a5e-d8057f688dc6.png",
+      "selected": false,
+      "reason": "Corrective attempt still returned 1254 x 1254, retained shading and substantially changed guide framing/silhouette. Rejected in favor of the initial return. No further generation: brief permits at most one correction.",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "diagnostic_normalized_alpha_iou": 0.8088459264302736,
+        "flat_even_shadowless_light": false
+      }
+    }
+  ]
+}

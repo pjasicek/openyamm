@@ -1,0 +1,163 @@
+{
+  "tool": "built-in image_gen",
+  "status": "generated_with_failed_acceptance_checks",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized": true,
+  "runs": [
+    {
+      "view": "front",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer front candidate: keeps the central upper mechanism and cage placement closer than the correction. Not compliant: output size differs, geometry is not pixel-identical, and reflective highlights and shading remain.",
+      "prompt": "Paint the supplied grey orthographic geometry guide as a texture-source albedo image. Output exactly 1024 x 1024 pixels, true transparent background. Image 1 is the EDIT TARGET and absolute geometry authority; image 2 is design_reference.png, the approved colour and material authority ONLY; image 3 is concept_crop.png, supporting original concept ONLY. Keep image 1's silhouette EXACTLY: identical outline, scale, position in frame, every shape edge, opening and detail, all individual rubble silhouettes. Do not move, reshape, add, omit, crop, or reframe anything. Retain the guide's orthographic camera. Apply chipped ivory-white ceramic with fine cracks, gold bands and frames, blue light strips, gold-framed glass elevator cage with warm amber interior, and black glass rubble, wherever those corresponding surfaces exist in the guide. Flat even shadowless viewer-facing illumination, albedo only: no cast shadows, no ambient occlusion, no strong specular highlights, no reflections, no rim light. Paint luminous elements at their local glowing colour without light spill, bloom or halos. No background, floor, text, labels, or extra objects. Keep model geometry visible in the guide, including ledges and base; 'no floor' means no added floor outside the model.\nVIEW: FRONT. Paint over guide_front.png precisely. Keep central elevator cage at its exact low position, roof dome profile and finial, both horizontal side ledges, recessed vertical shaft, vertical side structures and every base rock where the guide places them. The taller right front upright obscures part of the structure; preserve that occlusion. Do not use the reference's three-quarter camera or its different geometry.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/guide_front.png",
+          "sha256": "0f69a4c07d82cb75fb6bf7b0c285eaf038bce4cbad68245ce01a2a104e5662ee"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "56da4c723fca7bdbfe17e730677d52183b38b12ad485a8a80e2912fa45ba6d94",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Broad palette matches; material placement/details drift from guide",
+        "flat_even_light": false,
+        "inspection": "Visual comparison with guide and references; dimension and alpha checks; no resampling or image editing"
+      }
+    },
+    {
+      "view": "front",
+      "output": "paint_front_correction.png",
+      "selected": false,
+      "reason": "Only permitted corrective attempt. Still wrong native size and not flat albedo; adds a roof-centre arch and changes cage and other guide details.",
+      "prompt": "Paint the supplied grey orthographic geometry guide as a texture-source albedo image. Output exactly 1024 x 1024 pixels, true transparent background. Image 1 is the EDIT TARGET and absolute geometry authority; image 2 is design_reference.png, the approved colour and material authority ONLY; image 3 is concept_crop.png, supporting original concept ONLY. Keep image 1's silhouette EXACTLY: identical outline, scale, position in frame, every shape edge, opening and detail, all individual rubble silhouettes. Do not move, reshape, add, omit, crop, or reframe anything. Retain the guide's orthographic camera. Apply chipped ivory-white ceramic with fine cracks, gold bands and frames, blue light strips, gold-framed glass elevator cage with warm amber interior, and black glass rubble, wherever those corresponding surfaces exist in the guide. Flat even shadowless viewer-facing illumination, albedo only: no cast shadows, no ambient occlusion, no strong specular highlights, no reflections, no rim light. Paint luminous elements at their local glowing colour without light spill, bloom or halos. No background, floor, text, labels, or extra objects. Keep model geometry visible in the guide, including ledges and base; 'no floor' means no added floor outside the model.\nVIEW: FRONT. Paint over guide_front.png precisely. Keep central elevator cage at its exact low position, roof dome profile and finial, both horizontal side ledges, recessed vertical shaft, vertical side structures and every base rock where the guide places them. The taller right front upright obscures part of the structure; preserve that occlusion. Do not use the reference's three-quarter camera or its different geometry.\nCORRECTION, mandatory delivery: generate the native output at exactly 1024 by 1024 pixels, not 1254 by 1254. Do not resize or reframe the geometry. This must be a flat diffuse albedo painting, NOT a polished rendered product image. Gold must be flat ochre-gold surface colour without shiny highlight streaks; white ceramic must stay equally lit across all surfaces; dark shaft is dark material colour without shadows. Preserve image 1's alpha silhouette and all projected edges pixel for pixel, including the exact small finial and individual rubble shapes. Ignore lighting in images 2 and 3. Exact 1024x1024 square canvas.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/guide_front.png",
+          "sha256": "0f69a4c07d82cb75fb6bf7b0c285eaf038bce4cbad68245ce01a2a104e5662ee"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "7c422dc5702d0fe652f2d5641e844a9550320870c6332a21301f3694e6aca423",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Broad palette matches; material placement/details drift from guide",
+        "flat_even_light": false,
+        "inspection": "Visual comparison with guide and references; dimension and alpha checks; no resampling or image editing"
+      }
+    },
+    {
+      "view": "top",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closer top candidate: outer roof band and overall framing follow the guide more closely than the correction. Not compliant: wrong native size, changed platform contour and rubble, residual shading and highlights.",
+      "prompt": "Paint the supplied grey orthographic geometry guide as a texture-source albedo image. Output exactly 1024 x 1024 pixels, true transparent background. Image 1 is the EDIT TARGET and absolute geometry authority; image 2 is design_reference.png, the approved colour and material authority ONLY; image 3 is concept_crop.png, supporting original concept ONLY. Keep image 1's silhouette EXACTLY: identical outline, scale, position in frame, every shape edge, opening and detail, all individual rubble silhouettes. Do not move, reshape, add, omit, crop, or reframe anything. Retain the guide's orthographic camera. Apply chipped ivory-white ceramic with fine cracks, gold bands and frames, blue light strips, gold-framed glass elevator cage with warm amber interior, and black glass rubble, wherever those corresponding surfaces exist in the guide. Flat even shadowless viewer-facing illumination, albedo only: no cast shadows, no ambient occlusion, no strong specular highlights, no reflections, no rim light. Paint luminous elements at their local glowing colour without light spill, bloom or halos. No background, floor, text, labels, or extra objects. Keep model geometry visible in the guide, including ledges and base; 'no floor' means no added floor outside the model.\nVIEW: TOP, straight down. Paint over guide_top.png precisely. The circular roof lies in the lower middle of the image, while the large broad curved upper platform occupies the upper half. Preserve this offset arrangement, all visible parts of the surrounding base, rock fragments, perimeter gaps and openings. Roof is white ceramic with gold circular bands and radial seams following existing shape; broad platform is chipped white ceramic with gold edge trim. Surrounding jagged rubble is black glass with restrained fine gold-coloured cracks. Do not make the tower stand upright, do not use the reference's three-quarter camera, and do not invent visible front walls or cage that are hidden in this overhead view.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/guide_top.png",
+          "sha256": "a129cfd6954081bde092da05b85c1579d5b382f578d4d811e05d12a21154fad6"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "8e0806635c6a6272231682a88bfaaf582dfca7ca163cbc22bd2513c6b6ecf6e7",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Broad palette matches; material placement/details drift from guide",
+        "flat_even_light": false,
+        "inspection": "Visual comparison with guide and references; dimension and alpha checks; no resampling or image editing"
+      }
+    },
+    {
+      "view": "top",
+      "output": "paint_top_correction.png",
+      "selected": false,
+      "reason": "Only permitted corrective attempt. Wrong native size persists; changes roof bands and framing and adds a visible cage detail absent from the top guide.",
+      "prompt": "Paint the supplied grey orthographic geometry guide as a texture-source albedo image. Output exactly 1024 x 1024 pixels, true transparent background. Image 1 is the EDIT TARGET and absolute geometry authority; image 2 is design_reference.png, the approved colour and material authority ONLY; image 3 is concept_crop.png, supporting original concept ONLY. Keep image 1's silhouette EXACTLY: identical outline, scale, position in frame, every shape edge, opening and detail, all individual rubble silhouettes. Do not move, reshape, add, omit, crop, or reframe anything. Retain the guide's orthographic camera. Apply chipped ivory-white ceramic with fine cracks, gold bands and frames, blue light strips, gold-framed glass elevator cage with warm amber interior, and black glass rubble, wherever those corresponding surfaces exist in the guide. Flat even shadowless viewer-facing illumination, albedo only: no cast shadows, no ambient occlusion, no strong specular highlights, no reflections, no rim light. Paint luminous elements at their local glowing colour without light spill, bloom or halos. No background, floor, text, labels, or extra objects. Keep model geometry visible in the guide, including ledges and base; 'no floor' means no added floor outside the model.\nVIEW: TOP, straight down. Paint over guide_top.png precisely. The circular roof lies in the lower middle of the image, while the large broad curved upper platform occupies the upper half. Preserve this offset arrangement, all visible parts of the surrounding base, rock fragments, perimeter gaps and openings. Roof is white ceramic with gold circular bands and radial seams following existing shape; broad platform is chipped white ceramic with gold edge trim. Surrounding jagged rubble is black glass with restrained fine gold-coloured cracks. Do not make the tower stand upright, do not use the reference's three-quarter camera, and do not invent visible front walls or cage that are hidden in this overhead view.\nCORRECTION: native output must be exactly 1024x1024 pixels. Treat image 1 as an immutable pixel-aligned shape stencil. In particular the broad upper platform has the exact smooth curved outline shown in the grey guide; DO NOT add scallops, lobes, notches, protruding brackets or new panel geometry. DO NOT fill the visible lower base with extra rocks: retain each existing flat base surface and each existing individual rock exactly where shown. Preserve the roof circle center and radius exactly. Only paint material colours and fine texture on the existing surfaces. Matte diffuse albedo, flat gold-ochre bands without shiny highlights, uniform ivory white ceramic, no directional shading, no ambient occlusion, no light spill. Actual transparent background. 1024 by 1024 native output, unchanged guide framing.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/guide_top.png",
+          "sha256": "a129cfd6954081bde092da05b85c1579d5b382f578d4d811e05d12a21154fad6"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_lift_head/concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output_sha256": "704a0dcefd50e972ce8659cf8135afda95513e2950264aaf167f794d402c176f",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Broad palette matches; material placement/details drift from guide",
+        "flat_even_light": false,
+        "inspection": "Visual comparison with guide and references; dimension and alpha checks; no resampling or image editing"
+      }
+    }
+  ]
+}

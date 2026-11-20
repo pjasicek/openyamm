@@ -1,0 +1,226 @@
+# Mad Necromancer's Lab rebuild: from the arrival in the hall of the well through every mechanism to Ebonest in the
+# far cave, and out by the front door to Shadowspire with the quest bit the leave event sets.
+# Numbers as ids.lock.yml has them. Events: 15/14 the well (Take a Drink), 11 door hall-west (doors 5, 6), 26 the west
+# bookshelf, 12 door west-SW (7, 8), 13 the basin, 10 door hall-east (3, 4), 23 the east bookshelf, 9 door east-SE
+# (1, 2), 24/25 the SE bookshelves, 21 the lift (mover 9), 4/3 the lift buttons below and above, 2 the cell door
+# (Blazen Stormlance), 18 the fire plates, 1 the blades plate, 5/6/7/8 chests c1 (Lich Jars, Puzzle Box), c2 (Ebonest),
+# c3, c4, 16 the front door. Map variables: 0 shelf_e, 1 shelf_se_e, 2 shelf_se_w, 3 shelf_w.
+# The lab's monsters (group 10, hostile on entry) attack the walk: every walk clears hostiles within 2500, so no step
+# waits on a fight's luck. Before each looting the packs are emptied of what the walk does not assert (make_room), so
+# no chest fails for want of room (a new game's party is one character).
+# Run from output/studio_cal/mm8_d20/run (output/studio_cal/mm8_d20/play.sh).
+id: studio.calib_mm8_d20.walk
+title: Mad Necromancer's Lab rebuild, the way to Ebonest and every mechanism
+world: mm8
+mode: faithful
+steps:
+  - new_game_flow: {start_map: calib_mm8_d20.blv}
+  - assert: {map: calib_mm8_d20.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(1.5)"}
+  - assert: {party_position: {x: -900, y: -127, radius: 120, z_min: -8, z_max: 8}}
+  # the load event makes the lab's monsters hostile (group 10)
+  - assert: {actor_count: {hostile: true, min: 10}}
+  # the well in the middle of the hall
+  - walk_to: {x: -928, y: 420, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        status(); click(15); wait(1)
+        if not string.find(status(), "Refreshing") then error("the well said nothing") end
+  # the west double door (door records 51, 52) into the west store and its bookshelf
+  - walk_to: {x: -1450, y: 704, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        if door_state(5) ~= "closed" or door_state(6) ~= "closed" then error("the west door does not start shut") end
+        open_door(11, 5)
+        if door_state(6) ~= "open" then error("the west door's second leaf did not open: " .. door_state(6)) end
+  - walk_to: {x: -2016, y: 950, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - assert: {party_position: {x: -2016, y: 950, radius: 144, z_min: -8, z_max: 8}}
+  - play_lua: {source: "click(26); wait(0.5); click(26); wait(0.5); click(26); wait(0.5); click(26); wait(0.5)"}
+  - assert: {state_dump_map_var: {index: 3, value: 4}}
+  # back into the hall and over the kerb into the well: the water is untouchable (the original's face 7), the party
+  # falls down the shaft into the cistern at -1024 (the user's walk, round two)
+  - walk_to: {x: -928, y: 420, z: 0, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -928, y: 704, z: -1024, radius: 96, timeout_seconds: 60}
+  - play_lua: {source: "wait(2)"}
+  - assert: {party_position: {x: -928, y: 704, radius: 200, z_min: -1032, z_max: -1016}}
+  # the south door of the west store (records 57, 58) into the south-west workroom; its basin
+  - walk_to: {x: -2336, y: 420, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(12, 7)"}
+  - walk_to: {x: -2336, y: -100, z: 0, radius: 64, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {x: -2830, y: 30, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        status(); click(13); wait(1)
+        if not string.find(status(), "Refreshing") then error("the basin said nothing") end
+  # back to the hall, the east door (records 53, 54), the east store's bookshelf
+  - walk_to: {x: -2336, y: 700, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -400, y: 704, z: 0, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(10, 3)"}
+  - walk_to: {x: 96, y: 950, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua: {source: "click(23); wait(0.5); click(23); wait(0.5); click(23); wait(0.5); click(23); wait(0.5)"}
+  - assert: {state_dump_map_var: {index: 0, value: 4}}
+  # the south door of the east store (records 55, 56) into the laboratory and its two bookcases
+  - walk_to: {x: 384, y: 420, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(9, 1)"}
+  - walk_to: {x: 512, y: -400, z: 0, radius: 64, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {x: 760, y: -1330, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua: {source: "click(24); wait(0.5); click(24); wait(0.5)"}
+  - assert: {state_dump_map_var: {index: 1, value: 2}}
+  - walk_to: {x: 300, y: -1330, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua: {source: "click(25); wait(0.5); click(25); wait(0.5)"}
+  - assert: {state_dump_map_var: {index: 2, value: 2}}
+  # the lift (door record 1): the hall's button sends it up and down; the party rides it up by clicking its top
+  - walk_to: {x: 512, y: -400, z: 0, radius: 64, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {x: 384, y: 700, z: 0, radius: 64, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {x: -1000, y: 1330, z: 0, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local start = door_state(9)
+        click(4); wait(12)
+        if door_state(9) == start then error("the hall's button did not send the lift up") end
+        click(4); wait(12)
+        if door_state(9) ~= start then error("the hall's button did not bring the lift back down") end
+  - walk_to: {x: -928, y: 1540, z: 32, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - assert: {party_position: {x: -928, y: 1540, radius: 120, z_min: 24, z_max: 40}}
+  - play_lua: {source: "click(21); wait(12)"}
+  - assert: {party_position: {x: -928, y: 1540, radius: 120, z_min: 537, z_max: 553}}
+  # the quarters above: Blazen Stormlance speaks through the cell door in the west wall
+  - walk_to: {x: -928, y: 1200, z: 545, radius: 64, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {x: -1500, y: 703, z: 545, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua: {source: "click(2); wait(1)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {text_contains: "Help me"}}
+  - press_action: {action: escape}
+  # the upper button calls the lift down and back; ride it down by its top
+  - walk_to: {x: -1000, y: 1330, z: 545, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local up = door_state(9)
+        click(3); wait(12)
+        if door_state(9) == up then error("the upper button did not send the lift down") end
+        click(3); wait(12)
+        if door_state(9) ~= up then error("the upper button did not call the lift back up") end
+  - walk_to: {x: -928, y: 1540, z: 545, radius: 48, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua: {source: "click(21); wait(12)"}
+  - assert: {party_position: {x: -928, y: 1540, radius: 120, z_min: 24, z_max: 40}}
+  # down the square stair: west store, the south-west workroom, four flights round the core
+  - walk_to: {x: -928, y: 1200, z: 0, radius: 64, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {x: -2336, y: 700, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -2432, y: -1300, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -2432, y: -2100, z: -256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -2432, y: -2100, radius: 144, z_min: -264, z_max: -248}}
+  - walk_to: {x: -3168, y: -2100, z: -432, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -3168, y: -2100, radius: 144, z_min: -440, z_max: -424}}
+  - walk_to: {x: -3168, y: -1350, z: -608, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -3168, y: -1350, radius: 144, z_min: -616, z_max: -600}}
+  - walk_to: {x: -1800, y: -1350, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -1800, y: -1350, radius: 144, z_min: -1032, z_max: -1016}}
+  # the lower level: the long gallery east, the north bend and its dead end
+  - walk_to: {x: -1408, y: -100, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 896, y: -500, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 1472, y: 460, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 1472, y: 460, radius: 144, z_min: -1032, z_max: -1016}}
+  # east: the east bend and gallery, chest c3 in the east chest room
+  - walk_to: {x: 2400, y: -884, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 3584, y: 268, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 5888, y: -300, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 4720, y: -308, z: -1024, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if id ~= 539 then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(7)
+        if item_count(628) < 2 then error("the two Lich Jars of chest c3 were not taken") end
+        make_room()
+  # south: the south-east passage, chest c4 in the south chest room, the south caves
+  - walk_to: {x: 4160, y: 0, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 4160, y: -2996, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 4736, y: -4150, z: -1024, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if id ~= 539 then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(8)
+        if item_count(628) < 1 then error("the Lich Jar of chest c4 was not taken") end
+        make_room()
+  - walk_to: {x: 4160, y: -3764, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 3000, y: -3764, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 3488, y: -5880, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - assert: {party_position: {x: 3488, y: -5880, radius: 144, z_min: -1032, z_max: -1016}}
+  # back north and round by the north-east passage to the fire corridor, whose two plates call fireballs from the roof
+  - walk_to: {x: 4160, y: -3764, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 3584, y: -884, z: -1024, radius: 64, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 2816, y: 1036, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 3200, y: 2188, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 2900, y: 2188, z: -1024, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 800, y: 2188, z: -1024, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {pressure_plate_triggered: {event_id: 18}}
+  # the cistern under the well, by the passage south of the north passage
+  - walk_to: {x: 320, y: 1100, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -900, y: 712, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -900, y: 712, radius: 144, z_min: -1032, z_max: -1016}}
+  # north into the hall of blades: its plate throws blades from the wall slots
+  - walk_to: {x: 320, y: 1100, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 320, y: 2800, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 320, y: 3300, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -258, y: 3343, z: -1024, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {pressure_plate_triggered: {event_id: 1}}
+  # Ebonest's cave: chest c2 holds Ebonest, c1 the Puzzle Box
+  - walk_to: {x: -256, y: 3700, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 700, y: 5196, z: -1024, radius: 48, timeout_seconds: 180, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if id ~= 539 then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(6)
+        if not has_item(539) then error("Ebonest was not taken from chest c2") end
+        make_room()
+  - walk_to: {x: 700, y: 5380, z: -1024, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if id ~= 539 then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(5)
+        if not has_item(613) then error("the Puzzle Box was not taken from chest c1") end
+        make_room()
+  # back the way it came: the north passage, the fire corridor, the long gallery, the stair, the hall
+  - walk_to: {x: -256, y: 3700, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 320, y: 2200, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 3200, y: 2188, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 2816, y: 0, z: -1024, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: -1408, y: -100, z: -1024, radius: 64, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -1800, y: -1350, z: -1024, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -3168, y: -1350, z: -608, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -3168, y: -2100, z: -432, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -2432, y: -2100, z: -256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -2432, y: -1300, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -2432, y: -1300, radius: 144, z_min: -8, z_max: 8}}
+  - walk_to: {x: -2336, y: 700, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -928, y: -60, z: 0, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  # out by the front door; leaving with Ebonest sets quest bit 199
+  - play_lua: {source: "if qbit(199) then error('quest bit 199 set before leaving') end; click(16); wait(1)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: out06.odm}
+  - play_lua: {source: "if not qbit(199) then error('leaving with Ebonest did not set quest bit 199') end"}

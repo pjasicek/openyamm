@@ -1,0 +1,225 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.arslegardcity_doors_exits
+title: Arslegard City (native BLV) - the tavern's double door, a locked door, the exits
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: arslegardcity.blv
+- &id001
+  setup_shortcut:
+    kind: set_qbit
+    id: 90098
+    value: true
+- note:
+    text: 'TavernDoor0/1 (doors 23, event 107): shut, stops the party, opens on its click; the party walks into the tavern.'
+- assert:
+    mechanism:
+      id: 23
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: 13442
+      y: -398
+      z: -491
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: 13702
+      y: -398
+      z: -491
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 40
+- execute_event:
+    id: 107
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 23
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: 13442
+      y: -398
+      z: -491
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: 14042
+      y: -398
+      z: -491
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'ClankDoor1/2 (Locked, no key: the Thousand Terrors'' door): a click says it is locked.'
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 5
+      state: closed
+- note:
+    text: 'ExitTrigger0 (DAT object 0) to bathhouse.blv: from BathHouseExit the party walks into it.'
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: 5161
+      y: -12700
+      z: -492
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: 5161
+      y: -13300
+      z: -492
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 900
+    tolerance_z: 400
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 0
+- load_map:
+    map: arslegardcity.blv
+- *id001
+- note:
+    text: 'ExitTriggerHall (DAT object 95) to hallofthegods.blv: from HallOfTheGodsExit the party walks into it.'
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: 19999
+      y: -11703
+      z: 493
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: 20599
+      y: -11703
+      z: 493
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 900
+    tolerance_z: 400
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 95
+- load_map:
+    map: arslegardcity.blv
+- *id001
+- note:
+    text: 'ExitTrigger1 (DAT object 100) to 1000terrors.blv: from 1000TerrorsExit the party walks into it.'
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: -614
+      y: -6542
+      z: -424
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: -1214
+      y: -6542
+      z: -424
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 900
+    tolerance_z: 400
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 100
+- load_map:
+    map: arslegardcity.blv
+- *id001
+- note:
+    text: 'ExitTrigger4 (DAT object 648) to thjorgard.odm: from StartPoint0 the party walks into it.'
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: 14400
+      y: 2525
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: 14400
+      y: 3125
+      z: -491
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 900
+    tolerance_z: 400
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 648
+- load_map:
+    map: arslegardcity.blv
+- *id001
+- note:
+    text: 'ExitTrigger3 (DAT object 638, a row this map adds): the party falls into the chasm through the city (its floor
+      is sky) and lands in Thjorgard.'
+- set_pose:
+    map: arslegardcity.blv
+    x: 9472
+    y: 1056
+    z: -420
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 3
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 638

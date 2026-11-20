@@ -1,0 +1,29 @@
+[
+  {
+    "name": "sculpture_7item270",
+    "prompt": "Use case: precise-object-edit. This is a FLAT DIFFUSE ALBEDO TEXTURE PAINTING, not a beauty render. Image 1 is the EXACT edit target: six orthographic mesh guides in one transparent 1536x1024 atlas, three columns and two rows. Keep its PIXEL-EXACT outlines, alpha, internal holes, shapes, directions, centres, scale, framing and six-cell grid. Never rearrange, enlarge, shrink or rotate the objects. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / BOTTOM. Image 2 supplies design and material only; IGNORE ITS SHADOWS AND HIGHLIGHTS. Paint only these exact mesh surfaces: Yellowed IVORY BONE (#c6baa0), subtle small brown pores and hairline fissures, light neutral bone even inside cavities, no dark eye-hole paint. yellowed ivory bone. Every surface receives uniform matte ambient light: NO 3D SHADING, NO HIGHLIGHTS, NO SPECULAR, NO REFLECTIONS, NO LIGHT GRADIENTS, NO AMBIENT OCCLUSION, NO DROP SHADOW, NO HALO. Remove the grey guide's lighting gradients too. Surface colour may vary only for actual pigments, engraved patterns, material grain or wear, never to suggest lighting. These paintings will be lit by a game renderer later. Keep the original transparent background completely empty. No floor, background colour, labels, outlines, decorative frame or extra objects. Return exactly one 3:2 six-cell atlas with the original placement, all six views.",
+    "generated_path": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-8b463db7-dabc-4f63-b7d4-924f835a13a8.png",
+    "tool": "built-in image_gen",
+    "selected": true,
+    "output_sha256": "731d8be74e063fd95cb8ef13c3c64774ea6a78cca2cd27fd0fb3164fd4c04983",
+    "output_size": [
+      1536,
+      1024
+    ],
+    "mesh_guide": "guide_atlas.png (regenerated during seam cleanup; registration uses final guides)",
+    "material_reference": "level_generation/props/items_wip_sculpture/meshy/sculpture_7item270/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "d52bd98b90165ed6c71899d742c709eb08b83d77ca44a2489e9700c0ca3086f8",
+    "status": "superseded"
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. This is a FLAT DIFFUSE ALBEDO TEXTURE PAINTING, not a beauty render. Image 1 is the EXACT edit target: six orthographic mesh guides in one transparent 1536x1024 atlas, three columns and two rows. Keep its PIXEL-EXACT outlines, alpha, internal holes, shapes, directions, centres, scale, framing and six-cell grid. Never rearrange, enlarge, shrink or rotate the objects. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / BOTTOM. Image 2 supplies design and material only; IGNORE ITS SHADOWS AND HIGHLIGHTS. Paint only these exact mesh surfaces: Yellowed IVORY BONE (#c6baa0), subtle small brown pores and hairline fissures, light neutral bone even inside cavities, no dark eye-hole paint. yellowed ivory bone. Every surface receives uniform matte ambient light: NO 3D SHADING, NO HIGHLIGHTS, NO SPECULAR, NO REFLECTIONS, NO LIGHT GRADIENTS, NO AMBIENT OCCLUSION, NO DROP SHADOW, NO HALO. Remove the grey guide's lighting gradients too. Surface colour may vary only for actual pigments, engraved patterns, material grain or wear, never to suggest lighting. These paintings will be lit by a game renderer later. Keep the original transparent background completely empty. No floor, background colour, labels, outlines, decorative frame or extra objects. Return exactly one 3:2 six-cell atlas with the original placement, all six views.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-8b463db7-dabc-4f63-b7d4-924f835a13a8.png",
+    "raw_sha256": "731d8be74e063fd95cb8ef13c3c64774ea6a78cca2cd27fd0fb3164fd4c04983",
+    "selected_atlas_sha256": "731d8be74e063fd95cb8ef13c3c64774ea6a78cca2cd27fd0fb3164fd4c04983",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_7item270/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "d52bd98b90165ed6c71899d742c709eb08b83d77ca44a2489e9700c0ca3086f8",
+    "guide_input_note": "Exact earlier guide revision was not retained; final mesh guides are retained. Repaired geometry used for final bake."
+  }
+]

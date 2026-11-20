@@ -1,0 +1,34 @@
+# Original MM8-Rel.exe; SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b.
+# Verify the full hash before loading. Analysis labels only; no executable writes.
+# Evidence and limitations: INDOOR_SPAWN_RECOVERY.md. Names are not original debug symbols.
+f+ ref.mm8rel.ResetActorsToHomes @ 0x40928c
+f+ ref.mm8rel.SpawnEncounter @ 0x44dfbe
+f+ ref.mm8rel.LoadIndoorAndSetupActors @ 0x45f895
+f+ ref.mm8rel.IndoorFloor @ 0x46d0d0
+f+ ref.mm8rel.IndoorFloorWithSectorRetry @ 0x46ef67
+f+ ref.mm8rel.UpdateIndoorActors @ 0x46fb6d
+f+ ref.mm8rel.RoomFromPoint @ 0x499f5f
+CC "Actor reset copies home XYZ to current position without floor correction" @ 0x4092c9
+CC "Encounter obtains marker room using original marker XYZ" @ 0x44e147
+CC "Indoor encounter offset radius 64, outdoor radius 128" @ 0x44e163
+CC "Stores current and home XYZ before computing this iteration's next candidate" @ 0x44e2a8
+CC "Random placement angle, modulo 2048 at 0x44e308" @ 0x44e302
+CC "Candidate room must equal marker room, failure consumes encounter iteration" @ 0x44e38a
+CC "Reject sentinel floor minus 30000" @ 0x44e3a4
+CC "Require absolute floor to marker Z difference at most 1024" @ 0x44e3b5
+CC "Floor correction updates candidate local, actor coordinates were already stored" @ 0x44e3bd
+CC "Only accepted encounter iterations increase global monster count" @ 0x44e3ca
+CC "Failed and successful candidates both consume requested-count iteration" @ 0x44e3d0
+CC "Actor reset skipped under save-loading skip-reset bit, no placement migration here" @ 0x45fa45
+CC "Fresh indoor encounter generation from map spawn point" @ 0x45fa8b
+CC "One floor candidate is returned even when above query Z" @ 0x46d64d
+CC "No floor candidates returns minus 30000" @ 0x46d668
+CC "Multiple floors prefer highest at or below Z plus 5, else lowest above" @ 0x46d683
+CC "Invalid floor or floor above Z plus 50 revalidates room from queried point" @ 0x46ef8c
+CC "Writes newly looked-up room, even when zero" @ 0x46efaa
+CC "Indoor actor starts with floor lookup using feet XYZ and stored room" @ 0x46fbf1
+CC "Unresolved room skips actor movement, no guaranteed rescue" @ 0x46fc61
+CC "Below-floor correction is not conditioned on the flying flag or actor height" @ 0x46fe60
+CC "Assign selected floor plus one before collision integration" @ 0x46fe6b
+CC "Flyer exclusion belongs to ordinary gravity, after below-floor correction" @ 0x46febd
+CC "Room point lookup rejects Z below minZ minus 64 or above maxZ plus 64" @ 0x499fd0

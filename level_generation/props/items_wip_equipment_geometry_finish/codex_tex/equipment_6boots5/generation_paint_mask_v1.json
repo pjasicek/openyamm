@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, the exact 3D geometry texture guide for Ultimate/Lucius/Hermes boots; image 2 supplies original icon appearance. Keep EXACT 3:4 transparent canvas with 3 columns and 4 rows, all five model silhouettes and positions duplicated top and bottom. DO NOT ENLARGE the objects; exact registration is critical. No redesigned geometry, added parts, text, floor, glow or shadow. TOP TWO ROWS: FRONT/BACK/LEFT then RIGHT/TOP/EMPTY. Paint realistic UNLIT BASE COLOUR on the gray surfaces with no baked highlights, directional lighting or ambient occlusion. Oxblood red dragonhide leather boots, brown-red leather shafts and deep dark oxblood leather interiors and soles. Amber brown horn instep reinforcement and raised bird plaques at upper cuff fronts. Small steel rivets and silver square buckles; the straps themselves are leather. Preserve every gap and opaque solid edge exactly. BOTTOM TWO ROWS: Same five objects at corresponding identical positions become flat material class masks with NO texture or shading: LEATHER including shafts/interiors/soles/straps GREEN #00ff00; HORN plaques and horn instep reinforcement YELLOW #ffff00; ONLY steel rivets and square buckle frames METAL RED #ff0000. Transparent backgrounds everywhere outside objects, empty last slot in rows 2 and 4. Maintain guide size or up to 1% smaller; NEVER bigger. Output one 1536x2048 PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots5.png"
+  ],
+  "selected": false,
+  "reason": "Generated trial not selected. Original paintings and masks register after restoring source pair proportions; see reused_original_views.json.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-6820841a-29db-4998-a2ff-0532da127f7c.png",
+  "raw_sha256": "f56e568ad0f31f6452843a5b10b05c64c04854cd39e7b2109ff818d8122dd99c",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/paint_mask_guide.png": "34c454a81805aed9bb2320fc1655200e253d70bae6514f774d4b40d91b5b9fb2",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots5.png": "b2b8e5e1400143b06da8954c93112c41874aeee4205fac2f202189ab29b5aa69"
+  },
+  "prepared_scene_sha256": "2b379efd77da4356f1df337ef0359b9a3568cfd549af843ce28b0f8bd91410db"
+}

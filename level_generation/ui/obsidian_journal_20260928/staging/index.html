@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Approved Obsidian journal · staged assets</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101711;color:#e5dcc7;font:15px/1.6 system-ui,sans-serif}
+main{max-width:1240px;margin:auto;padding:40px 32px}h1,h2{color:#e4c793;font-weight:500}h1{font-size:32px;margin:5px 0 12px}
+h2{font-size:22px;margin:30px 0 12px}p{max-width:930px}a{color:#b4d3fa}nav{display:flex;gap:22px;flex-wrap:wrap}
+.eyebrow{font-size:12px;color:#8ebcfa;letter-spacing:2px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+figure{margin:0;padding:14px;border:1px solid #746647;background:#172018;min-width:0}figure img{display:block;max-width:100%;height:170px;object-fit:contain;margin:auto}
+figcaption{font-size:11px;color:#c7bfa9;overflow-wrap:anywhere;margin-top:8px}.alpha{background:repeating-conic-gradient(#243027 0 25%,#131d16 0 50%) 0/20px 20px}
+.states{display:flex;gap:16px;flex-wrap:wrap;align-items:center}.states figure{width:175px}.states img{height:120px}
+.preview{display:block;width:min(100%,1000px);margin:25px 0;border:1px solid #746647}.preview img{display:block;width:100%}
+</style>
+<main><div class="eyebrow">APPROVED 28 SEPTEMBER 2026 · JOURNAL REVISION 01</div>
+<h1>Carved Obsidian journal — staged for integration</h1>
+<p>Map, quests, story and all six autonote categories. Blank graphics, transparent illustrations, native reading fonts
+and a YAML draft with the original map viewport. The images below are the staged files.</p>
+<nav><a href="../index.html">Interactive approved screens</a><a href="README.md">Package guide</a>
+<a href="INTEGRATION.md">Integration notes</a><a href="manifest.json">Manifest</a><a href="validation.json">Validation</a>
+<a href="../../obsidian_overlays_20260928/staging/index.html">Earlier overlay package</a></nav>
+<p id="status">Loading package manifest…</p>
+<a class="preview" href="../index.html?view=notes"><img src="approved_previews/notes.png" alt="Approved autonote screen"></a>
+<h2>Navigation and category illustrations</h2><div id="icons" class="grid"></div>
+<h2>Five button states · labels remain live</h2><div id="buttons" class="states"></div>
+<h2>Blank surfaces, map frame and navigation glyphs</h2><div id="surfaces" class="grid"></div>
+<p>Assets and layouts are prepared in this directory. Runtime renderer and font-loader hooks are recorded in the integration notes.</p>
+</main><script>
+const figure=file=>{const element=document.createElement('figure'),img=document.createElement('img'),caption=document.createElement('figcaption');
+img.src=file.path;img.alt=file.path.split('/').pop();caption.textContent=img.alt+' · '+file.pixels.join('×');element.append(img,caption);
+if(file.alpha_range[0]===0)element.classList.add('alpha');return element;};
+Promise.all([fetch('manifest.json').then(r=>r.json()),fetch('validation.json').then(r=>r.json())]).then(([manifest,validation])=>{
+document.querySelector('#status').textContent=`${validation.totals.pngs} PNGs · ${validation.totals.layouts} YAML draft · ${validation.totals.font_faces} font faces · validation ${validation.result}`;
+for(const file of manifest.files.filter(file=>file.path.endsWith('.png'))){
+if(file.path.includes('_icon_'))document.querySelector('#icons').append(figure(file));
+else if(file.path.includes('_main_'))document.querySelector('#buttons').append(figure(file));
+else if(!/_(category|page|close)_/.test(file.path))document.querySelector('#surfaces').append(figure(file));
+}window.stagingReady=true;
+}).catch(error=>{document.querySelector('#status').textContent='Open through the local review server to load the manifest.';console.error(error);});
+</script></html>

@@ -1,0 +1,242 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "Generated returns preserved; brief acceptance failed.",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations_per_view": 1,
+  "postprocessing": "None. Selected PNGs copied byte-for-byte; no resizing, cropping, recolouring or alpha repair.",
+  "limitations": [
+    "All four built-in returns are 1254 x 1254 despite explicit 1024 x 1024 instructions.",
+    "Generated silhouettes and alpha do not exactly match the guides; faint nonzero alpha exists outside the intended silhouettes.",
+    "Some surface highlights/shading remain, so strict flat shadowless albedo is not fully satisfied."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset: paint_front.png, a 1024 x 1024 transparent RGBA albedo texture-source painting for the Seedship 3D model.\nInput 1 guide_front.png is the EDIT TARGET and absolute geometry, framing and alpha authority. Input 2 design_reference.png is the approved colour and material authority ONLY. Input 3 concept_crop.png is supporting appearance reference ONLY.\nPaint directly over Input 1. Preserve its original 1024 x 1024 canvas and alpha silhouette exactly, including antialiased boundary pixels, all openings, every tiny prong and every shape edge. Change only the grey surface colours into the approved materials. Keep the same orthographic FRONT camera. The entire object is deliberately SMALL, contained in x=424 through 599 and y=392 through 632 inclusive on the 1024 square. Keep all the large transparent margins; do not enlarge, reframe, crop, rotate, move or redraw its geometry. Preserve the central tall thin spine, rounded hull cap, curling side ribs, lower prongs and gaps at exactly their existing coordinates.\nApply the design reference materials within those existing surfaces: dark violet-black resin hull, ivory bone ribs and plates carrying thin gold-brown veins, amber-orange sacs/openings and seams, ivory spines. Use the existing model's structural edges to delimit these materials; reference details become surface colour, never new geometry or changed cutouts. This is an alien architectural vessel end-on, not a creature face. Do not transfer the reference's three-quarter camera, long side silhouette, buildings or setting.\nLIGHTING: flat, even, shadowless viewer-facing light for an albedo source. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections or rim light. Orange glowing features are painted in their saturated amber-orange glowing colour only, without halos or light cast onto neighbouring materials. No lighting gradients across the hull.\nOUTPUT: exactly one 1024 x 1024 image with genuine transparent background and the guide's exact unchanged silhouette/scale/position. No background colour, checkerboard pixels, floor, text, watermark or added objects. Leave the transparent area entirely transparent.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "be2800817bcd32ab8660aa51e5cb900ae07ca7ad2d9c81b0dc1dd57c5e89a077"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a16887-dc74-7721-9b24-4774301b7b6b/exec-22eafd24-ef76-46ec-acee-5dd0518997be.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16887-dc74-7721-9b24-4774301b7b6b/exec-22eafd24-ef76-46ec-acee-5dd0518997be.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Superseded by the corrective return, which more closely follows the guide silhouette. This initial return also fails native resolution and exact silhouette.",
+      "visual_checks": {
+        "materials_and_colours": "Dark violet-black resin, ivory bone, gold-brown veins and amber-orange insets are present and visually consistent with the reference palette.",
+        "flat_even_light": "Partial: no cast floor shadow or external lighting bloom, but visible highlight/shading remains on ribs and insets; strict shadowless albedo is not fully achieved."
+      },
+      "output_sha256": "7480935d6b26e7ca4c325161c4f01981751317712be620414ba808e710167180",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          31,
+          116,
+          1216,
+          1069
+        ],
+        "guide_alpha_bbox": [
+          424,
+          392,
+          600,
+          633
+        ],
+        "exact_guide_alpha_pass": false,
+        "exact_silhouette_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.936319800902162,
+        "nonzero_alpha_pixels_outside_normalized_guide": 5799,
+        "normalized_metric_note": "Read-only normalized coordinate comparison; no output image was resized or edited.",
+        "unresized_unmodified_return": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset: paint_front.png, a 1024 x 1024 transparent RGBA albedo texture-source painting for the Seedship 3D model.\nInput 1 guide_front.png is the EDIT TARGET and absolute geometry, framing and alpha authority. Input 2 design_reference.png is the approved colour and material authority ONLY. Input 3 concept_crop.png is supporting appearance reference ONLY.\nPaint directly over Input 1. Preserve its original 1024 x 1024 canvas and alpha silhouette exactly, including antialiased boundary pixels, all openings, every tiny prong and every shape edge. Change only the grey surface colours into the approved materials. Keep the same orthographic FRONT camera. The entire object is deliberately SMALL, contained in x=424 through 599 and y=392 through 632 inclusive on the 1024 square. Keep all the large transparent margins; do not enlarge, reframe, crop, rotate, move or redraw its geometry. Preserve the central tall thin spine, rounded hull cap, curling side ribs, lower prongs and gaps at exactly their existing coordinates.\nApply the design reference materials within those existing surfaces: dark violet-black resin hull, ivory bone ribs and plates carrying thin gold-brown veins, amber-orange sacs/openings and seams, ivory spines. Use the existing model's structural edges to delimit these materials; reference details become surface colour, never new geometry or changed cutouts. This is an alien architectural vessel end-on, not a creature face. Do not transfer the reference's three-quarter camera, long side silhouette, buildings or setting.\nLIGHTING: flat, even, shadowless viewer-facing light for an albedo source. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections or rim light. Orange glowing features are painted in their saturated amber-orange glowing colour only, without halos or light cast onto neighbouring materials. No lighting gradients across the hull.\nOUTPUT: exactly one 1024 x 1024 image with genuine transparent background and the guide's exact unchanged silhouette/scale/position. No background colour, checkerboard pixels, floor, text, watermark or added objects. Leave the transparent area entirely transparent.\n\nCORRECTIVE REGENERATION, the only permitted correction for this view: the previous return was incorrectly 1254 x 1254, with stray nontransparent pixels far outside the object. Correct this registration failure. The actual returned PNG must be native 1024 x 1024 pixels, not 1254 x 1254 or any other resolution. Treat guide_front.png as an existing raster to colour in place; retain its exact 1024-pixel canvas, exact original alpha, exact geometry and pixel coordinates. Every pixel outside its source alpha must remain fully alpha zero, including all unused margins and every opening. Do not produce stray flecks, haze, glow or semitransparent pixels outside the guide. The model must occupy precisely x=424..599, y=392..632 on that 1024 x 1024 canvas. Recolour only the source object's visible surfaces as described above, under uniform unlit albedo illumination. Output native 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "be2800817bcd32ab8660aa51e5cb900ae07ca7ad2d9c81b0dc1dd57c5e89a077"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a16887-dc74-7721-9b24-4774301b7b6b/exec-ccc8f55a-2a43-4d44-a9d5-66cb1dea971b.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Retained as the closer unmodified return after the one permitted corrective regeneration. Normalized silhouette overlap improved, but native resolution and exact silhouette still fail the brief. Selection is not acceptance.",
+      "visual_checks": {
+        "materials_and_colours": "Dark violet-black resin, ivory bone, gold-brown veins and amber-orange insets are present and visually consistent with the reference palette.",
+        "flat_even_light": "Partial: no cast floor shadow or external lighting bloom, but visible highlight/shading remains on ribs and insets; strict shadowless albedo is not fully achieved."
+      },
+      "output_sha256": "101bcf107eb99f1bd99cdc47493d35b94fabf41724b814994da77c082a069169",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          41,
+          37,
+          1214,
+          1181
+        ],
+        "guide_alpha_bbox": [
+          424,
+          392,
+          600,
+          633
+        ],
+        "exact_guide_alpha_pass": false,
+        "exact_silhouette_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.9466408107093707,
+        "nonzero_alpha_pixels_outside_normalized_guide": 5372,
+        "normalized_metric_note": "Read-only normalized coordinate comparison; no output image was resized or edited.",
+        "unresized_unmodified_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset: paint_top.png, a native 1024x1024 transparent RGBA albedo texture source for the Seedship model.\nInput 1 guide_top.png is the EDIT TARGET: keep its exact canvas, alpha and geometry. Input 2 design_reference.png is the approved materials/colour reference ONLY. Input 3 concept_crop.png supports appearance ONLY.\nDirectly recolour the grey surface of Input 1. This is a strict orthographic TOP view, looking straight down at the existing model. Preserve its long narrow vertical hull, rounded ends, central spine row, transverse ribs, projecting curved side structures, every edge, opening, shape, scale and position EXACTLY. Keep all original asymmetries. Do not redraw or reinterpret its shape. The object spans x=424 through 599 and y=66 through 957 inclusive on the original 1024 square, with large transparent side margins. Preserve the guide's exact alpha, including interior gaps and antialiasing; all pixels outside the original silhouette must be fully transparent. Do not enlarge it to fill the width, turn it sideways or adopt the three-quarter reference view.\nPaint the design reference's dark violet-black resin onto the hull, ivory bone onto existing ribs, plates and spine projections, with thin gold-brown branching veins; paint amber-orange openings/sacs and seams within the existing hull surface as flat emissive colour. Surface detail must follow the model geometry. Do not add spines or holes or change the outline to match the more intricate reference. Preserve every structural edge of the grey model.\nLIGHTING: texture-source ALBEDO, even flat shadowless lighting from viewer, no directional illumination or brightness gradient, no cast shadows or ambient-occlusion darkening, no strong specular highlights, reflections or rim light. The orange parts have their saturated glowing colour without illuminating nearby surfaces and without external glow/bloom.\nOUTPUT: exactly one native 1024 by 1024 pixel PNG, genuine transparent background, not a 1254-pixel canvas. No background, painted checkerboard, ground, setting, text, label or watermark. Nothing outside the source alpha and nothing cropped. Only material colours change.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "86dfc9baa91396606c01a768cb8e0f6eb0e805cefb254774907705ffe11095ef"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a16887-dc74-7721-9b24-4774301b7b6b/exec-c11985f7-bee3-4cbc-b3ff-5179ba08deda.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16887-dc74-7721-9b24-4774301b7b6b/exec-c11985f7-bee3-4cbc-b3ff-5179ba08deda.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Superseded by the corrective return, which more closely follows the guide silhouette. This initial return also fails native resolution and exact silhouette.",
+      "visual_checks": {
+        "materials_and_colours": "Dark violet-black resin, ivory bone, gold-brown veins and amber-orange insets are present and visually consistent with the reference palette.",
+        "flat_even_light": "Partial: no cast floor shadow or external lighting bloom, but visible highlight/shading remains on ribs and insets; strict shadowless albedo is not fully achieved."
+      },
+      "output_sha256": "f96ddd8b73665434f48f27129ae149c6a8a2dd0908b21ac4db07b317dae40a3f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          33,
+          27,
+          1214,
+          1228
+        ],
+        "guide_alpha_bbox": [
+          424,
+          66,
+          600,
+          958
+        ],
+        "exact_guide_alpha_pass": false,
+        "exact_silhouette_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.955767520617866,
+        "nonzero_alpha_pixels_outside_normalized_guide": 19807,
+        "normalized_metric_note": "Read-only normalized coordinate comparison; no output image was resized or edited.",
+        "unresized_unmodified_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset: paint_top.png, a native 1024x1024 transparent RGBA albedo texture source for the Seedship model.\nInput 1 guide_top.png is the EDIT TARGET: keep its exact canvas, alpha and geometry. Input 2 design_reference.png is the approved materials/colour reference ONLY. Input 3 concept_crop.png supports appearance ONLY.\nDirectly recolour the grey surface of Input 1. This is a strict orthographic TOP view, looking straight down at the existing model. Preserve its long narrow vertical hull, rounded ends, central spine row, transverse ribs, projecting curved side structures, every edge, opening, shape, scale and position EXACTLY. Keep all original asymmetries. Do not redraw or reinterpret its shape. The object spans x=424 through 599 and y=66 through 957 inclusive on the original 1024 square, with large transparent side margins. Preserve the guide's exact alpha, including interior gaps and antialiasing; all pixels outside the original silhouette must be fully transparent. Do not enlarge it to fill the width, turn it sideways or adopt the three-quarter reference view.\nPaint the design reference's dark violet-black resin onto the hull, ivory bone onto existing ribs, plates and spine projections, with thin gold-brown branching veins; paint amber-orange openings/sacs and seams within the existing hull surface as flat emissive colour. Surface detail must follow the model geometry. Do not add spines or holes or change the outline to match the more intricate reference. Preserve every structural edge of the grey model.\nLIGHTING: texture-source ALBEDO, even flat shadowless lighting from viewer, no directional illumination or brightness gradient, no cast shadows or ambient-occlusion darkening, no strong specular highlights, reflections or rim light. The orange parts have their saturated glowing colour without illuminating nearby surfaces and without external glow/bloom.\nOUTPUT: exactly one native 1024 by 1024 pixel PNG, genuine transparent background, not a 1254-pixel canvas. No background, painted checkerboard, ground, setting, text, label or watermark. Nothing outside the source alpha and nothing cropped. Only material colours change.\n\nCORRECTIVE REGENERATION \u2014 the one allowed correction for this view. Fix raster registration and alpha preservation: return the guide's ORIGINAL native 1024x1024 canvas. The last attempt returned the wrong canvas dimensions and faint stray alpha in the margins. Copy the entire guide_top.png alpha channel exactly, with no stray pixels or new openings, and keep the object at x=424..599, y=66..957 on that 1024 square. Preserve all its precise contours, edge locations and interior structures. This is colour painting on the supplied grey pixels, not creation of a new silhouette. Keep the original vertical orthographic top view, existing slightly irregular paired ribs, central ridge and end plates. Use the established violet-black resin, ivory ribs/plates/spines with fine gold-brown veins and amber-orange inset sacs in uniform shadowless albedo illumination. All transparent guide pixels remain fully transparent. No specular shine, highlights, cast illumination or baked shadows. Export the unresized native 1024 by 1024 RGBA painting.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "86dfc9baa91396606c01a768cb8e0f6eb0e805cefb254774907705ffe11095ef"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a16887-dc74-7721-9b24-4774301b7b6b/exec-04d29d44-ee37-46f7-81ec-186ea0838907.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Retained as the closer unmodified return after the one permitted corrective regeneration. Normalized silhouette overlap improved, but native resolution and exact silhouette still fail the brief. Selection is not acceptance.",
+      "visual_checks": {
+        "materials_and_colours": "Dark violet-black resin, ivory bone, gold-brown veins and amber-orange insets are present and visually consistent with the reference palette.",
+        "flat_even_light": "Partial: no cast floor shadow or external lighting bloom, but visible highlight/shading remains on ribs and insets; strict shadowless albedo is not fully achieved."
+      },
+      "output_sha256": "0d638dff2d0b931158a09939702f24b24dd35dabe46d1ee1be591bd18bfeac17",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          39,
+          73,
+          1216,
+          1214
+        ],
+        "guide_alpha_bbox": [
+          424,
+          66,
+          600,
+          958
+        ],
+        "exact_guide_alpha_pass": false,
+        "exact_silhouette_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.9649562880355874,
+        "nonzero_alpha_pixels_outside_normalized_guide": 19403,
+        "normalized_metric_note": "Read-only normalized coordinate comparison; no output image was resized or edited.",
+        "unresized_unmodified_return": true
+      }
+    }
+  ]
+}

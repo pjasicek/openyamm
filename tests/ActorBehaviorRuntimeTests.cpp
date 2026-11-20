@@ -7,9 +7,11 @@
 #include "game/maps/SaveGame.h"
 #include "game/tables/SpellTable.h"
 
+#include "engine/AssetFileSystem.h"
 #include "engine/TextTable.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -590,4 +592,755 @@ TEST_CASE("actor behaviour wards publish dome displays with their visual and rec
     // Ripples last under a second.
     runtime.update(makeFrame(makeActor(100), 1.0f));
     CHECK(runtime.wardDisplays()[0].impacts.empty());
+}
+
+namespace
+{
+std::filesystem::path writeTacticsAssetRoot(const std::string &worldBehaviors)
+{
+    const std::filesystem::path root =
+        std::filesystem::temp_directory_path() / ("openyamm_tactics_" + std::to_string(std::rand()));
+    std::filesystem::create_directories(root / "assets_dev/engine/behaviors");
+    std::filesystem::create_directories(root / "assets_dev/worlds/testworld");
+    std::ofstream(root / "assets_dev/engine/behaviors/behaviors.yml")
+        << "schema: openyamm.actorBehaviors.v1\nlibrary: engine/behaviors/behavior.lua\n";
+    std::ofstream(root / "assets_dev/engine/behaviors/behavior.lua") << "return {}\n";
+    std::ofstream(root / "assets_dev/worlds/testworld/behaviors.yml") << worldBehaviors;
+    return root;
+}
+
+bool loadTacticsCatalog(const std::string &worldBehaviors, ActorBehaviorCatalog &catalog, std::string &error)
+{
+    const std::filesystem::path root = writeTacticsAssetRoot(worldBehaviors);
+    OpenYAMM::Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "testworld"));
+    const bool loaded = catalog.load(assets, "testworld", error);
+    assets.shutdown();
+    std::filesystem::remove_all(root);
+    return loaded;
+}
+}
+
+TEST_CASE("actor behaviour catalogue reads declarative tactics per monster")
+{
+    ActorBehaviorCatalog catalog;
+    std::string error;
+    REQUIRE_MESSAGE(loadTacticsCatalog(
+        "schema: openyamm.actorBehaviors.v1\n"
+        "tactics:\n"
+        "  10065: {traverse_degrees_per_second: 90, fire_within_degrees: 4, post: {}}\n"
+        "  10067: {ranged_band: [768, 2304], post: {leash: 1536}}\n",
+        catalog, error), error);
+
+    REQUIRE(catalog.hasTactics());
+    const OpenYAMM::Game::ActorTacticsFacts *pTurret = catalog.tacticsForMonster(10065);
+    REQUIRE(pTurret != nullptr);
+    CHECK(pTurret->traverseRadiansPerSecond == doctest::Approx(3.14159265f / 2.0f));
+    CHECK(pTurret->fireToleranceRadians == doctest::Approx(4.0f * 3.14159265f / 180.0f));
+    CHECK(pTurret->holdPost);
+    CHECK(pTurret->postLeashRadius == 0.0f);
+    CHECK_FALSE(pTurret->keepsRangedBand());
+    const OpenYAMM::Game::ActorTacticsFacts *pGuard = catalog.tacticsForMonster(10067);
+    REQUIRE(pGuard != nullptr);
+    CHECK(pGuard->rangedMinDistance == 768.0f);
+    CHECK(pGuard->rangedMaxDistance == 2304.0f);
+    CHECK(pGuard->postLeashRadius == 1536.0f);
+    CHECK(pGuard->traverseRadiansPerSecond == 0.0f);
+    CHECK(catalog.tacticsForMonster(10068) == nullptr);
+
+    ActorBehaviorCatalog plain;
+    REQUIRE(loadTacticsCatalog("schema: openyamm.actorBehaviors.v1\n", plain, error));
+    CHECK_FALSE(plain.hasTactics());
+}
+
+TEST_CASE("actor behaviour catalogue rejects malformed tactics")
+{
+    for (const char *pTactics : {"{travers_degrees_per_second: 90}", "{ranged_band: [900, 800]}",
+             "{fire_within_degrees: 4}", "{post: {radius: 10}}", "{traverse_degrees_per_second: 0}"})
+    {
+        ActorBehaviorCatalog catalog;
+        std::string error;
+        CHECK_FALSE(loadTacticsCatalog(
+            std::string("schema: openyamm.actorBehaviors.v1\ntactics:\n  10065: ") + pTactics + "\n", catalog, error));
+        CHECK(error.find("tactic") != std::string::npos);
+    }
+}
+
+TEST_CASE("actor behaviour catalogue reads the shield_break tactic and rejects unknown reactions")
+{
+    ActorBehaviorCatalog catalog;
+    std::string error;
+    REQUIRE_MESSAGE(loadTacticsCatalog(
+        "schema: openyamm.actorBehaviors.v1\n"
+        "tactics:\n"
+        "  10010: {shield_break: {react: fall_back, max_seconds: 5}}\n"
+        "  10072: {shield_break: {react: fall_back}, ranged_band: [768, 2304]}\n",
+        catalog, error), error);
+    const OpenYAMM::Game::ActorTacticsFacts *pTrooper = catalog.tacticsForMonster(10010);
+    REQUIRE(pTrooper != nullptr);
+    CHECK(pTrooper->shieldBreakReaction == OpenYAMM::Game::ActorShieldBreakReaction::FallBack);
+    CHECK(pTrooper->shieldBreakSeconds == doctest::Approx(5.0f));
+    CHECK(catalog.tacticsForMonster(10072)->shieldBreakSeconds == doctest::Approx(8.0f));
+
+    for (const char *pTactics : {"{shield_break: {react: teleport}}", "{shield_break: fall_back}",
+             "{shield_break: {react: fall_back, max_seconds: 0}}", "{shield_break: {react: fall_back, seconds: 3}}"})
+    {
+        ActorBehaviorCatalog bad;
+        CHECK_FALSE(loadTacticsCatalog(
+            std::string("schema: openyamm.actorBehaviors.v1\ntactics:\n  10010: ") + pTactics + "\n", bad, error));
+        CHECK(error.find("shield_break") != std::string::npos);
+    }
+}
+
+TEST_CASE("actor behaviour runtime applies tactics only to their monster and posts only to immobile placements")
+{
+    ActorBehaviorCatalog catalog;
+    OpenYAMM::Game::ActorTacticsFacts tactics = {};
+    tactics.rangedMinDistance = 768.0f;
+    tactics.rangedMaxDistance = 2304.0f;
+    tactics.holdPost = true;
+    tactics.postLeashRadius = 1536.0f;
+    catalog.setMonsterTactics(10067, tactics);
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+
+    const auto makeFacts = [](size_t index, int16_t monsterId, bool placedImmobile)
+    {
+        ActorAiFacts facts = {};
+        facts.actorIndex = index;
+        facts.actorId = uint32_t(100 + index);
+        facts.identity.monsterId = monsterId;
+        facts.movement.placedImmobile = placedImmobile;
+        facts.movement.wanderRadius = 2560.0f;
+        facts.movement.movementAllowed = !placedImmobile;
+        return facts;
+    };
+    ActorAiFrameFacts frame = {};
+    frame.activeActors.push_back(makeFacts(0, 10067, true));      // a gate post
+    frame.activeActors.push_back(makeFacts(1, 10067, false));     // the patrol
+    frame.activeActors.push_back(makeFacts(2, 194, true));        // another monster
+    frame.activeActors[0].target.currentKind = ActorAiTargetKind::Party;
+    frame.activeActors[0].target.currentCanSense = true;
+    frame.activeActors[0].target.currentPosition = {10.0f, 20.0f, 30.0f};
+    runtime.applyAiFacts(frame);
+
+    CHECK(frame.activeActors[0].tactics.holdPost);
+    CHECK(frame.activeActors[0].tactics.keepsRangedBand());
+    CHECK(frame.activeActors[0].movement.movementAllowed);
+    CHECK_FALSE(frame.activeActors[1].tactics.holdPost);
+    CHECK(frame.activeActors[1].tactics.postLeashRadius == 0.0f);
+    CHECK(frame.activeActors[1].tactics.keepsRangedBand());
+    CHECK_FALSE(frame.activeActors[2].tactics.keepsRangedBand());
+    CHECK_FALSE(frame.activeActors[2].movement.movementAllowed);
+
+    GameplayRuntimeActorState aimed = {};
+    aimed.actorId = 100;
+    runtime.applyPresentation(0, aimed);
+    CHECK(aimed.hasAimTarget);
+    CHECK(aimed.aimTargetZ == 30.0f);
+    GameplayRuntimeActorState idle = {};
+    idle.actorId = 101;
+    runtime.applyPresentation(1, idle);
+    CHECK_FALSE(idle.hasAimTarget);
+}
+
+namespace
+{
+constexpr float ScanDegrees = 3.14159265358979323846f / 180.0f;
+
+OpenYAMM::Game::TurretScanSettings makeScanSettings()
+{
+    OpenYAMM::Game::TurretScanSettings scan = {};
+    scan.halfWidthRadians = 50.0f * ScanDegrees;
+    scan.radiansPerSecond = 15.0f * ScanDegrees;
+    scan.pauseMinSeconds = 0.8f;
+    scan.pauseMaxSeconds = 2.4f;
+    scan.pitchRadians = 4.0f * ScanDegrees;
+    scan.holdSeconds = 3.0f;
+    return scan;
+}
+
+// A Landfall-style wall turret: tactics with a traverse rate, an idle scan and a lead, placed `immobile` facing +y.
+ActorBehaviorCatalog makeTurretCatalog()
+{
+    ActorBehaviorCatalog catalog;
+    OpenYAMM::Game::ActorTacticsFacts tactics = {};
+    tactics.traverseRadiansPerSecond = 120.0f * ScanDegrees;
+    tactics.fireToleranceRadians = 5.0f * ScanDegrees;
+    tactics.holdPost = true;
+    tactics.scan = makeScanSettings();
+    tactics.leadSeconds = 0.25f;
+    catalog.setMonsterTactics(10065, tactics);
+    return catalog;
+}
+
+ActorAiFacts makeTurretFacts(size_t index, uint32_t actorId)
+{
+    ActorAiFacts facts = {};
+    facts.actorIndex = index;
+    facts.actorId = actorId;
+    facts.identity.monsterId = 10065;
+    facts.movement.placedImmobile = true;
+    facts.movement.hasHomeYaw = true;
+    facts.movement.homeYawRadians = 1.5f;
+    facts.runtime.yawRadians = 1.5f;
+    return facts;
+}
+
+// One AI step of the runtime over these actors; the actors keep the facing the runtime asked for (a perfect AI).
+void stepTurrets(ActorBehaviorRuntime &runtime, std::vector<ActorAiFacts> &actors, bool followIdleAim = true)
+{
+    ActorAiFrameFacts frame = {};
+    frame.fixedStepSeconds = 1.0f / 128.0f;
+    frame.activeActors = actors;
+
+    for (ActorAiFacts &actor : frame.activeActors)
+    {
+        actor.tactics = {};
+    }
+
+    runtime.applyAiFacts(frame);
+
+    for (size_t index = 0; index < actors.size(); ++index)
+    {
+        actors[index].tactics = frame.activeActors[index].tactics;
+
+        if (followIdleAim && actors[index].tactics.idleAimActive)
+        {
+            actors[index].runtime.yawRadians = actors[index].tactics.idleAimYawRadians;
+        }
+    }
+}
+}
+
+TEST_CASE("actor behaviour catalogue reads a turret's idle scan and lead")
+{
+    ActorBehaviorCatalog catalog;
+    std::string error;
+    REQUIRE_MESSAGE(loadTacticsCatalog(
+        "schema: openyamm.actorBehaviors.v1\n"
+        "tactics:\n"
+        "  10065: {traverse_degrees_per_second: 120, post: {}, lead_seconds: 0.2,\n"
+        "          scan: {half_width_degrees: 50, degrees_per_second: 15, pause_seconds: [0.5, 2],\n"
+        "                 pitch_degrees: 4, hold_seconds: 3.5}}\n"
+        "  10066: {traverse_degrees_per_second: 75, scan: {half_width_degrees: 30, degrees_per_second: 10}}\n",
+        catalog, error), error);
+
+    const OpenYAMM::Game::ActorTacticsFacts *pWard = catalog.tacticsForMonster(10065);
+    REQUIRE(pWard != nullptr);
+    CHECK(pWard->scan.enabled());
+    CHECK(pWard->scan.halfWidthRadians == doctest::Approx(50.0f * ScanDegrees));
+    CHECK(pWard->scan.radiansPerSecond == doctest::Approx(15.0f * ScanDegrees));
+    CHECK(pWard->scan.pauseMinSeconds == 0.5f);
+    CHECK(pWard->scan.pauseMaxSeconds == 2.0f);
+    CHECK(pWard->scan.pitchRadians == doctest::Approx(4.0f * ScanDegrees));
+    CHECK(pWard->scan.holdSeconds == 3.5f);
+    CHECK(pWard->leadSeconds == doctest::Approx(0.2f));
+    const OpenYAMM::Game::ActorTacticsFacts *pBastion = catalog.tacticsForMonster(10066);
+    REQUIRE(pBastion != nullptr);
+    CHECK(pBastion->scan.pauseMaxSeconds > pBastion->scan.pauseMinSeconds);
+    CHECK(pBastion->scan.holdSeconds > 0.0f);
+    CHECK(pBastion->leadSeconds == 0.0f);
+
+    for (const char *pTactics : {"{scan: {half_width_degrees: 50, degrees_per_second: 15}}", "{lead_seconds: 0.2}",
+             "{traverse_degrees_per_second: 90, scan: {half_width_degrees: 50}}",
+             "{traverse_degrees_per_second: 90, scan: {half_width_degrees: 50, degrees_per_second: 15, speed: 1}}",
+             "{traverse_degrees_per_second: 90, scan: {half_width_degrees: 50, degrees_per_second: 15, "
+             "pause_seconds: [3, 1]}}",
+             "{traverse_degrees_per_second: 90, lead_seconds: 5}"})
+    {
+        ActorBehaviorCatalog rejected;
+        CHECK_FALSE(loadTacticsCatalog(
+            std::string("schema: openyamm.actorBehaviors.v1\ntactics:\n  10065: ") + pTactics + "\n", rejected, error));
+        CHECK(error.find("tactic") != std::string::npos);
+    }
+}
+
+TEST_CASE("turret scan sweeps both ways within its width, eases every turnaround and pauses")
+{
+    const OpenYAMM::Game::TurretScanSettings settings = makeScanSettings();
+    OpenYAMM::Game::TurretScanState state;
+    OpenYAMM::Game::startTurretScan(state, 4242u, 0.0f, 0.0f, 0.0f, 1.0f);
+    constexpr float Step = 1.0f / 128.0f;
+    float previous = OpenYAMM::Game::turretScanPose(state).yawOffsetRadians;
+    float previousVelocity = 0.0f;
+    float lowest = 0.0f;
+    float highest = 0.0f;
+    float stillSeconds = 0.0f;
+    float longestStill = 0.0f;
+    int reversals = 0;
+    float largestReversalVelocity = 0.0f;
+    float lowestPitch = 0.0f;
+    float highestPitch = 0.0f;
+
+    for (int step = 0; step < 128 * 120; ++step)
+    {
+        const OpenYAMM::Game::TurretScanPose pose = OpenYAMM::Game::advanceTurretScan(state, settings, Step);
+        const float velocity = (pose.yawOffsetRadians - previous) / Step;
+        // Never faster than its peak rate, so never a snap.
+        CHECK(std::abs(velocity) <= settings.radiansPerSecond * 1.02f);
+        CHECK(std::abs(pose.yawOffsetRadians) <= settings.halfWidthRadians + 1.0e-4f);
+        CHECK(std::abs(pose.pitchRadians) <= settings.pitchRadians + 1.0e-5f);
+        lowest = std::min(lowest, pose.yawOffsetRadians);
+        highest = std::max(highest, pose.yawOffsetRadians);
+        lowestPitch = std::min(lowestPitch, pose.pitchRadians);
+        highestPitch = std::max(highestPitch, pose.pitchRadians);
+
+        if (std::abs(velocity) < 1.0e-6f)
+        {
+            stillSeconds += Step;
+            longestStill = std::max(longestStill, stillSeconds);
+        }
+        else
+        {
+            if (previousVelocity != 0.0f && (velocity > 0.0f) != (previousVelocity > 0.0f))
+            {
+                ++reversals;
+                largestReversalVelocity = std::max(largestReversalVelocity, std::abs(velocity));
+            }
+
+            previousVelocity = velocity;
+            stillSeconds = 0.0f;
+        }
+
+        previous = pose.yawOffsetRadians;
+    }
+
+    // Ping-pong across most of the width, with eased turnarounds (they start from rest) and pauses in the range.
+    CHECK(lowest < -0.5f * settings.halfWidthRadians);
+    CHECK(highest > 0.5f * settings.halfWidthRadians);
+    CHECK(reversals >= 6);
+    CHECK(largestReversalVelocity < 0.05f * settings.radiansPerSecond);
+    CHECK(longestStill >= settings.pauseMinSeconds);
+    CHECK(longestStill <= settings.pauseMaxSeconds + 0.05f);
+    CHECK(highestPitch - lowestPitch > settings.pitchRadians);
+}
+
+TEST_CASE("turret scan differs per seed and returns from outside its width at the return rate")
+{
+    const OpenYAMM::Game::TurretScanSettings settings = makeScanSettings();
+    OpenYAMM::Game::TurretScanState first;
+    OpenYAMM::Game::TurretScanState second;
+    OpenYAMM::Game::startTurretScan(first, 1u, 0.0f, 0.0f, 0.0f, 0.0f);
+    OpenYAMM::Game::startTurretScan(second, 2u, 0.0f, 0.0f, 0.0f, 0.0f);
+    float difference = 0.0f;
+
+    for (int step = 0; step < 128 * 30; ++step)
+    {
+        difference = std::max(difference, std::abs(
+            OpenYAMM::Game::advanceTurretScan(first, settings, 1.0f / 128.0f).yawOffsetRadians
+            - OpenYAMM::Game::advanceTurretScan(second, settings, 1.0f / 128.0f).yawOffsetRadians));
+    }
+
+    CHECK(difference > 0.3f);
+
+    // Back from a fight 2.5 rad round: a beat's delay, then an eased return into the sweep at the return rate.
+    OpenYAMM::Game::TurretScanState back;
+    const float returnRate = 60.0f * ScanDegrees;
+    OpenYAMM::Game::startTurretScan(back, 3u, 2.5f, 0.0f, 0.4f, returnRate);
+    CHECK(OpenYAMM::Game::advanceTurretScan(back, settings, 0.3f).yawOffsetRadians == 2.5f);
+    float previous = 2.5f;
+    float fastest = 0.0f;
+    float seconds = 0.3f;
+
+    while (previous > settings.halfWidthRadians && seconds < 20.0f)
+    {
+        const float yaw = OpenYAMM::Game::advanceTurretScan(back, settings, 1.0f / 128.0f).yawOffsetRadians;
+        fastest = std::max(fastest, (previous - yaw) * 128.0f);
+        CHECK(yaw <= previous + 1.0e-6f);
+        previous = yaw;
+        seconds += 1.0f / 128.0f;
+    }
+
+    CHECK(previous <= settings.halfWidthRadians);
+    CHECK(fastest > 0.9f * returnRate);
+    CHECK(fastest <= returnRate * 1.02f);
+    CHECK(seconds < 0.4f + 1.5f * 2.5f / returnRate + 0.1f);
+}
+
+TEST_CASE("actor behaviour runtime scans an idle turret, holds a lost target's aim, then eases back into the scan")
+{
+    const ActorBehaviorCatalog catalog = makeTurretCatalog();
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+    CHECK(runtime.turnsAtTraverseRate(10065));
+    CHECK_FALSE(runtime.turnsAtTraverseRate(194));
+    std::vector<ActorAiFacts> actors = {makeTurretFacts(0, 500), makeTurretFacts(1, 501)};
+
+    // Idle: a scan around the placement facing, each turret on its own phase.
+    float spread = 0.0f;
+    float farthest = 0.0f;
+
+    for (int step = 0; step < 128 * 20; ++step)
+    {
+        stepTurrets(runtime, actors);
+        REQUIRE(actors[0].tactics.idleAimActive);
+        farthest = std::max(farthest, std::abs(actors[0].runtime.yawRadians - 1.5f));
+        spread = std::max(spread, std::abs(actors[0].runtime.yawRadians - actors[1].runtime.yawRadians));
+    }
+
+    CHECK(farthest > 0.4f);
+    CHECK(farthest <= 50.0f * ScanDegrees + 1.0e-3f);
+    CHECK(spread > 0.2f);
+    GameplayRuntimeActorState scanning = {};
+    scanning.actorId = 500;
+    runtime.applyPresentation(0, scanning);
+    CHECK(scanning.aimScanning);
+    CHECK_FALSE(scanning.hasAimTarget);
+
+    // Engaged: no idle aim (the AI tracks the target); the aim leads a target moving at 400 units/s along x.
+    actors[0].target.currentKind = ActorAiTargetKind::Actor;
+    actors[0].target.currentActorIndex = 7;
+    actors[0].target.currentCanSense = true;
+    actors[0].target.currentPosition = {0.0f, 2000.0f, 300.0f};
+
+    for (int step = 0; step < 128 * 2; ++step)
+    {
+        actors[0].target.currentPosition.x += 400.0f / 128.0f;
+        stepTurrets(runtime, actors);
+        CHECK_FALSE(actors[0].tactics.idleAimActive);
+    }
+
+    CHECK(actors[0].tactics.aimLead.x == doctest::Approx(400.0f * 0.25f).epsilon(0.05));
+    CHECK(std::abs(actors[0].tactics.aimLead.y) < 1.0f);
+    GameplayRuntimeActorState engaged = {};
+    engaged.actorId = 500;
+    runtime.applyPresentation(0, engaged);
+    REQUIRE(engaged.hasAimTarget);
+    CHECK_FALSE(engaged.aimScanning);
+    CHECK(engaged.aimTargetX == doctest::Approx(actors[0].target.currentPosition.x + actors[0].tactics.aimLead.x));
+
+    // The target dies: the facing and the barrel hold the last aim for the hold time.
+    const float heldYaw = 0.7f;
+    actors[0].runtime.yawRadians = heldYaw;
+    const float lastAimX = engaged.aimTargetX;
+    actors[0].target = {};
+
+    for (int step = 0; step < int(128 * 2.9f); ++step)
+    {
+        stepTurrets(runtime, actors);
+        REQUIRE(actors[0].tactics.idleAimActive);
+        CHECK(actors[0].tactics.idleAimYawRadians == heldYaw);
+        CHECK(actors[0].tactics.aimLead.x == 0.0f);
+    }
+
+    GameplayRuntimeActorState holding = {};
+    holding.actorId = 500;
+    runtime.applyPresentation(0, holding);
+    REQUIRE(holding.hasAimTarget);
+    CHECK(holding.aimTargetX == doctest::Approx(lastAimX));
+
+    // Then the scan resumes from where it points, after a beat, and eases back towards its centre without a jump.
+    float previous = actors[0].runtime.yawRadians;
+    float fastest = 0.0f;
+
+    for (int step = 0; step < 128 * 8; ++step)
+    {
+        stepTurrets(runtime, actors);
+        fastest = std::max(fastest, std::abs(actors[0].runtime.yawRadians - previous) * 128.0f);
+        previous = actors[0].runtime.yawRadians;
+    }
+
+    CHECK(std::abs(actors[0].runtime.yawRadians - 1.5f) <= 50.0f * ScanDegrees + 1.0e-3f);
+    CHECK(fastest <= 60.0f * ScanDegrees * 1.05f);
+    GameplayRuntimeActorState resumed = {};
+    resumed.actorId = 500;
+    runtime.applyPresentation(0, resumed);
+    CHECK(resumed.aimScanning);
+    CHECK_FALSE(resumed.hasAimTarget);
+}
+
+TEST_CASE("actor behaviour runtime leaves actors without a turret scan untouched")
+{
+    ActorBehaviorCatalog catalog;
+    OpenYAMM::Game::ActorTacticsFacts tactics = {};
+    tactics.traverseRadiansPerSecond = 1.0f;
+    tactics.holdPost = true;
+    catalog.setMonsterTactics(10065, tactics);
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+    std::vector<ActorAiFacts> actors = {makeTurretFacts(0, 500)};
+
+    for (int step = 0; step < 128; ++step)
+    {
+        stepTurrets(runtime, actors);
+        CHECK_FALSE(actors[0].tactics.idleAimActive);
+        CHECK(actors[0].runtime.yawRadians == 1.5f);
+    }
+
+    GameplayRuntimeActorState state = {};
+    state.actorId = 500;
+    runtime.applyPresentation(0, state);
+    CHECK_FALSE(state.aimScanning);
+    CHECK_FALSE(state.hasAimTarget);
+}
+
+TEST_CASE("actor behaviour effects: at the actor (height, forward along its facing) and at a point")
+{
+    const ActorBehaviorCatalog catalog = makeCatalog(R"(
+        return Behavior.define{
+            onStart = function(self, s)
+                self:effect("mm9:dragon_smoke", 1.0, 0.5, 300)
+                self:effectAt("mm9:fireblue", 10, 20, 30, 2)
+            end,
+        }
+    )");
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+    ActorBehaviorActorFacts actor = makeActor(100);
+    actor.yawRadians = 1.5707964f;
+
+    const ActorBehaviorFrameResult result = runtime.update(makeFrame(actor));
+    REQUIRE_EQ(result.effects.size(), 2u);
+    CHECK_EQ(result.effects[0].position.x, doctest::Approx(1000.0f).epsilon(0.001));
+    CHECK_EQ(result.effects[0].position.y, doctest::Approx(300.0f));
+    CHECK_EQ(result.effects[0].position.z, doctest::Approx(100.0f));
+    CHECK_EQ(result.effects[1].effectId, "mm9:fireblue");
+    CHECK_EQ(result.effects[1].position.z, doctest::Approx(30.0f));
+    CHECK_EQ(result.effects[1].scale, doctest::Approx(2.0f));
+}
+
+TEST_CASE("actor behaviour commands: blink, shield, leave, speed, invulnerability and QBit queries")
+{
+    const ActorBehaviorCatalog catalog = makeCatalog(R"(
+        return Behavior.define{
+            onStart = function(self, s)
+                self:blink()
+                self:suspendShield(4)
+                self:restoreShield()
+                self:leave("openyamm:fx/arcane_pulse")
+                self:setSpeed(1.5)
+                self:setInvulnerable(true)
+                self:summonAt(308, 10, 20, 30, 2, 0)
+                self:say(self:qbit(5) and "qbit" or "no qbit")
+            end,
+        }
+    )");
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+
+    const ActorBehaviorFrameResult result = runtime.update(makeFrame(makeActor(100)));
+    using Kind = OpenYAMM::Game::ActorBehaviorActorCommand::Kind;
+    REQUIRE_EQ(result.actorCommands.size(), 4u);
+    CHECK(result.actorCommands[0].kind == Kind::Blink);
+    CHECK(result.actorCommands[1].kind == Kind::SuspendShield);
+    CHECK_EQ(result.actorCommands[1].seconds, doctest::Approx(4.0f));
+    CHECK(result.actorCommands[2].kind == Kind::RestoreShield);
+    CHECK(result.actorCommands[3].kind == Kind::Leave);
+    CHECK_EQ(result.actorCommands[3].effectId, "openyamm:fx/arcane_pulse");
+    REQUIRE_EQ(result.summons.size(), 2u);
+    CHECK_EQ(result.summons[0].position.x, doctest::Approx(10.0f));
+    CHECK_EQ(result.summons[1].position.z, doctest::Approx(30.0f));
+    CHECK(hasMessage(result, "no qbit"));
+    CHECK_EQ(runtime.speedMultiplier(0, 41), doctest::Approx(1.5f));
+    CHECK(runtime.invulnerable(0, OpenYAMM::Game::ShieldAttackTier::Spell));
+
+    ActorAiFrameFacts facts = {};
+    ActorAiFacts actor = makeAiActor();
+    actor.movement.effectiveMoveSpeed = 100.0f;
+    facts.activeActors.push_back(actor);
+    runtime.applyAiFacts(facts);
+    CHECK_EQ(facts.activeActors.front().movement.effectiveMoveSpeed, doctest::Approx(150.0f));
+    CHECK_EQ(facts.activeActors.front().behavior.attackRateMultiplier, doctest::Approx(1.5f));
+}
+
+TEST_CASE("actor behaviour tactics per actor: leash, ranged band, move-to point, map events, bearing and front armour")
+{
+    const ActorBehaviorCatalog catalog = makeCatalog(R"(
+        return Behavior.define{
+            onStart = function(self, s)
+                self:setLeash(600)
+                self:setRangedBand(300, 900)
+                self:moveTo(50, 60, 0)
+                self:runEvent(41)
+                self:setArmoredFront(60, 0.25)
+                self:say(string.format("bearing %.0f", self:bearingToParty()))
+            end,
+        }
+    )");
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+
+    ActorBehaviorFrameFacts frame = makeFrame(makeActor(100));
+    // The actor at (1000, 0) faces north (90 degrees); the party is due west of it: 90 degrees to its left.
+    frame.actors.front().yawRadians = 1.5707964f;
+    frame.partyPosition = {0.0f, 0.0f, 0.0f};
+    const ActorBehaviorFrameResult result = runtime.update(frame);
+    CHECK(hasMessage(result, "bearing 90"));
+    REQUIRE_EQ(result.mapEvents.size(), 1u);
+    CHECK_EQ(result.mapEvents.front(), 41);
+
+    ActorAiFrameFacts facts = {};
+    facts.activeActors.push_back(makeAiActor());
+    ActorAiFacts placed = makeAiActor();
+    placed.actorIndex = 1;
+    placed.actorId = 42;
+    placed.movement.placedLeashRadius = 400.0f;
+    facts.activeActors.push_back(placed);
+    runtime.applyAiFacts(facts);
+    const ActorAiFacts &scripted = facts.activeActors[0];
+    CHECK(scripted.tactics.holdPost);
+    CHECK_EQ(scripted.tactics.postLeashRadius, doctest::Approx(600.0f));
+    CHECK_EQ(scripted.tactics.rangedMinDistance, doctest::Approx(300.0f));
+    CHECK_EQ(scripted.tactics.rangedMaxDistance, doctest::Approx(900.0f));
+    CHECK_EQ(scripted.movement.homePosition.x, doctest::Approx(50.0f));
+    CHECK(facts.activeActors[1].tactics.holdPost);
+    CHECK_EQ(facts.activeActors[1].tactics.postLeashRadius, doctest::Approx(400.0f));
+
+    // A hit from ahead (north of it) loses three quarters; one from behind does not.
+    const OpenYAMM::Game::GameplayWorldPoint actorPosition = {1000.0f, 0.0f, 0.0f};
+    CHECK_EQ(runtime.incomingDamageMultiplier(0, actorPosition, 1.5707964f, {1000.0f, 500.0f, 0.0f}),
+        doctest::Approx(0.25f));
+    CHECK_EQ(runtime.incomingDamageMultiplier(0, actorPosition, 1.5707964f, {1000.0f, -500.0f, 0.0f}),
+        doctest::Approx(1.0f));
+}
+
+TEST_CASE("a resting (dormant) actor holds still without turning to its target")
+{
+    ActorBehaviorRuntime runtime;
+    ActorAiFrameFacts facts = {};
+    ActorAiFacts actor = makeAiActor();
+    actor.movement.dormant = true;
+    facts.activeActors.push_back(actor);
+    runtime.applyAiFacts(facts);
+    CHECK(facts.activeActors.front().behavior.holdActive);
+    CHECK(facts.activeActors.front().behavior.holdKeepsFacing);
+    CHECK(facts.activeActors.front().behavior.holdAnimation == ActorAiAnimationState::Standing);
+}
+
+TEST_CASE("a patrolling actor walks its waypoints in turn as a post walks home")
+{
+    const std::vector<std::array<int32_t, 3>> points = {{0, 0, 0}, {1000, 0, 0}, {1000, 1000, 0}};
+    size_t index = 0;
+    // Far from the first waypoint it heads there; once within reach of one it heads for the next, round and round.
+    CHECK_EQ(OpenYAMM::Game::nextPatrolWaypoint(points, index, 500.0f, 500.0f).x, doctest::Approx(0.0f));
+    CHECK_EQ(OpenYAMM::Game::nextPatrolWaypoint(points, index, 20.0f, 0.0f).x, doctest::Approx(1000.0f));
+    CHECK_EQ(index, 1u);
+    CHECK_EQ(OpenYAMM::Game::nextPatrolWaypoint(points, index, 1000.0f, 50.0f).y, doctest::Approx(1000.0f));
+    CHECK_EQ(OpenYAMM::Game::nextPatrolWaypoint(points, index, 1000.0f, 1000.0f).x, doctest::Approx(0.0f));
+    CHECK_EQ(index, 0u);
+
+    ActorBehaviorRuntime runtime;
+    ActorAiFrameFacts facts = {};
+    ActorAiFacts actor = makeAiActor();
+    actor.movement.patrolTarget = OpenYAMM::Game::GameplayWorldPoint{1000.0f, 0.0f, 0.0f};
+    facts.activeActors.push_back(actor);
+    actor.movement.dormant = true;
+    facts.activeActors.push_back(actor);
+    runtime.applyAiFacts(facts);
+    CHECK(facts.activeActors[0].tactics.holdPost);
+    CHECK(facts.activeActors[0].movement.movementAllowed);
+    CHECK_FALSE(facts.activeActors[0].movement.hasHomeYaw);
+    CHECK_EQ(facts.activeActors[0].movement.homePosition.x, doctest::Approx(1000.0f));
+    // A resting one stays put.
+    CHECK_FALSE(facts.activeActors[1].tactics.holdPost);
+}
+
+TEST_CASE("shield-break climb lifts a falling-back flyer above its target")
+{
+    ActorBehaviorCatalog catalog;
+    std::string error;
+    REQUIRE_MESSAGE(loadTacticsCatalog(
+        "schema: openyamm.actorBehaviors.v1\ntactics:\n  10030: {shield_break: {react: climb, max_seconds: 5}}\n",
+        catalog, error), error);
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+    ActorAiFacts facts = makeAiActor();
+    facts.identity.monsterId = 10030;
+    facts.status.hostileToParty = true;
+    facts.status.shieldDownSinceBreakSeconds = 1.0f;
+    facts.target.currentKind = ActorAiTargetKind::Party;
+    ActorAiFrameFacts frame = {};
+    frame.activeActors.push_back(facts);
+    facts.status.shieldDownSinceBreakSeconds = 6.0f;
+    frame.activeActors.push_back(facts);
+    runtime.applyAiFacts(frame);
+    CHECK(frame.activeActors[0].status.forceFleeFromParty);
+    CHECK(frame.activeActors[0].status.climbAboveTarget > 0.0f);
+    // Past its seconds it fights on at its own height.
+    CHECK_FALSE(frame.activeActors[1].status.forceFleeFromParty);
+    CHECK(frame.activeActors[1].status.climbAboveTarget == 0.0f);
+}
+
+TEST_CASE("an MM9 boss script drives its loop: directives, one-shots, the loop's events and physical immunity")
+{
+    const ActorBehaviorCatalog catalog = makeCatalog(R"(
+        return Behavior.define{
+            onStart = function(self, s)
+                self:setMm9{drives_attacks = true, ignores_calls = true, chase_limit = 0, turn_degrees = 180,
+                    immune = "physical"}
+                self:setTarget("party")
+                self:attack("spell1")
+                self:trace("start")
+            end,
+            onTargetChanged = function(self, s, target)
+                self:say("target " .. (target and target.kind or "none"))
+            end,
+            onHit = function(self, s, attacker)
+                self:say("hit by " .. attacker.kind .. " " .. attacker.index)
+            end,
+            onAttackDone = function(self, s)
+                local target = self:target()
+                self:say("done " .. target.kind .. " " .. math.floor(target.distance))
+            end,
+            onTrigger = function(self, s, message)
+                self:say("trigger " .. message)
+            end,
+        }
+    )");
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+    runtime.update(makeFrame(makeActor(100)));
+
+    ActorAiFrameFacts facts = {};
+    facts.party.position = {100.0f, 1000.0f, 0.0f};
+    facts.party.collisionRadius = 37.0f;
+    facts.party.collisionHeight = 128.0f;
+    facts.activeActors.push_back(makeAiActor());
+    runtime.applyAiFacts(facts);
+
+    const OpenYAMM::Game::ActorMm9ScriptFacts &directives = facts.activeActors[0].behavior.mm9Script;
+    CHECK(directives.active);
+    CHECK(directives.drivesAttacks);
+    CHECK(directives.ignoresCalls);
+    CHECK_EQ(directives.chaseLimitSeconds, doctest::Approx(0.0f));
+    CHECK_EQ(directives.turnRadiansPerSecond, doctest::Approx(3.14159265f));
+    CHECK(directives.setTarget);
+    CHECK(directives.targetKind == ActorAiTargetKind::Party);
+    REQUIRE(directives.attack.has_value());
+    CHECK(*directives.attack == GameplayActorAttackAbility::Spell1);
+    REQUIRE_EQ(directives.traceLines.size(), 1u);
+    CHECK_EQ(directives.traceLines[0], "start");
+    CHECK(runtime.invulnerable(0, OpenYAMM::Game::ShieldAttackTier::Physical));
+    CHECK_FALSE(runtime.invulnerable(0, OpenYAMM::Game::ShieldAttackTier::Spell));
+
+    // One-shots last one AI step.
+    ActorAiFrameFacts next = facts;
+    next.activeActors[0].behavior = {};
+    runtime.applyAiFacts(next);
+    CHECK_FALSE(next.activeActors[0].behavior.mm9Script.setTarget);
+    CHECK_FALSE(next.activeActors[0].behavior.mm9Script.attack.has_value());
+    CHECK(next.activeActors[0].behavior.mm9Script.drivesAttacks);
+
+    // The loop took the party and attacks; then it is hit by actor 3, the attack ends, a trigger comes.
+    ActorAiFrameFacts attacking = facts;
+    attacking.activeActors[0].behavior = {};
+    attacking.activeActors[0].runtime.mm9.targetKind = ActorAiTargetKind::Party;
+    attacking.activeActors[0].runtime.motionState = ActorAiMotionState::Attacking;
+    attacking.activeActors[0].mm9World.damageSerial = 1;
+    attacking.activeActors[0].mm9World.attackerKind = ActorAiTargetKind::Actor;
+    attacking.activeActors[0].mm9World.attackerActorIndex = 3;
+    runtime.applyAiFacts(attacking);
+    CHECK(runtime.trigger(0, "startup"));
+    const ActorBehaviorFrameResult events = runtime.update(makeFrame(makeActor(100)));
+    CHECK(hasMessage(events, "target party"));
+    CHECK(hasMessage(events, "hit by actor 3"));
+    CHECK(hasMessage(events, "trigger startup"));
+
+    ActorAiFrameFacts done = attacking;
+    done.activeActors[0].runtime.motionState = ActorAiMotionState::Standing;
+    runtime.applyAiFacts(done);
+    const ActorBehaviorFrameResult finished = runtime.update(makeFrame(makeActor(100)));
+    // Centre to centre (1 000 apart; the same heights) less both radii.
+    CHECK(hasMessage(finished, "done party 931"));
 }

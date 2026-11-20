@@ -1,0 +1,14 @@
+{
+  "model_url": "@file:texturing/skullpile_upload.glb",
+  "ai_model": "meshy-7",
+  "enable_original_uv": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "target_formats": ["glb"],
+  "multiview_image_urls": [
+    "@file:skullpile/references_hd/01_front.png",
+    "@file:skullpile/references_hd/03_left.png",
+    "@file:skullpile/references_hd/02_back.png",
+    "@file:skullpile/references_hd/04_right.png"
+  ]
+}

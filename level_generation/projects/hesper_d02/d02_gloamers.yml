@@ -1,0 +1,111 @@
+id: hesper.d02.gloamers
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d02.blv
+    party:
+      members:
+      - name: Distant observer
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- set_pose:
+    map: hes_d02.blv
+    x: 400
+    y: 1848
+    z: 0
+    yaw: 0
+    pitch: 0
+- save_game: gloamers_d02_hidden
+- execute_event:
+    id: 3
+- execute_event:
+    id: 4
+- execute_event:
+    id: 5
+- save_game: gloamers_d02_drained
+- load_game: gloamers_d02_drained
+- advance_runtime:
+    seconds: 60
+- save_game: gloamers_d02_minute
+- assert:
+    actor_visible:
+      actor_index: 10
+      monster_id: 10050
+      hp: 400
+      dead: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 11
+      monster_id: 10050
+      hp: 400
+      dead: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      monster_id: 10320
+      hp: 800
+      dead: false
+      report_state: true
+      near:
+        x: 3350
+        y: 1698
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+- assert:
+    actor_visible:
+      actor_index: 21
+      monster_id: 10320
+      hp: 800
+      dead: false
+      report_state: true
+      near:
+        x: 3650
+        y: 1698
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+- assert:
+    actor_visible:
+      actor_index: 22
+      monster_id: 10320
+      hp: 800
+      dead: false
+      report_state: true
+      near:
+        x: 3500
+        y: 1848
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+- assert:
+    actor_visible:
+      actor_index: 23
+      monster_id: 10320
+      hp: 800
+      dead: false
+      report_state: true
+      near:
+        x: 3350
+        y: 1998
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false
+- assert:
+    actor_visible:
+      actor_index: 24
+      monster_id: 10320
+      hp: 800
+      dead: false
+      report_state: true
+      near:
+        x: 3650
+        y: 1998
+        max_distance: 900
+      combat_targeting_party: false
+      has_aim_target: false

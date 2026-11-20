@@ -1,0 +1,3300 @@
+format: 0
+start:
+  room: room:s051
+  at: [21169, 1920]
+  facing: w
+doors:
+  - id: door:d01
+    opening: open:s155_s156
+    kind: slide_right
+    fold: true
+    state: closed
+    thickness: 32
+    speed: 150
+    surface: {texture: d2skulbs, size: [64, 64]}
+    edge_surface: {texture: bemsv32c, size: [32, 128]}
+    tile: true
+    notes: "Door record 1: a leaf 256 wide and 384 high of D2skulBs tiled at 64 (faces 3857, 3858) whose free edge (x 8273) moves 254 west: it folds against the west jamb. Rounds one to five: a leaf 226 wide sliding into the wall with one skull stretched over it, seen beside the doorway when open."
+  - id: door:d04
+    opening: open:s157_s162
+    kind: slide_right
+    fold: true
+    state: closed
+    thickness: 32
+    speed: 150
+    surface: {texture: d2lgdor, size: [256, 256]}
+    edge_surface: {texture: bemv32c, size: [32, 256]}
+    notes: "Door record 4: a leaf (3877, 3878) whose free edge (y 4417) moves 254 north: it folds against the north jamb."
+  - id: door:d05
+    opening: open:s058_s159_b
+    kind: slide_right
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 64
+    speed: 150
+    surface: {texture: d2lgdor, size: [256, 256]}
+    edge_surface: {texture: bemvdk, size: [32, 256]}
+    notes: "Door record 5: a leaf 64 thick (3907, 3908) whose free edge (y 9890) moves 250 north: it folds against the north jamb. Rounds four and five: two half leaves sliding into the walls, seen over the walls beside the doorway when open."
+  - id: door:d06
+    opening: open:s187_s185
+    kind: slide_right
+    fold: true
+    state: closed
+    thickness: 64
+    speed: 150
+    surface: {texture: d2wctra, size: [128, 256]}
+    tile: true
+    notes: "Door record 6: a block of wall stone 64 thick (3969, 3970) across a doorway 127 wide whose free edge moves 125 north: it folds against the north jamb. Rounds one to five: 32 thick in a doorway 95 wide, sliding into the wall."
+  - id: door:d07
+    opening: open:s101_s188
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 64
+    speed: 150
+    surface: {texture: d2wctra, size: [128, 256]}
+    tile: true
+    notes: "Door record 7: a block of wall stone 64 thick (3999, 4005) across a doorway 127 wide whose free edge moves 125 north: it folds against the north jamb. Rounds one to five: 32 thick in a doorway 95 wide, sliding into the wall."
+  - id: door:d08
+    opening: open:s104_s104_c
+    kind: slide_left
+    fold: true
+    travel: 258
+    state: closed
+    thickness: 64
+    speed: 150
+    surface: {texture: d2wctra, size: [128, 256]}
+    tile: true
+    notes: "Door record 8: a block of wall stone 64 thick and 381 wide (4015, 4016) whose free edge (x 3214) moves 255 west (here 384 wide, moving 258), so 126 of the passage stays shut: it folds toward the west jamb and shows the closet room:s104_c. Rounds one to five: a door 222 wide at the passage's east end, the rest wall."
+  - id: door:d09
+    opening: open:s073_a_s073_b
+    kind: slide_right
+    fold: true
+    travel: 254
+    state: closed
+    thickness: 64
+    speed: 150
+    surface: {texture: d2wlactr, size: [128, 256]}
+    tile: true
+    notes: "Door record 9: a wall panel 64 thick (4078, 4079) whose free edge (x -7431) moves 254 east: it folds against the east jamb."
+movers:
+  - id: mover:cover_e
+    room: room:s016
+    outline: [[9664, 4640], [9667, 4640], [9667, 4672], [9664, 4672]]
+    bottom: 128
+    height: 31
+    travel: [0, 0, -30]
+    speed: 25
+    surface: {texture: d2wctra, size: [128, 256]}
+    notes: "Door record 13: a panel of wall stone 3 thick on the wall's face over the lever's niche (d2wctrA in front, t3wsp edges); reading the sign beside it lowers it 30 and shows the lever (a second reading raises it). Rounds one to five: 3 further out, in front of a plate."
+  - id: mover:cover_w
+    room: room:s164
+    outline: [[-4128, 15549], [-4096, 15549], [-4096, 15552], [-4128, 15552]]
+    bottom: 128
+    height: 31
+    travel: [0, 0, -32]
+    speed: 25
+    surface: {texture: d2wctra, size: [128, 256]}
+    notes: "Door record 11: a panel of wall stone 3 thick on the wall's face over the lever's niche (d2wctrA in front, t3wsp edges); reading the sign beside it lowers it 32 and shows the lever (a second reading raises it). Rounds one to five: 3 further out, in front of a plate."
+  - id: mover:portcullis
+    room: room:s067
+    outline: [[14080, 10280], [15296, 10280], [15296, 10360], [14080, 10360]]
+    height: 180
+    travel: [0, 0, -182]
+    speed: 150
+    surface: {texture: d2wctra, size: [128, 256]}
+    top_surface: {texture: d2ceil3, size: [256, 256]}
+    notes: "Door record 10, the portcullis: a block of stone 1216 long, 80 thick and 180 high on the arch's floor, which sinks 180 into it (2 more here, so that its top hides under the floor). The arch stays open above it. Clicking it runs the original's event 2 (a toxic cloud in the south cavern)."
+plates:
+  - id: plate:summon26
+    room: room:s144
+    at: [-7808, 13696]
+    size: [256, 256]
+    notes: "Original event 26 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:summon47
+    room: room:s144
+    at: [-6919, 12672]
+    size: [270, 256]
+    notes: "Original event 47 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:summon48
+    room: room:s144
+    at: [-6832, 14720]
+    size: [256, 256]
+    notes: "Original event 48 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:summon49
+    room: room:s144
+    at: [-5504, 14720]
+    size: [256, 256]
+    notes: "Original event 49 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:summon50
+    room: room:s144
+    at: [-4992, 13440]
+    size: [256, 256]
+    notes: "Original event 50 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:summon51
+    room: room:s144
+    at: [-5248, 12416]
+    size: [256, 256]
+    notes: "Original event 51 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:summon52
+    room: room:s144
+    at: [-6272, 12160]
+    size: [256, 256]
+    notes: "Original event 52 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap02
+    room: room:s001
+    at: [13640, -296]
+    size: [1580, 176]
+    notes: "Original event 2: the floor before the door to the cross hall (the original: three floor faces round the steps)."
+  - id: plate:trap03_a
+    room: room:s063
+    at: [12912, 4128]
+    size: [288, 192]
+    notes: "Original event 3 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap03_b
+    room: room:s063
+    at: [12912, 3808]
+    size: [288, 192]
+    notes: "Original event 3 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap03_c
+    room: room:s064
+    at: [14640, 2976]
+    size: [288, 192]
+    notes: "Original event 3 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap03_d
+    room: room:s064
+    at: [14640, 3296]
+    size: [288, 192]
+    notes: "Original event 3 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap19
+    room: room:s014
+    at: [10432, 1920]
+    size: [256, 256]
+    notes: "Original event 19 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap20
+    room: room:s042
+    at: [15457, 1824]
+    size: [248, 152]
+    notes: "Original event 20: the second face of this event (in the doorway of cell 45) is not drawn: a doorway has no floor of its own."
+  - id: plate:trap20_b
+    room: room:s045
+    at: [16225, 2753]
+    size: [288, 96]
+    notes: "Original event 20, face 566, which lies in the doorway into this cell (y 2496 to 2688): a doorway has no floor of its own, so the plate is the first 96 of the cell's floor behind it, 17 from the wall (exactly 16 is refused: round two's repro plate_16)."
+  - id: plate:trap21
+    room: room:s152
+    at: [9872, 312]
+    size: [352, 488]
+    notes: "Original event 21 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap22
+    room: room:s004
+    at: [12208, 312]
+    size: [384, 488]
+    notes: "Original event 22 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap23
+    room: room:s174
+    at: [14640, 1464]
+    size: [345, 208]
+    notes: "Original event 23 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap24
+    room: room:s178
+    at: [16853, 2016]
+    size: [536, 344]
+    notes: "Original event 24 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap25
+    room: room:s181_b
+    at: [18097, 4568]
+    size: [344, 176]
+    notes: "Original event 25 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap27_a
+    room: room:s080
+    at: [-1822, 14208]
+    size: [96, 1696]
+    notes: "Original event 27 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap27_b
+    room: room:s080
+    at: [-286, 14208]
+    size: [96, 1696]
+    notes: "Original event 27 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap27_c
+    room: room:s080
+    at: [1249, 14208]
+    size: [96, 1696]
+    notes: "Original event 27 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap27_d
+    room: room:s080
+    at: [-1054, 15216]
+    size: [1216, 96]
+    notes: "Original event 27 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap27_e
+    room: room:s080
+    at: [482, 15216]
+    size: [1214, 96]
+    notes: "Original event 27 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap46_a
+    room: room:s080
+    at: [482, 13200]
+    size: [1214, 96]
+    notes: "Original event 46 (a floor face with the pressure plate flag; it cannot be seen)."
+  - id: plate:trap46_b
+    room: room:s080
+    at: [-1054, 13200]
+    size: [1216, 96]
+    notes: "Original event 46 (a floor face with the pressure plate flag; it cannot be seen)."
+lights:
+  - id: light:l00
+    room: room:s161
+    at: [6784, 9824]
+    height: 160
+    radius: 64
+    brightness: 31
+    notes: "Original light record 0 (radius 10, type 5)."
+  - id: light:l01
+    room: room:s051
+    at: [21240, 1744]
+    height: 159
+    radius: 256
+    brightness: 31
+    notes: "Original light record 1 (radius 256, type 5)."
+  - id: light:l02
+    room: room:s051
+    at: [21240, 2096]
+    height: 159
+    radius: 256
+    brightness: 31
+    notes: "Original light record 2 (radius 256, type 5)."
+switches:
+  - id: switch:lever_east
+    room: room:s016_niche
+    kind: lever
+    reach: 26
+    base: {texture: bdksv16c, size: [16, 128]}
+    wall: 1
+    height: 26
+    size: [8, 32]
+    off: {texture: bdksh16c, size: [128, 16]}
+    notes: "Original event 54: door record 14, a BdkSH16c arm 26 long and 4 thick on a BdkSV16c strip at the niche's back (faces 4514 to 4519), sinks 16 and rises again at the next pull."
+  - id: switch:lever_west
+    room: room:s164_niche
+    kind: lever
+    reach: 26
+    base: {texture: bdksv16c, size: [16, 128]}
+    wall: 0
+    height: 26
+    size: [8, 32]
+    off: {texture: bdksh16c, size: [128, 16]}
+    notes: "Original event 56: door record 12, the same lever (faces 4549 to 4554)."
+  - id: switch:panel_chamber_e
+    room: room:s192
+    wall: 0
+    along: 0.5
+    height: 144
+    size: [256, 288]
+    off: {texture: orwtrtyl, size: [128, 128]}
+    on: orwtrtyl
+    notes: "Original event 43: one of the four glowing panels of the teleport chamber (256 wide, 288 high, from the floor)."
+  - id: switch:panel_chamber_n
+    room: room:s192
+    wall: 1
+    along: 0.5
+    height: 144
+    size: [256, 288]
+    off: {texture: orwtrtyl, size: [128, 128]}
+    on: orwtrtyl
+    notes: Original event 43.
+  - id: switch:panel_chamber_s
+    room: room:s192
+    wall: 3
+    along: 0.5
+    height: 144
+    size: [256, 288]
+    off: {texture: orwtrtyl, size: [128, 128]}
+    on: orwtrtyl
+    notes: Original event 43.
+  - id: switch:panel_chamber_w
+    room: room:s192
+    wall: 2
+    along: 0.5
+    height: 144
+    size: [256, 288]
+    off: {texture: orwtrtyl, size: [128, 128]}
+    on: orwtrtyl
+    notes: Original event 43.
+  - id: switch:panel_study
+    room: room:s193_a
+    wall: 0
+    along: 0.5
+    height: 232
+    size: [192, 448]
+    off: {texture: lavatyl, size: [128, 128]}
+    on: lavatyl
+    notes: "Original event 44: the lava panel at the back of the study's alcove (224 wide, 464 high), the way out of the study."
+  - id: switch:sign_embers_e
+    room: room:s016
+    wall: 1
+    along: 0.5833
+    height: 172
+    size: [64, 32]
+    off: {texture: sign7, size: [64, 32]}
+    on: sign7
+    notes: Original event 53.
+  - id: switch:sign_embers_w
+    room: room:s164
+    wall: 7
+    along: 0.5469
+    height: 172
+    size: [64, 32]
+    off: {texture: sign7, size: [64, 32]}
+    on: sign7
+    notes: Original event 55.
+  - id: switch:sign_fires
+    room: room:s170
+    wall: 3
+    along: 0.3704
+    height: 204
+    size: [128, 64]
+    off: {texture: bigsign, size: [128, 64]}
+    on: bigsign
+    notes: Original event 45.
+chests:
+  - id: chest:study
+    room: room:s193
+    at: [21680, -2400]
+    kind: ch2
+    size: [96, 64, 64]
+    random_levels: [6, 6, 7]
+    trap_level: 5
+    notes: "Chest record 0 of the original (event 10): three random rolls of levels 6, 6 and 7 (its items -6, -6, -7) and its trapped flag (flags 1; the trap's strength is the map row's Trap column, 5, which the rebuild's row 9715 has too). Rounds one to four: untrapped; round five: three rolls of level 6 (`random_levels` was refused by the schema then). Round six: the original's ch2 chest (faces 4329 to 4339: ch2FRNTb with ch2frLE and ch2frRE ends on both long sides, ch2TOPb with ch2topLE and ch2topRE on the top, ch2side on the short ends), 96 by 64 and 64 high."
+spawns:
+  - id: spawn:p000
+    room: room:s134
+    at: [3968, 11392]
+    slot: 3
+    notes: "Original spawn 0, index 3."
+  - id: spawn:p001
+    room: room:s145
+    at: [-5952, 10944]
+    slot: 3
+    notes: "Original spawn 1, index 10 (slot 3, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p002
+    room: room:s047
+    at: [18048, 1920]
+    slot: 3
+    notes: "Original spawn 2, index 3."
+  - id: spawn:p003
+    room: room:s009
+    at: [13952, 3072]
+    slot: 2
+    notes: "Original spawn 3, index 2."
+  - id: spawn:p004
+    room: room:s072
+    at: [-15616, 20864]
+    slot: 2
+    notes: "Original spawn 4, index 2."
+  - id: spawn:p005
+    room: room:s073
+    at: [-11264, 7680]
+    slot: 2
+    notes: "Original spawn 5, index 2."
+  - id: spawn:p006
+    room: room:s071
+    at: [-384, 19712]
+    slot: 2
+    notes: "Original spawn 6, index 2."
+  - id: spawn:p007
+    room: room:s073
+    at: [-7680, 8448]
+    slot: 2
+    notes: "Original spawn 7, index 2."
+  - id: spawn:p008
+    room: room:s056
+    at: [12928, 7040]
+    slot: 3
+    notes: "Original spawn 8, index 3."
+  - id: spawn:p009
+    room: room:s001
+    at: [12160, -2304]
+    slot: 2
+    notes: "Original spawn 9, index 2."
+  - id: spawn:p010
+    room: room:s056
+    at: [11008, 6656]
+    slot: 3
+    notes: "Original spawn 10, index 3."
+  - id: spawn:p011
+    room: room:s072
+    at: [-18688, 18688]
+    slot: 2
+    notes: "Original spawn 11, index 2."
+  - id: spawn:p012
+    room: room:s072
+    at: [-16768, 20736]
+    slot: 2
+    notes: "Original spawn 12, index 2."
+  - id: spawn:p013
+    room: room:s094
+    at: [-14528, 12544]
+    slot: 3
+    notes: "Original spawn 13, index 10 (slot 3, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p014
+    room: room:s056
+    at: [11136, 5632]
+    slot: 3
+    notes: "Original spawn 14, index 3."
+  - id: spawn:p015
+    room: room:s056
+    at: [15104, 5760]
+    slot: 3
+    notes: "Original spawn 15, index 3."
+  - id: spawn:p016
+    room: room:s080
+    at: [-1152, 16000]
+    slot: 2
+    notes: "Original spawn 16, index 2."
+  - id: spawn:p017
+    room: room:s169
+    at: [17664, 6272]
+    slot: 1
+    notes: "Original spawn 17, index 1."
+  - id: spawn:p018
+    room: room:s009
+    at: [13824, 3840]
+    slot: 2
+    notes: "Original spawn 18, index 2."
+  - id: spawn:p019
+    room: room:s042
+    at: [15360, 2432]
+    slot: 3
+    notes: "Original spawn 19, index 3."
+  - id: spawn:p020
+    room: room:s169
+    at: [17984, 6144]
+    slot: 2
+    notes: "Original spawn 20, index 8 (slot 2, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p021
+    room: room:s072
+    at: [-16256, 22016]
+    slot: 2
+    notes: "Original spawn 21, index 2."
+  - id: spawn:p022
+    room: room:s072
+    at: [-16256, 19840]
+    slot: 2
+    notes: "Original spawn 22, index 2."
+  - id: spawn:p023
+    room: room:s072
+    at: [-14080, 8448]
+    slot: 2
+    notes: "Original spawn 23, index 2."
+  - id: spawn:p024
+    room: room:s145
+    at: [-6336, 10432]
+    slot: 3
+    notes: "Original spawn 24, index 10 (slot 3, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p025
+    room: room:s072
+    at: [-14976, 21632]
+    slot: 2
+    notes: "Original spawn 25, index 2."
+  - id: spawn:p026
+    room: room:s176
+    at: [15744, 2048]
+    slot: 1
+    notes: "Original spawn 26, index 1."
+  - id: spawn:p027
+    room: room:s056
+    at: [13056, 6400]
+    slot: 3
+    notes: "Original spawn 27, index 3."
+  - id: spawn:p028
+    room: room:s001
+    at: [14720, -1280]
+    slot: 1
+    notes: "Original spawn 28, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p030
+    room: room:s148
+    at: [-7680, 19072]
+    slot: 2
+    notes: "Original spawn 30, index 2."
+  - id: spawn:p031
+    room: room:s066
+    at: [7936, 12288]
+    slot: 2
+    notes: "Original spawn 31, index 2."
+  - id: spawn:p032
+    room: room:s073
+    at: [896, 7680]
+    slot: 2
+    notes: "Original spawn 32, index 2."
+  - id: spawn:p033
+    room: room:s072
+    at: [-18432, 12800]
+    slot: 2
+    notes: "Original spawn 33, index 2."
+  - id: spawn:p034
+    room: room:s080
+    at: [1792, 12672]
+    slot: 2
+    notes: "Original spawn 34, index 2."
+  - id: spawn:p035
+    room: room:s072
+    at: [-13440, 23936]
+    slot: 2
+    notes: "Original spawn 35, index 2."
+  - id: spawn:p036
+    room: room:s080
+    at: [1664, 14208]
+    slot: 1
+    notes: "Original spawn 36, index 1."
+  - id: spawn:p037
+    room: room:s072
+    at: [-14848, 22272]
+    slot: 2
+    notes: "Original spawn 37, index 2."
+  - id: spawn:p038
+    room: room:s001
+    at: [11648, -1280]
+    slot: 1
+    notes: "Original spawn 38, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p039
+    room: room:s038
+    at: [12160, 4992]
+    slot: 1
+    notes: "Original spawn 39, index 4 (slot 1, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p040
+    room: room:s073
+    at: [-4864, 7680]
+    slot: 2
+    notes: "Original spawn 40, index 2."
+  - id: spawn:p041
+    room: room:s056
+    at: [14336, 7424]
+    slot: 3
+    notes: "Original spawn 41, index 3."
+  - id: spawn:p042
+    room: room:s080
+    at: [-3328, 14464]
+    slot: 2
+    notes: "Original spawn 42, index 2."
+  - id: spawn:p043
+    room: room:s094
+    at: [-11008, 12928]
+    slot: 1
+    notes: "Original spawn 43, index 1."
+  - id: spawn:p044
+    room: room:s071
+    at: [-8704, 21120]
+    slot: 2
+    notes: "Original spawn 44, index 2."
+  - id: spawn:p045
+    room: room:s110
+    at: [5376, 16000]
+    slot: 3
+    notes: "Original spawn 45, index 3."
+  - id: spawn:p046
+    room: room:s094
+    at: [-13056, 11904]
+    slot: 2
+    notes: "Original spawn 46, index 2."
+  - id: spawn:p047
+    room: room:s150
+    at: [-6656, 17792]
+    slot: 2
+    notes: "Original spawn 47, index 2."
+  - id: spawn:p048
+    room: room:s094
+    at: [-11136, 14720]
+    slot: 2
+    notes: "Original spawn 48, index 2."
+  - id: spawn:p049
+    room: room:s149
+    at: [-5376, 16576]
+    slot: 3
+    notes: "Original spawn 49, index 3."
+  - id: spawn:p050
+    room: room:s151
+    at: [8832, 512]
+    slot: 3
+    notes: "Original spawn 50, index 3."
+  - id: spawn:p051
+    room: room:s072
+    at: [-16384, 10240]
+    slot: 2
+    notes: "Original spawn 51, index 2."
+  - id: spawn:p052
+    room: room:s145
+    at: [-5760, 10560]
+    slot: 3
+    notes: "Original spawn 52, index 10 (slot 3, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p053
+    room: room:s016
+    at: [9856, 4608]
+    slot: 1
+    notes: "Original spawn 53, index 1."
+  - id: spawn:p054
+    room: room:s094
+    at: [-14720, 14144]
+    slot: 3
+    notes: "Original spawn 54, index 10 (slot 3, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p056
+    room: room:s151
+    at: [8832, 128]
+    slot: 3
+    notes: "Original spawn 56, index 3."
+  - id: spawn:p057
+    room: room:s094
+    at: [-9344, 11520]
+    slot: 2
+    notes: "Original spawn 57, index 2."
+  - id: spawn:p058
+    room: room:s101
+    at: [-15744, 15744]
+    slot: 2
+    notes: "Original spawn 58, index 2."
+  - id: spawn:p059
+    room: room:s094
+    at: [-12416, 14528]
+    slot: 1
+    notes: "Original spawn 59, index 1."
+  - id: spawn:p060
+    room: room:s012
+    at: [12544, 1920]
+    slot: 3
+    notes: "Original spawn 60, index 3."
+  - id: spawn:p061
+    room: room:s001
+    at: [14336, -3968]
+    slot: 1
+    notes: "Original spawn 61, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p062
+    room: room:s071
+    at: [-4608, 20480]
+    slot: 2
+    notes: "Original spawn 62, index 2."
+  - id: spawn:p063
+    room: room:s001
+    at: [13440, -1536]
+    slot: 1
+    notes: "Original spawn 63, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p064
+    room: room:s094
+    at: [-12096, 13184]
+    slot: 1
+    notes: "Original spawn 64, index 1."
+  - id: spawn:p065
+    room: room:s192
+    at: [23168, 7040]
+    slot: 2
+    notes: "Original spawn 65, index 2."
+  - id: spawn:p066
+    room: room:s072
+    at: [-18560, 16128]
+    slot: 2
+    notes: "Original spawn 66, index 2."
+  - id: spawn:p067
+    room: room:s125
+    at: [5376, 12288]
+    slot: 3
+    notes: "Original spawn 67, index 3."
+  - id: spawn:p068
+    room: room:s009
+    at: [13312, 3456]
+    slot: 2
+    notes: "Original spawn 68, index 2."
+  - id: spawn:p069
+    room: room:s080
+    at: [-2432, 15488]
+    slot: 1
+    notes: "Original spawn 69, index 1."
+  - id: spawn:p071
+    room: room:s039
+    at: [12160, 2176]
+    slot: 1
+    notes: "Original spawn 71, index 4 (slot 1, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p072
+    room: room:s143
+    at: [6656, -3200]
+    slot: 1
+    notes: "Original spawn 72, index 1."
+  - id: spawn:p073
+    room: room:s149
+    at: [-5504, 17024]
+    slot: 3
+    notes: "Original spawn 73, index 3."
+  - id: spawn:p074
+    room: room:s035
+    at: [16640, 768]
+    slot: 3
+    notes: "Original spawn 74, index 3."
+  - id: spawn:p075
+    room: room:s038
+    at: [12672, 4224]
+    slot: 3
+    notes: "Original spawn 75, index 3."
+  - id: spawn:p076
+    room: room:s150
+    at: [-7296, 16704]
+    slot: 3
+    notes: "Original spawn 76, index 3."
+  - id: spawn:p077
+    room: room:s094
+    at: [-12864, 12928]
+    slot: 1
+    notes: "Original spawn 77, index 1."
+  - id: spawn:p078
+    room: room:s001
+    at: [14464, -2560]
+    slot: 2
+    notes: "Original spawn 78, index 2."
+  - id: spawn:p079
+    room: room:s155
+    at: [8576, 6656]
+    slot: 1
+    notes: "Original spawn 79, index 1."
+  - id: spawn:p080
+    room: room:s056
+    at: [12032, 7168]
+    slot: 3
+    notes: "Original spawn 80, index 3."
+  - id: spawn:p081
+    room: room:s094
+    at: [-13184, 14912]
+    slot: 3
+    notes: "Original spawn 81, index 10 (slot 3, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p082
+    room: room:s056
+    at: [16256, 8064]
+    slot: 3
+    notes: "Original spawn 82, index 3."
+  - id: spawn:p083
+    room: room:s172
+    at: [2560, 3840]
+    slot: 2
+    notes: "Original spawn 83, index 8 (slot 2, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p084
+    room: room:s078
+    at: [4224, 15232]
+    slot: 2
+    notes: "Original spawn 84, index 2."
+  - id: spawn:p085
+    room: room:s056
+    at: [10368, 8192]
+    slot: 3
+    notes: "Original spawn 85, index 3."
+  - id: spawn:p086
+    room: room:s014
+    at: [10240, 2048]
+    slot: 1
+    notes: "Original spawn 86, index 1."
+  - id: spawn:p087
+    room: room:s151
+    at: [8192, 256]
+    slot: 3
+    notes: "Original spawn 87, index 3."
+  - id: spawn:p088
+    room: room:s080
+    at: [-896, 14080]
+    slot: 1
+    notes: "Original spawn 88, index 1."
+  - id: spawn:p089
+    room: room:s048
+    at: [15104, 3968]
+    slot: 3
+    notes: "Original spawn 89, index 3."
+  - id: spawn:p090
+    room: room:s056
+    at: [15104, 8448]
+    slot: 3
+    notes: "Original spawn 90, index 3."
+  - id: spawn:p091
+    room: room:s094
+    at: [-13632, 14208]
+    slot: 3
+    notes: "Original spawn 91, index 10 (slot 3, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p092
+    room: room:s001
+    at: [16384, -2560]
+    slot: 2
+    notes: "Original spawn 92, index 2."
+  - id: spawn:p093
+    room: room:s130
+    at: [1024, 11264]
+    slot: 1
+    notes: "Original spawn 93, index 1."
+  - id: spawn:p094
+    room: room:s001
+    at: [16384, -1024]
+    slot: 1
+    notes: "Original spawn 94, index 1."
+  - id: spawn:p095
+    room: room:s001
+    at: [15864, -3936]
+    slot: 1
+    notes: "Original spawn 95, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p096
+    room: room:s094
+    at: [-14976, 14848]
+    slot: 2
+    notes: "Original spawn 96, index 2."
+  - id: spawn:p097
+    room: room:s033
+    at: [17024, 3648]
+    slot: 1
+    notes: "Original spawn 97, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p098
+    room: room:s094
+    at: [-11200, 11776]
+    slot: 1
+    notes: "Original spawn 98, index 1."
+  - id: spawn:p099
+    room: room:s113
+    at: [4096, 17024]
+    slot: 3
+    notes: "Original spawn 99, index 3."
+  - id: spawn:p101
+    room: room:s094
+    at: [-14208, 13312]
+    slot: 1
+    notes: "Original spawn 101, index 1."
+  - id: spawn:p102
+    room: room:s080
+    at: [-2432, 12928]
+    slot: 1
+    notes: "Original spawn 102, index 1."
+  - id: spawn:p103
+    room: room:s072
+    at: [-14848, 23424]
+    slot: 2
+    notes: "Original spawn 103, index 2."
+  - id: spawn:p104
+    room: room:s031
+    at: [13312, 640]
+    slot: 3
+    notes: "Original spawn 104, index 3."
+  - id: spawn:p105
+    room: room:s056
+    at: [13952, 5888]
+    slot: 3
+    notes: "Original spawn 105, index 3."
+  - id: spawn:p106
+    room: room:s031
+    at: [13952, 640]
+    slot: 3
+    notes: "Original spawn 106, index 3."
+  - id: spawn:p107
+    room: room:s072
+    at: [-14720, 20736]
+    slot: 2
+    notes: "Original spawn 107, index 2."
+  - id: spawn:p108
+    room: room:s072
+    at: [-13568, 22272]
+    slot: 2
+    notes: "Original spawn 108, index 2."
+  - id: spawn:p109
+    room: room:s066
+    at: [12032, 13696]
+    slot: 2
+    notes: "Original spawn 109, index 2."
+  - id: spawn:p110
+    room: room:s001
+    at: [12672, -3200]
+    slot: 1
+    notes: "Original spawn 110, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p111
+    room: room:s045
+    at: [16256, 3072]
+    slot: 3
+    notes: "Original spawn 111, index 3."
+  - id: spawn:p112
+    room: room:s072
+    at: [-13952, 23168]
+    slot: 2
+    notes: "Original spawn 112, index 2."
+  - id: spawn:p113
+    room: room:s072
+    at: [-14336, 22144]
+    slot: 2
+    notes: "Original spawn 113, index 2."
+  - id: spawn:p114
+    room: room:s066
+    at: [7552, 15360]
+    slot: 2
+    notes: "Original spawn 114, index 2."
+  - id: spawn:p115
+    room: room:s048
+    at: [15104, 3328]
+    slot: 3
+    notes: "Original spawn 115, index 3."
+  - id: spawn:p116
+    room: room:s072
+    at: [-17408, 16896]
+    slot: 2
+    notes: "Original spawn 116, index 2."
+  - id: spawn:p117
+    room: room:s001
+    at: [17408, -2944]
+    slot: 1
+    notes: "Original spawn 117, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p118
+    room: room:s071
+    at: [4992, 18048]
+    slot: 2
+    notes: "Original spawn 118, index 2."
+  - id: spawn:p119
+    room: room:s192
+    at: [22400, 7808]
+    slot: 2
+    notes: "Original spawn 119, index 2."
+  - id: spawn:p120
+    room: room:s001
+    at: [15488, -2048]
+    slot: 1
+    notes: "Original spawn 120, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p121
+    room: room:s001
+    at: [12544, -1152]
+    slot: 1
+    notes: "Original spawn 121, index 5 (slot 1, fixed tier B: a spawn here cannot name its tier)."
+  - id: spawn:p122
+    room: room:s056
+    at: [12032, 8192]
+    slot: 3
+    notes: "Original spawn 122, index 3."
+  - id: spawn:p123
+    room: room:s056
+    at: [11136, 7808]
+    slot: 3
+    notes: "Original spawn 123, index 3."
+  - id: spawn:p124
+    room: room:s039
+    at: [12672, 1920]
+    slot: 3
+    notes: "Original spawn 124, index 3."
+  - id: spawn:p125
+    room: room:s179
+    at: [15616, 1152]
+    slot: 1
+    notes: "Original spawn 125, index 1."
+  - id: spawn:p126
+    room: room:s035
+    at: [16384, 384]
+    slot: 1
+    notes: "Original spawn 126, index 4 (slot 1, fixed tier A: a spawn here cannot name its tier)."
+  - id: spawn:p127
+    room: room:s094
+    at: [-9856, 14144]
+    slot: 1
+    notes: "Original spawn 127, index 1."
+  - id: spawn:p128
+    room: room:s056
+    at: [13824, 8960]
+    slot: 3
+    notes: "Original spawn 128, index 3."
+  - id: spawn:p129
+    room: room:s009
+    at: [13184, 4352]
+    slot: 2
+    notes: "Original spawn 129, index 2."
+  - id: spawn:p130
+    room: room:s080
+    at: [-512, 15616]
+    slot: 2
+    notes: "Original spawn 130, index 2."
+  - id: spawn:p131
+    room: room:s094
+    at: [-9728, 13184]
+    slot: 1
+    notes: "Original spawn 131, index 1."
+  - id: spawn:p133
+    room: room:s080
+    at: [2048, 16000]
+    slot: 2
+    notes: "Original spawn 133, index 2."
+  - id: spawn:p134
+    room: room:s066
+    at: [4608, 8448]
+    slot: 2
+    notes: "Original spawn 134, index 2."
+  - id: spawn:p135
+    room: room:s072
+    at: [-15232, 22656]
+    slot: 2
+    notes: "Original spawn 135, index 2."
+  - id: spawn:p136
+    room: room:s012
+    at: [11776, 2048]
+    slot: 3
+    notes: "Original spawn 136, index 3."
+monsters:
+  - id: monster:lich_king
+    room: room:s094
+    monster: 570
+    at: [-14016, 14880]
+    group: 85
+    hp: 600
+    name: Lich King
+    carries: 1761
+    notes: "The original's one placed actor (cd2.scene.yml actor 0): a Power Lich (monster 570) with 600 hit points, unique name 134 of place_mon.txt (Lich King), group 85, guarding the west court, carrying the Dragon Wand of Incineration (item 1761, its carried_item_id; round six: `carries`)."
+items:
+  - id: item:armageddon_01
+    room: room:s191
+    item: 2017
+    at: [-15488, 17024]
+  - id: item:armageddon_02
+    room: room:s191
+    item: 2017
+    at: [-15744, 16896]
+  - id: item:armageddon_03
+    room: room:s191
+    item: 2017
+    at: [-15424, 17088]
+  - id: item:armageddon_04
+    room: room:s191
+    item: 2017
+    at: [-15552, 17088]
+  - id: item:bottle_01
+    room: room:s148
+    item: 220
+    at: [-7936, 19456]
+  - id: item:bottle_02
+    room: room:s148
+    item: 220
+    at: [-7680, 19456]
+  - id: item:bottle_03
+    room: room:s148
+    item: 220
+    at: [-7552, 19456]
+  - id: item:bottle_04
+    room: room:s148
+    item: 220
+    at: [-8064, 19328]
+  - id: item:bottle_05
+    room: room:s148
+    item: 220
+    at: [-7936, 19328]
+  - id: item:bottle_06
+    room: room:s148
+    item: 220
+    at: [-7808, 19328]
+  - id: item:bottle_07
+    room: room:s148
+    item: 220
+    at: [-7680, 19328]
+  - id: item:bottle_08
+    room: room:s148
+    item: 220
+    at: [-7552, 19328]
+  - id: item:bottle_09
+    room: room:s148
+    item: 220
+    at: [-7424, 19328]
+  - id: item:bottle_10
+    room: room:s148
+    item: 220
+    at: [-7296, 19200]
+  - id: item:bottle_11
+    room: room:s148
+    item: 220
+    at: [-7424, 19200]
+  - id: item:bottle_12
+    room: room:s148
+    item: 220
+    at: [-7552, 19200]
+  - id: item:bottle_13
+    room: room:s148
+    item: 220
+    at: [-7680, 19200]
+  - id: item:bottle_14
+    room: room:s148
+    item: 220
+    at: [-7808, 19200]
+  - id: item:bottle_15
+    room: room:s148
+    item: 220
+    at: [-7936, 19200]
+  - id: item:bottle_16
+    room: room:s148
+    item: 220
+    at: [-8064, 19200]
+  - id: item:bottle_17
+    room: room:s148
+    item: 220
+    at: [-8064, 19072]
+  - id: item:bottle_18
+    room: room:s148
+    item: 220
+    at: [-8064, 18944]
+  - id: item:bottle_19
+    room: room:s148
+    item: 220
+    at: [-8064, 18816]
+  - id: item:bottle_20
+    room: room:s148
+    item: 220
+    at: [-8064, 18688]
+  - id: item:bottle_21
+    room: room:s148
+    item: 220
+    at: [-7936, 18688]
+  - id: item:bottle_22
+    room: room:s148
+    item: 220
+    at: [-7936, 18816]
+  - id: item:bottle_23
+    room: room:s148
+    item: 220
+    at: [-7936, 18944]
+  - id: item:bottle_24
+    room: room:s148
+    item: 220
+    at: [-7936, 19072]
+  - id: item:bottle_25
+    room: room:s148
+    item: 220
+    at: [-7808, 19072]
+  - id: item:bottle_26
+    room: room:s148
+    item: 220
+    at: [-7808, 18944]
+  - id: item:bottle_27
+    room: room:s148
+    item: 220
+    at: [-7808, 18816]
+  - id: item:bottle_28
+    room: room:s148
+    item: 220
+    at: [-7808, 18688]
+  - id: item:bottle_29
+    room: room:s148
+    item: 220
+    at: [-7680, 18688]
+  - id: item:bottle_30
+    room: room:s148
+    item: 220
+    at: [-7680, 18816]
+  - id: item:bottle_31
+    room: room:s148
+    item: 220
+    at: [-7680, 18944]
+  - id: item:bottle_32
+    room: room:s148
+    item: 220
+    at: [-7552, 19072]
+  - id: item:bottle_33
+    room: room:s148
+    item: 220
+    at: [-7552, 18944]
+  - id: item:bottle_34
+    room: room:s148
+    item: 220
+    at: [-7552, 18816]
+  - id: item:bottle_35
+    room: room:s148
+    item: 220
+    at: [-7552, 18688]
+  - id: item:bottle_36
+    room: room:s148
+    item: 220
+    at: [-7424, 18688]
+  - id: item:bottle_37
+    room: room:s148
+    item: 220
+    at: [-7424, 18816]
+  - id: item:bottle_38
+    room: room:s148
+    item: 220
+    at: [-7424, 18944]
+  - id: item:bottle_39
+    room: room:s148
+    item: 220
+    at: [-7424, 19072]
+  - id: item:bottle_40
+    room: room:s148
+    item: 220
+    at: [-7296, 19072]
+  - id: item:bottle_41
+    room: room:s148
+    item: 220
+    at: [-7296, 18944]
+  - id: item:bottle_42
+    room: room:s148
+    item: 220
+    at: [-7296, 18816]
+  - id: item:bottle_43
+    room: room:s148
+    item: 220
+    at: [-7296, 18688]
+  - id: item:bottle_44
+    room: room:s148
+    item: 220
+    at: [-7168, 18688]
+  - id: item:bottle_45
+    room: room:s148
+    item: 220
+    at: [-7168, 18816]
+  - id: item:bottle_46
+    room: room:s148
+    item: 220
+    at: [-7168, 18944]
+  - id: item:bottle_47
+    room: room:s148
+    item: 220
+    at: [-7168, 19072]
+  - id: item:bottle_48
+    room: room:s148
+    item: 220
+    at: [-7040, 18944]
+  - id: item:bottle_49
+    room: room:s148
+    item: 220
+    at: [-7040, 18816]
+  - id: item:bottle_50
+    room: room:s148
+    item: 220
+    at: [-7040, 18688]
+  - id: item:bottle_51
+    room: room:s148
+    item: 220
+    at: [-6912, 18688]
+  - id: item:bottle_52
+    room: room:s148
+    item: 220
+    at: [-6912, 18816]
+  - id: item:bottle_53
+    room: room:s148
+    item: 220
+    at: [-6784, 18688]
+  - id: item:bottle_54
+    room: room:s148
+    item: 220
+    at: [-7808, 19456]
+  - id: item:bottle_55
+    room: room:s148
+    item: 220
+    at: [-8064, 19456]
+  - id: item:deck_01
+    room: room:s191
+    item: 2067
+    at: [-15808, 17088]
+  - id: item:deck_02
+    room: room:s191
+    item: 2067
+    at: [-15808, 16832]
+  - id: item:deck_03
+    room: room:s072
+    item: 2067
+    at: [-13344, 23968]
+  - id: item:deck_04
+    room: room:s024
+    item: 2067
+    at: [16288, 352]
+  - id: item:deck_05
+    room: room:s169
+    item: 2067
+    at: [17056, 5664]
+  - id: item:rejuvenation_01
+    room: room:s124
+    item: 271
+    at: [3200, 13184]
+  - id: item:rejuvenation_02
+    room: room:s124
+    item: 271
+    at: [3264, 13184]
+  - id: item:rejuvenation_03
+    room: room:s124
+    item: 271
+    at: [3328, 13184]
+  - id: item:rejuvenation_04
+    room: room:s124
+    item: 271
+    at: [3392, 13184]
+  - id: item:rejuvenation_05
+    room: room:s124
+    item: 271
+    at: [3392, 13120]
+  - id: item:rejuvenation_06
+    room: room:s124
+    item: 271
+    at: [3328, 13120]
+  - id: item:rejuvenation_07
+    room: room:s124
+    item: 271
+    at: [3264, 13120]
+  - id: item:rejuvenation_08
+    room: room:s124
+    item: 271
+    at: [3200, 13120]
+decorations:
+  - id: deco:d000
+    room: room:s056
+    decoration: 6torch01
+    at: [16640, 8108]
+    height: 208
+  - id: deco:d001
+    room: room:s056
+    decoration: 6torch01
+    at: [16640, 6472]
+    height: 208
+  - id: deco:d002
+    room: room:s056
+    decoration: 6torch01
+    at: [14880, 4912]
+    height: 208
+  - id: deco:d003
+    room: room:s056
+    decoration: 6torch01
+    at: [12672, 4912]
+    height: 208
+  - id: deco:d004
+    room: room:s056
+    decoration: 6torch01
+    at: [10364, 5180]
+    height: 208
+  - id: deco:d005
+    room: room:s056
+    decoration: 6torch01
+    at: [15368, 9680]
+    height: 208
+  - id: deco:d006
+    room: room:s056
+    decoration: 6torch01
+    at: [12744, 9680]
+    height: 208
+  - id: deco:d007
+    room: room:s056
+    decoration: 6torch01
+    at: [13984, 9680]
+    height: 208
+  - id: deco:d008
+    room: room:s169
+    decoration: 6torch01
+    at: [17864, 6992]
+    height: 128
+  - id: deco:d009
+    room: room:s169
+    decoration: 6torch01
+    at: [18232, 6944]
+    height: 128
+  - id: deco:d010
+    room: room:s169
+    decoration: 6torch01
+    at: [17600, 5584]
+    height: 128
+  - id: deco:d011
+    room: room:s169
+    decoration: 6torch01
+    at: [16960, 6472]
+    height: 128
+  - id: deco:d012
+    room: room:s166
+    decoration: 6torch01
+    at: [18176, 8112]
+    height: 166
+  - id: deco:d013
+    room: room:s166
+    decoration: 6torch01
+    at: [17920, 8744]
+    height: 166
+  - id: deco:d014
+    room: room:s166
+    decoration: 6torch01
+    at: [18176, 9656]
+    height: 166
+  - id: deco:d015
+    room: room:s060
+    decoration: 6torch01
+    at: [17208, 10256]
+    height: 166
+  - id: deco:d016
+    room: room:s058
+    decoration: 6torch01
+    at: [12736, 10192]
+    height: 166
+  - id: deco:d017
+    room: room:s153
+    decoration: 6torch01
+    at: [11192, 11312]
+    height: 100
+  - id: deco:d018
+    room: room:s153
+    decoration: 6torch01
+    at: [11936, 10320]
+    height: 100
+  - id: deco:d019
+    room: room:s153
+    decoration: 6torch01
+    at: [11864, 9728]
+    height: 100
+  - id: deco:d020
+    room: room:s153_a
+    decoration: 6torch01
+    at: [10496, 10544]
+    height: 150
+  - id: deco:d021
+    room: room:s154
+    decoration: 6torch01
+    at: [10088, 9872]
+    height: 180
+  - id: deco:d022
+    room: room:s154
+    decoration: 6torch01
+    at: [8848, 9448]
+    height: 180
+  - id: deco:d023
+    room: room:s154
+    decoration: 6torch01
+    at: [8808, 8592]
+    height: 180
+  - id: deco:d024
+    room: room:s154_a
+    decoration: 6torch01
+    at: [8224, 7920]
+    height: 214
+  - id: deco:d025
+    room: room:s155
+    decoration: 6torch01
+    at: [8888, 7072]
+    height: 142
+  - id: deco:d026
+    room: room:s155
+    decoration: 6torch01
+    at: [8120, 7080]
+    height: 142
+  - id: deco:d027
+    room: room:s155
+    decoration: 6torch01
+    at: [7936, 5968]
+    height: 142
+  - id: deco:d028
+    room: room:s155
+    decoration: 6torch01
+    at: [8328, 5968]
+    height: 142
+  - id: deco:d029
+    room: room:s156
+    decoration: 6torch01
+    at: [8032, 5712]
+    height: 274
+  - id: deco:d030
+    room: room:s156
+    decoration: 6torch01
+    at: [8256, 5048]
+    height: 244
+  - id: deco:d031
+    room: room:s157
+    decoration: 6torch01
+    at: [8256, 4584]
+    height: 136
+  - id: deco:d032
+    room: room:s162
+    decoration: 6torch01
+    at: [7640, 4656]
+    height: 106
+  - id: deco:d033
+    room: room:s161
+    decoration: 6torch01
+    at: [6784, 4760]
+    height: 106
+  - id: deco:d034
+    room: room:s161
+    decoration: 6torch01
+    at: [7040, 5760]
+    height: 96
+  - id: deco:d035
+    room: room:s161
+    decoration: 6torch01
+    at: [6784, 7032]
+    height: 96
+  - id: deco:d036
+    room: room:s161
+    decoration: 6torch01
+    at: [6784, 9824]
+    height: 96
+  - id: deco:d037
+    room: room:s160
+    decoration: 6torch01
+    at: [8704, 9904]
+    height: 96
+  - id: deco:d038
+    room: room:s153_a
+    decoration: 6torch01
+    at: [10496, 10000]
+    height: 150
+  - id: deco:d039
+    room: room:s154_a
+    decoration: 6torch01
+    at: [8768, 7920]
+    height: 214
+  - id: deco:d040
+    room: room:s160
+    decoration: 6torch01
+    at: [10856, 10128]
+    height: 96
+  - id: deco:d041
+    room: room:s159
+    decoration: 6torch01
+    at: [11920, 10128]
+    height: 208
+  - id: deco:d042
+    room: room:s159
+    decoration: 6torch01
+    at: [11920, 9904]
+    height: 208
+  - id: deco:d043
+    room: room:s066
+    decoration: 6torch01
+    at: [13984, 10384]
+    height: 166
+  - id: deco:d044
+    room: room:s066
+    decoration: 6torch01
+    at: [15368, 10384]
+    height: 166
+  - id: deco:d045
+    room: room:s058
+    decoration: 6torch01
+    at: [13984, 10256]
+    height: 166
+  - id: deco:d046
+    room: room:s058
+    decoration: 6torch01
+    at: [15368, 10256]
+    height: 166
+  - id: deco:d047
+    room: room:s172
+    decoration: 6torch01
+    at: [2368, 3688]
+    height: 186
+  - id: deco:d048
+    room: room:s168_a
+    decoration: 6torch01
+    at: [18888, 5896]
+    height: 120
+  - id: deco:d049
+    room: room:s168_a
+    decoration: 6torch01
+    at: [18656, 6200]
+    height: 120
+  - id: deco:d050
+    room: room:s168
+    decoration: 6torch01
+    at: [19040, 6776]
+    height: 136
+  - id: deco:d051
+    room: room:s168
+    decoration: 6torch01
+    at: [18688, 7552]
+    height: 136
+  - id: deco:d052
+    room: room:s167
+    decoration: 6torch01
+    at: [19040, 8144]
+    height: 78
+  - id: deco:d053
+    room: room:s167_a
+    decoration: 6torch01
+    at: [18864, 9000]
+    height: 156
+  - id: deco:d054
+    room: room:s167_a
+    decoration: 6torch01
+    at: [18392, 9200]
+    height: 156
+  - id: deco:d055
+    room: room:s167_a
+    decoration: 6torch01
+    at: [18392, 8848]
+    height: 156
+  - id: deco:d056
+    room: room:s057
+    decoration: 6torch01
+    at: [16960, 9752]
+    height: 164
+  - id: deco:d057
+    room: room:s057
+    decoration: 6torch01
+    at: [16960, 10256]
+    height: 164
+  - id: deco:d058
+    room: room:s057
+    decoration: 6torch01
+    at: [18416, 10216]
+    height: 164
+  - id: deco:d059
+    room: room:s057
+    decoration: 6torch01
+    at: [16960, 8120]
+    height: 164
+  - id: deco:d060
+    room: room:s057
+    decoration: 6torch01
+    at: [16960, 6488]
+    height: 164
+  - id: deco:d061
+    room: room:s057
+    decoration: 6torch01
+    at: [16960, 4912]
+    height: 164
+  - id: deco:d062
+    room: room:s057
+    decoration: 6torch01
+    at: [17824, 4912]
+    height: 164
+  - id: deco:d063
+    room: room:s057
+    decoration: 6torch01
+    at: [18336, 4912]
+    height: 164
+  - id: deco:d064
+    room: room:s181_b
+    decoration: 6torch01
+    at: [18272, 4584]
+    height: 164
+  - id: deco:d065
+    room: room:s181
+    decoration: 6torch01
+    at: [17920, 3656]
+    height: 196
+  - id: deco:d066
+    room: room:s181_a
+    decoration: 6torch01
+    at: [18272, 2592]
+    height: 124
+  - id: deco:d067
+    room: room:s178
+    decoration: 6torch01
+    at: [18704, 2192]
+    height: 124
+  - id: deco:d068
+    room: room:s178
+    decoration: 6torch01
+    at: [16712, 2192]
+    height: 124
+  - id: deco:d069
+    room: room:s178
+    decoration: 6torch01
+    at: [17568, 1840]
+    height: 124
+  - id: deco:d070
+    room: room:s057
+    decoration: 6torch01
+    at: [18472, 8120]
+    height: 164
+  - id: deco:d071
+    room: room:s057
+    decoration: 6torch01
+    at: [18472, 6488]
+    height: 164
+  - id: deco:d072
+    room: room:s176
+    decoration: 6torch01
+    at: [16448, 1800]
+    height: 124
+  - id: deco:d073
+    room: room:s176
+    decoration: 6torch01
+    at: [14944, 1888]
+    height: 124
+  - id: deco:d074
+    room: room:s179
+    decoration: 6torch01
+    at: [15176, 1328]
+    height: 124
+  - id: deco:d075
+    room: room:s176
+    decoration: 6torch01
+    at: [15704, 1456]
+    height: 124
+  - id: deco:d076
+    room: room:s179
+    decoration: 6torch01
+    at: [16224, 1328]
+    height: 124
+  - id: deco:d077
+    room: room:s176
+    decoration: 6torch01
+    at: [15296, 2528]
+    height: 124
+  - id: deco:d078
+    room: room:s176
+    decoration: 6torch01
+    at: [16104, 2520]
+    height: 124
+  - id: deco:d079
+    room: room:s174
+    decoration: 6torch01
+    at: [14816, 2328]
+    height: 124
+  - id: deco:d080
+    room: room:s179
+    decoration: 6torch01
+    at: [14984, 824]
+    height: 124
+  - id: deco:d081
+    room: room:s179
+    decoration: 6torch01
+    at: [16400, 824]
+    height: 124
+  - id: deco:d082
+    room: room:s174
+    decoration: 6torch01
+    at: [14464, 1472]
+    height: 124
+  - id: deco:d083
+    room: room:s004
+    decoration: 6torch01
+    at: [14408, 560]
+    height: 136
+  - id: deco:d084
+    room: room:s004
+    decoration: 6torch01
+    at: [14944, 64]
+    height: 136
+  - id: deco:d085
+    room: room:s004
+    decoration: 6torch01
+    at: [12456, 64]
+    height: 136
+  - id: deco:d086
+    room: room:s019
+    decoration: 6torch01
+    at: [10968, 376]
+    height: 180
+  - id: deco:d087
+    room: room:s152_a
+    decoration: 6torch01
+    at: [9344, 64]
+    height: 158
+  - id: deco:d088
+    room: room:s151
+    decoration: 6torch01
+    at: [7840, 440]
+    height: 154
+  - id: deco:d089
+    room: room:s055
+    decoration: 6torch01
+    at: [7328, 8]
+    height: 184
+  - id: deco:d090
+    room: room:s055_b
+    decoration: 6torch01
+    at: [6688, 912]
+    height: 184
+  - id: deco:d091
+    room: room:s053
+    decoration: 6torch01
+    at: [8264, 1720]
+    height: 190
+  - id: deco:d092
+    room: room:s052
+    decoration: 6torch01
+    at: [8746, 791]
+    height: 180
+  - id: deco:d093
+    room: room:s019
+    decoration: 6torch01
+    at: [9912, 1200]
+    height: 180
+  - id: deco:d094
+    room: room:s019
+    decoration: 6torch01
+    at: [9898, 387]
+    height: 180
+  - id: deco:d096
+    room: room:s054
+    decoration: 6torch01
+    at: [7120, 1704]
+    height: 240
+  - id: deco:d097
+    room: room:s020
+    decoration: 6torch01
+    at: [12752, 1032]
+    height: 160
+  - id: deco:d098
+    room: room:s020
+    decoration: 6torch01
+    at: [11584, 496]
+    height: 144
+  - id: deco:d099
+    room: room:s031
+    decoration: 6torch01
+    at: [14064, 1040]
+    height: 150
+  - id: deco:d100
+    room: room:s031
+    decoration: 6torch01
+    at: [14384, 328]
+    height: 150
+  - id: deco:d101
+    room: room:s035
+    decoration: 6torch01
+    at: [15900, 1236]
+    height: 150
+  - id: deco:d102
+    room: room:s035
+    decoration: 6torch01
+    at: [15896, 304]
+    height: 150
+  - id: deco:d103
+    room: room:s044
+    decoration: 6torch01
+    at: [16384, 2042]
+    height: 140
+  - id: deco:d104
+    room: room:s043
+    decoration: 6torch01
+    at: [15848, 2472]
+    height: 140
+  - id: deco:d105
+    room: room:s036
+    decoration: 6torch01
+    at: [17408, 1520]
+    height: 150
+  - id: deco:d106
+    room: room:s036
+    decoration: 6torch01
+    at: [17056, 2224]
+    height: 207
+  - id: deco:d107
+    room: room:s033
+    decoration: 6torch01
+    at: [16864, 3312]
+    height: 150
+  - id: deco:d108
+    room: room:s033
+    decoration: 6torch01
+    at: [16864, 3792]
+    height: 150
+  - id: deco:d109
+    room: room:s064
+    decoration: 6torch01
+    at: [14640, 2800]
+    height: 150
+  - id: deco:d110
+    room: room:s064
+    decoration: 6torch01
+    at: [14616, 4304]
+    height: 150
+  - id: deco:d111
+    room: room:s008
+    decoration: 6torch01
+    at: [16192, 2608]
+    height: 150
+  - id: deco:d112
+    room: room:s009
+    decoration: 6torch01
+    at: [13944, 2616]
+    height: 150
+  - id: deco:d113
+    room: room:s042
+    decoration: 6torch01
+    at: [14944, 2672]
+    height: 140
+  - id: deco:d114
+    room: room:s042
+    decoration: 6torch01
+    at: [15240, 1936]
+    height: 140
+  - id: deco:d115
+    room: room:s045
+    decoration: 6torch01
+    at: [15920, 2704]
+    height: 140
+  - id: deco:d116
+    room: room:s045
+    decoration: 6torch01
+    at: [16640, 3088]
+    height: 140
+  - id: deco:d117
+    room: room:s040
+    decoration: 6torch01
+    at: [14368, 2296]
+    height: 140
+  - id: deco:d118
+    room: room:s032_c
+    decoration: 6torch01
+    at: [14155, 1904]
+    height: 80
+  - id: deco:d119
+    room: room:s032_d
+    decoration: 6torch01
+    at: [13483, 1456]
+    height: 110
+  - id: deco:d120
+    room: room:s039
+    decoration: 6torch01
+    at: [13280, 2048]
+    height: 140
+  - id: deco:d121
+    room: room:s048
+    decoration: 6torch01
+    at: [14368, 3152]
+    height: 140
+  - id: deco:d122
+    room: room:s038_e
+    decoration: 6torch01
+    at: [14155, 3728]
+    height: 80
+  - id: deco:d123
+    room: room:s038_b
+    decoration: 6torch01
+    at: [13483, 3280]
+    height: 110
+  - id: deco:d124
+    room: room:s050
+    decoration: 6torch01
+    at: [19712, 2376]
+    height: 140
+  - id: deco:d125
+    room: room:s050
+    decoration: 6torch01
+    at: [18784, 3912]
+    height: 140
+  - id: deco:d126
+    room: room:s016
+    decoration: 6torch01
+    at: [9672, 4632]
+    height: 120
+  - id: deco:d127
+    room: room:s017
+    decoration: 6torch01
+    at: [10592, 3752]
+    height: 208
+  - id: deco:d128
+    room: room:s014
+    decoration: 6torch01
+    at: [10088, 2232]
+    height: 208
+  - id: deco:d129
+    room: room:s014
+    decoration: 6torch01
+    at: [10104, 1592]
+    height: 208
+  - id: deco:d130
+    room: room:s014
+    decoration: 6torch01
+    at: [10808, 2184]
+    height: 208
+  - id: deco:d131
+    room: room:s014
+    decoration: 6torch01
+    at: [10760, 1608]
+    height: 208
+  - id: deco:d132
+    room: room:s012
+    decoration: 6torch01
+    at: [11480, 2384]
+    height: 204
+  - id: deco:d133
+    room: room:s012
+    decoration: 6torch01
+    at: [12904, 2384]
+    height: 204
+  - id: deco:d134
+    room: room:s012
+    decoration: 6torch01
+    at: [12240, 1552]
+    height: 204
+  - id: deco:d135
+    room: room:s005
+    decoration: 6torch01
+    at: [13432, 2480]
+    height: 204
+  - id: deco:d136
+    room: room:s005
+    decoration: 6torch01
+    at: [14016, 2480]
+    height: 204
+  - id: deco:d137
+    room: room:s005
+    decoration: 6torch01
+    at: [13216, 1632]
+    height: 204
+  - id: deco:d138
+    room: room:s005
+    decoration: 6torch01
+    at: [14240, 1464]
+    height: 204
+  - id: deco:d139
+    room: room:s002
+    decoration: 6torch01
+    at: [13216, 624]
+    height: 204
+  - id: deco:d140
+    room: room:s002
+    decoration: 6torch01
+    at: [14240, 544]
+    height: 204
+  - id: deco:d141
+    room: room:s001
+    decoration: 6torch01
+    at: [13003, -40]
+    height: 264
+  - id: deco:d142
+    room: room:s001
+    decoration: 6torch01
+    at: [14455, -40]
+    height: 264
+  - id: deco:d143
+    room: room:s094
+    decoration: 6torch01
+    at: [-13888, 15336]
+    height: 300
+  - id: deco:d144
+    room: room:s094
+    decoration: 6torch01
+    at: [-11744, 15336]
+    height: 300
+  - id: deco:d145
+    room: room:s094_b
+    decoration: 6torch01
+    at: [-8416, 14896]
+    height: 135
+  - id: deco:d146
+    room: room:s144
+    decoration: 6torch01
+    at: [-8192, 15536]
+    height: 94
+  - id: deco:d147
+    room: room:s144
+    decoration: 6torch01
+    at: [-7616, 15528]
+    height: 105
+  - id: deco:d148
+    room: room:s144
+    decoration: 6torch01
+    at: [-8192, 14896]
+    height: 105
+  - id: deco:d149
+    room: room:s101
+    decoration: 6torch01
+    at: [-15968, 15792]
+    height: 200
+  - id: deco:d150
+    room: room:s100
+    decoration: 6torch01
+    at: [-15936, 13072]
+    height: 200
+  - id: deco:d151
+    room: room:s099
+    decoration: 6torch01
+    at: [-14592, 11016]
+    height: 200
+  - id: deco:d152
+    room: room:s098
+    decoration: 6torch01
+    at: [-8416, 10120]
+    height: 200
+  - id: deco:d153
+    room: room:s184
+    decoration: 6torch01
+    at: [-8000, 10736]
+    height: 206
+  - id: deco:d154
+    room: room:s184
+    decoration: 6torch01
+    at: [-7968, 10064]
+    height: 206
+  - id: deco:d155
+    room: room:s073_b
+    decoration: 6torch01
+    at: [-7072, 10064]
+    height: 206
+  - id: deco:d156
+    room: room:s073_b
+    decoration: 6torch01
+    at: [-7136, 10736]
+    height: 206
+  - id: deco:d157
+    room: room:s185_n
+    decoration: 6torch01
+    at: [-6016, 11376]
+    height: 106
+  - id: deco:d158
+    room: room:s185
+    decoration: 6torch01
+    at: [-5440, 10720]
+    height: 206
+  - id: deco:d159
+    room: room:s185
+    decoration: 6torch01
+    at: [-6048, 10064]
+    height: 206
+  - id: deco:d160
+    room: room:s189
+    decoration: 6torch01
+    at: [-14768, 15888]
+    height: 100
+  - id: deco:d161
+    room: room:s190
+    decoration: 6torch01
+    at: [-14920, 16864]
+    height: 100
+  - id: deco:d162
+    room: room:s191
+    decoration: 6torch01
+    at: [-15688, 17136]
+    height: 200
+  - id: deco:d163
+    room: room:s073
+    decoration: 6torch01
+    at: [-7144, 9978]
+    height: 180
+  - id: deco:d164
+    room: room:s075
+    decoration: 6torch01
+    at: [5600, 14960]
+    height: 180
+  - id: deco:d165
+    room: room:s075
+    decoration: 6torch01
+    at: [5648, 13456]
+    height: 180
+  - id: deco:d166
+    room: room:s077
+    decoration: 6torch01
+    at: [5368, 13016]
+    height: 122
+  - id: deco:d167
+    room: room:s125
+    decoration: 6torch01
+    at: [5984, 12904]
+    height: 134
+  - id: deco:d168
+    room: room:s125
+    decoration: 6torch01
+    at: [4960, 12312]
+    height: 134
+  - id: deco:d169
+    room: room:s125
+    decoration: 6torch01
+    at: [5648, 12064]
+    height: 134
+  - id: deco:d170
+    room: room:s078_n
+    decoration: 6torch01
+    at: [4608, 13424]
+    height: 144
+  - id: deco:d171
+    room: room:s078_n
+    decoration: 6torch01
+    at: [4608, 12688]
+    height: 144
+  - id: deco:d172
+    room: room:s088
+    decoration: 6torch01
+    at: [5216, 11920]
+    height: 214
+  - id: deco:d173
+    room: room:s088
+    decoration: 6torch01
+    at: [3424, 11472]
+    height: 200
+  - id: deco:d174
+    room: room:s134
+    decoration: 6torch01
+    at: [3720, 11896]
+    height: 180
+  - id: deco:d175
+    room: room:s134
+    decoration: 6torch01
+    at: [4296, 11120]
+    height: 180
+  - id: deco:d176
+    room: room:s124
+    decoration: 6torch01
+    at: [3040, 13088]
+    height: 180
+  - id: deco:d177
+    room: room:s124
+    decoration: 6torch01
+    at: [3584, 13080]
+    height: 180
+  - id: deco:d178
+    room: room:s124
+    decoration: 6torch01
+    at: [3136, 12608]
+    height: 180
+  - id: deco:d179
+    room: room:s124
+    decoration: 6torch01
+    at: [3488, 11184]
+    height: 180
+  - id: deco:d180
+    room: room:s122
+    decoration: 6torch01
+    at: [2496, 10832]
+    height: 180
+  - id: deco:d181
+    room: room:s122
+    decoration: 6torch01
+    at: [2360, 10096]
+    height: 180
+  - id: deco:d182
+    room: room:s135
+    decoration: 6torch01
+    at: [1312, 10512]
+    height: 120
+  - id: deco:d183
+    room: room:s135
+    decoration: 6torch01
+    at: [1408, 11408]
+    height: 120
+  - id: deco:d184
+    room: room:s093
+    decoration: 6torch01
+    at: [2480, 11408]
+    height: 132
+  - id: deco:d185
+    room: room:s089
+    decoration: 6torch01
+    at: [5840, 13328]
+    height: 220
+  - id: deco:d186
+    room: room:s089
+    decoration: 6torch01
+    at: [5824, 12280]
+    height: 220
+  - id: deco:d187
+    room: room:s089
+    decoration: 6torch01
+    at: [4864, 12102]
+    height: 220
+  - id: deco:d188
+    room: room:s088
+    decoration: 6torch01
+    at: [3424, 11008]
+    height: 200
+  - id: deco:d189
+    room: room:s088_c
+    decoration: 6torch01
+    at: [3864, 11984]
+    height: 160
+  - id: deco:d190
+    room: room:s088_c
+    decoration: 6torch01
+    at: [4584, 11984]
+    height: 160
+  - id: deco:d191
+    room: room:s135
+    decoration: 6torch01
+    at: [1664, 10944]
+    height: 154
+  - id: deco:d192
+    room: room:s130
+    decoration: 6torch01
+    at: [352, 11008]
+    height: 154
+  - id: deco:d193
+    room: room:s129
+    decoration: 6torch01
+    at: [-680, 11000]
+    height: 154
+  - id: deco:d194
+    room: room:s133
+    decoration: 6torch01
+    at: [-1576, 10184]
+    height: 154
+  - id: deco:d195
+    room: room:s127
+    decoration: 6torch01
+    at: [-1600, 11312]
+    height: 154
+  - id: deco:d196
+    room: room:s137_c
+    decoration: 6torch01
+    at: [-768, 10448]
+    height: 214
+  - id: deco:d197
+    room: room:s137_a
+    decoration: 6torch01
+    at: [368, 10096]
+    height: 214
+  - id: deco:d198
+    room: room:s129
+    decoration: 6torch01
+    at: [128, 11008]
+    height: 154
+  - id: deco:d199
+    room: room:s127
+    decoration: 6torch01
+    at: [-832, 11000]
+    height: 154
+  - id: deco:d200
+    room: room:s126
+    decoration: 6torch01
+    at: [-3032, 11312]
+    height: 154
+  - id: deco:d201
+    room: room:s126
+    decoration: 6torch01
+    at: [-3008, 10288]
+    height: 154
+  - id: deco:d202
+    room: room:s146
+    decoration: 6torch01
+    at: [-4384, 10640]
+    height: 154
+  - id: deco:d203
+    room: room:s146_a
+    decoration: 6torch01
+    at: [-5008, 10288]
+    height: 124
+  - id: deco:d204
+    room: room:s145
+    decoration: 6torch01
+    at: [-4576, 11000]
+    height: 124
+  - id: deco:d205
+    room: room:s145
+    decoration: 6torch01
+    at: [-6632, 10192]
+    height: 124
+  - id: deco:d206
+    room: room:s145
+    decoration: 6torch01
+    at: [-7656, 11504]
+    height: 124
+  - id: deco:d207
+    room: room:s145
+    decoration: 6torch01
+    at: [-5464, 11504]
+    height: 124
+  - id: deco:d208
+    room: room:s131
+    decoration: 6torch01
+    at: [992, 11696]
+    height: 154
+  - id: deco:d209
+    room: room:s131
+    decoration: 6torch01
+    at: [-560, 11440]
+    height: 154
+  - id: deco:d210
+    room: room:s131
+    decoration: 6torch01
+    at: [-1888, 11706]
+    height: 154
+  - id: deco:d211
+    room: room:s131
+    decoration: 6torch01
+    at: [-4256, 11440]
+    height: 154
+  - id: deco:d212
+    room: room:s163
+    decoration: 6torch01
+    at: [-4096, 13336]
+    height: 154
+  - id: deco:d213
+    room: room:s163
+    decoration: 6torch01
+    at: [-4344, 14232]
+    height: 154
+  - id: deco:d216
+    room: room:s144
+    decoration: 6torch01
+    at: [-4968, 15536]
+    height: 300
+  - id: deco:d217
+    room: room:s144
+    decoration: 6torch01
+    at: [-5000, 11728]
+    height: 300
+  - id: deco:d218
+    room: room:s149_a
+    decoration: 6torch01
+    at: [-4576, 15912]
+    height: 165
+  - id: deco:d219
+    room: room:s150
+    decoration: 6torch01
+    at: [-7672, 15760]
+    height: 130
+  - id: deco:d220
+    room: room:s150
+    decoration: 6torch01
+    at: [-7104, 18224]
+    height: 130
+  - id: deco:d221
+    room: room:s148
+    decoration: 6torch01
+    at: [-7184, 18544]
+    height: 130
+  - id: deco:d222
+    room: room:s148
+    decoration: 6torch01
+    at: [-7928, 19560]
+    height: 130
+  - id: deco:d223
+    room: room:s149
+    decoration: 6torch01
+    at: [-6080, 16568]
+    height: 130
+  - id: deco:d224
+    room: room:s150
+    decoration: 6torch01
+    at: [-6304, 16576]
+    height: 130
+  - id: deco:d225
+    room: room:s149
+    decoration: 6torch01
+    at: [-5248, 17784]
+    height: 130
+  - id: deco:d226
+    room: room:s118_a
+    decoration: 6torch01
+    at: [-4648, 18224]
+    height: 140
+  - id: deco:d227
+    room: room:s118
+    decoration: 6torch01
+    at: [-3064, 17872]
+    height: 170
+  - id: deco:d228
+    room: room:s118
+    decoration: 6torch01
+    at: [-856, 18224]
+    height: 170
+  - id: deco:d229
+    room: room:s118
+    decoration: 6torch01
+    at: [848, 17872]
+    height: 170
+  - id: deco:d230
+    room: room:s120
+    decoration: 6torch01
+    at: [-3072, 17648]
+    height: 170
+  - id: deco:d232
+    room: room:s119
+    decoration: 6torch01
+    at: [-1728, 17008]
+    height: 170
+  - id: deco:d233
+    room: room:s117
+    decoration: 6torch01
+    at: [-160, 17744]
+    height: 170
+  - id: deco:d234
+    room: room:s116
+    decoration: 6torch01
+    at: [1312, 17408]
+    height: 180
+  - id: deco:d235
+    room: room:s116_b
+    decoration: 6torch01
+    at: [1848, 17872]
+    height: 130
+  - id: deco:d236
+    room: room:s115
+    decoration: 6torch01
+    at: [1888, 17624]
+    height: 160
+  - id: deco:d237
+    room: room:s115
+    decoration: 6torch01
+    at: [2608, 18224]
+    height: 160
+  - id: deco:d238
+    room: room:s115
+    decoration: 6torch01
+    at: [2984, 17488]
+    height: 160
+  - id: deco:d239
+    room: room:s114
+    decoration: 6torch01
+    at: [3584, 16896]
+    height: 160
+  - id: deco:d240
+    room: room:s114
+    decoration: 6torch01
+    at: [3232, 16552]
+    height: 160
+  - id: deco:d241
+    room: room:s109
+    decoration: 6torch01
+    at: [1784, 17360]
+    height: 91
+  - id: deco:d242
+    room: room:s109
+    decoration: 6torch01
+    at: [2728, 17008]
+    height: 225
+  - id: deco:d243
+    room: room:s103
+    decoration: 6torch01
+    at: [4032, 17456]
+    height: 148
+  - id: deco:d244
+    room: room:s103
+    decoration: 6torch01
+    at: [4544, 16464]
+    height: 148
+  - id: deco:d245
+    room: room:s103
+    decoration: 6torch01
+    at: [3424, 16944]
+    height: 160
+  - id: deco:d246
+    room: room:s105
+    decoration: 6torch01
+    at: [5008, 16784]
+    height: 178
+  - id: deco:d247
+    room: room:s105_a
+    decoration: 6torch01
+    at: [4960, 16312]
+    height: 150
+  - id: deco:d248
+    room: room:s106
+    decoration: 6torch01
+    at: [6008, 16072]
+    height: 180
+  - id: deco:d249
+    room: room:s106
+    decoration: 6torch01
+    at: [6056, 15280]
+    height: 180
+  - id: deco:d250
+    room: room:s106
+    decoration: 6torch01
+    at: [5192, 15456]
+    height: 180
+  - id: deco:d251
+    room: room:s116
+    decoration: 6torch01
+    at: [1664, 17616]
+    height: 180
+  - id: deco:d252
+    room: room:s103
+    decoration: 6torch01
+    at: [4544, 16840]
+    height: 160
+  - id: deco:d253
+    room: room:s103_a
+    decoration: 6torch01
+    at: [3288, 16616]
+    height: 178
+  - id: deco:d254
+    room: room:s081
+    decoration: 6torch01
+    at: [2264, 16880]
+    height: 150
+  - id: deco:d255
+    room: room:s081
+    decoration: 6torch01
+    at: [192, 16880]
+    height: 150
+  - id: deco:d256
+    room: room:s081
+    decoration: 6torch01
+    at: [-1840, 16880]
+    height: 150
+  - id: deco:d257
+    room: room:s081
+    decoration: 6torch01
+    at: [-3016, 16624]
+    height: 150
+  - id: deco:d258
+    room: room:s083
+    decoration: 6torch01
+    at: [-3768, 16192]
+    height: 245
+  - id: deco:d259
+    room: room:s083
+    decoration: 6torch01
+    at: [-3136, 15296]
+  - id: deco:d260
+    room: room:s103
+    decoration: 6torch01
+    at: [3776, 16136]
+    height: 100
+  - id: deco:d261
+    room: room:s104
+    decoration: 6torch01
+    at: [3320, 15824]
+    height: 100
+  - id: deco:d262
+    room: room:s104
+    decoration: 6torch01
+    at: [3304, 15184]
+    height: 100
+  - id: deco:d263
+    room: room:s080
+    decoration: 6torch01
+    at: [-1824, 15064]
+    height: 176
+  - id: deco:d264
+    room: room:s080
+    decoration: 6torch01
+    at: [-296, 15064]
+    height: 176
+  - id: deco:d265
+    room: room:s080
+    decoration: 6torch01
+    at: [1248, 15064]
+    height: 176
+  - id: deco:d266
+    room: room:s080
+    decoration: 6torch01
+    at: [1248, 13368]
+    height: 176
+  - id: deco:d267
+    room: room:s080
+    decoration: 6torch01
+    at: [-288, 13368]
+    height: 176
+  - id: deco:d268
+    room: room:s080
+    decoration: 6torch01
+    at: [-1816, 13368]
+    height: 176
+  - id: deco:d269
+    room: room:s080
+    decoration: 6torch01
+    at: [2720, 15064]
+    height: 176
+  - id: deco:d270
+    room: room:s080
+    decoration: 6torch01
+    at: [2720, 13472]
+    height: 176
+  - id: deco:d271
+    room: room:s083
+    decoration: 6torch01
+    at: [-3136, 15328]
+  - id: deco:d272
+    room: room:s084
+    decoration: 6torch01
+    at: [-3136, 13104]
+  - id: deco:d273
+    room: room:s085
+    decoration: 6torch01
+    at: [-3840, 16624]
+    height: 150
+  - id: deco:d274
+    room: room:s078_s
+    decoration: 6torch01
+    at: [4608, 14992]
+    height: 144
+  - id: deco:d275
+    room: room:s078_s
+    decoration: 6torch01
+    at: [4608, 15728]
+    height: 144
+  - id: deco:d276
+    room: room:s096
+    decoration: 6torch01
+    at: [5344, 15424]
+    height: 234
+  - id: deco:d277
+    room: room:s112
+    decoration: 6torch01
+    at: [4376, 16432]
+    height: 160
+  - id: deco:d278
+    room: room:s113
+    decoration: 6torch01
+    at: [4072, 17264]
+    height: 160
+  - id: deco:d279
+    room: room:s110
+    decoration: 6torch01
+    at: [4768, 16216]
+    height: 160
+  - id: deco:d280
+    room: room:s110
+    decoration: 6torch01
+    at: [5552, 15640]
+    height: 160
+  - id: deco:d281
+    room: room:s111
+    decoration: 6torch01
+    at: [5816, 15184]
+    height: 100
+  - id: deco:d282
+    room: room:s170
+    decoration: 6torch01
+    at: [-11104, 15920]
+    height: 180
+  - id: deco:d283
+    room: room:s098
+    decoration: 6torch01
+    at: [-12992, 10112]
+    height: 200
+  - id: deco:d284
+    room: room:s098
+    decoration: 6torch01
+    at: [-12992, 10616]
+    height: 200
+  - id: deco:d285
+    room: room:s098
+    decoration: 6torch01
+    at: [-8416, 10616]
+    height: 200
+  - id: deco:d286
+    room: room:s100
+    decoration: 6torch01
+    at: [-15508, 13072]
+    height: 200
+  - id: deco:d287
+    room: room:s099
+    decoration: 6torch01
+    at: [-14240, 11384]
+    height: 200
+  - id: deco:d288
+    room: room:s100
+    decoration: 6torch01
+    at: [-15936, 15344]
+    height: 200
+  - id: deco:d289
+    room: room:s100
+    decoration: 6torch01
+    at: [-15508, 15344]
+    height: 200
+  - id: deco:d290
+    room: room:s157
+    decoration: 6torch01
+    at: [8152, 3760]
+    height: 136
+  - id: deco:d291
+    room: room:s050
+    decoration: 6torch01
+    at: [18784, 2128]
+    height: 140
+  - id: deco:d292
+    room: room:s050
+    decoration: 6torch01
+    at: [19264, 1168]
+    height: 140
+  - id: deco:d293
+    room: room:s050
+    decoration: 6torch01
+    at: [19712, 3688]
+    height: 140
+  - id: deco:d294
+    room: room:s050
+    decoration: 6torch01
+    at: [19208, 4400]
+    height: 140
+  - id: deco:d295
+    room: room:s049
+    decoration: 6torch01
+    at: [18360, 4400]
+    height: 140
+  - id: deco:d296
+    room: room:s049
+    decoration: 6torch01
+    at: [17192, 4400]
+    height: 140
+  - id: deco:d297
+    room: room:s049
+    decoration: 6torch01
+    at: [16008, 4400]
+    height: 140
+  - id: deco:d298
+    room: room:s049
+    decoration: 6torch01
+    at: [18360, 4048]
+    height: 140
+  - id: deco:d299
+    room: room:s049
+    decoration: 6torch01
+    at: [17192, 4048]
+    height: 140
+  - id: deco:d300
+    room: room:s049
+    decoration: 6torch01
+    at: [16008, 4048]
+    height: 140
+  - id: deco:d301
+    room: room:s048
+    decoration: 6torch01
+    at: [14368, 4008]
+    height: 140
+  - id: deco:d302
+    room: room:s048
+    decoration: 6torch01
+    at: [15680, 3560]
+    height: 140
+  - id: deco:d303
+    room: room:s048
+    decoration: 6torch01
+    at: [15080, 2992]
+    height: 140
+  - id: deco:d304
+    room: room:s038
+    decoration: 6torch01
+    at: [11872, 4224]
+    height: 140
+  - id: deco:d305
+    room: room:s038
+    decoration: 6torch01
+    at: [13280, 4224]
+    height: 140
+  - id: deco:d306
+    room: room:s038
+    decoration: 6torch01
+    at: [12632, 5360]
+    height: 140
+  - id: deco:d307
+    room: room:s039
+    decoration: 6torch01
+    at: [11872, 2040]
+    height: 140
+  - id: deco:d308
+    room: room:s037
+    decoration: 6torch01
+    at: [13696, 2040]
+    height: 100
+  - id: deco:d309
+    room: room:s037
+    decoration: 6torch01
+    at: [13952, 2912]
+    height: 100
+  - id: deco:d310
+    room: room:s032_a
+    decoration: 6torch01
+    at: [14592, 1456]
+    height: 140
+  - id: deco:d311
+    room: room:s044
+    decoration: 6torch01
+    at: [15888, 1856]
+    height: 140
+  - id: deco:d312
+    room: room:s044
+    decoration: 6torch01
+    at: [16880, 1904]
+    height: 140
+  - id: deco:d313
+    room: room:s035
+    decoration: 6torch01
+    at: [16904, 1328]
+    height: 150
+  - id: deco:d314
+    room: room:s035
+    decoration: 6torch01
+    at: [17786, 736]
+    height: 150
+  - id: deco:d315
+    room: room:s031
+    decoration: 6torch01
+    at: [13584, 1040]
+    height: 150
+  - id: deco:d316
+    room: room:s031
+    decoration: 6torch01
+    at: [13072, 328]
+    height: 150
+  - id: deco:d317
+    room: room:s031
+    decoration: 6torch01
+    at: [13728, 208]
+    height: 150
+  - id: deco:d318
+    room: room:s031
+    decoration: 6torch01
+    at: [14624, 944]
+    height: 150
+  - id: deco:d319
+    room: room:s031
+    decoration: 6torch01
+    at: [15552, 592]
+    height: 150
+  - id: deco:d320
+    room: room:s035
+    decoration: 6torch01
+    at: [17692, 1244]
+    height: 150
+  - id: deco:d321
+    room: room:s035
+    decoration: 6torch01
+    at: [17692, 292]
+    height: 150
+  - id: deco:d322
+    room: room:s045
+    decoration: 6torch01
+    at: [16200, 3440]
+    height: 140
+  - id: deco:d323
+    room: room:s046
+    decoration: 6torch01
+    at: [16832, 3440]
+    height: 140
+  - id: deco:d324
+    room: room:s046
+    decoration: 6torch01
+    at: [17048, 3184]
+    height: 140
+  - id: deco:d325
+    room: room:s047
+    decoration: 6torch01
+    at: [18240, 3152]
+    height: 140
+  - id: deco:d326
+    room: room:s046
+    decoration: 6torch01
+    at: [17552, 3440]
+    height: 140
+  - id: deco:d327
+    room: room:s051
+    decoration: 6torch01
+    at: [21240, 1744]
+    height: 95
+  - id: deco:d328
+    room: room:s051
+    decoration: 6torch01
+    at: [21240, 2096]
+    height: 95
+  - id: deco:d329
+    room: room:s170_b
+    decoration: mcryst01
+    at: [-14592, 15936]
+  - id: deco:d331
+    room: room:s072
+    decoration: crystl0
+    at: [-14080, 23424]
+  - id: deco:d332
+    room: room:s072
+    decoration: crystl0
+    at: [-14336, 23150]
+  - id: deco:d333
+    room: room:s072
+    decoration: crystl0
+    at: [-13440, 22656]
+  - id: deco:d334
+    room: room:s072
+    decoration: crystl0
+    at: [-13824, 22400]
+  - id: deco:d335
+    room: room:s072
+    decoration: brnrock0
+    at: [-18176, 15360]
+  - id: deco:d336
+    room: room:s072
+    decoration: brnrock0
+    at: [-16896, 9728]
+  - id: deco:d337
+    room: room:s073
+    decoration: brnrock0
+    at: [-9984, 7936]
+  - id: deco:d338
+    room: room:s073
+    decoration: brnrock0
+    at: [-6912, 7680]
+  - id: deco:d339
+    room: room:s073
+    decoration: brnrock0
+    at: [2048, 8448]
+  - id: deco:d340
+    room: room:s066
+    decoration: brnrock0
+    at: [5376, 9984]
+  - id: deco:d341
+    room: room:s066
+    decoration: brnrock0
+    at: [8192, 13568]
+  - id: deco:d342
+    room: room:s066
+    decoration: brnrock0
+    at: [14080, 11776]
+  - id: deco:d343
+    room: room:s073
+    decoration: trasheap
+    at: [-4096, 9216]
+  - id: deco:d344
+    room: room:s073
+    decoration: trasheap
+    at: [-3584, 8960]
+  - id: deco:d345
+    room: room:s073
+    decoration: trasheap
+    at: [-2816, 8960]
+  - id: deco:d346
+    room: room:s073
+    decoration: trasheap
+    at: [-1024, 9472]
+  - id: deco:d347
+    room: room:s073
+    decoration: trasheap
+    at: [-1536, 8960]
+  - id: deco:d348
+    room: room:s073
+    decoration: trasheap
+    at: [-2048, 8960]
+  - id: deco:d349
+    room: room:s073
+    decoration: trasheap
+    at: [-3072, 8704]
+  - id: deco:d350
+    room: room:s073
+    decoration: trasheap
+    at: [-3840, 8704]
+  - id: deco:d351
+    room: room:s073
+    decoration: trasheap
+    at: [-2048, 8448]
+  - id: deco:d352
+    room: room:s073
+    decoration: trasheap
+    at: [-1024, 8960]
+  - id: deco:d353
+    room: room:s094
+    decoration: cauld00
+    at: [-14912, 12672]
+  - id: deco:d354
+    room: room:s094
+    decoration: cauld00
+    at: [-14400, 12160]
+  - id: deco:d355
+    room: room:s094
+    decoration: cauld00
+    at: [-13888, 11712]
+  - id: deco:d356
+    room: room:s094
+    decoration: cauld00
+    at: [-13440, 11136]
+  - id: deco:d357
+    room: room:s094
+    decoration: bonecage
+    at: [-12736, 10944]
+  - id: deco:d358
+    room: room:s094
+    decoration: bonecage
+    at: [-12096, 10944]
+  - id: deco:d359
+    room: room:s094
+    decoration: bonecage
+    at: [-11520, 10944]
+  - id: deco:d360
+    room: room:s094
+    decoration: bonecage
+    at: [-11008, 10944]
+  - id: deco:d361
+    room: room:s094
+    decoration: bonecage
+    at: [-10496, 10944]
+  - id: deco:d362
+    room: room:s094
+    decoration: bonecage
+    at: [-9984, 10944]
+  - id: deco:d363
+    room: room:s094
+    decoration: bonecage
+    at: [-9472, 10944]
+  - id: deco:d364
+    room: room:s094
+    decoration: bonecage
+    at: [-8960, 10944]
+  - id: deco:d365
+    room: room:s150
+    decoration: sklplrev
+    at: [-7744, 17536]
+  - id: deco:d366
+    room: room:s150
+    decoration: sklplrev
+    at: [-6656, 17216]
+  - id: deco:d367
+    room: room:s150
+    decoration: sklplrev
+    at: [-7232, 16448]
+  - id: deco:d368
+    room: room:s094
+    decoration: sklplrev
+    at: [-12864, 13376]
+  - id: deco:d369
+    room: room:s094
+    decoration: sklplrev
+    at: [-11072, 13312]
+  - id: deco:d370
+    room: room:s094
+    decoration: sklplrev
+    at: [-11008, 12288]
+  - id: deco:d371
+    room: room:s094
+    decoration: sklplrev
+    at: [-12480, 12224]
+  - id: deco:d372
+    room: room:s071
+    decoration: brnrock0
+    at: [-5632, 20992]
+  - id: deco:d373
+    room: room:s071
+    decoration: crystl0
+    at: [-7936, 21376]
+  - id: deco:d374
+    room: room:s071
+    decoration: crystl0
+    at: [-8448, 22016]
+  - id: deco:d375
+    room: room:s071
+    decoration: crystl0
+    at: [-8192, 23168]
+  - id: deco:d376
+    room: room:s071
+    decoration: crystl0
+    at: [-7168, 22912]
+  - id: deco:d377
+    room: room:s072
+    decoration: crclstr
+    at: [-14080, 23936]
+  - id: deco:d378
+    room: room:s072
+    decoration: crclstr
+    at: [-13440, 23168]
+  - id: deco:d379
+    room: room:s072
+    decoration: crclstr
+    at: [-13952, 21504]
+  - id: deco:d380
+    room: room:s072
+    decoration: crys5
+    at: [-14208, 22784]
+  - id: deco:d381
+    room: room:s072
+    decoration: crys5
+    at: [-14464, 21760]
+  - id: deco:d382
+    room: room:s072
+    decoration: crys6
+    at: [-14720, 22784]
+  - id: deco:d383
+    room: room:s072
+    decoration: crys6
+    at: [-14592, 23680]
+  - id: deco:d384
+    room: room:s072
+    decoration: crys6
+    at: [-13440, 21888]
+  - id: deco:d385
+    room: room:s071
+    decoration: brnrock0
+    at: [-2048, 20224]
+  - id: deco:d386
+    room: room:s071
+    decoration: brnrock0
+    at: [2560, 19328]
+  - id: deco:d387
+    room: room:s071
+    decoration: brnrock0
+    at: [5248, 18176]
+  - id: deco:d388
+    room: room:s117
+    decoration: bonecage
+    at: [768, 17280]
+  - id: deco:d389
+    room: room:s119
+    decoration: bonecage
+    at: [-1280, 17280]
+  - id: deco:d390
+    room: room:s120
+    decoration: bonecage
+    at: [-3456, 17536]
+  - id: deco:d391
+    room: room:s066
+    decoration: sklplrev
+    at: [10496, 14848]
+  - id: deco:d392
+    room: room:s066
+    decoration: sklplrev
+    at: [10496, 13184]
+  - id: deco:d393
+    room: room:s066
+    decoration: sklplrev
+    at: [14336, 12672]
+  - id: deco:d394
+    room: room:s056
+    decoration: crclstr
+    at: [16000, 9216]
+  - id: deco:d395
+    room: room:s056
+    decoration: crys6
+    at: [16384, 8960]
+  - id: deco:d396
+    room: room:s056
+    decoration: crys6
+    at: [10880, 8832]
+  - id: deco:d397
+    room: room:s056
+    decoration: crys5
+    at: [10240, 8704]
+  - id: deco:d398
+    room: room:s056
+    decoration: crclstr
+    at: [9984, 8192]
+  - id: deco:d399
+    room: room:s056
+    decoration: crys5
+    at: [10752, 8192]
+  - id: deco:d400
+    room: room:s056
+    decoration: crys6
+    at: [10112, 7680]
+  - id: deco:d401
+    room: room:s056
+    decoration: crystl0
+    at: [10112, 5632]
+  - id: deco:d402
+    room: room:s056
+    decoration: crystl0
+    at: [10496, 5760]
+  - id: deco:d403
+    room: room:s056
+    decoration: crystl0
+    at: [10752, 5376]
+  - id: deco:d404
+    room: room:s056
+    decoration: cauld00
+    at: [15872, 5504]
+  - id: deco:d405
+    room: room:s056
+    decoration: cauld00
+    at: [16256, 5376]
+  - id: deco:d406
+    room: room:s056
+    decoration: cauld00
+    at: [15616, 5248]
+  - id: deco:d407
+    room: room:s143
+    decoration: crystl0
+    at: [6272, -3200]
+  - id: deco:d408
+    room: room:s143
+    decoration: crystl0
+    at: [6528, -3072]
+  - id: deco:d409
+    room: room:s001
+    decoration: brnrock0
+    at: [15104, -2560]
+  - id: deco:d410
+    room: room:s001
+    decoration: trasheap
+    at: [17536, -3328]
+  - id: deco:d411
+    room: room:s001
+    decoration: brnrock0
+    at: [11264, -2304]
+  - id: deco:d412
+    room: room:s035
+    decoration: cauld00
+    at: [17408, 384]
+  - id: deco:d413
+    room: room:s010
+    decoration: cauld00
+    at: [11136, 3200]
+  - id: deco:d414
+    room: room:s010
+    decoration: trasheap
+    at: [11392, 2944]
+exits:
+  - id: exit:gate
+    room: room:s051
+    wall: 2
+    along: 0.5
+    size: [256, 256]
+    surface: {texture: d2lgdor, size: [256, 256]}
+    to: exit:darkmoor_region
+    notes: The original's event 60 on the d2lgdor door face behind the party's arrival.

@@ -1,0 +1,5 @@
+output_dir: native
+exit: true
+steps:
+- wait: 2
+- capture: house-memoria

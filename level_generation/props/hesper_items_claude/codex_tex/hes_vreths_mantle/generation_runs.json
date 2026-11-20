@@ -1,0 +1,554 @@
+{
+  "item": "hes_vreths_mantle",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "resized": false,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer.\nCreate ONE 1024 x 1024 transparent RGBA texture-source painting, the FRONT view of hes_vreths_mantle.\nInput 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority: paint directly over this exact orthographic render. Input 2 (design_reference.png) is ONLY the approved material, colour and detail reference.\nCRITICAL: retain input 1's exact alpha silhouette, pixel position, object scale, orthographic camera, all angular ragged hems, folds and every part edge. Preserve the short broad compact geometry of the guide, including the collar and all layered pieces. Do not replace it with the tall hanging shape from input 2. Canvas stays square with the existing large transparent margins above and below: opaque object bounds are x=66..957 and y=256..767. No zoom, repositioning, rotation, cropping, reshaping, smoothing the outline, or new silhouette detail.\nPaint the existing surfaces as the design shows: weathered charcoal-black dark hide panels with fine tan abrasions, muted black-violet resin-cloth and aubergine lining, pale aged ivory bone edging along the raised collar and shoulders, two brushed muted gold hook-shaped clasps, and a short brown trophy cord carrying exactly three smooth pale bone beads across the chest, on the matching existing front features. Fine seams, cloth grain, leather cracks and edge wear follow the existing parts. Empty Kreegan huntmaster mantle, no wearer, skulls or hood. Use only materials shown in the reference; no glowing elements, crystals or added equipment.\nThis is ALBEDO for projecting onto the mesh: flat even shadowless illumination from the viewer. Remove the guide's lighting from the paint. No cast shadows, ambient occlusion, dark inter-layer shadow bands, directional gradient, rim light, strong specular highlights or reflections. Brushed gold is its muted ochre-gold base colour with a faint sheen only. Material patterns describe the folds without baked-in lighting.\nBackground genuinely transparent; preserve the guide's entire transparent area and every cutout. No black or white background, floor, checkerboard painted into the image, text, labels, letters or watermark. Deliver just the single painted front view, unresized 1024 x 1024.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "068507fd8f78463a0302e535ecd3bccd489e089982efb3ea202d3bba153cb52b"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-11a18c37-1ef1-41e6-a1b4-8bad9677b7fb.png",
+      "selected": false,
+      "reason": "Not selected. Selected corrective return: silhouette IoU improves from 0.9591 to 0.9810, lighting is flatter, and the two gold clasps and three beads read correctly. Exact geometry and completely shadowless lighting remain unmet.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "aae866df53284f09e65a1c45a989f51d163229457eeb49409a897caaf1fdbefd",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": true,
+        "alpha_bbox": [
+          33,
+          45,
+          1240,
+          1228
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          65,
+          305,
+          1188,
+          945
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.9591401576966221,
+        "transparent_pixel_fraction": 0.6953372811469009,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. One image, 1024 x 1024 RGBA, transparent.\nPaint ONLY the surfaces of input 1, guide_back.png. It is the EDIT TARGET, a locked orthographic projection of the actual mesh. Input 2, design_reference.png, is the material/colour reference only, not a shape or lighting reference.\nBACK orthographic view. Keep the rear collar at upper centre and the broad layered ragged hide cape exactly as shown in guide_back.png. The back continues the charcoal-black and muted violet materials with pale ivory bone on the collar rim; chest clasps and chest bead cord are hidden behind the mantle, so do not invent them on the back.\nGeometry is immutable. Preserve the guide's exact alpha silhouette, every edge, part location, size, scale and all transparent margins. On the 1024-square canvas the object bounds are x=66..957, y=256..767. Trace the same original outline, including straight polygonal edges. Do not lengthen the cape, inflate cloth, add contour frays, change the viewpoint, crop, zoom or re-centre. Colour the exact existing forms, no redesign.\nItem materials from the approved design: weathered matte charcoal-black dark hide, muted black-violet resin-cloth, aubergine cloth lining, aged pale ivory bone edging and muted ochre-gold brushed hardware where present. Fine tan surface scuffing, leather grain, worn cloth fibres, small seams and cracks. Empty Kreegan huntmaster mantle, no wearer, skulls or hood. Faces not shown in the design continue these materials plausibly. No unrelated ceramic panels, glass, crystal, glowing elements, symbols or equipment.\nALBEDO TEXTURE SOURCE, NOT A BEAUTY RENDER. Flat even shadowless colour on ALL facets, including lower and overlapped panels. Do not copy the grey guide's directional lighting. No shading from geometry, no shadows between layers, no ambient occlusion darkening, no cast shadows, no specular highlights, reflections, rim lighting or light gradients. Dark hide is dark because of its material, not because of shadows. Metal has uniform gold base colour with at most faint sheen. Convey wear by pigment detail, never by lighting.\nKeep the guide background and cutouts genuinely transparent with alpha zero. No floor, black/white backdrop, painted checkerboard, text, letters, labels or watermark. Output just the painted back view; request 1024 x 1024, no sheet or collage.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "3bb159ce585cf3145a4b9b3b9ed31dce37dc3ca4b1a8667ef23f7cfedfc1d285"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-2a5de775-6668-47f3-8735-3a502553d7c3.png",
+      "selected": false,
+      "reason": "Not selected. Selected corrective return: compact rear hem is substantially closer to the guide, with silhouette IoU improving from 0.8493 to 0.9607. Rear materials continue plausibly. Residual shading and edge drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c6a92f0bda1ffcecd0d8ad9f0681300dd63cacf6a68f0e4f43f7fe621a27927b",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          32,
+          1218,
+          1214
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          53,
+          323,
+          1207,
+          987
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.8492937309366578,
+        "transparent_pixel_fraction": 0.6700828481236439,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. One image, 1024 x 1024 RGBA, transparent.\nPaint ONLY the surfaces of input 1, guide_left.png. It is the EDIT TARGET, a locked orthographic projection of the actual mesh. Input 2, design_reference.png, is the material/colour reference only, not a shape or lighting reference.\nLEFT orthographic view. Keep the exact asymmetric profile: the collar is high on the image's right half, the broad shoulder is to the left, and the ragged lower edge slopes to the lower-right. Existing layered cloth and hide pieces stay precisely in place. Paint pale ivory bone only on the existing collar and bone trim. A front clasp is visible only where the guide actually exposes it at the far right; do not put a frontal necklace across this side.\nGeometry is immutable. Preserve the guide's exact alpha silhouette, every edge, part location, size, scale and all transparent margins. On the 1024-square canvas the object bounds are x=75..948, y=256..767. Trace the same original outline, including straight polygonal edges. Do not lengthen the cape, inflate cloth, add contour frays, change the viewpoint, crop, zoom or re-centre. Colour the exact existing forms, no redesign.\nItem materials from the approved design: weathered matte charcoal-black dark hide, muted black-violet resin-cloth, aubergine cloth lining, aged pale ivory bone edging and muted ochre-gold brushed hardware where present. Fine tan surface scuffing, leather grain, worn cloth fibres, small seams and cracks. Empty Kreegan huntmaster mantle, no wearer, skulls or hood. Faces not shown in the design continue these materials plausibly. No unrelated ceramic panels, glass, crystal, glowing elements, symbols or equipment.\nALBEDO TEXTURE SOURCE, NOT A BEAUTY RENDER. Flat even shadowless colour on ALL facets, including lower and overlapped panels. Do not copy the grey guide's directional lighting. No shading from geometry, no shadows between layers, no ambient occlusion darkening, no cast shadows, no specular highlights, reflections, rim lighting or light gradients. Dark hide is dark because of its material, not because of shadows. Metal has uniform gold base colour with at most faint sheen. Convey wear by pigment detail, never by lighting.\nKeep the guide background and cutouts genuinely transparent with alpha zero. No floor, black/white backdrop, painted checkerboard, text, letters, labels or watermark. Output just the painted left view; request 1024 x 1024, no sheet or collage.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "0b21adbd59235974f6ce327f62b5f2d128420111084b127cf73b626392dd21bc"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        }
+      ],
+      "output": "paint_left.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-2e88d236-d56e-41d8-acd8-8814fa02a094.png",
+      "selected": true,
+      "reason": "Selected original return: silhouette IoU 0.9266 is substantially better than correction 0.8407; original also retains the side geometry more faithfully. Overlap shadows and contour/detail drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "5c272c4fe14ea8dc8c9e661e9d8a6a723ff936ed7a365db577525fb6cbf837dd",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          13,
+          1228,
+          1240
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          86,
+          312,
+          1188,
+          972
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.9266058228179849,
+        "transparent_pixel_fraction": 0.7429514230697811,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "candidate_output": "paint_left_attempt1.png",
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. One image, 1024 x 1024 RGBA, transparent.\nPaint ONLY the surfaces of input 1, guide_right.png. It is the EDIT TARGET, a locked orthographic projection of the actual mesh. Input 2, design_reference.png, is the material/colour reference only, not a shape or lighting reference.\nRIGHT orthographic view. Keep the exact asymmetric profile: the collar is high on the image's left half, broad shoulder to the right, and the ragged lower edge slopes to the lower-left. Existing layered cloth and hide pieces stay precisely in place. Paint pale ivory bone only on the existing collar and bone trim. A front clasp is visible only where the guide actually exposes it at the far left; do not put a frontal necklace across this side.\nGeometry is immutable. Preserve the guide's exact alpha silhouette, every edge, part location, size, scale and all transparent margins. On the 1024-square canvas the object bounds are x=75..947, y=256..767. Trace the same original outline, including straight polygonal edges. Do not lengthen the cape, inflate cloth, add contour frays, change the viewpoint, crop, zoom or re-centre. Colour the exact existing forms, no redesign.\nItem materials from the approved design: weathered matte charcoal-black dark hide, muted black-violet resin-cloth, aubergine cloth lining, aged pale ivory bone edging and muted ochre-gold brushed hardware where present. Fine tan surface scuffing, leather grain, worn cloth fibres, small seams and cracks. Empty Kreegan huntmaster mantle, no wearer, skulls or hood. Faces not shown in the design continue these materials plausibly. No unrelated ceramic panels, glass, crystal, glowing elements, symbols or equipment.\nALBEDO TEXTURE SOURCE, NOT A BEAUTY RENDER. Flat even shadowless colour on ALL facets, including lower and overlapped panels. Do not copy the grey guide's directional lighting. No shading from geometry, no shadows between layers, no ambient occlusion darkening, no cast shadows, no specular highlights, reflections, rim lighting or light gradients. Dark hide is dark because of its material, not because of shadows. Metal has uniform gold base colour with at most faint sheen. Convey wear by pigment detail, never by lighting.\nKeep the guide background and cutouts genuinely transparent with alpha zero. No floor, black/white backdrop, painted checkerboard, text, letters, labels or watermark. Output just the painted right view; request 1024 x 1024, no sheet or collage.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "205c0bec98bd1172d2eaf7dd6d1c8344ac4ff38e488439d59e76a80de1bebfc6"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-0a16a07c-4255-45e9-93d8-bdf181eb6c2d.png",
+      "selected": false,
+      "reason": "Not selected. Selected corrective return: silhouette IoU improves from 0.8939 to 0.9808, correcting collar height and framing. Residual shading and approximated part edges remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d3fca464b0d51aca907a13c05efbb581ff9f34c111d93e687d8dcb2b71b480bc",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          33,
+          1240,
+          1230
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          110,
+          293,
+          1176,
+          928
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.8938976594840476,
+        "transparent_pixel_fraction": 0.7617016297449438,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. One image, 1024 x 1024 RGBA, transparent.\nPaint ONLY the surfaces of input 1, guide_top.png. It is the EDIT TARGET, a locked orthographic projection of the actual mesh. Input 2, design_reference.png, is the material/colour reference only, not a shape or lighting reference.\nTOP view, looking DIRECTLY DOWN, with exactly the rotation/orientation of guide_top.png. The circular collar opening is below the centre of the image, toward the bottom, surrounded by the broad mantle spreading toward the top. Do not centre the collar or rotate the guide. Preserve every overlapping polygon and ragged lobe. Paint the collar edging aged ivory bone, the guide's existing trim in bone and exposed hook clasps in muted gold only where visible; spread charcoal-black hide and black-violet resin-cloth across the existing layers. Continue dark violet cloth inside the collar without extra holes.\nGeometry is immutable. Preserve the guide's exact alpha silhouette, every edge, part location, size, scale and all transparent margins. On the 1024-square canvas the object bounds are x=66..957, y=75..948. Trace the same original outline, including straight polygonal edges. Do not lengthen the cape, inflate cloth, add contour frays, change the viewpoint, crop, zoom or re-centre. Colour the exact existing forms, no redesign.\nItem materials from the approved design: weathered matte charcoal-black dark hide, muted black-violet resin-cloth, aubergine cloth lining, aged pale ivory bone edging and muted ochre-gold brushed hardware where present. Fine tan surface scuffing, leather grain, worn cloth fibres, small seams and cracks. Empty Kreegan huntmaster mantle, no wearer, skulls or hood. Faces not shown in the design continue these materials plausibly. No unrelated ceramic panels, glass, crystal, glowing elements, symbols or equipment.\nALBEDO TEXTURE SOURCE, NOT A BEAUTY RENDER. Flat even shadowless colour on ALL facets, including lower and overlapped panels. Do not copy the grey guide's directional lighting. No shading from geometry, no shadows between layers, no ambient occlusion darkening, no cast shadows, no specular highlights, reflections, rim lighting or light gradients. Dark hide is dark because of its material, not because of shadows. Metal has uniform gold base colour with at most faint sheen. Convey wear by pigment detail, never by lighting.\nKeep the guide background and cutouts genuinely transparent with alpha zero. No floor, black/white backdrop, painted checkerboard, text, letters, labels or watermark. Output just the painted top view; request 1024 x 1024, no sheet or collage.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "d7e9b92bb0fc065e33e46767d5387896aedd2ae38de4336904cf99b8d3410a1f"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        }
+      ],
+      "output": "paint_top.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-2df37b8e-8814-4913-8be0-f77a7654f298.png",
+      "selected": true,
+      "reason": "Selected original return despite slightly lower silhouette IoU (0.9732 versus 0.9806): it keeps the chest cord and hook hardware on the front/lower side of the collar. The correction incorrectly moves the cord above the collar opening. Original bead detail is approximate; residual fold shading and part-edge drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3a9ddc65a8c5a07aaf39c6964a02460b5fc6a466ea1c06f96c245ef8056e66cd",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          17,
+          1234,
+          1254
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          75,
+          84,
+          1180,
+          1166
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.973193610424271,
+        "transparent_pixel_fraction": 0.42639502555140935,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "candidate_output": "paint_top_attempt1.png",
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. Corrective generation, FRONT albedo texture source, 1024x1024 transparent PNG.\nIMAGE 1 is only the material reference. IMAGE 2 is the actual image to edit: guide_front.png, a 1024x1024 orthographic mesh render. Use IMAGE 2 as your canvas and preserve its alpha mask and the exact position and outline of EVERY polygon. Recolour IMAGE 2 in place. This is a locked geometry painting task. Do NOT reproduce image 1's shape. The object in image 2 occupies x66..957, y256..767; all the rest of the square stays transparent. Keep the short broad squashed shape, collar, shoulder panels, layered flat ragged pieces and every angular edge, with no new contour fraying.\nThe prior attempt changed part shapes and added shadow lighting and an extra clasp. Correct those errors. On the existing geometry paint charcoal-black hide alternating with subdued black-violet resin cloth, with fine tan weathering and seams. Paint the raised collar edging and existing shoulder trim pale aged bone, the existing TWO hook clasps muted brushed gold, and the existing chest cord brown with THREE smooth ivory beads. Exactly one clasp on each side, no extra gold hooks. No new physical pieces; details must lie on the guide surfaces.\nUNLIT BASE-COLOUR PASS. Every facet is painted with its actual surface pigment, not with illumination. Paint over all grey shading in the guide. Remove all folds' directional shading and occlusion: the undersides of black hide must be the SAME charcoal pigment value as tops; violet recesses must be the SAME violet pigment value as exposed cloth. No near-black shadow wedges between overlapping panels. Bone is even matte cream without bright edges or shadowed recesses; gold is even matte ochre-gold without highlights. Fine mottled wear and grain remain, but no baked lighting or gradients. The result should look deliberately flat, suitable for projection as albedo, not a shaded product photograph.\nNo wearer, hood, skulls, text, letters, symbols, lights, glass or extra objects. Preserve true transparent background and all cutouts. Return the painted second image at 1024x1024. Do not crop or resize the guide.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "068507fd8f78463a0302e535ecd3bccd489e089982efb3ea202d3bba153cb52b"
+        }
+      ],
+      "output": "paint_front.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-cd31cc0a-78f6-4b91-bcbd-35cfc951ec43.png",
+      "selected": true,
+      "reason": "Selected corrective return: silhouette IoU improves from 0.9591 to 0.9810, lighting is flatter, and the two gold clasps and three beads read correctly. Exact geometry and completely shadowless lighting remain unmet.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "fd2f80d62f7184aca31007ffd90436a031fcdcba485296d661980d8801506002",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1231
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          79,
+          311,
+          1176,
+          941
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.9810362784238847,
+        "transparent_pixel_fraction": 0.7029537378316023,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "candidate_output": "paint_front_attempt2.png",
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. ONE corrective BACK albedo texture painting. 1024x1024 transparent PNG.\nIMAGE 1 is the approved material and colour reference ONLY. IMAGE 2 (guide_back.png) is the 1024x1024 canvas to edit and absolute geometry authority. Paint directly ON IMAGE 2 without redrawing, moving or changing its shapes. Retain its exact alpha mask, all part edges, silhouette, proportions, camera, scale, position, transparent margins and cutouts. Object bounds x66..957, y256..767; all other pixels remain transparent. Keep the faceted broad compact model, not image 1's tall cloak.\nBACK view. Rear collar at upper centre; broad layered mantle. No chest clasps or bead cord visible from behind. Paint only the rear collar edging ivory; continue the worn black hide and violet fabric on the cape. Keep the bottom hem's exact angular contour and its low central point; do not expand or lower it. The initial candidate expanded the silhouette and made the lower cape too deep.\nPaint the existing forms with charcoal-black weathered hide alternating with muted black-violet resin-cloth and aubergine lining. Fine low-contrast tan abrasion, leather grain, cloth fibres and seams from image 1. Pale aged ivory bone where bone trim exists, ochre-gold hardware where it exists. These are surface textures; do not add new geometry, holes, fraying outside the silhouette, decorative pieces or markings.\nFLATTEN ALL LIGHTING: output an UNLIT BASE-COLOUR PASS, deliberately flat. Tops and undersides of a material have the SAME pigment value. Replace the guide's grey lighting with material pigment alone. Violet recesses stay the same violet as exposed violet; black-hide recesses stay the same charcoal as exposed hide. NO black shadow wedges between layers, ambient occlusion, drop/cast shadows, edge highlights, reflection, directional gradients or specular shine. Bone is evenly cream, gold evenly muted ochre; faint sheen at most. Keep fine surface texture while removing all illumination effects. Do not produce a shaded product photograph.\nEmpty Kreegan huntmaster mantle. No wearer, hood, skulls, glow, crystals, unrelated materials, text, letters, symbols or watermark. Nothing beyond the guide outline. True alpha-transparent background, no floor or backdrop. Return only the painted second image, 1024x1024, same framing, no crop, no sheet.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "3bb159ce585cf3145a4b9b3b9ed31dce37dc3ca4b1a8667ef23f7cfedfc1d285"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-a070029d-421c-4a6a-b1bb-c0c689a8f412.png",
+      "selected": true,
+      "reason": "Selected corrective return: compact rear hem is substantially closer to the guide, with silhouette IoU improving from 0.8493 to 0.9607. Rear materials continue plausibly. Residual shading and edge drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "846be06b67e8a4a17e3d8cdfaa2ace4f6a9d36f9899a5b6a7bb040146a82d480",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          0,
+          1244,
+          1222
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          81,
+          311,
+          1178,
+          945
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.9607253572011282,
+        "transparent_pixel_fraction": 0.7017486626527171,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "candidate_output": "paint_back_attempt2.png",
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. ONE corrective LEFT albedo texture painting. 1024x1024 transparent PNG.\nIMAGE 1 is the approved material and colour reference ONLY. IMAGE 2 (guide_left.png) is the 1024x1024 canvas to edit and absolute geometry authority. Paint directly ON IMAGE 2 without redrawing, moving or changing its shapes. Retain its exact alpha mask, all part edges, silhouette, proportions, camera, scale, position, transparent margins and cutouts. Object bounds x75..948, y256..767; all other pixels remain transparent. Keep the faceted broad compact model, not image 1's tall cloak.\nLEFT view. Collar rises in the upper-right half, broad shoulder at left, ragged hem slopes to lower-right. Preserve exact visible side geometry; bone only along the existing collar and trim. Muted gold hook hardware only at the existing exposed front edge at far right. Do not add protruding beads outside the guide. The initial candidate expanded the lower-right outline and added directional shadows.\nPaint the existing forms with charcoal-black weathered hide alternating with muted black-violet resin-cloth and aubergine lining. Fine low-contrast tan abrasion, leather grain, cloth fibres and seams from image 1. Pale aged ivory bone where bone trim exists, ochre-gold hardware where it exists. These are surface textures; do not add new geometry, holes, fraying outside the silhouette, decorative pieces or markings.\nFLATTEN ALL LIGHTING: output an UNLIT BASE-COLOUR PASS, deliberately flat. Tops and undersides of a material have the SAME pigment value. Replace the guide's grey lighting with material pigment alone. Violet recesses stay the same violet as exposed violet; black-hide recesses stay the same charcoal as exposed hide. NO black shadow wedges between layers, ambient occlusion, drop/cast shadows, edge highlights, reflection, directional gradients or specular shine. Bone is evenly cream, gold evenly muted ochre; faint sheen at most. Keep fine surface texture while removing all illumination effects. Do not produce a shaded product photograph.\nEmpty Kreegan huntmaster mantle. No wearer, hood, skulls, glow, crystals, unrelated materials, text, letters, symbols or watermark. Nothing beyond the guide outline. True alpha-transparent background, no floor or backdrop. Return only the painted second image, 1024x1024, same framing, no crop, no sheet.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "0b21adbd59235974f6ce327f62b5f2d128420111084b127cf73b626392dd21bc"
+        }
+      ],
+      "output": "paint_left_attempt2.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-5f590006-7998-434c-bc6c-18e822584169.png",
+      "selected": false,
+      "reason": "Not selected. Selected original return: silhouette IoU 0.9266 is substantially better than correction 0.8407; original also retains the side geometry more faithfully. Overlap shadows and contour/detail drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3b2cad79b9e07706f396c7425edf5b7d6d4e7595950f2f94999933b17c021de2",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": true,
+        "alpha_bbox": [
+          25,
+          25,
+          1223,
+          1119
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          44,
+          298,
+          1220,
+          998
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.8407138823154401,
+        "transparent_pixel_fraction": 0.7140207158464524,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. ONE corrective RIGHT albedo texture painting. 1024x1024 transparent PNG.\nIMAGE 1 is the approved material and colour reference ONLY. IMAGE 2 (guide_right.png) is the 1024x1024 canvas to edit and absolute geometry authority. Paint directly ON IMAGE 2 without redrawing, moving or changing its shapes. Retain its exact alpha mask, all part edges, silhouette, proportions, camera, scale, position, transparent margins and cutouts. Object bounds x75..947, y256..767; all other pixels remain transparent. Keep the faceted broad compact model, not image 1's tall cloak.\nRIGHT view. Collar rises in the upper-left half, broad shoulder at right, ragged hem slopes to lower-left. Preserve exact visible side geometry; bone only along the existing collar and trim. Muted gold hook hardware only at the existing exposed front edge at far left. Do not add protruding beads outside the guide. The initial candidate moved the collar upward and altered the hem profile.\nPaint the existing forms with charcoal-black weathered hide alternating with muted black-violet resin-cloth and aubergine lining. Fine low-contrast tan abrasion, leather grain, cloth fibres and seams from image 1. Pale aged ivory bone where bone trim exists, ochre-gold hardware where it exists. These are surface textures; do not add new geometry, holes, fraying outside the silhouette, decorative pieces or markings.\nFLATTEN ALL LIGHTING: output an UNLIT BASE-COLOUR PASS, deliberately flat. Tops and undersides of a material have the SAME pigment value. Replace the guide's grey lighting with material pigment alone. Violet recesses stay the same violet as exposed violet; black-hide recesses stay the same charcoal as exposed hide. NO black shadow wedges between layers, ambient occlusion, drop/cast shadows, edge highlights, reflection, directional gradients or specular shine. Bone is evenly cream, gold evenly muted ochre; faint sheen at most. Keep fine surface texture while removing all illumination effects. Do not produce a shaded product photograph.\nEmpty Kreegan huntmaster mantle. No wearer, hood, skulls, glow, crystals, unrelated materials, text, letters, symbols or watermark. Nothing beyond the guide outline. True alpha-transparent background, no floor or backdrop. Return only the painted second image, 1024x1024, same framing, no crop, no sheet.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "205c0bec98bd1172d2eaf7dd6d1c8344ac4ff38e488439d59e76a80de1bebfc6"
+        }
+      ],
+      "output": "paint_right.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-5d0fbfb8-9982-4d2c-b1de-bdc9b917aa08.png",
+      "selected": true,
+      "reason": "Selected corrective return: silhouette IoU improves from 0.8939 to 0.9808, correcting collar height and framing. Residual shading and approximated part edges remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "328282f203720b3b06fbaf7ce2f90cf1da43303a37e57dc123ee9bb55421cdc9",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          31,
+          1224,
+          1254
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          95,
+          311,
+          1163,
+          940
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.9808158270446665,
+        "transparent_pixel_fraction": 0.7575585876391718,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "candidate_output": "paint_right_attempt2.png",
+      "resized": false,
+      "postprocessed": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: style-transfer. ONE corrective TOP albedo texture painting. 1024x1024 transparent PNG.\nIMAGE 1 is the approved material and colour reference ONLY. IMAGE 2 (guide_top.png) is the 1024x1024 canvas to edit and absolute geometry authority. Paint directly ON IMAGE 2 without redrawing, moving or changing its shapes. Retain its exact alpha mask, all part edges, silhouette, proportions, camera, scale, position, transparent margins and cutouts. Object bounds x66..957, y75..948; all other pixels remain transparent. Keep the faceted broad compact model, not image 1's tall cloak.\nTOP view, DIRECTLY DOWN. Preserve the rotation: the collar opening is BELOW centre toward the bottom, the cape spreads toward the top. Do not move or enlarge the collar. Bone on the existing collar/trim, muted gold on the exposed existing clasps. Keep cloth visible inside collar; do not add transparent holes. Preserve every angular point and every lobe of the radial ragged outline. The initial candidate shaded the folds and rounded/rearranged some of the exact polygon edges.\nPaint the existing forms with charcoal-black weathered hide alternating with muted black-violet resin-cloth and aubergine lining. Fine low-contrast tan abrasion, leather grain, cloth fibres and seams from image 1. Pale aged ivory bone where bone trim exists, ochre-gold hardware where it exists. These are surface textures; do not add new geometry, holes, fraying outside the silhouette, decorative pieces or markings.\nFLATTEN ALL LIGHTING: output an UNLIT BASE-COLOUR PASS, deliberately flat. Tops and undersides of a material have the SAME pigment value. Replace the guide's grey lighting with material pigment alone. Violet recesses stay the same violet as exposed violet; black-hide recesses stay the same charcoal as exposed hide. NO black shadow wedges between layers, ambient occlusion, drop/cast shadows, edge highlights, reflection, directional gradients or specular shine. Bone is evenly cream, gold evenly muted ochre; faint sheen at most. Keep fine surface texture while removing all illumination effects. Do not produce a shaded product photograph.\nEmpty Kreegan huntmaster mantle. No wearer, hood, skulls, glow, crystals, unrelated materials, text, letters, symbols or watermark. Nothing beyond the guide outline. True alpha-transparent background, no floor or backdrop. Return only the painted second image, 1024x1024, same framing, no crop, no sheet.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "6fb4aac5861e3a4d006410a2c4327b9f4eedd51a5a1000ea962b1308bdeb89b1"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "d7e9b92bb0fc065e33e46767d5387896aedd2ae38de4336904cf99b8d3410a1f"
+        }
+      ],
+      "output": "paint_top_attempt2.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eed-2a2f-7732-a788-71a1f5f18700/exec-0739ab87-bf28-4e3f-980e-c3ffcf64ac6c.png",
+      "selected": false,
+      "reason": "Not selected. Selected original return despite slightly lower silhouette IoU (0.9732 versus 0.9806): it keeps the chest cord and hook hardware on the front/lower side of the collar. The correction incorrectly moves the cord above the collar opening. Original bead detail is approximate; residual fold shading and part-edge drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "39e3a449548f206b3745b89d26454b4b4ab992783c58af6e53425cfb7d7e0a33",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_rgba": true,
+        "alpha_zero_canvas_border": false,
+        "alpha_bbox": [
+          0,
+          35,
+          1240,
+          1254
+        ],
+        "opaque_bbox_alpha_gt_127": [
+          75,
+          85,
+          1181,
+          1164
+        ],
+        "identical_alpha_to_guide": false,
+        "normalized_silhouette_iou": 0.9806204682656084,
+        "transparent_pixel_fraction": 0.4301075473953842,
+        "palette_and_materials_match_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "text_or_letters_visible": false,
+        "visual_notes": "Charcoal hide, violet cloth and ivory bone are recognizable. Residual overlap/fold shading and small bright material edges remain. Fine colored alpha fringe visible in places. Guide part edges are approximated rather than identical.",
+        "fully_passes_brief": false
+      },
+      "resized": false,
+      "postprocessed": false
+    }
+  ],
+  "validation_method": "Visual inspection of every raw return; alpha and dimensions checked numerically. For diagnostic IoU only, output alpha was sampled into guide coordinates with nearest-neighbour indexing and thresholded at 127. No returned PNG was resized, clipped, repainted, composited or otherwise postprocessed.",
+  "status": "Five best-available outputs saved; exact-silhouette and fully-shadowless requirements not achieved within the permitted generation limit.",
+  "tool_mode": "Built-in image_gen.imagegen; no API or CLI fallback.",
+  "maximum_corrective_regenerations_per_view": 1,
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "limitations": [
+    "All ten tool returns are 1254x1254 rather than the requested 1024x1024. Preserved byte-for-byte, unresized, as the brief directs for alternate returned sizes.",
+    "No selected output has an identical alpha silhouette or identical part edges to its guide. Selected normalized alpha-mask IoU ranges from 0.9266 to 0.9810.",
+    "Some fold/overlap shading and bright edges remain; these are not strictly shadowless albedo sources.",
+    "Small coloured alpha-edge artefacts are visible in places.",
+    "The top view approximates the bead cord and concealed surfaces; the corrective top candidate displaced the cord and was rejected."
+  ],
+  "scope": "Image generation and validation only. No builds, model edits, texture baking or runtime integration."
+}

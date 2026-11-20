@@ -1,0 +1,17 @@
+# AI arena: a placed MM9 monster that faces the party does not see it beyond its sight range (MM9_AI_NATIVE_RE.md
+# section 5.3). Drangheim Prison's map actors are kept (clear_actors: false). The Nagate Elder (actor 39, yaw 1222
+# units, about 215 degrees; sight 1 536, hearing 369) has the party 1 628 units along its placement facing (1.06 of
+# its sight), in plain view: the companion of perception_placed_sight.arena.yml. See README.md.
+name: mm9_perception_placed_sight_beyond
+world: mm9
+map: drangheimprison.blv
+asset_root: output/mm9_rework/assets_dev
+clear_actors: false
+party:
+  position: [957, -6827, -3583]
+  yaw_degrees: 35
+  invulnerable: true
+# MM9's own perception of the party (MM9's sight measured), not the world's actorAwareness.
+party_awareness: mm9
+trace: true
+monsters: []

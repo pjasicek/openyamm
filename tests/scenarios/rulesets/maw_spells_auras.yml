@@ -1,0 +1,47 @@
+id: rulesets.maw_spells_auras
+title: Ruleset - MAW spells in a map - Shrinking Ray's extra targets, Immolation's burn, a scroll's aura of the place kept by save and load and ended by another outdoor map
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Mage, class: Sorcerer, level: 400, skills: [{name: FireMagic, level: 4, mastery: 1}], equipment: {}}
+          - {name: Priest, class: Cleric, level: 400, skills: [{name: SpiritMagic, level: 4, mastery: 1}], equipment: {}}
+  # GAPS.md A7.5: a Grandmaster Shrinking Ray shrinks its target and up to three more monsters within 512.
+  - spawn_actor: {monster_id: 195, count: 3, near_party: true}
+  - advance_runtime: {seconds: 0.1}
+  - cast_spell: {member_index: 0, spell_id: 92, skill: 10, mastery: 4, actor_index: last}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      actor_count: {monster_id: 195, shrunk: true, min: 3}
+  # L5.5: the held Immolation burns the monsters within 307 of the party through the spell damage rules (10 + 1-30
+  # per point of Fire 10): at most two of the three stay unhurt (a sturdy party keeps its holder conscious).
+  - assert:
+      actor_count: {monster_id: 195, min: 3, max: 3}
+  - cast_spell: {member_index: 0, spell_id: 8, skill: 10, mastery: 4}
+  - assert:
+      buff: {spell_id: 8, present: true}
+  # It burns every five game minutes (ten seconds).
+  - advance_runtime: {seconds: 12}
+  - assert:
+      actor_count: {monster_id: 195, hurt: false, max: 2}
+  # L5.1: a scroll's Fire Resistance holds as the place's aura, through save and load...
+  - cast_spell: {member_index: 1, spell_id: 3, skill: 5, mastery: 3, scroll: true}
+  - assert:
+      buff: {spell_id: 3, present: true}
+  - save_game: maw_spells_auras
+  - load_game: maw_spells_auras
+  - advance_runtime: {seconds: 1}
+  - assert:
+      buff: {spell_id: 3, present: true}
+  # ...until the party stands on another outdoor map.
+  - load_map: {map: outd3.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      buff: {spell_id: 3, present: false}

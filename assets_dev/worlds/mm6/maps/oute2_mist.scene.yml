@@ -1,0 +1,15 @@
+format_version: 1
+kind: "outdoor_scene_overlay"
+source:
+  geometry_file: "oute2.odm"
+# Misty Islands: a white mist on the low islands (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [206, 212, 214]
+      base_height: 101
+      falloff_height: 90
+      visibility: 720
+      max_opacity: 0.7
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]

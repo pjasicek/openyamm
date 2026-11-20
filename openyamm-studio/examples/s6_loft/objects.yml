@@ -1,0 +1,9 @@
+format: 1
+start:
+  room: room:hall
+  at: [512, 300]
+  facing: n
+lights:
+  - {id: light:hall, room: room:hall, at: [512, 512], height: 420, radius: 1400, color: [255, 210, 160]}
+ladders:
+  - {id: ladder:loft, room: room:hall, at: [512, 640], top_at: [512, 760], facing: n, height: 256, surface: {texture: t1w11a, size: [128, 256], uneven: true}}

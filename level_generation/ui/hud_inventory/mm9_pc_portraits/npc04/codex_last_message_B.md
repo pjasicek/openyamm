@@ -1,0 +1,3 @@
+Saved the built-in generated sheet as [raw_B.png](level_generation/ui/hud_inventory/mm9_pc_portraits/npc04/raw_B.png), with exact prompts and hashes in [generation_B.json](level_generation/ui/hud_inventory/mm9_pc_portraits/npc04/generation_B.json). Preserved the rejected first attempt.
+
+No pixel edits or builds. Some background pixels have alpha 1 rather than exactly zero; recorded this limitation.

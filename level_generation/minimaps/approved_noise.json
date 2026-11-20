@@ -1,0 +1,26 @@
+{
+  "seed": 20260928,
+  "bands_master_pixels": [
+    [
+      0,
+      0.25
+    ],
+    [
+      1,
+      0.5
+    ],
+    [
+      3,
+      0.35
+    ],
+    [
+      9,
+      0.15
+    ]
+  ],
+  "strength": 0.06,
+  "clip_standard_deviations": 2.5,
+  "land_mask": "Unlit atlas: exclude B > 1.25R and G > 1.2R",
+  "reference_image": "level_generation/ui/hud_inventory/minimap_study_20260927/new_sorpigal/vinevi_noise_light_x2.png",
+  "reference_sha256": "c9d7754aef37e5166cf96ad42ebc99e9a6235fd357e372b389c33ba8987f2354"
+}

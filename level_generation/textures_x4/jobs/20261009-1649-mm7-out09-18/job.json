@@ -1,0 +1,544 @@
+{
+ "id": "20261009-1649-mm7-out09-18",
+ "world": "mm7",
+ "maps": [
+  "out09.odm",
+  "7out03.odm"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/hwm2bs1",
+  "mm7/hwp1d",
+  "mm7/7tws1fa",
+  "mm7/her1rf",
+  "mm7/hwm2d",
+  "mm7/hwp1rf",
+  "mm7/sgwater",
+  "mm7/trim4_16",
+  "mm7/trim7_32",
+  "mm7/trim7_32a",
+  "mm7/ch1bw",
+  "mm7/tws1i",
+  "mm7/ch1b1dl",
+  "mm7/7gt001a",
+  "mm7/ch1b1dr",
+  "mm7/s_cgryfn",
+  "mm7/s_dock",
+  "mm7/s_east",
+  "mm7/s_friver",
+  "mm7/s_glds",
+  "mm7/s_plaza",
+  "mm7/s_south",
+  "mm7/s_west",
+  "mm7/sgbody"
+ ],
+ "requests": {
+  "mm7/hwm2bs1": {
+   "name": "hwm2bs1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey fieldstone wall of rounded mortared stones, with a dark carved wooden frieze across the top, a dark timber sill along the bottom and a recessed blue-grey wooden panel carved with a gilded vine and figure relief in the centre between dark timber posts; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.54
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.54
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hwm2b",
+     "left": "mm7/hwm2el"
+    }
+   }
+  },
+  "mm7/hwp1d": {
+   "name": "hwp1d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "arched brown wooden plank door with a pale carved inverted triangle and loop ornament and an iron ring handle, set in a grey stone frame; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp1b1"
+     ],
+     "fraction": 0.34
+    },
+    "2": {
+     "sources": [
+      "mm7/hwp1b1"
+     ],
+     "fraction": 0.34
+    },
+    "3": {
+     "sources": [
+      "mm7/hwp1b1"
+     ],
+     "fraction": 0.34
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     74
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwp1b1w",
+     "right": "mm7/hwp1b1"
+    },
+    "3": {
+     "left": "mm7/hwp1b1w",
+     "right": "mm7/hwp1b1"
+    }
+   }
+  },
+  "mm7/7tws1fa": {
+   "name": "7tws1fa",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered pale grey stone slab with fine cracks and pits, with a row of narrow cut stone blocks along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm7/7tws1f"
+    }
+   }
+  },
+  "mm7/her1rf": {
+   "name": "her1rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of large overlapping golden-brown wooden shakes with deep grain, splits and weathered edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hwm2d": {
+   "name": "hwm2d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "arched double door of blue-grey wood carved with gilded vine and robed figure reliefs, with a carved lintel and gilded fittings, set in a dark stone frame; copy the composition exactly",
+   "notes": {
+    "3": "the two gilded half-round panels in the arch above the doors each carry two dark recessed carved glyphs (left panel 'T4'-like, right panel 'dO'-like rune shapes): copy those four glyphs exactly in shape and position; no vine scrolls in the arch panels"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hwp1rf": {
+   "name": "hwp1rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of weathered mauve-brown slate shingles overlapping in staggered rows with chipped edges and fine cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgwater": {
+   "name": "sgwater",
+   "versions": [
+    1
+   ],
+   "material": "guild sign: framed painting of a stylised blue ocean wave with white foam and a single open eye in it, on a dark brown background inside a golden-brown wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim4_16": {
+   "name": "trim4_16",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of golden-brown wood with fine vertical grain",
+   "notes": {
+    "2": "crisp sharp straight vertical wood grain like a close photograph of planed oak, distinct fine grain lines and pores; no wavy, swirled, smeared or blurred grain"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim7_32": {
+   "name": "trim7_32",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of weathered grey-brown wood with fine vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     8
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/7t1beds",
+     "right": "mm7/7t1beds"
+    }
+   }
+  },
+  "mm7/trim7_32a": {
+   "name": "trim7_32a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "single uninterrupted strip of weathered grey-brown wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim7_32",
+    "k": 3
+   }
+  },
+  "mm7/ch1bw": {
+   "name": "ch1bw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown cave rock with irregular flat-faced stones and dark cracks between them, with a narrow dark slit window opening framed by mossy cut stone blocks with a stone lintel and sill; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch1b1",
+      "mm7/ch1b1s",
+      "mm7/ch1b1er"
+     ],
+     "fraction": 0.262
+    },
+    "2": {
+     "sources": [
+      "mm7/ch1b1",
+      "mm7/ch1b1s",
+      "mm7/ch1b1er"
+     ],
+     "fraction": 0.262
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/ch1b1",
+     "bottom": "mm7/ch1b1",
+     "left": "mm7/ch1b1",
+     "top": "mm7/ch1b1"
+    }
+   }
+  },
+  "mm7/tws1i": {
+   "name": "tws1i",
+   "versions": [
+    1
+   ],
+   "material": "weathered tan stone wall with fine cracks and lichen stains, with two rounded vertical half-column shafts, one carved with a vertical line of runic inscription; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7tws1h"
+     ],
+     "fraction": 0.417
+    }
+   }
+  },
+  "mm7/ch1b1dl": {
+   "name": "ch1b1dl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough brown cave rock with irregular flat-faced stones and dark cracks between them, with an arched doorway of mossy cut stone blocks around a weathered blue-grey plank door with rusted iron strap hinges and a ring handle; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "3": "the half-round panel above the door is a flat rusted iron plate with blotchy orange rust and green patina, no scrollwork or ornament, with a straight riveted iron bar along its bottom, continuing the plate shown in the right margin; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch1b1",
+      "mm7/ch1b1er"
+     ],
+     "fraction": 0.155
+    },
+    "2": {
+     "sources": [
+      "mm7/ch1b1",
+      "mm7/ch1b1er"
+     ],
+     "fraction": 0.155
+    },
+    "3": {
+     "sources": [
+      "mm7/ch1b1",
+      "mm7/ch1b1er"
+     ],
+     "fraction": 0.155
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/ch1b1el",
+     "top": "mm7/ch1b1s"
+    },
+    "3": {
+     "left": "mm7/ch1b1el",
+     "top": "mm7/ch1b1s"
+    }
+   }
+  },
+  "mm7/7gt001a": {
+   "name": "7gt001a",
+   "versions": [
+    1
+   ],
+   "material": "wooden crate face of vertical reddish-brown planks inside a dark iron frame with rivets along the border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch1b1dr": {
+   "name": "ch1b1dr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough brown cave rock with irregular flat-faced stones and dark cracks between them, with an arched doorway of mossy cut stone blocks around a weathered blue-grey plank door with rusted iron strap hinges and a ring handle; copy the composition exactly",
+   "notes": {
+    "2": "the rough cave rock continues at full reference brightness right up to the left edge; no dark rim or shadow line along the left edge",
+    "3": "the rough cave rock continues at full reference brightness right up to the left edge; no dark rim or shadow line along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_cgryfn": {
+   "name": "s_cgryfn",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in two lines, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_dock": {
+   "name": "s_dock",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in one line, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_east": {
+   "name": "s_east",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in one line, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_friver": {
+   "name": "s_friver",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in two lines, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_glds": {
+   "name": "s_glds",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in one line, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_plaza": {
+   "name": "s_plaza",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in one line, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_south": {
+   "name": "s_south",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in one line, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_west": {
+   "name": "s_west",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden street sign of pale parchment-yellow boards with dark red runic lettering in one line, the right part of the texture solid black; copy the composition and letters exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgbody": {
+   "name": "sgbody",
+   "versions": [
+    1
+   ],
+   "material": "guild sign: framed painting of a fully clothed blue figure standing with arms raised, radiating orange and yellow rays of light from its chest, on a dark brown wooden background inside a golden-brown wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

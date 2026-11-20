@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayActorService.h"
 
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/SpellTable.h"
@@ -129,6 +130,65 @@ float GameplayActorService::configuredPartyEngagementRange() const
     return m_partyEngagementRange;
 }
 
+void GameplayActorService::setWorldPartyHitReach(std::optional<float> reach)
+{
+    m_worldPartyHitReach = reach;
+}
+
+float GameplayActorService::partyHitReach() const
+{
+    return std::min(PartyYellowAlertDistance, m_worldPartyHitReach.value_or(PartyYellowAlertDistance));
+}
+
+void GameplayActorService::setMm9PartyAwareness(const Mm9PartyAwareness &awareness)
+{
+    m_mm9PartyAwareness = awareness;
+}
+
+const Mm9PartyAwareness &GameplayActorService::mm9PartyAwareness() const
+{
+    return m_mm9PartyAwareness;
+}
+
+void GameplayActorService::setMeleeVerticalReach(float share)
+{
+    m_meleeVerticalReach = share;
+}
+
+void GameplayActorService::setLevelRadiusLimit(float limit)
+{
+    m_levelRadiusLimit = limit;
+}
+
+void GameplayActorService::setFriendlyActorsBlockParty(bool enabled)
+{
+    m_friendlyActorsBlockParty = enabled;
+}
+
+bool GameplayActorService::actorBlocksPartyMovement(
+    bool hostileToParty,
+    GameplayActorControlMode controlMode) const
+{
+    if (hostileToParty)
+    {
+        return true;
+    }
+
+    return m_friendlyActorsBlockParty && !isPartyControlledActor(controlMode);
+}
+
+bool GameplayActorService::meleeReachesVertically(float share, float attackerFootZ, float attackerHeight,
+    float targetFootZ, float targetHeight)
+{
+    if (share <= 0.0f)
+    {
+        return true;
+    }
+
+    const float lowerHeight = targetFootZ >= attackerFootZ ? attackerHeight : targetHeight;
+    return std::abs(targetFootZ - attackerFootZ) <= std::max(MinimumMeleeVerticalReach, share * lowerHeight);
+}
+
 bool GameplayActorService::isBound() const
 {
     return m_pMonsterTable != nullptr && m_pSpellTable != nullptr;
@@ -166,7 +226,6 @@ GameplayActorService::DirectSpellImpactResult GameplayActorService::resolveDirec
     uint32_t spellId,
     uint32_t skillLevel,
     int baseDamage,
-    int actorCurrentHp,
     bool actorLooksUndead) const
 {
     DirectSpellImpactResult result = {};
@@ -226,13 +285,12 @@ GameplayActorService::DirectSpellImpactResult GameplayActorService::resolveDirec
         return result;
     }
 
+    // The share of the target's hit points comes from the rules (CombatRules::spellDamageOnTarget) as baseDamage.
     if (spellName == "mass distortion")
     {
         result.disposition = DirectSpellImpactDisposition::ApplyDamage;
         result.visualKind = DirectSpellImpactVisualKind::ActorCenter;
-        result.damage = std::max(
-            1,
-            static_cast<int>(std::round(static_cast<float>(actorCurrentHp) * (0.25f + 0.02f * skillLevel))));
+        result.damage = std::max(1, baseDamage);
         return result;
     }
 
@@ -307,7 +365,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     bool actorLooksUndead,
     bool defaultHostileToParty,
     int spellResistance,
-    GameplayActorSpellEffectState &state) const
+    GameplayActorSpellEffectState &state,
+    std::optional<float> rulesetSeconds) const
 {
     SharedSpellEffectResult result = {};
 
@@ -326,7 +385,30 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     const std::string &spellName = pSpellEntry->normalizedName;
     const CombatDamageType damageType = GameMechanics::parseCombatDamageType(pSpellEntry->schoolName);
 
-    if (damageType != CombatDamageType::Irresistible && spellResistance >= 200)
+    // Fate cast on a monster is a buff for it, so its resistances do not apply.
+    if (spellName == "fate")
+    {
+        const int powerPerLevel = skillMastery == SkillMastery::Grandmaster
+            ? 6
+            : skillMastery == SkillMastery::Master
+            ? 4
+            : skillMastery == SkillMastery::Expert
+            ? 2
+            : 1;
+        state.fateRemainingSeconds = minutesToSeconds(5.0f);
+        state.fatePower = powerPerLevel * static_cast<int>(skillLevel);
+        result.disposition = SharedSpellDisposition::Applied;
+        return result;
+    }
+
+    // A ruleset's crowd control (MAW) lands without the resistance roll and lasts what its rules say; 0 is no effect.
+    if (rulesetSeconds && *rulesetSeconds <= 0.0f)
+    {
+        result.disposition = SharedSpellDisposition::Rejected;
+        return result;
+    }
+
+    if (!rulesetSeconds && damageType != CombatDamageType::Irresistible && spellResistance >= 200)
     {
         result.disposition = SharedSpellDisposition::Rejected;
         return result;
@@ -334,16 +416,21 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
 
     if (spellName == "stun")
     {
-        if (!canApplyMmergeStatusSpell(skillLevel, skillMastery, spellResistance))
+        if (!rulesetSeconds && !canApplyMmergeStatusSpell(skillLevel, skillMastery, spellResistance))
         {
             result.disposition = SharedSpellDisposition::Rejected;
             return result;
         }
 
-        state.stunRemainingSeconds = std::max(state.stunRemainingSeconds, 0.5f + 0.35f * skillLevel);
+        // Under a ruleset's crowd control the paralysis holds the monster and the stun is the original's short
+        // stagger, so diminishing returns bind the whole effect.
+        state.stunRemainingSeconds = std::max(
+            state.stunRemainingSeconds,
+            rulesetSeconds ? std::min(StaggerStunSeconds, *rulesetSeconds) : 0.5f + 0.35f * skillLevel);
         state.paralyzeRemainingSeconds = std::max(
             state.paralyzeRemainingSeconds,
-            60.0f + static_cast<float>(skillLevel * std::max(1, static_cast<int>(skillMastery))));
+            rulesetSeconds.value_or(
+                60.0f + static_cast<float>(skillLevel * std::max(1, static_cast<int>(skillMastery)))));
         result.disposition = SharedSpellDisposition::Applied;
         result.effectKind = SharedSpellEffectKind::Stun;
         return result;
@@ -351,7 +438,7 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
 
     if (spellName == "slow")
     {
-        if (!canApplyMmergeStatusSpell(skillLevel, skillMastery, spellResistance))
+        if (!rulesetSeconds && !canApplyMmergeStatusSpell(skillLevel, skillMastery, spellResistance))
         {
             result.disposition = SharedSpellDisposition::Rejected;
             return result;
@@ -359,7 +446,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
 
         state.slowRemainingSeconds = std::max(
             state.slowRemainingSeconds,
-            skillMastery == SkillMastery::Grandmaster
+            rulesetSeconds ? *rulesetSeconds
+            : skillMastery == SkillMastery::Grandmaster
                 ? minutesToSeconds(5.0f * skillLevel)
                 : skillMastery == SkillMastery::Master
                 ? minutesToSeconds(5.0f * skillLevel)
@@ -381,7 +469,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
 
     if (spellName == "paralyze")
     {
-        state.paralyzeRemainingSeconds = std::max(state.paralyzeRemainingSeconds, minutesToSeconds(3.0f * skillLevel));
+        state.paralyzeRemainingSeconds = std::max(
+            state.paralyzeRemainingSeconds, rulesetSeconds.value_or(minutesToSeconds(3.0f * skillLevel)));
         result.disposition = SharedSpellDisposition::Applied;
         result.effectKind = SharedSpellEffectKind::Paralyze;
         return result;
@@ -406,6 +495,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
             durationSeconds = minutesToSeconds(3.0f + 5.0f * static_cast<float>(skillLevel));
         }
 
+        durationSeconds = rulesetSeconds.value_or(durationSeconds);
+
         state.fearRemainingSeconds = std::max(state.fearRemainingSeconds, durationSeconds);
         state.hasDetectedParty = false;
         result.disposition = SharedSpellDisposition::Applied;
@@ -423,7 +514,7 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
                 : (skillMastery == SkillMastery::Expert
                     ? minutesToSeconds(5.0f + static_cast<float>(skillLevel))
                     : minutesToSeconds(3.0f + static_cast<float>(skillLevel)));
-        state.fearRemainingSeconds = std::max(state.fearRemainingSeconds, durationSeconds);
+        state.fearRemainingSeconds = std::max(state.fearRemainingSeconds, rulesetSeconds.value_or(durationSeconds));
         state.hasDetectedParty = false;
         result.disposition = SharedSpellDisposition::Applied;
         result.effectKind = SharedSpellEffectKind::Fear;
@@ -462,7 +553,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
             return result;
         }
 
-        if (spellName == "control undead"
+        if (!rulesetSeconds
+            && spellName == "control undead"
             && spellResistance > static_cast<int>(skillLevel) * std::max(1, static_cast<int>(skillMastery)))
         {
             result.disposition = SharedSpellDisposition::Rejected;
@@ -471,7 +563,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
 
         state.controlRemainingSeconds = std::max(
             state.controlRemainingSeconds,
-            spellName == "charm"
+            rulesetSeconds ? *rulesetSeconds
+            : spellName == "charm"
                 ? (skillMastery == SkillMastery::Grandmaster
                     ? hoursToSeconds(24.0f)
                     : skillMastery == SkillMastery::Master
@@ -500,7 +593,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
                 : spellName == "enslave"
                 ? GameplayActorControlMode::Enslaved
                 : GameplayActorControlMode::ControlUndead;
-        state.hostileToParty = false;
+        // A berserk monster stays hostile to the party too: it attacks whoever is nearest.
+        state.hostileToParty = spellName == "berserk";
         state.hasDetectedParty = false;
         result.disposition = SharedSpellDisposition::Applied;
         result.effectKind = SharedSpellEffectKind::Control;
@@ -511,7 +605,7 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     {
         state.shrinkRemainingSeconds = std::max(
             state.shrinkRemainingSeconds,
-            minutesToSeconds(5.0f * std::max<uint32_t>(1, skillLevel)));
+            rulesetSeconds.value_or(minutesToSeconds(5.0f * std::max<uint32_t>(1, skillLevel))));
         state.shrinkDamageMultiplier =
             skillMastery == SkillMastery::Grandmaster
                 ? 0.25f
@@ -530,7 +624,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     {
         state.darkGraspRemainingSeconds = std::max(
             state.darkGraspRemainingSeconds,
-            skillMastery == SkillMastery::Grandmaster
+            rulesetSeconds ? *rulesetSeconds
+            : skillMastery == SkillMastery::Grandmaster
                 ? minutesToSeconds(10.0f * std::max<uint32_t>(1, skillLevel))
                 : minutesToSeconds(5.0f * std::max<uint32_t>(1, skillLevel)));
         state.slowRemainingSeconds = std::max(state.slowRemainingSeconds, state.darkGraspRemainingSeconds);
@@ -550,6 +645,31 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     }
 
     return result;
+}
+
+bool GameplayActorService::hasRunningSpellEffectTimer(const GameplayActorSpellEffectState &state)
+{
+    return state.slowRemainingSeconds > 0.0f
+        || state.stunRemainingSeconds > 0.0f
+        || state.paralyzeRemainingSeconds > 0.0f
+        || state.fearRemainingSeconds > 0.0f
+        || state.blindRemainingSeconds > 0.0f
+        || state.controlRemainingSeconds > 0.0f
+        || state.shrinkRemainingSeconds > 0.0f
+        || state.darkGraspRemainingSeconds > 0.0f
+        || state.silenceRemainingSeconds > 0.0f
+        || state.moveSlowRemainingSeconds > 0.0f
+        || state.demoralizeRemainingSeconds > 0.0f
+        || state.dayOfProtectionRemainingSeconds > 0.0f
+        || state.hourOfPowerRemainingSeconds > 0.0f
+        || state.painReflectionRemainingSeconds > 0.0f
+        || state.hammerhandsRemainingSeconds > 0.0f
+        || state.hasteRemainingSeconds > 0.0f
+        || state.shieldRemainingSeconds > 0.0f
+        || state.stoneskinRemainingSeconds > 0.0f
+        || state.blessRemainingSeconds > 0.0f
+        || state.fateRemainingSeconds > 0.0f
+        || state.heroismRemainingSeconds > 0.0f;
 }
 
 void GameplayActorService::updateSpellEffectTimers(
@@ -572,6 +692,9 @@ void GameplayActorService::updateSpellEffectTimers(
     state.armorClassHalvedRemainingSeconds =
         std::max(0.0f, state.armorClassHalvedRemainingSeconds - deltaSeconds);
     state.darkGraspRemainingSeconds = std::max(0.0f, state.darkGraspRemainingSeconds - deltaSeconds);
+    state.silenceRemainingSeconds = std::max(0.0f, state.silenceRemainingSeconds - deltaSeconds);
+    state.moveSlowRemainingSeconds = std::max(0.0f, state.moveSlowRemainingSeconds - deltaSeconds);
+    state.demoralizeRemainingSeconds = std::max(0.0f, state.demoralizeRemainingSeconds - deltaSeconds);
     state.dayOfProtectionRemainingSeconds = std::max(0.0f, state.dayOfProtectionRemainingSeconds - deltaSeconds);
     state.hourOfPowerRemainingSeconds = std::max(0.0f, state.hourOfPowerRemainingSeconds - deltaSeconds);
     state.painReflectionRemainingSeconds = std::max(0.0f, state.painReflectionRemainingSeconds - deltaSeconds);
@@ -587,6 +710,11 @@ void GameplayActorService::updateSpellEffectTimers(
     {
         state.slowMoveMultiplier = 1.0f;
         state.slowRecoveryMultiplier = 1.0f;
+    }
+
+    if (state.moveSlowRemainingSeconds <= 0.0f)
+    {
+        state.moveSlowMultiplier = 1.0f;
     }
 
     if (state.controlRemainingSeconds <= 0.0f && state.controlMode != GameplayActorControlMode::None)
@@ -653,8 +781,22 @@ bool GameplayActorService::isPartyControlledActor(GameplayActorControlMode contr
     }
 }
 
-bool GameplayActorService::monsterIdsAreFriendly(int16_t leftMonsterId, int16_t rightMonsterId) const
+bool GameplayActorService::monsterIdsAreFriendly(
+    int16_t leftMonsterId,
+    int16_t rightMonsterId,
+    const std::unordered_map<uint32_t, int32_t> *pRelationOverrides) const
 {
+    if (pRelationOverrides != nullptr && !pRelationOverrides->empty())
+    {
+        const auto overrideIterator =
+            pRelationOverrides->find(relationOverrideKey(uint32_t(leftMonsterId), uint32_t(rightMonsterId)));
+
+        if (overrideIterator != pRelationOverrides->end())
+        {
+            return overrideIterator->second <= 0;
+        }
+    }
+
     return m_pMonsterTable != nullptr
         && m_pMonsterTable->getRelationBetweenMonsters(leftMonsterId, rightMonsterId) <= 0;
 }
@@ -673,6 +815,39 @@ float GameplayActorService::partyEngagementRange(const GameplayActorTargetPolicy
     }
 
     return actor.hostileToParty ? m_partyEngagementRange : 0.0f;
+}
+
+float GameplayActorService::partyNoticeRange(
+    const GameplayActorTargetPolicyState &actor,
+    bool engaged,
+    const std::unordered_map<uint32_t, int32_t> *pRelationOverrides) const
+{
+    const float engagementRange = partyEngagementRange(actor);
+
+    if (engaged || engagementRange <= 0.0f)
+    {
+        return engagementRange;
+    }
+
+    const int16_t relationMonsterId = actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId;
+    int relationToParty = m_pMonsterTable->getRelationToParty(relationMonsterId);
+
+    if (pRelationOverrides != nullptr && !pRelationOverrides->empty())
+    {
+        const auto overrideIterator = pRelationOverrides->find(relationOverrideKey(uint32_t(relationMonsterId), 0));
+
+        if (overrideIterator != pRelationOverrides->end())
+        {
+            relationToParty = overrideIterator->second;
+        }
+    }
+
+    if (relationToParty <= 0 || relationToParty >= 4)
+    {
+        return engagementRange;
+    }
+
+    return std::min(engagementRange, hostilityRangeForRelation(relationToParty));
 }
 
 float GameplayActorService::hostilityPromotionRangeForFriendlyActor(int relation) const
@@ -854,7 +1029,81 @@ bool GameplayActorService::hasPainReflection(const GameplayActorSpellEffectState
 
 GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
     const GameplayActorTargetPolicyState &actor,
-    const GameplayActorTargetPolicyState &target) const
+    const GameplayActorTargetPolicyState &target,
+    const std::unordered_map<uint32_t, int32_t> *pRelationOverrides) const
+{
+    return resolveTargetPolicy(actor, target, pRelationOverrides, true);
+}
+
+GameplayActorTargetPolicyResult GameplayActorService::resolveTargetPolicy(
+    const GameplayActorTargetPolicyState &actor,
+    const GameplayActorTargetPolicyState &target,
+    const std::unordered_map<uint32_t, int32_t> *pRelationOverrides,
+    bool allowStrikeBack) const
+{
+    // A monster hit by another fights it back at long range, whatever their factions (MM6-MM8 lastCharacterIdToHit;
+    // OE Actor::FindClosestActor): how Evenmorn's gargoyles answer the ghosts. Only while that attacker is still its
+    // enemy in its own right (faction, a map's relation row, Berserk, the party's side): the grudge ends with the
+    // reason for the blow, so two monsters of a pack stop fighting when the Berserk that set them on each other ends.
+    const bool strikesBack = allowStrikeBack
+        && actor.lastActorAttackerId
+        && *actor.lastActorAttackerId == target.actorId
+        && resolveTargetPolicy(target, actor, pRelationOverrides, false).canTarget;
+    GameplayActorTargetPolicyResult result = resolveFactionTargetPolicy(actor, target, strikesBack);
+
+    if (pRelationOverrides == nullptr || pRelationOverrides->empty())
+    {
+        return result;
+    }
+
+    const uint32_t actorRelationMonsterId =
+        uint32_t(actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId);
+    const uint32_t targetRelationMonsterId =
+        uint32_t(target.relationMonsterId > 0 ? target.relationMonsterId : target.monsterId);
+    const auto findRow = [pRelationOverrides](uint32_t left, uint32_t right)
+    {
+        return pRelationOverrides->find(relationOverrideKey(left, right));
+    };
+    auto overrideIterator = pRelationOverrides->end();
+
+    if (actor.group != 0)
+    {
+        overrideIterator = findRow(relationGroupSide(actor.group), targetRelationMonsterId);
+    }
+
+    if (overrideIterator == pRelationOverrides->end() && target.group != 0)
+    {
+        overrideIterator = findRow(actorRelationMonsterId, relationGroupSide(target.group));
+    }
+
+    if (overrideIterator == pRelationOverrides->end())
+    {
+        overrideIterator = findRow(actorRelationMonsterId, targetRelationMonsterId);
+    }
+
+    if (overrideIterator == pRelationOverrides->end())
+    {
+        return result;
+    }
+
+    if (!result.canTarget && overrideIterator->second > 0)
+    {
+        result.canTarget = true;
+        result.relationToTarget = overrideIterator->second;
+        result.engagementRange = hostilityRangeForRelation(overrideIterator->second);
+    }
+    else if (result.canTarget && overrideIterator->second <= 0)
+    {
+        result = {};
+    }
+
+    return result;
+}
+
+GameplayActorTargetPolicyResult GameplayActorService::resolveFactionTargetPolicy(
+    const GameplayActorTargetPolicyState &actor,
+    const GameplayActorTargetPolicyState &target,
+    bool strikesBack) const
 {
     GameplayActorTargetPolicyResult result = {};
     const bool actorIsPartyControlled = isPartyControlledActor(actor.controlMode);
@@ -882,17 +1131,21 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
         return result;
     }
 
+    // A berserk monster attacks whatever is nearest, and every monster may fight it back (MM8: "attacking the nearest
+    // living creature"; the original makes it hostile at long range to all but its own group).
+    const bool berserk = actor.controlMode == GameplayActorControlMode::Berserk
+        || target.controlMode == GameplayActorControlMode::Berserk;
     const int factionRelation = m_pMonsterTable != nullptr
         ? m_pMonsterTable->getRelationBetweenMonsters(actorRelationMonsterId, targetRelationMonsterId)
         : 0;
     const bool hostileByFaction = factionRelation > 0;
 
-    if (!hostileByFaction && !hostileToSummon)
+    if (!hostileByFaction && !hostileToSummon && !berserk && !strikesBack)
     {
         return result;
     }
 
-    if (hostileToSummon)
+    if (hostileToSummon || berserk || strikesBack)
     {
         if (!actorCanEngageActorTarget(m_pMonsterTable, actor, target))
         {
@@ -926,6 +1179,9 @@ bool GameplayActorService::clearSpellEffects(
         || state.shrinkRemainingSeconds > 0.0f
         || state.armorClassHalvedRemainingSeconds > 0.0f
         || state.darkGraspRemainingSeconds > 0.0f
+        || state.silenceRemainingSeconds > 0.0f
+        || state.moveSlowRemainingSeconds > 0.0f
+        || state.demoralizeRemainingSeconds > 0.0f
         || state.dayOfProtectionRemainingSeconds > 0.0f
         || state.hourOfPowerRemainingSeconds > 0.0f
         || state.painReflectionRemainingSeconds > 0.0f
@@ -955,6 +1211,10 @@ bool GameplayActorService::clearSpellEffects(
     state.shrinkArmorClassMultiplier = 1.0f;
     state.armorClassHalvedRemainingSeconds = 0.0f;
     state.darkGraspRemainingSeconds = 0.0f;
+    state.silenceRemainingSeconds = 0.0f;
+    state.moveSlowRemainingSeconds = 0.0f;
+    state.moveSlowMultiplier = 1.0f;
+    state.demoralizeRemainingSeconds = 0.0f;
     state.dayOfProtectionRemainingSeconds = 0.0f;
     state.dayOfProtectionPower = 0;
     state.hourOfPowerRemainingSeconds = 0.0f;

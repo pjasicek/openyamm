@@ -579,7 +579,7 @@ EffectHandle EffectSystem::spawn(const std::string &id, const EffectSpawnParams 
     slot.ribbonsStarted.assign(pDefinition->ribbons.size(), false);
     slot.definition = m_pLibrary->m_definitions.at(id);
     slot.random.state = params.seed;
-    slot.emitters.assign(pDefinition->spriteEmitters.size(), {});
+    resetEmitters(slot);
     slot.sounds.assign(pDefinition->sounds.size(), {});
     slot.models.clear();
     ++m_activeCount;
@@ -724,7 +724,7 @@ bool EffectSystem::restart(EffectHandle handle)
     pSlot->draining = false;
     pSlot->elapsedSeconds = 0.0f;
     pSlot->random.state = pSlot->transform.seed;
-    pSlot->emitters.assign(pSlot->definition->spriteEmitters.size(), {});
+    resetEmitters(*pSlot);
     pSlot->sounds.assign(pSlot->definition->sounds.size(), {});
     updateModels(*pSlot);
     updateFixedSprites(handle.index, *pSlot);
@@ -973,6 +973,24 @@ void EffectSystem::tickInstance(uint32_t slotIndex, Slot &slot, float stepSecond
     }
 }
 
+void EffectSystem::resetEmitters(Slot &slot)
+{
+    slot.emitters.assign(slot.definition->spriteEmitters.size(), {});
+    if (slot.transform.bodyAnchor.empty())
+    {
+        return;
+    }
+    for (size_t emitterIndex = 0; emitterIndex < slot.emitters.size(); ++emitterIndex)
+    {
+        const std::string &anchor = slot.definition->spriteEmitters[emitterIndex].bodyAnchor;
+        if (!anchor.empty() && anchor != slot.transform.bodyAnchor)
+        {
+            slot.emitters[emitterIndex].started = true;
+            slot.emitters[emitterIndex].finished = true;
+        }
+    }
+}
+
 void EffectSystem::startEmitter(Slot &slot, size_t emitterIndex)
 {
     const EffectSpriteEmitterDefinition &definition = slot.definition->spriteEmitters[emitterIndex];
@@ -1140,6 +1158,7 @@ void EffectSystem::spawnParticle(
     particle.stretchU = definition.stretchU;
     particle.stretchV = definition.stretchV;
     particle.blendMode = definition.blendMode;
+    particle.additiveTextureAlpha = definition.additiveTextureAlpha;
     if (definition.randomRoll)
     {
         particle.roll = (slot.random.signedValue() + 1.0f) * 3.14159265f;
@@ -1478,6 +1497,7 @@ void EffectSystem::updateFixedSprites(uint32_t slotIndex, Slot &slot)
         sprite.stretchV = definition.stretchV;
         sprite.spriteAnimationSeconds = componentSeconds;
         sprite.blendMode = definition.blendMode;
+        sprite.additiveTextureAlpha = definition.additiveTextureAlpha;
         sprite.alignment = definition.alignment;
         sprite.planeRight = definition.alignment == EffectSpriteAlignment::Velocity
             ? slot.travelDirection
@@ -1485,6 +1505,59 @@ void EffectSystem::updateFixedSprites(uint32_t slotIndex, Slot &slot)
         sprite.planeUp = rotateByQuaternion(definition.planeUp, slot.transform.rotation);
         m_fixedSprites.push_back(std::move(sprite));
     }
+}
+
+void EffectSystem::updateBeam(EffectRibbon &ribbon, const Slot &slot, const std::array<float, 3> &start) const
+{
+    // A beam has no trail: while it lasts, samples every sample_distance from its start to the beam target (the start
+    // itself without one); when it ends it is gone.
+    ribbon.points.clear();
+    if (!ribbon.emitting)
+    {
+        return;
+    }
+    const EffectRibbonDefinition &definition = ribbon.settings();
+    const std::array<float, 3> end = slot.hasBeamTarget ? slot.beamTarget : start;
+    const std::array<float, 3> span = add(end, multiply(start, -1.0f));
+    const float beamLength = length(span);
+    const size_t segments = std::clamp<size_t>(
+        size_t(std::ceil(beamLength / std::max(1.0f, definition.sampleDistance * slot.transform.scale))), 1u, 512u);
+    const uint32_t jitterStep = static_cast<uint32_t>(ribbon.elapsedSeconds * definition.jitterRate);
+    const float width = definition.width * slot.transform.scale;
+    const std::array<float, 4> color = sampleColorTrack(definition.colorKeys, 0.0f, definition.lifetimeSeconds,
+        slot.definition->timingProfile);
+    for (size_t index = 0; index <= segments; ++index)
+    {
+        const float along = float(index) / float(segments);
+        EffectRibbonPoint point;
+        point.position = add(start, multiply(span, along));
+        point.distance = beamLength * along;
+        point.serial = uint32_t(index);
+        point.width = width * sampleScalarTrack(definition.widthKeys, along, 1.0f);
+        point.color = color;
+        if (definition.jitter > 0.0f && index != 0 && index != segments)
+        {
+            uint32_t hash = (point.serial + 1u) * 2654435761u ^ (jitterStep + 7u) * 2246822519u;
+            hash ^= hash >> 15;
+            hash *= 2246822519u;
+            hash ^= hash >> 13;
+            const float random = static_cast<float>(hash & 0xffffu) / 32767.5f - 1.0f;
+            point.jitterOffset = random * definition.jitter * slot.transform.scale;
+        }
+        ribbon.points.push_back(point);
+    }
+}
+
+bool EffectSystem::setBeamTarget(EffectHandle handle, const std::array<float, 3> &target)
+{
+    Slot *pSlot = find(handle);
+    if (pSlot == nullptr)
+    {
+        return false;
+    }
+    pSlot->beamTarget = target;
+    pSlot->hasBeamTarget = true;
+    return true;
 }
 
 void EffectSystem::updateRibbons(uint32_t slotIndex, Slot &slot, float stepSeconds)
@@ -1525,6 +1598,11 @@ void EffectSystem::updateRibbons(uint32_t slotIndex, Slot &slot, float stepSecon
         ribbon.elapsedSeconds += stepSeconds;
         ribbon.scale = slot.transform.scale;
         ribbon.emitting = !slot.draining && slot.elapsedSeconds < definition.endSeconds;
+        if (definition.beam)
+        {
+            updateBeam(ribbon, slot, headPosition(definition));
+            continue;
+        }
         for (EffectRibbonPoint &point : ribbon.points)
         {
             point.ageSeconds += stepSeconds;

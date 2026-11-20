@@ -1,0 +1,138 @@
+{
+  "map": "7d06.blv",
+  "world": "mm7",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 30,
+    "links": 29,
+    "components": 1,
+    "loops": 0
+  },
+  "scale": {
+    "floor_area_millions": 37.44,
+    "sector_floor_area": {
+      "count": 30,
+      "min": 8192,
+      "q1": 269184,
+      "median": 851968,
+      "q3": 1732608,
+      "max": 4728832
+    },
+    "sector_height": {
+      "count": 30,
+      "min": 265,
+      "q1": 394,
+      "median": 522,
+      "q3": 714,
+      "max": 1098
+    },
+    "doorway_width": {
+      "count": 28,
+      "min": 256,
+      "q1": 321,
+      "median": 512,
+      "q3": 640,
+      "max": 1280
+    },
+    "doorway_height": {
+      "count": 28,
+      "min": 255,
+      "q1": 352,
+      "median": 384,
+      "q3": 448,
+      "max": 552
+    },
+    "floor_level": {
+      "count": 437,
+      "min": -576,
+      "q1": -96,
+      "median": -72,
+      "q3": 64,
+      "max": 768
+    }
+  },
+  "mechanisms": {
+    "doors": 7,
+    "bound_events": 26,
+    "door_events": 3,
+    "trap_events": 0,
+    "local_teleports": 0,
+    "exits": 1,
+    "summon_events": 0,
+    "chest_events": 7,
+    "text_events": 0,
+    "secret_faces": 4,
+    "pressure_plates": 0,
+    "clickable_faces": 51
+  },
+  "density": {
+    "spawn_points": 17,
+    "fixed_actors": 4,
+    "unique_actors": 0,
+    "lights": 4,
+    "decorations": 22,
+    "spawn_points_per_area": 0.45,
+    "lights_per_area": 0.11,
+    "decorations_per_area": 0.59
+  },
+  "palette": {
+    "textures": 41,
+    "by_area": [{
+        "name": "cwb1",
+        "share": 0.402
+      },
+      {
+        "name": "cfb1",
+        "share": 0.19
+      },
+      {
+        "name": "7tfb11",
+        "share": 0.1
+      },
+      {
+        "name": "twb1",
+        "share": 0.071
+      },
+      {
+        "name": "wall",
+        "share": 0.06
+      },
+      {
+        "name": "twb2",
+        "share": 0.056
+      },
+      {
+        "name": "7tws2",
+        "share": 0.03
+      },
+      {
+        "name": "twb1a",
+        "share": 0.015
+      },
+      {
+        "name": "tws2b",
+        "share": 0.013
+      },
+      {
+        "name": "7t1books",
+        "share": 0.012
+      },
+      {
+        "name": "7tfb1",
+        "share": 0.007
+      },
+      {
+        "name": "tfb2",
+        "share": 0.007
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 30,
+    "reached_at_start": 22,
+    "reached_doors_clear": 29,
+    "walkable_area_millions": 32.72,
+    "unreached_spawn_points": 0
+  }
+}

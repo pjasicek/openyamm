@@ -1,0 +1,33 @@
+{
+ "creature_3d_identity": "mm7:m238-reduce",
+ "scope": "Batch G Genie triangle reduction (no retexture); not installed",
+ "meshy": {
+  "credit_limit": 1,
+  "jobs": {}
+ },
+ "status": "reduced and exported (not installed, batch G rule); pending user review",
+ "source": {
+  "path": "work/mm7_m238_source_pre_reduce.glb",
+  "sha256": "d85fa95b7fadbd608007eda8176294de62d692b32edeac99289a87634ec86b83"
+ },
+ "export": {
+  "path": "export/mm7_m238.glb",
+  "sha256": "b02d391b9ae1833405cbea0a0cbb020c40e229292b82c77c56d8994e36abf185",
+  "lods": [
+   7786,
+   3893,
+   1712,
+   619
+  ],
+  "source_lods": [
+   10972,
+   5486,
+   1973,
+   656
+  ]
+ },
+ "next_action": {
+  "owner": "user",
+  "action": "review the reduction; install with the README command when wanted"
+ }
+}

@@ -1,0 +1,467 @@
+{
+ "id": "20261009-1628-mm6-6d04-26",
+ "world": "mm6",
+ "maps": [
+  "6d04.blv",
+  "outa2.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/vlcsaon",
+  "mm6/orflr32a",
+  "mm6/swpdr1a",
+  "mm6/swpdr2a",
+  "mm6/tha",
+  "mm6/thaw1",
+  "mm6/thawcs",
+  "mm6/thbbhs",
+  "mm6/thbbv",
+  "mm6/thbpbam2",
+  "mm6/thcw1",
+  "mm6/thcw2",
+  "mm6/vlcdora",
+  "mm6/vlcdorb",
+  "mm6/vlcflord",
+  "mm6/vlcgnrc4",
+  "mm6/vlctrm2",
+  "mm6/vlctrm5",
+  "mm6/vlctrm6",
+  "mm6/descnr2",
+  "mm6/deslft2",
+  "mm6/deswin2",
+  "mm6/desrt2",
+  "mm6/deswin1a"
+ ],
+ "requests": {
+  "mm6/vlcsaon": {
+   "name": "vlcsaon",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small square ornamental tile of a dark green and gold sunburst medallion with a raised bronze dome boss in the centre, copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: keep the dark frame along the top, left and right edges and the pale grey strip along the bottom; the centre is a lit switch, a glowing pale white-gold orb inside a thin red ring, surrounded by the dark green sunburst rays on tan stone.",
+    "3": "Copy the composition exactly: the lit centre orb is large, about half the tile width as in the reference, and glows pale white-gold, clearly brighter than the tile around it, inside a thin red ring; keep the dark green sunburst rays and the surrounding tile unchanged."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcsaoff"
+     ],
+     "fraction": 0.658
+    },
+    "2": {
+     "sources": [
+      "mm6/vlcsaoff"
+     ],
+     "fraction": 0.658
+    },
+    "3": {
+     "sources": [
+      "mm6/vlcsaoff"
+     ],
+     "fraction": 0.658
+    }
+   }
+  },
+  "mm6/orflr32a": {
+   "name": "orflr32a",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown cracked volcanic rock crust with black fissures and mottled rusty patches",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swpdr1a": {
+   "name": "swpdr1a",
+   "versions": [
+    1
+   ],
+   "material": "weathered green-grey wooden plank double door with horizontal cross battens, a horned ox skull mounted at the top centre and a brass bar latch across the middle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swpdr2a": {
+   "name": "swpdr2a",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey wooden plank double door with dark cross battens and iron latch blocks, hanging green moss and vines draped across the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tha": {
+   "name": "tha",
+   "versions": [
+    1
+   ],
+   "material": "golden-orange thatch roof of rounded straw bundles laid in overlapping staggered rows like scales",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thaw1": {
+   "name": "thaw1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown weathered wooden plank wall in square panels with alternating horizontal and vertical planks, dark gaps between panels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thawcs": {
+   "name": "thawcs",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden straw reed wall of tightly bound vertical reed bundles with dark gaps between columns",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thbbhs": {
+   "name": "thbbhs",
+   "versions": [
+    1
+   ],
+   "material": "golden-orange bamboo poles laid horizontally with dark node rings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thbbv": {
+   "name": "thbbv",
+   "versions": [
+    1
+   ],
+   "material": "golden-orange bamboo poles standing vertically with dark node rings and faint green tint",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thbpbam2": {
+   "name": "thbpbam2",
+   "versions": [
+    1
+   ],
+   "material": "pale green-yellow bamboo poles laid horizontally, stacked tightly with node rings and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thcw1": {
+   "name": "thcw1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown weathered wooden plank wall in square panels with alternating horizontal and vertical planks, dark gaps between panels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thcw2": {
+   "name": "thcw2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ochre-brown dried mud and straw plaster with fine dark speckles",
+   "notes": {
+    "2": "Visible fine grain like the reference: dense small irregular dark and light flecks of dried mud and chopped straw across the whole surface; natural, not flat, no grid."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcdora": {
+   "name": "vlcdora",
+   "versions": [
+    1
+   ],
+   "material": "carved dark stone shrine door with a large black wooden idol head with gaping mouth in a glowing orange-lit niche, flanked by grey panels of carved glyphs and a carved glyph plinth below; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcdorb": {
+   "name": "vlcdorb",
+   "versions": [
+    1
+   ],
+   "material": "carved dark stone shrine door with a tall black wooden idol figure in a glowing orange-lit niche, flanked by grey panels of carved glyphs and a carved glyph plinth below; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcflord": {
+   "name": "vlcflord",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey crushed gravel of angular stone chips",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcgnrc4": {
+   "name": "vlcgnrc4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark purple-brown speckled granite with fine grey and black grains",
+   "notes": {
+    "2": "Natural speckled stone with irregular grain of varied sizes: no mosaic of cells, no repeated star-shaped flakes, no grid."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlctrm2": {
+   "name": "vlctrm2",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone panel with a deeply carved relief of abstract glyphs inside a bevelled raised border, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlctrm5": {
+   "name": "vlctrm5",
+   "versions": [
+    1
+   ],
+   "material": "rust-red stone panel with a deeply carved relief of abstract glyphs lit by a faint orange glow inside a bevelled border, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlctrm6": {
+   "name": "vlctrm6",
+   "versions": [
+    1
+   ],
+   "material": "rust-red and glowing orange stone panel with a deeply carved relief of abstract glyphs inside a bevelled border, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/descnr2": {
+   "name": "descnr2",
+   "versions": [
+    1
+   ],
+   "material": "rose-red rough fieldstone wall of irregular flat stones and thin bricks with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/deslft2": {
+   "name": "deslft2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rose-red rough fieldstone wall of irregular flat stones and thin bricks with dark mortar, with a recessed dark vertical channel near the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/descnr2"
+     ],
+     "fraction": 0.426
+    },
+    "2": {
+     "sources": [
+      "mm6/descnr2"
+     ],
+     "fraction": 0.426
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/descnr2"
+    }
+   }
+  },
+  "mm6/deswin2": {
+   "name": "deswin2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rose-red rough fieldstone wall of irregular flat stones and thin bricks with dark mortar, with a small arched dark wooden shuttered window in the upper middle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/deslft2"
+     ],
+     "fraction": 0.497
+    }
+   }
+  },
+  "mm6/desrt2": {
+   "name": "desrt2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rose-red rough fieldstone wall of irregular flat stones and thin bricks with dark mortar, with a raised vertical stone pilaster along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/descnr2"
+     ],
+     "fraction": 0.208
+    }
+   }
+  },
+  "mm6/deswin1a": {
+   "name": "deswin1a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rose-red rough fieldstone wall of irregular flat stones and thin bricks with dark mortar, with a recessed dark vertical channel on the left and a square window hung with a dark green ragged curtain; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/desend1"
+     ],
+     "fraction": 0.206
+    },
+    "2": {
+     "sources": [
+      "mm6/desend1"
+     ],
+     "fraction": 0.203
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/descnr1"
+    }
+   }
+  }
+ }
+}

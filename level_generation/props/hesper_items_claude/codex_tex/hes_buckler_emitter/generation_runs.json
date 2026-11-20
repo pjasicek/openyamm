@@ -1,0 +1,602 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the Hesper buckler emitter, a colonial guard's emitter rebuilt by the Hesperians, a personal shield of 800.\nInput image 1 is the EXACT orthographic model guide and is the edit target. Input image 2, design_reference.png, is ONLY the approved colour/material/design authority. Paint image 1 in place. The guide, not the design art, determines camera, silhouette, geometry and composition.\nReturn a single 1024 x 1024 RGBA PNG with genuinely transparent background. Retain image 1's exact pixel silhouette, outer contour, holes, size, position, every part boundary and occlusion; nothing outside it, nothing cropped, no rotation, no perspective change, no rearrangement, no added geometry. Keep all empty holes transparent. Do not render the design reference's three-quarter pose.\nPaint the reference materials onto corresponding existing parts: warm off-white ceramic panels with restrained fine cracks, chips and wear; brushed antique gold structural ribs, rim and fittings with fine engraved seams; black-violet resin understructure and grip, with restrained dark leather-like wrapping where shown; small blue-white energy inserts where the design has lights. Continue hidden sides plausibly in the same materials. Preserve the reference's small non-letter seams, joins and engraved details. Do not invent orange lights, cloth, paper, symbols or text where the reference has none.\nLIGHTING IS FLAT ALBEDO: evenly lit from the viewer, shadowless diffuse base colours everywhere including recesses and underside. No cast shadows, no ambient-occlusion shading, no directional light, no strong specular highlights, no reflections or rim lighting. Gold is its muted warm base colour with only the faintest sheen; white panels have no lighting gradients. Energy parts are painted their bright blue-white colour without bloom spilling onto neighbours or into transparency. Show material microtexture and shallow painted seams, not scene lighting. No floor, background, shadow, labels, letters, numerals or watermark.\nVIEW-SPECIFIC INSTRUCTIONS:\nPaint guide_front.png exactly. This is the low edge-on FRONT view, not the circular shield face. Keep the broad shallow curved upper shell from about y=220 to y=470, the central elongated vertical fitting, the existing left/right lower tabs and the lower centre underside exactly where the guide places them. Broad shell panels are ceramic; structural bridges/straps are gold with small ceramic insets; the underlying ring is black-violet resin. Do not put a large circular glowing core on the edge-on central fitting: the face-on core belongs to the top view.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "75c777ae7a539eb2d92c93df1ec49b8245510eec30abed3cb7c083f285b49228"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-bde1dcee-f92b-4e9a-a72a-4190ee89e79a.png",
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Rejected initial return: shifted silhouette, strong baked shadows/highlights, and 1254 x 1254 dimensions. One corrective generation requested.",
+    "status": "rejected_initial_return",
+    "corrective_regeneration": false,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "2eb74ad0729ff7294fd8435f166c2ecf519486eab1bdc8bc7cf963e655114063",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        31,
+        1216,
+        1222
+      ],
+      "opaque_bbox": [
+        70,
+        252,
+        1185,
+        963
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.899373,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the Hesper buckler emitter, a colonial guard's emitter rebuilt by the Hesperians, a personal shield of 800.\nInput image 1, design_reference.png, is ONLY the approved colour/material/design authority. Input image 2 is the EXACT 1024 x 1024 orthographic model guide and is the EDIT TARGET. Paint image 2 in place. The guide, not the design art, determines camera, silhouette, geometry and composition.\nReturn a single 1024 x 1024 RGBA PNG with genuinely transparent background. Retain image 2's exact pixel silhouette, outer contour, holes, size, position, every part boundary and occlusion; nothing outside it, nothing cropped, no rotation, no perspective change, no rearrangement, no added geometry. Keep all empty holes transparent. Do not render the design reference's three-quarter pose.\nPaint the reference materials onto corresponding existing parts: warm off-white ceramic panels with restrained fine cracks, chips and wear; brushed antique gold structural ribs, rim and fittings with fine engraved seams; black-violet resin understructure and grip, with restrained dark leather-like wrapping where shown; small blue-white energy inserts where the design has lights. Continue hidden sides plausibly in the same materials. Preserve the reference's small non-letter seams, joins and engraved details. Do not invent orange lights, cloth, paper, symbols or text where the reference has none.\nLIGHTING IS FLAT ALBEDO: evenly lit from the viewer, shadowless diffuse base colours everywhere including recesses and underside. No cast shadows, no ambient-occlusion shading, no directional light, no strong specular highlights, no reflections or rim lighting. Gold is its muted warm base colour with only the faintest sheen; white panels have no lighting gradients. Energy parts are painted their bright blue-white colour without bloom spilling onto neighbours or into transparency. Show material microtexture and shallow painted seams, not scene lighting. No floor, background, shadow, labels, letters, numerals or watermark.\nUse the second input's 1024 x 1024 canvas and original alpha mask unchanged. Keep the exact low-poly shapes and faceted edges rather than rounding or beautifying geometry. This is an UNLIT BASE COLOR PASS for projection, not a shaded beauty render: remove all grey guide shading, paint every facet of the same material the same base colour, and use only fine material wear to vary it. Gold must never contain bright yellow or white metallic highlight streaks. No black shadow bands under panels; only the actual dark-resin material is dark.\nVIEW-SPECIFIC INSTRUCTIONS:\nPaint guide_front.png exactly. This is the low edge-on FRONT view, not the circular shield face. Keep the broad shallow curved upper shell from about y=220 to y=470, the central elongated vertical fitting, the existing left/right lower tabs and the lower centre underside exactly where the guide places them. Broad shell panels are ceramic; structural bridges/straps are gold with small ceramic insets; the underlying ring is black-violet resin. Do not put a large circular glowing core on the edge-on central fitting: the face-on core belongs to the top view.\nCORRECTIVE REGENERATION 1 OF 1: The previous front result was 1254 square with shifted outlines, excessive dark shadow bands and bright metallic highlights. Correct those faults using this ORIGINAL guide as the fixed stencil. Preserve the guide image's original 1024-square canvas, occupied outer bounds x=66..957 and y=220..803, and every inner edge, rather than copying the design reference canvas dimensions. Lower shell faces must not be darker just because they face down.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_front.png",
+        "sha256": "75c777ae7a539eb2d92c93df1ec49b8245510eec30abed3cb7c083f285b49228"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-5c557433-7070-4ca7-bae2-988ec37251a0.png",
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected permitted corrective return: flatter than initial and keeps the front-view arrangement. Still has geometric drift and residual surface shading; not an exact silhouette/albedo pass.",
+    "status": "retained_with_failed_checks",
+    "corrective_regeneration": true,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "ba84bfef2493fa9c62c009d2ec8e0cab1d0029b15b9f2345d98eb4d52e0730bb",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        29,
+        1230,
+        1254
+      ],
+      "opaque_bbox": [
+        63,
+        267,
+        1191,
+        985
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.94657,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the Hesper buckler emitter, a colonial guard's emitter rebuilt by the Hesperians, a personal shield of 800.\nInput image 1, design_reference.png, is ONLY the approved colour/material/design authority. Input image 2 is the EXACT 1024 x 1024 orthographic model guide and is the EDIT TARGET. Paint image 2 in place. The guide, not the design art, determines camera, silhouette, geometry and composition.\nReturn a single 1024 x 1024 RGBA PNG with genuinely transparent background. Retain image 2's exact pixel silhouette, outer contour, holes, size, position, every part boundary and occlusion; nothing outside it, nothing cropped, no rotation, no perspective change, no rearrangement, no added geometry. Keep all empty holes transparent. Do not render the design reference's three-quarter pose.\nPaint the reference materials onto corresponding existing parts: warm off-white ceramic panels with restrained fine cracks, chips and wear; brushed antique gold structural ribs, rim and fittings with fine engraved seams; black-violet resin understructure and grip, with restrained dark leather-like wrapping where shown; small blue-white energy inserts where the design has lights. Continue hidden sides plausibly in the same materials. Preserve the reference's small non-letter seams, joins and engraved details. Do not invent orange lights, cloth, paper, symbols or text where the reference has none.\nLIGHTING IS FLAT ALBEDO: evenly lit from the viewer, shadowless diffuse base colours everywhere including recesses and underside. No cast shadows, no ambient-occlusion shading, no directional light, no strong specular highlights, no reflections or rim lighting. Gold is its muted warm base colour with only the faintest sheen; white panels have no lighting gradients. Energy parts are painted their bright blue-white colour without bloom spilling onto neighbours or into transparency. Show material microtexture and shallow painted seams, not scene lighting. No floor, background, shadow, labels, letters, numerals or watermark.\nUse the second input's 1024 x 1024 canvas and original alpha mask unchanged. Keep the exact low-poly shapes and faceted edges rather than rounding or beautifying geometry. This is an UNLIT BASE COLOR PASS for projection, not a shaded beauty render: remove all grey guide shading, paint every facet of the same material the same base colour, and use only fine material wear to vary it. Gold must never contain bright yellow or white metallic highlight streaks. No black shadow bands under panels; only the actual dark-resin material is dark.\nVIEW-SPECIFIC INSTRUCTIONS:\nPaint guide_back.png exactly. This is the low edge-on BACK view, not the circular shield face. Preserve the broad shallow upper shell, central vertically elongated fitting, large lower-left and lower-right plates, and all layered understructure exactly as shown. Ceramic remains on the wide shell panels, antique gold on structural ribs and fittings with small ceramic inset details, and black-violet resin/leather on grip and understructure. Continue the unseen back coherently without adding a new large glowing core.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "f805ff9c2d8ec2826815a6fe34e6615ba6b56f3b463c985c8509aa58a4df8f80"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-b4867528-a059-4624-a7df-b7a0752780f0.png",
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Initial return preserves recognizable design materials and viewing direction, but changes guide contours and retains strong bevel highlights and shaded facets. One corrective generation requested.",
+    "status": "rejected_initial_return",
+    "corrective_regeneration": false,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "4da8c4bd632bc7e3e2d5413c165687ddb17a6b74586c4d83f679864c5093a463",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1238,
+        1244
+      ],
+      "opaque_bbox": [
+        71,
+        244,
+        1183,
+        966
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.898462,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the Hesper buckler emitter, a colonial guard's emitter rebuilt by the Hesperians, a personal shield of 800.\nInput image 1, design_reference.png, is ONLY the approved colour/material/design authority. Input image 2 is the EXACT 1024 x 1024 orthographic model guide and is the EDIT TARGET. Paint image 2 in place. The guide, not the design art, determines camera, silhouette, geometry and composition.\nReturn a single 1024 x 1024 RGBA PNG with genuinely transparent background. Retain image 2's exact pixel silhouette, outer contour, holes, size, position, every part boundary and occlusion; nothing outside it, nothing cropped, no rotation, no perspective change, no rearrangement, no added geometry. Keep all empty holes transparent. Do not render the design reference's three-quarter pose.\nPaint the reference materials onto corresponding existing parts: warm off-white ceramic panels with restrained fine cracks, chips and wear; brushed antique gold structural ribs, rim and fittings with fine engraved seams; black-violet resin understructure and grip, with restrained dark leather-like wrapping where shown; small blue-white energy inserts where the design has lights. Continue hidden sides plausibly in the same materials. Preserve the reference's small non-letter seams, joins and engraved details. Do not invent orange lights, cloth, paper, symbols or text where the reference has none.\nLIGHTING IS FLAT ALBEDO: evenly lit from the viewer, shadowless diffuse base colours everywhere including recesses and underside. No cast shadows, no ambient-occlusion shading, no directional light, no strong specular highlights, no reflections or rim lighting. Gold is its muted warm base colour with only the faintest sheen; white panels have no lighting gradients. Energy parts are painted their bright blue-white colour without bloom spilling onto neighbours or into transparency. Show material microtexture and shallow painted seams, not scene lighting. No floor, background, shadow, labels, letters, numerals or watermark.\nUse the second input's 1024 x 1024 canvas and original alpha mask unchanged. Keep the exact low-poly shapes and faceted edges rather than rounding or beautifying geometry. This is an UNLIT BASE COLOR PASS for projection, not a shaded beauty render: remove all grey guide shading, paint every facet of the same material the same base colour, and use only fine material wear to vary it. Gold must never contain bright yellow or white metallic highlight streaks. No black shadow bands under panels; only the actual dark-resin material is dark.\nVIEW-SPECIFIC INSTRUCTIONS:\nPaint guide_left.png exactly. This is the low edge-on LEFT view with the existing open handle loop below the shallow domed shell. Preserve the transparent central opening, the round recess in the upper central clasp, the diagonal upper shell panels, the large lower-left plate and bottom grip exactly as the guide. Gold structural ribs and clasp, off-white ceramic outer shell panels/inset caps, black-violet resin and dark wrapped grip. The opposite-side plates and shell edges must stay at their exact guide positions. The round recess is a small mechanical fitting, not a newly added large emitter.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "e135b3fa2d6b288c9dfe804305baae02c164c52265c665da02256166e291b131"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-112670aa-da4a-4997-8263-532f7753e59a.png",
+    "output": "paint_left_attempt1.png",
+    "selected": false,
+    "reason": "Initial return preserves recognizable design materials and viewing direction, but changes guide contours and retains strong bevel highlights and shaded facets. One corrective generation requested.",
+    "status": "rejected_initial_return",
+    "corrective_regeneration": false,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "d68fe1f821dc3db8d955959b8e77820d66b6a1a169ed10d24ced6f55bb836246",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        33,
+        61,
+        1194,
+        1198
+      ],
+      "opaque_bbox": [
+        79,
+        262,
+        1175,
+        988
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.969444,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the Hesper buckler emitter, a colonial guard's emitter rebuilt by the Hesperians, a personal shield of 800.\nInput image 1, design_reference.png, is ONLY the approved colour/material/design authority. Input image 2 is the EXACT 1024 x 1024 orthographic model guide and is the EDIT TARGET. Paint image 2 in place. The guide, not the design art, determines camera, silhouette, geometry and composition.\nReturn a single 1024 x 1024 RGBA PNG with genuinely transparent background. Retain image 2's exact pixel silhouette, outer contour, holes, size, position, every part boundary and occlusion; nothing outside it, nothing cropped, no rotation, no perspective change, no rearrangement, no added geometry. Keep all empty holes transparent. Do not render the design reference's three-quarter pose.\nPaint the reference materials onto corresponding existing parts: warm off-white ceramic panels with restrained fine cracks, chips and wear; brushed antique gold structural ribs, rim and fittings with fine engraved seams; black-violet resin understructure and grip, with restrained dark leather-like wrapping where shown; small blue-white energy inserts where the design has lights. Continue hidden sides plausibly in the same materials. Preserve the reference's small non-letter seams, joins and engraved details. Do not invent orange lights, cloth, paper, symbols or text where the reference has none.\nLIGHTING IS FLAT ALBEDO: evenly lit from the viewer, shadowless diffuse base colours everywhere including recesses and underside. No cast shadows, no ambient-occlusion shading, no directional light, no strong specular highlights, no reflections or rim lighting. Gold is its muted warm base colour with only the faintest sheen; white panels have no lighting gradients. Energy parts are painted their bright blue-white colour without bloom spilling onto neighbours or into transparency. Show material microtexture and shallow painted seams, not scene lighting. No floor, background, shadow, labels, letters, numerals or watermark.\nUse the second input's 1024 x 1024 canvas and original alpha mask unchanged. Keep the exact low-poly shapes and faceted edges rather than rounding or beautifying geometry. This is an UNLIT BASE COLOR PASS for projection, not a shaded beauty render: remove all grey guide shading, paint every facet of the same material the same base colour, and use only fine material wear to vary it. Gold must never contain bright yellow or white metallic highlight streaks. No black shadow bands under panels; only the actual dark-resin material is dark.\nVIEW-SPECIFIC INSTRUCTIONS:\nPaint guide_right.png exactly. This is the low edge-on RIGHT view with the existing open handle loop below the shallow domed shell. Preserve the transparent central opening, the round recess in the upper central clasp, the diagonal upper shell panels, the large lower-right plate and bottom grip exactly as the guide. Gold structural ribs and clasp, off-white ceramic outer shell panels/inset caps, black-violet resin and dark wrapped grip. The opposite-side plates and shell edges must stay at their exact guide positions. The round recess is a small mechanical fitting, not a newly added large emitter.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_right.png",
+        "sha256": "f3507718972c5c80f0a1475c0e03a4da7ad6100cbdd30d40880db4a9a22bbd87"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-06eae9ed-dc8d-4874-a8aa-92f3030c5258.png",
+    "output": "paint_right_attempt1.png",
+    "selected": false,
+    "reason": "Initial return preserves recognizable design materials and viewing direction, but changes guide contours and retains strong bevel highlights and shaded facets. One corrective generation requested.",
+    "status": "rejected_initial_return",
+    "corrective_regeneration": false,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "8093b83bd4f135f295ae7769bda77cc90dec28ca1eccb952f5ff6a7396ebd156",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        32,
+        1234,
+        1230
+      ],
+      "opaque_bbox": [
+        76,
+        266,
+        1178,
+        987
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.974105,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the Hesper buckler emitter, a colonial guard's emitter rebuilt by the Hesperians, a personal shield of 800.\nInput image 1, design_reference.png, is ONLY the approved colour/material/design authority. Input image 2 is the EXACT 1024 x 1024 orthographic model guide and is the EDIT TARGET. Paint image 2 in place. The guide, not the design art, determines camera, silhouette, geometry and composition.\nReturn a single 1024 x 1024 RGBA PNG with genuinely transparent background. Retain image 2's exact pixel silhouette, outer contour, holes, size, position, every part boundary and occlusion; nothing outside it, nothing cropped, no rotation, no perspective change, no rearrangement, no added geometry. Keep all empty holes transparent. Do not render the design reference's three-quarter pose.\nPaint the reference materials onto corresponding existing parts: warm off-white ceramic panels with restrained fine cracks, chips and wear; brushed antique gold structural ribs, rim and fittings with fine engraved seams; black-violet resin understructure and grip, with restrained dark leather-like wrapping where shown; small blue-white energy inserts where the design has lights. Continue hidden sides plausibly in the same materials. Preserve the reference's small non-letter seams, joins and engraved details. Do not invent orange lights, cloth, paper, symbols or text where the reference has none.\nLIGHTING IS FLAT ALBEDO: evenly lit from the viewer, shadowless diffuse base colours everywhere including recesses and underside. No cast shadows, no ambient-occlusion shading, no directional light, no strong specular highlights, no reflections or rim lighting. Gold is its muted warm base colour with only the faintest sheen; white panels have no lighting gradients. Energy parts are painted their bright blue-white colour without bloom spilling onto neighbours or into transparency. Show material microtexture and shallow painted seams, not scene lighting. No floor, background, shadow, labels, letters, numerals or watermark.\nUse the second input's 1024 x 1024 canvas and original alpha mask unchanged. Keep the exact low-poly shapes and faceted edges rather than rounding or beautifying geometry. This is an UNLIT BASE COLOR PASS for projection, not a shaded beauty render: remove all grey guide shading, paint every facet of the same material the same base colour, and use only fine material wear to vary it. Gold must never contain bright yellow or white metallic highlight streaks. No black shadow bands under panels; only the actual dark-resin material is dark.\nVIEW-SPECIFIC INSTRUCTIONS:\nPaint guide_top.png exactly. This is the face-on TOP view looking directly at the circular emitter shield face, not a perspective view. Preserve the guide's circle, four main ceramic quadrants, raised cardinal structural ribs, central polygonal/concentric rings and exact outer contours. Match the design: off-white finely worn ceramic quadrants, brushed gold cardinal ribs and wide central surround, dark blue-black resin in inner recesses, vivid flat blue-white crystal at the existing centre and small blue-white rectangular accents around existing inner-ring segments. The centre is near (512,512); respect the guide's exact ring sizes. Keep gold ribs and perimeter tabs where modelled, never add ornament beyond the contour.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "ac9c8879716095a5212e9b77ef9b1b8ccf042492770ff1cc72818dd3cbe37b7c"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-820c4a72-5785-4927-a56e-e8b8b2c17cdf.png",
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Initial return preserves recognizable design materials and viewing direction, but changes guide contours and retains strong bevel highlights and shaded facets. One corrective generation requested.",
+    "status": "rejected_initial_return",
+    "corrective_regeneration": false,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "7f9822e5eed02c75a9ceb1921765d8ab30a00697e1aba319b7615e8d51e8e6f9",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        22,
+        1240,
+        1254
+      ],
+      "opaque_bbox": [
+        74,
+        79,
+        1180,
+        1177
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.981761,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Edit the SECOND input image directly, as a flat base-colour texture painting. Image 1 is material reference only. Image 2 is the 1024 x 1024 guide: preserve its alpha silhouette, exact framing and EVERY polygon boundary without moving or remodelling anything. Return ONE transparent 1024 x 1024 PNG.\nThis is the single permitted correction for this view. Previous output had unwanted directional shading, shiny bevels and geometry drift. Correct those issues now.\nCopy the guide's geometry literally. Within those unchanged regions paint worn off-white ceramic, muted brushed antique gold, black-violet resin/dark wrapped leather, and the reference's blue-white energy details. Use the reference's palette and fine wear but DISCARD ALL its lighting. Continue hidden surfaces plausibly.\nUNLIT ALBEDO PASS: absolutely flat and shadowless; each material has the SAME base colour on EVERY facing plane. Bottom-facing ceramic is as light as top-facing ceramic. Side-facing gold has the SAME muted gold as front-facing gold. No black occlusion bands, no specular streaks, no white or yellow bevel highlights, no reflected light, no bloom. Fine cracks, tiny chips, brushed grain and engraved seams supply texture only. Don't beautify or round the guide's geometry. Keep every transparent opening and the original empty margins unchanged. No text, letters, numbers, background, floor or shadow.\nPaint guide_back.png exactly. This is the low edge-on BACK view, not the circular shield face. Preserve the broad shallow upper shell, central vertically elongated fitting, large lower-left and lower-right plates, and all layered understructure exactly as shown. Ceramic remains on the wide shell panels, antique gold on structural ribs and fittings with small ceramic inset details, and black-violet resin/leather on grip and understructure. Continue the unseen back coherently without adding a new large glowing core.\nExact guide occupied bounds are x=66..957 and y=220..803. The lower central elongated part ends near y=724 and each flanking bottom plate ends near y=803. Preserve these proportions and margins.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "f805ff9c2d8ec2826815a6fe34e6615ba6b56f3b463c985c8509aa58a4df8f80"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-01cf34d9-9089-44d0-9bd0-b18c6c3f66c6.png",
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected the single corrective return for flatter materials and closer back-view placement. Fine geometry still differs from the guide and residual facet shading remains.",
+    "status": "retained_with_failed_checks",
+    "corrective_regeneration": true,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "793da4bbaae358fc5cad24fdb018b41119e1a174b98e34d397d18e5fb32adf77",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1240,
+        1254
+      ],
+      "opaque_bbox": [
+        77,
+        265,
+        1177,
+        987
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.973714,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Edit the SECOND input image directly, as a flat base-colour texture painting. Image 1 is material reference only. Image 2 is the 1024 x 1024 guide: preserve its alpha silhouette, exact framing and EVERY polygon boundary without moving or remodelling anything. Return ONE transparent 1024 x 1024 PNG.\nThis is the single permitted correction for this view. Previous output had unwanted directional shading, shiny bevels and geometry drift. Correct those issues now.\nCopy the guide's geometry literally. Within those unchanged regions paint worn off-white ceramic, muted brushed antique gold, black-violet resin/dark wrapped leather, and the reference's blue-white energy details. Use the reference's palette and fine wear but DISCARD ALL its lighting. Continue hidden surfaces plausibly.\nUNLIT ALBEDO PASS: absolutely flat and shadowless; each material has the SAME base colour on EVERY facing plane. Bottom-facing ceramic is as light as top-facing ceramic. Side-facing gold has the SAME muted gold as front-facing gold. No black occlusion bands, no specular streaks, no white or yellow bevel highlights, no reflected light, no bloom. Fine cracks, tiny chips, brushed grain and engraved seams supply texture only. Don't beautify or round the guide's geometry. Keep every transparent opening and the original empty margins unchanged. No text, letters, numbers, background, floor or shadow.\nPaint guide_left.png exactly. This is the low edge-on LEFT view with the existing open handle loop below the shallow domed shell. Preserve the transparent central opening, the round recess in the upper central clasp, the diagonal upper shell panels, the large lower-left plate and bottom grip exactly as the guide. Gold structural ribs and clasp, off-white ceramic outer shell panels/inset caps, black-violet resin and dark wrapped grip. The opposite-side plates and shell edges must stay at their exact guide positions. The round recess is a small mechanical fitting, not a newly added large emitter.\nExact guide occupied bounds are x=66..957 and y=220..803. Preserve the central opening's exact shape, especially its pointed left end and upper central notch. The bottom centre grip sleeve is dark black-violet resin/leather with a small gold inset, matching the approved reference. Every gold bevel remains the muted gold base colour, with no bright outline.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "e135b3fa2d6b288c9dfe804305baae02c164c52265c665da02256166e291b131"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-db1d3223-aa67-471c-a66a-e864a88e15a9.png",
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected the single corrective return for subdued highlights and the reference's dark grip sleeve. Guide alignment and complete removal of baked shading remain imperfect.",
+    "status": "retained_with_failed_checks",
+    "corrective_regeneration": true,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "3621707539379540d003916364f7068f3562c63e85443ff3a8f94218768e8078",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        49,
+        19,
+        1215,
+        1230
+      ],
+      "opaque_bbox": [
+        81,
+        267,
+        1173,
+        983
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.974967,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Edit the SECOND input image directly, as a flat base-colour texture painting. Image 1 is material reference only. Image 2 is the 1024 x 1024 guide: preserve its alpha silhouette, exact framing and EVERY polygon boundary without moving or remodelling anything. Return ONE transparent 1024 x 1024 PNG.\nThis is the single permitted correction for this view. Previous output had unwanted directional shading, shiny bevels and geometry drift. Correct those issues now.\nCopy the guide's geometry literally. Within those unchanged regions paint worn off-white ceramic, muted brushed antique gold, black-violet resin/dark wrapped leather, and the reference's blue-white energy details. Use the reference's palette and fine wear but DISCARD ALL its lighting. Continue hidden surfaces plausibly.\nUNLIT ALBEDO PASS: absolutely flat and shadowless; each material has the SAME base colour on EVERY facing plane. Bottom-facing ceramic is as light as top-facing ceramic. Side-facing gold has the SAME muted gold as front-facing gold. No black occlusion bands, no specular streaks, no white or yellow bevel highlights, no reflected light, no bloom. Fine cracks, tiny chips, brushed grain and engraved seams supply texture only. Don't beautify or round the guide's geometry. Keep every transparent opening and the original empty margins unchanged. No text, letters, numbers, background, floor or shadow.\nPaint guide_right.png exactly. This is the low edge-on RIGHT view with the existing open handle loop below the shallow domed shell. Preserve the transparent central opening, the round recess in the upper central clasp, the diagonal upper shell panels, the large lower-right plate and bottom grip exactly as the guide. Gold structural ribs and clasp, off-white ceramic outer shell panels/inset caps, black-violet resin and dark wrapped grip. The opposite-side plates and shell edges must stay at their exact guide positions. The round recess is a small mechanical fitting, not a newly added large emitter.\nExact guide occupied bounds are x=66..957 and y=220..803. Preserve the central opening's exact shape, especially its upper notch and lower curved edge. The bottom centre grip sleeve is dark black-violet resin/leather with a small gold inset, matching the approved reference. Every gold bevel remains the muted gold base colour, with no bright outline.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_right.png",
+        "sha256": "f3507718972c5c80f0a1475c0e03a4da7ad6100cbdd30d40880db4a9a22bbd87"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-445768c7-e3f6-463a-b12a-93a6a61dd46c.png",
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected the single corrective return for flatter gold and consistent dark grip sleeve. Guide alignment and complete removal of baked shading remain imperfect.",
+    "status": "retained_with_failed_checks",
+    "corrective_regeneration": true,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "11a8e04bb3d7631249686e57df57b640bb2058a89aab5757b1f4a70e2c76ae80",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        41,
+        1234,
+        1230
+      ],
+      "opaque_bbox": [
+        81,
+        266,
+        1173,
+        986
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.979318,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Edit the SECOND input image directly, as a flat base-colour texture painting. Image 1 is material reference only. Image 2 is the 1024 x 1024 guide: preserve its alpha silhouette, exact framing and EVERY polygon boundary without moving or remodelling anything. Return ONE transparent 1024 x 1024 PNG.\nThis is the single permitted correction for this view. Previous output had unwanted directional shading, shiny bevels and geometry drift. Correct those issues now.\nCopy the guide's geometry literally. Within those unchanged regions paint worn off-white ceramic, muted brushed antique gold, black-violet resin/dark wrapped leather, and the reference's blue-white energy details. Use the reference's palette and fine wear but DISCARD ALL its lighting. Continue hidden surfaces plausibly.\nUNLIT ALBEDO PASS: absolutely flat and shadowless; each material has the SAME base colour on EVERY facing plane. Bottom-facing ceramic is as light as top-facing ceramic. Side-facing gold has the SAME muted gold as front-facing gold. No black occlusion bands, no specular streaks, no white or yellow bevel highlights, no reflected light, no bloom. Fine cracks, tiny chips, brushed grain and engraved seams supply texture only. Don't beautify or round the guide's geometry. Keep every transparent opening and the original empty margins unchanged. No text, letters, numbers, background, floor or shadow.\nPaint guide_top.png exactly. This is the face-on TOP view looking directly at the circular emitter shield face, not a perspective view. Preserve the guide's circle, four main ceramic quadrants, raised cardinal structural ribs, central polygonal/concentric rings and exact outer contours. Match the design: off-white finely worn ceramic quadrants, brushed gold cardinal ribs and wide central surround, dark blue-black resin in inner recesses, vivid flat blue-white crystal at the existing centre and small blue-white rectangular accents around existing inner-ring segments. The centre is near (512,512); respect the guide's exact ring sizes. Keep gold ribs and perimeter tabs where modelled, never add ornament beyond the contour.\nExact guide occupied bounds are x=66..957 and y=66..957, centre (512,512). Preserve the irregular guide perimeter and polygonal central ring. Do not widen or narrow the cardinal ribs or bevels. Paint the crystal pale blue-white uniformly, without a white central hotspot or blue light spill.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "44e13245cf97fd9a1e39c4e56a58834e899f2786ca9fb75d953abe063316a725"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "ac9c8879716095a5212e9b77ef9b1b8ccf042492770ff1cc72818dd3cbe37b7c"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e38-bdd0-75c2-a68d-5bf521c5780f/exec-9d0c835b-ae72-43b7-87e7-4fe9fb08383c.png",
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected the single corrective return for flatter gold/ceramic, reduced core hotspot and retained blue-white emitter details. Some perimeter and part edges differ from the guide, and recessed edge shading remains.",
+    "status": "retained_with_failed_checks",
+    "corrective_regeneration": true,
+    "max_corrective_regenerations_per_view": 1,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "tool": "built-in image_gen",
+    "output_sha256": "173681903effad82737cba1e61658880097fef98a45153f302874b88f13dec40",
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_request": false,
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1240,
+        1254
+      ],
+      "opaque_bbox": [
+        86,
+        80,
+        1169,
+        1175
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_at_alpha_128": 0.98544,
+      "normalized_iou_note": "Read-only mask comparison in normalized canvas coordinates; saved image was not resized.",
+      "materials_match_reference": "Visual check: ceramic, gold, dark resin/leather and blue-white details are consistent with reference.",
+      "flat_shadowless_albedo": false,
+      "lighting_note": "Residual facet shading, dark creases and bright bevels remain.",
+      "no_text_or_letters": "Visual check: no readable text or letters."
+    }
+  }
+]

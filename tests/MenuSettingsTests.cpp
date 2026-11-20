@@ -1,6 +1,11 @@
 #include "game/ui/MenuSettingsModel.h"
 #include <doctest/doctest.h>
+#include <algorithm>
+#include <array>
 #include <fstream>
+#include <iterator>
+#include <string>
+#include <utility>
 
 using namespace OpenYAMM::Game;
 
@@ -42,6 +47,21 @@ TEST_CASE("creature shadow quality and LOD settings validate and persist")
     std::filesystem::remove(path);
 }
 
+TEST_CASE("MAW number keys select a member by default and the bag choice persists")
+{
+    GameSettings settings = GameSettings::createDefault();
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-bag-number-keys.ini";
+    std::string error;
+    CHECK(menuSettingValue(settings, "bag_number_keys") == "member");
+    CHECK_FALSE(setMenuSettingValue(settings, "bag_number_keys", "shift"));
+    REQUIRE(setMenuSettingValue(settings, "bag_number_keys", "bag"));
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded, error);
+    CHECK_EQ(loaded->bagNumberKeys, "bag");
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("menu settings validate input and preserve unrelated game configuration")
 {
     GameSettings settings = GameSettings::createDefault();
@@ -76,13 +96,17 @@ TEST_CASE("menu settings validate input and preserve unrelated game configuratio
 
 TEST_CASE("menu binding reservation and equality follow native single input bindings")
 {
-    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_ESCAPE)));
-    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F5)));
-    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F9)));
-    CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F10)));
-    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_5)));
-    CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F2)));
-    CHECK_FALSE(reservedMenuBinding(mouseButtonInputBinding(SDL_BUTTON_LEFT)));
+    constexpr KeyboardAction Jump = KeyboardAction::Jump;
+    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_ESCAPE), Jump));
+    // Quick save and load are bindings of their own (F9 and F10 by default), so those keys are free to assign.
+    CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F9), Jump));
+    CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F10), Jump));
+    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_5), Jump));
+    CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F2), Jump));
+    CHECK_FALSE(reservedMenuBinding(mouseButtonInputBinding(SDL_BUTTON_LEFT), Jump));
+    // The bag keys may take the party's numbers: they use them only on the inventory pages.
+    CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_3), KeyboardAction::Bag3));
+    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_ESCAPE), KeyboardAction::Bag3));
     CHECK(sameMenuBinding(mouseButtonInputBinding(SDL_BUTTON_LEFT), mouseButtonInputBinding(SDL_BUTTON_LEFT)));
     CHECK_FALSE(sameMenuBinding(mouseButtonInputBinding(SDL_BUTTON_LEFT), keyboardInputBinding(SDL_SCANCODE_A)));
     CHECK_FALSE(sameMenuBinding(mouseButtonInputBinding(SDL_BUTTON_LEFT), mouseButtonInputBinding(SDL_BUTTON_RIGHT)));
@@ -93,8 +117,8 @@ TEST_CASE("mouse wheel bindings distinguish directions and survive settings save
     const InputBinding up = mouseWheelInputBinding(1.0f);
     const InputBinding down = mouseWheelInputBinding(-1.0f);
     CHECK(mouseWheelInputBinding(0.0f).kind == InputBindingKind::None);
-    CHECK_FALSE(reservedMenuBinding(up));
-    CHECK_FALSE(reservedMenuBinding(down));
+    CHECK_FALSE(reservedMenuBinding(up, KeyboardAction::Jump));
+    CHECK_FALSE(reservedMenuBinding(down, KeyboardAction::Jump));
     CHECK(sameMenuBinding(up, parseInputBindingName("MouseWheelUp")));
     CHECK(sameMenuBinding(down, parseInputBindingName("Wheel Down")));
     CHECK(sameMenuBinding(up, parseInputBindingName(inputBindingName(up))));
@@ -114,6 +138,39 @@ TEST_CASE("mouse wheel bindings distinguish directions and survive settings save
     REQUIRE_MESSAGE(loaded, error);
     CHECK(sameMenuBinding(up, loaded->keyboard.binding(KeyboardAction::FlyUp)));
     CHECK(sameMenuBinding(down, loaded->keyboard.binding(KeyboardAction::FlyDown)));
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("extra mouse button bindings are polled and survive settings save and load")
+{
+    const InputBinding mouse4 = mouseButtonInputBinding(SDL_BUTTON_X1);
+    const InputBinding mouse5 = mouseButtonInputBinding(SDL_BUTTON_X2);
+    CHECK(inputBindingDisplayName(mouse5) == "Mouse 5");
+    CHECK(sameMenuBinding(mouse5, parseInputBindingName(inputBindingName(mouse5))));
+    CHECK(sameMenuBinding(mouse5, parseInputBindingName("Mouse 5")));
+    CHECK(sameMenuBinding(
+        mouseButtonInputBinding(SDL_BUTTON_MIDDLE),
+        parseInputBindingName(inputBindingName(mouseButtonInputBinding(SDL_BUTTON_MIDDLE)))));
+    CHECK_FALSE(sameMenuBinding(mouse4, mouse5));
+    CHECK(parseInputBindingName("MouseButton_0").kind == InputBindingKind::None);
+    CHECK(parseInputBindingName("MouseButton_33").kind == InputBindingKind::None);
+
+    CHECK(mouseButtonHeldInFlags(SDL_BUTTON_X2MASK, SDL_BUTTON_X2));
+    CHECK(mouseButtonHeldInFlags(SDL_BUTTON_X1MASK | SDL_BUTTON_LMASK, SDL_BUTTON_X1));
+    CHECK_FALSE(mouseButtonHeldInFlags(SDL_BUTTON_X1MASK, SDL_BUTTON_X2));
+    CHECK_FALSE(mouseButtonHeldInFlags(0, SDL_BUTTON_X2));
+    CHECK_FALSE(mouseButtonHeldInFlags(SDL_BUTTON_X2MASK, 0));
+
+    GameSettings settings = GameSettings::createDefault();
+    settings.keyboard.setBinding(KeyboardAction::DoubleSpeed, mouse5);
+    settings.keyboard.setBinding(KeyboardAction::Jump, mouse4);
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-mouse-button-settings.ini";
+    std::string error;
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded, error);
+    CHECK(sameMenuBinding(mouse5, loaded->keyboard.binding(KeyboardAction::DoubleSpeed)));
+    CHECK(sameMenuBinding(mouse4, loaded->keyboard.binding(KeyboardAction::Jump)));
     std::filesystem::remove(path);
 }
 
@@ -145,6 +202,39 @@ TEST_CASE("invert mouse Y defaults off and persists menu changes")
     REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
     CHECK_FALSE(loaded->invertMouseY);
     CHECK(loaded->mouseSensitivity == 42);
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("repeated voice line interval defaults off, validates its steps and persists")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-repeated-voice-settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.repeatedVoiceLineIntervalMs == 0);
+    CHECK(menuSettingValue(settings, "repeated_voice_lines") == "0");
+
+    for (const std::string value : {"500", "1000", "2000", "3000", "5000", "10000", "0"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "repeated_voice_lines", value));
+        CHECK(menuSettingValue(settings, "repeated_voice_lines") == value);
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+        CHECK(menuSettingValue(*loaded, "repeated_voice_lines") == value);
+    }
+
+    CHECK_FALSE(setMenuSettingValue(settings, "repeated_voice_lines", "750"));
+    CHECK_FALSE(setMenuSettingValue(settings, "repeated_voice_lines", "off"));
+    CHECK(settings.repeatedVoiceLineIntervalMs == 0);
+
+    {
+        std::ofstream file(path);
+        file << "[audio]\nrepeated_voice_line_interval_ms=1800\n";
+    }
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+    CHECK(loaded->repeatedVoiceLineIntervalMs == 1800);
+    CHECK(menuSettingValue(*loaded, "repeated_voice_lines") == "2000");
     std::filesystem::remove(path);
 }
 
@@ -194,8 +284,9 @@ TEST_CASE("enemy health settings migrate legacy toggles and roundtrip the replac
 TEST_CASE("ambient occlusion is optional and its intensity validates and persists")
 {
     GameSettings settings = GameSettings::createDefault();
-    CHECK_FALSE(settings.ambientOcclusion);
-    CHECK(settings.ambientOcclusionStrength == 35);
+    CHECK(settings.ambientOcclusion); // Desktop default.
+    CHECK(settings.ambientOcclusionStrength == 50);
+    REQUIRE(setMenuSettingValue(settings, "ambient_occlusion", "false"));
     REQUIRE(setMenuSettingValue(settings, "ambient_occlusion", "true"));
     REQUIRE(setMenuSettingValue(settings, "ambient_occlusion_strength", "42"));
     CHECK_FALSE(setMenuSettingValue(settings, "ambient_occlusion", "yes"));
@@ -214,7 +305,8 @@ TEST_CASE("ambient occlusion is optional and its intensity validates and persist
     CHECK(loaded->ambientOcclusionStrength == 42);
     {
         std::ofstream file(path);
-        file << "[video]\nambient_occlusion=false\nambient_occlusion_strength=900\n";
+        file << "[profile]\nname=desktop\nversion=5\n"
+             << "[video]\nambient_occlusion=false\nambient_occlusion_strength=900\n";
     }
     const std::optional<GameSettings> bounded = loadGameSettings(path, error);
     REQUIRE_MESSAGE(bounded, error);
@@ -223,10 +315,59 @@ TEST_CASE("ambient occlusion is optional and its intensity validates and persist
     std::filesystem::remove(path);
 }
 
-TEST_CASE("sharpening is off by default and its strength validates and persists")
+TEST_CASE("the quicksaves kept setting defaults to three, validates one to twenty and persists")
 {
     GameSettings settings = GameSettings::createDefault();
-    CHECK(settings.sharpening == 0);
+    CHECK(settings.quickSaveSlots == 3);
+    REQUIRE(setMenuSettingValue(settings, "quicksave_slots", "20"));
+    REQUIRE(setMenuSettingValue(settings, "quicksave_slots", "1"));
+    REQUIRE(setMenuSettingValue(settings, "quicksave_slots", "7"));
+    for (const std::string value : {"0", "21", "-1", "7junk", ""})
+    {
+        CHECK_FALSE(setMenuSettingValue(settings, "quicksave_slots", value));
+    }
+    CHECK(menuSettingValue(settings, "quicksave_slots") == "7");
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-quicksave-slots-settings.ini";
+    std::string error;
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE(loaded);
+    CHECK(loaded->quickSaveSlots == 7);
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("fast mode speed defaults to 2x, validates its steps and persists")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-fast-mode-settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.fastModeSpeed == 2.0f);
+    CHECK(menuSettingValue(settings, "fast_mode_speed") == "2");
+
+    for (const std::string value : {"1.5", "3", "4", "2"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "fast_mode_speed", value));
+        CHECK(menuSettingValue(settings, "fast_mode_speed") == value);
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+        CHECK(menuSettingValue(*loaded, "fast_mode_speed") == value);
+    }
+
+    // 1x would make the Fast Mode key do nothing.
+    for (const std::string value : {"1", "5", "2.5", "fast", ""})
+    {
+        CHECK_FALSE(setMenuSettingValue(settings, "fast_mode_speed", value));
+    }
+
+    CHECK(settings.fastModeSpeed == 2.0f);
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("sharpening defaults to the desktop profile and its strength validates and persists")
+{
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.sharpening == 50);
     REQUIRE(setMenuSettingValue(settings, "sharpening", "40"));
     for (const std::string value : {"-1", "101", "40junk", ""})
     {
@@ -249,11 +390,12 @@ TEST_CASE("sharpening is off by default and its strength validates and persists"
     std::filesystem::remove(path);
 }
 
-TEST_CASE("anti-aliasing is off by default and its sample count validates and persists")
+TEST_CASE("anti-aliasing defaults to 4x on desktop and its sample count validates and persists")
 {
     GameSettings settings = GameSettings::createDefault();
-    CHECK(settings.antialiasing == 0);
-    CHECK(menuSettingValue(settings, "antialiasing") == "off");
+    CHECK(settings.antialiasing == 4);
+    CHECK(menuSettingValue(settings, "antialiasing") == "4x");
+    REQUIRE(setMenuSettingValue(settings, "antialiasing", "off"));
     REQUIRE(setMenuSettingValue(settings, "antialiasing", "4x"));
     for (const std::string value : {"8x", "1x", "4X", "on", ""})
     {
@@ -272,7 +414,7 @@ TEST_CASE("anti-aliasing is off by default and its sample count validates and pe
     }
     const std::optional<GameSettings> invalid = loadGameSettings(path, error);
     REQUIRE_MESSAGE(invalid, error);
-    CHECK(invalid->antialiasing == 0);
+    CHECK(invalid->antialiasing == GameSettings::createDefault().antialiasing);
     {
         std::ofstream file(path);
         file << "[video]\nantialiasing=2X\n";
@@ -283,18 +425,13 @@ TEST_CASE("anti-aliasing is off by default and its sample count validates and pe
     std::filesystem::remove(path);
 }
 
-TEST_CASE("graphics quality presets match the shipped profiles and report custom mixes")
+TEST_CASE("graphics quality presets match the default profile and report custom mixes")
 {
-    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
-    std::string error;
-    const std::optional<GameSettings> desktop = loadGameSettings(root / "settings_release.ini", error);
-    REQUIRE_MESSAGE(desktop, error);
-    // The shipped desktop profile enables ambient occlusion, which is outside the High preset.
-    CHECK(desktop->ambientOcclusion);
+    // Desktop defaults are the high preset (Android defaults are the low preset).
+    std::optional<GameSettings> desktop = GameSettings::createDefault();
+    CHECK(menuSettingValue(*desktop, "graphics_quality") == "high");
+    desktop->ambientOcclusion = false;
     CHECK(menuSettingValue(*desktop, "graphics_quality") == "custom");
-    const std::optional<GameSettings> android = loadGameSettings(root / "android/settings.ini", error);
-    REQUIRE_MESSAGE(android, error);
-    CHECK(menuSettingValue(*android, "graphics_quality") == "low");
 
     GameSettings settings = *desktop;
     settings.sharpening = 40;
@@ -302,12 +439,20 @@ TEST_CASE("graphics quality presets match the shipped profiles and report custom
     REQUIRE(setMenuSettingValue(settings, "graphics_quality", "high"));
     CHECK(menuSettingValue(settings, "graphics_quality") == "high");
     CHECK(settings.antialiasing == 4);
-    CHECK_FALSE(settings.ambientOcclusion);
+    CHECK(settings.ambientOcclusion);
     CHECK(settings.terrainAnisotropy == "8x");
     CHECK(settings.waterReflectionSize == 512);
     CHECK(settings.viewDistance == "default");
     CHECK(settings.sharpening == 40); // Taste options are not part of a preset.
     CHECK(settings.cinematicGrading);
+    CHECK(settings.terrainAntiTiling);
+
+    REQUIRE(setMenuSettingValue(settings, "graphics_quality", "medium"));
+    CHECK(settings.terrainSubdivision == 4);
+    CHECK_FALSE(settings.terrainAntiTiling);
+    CHECK(menuSettingValue(settings, "graphics_quality") == "medium");
+    settings.terrainAntiTiling = true; // INI-only options count too.
+    CHECK(menuSettingValue(settings, "graphics_quality") == "custom");
 
     REQUIRE(setMenuSettingValue(settings, "graphics_quality", "low"));
     CHECK(settings.terrainSubdivision == 2);
@@ -323,4 +468,164 @@ TEST_CASE("graphics quality presets match the shipped profiles and report custom
     REQUIRE(setMenuSettingValue(settings, "bloom", "false"));
     CHECK(menuSettingValue(settings, "graphics_quality") == "custom");
     CHECK_FALSE(setMenuSettingValue(settings, "graphics_quality", "ultra"));
+}
+
+TEST_CASE("party portrait frame defaults on and persists menu changes")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-party-frame-settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.partyFrame);
+    CHECK(menuSettingValue(settings, "party_frame") == "true");
+
+    for (const std::string value : {"false", "true"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "party_frame", value));
+        CHECK(menuSettingValue(settings, "party_frame") == value);
+        CHECK_FALSE(setMenuSettingValue(settings, "party_frame", "invalid"));
+        CHECK(menuSettingValue(settings, "party_frame") == value);
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+        CHECK(loaded->partyFrame == (value == "true"));
+    }
+
+    settings.partyFrame = false;
+    const std::vector<SettingsEntry> entries = settingsEntriesToSave(settings);
+    CHECK(std::find(entries.begin(), entries.end(), SettingsEntry{"gameplay", "party_frame", "false"})
+        != entries.end());
+
+    {
+        std::ofstream file(path);
+        file << "[profile]\nname=desktop\nversion=5\n[gameplay]\nquest_markers=false\nmap_style=painted\n";
+    }
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+    CHECK(loaded->partyFrame);
+    CHECK_FALSE(loaded->questMarkers);
+    CHECK(loaded->paintedMaps);
+    CHECK(menuSettingValue(*loaded, "map_style") == "painted");
+    CHECK(menuSettingValue(GameSettings::createDefault(), "map_style") == "lines");
+    REQUIRE(setMenuSettingValue(settings, "map_style", "painted"));
+    const std::vector<SettingsEntry> paintedEntries = settingsEntriesToSave(settings);
+    CHECK(std::find(paintedEntries.begin(), paintedEntries.end(), SettingsEntry{"gameplay", "map_style", "painted"})
+        != paintedEntries.end());
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("The indoor minimap arrow colour defaults to white, saves and rejects unknown colours")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm_indoor_arrow_settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(menuSettingValue(settings, "indoor_minimap_arrow") == "white");
+
+    for (const std::string value : {"green", "cyan", "white"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "indoor_minimap_arrow", value));
+        CHECK_FALSE(setMenuSettingValue(settings, "indoor_minimap_arrow", "purple"));
+        CHECK(menuSettingValue(settings, "indoor_minimap_arrow") == value);
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+        CHECK(loaded->indoorMinimapArrow == value);
+    }
+
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("MMMerge's follower keys default to 0 and 6-9, clash with no other key (but a solo run's action bar) and are "
+          "in the bindings menu")
+{
+    const std::array<std::pair<KeyboardAction, SDL_Scancode>, 5> followerKeys = {{
+        {KeyboardAction::FollowerPanel, SDL_SCANCODE_0}, {KeyboardAction::Follower1, SDL_SCANCODE_6},
+        {KeyboardAction::Follower2, SDL_SCANCODE_7}, {KeyboardAction::Follower3, SDL_SCANCODE_8},
+        {KeyboardAction::Follower4, SDL_SCANCODE_9}}};
+    std::ifstream input(std::string(OPENYAMM_SOURCE_DIR) + "/assets_dev/engine/ui/menu/settings_catalog.yml");
+    const std::string catalog{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+
+    for (const auto &[action, scancode] : followerKeys)
+    {
+        const KeyboardBindingDefinition &definition = keyboardBindingDefinition(action);
+        CAPTURE(definition.iniKey);
+        CHECK(definition.implemented);
+        CHECK_EQ(definition.defaultBinding.kind, InputBindingKind::Keyboard);
+        CHECK_EQ(definition.defaultBinding.scancode, scancode);
+        CHECK_NE(catalog.find("- id: " + std::string(definition.iniKey) + "\n"), std::string::npos);
+
+        for (const KeyboardBindingDefinition &other : keyboardBindingDefinitions())
+        {
+            // A solo run's action bar has the number keys too, in its own context (it wins in a solo run).
+            const bool soloBar =
+                other.action >= KeyboardAction::ActionBar1 && other.action <= KeyboardAction::ActionBar10;
+            if (other.action != action && !soloBar)
+            {
+                CAPTURE(other.iniKey);
+                CHECK_FALSE((other.defaultBinding.kind == InputBindingKind::Keyboard
+                    && other.defaultBinding.scancode == scancode));
+            }
+        }
+    }
+}
+
+TEST_CASE("A solo run's action bar is ten rebindable keys, 1-0 by default, in the bindings menu")
+{
+    std::ifstream input(std::string(OPENYAMM_SOURCE_DIR) + "/assets_dev/engine/ui/menu/settings_catalog.yml");
+    const std::string catalog{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+    const std::array<SDL_Scancode, 10> keys = {SDL_SCANCODE_1, SDL_SCANCODE_2, SDL_SCANCODE_3, SDL_SCANCODE_4,
+        SDL_SCANCODE_5, SDL_SCANCODE_6, SDL_SCANCODE_7, SDL_SCANCODE_8, SDL_SCANCODE_9, SDL_SCANCODE_0};
+
+    for (size_t slot = 0; slot < keys.size(); ++slot)
+    {
+        const KeyboardAction action = KeyboardAction(size_t(KeyboardAction::ActionBar1) + slot);
+        const KeyboardBindingDefinition &definition = keyboardBindingDefinition(action);
+        CAPTURE(definition.iniKey);
+        CHECK(definition.implemented);
+        CHECK_EQ(definition.defaultBinding.kind, InputBindingKind::Keyboard);
+        CHECK_EQ(definition.defaultBinding.scancode, keys[slot]);
+        CHECK_NE(catalog.find("- id: " + std::string(definition.iniKey) + "\n"), std::string::npos);
+        // The party's number keys 1-5 are reserved, but not for the bar.
+        CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(keys[slot]), action));
+    }
+    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_1), KeyboardAction::Attack));
+}
+
+TEST_CASE("auto-walk, the free cursor and a solo run's weapon cycling have their own default keys in both schemes")
+{
+    std::ifstream input(std::string(OPENYAMM_SOURCE_DIR) + "/assets_dev/engine/ui/menu/settings_catalog.yml");
+    const std::string catalog{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+    const InputBinding numLock = keyboardInputBinding(SDL_SCANCODE_NUMLOCKCLEAR);
+    const InputBinding middleButton = mouseButtonInputBinding(SDL_BUTTON_MIDDLE);
+    const std::array<std::pair<KeyboardAction, InputBinding>, 4> keys = {{
+        {KeyboardAction::AutoWalk, numLock}, {KeyboardAction::CursorMode, middleButton},
+        {KeyboardAction::NextWeapon, mouseWheelInputBinding(-1.0f)},
+        {KeyboardAction::PreviousWeapon, mouseWheelInputBinding(1.0f)}}};
+
+    CHECK_EQ(inputBindingName(numLock), "Num_Lock");
+    CHECK(sameMenuBinding(parseInputBindingName("Num_Lock"), numLock));
+
+    for (const ControlScheme scheme : {ControlScheme::Modern, ControlScheme::Classic})
+    {
+        GameSettings::KeyboardSettings keyboard;
+        keyboard.restoreDefaults(scheme);
+
+        for (const auto &[action, binding] : keys)
+        {
+            const KeyboardBindingDefinition &definition = keyboardBindingDefinition(action);
+            CAPTURE(definition.iniKey);
+            CHECK(definition.implemented);
+            CHECK(sameMenuBinding(keyboard.binding(action), binding));
+            CHECK_FALSE(reservedMenuBinding(binding, action));
+            CHECK_NE(catalog.find("- id: " + std::string(definition.iniKey) + "\n"), std::string::npos);
+
+            for (const KeyboardBindingDefinition &other : keyboardBindingDefinitions())
+            {
+                if (other.action != action)
+                {
+                    CAPTURE(other.iniKey);
+                    CHECK_FALSE(sameMenuBinding(keyboard.binding(other.action), binding));
+                }
+            }
+        }
+    }
 }

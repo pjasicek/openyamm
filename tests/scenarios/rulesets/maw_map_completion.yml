@@ -1,0 +1,21 @@
+id: rulesets.maw_map_completion
+title: Ruleset - clearing a map under MAW pays its completion reward once, with a Crafting Cube and two gems
+world: mm6
+mode: faithful
+tags: [rulesets, maw, crafting]
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+      ruleset: {id: maw, difficulty: easy, progression: free}
+  - assert:
+      inventory_any_member: [{item_id: 1070, count: 0}]
+  # Every monster of the dungeon dies, summoned ones too.
+  - damage_actor: {all: true, amount: 10000000}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      inventory_any_member: [{item_id: 1070, count: 1}]
+  - save_game: maw_map_completion
+  - load_game: maw_map_completion
+  - advance_runtime: {seconds: 1}
+  - assert:
+      inventory_any_member: [{item_id: 1070, count: 1}]

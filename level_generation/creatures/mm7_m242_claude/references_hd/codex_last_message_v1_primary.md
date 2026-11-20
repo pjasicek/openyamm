@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m242_claude/references_hd/00_three_quarter.png), unresized at 1024 × 1536 with transparency, using built-in image generation. Prompts, hashes and selection notes are in [generation_runs.json](level_generation/creatures/mm7_m242_claude/references_hd/generation_runs.json).
+
+Stopped after the permitted correction. Residual issues: nearer hand overlaps the robe, and margins are tighter than requested.

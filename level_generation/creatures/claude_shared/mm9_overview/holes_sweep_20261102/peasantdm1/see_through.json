@@ -1,0 +1,3159 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_peasantdm1.glb",
+ "step": 4,
+ "px_mm": 4.0,
+ "views": 16,
+ "clips": {
+  "AttackMelee": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 95,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48
+     ],
+     "worst": [
+      16,
+      "az315_el20"
+     ],
+     "inside_max": 95,
+     "hole_max_by_elev": {
+      "0": 94,
+      "20": 95
+     }
+    },
+    "collar": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48
+     ],
+     "worst": [
+      4,
+      "az000_el00"
+     ],
+     "inside_max": 41,
+     "hole_max_by_elev": {
+      "0": 3,
+      "20": 3
+     }
+    },
+    "sleeve R": {
+     "hole_max": 150,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48
+     ],
+     "worst": [
+      24,
+      "az315_el00"
+     ],
+     "inside_max": 150,
+     "hole_max_by_elev": {
+      "0": 150,
+      "20": 145
+     }
+    },
+    "torso": {
+     "hole_max": 11,
+     "hole_frames": [
+      0,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      44,
+      48
+     ],
+     "worst": [
+      16,
+      "az090_el00"
+     ],
+     "inside_max": 164,
+     "hole_max_by_elev": {
+      "0": 11,
+      "20": 8
+     }
+    },
+    "trousers R": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      12,
+      16,
+      20,
+      24,
+      32,
+      40,
+      44,
+      48
+     ],
+     "worst": [
+      40,
+      "az315_el20"
+     ],
+     "inside_max": 3,
+     "hole_max_by_elev": {
+      "20": 3,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      4,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48
+     ],
+     "worst": [
+      36,
+      "az315_el20"
+     ],
+     "inside_max": 3,
+     "hole_max_by_elev": {
+      "20": 3,
+      "0": 1
+     }
+    },
+    "boot L": {
+     "hole_max": 2,
+     "hole_frames": [
+      28,
+      32
+     ],
+     "worst": [
+      32,
+      "az135_el00"
+     ],
+     "inside_max": 175,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 1
+     }
+    },
+    "none": {
+     "hole_max": 1,
+     "hole_frames": [
+      28
+     ],
+     "worst": [
+      28,
+      "az045_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1
+     }
+    },
+    "trousers L": {
+     "hole_max": 2,
+     "hole_frames": [
+      28,
+      32,
+      36
+     ],
+     "worst": [
+      28,
+      "az180_el20"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 2,
+      "0": 1
+     }
+    }
+   }
+  },
+  "Cower": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24
+   ],
+   "zones": {
+    "sleeve R": {
+     "hole_max": 133,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      0,
+      "az315_el00"
+     ],
+     "inside_max": 133,
+     "hole_max_by_elev": {
+      "0": 133,
+      "20": 87
+     }
+    },
+    "sleeve L": {
+     "hole_max": 104,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      0,
+      "az270_el00"
+     ],
+     "inside_max": 105,
+     "hole_max_by_elev": {
+      "0": 104,
+      "20": 94
+     }
+    },
+    "torso": {
+     "hole_max": 2,
+     "hole_frames": [
+      8,
+      12,
+      16
+     ],
+     "worst": [
+      8,
+      "az045_el00"
+     ],
+     "inside_max": 10,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 0
+     }
+    },
+    "collar": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      8,
+      12,
+      16,
+      24
+     ],
+     "worst": [
+      8,
+      "az270_el20"
+     ],
+     "inside_max": 21,
+     "hole_max_by_elev": {
+      "0": 1,
+      "20": 2
+     }
+    },
+    "boot R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      0,
+      "az090_el00"
+     ],
+     "inside_max": 66,
+     "hole_max_by_elev": {
+      "0": 1,
+      "20": 0
+     }
+    },
+    "boot L": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      0,
+      "az135_el00"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "0": 2
+     }
+    },
+    "head": {
+     "hole_max": 0,
+     "hole_frames": [],
+     "worst": null,
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "0": 0
+     }
+    }
+   }
+  },
+  "Dead": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28
+   ],
+   "zones": {
+    "trousers R": {
+     "hole_max": 0,
+     "hole_frames": [],
+     "worst": null,
+     "inside_max": 7,
+     "hole_max_by_elev": {
+      "0": 0,
+      "20": 0
+     }
+    },
+    "boot L": {
+     "hole_max": 0,
+     "hole_frames": [],
+     "worst": null,
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "0": 0,
+      "20": 0
+     }
+    },
+    "sleeve L": {
+     "hole_max": 67,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      0,
+      "az090_el20"
+     ],
+     "inside_max": 75,
+     "hole_max_by_elev": {
+      "0": 7,
+      "20": 67
+     }
+    },
+    "trousers L": {
+     "hole_max": 0,
+     "hole_frames": [],
+     "worst": null,
+     "inside_max": 10,
+     "hole_max_by_elev": {
+      "0": 0,
+      "20": 0
+     }
+    },
+    "torso": {
+     "hole_max": 36,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      0,
+      "az315_el00"
+     ],
+     "inside_max": 38,
+     "hole_max_by_elev": {
+      "0": 36,
+      "20": 1
+     }
+    },
+    "sleeve R": {
+     "hole_max": 94,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      0,
+      "az270_el20"
+     ],
+     "inside_max": 98,
+     "hole_max_by_elev": {
+      "0": 17,
+      "20": 94
+     }
+    },
+    "boot R": {
+     "hole_max": 0,
+     "hole_frames": [],
+     "worst": null,
+     "inside_max": 5,
+     "hole_max_by_elev": {
+      "0": 0,
+      "20": 0
+     }
+    },
+    "head": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      0,
+      "az000_el00"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "0": 1
+     }
+    },
+    "collar": {
+     "hole_max": 5,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      0,
+      "az045_el20"
+     ],
+     "inside_max": 27,
+     "hole_max_by_elev": {
+      "0": 0,
+      "20": 5
+     }
+    }
+   }
+  },
+  "Death": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56,
+    60
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 97,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      48,
+      "az090_el20"
+     ],
+     "inside_max": 104,
+     "hole_max_by_elev": {
+      "0": 95,
+      "20": 97
+     }
+    },
+    "collar": {
+     "hole_max": 9,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      24,
+      28,
+      32,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      32,
+      "az270_el00"
+     ],
+     "inside_max": 37,
+     "hole_max_by_elev": {
+      "0": 9,
+      "20": 5
+     }
+    },
+    "sleeve R": {
+     "hole_max": 146,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      24,
+      "az315_el00"
+     ],
+     "inside_max": 152,
+     "hole_max_by_elev": {
+      "0": 146,
+      "20": 125
+     }
+    },
+    "torso": {
+     "hole_max": 43,
+     "hole_frames": [
+      0,
+      16,
+      20,
+      24,
+      28,
+      32,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      52,
+      "az000_el00"
+     ],
+     "inside_max": 92,
+     "hole_max_by_elev": {
+      "0": 43,
+      "20": 22
+     }
+    },
+    "trousers R": {
+     "hole_max": 4,
+     "hole_frames": [
+      0,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      20,
+      "az225_el20"
+     ],
+     "inside_max": 23,
+     "hole_max_by_elev": {
+      "20": 4,
+      "0": 0
+     }
+    },
+    "boot R": {
+     "hole_max": 9,
+     "hole_frames": [
+      0,
+      4,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      48
+     ],
+     "worst": [
+      20,
+      "az225_el00"
+     ],
+     "inside_max": 229,
+     "hole_max_by_elev": {
+      "20": 2,
+      "0": 9
+     }
+    },
+    "head": {
+     "hole_max": 7,
+     "hole_frames": [
+      8,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      52,
+      "az270_el00"
+     ],
+     "inside_max": 30,
+     "hole_max_by_elev": {
+      "0": 7,
+      "20": 1
+     }
+    },
+    "boot L": {
+     "hole_max": 5,
+     "hole_frames": [
+      28,
+      32,
+      40,
+      44,
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      48,
+      "az315_el00"
+     ],
+     "inside_max": 214,
+     "hole_max_by_elev": {
+      "0": 5,
+      "20": 1
+     }
+    },
+    "trousers L": {
+     "hole_max": 5,
+     "hole_frames": [
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      52,
+      "az315_el00"
+     ],
+     "inside_max": 17,
+     "hole_max_by_elev": {
+      "0": 5,
+      "20": 1
+     }
+    }
+   }
+  },
+  "Dump": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56,
+    60
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 111,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      24,
+      "az000_el00"
+     ],
+     "inside_max": 128,
+     "hole_max_by_elev": {
+      "0": 111,
+      "20": 101
+     }
+    },
+    "collar": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      0,
+      "az000_el00"
+     ],
+     "inside_max": 16,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 2
+     }
+    },
+    "sleeve R": {
+     "hole_max": 159,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      56,
+      "az000_el00"
+     ],
+     "inside_max": 159,
+     "hole_max_by_elev": {
+      "0": 159,
+      "20": 135
+     }
+    },
+    "torso": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      8,
+      "az270_el00"
+     ],
+     "inside_max": 126,
+     "hole_max_by_elev": {
+      "0": 3,
+      "20": 1
+     }
+    },
+    "trousers R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      20,
+      24,
+      32,
+      40,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 8,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      44,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      12,
+      "az225_el00"
+     ],
+     "inside_max": 194,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 8
+     }
+    },
+    "boot L": {
+     "hole_max": 2,
+     "hole_frames": [
+      12,
+      16,
+      20
+     ],
+     "worst": [
+      16,
+      "az135_el00"
+     ],
+     "inside_max": 245,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 0
+     }
+    },
+    "trousers L": {
+     "hole_max": 17,
+     "hole_frames": [
+      12,
+      16,
+      20
+     ],
+     "worst": [
+      16,
+      "az135_el20"
+     ],
+     "inside_max": 17,
+     "hole_max_by_elev": {
+      "0": 4,
+      "20": 17
+     }
+    }
+   }
+  },
+  "Fidget": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 81,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      4,
+      "az000_el20"
+     ],
+     "inside_max": 81,
+     "hole_max_by_elev": {
+      "0": 71,
+      "20": 81
+     }
+    },
+    "collar": {
+     "hole_max": 5,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      16,
+      "az270_el00"
+     ],
+     "inside_max": 10,
+     "hole_max_by_elev": {
+      "0": 5,
+      "20": 2
+     }
+    },
+    "sleeve R": {
+     "hole_max": 64,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      8,
+      "az315_el00"
+     ],
+     "inside_max": 64,
+     "hole_max_by_elev": {
+      "0": 64,
+      "20": 29
+     }
+    },
+    "torso": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      12,
+      16,
+      20
+     ],
+     "worst": [
+      0,
+      "az270_el00"
+     ],
+     "inside_max": 43,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 0
+     }
+    },
+    "trousers R": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      8,
+      "az315_el20"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 2,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1
+     }
+    },
+    "head": {
+     "hole_max": 1,
+     "hole_frames": [
+      16
+     ],
+     "worst": [
+      16,
+      "az045_el00"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "0": 1
+     }
+    }
+   }
+  },
+  "Fidget2": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 64,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      52,
+      "az000_el00"
+     ],
+     "inside_max": 64,
+     "hole_max_by_elev": {
+      "0": 64,
+      "20": 29
+     }
+    },
+    "collar": {
+     "hole_max": 4,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      36,
+      "az000_el00"
+     ],
+     "inside_max": 4,
+     "hole_max_by_elev": {
+      "0": 4,
+      "20": 2
+     }
+    },
+    "sleeve R": {
+     "hole_max": 118,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      24,
+      "az000_el20"
+     ],
+     "inside_max": 119,
+     "hole_max_by_elev": {
+      "0": 113,
+      "20": 118
+     }
+    },
+    "torso": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      48,
+      56
+     ],
+     "worst": [
+      24,
+      "az270_el00"
+     ],
+     "inside_max": 3,
+     "hole_max_by_elev": {
+      "0": 3,
+      "20": 0
+     }
+    },
+    "trousers R": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      8,
+      "az315_el20"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 2,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1
+     }
+    },
+    "none": {
+     "hole_max": 1,
+     "hole_frames": [
+      20,
+      48,
+      52
+     ],
+     "worst": [
+      20,
+      "az000_el00"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "0": 1
+     }
+    }
+   }
+  },
+  "Hammer": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 96,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      16,
+      "az315_el20"
+     ],
+     "inside_max": 96,
+     "hole_max_by_elev": {
+      "0": 90,
+      "20": 96
+     }
+    },
+    "collar": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      24,
+      "az000_el00"
+     ],
+     "inside_max": 8,
+     "hole_max_by_elev": {
+      "0": 3,
+      "20": 1
+     }
+    },
+    "sleeve R": {
+     "hole_max": 164,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      16,
+      "az000_el20"
+     ],
+     "inside_max": 175,
+     "hole_max_by_elev": {
+      "0": 98,
+      "20": 164
+     }
+    },
+    "torso": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      24,
+      "az225_el20"
+     ],
+     "inside_max": 38,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 3
+     }
+    },
+    "trousers R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      28
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 0
+     }
+    },
+    "boot R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      20
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 207,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 0
+     }
+    },
+    "boot L": {
+     "hole_max": 1,
+     "hole_frames": [
+      24
+     ],
+     "worst": [
+      24,
+      "az135_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1
+     }
+    }
+   }
+  },
+  "Hit": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 97,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      24,
+      "az000_el00"
+     ],
+     "inside_max": 97,
+     "hole_max_by_elev": {
+      "0": 97,
+      "20": 86
+     }
+    },
+    "collar": {
+     "hole_max": 8,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      4,
+      "az225_el20"
+     ],
+     "inside_max": 24,
+     "hole_max_by_elev": {
+      "0": 7,
+      "20": 8
+     }
+    },
+    "sleeve R": {
+     "hole_max": 140,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      12,
+      "az315_el00"
+     ],
+     "inside_max": 140,
+     "hole_max_by_elev": {
+      "0": 140,
+      "20": 112
+     }
+    },
+    "torso": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      12,
+      16,
+      28
+     ],
+     "worst": [
+      0,
+      "az270_el00"
+     ],
+     "inside_max": 12,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 1
+     }
+    },
+    "trousers R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      24
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 0
+     }
+    },
+    "boot R": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      16,
+      28
+     ],
+     "worst": [
+      8,
+      "az090_el00"
+     ],
+     "inside_max": 43,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 2
+     }
+    },
+    "none": {
+     "hole_max": 1,
+     "hole_frames": [
+      20
+     ],
+     "worst": [
+      20,
+      "az000_el00"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "0": 1
+     }
+    }
+   }
+  },
+  "Rock": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56,
+    60,
+    64,
+    68
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 61,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      0,
+      "az000_el00"
+     ],
+     "inside_max": 61,
+     "hole_max_by_elev": {
+      "0": 61,
+      "20": 26
+     }
+    },
+    "collar": {
+     "hole_max": 6,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      12,
+      "az270_el00"
+     ],
+     "inside_max": 37,
+     "hole_max_by_elev": {
+      "0": 6,
+      "20": 6
+     }
+    },
+    "sleeve R": {
+     "hole_max": 132,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      60,
+      "az000_el20"
+     ],
+     "inside_max": 150,
+     "hole_max_by_elev": {
+      "0": 132,
+      "20": 132
+     }
+    },
+    "torso": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      48
+     ],
+     "worst": [
+      0,
+      "az270_el00"
+     ],
+     "inside_max": 75,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 2
+     }
+    },
+    "trousers R": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64
+     ],
+     "worst": [
+      24,
+      "az315_el20"
+     ],
+     "inside_max": 3,
+     "hole_max_by_elev": {
+      "20": 3,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1
+     }
+    },
+    "head": {
+     "hole_max": 0,
+     "hole_frames": [],
+     "worst": null,
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "0": 0
+     }
+    }
+   }
+  },
+  "RubBeard": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56,
+    60,
+    64,
+    68
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 89,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      68,
+      "az000_el00"
+     ],
+     "inside_max": 89,
+     "hole_max_by_elev": {
+      "0": 89,
+      "20": 82
+     }
+    },
+    "collar": {
+     "hole_max": 12,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      20,
+      "az270_el00"
+     ],
+     "inside_max": 40,
+     "hole_max_by_elev": {
+      "0": 12,
+      "20": 5
+     }
+    },
+    "sleeve R": {
+     "hole_max": 65,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      24,
+      "az315_el00"
+     ],
+     "inside_max": 66,
+     "hole_max_by_elev": {
+      "0": 65,
+      "20": 30
+     }
+    },
+    "torso": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      12,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60
+     ],
+     "worst": [
+      0,
+      "az270_el00"
+     ],
+     "inside_max": 133,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 1
+     }
+    },
+    "trousers R": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      36,
+      "az315_el20"
+     ],
+     "inside_max": 3,
+     "hole_max_by_elev": {
+      "20": 3,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+     ],
+     "worst": [
+      48,
+      "az315_el20"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 2
+     }
+    },
+    "head": {
+     "hole_max": 1,
+     "hole_frames": [
+      12,
+      20,
+      24,
+      28,
+      48,
+      52
+     ],
+     "worst": [
+      12,
+      "az045_el00"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "0": 1,
+      "20": 1
+     }
+    }
+   }
+  },
+  "Running": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 96,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      12,
+      "az000_el20"
+     ],
+     "inside_max": 96,
+     "hole_max_by_elev": {
+      "0": 82,
+      "20": 96
+     }
+    },
+    "torso": {
+     "hole_max": 1,
+     "hole_frames": [
+      8
+     ],
+     "worst": [
+      8,
+      "az270_el00"
+     ],
+     "inside_max": 54,
+     "hole_max_by_elev": {
+      "0": 1,
+      "20": 0
+     }
+    },
+    "collar": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      8,
+      "az000_el00"
+     ],
+     "inside_max": 10,
+     "hole_max_by_elev": {
+      "0": 3,
+      "20": 1
+     }
+    },
+    "sleeve R": {
+     "hole_max": 118,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      4,
+      "az000_el20"
+     ],
+     "inside_max": 118,
+     "hole_max_by_elev": {
+      "0": 112,
+      "20": 118
+     }
+    },
+    "boot R": {
+     "hole_max": 14,
+     "hole_frames": [
+      0,
+      4,
+      20,
+      24
+     ],
+     "worst": [
+      4,
+      "az135_el00"
+     ],
+     "inside_max": 279,
+     "hole_max_by_elev": {
+      "0": 14,
+      "20": 1
+     }
+    },
+    "trousers R": {
+     "hole_max": 4,
+     "hole_frames": [
+      0,
+      4,
+      20,
+      24
+     ],
+     "worst": [
+      0,
+      "az180_el20"
+     ],
+     "inside_max": 33,
+     "hole_max_by_elev": {
+      "0": 4,
+      "20": 4
+     }
+    },
+    "boot L": {
+     "hole_max": 15,
+     "hole_frames": [
+      0,
+      8,
+      12,
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      16,
+      "az225_el00"
+     ],
+     "inside_max": 213,
+     "hole_max_by_elev": {
+      "20": 9,
+      "0": 15
+     }
+    },
+    "trousers L": {
+     "hole_max": 16,
+     "hole_frames": [
+      8,
+      12,
+      16,
+      20
+     ],
+     "worst": [
+      20,
+      "az135_el20"
+     ],
+     "inside_max": 44,
+     "hole_max_by_elev": {
+      "20": 16,
+      "0": 6
+     }
+    }
+   }
+  },
+  "Standing": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 62,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52
+     ],
+     "worst": [
+      28,
+      "az000_el00"
+     ],
+     "inside_max": 62,
+     "hole_max_by_elev": {
+      "0": 62,
+      "20": 29
+     }
+    },
+    "collar": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52
+     ],
+     "worst": [
+      0,
+      "az000_el00"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 1
+     }
+    },
+    "sleeve R": {
+     "hole_max": 65,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52
+     ],
+     "worst": [
+      20,
+      "az315_el00"
+     ],
+     "inside_max": 65,
+     "hole_max_by_elev": {
+      "0": 65,
+      "20": 30
+     }
+    },
+    "torso": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      48,
+      52
+     ],
+     "worst": [
+      20,
+      "az270_el00"
+     ],
+     "inside_max": 3,
+     "hole_max_by_elev": {
+      "0": 3
+     }
+    },
+    "trousers R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52
+     ],
+     "worst": [
+      4,
+      "az315_el20"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 2,
+      "0": 0
+     }
+    }
+   }
+  },
+  "Talk": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56,
+    60,
+    64,
+    68,
+    72,
+    76,
+    80,
+    84,
+    88,
+    92,
+    96,
+    100,
+    104
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 61,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68,
+      72,
+      76,
+      80,
+      84,
+      88,
+      92,
+      96,
+      100,
+      104
+     ],
+     "worst": [
+      0,
+      "az000_el00"
+     ],
+     "inside_max": 61,
+     "hole_max_by_elev": {
+      "0": 61,
+      "20": 26
+     }
+    },
+    "collar": {
+     "hole_max": 9,
+     "hole_frames": [
+      0,
+      4,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68,
+      72,
+      76,
+      80,
+      84,
+      88,
+      92,
+      96,
+      100,
+      104
+     ],
+     "worst": [
+      76,
+      "az090_el20"
+     ],
+     "inside_max": 30,
+     "hole_max_by_elev": {
+      "0": 8,
+      "20": 9
+     }
+    },
+    "sleeve R": {
+     "hole_max": 108,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68,
+      72,
+      76,
+      80,
+      84,
+      88,
+      92,
+      96,
+      100,
+      104
+     ],
+     "worst": [
+      60,
+      "az000_el00"
+     ],
+     "inside_max": 108,
+     "hole_max_by_elev": {
+      "0": 108,
+      "20": 74
+     }
+    },
+    "torso": {
+     "hole_max": 3,
+     "hole_frames": [
+      0,
+      20,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      64,
+      72,
+      80,
+      84,
+      88,
+      92,
+      96,
+      100,
+      104
+     ],
+     "worst": [
+      28,
+      "az090_el00"
+     ],
+     "inside_max": 19,
+     "hole_max_by_elev": {
+      "0": 3,
+      "20": 0
+     }
+    },
+    "trousers R": {
+     "hole_max": 1,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      76,
+      80,
+      84,
+      88,
+      92,
+      96,
+      104
+     ],
+     "worst": [
+      0,
+      "az315_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 1
+     }
+    },
+    "boot R": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      36,
+      40,
+      44,
+      76,
+      88,
+      92,
+      96,
+      100,
+      104
+     ],
+     "worst": [
+      28,
+      "az315_el20"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 2
+     }
+    },
+    "none": {
+     "hole_max": 1,
+     "hole_frames": [
+      88,
+      104
+     ],
+     "worst": [
+      88,
+      "az000_el20"
+     ],
+     "inside_max": 1,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 1
+     }
+    }
+   }
+  },
+  "Walking": {
+   "frames30": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28
+   ],
+   "zones": {
+    "sleeve L": {
+     "hole_max": 96,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      8,
+      "az315_el00"
+     ],
+     "inside_max": 96,
+     "hole_max_by_elev": {
+      "0": 96,
+      "20": 66
+     }
+    },
+    "collar": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      12,
+      "az000_el00"
+     ],
+     "inside_max": 8,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 0
+     }
+    },
+    "sleeve R": {
+     "hole_max": 107,
+     "hole_frames": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+     ],
+     "worst": [
+      24,
+      "az000_el00"
+     ],
+     "inside_max": 107,
+     "hole_max_by_elev": {
+      "0": 107,
+      "20": 74
+     }
+    },
+    "boot R": {
+     "hole_max": 9,
+     "hole_frames": [
+      0,
+      24,
+      28
+     ],
+     "worst": [
+      28,
+      "az225_el00"
+     ],
+     "inside_max": 173,
+     "hole_max_by_elev": {
+      "0": 9,
+      "20": 0
+     }
+    },
+    "torso": {
+     "hole_max": 2,
+     "hole_frames": [
+      0,
+      8,
+      20,
+      24
+     ],
+     "worst": [
+      24,
+      "az090_el00"
+     ],
+     "inside_max": 151,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 1
+     }
+    },
+    "boot L": {
+     "hole_max": 2,
+     "hole_frames": [
+      12
+     ],
+     "worst": [
+      12,
+      "az180_el00"
+     ],
+     "inside_max": 108,
+     "hole_max_by_elev": {
+      "0": 2,
+      "20": 0
+     }
+    },
+    "trousers L": {
+     "hole_max": 3,
+     "hole_frames": [
+      12
+     ],
+     "worst": [
+      12,
+      "az180_el00"
+     ],
+     "inside_max": 3,
+     "hole_max_by_elev": {
+      "0": 3
+     }
+    },
+    "trousers R": {
+     "hole_max": 2,
+     "hole_frames": [
+      16,
+      20,
+      24
+     ],
+     "worst": [
+      24,
+      "az180_el00"
+     ],
+     "inside_max": 2,
+     "hole_max_by_elev": {
+      "20": 1,
+      "0": 2
+     }
+    }
+   }
+  }
+ },
+ "zones": [
+  "boot L",
+  "boot R",
+  "collar",
+  "head",
+  "sleeve L",
+  "sleeve R",
+  "torso",
+  "trousers L",
+  "trousers R"
+ ],
+ "summary": {
+  "sleeve L": {
+   "hole_max": 111,
+   "worst": [
+    "Dump",
+    24,
+    "az000_el00"
+   ],
+   "clips_with_holes": 15,
+   "frames_with_holes": 191,
+   "hole_max_by_elev": {
+    "0": 111,
+    "20": 101
+   }
+  },
+  "collar": {
+   "hole_max": 12,
+   "worst": [
+    "RubBeard",
+    20,
+    "az270_el00"
+   ],
+   "clips_with_holes": 15,
+   "frames_with_holes": 172,
+   "hole_max_by_elev": {
+    "0": 12,
+    "20": 9
+   }
+  },
+  "sleeve R": {
+   "hole_max": 164,
+   "worst": [
+    "Hammer",
+    16,
+    "az000_el20"
+   ],
+   "clips_with_holes": 15,
+   "frames_with_holes": 191,
+   "hole_max_by_elev": {
+    "0": 159,
+    "20": 164
+   }
+  },
+  "torso": {
+   "hole_max": 43,
+   "worst": [
+    "Death",
+    52,
+    "az000_el00"
+   ],
+   "clips_with_holes": 15,
+   "frames_with_holes": 131,
+   "hole_max_by_elev": {
+    "0": 43,
+    "20": 22
+   }
+  },
+  "trousers R": {
+   "hole_max": 4,
+   "worst": [
+    "Death",
+    20,
+    "az225_el20"
+   ],
+   "clips_with_holes": 13,
+   "frames_with_holes": 125,
+   "hole_max_by_elev": {
+    "20": 4,
+    "0": 4
+   }
+  },
+  "boot R": {
+   "hole_max": 14,
+   "worst": [
+    "Running",
+    4,
+    "az135_el00"
+   ],
+   "clips_with_holes": 14,
+   "frames_with_holes": 136,
+   "hole_max_by_elev": {
+    "20": 3,
+    "0": 14
+   }
+  },
+  "boot L": {
+   "hole_max": 15,
+   "worst": [
+    "Running",
+    16,
+    "az225_el00"
+   ],
+   "clips_with_holes": 7,
+   "frames_with_holes": 27,
+   "hole_max_by_elev": {
+    "0": 15,
+    "20": 9
+   }
+  },
+  "none": {
+   "hole_max": 1,
+   "worst": [
+    "AttackMelee",
+    28,
+    "az045_el20"
+   ],
+   "clips_with_holes": 4,
+   "frames_with_holes": 7,
+   "hole_max_by_elev": {
+    "20": 1,
+    "0": 1
+   }
+  },
+  "trousers L": {
+   "hole_max": 17,
+   "worst": [
+    "Dump",
+    16,
+    "az135_el20"
+   ],
+   "clips_with_holes": 5,
+   "frames_with_holes": 14,
+   "hole_max_by_elev": {
+    "20": 17,
+    "0": 6
+   }
+  },
+  "head": {
+   "hole_max": 7,
+   "worst": [
+    "Death",
+    52,
+    "az270_el00"
+   ],
+   "clips_with_holes": 4,
+   "frames_with_holes": 19,
+   "hole_max_by_elev": {
+    "0": 7,
+    "20": 1
+   }
+  }
+ },
+ "shots": [
+  {
+   "zone": "sleeve R",
+   "clip": "Hammer",
+   "frame30": 16,
+   "view": "az000_el20",
+   "hole_px": 164,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_sleeveR_Hammer_16_az000_el20.png"
+  },
+  {
+   "zone": "sleeve R",
+   "clip": "Dump",
+   "frame30": 56,
+   "view": "az000_el00",
+   "hole_px": 159,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_sleeveR_Dump_56_az000_el00.png"
+  },
+  {
+   "zone": "sleeve L",
+   "clip": "Dump",
+   "frame30": 24,
+   "view": "az000_el00",
+   "hole_px": 111,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_sleeveL_Dump_24_az000_el00.png"
+  },
+  {
+   "zone": "sleeve L",
+   "clip": "Cower",
+   "frame30": 0,
+   "view": "az270_el00",
+   "hole_px": 104,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_sleeveL_Cower_0_az270_el00.png"
+  },
+  {
+   "zone": "torso",
+   "clip": "Death",
+   "frame30": 52,
+   "view": "az000_el00",
+   "hole_px": 43,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_torso_Death_52_az000_el00.png"
+  },
+  {
+   "zone": "torso",
+   "clip": "Dead",
+   "frame30": 0,
+   "view": "az315_el00",
+   "hole_px": 36,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_torso_Dead_0_az315_el00.png"
+  },
+  {
+   "zone": "trousers L",
+   "clip": "Dump",
+   "frame30": 16,
+   "view": "az135_el20",
+   "hole_px": 17,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_trousersL_Dump_16_az135_el20.png"
+  },
+  {
+   "zone": "trousers L",
+   "clip": "Running",
+   "frame30": 20,
+   "view": "az135_el20",
+   "hole_px": 16,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_trousersL_Running_20_az135_el20.png"
+  },
+  {
+   "zone": "boot L",
+   "clip": "Running",
+   "frame30": 16,
+   "view": "az225_el00",
+   "hole_px": 15,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_bootL_Running_16_az225_el00.png"
+  },
+  {
+   "zone": "boot R",
+   "clip": "Running",
+   "frame30": 4,
+   "view": "az135_el00",
+   "hole_px": 14,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_bootR_Running_4_az135_el00.png"
+  },
+  {
+   "zone": "collar",
+   "clip": "RubBeard",
+   "frame30": 20,
+   "view": "az270_el00",
+   "hole_px": 12,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_collar_RubBeard_20_az270_el00.png"
+  },
+  {
+   "zone": "boot L",
+   "clip": "Running",
+   "frame30": 12,
+   "view": "az225_el00",
+   "hole_px": 12,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_bootL_Running_12_az225_el00.png"
+  },
+  {
+   "zone": "boot R",
+   "clip": "Death",
+   "frame30": 20,
+   "view": "az225_el00",
+   "hole_px": 9,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_bootR_Death_20_az225_el00.png"
+  },
+  {
+   "zone": "collar",
+   "clip": "Death",
+   "frame30": 32,
+   "view": "az270_el00",
+   "hole_px": 9,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_collar_Death_32_az270_el00.png"
+  },
+  {
+   "zone": "head",
+   "clip": "Death",
+   "frame30": 52,
+   "view": "az270_el00",
+   "hole_px": 7,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_head_Death_52_az270_el00.png"
+  },
+  {
+   "zone": "trousers R",
+   "clip": "Death",
+   "frame30": 20,
+   "view": "az225_el20",
+   "hole_px": 4,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_trousersR_Death_20_az225_el20.png"
+  },
+  {
+   "zone": "trousers R",
+   "clip": "Running",
+   "frame30": 0,
+   "view": "az180_el20",
+   "hole_px": 4,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_trousersR_Running_0_az180_el20.png"
+  },
+  {
+   "zone": "none",
+   "clip": "AttackMelee",
+   "frame30": 28,
+   "view": "az045_el20",
+   "hole_px": 1,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_none_AttackMelee_28_az045_el20.png"
+  },
+  {
+   "zone": "head",
+   "clip": "Dead",
+   "frame30": 0,
+   "view": "az000_el00",
+   "hole_px": 1,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_head_Dead_0_az000_el00.png"
+  },
+  {
+   "zone": "none",
+   "clip": "Fidget2",
+   "frame30": 20,
+   "view": "az000_el00",
+   "hole_px": 1,
+   "png": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/mm9_overview/holes_sweep_20261102/peasantdm1/see_through_none_Fidget2_20_az000_el00.png"
+  }
+ ]
+}

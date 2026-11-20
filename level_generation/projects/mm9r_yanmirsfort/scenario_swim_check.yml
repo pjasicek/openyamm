@@ -1,0 +1,89 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.yanmirsfort_swim_check
+title: 'Yanmir''s Fort (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: yanmirsfort.blv
+- note:
+    text: 'BlueWater0: on its bed at -198, 157 under its top -41.0'
+- set_pose: &id001
+    map: yanmirsfort.blv
+    x: -4458
+    y: -9420
+    z: -197
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -185.9
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start: *id001
+    expect_stop:
+      map: yanmirsfort.blv
+      x: -4458
+      y: -9420
+      z: -174
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'BlueWater0: on its bed at -195, 154 under its top -41.0'
+- set_pose: &id002
+    map: yanmirsfort.blv
+    x: -5250
+    y: -9910
+    z: -194
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -183.5
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start: *id002
+    expect_stop:
+      map: yanmirsfort.blv
+      x: -5250
+      y: -9910
+      z: -174
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99

@@ -1,0 +1,27 @@
+# The ice cinematic (break_ice) skipped at 1 s, before any floe breaks: its steps still run (every floe down, key
+# 72, the 8 000 experience). Then the barrel broken by an attack (its shared destroyed event 30607) does nothing more:
+# the cinematic plays once. See README "Cinematics".
+id: mm9r.frosgardcity.cinematic_break_ice_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: frosgardcity.blv}
+- set_pose: {map: frosgardcity.blv, x: 4260, y: -10486, z: 236, yaw: -1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90071}
+- setup_shortcut: {kind: set_qbit, id: 91022}
+- note: {text: "the barrel broken (DestructableProp0's death, DeathTriggerTarget Shooter0 Start) starts it as its click does"}
+- execute_event: {id: 30607}
+- advance_runtime: {seconds: 1.0}
+- console: {line: cinematic list, expect_contains: playing break_ice}
+- assert: {mechanism: {id: 39, state: closed}}
+- assert: {qbit_clear: [90072]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 3}
+- assert: {qbit_set: [90072]}
+- assert: {mechanism: {id: 39, state: open}}
+- assert: {mechanism: {id: 61, state: open}}
+- save_game: {name: after_skip}
+- execute_event: {id: 232}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: Cinematics}
+- save_game: {name: no_second_play}

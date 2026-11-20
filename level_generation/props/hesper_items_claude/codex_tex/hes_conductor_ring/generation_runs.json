@@ -1,0 +1,712 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic texture-source albedo painting for the Hesper conductor ring.\nInput image 1 (design_reference.png) is ONLY the approved design, material and colour reference. Input image 2 is the EDIT TARGET, the exact orthographic model guide. Paint directly over image 2; its geometry wins over image 1.\nChange surface colours and fine material details ONLY. Keep the guide's silhouette, all inner-hole boundaries, every strand crossing and part edge, framing, size, position, camera and visible/hidden parts EXACTLY. Preserve the guide's original alpha mask pixel for pixel. Do not rotate, straighten, round off, recenter, enlarge or redesign it. Do not copy the reference's camera or more elaborate geometry.\nMaterials: all the guide's pale yellow braided conductor wires become the reference's warm brushed gold base colour, with restrained fine brushed grain and subtle wear. The light grey/white head becomes warm white ceramic with fine wear and small panel joins, matching the reference. Gold trim stays within the existing head silhouette. Any visible light-tone emitter becomes bright cyan/blue-white with a narrow dark blue-violet resin inset; only where the guide has an emitter. Hidden faces plausibly continue the same materials. Guide tints only identify materials and are not colours to copy.\nLighting: UNLIT ALBEDO, flat even shadowless viewer light. No cast shadows, no ambient occlusion, no darkening at crossings or inner ring, no directional illumination, no white specular stripes, no strong highlights, reflections, rim light, bloom or glow spill. Gold shows its base colour with at most a faint sheen. Light elements are painted as bright colours.\nOutput: a single 1024 x 1024 RGBA painting, genuinely transparent background and ring hole, original guide placement. No background, floor, text, letters, numbers, labels or watermark. No parts outside the original guide silhouette.\nView-specific geometry: FRONT VIEW: retain the wide oval ring spanning x=66..957, y=204..819. The ceramic head is partially hidden behind the top strands, its visible upper cap at the top centre. Do not reveal the emitter or add a faceplate in front of the obstructing gold strands.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_front.png",
+        "sha256": "34a24871a97d47509305c5d7c73dc86559fb6ab0df71960648790e83146402cf"
+      }
+    ],
+    "output": "paint_front.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-7f7a08da-2965-4a4f-90c9-660c9cf765d1.png",
+    "selected": true,
+    "reason": "Selected: normalized guide-mask overlap 98.8%, substantially better than correction (72.1%). Strong highlights and recessed shading remain; best available raw return, not fully brief-compliant.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "2fd92e8bc31359406de78c02f23e7182f1780c8fed12cdc99803e6207d6e25f1",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "best_available_not_brief_compliant",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        53,
+        1222,
+        1222
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        82,
+        249,
+        1172,
+        1001
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        66,
+        204,
+        958,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.9880819163842388,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic texture-source albedo painting for the Hesper conductor ring.\nInput image 1 is the EDIT TARGET: the 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is ONLY a material and base-colour reference. Paint directly over image 1; its geometry and canvas win over image 2.\nChange surface colours and fine material details ONLY. Keep the guide's silhouette, all inner-hole boundaries, every strand crossing and part edge, framing, size, position, camera and visible/hidden parts EXACTLY. Preserve the guide's original alpha mask pixel for pixel. Do not rotate, straighten, round off, recenter, enlarge or redesign it. Do not copy the reference's camera or more elaborate geometry.\nMaterials: all the guide's pale yellow braided conductor wires become the reference's warm brushed gold base colour, with restrained fine brushed grain and subtle wear. The light grey/white head becomes warm white ceramic with fine wear and small panel joins, matching the reference. Gold trim stays within the existing head silhouette. Any visible light-tone emitter becomes bright cyan/blue-white with a narrow dark blue-violet resin inset; only where the guide has an emitter. Hidden faces plausibly continue the same materials. Guide tints only identify materials and are not colours to copy.\nLighting: UNLIT ALBEDO, flat even shadowless viewer light. No cast shadows, no ambient occlusion, no darkening at crossings or inner ring, no directional illumination, no white specular stripes, no strong highlights, reflections, rim light, bloom or glow spill. Gold shows its base colour with at most a faint sheen. Light elements are painted as bright colours.\nOutput: a single 1024 x 1024 RGBA painting, genuinely transparent background and ring hole, original guide placement. No background, floor, text, letters, numbers, labels or watermark. No parts outside the original guide silhouette.\nCritical finish: this is a diffuse BASE COLOUR PASS for texture projection, NOT a beauty render. Make each gold strand uniformly ochre-gold with low-contrast fine brushed grain, the SAME brightness on top, bottom, sides and at crossings. Ceramic is evenly warm white. Remove all the guide's lighting as well as the reference's metallic shading. No dark contour outlines, bevel shading or bright edge streaks. Preserve angular polygon silhouettes instead of smoothing their corners. Output the EDIT TARGET's exact 1024 x 1024 canvas.\nView-specific geometry: FRONT VIEW: retain the wide oval ring spanning x=66..957, y=204..819. The ceramic head is partially hidden behind the top strands, its visible upper cap at the top centre. Do not reveal the emitter or add a faceplate in front of the obstructing gold strands.\nThis is the one corrective regeneration: prioritize the exact pixel-locked guide silhouette and uniformly flat base colours over illustrative metal shading. Preserve original angular outline and original transparent pixels exactly.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_front.png",
+        "sha256": "34a24871a97d47509305c5d7c73dc86559fb6ab0df71960648790e83146402cf"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_front_attempt_2.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-ac973dee-03ce-4bcd-b345-f1d7fb14d620.png",
+    "selected": false,
+    "reason": "Rejected after measurement: flatter finish, but guide-mask overlap dropped to 72.1%; shape and placement changed substantially.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "d25dafca5d594806005d5e19da75f47b48f10182291ddd07e1fdbc444c335c7e",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "not_selected",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1224,
+        1254
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        101,
+        216,
+        1165,
+        955
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        66,
+        204,
+        958,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.7207522140268672,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic texture-source albedo painting for the Hesper conductor ring.\nInput image 1 is the EDIT TARGET: the 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is ONLY a material and base-colour reference. Paint directly over image 1; its geometry and canvas win over image 2.\nChange surface colours and fine material details ONLY. Keep the guide's silhouette, all inner-hole boundaries, every strand crossing and part edge, framing, size, position, camera and visible/hidden parts EXACTLY. Preserve the guide's original alpha mask pixel for pixel. Do not rotate, straighten, round off, recenter, enlarge or redesign it. Do not copy the reference's camera or more elaborate geometry.\nMaterials: all the guide's pale yellow braided conductor wires become the reference's warm brushed gold base colour, with restrained fine brushed grain and subtle wear. The light grey/white head becomes warm white ceramic with fine wear and small panel joins, matching the reference. Gold trim stays within the existing head silhouette. Any visible light-tone emitter becomes bright cyan/blue-white with a narrow dark blue-violet resin inset; only where the guide has an emitter. Hidden faces plausibly continue the same materials. Guide tints only identify materials and are not colours to copy.\nLighting: UNLIT ALBEDO, flat even shadowless viewer light. No cast shadows, no ambient occlusion, no darkening at crossings or inner ring, no directional illumination, no white specular stripes, no strong highlights, reflections, rim light, bloom or glow spill. Gold shows its base colour with at most a faint sheen. Light elements are painted as bright colours.\nOutput: a single 1024 x 1024 RGBA painting, genuinely transparent background and ring hole, original guide placement. No background, floor, text, letters, numbers, labels or watermark. No parts outside the original guide silhouette.\nCritical finish: this is a diffuse BASE COLOUR PASS for texture projection, NOT a beauty render. Make each gold strand uniformly ochre-gold with low-contrast fine brushed grain, the SAME brightness on top, bottom, sides and at crossings. Ceramic is evenly warm white. Remove all the guide's lighting as well as the reference's metallic shading. No dark contour outlines, bevel shading or bright edge streaks. Preserve angular polygon silhouettes instead of smoothing their corners. Output the EDIT TARGET's exact 1024 x 1024 canvas.\nView-specific geometry: BACK VIEW: retain the wide oval ring spanning x=66..957, y=204..819. The ceramic head is fully visible at the upper centre in front of the upper gold wires; retain its exact octagonal rectangle and vertical cyan strip. Preserve the large lower foreground braid and all its crossings.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_back.png",
+        "sha256": "ee082640535fd107859939a663266eb98709c654c234b6654586249c32d3435e"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_back.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-f819bf26-34e6-4a79-a049-ab2ef8e3ff9c.png",
+    "selected": true,
+    "reason": "Selected: normalized guide-mask overlap 85.4%, better than correction (72.1%). Residual facet shading and silhouette drift remain; best available raw return, not fully brief-compliant.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "742a223e85179e04a6282f18c6e771beb11cdd479e634534d379350c6cca25be",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "best_available_not_brief_compliant",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1238,
+        1200
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        80,
+        232,
+        1175,
+        979
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        66,
+        204,
+        958,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.8535077246029431,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Produce ONE 1024x1024 transparent PNG, an unlit diffuse texture painting.\nImage 1 is guide_back.png, the exact EDIT TARGET. Image 2 is design_reference.png, COLOURS AND SURFACE TEXTURE ONLY.\nPaint inside image 1's existing opaque pixels. Copy its alpha and every edge exactly, including its angular corners, ring hole, broad foreground braids, top-centred octagonal ceramic block and vertical light strip. No zoom, crop, displacement, smoothing, changed braid or new shape.\nApply warm mid gold to every gold-wire face. Use near-uniform gold colour with only extremely fine low-contrast brushed grain. All facets including undersides and overlap recesses must have the SAME brightness: NO shadowed brown sides, NO highlight stripes, NO shading gradients, NO shiny metallic lighting. Treat this as a FLAT COLOUR MAP with surface wear, not a shaded object illustration. Do not copy the guide's shadows or the reference's lighting.\nThe top block is evenly ivory-white ceramic with sparse fine wear, thin panel seams and restrained existing gold trim. Its small vertical strip is blue-white cyan within a thin blue-violet inset, no bloom or spill.\nBACK VIEW: retain the wide oval ring spanning x=66..957, y=204..819. The ceramic head is fully visible at the upper centre in front of the upper gold wires; retain its exact octagonal rectangle and vertical cyan strip. Preserve the large lower foreground braid and all its crossings.\nCorrective regeneration: remove the previous attempt's facet shading and highlights and restore exact guide edges. Keep the entire background and ring opening genuinely transparent; no coloured fringe, text, letters, captions, floor or cast shadow. Return only this painting at the guide's unchanged canvas size.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_back.png",
+        "sha256": "ee082640535fd107859939a663266eb98709c654c234b6654586249c32d3435e"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_back_attempt_2.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-f5c1740d-84ba-4f19-9e5d-31a7bdf0d170.png",
+    "selected": false,
+    "reason": "Corrective regeneration did not remove shading and moved guide features further; retained for provenance.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "905591179361a3b6a7e92e3b187f28b3810e8c0641899aa5e73a81c7b36c2f8a",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "not_selected",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        31,
+        39,
+        1210,
+        1214
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        95,
+        217,
+        1146,
+        956
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        66,
+        204,
+        958,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.7206548380986275,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic texture-source albedo painting for the Hesper conductor ring.\nInput image 1 is the EDIT TARGET: the 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is ONLY a material and base-colour reference. Paint directly over image 1; its geometry and canvas win over image 2.\nChange surface colours and fine material details ONLY. Keep the guide's silhouette, all inner-hole boundaries, every strand crossing and part edge, framing, size, position, camera and visible/hidden parts EXACTLY. Preserve the guide's original alpha mask pixel for pixel. Do not rotate, straighten, round off, recenter, enlarge or redesign it. Do not copy the reference's camera or more elaborate geometry.\nMaterials: all the guide's pale yellow braided conductor wires become the reference's warm brushed gold base colour, with restrained fine brushed grain and subtle wear. The light grey/white head becomes warm white ceramic with fine wear and small panel joins, matching the reference. Gold trim stays within the existing head silhouette. Any visible light-tone emitter becomes bright cyan/blue-white with a narrow dark blue-violet resin inset; only where the guide has an emitter. Hidden faces plausibly continue the same materials. Guide tints only identify materials and are not colours to copy.\nLighting: UNLIT ALBEDO, flat even shadowless viewer light. No cast shadows, no ambient occlusion, no darkening at crossings or inner ring, no directional illumination, no white specular stripes, no strong highlights, reflections, rim light, bloom or glow spill. Gold shows its base colour with at most a faint sheen. Light elements are painted as bright colours.\nOutput: a single 1024 x 1024 RGBA painting, genuinely transparent background and ring hole, original guide placement. No background, floor, text, letters, numbers, labels or watermark. No parts outside the original guide silhouette.\nCritical finish: this is a diffuse BASE COLOUR PASS for texture projection, NOT a beauty render. Make each gold strand uniformly ochre-gold with low-contrast fine brushed grain, the SAME brightness on top, bottom, sides and at crossings. Ceramic is evenly warm white. Remove all the guide's lighting as well as the reference's metallic shading. No dark contour outlines, bevel shading or bright edge streaks. Preserve angular polygon silhouettes instead of smoothing their corners. Output the EDIT TARGET's exact 1024 x 1024 canvas.\nView-specific geometry: LEFT VIEW: preserve the thin diagonal edge-on ring, ceramic head at the upper LEFT and the braid extending down toward the lower RIGHT. Keep x=91..933, y=204..819. Preserve the cyan emitter sliver on the upper-left-facing edge of the head and all visible faceted edges exactly.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_left.png",
+        "sha256": "1995edd44352dc3472b21b25947b9d15e6e6006a841aed3c59f2197ac127e709"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_left_attempt_1.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-52700a8b-42c8-486b-b2dd-6a7e1c20ecd9.png",
+    "selected": false,
+    "reason": "Rejected: darker side faces, extra trim and poorer guide alignment.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "ab00b396cbccc385bea1ca646c5ed6f59ccbeb21a29808ef52b1f474e6c0aa31",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "not_selected",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1224,
+        1254
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        111,
+        211,
+        1150,
+        967
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        91,
+        204,
+        934,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.7337525864777319,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Edit image 1 (guide_left.png) in place as a 1024 x 1024 transparent albedo texture source. Image 2 supplies only gold/ceramic material colour and fine wear.\nMake a FLAT, UNLIT BASE-COLOUR PAINTING. Apply one uniform warm gold base colour with very subtle brushed grain across ALL wire facets, including every side face and underside. White ceramic has subtle warm wear. The existing emitter sliver is cyan-white with dark blue-violet resin border. No shading, no shadows, no highlights, no white edge lines, no dark contours, no occlusion, no reflections. Do not simulate shiny metal lighting.\nCopy the guide geometry and alpha mask EXACTLY. Paint without shifting any contour, polygon corner, strand crossing, part, margin or transparent pixel. Do not change the shape to match the design reference. LEFT VIEW: preserve the thin diagonal edge-on ring, ceramic head at the upper LEFT and the braid extending down toward the lower RIGHT. Keep x=91..933, y=204..819. Preserve the cyan emitter sliver on the upper-left-facing edge of the head and all visible faceted edges exactly.\nOne corrective regeneration: the previous painting had dark gold side faces and changed the outline. Correct these, keeping this exact guide's angular silhouette and unchanged 1024-square framing. Keep background transparent, no text or letters.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_left.png",
+        "sha256": "1995edd44352dc3472b21b25947b9d15e6e6006a841aed3c59f2197ac127e709"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_left.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-d9cd541f-97e9-450b-be41-329bac81b743.png",
+    "selected": true,
+    "reason": "Selected: flatter gold and closer angular guide layout than attempt 1. Residual facet shading and silhouette mismatch remain.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "d7356f4a2c569d37a1b38ecd8b9c1b2f01b7a4c8a9f83b7a57675d202ebfab8b",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "best_available_not_brief_compliant",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        35,
+        31,
+        1190,
+        1254
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        108,
+        250,
+        1145,
+        1005
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        91,
+        204,
+        934,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.9841141957465651,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic texture-source albedo painting for the Hesper conductor ring.\nInput image 1 is the EDIT TARGET: the 1024 x 1024 orthographic model guide. Input image 2 (design_reference.png) is ONLY a material and base-colour reference. Paint directly over image 1; its geometry and canvas win over image 2.\nChange surface colours and fine material details ONLY. Keep the guide's silhouette, all inner-hole boundaries, every strand crossing and part edge, framing, size, position, camera and visible/hidden parts EXACTLY. Preserve the guide's original alpha mask pixel for pixel. Do not rotate, straighten, round off, recenter, enlarge or redesign it. Do not copy the reference's camera or more elaborate geometry.\nMaterials: all the guide's pale yellow braided conductor wires become the reference's warm brushed gold base colour, with restrained fine brushed grain and subtle wear. The light grey/white head becomes warm white ceramic with fine wear and small panel joins, matching the reference. Gold trim stays within the existing head silhouette. Any visible light-tone emitter becomes bright cyan/blue-white with a narrow dark blue-violet resin inset; only where the guide has an emitter. Hidden faces plausibly continue the same materials. Guide tints only identify materials and are not colours to copy.\nLighting: UNLIT ALBEDO, flat even shadowless viewer light. No cast shadows, no ambient occlusion, no darkening at crossings or inner ring, no directional illumination, no white specular stripes, no strong highlights, reflections, rim light, bloom or glow spill. Gold shows its base colour with at most a faint sheen. Light elements are painted as bright colours.\nOutput: a single 1024 x 1024 RGBA painting, genuinely transparent background and ring hole, original guide placement. No background, floor, text, letters, numbers, labels or watermark. No parts outside the original guide silhouette.\nCritical finish: this is a diffuse BASE COLOUR PASS for texture projection, NOT a beauty render. Make each gold strand uniformly ochre-gold with low-contrast fine brushed grain, the SAME brightness on top, bottom, sides and at crossings. Ceramic is evenly warm white. Remove all the guide's lighting as well as the reference's metallic shading. No dark contour outlines, bevel shading or bright edge streaks. Preserve angular polygon silhouettes instead of smoothing their corners. Output the EDIT TARGET's exact 1024 x 1024 canvas.\nView-specific geometry: RIGHT VIEW: preserve the thin diagonal edge-on ring, ceramic head at the upper RIGHT and the braid extending down toward the lower LEFT. Keep x=90..932, y=204..819. Preserve the cyan emitter sliver on the upper-right-facing edge of the head and all visible faceted edges exactly.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_right.png",
+        "sha256": "6baebdb7e3f6c329665bc956ac367cdb69c7cd99f6c55d729e2c975e612100cd"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_right_attempt_1.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-72119df0-e4d1-4b1f-9a28-2b8e3180304c.png",
+    "selected": false,
+    "reason": "Rejected: dark side facets, glossy edge strokes and poorer guide alignment.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "07d26c7615c853a533b83f346f05f27672d0b7eb70a091b06e087e3415efc0f0",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "not_selected",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        128,
+        37,
+        1152,
+        987
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        136,
+        224,
+        1149,
+        967
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        90,
+        204,
+        933,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.8031715032948459,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Edit image 1 (guide_right.png) in place as a 1024 x 1024 transparent albedo texture source. Image 2 supplies only gold/ceramic material colour and fine wear.\nMake a FLAT, UNLIT BASE-COLOUR PAINTING. Apply one uniform warm gold base colour with very subtle brushed grain across ALL wire facets, including every side face and underside. White ceramic has subtle warm wear. The existing emitter sliver is cyan-white with dark blue-violet resin border. No shading, no shadows, no highlights, no white edge lines, no dark contours, no occlusion, no reflections. Do not simulate shiny metal lighting.\nCopy the guide geometry and alpha mask EXACTLY. Paint without shifting any contour, polygon corner, strand crossing, part, margin or transparent pixel. Do not change the shape to match the design reference. RIGHT VIEW: preserve the thin diagonal edge-on ring, ceramic head at the upper RIGHT and the braid extending down toward the lower LEFT. Keep x=90..932, y=204..819. Preserve the cyan emitter sliver on the upper-right-facing edge of the head and all visible faceted edges exactly.\nOne corrective regeneration: the previous painting had dark gold side faces and changed the outline. Correct these, keeping this exact guide's angular silhouette and unchanged 1024-square framing. Keep background transparent, no text or letters.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_right.png",
+        "sha256": "6baebdb7e3f6c329665bc956ac367cdb69c7cd99f6c55d729e2c975e612100cd"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_right.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-983d4f1f-9f91-4c3b-98b7-f981513b7ac7.png",
+    "selected": true,
+    "reason": "Selected: flatter gold and closer guide layout than attempt 1. Residual facet shading and silhouette mismatch remain.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "3c6d468a95caedadde45055f2068315bd566bef6e6554af023c2a0860269f53d",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "best_available_not_brief_compliant",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        39,
+        70,
+        1224,
+        1220
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        113,
+        249,
+        1164,
+        1017
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        90,
+        204,
+        933,
+        820
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.8844471522752484,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Edit image 1 (guide_top.png) in place as a 1024 x 1024 transparent albedo texture source. Image 2 supplies only gold/ceramic material colour and fine wear.\nMake a FLAT, UNLIT BASE-COLOUR PAINTING. Apply one uniform warm gold base colour with very subtle brushed grain across ALL wire facets, including every side face and underside. White ceramic has subtle warm wear. The existing rectangular emitter is cyan-white with dark blue-violet resin border. No shading, no shadows, no highlights, no white edge lines, no dark contours, no occlusion, no reflections. Do not simulate shiny metal lighting.\nCopy the guide geometry and alpha mask EXACTLY. Paint without shifting any contour, polygon corner, strand crossing, part, margin or transparent pixel. Do not change the shape to match the design reference. TOP VIEW: preserve the near-circular ring viewed directly from above, spanning x=66..957, y=90..933. The ceramic head is centred at the top with the cyan rectangular emitter reaching y=90. Keep the exact interior opening and every braid crossing.\nPreserve this exact guide's angular silhouette and unchanged 1024-square framing. Keep background transparent, no text or letters.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_top.png",
+        "sha256": "84e929ccb455d9abec42d12d54a7d4b8ca0ce2846b23ff0a100e50397cd7141a"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_top_attempt_1.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-68792aa9-e5c9-4929-98bc-47c118713620.png",
+    "selected": false,
+    "reason": "Rejected: stronger facet highlights, dark sides and misplaced head; corrective regeneration requested.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "e769ff83141fe19888fa6b06749c4346c7c54a321c133c4eebddce1b691cb20c",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "not_selected",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        25,
+        1240,
+        1220
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        97,
+        92,
+        1181,
+        1121
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        66,
+        90,
+        958,
+        934
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.8627448933793982,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Edit image 1 (guide_top.png) in place as a 1024 x 1024 transparent albedo texture source. Image 2 supplies only gold/ceramic material colour and fine wear.\nMake a FLAT, UNLIT BASE-COLOUR PAINTING. Apply one uniform warm gold base colour with very subtle brushed grain across ALL wire facets, including every side face and underside. White ceramic has subtle warm wear. The existing rectangular emitter is cyan-white with dark blue-violet resin border. No shading, no shadows, no highlights, no white edge lines, no dark contours, no occlusion, no reflections. Do not simulate shiny metal lighting.\nCopy the guide geometry and alpha mask EXACTLY. Paint without shifting any contour, polygon corner, strand crossing, part, margin or transparent pixel. Do not change the shape to match the design reference. TOP VIEW: preserve the near-circular ring viewed directly from above, spanning x=66..957, y=90..933. The ceramic head is centred at the top with the cyan rectangular emitter reaching y=90. Keep the exact interior opening and every braid crossing.\nPreserve this exact guide's angular silhouette and unchanged 1024-square framing. Keep background transparent, no text or letters.\nCORRECTIVE REGENERATION: The first return had dark shaded sides, bright face highlights and an enlarged/repositioned head. Restore the exact top guide proportions and placement. Recolour its opaque pixels only, preserving its alpha. ALL gold surfaces must use the same mid-gold albedo brightness, regardless of facet direction or strand overlap. Keep only fine low-contrast brushed texture; remove all geometric light-and-dark shading. Ceramic head remains exactly its guide outline and position, tiny emitter stays exactly the guide's rectangle. No added rim around or outside any guide boundary.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/guide_top.png",
+        "sha256": "84e929ccb455d9abec42d12d54a7d4b8ca0ce2846b23ff0a100e50397cd7141a"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductor_ring/design_reference.png",
+        "sha256": "c17971301be61a124f4384c2d55910cfaf3271cce2b308e115708d52101b8375"
+      }
+    ],
+    "output": "paint_top.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16da9-63c9-7123-bf50-7b5eb748abbd/exec-3ef7fdd2-52ba-4a66-b668-fec6671bec08.png",
+    "selected": true,
+    "reason": "Selected: flatter gold and closer guide placement than attempt 1. Residual facet shading and silhouette mismatch remain.",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "7dd39173b1ba3ed4a6187022054672eac4561c798f9678dd82fd63e3a034ea4b",
+    "resized": false,
+    "tool": "built-in image_gen.imagegen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "postprocessed": false,
+    "status": "best_available_not_brief_compliant",
+    "checks": {
+      "rgba_png": true,
+      "transparent_background_present": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1240,
+        1254
+      ],
+      "opaque_silhouette_bbox_alpha_128": [
+        93,
+        108,
+        1179,
+        1135
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "guide_alpha_bbox": [
+        66,
+        90,
+        958,
+        934
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha_128": 0.936216829656337,
+      "comparison_note": "Guide and output sampled at corresponding normalized canvas positions for diagnostic comparison only; saved output is the original unresized tool return. A high overlap is not pixel identity.",
+      "flat_shadowless_albedo_pass": false,
+      "lighting_review": "Visible facet light/dark shading remains; some returns also retain metallic highlight strokes.",
+      "materials_review": "Gold conductor wire, worn ivory ceramic and cyan/blue-violet emitter where visible follow the design palette; painted surface detail reviewed visually.",
+      "no_text_or_letters_visual_check": true,
+      "alpha_review": "Real transparency is present, but generated low-alpha fringe/speckles extend beyond the main shape; source alpha was not preserved exactly.",
+      "unchanged_tool_return": true
+    }
+  }
+]

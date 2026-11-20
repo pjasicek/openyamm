@@ -1,0 +1,42 @@
+[
+  {
+    "raw": "raw/6drsrew_v2.png",
+    "sha256": "9a4a0df27ff1ec6451671743a031c46905ab2509dd9c180800e88d9b5ab70c67",
+    "prompt": "prompts/6drsrew_v2.txt",
+    "tool": "built-in imagegen",
+    "backend_model": "not exposed",
+    "tool_filename": "exec-1c3d3631-8067-43fc-ae0b-6d6cea037633.png"
+  },
+  {
+    "raw": "raw/6grdrtxne_v2.png",
+    "sha256": "047ca0d234a26ddceba0db70b2c8fdad3a700722fde5cc221df35db3afe62db7",
+    "prompt": "prompts/6grdrtxne_v2.txt",
+    "tool": "built-in imagegen",
+    "backend_model": "not exposed",
+    "tool_filename": "exec-e22b9cbf-2cbe-47d1-8593-cf403795edfc.png"
+  },
+  {
+    "raw": "material_seams/dirt_repair_raw.png",
+    "sha256": "9cb96f2f2b80ceec570075b09c6ffdefdcd6f09de4698bc66e8b4dfca7326928",
+    "prompt": "material_seams/dirt_prompt.txt",
+    "tool": "built-in imagegen",
+    "backend_model": "not exposed",
+    "tool_filename": "exec-5c4e8c5d-d9ac-4ad8-b8ef-b91b2136543a.png"
+  },
+  {
+    "raw": "material_seams/volcano_repair_raw.png",
+    "sha256": "a0ca7b9d3a5c113601bd395e842d203eb9355c49787107752a268ffd5072ac64",
+    "prompt": "material_seams/volcano_prompt.txt",
+    "tool": "built-in imagegen",
+    "backend_model": "not exposed",
+    "tool_filename": "exec-5eccb571-9184-4d54-adc3-b2c8d581b1a0.png"
+  },
+  {
+    "raw": "material_seams/cobbles_repair_raw.png",
+    "sha256": "fecb4bffbb4da32336599541cc74f72d7588c32c8554907878189aa9e9243f88",
+    "prompt": "material_seams/cobbles_prompt.txt",
+    "tool": "built-in imagegen",
+    "backend_model": "not exposed",
+    "tool_filename": "exec-18c1908b-2761-4f21-8115-621bdd518d18.png"
+  }
+]

@@ -1,0 +1,213 @@
+id: levelgen.greywatch.lift_route
+title: Walk onto and off native lift, save mid-travel, recover empty platform from
+  upper landing
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg02.blv
+- set_pose:
+    map: lg02.blv
+    x: 6464
+    y: 3584
+    z: 384
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 3
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 4352
+      z: 384
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 384
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 5552
+    y: 4736
+    z: 384
+    yaw: -2.170426313298848
+    pitch: 0
+- press_interact: {}
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 384
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 480
+      yaw: 0
+      pitch: 0
+    seconds: 0.75
+    input: none
+- save_game: greywatch_lift_midway
+- load_game: greywatch_lift_midway
+- assert_mechanism:
+    id: 6
+    state: opening
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 480
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 768
+      yaw: 0
+      pitch: 0
+    seconds: 2.5
+    input: none
+- assert_mechanism:
+    id: 6
+    state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 5120
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 5552
+    y: 5184
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3.25
+    assert:
+      mechanism:
+        id: 6
+        state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 5184
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 5184
+      z: 768
+      yaw: 0
+      pitch: 0
+    seconds: 0.25
+    input: none
+- set_pose:
+    map: lg02.blv
+    x: 5552
+    y: 5184
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3.25
+    assert:
+      mechanism:
+        id: 6
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 5120
+      z: 768
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 768
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 5552
+    y: 4736
+    z: 768
+    yaw: 1.9431947734716508
+    pitch: 0
+- press_interact: {}
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 384
+      yaw: 0
+      pitch: 0
+    seconds: 3.25
+    input: none
+- assert_mechanism:
+    id: 6
+    state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 4736
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 4352
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward

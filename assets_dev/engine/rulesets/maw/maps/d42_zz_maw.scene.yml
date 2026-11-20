@@ -1,0 +1,12 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §2.3): the Arena's south gate lets monsters through (its lintels, top and slabs are
+# ethereal, and one wall no longer triggers on touch), so the Endless Arena's waves do not snag on it.
+format_version: 1
+kind: indoor_scene_overlay
+initial_state:
+  face_attribute_overrides:
+    - {face_index: 150, legacy_attributes: 0x20000100}
+    - {face_index: 151, legacy_attributes: 0xA0000408}
+    - {face_index: 152, legacy_attributes: 0xA0000408}
+    - {face_index: 153, legacy_attributes: 0xA0000208}
+    - {face_index: 166, legacy_attributes: 0x20000100}
+    - {face_index: 139, legacy_attributes: 0x80001208}

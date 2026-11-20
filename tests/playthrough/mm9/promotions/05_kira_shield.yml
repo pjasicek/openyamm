@@ -1,0 +1,40 @@
+# MM9 promotion playthrough, segment 05: the second labour, Kira the Cold's shield (guide: side_a.yml
+# get-kira-s-shield). To Thronheim, into the city by the land gate (ExitTrigger2, its prompt); Kira's palace is part
+# of the city map (no interior map). The shield hangs in the hallway outside Kira's room (a world item since
+# 2026-11-08: KIRASHIELD.scr's Use, picked up only with the labours taken, key 214; it sets key 216). Placed in the
+# palace, the party walks to it and picks it up. Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 05
+id: mm9.promotions.05_kira_shield
+title: "MM9 promotions 05: Kira's Shield taken from the hallway of her palace in Thronheim City"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/03_basilisk_skin.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90214], qbit_clear: [90216]}
+
+  # To Thronheim, into the city by the land gate.
+  - travel: {map: thronheim.blv, days: 4}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # In Kira's palace: placed in her council room (where the main run talks to her), the party opens its double door
+  # (KiraDoor1/2, event 232) and steps out into the hallway; the shield lies by the hallway's north wall, west of
+  # the door.
+  - set_pose: {map: thronheimcity.blv, x: -11264, y: 15800, z: 3277, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log("Kira's door: " .. door_state(9) .. " / " .. door_state(10))
+        if door_state(9) ~= "open" then click(232); wait(2) end
+        log("Kira's door: " .. door_state(9) .. " / " .. door_state(10))
+  - walk_to: {via: [[-11264, 15350, 3277]], x: -11800, y: 15400, z: 3277, z_tolerance: 300, radius: 40, timeout_seconds: 60}
+  - pick_up: {item_id: 10375}
+  - assert: {qbit_set: [90216]}
+  - play_lua: {source: 'if not has_item(10375) then error("no Kira''s Shield in the packs") end; log("Kira''s Shield taken: " .. status())'}
+  - save_game: {name: "P05 Kira's shield", path: output/playthrough/mm9/promotions/checkpoints/05_kira_shield.oysav}

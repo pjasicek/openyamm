@@ -1,0 +1,22 @@
+{
+  "family": "bld",
+  "title": "MM6 Bloodsucker",
+  "descriptor_ids": [
+    487,
+    488,
+    489
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 672,
+  "matte": "magenta",
+  "mask_kind": "green",
+  "standing_reference_frame": 0,
+  "description": "Original MM6 Bloodsucker B: small flying elongated reptilian worm-dragon with dark teal-green ribbed leathery body, long curved tapered tail, a row of pale ivory dorsal spines, two small dangling clawed legs, two tall thin bat-like wings. Wings have muted tan-brown translucent-looking membranes and slender pale ivory finger bones and hooked tips. The broad blunt head has a large round open red-brown maw with small pale fangs, tiny cyan eyes, no large ears. Preserve native long body/tail proportions, forward/upward head direction, wing folds, irregular spine row and very dark baked prerendered fantasy shading. No modern cute dragon redesign, extra horns, extra limbs or scenery.",
+  "regions": "Separate tan-brown wing membrane and dark teal-green body/eyes; preserve pale wing bones/spines/claws/teeth and red-brown mouth interior. Generate native B palette 672 once; derive A brown body/purple wings palette 162 and C dark red body/red wings palette 673 deterministically.",
+  "variant_names": {
+    "162": "Bloodsucker A / brown and purple wings",
+    "672": "Bloodsucker B / teal and tan wings",
+    "673": "Bloodsucker C / dark red and red wings"
+  },
+  "material_module": "materials.py"
+}

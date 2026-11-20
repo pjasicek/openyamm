@@ -1,0 +1,312 @@
+# MM9 guide, side and promotion quests of Thjorgard, Frosgard and Thronheim (tools/mm9_site/story/BRIEF_SIDE.md).
+# Sources: the rework's map scripts (thjorgardcity, thjorgard, traininghall, thearena, dragonstadium, lindisfarne,
+# lindisfarnemonastery, wizardslab, verhoffinruins, drangheim, frosgardcity, frosgard, dungeonofsecrets, dookscastle,
+# guberlandcity, thronheimcity, inventastorca and the six banks), RUDE 3, 4, 6, 55, 57, 141, 161, 180-184, 189-199,
+# 217, 218, 221, 241-246, 283, 416, 417, and the official MM9 hint book.
+quests:
+  # ---- Thjorgard ----------------------------------------------------------------------------------------------
+  - quest: study-a-magreeb
+    from: {map: thjorgardcity, npc: "Tymon the Nord"}
+    summary: "The Scholar promotion: find a Magreeb, watch it, and tell Tymon what colour it was."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. Promotes Sorcerers to Wizards."
+    steps:
+      - "In Bembridge University in Thjorgard City, ask Tymon the Nord 'We are seeking promotion to Scholar', then 'Yes.' and 'We will do this.'."
+      - "Leave the city and follow the road north to the valley in north-east Thjorgard, on the way to the Frosgard exit. A Magreeb grazes by the pond there."
+      - "Walk toward it. When you get close it runs off and is gone; the quest sound means you have studied it. Don't attack it: a dead Magreeb counts for nothing."
+      - "Return to Tymon: 'We studied the Magreeb.', 'Alright.', then answer his question about its colour, and 'Thank you.'."
+    tips:
+      - "Either colour promotes. 'Red' (what his texts say) pays 16,500 experience, 'Green' 11,000."
+      - "The Magreebs in western Lindisfarne count too: any of them that sees you while the task is open completes the study. They are aggressive, level 22 and 33."
+      - "If you passed the north-east pond before taking the task, the Magreeb calf that lives in it already counted, and Tymon accepts your report at once."
+    reward: "16,500 experience (Red) or 11,000 (Green), 1,000 gold, and Wizard for every Sorcerer."
+    points:
+      - {map: thjorgard, name: "Magreeb"}
+    maps:
+      - {map: thjorgardcity, focus: "Tymon", caption: "Tymon and Johannes Bem both work in Bembridge University."}
+      - {map: thjorgard, focus: "Magreeb", caption: "The Magreeb grazes in the north-east valley, near the road to Frosgard."}
+
+  - quest: find-verhoffin-s-diary
+    from: {map: thjorgardcity, npc: "Johannes Bem"}
+    summary: "The Mage promotion: bring Johannes Verhoffin's diary. The book in the Verhoffin Ruins is a fake; the real one is under a floor in Drangheim's village."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. Promotes Wizards to Arch Mages (a Wizard who becomes a Lich first is not promoted)."
+    steps:
+      - "In Bembridge University, tell Johannes Bem 'We wish to become Mages.', then 'We have one of those.', 'You want us to get it for you?' and 'We will take this quest.'."
+      - "Sail to the Isle of Ashes (the Sea's Fang leaves Thjorgard's dock on Saturdays) and take the stair down into the Verhoffin Ruins in the middle of the isle. The book is behind a locked door, so fetch its key first: it lies on a table in the room in the far south-east corner, through the double door at the south end of the long east corridor."
+      - "From the cave, go north through the double door into the hall with four pillars. Its north double door opens into a small room split by a wall. Unlock the door at the north end of that wall (Door 5; the key is used up) and click the book beyond it: a silver Verhoffin's Book."
+      - "Back in Thjorgard: 'About that book you were looking for.', 'We found a silver one.', then 'So did that book work for you?'. It is the wrong book, and when the talk ends Johannes swaps it for a Book Key that opens a building in Drangheim Village."
+      - "Drangheim Village is the hamlet on the hill north-west of the Drangheim City gate (the Sea's Fang sails to Drangheim from Thjorgard on Tuesdays). The Book Key opens the locked door of the house beside Ragnheid Lifegiver and Hring the Plowhands."
+      - "Inside, a loose floorboard covers a hole. Break it (one hit) and click the gold book underneath, with the Book Key still in your packs: you get Verhoffin's Book and Eye of the Storm."
+      - "Return to Johannes: 'About that book you were looking for.', 'We found a gold one.', then 'Did that book work out for you?'."
+    tips:
+      - "The Verhoffin Ruins are a late dungeon. Don't turn the valves in the room east of the pillared hall: it floods and drowns the party."
+    reward: "37,500 experience, 5,000 gold, Arch Mage for every Wizard, and Eye of the Storm from under the floor."
+    points:
+      - {map: verhoffinruins, name: "Door 5"}
+    maps:
+      - {map: verhoffinruins, focus: "Book", caption: "The book room is north of the four-pillar hall; the key to its door lies in the south-east corner room."}
+      - {map: drangheim, focus: "Verhoffin", caption: "The book house in Drangheim Village, north-west of the city gate."}
+
+  - quest: slay-the-dragon
+    from: {map: thjorgardcity, npc: "Snorri the Fist"}
+    summary: "An optional quest: prove yourselves in the Training Hall, return the Saint's Relic to Abbot Leffery in Lindisfarne, then kill the dragon in his lair."
+    steps:
+      - "The bartender of Sturmford's tavern points you to Snorri: ask him 'Anything else of interest?', then 'Dragons? Tell us about the dragons.'. You can also go straight to Snorri."
+      - "In the Drunken Berserker tavern in Thjorgard City, answer Snorri's 'Buy an old man a drink?' with 'Of course.', then 'Weave your tale, old man.', 'Who us? Of course!', 'What is this task?' and 'Where is it?'. That is Survive the Training Hall."
+      - "With the Training Hall done, buy him another drink ('Of course.') and say 'We're ready for the challenge.': he sends you to Abbot Leffery Caid in Lindisfarne Monastery."
+      - "Leffery stands at the main altar at the far end of the monastery's church. Say 'We're here to summon the dragon.', 'Whatever it takes to summon the dragon.', 'So what's the problem?', 'Where do you think the relic is?', 'Who is he?' and 'We will retrieve the real relic for you. Where is this lab?'."
+      - "The relic is in the Wizard's Lab on Yorwick's south shore (the Connecting Tunnel from Thronheim leads to Yorwick). Inside, click the yellow crystal on the west side of the white teleporter and step onto it from the east. Walk east along the yellow corridor to the last bedroom, open the closet in its south wall and step in: you arrive in the relic room, whose own door is locked for good. Pick up the Saint's Relic by the barrel and leave through that room's closet."
+      - "Give it to Leffery: 'We've found your relic.' (3,000 gold, 12,500 experience)."
+      - "The Dragon's Lair is the cave in north-west Lindisfarne. The Dragon King wakes as you walk up the entry tunnel. Kill him for the Super Guber Award; that ends the quest."
+    tips:
+      - "The Dragon King is level 500 with 35,100 hit points, far beyond anything else in the game. Leave him for the end."
+      - "In this version the dragon wakes as soon as you walk in, whether or not you have returned the relic."
+      - "From his waking, two Winged Mutants fly in after 45 seconds, then after 90, 180 and so on. They keep coming even after he dies."
+      - "The two black chests by the ruined pillars are heavily trapped (treasure level 7, trap 20)."
+      - "If you took the relic before Leffery asked, tell him 'We found a bone fragment in the Wizard's Lab.' once he explains the problem."
+    reward: "From Leffery, 3,000 gold and 12,500 experience; from the dragon, the Super Guber Award."
+    points:
+      - {map: wizardslab, name: "Barrel"}
+      - {map: lindisfarne, name: "To Dragon's Lair"}
+      - {map: dragonstadium, name: "Dragon King"}
+    maps:
+      - {map: wizardslab, focus: "Barrel", caption: "The yellow corridor's rooms in the north-east; the relic barrel is in the closed room reached by the small teleporter at the east end."}
+      - {map: lindisfarnemonastery, focus: "Abbot Leffery Caid", caption: "Abbot Leffery at the main altar."}
+      - {map: dragonstadium, focus: "Dragon King", caption: "The dragon wakes in the middle of the lair as you come up the tunnel."}
+
+  - quest: find-harris-willington
+    from: {map: thearena, npc: "Byri the Scarred"}
+    to: {map: thjorgardcity, npc: "Sven Forkbeard"}
+    summary: "The assassin in the Arena names Harris Willington as the man who hired him. Find Harris and tell Jarl Sven."
+    requires: "Stop Jarl Sven's Assassination: Sven has read Grehgknak's letter and agreed to the Arena plan ('Sounds like a plan.'). Both are tasks of the Paladin promotion."
+    steps:
+      - "Take the Arena exit from Thjorgard City and open the arena's double door. Sven's stand-in and his guards take their seats, the east pen opens and Byri the Scarred walks to the middle."
+      - "Don't attack him. Talk to him: 'We're not going to allow you to murder Sven.', 'This letter.', 'A dying messenger.', then 'I'm sure we could come to an arrangement.', 'Who put you up to this?', 'Why did he want Sven dead?' and 'Sven is going to find out about this. We suggest leaving town.'. He names Harris Willington and runs off."
+      - "Optionally tell Sven 'The assassin fingered a man named Harris Willington.'."
+      - "Harris keeps the books in Hreidmar's Stuff, the general store in Thjorgard City. Ask him 'Seen this letter before?', then 'Unfortunately, Sven survived.' and 'Not you. You're going to jail.'."
+      - "Report to Sven in his palace: 'Harris Willington is the accountant at the General Store.'."
+    tips:
+      - "If Harris dies instead, tell Sven 'Harris Willington is dead.': the reward is the same."
+      - "The Arena Master holds no fights while the plot is on."
+    reward: "5,000 experience and 10,000 gold. Grehgknak the Right counts it toward the Paladin promotion."
+    points:
+      - {map: thjorgardcity, name: "Harris Willington"}
+    maps:
+      - {map: thearena, focus: "Byri", caption: "Byri comes out of the east pen into the middle of the arena."}
+      - {map: thjorgardcity, focus: "Harris", caption: "Harris in the general store; Sven in the palace; the Arena exit at the city's edge."}
+
+  - quest: survive-the-training-hall
+    from: {map: thjorgardcity, npc: "Snorri the Fist"}
+    summary: "Snorri's test: get into the Training Hall north of Thjorgard City."
+    steps:
+      - "Snorri's tale in the Drunken Berserker sets the task (see Slay the Dragon)."
+      - "The Training Hall stands in the north of the Thjorgard map, east of the Mountain Pass exit. Its door is shut."
+      - "Climb the rubble at the hall's east side onto its base. Go round the front (south) to the narrow west side, where a fallen slab of brickwork leans on the wall: walk up it through the gap in the parapet onto the walkway round the upper level."
+      - "Follow the walkway east along the north side and turn south down the east side: the cracked wall is the central block's face at the north end of that stretch. Break it with weapons. The breach completes the task and opens both ways in: the hole above the lobby and the front door."
+      - "Return to Snorri for the next step of Slay the Dragon."
+    tips:
+      - "The hall itself is optional, but it pays. Entering by the hole puts you on the lobby chandelier: stand on it and it crashes down into the pool."
+      - "Each of the four archery targets pays once, for the ring your first hit lands in: 250 to 8,000 gold. Aim for the centres."
+      - "On the lower floor, a lever sends a mechanical horse through a wooden wall. Behind it is a tunnel with Ghouls and chests."
+    reward: "18,500 experience, and +5 Might and +5 Intellect for the active character."
+    points:
+      - {map: thjorgard, name: "To Training Hall"}
+    maps:
+      - {map: thjorgard, focus: "Training hall wall", caption: "The Training Hall in the north; the rubble up is on its east side, the slab on its west side, and the cracked wall faces the upper walkway's east side at its north end."}
+      - {map: traininghall, focus: "Bar", caption: "The barred door and the black-chest crate on the main floor."}
+
+  # ---- Frosgard -----------------------------------------------------------------------------------------------
+  - quest: find-everstrike
+    from: {map: frosgardcity, npc: "Fenja Tree-friend"}
+    summary: "The first of Fenja's two Ranger trials: find the bow Everstrike, which the Dook is hunting too."
+    requires: "Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. Fenja promotes Hunters to Ranger Lords and Warrior Mages to Master Archers once both trials are done."
+    steps:
+      - "Fenja stands outside near the bank in Frosgard City. Ask 'We've heard you can promote Crusaders to Rangers.', 'Yes.', then 'We will do these tasks' (or take each task on its own)."
+      - "Go to the Dook's Castle in the south-east of Guberland."
+      - "In the castle's north-east room, click the shield on the wall. A secret door slides open onto the caverns below (you do not need the Dook's own quest for this)."
+      - "Follow the winding caverns east to the big cave crossed by wooden bridges. Everstrike is in the chest at its far east edge (treasure level 6, trap 14: disarm it)."
+      - "Return to Fenja with Everstrike in your packs. With the Dungeon of Secrets also done, say 'We've completed the Ranger's Trial.'."
+    tips:
+      - "Turning the shield turns the Dook's guards against you, as does hurting any of them. Finish the Dook's own business first if you want it settled peacefully."
+      - "Fenja only checks for the bow; you keep it."
+    reward: "With the Dungeon of Secrets: 37,500 experience, 5,000 gold and the promotion."
+    points:
+      - {map: dookscastle, name: "Shield (secret door)"}
+      - {map: dookscastle, name: "Chest L6"}
+      - {map: guberland, name: "To Dook's Castle"}
+    maps:
+      - {map: dookscastle, focus: "Chest L6", caption: "The shield in the north-east room opens the caverns; Everstrike's chest is at the east edge of the bridged cave."}
+
+  - quest: pass-through-dungeon-of-secrets
+    from: {map: frosgardcity, npc: "Fenja Tree-friend"}
+    to: {map: frosgardcity, npc: "Fenja Tree-friend"}
+    summary: "Fenja's second trial: run Chadwick Boorsley's trap course from end to end without setting off a single trap."
+    requires: "Fenja's Ranger's Trial (see Find Everstrike)."
+    steps:
+      - "The Dungeon of Secrets is in western Frosgard, down the road west from Fland's spot below the city. Tell Chadwick Boorsley in the booth by the entrance 'Hello.', 'We are here for the trial.', 'Okay.' and 'Yes'."
+      - "Press the entrance button to open the gate. Each section is a lever and an axe door. Pull the lever, then click the door straight away and get through before the lever springs back. A door opened too late lets its axe swing, and that fails the trial. The windows run from about 3 seconds (the levers near the entrance, the lever room, the lift) to about 10 (the fireball room, the spinning blade, the last hallway)."
+      - "Fireball room: hop across the plates between the lava, because the floor tiles start fire shooters. Spinning blade: wait for the blade to stop, then run up the stairs and through the door. Lever room: only one of the 22 levers on its west wall works, the ninth counted from the south end. Lift: ride it down and pull the lever at the bottom. Trapped floor plates count as traps too: hop over them."
+      - "After the last axe door, the exit gate opens as you come up to it. Walk through it: the quest sound means a clean run."
+      - "Tell Chadwick 'We'd like our reward' (10,000 experience), then report to Fenja."
+    tips:
+      - "One trap anywhere fails the run. Chadwick then offers a new try ('Yes.'), or press the entrance button again to start over."
+      - "Leaving the dungeon ends a run: talk to Chadwick again before the next one."
+      - "With Perception the timed levers glow."
+      - "Without the trial, Chadwick lets you practise ('We'd like to run the course.'), but a practice run earns nothing."
+    reward: "10,000 experience from Chadwick; the promotion from Fenja with Everstrike."
+    points:
+      - {map: dungeonofsecrets, name: "entrance button"}
+      - {map: dungeonofsecrets, name: "exit gate"}
+      - {map: dungeonofsecrets, name: "timer lever  03"}
+      - {map: frosgard, name: "To Dungeon of Secrets"}
+    maps:
+      - {map: dungeonofsecrets, focus: "Chadwick", caption: "Chadwick's booth and the entrance gate in the south-east; the course loops north-west and ends at the exit gate in the south."}
+
+  - quest: find-the-green-man
+    from: {map: frosgardcity, npc: "Menja Ketildotir"}
+    to: {map: frosgard, npc: "The Green Man"}
+    summary: "The Druid promotion: find the Green Man in Frosgard and do the three things he asks of the town."
+    requires: "Jarl Tryygva is away from the war council until Krohn's task (Chapter V), as in MM9, so this needs Chapter I or the end of the story. Any party can take it and is paid either way; once it is done, the giver's 'Promote our eligible characters.' promotes members who qualify later. Promotes Great Druids to Arch Druids and Dark Elves to Patriarchs."
+    steps:
+      - "Menja Ketildotir stands in the west part of Frosgard City. Ask 'Our Healers are looking for promotion.', 'Yes.', 'How do we find the Green Man?' and 'We will find the Green Man.'."
+      - "Fland de Allasan the tracker waits on the road just south of the city gate. Ask 'We need your help.', 'We've been charged with finding the Green Man.', 'Thank you.' and 'Yes.'. His advice: keep going the way you were heading, always turn left, and don't enter the tunnel."
+      - "The Green Man stands at the foot of a giant tree in the forest clearing in the south-east of Frosgard. Say 'We've come on behalf of Frosgard.', 'We think the Frosgardians are eager for your return.', 'How can we help?', 'We can do that.', 'That can be done.' and 'We will do that.'."
+      - "He gives three tasks, all in Frosgard City: Fix the maypole in the center of town, Get a promise from Frosgard, and Get Tryygva to erect a runestone."
+      - "With all three done, return to him: 'We have completed your tasks.'."
+    reward: "37,500 experience, 5,000 gold, The Green Man amulet, and the promotion."
+    points:
+      - {map: frosgardcity, name: "Menja Ketildotir"}
+    maps:
+      - {map: frosgard, focus: "Green Man", caption: "Fland on the road south of the city; the Green Man's tree in the south-east clearing."}
+
+  - quest: get-a-promise-from-frosgard
+    from: {map: frosgard, npc: "The Green Man"}
+    to: {map: frosgard, npc: "The Green Man"}
+    summary: "One of the Green Man's three tasks: get Frosgard's townsfolk to pledge not to neglect him again."
+    requires: "Find the Green Man (his tasks)."
+    steps:
+      - "In Frosgard City, open the Green Man topic with townsfolk ('Frosgard needs your help.', 'We need your help.' and the like) and follow it to the pledge."
+      - "The pledges that count: Soxolf Tryygvassen or Flosi Stickpoker, Gudrun Fyridotir or Pules Haji, Goti Egilssen, Tuathal A'Ghrie, Tjorvi the Bold and Jozka Dorcan. Each 'or' is the same pledge, so whoever you ask second has nothing to give."
+      - "Five of those six complete the task (5,000 experience). The note then says the citizens have promised."
+    tips:
+      - "The note asks for seven pledges and the Green Man for six, but five of the six above are enough."
+      - "Rannveig the Elvish and Erik the Fish-head pledge too, but their pledges don't count. Hjalnek the Orc-faced and Fyri the Black-heart refuse."
+      - "The count is checked when you leave a pledger's dialogue, except Goti's. If Goti gave the fifth pledge, talk to any other pledger once more."
+    reward: "5,000 experience."
+    points:
+      - {map: frosgardcity, name: "Soxolf Tryygvassen"}
+      - {map: frosgardcity, name: "Flosi Stickpoker"}
+      - {map: frosgardcity, name: "Gudrun Fyridotir"}
+      - {map: frosgardcity, name: "Pules Haji"}
+      - {map: frosgardcity, name: "Goti Egilssen"}
+      - {map: frosgardcity, name: "Tuathal A'Ghrie"}
+      - {map: frosgardcity, name: "Tjorvi the Bold"}
+      - {map: frosgardcity, name: "Jozka Dorcan"}
+    maps:
+      - {map: frosgardcity, focus: "Goti", caption: "The pledgers stand around the town centre."}
+
+  - quest: fix-the-maypole-in-the-center-of-town
+    from: {map: frosgard, npc: "The Green Man"}
+    to: {map: frosgard, npc: "The Green Man"}
+    summary: "One of the Green Man's three tasks: have the old maypole in the middle of Frosgard City repaired."
+    requires: "Find the Green Man (his tasks). 500 gold."
+    steps:
+      - "Find Soxolf Tryygvassen, the post-maker, near the town centre. (Jarl Tryygva sends you to him too: 'The Green Man asked us to fix the maypole.')"
+      - "Ask him 'What do you do?', then 'We'd like you to fix it.' and 'Sure. That's no problem.'."
+      - "When the talk ends he takes 500 gold and the new maypole stands in the square."
+    tips:
+      - "Without 500 gold the deal falls through: come back with the money and ask again."
+      - "Soxolf's pledge for Get a promise from Frosgard is a separate topic."
+    points:
+      - {map: frosgardcity, name: "Soxolf Tryygvassen"}
+    maps:
+      - {map: frosgardcity, focus: "Soxolf", caption: "Soxolf near the town centre."}
+
+  - quest: get-tryygva-to-erect-a-runestone
+    from: {map: frosgard, npc: "The Green Man"}
+    to: {map: frosgard, npc: "The Green Man"}
+    summary: "One of the Green Man's three tasks: have Jarl Tryygva carve the town's promise on a runestone beside the maypole."
+    requires: "Find the Green Man (his tasks). Jarl Tryygva is away from the war council until Krohn's task (Chapter V), as in MM9."
+    steps:
+      - "Jarl Tryygva Ravenlocks is in the City Hall on the east side of Frosgard City."
+      - "Say 'The Green Man asked you to do something for him.', 'He wants you to make a promise.', 'A promise to remember to celebrate him.' and 'He wants you to carve it on a runestone.'."
+      - "He agrees. The runestone stands by the maypole the next time you enter the city."
+    points:
+      - {map: frosgardcity, name: "Tryygva Ravenlocks"}
+    maps:
+      - {map: frosgardcity, focus: "Tryygva", caption: "Jarl Tryygva in the City Hall on the east side."}
+
+  - quest: sell-brewmaster-smith-s-new-concoction-to-guberland
+    from: {map: frosgardcity, npc: "Brewmaster Smith"}
+    to: {map: frosgardcity, npc: "Brewmaster Smith"}
+    summary: "Sell the Brewmaster's unpopular new brew to the tavern in Guberland City."
+    steps:
+      - "In the Great White North tavern in Frosgard City, ask Brewmaster Smith 'Is there anything we can do for you?', 'What do you want us to do?' and 'We will be happy to do that for you.'. You get the Keg of Strange Brew."
+      - "Take it to Aklai Dorka at Akl'ai's Spirits in Guberland City (The Racing Fire sails there from Frosgard on Thursdays once the docks are free)."
+      - "Say 'We have some beer we'd like to sell.' and 'It's a special brew from Frosgard.'. When she asks whether the Brewmaster made it himself, say 'Er,..Yes.', then 'Sounds good.'. She buys the keg (500 gold, 5,000 experience)."
+      - "Tell the Brewmaster 'We sold the beer.' and '500 gold.'. He lets you keep the money."
+    tips:
+      - "Admitting the apprentices made it ends the sale. The Brewmaster then pays only 2,000 experience and 200 gold ('We couldn't sell the beer.', 'Sorry'), and the quest is over."
+    reward: "500 gold and 5,000 experience from the sale, 12,500 experience from the Brewmaster."
+    points:
+      - {map: guberlandcity, name: "Aklai Dorka"}
+    maps:
+      - {map: guberlandcity, focus: "Aklai", caption: "Akl'ai's Spirits in Guberland City."}
+
+  # ---- Thronheim ----------------------------------------------------------------------------------------------
+  - quest: get-black-orb-of-knowledge
+    from: {map: thronheimcity, npc: "Ealusaid A'Norta a'thrakan"}
+    to: {map: thronheimcity, npc: "Ealusaid A'Norta a'thrakan"}
+    summary: "The would-be midwife Ealusaid needs a Black Orb of Knowledge. Buy one from its inventor, the Mad Wizard Robinssen in Yorwick."
+    steps:
+      - "Ealusaid keeps a small temple in the north-east corner of Thronheim City, not far from the land gate. Answer her 'Did you need some healing?' with 'Yes.', then 'Why not?', 'What's stopping you?', 'What can we do to help?', 'Where can we find one?' and 'We will find it for you.'."
+      - "Go to Yorwick through the Connecting Tunnel north-west of Thronheim City (1 day). The Wizard's Lab is the tower on Yorwick's south shore."
+      - "The lab's rooms are joined by colour-coded teleporters. At the white teleporter in the entrance hall, click the blue crystal, then step onto the pad from its east side (its south side is railed off): you arrive in the great star hall. Robinssen stands in its middle. Deal with the monsters there first."
+      - "Say 'We've heard you are the Mad Wizard Robinssen.', 'We were wondering if you could help us.', 'We're sure you're not mad.', 'We've heard you have a Black Orb of Knowledge.', 'Do you have one? If you do, we'd like to buy it from you.', 'Name your price.', 'That's pretty steep.' and 'Well, alright. 2000 gold it is.'. You pay 2,000 gold for the orb when the talk ends."
+      - "Back in Thronheim City, tell Ealusaid 'We've got the Black Orb.' and 'Not only did he have it, he invented it.'."
+    tips:
+      - "A crystal sends you on one trip only. To get back, click the white crystal at the blue teleporter."
+      - "Without 2,000 gold the deal is off; come back and agree again."
+    reward: "18,500 experience and 10,000 gold."
+    points:
+      - {map: wizardslab, name: "Robinssen"}
+      - {map: yorwick, name: "To Wizard's Lab"}
+    maps:
+      - {map: wizardslab, focus: "Robinssen", caption: "The entrance and the white teleporter in the east; Robinssen in the star hall in the south-west."}
+
+  - quest: take-the-news-to-the-temple-of-ratatosk
+    from: {map: thronheimcity, npc: "Dagfari the Peevish"}
+    to: {map: thronheimcity, npc: "Dagfari the Peevish"}
+    summary: "Carry the Temple of Honk's Scroll of Bad News to Erlend the Nay-sayer, who doesn't want it."
+    steps:
+      - "Dagfari drinks in Trellborg's Fight, the tavern by Thronheim City's land gate. Ask 'What can we help you with?', 'What sort of favor?', 'So what's the problem?', 'Sounds easy.' and 'We can handle it. Give us the message.'. You get the Scroll of Bad News."
+      - "Erlend is in the Temple of Ratatosk near Kira's hall, at the far end of the city. Say 'We've come to deliver this message.' and 'We don't care if you want it. You will take it.'. He takes the scroll."
+      - "Return to Dagfari: 'We delivered the message.'."
+    reward: "5,000 experience and 5,000 gold."
+    points:
+      - {map: thronheimcity, name: "Erlend the Nay-sayer"}
+    maps:
+      - {map: thronheimcity, focus: "Erlend", caption: "Dagfari's tavern by the land gate; Erlend near Kira's hall."}
+
+  - quest: get-the-orbs-of-linking
+    from: {map: thronheimcity, npc: "Brynhildr the Money-wise"}
+    summary: "Fetch Orbs of Linking from the Inventa Storca and install one in each of Chedian's six town banks."
+    steps:
+      - "In the bank of Thronheim City, ask Brynhildr 'What can we help you with?', 'So what's the problem?', 'Sounds easy. Where are these Orbs of Linking?' and 'We will find these orbs for you.'."
+      - "The Inventa Storca opens off the eastern edge of the Thronheim map, north-east of the city. Seven Orbs of Linking lie in it; you need six. On the upper floor: one at the north end of the pillared hall in the north, one in the great hall in the far west, one beside the spiral stair in the middle (from the map room to its west, break the cracked wall), and one in the room in the south, where a Lich and two Skeletons drop through the ceiling when you reach the orb's table."
+      - "The other three are on the lower floor. Open the trapdoor in the small room in the south-east of the upper floor and climb down the ladder. One orb is in the south-east room with the book switches, one in the east room, and one in the cave under the entrance, behind a cracked wall at the north end of the north room (break it)."
+      - "Talk to each banker with an orb in your packs and pick the Orb of Linking topic: Brynhildr (Thronheim), Ragnar Gjalpssen (Thjorgard), Herdis the Stout (Sturmford), Hlif Ingimundssen (Drangheim), Ottar Gizurssen (Guberland) and Fiachna A'Lanth (Frosgard). The orb goes in when the talk ends."
+      - "The sixth installed orb pays the reward, wherever you install it."
+    tips:
+      - "A banker only offers the topic if you click them with an orb already in your packs."
+      - "Frosgard's harbour is frozen until the docks are freed in Chapter I. Walk there from Thronheim (5 days)."
+    reward: "12,500 experience and 15,000 gold for the sixth orb."
+    points:
+      - {map: thronheim, name: "To Inventa Storca"}
+      - {map: thjorgardcity, name: "Ragnar Gjalpssen"}
+      - {map: sturmfordcity, name: "Herdis the Stout"}
+      - {map: drangheimcity, name: "Hlif Ingimundssen"}
+      - {map: guberlandcity, name: "Ottar Gizurssen"}
+      - {map: frosgardcity, name: "Fiachna A'Lanth"}
+    maps:
+      - {map: inventastorca, focus: "To Thronheim", caption: "Entrance stair in the north-east; the trapdoor and ladder to the lower floor in the south-east."}
+      - {map: thronheim, focus: "Inventa", caption: "The Inventa Storca opens off the east edge of the Thronheim map."}

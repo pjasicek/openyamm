@@ -1,0 +1,218 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: 3D game prop TEXTURE SOURCE / flat albedo painting.\nEdit image 1, guide_front.png, at its original 1024 x 1024 canvas. It is the EXACT grey model render and is the absolute authority for silhouette, camera, shape edges, openings, scale and position. Preserve its alpha silhouette pixel-for-pixel. Recolour/paint only its existing opaque surfaces, retaining every existing shape edge and spike. Do not remodel, inflate, smooth away geometry, shift, rotate, mirror, rescale, crop or reframe anything.\nImage 2, design_reference.png, is the approved material and colour reference ONLY. Image 3, concept_crop.png, is the original concept, secondary reference ONLY. Do not borrow either reference's composition or lighting.\nThe FRONT orthographic guide has the low pointed fragment at LEFT, the medium broken cylindrical section in the CENTER, and the tall spiked stump at RIGHT. The tallest spike ends at approximately (888,283); the full object bounding box is x66..957, y283..740 in the 1024 square. Keep these positions exactly.\nPaint the guide's surfaces in the reference's glossy black-violet resin and chitin, ivory bone spikes, and dim orange inside the visible hollow broken ends and existing orange sacs/seams. Portray the resin/chitin through its rich black-violet material colour and fine organic surface texture; ivory spikes have subtle natural bone grain. Keep the guide's angular edges, spike shapes and negative spaces exactly fixed. Do not add new holes, spikes, rubble or silhouette detail from the references.\nLIGHTING IS FLAT ALBEDO: completely even, shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint orange parts at their dim glowing orange colour only, with no bloom and no coloured light cast on surrounding surfaces.\nReturn one single 1024 x 1024 RGBA PNG with a genuinely transparent background, including all empty margins and gaps from image 1. No floor, background colour, checkerboard, labels, text or watermark. Keep the entire guide outline exactly unchanged; nothing outside that outline.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "45fcdd6e596a5e258adda3f8ff5d843b8663289d78add7b1bb8bf0139e04d1d8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421"
+        }
+      ],
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: native return is 1254x1254, not requested 1024x1024; silhouette is not pixel-identical; directional highlights and cavity shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687e-7042-76f1-8c07-50ee911b3ff9/exec-88018467-d661-45ea-b8fd-fda9443aec8d.png",
+      "output_sha256": "d94035e8296eb3bc6e0214f15a9970ae86bebf6de416851f58a7fea7b6f3c230",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "silhouette_note": "Native dimensions differ. Diagnostic normalized overlap is only a comparison and does not establish pixel-identical geometry; no output pixels were changed.",
+        "normalized_silhouette_iou_at_alpha_128": 0.983464,
+        "materials_and_colours": "Black-violet resin/chitin, ivory bone and orange interiors match the design palette.",
+        "flat_even_light": false,
+        "lighting_note": "Strong highlights and cavity darkening remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: 3D game prop TEXTURE SOURCE / flat albedo painting.\nEdit image 1, guide_top.png, at its original 1024 x 1024 canvas. It is the EXACT grey model render and is the absolute authority for silhouette, camera, shape edges, openings, scale and position. Preserve its alpha silhouette pixel-for-pixel. Recolour/paint only its existing opaque surfaces, retaining every existing shape edge and spike. Do not remodel, inflate, smooth away geometry, shift, rotate, mirror, rescale, crop or reframe anything.\nImage 2, design_reference.png, is the approved material and colour reference ONLY. Image 3, concept_crop.png, is the original concept, secondary reference ONLY. Do not borrow either reference's composition or lighting.\nThe TOP orthographic guide looks vertically down on the same three broken pieces: small pointed tip at LEFT, medium section in the CENTER, broad spiked stump at RIGHT. The full object bounding box is x66..957, y322..701 in the 1024 square. Keep these positions exactly; do not change to a front, side or three-quarter view.\nPaint the guide's surfaces in the reference's glossy black-violet resin and chitin, ivory bone spikes, and dim orange inside the visible hollow broken ends and existing orange sacs/seams. Portray the resin/chitin through its rich black-violet material colour and fine organic surface texture; ivory spikes have subtle natural bone grain. Keep the guide's angular edges, spike shapes and negative spaces exactly fixed. Do not add new holes, spikes, rubble or silhouette detail from the references.\nLIGHTING IS FLAT ALBEDO: completely even, shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint orange parts at their dim glowing orange colour only, with no bloom and no coloured light cast on surrounding surfaces.\nReturn one single 1024 x 1024 RGBA PNG with a genuinely transparent background, including all empty margins and gaps from image 1. No floor, background colour, checkerboard, labels, text or watermark. Keep the entire guide outline exactly unchanged; nothing outside that outline.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "dab3bb1ff77f32921672497bde7625dc4852e0085029eaec096a3dbf17fe05fd"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421"
+        }
+      ],
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: native return is 1254x1254, not requested 1024x1024; silhouette is not pixel-identical; directional highlights and cavity shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687e-7042-76f1-8c07-50ee911b3ff9/exec-3ba3c2fa-44da-4970-b126-242af33952cf.png",
+      "output_sha256": "d35a4dedd10974c2488045bc429c587181a83ecc268a7fe11b5b5a31afc8b173",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "silhouette_note": "Native dimensions differ. Diagnostic normalized overlap is only a comparison and does not establish pixel-identical geometry; no output pixels were changed.",
+        "normalized_silhouette_iou_at_alpha_128": 0.982844,
+        "materials_and_colours": "Black-violet resin/chitin, ivory bone and orange interiors match the design palette.",
+        "flat_even_light": false,
+        "lighting_note": "Strong highlights and cavity darkening remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: 3D game prop TEXTURE SOURCE / flat albedo painting.\nEdit image 1, guide_front.png, at its original 1024 x 1024 canvas. It is the EXACT grey model render and is the absolute authority for silhouette, camera, shape edges, openings, scale and position. Preserve its alpha silhouette pixel-for-pixel. Recolour/paint only its existing opaque surfaces, retaining every existing shape edge and spike. Do not remodel, inflate, smooth away geometry, shift, rotate, mirror, rescale, crop or reframe anything.\nImage 2, design_reference.png, is the approved material and colour reference ONLY. Image 3, concept_crop.png, is the original concept, secondary reference ONLY. Do not borrow either reference's composition or lighting.\nThe FRONT orthographic guide has the low pointed fragment at LEFT, the medium broken cylindrical section in the CENTER, and the tall spiked stump at RIGHT. The tallest spike ends at approximately (888,283); the full object bounding box is x66..957, y283..740 in the 1024 square. Keep these positions exactly.\nPaint the guide's surfaces in the reference's glossy black-violet resin and chitin, ivory bone spikes, and dim orange inside the visible hollow broken ends and existing orange sacs/seams. Portray the resin/chitin through its rich black-violet material colour and fine organic surface texture; ivory spikes have subtle natural bone grain. Keep the guide's angular edges, spike shapes and negative spaces exactly fixed. Do not add new holes, spikes, rubble or silhouette detail from the references.\nLIGHTING IS FLAT ALBEDO: completely even, shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint orange parts at their dim glowing orange colour only, with no bloom and no coloured light cast on surrounding surfaces.\nReturn one single 1024 x 1024 RGBA PNG with a genuinely transparent background, including all empty margins and gaps from image 1. No floor, background colour, checkerboard, labels, text or watermark. Keep the entire guide outline exactly unchanged; nothing outside that outline.\n\nCORRECTIVE GENERATION, the single permitted retry: The earlier attempt was returned at 1254 x 1254 and had bright beveled-edge highlights, shadowed recesses and stray alpha outside the guide. This fails the brief. Produce exactly 1024 x 1024 native pixels, the same canvas as image 1, WITHOUT rescaling the guide or its silhouette. Use image 1 itself as the immutable pixel-accurate alpha cutout; change only its surface colours. Every completely transparent pixel of image 1 must remain alpha zero, with no faint stray marks or particles in the transparent margins. Keep every original silhouette pixel at its original coordinate. Preserve the guide geometry, with absolutely no extra holes, rims or spike edges. REMOVE LIGHTING from the reference: solid black-violet chitin base colour with subtle material mottling, muted ivory bone with fine grain, dim orange material where the broken interior is visible. No bright rim strokes or specular shine, no dark cast shadows between forms and no black ambient-occlusion gradients in crevices. Texture colour only. Do not copy the reference's dramatic illuminated render. Exact 1024x1024 native RGBA output is mandatory.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "45fcdd6e596a5e258adda3f8ff5d843b8663289d78add7b1bb8bf0139e04d1d8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the better of two native returns: reduced specular shine and a more uniform material treatment. Still fails exact native size, exact silhouette and fully shadowless albedo requirements. The single corrective retry is exhausted; preserved without resizing or alpha modification.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687e-7042-76f1-8c07-50ee911b3ff9/exec-0a71dcbd-0acf-47ed-95c4-176d67d375c1.png",
+      "output_sha256": "68e2e11ff3b8d530292377487f60c1d7f7d8a28a5e61f8a39c2994d225df79a9",
+      "accepted": false,
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "silhouette_note": "Native dimensions differ. Diagnostic normalized overlap is only a comparison and does not establish pixel-identical geometry; no output pixels were changed.",
+        "normalized_silhouette_iou_at_alpha_128": 0.96299,
+        "materials_and_colours": "Black-violet resin/chitin, ivory bone and orange interiors match the design palette.",
+        "flat_even_light": false,
+        "lighting_note": "Corrected return reduces specular shine, but cavity darkening and some directional shading remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: 3D game prop TEXTURE SOURCE / flat albedo painting.\nEdit image 1, guide_top.png, at its original 1024 x 1024 canvas. It is the EXACT grey model render and is the absolute authority for silhouette, camera, shape edges, openings, scale and position. Preserve its alpha silhouette pixel-for-pixel. Recolour/paint only its existing opaque surfaces, retaining every existing shape edge and spike. Do not remodel, inflate, smooth away geometry, shift, rotate, mirror, rescale, crop or reframe anything.\nImage 2, design_reference.png, is the approved material and colour reference ONLY. Image 3, concept_crop.png, is the original concept, secondary reference ONLY. Do not borrow either reference's composition or lighting.\nThe TOP orthographic guide looks vertically down on the same three broken pieces: small pointed tip at LEFT, medium section in the CENTER, broad spiked stump at RIGHT. The full object bounding box is x66..957, y322..701 in the 1024 square. Keep these positions exactly; do not change to a front, side or three-quarter view.\nPaint the guide's surfaces in the reference's glossy black-violet resin and chitin, ivory bone spikes, and dim orange inside the visible hollow broken ends and existing orange sacs/seams. Portray the resin/chitin through its rich black-violet material colour and fine organic surface texture; ivory spikes have subtle natural bone grain. Keep the guide's angular edges, spike shapes and negative spaces exactly fixed. Do not add new holes, spikes, rubble or silhouette detail from the references.\nLIGHTING IS FLAT ALBEDO: completely even, shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint orange parts at their dim glowing orange colour only, with no bloom and no coloured light cast on surrounding surfaces.\nReturn one single 1024 x 1024 RGBA PNG with a genuinely transparent background, including all empty margins and gaps from image 1. No floor, background colour, checkerboard, labels, text or watermark. Keep the entire guide outline exactly unchanged; nothing outside that outline.\n\nCORRECTIVE GENERATION, the single permitted retry: The earlier attempt was returned at 1254 x 1254 and had bright beveled-edge highlights, shadowed recesses and stray alpha outside the guide. This fails the brief. Produce exactly 1024 x 1024 native pixels, the same canvas as image 1, WITHOUT rescaling the guide or its silhouette. Use image 1 itself as the immutable pixel-accurate alpha cutout; change only its surface colours. Every completely transparent pixel of image 1 must remain alpha zero, with no faint stray marks or particles in the transparent margins. Keep every original silhouette pixel at its original coordinate. Preserve the guide geometry, with absolutely no extra holes, rims or spike edges. REMOVE LIGHTING from the reference: solid black-violet chitin base colour with subtle material mottling, muted ivory bone with fine grain, dim orange material where the broken interior is visible. No bright rim strokes or specular shine, no dark cast shadows between forms and no black ambient-occlusion gradients in crevices. Texture colour only. Do not copy the reference's dramatic illuminated render. Exact 1024x1024 native RGBA output is mandatory.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "dab3bb1ff77f32921672497bde7625dc4852e0085029eaec096a3dbf17fe05fd"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the better of two native returns: reduced specular shine and a more uniform material treatment. Still fails exact native size, exact silhouette and fully shadowless albedo requirements. The single corrective retry is exhausted; preserved without resizing or alpha modification.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687e-7042-76f1-8c07-50ee911b3ff9/exec-78a00332-05be-4faf-b5fc-4b2eff4a4d97.png",
+      "output_sha256": "1969213fcf7b2a9a86bac4a7cf7628baa270deb9d036d4baab4609c98ee3c795",
+      "accepted": false,
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "silhouette_note": "Native dimensions differ. Diagnostic normalized overlap is only a comparison and does not establish pixel-identical geometry; no output pixels were changed.",
+        "normalized_silhouette_iou_at_alpha_128": 0.978978,
+        "materials_and_colours": "Black-violet resin/chitin, ivory bone and orange interiors match the design palette.",
+        "flat_even_light": false,
+        "lighting_note": "Corrected return reduces specular shine, but cavity darkening and some directional shading remain.",
+        "brief_compliant": false
+      }
+    }
+  ],
+  "status": "Generation complete within retry limit; selected raw outputs do not fully satisfy the brief.",
+  "final_outputs": [
+    "paint_front.png",
+    "paint_top.png"
+  ],
+  "native_returns_unmodified": true,
+  "limitations": [
+    "All four native returns are 1254x1254 despite requesting 1024x1024.",
+    "The exact guide silhouette requirement is not met.",
+    "Residual cavity shading prevents fully flat shadowless albedo."
+  ]
+}

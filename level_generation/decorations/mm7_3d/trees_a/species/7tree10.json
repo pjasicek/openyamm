@@ -1,0 +1,157 @@
+{
+ "sprite": "7tree10",
+ "output": "mm7_deco_7tree10.glb",
+ "height_m": 6.5,
+ "note": "Multi-stem broadleaf: four or five slender red-brown stems from a short base fanning up through a loose, open crown from a third of the height; limbs show between small leaf clusters.",
+ "sapling": {
+  "scale": 4.6,
+  "baseSplits": 0,
+  "splitHeight": 0.22,
+  "splitAngle": [
+   22,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.35,
+  "seed": 11,
+  "ratio": 0.04,
+  "curveRes": [
+   12,
+   4,
+   3,
+   1
+  ],
+  "attractUp": [
+   0,
+   0.8,
+   0.35,
+   0
+  ],
+  "curve": [
+   10,
+   -20,
+   0,
+   0
+  ],
+  "segSplits": [
+   0.6,
+   0.25,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.3,
+  "centre": 0.64,
+  "clumps": 200,
+  "inner_clumps": 10,
+  "card": [
+   0.3,
+   0.36
+  ],
+  "outer_radius": [
+   0.2,
+   0.3
+  ],
+  "inner_radius": [
+   0.18,
+   0.26
+  ],
+  "gap": 1.15
+ },
+ "bark": {
+  "target_srgb": [
+   128,
+   80,
+   58
+  ],
+  "clip_below_crown": false,
+  "roots": 0,
+  "budget": [
+   2000,
+   650,
+   260
+  ],
+  "min_thickness": [
+   0.008,
+   0.02,
+   0.04
+  ],
+  "occlusion_floor": 0.6
+ },
+ "leaves": {
+  "target_srgb": [
+   92,
+   170,
+   70
+  ],
+  "seeds": [
+   1001,
+   1009,
+   1013,
+   1019
+  ],
+  "value": [
+   0.75,
+   1.55
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ],
+  "jitter_blue": [
+   0.85,
+   1.15
+  ]
+ },
+ "occlusion": {
+  "floor": 0.4,
+  "range": 0.6,
+  "power": 1.3
+ },
+ "lod": {
+  "triangles": [
+   5500,
+   2400,
+   1000
+  ],
+  "tone": [
+   1.0,
+   0.9,
+   1.04
+  ],
+  "lod2_card_scale": 0.96,
+  "thin0": 0.12
+ },
+ "transparent_bounces": 64,
+ "skeleton": {
+  "kind": "forked",
+  "fork": 0.16,
+  "stems": 5,
+  "stem_top": [
+   0.75,
+   0.93
+  ],
+  "spread": [
+   0.4,
+   0.7
+  ],
+  "trunk_radius": 0.15,
+  "stem_radius": 0.07,
+  "limbs": 9,
+  "limb_reach": [
+   0.6,
+   0.95
+  ],
+  "limb_radius": 0.032,
+  "bend": 0.0,
+  "seed": 10,
+  "mid_spread": 0.35
+ },
+ "impostor_tone": [
+  0.88,
+  0.81,
+  1.0
+ ]
+}

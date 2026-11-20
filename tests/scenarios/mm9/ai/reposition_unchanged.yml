@@ -1,0 +1,28 @@
+id: mm9.ai.reposition_unchanged
+title: A hand-placed type 2 holder without the reposition modifier holds and loses a party out of sight, as MM9
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The Bandit shoots at the party in the pit; the party hides in the east
+        pen's corner from 8 s: the Bandit stands blind and gives it up after 8 s (give_up lost); at 20 s the party
+        runs at it: no back-off. No reposition decision ever.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: reposition_unchanged.arena.yml}
+  - advance_runtime: {seconds: 24}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, before: 6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, detail: lost, after: 15, before: 18, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition_arrived, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: back_off_rush, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, max_count: 0}

@@ -450,7 +450,7 @@ initial_state:
       npc_id: 34
       attributes: 0
       hp: 302
-      hostility_type: 103
+      hostility_type: 0
       monster_info_id: 56
       monster_id: 2184
       radius: 60
@@ -472,7 +472,7 @@ initial_state:
       npc_id: 34
       attributes: 0
       hp: 302
-      hostility_type: 103
+      hostility_type: 0
       monster_info_id: 56
       monster_id: 2184
       radius: 60
@@ -494,7 +494,7 @@ initial_state:
       npc_id: 34
       attributes: 0
       hp: 302
-      hostility_type: 103
+      hostility_type: 0
       monster_info_id: 56
       monster_id: 2184
       radius: 60
@@ -511,12 +511,13 @@ initial_state:
       group: 41
       ally: 0
       unique_name_index: 0
+      initial_yaw_units: 1724
     - actor_index: 3
       name: ""
       npc_id: 34
       attributes: 0
       hp: 302
-      hostility_type: 103
+      hostility_type: 0
       monster_info_id: 56
       monster_id: 2184
       radius: 60
@@ -533,12 +534,13 @@ initial_state:
       group: 41
       ally: 0
       unique_name_index: 0
+      initial_yaw_units: 1724
     - actor_index: 4
       name: ""
       npc_id: 34
       attributes: 0
       hp: 302
-      hostility_type: 103
+      hostility_type: 0
       monster_info_id: 56
       monster_id: 2184
       radius: 60
@@ -560,7 +562,7 @@ initial_state:
       npc_id: 34
       attributes: 0
       hp: 302
-      hostility_type: 103
+      hostility_type: 0
       monster_info_id: 56
       monster_id: 2184
       radius: 60
@@ -875,8 +877,8 @@ initial_state:
         y: 0
         z: 65536
       move_length: 1375
-      open_speed: 100
-      close_speed: 100
+      open_speed: 300
+      close_speed: 300
       state: 2
       vertex_ids: [3464, 3440, 3467, 3485, 3469, 3460, 3443, 3487, 3482, 3442, 3445, 3480, 3439, 3478, 3486, 3462, 3481, 3471, 3473, 3438, 3477, 3479, 3484, 3475, 3461, 3463, 3470, 3466, 3444, 3468, 3472, 3474, 3476, 3441, 3483, 3465]
       face_ids: [2412, 2404, 2405, 2406, 2407, 2408, 2409, 2410, 2411, 2422, 2425, 2428, 2431, 2434, 2437, 2440, 2443, 2421, 2435, 2438, 2441, 2444, 2420, 2442, 2419, 2439, 2418, 2436, 2417, 2423, 2426, 2429, 2432, 3944, 3943, 2433, 2454, 2416, 2430, 2455, 2415, 2427, 2456, 2414, 2424, 2413]
@@ -915,8 +917,8 @@ initial_state:
         y: 0
         z: -65536
       move_length: 2719
-      open_speed: 100
-      close_speed: 100
+      open_speed: 300
+      close_speed: 300
       state: 2
       vertex_ids: [3363, 3375, 3392, 3366, 3385, 3354, 3364, 3361, 3383, 3374, 3378, 3365, 3388, 3368, 3387, 3384, 3377, 3382, 3355, 3369, 3358, 3376, 3359, 3391, 3380, 3390, 3389, 3386, 3357, 3373, 3356, 3367, 3362, 3393, 3371, 3370, 3381, 3379, 3360, 3372]
       face_ids: [2315, 2316, 2317, 2318, 2319, 2320, 2321, 2322, 2324, 2327, 2330, 2333, 2336, 2339, 2342, 2345, 2326, 2329, 2358, 2332, 2357, 2334, 2337, 2340, 2343, 2346, 2314, 2312, 2344, 3942, 2311, 2341, 3941, 2310, 2338, 3940, 2309, 2335, 2356, 3939, 2308, 2331, 3938, 2307, 2328, 3937, 2306, 2323, 3936, 2325, 3935, 2313]
@@ -1135,8 +1137,8 @@ initial_state:
         y: 0
         z: -65536
       move_length: 2719
-      open_speed: 100
-      close_speed: 100
+      open_speed: 300
+      close_speed: 300
       state: 2
       vertex_ids: [3237, 3259, 3231, 3242, 3236, 3225, 3261, 3239, 3243, 3248, 3257, 3250, 3255, 3251, 3232, 3256, 3245, 3229, 3252, 3226, 3264, 3262, 3253, 3240, 3263, 3233, 3234, 3260, 3227, 3258, 3238, 3244, 3235, 3247, 3241, 3249, 3230, 3246, 3228, 3254]
       face_ids: [2224, 2225, 2226, 2227, 2228, 2229, 2230, 2231, 2233, 2236, 2239, 2242, 2245, 2248, 2251, 2254, 2235, 2238, 2267, 2241, 2266, 2243, 2246, 2249, 2252, 2255, 2223, 2221, 2253, 3934, 2220, 2250, 3933, 2219, 2247, 3932, 2218, 2244, 2265, 3931, 2217, 2240, 3930, 2216, 2237, 3929, 2215, 2232, 3928, 2234, 3927, 2222]

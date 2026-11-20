@@ -1,0 +1,80 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/crossbow_set_20261114/ingame/final/outdoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel equip 0 0 63
+  - wait: 2
+  - console: viewmodel tier 1
+  - wait: 2
+  - capture: t1_idle
+  - console: viewmodel pose crossbowattack 0.15
+  - wait: 0.6
+  - capture: t1_raise
+  - console: viewmodel pose crossbowattack 0.38
+  - wait: 0.6
+  - capture: t1_aim
+  - console: viewmodel pose crossbowattack 0.46
+  - wait: 0.6
+  - capture: t1_swing
+  - console: viewmodel pose crossbowattack 0.95
+  - wait: 0.6
+  - capture: t1_reload
+  - console: viewmodel pose off
+  - console: viewmodel tier 2
+  - wait: 2
+  - capture: t2_idle
+  - console: viewmodel pose crossbowattack 0.15
+  - wait: 0.6
+  - capture: t2_raise
+  - console: viewmodel pose crossbowattack 0.38
+  - wait: 0.6
+  - capture: t2_aim
+  - console: viewmodel pose crossbowattack 0.46
+  - wait: 0.6
+  - capture: t2_swing
+  - console: viewmodel pose crossbowattack 0.95
+  - wait: 0.6
+  - capture: t2_reload
+  - console: viewmodel pose off
+  - console: viewmodel tier 3
+  - wait: 2
+  - capture: t3_idle
+  - console: viewmodel pose crossbowattack 0.15
+  - wait: 0.6
+  - capture: t3_raise
+  - console: viewmodel pose crossbowattack 0.38
+  - wait: 0.6
+  - capture: t3_aim
+  - console: viewmodel pose crossbowattack 0.46
+  - wait: 0.6
+  - capture: t3_swing
+  - console: viewmodel pose crossbowattack 0.95
+  - wait: 0.6
+  - capture: t3_reload
+  - console: viewmodel pose off
+  - console: viewmodel tier 4
+  - wait: 2
+  - capture: t4_idle
+  - console: viewmodel pose crossbowattack 0.15
+  - wait: 0.6
+  - capture: t4_raise
+  - console: viewmodel pose crossbowattack 0.38
+  - wait: 0.6
+  - capture: t4_aim
+  - console: viewmodel pose crossbowattack 0.46
+  - wait: 0.6
+  - capture: t4_swing
+  - console: viewmodel pose crossbowattack 0.95
+  - wait: 0.6
+  - capture: t4_reload
+  - console: viewmodel pose off
+  - console: viewmodel tier auto
+  - console: viewmodel weapons ours
+  - wait: 2
+  - capture: ours_idle
+  - console: viewmodel pose crossbowattack 0.46
+  - wait: 0.6
+  - capture: ours_swing
+  - console: viewmodel pose crossbowattack 0.95
+  - wait: 0.6
+  - capture: ours_reload

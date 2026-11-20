@@ -1,0 +1,27 @@
+{
+  "prompt": "# Decorative prop d10161: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10161/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: source-faithful upright pendant.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A harmless static decorative prop for a cosy fantasy game, texture sheet only. source-faithful upright pendant\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10161/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nInput roles: image 1 paint_mask_guide.png is the exact edit target and authoritative geometry/layout. Image 2 design_reference.png supplies ornament and material detail only. Image 3 icon_x8.png supplies base colour only; its magenta is not part of the item. Preserve the guide's solid oval face geometry even where the reference differs; paint decorative concentric silver engraving onto that face without cutting new openings. Preserve all existing guide openings. Output the full 1536x2048 transparent atlas with all ten occupied views in their original positions. All lower-half silhouettes are metal and must be uniformly pure red #FF0000, including chains and oval pendant faces. Upper half silver base colour with restrained engraved detail, no baked reflections or lighting.\nCORRECTION: Match the input guide silhouettes exactly, including its angular flat trapezoid edge views and thin straight bail in the central top view. Do not round off or enlarge any geometry. Absolutely no stray pixels, speckles or paint outside the original grey guide shapes. Lower red masks must have clean edges and exactly preserve the thin chain links and their holes; no red smears in chain openings or below the pendant. Copy the original guide geometry directly, changing surface colours only. Preserve identical geometry between upper paint views and their lower mask duplicates.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-ea9d-71a3-892c-22392eb76577/exec-fa2ccacd-0a73-4bd8-816d-d390ec43e209.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10161/paint_mask_guide.png",
+      "sha256": "61ba2dc158782f4f4405ab5d96e1f21f778f3b5d7ab6b86964fda542e2d17f09"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10161/design_reference.png",
+      "sha256": "bb12d674c030b936ca7b35369240275509f6955445ae5513d5db6d21e1699623"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10161/icon_x8.png",
+      "sha256": "f0e854c0cfca7b811bbc9ff2eb06edb4c8fc4a21d339d3c064ea2fffcb065739"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10161/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: remaining stray mask pixels and silhouette deviations; raw tool output retained without edits."
+}

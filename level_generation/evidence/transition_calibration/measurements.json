@@ -1,0 +1,235 @@
+{
+  "method": "Native road/heightfield continuation beyond travel bounds, measured on rendered 127x127 cells.",
+  "terrain_mesh_bounds": [
+    -32768,
+    32256,
+    -32256,
+    32768
+  ],
+  "cell_size": 512,
+  "height_quantum": 32,
+  "navigation_sha256": "82dd9e1fb1737ff0a239cb0d5ec884a2542ba934d776b0b4357caa9fc965d4b9",
+  "limitations": "Road-family cells in edge strips, not a claim of painted-edge connectivity or complete traversal. Existing native MM8 road bank is raw198-233. Flying can reveal the finite mesh.",
+  "exits": [
+    {
+      "map": "ravenshore",
+      "side": "east",
+      "source": "assets_dev/worlds/mm8/maps/out02.odm",
+      "source_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+      "travel_boundary": 23143,
+      "last_road_outer_coordinate": 32256.0,
+      "scenery_extension": 9113.0,
+      "road_cells_beyond_trigger": 20,
+      "road_xy_extent": [
+        18944,
+        32256,
+        0,
+        2048
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "ravenshore",
+      "side": "north",
+      "source": "assets_dev/worlds/mm8/maps/out02.odm",
+      "source_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+      "travel_boundary": 23143,
+      "last_road_outer_coordinate": 32768.0,
+      "scenery_extension": 9625.0,
+      "road_cells_beyond_trigger": 23,
+      "road_xy_extent": [
+        -4096,
+        512,
+        18944,
+        32768
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "ravenshore",
+      "side": "west",
+      "source": "assets_dev/worlds/mm8/maps/out02.odm",
+      "source_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+      "travel_boundary": 23143,
+      "last_road_outer_coordinate": 31232.0,
+      "scenery_extension": 8089.0,
+      "road_cells_beyond_trigger": 18,
+      "road_xy_extent": [
+        -31232,
+        -18944,
+        9216,
+        11776
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "alvar",
+      "side": "west",
+      "source": "assets_dev/worlds/mm8/maps/out03.odm",
+      "source_sha256": "874d31b13fcd6d628d4d5d61bf762c3f693c5c00cfd4a7efe04ea6d2e413113c",
+      "travel_boundary": 23143,
+      "last_road_outer_coordinate": 32768.0,
+      "scenery_extension": 9625.0,
+      "road_cells_beyond_trigger": 21,
+      "road_xy_extent": [
+        -32768,
+        -18944,
+        -7680,
+        -2048
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "alvar",
+      "side": "east",
+      "source": "assets_dev/worlds/mm8/maps/out03.odm",
+      "source_sha256": "874d31b13fcd6d628d4d5d61bf762c3f693c5c00cfd4a7efe04ea6d2e413113c",
+      "travel_boundary": 23143,
+      "last_road_outer_coordinate": 32256.0,
+      "scenery_extension": 9113.0,
+      "road_cells_beyond_trigger": 23,
+      "road_xy_extent": [
+        18944,
+        32256,
+        -22016,
+        -16896
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "alvar",
+      "side": "south",
+      "source": "assets_dev/worlds/mm8/maps/out03.odm",
+      "source_sha256": "874d31b13fcd6d628d4d5d61bf762c3f693c5c00cfd4a7efe04ea6d2e413113c",
+      "travel_boundary": 23143,
+      "last_road_outer_coordinate": 32256.0,
+      "scenery_extension": 9113.0,
+      "road_cells_beyond_trigger": 29,
+      "road_xy_extent": [
+        -15360,
+        -9216,
+        -32256,
+        -18944
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "brackenford_before",
+      "side": "west",
+      "source": "level_generation/projects/brackenford_greywatch/review/transition_revision/before/lg01.odm",
+      "source_sha256": "b33d797d47b29e80c83ce53a78e9f7d0fff93be139ed8e3085e9b830efd56fa2",
+      "travel_boundary": 24576,
+      "last_road_outer_coordinate": 25600.0,
+      "scenery_extension": 1024.0,
+      "road_cells_beyond_trigger": 2,
+      "road_xy_extent": [
+        -25600,
+        -20480,
+        -1536,
+        -1024
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "brackenford_before",
+      "side": "north",
+      "source": "level_generation/projects/brackenford_greywatch/review/transition_revision/before/lg01.odm",
+      "source_sha256": "b33d797d47b29e80c83ce53a78e9f7d0fff93be139ed8e3085e9b830efd56fa2",
+      "travel_boundary": 24576,
+      "last_road_outer_coordinate": 25600.0,
+      "scenery_extension": 1024.0,
+      "road_cells_beyond_trigger": 2,
+      "road_xy_extent": [
+        -18432,
+        -17920,
+        20480,
+        25600
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "brackenford",
+      "side": "west",
+      "source": "level_generation/projects/brackenford_greywatch/runtime/worlds/mm8/maps/lg01.odm",
+      "source_sha256": "4a76ed6d49ca0e49ea929246f289d860572ace10ed01439af0bb5b3758b1607b",
+      "travel_boundary": 24576,
+      "last_road_outer_coordinate": 32768.0,
+      "scenery_extension": 8192.0,
+      "road_cells_beyond_trigger": 24,
+      "road_xy_extent": [
+        -32768,
+        -20480,
+        -1536,
+        1024
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    },
+    {
+      "map": "brackenford",
+      "side": "north",
+      "source": "level_generation/projects/brackenford_greywatch/runtime/worlds/mm8/maps/lg01.odm",
+      "source_sha256": "4a76ed6d49ca0e49ea929246f289d860572ace10ed01439af0bb5b3758b1607b",
+      "travel_boundary": 24576,
+      "last_road_outer_coordinate": 32768.0,
+      "scenery_extension": 8192.0,
+      "road_cells_beyond_trigger": 24,
+      "road_xy_extent": [
+        -18432,
+        -15872,
+        20480,
+        32768
+      ],
+      "rendered_terrain_bounds": [
+        -32768,
+        32256,
+        -32256,
+        32768
+      ]
+    }
+  ]
+}

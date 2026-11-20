@@ -4,6 +4,7 @@
 #include "game/tables/PortraitEnums.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cstdlib>
 #include <cstdint>
@@ -829,6 +830,18 @@ std::string formatLegacyReferenceId(uint32_t value)
     return std::to_string(signedValue < 0 ? -signedValue : signedValue);
 }
 
+// A SetTexture or SetFacetBit reference keeps its sign: positive, a cog number (every face of that cog); negative, one
+// face by its index (MMerge's MM6 maps, "the facet itself").
+std::string formatLegacySignedReferenceId(uint32_t value)
+{
+    if (value <= static_cast<uint32_t>(std::numeric_limits<int32_t>::max()))
+    {
+        return std::to_string(value);
+    }
+
+    return std::to_string(static_cast<int64_t>(value) - (static_cast<int64_t>(UINT32_MAX) + 1));
+}
+
 std::string formatMonsterBit(uint32_t value)
 {
     switch (value)
@@ -1195,6 +1208,13 @@ EvtVariable canonicalMm8Variable(uint32_t rawVariableId, uint32_t index)
     {
         return static_cast<EvtVariable>(
             static_cast<uint32_t>(EvtVariable::Counter1) + rawVariableId - 0x00F7u);
+    }
+
+    // MM8 stores History1-29 at 0x116-0x132, two above MM7's range.
+    if (rawVariableId >= 0x0116u && rawVariableId <= 0x0132u)
+    {
+        return static_cast<EvtVariable>(
+            static_cast<uint32_t>(EvtVariable::HistoryBegin) + rawVariableId - 0x0116u);
     }
 
     switch (rawVariableId)
@@ -2020,6 +2040,57 @@ std::optional<std::string> resolveInstructionText(
     return std::nullopt;
 }
 
+// A few MMerge MM6 maps number their faces differently from the original maps their EVT face references were written
+// for (the original scripts use the same numbers), so the reference lands on an unrelated face. Each entry here was
+// matched by hand to the face the event means: the clicked gate, screen, altar or skylight.
+uint32_t correctedMm6FaceReference(const LegacyLuaExportLookups &lookups, uint32_t reference)
+{
+    if (reference <= static_cast<uint32_t>(std::numeric_limits<int32_t>::max()))
+    {
+        return reference;
+    }
+
+    const std::string map = toLowerCopy(std::filesystem::path(lookups.sourceMapFile.value_or("")).stem().string());
+    const int64_t face = -(static_cast<int64_t>(reference) - (static_cast<int64_t>(UINT32_MAX) + 1));
+    int64_t corrected = face;
+
+    if (map == "6d08")
+    {
+        // Shadow Guild: the plate indicator light and the genie gate (event 26's face), not a floor and a ceiling.
+        if (face == 833 || face == 1079)
+        {
+            corrected = face - 1;
+        }
+    }
+    else if (map == "sci-fi")
+    {
+        // Control Center: the nine computer terminal screens (TREKSCRN).
+        if (face == 2899 || face == 2903 || face == 2905 || face == 2911 || face == 2914 || face == 2921
+            || face == 2927 || face == 2930 || face == 2933)
+        {
+            corrected = face - 15;
+        }
+    }
+    else if (map == "6d17")
+    {
+        // The Wolf Altar's five faces (event 54), not two floors elsewhere and the entrance room.
+        if (face >= 5081 && face <= 5085)
+        {
+            corrected = face - 4;
+        }
+    }
+    else if (map == "6t4")
+    {
+        // The day/night skylight over the main hall, not a wall strip.
+        if (face == 79)
+        {
+            corrected = 45;
+        }
+    }
+
+    return static_cast<uint32_t>(-corrected);
+}
+
 LegacyLuaInstruction decodeInstruction(
     uint16_t eventId,
     const EvtInstruction &instruction,
@@ -2308,6 +2379,26 @@ LegacyLuaInstruction decodeInstruction(
         decoded.arguments[0] = mapLegacySkillId(decoded.arguments[0], version);
     }
 
+    // MM6's SetFacetBit indoors names one face by its index, a negative reference; MM7's and MM8's, and MM6's outdoors,
+    // a cog number, written without the sign MMerge's converted outdoor events store.
+    if (decoded.operation == LegacyLuaOperation::SetFacetBit && !decoded.arguments.empty())
+    {
+        const bool indoorMm6 = version == LegacyEventVersion::Mm6 && lookups.sourceMapFile
+            && toLowerCopy(std::filesystem::path(*lookups.sourceMapFile).extension().string()) == ".blv";
+        const bool negative = decoded.arguments[0] > static_cast<uint32_t>(std::numeric_limits<int32_t>::max());
+
+        if (indoorMm6 != negative)
+        {
+            decoded.arguments[0] = 0u - decoded.arguments[0];
+        }
+    }
+
+    if ((decoded.operation == LegacyLuaOperation::SetTexture || decoded.operation == LegacyLuaOperation::SetFacetBit)
+        && !decoded.arguments.empty() && version == LegacyEventVersion::Mm6)
+    {
+        decoded.arguments[0] = correctedMm6FaceReference(lookups, decoded.arguments[0]);
+    }
+
     return decoded;
 }
 
@@ -2325,9 +2416,22 @@ std::vector<LegacyLuaEvent> decodeEvents(
         LegacyLuaEvent decodedEvent = {};
         decodedEvent.eventId = event.eventId;
         decodedEvent.instructions.reserve(event.instructions.size());
+        std::array<bool, 256> stepHasAction = {};
 
         for (const EvtInstruction &instruction : event.instructions)
         {
+            // The original interpreter runs only the first record it finds for a step, so a later record that
+            // repeats the step number (OUTC3 event 68, OUT06 event 303) is unreachable.
+            if (!isIgnoredSourceNormalOpcode(instruction.opcode))
+            {
+                if (stepHasAction[instruction.step])
+                {
+                    continue;
+                }
+
+                stepHasAction[instruction.step] = true;
+            }
+
             decodedEvent.instructions.push_back(
                 decodeInstruction(event.eventId, instruction, strTable, lookups, version));
         }
@@ -2695,6 +2799,48 @@ std::optional<std::string> resolveSummonItemComment(
     }
 
     return comment;
+}
+
+// MM8's SummonItem payload over 1000 is a random item of treasure level payload / 1000 and of the kind of item
+// payload % 1000 (MMExtension's evt.SummonObject); a plain payload is the item itself. MM6/MM7 payloads are objects.
+constexpr uint32_t Mm8RandomSummonItemPayloadBase = 1000;
+
+bool formatSummonCall(
+    const LegacyLuaInstruction &instruction,
+    const LegacyLuaExportLookups &lookups,
+    std::string &expression,
+    std::optional<std::string> &comment)
+{
+    if (instruction.arguments.size() < 7)
+    {
+        return false;
+    }
+
+    const uint32_t payload = instruction.arguments[0];
+    const std::string placement = std::to_string(static_cast<int32_t>(instruction.arguments[1])) + ", "
+        + std::to_string(static_cast<int32_t>(instruction.arguments[2])) + ", "
+        + std::to_string(static_cast<int32_t>(instruction.arguments[3])) + ", "
+        + std::to_string(static_cast<int32_t>(instruction.arguments[4])) + ", "
+        + std::to_string(instruction.arguments[5]) + ", "
+        + (instruction.arguments[6] != 0 ? "true" : "false") + ")";
+
+    if (instruction.operation == LegacyLuaOperation::SummonItem && payload > Mm8RandomSummonItemPayloadBase)
+    {
+        const uint32_t treasureLevel = payload / Mm8RandomSummonItemPayloadBase;
+        const uint32_t kindItemId = payload % Mm8RandomSummonItemPayloadBase;
+        expression = "evt.SummonRandomItem(" + std::to_string(treasureLevel) + ", " + std::to_string(kindItemId)
+            + ", " + placement;
+        const std::optional<std::string> kindName = lookupText(lookups.itemNames, kindItemId);
+        comment = kindName
+            ? std::optional<std::string>("random item of the " + *kindName + "'s kind")
+            : std::nullopt;
+        return true;
+    }
+
+    expression = (instruction.operation == LegacyLuaOperation::SummonItem ? "evt.SummonItem(" : "evt.SummonObject(")
+        + std::to_string(payload) + ", " + placement;
+    comment = resolveSummonItemComment(payload, lookups, instruction.operation == LegacyLuaOperation::SummonItem);
+    return true;
 }
 
 bool formatGiveItemCall(
@@ -3760,29 +3906,18 @@ bool emitReadableActionInstruction(
 
         case LegacyLuaOperation::SummonItem:
         case LegacyLuaOperation::SummonObject:
-            if (instruction.arguments.size() >= 7)
+        {
+            std::string expression;
+            std::optional<std::string> comment;
+
+            if (formatSummonCall(instruction, lookups, expression, comment))
             {
-                const std::string functionName = instruction.operation == LegacyLuaOperation::SummonItem
-                    ? "evt.SummonItem("
-                    : "evt.SummonObject(";
-                emitIndentedLineWithComment(
-                    stream,
-                    functionName + std::to_string(instruction.arguments[0]) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[1])) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[2])) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[3])) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[4])) + ", "
-                    + std::to_string(instruction.arguments[5]) + ", "
-                    + (instruction.arguments[6] != 0 ? std::string("true") : std::string("false")) + ")",
-                    resolveSummonItemComment(
-                        instruction.arguments[0],
-                        lookups,
-                        instruction.operation == LegacyLuaOperation::SummonItem),
-                    indentLevel);
+                emitIndentedLineWithComment(stream, expression, comment, indentLevel);
                 return true;
             }
 
             return false;
+        }
 
         case LegacyLuaOperation::SummonMonsters:
             if (instruction.arguments.size() >= 8)
@@ -3911,7 +4046,7 @@ bool emitReadableActionInstruction(
             if (!instruction.arguments.empty())
             {
                 std::ostringstream line;
-                line << "evt.SetTexture(" << formatLegacyReferenceId(instruction.arguments[0]);
+                line << "evt.SetTexture(" << formatLegacySignedReferenceId(instruction.arguments[0]);
 
                 if (instruction.text && !instruction.text->empty())
                 {
@@ -3944,7 +4079,7 @@ bool emitReadableActionInstruction(
             {
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SetFacetBit(" + formatLegacyReferenceId(instruction.arguments[0]) + ", "
+                    "evt.SetFacetBit(" + formatLegacySignedReferenceId(instruction.arguments[0]) + ", "
                     + formatFacetBit(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
                     std::nullopt,
@@ -8634,27 +8769,16 @@ void emitNormalInstruction(
 
         case LegacyLuaOperation::SummonItem:
         case LegacyLuaOperation::SummonObject:
-            if (instruction.arguments.size() >= 7)
+        {
+            std::string expression;
+            std::optional<std::string> comment;
+
+            if (formatSummonCall(instruction, lookups, expression, comment))
             {
-                const std::string functionName = instruction.operation == LegacyLuaOperation::SummonItem
-                    ? "evt.SummonItem("
-                    : "evt.SummonObject(";
-                emitIndentedLineWithComment(
-                    stream,
-                    functionName + std::to_string(instruction.arguments[0]) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[1])) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[2])) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[3])) + ", "
-                    + std::to_string(static_cast<int32_t>(instruction.arguments[4])) + ", "
-                    + std::to_string(instruction.arguments[5]) + ", "
-                    + (instruction.arguments[6] != 0 ? "true" : "false") + ")",
-                    resolveSummonItemComment(
-                        instruction.arguments[0],
-                        lookups,
-                        instruction.operation == LegacyLuaOperation::SummonItem),
-                    2);
+                emitIndentedLineWithComment(stream, expression, comment, 2);
             }
             break;
+        }
 
         case LegacyLuaOperation::GiveItem:
         {
@@ -8785,7 +8909,7 @@ void emitNormalInstruction(
             if (!instruction.arguments.empty())
             {
                 std::ostringstream line;
-                line << "evt.SetTexture(" << formatLegacyReferenceId(instruction.arguments[0]);
+                line << "evt.SetTexture(" << formatLegacySignedReferenceId(instruction.arguments[0]);
 
                 if (instruction.text && !instruction.text->empty())
                 {
@@ -8814,7 +8938,7 @@ void emitNormalInstruction(
             {
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SetFacetBit(" + formatLegacyReferenceId(instruction.arguments[0]) + ", "
+                    "evt.SetFacetBit(" + formatLegacySignedReferenceId(instruction.arguments[0]) + ", "
                     + formatFacetBit(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
                     std::nullopt,
@@ -12315,6 +12439,77 @@ void emitContextActionMetadataValue(
     stream << " }";
 }
 
+struct LearnedEventEffect
+{
+    uint32_t autonoteId = 0;
+    std::string effect;
+};
+
+// A fountain or well whose drink sets exactly one autonote and reports exactly one numeric effect ("+50 Might
+// (Temporary)") names that effect on its hover once the party has the autonote. Random, harmful and flavour-only
+// drinks ("Look Out!", "Your Wounds begin to Heal") have no learned effect.
+std::optional<LearnedEventEffect> learnedEffectForEvent(
+    const EvtEvent &event,
+    const StrTable &strTable,
+    const LegacyLuaExportLookups &lookups)
+{
+    const std::optional<ContextActionMetadata> contextAction = contextActionMetadataForEvent(event, strTable, lookups);
+
+    if (!contextAction || (contextAction->kind != "fountain" && contextAction->kind != "well"))
+    {
+        return std::nullopt;
+    }
+
+    std::vector<uint32_t> autonoteIds;
+    std::vector<std::string> effects;
+
+    for (const EvtInstruction &instruction : event.instructions)
+    {
+        if ((instruction.opcode == EvtOpcode::Add || instruction.opcode == EvtOpcode::Set) && instruction.value1)
+        {
+            const FormattedSelector selector = formatSelector(*instruction.value1, lookups.qbitRemaps);
+
+            if (selector.semantic == SelectorSemantic::Autonote)
+            {
+                autonoteIds.push_back(selector.index);
+            }
+        }
+
+        if (instruction.opcode != EvtOpcode::StatusText)
+        {
+            continue;
+        }
+
+        const std::optional<std::string> text = resolveInstructionText(instruction, strTable, lookups);
+
+        if (!text || normalizedContextTitle(*text).starts_with("refreshing"))
+        {
+            continue;
+        }
+
+        // "+30 Level temporary.  Look Out!" names its effect before the first full stop; Kriegspire's well quotes it.
+        std::string effect = text->substr(0, text->find('.'));
+        const size_t first = effect.find_first_not_of(" \"");
+        const size_t last = effect.find_last_not_of(" \"");
+        effect = first == std::string::npos ? std::string() : effect.substr(first, last - first + 1);
+        effects.push_back(effect);
+    }
+
+    sortAndUnique(autonoteIds);
+    sortAndUnique(effects);
+
+    if (autonoteIds.size() != 1 || effects.size() != 1
+        || std::none_of(effects.front().begin(), effects.front().end(), [](char character)
+            {
+                return std::isdigit(static_cast<unsigned char>(character)) != 0;
+            }))
+    {
+        return std::nullopt;
+    }
+
+    return LearnedEventEffect{autonoteIds.front(), effects.front()};
+}
+
 bool isPressureTrapSpell(uint32_t spellId)
 {
     // Only hostile trap spells; beneficial casts and map-wide effects are not pressure traps.
@@ -12394,14 +12589,16 @@ bool isAuditedMm6PressureTrap(uint16_t eventId, const LegacyLuaExportLookups &lo
 {
     const std::string map = toLowerCopy(std::filesystem::path(lookups.sourceMapFile.value_or("")).stem().string());
     // These physical plates also maintain trap/puzzle state, or apply direct surface damage.
-    // Bypassing a puzzle plate must bypass its state changes as well as its spell casts.
+    // Bypassing a puzzle plate must bypass its state changes as well as its spell casts, so only plates whose state
+    // is a penalty or a fired-once memo belong here, never a plate the puzzle needs stepped on.
     if (map == "6d03")
     {
         return eventId == 21; // Guild Key disarms the Fireball plate.
     }
     if (map == "6d08")
     {
-        return eventId == 22 || eventId == 23 || eventId == 25 || eventId == 32; // Puzzle plates and spikes.
+        // Shadow Guild: the reset floor and the spikes. Plates 22/23 are a pair the genie gate needs.
+        return eventId == 25 || eventId == 32;
     }
     if (map == "sci-fi")
     {
@@ -12577,6 +12774,22 @@ void emitMetadata(
         }
 
         stream << "    },\n";
+
+        std::ostringstream learnedEffectStream;
+
+        for (const EvtEvent &event : evtProgram.getEvents())
+        {
+            if (const std::optional<LearnedEventEffect> learned = learnedEffectForEvent(event, strTable, lookups))
+            {
+                learnedEffectStream << "    [" << event.eventId << "] = { autonote = " << learned->autonoteId
+                                    << ", effect = " << luaQuoted(learned->effect) << " },\n";
+            }
+        }
+
+        if (!learnedEffectStream.str().empty())
+        {
+            stream << "    learnedEffect = {\n" << learnedEffectStream.str() << "    },\n";
+        }
     }
 
     stream << "    textureNames = {";

@@ -176,6 +176,38 @@ ModelMatrix modelNormalMatrix(const ModelMatrix &matrix)
 }
 
 
+float modelCreaturePulse(const ModelMaterial &material, float seconds)
+{
+    const float amplitude = material.pulse[0];
+    const float period = material.pulse[1];
+    if (amplitude <= 0.0f || period == 0.0f)
+    {
+        return 1.0f;
+    }
+    const auto hash = [](float value)
+    {
+        const float wave = std::sin(value) * 43758.5453f;
+        return wave - std::floor(wave);
+    };
+    const auto smooth = [](float value)
+    {
+        return value * value * (3.0f - 2.0f * value);
+    };
+    if (period < 0.0f)
+    {
+        // Flicker: smoothed value noise at the given rate plus a faster, weaker octave.
+        const float t = seconds / -period;
+        const float i = std::floor(t);
+        const float slow = std::lerp(hash(i * 12.9898f), hash((i + 1.0f) * 12.9898f), smooth(t - i));
+        const float t2 = t * 2.7f + 13.0f;
+        const float i2 = std::floor(t2);
+        const float fast = std::lerp(hash(i2 * 78.233f), hash((i2 + 1.0f) * 78.233f), smooth(t2 - i2));
+        return 1.0f + amplitude * ((slow * 0.7f + fast * 0.3f) * 2.0f - 1.0f);
+    }
+    const double cycles = double(seconds) / double(period);
+    return 1.0f + amplitude * float(std::sin(6.283185307179586 * (cycles - std::floor(cycles))));
+}
+
 bool modelMatrixVisible(const ModelMatrix &matrix)
 {
     return std::abs(determinant3x3(matrix)) > std::numeric_limits<float>::epsilon();

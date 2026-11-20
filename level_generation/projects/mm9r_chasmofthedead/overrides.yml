@@ -1,0 +1,212 @@
+# Explicit conversion choices for MM9's Chasm of the Dead (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: chasmofthedead
+  display_name: Chasm of the Dead
+  # the floor split between rooms only where they share no portal: the full rule (2026-11-08) cut more floors and
+  # put the map over the 7 000-outline limit (7 231); dungeon/build.py split_floors_between_rooms
+  split_floors_between_rooms: without_portal
+  starts: [StartPoint0]               # the only start: the entrance from Drangheim (ExitTrigger0 beside it)
+  monster_classes: [SkeletonWarrior, SkeletonMaster, EmbalmedMummy, PetrifiedMummy, Skeleton, Zombie, ImpElder, Dripper]
+  offset: [0, 0, 0]                   # the old map's frame: x -17162..11633, y -19333..28672, z -6021..2028 fit int16
+  ambient: 20
+  model_lighting: true                # re-light 2026-10-31: MM9 model lighting (AmbientLight 40, ModelAdd 30); the old path drew props black in 8 of 28 views under the dark bake: work/relight/model_lighting_props.txt
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  swim_check_skip: [Acid0]            # swim_check.py: the map Lua lifts a party in the acid to the rim every third
+                                      # second (the rim is 102 over the surface, past the surface jump)
+models:
+  # --- the tomb doors: MM9 Door, 96 wide, up 104-120 at 50 (CloseWaitTime 5, PushOpen): MM9's own linear motion, a click
+  # each. 20 stand in a UserPortal of VisBSP, 13 have none and take their doorway from their leaf.
+  Door14: {group: Door14, motion: dat, doorway: true, portal: Doorportal4}
+  Door15: {group: Door15, motion: dat, doorway: true, portal: Doorportal0}
+  Door16: {group: Door16, motion: dat, doorway: true, portal: Doorportal1}
+  Door17: {group: Door17, motion: dat, doorway: true, portal: Doorportal2}
+  Door18: {group: Door18, motion: dat, doorway: true, portal: Doorportal3}
+  Door21: {group: Door21, motion: dat, doorway: true, portal: Doorportal21}
+  Door22: {group: Door22, motion: dat, doorway: true, portal: Doorportal22}
+  Door23: {group: Door23, motion: dat, doorway: true, portal: Doorportal23}
+  Door24: {group: Door24, motion: dat, doorway: true, portal: Doorportal24}
+  Door25: {group: Door25, motion: dat, doorway: true, portal: Doorportal25}
+  Door26: {group: Door26, motion: dat, doorway: true, portal: Doorportal26}
+  Door27: {group: Door27, motion: dat, doorway: true, portal: Doorportal27}
+  Door28: {group: Door28, motion: dat, doorway: true, portal: Doorportal28}
+  Door29: {group: Door29, motion: dat, doorway: true, portal: Doorportal29}
+  Door30: {group: Door30, motion: dat, doorway: true, portal: Doorportal30}
+  Door31: {group: Door31, motion: dat, doorway: true, portal: Doorportal31}
+  Door32: {group: Door32, motion: dat, doorway: true, portal: Doorportal32}
+  Door33: {group: Door33, motion: dat, doorway: true, portal: Doorportal33}
+  Door34: {group: Door34, motion: dat, doorway: true, portal: Doorportal34}
+  Door35: {group: Door35, motion: dat, doorway: true, portal: Doorportal35}
+  Door1: {group: Door1, motion: dat, doorway: true}
+  Door2: {group: Door2, motion: dat, doorway: true}
+  Door3: {group: Door3, motion: dat, doorway: true}
+  Door4: {group: Door4, motion: dat, doorway: true}
+  Door5: {group: Door5, motion: dat, doorway: true}
+  Door6: {group: Door6, motion: dat, doorway: true}
+  Door8: {group: Door8, motion: dat, doorway: true}
+  Door9: {group: Door9, motion: dat, doorway: true}
+  Door10: {group: Door10, motion: dat, doorway: true}
+  Door11: {group: Door11, motion: dat, doorway: true}
+  Door12: {group: Door12, motion: dat, doorway: true}
+  Door19: {group: Door19, motion: dat, doorway: true}
+  Door20: {group: Door20, motion: dat, doorway: true}
+  # --- pressure plates (MM9 Door 4 LT down, Trigger box over it): pressure_plate events in convert.py
+  ShooterPlate1: {group: ShooterPlate1, motion: dat}
+  ShooterPlate2: {group: ShooterPlate2, motion: dat}
+  ShooterPlate3: {group: ShooterPlate3, motion: dat}
+  ShooterPlate4: {group: ShooterPlate4, motion: dat}
+  ShooterPlate5: {group: ShooterPlate5, motion: dat}
+  ShooterPlate6: {group: ShooterPlate6, motion: dat}
+  ShooterPlate7: {group: ShooterPlate7, motion: dat}
+  ShooterPlate8: {group: ShooterPlate8, motion: dat}
+  ShooterPlate9: {group: ShooterPlate9, motion: dat}
+  ShooterPlate10: {group: ShooterPlate10, motion: dat}
+  HSP1: {group: HSP1, motion: dat}
+  HSP2: {group: HSP2, motion: dat}
+  HSP6: {group: HSP6, motion: dat}
+  HSP7: {group: HSP7, motion: dat}
+  CWPlate1: {group: CWPlate1, motion: dat}
+  SpikeRowPlate1: {group: SpikeRowPlate1, motion: dat}
+  CeilingCrushPlate3: {group: CeilingCrushPlate3, motion: dat}
+  CeilingCrushPlate4: {group: CeilingCrushPlate4, motion: dat}
+  # --- the closing walls (MM9 Door 80 LT at 300, DoDamage): wall panels from both sides with spikes on them
+  CWR1: {group: CWR1, motion: dat}
+  CWL1: {group: CWL1, motion: dat}
+  CWR2: {group: CWR2, motion: dat}
+  CWL2: {group: CWL2, motion: dat}
+  # --- the ceiling crushers (MM9 Lift 160 LT down at 500, back at 100)
+  CeilingCrush3: {group: CeilingCrush3, motion: dat}
+  CeilingCrush4: {group: CeilingCrush4, motion: dat}
+  # --- the spike rows (MM9 Door, Solid 0, 96 LT up at 600, back at 100: a wave down the corridor)
+  SpikeRow1: {group: SpikeRow1, motion: dat}
+  SpikeRow2: {group: SpikeRow2, motion: dat}
+  SpikeRow3: {group: SpikeRow3, motion: dat}
+  SpikeRow4: {group: SpikeRow4, motion: dat}
+  SpikeRow5: {group: SpikeRow5, motion: dat}
+  SpikeRow6: {group: SpikeRow6, motion: dat}
+  SpikeRow7: {group: SpikeRow7, motion: dat}
+  SpikeRow8: {group: SpikeRow8, motion: dat}
+  SpikeRow9: {group: SpikeRow9, motion: dat}
+  SpikeRow10: {group: SpikeRow10, motion: dat}
+  SpikeRow11: {group: SpikeRow11, motion: dat}
+  SpikeRow12: {group: SpikeRow12, motion: dat}
+  SpikeRow13: {group: SpikeRow13, motion: dat}
+  SpikeRow14: {group: SpikeRow14, motion: dat}
+  # --- the hidden shooters' shutters (MM9 RotatingDoor: two 16 LT flaps swing apart at 300, shut after 1 s)
+  SDU1: {group: SD1, motion: rotate, bodies: ignore}
+  SDL1: {group: SD1, motion: rotate, bodies: ignore}
+  SDU2: {group: SD2, motion: rotate, bodies: ignore}
+  SDL2: {group: SD2, motion: rotate, bodies: ignore}
+  SDU3: {group: SD3, motion: rotate, bodies: ignore}
+  SDL3: {group: SD3, motion: rotate, bodies: ignore}
+  SDU4: {group: SD4, motion: rotate, bodies: ignore}
+  SDL4: {group: SD4, motion: rotate, bodies: ignore}
+  SDU6: {group: SD6, motion: rotate, bodies: ignore}
+  SDL6: {group: SD6, motion: rotate, bodies: ignore}
+  SDU7: {group: SD7, motion: rotate, bodies: ignore}
+  SDL7: {group: SD7, motion: rotate, bodies: ignore}
+  # --- the grate over the acid pit (MM9 Door 120 LT aside at 250, back at 100; Door0 is the grill attached to it)
+  Gratetrap0: {group: Gratetrap0, motion: dat, one_node: true, move_dir_lt: [0, 0, 1], move_dist_lt: 120}
+  Door0: {group: Gratetrap0, motion: dat, one_node: true, move_dir_lt: [0, 0, 1], move_dist_lt: 120}
+  # --- the pivot pit: the cross tips the party into the spike pit (a revolving wall: its other quadrants carry the party
+  # into the treasure alcove and back), the ladder leads up to the hatch
+  PivotWallTrap1: {group: PivotWallTrap1, motion: rotate, bodies: push, carry: true, owner_lt: [992, -1690, -1776], falls: PivotWallTrapTrigger1, falls_point: [992.0, -1712.0, -1776.0]}   # owner_lt: the corridor over it (as Anskram Keep's pivot traps)
+  TrapExitDoor1: {group: TrapExitDoor1, motion: rotate, rises: true}
+  PivotButton1: {group: PivotButton1, motion: dat}
+  PivotTreasurePanel1: {group: PivotTreasurePanel1, motion: dat, doorway: false}
+  # --- the pendulums (RotatingDoor, Solid 0, 210 degrees at 100; convert.py applies their object yaw, the only one on a
+  # rotating mover in all of MM9, to their points and swing axis)
+  Pendulum1: {group: Pendulum1, motion: rotate, bodies: ignore}
+  Pendulum2: {group: Pendulum2, motion: rotate, bodies: ignore}
+  PendulumWhoosh1: skip               # a sound helper of the swing (a 4 LT box in the ceiling, attached to nothing)
+  PendulumWhoosh2: skip
+  # --- static world objects
+  H2OSurface: skip                    # BlueWater0's surface: a water face in convert.py
+  Terrain0: static                    # sand heaps
+  Terrain1: static
+  Terrain2: static
+  Terrain3: static
+  Terrain4: static
+  Terrain5: static
+  Terrain6: static
+  Terrain7: static
+  Terrain8: static
+  # --- not built
+  SkyBox0: skip
+  TOD_Sky0: skip
+  BlueWater0: skip                    # liquid volumes: surfaces in convert.py
+  BlueWater1: skip
+  Acid0: skip
+model_patterns:
+  InvisibleBrush: static              # invisible collision (Firethrough.dtx: rails beside stairs, gaps)
+  WorldObject: static                 # the hanging lamps' chains (ChainLink.dtx, cut-out)
+  LadderBlocker: static
+# The pivot pit: under the cross and under the hatch beside it (spike pit, ladder), the pit's two halves.
+seeds:
+  - [992, -1900, -1776]
+  - [820, -1900, -1776]
+rect_portals:
+  - {name: TrapPit1, min_lt: [760, -1732, -1848], max_lt: [1056, -1732, -1704]}
+  - {name: TrapHatch1, min_lt: [976, -1732, -1704], max_lt: [1040, -1732, -1640]}
+# MM9's Ladder volume out of the pit: facing_lt (x, z) toward the ladder, surface_lt where a climber stops (the
+# LadderBlocker's face), top_exit_lt where the party stands after climbing out through the hatch.
+ladders:
+  Ladder4: {facing_lt: [0, 1], surface_lt: -1656, top_exit_lt: [1008, -1728, -1610]}
+plan_levels:
+  top: [400, 900]
+  chasm_upper: [-100, 400]
+  mid: [-800, -100]
+  lower: [-1400, -800]
+  deep: [-1800, -1400]
+  bottom: [-2400, -1800]
+skip_lights: []
+# The exit volume hangs 8 LT over the entrance floor: reached down to it.
+exits:
+  ExitTrigger0: {bottom_lt: 600}
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # stretched, convert.py edit_polygons; the bake's sky emitter (profile)
+  "water:pool": {alias: WATEQOBX0Z, width: 128, height: 128}      # Water115.spr, first frame (as the Temple's pool)
+  "water:acid": {alias: SLIM91P4YN, width: 128, height: 128}
+# Archway portals: a voxel slice perpendicular to `axis` through `point` (LT) seals the opening it stands in (within
+# `span`, default 256, along the cut). The chasm is one air volume 5 800 native tall and 6 500 long: five full-height
+# cross sections divide its 2 225 faces.
+portals:
+  # the chasm
+  - {name: chasm_0700, axis: z, point: [850, -400, 700], span: 1100}
+  - {name: chasm_1800, axis: z, point: [950, -400, 1800], span: 1100}
+  - {name: chasm_2900, axis: z, point: [1250, -400, 2900], span: 1100}
+  - {name: chasm_3900, axis: z, point: [1450, -400, 3900], span: 1100}
+  - {name: chasm_4800, axis: z, point: [1650, -400, 4800], span: 1700}
+  # the upper halls: antechamber, hall, long stair, hall, corridor, spike stair, hall, tunnel to the chasm
+  - {name: hall1_west, axis: x, point: [-5720, 330, 5130]}
+  - {name: hall1_east, axis: x, point: [-4750, 300, 5130], span: 300}
+  - {name: stair_foot, axis: x, points: [[-3990, 200, 4840], [-3990, 200, 5000]], span: 200}
+  - {name: hall2_south, axis: z, point: [-2930, 200, 4480], span: 300}
+  - {name: spike_stair_west, axis: x, point: [-2752, 200, 3896], span: 120}
+  - {name: spike_stair_east, axis: x, point: [-2160, 200, 3896], span: 120}
+  - {name: hall3_south, axis: z, point: [-1780, 200, 3335], span: 200}
+  - {name: tunnel_west, axis: x, point: [-1200, 200, 2950], span: 300}
+  - {name: tunnel_east, axis: x, point: [-400, 330, 3200], span: 300}
+  - {name: west_stair_top, axis: z, point: [-5216, 680, 6620], span: 200}
+  - {name: west_stair_foot, axis: z, point: [-5888, 330, 5500], span: 200}
+  # the deep hall's rings (each loop of the pool hall is cut once) and the north corridor
+  - {name: ring_south, axis: x, point: [3560, -1780, 4064], span: 160}
+  - {name: ring_north, axis: x, point: [3100, -1850, 6888], span: 160}
+  - {name: north_corridor, axis: x, point: [2920, -1980, 6448], span: 160}
+  # the south galleries and the corridors of the middle level
+  - {name: gallery_loop, axis: z, points: [[1984, -1650, -2950], [2368, -1650, -2950]], span: 160}
+  - {name: mid_south, axis: z, point: [-2048, -650, 1150], span: 200}
+  - {name: mid_south_hall, axis: z, point: [-1488, -650, 280], span: 200}
+  - {name: mid_north_west, axis: x, point: [-1500, -650, 1808], span: 200}
+  - {name: mid_north_east, axis: x, point: [-880, -650, 1808], span: 200}
+  - {name: mid_stair, axis: x, point: [-2600, -880, 1424], span: 200}
+  - {name: south_corridor_a, axis: z, point: [1008, -1650, -3200], span: 200}
+  - {name: south_corridor_b, axis: z, point: [1008, -1650, -2300], span: 200}
+  - {name: south_corridor_c, axis: z, point: [1008, -1650, -1200], span: 200}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [PivotTreasurePanel1]
+  themed_near: [Altar0, Altar3, Altar6, Altar10, Altar13, Altar16, Altar20, Altar24, Altar27, Altar30]

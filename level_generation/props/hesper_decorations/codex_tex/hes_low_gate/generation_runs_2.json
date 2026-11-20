@@ -1,0 +1,111 @@
+{
+  "tool": "built-in image_gen",
+  "scope": "CODEX_BRIEF_2.md",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Create a texture-source painting by editing guide_back.png (input 2). Input 1, design_reference.png, is ONLY the material and colour reference, NOT the camera or shape reference.\nDeliver exactly one 1024 x 1024 RGBA PNG with true transparent background, keeping the unresized canvas of input 2.\nThe grey orthographic BACK view in input 2 fixes EVERY silhouette, position, scale, shape edge, opening, spike, strut, rail, tower, open gate leaf, arch and hanging lantern. Preserve its alpha outline exactly, including internal openings, and preserve the broad empty transparent margins. Do not enlarge or recenter. Paint only the existing grey surfaces. Do not add geometry or details that change shape edges. Keep this back view, not a three-quarter/front view.\nPaint the surfaces with the design reference materials: chipped off-white ceramic plates on the towers and arch, restrained aged gold edges and inset borders, weathered grey and rust-brown riveted steel on the gate leaves, spikes, structural rails, braces and hinge supports; the small existing central lantern warm amber/orange. Surface-only rivets, chipping and rust marks may decorate existing surfaces.\nLighting is strictly ALBEDO: even, flat, shadowless illumination from the viewer; no cast shadows, ambient-occlusion darkening, directional gradients, strong specular highlights, reflections or rim light. Keep even material colours across faces. Paint luminous parts at their warm colour without bloom or light spill.\nNo background, no black fill, no floor, no scene, no text. All original empty areas must remain truly transparent. Silhouette must be identical to guide_back.png; materials and colours must match design_reference.png; flat even light.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "eb2d202db1e6a904675f214c681d7d20212824088b99d2230a311d9947d0da76"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: wrong canvas dimensions, changed geometry and silhouette, residual shading.",
+      "output_sha256": "84a01dd6b08ac49993c9f7e44998f6812a08c6bb2e75435fc011f4c010374c07",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          55,
+          29,
+          1232,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          276,
+          958,
+          748
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches chipped white ceramic, aged gold trim, rust and grey steel, and warm lantern.",
+        "flat_even_light": "Partial: residual shading and highlights remain.",
+        "transparent_background": "Alpha transparency present; edge fringe and stray alpha remain.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Edit input 1 (guide_back.png) in place: colour its existing grey pixels ONLY. Output EXACTLY 1024 x 1024 pixels, true RGBA transparency. This is an orthographic back-view ALBEDO texture projection, not an illustration. Keep input 1's exact alpha mask and geometry pixel-for-pixel. Its occupied bounding box is x=66..957, y=276..747 on the 1024 square canvas. Leave the large empty top and bottom margins exactly as supplied. No zoom, no repositioning, no stretching, no perspective, no redesign. Every existing edge and internal opening must stay fixed. Do not invent silhouettes from input 2.\nInput 2 (design_reference.png) supplies ONLY surface colours/materials: chipped white ceramic on curved tower shells, lower shell plates and arch; matte aged gold trim; rust-brown and medium grey riveted steel on supports, braces, spikes, gate leaves and hinge posts; warm orange amber on the existing SMALL hanging lantern. Keep guide's lantern size and angular shape. Paint design materials onto the guide's geometry, without borrowing the reference's geometry.\nCORRECTION to previous generation: exact source canvas resolution and pixel-aligned shape are mandatory. Do not enlarge the object. Do not enlarge or replace the lantern. Do not add hooks, rings, rail extensions, arch bumps or extra panels. Do not fill the guide's holes.\nFlat even shadowless material colours: no ambient occlusion, no dark contact shadows, no cast shadows, no directional highlights, no reflections, no rim lighting. No lantern bloom or light spill. No background, floor or text. Transparent pixels must have alpha zero, with no coloured stray pixels or halo. Preserve guide silhouette and all shape edges exactly. Return a single unresized 1024x1024 transparent PNG.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "eb2d202db1e6a904675f214c681d7d20212824088b99d2230a311d9947d0da76"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best available of the two permitted unresized returns; preserves broad back-view layout and material palette, but does not meet exact resolution or silhouette requirements. Selected for delivery, not accepted as a compliant texture source.",
+      "output_sha256": "7b17138747fef62dd3bc5a7c2280e592bfa53ef0e3f969d348bd7255144589ff",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          35,
+          21,
+          1202,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          66,
+          276,
+          958,
+          748
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches chipped white ceramic, aged gold trim, rust and grey steel, and warm lantern.",
+        "flat_even_light": "Partial: residual shading and highlights remain.",
+        "transparent_background": "Alpha transparency present; edge fringe and stray alpha remain.",
+        "accepted": false
+      }
+    }
+  ],
+  "status": "Generation limit reached; requested filenames saved, but exact resolution, silhouette and strict albedo checks did not pass. No resizing or pixel modifications performed."
+}

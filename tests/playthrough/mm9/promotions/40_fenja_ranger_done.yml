@@ -1,0 +1,58 @@
+# MM9 promotion playthrough, segment 40: the Ranger's Trial done (guide: side_c.yml "find-everstrike", step 5;
+# "pass-through-dungeon-of-secrets", last step). From the Dungeon of Secrets' door in Frosgard to the city's road gate
+# (outdoors the party is moved), Fenja Tree-friend: her click sees Everstrike in the packs (key 241; she only checks
+# for the bow, the party keeps it); "We've completed the Ranger's Trial." (keys 245 and 241: key 248), "Thank you.".
+# The talk's close (frosgardcity.lua NPC181.scr) gives key 249, 37 500 experience to each member and 5 000 gold, and
+# promotes every Hunter and Warrior Mage (MM9.Promotions ranger): this party has none, so the classes stay as they
+# were. Her first page then keeps "Promote our eligible characters.", which finds nobody.
+#   python3 tests/playthrough/mm9/promotions/run.py 40
+id: mm9.promotions.40_fenja_ranger_done
+title: "MM9 promotions 40: Everstrike and the Dungeon of Secrets reported to Fenja: Ranger rewards, nobody promoted"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/39_dungeon_of_secrets.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgard.blv, qbit_set: [90238, 90239, 90240, 90245], qbit_clear: [90248, 90249]}
+  - play_lua: {source: 'if not has_item(10184) then error("no Everstrike") end'}
+
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv}
+
+  - play_lua:
+      source: |
+        remember("classes", classes()); remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        log("CLASSES before the Ranger reward: " .. classes())
+  - set_pose: {map: frosgardcity.blv, x: 4260, y: 4150, z: -5, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 45}
+  - assert: {qbit_set: [90241]}
+  - select_topic: {match_label: "We've completed the Ranger's Trial."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90248, 90249]}
+  - play_lua:
+      source: |
+        log("CLASSES after the Ranger reward: " .. classes())
+        if classes() ~= recall("classes") then error("the Ranger quest changed classes: " .. recall("classes") .. " -> " .. classes()) end
+        if gold() - recall("gold") ~= 5000 then error("Ranger gold " .. (gold() - recall("gold")) .. ", expected 5000") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain < 37500 then error("member " .. i .. " gained " .. gain .. " experience, expected 37500") end
+        end
+        if not has_item(10184) then error("Fenja kept Everstrike") end
+        log("Ranger done (key 249): +5000 gold, +37500 experience each, nobody promoted (no Hunter or Warrior Mage); Everstrike kept")
+
+  - interact_actor: {actor_index: 45}
+  - assert: {dialog: {active: true, source_id: 181, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: 'if classes() ~= recall("classes") then error("classes changed: " .. classes()) end; log("CLASSES at the end of block D: " .. classes())'}
+  - save_game: {name: "40 Ranger rewards", path: output/playthrough/mm9/promotions/checkpoints/40_fenja_ranger_done.oysav}

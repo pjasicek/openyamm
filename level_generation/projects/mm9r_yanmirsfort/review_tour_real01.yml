@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_yanmirsfort/review/real01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: y1_great_hall_south
+  position:
+  - 640
+  - -1280
+  - 1
+  yaw: -1.5708
+  pitch: 0.1396
+- name: y1_alt_west
+  position:
+  - -768
+  - -1280
+  - 1
+  yaw: -1.5708
+  pitch: 0.1396
+- name: y1_alt_east
+  position:
+  - 1792
+  - -1280
+  - 1
+  yaw: -1.5708
+  pitch: 0.1396
+- name: y2_great_hall_southwest
+  position:
+  - 2304
+  - 0
+  - 329
+  yaw: -2.3562
+  pitch: -0.1745
+- name: y2_alt_northeast
+  position:
+  - 3584
+  - -768
+  - 1
+  yaw: -2.3562
+  pitch: -0.1745
+- name: y2_alt_east
+  position:
+  - 3584
+  - -2560
+  - 1
+  yaw: -2.3562
+  pitch: -0.1745

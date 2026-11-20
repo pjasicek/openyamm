@@ -1,0 +1,85 @@
+# draft extracted from MAW ef23ee17; the curve follows 8967ae88 (step growth 0.005, 2026-11-12)
+# Experience curve, banked continent levels and every experience award on the monster side.
+# Paths are relative to Maw-Mod-MMMerge/Scripts/ (Exp = General/zzzMaw_Experience.lua).
+format: 1
+source: {repo: Maw-Mod-MMMerge, commit: 8967ae88}
+
+curve:                          # Exp:7-45 (the one place every level <-> experience conversion goes through)
+  step: "exp_step(L) = 1000 x L x max(1 + (L - 100) x 0.005, 1)"    # cost of going from L to L + 1
+  table_max_level: 2000
+  exp_required: "exp_required(1) = 0; exp_required(L) = exp_required(L - 1) + exp_step(L - 1)"
+  vanilla_equivalent_up_to: 101   # exp_required(L) = 500 L (L - 1) through level 101
+  fractional_levels: "calcLevel/calcExp interpolate linearly inside a step; calcLevel(x <= 0) = 1"
+  beyond_table: "linear with exp_step(2000) = 21,000,000 per level"
+  samples:                      # level: [MAW exp_required, vanilla 500 L (L - 1)]
+    2: [1000, 1000]
+    10: [45000, 45000]
+    50: [1225000, 1225000]
+    100: [4950000, 4950000]
+    101: [5050000, 5050000]
+    102: [5151505, 5151000]
+    110: [6018925, 5995000]
+    150: [11989625, 11175000]
+    200: [24016750, 19900000]
+    250: [42281375, 31125000]
+    300: [68033500, 44850000]
+    400: [147000250, 79800000]
+    500: [270917000, 124750000]
+    600: [449783750, 179700000]
+    700: [693600500, 244650000]
+    800: [1012367250, 319600000]
+    1000: [1914750750, 499500000]
+    1200: [3236934250, 719400000]
+    1500: [6182334500, 1124250000]
+    2000: [14323668250, 1999000000]
+    3000: [35323668250, 4498500000]
+  engine_hooks:                 # Exp:47-91
+    trainer_and_indicator: "0x4B30EF (trainer) and 0x48CD4D (portrait arrow) ask calcExp(level + 1)"
+    requirement_cap: 2147483647   # clamped below 2^31; first reached for the step 1040 -> 1041
+    cap_effect: "once a character holds 2^31 - 1 experience every further level is trainable (no more cost)"
+    character_exp_cap: 4290985000   # 2^32 - 3982296, applied on every award; reached at about level 1322
+
+banked_levels:                  # Exp:228-294
+  pools: "vars.MMLVL = {MM8, MM7, MM6, other} (continent of the current map), vars.EXPBEFORE, vars.LVLBEFORE"
+  add_bolster_exp: >-
+    EXPBEFORE += exp; level = calcLevel(EXPBEFORE); MMLVL[current continent] += level - LVLBEFORE; LVLBEFORE = level
+  total_level: "sum of all four banks"
+  party_level: "getPartyLevel(c) = sum of the banks except continent c (default: the current map's continent)"
+  monster_bolster: "getPartyLevel() - 4 (see monster_scaling.yml)"
+  new_game: "all banks 0"
+
+kill_experience:                # events.MonsterKillExp, Exp:148-222
+  monster_value: "mon.Experience from monster_scaling.yml (density exp_mult included)"
+  zero_when:
+    - "multiplayer session (MawCore.Sync.inGame)"
+    - "Beyond Madness on bounty maps, zarena.blv, d42.blv, 7d05.blv"
+    - "Road to Insanity and up: resurrected monsters (NameId > 300)"
+  split: "experience = round(Exp / living members) (Dead and Eradicated excluded)"
+  per_member: >-
+    award = experience x getMonsterHealth(mon) / getMonsterHealth(nil, min(calcLevel(member exp), total level)),
+    capped at (member LevelBase + 1) x 1000
+  bolster: "sum over members of experience x the same health ratio, / 5, into addBolsterExp; none in d42.blv"
+  note: "the health ratio includes the A/C tier ratio and the boss HealthMult (2.5-7.5, more for specials)"
+
+quest_and_event_experience:     # EventExperience, Exp:93-140 (hook at 0x4485EC, AddVariable Experience)
+  total: "value x (1 + P/100) + 500 x P, P = getPartyLevel() (getTotalLevel() in Beyond Madness)"
+  per_member_call: "total x 5 / PartyCount"
+  bolster: "total / PartyCount per call, banked once per tick (party-size independent)"
+
+map_completion:                 # checkMapCompletition, General/zzMaw-Monsters.lua:2568-2797
+  first_completion_only: true
+  map_level: "M = clamp(mean(low, mid, high), 1, 100)"
+  bolster: "B = 0 free; 2 M horizontal; madness map level in Beyond Madness; Power x 10 on dimension maps"
+  kills: "m = killed count x 0.67 (bolster 300), x 0.5 (bolster 600), x 0.8 (insanity, cumulative)"
+  experience: "ceil(m^0.7 x (20 M + M^1.8) / 3 x (B + M) / M / 1000) x 1000"
+  experience_madness: "ceil(m^0.7 x (20 B + B^1.8) / 3 / 1000) x 1000, x2 on normal maps, /2 on dimension maps"
+  gold: "ceil(experience^0.9 / 1000) x 1000; Beyond Madness: round(experience / 3 / 1000) x 1000"
+  items: "crafting cube 1070 + 2 gems of tier min(ceil((M + B)/25 + 0.5), 16) (not in Austerity); dimension maps:
+    {1 affix: 1070, 2: 1061, 3: 1062, 4: 1065}"
+  bank: "addBolsterExp(experience)"
+  per_member: "round(experience x 5 / PartyCount / 1000) x 1000 (divided again by players in multiplayer)"
+
+leveled_bolster_helper: >-
+  bolsteredLevel(f, n) climbs n vanilla levels of experience (500 L (L - 1)) on top of calcExp(f); examples
+  (f, n -> level): (0, 50 -> 50), (50, 50 -> 100), (100, 30 -> 128.23), (100, 100 -> 185.34), (200, 50 -> 232.86),
+  (500, 100 -> 534.47)

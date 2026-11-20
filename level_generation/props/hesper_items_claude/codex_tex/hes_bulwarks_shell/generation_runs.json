@@ -1,0 +1,677 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper item model hes_bulwarks_shell.\nInput image 1 is the EXACT geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the approved material/design reference ONLY.\nProduce a single 1024 x 1024 RGBA PNG with a genuinely transparent background. Paint ONLY the existing opaque pixels of input image 1. Preserve its alpha silhouette, every opening, every edge, every part location, scale, framing, and orientation exactly. Do not rotate, re-pose, reinterpret the camera, zoom, recenter, extend, crop or replace its geometry. Keep all the large transparent margins precisely as in the guide. The guide is a fixed projection, even when the armor appears sideways or foreshortened. Do not substitute the upright three-quarter composition of the design reference.\nSubject/material authority: massive empty wearable breastplate made from a machine shield housing, worn off-white ceramic panels over dark steel, thick brushed gold coupling rails, recessed round blue-white sternum core. Broad shoulder plates and articulated waist; no wearer, helmet, arms or legs. Transfer the design reference's off-white warm ceramic, fine chipped wear exposing neutral dark steel, restrained fine seams/panel joins, muted brushed gold border rails and round couplings, and charcoal steel joints/lining onto the matching EXISTING parts. Continue these same materials plausibly on hidden sides. Use bright pale icy blue-white on the core only where the guide contains the visible core disc. Never invent a new core on an unrelated surface. Keep fine wear subordinate to the large clean panel shapes. No text, letters, numerals, logos or symbols.\nLighting: this is an ALBEDO TEXTURE SOURCE, not a beauty render. Completely even flat shadowless frontal illumination, uniform material base colours. No cast shadow, no ambient occlusion, no cavity darkening from lighting, no directional light falloff, no strong specular highlight or reflections, no rim lighting, no background, no floor, no glow spill or bloom outside geometry. Metal is its muted base colour with only the faintest sheen; dark steel is dark because of its material, not because of shadows. Glowing parts are solid bright light colour. Remove the guide's grey shading while retaining all geometry edges. Preserve exact input-image-1 silhouette and pixel registration.\nView-specific geometry lock:\nThis is guide_front.png. Its shape is a broad, strongly foreshortened oval hollow armor shell occupying x=149..874, y=276..747, with paired shoulder structures at the left and right, a large central dark steel interior, and a pointed lower central lip. Match this exact end-on view; do not turn it into an upright chest front. Paint the existing inner liner dark steel, existing plate surfaces off-white ceramic, and existing coupling rims/rails muted gold. No added centerpiece.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_front.png",
+          "sha256": "8b37ddae72cc507fcb7521c39d0c78cafd9d79a3930c0f96a01b00bd96e56686"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        }
+      ],
+      "output": "paint_front_run01.png",
+      "selected": false,
+      "reason": "Rejected: tool reinterpreted end-on guide as a frontal breastplate, invented a visible sternum core, and changed framing. One corrective generation is planned.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-7fb4800f-9a02-41b3-a9bb-389d79ed8ef3.png",
+      "output_sha256": "0f54dde34d799b5dfd52a057ca111f3a34157d950e7af7310d576cc8c5a95e3c",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          19,
+          1238,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          149,
+          276,
+          875,
+          748
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "alpha_128_bbox": [
+          69,
+          328,
+          1186,
+          1018
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.676651,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "saved_bytes_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected attempt 2: corrects the invented frontal chest/core into the guide's end-on cavity. Still substantially enlarged relative to guide and internal edges drift. One correction exhausted; not exact-mask or shadowless-albedo compliant.",
+      "prompt": "Edit image 2, guide_front.png, by coloring its existing surfaces ONLY. Image 1 is merely a palette/material swatch reference, NOT the subject to reproduce. This is the one corrective regeneration: the previous attempt wrongly made a frontal chest with a blue core. Correct that error.\nReturn exactly the composition of IMAGE 2: a strongly foreshortened hollow shell viewed END-ON, wide short oval; keep the large central cavity, broad grey interior, narrow surrounding bands, left/right rounded shoulders and bottom-center pointed rim exactly where shown. Do NOT generate an upright breastplate, collar portrait, blue center core, or change this camera. All guide part contours and the outer silhouette are locked. Preserve the exact alpha mask and the exact 1024x1024 square canvas, including object bounds x=149..874 and y=276..747. True transparent background.\nApply ONLY flat material color and fine texture: existing exterior plates worn warm off-white ceramic with tiny chips, existing narrow raised rims/coupling rails muted brushed gold, existing inner shell charcoal steel. The large central interior stays charcoal steel with minimal even texture. Flat unlit albedo, no cast shadows, no AO, no shiny highlights, no background, no floor. Retain every mesh edge from image 2. No text/letters. The deliverable must look like the SAME low-poly mesh rendering as image 2 with colored surface textures, NOT a remodel or new illustration.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_front.png",
+          "sha256": "8b37ddae72cc507fcb7521c39d0c78cafd9d79a3930c0f96a01b00bd96e56686"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-516f06db-a4f9-471b-a6ad-90e8b2751eab.png",
+      "output_sha256": "203296237fb0ead4735f39fa2cb6cb830ee164ed25f8c1b59d2b4fe427030ac3",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          40,
+          1184,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          149,
+          276,
+          875,
+          748
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "alpha_128_bbox": [
+          109,
+          292,
+          1146,
+          976
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.728564,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "background_visually_clear": true,
+        "background_alpha_clean": false,
+        "alpha_edge_notes": "Low-opacity nonzero alpha extends beyond the main object, with visible colored fringe in places; original tool-return pixels preserved.",
+        "saved_bytes_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected attempt 1: preserves the filled central geometry better than attempt 2, which invents a transparent center hole. Despite attempt 2's better outer overlap, its changed topology is unsuitable. Attempt 1 still has enlarged framing, altered edges and rendered lighting. One correction exhausted; not fully compliant.",
+      "prompt": "Colorize IMAGE 2 (guide_back.png), preserving its exact geometry and camera. IMAGE 1 (design_reference.png) is for off-white ceramic, brushed gold and dark steel material/color reference ONLY; do not copy its upright composition.\nOutput one 1024x1024 RGBA image, true transparent background. Keep image 2's exact alpha silhouette and every part edge/position. The object remains a short wide oval END-ON shell, bounds x=149..874,y=276..747. Paired round shoulders are left/right; the central nested polygonal collar rims and small upper opening remain precisely as drawn. Do not reinterpret this as an upright torso back. Continue plausible worn off-white ceramic exterior plates, muted gold raised rims and couplings, charcoal steel interior lining. The central collar opening is dark steel material, NOT a blue core. Add restrained fine wear and seams inside existing surfaces only; no new geometry.\nUnlit ALBEDO source: flat even material base color, absolutely no cast shadows or AO, no hot specular highlights, no reflected environment, no rim light, no floor or background. No text, letters or symbols. Keep the original square canvas and margins, not a tight crop. This is paint-over of the supplied low-poly render; keep every outline instead of redesigning the armor.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_back.png",
+          "sha256": "538efa748c23d965792e8ddba4414b2892db8f4b5aff7b6fceb7b3f6097e1964"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-04e798e3-b954-4e24-bfd3-182716460a6b.png",
+      "output_sha256": "84a76746c41d609e96f3eab45648fea38564df5a092d0601508f05a4df918359",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1234,
+          1236
+        ],
+        "guide_alpha_bbox": [
+          149,
+          276,
+          875,
+          748
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "alpha_128_bbox": [
+          81,
+          289,
+          1173,
+          973
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.666215,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "background_visually_clear": true,
+        "background_alpha_clean": false,
+        "alpha_edge_notes": "Low-opacity nonzero alpha extends beyond the main object, with visible colored fringe in places; original tool-return pixels preserved.",
+        "saved_bytes_identical_to_tool_return": true
+      },
+      "archived_output": "paint_back_run01.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "output": "paint_back_run02.png",
+      "selected": false,
+      "reason": "Rejected corrective return: creates a transparent central hole absent from the guide. Framing and silhouette still drift and lighting remains rendered; attempt 1 preserves the filled center better.",
+      "prompt": "Use case: precise-object-edit. Paint-over for a game-model albedo projection.\nIMAGE 2 is the edit target: the exact mesh geometry. IMAGE 1 is only the approved worn ivory ceramic, muted gold and dark steel material reference. Modify IMAGE 2's surface colors and fine wear only. Preserve the same object, all its part edges and holes, camera, orientation, position, scale and original transparent margins. Do not recreate the perspective or silhouette of image 1.\nReturn one 1024x1024 RGBA PNG with genuine transparency. Do not crop closer to the subject or enlarge it. Exact guide alpha mask, including internal openings. Flat unlit diffuse ALBEDO: off-white worn ceramic broad plates, fine grey chips, ochre-gold raised rails/rims/couplings, charcoal steel joints and inner lining. Fine panel seams where shown. Matte gold base-color appearance with only faint sheen: no white specular streaks, no strong highlights, no reflections. NO shadows or AO anywhere, no rim light, no ambient cavity gradients, no floor/background. No added body parts, text or letters. Preserve every boundary in image 2; no re-modelling.\nThis is guide_back.png. Its shape is a broad foreshortened oval shell occupying x=149..874, y=276..747, rounded pauldrons on both sides and existing concentric collar/interior edges at center with a small top-center opening. Match this exact end-on view and every nested edge. Continue off-white ceramic outer panels, muted gold existing rims/rails, and dark steel inner liner. Do not turn it into an upright back portrait or invent a blue core in the collar.\nThis is the one allowed corrective regeneration. Previously the tool enlarged the object, altered some internal part contours and used too much shiny rendered shading. Correct those errors. Keep the subject 70.9% of the canvas width and 46.0% of its height, centered at (50%,50%). Leave exactly 14.55% transparent margin on each side and 26.95% transparent margin above and below. Preserve the guide's visibly angular contours and internal panel edges. Flat gold ochre paint/base color; no bright golden highlights. The center's nested collar and liner are dark charcoal steel without shadow gradients.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_back.png",
+          "sha256": "538efa748c23d965792e8ddba4414b2892db8f4b5aff7b6fceb7b3f6097e1964"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-0903b139-a5a4-46cb-a2ca-6ed1dd29f2a9.png",
+      "output_sha256": "b6fe1923a147a14b826ed213a0ae0b697b1bf1bb577ab7fc0e2b39094c3048b1",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          149,
+          276,
+          875,
+          748
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "background_visually_clear": true,
+        "opening_topology_matches_guide": false,
+        "alpha_128_bbox": [
+          112,
+          311,
+          1143,
+          947
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.715549,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "saved_bytes_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "output": "paint_left_run01.png",
+      "selected": false,
+      "reason": "Correct horizontal orientation and palette, but returned landscape framing with visible backdrop instead of transparent square, altered contours, and rendered shadows/highlights. One correction planned.",
+      "prompt": "Use case: precise-object-edit. Paint-over for a game-model albedo projection.\nIMAGE 2 is the edit target: the exact mesh geometry. IMAGE 1 is only the approved worn ivory ceramic, muted gold and dark steel material reference. Modify IMAGE 2's surface colors and fine wear only. Preserve the same object, all its part edges and holes, camera, orientation, position, scale and original transparent margins. Do not recreate the perspective or silhouette of image 1.\nReturn one 1024x1024 RGBA PNG with genuine transparency. Do not crop closer to the subject or enlarge it. Exact guide alpha mask, including internal openings. Flat unlit diffuse ALBEDO: off-white worn ceramic broad plates, fine grey chips, ochre-gold raised rails/rims/couplings, charcoal steel joints and inner lining. Fine panel seams where shown. Matte gold base-color appearance with only faint sheen: no white specular streaks, no strong highlights, no reflections. NO shadows or AO anywhere, no rim light, no ambient cavity gradients, no floor/background. No added body parts, text or letters. Preserve every boundary in image 2; no re-modelling.\nThis is guide_left.png. The armor lies HORIZONTALLY and occupies x=66..957, y=276..746: rounded shoulder/collar end on image LEFT, broad flared split skirt plates on image RIGHT, and the side's existing arm opening near x=380,y=520. Preserve this exact orientation, opening, faceted edge positions and outline. Apply off-white ceramic to broad plates, muted brushed gold to existing rails/rims and rivets, dark steel to joints and liner, with fine matching wear. Do not rotate it upright or add anatomy.\nKeep transparent padding 6.45% canvas width at both left and right, and 26.95% canvas height at both top and bottom. Object fills 87.1% width and 46.0% height exactly. Do not enlarge the image vertically.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_left.png",
+          "sha256": "ef9fb0e424f916e3dbd80f583672b2e0b64c5987c0a4f8a879c04ee30d6db96e"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-51e0988c-13a6-4272-8e84-b0003714d2c6.png",
+      "output_sha256": "640bfc06ec87130cf8e43dab4149372afe870cefdd3b2ef7f01a4e5a4c47587a",
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          0,
+          20,
+          1532,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          66,
+          276,
+          958,
+          747
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "background_visually_clear": false,
+        "opening_topology_matches_guide": true,
+        "alpha_128_bbox": [
+          115,
+          221,
+          1453,
+          879
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.660309,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "saved_bytes_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected attempt 1: square transparent return with close normalized silhouette overlap (0.9792); attempt 2 regresses to landscape framing and a visible backdrop. Internal edges still drift and shading persists. One correction exhausted; not fully compliant.",
+      "prompt": "Use case: precise-object-edit. Paint-over for a game-model albedo projection.\nIMAGE 2 is the edit target: the exact mesh geometry. IMAGE 1 is only the approved worn ivory ceramic, muted gold and dark steel material reference. Modify IMAGE 2's surface colors and fine wear only. Preserve the same object, all its part edges and holes, camera, orientation, position, scale and original transparent margins. Do not recreate the perspective or silhouette of image 1.\nReturn one 1024x1024 RGBA PNG with genuine transparency. Do not crop closer to the subject or enlarge it. Exact guide alpha mask, including internal openings. Flat unlit diffuse ALBEDO: off-white worn ceramic broad plates, fine grey chips, ochre-gold raised rails/rims/couplings, charcoal steel joints and inner lining. Fine panel seams where shown. Matte gold base-color appearance with only faint sheen: no white specular streaks, no strong highlights, no reflections. NO shadows or AO anywhere, no rim light, no ambient cavity gradients, no floor/background. No added body parts, text or letters. Preserve every boundary in image 2; no re-modelling.\nThis is guide_right.png. The armor lies HORIZONTALLY and occupies x=66..957, y=276..746: broad flared split skirt plates on image LEFT, rounded shoulder/collar end on image RIGHT, and the side's existing arm opening near x=645,y=520. Preserve this exact orientation, opening, faceted edge positions and outline. Apply off-white ceramic to broad plates, muted brushed gold to existing rails/rims and rivets, dark steel to joints and liner, with fine matching wear. Do not rotate it upright or add anatomy.\nKeep transparent padding 6.45% canvas width at both left and right, and 26.95% canvas height at both top and bottom. Object fills 87.1% width and 46.0% height exactly. Do not enlarge the image vertically.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_right.png",
+          "sha256": "bd517716b468115e678d0747152c2f8ea91239a7c3016db4f02a8585f2527d10"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-31dbe4b8-9422-4926-b93a-5506fd963df5.png",
+      "output_sha256": "72b6e7c8811057cbb213ea9cd7ed8342e6d3d2532d1494eefe016657b37ca219",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          9,
+          1240,
+          1214
+        ],
+        "guide_alpha_bbox": [
+          66,
+          276,
+          958,
+          747
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "background_visually_clear": true,
+        "opening_topology_matches_guide": true,
+        "alpha_128_bbox": [
+          80,
+          339,
+          1178,
+          916
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.979163,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "background_alpha_clean": false,
+        "alpha_edge_notes": "Low-opacity nonzero alpha extends beyond the main object, with visible colored fringe in places; original tool-return pixels preserved.",
+        "saved_bytes_identical_to_tool_return": true
+      },
+      "archived_output": "paint_right_run01.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected attempt 1: closest normalized silhouette overlap (0.9819) and guide framing; attempt 2 changes scale and core/collar position (overlap 0.8643). Internal geometry still differs and lighting includes metallic highlights and cavity shading. One correction exhausted; not fully compliant.",
+      "prompt": "Use case: precise-object-edit. Paint-over for a game-model albedo projection.\nIMAGE 2 is the edit target: the exact mesh geometry. IMAGE 1 is only the approved worn ivory ceramic, muted gold and dark steel material reference. Modify IMAGE 2's surface colors and fine wear only. Preserve the same object, all its part edges and holes, camera, orientation, position, scale and original transparent margins. Do not recreate the perspective or silhouette of image 1.\nReturn one 1024x1024 RGBA PNG with genuine transparency. Do not crop closer to the subject or enlarge it. Exact guide alpha mask, including internal openings. Flat unlit diffuse ALBEDO: off-white worn ceramic broad plates, fine grey chips, ochre-gold raised rails/rims/couplings, charcoal steel joints and inner lining. Fine panel seams where shown. Matte gold base-color appearance with only faint sheen: no white specular streaks, no strong highlights, no reflections. NO shadows or AO anywhere, no rim light, no ambient cavity gradients, no floor/background. No added body parts, text or letters. Preserve every boundary in image 2; no re-modelling.\nThis is guide_top.png. Despite its filename, the geometry guide displays a complete upright breastplate face: raised empty collar at the top, broad rounded pauldrons on both sides, the existing round sternum disc centered about (510,356), articulated waist, and split skirt plates ending at (511,957). Its exact silhouette occupies x=149..874, y=66..957. Preserve this full face-on orthographic layout, proportions and every plate. Paint the existing sternum disc bright pale icy blue-white with its existing frame muted gold and dark steel; do not change its position, size or contour. Continue off-white chipped ceramic, muted gold rails/couplings and dark steel seams as in the reference. No dramatic glow or lighting.\nKeep empty transparent padding at least 14.55% canvas width on BOTH left and right and 6.45% canvas height on BOTH top and bottom. Object fills 70.9% width and 87.1% height exactly.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_top.png",
+          "sha256": "d82a49ab156c7ef80ebe290ee1213087cd794a2371bba72b53443cc0db1bde7f"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-cda3f7f0-e5c9-4e79-9e5f-b2be65044c6d.png",
+      "output_sha256": "1eace3a1b6bab1a9497ae1706c65b790a7c7d416e3ae56652c15d3fbc36366c0",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          25,
+          1238,
+          1234
+        ],
+        "guide_alpha_bbox": [
+          149,
+          66,
+          875,
+          958
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "background_visually_clear": true,
+        "opening_topology_matches_guide": true,
+        "alpha_128_bbox": [
+          183,
+          79,
+          1071,
+          1177
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.981907,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "background_alpha_clean": false,
+        "alpha_edge_notes": "Low-opacity nonzero alpha extends beyond the main object, with visible colored fringe in places; original tool-return pixels preserved.",
+        "saved_bytes_identical_to_tool_return": true
+      },
+      "archived_output": "paint_top_run01.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected attempt 2: square transparent return, correct horizontal orientation and improved normalized silhouette overlap (0.9590), compared with attempt 1's landscape backdrop. Internal edges still drift and shading persists. One correction exhausted; not fully compliant.",
+      "prompt": "Corrective paint-over, NOT a new rendering. IMAGE 2 is the immutable mesh guide to color. IMAGE 1 is ONLY a material/color reference. Output a SQUARE 1024x1024 RGBA PNG with real transparent alpha, no backdrop or vignette at all.\nTint the existing guide's opaque surfaces only: warm off-white ceramic (#e3dfd2), subdued gold-ochre (#b49657) along EXISTING raised border rails and rivets, charcoal gray steel (#393b40) in EXISTING joints/liner. Tiny sparse wear chips and fine grain. No new plates, bevels, rails or contour details. Keep the original low-poly outline and every part edge precisely. Do not smooth, embellish, re-model or reinterpret geometry. Preserve each original transparency opening. Materials should be matte uniform diffuse base color with the slightest fine texture. REMOVE ALL 3D lighting from the source: absolutely no bright edge highlights, no directional light gradients, no shadows, no black ambient occlusion creases; material boundaries remain clear through color only. This is a flat diffuse texture painting for reprojection onto the exact mesh, not a beauty render. No text or letters.\nThis is guide_left.png. The armor lies HORIZONTALLY and occupies x=66..957, y=276..746: rounded shoulder/collar end on image LEFT, broad flared split skirt plates on image RIGHT, and the side's existing arm opening near x=380,y=520. Preserve this exact orientation, opening, faceted edge positions and outline. Apply off-white ceramic to broad plates, muted brushed gold to existing rails/rims and rivets, dark steel to joints and liner, with fine matching wear. Do not rotate it upright or add anatomy.\nObject centered at 50%,50%, occupies exactly 87.1% canvas width and 46.0% canvas height. Preserve guide's very LARGE transparent empty regions above and below (26.95% each) and 6.45% margins left/right. Do not use landscape canvas.\nOne allowed corrective regeneration: fix the previous output's drift from the guide and over-rendered metallic lighting, and remove the entire visible backdrop. Keep all geometry boundaries from IMAGE 2 EXACTLY.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_left.png",
+          "sha256": "ef9fb0e424f916e3dbd80f583672b2e0b64c5987c0a4f8a879c04ee30d6db96e"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-5ce3d6af-cd65-431f-b208-ba0a41b6dde3.png",
+      "output_sha256": "799717159bddd7659c396b727667e791d193134361e47b982e227dc48866f334",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          66,
+          276,
+          958,
+          747
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "background_visually_clear": true,
+        "alpha_128_bbox": [
+          79,
+          343,
+          1175,
+          920
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.958998,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "background_alpha_clean": false,
+        "alpha_edge_notes": "Low-opacity nonzero alpha extends beyond the main object, with visible colored fringe in places; original tool-return pixels preserved.",
+        "saved_bytes_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "output": "paint_right_run02.png",
+      "selected": false,
+      "reason": "Rejected: corrective return has a landscape canvas and visible vignette/background. Surface color is flatter but transparency/framing regress; select attempt 1.",
+      "prompt": "Corrective paint-over, NOT a new rendering. IMAGE 2 is the immutable mesh guide to color. IMAGE 1 is ONLY a material/color reference. Output a SQUARE 1024x1024 RGBA PNG with real transparent alpha, no backdrop or vignette at all.\nTint the existing guide's opaque surfaces only: warm off-white ceramic (#e3dfd2), subdued gold-ochre (#b49657) along EXISTING raised border rails and rivets, charcoal gray steel (#393b40) in EXISTING joints/liner. Tiny sparse wear chips and fine grain. No new plates, bevels, rails or contour details. Keep the original low-poly outline and every part edge precisely. Do not smooth, embellish, re-model or reinterpret geometry. Preserve each original transparency opening. Materials should be matte uniform diffuse base color with the slightest fine texture. REMOVE ALL 3D lighting from the source: absolutely no bright edge highlights, no directional light gradients, no shadows, no black ambient occlusion creases; material boundaries remain clear through color only. This is a flat diffuse texture painting for reprojection onto the exact mesh, not a beauty render. No text or letters.\nThis is guide_right.png. The armor lies HORIZONTALLY and occupies x=66..957, y=276..746: broad flared split skirt plates on image LEFT, rounded shoulder/collar end on image RIGHT, and the side's existing arm opening near x=645,y=520. Preserve this exact orientation, opening, faceted edge positions and outline. Apply off-white ceramic to broad plates, muted brushed gold to existing rails/rims and rivets, dark steel to joints and liner, with fine matching wear. Do not rotate it upright or add anatomy.\nObject centered at 50%,50%, occupies exactly 87.1% canvas width and 46.0% canvas height. Preserve guide's very LARGE transparent empty regions above and below (26.95% each) and 6.45% margins left/right. Do not use landscape canvas.\nOne allowed corrective regeneration: fix the previous output's drift from the guide and over-rendered metallic lighting. Keep all geometry boundaries from IMAGE 2 EXACTLY.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_right.png",
+          "sha256": "bd517716b468115e678d0747152c2f8ea91239a7c3016db4f02a8585f2527d10"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-02ec5bc1-5e55-4dda-bc38-56066596edb7.png",
+      "output_sha256": "44d565a3e803159072be514d4f462e1578570e6555966e14ffaa8b2399922b5d",
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1484,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          66,
+          276,
+          958,
+          747
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "background_visually_clear": false,
+        "alpha_128_bbox": [
+          94,
+          192,
+          1448,
+          883
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.623563,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "saved_bytes_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "output": "paint_top_run02.png",
+      "selected": false,
+      "reason": "Rejected: flatter shading but worse guide alignment (normalized silhouette overlap 0.8643 versus 0.9819 for attempt 1), changed scale and shifted collar/core.",
+      "prompt": "Corrective paint-over, NOT a new rendering. IMAGE 2 is the immutable mesh guide to color. IMAGE 1 is ONLY a material/color reference. Output a SQUARE 1024x1024 RGBA PNG with real transparent alpha, no backdrop or vignette at all.\nTint the existing guide's opaque surfaces only: warm off-white ceramic (#e3dfd2), subdued gold-ochre (#b49657) along EXISTING raised border rails and rivets, charcoal gray steel (#393b40) in EXISTING joints/liner. Tiny sparse wear chips and fine grain. No new plates, bevels, rails or contour details. Keep the original low-poly outline and every part edge precisely. Do not smooth, embellish, re-model or reinterpret geometry. Preserve each original transparency opening. Materials should be matte uniform diffuse base color with the slightest fine texture. REMOVE ALL 3D lighting from the source: absolutely no bright edge highlights, no directional light gradients, no shadows, no black ambient occlusion creases; material boundaries remain clear through color only. This is a flat diffuse texture painting for reprojection onto the exact mesh, not a beauty render. No text or letters.\nThis is guide_top.png. Despite its filename, the geometry guide displays a complete upright breastplate face: raised empty collar at the top, broad rounded pauldrons on both sides, the existing round sternum disc centered about (510,356), articulated waist, and split skirt plates ending at (511,957). Its exact silhouette occupies x=149..874, y=66..957. Preserve this full face-on orthographic layout, proportions and every plate. Paint the existing sternum disc bright pale icy blue-white with its existing frame muted gold and dark steel; do not change its position, size or contour. Continue off-white chipped ceramic, muted gold rails/couplings and dark steel seams as in the reference. No dramatic glow or lighting.\nObject centered at 50%,50%, occupies exactly 70.9% canvas width and 87.1% height. Preserve guide top/bottom padding of 6.45%, side padding of 14.55%. Existing core disc only: bright pale icy-blue base color with no glow spill.\nOne allowed corrective regeneration: fix the previous output's drift from the guide and over-rendered metallic lighting. Keep all geometry boundaries from IMAGE 2 EXACTLY.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/design_reference.png",
+          "sha256": "2a1c6e89a756f27db517d50e0215dc479260e9f1b5e6defb573866d234506808"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_bulwarks_shell/guide_top.png",
+          "sha256": "d82a49ab156c7ef80ebe290ee1213087cd794a2371bba72b53443cc0db1bde7f"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e45-c602-76e1-b0de-6265716d6831/exec-7a01b442-3094-46fc-b1da-b0e0e0d6b24e.png",
+      "output_sha256": "f489cce91f3eb4176ceaef2f1005f079cf30d1d9297629834b88cd079a7b5462",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1206,
+          1236
+        ],
+        "guide_alpha_bbox": [
+          149,
+          66,
+          875,
+          958
+        ],
+        "alpha_pixel_identical_to_guide": false,
+        "resized": false,
+        "silhouette_visual_match": false,
+        "materials_match": true,
+        "flat_albedo_lighting": false,
+        "no_text_or_letters": true,
+        "background_visually_clear": true,
+        "alpha_128_bbox": [
+          174,
+          39,
+          1079,
+          1217
+        ],
+        "normalized_silhouette_iou_alpha_128": 0.864262,
+        "silhouette_comparison_method": "Read-only comparison on normalized canvas coordinates at alpha >= 128; saved images are unmodified. This metric does not validate internal geometry or exact pixel alignment.",
+        "brief_fully_satisfied": false,
+        "saved_bytes_identical_to_tool_return": true
+      }
+    }
+  ],
+  "scope": "Image generation only; all copied artifacts and this log are within the brief directory. No builds, source changes, resizing, cropping, alpha cleanup or postprocessing.",
+  "selection_note": "Selected means the better of the two permitted tool returns, not acceptance against all brief requirements.",
+  "summary": {
+    "selected_outputs": [
+      "paint_front.png",
+      "paint_back.png",
+      "paint_left.png",
+      "paint_right.png",
+      "paint_top.png"
+    ],
+    "selected_dimensions": [
+      1254,
+      1254
+    ],
+    "attempts_per_view": {
+      "front": 2,
+      "back": 2,
+      "left": 2,
+      "right": 2,
+      "top": 2
+    },
+    "maximum_corrective_regenerations_per_view": 1,
+    "all_returns_unresized": true,
+    "all_selected_have_alpha": true,
+    "exact_silhouette_check_passed": false,
+    "flat_shadowless_albedo_check_passed": false,
+    "clean_alpha_check_passed": false,
+    "materials_match_reference_visually": true,
+    "no_text_or_letters_visually": true,
+    "status": "Generated deliverables saved; strict geometry, alpha cleanliness and lighting requirements remain unmet after the permitted corrections."
+  }
+}

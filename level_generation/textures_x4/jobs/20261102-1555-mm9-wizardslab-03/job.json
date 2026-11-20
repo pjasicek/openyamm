@@ -1,0 +1,385 @@
+{
+ "id": "20261102-1555-mm9-wizardslab-03",
+ "world": "mm9",
+ "maps": [
+  "wizardslab.odm",
+  "greatgate.odm",
+  "guberland.odm",
+  "mountainpass.odm"
+ ],
+ "created": "2026-11-02T14:55:26+00:00",
+ "textures": [
+  "mm9/guar7vbbtd",
+  "mm9/innes5n80o",
+  "mm9/spidv2ku2j",
+  "mm9/stonsbzsfb",
+  "mm9/redm57vd4x",
+  "mm9/clanwe4umi",
+  "mm9/clannn4ev8",
+  "mm9/unde7xo875",
+  "mm9/trimckog5n",
+  "mm9/dookt25hyo",
+  "mm9/dook1x79o0",
+  "mm9/ashfhzuch2",
+  "mm9/sand3ddj3x",
+  "mm9/dookjulwmv",
+  "mm9/dookzo5hay",
+  "mm9/ashcqby3u6",
+  "mm9/xeen8mc4qj",
+  "mm9/plas78dphz",
+  "mm9/dook5o1rd8",
+  "mm9/mounkhoius"
+ ],
+ "requests": {
+  "mm9/guar7vbbtd": {
+   "name": "guar7vbbtd",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ornate grey iron railing panel: two curving bars meeting in a carved crest at the top, over blue-grey stone tiles",
+   "notes": {
+    "2": "the pale carved stone cornice reaches the very top edge of the image; no dark line or shadow along the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/innes5n80o": {
+   "name": "innes5n80o",
+   "versions": [
+    1
+   ],
+   "material": "inner wall of dark blue-grey stone with a row of triangular carved teeth along the top and a pale moulding at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/spidv2ku2j": {
+   "name": "spidv2ku2j",
+   "versions": [
+    1
+   ],
+   "material": "dark door panel with gilded spider-leg ornaments, gold curving spikes radiating from a central jewel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonsbzsfb": {
+   "name": "stonsbzsfb",
+   "versions": [
+    1
+   ],
+   "material": "dark grey stone stair step, a flat worn tread above a rounded nosing",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/redm57vd4x": {
+   "name": "redm57vd4x",
+   "versions": [
+    1
+   ],
+   "material": "dark red mosaic floor with a pale eight-petalled flower pattern of small tiles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/clanwe4umi": {
+   "name": "clanwe4umi",
+   "versions": [
+    1
+   ],
+   "material": "reddish brown walnut wood panel of vertical boards inside a plain frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/clannn4ev8": {
+   "name": "clannn4ev8",
+   "versions": [
+    1
+   ],
+   "material": "reddish wooden double door of vertical planks with two long black iron strap hinges and ring handles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/unde7xo875": {
+   "name": "unde7xo875",
+   "versions": [
+    1
+   ],
+   "material": "pale blue-grey square stone floor tiles in a grid, worn and slightly mottled",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/trimckog5n": {
+   "name": "trimckog5n",
+   "versions": [
+    1
+   ],
+   "material": "carved pale stone panel with a grotesque gargoyle face in relief among leaves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dookt25hyo": {
+   "name": "dookt25hyo",
+   "versions": [
+    1
+   ],
+   "material": "warm brown brick wall in neat courses with thin pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dook1x79o0": {
+   "name": "dook1x79o0",
+   "versions": [
+    1
+   ],
+   "material": "warm brown brick wall in neat courses with thin pale mortar, a narrow arched window with a dark iron grille in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/dookt25hyo"
+     ],
+     "fraction": 0.72
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashfhzuch2": {
+   "name": "ashfhzuch2",
+   "versions": [
+    1
+   ],
+   "material": "sea floor of greenish rock and coral-red speckled growth, damp and mottled",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sand3ddj3x": {
+   "name": "sand3ddj3x",
+   "versions": [
+    1
+   ],
+   "material": "sandy ground fading from olive grass at the top to bare tan sand at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dookjulwmv": {
+   "name": "dookjulwmv",
+   "versions": [
+    1
+   ],
+   "material": "warm brown brick wall in neat courses with thin pale mortar, over a base of grey stone blocks along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dookzo5hay": {
+   "name": "dookzo5hay",
+   "versions": [
+    1
+   ],
+   "material": "warm brown brick wall in neat courses with thin pale mortar, a pair of narrow arched windows with dark glass and a stone column between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashcqby3u6": {
+   "name": "ashcqby3u6",
+   "versions": [
+    1
+   ],
+   "material": "mossy grey-green rock with dry grass, mottled and soft",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/xeen8mc4qj": {
+   "name": "xeen8mc4qj",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale grey plaster with faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/plas78dphz": {
+   "name": "plas78dphz",
+   "versions": [
+    1
+   ],
+   "material": "warm peach-orange plaster with soft mottled stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dook5o1rd8": {
+   "name": "dook5o1rd8",
+   "versions": [
+    1
+   ],
+   "material": "double door of dark red-brown wood with tall arched panels in a brick frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/mounkhoius": {
+   "name": "mounkhoius",
+   "versions": [
+    1
+   ],
+   "material": "pinkish brown mountain rock with dark veins and pale dust, fractured surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

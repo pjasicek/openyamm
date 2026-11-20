@@ -1,0 +1,35 @@
+{
+  "prompt": "Edit paint_mask_guide.png according to this exact production brief. Use case: precise-object-edit. Input roles: paint_mask_guide.png is the edit target and authoritative geometry/layout; design_reference.png is material/detail reference; icon_x8.png is colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048 (3:4). The guide has three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 hold identical five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object exactly in position, size, outline, geometry and opening. Paint grey objects only. Never redraw, enlarge, move or redesign. Keep the model's ring openings even though the design reference has another antenna shape.\nRows 1-2 PAINT: source-faithful upright antenna orb, unlit base colour. All parts are subtly worn grey silver/steel, with the reference's fine metal grain. Transfer material colour and fine surface details only; remove all lighting from reference. No hot highlights, reflections, cast shadows, ambient occlusion, directional shading or black shaded undersides. Consistent muted steel base colour across all five views. Facets, engravings, scrollwork and inner swirls only as present in reference, scaled to views; no invented decoration.\nRows 3-4 MATERIAL MASK: exact same five silhouettes each entirely FLAT pure red #FF0000 because every visible part is metal. Absolutely no shading, texture, outlines, gradients or antialiased colour blends inside. Each occupied pixel exactly red. Preserve all holes and openings transparent.\nThe empty cells at column 3 of row 2 and row 4 remain entirely transparent. Everything outside original silhouettes transparent, including every gap. No ground, text, outlines, glow, halo, sparkles or aura. Geometry/layout from guide overrides design reference.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10252/paint_mask_guide.png",
+      "sha256": "b08ea2fb57f293e2007944774858a9d715415fd9162d303237dc43fc9aa62479"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10252/design_reference.png",
+      "sha256": "6a226f813eaa49c42e87a99f989a862f5c8e9110b5807615ed0f49726f636307"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10252/icon_x8.png",
+      "sha256": "dcbba8de3e691869b27710356d28170e008611d95dfa0d96d2bc2d4ca4b7b93e"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0f-383a-7680-9ce2-e111743cf30d/exec-6d9bc27c-ef00-47a1-8937-cfb89d0a81bd.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10252/paint_mask_raw_v1.png",
+  "corrective_attempt": {
+    "prompt": "Edit paint_mask_guide.png according to this exact production brief. Use case: precise-object-edit. Input roles: paint_mask_guide.png is the edit target and authoritative geometry/layout; design_reference.png is material/detail reference; icon_x8.png is colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048 (3:4). The guide has three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 hold identical five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object exactly in position, size, outline, geometry and opening. Paint grey objects only. Never redraw, enlarge, move or redesign. Keep the model's ring openings even though the design reference has another antenna shape.\nRows 1-2 PAINT: source-faithful upright antenna orb, unlit base colour. All parts are subtly worn grey silver/steel, with the reference's fine metal grain. Transfer material colour and fine surface details only; remove all lighting from reference. No hot highlights, reflections, cast shadows, ambient occlusion, directional shading or black shaded undersides. Consistent muted steel base colour across all five views. Facets, engravings, scrollwork and inner swirls only as present in reference, scaled to views; no invented decoration.\nRows 3-4 MATERIAL MASK: exact same five silhouettes each entirely FLAT pure red #FF0000 because every visible part is metal. Absolutely no shading, texture, outlines, gradients or antialiased colour blends inside. Each occupied pixel exactly red. Preserve all holes and openings transparent.\nThe empty cells at column 3 of row 2 and row 4 remain entirely transparent. Everything outside original silhouettes transparent, including every gap. No ground, text, outlines, glow, halo, sparkles or aura. Geometry/layout from guide overrides design reference.\nCORRECTIVE PASS: The prior output had stray red speckles outside the silhouettes and enlarged circles. Start from the ORIGINAL guide again. Strictly trace its exact silhouettes and sizes. Clean alpha boundaries, zero stray pixels or overspray. Each mask silhouette is a single uniformly pure-red shape, with transparent holes. Paint panels must be unlit flat base colour with fine subtle grain, no bright light patches. Exact 3:4 canvas; preserve ample original margins.",
+    "status": "failed",
+    "reason": "image tool output safety rejection: violence",
+    "request_id": "e0ed4bd8-6965-4958-b652-91bf56dca747"
+  },
+  "limitations": [
+    "Stray pixels outside material-mask silhouettes",
+    "Paint retains shading"
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen"
+}

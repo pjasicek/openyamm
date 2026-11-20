@@ -123,6 +123,11 @@ std::array<float, 3> skySunDirection(float gameMinutes)
     return {std::cos(angle), 0.0f, std::sin(angle)};
 }
 
+float skyNightAmount(float gameMinutes)
+{
+    return smoothStep((0.02f - skySunDirection(gameMinutes)[2]) / 0.14f);
+}
+
 std::array<float, 3> skyMoonDirection(float gameMinutes)
 {
     const float angle = (minuteOfDay(gameMinutes) - 300.0f) * Pi / 960.0f + Pi;
@@ -130,6 +135,18 @@ std::array<float, 3> skyMoonDirection(float gameMinutes)
     const float tilt = 0.28f;
     const float length = std::sqrt(1.0f + tilt * tilt);
     return {std::cos(angle) / length, -tilt / length, std::sin(angle) / length};
+}
+
+float skyOrbitLightAngle(const SkyOrbitRing &ring, int index, double gameMinutes)
+{
+    // A fixed spread per light: period across the range, start angle and direction of travel.
+    const double spread = std::fmod(0.6180339887 * double(index + 1), 1.0);
+    const double period = ring.lightOrbitMinutes[0]
+        + (ring.lightOrbitMinutes[1] - ring.lightOrbitMinutes[0]) * spread;
+    const double start = std::fmod(0.7548776662 * double(index + 3), 1.0);
+    const double direction = index % 3 == 2 ? -1.0 : 1.0;
+    const double turns = std::fmod(start + direction * std::max(gameMinutes, 0.0) / std::max(period, 1.0), 1.0);
+    return static_cast<float>((turns < 0.0 ? turns + 1.0 : turns) * 2.0 * double(Pi));
 }
 
 float skyMoonPhase(float gameMinutes)
@@ -301,6 +318,7 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
     const SkyPreset &dominant = blend >= 0.5f ? *pTo : *pFrom;
     frame.belowHorizon = dominant.belowHorizon;
     frame.drawSky = dominant.drawSky;
+    frame.moonTexture = dominant.moonTexture;
     frame.stars = dominant.stars;
     frame.stars.brightness = lerp(pFrom->stars.brightness, pTo->stars.brightness, blend);
     frame.horizonRing = dominant.horizonRing;
@@ -308,14 +326,22 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
         pFrom->horizonRing.texture == dominant.horizonRing.texture ? pFrom->horizonRing.opacity : 0.0f,
         pTo->horizonRing.texture == dominant.horizonRing.texture ? pTo->horizonRing.opacity : 0.0f,
         blend);
+    frame.orbitRing = dominant.orbitRing;
+    frame.orbitRing.opacity = lerp(pFrom->orbitRing.opacity, pTo->orbitRing.opacity, blend);
+
+    for (int light = 0; light < std::min(frame.orbitRing.lightCount, MaxSkyOrbitLights); ++light)
+    {
+        frame.orbitLightAngles[size_t(light)] = skyOrbitLightAngle(frame.orbitRing, light, inputs.gameMinutes);
+    }
+
     frame.sunDirection = skySunDirection(inputs.gameMinutes);
     frame.moonDirection = skyMoonDirection(inputs.gameMinutes);
-    frame.moonPhase = skyMoonPhase(inputs.gameMinutes);
+    frame.moonPhase = std::fmod(skyMoonPhase(inputs.gameMinutes) + dominant.moonPhaseOffset, 1.0f);
     frame.starRotationRadians = 2.0f * Pi * minute / static_cast<float>(SkyMinutesPerDay);
 
     // At night clouds are lit only by the moon: dark shapes over the stars on moonless nights, grey under a bright
     // moon high in the sky.
-    const float night = smoothStep((0.02f - frame.sunDirection[2]) / 0.14f);
+    const float night = skyNightAmount(inputs.gameMinutes);
     const float moonIllumination = 0.5f - 0.5f * std::cos(2.0f * Pi * frame.moonPhase);
     const float moonlight = std::clamp(valueRef(frame.values, SkyValue::MoonVisibility)[0], 0.0f, 1.0f)
         * smoothStep((frame.moonDirection[2] + 0.02f) / 0.25f) * moonIllumination;
@@ -409,6 +435,28 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
             lerpColor(valueRef(values, SkyValue::CloudShadow), hazeColor, haze * 0.5f);
     }
 
+    const float fogCover = std::clamp(inputs.fogCover, 0.0f, 1.0f);
+
+    if (fogCover > 0.0f)
+    {
+        // The whole sky toward one flat colour: gradient and clouds take it, the sun, moon, stars and ring fade out.
+        const SkyColor &display = inputs.fogCoverDisplay;
+        const SkyColor cover = {displayToLinear(display[0]), displayToLinear(display[1]), displayToLinear(display[2])};
+
+        for (const SkyValue id : {SkyValue::Zenith, SkyValue::Horizon, SkyValue::CloudLit, SkyValue::CloudShadow})
+        {
+            valueRef(values, id) = lerpColor(valueRef(values, id), cover, fogCover);
+        }
+
+        for (const SkyValue id : {SkyValue::SunGlowStrength, SkyValue::SunDiscVisibility, SkyValue::Stars,
+                 SkyValue::MoonVisibility})
+        {
+            valueRef(values, id)[0] *= 1.0f - fogCover;
+        }
+
+        frame.horizonRing.opacity *= 1.0f - fogCover;
+    }
+
     if (!inputs.authoredFogDisplay)
     {
         const SkyColor &horizon = frame.value(SkyValue::Horizon);
@@ -422,12 +470,15 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
         frame.skyMix = 0.0f;
     }
 
+    // The ring and its lights shine like the stars: full at night, a pale ghost by day, gone in fog.
+    frame.orbitRing.opacity *= frame.scalar(SkyValue::Stars);
+    frame.orbitRing.lightBrightness *= frame.scalar(SkyValue::Stars);
     m_frame = std::move(frame);
     buildCloudLayers(*pFrom, *pTo, blend, realDeltaSeconds);
 
     for (SkyCloudLayerState &layer : m_frame.clouds)
     {
-        layer.opacity *= 1.0f - m_frame.fogAmount * 0.5f;
+        layer.opacity *= (1.0f - m_frame.fogAmount * 0.5f) * (1.0f - fogCover);
     }
 
     m_frame.lightningFlash = std::clamp(inputs.lightningFlash, 0.0f, 1.0f);

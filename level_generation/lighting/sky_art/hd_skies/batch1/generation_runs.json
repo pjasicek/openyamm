@@ -1,0 +1,571 @@
+{
+  "brief": "CODEX_BRIEF.md",
+  "tool": "built-in image_gen",
+  "selected_masters": [
+    "6plansky1_hd.png",
+    "6sky06_hd.png",
+    "7sky01_hd.png",
+    "plansky1_hd.png",
+    "sky03_hd.png",
+    "sky19_hd.png"
+  ],
+  "selected_review": "selected_review.png",
+  "review_layout": "One row per sky in brief order; nearest-neighbour source input on the left at native master size, unscaled selected HD master on the right.",
+  "resolution_note": "Requested the largest native square output, preferably 2048 × 2048. The built-in tool returned 1254 × 1254 for every attempt; selected masters retain that native resolution and meet the minimum 1024 × 1024 requirement.",
+  "attempts": [
+    {
+      "sky": "6plansky1",
+      "attempt": 1,
+      "file": "6plansky1_hd_try1.png",
+      "prompt": "Use case: style-transfer. Asset: 6plansky1, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #c8b98e, #9e928d, #706e8d, #4d5a8e, #30498c.\nEvery genuinely open gap between clouds must be filled with ONE perfectly flat, spatially uniform opaque RGB colour #30498c, including the large gaps and the tiny gaps. No gradient, noise, haze, grain, mottling or texture in the open sky. Feathered cloud edges transition naturally into that exact solid colour. Do not turn faint existing clouds into blank sky.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.",
+      "tool": "built-in image_gen",
+      "selected": false,
+      "reason": "Rejected: cloud highlights are brighter and yellower than the source palette; targeted colour correction requested. Layout, minimum resolution and gap colour checks passed; no visible tile seam.",
+      "input": "inputs/6plansky1.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-9b101efa-e571-4cd3-a7d0-f613be1e4387.png",
+      "sha256": "4463d5eee7ab645a674e8e36b8014e968406a99a543e249d84cb131413bf2cc7"
+    },
+    {
+      "sky": "6plansky1",
+      "attempt": 2,
+      "file": "6plansky1_hd.png",
+      "prompt": "Use case: style-transfer. Asset: 6plansky1, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #c8b98e, #9e928d, #706e8d, #4d5a8e, #30498c.\nEvery genuinely open gap between clouds must be filled with ONE perfectly flat, spatially uniform opaque RGB colour #30498c, including the large gaps and the tiny gaps. No gradient, noise, haze, grain, mottling or texture in the open sky. Feathered cloud edges transition naturally into that exact solid colour. Do not turn faint existing clouds into blank sky.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.\nTARGETED CORRECTION: Image 2 is the rejected HD attempt; its cloud highlights are too luminous and yellow. Keep its fine painted detail and registered cloud shapes, but restore the more subdued cloud colours of Image 1 exactly. The brightest substantial cloud regions must be close to #c8b98e (RGB 200,185,142), not bright cream, white or saturated golden yellow; mid-clouds remain the original #9e928d and #706e8d. Do not increase cloud contrast or introduce brighter new light. Keep clear sky #30498c and seamless wrapping unchanged.",
+      "tool": "built-in image_gen",
+      "selected": true,
+      "reason": "Selected: faithful registered cloud layout, subdued original palette restored, smooth painted cloud detail, five clear-gap samples within ±6, square native 1254 px, no additions, and no visible seams in the 2 × 2 tile review.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGB",
+        "gap_samples": [
+          {
+            "uv": [
+              0.1865234375,
+              0.0634765625
+            ],
+            "rgb": [
+              47,
+              76,
+              141
+            ],
+            "max_channel_error": 3,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.6845703125,
+              0.0634765625
+            ],
+            "rgb": [
+              47,
+              76,
+              141
+            ],
+            "max_channel_error": 3,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.4345703125,
+              0.0751953125
+            ],
+            "rgb": [
+              46,
+              75,
+              140
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.8701171875,
+              0.0927734375
+            ],
+            "rgb": [
+              47,
+              75,
+              141
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.7587890625,
+              0.2021484375
+            ],
+            "rgb": [
+              46,
+              75,
+              141
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          }
+        ],
+        "edge_mean_rgb_difference": [
+          3.6063264221158957,
+          4.035885167464115
+        ],
+        "brightest_rgb": [
+          230,
+          200,
+          165
+        ],
+        "gap_colour_passed": true,
+        "composition_palette_visual_passed": true,
+        "tiling_visual_passed": true,
+        "no_forbidden_additions": true
+      },
+      "input": "inputs/6plansky1.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-2f7a746d-78ce-427a-91a8-512644e3c09d.png",
+      "sha256": "970e66e5d77fb539dde933b39664d28438895375d2c8476a263dc797ee4a4ebf"
+    },
+    {
+      "sky": "6sky06",
+      "attempt": 1,
+      "file": "6sky06_hd_try1.png",
+      "prompt": "Use case: style-transfer. Asset: 6sky06, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #baafae, #9389ad, #6a6bad, #4653ae, #2242ae.\nEvery genuinely open gap between clouds must be filled with ONE perfectly flat, spatially uniform opaque RGB colour #2242ae, including the large gaps and the tiny gaps. No gradient, noise, haze, grain, mottling or texture in the open sky. Feathered cloud edges transition naturally into that exact solid colour. Do not turn faint existing clouds into blank sky.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.",
+      "tool": "built-in image_gen",
+      "selected": false,
+      "reason": "Rejected: HD highlights are too bright and warm compared with the original cool neutral/lilac palette. Five gap samples had maximum channel errors 6, 7, 6, 6, 6; composition and tile continuity passed visual review. Requested targeted palette correction.",
+      "input": "inputs/6sky06.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-086d54f5-fc3f-4ce3-8fcc-64ceb6e868a7.png",
+      "sha256": "3c97ba7d308321bdd72acecd0b9ef4eb3b969a5d791c3a46bc02dc45d76ea2e6"
+    },
+    {
+      "sky": "6sky06",
+      "attempt": 2,
+      "file": "6sky06_hd.png",
+      "prompt": "Use case: style-transfer. Asset: 6sky06, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #baafae, #9389ad, #6a6bad, #4653ae, #2242ae.\nEvery genuinely open gap between clouds must be filled with ONE perfectly flat, spatially uniform opaque RGB colour #2242ae, including the large gaps and the tiny gaps. No gradient, noise, haze, grain, mottling or texture in the open sky. Feathered cloud edges transition naturally into that exact solid colour. Do not turn faint existing clouds into blank sky.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.\nTARGETED CORRECTION: Image 2 is the rejected HD attempt; restore its colours to the more subdued palette of Image 1. Keep the same cloud composition and fine painted detail, but do not use bright yellow-white highlights or enhanced contrast. Bright substantial clouds must match #baafae (RGB 186,175,174), with the original #9389ad lilac grey and #6a6bad shadows. Preserve the cool neutral clouds rather than warm cream. All open-sky gaps must be spatially uniform #2242ae (RGB 34,66,174). Keep edge wrapping unchanged.",
+      "tool": "built-in image_gen",
+      "selected": true,
+      "reason": "Selected: source cloud layout and cool lilac/neutral palette retained with softened painted detail; five clear-gap samples pass ±6, native 1254 px square, no additions, no obvious cut-off clouds or seams in 2 × 2 review.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGB",
+        "gap_samples": [
+          {
+            "uv": [
+              0.6318359375,
+              0.0634765625
+            ],
+            "rgb": [
+              29,
+              70,
+              173
+            ],
+            "max_channel_error": 5,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.9267578125,
+              0.0732421875
+            ],
+            "rgb": [
+              28,
+              69,
+              172
+            ],
+            "max_channel_error": 6,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.4990234375,
+              0.2998046875
+            ],
+            "rgb": [
+              30,
+              70,
+              173
+            ],
+            "max_channel_error": 4,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.6533203125,
+              0.3037109375
+            ],
+            "rgb": [
+              29,
+              70,
+              173
+            ],
+            "max_channel_error": 5,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.7998046875,
+              0.3466796875
+            ],
+            "rgb": [
+              29,
+              70,
+              173
+            ],
+            "max_channel_error": 5,
+            "passed": true
+          }
+        ],
+        "edge_mean_rgb_difference": [
+          5.522328548644338,
+          7.817916002126529
+        ],
+        "brightest_rgb": [
+          221,
+          196,
+          200
+        ],
+        "gap_colour_passed": true,
+        "composition_palette_visual_passed": true,
+        "tiling_visual_passed": true,
+        "no_forbidden_additions": true
+      },
+      "input": "inputs/6sky06.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-10ac2665-a88c-4ebf-9d0a-51d3f5618709.png",
+      "sha256": "c80b01d8c784d1cca38dbe9e82a689fe57b87ef1a5248702a984c62b4772a0f0"
+    },
+    {
+      "sky": "7sky01",
+      "attempt": 1,
+      "file": "7sky01_hd.png",
+      "prompt": "Use case: style-transfer. Asset: 7sky01, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #bfb08c, #91878b, #67698b, #45558c, #30488c.\nEvery genuinely open gap between clouds must be filled with ONE perfectly flat, spatially uniform opaque RGB colour #30488c, including the large gaps and the tiny gaps. No gradient, noise, haze, grain, mottling or texture in the open sky. Feathered cloud edges transition naturally into that exact solid colour. Do not turn faint existing clouds into blank sky.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.\nColour fidelity: copy the subdued brightness and hue of the original reference literally. The brightest substantial cloud regions stay close to #bfb08c; do not introduce white, cream, luminous highlights, boosted exposure or stronger contrast. Detail must come from fine painted structure within the original light/dark range.",
+      "tool": "built-in image_gen",
+      "selected": true,
+      "reason": "Selected: original diagonal wispy cloud layout and blue/warm muted palette retained; clean painted detail, five clear-gap samples pass ±6, native 1254 px square, no additions, and continuous clouds without visible seams in the 2 × 2 tile review.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGB",
+        "gap_samples": [
+          {
+            "uv": [
+              0.689453125,
+              0.064453125
+            ],
+            "rgb": [
+              44,
+              73,
+              143
+            ],
+            "max_channel_error": 4,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.837890625,
+              0.115234375
+            ],
+            "rgb": [
+              43,
+              74,
+              143
+            ],
+            "max_channel_error": 5,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.064453125,
+              0.236328125
+            ],
+            "rgb": [
+              43,
+              73,
+              143
+            ],
+            "max_channel_error": 5,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.185546875,
+              0.330078125
+            ],
+            "rgb": [
+              43,
+              72,
+              142
+            ],
+            "max_channel_error": 5,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.337890625,
+              0.369140625
+            ],
+            "rgb": [
+              44,
+              74,
+              143
+            ],
+            "max_channel_error": 4,
+            "passed": true
+          }
+        ],
+        "edge_mean_rgb_difference": [
+          3.455342902711324,
+          5.005582137161085
+        ],
+        "brightest_rgb": [
+          230,
+          214,
+          161
+        ],
+        "gap_colour_passed": true,
+        "composition_palette_visual_passed": true,
+        "tiling_visual_passed": true,
+        "no_forbidden_additions": true
+      },
+      "input": "inputs/7sky01.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-af693569-b2f4-4b5e-a8ec-6b0f211b4818.png",
+      "sha256": "2ac9df9cbafbe63bcf132d3408c94e476f56ed4db0becbdfa9bb2f12830f86a2"
+    },
+    {
+      "sky": "plansky1",
+      "attempt": 1,
+      "file": "plansky1_hd.png",
+      "prompt": "Use case: style-transfer. Asset: plansky1, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #d3cabd, #abadb6, #95a4b3, #879eb1, #809cb0.\nEvery genuinely open gap between clouds must be filled with ONE perfectly flat, spatially uniform opaque RGB colour #809cb0, including the large gaps and the tiny gaps. No gradient, noise, haze, grain, mottling or texture in the open sky. Feathered cloud edges transition naturally into that exact solid colour. Do not turn faint existing clouds into blank sky.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.\nColour fidelity: copy the subdued brightness and hue of the original reference literally. The brightest substantial cloud regions stay close to #d3cabd; do not introduce white, cream, luminous highlights, boosted exposure or stronger contrast. Detail must come from fine painted structure within the original light/dark range.",
+      "tool": "built-in image_gen",
+      "selected": true,
+      "reason": "Selected: matching cloud placements and pale blue/ivory-lilac original palette with fine painted detail; five clear-gap samples pass ±6, native 1254 px square, no additions, no visible seams or edge cut-offs in the 2 × 2 tile review.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGB",
+        "gap_samples": [
+          {
+            "uv": [
+              0.689453125,
+              0.064453125
+            ],
+            "rgb": [
+              126,
+              155,
+              176
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.833984375,
+              0.111328125
+            ],
+            "rgb": [
+              126,
+              154,
+              175
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.068359375,
+              0.224609375
+            ],
+            "rgb": [
+              126,
+              154,
+              175
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.185546875,
+              0.326171875
+            ],
+            "rgb": [
+              125,
+              155,
+              176
+            ],
+            "max_channel_error": 3,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.337890625,
+              0.357421875
+            ],
+            "rgb": [
+              126,
+              155,
+              176
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          }
+        ],
+        "edge_mean_rgb_difference": [
+          2.1209463051568314,
+          4.290271132376396
+        ],
+        "brightest_rgb": [
+          237,
+          222,
+          204
+        ],
+        "gap_colour_passed": true,
+        "composition_palette_visual_passed": true,
+        "tiling_visual_passed": true,
+        "no_forbidden_additions": true
+      },
+      "input": "inputs/plansky1.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-bd5f2e3c-0f4c-4fd7-915d-79503ad90ef4.png",
+      "sha256": "d320a728a5c02637fbe86f1b366faa634dce618619c9de6210671f89bb265ccc"
+    },
+    {
+      "sky": "sky03",
+      "attempt": 1,
+      "file": "sky03_hd.png",
+      "prompt": "Use case: style-transfer. Asset: sky03, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #c0c7e9, #a6afd7, #909ac4, #7a87b3, #5d6b99.\nEvery genuinely open gap between clouds must be filled with ONE perfectly flat, spatially uniform opaque RGB colour #5d6b99, including the large gaps and the tiny gaps. No gradient, noise, haze, grain, mottling or texture in the open sky. Feathered cloud edges transition naturally into that exact solid colour. Do not turn faint existing clouds into blank sky.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.\nColour fidelity: copy the subdued brightness and hue of the original reference literally. The brightest substantial cloud regions stay close to #c0c7e9; do not introduce white, cream, luminous highlights, boosted exposure or stronger contrast. Detail must come from fine painted structure within the original light/dark range.",
+      "tool": "built-in image_gen",
+      "selected": true,
+      "reason": "Selected: matching blue-grey cloud masses, clear-gap topology and cool palette; dither/banding replaced with smooth painted structure, five clear-gap samples pass ±6, native 1254 px square, no additions, no visible seams or cut-off clouds in the 2 × 2 tile review.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGB",
+        "gap_samples": [
+          {
+            "uv": [
+              0.3212890625,
+              0.5595703125
+            ],
+            "rgb": [
+              92,
+              109,
+              155
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.6689453125,
+              0.6416015625
+            ],
+            "rgb": [
+              93,
+              109,
+              157
+            ],
+            "max_channel_error": 4,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.4462890625,
+              0.6435546875
+            ],
+            "rgb": [
+              91,
+              108,
+              155
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.1025390625,
+              0.6533203125
+            ],
+            "rgb": [
+              93,
+              109,
+              155
+            ],
+            "max_channel_error": 2,
+            "passed": true
+          },
+          {
+            "uv": [
+              0.5458984375,
+              0.7568359375
+            ],
+            "rgb": [
+              93,
+              109,
+              156
+            ],
+            "max_channel_error": 3,
+            "passed": true
+          }
+        ],
+        "source_gap_sampling_erosion_pixels": 17,
+        "edge_mean_rgb_difference": [
+          3.9298245614035086,
+          3.75518341307815
+        ],
+        "brightest_rgb": [
+          224,
+          228,
+          251
+        ],
+        "gap_colour_passed": true,
+        "composition_palette_visual_passed": true,
+        "tiling_visual_passed": true,
+        "no_forbidden_additions": true
+      },
+      "input": "inputs/sky03.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-238e2153-467d-45a7-88d1-3d99e1102d61.png",
+      "sha256": "dad19147cc85c553420af681d3b0f8817549e817f4256547445cafdd1ac6a477"
+    },
+    {
+      "sky": "sky19",
+      "attempt": 1,
+      "file": "sky19_hd.png",
+      "prompt": "Use case: style-transfer. Asset: sky19, a seamless tileable hand-painted Might and Magic sky texture HD restoration.\nInput image 1 is the edit target and the exact composition/palette reference. Repaint THIS SAME IMAGE at the largest native square resolution available, preferably 2048 x 2048, minimum 1024 x 1024.\nPreserve the exact composition at identical normalized coordinates: every cloud's position, size, silhouette, direction of flow, softness and relative brightness; every gap's shape and size. Preserve the original palette, light direction, coverage and mood. Do not rotate, shift, crop, zoom, enlarge, rearrange, add or remove any clouds. Keep the sparse wisps where sparse and the thick painted regions where thick.\nChange only fidelity: replace 8-bit dithering, palette steps and pixel blocks with smooth painted gradients INSIDE clouds, soft delicate wisps, fine billows and restrained subtle internal shading. Faithful hand-painted game art, not a photograph, not a newly invented sky. Do not inflate wisps into big rounded cumulus heaps or intensify contrast.\nPalette, brightest first: #8b7364, #746762, #776457, #675b57, #594d53.\nThis sky is entirely painted clouds: every area stays painted in the original muted brown, taupe and grey-violet palette. There is NO open sky or flat background to add. Preserve its delicate low-contrast mottled cloud topology.\nCritical seamless tiling: treat the square as a torus. Clouds crossing the left edge continue at the matching vertical position on the right edge; clouds crossing the top continue at the matching horizontal position on the bottom. Exact opposing-edge continuity in cloud shapes, colour and soft shading. Preserve the original edge-crossing formations. A 2 x 2 repetition of this square must show no seams or cut-off formations. Output ONE square tile, not a tiled preview.\nThe picture fills the canvas edge to edge, opaque PNG, with no margins, borders or framing. Do not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.\nColour fidelity: copy the subdued brightness and hue of the original reference literally. The brightest substantial cloud regions stay close to #8b7364; do not introduce white, cream, luminous highlights, boosted exposure or stronger contrast. Detail must come from fine painted structure within the original light/dark range.",
+      "tool": "built-in image_gen",
+      "selected": true,
+      "reason": "Selected: original fully painted brown/taupe and grey-violet cloud topology and muted palette retained; fine painted internal structure replaces dither, native 1254 px square, no open sky or additions, no visible seams in the 2 × 2 tile review.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGB",
+        "gap_samples": [],
+        "edge_mean_rgb_difference": [
+          3.492822966507177,
+          3.6626794258373208
+        ],
+        "brightest_rgb": [
+          228,
+          182,
+          146
+        ],
+        "composition_palette_visual_passed": true,
+        "tiling_visual_passed": true,
+        "no_forbidden_additions": true,
+        "fully_painted_visual_passed": true,
+        "gap_colour_check": "Not applicable: fully painted sky."
+      },
+      "input": "inputs/sky19.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a11ffc-ecbd-7383-90b3-04aabbdbacba/exec-da264fdd-253e-40c9-81f6-57927011bcb9.png",
+      "sha256": "3b62447d6ac76549efe7b518b5087528589e20005d0ab7eea85265ec7ef49e80"
+    }
+  ]
+}

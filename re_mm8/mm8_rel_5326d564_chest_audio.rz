@@ -1,0 +1,32 @@
+# Original MM8-Rel.exe; SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b.
+# Verify the full hash before loading. Research labels, not recovered original symbols.
+# Evidence and reproduction: CHEST_AUDIO.md. This script does not patch the executable.
+f+ ref.mm8rel.EvtOpenChest @ 0x44619b
+f+ ref.mm8rel.ChestOpen @ 0x420093
+f+ ref.mm8rel.ChestScreenConstructor @ 0x4d3339
+f+ ref.mm8rel.ChestScreenVtable @ 0x4ec658
+f+ ref.mm8rel.ChestScreenEnterSlot @ 0x4ec730
+f+ ref.mm8rel.ChestScreenEnter @ 0x4d33eb
+f+ ref.mm8rel.ChestScreenExit @ 0x4d3564
+f+ ref.mm8rel.ChestCloseAction @ 0x43073f
+f+ ref.mm8rel.UiButtonQueueAction @ 0x4c4f36
+f+ ref.mm8rel.ScreenManagerEnter @ 0x4d49ab
+f+ ref.mm8rel.ScreenManagerRemove @ 0x4d4a46
+f+ ref.mm8rel.AudioPlaySound @ 0x4aa8b7
+CC "EVT opcode 7 passes chest ID in ECX to the native opening routine." @ 0x44619f
+CC "Accepted opening creates and enters chest screen; its entry routine requests ID 141." @ 0x420526
+CC "Chest-screen constructor installs vtable 0x4ec658." @ 0x4d3345
+CC "Screen manager invokes vtable slot plus 0xd8; chest target is 0x4d33eb." @ 0x4d49e6
+CC "Chest-screen entry stops existing sounds before requesting its opening effect." @ 0x4d341c
+CC "Hardcoded chest-opening sound ID 0x8d = 141; local table name openchest0101." @ 0x4d342b
+CC "PlaySound arguments: 141, 0, 0, -1, 0, 0, 0, 0. Non-positional chest UI effect." @ 0x4d3432
+CC "Failed trap disarm requests sound 8, named fireBall, before returning without chest UI." @ 0x4204a7
+CC "Trap-explosion path exits through false return rather than entering chest screen." @ 0x42050b
+CC "Audio lookup compares requested ID with record plus 0x40; stride 0x98, not a row-index lookup." @ 0x4aa917
+CC "Close button receives action 11, with both action parameters zero." @ 0x4d345c
+CC "Escape key 27 is bound to the chest close button; it uses the same action callback." @ 0x4d349a
+CC "Button callback queues its action and clears pressed state; no click or closing sound request." @ 0x4c4f36
+CC "Action 11: chest screen 10 removes screen; chest inventory 15 returns to chest 10. Both paths silent." @ 0x43073f
+CC "Chest close jumps here from action 11; calls screen removal without any audio request." @ 0x42fc38
+CC "Screen removal invokes exit slot plus 0xe8; chest target is 0x4d3564." @ 0x4d4a66
+CC "Chest exit resumes timer and restores gameplay. No audio call or dedicated closing effect." @ 0x4d3564

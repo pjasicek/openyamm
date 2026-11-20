@@ -1,0 +1,629 @@
+{
+ "id": "20261009-1649-mm7-7d10-23",
+ "world": "mm7",
+ "maps": [
+  "7d10.blv",
+  "out11.odm",
+  "7d17.blv",
+  "7out02.odm",
+  "t03.blv",
+  "7d14.blv",
+  "7d19.blv",
+  "7d16.blv",
+  "7d34.blv",
+  "7out06.odm"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/t4s1c",
+  "mm7/tfb08",
+  "mm7/trim3_16",
+  "mm7/c1gold",
+  "mm7/c2bs1",
+  "mm7/c2bs4",
+  "mm7/hhm1d2",
+  "mm7/t2bedsht",
+  "mm7/trim4_32",
+  "mm7/t3elr",
+  "mm7/c1t1fl",
+  "mm7/trim5_32",
+  "mm7/7slimywtr",
+  "mm7/cwbw1s",
+  "mm7/cwb1er",
+  "mm7/cwb1el",
+  "mm7/cwb1ser",
+  "mm7/cwb1sel",
+  "mm7/7winerack",
+  "mm7/ch004i",
+  "mm7/hwr1b",
+  "mm7/hwpb2",
+  "mm7/hwr1erw",
+  "mm7/hwr1elw"
+ ],
+ "requests": {
+  "mm7/t4s1c": {
+   "name": "t4s1c",
+   "versions": [
+    1
+   ],
+   "material": "ceiling panel of olive-gold mottled stone divided by eight pale carved stone ribs radiating from a central boss to the corners and edge midpoints; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb08": {
+   "name": "tfb08",
+   "versions": [
+    1
+   ],
+   "material": "dark grey slate floor of large square tiles bordered by smaller rectangular tiles, with dark recessed joints and faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim3_16": {
+   "name": "trim3_16",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of brown wood plank with lengthwise grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/c1gold": {
+   "name": "c1gold",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough dark cave rock wall, black-brown stone with reddish-brown earthy patches and deep crevices, with thin glinting gold ore veins running through it",
+   "notes": {
+    "2": "the surface came out as a mosaic of tiny cells; paint continuous natural rock with fractures, ledges and grit, no cell or scale pattern; keep the gold veins in the same places"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/c2b"
+     ],
+     "fraction": 0.825
+    },
+    "2": {
+     "sources": [
+      "mm7/c2b"
+     ],
+     "fraction": 0.825
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm7/c2bs1": {
+   "name": "c2bs1",
+   "versions": [
+    1
+   ],
+   "material": "rough dark cave rock wall, black-brown stone with reddish-brown earthy patches and deep crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/c2b"
+     ],
+     "fraction": 0.407
+    }
+   }
+  },
+  "mm7/c2bs4": {
+   "name": "c2bs4",
+   "versions": [
+    1
+   ],
+   "material": "rough dark cave rock wall, black-brown stone with reddish-brown earthy patches and deep crevices, with thin glinting gold ore veins running through it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/c2bs1",
+      "mm7/c2b"
+     ],
+     "fraction": 0.425
+    }
+   }
+  },
+  "mm7/hhm1d2": {
+   "name": "hhm1d2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "door of grey weathered vertical oak planks with a horizontal middle rail and diagonal cross braces above and below, in a dark timber frame, with small iron latch plates on the left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1d"
+     ],
+     "fraction": 0.209
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm1d"
+     ],
+     "fraction": 0.209
+    }
+   }
+  },
+  "mm7/t2bedsht": {
+   "name": "t2bedsht",
+   "versions": [
+    1
+   ],
+   "material": "pale green-white linen bed sheet with soft shallow wrinkles and folds",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim4_32": {
+   "name": "trim4_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of orange-brown wood plank with lengthwise grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3elr": {
+   "name": "t3elr",
+   "versions": [
+    1
+   ],
+   "material": "tall pale cream marble pillar flanked by dark marbled stone pilasters with inset square grey-green glass tiles, above a dark carved stone skirting band with interlaced knotwork; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2b"
+     ],
+     "fraction": 0.442
+    }
+   }
+  },
+  "mm7/c1t1fl": {
+   "name": "c1t1fl",
+   "versions": [
+    1
+   ],
+   "material": "floor of worn reddish-brown stone slabs with dark joints, the lower part broken into small cracked flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim5_32": {
+   "name": "trim5_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of orange-brown wood plank with lengthwise grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7slimywtr": {
+   "name": "7slimywtr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "murky green-brown stagnant water surface with mottled slime and algae",
+   "notes": {
+    "2": "came out as crunchy lichen-like speckle; paint a smooth, glossy murky water surface with soft swirling slime films and floating scum, soft gradients, no speckle or crusty texture"
+   },
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cwbw1s": {
+   "name": "cwbw1s",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown cut stone brick wall in staggered courses with thin dark mortar joints, worn and slightly dusty",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.792
+    }
+   }
+  },
+  "mm7/cwb1er": {
+   "name": "cwb1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown cut stone brick wall in staggered courses with thin dark mortar joints, worn and slightly dusty, with a projecting stone brick corner pillar on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.644
+    },
+    "2": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.644
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/cwb"
+    }
+   }
+  },
+  "mm7/cwb1el": {
+   "name": "cwb1el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown cut stone brick wall in staggered courses with thin dark mortar joints, worn and slightly dusty, with a projecting stone brick corner pillar on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.642
+    },
+    "2": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.642
+    }
+   }
+  },
+  "mm7/cwb1ser": {
+   "name": "cwb1ser",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown cut stone brick wall in staggered courses with thin dark mortar joints, worn and slightly dusty, with a shadowed recessed niche edge along the top and the right side; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb1er",
+      "mm7/cwbw1s"
+     ],
+     "fraction": 0.874
+    },
+    "2": {
+     "sources": [
+      "mm7/cwb1er",
+      "mm7/cwbw1s"
+     ],
+     "fraction": 0.874
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/cwb1sel": {
+   "name": "cwb1sel",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown cut stone brick wall in staggered courses with thin dark mortar joints, worn and slightly dusty, with a shadowed recessed niche edge along the top and the left side; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb1el",
+      "mm7/cwbw1s"
+     ],
+     "fraction": 0.878
+    },
+    "2": {
+     "sources": [
+      "mm7/cwb1el",
+      "mm7/cwbw1s",
+      "mm7/cwb1ser"
+     ],
+     "fraction": 0.883
+    },
+    "3": {
+     "sources": [
+      "mm7/cwb1el",
+      "mm7/cwbw1s",
+      "mm7/cwb1ser"
+     ],
+     "fraction": 0.883
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/cwb1ser"
+    }
+   }
+  },
+  "mm7/7winerack": {
+   "name": "7winerack",
+   "versions": [
+    1
+   ],
+   "material": "dark wooden wine rack of horizontal shelves with round cradle slots holding rows of dark glass bottles lying on their sides, necks facing out",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch004i": {
+   "name": "ch004i",
+   "versions": [
+    1
+   ],
+   "material": "brushed pale grey steel chest panel, plain, with a thin dark edge on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch004j"
+     ],
+     "fraction": 0.766
+    }
+   }
+  },
+  "mm7/hwr1b": {
+   "name": "hwr1b",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall: upper part of pale yellow vertical wooden planks under a dark carved wooden beam, lower part of rough brown fieldstones in dark mortar, separated by a dark wooden beam; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hwpb2": {
+   "name": "hwpb2",
+   "versions": [
+    1
+   ],
+   "material": "pale ochre-tan plaster wall with patches of flaked plaster showing grey stone beneath, crossed in the lower part by a dark weathered wooden timber frame of a horizontal beam and a vertical post with iron bolts; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hwr1erw": {
+   "name": "hwr1erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "half-timbered wall: upper part of pale yellow vertical wooden planks under a dark carved wooden beam, lower part of rough brown fieldstones in dark mortar, separated by a dark wooden beam, with an arched window of dark blue leaded glass in a dark wooden frame in the plank section and a dark wooden post on the right edge; copy the composition exactly",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.408
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.408
+    },
+    "3": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.408
+    },
+    "4": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.408
+    }
+   },
+   "roll": {
+    "4": [
+     65,
+     0
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/hwr1elw": {
+   "name": "hwr1elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "material": "half-timbered wall: upper part of pale yellow vertical wooden planks under a dark carved wooden beam, lower part of rough brown fieldstones in dark mortar, separated by a dark wooden beam, with an arched window of dark blue leaded glass in a dark wooden frame in the plank section and a dark wooden post on the left edge; copy the composition exactly",
+   "notes": {
+    "2": "the right edge came out too dark; the stone and plank surface must continue at full brightness right up to the right border, with no dark rim or shadow line there",
+    "3": "keep everything seen through the window exactly as in the reference: dark leaded glass with two small lit candles and the dark objects on the sill behind it; keep the right edge at full brightness with no dark rim",
+    "4": "keep everything seen through the window exactly as in the reference: dark leaded glass with two small lit candles and the dark objects on the sill behind it; keep the right edge at full brightness with no dark rim",
+    "5": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "7": "in the upper panel the pale vertical planks run straight off the right edge at full pale brightness: no post, groove, shadow or dark line on the right edge there; keep everything seen through the window exactly as in the reference: dark leaded glass with two small lit candles and the dark objects and skull on the sill behind it",
+    "8": "this piece is cut out of a longer wall: the pale upper planks are sliced through at the right edge and simply continue beyond it, so the last pixel columns on the right are ordinary pale plank wood, as bright as the planks beside them: no post, frame, groove, shadow or dark line on the right edge; keep everything seen through the window exactly as in the reference: dark leaded glass with two small lit candles and the dark objects and skull on the sill",
+    "9": "the small arched window has a thick dark grey stone frame (not wood), like the neighbouring window pieces; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "10": "the small arched window has a thick dark grey stone frame (not wood); through the dark leaded glass keep everything exactly as in the reference: two small lit candles on the left and the dark objects and a skull on the sill on the right; the pale planks run straight off the right edge with no post, groove or dark line; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "3": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "4": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "5": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "6": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "7": {
+     "sources": [
+      "mm7/hwr1bw",
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "8": {
+     "sources": [
+      "mm7/hwr1bw",
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "9": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.518
+    },
+    "10": {
+     "sources": [
+      "mm7/hwr1bw",
+      "mm7/hwr1b",
+      "mm7/hwr1erw",
+      "mm7/hwr1bs2"
+     ],
+     "fraction": 0.518
+    }
+   },
+   "roll": {
+    "6": [
+     92,
+     0
+    ],
+    "7": [
+     92,
+     0
+    ]
+   },
+   "context": {
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {},
+    "10": {}
+   }
+  }
+ }
+}

@@ -1,0 +1,5269 @@
+{
+ "format_version": 1,
+ "targets": "tools/mm9_import_discovery/mm9_density_targets.yml",
+ "maps": {
+  "isleofashes": {
+   "project": "mm9r_isleofashes_blv",
+   "chapter": 1,
+   "factor": 1.9,
+   "packs": [
+    {
+     "members": [
+      "DragonFly2",
+      "DragonFly0",
+      "DragonFly1",
+      "DragonFlyMite10",
+      "DragonFlyMite11",
+      "DragonFlyMite5",
+      "DragonFlyMite6",
+      "DragonFlyMite7",
+      "DragonFlyMite8",
+      "DragonFlyMite9",
+      "FireDragonFly1"
+     ],
+     "add": 1,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FireDragonFly0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "BoneThrasher0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "BoneThrasher1",
+      "BoneThrasher2",
+      "BoneThrasher3"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "DragonFlyMite0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "DragonFlyMite1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFlyMite2"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFlyMite3"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFlyMite4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "Mac"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "JK",
+      "Jeff"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid0",
+      "Skeletoid1"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid2",
+      "BoneThrasher5"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid3",
+      "Skeletoid",
+      "BoneThrasher6"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "BoneThrasher4"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "BoneThrasher7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "BoneThrasher"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Peter"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkullThrowerSmall0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 4
+    }
+   ]
+  },
+  "sturmford": {
+   "project": "mm9r_sturmford_blv",
+   "chapter": 1,
+   "factor": 1.9,
+   "packs": [
+    {
+     "members": [
+      "Thrall12",
+      "FieldThrall5",
+      "FieldThrall6",
+      "FieldThrall7",
+      "FieldThrall0"
+     ],
+     "add": 4,
+     "target": 9,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FieldThrall2",
+      "FieldThrall3",
+      "FieldThrall4"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FieldThrall8",
+      "FieldThrall9",
+      "FieldThrall10",
+      "FieldThrall11",
+      "FieldThrall1"
+     ],
+     "add": 4,
+     "target": 9,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FieldThrall12",
+      "FieldThrall13",
+      "FieldThrall14",
+      "FieldThrall15",
+      "Thrall0"
+     ],
+     "add": 4,
+     "target": 9,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Basilisk0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "Basilisk1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Basilisk2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly8"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly9",
+      "DragonFly20"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FireDragonFly1",
+      "DragonFlyMite0",
+      "DragonFly17"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FireDragonFly0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly6",
+      "DragonFly1",
+      "DragonFly14"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFlyMite2",
+      "DragonFly21",
+      "DragonFlyMite1"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly11"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly12",
+      "DragonFly13"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly16",
+      "DragonFlyMite3"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFlyMite4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DragonFly18",
+      "DragonFly19",
+      "DragonFlyMite5"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    }
+   ]
+  },
+  "sturmfordcity": {
+   "project": "mm9r_sturmfordcity",
+   "chapter": 1,
+   "factor": 1.4,
+   "packs": []
+  },
+  "beethoven": {
+   "project": "mm9r_beethoven",
+   "chapter": 1,
+   "factor": 1.9,
+   "packs": [
+    {
+     "members": [
+      "Lobber0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber8"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber9"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber11"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lobber6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Lobber12"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Lobber13"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Lobber14"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Lobber15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "SkeletonMaster0",
+      "SkeletonWarrior3"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster1",
+      "SkeletonWarrior4",
+      "SkeletonWarrior5",
+      "Rotter2"
+     ],
+     "add": 3,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior0",
+      "SkeletonWarrior1",
+      "AirBorneIcky6",
+      "AirBorneIcky7"
+     ],
+     "add": 3,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior10",
+      "SkeletonWarrior9",
+      "PetrifiedMummy5",
+      "PetrifiedMummy1",
+      "PetrifiedMummy3"
+     ],
+     "add": 4,
+     "target": 9,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior11"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior12"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior13"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior14"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "SkeletonWarrior15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior16"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior17"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior18"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior19"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior20"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior21"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior22"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior24",
+      "SkeletonWarrior23"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "SkeletonWarrior25",
+      "SkeletonWarrior26"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior27"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior28"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior29",
+      "SkeletonWarrior33",
+      "Skeleton2"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior30"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior31"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior32",
+      "Skeleton1",
+      "Skeleton4",
+      "Skeleton5"
+     ],
+     "add": 3,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior34",
+      "Skeleton0",
+      "Skeleton6"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior35"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior8"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeleton3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "Rotter0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Rotter1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AirBorneIcky0",
+      "AirBorneIcky1",
+      "AirBorneIcky2"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AirBorneIcky3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AirBorneIcky4",
+      "AirBorneIcky5"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PetrifiedMummy7",
+      "PetrifiedMummy6"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PetrifiedMummy0",
+      "PetrifiedMummy2",
+      "PetrifiedMummy4"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeleton7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 5
+    }
+   ]
+  },
+  "anskramkeep": {
+   "project": "mm9r_anskramkeep",
+   "chapter": 1,
+   "factor": 1.9,
+   "packs": [
+    {
+     "members": [
+      "StarterImp0",
+      "StarterIcky1"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "StarterNagate0",
+      "StarterIcky0"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "StarterNagate1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GiantImp"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 2
+    },
+    {
+     "members": [
+      "BustOutIcky0",
+      "BustOutIcky1",
+      "BustOutIcky2",
+      "NagateHatchling0"
+     ],
+     "add": 4,
+     "target": 8,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "NagateHatchling1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "ImpElder0",
+      "Imply0",
+      "Imply1"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Imply2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "NagateHatchling2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "NagateHatchling3",
+      "NagateHatchling4"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Imply3",
+      "Imply4"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "ImpElder2",
+      "Imp0",
+      "Imp1"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "NagateHatchling5",
+      "NagateHatchling6"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Imply5",
+      "Imply6",
+      "Imply7"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "NagateHatchling7",
+      "NagateHatchling8"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "Imply8"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 6
+    },
+    {
+     "members": [
+      "ImpElder3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Imply9",
+      "Imply10"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Imp2",
+      "Imply11"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    }
+   ]
+  },
+  "drangheim": {
+   "project": "mm9r_drangheim_blv",
+   "chapter": 2,
+   "factor": 1.0,
+   "packs": []
+  },
+  "drangheimprison": {
+   "project": "mm9r_drangheimprison",
+   "chapter": 2,
+   "factor": 1.0,
+   "packs": []
+  },
+  "drangheimcity": {
+   "project": "mm9r_drangheimcity",
+   "chapter": 2,
+   "factor": 1.0,
+   "packs": []
+  },
+  "guberland": {
+   "project": "mm9r_guberland_blv",
+   "chapter": 2,
+   "factor": 1.0,
+   "packs": []
+  },
+  "guberlandcity": {
+   "project": "mm9r_guberlandcity",
+   "chapter": 2,
+   "factor": 1.0,
+   "packs": []
+  },
+  "thjoradmine": {
+   "project": "mm9r_thjoradmine",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "AB_Troglodyte5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 6
+    },
+    {
+     "members": [
+      "AB_Troglodyte4",
+      "AB_Troglodyte3",
+      "AB_Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte1",
+      "AB_Troglodyte0"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "TroglodyteGnoll4",
+      "TroglodyteGnoll5"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "TroglodyteGnoll6",
+      "Troglodyte0",
+      "TroglodyteWren0"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "Troglodyte1",
+      "Troglodyte2",
+      "Troglodyte3",
+      "Troglodyte4",
+      "TroglodyteWren1"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "TroglodyteWren2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "TroglodyteWren3",
+      "TroglodyteWren4",
+      "Troglodyte5"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "Troglodyte6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Troglodyte8",
+      "TroglodyteGnoll8",
+      "TroglodyteWren5"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Troglodyte9",
+      "TroglodyteWren6",
+      "TroglodyteGnoll9"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "Troglodyte10",
+      "TroglodyteWren7",
+      "TroglodyteGnoll10"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte6",
+      "AB_Troglodyte8"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte9",
+      "AB_Troglodyte10",
+      "AB_Troglodyte11"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte12",
+      "AB_Troglodyte14"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte13"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte16",
+      "AB_Troglodyte17"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte18",
+      "AB_Troglodyte19",
+      "AB_Troglodyte20"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte21",
+      "AB_Troglodyte22",
+      "AB_Troglodyte23"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte24",
+      "AB_Troglodyte25"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte26"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker0Troglodyte0",
+      "SpawnMarker0Troglodyte1",
+      "SpawnMarker0Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker1Troglodyte0",
+      "SpawnMarker1Troglodyte1",
+      "SpawnMarker1Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker2Troglodyte0",
+      "SpawnMarker2Troglodyte1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker3Troglodyte0",
+      "SpawnMarker3Troglodyte1",
+      "SpawnMarker3Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker4Troglodyte0",
+      "SpawnMarker4Troglodyte1",
+      "SpawnMarker4Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker5Troglodyte0",
+      "SpawnMarker5Troglodyte1",
+      "SpawnMarker5Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker6Troglodyte0",
+      "SpawnMarker6Troglodyte1",
+      "SpawnMarker6Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    }
+   ]
+  },
+  "tasaracademy": {
+   "project": "mm9r_tasaracademy",
+   "chapter": 2,
+   "factor": 1.0,
+   "packs": []
+  },
+  "thjorgard": {
+   "project": "mm9r_thjorgard_blv",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "Ken1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Ken2",
+      "Ken3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "IckyRecon"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "MagreebBaby0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Cutpurse0",
+      "Cutpurse1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Jumper0",
+      "Jumper2"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Jumper1",
+      "Jumper3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Jim",
+      "Dean"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Walter",
+      "Dummy",
+      "Dummy"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FlyingIcky0",
+      "FlyingIcky1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling0",
+      "Gezzamptling1",
+      "Gezzamptling2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling5",
+      "Gezzamptling6",
+      "Gezzamptling7"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling8",
+      "Gezzamptling9",
+      "Gezzamptling10"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    }
+   ]
+  },
+  "thjorgardcity": {
+   "project": "mm9r_thjorgardcity",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": []
+  },
+  "thronheim": {
+   "project": "mm9r_thronheim_blv",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "Gezzampt0",
+      "Gezzampt1",
+      "Gezzamptling0"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzampt2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzamptling6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Annelid0",
+      "Annelid1",
+      "Bloodsucker0",
+      "Bloodsucker1",
+      "Annelid2"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Bloodsucker2",
+      "Bloodsucker3",
+      "Annelid3",
+      "Bloodsucker4",
+      "Annelid4"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Annelid5",
+      "Bloodsucker6"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "KingBasilisk1",
+      "Basilisk6"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "KingBasilisk0",
+      "FibraseBasilisk0"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "FibraseBasilisk1",
+      "FibraseBasilisk2"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    }
+   ]
+  },
+  "thronheimcity": {
+   "project": "mm9r_thronheimcity",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": []
+  },
+  "frosgard": {
+   "project": "mm9r_frosgard_blv",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "GreyWolf3",
+      "BlackWolf3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GreyWolf2",
+      "BlackWolf0"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "BlackWolf1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "RedWolf0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "BlackWolf2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GreyWolf0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti4",
+      "IceLobbercicle11"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti6",
+      "Yeti7"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti8",
+      "Yeti9"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GezzamptElder0",
+      "Gezzampt0",
+      "Gezzampt1"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Gezzampt2",
+      "Gezzampt3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GezzamptElder1",
+      "Gezzampt4"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GezzamptElder2",
+      "Gezzampt6",
+      "Gezzampt7"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    }
+   ]
+  },
+  "frosgardcity": {
+   "project": "mm9r_frosgardcity",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": []
+  },
+  "mountainpass": {
+   "project": "mm9r_mountainpass_blv",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "RedWolf6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "RedWolf4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "RedWolf3",
+      "RedWolf2"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "RedWolf1",
+      "WingedOddity6"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "RedWolf0",
+      "GreyWolf1",
+      "GreyWolf0"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder9",
+      "ImpElder7",
+      "ImpElder5"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder8"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder4",
+      "ImpElder3",
+      "BlackWolf0"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder21"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder20"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder19"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder18"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder17"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder14"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ImpElder13"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GreyWolf7",
+      "GreyWolf6",
+      "WingedOddity8",
+      "WingedAberation3",
+      "WingedAberation2"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GreyWolf5",
+      "WingedOddity7"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GreyWolf3",
+      "GreyWolf2"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GreyWolf10",
+      "WingedMutant1",
+      "WingedMutant2",
+      "WingedMutant3"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Bigfoot0",
+      "Gezzampt0",
+      "Gezzampt1",
+      "Gezzampt2",
+      "Gezzampt3",
+      "Gezzampt4"
+     ],
+     "add": 2,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Imp0",
+      "Imp1",
+      "Imp2",
+      "Imp3",
+      "ImpElder0",
+      "ImpElder1",
+      "ImpElder2",
+      "Imply1"
+     ],
+     "add": 3,
+     "target": 11,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "WingedOddity0",
+      "WingedOddity1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "WingedOddity2",
+      "WingedAberation1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "WingedMutant4",
+      "WingedOddity9"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    }
+   ]
+  },
+  "lindisfarne": {
+   "project": "mm9r_lindisfarne_blv",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "ThrallMaster0",
+      "ThrallMaster1",
+      "ThrallMaster2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ThrallMaster3",
+      "ThrallMaster4"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ThrallMaster5",
+      "ThrallMaster6",
+      "ThrallMaster7",
+      "ThrallMaster8"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ThrallMaster9"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ThrallMaster10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ThrallMaster11",
+      "ThrallMaster12",
+      "ThrallMaster13",
+      "ThrallMaster14"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Magreeb20"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Magreeb21"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Magreeb22"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Magreeb23"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Magreeb24"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Magreeb25"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilApprentice0",
+      "EvilSorcerer0",
+      "EvilSorcerer1"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilSorcerer4",
+      "EvilSorcerer5",
+      "EvilSorcerer6"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    }
+   ]
+  },
+  "lindisfarnemonastery": {
+   "project": "mm9r_lindisfarnemonastery",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": []
+  },
+  "chasmofthedead": {
+   "project": "mm9r_chasmofthedead",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "PetrifiedMummy30",
+      "PetrifiedMummy31",
+      "PetrifiedMummy32",
+      "PetrifiedMummy33",
+      "PetrifiedMummy34",
+      "PetrifiedMummy35",
+      "PetrifiedMummy37",
+      "PetrifiedMummy36"
+     ],
+     "add": 4,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PetrifiedMummy2",
+      "EmbalmedMummy2"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PetrifiedMummy1",
+      "EmbalmedMummy1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper0",
+      "Dripper41",
+      "Rotter40",
+      "Rotter41"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper40",
+      "Rotter0",
+      "Rotter33"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper34",
+      "Dripper33",
+      "Dripper35",
+      "Rotter34",
+      "Rotter35"
+     ],
+     "add": 3,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Zombie0",
+      "Dripper39",
+      "Dripper38",
+      "Dripper36",
+      "Rotter39"
+     ],
+     "add": 3,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper37",
+      "Rotter36",
+      "Rotter37",
+      "Rotter38"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid3",
+      "Skeletoid10"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid4",
+      "Skeletoid12",
+      "Skeletoid13"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid9",
+      "Skeletoid6",
+      "Skeletoid7",
+      "Skeletoid8"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "Skeletoid15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid14"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid16"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid17"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid18"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid19"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid20"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid21"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Skeletoid11"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Rotter6",
+      "Dripper5",
+      "Rotter5",
+      "Dripper6",
+      "Dripper7",
+      "Rotter7",
+      "Dripper8"
+     ],
+     "add": 3,
+     "target": 10,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Rotter8"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Rotter1",
+      "Dripper1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Dripper2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Rotter3",
+      "Dripper3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "Dripper16",
+      "Rotter16"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "Dripper17",
+      "Rotter17"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "Dripper22",
+      "Dripper23",
+      "Dripper24",
+      "Dripper25",
+      "Rotter22",
+      "Rotter23",
+      "Rotter24",
+      "Rotter25"
+     ],
+     "add": 1,
+     "target": 9,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Dripper26",
+      "Dripper27",
+      "Rotter26",
+      "Rotter27"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper28",
+      "Rotter28",
+      "Rotter29"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper29"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper30",
+      "Dripper31",
+      "Dripper32",
+      "Rotter30",
+      "Rotter31",
+      "Rotter32"
+     ],
+     "add": 3,
+     "target": 9,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper42",
+      "Dripper43",
+      "Dripper44",
+      "Dripper47",
+      "Dripper48",
+      "Rotter42",
+      "Rotter43",
+      "Rotter44",
+      "Rotter47",
+      "Rotter48"
+     ],
+     "add": 2,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper45",
+      "Dripper46",
+      "Rotter45",
+      "Rotter46"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper49",
+      "Rotter49",
+      "Rotter50"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Dripper50"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "Dripper51",
+      "Rotter51"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper52",
+      "Rotter52"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper53",
+      "Rotter53"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper54",
+      "Rotter54"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dripper4",
+      "Rotter4"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "Rotter2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Rotter15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 8
+    }
+   ]
+  },
+  "ruinedtemple": {
+   "project": "mm9r_ruinedtemple",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "Skeleton4",
+      "SpectreDagrell2"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Skeleton6",
+      "Skeleton5"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "Skeleton8",
+      "Skeleton7",
+      "Skeleton9"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "SpectreDagrell0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 2
+    },
+    {
+     "members": [
+      "Dagrell1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "Skeleton2",
+      "Skeleton3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    }
+   ]
+  },
+  "inventastorca": {
+   "project": "mm9r_inventastorca",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "AirBorneIcky1",
+      "AirBorneIcky0",
+      "AirBorneIcky2",
+      "Bandit0",
+      "Bandit1"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Lich0",
+      "Lich1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lich2",
+      "BustOutLich0",
+      "BustOutLich1"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lich3",
+      "BustOutSkeleton0",
+      "BustOutSkeleton1",
+      "BustOutLichKing0"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    }
+   ]
+  },
+  "thearena": {
+   "project": "mm9r_thearena",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": []
+  },
+  "dookscastle": {
+   "project": "mm9r_dookscastle",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "DooksGuardCaptain0",
+      "DooksGuardCaptain2",
+      "DooksGuardCaptain21",
+      "DooksGuardCaptain24"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DooksGuardCaptain10",
+      "DooksGuardCaptain11",
+      "DooksGuardCaptain16",
+      "DooksGuardCaptain19",
+      "DooksGuardCaptain20",
+      "DooksGuardCaptain23",
+      "SleepCaptain",
+      "HallwaySleeper1",
+      "HallwaySleeper0",
+      "HallwaySleeper3",
+      "HallwaySleeper2"
+     ],
+     "add": 1,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DooksGuardCaptain14"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DooksGuardCaptain17"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DooksGuardCaptain22"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DooksGuardCaptain26"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DooksGuardCaptain27"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Trellborg0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AncientTrellborg0",
+      "KinTrellborg0",
+      "Trellborg1"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AncientTrellborg1",
+      "Trellborg2",
+      "KinTrellborg1"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AncientTrellborg2",
+      "Trellborg3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "KinTrellborg2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "KinTrellborg3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "WingedOddity0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "WingedAberration0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    }
+   ]
+  },
+  "yorwick": {
+   "project": "mm9r_yorwick_blv",
+   "chapter": 3,
+   "factor": 2.3,
+   "packs": [
+    {
+     "members": [
+      "EvilGrandSorcerer3",
+      "EvilSorcerer3",
+      "EvilSorcerer4"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilApprentice4",
+      "EvilApprentice5"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition6"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition7"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition8"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Shadow6"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilApprentice6",
+      "EvilApprentice7",
+      "EvilSorcerer5"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Vampir0",
+      "Bloodsucker0",
+      "Bloodsucker4"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Bloodsucker1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Vampir1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Vampir2",
+      "Bloodsucker2",
+      "Bloodsucker3"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilSorcerer6",
+      "EvilSorcerer7",
+      "EvilGrandSorcerer4",
+      "EvilSorcerer8",
+      "EvilGrandSorcerer5"
+     ],
+     "add": 7,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Shadow2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Shadow0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Shadow1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilGrandSorcerer0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilSorcerer0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Shadow3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Shadow4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Shadow5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Specter0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Specter1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Specter2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Specter3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Apparition9",
+      "Apparition10",
+      "Specter4",
+      "Apparition11",
+      "Specter5"
+     ],
+     "add": 7,
+     "target": 12,
+     "capacity": 12
+    }
+   ]
+  },
+  "lichlab": {
+   "project": "mm9r_lichlab",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "Oculus15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus3",
+      "SkeletonMaster6",
+      "SkeletonMaster5"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus6",
+      "SkeletonMaster10"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus4",
+      "LichKing3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus11"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus12"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus14",
+      "Dagrell8",
+      "SkeletonMaster25",
+      "Eye1",
+      "PowerLich7",
+      "SkeletonMaster24",
+      "SkeletonMaster23",
+      "SkeletonMaster22",
+      "SkeletonMaster46"
+     ],
+     "add": 3,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dagrell3",
+      "Dagrell2",
+      "VenomousDagrell1",
+      "SkeletonMaster52",
+      "SkeletonMaster8",
+      "SkeletonMaster7",
+      "SkeletonMaster11"
+     ],
+     "add": 3,
+     "target": 10,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dagrell7",
+      "Dagrell6",
+      "VenomousDagrell3",
+      "PowerLich4",
+      "PowerLich3",
+      "PowerLich2"
+     ],
+     "add": 2,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster51",
+      "SkeletonMaster50",
+      "Dagrell11",
+      "SkeletonMaster21",
+      "SkeletonMaster20",
+      "PowerLich6"
+     ],
+     "add": 2,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Dagrell14",
+      "Dagrell13"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 6
+    },
+    {
+     "members": [
+      "Dagrell0",
+      "Dagrell1",
+      "VenomousDagrell0",
+      "SkeletonMaster16"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LichKing4",
+      "SkeletonMaster15",
+      "SkeletonMaster14",
+      "ExplodeRevenant",
+      "ExplodeGhast",
+      "ExplodeDagrell1",
+      "ExplodeDagrell0"
+     ],
+     "add": 3,
+     "target": 10,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster9",
+      "LichSummoner"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster3",
+      "SkeletonMaster2",
+      "LichKing0"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "SkeletonMaster13"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PowerLich11",
+      "PowerLich13"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PowerLich10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LichKing2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster31"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster35",
+      "SkeletonMaster34"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster33",
+      "SkeletonMaster32"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster30"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PowerLich9",
+      "PowerLich8",
+      "SkeletonMaster29",
+      "SkeletonMaster28"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster27",
+      "SkeletonMaster45"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster26",
+      "SkeletonMaster47"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "PowerLich5",
+      "Eye0",
+      "SkeletonMaster19",
+      "SkeletonMaster18",
+      "SkeletonMaster17"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster42"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lich4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Lich3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster39",
+      "SkeletonMaster38"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster37",
+      "Lich2"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "SkeletonMaster36"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster43",
+      "SkeletonMaster44"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    }
+   ]
+  },
+  "wizardslab": {
+   "project": "mm9r_wizardslab",
+   "chapter": 3,
+   "factor": 2.3,
+   "packs": [
+    {
+     "members": [
+      "WingedAberration0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "WingedAberration1",
+      "WingedAberration3",
+      "WingedAberration5"
+     ],
+     "add": 2,
+     "target": 5,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "WingedAberration2",
+      "WingedAberration4",
+      "WingedOddity0"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "WingedOddity1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SeaMonsterMale0",
+      "SeaMonsterFemale0"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "EvilApprentice0",
+      "EvilApprentice1",
+      "Skeletoid4",
+      "Skeletoid5",
+      "BoneThrasher0",
+      "BoneThrasher1",
+      "BoneThrasher3",
+      "BoneThrasher2"
+     ],
+     "add": 4,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilApprentice2",
+      "Skeletoid1"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilApprentice3",
+      "EvilGrandSorcerer0",
+      "Skeletoid0",
+      "Skeletoid2",
+      "Skeletoid3"
+     ],
+     "add": 7,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye6",
+      "Eye7",
+      "Eye8",
+      "EvilSorcerer0",
+      "EvilApprentice4"
+     ],
+     "add": 7,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye9",
+      "EvilGrandSorcerer2"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye10"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Eye11"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye12"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye13"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "EvilGrandSorcerer1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "evil eyes"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "evil eyes",
+      "evil eyes0"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "evil eyes"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "evil eyes"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "evil eyes"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "Eye0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye2"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye3"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye4"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye5"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SummoningGuy0",
+      "SummoningGuy1",
+      "SummoningGuy2",
+      "SummoningGuy3",
+      "SummoningGuy4",
+      "SummoningGuy5",
+      "SummoningGuy6"
+     ],
+     "add": 5,
+     "target": 12,
+     "capacity": 12
+    }
+   ]
+  },
+  "connectingtunnels": {
+   "project": "mm9r_connectingtunnels",
+   "chapter": 3,
+   "factor": 2.3,
+   "packs": [
+    {
+     "members": [
+      "Annelid0",
+      "SpectreDagrell2",
+      "SpectreDagrell5"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Annelid1",
+      "Annelid2",
+      "Bloodsucker0"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Annelid3"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Annelid4",
+      "Bloodsucker1"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Bloodsucker2",
+      "SkeletonMaster4"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Bloodsucker3",
+      "SkeletonMaster3",
+      "Vampir2"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster0",
+      "SkeletonWarrior5",
+      "SpectreDagrell3"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster1",
+      "SkeletonWarrior8",
+      "SkeletonWarrior9"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonMaster2",
+      "Vampir1"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior0",
+      "SpectreDagrell0",
+      "VenomousDagrell1"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "SkeletonWarrior1",
+      "SkeletonWarrior2",
+      "SpectreDagrell1"
+     ],
+     "add": 4,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior3",
+      "SkeletonWarrior4"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SkeletonWarrior6",
+      "SkeletonWarrior7"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpectreDagrell4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Vampir0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "VenomousDagrell0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "VenomousDagrell2",
+      "VenomousDagrell3"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "VenomousDagrell4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    }
+   ]
+  },
+  "yanmirsfort": {
+   "project": "mm9r_yanmirsfort",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "Yeti0",
+      "Yeti1",
+      "Yeti2",
+      "Yeti20",
+      "Yeti21"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti3",
+      "Yeti5",
+      "Yeti6",
+      "Yeti22"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti7",
+      "ThrallMaster2",
+      "Thrall8",
+      "Thrall9",
+      "Thrall10"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti8",
+      "Yeti9",
+      "Yeti18",
+      "Yeti19"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti11",
+      "Yeti10",
+      "Yeti16",
+      "Yeti17"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Yeti15",
+      "Yeti14",
+      "Yeti12",
+      "Yeti13"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Thrall0",
+      "Thrall1",
+      "Thrall2",
+      "Thrall3",
+      "ThrallMaster0"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Thrall4",
+      "Thrall5",
+      "Thrall6",
+      "ThrallMaster1",
+      "Thrall7",
+      "ThrallMaster3"
+     ],
+     "add": 2,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "IceLobbercicle7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "IceLobbercicle6",
+      "IceLobbercicle10"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "IceLobbercicle5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "IceLobbercicle0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "IceLobbercicle9"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "IceLobbercicle11"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "IceLobbercicle12",
+      "IceLobbercicle13"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "Thrall11",
+      "Thrall12",
+      "IceLobbercicle3"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Thrall13",
+      "Thrall14",
+      "ForestGiant3"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 11
+    }
+   ]
+  },
+  "darkpassageway": {
+   "project": "mm9r_darkpassageway",
+   "chapter": 3,
+   "factor": 2.3,
+   "packs": [
+    {
+     "members": [
+      "Terror0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ColloidalWarrior0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "SeaMonsterFemale0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "Terror1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Specter0",
+      "Apparition0"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Specter1",
+      "Specter2"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "Apparition1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 2
+    },
+    {
+     "members": [
+      "Specter3"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "ReptilianTerror0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ReptilianTerror1",
+      "ReptilianTerror2"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "Specter4"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Specter5",
+      "Specter6"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Specter7"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "DesertTerror0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "AmphibiousTerror0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "AmphibiousTerror1",
+      "ReptilianTerror3"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ReptilianTerror4",
+      "DesertTerror1"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Specter8"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Specter9",
+      "Specter10"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "Specter11",
+      "Specter12",
+      "Apparition2",
+      "Specter13",
+      "Specter14",
+      "Specter15"
+     ],
+     "add": 5,
+     "target": 11,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "SeaMonsterMale0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "ReptilianTerror5",
+      "DesertTerror2"
+     ],
+     "add": 3,
+     "target": 5,
+     "capacity": 8
+    }
+   ]
+  },
+  "bathhouse": {
+   "project": "mm9r_bathhouse",
+   "chapter": 3,
+   "factor": 2.3,
+   "packs": [
+    {
+     "members": [
+      "ColSInRoomA0"
+     ],
+     "add": 3,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ColGInRoomB0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "ColWInRoomC0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "ColloidalWarrior3"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "ColloidalWarrior4"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "ColloidalWarrior5"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "ColloidalWarrior0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnLoc0Spore0",
+      "SpawnLoc0Spore1"
+     ],
+     "add": 4,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnLoc1Spore0",
+      "SpawnLoc1Spore1"
+     ],
+     "add": 4,
+     "target": 6,
+     "capacity": 12
+    }
+   ]
+  },
+  "klusoshouse": {
+   "project": "mm9r_klusoshouse",
+   "chapter": 2,
+   "factor": 1.0,
+   "packs": []
+  },
+  "traininghall": {
+   "project": "mm9r_traininghall",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "Ghoul0",
+      "Ghoul5",
+      "Ghoul4"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Ghoul2",
+      "Ghoul3"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "OrcStudent2",
+      "TrainingObserver",
+      "OrcStudent3",
+      "OrcStudent1",
+      "OrcStudent0",
+      "TrainingCommander"
+     ],
+     "add": 2,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "OrcGossipFollow",
+      "OrcGossipLead"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "BoxOrc0",
+      "BoxOrc1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GhoulInSauna0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "GhoulInSauna1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "JoustVictimTrellborg",
+      "WitnessTrellborg"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    }
+   ]
+  },
+  "verhoffinruins": {
+   "project": "mm9r_verhoffinruins",
+   "chapter": 2,
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "Zombie0",
+      "Fright0"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "Zombie1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Zombie2",
+      "Zombie6",
+      "Zombie7",
+      "Terror1",
+      "Dread0",
+      "BustWraith3",
+      "BustWraith2",
+      "Terror2",
+      "Terror3",
+      "Zombie9"
+     ],
+     "add": 2,
+     "target": 12,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Fright1",
+      "Fright7"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Fright2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 6
+    },
+    {
+     "members": [
+      "Fright3",
+      "Fright6"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Zombie4",
+      "Zombie8"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Terror0",
+      "Terror4"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "BustWraith1",
+      "BustZombie2",
+      "BustWraith0",
+      "BustZombie0",
+      "BustZombie1",
+      "Fright4"
+     ],
+     "add": 2,
+     "target": 8,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "Fright5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 10
+    }
+   ]
+  },
+  "dungeonofsecrets": {
+   "project": "mm9r_dungeonofsecrets",
+   "chapter": 2,
+   "factor": 2.3,
+   "packs": []
+  },
+  "templeofhonk": {
+   "project": "mm9r_templeofhonk",
+   "chapter": 4,
+   "factor": 5.0,
+   "packs": [
+    {
+     "members": [
+      "HonkLeader"
+     ],
+     "add": 3,
+     "target": 4,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "Accountant"
+     ],
+     "add": 6,
+     "target": 7,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "Honk4",
+      "Honk3"
+     ],
+     "add": 10,
+     "target": 12,
+     "capacity": 12
+    }
+   ]
+  },
+  "1000terrors": {
+   "project": "mm9r_1000terrors",
+   "chapter": 4,
+   "factor": 2.0,
+   "packs": [
+    {
+     "members": [
+      "DesertTerror3",
+      "DesertTerror6"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "LesserDemon3",
+      "Eye6"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "LesserDemon6"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon7"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon8"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon9"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus3",
+      "Eye27"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "Orbus0"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus1"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ReptilianTerror0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "LesserDemon15"
+     ],
+     "add": 2,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DesertTerror2",
+      "ReptilianTerror4",
+      "Orbus13",
+      "Eye25"
+     ],
+     "add": 2,
+     "target": 6,
+     "capacity": 6
+    },
+    {
+     "members": [
+      "Eye20",
+      "Eye21"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon4",
+      "LesserDemon5"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SeaMonsterMale1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "SeaMonsterMale0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "Orbus14",
+      "Oculus8",
+      "Eye26",
+      "Orbus15"
+     ],
+     "add": 4,
+     "target": 8,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus16"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus17",
+      "ReptilianTerror1"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus22"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Orbus24"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "Eye10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "Orbus23"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "DesertTerror4",
+      "LesserDemon11"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus6",
+      "Oculus12"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 4
+    },
+    {
+     "members": [
+      "GreaterDemon1",
+      "Oculus7",
+      "Oculus9",
+      "LesserDemon13",
+      "LesserDemon14"
+     ],
+     "add": 5,
+     "target": 10,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DesertTerror0",
+      "Eye15"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 11
+    },
+    {
+     "members": [
+      "DesertTerror1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon12",
+      "Orbus19"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 6
+    },
+    {
+     "members": [
+      "AmphibiousTerror0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus10"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "LesserDemon1",
+      "Eye22"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "DesertTerror5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ReptilianTerror2",
+      "Eye23",
+      "Orbus11"
+     ],
+     "add": 3,
+     "target": 6,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "ReptilianTerror3",
+      "Orbus12"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye17"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Oculus0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye13"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye14"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye4"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye12"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye16",
+      "Orbus7"
+     ],
+     "add": 2,
+     "target": 4,
+     "capacity": 9
+    },
+    {
+     "members": [
+      "Oculus1"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus8"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus20"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye0"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye18"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye19"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus9"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Eye24"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "Orbus21"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 5
+    },
+    {
+     "members": [
+      "Orbus18"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    }
+   ]
+  },
+  "arslegardcity": {
+   "project": "mm9r_arslegardcity",
+   "chapter": 4,
+   "factor": 5.0,
+   "packs": []
+  },
+  "dragonstadium": {
+   "project": "mm9r_dragonstadium",
+   "chapter": 4,
+   "factor": 5.0,
+   "packs": []
+  },
+  "hallofthegods": {
+   "project": "mm9r_hallofthegods",
+   "chapter": 4,
+   "factor": 5.0,
+   "packs": []
+  },
+  "afterworld": {
+   "project": "mm9r_afterworld_blv",
+   "chapter": 4,
+   "factor": 5.0,
+   "packs": []
+  }
+ }
+}

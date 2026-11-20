@@ -1,0 +1,36 @@
+{
+  "runtime_files": 134,
+  "new_masters": 5,
+  "new_transitions": 66,
+  "unchanged_existing_files": 63,
+  "compatible_join_checks": 1526,
+  "compatible_join_failures": 0,
+  "unchanged_pack_previous_join_checks": 332,
+  "unchanged_water_frames": 14,
+  "previous_validation_sha256": "57065a27e4a0126f8a99decc87e197c9fd6068341578bc244d3cea8fb662e72c",
+  "native_layout_mismatch_pairs": 184,
+  "native_layout_mismatch_placements": 375,
+  "captures": {
+    "sand": {
+      "image_sha256": "797ec3027456a6639103b9943c29bc1292c686561eb34deda3b3024be4471e96",
+      "metadata_sha256": "bf4b57930453a04c9a1f77dbaa9f4076e565b7546a74a2c7b27cec309e12e94b"
+    },
+    "snow": {
+      "image_sha256": "b6fe4454819c8c5c56d089ade6813cff8afb919707783cb72bb740ce1026821f",
+      "metadata_sha256": "c0ba67fe6809cc554c8c2a45f0f604e972a213e32ffa7a8c6c4ca70f3c29a20b"
+    },
+    "cracked": {
+      "image_sha256": "dd0852c35563a53c2f9f022abfc5a3d476acf54484cab5fa7a56e72fd8a2cda2",
+      "metadata_sha256": "ddf47283cbb47490d58be5cfc160f3458d0799f53dd1bdbe327ccb372311237f"
+    },
+    "tropical": {
+      "image_sha256": "8b66675ccc8ad533424fc2b6f44e24323720340624da8aa0a90e7a2be87c50d2",
+      "metadata_sha256": "b2c2401aa31cb48f287ef592f86fda3190ee4dee88abb0f01c663a6c272e9ad9"
+    },
+    "swamp": {
+      "image_sha256": "ef63fe290eec08ff9db48010181bda01a714783ca5c1a15c1460618f9b88fef3",
+      "metadata_sha256": "4e58d43723a542f4909ab5512b0dbbd0560f3f7527266e1cdd814df8a54323d2"
+    }
+  },
+  "scope": "Asset generation and isolated fixture review. Existing peasants enhanced and source maps are not modified."
+}

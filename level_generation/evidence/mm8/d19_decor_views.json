@@ -1,0 +1,53 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "room",
+        "target": [
+          168,
+          3320,
+          768
+        ],
+        "span": 6500
+      },
+      "section_top_z": 1280,
+      "image": "level_generation/evidence/mm8/d19_decor_room.png",
+      "camera_position": [
+        3111.040283203125,
+        -2566.08056640625,
+        7962.0986328125
+      ],
+      "highlighted": [
+        {
+          "index": 11,
+          "name": "dec56",
+          "position": [
+            1352,
+            2552,
+            1248
+          ]
+        },
+        {
+          "index": 18,
+          "name": "dec56",
+          "position": [
+            -1352,
+            2552,
+            1248
+          ]
+        },
+        {
+          "index": 14,
+          "name": "dec56",
+          "position": [
+            1352,
+            1416,
+            1248
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

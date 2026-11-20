@@ -1,0 +1,134 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for an existing 3D game prop.\nCreate exactly ONE 1024 x 1024 RGBA image with a truly transparent background. Edit image 1, guide_back.png, by painting materials onto its existing grey surfaces.\nINPUT ROLES:\nImage 1 guide_back.png is the EDIT TARGET and absolute authority for back-view camera, projection, every geometric edge, silhouette, scale and position.\nImage 2 design_reference.png is the approved colour, material and design reference ONLY.\nImage 3 concept_crop.png is the original concept reference ONLY.\nKeep image 1's exact 1024 x 1024 canvas and exact alpha silhouette: the object occupies roughly x=66..957 and y=319..705. Preserve all the large transparent margins. Do not enlarge, shrink, rotate, recenter, straighten, reframe or crop. Preserve every contour kink, side strap, buckle opening, overlap and shape edge at its exact guide location. This is a paint-over, not a redesign. The back view must remain the back view; do not use the references' front three-quarter composition or reveal a new bag opening.\nSUBJECT: the opened Colony satchel seen FROM THE BACK, in precisely the guide's pose. Apply worn faded deep-blue canvas and sand canvas, fine stitching and dusty scuffs from the approved design; pale sand canvas for lining where visible; tan leather on the guide's existing straps; aged matte brass on the existing buckles. The sand flap has the reference's red cloth band with thin gold embroidered edging and the simple gold ring-with-short-stem sigil, where that flap is visible from this back angle. Keep all straps and panel boundaries aligned to the guide geometry; do not invent extra straps, pockets, folds that change geometry, or hardware. Match the approved worn handmade canvas/leather material identity and colour palette, with readable weave, stitches and wear.\nLIGHTING: strictly an unlit ALBEDO material painting, even flat shadowless illumination from the viewer. Remove the grey guide's illumination gradients. Use base surface colour, fine material grain, stitching and wear to show materials, not shaded volumes. No cast shadows, no ambient occlusion or dark crease shading, no dark underside lighting, no strong specular highlights or reflections, no rim light. Brass is muted brass-colour albedo, not gleaming polished metal. No baked lighting, background, floor, vignette, glow, halo, text, labels or watermark.\nReturn the image at native 1024 x 1024 without resizing. Change only the surface colours/material appearance inside the exact guide alpha, preserving the silhouette pixel for pixel and all internal geometry.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "226217dbf54f366949981bcc4db256f928344c515000037ab9ce9eb74bd07fac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "210cee46c7558803717ffd9d2289d2a178d0c5274f84a0a2126136c744bc60b4",
+      "selected": true,
+      "reason": "Best available unmodified return: 99.01% silhouette overlap in normalised canvas coordinates, versus 81.88% for the corrective return. Selected for closest guide alignment, but it does not fully satisfy the brief.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          55,
+          1214,
+          1228
+        ],
+        "alpha_128_bbox": [
+          81,
+          389,
+          1173,
+          863
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalised_canvas_silhouette_iou_alpha_128": 0.9900843382990463,
+        "materials_and_colours": "Visual check: worn deep-blue and sand canvas, red band and gold sigil, tan leather and brass match the reference palette.",
+        "flat_even_light": false,
+        "lighting_notes": "Shaded folds, contact darkening and hardware highlights remain.",
+        "alpha_notes": "Genuine transparency exists, but faint nonzero alpha extends outside the principal silhouette.",
+        "unresized_unmodified_return": true
+      },
+      "retained_raw": "paint_back_attempt1.png"
+    },
+    {
+      "view": "back",
+      "prompt": "CORRECTIVE GENERATION, sole permitted correction for this view.\nUse case: precise-object-edit. Produce ONE native 1024 by 1024 pixel transparent RGBA albedo image. The canvas must be 1024 x 1024, not 1254 x 1254. This is a precise texture paint-over of input 1, NOT a presentation render.\nINPUT 1 guide_back.png: the 1024x1024 grey back-view render is the edit target. Retain its alpha mask, outer silhouette, all inner edges, empty holes and pose exactly. Preserve every pixel location of the geometry. Its alpha bounding box is x=66 through 957, y=319 through 705 on the 1024x1024 canvas. Keep all large transparent margins. Do not fit or enlarge the object. Do not recenter, rotate, smooth the outline, reframe, crop, alter perspective or change any geometric shape.\nINPUT 2 design_reference.png: approved colour, material and design authority only.\nINPUT 3 concept_crop.png: original concept, corroborating materials only.\nINPUT 4 paint_back_attempt1.png: previous painting, MATERIAL ASSIGNMENT reference only. Its resolution, shading and outline drift are defects to correct. Do not use its alpha, framing, resolution, wrinkles or geometry. Keep its sensible sand flap/red band/gold ring-and-stem sigil, dusty blue fabric, tan leather and brass material placement, registered onto input 1's actual geometry.\nPaint only the guide's grey surfaces with worn faded deep-blue canvas and sand canvas with fine stitching and dust, pale sand lining wherever actually visible, red cloth band with gold embroidered sigil on the sand flap, tan leather straps and dull brass buckles, as in input 2. Keep the guide's raised flap, broad back body, existing strap strips, side shapes and buckle cutouts in exactly their original locations. Do not add buckles, pockets or straps. It remains the BACK view of the OPENED Colony satchel, not a front view or a different closed bag.\nCrucial lighting correction: paint pure base colour / unlit albedo. Every surface of a given fabric colour has the same brightness regardless of its direction. Preserve material grain and wear but remove ALL directional shading, black fold shadows, underside darkening, contact shadow lines and ambient occlusion from the previous painting. No cast shadows. No highlights, reflections, bright edging or rim light. Brass is simply matte ochre brass-colour with subtle wear. No environment lighting. No background, floor, glow, halo, shadow, labels, lettering or watermark. The gold ring-and-stem is the only emblem.\nOutput must be native 1024 x 1024 pixels with genuine alpha transparency; retain the GUIDE alpha and geometry exactly, paint colour only, leave all pixels outside its silhouette transparent.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "226217dbf54f366949981bcc4db256f928344c515000037ab9ce9eb74bd07fac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        },
+        {
+          "path": "paint_back_attempt1.png",
+          "sha256": "210cee46c7558803717ffd9d2289d2a178d0c5274f84a0a2126136c744bc60b4"
+        }
+      ],
+      "output": "paint_back_attempt2.png",
+      "output_sha256": "7b29fb048ee5abf8a806956e2344a30431eef1417585cbb3ac180e7a5c08c7f4",
+      "selected": false,
+      "reason": "The one allowed corrective generation still returned 1254x1254 and shaded folds, and moved the silhouette farther from the guide (81.88% normalised overlap).",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          46,
+          1198,
+          1254
+        ],
+        "alpha_128_bbox": [
+          85,
+          420,
+          1182,
+          894
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalised_canvas_silhouette_iou_alpha_128": 0.8187678106135106,
+        "materials_and_colours": "Visual check: worn deep-blue and sand canvas, red band and gold sigil, tan leather and brass match the reference palette.",
+        "flat_even_light": false,
+        "lighting_notes": "Shaded folds, contact darkening and hardware highlights remain.",
+        "alpha_notes": "Genuine transparency exists, but faint nonzero alpha extends outside the principal silhouette.",
+        "unresized_unmodified_return": true
+      }
+    }
+  ],
+  "status": "generated_with_unmet_requirements",
+  "final_output": "paint_back.png",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations": 1,
+  "brief_fully_satisfied": false,
+  "unmet_requirements": [
+    "Native output is 1254x1254, not 1024x1024.",
+    "Guide silhouette is not pixel-identical.",
+    "Lighting retains shaded folds and highlights; not strictly flat albedo.",
+    "Faint alpha pixels extend outside the guide silhouette."
+  ],
+  "verification_note": "Silhouette overlap compares alpha>=128 in normalised canvas coordinates numerically; no image was resized, remasked, cropped or otherwise altered."
+}

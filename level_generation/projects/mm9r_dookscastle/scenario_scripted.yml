@@ -1,0 +1,279 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dookscastle_scripted
+title: Dook's Castle (native BLV) - friendly guards, letters, Baron Dook, sleepers, basilisks, the secret door and the hostility
+  it brings
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dookscastle.blv
+- note:
+    text: 'DookHostility.inc: AddFriend Player while DOOK_HOSTILITY stands. Guard 2 in plain view 400 units up the corridor
+      does not come for the party.'
+- set_pose:
+    map: dookscastle.blv
+    x: 0
+    y: 4188
+    z: 411
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 4
+- assert:
+    actor_visible:
+      actor_index: 2
+      hostile_to_party: false
+      report_state: true
+      combat_targeting_party: false
+- assert:
+    named_map_var_changed:
+      name: Hostile
+      current: 0
+- note:
+    text: 'Prop5: the letter (BookLetter.scr DoLetter 492) on a click.'
+- set_pose:
+    map: dookscastle.blv
+    x: 1292
+    y: 7471
+    z: 411
+    yaw: -1.5708
+    pitch: -0.2802
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop6: the letter (BookLetter.scr DoLetter 493) on a click.'
+- set_pose:
+    map: dookscastle.blv
+    x: -2670
+    y: 10430
+    z: 513
+    yaw: -2.0054
+    pitch: -1.0456
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Baron Dook (NPC415.scr :OnUse DoRude 415): a click opens MM9''s dialogue 415.'
+- set_pose:
+    map: dookscastle.blv
+    x: -2390
+    y: 10281
+    z: 513
+    yaw: 3.1416
+    pitch: -0.5834
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 415
+- assert:
+    dialog:
+      active: true
+      source_id: 415
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'SleepTrigger (DC_sargent.scr StartUp): the sargent walks to the four sleepers in turn, wakes each and ends at SMkr1.'
+- set_pose:
+    map: dookscastle.blv
+    x: 0
+    y: 3714
+    z: 411
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1
+- assert:
+    named_map_var_changed:
+      name: FiredSleepTrigger
+      current: 0
+- movement_segment:
+    input: forward
+    seconds: 0.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dookscastle.blv
+      x: 0
+      y: 3714
+      z: 411
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: dookscastle.blv
+      x: 0
+      y: 4014
+      z: 411
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 30
+- advance_runtime:
+    seconds: 1
+- assert:
+    named_map_var_changed:
+      name: FiredSleepTrigger
+      current: 1
+- advance_runtime:
+    seconds: 40
+- assert:
+    named_map_var_changed:
+      name: SleepWoken
+      current: 6
+- assert:
+    actor_visible:
+      actor_index: 42
+      near:
+        x: 82
+        y: 6922
+        max_distance: 120
+- note:
+    text: 'ScurryTrigger1: its three small basilisks run off and vanish (ScurryCreature.scr Hide).'
+- assert:
+    actor_visible:
+      actor_index: 38
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 41
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 39
+      hidden: false
+- set_pose:
+    map: dookscastle.blv
+    x: 6144
+    y: 8028
+    z: -1142
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1
+- assert:
+    named_map_var_changed:
+      name: ScurryTrigger1
+      current: 1
+- assert:
+    actor_visible:
+      actor_index: 38
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 41
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 39
+      hidden: true
+- note:
+    text: 'ScurryTrigger0: its three small basilisks run off and vanish (ScurryCreature.scr Hide).'
+- assert:
+    actor_visible:
+      actor_index: 34
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 35
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 36
+      hidden: false
+- set_pose:
+    map: dookscastle.blv
+    x: 11796
+    y: 8765
+    z: -2441
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1
+- assert:
+    named_map_var_changed:
+      name: ScurryTrigger0
+      current: 1
+- assert:
+    actor_visible:
+      actor_index: 34
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 35
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 36
+      hidden: true
+- note:
+    text: 'Sheild0 over the invisible Tempbutton: a click turns it (OpenTriggers: doorslide open, Tempbutton lock); the secret
+      door slides open and DOOK_HOSTILITY is gone.'
+- assert:
+    mechanism:
+      id: 16
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: 2621
+    y: 9174
+    z: 411
+    yaw: 1.5708
+    pitch: 0.2707
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 5
+- assert:
+    named_map_var_changed:
+      name: SecretOpen
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: Hostile
+      current: 1
+- assert:
+    mechanism:
+      id: 16
+      state: open
+- note:
+    text: 'Guard 2 1000 down the corridor now comes for the party and closes to within 500 (it holds about 400 off, where
+      its targeting flag drops; the map reloaded: the movement steps above froze the actors; Hostile stays set over the reload).'
+- load_map:
+    map: dookscastle.blv
+- set_pose:
+    map: dookscastle.blv
+    x: 0
+    y: 3588
+    z: 411
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 6
+- assert:
+    actor_visible:
+      actor_index: 2
+      hostile_to_party: true
+      report_state: true
+      near:
+        x: 0
+        y: 3588
+        max_distance: 500

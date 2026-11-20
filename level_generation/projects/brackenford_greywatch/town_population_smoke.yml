@@ -1,0 +1,595 @@
+id: levelgen.brackenford.town_population_smoke
+title: 43 real MM8 actors; thirty seconds of active AI at the square
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: -10000
+    y: 2048
+    z: 623
+    yaw: 0
+    pitch: 0
+- &id001
+  assert:
+    actor_visible:
+      actor_index: 0
+      monster_id: 26
+      name: Dark Elven Defender
+      dead: false
+      current_hp: 153
+      max_hp: 153
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id002
+  assert:
+    actor_visible:
+      actor_index: 1
+      monster_id: 26
+      name: Dark Elven Defender
+      dead: false
+      current_hp: 153
+      max_hp: 153
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id003
+  assert:
+    actor_visible:
+      actor_index: 2
+      monster_id: 27
+      name: Dark Elven Crusader
+      dead: false
+      current_hp: 269
+      max_hp: 269
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id004
+  assert:
+    actor_visible:
+      actor_index: 3
+      monster_id: 26
+      name: Dark Elven Defender
+      dead: false
+      current_hp: 153
+      max_hp: 153
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id005
+  assert:
+    actor_visible:
+      actor_index: 4
+      monster_id: 26
+      name: Dark Elven Defender
+      dead: false
+      current_hp: 153
+      max_hp: 153
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id006
+  assert:
+    actor_visible:
+      actor_index: 5
+      monster_id: 27
+      name: Dark Elven Crusader
+      dead: false
+      current_hp: 269
+      max_hp: 269
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id007
+  assert:
+    actor_visible:
+      actor_index: 6
+      monster_id: 26
+      name: Dark Elven Defender
+      dead: false
+      current_hp: 153
+      max_hp: 153
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id008
+  assert:
+    actor_visible:
+      actor_index: 7
+      monster_id: 26
+      name: Dark Elven Defender
+      dead: false
+      current_hp: 153
+      max_hp: 153
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id009
+  assert:
+    actor_visible:
+      actor_index: 8
+      monster_id: 27
+      name: Dark Elven Crusader
+      dead: false
+      current_hp: 269
+      max_hp: 269
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id010
+  assert:
+    actor_visible:
+      actor_index: 9
+      monster_id: 22
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id011
+  assert:
+    actor_visible:
+      actor_index: 10
+      monster_id: 23
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id012
+  assert:
+    actor_visible:
+      actor_index: 11
+      monster_id: 19
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id013
+  assert:
+    actor_visible:
+      actor_index: 12
+      monster_id: 20
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id014
+  assert:
+    actor_visible:
+      actor_index: 13
+      monster_id: 166
+      name: Human Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id015
+  assert:
+    actor_visible:
+      actor_index: 14
+      monster_id: 22
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id016
+  assert:
+    actor_visible:
+      actor_index: 15
+      monster_id: 23
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id017
+  assert:
+    actor_visible:
+      actor_index: 16
+      monster_id: 19
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id018
+  assert:
+    actor_visible:
+      actor_index: 17
+      monster_id: 20
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id019
+  assert:
+    actor_visible:
+      actor_index: 18
+      monster_id: 166
+      name: Human Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id020
+  assert:
+    actor_visible:
+      actor_index: 19
+      monster_id: 22
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id021
+  assert:
+    actor_visible:
+      actor_index: 20
+      monster_id: 23
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id022
+  assert:
+    actor_visible:
+      actor_index: 21
+      monster_id: 19
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id023
+  assert:
+    actor_visible:
+      actor_index: 22
+      monster_id: 20
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id024
+  assert:
+    actor_visible:
+      actor_index: 23
+      monster_id: 166
+      name: Human Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id025
+  assert:
+    actor_visible:
+      actor_index: 24
+      monster_id: 22
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id026
+  assert:
+    actor_visible:
+      actor_index: 25
+      monster_id: 23
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id027
+  assert:
+    actor_visible:
+      actor_index: 26
+      monster_id: 19
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id028
+  assert:
+    actor_visible:
+      actor_index: 27
+      monster_id: 20
+      name: Dark Elf Peasant
+      dead: false
+      current_hp: 17
+      max_hp: 17
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id029
+  assert:
+    actor_visible:
+      actor_index: 28
+      monster_id: 166
+      name: Human Peasant
+      dead: false
+      current_hp: 3
+      max_hp: 3
+      hostile_to_party: false
+      has_detected_party: false
+      combat_targeting_party: false
+- &id030
+  assert:
+    actor_visible:
+      actor_index: 29
+      monster_id: 32
+      name: Ogre Warrior
+      dead: false
+      current_hp: 100
+      max_hp: 100
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id031
+  assert:
+    actor_visible:
+      actor_index: 30
+      monster_id: 32
+      name: Ogre Warrior
+      dead: false
+      current_hp: 100
+      max_hp: 100
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id032
+  assert:
+    actor_visible:
+      actor_index: 31
+      monster_id: 33
+      name: Ogre Warleader
+      dead: false
+      current_hp: 162
+      max_hp: 162
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id033
+  assert:
+    actor_visible:
+      actor_index: 32
+      monster_id: 32
+      name: Ogre Warrior
+      dead: false
+      current_hp: 100
+      max_hp: 100
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id034
+  assert:
+    actor_visible:
+      actor_index: 33
+      monster_id: 33
+      name: Ogre Warleader
+      dead: false
+      current_hp: 162
+      max_hp: 162
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id035
+  assert:
+    actor_visible:
+      actor_index: 34
+      monster_id: 107
+      name: 'Ogre Mage '
+      dead: false
+      current_hp: 162
+      max_hp: 162
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id036
+  assert:
+    actor_visible:
+      actor_index: 35
+      monster_id: 108
+      name: Ogre Magi
+      dead: false
+      current_hp: 227
+      max_hp: 227
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id037
+  assert:
+    actor_visible:
+      actor_index: 36
+      monster_id: 32
+      name: Ogre Warrior
+      dead: false
+      current_hp: 100
+      max_hp: 100
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id038
+  assert:
+    actor_visible:
+      actor_index: 37
+      monster_id: 32
+      name: Ogre Warrior
+      dead: false
+      current_hp: 100
+      max_hp: 100
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id039
+  assert:
+    actor_visible:
+      actor_index: 38
+      monster_id: 33
+      name: Ogre Warleader
+      dead: false
+      current_hp: 162
+      max_hp: 162
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id040
+  assert:
+    actor_visible:
+      actor_index: 39
+      monster_id: 32
+      name: Ogre Warrior
+      dead: false
+      current_hp: 100
+      max_hp: 100
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id041
+  assert:
+    actor_visible:
+      actor_index: 40
+      monster_id: 33
+      name: Ogre Warleader
+      dead: false
+      current_hp: 162
+      max_hp: 162
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id042
+  assert:
+    actor_visible:
+      actor_index: 41
+      monster_id: 107
+      name: 'Ogre Mage '
+      dead: false
+      current_hp: 162
+      max_hp: 162
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- &id043
+  assert:
+    actor_visible:
+      actor_index: 42
+      monster_id: 108
+      name: Ogre Magi
+      dead: false
+      current_hp: 227
+      max_hp: 227
+      hostile_to_party: true
+      has_detected_party: false
+      combat_targeting_party: false
+- advance_runtime:
+    seconds: 30
+- *id001
+- *id002
+- *id003
+- *id004
+- *id005
+- *id006
+- *id007
+- *id008
+- *id009
+- *id010
+- *id011
+- *id012
+- *id013
+- *id014
+- *id015
+- *id016
+- *id017
+- *id018
+- *id019
+- *id020
+- *id021
+- *id022
+- *id023
+- *id024
+- *id025
+- *id026
+- *id027
+- *id028
+- *id029
+- *id030
+- *id031
+- *id032
+- *id033
+- *id034
+- *id035
+- *id036
+- *id037
+- *id038
+- *id039
+- *id040
+- *id041
+- *id042
+- *id043
+- assert:
+    item_visible:
+      source: world_item
+      item_id: 5
+- assert:
+    item_visible:
+      source: world_item
+      item_id: 95
+- assert:
+    item_visible:
+      source: world_item
+      item_id: 145
+- assert:
+    item_visible:
+      source: world_item
+      item_id: 15
+- assert:
+    item_visible:
+      source: world_item
+      item_id: 65

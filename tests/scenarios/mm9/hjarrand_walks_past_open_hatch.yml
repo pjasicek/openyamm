@@ -1,0 +1,33 @@
+# Thjorad Mine: with the slag extractor's hatch open (RotatingDoor0, an `ai_open` door swung across the corridor),
+# Hjarrand still paces MMarker1 -> MMarker2 -> MMarker1 -> MMarker2 after "Is the machine fixed yet?", reaches the
+# machine and marks it (key 364). The monsters' walk map left out every `ai_open` door's faces, open ones too, so his
+# route back to MMarker1 ran straight into the open leaf and he walked into it for ever (playthrough segment 26).
+# With the leaf in the walk map, MMarker2 (21 from the corridor's end wall, inside his radius) had only an 87-waypoint
+# detour up the west ramp, where he stuck; his route now ends within his arrival of the point, round the leaf's north
+# end (devdocs/ACTOR_SCRIPTING_INVESTIGATION.md, 2026-11-11).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/hjarrand_walks_past_open_hatch.yml --scenario-no-color
+id: mm9.hjarrand_walks_past_open_hatch
+title: "MM9 Thjorad Mine: Hjarrand walks around the open slag extractor hatch and marks the machine"
+world: mm9
+mode: faithful
+tags: [mm9, npcs, pathfinding, doors]
+steps:
+  - load_map: {map: thjoradmine.blv}
+  - advance_runtime: {seconds: 0.5}
+  # Hjarrand paid (key 362): he stands in the corridor west of Door0 (thjoradmine.lua showHjarrand).
+  - console: {line: "qbit set 90362"}
+  - lua_event: {source: 'evt.SetMonsterBit(45, MonsterBits.Invisible, false)'}
+  # The hatch opened (event 69), as the party does for the broken part.
+  - play_lua: {source: 'click(69); wait(3)'}
+  - set_pose: {map: thjoradmine.blv, x: -2250, y: 20, z: 1, yaw: 3.14159, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 45}
+  - select_topic: {match_label: "Is the machine fixed yet?"}
+  - select_topic: {match_label: "Alright."}
+  - play_lua:
+      max_seconds: 90
+      source: |
+        for i = 1, 75 do if qbit(90364) then break end; wait(1) end
+        if not qbit(90364) then error("Hjarrand did not mark the machine (HjarrandStop " .. mapvar("HjarrandStop") .. ")") end
+        log("Hjarrand marks the broken spot on the machine")
+  - assert: {qbit_set: [90364]}

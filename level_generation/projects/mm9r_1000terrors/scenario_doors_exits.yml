@@ -1,0 +1,498 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.1000terrors_doors_exits
+title: Thousand Terrors (native BLV) - the two exits, a shut door stops the party, every door group opens on a real click
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: 1000terrors.blv
+- note:
+    text: 'ExitTrigger0 (to Arslegard City): a walk from StartPoint0 into the exit volume.'
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 5202
+      y: -16630
+      z: -142
+      yaw_degrees: -92.2
+      pitch: 0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 5192
+      y: -16886
+      z: -142
+      yaw_degrees: -92.2
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 442
+- load_map:
+    map: 1000terrors.blv
+- note:
+    text: 'LowerDoor3/4: shut, they stop a walk; a click opens both leaves; the party walks through LowerPortal2.'
+- assert:
+    mechanism:
+      id: 26
+      state: closed
+- assert:
+    mechanism:
+      id: 27
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 8310
+      y: -9082
+      z: -2078
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 8310
+      y: -8842
+      z: -2078
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 20
+- set_pose:
+    map: 1000terrors.blv
+    x: 8310
+    y: -8982
+    z: -2078
+    yaw: 1.5708
+    pitch: -0.0713
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    mechanism:
+      id: 26
+      state: open
+- assert:
+    mechanism:
+      id: 27
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: 1000terrors.blv
+      x: 8310
+      y: -9082
+      z: -2078
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: 1000terrors.blv
+      x: 8310
+      y: -8482
+      z: -2078
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 20
+- load_map:
+    map: 1000terrors.blv
+- advance_runtime:
+    seconds: 12
+- note:
+    text: 'CoffinGate1: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 7410
+    y: -9288
+    z: -142
+    yaw: 3.1416
+    pitch: -0.654
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 1
+      state: opening
+- note:
+    text: 'CoffinGate2: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 8640
+    y: -9288
+    z: -142
+    yaw: 3.1416
+    pitch: -0.654
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 2
+      state: opening
+- note:
+    text: 'EDoor: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 4472
+    y: -18422
+    z: 2254
+    yaw: 3.1416
+    pitch: -0.7147
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 5
+      state: opening
+- note:
+    text: 'Lever16: a click opens it.'
+- note:
+    text: 'Lever16: no click pose picks it headless (work/click_poses.json): its event'
+- execute_event:
+    id: 120
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 17
+      state: opening
+- note:
+    text: 'Lever18: a click opens it.'
+- note:
+    text: 'Lever18: no click pose picks it headless (work/click_poses.json): its event'
+- execute_event:
+    id: 121
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 19
+      state: opening
+- note:
+    text: 'LowerDoor13: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: -8886
+    y: -15928
+    z: -2569
+    yaw: 3.1416
+    pitch: -0.6545
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 20
+      state: opening
+- note:
+    text: 'LowerDoor15: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: -6920
+    y: -8801
+    z: -2569
+    yaw: 3.1416
+    pitch: -0.6545
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 22
+      state: opening
+- note:
+    text: 'LowerDoor17: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: -6183
+    y: -8801
+    z: -2569
+    yaw: 3.1416
+    pitch: -0.6545
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 24
+      state: opening
+- note:
+    text: 'LowerDoor5: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 6642
+    y: -11996
+    z: -2078
+    yaw: 3.1416
+    pitch: -0.657
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 28
+      state: opening
+- note:
+    text: 'LowerDoor7: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 3770
+    y: -9290
+    z: -2569
+    yaw: 3.1416
+    pitch: -0.6689
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 4.6
+- assert:
+    mechanism:
+      id: 30
+      state: open
+- note:
+    text: 'LowerDoor9: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: -3182
+    y: -8801
+    z: -2569
+    yaw: 3.1416
+    pitch: -0.6545
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 4.6
+- assert:
+    mechanism:
+      id: 32
+      state: open
+- note:
+    text: 'MiddleDoor4: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 18114
+    y: -12572
+    z: -127
+    yaw: -1.5708
+    pitch: -0.6557
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 36
+      state: opening
+- note:
+    text: 'MiddleDoor5: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 18114
+    y: -11559
+    z: -127
+    yaw: -1.5708
+    pitch: -0.6557
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 37
+      state: opening
+- note:
+    text: 'RotatingDoor0: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 3970
+    y: -15447
+    z: -2754
+    yaw: 3.1416
+    pitch: -0.6578
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 89
+      state: opening
+- note:
+    text: 'RotatingDoor1: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 3970
+    y: -15242
+    z: -2754
+    yaw: 3.1416
+    pitch: -0.6578
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 90
+      state: opening
+- note:
+    text: 'SBrick: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 10330
+    y: -22846
+    z: -127
+    yaw: 3.1416
+    pitch: -0.6557
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.1098039215686275
+- assert:
+    mechanism:
+      id: 91
+      state: open
+- note:
+    text: 'SecretDoor2: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 13806
+    y: -18017
+    z: -127
+    yaw: 3.1416
+    pitch: -0.6557
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 93
+      state: opening
+- note:
+    text: 'StairGate: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 8090
+    y: -7150
+    z: -142
+    yaw: 1.5708
+    pitch: -0.4918
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 107
+      state: opening
+- note:
+    text: 'ToWindMazeGate: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 276
+    y: -3648
+    z: -127
+    yaw: -1.5708
+    pitch: -0.6557
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.1625
+- assert:
+    mechanism:
+      id: 110
+      state: open
+- note:
+    text: 'WaterGate0: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 11066
+    y: -12196
+    z: -127
+    yaw: 3.1416
+    pitch: -0.6557
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 121
+      state: opening
+- note:
+    text: 'WaterGate1: a click opens it.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 17538
+    y: -12196
+    z: -127
+    yaw: 3.1416
+    pitch: -0.6557
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 122
+      state: opening
+- note:
+    text: 'WaterGate2: a click opens it.'
+- note:
+    text: 'WaterGate2: no click pose picks it headless (work/click_poses.json): its event'
+- execute_event:
+    id: 123
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 123
+      state: opening

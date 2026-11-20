@@ -1,0 +1,6 @@
+# The Crown's actor behaviour (merged by hesper_stage/stage.py into worlds/hesper/behaviors.yml): Huntmaster Vreth's
+# lines and half-health roar (huntmaster.lua, copied into the runtime tree by build_out4.py). He is the only 10147.
+behaviors:
+  hesper/huntmaster: worlds/hesper/behaviors/bosses/huntmaster.lua
+monsters:
+  10147: hesper/huntmaster

@@ -89,6 +89,12 @@ SetMapMetadata({
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "mdt10.blv", targetName = "William Setag's Tower" },
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d15.blv", targetName = "Watchtower 6" },
     },
+    learnedEffect = {
+    [203] = { autonote = 270, effect = "+2 Intellect (Permanent)" },
+    [204] = { autonote = 272, effect = "+10 Personality (Temporary)" },
+    [205] = { autonote = 273, effect = "+10 Fire Resistance (Temporary)" },
+    [207] = { autonote = 271, effect = "+5 Fire Resistance (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},

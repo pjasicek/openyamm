@@ -26,7 +26,7 @@ a two-handed Fire Bolt cast and named eye/palm sockets with bounded shared FX. T
 portable export's animation source lives in the [higher attack windup revision](../../../../level_generation/creatures/mm6_demon_meshy_reference_20261004/attack_windup_20261006/README.md).
 It raises the active hand above the head before the strike. The other clips and all colour/shadow LOD geometry are retained.
 
-The renderer follow-up is documented in the [shared 3D creature rendering plan](../../../../CREATURE_3D_RENDERING_PLAN.md).
+The renderer follow-up is documented in the [shared 3D creature rendering plan](../../../../devdocs/CREATURE_3D_RENDERING_PLAN.md).
 The current model rendering architecture (asset contract, head merge, held-item attachments, instanced creatures,
 variants such as the boss mage) is described in [3D model rendering](../../../../engine/render/MODEL_RENDERING.md).
 Material lighting, animated sunlight mesh shadows, and shared sky reflections are implemented and validated on

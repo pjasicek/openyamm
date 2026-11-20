@@ -1,0 +1,86 @@
+[
+  {
+    "view": "back",
+    "prompt": "Use case: sketch-to-render.\nCreate exactly one 1024 x 1024 transparent PNG texture-source painting, paint_back.png.\nInput image 1, guide_back.png, is the EDIT TARGET and sole authority for silhouette, geometry, orthographic back-view camera, size and placement. Input image 2, design_reference.png, is only the approved material and colour reference. Input image 3, concept_crop.png, is supporting original design reference.\nPaint directly over the grey surfaces of image 1. Preserve its silhouette EXACTLY at the pixel level, including all edges, spikes, openings, scaffold pieces, banner, rubble and small details. Preserve the existing alpha outline and every hole. Do not rotate toward the reference view or add front-view features. Nothing added outside the silhouette, nothing cropped, no reframing or rescaling. Retain the back-view banner on the left, every tower fin and the rubble footprint exactly where the guide has them.\nApply the reference materials: chipped white ceramic with aged gold bands on the tower; black-violet resin and chitin with painted bright orange veins and sacs on the thorny organic structures; rust on the scaffold; dark black-glass rubble; aged red fabric on the existing banner. Transfer material appearance only, never reference geometry.\nLIGHTING: this is ALBEDO for texture projection, not a beauty render. Even flat shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light. Orange glowing sacs and seams have their bright orange local colour only and cast NO light onto adjacent surfaces. Show material colour and fine wear without directional lighting.\nGenuinely transparent background, no backdrop, no floor, no text or labels. Output exactly 1024 x 1024, same canvas and object placement as the guide.",
+    "source": "/home/pjasicek/.codex/generated_images/01a15d9a-19c7-7c92-b3f2-c8a22c246ccd/exec-9a1c6b7c-97dc-438d-8dae-ccfb642086af.png",
+    "output": "paint_back_attempt_1.png",
+    "selected": false,
+    "reason": "First return: requested material palette and back view, but native 1254x1254 instead of 1024x1024, silhouette/detail deviations and visible shading/highlights. Triggered the one permitted correction.",
+    "inputs": [
+      {
+        "file": "guide_back.png",
+        "sha256": "1a6838d6dd16850ba207bb476cfbff07b59dbf136312faf4c39d8f80df51099c"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+      },
+      {
+        "file": "concept_crop.png",
+        "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+      }
+    ],
+    "tool": "built-in image_gen",
+    "output_sha256": "6b37642b3e5112ee2e925368c02e5680e250130139f5d8f4887b3fc1b0b3eaad",
+    "checks": {
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "unresized_return": true,
+      "silhouette_identical": false,
+      "materials_colours": "Broad visual match to reference",
+      "flat_even_light": "Not fully met: visible shading and highlights",
+      "brief_fully_satisfied": false
+    }
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: sketch-to-render.\nCreate exactly one 1024 x 1024 transparent PNG texture-source painting, paint_back.png.\nInput image 1, guide_back.png, is the EDIT TARGET and sole authority for silhouette, geometry, orthographic back-view camera, size and placement. Input image 2, design_reference.png, is only the approved material and colour reference. Input image 3, concept_crop.png, is supporting original design reference.\nPaint directly over the grey surfaces of image 1. Preserve its silhouette EXACTLY at the pixel level, including all edges, spikes, openings, scaffold pieces, banner, rubble and small details. Preserve the existing alpha outline and every hole. Do not rotate toward the reference view or add front-view features. Nothing added outside the silhouette, nothing cropped, no reframing or rescaling. Retain the back-view banner on the left, every tower fin and the rubble footprint exactly where the guide has them.\nApply the reference materials: chipped white ceramic with aged gold bands on the tower; black-violet resin and chitin with painted bright orange veins and sacs on the thorny organic structures; rust on the scaffold; dark black-glass rubble; aged red fabric on the existing banner. Transfer material appearance only, never reference geometry.\nLIGHTING: this is ALBEDO for texture projection, not a beauty render. Even flat shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light. Orange glowing sacs and seams have their bright orange local colour only and cast NO light onto adjacent surfaces. Show material colour and fine wear without directional lighting.\nGenuinely transparent background, no backdrop, no floor, no text or labels. Output exactly 1024 x 1024, same canvas and object placement as the guide.\nCORRECTIVE GENERATION, the only correction allowed: the previous attempt incorrectly returned 1254 x 1254 and changed edges. Output must be native 1024 x 1024 pixels, not 1254, with no resizing afterward. Image 1 is a strict stencil. Keep its alpha mask unchanged and paint only its existing opaque surfaces. The guide's opaque extent is x=148..879 and y=66..957 on the 1024 square. Do not fill holes, add torn holes to the banner, add tiny projections, reshape scaffold planks, reshape rubble, or move the point of any spike. Retain all grey guide shape boundaries exactly. Treat this as a material-colour paintover over the existing pixels of image 1. Remove baked shadows and bright shiny edge highlights: flat base colour texture source, not dimensional studio lighting.",
+    "source": "/home/pjasicek/.codex/generated_images/01a15d9a-19c7-7c92-b3f2-c8a22c246ccd/exec-fb1a4ce9-a727-46b0-9e86-fdd9bdd28bb4.png",
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected corrective return as the final available candidate, not as a fully compliant texture source. Material colours broadly match, but native output remains 1254x1254, silhouette/details differ and shading/highlights remain. Preserved unresized; correction limit exhausted.",
+    "inputs": [
+      {
+        "file": "guide_back.png",
+        "sha256": "1a6838d6dd16850ba207bb476cfbff07b59dbf136312faf4c39d8f80df51099c"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "a465dbf96c44cce3b20faf0b37411eddf7b66238fa27512f074ec4aaedbd37db"
+      },
+      {
+        "file": "concept_crop.png",
+        "sha256": "5eae4aa40f557ccd5c22cd3f94ac2948440016746f405131f7d0e6c84a163e9a"
+      }
+    ],
+    "tool": "built-in image_gen",
+    "output_sha256": "2139f07111ba22c95ec7562afb260d7a7544e201dda6658af01778e49e770cd4",
+    "checks": {
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "unresized_return": true,
+      "silhouette_identical": false,
+      "materials_colours": "Broad visual match to reference",
+      "flat_even_light": "Not fully met: visible shading and highlights",
+      "brief_fully_satisfied": false
+    }
+  }
+]

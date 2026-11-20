@@ -3,3 +3,22 @@ name: MM8
 sourceGame: mm8
 start:
   map: out01.odm
+# Monsters wider than 60 meet the level indoors, and plan their routes, at radius 60: the original engine let a body
+# through any doorway its centre fitted, and its dungeons have 128-wide passages (devdocs/ACTOR_PURSUIT_AND_REACH.md).
+actorMovement:
+  levelRadiusLimit: 60
+# The certificate the party receives the first time it finishes the story (WinGameScreen, CompletionCertificates.h):
+# the original game's certificate background with the OpenYAMM mark; layout in its 640 x 480 units.
+completion:
+  qbit: 228 # You have seen the Endgame movie
+  continent: Jadame
+  art: winbg
+  headline: Congratulations!
+  # The original game's ending text.
+  text: >-
+    Excellent work! By thwarting the Destroyer of Worlds, you have pulled your world from the brink of unending
+    oblivion. Not only may life continue, but a new peace reigns over Jadame. The mighty alliance you forged will see
+    to the land's restoration and eventual prosperity.
+  layout:
+    text: [95, 140, 545, 438]
+    mark: [320, 457, 20]

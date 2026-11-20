@@ -1,0 +1,207 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.bathhouse_swim
+title: 'Bathhouse (native BLV) - swimming: pool B''s shaft, its bed, the surface, out; the drained room; a Jellyspore stays
+  in its water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: bathhouse.blv
+- note:
+    text: 'On pool B''s east rim, dry; then over the shaft (MM9''s swim down to the flooded tunnels): the party drops in and,
+      its eye under, sinks.'
+- set_pose:
+    map: bathhouse.blv
+    x: 3000
+    y: -3730
+    z: 1
+    yaw: 180
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    water:
+      state: dry
+      eye_under: false
+      breath_min: 0.99
+- set_pose:
+    map: bathhouse.blv
+    x: 2540
+    y: -3730
+    z: 25
+    yaw: 180
+    pitch: 0.0
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    water:
+      state: submerged
+      eye_under: true
+      foot_z_max: -115.4
+- note:
+    text: Down (Fly Down held) the shaft to its bed, where the flooded tunnels start (MM9's swim).
+- movement_segment:
+    input: none
+    seconds: 4.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 2540
+      y: -3730
+      z: -215
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 2540
+      y: -3730
+      z: -215
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 3000
+    tolerance_z: 3000
+    fly_down: true
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -1507.5
+- note:
+    text: 'Up (Fly Up held) to the surface: the eye comes out and the breath refills.'
+- movement_segment:
+    input: none
+    seconds: 5.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 2540
+      y: -3730
+      z: -1515
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 2540
+      y: -3730
+      z: -1515
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 3000
+    tolerance_z: 3000
+    fly_up: true
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'Out: from the surface over the shaft''s east side a surface jump east clears the basin onto the rim, 15 over the
+      water (over the basin''s floor, 128 under the surface, the party wades and cannot climb its wall: README "Water").'
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 2600
+      y: -3730
+      z: -144
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 2600
+      y: -3730
+      z: -144
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 3000
+    tolerance_z: 3000
+    jump: true
+- assert:
+    water:
+      state: dry
+      eye_under: false
+      foot_z_min: -4.0
+- note:
+    text: 'The drained room (BlueWater2, its top on the FloodWater movers): flooded over a party on its floor before Switch0
+      drains it, dry after the 30 s drain.'
+- set_pose:
+    map: bathhouse.blv
+    x: 12800
+    y: -384
+    z: -1092
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1
+- assert:
+    water:
+      state: bed
+      eye_under: true
+- set_pose:
+    map: bathhouse.blv
+    x: 3000
+    y: -3730
+    z: 1
+    yaw: 180
+    pitch: 0.0
+- execute_event:
+    id: 91
+- advance_runtime:
+    seconds: 34
+- set_pose:
+    map: bathhouse.blv
+    x: 12800
+    y: -384
+    z: -1092
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1
+- assert:
+    water:
+      state: dry
+      eye_under: false
+- note:
+    text: 'A Jellyspore (an AISwimFly swimmer) spawned in the shaft and hit by the party on the rim runs from a dry party
+      (BaseSwim.inc) and stays in pool B''s water: within its footprint, over the bed (report_state shows its height under
+      the surface).'
+- set_pose:
+    map: bathhouse.blv
+    x: 3000
+    y: -3730
+    z: 1
+    yaw: 180
+    pitch: 0.0
+- spawn_actor:
+    monster_id: 9168
+    x: 2540
+    y: -3730
+    z: -1116
+- advance_runtime:
+    seconds: 0.1
+- damage_actor:
+    actor_index: 36
+    amount: 1
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 36
+      report_state: true
+      near:
+        x: 2413
+        y: -3816
+        max_distance: 991
+        min_z: -1521

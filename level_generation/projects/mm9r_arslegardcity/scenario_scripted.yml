@@ -1,0 +1,190 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.arslegardcity_scripted
+title: Arslegard City (native BLV) - the Great Gate scene, Njam's chase, Hanndl, Sven, letters
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: arslegardcity.blv
+- note:
+    text: 'FateMan.scr: the first arrival: after about 3 s the cinematic gate_fate (key 98 at once), then at its end (71 s)
+      the move to the Dark Passageway (ExitTrigger2''s row). cinematic_gate_fate_play.yml checks it step by step.'
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    qbit_clear:
+    - 90098
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    qbit_set:
+    - 90098
+- console:
+    line: cinematic list
+    expect_contains: playing gate_fate
+- advance_runtime:
+    seconds: 72
+    follow_map_move: true
+- assert:
+    map_arrived:
+      map: darkpassageway.blv
+- note:
+    text: 'WritMan.scr: with the Writ shown (key 100): key 9515, 170 000 experience, Hanndl (the gate''s actor) removed, the
+      Great Gate opens.'
+- load_map:
+    map: arslegardcity.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 90100
+    value: true
+- assert:
+    mechanism:
+      id: 22
+      state: closed
+- advance_runtime:
+    seconds: 4.5
+- assert:
+    qbit_set:
+    - 99515
+- console:
+    line: cinematic list
+    expect_contains: playing gate_writ
+- assert:
+    mechanism:
+      id: 22
+      state: closed
+- advance_runtime:
+    seconds: 22
+- assert:
+    mechanism:
+      id: 22
+      state: opening
+- note:
+    text: 'NjamChase.scr: Trigger0 in Njam''s house with the chase on (key 108): key 470, his door unlocked, Njam hostile.'
+- load_map:
+    map: arslegardcity.blv
+- &id001
+  setup_shortcut:
+    kind: set_qbit
+    id: 90098
+    value: true
+- assert:
+    actor_visible:
+      actor_index: 34
+      hostile_to_party: false
+- execute_event:
+    id: 240
+- assert:
+    qbit_clear:
+    - 90470
+- setup_shortcut:
+    kind: set_qbit
+    id: 90108
+    value: true
+- execute_event:
+    id: 240
+- assert:
+    qbit_set:
+    - 90470
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    actor_visible:
+      actor_index: 34
+      hostile_to_party: true
+- execute_event:
+    id: 232
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 20
+      state: open
+- note:
+    text: 'NjamDoor0/1 (Doorlock.scr 576): locked without Njam''s Key, opens with it.'
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 18
+      state: closed
+- grant_item:
+    item_id: 10576
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 18
+      state: open
+- note:
+    text: 'NPC334.scr: Hanndl the Gatekeeper by the gate opens his dialogue (RUDE 334). His row (555, drawn by a 3D model)
+      takes no headless click: interact_actor runs the click (Hall of the Gods'' lesson).'
+- interact_actor:
+    actor_index: 9
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 334
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'NPC3.scr: Sven Forkbeard is here with key 102 (and not 104); his click opens RUDE 3.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90102
+    value: true
+- load_map:
+    map: arslegardcity.blv
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    actor_visible:
+      actor_index: 33
+- interact_actor:
+    actor_index: 33
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 3
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'BookLetter.scr: Prop84 shows its text.'
+- execute_event:
+    id: 330
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'GiveTake.scr 575 1: Prop8, Njam''s Struggle, a world item, picked up.'
+- set_pose:
+    map: arslegardcity.blv
+    x: 7352
+    y: -9591
+    z: -491
+    yaw: -1.5708
+    pitch: -0.6143
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    inventory_any_member:
+    - item_id: 10575
+      count: 1

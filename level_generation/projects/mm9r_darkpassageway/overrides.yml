@@ -1,0 +1,122 @@
+# Explicit conversion choices for MM9's Dark Passageway (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: darkpassageway
+  display_name: Dark Passageway
+  starts: [StartPoint]                 # the only start: the arrival from Arslegard (MM9 StartPoint, MovePlayerToFloor)
+  monster_classes: [Specter, Apparition, DesertTerror, ReptilianTerror, AmphibiousTerror, Terror, SeaMonsterFemale,
+                    SeaMonsterMale, ColloidalWarrior, WealthyTownGuard1, WyrdeoftheKnown]
+  offset: [0, 0, 0]                    # the old map's frame
+  ambient: 30                          # sector minimum light: MM9 lightmaps (README: Baked lighting); per-room levels: convert.py ROOM_LEVELS
+  split_minor_rooms: true              # every polygon is split at a portal plane it crosses (playbook gotchas)
+  thin_walls: true
+  model_lighting: {light_scale: 2.5}   # MM9's model lighting for decorations/actors; BLV lights carry colour x BrightScale (median 0.4)
+  # Forced arrivals (pack growth, ../mm9r_common/dungeon/density.py): the one-way teleporters' landings keep MM9's
+  # monsters plus at most `copies` grown ones within `radius` (height counted double; 3 400: the Terrors' and Specters'
+  # sight, so the copies do not just move to the landing room's far end); the rest go to other packs (user,
+  # 2026-11-09). Teleporter0 is the ocean cage's (after the sea monster fight).
+  density_arrivals:
+  - {name: Teleporter0, at: [-7864, -18678, -817], radius: 3400, copies: 2}
+  - {name: DesertTeleporter, at: [-5243, -1454, -754], radius: 3400, copies: 2}
+  - {name: ForestTeleporter, at: [-15401, -9708, 2], radius: 3400, copies: 2}
+  - {name: LakeTeleporter, at: [-19323, -10394, -1309], radius: 3400, copies: 3}       # no more than before the quotas
+  - {name: MountainTeleporter, at: [-18801, -22036, -326], radius: 3400, copies: 3}    # (the others' copies moved here)
+models:
+  # --- linear doors (MM9 Door: MoveDir, MoveDist, Speed)
+  ExitRoomTempleDoor0: {group: ExitRoomTempleDoor, motion: dat, doorway: true}
+  ExitRoomTempleDoor1: {group: ExitRoomTempleDoor, motion: dat, doorway: true}
+  DesertRoomDoor1: {group: DesertRoomDoor1, motion: dat, doorway: true}
+  DoubleDoorL40: {group: DoubleDoor40, motion: dat, click: false, doorway: true}
+  DoubleDoorR40: {group: DoubleDoor40, motion: dat, click: false, doorway: true}
+  MountainForestDoor: {group: MountainForestDoor, motion: dat, doorway: true}
+  Door0: static                        # a Door with MoveDist 0, Locked, nothing unlocks it: the shaft's bottom lid
+  ExitRoomDoor: {group: ExitRoomDoor, motion: dat, doorway: true}
+  TrapRoomDoor1: {group: TrapRoomDoor1, motion: dat, doorway: true}
+  TrapRoomDoor2: {group: TrapRoomDoor2, motion: dat, doorway: true}
+  FlameCage: {group: FlameCage, motion: dat, click: false}
+  ExitRamp: {group: ExitRamp, motion: dat, click: false}
+  ExitRiser: {group: ExitRiser, motion: dat, click: false}
+  TeleportDoor0: {group: TeleportDoor0, motion: dat, doorway: true}
+  TeleportDoor1: {group: TeleportDoor1, motion: dat, doorway: true}
+  CanyonDoorL0: {group: CanyonDoor, motion: dat, doorway: true}
+  CanyonDoorR0: {group: CanyonDoor, motion: dat, doorway: true}
+  ForestDoor0: {group: ForestDoor0, motion: dat, doorway: true}
+  DesertDoor0: {group: DesertDoor0, motion: dat, doorway: true}
+  Door1: {group: Door1, motion: dat, click: false, doorway: true}
+  Door2: {group: Door2, motion: dat, click: false, doorway: true}
+  Door3: {group: Door3, motion: dat, click: false, doorway: true}
+  Door4: {group: Door4, motion: dat, click: false, doorway: true}
+  Door5: {group: Door5, motion: dat, click: false, doorway: true}
+  Door6: {group: Door6, motion: dat, click: false, doorway: true}
+  # --- rotating: the spike trap's four floor flaps and the painting
+  SpikeDoor1: {group: SpikeDoor1, motion: rotate, click: false, bodies: push, carry: true}
+  SpikeDoor2: {group: SpikeDoor2, motion: rotate, click: false, bodies: push, carry: true}
+  SpikeDoor3: {group: SpikeDoor3, motion: rotate, click: false, bodies: push, carry: true}
+  SpikeDoor4: {group: SpikeDoor4, motion: rotate, click: false, bodies: push, carry: true}
+  Painting: {group: Painting, motion: rotate}
+  # --- the bridge puzzle's five bridge sections (DarkP_RaisingBridge.scr: 160 LT between their markers at 180)
+  Bridge0: {group: Bridge0, motion: slide, move_lt: [0, -160, 0], speed: 460, click: false}
+  Bridge1: {group: Bridge1, motion: slide, move_lt: [0, 160, 0], speed: 460, click: false}
+  Bridge2: {group: Bridge2, motion: slide, move_lt: [0, 160, 0], speed: 460, click: false}
+  Bridge3: {group: Bridge3, motion: slide, move_lt: [0, 160, 0], speed: 460, click: false}
+  Bridge4: {group: Bridge4, motion: slide, move_lt: [0, -160, 0], speed: 460, click: false}
+  # --- static world objects
+  Switch: {group: Switch, motion: rotate, start_open: true}   # the exit room's reset switch (-> ExitReset)
+  FlameDamage: skip                   # PoisonGas volume (MM9 volumes draw no brush): a polled fire box (convert.py)
+  ElevatorObj: {group: ElevatorObj, motion: slide, move_lt: [0, 2546, 0], speed: 1280, click: false}   # MagicCarpet.scr (convert.py; 2516 + CARPET_DROP_LT)
+  DB_TeleporterCage0: {group: DB_TeleporterCage0, motion: slide, move_lt: [0, -140, 0], speed: 2048, click: false}   # broken by the sea monster's death (convert.py)
+  Mirror0: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
+  Mirror1: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
+  Mirror2: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
+  Mirror3: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
+  TubeRoomWater: skip                  # DirtyWater volumes: their surfaces are the map's own faces (convert.py)
+  TubeRoomWater0: skip
+  BlueWater0: skip
+  Ocean: skip
+  Snow: skip                           # DemoSkyWorldModel: MM9's sky box model, outside the map
+model_patterns:
+  WorldObject: static
+  Terrain: static
+textures:
+  "water:lake": {alias: WATEZWECUN, width: 128, height: 128}    # BlueWater0's surface: Water115.spr, SurfaceAlpha 0.4
+  "water:tube": {alias: WATE27JPCX, width: 128, height: 128}    # TubeRoomWater0's surface: water125.spr, 0.7
+  "water:ocean": {alias: OCEABYM7AI, width: 128, height: 128}   # Ocean's surface: Ocean4.spr, 0.95
+  # MM9's skymarker faces show the map's DARKP night sky box (dark, starred; work/sky/sheet.png): drawn with the
+  # map's own starfield texture (STARB78A3F, the starfield.dtx faces beside them), not a daylight sky.
+  'textures\skybox\skymarker.dtx': {alias: STARB78A3F, width: 256, height: 256}
+# Seeds: objects of a seed class standing outside the built air
+seed_exclude:
+  - SeaMonsterMale0                    # the sea monsters swim under the water surfaces (swimmers in their volumes,
+  - SeaMonsterFemale0                  #   convert.py swimmer_foot); the air over the water seeds the water's air
+  - ExitReset                          # a relay trigger (Switch -> ExitReset), its box in the rock east of the exit room
+  - DesertTerror0                      # six Terrors MM9 parks 330 LT over the rooms' floors (y 64), above the roofs:
+  - AmphibiousTerror0                  #   placed on the floor under them (convert.py actors)
+  - AmphibiousTerror1
+  - ReptilianTerror3
+  - ReptilianTerror4
+  - DesertTerror1
+  - Specter9                           # two ghosts inside the slab of the ramp south of the desert arrival (MM9 ghosts
+  - Specter10                          #   pass walls): placed on the ramp above them
+seeds:
+  - [-5424, -60, -5760]                # the room behind the painting (its chests stand on the floor voxels)
+# Archway cuts (LT): the corridor into the canyon, the passage from the
+# desert down into the pillared room, the curved corridor into the Wyrde's room, the path above the tube room.
+portals:
+  - {name: canyon_corridor, axis: z, point: [-8243, -448, -5948], span: 100}
+  - {name: pillar_passage, axis: z, point: [-3072, -250, -6250], span: 150}
+  - {name: wyrde_room, axis: x, point: [-600, -100, 2470], span: 150}
+  - {name: path_tube, axis: z, point: [-5320, -176, -7500], span: 250}   # the path's last stretch above the tube room (its own room: player-light floor)
+# MM9's translucent surfaces: the flame cage (TorchFlame2.spr) round the exit
+glass:
+  steel_ladder_rungs.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  torchflame2.spr: {opacity: 0.6, tint: [1.0, 1.0, 1.0], two_sided: true}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [DesertTerror0, ReptilianTerror0, AmphibiousTerror0]
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated, translucent where MM9's are.
+spr_surfaces:
+  skip: [FlameCage]   # translucent through `glass` (0.6, two-sided); its tops in the ceiling stay as they are

@@ -1,0 +1,508 @@
+{
+  "creature_3d_identity": "hesper:overseer",
+  "meshy": {
+    "jobs": {
+      "overseer_pulse_pistol_smart_v1": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:references_hd/weapons/pulse_pistol/00_three_quarter.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "target_polycount": 3000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "references_hd/weapons/pulse_pistol/00_three_quarter.png",
+            "sha256": "c71e6ae37c83e15f6fcc42b957a88d6b0c113e0a3df4261461656aa757b89f09"
+          }
+        ],
+        "fingerprint": "fa5fbe9cf08e5cbcb24c30d9b436aecba3bfc9145de7a8d0336f77cd07911ae0",
+        "account": "backup",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-23T15:18:40.104608+00:00",
+        "task_id": "01a16957-bf15-7689-b44a-c4133555df98",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a16957-bf15-7689-b44a-c4133555df98",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1792768722223,
+          "progress": 100,
+          "started_at": 1792768722227,
+          "finished_at": 1792768725267,
+          "expires_at": 1793027925267,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-bf15-7689-b44a-c4133555df98/output/model.glb?Expires=1793027925&Signature=G3MzvVU-u5ZPyEKu32Gm-yaHveuLv2pc5x5kidmjcSkFzj3-eD-VXpBYgzefbOlmulHwmaxxPBfK4qwiL8c0Ve0kYF1g0gE5M~M0bSBCitCqZwZ7WBnfoZ-1VJr2cWNAXoYFLAdhfWfqQkj8RdL9rDRR6KJgM2Wnt8Y5LXRmgB09etWh7f-CrFG-eumzv00t7TrElrLJRT3zwV5jKnqfxXIIgVD2Ac0Hkrw7jsnqy1BokPzlK8430JGCIgbDDP3HunHGWUX1i3Gp7RfpVy92e7V6FtK7FYnxpqsswndaxbuibwRKOr3biakM8qTRFsPkblcmq0rF784sc65MEi2TlQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-bf15-7689-b44a-c4133555df98/output/model.glb?Expires=1793027925&Signature=G3MzvVU-u5ZPyEKu32Gm-yaHveuLv2pc5x5kidmjcSkFzj3-eD-VXpBYgzefbOlmulHwmaxxPBfK4qwiL8c0Ve0kYF1g0gE5M~M0bSBCitCqZwZ7WBnfoZ-1VJr2cWNAXoYFLAdhfWfqQkj8RdL9rDRR6KJgM2Wnt8Y5LXRmgB09etWh7f-CrFG-eumzv00t7TrElrLJRT3zwV5jKnqfxXIIgVD2Ac0Hkrw7jsnqy1BokPzlK8430JGCIgbDDP3HunHGWUX1i3Gp7RfpVy92e7V6FtK7FYnxpqsswndaxbuibwRKOr3biakM8qTRFsPkblcmq0rF784sc65MEi2TlQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-bf15-7689-b44a-c4133555df98/output/preview.png?Expires=1793027925&Signature=ksb5QhKu5IAE9Y1EETDF-s1SymxxZwQVKS84nw0NsyXqRSc~hmPP-XwKvQkQ0M7lgLTDODFjjkhMpPeElv4sZNZrlOTqQUYgfmQOd77J2n0dvTY5M9fsEzX27Rr-Vb-BMFyY5BfX9ePccxHrqwSUlwlbfszxT29-Xk5hSTF~LJL7IKfIUAUj26B37CwvxNGqRTEQ~keDQawkQzZ-TdD8FgS-GQde-pnez0LHroYaoWa0lyeieTaX4uo94pPqf9dZSJhGL~CuMsbuIHy2N27XMDIHKQ~UsFwYU0jwc70swM~RI4tcyRpV7yUK2zRvMsUFE9XbDgQr84B-SqrNcuc9CA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/overseer_pulse_pistol_smart_v1/model_urls_glb.glb",
+            "sha256": "f9a0e31d4958f1f91ecfe3f9a2e83559c7a334df5d7e0ef6b1e82566daf899e1"
+          },
+          "thumbnail_url": {
+            "path": "meshy/overseer_pulse_pistol_smart_v1/thumbnail_url.png",
+            "sha256": "eef4da2b6f386f78754a492f3cf3e63110a8dde830d17fa1e364cd0243e6db27"
+          }
+        }
+      },
+      "overseer_collar_staff_smart_v1": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:references_hd/weapons/collar_staff/00_three_quarter.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "target_polycount": 3000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "references_hd/weapons/collar_staff/00_three_quarter.png",
+            "sha256": "c67354e30abf1c5b107fc170b38b038f41d98d90ff892b3fcc1f835a52907549"
+          }
+        ],
+        "fingerprint": "34dc2a374d599e485375c48b0a2b4c439402cdafd2d569cfe524135e00d749bb",
+        "account": "backup",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-23T15:18:43.456769+00:00",
+        "task_id": "01a16957-cc2a-7260-850d-7d3f3743d640",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a16957-cc2a-7260-850d-7d3f3743d640",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1792768725186,
+          "progress": 100,
+          "started_at": 1792768725193,
+          "finished_at": 1792768727340,
+          "expires_at": 1793027927340,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-cc2a-7260-850d-7d3f3743d640/output/model.glb?Expires=1793027927&Signature=MDbVUK1PkEeBqnrKfs8DcUmDbS1JBLrPt2-EZhNHa67oYMuiaTKH6t7119YDY9o7rhmkmBwDAz66Hf~H9Purj~vK7LRpj3RdnA9h-3H8i5dnj6pNkSKqKCwqI449h-Nodo~YYokLRuJfx4~sPXJTTXzYHnzHzr~9kKDj5TSpuVI5eu4eENP0kQzW16JuY8j1LFGmmrjYI52Ylsa9yf-wH-oGUmoNhqOLN2ofDwICVmTtuoAG3OAmD4I2MBW8-ubj72tiy1okfMSVccNgzAmdJbg3CDf5YkBmsyq1uyA0ZTLtFLQ8RIk-bNRd3OvtgZeWU7e~MhJivf7l~pmfEbvGcg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-cc2a-7260-850d-7d3f3743d640/output/model.glb?Expires=1793027927&Signature=MDbVUK1PkEeBqnrKfs8DcUmDbS1JBLrPt2-EZhNHa67oYMuiaTKH6t7119YDY9o7rhmkmBwDAz66Hf~H9Purj~vK7LRpj3RdnA9h-3H8i5dnj6pNkSKqKCwqI449h-Nodo~YYokLRuJfx4~sPXJTTXzYHnzHzr~9kKDj5TSpuVI5eu4eENP0kQzW16JuY8j1LFGmmrjYI52Ylsa9yf-wH-oGUmoNhqOLN2ofDwICVmTtuoAG3OAmD4I2MBW8-ubj72tiy1okfMSVccNgzAmdJbg3CDf5YkBmsyq1uyA0ZTLtFLQ8RIk-bNRd3OvtgZeWU7e~MhJivf7l~pmfEbvGcg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-cc2a-7260-850d-7d3f3743d640/output/preview.png?Expires=1793027927&Signature=ffaP2wENa3BDofWdIjFkS20uCLag7rnysDOmcWLdhvmwOSucGvqOa4TJWKGtMgGJ117lm57I8r~UgUvHjNJKGew77cNoUnc3brYsy83DnRporvtgbe8PhEQzxDNoTEor8wRrf8RSkYf3RCTxsCt~wOcvtBQ75CCLJByhPM-Ul1VzW5p3yEAriSArt3itgryRmfFS~CddT9ETdAvljYC0QZRBl~lOUUIOpp66cLNKg0SqWy8Jp3VxcNhQhdv6-1QL4~RT7TtIayQqWnYGcp3S6UD02ZDYcb2TZkGidpowAQ2rGk3TAjtV5CmKjkje-r3YSyRXXyeQzBuwsh336KnxCA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/overseer_collar_staff_smart_v1/model_urls_glb.glb",
+            "sha256": "44c7b9328593a9d2cb44eec7707c0af81dba825ea6caa2c28be6e0b0ceba1e74"
+          },
+          "thumbnail_url": {
+            "path": "meshy/overseer_collar_staff_smart_v1/thumbnail_url.png",
+            "sha256": "b40d072d465ec2ede89f5cbc791939d0f91b93ec59505ea94408ed98843d36d3"
+          }
+        }
+      },
+      "overseer_arc_maul_smart_v1": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:references_hd/weapons/arc_maul/00_three_quarter.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "target_polycount": 3000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "references_hd/weapons/arc_maul/00_three_quarter.png",
+            "sha256": "53dc31102f0d5205ff48a447b44f15338e6aeca23236ae98df6bd64ce86e7297"
+          }
+        ],
+        "fingerprint": "c5f8f43aa6b2a5db6d444edf7260a93c5d77649a355b6b81ce584154e363b195",
+        "account": "backup",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-23T15:18:46.433183+00:00",
+        "task_id": "01a16957-d7d2-7305-98ae-59f55f60d481",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a16957-d7d2-7305-98ae-59f55f60d481",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1792768728407,
+          "progress": 100,
+          "started_at": 1792768728412,
+          "finished_at": 1792768730786,
+          "expires_at": 1793027930786,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-d7d2-7305-98ae-59f55f60d481/output/model.glb?Expires=1793027930&Signature=faRcmAA-sOq6A4ip~HIiMAw2JxoGst4r6Lztmb0hNNAiPiiuK35gw3d5Vsw3IuzTtd5O2~qaEFHdlXXvoJBv2bP5jjBY1j8WjMpHyZXCdazWxqwzt9TdrEhdbQQJti52qwaMXyvP3mL1Pcnct8z89ALrDBtbIv4uVp9azpX0VHBNVi2WZghfbkixrwmxEaOpKDZ~-iDrvlKbtycvlK5T2ZLx6FGIqKUHzeIsE5iPZ-mQgLMgFsKVHYDhcqPiaPS~xSh6NP0QQ-OVrzq2zjBvqnM2LEQKlXvbHxODl0U1PXYPO6-1V3Cvd12XcJcv9iANqKs03BvkpxxPwLqOO0Ytaw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-d7d2-7305-98ae-59f55f60d481/output/model.glb?Expires=1793027930&Signature=faRcmAA-sOq6A4ip~HIiMAw2JxoGst4r6Lztmb0hNNAiPiiuK35gw3d5Vsw3IuzTtd5O2~qaEFHdlXXvoJBv2bP5jjBY1j8WjMpHyZXCdazWxqwzt9TdrEhdbQQJti52qwaMXyvP3mL1Pcnct8z89ALrDBtbIv4uVp9azpX0VHBNVi2WZghfbkixrwmxEaOpKDZ~-iDrvlKbtycvlK5T2ZLx6FGIqKUHzeIsE5iPZ-mQgLMgFsKVHYDhcqPiaPS~xSh6NP0QQ-OVrzq2zjBvqnM2LEQKlXvbHxODl0U1PXYPO6-1V3Cvd12XcJcv9iANqKs03BvkpxxPwLqOO0Ytaw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16957-d7d2-7305-98ae-59f55f60d481/output/preview.png?Expires=1793027930&Signature=JLXCEZsGS~O9MzlmjRGUC4jCbe9CaVCkz1FVguMYHioQaxU-lVgSxoCyo2P2Q6lshRYO3hXb7BFStAkz15s-b2~6frqUueW2werSYjzSawoYFjn0hA0lEUil12kTn1AI~puwCyFaJvoQ31H3aSkDPW6kHC23JV3fG2JGQyozpl1qIMeViuqTCdeRTRvOJL~PXvC-AxpCeNtqVIYnJiCRXnNSL5b~nTc9xvZMl~3Ta0b8x3QaLwYn8jvKAjYDB3r0R5cjAb0IfGTnV~shnXN~MffKmCkD8Wo0hJb0OPs24LodG5y~12urrkM45CtvqFV8UXIRUBzkvvPrbjOGQpBHQw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/overseer_arc_maul_smart_v1/model_urls_glb.glb",
+            "sha256": "a2017a3c24f22bf775c368925ba6f7034535740409efd10143819118b4ac3107"
+          },
+          "thumbnail_url": {
+            "path": "meshy/overseer_arc_maul_smart_v1/thumbnail_url.png",
+            "sha256": "3be13e1c083f308d8250d0340cc839edb3058b61439de4f3828351d74937ce22"
+          }
+        }
+      }
+    },
+    "credit_limit": 60,
+    "credits_used": 15,
+    "previous_credit_limit": 0,
+    "allocation_reason": "User feedback 2026-10-23 explicitly requests Meshy weapons from Codex references. This supersedes the old zero-Meshy route for these three replacement props only.",
+    "job_queue": "meshy/job_manifest.json"
+  },
+  "scope": "CREATURE_BUILDS Overseers row plus 2026-10-24 integrator finish: accepted A-C/Krav/Ghulkat, shared winged body, fitted LODs, five staged rows, scenarios and desktop smoke.",
+  "stage": "awaiting_external",
+  "next_action": {
+    "owner": "integrator",
+    "action": "Rerun the desktop smoke on D3, D4, D5, D9, D11, D16, Out2, Out3 and Out4, checking actor loading and burn deaths. Both exports have all burn maps and cooked _BURN_ORDER; five burn bindings restored, stage and 94/94 scenarios pass."
+  },
+  "updated_at": "2026-10-24T09:24:19.403192+00:00",
+  "summary": "Missing burn maps repaired in Overseer and shared winged exports across every variant/LOD. Cooked _BURN_ORDER verified on 40/16 primitives; all five burn bindings restored. Stage and 94/94 scenarios pass. All non-burn content and accepted art/motion preserved. Integrator desktop smoke rerun remains external.",
+  "staged_rows": [
+    10030,
+    10031,
+    10032,
+    10102,
+    10103
+  ],
+  "user_acceptance": {
+    "concepts": "accepted in CREATURE_BUILDS.md",
+    "models": "accepted",
+    "scope": "2026-10-24: user accepted the current viewer revision, including the stronger 10 degree firing recoil.",
+    "accepted_runtime_sha256": "31f62cdde36cb773f24c86344c6e39e5d07e0935e787fec3c6de63f61d0f72b8",
+    "statement": "ok good accepted",
+    "viewer_revision": "overseers_recoil_20261024",
+    "viewer_models": {
+      "ov_a": "f8f62346f4ee0644e61c7b59c06e3d492f08cd038dd3562dcb617629f18127bc",
+      "ov_b": "24358230012afbc6f8427f88c68bed14086073c10209a9d203b8c25c13a309c8",
+      "ov_c": "6ccd776af5bc2ded934be83f398585abbb8a34bcb84eb852838715b74e8606c8",
+      "ov_krav": "879bf9efcb801f33917fc7f55de7fa878b569248d784f1754e2ca39502329678",
+      "ov_ghulkat": "60b0ad66831b46f0d817097ac4eeaa795e567fad5649d3db9376856edafee187"
+    }
+  },
+  "substeps": {
+    "source_preservation": "complete",
+    "anatomy": "complete",
+    "hands_and_motion": "complete",
+    "equipment_and_textures": "complete",
+    "final_lods": "complete",
+    "bindings_and_staging": "complete",
+    "viewer_files": "complete",
+    "browser_and_game_review": "awaiting_external",
+    "weapon_references": "complete",
+    "weapon_meshy_returns": "complete",
+    "weapon_post_return": "complete",
+    "regression_scenarios": "complete",
+    "burn_maps": "complete",
+    "burn_cook": "complete"
+  },
+  "findings": [
+    {
+      "id": "winged_anatomy",
+      "status": "complete",
+      "detail": "Integrator ruling in P1 and updated CREATURE_BUILDS rule 2: preserve mm6_wdm anatomy without tail or transplanted harness. Publish the shared winged export after final LODs."
+    },
+    {
+      "id": "real_mesh_gates",
+      "status": "complete",
+      "detail": "1254 PASS, 22 INFO, no failures/unverified checks on current LOD0. Pistol gap <= 2.945 mm; full weapon penetration <= 1.012 mm."
+    },
+    {
+      "id": "pistol_grip_ranged_feedback",
+      "status": "complete",
+      "detail": "Previous fit only sought minimum handle contact and left an open low grip; source recoil swung the arm. Re-seated grip, trigger target, full-weapon collision fit, fixed world aim, 10 degree muzzle recoil after the requested refinement and eased return now pass current checks. Native body geometry and right-hand grip retained."
+    },
+    {
+      "id": "stronger_recoil_20261024",
+      "status": "complete",
+      "detail": "Requested recoil increased to 10 degrees; exact preservation of mesh/skin/grip and poses outside firing window verified. Existing joint/contact gates pass."
+    },
+    {
+      "id": "finish_20261024",
+      "status": "awaiting_external",
+      "detail": "Integrator desktop found missing burn maps; repaired and cooked. Stage and refreshed 94/94 scenarios pass. Integrator reruns native smoke; no sandbox desktop launch attempted for this repair."
+    },
+    {
+      "id": "burn_maps_20261024",
+      "status": "complete",
+      "detail": "Integrator desktop rejected all rows without burn maps. 17 maps/85 materials and shared 8 maps/40 materials now cover every variant/LOD. Runtime _BURN_ORDER checked on all 40/16 primitives; five temporary none overrides removed. Desktop rerun belongs to integrator."
+    }
+  ],
+  "evidence": {
+    "gates": "review/gates_candidate/gates.json",
+    "winding": "review/winding_candidate.txt",
+    "assets": "review/candidate_assets.json",
+    "viewer": "review/viewer/manifest.json",
+    "source_preservation": "work/base_rig_check.json",
+    "feedback_motion": "review/feedback_motion.json",
+    "weapon_jobs": "meshy/job_manifest.json",
+    "weapon_post_return": "meshy/post_return.json",
+    "weapon_paint": "textures/weapons/generation_runs.json",
+    "handoff": "review/feedback_validation.json",
+    "pistol_grip": [
+      "review/pistol_grip_side.png",
+      "review/pistol_grip_other.png"
+    ],
+    "ranged_playback": "review/ranged_motion.gif",
+    "recoil_revision": "review/recoil_revision.json",
+    "final_delivery": "review/finish_validation.json",
+    "burn_repair": "review/burn_validation.json",
+    "burn_scenarios": "review/burn_scenarios.log"
+  },
+  "artifacts": {
+    "source": {
+      "path": "source/mm6_wdm_source.glb",
+      "sha256": "42c618d88c460fbfce951a3795838c416cf7a1a1928eae267ec1b3d21a00059d"
+    },
+    "assembly_candidate": {
+      "path": "work/overseer_assembly.blend",
+      "sha256": "1f656fdb74b9662adc283f7f662483d9fc7596c80db84f760a4f392fbc1b8e5d",
+      "status": "complete",
+      "visual_acceptance": "accepted"
+    },
+    "runtime_candidate": {
+      "path": "work/overseer_body_lod0.glb",
+      "sha256": "31f62cdde36cb773f24c86344c6e39e5d07e0935e787fec3c6de63f61d0f72b8",
+      "status": "complete",
+      "visual_acceptance": "accepted"
+    },
+    "final_exports": {
+      "hes_kreegan_winged.glb": {
+        "sha256": "332021d2802ea31724c632fe2025fae0280f51b98422bae1af56c52451ebff95",
+        "triangles": [
+          8846,
+          6930,
+          4718,
+          3480
+        ],
+        "winding": "WINDING hes_kreegan_winged.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      },
+      "hes_overseer.glb": {
+        "sha256": "2efa306dfbd615fbaa06c882e2c2a2e82f551867064a3f71606468e38e141ba6",
+        "triangles": [
+          10382,
+          8103,
+          5686,
+          4334
+        ],
+        "winding": "WINDING hes_overseer.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      },
+      "overseer_arc_maul.glb": {
+        "sha256": "7cc9e22a9a6b375732746dbe40a104749fb17c5ae800ae66db593ad6f9cc183f",
+        "triangles": [
+          2449,
+          1718,
+          1235
+        ],
+        "winding": "WINDING overseer_arc_maul.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      },
+      "overseer_collar_key.glb": {
+        "sha256": "c43dfcbbd02a182b1e65c8e0c766c75ab32eadda1dba6a1b4c2d6d2eaba298a7",
+        "triangles": [
+          260
+        ],
+        "winding": "WINDING overseer_collar_key.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      },
+      "overseer_collar_rod.glb": {
+        "sha256": "74a2fb52b94b42386e2f36a3f5f3c8beb6a9ba3f2fa0a3e24e668fc346f6283c",
+        "triangles": [
+          1600,
+          1238,
+          922,
+          848
+        ],
+        "winding": "WINDING overseer_collar_rod.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      },
+      "overseer_holster_hanger.glb": {
+        "sha256": "17a2d5cc695a36e31463ea0155dd8cd9f205c938dc824ce6f9933cde53f12982",
+        "triangles": [
+          12
+        ],
+        "winding": "WINDING overseer_holster_hanger.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      },
+      "overseer_plasma_saber.glb": {
+        "sha256": "c4886260847eb9fd658741da73a340adb20bd21d400a5c4a641ded17bc254b0a",
+        "triangles": [
+          448,
+          252,
+          142,
+          86
+        ],
+        "winding": "WINDING overseer_plasma_saber.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      },
+      "overseer_pulse_pistol.glb": {
+        "sha256": "8f2290932560c71e5c960a9d208a33ae89ae8ea90163b4502e19fb0c763dcd61",
+        "triangles": [
+          1800,
+          1309,
+          937,
+          851
+        ],
+        "winding": "WINDING overseer_pulse_pistol.glb inverted closed parts: 0",
+        "variants": [
+          "ov_a",
+          "ov_b",
+          "ov_c",
+          "ov_krav",
+          "ov_ghulkat"
+        ]
+      }
+    }
+  },
+  "user_feedback": [
+    {
+      "date": "2026-10-23",
+      "request": "Flight gun lowered; aim only in ranged attack. Replace pistol and staff through Meshy from Codex references. Melee winds up above head, then smashes down.",
+      "status": "implemented_in_viewer; shared_LOD0_gates_pass; integrator_visual_review_pending",
+      "evidence": [
+        "review/feedback_motion.json",
+        "review/gates_candidate/gates.json",
+        "meshy/job_manifest.json",
+        "review/viewer/manifest.json"
+      ]
+    },
+    {
+      "date": "2026-10-23",
+      "request": "Proper pistol grasp (user screenshot) and smooth AttackRanged; current left gun hand flails.",
+      "status": "complete",
+      "visual_acceptance": "accepted",
+      "evidence": [
+        "review/pistol_grip_side.png",
+        "review/pistol_grip_other.png",
+        "review/ranged_motion.gif",
+        "review/feedback_motion.json",
+        "review/gates_candidate/gates.json",
+        "review/viewer/manifest.json"
+      ]
+    },
+    {
+      "date": "2026-10-24",
+      "request": "This is fine; bigger gun recoil on the trigger.",
+      "status": "complete",
+      "evidence": [
+        "review/recoil_revision.json",
+        "review/feedback_motion.json",
+        "review/gates_candidate/gates.json",
+        "review/ranged_motion.gif"
+      ],
+      "visual_acceptance": "accepted",
+      "accepted_on": "2026-10-24",
+      "acceptance_statement": "ok good accepted"
+    }
+  ],
+  "agent_visual_review": {
+    "method": "Blender Cycles CPU ranged playback and recoil/recovery poses; preserved static grip and non-ranged poses verified against the user-accepted revision.",
+    "evidence": [
+      "review/pistol_grip_side.png",
+      "review/pistol_grip_other.png",
+      "review/feedback_flight.png",
+      "review/feedback_ranged.png",
+      "review/ranged_motion_sheet.png"
+    ],
+    "assembly_sha256": "1f656fdb74b9662adc283f7f662483d9fc7596c80db84f760a4f392fbc1b8e5d",
+    "browser_game": "Accepted viewer art/motion preserved. Integrator desktop found the missing burn maps; static/cooked repair verified, native burn-effect review awaits integrator desktop rerun.",
+    "user_artistic_acceptance": "accepted",
+    "finish_lods": {
+      "evidence": "review/lods/sheet.jpg",
+      "switch_scores": "review/lods/scores.tsv",
+      "result": "passed; denser contact-preserving meshes, Maul retains LOD2, key retains LOD0"
+    }
+  }
+}

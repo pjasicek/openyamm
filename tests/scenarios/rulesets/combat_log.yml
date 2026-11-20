@@ -1,0 +1,37 @@
+id: rulesets.combat_log
+title: "Combat log - hits dealt and taken are logged with their damage stages, in Standard and MAW games"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, combat_log]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  # The default Standard party is too sturdy for a monster's hit to land; the MAW game below checks hits taken. The party
+  # strikes a Chaos Overlord through the real attack path.
+  - spawn_actor: {monster_id: 198, near_party: true}
+  - party_attack: {actor_index: last, count: 3}
+  - assert:
+      combat_log: {dealt_min: 1, with_stages_min: 1}
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: hell}
+  # A Skeleton Bowman's arrows hit the party (MAW's Speed roll dodges some).
+  - spawn_actor: {monster_id: 172, near_party: true}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 0.7}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 0.7}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 0.7}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 0.7}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 0.7}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 0.7}
+  # Monsters scale with the party in MAW: a Swift boss on Hell survives a blow (on Normal it no longer does since the
+  # 7ddb228c balance model, whose low-level monsters have less health).
+  - spawn_actor: {monster_id: 198, near_party: true, boss_affix: 13}
+  - party_attack: {actor_index: last, count: 1}
+  - assert:
+      combat_log: {dealt_min: 1, taken_min: 1, with_stages_min: 2}

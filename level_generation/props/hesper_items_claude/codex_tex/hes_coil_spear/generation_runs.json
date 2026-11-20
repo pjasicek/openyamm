@@ -1,0 +1,417 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nFRONT VIEW: this is deliberately the tiny END-ON cross-section of the weapon, NOT a full-length face view. The ONLY occupied pixels fit the guide box x=446..577, y=492..531. Keep its small horizontal irregular tapered form at the exact centre with the existing pale circular cap at its centre, left taper and right small collars. Most of the canvas stays fully transparent. Recolour the central cap subdued gold, the visible blade/outer casing ivory with fine gold edges and the internal resin dark violet. Do not reveal the shaft, rotate the object, enlarge it, or replace it with the reference's broadside halberd.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "29b063d1d83b534effc4d009369fa33e54faa9ffb0d5307ab576ecf19a5c4785"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eb3-0f02-7602-9d08-9472f28d684d/exec-beaaf258-5dd6-40b5-baa5-642b85a8c07c.png",
+      "output": "paint_front_run1.png",
+      "selected": false,
+      "reason": "Not selected: the single correction more closely preserves the guide/material layout. Retained unmodified for provenance.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          234,
+          136,
+          1047,
+          1152
+        ],
+        "opaque_bbox": [
+          546,
+          602,
+          709,
+          652
+        ],
+        "alpha_exactly_matches_guide": false,
+        "size_matches_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.871011,
+        "measurement_note": "IoU compares masks in normalized canvas coordinates using nearest pixel sampling for measurement only; saved image bytes are unmodified.",
+        "materials_match_reference": "Dominant ivory, gold, black-violet and orange palette matches by visual review.",
+        "flat_even_albedo": "Partial: visible modeled shading and edge highlights remain.",
+        "no_text_or_letters": true,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "cf4fe62b4319f2b646b8b64df168168daa786a246b1c14d4a5530490cd2cfe7b"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nBACK VIEW: deliberately a tiny END-ON cross-section, NOT the full-length back face. The ONLY occupied pixels fit the guide box x=446..577, y=492..531. Keep the exact small horizontal irregular form, small collars on the left and tapered blade geometry on the right, with its central facets. Most of the canvas stays fully transparent. Apply ivory ceramic and gold edging to the visible blade and casing facets, black-violet resin to recess material, muted gold collars. Continue hidden materials plausibly. Do not invent a full shaft or change viewpoint, scale or outline.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "d49f5de763131ec5880221ca3de13dc837af1277f35b82db070aac9eddee3a43"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eb3-0f02-7602-9d08-9472f28d684d/exec-303cad9e-51bf-4b09-89f8-d2c41654a781.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected the only returned image; the single corrective request was rejected by the image tool. The image is wider than the guide and retains modeled shading.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          124,
+          80,
+          1058,
+          941
+        ],
+        "opaque_bbox": [
+          539,
+          599,
+          730,
+          656
+        ],
+        "alpha_exactly_matches_guide": false,
+        "size_matches_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.734913,
+        "measurement_note": "IoU compares masks in normalized canvas coordinates using nearest pixel sampling for measurement only; saved image bytes are unmodified.",
+        "materials_match_reference": "Dominant ivory, gold, black-violet and orange palette matches by visual review.",
+        "flat_even_albedo": "Partial: visible modeled shading and edge highlights remain.",
+        "no_text_or_letters": true,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "eb0285dcb9036017122f596493899a2ee583e0510b1d6b3961b20a993c4187f5",
+      "raw_output": "paint_back_run1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nLEFT VIEW: preserve the extremely thin horizontal side elevation exactly, occupied box x=66..957, y=492..531, centreline y=512. The long spear tip is at the far LEFT, with the shallow narrow edge-on blade and sculpted socket to x about 314. The straight shaft runs from x about 306 to 922 and the existing small butt cone is at the far RIGHT. Preserve the three narrow gold shaft collars and all existing boundaries. Paint the shaft black-violet resin with fine interwoven engraving, restrained ivory/gold inlay and tiny orange inset details INSIDE its existing 24-pixel thickness. Blade edge/casing is worn ivory with fine muted gold and dark violet recessed structure. Do not broaden the blade into a face-on halberd; keep the exact edge-on guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "3e1c8f69f6d38305dc07ded249f4c48c51b853b15530166da3125d6df756af93"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eb3-0f02-7602-9d08-9472f28d684d/exec-5757747a-e7ee-49b0-998f-ff41bbd5a4a1.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected the only returned image; the single corrective request was rejected by the image tool. Edge/geometry drift and highlights remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          77,
+          87,
+          1222,
+          1133
+        ],
+        "opaque_bbox": [
+          82,
+          598,
+          1174,
+          656
+        ],
+        "alpha_exactly_matches_guide": false,
+        "size_matches_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.898735,
+        "measurement_note": "IoU compares masks in normalized canvas coordinates using nearest pixel sampling for measurement only; saved image bytes are unmodified.",
+        "materials_match_reference": "Dominant ivory, gold, black-violet and orange palette matches by visual review.",
+        "flat_even_albedo": "Partial: visible modeled shading and edge highlights remain.",
+        "no_text_or_letters": true,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "9ac37c4aa5d7ee76af78240279effee7142c368ce85ddc942df3ab2a9dea674c",
+      "raw_output": "paint_left_run1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nRIGHT VIEW: preserve the extremely thin horizontal side elevation exactly, occupied box x=66..957, y=492..531, centreline y=512. The existing small butt cone is at the far LEFT, the straight shaft runs from x about 102 to 710, sculpted socket is at the right, and the long narrow spear tip points far RIGHT. Preserve all three narrow gold shaft collars and part boundaries. Paint the shaft black-violet resin with fine interwoven engraving, restrained ivory/gold inlay and tiny orange inset details INSIDE its existing 24-pixel thickness. Blade edge/casing is worn ivory with fine muted gold and dark violet recessed structure. Continue reverse-side material logically; do not broaden the blade into a face-on halberd.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ecc26454b9baaed7a9a34e2872b6b38f02068797309b725366fb938d66e73b1c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": null,
+      "output": null,
+      "selected": false,
+      "reason": "Tool rejected this nonviolent fantasy game-prop request with moderation_blocked / violence (request ID 9e0389be-6a58-4fa0-a129-d30b4b66aa5b); no image returned."
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nTOP VIEW: this guide is the vertical full broadside of the halberd. Preserve the exact silhouette and box x=446..577, y=66..957. Long central spear point faces UP, larger crescent axe blade at upper LEFT and smaller hooked prong at upper RIGHT, orange coil in the existing recessed vertical channel below the point. Keep the sculpted socket geometry, perfectly straight narrow shaft, the three existing narrow collars at y approximately 472, 622 and 772, and the small existing cone at the bottom. The shaft stays within its guide width x about 500..523; continue black-violet resin flowing engraving, gold/ivory decorative inlays and tiny orange lights inside that shape. Do not replace the small cone with the reference's larger ornate butt spike. Use reference colours and materials only, with flat even albedo.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "e6f35bcf0b462997ceb48a529bf171269965ea344266b5db323d6a7309c15352"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eb3-0f02-7602-9d08-9472f28d684d/exec-6baf7aec-dcaf-4ca9-ae87-d360a970a70e.png",
+      "output": "paint_top_run1.png",
+      "selected": false,
+      "reason": "Not selected: the single correction more closely preserves the guide/material layout. Retained unmodified for provenance.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          69,
+          27,
+          1184,
+          1196
+        ],
+        "opaque_bbox": [
+          546,
+          80,
+          709,
+          1177
+        ],
+        "alpha_exactly_matches_guide": false,
+        "size_matches_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.80753,
+        "measurement_note": "IoU compares masks in normalized canvas coordinates using nearest pixel sampling for measurement only; saved image bytes are unmodified.",
+        "materials_match_reference": "Dominant ivory, gold, black-violet and orange palette matches by visual review.",
+        "flat_even_albedo": "Partial: visible modeled shading and edge highlights remain.",
+        "no_text_or_letters": true,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "0dd0fbbe14e1c5cf49127bb628043d41f69f469bb95ef4d16444b9a0a2266efc"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nFRONT VIEW: this is deliberately the tiny END-ON cross-section of the weapon, NOT a full-length face view. The ONLY occupied pixels fit the guide box x=446..577, y=492..531. Keep its small horizontal irregular tapered form at the exact centre with the existing pale circular cap at its centre, left taper and right small collars. Most of the canvas stays fully transparent. Recolour the central cap subdued gold, the visible blade/outer casing ivory with fine gold edges and the internal resin dark violet. Do not reveal the shaft, rotate the object, enlarge it, or replace it with the reference's broadside halberd.\nCORRECTIVE PASS: The previous return drifted from the guide's alpha outline and used too much shaded metal. Restore the original guide as an IMMUTABLE pixel stencil and change only its RGB surface colours. Exact 1024 x 1024 canvas; do not upsample, zoom, rescale or reframe. Copy every alpha value from input 1 unchanged, including empty pixels and internal holes. No stray pixels anywhere in the transparent margin. The reference is palette and surface pattern authority only, never geometry. Make every material flat diffuse albedo: no dark ambient-occlusion bands, no modeled light-to-dark cylinder gradient, no bright reflection strips, no bevel highlighting. Use small engraved lines as surface colour patterns.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "29b063d1d83b534effc4d009369fa33e54faa9ffb0d5307ab576ecf19a5c4785"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eb3-0f02-7602-9d08-9472f28d684d/exec-b7140641-c826-42da-bd83-5828082a4de9.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction: restores the plain central gold cap and improves normalized silhouette IoU from 0.8710 to 0.8859. Exact guide alpha and flat albedo remain unmet.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          232,
+          991,
+          655
+        ],
+        "opaque_bbox": [
+          545,
+          602,
+          709,
+          652
+        ],
+        "alpha_exactly_matches_guide": false,
+        "size_matches_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.885857,
+        "measurement_note": "IoU compares masks in normalized canvas coordinates using nearest pixel sampling for measurement only; saved image bytes are unmodified.",
+        "materials_match_reference": "Dominant ivory, gold, black-violet and orange palette matches by visual review.",
+        "flat_even_albedo": "Partial: visible modeled shading and edge highlights remain.",
+        "no_text_or_letters": true,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "d283a1b4f096e20f29864e89e09ea1124b2077e76cc1c9288432f69c0d516d91",
+      "raw_output": "paint_front_run2.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nBACK VIEW: deliberately a tiny END-ON cross-section, NOT the full-length back face. The ONLY occupied pixels fit the guide box x=446..577, y=492..531. Keep the exact small horizontal irregular form, small collars on the left and tapered blade geometry on the right, with its central facets. Most of the canvas stays fully transparent. Apply ivory ceramic and gold edging to the visible blade and casing facets, black-violet resin to recess material, muted gold collars. Continue hidden materials plausibly. Do not invent a full shaft or change viewpoint, scale or outline.\nCORRECTIVE PASS: The previous return drifted from the guide's alpha outline and used too much shaded metal. Restore the original guide as an IMMUTABLE pixel stencil and change only its RGB surface colours. Exact 1024 x 1024 canvas; do not upsample, zoom, rescale or reframe. Copy every alpha value from input 1 unchanged, including empty pixels and internal holes. No stray pixels anywhere in the transparent margin. The reference is palette and surface pattern authority only, never geometry. Make every material flat diffuse albedo: no dark ambient-occlusion bands, no modeled light-to-dark cylinder gradient, no bright reflection strips, no bevel highlighting. Use small engraved lines as surface colour patterns.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "d49f5de763131ec5880221ca3de13dc837af1277f35b82db070aac9eddee3a43"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": null,
+      "output": null,
+      "selected": false,
+      "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 65b799cd-c091-42e2-8b58-e0ea903267aa. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nLEFT VIEW: preserve the extremely thin horizontal side elevation exactly, occupied box x=66..957, y=492..531, centreline y=512. The long spear tip is at the far LEFT, with the shallow narrow edge-on blade and sculpted socket to x about 314. The straight shaft runs from x about 306 to 922 and the existing small butt cone is at the far RIGHT. Preserve the three narrow gold shaft collars and all existing boundaries. Paint the shaft black-violet resin with fine interwoven engraving, restrained ivory/gold inlay and tiny orange inset details INSIDE its existing 24-pixel thickness. Blade edge/casing is worn ivory with fine muted gold and dark violet recessed structure. Do not broaden the blade into a face-on halberd; keep the exact edge-on guide silhouette.\nCORRECTIVE PASS: The previous return drifted from the guide's alpha outline and used too much shaded metal. Restore the original guide as an IMMUTABLE pixel stencil and change only its RGB surface colours. Exact 1024 x 1024 canvas; do not upsample, zoom, rescale or reframe. Copy every alpha value from input 1 unchanged, including empty pixels and internal holes. No stray pixels anywhere in the transparent margin. The reference is palette and surface pattern authority only, never geometry. Make every material flat diffuse albedo: no dark ambient-occlusion bands, no modeled light-to-dark cylinder gradient, no bright reflection strips, no bevel highlighting. Use small engraved lines as surface colour patterns.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "3e1c8f69f6d38305dc07ded249f4c48c51b853b15530166da3125d6df756af93"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": null,
+      "output": null,
+      "selected": false,
+      "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 5f513b4f-d70b-47eb-97be-b22a52c376d7. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "This is a nonviolent fantasy videogame texture asset: a single isolated decorative halberd prop, with no people or action.\nUse case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nRIGHT VIEW: preserve the extremely thin horizontal side elevation exactly, occupied box x=66..957, y=492..531, centreline y=512. The existing small butt cone is at the far LEFT, the straight shaft runs from x about 102 to 710, sculpted socket is at the right, and the long narrow spear tip points far RIGHT. Preserve all three narrow gold shaft collars and part boundaries. Paint the shaft black-violet resin with fine interwoven engraving, restrained ivory/gold inlay and tiny orange inset details INSIDE its existing 24-pixel thickness. Blade edge/casing is worn ivory with fine muted gold and dark violet recessed structure. Continue reverse-side material logically; do not broaden the blade into a face-on halberd.\nThe geometry guide's alpha mask is immutable. Copy it unchanged, including all transparent margins. Return 1024 x 1024 pixels without scaling.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ecc26454b9baaed7a9a34e2872b6b38f02068797309b725366fb938d66e73b1c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eb3-0f02-7602-9d08-9472f28d684d/exec-c9a12a49-1510-45ed-a0c3-cb00897651a6.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected successful retry after the first request was rejected by the image tool. Correct orientation and main placement; exact alpha and flat albedo remain unmet.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          40,
+          1208,
+          1198
+        ],
+        "opaque_bbox": [
+          80,
+          602,
+          1172,
+          652
+        ],
+        "alpha_exactly_matches_guide": false,
+        "size_matches_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.9294,
+        "measurement_note": "IoU compares masks in normalized canvas coordinates using nearest pixel sampling for measurement only; saved image bytes are unmodified.",
+        "materials_match_reference": "Dominant ivory, gold, black-violet and orange palette matches by visual review.",
+        "flat_even_albedo": "Partial: visible modeled shading and edge highlights remain.",
+        "no_text_or_letters": true,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "1d730c68e952478621c194425f4e103b7dcd6c883ca5ab94be16fe260728bbd0",
+      "raw_output": "paint_right_run2.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 transparent RGBA PNG, an orthographic albedo texture-source painting for the Coil Keeper's halberd.\nInput image 1 is the EDIT TARGET geometry guide; image 2 is the approved DESIGN/MATERIAL reference only. Paint image 1 in place. Its exact alpha silhouette, size, position, orientation, negative space and every part boundary are immutable. Keep all existing transparent pixels transparent. Do not imitate the reference's framing or pose; do not enlarge or center-fit the object.\nTransfer only the reference's surface appearance: finely worn warm white/ivory ceramic blade faces and raised casing; subdued brushed gold seams, collars and trim; almost black violet resin with engraved organic flowing lines and inset markings; orange/amber-white current in the existing coil or small inset lights. Use only materials applicable to the visible parts. Continue the reference materials plausibly on unseen surfaces. Guide tints merely distinguish parts, and must not be copied as the final colours. Ornament is painted inside existing geometry, never added geometry.\nLIGHTING: flat even shadowless viewer-facing albedo, no cast shadows, no ambient occlusion, no directional shading, no rim lights, no hot specular highlights or reflections. Gold is a muted gold base colour with faint sheen only. Emissive orange details are bright local colours without halos outside the silhouette. No background, floor, labels, text, letters, watermark, extra objects or panels. Preserve the 1024-square canvas and exact guide silhouette.\nTOP VIEW: this guide is the vertical full broadside of the halberd. Preserve the exact silhouette and box x=446..577, y=66..957. Long central spear point faces UP, larger crescent axe blade at upper LEFT and smaller hooked prong at upper RIGHT, orange coil in the existing recessed vertical channel below the point. Keep the sculpted socket geometry, perfectly straight narrow shaft, the three existing narrow collars at y approximately 472, 622 and 772, and the small existing cone at the bottom. The shaft stays within its guide width x about 500..523; continue black-violet resin flowing engraving, gold/ivory decorative inlays and tiny orange lights inside that shape. Do not replace the small cone with the reference's larger ornate butt spike. Use reference colours and materials only, with flat even albedo.\nCORRECTIVE PASS: The previous return drifted from the guide's alpha outline and used too much shaded metal. Restore the original guide as an IMMUTABLE pixel stencil and change only its RGB surface colours. Exact 1024 x 1024 canvas; do not upsample, zoom, rescale or reframe. Copy every alpha value from input 1 unchanged, including empty pixels and internal holes. No stray pixels anywhere in the transparent margin. The reference is palette and surface pattern authority only, never geometry. Make every material flat diffuse albedo: no dark ambient-occlusion bands, no modeled light-to-dark cylinder gradient, no bright reflection strips, no bevel highlighting. Use small engraved lines as surface colour patterns.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "e6f35bcf0b462997ceb48a529bf171269965ea344266b5db323d6a7309c15352"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4e356fb8349a0598f8b1c4d4db6dc26287cac66f2dd2e1e07bf93de2e90f4f5c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eb3-0f02-7602-9d08-9472f28d684d/exec-1eb4f590-771b-4967-bb79-b58e37701e73.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction: slightly improves normalized silhouette IoU from 0.8075 to 0.8151 and reduces some shading. Shape drift, edge artifacts and highlights remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          71,
+          29,
+          1178,
+          1206
+        ],
+        "opaque_bbox": [
+          546,
+          79,
+          708,
+          1177
+        ],
+        "alpha_exactly_matches_guide": false,
+        "size_matches_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.815124,
+        "measurement_note": "IoU compares masks in normalized canvas coordinates using nearest pixel sampling for measurement only; saved image bytes are unmodified.",
+        "materials_match_reference": "Dominant ivory, gold, black-violet and orange palette matches by visual review.",
+        "flat_even_albedo": "Partial: visible modeled shading and edge highlights remain.",
+        "no_text_or_letters": true,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "10bd1d475e90e2dd2d5428300ed7c7e1c0a1ede1e8f5ac2c1f32605fccc6eed7",
+      "raw_output": "paint_top_run2.png"
+    }
+  ],
+  "status": "generated_with_unresolved_fidelity_differences",
+  "limitations": [
+    "All returned images are 1254 x 1254, not the requested 1024 x 1024; they are retained unresized, as instructed.",
+    "No returned image has an alpha silhouette identical to its guide; normalized silhouette metrics quantify remaining drift.",
+    "RGBA transparency is present, but faint stray alpha pixels and visible edge artifacts remain outside the intended outlines.",
+    "The palette follows the reference, but modeled shading and highlights remain, so the images are not fully flat albedo.",
+    "Back and left corrections were rejected by the image tool; their first returns are selected. No view received more than two tool requests.",
+    "No resizing, masking, alpha cleanup, recolouring, compositing, builds or runtime installation were performed."
+  ]
+}

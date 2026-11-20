@@ -1,0 +1,1 @@
+Common .98,0,0 registration; original clipping checks retained in registration_checks.json. restore_native_tone.py restores native RGB means without altering alpha. Original raw, reviewed mask and intermediate pixels retained. Final light/dark proofs inspected.

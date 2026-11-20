@@ -1,0 +1,37 @@
+format: 0
+id: xeen_xd06
+name: Temple of Yak
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-06
+units: {plan_grid: 512}
+extent: {footprint_cells: [17, 29], climbs: s}
+map_stats:
+  id: 9139
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 2
+  refill_days: 672
+  music: temple_dark
+  environment: stone hall
+  lock_difficulty: 2
+  slots:
+    - {monster: Cultists, tier: 2, per_marker: [2, 3], weight: 45}
+    - {monster: Skeletons, tier: 3, per_marker: [2, 3], weight: 45}
+    - {monster: Liches, tier: 1, per_marker: [1, 2], weight: 10}
+neighbours:
+  - id: door:x2_woods
+    to: X2
+    kind: door
+    arrival_hint: "In the fairy woods' dark south end on X2, in front of the Temple of Yak's door, facing away from it, north."
+    notes: "X2's door:xd06 (devdocs/xeen/briefs/x2/DOORS.md); its outside needs the Yak Stone (qbit 110101, Mirabeth's Q-C12)."
+qbits:
+  elixir_found: 110400
+  treasury_opened: 110402
+  yak_master_slain: 110401
+items:
+  elixir: 12191
+  megacredit: 12192
+notes: "Xeen design brief for a new map (no original). XD-06 Temple of Yak, class M, on X2 at the fairy woods' dark south end (moved from X1 on 2026-11-14): story step M10 and Q-C12. Encounter slots are Xeen families from MONSTERS_AND_ITEMS.md: 1 Cultists (Cleric of Yak 14 / Yak Priest 20 / Yak Elder 28), 2 Skeletons (16), 3 the source's Yak Liches; the Yak Master 35 as a boss row. Ids: map_stats 9139, qbits 110400-110469, items 12190-12229 (the Elixir of Restoration 12191, the King's Megacredit 12192). The Yak Stone (12190 reserved) is X2's door condition, qbit 110101 there."

@@ -1,0 +1,16 @@
+id: mm7.evenmorn_gargoyles_fight_back
+title: "Evenmorn: a gargoyle hit by a ghost fights it back (OY-450)"
+world: mm7
+mode: faithful
+# Ghosts are hostile to gargoyles (hostile.txt), gargoyles not to ghosts; the original makes a monster fight back the
+# monster that last hit it, which is how Evenmorn's gargoyles answer the temple's ghosts.
+steps:
+  - new_game_flow: {start_map: out09.odm}
+  - advance_runtime: {seconds: 1}
+  - set_pose: {map: out09.odm, x: 9000, y: 9000, z: 2000, yaw_degrees: 90}
+  - spawn_actor: {monster_id: 270, x: 6000, y: 6000, z: 800, group: 51}
+  - spawn_actor: {monster_id: 262, x: 6300, y: 6000, z: 800, group: 56}
+  - console: {line: "arena trace on"}
+  - advance_runtime: {seconds: 10}
+  - assert:
+      ai_trace: {actor_index: last, event: target, target: actor, min_count: 1}

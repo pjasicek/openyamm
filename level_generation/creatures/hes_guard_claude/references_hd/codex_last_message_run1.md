@@ -1,0 +1,3 @@
+Saved selected [00_three_quarter.png](level_generation/creatures/hes_guard_claude/references_hd/00_three_quarter.png): unresized 1024×1536, transparent RGBA, using built-in imagegen. Prompts and selection recorded in [generation_runs.json](level_generation/creatures/hes_guard_claude/references_hd/generation_runs.json).
+
+Stopped after one correction; Runs 2–3 untouched. Remaining deviations: arms narrower than 40°, helmet side lens on the right instead of left.

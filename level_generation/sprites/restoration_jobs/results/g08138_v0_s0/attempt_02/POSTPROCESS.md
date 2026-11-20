@@ -1,0 +1,1 @@
+Process with default registration. Save fresh ungraded output as .before_tone.png, run restore_native_tone.py, then queue.py check g08138_v0_s0. Only green foliage is graded to native opaque RGB means; fruit, bark and alpha are unchanged. Refresh backup after reprocessing.

@@ -1,0 +1,255 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "postprocessing": "None. PNG files copied byte-for-byte from built-in tool returns.",
+  "max_corrective_regenerations_per_view": 1,
+  "specification_satisfied": false,
+  "limitations": [
+    "All four native tool returns are 1254x1254 despite explicit 1024x1024 prompts. Preserved unresized as required.",
+    "Transparent backgrounds are present, but exact guide alpha masks and shape edges are not preserved; faint stray alpha and coloured fringe pixels remain.",
+    "The reference palette is recognizable, but fully flat, shadowless albedo lighting was not achieved."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate exactly ONE 1024 x 1024 transparent RGBA PNG, a FRONT orthographic albedo texture-source painting for the Mid hive spire.\n\nInputs in order:\n1. guide_front.png: the EDIT TARGET and absolute geometry authority. Paint directly over this exact grey render.\n2. design_reference.png: approved design, colour and material reference ONLY; do not use its camera, proportions, geometry, lighting or framing.\n3. concept_crop.png: supporting original concept and material identity.\n\nKeep the first image's silhouette EXACTLY at the same pixels, same 1024-square canvas, same outline, size, position, every edge, opening and detail. Preserve its existing alpha mask exactly. Its object bounding box is x=303 through 720, y=66 through 957. Keep the slender tip at the top, existing branches and thorns, existing lobes and openings, and existing flared foot in precisely their guide positions. Do not rotate, move, enlarge, redesign, smooth away shapes, change the camera, or add any geometry or extra openings. Nothing outside the guide silhouette and nothing cropped.\n\nChange ONLY the surface colour/material painting. Apply the approved reference's dark black-violet resin and chitin to the existing structural ribs, saturated orange glowing slit windows/sacs to the existing recessed window regions, and aged ivory bone to existing bone thorns and the apex. Maintain the material identity of glossy wet resin through restrained colour texture, not reflected lighting. Preserve the guide's structural edges and shapes rather than copying the reference's intricate geometry.\n\nThis is flat ALBEDO, NOT a beauty render: even, flat, shadowless illumination from the viewer across every surface. No cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflections, no rim light. Orange sacs and seams are painted at their glowing orange colour with no bloom, no halo, and no light spilling onto neighbouring material. Do not bake grey-guide shading into the painting.\nBackground is genuinely transparent alpha, no black backdrop, checkerboard, floor, scene, text or labels. Return the original generated image at exactly 1024 x 1024; no resizing or crop.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16870-2c10-7f60-8cc6-ee7a41f6c969/exec-ff5258d2-5d8e-4825-866a-a67adefd1a84.png",
+      "output": "paint_front_run_1.png",
+      "selected": false,
+      "reason": "Superseded by the one allowed corrective pass. Material palette is recognizable, but native dimensions are 1254x1254 rather than 1024x1024, the exact guide mask is not preserved, and lighting contains strong highlights and recess shading.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d145c1ede29dfd3a93c213da2b48961447bd4e79a1ccb2cb88a367b2d3046e26"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+        }
+      ],
+      "output_sha256": "e3540aa8e0e632cd76e110855347c7edd1461aa7403fbf4eccf3899d91d08cfc",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          39,
+          76,
+          1230,
+          1198
+        ],
+        "alpha_128_bbox": [
+          370,
+          80,
+          884,
+          1173
+        ],
+        "transparent_pixels": 1365875,
+        "partial_alpha_pixels": 205798,
+        "opaque_pixels": 843,
+        "guide_silhouette_identical": false,
+        "materials_and_colours": "Black-violet/purple resin, orange sacs/windows and ivory bone are visually recognizable.",
+        "flat_even_light": false,
+        "lighting_review": "Remaining surface highlights and dark recess shading do not meet strict flat albedo requirements.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "fully_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. Output one PNG with a native canvas of EXACTLY 1024 pixels wide by 1024 pixels high. Preserve the original 1024-square edit target without any resizing. The previous attempt incorrectly returned 1254x1254 and changed the silhouette; do not repeat those errors.\n\nImage 1 guide_front.png is the exact EDIT TARGET. Images 2 design_reference.png and 3 concept_crop.png are material/colour references only. Paint ONLY the grey pixels of image 1. Retain its alpha channel pixel-for-pixel, its screen coordinates, orthographic view, boundaries, openings, and every existing shape edge. Keep every originally transparent pixel transparent. The guide's exact alpha bounding rectangle is [303,66,721,958), on the ORIGINAL 1024x1024 canvas. Do not scale this box to another canvas. Do not reconstruct the spire, change edges, add windows, or turn it into the reference's silhouette. Keep its pointed tip, existing angular branches, large recessed oval windows, foot and all holes in their original positions.\n\nSurface palette from the approved design: black-violet resin/chitin on the existing ribs and shell; bright orange on the existing recessed slit windows/sacs; aged ivory bone on the existing apex and existing bone thorns. Small surface colour texture is welcome inside existing shapes. Preserve wet chitin's material identity through colour texture WITHOUT bright reflections.\n\nALBEDO ONLY: perfectly even, flat, shadowless front lighting. Paint flat local colour rather than shading a 3D scene. No cast shadow, no ambient occlusion, no darkened recesses from lighting, no rim light, no specular gleams or reflected highlights, no gradient from directional illumination. Orange is a painted local colour, not an emitted light: no bloom, no glow fringe, no orange spill on violet/ivory surfaces. No background or floor, no text. Genuine transparent alpha. Return exactly 1024x1024, not 1254x1254, not 1536x1536.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16870-2c10-7f60-8cc6-ee7a41f6c969/exec-6b61ffa4-b02e-4b4f-822c-7918b3b95b5e.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available front return within the one-correction limit: reference palette and main guide forms are recognizable, with less conspicuous white resin shine. Selected for delivery, not accepted as fully compliant. Native dimensions remain 1254x1254; exact alpha/shape matching and fully flat albedo lighting fail.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d145c1ede29dfd3a93c213da2b48961447bd4e79a1ccb2cb88a367b2d3046e26"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+        }
+      ],
+      "output_sha256": "43170b93957bb119aa1fcab6efd4930a012d9a06bf4bad8d0f29a4d1852f6837",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1228,
+          1238
+        ],
+        "alpha_128_bbox": [
+          370,
+          77,
+          883,
+          1173
+        ],
+        "transparent_pixels": 1363899,
+        "partial_alpha_pixels": 207778,
+        "opaque_pixels": 839,
+        "guide_silhouette_identical": false,
+        "materials_and_colours": "Black-violet/purple resin, orange sacs/windows and ivory bone are visually recognizable.",
+        "flat_even_light": false,
+        "lighting_review": "Remaining surface highlights and dark recess shading do not meet strict flat albedo requirements.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "fully_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nPaint the existing grey TOP orthographic render, image 1 guide_top.png, as a flat albedo texture-source image. Output exactly ONE native 1024x1024 RGBA PNG with a transparent background. Do not change the resolution.\n\nInput roles:\n1. guide_top.png is the EDIT TARGET and absolute authority for silhouette, all shape edges, top-down camera, scale, position and every visible surface.\n2. design_reference.png is the approved MATERIAL AND COLOUR reference only, not a geometry or camera reference.\n3. concept_crop.png is the supporting original concept.\n\nPreserve image 1's alpha mask exactly, including small openings. Copy all its boundary coordinates without redrawing, moving or scaling the geometry. Original object bounding box: [303,243,721,781) on the 1024x1024 canvas. Preserve the large empty transparent margins. This top view looks vertically straight down the same tall spire: the small pointed apex and overlapping upper thorns are near the centre, with successive larger structural forms and the basal footprint behind them. Retain the exact asymmetry, angular surface divisions, outward-pointing thorns and their orientations of this grey guide. No perspective view, no upright spire, no invented radial symmetry, no added spikes, no new holes, no added shapes outside the mask, no cropping.\n\nReplace ONLY the surface colour of the guide. Existing resin/chitin surfaces are black-violet and deep purple; existing exposed bone apex and bone thorns are aged ivory; visible existing recessed slit windows/sacs are saturated orange. Match these materials and colours to image 2 while keeping all original guide shapes. Wet glossy resin is the material identity, but this is its unlit BASE COLOUR, so do not paint gloss reflections.\n\nLIGHTING IS STRICTLY FLAT ALBEDO: even, shadowless light from the viewer on every surface. No cast shadows, ambient occlusion darkening, directional gradients, strong specular highlights, reflected highlights or rim light. The orange parts are painted at their glowing orange colour with NO light cast on neighbouring purple or ivory surfaces, no bloom, halo or fringe. No backdrop, floor, scene, text, labels, border or checkerboard. Genuine transparent background, original guide's mask and original native 1024x1024 resolution.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16870-2c10-7f60-8cc6-ee7a41f6c969/exec-e335938b-6378-40f5-86ce-359091e0dea0.png",
+      "output": "paint_top_run_1.png",
+      "selected": false,
+      "reason": "Superseded by the one allowed corrective pass. The top-view arrangement and palette are recognizable, but the native return is 1254x1254, edge alpha differs from the guide, and highlights/recess shading are too strong.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7d651afeacb09f9c4612e39d810977ac7b2adf6c6df0b08e8aa2bae4f13b8795"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+        }
+      ],
+      "output_sha256": "d8cb2d05b8938676a0816fe0a19d156e7dc42f2a4fc6acc9da825c8a2b434de6",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          39,
+          49,
+          1232,
+          1214
+        ],
+        "alpha_128_bbox": [
+          372,
+          298,
+          883,
+          957
+        ],
+        "transparent_pixels": 1419685,
+        "partial_alpha_pixels": 152512,
+        "opaque_pixels": 319,
+        "guide_silhouette_identical": false,
+        "materials_and_colours": "Black-violet/purple resin, orange sacs/windows and ivory bone are visually recognizable.",
+        "flat_even_light": false,
+        "lighting_review": "Remaining surface highlights and dark recess shading do not meet strict flat albedo requirements.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "fully_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: paint ONLY the existing 1024x1024 TOP-view guide in image 1. Deliver a PNG at EXACTLY 1024x1024 native resolution. Previous generation came back 1254x1254 with specular highlights and deep shadows; both are incorrect. Do not upscale or resize the edit target.\n\nImage 1 guide_top.png: EDIT TARGET. This is the exact existing mesh seen orthographically directly from above. Its entire geometry, silhouette, every internal edge, every opening, camera, orientation and screen-space placement must be retained exactly. Keep the original alpha mask unchanged pixel for pixel. The nontransparent guide is bounded by x=303..720 and y=243..780 on this 1024x1024 canvas, with large transparent margins. Retain every asymmetrical thorn, every angular face and overlapping shape at its original location. Do not make the jagged forms rounded, invent extra cellular holes, create new thorns, reconstruct the object, change scale, rotate or crop.\nImage 2 design_reference.png: colour/material reference only. Image 3 concept_crop.png: original colour/material reference only. Never use their camera, geometry or lighting.\n\nPaint the grey surfaces with FLAT LOCAL COLOUR: black-violet/dark purple for the existing resin and chitin; aged ivory for the existing bone apex and bone thorns; saturated orange for visible existing slit windows/sacs. Keep fine organic colour variations and the reference's material identity. The material is glossy resin, but gloss belongs to a later separate shader: DO NOT show the gloss in this albedo image.\n\nUniform unlit albedo texture source. Every surface receives identical even viewer-facing illumination. Remove all lighting effects: NO specular streaks or white shine on purple, NO directional shading, NO shadows under overlapping thorns, NO ambient occlusion or black shading in creases, NO rim lighting or reflections. Orange interiors have their bright local orange colour only; NO light spills onto nearby purple or bone, NO glow fringe or bloom. No scene, background, floor, text, checkerboard, labels. Genuine transparent alpha matching image 1, with no faint stray alpha outside its outline. One image; exact unchanged native 1024x1024 canvas.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16870-2c10-7f60-8cc6-ee7a41f6c969/exec-b1aceb4b-c5f0-4448-b9e5-082819dc7ae1.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available top return within the one-correction limit: reduced white highlights and flatter material colours. Selected for delivery, not accepted as fully compliant. Native dimensions remain 1254x1254; the exact guide mask and internal edges are not preserved, and some recess shading remains.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7d651afeacb09f9c4612e39d810977ac7b2adf6c6df0b08e8aa2bae4f13b8795"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0a5264123556bff5498c0c3800976cf5ea7522dfb851849018d7f75695b1a7f3"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+        }
+      ],
+      "output_sha256": "d82e9369c54de8b2d9fa33fdb4e138c37beda44bb105a16dd9cb4183c6a58959",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          44,
+          1214,
+          1198
+        ],
+        "alpha_128_bbox": [
+          371,
+          297,
+          884,
+          958
+        ],
+        "transparent_pixels": 1418299,
+        "partial_alpha_pixels": 153867,
+        "opaque_pixels": 350,
+        "guide_silhouette_identical": false,
+        "materials_and_colours": "Black-violet/purple resin, orange sacs/windows and ivory bone are visually recognizable.",
+        "flat_even_light": false,
+        "lighting_review": "Remaining surface highlights and dark recess shading do not meet strict flat albedo requirements.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "fully_compliant": false
+      }
+    }
+  ]
+}

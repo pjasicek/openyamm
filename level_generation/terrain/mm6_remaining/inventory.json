@@ -1,0 +1,5804 @@
+{
+  "scope": "All 15 MM6 outdoor ODM maps in assets_dev; actual rendered 127x127 cells, not all table entries. Indoor/bmodel textures excluded.",
+  "descriptor_resolution": "Matches MM6 TerrainTileData.cpp: raw<90 direct; otherwise map lookup base + 36-slot offset.",
+  "table": "assets_dev/engine/data_tables/terrain_tile_data_3.txt",
+  "table_sha256": "c1260a4eb11a41df35d0f711d0054f6bd9c147f6058d6c8669a4db8c35be75bc",
+  "restored_manifest": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/shorelines/runtime_x2/manifest.json",
+  "restored_manifest_sha256": "5afb7b138cd8dc570b91c1a02cf73e460b4527885d0ac1528ecc0c22706837c6",
+  "outdoor_maps": 15,
+  "used_static_textures": 120,
+  "restored_used_static_textures": 49,
+  "missing_static_textures": 71,
+  "additional_water_animation_frames": 14,
+  "notes": [
+    "All five new material families transition to the existing dirt.",
+    "Swamp blue channels are baked opaque artwork, not keyed animated water.",
+    "No additional animated-water or shore-overlay texture names are used outside the restored families.",
+    "Missing means absent from the accepted restored pack; originals exist. Unreviewed ESRGAN/bmodel experiments are not accepted terrain."
+  ],
+  "groups": [
+    {
+      "id": "sand",
+      "label": "Sand",
+      "base": "6sandtyl",
+      "prefix": "6sndrt",
+      "count": 13,
+      "tiles": [
+        "6sandtyl",
+        "6sndrte",
+        "6sndrtn",
+        "6sndrtne",
+        "6sndrtnw",
+        "6sndrts",
+        "6sndrtse",
+        "6sndrtsw",
+        "6sndrtw",
+        "6sndrtxne",
+        "6sndrtxnw",
+        "6sndrtxse",
+        "6sndrtxsw"
+      ],
+      "maps": [
+        "outa2",
+        "outa3",
+        "outb2",
+        "outb3",
+        "outc2"
+      ]
+    },
+    {
+      "id": "snow",
+      "label": "Snow",
+      "base": "snotyl",
+      "prefix": "snodr",
+      "count": 13,
+      "tiles": [
+        "snodre",
+        "snodrn",
+        "snodrne",
+        "snodrnw",
+        "snodrs",
+        "snodrse",
+        "snodrsw",
+        "snodrw",
+        "snodrxne",
+        "snodrxnw",
+        "snodrxse",
+        "snodrxsw",
+        "snotyl"
+      ],
+      "maps": [
+        "outa1",
+        "outb1",
+        "outc1"
+      ]
+    },
+    {
+      "id": "cracked",
+      "label": "Cracked ground",
+      "base": "crktyl",
+      "prefix": "crkdrt",
+      "count": 13,
+      "tiles": [
+        "crkdrte",
+        "crkdrtn",
+        "crkdrtne",
+        "crkdrtnw",
+        "crkdrts",
+        "crkdrtse",
+        "crkdrtsw",
+        "crkdrtw",
+        "crkdrtxne",
+        "crkdrtxnw",
+        "crkdrtxse",
+        "crkdrtxsw",
+        "crktyl"
+      ],
+      "maps": [
+        "outa1",
+        "outa2"
+      ]
+    },
+    {
+      "id": "swamp",
+      "label": "Swamp",
+      "base": "swmtyl",
+      "prefix": "swmdr",
+      "count": 13,
+      "tiles": [
+        "swmdre",
+        "swmdrn",
+        "swmdrne",
+        "swmdrnw",
+        "swmdrs",
+        "swmdrse",
+        "swmdrsw",
+        "swmdrw",
+        "swmdrxne",
+        "swmdrxnw",
+        "swmdrxse",
+        "swmdrxsw",
+        "swmtyl"
+      ],
+      "maps": [
+        "outc3",
+        "outd3"
+      ]
+    },
+    {
+      "id": "tropical",
+      "label": "Tropical vegetation",
+      "base": "troptyl",
+      "prefix": "trop",
+      "count": 13,
+      "tiles": [
+        "trope",
+        "tropn",
+        "tropne",
+        "tropnw",
+        "trops",
+        "tropse",
+        "tropsw",
+        "troptyl",
+        "tropw",
+        "tropxne",
+        "tropxnw",
+        "tropxse",
+        "tropxsw"
+      ],
+      "maps": [
+        "outd2"
+      ]
+    },
+    {
+      "id": "roads",
+      "label": "Additional cobbles on dirt",
+      "base": null,
+      "prefix": "6drsr",
+      "count": 6,
+      "tiles": [
+        "6drsrcros",
+        "6drsrew_n",
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrns_w",
+        "6drsrscap"
+      ],
+      "maps": [
+        "outa1",
+        "outa2",
+        "outa3",
+        "outb1",
+        "outb2",
+        "outb3",
+        "outc1",
+        "outc2",
+        "outc3",
+        "outd1",
+        "outd2",
+        "outd3",
+        "oute1",
+        "oute2"
+      ]
+    }
+  ],
+  "maps": [
+    {
+      "id": "outa1",
+      "name": "Sweet Water",
+      "source": "assets_dev/worlds/mm6/maps/outa1.odm",
+      "source_sha256": "11cf3419ac7ac94b4242e9d02e1b7234d5daba3f46f98b0cd2b9c39514ac1bd5",
+      "tile_lookup_bases": [
+        162,
+        126,
+        342,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 1612,
+        "6drsrecap": 2,
+        "6drsrew": 91,
+        "6drsrn_e": 22,
+        "6drsrn_w": 29,
+        "6drsrncap": 1,
+        "6drsrns": 81,
+        "6drsrns_e": 1,
+        "6drsrs_e": 30,
+        "6drsrs_w": 22,
+        "6drsrscap": 2,
+        "6wtrdre": 14,
+        "6wtrdrn": 5,
+        "6wtrdrne": 3,
+        "6wtrdrnw": 4,
+        "6wtrdrs": 6,
+        "6wtrdrse": 4,
+        "6wtrdrsw": 2,
+        "6wtrdrw": 15,
+        "6wtrdrxne": 2,
+        "6wtrdrxnw": 3,
+        "6wtrdrxse": 3,
+        "6wtrdrxsw": 1,
+        "6wtrtyl": 156,
+        "crkdrte": 302,
+        "crkdrtn": 221,
+        "crkdrtne": 93,
+        "crkdrtnw": 78,
+        "crkdrts": 212,
+        "crkdrtse": 86,
+        "crkdrtsw": 69,
+        "crkdrtw": 212,
+        "crkdrtxne": 126,
+        "crkdrtxnw": 121,
+        "crkdrtxse": 115,
+        "crkdrtxsw": 100,
+        "crktyl": 9407,
+        "snodre": 86,
+        "snodrn": 62,
+        "snodrne": 51,
+        "snodrnw": 51,
+        "snodrs": 71,
+        "snodrse": 53,
+        "snodrsw": 66,
+        "snodrw": 145,
+        "snodrxne": 40,
+        "snodrxnw": 45,
+        "snodrxse": 41,
+        "snodrxsw": 58,
+        "snotyl": 2107
+      },
+      "missing_tiles": [
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrscap",
+        "crkdrte",
+        "crkdrtn",
+        "crkdrtne",
+        "crkdrtnw",
+        "crkdrts",
+        "crkdrtse",
+        "crkdrtsw",
+        "crkdrtw",
+        "crkdrtxne",
+        "crkdrtxnw",
+        "crkdrtxse",
+        "crkdrtxsw",
+        "crktyl",
+        "snodre",
+        "snodrn",
+        "snodrne",
+        "snodrnw",
+        "snodrs",
+        "snodrse",
+        "snodrsw",
+        "snodrw",
+        "snodrxne",
+        "snodrxnw",
+        "snodrxse",
+        "snodrxsw",
+        "snotyl"
+      ]
+    },
+    {
+      "id": "outa2",
+      "name": "Paradise Valley",
+      "source": "assets_dev/worlds/mm6/maps/outa2.odm",
+      "source_sha256": "833483483a26fb98717a77f18e19c329367e51a630ae704def5bcf01ab161d73",
+      "tile_lookup_bases": [
+        234,
+        126,
+        162,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 1956,
+        "6drsrecap": 4,
+        "6drsrew": 153,
+        "6drsrew_n": 1,
+        "6drsrew_s": 1,
+        "6drsrn_e": 38,
+        "6drsrn_w": 24,
+        "6drsrncap": 1,
+        "6drsrns": 127,
+        "6drsrs_e": 26,
+        "6drsrs_w": 36,
+        "6sandtyl": 2929,
+        "6sndrte": 69,
+        "6sndrtn": 92,
+        "6sndrtne": 23,
+        "6sndrtnw": 34,
+        "6sndrts": 50,
+        "6sndrtse": 14,
+        "6sndrtsw": 20,
+        "6sndrtw": 115,
+        "6sndrtxne": 24,
+        "6sndrtxnw": 34,
+        "6sndrtxse": 16,
+        "6sndrtxsw": 22,
+        "6wtrdre": 30,
+        "6wtrdrn": 15,
+        "6wtrdrne": 21,
+        "6wtrdrnw": 1,
+        "6wtrdrxne": 20,
+        "6wtrdrxnw": 1,
+        "6wtrtyl": 1231,
+        "crkdrte": 201,
+        "crkdrtn": 144,
+        "crkdrtne": 45,
+        "crkdrtnw": 37,
+        "crkdrts": 222,
+        "crkdrtse": 54,
+        "crkdrtsw": 72,
+        "crkdrtw": 128,
+        "crkdrtxne": 59,
+        "crkdrtxnw": 49,
+        "crkdrtxse": 67,
+        "crkdrtxsw": 87,
+        "crktyl": 7836
+      },
+      "missing_tiles": [
+        "6drsrew_n",
+        "6drsrncap",
+        "6sandtyl",
+        "6sndrte",
+        "6sndrtn",
+        "6sndrtne",
+        "6sndrtnw",
+        "6sndrts",
+        "6sndrtse",
+        "6sndrtsw",
+        "6sndrtw",
+        "6sndrtxne",
+        "6sndrtxnw",
+        "6sndrtxse",
+        "6sndrtxsw",
+        "crkdrte",
+        "crkdrtn",
+        "crkdrtne",
+        "crkdrtnw",
+        "crkdrts",
+        "crkdrtse",
+        "crkdrtsw",
+        "crkdrtw",
+        "crkdrtxne",
+        "crkdrtxnw",
+        "crkdrtxse",
+        "crkdrtxsw",
+        "crktyl"
+      ]
+    },
+    {
+      "id": "outa3",
+      "name": "Hermit's Isle",
+      "source": "assets_dev/worlds/mm6/maps/outa3.odm",
+      "source_sha256": "b9e55819dd1bd9d610a0a7159bb02b1610eceed52bebeb310f72770fbc6ec408",
+      "tile_lookup_bases": [
+        234,
+        126,
+        198,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 1982,
+        "6drsrew": 27,
+        "6drsrn_e": 12,
+        "6drsrn_w": 15,
+        "6drsrncap": 2,
+        "6drsrns": 38,
+        "6drsrs_e": 14,
+        "6drsrs_w": 11,
+        "6sandtyl": 5102,
+        "6sndrte": 67,
+        "6sndrtn": 40,
+        "6sndrtne": 7,
+        "6sndrtnw": 40,
+        "6sndrts": 75,
+        "6sndrtse": 27,
+        "6sndrtsw": 39,
+        "6sndrtw": 129,
+        "6sndrtxne": 10,
+        "6sndrtxnw": 45,
+        "6sndrtxse": 31,
+        "6sndrtxsw": 41,
+        "6voltyl": 763,
+        "6wtrdre": 79,
+        "6wtrdrn": 110,
+        "6wtrdrne": 57,
+        "6wtrdrnw": 28,
+        "6wtrdrs": 29,
+        "6wtrdrse": 41,
+        "6wtrdrsw": 16,
+        "6wtrdrw": 29,
+        "6wtrdrxne": 58,
+        "6wtrdrxnw": 28,
+        "6wtrdrxse": 41,
+        "6wtrdrxsw": 16,
+        "6wtrtyl": 6862,
+        "voldrte": 25,
+        "voldrtn": 21,
+        "voldrtne": 16,
+        "voldrtnw": 21,
+        "voldrts": 31,
+        "voldrtse": 12,
+        "voldrtsw": 15,
+        "voldrtw": 17,
+        "voldrtxne": 15,
+        "voldrtxnw": 20,
+        "voldrtxse": 11,
+        "voldrtxsw": 14
+      },
+      "missing_tiles": [
+        "6drsrncap",
+        "6sandtyl",
+        "6sndrte",
+        "6sndrtn",
+        "6sndrtne",
+        "6sndrtnw",
+        "6sndrts",
+        "6sndrtse",
+        "6sndrtsw",
+        "6sndrtw",
+        "6sndrtxne",
+        "6sndrtxnw",
+        "6sndrtxse",
+        "6sndrtxsw"
+      ]
+    },
+    {
+      "id": "outb1",
+      "name": "Kriegspire",
+      "source": "assets_dev/worlds/mm6/maps/outb1.odm",
+      "source_sha256": "b0747afd73f41b6c3942c26b52e5c44df097d3d7576709f82cfaa757e520eda7",
+      "tile_lookup_bases": [
+        342,
+        126,
+        198,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 4872,
+        "6drsrecap": 1,
+        "6drsrew": 115,
+        "6drsrew_s": 2,
+        "6drsrn_e": 21,
+        "6drsrn_w": 28,
+        "6drsrncap": 1,
+        "6drsrns": 74,
+        "6drsrs_e": 27,
+        "6drsrs_w": 20,
+        "6drsrscap": 1,
+        "6drsrwcap": 1,
+        "6voltyl": 966,
+        "6wtrdre": 3,
+        "6wtrdrn": 7,
+        "6wtrdrne": 2,
+        "6wtrdrnw": 2,
+        "6wtrdrs": 7,
+        "6wtrdrse": 2,
+        "6wtrdrsw": 2,
+        "6wtrdrw": 3,
+        "6wtrdrxne": 1,
+        "6wtrdrxnw": 1,
+        "6wtrdrxse": 1,
+        "6wtrdrxsw": 1,
+        "6wtrtyl": 11,
+        "snodre": 95,
+        "snodrn": 126,
+        "snodrne": 59,
+        "snodrnw": 43,
+        "snodrs": 191,
+        "snodrse": 71,
+        "snodrsw": 93,
+        "snodrw": 93,
+        "snodrxne": 60,
+        "snodrxnw": 44,
+        "snodrxse": 68,
+        "snodrxsw": 96,
+        "snotyl": 8373,
+        "voldrte": 59,
+        "voldrtn": 82,
+        "voldrtne": 40,
+        "voldrtnw": 28,
+        "voldrts": 97,
+        "voldrtse": 27,
+        "voldrtsw": 26,
+        "voldrtw": 71,
+        "voldrtxne": 37,
+        "voldrtxnw": 26,
+        "voldrtxse": 27,
+        "voldrtxsw": 25
+      },
+      "missing_tiles": [
+        "6drsrncap",
+        "6drsrscap",
+        "snodre",
+        "snodrn",
+        "snodrne",
+        "snodrnw",
+        "snodrs",
+        "snodrse",
+        "snodrsw",
+        "snodrw",
+        "snodrxne",
+        "snodrxnw",
+        "snodrxse",
+        "snodrxsw",
+        "snotyl"
+      ]
+    },
+    {
+      "id": "outb2",
+      "name": "Blackshire",
+      "source": "assets_dev/worlds/mm6/maps/outb2.odm",
+      "source_sha256": "de81842e2a0c2d71b381597d86f057ed9e27ca68f988976c318aada92b7797ed",
+      "tile_lookup_bases": [
+        90,
+        126,
+        234,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 9691,
+        "6drsrecap": 3,
+        "6drsrew": 162,
+        "6drsrew_n": 1,
+        "6drsrn_e": 22,
+        "6drsrn_w": 16,
+        "6drsrncap": 5,
+        "6drsrns": 84,
+        "6drsrns_e": 2,
+        "6drsrns_w": 5,
+        "6drsrs_e": 17,
+        "6drsrs_w": 20,
+        "6drsrscap": 3,
+        "6drsrwcap": 3,
+        "6grastyl": 222,
+        "6grdrte": 33,
+        "6grdrtn": 55,
+        "6grdrtne": 20,
+        "6grdrtnw": 21,
+        "6grdrts": 42,
+        "6grdrtse": 29,
+        "6grdrtsw": 24,
+        "6grdrtw": 38,
+        "6grdrtxne": 14,
+        "6grdrtxnw": 14,
+        "6grdrtxse": 23,
+        "6grdrtxsw": 18,
+        "6sandtyl": 4465,
+        "6sndrte": 104,
+        "6sndrtn": 129,
+        "6sndrtne": 59,
+        "6sndrtnw": 47,
+        "6sndrts": 70,
+        "6sndrtse": 29,
+        "6sndrtsw": 27,
+        "6sndrtw": 74,
+        "6sndrtxne": 59,
+        "6sndrtxnw": 49,
+        "6sndrtxse": 34,
+        "6sndrtxsw": 31,
+        "6wtrdre": 14,
+        "6wtrdrn": 23,
+        "6wtrdrne": 9,
+        "6wtrdrnw": 8,
+        "6wtrdrs": 19,
+        "6wtrdrse": 11,
+        "6wtrdrsw": 10,
+        "6wtrdrw": 16,
+        "6wtrdrxne": 9,
+        "6wtrdrxnw": 8,
+        "6wtrdrxse": 11,
+        "6wtrdrxsw": 10,
+        "6wtrtyl": 217
+      },
+      "missing_tiles": [
+        "6drsrew_n",
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrns_w",
+        "6drsrscap",
+        "6sandtyl",
+        "6sndrte",
+        "6sndrtn",
+        "6sndrtne",
+        "6sndrtnw",
+        "6sndrts",
+        "6sndrtse",
+        "6sndrtsw",
+        "6sndrtw",
+        "6sndrtxne",
+        "6sndrtxnw",
+        "6sndrtxse",
+        "6sndrtxsw"
+      ]
+    },
+    {
+      "id": "outb3",
+      "name": "Dragonsand",
+      "source": "assets_dev/worlds/mm6/maps/outb3.odm",
+      "source_sha256": "264430d8a6b057e13b51dbed8faba9200d5b25085a359eb5559da50643b454b7",
+      "tile_lookup_bases": [
+        90,
+        126,
+        234,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 181,
+        "6drsrecap": 1,
+        "6drsrew": 22,
+        "6drsrn_e": 6,
+        "6drsrn_w": 15,
+        "6drsrncap": 1,
+        "6drsrns": 66,
+        "6drsrs_e": 15,
+        "6drsrs_w": 5,
+        "6grastyl": 404,
+        "6grdrte": 29,
+        "6grdrtn": 47,
+        "6grdrtne": 25,
+        "6grdrtnw": 24,
+        "6grdrts": 46,
+        "6grdrtse": 23,
+        "6grdrtsw": 26,
+        "6grdrtw": 28,
+        "6grdrtxne": 21,
+        "6grdrtxnw": 20,
+        "6grdrtxse": 17,
+        "6grdrtxsw": 22,
+        "6sandtyl": 8518,
+        "6sndrte": 156,
+        "6sndrtn": 37,
+        "6sndrtne": 30,
+        "6sndrtnw": 22,
+        "6sndrts": 116,
+        "6sndrtse": 56,
+        "6sndrtsw": 39,
+        "6sndrtw": 79,
+        "6sndrtxne": 31,
+        "6sndrtxnw": 23,
+        "6sndrtxse": 56,
+        "6sndrtxsw": 40,
+        "6wtrdre": 40,
+        "6wtrdrn": 145,
+        "6wtrdrne": 46,
+        "6wtrdrnw": 49,
+        "6wtrdrs": 54,
+        "6wtrdrse": 21,
+        "6wtrdrsw": 38,
+        "6wtrdrw": 75,
+        "6wtrdrxne": 49,
+        "6wtrdrxnw": 52,
+        "6wtrdrxse": 24,
+        "6wtrdrxsw": 41,
+        "6wtrtyl": 5248
+      },
+      "missing_tiles": [
+        "6drsrncap",
+        "6sandtyl",
+        "6sndrte",
+        "6sndrtn",
+        "6sndrtne",
+        "6sndrtnw",
+        "6sndrts",
+        "6sndrtse",
+        "6sndrtsw",
+        "6sndrtw",
+        "6sndrtxne",
+        "6sndrtxnw",
+        "6sndrtxse",
+        "6sndrtxsw"
+      ]
+    },
+    {
+      "id": "outc1",
+      "name": "Frozen Highlands",
+      "source": "assets_dev/worlds/mm6/maps/outc1.odm",
+      "source_sha256": "7f5a33625d53e2b7ca0806c88d5431dc3ae48f737544dcf3e41d0208ba41f176",
+      "tile_lookup_bases": [
+        342,
+        126,
+        342,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 6204,
+        "6drsrcros": 2,
+        "6drsrecap": 1,
+        "6drsrew": 162,
+        "6drsrew_s": 1,
+        "6drsrn_e": 28,
+        "6drsrn_w": 34,
+        "6drsrncap": 1,
+        "6drsrns": 142,
+        "6drsrns_e": 4,
+        "6drsrns_w": 6,
+        "6drsrs_e": 34,
+        "6drsrs_w": 28,
+        "6drsrscap": 2,
+        "6drsrwcap": 3,
+        "6wtrdre": 48,
+        "6wtrdrn": 37,
+        "6wtrdrne": 22,
+        "6wtrdrnw": 25,
+        "6wtrdrs": 22,
+        "6wtrdrse": 9,
+        "6wtrdrsw": 17,
+        "6wtrdrw": 62,
+        "6wtrdrxne": 23,
+        "6wtrdrxnw": 24,
+        "6wtrdrxse": 11,
+        "6wtrdrxsw": 19,
+        "6wtrtyl": 889,
+        "snodre": 204,
+        "snodrn": 202,
+        "snodrne": 103,
+        "snodrnw": 113,
+        "snodrs": 280,
+        "snodrse": 160,
+        "snodrsw": 102,
+        "snodrw": 181,
+        "snodrxne": 97,
+        "snodrxnw": 109,
+        "snodrxse": 155,
+        "snodrxsw": 100,
+        "snotyl": 6463
+      },
+      "missing_tiles": [
+        "6drsrcros",
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrns_w",
+        "6drsrscap",
+        "snodre",
+        "snodrn",
+        "snodrne",
+        "snodrnw",
+        "snodrs",
+        "snodrse",
+        "snodrsw",
+        "snodrw",
+        "snodrxne",
+        "snodrxnw",
+        "snodrxse",
+        "snodrxsw",
+        "snotyl"
+      ]
+    },
+    {
+      "id": "outc2",
+      "name": "Free Haven",
+      "source": "assets_dev/worlds/mm6/maps/outc2.odm",
+      "source_sha256": "c4f2466f0b77c1ee6a1e3565a012236902636ed6cd036df8f16c006c1e714551",
+      "tile_lookup_bases": [
+        90,
+        126,
+        234,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 11468,
+        "6drsrcros": 1,
+        "6drsrecap": 5,
+        "6drsrew": 221,
+        "6drsrew_n": 5,
+        "6drsrew_s": 5,
+        "6drsrn_e": 40,
+        "6drsrn_w": 23,
+        "6drsrncap": 7,
+        "6drsrns": 186,
+        "6drsrns_e": 2,
+        "6drsrns_w": 7,
+        "6drsrs_e": 25,
+        "6drsrs_w": 37,
+        "6drsrscap": 6,
+        "6drsrwcap": 6,
+        "6grastyl": 526,
+        "6grdrte": 26,
+        "6grdrtn": 39,
+        "6grdrtne": 15,
+        "6grdrtnw": 25,
+        "6grdrts": 41,
+        "6grdrtse": 12,
+        "6grdrtsw": 25,
+        "6grdrtw": 25,
+        "6grdrtxne": 13,
+        "6grdrtxnw": 19,
+        "6grdrtxse": 10,
+        "6grdrtxsw": 21,
+        "6sandtyl": 211,
+        "6sndrte": 46,
+        "6sndrtn": 2,
+        "6sndrtne": 9,
+        "6sndrts": 1,
+        "6sndrtse": 10,
+        "6sndrtxne": 8,
+        "6sndrtxse": 9,
+        "6wtrdre": 74,
+        "6wtrdrn": 108,
+        "6wtrdrne": 33,
+        "6wtrdrnw": 43,
+        "6wtrdrs": 119,
+        "6wtrdrse": 44,
+        "6wtrdrsw": 50,
+        "6wtrdrw": 122,
+        "6wtrdrxne": 33,
+        "6wtrdrxnw": 43,
+        "6wtrdrxse": 45,
+        "6wtrdrxsw": 50,
+        "6wtrtyl": 2228
+      },
+      "missing_tiles": [
+        "6drsrcros",
+        "6drsrew_n",
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrns_w",
+        "6drsrscap",
+        "6sandtyl",
+        "6sndrte",
+        "6sndrtn",
+        "6sndrtne",
+        "6sndrts",
+        "6sndrtse",
+        "6sndrtxne",
+        "6sndrtxse"
+      ]
+    },
+    {
+      "id": "outc3",
+      "name": "Mire of the Damned",
+      "source": "assets_dev/worlds/mm6/maps/outc3.odm",
+      "source_sha256": "720c5a54e98618477f5b4cbc0c74f342385577f43d3fe2b6664829233619158b",
+      "tile_lookup_bases": [
+        270,
+        126,
+        270,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 3756,
+        "6drsrecap": 11,
+        "6drsrew": 73,
+        "6drsrew_n": 1,
+        "6drsrew_s": 2,
+        "6drsrn_e": 13,
+        "6drsrn_w": 26,
+        "6drsrncap": 6,
+        "6drsrns": 119,
+        "6drsrs_e": 25,
+        "6drsrs_w": 13,
+        "6drsrscap": 6,
+        "6drsrwcap": 10,
+        "6wtrdre": 159,
+        "6wtrdrn": 162,
+        "6wtrdrne": 41,
+        "6wtrdrnw": 61,
+        "6wtrdrs": 76,
+        "6wtrdrse": 38,
+        "6wtrdrsw": 26,
+        "6wtrdrw": 122,
+        "6wtrdrxne": 44,
+        "6wtrdrxnw": 64,
+        "6wtrdrxse": 40,
+        "6wtrdrxsw": 28,
+        "6wtrtyl": 6046,
+        "swmdre": 194,
+        "swmdrn": 209,
+        "swmdrne": 67,
+        "swmdrnw": 76,
+        "swmdrs": 202,
+        "swmdrse": 87,
+        "swmdrsw": 58,
+        "swmdrw": 220,
+        "swmdrxne": 64,
+        "swmdrxnw": 69,
+        "swmdrxse": 83,
+        "swmdrxsw": 55,
+        "swmtyl": 3777
+      },
+      "missing_tiles": [
+        "6drsrew_n",
+        "6drsrncap",
+        "6drsrscap",
+        "swmdre",
+        "swmdrn",
+        "swmdrne",
+        "swmdrnw",
+        "swmdrs",
+        "swmdrse",
+        "swmdrsw",
+        "swmdrw",
+        "swmdrxne",
+        "swmdrxnw",
+        "swmdrxse",
+        "swmdrxsw",
+        "swmtyl"
+      ]
+    },
+    {
+      "id": "outd1",
+      "name": "Silver Cove",
+      "source": "assets_dev/worlds/mm6/maps/outd1.odm",
+      "source_sha256": "af3865eb2e5281f7ad95bd8122be45937e59abfa9ea55dc0216eaae00b8690e8",
+      "tile_lookup_bases": [
+        90,
+        126,
+        306,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 2489,
+        "6drsrcros": 2,
+        "6drsrecap": 3,
+        "6drsrew": 106,
+        "6drsrew_n": 2,
+        "6drsrew_s": 2,
+        "6drsrn_e": 8,
+        "6drsrn_w": 7,
+        "6drsrns": 40,
+        "6drsrns_e": 4,
+        "6drsrs_e": 5,
+        "6drsrs_w": 10,
+        "6drsrwcap": 2,
+        "6grastyl": 3194,
+        "6grdrte": 154,
+        "6grdrtn": 137,
+        "6grdrtne": 68,
+        "6grdrtnw": 42,
+        "6grdrts": 166,
+        "6grdrtse": 49,
+        "6grdrtsw": 86,
+        "6grdrtw": 113,
+        "6grdrtxne": 56,
+        "6grdrtxnw": 30,
+        "6grdrtxse": 36,
+        "6grdrtxsw": 74,
+        "6wtrdre": 82,
+        "6wtrdrn": 129,
+        "6wtrdrne": 72,
+        "6wtrdrnw": 40,
+        "6wtrdrs": 91,
+        "6wtrdrse": 18,
+        "6wtrdrsw": 77,
+        "6wtrdrw": 153,
+        "6wtrdrxne": 77,
+        "6wtrdrxnw": 46,
+        "6wtrdrxse": 23,
+        "6wtrdrxsw": 82,
+        "6wtrtyl": 8354
+      },
+      "missing_tiles": [
+        "6drsrcros",
+        "6drsrew_n",
+        "6drsrns_e"
+      ]
+    },
+    {
+      "id": "outd2",
+      "name": "Bootleg Bay",
+      "source": "assets_dev/worlds/mm6/maps/outd2.odm",
+      "source_sha256": "f21caf147c579d0c6720383283f2a885aeee8ba4c23efefdb969e669265a2dbb",
+      "tile_lookup_bases": [
+        90,
+        126,
+        306,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 2494,
+        "6drsrew": 80,
+        "6drsrn_e": 26,
+        "6drsrn_w": 21,
+        "6drsrncap": 1,
+        "6drsrns": 73,
+        "6drsrns_e": 2,
+        "6drsrns_w": 1,
+        "6drsrs_e": 21,
+        "6drsrs_w": 29,
+        "6drsrscap": 4,
+        "6drsrwcap": 2,
+        "6grastyl": 1426,
+        "6grdrte": 70,
+        "6grdrtn": 126,
+        "6grdrtne": 60,
+        "6grdrtnw": 35,
+        "6grdrts": 118,
+        "6grdrtse": 29,
+        "6grdrtsw": 46,
+        "6grdrtw": 59,
+        "6grdrtxne": 56,
+        "6grdrtxnw": 34,
+        "6grdrtxse": 29,
+        "6grdrtxsw": 46,
+        "6wtrdre": 45,
+        "6wtrdrn": 59,
+        "6wtrdrne": 16,
+        "6wtrdrnw": 23,
+        "6wtrdrs": 118,
+        "6wtrdrse": 28,
+        "6wtrdrsw": 49,
+        "6wtrdrw": 81,
+        "6wtrdrxne": 25,
+        "6wtrdrxnw": 32,
+        "6wtrdrxse": 37,
+        "6wtrdrxsw": 59,
+        "6wtrtyl": 10228,
+        "trope": 38,
+        "tropn": 37,
+        "tropne": 25,
+        "tropnw": 26,
+        "trops": 43,
+        "tropse": 21,
+        "tropsw": 24,
+        "troptyl": 134,
+        "tropw": 34,
+        "tropxne": 15,
+        "tropxnw": 17,
+        "tropxse": 12,
+        "tropxsw": 15
+      },
+      "missing_tiles": [
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrns_w",
+        "6drsrscap",
+        "trope",
+        "tropn",
+        "tropne",
+        "tropnw",
+        "trops",
+        "tropse",
+        "tropsw",
+        "troptyl",
+        "tropw",
+        "tropxne",
+        "tropxnw",
+        "tropxse",
+        "tropxsw"
+      ]
+    },
+    {
+      "id": "outd3",
+      "name": "Castle Ironfist",
+      "source": "assets_dev/worlds/mm6/maps/outd3.odm",
+      "source_sha256": "342b8a5ce2b3bad7a905aeabb0fecf6f16188d72eed35f881e1f060375a66125",
+      "tile_lookup_bases": [
+        90,
+        126,
+        270,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 2911,
+        "6drsrecap": 2,
+        "6drsrew": 141,
+        "6drsrew_n": 2,
+        "6drsrew_s": 4,
+        "6drsrn_e": 62,
+        "6drsrn_w": 46,
+        "6drsrncap": 8,
+        "6drsrns": 166,
+        "6drsrns_e": 2,
+        "6drsrns_w": 3,
+        "6drsrs_e": 41,
+        "6drsrs_w": 60,
+        "6drsrscap": 3,
+        "6drsrwcap": 6,
+        "6grastyl": 1843,
+        "6grdrte": 153,
+        "6grdrtn": 151,
+        "6grdrtne": 84,
+        "6grdrtnw": 94,
+        "6grdrts": 150,
+        "6grdrtse": 98,
+        "6grdrtsw": 117,
+        "6grdrtw": 163,
+        "6grdrtxne": 77,
+        "6grdrtxnw": 87,
+        "6grdrtxse": 85,
+        "6grdrtxsw": 108,
+        "6wtrdre": 106,
+        "6wtrdrn": 132,
+        "6wtrdrne": 62,
+        "6wtrdrnw": 86,
+        "6wtrdrs": 86,
+        "6wtrdrse": 60,
+        "6wtrdrsw": 58,
+        "6wtrdrw": 115,
+        "6wtrdrxne": 61,
+        "6wtrdrxnw": 85,
+        "6wtrdrxse": 58,
+        "6wtrdrxsw": 55,
+        "6wtrtyl": 6361,
+        "swmdre": 113,
+        "swmdrn": 108,
+        "swmdrne": 44,
+        "swmdrnw": 38,
+        "swmdrs": 111,
+        "swmdrse": 44,
+        "swmdrsw": 35,
+        "swmdrw": 96,
+        "swmdrxne": 37,
+        "swmdrxnw": 34,
+        "swmdrxse": 38,
+        "swmdrxsw": 31,
+        "swmtyl": 1408
+      },
+      "missing_tiles": [
+        "6drsrew_n",
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrns_w",
+        "6drsrscap",
+        "swmdre",
+        "swmdrn",
+        "swmdrne",
+        "swmdrnw",
+        "swmdrs",
+        "swmdrse",
+        "swmdrsw",
+        "swmdrw",
+        "swmdrxne",
+        "swmdrxnw",
+        "swmdrxse",
+        "swmdrxsw",
+        "swmtyl"
+      ]
+    },
+    {
+      "id": "oute1",
+      "name": "Eel Infested Waters",
+      "source": "assets_dev/worlds/mm6/maps/oute1.odm",
+      "source_sha256": "f7d2062dcba625e707f7f8390d4643b138a51260ff740742901e1724514bc756",
+      "tile_lookup_bases": [
+        90,
+        126,
+        306,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 5,
+        "6drsrew": 8,
+        "6drsrn_w": 1,
+        "6drsrns": 5,
+        "6drsrs_e": 1,
+        "6drsrs_w": 1,
+        "6drsrscap": 1,
+        "6drsrwcap": 1,
+        "6grastyl": 1045,
+        "6grdrte": 73,
+        "6grdrtn": 48,
+        "6grdrtne": 43,
+        "6grdrtnw": 37,
+        "6grdrts": 46,
+        "6grdrtse": 33,
+        "6grdrtsw": 49,
+        "6grdrtw": 63,
+        "6grdrtxne": 36,
+        "6grdrtxnw": 30,
+        "6grdrtxse": 25,
+        "6grdrtxsw": 42,
+        "6wtrdre": 73,
+        "6wtrdrn": 50,
+        "6wtrdrne": 42,
+        "6wtrdrnw": 26,
+        "6wtrdrs": 55,
+        "6wtrdrse": 28,
+        "6wtrdrsw": 34,
+        "6wtrdrw": 83,
+        "6wtrdrxne": 49,
+        "6wtrdrxnw": 33,
+        "6wtrdrxse": 35,
+        "6wtrdrxsw": 41,
+        "6wtrtyl": 13987
+      },
+      "missing_tiles": [
+        "6drsrscap"
+      ]
+    },
+    {
+      "id": "oute2",
+      "name": "Misty Islands",
+      "source": "assets_dev/worlds/mm6/maps/oute2.odm",
+      "source_sha256": "5b33c2ddc1ce1123f58bbaa91eb12cbb64805464bfb13455a4c00d0f6db3a55c",
+      "tile_lookup_bases": [
+        90,
+        126,
+        90,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 30,
+        "6drsrecap": 1,
+        "6drsrew": 35,
+        "6drsrew_n": 2,
+        "6drsrn_e": 6,
+        "6drsrn_w": 7,
+        "6drsrncap": 1,
+        "6drsrns": 25,
+        "6drsrns_e": 1,
+        "6drsrns_w": 1,
+        "6drsrs_e": 8,
+        "6drsrs_w": 7,
+        "6drsrscap": 1,
+        "6drsrwcap": 1,
+        "6grastyl": 966,
+        "6grdrte": 82,
+        "6grdrtn": 106,
+        "6grdrtne": 50,
+        "6grdrtnw": 57,
+        "6grdrts": 99,
+        "6grdrtse": 60,
+        "6grdrtsw": 54,
+        "6grdrtw": 81,
+        "6grdrtxne": 40,
+        "6grdrtxnw": 47,
+        "6grdrtxse": 50,
+        "6grdrtxsw": 44,
+        "6wtrdre": 73,
+        "6wtrdrn": 90,
+        "6wtrdrne": 40,
+        "6wtrdrnw": 45,
+        "6wtrdrs": 96,
+        "6wtrdrse": 42,
+        "6wtrdrsw": 37,
+        "6wtrdrw": 73,
+        "6wtrdrxne": 46,
+        "6wtrdrxnw": 51,
+        "6wtrdrxse": 48,
+        "6wtrdrxsw": 43,
+        "6wtrtyl": 13583
+      },
+      "missing_tiles": [
+        "6drsrew_n",
+        "6drsrncap",
+        "6drsrns_e",
+        "6drsrns_w",
+        "6drsrscap"
+      ]
+    },
+    {
+      "id": "oute3",
+      "name": "New Sorpigal",
+      "source": "assets_dev/worlds/mm6/maps/oute3.odm",
+      "source_sha256": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4",
+      "tile_lookup_bases": [
+        90,
+        126,
+        198,
+        774
+      ],
+      "used_tiles": {
+        "6dirttyl": 974,
+        "6drsrecap": 5,
+        "6drsrew": 72,
+        "6drsrew_s": 1,
+        "6drsrn_e": 8,
+        "6drsrn_w": 3,
+        "6drsrns": 13,
+        "6drsrs_e": 3,
+        "6drsrs_w": 7,
+        "6drsrwcap": 4,
+        "6grastyl": 1391,
+        "6grdrte": 79,
+        "6grdrtn": 145,
+        "6grdrtne": 63,
+        "6grdrtnw": 76,
+        "6grdrts": 132,
+        "6grdrtse": 81,
+        "6grdrtsw": 70,
+        "6grdrtw": 62,
+        "6grdrtxne": 53,
+        "6grdrtxnw": 69,
+        "6grdrtxse": 72,
+        "6grdrtxsw": 62,
+        "6voltyl": 328,
+        "6wtrdre": 77,
+        "6wtrdrn": 97,
+        "6wtrdrne": 64,
+        "6wtrdrnw": 88,
+        "6wtrdrs": 109,
+        "6wtrdrse": 70,
+        "6wtrdrsw": 70,
+        "6wtrdrw": 95,
+        "6wtrdrxne": 67,
+        "6wtrdrxnw": 92,
+        "6wtrdrxse": 73,
+        "6wtrdrxsw": 74,
+        "6wtrtyl": 11180,
+        "voldrte": 20,
+        "voldrtn": 22,
+        "voldrtne": 20,
+        "voldrtnw": 13,
+        "voldrts": 31,
+        "voldrtse": 9,
+        "voldrtsw": 15,
+        "voldrtw": 21,
+        "voldrtxne": 18,
+        "voldrtxnw": 11,
+        "voldrtxse": 7,
+        "voldrtxsw": 13
+      },
+      "missing_tiles": []
+    }
+  ],
+  "tiles": [
+    {
+      "name": "6drsrcros",
+      "family": "roads",
+      "kind": "road",
+      "suffix": "cros",
+      "related_materials": [
+        "accepted cobbles",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6drsrcros.bmp",
+      "source_sha256": "ca14b8d701b2a7c9567c2dbe0523d5d0c467eeeee1a3b3212964c68272b1e9f4",
+      "reference": "references/6drsrcros.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "774",
+          "texture_name": "6drsrCROS",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "22",
+          "variant": "0",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc1": 2,
+        "outc2": 1,
+        "outd1": 2
+      },
+      "rendered_cells": 5,
+      "example": {
+        "map": "outc1",
+        "column": 53,
+        "row": 33,
+        "context": [
+          [
+            "6drsrs_e",
+            "6drsrns_w",
+            "snodrsw"
+          ],
+          [
+            "6drsrns_e",
+            "6drsrcros",
+            "6drsrew"
+          ],
+          [
+            "6drsrn_e",
+            "6drsrns_w",
+            "snodrnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6drsrew_n",
+      "family": "roads",
+      "kind": "road",
+      "suffix": "ew_n",
+      "related_materials": [
+        "accepted cobbles",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6drsrew_n.bmp",
+      "source_sha256": "f6acb23c2c7ebda7d4c785a44027ab927d027fdbaa01c350485308b9ecfd8e9f",
+      "reference": "references/6drsrew_n.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "783",
+          "texture_name": "6drsrEW_N",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "22",
+          "variant": "9",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 1,
+        "outb2": 1,
+        "outc2": 5,
+        "outc3": 1,
+        "outd1": 2,
+        "outd3": 2,
+        "oute2": 2
+      },
+      "rendered_cells": 14,
+      "example": {
+        "map": "outc2",
+        "column": 59,
+        "row": 37,
+        "context": [
+          [
+            "6dirttyl",
+            "6drsrns",
+            "6dirttyl"
+          ],
+          [
+            "6drsrew",
+            "6drsrew_n",
+            "6drsrs_w"
+          ],
+          [
+            "6dirttyl",
+            "6dirttyl",
+            "6drsrns_e"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6drsrncap",
+      "family": "roads",
+      "kind": "road",
+      "suffix": "ncap",
+      "related_materials": [
+        "accepted cobbles",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6drsrncap.bmp",
+      "source_sha256": "ec86ae02bc5f1e391cfd010105385923f54b5f95d0032b9bbae31392742e7914",
+      "reference": "references/6drsrncap.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "785",
+          "texture_name": "6drsrNCAP",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "22",
+          "variant": "11",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 1,
+        "outa2": 1,
+        "outa3": 2,
+        "outb1": 1,
+        "outb2": 5,
+        "outb3": 1,
+        "outc1": 1,
+        "outc2": 7,
+        "outc3": 6,
+        "outd2": 1,
+        "outd3": 8,
+        "oute2": 1
+      },
+      "rendered_cells": 35,
+      "example": {
+        "map": "outd3",
+        "column": 72,
+        "row": 45,
+        "context": [
+          [
+            "6grdrtxse",
+            "6grdrtse",
+            "6dirttyl"
+          ],
+          [
+            "6grdrtse",
+            "6drsrncap",
+            "6grdrtnw"
+          ],
+          [
+            "6drsrew",
+            "6drsrns_w",
+            "6grdrtw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6drsrns_e",
+      "family": "roads",
+      "kind": "road",
+      "suffix": "ns_e",
+      "related_materials": [
+        "accepted cobbles",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6drsrns_e.bmp",
+      "source_sha256": "889c3ad1aa0aa036546fa7b200f92be92a2dd440bd79a9e2ead2f4cda3ad92dd",
+      "reference": "references/6drsrns_e.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "781",
+          "texture_name": "6drsrNS_E",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "22",
+          "variant": "7",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 1,
+        "outb2": 2,
+        "outc1": 4,
+        "outc2": 2,
+        "outd1": 4,
+        "outd2": 2,
+        "outd3": 2,
+        "oute2": 1
+      },
+      "rendered_cells": 18,
+      "example": {
+        "map": "outc1",
+        "column": 52,
+        "row": 33,
+        "context": [
+          [
+            "snodre",
+            "6drsrs_e",
+            "6drsrns_w"
+          ],
+          [
+            "snodre",
+            "6drsrns_e",
+            "6drsrcros"
+          ],
+          [
+            "snodre",
+            "6drsrn_e",
+            "6drsrns_w"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6drsrns_w",
+      "family": "roads",
+      "kind": "road",
+      "suffix": "ns_w",
+      "related_materials": [
+        "accepted cobbles",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6drsrns_w.bmp",
+      "source_sha256": "3810a2254d187d2ab22cc85c84101e02f5efed5cb11ad761c9018507aee0d120",
+      "reference": "references/6drsrns_w.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "782",
+          "texture_name": "6drsrNS_W",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "22",
+          "variant": "8",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outb2": 5,
+        "outc1": 6,
+        "outc2": 7,
+        "outd2": 1,
+        "outd3": 3,
+        "oute2": 1
+      },
+      "rendered_cells": 23,
+      "example": {
+        "map": "outc2",
+        "column": 70,
+        "row": 32,
+        "context": [
+          [
+            "6dirttyl",
+            "6drsrns",
+            "6dirttyl"
+          ],
+          [
+            "6drsrew",
+            "6drsrns_w",
+            "6dirttyl"
+          ],
+          [
+            "6dirttyl",
+            "6drsrn_e",
+            "6drsrs_w"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6drsrscap",
+      "family": "roads",
+      "kind": "road",
+      "suffix": "scap",
+      "related_materials": [
+        "accepted cobbles",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6drsrscap.bmp",
+      "source_sha256": "4aefee25ff94b79c2971ff860b181c2d83a9e67babfa18fb04695972899f16bc",
+      "reference": "references/6drsrscap.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "787",
+          "texture_name": "6drsrSCAP",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "22",
+          "variant": "13",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 2,
+        "outb1": 1,
+        "outb2": 3,
+        "outc1": 2,
+        "outc2": 6,
+        "outc3": 6,
+        "outd2": 4,
+        "outd3": 3,
+        "oute1": 1,
+        "oute2": 1
+      },
+      "rendered_cells": 29,
+      "example": {
+        "map": "outc2",
+        "column": 77,
+        "row": 35,
+        "context": [
+          [
+            "6dirttyl",
+            "6drsrns",
+            "6dirttyl"
+          ],
+          [
+            "6dirttyl",
+            "6drsrscap",
+            "6grdrtnw"
+          ],
+          [
+            "6grdrtn",
+            "6grdrtn",
+            "6grdrtxnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sandtyl",
+      "family": "sand",
+      "kind": "base",
+      "suffix": null,
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sandtyl.bmp",
+      "source_sha256": "9d20f0021d7f3180b5c79c2f1e35b988b11ff04734c52e925c9502101583e571",
+      "reference": "references/6sandtyl.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "234",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "235",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "237",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "236",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "241",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "238",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "239",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "245",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "242",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "244",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "10",
+          "flags": "0x0000"
+        },
+        {
+          "index": "243",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "240",
+          "texture_name": "6sandtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "6",
+          "flags": "0x0000"
+        }
+      ],
+      "maps": {
+        "outa2": 2929,
+        "outa3": 5102,
+        "outb2": 4465,
+        "outb3": 8518,
+        "outc2": 211
+      },
+      "rendered_cells": 21225,
+      "example": {
+        "map": "outb3",
+        "column": 36,
+        "row": 76,
+        "context": [
+          [
+            "6sndrtxne",
+            "6sndrtn",
+            "6sndrtne"
+          ],
+          [
+            "6sandtyl",
+            "6sandtyl",
+            "6sndrte"
+          ],
+          [
+            "6sndrts",
+            "6sndrts",
+            "6sndrtse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrte",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "e",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrte.bmp",
+      "source_sha256": "fa7ef01ecbc359e799a683f68de75ead8f6c8559f4de78943b1dcdcaf48af39c",
+      "reference": "references/6sndrte.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "250",
+          "texture_name": "6sndrtE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 69,
+        "outa3": 67,
+        "outb2": 104,
+        "outb3": 156,
+        "outc2": 46
+      },
+      "rendered_cells": 442,
+      "example": {
+        "map": "outb3",
+        "column": 55,
+        "row": 53,
+        "context": [
+          [
+            "6sandtyl",
+            "6sndrtxse",
+            "6sndrts"
+          ],
+          [
+            "6sandtyl",
+            "6sndrte",
+            "6wtrdrnw"
+          ],
+          [
+            "6sndrtxse",
+            "6sndrtse",
+            "6wtrdrw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtn",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "n",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtn.bmp",
+      "source_sha256": "623babd1720fec845eb4aa278f880335990c77398a473987ac2fe04f068bd168",
+      "reference": "references/6sndrtn.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "252",
+          "texture_name": "6sndrtN",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 92,
+        "outa3": 40,
+        "outb2": 129,
+        "outb3": 37,
+        "outc2": 2
+      },
+      "rendered_cells": 300,
+      "example": {
+        "map": "outb2",
+        "column": 41,
+        "row": 71,
+        "context": [
+          [
+            "6dirttyl",
+            "6dirttyl",
+            "6sndrtw"
+          ],
+          [
+            "6sndrtnw",
+            "6sndrtn",
+            "6sndrtxnw"
+          ],
+          [
+            "6sndrtsw",
+            "6sndrtxsw",
+            "6sandtyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtne",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "ne",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtne.bmp",
+      "source_sha256": "3c0801c82153d644336119e9097abfb06964cb0fea0a47788b16eb6625f13326",
+      "reference": "references/6sndrtne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "246",
+          "texture_name": "6sndrtNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 23,
+        "outa3": 7,
+        "outb2": 59,
+        "outb3": 30,
+        "outc2": 9
+      },
+      "rendered_cells": 128,
+      "example": {
+        "map": "outb2",
+        "column": 40,
+        "row": 116,
+        "context": [
+          [
+            "6drsrn_e",
+            "6drsrew",
+            "6drsrs_w"
+          ],
+          [
+            "6sndrtn",
+            "6sndrtne",
+            "6drsrns"
+          ],
+          [
+            "6sandtyl",
+            "6sndrte",
+            "6drsrns"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtnw",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "nw",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtnw.bmp",
+      "source_sha256": "380e08deeffeeefa30d6603ceed7ea1808641e82f62529dacb1e890024ea47d3",
+      "reference": "references/6sndrtnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "248",
+          "texture_name": "6sndrtNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 34,
+        "outa3": 40,
+        "outb2": 47,
+        "outb3": 22
+      },
+      "rendered_cells": 143,
+      "example": {
+        "map": "outb2",
+        "column": 40,
+        "row": 111,
+        "context": [
+          [
+            "6drsrs_e",
+            "6drsrew",
+            "6drsrn_w"
+          ],
+          [
+            "6drsrns",
+            "6sndrtnw",
+            "6sndrtn"
+          ],
+          [
+            "6drsrns",
+            "6sndrtw",
+            "6sandtyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrts",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "s",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrts.bmp",
+      "source_sha256": "248030d1da32bd8ee11918eba2c725795caa0e8daf1721f343baacc0a10ab5b2",
+      "reference": "references/6sndrts.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "253",
+          "texture_name": "6sndrtS",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 50,
+        "outa3": 75,
+        "outb2": 70,
+        "outb3": 116,
+        "outc2": 1
+      },
+      "rendered_cells": 312,
+      "example": {
+        "map": "outb3",
+        "column": 36,
+        "row": 86,
+        "context": [
+          [
+            "6sndrtn",
+            "6sndrtxnw",
+            "6sandtyl"
+          ],
+          [
+            "6sndrts",
+            "6sndrts",
+            "6sndrtxsw"
+          ],
+          [
+            "6drsrew",
+            "6drsrs_w",
+            "6sndrtsw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtse",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "se",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtse.bmp",
+      "source_sha256": "25bfa12161495d3a4366cce722952861f6d24fee6cd67ac4081805b4f502eb87",
+      "reference": "references/6sndrtse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "247",
+          "texture_name": "6sndrtSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 14,
+        "outa3": 27,
+        "outb2": 29,
+        "outb3": 56,
+        "outc2": 10
+      },
+      "rendered_cells": 136,
+      "example": {
+        "map": "outb3",
+        "column": 44,
+        "row": 7,
+        "context": [
+          [
+            "6sandtyl",
+            "6sndrte",
+            "6drsrns"
+          ],
+          [
+            "6sndrts",
+            "6sndrtse",
+            "6drsrns"
+          ],
+          [
+            "6drsrs_e",
+            "6drsrew",
+            "6drsrn_w"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtsw",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "sw",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtsw.bmp",
+      "source_sha256": "6d84e0363b725d57ab6ef6e41c24be8c3571211347cc3ee9637affa72a927d56",
+      "reference": "references/6sndrtsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "249",
+          "texture_name": "6sndrtSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 20,
+        "outa3": 39,
+        "outb2": 27,
+        "outb3": 39
+      },
+      "rendered_cells": 125,
+      "example": {
+        "map": "outa3",
+        "column": 73,
+        "row": 30,
+        "context": [
+          [
+            "6sndrts",
+            "6sndrtxsw",
+            "6sndrte"
+          ],
+          [
+            "6drsrs_w",
+            "6sndrtsw",
+            "6sndrtse"
+          ],
+          [
+            "6drsrn_e",
+            "6drsrew",
+            "6drsrew"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtw",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "w",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtw.bmp",
+      "source_sha256": "95bdca45cc1a850390f9135dd6cd387cf53aa504b1c432384668bf0221b3bf4e",
+      "reference": "references/6sndrtw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "251",
+          "texture_name": "6sndrtW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 115,
+        "outa3": 129,
+        "outb2": 74,
+        "outb3": 79
+      },
+      "rendered_cells": 397,
+      "example": {
+        "map": "outa3",
+        "column": 97,
+        "row": 101,
+        "context": [
+          [
+            "6sndrts",
+            "6sndrtxsw",
+            "6sandtyl"
+          ],
+          [
+            "6wtrdrne",
+            "6sndrtw",
+            "6sndrtxse"
+          ],
+          [
+            "6wtrdre",
+            "6sndrtsw",
+            "6sndrtse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtxne",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "xne",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtxne.bmp",
+      "source_sha256": "b37baaff1d190b0e618d7f42634fe14b42d02d3d3e121c928024fd7b415c0975",
+      "reference": "references/6sndrtxne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "254",
+          "texture_name": "6sndrtXNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 24,
+        "outa3": 10,
+        "outb2": 59,
+        "outb3": 31,
+        "outc2": 8
+      },
+      "rendered_cells": 132,
+      "example": {
+        "map": "outb2",
+        "column": 43,
+        "row": 70,
+        "context": [
+          [
+            "6sndrtw",
+            "6sndrte",
+            "6dirttyl"
+          ],
+          [
+            "6sndrtw",
+            "6sndrtxne",
+            "6sndrtn"
+          ],
+          [
+            "6sndrtxnw",
+            "6sandtyl",
+            "6sandtyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtxnw",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "xnw",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtxnw.bmp",
+      "source_sha256": "178f63177f0fc73e5a510a0061a1c15f4eae691e48ceab022cce4706d6204209",
+      "reference": "references/6sndrtxnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "256",
+          "texture_name": "6sndrtXNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 34,
+        "outa3": 45,
+        "outb2": 49,
+        "outb3": 23
+      },
+      "rendered_cells": 151,
+      "example": {
+        "map": "outb2",
+        "column": 42,
+        "row": 71,
+        "context": [
+          [
+            "6dirttyl",
+            "6sndrtw",
+            "6sndrtxne"
+          ],
+          [
+            "6sndrtn",
+            "6sndrtxnw",
+            "6sandtyl"
+          ],
+          [
+            "6sndrtxsw",
+            "6sandtyl",
+            "6sandtyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtxse",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "xse",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtxse.bmp",
+      "source_sha256": "a16a559ba9446c4677b6265c76a942304b9097ba9ed4392be84d8dd1252dfd10",
+      "reference": "references/6sndrtxse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "255",
+          "texture_name": "6sndrtXSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 16,
+        "outa3": 31,
+        "outb2": 34,
+        "outb3": 56,
+        "outc2": 9
+      },
+      "rendered_cells": 146,
+      "example": {
+        "map": "outb3",
+        "column": 57,
+        "row": 72,
+        "context": [
+          [
+            "6sandtyl",
+            "6sndrtxne",
+            "6sndrtne"
+          ],
+          [
+            "6sandtyl",
+            "6sndrtxse",
+            "6sndrtse"
+          ],
+          [
+            "6sandtyl",
+            "6sndrte",
+            "6wtrdrnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "6sndrtxsw",
+      "family": "sand",
+      "kind": "transition",
+      "suffix": "xsw",
+      "related_materials": [
+        "6sandtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/6sndrtxsw.bmp",
+      "source_sha256": "c9650721ec901b0934879c4eeab5d3d60ed19a310a770f44e204ae13571b453b",
+      "reference": "references/6sndrtxsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "257",
+          "texture_name": "6sndrtXSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "2",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa2": 22,
+        "outa3": 41,
+        "outb2": 31,
+        "outb3": 40
+      },
+      "rendered_cells": 134,
+      "example": {
+        "map": "outa3",
+        "column": 73,
+        "row": 29,
+        "context": [
+          [
+            "6sandtyl",
+            "6sandtyl",
+            "6sndrtxse"
+          ],
+          [
+            "6sndrts",
+            "6sndrtxsw",
+            "6sndrte"
+          ],
+          [
+            "6drsrs_w",
+            "6sndrtsw",
+            "6sndrtse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrte",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "e",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrte.bmp",
+      "source_sha256": "62e55763ac304729758fce2c6b2293a7892a1233f75353f63813001035e532bb",
+      "reference": "references/crkdrte.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "178",
+          "texture_name": "crkdrtE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 302,
+        "outa2": 201
+      },
+      "rendered_cells": 503,
+      "example": {
+        "map": "outa1",
+        "column": 79,
+        "row": 66,
+        "context": [
+          [
+            "crkdrtxne",
+            "crkdrtne",
+            "6wtrdrw"
+          ],
+          [
+            "crktyl",
+            "crkdrte",
+            "6wtrdrsw"
+          ],
+          [
+            "crkdrts",
+            "crkdrtxsw",
+            "crkdrtn"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtn",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "n",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtn.bmp",
+      "source_sha256": "8d14ff1c3523beffd667d237ff9d5fedb7dbcb058e8d8fc0cce446a82f4bba45",
+      "reference": "references/crkdrtn.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "180",
+          "texture_name": "crkdrtN",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 221,
+        "outa2": 144
+      },
+      "rendered_cells": 365,
+      "example": {
+        "map": "outa1",
+        "column": 60,
+        "row": 100,
+        "context": [
+          [
+            "crkdrte",
+            "snodrsw",
+            "snodrs"
+          ],
+          [
+            "crkdrtxne",
+            "crkdrtn",
+            "crkdrtne"
+          ],
+          [
+            "crktyl",
+            "crkdrtxse",
+            "crkdrtse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtne",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "ne",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtne.bmp",
+      "source_sha256": "0fab92588be2d2ef6555c7788a1a5c776ba127161454551301d7045df00bff64",
+      "reference": "references/crkdrtne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "174",
+          "texture_name": "crkdrtNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 93,
+        "outa2": 45
+      },
+      "rendered_cells": 138,
+      "example": {
+        "map": "outa1",
+        "column": 64,
+        "row": 36,
+        "context": [
+          [
+            "snodrs",
+            "snodrs",
+            "snodrxsw"
+          ],
+          [
+            "crkdrtnw",
+            "crkdrtne",
+            "snodrw"
+          ],
+          [
+            "crkdrtxnw",
+            "crkdrte",
+            "snodrsw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtnw",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "nw",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtnw.bmp",
+      "source_sha256": "660589b7cddb568c944e2ed71d5f1c92bf859422ac13044c4bf6958514dab593",
+      "reference": "references/crkdrtnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "176",
+          "texture_name": "crkdrtNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 78,
+        "outa2": 37
+      },
+      "rendered_cells": 115,
+      "example": {
+        "map": "outa1",
+        "column": 61,
+        "row": 114,
+        "context": [
+          [
+            "snodrxse",
+            "snodrse",
+            "crkdrtw"
+          ],
+          [
+            "snodre",
+            "crkdrtnw",
+            "crkdrts"
+          ],
+          [
+            "snodrxne",
+            "snodrn",
+            "snodrne"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrts",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "s",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrts.bmp",
+      "source_sha256": "9480a63a26ea2af9722e2ada5f1f2c4e7b7adfc59b670709025a865536a1c44d",
+      "reference": "references/crkdrts.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "181",
+          "texture_name": "crkdrtS",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 212,
+        "outa2": 222
+      },
+      "rendered_cells": 434,
+      "example": {
+        "map": "outa2",
+        "column": 48,
+        "row": 69,
+        "context": [
+          [
+            "crkdrtxnw",
+            "crktyl",
+            "crkdrtxne"
+          ],
+          [
+            "crkdrtxse",
+            "crkdrts",
+            "crkdrtxsw"
+          ],
+          [
+            "crkdrte",
+            "6dirttyl",
+            "crkdrtw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtse",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "se",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtse.bmp",
+      "source_sha256": "7ad1522e418b7bff4897bed67c5fddc40d0b38343faab662d4d4d9f495720717",
+      "reference": "references/crkdrtse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "175",
+          "texture_name": "crkdrtSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 86,
+        "outa2": 54
+      },
+      "rendered_cells": 140,
+      "example": {
+        "map": "outa1",
+        "column": 95,
+        "row": 1,
+        "context": [
+          [
+            "crkdrtxsw",
+            "crkdrtxse",
+            "crkdrts"
+          ],
+          [
+            "crkdrtsw",
+            "crkdrtse",
+            "snodrnw"
+          ],
+          [
+            "snodrn",
+            "snodrn",
+            "snodrxnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtsw",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "sw",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtsw.bmp",
+      "source_sha256": "4a32cf4dfd2fce4532af97db22f15af0493d3639770e28a49559b64423c135f9",
+      "reference": "references/crkdrtsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "177",
+          "texture_name": "crkdrtSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 69,
+        "outa2": 72
+      },
+      "rendered_cells": 141,
+      "example": {
+        "map": "outa2",
+        "column": 75,
+        "row": 76,
+        "context": [
+          [
+            "crkdrts",
+            "crkdrtxsw",
+            "crkdrtxse"
+          ],
+          [
+            "6sndrtne",
+            "crkdrtsw",
+            "crkdrtse"
+          ],
+          [
+            "6sndrtxne",
+            "6sndrtn",
+            "6sndrtn"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtw",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "w",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtw.bmp",
+      "source_sha256": "12f92cefd67b74ebdc45fdd7d535ce2f551558058ebad6314125eac212e65b2a",
+      "reference": "references/crkdrtw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "179",
+          "texture_name": "crkdrtW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 212,
+        "outa2": 128
+      },
+      "rendered_cells": 340,
+      "example": {
+        "map": "outa1",
+        "column": 88,
+        "row": 66,
+        "context": [
+          [
+            "6wtrdre",
+            "crkdrtnw",
+            "crkdrtxnw"
+          ],
+          [
+            "6wtrdrse",
+            "crkdrtw",
+            "crkdrte"
+          ],
+          [
+            "crkdrtn",
+            "crkdrts",
+            "crkdrtse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtxne",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "xne",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtxne.bmp",
+      "source_sha256": "8d421f59735cea6dc52525d6d3af657f5f290b5fad3e7a18bfdbb5f0756744d0",
+      "reference": "references/crkdrtxne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "182",
+          "texture_name": "crkdrtXNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 126,
+        "outa2": 59
+      },
+      "rendered_cells": 185,
+      "example": {
+        "map": "outa1",
+        "column": 47,
+        "row": 76,
+        "context": [
+          [
+            "crkdrtnw",
+            "crkdrtne",
+            "6dirttyl"
+          ],
+          [
+            "crkdrtw",
+            "crkdrtxne",
+            "crkdrtn"
+          ],
+          [
+            "crkdrtxnw",
+            "crktyl",
+            "crktyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtxnw",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "xnw",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtxnw.bmp",
+      "source_sha256": "c18ebed57eb5129fbeb1807e10b1ef4d3ab9c96edcc60c7b0a8ee5ce90fb2416",
+      "reference": "references/crkdrtxnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "184",
+          "texture_name": "crkdrtXNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 121,
+        "outa2": 49
+      },
+      "rendered_cells": 170,
+      "example": {
+        "map": "outa1",
+        "column": 63,
+        "row": 37,
+        "context": [
+          [
+            "snodrse",
+            "crkdrtnw",
+            "crkdrtne"
+          ],
+          [
+            "crkdrtn",
+            "crkdrtxnw",
+            "crkdrte"
+          ],
+          [
+            "crktyl",
+            "crktyl",
+            "crkdrtxne"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtxse",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "xse",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtxse.bmp",
+      "source_sha256": "c3c37a434e20da7e002bf08ecf7f469ed04901bc8d65de6db7ffe75d03913a8a",
+      "reference": "references/crkdrtxse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "183",
+          "texture_name": "crkdrtXSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 115,
+        "outa2": 67
+      },
+      "rendered_cells": 182,
+      "example": {
+        "map": "outa1",
+        "column": 73,
+        "row": 31,
+        "context": [
+          [
+            "crkdrtnw",
+            "crkdrtxnw",
+            "crktyl"
+          ],
+          [
+            "crkdrtw",
+            "crkdrtxse",
+            "crkdrts"
+          ],
+          [
+            "crkdrtsw",
+            "crkdrtse",
+            "snodrnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crkdrtxsw",
+      "family": "cracked",
+      "kind": "transition",
+      "suffix": "xsw",
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crkdrtxsw.bmp",
+      "source_sha256": "1ff1333ba6f9474e01848d20b1cdbb9fdff09d031c1103585bb9c335d62aae3e",
+      "reference": "references/crkdrtxsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "185",
+          "texture_name": "crkdrtXSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 100,
+        "outa2": 87
+      },
+      "rendered_cells": 187,
+      "example": {
+        "map": "outa1",
+        "column": 43,
+        "row": 72,
+        "context": [
+          [
+            "crkdrtn",
+            "crkdrtxnw",
+            "crktyl"
+          ],
+          [
+            "crkdrts",
+            "crkdrtxsw",
+            "crkdrtxse"
+          ],
+          [
+            "6dirttyl",
+            "crkdrtw",
+            "crkdrte"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "crktyl",
+      "family": "cracked",
+      "kind": "base",
+      "suffix": null,
+      "related_materials": [
+        "crktyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/crktyl.bmp",
+      "source_sha256": "32878a1cb26479a10bab51814ddef0ac7488c3942c4e0f2eecfc7c0deb82bd98",
+      "reference": "references/crktyl.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "162",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "164",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "163",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "167",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "165",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "171",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "169",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "168",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "173",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "166",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "172",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "10",
+          "flags": "0x0000"
+        },
+        {
+          "index": "170",
+          "texture_name": "crktyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "6",
+          "variant": "8",
+          "flags": "0x0000"
+        }
+      ],
+      "maps": {
+        "outa1": 9407,
+        "outa2": 7836
+      },
+      "rendered_cells": 17243,
+      "example": {
+        "map": "outa1",
+        "column": 78,
+        "row": 66,
+        "context": [
+          [
+            "crkdrtxsw",
+            "crkdrtxne",
+            "crkdrtne"
+          ],
+          [
+            "crkdrtw",
+            "crktyl",
+            "crkdrte"
+          ],
+          [
+            "crkdrtsw",
+            "crkdrts",
+            "crkdrtxsw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodre",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "e",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodre.bmp",
+      "source_sha256": "8bfcbf818813a82f0f99947ed1040549e74b131a4b2b5a51f6b37252493efc01",
+      "reference": "references/snodre.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "358",
+          "texture_name": "snodrE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 86,
+        "outb1": 95,
+        "outc1": 204
+      },
+      "rendered_cells": 385,
+      "example": {
+        "map": "outc1",
+        "column": 66,
+        "row": 40,
+        "context": [
+          [
+            "snodrw",
+            "snodrxse",
+            "snodrs"
+          ],
+          [
+            "snodrw",
+            "snodre",
+            "6drsrs_e"
+          ],
+          [
+            "snodrsw",
+            "snodrse",
+            "6drsrns"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrn",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "n",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrn.bmp",
+      "source_sha256": "7748de839a714bcbb816d61567835bcba820b0f8a8c99affa65dca65ad2a8fbc",
+      "reference": "references/snodrn.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "360",
+          "texture_name": "snodrN",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 62,
+        "outb1": 126,
+        "outc1": 202
+      },
+      "rendered_cells": 390,
+      "example": {
+        "map": "outc1",
+        "column": 100,
+        "row": 19,
+        "context": [
+          [
+            "snodre",
+            "6dirttyl",
+            "6dirttyl"
+          ],
+          [
+            "snodrxne",
+            "snodrn",
+            "snodrne"
+          ],
+          [
+            "snotyl",
+            "snodrxse",
+            "snodrse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrne",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "ne",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrne.bmp",
+      "source_sha256": "e5b134b34cf55ea7ad046735ab2a1571bd4d15e7e06c2f1144f98ff56680a9a3",
+      "reference": "references/snodrne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "354",
+          "texture_name": "snodrNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 51,
+        "outb1": 59,
+        "outc1": 103
+      },
+      "rendered_cells": 213,
+      "example": {
+        "map": "outc1",
+        "column": 26,
+        "row": 28,
+        "context": [
+          [
+            "6drsrew",
+            "6drsrew",
+            "6drsrs_w"
+          ],
+          [
+            "snodrn",
+            "snodrne",
+            "6drsrns"
+          ],
+          [
+            "snotyl",
+            "snodre",
+            "6drsrns"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrnw",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "nw",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrnw.bmp",
+      "source_sha256": "defe1ddb6e972deffa1bcf13e8d1bfe2da9e6d96066e44ffb0ac677f09f6a011",
+      "reference": "references/snodrnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "356",
+          "texture_name": "snodrNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 51,
+        "outb1": 43,
+        "outc1": 113
+      },
+      "rendered_cells": 207,
+      "example": {
+        "map": "outc1",
+        "column": 47,
+        "row": 28,
+        "context": [
+          [
+            "6drsrs_e",
+            "6drsrew",
+            "6drsrew"
+          ],
+          [
+            "6drsrns",
+            "snodrnw",
+            "snodrn"
+          ],
+          [
+            "6drsrns_w",
+            "snodrw",
+            "snotyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrs",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "s",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrs.bmp",
+      "source_sha256": "c53b3fe6ccd328f48afaef001f3aff2490d08e8c9c1130de55e44448a42f6118",
+      "reference": "references/snodrs.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "361",
+          "texture_name": "snodrS",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 71,
+        "outb1": 191,
+        "outc1": 280
+      },
+      "rendered_cells": 542,
+      "example": {
+        "map": "outc1",
+        "column": 38,
+        "row": 13,
+        "context": [
+          [
+            "snodrxsw",
+            "snotyl",
+            "snodrxse"
+          ],
+          [
+            "snodrsw",
+            "snodrs",
+            "snodrse"
+          ],
+          [
+            "6dirttyl",
+            "6dirttyl",
+            "6dirttyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrse",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "se",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrse.bmp",
+      "source_sha256": "df9b341b940e3b8daf603e692a9f545ae9235780e631d4ab4004f053ee9df8ee",
+      "reference": "references/snodrse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "355",
+          "texture_name": "snodrSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 53,
+        "outb1": 71,
+        "outc1": 160
+      },
+      "rendered_cells": 284,
+      "example": {
+        "map": "outc1",
+        "column": 45,
+        "row": 28,
+        "context": [
+          [
+            "snotyl",
+            "snodre",
+            "6drsrs_e"
+          ],
+          [
+            "snodrs",
+            "snodrse",
+            "6drsrns"
+          ],
+          [
+            "6drsrew",
+            "6drsrew",
+            "6drsrns_w"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrsw",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "sw",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrsw.bmp",
+      "source_sha256": "cdc24c1747af407d771658dd81bb0e19904ab94a6dcf29d6b27a48c43ea22940",
+      "reference": "references/snodrsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "357",
+          "texture_name": "snodrSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 66,
+        "outb1": 93,
+        "outc1": 102
+      },
+      "rendered_cells": 261,
+      "example": {
+        "map": "outc1",
+        "column": 54,
+        "row": 32,
+        "context": [
+          [
+            "6drsrns",
+            "snodrw",
+            "snotyl"
+          ],
+          [
+            "6drsrns_w",
+            "snodrsw",
+            "snodrs"
+          ],
+          [
+            "6drsrcros",
+            "6drsrew",
+            "6drsrew"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrw",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "w",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrw.bmp",
+      "source_sha256": "af880d2b53bf822c0a82765d6349cf14fb4083313defb55e92f347898caa9d0c",
+      "reference": "references/snodrw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "359",
+          "texture_name": "snodrW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 145,
+        "outb1": 93,
+        "outc1": 181
+      },
+      "rendered_cells": 419,
+      "example": {
+        "map": "outc1",
+        "column": 45,
+        "row": 73,
+        "context": [
+          [
+            "6drsrns",
+            "snodrw",
+            "snodre"
+          ],
+          [
+            "6drsrn_w",
+            "snodrw",
+            "snodrxne"
+          ],
+          [
+            "snodrnw",
+            "snodrxnw",
+            "snodrxse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrxne",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "xne",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrxne.bmp",
+      "source_sha256": "dfddcd1c42ec7d69280a1ce5ea33fcb7c06fa534bb71b3113a7b9bd31f3d48a9",
+      "reference": "references/snodrxne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "362",
+          "texture_name": "snodrXNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 40,
+        "outb1": 60,
+        "outc1": 97
+      },
+      "rendered_cells": 197,
+      "example": {
+        "map": "outc1",
+        "column": 24,
+        "row": 50,
+        "context": [
+          [
+            "snotyl",
+            "snodre",
+            "6dirttyl"
+          ],
+          [
+            "snotyl",
+            "snodrxne",
+            "snodrn"
+          ],
+          [
+            "snodrs",
+            "snodrxsw",
+            "snodrxse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrxnw",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "xnw",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrxnw.bmp",
+      "source_sha256": "552b96661a2490e0baed744f7e916b69791cde768b9b84e536b9a0469ae6444f",
+      "reference": "references/snodrxnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "364",
+          "texture_name": "snodrXNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 45,
+        "outb1": 44,
+        "outc1": 109
+      },
+      "rendered_cells": 198,
+      "example": {
+        "map": "outc1",
+        "column": 25,
+        "row": 6,
+        "context": [
+          [
+            "6dirttyl",
+            "snodrw",
+            "snodre"
+          ],
+          [
+            "snodrnw",
+            "snodrxnw",
+            "snodrxne"
+          ],
+          [
+            "snodrw",
+            "snotyl",
+            "snotyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrxse",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "xse",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrxse.bmp",
+      "source_sha256": "f80876899e9e003f3859bf7db96effd6b342201d2228c9da17196b1de8ee7896",
+      "reference": "references/snodrxse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "363",
+          "texture_name": "snodrXSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 41,
+        "outb1": 68,
+        "outc1": 155
+      },
+      "rendered_cells": 264,
+      "example": {
+        "map": "outc1",
+        "column": 18,
+        "row": 78,
+        "context": [
+          [
+            "snotyl",
+            "snodrxne",
+            "snodrne"
+          ],
+          [
+            "snodrxsw",
+            "snodrxse",
+            "snodrse"
+          ],
+          [
+            "snodrw",
+            "snodre",
+            "6dirttyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snodrxsw",
+      "family": "snow",
+      "kind": "transition",
+      "suffix": "xsw",
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snodrxsw.bmp",
+      "source_sha256": "3a0e301f3b854fdfba0eebbf3e76bd194f644941c67c46239306e4d34216d1a3",
+      "reference": "references/snodrxsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "365",
+          "texture_name": "snodrXSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outa1": 58,
+        "outb1": 96,
+        "outc1": 100
+      },
+      "rendered_cells": 254,
+      "example": {
+        "map": "outc1",
+        "column": 24,
+        "row": 51,
+        "context": [
+          [
+            "snotyl",
+            "snodrxne",
+            "snodrn"
+          ],
+          [
+            "snodrs",
+            "snodrxsw",
+            "snodrxse"
+          ],
+          [
+            "6dirttyl",
+            "snodrsw",
+            "snodrs"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "snotyl",
+      "family": "snow",
+      "kind": "base",
+      "suffix": null,
+      "related_materials": [
+        "snotyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/snotyl.bmp",
+      "source_sha256": "7f9cd640606e8e4a697ed66fad127acc158d4b1cca1f3f1ffc481bca0709ea55",
+      "reference": "references/snotyl.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "342",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "343",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "344",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "345",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "347",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "348",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "353",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "352",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "10",
+          "flags": "0x0000"
+        },
+        {
+          "index": "351",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "349",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "346",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "350",
+          "texture_name": "snotyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "1",
+          "variant": "8",
+          "flags": "0x0000"
+        }
+      ],
+      "maps": {
+        "outa1": 2107,
+        "outb1": 8373,
+        "outc1": 6463
+      },
+      "rendered_cells": 16943,
+      "example": {
+        "map": "outb1",
+        "column": 18,
+        "row": 74,
+        "context": [
+          [
+            "snodrxne",
+            "snodrn",
+            "snodrne"
+          ],
+          [
+            "snotyl",
+            "snotyl",
+            "snodre"
+          ],
+          [
+            "snotyl",
+            "snodrxse",
+            "snodrse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdre",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "e",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdre.bmp",
+      "source_sha256": "3fdf0eeb840ab0594d652d8f5b11d7867cefcbca3faaf1950abf81c54a490eaf",
+      "reference": "references/swmdre.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "286",
+          "texture_name": "SwmdrE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 194,
+        "outd3": 113
+      },
+      "rendered_cells": 307,
+      "example": {
+        "map": "outc3",
+        "column": 57,
+        "row": 72,
+        "context": [
+          [
+            "swmtyl",
+            "swmdrxse",
+            "swmdrs"
+          ],
+          [
+            "swmdrxsw",
+            "swmdre",
+            "6drsrs_e"
+          ],
+          [
+            "swmdrsw",
+            "swmdrse",
+            "6drsrns"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrn",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "n",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrn.bmp",
+      "source_sha256": "582b4cd7d6fa7ea896ed4493c94f5f15ccd26accd9db481895013da40bbce4d4",
+      "reference": "references/swmdrn.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "288",
+          "texture_name": "SwmdrN",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 209,
+        "outd3": 108
+      },
+      "rendered_cells": 317,
+      "example": {
+        "map": "outc3",
+        "column": 32,
+        "row": 46,
+        "context": [
+          [
+            "6dirttyl",
+            "6wtrdrsw",
+            "6wtrdrs"
+          ],
+          [
+            "swmdrnw",
+            "swmdrn",
+            "swmdrne"
+          ],
+          [
+            "swmdrw",
+            "swmtyl",
+            "swmdrxne"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrne",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "ne",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrne.bmp",
+      "source_sha256": "8528181d6c9f0dfe6d06f73fec9f50ea9002b227a98b5420d3b97f5682b349df",
+      "reference": "references/swmdrne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "282",
+          "texture_name": "SwmdrNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 67,
+        "outd3": 44
+      },
+      "rendered_cells": 111,
+      "example": {
+        "map": "outc3",
+        "column": 66,
+        "row": 74,
+        "context": [
+          [
+            "6drsrwcap",
+            "6drsrew",
+            "6drsrs_w"
+          ],
+          [
+            "swmdrn",
+            "swmdrne",
+            "6drsrns"
+          ],
+          [
+            "swmtyl",
+            "swmdre",
+            "6drsrn_e"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrnw",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "nw",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrnw.bmp",
+      "source_sha256": "caff890c1594d23e773f2c60b0fa243fd324fe19f047c8ad3d4d143310976b7a",
+      "reference": "references/swmdrnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "284",
+          "texture_name": "SwmdrNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 76,
+        "outd3": 38
+      },
+      "rendered_cells": 114,
+      "example": {
+        "map": "outc3",
+        "column": 31,
+        "row": 46,
+        "context": [
+          [
+            "swmdrse",
+            "6dirttyl",
+            "6wtrdrsw"
+          ],
+          [
+            "6drsrs_w",
+            "swmdrnw",
+            "swmdrn"
+          ],
+          [
+            "6drsrns",
+            "swmdrw",
+            "swmtyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrs",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "s",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrs.bmp",
+      "source_sha256": "f5a5b41c479f14281905121cb282547813bb928ee1e2f0f334cecf2fef65f48c",
+      "reference": "references/swmdrs.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "289",
+          "texture_name": "SwmdrS",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 202,
+        "outd3": 111
+      },
+      "rendered_cells": 313,
+      "example": {
+        "map": "outc3",
+        "column": 92,
+        "row": 62,
+        "context": [
+          [
+            "swmtyl",
+            "swmdrxne",
+            "swmdrn"
+          ],
+          [
+            "swmdrxse",
+            "swmdrs",
+            "swmdrxsw"
+          ],
+          [
+            "swmdre",
+            "6drsrncap",
+            "swmdrw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrse",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "se",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrse.bmp",
+      "source_sha256": "f0fa8b088b3af312d768cdf5a1cb8daf7364ccbd9f75395ce9affdbc64b22ace",
+      "reference": "references/swmdrse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "283",
+          "texture_name": "SwmdrSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 87,
+        "outd3": 44
+      },
+      "rendered_cells": 131,
+      "example": {
+        "map": "outc3",
+        "column": 82,
+        "row": 34,
+        "context": [
+          [
+            "swmtyl",
+            "swmdre",
+            "6drsrns"
+          ],
+          [
+            "swmdrs",
+            "swmdrse",
+            "6drsrns"
+          ],
+          [
+            "6drsrs_e",
+            "6drsrew",
+            "6drsrn_w"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrsw",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "sw",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrsw.bmp",
+      "source_sha256": "b5bdf498161162856ac218b9679c3910370cf9f1fa91b18d13c34a7766568623",
+      "reference": "references/swmdrsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "285",
+          "texture_name": "SwmdrSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 58,
+        "outd3": 35
+      },
+      "rendered_cells": 93,
+      "example": {
+        "map": "outc3",
+        "column": 68,
+        "row": 74,
+        "context": [
+          [
+            "6drsrs_w",
+            "swmdrw",
+            "swmtyl"
+          ],
+          [
+            "6drsrns",
+            "swmdrsw",
+            "swmdrs"
+          ],
+          [
+            "6drsrn_e",
+            "6drsrew",
+            "6drsrew_s"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrw",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "w",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrw.bmp",
+      "source_sha256": "ea2d335a3ed8871db9b6f1427bfe90fb3311930848c63cd8d054ec6eb5ed40af",
+      "reference": "references/swmdrw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "287",
+          "texture_name": "SwmdrW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 220,
+        "outd3": 96
+      },
+      "rendered_cells": 316,
+      "example": {
+        "map": "outc3",
+        "column": 77,
+        "row": 73,
+        "context": [
+          [
+            "swmdrs",
+            "swmdrxsw",
+            "swmtyl"
+          ],
+          [
+            "6drsrecap",
+            "swmdrw",
+            "swmdrxse"
+          ],
+          [
+            "swmdrn",
+            "swmdrxnw",
+            "swmdrse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrxne",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "xne",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrxne.bmp",
+      "source_sha256": "8440731056b4c0997eff8d1cc6702bb8f1e899060f65a1d179e621e73ea40ecb",
+      "reference": "references/swmdrxne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "290",
+          "texture_name": "SwmdrXNE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 64,
+        "outd3": 37
+      },
+      "rendered_cells": 101,
+      "example": {
+        "map": "outc3",
+        "column": 92,
+        "row": 61,
+        "context": [
+          [
+            "swmtyl",
+            "swmdre",
+            "6drsrscap"
+          ],
+          [
+            "swmtyl",
+            "swmdrxne",
+            "swmdrn"
+          ],
+          [
+            "swmdrxse",
+            "swmdrs",
+            "swmdrxsw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrxnw",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "xnw",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrxnw.bmp",
+      "source_sha256": "ae209a94b325fb6509426ffcb184cc34a9a2995d3518233aea912dcc8ea6df8e",
+      "reference": "references/swmdrxnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "292",
+          "texture_name": "SwmdrXNW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 69,
+        "outd3": 34
+      },
+      "rendered_cells": 103,
+      "example": {
+        "map": "outc3",
+        "column": 77,
+        "row": 74,
+        "context": [
+          [
+            "6drsrecap",
+            "swmdrw",
+            "swmdrxse"
+          ],
+          [
+            "swmdrn",
+            "swmdrxnw",
+            "swmdrse"
+          ],
+          [
+            "swmtyl",
+            "swmdre",
+            "6wtrdrnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrxse",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "xse",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrxse.bmp",
+      "source_sha256": "1e59a090588bc565ad8ca834f70189ddeb77638deb260414045cc1782a05aad6",
+      "reference": "references/swmdrxse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "291",
+          "texture_name": "SwmdrXSE",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 83,
+        "outd3": 38
+      },
+      "rendered_cells": 121,
+      "example": {
+        "map": "outc3",
+        "column": 40,
+        "row": 58,
+        "context": [
+          [
+            "swmdrnw",
+            "swmdrn",
+            "swmdrxnw"
+          ],
+          [
+            "swmdrw",
+            "swmdrxse",
+            "swmdrs"
+          ],
+          [
+            "swmdrw",
+            "swmdre",
+            "6drsrs_e"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmdrxsw",
+      "family": "swamp",
+      "kind": "transition",
+      "suffix": "xsw",
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmdrxsw.bmp",
+      "source_sha256": "7b00fc4e9ae7206fd2a3c47ddcaea60a91a70fea2f262a20dea3bedcc5658224",
+      "reference": "references/swmdrxsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "293",
+          "texture_name": "SwmdrXSW",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outc3": 55,
+        "outd3": 31
+      },
+      "rendered_cells": 86,
+      "example": {
+        "map": "outc3",
+        "column": 101,
+        "row": 49,
+        "context": [
+          [
+            "swmtyl",
+            "swmtyl",
+            "swmdrxse"
+          ],
+          [
+            "swmdrs",
+            "swmdrxsw",
+            "swmdre"
+          ],
+          [
+            "6wtrdrne",
+            "swmdrsw",
+            "swmdrse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "swmtyl",
+      "family": "swamp",
+      "kind": "base",
+      "suffix": null,
+      "related_materials": [
+        "swmtyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/swmtyl.bmp",
+      "source_sha256": "38f3d1ff09a4233e972c507664c7bb78036d33dfc36d720b43047c30ab840254",
+      "reference": "references/swmtyl.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "271",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "270",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "272",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "273",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "277",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "7",
+          "flags": "0x0000"
+        },
+        {
+          "index": "275",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "5",
+          "flags": "0x0000"
+        },
+        {
+          "index": "276",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "6",
+          "flags": "0x0000"
+        },
+        {
+          "index": "274",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "4",
+          "flags": "0x0000"
+        },
+        {
+          "index": "281",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "11",
+          "flags": "0x0000"
+        },
+        {
+          "index": "278",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "8",
+          "flags": "0x0000"
+        },
+        {
+          "index": "279",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "9",
+          "flags": "0x0000"
+        },
+        {
+          "index": "280",
+          "texture_name": "Swmtyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "7",
+          "variant": "10",
+          "flags": "0x0000"
+        }
+      ],
+      "maps": {
+        "outc3": 3777,
+        "outd3": 1408
+      },
+      "rendered_cells": 5185,
+      "example": {
+        "map": "outc3",
+        "column": 32,
+        "row": 47,
+        "context": [
+          [
+            "swmdrnw",
+            "swmdrn",
+            "swmdrne"
+          ],
+          [
+            "swmdrw",
+            "swmtyl",
+            "swmdrxne"
+          ],
+          [
+            "swmdrsw",
+            "swmdrs",
+            "swmdrs"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "trope",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "e",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/trope.bmp",
+      "source_sha256": "9c4c9ad702865ba3c59a58b65962619fb0b44fec460cfa8f9726bc7292484b2e",
+      "reference": "references/trope.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "322",
+          "texture_name": "Trope",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "16",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 38
+      },
+      "rendered_cells": 38,
+      "example": {
+        "map": "outd2",
+        "column": 29,
+        "row": 27,
+        "context": [
+          [
+            "troptyl",
+            "tropxse",
+            "tropse"
+          ],
+          [
+            "troptyl",
+            "trope",
+            "6wtrdrnw"
+          ],
+          [
+            "trops",
+            "tropse",
+            "6wtrdrw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropn",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "n",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropn.bmp",
+      "source_sha256": "24b26283fd281b06c36f96c7dd9dea0e49f8018ee80e7aee7c87c8408c0510b6",
+      "reference": "references/tropn.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "324",
+          "texture_name": "Tropn",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "18",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 37
+      },
+      "rendered_cells": 37,
+      "example": {
+        "map": "outd2",
+        "column": 47,
+        "row": 25,
+        "context": [
+          [
+            "6wtrdrs",
+            "6wtrdrse",
+            "tropnw"
+          ],
+          [
+            "tropnw",
+            "tropn",
+            "tropxnw"
+          ],
+          [
+            "tropsw",
+            "tropxsw",
+            "troptyl"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropne",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "ne",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropne.bmp",
+      "source_sha256": "4d82abbeb9ddda9164e2283c17107c4e0a6f614a83787dc0d281676a2c2da573",
+      "reference": "references/tropne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "318",
+          "texture_name": "Tropne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 25
+      },
+      "rendered_cells": 25,
+      "example": {
+        "map": "outd2",
+        "column": 95,
+        "row": 80,
+        "context": [
+          [
+            "6wtrdrs",
+            "6wtrdrs",
+            "6wtrdrxsw"
+          ],
+          [
+            "tropnw",
+            "tropne",
+            "6wtrdrsw"
+          ],
+          [
+            "tropxnw",
+            "tropxne",
+            "tropn"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropnw",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "nw",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropnw.bmp",
+      "source_sha256": "0bb635ccd65eeba810a329844859d07c97dd4f70a670a5b72e4fbbcfe9ebe697",
+      "reference": "references/tropnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "320",
+          "texture_name": "Tropnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 26
+      },
+      "rendered_cells": 26,
+      "example": {
+        "map": "outd2",
+        "column": 48,
+        "row": 24,
+        "context": [
+          [
+            "6wtrdrxse",
+            "6wtrdrs",
+            "6wtrdrs"
+          ],
+          [
+            "6wtrdrse",
+            "tropnw",
+            "tropne"
+          ],
+          [
+            "tropn",
+            "tropxnw",
+            "trope"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "trops",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "s",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/trops.bmp",
+      "source_sha256": "28e612c1656bb3658e2d5ddfa2f1020dc90fca240627443322cd55e94d3a22d5",
+      "reference": "references/trops.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "325",
+          "texture_name": "Trops",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "19",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 43
+      },
+      "rendered_cells": 43,
+      "example": {
+        "map": "outd2",
+        "column": 77,
+        "row": 27,
+        "context": [
+          [
+            "tropxne",
+            "tropn",
+            "tropn"
+          ],
+          [
+            "tropxse",
+            "trops",
+            "tropxsw"
+          ],
+          [
+            "trope",
+            "6drsrncap",
+            "tropw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropse",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "se",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropse.bmp",
+      "source_sha256": "ab99dc2a48d80aa2f4e2ae29363f819307d1b2ec1a1f213faf8333e0e8027906",
+      "reference": "references/tropse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "319",
+          "texture_name": "Tropse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "12",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 21
+      },
+      "rendered_cells": 21,
+      "example": {
+        "map": "outd2",
+        "column": 30,
+        "row": 26,
+        "context": [
+          [
+            "tropxne",
+            "tropne",
+            "6wtrdrw"
+          ],
+          [
+            "tropxse",
+            "tropse",
+            "6wtrdrw"
+          ],
+          [
+            "trope",
+            "6wtrdrnw",
+            "6wtrdrxnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropsw",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "sw",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropsw.bmp",
+      "source_sha256": "15e8578b93547708009ae1c4e27a7368721bb0fc56ff84472422ea83cd218e7b",
+      "reference": "references/tropsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "321",
+          "texture_name": "Tropsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "14",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 24
+      },
+      "rendered_cells": 24,
+      "example": {
+        "map": "outd2",
+        "column": 78,
+        "row": 36,
+        "context": [
+          [
+            "6drsrns",
+            "tropw",
+            "troptyl"
+          ],
+          [
+            "6drsrns",
+            "tropsw",
+            "trops"
+          ],
+          [
+            "6drsrscap",
+            "6wtrdrnw",
+            "6wtrdrn"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "troptyl",
+      "family": "tropical",
+      "kind": "base",
+      "suffix": null,
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/troptyl.bmp",
+      "source_sha256": "bf02bf064a0460db2f9a8c08ab5db15a4dbc2ce997e814b3514889f0b7cc4c78",
+      "reference": "references/troptyl.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "307",
+          "texture_name": "Troptyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "1",
+          "flags": "0x0000"
+        },
+        {
+          "index": "309",
+          "texture_name": "Troptyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "3",
+          "flags": "0x0000"
+        },
+        {
+          "index": "308",
+          "texture_name": "Troptyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "2",
+          "flags": "0x0000"
+        },
+        {
+          "index": "306",
+          "texture_name": "Troptyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "0",
+          "flags": "0x0000"
+        },
+        {
+          "index": "315",
+          "texture_name": "Troptyl",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "9",
+          "flags": "0x0000"
+        }
+      ],
+      "maps": {
+        "outd2": 134
+      },
+      "rendered_cells": 134,
+      "example": {
+        "map": "outd2",
+        "column": 48,
+        "row": 26,
+        "context": [
+          [
+            "tropn",
+            "tropxnw",
+            "trope"
+          ],
+          [
+            "tropxsw",
+            "troptyl",
+            "trope"
+          ],
+          [
+            "tropsw",
+            "trops",
+            "tropse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropw",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "w",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropw.bmp",
+      "source_sha256": "23113638dcadfb617fcddd45d7116b9033e7e1b523907e0017c0279ca7ba311e",
+      "reference": "references/tropw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "323",
+          "texture_name": "Tropw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "17",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 34
+      },
+      "rendered_cells": 34,
+      "example": {
+        "map": "outd2",
+        "column": 42,
+        "row": 55,
+        "context": [
+          [
+            "6wtrdrse",
+            "tropnw",
+            "tropn"
+          ],
+          [
+            "6dirttyl",
+            "tropw",
+            "troptyl"
+          ],
+          [
+            "6wtrdrne",
+            "tropsw",
+            "trops"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropxne",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "xne",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropxne.bmp",
+      "source_sha256": "7c3ce330a522db3cce4aae0c34e47e8fae52f4d886fa218cdc7e6815c75e6a25",
+      "reference": "references/tropxne.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "326",
+          "texture_name": "Tropxne",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 15
+      },
+      "rendered_cells": 15,
+      "example": {
+        "map": "outd2",
+        "column": 98,
+        "row": 69,
+        "context": [
+          [
+            "tropn",
+            "tropne",
+            "6wtrdrsw"
+          ],
+          [
+            "tropxsw",
+            "tropxne",
+            "tropne"
+          ],
+          [
+            "tropsw",
+            "trops",
+            "tropse"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropxnw",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "xnw",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropxnw.bmp",
+      "source_sha256": "90afcacbc35839366dd55e30836a80d4c4089c9dec004536ef2cc1bf07117993",
+      "reference": "references/tropxnw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "328",
+          "texture_name": "Tropxnw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 17
+      },
+      "rendered_cells": 17,
+      "example": {
+        "map": "outd2",
+        "column": 48,
+        "row": 25,
+        "context": [
+          [
+            "6wtrdrse",
+            "tropnw",
+            "tropne"
+          ],
+          [
+            "tropn",
+            "tropxnw",
+            "trope"
+          ],
+          [
+            "tropxsw",
+            "troptyl",
+            "trope"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropxse",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "xse",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropxse.bmp",
+      "source_sha256": "5c3a4d1226833bdb9d3755eec756e5bbaf06393a07c789b369bf7f4eca0c0ba8",
+      "reference": "references/tropxse.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "327",
+          "texture_name": "Tropxse",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "20",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 12
+      },
+      "rendered_cells": 12,
+      "example": {
+        "map": "outd2",
+        "column": 29,
+        "row": 26,
+        "context": [
+          [
+            "troptyl",
+            "tropxne",
+            "tropne"
+          ],
+          [
+            "troptyl",
+            "tropxse",
+            "tropse"
+          ],
+          [
+            "troptyl",
+            "trope",
+            "6wtrdrnw"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    },
+    {
+      "name": "tropxsw",
+      "family": "tropical",
+      "kind": "transition",
+      "suffix": "xsw",
+      "related_materials": [
+        "troptyl",
+        "6dirttyl"
+      ],
+      "source": "assets_dev/worlds/mm6/textures/tropxsw.bmp",
+      "source_sha256": "4919ddfcb07f632a5a4613eb4c7ef71a40c1632b6ba429ff5a63b993b3eccd1e",
+      "reference": "references/tropxsw.png",
+      "source_size": [
+        128,
+        128
+      ],
+      "descriptors": [
+        {
+          "index": "329",
+          "texture_name": "Tropxsw",
+          "tile_id": "0",
+          "bitmap_id": "0",
+          "tileset": "8",
+          "variant": "22",
+          "flags": "0x0200"
+        }
+      ],
+      "maps": {
+        "outd2": 15
+      },
+      "rendered_cells": 15,
+      "example": {
+        "map": "outd2",
+        "column": 47,
+        "row": 26,
+        "context": [
+          [
+            "tropnw",
+            "tropn",
+            "tropxnw"
+          ],
+          [
+            "tropsw",
+            "tropxsw",
+            "troptyl"
+          ],
+          [
+            "6wtrdrne",
+            "tropsw",
+            "trops"
+          ]
+        ]
+      },
+      "alpha": "Opaque material composite; no separate source material mask"
+    }
+  ]
+}

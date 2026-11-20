@@ -1,0 +1,188 @@
+# MM9 side quest "Steal the Golden Honk" (guide: Side quests, Guberland side quests, steal-the-golden-honk;
+# tools/mm9_site/story/side_b.yml). Played from a new game in the Hall of the Gods, with Arslegard's story state of
+# Chapter III (below). Fre (actor 2, RUDE 337) in the throne hall gives the task (key 343). The party walks out of the
+# hall into Arslegard City, is placed by the bridge to Thjorgard and crosses it, sails to Guberland (the Sea's Fang,
+# four days; `travel`), is placed by the Temple of Honk's door in the region's north-east and walks the temple (a
+# dungeon): the gallery's double door (DoubleDoor13, event 130) opens only on Fre's task; the walk opens the doors
+# on the way; the Honks are friendly. The Golden Honk on the great sanctuary's altar is picked up (a world item: item
+# 369, key 344; templeofhonk.lua handler 76) and every Honk turns hostile; the way out is walked leg by leg, each
+# double door clicked once it has shut (they close by themselves after 7 s), the Honks near the party dying. No road
+# or boat leads back to Arslegard: as the guide's Chapter III says, the party is defeated and wakes at Arslegard's
+# Great Gate, keeping the Golden Honk. Placed by the hall, it walks in to Fre: "We have retrieved the Golden Honk."
+# (key 346), her three answers, and the close pays (key 347: 10 000 gold, 22 500 experience; the Golden Honk taken;
+# hallofthegods.lua handler 50126). Research: prep/B_guberland_frosgard_honk.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py steal_the_golden_honk
+id: mm9.side_quests.steal_the_golden_honk
+title: "MM9 side quest: Steal the Golden Honk (Fre, the Temple of Honk)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: hallofthegods.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  # Story state (Chapter III): Sven fell at Yorwick and Forad joined (keys 97, 29); Hanndl has turned the dead party
+  # away once (key 98; without it, arriving in Arslegard City plays his refusal and drops the party at the Dark
+  # Passageway) and has since read the Writ of Fate (100) and opened the Great Gate (9515). With 97, 29 and 100 a
+  # defeat wakes the party in Arslegard (world.yml partyDeath, MM9's rule; the way back to Fre below); without the Writ
+  # it would be a game over. Fre's lines need no key.
+  - lua_event: {source: "evt.SetQuestBit(90097) evt.SetQuestBit(90029) evt.SetQuestBit(90098) evt.SetQuestBit(90100) evt.SetQuestBit(99515)"}
+  - assert: {map: hallofthegods.blv, gold: 10000, qbit_clear: [90343, 90344, 90345, 90346, 90347]}
+
+  # Up the hall to Fre in the throne hall.
+  - walk_to: {x: 4350, y: 3400, z: 677, radius: 150, z_tolerance: 200, timeout_seconds: 300}
+  - interact_actor: {actor_index: 2}
+  - select_topic: {match_label: "Can we ask you some questions?"}
+  - select_topic: {match_label: "We would be glad to do your task."}
+  - select_topic: {match_label: "We've heard of them."}
+  - select_topic: {match_label: "What does it look like?"}
+  - select_topic: {match_label: "Thank you for this opportunity."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90343], qbit_clear: [90344, 90346]}
+
+  # Out of the hall by its west door; Arslegard City; the bridge north of the Great Gate to Thjorgard; by sea to
+  # Guberland.
+  - walk_to: {x: -7700, y: 2949, z: 1, timeout_seconds: 300, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: arslegardcity.blv}
+  - set_pose: {map: arslegardcity.blv, x: 14418, y: 2500, z: -82, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 14418, y: 3100, z: -82, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+  - travel: {map: guberland.blv, days: 4}
+
+  # The Temple of Honk's door (ExitTrigger3) in the region's north-east corner.
+  - set_pose: {map: guberland.blv, x: -19567, y: -18800, z: 165, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -19567, y: -18323, z: 165, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: templeofhonk.blv}
+
+  # The temple walked from the pool hall up to the gallery, through the quest door (DoubleDoor13), the west corridors,
+  # the amphitheatre and the south halls up into the great sanctuary; the walk clicks each shut door it stops at
+  # (130, 112, 109, 108). The Honks are still friendly.
+  - walk_to: {x: 5420, y: 3230, z: 452, radius: 80, z_tolerance: 200, timeout_seconds: 300}
+  - play_lua:
+      source: |
+        if mapvar("HonksHostile") ~= 0 then error("the Honks turned hostile on the way in") end
+        log("at the altar; the Honks are still friendly")
+  # The Golden Honk on the altar behind the Elder Honk: taking it turns the Honks hostile.
+  - pick_up: {item_id: 10369}
+  - assert: {qbit_set: [90344], qbit_clear: [90345]}
+  - play_lua:
+      source: |
+        if mapvar("HonksHostile") ~= 1 then error("the Honks did not turn hostile on the theft") end
+        log("the Golden Honk taken; the Honks are hostile")
+
+  # The way out, leg by leg: each double door waited for until both leaves are shut, then clicked.
+  - walk_to: {x: 3600, y: 2080, z: 696, radius: 60, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 1500, via: [[4654, 3186, 328]]}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        for i = 1, 40 do if door_state(17) == "closed" and door_state(18) == "closed" then break end; wait(0.25) end
+        click(108)
+        for i = 1, 16 do wait(0.25); if door_state(17) == "open" and door_state(18) == "open" then break end end
+        if door_state(17) ~= "open" or door_state(18) ~= "open" then error("DoubleDoor4 did not open: " .. door_state(17) .. "/" .. door_state(18)) end
+        log("DoubleDoor4 opened")
+  # Through the open door; when its leaves have swung shut again first, the planned route goes the long way round
+  # through the temple (about a minute), as a player might.
+  - walk_to: {x: 3603, y: 1591, z: 655, radius: 60, z_tolerance: 200, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 1847, y: 1990, z: 41, radius: 60, z_tolerance: 200, timeout_seconds: 90, clear_hostiles: 1500, via: [[3718, 576, 643], [2504, 33, 269], [2080, 1364, 41]]}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        for i = 1, 40 do if door_state(19) == "closed" and door_state(20) == "closed" then break end; wait(0.25) end
+        click(109)
+        for i = 1, 16 do wait(0.25); if door_state(19) == "open" and door_state(20) == "open" then break end end
+        if door_state(19) ~= "open" or door_state(20) ~= "open" then error("DoubleDoor5 did not open: " .. door_state(19) .. "/" .. door_state(20)) end
+        log("DoubleDoor5 opened")
+  - walk_to: {x: 1847, y: 2250, z: 41, radius: 60, z_tolerance: 200, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: -505, y: 4386, z: 41, radius: 60, z_tolerance: 200, timeout_seconds: 90, clear_hostiles: 1500, via: [[1830, 2843, 41], [600, 3282, 44]]}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        for i = 1, 40 do if door_state(25) == "closed" and door_state(26) == "closed" then break end; wait(0.25) end
+        click(112)
+        for i = 1, 16 do wait(0.25); if door_state(25) == "open" and door_state(26) == "open" then break end end
+        if door_state(25) ~= "open" or door_state(26) ~= "open" then error("DoubleDoor9 did not open: " .. door_state(25) .. "/" .. door_state(26)) end
+        log("DoubleDoor9 opened")
+  - walk_to: {x: -569, y: 4676, z: 41, radius: 60, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 1500}
+  - walk_to: {x: -3011, y: 5200, z: 41, radius: 60, z_tolerance: 200, timeout_seconds: 90, clear_hostiles: 1500, via: [[-1714, 4808, 41]]}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        for i = 1, 40 do if door_state(9) == "closed" and door_state(10) == "closed" then break end; wait(0.25) end
+        click(130)
+        for i = 1, 16 do wait(0.25); if door_state(9) == "open" and door_state(10) == "open" then break end end
+        if door_state(9) ~= "open" or door_state(10) ~= "open" then error("DoubleDoor13 did not open: " .. door_state(9) .. "/" .. door_state(10)) end
+        log("DoubleDoor13 opened")
+  - walk_to: {x: -3011, y: 5450, z: 41, radius: 60, z_tolerance: 200, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: -3011, y: 8000, z: -521, timeout_seconds: 90, clear_hostiles: 1500, expect: dialog, via: [[-2899, 5455, 41], [-2383, 6517, -397]]}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberland.blv}
+
+  # Back to Arslegard the only way there is: the party falls (immortality off for it) and wakes at the Great Gate,
+  # still holding the Golden Honk.
+  - setup_shortcut: {kind: immortal, value: false}
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  # The defeat takes no gold, as MM9's does not (cshell.dll 0x100a4e50; world.yml partyDeath keepGold).
+  - assert: {map: arslegardcity.blv, gold: 10000}
+  - play_lua:
+      source: |
+        if not has_item(10369) then error("the Golden Honk was lost in the defeat") end
+        log("awake in Arslegard City with the Golden Honk")
+
+  # Across the city (placed) to the Hall of the Gods' entrance in the south-east; the hall walked up to Fre.
+  - set_pose: {map: arslegardcity.blv, x: 19800, y: -11703, z: 493, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 20300, y: -11703, z: 493, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: hallofthegods.blv}
+  - walk_to: {x: 4350, y: 3400, z: 677, radius: 150, z_tolerance: 200, timeout_seconds: 300}
+  # The Honks killed on the way out gave experience: counted from here, the reward alone.
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - interact_actor: {actor_index: 2}
+  - select_topic: {match_label: "We have retrieved the Golden Honk."}
+  - select_topic: {match_label: "Who is behind Tamur Leng?"}
+  - select_topic: {match_label: "Will we succeed in stopping Tamur Leng?"}
+  - select_topic: {match_label: "What does the future hold for Chedian?"}
+  - select_topic: {match_label: "What sword?  What two Jarls?"}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  # The close pays: key 347, 10 000 gold (on the 10 000 kept through the defeat), 22 500 experience (MM9's 80 000
+  # on the rework's profile); the Golden Honk is taken.
+  - assert:
+      qbit_set: [90346, 90347]
+      gold: 20000
+      runtime_event_variable: {id: 13, member_index: 0, value: 22500}
+  - play_lua:
+      source: |
+        if has_item(10369) then error("Fre did not take the Golden Honk") end
+        log("Fre took the Golden Honk")
+  - interact_actor: {actor_index: 2}
+  - assert: {dialog: {active: true, source_id: 337, action_label_absent: "We have retrieved the Golden Honk."}}
+  - press_action: {action: cancel_dialog}

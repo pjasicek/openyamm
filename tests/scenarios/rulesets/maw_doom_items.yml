@@ -1,0 +1,43 @@
+id: rulesets.maw_doom_items
+title: "Ruleset - MAW Doom: a chest on a locked map stays shut without enough Disarm Traps, a Grandmaster opens it"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  # The Temple of the Sun (d06) has lock 4, so Doom asks Disarm Traps x mastery 8; nobody here has the skill. The
+  # chest stays shut before its trap is even tried, so nobody is hurt (outside Doom the trap goes off).
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, challenge_mode: doom}
+      party:
+        members:
+          - name: Rook
+            class: Knight
+            level: 10
+            portrait_id: 0
+            equipment: {}
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+  - load_map: {map: d06.blv}
+  - execute_event: {id: 81}
+  - assert:
+      chest_opened: {absent: true}
+      party_health: {full: true}
+  # A Grandmaster opens any chest.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, challenge_mode: doom}
+      party:
+        members:
+          - name: Wren
+            class: Thief
+            level: 10
+            portrait_id: 4
+            equipment: {}
+            skills:
+              - {name: Dagger, level: 4, mastery: 1}
+              - {name: DisarmTraps, level: 1, mastery: 4}
+  - load_map: {map: d06.blv}
+  - execute_event: {id: 81}
+  - assert:
+      chest_opened: {scene_kind: indoor, chest_id: 0}

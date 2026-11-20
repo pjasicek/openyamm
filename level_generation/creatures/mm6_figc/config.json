@@ -1,0 +1,22 @@
+{
+  "family": "figc",
+  "title": "MM6 Chain Fighter",
+  "descriptor_ids": [
+    535,
+    536,
+    537
+  ],
+  "base_palette": 212,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Adult male MM6 chain-armored fighter: horned steel helmet with nasal guard and open brown face, broad red-rimmed steel shoulder plates, black chainmail neck/arms/legs, half mustard ochre and half dark red surcoat with small chest emblem, gray belt, silver greaves/bracers/boots. Left arm holds the long angular kite shield (viewer right in front): silver rim and four-point silver center emblem, ochre inset and gold boss. Right hand holds the small double-bladed axe; its blade is almost edge-on in the front idle and must stay narrow, not become a broad frontal blade. Side scabbard is visible. Preserve the stocky native silhouette and equipment placement exactly. Death falls backward with the shield and axe retaining their native positions.",
+  "regions": "Separate enhanced-pixel coverage for ochre cloth/shield inset, red cloth, and steel armor/shield/weapon. Protect chainmail crevices, natural face, leather and outlines. Native palettes guide gold metal versus gray metal variants.",
+  "variant_names": {
+    "212": "Chain Fighter 1",
+    "211": "Chain Fighter 2",
+    "210": "Chain Fighter 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

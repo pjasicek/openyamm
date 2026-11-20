@@ -1,0 +1,3 @@
+Saved run 1’s [00_three_quarter.png](level_generation/creatures/mm9_markel_claude/references_hd/00_three_quarter.png), both raw returns, and prompts/checks in [generation_runs.json](level_generation/creatures/mm9_markel_claude/references_hd/generation_runs.json). Built-in image generation; unresized 1536×1024.
+
+Stopped after the permitted correction. Residual faults: background halo, tight margins, and unclear far-hand fingers; the result does not fully meet the brief.

@@ -27,8 +27,10 @@ struct OutdoorMovementInput
     bool turnBasedMovementStep = false;
     bool turnBasedPhysicsStep = false;
     float movementSpeedScale = 1.0f;
+    // The party's own speed (Party::movementMultiplier: a solo's Quickfoot, MM9's Fleet Foot, MAW's dimension slow).
+    // Unlike movementSpeedScale (an analogue stick's share, 0..1) it may exceed 1.
+    float partySpeedMultiplier = 1.0f;
     float flyHeightDelta = 0.0f;
-    bool autoRunActive = false;
 };
 
 struct OutdoorPartyMovementState
@@ -59,6 +61,8 @@ struct OutdoorMovementEffects
     bool playSplashSound = false;
     bool playLandingSound = false;
     bool playHardLandingSound = false;
+    // Taken inside a dungeon (rules size such damage by where it happens).
+    bool indoor = false;
 };
 
 struct OutdoorMovementTuning
@@ -67,7 +71,8 @@ struct OutdoorMovementTuning
     float runForwardMultiplier = 2.0f;
     float flyingRunMultiplier = 4.0f;
     float backwardWalkMultiplier = 1.0f;
-    float strafeMultiplier = 0.75f;
+    // Half the walking speed, as indoors (IndoorRenderer) and MAW: running strafes at walking speed (user, 2026-10-25).
+    float strafeMultiplier = 0.5f;
     float turboMultiplier = 12.0f;
     float flyingRunTurboMultiplier = 24.0f;
     float jumpVelocity = 480.0f;
@@ -108,16 +113,20 @@ public:
         const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
     );
 
-    void initialize(float x, float y, float footZHint);
+    // keepHeight: the party stays at footZHint in the air and falls (OutdoorPartyRuntime::teleportTo).
+    void initialize(float x, float y, float footZHint, bool keepHeight = false);
     void restoreState(const OutdoorMoveState &state, const OutdoorPartyMovementState &partyMovementState);
     void update(
         const OutdoorMovementInput &input,
         float deltaSeconds,
         GameplayWorldMovementFrameDiagnostics *pPerformanceDiagnostics = nullptr);
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
+    void setHiddenDecorationEntities(const std::vector<bool> &hiddenEntities);
     void setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes);
     void updateFaceGeometries(const std::vector<OutdoorFaceGeometryData> &geometries);
     bool translateWithSupportedBModel(size_t bModelIndex, float deltaX, float deltaY, float deltaZ);
+    // Raises the party in place; it falls back from there (MAW's unstuck key).
+    void lift(float height);
     const OutdoorMoveState &state() const;
     const OutdoorMovementEvents &lastEvents() const;
     const OutdoorMovementConsequences &lastConsequences() const;
@@ -126,35 +135,50 @@ public:
     const OutdoorMovementTuning &tuning() const;
     const OutdoorMovementEffects &pendingEffects() const;
     OutdoorMovementEffects consumePendingEffects();
+    // Turn-based combat: one water or burning damage tick for a completed turn where the party stands.
+    void addTurnBasedHazardTicks();
     void toggleRunning();
     void toggleFlying();
+    // Descends at fly-down speed until the party touches down, then ends flight; no fall damage.
+    void requestLanding();
     void toggleWaterWalk();
     void toggleFeatherFall();
     void setFlying(bool active);
     void setFlyingAvailable(bool active);
+    // Swimming (an underwater map): the party is held as in flight, so it neither falls nor takes fall damage.
+    void setSwimming(bool active);
     void setRunning(bool active);
     void setWaterWalkActive(bool active);
     void setFeatherFallActive(bool active);
+    // Levitate keeps the party off water and lava damage.
+    void setLevitateActive(bool active);
     void setSpeedMultiplier(float multiplier);
     void setBodyDimensions(float radius, float height, float maxStepHeight = 128.0f);
     void setCollisionTraceEnabled(bool enabled, std::string mapName);
     void requestJump(std::optional<float> verticalVelocity = std::nullopt, float lift = 1.0f);
     void requestSpecialJump(float velocityX, float velocityY, float velocityZ);
+    // Adds this horizontal velocity to every movement step for `seconds`, with the world's collision (a charge).
+    void requestDash(float velocityX, float velocityY, float seconds);
 
 private:
     bool canActivateFlying() const;
     bool isEffectiveRunning(const OutdoorMovementInput &input) const;
+    bool drowningHere() const;
+    bool burningHere() const;
 
     OutdoorMovementController m_movementController;
     OutdoorMoveState m_state;
     OutdoorPartyMovementState m_partyMovementState;
     OutdoorMovementTuning m_tuning;
+    // The map's flight ceiling (its scene's movement.flight_ceiling), restored into m_tuning whenever it resets.
+    float m_flightCeiling = 0.0f;
     OutdoorBodyDimensions m_bodyDimensions;
     OutdoorMovementEvents m_lastEvents;
     OutdoorMovementConsequences m_lastConsequences;
     OutdoorMovementEffects m_pendingEffects;
     bool m_jumpHeld = false;
     bool m_flyUpHeld = false;
+    bool m_landingRequested = false;
     float m_pendingFlyHeightDelta = 0.0f;
     bool m_pendingJumpPress = false;
     std::optional<float> m_pendingJumpVelocity;
@@ -162,7 +186,17 @@ private:
     float m_pendingImpulseVelocityX = 0.0f;
     float m_pendingImpulseVelocityY = 0.0f;
     float m_pendingImpulseVelocityZ = 0.0f;
+    // A special jump's horizontal speed, kept until the party is back on the ground, or in flight for the seconds the
+    // same jump would keep a walking party in the air.
+    float m_jumpCarryVelocityX = 0.0f;
+    float m_jumpCarryVelocityY = 0.0f;
+    float m_jumpCarryFlightSeconds = 0.0f;
+    float m_dashVelocityX = 0.0f;
+    float m_dashVelocityY = 0.0f;
+    float m_dashSeconds = 0.0f;
     bool m_flyingAvailable = false;
+    bool m_swimming = false;
+    bool m_levitateActive = false;
     float m_movementAccumulatorSeconds = 0.0f;
     float m_startedFallingEventSeconds = 0.0f;
     float m_landedEventSeconds = 0.0f;

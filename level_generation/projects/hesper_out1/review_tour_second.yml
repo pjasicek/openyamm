@@ -1,0 +1,137 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/second",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "arrival_to_lift",
+   "position": [
+    -4320,
+    -7200,
+    1268
+   ],
+   "yaw": 0.6599,
+   "pitch": 0.0178
+  },
+  {
+   "name": "crater_from_rim",
+   "position": [
+    -5184,
+    -7488,
+    1268
+   ],
+   "yaw": -2.3562,
+   "pitch": -0.2474
+  },
+  {
+   "name": "apron_to_terminal",
+   "position": [
+    -3456,
+    2880,
+    1460
+   ],
+   "yaw": 0.0,
+   "pitch": -0.0024
+  },
+  {
+   "name": "terminal_front",
+   "position": [
+    4320,
+    3168,
+    1460
+   ],
+   "yaw": -0.0907,
+   "pitch": -0.0094
+  },
+  {
+   "name": "gantries",
+   "position": [
+    1728,
+    5184,
+    1460
+   ],
+   "yaw": 1.3102,
+   "pitch": -0.0353
+  },
+  {
+   "name": "hangars",
+   "position": [
+    -4608,
+    4608,
+    1460
+   ],
+   "yaw": 1.1903,
+   "pitch": -0.0682
+  },
+  {
+   "name": "camp",
+   "position": [
+    -9216,
+    8064,
+    1204
+   ],
+   "yaw": 3.0309,
+   "pitch": 0.0065
+  },
+  {
+   "name": "canyon",
+   "position": [
+    8064,
+    -1152,
+    1364
+   ],
+   "yaw": -0.8685,
+   "pitch": -0.0552
+  },
+  {
+   "name": "pumping_station",
+   "position": [
+    13824,
+    -8640,
+    724
+   ],
+   "yaw": 0.0,
+   "pitch": 0.247
+  },
+  {
+   "name": "scrapyard",
+   "position": [
+    10656,
+    1728,
+    1524
+   ],
+   "yaw": 0.2985,
+   "pitch": -0.0972
+  },
+  {
+   "name": "glassfields",
+   "position": [
+    9216,
+    13824,
+    1812
+   ],
+   "yaw": 0.2187,
+   "pitch": 0.0365
+  },
+  {
+   "name": "archive_dome",
+   "position": [
+    -8640,
+    14976,
+    1620
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.058
+  },
+  {
+   "name": "aerial",
+   "position": [
+    -2880,
+    -16704,
+    10120
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.75
+  }
+ ]
+}

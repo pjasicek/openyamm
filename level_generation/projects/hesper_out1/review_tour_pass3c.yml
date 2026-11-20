@@ -1,0 +1,67 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/pass3c",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "locker",
+   "position": [
+    -10260,
+    1856,
+    1214
+   ],
+   "yaw": 0.7266,
+   "pitch": -0.495
+  },
+  {
+   "name": "container",
+   "position": [
+    -6002,
+    3124,
+    1435
+   ],
+   "yaw": 0.6673,
+   "pitch": -0.3639
+  },
+  {
+   "name": "lowfolk_inside",
+   "position": [
+    3456,
+    -3571,
+    1296
+   ],
+   "yaw": 1.8737,
+   "pitch": -0.0466
+  },
+  {
+   "name": "lowfolk_inside_west",
+   "position": [
+    4147,
+    -2880,
+    1296
+   ],
+   "yaw": 3.0073,
+   "pitch": -0.0418
+  },
+  {
+   "name": "lowfolk_north_gate",
+   "position": [
+    2592,
+    -115,
+    1332
+   ],
+   "yaw": -1.3258,
+   "pitch": -0.0756
+  },
+  {
+   "name": "lowfolk_aerial",
+   "position": [
+    1152,
+    -7488,
+    3592
+   ],
+   "yaw": 1.1802,
+   "pitch": -0.7
+  }
+ ]
+}

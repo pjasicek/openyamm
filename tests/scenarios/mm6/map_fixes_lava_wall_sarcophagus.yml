@@ -1,0 +1,27 @@
+id: mm6.map_fixes_lava_wall_sarcophagus
+title: "Map fixes in every game: Gharik's lava wall clears with lever 35, Korbu's sarcophagus comes once"
+world: mm8
+mode: faithful
+tags: [mm6, mm8, content]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+  # Gharik's Forge: lever 35 also clears the lava wall (face 2255, cog 1 from 6d18_1.scene.yml), and puts it back.
+  - load_map: {map: 6d18.blv}
+  - execute_event: {id: 35}
+  - assert:
+      state_dump_named_map_var: {name: LavaWallCleared, value: 1}
+  - execute_event: {id: 35}
+  - assert:
+      state_dump_named_map_var: {name: LavaWallCleared, value: 0}
+  # Korbu's sarcophagus comes once per game, also from a refilled crypt. Headless runs never hand an event's item to
+  # the party, so the event's own QBit tells whether it ran.
+  - load_map: {map: d26.blv}
+  - execute_event: {id: 131}
+  - assert:
+      qbit_set: [211]
+      state_dump_named_global_var: {name: SarcophagusFound, value: 1}
+  - setup_shortcut: {kind: set_qbit, id: 211, value: false}
+  - execute_event: {id: 131}
+  - assert:
+      qbit_clear: [211]

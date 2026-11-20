@@ -1,0 +1,138 @@
+{
+  "map": "d05.blv",
+  "world": "mm8",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 32,
+    "links": 31,
+    "components": 2,
+    "loops": 1
+  },
+  "scale": {
+    "floor_area_millions": 68.06,
+    "sector_floor_area": {
+      "count": 31,
+      "min": 294912,
+      "q1": 536576,
+      "median": 1132544,
+      "q3": 2215936,
+      "max": 13619200
+    },
+    "sector_height": {
+      "count": 31,
+      "min": 154,
+      "q1": 266,
+      "median": 266,
+      "q3": 778,
+      "max": 1882
+    },
+    "doorway_width": {
+      "count": 30,
+      "min": 256,
+      "q1": 256,
+      "median": 256,
+      "q3": 256,
+      "max": 4608
+    },
+    "doorway_height": {
+      "count": 30,
+      "min": 240,
+      "q1": 240,
+      "median": 256,
+      "q3": 256,
+      "max": 1488
+    },
+    "floor_level": {
+      "count": 828,
+      "min": -1152,
+      "q1": -640,
+      "median": -456,
+      "q3": 128,
+      "max": 2464
+    }
+  },
+  "mechanisms": {
+    "doors": 112,
+    "bound_events": 89,
+    "door_events": 64,
+    "trap_events": 5,
+    "local_teleports": 0,
+    "exits": 2,
+    "summon_events": 23,
+    "chest_events": 7,
+    "text_events": 3,
+    "secret_faces": 48,
+    "pressure_plates": 86,
+    "clickable_faces": 169
+  },
+  "density": {
+    "spawn_points": 52,
+    "fixed_actors": 0,
+    "unique_actors": 0,
+    "lights": 60,
+    "decorations": 1,
+    "spawn_points_per_area": 0.76,
+    "lights_per_area": 0.88,
+    "decorations_per_area": 0.01
+  },
+  "palette": {
+    "textures": 62,
+    "by_area": [{
+        "name": "t65c02",
+        "share": 0.247
+      },
+      {
+        "name": "t65b02",
+        "share": 0.106
+      },
+      {
+        "name": "t65c03",
+        "share": 0.104
+      },
+      {
+        "name": "t65b03",
+        "share": 0.068
+      },
+      {
+        "name": "t65a03",
+        "share": 0.067
+      },
+      {
+        "name": "t65b04",
+        "share": 0.066
+      },
+      {
+        "name": "t6502b",
+        "share": 0.061
+      },
+      {
+        "name": "t65a04c",
+        "share": 0.055
+      },
+      {
+        "name": "t65a04b",
+        "share": 0.045
+      },
+      {
+        "name": "t65a01",
+        "share": 0.039
+      },
+      {
+        "name": "t65a04",
+        "share": 0.019
+      },
+      {
+        "name": "t65a02",
+        "share": 0.014
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 31,
+    "reached_at_start": 5,
+    "reached_doors_clear": 30,
+    "walkable_area_millions": 58.02,
+    "unreached_spawn_points": 0
+  }
+}

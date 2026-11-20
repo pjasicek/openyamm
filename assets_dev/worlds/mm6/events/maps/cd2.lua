@@ -223,8 +223,8 @@ RegisterEvent(33, nil, function()
     end
     if not IsAtLeast(MapVar(3), 2) then
         AddValue(MapVar(3), 1)
-        evt.SetFacetBit(4522, FacetBits.Untouchable, 1)
-        evt.SetFacetBit(4575, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-4522, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-4575, FacetBits.Untouchable, 1)
         evt.StatusText("The way has been cleared")
         return
     end
@@ -235,7 +235,7 @@ RegisterEvent(34, "Podium", function()
     if not IsQBitSet(QBit(1033)) then -- 9, CD2, given when you destroy Lich book
         evt.StatusText("The Book of Liches is destroyed")
         SetQBit(QBit(1033)) -- 9, CD2, given when you destroy Lich book
-        evt.SetTexture(4560, "deskside")
+        evt.SetTexture(-4560, "deskside")
         return
     end
     evt.StatusText("The Book is destroyed")
@@ -249,8 +249,8 @@ RegisterEvent(35, nil, function()
     end
     if IsAtLeast(MapVar(3), 2) then return end
     AddValue(MapVar(3), 1)
-    evt.SetFacetBit(4522, FacetBits.Untouchable, 1)
-    evt.SetFacetBit(4575, FacetBits.Untouchable, 1)
+    evt.SetFacetBit(-4522, FacetBits.Untouchable, 1)
+    evt.SetFacetBit(-4575, FacetBits.Untouchable, 1)
     evt.StatusText("The way has been cleared")
 end)
 
@@ -262,8 +262,8 @@ RegisterEvent(36, nil, function()
     end
     if IsAtLeast(MapVar(3), 2) then return end
     AddValue(MapVar(3), 1)
-    evt.SetFacetBit(4522, FacetBits.Untouchable, 1)
-    evt.SetFacetBit(4575, FacetBits.Untouchable, 1)
+    evt.SetFacetBit(-4522, FacetBits.Untouchable, 1)
+    evt.SetFacetBit(-4575, FacetBits.Untouchable, 1)
     evt.StatusText("The way has been cleared")
 end)
 
@@ -274,8 +274,8 @@ RegisterEvent(37, nil, function()
     end
     if not IsAtLeast(MapVar(3), 2) then
         AddValue(MapVar(3), 1)
-        evt.SetFacetBit(4522, FacetBits.Untouchable, 1)
-        evt.SetFacetBit(4575, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-4522, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-4575, FacetBits.Untouchable, 1)
         evt.StatusText("The way has been cleared")
         return
     end
@@ -332,16 +332,16 @@ end)
 
 RegisterEvent(45, "Sign", function(continueStep)
     if continueStep == 4 then
-        evt.SetTexture(4298, "lavatyl")
-        evt.SetTexture(4299, "lavatyl")
-        evt.SetTexture(4300, "lavatyl")
-        evt.SetTexture(4301, "lavatyl")
-        evt.SetTexture(4302, "lavatyl")
-        evt.SetFacetBit(4298, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4299, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4300, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4301, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4302, FacetBits.Fluid, 1)
+        evt.SetTexture(-4298, "lavatyl")
+        evt.SetTexture(-4299, "lavatyl")
+        evt.SetTexture(-4300, "lavatyl")
+        evt.SetTexture(-4301, "lavatyl")
+        evt.SetTexture(-4302, "lavatyl")
+        evt.SetFacetBit(-4298, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4299, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4300, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4301, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4302, FacetBits.Fluid, 1)
         return
     end
     if continueStep ~= nil then return end
@@ -352,11 +352,11 @@ RegisterEvent(45, "Sign", function(continueStep)
         return
     end
     SetValue(MapVar(4), 0)
-    evt.SetTexture(4298, "orwtrtyl")
-    evt.SetTexture(4299, "orwtrtyl")
-    evt.SetTexture(4300, "orwtrtyl")
-    evt.SetTexture(4301, "orwtrtyl")
-    evt.SetTexture(4302, "orwtrtyl")
+    evt.SetTexture(-4298, "orwtrtyl")
+    evt.SetTexture(-4299, "orwtrtyl")
+    evt.SetTexture(-4300, "orwtrtyl")
+    evt.SetTexture(-4301, "orwtrtyl")
+    evt.SetTexture(-4302, "orwtrtyl")
 end, "Sign")
 
 RegisterEvent(46, nil, function()
@@ -417,25 +417,25 @@ RegisterEvent(54, "Lever", function()
     if not IsAtLeast(MapVar(2), 1) then
         SetValue(MapVar(2), 1)
         evt.SetDoorState(14, DoorAction.Trigger)
-        evt.SetTexture(4219, "lavatyl")
-        evt.SetTexture(4220, "lavatyl")
-        evt.SetTexture(4221, "lavatyl")
-        evt.SetTexture(4222, "lavatyl")
-        evt.SetTexture(4223, "lavatyl")
-        evt.SetFacetBit(4219, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4220, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4221, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4222, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4223, FacetBits.Fluid, 1)
+        evt.SetTexture(-4219, "lavatyl")
+        evt.SetTexture(-4220, "lavatyl")
+        evt.SetTexture(-4221, "lavatyl")
+        evt.SetTexture(-4222, "lavatyl")
+        evt.SetTexture(-4223, "lavatyl")
+        evt.SetFacetBit(-4219, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4220, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4221, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4222, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4223, FacetBits.Fluid, 1)
         return
     end
     evt.SetDoorState(14, DoorAction.Trigger)
     SetValue(MapVar(2), 0)
-    evt.SetTexture(4219, "orwtrtyl")
-    evt.SetTexture(4220, "orwtrtyl")
-    evt.SetTexture(4221, "orwtrtyl")
-    evt.SetTexture(4222, "orwtrtyl")
-    evt.SetTexture(4223, "orwtrtyl")
+    evt.SetTexture(-4219, "orwtrtyl")
+    evt.SetTexture(-4220, "orwtrtyl")
+    evt.SetTexture(-4221, "orwtrtyl")
+    evt.SetTexture(-4222, "orwtrtyl")
+    evt.SetTexture(-4223, "orwtrtyl")
 end, "Lever")
 
 RegisterEvent(55, "Sign", function(continueStep)
@@ -451,25 +451,25 @@ RegisterEvent(56, "Sign", function()
     if not IsAtLeast(MapVar(3), 1) then
         evt.SetDoorState(12, DoorAction.Trigger)
         SetValue(MapVar(3), 1)
-        evt.SetTexture(4265, "lavatyl")
-        evt.SetTexture(4266, "lavatyl")
-        evt.SetTexture(4267, "lavatyl")
-        evt.SetTexture(4268, "lavatyl")
-        evt.SetTexture(4269, "lavatyl")
-        evt.SetFacetBit(4265, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4266, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4267, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4268, FacetBits.Fluid, 1)
-        evt.SetFacetBit(4269, FacetBits.Fluid, 1)
+        evt.SetTexture(-4265, "lavatyl")
+        evt.SetTexture(-4266, "lavatyl")
+        evt.SetTexture(-4267, "lavatyl")
+        evt.SetTexture(-4268, "lavatyl")
+        evt.SetTexture(-4269, "lavatyl")
+        evt.SetFacetBit(-4265, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4266, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4267, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4268, FacetBits.Fluid, 1)
+        evt.SetFacetBit(-4269, FacetBits.Fluid, 1)
         return
     end
     evt.SetDoorState(14, DoorAction.Trigger)
     SetValue(MapVar(3), 0)
-    evt.SetTexture(4265, "orwtrtyl")
-    evt.SetTexture(4266, "orwtrtyl")
-    evt.SetTexture(4267, "orwtrtyl")
-    evt.SetTexture(4269, "orwtrtyl")
-    evt.SetTexture(4269, "orwtrtyl")
+    evt.SetTexture(-4265, "orwtrtyl")
+    evt.SetTexture(-4266, "orwtrtyl")
+    evt.SetTexture(-4267, "orwtrtyl")
+    evt.SetTexture(-4269, "orwtrtyl")
+    evt.SetTexture(-4269, "orwtrtyl")
 end, "Sign")
 
 RegisterEvent(57, "Crystal", function()
@@ -493,32 +493,32 @@ RegisterEvent(58, nil, function()
         evt.SetSprite(329, 1, "crysdisc")
     end
     if IsAtLeast(MapVar(4), 1) then
-        evt.SetTexture(4298, "lavatyl")
-        evt.SetTexture(4299, "lavatyl")
-        evt.SetTexture(4300, "lavatyl")
-        evt.SetTexture(4301, "lavatyl")
-        evt.SetTexture(4302, "lavatyl")
+        evt.SetTexture(-4298, "lavatyl")
+        evt.SetTexture(-4299, "lavatyl")
+        evt.SetTexture(-4300, "lavatyl")
+        evt.SetTexture(-4301, "lavatyl")
+        evt.SetTexture(-4302, "lavatyl")
     end
     if IsAtLeast(MapVar(2), 1) then
-        evt.SetTexture(4219, "lavatyl")
-        evt.SetTexture(4220, "lavatyl")
-        evt.SetTexture(4221, "lavatyl")
-        evt.SetTexture(4222, "lavatyl")
-        evt.SetTexture(4223, "lavatyl")
+        evt.SetTexture(-4219, "lavatyl")
+        evt.SetTexture(-4220, "lavatyl")
+        evt.SetTexture(-4221, "lavatyl")
+        evt.SetTexture(-4222, "lavatyl")
+        evt.SetTexture(-4223, "lavatyl")
     end
     if IsAtLeast(MapVar(3), 1) then
-        evt.SetTexture(4265, "lavatyl")
-        evt.SetTexture(4266, "lavatyl")
-        evt.SetTexture(4267, "lavatyl")
-        evt.SetTexture(4268, "lavatyl")
-        evt.SetTexture(4269, "lavatyl")
+        evt.SetTexture(-4265, "lavatyl")
+        evt.SetTexture(-4266, "lavatyl")
+        evt.SetTexture(-4267, "lavatyl")
+        evt.SetTexture(-4268, "lavatyl")
+        evt.SetTexture(-4269, "lavatyl")
     end
     if IsQBitSet(QBit(1033)) then -- 9, CD2, given when you destroy Lich book
-        evt.SetTexture(4560, "deskside")
+        evt.SetTexture(-4560, "deskside")
     end
     if IsAtLeast(MapVar(3), 1) then
-        evt.SetFacetBit(4522, FacetBits.Untouchable, 1)
-        evt.SetFacetBit(4575, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-4522, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(-4575, FacetBits.Untouchable, 1)
     end
 end)
 

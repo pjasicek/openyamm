@@ -1,0 +1,177 @@
+# Explicit conversion choices for MM9's Thronheim City (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md.
+map:
+  fog: lithtech                      # MM9's own fog model and its WeatherMan night fog (CITY_PLAYBOOK "Daylight and fog")
+  bright_scale_lights: true          # BLV light colour x MM9's BrightScale, as its lightmaps (CITY_PLAYBOOK "Street lights")
+  stem: thronheimcity
+  display_name: Thronheim City
+  # start index = the old map's: 0 the east gate (from the Thronheim wilderness, TownExit), 1 the docks (TownDockExit),
+  # 2 Town Portal
+  starts: [StartPoint0, StartPoint1, TownPortal]
+  monster_classes: [CommonerElfFemaleA, Honk2, ElderHonkFemale, ShopkeeperHumanFemaleA, CommonerHuman2MaleA,
+                    CommonerHuman2MaleB, ClanSoldier, ShopkeeperHuman2MaleB, DesertTerror, PoorTownGuard1,
+                    CommonerElfMaleA, CommonerDwarfMaleA, CommonerHalfOrcFemaleA, CommonerHumanFemaleA,
+                    CommonerHumanFemaleB, ShopkeeperHuman2MaleA, ShopKeeperDwarfFemaleB, KiratheCold, YrsatheTroll]
+  # The Argument cinema's stage actors (BjarniThorvaldssen, SigmundtheStressed, ForadDarre, TryggvaRavenlocks,
+  # MarkeltheGreat, and Kira on its stage) are placed in Kira's hall by convert.py (council.py), not on the stage.
+  painted_minimap: true               # MM9's painted city map (catalog entry kept); no outline pass (CITY_PLAYBOOK.md)
+  offset: [0, 0, 0]                   # the old map's frame: fits int16
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  street: [1180, 1300]
+  raised: [1300, 1500]
+  upper: [1500, 1900]
+# The Argument cinema's stage under the city (y -32..260 LT, around the DAT origin): MM9 films its camera cinema there.
+# Not built: nothing seeds its air, so its faces drop (README "The Argument").
+seed_exclude: [Kira, Light0, Light14, Light17, Light18, Light19]
+models:
+  PortalZone0: skip                       # PortalZone (Visible 0): MM9's renderer zone (a wall portal's open/close volume), no geometry
+  PortalZone1: skip                       # PortalZone (as PortalZone0)
+  PortalZone2: skip                       # PortalZone (as PortalZone0)
+  TownHallDoor1: {group: TownHallDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  TownHallDoor2: {group: TownHallDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  Magic0: {group: Magic0, motion: rotate, doorway: true}   # the magic shop's single leaf: its rectangle is the doorway portal
+  RotatingDoor15: {group: RotatingDoor15, motion: rotate, doorway: true, portal: Tavern2Portal}   # RotatingDoor, 6 polys
+  RotatingDoor16: {group: RotatingDoor15, motion: rotate, doorway: true, portal: Tavern2Portal}   # RotatingDoor, 6 polys
+  RotatingDoor3: {group: RotatingDoor3, motion: rotate, doorway: true, portal: SafePortal1}   # locked
+  WorldObject1: static   # WorldObject, 26 polys
+  WorldObject2: static   # WorldObject, 26 polys
+  RotatingDoor17: {group: RotatingDoor17, motion: rotate, doorway: true}   # the Hall's single leaf: its rectangle is the doorway portal
+  RotatingDoor11: {group: RotatingDoor11, motion: rotate, doorway: true, portal: Portal01}   # RotatingDoor, 6 polys
+  RotatingDoor12: {group: RotatingDoor11, motion: rotate, doorway: true, portal: Portal01}   # RotatingDoor, 6 polys
+  RotatingDoor13: {group: RotatingDoor13, motion: rotate, doorway: true, portal: GuardHousePortal2}   # locked
+  RotatingDoor14: {group: RotatingDoor13, motion: rotate, doorway: true, portal: GuardHousePortal2}   # locked
+  Prisondoor0: {group: Prisondoor0, motion: rotate}   # locked
+  Prisondoor1: {group: Prisondoor1, motion: rotate}   # locked
+  DestructableBrush2: static   # DestructableBrush, 6 polys
+  DestructableBrush3: static   # DestructableBrush, 6 polys
+  InnDoor1: {group: InnDoor1, motion: rotate, doorway: true, portal: Inn2Portal1}   # locked
+  InnDoor2: {group: InnDoor1, motion: rotate, doorway: true, portal: Inn2Portal1}   # locked
+  RotatingDoor8: {group: RotatingDoor8, motion: rotate, doorway: true, portal: ApothPortal}   # RotatingDoor, 6 polys
+  RotatingDoor9: {group: RotatingDoor8, motion: rotate, doorway: true, portal: ApothPortal}   # RotatingDoor, 6 polys
+  vaultdoor: {group: vaultdoor, motion: rotate}   # locked
+  RotatingDoor4: {group: RotatingDoor4, motion: rotate, doorway: true, portal: TrainingHallPortal1}   # RotatingDoor, 6 polys
+  Door4: {group: Door4, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked), MoveDist 0
+  RotatingDoor6: {group: RotatingDoor6, motion: rotate, doorway: true, portal: TavernPortal}   # RotatingDoor, 6 polys
+  RotatingDoor7: {group: RotatingDoor6, motion: rotate, doorway: true, portal: TavernPortal}   # RotatingDoor, 6 polys
+  WorldObject4: static   # WorldObject, 54 polys
+  WorldObject3: static   # WorldObject, 6 polys
+  TOD_Sky0: skip                          # TOD_Sky: the night starfield shell
+  SkyBox0: skip                           # DemoSkyWorldModel: MM9's sky box (SnowMtns_*), drawn by the sky, not geometry
+  PortalZone3: skip                       # PortalZone (the prison's zone)
+  WeaponDoor2: {group: WeaponDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  WeaponDoor1: {group: WeaponDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  LibraryDoor1: {group: LibraryDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  LibraryDoor2: {group: LibraryDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  CounselDoor0: {group: CounselDoor0, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  CounselDoor1: {group: CounselDoor0, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  # The cell's back wall the Desert Terror breaks (BadAss.scr :DestroyWall): a scene destructible on the `break` route
+  # (dungeon/destructibles.py) with a doorway portal, so the street and the cell see and path through the hole once
+  # it is broken (built `static`, it stayed a sealed wall to sight, portals and the floor); no click, as in MM9
+  PrisonWall: {group: PrisonWall, motion: break, doorway: true, click: false}
+  Transparent Bars: static   # WorldObject, 50 polys
+  WorldObject8: static   # WorldObject, 14 polys
+  WorldObject10: static   # WorldObject, 14 polys
+  TempleRatDoor1: {group: TempleRatDoor1, motion: rotate, doorway: true, portal: TempleRatPortal}   # RotatingDoor, 6 polys
+  TempleRatDoor2: {group: TempleRatDoor1, motion: rotate, doorway: true, portal: TempleRatPortal}   # RotatingDoor, 6 polys
+  TempleThronDoor2: {group: TempleThronDoor1, motion: rotate, doorway: true, portal: TempleThronPortal}   # RotatingDoor, 6 polys
+  TempleThronDoor1: {group: TempleThronDoor1, motion: rotate, doorway: true, portal: TempleThronPortal}   # RotatingDoor, 6 polys
+  KiraDoor1: {group: KiraDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  KiraDoor2: {group: KiraDoor1, motion: rotate, doorway: true}   # RotatingDoor, 6 polys
+  WorldObject13: static   # WorldObject, 14 polys
+  WorldObject14: static   # WorldObject, 14 polys
+  WorldObject15: static   # WorldObject, 14 polys
+  WorldObject16: static   # WorldObject, 14 polys
+  Door3: {group: Door3, motion: dat}   # Door, 10 polys
+  WorldObject0: static   # WorldObject, 6 polys
+  WorldObject11: static   # WorldObject, 14 polys
+  WorldObject9: static   # WorldObject, 14 polys
+  WorldObject12: static   # WorldObject, 14 polys
+  WorldObject7: static   # WorldObject, 14 polys
+  WorldObject5: static   # WorldObject, 6 polys
+  Carpet10: static   # WorldObject, 6 polys
+  Carpet11: static   # WorldObject, 6 polys
+  Carpet12: static   # WorldObject, 6 polys
+  Secretdoor0: {group: Secretdoor0, motion: rotate}   # RotatingDoor, 12 polys
+  InvisibleBrush5: static   # InvisibleBrush, 6 polys
+  InvisibleBrush6: static   # InvisibleBrush, 6 polys
+  InvisibleBrush7: static   # InvisibleBrush, 6 polys
+  InvisibleBrush3: static   # InvisibleBrush, 6 polys
+  InvisibleBrush4: static   # InvisibleBrush, 6 polys
+  InvisibleBrush2: static   # InvisibleBrush, 6 polys
+  Door1: {group: Door1, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked), MoveDist 0
+  Door2: {group: Door2, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0: a facade door that never opens (click: locked), MoveDist 0
+  WorldObject6: static   # WorldObject, 6 polys
+  WorldObject17: static   # WorldObject, 14 polys
+  WorldObject18: static   # WorldObject, 14 polys
+  WorldObject19: static   # WorldObject, 14 polys
+  WorldObject20: static   # WorldObject, 14 polys
+  WorldObject21: static   # WorldObject, 14 polys
+  WorldObject22: static   # WorldObject, 14 polys
+  WorldObject23: static   # WorldObject, 14 polys
+  WorldObject24: static   # WorldObject, 14 polys
+  WorldObject25: static   # WorldObject, 14 polys
+  WorldObject26: static   # WorldObject, 14 polys
+  WorldObject27: static   # WorldObject, 14 polys
+  WorldObject53: static   # WorldObject, 12 polys
+  WorldObject61: static   # WorldObject, 12 polys
+  WorldObject60: static   # WorldObject, 12 polys
+  WorldObject59: static   # WorldObject, 12 polys
+  WorldObject58: static   # WorldObject, 12 polys
+  WorldObject56: static   # WorldObject, 12 polys
+  WorldObject55: static   # WorldObject, 12 polys
+  WorldObject54: static   # WorldObject, 12 polys
+  WorldObject62: static   # WorldObject, 12 polys
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the sky shell: IndoorSky faces (scene override)
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # sound-only brushes: invisible collision
+# MM9's window panes (DXT5 panes in the walls, the DestructableBrush windows): translucent faces, portals between rooms
+glass:
+  thjorwindow2.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  thjorwindow4.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  windowlead1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# UserPortals with no door that separate nothing (a hole, an inner arch, the vault's back): no portal
+skip_user_portals: [Portal45, TrainingHallSmallDoorPortal1, HolePorta]
+# MM9's exit volumes start 4 LT over the street (1212 against the floor at 1208): reach them down to it (the party's
+# feet stand at 1208)
+exits:
+  ExitTrigger0: {bottom_lt: 1200}
+  ExitTrigger1: {bottom_lt: 1200}
+# Ladder2: from the upper room (1488 LT) to the loft with the treasure chest (1754-1770); Ladder0: the low ladder by the
+# apothecary (1220 -> 1364). Ladder1 has no brush in the DAT.
+ladders:
+  Ladder2: {facing_lt: [0, -1], surface_lt: 6114, top_exit_lt: [-3136, 1772, 6040]}
+  Ladder0: {facing_lt: [-1, 0], surface_lt: 5534, top_exit_lt: [5450, 1366, 1990]}
+# The city's open air (../mm9r_common/city/structure.py): street air under the roof line, the air over the roofs one
+# room per district (three: the docks and east gate, the centre, the west town with Kira's hall). Thronheim's streets
+# are wide (plazas, broad lanes), so cuts up to 1 152 LT wide every 1 024 LT; three by hand (work/city/try_structure.py
+# on the cached voxels, work/city/streets_1472_hand.png).
+city:
+  weather: rain                    # the outdoor weather over the open sky (the user's decision 2026-11-06; city.hooks.apply_weather)
+  merged_top_portals: true          # few large convex top portals over walls and roofs (CITY_PLAYBOOK "The open air" step 3)
+  daylight: true                     # sun and sky light on the sectors open to the sky (CITY_PLAYBOOK "Daylight and fog")
+  street_top_lt: 1472                # 256 LT over the streets (1216): under the lowest eaves along them
+  max_cut_width_lt: 1152
+  cut_spacing_lt: 1024
+  corridor_lt: 96
+  extra_cuts:
+    - {axis: z, point: [600, 1300, 2700]}    # the centre's west lane, south of the octagon block
+    - {axis: x, point: [4700, 1300, 200]}    # the east gate square
+    - {axis: x, point: [3400, 1300, 0]}      # the prison street
+  sky_preset: cloudy                 # the outdoor maps' high-definition sky (was sky_texture plansky3, the old import's)
+  outdoor_view: true                 # view distance and haze as an outdoor map's, not MM9's grey fog (INDOOR_OPEN_SKY.md)
+  view_distance_scale: 0.5           # 8 096 units at the default view distance setting (16 192), the user's choice
+  half_steps: true                   # invisible half steps up 50-66 rises the party can stand on (CITY_PLAYBOOK "Raised floors")
+
+# MM9's pickable props drawn as MM9 stood them (dungeon/pickups.py scene_entry `placement`): Kira's Shield leans on the
+# wall north of it (the compiled wall face at y 15462, 5 units behind the prop), point down and face to the room (the
+# user, 2026-11-08), not flat on the floor. pose: yaw, pitch, roll degrees (pitch about the item's across axis: its top
+# end up and against the wall); offset: native units, 14 south so the top's back corner just meets the wall and the
+# foot stands 30 units out, clear of the baseboard.
+pickups:
+  Shield: {pose: [180, -75, 0], offset: [0, -14, 0]}

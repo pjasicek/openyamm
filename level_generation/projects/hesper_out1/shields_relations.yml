@@ -1,0 +1,67 @@
+# Energy shields and world relations on Starport Reach (engine: devdocs/ENERGY_SHIELDS_AND_RELATIONS.md; data:
+# hesper_stage/shields.yml and relations.yml). Run from output/hesper_stage/scenario_run (its settings.ini mounts the
+# stage):
+#   ../../../build/game/openyamm --headless-run-scenario ../../../level_generation/projects/hesper_out1/shields_relations.yml
+# Actors (build_out1.py / spawns.py order): 11 the East Gate's south guard (Light 1 000), 58 the scrapyard Trooper
+# (Light 1 000, 1 300 HP), 44 and 51 Ashrunners (51 the Gunner, Light 500), 43 a Glassback Bull; "last" is the actor
+# a spawn_actor step has just summoned. Actors update fully only within 5 632 of the party (as in MM), so the party
+# watches each fight from a few thousand units, farther from the drone than its target is.
+id: hesper.out1.shields_relations
+world: hesper
+mode: faithful
+steps:
+- load_map: {map: hes_out1.odm}
+- set_pose: {map: hes_out1.odm, x: 5000, y: -20000, z: 3000, yaw: 0.0, pitch: 0}
+- advance_runtime: {seconds: 1}
+- note: {text: "Shields start full: the Trooper, the gate guard, the Ashrunner Gunner; the Scav has none."}
+- assert: {actor_visible: {actor_index: 58, report_state: true, shield_raised: true, shield_fraction: [1, 1], hp: 1300}}
+- assert: {actor_visible: {actor_index: 11, shield_raised: true, shield_fraction: [1, 1]}}
+- assert: {actor_visible: {actor_index: 51, shield_raised: true, shield_fraction: [1, 1]}}
+- note: {text: "A raised Light shield (400, 30 % of 1 300 HP): spells do nothing, physical hits wear it at full rate, nothing to the body."}
+- damage_actor: {actor_index: 58, amount: 300, tier: spell}
+- assert: {actor_visible: {actor_index: 58, shield_fraction: [1, 1], hp: 1300}}
+- damage_actor: {actor_index: 58, amount: 100, tier: physical}
+- assert: {actor_visible: {actor_index: 58, shield_fraction: [0.74, 0.76], hp: 1300}}
+- note: {text: "Kreegan energy breaks it; the overflow is lost."}
+- damage_actor: {actor_index: 58, amount: 900, tier: kreegan_energy}
+- assert: {actor_visible: {actor_index: 58, report_state: true, shield_raised: false, shield_fraction: [0, 0],
+    hp: 1300}}
+- note: {text: "Exposed: energy x1.5 on the body, physical as it is."}
+- damage_actor: {actor_index: 58, amount: 100, tier: kreegan_energy}
+- assert: {actor_visible: {actor_index: 58, hp: 1150}}
+- damage_actor: {actor_index: 58, amount: 100, tier: physical}
+- assert: {actor_visible: {actor_index: 58, hp: 1050}}
+- note: {text: "Down for its 4 s delay without damage, then back up within 1.5 s."}
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 58, shield_raised: false}}
+- advance_runtime: {seconds: 2.5}
+- assert: {actor_visible: {actor_index: 58, report_state: true, shield_raised: true, shield_fraction: [0.05, 0.6]}}
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 58, shield_fraction: [1, 1], hp: 1050}}
+- note: {text: "Relations: a drone by the East Gate; the guard and the gate's turrets engage it within the short range."}
+- set_pose: {map: hes_out1.odm, x: -12400, y: -16400, z: 1600, yaw: 0.0, pitch: 0}
+- spawn_actor: {monster_id: 10050, x: -8800, y: -15820, z: 1700}
+- advance_runtime: {seconds: 3}
+- assert: {actor_visible: {actor_index: 11, report_state: true, has_aim_target: true, hostile_to_party: false}}
+- advance_runtime: {seconds: 12}
+- assert: {actor_visible: {actor_index: last, report_state: true, hp_below: 400}}
+- note: {text: "Glassbacks fight drones (and drones answer, but their energy does nothing to a Glassback since its
+    energy immunity, 2026-10-23): a drone beside the Glassback Bull."}
+- set_pose: {map: hes_out1.odm, x: 20448, y: 14396, z: 2400, yaw: 1.5708, pitch: 0}
+- spawn_actor: {monster_id: 10050, x: 21048, y: 19296, z: 2300}
+- advance_runtime: {seconds: 20}
+- assert: {actor_visible: {actor_index: 43, report_state: true, hp: 2600}}
+- assert: {actor_visible: {actor_index: last, report_state: true, hp_below: 400}}
+- note: {text: "S1 done in the middle of the visit: the Ashrunners turn friendly at once and stay so, also after a load."}
+- assert: {actor_visible: {actor_index: 44, hostile_to_party: true}}
+- setup_shortcut: {kind: set_qbit, id: 100101, reason: S1 done}
+- advance_runtime: {seconds: 1}
+- assert: {actor_visible: {actor_index: 44, report_state: true, hostile_to_party: false}}
+- assert: {actor_visible: {actor_index: 51, hostile_to_party: false}}
+- advance_runtime: {seconds: 30}
+- assert: {actor_visible: {actor_index: 44, hostile_to_party: false}}
+- save_game: hesper_shields_s1
+- load_game: hesper_shields_s1
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 44, report_state: true, hostile_to_party: false}}
+- assert: {actor_visible: {actor_index: 51, hostile_to_party: false, shield_raised: true}}

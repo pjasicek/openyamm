@@ -1,0 +1,81 @@
+# MM9 promotion playthrough, segment 07: the third labour, a win at Lord level in the Arena (guide: side_a.yml
+# win-in-the-arena). To Thjorgard, into the city by its west gate (ExitTrigger2), along to the Arena's entrance on
+# the city's east edge (Arenaexit, its prompt). The Arena (thearena.blv) is its own map, so it is walked. The Arena
+# Master (actor 0, RUDE 430): "We're here to fight.", "We're the best there is!  Send us in at Lord!"; his talk's
+# close (handler 50012, Arena.scr :OnRude) draws the opponents (Lord: one to five at 1-2.5 times the party's mean
+# level) and, with the labours taken (key 214), marks the fight as the labour's. Down the hall, through the double
+# doors (event 100) into the arena: they lock behind the party and the pens open. The opponents die (the run's
+# rules: clear_hostiles), the crowd cheers and the doors unlock (key 1020). Back to the Arena Master: "We won!"; his
+# talk's close gives key 217 and no purse. Out of the Arena by its exit. Research: prep/A_gladiator_mercenary.md.
+# The Arena forbids saving (2026-11-09, as MM6-MM8's arenas): its map-load handler starts every visit afresh, which
+# used to lose a won fight's purse and key 217 on a load. The save-and-load run skips the saves in here.
+#   python3 tests/playthrough/mm9/promotions/run.py 07
+id: mm9.promotions.07_arena_lord
+title: "MM9 promotions 07: a fight at Lord level won in Thjorgard's Arena"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/05_kira_shield.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90214], qbit_clear: [90217, 90230]}
+
+  # To Thjorgard; the city's west gate.
+  - travel: {map: thjorgard.blv, days: 3}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # The Arena's entrance on the city's east edge.
+  - set_pose: {map: thjorgardcity.blv, x: 9585, y: 11141, z: -19, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9912, y: 11141, z: 205, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thearena.blv}
+
+  # The Arena Master at the entrance: a fight at Lord level.
+  - walk_to: {x: -150, y: -3441, z: 1, timeout_seconds: 20}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "We're here to fight."}
+  - select_topic: {match_label: "Send us in at Lord!"}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'log("the fight is set: Lord " .. mapvar("Lord") .. ", " .. mapvar("FightCount") .. " opponents, waiting " .. mapvar("Waiting"))'}
+  - assert: {qbit_set: [91007, 91011]}
+
+  # Down the hall, through the double doors into the arena: they lock behind, the pens open.
+  - walk_to: {x: 0, y: -1800, z: 1, timeout_seconds: 30}
+  - play_lua: {source: 'click(100); wait(1.5); log("the arena doors: " .. door_state(1) .. " / " .. door_state(2))'}
+  - walk_to: {x: 0, y: -1000, z: 1, timeout_seconds: 20}
+  - play_lua:
+      source: |
+        wait(3)
+        log("in the arena: doors locked " .. mapvar("LockArenaDoor") .. ", fight group " .. mapvar("FightGroup") .. ": " .. status())
+        if mapvar("FightGroup") == 0 then error("the fight did not start") end
+  - clear_hostiles: {radius: 5000, min: 1}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        for i = 1, 20 do if qbit(91020) then break end; wait(0.5) end
+        if not qbit(91020) then error("the arena fight is not over") end
+        log("the crowd cheers; doors locked " .. mapvar("LockArenaDoor"))
+
+  # Back out through the doors to the Arena Master: "We won!".
+  - play_lua: {source: 'click(100); wait(1.5); log("the arena doors: " .. door_state(1) .. " / " .. door_state(2))'}
+  - walk_to: {x: -150, y: -3441, z: 1, timeout_seconds: 30}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "We won!"}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90217]}
+
+  # Out of the Arena into Thjorgard City.
+  - walk_to: {x: 0, y: -3891, z: 1, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+  - save_game: {name: "P07 Arena at Lord", path: output/playthrough/mm9/promotions/checkpoints/07_arena_lord.oysav}

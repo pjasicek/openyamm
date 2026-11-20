@@ -1,0 +1,336 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.chasmofthedead_scripted
+title: Chasm of the Dead (native BLV) - traps, mummies, zombies, apparitions and quest objects
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: chasmofthedead.blv
+- note:
+    text: ShooterPlate5 sinks and Shooter2 fires one bolt; the plate rises after 1 s.
+- movement_segment:
+    input: forward
+    seconds: 0.29
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: 5079
+      y: -5627
+      z: -4423
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: 5079
+      y: -5407
+      z: -4423
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- assert:
+    state_dump_named_map_var:
+      name: ShotsFired
+      value: 1
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 73
+      state: closed
+- note:
+    text: 'HSP1: the plate opens the SD1 and SD2 shutters (rotating) and their shooters fire.'
+- movement_segment:
+    input: forward
+    seconds: 0.29
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: -819
+      y: -6282
+      z: -4423
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: -819
+      y: -6062
+      z: -4423
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- assert:
+    state_dump_named_map_var:
+      name: ShotsFired
+      value: 3
+- advance_runtime:
+    seconds: 0.4
+- assert:
+    mechanism:
+      id: 56
+      state: open
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 56
+      state: closed
+- note:
+    text: 'CWPlate1: both pairs of walls slam in, the party between them is hurt; they draw back.'
+- set_pose:
+    map: chasmofthedead.blv
+    x: -12698
+    y: 19006
+    z: 1579
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: WallHits
+      value: 1
+- assert:
+    mechanism:
+      id: 4
+      state: open
+- advance_runtime:
+    seconds: 5.5
+- assert:
+    mechanism:
+      id: 4
+      state: closed
+- note:
+    text: 'SpikeRowPlate1: the spike wave runs the stair''s length and the plate resets.'
+- set_pose:
+    map: chasmofthedead.blv
+    x: -6328
+    y: 9994
+    z: 330
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: SpikeWave
+      value: 0
+- note:
+    text: 'CeilingCrushPlate3: the ceiling drops on the party (20) and rises after 3 s.'
+- set_pose:
+    map: chasmofthedead.blv
+    x: -1311
+    y: 4137
+    z: -1882
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 236
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: CrushHits
+      value: 1
+- assert:
+    mechanism:
+      id: 6
+      state: open
+- advance_runtime:
+    seconds: 5.5
+- assert:
+    mechanism:
+      id: 6
+      state: closed
+- note:
+    text: 'PendulumTrigger1: both blades swing through (rotating, sticky); the party in the band is hurt.'
+- set_pose:
+    map: chasmofthedead.blv
+    x: -4638
+    y: 4004
+    z: -1883
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 2.6
+- assert:
+    state_dump_named_map_var:
+      name: PendulumHits
+      value: 1
+- assert:
+    mechanism:
+      id: 49
+      state: open
+- note:
+    text: 'GratetrapTrigger0: the grate slides away, the party drops into the acid and is hauled out.'
+- set_pose:
+    map: chasmofthedead.blv
+    x: 7127
+    y: 16507
+    z: -5328
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 1.2
+- assert:
+    mechanism:
+      id: 43
+      state: open
+- advance_runtime:
+    seconds: 5
+    follow_map_move: true
+- assert:
+    state_dump_named_map_var:
+      name: AcidLifts
+      value: 1
+- wait_until:
+    timeout_runtime_seconds: 12
+    assert:
+      mechanism:
+        id: 43
+        state: closed
+- note:
+    text: Trigger7 awakens its four mummies; the Crona Kiga wakes PetrifiedMummy16 and its chain of 14.
+- set_pose:
+    map: chasmofthedead.blv
+    x: -3072
+    y: 8151
+    z: -2293
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: MummiesAwake
+      value: 4
+- set_pose:
+    map: chasmofthedead.blv
+    x: 2580
+    y: -18383
+    z: -5488
+    yaw: -1.5708
+    pitch: -0.0816
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: MummiesAwake
+      value: 18
+- assert:
+    inventory_any_member:
+    - item_id: 10390
+      count: 1
+- assert:
+    qbit_set:
+    - 90169
+- note:
+    text: 'Trigger2: its zombies rise. Trigger6 only arms after Trigger5 (MM9 StartOn 0).'
+- set_pose:
+    map: chasmofthedead.blv
+    x: 2622
+    y: 13762
+    z: -3931
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ZombiesRisen
+      value: 1
+- set_pose:
+    map: chasmofthedead.blv
+    x: 1884
+    y: 3522
+    z: -3931
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ZombiesRisen
+      value: 1
+- set_pose:
+    map: chasmofthedead.blv
+    x: 2622
+    y: -82
+    z: -3931
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ZombiesRisen
+      value: 2
+- set_pose:
+    map: chasmofthedead.blv
+    x: 1884
+    y: 3522
+    z: -3931
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ZombiesRisen
+      value: 3
+- note:
+    text: 'Apparition13: the ghost spawner''s first marker raises an Apparition (9139).'
+- set_pose:
+    map: chasmofthedead.blv
+    x: 2703
+    y: 14950
+    z: 935
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    state_dump_named_map_var:
+      name: GhostsSpawned
+      value: 1
+- assert:
+    actor_count:
+      monster_id: 9139
+      min: 1
+- note:
+    text: 'The Lich Instructions, a world item, picked up: item 447 and key 296 (LichInstructions.scr).'
+- set_pose:
+    map: chasmofthedead.blv
+    x: -9380
+    y: 3857
+    z: -2620
+    yaw: -1.5708
+    pitch: -0.6918
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    qbit_set:
+    - 90296
+- assert:
+    inventory_any_member:
+    - item_id: 10447
+      count: 1

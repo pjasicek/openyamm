@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 import yaml
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -61,14 +62,20 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     output_root = run_import(tmp_path)
     with (output_root / "data_tables" / "items.txt").open(encoding="utf-8", newline="") as source_file:
         rows = list(csv.reader(source_file, delimiter="\t"))
-    assert len(rows) == 392
+    assert len(rows) == 392 + 99    # MASTERITEMLIST's imported items and MM9's own spellbooks
     by_id = {int(row[0]): row for row in rows[1:]}
+    # MM9's spellbooks (mm9_spellbooks.py): one per spell, drawn by mastery, World:mm9.
+    assert by_id[10901][1:3] == ["mm9_spellbook_normal", "Torch Light"]
+    assert by_id[10911][1:3] == ["mm9_spellbook_grandmaster", "Incinerate"]
+    assert by_id[10921][1:3] == ["mm9_spellbook_master", "Fleet Foot"]    # Fly's slot is MM9's Fleet Foot
+    assert by_id[10921][18] == "mm9:item/spellbook_fly"
+    assert {row[20] for item_id, row in by_id.items() if item_id >= 10901} == {"World:mm9"}
     assert by_id[10002][18] == "mm9:item/poor_sword"
-    assert by_id[10002][3] == "43"
-    assert by_id[10002][14:16] == ["20", "139"]
+    assert by_id[10002][3] == "40"   # the MM6-MM8 price of its 5.0 average damage
+    assert by_id[10002][14:16] == ["14", "136"]
     assert by_id[10002][29:32] == ["1", "5", "generated_equipped_anchor_candidate"]
-    assert by_id[10075][14:16] == ["11", "80"]
-    assert by_id[10142][14:16] == ["48", "51"]
+    assert by_id[10075][14:16] == ["4", "113"]
+    assert by_id[10142][14:16] == ["30", "33"]
     assert by_id[10034][5] == "Throwing"
     assert by_id[10307][22] == "LearnSkill"
     assert by_id[10307][23] == "Throwing"
@@ -82,10 +89,12 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     assert by_id[10370][11] == "20370"
     assert by_id[10371][11] == "20371"
     assert by_id[10590][4] == "Misc"
+    assert by_id[10590][12] == "1"
+    assert by_id[10590][22] == "GrantSkillPoints"
     assert by_id[10558][3] == "0"
     assert "Quest" in by_id[10558][20]
     assert by_id[10579][22] == "ReadText"
-    assert by_id[10579][11] == "77"
+    assert by_id[10579][11] == "20579"
     assert by_id[10197][4] == "Weapon2"
     assert by_id[10197][5] == "Mace"
     assert set(by_id[10197][20].split("|")) >= {"Quest", "NoRandom", "NoShop"}
@@ -95,9 +104,9 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     assert by_id[10155][29:31] == ["1", "1"]
     assert by_id[10133][29:31] == ["1", "2"]
     assert by_id[10132][29:31] == ["2", "2"]
-    assert by_id[10086][29:31] == ["3", "4"]
+    assert by_id[10086][29:31] == ["3", "3"]
     assert by_id[10086][31] == "generated_body_variants_reviewed"
-    assert by_id[10108][29:31] == ["4", "5"]
+    assert by_id[10108][29:31] == ["2", "3"]
     assert by_id[10056][29:31] == ["1", "9"]
     assert by_id[10061][29:31] == ["2", "9"]
     assert {by_id[10000 + raw_id][26] for raw_id in range(219, 224)} == {"Cavalier"}
@@ -111,6 +120,11 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     effects_by_id = {int(row[0]): row for row in effect_rows[1:]}
     assert len(effects_by_id) == 63
     assert effects_by_id[10185][9] == "100"
+    # Artifact effect lists come from the final effect, and MM9's typos are corrected (OY-588).
+    assert effects_by_id[10200][3:5] == ["30", "30"]
+    assert by_id[10200][16].endswith("(Effects: +30 Intellect, +30 Personality)")
+    assert by_id[10179][16].endswith("(Effects: +40 Speed, +40 Accuracy, -50 SP)")
+    assert "weilder" not in by_id[10175][16] and "wielder" in by_id[10175][16]
 
     with (output_root / "data_tables" / "item_sets.txt").open(encoding="utf-8", newline="") as source_file:
         set_rows = list(csv.reader(source_file, delimiter="\t"))
@@ -124,7 +138,8 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     script_report = yaml.safe_load(
         (output_root / "state" / "item_script_reference_report.yml").read_text(encoding="utf-8"))
     assert script_report["counts"] == {
-        "engine_mapping": 3,
+        "engine_mapping": 1,
+        "mm9_mapping": 2,
         "world_definition": 164,
     }
     implosion_references = [
@@ -132,19 +147,20 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
         if entry["raw_mm9_id"] == 347
     ]
     assert len(implosion_references) == 2
-    assert {entry["resolution"] for entry in implosion_references} == {"engine_mapping"}
-    assert {entry["item_id"] for entry in implosion_references} == {419}
+    # Eye of the Storm is MM9's own Implosion book (mm9_spellbooks.py).
+    assert {entry["resolution"] for entry in implosion_references} == {"mm9_mapping"}
+    assert {entry["item_id"] for entry in implosion_references} == {10920}
 
     item_ids = yaml.safe_load(
         (output_root / "state" / "item_ids.yml").read_text(encoding="utf-8"))
     mappings = {
         entry["raw_mm9_id"]: entry["item_id"]
         for entry in item_ids["mappings"]
-        if entry["kind"] == "engine_mapping"
+        if entry["kind"] in {"engine_mapping", "mm9_mapping"}
     }
     assert mappings == {
         253: 222,
-        347: 419,
+        347: 10920,
         511: 317,
         523: 311,
         532: 306,
@@ -157,12 +173,12 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
         (output_root / "state" / "item_import_report.yml").read_text(encoding="utf-8"))
     poor_sword = next(entry for entry in import_report["items"] if entry["raw_mm9_id"] == 2)
     assert poor_sword["source_values"]["value"] == "50.00"
-    assert poor_sword["normalized_values"]["value"] == 43
+    assert poor_sword["normalized_values"]["value"] == 45
     assert "openyamm_category_tier_value_envelope" in poor_sword["balance_rule"]
-    assert poor_sword["normalized_values"]["equip_x"] == 20
-    assert poor_sword["normalized_values"]["equip_y"] == 139
+    assert poor_sword["normalized_values"]["equip_x"] == 14
+    assert poor_sword["normalized_values"]["equip_y"] == 136
     assert poor_sword["equipment_visual"] == {
-        "reference_item_id": 4,
+        "reference_item_id": 3,
         "method": "reference_grip_transfer",
         "review_status": "candidate",
     }
@@ -173,8 +189,10 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     icon_manifest = yaml.safe_load(
         (output_root / "state" / "item_icon_manifest.yml").read_text(encoding="utf-8"))
     poor_sword_icon = next(entry for entry in icon_manifest["icons"] if entry["raw_mm9_id"] == 2)
-    assert poor_sword_icon["equip_anchor"] == [20, 139]
-    assert poor_sword_icon["anchor_reference_item_id"] == 4
+    assert poor_sword_icon["equip_anchor"] == [14, 136]
+    assert poor_sword_icon["anchor_reference_item_id"] == 3
+    assert poor_sword_icon["output"] == "icons_x2/mm9_item_10002.png"
+    assert poor_sword_icon["scale"] == 2
 
 
 def test_mm9_item_import_emits_complete_quest_misc_world_item_art(tmp_path: Path) -> None:
@@ -213,10 +231,11 @@ def test_mm9_item_import_emits_complete_quest_misc_world_item_art(tmp_path: Path
         entry["sprite_id"] for entry in entries
     }
 
+    # The x2 inventory icon, halved to the x1 scale of world sprites.
     for entry in entries:
-        world_sprite = output_root / entry["world_sprite"]
-        inventory_icon = output_root / entry["inventory_icon"]
-        assert world_sprite.read_bytes() == inventory_icon.read_bytes()
+        with Image.open(output_root / entry["world_sprite"]) as world_sprite, \
+                Image.open(output_root / entry["inventory_icon"]) as inventory_icon:
+            assert world_sprite.size == tuple(-(-size // 2) for size in inventory_icon.size)
 
 
 def test_mm9_equipment_visual_overlay_covers_every_imported_weapon_and_shield() -> None:
@@ -224,7 +243,7 @@ def test_mm9_equipment_visual_overlay_covers_every_imported_weapon_and_shield() 
         REPOSITORY_ROOT / "tools" / "mm9_import_discovery" / "mm9_item_equipment_visuals.yml")
     assert len(overlay) == 97
     assert set(definition["review_status"] for definition in overlay.values()) == {"candidate"}
-    assert overlay[75]["notes"] == "short diagonal flail handle selected explicitly"
+    assert all(definition["method"] != "manual_grip_review" for definition in overlay.values())
 
 
 def test_mm9_body_equipment_visual_overlay_covers_every_imported_armor() -> None:
@@ -264,7 +283,7 @@ def test_mm9_item_import_is_byte_deterministic(tmp_path: Path) -> None:
         Path("state/item_icon_manifest.yml"),
         Path("state/world_item_sprite_manifest.yml"),
         Path("state/item_script_reference_report.yml"),
-        Path("icons/mm9_item_10002.png"),
+        Path("icons_x2/mm9_item_10002.png"),
         Path("data_tables/object_descriptors.txt"),
         Path("rendering/sprite_frame_data_world_items.yml"),
         Path("sprites/mm9wi0370.png"),

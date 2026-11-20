@@ -1,0 +1,350 @@
+{
+ "00 a step before any walk": {
+  "error": {
+   "code": -32000,
+   "message": "no walk: walk.load first (or it failed)",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "01 build into the project": {
+  "result": {
+   "map": "studio02.blv",
+   "kind": "indoor",
+   "counts": {
+    "sectors": 73,
+    "faces": 2602,
+    "vertices": 3253,
+    "portals": 86,
+    "doors": 33,
+    "lights": 65,
+    "spawns": 1,
+    "entities": 2,
+    "events": 53,
+    "chests": 9
+   },
+   "files": [
+    "studio02.blv",
+    "studio02.scene.yml",
+    "studio02.walk.yml",
+    "studio02.lua",
+    "build.json",
+    "source/studio02.glb"
+   ],
+   "warnings": [
+    "opening open:hall_corridor: room:hall and room:corridor face each other across 2 pairs of walls. Taken, for its longest shared stretch: wall 1 of room:hall (from [1024, 0] to [1024, 512]) and wall 11 of room:corridor (from [1088, 352] to [1088, 160]), 64 apart, sharing 192. The other: wall 1 of room:hall (from [1024, 0] to [1024, 512]) and wall 6 of room:corridor (from [1504, 768] to [1504, 492]), 480 apart, sharing 20. Name the pair that is meant with `from_wall` and `to_wall` (the wall numbers above, or compass sides); the warning then goes, and a redrawn room cannot move the opening to another wall",
+    "opening open:hall_trap: room:hall and room:trap face each other across 2 pairs of walls. Taken, for its longest shared stretch: wall 2 of room:hall (from [1024, 512] to [512, 512]) and wall 0 of room:trap (from [576, 576] to [1024, 576]), 64 apart, sharing 448. The other: wall 3 of room:hall (from [512, 512] to [512, 1024]) and wall 3 of room:trap (from [576, 1024] to [576, 576]), 64 apart, sharing 448. Name the pair that is meant with `from_wall` and `to_wall` (the wall numbers above, or compass sides); the warning then goes, and a redrawn room cannot move the opening to another wall",
+    "opening open:panels_climb: room:panels and room:climb face each other across 2 pairs of walls. Taken, for its longest shared stretch: wall 1 of room:panels (from [1568, -1280] to [1568, -768]) and wall 7 of room:climb (from [1600, -928] to [1600, -1120]), 32 apart, sharing 192. The other: wall 1 of room:panels (from [1568, -1280] to [1568, -768]) and wall 4 of room:climb (from [2016, -512] to [2016, -856]), 448 apart, sharing 88. Name the pair that is meant with `from_wall` and `to_wall` (the wall numbers above, or compass sides); the warning then goes, and a redrawn room cannot move the opening to another wall",
+    "opening open:tunnel_nook: room:tunnel and room:tunnel_nook face each other across 2 pairs of walls. Taken, for its longest shared stretch: wall 0 of room:tunnel (from [3040, -896] to [3552, -896]) and wall 2 of room:tunnel_nook (from [3424, -928] to [3168, -928]), 32 apart, sharing 256. The other: wall 2 of room:tunnel (from [3936, -896] to [3936, -1280]) and wall 1 of room:tunnel_nook (from [3424, -1184] to [3424, -928]), 512 apart, sharing 256. Name the pair that is meant with `from_wall` and `to_wall` (the wall numbers above, or compass sides); the warning then goes, and a redrawn room cannot move the opening to another wall",
+    "opening open:works_wall_run: room:works and room:wall_run face each other across 2 pairs of walls. Taken, for its longest shared stretch: wall 0 of room:works (from [-3136, -256] to [-2112, -256]) and wall 2 of room:wall_run (from [-2816, -320] to [-3008, -320]), 64 apart, sharing 192. The other: wall 0 of room:works (from [-3136, -256] to [-2112, -256]) and wall 4 of room:wall_run (from [-3008, -608] to [-3200, -608]), 352 apart, sharing 128. Name the pair that is meant with `from_wall` and `to_wall` (the wall numbers above, or compass sides); the warning then goes, and a redrawn room cannot move the opening to another wall",
+    "events[7] (evt:desk) opens chest:desk, which does not look like a chest, and the player reads \"Desk\" on it: nothing says it opens. The shipped maps name what opens by what it is: Chest (2237 handlers), Cabinet (60), Crate (46), Sarcophagus, Bag, Storage Container; a chest that is furniture (a desk, a cabinet) is named so (Cabinet), and one that looks like a chest takes a chest's `kind`",
+    "events[29] (evt:rig_chest) opens chest:rig_deck, and the player reads \"Chest on the deck\" on it: nothing says it opens. The shipped maps name what opens by what it is: Chest (2237 handlers), Cabinet (60), Crate (46), Sarcophagus, Bag, Storage Container; a chest that is furniture (a desk, a cabinet) is named so (Cabinet), and one that looks like a chest takes a chest's `kind`",
+    "events[37] (evt:sided_stuck) is clicked on door:sided and has no `title`: pointing at it shows nothing, so nothing tells the player it does something. Give it the name the player is to read (the shipped maps' signs say Sign, barrels Barrel, wells Well)",
+    "rooms[28].platforms[3] in room:nave (a block from 112 up at [860, -1230]) rests on nothing over most of its footprint: no floor, top or block under it, nothing it hangs from over it and no wall it touches. Stand it on what is to hold it (`base`), move it over that, or let it touch a wall or hang from a beam",
+    "rooms[67].platforms[4] in room:wedges (a block from 480 up at [1840, -2560]) rests on nothing over most of its footprint: no floor, top or block under it, nothing it hangs from over it and no wall it touches. Stand it on what is to hold it (`base`), move it over that, or let it touch a wall or hang from a beam",
+    "monster:sided_guard and rooms[45].platforms[0] in room:sided_cell stand inside each other at [-1560, 1460] (28 across): move one, or say `inside: rooms[45].platforms[0]` on monster:sided_guard where it is meant to stand in it",
+    "the picture t1w11a on BEAM is squashed: 0.35 texels a unit across against 1 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1d2 on MECH_closet is squashed: 2 texels a unit across against 1.14 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on MECH_panels is squashed: 2 texels a unit across against 1 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1d2 on MECH_panels is squashed: 2 texels a unit across against 1 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1d2 on MECH_vault is squashed: 2 texels a unit across against 1.14 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1d2 on PLATFORM_nave_0 is squashed: 4 texels a unit across against 1.14 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture oflr on PLATFORM_wedges_1 is squashed: 1 texels a unit across against 0.5 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1w11a on ROOM_crown_tunnel is squashed: 1 texels a unit across against 0.32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture d2ceil3 on ROOM_gully_a is squashed: 1 texels a unit across against 0.37 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture d2ceil3 on ROOM_gully_b is squashed: 1 texels a unit across against 0.36 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1trima on ROOM_gully_b is squashed: 1 texels a unit across against 0.37 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1trima on ROOM_hall is squashed: 0.38 texels a unit across against 1 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture t1d2 on ROOM_panels is squashed: 2 texels a unit across against 0.59 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_0 lies at 32 times its own size's density. A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_1 lies at 32 times its own size's density. A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_2 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_3 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_4 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_5 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_6 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_7 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_8 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant",
+    "the picture bwooda1 on TRIGGER_part_ladder_pit_9 is squashed: 3.2 texels a unit across against 32 down on one face (the same both ways at its own size). A stretched picture (`fit`, a door's picture) needs a face of its shape; give `size` the texture's true size (`oymap assets`), lay it at its size, or say `uneven: true` on the surface where that is meant"
+   ],
+   "ids_lock_changed": false
+  }
+ },
+ "02 load a map that is not there": {
+  "error": {
+   "code": -32000,
+   "message": "walk.load cannot read its `map` file",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "03 load the walk": {
+  "result": {
+   "kind": "indoor",
+   "faces": 2602,
+   "decoration_colliders": 2,
+   "party": {
+    "radius": 37,
+    "height": 160,
+    "eye_height": 160,
+    "max_step_height": 0
+   },
+   "doors": [
+    {
+     "id": "door:closet",
+     "open": false
+    },
+    {
+     "id": "door:leaf_fold",
+     "open": false
+    },
+    {
+     "id": "door:leaf_mirror",
+     "open": false
+    },
+    {
+     "id": "door:leaf_part",
+     "open": false
+    },
+    {
+     "id": "door:leaf_pass",
+     "open": false
+    },
+    {
+     "id": "door:leaf_seal",
+     "open": false
+    },
+    {
+     "id": "door:pair",
+     "open": false
+    },
+    {
+     "id": "door:panels",
+     "open": false
+    },
+    {
+     "id": "door:side",
+     "open": false
+    },
+    {
+     "id": "door:sided",
+     "open": false
+    },
+    {
+     "id": "door:split",
+     "open": false
+    },
+    {
+     "id": "door:vault",
+     "open": false
+    },
+    {
+     "id": "lift:gallery",
+     "open": false
+    },
+    {
+     "id": "lift:pod",
+     "open": false
+    },
+    {
+     "id": "lift:ws_lift",
+     "open": true
+    },
+    {
+     "id": "mover:bridge",
+     "open": false
+    },
+    {
+     "id": "mover:gate_block",
+     "open": false
+    },
+    {
+     "id": "mover:grow",
+     "open": false
+    },
+    {
+     "id": "mover:rig_button",
+     "open": false
+    },
+    {
+     "id": "mover:rig_deck",
+     "open": false
+    },
+    {
+     "id": "mover:rig_gate_high",
+     "open": false
+    },
+    {
+     "id": "mover:rig_gate_low",
+     "open": false
+    },
+    {
+     "id": "mover:sink_plate",
+     "open": false
+    },
+    {
+     "id": "mover:tram",
+     "open": false
+    },
+    {
+     "id": "mover:wall",
+     "open": false
+    },
+    {
+     "id": "switch:ws_button",
+     "open": false
+    },
+    {
+     "id": "switch:ws_lever",
+     "open": false
+    },
+    {
+     "id": "switch:ws_post_lever",
+     "open": false
+    }
+   ],
+   "pose": {
+    "position": [
+     256,
+     256,
+     0
+    ],
+    "eye_z": 160,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "sector": 4,
+    "eye_sector": 4,
+    "room": "room:hall",
+    "face": 115,
+    "bits": "43800000438000000000000000000000"
+   }
+  }
+ },
+ "04 stand at the closet door": {
+  "result": {
+   "pose": {
+    "position": [
+     1700,
+     1664,
+     256
+    ],
+    "eye_z": 416,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "sector": 3,
+    "eye_sector": 3,
+    "room": "room:gallery",
+    "face": 80,
+    "bits": "44d4800044d000004380000000000000"
+   }
+  }
+ },
+ "05 walk into the shut door": {
+  "result": {
+   "pose": {
+    "position": [
+     1843,
+     1664,
+     256
+    ],
+    "eye_z": 416,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "sector": 3,
+    "eye_sector": 3,
+    "room": "room:gallery",
+    "face": 80,
+    "bits": "44e6600044d000004380000000000000"
+   }
+  }
+ },
+ "06 toggle a door the map lacks": {
+  "error": {
+   "code": -32000,
+   "message": "the walk has no door, lift or mover door:nothing",
+   "data": {
+    "kind": "no_such_object"
+   }
+  }
+ },
+ "07 open the hinged door": {
+  "result": {
+   "door": "door:closet",
+   "open": true
+  }
+ },
+ "08 walk through it": {
+  "result": {
+   "pose": {
+    "position": [
+     2419,
+     1664,
+     256
+    ],
+    "eye_z": 416,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "sector": 19,
+    "eye_sector": 19,
+    "room": "room:shrine",
+    "face": 746,
+    "bits": "4517300044d000004380000000000000"
+   }
+  }
+ },
+ "09 shut it again": {
+  "result": {
+   "door": "door:closet",
+   "open": false
+  }
+ },
+ "10 the recorded walk": {
+  "result": {
+   "frames": 600,
+   "hash": "18c9a9f972c05632",
+   "pose": {
+    "position": [
+     2458.298,
+     2011,
+     256
+    ],
+    "eye_z": 416,
+    "vertical_velocity": 0,
+    "grounded": true,
+    "landed": false,
+    "sector": 19,
+    "eye_sector": 19,
+    "room": "room:shrine",
+    "face": 746,
+    "bits": "4519a4c644fb60004380000000000000"
+   },
+   "trace": [
+    "44d4800044d000004380000000000000",
+    "44e6600044d000004380000000000000",
+    "44e7200044d000004380000000000000",
+    "450b900044d000004380000000000000",
+    "452c749444e570c14380000000000000",
+    "4521d0da44fb60004380000000000000",
+    "451d693344f22a7743a54a7a00000000",
+    "452cee6644ed96154380000000000000",
+    "4537b00044fb6000439096f943af0000",
+    "452ca40e44fb60004380000000000000"
+   ]
+  }
+ },
+ "11 a replay toggling a door the map lacks": {
+  "error": {
+   "code": -32000,
+   "message": "the walk has no door door:nothing to toggle",
+   "data": {
+    "kind": "no_such_object"
+   }
+  }
+ }
+}

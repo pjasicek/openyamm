@@ -1,0 +1,24 @@
+id: rulesets.maw_doom_content
+title: "Ruleset - MAW Doom content: the New World Computing access is destroyed, the Dragonsand road arrives elsewhere"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  # Doom: event 92 in Dragonsand stays put ("Access has been destroyed"); the circus traders' global load hook runs on
+  # every map load.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, challenge_mode: doom}
+  - execute_event: {id: 104}
+  - assert:
+      map_arrived: {map: outb3.odm}
+  - execute_event: {id: 92}
+  - assert:
+      map: outb3.odm
+  # Easy MAW without a challenge mode: the access still opens.
+  - new_game_flow:
+      start_map: outb3.odm
+      ruleset: {id: maw, difficulty: easy}
+  - execute_event: {id: 92}
+  - assert:
+      map_arrived: {map: znwc.blv}

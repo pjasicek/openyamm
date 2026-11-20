@@ -58,7 +58,7 @@ SetMapMetadata({
     [429] = { kind = "enter_house", source = "opcode", houseId = 123, targetName = "Infernal Temptations" },
     [431] = { kind = "enter_house", source = "opcode", houseId = 207, targetName = "Hall of Midnight" },
     [433] = { kind = "enter_house", source = "opcode", houseId = 1575, targetName = "Perdition's Flame" },
-    [435] = { kind = "enter_house", source = "opcode", houseId = 246, targetName = "The Vampyre Lounge " },
+    [435] = { kind = "enter_house", source = "opcode", houseId = 246, targetName = "The Vampyre Lounge" },
     [438] = { kind = "enter_house", source = "opcode", houseId = 1080, targetName = "Hostel" },
     [439] = { kind = "enter_house", source = "opcode", houseId = 1078, targetName = "Hostel" },
     [440] = { kind = "enter_house", source = "opcode", houseId = 1071, targetName = "Hostel" },
@@ -300,11 +300,11 @@ end, "Perdition's Flame")
 
 RegisterEvent(434, "Perdition's Flame", nil, "Perdition's Flame")
 
-RegisterEvent(435, "The Vampyre Lounge ", function()
+RegisterEvent(435, "The Vampyre Lounge", function()
     evt.EnterHouse(246) -- The Vampyre Lounge
-end, "The Vampyre Lounge ")
+end, "The Vampyre Lounge")
 
-RegisterEvent(436, "The Vampyre Lounge ", nil, "The Vampyre Lounge ")
+RegisterEvent(436, "The Vampyre Lounge", nil, "The Vampyre Lounge")
 
 RegisterEvent(438, "Hostel", function()
     evt.EnterHouse(1080) -- Hostel

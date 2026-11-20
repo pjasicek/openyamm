@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantm1_claude/references_hd/00_three_quarter.png), unresized at 1536×1024, using built-in image generation. Both raw returns, prompts and input hashes are preserved in `raw/` and `generation_runs.json`.
+
+Stopped after run 1 and its one allowed correction. Residual faults: translucent halo, tight margins and taller boots; the transparency requirement remains unmet.

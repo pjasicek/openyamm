@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Crown of Final Dominion (item258). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Open tall black crown with long narrow curved blade spikes, gold central uprights, green and red round gems and a wide dark riveted lower band. Exact material boundaries: Black blade spikes, gold uprights and dark riveted band RED. Green/red gems BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item258/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "76cc32151af2fa3d9bcffb0e6239373334c4cf6b69f1e78b10db022776ada611",
+  "revision": 2,
+  "input_icon": "item258",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-8949e849-cde6-46d9-8d69-c5ae0735b001.png",
+  "output": "mask_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "4f730fc3f8939081f4377a7f7806c42d6bd5a8c2a188e8916ac62c761e6eecf2",
+  "input_icon_path": "assets_dev/engine/icons_x2/item258.png",
+  "input_icon_sha256": "e38eca45a92dc2a47136ff66d735c7f85361291f8d5d41cf554e931efc28a93a",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

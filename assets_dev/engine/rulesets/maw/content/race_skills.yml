@@ -1,0 +1,119 @@
+# MAW's race skill limits (Race Skillz.txt, devdocs/maw/data/race_bonuses.yml mastery_modifiers), replacing
+# engine/data_tables/race_skills.yml for MAW games: MMMerge's race rules (Race Skills.txt) are dead in MAW. Per
+# character the class cap is shifted (+ one rank, also without a class cap), then capped by max_mastery (none
+# forbids the skill), then raised to min_mastery.
+version: 1
+shift_without_class_cap: true
+rules:
+  - race: Human
+    race_id: 0
+    skill: IdentifyItem
+    add: 1
+  - race: Human
+    race_id: 0
+    skill: Merchant
+    add: 1
+  - race: Human
+    race_id: 0
+    skill: RepairItem
+    add: 1
+  - race: Human
+    race_id: 0
+    skill: Perception
+    add: 1
+  - race: Human
+    race_id: 0
+    skill: DisarmTraps
+    add: 1
+  - race: Human
+    race_id: 0
+    skill: IdentifyMonster
+    add: 1
+  - race: Human
+    race_id: 0
+    skill: Alchemy
+    add: 1
+  - race: Vampire
+    race_id: 1
+    skill: VampireAbility
+    min_mastery: master
+  - race: DarkElf
+    race_id: 2
+    skill: DarkElfAbility
+    min_mastery: master
+  - race: Minotaur
+    race_id: 3
+    skill: Dagger
+    max_mastery: none
+  - race: Minotaur
+    race_id: 3
+    skill: Axe
+    min_mastery: expert
+  - race: Troll
+    race_id: 4
+    skill: Regeneration
+    add: 1
+  - race: Dragon
+    race_id: 5
+    skill: Staff
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Sword
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Dagger
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Axe
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Spear
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Bow
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Mace
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Blaster
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: Shield
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: LeatherArmor
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: ChainArmor
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: PlateArmor
+    max_mastery: none
+  - race: Dragon
+    race_id: 5
+    skill: DragonAbility
+    min_mastery: master
+  - race: Dragon
+    race_id: 5
+    skill: Dodging
+    min_mastery: master
+  - race: Dragon
+    race_id: 5
+    skill: Unarmed
+    min_mastery: master
+  - race: Dwarf
+    race_id: 9
+    skill: Axe
+    min_mastery: expert

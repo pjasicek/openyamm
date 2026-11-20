@@ -53,7 +53,9 @@ def main():
     if game_args[:1] == ["--"]:
         game_args = game_args[1:]
     environment = os.environ.copy()
-    for key in ("OPENYAMM_PERF_CONTROL_FIFO", "OPENYAMM_PERF_ACK_FIFO", "OPENYAMM_PERF_WARMUP_MS"):
+    # Profiles need a visible window: a minimized one is throttled differently.
+    for key in ("OPENYAMM_PERF_CONTROL_FIFO", "OPENYAMM_PERF_ACK_FIFO", "OPENYAMM_PERF_WARMUP_MS",
+                "OPENYAMM_START_MINIMIZED"):
         environment.pop(key, None)
 
     with tempfile.TemporaryDirectory(prefix="openyamm-perf-") as directory:

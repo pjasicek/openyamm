@@ -1,0 +1,39 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/wine_cellar
+settle_seconds: 2.0
+exit: true
+shots:
+- name: racks_s1
+  position:
+  - 976
+  - 112
+  - -255
+  yaw: 3.193
+  pitch: -0.12
+- name: button_room_s5
+  position:
+  - -2384
+  - 3280
+  - -511
+  yaw: 0.057
+  pitch: -0.12
+- name: beds_s3
+  position:
+  - -1568
+  - 1152
+  - -511
+  yaw: 1.208
+  pitch: -0.12
+- name: corridor_s4
+  position:
+  - -1920
+  - 2607
+  - -511
+  yaw: 4.686
+  pitch: -0.12
+- name: button_face862
+  position:
+  - -944
+  - 3296
+  - -552
+  yaw: 3.142
+  pitch: -0.031

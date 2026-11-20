@@ -1,0 +1,26 @@
+# Integrator capture: run minimized against the Hesper stage with stage.lock and engine_build.lock shared.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d01/review/pickups
+settle_seconds: 1.5
+exit: true
+shots:
+- name: customs_bonded_store
+  position:
+  - 8050
+  - 4380
+  - 0
+  yaw: 1.5707963
+  pitch: -0.15
+- name: concourse_satchel
+  position:
+  - 1800
+  - 3400
+  - 0
+  yaw: 3.1415927
+  pitch: -0.4
+- name: plant_satchel
+  position:
+  - 3400
+  - 600
+  - -768
+  yaw: -2.677945
+  pitch: -0.4

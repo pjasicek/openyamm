@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_connectingtunnels/review/ml_old
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a05_coffin
+  position:
+  - -2024
+  - -13056
+  - -1777
+  yaw: -0.1965
+  pitch: -0.1396
+- name: a07_coffin_side
+  position:
+  - -1691
+  - -13271
+  - -1831
+  yaw: 0.0
+  pitch: -0.3142
+- name: a08_chest0
+  position:
+  - 10648
+  - 384
+  - -154
+  yaw: -0.3921
+  pitch: -0.1745
+- name: r01_a
+  position:
+  - 2046
+  - -13325
+  - -1542
+  yaw: 3.1036
+  pitch: 0.0
+- name: r10_a
+  position:
+  - 6642
+  - -6088
+  - -695
+  yaw: 3.0862
+  pitch: 0.0
+- name: r26_a
+  position:
+  - -15333
+  - 6684
+  - 2169
+  yaw: -1.9217
+  pitch: 0.0
+- name: r27_a
+  position:
+  - -15062
+  - 6781
+  - 2155
+  yaw: -0.8369
+  pitch: 0.0

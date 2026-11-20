@@ -1,0 +1,17 @@
+# AI arena: an MM9 crawler (Grey Wolf, 9114: BaseCrawl.inc, no strafe attacks or evades) against a party standing
+# still in The Arena. It notices the party, times its run to arrive as its attack recovers and strikes from its own
+# attack range (MM9_MONSTER_AI_PLAN.md phase 2). See README.md.
+name: mm9_crawler
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9114
+    position: [0, 900, 1]
+    yaw_degrees: 270

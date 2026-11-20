@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, the authoritative geometry/layout image. design_reference.png is the material/detail reference, icon_x8.png is the silver colour reference (ignore its magenta background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact three-column FOUR-row layout, every object's position, size, orientation, outline, openings and gaps. Do not reinterpret the unusual view orientations. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat those exact five views. Paint ONLY existing grey surfaces, never redraw, enlarge, move or redesign them. Rows 1-2 PAINT: unlit base colour of a short-sleeved tunic of bright polished steel chain mail with a soft draped cowl around the round neck and a skirt split at the front; bright silver, no trim, no other colours. Follow the dense interlocking chain detail of design_reference.png, scaled consistently to each view and covering interior surfaces as well. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, outlines or text. Rows 3-4 MATERIAL MASK: every existing object surface is metal, so fill each entire silhouette FLAT pure red #FF0000 only, with no shading, texture, outlines or antialiased colour blends inside. Keep openings/gaps transparent; no new holes. General mask palette if needed: metal red #FF0000; leather/fur green #00FF00; cloth/hair blue #0000FF; gemstone/glass/enamel/liquid black #000000. This item is entirely metal. Nothing outside the silhouettes. Column 3 of rows 2 and 4 remains empty transparent. Background truly alpha-transparent. Preserve geometry exactly; only change surface colours.\nCORRECTION REQUIRED: The prior attempt spilled red noisy texture into the transparent background in the lower half. Do not do that. Lower half must be five CLEAN solid red silhouettes matching the original guide exactly, with completely transparent background between objects. No scattered pixels, speckle, texture, border strokes, or red haze. Neck and sleeve visible inner metal surfaces are solid red too, only the guide's actual background holes are transparent. Use the original guide as exact stencil for all ten objects.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, the authoritative geometry/layout image. design_reference.png is the material/detail reference, icon_x8.png is the silver colour reference (ignore its magenta background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact three-column FOUR-row layout, every object's position, size, orientation, outline, openings and gaps. Do not reinterpret the unusual view orientations. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat those exact five views. Paint ONLY existing grey surfaces, never redraw, enlarge, move or redesign them. Rows 1-2 PAINT: unlit base colour of a short-sleeved tunic of bright polished steel chain mail with a soft draped cowl around the round neck and a skirt split at the front; bright silver, no trim, no other colours. Follow the dense interlocking chain detail of design_reference.png, scaled consistently to each view and covering interior surfaces as well. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, outlines or text. Rows 3-4 MATERIAL MASK: every existing object surface is metal, so fill each entire silhouette FLAT pure red #FF0000 only, with no shading, texture, outlines or antialiased colour blends inside. Keep openings/gaps transparent; no new holes. General mask palette if needed: metal red #FF0000; leather/fur green #00FF00; cloth/hair blue #0000FF; gemstone/glass/enamel/liquid black #000000. This item is entirely metal. Nothing outside the silhouettes. Column 3 of rows 2 and 4 remains empty transparent. Background truly alpha-transparent. Preserve geometry exactly; only change surface colours.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acaa-867d-77c0-8a0e-26414391429e/exec-b5b3d4d7-6e97-4304-a805-79b2dbe65424.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10099/paint_mask_raw_v1.png",
+  "correction_count": 1,
+  "tool": "built-in image_gen",
+  "validation_notes": "Corrective generation still contains stray red pixels outside lower mask silhouettes. Preserved raw tool output as requested; no postprocessing.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10099/paint_mask_guide.png",
+      "sha256": "0952bc8141f584a30f3f5ed9f41a84a149216c4da3a2bfd44a83577401d5dedb"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10099/design_reference.png",
+      "sha256": "0fc3f8e490e769505209c5848dc061506e6c2979037f6a79c2998bc08b685e81"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10099/icon_x8.png",
+      "sha256": "aa37cb103ff873632e5f61467e226e6f214e1884dbd11410bd3deaae22bfa831"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

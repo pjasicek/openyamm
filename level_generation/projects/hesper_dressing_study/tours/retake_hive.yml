@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/retake_hive
+settle_seconds: 2.0
+exit: true
+shots:
+- name: huge_s79
+  position:
+  - 6778
+  - 22233
+  - -2255
+  yaw: 2.553
+  pitch: -0.2
+- name: hall_s4_b
+  position:
+  - -1236
+  - 8193
+  - -767
+  yaw: 0.393
+  pitch: -0.15
+- name: hall_s35_b
+  position:
+  - 989
+  - 17766
+  - -1535
+  yaw: 5.498
+  pitch: -0.15

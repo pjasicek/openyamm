@@ -1,0 +1,20 @@
+id: mm9.ai.sparks
+title: A monster's Sparks fires the volley of its mastery (5 at Expert, 9 at Grandmaster)
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, spells]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Each monster casts its Sparks once at the party (fire_actor_projectile,
+        as its AI casts it); the sparks are counted right after the cast. MM6-MM8 monsters cast the same volleys.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: sparks.arena.yml}
+  - fire_actor_projectile: {actor_index: 5, ability: spell1}
+  - assert:
+      projectiles: {source_monster_id: 9123, min_count: 5, max_count: 5}
+  - fire_actor_projectile: {actor_index: 6, ability: spell1}
+  - assert:
+      projectiles: {source_monster_id: 9161, min_count: 9, max_count: 9}

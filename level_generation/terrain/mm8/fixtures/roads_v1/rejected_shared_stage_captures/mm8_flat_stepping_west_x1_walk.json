@@ -1,0 +1,27 @@
+{
+  "name": "mm8_flat_stepping_west_x1_walk",
+  "world": "mm8",
+  "map": "out01.odm",
+  "pose": null,
+  "screenshot": "mm8_flat_stepping_west_x1_walk.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": false,
+  "warmup_seconds": 1.0,
+  "actions": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm8/fixtures/roads_v1/movement_actions.json",
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": false,
+  "display": ":99",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 0.0,
+  "fps_samples": [],
+  "median_fps": null,
+  "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3",
+  "settings_sha256": "0471e5a5e6d23b29d31fc275cb926a29c6c2ddd3e105175187dbfc2d2e5c00a5",
+  "native_sha256": "e84952d32aa14c6a5f4bf435e63aafd29b6b1fa13a4c76f7f1f3b40f0083f5fe",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+}

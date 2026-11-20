@@ -1,0 +1,27 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/hallofthegods/x4/hallofthegods
+settle_seconds: 2.0
+exit: true
+shots:
+- name: room1-e
+  position: &id001
+  - 369
+  - 3074
+  - -1311
+  yaw: 0.0
+  pitch: -0.12
+- name: room1-n
+  position: *id001
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room1-w
+  position: *id001
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room1-s
+  position: *id001
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room1-up
+  position: *id001
+  yaw: 0.0
+  pitch: 0.9

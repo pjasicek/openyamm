@@ -1,0 +1,97 @@
+{
+  "tool": "built-in image_gen",
+  "status": "generated_with_failed_acceptance_checks",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit.\nCreate exactly one 1024 x 1024 RGBA transparent PNG: paint_back.png, an albedo texture-source painting over the supplied guide_back.png.\nINPUT ROLES: Image 1 guide_back.png is the EXACT geometry/edit target. Image 2 design_reference.png is the approved design, colour and material authority ONLY. Image 3 concept_crop.png is supporting original concept ONLY.\nPaint ONLY the surfaces of image 1. Preserve its alpha silhouette EXACTLY pixel-for-pixel, same orthographic BACK camera, every edge, opening, shape, position, size and placement. Do not recompose or borrow the three-quarter camera of the references. Keep the complete silhouette inside its existing bounds x=68..955 and y=206..817 on the 1024 square canvas. Keep every existing rubble fragment, support strut, projecting side arm, side pod, central circular rear port, and the tall central fin in exactly the guide's location and shape. Do not add geometry or extra rubble, do not crop, do not enlarge.\nApply the reference's chipped warm white ceramic shell, fine aged gold seams, gold trim and rivets, charcoal exposed metal beneath chips, rusty landing legs, dark tinted glass where appropriate to the existing shapes, dark grey debris and broken ceramic/gold panels on the existing rubble. The rear circular port must stay circular and in its exact guide location. Preserve all guide geometry rather than inventing a rear doorway or a front windshield. Warm lamplight belongs only in any existing visible doorway; do not add one to this back view.\nLIGHTING: this is a TEXTURE SOURCE (albedo), NOT a beauty render. Completely even flat shadowless illumination from the viewer. Materials have uniform base colour independent of surface direction. No cast shadows, no ambient occlusion darkening, no directional gradients, no strong specular highlights, no reflections, no rim light. Gold is painted muted ochre gold, not shiny reflective yellow. Glass is flat dark tinted glass without reflected scenery or bright streaks. Any glowing parts are painted their own warm colour without light cast on surroundings.\nTransparent background (real alpha zero), no backdrop, no floor, no checkerboard painted into the image, no text. Retain the guide's existing debris geometry but add no ground outside it. Return at native 1024x1024 resolution, unresized.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "f2b907c6a75d16f9be5da8eb8cc135377b8615dea045be67436d50031e855644"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d95-86a7-78b2-b224-24b791db411b/exec-31acbea9-c7d6-4746-b7a8-7b16b6c71203.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Closer fin position and proportions than correction; materials match reference broadly. Selected as best available raw return, NOT accepted as brief-compliant: native size is 1254x1254, silhouette differs, residual shading and highlights remain.",
+      "output_sha256": "f72c0e8b8ba884953051516b1f05445152443cef476a41e168ad73a163af036d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1245
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broad visual match: chipped white ceramic, gold trim, dark metal and grey debris.",
+        "flat_even_light": "Failed: residual shading and metallic highlights visible."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit.\nCreate exactly one 1024 x 1024 RGBA transparent PNG: paint_back.png, an albedo texture-source painting over the supplied guide_back.png.\nINPUT ROLES: Image 1 guide_back.png is the EXACT geometry/edit target. Image 2 design_reference.png is the approved design, colour and material authority ONLY. Image 3 concept_crop.png is supporting original concept ONLY.\nPaint ONLY the surfaces of image 1. Preserve its alpha silhouette EXACTLY pixel-for-pixel, same orthographic BACK camera, every edge, opening, shape, position, size and placement. Do not recompose or borrow the three-quarter camera of the references. Keep the complete silhouette inside its existing bounds x=68..955 and y=206..817 on the 1024 square canvas. Keep every existing rubble fragment, support strut, projecting side arm, side pod, central circular rear port, and the tall central fin in exactly the guide's location and shape. Do not add geometry or extra rubble, do not crop, do not enlarge.\nApply the reference's chipped warm white ceramic shell, fine aged gold seams, gold trim and rivets, charcoal exposed metal beneath chips, rusty landing legs, dark tinted glass where appropriate to the existing shapes, dark grey debris and broken ceramic/gold panels on the existing rubble. The rear circular port must stay circular and in its exact guide location. Preserve all guide geometry rather than inventing a rear doorway or a front windshield. Warm lamplight belongs only in any existing visible doorway; do not add one to this back view.\nLIGHTING: this is a TEXTURE SOURCE (albedo), NOT a beauty render. Completely even flat shadowless illumination from the viewer. Materials have uniform base colour independent of surface direction. No cast shadows, no ambient occlusion darkening, no directional gradients, no strong specular highlights, no reflections, no rim light. Gold is painted muted ochre gold, not shiny reflective yellow. Glass is flat dark tinted glass without reflected scenery or bright streaks. Any glowing parts are painted their own warm colour without light cast on surroundings.\nTransparent background (real alpha zero), no backdrop, no floor, no checkerboard painted into the image, no text. Retain the guide's existing debris geometry but add no ground outside it. Return at native 1024x1024 resolution, unresized.\nCORRECTIVE REGENERATION (the only allowed correction): The previous return was 1254x1254 and changed the shape. Produce a native 1024x1024 image this time. EDIT THE PROVIDED 1024x1024 GUIDE IN PLACE. Keep its transparent pixels transparent, preserve the exact alpha mask and every shape edge. Do not redraw or smooth the silhouette; keep the low-poly triangular debris and angular legs exactly. The highest fin point is at pixel (513,206); bottom of rubble y817; leftmost x68; rightmost x955. The rear port center is approximately (513,592), not a new camera position. Material colour only. Reduce all shading further: no metallic gleams or directional darkening or bright edge reflections. The whole white shell stays evenly lit, including lower half. No stray alpha pixels or coloured fringes around the outline. Exact geometry and native 1024 square output take precedence over surface detail.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "f2b907c6a75d16f9be5da8eb8cc135377b8615dea045be67436d50031e855644"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d95-86a7-78b2-b224-24b791db411b/exec-1a903b2e-e03c-4397-b29b-2eac267fd249.png",
+      "output": "paint_back_correction.png",
+      "selected": false,
+      "reason": "Only permitted corrective regeneration. Fin height drifts further from guide; silhouette and flat albedo requirements still not met.",
+      "output_sha256": "a76d4dd816d645d515dde4526bd02b7ee7f5179a2edc1ed79a29e1e056d9a25a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          43,
+          39,
+          1234,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broad visual match: chipped white ceramic, gold trim, dark metal and grey debris.",
+        "flat_even_light": "Failed: residual shading and metallic highlights visible."
+      }
+    }
+  ],
+  "constraints": {
+    "required_size": [
+      1024,
+      1024
+    ],
+    "unresized_returns": true,
+    "max_corrective_regenerations": 1
+  },
+  "notes": "Outputs preserved byte-for-byte without resizing, alpha edits or other postprocessing. No builds or integration performed."
+}

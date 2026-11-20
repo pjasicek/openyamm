@@ -1,0 +1,167 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "maximum_attempts_per_image": 3,
+  "status": "closest_results_saved_with_documented_deviations",
+  "export": "Selected horizon is copied without changes at the closest supported wide canvas. Selected night and moon are resampled with Lanczos only to meet the specified PNG canvas dimensions. No recolouring, background replacement, paint-over or other pixel retouching was done outside the built-in image tool.",
+  "attempts": [
+    {
+      "image": "horizon_ring_src.png",
+      "attempt": 1,
+      "file": "horizon_ring_src_try1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: neutral, horizontally wrapping horizon-cloud texture layer for a real-time fantasy RPG in the painted Might and Magic 6–8 tradition.\nGenerate ONE image, an extremely wide 4096 × 512 pixel panorama (8:1 aspect ratio); if that canvas is unavailable, use the closest supported wide canvas. This is isolated sky-layer artwork, not a scene illustration.\nBackground and composition: the ENTIRE upper 50% must be perfectly plain, uniformly flat neutral mid-grey RGB(128,128,128), with absolutely no texture, gradient, clouds or other marks. ALL cloud banks occupy ONLY the lower half, below the horizontal midpoint. Ground-level view of very distant cumulus cloud banks along a 360-degree horizon. Varied soft silhouettes: a few taller cumulus towers, long low banks and gaps, all wholly contained in the lower half. Clouds have soft white tops and grey undersides. The bottom 15% of the canvas is even light-grey haze; cloud detail dissolves gently into this mist.\nStyle: soft painterly fantasy-game finish, slightly storybook, grayscale only. Even flat illumination, no directional sunlight and no strong shadows.\nWrap requirement: left and right boundaries are matching continuations of the same low haze/cloud bank with the same heights and tones, so the panorama repeats horizontally without an obvious seam; no border or fade at either side.\nOnly distant clouds and haze. STRICTLY NO colour, blue sky, sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks or borders. No photographic imagery. Opaque background.",
+      "selected": false,
+      "reason": "Rejected: tallest cloud towers cross above the midpoint; upper half is not a flat grey field. Closest supported wide canvas is 2172 × 724."
+    },
+    {
+      "image": "horizon_ring_src.png",
+      "attempt": 2,
+      "file": "horizon_ring_src.png",
+      "prompt": "Use case: stylized-concept\nAsset type: neutral, horizontally wrapping horizon-cloud texture layer for a real-time fantasy RPG in the painted Might and Magic 6–8 tradition.\nGenerate ONE image, an extremely wide 4096 × 512 pixel panorama (8:1 aspect ratio); if that canvas is unavailable, use the closest supported wide canvas. This is isolated sky-layer artwork, not a scene illustration.\nBackground and composition: the ENTIRE upper 50% must be perfectly plain, uniformly flat neutral mid-grey RGB(128,128,128), with absolutely no texture, gradient, clouds or other marks. ALL cloud banks occupy ONLY the lower half, below the horizontal midpoint. Ground-level view of very distant cumulus cloud banks along a 360-degree horizon. Varied soft silhouettes: a few taller cumulus towers, long low banks and gaps, all wholly contained in the lower half. Clouds have soft white tops and grey undersides. The bottom 15% of the canvas is even light-grey haze; cloud detail dissolves gently into this mist.\nStyle: soft painterly fantasy-game finish, slightly storybook, grayscale only. Even flat illumination, no directional sunlight and no strong shadows.\nWrap requirement: left and right boundaries are matching continuations of the same low haze/cloud bank with the same heights and tones, so the panorama repeats horizontally without an obvious seam; no border or fade at either side.\nOnly distant clouds and haze. STRICTLY NO colour, blue sky, sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks or borders. No photographic imagery. Opaque background.\nTargeted correction from the previous attempt: protect the blank upper half. Paint the entire area from the top edge down through 55% of canvas height as one completely uniform solid RGB(128,128,128) fill. No brush texture or tonal variation in that reserved rectangle. Lower the cloud silhouettes so even the very tallest tower begins BELOW 55% of canvas height, and all cloud tops and haze remain below the midpoint. Think of a clean flat-grey upper texture-mask region occupying slightly more than half the image, with a separate shallow grayscale cloud belt beneath it. Keep all other requirements unchanged, including grayscale R=G=B, matching side edges and bottom 15% even haze.",
+      "selected": true,
+      "reason": "Closest horizon result within the three-attempt limit: clouds are below the midpoint, lower haze and varied painted silhouettes are present, sides have no obvious seam, and no forbidden objects appear. Exact neutrality is imperfect: upper-half RGB spans 125–131; channel differences reach 5. Saved at the closest supported wide size, 2172 × 724."
+    },
+    {
+      "image": "horizon_ring_src.png",
+      "attempt": 3,
+      "file": "horizon_ring_src_try3.png",
+      "prompt": "Use case: precise-object-edit\nAsset type: grayscale, horizontally repeating fantasy-RPG horizon cloud layer.\nInput image: edit target, the supplied wide horizon-cloud texture. Preserve its canvas aspect ratio, lower-half cloud composition, soft painted cumulus silhouettes, bottom haze and matching side edges.\nTargeted correction: replace the plain upper background with a PERFECTLY SOLID neutral middle-grey colour fill, RGB(128,128,128). Every pixel in the entire upper 50% must be exactly the same grey: absolutely no residual paint grain, colour shift, cloudy texture, gradient, vignette or speckles. Keep all clouds entirely below the midpoint. The corrected background must merge softly into the existing cloud bank in the lower half without introducing a horizontal border. All image pixels must be grayscale with R=G=B, white tops and grey undersides; no cream or coloured tint.\nLower half remains a continuous, softly painted distant cloud belt; bottom 15% is even light haze. Illumination is flat with no sun direction. Keep natural left/right continuation for 360-degree wrapping.\nPreferred output canvas 4096 × 512; the existing closest supported wide canvas is acceptable if unavailable.\nNo sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks, borders or photographic appearance. Opaque background.",
+      "selected": false,
+      "reason": "Rejected: targeted background edit preserved the cloud layout but shifted the upper field farther from mid-grey, with RGB 130–136. Still not a perfectly flat fill; channel differences reach 5."
+    },
+    {
+      "image": "night_sky_src.png",
+      "attempt": 1,
+      "file": "night_sky_src_try1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: isolated equirectangular night-sky emissive texture layer for a painted fantasy RPG, Might and Magic 6–8 style.\nGenerate ONE 4096 × 2048 pixel PNG, exactly 2:1 landscape aspect ratio.\nScene/backdrop: pure opaque black RGB(0,0,0). Across the middle latitudes a single diagonal Milky Way band runs from lower left toward upper right. The band is a SUBTLE LOW-LUMINANCE soft painted glow, with soft dark dust lanes, faint cool blue/violet nebula dust and very faint warm amber nebula glow. Most of the canvas stays genuinely black. No luminous central explosion or bright focal object.\nComposition: equirectangular map, not a sky dome or framed illustration. Keep the top 10% and bottom 10% of the canvas completely solid pure black, with zero glow, stars, texture or marks in those pole regions. Gently taper band and dust before the black pole strips. Only small, sparse, dim pinpoint stars in the middle region; the engine separately draws the bright stars, so NO large or bright stars and no starburst or diffraction spikes.\nStyle: soft painterly storybook fantasy-game artwork; restrained coloured dust strokes and soft glow, no photographic NASA astrophotography and no science-fiction spectacle. The glow remains subdued, with sparse details on a black base, suitable for later engine tinting/compositing.\nAvoid: sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks or borders; planets, moon, horizon scenery, big bright stars. Pure-black poles are empty image regions, not borders. Opaque background.",
+      "selected": false,
+      "reason": "Rejected for pole correction: restrained diagonal blue/violet and amber band is suitable, but the outer 10% contains nonzero RGB values up to 2. Generated canvas is 1774 × 887."
+    },
+    {
+      "image": "night_sky_src.png",
+      "attempt": 2,
+      "file": "night_sky_src_try2.png",
+      "prompt": "Use case: precise-object-edit\nAsset type: painted fantasy-RPG equirectangular night-sky layer, 2:1, intended final size 4096 × 2048 pixels.\nInput image: edit target, the supplied restrained diagonal Milky Way texture. Keep its diagonal band, subdued intensity, dark dust lanes, faint blue/violet and warm amber dust, and small sparse stars unchanged.\nTargeted correction: make the two empty pole zones exactly pure black. Replace EVERY pixel in the top 10% and bottom 10% of the entire image with a PERFECT UNIFORM RGB(0,0,0) fill. No grey noise, coloured residuals, glow, paint grain, speckles or stars in these two zones. These should be the same literal empty black as a solid black digital canvas. Fade the adjacent dust naturally to zero before those zones; do not introduce visible stripes, borders or seams. The remaining background outside the dust is likewise black.\nKeep the softly painted fantasy-game finish; never photographic NASA imagery. Only small dim stars; no bright stars, bright central flare or starbursts. Keep no sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks, borders, moons or planets. Opaque black background.",
+      "selected": false,
+      "reason": "Rejected in favour of attempt 3: pole residuals improve to 1, but the glow is somewhat brighter (mean RGB 5.48/255) and the star/dust texture is denser."
+    },
+    {
+      "image": "night_sky_src.png",
+      "attempt": 3,
+      "file": "night_sky_src.png",
+      "prompt": "Use case: stylized-concept\nAsset type: isolated equirectangular night-sky emissive texture layer for a painted fantasy RPG, Might and Magic 6–8 style.\nGenerate ONE 4096 × 2048 pixel PNG, exactly 2:1 landscape aspect ratio.\nScene/backdrop: pure opaque black RGB(0,0,0). Across the middle latitudes a single diagonal Milky Way band runs from lower left toward upper right. The band is a SUBTLE LOW-LUMINANCE soft painted glow, with soft dark dust lanes, faint cool blue/violet nebula dust and very faint warm amber nebula glow. Most of the canvas stays genuinely black. No luminous central explosion or bright focal object.\nComposition: equirectangular map, not a sky dome or framed illustration. Keep the top 10% and bottom 10% of the canvas completely solid pure black, with zero glow, stars, texture or marks in those pole regions. Gently taper band and dust before the black pole strips. Only small, sparse, dim pinpoint stars in the middle region; the engine separately draws the bright stars, so NO large or bright stars and no starburst or diffraction spikes.\nStyle: soft painterly storybook fantasy-game artwork; restrained coloured dust strokes and soft glow, no photographic NASA astrophotography and no science-fiction spectacle. The glow remains subdued, with sparse details on a black base, suitable for later engine tinting/compositing.\nAvoid: sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks or borders; planets, moon, horizon scenery, big bright stars. Pure-black poles are empty image regions, not borders. Opaque background.\nTargeted correction for the last attempt: reserve extra safety margin at the poles. The top 20% and bottom 20% must be literal clean RGB(0,0,0), with no stars, dust, glow, brush grain, near-black noise or texture. Confine all visible dust and sparse tiny stars to the middle 60% so the required outer 10% pole areas are unquestionably pure black. Treat those empty areas as unpainted black digital-canvas pixels, not a painted dark surface. Keep the diagonal glow subtle and the requested 2:1 canvas unchanged.",
+      "selected": true,
+      "reason": "Closest night-sky result within the three-attempt limit: subdued diagonal Milky Way, faint blue/violet and amber dust, sparse tiny stars, dark pole regions, no forbidden objects. Native 1774 × 887 was resampled to the specified 4096 × 2048 PNG; this is not native 4K detail. Pole pixels still reach RGB 2, so exact pure-black compliance remains imperfect."
+    },
+    {
+      "image": "moon_src.png",
+      "attempt": 1,
+      "file": "moon_src_try1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: isolated neutral full-moon disc texture for a fantasy RPG sky renderer in the painted Might and Magic 6–8 tradition.\nGenerate ONE 1024 × 1024 pixel square PNG.\nBackground: completely pure opaque black RGB(0,0,0), entirely empty outside the moon.\nSubject and framing: ONE circular full moon disc, perfectly centred horizontally and vertically, its diameter about 90% of canvas width and height, leaving about 5% black space on each side. View the disc exactly face-on, a complete circle with no cropping.\nSurface: neutral grayscale ONLY (equal R, G and B), recognizable dark-grey maria, lighter highlands and softly painted crater rims with gentle fine surface detail. Painterly fantasy-game finish, slightly storybook, no photographic NASA imagery. Even lighting over the whole face, with no directional phase shadow or terminator. Natural variations of the lunar surface are visible without making either half darker from lighting.\nEdge: a clean soft antialiased boundary between the circular surface and PURE BLACK. The surface colour stops at the edge: zero outside glow, zero halo and zero atmospheric rim. No luminous aura, vignette, bloom or cast light.\nConstraints: no colour cast, no stars, no extra moons or planets, no phase shadow. No sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks or borders. Black opaque backdrop, no transparency.",
+      "selected": false,
+      "reason": "Rejected for neutral-palette/background correction: painted full-face disc has appropriate detail and roughly 91% diameter, but channel differences reach 9 and background residuals reach RGB 4."
+    },
+    {
+      "image": "moon_src.png",
+      "attempt": 2,
+      "file": "moon_src_try2.png",
+      "prompt": "Use case: precise-object-edit\nAsset type: isolated painted fantasy-RPG full-moon texture, square, intended final canvas 1024 × 1024 pixels.\nInput image: edit target, the supplied single full-moon disc. Preserve its full, face-on circular shape, roughly 90% canvas diameter, maria, craters, highlands and softly painted surface detail. Keep the disc centred.\nTargeted correction: enforce a completely neutral grayscale palette over the whole image. Every grey must have identical R, G and B channels, absolutely no beige, cream, warm, green or other tint. The background outside the circle must be perfectly solid pure black RGB(0,0,0), without paint noise or near-black residuals. Keep an antialiased circular edge, with no pixels of glow or halo beyond it. The grey lunar surface stops precisely at that edge.\nThe whole face stays evenly lit, no phase shadow, no terminator, no directional lighting. Soft painterly fantasy-game finish, no photographic NASA imagery. No stars, halo, glow, colour cast or surrounding objects. No sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks or borders. Opaque black background.",
+      "selected": false,
+      "reason": "Rejected in favour of attempt 3: surface neutrality improves to channel differences of 6, but surrounding background residuals still reach RGB 4."
+    },
+    {
+      "image": "moon_src.png",
+      "attempt": 3,
+      "file": "moon_src.png",
+      "prompt": "Use case: stylized-concept\nAsset type: isolated neutral full-moon disc texture for a fantasy RPG sky renderer in the painted Might and Magic 6–8 tradition.\nGenerate ONE 1024 × 1024 pixel square PNG.\nBackground: completely pure opaque black RGB(0,0,0), entirely empty outside the moon.\nSubject and framing: ONE circular full moon disc, perfectly centred horizontally and vertically, its diameter about 90% of canvas width and height, leaving about 5% black space on each side. View the disc exactly face-on, a complete circle with no cropping.\nSurface: neutral grayscale ONLY (equal R, G and B), recognizable dark-grey maria, lighter highlands and softly painted crater rims with gentle fine surface detail. Painterly fantasy-game finish, slightly storybook, no photographic NASA imagery. Even lighting over the whole face, with no directional phase shadow or terminator. Natural variations of the lunar surface are visible without making either half darker from lighting.\nEdge: a clean soft antialiased boundary between the circular surface and PURE BLACK. The surface colour stops at the edge: zero outside glow, zero halo and zero atmospheric rim. No luminous aura, vignette, bloom or cast light.\nConstraints: no colour cast, no stars, no extra moons or planets, no phase shadow. No sun, sun rays, lens flare, ground, mountains, trees, water, birds, buildings, people, text, logos, frames, watermarks or borders. Black opaque backdrop, no transparency.\nTargeted correction for the final attempt: absolute neutral grayscale separation. Render the moon as a monochrome, fully desaturated digital painting with NO warm pigments or tint, equal red, green and blue values everywhere. The surrounding black is a clean solid RGB(0,0,0) canvas with no painted grain, low-level grey noise or surface texture. Think of an isolated grayscale painted moon cutout placed on an untouched pure-black digital canvas; the crisp antialiased circle edge is the only transition, with zero outside halo. Centre the circle precisely at the canvas centre. Keep maria, crater detail, even full-face lighting and roughly 90% diameter unchanged.",
+      "selected": true,
+      "reason": "Closest moon result within the three-attempt limit: softly painted maria/craters/highlands, full evenly lit face, roughly 89% diameter, no visible glow, halo, stars or forbidden objects; black background residuals improve to RGB 1. Native 1254 × 1254 was resampled to the specified 1024 × 1024 PNG. Exact grayscale remains imperfect (channel difference up to 6 after export); disc centre is about (511,504), slightly above the canvas centre (512,512)."
+    }
+  ],
+  "selected_review": "selected_review.png",
+  "checks": {
+    "horizon_ring_src": {
+      "size": [
+        2172,
+        724
+      ],
+      "closest_supported_wide_size": true,
+      "clouds_only_in_lower_half": true,
+      "bottom_haze_and_varied_silhouettes": true,
+      "visually_continuous_sides": true,
+      "seam_mean_channel_difference": 1.5078268876611418,
+      "forbidden_elements_seen": false,
+      "upper_half_is_exact_flat_mid_grey": false,
+      "upper_half_rgb_min": [
+        126,
+        126,
+        125
+      ],
+      "upper_half_rgb_max": [
+        131,
+        130,
+        130
+      ],
+      "strict_equal_rgb_grayscale": false,
+      "max_channel_difference": 5
+    },
+    "night_sky_src": {
+      "size": [
+        4096,
+        2048
+      ],
+      "aspect_ratio": "2:1",
+      "diagonal_subtle_band": true,
+      "sparse_small_stars": true,
+      "forbidden_elements_seen": false,
+      "mean_rgb": 4.8499495188395185,
+      "top_bottom_ten_percent_exact_black": false,
+      "top_pole_rgb_max": [
+        1,
+        1,
+        1
+      ],
+      "bottom_pole_rgb_max": [
+        1,
+        2,
+        1
+      ],
+      "resampled_from": [
+        1774,
+        887
+      ]
+    },
+    "moon_src": {
+      "size": [
+        1024,
+        1024
+      ],
+      "full_evenly_lit_disc": true,
+      "disc_diameter_fraction": 0.890625,
+      "disc_centre": [
+        511,
+        504
+      ],
+      "canvas_centre": [
+        512,
+        512
+      ],
+      "exact_centred_disc": false,
+      "visible_halo_or_glow": false,
+      "forbidden_elements_seen": false,
+      "outside_disc_exact_black": false,
+      "outside_disc_rgb_max": [
+        1,
+        1,
+        1
+      ],
+      "strict_equal_rgb_grayscale": false,
+      "max_channel_difference": 6,
+      "resampled_from": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "scope": "Image generation and requested image records only. No build, game run or code changes."
+}

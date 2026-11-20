@@ -1,0 +1,105 @@
+id: lmroll.1000terrors_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: 1000terrors.blv
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: 1000terrors.blv
+      x: -707
+      y: -1198
+      z: -2323
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: 1000terrors.blv
+      x: -707
+      y: -1352
+      z: -2323
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: 1000terrors.blv
+      x: -707
+      y: -2734
+      z: -2323
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: 1000terrors.blv
+      x: -707
+      y: -2580
+      z: -2323
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: 1000terrors.blv
+      x: 8356
+      y: -15212
+      z: -2748
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: 1000terrors.blv
+      x: 8356
+      y: -15724
+      z: -2748
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

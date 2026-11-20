@@ -1,0 +1,116 @@
+{
+ "sprite": "tree60a",
+ "note": "77 placements (Murmurwoods 39, Ravenshore 38). Wide rounded crown denser at the top, darker green than tree12, on spreading limbs from a thick straight trunk.",
+ "sapling": {
+  "scale": 9.8,
+  "ratio": 0.062,
+  "baseSize": 0.33,
+  "branches": [
+   0,
+   36,
+   12,
+   6
+  ],
+  "length": [
+   1.0,
+   0.55,
+   0.35,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   55,
+   40,
+   45
+  ],
+  "downAngleV": [
+   0,
+   25,
+   10,
+   10
+  ],
+  "attractUp": [
+   0,
+   0.35,
+   0.3,
+   0
+  ],
+  "curve": [
+   0,
+   -10,
+   0,
+   0
+  ],
+  "shape": "2",
+  "seed": 60,
+  "segSplits": [
+   0.05,
+   0.2,
+   0.25,
+   0
+  ],
+  "splitAngle": [
+   20,
+   15,
+   15,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.31,
+  "centre": 0.62,
+  "clumps": 115,
+  "underside": 0.5,
+  "gen_cards": 1833,
+  "keep": 0.463,
+  "shell": {
+   "lum": 0.62
+  }
+ },
+ "occlusion": {
+  "floor": 0.1,
+  "range": 0.9,
+  "power": 1.15,
+  "hue": [
+   1.45,
+   1.0,
+   0.95
+  ],
+  "leaf_floor": 0.15
+ },
+ "leaves": {
+  "target_srgb": [
+   158,
+   148,
+   47
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   122,
+   108,
+   92
+  ]
+ },
+ "lod": {
+  "tone": [
+   1.0,
+   0.923,
+   1.713
+  ],
+  "lod2_card_scale": 0.977,
+  "grow": [
+   1.0,
+   1.3,
+   1.6
+  ],
+  "card_frac": [
+   1.0,
+   0.9,
+   1.0
+  ],
+  "lod2_vertical": 2,
+  "lod2_capacity": 0.85
+ },
+ "impostor_dilate": 7
+}

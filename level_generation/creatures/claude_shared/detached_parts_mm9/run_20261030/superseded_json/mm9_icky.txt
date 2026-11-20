@@ -1,0 +1,5 @@
+mm9_icky: 14 components, body 532 tris, 2 detached in some pose
+  part 2 (XbackA, +x side, 4155 tris): bind gap 0.0000, worst 0.0123 in AttackRanged frame 22 (0.733 s), detached 71/287 poses (and carried by a break elsewhere in 0; up to 0.0123 from the body's cluster) [parted off XwarmB]
+  part 10 (XwfinA01, +x side, 572 tris): bind gap 0.0000, worst 0.0083 in AttackRanged frame 12 (0.400 s), detached 4/287 poses (and carried by a break elsewhere in 71; up to 0.0083 from the body's cluster) [parted off XbackA]
+  shallow: part 1 (Xfingerpiv, 12 tris) rooted -0.0010 on XwarmB in AttackRanged frame 27
+  shallow: part 13 (Xfingerpiv01, 12 tris) rooted -0.0022 on XwfinA01 in AttackRanged frame 11

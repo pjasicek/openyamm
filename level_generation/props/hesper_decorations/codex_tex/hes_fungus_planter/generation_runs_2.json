@@ -1,0 +1,66 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "saved_best_return_requirements_not_fully_met",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Create one 1024 x 1024 transparent PNG, an albedo texture-source painting of the BACK of the fungus planter. Input 1 design_reference.png is ONLY the approved colour/material/design authority; do not use its camera, lighting, composition or mushroom arrangement. Input 2 guide_back.png is the edit target and absolute geometry authority. Paint directly over its grey visible surfaces, keeping its exact orthographic back camera, silhouette, object size and position, every edge, opening, mushroom shape and overlap. Preserve all transparent pixels, the large empty margins, and the exact low polygon outline. Do not remodel, smooth or add mushrooms, bolts, pipes or other shapes. The object occupies approximately x=65..958 and y=360..662 of the 1024 square: preserve this framing exactly. Three broad rectangular back panels, narrow corner posts, bottom support notches, the thin horizontal pipe with its existing collars, and the exact existing mushroom silhouettes remain fixed. Transfer the reference's dark slate grey-green composite surface, worn ochre horizontal band across the panels and ochre corner posts, subtle scratches, dark soil only where visible in the guide, pale cream mushrooms with delicate violet gill pigment and cream rims, and a thin grey pipe. Preserve reference material colours with restrained surface wear. LIGHTING: pure albedo under even flat shadowless viewer illumination, no cast shadows, no ambient occlusion darkening, no shaded gill crevices, no strong specular highlights or reflections, no rim light. Express gills as coloured surface detail, not lighting. No background, no floor, no glow cast onto neighbouring surfaces, no text. Return the native unresized 1024 x 1024 image with actual alpha transparency.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "623a9ce29f5b65c05291cad9286d9ce4d40ba1f8c026246eff8edcb5c5c4c7b8"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16049-a386-7692-9c82-689261983327/exec-c0048d89-b4ad-4db5-80fb-c610155a40f3.png",
+      "selected": false,
+      "reason": "Wrong native dimensions (1254 x 1254); silhouette and internal geometry altered, including added bolts; excessive shading.",
+      "checks": {
+        "dimensions": false,
+        "silhouette_identical": false,
+        "materials_colours": "Broad palette matches reference.",
+        "flat_even_light": false,
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. EDIT the FIRST input guide_back.png in place. It is a 1024 by 1024 RGBA orthographic model render. REQUIRED OUTPUT: exactly 1024 by 1024 pixels, native generated size, transparent background. Keep the original guide alpha mask and every contour pixel unchanged. Do not reframe or resize its subject. The opaque model bounds are x=66 through 957 and y=361 through 662. Preserve all empty space. The SECOND input design_reference.png is material and colour reference only. Paint the guide grey surfaces with those materials: dark slate grey-green composite planter panels with one ochre horizontal stripe, ochre narrow corner posts, grey lower supports, thin grey horizontal pipe and collars, dark soil where visible, pale cream mushrooms with fine light violet gill lines. Exact guide geometry takes absolute priority over the design: retain its polygonal mushroom caps and stems, every opening and overlap and panel seam, existing bottom support notches. Do not invent geometry or replace the guide's mushrooms with reference mushrooms. No new bolts, no new feet, no extra mushrooms, no outline expansion, no organic frilling beyond the guide. Only replace surface colour inside existing shapes. This is flat unlit ALBEDO for texture projection, NOT a beauty render: no shadows, no ambient occlusion, no directional shading, no darkened crevices, no highlights, no specular reflections, no rim light. Light cream and lavender gills are painted pigments not dark shadows. Subtle reference scratches and worn paint are permitted within the silhouette. No floor, no backdrop, no text. Corrective generation: the prior attempt returned 1254 square and altered silhouettes; this must instead match the FIRST input's exact 1024 square canvas and pixel-aligned silhouettes, unresized.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "623a9ce29f5b65c05291cad9286d9ce4d40ba1f8c026246eff8edcb5c5c4c7b8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16049-a386-7692-9c82-689261983327/exec-0b3fc7aa-b04a-4fc6-98bf-4d1ba622c0e6.png",
+      "selected": true,
+      "reason": "Best of the two allowed returns: closer angular mushroom geometry, no added bolts, flatter materials. Saved unresized and unmodified. Still fails native 1024 x 1024 size and exact silhouette; some shading and fringe artifacts remain. Selected for delivery, not accepted as fully compliant.",
+      "checks": {
+        "actual_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions": false,
+        "silhouette_identical": false,
+        "materials_colours": "Slate grey-green, ochre, cream and violet broadly match reference.",
+        "flat_even_light": "Improved but residual shading remains.",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1197521,
+        "unresized": true
+      }
+    }
+  ]
+}

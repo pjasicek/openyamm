@@ -1,0 +1,3680 @@
+{
+  "map": "6d02.blv",
+  "scope": "all 62 static textures; material-only correction",
+  "selected": [
+    {
+      "name": "wltil2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "9de7bbd7fcf1dde728476603972396f02e1cd8f449879dd058460755bc458961",
+      "construction": "shared plaster base",
+      "previous_demo_source": true,
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 183.481,
+        "previous_x4": 158.428,
+        "corrected_x4": 158.428
+      }
+    },
+    {
+      "name": "wywl",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        }
+      ],
+      "runtime_sha256": "221fbffb0ec29809a24e097ca5d7693e158734d915b998436247a6ddac162937",
+      "construction": "plaster + dado at native y=435",
+      "previous_demo_source": true,
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 156.145,
+        "previous_x4": 141.569,
+        "corrected_x4": 141.569
+      }
+    },
+    {
+      "name": "wywl2",
+      "native_size": [
+        256,
+        128
+      ],
+      "runtime_size": [
+        1024,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        }
+      ],
+      "runtime_sha256": "709c6c12a0cd1b259e022596a9511c59ce8d6f9e43a4133a8e94b503fe124a45",
+      "construction": "bottom 128 native rows of the identical wall base",
+      "previous_demo_source": true,
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 101.445,
+        "previous_x4": 90.619,
+        "corrected_x4": 90.619
+      }
+    },
+    {
+      "name": "wywt",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        },
+        {
+          "source": "generated/wywt_x4_overlay_clean_v1.png",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "source_sha256": "a0c8e09ee82402cd93cabec92943589c3cd4b735b784d92f49fd714078203652",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              253
+            ],
+            "transparent_pixels": 53750
+          },
+          "crop": [
+            24,
+            8,
+            1002,
+            1524
+          ],
+          "prompt": "prompts/wywt_x4_overlay_clean_v1.txt"
+        }
+      ],
+      "runtime_sha256": "717696ca6a6b406f5c8465a85f3d94d2f398d95e1df2adf33919eebfb1c30ec7",
+      "construction": "registered foreground over the identical shared wall; opaque native panel interiors",
+      "previous_demo_source": true,
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 106.284,
+        "previous_x4": 114.544,
+        "corrected_x4": 114.544
+      }
+    },
+    {
+      "name": "stabig2",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        },
+        {
+          "source": "generated/stabig2_x4_overlay_clean_v2.png",
+          "source_size": [
+            1083,
+            1452
+          ],
+          "source_sha256": "b015dcb6a91236c6e897bfc1facf8a811a93d073b99eef68011d4e3a57ffdb63",
+          "raw_alpha": {
+            "extrema": [
+              10,
+              252
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1083,
+            1452
+          ],
+          "prompt": "prompts/stabig2_x4_overlay_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "0c113f9f891cf4070ea0c545b6f9358df99eb3813936a1223af4c32cc074bc10",
+      "construction": "registered foreground over the identical shared wall; opaque native panel interiors",
+      "previous_demo_source": true,
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 95.351,
+        "previous_x4": 97.755,
+        "corrected_x4": 97.755
+      }
+    },
+    {
+      "name": "gset06",
+      "native_size": [
+        256,
+        32
+      ],
+      "runtime_size": [
+        1024,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/gset06_v2.png",
+          "prompt": "prompts/material_correction_x4/gset06_v2.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "038ea455d3d242771105fbbf92828cec794ed2c4a8fb7d7d62cf311e788686d0",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1203940
+          },
+          "crop": [
+            0,
+            344,
+            1774,
+            541
+          ],
+          "usable_size": [
+            1774,
+            197
+          ],
+          "rotation": 0,
+          "offset_wrap_shift": [
+            512,
+            0
+          ]
+        },
+        {
+          "source": "generated/material_correction_x4/gset06_v3.png",
+          "prompt": "prompts/material_correction_x4/gset06_v3.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "92d950c40d6645cede21596f0e5bf07189328c0bb5be43a290e07b0082ec1065",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1206830
+          },
+          "crop": [
+            0,
+            343,
+            1774,
+            542
+          ],
+          "usable_size": [
+            1774,
+            199
+          ],
+          "rotation": 0,
+          "repair_native4x_rect": [
+            409,
+            0,
+            614,
+            128
+          ],
+          "inverse_wrap_shift": [
+            -512,
+            0
+          ]
+        }
+      ],
+      "runtime_sha256": "8db7aed752bf0b37531e9496915aa68a76de30c31e72cd1a556ef1b672bd1d42",
+      "construction": "matte body with registered imagegen centre-wrap repair",
+      "decision": "corrected",
+      "previous_runtime_sha256": "1326fb0630e82e729e606247c67d5b4cc849d797f7e8b10dfd8298a3774d4a72",
+      "correction": "Reduce trim brightness and stippled faces, retain native stone divisions",
+      "repaired_join": true,
+      "mean_display_luma": {
+        "esrgan": 108.084,
+        "previous_x4": 134.013,
+        "corrected_x4": 119.079
+      }
+    },
+    {
+      "name": "gset05",
+      "native_size": [
+        256,
+        16
+      ],
+      "runtime_size": [
+        1024,
+        64
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/gset05_v3.png",
+          "prompt": "prompts/material_correction_x4/gset05_v3.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "a6610922a805fc3829a2d6327692f282c61fb5f79ab3f864d9027f4170cff5d0",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1375131
+          },
+          "crop": [
+            0,
+            391,
+            1774,
+            494
+          ],
+          "usable_size": [
+            1774,
+            103
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "fc52dbeb06a6f777c504804cddf06846926476a12520d9c09c17fe1a3b7cf8af",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "6ec731e8808fa92e413138ee42ff831d918f5729daf715654de5f1ff20dd52b6",
+      "correction": "Restore dark trim palette, registered body with continuous edges",
+      "mean_display_luma": {
+        "esrgan": 35.338,
+        "previous_x4": 96.989,
+        "corrected_x4": 48.522
+      }
+    },
+    {
+      "name": "cekr4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/cekr4_v1.png",
+          "prompt": "prompts/material_correction_x4/cekr4_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b0cf1f86196ed0619e2829ef3a8ccc4beca400a5c85c331a9beaece355e9a146",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "66c72531b948d991bf88dc6fd27850121981e6ab384b6acc4c638b41963e1dca",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "a11e77fe5e4b45a17270372b44e3acf3e0e0f76c1b65b392fc88975c86099825",
+      "correction": "Darken checker floor and replace coarse grit with fine worn finish",
+      "mean_display_luma": {
+        "esrgan": 73.913,
+        "previous_x4": 103.639,
+        "corrected_x4": 67.933
+      }
+    },
+    {
+      "name": "ctflor3",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/ctflor3-v1.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b1ca9252186eae1e1110c6db071746005c7a14928253dd2f816f8c061a81fe00",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/ctflor3-v1.txt"
+        }
+      ],
+      "runtime_sha256": "09eb32bddaef1a1c528c5d91682ff200548c387c75ff3f62fe55271977ecd0d3",
+      "construction": "full fresh material master reduced to native 4x",
+      "previous_demo_source": true,
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 94.895,
+        "previous_x4": 101.592,
+        "corrected_x4": 101.592
+      }
+    },
+    {
+      "name": "ch1side",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/ch1side_v1.png",
+          "prompt": "prompts/material_correction_x4/ch1side_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "e781eca70a56d5964629f51542d80f1ad5ce2ca4ebd5df01cbd3ff6474a84f86",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "fcb701adb07c3f12e624a0195158be5b655c18c8ca982fcd72648afa2e60ce4b",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "d9b42e754c0cd6d486e0d1c226a0bd04c05896d6efbe8fa495a73a65599d0781",
+      "correction": "Darker aged chest side, restrained chips and diffuse fittings",
+      "mean_display_luma": {
+        "esrgan": 46.441,
+        "previous_x4": 74.527,
+        "corrected_x4": 55.718
+      }
+    },
+    {
+      "name": "ch1tpbv",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_lid_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_lid_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "6dbf6d1040cbda80430b90eee09fcda43ae5265bd684b2cb44f056c4ff4e69dc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 598731
+          },
+          "crop": [
+            245,
+            212,
+            1010,
+            1036
+          ],
+          "usable_size": [
+            765,
+            824
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "8528f61d3318352e1e76798f6395fe4d921dc84aca0fb86cacc253cafad6b856",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "0b9c4925a626dbf5d34c7390b228b220f68a0b13249301d2d8b46de7a84d9495",
+      "correction": "Same darker aged chest material, shared lid cuts",
+      "mean_display_luma": {
+        "esrgan": 69.252,
+        "previous_x4": 92.3,
+        "corrected_x4": 73.626
+      }
+    },
+    {
+      "name": "ch1tprev",
+      "native_size": [
+        64,
+        16
+      ],
+      "runtime_size": [
+        256,
+        64
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_lid_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_lid_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "6dbf6d1040cbda80430b90eee09fcda43ae5265bd684b2cb44f056c4ff4e69dc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 598731
+          },
+          "crop": [
+            245,
+            1036,
+            1010,
+            1242
+          ],
+          "usable_size": [
+            765,
+            206
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "3451a7a6202dd5c0780328aa38596550f0c35a9ef7ee650b52dc9df0fabb9394",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "ab3a032dde60a4bd4ee3eafda511ce9a9084c4460008e915dff5f061b34f1b5f",
+      "correction": "Same darker aged chest material, shared lid cuts",
+      "mean_display_luma": {
+        "esrgan": 52.574,
+        "previous_x4": 80.989,
+        "corrected_x4": 66.057
+      }
+    },
+    {
+      "name": "ch1frle",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_front_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_front_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "14b2b984f2f6c65f576d2470e8d4f209f5ee9445df335d7d2b28b438e164a0dc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 478401
+          },
+          "crop": [
+            8,
+            203,
+            214,
+            1055
+          ],
+          "usable_size": [
+            206,
+            852
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "ca08f5715690d1c04a09fc6764a03adcae09fc5898f98b61bd731ec50ffb70bc",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "2e5d72ca57907dbdd4bba0873af496b387cb7ceef1b9c93d988599e940ad43bb",
+      "correction": "Darker aged grey wood and matte oxidized metal, shared front cuts",
+      "mean_display_luma": {
+        "esrgan": 45.806,
+        "previous_x4": 96.839,
+        "corrected_x4": 71.83
+      }
+    },
+    {
+      "name": "ch1frre",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_front_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_front_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "14b2b984f2f6c65f576d2470e8d4f209f5ee9445df335d7d2b28b438e164a0dc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 478401
+          },
+          "crop": [
+            1040,
+            203,
+            1247,
+            1055
+          ],
+          "usable_size": [
+            207,
+            852
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "7618fc942c1afef3eac7dd0004c0f98cfe70b56cf766c6882f8f78cd16ccc597",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "76a44432c8356bedc13cd226b23852f74c6a485c6a64f0a852c5783b04b7b89b",
+      "correction": "Darker aged grey wood and matte oxidized metal, shared front cuts",
+      "mean_display_luma": {
+        "esrgan": 52.649,
+        "previous_x4": 94.825,
+        "corrected_x4": 70.43
+      }
+    },
+    {
+      "name": "ch1tplev",
+      "native_size": [
+        64,
+        16
+      ],
+      "runtime_size": [
+        256,
+        64
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_lid_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_lid_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "6dbf6d1040cbda80430b90eee09fcda43ae5265bd684b2cb44f056c4ff4e69dc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 598731
+          },
+          "crop": [
+            245,
+            6,
+            1010,
+            212
+          ],
+          "usable_size": [
+            765,
+            206
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "e682ddd13d2b18d69045f97662602d9fdd19346647ff89b783414720fac4012d",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "9bffeca5cc70c7a3d3d8238411f8485e444950aed6f56c80f8995f6a76ad339f",
+      "correction": "Same darker aged chest material, shared lid cuts",
+      "mean_display_luma": {
+        "esrgan": 56.106,
+        "previous_x4": 77.241,
+        "corrected_x4": 62.728
+      }
+    },
+    {
+      "name": "ch1frntb",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_front_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_front_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "14b2b984f2f6c65f576d2470e8d4f209f5ee9445df335d7d2b28b438e164a0dc",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 478401
+          },
+          "crop": [
+            214,
+            203,
+            1040,
+            1055
+          ],
+          "usable_size": [
+            826,
+            852
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "08f35d7d5736e5c99b5f8ec7845116aebf71a475795454c07a6177a815e9b7f1",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "38820fcfdcf4e7092df8822f9b28f37a45aa795309c4dc7626eeb9d3d4d900c4",
+      "correction": "Darker aged grey wood and matte oxidized metal, shared front cuts",
+      "mean_display_luma": {
+        "esrgan": 58.458,
+        "previous_x4": 102.467,
+        "corrected_x4": 75.557
+      }
+    },
+    {
+      "name": "ctdor4",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/ctdor4_full_v1.png",
+          "prompt": "prompts/ctdor4_full_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "4f567fed599aa90ceba23c9fa425840d1518ab7532a9771534c72dd374d9cbc7",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        }
+      ],
+      "runtime_sha256": "869ff07aa5c2c34800054d085ab41d3c8140c47559a7036935b32e5375ee2308",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 32.822,
+        "previous_x4": 36.782,
+        "corrected_x4": 36.782
+      }
+    },
+    {
+      "name": "ch1bkre",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_back_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_back_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "23a8e89f1f3de7a228191cc80d86e1da276466c3d43eba1c265d23a536608f5f",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 516930
+          },
+          "crop": [
+            1037,
+            210,
+            1242,
+            1043
+          ],
+          "usable_size": [
+            205,
+            833
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "55492553996175aaaa8ed77c1f845eb8034f98cff64eaabe5ddb5c2e5f9f4a77",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "7eb19df706bc34d053621eb6d23342677bf14fb0a1e463b1d53b6f21c929462a",
+      "correction": "Same darker aged chest material, shared back cuts",
+      "mean_display_luma": {
+        "esrgan": 55.509,
+        "previous_x4": 85.816,
+        "corrected_x4": 66.818
+      }
+    },
+    {
+      "name": "ch1bakb",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_back_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_back_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "23a8e89f1f3de7a228191cc80d86e1da276466c3d43eba1c265d23a536608f5f",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 516930
+          },
+          "crop": [
+            218,
+            210,
+            1037,
+            1043
+          ],
+          "usable_size": [
+            819,
+            833
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "1c79686849772f963e50e02e1bed16cb6713271dda46ff2c3b4f30dae88b3de4",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "140e371b130f7a0bcc0b4ec983d7c4537be365055335a6fdeb69055a0130efcf",
+      "correction": "Same darker aged chest material, shared back cuts",
+      "mean_display_luma": {
+        "esrgan": 59.993,
+        "previous_x4": 93.126,
+        "corrected_x4": 68.773
+      }
+    },
+    {
+      "name": "ch1bkle",
+      "native_size": [
+        16,
+        64
+      ],
+      "runtime_size": [
+        64,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/chest_back_v1.png",
+          "prompt": "prompts/material_correction_x4/chest_back_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "23a8e89f1f3de7a228191cc80d86e1da276466c3d43eba1c265d23a536608f5f",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 516930
+          },
+          "crop": [
+            13,
+            210,
+            218,
+            1043
+          ],
+          "usable_size": [
+            205,
+            833
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "210f94bcc1e04fb2095e76801608c97ff575762032880b5b12dc9c9a920ae651",
+      "construction": "registered cuts from one corrected connected chest master",
+      "decision": "corrected",
+      "previous_runtime_sha256": "c073526b267b179a51dc933abc975c594269b362bfeecd0313ea91f410787b8c",
+      "correction": "Same darker aged chest material, shared back cuts",
+      "mean_display_luma": {
+        "esrgan": 48.698,
+        "previous_x4": 81.276,
+        "corrected_x4": 64.208
+      }
+    },
+    {
+      "name": "ctceil1",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/ctceil1_full_v1.png",
+          "prompt": "prompts/ctceil1_full_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "e800b06f8e6d1a144e092565a0068a03af3ec7bc3c806f3c99bf0db2761596b7",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "375f5be86d193f61cf31dcb1d2ceca8eda674cc004bd1c3568f7014189ec69e9",
+      "construction": "fresh earlier master re-exported directly at native 4x, never enlarged from 2x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 73.996,
+        "previous_x4": 74.853,
+        "corrected_x4": 74.853
+      }
+    },
+    {
+      "name": "d2ceil3",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/d2ceil3_v1.png",
+          "prompt": "prompts/full_x4/d2ceil3_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "7d82be76f19556ef4f6ffbcd0309c47009a6179b2bda8e66fa4bff9235fcb7da",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "47eee51b544322b672e75befc14c49d6ea062b4c18d8a21a7c42edc34fd9505b",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 39.582,
+        "previous_x4": 42.748,
+        "corrected_x4": 42.748
+      }
+    },
+    {
+      "name": "d2wctra",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2wctra_v3.png",
+          "prompt": "prompts/material_correction_x4/d2wctra_v3.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "d62a5bfcdce6cfc078aff4990c4140c8ae3aebbc5ee551e4c19b5e978c0a8646",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "usable_size": [
+            887,
+            1774
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "299dce961aa59f40b93921651c64ca51ae1ecafadb1c87ba821746f9e5b21dc8",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "e119aeb151859de494b6fe1d29ad419bd9e53235e09eb5aafa837518046ca8b3",
+      "correction": "Darken large masonry; remove polished broad highlights",
+      "mean_display_luma": {
+        "esrgan": 19.063,
+        "previous_x4": 42.069,
+        "corrected_x4": 21.05
+      }
+    },
+    {
+      "name": "d2wlactr",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2wlactr_v3.png",
+          "prompt": "prompts/material_correction_x4/d2wlactr_v3.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "47d106e48a166c9355a0fa8e3d1e610ced9377a4f7a680981b2a01884a2e8656",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "usable_size": [
+            887,
+            1774
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "d3a7452346c17f4c1623b251d9e5619a65e24f769b5a674a8af1cc33d135749c",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "964ed22c37507b486daba6bf8802aaeb47a353a568b60d63dd781906cae8ae93",
+      "correction": "Darken thin masonry and restore deep matte mortar; reduce pale stone relief",
+      "mean_display_luma": {
+        "esrgan": 20.934,
+        "previous_x4": 47.742,
+        "corrected_x4": 20.485
+      }
+    },
+    {
+      "name": "d1wldle2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d1wldle2_v1.png",
+          "prompt": "prompts/material_correction_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "eeab3c1fdde65db343aaa2e417365d03ef31e29caef81ce61f85695720495f3d",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "a00ee7d01a40f0349e386e2f18405427956205c3db8a9459784a55f7fd40a52f",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "3812a54d4418aa017bb42a42091d3de49921648f31be228adad51aa11eecf47e",
+      "correction": "Darken mossy masonry; finer matte weathering, shared wall family",
+      "mean_display_luma": {
+        "esrgan": 46.995,
+        "previous_x4": 71.505,
+        "corrected_x4": 51.228
+      }
+    },
+    {
+      "name": "crdflr4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/crdflr4_v1.png",
+          "prompt": "prompts/material_correction_x4/crdflr4_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "7b5f53011692b5e7ebd5e5f1813bfc19eed4498e264b272cb675962ce84fffc7",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "82cf1d6e0a2c811c8b269e61cea649087194d9b14bad25b27b411b1f697a0203",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "030df545b71783aee2234ee8929bc770c9728a49b319b2e1c862f6c05c46e618",
+      "correction": "Restore dark rubble gaps and rock scale; remove sandy beige lift",
+      "mean_display_luma": {
+        "esrgan": 45.083,
+        "previous_x4": 83.815,
+        "corrected_x4": 42.818
+      }
+    },
+    {
+      "name": "crdrf2",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/crdrf2_v1.png",
+          "prompt": "prompts/material_correction_x4/crdrf2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "e5c5fe93e91cb6ff831ed42fba226345aa1027bc569cbfec8642e39c8b4fc13e",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "f5935e1ee7e138dab2e73421574027a74f071ba02d5a5466836cf48cc8906069",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "27160f968d77eb196839e7a0ee8e3b5f65521dd38a9ab8ef9250bd9e066bc3e3",
+      "correction": "Restore deep dark rubble and earthy palette",
+      "mean_display_luma": {
+        "esrgan": 37.342,
+        "previous_x4": 53.48,
+        "corrected_x4": 37.174
+      }
+    },
+    {
+      "name": "d2flor4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2flor4_v1.png",
+          "prompt": "prompts/material_correction_x4/d2flor4_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "7572ae4eacb8893b99c24b51f244ae98f7d8a725d17b9b7996f39336d5fd9d96",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "4b3147f4aa8d2a5c57013d14ea97a91e2892aba538ebc31ce046e809acf36c4c",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "ea08bfb50942448566a15e2d287c3b191653428e2e4e44ab74f039aa642cba60",
+      "correction": "Restore muted mauve paving and fine matte surfaces",
+      "mean_display_luma": {
+        "esrgan": 56.132,
+        "previous_x4": 75.311,
+        "corrected_x4": 61.689
+      }
+    },
+    {
+      "name": "d2ceil1",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2ceil1_v1.png",
+          "prompt": "prompts/material_correction_x4/d2ceil1_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "fa16db40fc821178fde626f94450160122384428830c40cacb42217ca1ebbde4",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "f15799831ad384e0e3c26cecad772c573cedb49aa8faea6b335e697ebc09bbd8",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "681d7ed1bc229ef86394af72b0f5ff0c9f298dda2e38b4ce18f7cdefdcedcd2d",
+      "correction": "Darken timber ceiling and use subdued fine grain",
+      "mean_display_luma": {
+        "esrgan": 26.113,
+        "previous_x4": 40.817,
+        "corrected_x4": 32.483
+      }
+    },
+    {
+      "name": "d5flora",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d5flora_v1.png",
+          "prompt": "prompts/material_correction_x4/d5flora_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "02db4675564d19d5481486bd35b7aaa7bd35ac23ad1773d91af953e7a7ca7391",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "3be482c64195e268766bd1638062ee25f71924d01413ad493604c561f6fa9a51",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "f868f4fb2403d50404a6c364ab46586ab4c95c7f86ad35acb8b03258036b4d7c",
+      "correction": "Darken moss-green masonry and reduce noisy mineral flecks",
+      "mean_display_luma": {
+        "esrgan": 50.351,
+        "previous_x4": 66.498,
+        "corrected_x4": 49.474
+      }
+    },
+    {
+      "name": "ctflor4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctflor4_v1.png",
+          "prompt": "prompts/full_x4/ctflor4_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c71a7f6aecdf04d4a34b41045f77fd8b13b844ea2505d8bca46a40a2bf12bc7b",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "fca20b0d9a34185b056e2382141a7fd7bd4e4f47866d17caaa11f2143e0585d6",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 74.554,
+        "previous_x4": 84.351,
+        "corrected_x4": 84.351
+      }
+    },
+    {
+      "name": "slabco2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/slabco2_v2.png",
+          "prompt": "prompts/material_correction_x4/slabco2_v2.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "ce9dea7d1f92a637a8feb91949c002d66cda010ddca160a453099398486d621b",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "a424f71f35bd47fd84cceb9da2cfe2b92c28deb76e323146d4d1fd85f481cb75",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "4a02fa6eb85036e92b71645c4dba3d160d767691cc1a7890a4f4d3451d60188d",
+      "correction": "Refine rough aggregate into natural matte rock rather than crunchy stippling",
+      "mean_display_luma": {
+        "esrgan": 43.199,
+        "previous_x4": 57.723,
+        "corrected_x4": 55.329
+      }
+    },
+    {
+      "name": "celtile",
+      "native_size": [
+        128,
+        64
+      ],
+      "runtime_size": [
+        512,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/celtile_v1.png",
+          "prompt": "prompts/full_x4/celtile_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "4095941cea99d848cd1d95ed577a78456b63d0b824a0c46d3b7d501641c7ac80",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ]
+        }
+      ],
+      "runtime_sha256": "a3f5b4d6c95db3ae678fb24b79f4589f07befd1544f3931728729a95a6349148",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 54.82,
+        "previous_x4": 70.805,
+        "corrected_x4": 70.805
+      }
+    },
+    {
+      "name": "graysq",
+      "native_size": [
+        64,
+        64
+      ],
+      "runtime_size": [
+        256,
+        256
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/graysq_v1.png",
+          "prompt": "prompts/full_x4/graysq_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "0af64b9ce54780abfa4f20f269578e725436aadf2d5a3319d16fe4cc79a303c0",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "502e122853984eaaaaa57bb768eaf94ffa2d99c1ac36acb0f11536cc2efd5864",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 51.224,
+        "previous_x4": 53.801,
+        "corrected_x4": 53.801
+      }
+    },
+    {
+      "name": "gset04",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/gset04_v1.png",
+          "prompt": "prompts/material_correction_x4/gset04_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "3085a6454df4f31fb4d4ad76902533f2310aab4fab7f5494b66be468c97b87c2",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "fe9b65d1475e3b99bae89313ba8253259935f86ca8aac02915930fcdf878e067",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "6a610cf0a4ebd5da11962124289710d418dece508e089828816b6823f2a81f7c",
+      "correction": "Reduce chalk-white brightness and coarse pockmark/stippled stone finish",
+      "mean_display_luma": {
+        "esrgan": 70.35,
+        "previous_x4": 112.342,
+        "corrected_x4": 77.5
+      }
+    },
+    {
+      "name": "bemhwal1",
+      "native_size": [
+        256,
+        128
+      ],
+      "runtime_size": [
+        1024,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ]
+        }
+      ],
+      "runtime_sha256": "b6931b75c79afcdb7a55bfe9b23f0ac1db499960662d3900c6775f1d244a90d6",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 17.713,
+        "previous_x4": 26.425,
+        "corrected_x4": 26.425
+      }
+    },
+    {
+      "name": "bemdord",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/bemdord_v1.png",
+          "prompt": "prompts/material_correction_x4/bemdord_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "1d34457a884e3d6f42fb35ca08f61148d3b9d75f183199cfeef281032c0250e8",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "usable_size": [
+            887,
+            1774
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "a6223b9e6b19156e58a7d74b70b26679284cbfb15230a910d531f0be40a79dec",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "7918be328fa31404710114217388cb8b773d2e54f4ec606239592e8c0d25bba8",
+      "correction": "Darken weathered door, keep fine matte warm grain",
+      "mean_display_luma": {
+        "esrgan": 45.248,
+        "previous_x4": 57.817,
+        "corrected_x4": 42.569
+      }
+    },
+    {
+      "name": "ceilbemh",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/ceilbemh_v1.png",
+          "prompt": "prompts/material_correction_x4/ceilbemh_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "38a5bf584be6d736c832823ba6ea85ad2f52264a069eb5b4bc9cae8cd5936d53",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "631214a1a007c44e9b7b14abb74b687bc78270df71ab75a7a7bfb70307a52593",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "77b89f2268f09b156b11f825a2ec867ba4b67e64da0044777e66c5d37e82ad38",
+      "correction": "Darken coffered timber and remove bright edges",
+      "mean_display_luma": {
+        "esrgan": 29.584,
+        "previous_x4": 41.254,
+        "corrected_x4": 33.326
+      }
+    },
+    {
+      "name": "ctceil2",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctceil2_v1.png",
+          "prompt": "prompts/full_x4/ctceil2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "f3126ddf96d90e003ef0a185233e3c2a53606265f29d6fa7555ee2653924d3f2",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "98eb23d1314264a62eb3157d746d0f71522172c9ace0a7f900cd9a1acb63c536",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 53.734,
+        "previous_x4": 55.956,
+        "corrected_x4": 55.956
+      }
+    },
+    {
+      "name": "plnkdrk",
+      "native_size": [
+        64,
+        128
+      ],
+      "runtime_size": [
+        256,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/plnkdrk_v1.png",
+          "prompt": "prompts/full_x4/plnkdrk_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "00595997d0eb59524889d59a79ac92ec97bb13003f927c00b1dbf71f77b99ba2",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "rotation": 0,
+          "usable_size": [
+            887,
+            1774
+          ]
+        }
+      ],
+      "runtime_sha256": "150e206ea4cba7c39f03b10868a509a543b42c092cea8afcaa7f9427bcaf81a7",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 23.333,
+        "previous_x4": 26.72,
+        "corrected_x4": 26.72
+      }
+    },
+    {
+      "name": "gset07",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/gset07_v1.png",
+          "prompt": "prompts/full_x4/gset07_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "201f8253bb7a5a48dbf29e9c4757d01db854985968c355573e15bdb56cffa024",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "b23be9694b7e2b55a83843bcc6682af200e28e3b1e107fec16cc95ed8b1735ae",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 63.896,
+        "previous_x4": 76.968,
+        "corrected_x4": 76.968
+      }
+    },
+    {
+      "name": "sndston",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/sndston_v1.png",
+          "prompt": "prompts/material_correction_x4/sndston_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "8714b1f9f600d2f18524a13c73b601d5f8284e05ae01595cc4c8a6f4a96b8708",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "412e3a11003747debc0766623c353fc4b8697098128018225eb10c4e53a6243d",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "15741e7e996a7140e25e36bc5e4751a4ed3d295ad6df77675b707e45595bf0b7",
+      "correction": "Restore subdued sandstone colour and smoother matte stone",
+      "mean_display_luma": {
+        "esrgan": 122.587,
+        "previous_x4": 161.19,
+        "corrected_x4": 134.134
+      }
+    },
+    {
+      "name": "ctdor2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctdor2_v1.png",
+          "prompt": "prompts/full_x4/ctdor2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "cef514afeea7ed9ce8a57bfadbb554dc993a5adb953a9551fdb88d9543701375",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "d4df3a3b56a5885722770e649f2978069d5886a21c13e3fc2ca9f24334e4b580",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 97.557,
+        "previous_x4": 106.297,
+        "corrected_x4": 106.297
+      }
+    },
+    {
+      "name": "ctmura",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/ctmura_v1.png",
+          "prompt": "prompts/full_x4/ctmura_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c624c938189f847e0d9bebe6ab3755e7b174cfd294f12993446273e7b6c9e6fd",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "runtime_sha256": "0c8153661adbb927ea108b05d6da58183c634c1b64f5e10555f400149c120b97",
+      "construction": "new fine material/illustration master reduced directly to native 4x",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 67.465,
+        "previous_x4": 75.321,
+        "corrected_x4": 75.321
+      }
+    },
+    {
+      "name": "d1wldle3",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d1wldle3_v1.png",
+          "prompt": "prompts/material_correction_x4/d1wldle3_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c1cfe45ac05f7da5d0ca8e61101f5ce9f556839aac0f22f356d33a0aa96179f9",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "c78cb09d3c65614ff3bd9087310ce0968aac2949828a7d964277508f45842474",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "f366e54fead3e4af35c085a43ae8d0677a0eeee69f9581cbfad6e413af2edfc5",
+      "correction": "Darken pale masonry; remove excessive sandstone grain",
+      "mean_display_luma": {
+        "esrgan": 55.723,
+        "previous_x4": 84.409,
+        "corrected_x4": 63.123
+      }
+    },
+    {
+      "name": "d2flor5",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2flor5_v1.png",
+          "prompt": "prompts/material_correction_x4/d2flor5_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "816c53ee780bad42935960f77a5eaf1c8819cbc5811ae87a6b7508a1c1e46c52",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        }
+      ],
+      "runtime_sha256": "717868c0a32ed4fd0192d0b3b7702490a721b3891a3425068684843504252c56",
+      "construction": "new material correction reduced directly from native-detail artwork",
+      "decision": "corrected",
+      "previous_runtime_sha256": "ea08bfb50942448566a15e2d287c3b191653428e2e4e44ab74f039aa642cba60",
+      "correction": "Restore distinct dark paving variant instead of aliasing light paving",
+      "mean_display_luma": {
+        "esrgan": 24.725,
+        "previous_x4": 75.311,
+        "corrected_x4": 33.432
+      }
+    },
+    {
+      "name": "beamplnh",
+      "native_size": [
+        256,
+        32
+      ],
+      "runtime_size": [
+        1024,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/beam_body_v1.png",
+          "prompt": "prompts/material_correction_x4/beam_body_v1.txt",
+          "source_size": [
+            2170,
+            725
+          ],
+          "source_sha256": "eb92c49f0962a6b9c65668a78c7a02adb13791c0b6bb8659c75b8456657b11f2",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            2170,
+            725
+          ],
+          "usable_size": [
+            2170,
+            725
+          ],
+          "rotation": 0,
+          "body_crop_within_source": [
+            0,
+            241,
+            2170,
+            483
+          ],
+          "body_rotation": 0
+        }
+      ],
+      "runtime_sha256": "6b92c626ee7da18dcfe4f6e040f1b9bf940fcea2fcbf7b11653db3c6e22c7bce",
+      "construction": "corrected continuous timber body with registered orientation",
+      "decision": "corrected",
+      "previous_runtime_sha256": "b0f1d1e5187c7cf236ff89014d1e07bf8c85a0dbf5ba6fdcd4c22c418cac97a1",
+      "correction": "Subdue timber brightness and overpronounced ridges, shared orientations",
+      "mean_display_luma": {
+        "esrgan": 39.333,
+        "previous_x4": 53.311,
+        "corrected_x4": 47.831
+      }
+    },
+    {
+      "name": "beamplnv",
+      "native_size": [
+        32,
+        256
+      ],
+      "runtime_size": [
+        128,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/beam_body_v1.png",
+          "prompt": "prompts/material_correction_x4/beam_body_v1.txt",
+          "source_size": [
+            2170,
+            725
+          ],
+          "source_sha256": "eb92c49f0962a6b9c65668a78c7a02adb13791c0b6bb8659c75b8456657b11f2",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            2170,
+            725
+          ],
+          "usable_size": [
+            2170,
+            725
+          ],
+          "rotation": 0,
+          "body_crop_within_source": [
+            0,
+            241,
+            2170,
+            483
+          ],
+          "body_rotation": 90
+        }
+      ],
+      "runtime_sha256": "31699db384433c25dfa0321025a412f6e283e762b7bbc4b1bdaefff8347bc054",
+      "construction": "corrected continuous timber body with registered orientation",
+      "decision": "corrected",
+      "previous_runtime_sha256": "7416ce377993a8d6048b0bbe109f41fd30dd4495b127cb938c6b5b7a46f9bd6c",
+      "correction": "Subdue timber brightness and overpronounced ridges, shared orientations",
+      "mean_display_luma": {
+        "esrgan": 44.952,
+        "previous_x4": 53.311,
+        "corrected_x4": 47.831
+      }
+    },
+    {
+      "name": "bdksh32b",
+      "native_size": [
+        128,
+        32
+      ],
+      "runtime_size": [
+        512,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ],
+          "body_crop_within_source": [
+            0,
+            62,
+            1774,
+            239
+          ],
+          "body_rotation": 0
+        }
+      ],
+      "runtime_sha256": "91b8ad5e31d3719f74ccd9b8579f4bbbb5d62978136a7fb912fcec39c67ceedf",
+      "construction": "same freshly drawn wood body, registered crop and orientation",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 19.566,
+        "previous_x4": 26.698,
+        "corrected_x4": 26.698
+      }
+    },
+    {
+      "name": "bdksv32b",
+      "native_size": [
+        32,
+        128
+      ],
+      "runtime_size": [
+        128,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/bemhwal1_v1.png",
+          "prompt": "prompts/full_x4/bemhwal1_v1.txt",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "85cb7dd34bfa39c0cd1c35d756e18e8992e85e3d1b24e34d490f1093086e05ab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1774,
+            887
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1774,
+            887
+          ],
+          "body_crop_within_source": [
+            0,
+            62,
+            1774,
+            239
+          ],
+          "body_rotation": 90
+        }
+      ],
+      "runtime_sha256": "4417a945906aa2055ed591b981cf09794ad3d01aa528998933d3c98f271303b3",
+      "construction": "same freshly drawn wood body, registered crop and orientation",
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 18.392,
+        "previous_x4": 26.7,
+        "corrected_x4": 26.7
+      }
+    },
+    {
+      "name": "bemsv32a",
+      "native_size": [
+        32,
+        128
+      ],
+      "runtime_size": [
+        128,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/bemsv32_body_v2.png",
+          "prompt": "prompts/material_correction_x4/bemsv32_body_v2.txt",
+          "source_size": [
+            744,
+            2112
+          ],
+          "source_sha256": "afedcf88ba65260141fb0fd5f3238ceea09e2362e406677f84fc64e18a750c0a",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            744,
+            2112
+          ],
+          "usable_size": [
+            744,
+            2112
+          ],
+          "rotation": 0,
+          "body_crop_within_source": [
+            0,
+            0,
+            372,
+            2112
+          ]
+        }
+      ],
+      "runtime_sha256": "58f55754171be963db456eaccea4ff451ec13962a4b9c524fbd002eeaa1fbf3c",
+      "construction": "fine warm timber body, separate native-detail vertical sections",
+      "decision": "corrected",
+      "previous_runtime_sha256": "cea01f98a53ca502213b39245c1e21b69775f5477be033ed7d96c10abfe97f9a",
+      "correction": "Restore warmer lighter vertical timber, distinct from red dark plank material",
+      "mean_display_luma": {
+        "esrgan": 51.884,
+        "previous_x4": 25.493,
+        "corrected_x4": 59.342
+      }
+    },
+    {
+      "name": "bemsv32c",
+      "native_size": [
+        32,
+        128
+      ],
+      "runtime_size": [
+        128,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/bemsv32_body_v2.png",
+          "prompt": "prompts/material_correction_x4/bemsv32_body_v2.txt",
+          "source_size": [
+            744,
+            2112
+          ],
+          "source_sha256": "afedcf88ba65260141fb0fd5f3238ceea09e2362e406677f84fc64e18a750c0a",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            744,
+            2112
+          ],
+          "usable_size": [
+            744,
+            2112
+          ],
+          "rotation": 0,
+          "body_crop_within_source": [
+            372,
+            0,
+            744,
+            2112
+          ]
+        }
+      ],
+      "runtime_sha256": "0f274410e0d7aae3f72f4d990f6d2edd050945a7a910b8f01c321f3284775d6a",
+      "construction": "fine warm timber body, separate native-detail vertical sections",
+      "decision": "corrected",
+      "previous_runtime_sha256": "e565f644f9bdcefc710ffedec33b69ddd4b0b440c6a1a975beee859d72e0e80a",
+      "correction": "Restore warmer lighter vertical timber, distinct from red dark plank material",
+      "mean_display_luma": {
+        "esrgan": 48.794,
+        "previous_x4": 27.772,
+        "corrected_x4": 59.396
+      }
+    },
+    {
+      "name": "d1wldle",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d1wldle2_v1.png",
+          "prompt": "prompts/material_correction_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "eeab3c1fdde65db343aaa2e417365d03ef31e29caef81ce61f85695720495f3d",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/material_correction_x4/d1_pillar_v1.png",
+          "prompt": "prompts/material_correction_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "39cf3c921a8a58b4787f896817f22c1c005521cfbe47c4bcbcd9ee5287cad342",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 932507
+          },
+          "crop": [
+            269,
+            1,
+            619,
+            1773
+          ],
+          "usable_size": [
+            350,
+            1772
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "a95f5de81e9a636f099a8d38f74ee3ac268091277dae605afb85ad9dd0cd08c9",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "6389645593de9fc82d4444b005a3f4a0c2b0214af40472137d874d752a0e0f59",
+      "native_placement": [
+        0,
+        0,
+        32,
+        256
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 47.752,
+        "previous_x4": 74.452,
+        "corrected_x4": 54.13
+      }
+    },
+    {
+      "name": "d1wldre",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d1wldle2_v1.png",
+          "prompt": "prompts/material_correction_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "eeab3c1fdde65db343aaa2e417365d03ef31e29caef81ce61f85695720495f3d",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/material_correction_x4/d1_pillar_v1.png",
+          "prompt": "prompts/material_correction_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "39cf3c921a8a58b4787f896817f22c1c005521cfbe47c4bcbcd9ee5287cad342",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 932507
+          },
+          "crop": [
+            269,
+            1,
+            619,
+            1773
+          ],
+          "usable_size": [
+            350,
+            1772
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "2fc9c643435995edc5400fc65128182e20ac07bd704c8f1e5f3e66b783ec1123",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "30424415ce8d8ba45f1d3f07dfcf1484fcb8d83b8085cd5362efa429a7d0be77",
+      "native_placement": [
+        96,
+        0,
+        128,
+        256
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 47.58,
+        "previous_x4": 75.241,
+        "corrected_x4": 54.351
+      }
+    },
+    {
+      "name": "d1wlele",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d1wldle3_v1.png",
+          "prompt": "prompts/material_correction_x4/d1wldle3_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c1cfe45ac05f7da5d0ca8e61101f5ce9f556839aac0f22f356d33a0aa96179f9",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/material_correction_x4/d1_pillar_v1.png",
+          "prompt": "prompts/material_correction_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "39cf3c921a8a58b4787f896817f22c1c005521cfbe47c4bcbcd9ee5287cad342",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 932507
+          },
+          "crop": [
+            269,
+            1,
+            619,
+            1773
+          ],
+          "usable_size": [
+            350,
+            1772
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "d5923b08322b3ad922eb6804d860fd173c36b800b7873220c4bc534ac2627882",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "6389645593de9fc82d4444b005a3f4a0c2b0214af40472137d874d752a0e0f59",
+      "native_placement": [
+        0,
+        0,
+        32,
+        256
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 57.736,
+        "previous_x4": 74.452,
+        "corrected_x4": 63.107
+      }
+    },
+    {
+      "name": "d1wlere",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d1wldle3_v1.png",
+          "prompt": "prompts/material_correction_x4/d1wldle3_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "c1cfe45ac05f7da5d0ca8e61101f5ce9f556839aac0f22f356d33a0aa96179f9",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/material_correction_x4/d1_pillar_v1.png",
+          "prompt": "prompts/material_correction_x4/d1_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "39cf3c921a8a58b4787f896817f22c1c005521cfbe47c4bcbcd9ee5287cad342",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 932507
+          },
+          "crop": [
+            269,
+            1,
+            619,
+            1773
+          ],
+          "usable_size": [
+            350,
+            1772
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "626c1ad1d3b9429343feb371bc2dfb022c0681b7d859ed476c4002855d77aeac",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "30424415ce8d8ba45f1d3f07dfcf1484fcb8d83b8085cd5362efa429a7d0be77",
+      "native_placement": [
+        96,
+        0,
+        128,
+        256
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 53.279,
+        "previous_x4": 75.241,
+        "corrected_x4": 63.547
+      }
+    },
+    {
+      "name": "d2wlale",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2wlactr_v3.png",
+          "prompt": "prompts/material_correction_x4/d2wlactr_v3.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "47d106e48a166c9355a0fa8e3d1e610ced9377a4f7a680981b2a01884a2e8656",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "usable_size": [
+            887,
+            1774
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/material_correction_x4/d2_pillar_v1.png",
+          "prompt": "prompts/material_correction_x4/d2_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "5dad0a03cb0d84e4c1f424ac57a5acbf17adf788faa8533cd662bdc13f8ce1fe",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1126454
+          },
+          "crop": [
+            321,
+            0,
+            567,
+            1774
+          ],
+          "usable_size": [
+            246,
+            1774
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "fc1770fd56b78782153fc006645410dba1b05054ab011376add7ccc42c541534",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "f1badc50afba4a19314b6cfa6275eaeaae7a3c98ca35399a76b6a4a2caa8f979",
+      "native_placement": [
+        0,
+        0,
+        32,
+        256
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 20.051,
+        "previous_x4": 46.69,
+        "corrected_x4": 24.112
+      }
+    },
+    {
+      "name": "d2wlare",
+      "native_size": [
+        128,
+        256
+      ],
+      "runtime_size": [
+        512,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2wlactr_v3.png",
+          "prompt": "prompts/material_correction_x4/d2wlactr_v3.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "47d106e48a166c9355a0fa8e3d1e610ced9377a4f7a680981b2a01884a2e8656",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "usable_size": [
+            887,
+            1774
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/material_correction_x4/d2_pillar_v1.png",
+          "prompt": "prompts/material_correction_x4/d2_pillar_v1.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "5dad0a03cb0d84e4c1f424ac57a5acbf17adf788faa8533cd662bdc13f8ce1fe",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1126454
+          },
+          "crop": [
+            321,
+            0,
+            567,
+            1774
+          ],
+          "usable_size": [
+            246,
+            1774
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            128,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "7228700446027858f0fc6323405957894f669a1ec46c3e142fef7f5bfc376b7a",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "5df3f22d3147777a5c39f271634b402cb1fec2e45912b0029dbf39384ed833e9",
+      "native_placement": [
+        96,
+        0,
+        128,
+        256
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 20.368,
+        "previous_x4": 46.985,
+        "corrected_x4": 24.304
+      }
+    },
+    {
+      "name": "d1wldsp",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d1wldle2_v1.png",
+          "prompt": "prompts/material_correction_x4/d1wldle2_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "eeab3c1fdde65db343aaa2e417365d03ef31e29caef81ce61f85695720495f3d",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/full_x4/d1_grate_v1.png",
+          "prompt": "prompts/full_x4/d1_grate_v1.txt",
+          "source_size": [
+            1100,
+            1430
+          ],
+          "source_sha256": "c6ed4a32cda5b8e7e08feb5968c0b73bc4c0e25e3985e8e4afca5527e84ac6d7",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 624721
+          },
+          "crop": [
+            0,
+            0,
+            1100,
+            1430
+          ],
+          "usable_size": [
+            1100,
+            1430
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            528,
+            688
+          ]
+        }
+      ],
+      "runtime_sha256": "0c3297a048e1876160a995ae56e776a33b4960dabfa794bbcbaa992b8ca9aebf",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "2fa9f5f9d0f1ae46b39448f528416020e52393155d902637d8d36ca591cd94c6",
+      "native_placement": [
+        62,
+        18,
+        194,
+        190
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 45.772,
+        "previous_x4": 66.378,
+        "corrected_x4": 50.471
+      }
+    },
+    {
+      "name": "d2wlbmnk",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/d2wlactr_v3.png",
+          "prompt": "prompts/material_correction_x4/d2wlactr_v3.txt",
+          "source_size": [
+            887,
+            1774
+          ],
+          "source_sha256": "47d106e48a166c9355a0fa8e3d1e610ced9377a4f7a680981b2a01884a2e8656",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            887,
+            1774
+          ],
+          "usable_size": [
+            887,
+            1774
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/material_correction_x4/d2_relief_v1.png",
+          "prompt": "prompts/material_correction_x4/d2_relief_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "851d5874bfb7be2d1195a19631e51b2eae60b812e83cb5b97f662b0392261c24",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 467238
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            896,
+            896
+          ]
+        }
+      ],
+      "runtime_sha256": "0f898d11714c400cfcb40bf40c6e7d7c63fb1c81c04cdeaddf207bf87496b03f",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "b88faf87053f9840e2743c2d6e3601be8281df09643be3a4bf318105d9d0e900",
+      "native_placement": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 26.707,
+        "previous_x4": 50.565,
+        "corrected_x4": 32.518
+      }
+    },
+    {
+      "name": "stain512",
+      "native_size": [
+        512,
+        512
+      ],
+      "runtime_size": [
+        2048,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/material_correction_x4/cekr4_v1.png",
+          "prompt": "prompts/material_correction_x4/cekr4_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b0cf1f86196ed0619e2829ef3a8ccc4beca400a5c85c331a9beaece355e9a146",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "rotation": 0
+        },
+        {
+          "source": "generated/full_x4/reflection_v1.png",
+          "prompt": "prompts/full_x4/reflection_v1.txt",
+          "source_size": [
+            1339,
+            1174
+          ],
+          "source_sha256": "097e8a6d83f151a41425ce5d45c5e1c223516a2a5144ba6992a2bcd7e1d8a818",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 611244
+          },
+          "crop": [
+            0,
+            0,
+            1339,
+            1174
+          ],
+          "usable_size": [
+            1339,
+            1174
+          ],
+          "rotation": 0,
+          "component_target_size": [
+            1168,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "111ce2a11a3548cd8a2078e90f2bc5f8ca03518d385d3930fa9f59d6d211676a",
+      "construction": "registered foreground on the identical corrected shared base",
+      "decision": "corrected",
+      "previous_runtime_sha256": "506e36efb17309e92c664da4da5ad3d5154e2b5750ec3a15bacf13871c13748f",
+      "native_placement": [
+        48,
+        128,
+        340,
+        384
+      ],
+      "exact_exposed_base": true,
+      "correction": "Reassembled over corrected shared material with registered true-alpha artwork",
+      "mean_display_luma": {
+        "esrgan": 95.235,
+        "previous_x4": 107.839,
+        "corrected_x4": 77.822
+      }
+    },
+    {
+      "name": "carpt01",
+      "native_size": [
+        512,
+        256
+      ],
+      "runtime_size": [
+        2048,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/full_x4/carpt01_left_v1.png",
+          "prompt": "prompts/full_x4/carpt01_left_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "99e9a43806b6f533a3b86f2f97896b28749358471fd389ecfe3f21d32499106f",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "core_crop_within_source": [
+            70,
+            70,
+            1184,
+            1184
+          ],
+          "component_target_size": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "source": "generated/full_x4/carpt01_right_v1.png",
+          "prompt": "prompts/full_x4/carpt01_right_v1.txt",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4497d11ecc6d59be473ba539a6f7862cf2868bd1dd97919198766e986a01441d",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1254,
+            1254
+          ],
+          "core_crop_within_source": [
+            70,
+            70,
+            1184,
+            1184
+          ],
+          "component_target_size": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "source": "generated/full_x4/carpet_join_v1.png",
+          "prompt": "prompts/full_x4/carpet_join_v1.txt",
+          "source_size": [
+            1330,
+            1182
+          ],
+          "source_sha256": "b4cc5de928c3219dbb0dde2e2daf27334f56712b6bcf85b9344aeec185d88aab",
+          "raw_alpha": {
+            "extrema": [
+              255,
+              255
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1330,
+            1182
+          ],
+          "rotation": 0,
+          "usable_size": [
+            1330,
+            1182
+          ],
+          "component_target_size": [
+            1152,
+            1024
+          ],
+          "placement": [
+            448,
+            0,
+            1600,
+            1024
+          ]
+        }
+      ],
+      "runtime_sha256": "a46b0c8d6f6a6fb7b9ef6195b987e42cd101ebaf5e4e8c4ae41300a86217e06d",
+      "construction": "new registered halves, redrawn continuous centre and shared horizontal ornament bands",
+      "shared_border_mirror": true,
+      "repaired_join": true,
+      "decision": "retained",
+      "correction": "Passed brightness and surface-finish review; unchanged 4x art",
+      "mean_display_luma": {
+        "esrgan": 65.558,
+        "previous_x4": 74.745,
+        "corrected_x4": 74.745
+      }
+    }
+  ],
+  "stage": "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/corrected_x4/assets_dev",
+  "binary_sha256": "dddf9d461a34370550d630b91afbc0ee417273ae2c02c57b016ca61974c52bef",
+  "map_sha256": "065192c7f6afb8df019e55e587800731347764379b6857e56b76a54b149b7dd4",
+  "production_changed": false,
+  "renderer_changed": false,
+  "static_esrgan_context_count": 0,
+  "corrected_count": 41,
+  "retained_count": 21,
+  "correction_master_count": 27,
+  "comparison_context": {
+    "orwtrtyl": "Unchanged original water in a tier-sized carrier; not fresh 4x art",
+    "sky_nit2": "Unchanged original sky in a tier-sized carrier; not fresh 4x art"
+  },
+  "excluded": [
+    "renderer-owned orwtrtyl water",
+    "sky_nit2 sky",
+    "invisible pending portals"
+  ],
+  "status": "exported_for_native_visual_review"
+}

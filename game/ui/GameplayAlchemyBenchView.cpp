@@ -1,4 +1,5 @@
 #include "game/ui/GameplayAlchemyBenchView.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -33,6 +34,7 @@ uint64_t chainCountsKey(const GameplayAlchemyBenchModel &model)
         mixIn((uint64_t(entry.resultItemId) << 32) | (uint64_t(entry.recipes.size()) << 1) | entry.masteryAllows);
     }
 
+    mixIn(model.keepMixedPotions ? 1 : 0);
     return hash;
 }
 
@@ -47,7 +49,7 @@ std::vector<uint32_t> cachedChainCounts(
 
     if (key != state.chainCountsKey || state.chainCounts.size() != model.book.entries.size())
     {
-        const AlchemyChainPlanner planner(party, model.book, model.alchemist.level, benchTables);
+        const AlchemyChainPlanner planner(party, model.book, model.alchemist, benchTables, model.keepMixedPotions);
         state.chainCounts.clear();
 
         for (const AlchemyBookEntry &entry : model.book.entries)
@@ -69,24 +71,99 @@ std::vector<uint32_t> cachedChainCounts(
     return counts;
 }
 
+// The powers the selected recipe's chain can aim at and, at the chosen one, how many potions Brew All makes: planned
+// again only when the ingredients, the known recipes, the selection or the choice change. Returns the aim of the
+// chosen power, while the chain still reaches it.
+std::optional<uint16_t> cachedChainAim(
+    GameplayScreenRuntime &context,
+    const AlchemyChainPlanner &planner,
+    const GameplayAlchemyBenchModel &model,
+    uint32_t resultItemId)
+{
+    GameplayUiController::AlchemyBenchState &state = context.characterScreen().alchemyBench;
+    uint64_t key = planner.stockKey();
+
+    for (const uint64_t value
+        : {chainCountsKey(model), uint64_t(resultItemId), uint64_t(state.chainPower ? *state.chainPower + 1u : 0u)})
+    {
+        key = (key ^ value) * 1099511628211ull;
+    }
+
+    const auto chosenAim =
+        [&state]() -> std::optional<uint16_t>
+        {
+            for (const AlchemyChainPowerOption &option : state.chainPowers)
+            {
+                if (state.chainPower == option.power)
+                {
+                    return option.aim;
+                }
+            }
+
+            return std::nullopt;
+        };
+
+    if (key != state.chainPowersKey)
+    {
+        state.chainPowers = planner.powerOptions(resultItemId);
+        const std::optional<uint16_t> aim = chosenAim();
+        state.chainPowerBrewCount = aim ? planner.plan(resultItemId, MaxChainBrews, aim).brewCount : 0;
+        state.chainPowersKey = key;
+    }
+
+    return chosenAim();
+}
+
+// A slot's power options: every power its item is carried at, without the copy the other slot's choice takes.
+GameplayAlchemyBenchSlotPowers carriedPowers(
+    const Party &party,
+    const AlchemyBenchTables &benchTables,
+    uint32_t itemId,
+    const std::optional<uint16_t> &chosen,
+    uint32_t otherItemId,
+    const std::optional<uint16_t> &otherChosen,
+    uint16_t power)
+{
+    GameplayAlchemyBenchSlotPowers powers = {};
+    powers.options = AlchemyBenchRuntime::powerOptions(party, itemId, benchTables);
+    powers.chosen = chosen;
+    powers.power = power;
+
+    if (otherItemId == itemId && otherChosen)
+    {
+        const auto taken = std::find_if(powers.options.begin(), powers.options.end(),
+            [&otherChosen](const AlchemyPowerOption &option)
+            {
+                return option.power == *otherChosen;
+            });
+
+        if (taken != powers.options.end() && --taken->count == 0)
+        {
+            powers.options.erase(taken);
+        }
+    }
+
+    return powers;
+}
+
 std::string tierHeader(const AlchemyBookEntry &entry)
 {
     if (entry.reagentRecipe)
     {
-        return "BOTTLE + REAGENT";
+        return Engine::tr("BOTTLE + REAGENT");
     }
 
     switch (entry.requiredMastery)
     {
         case 0:
         case 1:
-            return "NORMAL";
+            return Engine::tr("NORMAL");
         case 2:
-            return "EXPERT";
+            return Engine::tr("EXPERT");
         case 3:
-            return "MASTER";
+            return Engine::tr("MASTER");
         default:
-            return "GRANDMASTER";
+            return Engine::tr("GRANDMASTER");
     }
 }
 }
@@ -158,10 +235,17 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         }
     }
 
-    model.book =
-        AlchemyBenchRuntime::buildBook(*benchTables, model.ingredients, model.alchemist.mastery, isAutonoteUnlocked);
+    model.keepMixedPotions = context.settingsSnapshot().workbenchKeepMixedPotions;
+    model.book = AlchemyBenchRuntime::buildBook(
+        *benchTables, model.ingredients, model.alchemist.mastery, isAutonoteUnlocked, model.keepMixedPotions);
+    model.mixingIngredients = model.keepMixedPotions
+        ? AlchemyBenchRuntime::withoutMixedPotions(model.ingredients, model.book)
+        : model.ingredients;
     const AlchemyRecipe currentRecipe = {state.targetItemId, state.heldItemId};
-    model.preview = AlchemyBenchRuntime::preview(*pParty, currentRecipe, *benchTables, isAutonoteUnlocked);
+    model.powerChoice = AlchemyBenchRuntime::availableChoice(
+        *pParty, currentRecipe, {state.targetPower, state.heldPower}, *benchTables);
+    model.preview =
+        AlchemyBenchRuntime::preview(*pParty, currentRecipe, *benchTables, isAutonoteUnlocked, model.powerChoice);
     model.chainCounts = cachedChainCounts(context, *pParty, model, *benchTables);
     const bool previewNamesResult = model.preview.outcome == AlchemyPreviewOutcome::Known
         || model.preview.outcome == AlchemyPreviewOutcome::TooDifficult;
@@ -182,7 +266,8 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         const bool brewable = entry.masteryAllows && (entry.brewableCount > 0 || model.chainCounts[index] > 0);
 
         if ((!state.showAllRecipes && !brewable)
-            || !AlchemyBenchRuntime::matchesSearch(pResult != nullptr ? pResult->name : "", state.recipeSearch))
+            || !AlchemyBenchRuntime::matchesSearch(
+                pResult != nullptr ? Engine::localize(pResult->name) : std::string(), state.recipeSearch))
         {
             continue;
         }
@@ -208,7 +293,7 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
     if (state.showAllRecipes && state.recipeSearch.empty() && undiscovered > 0)
     {
         model.rows.push_back({GameplayAlchemyBenchRowKind::Undiscovered, 0,
-            "??? (" + std::to_string(undiscovered) + " undiscovered)", model.rowsHeight, RecipeRowHeight});
+            Engine::tr("??? ({count} undiscovered)", {{"count", int64_t(undiscovered)}}), model.rowsHeight, RecipeRowHeight});
         model.rowsHeight += RecipeRowHeight;
     }
 
@@ -218,30 +303,66 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
 
         if (entry.masteryAllows && entry.resultItemId == model.preview.resultItemId)
         {
-            model.mixAllCount = entry.reagentRecipe
-                ? entry.brewableCount
+            // Chosen powers mix only their own copies; filling bottles otherwise runs through every reagent.
+            model.mixAllCount = model.powerChoice.any()
+                ? AlchemyBenchRuntime::brewableCount(*pParty, currentRecipe, model.powerChoice, *benchTables)
+                : entry.reagentRecipe ? entry.brewableCount
                 : AlchemyBenchRuntime::brewableCount(currentRecipe, model.ingredients);
         }
     }
 
-    // A chosen recipe the slots cannot mix directly is brewed as a chain, or explains what blocks it.
-    const bool directMixPossible = model.preview.outcome == AlchemyPreviewOutcome::Known
-        || model.preview.outcome == AlchemyPreviewOutcome::TooDifficult
-        || model.preview.outcome == AlchemyPreviewOutcome::Unknown
-        || model.preview.outcome == AlchemyPreviewOutcome::KnownExplosive;
+    // A chosen recipe the slots cannot mix directly is brewed as a chain, or explains what blocks it. Keeping mixed
+    // potions, a recipe chosen from the book that would use carried ones is brewed as a chain too, which brews them
+    // fresh; slots filled by hand mix what they show.
+    const bool keepsSlotPotions = model.keepMixedPotions && state.selectedResultItemId != 0
+        && model.book.usesMixedPotion(currentRecipe);
+    const bool directMixPossible = !keepsSlotPotions
+        && (model.preview.outcome == AlchemyPreviewOutcome::Known
+            || model.preview.outcome == AlchemyPreviewOutcome::TooDifficult
+            || model.preview.outcome == AlchemyPreviewOutcome::Unknown
+            || model.preview.outcome == AlchemyPreviewOutcome::KnownExplosive);
 
     if (model.selectedEntryIndex && !directMixPossible
         && state.selectedResultItemId == model.book.entries[*model.selectedEntryIndex].resultItemId)
     {
-        model.chain = planChain(context, model, state.selectedResultItemId, 1);
+        const AlchemyChainPlanner planner(
+            *pParty, model.book, model.alchemist, *benchTables, model.keepMixedPotions);
+        const std::optional<uint16_t> aim = cachedChainAim(context, planner, model, state.selectedResultItemId);
+        model.chain = planner.plan(state.selectedResultItemId, 1, aim);
         model.chainMode = model.chain->brewCount > 0;
 
         if (model.chainMode)
         {
-            model.mixAllCount = model.chainCounts[*model.selectedEntryIndex];
+            model.mixAllCount = aim ? state.chainPowerBrewCount : model.chainCounts[*model.selectedEntryIndex];
+            model.resultPowers.chosen = aim ? state.chainPower : std::nullopt;
+            model.resultPowers.power = model.chain->resultPower;
+
+            // Strongest first, as the slots list theirs.
+            for (auto option = state.chainPowers.rbegin(); option != state.chainPowers.rend(); ++option)
+            {
+                model.resultPowers.options.push_back({option->power, 0});
+            }
         }
     }
 
+    if (keepsSlotPotions && !model.chainMode)
+    {
+        model.keptPotionsBlockMix = true;
+        model.mixAllCount = 0;
+    }
+
+    // The slots' copies can be chosen while the slots themselves are mixed: a chain picks its own.
+    if (directMixPossible && !model.chainMode)
+    {
+        model.targetPowers = carriedPowers(*pParty, *benchTables, state.targetItemId, model.powerChoice.targetPower,
+            state.heldItemId, model.powerChoice.heldPower, model.preview.targetPower);
+        model.heldPowers = carriedPowers(*pParty, *benchTables, state.heldItemId, model.powerChoice.heldPower,
+            state.targetItemId, model.powerChoice.targetPower, model.preview.heldPower);
+    }
+
+    const bool listShown = state.powerListSlot >= 1 && state.powerListSlot <= PowerListSlotCount
+        && powerButtonShown(slotPowers(model, state.powerListSlot));
+    model.powerListSlot = listShown ? state.powerListSlot : 0;
     return model;
 }
 
@@ -249,7 +370,8 @@ AlchemyChainPlan GameplayAlchemyBenchView::planChain(
     const GameplayScreenRuntime &context,
     const GameplayAlchemyBenchModel &model,
     uint32_t resultItemId,
-    uint32_t maxBrews)
+    uint32_t maxBrews,
+    const std::optional<uint16_t> &power)
 {
     const Party *pParty = context.partyReadOnly();
     const std::optional<AlchemyBenchTables> benchTables = tables(context);
@@ -259,7 +381,10 @@ AlchemyChainPlan GameplayAlchemyBenchView::planChain(
         return {};
     }
 
-    return AlchemyChainPlanner(*pParty, model.book, model.alchemist.level, *benchTables).plan(resultItemId, maxBrews);
+    const AlchemyChainPlanner planner(
+        *pParty, model.book, model.alchemist, *benchTables, model.keepMixedPotions);
+    return planner.plan(resultItemId, maxBrews,
+        power ? planner.aimForPower(resultItemId, *power) : std::optional<uint16_t>());
 }
 
 std::string GameplayAlchemyBenchView::masteryName(uint8_t mastery)
@@ -268,21 +393,22 @@ std::string GameplayAlchemyBenchView::masteryName(uint8_t mastery)
     {
         case 0:
         case 1:
-            return "Normal";
+            return Engine::tr("Normal");
         case 2:
-            return "Expert";
+            return Engine::tr("Expert");
         case 3:
-            return "Master";
+            return Engine::tr("Master");
         default:
-            return "Grandmaster";
+            return Engine::tr("Grandmaster");
     }
 }
 
 bool GameplayAlchemyBenchView::mixEnabled(const GameplayAlchemyBenchModel &model)
 {
     return model.chainMode
-        || model.preview.outcome == AlchemyPreviewOutcome::Known
-        || model.preview.outcome == AlchemyPreviewOutcome::Unknown;
+        || (!model.keptPotionsBlockMix
+            && (model.preview.outcome == AlchemyPreviewOutcome::Known
+                || model.preview.outcome == AlchemyPreviewOutcome::Unknown));
 }
 
 float GameplayAlchemyBenchView::maximumRecipeScroll(
@@ -316,6 +442,68 @@ std::vector<GameplayAlchemyBenchRowRect> GameplayAlchemyBenchView::visibleRows(
 
         rects.push_back({index, {list.x + RecipeListPadding * list.scale, y,
             list.width - (2 * RecipeListPadding + 6) * list.scale, height, list.scale}});
+    }
+
+    return rects;
+}
+
+const char *GameplayAlchemyBenchView::powerListSlotLayoutId(uint8_t slot)
+{
+    return slot == 3 ? "AlchemyBenchResultSlot" : slot == 2 ? "AlchemyBenchHeldSlot" : "AlchemyBenchTargetSlot";
+}
+
+const GameplayAlchemyBenchSlotPowers &GameplayAlchemyBenchView::slotPowers(
+    const GameplayAlchemyBenchModel &model,
+    uint8_t slot)
+{
+    return slot == 3 ? model.resultPowers : slot == 2 ? model.heldPowers : model.targetPowers;
+}
+
+bool GameplayAlchemyBenchView::powerButtonShown(const GameplayAlchemyBenchSlotPowers &powers)
+{
+    return powers.options.size() > 1;
+}
+
+GameplayResolvedHudLayoutElement GameplayAlchemyBenchView::powerButton(const GameplayResolvedHudLayoutElement &slot)
+{
+    // Where the slot's power line is, under its name.
+    const float s = slot.scale;
+    return {slot.x, slot.y + slot.height + 11.5f * s, slot.width, 12 * s, s};
+}
+
+size_t GameplayAlchemyBenchView::maximumPowerListScroll(const GameplayAlchemyBenchSlotPowers &powers)
+{
+    const size_t rows = powers.options.size() + 1;
+    return rows > PowerListVisibleRows ? rows - PowerListVisibleRows : 0;
+}
+
+GameplayResolvedHudLayoutElement GameplayAlchemyBenchView::powerList(
+    const GameplayAlchemyBenchSlotPowers &powers,
+    const GameplayResolvedHudLayoutElement &slot)
+{
+    const float s = slot.scale;
+    const GameplayResolvedHudLayoutElement button = powerButton(slot);
+    const size_t rows = std::min(powers.options.size() + 1, PowerListVisibleRows);
+    return {slot.x - 12 * s, button.y + button.height + s, slot.width + 24 * s,
+        (float(rows) * PowerListRowHeight + 2 * PowerListPadding) * s, s};
+}
+
+std::vector<GameplayAlchemyBenchPowerRowRect> GameplayAlchemyBenchView::powerListRows(
+    const GameplayAlchemyBenchSlotPowers &powers,
+    const GameplayResolvedHudLayoutElement &slot,
+    size_t scrollRow)
+{
+    std::vector<GameplayAlchemyBenchPowerRowRect> rects;
+    const GameplayResolvedHudLayoutElement list = powerList(powers, slot);
+    const float s = list.scale;
+    const size_t first = std::min(scrollRow, maximumPowerListScroll(powers));
+    const size_t last = std::min(powers.options.size() + 1, first + PowerListVisibleRows);
+
+    for (size_t row = first; row < last; ++row)
+    {
+        rects.push_back({row, {list.x + PowerListPadding * s,
+            list.y + (PowerListPadding + float(row - first) * PowerListRowHeight) * s,
+            list.width - 2 * PowerListPadding * s, PowerListRowHeight * s, s}});
     }
 
     return rects;

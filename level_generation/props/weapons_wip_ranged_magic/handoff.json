@@ -1,0 +1,413 @@
+{
+  "status": "installed_wip_worker_scope_complete",
+  "icons": 56,
+  "families": {
+    "bows_and_crossbows": 36,
+    "blasters": 5,
+    "wands": 15
+  },
+  "route": "Blender component construction + built-in imagegen unlit UV atlas + semantic mixed PBR",
+  "distinct_design_material_configurations": 50,
+  "reused_matching_variants": [
+    [
+      "6bow6",
+      "6bow7",
+      "bow5"
+    ],
+    [
+      "7item045",
+      "7item300",
+      "7item301"
+    ],
+    [
+      "item059",
+      "item336"
+    ],
+    [
+      "item060",
+      "item344"
+    ]
+  ],
+  "base_triangles": 101092,
+  "max_base_triangles": 3634,
+  "lod_chains": 10,
+  "one_material_per_model": true,
+  "texture_dimensions": [
+    2048,
+    2048
+  ],
+  "unique_runtime_textures": [
+    {
+      "path": "assets_dev/engine/world_items/models/textures/24593689cd0439f7e18f02d68e5eb767.oytex",
+      "bytes": 1155668
+    },
+    {
+      "path": "assets_dev/engine/world_items/models/textures/3d8ba250d469099e4e99c5d917a18eee.oytex",
+      "bytes": 607
+    },
+    {
+      "path": "assets_dev/engine/world_items/models/textures/4de305d4742d052a11cd9bffa2b97aea.oytex",
+      "bytes": 4658533
+    }
+  ],
+  "source_glb_bytes": 565664860,
+  "runtime_glb_bytes": 3693272,
+  "meshy_identity": "engine:weapons-ranged-magic",
+  "meshy_jobs": [],
+  "meshy_credits": 0,
+  "imagegen_calls": 1,
+  "imagegen_prompt": "textures/PROMPT.txt",
+  "native_runs": {
+    "coverage": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-coverage-leah6z47",
+      "receipt": "receipts/native/coverage",
+      "images": [
+        "review/native_coverage/01-bows-1.png",
+        "review/native_coverage/02-bows-2.png",
+        "review/native_coverage/03-bows-3.png",
+        "review/native_coverage/04-bows-4.png",
+        "review/native_coverage/05-bows-5.png",
+        "review/native_coverage/06-bows-6.png",
+        "review/native_coverage/07-blasters-1.png",
+        "review/native_coverage/08-wands-1.png",
+        "review/native_coverage/09-wands-2.png",
+        "review/native_coverage/10-wands-3.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_coverage/01-bows-1.png": "bb45b8c97ab08ab28dc491d7369a7684d9bc5345ac54577d2a69bc41ed429435",
+        "review/native_coverage/02-bows-2.png": "05ee0b89966aa0da24ec01aecf8c26ade4f59c4d1d910b2dda1d872748eaf3c1",
+        "review/native_coverage/03-bows-3.png": "9f10e860db8029ad4604c6b97b185768c4e0fe7efb7ac893b8db1127cbc9ff02",
+        "review/native_coverage/04-bows-4.png": "269438ff56e6503c3eb2ea92b2c3cceab5610a2740e07ca614b62685154fba2d",
+        "review/native_coverage/05-bows-5.png": "54a0acaf7173253b54dceedd973003f6f6dc8329c3368deee36e3d11963470f8",
+        "review/native_coverage/06-bows-6.png": "7c4c80ab845a43f03e59ca3bb5747d5a68260d05bbc8eb495f1ae02f1448a22e",
+        "review/native_coverage/07-blasters-1.png": "27b8a28478c5ebc980d2c5c3b64953e107044dfbf0adca05c740ab4786b27c6b",
+        "review/native_coverage/08-wands-1.png": "086a7e5689652e2dc5e9874f9816dce8274876d5a72d4db9e1acdb094244dbee",
+        "review/native_coverage/09-wands-2.png": "e770cb7ad423fa303bd9037c85af6fead03c29a03bdecd25ff44d1ab7f164f51",
+        "review/native_coverage/10-wands-3.png": "d7cf24e8b2e66f0bff5bf97f6c6f6b051ae2f4d8bdbe559ea7e7d5f1be586345"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "outdoor_1": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-outdoor-1-rvwfkmgv",
+      "receipt": "receipts/native/outdoor_1",
+      "images": [
+        "review/native_outdoor_1/01-6bow6-normal.png",
+        "review/native_outdoor_1/02-6bow6-low.png",
+        "review/native_outdoor_1/03-7item045-normal.png",
+        "review/native_outdoor_1/04-7item045-low.png",
+        "review/native_outdoor_1/05-7item046-normal.png",
+        "review/native_outdoor_1/06-7item046-low.png",
+        "review/native_outdoor_1/07-item060-normal.png",
+        "review/native_outdoor_1/08-item060-low.png",
+        "review/native_outdoor_1/09-7item047-normal.png",
+        "review/native_outdoor_1/10-7item047-low.png",
+        "review/native_outdoor_1/11-7item049-normal.png",
+        "review/native_outdoor_1/12-7item049-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_outdoor_1/01-6bow6-normal.png": "f314131876954e8315dfaad643e1ea809c5964f394a3d4d1d4a57b851657a49a",
+        "review/native_outdoor_1/02-6bow6-low.png": "0bab29328bd9f69cc17f370dc95bd653caebeed672e257cfa44cd13cdbf07c25",
+        "review/native_outdoor_1/03-7item045-normal.png": "0afe622be1e20454b93781dc39327323a508b3a7f1201773e5c3483b52fd3b97",
+        "review/native_outdoor_1/04-7item045-low.png": "8895dbf218f9390879fccbb990dd9e2717b79446abb5b5c5e6b29763d6f24847",
+        "review/native_outdoor_1/05-7item046-normal.png": "ae24bb6ee57b15915d0a5e0152037c70d07dff0184d1d05850b3cc47249103b8",
+        "review/native_outdoor_1/06-7item046-low.png": "b9b19506ab6697f20fb397f6e9909606eb8f2001987419c5db918637af284655",
+        "review/native_outdoor_1/07-item060-normal.png": "2d62599426cd86031762619d3d3261f255f2850ab8335c5acf1776ed6009ea0b",
+        "review/native_outdoor_1/08-item060-low.png": "ea11d125dc8875f0d1469400dc8f655cd48fbee7c49e771fd2044212b6684fbd",
+        "review/native_outdoor_1/09-7item047-normal.png": "1ad4f370f8bf978fb8bc1e7f4650e963221475bcdf9f5eca4bd89fd9d021b90e",
+        "review/native_outdoor_1/10-7item047-low.png": "c6f1357f91faf3508b85b94b7a4371eb34da904a2f2837f4c1ee1cf65bff51e7",
+        "review/native_outdoor_1/11-7item049-normal.png": "26db3dcaf7a4abd3aa04e7887f335fa4cf8743b1bbc01adfe3fce908bacf3b60",
+        "review/native_outdoor_1/12-7item049-low.png": "95313c927a466b1284de410fe3790bcc46c1702e552b7c21483cb38bb385df0d"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "outdoor_2": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-outdoor-2-29wt2yya",
+      "receipt": "receipts/native/outdoor_2",
+      "images": [
+        "review/native_outdoor_2/01-item246-normal.png",
+        "review/native_outdoor_2/02-item246-low.png",
+        "review/native_outdoor_2/03-7item064-normal.png",
+        "review/native_outdoor_2/04-7item064-low.png",
+        "review/native_outdoor_2/05-7item065-normal.png",
+        "review/native_outdoor_2/06-7item065-low.png",
+        "review/native_outdoor_2/07-blastsg-normal.png",
+        "review/native_outdoor_2/08-blastsg-low.png",
+        "review/native_outdoor_2/09-raygun2-normal.png",
+        "review/native_outdoor_2/10-raygun2-low.png",
+        "review/native_outdoor_2/11-7item138-normal.png",
+        "review/native_outdoor_2/12-7item138-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_outdoor_2/01-item246-normal.png": "01f6d9fcc6040e1fc36b29e308c154226a6ee61db03989ded2c8fb0d9ef32431",
+        "review/native_outdoor_2/02-item246-low.png": "462f9253c92e846cba032e9f638a00ba68d0e545cd333f1c59ba7ed05cb22726",
+        "review/native_outdoor_2/03-7item064-normal.png": "43197d6774fb5222c74c94221f7c1f3b0097a218d8477176bf2147778020ca3c",
+        "review/native_outdoor_2/04-7item064-low.png": "3459d6a71efa779ff2521a3b0844d86127ca4fcc4e8896e3dae374316a40386d",
+        "review/native_outdoor_2/05-7item065-normal.png": "07e883c7f69886ca0ff8ab19456a789ef2709c9eb359a5618201704e457f19c9",
+        "review/native_outdoor_2/06-7item065-low.png": "c892c3bed92c658475623c08c266e2ae5f1bf594d632696e4dab88f42b1fadf3",
+        "review/native_outdoor_2/07-blastsg-normal.png": "43f2df138ebdf5f0d124b1aa2bd0931da4307c9e16484b78c6dd568a5b6764ea",
+        "review/native_outdoor_2/08-blastsg-low.png": "48e7ef6b08264a460e74775213e4a6a3dd89ae102709f4975a7e66dcbfa3e668",
+        "review/native_outdoor_2/09-raygun2-normal.png": "82574cb224ea6f34ef36ddb12df2d3c7000a7f4ce059113ed709973389cd2fe6",
+        "review/native_outdoor_2/10-raygun2-low.png": "7464cb5e6b8ce2da2cc6c8c8fc4a367f121c7bf3e1029337280e89c265e8b553",
+        "review/native_outdoor_2/11-7item138-normal.png": "0798ea982ce4b98a66e8e4f55467764455f45f9e9c2a71fd96f60ed1679126ce",
+        "review/native_outdoor_2/12-7item138-low.png": "0d7af1b8ae51fc087b7bc7b106bd62b873df51464232e7c10b2b8700bb861da2"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "outdoor_3": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-outdoor-3-bxkllr8n",
+      "receipt": "receipts/native/outdoor_3",
+      "images": [
+        "review/native_outdoor_3/01-7item139-normal.png",
+        "review/native_outdoor_3/02-7item139-low.png",
+        "review/native_outdoor_3/03-item154-normal.png",
+        "review/native_outdoor_3/04-item154-low.png",
+        "review/native_outdoor_3/05-item155-normal.png",
+        "review/native_outdoor_3/06-item155-low.png",
+        "review/native_outdoor_3/07-wand2-normal.png",
+        "review/native_outdoor_3/08-wand2-low.png",
+        "review/native_outdoor_3/09-wand3-normal.png",
+        "review/native_outdoor_3/10-wand3-low.png",
+        "review/native_outdoor_3/11-wand4-normal.png",
+        "review/native_outdoor_3/12-wand4-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_outdoor_3/01-7item139-normal.png": "7008c10341a63752ff13aeab6cf2d6d59f8493738dbafb659819f7ef0e6b549c",
+        "review/native_outdoor_3/02-7item139-low.png": "0a8783b4ff716ff91fda65d9a4a9e295a4f2aaa84790ecf03f43ea6d8a60b4b0",
+        "review/native_outdoor_3/03-item154-normal.png": "453d302632d35fbce2e0dab0d1f566f0cd07141d9486fa4e15f006b8ebf57d88",
+        "review/native_outdoor_3/04-item154-low.png": "a571a56422c0330c34526af5235b0264aa2f15fe087b6e2c048d070a5bc66869",
+        "review/native_outdoor_3/05-item155-normal.png": "6edbcd1a2903e5e93a12dee11fe4520adfc9f071978ee777ccf856c2a33fabe9",
+        "review/native_outdoor_3/06-item155-low.png": "d404cef825064e49e71d7905882c082ff8aeb72a0724e876ce854f916ed17074",
+        "review/native_outdoor_3/07-wand2-normal.png": "16062e28a11c864be47bad4ebd16be35902d074c62b9532bb670790fb892e994",
+        "review/native_outdoor_3/08-wand2-low.png": "f27ba18f80552e0b7cdcba34b2d0cde210b1f2ea0d8f35619a34d13169c8d484",
+        "review/native_outdoor_3/09-wand3-normal.png": "fda71a75a13c60b57f12aff11721ba3b0e2378d98dc633a469da498af8fdb9b1",
+        "review/native_outdoor_3/10-wand3-low.png": "fa6b12f36db2683c35c2a13439dda67f15010015b4ce5c4187da538cebfb2f78",
+        "review/native_outdoor_3/11-wand4-normal.png": "0235b4bb6ab8b5f388b0342e89a0dd3282baf8015af5ecc387fd05349b08cdbc",
+        "review/native_outdoor_3/12-wand4-low.png": "c19a25842f457fa246ee19747361885c442859f7d6171f02b0d97483b372bd1a"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "outdoor_4": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-outdoor-4-vfk1g8h3",
+      "receipt": "receipts/native/outdoor_4",
+      "images": [
+        "review/native_outdoor_4/01-wand5-normal.png",
+        "review/native_outdoor_4/02-wand5-low.png",
+        "review/native_outdoor_4/03-raygun1-normal.png",
+        "review/native_outdoor_4/04-raygun1-low.png",
+        "review/native_outdoor_4/05-7item137-normal.png",
+        "review/native_outdoor_4/06-7item137-low.png",
+        "review/native_outdoor_4/07-item152-normal.png",
+        "review/native_outdoor_4/08-item152-low.png",
+        "review/native_outdoor_4/09-item153-normal.png",
+        "review/native_outdoor_4/10-item153-low.png",
+        "review/native_outdoor_4/11-item156-normal.png",
+        "review/native_outdoor_4/12-item156-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_outdoor_4/01-wand5-normal.png": "3d634408748fbbcea47830da6130841946504bcd4463b1bd3e9abd40f8036b72",
+        "review/native_outdoor_4/02-wand5-low.png": "6e86077c975a877ba3c7779949297964cd3cfa7d3f915bf9813d126b7530f274",
+        "review/native_outdoor_4/03-raygun1-normal.png": "0a2e57025bd925952c0e80ad01c14108f046d104926312845ce5928082e31b5f",
+        "review/native_outdoor_4/04-raygun1-low.png": "6a4e0bf85c97984b90e4e4fae8701c6b7c7c8c523526a899271861eebdfdfcad",
+        "review/native_outdoor_4/05-7item137-normal.png": "09d17894d6e83738c01f927dde7b7152bae1eb13701e5c005670aae563675695",
+        "review/native_outdoor_4/06-7item137-low.png": "066a6176937a832fe2a38dc4a5abb6b684dbede73d965b64f14980722e4311bb",
+        "review/native_outdoor_4/07-item152-normal.png": "376a600bc008c7b00ba16e505458101be3ba0b8b67bb3e29c90710a9ebcf5a8e",
+        "review/native_outdoor_4/08-item152-low.png": "8bd34e7437be31dead66a7aa3434d7271891868343350cf0644d203a8a323dd9",
+        "review/native_outdoor_4/09-item153-normal.png": "0f403cd1f40356713fb436e151c78c7eded81d99ca79c6e447112549bffaf75a",
+        "review/native_outdoor_4/10-item153-low.png": "82f25a5c6234ba257ac504580ed109646093114c4500653000b2981d272d0246",
+        "review/native_outdoor_4/11-item156-normal.png": "b231c045b2b986fd53126554527469f6b637e819cfe6fa17f5c9cf8604bc63ad",
+        "review/native_outdoor_4/12-item156-low.png": "c4bf27dd510190b1dce6713effe13b376e640f61145baa959a94ecf7e0f5ade3"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "outdoor_5": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-outdoor-5-pmbok16h",
+      "receipt": "receipts/native/outdoor_5",
+      "images": [
+        "review/native_outdoor_5/01-bow4-normal.png",
+        "review/native_outdoor_5/02-bow4-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_outdoor_5/01-bow4-normal.png": "9e990a6925dc8285f2626cff3ed3fcc9333e99889a7ae2344593a9b6a8d3a920",
+        "review/native_outdoor_5/02-bow4-low.png": "de51ea4629b5a6050846de9da1b875651bcf695881d26ca0d3ccdfd68de3dff2"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "indoor_1": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-indoor-1-cp4vtm5q",
+      "receipt": "receipts/native/indoor_1",
+      "images": [
+        "review/native_indoor_1/01-6bow6-dim.png",
+        "review/native_indoor_1/02-6bow6-dim-low.png",
+        "review/native_indoor_1/03-7item045-dim.png",
+        "review/native_indoor_1/04-7item045-dim-low.png",
+        "review/native_indoor_1/05-7item046-dim.png",
+        "review/native_indoor_1/06-7item046-dim-low.png",
+        "review/native_indoor_1/07-item060-dim.png",
+        "review/native_indoor_1/08-item060-dim-low.png",
+        "review/native_indoor_1/09-7item047-dim.png",
+        "review/native_indoor_1/10-7item047-dim-low.png",
+        "review/native_indoor_1/11-7item049-dim.png",
+        "review/native_indoor_1/12-7item049-dim-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_indoor_1/01-6bow6-dim.png": "37926d36bb60a11fbd082a03c17f6d3c50893a10c605fbba725353b413351eee",
+        "review/native_indoor_1/02-6bow6-dim-low.png": "89457f55750006982e42fbcc7c5b8248a009afbe52646b62d87a3104968a7d1b",
+        "review/native_indoor_1/03-7item045-dim.png": "44f05c52091fff5f456b09101bb160a50f17af6eaaf64273353b8e8a6327076c",
+        "review/native_indoor_1/04-7item045-dim-low.png": "c5b9552c9b77e84109b844e162e1a607d256d47e7459cd89944be4c95b9b9605",
+        "review/native_indoor_1/05-7item046-dim.png": "ec168e4742bf055aab5fe347fe65dde0cfc2b7724e50f02d692b0f0c709a6a69",
+        "review/native_indoor_1/06-7item046-dim-low.png": "790e1f613415b1881cee4bcb7ec8fde7fa1f85ecd90c293306626c8b82ab1b2b",
+        "review/native_indoor_1/07-item060-dim.png": "b926584dea814931564089b267c3c0e7aacd2aa56047cac8295ce06fc5f9723f",
+        "review/native_indoor_1/08-item060-dim-low.png": "bdf7f3272d0ece13175471a8ebc4f32729b191771d391b88bd58287ca41f008b",
+        "review/native_indoor_1/09-7item047-dim.png": "7a8cdcf4e4058895ee963df8c82d41e8afaa663356834182474128432b6c20c0",
+        "review/native_indoor_1/10-7item047-dim-low.png": "fc60ec5e6af2f8924d2c8ad4ea9ba2fc4dc66eb084cb093258916e2fcc49bc74",
+        "review/native_indoor_1/11-7item049-dim.png": "9c2274f5dd8a697add464f95a04cd3e25fac32e565a288f769ab12c8b2238395",
+        "review/native_indoor_1/12-7item049-dim-low.png": "45523a9c9dae5de2d9dbaadc34c9c15319019e09369116b404858079eb7b00b5"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "indoor_2": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-indoor-2-zpuigq8e",
+      "receipt": "receipts/native/indoor_2",
+      "images": [
+        "review/native_indoor_2/01-item246-dim.png",
+        "review/native_indoor_2/02-item246-dim-low.png",
+        "review/native_indoor_2/03-7item064-dim.png",
+        "review/native_indoor_2/04-7item064-dim-low.png",
+        "review/native_indoor_2/05-7item065-dim.png",
+        "review/native_indoor_2/06-7item065-dim-low.png",
+        "review/native_indoor_2/07-blastsg-dim.png",
+        "review/native_indoor_2/08-blastsg-dim-low.png",
+        "review/native_indoor_2/09-raygun2-dim.png",
+        "review/native_indoor_2/10-raygun2-dim-low.png",
+        "review/native_indoor_2/11-7item138-dim.png",
+        "review/native_indoor_2/12-7item138-dim-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_indoor_2/01-item246-dim.png": "a7d007ae5435c6016d032cdeefac19756229e728b3ddb674027a7ff112cd6d60",
+        "review/native_indoor_2/02-item246-dim-low.png": "f16b34e45c0aa474e85f2479401b904876ee731f8eecdc64421674d1e9214769",
+        "review/native_indoor_2/03-7item064-dim.png": "1a29dad0f2008dcc33f5bd69be2d61b6ff4fb13851c8d8dc1fd512ac47b0371a",
+        "review/native_indoor_2/04-7item064-dim-low.png": "2b5d645cd841c9b9e7bda8d11f2b04bd296858cc4234451611728df41239963c",
+        "review/native_indoor_2/05-7item065-dim.png": "cce26bfa569d3eb4a7f1cb04bd5d3ef053f4b33237e9d0bc9eb88250961744d6",
+        "review/native_indoor_2/06-7item065-dim-low.png": "cb2f9df32d552d5e1cae7242e9ad929964a3ce33710a5d277830b7b1fdcd8587",
+        "review/native_indoor_2/07-blastsg-dim.png": "7c22dfb8ae70623764f32210f3da57ff86d51efea04e09cd34269d1bd155f5a8",
+        "review/native_indoor_2/08-blastsg-dim-low.png": "04874de810b481e0e479ee1ba7b0ddb94313f11294253403177dfc8ae003dc5d",
+        "review/native_indoor_2/09-raygun2-dim.png": "3cd8cddbb5f622e83b12c64aff741b7c00e628062ec7fd2217bc484b99add37c",
+        "review/native_indoor_2/10-raygun2-dim-low.png": "2d7bc5aafd74834157ab7e88045e751677d4f04dbaca783583439410d9f3d4f1",
+        "review/native_indoor_2/11-7item138-dim.png": "2cc551e8ddb128591ed2913ef3a918c1096d11a927297e1c70e2de36e01873b1",
+        "review/native_indoor_2/12-7item138-dim-low.png": "411a9d544cc1627ece22780890bf91593060dc6f837754c623f71e1d620bdcf4"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "indoor_3": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-indoor-3-gqo2rytg",
+      "receipt": "receipts/native/indoor_3",
+      "images": [
+        "review/native_indoor_3/01-7item139-dim.png",
+        "review/native_indoor_3/02-7item139-dim-low.png",
+        "review/native_indoor_3/03-item154-dim.png",
+        "review/native_indoor_3/04-item154-dim-low.png",
+        "review/native_indoor_3/05-item155-dim.png",
+        "review/native_indoor_3/06-item155-dim-low.png",
+        "review/native_indoor_3/07-wand2-dim.png",
+        "review/native_indoor_3/08-wand2-dim-low.png",
+        "review/native_indoor_3/09-wand3-dim.png",
+        "review/native_indoor_3/10-wand3-dim-low.png",
+        "review/native_indoor_3/11-wand4-dim.png",
+        "review/native_indoor_3/12-wand4-dim-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_indoor_3/01-7item139-dim.png": "096adffa5ce6c6c9ee87a48a755dd330eba9debcbc31ec6c7292991308d9f554",
+        "review/native_indoor_3/02-7item139-dim-low.png": "7e84cfe4a400c8b474cf3dfd1a695dd3461cf6b1fa37dd68d8c11045cad46a0a",
+        "review/native_indoor_3/03-item154-dim.png": "9b8be479fddf8da18a316ac4f4c377cc911204204e50a023f7bb27b80a741f88",
+        "review/native_indoor_3/04-item154-dim-low.png": "3884e8443f82665bf6a1f95a0c00635a615d9acd48c2842d6f0faeacf5d296d0",
+        "review/native_indoor_3/05-item155-dim.png": "97cee29dbf63a5594675db20c2c3708424a190d371bf651990717e250d3e1621",
+        "review/native_indoor_3/06-item155-dim-low.png": "1063ba43139fdfd11b6db8dc1c7351e0cf29d49113d7569d4be2a3207cf72679",
+        "review/native_indoor_3/07-wand2-dim.png": "862379b1560b6bfd55f086881e17ca057b5e97d70aa1eace95f00e38cbb81da6",
+        "review/native_indoor_3/08-wand2-dim-low.png": "519b1627bf075d86cf9798b3e03c6267e2c96bc7e849fec773b880778a76765f",
+        "review/native_indoor_3/09-wand3-dim.png": "836811ff4972b3e6329dc5f415954af4424273d846b48a48613a5702f60c58ff",
+        "review/native_indoor_3/10-wand3-dim-low.png": "fa8d9464baec12ea4bfc3701abc7221b5f1e6ca041a029852aab482b56d8e68a",
+        "review/native_indoor_3/11-wand4-dim.png": "58f7f1b333cc4d66577908ade7f935d50b81054889910df9439092290698f35d",
+        "review/native_indoor_3/12-wand4-dim-low.png": "b2ffe25cbfd1f6a0dc6953dcd644751f1010679526d2e73b2fd041113fd9d3c6"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "indoor_4": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-indoor-4-7ut4v36x",
+      "receipt": "receipts/native/indoor_4",
+      "images": [
+        "review/native_indoor_4/01-wand5-dim.png",
+        "review/native_indoor_4/02-wand5-dim-low.png",
+        "review/native_indoor_4/03-raygun1-dim.png",
+        "review/native_indoor_4/04-raygun1-dim-low.png",
+        "review/native_indoor_4/05-7item137-dim.png",
+        "review/native_indoor_4/06-7item137-dim-low.png",
+        "review/native_indoor_4/07-item152-dim.png",
+        "review/native_indoor_4/08-item152-dim-low.png",
+        "review/native_indoor_4/09-item153-dim.png",
+        "review/native_indoor_4/10-item153-dim-low.png",
+        "review/native_indoor_4/11-item156-dim.png",
+        "review/native_indoor_4/12-item156-dim-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_indoor_4/01-wand5-dim.png": "9ae50d5ced87e403b665e9a54be11fc8ec57ed0e2c87a7f4688a7d74b9ddf59a",
+        "review/native_indoor_4/02-wand5-dim-low.png": "c4ec3decff51c4d9a687d3ea67d35746d85c17d9e043cb48fe357af66c6e250c",
+        "review/native_indoor_4/03-raygun1-dim.png": "205e9bfd3287d39fea50f788222503738b0e7cb37476cc77eeb00102bd5f95d6",
+        "review/native_indoor_4/04-raygun1-dim-low.png": "6198ba8800dc5ca24a82f5a578e246334f1bab873c096b71587775cf73444b2f",
+        "review/native_indoor_4/05-7item137-dim.png": "fcef3548921620804dd28f008b505d9ef276c718da11046680545ad16ebc9678",
+        "review/native_indoor_4/06-7item137-dim-low.png": "83aa9d0c551f55211c4c25794fdb3aa4da620926ef7e3ec3a8708eb01b16740f",
+        "review/native_indoor_4/07-item152-dim.png": "47b43b04e1ec8c9601fdd1d47e1355dd7a3cfce174c62cc0d00d1fe3d8a0325e",
+        "review/native_indoor_4/08-item152-dim-low.png": "8c94dcf1605cc3be57f3a721af000f27b41b3c96d0401d870fd112582dddf410",
+        "review/native_indoor_4/09-item153-dim.png": "49c75ff8af896f43c613db5ec89739a6054d07a596c6238fb458bbd8a1f82b74",
+        "review/native_indoor_4/10-item153-dim-low.png": "6d79df2ffde5d1e17c88bd72d8318746aa0ccad73a416dcecb711f0ac20b63a1",
+        "review/native_indoor_4/11-item156-dim.png": "e4df5756ef2c3b6dce8ff74a183eaa48ce572891800c8cf973862994233c93b5",
+        "review/native_indoor_4/12-item156-dim-low.png": "03c4d330b9c79cf883f7d4602fa9a4268c249c2e8ad810f3d513d951df371909"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    },
+    "indoor_5": {
+      "run": "/tmp/openyamm-desktop-ranged-magic-accepted-indoor-5-7dwkxiww",
+      "receipt": "receipts/native/indoor_5",
+      "images": [
+        "review/native_indoor_5/01-bow4-dim.png",
+        "review/native_indoor_5/02-bow4-dim-low.png"
+      ],
+      "status": "completed",
+      "image_sha256": {
+        "review/native_indoor_5/01-bow4-dim.png": "e3920ec54947caf3ec0118b28f07aad7c09f1062d52d5241272beaf3d42f58af",
+        "review/native_indoor_5/02-bow4-dim-low.png": "ebc9d59723dd3da853b888226712b476c2a05cb36bdc3c20b8fe770c4c9561c5"
+      },
+      "review": "Visible solid components, identifiable colours, grounded silhouettes; metal readable in dim interiors."
+    }
+  },
+  "native_captures": 110,
+  "representatives_in_both_world_types": 25,
+  "native_binary": {
+    "source": "build/game/openyamm",
+    "copy": "/tmp/openyamm-ranged-magic-review-binary/current/openyamm",
+    "sha256": "461a1d8695c188e1c406af5921d11c7848833fc802ae335f840d4d9f10f6d317"
+  },
+  "suggested_length_changes": [],
+  "coordinator_bounds_updates": "proposed_bindings_with_bounds.json",
+  "binding_changes_applied_by_worker": false,
+  "renderer_material_deviations": [],
+  "remaining_asset_defects": [],
+  "failures": [],
+  "limits": [
+    "Android cook/device rendering was outside this desktop worker validation.",
+    "Coordinator owns merging refreshed bounds into the shared manifest.",
+    "WIP only; no release promotion or global builds/cooks by this worker."
+  ],
+  "ledger": "ledger.json",
+  "validation": "receipts/validation.json",
+  "installs": "receipts/installed.json"
+}

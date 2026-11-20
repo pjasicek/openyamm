@@ -1,0 +1,87 @@
+# draft extracted from MAW ef23ee17
+# Promotions in MAW: cross-world qbits, random final class, mid promotion for MAW classes, Elder/Ultimate.
+# Source: Scripts/General/zzClasses.lua (CL) lines 7-155, 723-733. Class kinds/steps: Data/Tables/Class Extra.txt.
+# OpenYAMM today promotes only through event scripts setting the class (OpenYAMM/game/events/EventRuntime.cpp:576,
+# 9934) with the promotion tree from class_extra.txt kind/step (OpenYAMM/game/tables/ClassSkillTable.cpp:412-500,
+# fallback OpenYAMM/game/party/SkillData.cpp:479).
+
+version: 1
+
+# Per class kind: the qbits that count as "this kind's promotion was completed" on each world.
+#   mm6: 2 qbits (either), mm7: 4 qbits (any), mm8: one qbit OR a second value that is an AWARD index when < 105,
+#   otherwise another qbit. The MM8 award is read from Party[0] only (CL:86-90).
+promotion_qbits:   # CL:7-48
+  1:  {kind_name: Archer,       mm6: [1657, 1658], mm7: [1586, 1587, 1588, 1589], mm8: {qbit: 1537, award: 20}}
+  2:  {kind_name: Cleric,       mm6: [1649, 1650], mm7: [1609, 1610, 1611, 1612], mm8: {qbit: 1546, award: 31}}
+  3:  {kind_name: Dark Elf,     mm6: [1657, 1658], mm7: [1586, 1587, 1588, 1589], mm8: {qbit: 1537, award: 20}, shares: Archer}
+  4:  {kind_name: Dragon,       mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: {qbit: 1543, qbit2: 1544}, shares: "Knight (mm6/mm7)"}
+  5:  {kind_name: Druid,        mm6: [1653, 1654], mm7: [1615, 1616, 1617, 1618], mm8: {qbit: 1546, award: 31}, shares: "Cleric (mm8)"}
+  6:  {kind_name: Knight,       mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: {qbit: 1540, qbit2: 1541}}
+  7:  {kind_name: Minotaur,     mm6: [1637, 1638], mm7: [1592, 1593, 1594, 1595], mm8: {qbit: 1545, award: 29}, shares: Paladin}
+  8:  {kind_name: Monk,         mm6: [1645, 1646], mm7: [1574, 1575, 1576, 1577], mm8: {qbit: 1538, qbit2: 1539}, shares: "Knight (mm6), Troll (mm8)"}
+  9:  {kind_name: Paladin,      mm6: [1637, 1638], mm7: [1592, 1593, 1594, 1595], mm8: {qbit: 1545, award: 29}}
+  10: {kind_name: Ranger,       mm6: [1657, 1658], mm7: [1580, 1581, 1582, 1583], mm8: {qbit: 1537, award: 20}, shares: "Archer (mm6, mm8)"}
+  11: {kind_name: Thief,        mm6: [1657, 1658], mm7: [1562, 1563, 1564, 1565], mm8: {qbit: 1547, award: 33}, shares: "Archer (mm6), Vampire"}
+  12: {kind_name: Troll,        mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: {qbit: 1538, qbit2: 1539}, shares: "Knight (mm6/mm7), Monk (mm8)"}
+  13: {kind_name: Vampire,      mm6: [1657, 1658], mm7: [1562, 1563, 1564, 1565], mm8: {qbit: 1547, award: 33}, shares: Thief}
+  14: {kind_name: Sorcerer,     mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: {qbit: 1548, award: 35}}
+  15: {kind_name: Necromancer,  mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: {qbit: 1548, award: 35}, shares: Sorcerer}
+  16: {kind_name: Peasant,      mm6: [0, 0], mm7: [0, 0, 0, 0], mm8: {award: 0}, note: "placeholders; never promotes"}
+  17: {kind_name: Seraphim,     mm6: [1649, 1650], mm7: [1609, 1610, 1611, 1612], mm8: {qbit: 1546, award: 31}, shares: Cleric}
+  18: {kind_name: Death Knight, mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: {qbit: 1540, qbit2: 1541}, shares: Knight}
+  19: {kind_name: Shaman,       mm6: [1653, 1654], mm7: [1615, 1616, 1617, 1618], mm8: {qbit: 1546, award: 31}, shares: Druid}
+  20: {kind_name: Elementalist, mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: {qbit: 1548, award: 35}, shares: Sorcerer}
+
+# Step 0 -> 1 for the four MAW kinds: any of these qbits (first-tier promotion of the borrowed vanilla line).
+mid_promotion_qbits:   # CL:50-60, applied CL:131-145 as Class = Class + 1
+  17: [1647, 1648, 1607, 1608]   # Cleric's first tier
+  18: [1643, 1644, 1566, 1567]   # Knight's
+  19: [1651, 1652, 1613, 1614]   # Druid's
+  20: [1639, 1640, 1619, 1620]   # Sorcerer's
+
+rules:
+  when: "every LoadMap and every global event (EvtGlobal) (CL:149-155)"
+  worlds_completed: "n = (any mm6 qbit) + (any mm7 qbit) + (mm8 qbit or mm8 award/qbit2); 0..3 per kind (CL:76-94)"
+  promotion: >-
+    any party member whose class kind has n >= 1 and whose step < 2 becomes a step-2 class of that kind,
+    including a step-0 character skipping step 1 (CL:111-129)
+  random_final_class: >-
+    if the kind has several step-2 classes, one is picked with math.random (CL:118-127). Kinds with several:
+    1 Archer (Master Archer, Sniper), 2 Cleric (Priest of the Light, Priest of the Dark, High Priest),
+    5 Druid (Warlock, Arch Druid), 6 Knight (Black Knight, Champion), 8 Monk (Master, Ninja), 9 Paladin (Hero,
+    Villain), 10 Ranger (Bounty Hunter, Ranger Lord), 11 Thief (Assassin, Spy), 14 Sorcerer (Arch Mage,
+    Dark ArchMage, Master Wizard)
+  elder_ultimate:
+    condition: "n >= 2 for the kind"
+    hp_sp_factor_mult: "0.75 + 0.25*n  (n=2: x1.25 'Elder <name>', n=3: x1.5 'Ultimate <name>')"
+    applies_to: "HPFactor and SPFactor (per-level gains, not the base) of every step-2 class of that kind"
+    scope: "global: rewrites Game.Classes and Game.ClassNames, so it affects every character of that class"
+    source: CL:62-71, CL:96-108
+    examples:   # computed with the Lua 5.4 interpreter
+      Champion: {hp_per_level: [8, 10, 12]}
+      MasterArcher: {hp_per_level: [6, 7.5, 9], sp_per_level: [3, 3.75, 4.5]}
+      Archangel: {hp_per_level: [5, 6.25, 7.5], sp_per_level: [3, 3.75, 4.5]}
+      LichKing: {hp_per_level: [7, 8.75, 10.5], sp_per_level: [0, 0, 0]}
+      MasterOfElements: {hp_per_level: [3, 3.75, 4.5], sp_per_level: [8, 10, 12]}
+  lich_reset:
+    rule: "one-time migration (vars.LichFix): a Lich at LevelBase 1 becomes Necromancer"
+    source: CL:723-733
+  creation:
+    rule: "any unpromoted (step 0) class may be picked with any portrait; MAW classes 53/56/59/62 included"
+    source: "Scripts/General/MenuChooseCharacter.lua (MAW diff), see SKILLS_SPELLS_ALCHEMY.md §0"
+  portraits:
+    "76": "Zombie Troll -> default class 56 (Death Knight), race Troll, available at start"
+    "77": "new Lich Troll, default class 38, race Undead, not at start"
+    source: "Data/Tables/Character portraits.txt"
+
+known_bugs:
+  - id: promotion_count_reused
+    text: >-
+      checkPromo reuses the global table promotionCount: after promoting one party member it is replaced by the list
+      of candidate class ids (CL:117-122). Later members are then tested against promotionCount[kind] = some class id,
+      so a member whose kind index is <= the list length can be promoted spuriously in the same call.
+    fix: "use a separate local for the candidate list"
+  - id: award_party0
+    text: "MM8 award promotions are read from Party[0] only (CL:87)"
+  - id: elder_global
+    text: "Elder/Ultimate is a party-level count that mutates the global class table, not a per-character property"

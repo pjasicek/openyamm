@@ -1,0 +1,43 @@
+id: rulesets.maw_test_parties
+title: "Ruleset - the debug console's MAW test parties: every stage and party applies, fights and survives save and load"
+world: mm8
+mode: faithful
+tags: [rulesets, maw, debug]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: hard, progression: free, friendly_fire: true}
+  - console: {line: "testparty", expect_contains: "newclasses"}
+  - console: {line: "testparty apply start", expect_contains: "items worn"}
+  - assert:
+      ruleset: {id: maw, member_classes: [Knight, Paladin, Archer, Cleric, Sorcerer]}
+  - combat_loot: {actor_index: 0}
+  - console: {line: "testparty apply early newclasses", expect_contains: "items worn"}
+  - assert:
+      ruleset: {id: maw, member_classes: [Seraphim, DeathKnight, Shaman, Elementalist, Thief]}
+  - combat_loot: {actor_index: 1}
+  - console: {line: "testparty apply mid newclasses +scrolls", expect_contains: "kit items"}
+  - assert:
+      ruleset: {id: maw, member_classes: [Archangel, LichKing, Marabou, MasterOfElements, Assassin]}
+  - combat_loot: {actor_index: 2}
+  - console: {line: "testparty apply late specials", expect_contains: "items worn"}
+  - assert:
+      ruleset: {id: maw, member_classes: [GreatWyrm, Nosferatu, MinotaurLord, WarTroll, Patriarch]}
+  - combat_loot: {actor_index: 3}
+  - console: {line: "testparty apply endgame hybrids", expect_contains: "kit items"}
+  - assert:
+      ruleset: {id: maw, member_classes: [Master, RangerLord, ArchDruid, Lich, PriestDark]}
+  - combat_loot: {actor_index: 4}
+  - console: {line: "testparty apply extreme casters", expect_contains: "items worn"}
+  - combat_loot: {actor_index: 5}
+  - console: {line: "testparty apply op solo", expect_contains: "items worn"}
+  - assert:
+      ruleset: {id: maw, member_classes: [Champion]}
+  - combat_loot: {actor_index: 6}
+  - console: {line: "testparty apply endgame classic +legendary", expect_contains: "kit items"}
+  - console: {line: "testparty kit gems", expect_contains: "40 items"}
+  - save_game: maw_test_parties
+  - load_game: maw_test_parties
+  - assert:
+      ruleset: {id: maw, member_classes: [Champion, Hero, MasterArcher, PriestLight, ArchMage]}
+  - combat_loot: {actor_index: 7}

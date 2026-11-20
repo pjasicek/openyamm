@@ -1,0 +1,22 @@
+{
+  "family": "med",
+  "title": "MM6 Medusa",
+  "descriptor_ids": [
+    574,
+    575,
+    576
+  ],
+  "base_palette": 250,
+  "mask_kind": "green",
+  "description": "MM6 adult female serpent-bodied medusa. Green scaled humanoid arms and face, a crown of individually coiled living green snakes for hair, stern angular native face, ornate dark navy-blue spiral-cup breastplate and torso armor with ornate gold trim, gold neck ring and wrist cuffs. Lower body is one long thick green snake tail with brown ring-shaped markings and a pale segmented belly, sweeping to one side on the ground. Preserve native proportions, nonhuman face, every hair snake, armored torso and coil silhouette; no legs, weapons, added jewelry or modern redesign.",
+  "regions": "Dark navy blue armor changes to bronze or red. Green scales and snake hair, gold jewelry and brown tail markings stay protected. Pale gray belly plates retain the native variant-specific tone.",
+  "variant_names": {
+    "769": "MM6 Medusa 1",
+    "250": "MM6 Medusa 2",
+    "251": "MM6 Medusa 3"
+  },
+  "material_mask_channels": 4,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py"
+}

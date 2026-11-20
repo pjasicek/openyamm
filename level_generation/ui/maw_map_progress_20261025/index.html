@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map Progress Bar Study</title>
+<!--
+  Browser study for MAW's map progress as a bar above the party frame (devdocs/maw/HANDOFF.md §0.7): four options
+  over the native 1600x900 split-arc capture of the potion study. The numbers follow mawMapCompletion
+  (game/rules/maw/MawMonsterRules.cpp, MAW zzMaw-Monsters.lua checkMapCompletition): the slain share of the counted
+  monsters against 0.99^floor(n / 100), shown as min(round(share x 1000 / required) / 10, 100). Nothing here is wired
+  into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+@font-face { font-family: Alegreya; font-weight: 400 900; src: url(../../../assets_dev/engine/fonts/truetype/alegreya_variable.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; --brass: #8c815f;
+  --violet: #c9a6ff; --red: #e98a7a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 8px 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review .group { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review label { color: #c8c7a7; display: inline-flex; gap: 6px; align-items: center; }
+.review .sep { width: 1px; height: 24px; background: #333a33; }
+#stage { display: block; width: 100%; height: auto; }
+section { padding: 14px 18px 4px; }
+h2 { font: 24px Fondamento, serif; color: var(--label); margin: 4px 0 10px; font-weight: normal; }
+.sheet { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.card { background: #0b1212; border: 1px solid #3c4436; padding: 10px; }
+.card.on { border-color: #d6bb80; }
+.card h3 { margin: 0 0 2px; font: 20px Fondamento, serif; color: var(--label); font-weight: normal; }
+.card p { font: 14px/1.4 Alegreya, serif; font-weight: 600; color: var(--body); margin: 4px 0 8px; }
+.card figure { margin: 0 0 6px; }
+.card svg { width: 100%; height: auto; display: block; background: #000; }
+.card figcaption { font: 13px Alegreya, serif; font-weight: 600; color: var(--muted); margin-top: 2px; }
+.tip { width: 100%; padding: 9px 12px; background: #0b1212f2; border: 1px solid var(--brass);
+  font: 15px/1.4 Alegreya, serif; font-weight: 600; color: var(--body); box-shadow: 0 4px 12px #000c; }
+.tip h4 { margin: 0 0 4px; font: 20px Fondamento, serif; color: var(--label); font-weight: normal; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip .v { color: var(--violet); } .tip .gold { color: var(--gold); } .tip .muted { color: var(--muted); }
+.tip .red { color: var(--red); }
+.tip hr { border: 0; border-top: 1px solid #3c4436; margin: 5px 0; }
+.status { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; max-width: 620px;
+  padding: 6px 15px 7px; font: 17px/1.35 Lucida, sans-serif; color: #e5dcc7; text-align: center;
+  background: url(../obsidian_engine_handoff_20260928/engine/icons_x2/obsidian_hud_status_plate.png) 0 0 / 100% 100%; }
+body.export .review, body.export section { display: none; }
+body.export-sheet .review, body.export-sheet #stage { display: none; }
+body.export-sheet section { padding-top: 10px; }
+</style>
+</head>
+<body>
+<div class="review">
+  <div class="group" id="options"></div>
+  <span class="sep"></span>
+  <div class="group" id="states"></div>
+  <span class="sep"></span>
+  <label><input id="status" type="checkbox" checked> Status message</label>
+  <label><input id="plate" type="checkbox"> Minimap plate</label>
+  <label><input id="hover" type="checkbox"> Hover popup</label>
+</div>
+
+<svg id="defs" width="0" height="0" style="position:absolute" aria-hidden="true"></svg>
+<svg id="stage" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg"></svg>
+
+<section>
+  <h2 id="sheetTitle">Every state, per option</h2>
+  <div class="sheet" id="sheet"></div>
+</section>
+
+<script>
+'use strict';
+
+// The split-arc frame in the native capture (HUD scale 1.875): its body spans x 384-1216 with the ornaments out to
+// 340-1258; the top highlight is at y 706, the stone band 707-713, the brass line 714-716. The status plate sits six
+// logical units (11.25 px) above whatever is directly under it and grows upward (GameplayHudRenderer).
+const Scale = 1.875;
+const Frame = { left: 384, right: 1216, top: 706 };
+const Gap = 6 * Scale;
+
+// MAW's completion (mawMapCompletion): share of the counted monsters against 0.99^floor(n / 100).
+function completion(s)
+{
+  const required = Math.pow(0.99, Math.floor(s.counted / 100));
+  const share = Math.min(1, s.slain / s.counted);
+  const percent = Math.min(Math.round(share * 1000 / required) / 10, 100);
+  const needed = Math.ceil(required * s.counted - 1e-9);
+  return { required, share, percent, needed, complete: share >= required, alive: s.counted - s.slain };
+}
+
+const States = [
+  { id: 'fresh', name: '0 %', caption: 'Just arrived, outdoor map: 180 monsters, 179 needed (0.99 per full hundred).',
+    counted: 180, slain: 0, hidden: 0, indoor: false, revival: false,
+    status: 'Fly is allowed without restrictions here' },
+  { id: 'partial', name: 'Partial', caption: 'Nightmare dungeon, 112 of 300 slain: leave before 65 % and the dead rise '
+    + 'again (red mark).', counted: 300, slain: 112, hidden: 3, indoor: true, revival: true,
+    status: 'Exploding Ogre Chieftain' },
+  { id: 'safe', name: 'Past 65 %', caption: 'Nightmare dungeon, 210 of 300 slain: the dead stay down, the mark turns '
+    + 'ivory.', counted: 300, slain: 210, hidden: 3, indoor: true, revival: true, status: 'Chest' },
+  { id: 'complete', name: 'Complete', caption: '292 of 300 slain reaches 97 %: the map is complete, the reward is '
+    + 'paid once; the bar turns gold and stays until the monsters refill.', counted: 300, slain: 292, hidden: 0,
+    indoor: true, revival: true,
+    status: 'Map Completed! You gain 41000 Exp, 14000 Gold and Crafting Materials' },
+  { id: 'dimension', name: 'Dimension map', caption: 'A dimension run (power 12, three affixes) on a completed '
+    + 'dungeon: its own hue and label; clearing it counts for the Dimensional Maps quest (no experience or gold).', counted: 240,
+    slain: 151, hidden: 0, indoor: true, revival: false, dimension: { power: 12, affixes: 3 }, status: 'Chest' },
+  { id: 'arena', name: 'Arena', caption: 'The Endless Arena (d42) is never completed: MAW shows its wave level and '
+    + 'progress instead.', arena: { level: 5, percent: 60 }, status: '' },
+  { id: 'empty', name: 'No monsters', caption: 'No counted monsters (a town house, the Alvar merchant house d09, a map '
+    + 'whose monsters are all friendly): no bar at all, as MAW shows no text.', empty: true, status: '' },
+];
+
+const Options = [
+  { id: 'A', title: 'A · Inlaid channel', lift: 0, plate: false,
+    text: 'A glowing channel set into the frame\'s own top stone band; the numbers on a small tab at the right end. '
+      + 'Costs no screen height and leaves the status plate where it is; the line is thin at a glance.' },
+  { id: 'B', title: 'B · Carved bar, centred text', lift: 0, plate: false,
+    text: 'A 24 px brass-rimmed bar with the frame\'s compact end ornaments, the numbers centred inside. What the MAW '
+      + 'author asked for; the status plate lifts to sit six units above the bar.' },
+  { id: 'C', title: 'C · Threshold ticks, text beside', lift: 0, plate: false,
+    text: 'The bar fills by the raw slain share, with ten-percent ticks, a gold notch where the map completes (97 % '
+      + 'here) and the 65 % revival mark; the numbers stand beside it on the right.' },
+  { id: 'D', title: 'D · Thin rim, minimap keeps the number', lift: 0, plate: true,
+    text: 'A 7 px bar flush on the frame\'s top edge with no text; the minimap plate keeps the percentage and a hover '
+      + 'gives the count. Quietest, but the count is never on screen.' },
+];
+
+const state = { option: 'B', state: 'partial', status: true, plate: false, hover: false };
+
+const Fonts = { small: '600 18px Alegreya', tab: '600 17px Alegreya' };
+const canvas = document.createElement('canvas').getContext('2d');
+function measure(text, font) { canvas.font = font; return canvas.measureText(text).width; }
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+// What the bar says: percent and slain / needed; the dimension and arena variants name themselves.
+function label(s, c, short)
+{
+  if (s.arena) return short ? `Arena L${s.arena.level} · ${s.arena.percent} %`
+    : `Endless Arena · Level ${s.arena.level} · ${s.arena.percent} %`;
+  const count = c.complete ? `Cleared · ${s.slain} / ${s.counted}${short ? '' : ' slain'}`
+    : `${c.percent} % · ${s.slain} / ${c.needed}`;
+  if (s.dimension && !short) return `Dimension · Power ${s.dimension.power} · ${count}`;
+  return count;
+}
+
+// The fill colour family: violet, gold once complete, teal-violet on a dimension run.
+function family(s, c)
+{
+  if (!s.arena && c.complete) return 'gold';
+  if (s.dimension) return 'dim';
+  return 'vio';
+}
+
+const Defs = `<defs>
+  <linearGradient id="vio" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#d9c0ff"/><stop offset="0.35" stop-color="#9b6cec"/>
+    <stop offset="0.75" stop-color="#6a3fc0"/><stop offset="1" stop-color="#3b2175"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff0bf"/><stop offset="0.35" stop-color="#e6bf6a"/>
+    <stop offset="0.75" stop-color="#b98a35"/><stop offset="1" stop-color="#6e4f18"/></linearGradient>
+  <linearGradient id="dim" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bff4ee"/><stop offset="0.35" stop-color="#7f8ff0"/>
+    <stop offset="0.75" stop-color="#5a3fc4"/><stop offset="1" stop-color="#2a1f6e"/></linearGradient>
+  <linearGradient id="track" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#020606"/><stop offset="0.5" stop-color="#0b1514"/>
+    <stop offset="1" stop-color="#121c1a"/></linearGradient>
+  <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f0d9a0"/><stop offset="0.45" stop-color="#a8925f"/>
+    <stop offset="1" stop-color="#4f4026"/></linearGradient>
+  <linearGradient id="stone" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#6e7466"/><stop offset="0.2" stop-color="#3b3f36"/>
+    <stop offset="1" stop-color="#22261f"/></linearGradient>
+  <filter id="glow" x="-5%" y="-200%" width="110%" height="500%"><feGaussianBlur stdDeviation="2.4"/></filter>
+  <filter id="shadow" x="-10%" y="-40%" width="120%" height="180%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#000" flood-opacity="0.75"/></filter>
+</defs>`;
+const Backdrop = '<image href="../maw_potion_radial_20261025/gameplay_backdrop.jpg" width="1600" height="900"/>';
+const Endcap = '../obsidian_curved_portraits_20260929/native/art/obsidian_party_endcap_compact.png';
+
+// Text with a dark outline, as the HUD draws small labels over art.
+function text(x, y, value, anchor, fill, font = Fonts.small)
+{
+  const [weight, size, family] = font.split(' ');
+  return `<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="${family}" font-weight="${weight}"
+    font-size="${size}" fill="${fill}" stroke="#000" stroke-opacity="0.85" stroke-width="3" paint-order="stroke"
+    dominant-baseline="central">${esc(value)}</text>`;
+}
+
+// The revival mark (Nightmare and the challenge modes, dungeons only): red until 65 % of the counted are slain.
+function revivalMark(s, c, x, top, bottom)
+{
+  if (!s.revival || c.complete) return '';
+  const safe = c.share >= 0.65;
+  const colour = safe ? '#efe0bc' : '#e0604f';
+  return `<line x1="${x}" y1="${top - 3}" x2="${x}" y2="${bottom + 1}" stroke="#000" stroke-width="3.6"/>
+    <line x1="${x}" y1="${top - 3}" x2="${x}" y2="${bottom + 1}" stroke="${colour}" stroke-width="1.8"/>
+    <path d="M${x} ${top - 9}l4.5 4.5l-4.5 4.5l-4.5 -4.5z" fill="${colour}" stroke="#000" stroke-width="1"/>`;
+}
+
+// The fill position for a share on the normalised scale (A, B, D: the bar fills at completion).
+const norm = (c, share) => Math.min(1, share / c.required);
+
+function optionA(s, c)
+{
+  const x0 = 402, x1 = 1198, y = 708, h = 5;
+  const f = s.arena ? s.arena.percent / 100 : c.percent / 100;
+  const fam = family(s, c);
+  let svg = `<rect x="${x0}" y="${y}" width="${x1 - x0}" height="${h}" fill="#050a0a"/>`;
+  if (f > 0)
+  {
+    svg += `<rect x="${x0}" y="${y - 1}" width="${(x1 - x0) * f}" height="${h + 2}" fill="url(#${fam})" opacity="0.8"
+      filter="url(#glow)"/>`;
+    svg += `<rect x="${x0}" y="${y}" width="${(x1 - x0) * f}" height="${h}" fill="url(#${fam})"/>`;
+  }
+  if (!s.arena) svg += revivalMark(s, c, x0 + (x1 - x0) * norm(c, 0.65), y, y + h);
+  const value = label(s, c, true);
+  const w = Math.ceil(measure(value, Fonts.tab)) + 22;
+  const tx1 = 1250, tx0 = tx1 - w, ty0 = 683;
+  svg += `<path d="M${tx0} ${Frame.top}V${ty0 + 4}q0 -4 4 -4H${tx1 - 4}q4 0 4 4V${Frame.top}Z" fill="#0b1413"
+    stroke="url(#rim)" stroke-width="1.4" filter="url(#shadow)"/>`;
+  svg += text((tx0 + tx1) / 2, (ty0 + Frame.top) / 2 + 0.5, value, 'middle', c.complete ? '#f2d27a' : '#efe0bc',
+    Fonts.tab);
+  if (s.dimension)
+  {
+    const d = `Dimension · Power ${s.dimension.power}`;
+    const dw = Math.ceil(measure(d, Fonts.tab)) + 22;
+    svg += `<path d="M350 ${Frame.top}V${ty0 + 4}q0 -4 4 -4H${350 + dw - 4}q4 0 4 4V${Frame.top}Z" fill="#0b1413"
+      stroke="url(#rim)" stroke-width="1.4" filter="url(#shadow)"/>`;
+    svg += text(350 + dw / 2, (ty0 + Frame.top) / 2 + 0.5, d, 'middle', '#bff4ee', Fonts.tab);
+  }
+  return { svg, top: Frame.top };
+}
+
+// A brass-rimmed bar between the frame's compact end ornaments.
+function carvedBar(x0, x1, y0, y1, f, fam)
+{
+  const inset = 3;
+  let svg = `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="3" fill="url(#rim)"
+    filter="url(#shadow)"/>
+    <rect x="${x0 + 1.5}" y="${y0 + 1.5}" width="${x1 - x0 - 3}" height="${y1 - y0 - 3}" rx="2" fill="#0c1110"/>
+    <rect x="${x0 + inset}" y="${y0 + inset}" width="${x1 - x0 - 2 * inset}" height="${y1 - y0 - 2 * inset}"
+      fill="url(#track)"/>`;
+  if (f > 0)
+  {
+    const w = (x1 - x0 - 2 * inset) * f;
+    svg += `<rect x="${x0 + inset}" y="${y0 + inset}" width="${w}" height="${y1 - y0 - 2 * inset}" fill="url(#${fam})"/>
+      <rect x="${x0 + inset}" y="${y0 + inset}" width="${w}" height="${(y1 - y0 - 2 * inset) * 0.42}" fill="#fff"
+        opacity="0.13"/>
+      <rect x="${x0 + inset + w - 1.5}" y="${y0 + inset}" width="1.5" height="${y1 - y0 - 2 * inset}" fill="#fff"
+        opacity="${f < 1 ? 0.55 : 0}"/>`;
+  }
+  return svg;
+}
+
+function endcaps(x0, x1, y0, y1)
+{
+  const h = (y1 - y0) + 22, w = h * 992 / 1585, y = y0 - 11;
+  return `<image href="${Endcap}" x="${x0 - w + 6}" y="${y}" width="${w}" height="${h}"/>
+    <image href="${Endcap}" x="${-(x1 + w - 6)}" y="${y}" width="${w}" height="${h}" transform="scale(-1 1)"/>`;
+}
+
+function optionB(s, c)
+{
+  const x0 = 408, x1 = 1192, y0 = 674, y1 = 698;
+  const f = s.arena ? s.arena.percent / 100 : c.percent / 100;
+  let svg = endcaps(x0, x1, y0, y1) + carvedBar(x0, x1, y0, y1, f, family(s, c));
+  if (!s.arena) svg += revivalMark(s, c, x0 + 3 + (x1 - x0 - 6) * norm(c, 0.65), y0 + 3, y1 - 3);
+  svg += text(800, (y0 + y1) / 2 + 0.5, label(s, c), 'middle', c.complete && !s.arena ? '#fff0bf' : '#f4ead0');
+  return { svg, top: y0 - 7 };
+}
+
+function optionC(s, c)
+{
+  const x0 = 408, x1 = 1030, y0 = 676, y1 = 698, inset = 3;
+  const f = s.arena ? s.arena.percent / 100 : c.share;
+  let svg = endcaps(x0, 1192, y0, y1);
+  svg += carvedBar(x0, x1, y0, y1, f, family(s, c));
+  const inner = x => x0 + inset + (x1 - x0 - 2 * inset) * x;
+  for (let t = 1; t < 10; ++t)
+  {
+    svg += `<rect x="${inner(t / 10) - 0.6}" y="${y0 + inset}" width="1.2" height="${y1 - y0 - 2 * inset}" fill="#000"
+      opacity="0.55"/>`;
+  }
+  if (!s.arena)
+  {
+    // The completion notch: gold, at the required share.
+    const nx = inner(c.required);
+    svg += `<rect x="${nx - 1.6}" y="${y0 - 3}" width="3.2" height="${y1 - y0 + 6}" fill="#f2d27a" stroke="#000"
+      stroke-width="1"/>`;
+    svg += revivalMark(s, c, inner(0.65), y0 + 3, y1 - 3);
+  }
+  // The numbers beside it, on a plain plate up to the right ornament.
+  svg += `<rect x="${x1 + 8}" y="${y0}" width="${1192 - x1 - 8}" height="${y1 - y0}" rx="3" fill="#0b1413"
+    stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>`;
+  const value = s.dimension ? `P${s.dimension.power} · ${label(s, c, true)}` : label(s, c, true);
+  svg += text((x1 + 8 + 1192) / 2, (y0 + y1) / 2 + 0.5, value, 'middle', c.complete && !s.arena ? '#f2d27a' : '#efe0bc',
+    Fonts.tab);
+  return { svg, top: y0 - 7 };
+}
+
+function optionD(s, c)
+{
+  const x0 = Frame.left + 2, x1 = Frame.right - 2, y0 = 699, y1 = Frame.top;
+  const f = s.arena ? s.arena.percent / 100 : c.percent / 100;
+  const fam = family(s, c);
+  let svg = `<rect x="${x0}" y="${y0 - 1}" width="${x1 - x0}" height="${y1 - y0 + 1}" fill="#a8925f"/>
+    <rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" fill="url(#track)"/>`;
+  if (f > 0) svg += `<rect x="${x0}" y="${y0}" width="${(x1 - x0) * f}" height="${y1 - y0}" fill="url(#${fam})"/>`;
+  if (!s.arena) svg += revivalMark(s, c, x0 + (x1 - x0) * norm(c, 0.65), y0, y1);
+  return { svg, top: y0 - 1 };
+}
+
+const Renderers = { A: optionA, B: optionB, C: optionC, D: optionD };
+
+// The minimap plate as today (ObsidianMinimapProgress): MAW's red, yellow or green percentage.
+function minimapPlate(s, c)
+{
+  if (s.empty) return '';
+  let value, colour;
+  if (s.arena)
+  {
+    value = `L${s.arena.level} ${s.arena.percent}%`;
+    colour = '#ffff00';
+  }
+  else
+  {
+    value = `${c.complete ? 100 : c.percent}%`;
+    colour = c.complete ? '#00ff00' : s.indoor && !(s.revival && c.share >= 0.65) ? '#ff3c3c' : '#ffff00';
+  }
+  return `<rect x="1416" y="264" width="80" height="24" rx="4" fill="#0e1514" fill-opacity="0.9" stroke="#5a5f52"
+      stroke-width="1"/>
+    <text x="1456" y="277" text-anchor="middle" dominant-baseline="central" font-family="Lucida" font-size="16"
+      fill="${colour}">${value}</text>`;
+}
+
+function statusPlate(message, bottom)
+{
+  if (!message) return '';
+  return `<foreignObject x="0" y="${bottom - 220}" width="1600" height="220">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:1600px;height:220px">
+      <div class="status">${esc(message)}</div></div></foreignObject>`;
+}
+
+function popup(s, c, top)
+{
+  if (s.empty) return '';
+  let rows;
+  if (s.arena)
+  {
+    rows = `<div class="row"><span>Wave level</span><span class="v">${s.arena.level}</span></div>
+      <div class="row"><span>This wave</span><span class="v">${s.arena.percent} %</span></div>
+      <div class="row muted"><span>The Arena is never completed</span></div>`;
+  }
+  else
+  {
+    const revival = s.revival && !c.complete
+      ? `<hr><div class="row"><span>Dead rise again on leaving</span><span class="${c.share >= 0.65 ? 'muted' : 'red'}">
+        ${c.share >= 0.65 ? 'no longer' : 'until ' + Math.ceil(0.65 * s.counted) + ' slain'}</span></div>` : '';
+    const reward = s.dimension
+      ? 'Counts for the Dimensional Maps quest'
+      : c.complete ? 'Paid' : 'Experience, gold, a Crafting Cube and two gems';
+    rows = `${s.dimension ? `<div class="row"><span>Dimension run</span><span style="color:#bff4ee">Power
+        ${s.dimension.power} · ${s.dimension.affixes} affixes</span></div><hr>` : ''}
+      <div class="row"><span>Slain</span><span class="v">${s.slain} of ${s.counted}</span></div>
+      <div class="row"><span>Needed to complete</span><span class="gold">${c.needed} (${Math.round(c.required * 1000) / 10} %)</span></div>
+      <div class="row muted"><span>Alive ${c.alive}${s.hidden ? ` · ${s.hidden} hidden, not counted` : ''}</span></div>
+      ${revival}<hr>
+      <div class="row"><span>First completion</span><span class="${c.complete ? 'muted' : 'gold'}">${reward}</span></div>`;
+  }
+  const height = s.arena ? 128 : s.revival && !c.complete ? 214 : s.dimension ? 204 : 174;
+  return `<foreignObject x="${1192 - 480}" y="${top - Gap - height}" width="480" height="${height}">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="tip"><h4>${s.arena ? 'Endless Arena' : 'Map progress'}</h4>
+      ${rows}</div></foreignObject>`;
+}
+
+// One scene: the backdrop, the option's bar, the minimap plate and the status plate above the bar.
+function scene(optionId, stateId, opts)
+{
+  const s = States.find(x => x.id === stateId);
+  const c = s.empty || s.arena ? { percent: 0, share: 0, required: 1, complete: false } : completion(s);
+  let svg = Backdrop;
+  let top = Frame.top;
+  if (!s.empty)
+  {
+    const bar = Renderers[optionId](s, c);
+    svg += bar.svg;
+    top = bar.top;
+  }
+  if (opts.plate) svg += minimapPlate(s, c);
+  if (opts.hover && !s.empty)
+  {
+    svg += popup(s, c, top);
+  }
+  else if (opts.status)
+  {
+    svg += statusPlate(s.status, top - Gap);
+  }
+  return svg;
+}
+
+function render()
+{
+  document.getElementById('stage').innerHTML = scene(state.option, state.state, state);
+  for (const b of document.querySelectorAll('[data-option]')) b.setAttribute('aria-pressed', b.dataset.option === state.option);
+  for (const b of document.querySelectorAll('[data-state]')) b.setAttribute('aria-pressed', b.dataset.state === state.state);
+  renderSheet();
+}
+
+// The sheet: one card per option with every state cropped to the strip above the frame.
+function renderSheet(only)
+{
+  let html = '';
+  for (const option of Options)
+  {
+    if (only && option.id !== only) continue;
+    html += `<div class="card ${option.id === state.option ? 'on' : ''}" data-card="${option.id}">
+      <h3>${option.title}</h3><p>${option.text}</p>`;
+    for (const s of States)
+    {
+      html += `<figure><svg viewBox="320 652 960 76" xmlns="http://www.w3.org/2000/svg">
+        ${scene(option.id, s.id, { status: false, plate: false, hover: false })}</svg>
+        <figcaption>${s.name}: ${s.caption}</figcaption></figure>`;
+    }
+    html += '</div>';
+  }
+  const sheet = document.getElementById('sheet');
+  sheet.style.gridTemplateColumns = only ? '1fr' : '';
+  sheet.innerHTML = html;
+  for (const card of sheet.querySelectorAll('[data-card]'))
+  {
+    card.onclick = () => { state.option = card.dataset.card; state.plate = Options.find(o => o.id === state.option).plate;
+      document.getElementById('plate').checked = state.plate; render(); };
+  }
+}
+
+document.getElementById('defs').innerHTML = Defs;
+document.getElementById('options').innerHTML = Options.map(o => `<button data-option="${o.id}">${o.title}</button>`)
+  .join('');
+document.getElementById('states').innerHTML = States.map(s => `<button data-state="${s.id}">${s.name}</button>`).join('');
+for (const b of document.querySelectorAll('[data-option]'))
+{
+  b.onclick = () => { state.option = b.dataset.option; state.plate = Options.find(o => o.id === state.option).plate;
+    document.getElementById('plate').checked = state.plate; render(); };
+}
+for (const b of document.querySelectorAll('[data-state]')) b.onclick = () => { state.state = b.dataset.state; render(); };
+for (const id of ['status', 'plate', 'hover'])
+{
+  document.getElementById(id).onchange = e => { state[id] = e.target.checked; render(); };
+}
+
+// Captures: ?option=A|B|C|D&state=fresh|partial|safe|complete|dimension|arena|empty&status=0|1&plate=0|1&hover=0|1
+// &export=stage, or &export=sheet (one option's states with &option, all four without).
+const params = new URLSearchParams(location.search);
+state.option = params.get('option') ?? state.option;
+state.state = params.get('state') ?? state.state;
+state.plate = params.has('plate') ? params.get('plate') === '1' : Options.find(o => o.id === state.option).plate;
+state.status = params.get('status') !== '0';
+state.hover = params.get('hover') === '1';
+document.getElementById('plate').checked = state.plate;
+document.getElementById('status').checked = state.status;
+document.getElementById('hover').checked = state.hover;
+if (params.get('export') === 'stage') document.body.classList.add('export');
+if (params.get('export') === 'sheet') document.body.classList.add('export-sheet');
+Promise.all(['600 18px Alegreya', '600 17px Alegreya', '17px Lucida', '20px Fondamento']
+  .map(f => document.fonts.load(f))).then(() =>
+{
+  render();
+  if (params.get('export') === 'sheet' && params.has('option'))
+  {
+    document.getElementById('sheetTitle').textContent = 'Every state';
+    renderSheet(state.option);
+  }
+});
+render();
+</script>
+</body>
+</html>

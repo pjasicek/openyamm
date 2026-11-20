@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm6_dru1_claude/references_hd/00_three_quarter.png), unresized at 1024×1536 with real alpha, using built-in image generation. Raw returns, prompts and hashes are in [generation_runs.json](level_generation/creatures/mm6_dru1_claude/references_hd/generation_runs.json).
+
+Stopped after one correction. Residual issues: shallow camera angle, insufficient arm spread and translucent background haze. No builds or Meshy calls.

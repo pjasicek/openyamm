@@ -1,0 +1,47 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_basilisk.glb",
+  "components": 27,
+  "body": 0,
+  "size": 3.5324935913085938,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 27,
+   "attached_in_every_pose": 26
+  },
+  "concealed": {
+   "26": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 30,
+    "extent": 0.0631,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02104,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 408,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00361,
+     "on": "Xeye",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 22,
+    "worst_concealed": {
+     "gap": 0.00946,
+     "clip": "Running",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "carried_poses": 0
+   }
+  },
+  "shallow": {}
+ }
+]

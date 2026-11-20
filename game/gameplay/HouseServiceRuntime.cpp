@@ -1,14 +1,20 @@
 #include "game/gameplay/HouseServiceRuntime.h"
+#include "engine/Localization.h"
+
+#include "game/gameplay/GameplayLootFilter.h"
+#include "game/gameplay/GameplayWorldItemPolicy.h"
 
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/StealingRuntime.h"
 #include "game/items/ItemEnchantTables.h"
+#include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/party/Party.h"
 #include "game/items/PriceCalculator.h"
 #include "game/party/SkillData.h"
+#include "game/rules/GameRules.h"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -464,6 +470,7 @@ std::vector<InventoryItem> generateStockItems(
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const HouseEntry &houseEntry,
+    Party *pParty,
     int treasureLevel,
     std::mt19937 &rng,
     size_t count,
@@ -538,7 +545,7 @@ std::vector<InventoryItem> generateStockItems(
                     .allowRareItems = false,
                     .worldId = houseEntry.worldId,
                 },
-                nullptr,
+                pParty,
                 rng,
                 [itemId](const ItemDefinition &entry)
                 {
@@ -546,6 +553,7 @@ std::vector<InventoryItem> generateStockItems(
                 });
 
         results[slotIndex] = generatedItem.value_or(ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Shop));
+        ItemGenerator::assignTreasurePotionPower(results[slotIndex], itemTable, treasureLevel, rng);
 
         if (!allowDuplicates)
         {
@@ -556,21 +564,165 @@ std::vector<InventoryItem> generateStockItems(
     return results;
 }
 
+constexpr uint32_t PotionBottleItemId = 220;
+constexpr size_t AlchemistTopRowSlots = 6;
+
+bool isRecipeScrollItem(const ItemDefinition &entry)
+{
+    static const std::string RecipeSuffix = " Recipe";
+    return entry.equipStat == "Mscroll"
+        && entry.name.size() > RecipeSuffix.size()
+        && entry.name.ends_with(RecipeSuffix);
+}
+
+// The merged table carries the MM8 and MM7 recipe sets under the same names; only the first of each name is sold so
+// neither set doubles the odds.
+std::unordered_set<uint32_t> uniqueRecipeScrollItemIds(const ItemTable &itemTable)
+{
+    std::unordered_set<uint32_t> itemIds;
+    std::unordered_set<std::string> names;
+
+    for (const ItemDefinition &entry : itemTable.entries())
+    {
+        if (isRecipeScrollItem(entry) && names.insert(entry.name).second)
+        {
+            itemIds.insert(entry.itemId);
+        }
+    }
+
+    return itemIds;
+}
+
+// A solo run's shop always has its solo stacks (HouseEntry::soloStock, data_tables/solo_shop_stock.yml): they take the
+// fresh stock's last slots.
+void addSoloStock(
+    std::vector<InventoryItem> &stock,
+    const HouseEntry &houseEntry,
+    const Party &party,
+    const ItemTable &itemTable,
+    std::mt19937 &rng)
+{
+    if (!party.soloRun())
+    {
+        return;
+    }
+
+    size_t slot = stock.size();
+
+    for (const HouseEntry::SoloStockItem &stack : houseEntry.soloStock)
+    {
+        if (slot == 0 || itemTable.get(stack.itemId) == nullptr)
+        {
+            break;
+        }
+
+        --slot;
+        stock[slot] = ItemGenerator::makeInventoryItem(stack.itemId, itemTable, ItemGenerationMode::Shop);
+        stock[slot].quantity = std::uniform_int_distribution<uint32_t>(stack.minQuantity, stack.maxQuantity)(rng);
+    }
+}
+
+// The native alchemist rows (OpenEnroth GUIWindow_AlchemyShop::generateShopItems): the standard stock is six empty
+// bottles over random reagents, the special stock six random recipe scrolls over random potions.
+std::vector<InventoryItem> generateAlchemistStock(
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    const HouseEntry &houseEntry,
+    Party *pParty,
+    std::mt19937 &rng,
+    size_t count,
+    int tier,
+    bool special)
+{
+    const size_t topRowCount = std::min(AlchemistTopRowSlots, count);
+    std::vector<InventoryItem> results(count);
+
+    if (special)
+    {
+        const std::unordered_set<uint32_t> recipeItemIds = uniqueRecipeScrollItemIds(itemTable);
+        const std::vector<InventoryItem> topRow = generateStockItems(
+            itemTable,
+            standardItemEnchantTable,
+            specialItemEnchantTable,
+            houseEntry,
+            pParty,
+            tier,
+            rng,
+            topRowCount,
+            [&recipeItemIds](const ItemDefinition &entry)
+            {
+                return recipeItemIds.contains(entry.itemId);
+            },
+            [](const ItemDefinition &)
+            {
+                return 1;
+            },
+            true);
+        std::copy(topRow.begin(), topRow.end(), results.begin());
+    }
+    else
+    {
+        for (size_t index = 0; index < topRowCount; ++index)
+        {
+            results[index] = ItemGenerator::makeInventoryItem(PotionBottleItemId, itemTable, ItemGenerationMode::Shop);
+        }
+    }
+
+    const std::vector<InventoryItem> bottomRow = generateStockItems(
+        itemTable,
+        standardItemEnchantTable,
+        specialItemEnchantTable,
+        houseEntry,
+        pParty,
+        tier,
+        rng,
+        count - topRowCount,
+        [special](const ItemDefinition &entry)
+        {
+            return special
+                ? entry.equipStat == "Bottle" && entry.itemId != PotionBottleItemId
+                : entry.equipStat == "Reagent" || entry.equipStat == "Herb";
+        },
+        [tier, special](const ItemDefinition &entry)
+        {
+            return special ? itemTreasureWeightForSpecialStock(entry, tier) : itemTreasureWeightUpToTier(entry, tier);
+        },
+        true);
+    std::copy(bottomRow.begin(), bottomRow.end(), results.begin() + static_cast<std::ptrdiff_t>(topRowCount));
+    return results;
+}
+
 std::vector<InventoryItem> generateShopStandardStock(
     const ItemTable &itemTable,
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const HouseEntry &houseEntry,
+    Party *pParty,
     std::mt19937 &rng,
     size_t count)
 {
     const HouseEntry::StockRule &rule = houseEntry.standardStockRule;
     const int tier = stockRuleTreasureTier(rule);
-    const bool allowDuplicates = isHouseType(houseEntry, "Magic Shop") || isHouseType(houseEntry, "Alchemist");
+    const bool allowDuplicates = isHouseType(houseEntry, "Magic Shop");
 
     if (tier <= 0)
     {
         return std::vector<InventoryItem>(count);
+    }
+
+    if (isHouseType(houseEntry, "Alchemist"))
+    {
+        return generateAlchemistStock(
+            itemTable,
+            standardItemEnchantTable,
+            specialItemEnchantTable,
+            houseEntry,
+            pParty,
+            rng,
+            count,
+            tier,
+            false);
     }
 
     if (isHouseType(houseEntry, "Armor Shop"))
@@ -584,6 +736,7 @@ std::vector<InventoryItem> generateShopStandardStock(
             standardItemEnchantTable,
             specialItemEnchantTable,
             houseEntry,
+            pParty,
             tier,
             rng,
             topRowCount,
@@ -600,6 +753,7 @@ std::vector<InventoryItem> generateShopStandardStock(
             standardItemEnchantTable,
             specialItemEnchantTable,
             houseEntry,
+            pParty,
             tier,
             rng,
             bottomRowCount,
@@ -631,6 +785,7 @@ std::vector<InventoryItem> generateShopStandardStock(
         standardItemEnchantTable,
         specialItemEnchantTable,
         houseEntry,
+        pParty,
         tier,
         rng,
         count,
@@ -652,16 +807,31 @@ std::vector<InventoryItem> generateShopSpecialStock(
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const HouseEntry &houseEntry,
+    Party *pParty,
     std::mt19937 &rng,
     size_t count)
 {
     const HouseEntry::StockRule &rule = houseEntry.specialStockRule;
     const int tier = stockRuleTreasureTier(rule);
-    const bool allowDuplicates = isHouseType(houseEntry, "Magic Shop") || isHouseType(houseEntry, "Alchemist");
+    const bool allowDuplicates = isHouseType(houseEntry, "Magic Shop");
 
     if (tier <= 0)
     {
         return std::vector<InventoryItem>(count);
+    }
+
+    if (isHouseType(houseEntry, "Alchemist"))
+    {
+        return generateAlchemistStock(
+            itemTable,
+            standardItemEnchantTable,
+            specialItemEnchantTable,
+            houseEntry,
+            pParty,
+            rng,
+            count,
+            tier,
+            true);
     }
 
     if (isHouseType(houseEntry, "Armor Shop"))
@@ -675,6 +845,7 @@ std::vector<InventoryItem> generateShopSpecialStock(
             standardItemEnchantTable,
             specialItemEnchantTable,
             houseEntry,
+            pParty,
             tier,
             rng,
             topRowCount,
@@ -691,6 +862,7 @@ std::vector<InventoryItem> generateShopSpecialStock(
             standardItemEnchantTable,
             specialItemEnchantTable,
             houseEntry,
+            pParty,
             tier,
             rng,
             bottomRowCount,
@@ -722,6 +894,7 @@ std::vector<InventoryItem> generateShopSpecialStock(
         standardItemEnchantTable,
         specialItemEnchantTable,
         houseEntry,
+        pParty,
         tier,
         rng,
         count,
@@ -742,20 +915,24 @@ std::vector<InventoryItem> generateGuildSpellbookStock(
     const ItemTable &itemTable,
     const HouseEntry &houseEntry,
     std::mt19937 &rng,
-    size_t count)
+    size_t shelfSize)
 {
-    // The guild rule is the highest spell number sold within each of the guild's schools. Each spell is sold as
-    // the first book of the guild's world, so every continent keeps its own book design.
+    // Each school the guild teaches has a shelf of its own, the shelves one after another, as in MM8 (MM8-Rel.exe
+    // 0x4b6e13: shelf (house - 139) x 12 + school). The guild rule is the highest spell number sold within each school.
+    // Each spell is sold as the first book of the guild's world, so every continent keeps its own book design.
     const uint32_t maxSpellInSchool =
         static_cast<uint32_t>(std::clamp(houseEntry.spellbookStockRule.quality, 0, static_cast<int>(SpellsPerSchool)));
-    std::vector<uint32_t> candidates;
+    const std::vector<uint32_t> schools = guildMagicSchools(houseEntry);
+    std::vector<InventoryItem> results(shelfSize * std::max<size_t>(1, schools.size()));
 
-    for (uint32_t school : guildMagicSchools(houseEntry))
+    for (size_t shelf = 0; shelf < schools.size(); ++shelf)
     {
+        std::vector<uint32_t> candidates;
+
         for (uint32_t spellInSchool = 0; spellInSchool < maxSpellInSchool; ++spellInSchool)
         {
             const std::optional<uint32_t> itemId = itemTable.spellbookItemIdForSpell(
-                school * SpellsPerSchool + spellInSchool + 1,
+                schools[shelf] * SpellsPerSchool + spellInSchool + 1,
                 houseEntry.worldId);
 
             if (itemId)
@@ -763,46 +940,50 @@ std::vector<InventoryItem> generateGuildSpellbookStock(
                 candidates.push_back(*itemId);
             }
         }
-    }
 
-    // When the shelves have room, every spell the guild teaches is offered and spare slots repeat random spells.
-    std::vector<uint32_t> selected;
+        // When the shelf has room, every spell of the school is offered and spare slots repeat random spells.
+        std::vector<uint32_t> selected;
 
-    if (candidates.size() <= count)
-    {
-        selected = candidates;
-
-        if (!candidates.empty())
+        if (candidates.size() <= shelfSize)
         {
-            std::uniform_int_distribution<size_t> distribution(0, candidates.size() - 1);
+            selected = candidates;
 
-            while (selected.size() < count)
+            if (!candidates.empty())
             {
-                selected.push_back(candidates[distribution(rng)]);
+                std::uniform_int_distribution<size_t> distribution(0, candidates.size() - 1);
+
+                while (selected.size() < shelfSize)
+                {
+                    selected.push_back(candidates[distribution(rng)]);
+                }
             }
         }
-    }
-    else
-    {
-        std::shuffle(candidates.begin(), candidates.end(), rng);
-        selected.assign(candidates.begin(), candidates.begin() + count);
-    }
+        else
+        {
+            std::shuffle(candidates.begin(), candidates.end(), rng);
+            selected.assign(candidates.begin(), candidates.begin() + shelfSize);
+        }
 
-    std::sort(selected.begin(), selected.end());
-    std::vector<InventoryItem> results(count);
+        std::sort(selected.begin(), selected.end());
 
-    for (size_t slotIndex = 0; slotIndex < selected.size(); ++slotIndex)
-    {
-        results[slotIndex] = ItemGenerator::makeInventoryItem(selected[slotIndex], itemTable, ItemGenerationMode::Shop);
+        for (size_t slotIndex = 0; slotIndex < selected.size(); ++slotIndex)
+        {
+            results[shelf * shelfSize + slotIndex] =
+                ItemGenerator::makeInventoryItem(selected[slotIndex], itemTable, ItemGenerationMode::Shop);
+        }
     }
 
     return results;
 }
 
+// A vendor's fixed stock for one restock: the page of the restock's turn. A tiered lane (a row gated by the world's
+// objectives, min_objectives) shows instead every row the party has earned, in page and slot order, a page's worth at
+// a time, each restock the next (wrapping; a short list repeats).
 std::vector<InventoryItem> deterministicStockItems(
     const ItemTable &itemTable,
     const std::vector<HouseEntry::DeterministicStockPage> &pages,
-    uint32_t refreshSequence)
+    uint32_t refreshSequence,
+    size_t objectivesDone)
 {
     if (pages.empty())
     {
@@ -810,20 +991,55 @@ std::vector<InventoryItem> deterministicStockItems(
     }
 
     const size_t pageOrdinal = refreshSequence > 0 ? static_cast<size_t>(refreshSequence - 1) : 0;
-    const HouseEntry::DeterministicStockPage &page = pages[pageOrdinal % pages.size()];
+    size_t pageSize = 0;
+    bool tiered = false;
+    std::vector<const HouseEntry::DeterministicStockItem *> earned;
+
+    for (const HouseEntry::DeterministicStockPage &page : pages)
+    {
+        pageSize = std::max(pageSize, page.items.size());
+
+        for (const HouseEntry::DeterministicStockItem &stockItem : page.items)
+        {
+            tiered = tiered || stockItem.minObjectives > 0;
+
+            if (stockItem.itemId != 0 && stockItem.minObjectives <= objectivesDone)
+            {
+                earned.push_back(&stockItem);
+            }
+        }
+    }
+
+    std::vector<const HouseEntry::DeterministicStockItem *> shown;
+
+    if (tiered)
+    {
+        for (size_t slot = 0; slot < pageSize && !earned.empty(); ++slot)
+        {
+            shown.push_back(earned[(pageOrdinal * pageSize + slot) % earned.size()]);
+        }
+    }
+    else
+    {
+        for (const HouseEntry::DeterministicStockItem &stockItem : pages[pageOrdinal % pages.size()].items)
+        {
+            shown.push_back(&stockItem);
+        }
+    }
+
     std::vector<InventoryItem> result;
-    result.reserve(page.items.size());
-    for (const HouseEntry::DeterministicStockItem &stockItem : page.items)
+    result.reserve(shown.size());
+    for (const HouseEntry::DeterministicStockItem *pStockItem : shown)
     {
         InventoryItem item = ItemGenerator::makeInventoryItem(
-            stockItem.itemId,
+            pStockItem->itemId,
             itemTable,
             ItemGenerationMode::Shop);
-        item.quantity = stockItem.quantity;
-        item.identified = stockItem.identified;
-        item.standardEnchantId = stockItem.standardEnchantId;
-        item.standardEnchantPower = stockItem.standardEnchantPower;
-        item.specialEnchantId = stockItem.specialEnchantId;
+        item.quantity = pStockItem->quantity;
+        item.identified = pStockItem->identified;
+        item.standardEnchantId = pStockItem->standardEnchantId;
+        item.standardEnchantPower = pStockItem->standardEnchantPower;
+        item.specialEnchantId = pStockItem->specialEnchantId;
         result.push_back(item);
     }
     return result;
@@ -857,12 +1073,55 @@ Party::HouseStockState &ensureHouseStockGenerated(
         state.standardStock = deterministicStockItems(
             itemTable,
             houseEntry.deterministicStandardStockPages,
-            state.refreshSequence);
+            state.refreshSequence,
+            party.objectivesDone());
         state.specialStock = deterministicStockItems(
             itemTable,
             houseEntry.deterministicSpecialStockPages,
-            state.refreshSequence);
+            state.refreshSequence,
+            party.objectivesDone());
         state.spellbookStock.clear();
+        const ItemRules &fixedStockRules = gameRulesFor(&party).items;
+
+        if (fixedStockRules.rollsFixedShopStock())
+        {
+            // The vendor keeps its items; the rules roll their power and enchantments as shop stock at its tiers.
+            std::mt19937 rng = createStockRng(party, houseEntry, state);
+            const ItemRollTables tables{itemTable, standardItemEnchantTable, specialItemEnchantTable};
+            const auto roll = [&](std::vector<InventoryItem> &stock, int tier)
+            {
+                ItemGenerationRequest request;
+                request.treasureLevel = std::clamp(tier, 1, 6);
+                request.mode = ItemGenerationMode::Shop;
+                request.worldId = houseEntry.worldId.empty() ? houseEntry.packageId : houseEntry.worldId;
+
+                for (InventoryItem &item : stock)
+                {
+                    const ItemDefinition *pDefinition = itemTable.get(item.objectDescriptionId);
+
+                    if (pDefinition == nullptr || ItemRuntime::isRareItem(*pDefinition))
+                    {
+                        continue;
+                    }
+
+                    if (!ItemEnchantRuntime::isEnchantable(*pDefinition))
+                    {
+                        fixedStockRules.rollPlainItem(item, *pDefinition, request);
+                        continue;
+                    }
+
+                    item.standardEnchantId = 0;
+                    item.standardEnchantPower = 0;
+                    item.specialEnchantId = 0;
+                    fixedStockRules.rollEnchantments(item, *pDefinition, tables, request, &party, rng);
+                }
+
+                fixedStockRules.adjustShopStock(stock, houseEntry, party, itemTable, rng);
+            };
+            roll(state.standardStock, houseEntry.standardStockTier);
+            roll(state.specialStock, houseEntry.specialStockTier);
+        }
+
         return state;
     }
 
@@ -878,6 +1137,7 @@ Party::HouseStockState &ensureHouseStockGenerated(
             standardItemEnchantTable,
             specialItemEnchantTable,
             houseEntry,
+            &party,
             rng,
             standardCount);
     state.specialStock =
@@ -886,6 +1146,7 @@ Party::HouseStockState &ensureHouseStockGenerated(
             standardItemEnchantTable,
             specialItemEnchantTable,
             houseEntry,
+            &party,
             rng,
             specialCount);
     state.spellbookStock =
@@ -894,6 +1155,10 @@ Party::HouseStockState &ensureHouseStockGenerated(
             houseEntry,
             rng,
             spellbookCount);
+    const ItemRules &itemRules = gameRulesFor(&party).items;
+    itemRules.adjustShopStock(state.standardStock, houseEntry, party, itemTable, rng);
+    itemRules.adjustShopStock(state.specialStock, houseEntry, party, itemTable, rng);
+    addSoloStock(state.standardStock, houseEntry, party, itemTable, rng);
     return state;
 }
 
@@ -912,6 +1177,27 @@ std::vector<InventoryItem> *selectStockVector(Party::HouseStockState &state, Hou
     }
 
     return &state.standardStock;
+}
+
+// What one purchase or theft from a stock slot takes: a single item, also from a stack (quantity above 1).
+InventoryItem oneFromStockSlot(const InventoryItem &slot)
+{
+    InventoryItem item = slot;
+    item.quantity = 1;
+    return item;
+}
+
+// Takes one item off a stock slot; the slot empties with its last item.
+void takeOneFromStockSlot(InventoryItem &slot)
+{
+    if (slot.quantity > 1)
+    {
+        --slot.quantity;
+    }
+    else
+    {
+        slot = {};
+    }
 }
 
 const std::vector<InventoryItem> *selectStockVector(const Party::HouseStockState &state, HouseStockMode mode)
@@ -943,7 +1229,7 @@ std::string itemDisplayName(const ItemDefinition &itemDefinition)
         return itemDefinition.unidentifiedName;
     }
 
-    return "Unknown item";
+    return Engine::tr("Unknown item");
 }
 
 std::string itemDisplayName(
@@ -973,6 +1259,11 @@ bool hasMerchantSkillForPhrase(const Character *pCharacter)
 
 const Character *partyMerchantMember(const Party &party)
 {
+    if (const Character *pRulesMerchant = PriceCalculator::rulesMerchantMember(party))
+    {
+        return pRulesMerchant;
+    }
+
     const Character *pMerchant = party.bestPartyWideUtilitySkillMember("Merchant");
     return pMerchant != nullptr ? pMerchant : party.activeMember();
 }
@@ -981,25 +1272,25 @@ std::string merchantProfessionName(const HouseEntry &houseEntry)
 {
     if (isHouseType(houseEntry, "Weapon Shop"))
     {
-        return "weaponsmith";
+        return Engine::tr("weaponsmith");
     }
 
     if (isHouseType(houseEntry, "Armor Shop"))
     {
-        return "armorer";
+        return Engine::tr("armorer");
     }
 
     if (isHouseType(houseEntry, "Magic Shop"))
     {
-        return "scholar";
+        return Engine::tr("scholar");
     }
 
     if (isHouseType(houseEntry, "Alchemist"))
     {
-        return "alchemist";
+        return Engine::tr("alchemist");
     }
 
-    return "merchant";
+    return Engine::tr("merchant");
 }
 
 std::string buildSellPhrase(
@@ -1015,7 +1306,7 @@ std::string buildSellPhrase(
 
     if (itemDefinition.value <= 0)
     {
-        return "Sorry, I'm not interested in that item.";
+        return Engine::tr("Sorry, I'm not interested in that item.");
     }
 
     const int actualPrice = PriceCalculator::itemSellingPrice(
@@ -1025,7 +1316,8 @@ std::string buildSellPhrase(
         houseEntry.priceMultiplier,
         pStandardItemEnchantTable,
         pSpecialItemEnchantTable,
-        effectiveReputation);
+        effectiveReputation,
+        houseEntry.resaleCapPercent);
     const int listedPrice = std::max(1, static_cast<int>(std::round(
         static_cast<float>(std::max(
             1,
@@ -1037,18 +1329,21 @@ std::string buildSellPhrase(
 
     if (!hasMerchantSkillForPhrase(pActiveMember))
     {
-        return "Hmph. Looks like junk to me. <yawn> I suppose I could give you oh, say, "
-            + std::to_string(actualPrice) + " gold pieces for it.";
+        return Engine::tr("Hmph. Looks like junk to me. <yawn> I suppose I could give you oh, say, "
+                          "{price} gold pieces for it.",
+                          {{"price", actualPrice}});
     }
 
     if (actualPrice == realValue * std::max(1u, item.quantity))
     {
-        return "Normally, I do my best to buy a " + itemName + " for " + std::to_string(listedPrice)
-            + " gold. But I can see you know it's worth " + std::to_string(actualPrice) + ". Agreed?";
+        return Engine::tr("Normally, I do my best to buy a {item} for {listed} gold. "
+                          "But I can see you know it's worth {price}. Agreed?",
+                          {{"item", itemName}, {"listed", listedPrice}, {"price", actualPrice}});
     }
 
-    return "Usually I try to buy something like this " + itemName + " for " + std::to_string(listedPrice)
-        + " gold. I'll give you " + std::to_string(actualPrice) + " for it.";
+    return Engine::tr("Usually I try to buy something like this {item} for {listed} gold. "
+                      "I'll give you {price} for it.",
+                      {{"item", itemName}, {"listed", listedPrice}, {"price", actualPrice}});
 }
 
 std::string buildIdentifyPhrase(
@@ -1067,19 +1362,21 @@ std::string buildIdentifyPhrase(
 
     if (!isShopItemFamilyAllowed(houseEntry, itemDefinition))
     {
-        return "Sorry, I can't identify a " + itemDisplayName(item, itemDefinition)
-            + " because I'm a " + merchantProfessionName(houseEntry) + ". I don't know anything about those.";
+        return Engine::tr("Sorry, I can't identify a {item} because I'm a {profession}. "
+                          "I don't know anything about those.",
+                          {{"item", itemDisplayName(item, itemDefinition)},
+                           {"profession", merchantProfessionName(houseEntry)}});
     }
 
     const int actualPrice = PriceCalculator::itemIdentificationPrice(
         pActiveMember,
         item,
         itemDefinition,
-        houseEntry.priceMultiplier,
+        boundGameRules().items.shopServiceMultiplier(itemDefinition, true, houseEntry.priceMultiplier),
         pStandardItemEnchantTable,
         pSpecialItemEnchantTable,
         effectiveReputation);
-    return "I'll tell you what it is for " + std::to_string(actualPrice) + " gold pieces.";
+    return Engine::tr("I'll tell you what it is for {price} gold pieces.", {{"price", actualPrice}});
 }
 
 std::string buildRepairPhrase(
@@ -1096,7 +1393,7 @@ std::string buildRepairPhrase(
 
     if (!isShopItemFamilyAllowed(houseEntry, itemDefinition))
     {
-        return "Sorry, I have no idea how to fix a " + itemName + ".";
+        return Engine::tr("Sorry, I have no idea how to fix a {item}.", {{"item", itemName}});
     }
 
     if (!item.broken)
@@ -1108,7 +1405,7 @@ std::string buildRepairPhrase(
         pActiveMember,
         item,
         itemDefinition,
-        houseEntry.priceMultiplier,
+        boundGameRules().items.shopServiceMultiplier(itemDefinition, false, houseEntry.priceMultiplier),
         pStandardItemEnchantTable,
         pSpecialItemEnchantTable,
         effectiveReputation);
@@ -1124,20 +1421,27 @@ std::string buildRepairPhrase(
 
     if (!hasMerchantSkillForPhrase(pActiveMember))
     {
-        return "This " + itemName + " is nearly beyond repair. It will take a superhuman effort to fix it! "
-            "I'll have to charge " + std::to_string(actualPrice) + " gold.";
+        return Engine::tr("This {item} is nearly beyond repair. It will take a superhuman effort to fix it! "
+                          "I'll have to charge {price} gold.",
+                          {{"item", itemName}, {"price", actualPrice}});
     }
 
     if (actualPrice == realValue)
     {
-        return "Hmmm. Nothing a little glue and polish won't fix, I warrant. My policy is to ask for "
-            + std::to_string(listedPrice) + " gold, but I can go as low as " + std::to_string(actualPrice) + ".";
+        return Engine::tr("Hmmm. Nothing a little glue and polish won't fix, I warrant. My policy is to ask for "
+                          "{listed} gold, but I can go as low as {price}.",
+                          {{"listed", listedPrice}, {"price", actualPrice}});
     }
 
-    return "This " + itemName + " is in bad shape, but it can be fixed. I usually want "
-        + std::to_string(listedPrice) + " gold, but for you I will charge a mere "
-        + std::to_string(actualPrice) + ".";
+    return Engine::tr("This {item} is in bad shape, but it can be fixed. I usually want "
+                      "{listed} gold, but for you I will charge a mere {price}.",
+                      {{"item", itemName}, {"listed", listedPrice}, {"price", actualPrice}});
 }
+}
+
+std::vector<uint32_t> HouseServiceRuntime::spellbookShelfSchools(const HouseEntry &houseEntry)
+{
+    return guildMagicSchools(houseEntry);
 }
 
 bool HouseServiceRuntime::supportsGeneratedStock(const HouseEntry &houseEntry)
@@ -1181,24 +1485,16 @@ size_t HouseServiceRuntime::slotCountForStockMode(const HouseEntry &houseEntry, 
         {
             return 0;
         }
-        switch (houseEntry.vendorStockProfile)
+        // The vendor table sizes the pages: the shelf's fixed slot count, or a Ledger shop's restock rolls.
+        const std::vector<HouseEntry::DeterministicStockPage> &pages = mode == HouseStockMode::ShopSpecial
+            ? houseEntry.deterministicSpecialStockPages
+            : houseEntry.deterministicStandardStockPages;
+        size_t slotCount = 0;
+        for (const HouseEntry::DeterministicStockPage &page : pages)
         {
-            case VendorStockProfile::Weapon:
-                return 6;
-
-            case VendorStockProfile::Armor:
-            case VendorStockProfile::Mm9GeneralStore:
-                return 8;
-
-            case VendorStockProfile::Spellbook:
-            case VendorStockProfile::Mm9Apothecary:
-            case VendorStockProfile::Mm9Library:
-                return 12;
-
-            case VendorStockProfile::None:
-            default:
-                return 0;
+            slotCount = std::max(slotCount, page.items.size());
         }
+        return slotCount;
     }
 
     switch (mode)
@@ -1259,8 +1555,8 @@ int HouseServiceRuntime::buyPrice(
         return 0;
     }
 
-    const int actualValue =
-        PriceCalculator::itemValue(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable);
+    const int actualValue = gameRulesFor(&party).items.shopBuyValue(
+        item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable);
     const int price = PriceCalculator::itemBuyingPrice(
         partyMerchantMember(party),
         actualValue,
@@ -1292,7 +1588,8 @@ int HouseServiceRuntime::sellPrice(
         houseEntry.priceMultiplier,
         &standardItemEnchantTable,
         &specialItemEnchantTable,
-        effectiveReputation);
+        effectiveReputation,
+        houseEntry.resaleCapPercent);
 }
 
 bool HouseServiceRuntime::canSellItemToHouse(
@@ -1307,10 +1604,8 @@ bool HouseServiceRuntime::canSellItemToHouse(
         return false;
     }
 
-    return supportsEquipmentSell(houseEntry)
-        && pItemDefinition->value > 0
-        && (houseEntry.vendorStockProfile == VendorStockProfile::None
-            || isShopItemFamilyAllowed(houseEntry, *pItemDefinition));
+    // Every shop that buys at all buys every item with a value, whatever it stocks itself.
+    return supportsEquipmentSell(houseEntry) && pItemDefinition->value > 0;
 }
 
 std::string HouseServiceRuntime::buildBuyHoverText(
@@ -1326,7 +1621,7 @@ std::string HouseServiceRuntime::buildBuyHoverText(
 
     if (pItemDefinition == nullptr)
     {
-        return "Unavailable";
+        return Engine::tr("Unavailable");
     }
 
     const Character *pActiveMember = partyMerchantMember(party);
@@ -1338,27 +1633,29 @@ std::string HouseServiceRuntime::buildBuyHoverText(
         houseEntry,
         item,
         effectiveReputation);
-    const int realValue =
-        PriceCalculator::itemValue(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable);
+    const int realValue = gameRulesFor(&party).items.shopBuyValue(
+        item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable);
     const int listedPrice = baseBuyPrice(realValue, houseEntry.priceMultiplier);
     const std::string itemName =
         ItemRuntime::displayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable);
 
     if (!hasMerchantSkillForPhrase(pActiveMember))
     {
-        return "An excellent choice! This " + itemName
-            + " is of the finest quality. I am willing to virtually give it away for "
-            + std::to_string(actualPrice) + " gold.";
+        return Engine::tr("An excellent choice! This {item} is of the finest quality. "
+                          "I am willing to virtually give it away for {price} gold.",
+                          {{"item", itemName}, {"price", actualPrice}});
     }
 
     if (actualPrice == realValue)
     {
-        return "I try to sell things like this " + itemName + " for " + std::to_string(listedPrice)
-            + " gold. But we both know it's really worth " + std::to_string(actualPrice) + ". So that's my price.";
+        return Engine::tr("I try to sell things like this {item} for {listed} gold. "
+                          "But we both know it's really worth {price}. So that's my price.",
+                          {{"item", itemName}, {"listed", listedPrice}, {"price", actualPrice}});
     }
 
-    return "Ordinarily I sell things like this " + itemName + " for " + std::to_string(listedPrice)
-        + " gold. But you drive a hard bargain-- I'll sell it to you for " + std::to_string(actualPrice) + ".";
+    return Engine::tr("Ordinarily I sell things like this {item} for {listed} gold. "
+                      "But you drive a hard bargain-- I'll sell it to you for {price}.",
+                      {{"item", itemName}, {"listed", listedPrice}, {"price", actualPrice}});
 }
 
 std::string HouseServiceRuntime::buildSellHoverText(
@@ -1374,7 +1671,7 @@ std::string HouseServiceRuntime::buildSellHoverText(
 
     if (pItemDefinition == nullptr)
     {
-        return "Unavailable";
+        return Engine::tr("Unavailable");
     }
 
     return buildSellPhrase(
@@ -1400,14 +1697,15 @@ std::string HouseServiceRuntime::buildIdentifyHoverText(
 
     if (pItemDefinition == nullptr)
     {
-        return "Unavailable";
+        return Engine::tr("Unavailable");
     }
 
     if (!supportsIdentify(houseEntry))
     {
-        return "Sorry, I can't identify a "
-            + itemDisplayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)
-            + " because I'm a " + merchantProfessionName(houseEntry) + ".";
+        return Engine::tr("Sorry, I can't identify a {item} because I'm a {profession}.",
+                          {{"item", itemDisplayName(
+                                        item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)},
+                           {"profession", merchantProfessionName(houseEntry)}});
     }
 
     return buildIdentifyPhrase(
@@ -1433,13 +1731,14 @@ std::string HouseServiceRuntime::buildRepairHoverText(
 
     if (pItemDefinition == nullptr)
     {
-        return "Unavailable";
+        return Engine::tr("Unavailable");
     }
 
     if (!supportsRepair(houseEntry))
     {
-        return "Sorry, I have no idea how to fix a "
-            + itemDisplayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable) + ".";
+        return Engine::tr("Sorry, I have no idea how to fix a {item}.",
+                          {{"item", itemDisplayName(
+                                        item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)}});
     }
 
     return buildRepairPhrase(
@@ -1483,7 +1782,7 @@ bool HouseServiceRuntime::tryBuyStockItem(
 
     if (pStock == nullptr || slotIndex >= pStock->size() || (*pStock)[slotIndex].objectDescriptionId == 0)
     {
-        statusText = "Nothing is for sale in that slot.";
+        statusText = Engine::tr("Nothing is for sale in that slot.");
 
         if (pResult != nullptr)
         {
@@ -1493,12 +1792,12 @@ bool HouseServiceRuntime::tryBuyStockItem(
         return false;
     }
 
-    const InventoryItem item = (*pStock)[slotIndex];
+    const InventoryItem item = oneFromStockSlot((*pStock)[slotIndex]);
     const ItemDefinition *pItemDefinition = itemTable.get(item.objectDescriptionId);
 
     if (pItemDefinition == nullptr)
     {
-        statusText = "That item is unavailable.";
+        statusText = Engine::tr("That item is unavailable.");
 
         if (pResult != nullptr)
         {
@@ -1519,7 +1818,7 @@ bool HouseServiceRuntime::tryBuyStockItem(
 
     if (party.gold() < price)
     {
-        statusText = "Not enough gold.";
+        statusText = Engine::tr("Not enough gold.");
 
         if (pResult != nullptr)
         {
@@ -1529,9 +1828,10 @@ bool HouseServiceRuntime::tryBuyStockItem(
         return false;
     }
 
-    if (!party.tryGrantInventoryItemStartingAt(party.activeMemberIndex(), item))
+    // A purchase goes where a pickup would: its pouch (alchemy reagents and bottles, MAW's crafting), OY-257.
+    if (!storePickedUpItem(party, item, &itemTable))
     {
-        statusText = "Inventory full.";
+        statusText = Engine::tr("Inventory full.");
 
         if (pResult != nullptr)
         {
@@ -1541,18 +1841,61 @@ bool HouseServiceRuntime::tryBuyStockItem(
         return false;
     }
 
-    party.addGold(-price);
-    (*pStock)[slotIndex] = {};
-    statusText =
-        "Bought "
-        + ItemRuntime::displayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)
-        + " for " + std::to_string(price) + " gold.";
+    party.addGold(-price, GoldReason::Shop);
+    takeOneFromStockSlot((*pStock)[slotIndex]);
+    statusText = Engine::tr(
+        "Bought {item} for {price} gold.",
+        {{"item",
+          ItemRuntime::displayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)},
+         {"price", price}});
 
     if (pResult != nullptr)
     {
         *pResult = ShopItemServiceResult::Success;
     }
 
+    return true;
+}
+
+bool HouseServiceRuntime::tryRerollStock(
+    Party &party,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    const HouseEntry &houseEntry,
+    float gameMinutes,
+    std::string &statusText)
+{
+    const std::optional<int> cost = gameRulesFor(&party).items.shopRerollCost(party, houseEntry);
+
+    if (!cost)
+    {
+        return false;
+    }
+
+    if (party.gold() < *cost)
+    {
+        statusText = Engine::tr("Not enough gold.");
+        return false;
+    }
+
+    party.addGold(-*cost, GoldReason::Guild);
+    Party::HouseStockState &state = party.ensureHouseStockState(houseEntry.id);
+    state.standardStock.clear();
+    state.specialStock.clear();
+    state.spellbookStock.clear();
+    ensureHouseStockGenerated(
+        party, itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, gameMinutes);
+
+    for (std::vector<InventoryItem> *pStock : {&state.standardStock, &state.specialStock})
+    {
+        for (InventoryItem &item : *pStock)
+        {
+            item.identified = true;
+        }
+    }
+
+    statusText = Engine::tr("New stock for {gold} gold.", {{"gold", int64_t(*cost)}});
     return true;
 }
 
@@ -1590,7 +1933,7 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     if (pStock == nullptr || slotIndex >= pStock->size() || (*pStock)[slotIndex].objectDescriptionId == 0)
     {
-        statusText = "Nothing is for sale in that slot.";
+        statusText = Engine::tr("Nothing is for sale in that slot.");
 
         if (pResult != nullptr)
         {
@@ -1600,13 +1943,13 @@ bool HouseServiceRuntime::tryStealStockItem(
         return false;
     }
 
-    const InventoryItem item = (*pStock)[slotIndex];
+    const InventoryItem item = oneFromStockSlot((*pStock)[slotIndex]);
     const ItemDefinition *pItemDefinition = itemTable.get(item.objectDescriptionId);
     const Character *pMember = party.activeMember();
 
     if (pItemDefinition == nullptr || pMember == nullptr)
     {
-        statusText = "That item is unavailable.";
+        statusText = Engine::tr("That item is unavailable.");
 
         if (pResult != nullptr)
         {
@@ -1618,27 +1961,10 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     const int itemValue =
         PriceCalculator::itemValue(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable);
-    const Party::Snapshot snapshot = party.snapshot();
-    const bool inventoryHasRoom = party.tryGrantInventoryItemStartingAt(party.activeMemberIndex(), item);
-    party.restoreSnapshot(snapshot);
-    pMember = party.activeMember();
-
-    if (pMember == nullptr)
-    {
-        statusText = "That item is unavailable.";
-
-        if (pResult != nullptr)
-        {
-            *pResult = ShopItemServiceResult::Unavailable;
-        }
-
-        return false;
-    }
-
     StealingAttemptInput input = {};
     input.targetKind = StealingTargetKind::Shop;
     input.itemValue = itemValue;
-    input.inventoryHasRoom = inventoryHasRoom;
+    input.inventoryHasRoom = party.canGrantInventoryItem(item);
     input.successRoll = successRoll;
     input.caughtRoll = caughtRoll;
 
@@ -1646,7 +1972,7 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     if (!stealResult.handled)
     {
-        statusText = "You need Stealing skill to steal that.";
+        statusText = Engine::tr("You need Stealing skill to steal that.");
 
         if (pResult != nullptr)
         {
@@ -1660,7 +1986,7 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     if (stealResult.outcome == StealingOutcomeKind::NoInventoryRoom)
     {
-        statusText = "Inventory full.";
+        statusText = Engine::tr("Inventory full.");
 
         if (pResult != nullptr)
         {
@@ -1672,9 +1998,9 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     if (stealResult.outcome == StealingOutcomeKind::Success)
     {
-        if (!party.tryGrantInventoryItemStartingAt(party.activeMemberIndex(), item))
+        if (!storePickedUpItem(party, item, &itemTable))
         {
-            statusText = "Inventory full.";
+            statusText = Engine::tr("Inventory full.");
 
             if (pResult != nullptr)
             {
@@ -1684,10 +2010,9 @@ bool HouseServiceRuntime::tryStealStockItem(
             return false;
         }
 
-        (*pStock)[slotIndex] = {};
-        statusText = "Stole "
-            + ItemRuntime::displayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)
-            + ".";
+        takeOneFromStockSlot((*pStock)[slotIndex]);
+        statusText = Engine::tr("Stole {item}.", {{"item",
+            ItemRuntime::displayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)}});
 
         if (pResult != nullptr)
         {
@@ -1699,7 +2024,7 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     if (stealResult.caught)
     {
-        statusText = "Caught stealing.";
+        statusText = Engine::tr("Caught stealing.");
 
         if (EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState())
         {
@@ -1718,7 +2043,7 @@ bool HouseServiceRuntime::tryStealStockItem(
         return false;
     }
 
-    statusText = "You failed to steal it.";
+    statusText = Engine::tr("You failed to steal it.");
 
     if (pResult != nullptr)
     {
@@ -1726,6 +2051,142 @@ bool HouseServiceRuntime::tryStealStockItem(
     }
 
     return false;
+}
+
+bool HouseServiceRuntime::offersSellTrash(const Party &party, const HouseEntry &houseEntry)
+{
+    return supportsEquipmentSell(houseEntry) && party.rules().items.lootFilter() != nullptr;
+}
+
+std::vector<BagItemRef> HouseServiceRuntime::findSellTrash(
+    const Party &party,
+    const ItemTable &itemTable,
+    const HouseEntry &houseEntry)
+{
+    std::vector<BagItemRef> result;
+
+    if (!offersSellTrash(party, houseEntry))
+    {
+        return result;
+    }
+
+    const ItemRules &rules = party.rules().items;
+    const int bagCount = rules.bagCount(party);
+    const int partyLevel = meanPartyLevel(&party);
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        // The party's pouches (potions, reagents, Workbench materials) hold no trash: the members' bags only.
+        const Character &member = party.members()[memberIndex];
+
+        for (int bag = 0; bag < bagCount; ++bag)
+        {
+            for (const InventoryItem &item : InventoryBags::itemsInBag(member, uint8_t(bag)))
+            {
+                const ItemDefinition *pDefinition = itemTable.get(item.objectDescriptionId);
+
+                if (pDefinition == nullptr || !item.identified || !canSellTrashItem(party, itemTable, houseEntry, item))
+                {
+                    continue;
+                }
+
+                const std::optional<LootFilterFacts> facts = rules.lootFilterFacts(item, *pDefinition);
+
+                if (facts && isSellTrash(*facts, partyLevel))
+                {
+                    result.push_back({memberIndex, uint8_t(bag), item.gridX, item.gridY});
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+bool HouseServiceRuntime::canSellTrashItem(
+    const Party &party,
+    const ItemTable &itemTable,
+    const HouseEntry &houseEntry,
+    const InventoryItem &item)
+{
+    return canSellItemToHouse(itemTable, houseEntry, item) && !party.rules().items.sellRefusal(party, item);
+}
+
+const InventoryItem *HouseServiceRuntime::sellTrashItem(const Party &party, const BagItemRef &ref)
+{
+    if (ref.memberIndex >= party.members().size())
+    {
+        return nullptr;
+    }
+
+    const InventoryItem *pItem = InventoryBags::itemAt(party, ref);
+    return pItem != nullptr && pItem->gridX == ref.gridX && pItem->gridY == ref.gridY ? pItem : nullptr;
+}
+
+int HouseServiceRuntime::sellTrashPrice(
+    const Party &party,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    const HouseEntry &houseEntry,
+    const std::vector<BagItemRef> &items,
+    int effectiveReputation)
+{
+    int total = 0;
+
+    for (const BagItemRef &ref : items)
+    {
+        if (const InventoryItem *pItem = sellTrashItem(party, ref))
+        {
+            total += sellPrice(party, itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, *pItem,
+                effectiveReputation);
+        }
+    }
+
+    return total;
+}
+
+size_t HouseServiceRuntime::trySellTrash(
+    Party &party,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    const HouseEntry &houseEntry,
+    const std::vector<BagItemRef> &items,
+    std::string &statusText,
+    int effectiveReputation)
+{
+    statusText.clear();
+    const int bagCount = party.rules().items.bagCount(party);
+    const int goldBefore = party.gold();
+    size_t sold = 0;
+
+    for (const BagItemRef &ref : items)
+    {
+        if (sellTrashItem(party, ref) == nullptr)
+        {
+            continue;
+        }
+
+        InventoryBags::withBagOpen(party, ref.memberIndex, ref.bag, bagCount,
+            [&]()
+            {
+                std::string itemStatus;
+                ShopItemServiceResult result = ShopItemServiceResult::None;
+                trySellInventoryItem(party, itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry,
+                    ref.memberIndex, ref.gridX, ref.gridY, itemStatus, &result, effectiveReputation);
+                sold += result == ShopItemServiceResult::Success ? 1 : 0;
+                return true;
+            });
+    }
+
+    if (sold > 0)
+    {
+        statusText = Engine::trn("Sold {count} item for {gold} gold.", "Sold {count} items for {gold} gold.",
+            int(sold), {{"count", int(sold)}, {"gold", party.gold() - goldBefore}});
+    }
+
+    return sold;
 }
 
 bool HouseServiceRuntime::trySellInventoryItem(
@@ -1758,7 +2219,7 @@ bool HouseServiceRuntime::trySellInventoryItem(
 
     if (pItem == nullptr)
     {
-        statusText = "No item there.";
+        statusText = Engine::tr("No item there.");
 
         if (pResult != nullptr)
         {
@@ -1770,7 +2231,7 @@ bool HouseServiceRuntime::trySellInventoryItem(
 
     if (!canSellItemToHouse(itemTable, houseEntry, *pItem))
     {
-        statusText = "That item cannot be sold.";
+        statusText = Engine::tr("That item cannot be sold.");
 
         if (pResult != nullptr)
         {
@@ -1784,7 +2245,19 @@ bool HouseServiceRuntime::trySellInventoryItem(
 
     if (pItemDefinition == nullptr)
     {
-        statusText = "That item is unavailable.";
+        statusText = Engine::tr("That item is unavailable.");
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::Unavailable;
+        }
+
+        return false;
+    }
+
+    if (const std::optional<std::string> refusal = party.rules().items.sellRefusal(party, *pItem))
+    {
+        statusText = *refusal;
 
         if (pResult != nullptr)
         {
@@ -1806,7 +2279,7 @@ bool HouseServiceRuntime::trySellInventoryItem(
 
     if (!party.takeItemFromMemberInventoryCell(memberIndex, pItem->gridX, pItem->gridY, removedItem))
     {
-        statusText = "Could not take the item.";
+        statusText = Engine::tr("Could not take the item.");
 
         if (pResult != nullptr)
         {
@@ -1816,10 +2289,12 @@ bool HouseServiceRuntime::trySellInventoryItem(
         return false;
     }
 
-    party.addGold(price);
-    statusText = "Sold "
-        + itemDisplayName(*pItem, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)
-        + " for " + std::to_string(price) + " gold.";
+    party.addGold(price, GoldReason::Sold);
+    party.rules().items.itemSold(party, removedItem);
+    statusText = Engine::tr(
+        "Sold {item} for {price} gold.",
+        {{"item", itemDisplayName(removedItem, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)},
+         {"price", price}});
 
     if (pResult != nullptr)
     {
@@ -1860,7 +2335,7 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
 
     if (pItem == nullptr)
     {
-        statusText = "No item there.";
+        statusText = Engine::tr("No item there.");
 
         if (pResult != nullptr)
         {
@@ -1874,7 +2349,7 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
 
     if (pItemDefinition == nullptr)
     {
-        statusText = "That item is unavailable.";
+        statusText = Engine::tr("That item is unavailable.");
 
         if (pResult != nullptr)
         {
@@ -1912,14 +2387,14 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
         partyMerchantMember(party),
         *pItem,
         *pItemDefinition,
-        houseEntry.priceMultiplier,
+        gameRulesFor(&party).items.shopServiceMultiplier(*pItemDefinition, true, houseEntry.priceMultiplier),
         &standardItemEnchantTable,
         &specialItemEnchantTable,
         effectiveReputation);
 
     if (party.gold() < price)
     {
-        statusText = "You don't have enough gold";
+        statusText = Engine::tr("Not enough gold.");
 
         if (pResult != nullptr)
         {
@@ -1933,7 +2408,7 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
 
     if (!party.identifyMemberInventoryItem(memberIndex, gridX, gridY, identifyStatus))
     {
-        statusText = identifyStatus.empty() ? "Identify Failed" : identifyStatus;
+        statusText = identifyStatus.empty() ? Engine::tr("Identify Failed") : identifyStatus;
 
         if (pResult != nullptr)
         {
@@ -1943,8 +2418,8 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
         return false;
     }
 
-    party.addGold(-price);
-    statusText = "Done!";
+    party.addGold(-price, GoldReason::Shop);
+    statusText = Engine::tr("Done!");
 
     if (pResult != nullptr)
     {
@@ -1985,7 +2460,7 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
 
     if (pItem == nullptr)
     {
-        statusText = "No item there.";
+        statusText = Engine::tr("No item there.");
 
         if (pResult != nullptr)
         {
@@ -1999,7 +2474,7 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
 
     if (pItemDefinition == nullptr)
     {
-        statusText = "That item is unavailable.";
+        statusText = Engine::tr("That item is unavailable.");
 
         if (pResult != nullptr)
         {
@@ -2037,14 +2512,14 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
         partyMerchantMember(party),
         *pItem,
         *pItemDefinition,
-        houseEntry.priceMultiplier,
+        gameRulesFor(&party).items.shopServiceMultiplier(*pItemDefinition, false, houseEntry.priceMultiplier),
         &standardItemEnchantTable,
         &specialItemEnchantTable,
         effectiveReputation);
 
     if (party.gold() < price)
     {
-        statusText = "You don't have enough gold";
+        statusText = Engine::tr("Not enough gold.");
 
         if (pResult != nullptr)
         {
@@ -2058,7 +2533,7 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
 
     if (!party.repairMemberInventoryItem(memberIndex, gridX, gridY, repairStatus))
     {
-        statusText = repairStatus.empty() ? "Repair Failed" : repairStatus;
+        statusText = repairStatus.empty() ? Engine::tr("Repair Failed") : repairStatus;
 
         if (pResult != nullptr)
         {
@@ -2068,8 +2543,8 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
         return false;
     }
 
-    party.addGold(-price);
-    statusText = "Good as New!";
+    party.addGold(-price, GoldReason::Shop);
+    statusText = Engine::tr("Good as New!");
 
     if (pResult != nullptr)
     {

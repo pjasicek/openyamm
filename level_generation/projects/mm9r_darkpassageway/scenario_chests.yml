@@ -1,0 +1,294 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.darkpassageway_chests
+title: 'Dark Passageway (native BLV): the painting''s hidden room and the four cage chests'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: darkpassageway.blv
+- note:
+    text: 'The painting (RotatingDoor): a click swings it and opens DoubleDoorL40/R40 into the hidden room behind it (TreasureChest0-2).'
+- set_pose:
+    map: darkpassageway.blv
+    x: -14575
+    y: -14746
+    z: -327
+    yaw: 0.0
+    pitch: 0.024
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    state_dump_named_map_var:
+      name: PaintingOpen
+      value: 1
+- assert:
+    mechanism:
+      id: 19
+      state: open
+- set_pose:
+    map: darkpassageway.blv
+    x: -14035
+    y: -14746
+    z: -327
+    yaw: -0.0017
+    pitch: -0.7229
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: darkpassageway.blv
+    x: -14035
+    y: -14950
+    z: -327
+    yaw: -0.0017
+    pitch: -0.7229
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: darkpassageway.blv
+    x: -14035
+    y: -14541
+    z: -327
+    yaw: -0.0017
+    pitch: -0.7229
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'The mirror puzzle (scenario_scripted.yml clicks it): here the mirrors are turned by their events and the gemstone
+      is clicked; the cages open.'
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 210
+- execute_event:
+    id: 211
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 212
+- execute_event:
+    id: 213
+- execute_event:
+    id: 213
+- execute_event:
+    id: 213
+- execute_event:
+    id: 213
+- execute_event:
+    id: 213
+- set_pose:
+    map: darkpassageway.blv
+    x: -3152
+    y: -13102
+    z: -306
+    yaw: 3.1416
+    pitch: -0.8622
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 5.0
+- assert:
+    state_dump_named_map_var:
+      name: CagesOpen
+      value: 1
+- set_pose:
+    map: darkpassageway.blv
+    x: -10158
+    y: -8082
+    z: -491
+    yaw: -1.5708
+    pitch: -0.8704
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: darkpassageway.blv
+    x: -10158
+    y: -12670
+    z: -491
+    yaw: -1.5708
+    pitch: -0.8704
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: darkpassageway.blv
+    x: -41
+    y: -12890
+    z: -491
+    yaw: 1.5691
+    pitch: -0.8704
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: darkpassageway.blv
+    x: -41
+    y: -8302
+    z: -491
+    yaw: 1.5691
+    pitch: -0.8704
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog

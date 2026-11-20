@@ -1,0 +1,266 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjoradmine_machinery
+title: 'Thjorad Mine (native BLV) - the abandoned mine''s barricades: torch and barrels, mine cart, steam valve, falling board,
+  spiked boards; the stalactite'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjoradmine.blv
+- note:
+    text: 'FallingWallTorch0 (TM_FallingTorch.scr): hit, it falls; TorchHolder0 breaks; after 3 s the barrels DB_Barrel0-8
+      are destroyed one after another (Exploding destructibles: their decorations hidden) and DB_Barrel6/7 break ABMineBoards3/2.'
+- assert:
+    named_map_var_changed:
+      name: BrokenABMineBoards2
+      current: 0
+- set_pose:
+    map: thjoradmine.blv
+    x: 4591
+    y: -12995
+    z: -1228
+    yaw: 3.1416
+    pitch: 0.1043
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 9
+- assert:
+    named_map_var_changed:
+      name: Torch0
+      current: 10
+- assert:
+    sprite_hidden:
+    - 20665
+    - 20666
+    - 20667
+    - 20664
+    - 20663
+    - 20662
+    - 20661
+    - 20660
+    - 20658
+- assert:
+    named_map_var_changed:
+      name: BrokenABMineBoards2
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BrokenABMineBoards3
+      current: 1
+- note:
+    text: 'MineCarA (TM_MineCarA.scr): hit, it rolls into ABMineBoards0, which breaks and knocks FallingWallTorch1 loose;
+      its flame sets off DB_Barrel9.'
+- assert:
+    named_map_var_changed:
+      name: BrokenABMineBoards0
+      current: 0
+- set_pose:
+    map: thjoradmine.blv
+    x: 9595
+    y: -12914
+    z: -1310
+    yaw: -1.5708
+    pitch: -0.7419
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 14
+- assert:
+    named_map_var_changed:
+      name: Cart
+      current: 2
+- assert:
+    named_map_var_changed:
+      name: Torch1
+      current: 2
+- assert:
+    named_map_var_changed:
+      name: BrokenABMineBoards0
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BrokenMCarBlocker1
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BrokenTorchHolder1
+      current: 1
+- assert:
+    sprite_hidden:
+    - 20659
+- note:
+    text: 'SteamValve0 (TM_SteamWater.scr): the jet breaks ABMineBoards1.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 7991
+    y: -13411
+    z: -1412
+    yaw: 3.1416
+    pitch: -0.4066
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    named_map_var_changed:
+      name: Valve
+      current: 2
+- assert:
+    named_map_var_changed:
+      name: BrokenABMineBoards1
+      current: 1
+- note:
+    text: 'FallingBoard0: falls once on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 6689
+    y: -14633
+    z: -1492
+    yaw: 3.1416
+    pitch: -0.3832
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 7
+      state: open
+- note:
+    text: 'ABDoorBoards0 (SpikeDoorOpen.scr): six spikes pulled open it.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 10518
+    y: -15028
+    z: -1617
+    yaw: 3.1416
+    pitch: 0.6401
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike0
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 10510
+    y: -15028
+    z: -1617
+    yaw: 3.1416
+    pitch: -0.1387
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike1
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 10505
+    y: -15028
+    z: -1617
+    yaw: 3.1416
+    pitch: -0.5937
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike2
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 10849
+    y: -14927
+    z: -1617
+    yaw: -1.9635
+    pitch: 0.3967
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike3
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 10854
+    y: -14927
+    z: -1617
+    yaw: -1.9635
+    pitch: -0.1615
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike4
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 10854
+    y: -14927
+    z: -1617
+    yaw: -1.9635
+    pitch: -0.774
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike5
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 10795
+    y: -14586
+    z: -1617
+    yaw: -1.9635
+    pitch: -0.0384
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- note:
+    text: 'DestructableBrush0: hit, the stalactite falls (DeathTrigger: Stalagtite toggle).'
+- set_pose:
+    map: thjoradmine.blv
+    x: 26776
+    y: -2161
+    z: -1412
+    yaw: 3.1416
+    pitch: 1.2836
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 32
+      state: open

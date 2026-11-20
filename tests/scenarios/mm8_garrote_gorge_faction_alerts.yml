@@ -1,0 +1,44 @@
+id: mm8.garrote_gorge_faction_alerts
+title: "Garrote Gorge: striking a dragon leaves the dragon hunters friendly; their pets and camp still stand together"
+world: mm8
+mode: faithful
+tags: [mm8, actors, regression]
+steps:
+  - note:
+      text: >-
+        A party hit alerts only the victim's relation class (MM8 0x4391ca, which reads the Ally class), not every class
+        whose name begins with "Dragon". The three authored Great Wyrms (actors 0-2) are the hunters' pets: Ally 15
+        puts them in the Dragon Hunter class. A hostile dragon struck beside the hunters' camp, as after siding with
+        the hunters, rouses neither the camp nor the pets. Striking a pet rouses the other pet and the camp.
+  - new_game_flow: {start_map: out05.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 43, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 44, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 72, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 192, hostile: true, max: 0}
+  # A hostile Young Dragon in the camp around pet 2 (-2816, -12480): hunters stand within 1100 units of it.
+  - spawn_actor: {monster_id: 192, x: -2600, y: -12900, z: 0}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, hostile_to_party: true}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 43, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 44, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 72, hostile: true, max: 0}
+  # Pet 0 at (-496, -10176) is 3300 units from pet 2.
+  - damage_actor: {actor_index: 2, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: true}
+  - assert:
+      actor_count: {monster_id: 43, hostile: true, min: 1}
+  - assert:
+      actor_count: {monster_id: 44, hostile: true, min: 1}

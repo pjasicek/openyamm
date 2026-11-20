@@ -1,0 +1,268 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.guberlandcity_scripted
+title: Guberland City (native BLV) - location key, shop hours, the altar, a letter, Markel, the bank orb, the apothecary's
+  potion and Nurtigan's door, the keg
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: guberlandcity.blv
+- note:
+    text: 'ForadWorld.scr: the location key 1028 on load; shops close (5017) from 20:00 to 06:00.'
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    qbit_set:
+    - 91028
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_set:
+    - 95017
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_clear:
+    - 95017
+- note:
+    text: 'BookLetter.scr: Prop1 (row 569, the Guberland Players'' bill) shows its text.'
+- execute_event:
+    id: 330
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'NPC127.scr: Markel''s click with the five clans (82, 38, 51, 34, 74) gives 178 and opens RUDE 127; his dialogue''s
+      close with the Dook beaten (66) pays 40 000 experience (key 168).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90082
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90038
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90051
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90034
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90074
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90066
+    value: true
+- interact_actor:
+    actor_index: 13
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 127
+- assert:
+    qbit_set:
+    - 90178
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90168
+- note:
+    text: 'BankOrb.scr (Ottar, RUDE 140): with the orb row taken (330, set by his click when the orb is carried; set here)
+      and this bank''s key 332, the close places the orb: key 326.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90330
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90332
+    value: true
+- interact_actor:
+    actor_index: 12
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 140
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90326
+- assert:
+    qbit_clear:
+    - 90330
+- note:
+    text: 'NPC141.scr: the tavern keeper''s close with the keg sold (304) gives 306.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90304
+    value: true
+- interact_actor:
+    actor_index: 33
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 141
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90306
+- note:
+    text: 'RotatingDoor3 (Nurtigan''s sickroom, Locked): a click says it is locked.'
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 68
+      state: closed
+- note:
+    text: 'NPC142.scr (Skarphedinn, RUDE 142): the close with the potion ordered (208) starts the two-hour wait: key 209 two
+      game hours later; with 210 it hands over the potion (key 373), which unlocks the sickroom: its click now opens it.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90208
+    value: true
+- interact_actor:
+    actor_index: 19
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 142
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    qbit_clear:
+    - 90209
+- advance_game_time:
+    hours: 2
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_set:
+    - 90209
+- setup_shortcut:
+    kind: set_qbit
+    id: 90210
+    value: true
+- interact_actor:
+    actor_index: 19
+- advance_runtime:
+    seconds: 0.3
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90373
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 68
+      state: open
+- note:
+    text: 'Markel''s awards (Prize0-5, world items, refused while Markel lives): with him dead (40) and Yrsa''s errand (93)
+      one is taken: the Stuffed Dragon and key 94, the prize won.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90040
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90093
+    value: true
+- advance_runtime:
+    seconds: 0.2
+- set_pose:
+    map: guberlandcity.blv
+    x: -1044
+    y: -8684
+    z: 1
+    yaw: 1.5708
+    pitch: 0.1107
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90094
+- assert:
+    inventory_any_member:
+    - item_id: 10395
+      count: 1
+- note:
+    text: 'TownPortal.scr: TownPortal0 stands dirty (490 shown, its clean twin 491 hidden); the click cleanses it: key 5014,
+      the dirty altar hides, the clean one shows.'
+- assert:
+    qbit_clear:
+    - 95014
+    sprite_shown:
+    - 490
+    sprite_hidden:
+    - 491
+- execute_event:
+    id: 333
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 95014
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491
+- note:
+    text: 'TownPortal.scr :Init (FixCheck): the map loaded again with key 5014 shows the clean altar.'
+- load_map:
+    map: guberlandcity.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    qbit_set:
+    - 95014
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491

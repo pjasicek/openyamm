@@ -1,0 +1,640 @@
+{
+ "id": "20261009-1649-mm7-out10-27",
+ "world": "mm7",
+ "maps": [
+  "out10.odm",
+  "mdk01.blv",
+  "7out05.odm",
+  "t01.blv",
+  "7d20.blv",
+  "7d30.blv"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/hkm3dr",
+  "mm7/hkp1d",
+  "mm7/hkp1rf",
+  "mm7/hnp2rf",
+  "mm7/trim6_16",
+  "mm7/mdk01",
+  "mm7/cwbgoblin",
+  "mm7/cwbwoman",
+  "mm7/cwbport-2",
+  "mm7/cwbw",
+  "mm7/t3s2bs1",
+  "mm7/t3butt1",
+  "mm7/t3butt2",
+  "mm7/t3butt3",
+  "mm7/ch003i",
+  "mm7/ch003c",
+  "mm7/7ch002a",
+  "mm7/7t1bed",
+  "mm7/cwbport-3",
+  "mm7/banwiz-b",
+  "mm7/cwbport-1",
+  "mm7/banwiz-a",
+  "mm7/t3s2fl5a",
+  "mm7/t3s2fl5c"
+ ],
+ "requests": {
+  "mm7/hkm3dr": {
+   "name": "hkm3dr",
+   "versions": [
+    1
+   ],
+   "material": "ornate dark wooden door between carved dark pillars, with glowing blue gem ornaments, a tall vertical gilded rod and a carved horned crest above; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkp1d": {
+   "name": "hkp1d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark weathered vertical plank door with iron hinges and a dark iron ring, under a carved timber frame with a green carved face mask at the top; copy the composition exactly",
+   "notes": {
+    "2": "keep the topmost rows as bright as the reference: the top edge is the brown timber lintel, with no dark rim or shadow along the top edge",
+    "3": "keep the topmost rows as bright as the reference: the top edge is the brown timber lintel, with no dark rim or shadow along the top edge",
+    "4": "keep every element at exactly the reference's height (no vertical drift): the short horizontal timber stubs on both side posts sit at the reference's height in the lower half, the diamond window and ring handle at their reference positions; the top edge is the brown timber lintel as bright as the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkp1rf": {
+   "name": "hkp1rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of rough dark brown wooden shingles in overlapping staggered rows, split grain and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hnp2rf": {
+   "name": "hnp2rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of rough dark brown wooden shingles in overlapping staggered rows, split grain and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim6_16": {
+   "name": "trim6_16",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of weathered grey-brown wood with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/mdk01": {
+   "name": "mdk01",
+   "versions": [
+    1
+   ],
+   "material": "square pale grey stone slab with a carved bevelled border, four dark diamond insets, engraved roman numerals IX, VII and X and a dark tree silhouette; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr01",
+      "mm7/mdt01",
+      "mm7/mdt02",
+      "mm7/mdr02",
+      "mm7/mdr03"
+     ],
+     "fraction": 0.956
+    }
+   }
+  },
+  "mm7/cwbgoblin": {
+   "name": "cwbgoblin",
+   "versions": [
+    1
+   ],
+   "material": "wall of tan-grey stone bricks with a gilded wooden picture frame holding a painting of a goblin warrior in a horned helmet; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.475
+    }
+   }
+  },
+  "mm7/cwbwoman": {
+   "name": "cwbwoman",
+   "versions": [
+    1
+   ],
+   "material": "wall of tan-grey stone bricks with a dark ornate carved picture frame holding a portrait of a fully clothed woman in a grey gown; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.594
+    }
+   }
+  },
+  "mm7/cwbport-2": {
+   "name": "cwbport-2",
+   "versions": [
+    1
+   ],
+   "material": "wall of tan-grey stone bricks with a gilded wooden picture frame holding a painting of a fully robed figure in bright flames; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwbgoblin"
+     ],
+     "fraction": 0.565
+    }
+   }
+  },
+  "mm7/cwbw": {
+   "name": "cwbw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of tan-grey stone bricks with a dark window opening in a carved stone frame topped by two small white stone orbs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.46
+    },
+    "2": {
+     "sources": [
+      "mm7/cwb",
+      "mm7/cwbport-1"
+     ],
+     "fraction": 0.468
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm7/cwb",
+     "left": "mm7/cwb1el",
+     "right": "mm7/cwb1er"
+    }
+   }
+  },
+  "mm7/t3s2bs1": {
+   "name": "t3s2bs1",
+   "versions": [
+    1
+   ],
+   "material": "polished black marble wall panel with a red dragon figure, framed by grey carved stone with a blue gem at the top and a carved knotwork band at the base; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2b"
+     ],
+     "fraction": 0.421
+    }
+   }
+  },
+  "mm7/t3butt1": {
+   "name": "t3butt1",
+   "versions": [
+    1
+   ],
+   "material": "square grey stone tile with a raised bevelled border and an engraved crescent moon and small four-pointed star; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3butt2": {
+   "name": "t3butt2",
+   "versions": [
+    1
+   ],
+   "material": "square grey stone tile with a raised bevelled border and four engraved four-pointed stars; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3butt3": {
+   "name": "t3butt3",
+   "versions": [
+    1
+   ],
+   "material": "square grey stone tile with a raised bevelled border and an engraved radiant sun; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch003i": {
+   "name": "ch003i",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted plate of blue-grey brushed steel, plain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003j"
+     ],
+     "fraction": 0.766
+    }
+   }
+  },
+  "mm7/ch003c": {
+   "name": "ch003c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plate of blue-grey brushed steel with dark riveted iron strips along the left and right edges",
+   "notes": {
+    "2": "paint the riveted iron strips as fresh photographic material: smooth forged iron with real rust bloom and round domed rivets, not stepped blocks or pixel texture",
+    "3": "both dark iron strips, the left one and the right one, carry a vertical row of round domed rivets exactly as in the reference; paint them as fresh forged iron with rust, not stepped pixel blocks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.782
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.782
+    },
+    "3": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.782
+    }
+   }
+  },
+  "mm7/7ch002a": {
+   "name": "7ch002a",
+   "versions": [
+    1
+   ],
+   "material": "chest side of vertical brown wooden planks with dark iron corner bands and rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7t1bed": {
+   "name": "7t1bed",
+   "versions": [
+    1
+   ],
+   "material": "carved brown wooden bed panel with an interlaced looping band ornament in a raised frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cwbport-3": {
+   "name": "cwbport-3",
+   "versions": [
+    1
+   ],
+   "material": "wall of tan-grey stone bricks with a dark wooden picture frame holding a portrait of a bearded man in a dark hooded cloak; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwbgoblin"
+     ],
+     "fraction": 0.448
+    }
+   }
+  },
+  "mm7/banwiz-b": {
+   "name": "banwiz-b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "one complete long hanging banner on a brass rod in front of a grey cut stone block wall: even deep violet-purple cloth with narrow red-and-black braided borders down both sides, a golden scroll crossed with a golden sceptre, a golden smoke wisp rising from a golden vase below, and a pointed lower end with a red tassel; one continuous cloth of the same violet from top to bottom; copy the composition exactly",
+   "notes": {
+    "2": "match the reference purple exactly (not darker); the cloth reaches the top edge at full colour with no dark hem or line along the top",
+    "3": "match the reference purple exactly (not darker); the cloth reaches the top edge at full colour with no dark hem or line along the top",
+    "4": "the vase in the lower half is a plain smooth golden bottle with a round body and a long narrow neck, no decoration or emblem on it and nothing on top of it; the smoke wisp rises directly out of its neck",
+    "5": "copy every motif exactly as the reference draws it, at the same size and position; add no decoration, emblem or extra object anywhere"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.287
+    },
+    "2": {
+     "sources": [
+      "mm7/cwb"
+     ],
+     "fraction": 0.287
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   },
+   "sections": {
+    "3": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ]
+    ],
+    "4": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ]
+    ],
+    "5": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ]
+    ]
+   }
+  },
+  "mm7/cwbport-1": {
+   "name": "cwbport-1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of tan-grey stone bricks with a dark wooden picture frame holding a portrait of an old man in a red robe; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwbgoblin",
+      "mm7/cwbw"
+     ],
+     "fraction": 0.362
+    },
+    "2": {
+     "sources": [
+      "mm7/cwbgoblin"
+     ],
+     "fraction": 0.354
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/banwiz-a": {
+   "name": "banwiz-a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "wall of tan-grey stone bricks with a hanging muted deep royal purple cloth banner with crenellated top, embroidered with a golden scroll, a wand and a golden serpent; copy the composition exactly",
+   "notes": {
+    "4": "keep the banner, its hanging rod, the crossed scroll and wand and the small serpent at exactly the reference's positions and sizes; the serpent is small and ends at the bottom edge where the banner continues into the sharp lower part",
+    "5": "keep the banner, rod, crossed scroll and wand and the small serpent at exactly the reference's positions and sizes; at the bottom edge the banner continues seamlessly into the sharp lower banner part below: the side borders carry the same red interlaced knot pattern on black as the sharp part, the purple cloth has the same tone and weave, with no seam line or hem across the bottom edge",
+    "6": "keep the banner, rod, crossed scroll and wand and the small serpent at exactly the reference's positions and sizes; at the bottom edge the banner continues seamlessly into the sharp lower banner part below it: towards the bottom the purple cloth shades smoothly into exactly the deeper, darker purple of that sharp part, and the side borders carry the same red interlaced knot pattern on black, with no seam across the bottom edge",
+    "7": "keep the banner, rod, crossed scroll and wand and the small serpent at exactly the reference's positions and sizes; at the bottom edge the banner continues seamlessly into the sharp lower banner part below: same purple tone and weave, the side borders carry the same red interlaced knot pattern on black, no hem or seam line across the bottom edge",
+    "8": "the purple is a muted, slightly dusky deep purple exactly like the sharp lower banner part below, never vivid violet; keep the banner, rod, scroll, wand and the small serpent at the reference's exact positions and sizes; at the bottom edge the cloth and the red knot borders continue seamlessly into the sharp part below with no seam",
+    "9": "keep the banner, rod, crossed scroll and wand and the small serpent at exactly the reference's positions and sizes; at the bottom edge the banner continues seamlessly into the sharp lower banner part below: the side borders carry the same red interlaced knot pattern on black as the sharp part, the purple cloth has the same tone and weave, with no seam line or hem across the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "2": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "3": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "4": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "5": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "6": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "7": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "8": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    }
+   },
+   "context": {
+    "3": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "4": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "5": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "6": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "7": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "8": {
+     "bottom": "mm7/banwiz-b"
+    }
+   }
+  },
+  "mm7/t3s2fl5a": {
+   "name": "t3s2fl5a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cracked flagstone floor with a border of polished violet marble strips carrying small grey cross ornaments, enclosing a gold Celtic knotwork inlay on dark teal stone; the border turns a corner here; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl5c": {
+   "name": "t3s2fl5c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cracked flagstone floor with a border of polished violet marble strips carrying small grey cross ornaments, enclosing a gold Celtic knotwork inlay on dark teal stone; the border turns a corner here; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.168
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl5b"
+     ],
+     "fraction": 0.172
+    }
+   }
+  }
+ }
+}

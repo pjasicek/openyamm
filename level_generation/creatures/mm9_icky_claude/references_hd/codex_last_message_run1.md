@@ -1,0 +1,3 @@
+Saved unresized 1536×1024 [00_three_quarter.png](level_generation/creatures/mm9_icky_claude/references_hd/00_three_quarter.png) and [generation_runs.json](level_generation/creatures/mm9_icky_claude/references_hd/generation_runs.json), including prompts and input hashes. Used built-in image generation.
+
+Stopped after Run 1 and its single allowed correction. Remaining defects: exterior halo, extra teeth/barbs, and tight wing margins.

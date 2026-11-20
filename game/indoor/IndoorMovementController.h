@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/indoor/IndoorSectorFaceGrid.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -11,6 +12,10 @@
 namespace OpenYAMM::Game
 {
 inline constexpr float IndoorActorMaxDropHeight = 100.0f;
+// A path planner's drop for monsters that follow down ledges of any height (scene `actor_movement: {drops: follow}`).
+inline constexpr float IndoorActorFollowDropHeight = 65536.0f;
+// The gravity resolveMove applies by default (monsters; the party passes its own).
+inline constexpr float IndoorActorGravityPerSecond = 960.0f;
 
 struct IndoorMoveState
 {
@@ -26,6 +31,8 @@ struct IndoorMoveState
     bool landedThisFrame = false;
     float fallStartZ = 0.0f;
     float fallDistance = 0.0f;
+    // Runtime only: movement steps an airborne body that found no recovery position waits before searching again.
+    uint8_t stuckRecoveryCooldownSteps = 0;
 
     float eyeZ() const
     {
@@ -133,6 +140,14 @@ struct IndoorCollisionTraceInfo
     bool suddenDrop = false;
 };
 
+// The original MM8 party movement (0x472e86) has no steepness test on indoor faces: an in-between (type 4) slope of
+// any angle answers a push with its normal and is climbed. Actors (0x46fb6d) keep the steep-floor slide.
+enum class IndoorSlopeRule : uint8_t
+{
+    Actor,
+    Party
+};
+
 class IndoorMovementController
 {
 public:
@@ -148,6 +163,20 @@ public:
         float eyeZ,
         const IndoorBodyDimensions &body
     ) const;
+    // A body held in the air at a point (a ladder taken at its top): its rooms there, or none when the point is outside
+    // the map or the body would stand in a face.
+    std::optional<IndoorMoveState> airborneStateAt(
+        float x,
+        float y,
+        float footZ,
+        const IndoorBodyDimensions &body
+    ) const;
+    // Whether a floor lies under the point (x, y) from maxRise above z to maxDrop below it: the point alone, no footprint.
+    bool hasFloorAt(float x, float y, float z, float maxRise, float maxDrop) const;
+    const IndoorMapData *indoorMapData() const
+    {
+        return m_pIndoorMapData;
+    }
     IndoorMoveState resolveMove(
         const IndoorMoveState &state,
         const IndoorBodyDimensions &body,
@@ -168,7 +197,7 @@ public:
         bool allowUnsupportedPathRecovery = false,
         bool allowBlockedWallRecovery = false,
         bool requireWalkableSupport = false,
-        float gravityPerSecond = 960.0f
+        float gravityPerSecond = IndoorActorGravityPerSecond
     ) const;
     IndoorMoveState resolveFlyingActorMove(
         const IndoorMoveState &state,
@@ -193,6 +222,9 @@ public:
         const IndoorMoveState &end,
         const IndoorBodyDimensions &body
     ) const;
+    void setSlopeRule(IndoorSlopeRule slopeRule);
+    // The monsters' controller: the scene's monster-only walls (IndoorMapData::actorBarrierFaceIds) block its moves.
+    void setBlockedByActorBarriers(bool blocked);
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
     void updateActorColliderPosition(size_t actorIndex, int16_t sectorId, float x, float y, float z);
     void setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders);
@@ -200,6 +232,11 @@ public:
     void invalidateRuntimeGeometryCache();
     void applyMechanismGeometryUpdate(const std::vector<uint32_t> &changedDoorIds);
     bool supportFaceIsBurning(size_t faceIndex) const;
+    // The map's vertices with the doors where they stand now (water volumes bound to a mover follow them).
+    const std::vector<IndoorVertex> &runtimeVertices() const
+    {
+        return runtimeGeometryCache().vertices;
+    }
     IndoorMoveState resolveGroundedSupportState(
         const IndoorMoveState &state,
         const IndoorBodyDimensions &body
@@ -263,11 +300,25 @@ private:
         std::vector<uint8_t> mechanismBlockingFaceMask;
         std::vector<uint8_t> actorSupportFaceMask;
         std::vector<uint8_t> collisionFaceMask;
+        // The scene's monster-only walls, for a controller blocked by them; empty otherwise.
+        std::vector<uint8_t> actorBarrierFaceMask;
         std::vector<uint16_t> mechanismSupportFaceIds;
         std::vector<std::vector<uint16_t>> sectorMechanismSupportFaceIds;
         std::vector<uint16_t> invisibleSupportRampFaceIds;
         IndoorFaceGeometryCache geometryCache;
+        // Narrows floor queries to the faces near a point (attached to geometryCache by refreshRuntimeGeometryCache):
+        // a region's open air is one sector of 25 000 floors (devdocs/mm9_rework/BLV_GEOMETRY_COSTS.md, E2).
+        IndoorSectorFaceGrid sectorFaceGrid;
+        // Each face's place in its sectors' floor, wall and ceiling lists (sector, position): the grid's candidates
+        // are taken in the order the sector lists give, so ties between equally near faces go the same way.
+        std::vector<std::vector<std::pair<int16_t, uint32_t>>> faceSectorListRanks;
+        // Kept when the cache is invalidated: the grid until the door layout changes, the ranks for good.
+        bool sectorFaceGridBuilt = false;
+        uint64_t sectorFaceGridDoorSignature = 0;
+        bool faceSectorListRanksBuilt = false;
         uint64_t surfaceRevision = 0;
+        // Every face's attributes the masks and support lists were built with (the delta's, else the map's).
+        std::vector<uint32_t> faceAttributes;
     };
     struct IndoorWallCollision
     {
@@ -351,13 +402,28 @@ private:
     };
 
     void refreshRuntimeGeometryCache() const;
+    // Face bits changed and no face moved: the masks and support lists redo the changed faces alone.
+    void refreshChangedFaceAttributes(const MapDeltaData &mapDeltaData) const;
+    void rebuildMechanismSupportFaceIds(const MapDeltaData &mapDeltaData) const;
+    bool faceIsCachedInvisibleSupportRamp(size_t faceId, const MapDeltaData *pMapDeltaData) const;
+    bool faceExcludedFromActorSupport(size_t faceId) const;
+    uint32_t effectiveFaceAttributes(size_t faceId, const MapDeltaData *pMapDeltaData) const;
     const RuntimeGeometryCache &runtimeGeometryCache() const;
+    // A grounded body that stands still or heads onto a flat tread its footprint overlaps keeps standing on it.
+    IndoorMoveState holdFootprintSupport(
+        const IndoorMoveState &start,
+        const IndoorMoveState &resolved,
+        const IndoorBodyDimensions &body,
+        bool requireWalkableSupport
+    ) const;
     const IndoorMapData *m_pIndoorMapData = nullptr;
     const std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     const std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
     mutable RuntimeGeometryCache m_runtimeGeometryCache;
 
     std::vector<uint8_t> buildCollisionFaceMask() const;
+    // The runtime cache's monster-only wall mask, or null when this controller has none.
+    const std::vector<uint8_t> *actorBarrierFaceMask() const;
     SweptCollisionRequest buildSweptCollisionRequest(
         const IndoorMoveState &state,
         const IndoorBodyDimensions &body,
@@ -454,6 +520,8 @@ private:
         bool ignoreActorCollisions,
         bool *pHitActor
     ) const;
+    IndoorSlopeRule m_slopeRule = IndoorSlopeRule::Actor;
+    bool m_blockedByActorBarriers = false;
     std::vector<IndoorActorCollision> m_actorColliders;
     std::vector<IndoorCylinderCollision> m_decorationColliders;
     std::vector<IndoorCylinderCollision> m_spriteObjectColliders;

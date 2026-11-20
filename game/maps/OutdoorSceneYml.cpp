@@ -1,8 +1,11 @@
 #include "game/maps/OutdoorSceneYml.h"
+#include "game/maps/MistYml.h"
 
 #include "game/FaceEnums.h"
 #include "game/StringUtils.h"
 #include "game/maps/MapItemSourceYml.h"
+#include "game/maps/MechanismAudioYml.h"
+#include "game/maps/SceneOverlayOperations.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -90,6 +93,66 @@ bool parsePositionNode(
     return readScalarNode(node, "x", x, errorMessage)
         && readScalarNode(node, "y", y, errorMessage)
         && readScalarNode(node, "z", z, errorMessage);
+}
+
+// A placed actor's patrol (scene patrol): a sequence of [x, y, z] waypoints; absent is none.
+bool parsePatrolNode(const YAML::Node &node, std::vector<std::array<int32_t, 3>> &points, std::string &errorMessage)
+{
+    points.clear();
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsSequence())
+    {
+        errorMessage = "patrol must be a list of [x, y, z] waypoints";
+        return false;
+    }
+
+    for (const YAML::Node &point : node)
+    {
+        if (!point.IsSequence() || point.size() != 3)
+        {
+            errorMessage = "patrol must be a list of [x, y, z] waypoints";
+            return false;
+        }
+
+        points.push_back({point[0].as<int32_t>(), point[1].as<int32_t>(), point[2].as<int32_t>()});
+    }
+
+    return true;
+}
+
+// A placed actor's held items (scene held_items): a list of {model, node}; absent is none.
+bool parseHeldItemsNode(const YAML::Node &node, std::vector<MapDeltaHeldItem> &items, std::string &errorMessage)
+{
+    items.clear();
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsSequence())
+    {
+        errorMessage = "held_items must be a list of {model, node}";
+        return false;
+    }
+
+    for (const YAML::Node &item : node)
+    {
+        if (!item.IsMap() || !item["model"] || !item["node"] || item.size() != 2)
+        {
+            errorMessage = "held_items must be a list of {model, node}";
+            return false;
+        }
+
+        items.push_back({item["model"].as<std::string>(), item["node"].as<std::string>()});
+    }
+
+    return true;
 }
 
 bool parseOptionalSceneProfile(
@@ -235,6 +298,45 @@ bool parseOptionalRendering(
     }
 
     rendering.viewDistanceScale = viewDistanceScale;
+    return true;
+}
+
+bool parseOptionalMovement(
+    const YAML::Node &rootNode,
+    OutdoorSceneMovement &movement,
+    std::string &errorMessage)
+{
+    const YAML::Node movementNode = rootNode["movement"];
+
+    if (!movementNode)
+    {
+        return true;
+    }
+
+    if (!movementNode.IsMap())
+    {
+        errorMessage = "movement must be a map";
+        return false;
+    }
+
+    if (!movementNode["flight_ceiling"])
+    {
+        return true;
+    }
+
+    float flightCeiling = movement.flightCeiling.value_or(0.0f);
+    if (!readScalarNode(movementNode, "flight_ceiling", flightCeiling, errorMessage, false))
+    {
+        return false;
+    }
+
+    if (!std::isfinite(flightCeiling) || flightCeiling <= 0.0f)
+    {
+        errorMessage = "movement.flight_ceiling must be finite and greater than zero";
+        return false;
+    }
+
+    movement.flightCeiling = flightCeiling;
     return true;
 }
 
@@ -747,45 +849,9 @@ bool parseOutdoorBModelMechanism(
 
     const YAML::Node soundsNode = mechanismNode["sounds"];
 
-    if (soundsNode && !soundsNode.IsNull())
+    if (soundsNode && !soundsNode.IsNull() && !parseMechanismAudioProfile(soundsNode, mechanism.audio, errorMessage))
     {
-        if (!soundsNode.IsMap()
-            || !readScalarNode(soundsNode, "open", mechanism.audio.openSound, errorMessage, false)
-            || !readScalarNode(soundsNode, "close", mechanism.audio.closeSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "open_start", mechanism.audio.openStartSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "open_busy", mechanism.audio.openBusySound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "open_stop", mechanism.audio.openStopSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "close_start", mechanism.audio.closeStartSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "close_busy", mechanism.audio.closeBusySound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "close_stop", mechanism.audio.closeStopSound, errorMessage, false)
-            || !readScalarNode(soundsNode, "jiggle", mechanism.audio.jiggleSound, errorMessage, false))
-        {
-            errorMessage = errorMessage.empty() ? "mechanism.sounds must be a map" : errorMessage;
-            return false;
-        }
-
-        const YAML::Node positionNode = soundsNode["position"];
-
-        if (positionNode)
-        {
-            if (!parsePositionNode(
-                positionNode,
-                mechanism.audio.x,
-                mechanism.audio.y,
-                mechanism.audio.z,
-                errorMessage))
-            {
-                return false;
-            }
-
-            mechanism.audio.positional = true;
-        }
+        return false;
     }
 
     return true;
@@ -1452,10 +1518,12 @@ bool parseIntSequence(
     return true;
 }
 
+// An overlay may leave the index out to append after the scene's last entry (the caller sets it first).
 bool parseOutdoorSpawn(
     const YAML::Node &spawnNode,
     OutdoorSceneSpawn &spawn,
-    std::string &errorMessage)
+    std::string &errorMessage,
+    bool indexRequired = true)
 {
     if (!spawnNode.IsMap())
     {
@@ -1463,7 +1531,7 @@ bool parseOutdoorSpawn(
         return false;
     }
 
-    return readScalarNode(spawnNode, "spawn_index", spawn.spawnIndex, errorMessage)
+    return readScalarNode(spawnNode, "spawn_index", spawn.spawnIndex, errorMessage, indexRequired)
         && readScalarNode(spawnNode, "radius", spawn.spawn.radius, errorMessage)
         && readScalarNode(spawnNode, "type_id", spawn.spawn.typeId, errorMessage)
         && readScalarNode(spawnNode, "index", spawn.spawn.index, errorMessage)
@@ -1475,7 +1543,8 @@ bool parseOutdoorSpawn(
 bool parseOutdoorEntity(
     const YAML::Node &entityNode,
     OutdoorSceneEntity &entity,
-    std::string &errorMessage)
+    std::string &errorMessage,
+    bool indexRequired = true)
 {
     if (!entityNode.IsMap())
     {
@@ -1483,7 +1552,7 @@ bool parseOutdoorEntity(
         return false;
     }
 
-    return readScalarNode(entityNode, "entity_index", entity.entityIndex, errorMessage)
+    return readScalarNode(entityNode, "entity_index", entity.entityIndex, errorMessage, indexRequired)
         && readScalarNode(entityNode, "name", entity.entity.name, errorMessage)
         && readScalarNode(entityNode, "decoration_list_id", entity.entity.decorationListId, errorMessage)
         && readScalarNode(entityNode, "ai_attributes", entity.entity.aiAttributes, errorMessage)
@@ -1526,10 +1595,16 @@ bool parseOutdoorActor(
             actor.mm9CanReceiveDamage,
             errorMessage,
             false)
+        || !readScalarNode(actorNode, "respawns_on_refill", actor.respawnsOnRefill, errorMessage, false)
         || !readScalarNode(actorNode, "mm9_civilian", actor.mm9Civilian, errorMessage, false)
         || !readScalarNode(actorNode, "mm9_guard", actor.mm9Guard, errorMessage, false)
+            || !readScalarNode(actorNode, "draw_scale", actor.drawScale, errorMessage, false)
         || !readScalarNode(actorNode, "initial_yaw_units", actor.initialYawUnits, errorMessage, false)
         || !readScalarNode(actorNode, "immobile", actor.immobile, errorMessage, false)
+        || !readScalarNode(actorNode, "leash_radius", actor.leashRadius, errorMessage, false)
+        || !readScalarNode(actorNode, "dormant", actor.dormant, errorMessage, false)
+            || !parsePatrolNode(actorNode["patrol"], actor.patrolPoints, errorMessage)
+        || !parseHeldItemsNode(actorNode["held_items"], actor.heldItems, errorMessage)
         || !readScalarNode(actorNode, "attributes", actor.attributes, errorMessage)
         || !readScalarNode(actorNode, "hp", actor.hp, errorMessage)
         || !readScalarNode(actorNode, "hostility_type", actor.hostilityType, errorMessage)
@@ -1546,6 +1621,19 @@ bool parseOutdoorActor(
         || !parsePositionNode(actorNode["position"], actor.x, actor.y, actor.z, errorMessage))
     {
         return false;
+    }
+
+    // An MM9 placement's AI settings (devdocs/mm9_rework/monster_ai/PROFILE.md).
+    if (const YAML::Node mm9AiNode = actorNode["mm9_ai"])
+    {
+        Mm9AiPlacementRecord mm9Ai;
+
+        if (!parseMm9AiPlacementNode(mm9AiNode, mm9Ai, errorMessage))
+        {
+            return false;
+        }
+
+        actor.mm9Ai = std::move(mm9Ai);
     }
 
     if (!readScalarNode(actorNode, "carried_item_id", actor.carriedItemId, errorMessage, false))
@@ -1794,6 +1882,17 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
         return std::nullopt;
     }
 
+    if (!parseOptionalMovement(rootNode, sceneData.movement, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node mistNode = rootNode["mist"];
+        mistNode && !parseSceneMistNode(mistNode, sceneData.mist, errorMessage))
+    {
+        return std::nullopt;
+    }
+
     const YAML::Node sourceNode = rootNode["source"];
 
     if (!sourceNode || !sourceNode.IsMap())
@@ -1841,6 +1940,12 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
                 runtimeRestrictionsNode,
                 "allow_rest",
                 sceneData.runtimeRestrictions.allowRest,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
+                "allow_spellcasting",
+                sceneData.runtimeRestrictions.allowSpellcasting,
                 errorMessage,
                 false)
             || !readScalarNode(
@@ -2518,6 +2623,18 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
+    if (!parseOptionalMovement(rootNode, sceneData.movement, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's mist replaces the base scene's.
+    if (const YAML::Node mistNode = rootNode["mist"];
+        mistNode && !parseSceneMistNode(mistNode, sceneData.mist, errorMessage))
+    {
+        return false;
+    }
+
     const YAML::Node sourceNode = rootNode["source"];
 
     if (sourceNode)
@@ -2681,6 +2798,12 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
                 false)
             || !readScalarNode(
                 runtimeRestrictionsNode,
+                "allow_spellcasting",
+                sceneData.runtimeRestrictions.allowSpellcasting,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
                 "arena",
                 sceneData.runtimeRestrictions.isArena,
                 errorMessage,
@@ -2829,8 +2952,9 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
             for (const YAML::Node &entityNode : entitiesNode)
             {
                 OutdoorSceneEntity entity = {};
+                entity.entityIndex = sceneData.entities.size();
 
-                if (!parseOutdoorEntity(entityNode, entity, errorMessage))
+                if (!parseOutdoorEntity(entityNode, entity, errorMessage, false))
                 {
                     return false;
                 }
@@ -2854,8 +2978,9 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
             for (const YAML::Node &spawnNode : spawnsNode)
             {
                 OutdoorSceneSpawn spawn = {};
+                spawn.spawnIndex = sceneData.spawns.size();
 
-                if (!parseOutdoorSpawn(spawnNode, spawn, errorMessage))
+                if (!parseOutdoorSpawn(spawnNode, spawn, errorMessage, false))
                 {
                     return false;
                 }
@@ -2942,6 +3067,51 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
         }
     }
 
+    // Removed decorations become nameless entries, so the other entity indices and their flags stay valid.
+    if (const YAML::Node removalsNode = rootNode["removals"])
+    {
+        if (const YAML::Node entityRemovals = removalsNode["entities"])
+        {
+            for (const YAML::Node &removal : entityRemovals)
+            {
+                int x = 0;
+                int y = 0;
+                int z = 0;
+                std::string name;
+
+                if (!readScalarNode(removal, "name", name, errorMessage)
+                    || !readSceneRemovalPosition(removal, x, y, z, errorMessage))
+                {
+                    return false;
+                }
+
+                const auto found = std::find_if(sceneData.entities.begin(), sceneData.entities.end(),
+                    [&](const OutdoorSceneEntity &entity)
+                    {
+                        return toLowerCopy(entity.entity.name) == toLowerCopy(name)
+                            && std::abs(entity.entity.x - x) <= 1 && std::abs(entity.entity.y - y) <= 1
+                            && std::abs(entity.entity.z - z) <= 1;
+                    });
+
+                if (found == sceneData.entities.end())
+                {
+                    errorMessage = "entity removal matches no " + name;
+                    return false;
+                }
+
+                found->entity = {};
+                found->entity.name = "null";
+                found->initialDecorationFlag = 0;
+            }
+        }
+
+        if (const YAML::Node spawnRemovals = removalsNode["spawns"];
+            spawnRemovals && !applySceneSpawnRemovals(spawnRemovals, sceneData.spawns, errorMessage))
+        {
+            return false;
+        }
+    }
+
     const YAML::Node initialStateNode = rootNode["initial_state"];
 
     if (initialStateNode)
@@ -2982,6 +3152,14 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
                 sceneData.initialState.chests[chestIndex].preserveOnRefill = preserveOnRefill;
             }
         }
+
+        if (const YAML::Node actorOverridesNode = initialStateNode["actor_overrides"];
+            actorOverridesNode
+            && !applySceneActorOverrides(actorOverridesNode, sceneData.initialState.actors, errorMessage))
+        {
+            return false;
+        }
+
 
         const YAML::Node actorPositionOverridesNode = initialStateNode["actor_position_overrides"];
 
@@ -3105,6 +3283,8 @@ bool buildOutdoorMapStateFromScene(
     outdoorMapData.sceneProfile = sceneData.sceneProfile;
     outdoorMapData.locationType = sceneData.environment.locationType;
     outdoorMapData.lightmapBrightnessScale = sceneData.lighting.lightmapBrightnessScale;
+    outdoorMapData.flightCeiling = sceneData.movement.flightCeiling;
+    outdoorMapData.mist = sceneData.mist;
     outdoorMapData.viewDistanceScale = sceneData.rendering.viewDistanceScale.value_or(
         sceneData.sceneProfile == OutdoorSceneProfile::BModelWorld
                 && sceneData.environment.locationType == OutdoorLocationType::Enclosed
@@ -3120,13 +3300,14 @@ bool buildOutdoorMapStateFromScene(
     outdoorMapData.triggerVolumes.clear();
     outdoorMapData.mm9NpcGreetings = sceneData.mm9NpcGreetings;
 
+    // Typed BModel mechanisms (doors, lifts, switches) work on both profiles. Destructibles and trigger volumes
+    // remain BModel-world content.
     if (sceneData.sceneProfile == OutdoorSceneProfile::ClassicOdm
-        && (!sceneData.mechanisms.empty()
-            || !sceneData.destructibles.empty()
+        && (!sceneData.destructibles.empty()
             || !sceneData.destructibleReceivers.empty()
             || !sceneData.triggerVolumes.empty()))
     {
-        errorMessage = "outdoor mechanisms and triggers require scene_profile bmodel_world";
+        errorMessage = "outdoor destructibles and trigger volumes require scene_profile bmodel_world";
         return false;
     }
 

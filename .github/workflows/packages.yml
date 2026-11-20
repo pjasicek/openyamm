@@ -1,0 +1,871 @@
+# Packages and releases (packaging/RELEASE.md, packaging/UPDATER_PLAN.md 7.4):
+#   push to main          builds every package (Windows, Linux, macOS, Android) and plays the release scenarios;
+#                         publishes nothing
+#   tag vX.Y              the same, then publishes release X.Y to https://jasicek.net/openyamm/ and GitHub Releases
+#   Run workflow + X.Y    the same, then publishes a test release to https://jasicek.net/openyamm-staging/
+# Only the publish job holds secrets: the GitHub environment "release" (tags v* and main only) carries the manifest
+# signing key, the Android release key and the deploy key of the server. The one exception is the repository secret
+# OPENYAMM_STATS_KEY_SOURCE, which every build compiles in (below).
+name: Packages
+
+run-name: >-
+  ${{ github.ref_type == 'tag' && format('Release {0}', github.ref_name)
+      || (inputs.version != '' && format('Staging release {0}', inputs.version))
+      || format('Build {0}', github.sha) }}
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release X.Y to publish to the staging site (empty: build and check only)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+# The private source that holds the release key sealing the playthrough statistics (cmake/PlaythroughStatisticsKey.cmake),
+# from a repository secret, read by every CMake configure, the Android Gradle build's included. Without it the packages
+# seal with the public development key and label their statistics "Development build".
+env:
+  OPENYAMM_STATS_KEY_SOURCE: ${{ secrets.OPENYAMM_STATS_KEY_SOURCE }}
+
+concurrency:
+  group: packages-${{ github.event_name }}-${{ github.ref }}
+  # A newer push to main replaces a running build; releases and staging runs always finish.
+  cancel-in-progress: ${{ github.ref_type == 'branch' && github.event_name == 'push' }}
+
+jobs:
+  meta:
+    name: Resolve the release
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+      site: ${{ steps.resolve.outputs.site }}
+      android_version_name: ${{ steps.resolve.outputs.android_version_name }}
+      android_version_code: ${{ steps.resolve.outputs.android_version_code }}
+    steps:
+      - name: Check out the version helper
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /packaging/android_version_code.sh
+
+      - name: Resolve version and site
+        id: resolve
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          version=nightly
+          site=
+          android_version_name="nightly-$GITHUB_RUN_NUMBER.$GITHUB_RUN_ATTEMPT"
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            if [[ "$GITHUB_REF_NAME" != v* ]]; then
+              echo "::error::Release tags are named vX.Y, not '$GITHUB_REF_NAME'."
+              exit 1
+            fi
+            version="${GITHUB_REF_NAME#v}"
+            site=stable
+          elif [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] && [ -n "$INPUT_VERSION" ]; then
+            version="$INPUT_VERSION"
+            site=staging
+          fi
+          if [ "$version" != nightly ]; then
+            if [[ ! "$version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]?)$ ]] || [ "$version" = 0.0 ]; then
+              echo "::error::Releases use canonical X.Y versions (minor 0-99, above 0.0), not '$version'."
+              exit 1
+            fi
+            android_version_name="$version"
+          fi
+          # One sequence for every build, ordered by commit time (packaging/android_version_code.sh).
+          android_version_code="$(packaging/android_version_code.sh)"
+          {
+            echo "version=$version"
+            echo "site=$site"
+            echo "android_version_name=$android_version_name"
+            echo "android_version_code=$android_version_code"
+          } >> "$GITHUB_OUTPUT"
+          echo "OpenYAMM $version, site: ${site:-none}"
+
+  content:
+    name: Content packs (${{ matrix.profile }})
+    needs: meta
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Language packs: their text, fonts, dubbed sounds and videos (optional packs, tools/packaging/packs.yml).
+          - profile: desktop
+            assets: |
+              /assets_dev/_legacy/sprites_original/
+              /assets_dev/engine/
+              /assets_dev/worlds/mm6/
+              /assets_dev/worlds/mm7/
+              /assets_dev/worlds/mm8/
+              /assets_dev/worlds/mm9/
+              /assets_dev/languages/
+              !/assets_dev/languages/templates/
+          # Android packs the ASTC textures of assets_cooked/android; the desktop BC7 cooks in assets_dev stay out of
+          # the checkout (tools/package_runtime_assets.py reads their names from the git index). The APK carries no
+          # language sounds or videos (devdocs/LOCALIZATION.md), so they stay out of its checkout.
+          - profile: android
+            assets: |
+              /assets_cooked/android/
+              /assets_dev/_legacy/sprites_original/
+              /assets_dev/engine/
+              /assets_dev/worlds/mm6/
+              /assets_dev/worlds/mm7/
+              /assets_dev/worlds/mm8/
+              /assets_dev/worlds/mm9/
+              /assets_dev/languages/
+              !/assets_dev/languages/templates/
+              !/assets_dev/languages/*/engine/audio/
+              !/assets_dev/languages/*/engine/videos/
+              !/assets_dev/languages/*/worlds/
+              !/assets_dev/worlds/*/textures_x4/
+              !/assets_dev/**/models/textures/*.oytex
+              !/assets_dev/engine/view_model/textures/*.oytex
+              !/assets_dev/**/terrain_materials/*/*.oytex
+              !/assets_dev/**/authored/textures/*.oytex
+              !/assets_dev/engine/rendering/sky/**/*.oytex
+              !/assets_dev/**/icons_x2/obsidian_*.oytex
+              !/assets_dev/**/icons_x2/faces_*.oytex
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /opt/ghc /usr/local/share/boost \
+            /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Check out sources and assets
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /CMakeLists.txt
+            /LICENSE
+            /COPYRIGHT
+            /cmake/
+            /core/
+            /engine/
+            /game/
+            /third_party/cgltf/
+            /packaging/licenses/
+            /tools/openyamm_shaderc_stubs.cpp
+            /tools/cook_sprite_atlases_main.cpp
+            /tools/SpriteAtlasEncode.cpp
+            /tools/SpriteAtlasEncode.h
+            /tools/TextureBlockEncode.cpp
+            /tools/TextureBlockEncode.h
+            /tools/cook_model_textures_main.cpp
+            /tools/CookModelGeometry.cpp
+            /tools/CookModelGeometry.h
+            /tools/package_runtime_assets.py
+            /tools/runtime_packs.py
+            /tools/packaging/
+            ${{ matrix.assets }}
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y ninja-build libgl1-mesa-dev libx11-dev libxext-dev
+
+      - name: Build the sprite atlas cooker
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF \
+            -DOPENYAMM_BUILD_TOOLS=OFF -DSDL_ALSA=OFF -DSDL_JACK=OFF -DSDL_KMSDRM=OFF -DSDL_PIPEWIRE=OFF \
+            -DSDL_PULSEAUDIO=OFF -DSDL_SNDIO=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_WAYLAND=OFF -DSDL_X11=OFF
+          cmake --build build --target openyamm_sprite_atlas_cook --parallel 4
+
+      - name: Pack the content
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+          PROFILE: ${{ matrix.profile }}
+        run: |
+          sprites=()
+          if [ "$PROFILE" = android ]; then
+            sprites=(--sprites assets_cooked/android/sprites_new)
+          fi
+          python3 tools/package_runtime_assets.py --assets-root assets_dev --output "content/$PROFILE" \
+            --profile "$PROFILE" "${sprites[@]}" --cooker build/game/openyamm_sprite_atlas_cook \
+            --release "$VERSION" --build "$VERSION" --report
+          df -h /
+
+      # The scenario checks play the desktop packs; publishing needs both profiles.
+      - name: Upload the content
+        if: matrix.profile == 'desktop' || needs.meta.outputs.site != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: content-${{ matrix.profile }}
+          path: content/${{ matrix.profile }}/
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0
+
+  windows:
+    name: Windows x64
+    needs: meta
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /CMakeLists.txt
+            /LICENSE
+            /COPYRIGHT
+            /cmake/
+            /core/
+            /engine/
+            /game/
+            /third_party/cgltf/
+            /packaging/
+            /tools/openyamm_shaderc_stubs.cpp
+            /tools/cook_sprite_atlases_main.cpp
+            /tools/SpriteAtlasEncode.cpp
+            /tools/SpriteAtlasEncode.h
+            /tools/TextureBlockEncode.cpp
+            /tools/TextureBlockEncode.h
+            /tools/cook_model_textures_main.cpp
+            /tools/CookModelGeometry.cpp
+            /tools/CookModelGeometry.h
+
+      - name: Install the MinGW-w64 toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y ninja-build g++-mingw-w64-x86-64-posix \
+            gcc-mingw-w64-x86-64-posix binutils-mingw-w64-x86-64 libgl1-mesa-dev libx11-dev libxext-dev
+
+      - name: Build the host shader compiler
+        run: |
+          cmake -S . -B build-host -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF \
+            -DOPENYAMM_BUILD_TOOLS=OFF -DSDL_ALSA=OFF -DSDL_JACK=OFF -DSDL_KMSDRM=OFF -DSDL_PIPEWIRE=OFF \
+            -DSDL_PULSEAUDIO=OFF -DSDL_SNDIO=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_WAYLAND=OFF -DSDL_X11=OFF
+          cmake --build build-host --target openyamm_shaderc
+
+      - name: Build the Windows package
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+        run: |
+          cmake -S . -B build-windows -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/mingw-w64-x86_64.cmake \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=OFF \
+            -DOPENYAMM_BUILD_TOOLS=OFF -DOPENYAMM_HOST_SHADERC="$PWD/build-host/openyamm_shaderc" \
+            -DOPENYAMM_RELEASE_THIN=ON -DOPENYAMM_RELEASE_VERSION="$VERSION"
+          cmake --build build-windows --target openyamm_release_package
+
+      - name: Check the Windows package
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+        run: |
+          stage=build-windows/release/Release/OpenYAMM
+          for entry in OpenYAMM.exe app/current "app/$VERSION/openyamm.exe" "app/$VERSION/OpenYAMM-launcher.exe" \
+            "app/$VERSION/runtime/shaders/glsl/vs_model.bin" "app/$VERSION/runtime/shaders/glsl/fs_sprite_atlas.bin"; do
+            test -f "$stage/$entry" || { echo "::error::The Windows package lacks $entry"; exit 1; }
+          done
+          if find "$stage" -path '*/shaders/dxbc' | grep -q .; then
+            echo "::error::The Windows package contains unused DirectX shaders."
+            exit 1
+          fi
+          # The toolchain links the MinGW runtime statically: only Windows system DLLs may be imported.
+          for executable in "$stage/app/$VERSION/openyamm.exe" "$stage/OpenYAMM.exe"; do
+            imports="$(x86_64-w64-mingw32-objdump -p "$executable" | sed -n 's/^\s*DLL Name: //p')"
+            echo "$executable: $(tr '\n' ' ' <<< "$imports")"
+            if grep -Eiq '^(libstdc\+\+|libgcc|libwinpthread|SDL3)' <<< "$imports"; then
+              echo "::error::$executable imports non-system DLLs."
+              exit 1
+            fi
+          done
+
+      - name: Upload the Windows stage
+        uses: actions/upload-artifact@v7
+        with:
+          name: stage-windows-x64
+          path: build-windows/release/Release/
+          if-no-files-found: error
+          retention-days: 3
+
+  linux:
+    name: Linux x64
+    needs: meta
+    # The oldest supported base: binaries built here need glibc 2.35 (Ubuntu 22.04, Debian 12, Fedora 36 or newer).
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
+      CC: gcc-13
+      CXX: g++-13
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /CMakeLists.txt
+            /LICENSE
+            /COPYRIGHT
+            /cmake/
+            /core/
+            /engine/
+            /game/
+            /third_party/cgltf/
+            /packaging/
+            /tests/
+            /third_party/doctest/
+            /tools/LegacyLuaExport.cpp
+            /tools/LegacyLuaExport.h
+            /tools/legacy_events/
+            /tools/openyamm_shaderc_stubs.cpp
+            /tools/cook_sprite_atlases_main.cpp
+            /tools/SpriteAtlasEncode.cpp
+            /tools/SpriteAtlasEncode.h
+            /tools/TextureBlockEncode.cpp
+            /tools/TextureBlockEncode.h
+            /tools/cook_model_textures_main.cpp
+            /tools/CookModelGeometry.cpp
+            /tools/CookModelGeometry.h
+            /tools/package_runtime_assets.py
+            /tools/runtime_packs.py
+            /tools/packaging/
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      # GCC 13 for C++20; its libstdc++ is linked statically. SDL needs the headers of every display and audio backend
+      # it loads at runtime; a missing one would silently drop that backend (checked below).
+      - name: Install the toolchain and SDL backend headers
+        run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y gcc-13 g++-13 ninja-build pkg-config \
+            libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libxfixes-dev libxkbcommon-dev \
+            libwayland-dev libwayland-bin wayland-protocols libdecor-0-dev libegl-dev libgl-dev libgles-dev \
+            libdrm-dev libgbm-dev libasound2-dev libpulse-dev libpipewire-0.3-dev libdbus-1-dev libudev-dev \
+            libusb-1.0-0-dev libibus-1.0-dev
+          "$CC" --version | head -n 1
+          "$CXX" --version | head -n 1
+
+      - name: Build the Linux package
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=ON \
+            -DOPENYAMM_BUILD_TOOLS=OFF -DOPENYAMM_COOK_ON_BUILD=OFF -DOPENYAMM_STATIC_LIBSTDCXX=ON \
+            -DOPENYAMM_RUNTIME_SHADER_PATH=runtime/shaders -DOPENYAMM_RELEASE_THIN=ON \
+            -DOPENYAMM_RELEASE_VERSION="$VERSION"
+          cmake --build build --target openyamm_release_package openyamm_unit_tests
+
+      - name: Check the Linux package
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+        run: |
+          stage=build/release/Release/OpenYAMM
+          for entry in OpenYAMM app/current "app/$VERSION/openyamm" "app/$VERSION/OpenYAMM-launcher" \
+            "app/$VERSION/runtime/shaders/glsl/vs_model.bin" "app/$VERSION/runtime/shaders/glsl/fs_sprite_atlas.bin"; do
+            test -f "$stage/$entry" || { echo "::error::The Linux package lacks $entry"; exit 1; }
+          done
+          packaging/check_linux_binary.sh "$stage/app/$VERSION/openyamm" "$stage/OpenYAMM"
+          config="$(find build/_deps/sdl3-build -name SDL_build_config.h | head -n 1)"
+          for driver in VIDEO_DRIVER_X11 VIDEO_DRIVER_WAYLAND AUDIO_DRIVER_PIPEWIRE AUDIO_DRIVER_PULSEAUDIO \
+            AUDIO_DRIVER_ALSA; do
+            grep -Eq "^#define SDL_$driver 1" "$config" || { echo "::error::SDL was built without $driver."; exit 1; }
+          done
+
+      # The tests that need no game content: updater, installation layout and user data.
+      - name: Run the installation unit tests
+        run: >-
+          ./build/tests/openyamm_unit_tests
+          --source-file='*UpdaterTests.cpp,*UserDataPathsTests.cpp,*LogFileTests.cpp,*AssetPackIndexTests.cpp,*SettingsFileTests.cpp'
+
+      - name: Upload the Linux stage
+        uses: actions/upload-artifact@v7
+        with:
+          name: stage-linux-x64
+          path: build/release/Release/
+          if-no-files-found: error
+          retention-days: 3
+
+  macos:
+    name: macOS arm64
+    needs: meta
+    # Apple silicon; the game needs macOS 14 or newer (CMAKE_OSX_DEPLOYMENT_TARGET).
+    runs-on: macos-15
+    timeout-minutes: 180
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /CMakeLists.txt
+            /LICENSE
+            /COPYRIGHT
+            /cmake/
+            /core/
+            /engine/
+            /game/
+            /third_party/cgltf/
+            /packaging/
+            /tests/
+            /third_party/doctest/
+            /tools/LegacyLuaExport.cpp
+            /tools/LegacyLuaExport.h
+            /tools/legacy_events/
+            /tools/openyamm_shaderc_stubs.cpp
+            /tools/cook_sprite_atlases_main.cpp
+            /tools/SpriteAtlasEncode.cpp
+            /tools/SpriteAtlasEncode.h
+            /tools/TextureBlockEncode.cpp
+            /tools/TextureBlockEncode.h
+            /tools/cook_model_textures_main.cpp
+            /tools/CookModelGeometry.cpp
+            /tools/CookModelGeometry.h
+            /tools/package_runtime_assets.py
+            /tools/runtime_packs.py
+            /tools/packaging/
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install the build tools
+        run: |
+          brew install ninja
+          xcodebuild -version
+          cmake --version | head -n 1
+
+      - name: Build the macOS package
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+        run: |
+          set -o pipefail
+          build() {
+            cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 \
+              -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=ON \
+              -DOPENYAMM_BUILD_TOOLS=OFF -DOPENYAMM_COOK_ON_BUILD=OFF -DOPENYAMM_RELEASE_THIN=ON \
+              -DOPENYAMM_RELEASE_VERSION="$VERSION" &&
+              cmake --build build --target openyamm_release_package openyamm_unit_tests
+          }
+          # The errors also go into one annotation: unlike the log, annotations can be read without signing in.
+          if ! build 2>&1 | tee build.log; then
+            errors="$(grep -E -A4 '(: (fatal )?error|CMake Error|FAILED: |ld: |Undefined symbols)' build.log | head -n 80)"
+            echo "::error title=macOS build::${errors//$'\n'/%0A}"
+            exit 1
+          fi
+
+      - name: Check the macOS package
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+        run: |
+          stage=build/release/Release/OpenYAMM
+          app="$stage/app/$VERSION/OpenYAMM.app"
+          for entry in OpenYAMM app/current "app/$VERSION/OpenYAMM-launcher" \
+            "app/$VERSION/OpenYAMM.app/Contents/MacOS/OpenYAMM" "app/$VERSION/OpenYAMM.app/Contents/Info.plist" \
+            "app/$VERSION/OpenYAMM.app/Contents/Resources/runtime/shaders/metal/vs_model.bin" \
+            "app/$VERSION/OpenYAMM.app/Contents/Resources/runtime/shaders/metal/fs_sprite_atlas.bin"; do
+            test -f "$stage/$entry" || { echo "::error::The macOS package lacks $entry"; exit 1; }
+          done
+          # A downloaded app whose seal is broken is "damaged" to macOS, with no way to open it.
+          codesign --verify --strict --verbose=2 "$app"
+          # The players' disk image: the same sealed app and a link to Applications. publish_release.py ships it as
+          # it is.
+          image=build/release/OpenYAMM-macos-arm64-Release.dmg
+          mount="$(mktemp -d)"
+          hdiutil attach -readonly -nobrowse -mountpoint "$mount" "$image"
+          codesign --verify --strict "$mount/OpenYAMM.app"
+          test "$(readlink "$mount/Applications")" = /Applications
+          diff -r "$mount/OpenYAMM.app" "$app"
+          hdiutil detach "$mount"
+          mv "$image" build/release/Release/OpenYAMM.dmg
+          # Only the system's libraries and frameworks: players install nothing.
+          for executable in "$app/Contents/MacOS/OpenYAMM" "$stage/OpenYAMM"; do
+            lipo -archs "$executable" | grep -qx arm64 || { echo "::error::$executable is not arm64 only."; exit 1; }
+            libraries="$(otool -L "$executable" | tail -n +2 | awk '{print $1}')"
+            echo "$executable: $(tr '\n' ' ' <<< "$libraries")"
+            if grep -Ev '^(/usr/lib/|/System/Library/)' <<< "$libraries" | grep -q .; then
+              echo "::error::$executable links libraries outside the system."
+              exit 1
+            fi
+          done
+
+      # The tests that need no game content: updater, installation layout and user data.
+      - name: Run the installation unit tests
+        run: >-
+          ./build/tests/openyamm_unit_tests
+          --source-file='*UpdaterTests.cpp,*UserDataPathsTests.cpp,*LogFileTests.cpp,*AssetPackIndexTests.cpp,*SettingsFileTests.cpp'
+
+      - name: Upload the macOS stage
+        uses: actions/upload-artifact@v7
+        with:
+          name: stage-macos-arm64
+          path: build/release/Release/
+          if-no-files-found: error
+          retention-days: 3
+
+  android:
+    name: Android arm64
+    needs: meta
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
+      # The publish job signs the APK with the release key; builds use a throwaway one.
+      OPENYAMM_ANDROID_KEYSTORE_PASSWORD: build-only
+      OPENYAMM_ANDROID_KEY_ALIAS: openyamm
+      OPENYAMM_ANDROID_KEY_PASSWORD: build-only
+      OPENYAMM_ANDROID_VERSION_NAME: ${{ needs.meta.outputs.android_version_name }}
+      OPENYAMM_ANDROID_VERSION_CODE: ${{ needs.meta.outputs.android_version_code }}
+      # A thin APK: its update screen downloads the content packs (packaging/UPDATER_PLAN.md 9.3), so no assets are checked out.
+      OPENYAMM_ANDROID_CONTENT: download
+    steps:
+      - name: Install the Android NDK
+        run: |
+          ndk_version=28.2.13676358 # Must match ndkVersion in android/app/build.gradle.
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;$ndk_version" > /dev/null
+          test -x "$ANDROID_HOME/ndk/$ndk_version/ndk-build"
+
+      - name: Check out sources
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /CMakeLists.txt
+            /LICENSE
+            /COPYRIGHT
+            /cmake/
+            /core/
+            /engine/
+            /game/
+            /third_party/cgltf/
+            /android/
+            /packaging/licenses/
+            /tools/openyamm_shaderc_stubs.cpp
+            /tools/cook_sprite_atlases_main.cpp
+            /tools/SpriteAtlasEncode.cpp
+            /tools/SpriteAtlasEncode.h
+            /tools/TextureBlockEncode.cpp
+            /tools/TextureBlockEncode.h
+            /tools/cook_model_textures_main.cpp
+            /tools/CookModelGeometry.cpp
+            /tools/CookModelGeometry.h
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+          cache-dependency-path: |
+            android/*.gradle
+            android/gradle.properties
+            android/app/*.gradle
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y ninja-build libgl1-mesa-dev libx11-dev libxext-dev
+
+      - name: Create a throwaway signing key
+        run: |
+          keystore="$RUNNER_TEMP/build-only.jks"
+          keytool -genkeypair -keystore "$keystore" -alias "$OPENYAMM_ANDROID_KEY_ALIAS" -keyalg RSA -keysize 2048 \
+            -validity 2 -storepass "$OPENYAMM_ANDROID_KEYSTORE_PASSWORD" -keypass "$OPENYAMM_ANDROID_KEY_PASSWORD" \
+            -dname "CN=OpenYAMM build"
+          echo "OPENYAMM_ANDROID_KEYSTORE=$keystore" >> "$GITHUB_ENV"
+
+      - name: Build the host shader compiler
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF \
+            -DOPENYAMM_BUILD_TOOLS=OFF -DSDL_ALSA=OFF -DSDL_JACK=OFF -DSDL_KMSDRM=OFF -DSDL_PIPEWIRE=OFF \
+            -DSDL_PULSEAUDIO=OFF -DSDL_SNDIO=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_WAYLAND=OFF -DSDL_X11=OFF
+          cmake --build build --target openyamm_shaderc
+
+      - name: Build the APK
+        run: android/build_release_apk.sh
+
+      - name: Check the APK
+        run: |
+          apk=android/app-release.apk
+          build_tools="$ANDROID_HOME/build-tools/35.0.0"
+          "$build_tools/apksigner" verify "$apk"
+          "$build_tools/aapt" dump badging "$apk" \
+            | grep -Fq "versionCode='$OPENYAMM_ANDROID_VERSION_CODE' versionName='$OPENYAMM_ANDROID_VERSION_NAME'" \
+            || { echo "::error::The APK version does not match the resolved metadata."; exit 1; }
+          contents="$(unzip -Z1 "$apk")"
+          grep -Fxq "lib/arm64-v8a/libmain.so" <<< "$contents"
+          grep -Eq '^assets/runtime/shaders/essl/.+\.bin$' <<< "$contents"
+          if grep -Eq '^assets/(index\.json|packs/)' <<< "$contents"; then
+            echo "::error::The APK bundles content; releases download it."
+            exit 1
+          fi
+          if grep -Eq '^lib/(armeabi-v7a|x86|x86_64)/' <<< "$contents"; then
+            echo "::error::The APK contains a non-arm64 ABI."
+            exit 1
+          fi
+          mkdir -p dist
+          cp "$apk" dist/openyamm-unsigned.apk
+
+      - name: Upload the APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-apk
+          path: dist/openyamm-unsigned.apk
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0
+
+  checks:
+    name: Scenarios (${{ matrix.platform }})
+    needs: [meta, content, windows, linux, macos]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux-x64
+            os: ubuntu-24.04
+            game: openyamm
+          - platform: windows-x64
+            os: windows-latest
+            game: openyamm.exe
+          - platform: macos-arm64
+            os: macos-15
+            game: OpenYAMM.app/Contents/MacOS/OpenYAMM
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out the scenarios
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /tests/scenarios/
+
+      - name: Download the desktop content
+        uses: actions/download-artifact@v7
+        with:
+          name: content-desktop
+          path: content
+
+      - name: Download the ${{ matrix.platform }} stage
+        uses: actions/download-artifact@v7
+        with:
+          name: stage-${{ matrix.platform }}
+          path: stage
+
+      - name: Play the release scenarios
+        env:
+          VERSION: ${{ needs.meta.outputs.version }}
+          GAME: ${{ matrix.game }}
+        run: |
+          game="stage/OpenYAMM/app/$VERSION/$GAME"
+          chmod +x "$game"
+          mkdir -p "$RUNNER_TEMP/user"
+          while read -r scenario; do
+            # The Windows checkout converts text files to CRLF.
+            scenario="${scenario%$'\r'}"
+            case "$scenario" in ''|'#'*) continue ;; esac
+            echo "::group::$scenario"
+            "$game" --user-data "$RUNNER_TEMP/user" --asset-root "$PWD/content" \
+              --headless-run-scenario "$PWD/tests/scenarios/$scenario" | cat
+            echo "::endgroup::"
+          done < tests/scenarios/release/scenarios.txt
+
+  publish:
+    name: Publish ${{ needs.meta.outputs.version }} (${{ needs.meta.outputs.site }})
+    needs: [meta, content, windows, linux, macos, android, checks]
+    if: needs.meta.outputs.site != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    environment: release
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.meta.outputs.version }}
+      SITE: ${{ needs.meta.outputs.site }}
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/.ghcup /opt/ghc /usr/local/share/boost /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Check out the publisher
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /packaging/
+            /tests/scenarios/
+
+      - name: Install the publisher's dependencies
+        run: |
+          python3 -m pip install --user --break-system-packages cryptography
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y rsync libcurl4t64
+
+      - name: Download the artifacts
+        uses: actions/download-artifact@v7
+        with:
+          path: artifacts
+
+      - name: Sign the APK with the release key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.OPENYAMM_ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.OPENYAMM_ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.OPENYAMM_ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.OPENYAMM_ANDROID_KEY_PASSWORD }}
+        run: |
+          umask 077
+          build_tools="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)"
+          base64 -d <<< "$KEYSTORE_BASE64" > "$RUNNER_TEMP/release.jks"
+          key_password=KEY_PASSWORD
+          if [ -z "$KEY_PASSWORD" ]; then
+            key_password=KEYSTORE_PASSWORD
+          fi
+          "$build_tools/apksigner" sign --ks "$RUNNER_TEMP/release.jks" --ks-key-alias "${KEY_ALIAS:-openyamm}" \
+            --ks-pass env:KEYSTORE_PASSWORD --key-pass "env:$key_password" \
+            --out "$RUNNER_TEMP/openyamm.apk" artifacts/android-apk/openyamm-unsigned.apk
+          rm -f "$RUNNER_TEMP/release.jks"
+          "$build_tools/apksigner" verify --print-certs "$RUNNER_TEMP/openyamm.apk" \
+            | grep 'certificate SHA-256 digest' | head -n 1 | tee "$RUNNER_TEMP/apk-certificate.txt"
+          # Android installs updates only with the key of the installed APK: compare with the published one.
+          site_url="https://jasicek.net/$([ "$SITE" = stable ] && echo openyamm || echo openyamm-staging)"
+          if curl -fsS "$site_url/updates/channels/stable/android-arm64.json" -o "$RUNNER_TEMP/android.json"; then
+            url="$(python3 -c 'import json, sys; print(json.load(open(sys.argv[1]))["app"]["url"])' \
+              "$RUNNER_TEMP/android.json")"
+            curl -fsS "$site_url/updates/$url" -o "$RUNNER_TEMP/published.apk"
+            "$build_tools/apksigner" verify --print-certs "$RUNNER_TEMP/published.apk" \
+              | grep 'certificate SHA-256 digest' | head -n 1 > "$RUNNER_TEMP/published-certificate.txt"
+            cmp -s "$RUNNER_TEMP/apk-certificate.txt" "$RUNNER_TEMP/published-certificate.txt" \
+              || { echo "::error::The APK is signed with another key than the published one."; exit 1; }
+          fi
+
+      - name: Prepare the release
+        run: |
+          notes=()
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            # The checkout may have stored the tag as a lightweight one; fetch the tag object itself.
+            git fetch --force --depth=1 origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
+          fi
+          if [ "$GITHUB_REF_TYPE" = tag ] && [ "$(git cat-file -t "refs/tags/$GITHUB_REF_NAME")" = tag ]; then
+            # The annotated tag's message is the release notes of the update question, line breaks kept
+            # (%(contents:subject) would join the first paragraph's lines); a signature is cut off.
+            git for-each-ref "refs/tags/$GITHUB_REF_NAME" --format='%(contents)' \
+              | sed '/^-----BEGIN [A-Z ]*SIGNATURE-----$/,$d' > "$RUNNER_TEMP/notes.txt"
+            notes=(--notes "$RUNNER_TEMP/notes.txt")
+          fi
+          replace=()
+          if [ "$SITE" = staging ]; then
+            replace=(--replace)
+          fi
+          python3 packaging/publish_release.py prepare --version "$VERSION" --site "$SITE" \
+            --content desktop=artifacts/content-desktop --content android=artifacts/content-android \
+            --stage windows-x64=artifacts/stage-windows-x64 --stage linux-x64=artifacts/stage-linux-x64 \
+            --stage macos-arm64=artifacts/stage-macos-arm64 \
+            --apk "$RUNNER_TEMP/openyamm.apk" "${notes[@]}" "${replace[@]}" --out publish
+
+      - name: Sign the manifests
+        env:
+          MANIFEST_KEY: ${{ secrets.OPENYAMM_MANIFEST_KEY }}
+        run: |
+          umask 077
+          printf '%s\n' "$MANIFEST_KEY" > "$RUNNER_TEMP/manifest.key"
+          python3 packaging/publish_release.py sign --out publish --key "$RUNNER_TEMP/manifest.key"
+          rm -f "$RUNNER_TEMP/manifest.key"
+
+      # A player's first start: the small Linux package downloads its content from a local copy of this release.
+      - name: Check a fresh installation
+        run: |
+          scenario="$(grep -v '^\s*\(#\|$\)' tests/scenarios/release/scenarios.txt | head -n 1)"
+          python3 packaging/publish_release.py check --out publish --scenario "tests/scenarios/$scenario"
+
+      - name: Upload to the server
+        env:
+          DEPLOY_KEY: ${{ secrets.OPENYAMM_DEPLOY_SSH_KEY }}
+          DEPLOY_REMOTE: ${{ vars.OPENYAMM_DEPLOY_REMOTE || 'openyamm-deploy@jasicek.net:' }}
+          DEPLOY_PORT: ${{ vars.OPENYAMM_DEPLOY_PORT || '2222' }}
+        run: |
+          umask 077
+          printf '%s\n' "$DEPLOY_KEY" > "$RUNNER_TEMP/deploy.key"
+          port=(--ssh-port "$DEPLOY_PORT")
+          python3 packaging/publish_release.py upload --out publish --remote "$DEPLOY_REMOTE" "${port[@]}" \
+            --ssh-key "$RUNNER_TEMP/deploy.key" --known-hosts packaging/server/known_hosts
+          rm -f "$RUNNER_TEMP/deploy.key"
+
+      - name: Verify the published release
+        run: python3 packaging/publish_release.py verify --site "$SITE" --expect "$VERSION"
+
+      - name: Create the GitHub release
+        if: needs.meta.outputs.site == 'stable'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes="$RUNNER_TEMP/release-notes.md"
+          {
+            if [ -s "$RUNNER_TEMP/notes.txt" ]; then cat "$RUNNER_TEMP/notes.txt"; echo; fi
+            cat <<'EOF'
+          ## How to play
+
+          - **Windows** (64-bit): extract the `windows-x64.zip` and run `OpenYAMM.exe`. If Windows warns about an
+            unknown publisher, choose *More info* → *Run anyway*.
+          - **Linux** (x64, Ubuntu 22.04 or another distribution with glibc 2.35 or newer, and libcurl): extract the
+            `linux-x64.tar.gz` and run `./OpenYAMM`.
+          - **macOS** (Apple silicon, macOS 14 or newer): open the `macos-arm64.dmg` and drag OpenYAMM to
+            Applications. The app is not notarized: run `xattr -dr com.apple.quarantine /Applications/OpenYAMM.app`
+            once in Terminal, or allow it after the first attempt in *System Settings* → *Privacy & Security* →
+            *Open Anyway*.
+          - **Android** (64-bit ARM): install the `android-arm64.apk`, allowing your browser or file manager to install
+            apps when asked.
+
+          The first start downloads the game content (about 9 GB, 5.3 GB on Android); choosing a language with dubbed
+          voices downloads them too (70-220 MB). Later updates download only what changed, from inside the game. Saves
+          and settings stay in the extracted folder on Windows and Linux, and in
+          `~/Library/Application Support/OpenYAMM` on macOS.
+          EOF
+          } > "$notes"
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag \
+            --title "OpenYAMM $VERSION" --notes-file "$notes" publish/site/downloads/"$VERSION"/*
+
+      - name: Remove the keys
+        if: always()
+        run: rm -f "$RUNNER_TEMP/release.jks" "$RUNNER_TEMP/manifest.key" "$RUNNER_TEMP/deploy.key"

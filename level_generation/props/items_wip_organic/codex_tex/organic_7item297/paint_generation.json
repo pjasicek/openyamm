@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset: SIX-VIEW ALBEDO TEXTURE SOURCE SHEET for ONE exact game mesh, Heart of the Wood. Image1 is the edit target, a 3-column by 2-row sheet of SIX exact orthographic gray mesh guides. Keep this exact 3:2 sheet, all six panel boundaries at thirds/halves, object silhouettes, positions, scales, angles, holes, folds and components IDENTICAL to Image1. Do not rearrange anything. Panel order top row FRONT, BACK, LEFT; bottom row RIGHT, TOP, BOTTOM. Images2/3 are colour/design references only. Paint the materials onto ALL SIX existing gray shapes: Short tapered translucent violet-white crystal relic, set into a gold circular flanged socket at its wide end; thin gold prongs along crystal edges. Preserve the short cylindrical crystal and ornate gold mounting. Faithful colours from the restored icon; shadowless albedo, separate nonmetal and metal regions where present. Use a separate metal mask (gold hardware / silver buckle) or separate metal material; never one metallic value across leather, ivory, crystal and hardware. This is an ALBEDO bake source: no directional shading, ambient occlusion, cast shadows, specular highlights, reflections, rimlight or gradient lighting. Show metal as its flat gold/silver pigment, gloss is added later by PBR. Finely detailed semi-realistic game materials, same colours and wear across all views. Undersides use appropriate interior/back material with the same local colour level. Keep exactly the guide's shape and framing in every panel, including edge-on shapes and the underside. No text, labels, border, floor, extra objects, or camera changes. True transparent background between shapes and inside holes. Return the whole six-view sheet, landscape 3:2.",
+  "inputs": [
+    "guide_sheet.png",
+    "../../meshy/organic_7item297/references_hd/00_three_quarter.png",
+    "../../meshy/organic_7item297/references_hd/icon_x8.png"
+  ],
+  "output": "paint_sheet_raw.png",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-37b81ec5-2951-47c7-8062-f344f9a9c9b9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "selected": true,
+  "output_sha256": "30cae2e43010333a9d2d364e53827798e867e4e814fae3aad0ed16dade42beb3",
+  "guide_sha256": "d62605bd0222853067484aed293bcac5d2b9fde8fcef840159d5fe314c4de175"
+}

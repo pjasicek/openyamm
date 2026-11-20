@@ -50,6 +50,8 @@ public:
         float volume = 1.0f;
         bool positional = false;
         bool attenuate = true;
+        // false: a positional sound keeps its distance falloff but plays centred (MM9's ambient sounds)
+        bool pan = true;
         bool loop = false;
         float x = 0.0f;
         float y = 0.0f;
@@ -102,6 +104,7 @@ private:
         float volume = 1.0f;
         bool positional = false;
         bool attenuate = true;
+        bool pan = true;
         bool loop = false;
         float x = 0.0f;
         float y = 0.0f;

@@ -1,0 +1,8 @@
+id,kind,source,destination,sourceGround,destinationGround,reciprocalNeighbors,connectedToCastleviewByTerrain,travelDays
+sw_sc,road,"[7, 15, 3]","[11, 0, 3]",road,road,True,True,
+sc_se,road,"[15, 15, 1]","[19, 0, 1]",road,road,True,True,
+nc_ne,road,"[14, 15, 15]","[18, 0, 15]",road,road,True,True,
+ne_se,road,"[22, 0, 0]","[23, 0, 15]",road,road,True,True,
+nw_sw,off_road,"[2, 8, 0]","[3, 8, 15]",dirt,dirt,True,True,
+nw_nc,off_road,"[6, 15, 7]","[10, 0, 7]",desert,desert,True,True,
+nc_sc,off_road,"[10, 12, 0]","[11, 12, 15]",desert,desert,True,True,

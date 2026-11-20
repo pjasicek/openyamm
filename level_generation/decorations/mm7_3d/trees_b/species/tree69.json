@@ -1,0 +1,146 @@
+{
+ "sprite": "tree69_p120",
+ "output": "mm7_deco_tree69.glb",
+ "height_m": 8.0,
+ "note": "Very tall broad tree (scale 8): big separate bright-green clumps on gnarled spreading limbs, short thick trunk.",
+ "sapling": {
+  "scale": 5.65,
+  "baseSplits": 0,
+  "splitHeight": 0.3,
+  "splitAngle": [
+   40,
+   20,
+   15,
+   0
+  ],
+  "baseSize": 0.28,
+  "seed": 691,
+  "ratio": 0.06,
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "attractUp": [
+   0,
+   0.2,
+   0.3,
+   0
+  ],
+  "downAngle": [
+   90,
+   60,
+   45,
+   45
+  ],
+  "rootFlare": 1.6,
+  "branches": [
+   0,
+   22,
+   20,
+   8
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.3,
+  "centre": 0.64,
+  "clumps": 150,
+  "inner_clumps": 14,
+  "outer_radius": [
+   0.42,
+   0.7
+  ],
+  "flatten": 0.85,
+  "gap": 0.75,
+  "masses": [
+   [
+    -0.36,
+    0.05,
+    0.56,
+    0.1875,
+    0.192
+   ],
+   [
+    -0.12,
+    -0.12,
+    0.6,
+    0.1875,
+    0.24
+   ],
+   [
+    0.16,
+    0.05,
+    0.85,
+    0.3,
+    0.156
+   ],
+   [
+    0.16,
+    -0.05,
+    0.5,
+    0.21250000000000002,
+    0.192
+   ],
+   [
+    0.0,
+    0.28,
+    0.62,
+    0.1875,
+    0.192
+   ]
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   110,
+   70,
+   50
+  ],
+  "min_thickness": [
+   0.02,
+   0.035,
+   0.06
+  ],
+  "root_reach": 0.3,
+  "roots": 4
+ },
+ "leaves": {
+  "target_srgb": [
+   130,
+   215,
+   80
+  ],
+  "seeds": [
+   691,
+   701,
+   709,
+   719
+  ],
+  "value": [
+   0.9,
+   1.6
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "lod": {
+  "triangles": [
+   7000,
+   2700,
+   900
+  ]
+ },
+ "impostor_dilate": 4,
+ "impostor_edge_fill": true,
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.55,
+  "range": 0.45,
+  "power": 1.0,
+  "local_floor": 0.45,
+  "core_floor": 0.72
+ }
+}

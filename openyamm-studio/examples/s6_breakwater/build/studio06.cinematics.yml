@@ -1,0 +1,33 @@
+format_version: 1
+kind: openyamm_cinematics
+source: "Written by oymap build from the Map Studio project \"studio06\" (wiring.yml cinematics). Change the project, not this file."
+cinematics:
+  arrival:
+    shots:
+      - duration: 2.5
+        position: [120, 120, 420]
+        look_at: [880, 880, 0]
+        fov: 70
+      - duration: 3
+        easing: smooth
+        keys:
+          - at: 0
+            position: [800, 300, 200]
+            look_at: [1120, 384, 128]
+          - at: 3
+            position: [960, 384, 180]
+            look_at: [1120, 384, 128]
+      - duration: 1
+        party: true
+    cues:
+      - at: 0
+        fade: in
+        seconds: 1
+      - at: 2.5
+        subtitle: The store is barred from within.
+        seconds: 2.5
+      - at: 3
+        event: 4
+      - at: 5
+        shake: 0.3
+        seconds: 1

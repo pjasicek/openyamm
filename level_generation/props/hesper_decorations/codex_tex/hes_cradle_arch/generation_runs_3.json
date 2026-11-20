@@ -1,0 +1,207 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic ALBEDO texture source for an existing 3D model.\nEdit input image 1 directly on its original 1024 x 1024 canvas. Keep its alpha mask and every existing model edge precisely registered. Change only surface colours.\nInput 1 is the grey guide: absolute authority for silhouette, camera, size, position, edges, openings and all small details.\nInput 2 is design_reference.png: authority for the ivory bone, thin gold-brown veins and blue-white beacon materials ONLY. Do not use its three-quarter shape or perspective.\nInput 3 is concept_crop.png: supporting original design reference ONLY; do not copy its scenery or lighting.\nPaint matte warm ivory bone plates with fine subtle bone grain and thin branching gold-brown veins, matching the approved design. Follow the model's existing ribs and plate shapes. The existing round beacon lens is blue-white with pale blue/periwinkle internal luminous colour wherever the guide actually exposes it. Keep the lens's exact foreshortening and occlusion in this side view; do not add a new front-facing lens. Existing foot rocks retain their exact shapes and positions and receive muted grey-brown stone colour.\nLIGHTING: flat, even, shadowless from the viewer, unlit diffuse ALBEDO. All ivory surfaces including recesses have the same light ivory value regardless of orientation. Veins are matte gold-brown colour without relief shadows or shiny highlights. Do not copy the grey guide's shading. No cast shadows, ambient occlusion, dark cavities, strong specular highlights, reflections or rim light. Luminous parts are painted at their glowing colour with no bloom or light cast on the surrounding material.\nKeep the guide's silhouette EXACTLY, including every small spike and the thin base. Do not add ornaments, stones or details outside it. Preserve the original alpha boundary pixel for pixel; replace only colours inside it. No resizing, reposing, rotating, cropping or changing the camera. No background, floor, shadow, text, labels, border or painted checkerboard.\nDeliver ONE native 1024 x 1024 RGBA PNG with actual transparent background, the exact same canvas and pixel registration as input 1.\nLEFT VIEW: guide_left.png. The arch is viewed edge-on as a tall narrow upright tapered blade, with the tip near (507,66), a central vertical ridge that splits into a pointed inverted-Y lower buttress, and a broad flaring base ending at y=957. Preserve the guide's full occupied bounds x=233..789, y=66..957, asymmetric base spikes (tallest on the right), and narrow edge-on lens-rim projections near y=560..710. Keep the existing central lower pointed recess and all internal buttress boundaries. Do not bend it into the crescent seen in the material reference.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "9361ec48fd8b301789ef048df2cf377f94340db03a252d6ca5bbd75dd09d8ba3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native dimensions, silhouette/detail registration and fully flat albedo requirements are not met. One corrective regeneration will be used.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16891-dbb6-7c31-b3b5-6be4bfaa3f7c/exec-ebae5c1d-808a-4dbc-9329-9db4e07e2a9b.png",
+      "output_sha256": "dface263815945794c513aca9f1e0fcb89c20ddeb398ed785ad78e111b2cc7f7",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          73,
+          55,
+          1234,
+          1178
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Ivory plates, gold-brown veins and blue-white lenses are present.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Gold rims have highlight/shadow relief.",
+          "Model edges and base details drift from the guide.",
+          "Lens visibility expanded compared with the edge-on guide."
+        ]
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic ALBEDO texture source for an existing 3D model.\nEdit input image 1 directly on its original 1024 x 1024 canvas. Keep its alpha mask and every existing model edge precisely registered. Change only surface colours.\nInput 1 is the grey guide: absolute authority for silhouette, camera, size, position, edges, openings and all small details.\nInput 2 is design_reference.png: authority for the ivory bone, thin gold-brown veins and blue-white beacon materials ONLY. Do not use its three-quarter shape or perspective.\nInput 3 is concept_crop.png: supporting original design reference ONLY; do not copy its scenery or lighting.\nPaint matte warm ivory bone plates with fine subtle bone grain and thin branching gold-brown veins, matching the approved design. Follow the model's existing ribs and plate shapes. The existing round beacon lens is blue-white with pale blue/periwinkle internal luminous colour wherever the guide actually exposes it. Keep the lens's exact foreshortening and occlusion in this side view; do not add a new front-facing lens. Existing foot rocks retain their exact shapes and positions and receive muted grey-brown stone colour.\nLIGHTING: flat, even, shadowless from the viewer, unlit diffuse ALBEDO. All ivory surfaces including recesses have the same light ivory value regardless of orientation. Veins are matte gold-brown colour without relief shadows or shiny highlights. Do not copy the grey guide's shading. No cast shadows, ambient occlusion, dark cavities, strong specular highlights, reflections or rim light. Luminous parts are painted at their glowing colour with no bloom or light cast on the surrounding material.\nKeep the guide's silhouette EXACTLY, including every small spike and the thin base. Do not add ornaments, stones or details outside it. Preserve the original alpha boundary pixel for pixel; replace only colours inside it. No resizing, reposing, rotating, cropping or changing the camera. No background, floor, shadow, text, labels, border or painted checkerboard.\nDeliver ONE native 1024 x 1024 RGBA PNG with actual transparent background, the exact same canvas and pixel registration as input 1.\nRIGHT VIEW: guide_right.png. The arch is viewed edge-on as a tall narrow upright tapered blade, with the tip near (515,66), broad uninterrupted central ridge, paired narrow edge-on lens projections at the outer sides around y=560..710, and flared foot. Preserve the guide's full occupied bounds x=233..789, y=66..957 and every asymmetric base spike (the tallest near x=328 on the left). Preserve the exact existing narrow visible lens shapes on the sides, without turning them toward the viewer. Do not add the left-view central pointed recess or bend the blade into the crescent from the material reference.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "dcc10f2ea3936bc4237125a6c453c7e60ee77757e5b992a8de1975ff535ff5a4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native dimensions, silhouette/detail registration and fully flat albedo requirements are not met. One corrective regeneration will be used.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16891-dbb6-7c31-b3b5-6be4bfaa3f7c/exec-db653433-1675-4399-94c9-197f4ee6e0dc.png",
+      "output_sha256": "347b63e8412b9c163a5fcd960503f121cb457d6954315caa720c46db38f812c4",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          57,
+          39,
+          1194,
+          1189
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Ivory plates, gold-brown veins and blue-white lenses are present.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Gold rims have highlight/shadow relief.",
+          "Model edges and base details drift from the guide.",
+          "Lens visibility expanded compared with the edge-on guide.",
+          "Added arch/recess motifs on the uninterrupted central lower surface."
+        ]
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. CORRECTIVE repaint of the FIRST input image only.\nReturn exactly 1024 x 1024 pixels, matching input 1's original canvas, not 1254 x 1254. Preserve the original alpha channel and all geometry without resampling.\nImage 1: the grey orthographic guide, locked edit target. Its silhouette, every edge, camera, framing and detail are mandatory.\nImage 2: approved design_reference.png, material colour authority only.\nImage 3: concept_crop.png, supporting design reference only.\nPaint the existing grey surfaces light warm ivory bone with subtle bone grain and THIN, MATTE gold-brown veins. Paint only existing visible lens surfaces pale blue-white/periwinkle. The side-view lenses are strongly foreshortened: do not rotate or widen them, and preserve the exact guide occlusions. Existing base spikes receive muted grey-brown stone colour. Do not add rubble, spikes, cutouts, recesses or new relief.\nThis is a flat unlit ALBEDO painting. Recesses stay light ivory rather than grey or brown shadows. Gold-brown veins are simple thin diffuse-colour lines without shiny highlights or dark relief edges. Remove all directional illumination, bevel shading, ambient occlusion, specular reflections, rim light, halos, bloom and light spill. Preserve the original guide's shapes but do not preserve its grey lighting.\nThe first attempt changed the outline and internal features, enlarged the visible lenses, added relief shading and returned the wrong canvas size. Correct those specific defects. Treat input 1 as an immutable raster stencil: change only its RGB surface colours. Every existing guide silhouette pixel stays at its exact coordinate, and every transparent pixel stays empty, including small gaps around the foot spikes. No isolated coloured/alpha speckles outside the silhouette.\nOne transparent-background RGBA PNG at native 1024 x 1024. No background, ground plane, scenery, text, border or checkerboard.\n\nLEFT VIEW: guide_left.png. The arch is viewed edge-on as a tall narrow upright tapered blade, with the tip near (507,66), a central vertical ridge that splits into a pointed inverted-Y lower buttress, and a broad flaring base ending at y=957. Preserve the guide's full occupied bounds x=233..789, y=66..957, asymmetric base spikes (tallest on the right), and narrow edge-on lens-rim projections near y=560..710. Keep the existing central lower pointed recess and all internal buttress boundaries. Do not bend it into the crescent seen in the material reference.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "9361ec48fd8b301789ef048df2cf377f94340db03a252d6ca5bbd75dd09d8ba3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the better raw left return: narrower edge-on lens exposure and lighter lower recess than attempt 1. Still fails 1024x1024 native dimensions, exact silhouette/detail registration and fully flat albedo. Preserved unresized; the one corrective regeneration is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16891-dbb6-7c31-b3b5-6be4bfaa3f7c/exec-a447ed42-7682-4d9e-91e8-8c655223bb2f.png",
+      "output_sha256": "39f20865282db203437dac6ed3d98a0a4bf378f0ab35924fbe8a295d1c55240f",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          65,
+          39,
+          1230,
+          1232
+        ],
+        "guide_alpha_bbox": [
+          233,
+          66,
+          790,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Ivory bone, gold-brown veins, muted stone and pale blue-white lens colours present. Gold remains brighter than requested matte veins.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Residual shaded relief on gold borders and base stones.",
+          "Silhouette and internal shape edges are not pixel-identical to the guide.",
+          "Faint alpha contamination outside the main object."
+        ],
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. CORRECTIVE repaint of the FIRST input image only.\nReturn exactly 1024 x 1024 pixels, matching input 1's original canvas, not 1254 x 1254. Preserve the original alpha channel and all geometry without resampling.\nImage 1: the grey orthographic guide, locked edit target. Its silhouette, every edge, camera, framing and detail are mandatory.\nImage 2: approved design_reference.png, material colour authority only.\nImage 3: concept_crop.png, supporting design reference only.\nPaint the existing grey surfaces light warm ivory bone with subtle bone grain and THIN, MATTE gold-brown veins. Paint only existing visible lens surfaces pale blue-white/periwinkle. The side-view lenses are strongly foreshortened: do not rotate or widen them, and preserve the exact guide occlusions. Existing base spikes receive muted grey-brown stone colour. Do not add rubble, spikes, cutouts, recesses or new relief.\nThis is a flat unlit ALBEDO painting. Recesses stay light ivory rather than grey or brown shadows. Gold-brown veins are simple thin diffuse-colour lines without shiny highlights or dark relief edges. Remove all directional illumination, bevel shading, ambient occlusion, specular reflections, rim light, halos, bloom and light spill. Preserve the original guide's shapes but do not preserve its grey lighting.\nThe first attempt changed the outline and internal features, enlarged the visible lenses, added relief shading and returned the wrong canvas size. Correct those specific defects. Treat input 1 as an immutable raster stencil: change only its RGB surface colours. Every existing guide silhouette pixel stays at its exact coordinate, and every transparent pixel stays empty, including small gaps around the foot spikes. No isolated coloured/alpha speckles outside the silhouette.\nOne transparent-background RGBA PNG at native 1024 x 1024. No background, ground plane, scenery, text, border or checkerboard.\n\nRIGHT VIEW: guide_right.png. The arch is viewed edge-on as a tall narrow upright tapered blade, with the tip near (515,66), broad uninterrupted central ridge, paired narrow edge-on lens projections at the outer sides around y=560..710, and flared foot. Preserve the guide's full occupied bounds x=233..789, y=66..957 and every asymmetric base spike (the tallest near x=328 on the left). Preserve the exact existing narrow visible lens shapes on the sides, without turning them toward the viewer. Do not add the left-view central pointed recess or bend the blade into the crescent from the material reference.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "dcc10f2ea3936bc4237125a6c453c7e60ee77757e5b992a8de1975ff535ff5a4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the better raw right return: removed dark invented lower recesses and flattened the lens and ivory surfaces. Still fails 1024x1024 native dimensions, exact silhouette/detail registration and fully flat albedo. Preserved unresized; the one corrective regeneration is exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16891-dbb6-7c31-b3b5-6be4bfaa3f7c/exec-122f8698-0003-437d-94dc-e3c700469624.png",
+      "output_sha256": "99ed05da2fcfe1eed57a9a974af54dd1aecf2c0a34a507a14b5575d75d91a636",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          31,
+          1192,
+          1188
+        ],
+        "guide_alpha_bbox": [
+          233,
+          66,
+          790,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Ivory bone, gold-brown veins, muted stone and pale blue-white lens colours present. Gold remains brighter than requested matte veins.",
+        "flat_even_light": false,
+        "visual_issues": [
+          "Residual shaded relief on gold borders and base stones.",
+          "Silhouette and internal shape edges are not pixel-identical to the guide.",
+          "Faint alpha contamination outside the main object."
+        ],
+        "unresized_return": true
+      }
+    }
+  ],
+  "status": "Completed allowed generation attempts; selected raw returns do not meet all brief acceptance requirements.",
+  "selection_note": "selected identifies the preferred retained raw return, not acceptance of the image against the brief."
+}

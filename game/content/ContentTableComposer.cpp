@@ -216,6 +216,255 @@ bool composeItemTableRows(
     return true;
 }
 
+bool applyTableCellOverrides(
+    std::vector<std::vector<std::string>> &rows,
+    const std::vector<std::vector<std::string>> &patchRows,
+    size_t keyColumn,
+    size_t headerRow,
+    std::string &errorMessage)
+{
+    errorMessage.clear();
+
+    if (patchRows.empty() || cell(patchRows[0], 0) != "key" || cell(patchRows[0], 1) != "column"
+        || cell(patchRows[0], 2) != "value")
+    {
+        errorMessage = "override patch must start with a key, column, value header";
+        return false;
+    }
+
+    // Keys are matched after trimming, like the table parsers read them. Repeated keys only fail when patched.
+    std::unordered_map<std::string, size_t> rowIndexByKey;
+    std::unordered_set<std::string> repeatedKeys;
+
+    const bool rowNumberKeys = keyColumn == RowNumberKeyColumn;
+
+    for (size_t rowIndex = 0; rowIndex < rows.size() && !rowNumberKeys; ++rowIndex)
+    {
+        const std::string key = cell(rows[rowIndex], keyColumn);
+
+        if (rowIndex != headerRow && !key.empty() && !rowIndexByKey.emplace(key, rowIndex).second)
+        {
+            repeatedKeys.insert(key);
+        }
+    }
+
+    std::unordered_map<std::string, size_t> columnIndexByName;
+    const std::vector<std::string> header = headerRow < rows.size() ? rows[headerRow] : std::vector<std::string>();
+
+    for (size_t columnIndex = 0; columnIndex < header.size(); ++columnIndex)
+    {
+        const std::string name = cell(header, columnIndex);
+
+        if (!name.empty() && !columnIndexByName.emplace(name, columnIndex).second)
+        {
+            columnIndexByName[name] = SIZE_MAX;
+        }
+    }
+
+    std::unordered_set<std::string> patchedCells;
+
+    for (size_t patchIndex = 1; patchIndex < patchRows.size(); ++patchIndex)
+    {
+        const std::vector<std::string> &patch = patchRows[patchIndex];
+        const std::string key = cell(patch, 0);
+        const std::string column = cell(patch, 1);
+        const std::string line = "override line " + std::to_string(patchIndex + 1);
+
+        if (key.empty() && column.empty())
+        {
+            continue;
+        }
+
+        std::optional<size_t> rowIndex;
+
+        if (rowNumberKeys)
+        {
+            rowIndex = parseUnsigned(key);
+
+            if (rowIndex && *rowIndex >= rows.size())
+            {
+                rows.resize(*rowIndex + 1);
+            }
+        }
+        else if (const auto rowIt = rowIndexByKey.find(key);
+                 rowIt != rowIndexByKey.end() && !repeatedKeys.contains(key))
+        {
+            rowIndex = rowIt->second;
+        }
+
+        if (!rowIndex || *rowIndex == headerRow)
+        {
+            errorMessage = line + ": key '" + key + "' must match exactly one row";
+            return false;
+        }
+
+        std::optional<size_t> columnIndex;
+
+        if (column.starts_with('#'))
+        {
+            columnIndex = parseUnsigned(column.substr(1));
+        }
+        else if (const auto columnIt = columnIndexByName.find(column);
+                 columnIt != columnIndexByName.end() && columnIt->second != SIZE_MAX)
+        {
+            columnIndex = columnIt->second;
+        }
+
+        if (!columnIndex || *columnIndex == keyColumn)
+        {
+            errorMessage = line + ": column '" + column + "' is unknown, repeated in the header, or the key column";
+            return false;
+        }
+
+        if (!patchedCells.insert(key + '\t' + std::to_string(*columnIndex)).second)
+        {
+            errorMessage = line + ": cell '" + key + "', '" + column + "' is patched twice";
+            return false;
+        }
+
+        std::vector<std::string> &row = rows[*rowIndex];
+        row.resize(std::max(row.size(), *columnIndex + 1));
+        row[*columnIndex] = patch.size() > 2 ? patch[2] : std::string();
+    }
+
+    return true;
+}
+
+bool appendTableRows(
+    std::vector<std::vector<std::string>> &rows,
+    const std::vector<std::vector<std::string>> &appendedRows,
+    size_t keyColumn,
+    size_t headerRow,
+    std::string &errorMessage)
+{
+    errorMessage.clear();
+    std::unordered_set<std::string> keys;
+
+    for (size_t rowIndex = 0; rowIndex < rows.size() && keyColumn != RowNumberKeyColumn; ++rowIndex)
+    {
+        if (rowIndex != headerRow)
+        {
+            keys.insert(cell(rows[rowIndex], keyColumn));
+        }
+    }
+
+    for (size_t appendedIndex = 0; appendedIndex < appendedRows.size(); ++appendedIndex)
+    {
+        const std::vector<std::string> &row = appendedRows[appendedIndex];
+        const std::string key = keyColumn != RowNumberKeyColumn ? cell(row, keyColumn) : std::string();
+
+        if (!key.empty() && !keys.insert(key).second)
+        {
+            errorMessage = "appended row " + std::to_string(appendedIndex + 1) + ": key '" + key + "' already exists";
+            return false;
+        }
+
+        rows.push_back(row);
+    }
+
+    return true;
+}
+
+bool appendTableColumns(
+    std::vector<std::vector<std::string>> &rows,
+    const std::vector<std::vector<std::string>> &appendedColumns,
+    size_t keyColumn,
+    size_t headerRow,
+    std::string &errorMessage)
+{
+    errorMessage.clear();
+
+    if (appendedColumns.empty() || headerRow >= rows.size() || keyColumn == RowNumberKeyColumn)
+    {
+        errorMessage = "appended columns need a header row and a key column";
+        return false;
+    }
+
+    const std::vector<std::string> &names = appendedColumns.front();
+    const size_t count = names.size() > keyColumn ? names.size() - 1 : 0;
+    const size_t width = rows[headerRow].size();
+    std::unordered_set<std::string> header;
+
+    for (const std::string &name : rows[headerRow])
+    {
+        header.insert(name);
+    }
+
+    for (size_t index = 0; index < names.size(); ++index)
+    {
+        if (index != keyColumn && header.contains(names[index]))
+        {
+            errorMessage = "appended column '" + names[index] + "' already exists";
+            return false;
+        }
+    }
+
+    std::unordered_map<std::string, const std::vector<std::string> *> valuesByKey;
+
+    for (size_t index = 1; index < appendedColumns.size(); ++index)
+    {
+        const std::vector<std::string> &row = appendedColumns[index];
+
+        if (row.size() > names.size() || !valuesByKey.emplace(cell(row, keyColumn), &row).second)
+        {
+            errorMessage = "appended column row " + std::to_string(index + 1) + " is too long or repeats its key";
+            return false;
+        }
+    }
+
+    const auto values = [&](const std::vector<std::string> *pSource)
+    {
+        std::vector<std::string> added;
+
+        for (size_t index = 0; index < names.size(); ++index)
+        {
+            if (index != keyColumn)
+            {
+                added.push_back(pSource != nullptr ? cell(*pSource, index) : std::string());
+            }
+        }
+
+        return added;
+    };
+    size_t matched = 0;
+
+    for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
+    {
+        std::vector<std::string> &row = rows[rowIndex];
+        const std::vector<std::string> *pSource = nullptr;
+
+        if (rowIndex == headerRow)
+        {
+            pSource = &names;
+        }
+        else if (const auto found = valuesByKey.find(cell(row, keyColumn)); found != valuesByKey.end())
+        {
+            pSource = found->second;
+            ++matched;
+        }
+
+        // New columns go right after the header's; a cell past the header has no column to keep it (audit DAT-6).
+        if (std::any_of(row.begin() + std::ptrdiff_t(std::min(row.size(), width)), row.end(),
+                [](const std::string &value) { return !value.empty(); }))
+        {
+            errorMessage = "row " + std::to_string(rowIndex + 1) + " has cells past the header";
+            return false;
+        }
+
+        row.resize(width);
+        const std::vector<std::string> added = values(pSource);
+        row.insert(row.end(), added.begin(), added.end());
+    }
+
+    if (matched != valuesByKey.size())
+    {
+        errorMessage = "appended columns name a key the table does not have";
+        return false;
+    }
+
+    return true;
+}
+
 bool composeKeyedAppendTableRows(
     const std::vector<std::vector<std::string>> &baseRows,
     const std::vector<KeyedTableContributionRows> &contributions,

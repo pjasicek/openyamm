@@ -1,0 +1,300 @@
+format: 0
+themes:
+  - id: theme:brick
+    wall: {texture: wall, size: [128, 256]}
+    floor: {texture: tfb07, size: [128, 128]}
+    ceiling: {texture: wall, size: [128, 256]}
+    reveal: {texture: 7trim9_32, size: [32, 64]}
+    door: {texture: 7trimda, size: [256, 128]}
+    notes: "The robbers' rooms: d01's brick walls (wall), flagstone floors (cfb1), rough stone vaults (cwb), its plank doors (twb1a) and trim."
+  - id: theme:stone
+    wall: {texture: twb2, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: 7trim9_32, size: [32, 64]}
+    door: {texture: 7trimda, size: [256, 128]}
+    notes: "The bridge's own masonry (the quay cellar, the undercroft, the sluice chamber): d01's big dressed blocks (twb2)."
+defaults: {theme: theme:brick, ambient: 16}
+rooms:
+  - id: room:boss_quarters
+    name: Robber Boss's quarters
+    outline: [[3200, 3328], [4608, 3328], [4608, 4608], [3200, 4608]]
+    floor: 256
+    ceiling: 832
+    theme: theme:brick
+    platforms:
+      - {id: platform:desk, at: [4352, 3968], size: [128, 320], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The boss's desk: his ledger open on it."}
+      - {id: platform:hearth, at: [3904, 4544], size: [384, 128], rise: 32, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "The hearth against the north wall, west of the strongroom passage."}
+      - {at: [3392, 3520], size: [256, 384], rise: 56, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The boss's bed}
+      - {at: [3520, 4224], size: [256, 192], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Supper table}
+    ceiling_levels:
+      - ceiling: 960
+        top_scale: [1, 0]
+        notes: Barrel vault north-south.
+    ambient: 16
+    notes: "The boss's own rooms, 1,408 by 1,280 and 256 up: a desk with his ledger, a bed, a supper table, a hearth on the north wall with the strongroom catch beside it; the strongroom passage leaves the north wall."
+  - id: room:boss_stair
+    name: Boss's stair
+    outline: [[1664, 3712], [2944, 3712], [2944, 4224], [1664, 4224]]
+    floor: 0
+    slope: {to: 256, toward: east, steps: 8, riser: {texture: twb2, size: [128, 256]}, tread: {texture: cfb1, size: [128, 128]}}
+    ceiling: 448
+    ceiling_slope: {to: 704, toward: east}
+    theme: theme:brick
+    ambient: 20
+    notes: Eight steps of 32 up east from the undercroft's east arch to the boss's door.
+  - id: room:bunk_room
+    name: Bunk room
+    outline: [[-3200, 5120], [-1664, 5120], [-1664, 6144], [-3200, 6144]]
+    floor: 0
+    ceiling: 416
+    theme: theme:brick
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:loose_stone, offset: 160, length: 64, bottom: 32, height: 64, surface: {texture: wall, size: [128, 256]}, secret: true, notes: "A loose brick low in the north wall behind the bunks: somebody's purse (secret)."}
+    platforms:
+      - {id: platform:bunk_1, at: [-3072, 5376], size: [192, 384], rise: 48, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: Bunk}
+      - {id: platform:bunk_2, at: [-3072, 5888], size: [192, 384], rise: 48, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: Bunk}
+      - {id: platform:bunk_3, at: [-2560, 6016], size: [384, 192], rise: 48, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: Bunk}
+      - {id: platform:bunk_4, at: [-2048, 6016], size: [384, 192], rise: 48, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: Bunk}
+    ambient: 22
+    notes: "Bunks of planks round the walls, 1,536 by 1,024, the robbers asleep; a loose brick behind one bunk hides a purse."
+  - id: room:crawl
+    name: Robbers' crawl
+    path: [[-2560, 1152], [-2560, 2304], [-2560, 3456]]
+    width: 320
+    floor: 0
+    ceiling: 288
+    theme: theme:brick
+    ambient: 24
+    notes: "The hidden way: a brick passage 256 wide and 2,300 long behind the cellar's secret block, a tripwire halfway along."
+  - id: room:dicing_room
+    name: Dicing room
+    outline: [[-3200, 3584], [-1664, 3584], [-1664, 4864], [-3200, 4864]]
+    floor: 0
+    ceiling: 448
+    theme: theme:brick
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:dues_box, at: centre, length: 96, bottom: 112, height: 96, surface: {texture: 7gt002c, size: [64, 64], fit: true}, notes: "The gang's dues box nailed to the wall, its slot scratched round with words."}
+    platforms:
+      - {id: platform:dice_table, at: [-2432, 4224], size: [448, 224], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The dicing table, plank on trestles: dice, cups and coins on it."}
+      - {at: [-2432, 4448], size: [384, 64], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Bench}
+      - {at: [-2432, 4000], size: [384, 64], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Bench}
+      - {at: [-1856, 3776], size: [192, 96], rise: 64, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Side table (the lamp)}
+    ceiling_levels:
+      - ceiling: 576
+        top_scale: [1, 0]
+        notes: Brick barrel vault north-south.
+    ambient: 18
+    notes: "The robbers' common room, 1,536 by 1,280: a plank dicing table with benches in the middle, kegs along the walls, the dues box on the west wall. Arches east into the undercroft; a door north to the bunks."
+  - id: room:fence_store
+    name: Fence's store
+    outline: [[1024, 5120], [2048, 5120], [2048, 6144], [1024, 6144]]
+    floor: 0
+    ceiling: 384
+    theme: theme:brick
+    platforms:
+      - {at: [1856, 5888], size: [256, 128], rise: 64, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Counting table}
+      - {at: [1152, 5280], size: [192, 192], rise: 128, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Crate of stolen goods}
+      - {at: [1152, 5280], size: [128, 128], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, base: 128, notes: Crate on the crate}
+      - {at: [1408, 5248], size: [256, 128], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Crate}
+    ambient: 20
+    notes: "The fence's store behind a good lock: crates and sacks of goods stolen in Rivercity, a counting table, the fence's chest."
+  - id: room:quay_cellar
+    name: Quay cellar
+    outline: [[-3200, 0], [-1920, 0], [-1920, 1024], [-3200, 1024]]
+    floor: 0
+    ceiling: 448
+    theme: theme:stone
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:drain_grate, offset: 960, length: 256, bottom: 0, height: 256, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "The drain grate over the basin (MM6 Free Haven Sewer's round culvert grate): the river comes in under the quay through it."}
+    platforms:
+      - {at: [-2112, 24], size: [320, 48], rise: 48, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: The basin's sill against the quay wall.}
+    levels:
+      - id: level:drain
+        outline: [[-2272, 48], [-1952, 48], [-1952, 416], [-2272, 416]]
+        floor: -96
+        edge: {texture: twb2, size: [128, 256]}
+        surface: {texture: 7slimywtr, size: [128, 128], liquid: water}
+        notes: "The drain basin: river water lapping in under the quay wall."
+    ceiling_levels:
+      - ceiling: 576
+        top_scale: [0, 1]
+        notes: A low barrel vault east-west under the quay.
+    parapets:
+      - path: [[-2288, 32], [-2288, 432], [-1936, 432]]
+        height: 48
+        thickness: 16
+        surface: {texture: twb2, size: [128, 256]}
+        notes: The basin's kerb.
+    ambient: 20
+    notes: "A disused cellar behind Rivercity's south quay wall, 1,280 by 1,024 under a low barrel vault: the quay door (the X2 exit) in the south wall, the river lapping into a drain basin in the south-east corner through a low grate. It looks like a dead end; wet footprints lead to the north wall."
+  - id: room:sluice
+    name: Sluice chamber
+    outline: [[-1408, 5120], [768, 5120], [768, 6144], [-1408, 6144]]
+    floor: 0
+    ceiling: 512
+    theme: theme:stone
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:river_grate, at: centre, length: 512, bottom: 0, height: 512, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "The river grate: the race pours in from the Great River through iron bars."}
+      - wall: south
+        panels:
+          - {id: panel:race_down, at: centre, length: 384, bottom: 0, height: 384, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: The grate where the race runs on south under the wall into the undercroft.}
+    platforms:
+      - {id: platform:catwalk, at: [0, 5760], size: [512, 160], rise: 224, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The sluice wall across the race, planked on top: the catwalk."}
+      - {at: [0, 5688], size: [512, 16], rise: 48, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7trimda, size: [256, 128]}, base: 224, notes: "Catwalk rail, south"}
+      - {at: [0, 5832], size: [512, 16], rise: 48, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7trimda, size: [256, 128]}, base: 224, notes: "Catwalk rail, north"}
+      - {at: [0, 6120], size: [512, 48], rise: 48, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: The sill under the river grate.}
+      - {at: [0, 5144], size: [512, 48], rise: 48, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: The sill where the race runs on south into the undercroft.}
+    levels:
+      - id: level:race_sluice
+        outline: [[-256, 5168], [256, 5168], [256, 6096], [-256, 6096]]
+        floor: -224
+        edge: {texture: twb2, size: [128, 256]}
+        surface: {texture: 7slimywtr, size: [128, 128], liquid: water}
+        notes: The race where it comes in from the river.
+    ceiling_levels:
+      - ceiling: 704
+        top_scale: [1, 0]
+        notes: Barrel vault north-south over the race.
+    ambient: 18
+    notes: "Where the race is taken off the river: a vaulted chamber 2,176 by 1,024, the race pouring in through the tall river grate in the north wall and crossed by the old sluice wall, planked over as a catwalk. The bunk room's door on the west; on the east bank an arch south into the undercroft and the fence's locked door."
+  - id: room:strongroom_walk
+    name: Strongroom passage
+    path: [[3904, 4736], [3904, 5376], [3904, 6016]]
+    width: 320
+    floor: 256
+    ceiling: 576
+    theme: theme:stone
+    ambient: 22
+    notes: "A straight stone passage 1,280 long to the vault: three slabs in its floor fire darts from the walls unless the catch in the boss's room is thrown."
+  - id: room:undercroft
+    name: Undercroft of the great bridge
+    outline: [[-1408, 3072], [1408, 3072], [1408, 4864], [-1408, 4864]]
+    floor: 0
+    ceiling: 640
+    theme: theme:stone
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:race_out, at: centre, length: 384, bottom: 0, height: 384, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "The race's outfall grate: the water runs on under the quay into the dark."}
+      - wall: north
+        panels:
+          - {id: panel:race_in, at: centre, length: 384, bottom: 0, height: 384, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: The grate where the race comes in from the sluice chamber.}
+    platforms:
+      - {id: platform:winch, at: [576, 3712], size: [96, 96], rise: 160, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The bridge winch's post on the east bank, its lever facing the race."}
+      - {at: [-1216, 3264], size: [256, 256], rise: 640, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: twb2, size: [128, 256]}, notes: "Pier buttress, south-west"}
+      - {at: [1216, 3264], size: [256, 256], rise: 640, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: twb2, size: [128, 256]}, notes: "Pier buttress, south-east"}
+      - {at: [-1216, 4672], size: [256, 256], rise: 640, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: twb2, size: [128, 256]}, notes: "Pier buttress, north-west"}
+      - {at: [1216, 4672], size: [256, 256], rise: 640, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: twb2, size: [128, 256]}, notes: "Pier buttress, north-east"}
+      - {at: [0, 3096], size: [512, 48], rise: 48, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: The sill where the race runs out under the south wall.}
+      - {at: [0, 4840], size: [512, 48], rise: 48, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: The sill where the race comes in under the north wall.}
+    levels:
+      - id: level:race_under
+        outline: [[-256, 3120], [256, 3120], [256, 4816], [-256, 4816]]
+        floor: -224
+        edge: {texture: twb2, size: [128, 256]}
+        surface: {texture: 7slimywtr, size: [128, 128], liquid: water}
+        notes: "The race: river water 224 below the floor, flowing north to south under the bridge."
+    ceiling_levels:
+      - ceiling: 1088
+        top_scale: [0, 1]
+        notes: "The bridge's great arch: a barrel vault east-west from 640 at the walls to 1,088 at the crown."
+    flights:
+      - {from: [224, 3248], to: [-256, 3248], from_height: -224, to_height: 0, width: 192, steps: 7, riser: {texture: twb2, size: [128, 256]}, tread: {texture: cfb1, size: [128, 128]}, notes: "Water stairs: seven steps up out of the race onto the west bank, at its south end (the way out for anyone who falls in)."}
+    ambient: 18
+    notes: "The set piece: the hollow of the great bridge's south abutment, 2,816 by 1,792 under one tall barrel arch, four pier buttresses in its corners. The race cuts it north to south, 512 wide and 224 down, through grates at either end; the robbers keep their plank bridge drawn back to the east bank, its winch beside it. The dicing room opens on the west bank; the boss's stair and the sluice chamber's door on the east."
+  - id: room:vault
+    name: Vault
+    outline: [[3456, 6144], [4352, 6144], [4352, 6912], [3456, 6912]]
+    floor: 256
+    ceiling: 704
+    theme: theme:stone
+    platforms:
+      - {id: platform:plinth, at: [3904, 6656], size: [256, 192], rise: 32, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: The plinth the strongbox stands on.}
+    ceiling_levels:
+      - ceiling: 800
+        top_scale: [0, 1]
+    ambient: 20
+    notes: "The gang's strongroom, 896 by 768 behind an iron door with three locks: the strongbox with Princess Roxanne's tiara on a plinth, the gang's takings stacked round it."
+openings:
+  - id: open:boss
+    from: room:boss_stair
+    to: room:boss_quarters
+    link: link:stair_boss
+    width: 256
+    height: 256
+  - id: open:bunks
+    from: room:dicing_room
+    to: room:bunk_room
+    link: link:dicing_bunks
+    width: 256
+    height: 256
+  - id: open:den
+    from: room:crawl
+    to: room:dicing_room
+    link: link:crawl_dicing
+    width: 256
+    height: 256
+  - id: open:dicing_under
+    from: room:dicing_room
+    to: room:undercroft
+    link: link:dicing_undercroft
+    width: 448
+    height: 384
+    reveal: {texture: twb2, size: [128, 256]}
+  - id: open:fence
+    from: room:sluice
+    to: room:fence_store
+    link: link:sluice_fence
+    width: 256
+    height: 256
+  - id: open:secret
+    from: room:quay_cellar
+    to: room:crawl
+    link: link:cellar_crawl
+    width: 256
+    height: 256
+    notes: The secret block in the cellar's north wall.
+  - id: open:sluice_door
+    from: room:bunk_room
+    to: room:sluice
+    link: link:bunks_sluice
+    width: 256
+    height: 256
+  - id: open:sluice_under
+    from: room:sluice
+    to: room:undercroft
+    link: link:sluice_undercroft
+    along: 0.85
+    width: 320
+    height: 384
+    reveal: {texture: twb2, size: [128, 256]}
+    notes: "East of the race: from the sluice chamber's east bank down into the undercroft's east half."
+  - id: open:stair
+    from: room:undercroft
+    to: room:boss_stair
+    link: link:undercroft_stair
+    width: 384
+    height: 384
+    reveal: {texture: twb2, size: [128, 256]}
+  - id: open:strongroom
+    from: room:boss_quarters
+    to: room:strongroom_walk
+    link: link:boss_strongroom
+    width: 256
+    height: 288
+  - id: open:vault
+    from: room:strongroom_walk
+    to: room:vault
+    link: link:strongroom_vault
+    width: 256
+    height: 256
+notes: "XD-21 Robbers' Den at L4: the den in the south abutment of Rivercity's great bridge (x east, y north; the quay door at y 0; heights from the cellar's floor). Written by output/studio_cal/xd21/tools/gen.py."

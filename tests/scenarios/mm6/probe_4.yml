@@ -4212,7 +4212,7 @@ steps:
           kind: npc_talk
           active_source_id: 1061
           house_dialog: false
-          action_count: 2
+          action_count: 1
       expect_before:
         dialog:
           active: true
@@ -4222,16 +4222,9 @@ steps:
           house_title: ""
           line_count: 0
           text_hash: 1469598103934665603
-          action_count: 2
+          action_count: 1
           actions:
             - index: 0
-              kind: npc_profession_description
-              id: 50
-              secondary_id: 2370
-              enabled: true
-              text_only: false
-              label: "More Info"
-            - index: 1
               kind: npc_profession_news
               id: 50
               secondary_id: 738
@@ -4244,7 +4237,7 @@ steps:
         kind: npc_talk
         active_source_id: 1061
         house_dialog: false
-        action_count: 2
+        action_count: 1
   - source_line: 365
     interact_target:
       method: keyboard

@@ -1,0 +1,32 @@
+{
+  "creature_3d_identity": "mm9reduce:greaterdemon",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "reduction": {
+    "status": "ready for review (fix pass, chart guard, UV audit 0)",
+    "date": "2026-11-04",
+    "candidate": "export/mm9_greaterdemon.glb (= export/mm9_greaterdemon_j85.glb, sha256 3ae0fcadcb0b)",
+    "lod0": [
+      9988,
+      8418
+    ],
+    "lods_installed": [
+      4945,
+      1665,
+      460
+    ],
+    "lods_candidate": [
+      4158,
+      1378,
+      369
+    ],
+    "ladder": "j r85 p99 11.42 / max 32.0 mm, IoU .9954, SSIM .9919",
+    "rollback": "before/mm9_greaterdemon.glb (sha256 32d3d7a6a229)",
+    "meshy_credits": 0,
+    "installed": false,
+    "uv_audit_lod0_escaping": 0,
+    "previous": "h85 rolled back 2026-11-04 (3 membrane lining faces off the charts)"
+  }
+}

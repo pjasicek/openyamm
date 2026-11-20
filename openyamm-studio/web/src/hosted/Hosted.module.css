@@ -1,0 +1,289 @@
+/* The hosted page's start and its project menu (S5c). Tokens from styles/tokens.css. */
+.page
+{
+    height: 100%;
+    overflow: auto;
+    padding: var(--space-5) calc(var(--space-5) * 2);
+    max-width: 1100px;
+}
+
+.heading
+{
+    margin: 0 0 var(--space-2);
+    font-size: 22px;
+}
+
+.badge
+{
+    font-size: var(--size-s);
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    padding: var(--space-1) var(--space-3);
+    vertical-align: middle;
+}
+
+.lead, .dim
+{
+    color: var(--text-dim);
+}
+
+.good
+{
+    color: var(--good);
+}
+
+.bad
+{
+    color: var(--bad);
+}
+
+.busy
+{
+    color: var(--warn);
+}
+
+.step
+{
+    margin: var(--space-5) 0;
+    padding: var(--space-4) var(--space-5);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.step h2
+{
+    margin: 0 0 var(--space-3);
+    font-size: 16px;
+}
+
+.buttons
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+.button, .primary
+{
+    display: inline-block;
+    border: 1px solid var(--line-strong);
+    background: var(--surface-2);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-4);
+    cursor: pointer;
+    font: inherit;
+}
+
+.primary
+{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+}
+
+.button:disabled, .primary:disabled
+{
+    opacity: 0.5;
+    cursor: default;
+}
+
+.hidden
+{
+    display: none;
+}
+
+.link
+{
+    border: none;
+    background: none;
+    color: var(--accent);
+    cursor: pointer;
+    font: inherit;
+    padding: 0 var(--space-2);
+    text-decoration: underline;
+}
+
+.check
+{
+    display: block;
+    margin-top: var(--space-3);
+    color: var(--text-dim);
+}
+
+.copies
+{
+    margin: var(--space-3) 0 0;
+}
+
+.wide
+{
+    min-width: 420px;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    font: inherit;
+}
+
+.table, .caps
+{
+    border-collapse: collapse;
+    margin-top: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+}
+
+.table th, .caps th
+{
+    text-align: left;
+    font-size: var(--size-s);
+    color: var(--text-dim);
+    font-weight: 600;
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--line);
+}
+
+.table td, .caps td
+{
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--line);
+}
+
+.table tbody tr
+{
+    cursor: pointer;
+}
+
+.table tbody tr:hover
+{
+    background: var(--accent-soft);
+}
+
+.yes
+{
+    color: var(--good);
+    font-weight: 600;
+}
+
+.no
+{
+    color: var(--bad);
+    font-weight: 600;
+}
+
+.pair
+{
+    color: var(--warn);
+    font-weight: 600;
+}
+
+.newForm
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    align-items: center;
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background: var(--surface-2);
+    border-radius: var(--radius);
+}
+
+.newForm input, .newForm select
+{
+    margin-left: var(--space-2);
+    font: inherit;
+    padding: var(--space-1) var(--space-2);
+}
+
+.paired
+{
+    flex: none;
+    margin: var(--space-4) calc(var(--space-5) * 2) 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+}
+
+.menu
+{
+    display: inline-flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.menuButton
+{
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: var(--space-1) var(--space-3);
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--size-s);
+}
+
+.menuNote
+{
+    font-size: var(--size-s);
+    color: var(--text-dim);
+    max-width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.positioner
+{
+    z-index: 30;
+}
+
+.popup
+{
+    width: 360px;
+    padding: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.popup p
+{
+    margin: 0;
+    font-size: var(--size-s);
+}
+
+.menuItem
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    font: inherit;
+}
+
+.menuItem span
+{
+    font-size: var(--size-s);
+    color: var(--text-dim);
+}
+
+.menuItem:hover:not(:disabled)
+{
+    border-color: var(--accent);
+}

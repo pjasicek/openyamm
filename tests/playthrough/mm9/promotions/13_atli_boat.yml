@@ -1,0 +1,85 @@
+# MM9 promotion playthrough, segment 13: Atli Sigmundssen's boat watch and the Mercenary promotion (guide: side_b.yml
+# speak-to-atli-sigmundssen, guard-atli-sigmundssen-s-boat). To Guberland; Atli (actor 54, RUDE 186) stands north of
+# the Gathering: "We've come to guard your boat." (key 125: the dock at 3 AM, he relieves the party at 6). The party
+# goes to the late guard's post on the dock (actor 56) and waits on the rest screen as a player would: by the post the
+# wait stops at 2:45 (the watch's rest alarm, regionlua.py's evt.SetRestAlarm: MM9's clock triggers fire during a
+# wait); the guard is relieved (key 197) and walks off. The next wait stops at 3:30: three Bandits and three
+# Cutpurses come running from inland and die (the run's rules). The last wait stops at 6:00: Atli is summoned (key
+# 126) and walks to the dock with his daughter and the guard. "Good luck on your journey.": his talk's close (handler
+# 50085, NPC186.scr :Mercpromo) pays key 127, 16 500 experience each and 1 000 gold, and promotes the Mercenary
+# lines: the Knight becomes a Cavalier, the Thief a Rogue. Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 13
+id: mm9.promotions.13_atli_boat
+title: "MM9 promotions 13: Atli Sigmundssen's boat guarded from 3 to 6; Knight to Cavalier, Thief to Rogue"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/11_thorfinn.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90124], qbit_clear: [90125, 90197, 90126, 90127]}
+
+  # To Guberland; Atli north of the Gathering.
+  - travel: {map: guberland.blv, days: 3}
+  - set_pose: {map: guberland.blv, x: 11563, y: 11780, z: 121, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 54}
+  - select_topic: {match_label: "We've come to guard your boat."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90125]}
+
+  # The late guard's post on the dock; wait there for the hour.
+  - set_pose: {map: guberland.blv, x: 17900, y: 4700, z: -100, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 4}
+  - console: {line: "rest wait 1440", expect_contains: Resting}
+  - advance_runtime: {seconds: 4}
+  - console: {line: rest close}
+  - advance_runtime: {seconds: 4}
+  - assert: {game_hour: 2, qbit_set: [90197]}
+  # The watch: the next wait stops for the raid at 3:30.
+  - console: {line: "rest wait 240", expect_contains: Resting}
+  - advance_runtime: {seconds: 4}
+  - console: {line: rest close}
+  - assert: {game_hour: 3}
+  - play_lua: {source: 'wait(4); log("the raid: sent " .. mapvar("BanditsSent") .. ", raiders " .. mapvar("Bandits"))'}
+  - advance_runtime: {seconds: 20}
+  - clear_hostiles: {radius: 6000, min: 1}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 6000}
+  # The raiders dead, the last wait stops at 6:00: Atli comes to the dock.
+  - console: {line: "rest wait 240", expect_contains: Resting}
+  - advance_runtime: {seconds: 4}
+  - console: {line: rest close}
+  - assert: {game_hour: 6}
+  - advance_runtime: {seconds: 4}
+  - assert: {qbit_set: [90126]}
+  - play_lua:
+      max_seconds: 150
+      source: |
+        for i = 1, 60 do if mapvar("AtliComing") == 0 then break end; wait(2) end
+        if mapvar("AtliComing") ~= 0 then error("Atli did not reach the dock") end
+        log("Atli is at the dock")
+  - play_lua:
+      source: |
+        remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        log("CLASSES before: " .. classes())
+        if classes() ~= "Knight Cleric Thief Sorcerer" then error("unexpected classes before Atli's reward") end
+  - interact_actor: {actor_index: 54}
+  - select_topic: {match_label: "Good luck on your journey."}
+  - select_topic: {match_label: "Yeah."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90127]}
+  # 1 000 gold, 16 500 experience each; the Knight a Cavalier, the Thief a Rogue.
+  - play_lua:
+      source: |
+        log("CLASSES after: " .. classes() .. "; gold +" .. (gold() - recall("gold")))
+        if classes() ~= "Cavalier Cleric Rogue Sorcerer" then error("the Mercenary promotion gave " .. classes()) end
+        if gold() - recall("gold") ~= 1000 then error("Atli paid " .. (gold() - recall("gold")) .. " gold") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          log("EXPERIENCE member " .. i .. ": +" .. gain)
+          if gain ~= 16500 then error("member " .. i .. " got " .. gain .. " experience") end
+        end
+  - save_game: {name: "P13 Mercenary", path: output/playthrough/mm9/promotions/checkpoints/13_atli_boat.oysav}

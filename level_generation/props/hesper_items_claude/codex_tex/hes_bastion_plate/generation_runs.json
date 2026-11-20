@@ -1,0 +1,605 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None; all tool returns copied byte-for-byte and kept unresized.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nTask: paint a texture-source/albedo view of the Hesper bastion plate armour onto the supplied orthographic geometry guide.\nINPUT 1 is the EDIT TARGET, the exact untextured model guide. INPUT 2 is the MATERIAL AND DESIGN REFERENCE ONLY.\nEdit only the visible model surface pixels of INPUT 1. Retain its exact 1024 x 1024 canvas, pixel placement, scale, silhouette and geometry edges. Preserve every transparent outside pixel and every hole/opening in the guide. This is a paint-over, not a redesign or a re-render. The unusual orientation in the guide is intentional: do not rotate, straighten, reinterpret view names, or use the reference image's camera. Do not recenter or enlarge the model.\nApply the reference's ivory-white ceramic with fine hairline wear, muted brushed gold edge trim and fittings, dark black-violet resin in the underlying connective panels, and dark leather lining visible inside openings. Continue unshown surfaces plausibly in these same materials. Blue-white capacitor/crystal details and small orange vent lights only where an appropriate solid surface exists. Paint any glow as a bright flat colour with engraved ring/vent detail, without bloom or surrounding illumination. Existing raised plate edges and relief in the geometry define the material boundaries; add fine engraved lines, seams and panel joins within them. No letters, numbers, logos or text.\nLighting: pure albedo texture source, even flat shadowless illumination from the viewer over every visible surface. No cast shadows, no ambient-occlusion shading, no gradients from directional lighting, no strong specular highlights or reflections, no rim light. Gold is its muted base colour with only the faintest sheen. Keep dark materials dark because of pigment, not lighting. No floor or background of any kind: real transparent alpha, including all existing holes. No checkerboard painted into the image.\nReturn one unresized 1024 x 1024 PNG with transparent background, only this one view.\n\nTarget guide_front.png: preserve the squat horizontal ring-like view, outer bounds approximately x=141..882, y=213..810. The broad oval rim and inward-facing lining surround a central irregular transparent opening; that opening MUST stay empty and fully transparent. Paint the raised rim ceramic with gold trim and lining dark leather/resin, with surrounding plates matching the reference. Do not substitute an upright torso or fill the hole with a capacitor.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-b100c5d7-71e9-48f9-b1c8-48daed558177.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration needed: model enlarged relative to guide, silhouette and part boundaries changed, metallic highlights and shaded lining remain.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Corrective regeneration needed: model enlarged relative to guide, silhouette and part boundaries changed, metallic highlights and shaded lining remain."
+      },
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "f268fa61ec524503850b43b261ee133e8f1c1c14535ed41e6998900fcd49cb44"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "1f3f5ae2c31336ae0262eca379be9e4234447ce22da800237c8b620a92af661f",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          25,
+          1218,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.6619261088655018,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 172414,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 161740,
+        "fully_transparent_pixel_fraction": 0.6447947111507928,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Recolor the supplied 3D GUIDE image, pixel for pixel. Use the reference ONLY for colours and surface materials. Produce one PNG, a square 1024 by 1024 pixels, transparent background.\nImage 1: exact geometry and alpha-mask edit target. Image 2: approved material palette and texture reference.\nCRITICAL: Copy Image 1's projection, exact outline, size, placement, holes, and every part's edge. Paint INSIDE the guide, leaving its transparent pixels and holes untouched. Do not improve or reconstruct the shape. Do not create new holes, parts, knobs or supports. Do not enlarge or crop. Maintain all margins. The unusual camera/orientation is intentional.\nApply worn ivory-white ceramic plates, muted brushed gold borders and fittings, black-violet resin under-panels, dark leather inside openings, and blue-white or orange bright flat colour on existing appropriate light-bearing solid surfaces. Follow the reference detailing in engraved lines, seams, panel joins and tiny non-text markings. Continue unseen surfaces in these materials.\nThis is a FLAT DIFFUSE ALBEDO TEXTURE: evenly lit material colours, no lighting/shadows/AO gradients, no reflections, no hot specular highlights, no rim light, no bloom. Gold is matte ochre base colour with a faint sheen only. No background, floor, cast shadow, text or letters. Return original unresized image with true alpha.\n\nTarget guide_front.png: preserve the squat horizontal ring-like view, outer bounds approximately x=141..882, y=213..810. The broad oval rim and inward-facing lining surround a central irregular transparent opening; that opening MUST stay empty and fully transparent. Paint the raised rim ceramic with gold trim and lining dark leather/resin, with surrounding plates matching the reference. Do not substitute an upright torso or fill the hole with a capacitor.\nCorrection priority: preserve the original guide silhouette and ALL part boundaries exactly. The previous attempt enlarged the object and added side openings absent from the guide. Keep the original guide projection with the very broad single oval rim, including its original flat bottom edge. There should be NO new hole on either shoulder. Keep the guide's model bounds x=141..882 and y=213..810 on a 1024 square, with 213 pixels blank above and below. Match the central opening contour exactly. Do not turn the grey guide shading into lighting; replace it with flat diffuse material colours.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-01346da9-32ea-48da-a919-1f0310ea0adb.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected over attempt 1 for closer framing and silhouette. Still not a pixel-exact guide paint-over; part boundaries drift and shaded lining/specular edges remain.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Selected over attempt 1 for closer framing and silhouette. Still not a pixel-exact guide paint-over; part boundaries drift and shaded lining/specular edges remain."
+      },
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "f268fa61ec524503850b43b261ee133e8f1c1c14535ed41e6998900fcd49cb44"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "c5f611c9a2ba22666bdccde324e0450094f118be6207e7527474a87762684c9a",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1238,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9844458161503155,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 15255,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 6358,
+        "fully_transparent_pixel_fraction": 0.7261802105670149,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Recolor the supplied 3D GUIDE image, pixel for pixel. Use the reference ONLY for colours and surface materials. Produce one PNG, a square 1024 by 1024 pixels, transparent background.\nImage 1: exact geometry and alpha-mask edit target. Image 2: approved material palette and texture reference.\nCRITICAL: Copy Image 1's projection, exact outline, size, placement, holes, and every part's edge. Paint INSIDE the guide, leaving its transparent pixels and holes untouched. Do not improve or reconstruct the shape. Do not create new holes, parts, knobs or supports. Do not enlarge or crop. Maintain all margins. The unusual camera/orientation is intentional.\nApply worn ivory-white ceramic plates, muted brushed gold borders and fittings, black-violet resin under-panels, dark leather inside openings, and blue-white or orange bright flat colour on existing appropriate light-bearing solid surfaces. Follow the reference detailing in engraved lines, seams, panel joins and tiny non-text markings. Continue unseen surfaces in these materials.\nThis is a FLAT DIFFUSE ALBEDO TEXTURE: evenly lit material colours, no lighting/shadows/AO gradients, no reflections, no hot specular highlights, no rim light, no bloom. Gold is matte ochre base colour with a faint sheen only. No background, floor, cast shadow, text or letters. Return original unresized image with true alpha.\n\nTarget guide_back.png: preserve the squat horizontal ring-like view, outer bounds approximately x=141..882, y=213..810. The central polygonal transparent opening MUST stay empty and transparent. Raised ribs and layered plates surrounding it use ceramic, gold, and dark resin; continue unseen surfaces consistently. Do not fill the hole with a capacitor or turn this view into an upright torso.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-10f71bbb-547a-44b8-9fad-a18d23e0ded6.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Correction needed: general projection retained, but outline/part boundaries drift and gold specular edges and shading remain.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Correction needed: general projection retained, but outline/part boundaries drift and gold specular edges and shading remain."
+      },
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "a31148070d34d4fcdf6c4a1a4c69f7048adf77622dd75a5c3b3a49bcae546cf5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "13d76ea1d7250697772e15962d3e8ca8504dc1d084e1917160bb739f9c5d4537",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          36,
+          1190,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.984089637737353,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 17885,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 6529,
+        "fully_transparent_pixel_fraction": 0.7244854742336485,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Recolor the supplied 3D GUIDE image, pixel for pixel. Use the reference ONLY for colours and surface materials. Produce one PNG, a square 1024 by 1024 pixels, transparent background.\nImage 1: exact geometry and alpha-mask edit target. Image 2: approved material palette and texture reference.\nCRITICAL: Copy Image 1's projection, exact outline, size, placement, holes, and every part's edge. Paint INSIDE the guide, leaving its transparent pixels and holes untouched. Do not improve or reconstruct the shape. Do not create new holes, parts, knobs or supports. Do not enlarge or crop. Maintain all margins. The unusual camera/orientation is intentional.\nApply worn ivory-white ceramic plates, muted brushed gold borders and fittings, black-violet resin under-panels, dark leather inside openings, and blue-white or orange bright flat colour on existing appropriate light-bearing solid surfaces. Follow the reference detailing in engraved lines, seams, panel joins and tiny non-text markings. Continue unseen surfaces in these materials.\nThis is a FLAT DIFFUSE ALBEDO TEXTURE: evenly lit material colours, no lighting/shadows/AO gradients, no reflections, no hot specular highlights, no rim light, no bloom. Gold is matte ochre base colour with a faint sheen only. No background, floor, cast shadow, text or letters. Return original unresized image with true alpha.\n\nTarget guide_left.png: retain the exact horizontal side-lying orientation, outer bounds approximately x=66..957, y=213..810, with the open circular armhole at the left-middle and the broad curved body opening at the right. Preserve the transparency inside the armhole and to the right of the open curved edge. Trace all existing geometry boundaries in place. Do not rotate the object upright.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-70794a09-e574-4bb5-83ee-ba1421d5544c.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Correction needed: horizontal side projection and opening retained, but outer edges and material boundaries drift; substantial gold highlights and shading remain.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Correction needed: horizontal side projection and opening retained, but outer edges and material boundaries drift; substantial gold highlights and shading remain."
+      },
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6f23b48916602b70afa531bf21f2bcef9f0fc2892302dc5e746d6fa2c0101d56"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "b97a5ce99081b746fb64d83142339777c494fa49b246b49bf679ec79307381e2",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          37,
+          1232,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9625046425350078,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 30103,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 17278,
+        "fully_transparent_pixel_fraction": 0.6757978933123733,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Recolor the supplied 3D GUIDE image, pixel for pixel. Use the reference ONLY for colours and surface materials. Produce one PNG, a square 1024 by 1024 pixels, transparent background.\nImage 1: exact geometry and alpha-mask edit target. Image 2: approved material palette and texture reference.\nCRITICAL: Copy Image 1's projection, exact outline, size, placement, holes, and every part's edge. Paint INSIDE the guide, leaving its transparent pixels and holes untouched. Do not improve or reconstruct the shape. Do not create new holes, parts, knobs or supports. Do not enlarge or crop. Maintain all margins. The unusual camera/orientation is intentional.\nApply worn ivory-white ceramic plates, muted brushed gold borders and fittings, black-violet resin under-panels, dark leather inside openings, and blue-white or orange bright flat colour on existing appropriate light-bearing solid surfaces. Follow the reference detailing in engraved lines, seams, panel joins and tiny non-text markings. Continue unseen surfaces in these materials.\nThis is a FLAT DIFFUSE ALBEDO TEXTURE: evenly lit material colours, no lighting/shadows/AO gradients, no reflections, no hot specular highlights, no rim light, no bloom. Gold is matte ochre base colour with a faint sheen only. No background, floor, cast shadow, text or letters. Return original unresized image with true alpha.\n\nTarget guide_right.png: retain the exact horizontal side-lying orientation, outer bounds approximately x=66..957, y=213..810, with the open circular armhole at the right-middle and the broad curved body opening at the left. Preserve the transparency inside the armhole and to the left of the open curved edge. Trace all existing geometry boundaries in place. Do not rotate the object upright.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-7b18b215-9a79-4b3e-b434-7fcad9dcbf31.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Correction needed: side projection retained but outline/part boundaries drift and metallic highlights/shading remain.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Correction needed: side projection retained but outline/part boundaries drift and metallic highlights/shading remain."
+      },
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "f79fe87bd9c05e1b517be736780506bf3f5ada5773ca36d86eec0c5d2bbf8182"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "ff9fa96be307ee4276779980445c0ce5828aa5c3438e988dc44559c939090a94",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          21,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9825029588137288,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 21401,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 8001,
+        "fully_transparent_pixel_fraction": 0.6811917970945923,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Recolor the supplied 3D GUIDE image, pixel for pixel. Use the reference ONLY for colours and surface materials. Produce one PNG, a square 1024 by 1024 pixels, transparent background.\nImage 1: exact geometry and alpha-mask edit target. Image 2: approved material palette and texture reference.\nCRITICAL: Copy Image 1's projection, exact outline, size, placement, holes, and every part's edge. Paint INSIDE the guide, leaving its transparent pixels and holes untouched. Do not improve or reconstruct the shape. Do not create new holes, parts, knobs or supports. Do not enlarge or crop. Maintain all margins. The unusual camera/orientation is intentional.\nApply worn ivory-white ceramic plates, muted brushed gold borders and fittings, black-violet resin under-panels, dark leather inside openings, and blue-white or orange bright flat colour on existing appropriate light-bearing solid surfaces. Follow the reference detailing in engraved lines, seams, panel joins and tiny non-text markings. Continue unseen surfaces in these materials.\nThis is a FLAT DIFFUSE ALBEDO TEXTURE: evenly lit material colours, no lighting/shadows/AO gradients, no reflections, no hot specular highlights, no rim light, no bloom. Gold is matte ochre base colour with a faint sheen only. No background, floor, cast shadow, text or letters. Return original unresized image with true alpha.\n\nTarget guide_top.png: retain the exact long torso-like orthographic projection, outer bounds approximately x=141..882, y=66..957. Follow this guide literally despite its filename: the raised neck rim is at the top, shoulder caps left/right, the large solid circular capacitor face in the upper-middle, and tapered layered plates towards the bottom. Paint the solid circular face blue-white glass/crystal with concentric ring engravings and a bright centre, following the reference. Keep all its existing surrounding ceramic struts and gold clamps in their exact guide positions. Dark black-violet resin between plates, white ceramic plates with gold rims, sparse orange vent detail on existing side-panel surfaces. Preserve the guide's neck lining geometry and outer silhouette.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-04c574e5-4dc3-4420-82d6-faa86fcc8737.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Correction needed: main capacitor and palette follow reference, but strut layout is redesigned and diffuse-only lighting is not achieved.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Correction needed: main capacitor and palette follow reference, but strut layout is redesigned and diffuse-only lighting is not achieved."
+      },
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "bb263d4186985fe7f2b7149f0554dc6a0eadd560b54f6e9ef7253118e084f437"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "96b207f9f2e2c8b9040c016f8f0c5063832384270d8a81813fdf39dafdfcedf2",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          41,
+          1232,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9907385318746094,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 17702,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 5320,
+        "fully_transparent_pixel_fraction": 0.5678015358826237,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective paint-over, final allowed attempt for back. Image 1 is guide_back.png: LOCK IT. Preserve its exact geometry and transparency; literally colour its surfaces in place, matching every outline, plate boundary and opening. Image 2 is design_reference.png: colour/material swatches only. Keep the camera, orthographic projection and orientation of Image 1.\nApply the reference's ivory ceramic, muted gold trim, black-violet resin and dark leather to the existing surface regions; fine wear, hairline engravings and seams. Existing light details use flat blue-white/orange pigment. Do not add geometry, holes or external details.\nPRIMARY CORRECTION: remove all baked-in lighting. This is an unlit diffuse BASE COLOUR texture pass, NOT beauty artwork. Use restrained matte base colours. No metallic shine, bright edges, bevel highlights, reflections, gradient shadows, AO, rim light or light spill. Equal material colour on surfaces facing any direction. Surface marks are fine and low-contrast, not lighting.\nSecond critical constraint: copy the original guide's silhouette and every hole exactly, with fully transparent background. Remove stray coloured edge/fringe pixels. Do not retain any background or floor. No text, letters or logos.\nTarget guide_back.png: preserve the squat horizontal ring-like view, outer bounds approximately x=141..882, y=213..810. The central polygonal transparent opening MUST stay empty and transparent. Raised ribs and layered plates surrounding it use ceramic, gold, and dark resin; continue unseen surfaces consistently. Do not fill the hole with a capacitor or turn this view into an upright torso.\nOne square 1024 x 1024 RGBA PNG; same size, margins and position as the guide.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-5c6f25ff-d6b3-4cf3-bbe7-9b0ec0dddae4.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected for flatter colour and fewer invented emissive details than attempt 1. Still has outline/part-boundary drift and residual shading; exact guide/albedo requirements not fully met.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Selected for flatter colour and fewer invented emissive details than attempt 1. Still has outline/part-boundary drift and residual shading; exact guide/albedo requirements not fully met."
+      },
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "a31148070d34d4fcdf6c4a1a4c69f7048adf77622dd75a5c3b3a49bcae546cf5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "ad93a746d7f8064a05c384121c37b6712bb2398fcc6e4be6ccd20b3d2e7c4452",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          27,
+          55,
+          1204,
+          1214
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9646672397583542,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 20570,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 12279,
+        "fully_transparent_pixel_fraction": 0.7235023363832228,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective paint-over, final allowed attempt for left. Image 1 is guide_left.png: LOCK IT. Preserve its exact geometry and transparency; literally colour its surfaces in place, matching every outline, plate boundary and opening. Image 2 is design_reference.png: colour/material swatches only. Keep the camera, orthographic projection and orientation of Image 1.\nApply the reference's ivory ceramic, muted gold trim, black-violet resin and dark leather to the existing surface regions; fine wear, hairline engravings and seams. Existing light details use flat blue-white/orange pigment. Do not add geometry, holes or external details.\nPRIMARY CORRECTION: remove all baked-in lighting. This is an unlit diffuse BASE COLOUR texture pass, NOT beauty artwork. Use restrained matte base colours. No metallic shine, bright edges, bevel highlights, reflections, gradient shadows, AO, rim light or light spill. Equal material colour on surfaces facing any direction. Surface marks are fine and low-contrast, not lighting.\nSecond critical constraint: copy the original guide's silhouette and every hole exactly, with fully transparent background. Remove stray coloured edge/fringe pixels. Do not retain any background or floor. No text, letters or logos.\nTarget guide_left.png: retain the exact horizontal side-lying orientation, outer bounds approximately x=66..957, y=213..810, with the open circular armhole at the left-middle and the broad curved body opening at the right. Preserve the transparency inside the armhole and to the right of the open curved edge. Trace all existing geometry boundaries in place. Do not rotate the object upright.\nOne square 1024 x 1024 RGBA PNG; same size, margins and position as the guide.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-dae79c7d-f7f4-4a17-a462-3d26cd7e0abc.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected for reduced metallic highlights and closer silhouette. Still has part-boundary drift and residual shading; exact guide/albedo requirements not fully met.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Selected for reduced metallic highlights and closer silhouette. Still has part-boundary drift and residual shading; exact guide/albedo requirements not fully met."
+      },
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6f23b48916602b70afa531bf21f2bcef9f0fc2892302dc5e746d6fa2c0101d56"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "e49cdd1b3cc633399fcbc7746c18063168762936bc3dedbc899a776a8b37e349",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          37,
+          20,
+          1234,
+          1228
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9779378732830275,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 21182,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 10289,
+        "fully_transparent_pixel_fraction": 0.681321525504351,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective paint-over, final allowed attempt for right. Image 1 is guide_right.png: LOCK IT. Preserve its exact geometry and transparency; literally colour its surfaces in place, matching every outline, plate boundary and opening. Image 2 is design_reference.png: colour/material swatches only. Keep the camera, orthographic projection and orientation of Image 1.\nApply the reference's ivory ceramic, muted gold trim, black-violet resin and dark leather to the existing surface regions; fine wear, hairline engravings and seams. Existing light details use flat blue-white/orange pigment. Do not add geometry, holes or external details.\nPRIMARY CORRECTION: remove all baked-in lighting. This is an unlit diffuse BASE COLOUR texture pass, NOT beauty artwork. Use restrained matte base colours. No metallic shine, bright edges, bevel highlights, reflections, gradient shadows, AO, rim light or light spill. Equal material colour on surfaces facing any direction. Surface marks are fine and low-contrast, not lighting.\nSecond critical constraint: copy the original guide's silhouette and every hole exactly, with fully transparent background. Remove stray coloured edge/fringe pixels. Do not retain any background or floor. No text, letters or logos.\nTarget guide_right.png: retain the exact horizontal side-lying orientation, outer bounds approximately x=66..957, y=213..810, with the open circular armhole at the right-middle and the broad curved body opening at the left. Preserve the transparency inside the armhole and to the left of the open curved edge. Trace all existing geometry boundaries in place. Do not rotate the object upright.\n\nOne square 1024 x 1024 RGBA PNG; same size, margins and position as the guide.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-556bb26b-a83d-4f76-abe2-ce26ea0b49aa.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected for reduced metallic highlights and a more even base-colour treatment. Part edges, resin shading and small fringe artifacts remain; exact guide/albedo requirements not fully met.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Selected for reduced metallic highlights and a more even base-colour treatment. Part edges, resin shading and small fringe artifacts remain; exact guide/albedo requirements not fully met."
+      },
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "f79fe87bd9c05e1b517be736780506bf3f5ada5773ca36d86eec0c5d2bbf8182"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "d8821844c1766372fec9b542ef63b285881dd6ee8c20ccc9d69c78e54814b145",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          67,
+          1180,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9829709632022916,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 21833,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 7590,
+        "fully_transparent_pixel_fraction": 0.680965408301092,
+        "guide_alpha_preserved": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective paint-over, final allowed attempt for top. Image 1 is guide_top.png: LOCK IT. Preserve its exact geometry and transparency; literally colour its surfaces in place, matching every outline, plate boundary and opening. Image 2 is design_reference.png: colour/material swatches only. Keep the camera, orthographic projection and orientation of Image 1.\nApply the reference's ivory ceramic, muted gold trim, black-violet resin and dark leather to the existing surface regions; fine wear, hairline engravings and seams. Existing light details use flat blue-white/orange pigment. Do not add geometry, holes or external details.\nPRIMARY CORRECTION: remove all baked-in lighting. This is an unlit diffuse BASE COLOUR texture pass, NOT beauty artwork. Use restrained matte base colours. No metallic shine, bright edges, bevel highlights, reflections, gradient shadows, AO, rim light or light spill. Equal material colour on surfaces facing any direction. Surface marks are fine and low-contrast, not lighting.\nSecond critical constraint: copy the original guide's silhouette and every hole exactly, with fully transparent background. Remove stray coloured edge/fringe pixels. Do not retain any background or floor. No text, letters or logos.\nTarget guide_top.png: retain the exact long torso-like orthographic projection, outer bounds approximately x=141..882, y=66..957. Follow this guide literally despite its filename: the raised neck rim is at the top, shoulder caps left/right, the large solid circular capacitor face in the upper-middle, and tapered layered plates towards the bottom. Paint the solid circular face blue-white glass/crystal with concentric ring engravings and a bright centre, following the reference. Keep all its existing surrounding ceramic struts and gold clamps in their exact guide positions. Dark black-violet resin between plates, white ceramic plates with gold rims, sparse orange vent detail on existing side-panel surfaces. Preserve the guide's neck lining geometry and outer silhouette.\nThe original guide's capacitor disc, its asymmetric surrounding struts and irregular plates MUST stay the original size and location. Do not shrink the disc, rearrange the support struts, add new clamps or copy the reference's symmetry. The disc has light-blue engraved rings and a pale blue-white centre painted flat, not glowing into other surfaces.\nOne square 1024 x 1024 RGBA PNG; same size, margins and position as the guide.",
+      "source_tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-bddd-7e13-a0a4-8e57874b6e28/exec-a5218953-2d98-42fb-bac0-315f95dd6a14.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected for flatter capacitor colour and reduced highlights. Original strut/panel geometry is still reinterpreted and some shading remains; exact guide/albedo requirements not fully met.",
+      "visual_review": {
+        "materials": "Broad ivory ceramic / gold / black-violet resin palette matches; individual material boundaries differ from guide.",
+        "flat_even_shadowless_lighting": false,
+        "no_text_or_letters": true,
+        "all_part_edges_preserved": false,
+        "notes": "Selected for flatter capacitor colour and reduced highlights. Original strut/panel geometry is still reinterpreted and some shading remains; exact guide/albedo requirements not fully met."
+      },
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "bb263d4186985fe7f2b7149f0554dc6a0eadd560b54f6e9ef7253118e084f437"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6411581afdf27c9ae9ed618e6020ccefb1df97e0174f5e64318740575855fcb4"
+        }
+      ],
+      "output_sha256": "92859a6717abdfa3cd858d9b00545c6fb153372f1febae533e367664295c7eb2",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1238,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.989166164053076,
+        "normalization_note": "Guide mask sampled on returned canvas only for measurement; saved image is unmodified.",
+        "outside_guide_pixels_alpha_nonzero_normalized": 16232,
+        "outside_guide_pixels_alpha_at_least_128_normalized": 6206,
+        "fully_transparent_pixel_fraction": 0.5689086788306128,
+        "guide_alpha_preserved": false
+      }
+    }
+  ],
+  "status": "Generation complete within maximum of one corrective regeneration per view; strict visual requirements not fully satisfied.",
+  "selection_note": "Selected means preferred among the two allowed returns, not a claim that the exact-silhouette or flat-albedo checks passed.",
+  "brief_sha256": "3c6759a08a913a7740aaae2ca406b6e018a0641bb71f0599ae024422f18b49d9",
+  "limitations": [
+    "All returns are 1254 x 1254 rather than requested 1024 x 1024 and have been preserved unresized as instructed.",
+    "Guide silhouettes, alpha and internal part boundaries are not identical.",
+    "Residual shading/highlights and edge fringe pixels remain after corrective generation."
+  ],
+  "deliverables": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ]
+}

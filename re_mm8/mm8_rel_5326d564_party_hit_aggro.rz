@@ -1,0 +1,19 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b
+# Preferred image base 0x400000. See PARTY_HIT_AGGRO.md.
+f+ ref.mm8rel.DamageMonsterFromParty @ 0x4378ec
+f+ ref.mm8rel.ActorHitReaction @ 0x40332f
+f+ research.mm8rel.AlertNearbyActorFaction @ 0x439278
+f+ ref.mm8rel.BuildOutdoorActiveActors @ 0x40151a
+f+ research.mm8rel.UpdateMapObjects @ 0x472b60
+f+ research.mm8rel.MoveMapObjectOutdoor @ 0x472047
+f+ research.mm8rel.MoveMapObjectIndoor @ 0x4716af
+f+ research.mm8rel.TimerUpdate @ 0x425008
+CC "Every party hit sets Active 0x4000 and Nearby 0x8000, whatever the distance" @ 0x4379b8
+CC "Alive: hit reaction, then faction alert with Aggressor" @ 0x438162
+CC "Hit reaction sets hostility type 4" @ 0x403366
+CC "Hit reaction: AI state 8 for the hit animation, no pursuit" @ 0x40342a
+CC "Outdoors only distance decides: 5632 or more clears Active, Nearby is not read" @ 0x4015eb
+CC "Age the object by the frame's ticks" @ 0x472c36
+CC "Lifetime flag 0x04: Age at or past lifetime ends the object" @ 0x472c57
+CC "Only TurnBased with HaltTurnBased objects: removed beyond 5120 from the party" @ 0x472d20
+CC "Frame step in seconds, 16.16: (ticks << 16) / 128" @ 0x42504e

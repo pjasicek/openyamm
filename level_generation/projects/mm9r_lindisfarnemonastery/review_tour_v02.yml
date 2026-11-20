@@ -1,0 +1,235 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_lindisfarnemonastery/review/v02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: g01_narthex_start
+  position:
+  - -328
+  - -934
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: g02_front_door_out
+  position:
+  - -328
+  - -640
+  - 4
+  yaw: -1.5708
+  pitch: 0.0
+- name: g03_nave_north
+  position:
+  - -328
+  - 1536
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: g04_nave_south
+  position:
+  - -328
+  - 5632
+  - 4
+  yaw: -1.5708
+  pitch: 0.0
+- name: g05_crossing_east
+  position:
+  - -328
+  - 6656
+  - 4
+  yaw: 0.0
+  pitch: 0.0
+- name: g06_crossing_west
+  position:
+  - -328
+  - 6656
+  - 4
+  yaw: 3.1416
+  pitch: 0.0
+- name: g07_choir_north
+  position:
+  - -328
+  - 7680
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: g08_altar
+  position:
+  - -328
+  - 10880
+  - 21
+  yaw: 1.5708
+  pitch: 0.1745
+- name: g09_choir_south
+  position:
+  - -328
+  - 11008
+  - 21
+  yaw: -1.5708
+  pitch: 0.0
+- name: g10_courtyard_ne
+  position:
+  - 1536
+  - 2560
+  - -40
+  yaw: 0.7266
+  pitch: 0.0
+- name: g11_fountain
+  position:
+  - 3840
+  - 1792
+  - -40
+  yaw: 2.191
+  pitch: 0.0
+- name: g12_cloister_east
+  position:
+  - 5632
+  - 1536
+  - 42
+  yaw: 1.5708
+  pitch: 0.0
+- name: g13_cloister_south
+  position:
+  - 4352
+  - 768
+  - 4
+  yaw: 3.1416
+  pitch: 0.0
+- name: g14_thjorad
+  position:
+  - 6272
+  - 6144
+  - 4
+  yaw: -0.1419
+  pitch: 0.0
+- name: g15_ne_hall
+  position:
+  - 5632
+  - 6912
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: g15b_ne_upper
+  position:
+  - 5632
+  - 6912
+  - 370
+  yaw: -0.5404
+  pitch: 0.0
+- name: g20_washing
+  position:
+  - 3164
+  - 1638
+  - -40
+  yaw: 1.5708
+  pitch: -0.1745
+- name: g21_courtyard_west
+  position:
+  - 1075
+  - 1792
+  - -40
+  yaw: 1.5708
+  pitch: 0.0
+- name: g22_porch
+  position:
+  - 0
+  - -1229
+  - 1
+  yaw: -2.583
+  pitch: 0.0
+- name: g23_hillside
+  position:
+  - 0
+  - -1536
+  - 1
+  yaw: -1.5708
+  pitch: 0.0873
+- name: g24_abbot
+  position:
+  - -328
+  - 10496
+  - 1
+  yaw: 1.6821
+  pitch: 0.0
+- name: g16_tower_west
+  position:
+  - -1638
+  - 845
+  - 1
+  yaw: -2.5625
+  pitch: 0.0
+- name: g17_tower_east
+  position:
+  - 1075
+  - 845
+  - 1
+  yaw: -0.6579
+  pitch: 0.0
+- name: g18_west_transept
+  position:
+  - -1792
+  - 6912
+  - 4
+  yaw: 3.1416
+  pitch: 0.0
+- name: g19_east_transept
+  position:
+  - 1280
+  - 6912
+  - 4
+  yaw: -0.245
+  pitch: 0.0
+- name: u01_library_west
+  position:
+  - -1664
+  - 6912
+  - 987
+  yaw: 1.5708
+  pitch: 0.0
+- name: u02_scriptorium_east
+  position:
+  - 1024
+  - 6912
+  - 987
+  yaw: 1.8438
+  pitch: 0.0
+- name: u03_gallery_west
+  position:
+  - -1024
+  - 8448
+  - 984
+  yaw: 1.5708
+  pitch: 0.0
+- name: u04_gallery_east
+  position:
+  - 512
+  - 8448
+  - 987
+  yaw: 1.5708
+  pitch: 0.0
+- name: l01_organ_loft
+  position:
+  - -328
+  - 9216
+  - 2297
+  yaw: 1.5708
+  pitch: 0.0
+- name: l02_loft_south
+  position:
+  - -328
+  - 9984
+  - 2297
+  yaw: -1.5708
+  pitch: 0.0
+- name: t01_bell_tower
+  position:
+  - -369
+  - 6195
+  - 3237
+  yaw: 1.5708
+  pitch: 0.0
+- name: t02_ropes_bells
+  position:
+  - -328
+  - 6349
+  - 4
+  yaw: -1.5708
+  pitch: 0.5236

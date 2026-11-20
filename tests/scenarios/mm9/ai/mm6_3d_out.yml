@@ -1,0 +1,36 @@
+id: mm9.ai.mm6_3d_out
+title: MM6 3D monsters pursue and strike on MM6's AI; their models show no presentation flicker (MM6-MM8 anchor)
+world: mm6
+mode: faithful
+tags: [mm6, actors, ai, arena, animation, regression]
+steps:
+  - note:
+      text: >-
+        The MM6-MM8 check of the shared 3D presentation (MM9_ANIMATION_AUDIT.md): barbarians, an archer and a thief on
+        New Sorpigal's green close in on an invulnerable party with MM6's AI. Runs without --asset-root.
+  - new_game_flow:
+      start_map: oute3.odm
+  - ai_arena: {path: mm6_3d_out.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: attack_melee, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_ranged, min_count: 2}
+  # MM6's blows land at their sprites' contact frames (sprite_attack_timing.yml wins over the models' keys).
+  - assert:
+      ai_trace: {arena_monster: 0, event: impact, detail: "attack1 at 0.49", min_count: 3}
+  # The shared presentation: no model restarts its blend more than twice in any 0.3 s (before the generalisation:
+  # three, and a run-reversed flip; no gait plays reversed since 2026-11-06, as in MM9).
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: "blend=", max_in_window: {count: 2, seconds: 0.3}}
+  - assert:
+      ai_trace: {arena_monster: 1, event: anim, detail: "blend=", max_in_window: {count: 2, seconds: 0.3}}
+  - assert:
+      ai_trace: {arena_monster: 2, event: anim, detail: "blend=", max_in_window: {count: 2, seconds: 0.3}}
+  - assert:
+      ai_trace: {arena_monster: 3, event: anim, detail: "blend=", max_in_window: {count: 2, seconds: 0.3}}

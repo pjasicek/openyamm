@@ -146,6 +146,11 @@ projectiles:
     impact_follows_target: true
     return_flight: openyamm:fx/projectile/life_drain
   armageddon: {impact: openyamm:fx/impact/armageddon}
+  # Discharged chest traps: a burst before the party's eyes, the impact of a trap object with no flight.
+  fire_trap: {impact: openyamm:fx/impact/fire_large}
+  elec_trap: {impact: openyamm:fx/impact/lightning}
+  cold_trap: {impact: openyamm:fx/impact/ice}
+  poison_trap: {impact: openyamm:fx/impact/toxic_cloud}
   # Technology and energy: robots and blaster wielders fire the blaster bolt; dragons and mages have their own.
   blaster:
     flight: openyamm:fx/projectile/blaster

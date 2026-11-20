@@ -1,0 +1,48 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_engine_handoff_20260928/refinement_2130/images
+exit: true
+steps:
+- wait: 2
+- capture: all-gameplay
+- right_down:
+  - 50
+  - 110
+- capture: all-hero-inspect
+- right_up:
+  - 50
+  - 110
+- right_down:
+  - 160
+  - 110
+- capture: all-skull-inspect
+- right_up:
+  - 160
+  - 110
+- capture: all-released
+- right_down: &id001
+  - 296
+  - 24
+- click: *id001
+- right_up: *id001
+- capture: books
+- key: Escape
+- right_down: &id002
+  - 352
+  - 24
+- click: *id002
+- right_up: *id002
+- capture: party
+- key: Escape
+- right_down: &id003
+  - 409
+  - 24
+- click: *id003
+- right_up: *id003
+- capture: rest
+- key: Escape
+- right_down: &id004
+  - 466
+  - 24
+- click: *id004
+- right_up: *id004
+- capture: options
+- key: Escape

@@ -1,0 +1,108 @@
+User data folder: /tmp/claude-1000/-home-pjasicek-github-OpenYAMM/12b8e39e-e9f2-4e03-ab9b-8914417ab28b/scratchpad/hl/userdata
+Scenario validated: mm9r.bodies_seamonster steps=23
+[34mScenario run: mm9r.bodies_seamonster[0m
+[34mDevelopment assets: /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev[0m
+[34mActive world: mm9[0m
+[34mMounted search paths:[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/_legacy[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/_legacy[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/_legacy[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/sprites[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/sprites[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/icons[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/videos[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/videos[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/videos[0m
+[33mRUN step 1/23 load_map yaml_line=9 map=1000terrors.blv[0m
+  indoor actors: total=114 map_delta=114 spawn=0 textured=114 missing=0
+  indoor sprite objects: total=0 textured=0 missing=0
+GameAudioSystem: missing music track Music/90018.mp3
+[36mLOAD data begin map=1000terrors.blv[0m
+[32mLOAD data complete map=1000terrors.blv[0m
+[32mPASS step 1[0m
+[33mRUN step 2/23 set_pose yaml_line=11 map=1000terrors.blv "Thousand Terrors"[0m
+[32mPASS step 2[0m
+[33mRUN step 3/23 spawn_actor yaml_line=18[0m
+[32mPASS step 3[0m
+[33mRUN step 4/23 advance_runtime yaml_line=25[0m
+[32mPASS step 4[0m
+[33mRUN step 5/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 5[0m
+[33mRUN step 6/23 advance_runtime yaml_line=32[0m
+[32mPASS step 6[0m
+[33mRUN step 7/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 7[0m
+[33mRUN step 8/23 advance_runtime yaml_line=35[0m
+[32mPASS step 8[0m
+[33mRUN step 9/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 9[0m
+[33mRUN step 10/23 advance_runtime yaml_line=38[0m
+[32mPASS step 10[0m
+[33mRUN step 11/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 11[0m
+[33mRUN step 12/23 advance_runtime yaml_line=41[0m
+[32mPASS step 12[0m
+[33mRUN step 13/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 13[0m
+[33mRUN step 14/23 advance_runtime yaml_line=44[0m
+[32mPASS step 14[0m
+[33mRUN step 15/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 15[0m
+[33mRUN step 16/23 advance_runtime yaml_line=47[0m
+[32mPASS step 16[0m
+[33mRUN step 17/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 17[0m
+[33mRUN step 18/23 advance_runtime yaml_line=50[0m
+Status text clear previous="Ariel evades damage" reason=expired
+[32mPASS step 18[0m
+[33mRUN step 19/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 19[0m
+[33mRUN step 20/23 advance_runtime yaml_line=53[0m
+[32mPASS step 20[0m
+[33mRUN step 21/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 21[0m
+[33mRUN step 22/23 advance_runtime yaml_line=56[0m
+[32mPASS step 22[0m
+[33mRUN step 23/23 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Sea Monster Male hp=525/525 dead=false risen=false boss=0 position=8718.19,-16053.6,-3338 yaw_degrees=113.6 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 23[0m
+Scenario passed: mm9r.bodies_seamonster

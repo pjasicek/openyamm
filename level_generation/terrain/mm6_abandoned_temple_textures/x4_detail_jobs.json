@@ -1,0 +1,87 @@
+[
+  {
+    "name": "beamplnh_x4_v2",
+    "target": "beamplnh",
+    "transparent": true,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/beamplnh_x4_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/beamplnh_extended_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Generate one fresh high-definition game texture strip with REAL alpha transparency outside. First image is an AUTHORITATIVE PLACEMENT GUIDE, NOT artwork to upscale: canvas aspect 2:1, strip full width, centre height, its strip height is 20% of the canvas height. Registered middle x=10%..90% is ONE repeat body; small outer regions x=0%..10% and90%..100% continue the same material to its ends. Preserve exactly the first guide's coarse geometry, crack/course boundaries and proportions, but replace its pixelated surface with fine natural smooth dark warm brown oak fibres, long horizontal grain, subdued irregular cracks. Second image is only accepted material/palette reference; do NOT copy its three-repeat layout or thinner vertical band. The new middle body needs >=1024 pixels wide and >=128 pixels tall in the returned image. Opposite LEFT/RIGHT body edges x=10% and90% must continue the pattern naturally and match grain/mortar phase when repeated. Do not add seams at cap/body cuts, internal end caps, separators, bevel frames, registration marks, labels or text. Whole rectangular strip opaque; true RGBA alpha=0 outside, not black, magenta, white or painted checkerboard. No perspective or external shadows. Fresh clean HD material, no enlarged pixel blocks, harsh noisy sharpening, chunky embossing, gritty faceting or dither. Output one 2:1 landscape master, keep strip height and position as specified."
+  },
+  {
+    "name": "gset06_x4_v2",
+    "target": "gset06",
+    "transparent": true,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/gset06_x4_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/gset06_extended_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Generate one fresh high-definition game texture strip with REAL alpha transparency outside. First image is an AUTHORITATIVE PLACEMENT GUIDE, NOT artwork to upscale: canvas aspect 2:1, strip full width, centre height, its strip height is 20% of the canvas height. Registered middle x=10%..90% is ONE repeat body; small outer regions x=0%..10% and90%..100% continue the same material to its ends. Preserve exactly the first guide's coarse geometry, crack/course boundaries and proportions, but replace its pixelated surface with fine natural grey limestone mineral grain and weathering with the same stone outlines and dark thin mortar as the guide. Second image is only accepted material/palette reference; do NOT copy its three-repeat layout or thinner vertical band. The new middle body needs >=1024 pixels wide and >=128 pixels tall in the returned image. Opposite LEFT/RIGHT body edges x=10% and90% must continue the pattern naturally and match grain/mortar phase when repeated. Do not add seams at cap/body cuts, internal end caps, separators, bevel frames, registration marks, labels or text. Whole rectangular strip opaque; true RGBA alpha=0 outside, not black, magenta, white or painted checkerboard. No perspective or external shadows. Fresh clean HD material, no enlarged pixel blocks, harsh noisy sharpening, chunky embossing, gritty faceting or dither. Output one 2:1 landscape master, keep strip height and position as specified."
+  },
+  {
+    "name": "gset05_x4_v2",
+    "target": "gset05",
+    "transparent": true,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/gset05_x4_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/gset05_extended_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Generate one fresh high-definition game texture strip with REAL alpha transparency outside. First image is an AUTHORITATIVE PLACEMENT GUIDE, NOT artwork to upscale: canvas aspect 2:1, strip full width, centre height, its strip height is 10% of the canvas height. Registered middle x=10%..90% is ONE repeat body; small outer regions x=0%..10% and90%..100% continue the same material to its ends. Preserve exactly the first guide's coarse geometry, crack/course boundaries and proportions, but replace its pixelated surface with fine natural grey limestone mineral grain and weathering with the same stone outlines and dark thin mortar as the guide. Second image is only accepted material/palette reference; do NOT copy its three-repeat layout or thinner vertical band. The new middle body needs >=1024 pixels wide and >=64 pixels tall in the returned image. Opposite LEFT/RIGHT body edges x=10% and90% must continue the pattern naturally and match grain/mortar phase when repeated. Do not add seams at cap/body cuts, internal end caps, separators, bevel frames, registration marks, labels or text. Whole rectangular strip opaque; true RGBA alpha=0 outside, not black, magenta, white or painted checkerboard. No perspective or external shadows. Fresh clean HD material, no enlarged pixel blocks, harsh noisy sharpening, chunky embossing, gritty faceting or dither. Output one 2:1 landscape master, keep strip height and position as specified."
+  },
+  {
+    "name": "stain512_x4_section1_v1",
+    "target": "stain512",
+    "section": 1,
+    "transparent": false,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/stain512_x4_section_1_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/stain512_full_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: top-left detail section of the MM6 stained checkerboard floor, to be cut and assembled into a true 2048x2048 master. Render only the FIRST image's square section at maximum square native generation resolution. Image 1 is the exact section layout: central 8/9 of width and height (x,y=1/18..17/18) is the intended core, corresponding to original x=0..256,y=0..256. Thin surrounding context is deliberate and must also be redrawn continuously. The core must retain exactly 8 by 8 checker squares, original alternating ivory grey and dark brown sequence, exact mortar grid and the pale worn stain shape crossing into lower/right edges exactly where the first guide shows it. Image 2 is the full approved master for material colour/style only, not composition. This is a flat orthographic albedo asset: all lines at the same fractional coordinates as the first guide; no new border/perspective or offset. New fine smooth stone mineral grain and natural wear; no copying magnified pixel blocks, stippled dither, noisy sharpening or square grain. Neutral diffuse lighting and restrained contrast. Full bleed opaque. Redraw the white stain organically with the same coarse silhouette and edge crossings. No writing or watermark. Preserve complete surrounding context for adjoining section matching."
+  },
+  {
+    "name": "stabig2_x4_section1_v1",
+    "target": "stabig2",
+    "section": 1,
+    "transparent": false,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/stabig2_x4_section_1_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/stabig2_full_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: upper half detail section of the MM6 three-window plaster wall, to assemble into a 1024x2048 master. Generate only the FIRST square section with freshly drawn HD detail at maximum square native resolution. First image is exact layout with thin context: central core x,y=1/18..17/18 corresponds to original x=0..256,y=0..256. Preserve the surrounding 16-native-pixel frame, redraw it continuously, do not remove it. EXACT first-guide fractional layout and subject identities: warm ochre plaster at top, horizontal window frame, exactly three pointed gothic stained-glass arches; faithful native pane leads, original colours and motifs/figures, same arch positions and same crossing shapes at the bottom. Image 2 is the complete earlier restoration for palette and overall context only. Preserve the original medieval stylized illustration; add fine clean painted/glass detail without new faces, extra windows, altered pane geometry or invented scene. Fine smooth plaster pores, thin leadwork; eliminate crunchy stippling, blocky enlarged pixels and over-sharpened noise. Orthographic flat diffuse texture, no lighting gradient, perspective, 3D window projection, added borders, text or watermark. Full bleed and opaque; bottom must register naturally with the lower half at the exact native crop line."
+  },
+  {
+    "name": "wywl_x4_section1_v1",
+    "target": "wywl",
+    "section": 1,
+    "transparent": false,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywl_x4_section_1_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/wywl_full_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: one registered detail section to assemble into a native 4x MM6 Abandoned Temple material. Render ONLY the FIRST square section at maximum native square image resolution. First image is authoritative coarse geometry: central core x,y=1/18..17/18 represents a 256x256 native region; the thin surrounding 16-native-pixel context frame must also be redrawn continuously. Upper half of warm ochre plaster wall. Preserve native fine warm diffuse plaster palette, without dramatic directional highlights. This upper half is plaster only: do not add a dado, frame, wood, motif or decoration. Native x=0..256,y=0..256. Horizontal edges must match when repeated. Second image is the full previous restoration for palette, material and overall context only. Match the first guide's placements exactly, preserving same coarse edges, proportions, silhouettes, and the crossings into context. This is entirely fresh fine HD artwork, not copied pixel blocks, enlarged blur, crunchy dither or sharpened grain. Fine diffuse material, restrained original contrast, no perspective, lighting gradients, extra borders, labels, letters or watermark. Full bleed opaque. Do not crop away the surrounding context. Do not render the whole second-reference surface into this section."
+  },
+  {
+    "name": "wywt_x4_section1_v1",
+    "target": "wywt",
+    "section": 1,
+    "transparent": false,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywt_x4_section_1_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/wywt_full_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: one registered detail section to assemble into a native 4x MM6 Abandoned Temple material. Render ONLY the FIRST square section at maximum native square image resolution. First image is authoritative coarse geometry: central core x,y=1/18..17/18 represents a 256x256 native region; the thin surrounding 16-native-pixel context frame must also be redrawn continuously. Upper half of warm ochre plaster wall with a central blue/dark gold framed medieval woodland hunting tapestry. Keep exact original frame position, corner ornaments, heraldic shield above, tree trunks/canopy and pale path, original partial animals/figures at the bottom edge. Native x=0..256,y=0..256. Do not invent a different scene, frame, text, or extra characters. Retain historical painted/tapestry appearance with smooth newly resolved detail rather than stippled enlarged pixels. Second image is the full previous restoration for palette, material and overall context only. Match the first guide's placements exactly, preserving same coarse edges, proportions, silhouettes, and the crossings into context. This is entirely fresh fine HD artwork, not copied pixel blocks, enlarged blur, crunchy dither or sharpened grain. Fine diffuse material, restrained original contrast, no perspective, lighting gradients, extra borders, labels, letters or watermark. Full bleed opaque. Do not crop away the surrounding context. Do not render the whole second-reference surface into this section."
+  },
+  {
+    "name": "carpt01_x4_section1_v1",
+    "target": "carpt01",
+    "section": 1,
+    "transparent": false,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/carpt01_x4_section_1_layout.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/carpt01_full_v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Asset: one registered detail section to assemble into a native 4x MM6 Abandoned Temple material. Render ONLY the FIRST square section at maximum native square image resolution. First image is authoritative coarse geometry: central core x,y=1/18..17/18 represents a 256x256 native region; the thin surrounding 16-native-pixel context frame must also be redrawn continuously. LEFT half of the deep rust red and dark brown carpet. Keep exact native outer border widths, floral circular motifs and central field pattern at their native fractional positions; the master centre motif crosses the right edge exactly where shown in guide. Native x=0..256,y=0..256. No added right-hand closing border; this is the left half of one wider rug, not a complete rug. Fine clean fibres/weave and smooth motif contours, no native dither. Second image is the full previous restoration for palette, material and overall context only. Match the first guide's placements exactly, preserving same coarse edges, proportions, silhouettes, and the crossings into context. This is entirely fresh fine HD artwork, not copied pixel blocks, enlarged blur, crunchy dither or sharpened grain. Fine diffuse material, restrained original contrast, no perspective, lighting gradients, extra borders, labels, letters or watermark. Full bleed opaque. Do not crop away the surrounding context. Do not render the whole second-reference surface into this section."
+  }
+]

@@ -192,7 +192,7 @@ RegisterEvent(18, "Door", function()
 end, "Door")
 
 RegisterEvent(19, "Switch", function()
-    evt.SetTexture(960, "d8s2on")
+    evt.SetTexture(-960, "d8s2on")
     evt.SetDoorState(19, DoorAction.Close)
     SetValue(MapVar(21), 1)
 end, "Switch")
@@ -382,7 +382,7 @@ end, "Door")
 
 RegisterEvent(48, nil, function()
     if IsAtLeast(MapVar(21), 1) then
-        evt.SetTexture(960, "d8s2on")
+        evt.SetTexture(-960, "d8s2on")
     end
 end)
 

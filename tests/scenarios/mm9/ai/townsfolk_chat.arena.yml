@@ -1,0 +1,26 @@
+# AI arena: townsfolk chatting (NPCBase.inc, monster_ai/MM9_AMBIENT_ANIMATION.md section 2.3). A Commoner (9015:
+# Conv1, Talk, Conv3) wanders aimlessly without a leash, so it looks for someone to talk to every 5-15 s; another
+# (9022: Conv1, Talk, Conv4, Conv5) stands in front of it and answers. The party stands behind them, out of sight.
+# See README.md.
+name: mm9_townsfolk_chat
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+trace_animation: true
+monsters:
+  - monster_id: 9015
+    position: [-250, 300, 1]
+    yaw_degrees: 0
+    hostile: false
+    mm9_ai: {sight: 1200, hearing: 40, runaway_chance: 0, wander: aimless, wander_wait: [3, 8], wander_time: [1, 2]}
+  - monster_id: 9022
+    position: [250, 300, 1]
+    yaw_degrees: 180
+    hostile: false
+    mm9_ai: {sight: 1200, hearing: 40, runaway_chance: 0}

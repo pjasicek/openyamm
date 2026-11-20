@@ -1,0 +1,107 @@
+{
+  "tool": "built-in image_gen",
+  "status": "best_available_return_not_brief_compliant",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 transparent PNG, an unresized texture-source back-view painting.\nInput 1 design_reference.png: approved material and colour authority only. Input 2 guide_back.png: exact edit target, orthographic back view; its geometry and alpha silhouette are authoritative.\nPaint only the visible surfaces of guide_back.png. Keep its silhouette EXACTLY, pixel aligned: same outline, size, position, every shape edge, lattice opening, chain opening, support, cable, claw, resin mass and irregular held salvage slab. Preserve the back-view camera: boom extends LEFT from the tower on the RIGHT; counterweight at far right; chain and claw hang at left. Do not copy the camera or geometry of the design reference. Nothing added outside the guide silhouette, nothing cropped or repositioned. Keep all transparent pixels and all interior openings transparent.\nMaterials from design_reference.png: worn ivory white ceramic and steel lattice members, gold/brass joints, collars, brackets, pivots and counterweight straps, subtle rust and chips. The existing winding growth shapes on the mast and base are glossy black-violet resin with fine vivid orange lava veins. Paint existing resin surfaces; do not add geometry or extra resin shapes. Dark steel chain and claw with gold hardware. Suspended irregular salvage slab is chipped white ceramic over dark fractured core. Use detailed material colour but no shading baked into it.\nLIGHTING: this is albedo for texture projection. Even flat shadowless frontal light; no cast shadows, ambient-occlusion darkening, directional gradients, strong specular highlights, reflections or rim light. Orange seams are painted vivid orange only, no bloom and no light spill. No background, floor, text or watermark. Exact original guide geometry and alpha must take priority over artistic embellishment. Output precisely 1024 x 1024 with genuine transparent background.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "bbeca977f581e5799ffd062b636e5f9ac169f3c98e2b1322c37bcceda329e568"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15d96-60b7-7343-b02c-6fdf6ccf83b0/exec-ac2eebe4-31f0-4061-9cdf-7b6486ec412f.png",
+      "selected": false,
+      "reason": "Rejected: wrong dimensions, reframed and changed geometry; pronounced shading.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_present": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          21,
+          1244,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          152,
+          958,
+          872
+        ],
+        "silhouette_identical": false,
+        "materials": "Broad palette match; painted white, gold, black-violet and orange.",
+        "flat_light_pass": false,
+        "unresized": true
+      },
+      "output_sha256": "fb4434fcf4667cbbe6e9d23c3727244eede914bde4edf4887d1ae0fa019a6a94"
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Corrective generation, ONE image.\nEDIT INPUT 1 (guide_back.png) DIRECTLY as a colour-only repaint. It is a 1024x1024 RGBA image. Return exactly 1024x1024 pixels, unchanged canvas, unchanged alpha mask, unchanged geometry. Do not enlarge the crane to fill the canvas. Its nontransparent bounding box must remain x=66..957 and y=152..871. Preserve the generous empty margins exactly. The grey model is the complete authoritative shape, including its simple flat supports, irregular slab outline, partially solid mast, cables, chain and all openings. Do not reconstruct the model from the design image. Do not add lattice, hardware, growths or edges.\nINPUT 2 (design_reference.png) is ONLY a colour/material swatch reference, NEVER a geometry or composition reference. Transfer ivory white worn ceramic and steel, aged gold joints/collars, dark steel chain and claw, black-violet resin with painted orange veins onto the corresponding EXISTING grey surfaces of INPUT 1. The wide winding raised form at the mast base is resin. Preserve every guide shape and opening exactly. Boom points left, counterweight right, hanging salvage left.\nThe previous attempt failed by changing the shape and making a larger 1254x1254 image. This correction MUST remain the exact 1024x1024 guide image with surface colours painted into it. No resizing, no recentering, no new perspective, no added detail that changes geometry or silhouettes.\nThis is diffuse ALBEDO for projection: perfectly flat even frontal illumination. No shadows, no ambient occlusion, no highlight sheen, no reflections, no rim lighting. Colour variation only from material wear. Orange veins have orange colour, no emitted light spill or glow halos. Genuine transparent background and interior holes, no floor, no text. Preserve guide alpha and pixel placement as the primary requirement.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "bbeca977f581e5799ffd062b636e5f9ac169f3c98e2b1322c37bcceda329e568"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d96-60b7-7343-b02c-6fdf6ccf83b0/exec-a13e8703-8a0e-4c09-a325-900c02473dd1.png",
+      "selected": true,
+      "reason": "Closest return to guide geometry; retained unresized after the single permitted correction. Not compliant: incorrect output dimensions and silhouette; visible shading remains. Materials broadly match reference.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_present": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1234,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          152,
+          958,
+          872
+        ],
+        "silhouette_identical": false,
+        "materials": "Broad palette match; painted white, gold, black-violet and orange.",
+        "flat_light_pass": false,
+        "unresized": true
+      },
+      "output_sha256": "847e4e46515bafb8ede89feecbd6b4a89ca517ed5c7cb498105444e06e997be7"
+    }
+  ]
+}

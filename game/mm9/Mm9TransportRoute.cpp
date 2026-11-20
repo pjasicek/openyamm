@@ -327,12 +327,18 @@ void Mm9TransportRouteTable::addError(size_t rowNumber, const std::string &messa
 
 uint8_t mm9TransportDayIndex(float gameMinutes)
 {
-    int dayIndex = static_cast<int>(std::floor(gameMinutes / MinutesPerDay)) % 7;
-    if (dayIndex < 0)
+    int weekday = static_cast<int>(std::floor(gameMinutes / MinutesPerDay)) % 7;
+    if (weekday < 0)
     {
-        dayIndex += 7;
+        weekday += 7;
     }
-    return static_cast<uint8_t>(dayIndex);
+    // DayNames: Monday is MM9's day 2.
+    return static_cast<uint8_t>((weekday + 2) % 7);
+}
+
+int mm9TransportWeekday(const Mm9TransportRoute &route)
+{
+    return (int(route.sourceDayIndex) + 5) % 7;
 }
 
 bool mm9TransportRouteConditionsSatisfied(const Mm9TransportRoute &route, const Party &party)

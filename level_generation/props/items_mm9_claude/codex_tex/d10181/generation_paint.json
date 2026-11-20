@@ -1,0 +1,25 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png as the material/detail reference and icon_x8.png as the binding original colour reference (magenta is background).\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the exact guide layout, positions, sizes, silhouettes and gaps. Paint ONLY the grey objects, never redraw, enlarge, move or redesign them.\nThe guide is three columns by FOUR rows of equal square cells. Rows 1-2 and 3-4 repeat the same five exact orthographic model renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. These labels are names only: keep their actual guide orientation, including the tiny end-on views and horizontal edge-on views. Do not replace them with full front swords. Column 3 of rows 2 and 4 is empty and stays transparent.\nRows 1-2 PAINT: unlit base colour, faithful original MM9 Integris in MM6-MM8 inventory style. Preserve the long very narrow pale blade, warm accents, simple pale-gold guard, slim gold/orange grip with red bands, dark end cap, pale central guard inset. Follow reference facets and detail at each view scale. No added ornaments. No lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow, aura, sparkles, ground, outlines or text.\nRows 3-4 MATERIAL MASK: identical corresponding silhouettes with ONLY flat pure material colours, no shading, textures, outlines or antialiased colour blends inside. #FF0000 for every metal (including gold, steel and dark metal end cap); #00FF00 leather and fur; #0000FF cloth and hair; #FFFF00 matte nonmetal solids (wood, bone, horn, stone, parchment, paper, wax); #000000 gemstone, crystal, glass, pearl, enamel and liquid through glass. Classify the reference faithfully, use black for enamel bands or gemstone inset where applicable, metal red for metallic parts. Every silhouette pixel exactly one class colour, nothing outside.\nGenuine transparent alpha everywhere outside the exact guide silhouettes, including all gaps. This is a projection paint and material-mask atlas, not an illustration or a redesigned weapon.\nCORRECTION: Strictly retain the source guide's clean alpha boundaries. No stray red/yellow pixels or ragged fringes around the paint or mask. The blade side views are extremely thin straight lines as in the guide; do not thicken them. The mask silhouettes must have the same clean edges as the original grey silhouettes. The slim gold grip is metal: pure RED in the mask, not yellow. Paint bands red in top half, classify enamel bands black in mask. Keep guard shape exactly as guide rather than reference.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10181/paint_mask_guide.png",
+      "sha256": "d9e0c7b3f3193fa6c57119a4955c4caaa2b70480553bc12819a38fd35617abe2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10181/design_reference.png",
+      "sha256": "f72cbd3eb30b88f7ba4e979e4829f49c0190db89a99d6a666258922b4a815c82"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10181/icon_x8.png",
+      "sha256": "26e62e657a6bb4269dfc694411398fd25eab0f4f6e94eba12c30f80e70bf8905"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad02-cd12-7450-91dd-6ee1958c51f8/exec-63767fde-ef09-4596-a7cd-5ae6ff1ec778.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10181/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1
+}

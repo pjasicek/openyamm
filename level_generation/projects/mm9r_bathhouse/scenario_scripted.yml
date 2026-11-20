@@ -1,0 +1,281 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.bathhouse_scripted
+title: Bathhouse (native BLV) - furnace, drain, dives, spores, Ebora, vents, letters
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: bathhouse.blv
+- note:
+    text: 'The gas valve (BathFurnace.scr): a click swings it open, the big fires light, the pistons pump and 2 s later Ebora''s
+      pal in pool A is boiled (Fatc.scr Die).'
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- set_pose:
+    map: bathhouse.blv
+    x: 3676
+    y: -5365
+    z: -81
+    yaw: 1.5708
+    pitch: -0.5768
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    state_dump_named_map_var:
+      name: Furnace
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: FatcBoiled
+      value: 1
+- note:
+    text: The valve turns 180 degrees at MM9's 20 a second.
+- advance_runtime:
+    seconds: 7
+- assert:
+    mechanism:
+      id: 11
+      state: open
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: true
+- note:
+    text: The warning plate on the furnace (furnacewarning.scr) answers a click.
+- set_pose:
+    map: bathhouse.blv
+    x: 3802
+    y: -5307
+    z: -122
+    yaw: 1.5708
+    pitch: -0.4066
+- press_interact: {}
+- note:
+    text: A second click on the valve closes it and puts the fires out.
+- set_pose:
+    map: bathhouse.blv
+    x: 3676
+    y: -5365
+    z: -81
+    yaw: 1.5708
+    pitch: -0.5768
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: Furnace
+      value: 0
+- note:
+    text: 'Switch0 (real click from its shelf): BlueWater2''s surface sinks to the floor in 30 s.'
+- assert:
+    mechanism:
+      id: 19
+      state: closed
+- set_pose:
+    map: bathhouse.blv
+    x: 9326
+    y: 189
+    z: -1064
+    yaw: 0.0
+    pitch: -0.5693
+- press_interact: {}
+- advance_runtime:
+    seconds: 34
+- assert:
+    mechanism:
+      id: 19
+      state: open
+- assert:
+    mechanism:
+      id: 20
+      state: open
+- note:
+    text: 'SteamVent1: a party standing in its blast takes fire damage while it blows.'
+- set_pose:
+    map: bathhouse.blv
+    x: 7229
+    y: -5345
+    z: -242
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 7
+- assert:
+    state_dump_named_map_var:
+      name: VentHit
+      value: 1
+- note:
+    text: 'StepTrigger2 (room A): SpawnLoc1''s two Jellyspores appear and attack; the triggers are spent (SpawnMgr.scr, SpawnLoc.scr).'
+- assert:
+    actor_visible:
+      actor_index: 18
+      hidden: true
+- movement_segment:
+    input: forward
+    seconds: 0.68
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 1884
+      y: 1180
+      z: -281
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 1884
+      y: 1700
+      z: -281
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Spores
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 18
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 19
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 16
+      hidden: true
+- note:
+    text: 'EboraGossip by Door5: Ebora taunts the party.'
+- movement_segment:
+    input: forward
+    seconds: 0.43
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 6754
+      y: -3507
+      z: -242
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 6754
+      y: -3177
+      z: -242
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Gossip
+      value: 1
+- note:
+    text: Ebora cannot be hurt (EboraBath.scr CanDamage FALSE).
+- party_attack:
+    actor_index: 7
+    count: 5
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    actor_visible:
+      actor_index: 7
+      current_hp: 1591
+- note:
+    text: 'On Gostaf''s errand (key 348): the three concubines die, Ebora leaves in a column of fire and the party gets key
+      349 (EboraBath.scr DitchTheJoint).'
+- console:
+    line: qbit set 90348
+- damage_actor:
+    actor_index: 10
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: DeadConcubines
+      value: 1
+- damage_actor:
+    actor_index: 8
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: DeadConcubines
+      value: 2
+- damage_actor:
+    actor_index: 9
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: DeadConcubines
+      value: 3
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    state_dump_named_map_var:
+      name: EboraGone
+      value: 1
+- assert:
+    qbit_set:
+    - 90349
+- assert:
+    qbit_clear:
+    - 90350
+- assert:
+    actor_visible:
+      actor_index: 7
+      hidden: true
+- note:
+    text: 'Prop8 (BookLetter.scr DoLetter 500): a click reads it.'
+- set_pose:
+    map: bathhouse.blv
+    x: 3888
+    y: -3786
+    z: -242
+    yaw: -2.0054
+    pitch: -1.045
+- press_interact: {}
+- assert:
+    state_dump_named_map_var:
+      name: ReadProp8
+      value: 1
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop7 (BookLetter.scr DoLetter 501): a click reads it.'
+- set_pose:
+    map: bathhouse.blv
+    x: 2854
+    y: -1047
+    z: -1259
+    yaw: -2.0054
+    pitch: -1.0469
+- press_interact: {}
+- assert:
+    state_dump_named_map_var:
+      name: ReadProp7
+      value: 1
+- press_action:
+    action: cancel_dialog

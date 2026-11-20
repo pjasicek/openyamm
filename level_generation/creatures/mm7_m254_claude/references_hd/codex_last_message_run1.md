@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m254_claude/references_hd/00_three_quarter.png) and [generation_runs.json](level_generation/creatures/mm7_m254_claude/references_hd/generation_runs.json), including prompts, hashes and checks. Used built-in image generation; verified 1024×1536 RGBA transparency.
+
+Stopped after Run 1. Remaining limits: partly curled fingers, strong highlights and tight horn clearance.

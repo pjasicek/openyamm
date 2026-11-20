@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · Obsidian and legacy screens</title>
+  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="button-theme.css?v=1">
+  <script src="app.js?v=8" defer></script>
+</head>
+<body>
+  <header>
+    <a href="../hud_concepts_20260927/index.html">OPEN<span>YAMM</span></a>
+    <span>OBSIDIAN / FULL-SCREEN STUDY</span>
+    <a class="reference-link" href="../hud_concepts_20260927/README.md#latest-approved-design">Approved gameplay reference ↗</a>
+  </header>
+  <main>
+    <div class="intro">
+      <div><p class="eyebrow">CARVED OBSIDIAN · SELECTED DIRECTION · REVISION 06</p>
+        <h1>Carved Obsidian · portrait alignment.</h1></div>
+      <p>The party portraits, their indicators and their health/mana bars have the requested small offset:
+        3 units right and 5 units down.</p>
+    </div>
+    <nav class="screen-tabs" aria-label="Reference screen">
+      <button data-screen="2060">2060 <b>Inventory</b></button>
+      <button data-screen="2061">2061 <b>House occupants</b></button>
+      <button data-screen="2062">2062 <b>Shop dialogue</b></button>
+    </nav>
+    <nav class="treatments" aria-label="Design treatment">
+      <button data-treatment="carved"><span>01</span><div><b>Carved Obsidian</b><small>Selected · revision 06</small></div></button>
+      <button data-treatment="stone"><span>02</span><div><b>Weathered Stone</b><small>Earlier alternative · comparison</small></div></button>
+      <button data-treatment="legacy"><span>03</span><div><b>Legacy reference</b><small>Current artwork and controls</small></div></button>
+      <button data-treatment="frames"><span>04</span><div><b>Previous flat</b><small>Not accepted · comparison only</small></div></button>
+    </nav>
+    <div class="controls">
+      <a href="buttons.html">Button lettering &amp; states ↗</a>
+      <label>Button lettering <select id="button-font"><option value="">Current revision 06</option>
+        <option value="fondamento">Proposal · Fondamento</option><option value="almendra">Proposal · Almendra</option>
+        <option value="endgame">Proposal · native ENDGAME</option></select></label>
+      <label>Party <select id="party-count"><option value="1">1 · as captured</option><option value="5">5 · capacity preview</option></select></label>
+      <label>Dialogue text <select id="speech"><option value="off">None</option><option value="short">Short example</option><option value="long">Long example</option></select></label>
+      <label><input type="checkbox" id="preserved">Show preserved areas</label>
+      <button id="fullscreen">Full screen ↗</button>
+    </div>
+    <div class="stage-host" id="stage-host"><section id="stage" class="stage" aria-label="Full-screen UI mockup"></section></div>
+    <div class="caption"><span id="screen-caption"></span><span>640 × 480 composition · screenshot content retained</span></div>
+    <div id="feedback" class="feedback" role="status"></div>
+    <div class="assessment">
+      <article><p class="eyebrow" id="treatment-label"></p><h2 id="treatment-title"></h2><p id="treatment-note"></p></article>
+      <article><p class="eyebrow">PORTRAIT ALIGNMENT</p><h2>A small shift below the rail</h2>
+        <p>Each occupied portrait moves 3 units right and 5 units down. Its health/mana bars, selection diamond,
+          danger indicator and personal-buff button follow the same offset.</p></article>
+      <article><p class="eyebrow">WHAT NEEDS TO STAY</p><h2>Space for the existing content</h2>
+        <p>The item grid and equipment art keep their placement. House footage stays in its current window, with no
+          crop, stretch or invented scenery. Party selection, health, mana, gold, food and contextual exit remain available.</p></article>
+    </div>
+    <details>
+      <summary>What this study changes and how it uses the real screens</summary>
+      <p>The three source screenshots are copied without editing. The browser covers frame regions and displays
+        original image regions through CSS clipping. Carved Obsidian uses generated basebar, sidebar and empty-slot crest artwork;
+        Weathered Stone uses the original textures and carvings. No inventory item, paperdoll, NPC portrait or video
+        frame was generated or repainted. The video examples are still frames.</p>
+      <p>Names, HP/SP values, five-member parties and optional dialogue paragraphs are illustrative. The source screenshots
+        contain one party member. Empty slots retain their heraldic identities in matching worn materials. Portraits are kept in
+        five fixed positions in the left part of the bottom bar; full-screen controls keep their own right-hand area.</p>
+      <p>Tabs and topics preview focus/selection but do not implement game screens. The approved gameplay study remains
+        unchanged. <a href="README.md">Findings and scope</a> · <a href="asset_sources.json">Original art</a> ·
+        <a href="generated_materials.json">Initial frame artwork</a> ·
+        <a href="generated_refinements_r04.json">Revision 04 artwork and prompts</a>.</p>
+    </details>
+  </main>
+</body>
+</html>

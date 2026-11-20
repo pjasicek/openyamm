@@ -1,0 +1,115 @@
+[
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Asset type: game decoration albedo texture source, one BACK orthographic view of the Mid hive spire. Produce one 1024 x 1024 PNG with true transparent background, at the edit target's native resolution.\nInput 1 guide_back.png is the EDIT TARGET and absolute geometry/alpha authority. Input 2 design_reference.png is only the approved colour and material reference; its three-quarter camera, silhouette, illumination and background must not be transferred. Input 3 concept_crop.png is supporting original concept reference.\nPaint ONLY the existing surfaces of input 1. Keep its exact silhouette, size, position, internal shape boundaries, every edge, opening and detail. Preserve the guide's transparent pixels and alpha contour exactly. Use the same square 1024 canvas, full object with tip at y=66, footprint ending at y=957, horizontal extent x=345..678. No rotation, reframing, recentering, scaling, cropping or new geometry. Preserve the angular base contour and the narrow open hole right of the central shaft. Do not close that hole. This is the back side of this exact model.\nApply the approved design materials to the shape: black-violet resin and chitin with muted plum-purple organic strands; pale ivory bone on existing tip and thorns, with fine natural bone colour variation; luminous orange slit/window or sac colours only within the guide's corresponding existing inset surfaces. Match the reference's organic material identity while respecting ALL guide geometry. Do not add front-side windows, spikes or details that alter the guide's geometry.\nLIGHTING IS ALBEDO ONLY: even, flat, shadowless illumination from the viewer over the entire surface. Represent the wet glossy resin by its material colour and fine intrinsic texture, not lighting highlights. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Orange emitting surfaces are painted at their glowing orange colour with absolutely no emitted light spilling onto nearby surfaces, no bloom and no halo. No black background, no environment, no floor, no pedestal, no text. Background and existing openings must be truly transparent. Highest priority is exact registration to guide_back.png; change surface colour/material only.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "8691d227c0a378164c258509405a656317973c8914303795fdd7cb2797c6e7c6"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "4a1f960d6495777b8ea492101d1c1b9369f6b803b8b7ecb3089ef9c8e3ce9a49"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+      }
+    ],
+    "tool": "built-in image_gen",
+    "output": "paint_back_attempt_1.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16929-fce5-7e32-8f9f-a4ac80515dad/exec-30b63197-9a89-4844-8718-fc4c1e1d4658.png",
+    "selected": false,
+    "reason": "Rejected: raw return is 1254 x 1254, not 1024 x 1024; strong specular highlights and dark crevices are unsuitable for flat albedo. Alpha has faint stray pixels beyond the silhouette. Exact guide registration fails.",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "dimensions_match": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        25,
+        29,
+        1214,
+        1230
+      ],
+      "exact_guide_silhouette": false,
+      "materials_colours": "Black-violet resin, orange insets and ivory bone represented; excessive baked illumination.",
+      "flat_even_lighting": false,
+      "unresized": true,
+      "mode": "RGBA",
+      "sha256": "9d6c00b42e29d14f9babfb1cccf1066e7338bdae2da057c8935b1ad38b9de229",
+      "alpha_128_bbox": [
+        422,
+        80,
+        834,
+        1174
+      ],
+      "transparent_pixels": 1400363,
+      "partially_transparent_pixels": 171427,
+      "opaque_pixels": 726,
+      "exact_guide_alpha": false,
+      "complies_with_brief": false
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "corrective_regeneration": true,
+    "prompt": "Use case: precise-object-edit. This is the single corrective generation for an albedo texture-source BACK painting. Return EXACTLY 1024 x 1024 pixels with genuine transparent background. The previous attempt returned 1254 x 1254 and glossy lit illustration; those are failures. Generate directly on the 1024 x 1024 canvas of input 1; do not resize or reframe it.\nINPUTS: Input 1 guide_back.png is the editable master: geometry, every surface edge, placement and alpha mask are immutable. Input 2 design_reference.png supplies ONLY intrinsic material colours. Input 3 concept_crop.png supplies original material context. Do not copy the lighting or three-quarter shape of either reference.\nPAINT INSIDE THE EXISTING GUIDE ONLY. Keep the guide's exact external silhouette and exact hole right of centre. Keep its sharp polygonal/faceted silhouette, existing curves, broad intertwining bands, tip, secondary thorn and foot positions. Pixel bounds of all geometry remain x=345 through 678, y=66 through 957 on the 1024-square image. All pixels transparent in the guide remain fully transparent. Surface interiors are fully opaque. No stray marks, translucent haze, halos, bleed, extra protrusions, new windows, edge smoothing that changes geometry, or geometry replacement. The back view must remain exactly the guide.\nApply dark black-violet resin and plum chitin colours, subdued fine resin texture, ivory bone on the existing top and thorn surfaces, and orange colour in the existing narrow inset sac/slit surfaces appropriate to the design. The open triangular slit in the guide stays transparent, never painted orange. Keep every shape boundary from the guide.\nCRITICAL ALBEDO CORRECTION: diffuse base-colour painting with completely flat, even, shadowless frontal illumination, like an unlit base-colour material pass. The material will be wet/glossy at runtime, but this image contains ZERO specular reflections, ZERO bright glossy streaks, ZERO directional shading or ambient occlusion. No white glitter on purple resin, no black shadowing in recesses, no rim lighting. Ivory bone is evenly ivory, with intrinsic fine tan mottling, no bright lit side or dark shaded side. Orange surfaces are evenly saturated orange with gentle intrinsic colour variation, no yellow-white hot lights, no bloom or light cast onto resin. No floor, no background, no contact shadow, no text. Exact source alpha silhouette and 1024 x 1024 size are mandatory. Output one raw transparent PNG.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "8691d227c0a378164c258509405a656317973c8914303795fdd7cb2797c6e7c6"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "4a1f960d6495777b8ea492101d1c1b9369f6b803b8b7ecb3089ef9c8e3ce9a49"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "0873601c2b617e5f5e459d134bd1509747926d31f74d55c5165c0409d5f781e3"
+      }
+    ],
+    "tool": "built-in image_gen",
+    "output": "paint_back.png",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16929-fce5-7e32-8f9f-a4ac80515dad/exec-ff96e5e4-aa90-4dd4-a8e2-59af0670d4bc.png",
+    "selected": true,
+    "reason": "Selected as the better of the two permitted raw returns because the lighting is flatter and the requested material palette is present. This is NOT a compliant final: the tool returned 1254 x 1254 again, contour and interior geometry differ from the guide, and faint alpha contamination extends beyond the object. Residual highlights and dark crevices also remain. Saved byte-for-byte without resizing or alpha modification as required. The single corrective regeneration allowance is exhausted.",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "c4a58e3af56d5e5af8f80139c3bbc8ce3783519e5596d2349f35ea2888098759",
+      "dimensions_match": false,
+      "alpha_bbox": [
+        0,
+        21,
+        1240,
+        1220
+      ],
+      "alpha_128_bbox": [
+        420,
+        75,
+        834,
+        1174
+      ],
+      "transparent_pixels": 1398411,
+      "partially_transparent_pixels": 173376,
+      "opaque_pixels": 729,
+      "exact_guide_alpha": false,
+      "unresized": true,
+      "transparent_background": true,
+      "clean_transparent_background": false,
+      "exact_guide_silhouette": false,
+      "materials_colours": "Black-violet/plum resin, orange insets, ivory bone match the material palette; some surface divisions/details differ from the guide.",
+      "flat_even_lighting": false,
+      "lighting_note": "Flatter than attempt 1, no visible floor or cast shadow, but residual highlights and recess darkening remain.",
+      "complies_with_brief": false
+    }
+  }
+]

@@ -1,0 +1,18 @@
+format: 0
+themes:
+  - id: theme:masonry
+    wall: {texture: t1w11a, size: [128, 256]}
+    floor: {texture: oflr, size: [128, 128]}
+    ceiling: {texture: d2ceil4, size: [256, 256]}
+defaults: {theme: theme:masonry, ambient: 14}
+rooms:
+  - id: room:hall
+    name: Hall
+    outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]]
+    floor: 0
+    ceiling: 640
+    platforms:
+      - id: platform:loft
+        at: [512, 896]
+        size: [1024, 256]
+        rise: 256

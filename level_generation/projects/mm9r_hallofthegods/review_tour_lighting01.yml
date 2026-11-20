@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_hallofthegods/review/lighting01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: p01_start
+  position:
+  - -7281
+  - 2952
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: w01_west_hall_entry
+  position:
+  - -6272
+  - 2952
+  - 4
+  yaw: 0.0
+  pitch: 0.0
+- name: w03_west_hall_north
+  position:
+  - -6144
+  - 4864
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: w04_west_hall_south
+  position:
+  - -6144
+  - 1024
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: w07_back_to_gate
+  position:
+  - -1024
+  - 2952
+  - 185
+  yaw: 3.1416
+  pitch: 0.0
+- name: s01_stair_foot
+  position:
+  - -1792
+  - 2952
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: t01_throne_hall_entry
+  position:
+  - 1408
+  - 2952
+  - 687
+  yaw: 0.0
+  pitch: 0.0
+- name: t02_throne
+  position:
+  - 4864
+  - 2952
+  - 687
+  yaw: 0.0
+  pitch: 0.0
+- name: t04_hall_north
+  position:
+  - 1792
+  - 5632
+  - 677
+  yaw: 0.0
+  pitch: 0.0
+- name: t05_hall_south
+  position:
+  - 1792
+  - 0
+  - 677
+  yaw: 0.0
+  pitch: 0.0
+- name: t08_back_from_throne
+  position:
+  - 5888
+  - 2952
+  - 851
+  yaw: 3.1416
+  pitch: 0.0
+- name: t10_west_corner
+  position:
+  - 6912
+  - 6144
+  - 677
+  yaw: -2.3162
+  pitch: 0.0

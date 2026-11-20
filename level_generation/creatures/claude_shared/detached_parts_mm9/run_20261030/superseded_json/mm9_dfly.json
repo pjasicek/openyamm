@@ -1,0 +1,151 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_dfly.glb",
+  "components": 45,
+  "body": 3,
+  "size": 1.2627010345458984,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 45,
+   "attached_in_every_pose": 44
+  },
+  "concealed": {
+   "0": {
+    "joint": "XwingAend",
+    "where": "above, -x side, -z",
+    "triangles": 240,
+    "extent": 0.7267,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03804,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 390,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00397,
+     "on": "XwingAend01",
+     "clip": "AttackMelee",
+     "frame": 34,
+     "time": 1.1333
+    },
+    "concealed_poses": 82,
+    "worst_concealed": {
+     "gap": 0.00483,
+     "clip": "Death",
+     "frame": 59,
+     "time": 1.9667
+    },
+    "carried_poses": 0
+   },
+   "27": {
+    "joint": "XwingAend03",
+    "where": "above, +x side, -z",
+    "triangles": 240,
+    "extent": 0.7265,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03781,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 390,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0038,
+     "on": "XwingAend02",
+     "clip": "Death",
+     "frame": 56,
+     "time": 1.8667
+    },
+    "concealed_poses": 90,
+    "worst_concealed": {
+     "gap": 0.00484,
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "carried_poses": 0
+   }
+  },
+  "shallow": {
+   "0": {
+    "joint": "XwingAend",
+    "where": "above, -x side, -z",
+    "triangles": 240,
+    "extent": 0.7267,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03804,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 390,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00397,
+     "on": "XwingAend01",
+     "clip": "AttackMelee",
+     "frame": 34,
+     "time": 1.1333
+    },
+    "concealed_poses": 82,
+    "worst_concealed": {
+     "gap": 0.00483,
+     "clip": "Death",
+     "frame": 59,
+     "time": 1.9667
+    },
+    "carried_poses": 0
+   },
+   "9": {
+    "joint": "Xjawpiv",
+    "where": "+z",
+    "triangles": 106,
+    "extent": 0.1371,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01045,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 390,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00111,
+     "on": "Xheadpiv",
+     "clip": "Running",
+     "frame": 3,
+     "time": 0.1
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "27": {
+    "joint": "XwingAend03",
+    "where": "above, +x side, -z",
+    "triangles": 240,
+    "extent": 0.7265,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03781,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 390,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0038,
+     "on": "XwingAend02",
+     "clip": "Death",
+     "frame": 56,
+     "time": 1.8667
+    },
+    "concealed_poses": 90,
+    "worst_concealed": {
+     "gap": 0.00484,
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "carried_poses": 0
+   }
+  }
+ }
+]

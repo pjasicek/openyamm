@@ -5,6 +5,8 @@
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/maps/SaveGame.h"
+#include "game/outdoor/OutdoorMovementController.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
 
 #include <algorithm>
 #include <array>
@@ -219,10 +221,137 @@ TEST_CASE("Ironfist Temple of Baa gold bags clear rewards and collision across s
     scene.applyMapReentryReset();
     pState = scene.eventRuntimeState();
     REQUIRE(pState != nullptr);
-    const std::vector<bool> hidden = hiddenIndoorDecorationEntities(map.entities, billboards.decorationTable, *pState);
+    const std::vector<bool> hidden = hiddenDecorationEntities(map.entities,
+        decorationClearRules(map.entities, billboards.decorationTable), nullptr, *pState);
     for (size_t entityIndex : bagIndices)
     {
         CHECK(hidden[entityIndex]);
         CHECK_FALSE(hasCollider(entityIndex));
     }
+}
+
+namespace
+{
+struct OutdoorDecorationFixture
+{
+    OpenYAMM::Engine::AssetFileSystem assets;
+    GameDataLoader data;
+    const MapAssetInfo *pMap = nullptr;
+    OutdoorWorldRuntime world;
+
+    bool load(const char *pWorld, const char *pMapFile)
+    {
+        const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+        if (!assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, pWorld)
+            || !data.loadForHeadlessGameplay(assets) || !data.loadMapByFileNameForGameplay(assets, pMapFile))
+        {
+            return false;
+        }
+
+        pMap = &*data.getSelectedMap();
+        REQUIRE(pMap->outdoorMapData);
+        REQUIRE(pMap->outdoorDecorationCollisionSet);
+        REQUIRE(pMap->eventRuntimeState);
+
+        world.initialize(pMap->map, data.getMonsterTable(), data.getMonsterProjectileTable(), data.getObjectTable(),
+            data.getSpellTable(), data.getItemTable(), nullptr, nullptr, data.getStandardItemEnchantTable(),
+            data.getSpecialItemEnchantTable(), &data.getChestTable(), pMap->outdoorMapData,
+            pMap->outdoorMapDeltaData, std::nullopt, pMap->eventRuntimeState, std::nullopt, std::nullopt,
+            pMap->outdoorDecorationCollisionSet);
+        return world.eventRuntimeState() != nullptr;
+    }
+};
+}
+
+TEST_CASE("Decoration hidden rule: an event override wins over the map's invisible flag")
+{
+    EventRuntimeState state;
+    const DecorationClearRule campfire{0, 1, true};
+    CHECK_FALSE(isDecorationHidden(7, 0, nullptr, state));
+    CHECK(isDecorationHidden(7, LevelDecorationInvisible, nullptr, state));
+    state.spriteOverrides[7].hidden = false;
+    CHECK_FALSE(isDecorationHidden(7, LevelDecorationInvisible, nullptr, state));
+    state.spriteOverrides[7].hidden = true;
+    CHECK(isDecorationHidden(7, 0, nullptr, state));
+    state.spriteOverrides.clear();
+    CHECK_FALSE(isDecorationHidden(7, 0, &campfire, state));
+    state.decorVars[0] = 1;
+    CHECK(isDecorationHidden(7, 0, &campfire, state));
+    state.spriteOverrides[7].hidden = false;
+    CHECK(isDecorationHidden(7, 0, &campfire, state));
+}
+
+TEST_CASE("MM7 outdoor campfire stops colliding once cleared or hidden and collides again when shown")
+{
+    OutdoorDecorationFixture fixture;
+    REQUIRE(fixture.load("mm7", "7out01.odm"));
+    const OutdoorMapData &map = *fixture.pMap->outdoorMapData;
+    const OutdoorDecorationCollisionSet &collisions = *fixture.pMap->outdoorDecorationCollisionSet;
+    const auto campfire = std::find_if(collisions.colliders.begin(), collisions.colliders.end(),
+        [&](const OutdoorDecorationCollision &collider)
+        {
+            return collider.name == "7dec02" && collider.worldZ == 0
+                && collider.entityIndex < collisions.clearRules.size()
+                && collisions.clearRules[collider.entityIndex].hideWhenCleared;
+        });
+    REQUIRE(campfire != collisions.colliders.end());
+    const size_t entityIndex = campfire->entityIndex;
+    const DecorationClearRule rule = collisions.clearRules[entityIndex];
+    REQUIRE_GE(rule.decorVarIndex, 0);
+    EventRuntimeState &state = *fixture.world.eventRuntimeState();
+    REQUIRE_NE(state.decorVars[rule.decorVarIndex], rule.eventCount);
+    CHECK_FALSE(fixture.world.hiddenDecorationEntities()[entityIndex]);
+
+    OutdoorMovementController movement(map, fixture.pMap->outdoorLandMask, collisions, std::nullopt, std::nullopt);
+    const OutdoorBodyDimensions body;
+    const float startX = float(campfire->worldX) - 200.0f;
+    const float centerY = float(campfire->worldY);
+    const auto walkPastCampfire = [&]()
+    {
+        OutdoorMoveState moveState = movement.initializeStateForBody(startX, centerY, float(campfire->worldZ),
+            body.radius);
+        for (int step = 0; step < 90; ++step)
+        {
+            moveState = movement.resolveMoveForBody(moveState, body, 400.0f, 0.0f, 0.0f, false, false, false, false,
+                false, 0.0f, 0.0f, 0.0f, 1.0f / 60.0f);
+        }
+        return moveState.x > float(campfire->worldX) + 100.0f;
+    };
+    movement.setHiddenDecorationEntities(fixture.world.hiddenDecorationEntities());
+    CHECK_FALSE(walkPastCampfire());
+
+    // Taking the food clears the fire (its decor var reaches the event count).
+    state.decorVars[rule.decorVarIndex] = rule.eventCount;
+    CHECK(fixture.world.hiddenDecorationEntities()[entityIndex]);
+    movement.setHiddenDecorationEntities(fixture.world.hiddenDecorationEntities());
+    CHECK(walkPastCampfire());
+
+    // evt.SetSprite hides a decoration, and showing it again restores its collision.
+    state.decorVars[rule.decorVarIndex] = 0;
+    const uint32_t overrideKey = map.entities[entityIndex].spriteOverrideKey(entityIndex);
+    state.spriteOverrides[overrideKey].hidden = true;
+    CHECK(fixture.world.hiddenDecorationEntities()[entityIndex]);
+    state.spriteOverrides[overrideKey].hidden = false;
+    CHECK_FALSE(fixture.world.hiddenDecorationEntities()[entityIndex]);
+    movement.setHiddenDecorationEntities(fixture.world.hiddenDecorationEntities());
+    CHECK_FALSE(walkPastCampfire());
+}
+
+TEST_CASE("MM7 Evenmorn obelisk treasure starts invisible from the map flag until an event shows it")
+{
+    OutdoorDecorationFixture fixture;
+    REQUIRE(fixture.load("mm7", "out09.odm"));
+    const OutdoorMapData &map = *fixture.pMap->outdoorMapData;
+    REQUIRE_GT(map.entities.size(), 2u);
+    const OutdoorEntity &treasure = map.entities[2];
+    REQUIRE_EQ(treasure.name, "flower07");
+    REQUIRE_EQ(treasure.scriptEventId(), 170);
+    REQUIRE_EQ(treasure.spriteOverrideKey(2), 20u);
+
+    EventRuntimeState &state = *fixture.world.eventRuntimeState();
+    CHECK(fixture.world.hiddenDecorationEntities()[2]);
+    state.spriteOverrides[20].hidden = false;
+    CHECK_FALSE(fixture.world.hiddenDecorationEntities()[2]);
+    state.spriteOverrides[20].hidden = true;
+    CHECK(fixture.world.hiddenDecorationEntities()[2]);
 }

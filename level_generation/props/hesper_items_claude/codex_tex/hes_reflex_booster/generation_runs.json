@@ -1,0 +1,525 @@
+{
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate paint_front.png, a single 1024 x 1024 RGBA transparent texture-source image.\nInput image 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority. Input image 2 (design_reference.png) is ONLY the material and color reference.\nPaint the existing white mesh pixels of image 1 in place. Preserve its alpha silhouette, every part edge, exact orthographic camera, pixel position, scale and empty margins. Do not rotate, reframe, enlarge, round off or reinterpret the mesh. This is a very shallow edge-on FRONT view of a horseshoe-shaped relic implant, NOT a spacecraft or a front-facing crown. The whole object remains inside approximately x=66..957, y=407..616 of the 1024-square image. Keep the two vertical capped cylinders and central domed surface exactly where the guide places them, and retain the long tapered side housings.\nTransfer only the reference's materials: warm ivory-white ceramic panels with subtle fine wear; brushed warm gold framework, thin gold panel borders and gold cylindrical fitting walls with ivory endcaps; the central domed inset is translucent amber-orange crystal, painted as amber/orange base color with delicate internal striation and bright orange light color. Continue the same ceramic and gold plausibly onto surfaces unseen in the reference. Follow the guide's panel boundaries; do not add parts or light strips where no inset exists. No blue, leather, cloth, paper or invented symbols.\nLighting: FLAT ALBEDO TEXTURE SOURCE, even shadowless viewer-facing illumination. Remove the guide's gray lighting gradients. Ivory remains the same light ivory on all face orientations. Gold is its uniform ochre-gold base color with only a faint brushed sheen. No cast shadows, no ambient occlusion or dark crevice shading, no metallic hotspots, no strong specular highlights, no environment reflections, no rim lighting or bloom. Crystal does not have a white glare patch. Fine material grain and fine engraved seam lines only.\nBackground must be true alpha transparency, including every existing gap. No background, black fill, floor, text, letters, watermark, or extra objects. Preserve the original outline exactly, with nothing outside it and nothing cropped. Return the 1024 x 1024 image unresized.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6aed86a00aaa51c20552c8595c06aa8cc738aac2f8aeec33be23d4051d375c24"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "829eec13ff4abc41a3d245bd38b8144dce3aabd5a5cab4ff99ba9977a4b4769d"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested: returned 1254x1254; visible strong metal and crystal highlights, shading, and silhouette drift.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-e6a1966e-c301-48a0-837f-d9ba80e9edd8.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "output_sha256": "4cbec98d321878b4004f68ae06cd6ca1e1a2ac5f36e089a906528cb122d1f283",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.8642786464493843,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          67,
+          510,
+          1194,
+          771
+        ],
+        "normalized_mask_iou": 0.825195,
+        "normalized_excess_pixels": 14507,
+        "normalized_missing_pixels": 10881,
+        "no_text_or_letters_visual_check": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective regeneration of the FRONT texture-source view.\nINPUT 1 design_reference.png: MATERIAL REFERENCE ONLY. INPUT 2 guide_front.png: THE IMAGE TO PAINT, the exact 1024 x 1024 canvas and geometry to preserve.\nReturn a single 1024 x 1024 transparent RGBA image of INPUT 2 with only its white surfaces recolored. KEEP INPUT 2's exact alpha, polygonal silhouette and every part's edge at identical pixels. The object occupies x=66..957 and y=407..616, with very large transparent margins above and below; it is a shallow horizontal edge-on view of a horseshoe implant. Do not make a beauty shot, do not change the camera, do not smooth the outline, do not move panels or fittings, do not enlarge to fill the canvas.\nPaint the two long side panels and front central shell warm ivory ceramic. Paint the exposed supporting structure and cylindrical fitting walls muted brushed gold, their small endcaps ivory ceramic with gold borders. The guide's central top dome is amber orange crystal. Fine ceramic wear, fine gold grain, seams and panel joins from the reference. The unseen surfaces follow this material assignment.\nCRITICAL CORRECTION: this is a BASE COLOR / ALBEDO texture, not shaded 3D artwork. Remove ALL illumination gradients on every panel, including gray shading from the guide. Constant light ivory base color on ivory panels regardless of orientation. Constant muted ochre-gold base color on gold parts, fine low-contrast grain only. Amber crystal uses uniform luminous orange and subtle amber internal striation; NO white highlight, no bright reflective central streak. Absolutely no cast shadows, ambient occlusion, dark edges caused by lighting, metallic hotspots, directional reflections, rim light or bloom. Engraving is a fine restrained material line, not a deep black shadow. Preserve geometry by the color boundaries, not shading.\nTrue transparent background and holes. No text, letters, markings resembling writing, watermark, floor or other objects. Exact original guide silhouette and positioning. Output 1024 x 1024, not the design reference's 1254 size.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "829eec13ff4abc41a3d245bd38b8144dce3aabd5a5cab4ff99ba9977a4b4769d"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "6aed86a00aaa51c20552c8595c06aa8cc738aac2f8aeec33be23d4051d375c24"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective pass: reduces crystal glare and is closer to guide layout. Residual shading/highlights and geometry differences remain; exact silhouette requirement is not met.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-442757e0-c0b8-46af-ba5f-32fbf08f520e.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "5cfb78354b7e489bd840db9548c69d165334756e14295d4151bc67833e92d11f",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.867019477067324,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          79,
+          498,
+          1176,
+          756
+        ],
+        "normalized_mask_iou": 0.976818,
+        "normalized_excess_pixels": 2692,
+        "normalized_missing_pixels": 401,
+        "no_text_or_letters_visual_check": true,
+        "materials": "Ivory ceramic, brushed gold and amber palette retained; panel placement approximate.",
+        "lighting": "Residual gold highlights, crystal variation and shaded lower faces remain.",
+        "flat_shadowless_pass": false,
+        "all_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nPaint only image 2 (guide_back.png), a 1024x1024 orthographic BACK view of a 3D relic implant, in place. Image 1 (design_reference.png) is solely the material/color reference. Output a single 1024x1024 transparent PNG texture source.\nLOCK ALL GEOMETRY from image 2: preserve exact silhouette/alpha, camera, every edge and part, position, scale and framing. The shallow edge-on object spans x66..957, y407..616. Keep the large blank margins. Keep its asymmetry and the fine overlapping fingerlike prongs along the midline. No reorientation toward the more recognizable top view; no added parts and no removing or rounding the guide's polygonal forms.\nSurface palette: soft warm ivory ceramic panels, brushed muted ochre-gold supporting framework and edges, gold prongs and gold fitting walls with ivory endcaps. The visible central upper dome continues the reference's amber-orange crystal. Back/underside surfaces continue the ceramic and gold construction plausibly along the existing panel joins. Ceramic has very fine low-contrast wear, gold has very fine brushed grain, crystal has low-contrast amber striations. Keep colors/materials consistent with the reference; don't import its lighting.\nThis is a FLAT UNLIT BASE-COLOR/ALBEDO pass, not a product render. Use uniform light ivory on every ceramic face and uniform subdued gold on metal, changing color only at material boundaries and tiny surface details. No gray gradient on side-facing planes, no ambient occlusion, no cast shadows, no dark occlusion beneath the overlapping prongs, no bright white highlights or specular reflections. Amber light is simply painted bright orange with no bloom or glare. Any engraved seams are thin material lines, not shaded grooves.\nTrue alpha transparent exterior and every gap. No text or letters, floor, background, watermark or extra objects. Match the exact guide shape and its 1024x1024 canvas; do not enlarge or crop.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "829eec13ff4abc41a3d245bd38b8144dce3aabd5a5cab4ff99ba9977a4b4769d"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "d60ef91f653dca789ca133c580c032142ad9451cdb33e3d818806a9684670979"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested for dark underside shading, metallic highlights, and altered prong edges.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-bf4c3fda-4113-41f6-b23d-20ef57a0084c.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3bf78901bef464e0d16cb9db0fc4967600480adcbd3e63284b27f14d622ba787",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.8682296396348272,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          80,
+          499,
+          1174,
+          754
+        ],
+        "normalized_mask_iou": 0.984524,
+        "normalized_excess_pixels": 1027,
+        "normalized_missing_pixels": 1012,
+        "no_text_or_letters_visual_check": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Precisely recolor the attached guide_back.png IN PLACE. It is the exact BACK orthographic view of the Hesper reflex booster relic. Output 1024x1024 RGBA PNG, keeping exactly the source alpha, every polygon and every part boundary, size, camera and position. Do not enlarge or reframe.\nMaterial design authority is the approved ivory ceramic / brushed gold / amber orange implant: large panels are warm ivory ceramic with very faint fine wear, supporting rims and structural pieces are muted ochre gold with faint brushed grain, the small cylindrical fittings have gold walls and ivory endcaps, central upper dome is amber orange crystal with faint internal striation. The delicate small prongs crossing the center are gold. Back panels continue ivory ceramic and gold on the exact visible geometry.\nThis is the one corrective regeneration. Remove lighting entirely: produce a hand-painted UNLIT ALBEDO color pass. All ceramic polygons use the SAME LIGHT IVORY value (#e4dac8) with only tiny low-contrast grain, including down-facing polygons; all gold polygons use muted gold (#b5924e) with faint grain. The amber crystal is bright amber-orange (#ed971c), with no glare spot. Thin subtle seam lines may mark material boundaries. No white specular stripes, no shaded underside, no AO, no lighting gradient or dark corners. No casts, shadows, reflections, bloom, rim light, text or letters. Do not add black-violet resin, leather or any material absent from the approved design. Preserve transparent gaps and all of the guide silhouette; keep the object at x66..957 y407..616 on the 1024 square canvas.\nOnly apply material colors to existing surfaces; do not redesign the complex crossing prongs, create shapes, add geometry or smooth edges. Transparent background, no floor, no scene.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "d60ef91f653dca789ca133c580c032142ad9451cdb33e3d818806a9684670979"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective pass: substantially flatter albedo and closer polygonal prongs. Geometry remains approximate; verify against guide before baking.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-0de38a9a-3817-4a7a-8efe-77845cf4e8c9.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e459dfee9ea3892ee3645bdcec977e742d6fb43f23f5c2fba71bc79dbf396c0b",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.8701393181373035,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          83,
+          500,
+          1172,
+          754
+        ],
+        "normalized_mask_iou": 0.984314,
+        "normalized_excess_pixels": 670,
+        "normalized_missing_pixels": 1391,
+        "no_text_or_letters_visual_check": true,
+        "materials": "Ivory ceramic, muted gold and amber palette retained; rear construction is inferred.",
+        "lighting": "Substantially flatter correction; faint facet shading remains.",
+        "flat_shadowless_pass": false,
+        "all_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create paint_left.png, a single 1024x1024 transparent RGBA ALBEDO texture-source image.\nINPUT 1 design_reference.png is material/color authority only. INPUT 2 guide_left.png is the exact image to recolor. Preserve INPUT 2's exact silhouette, alpha and every existing polygon/part edge, its orthographic camera, position, size and large transparent margins.\nLEFT view is an extremely shallow horizontal edge-on view: x83..940 and y407..616. The long tapered housing points to the LEFT with a tiny end contact at the far left, while the broad central body, two capped vertical fittings and central crystal dome are clustered on the RIGHT. Match this precise asymmetry. Do not show the top view or change geometry. Leave every edge in place.\nRecolor the guide with the reference's warm ivory-white ceramic, brushed gold structure and orange-amber crystal. Large armor panels are light ivory (#e4dac8) with fine low-contrast wear. Supporting frame, tiny contact at the left tip, cylinder sidewalls and narrow panel borders are muted gold (#b5924e) with extremely faint brushed grain. The cylinder endcaps are ivory. Central dome is amber-orange (#ed971c) with subtle internal striation and no glare. Continue these materials plausibly across unseen faces; fine panel seams and engraved lines only where appropriate.\nUNLIT BASE COLOR PASS: the same light ivory value on all ceramic faces, same muted gold value on all gold faces. Change colors only for materials and subtle texture, never due to lighting direction. Remove gray lighting gradients from the guide. No shiny photorealistic metal rendering, no white stripes or highlight spots, no ambient occlusion, dark lower faces, cast shadows, reflections, rim light or bloom. Orange light is a bright painted color. Do not copy the reference image's shadows or speculars.\nKeep every gap genuinely transparent. No background/floor, text, letters, watermark, additional details outside the guide, added components or cropping. Return exactly 1024x1024, unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "829eec13ff4abc41a3d245bd38b8144dce3aabd5a5cab4ff99ba9977a4b4769d"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "9d5a487aaca7483aebe3ebbfc9e1267b646c31ea98745d1db5d78b1b8ceef8f3"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested: strong shading/highlights, enlarged/repositioned outline and redesigned front body panel edges.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-22e1874e-9a52-41b3-b5cc-9e479f07bba0.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "b794d0241957f1237ff4748d74e3daba0dd499307a474af25b2957aa6402caad",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.881699136924521,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          96,
+          499,
+          1206,
+          763
+        ],
+        "normalized_mask_iou": 0.79815,
+        "normalized_excess_pixels": 17083,
+        "normalized_missing_pixels": 8039,
+        "no_text_or_letters_visual_check": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Precisely recolor the attached guide_left.png IN PLACE, using it as an immutable geometry stencil. This is the LEFT orthographic view of the Hesper reflex booster relic. Output 1024x1024 RGBA PNG, keeping the source alpha silhouette, every polygon/part boundary, size, camera and position exactly. Do not enlarge or reframe. Long tapered left-pointing housing and small leftmost terminal must stay at x83..940, y407..616; preserve the cylindrical fittings clustered to the right and the guide's broad polygonal central body. Do not substitute crescent-shaped panels.\nMaterial authority: the approved ivory ceramic / brushed gold / amber-orange implant. Recolor large white panels as light ivory ceramic with barely visible fine wear, exposed supporting rims and structural pieces as muted ochre-gold with faint brushed grain, small capped cylinder walls gold and endcaps ivory. Central upper dome is amber-orange crystal with delicate internal striation. Small far-left terminal is gold. Hidden/underside faces continue the same materials along the exact existing panel joins.\nThis is the one corrective regeneration. Produce a completely UNLIT ALBEDO color pass. All ceramic polygons use SAME LIGHT IVORY (#e4dac8) with tiny low-contrast texture, including down-facing polygons. All gold polygons use muted gold (#b5924e) with faint grain. Amber crystal uses bright amber-orange (#ed971c), no bright glare. Thin subtle seam lines are allowed at boundaries. No white specular streaks or stripes, no shaded underside, no ambient occlusion, no lighting gradient or dark corners, no cast shadows, reflections, bloom, rim light, text or letters. Do not add blue, black-violet resin, leather or other materials absent from the approved design.\nOnly apply color and fine surface texture to EXISTING surfaces; do not redesign, reshape, add geometry or smooth polygon edges. Every gap and all exterior pixels must remain transparent. No floor, background or scene.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "9d5a487aaca7483aebe3ebbfc9e1267b646c31ea98745d1db5d78b1b8ceef8f3"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: flatter materials and restores polygonal shell layout better than attempt 1. Some underside shading, crystal highlights and silhouette drift remain.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-4c782280-9379-43c9-9784-b9ea4bc2f090.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "5797e6edd86e9adcbc42e5454f396890871450deb247c440e4ddf58a9d66b5c2",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.8793621177781339,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          69,
+          499,
+          1186,
+          768
+        ],
+        "normalized_mask_iou": 0.856171,
+        "normalized_excess_pixels": 15249,
+        "normalized_missing_pixels": 2388,
+        "no_text_or_letters_visual_check": true,
+        "materials": "Ivory ceramic, brushed gold and amber retained; central shell geometry is closer after correction.",
+        "lighting": "Lower faces remain shaded, with gold and amber highlights.",
+        "flat_shadowless_pass": false,
+        "all_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Make paint_right.png as one 1024x1024 transparent texture-source image.\nImage 1 is the approved material reference. Image 2, guide_right.png, is the exact image to paint. Keep image 2's alpha silhouette, orthographic projection, every polygon/part edge, position, scale and empty margins IDENTICAL. This is a very shallow horizontal RIGHT profile, with the bulky shell and capped fittings on the LEFT and long slender prongs extending to the RIGHT. Preserve the visible overlapping prongs, tiny end contacts, all gaps and angular geometry. Do not mirror the left view. The object stays within x83..939, y407..616 of a 1024-square canvas.\nApply the reference's warm ivory ceramic to the broad panels, muted brushed gold to the framework, fitting walls, prongs and contacts, ivory to the fitting endcaps, and amber-orange crystal to the upper central dome. Continue the same materials onto unseen faces. Fine subtle ceramic wear, brushed grain and thin engraved seams; no invented writing or other materials.\nRender ONLY BASE COLOR (albedo), as flat even material paint without lighting. Ivory #e4dac8, gold #b5924e, amber orange #ed971c. No gray-shaded faces, shadows, ambient occlusion, dark cavities, directional light, white specular marks, reflections, rim light or bloom. Gold has only a faint sheen; amber light is simply bright orange, no glare. Do not copy lighting from the reference or guide. Preserve the source edges by material transitions, not light-and-shade modeling.\nNo text or letters, no watermark or floor, no background; exterior and holes must be true alpha transparency. Nothing added outside the exact guide silhouette, nothing cropped.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "829eec13ff4abc41a3d245bd38b8144dce3aabd5a5cab4ff99ba9977a4b4769d"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "72ba9b45beedc16506e3635f84bae0b65cd7c5859d867127c328bf15ae64fa60"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested: wide canvas and enlarged object violate square guide framing; directional shading and geometry drift remain.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-62bb3bad-7092-4000-a6e0-609b1a7e4f3e.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1774,
+        887
+      ],
+      "output_sha256": "2b33e1820b80e9c2d217e9f8e4080d465e1c45369fc73c391ff1ccbc48ae17a7",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.7472644448370488,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          74,
+          302,
+          1700,
+          692
+        ],
+        "normalized_mask_iou": 0.40269,
+        "normalized_excess_pixels": 148769,
+        "normalized_missing_pixels": 4229,
+        "no_text_or_letters_visual_check": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Paint this exact guide_right.png, without changing the canvas or the object geometry. CORRECTIVE PASS.\nThe output MUST BE SQUARE, 1024 by 1024 pixels, with most of the canvas transparent. Preserve the complete original square guide frame: the object only occupies x83..939 and y407..616, about 84% of canvas width and 20% of canvas height, centered. Top 40% and bottom 40% are empty transparent space. Do not output a landscape crop. Do not zoom, stretch, crop, rescale, mirror, rotate, or change any edge. Preserve exact alpha silhouette and all polygon/part edges, especially the thin overlapping prongs and contacts extending rightward.\nThis is the RIGHT orthographic profile of an ivory ceramic and gold Hesper relic implant. The guide's large panels are pale ivory ceramic (#e4dac8) with extremely subtle fine wear. The supporting structure, existing narrow edge trims, fingerlike prongs and contact tips are matte brushed gold (#b5924e). Cylinder sidewalls gold, endcaps ivory. The guide's upper central dome is bright amber orange crystal (#ed971c) with barely visible amber striation. Continue those approved materials plausibly onto hidden faces; no other materials or new shapes.\nFLAT BASE COLOR TEXTURE PAINT ONLY, no rendered illumination. All ivory faces have the same light ivory base color including undersides; all gold has the same gold base color including recesses. No cast shadows, ambient occlusion, glossy glare, specular streaks, bright edge lighting, metal reflections or crystal highlights, no bloom. Low-contrast fine grain may describe materials. Thin seam lines only, no added engraved ornamentation.\nNo text, letters, watermark, floor or background. Keep every transparent gap. Paint color inside the existing geometry, leaving all positions and shapes unchanged. 1024x1024 transparent PNG.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "72ba9b45beedc16506e3635f84bae0b65cd7c5859d867127c328bf15ae64fa60"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction restores square framing and reduces glare. Underside shading and changes to exact part edges remain.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-ca55034d-5656-4bce-9044-46fc4883f672.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "23b67d9f9416601c73f751f2599723f3160a0778423ead9267071be2032a2d81",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.891810321802767,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          105,
+          500,
+          1150,
+          754
+        ],
+        "normalized_mask_iou": 0.982534,
+        "normalized_excess_pixels": 889,
+        "normalized_missing_pixels": 1002,
+        "no_text_or_letters_visual_check": true,
+        "materials": "Ivory ceramic, muted gold and orange palette retained; exact prong edges differ.",
+        "lighting": "Glare reduced; lower faces and fitting recesses retain shading.",
+        "flat_shadowless_pass": false,
+        "all_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Output paint_top.png: a single 1024x1024 RGBA PNG with transparent background, for flat albedo texture projection.\nIMAGE 1 design_reference.png is the color and materials authority. IMAGE 2 guide_top.png is the EXACT edit target. Recolor image 2's white surfaces IN PLACE. Preserve its alpha silhouette, exact camera from directly overhead, all angular polygon edges, every part, all holes, position, scale and framing. The guide's horseshoe implant silhouette is diagonal and asymmetric: tall left arc reaching toward upper center, open center, shorter right arc reaching toward upper right, central amber inset on the lower-left portion of the connecting band, two round fittings lower left/lower right, five small detached-looking contact pads along the inner arc. Keep all those pieces and their gaps EXACTLY at the source pixel coordinates. Overall bounds x66..957, y83..939. Never replace the guide with the differently proportioned design-reference silhouette. Do not smooth or round guide geometry.\nMap the approved material design to existing surfaces: warm ivory ceramic armor plates with very fine wear, brushed gold structural frame/arc edges/prong stems and gold contact tips, ivory circular fitting faces with gold rims, central large inset amber-orange crystal. Existing narrow recessed insets use orange light color where shown by the design. Continue plausible ivory and gold on surfaces unseen in the reference. Preserve the reference's panel material assignments, restrained fine engraved seams and joins. No blue, no leather, no paper, no black-violet inserts.\nFLAT UNLIT ALBEDO: warm ivory (#e4dac8), muted ochre-gold (#b5924e), luminous amber orange (#ed971c). Use even shadowless viewer-facing lighting, constant base color across differently oriented faces, faint material grain only. No ambient-occlusion dark borders, cast shadows, strong metallic highlights, reflections, glaring crystal hotspots, rim light or bloom. Do not transfer the reference's dramatic shiny lighting. Crystal has only subtle low-contrast internal amber structure.\nTrue alpha exterior and all gaps; no text, letters, floor, watermark or extra objects. Nothing added outside the original silhouette, nothing cropped. Keep the exact 1024x1024 guide frame.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "829eec13ff4abc41a3d245bd38b8144dce3aabd5a5cab4ff99ba9977a4b4769d"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "3d8673ec11dfd085861e3821ca19be7c33f6560c44b48c8122f007249bccd88a"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return: substantially closer normalized silhouette (0.957970 versus 0.794228 for correction) and correct gold contact materials. Added contact stems and residual shading remain. Exact silhouette and flat-light checks fail.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-86c62e3e-4d4b-4500-8d2c-49220af2f70e.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "archived_output": "paint_top_attempt1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "f270b3a4fac7d407921ef8d385ec33a7dbdb00c683fe1bcf37b9ab6fc80d26b6",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.6984908261664746,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          80,
+          93,
+          1183,
+          1157
+        ],
+        "normalized_mask_iou": 0.95797,
+        "normalized_excess_pixels": 10371,
+        "normalized_missing_pixels": 2081,
+        "no_text_or_letters_visual_check": true,
+        "materials": "First attempt better preserves gold contact faces and overall reference palette; extra contact stems remain.",
+        "lighting": "Gold bevel shading and crystal brightness variation remain.",
+        "flat_shadowless_pass": false,
+        "all_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Precise paint-over of the attached guide_top.png. This is the ONE CORRECTIVE PASS for an albedo texture source. Output a 1024 x 1024 transparent RGBA image.\nTreat the source alpha and every polygon/part edge as an IMMUTABLE STENCIL: paint only inside its existing visible geometry. Absolutely preserve the diagonal horseshoe outline, position, size, projection, angular edges, contact shapes, round fitting shapes, inner opening, and all gaps. IMPORTANT: some of the five small contact pads along the inner arc appear DETACHED in this exact guide. They MUST REMAIN detached at those exact positions; do NOT connect them with invented stems. If a stem is visible in the guide, retain only that existing stem. Do not repair or complete the model. Do not substitute the reference silhouette or enlarge the item. Match guide bounds x66..957 y83..939 on the 1024-square frame.\nApply the approved Hesper implant materials: very light warm ivory ceramic plates with subtle fine wear, muted brushed gold exposed structural frame and narrow borders, gold upper arc/prong stems and their tips, ivory round fitting centers with gold surrounding rims. The lower-center-left large oval inset is bright amber-orange crystal, with delicate low-contrast internal striations. Existing narrow recessed channels may continue orange light color. Do not create any new channel geometry or extra ornament.\nAll surfaces must be FLAT UNLIT BASE COLOR, not a beauty rendering: uniform ivory #e4dac8 on ceramic, uniform gold #b5924e on metal, bright orange #ed971c on crystal. Tiny low-contrast grain is enough for ceramic and brushed metal. No directional shading or speculars, no darkening of lower-facing facets, no occlusion shading around fittings, no shiny beveled rims, no white crystal glare, no cast shadow, no ambient occlusion, no rim light, no reflections or bloom. The exact panel edges are defined by restrained material boundaries and fine seams, not lighting.\nTransparent exterior and every gap; no floor/background, no text/letters or watermark. No geometry editing. Preserve the original guide silhouette exactly.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "3d8673ec11dfd085861e3821ca19be7c33f6560c44b48c8122f007249bccd88a"
+        }
+      ],
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: flatter and preserves detached pads, but enlarges/drifts the silhouette (normalized mask IoU 0.794228) and colors contact faces ivory instead of gold. Corrective budget exhausted.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e72-554a-7120-9afb-afe2cc8982b1/exec-8dfb2e77-4e0f-4c13-8060-b4e88a9c52ed.png",
+      "tool": "built-in image_gen",
+      "unresized": true,
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "0df3ee0d23732836426b584cf16c6b9f3b844c54ca10cec9416f8493b606a5e4",
+      "checks": {
+        "unmodified_tool_return": true,
+        "rgba": true,
+        "has_transparent_background": true,
+        "transparent_fraction": 0.6824452024653486,
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "requested_size_match": false,
+        "size_exception": "Tool returned a different size; retained unresized as explicitly instructed.",
+        "alpha_exactly_matches_guide": false,
+        "solid_bbox_alpha_gt_127": [
+          61,
+          63,
+          1211,
+          1180
+        ],
+        "normalized_mask_iou": 0.794228,
+        "normalized_excess_pixels": 48601,
+        "normalized_missing_pixels": 20229,
+        "no_text_or_letters_visual_check": true
+      }
+    }
+  ],
+  "status": "generated_with_check_failures",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "design_reference": {
+    "path": "design_reference.png",
+    "sha256": "829eec13ff4abc41a3d245bd38b8144dce3aabd5a5cab4ff99ba9977a4b4769d"
+  },
+  "validation_notes": [
+    "All five selected outputs are byte-identical to the built-in tool returns. No PNG was resized, cropped, masked, repainted, or otherwise post-processed.",
+    "All selected returns are 1254x1254 RGBA with transparent background; the brief explicitly allows retaining alternate returned sizes.",
+    "Every view used one initial generation and exactly one corrective regeneration, the maximum allowed.",
+    "No output passes the exact guide silhouette requirement. Normalized mask IoU uses nearest sampled alpha >127 on the guide grid for measurement only; this does not modify any image and does not imply pixel identity.",
+    "Residual shading/highlights remain. Selection means the preferred available return, not certification that all brief checks passed.",
+    "The left silhouette is the weakest selected result. The top first return was retained because the corrective return enlarged the silhouette and miscolored contact faces.",
+    "Visual inspection used the tool-returned images. No text or letters were visible. No builds or runtime integration were performed."
+  ]
+}

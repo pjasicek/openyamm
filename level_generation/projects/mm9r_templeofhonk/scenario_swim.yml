@@ -1,0 +1,124 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.templeofhonk_swim
+title: 'Temple of Honk (native BLV): wading in the pool, the fish swim in it'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: templeofhonk.blv
+- note:
+    text: 'The pool''s water volume: surface -517.1, channel bed -532.5 (15 units of water). The party walks off the hall
+      floor over the rim into it and wades.'
+- set_pose:
+    map: templeofhonk.blv
+    x: -3213
+    y: 6645
+    z: -521
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    water:
+      state: dry
+      eye_under: false
+- movement_segment:
+    input: forward
+    seconds: 0.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3214
+      y: 6646
+      z: -521
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3011
+      y: 6646
+      z: -531
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 30
+- advance_runtime:
+    seconds: 1
+- assert:
+    water:
+      state: wading
+      eye_under: false
+      breath_min: 0.99
+      foot_z_max: -522.1
+      foot_z_min: -534.5
+- advance_runtime:
+    seconds: 20
+- assert:
+    water:
+      state: wading
+      breath_min: 0.99
+      drowning_ticks_max: 0
+- note:
+    text: 'The fish (AISwimFly, Fly S) start in the volume and are bound to it: after 20 s each is still in the pool, its
+      feet not under the bed (a fish that has moved rides at the binding''s clamp, 1 under the surface minus half the body;
+      one that has idled all along still rests on the bed where the map''s load set it).'
+- assert:
+    actor_visible:
+      actor_index: 18
+      report_state: true
+      near:
+        x: -3010.55
+        y: 6645.75
+        max_distance: 842
+        min_z: -533.0
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+      near:
+        x: -3010.55
+        y: 6645.75
+        max_distance: 842
+        min_z: -533.0
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+      near:
+        x: -3010.55
+        y: 6645.75
+        max_distance: 842
+        min_z: -533.0
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+      near:
+        x: -3010.55
+        y: 6645.75
+        max_distance: 842
+        min_z: -533.0
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+      near:
+        x: -3010.55
+        y: 6645.75
+        max_distance: 842
+        min_z: -533.0
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+      near:
+        x: -3010.55
+        y: 6645.75
+        max_distance: 842
+        min_z: -533.0

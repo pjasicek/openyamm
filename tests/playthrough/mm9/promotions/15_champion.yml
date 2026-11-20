@@ -1,0 +1,56 @@
+# MM9 promotion playthrough, segment 15: the Gladiator promotion taken later (the user's any-order rule,
+# dialogue/promotions.yml). The labours were done while the Knight was still a Knight (segment 09: rewards, nobody
+# promoted); now he is a Cavalier. To Sturmford, the land gate, Fridleif upstairs in the town hall: "Promote our
+# eligible characters." (event 49990, MM9.promoteParty("Gladiator")) makes the Cavalier a Champion and pays nothing;
+# picked again it says no one can take it now. Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 15
+id: mm9.promotions.15_champion
+title: "MM9 promotions 15: Fridleif makes the Cavalier a Champion, for nothing, after the labours done long before"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/14_thorfinn_after.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90026, 90221, 90127]}
+
+  # To Sturmford, into the city by the land gate.
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # Fridleif: the promotion, no rewards.
+  - set_pose: {map: sturmfordcity.blv, x: 5560, y: 4603, z: 20565, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        log("CLASSES before: " .. classes())
+        if classes() ~= "Cavalier Cleric Rogue Sorcerer" then error("unexpected classes before Fridleif") end
+  - interact_actor: {actor_index: 31}
+  - assert: {dialog: {active: true, source_id: 61, action_label_present: "Promote our eligible characters.", action_label_absent: "We've completed all the labors."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "is now a Champion."}}
+  - play_lua:
+      source: |
+        log("CLASSES after: " .. classes())
+        if classes() ~= "Champion Cleric Rogue Sorcerer" then error("Fridleif's promotion gave " .. classes()) end
+        if gold() ~= recall("gold") then error("the promotion paid gold: " .. (gold() - recall("gold"))) end
+        for i = 0, 3 do
+          if experience(i) ~= recall("xp" .. i) then error("the promotion paid experience to member " .. i) end
+        end
+  # Nobody else is ready: the topic stays and says so.
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        if classes() ~= "Champion Cleric Rogue Sorcerer" or gold() ~= recall("gold") then error("changed after the second pick: " .. classes()) end
+        log("block A ends: " .. classes() .. ", gold " .. gold())
+  - save_game: {name: "P15 Champion", path: output/playthrough/mm9/promotions/checkpoints/15_champion.oysav}

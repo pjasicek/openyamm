@@ -1,0 +1,661 @@
+{
+ "id": "20261009-1649-mm8-d05-30",
+ "world": "mm8",
+ "maps": [
+  "d05.blv",
+  "d09.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/t65a01",
+  "mm8/t65a02",
+  "mm8/t65a04",
+  "mm8/t65a04a",
+  "mm8/t65a04b",
+  "mm8/t65a04c",
+  "mm8/t65a06",
+  "mm8/t65a07",
+  "mm8/t65b02a",
+  "mm8/t65b02b",
+  "mm8/t65b03",
+  "mm8/t65b11",
+  "mm8/t65b11b",
+  "mm8/t65b11c",
+  "mm8/t65b13",
+  "mm8/t65b13a",
+  "mm8/t65b14h",
+  "mm8/t65c10",
+  "mm8/t65c11",
+  "mm8/t65c12",
+  "mm8/gr-rt",
+  "mm8/grlft",
+  "mm8/grbas1",
+  "mm8/grbas3"
+ ],
+ "requests": {
+  "mm8/t65a01": {
+   "name": "t65a01",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "carved golden-brown sandstone relief panel of tangled tribal glyphs and figures",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t65a01a",
+     "left": "mm8/t65a01a",
+     "top": "mm8/t65b02t"
+    },
+    "3": {
+     "right": "mm8/t65a01a",
+     "left": "mm8/t65a01a",
+     "top": "mm8/t65b02t"
+    },
+    "4": {
+     "right": "mm8/t65a01a",
+     "left": "mm8/t65a01a",
+     "top": "mm8/t65b02t"
+    },
+    "5": {
+     "right": "mm8/t65a01a",
+     "left": "mm8/t65a01a",
+     "top": "mm8/t65b02t"
+    },
+    "6": {
+     "right": "mm8/t65a01a",
+     "left": "mm8/t65a01a",
+     "top": "mm8/t65b02t"
+    }
+   }
+  },
+  "mm8/t65a02": {
+   "name": "t65a02",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief panel of tribal figures and glyphs in two bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a04": {
+   "name": "t65a04",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief of a winged eagle deity with outspread wings flanked by two figures, in a square frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a04a": {
+   "name": "t65a04a",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief of a winged eagle deity with outspread wings flanked by two figures, in a dark square frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a04b": {
+   "name": "t65a04b",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief of a winged eagle deity, partly broken and cracked, in a dark square frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a04c": {
+   "name": "t65a04c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved golden-brown sandstone relief of a winged eagle deity with outspread wings, in a dark cracked square frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a06": {
+   "name": "t65a06",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "carved golden-brown sandstone relief panel of tangled tribal glyphs and figures inside a dark border",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t65a01",
+     "top": "mm8/t65b06t"
+    },
+    "3": {
+     "left": "mm8/t65a01",
+     "top": "mm8/t65b06t"
+    },
+    "4": {
+     "left": "mm8/t65a01",
+     "top": "mm8/t65b06t"
+    },
+    "5": {
+     "left": "mm8/t65a01",
+     "top": "mm8/t65b06t"
+    }
+   }
+  },
+  "mm8/t65a07": {
+   "name": "t65a07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "carved golden-brown sandstone relief panel of tangled tribal glyphs and figures inside a dark border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t65a01",
+     "top": "mm8/t65b07t"
+    },
+    "3": {
+     "right": "mm8/t65a01",
+     "top": "mm8/t65b07t"
+    }
+   }
+  },
+  "mm8/t65b02a": {
+   "name": "t65b02a",
+   "versions": [
+    1
+   ],
+   "material": "rough brown-grey stone with crumbly pitted texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b02b": {
+   "name": "t65b02b",
+   "versions": [
+    1
+   ],
+   "material": "rough dark brown stone with crumbly pitted texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b03": {
+   "name": "t65b03",
+   "versions": [
+    1
+   ],
+   "material": "irregular tan flagstones with dark cracked joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b11": {
+   "name": "t65b11",
+   "versions": [
+    1
+   ],
+   "material": "thin horizontal carved golden-brown sandstone relief strip of small glyphs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b11b": {
+   "name": "t65b11b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "carved golden-brown sandstone relief of a coiled two-headed serpent in a horizontal frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t65b11a",
+     "right": "mm8/t65b11a",
+     "bottom": "mm8/t65a02"
+    },
+    "3": {
+     "left": "mm8/t65b11a",
+     "right": "mm8/t65b11a",
+     "bottom": "mm8/t65a02"
+    }
+   }
+  },
+  "mm8/t65b11c": {
+   "name": "t65b11c",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief of a coiled two-headed serpent with glowing red eyes in a horizontal frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b13": {
+   "name": "t65b13",
+   "versions": [
+    1
+   ],
+   "material": "rough brown-grey stone wall with a carved stone lion-dragon head relief in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b13a": {
+   "name": "t65b13a",
+   "versions": [
+    1
+   ],
+   "material": "narrow vertical strip of rusty red-brown rough stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b14h": {
+   "name": "t65b14h",
+   "versions": [
+    1
+   ],
+   "material": "horizontal strip of grey-brown rough stone with crumbly texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65c10": {
+   "name": "t65c10",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved tan sandstone bricks in staggered courses with small glyph reliefs",
+   "notes": {
+    "2": "keep exactly the same brick courses as the reference: the same number of rows at the same heights, each carved block in the same place"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65c11": {
+   "name": "t65c11",
+   "versions": [
+    1
+   ],
+   "material": "horizontal band of carved tan sandstone bricks with small glyph reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65c12": {
+   "name": "t65c12",
+   "versions": [
+    1
+   ],
+   "material": "dark stone panel inlaid with a golden geometric maze pattern and a square boss in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gr-rt": {
+   "name": "gr-rt",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "smooth pale grey plaster beside a vertical carved reddish-brown wooden pilaster with fine ornament",
+   "notes": {
+    "2": "the pale grey plaster runs flat right up to the wooden pilaster with no beige band or shadow; the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the pale grey plaster runs flat right up to the wooden pilaster with no beige band or shadow; the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.469
+    },
+    "2": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.469
+    },
+    "3": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.469
+    },
+    "4": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.469
+    }
+   }
+  },
+  "mm8/grlft": {
+   "name": "grlft",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth pale grey plaster beside a vertical carved reddish-brown wooden pilaster with fine ornament",
+   "notes": {
+    "2": "the pale grey plaster runs flat right up to the wooden pilaster with no beige or pink band or shadow; the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: no pale or dark strip, groove or highlight along any edge; the grey plaster meets the wooden pilaster directly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.477
+    },
+    "2": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.477
+    },
+    "3": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.477
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm8/grbas1": {
+   "name": "grbas1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth pale grey plaster above a reddish-brown vertical plank wooden wainscot with a moulded top rail",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.266
+    },
+    "2": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.266
+    },
+    "3": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.266
+    }
+   }
+  },
+  "mm8/grbas3": {
+   "name": "grbas3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth pale grey plaster under a carved pale stone cornice and a thin reddish wooden rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.766
+    },
+    "2": {
+     "sources": [
+      "mm8/grbas2"
+     ],
+     "fraction": 0.766
+    }
+   }
+  }
+ }
+}

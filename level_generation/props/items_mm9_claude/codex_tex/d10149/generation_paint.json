@@ -1,0 +1,30 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, using design_reference.png as the material/detail reference and icon_x8.png as the original colour reference (magenta is background).\nProduce ONE transparent PNG, 1536x2048, 3:4 canvas. Preserve the guide exactly: three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 contain the same five grey orthographic renders, FRONT, BACK, LEFT / RIGHT, TOP, empty. Follow the actual pictured geometry and placement, even where views look edge-on. Do not reinterpret the views or replace thin edge-on views with broad shield faces. Paint grey objects only, with identical positions, sizes, outlines, gaps and openings.\nRows 1-2 PAINT: unlit base colour. Preserve the upright silver-rimmed heater shield with dense raised gold knotwork covering its dark face. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines, or text.\nRows 3-4 MATERIAL MASK: identical five silhouettes filled with FLAT pure colours only, no shading, texture, outlines, or antialiased colour blends inside. Pure red #FF0000 for every metal (steel, iron, chain mail, gold, silver, bronze, copper, brass); pure green #00FF00 for leather, straps, padding, hide, suede, fur; pure yellow #FFFF00 for matte non-metal solids wood, bone, horn, stone, parchment, paper, wax; pure black #000000 for gemstone, crystal, glass, pearl, enamel, liquid through glass. Every silhouette pixel exactly one of those colours, nothing outside. The silver rim, gold knotwork and dark metal plate are all metal, therefore pure red in the mask.\nAll space outside the guide silhouettes is fully transparent. Empty cells column 3 row 2 and row 4 stay empty transparent. Never redraw, enlarge, move, redesign or reorient any object. Preserve the exact guide arrangement.\nCORRECTION: Previous generation had stray red and gold speckles outside the silhouettes and ragged edges. Strictly preserve the original guide alpha silhouettes including openings; no pixels outside them, no speckles or spray. Crisp clean silhouette edges. Lower half is solid uniform pure red metal mask, no gradients. Use the original guide as the exact shape stencil.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, using design_reference.png as the material/detail reference and icon_x8.png as the original colour reference (magenta is background).\nProduce ONE transparent PNG, 1536x2048, 3:4 canvas. Preserve the guide exactly: three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 contain the same five grey orthographic renders, FRONT, BACK, LEFT / RIGHT, TOP, empty. Follow the actual pictured geometry and placement, even where views look edge-on. Do not reinterpret the views or replace thin edge-on views with broad shield faces. Paint grey objects only, with identical positions, sizes, outlines, gaps and openings.\nRows 1-2 PAINT: unlit base colour. Preserve the upright silver-rimmed heater shield with dense raised gold knotwork covering its dark face. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines, or text.\nRows 3-4 MATERIAL MASK: identical five silhouettes filled with FLAT pure colours only, no shading, texture, outlines, or antialiased colour blends inside. Pure red #FF0000 for every metal (steel, iron, chain mail, gold, silver, bronze, copper, brass); pure green #00FF00 for leather, straps, padding, hide, suede, fur; pure yellow #FFFF00 for matte non-metal solids wood, bone, horn, stone, parchment, paper, wax; pure black #000000 for gemstone, crystal, glass, pearl, enamel, liquid through glass. Every silhouette pixel exactly one of those colours, nothing outside. The silver rim, gold knotwork and dark metal plate are all metal, therefore pure red in the mask.\nAll space outside the guide silhouettes is fully transparent. Empty cells column 3 row 2 and row 4 stay empty transparent. Never redraw, enlarge, move, redesign or reorient any object. Preserve the exact guide arrangement.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ace1-a52c-7273-af49-30fc07de1700/exec-dd70d83b-0a0b-4ca4-b416-2dccd8d273ca.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10149/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10149/paint_mask_guide.png",
+      "sha256": "2afd31fc49b6347bb91820e3d451ec061dff2fd9890936ce87b5d48f1df3924c"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10149/design_reference.png",
+      "sha256": "db6fd8c0ea962471f3f6a2b57bba6d8fe4330259d03c792f66f31d1ec5912ea0"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10149/icon_x8.png",
+      "sha256": "7f033b56f4dba1301000f956dc32c7ba6950e656c7a0f1f085a6612dc745a233"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": "Visible stray pixels outside material-mask silhouettes remain after the one permitted correction; exact silhouette and flat-colour requirements are not fully met."
+  }
+}

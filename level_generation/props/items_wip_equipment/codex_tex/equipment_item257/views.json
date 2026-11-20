@@ -1,0 +1,45 @@
+{
+  "centre": [
+    0.0,
+    0.0,
+    0.2081831693649292
+  ],
+  "scale": 1.152047312259674,
+  "size": 1024,
+  "views": {
+    "front": [
+      0,
+      -1,
+      0
+    ],
+    "back": [
+      0,
+      1,
+      0
+    ],
+    "left": [
+      -1,
+      0,
+      0
+    ],
+    "right": [
+      1,
+      0,
+      0
+    ],
+    "top": [
+      0,
+      0,
+      1
+    ]
+  },
+  "paint_layout": "atlas_3x2",
+  "atlas_views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    null
+  ]
+}

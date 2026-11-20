@@ -1,0 +1,176 @@
+# Hostility check of X2 Rivercity and Lake Darzog (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+id: xeen.x2.l4.hostility
+title: 'X2 Rivercity and Lake Darzog: foes hostile to the party, no fights among them'
+world: mm7
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x2.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 202
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 203
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 204
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 97
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 98
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 99
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 592
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 593
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 594
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 192
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 203
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 371
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 368
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 354
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 350
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 404
+      hostile: true
+      max: 0
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- set_pose:
+    map: xeen_x2.odm
+    x: 12288
+    y: -2072
+    z: 2000
+    yaw_degrees: -90
+- advance_runtime:
+    seconds: 2
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 202
+    x: 12288
+    y: -3072
+    z: 800
+- spawn_actor:
+    monster_id: 592
+    x: 12384
+    y: -3072
+    z: 800
+- spawn_actor:
+    monster_id: 98
+    x: 12480
+    y: -3072
+    z: 800
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 202
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 592
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 98
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 371
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 368
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 354
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 350
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 404
+      hurt: true
+      max: 0

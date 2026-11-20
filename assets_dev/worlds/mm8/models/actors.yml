@@ -1,0 +1,6796 @@
+actors:
+- descriptor: Crystal Walker A
+  model: worlds/mm8/models/mm8_m596.glb
+  scale: 101.723613954
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Run2
+    stride_length: 1.74
+    run_stride_length: 2.95
+    sprint: Sprint
+    sprint_stride_length: 3.6977
+    upper_body_root: Waist
+    sockets:
+      palm_right: RightHand
+      palm_left: LeftHand
+    events:
+      attack_melee:
+        impact: 0.989
+      attack_ranged:
+        impact: 0.989
+        glow:
+        - palm_right
+        release: palm_right
+      cast:
+        impact: 0.8333333333333334
+        glow:
+        - palm_left
+        - palm_right
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Crystal Walker B
+  model: worlds/mm8/models/mm8_m596.glb
+  scale: 132.239477457
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Run2
+    stride_length: 1.74
+    run_stride_length: 2.95
+    sprint: Sprint
+    sprint_stride_length: 3.6977
+    upper_body_root: Waist
+    sockets:
+      palm_right: RightHand
+      palm_left: LeftHand
+    events:
+      attack_melee:
+        impact: 0.989
+      attack_ranged:
+        impact: 0.989
+        glow:
+        - palm_right
+        release: palm_right
+      cast:
+        impact: 0.8333333333333334
+        glow:
+        - palm_left
+        - palm_right
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Crystal Walker C
+  model: worlds/mm8/models/mm8_m596.glb
+  scale: 162.756866814
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Run2
+    stride_length: 1.74
+    run_stride_length: 2.95
+    sprint: Sprint
+    sprint_stride_length: 3.6977
+    upper_body_root: Waist
+    sockets:
+      palm_right: RightHand
+      palm_left: LeftHand
+    events:
+      attack_melee:
+        impact: 0.989
+      attack_ranged:
+        impact: 0.989
+        glow:
+        - palm_right
+        release: palm_right
+      cast:
+        impact: 0.8333333333333334
+        glow:
+        - palm_left
+        - palm_right
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Gorgon A
+  model: worlds/mm8/models/mm8_m564.glb
+  scale: 321.07365196
+  yaw_offset: -1.570796327
+  skin: gorgon_a
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.512
+    run_stride_length: 0.774
+    sprint: Sprint
+    sprint_stride_length: 1.1247
+    upper_body_root: Neck1
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Gorgon B
+  model: worlds/mm8/models/mm8_m564.glb
+  scale: 321.07365196
+  yaw_offset: -1.570796327
+  skin: gorgon_b
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.512
+    run_stride_length: 0.774
+    sprint: Sprint
+    sprint_stride_length: 1.1247
+    upper_body_root: Neck1
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Gorgon C
+  model: worlds/mm8/models/mm8_m564.glb
+  scale: 321.07365196
+  yaw_offset: -1.570796327
+  skin: gorgon_c
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.512
+    run_stride_length: 0.774
+    sprint: Sprint
+    sprint_stride_length: 1.1247
+    upper_body_root: Neck1
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 m560: native-sized wyvern, shared palette ramps and locally authored flyer rig.
+- descriptor: Wyvern A
+  model: worlds/mm8/models/mm8_m560.glb
+  scale: 426.0
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Fly
+    stride_length: 0.4694835680751174
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.4694835680751174
+    upper_body_root: Spine2
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.8333333333333334
+      attack_ranged:
+        impact: 0.8333333333333334
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+  skin: m560_a
+- descriptor: Wyvern B
+  model: worlds/mm8/models/mm8_m560.glb
+  scale: 426.0
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Fly
+    stride_length: 0.4694835680751174
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.4694835680751174
+    upper_body_root: Spine2
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.8333333333333334
+      attack_ranged:
+        impact: 0.8333333333333334
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+  skin: m560_b
+- descriptor: Wyvern C
+  model: worlds/mm8/models/mm8_m560.glb
+  scale: 426.0
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Fly
+    stride_length: 0.4694835680751174
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.4694835680751174
+    upper_body_root: Spine2
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.8333333333333334
+      attack_ranged:
+        impact: 0.8333333333333334
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+  skin: m560_c
+# Couatl source m408 maps to merged descriptors 7–9 (sprite groups m409–m411).
+- descriptor: Couatl (winged snake) A
+  model: worlds/mm8/models/mm8_m408.glb
+  scale: 119.0041770862523
+  yaw_offset: -1.570796327
+  skin: m408_a
+  animation:
+    cast: Cast
+    run: Run
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.0
+    run_stride_length: 1.0
+    upper_body_root: Neck_01
+    sockets:
+      mouth: MouthSocket
+    events:
+      attack_melee:
+        impact: 0.9
+      attack_ranged:
+        impact: 0.9
+        glow:
+        - mouth
+        release: mouth
+      cast:
+        impact: 0.9
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Couatl (winged snake) B
+  model: worlds/mm8/models/mm8_m408.glb
+  scale: 119.0041770862523
+  yaw_offset: -1.570796327
+  skin: m408_b
+  animation:
+    cast: Cast
+    run: Run
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.0
+    run_stride_length: 1.0
+    upper_body_root: Neck_01
+    sockets:
+      mouth: MouthSocket
+    events:
+      attack_melee:
+        impact: 0.9
+      attack_ranged:
+        impact: 0.9
+        glow:
+        - mouth
+        release: mouth
+      cast:
+        impact: 0.9
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Couatl (winged snake) C
+  model: worlds/mm8/models/mm8_m408.glb
+  scale: 119.0041770862523
+  yaw_offset: -1.570796327
+  skin: m408_c
+  animation:
+    cast: Cast
+    run: Run
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.0
+    run_stride_length: 1.0
+    upper_body_root: Neck_01
+    sockets:
+      mouth: MouthSocket
+    events:
+      attack_melee:
+        impact: 0.9
+      attack_ranged:
+        impact: 0.9
+        glow:
+        - mouth
+        release: mouth
+      cast:
+        impact: 0.9
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# Native m524: palette 524; scales from 103 native pixels × tier SFT scale / 1.996588369 m.
+- descriptor: Serpentmen A
+  model: worlds/mm8/models/mm8_m524.glb
+  scale: 67.063780431
+  yaw_offset: -1.570796327
+  skin: serpentman_a
+  animation:
+    cast: Attack
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 3.2
+    run_stride_length: 3.2
+    upper_body_root: Spine_00
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.56
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Serpentmen B
+  model: worlds/mm8/models/mm8_m524.glb
+  scale: 82.540335077
+  yaw_offset: -1.570796327
+  skin: serpentman_b
+  animation:
+    cast: Attack
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 3.2
+    run_stride_length: 3.2
+    upper_body_root: Spine_00
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.56
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Serpentmen C
+  model: worlds/mm8/models/mm8_m524.glb
+  scale: 98.016889723
+  yaw_offset: -1.570796327
+  skin: serpentman_c
+  animation:
+    cast: Attack
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 3.2
+    run_stride_length: 3.2
+    upper_body_root: Spine_00
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.56
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# Native m476 Troll family: left-handed skull club and palette trim tiers.
+- descriptor: Troll A
+  model: worlds/mm8/models/mm8_m476.glb
+  scale: 148.04101828590876
+  yaw_offset: -1.570796327
+  skin: troll_a
+  animation:
+    run: Jog
+    stride_length: 1.3097
+    run_stride_length: 2.244
+    sprint: Sprint
+    sprint_stride_length: 3.5221
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 0.964
+      attack_ranged:
+        impact: 0.964
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m476_club.glb
+    node: Club
+- descriptor: Troll B
+  model: worlds/mm8/models/mm8_m476.glb
+  scale: 148.04101828590876
+  yaw_offset: -1.570796327
+  skin: troll_b
+  animation:
+    run: Jog
+    stride_length: 1.3097
+    run_stride_length: 2.244
+    sprint: Sprint
+    sprint_stride_length: 3.5221
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 0.964
+      attack_ranged:
+        impact: 0.964
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m476_club.glb
+    node: Club
+- descriptor: Troll C
+  model: worlds/mm8/models/mm8_m476.glb
+  scale: 148.04101828590876
+  yaw_offset: -1.570796327
+  skin: troll_c
+  animation:
+    run: Jog
+    stride_length: 1.3097
+    run_stride_length: 2.244
+    sprint: Sprint
+    sprint_stride_length: 3.5221
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 0.964
+      attack_ranged:
+        impact: 0.964
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m476_club.glb
+    node: Club
+
+# MM8 m536: gold torso, separate unlit flame tail and native flask remains.
+- descriptor: Efreeti A
+  model: worlds/mm8/models/mm8_m536.glb
+  scale: 118.5
+  yaw_offset: -1.570796327
+  skin: m536_a
+  animation:
+    cast: Cast
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.65
+    run_stride_length: 2.0
+    upper_body_root: B_Pelvis
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 20
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.583, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.583, glow: [palm_left, palm_right], release: palm_right}
+      cast: {impact: 1.25, glow: [palm_left, palm_right], release: palm_right}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Efreeti B
+  model: worlds/mm8/models/mm8_m536.glb
+  scale: 118.5
+  yaw_offset: -1.570796327
+  skin: m536_b
+  animation:
+    cast: Cast
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.65
+    run_stride_length: 2.0
+    upper_body_root: B_Pelvis
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 20
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.583, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.583, glow: [palm_left, palm_right], release: palm_right}
+      cast: {impact: 1.25, glow: [palm_left, palm_right], release: palm_right}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  scale_reference: Efreeti A
+- descriptor: Efreeti C
+  model: worlds/mm8/models/mm8_m536.glb
+  scale: 118.5
+  yaw_offset: -1.570796327
+  skin: m536_c
+  animation:
+    cast: Cast
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.65
+    run_stride_length: 2.0
+    upper_body_root: B_Pelvis
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 20
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.583, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.583, glow: [palm_left, palm_right], release: palm_right}
+      cast: {impact: 1.25, glow: [palm_left, palm_right], release: palm_right}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  scale_reference: Efreeti A
+
+# MM8 m568: native-sized serpent, fitted two-hand polearm and one-second release.
+- descriptor: Salamander A
+  model: worlds/mm8/models/mm8_m568.glb
+  scale: 106.7072915551049
+  yaw_offset: -1.5707963267948966
+  skin: m568_a
+  attachments:
+  - model: worlds/mm8/models/mm8_m568_polearm.glb
+    node: Polearm
+  animation:
+    cast: Cast
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 2.342857703129847
+    run_stride_length: 1.7571432773473854
+    upper_body_root: B_Pelvis
+    sockets:
+      polearm_charge:
+        node: Polearm
+        offset:
+        - 0
+        - 0.58
+        - 0
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        glow:
+        - polearm_charge
+        release: polearm_charge
+      cast:
+        impact: 1.0
+        glow:
+        - polearm_charge
+        release: polearm_charge
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Salamander B
+  model: worlds/mm8/models/mm8_m568.glb
+  scale: 106.7072915551049
+  yaw_offset: -1.5707963267948966
+  skin: m568_b
+  attachments:
+  - model: worlds/mm8/models/mm8_m568_polearm.glb
+    node: Polearm
+  animation:
+    cast: Cast
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 2.436572011255041
+    run_stride_length: 1.8274290084412805
+    upper_body_root: B_Pelvis
+    sockets:
+      polearm_charge:
+        node: Polearm
+        offset:
+        - 0
+        - 0.58
+        - 0
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        glow:
+        - polearm_charge
+        release: polearm_charge
+      cast:
+        impact: 1.0
+        glow:
+        - polearm_charge
+        release: polearm_charge
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Salamander C
+  model: worlds/mm8/models/mm8_m568.glb
+  scale: 106.7072915551049
+  yaw_offset: -1.5707963267948966
+  skin: m568_c
+  attachments:
+  - model: worlds/mm8/models/mm8_m568_polearm.glb
+    node: Polearm
+  animation:
+    cast: Cast
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 2.8114292437558164
+    run_stride_length: 2.1085719328168624
+    upper_body_root: B_Pelvis
+    sockets:
+      polearm_charge:
+        node: Polearm
+        offset:
+        - 0
+        - 0.58
+        - 0
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        glow:
+        - polearm_charge
+        release: polearm_charge
+      cast:
+        impact: 1.0
+        glow:
+        - polearm_charge
+        release: polearm_charge
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# Restored pre-rollback MM8 families (2026-10-18).
+# Lizardman Peasant / Farmer / Villager: one skin, palettes 401 / 402 / 403 as garment and trim ramps; same size.
+- descriptor: Lizardmen Male (Peasant) A
+  model: worlds/mm8/models/mm8_lizardman_peasant.glb
+  scale: 115.3635802632
+  yaw_offset: -1.570796327
+  skin: m400_a
+  animation:
+    run: Run
+    stride_length: 1.427
+    run_stride_length: 2.7555
+    sprint: Sprint
+    sprint_stride_length: 4.2454
+    upper_body_root: Spine02
+    look:
+      nodes: [neck, Head]
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+  clips:
+    standing: Standing
+    walking: Walk
+    # Both native attack slots alias the walking frames.
+    attack_melee: Walk
+    attack_ranged: Walk
+    hit: Hit
+    dying: Death
+    dead: Corpse
+    fidget: Fidget
+- descriptor: Lizardmen Male (Peasant) B
+  model: worlds/mm8/models/mm8_lizardman_peasant.glb
+  scale: 115.3635802632
+  yaw_offset: -1.570796327
+  skin: m400_b
+  animation:
+    run: Run
+    stride_length: 1.427
+    run_stride_length: 2.7555
+    sprint: Sprint
+    sprint_stride_length: 4.2454
+    upper_body_root: Spine02
+    look:
+      nodes: [neck, Head]
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+  clips:
+    standing: Standing
+    walking: Walk
+    # Both native attack slots alias the walking frames.
+    attack_melee: Walk
+    attack_ranged: Walk
+    hit: Hit
+    dying: Death
+    dead: Corpse
+    fidget: Fidget
+- descriptor: Lizardmen Male (Peasant) C
+  model: worlds/mm8/models/mm8_lizardman_peasant.glb
+  scale: 115.3635802632
+  yaw_offset: -1.570796327
+  skin: m400_c
+  animation:
+    run: Run
+    stride_length: 1.427
+    run_stride_length: 2.7555
+    sprint: Sprint
+    sprint_stride_length: 4.2454
+    upper_body_root: Spine02
+    look:
+      nodes: [neck, Head]
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+  clips:
+    standing: Standing
+    walking: Walk
+    # Both native attack slots alias the walking frames.
+    attack_melee: Walk
+    attack_ranged: Walk
+    hit: Hit
+    dying: Death
+    dead: Corpse
+    fidget: Fidget
+
+# MM8 m512, palette 512: native A/B/C sizes share one wolf skin and rig.
+- descriptor: Dire Wolf A
+  model: worlds/mm8/models/mm8_wolf.glb
+  scale: 237.39035344936403
+  yaw_offset: -1.570796327
+  skin: wolf_a
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.4545
+    run_stride_length: 0.7035
+    sprint: Sprint
+    sprint_stride_length: 1.275
+    upper_body_root: Spine2
+    look:
+      nodes:
+      - Neck1
+      - Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Dire Wolf B
+  model: worlds/mm8/models/mm8_wolf.glb
+  scale: 272.99748212464795
+  yaw_offset: -1.570796327
+  skin: wolf_b
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.4545
+    run_stride_length: 0.7035
+    sprint: Sprint
+    sprint_stride_length: 1.275
+    upper_body_root: Spine2
+    look:
+      nodes:
+      - Neck1
+      - Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Dire Wolf C
+  model: worlds/mm8/models/mm8_wolf.glb
+  scale: 320.4766210711113
+  yaw_offset: -1.570796327
+  skin: wolf_c
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.4545
+    run_stride_length: 0.7035
+    sprint: Sprint
+    sprint_stride_length: 1.275
+    upper_body_root: Spine2
+    look:
+      nodes:
+      - Neck1
+      - Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 20
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 male Dark Elf peasants: native tunic palettes 425/426/427, 196-unit standing height.
+- descriptor: Dark Elf Pesant Male A
+  model: worlds/mm8/models/mm8_m424.glb
+  scale: 115.22549242
+  yaw_offset: -1.570796327
+  skin: m424_a
+  animation:
+    run: Running
+    stride_length: 1.2616
+    run_stride_length: 2.013467
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+  clips:
+    standing: Standing
+    walking: Walk2
+    # Both native attack slots alias the walking frames.
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m424_dagger.glb
+    node: Dagger
+- descriptor: Dark Elf Pesant Male B
+  model: worlds/mm8/models/mm8_m424.glb
+  scale: 115.22549242
+  yaw_offset: -1.570796327
+  skin: m424_b
+  animation:
+    run: Running
+    stride_length: 1.2616
+    run_stride_length: 2.013467
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+  clips:
+    standing: Standing
+    walking: Walk2
+    # Both native attack slots alias the walking frames.
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m424_dagger.glb
+    node: Dagger
+- descriptor: Dark Elf Pesant Male C
+  model: worlds/mm8/models/mm8_m424.glb
+  scale: 115.22549242
+  yaw_offset: -1.570796327
+  skin: m424_c
+  animation:
+    run: Running
+    stride_length: 1.2616
+    run_stride_length: 2.013467
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+  clips:
+    standing: Standing
+    walking: Walk2
+    # Both native attack slots alias the walking frames.
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m424_dagger.glb
+    node: Dagger
+
+- descriptor: Dark Elf Pesant Female A
+  model: worlds/mm8/models/mm8_m428.glb
+  scale: 118.685078
+  yaw_offset: -1.570796327
+  skin: m428_a
+  animation:
+    run: Walking
+    stride_length: 1.2143
+    run_stride_length: 1.558
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+  clips:
+    standing: Standing
+    walking: Walk2
+    # Wimp AI never attacks; both native attack slots alias the walking frames (as the male peasant).
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  # The male peasant's dagger, built on an identically constructed Dagger bone (mm8_m428_claude/scripts/dagger.py).
+  - model: worlds/mm8/models/mm8_m424_dagger.glb
+    node: Dagger
+- descriptor: Dark Elf Pesant Female B
+  model: worlds/mm8/models/mm8_m428.glb
+  scale: 118.685078
+  yaw_offset: -1.570796327
+  skin: m428_b
+  animation:
+    run: Walking
+    stride_length: 1.2143
+    run_stride_length: 1.558
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+  clips:
+    standing: Standing
+    walking: Walk2
+    # Wimp AI never attacks; both native attack slots alias the walking frames (as the male peasant).
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  # The male peasant's dagger, built on an identically constructed Dagger bone (mm8_m428_claude/scripts/dagger.py).
+  - model: worlds/mm8/models/mm8_m424_dagger.glb
+    node: Dagger
+- descriptor: Dark Elf Pesant Female C
+  model: worlds/mm8/models/mm8_m428.glb
+  scale: 118.685078
+  yaw_offset: -1.570796327
+  skin: m428_c
+  animation:
+    run: Walking
+    stride_length: 1.2143
+    run_stride_length: 1.558
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+  clips:
+    standing: Standing
+    walking: Walk2
+    # Wimp AI never attacks; both native attack slots alias the walking frames (as the male peasant).
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  # The male peasant's dagger, built on an identically constructed Dagger bone (mm8_m428_claude/scripts/dagger.py).
+  - model: worlds/mm8/models/mm8_m424_dagger.glb
+    node: Dagger
+
+# MM8 Ratman family: native 158 px standing height; only trousers change with palettes 449/450/451.
+- descriptor: Wererat Ratman Form Male A
+  model: worlds/mm8/models/mm8_ratman.glb
+  scale: 103.0679
+  yaw_offset: -1.570796327
+  skin: ratman_a
+  animation:
+    run: Running
+    stride_length: 1.867
+    run_stride_length: 3.438
+    sprint: Sprint
+    sprint_stride_length: 4.3509
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 30
+    events:
+      attack_melee:
+        impact: 1.231
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_ratman_sword.glb
+    node: Sword
+- descriptor: Wererat Ratman Form Male B
+  model: worlds/mm8/models/mm8_ratman.glb
+  scale: 103.0679
+  yaw_offset: -1.570796327
+  skin: ratman_b
+  animation:
+    run: Running
+    stride_length: 1.867
+    run_stride_length: 3.438
+    sprint: Sprint
+    sprint_stride_length: 4.3509
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 30
+    events:
+      attack_melee:
+        impact: 1.231
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_ratman_sword.glb
+    node: Sword
+- descriptor: Wererat Ratman Form Male C
+  model: worlds/mm8/models/mm8_ratman.glb
+  scale: 103.0679
+  yaw_offset: -1.570796327
+  skin: ratman_c
+  animation:
+    run: Running
+    stride_length: 1.867
+    run_stride_length: 3.438
+    sprint: Sprint
+    sprint_stride_length: 4.3509
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 30
+    events:
+      attack_melee:
+        impact: 1.231
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_ratman_sword.glb
+    node: Sword
+
+# Human Smuggler (m444, palettes 445/446/447); all native tiers have scale 1 and 179-pixel standing height.
+# Use their measured common scale directly: bound sprite groups are omitted from graphical map loads.
+- descriptor: Wererat Human Form Male A
+  model: worlds/mm8/models/mm8_m444.glb
+  scale: 102.94420141670047
+  yaw_offset: -1.570796327
+  skin: m444_a
+  attachments:
+  - model: worlds/mm8/models/mm8_m444_sword.glb
+    node: Sword
+  animation:
+    cast: Attack
+    run: Jog
+    stride_length: 1.9284
+    run_stride_length: 3.4034
+    sprint: Sprint
+    sprint_stride_length: 4.5328
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee:
+        impact: 1.389
+      cast: {impact: 1.389, glow: [palm_left, palm_right], release: palm_left}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wererat Human Form Male B
+  model: worlds/mm8/models/mm8_m444.glb
+  scale: 102.94420141670047
+  yaw_offset: -1.570796327
+  skin: m444_b
+  attachments:
+  - model: worlds/mm8/models/mm8_m444_sword.glb
+    node: Sword
+  animation:
+    cast: Attack
+    run: Jog
+    stride_length: 1.9284
+    run_stride_length: 3.4034
+    sprint: Sprint
+    sprint_stride_length: 4.5328
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee:
+        impact: 1.389
+      cast: {impact: 1.389, glow: [palm_left, palm_right], release: palm_left}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wererat Human Form Male C
+  model: worlds/mm8/models/mm8_m444.glb
+  scale: 102.94420141670047
+  yaw_offset: -1.570796327
+  skin: m444_c
+  attachments:
+  - model: worlds/mm8/models/mm8_m444_sword.glb
+    node: Sword
+  animation:
+    cast: Attack
+    run: Jog
+    stride_length: 1.9284
+    run_stride_length: 3.4034
+    sprint: Sprint
+    sprint_stride_length: 4.5328
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee:
+        impact: 1.389
+      cast: {impact: 1.389, glow: [palm_left, palm_right], release: palm_left}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Pirate Warrior: native green, blue and red tiers.
+- descriptor: Pirate Warrior Male A
+  model: worlds/mm8/models/mm8_m412.glb
+  scale: 139.88269812886614
+  yaw_offset: -1.570796327
+  skin: pirate_a
+  animation:
+    run: Jog
+    stride_length: 1.4998
+    run_stride_length: 2.3583
+    sprint: Sprint
+    sprint_stride_length: 3.5194
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee:
+        impact: 1.105
+      attack_ranged:
+        impact: 1.105
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m412_cutlass.glb
+    node: Sword
+- descriptor: Pirate Warrior Male B
+  model: worlds/mm8/models/mm8_m412.glb
+  scale: 139.88269812886614
+  yaw_offset: -1.570796327
+  skin: pirate_b
+  animation:
+    run: Jog
+    stride_length: 1.4998
+    run_stride_length: 2.3583
+    sprint: Sprint
+    sprint_stride_length: 3.5194
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee:
+        impact: 1.105
+      attack_ranged:
+        impact: 1.105
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m412_cutlass.glb
+    node: Sword
+- descriptor: Pirate Warrior Male C
+  model: worlds/mm8/models/mm8_m412.glb
+  scale: 139.88269812886614
+  yaw_offset: -1.570796327
+  skin: pirate_c
+  animation:
+    run: Jog
+    stride_length: 1.4998
+    run_stride_length: 2.3583
+    sprint: Sprint
+    sprint_stride_length: 3.5194
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee:
+        impact: 1.105
+      attack_ranged:
+        impact: 1.105
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m412_cutlass.glb
+    node: Sword
+- descriptor: Wimpy Pirate Warrior Male A
+  model: worlds/mm8/models/mm8_m412.glb
+  scale: 139.88269812886614
+  yaw_offset: -1.570796327
+  skin: pirate_a
+  animation:
+    run: Walking
+    stride_length: 1.4998
+    run_stride_length: 1.708
+    sprint: Sprint
+    sprint_stride_length: 3.5194
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee:
+        impact: 1.105
+      attack_ranged:
+        impact: 1.105
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m412_cutlass.glb
+    node: Sword
+- descriptor: Wimpy Pirate Warrior Male B
+  model: worlds/mm8/models/mm8_m412.glb
+  scale: 139.88269812886614
+  yaw_offset: -1.570796327
+  skin: pirate_b
+  animation:
+    run: Jog
+    stride_length: 1.4998
+    run_stride_length: 2.3583
+    sprint: Sprint
+    sprint_stride_length: 3.5194
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee:
+        impact: 1.105
+      attack_ranged:
+        impact: 1.105
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m412_cutlass.glb
+    node: Sword
+- descriptor: Wimpy Pirate Warrior Male C
+  model: worlds/mm8/models/mm8_m412.glb
+  scale: 139.88269812886614
+  yaw_offset: -1.570796327
+  skin: pirate_c
+  animation:
+    run: Jog
+    stride_length: 1.4998
+    run_stride_length: 2.3583
+    sprint: Sprint
+    sprint_stride_length: 3.5194
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee:
+        impact: 1.105
+      attack_ranged:
+        impact: 1.105
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m412_cutlass.glb
+    node: Sword
+
+# Centaur (m532): 205 px native standing height at 1.3 scale, palettes 533/534/535.
+- descriptor: Centaur A
+  model: worlds/mm8/models/mm8_centaur.glb
+  scale: 102.49905384615383
+  yaw_offset: -1.570796327
+  skin: centaur_a
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 1.776
+    run_stride_length: 3.0656
+    upper_body_root: Spine
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      bow: {node: Bow, offset: [-0.0053, -0.0133, 0.0178]}
+      palm_right: Socket_CastPalm
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged: {impact: 1.0}
+      cast: {impact: 1.0, glow: [palm_right, bow], release: bow}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_centaur_bow.glb
+    node: Bow
+  - model: worlds/mm8/models/mm8_centaur_quiver.glb
+    node: Quiver
+- descriptor: Centaur B
+  model: worlds/mm8/models/mm8_centaur.glb
+  scale: 102.49905384615383
+  yaw_offset: -1.570796327
+  skin: centaur_b
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 1.776
+    run_stride_length: 3.0656
+    upper_body_root: Spine
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      bow: {node: Bow, offset: [-0.0053, -0.0133, 0.0178]}
+      palm_right: Socket_CastPalm
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged: {impact: 1.0}
+      cast: {impact: 1.0, glow: [palm_right, bow], release: bow}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_centaur_bow.glb
+    node: Bow
+  - model: worlds/mm8/models/mm8_centaur_quiver.glb
+    node: Quiver
+- descriptor: Centaur C
+  model: worlds/mm8/models/mm8_centaur.glb
+  scale: 102.49905384615383
+  yaw_offset: -1.570796327
+  skin: centaur_c
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 1.776
+    run_stride_length: 3.0656
+    upper_body_root: Spine
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      bow: {node: Bow, offset: [-0.0053, -0.0133, 0.0178]}
+      palm_right: Socket_CastPalm
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged: {impact: 1.0}
+      cast: {impact: 1.0, glow: [palm_right, bow], release: bow}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_centaur_bow.glb
+    node: Bow
+  - model: worlds/mm8/models/mm8_centaur_quiver.glb
+    node: Quiver
+
+# MM8 Dark Elf warriors: 167 native body pixels at scale 1.299988; palettes 433/434/435.
+- descriptor: Dark Elf Warrior A
+  model: worlds/mm8/models/mm8_m432.glb
+  scale: 120.3479285988
+  yaw_offset: -1.570796327
+  skin: m432_a
+  animation:
+    run: Jog
+    cast: Attack
+    stride_length: 1.9152
+    run_stride_length: 2.6637
+    sprint: Running
+    sprint_stride_length: 3.509
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      palm_left: Socket_Spell
+    events:
+      attack_melee:
+        impact: 0.973
+      attack_ranged:
+        impact: 0.973
+      cast: {impact: 0.973, glow: [palm_left]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m432_sword.glb
+    node: Socket_Sword
+- descriptor: Dark Elf Warrior B
+  model: worlds/mm8/models/mm8_m432.glb
+  scale: 120.3479285988
+  yaw_offset: -1.570796327
+  skin: m432_b
+  animation:
+    run: Jog
+    cast: Attack
+    stride_length: 1.9152
+    run_stride_length: 2.6637
+    sprint: Running
+    sprint_stride_length: 3.509
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      palm_left: Socket_Spell
+    events:
+      attack_melee:
+        impact: 0.973
+      attack_ranged:
+        impact: 0.973
+      cast: {impact: 0.973, glow: [palm_left]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m432_sword.glb
+    node: Socket_Sword
+- descriptor: Dark Elf Warrior C
+  model: worlds/mm8/models/mm8_m432.glb
+  scale: 120.3479285988
+  yaw_offset: -1.570796327
+  skin: m432_c
+  animation:
+    run: Jog
+    cast: Attack
+    stride_length: 1.9152
+    run_stride_length: 2.6637
+    sprint: Running
+    sprint_stride_length: 3.509
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      palm_left: Socket_Spell
+    events:
+      attack_melee:
+        impact: 0.973
+      attack_ranged:
+        impact: 0.973
+      cast: {impact: 0.973, glow: [palm_left]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m432_sword.glb
+    node: Socket_Sword
+
+# Dragon Hunter / Crusader / Dragonslayer: m456, native palettes 457–459.
+- descriptor: Dragon Hunter A
+  model: worlds/mm8/models/mm8_m456.glb
+  scale: 116.61049380213039
+  yaw_offset: -1.570796327
+  skin: dragon_hunter_a
+  animation:
+    run: Jog
+    stride_length: 1.7252301227500526
+    run_stride_length: 3.2029
+    sprint: Sprint
+    sprint_stride_length: 4.2567
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee: {impact: 0.436}
+      attack_ranged: {impact: 0.436}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m456_sword.glb
+    node: Sword
+- descriptor: Dragon Hunter B
+  model: worlds/mm8/models/mm8_m456.glb
+  scale: 116.61049380213039
+  yaw_offset: -1.570796327
+  skin: dragon_hunter_b
+  animation:
+    run: Jog
+    stride_length: 1.7252301227500526
+    run_stride_length: 3.2029
+    sprint: Sprint
+    sprint_stride_length: 4.2567
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee: {impact: 0.436}
+      attack_ranged: {impact: 0.436}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m456_sword.glb
+    node: Sword
+- descriptor: Dragon Hunter C
+  model: worlds/mm8/models/mm8_m456.glb
+  scale: 116.61049380213039
+  yaw_offset: -1.570796327
+  skin: dragon_hunter_c
+  animation:
+    run: Jog
+    stride_length: 1.7252301227500526
+    run_stride_length: 3.2029
+    sprint: Sprint
+    sprint_stride_length: 4.2567
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    events:
+      attack_melee: {impact: 0.436}
+      attack_ranged: {impact: 0.436}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m456_sword.glb
+    node: Sword
+
+# MM8 Minotaur: 206 native standing pixels at scale 1.5; palette 485/486/487 mail.
+- descriptor: Minotaur A
+  model: worlds/mm8/models/mm8_m484.glb
+  scale: 173.2569363302
+  yaw_offset: -1.570796327
+  skin: m484_a
+  animation:
+    sockets:
+      axe: {node: Axe, offset: [0.0151, 1.0569, -0.0339]}
+    run: Jog
+    cast: Cast
+    stride_length: 1.361
+    run_stride_length: 2.266
+    sprint: Sprint
+    sprint_stride_length: 3.065
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    events:
+      attack_melee: {impact: 0.698}
+      attack_ranged: {impact: 0.698}
+      cast: {impact: 0.725, glow: [axe], release: axe, glow_scale: 1.5, color: [75, 147, 116]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m484_axe.glb
+    node: Axe
+- descriptor: Minotaur B
+  model: worlds/mm8/models/mm8_m484.glb
+  scale: 173.2569363302
+  yaw_offset: -1.570796327
+  skin: m484_b
+  animation:
+    sockets:
+      axe: {node: Axe, offset: [0.0151, 1.0569, -0.0339]}
+    run: Jog
+    cast: Cast
+    stride_length: 1.361
+    run_stride_length: 2.266
+    sprint: Sprint
+    sprint_stride_length: 3.065
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    events:
+      attack_melee: {impact: 0.698}
+      attack_ranged: {impact: 0.698}
+      cast: {impact: 0.725, glow: [axe], release: axe, glow_scale: 1.5, color: [75, 147, 116]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m484_axe.glb
+    node: Axe
+- descriptor: Minotaur C
+  model: worlds/mm8/models/mm8_m484.glb
+  scale: 173.2569363302
+  yaw_offset: -1.570796327
+  skin: m484_c
+  animation:
+    sockets:
+      axe: {node: Axe, offset: [0.0151, 1.0569, -0.0339]}
+    run: Jog
+    cast: Cast
+    stride_length: 1.361
+    run_stride_length: 2.266
+    sprint: Sprint
+    sprint_stride_length: 3.065
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    events:
+      attack_melee: {impact: 0.698}
+      attack_ranged: {impact: 0.698}
+      cast: {impact: 0.725, glow: [axe], release: axe, glow_scale: 1.5, color: [75, 147, 116]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m484_axe.glb
+    node: Axe
+- descriptor: Human Mercenary A
+  model: worlds/mm8/models/mm8_m656.glb
+  scale: 112.22467473231204
+  yaw_offset: -1.570796327
+  skin: mercenary_a
+  attachments:
+  - model: worlds/mm8/models/mm8_m656_sword.glb
+    node: Sword
+  - model: worlds/mm8/models/mm8_m656_scabbard.glb
+    node: Scabbard
+  animation:
+    run: Running
+    stride_length: 1.783
+    run_stride_length: 3.864
+    sprint: Sprint
+    sprint_stride_length: 4.3848
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.126
+      attack_ranged:
+        impact: 1.126
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Human Mercenary B
+  model: worlds/mm8/models/mm8_m656.glb
+  scale: 112.22467473231204
+  yaw_offset: -1.570796327
+  skin: mercenary_b
+  attachments:
+  - model: worlds/mm8/models/mm8_m656_sword.glb
+    node: Sword
+  - model: worlds/mm8/models/mm8_m656_scabbard.glb
+    node: Scabbard
+  animation:
+    run: Running
+    stride_length: 1.783
+    run_stride_length: 3.864
+    sprint: Sprint
+    sprint_stride_length: 4.3848
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.126
+      attack_ranged:
+        impact: 1.126
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Human Mercenary C
+  model: worlds/mm8/models/mm8_m656.glb
+  scale: 112.22467473231204
+  yaw_offset: -1.570796327
+  skin: mercenary_c
+  attachments:
+  - model: worlds/mm8/models/mm8_m656_sword.glb
+    node: Sword
+  - model: worlds/mm8/models/mm8_m656_scabbard.glb
+    node: Scabbard
+  animation:
+    run: Running
+    stride_length: 1.783
+    run_stride_length: 3.864
+    sprint: Sprint
+    sprint_stride_length: 4.3848
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.126
+      attack_ranged:
+        impact: 1.126
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Gog: 220-pixel standing silhouette; native scales and PAL613/614/615 colours.
+- descriptor: Gog A
+  model: worlds/mm8/models/mm8_m612.glb
+  scale: 85.979253641122
+  yaw_offset: -1.570796327
+  skin: gog_a
+  animation:
+    run: Walking
+    cast: Cast
+    stride_length: 1.832
+    run_stride_length: 1.832
+    upper_body_root: B_Spine
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.0412, 0.1454, 0.0039]}
+      r_hand: {node: B_R_Hand, offset: [0.0272, 0.1923, -0.0053]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee: {impact: 1.036}
+      attack_ranged: {impact: 1.036, glow: [r_hand], release: r_hand}
+      cast: {impact: 1.0, glow: [r_hand, l_hand], release: r_hand}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Gog B
+  model: worlds/mm8/models/mm8_m612.glb
+  scale: 103.279159683557
+  yaw_offset: -1.570796327
+  skin: gog_b
+  animation:
+    run: Walking
+    cast: Cast
+    stride_length: 1.832
+    run_stride_length: 1.832
+    upper_body_root: B_Spine
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.0412, 0.1454, 0.0039]}
+      r_hand: {node: B_R_Hand, offset: [0.0272, 0.1923, -0.0053]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee: {impact: 1.036}
+      attack_ranged: {impact: 1.036, glow: [r_hand], release: r_hand}
+      cast: {impact: 1.0, glow: [r_hand, l_hand], release: r_hand}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Gog C
+  model: worlds/mm8/models/mm8_m612.glb
+  scale: 129.100886117739
+  yaw_offset: -1.570796327
+  skin: gog_c
+  animation:
+    run: Walking
+    cast: Cast
+    stride_length: 1.832
+    run_stride_length: 1.832
+    upper_body_root: B_Spine
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.0412, 0.1454, 0.0039]}
+      r_hand: {node: B_R_Hand, offset: [0.0272, 0.1923, -0.0053]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee: {impact: 1.036}
+      attack_ranged: {impact: 1.036, glow: [r_hand], release: r_hand}
+      cast: {impact: 1.0, glow: [r_hand, l_hand], release: r_hand}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Ogre: native 164-pixel standing body at SFT scale 1.399994; fitted club and heavy gait.
+- descriptor: Ogre Warrior A
+  model: worlds/mm8/models/mm8_m440.glb
+  scale: 154.31227443749754
+  yaw_offset: -1.570796327
+  skin: m440_a
+  attachments:
+  - model: worlds/mm8/models/mm8_m440_club.glb
+    node: Club
+  animation:
+    run: Jog
+    stride_length: 1.654336
+    run_stride_length: 2.7509
+    sprint: Sprint
+    sprint_stride_length: 3.5983
+    upper_body_root: B_Spine
+    events:
+      attack_melee: {impact: 0.955}
+      attack_ranged: {impact: 0.955}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Ogre Warrior B
+  model: worlds/mm8/models/mm8_m440.glb
+  scale: 154.31227443749754
+  yaw_offset: -1.570796327
+  skin: m440_b
+  attachments:
+  - model: worlds/mm8/models/mm8_m440_club.glb
+    node: Club
+  animation:
+    run: Jog
+    stride_length: 1.654336
+    run_stride_length: 2.7509
+    sprint: Sprint
+    sprint_stride_length: 3.5983
+    upper_body_root: B_Spine
+    events:
+      attack_melee: {impact: 0.955}
+      attack_ranged: {impact: 0.955}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Ogre Warrior C
+  model: worlds/mm8/models/mm8_m440.glb
+  scale: 154.31227443749754
+  yaw_offset: -1.570796327
+  skin: m440_c
+  attachments:
+  - model: worlds/mm8/models/mm8_m440_club.glb
+    node: Club
+  animation:
+    run: Jog
+    stride_length: 1.654336
+    run_stride_length: 2.7509
+    sprint: Sprint
+    sprint_stride_length: 3.5983
+    upper_body_root: B_Spine
+    events:
+      attack_melee: {impact: 0.955}
+      attack_ranged: {impact: 0.955}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Ether Knight A
+  model: worlds/mm8/models/mm8_m604.glb
+  scale: 149.57488522541084
+  yaw_offset: -1.570796327
+  skin: m604_a
+  animation:
+    run: Jog
+    stride_length: 1.6253
+    run_stride_length: 2.3136
+    sprint: Sprint
+    sprint_stride_length: 3.5859
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 30
+    sockets:
+      sword: {node: Sword, offset: [0.0051, 0.5459, 0.0025]}
+    events:
+      attack_melee:
+        impact: 1.06
+      attack_ranged: {impact: 1.06, glow: [sword]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m604_sword.glb
+    node: Sword
+- descriptor: Ether Knight B
+  model: worlds/mm8/models/mm8_m604.glb
+  scale: 149.57488522541084
+  yaw_offset: -1.570796327
+  skin: m604_b
+  animation:
+    run: Jog
+    stride_length: 1.6253
+    run_stride_length: 2.3136
+    sprint: Sprint
+    sprint_stride_length: 3.5859
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 30
+    sockets:
+      sword: {node: Sword, offset: [0.0051, 0.5459, 0.0025]}
+    events:
+      attack_melee:
+        impact: 1.06
+      attack_ranged: {impact: 1.06, glow: [sword]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m604_sword.glb
+    node: Sword
+- descriptor: Ether Knight C
+  model: worlds/mm8/models/mm8_m604.glb
+  scale: 149.57488522541084
+  yaw_offset: -1.570796327
+  skin: m604_c
+  animation:
+    run: Jog
+    stride_length: 1.6253
+    run_stride_length: 2.3136
+    sprint: Sprint
+    sprint_stride_length: 3.5859
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 30
+    sockets:
+      sword: {node: Sword, offset: [0.0051, 0.5459, 0.0025]}
+    events:
+      attack_melee:
+        impact: 1.06
+      attack_ranged: {impact: 1.06, glow: [sword]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m604_sword.glb
+    node: Sword
+
+# Thunderbird m552: native palettes 553/554/555, merged descriptors 115–117.
+- descriptor: Thunderbird A
+  model: worlds/mm8/models/mm8_m552.glb
+  scale: 569.0313796892026
+  yaw_offset: -1.570796327
+  skin: m552_a
+  animation:
+    cast: Cast
+    run: Fly
+    stride_length: 1.0
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.0
+    upper_body_root: Chest
+    sockets:
+      head: HeadSocket
+    events:
+      attack_melee:
+        impact: 0.875
+      attack_ranged:
+        impact: 0.875
+        glow:
+        - head
+        release: head
+      cast:
+        impact: 0.875
+        glow:
+        - head
+        release: head
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+- descriptor: Thunderbird B
+  model: worlds/mm8/models/mm8_m552.glb
+  scale: 569.0313796892026
+  yaw_offset: -1.570796327
+  skin: m552_b
+  animation:
+    cast: Cast
+    run: Fly
+    stride_length: 1.0
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.0
+    upper_body_root: Chest
+    sockets:
+      head: HeadSocket
+    events:
+      attack_melee:
+        impact: 0.875
+      attack_ranged:
+        impact: 0.875
+        glow:
+        - head
+        release: head
+      cast:
+        impact: 0.875
+        glow:
+        - head
+        release: head
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+  scale_reference: Thunderbird A
+- descriptor: Thunderbird C
+  model: worlds/mm8/models/mm8_m552.glb
+  scale: 569.0313796892026
+  yaw_offset: -1.570796327
+  skin: m552_c
+  animation:
+    cast: Cast
+    run: Fly
+    stride_length: 1.0
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.0
+    upper_body_root: Chest
+    sockets:
+      head: HeadSocket
+    events:
+      attack_melee:
+        impact: 0.875
+      attack_ranged:
+        impact: 0.875
+        glow:
+        - head
+        release: head
+      cast:
+        impact: 0.875
+        glow:
+        - head
+        release: head
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+  scale_reference: Thunderbird A
+- descriptor: Wererat Rat Form Male A
+  model: worlds/mm8/models/mm8_m452.glb
+  scale: 217.594356784
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.365
+    run_stride_length: 0.78
+    sprint: Sprint
+    sprint_stride_length: 1.17
+    upper_body_root: Spine2
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.598
+    look:
+      nodes:
+      - Neck1
+      - Head
+      max_yaw_degrees: 22
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wererat Rat Form Male B
+  model: worlds/mm8/models/mm8_m452.glb
+  scale: 271.99294598
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.365
+    run_stride_length: 0.78
+    sprint: Sprint
+    sprint_stride_length: 1.17
+    upper_body_root: Spine2
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.598
+    look:
+      nodes:
+      - Neck1
+      - Head
+      max_yaw_degrees: 22
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wererat Rat Form Male C
+  model: worlds/mm8/models/mm8_m452.glb
+  scale: 326.391535176
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.365
+    run_stride_length: 0.78
+    sprint: Sprint
+    sprint_stride_length: 1.17
+    upper_body_root: Spine2
+    sockets: {}
+    events:
+      attack_melee:
+        impact: 0.598
+    look:
+      nodes:
+      - Neck1
+      - Head
+      max_yaw_degrees: 22
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Crystal Dragon A
+  model: worlds/mm8/models/mm8_m548.glb
+  scale: 286.581789966
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.4933
+    run_stride_length: 0.8213
+    upper_body_root: Spine2
+    sockets:
+      jaw: {node: Jaw, offset: [-0.0458, 0.1237, 0.0153]}
+    events:
+      attack_melee:
+        impact: 0.375
+      attack_ranged: {impact: 0.375, glow: [jaw]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Crystal Dragon B
+  model: worlds/mm8/models/mm8_m548.glb
+  scale: 343.895855305
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.4933
+    run_stride_length: 0.8213
+    upper_body_root: Spine2
+    sockets:
+      jaw: {node: Jaw, offset: [-0.0458, 0.1237, 0.0153]}
+    events:
+      attack_melee:
+        impact: 0.375
+      attack_ranged: {impact: 0.375, glow: [jaw]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Crystal Dragon C
+  model: worlds/mm8/models/mm8_m548.glb
+  scale: 420.319385454
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 0.4933
+    run_stride_length: 0.8213
+    upper_body_root: Spine2
+    sockets:
+      jaw: {node: Jaw, offset: [-0.0458, 0.1237, 0.0153]}
+    events:
+      attack_melee:
+        impact: 0.375
+      attack_ranged: {impact: 0.375, glow: [jaw]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Ogre Mage: native palettes 541/542/543, measured 263.199-unit standing height.
+- descriptor: Ogre Mage A
+  model: worlds/mm8/models/mm8_m540.glb
+  skin: m540_a
+  scale: 151.72289680382855
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.3252
+    run_stride_length: 2.2798
+    sprint: Sprint
+    sprint_stride_length: 3.3136
+    upper_body_root: B_Spine
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.0337, 0.0676, 0.0286]}
+      r_hand: {node: B_R_Hand, offset: [0.0211, 0.0798, -0.0261]}
+      wand_orb: Socket_WandOrb
+    events:
+      attack_melee:
+        impact: 0.65
+      attack_ranged: {impact: 0.65, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
+      cast: {impact: 0.65, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Cast
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m540_wand.glb
+    node: Wand
+- descriptor: Ogre Mage B
+  model: worlds/mm8/models/mm8_m540.glb
+  skin: m540_b
+  scale: 151.72289680382855
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.3252
+    run_stride_length: 2.2798
+    sprint: Sprint
+    sprint_stride_length: 3.3136
+    upper_body_root: B_Spine
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.0337, 0.0676, 0.0286]}
+      r_hand: {node: B_R_Hand, offset: [0.0211, 0.0798, -0.0261]}
+      wand_orb: Socket_WandOrb
+    events:
+      attack_melee:
+        impact: 0.65
+      attack_ranged: {impact: 0.65, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
+      cast: {impact: 0.65, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Cast
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m540_wand.glb
+    node: Wand
+- descriptor: Ogre Mage C
+  model: worlds/mm8/models/mm8_m540.glb
+  skin: m540_c
+  scale: 151.72289680382855
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.3252
+    run_stride_length: 2.2798
+    sprint: Sprint
+    sprint_stride_length: 3.3136
+    upper_body_root: B_Spine
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.0337, 0.0676, 0.0286]}
+      r_hand: {node: B_R_Hand, offset: [0.0211, 0.0798, -0.0261]}
+      wand_orb: Socket_WandOrb
+    events:
+      attack_melee:
+        impact: 0.65
+      attack_ranged: {impact: 0.65, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
+      cast: {impact: 0.65, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Cast
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m540_wand.glb
+    node: Wand
+- descriptor: Unicorn A
+  model: worlds/mm8/models/mm8_m544.glb
+  scale: 274.636328358
+  yaw_offset: -1.570796327
+  skin: unicorn
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 0.3981
+    run_stride_length: 0.64
+    upper_body_root: Neck1
+    sockets:
+      horn: HornTip
+      horn_release: {node: HornTip, offset: [0, -0.103, -0.05]}
+    events:
+      attack_melee:
+        impact: 1.125
+      attack_ranged: {impact: 1.125, glow: [horn], release: horn_release, glow_scale: 1.5}
+      cast: {impact: 1.125, glow: [horn], release: horn_release}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Unicorn B
+  model: worlds/mm8/models/mm8_m544.glb
+  scale: 274.636328358
+  yaw_offset: -1.570796327
+  skin: unicorn
+  scale_reference: Unicorn A
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 0.3981
+    run_stride_length: 0.64
+    upper_body_root: Neck1
+    sockets:
+      horn: HornTip
+      horn_release: {node: HornTip, offset: [0, -0.103, -0.05]}
+    events:
+      attack_melee:
+        impact: 1.125
+      attack_ranged: {impact: 1.125, glow: [horn], release: horn_release, glow_scale: 1.5}
+      cast: {impact: 1.125, glow: [horn], release: horn_release}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Unicorn C
+  model: worlds/mm8/models/mm8_m544.glb
+  scale: 274.636328358
+  yaw_offset: -1.570796327
+  skin: unicorn
+  scale_reference: Unicorn A
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 0.3981
+    run_stride_length: 0.64
+    upper_body_root: Neck1
+    sockets:
+      horn: HornTip
+      horn_release: {node: HornTip, offset: [0, -0.103, -0.05]}
+    events:
+      attack_melee:
+        impact: 1.125
+      attack_ranged: {impact: 1.125, glow: [horn], release: horn_release, glow_scale: 1.5}
+      cast: {impact: 1.125, glow: [horn], release: horn_release}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 m516: native-sized biped with grounded strides and tail counterbalance.
+- descriptor: Thunder Lizard A
+  model: worlds/mm8/models/mm8_m516.glb
+  scale: 79.28885213389538
+  yaw_offset: -1.5707963267948966
+  skin: m516_a
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 1.988
+    run_stride_length: 3.414
+    sprint: Sprint
+    sprint_stride_length: 4.8285
+    upper_body_root: Hips
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - Neck1
+      - Neck2
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Thunder Lizard B
+  model: worlds/mm8/models/mm8_m516.glb
+  scale: 79.28885213389538
+  yaw_offset: -1.5707963267948966
+  skin: m516_b
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 1.988
+    run_stride_length: 3.414
+    sprint: Sprint
+    sprint_stride_length: 4.8285
+    upper_body_root: Hips
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - Neck1
+      - Neck2
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Thunder Lizard C
+  model: worlds/mm8/models/mm8_m516.glb
+  scale: 79.28885213389538
+  yaw_offset: -1.5707963267948966
+  skin: m516_c
+  animation:
+    cast: Attack
+    run: Run2
+    stride_length: 1.988
+    run_stride_length: 3.414
+    sprint: Sprint
+    sprint_stride_length: 4.8285
+    upper_body_root: Hips
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - Neck1
+      - Neck2
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Water Elemental A
+  model: worlds/mm8/models/mm8_m500.glb
+  scale: 89.76610623918772
+  yaw_offset: -1.570796327
+  skin: water_a
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 2.5065
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.671
+    upper_body_root: Spine_00
+    sockets:
+      mouth: Socket_Mouth
+      palm_left: Socket_PalmL
+      palm_right: Socket_PalmR
+    events:
+      attack_melee: {impact: 0.875, glow: [palm_left, palm_right], color: [255, 255, 255]}
+      cast: {impact: 0.875, glow: [palm_left, palm_right]}
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Water Elemental B
+  model: worlds/mm8/models/mm8_m500.glb
+  scale: 114.24821670197791
+  yaw_offset: -1.570796327
+  skin: water_b
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 2.5065
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.671
+    upper_body_root: Spine_00
+    sockets:
+      mouth: Socket_Mouth
+      palm_left: Socket_PalmL
+      palm_right: Socket_PalmR
+    events:
+      attack_melee: {impact: 0.875, glow: [palm_left, palm_right], color: [255, 255, 255]}
+      cast: {impact: 0.875, glow: [palm_left, palm_right]}
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Water Elemental C
+  model: worlds/mm8/models/mm8_m500.glb
+  scale: 142.81088292411349
+  yaw_offset: -1.570796327
+  skin: water_c
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 2.5065
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.671
+    upper_body_root: Spine_00
+    sockets:
+      mouth: Socket_Mouth
+      palm_left: Socket_PalmL
+      palm_right: Socket_PalmR
+    events:
+      attack_melee: {impact: 0.875, glow: [palm_left, palm_right], color: [255, 255, 255]}
+      cast: {impact: 0.875, glow: [palm_left, palm_right]}
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Necromancer: native 192-pixel silhouette; shared robe, two-palm casting and palette 473/474/475.
+- descriptor: Necromancer (monster) A
+  model: worlds/mm8/models/mm8_m472.glb
+  scale: 112.985807685359
+  yaw_offset: -1.570796327
+  skin: necromancer_a
+  animation:
+    cast: Cast
+    run: Run2
+    stride_length: 1.239
+    run_stride_length: 1.571
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    eye_color: [52, 179, 68]
+    events:
+      attack_melee: {impact: 1.0}
+      attack_ranged: {impact: 1.0, glow: [palm_left, palm_right]}
+      cast: {impact: 1.0, glow: [palm_left, palm_right]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Necromancer (monster) B
+  model: worlds/mm8/models/mm8_m472.glb
+  scale: 112.985807685359
+  yaw_offset: -1.570796327
+  skin: necromancer_b
+  animation:
+    cast: Cast
+    run: Run2
+    stride_length: 1.239
+    run_stride_length: 1.571
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    eye_color: [51, 64, 179]
+    events:
+      attack_melee: {impact: 1.0}
+      attack_ranged: {impact: 1.0, glow: [palm_left, palm_right]}
+      cast: {impact: 1.0, glow: [palm_left, palm_right]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Necromancer (monster) C
+  model: worlds/mm8/models/mm8_m472.glb
+  scale: 112.985807685359
+  yaw_offset: -1.570796327
+  skin: necromancer_c
+  animation:
+    cast: Cast
+    run: Run2
+    stride_length: 1.239
+    run_stride_length: 1.571
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    eye_color: [228, 3, 4]
+    events:
+      attack_melee: {impact: 1.0}
+      attack_ranged: {impact: 1.0, glow: [palm_left, palm_right]}
+      cast: {impact: 1.0, glow: [palm_left, palm_right]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Vampire: native 187-pixel body; claw contact and dual-palm cast preserve gameplay timing.
+- descriptor: Vampire (monster) A
+  model: worlds/mm8/models/mm8_m468.glb
+  scale: 114.47878993180241
+  yaw_offset: -1.570796327
+  skin: m468_a
+  animation:
+    run: Jog
+    cast: Cast
+    stride_length: 1.7799
+    run_stride_length: 3.0055
+    sprint: Sprint
+    sprint_stride_length: 4.1083
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    events:
+      attack_melee: {impact: 1.482}
+      attack_ranged: {impact: 1.482}
+      cast: {impact: 1.1666666666666667, glow: [palm_left, palm_right]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Vampire (monster) B
+  model: worlds/mm8/models/mm8_m468.glb
+  scale: 114.47878993180241
+  yaw_offset: -1.570796327
+  skin: m468_b
+  animation:
+    run: Jog
+    cast: Cast
+    stride_length: 1.7799
+    run_stride_length: 3.0055
+    sprint: Sprint
+    sprint_stride_length: 4.1083
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    events:
+      attack_melee: {impact: 1.482}
+      attack_ranged: {impact: 1.482}
+      cast: {impact: 1.1666666666666667, glow: [palm_left, palm_right]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Vampire (monster) C
+  model: worlds/mm8/models/mm8_m468.glb
+  scale: 114.47878993180241
+  yaw_offset: -1.570796327
+  skin: m468_c
+  animation:
+    run: Jog
+    cast: Cast
+    stride_length: 1.7799
+    run_stride_length: 3.0055
+    sprint: Sprint
+    sprint_stride_length: 4.1083
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    events:
+      attack_melee: {impact: 1.482}
+      attack_ranged: {impact: 1.482}
+      cast: {impact: 1.1666666666666667, glow: [palm_left, palm_right]}
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# Raven Man: m584, native palettes 585-587; one-second feathered wingbeat.
+- descriptor: Raven Man A
+  model: worlds/mm8/models/mm8_m584.glb
+  scale: 75.0
+  yaw_offset: -1.570796327
+  skin: raven_a
+  animation:
+    run: Walking
+    stride_length: 5.333333333333333
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 5.333333333333333
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 0.8666666666666667
+      attack_ranged:
+        impact: 0.8666666666666667
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Standing
+  attachments:
+  - model: worlds/mm8/models/mm8_m584_polearm.glb
+    node: Polearm
+- descriptor: Raven Man B
+  model: worlds/mm8/models/mm8_m584.glb
+  scale: 75.0
+  yaw_offset: -1.570796327
+  skin: raven_b
+  animation:
+    run: Walking
+    stride_length: 5.333333333333333
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 5.333333333333333
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 0.8666666666666667
+      attack_ranged:
+        impact: 0.8666666666666667
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Standing
+  attachments:
+  - model: worlds/mm8/models/mm8_m584_polearm.glb
+    node: Polearm
+- descriptor: Raven Man C
+  model: worlds/mm8/models/mm8_m584.glb
+  scale: 75.0
+  yaw_offset: -1.570796327
+  skin: raven_c
+  animation:
+    run: Walking
+    stride_length: 5.333333333333333
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 5.333333333333333
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 0.8666666666666667
+      attack_ranged:
+        impact: 0.8666666666666667
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Standing
+  attachments:
+  - model: worlds/mm8/models/mm8_m584_polearm.glb
+    node: Polearm
+
+# MM8 Pirate Mage: one peg-legged body, six native coat/hair palettes and a cobra-staff casting socket.
+- descriptor: Pirate Mage Male A
+  model: worlds/mm8/models/mm8_m420.glb
+  scale: 119.38735212182566
+  yaw_offset: -1.570796327
+  skin: pirate_mage_a
+  animation:
+    cast: Cast
+    run: Walk2
+    stride_length: 1.0729
+    run_stride_length: 1.2486
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.01, 0.1043, 0.0045]}
+      r_hand: {node: B_R_Hand, offset: [0.0082, 0.0715, 0.0043]}
+      staff_head: Socket_Staff
+    events:
+      attack_melee: {impact: 1.25, glow: [l_hand, r_hand], color: [255, 120, 40]}
+      attack_ranged: {impact: 1.25, glow: [staff_head], release: staff_head, glow_scale: 0.5}
+      cast: {impact: 1.25, glow: [staff_head, l_hand, r_hand], release: staff_head, glow_scale: 0.5}
+  clips:
+    standing: Standing
+    walking: WalkSlow
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m420_staff.glb
+    node: Staff
+- descriptor: Pirate Mage Male B
+  model: worlds/mm8/models/mm8_m420.glb
+  scale: 119.38735212182566
+  yaw_offset: -1.570796327
+  skin: pirate_mage_b
+  animation:
+    cast: Cast
+    run: Walk3
+    stride_length: 1.2486
+    run_stride_length: 1.4342
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.01, 0.1043, 0.0045]}
+      r_hand: {node: B_R_Hand, offset: [0.0082, 0.0715, 0.0043]}
+      staff_head: Socket_Staff
+    events:
+      attack_melee: {impact: 1.25, glow: [l_hand, r_hand], color: [255, 120, 40]}
+      attack_ranged: {impact: 1.25, glow: [staff_head], release: staff_head, glow_scale: 0.5}
+      cast: {impact: 1.25, glow: [staff_head, l_hand, r_hand], release: staff_head, glow_scale: 0.5}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m420_staff.glb
+    node: Staff
+- descriptor: Pirate Mage Male C
+  model: worlds/mm8/models/mm8_m420.glb
+  scale: 119.38735212182566
+  yaw_offset: -1.570796327
+  skin: pirate_mage_c
+  animation:
+    cast: Cast
+    run: Walk3
+    stride_length: 1.2486
+    run_stride_length: 1.4342
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.01, 0.1043, 0.0045]}
+      r_hand: {node: B_R_Hand, offset: [0.0082, 0.0715, 0.0043]}
+      staff_head: Socket_Staff
+    events:
+      attack_melee: {impact: 1.25, glow: [l_hand, r_hand], color: [255, 120, 40]}
+      attack_ranged: {impact: 1.25, glow: [staff_head], release: staff_head, glow_scale: 0.5}
+      cast: {impact: 1.25, glow: [staff_head, l_hand, r_hand], release: staff_head, glow_scale: 0.5}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m420_staff.glb
+    node: Staff
+- descriptor: Wimpy Pirate Mage Male A
+  model: worlds/mm8/models/mm8_m420.glb
+  scale: 119.38735212182566
+  yaw_offset: -1.570796327
+  skin: pirate_seer_a
+  animation:
+    cast: Cast
+    run: Walking
+    stride_length: 1.2486
+    run_stride_length: 1.822
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.01, 0.1043, 0.0045]}
+      r_hand: {node: B_R_Hand, offset: [0.0082, 0.0715, 0.0043]}
+      staff_head: Socket_Staff
+    events:
+      attack_melee: {impact: 1.25, glow: [l_hand, r_hand], color: [255, 120, 40]}
+      attack_ranged: {impact: 1.25, glow: [staff_head], release: staff_head, glow_scale: 0.5}
+      cast: {impact: 1.25, glow: [staff_head, l_hand, r_hand], release: staff_head, glow_scale: 0.5}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m420_staff.glb
+    node: Staff
+- descriptor: Wimpy Pirate Mage Male B
+  model: worlds/mm8/models/mm8_m420.glb
+  scale: 119.38735212182566
+  yaw_offset: -1.570796327
+  skin: pirate_seer_b
+  animation:
+    cast: Cast
+    run: Walking
+    stride_length: 1.2486
+    run_stride_length: 1.822
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.01, 0.1043, 0.0045]}
+      r_hand: {node: B_R_Hand, offset: [0.0082, 0.0715, 0.0043]}
+      staff_head: Socket_Staff
+    events:
+      attack_melee: {impact: 1.25, glow: [l_hand, r_hand], color: [255, 120, 40]}
+      attack_ranged: {impact: 1.25, glow: [staff_head], release: staff_head, glow_scale: 0.5}
+      cast: {impact: 1.25, glow: [staff_head, l_hand, r_hand], release: staff_head, glow_scale: 0.5}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m420_staff.glb
+    node: Staff
+- descriptor: Wimpy Pirate Mage Male C
+  model: worlds/mm8/models/mm8_m420.glb
+  scale: 119.38735212182566
+  yaw_offset: -1.570796327
+  skin: pirate_seer_c
+  animation:
+    cast: Cast
+    run: Walking
+    stride_length: 1.4342
+    run_stride_length: 1.822
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 30
+      max_pitch_degrees: 15
+    sockets:
+      l_hand: {node: B_L_Hand, offset: [0.01, 0.1043, 0.0045]}
+      r_hand: {node: B_R_Hand, offset: [0.0082, 0.0715, 0.0043]}
+      staff_head: Socket_Staff
+    events:
+      attack_melee: {impact: 1.25, glow: [l_hand, r_hand], color: [255, 120, 40]}
+      attack_ranged: {impact: 1.25, glow: [staff_head], release: staff_head, glow_scale: 0.5}
+      cast: {impact: 1.25, glow: [staff_head, l_hand, r_hand], release: staff_head, glow_scale: 0.5}
+  clips:
+    standing: Standing
+    walking: Walk3
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m420_staff.glb
+    node: Staff
+- descriptor: Cyclops A
+  model: worlds/mm8/models/mm8_m520.glb
+  scale: 127.47391374060409
+  yaw_offset: -1.570796327
+  skin: m520_a
+  animation:
+    run: Jog
+    stride_length: 2.644
+    run_stride_length: 3.7053
+    sprint: Sprint
+    sprint_stride_length: 4.8166
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m520_boulder.glb
+    node: Boulder
+- descriptor: Cyclops B
+  model: worlds/mm8/models/mm8_m520.glb
+  scale: 127.47391374060409
+  yaw_offset: -1.570796327
+  skin: m520_b
+  animation:
+    run: Jog
+    stride_length: 2.644
+    run_stride_length: 3.7053
+    sprint: Sprint
+    sprint_stride_length: 4.8166
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m520_boulder.glb
+    node: Boulder
+- descriptor: Cyclops C
+  model: worlds/mm8/models/mm8_m520.glb
+  scale: 127.47391374060409
+  yaw_offset: -1.570796327
+  skin: m520_c
+  animation:
+    run: Jog
+    stride_length: 2.644
+    run_stride_length: 3.7053
+    sprint: Sprint
+    sprint_stride_length: 4.8166
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m520_boulder.glb
+    node: Boulder
+
+# Dragon and young Dragon family: m492, shared native palette 492.
+- descriptor: Dragon A
+  model: worlds/mm8/models/mm8_m492.glb
+  skin: m492
+  scale: 1504.2887873542536
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Running
+    stride_length: 0.21937277122194385
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.17283915308395575
+    upper_body_root: Root
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.25
+      attack_ranged:
+        impact: 1.25
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Dragon B
+  model: worlds/mm8/models/mm8_m492.glb
+  skin: m492
+  scale: 1504.2887873542536
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Running
+    stride_length: 0.23765383549043917
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.18724241584095205
+    upper_body_root: Root
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.25
+      attack_ranged:
+        impact: 1.25
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Dragon C
+  model: worlds/mm8/models/mm8_m492.glb
+  skin: m492
+  scale: 1504.2887873542536
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Running
+    stride_length: 0.2742159640274298
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.21604894135494468
+    upper_body_root: Root
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.25
+      attack_ranged:
+        impact: 1.25
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wimpy Dragon A
+  model: worlds/mm8/models/mm8_m492.glb
+  skin: m492
+  scale: 1203.431029883403
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Running
+    stride_length: 0.20566197302057235
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.1620367060162085
+    upper_body_root: Root
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.25
+      attack_ranged:
+        impact: 1.25
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wimpy Dragon B
+  model: worlds/mm8/models/mm8_m492.glb
+  skin: m492
+  scale: 1203.431029883403
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Running
+    stride_length: 0.18281064268495317
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.1440326275699631
+    upper_body_root: Root
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.25
+      attack_ranged:
+        impact: 1.25
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wimpy Dragon C
+  model: worlds/mm8/models/mm8_m492.glb
+  skin: m492
+  scale: 1203.431029883403
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Running
+    stride_length: 0.15995931234933403
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.12602854912371772
+    upper_body_root: Root
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.25
+      attack_ranged:
+        impact: 1.25
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# Skeleton Archer: native palettes 629/630/631; A/B 1.2x, C 1.0x; flexing bow stays skinned.
+- descriptor: Skeletons Archer A
+  model: worlds/mm8/models/mm8_m628.glb
+  scale: 140.87076500163997
+  yaw_offset: -1.570796327
+  skin: m628_a
+  animation:
+    run: WalkFast
+    run_stride_length: 1.8966
+    stride_length: 1.2501
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    sockets:
+      bow: {node: Bow, offset: [-0.0001, -0.0154, 0.005]}
+    events:
+      attack_melee:
+        impact: 0.903
+      attack_ranged: {impact: 0.903, release: bow}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Skeletons Archer B
+  model: worlds/mm8/models/mm8_m628.glb
+  scale: 140.87076500163997
+  yaw_offset: -1.570796327
+  skin: m628_b
+  animation:
+    run: WalkFast
+    run_stride_length: 1.8966
+    stride_length: 1.2501
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    sockets:
+      bow: {node: Bow, offset: [-0.0001, -0.0154, 0.005]}
+    events:
+      attack_melee:
+        impact: 0.903
+      attack_ranged: {impact: 0.903, release: bow}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Skeletons Archer C
+  model: worlds/mm8/models/mm8_m628.glb
+  scale: 117.39259764952742
+  yaw_offset: -1.570796327
+  skin: m628_c
+  animation:
+    run: WalkFast
+    run_stride_length: 1.8966
+    stride_length: 1.2501
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    sockets:
+      bow: {node: Bow, offset: [-0.0001, -0.0154, 0.005]}
+    events:
+      attack_melee:
+        impact: 0.903
+      attack_ranged: {impact: 0.903, release: bow}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Pirate Crossbowman (Female) A
+  model: worlds/mm8/models/mm8_m416.glb
+  scale: 126.8059946318369
+  yaw_offset: -1.570796327
+  skin: m416_a
+  animation:
+    run: Walking
+    stride_length: 1.3276
+    run_stride_length: 1.771
+    sprint: Sprint
+    sprint_stride_length: 3.9377
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 40
+      max_pitch_degrees: 25
+    sockets:
+      bolt_tip: Socket_Bolt
+    events:
+      attack_melee:
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m416_crossbow.glb
+    node: Crossbow
+  - model: worlds/mm8/models/mm8_m416_bolt.glb
+    node: Bolt
+  - model: worlds/mm8/models/mm8_m416_quiver.glb
+    node: Quiver
+  - model: worlds/mm8/models/mm8_m416_string_l.glb
+    node: StringL
+  - model: worlds/mm8/models/mm8_m416_string_r.glb
+    node: StringR
+- descriptor: Pirate Crossbowman (Female) B
+  model: worlds/mm8/models/mm8_m416.glb
+  scale: 126.8059946318369
+  yaw_offset: -1.570796327
+  skin: m416_b
+  animation:
+    run: Jog2
+    stride_length: 1.3276
+    run_stride_length: 2.2534
+    sprint: Sprint
+    sprint_stride_length: 3.9377
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 40
+      max_pitch_degrees: 25
+    sockets:
+      bolt_tip: Socket_Bolt
+    events:
+      attack_melee:
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m416_crossbow.glb
+    node: Crossbow
+  - model: worlds/mm8/models/mm8_m416_bolt.glb
+    node: Bolt
+  - model: worlds/mm8/models/mm8_m416_quiver.glb
+    node: Quiver
+  - model: worlds/mm8/models/mm8_m416_string_l.glb
+    node: StringL
+  - model: worlds/mm8/models/mm8_m416_string_r.glb
+    node: StringR
+- descriptor: Pirate Crossbowman (Female) C
+  model: worlds/mm8/models/mm8_m416.glb
+  scale: 126.8059946318369
+  yaw_offset: -1.570796327
+  skin: m416_c
+  animation:
+    run: Jog2
+    stride_length: 1.3276
+    run_stride_length: 2.2534
+    sprint: Sprint
+    sprint_stride_length: 3.9377
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 40
+      max_pitch_degrees: 25
+    sockets:
+      bolt_tip: Socket_Bolt
+    events:
+      attack_melee:
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m416_crossbow.glb
+    node: Crossbow
+  - model: worlds/mm8/models/mm8_m416_bolt.glb
+    node: Bolt
+  - model: worlds/mm8/models/mm8_m416_quiver.glb
+    node: Quiver
+  - model: worlds/mm8/models/mm8_m416_string_l.glb
+    node: StringL
+  - model: worlds/mm8/models/mm8_m416_string_r.glb
+    node: StringR
+
+# MM8 Regnan Crossbowman / Arbalester / Lieutenant (Wimpy Pirate Crossbowman (Female) A-C): the same sprites
+# (m416 frames, palettes 417-419, scale) as the Pirate Crossbowman (Female) tiers, so the same model and skins.
+- descriptor: Wimpy Pirate Crossbowman (Female) A
+  model: worlds/mm8/models/mm8_m416.glb
+  scale: 126.8059946318369
+  yaw_offset: -1.570796327
+  skin: m416_a
+  animation:
+    run: Walking
+    stride_length: 1.3276
+    run_stride_length: 1.771
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 40
+      max_pitch_degrees: 25
+    sockets:
+      bolt_tip: Socket_Bolt
+    events:
+      attack_melee:
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m416_crossbow.glb
+    node: Crossbow
+  - model: worlds/mm8/models/mm8_m416_bolt.glb
+    node: Bolt
+  - model: worlds/mm8/models/mm8_m416_quiver.glb
+    node: Quiver
+  - model: worlds/mm8/models/mm8_m416_string_l.glb
+    node: StringL
+  - model: worlds/mm8/models/mm8_m416_string_r.glb
+    node: StringR
+- descriptor: Wimpy Pirate Crossbowman (Female) B
+  model: worlds/mm8/models/mm8_m416.glb
+  scale: 126.8059946318369
+  yaw_offset: -1.570796327
+  skin: m416_b
+  animation:
+    run: Walking
+    stride_length: 1.3276
+    run_stride_length: 1.771
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 40
+      max_pitch_degrees: 25
+    sockets:
+      bolt_tip: Socket_Bolt
+    events:
+      attack_melee:
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m416_crossbow.glb
+    node: Crossbow
+  - model: worlds/mm8/models/mm8_m416_bolt.glb
+    node: Bolt
+  - model: worlds/mm8/models/mm8_m416_quiver.glb
+    node: Quiver
+  - model: worlds/mm8/models/mm8_m416_string_l.glb
+    node: StringL
+  - model: worlds/mm8/models/mm8_m416_string_r.glb
+    node: StringR
+- descriptor: Wimpy Pirate Crossbowman (Female) C
+  model: worlds/mm8/models/mm8_m416.glb
+  scale: 126.8059946318369
+  yaw_offset: -1.570796327
+  skin: m416_c
+  animation:
+    run: Walking
+    stride_length: 1.3276
+    run_stride_length: 1.771
+    sprint: Sprint
+    sprint_stride_length: 3.9377
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 40
+      max_pitch_degrees: 25
+    sockets:
+      bolt_tip: Socket_Bolt
+    events:
+      attack_melee:
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m416_crossbow.glb
+    node: Crossbow
+  - model: worlds/mm8/models/mm8_m416_bolt.glb
+    node: Bolt
+  - model: worlds/mm8/models/mm8_m416_quiver.glb
+    node: Quiver
+  - model: worlds/mm8/models/mm8_m416_string_l.glb
+    node: StringL
+  - model: worlds/mm8/models/mm8_m416_string_r.glb
+    node: StringR
+- descriptor: Triton A
+  model: worlds/mm8/models/mm8_m576.glb
+  scale: 133.58255797824415
+  yaw_offset: -1.570796327
+  skin: triton_a
+  attachments:
+  - model: worlds/mm8/models/mm8_m576_trident.glb
+    node: Trident
+  animation:
+    run: Jog
+    stride_length: 1.485
+    run_stride_length: 2.7566
+    sprint: Sprint
+    sprint_stride_length: 3.754
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.305
+      attack_ranged:
+        impact: 1.305
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Triton B
+  model: worlds/mm8/models/mm8_m576.glb
+  scale: 144.71346376784413
+  yaw_offset: -1.570796327
+  skin: triton_b
+  attachments:
+  - model: worlds/mm8/models/mm8_m576_trident.glb
+    node: Trident
+  animation:
+    run: Jog
+    stride_length: 1.485
+    run_stride_length: 2.7566
+    sprint: Sprint
+    sprint_stride_length: 3.754
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.305
+      attack_ranged:
+        impact: 1.305
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Triton C
+  model: worlds/mm8/models/mm8_m576.glb
+  scale: 155.8460393435933
+  yaw_offset: -1.570796327
+  skin: triton_c
+  attachments:
+  - model: worlds/mm8/models/mm8_m576_trident.glb
+    node: Trident
+  animation:
+    run: Jog
+    stride_length: 1.485
+    run_stride_length: 2.7566
+    sprint: Sprint
+    sprint_stride_length: 3.754
+    upper_body_root: B_Spine
+    events:
+      attack_melee:
+        impact: 1.305
+      attack_ranged:
+        impact: 1.305
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# Bone Dragon m616: shared native palette 616, descriptor IDs 163–165.
+- descriptor: Bone Dragon A
+  model: worlds/mm8/models/mm8_m616.glb
+  scale: 302.66102850110536
+  yaw_offset: -1.570796327
+  skin: m616_a
+  animation:
+    cast: Cast
+    run: Fly
+    stride_length: 1.0
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.0
+    upper_body_root: Chest
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        glow:
+        - mouth
+        release: mouth
+      cast:
+        impact: 1.0
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+- descriptor: Bone Dragon B
+  model: worlds/mm8/models/mm8_m616.glb
+  scale: 302.66102850110536
+  yaw_offset: -1.570796327
+  skin: m616_b
+  animation:
+    cast: Cast
+    run: Fly
+    stride_length: 1.0
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.0
+    upper_body_root: Chest
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        glow:
+        - mouth
+        release: mouth
+      cast:
+        impact: 1.0
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+  scale_reference: Bone Dragon A
+- descriptor: Bone Dragon C
+  model: worlds/mm8/models/mm8_m616.glb
+  scale: 302.66102850110536
+  yaw_offset: -1.570796327
+  skin: m616_c
+  animation:
+    cast: Cast
+    run: Fly
+    stride_length: 1.0
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.0
+    upper_body_root: Chest
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        glow:
+        - mouth
+        release: mouth
+      cast:
+        impact: 1.0
+        glow:
+        - mouth
+        release: mouth
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fly
+  scale_reference: Bone Dragon A
+- descriptor: Wasp Warrior A
+  model: worlds/mm8/models/mm8_m556.glb
+  scale: 166.62606071859676
+  yaw_offset: -1.570796327
+  skin: wasp_a
+  animation:
+    run: FlyFast
+    stride_length: 1.1252741569438875
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.1252741569438875
+    upper_body_root: Thorax
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m556_sword.glb
+    node: Sword
+  - model: worlds/mm8/models/mm8_m556_shield.glb
+    node: Shield
+- descriptor: Wasp Warrior B
+  model: worlds/mm8/models/mm8_m556.glb
+  scale: 166.62606071859676
+  yaw_offset: -1.570796327
+  skin: wasp_b
+  animation:
+    run: FlyFast
+    stride_length: 1.1252741569438875
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.1252741569438875
+    upper_body_root: Thorax
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m556_sword.glb
+    node: Sword
+  - model: worlds/mm8/models/mm8_m556_shield.glb
+    node: Shield
+- descriptor: Wasp Warrior C
+  model: worlds/mm8/models/mm8_m556.glb
+  scale: 166.62606071859676
+  yaw_offset: -1.570796327
+  skin: wasp_c
+  animation:
+    run: FlyFast
+    stride_length: 1.1252741569438875
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.1252741569438875
+    upper_body_root: Thorax
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee:
+        impact: 0.875
+  clips:
+    standing: Fly
+    walking: Fly
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m556_sword.glb
+    node: Sword
+  - model: worlds/mm8/models/mm8_m556_shield.glb
+    node: Shield
+
+# Dark Dwarf m632: native 166-unit silhouette; fitted crossbow carry/aim and backward fall.
+- descriptor: Dark Dwarf A
+  model: worlds/mm8/models/mm8_m632.glb
+  scale: 118.5185788543
+  yaw_offset: -1.570796327
+  skin: m632_a
+  animation:
+    run: Running
+    stride_length: 1.4009
+    run_stride_length: 2.896
+    sprint: Sprint
+    sprint_stride_length: 3.1509
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee: {impact: 1.05}
+      attack_ranged: {impact: 1.05}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m632_crossbow.glb
+    node: Crossbow
+
+- descriptor: Dark Dwarf B
+  model: worlds/mm8/models/mm8_m632.glb
+  scale: 118.5185788543
+  yaw_offset: -1.570796327
+  skin: m632_b
+  animation:
+    run: Running
+    stride_length: 1.4009
+    run_stride_length: 2.896
+    sprint: Sprint
+    sprint_stride_length: 3.1509
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee: {impact: 1.05}
+      attack_ranged: {impact: 1.05}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m632_crossbow.glb
+    node: Crossbow
+
+- descriptor: Dark Dwarf C
+  model: worlds/mm8/models/mm8_m632.glb
+  scale: 118.5185788543
+  yaw_offset: -1.570796327
+  skin: m632_c
+  animation:
+    run: Running
+    stride_length: 1.4009
+    run_stride_length: 2.896
+    sprint: Sprint
+    sprint_stride_length: 3.1509
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    events:
+      attack_melee: {impact: 1.05}
+      attack_ranged: {impact: 1.05}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m632_crossbow.glb
+    node: Crossbow
+
+
+- descriptor: Juggernaut A
+  model: worlds/mm8/models/mm8_m608.glb
+  scale: 398.0
+  yaw_offset: -1.570796327
+  skin: m608_a
+  animation:
+    run: Walking
+    # Rolls on its ball: contact follows the distance at any rate.
+    gait_rate: [0, 0]
+    stride_length: 1.11
+    run_stride_length: 1.11
+    upper_body_root: Waist
+    look:
+      nodes:
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    eye_color:
+    - 255
+    - 238
+    - 110
+    events:
+      attack_melee: {impact: 1.0, glow: [palm_left, palm_right], glow_scale: 1.3, color: [255, 120, 40]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Juggernaut B
+  model: worlds/mm8/models/mm8_m608.glb
+  scale: 398.0
+  yaw_offset: -1.570796327
+  skin: m608_b
+  animation:
+    run: Walking
+    # Rolls on its ball: contact follows the distance at any rate.
+    gait_rate: [0, 0]
+    stride_length: 1.11
+    run_stride_length: 1.11
+    upper_body_root: Waist
+    look:
+      nodes:
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    eye_color:
+    - 255
+    - 238
+    - 110
+    events:
+      attack_melee: {impact: 1.0, glow: [palm_left, palm_right], glow_scale: 1.3, color: [255, 120, 40]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Juggernaut C
+  model: worlds/mm8/models/mm8_m608.glb
+  scale: 398.0
+  yaw_offset: -1.570796327
+  skin: m608_c
+  animation:
+    run: Walking
+    # Rolls on its ball: contact follows the distance at any rate.
+    gait_rate: [0, 0]
+    stride_length: 1.11
+    run_stride_length: 1.11
+    upper_body_root: Waist
+    look:
+      nodes:
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    eye_color:
+    - 255
+    - 238
+    - 110
+    events:
+      attack_melee: {impact: 1.0, glow: [palm_left, palm_right], glow_scale: 1.3, color: [255, 120, 40]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Air Elemental: palette 508 shared by all tiers, native scales 1/1.25/1.5.
+# Accepted MM6 Air wind treatment with a visible torso and fitted Djinn upper-body motion.
+- descriptor: Air Elemental A
+  model: worlds/mm8/models/mm8_m508.glb
+  scale: 100.0
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 1.65
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.65
+    upper_body_root: Hips
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.833, glow: [palm_left, palm_right], color: [255, 255, 255]}
+      attack_ranged: {impact: 0.833, release: palm_right}
+      cast: {impact: 0.84, glow: [palm_left, palm_right], release: palm_right}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Air Elemental B
+  model: worlds/mm8/models/mm8_m508.glb
+  scale: 100.0
+  yaw_offset: -1.570796327
+  scale_reference: Air Elemental A
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 1.65
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.65
+    upper_body_root: Hips
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.833, glow: [palm_left, palm_right], color: [255, 255, 255]}
+      attack_ranged: {impact: 0.833, release: palm_right}
+      cast: {impact: 0.84, glow: [palm_left, palm_right], release: palm_right}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Air Elemental C
+  model: worlds/mm8/models/mm8_m508.glb
+  scale: 100.0
+  yaw_offset: -1.570796327
+  scale_reference: Air Elemental A
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 1.65
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.65
+    upper_body_root: Hips
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.833, glow: [palm_left, palm_right], color: [255, 255, 255]}
+      attack_ranged: {impact: 0.833, release: palm_right}
+      cast: {impact: 0.84, glow: [palm_left, palm_right], release: palm_right}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# Wisp sprites use the actor renderer's bottom canvas anchor: lift each model centre by 64 native pixels.
+- descriptor: Will ' O Wisp A
+  model: worlds/mm8/models/mm8_m528.glb
+  ambient_effect:
+    id: mm8:fx/wisp_stars
+    radius: 48
+  scale: 100
+  z_offset: 64
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Walking
+    stride_length: 1.5
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.5
+    upper_body_root: Root
+    sockets:
+      core: Socket_Core
+    events:
+      attack_melee:
+        impact: 0.75
+      attack_ranged:
+        impact: 0.75
+        release: core
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Hit
+- descriptor: Will ' O Wisp B
+  model: worlds/mm8/models/mm8_m528.glb
+  ambient_effect:
+    id: mm8:fx/wisp_stars
+    radius: 48
+  scale: 100
+  z_offset: 83.199232
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Walking
+    stride_length: 1.5
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.5
+    upper_body_root: Root
+    sockets:
+      core: Socket_Core
+    events:
+      attack_melee:
+        impact: 0.75
+      attack_ranged:
+        impact: 0.75
+        release: core
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Hit
+  scale_reference: Will ' O Wisp A
+- descriptor: Will ' O Wisp C
+  model: worlds/mm8/models/mm8_m528.glb
+  ambient_effect:
+    id: mm8:fx/wisp_stars
+    radius: 48
+  scale: 100
+  z_offset: 108.799808
+  yaw_offset: -1.570796327
+  animation:
+    cast: Attack
+    run: Walking
+    stride_length: 1.5
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.5
+    upper_body_root: Root
+    sockets:
+      core: Socket_Core
+    events:
+      attack_melee:
+        impact: 0.75
+      attack_ranged:
+        impact: 0.75
+        release: core
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Hit
+  scale_reference: Will ' O Wisp A
+- descriptor: Naga A
+  model: worlds/mm8/models/mm8_m624.glb
+  scale: 88.57583468
+  skin: naga_a
+  yaw_offset: -1.570796327
+  attachments:
+  - model: worlds/mm8/models/mm8_m624_l1.glb
+    node: L1_Sword
+  - model: worlds/mm8/models/mm8_m624_l2.glb
+    node: L2_Sword
+  - model: worlds/mm8/models/mm8_m624_l3.glb
+    node: L3_Sword
+  - model: worlds/mm8/models/mm8_m624_r1.glb
+    node: R1_Sword
+  - model: worlds/mm8/models/mm8_m624_r2.glb
+    node: R2_Sword
+  - model: worlds/mm8/models/mm8_m624_r3.glb
+    node: R3_Sword
+  animation:
+    cast: Attack
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.35
+    run_stride_length: 1.75
+    upper_body_root: Pelvis
+    sockets:
+      blade_left: Socket_Blade_L1
+      blade_right: Socket_Blade_R1
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        release: blade_right
+        glow:
+        - blade_left
+        - blade_right
+      cast:
+        impact: 1.0
+        release: blade_right
+        glow:
+        - blade_left
+        - blade_right
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 22
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Naga B
+  model: worlds/mm8/models/mm8_m624.glb
+  scale: 88.57583468
+  skin: naga_b
+  yaw_offset: -1.570796327
+  attachments:
+  - model: worlds/mm8/models/mm8_m624_l1.glb
+    node: L1_Sword
+  - model: worlds/mm8/models/mm8_m624_l2.glb
+    node: L2_Sword
+  - model: worlds/mm8/models/mm8_m624_l3.glb
+    node: L3_Sword
+  - model: worlds/mm8/models/mm8_m624_r1.glb
+    node: R1_Sword
+  - model: worlds/mm8/models/mm8_m624_r2.glb
+    node: R2_Sword
+  - model: worlds/mm8/models/mm8_m624_r3.glb
+    node: R3_Sword
+  animation:
+    cast: Attack
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.35
+    run_stride_length: 1.75
+    upper_body_root: Pelvis
+    sockets:
+      blade_left: Socket_Blade_L1
+      blade_right: Socket_Blade_R1
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        release: blade_right
+        glow:
+        - blade_left
+        - blade_right
+      cast:
+        impact: 1.0
+        release: blade_right
+        glow:
+        - blade_left
+        - blade_right
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 22
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Naga C
+  model: worlds/mm8/models/mm8_m624.glb
+  scale: 88.57583468
+  skin: naga_c
+  yaw_offset: -1.570796327
+  attachments:
+  - model: worlds/mm8/models/mm8_m624_l1.glb
+    node: L1_Sword
+  - model: worlds/mm8/models/mm8_m624_l2.glb
+    node: L2_Sword
+  - model: worlds/mm8/models/mm8_m624_l3.glb
+    node: L3_Sword
+  - model: worlds/mm8/models/mm8_m624_r1.glb
+    node: R1_Sword
+  - model: worlds/mm8/models/mm8_m624_r2.glb
+    node: R2_Sword
+  - model: worlds/mm8/models/mm8_m624_r3.glb
+    node: R3_Sword
+  animation:
+    cast: Attack
+    run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 1.35
+    run_stride_length: 1.75
+    upper_body_root: Pelvis
+    sockets:
+      blade_left: Socket_Blade_L1
+      blade_right: Socket_Blade_R1
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+        release: blade_right
+        glow:
+        - blade_left
+        - blade_right
+      cast:
+        impact: 1.0
+        release: blade_right
+        glow:
+        - blade_left
+        - blade_right
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 22
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walk
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Plane / Chaos Guardians: native gold, green and red manes; Chaos height is 60%.
+- descriptor: Plane Guardian A
+  model: worlds/mm8/models/mm8_m592.glb
+  skin: m592_a
+  scale: 155.32859674324433
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.0813
+    run_stride_length: 1.9098
+    sprint: Sprint
+    sprint_stride_length: 3.2502
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 10
+    sockets:
+      l_finger0: {node: B_L_Finger0, offset: [-0.0665, -0.0476, -0.0547]}
+      r_finger0: {node: B_R_Finger0, offset: [-0.0316, -0.0093, 0.0365]}
+    events:
+      attack_melee:
+        impact: 0.981
+      attack_ranged: {impact: 0.981}
+      cast: {impact: 0.991, glow: [l_finger0, r_finger0]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Plane Guardian B
+  model: worlds/mm8/models/mm8_m592.glb
+  skin: m592_b
+  scale: 155.32859674324433
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.0813
+    run_stride_length: 1.9098
+    sprint: Sprint
+    sprint_stride_length: 3.2502
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 10
+    sockets:
+      l_finger0: {node: B_L_Finger0, offset: [-0.0665, -0.0476, -0.0547]}
+      r_finger0: {node: B_R_Finger0, offset: [-0.0316, -0.0093, 0.0365]}
+    events:
+      attack_melee:
+        impact: 0.981
+      attack_ranged: {impact: 0.981}
+      cast: {impact: 0.991, glow: [l_finger0, r_finger0]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Plane Guardian C
+  model: worlds/mm8/models/mm8_m592.glb
+  skin: m592_c
+  scale: 155.32859674324433
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.0813
+    run_stride_length: 1.9098
+    sprint: Sprint
+    sprint_stride_length: 3.2502
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 10
+    sockets:
+      l_finger0: {node: B_L_Finger0, offset: [-0.0665, -0.0476, -0.0547]}
+      r_finger0: {node: B_R_Finger0, offset: [-0.0316, -0.0093, 0.0365]}
+    events:
+      attack_melee:
+        impact: 0.981
+      attack_ranged: {impact: 0.981}
+      cast: {impact: 0.991, glow: [l_finger0, r_finger0]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wimpy Plane Guardian A
+  model: worlds/mm8/models/mm8_m592.glb
+  skin: m592_a
+  scale: 93.19692505305149
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.0813
+    run_stride_length: 1.9098
+    sprint: Sprint
+    sprint_stride_length: 3.2502
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 10
+    sockets:
+      l_finger0: {node: B_L_Finger0, offset: [-0.0665, -0.0476, -0.0547]}
+      r_finger0: {node: B_R_Finger0, offset: [-0.0316, -0.0093, 0.0365]}
+    events:
+      attack_melee:
+        impact: 0.981
+      attack_ranged: {impact: 0.981}
+      cast: {impact: 0.991, glow: [l_finger0, r_finger0]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wimpy Plane Guardian B
+  model: worlds/mm8/models/mm8_m592.glb
+  skin: m592_b
+  scale: 93.19692505305149
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.0813
+    run_stride_length: 1.9098
+    sprint: Sprint
+    sprint_stride_length: 3.2502
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 10
+    sockets:
+      l_finger0: {node: B_L_Finger0, offset: [-0.0665, -0.0476, -0.0547]}
+      r_finger0: {node: B_R_Finger0, offset: [-0.0316, -0.0093, 0.0365]}
+    events:
+      attack_melee:
+        impact: 0.981
+      attack_ranged: {impact: 0.981}
+      cast: {impact: 0.991, glow: [l_finger0, r_finger0]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Wimpy Plane Guardian C
+  model: worlds/mm8/models/mm8_m592.glb
+  skin: m592_c
+  scale: 93.19692505305149
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.0813
+    run_stride_length: 1.9098
+    sprint: Sprint
+    sprint_stride_length: 3.2502
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 10
+    sockets:
+      l_finger0: {node: B_L_Finger0, offset: [-0.0665, -0.0476, -0.0547]}
+      r_finger0: {node: B_R_Finger0, offset: [-0.0316, -0.0093, 0.0365]}
+    events:
+      attack_melee:
+        impact: 0.981
+      attack_ranged: {impact: 0.981}
+      cast: {impact: 0.991, glow: [l_finger0, r_finger0]}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+- descriptor: Phoenix A
+  model: worlds/mm8/models/mm8_m572.glb
+  scale: 560.1548593705693
+  skin: m572_a
+  yaw_offset: -1.5707963267948966
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 0.5
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.65
+    upper_body_root: Chest
+    events:
+      attack_melee:
+        impact: 0.6875
+      attack_ranged:
+        impact: 0.6875
+      cast:
+        impact: 0.6875
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Cast
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Phoenix B
+  model: worlds/mm8/models/mm8_m572.glb
+  scale: 560.1548593705693
+  skin: m572_b
+  yaw_offset: -1.5707963267948966
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 0.5
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.65
+    upper_body_root: Chest
+    events:
+      attack_melee:
+        impact: 0.6875
+      attack_ranged:
+        impact: 0.6875
+      cast:
+        impact: 0.6875
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Cast
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Phoenix C
+  model: worlds/mm8/models/mm8_m572.glb
+  scale: 653.5140025989975
+  skin: m572_c
+  yaw_offset: -1.5707963267948966
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 0.5
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.65
+    upper_body_root: Chest
+    events:
+      attack_melee:
+        impact: 0.6875
+      attack_ranged:
+        impact: 0.6875
+      cast:
+        impact: 0.6875
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Cast
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 Cleric: native 461/462/463 hair/staff palettes, 188-unit standing height.
+- descriptor: Cleric (human male) A
+  model: worlds/mm8/models/mm8_m460.glb
+  skin: m460_a
+  scale: 110.6059210330404
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.523
+    run_stride_length: 1.805
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 8
+    sockets:
+      palm_left: Socket_LeftPalm
+      palm_right: Socket_RightPalm
+      staff_head: Socket_Staff_Head
+    events:
+      attack_melee:
+        impact: 1.278
+      attack_ranged: {impact: 1.278, glow: [palm_right, palm_left], release: palm_left, glow_scale: 0.55}
+      cast: {impact: 1.35, glow: [palm_right, palm_left, staff_head], release: staff_head, glow_scale: 0.55}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m460_staff.glb
+    node: Staff
+- descriptor: Cleric (human male) B
+  model: worlds/mm8/models/mm8_m460.glb
+  skin: m460_b
+  scale: 110.6059210330404
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.523
+    run_stride_length: 1.805
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 8
+    sockets:
+      palm_left: Socket_LeftPalm
+      palm_right: Socket_RightPalm
+      staff_head: Socket_Staff_Head
+    events:
+      attack_melee:
+        impact: 1.278
+      attack_ranged: {impact: 1.278, glow: [palm_right, palm_left], release: palm_left, glow_scale: 0.55}
+      cast: {impact: 1.35, glow: [palm_right, palm_left, staff_head], release: staff_head, glow_scale: 0.55}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m460_staff.glb
+    node: Staff
+- descriptor: Cleric (human male) C
+  model: worlds/mm8/models/mm8_m460.glb
+  skin: m460_c
+  scale: 110.6059210330404
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Jog
+    stride_length: 1.523
+    run_stride_length: 1.805
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 15
+      max_pitch_degrees: 8
+    sockets:
+      palm_left: Socket_LeftPalm
+      palm_right: Socket_RightPalm
+      staff_head: Socket_Staff_Head
+    events:
+      attack_melee:
+        impact: 1.278
+      attack_ranged: {impact: 1.278, glow: [palm_right, palm_left], release: palm_left, glow_scale: 0.55}
+      cast: {impact: 1.35, glow: [palm_right, palm_left, staff_head], release: staff_head, glow_scale: 0.55}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m460_staff.glb
+    node: Staff
+
+# MM8 Ogre peasant: Wimp AI flees; relaxed civilian motion and native silhouette scale.
+- descriptor: Ogre Pesant Male A
+  model: worlds/mm8/models/mm8_m436.glb
+  scale: 133.2577579200999
+  yaw_offset: -1.570796327
+  skin: m436_a
+  animation:
+    run: Walking
+    stride_length: 1.2383
+    run_stride_length: 1.695
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk2
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Ogre Pesant Male B
+  model: worlds/mm8/models/mm8_m436.glb
+  scale: 133.2577579200999
+  yaw_offset: -1.570796327
+  skin: m436_b
+  animation:
+    run: Walking
+    stride_length: 1.2383
+    run_stride_length: 1.695
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk2
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Ogre Pesant Male C
+  model: worlds/mm8/models/mm8_m436.glb
+  scale: 133.2577579200999
+  yaw_offset: -1.570796327
+  skin: m436_c
+  animation:
+    run: Walking
+    stride_length: 1.2383
+    run_stride_length: 1.695
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 20
+      max_pitch_degrees: 10
+  clips:
+    standing: Standing
+    walking: Walk2
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+# Malevolent Boulder m588: shared palette 588, native size tiers and mouth launch.
+- descriptor: Malevolent Boulder A
+  model: worlds/mm8/models/mm8_m588.glb
+  scale: 83.24835228474802
+  yaw_offset: -1.570796327
+  skin: boulder_a
+  animation:
+    cast: Cast
+    run: Walking
+    stride_length: 2.4
+    run_stride_length: 2.4
+    # Rolling: its contact follows the distance at any rate, so no playback ceiling.
+    gait_rate: [0, 0]
+    upper_body_root: Core
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged: {impact: 1.0, glow: [mouth], release: mouth, glow_scale: 2, color: [255, 231, 165]}
+      cast: {impact: 1.0, glow: [mouth], release: mouth, glow_scale: 2, color: [255, 231, 165]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Standing
+- descriptor: Malevolent Boulder B
+  model: worlds/mm8/models/mm8_m588.glb
+  scale: 83.24835228474802
+  yaw_offset: -1.570796327
+  skin: boulder_b
+  scale_reference: Malevolent Boulder A
+  animation:
+    cast: Cast
+    run: Walking
+    stride_length: 2.4
+    run_stride_length: 2.4
+    # Rolling: its contact follows the distance at any rate, so no playback ceiling.
+    gait_rate: [0, 0]
+    upper_body_root: Core
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged: {impact: 1.0, glow: [mouth], release: mouth, glow_scale: 2, color: [255, 231, 165]}
+      cast: {impact: 1.0, glow: [mouth], release: mouth, glow_scale: 2, color: [255, 231, 165]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Standing
+- descriptor: Malevolent Boulder C
+  model: worlds/mm8/models/mm8_m588.glb
+  scale: 83.24835228474802
+  yaw_offset: -1.570796327
+  skin: boulder_c
+  scale_reference: Malevolent Boulder A
+  animation:
+    cast: Cast
+    run: Walking
+    stride_length: 2.4
+    run_stride_length: 2.4
+    # Rolling: its contact follows the distance at any rate, so no playback ceiling.
+    gait_rate: [0, 0]
+    upper_body_root: Core
+    sockets:
+      mouth: Socket_Mouth
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged: {impact: 1.0, glow: [mouth], release: mouth, glow_scale: 2, color: [255, 231, 165]}
+      cast: {impact: 1.0, glow: [mouth], release: mouth, glow_scale: 2, color: [255, 231, 165]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Standing
+- descriptor: Troll Pesant A
+  model: worlds/mm8/models/mm8_m480.glb
+  scale: 128.48912232659333
+  yaw_offset: -1.570796327
+  skin: m480_a
+  animation:
+    run: Walking
+    stride_length: 1.1977
+    run_stride_length: 1.494
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 15
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m480_club.glb
+    node: Club
+- descriptor: Troll Pesant B
+  model: worlds/mm8/models/mm8_m480.glb
+  scale: 128.48912232659333
+  yaw_offset: -1.570796327
+  skin: m480_b
+  animation:
+    run: Walking
+    stride_length: 1.1977
+    run_stride_length: 1.494
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 15
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m480_club.glb
+    node: Club
+- descriptor: Troll Pesant C
+  model: worlds/mm8/models/mm8_m480.glb
+  scale: 128.48912232659333
+  yaw_offset: -1.570796327
+  skin: m480_c
+  animation:
+    run: Walking
+    stride_length: 1.1977
+    run_stride_length: 1.494
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 15
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  attachments:
+  - model: worlds/mm8/models/mm8_m480_club.glb
+    node: Club
+
+# Bedraggled Human m620: accepted Male Peasant v2 civilian motion; native vest palettes 621/622/623.
+- descriptor: Bedraggled Human (peasant) A
+  model: worlds/mm8/models/mm8_m620.glb
+  scale: 127.594279592
+  z_offset: 0.0
+  yaw_offset: -1.570796327
+  skin: bedraggled_a
+  animation:
+    cast: Standing
+    run: Walking
+    stride_length: 1.2096
+    run_stride_length: 1.915
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Bedraggled Human (peasant) B
+  model: worlds/mm8/models/mm8_m620.glb
+  scale: 127.594279592
+  scale_reference: Bedraggled Human (peasant) A
+  z_offset: 0.0
+  yaw_offset: -1.570796327
+  skin: bedraggled_b
+  animation:
+    cast: Standing
+    run: Walking
+    stride_length: 1.2096
+    run_stride_length: 1.915
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Bedraggled Human (peasant) C
+  model: worlds/mm8/models/mm8_m620.glb
+  scale: 127.594279592
+  scale_reference: Bedraggled Human (peasant) A
+  z_offset: 0.0
+  yaw_offset: -1.570796327
+  skin: bedraggled_c
+  animation:
+    cast: Standing
+    run: Walking
+    stride_length: 1.2096
+    run_stride_length: 1.915
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Dragon Turtle A
+  model: worlds/mm8/models/mm8_m580.glb
+  scale: 650.0
+  yaw_offset: -1.570796327
+  skin: turtle_a
+  animation:
+    run: Swim
+    upper_body_root: Root
+    stride_length: 0.3076923076923077
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.3076923076923077
+    events:
+      attack_melee:
+        impact: 0.75
+  clips:
+    standing: SwimIdle
+    walking: Swim
+    attack_melee: Bite
+    attack_ranged: Bite
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  scale_reference: Dragon Turtle A
+- descriptor: Dragon Turtle B
+  model: worlds/mm8/models/mm8_m580.glb
+  scale: 650.0
+  yaw_offset: -1.570796327
+  skin: turtle_b
+  animation:
+    run: Swim
+    upper_body_root: Root
+    stride_length: 0.3076923076923077
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.3076923076923077
+    events:
+      attack_melee:
+        impact: 0.75
+  clips:
+    standing: SwimIdle
+    walking: Swim
+    attack_melee: Bite
+    attack_ranged: Bite
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  scale_reference: Dragon Turtle A
+- descriptor: Dragon Turtle C
+  model: worlds/mm8/models/mm8_m580.glb
+  scale: 650.0
+  yaw_offset: -1.570796327
+  skin: turtle_c
+  animation:
+    run: Swim
+    upper_body_root: Root
+    stride_length: 0.3076923076923077
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 0.3076923076923077
+    events:
+      attack_melee:
+        impact: 0.75
+  clips:
+    standing: SwimIdle
+    walking: Swim
+    attack_melee: Bite
+    attack_ranged: Bite
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  scale_reference: Dragon Turtle A
+- descriptor: Nightmare A
+  model: worlds/mm8/models/mm8_m600.glb
+  scale: 280.073043099
+  yaw_offset: -1.570796327
+  skin: nightmare_a
+  animation:
+    run: Walking
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 0.714099426
+    run_stride_length: 0.714099426
+    upper_body_root: Root
+    sockets:
+      jawl: {node: JawL, offset: [-0.02, 0.2009, 0.0136]}
+      jawr: {node: JawR, offset: [-0.0185, 0.1766, 0.0237]}
+      neckl_tip: {node: NeckL_Tip, offset: [-0.0753, 0.0687, 0.0354]}
+      neckr_tip: {node: NeckR_Tip, offset: [-0.0527, 0.0651, 0.0396]}
+    events:
+      attack_melee: {impact: 0.563, glow: [jawl, jawr, neckl_tip, neckr_tip], color: [41, 255, 44]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Nightmare B
+  model: worlds/mm8/models/mm8_m600.glb
+  scale: 280.073043099
+  yaw_offset: -1.570796327
+  skin: nightmare_b
+  animation:
+    run: Walking
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 0.714099426
+    run_stride_length: 0.714099426
+    upper_body_root: Root
+    sockets:
+      jawl: {node: JawL, offset: [-0.02, 0.2009, 0.0136]}
+      jawr: {node: JawR, offset: [-0.0185, 0.1766, 0.0237]}
+      neckl_tip: {node: NeckL_Tip, offset: [-0.0753, 0.0687, 0.0354]}
+      neckr_tip: {node: NeckR_Tip, offset: [-0.0527, 0.0651, 0.0396]}
+    events:
+      attack_melee: {impact: 0.563, glow: [jawl, jawr, neckl_tip, neckr_tip], color: [41, 255, 44]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Nightmare C
+  model: worlds/mm8/models/mm8_m600.glb
+  scale: 280.073043099
+  yaw_offset: -1.570796327
+  skin: nightmare_c
+  animation:
+    run: Walking
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
+    stride_length: 0.714099426
+    run_stride_length: 0.714099426
+    upper_body_root: Root
+    sockets:
+      jawl: {node: JawL, offset: [-0.02, 0.2009, 0.0136]}
+      jawr: {node: JawR, offset: [-0.0185, 0.1766, 0.0237]}
+      neckl_tip: {node: NeckL_Tip, offset: [-0.0753, 0.0687, 0.0354]}
+      neckr_tip: {node: NeckR_Tip, offset: [-0.0527, 0.0651, 0.0396]}
+    events:
+      attack_melee: {impact: 0.563, glow: [jawl, jawr, neckl_tip, neckr_tip], color: [41, 255, 44]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Minotaur Pesant A
+  model: worlds/mm8/models/mm8_m488.glb
+  skin: m488_a
+  scale: 97.83544463536869
+  scale_reference: Minotaur Pesant A
+  yaw_offset: -1.570796327
+  animation:
+    run: Jog
+    stride_length: 2.150316545739749
+    run_stride_length: 3.5602
+    sprint: Sprint
+    sprint_stride_length: 4.9617
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: B_L_Hand
+      palm_right: B_R_Hand
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 12
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Minotaur Pesant B
+  model: worlds/mm8/models/mm8_m488.glb
+  skin: m488_b
+  scale: 97.83544463536869
+  scale_reference: Minotaur Pesant A
+  yaw_offset: -1.570796327
+  animation:
+    run: Jog
+    stride_length: 2.150316545739749
+    run_stride_length: 3.5602
+    sprint: Sprint
+    sprint_stride_length: 4.9617
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: B_L_Hand
+      palm_right: B_R_Hand
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 12
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Minotaur Pesant C
+  model: worlds/mm8/models/mm8_m488.glb
+  skin: m488_c
+  scale: 97.83544463536869
+  scale_reference: Minotaur Pesant A
+  yaw_offset: -1.570796327
+  animation:
+    run: Jog
+    stride_length: 2.150316545739749
+    run_stride_length: 3.5602
+    sprint: Sprint
+    sprint_stride_length: 4.9617
+    upper_body_root: B_Spine
+    sockets:
+      palm_left: B_L_Hand
+      palm_right: B_R_Hand
+    events:
+      attack_melee:
+        impact: 1.0
+      attack_ranged:
+        impact: 1.0
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 20
+      max_pitch_degrees: 12
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+- descriptor: School of Fish (non-combatant) A
+  model: worlds/mm8/models/mm8_m636.glb
+  skin: m636_a
+  scale: 100
+  z_offset: 22
+  yaw_offset: -1.570796327
+  animation:
+    cast: Swim
+    run: Swim
+    stride_length: 2.625
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 2.625
+    upper_body_root: Root
+    sockets: {}
+  clips:
+    standing: Swim
+    walking: Swim
+    attack_melee: Swim
+    attack_ranged: Swim
+    hit: Swim
+    dying: Death
+    dead: Dead
+    fidget: Swim
+
+- descriptor: School of Fish (non-combatant) B
+  model: worlds/mm8/models/mm8_m636.glb
+  skin: m636_b
+  scale: 100
+  z_offset: 22
+  yaw_offset: -1.570796327
+  animation:
+    cast: Swim
+    run: Swim
+    stride_length: 2.625
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 2.625
+    upper_body_root: Root
+    sockets: {}
+  clips:
+    standing: Swim
+    walking: Swim
+    attack_melee: Swim
+    attack_ranged: Swim
+    hit: Swim
+    dying: Death
+    dead: Dead
+    fidget: Swim
+
+- descriptor: School of Fish (non-combatant) C
+  model: worlds/mm8/models/mm8_m636.glb
+  skin: m636_c
+  scale: 100
+  z_offset: 22
+  yaw_offset: -1.570796327
+  animation:
+    cast: Swim
+    run: Swim
+    stride_length: 2.625
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 2.625
+    upper_body_root: Root
+    sockets: {}
+  clips:
+    standing: Swim
+    walking: Swim
+    attack_melee: Swim
+    attack_ranged: Swim
+    hit: Swim
+    dying: Death
+    dead: Dead
+    fidget: Swim
+
+# MM8 m464: unarmed female peasant; native attack slots intentionally reuse Walking.
+- descriptor: Vampire Female Peasant A
+  model: worlds/mm8/models/mm8_m464.glb
+  scale: 127.16803763770572
+  yaw_offset: -1.570796327
+  skin: m464_a
+  animation:
+    run: Running
+    stride_length: 0.9
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+    sockets:
+      gaze: Socket_Gaze
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Vampire Female Peasant B
+  model: worlds/mm8/models/mm8_m464.glb
+  scale: 127.16803763770572
+  yaw_offset: -1.570796327
+  skin: m464_b
+  animation:
+    run: Running
+    stride_length: 0.9
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+    sockets:
+      gaze: Socket_Gaze
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  scale_reference: Vampire Female Peasant A
+- descriptor: Vampire Female Peasant C
+  model: worlds/mm8/models/mm8_m464.glb
+  scale: 127.16803763770572
+  yaw_offset: -1.570796327
+  skin: m464_c
+  animation:
+    run: Running
+    stride_length: 0.9
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 60
+      max_pitch_degrees: 35
+    sockets:
+      gaze: Socket_Gaze
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Walking
+    attack_ranged: Walking
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  scale_reference: Vampire Female Peasant A
+
+# MM8 Fire Elemental: shared palette 496, native frame scales 1.299988 / 1.75 / 2.0.
+# Djinn upper-body casting and floating figure; MM6 Fire effect reference, native ash corpse.
+- descriptor: Fire Elemental A
+  model: worlds/mm8/models/mm8_m496.glb
+  scale: 95.50582092635058
+  yaw_offset: -1.570796327
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 1.65
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.65
+    upper_body_root: Hips
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.78, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.78, release: palm_right}
+      cast: {impact: 0.78, glow: [palm_left, palm_right], release: palm_right, glow_scale: 1.5, color: [255, 112, 20]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Fire Elemental B
+  model: worlds/mm8/models/mm8_m496.glb
+  scale: 95.50582092635058
+  yaw_offset: -1.570796327
+  scale_reference: Fire Elemental A
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 1.65
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.65
+    upper_body_root: Hips
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.78, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.78, release: palm_right}
+      cast: {impact: 0.78, glow: [palm_left, palm_right], release: palm_right, glow_scale: 1.5, color: [255, 112, 20]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Fire Elemental C
+  model: worlds/mm8/models/mm8_m496.glb
+  scale: 95.50582092635058
+  yaw_offset: -1.570796327
+  scale_reference: Fire Elemental A
+  animation:
+    cast: Cast
+    run: Running
+    stride_length: 1.65
+    gait_rate: [0.8, 1.5]
+    run_stride_length: 1.65
+    upper_body_root: Hips
+    look:
+      nodes:
+      - Neck
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.78, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.78, release: palm_right}
+      cast: {impact: 0.78, glow: [palm_left, palm_right], release: palm_right, glow_scale: 1.5, color: [255, 112, 20]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+
+# MM8 m404: palettes 405/406/407 share native size, one rig and one rigid wavy sword.
+# All three native standing scales are 1.299988; the measured body height is 200 game units.
+- descriptor: Lizardmen Warrior A
+  model: worlds/mm8/models/mm8_m404.glb
+  scale: 105.14913859129197
+  yaw_offset: -1.570796327
+  skin: m404_a
+  attachments:
+  - model: worlds/mm8/models/mm8_m404_sword.glb
+    node: Socket_Sword
+  animation:
+    run: Jog
+    stride_length: 1.45
+    run_stride_length: 2.6519
+    sprint: Sprint
+    sprint_stride_length: 4.4893
+    upper_body_root: B_Spine
+    sockets:
+      palm_right: B_R_Hand
+    events:
+      attack_melee:
+        impact: 0.718
+      attack_ranged:
+        impact: 0.718
+        release: palm_right
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack2
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Lizardmen Warrior B
+  model: worlds/mm8/models/mm8_m404.glb
+  scale: 105.14913859129197
+  yaw_offset: -1.570796327
+  skin: m404_b
+  attachments:
+  - model: worlds/mm8/models/mm8_m404_sword.glb
+    node: Socket_Sword
+  animation:
+    run: Jog
+    stride_length: 1.45
+    run_stride_length: 2.6519
+    sprint: Sprint
+    sprint_stride_length: 4.4893
+    upper_body_root: B_Spine
+    sockets:
+      palm_right: B_R_Hand
+    events:
+      attack_melee:
+        impact: 0.718
+      attack_ranged:
+        impact: 0.718
+        release: palm_right
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack2
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Lizardmen Warrior C
+  model: worlds/mm8/models/mm8_m404.glb
+  scale: 105.14913859129197
+  yaw_offset: -1.570796327
+  skin: m404_c
+  attachments:
+  - model: worlds/mm8/models/mm8_m404_sword.glb
+    node: Socket_Sword
+  animation:
+    run: Jog
+    stride_length: 1.45
+    run_stride_length: 2.6519
+    sprint: Sprint
+    sprint_stride_length: 4.4893
+    upper_body_root: B_Spine
+    sockets:
+      palm_right: B_R_Hand
+    events:
+      attack_melee:
+        impact: 0.718
+      attack_ranged:
+        impact: 0.718
+        release: palm_right
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack2
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+# Batch L (level_generation/creatures/mm7_batches/BATCH_L.md), installed 2026-10-21; replaces the interim MM6-model
+# binding of 2026-10-19 (user decision 2026-10-21)
+# Earth Elemental m504 (79-81): heavy stone humanoid, two-fisted smash, crumbling rubble death. Casts with the attack.
+- descriptor: Earth Elemental A
+  model: worlds/mm8/models/mm8_m504.glb
+  scale: 144.55
+  yaw_offset: -1.570796327
+  skin: m504_a
+  animation:
+    cast: Attack
+    run: Walking
+    stride_length: 1.4426
+    run_stride_length: 2.205
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    sockets:
+      fist_l: Socket_FistL
+      fist_r: Socket_FistR
+    events:
+      attack_melee: {impact: 0.583}
+      attack_ranged: {impact: 0.583, release: fist_r}
+      cast: {impact: 0.583, glow: [fist_l, fist_r], release: fist_r}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Earth Elemental B
+  model: worlds/mm8/models/mm8_m504.glb
+  scale: 144.55
+  yaw_offset: -1.570796327
+  skin: m504_b
+  animation:
+    cast: Attack
+    run: Walking
+    stride_length: 1.4426
+    run_stride_length: 2.205
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    sockets:
+      fist_l: Socket_FistL
+      fist_r: Socket_FistR
+    events:
+      attack_melee: {impact: 0.583}
+      attack_ranged: {impact: 0.583, release: fist_r}
+      cast: {impact: 0.583, glow: [fist_l, fist_r], release: fist_r}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+- descriptor: Earth Elemental C
+  model: worlds/mm8/models/mm8_m504.glb
+  scale: 144.55
+  yaw_offset: -1.570796327
+  skin: m504_c
+  animation:
+    cast: Attack
+    run: Jog
+    stride_length: 1.4426
+    run_stride_length: 2.4246
+    sprint: Run
+    sprint_stride_length: 3.1334
+    upper_body_root: B_Spine
+    look:
+      nodes: [B_Neck, B_Head]
+      max_yaw_degrees: 35
+      max_pitch_degrees: 20
+    sockets:
+      fist_l: Socket_FistL
+      fist_r: Socket_FistR
+    events:
+      attack_melee: {impact: 0.583}
+      attack_ranged: {impact: 0.583, release: fist_r}
+      cast: {impact: 0.583, glow: [fist_l, fist_r], release: fist_r}
+  clips:
+    standing: Standing
+    walking: Walk2
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget

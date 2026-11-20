@@ -1,0 +1,38 @@
+{
+  "prompt": "Edit the supplied guide_atlas.png as a precise paint-only texture view atlas. Output ONE 1536x1024 PNG with real transparent background.\nInputs: guide_atlas.png is the edit target and authoritative geometry/layout; design_reference.png is material/detail reference only; icon_x8.png is colour reference only (ignore its magenta background).\nPreserve exact guide silhouettes, sizes, positions and orthographic views. Three columns by two rows of 512x512 cells: row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Paint only the grey objects; never redraw, enlarge, move or redesign them. Four side profiles have shallow flat-topped crowns and pointed pavilions, and top view is round faceted with a flat table. Preserve every guide boundary and transparent gap pixel-for-pixel. Bottom-right cell entirely transparent.\nPaint unlit base colour: deep blood-red faceted ruby with brighter crimson facets near the table. Follow approved design reference's faceting and internal ruby detail scaled to each orthographic view, and the original icon's deep blood-red colour. Facets, engravings, scrollwork and inner swirls follow reference where present; do not invent ornament. Material colour only, no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no glow halo, sparkles or aura outside silhouette, no ground, no outlines, no text. Do not copy the design reference's white specular highlights. Keep the original guide geometry and layout exactly.\nCRITICAL CORRECTION: The top-view outer boundary must be the guide's convex 16-sided circle, NEVER a star or jagged cutout. Alpha outside the five original grey silhouettes must be ZERO, including the entire empty bottom-right cell. No black background, no red background, no glow. This is a diffuse albedo painting, NOT a lit jewellery render. Use dark ruby/crimson tonal facet colour without white/pink highlights, reflected light or shining edges. Preserve the supplied grey guide's exact solid masks and merely replace grey with painted ruby colour. Transparent PNG, 1536x1024.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem06/guide_atlas.png",
+      "sha256": "ead84c721a64e7f2caf2fbda44028ba66307e3f1df225aa49fb321fe19fb730e"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem06/design_reference.png",
+      "sha256": "eea3433e012e4837cbf5770aed383bd35e2098212da5467ec9106bee89881e2b"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem06/icon_x8.png",
+      "sha256": "f69e9f4a9c8c894961436e1fd738a07830027874a654135e2937af8c3f474e1d"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce4-787c-77b1-8f22-b57436bbc633/exec-14c2ecbe-2984-4c8b-9da7-28f0cfac61df.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem06/paint_raw_v1.png",
+  "tool": "built-in image_gen",
+  "initial_prompt": "Edit the supplied guide_atlas.png as a precise paint-only texture view atlas. Output ONE 1536x1024 PNG with real transparent background.\nInputs: guide_atlas.png is the edit target and authoritative geometry/layout; design_reference.png is material/detail reference only; icon_x8.png is colour reference only (ignore its magenta background).\nPreserve exact guide silhouettes, sizes, positions and orthographic views. Three columns by two rows of 512x512 cells: row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Paint only the grey objects; never redraw, enlarge, move or redesign them. Four side profiles have shallow flat-topped crowns and pointed pavilions, and top view is round faceted with a flat table. Preserve every guide boundary and transparent gap pixel-for-pixel. Bottom-right cell entirely transparent.\nPaint unlit base colour: deep blood-red faceted ruby with brighter crimson facets near the table. Follow approved design reference's faceting and internal ruby detail scaled to each orthographic view, and the original icon's deep blood-red colour. Facets, engravings, scrollwork and inner swirls follow reference where present; do not invent ornament. Material colour only, no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no glow halo, sparkles or aura outside silhouette, no ground, no outlines, no text. Do not copy the design reference's white specular highlights. Keep the original guide geometry and layout exactly.",
+  "initial_output_path": "/home/pjasicek/.codex/generated_images/01a16ce4-787c-77b1-8f22-b57436bbc633/exec-9c485ada-65ff-42e0-bafc-9e2a68dff865.png",
+  "corrective_regenerations": 1,
+  "size": [
+    1536,
+    1024
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visual_limitations": [
+      "Red glow/background remains outside silhouettes",
+      "Exact guide silhouettes not preserved"
+    ]
+  }
+}

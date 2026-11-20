@@ -1,0 +1,10 @@
+format: 0
+id: vaultrewire
+world: mm6
+kind: indoor
+profile: dungeon
+base: 6d01.blv
+neighbours:
+  - id: exit:oute3
+    to: oute3.odm
+    kind: door

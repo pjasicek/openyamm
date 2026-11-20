@@ -1,0 +1,192 @@
+{
+  "label": "Roc A",
+  "creature": "roc",
+  "base_palette": 553,
+  "palette_paths": {
+    "553": "assets_dev/worlds/mm8/textures/pal553.act",
+    "554": "assets_dev/worlds/mm8/textures/pal554.act",
+    "555": "assets_dev/worlds/mm8/textures/pal555.act"
+  },
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "true_alpha": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "sampling_target": 2.3,
+  "identity_frames": [
+    "m390sa0",
+    "m390sa1",
+    "m390sa2",
+    "m390sa3",
+    "m390sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact native giant eagle-like roc in flight: compact brown-olive feathered body, small forward-projecting brown head, short hooked orange-red beak with yellow tip, tiny dark eyes. Broad powerful brown-gold wing shoulders transition into long layered muted olive-gray primary and secondary feathers with pale gray-green highlights and very dark feather edges. Preserve the native long pointed wing silhouette, every spread of flight feathers, exact wing beats and foreshortening. Short dark narrow feathered tail, two yellow-gold scaly legs tucked beneath the body and curled talons with dark claw tips. Feathery chest and head retain brown-gold coloring. Only the gray-olive outer wing feathers and corresponding tail feather material change in native red and near-black variants; brown-gold body, wing shoulders, beak and feet remain protected. Preserve native proportions, small head and narrow chest, exact head angles, wing poses and tucked or extended talons. Restrained fine feather detail with native dark tonal weight. No crest, horns, extra wings, extra legs, armor, accessories, glow or redesign.",
+  "review_mass_region": "silhouette_mass",
+  "clear_alpha1_border_batches": [
+    "standing",
+    "w_0_0",
+    "w_0_1",
+    "w_1_0",
+    "w_1_1",
+    "w_2",
+    "w_3_0",
+    "w_3_1",
+    "w_4_0",
+    "w_4_1",
+    "a_0_0",
+    "a_0_1",
+    "a_1_0",
+    "a_1_1",
+    "a_2_0",
+    "a_2_1",
+    "a_3_0",
+    "a_3_1",
+    "a_4_0",
+    "a_4_1",
+    "n_0_0",
+    "n_0_1",
+    "n_1_0",
+    "n_1_1",
+    "n_2_0",
+    "n_2_1",
+    "n_3_0",
+    "n_3_1",
+    "n_4_0",
+    "n_4_1",
+    "death_corpse_0",
+    "death_corpse_1"
+  ],
+  "materials": {
+    "regions": [
+      {
+        "name": "olive_gray_flight_feathers",
+        "selector": "cream",
+        "thresholds": [
+          0.02,
+          0.11
+        ],
+        "brightness_floor": [
+          3,
+          12
+        ],
+        "palette_indices": [
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.6,
+        "red_penalty": 1.8
+      }
+    ],
+    "limitation": "Fixed native luminance fits on soft enhanced feather coverage; blended feather edges approximate native mixed palette pixels. Enhanced feather selector excludes warm brown body and golden feet; no native bounds clip the enhanced wing masks."
+  },
+  "reviewed_border_alpha_limits": {
+    "w_0_1": 2,
+    "n_1_0": 4,
+    "w_0_0": 2
+  },
+  "border_review_note": "Selected w_0_0 v2 border max 2/255, w_0_1 v2 max 1/255, n_1_0 max 4/255: isolated invisible fringe only, no solid anatomy touching border. Original w_0_0 wingtip verified intact; unsubmitted margin trial retained separately.",
+  "reviewed_placement_translation_px": {
+    "m390na1": [
+      -24,
+      0
+    ],
+    "m390nb1": [
+      -40,
+      0
+    ],
+    "m390nc1": [
+      -40,
+      0
+    ],
+    "m390nd1": [
+      -36,
+      0
+    ],
+    "m390da2": [
+      -32,
+      0
+    ],
+    "m390db2": [
+      -28,
+      0
+    ],
+    "m390xa1": [
+      -20,
+      0
+    ],
+    "m390xa2": [
+      -16,
+      0
+    ]
+  },
+  "placement_review_note": "Horizontal drift corrected from static native/restored contacts using neck/chest, wing root and talons; common scale and native vertical baseline preserved."
+}

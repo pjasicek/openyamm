@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_darkpassageway/review/props01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: f01_logs_side
+  position:
+  - -287
+  - 5888
+  - -572
+  yaw: 1.5708
+  pitch: -0.1745
+- name: f02_logs_front
+  position:
+  - -768
+  - 6308
+  - -572
+  yaw: 0.0
+  pitch: -0.1745
+- name: f03_clawtorch
+  position:
+  - -18688
+  - 1792
+  - 1
+  yaw: 0.5413
+  pitch: 0.1745
+- name: f04_ice_skeleton
+  position:
+  - -19041
+  - -1203
+  - 1
+  yaw: -1.8611
+  pitch: -0.6109
+- name: f05_ice_terror
+  position:
+  - -19272
+  - 768
+  - 1
+  yaw: -1.5708
+  pitch: -0.0873
+- name: f06_stone_banshee
+  position:
+  - -19584
+  - -16896
+  - 32
+  yaw: -1.4147
+  pitch: 0.2618
+- name: f07_gemstone
+  position:
+  - -3584
+  - -13107
+  - -540
+  yaw: 0.0
+  pitch: -0.1745

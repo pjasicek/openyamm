@@ -1,0 +1,307 @@
+{
+  "source_table": "assets_dev/engine/data_tables/items.txt",
+  "source_table_sha256": "5ad18a9d0d289ff7e27e8f45c8ca6f0fd9c308fc37164df50b50f5fdfd1796a5",
+  "maps": {
+    "lg01.odm": {
+      "pool": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        35,
+        45,
+        55,
+        60,
+        65,
+        70,
+        75,
+        88,
+        93,
+        97,
+        98,
+        103,
+        108,
+        125,
+        135,
+        145,
+        172
+      ],
+      "fixed_by_chest": [
+        98,
+        103,
+        15,
+        55
+      ],
+      "map_treasure": 6,
+      "draws": 3
+    },
+    "lg02.blv": {
+      "pool": [
+        4,
+        5,
+        14,
+        15,
+        19,
+        24,
+        25,
+        34,
+        35,
+        44,
+        54,
+        59,
+        64,
+        65,
+        69,
+        74,
+        87,
+        92,
+        93,
+        96,
+        102,
+        107,
+        125,
+        135
+      ],
+      "fixed_by_chest": [
+        93,
+        108,
+        65,
+        10
+      ],
+      "map_treasure": 5,
+      "draws": 2
+    }
+  },
+  "items": {
+    "4": {
+      "mm8_source_item_id": 4,
+      "name": "Templar's Sword",
+      "icon": "item004",
+      "base_value": 600
+    },
+    "5": {
+      "mm8_source_item_id": 5,
+      "name": "Champion's Sword",
+      "icon": "item005",
+      "base_value": 700
+    },
+    "10": {
+      "mm8_source_item_id": 10,
+      "name": "Headsman's Reaver",
+      "icon": "item010",
+      "base_value": 2000
+    },
+    "14": {
+      "mm8_source_item_id": 14,
+      "name": "Knightly Broadsword",
+      "icon": "item014",
+      "base_value": 600
+    },
+    "15": {
+      "mm8_source_item_id": 15,
+      "name": "Archangel Broadsword",
+      "icon": "item015",
+      "base_value": 1200
+    },
+    "19": {
+      "mm8_source_item_id": 19,
+      "name": "Regnan Falchion",
+      "icon": "item019",
+      "base_value": 790
+    },
+    "20": {
+      "mm8_source_item_id": 20,
+      "name": "Captain's Cutlass",
+      "icon": "item020",
+      "base_value": 990
+    },
+    "24": {
+      "mm8_source_item_id": 24,
+      "name": "Master's Dagger",
+      "icon": "item024",
+      "base_value": 225
+    },
+    "25": {
+      "mm8_source_item_id": 25,
+      "name": "Fanged Blade",
+      "icon": "item025",
+      "base_value": 350
+    },
+    "34": {
+      "mm8_source_item_id": 34,
+      "name": "Dwarven Battleaxe",
+      "icon": "item034",
+      "base_value": 450
+    },
+    "35": {
+      "mm8_source_item_id": 35,
+      "name": "Minotaur Battleaxe",
+      "icon": "item035",
+      "base_value": 650
+    },
+    "44": {
+      "mm8_source_item_id": 44,
+      "name": "War Spear",
+      "icon": "item044",
+      "base_value": 500
+    },
+    "45": {
+      "mm8_source_item_id": 45,
+      "name": "Dragon Harpoon",
+      "icon": "item045",
+      "base_value": 650
+    },
+    "54": {
+      "mm8_source_item_id": 54,
+      "name": "Regnan Trident",
+      "icon": "item054",
+      "base_value": 700
+    },
+    "55": {
+      "mm8_source_item_id": 55,
+      "name": "Triton Trident",
+      "icon": "item055",
+      "base_value": 1250
+    },
+    "59": {
+      "mm8_source_item_id": 59,
+      "name": "Elven Warbow",
+      "icon": "item059",
+      "base_value": 600
+    },
+    "60": {
+      "mm8_source_item_id": 60,
+      "name": "Devilbone Bow",
+      "icon": "item060",
+      "base_value": 750
+    },
+    "64": {
+      "mm8_source_item_id": 64,
+      "name": "Caravaner's Crossbow",
+      "icon": "item064",
+      "base_value": 550
+    },
+    "65": {
+      "mm8_source_item_id": 65,
+      "name": "Regnan Crossbow",
+      "icon": "item065",
+      "base_value": 750
+    },
+    "69": {
+      "mm8_source_item_id": 69,
+      "name": "Reverend Sceptre",
+      "icon": "item069",
+      "base_value": 550
+    },
+    "70": {
+      "mm8_source_item_id": 70,
+      "name": "Trollish War Mace",
+      "icon": "item070",
+      "base_value": 700
+    },
+    "74": {
+      "mm8_source_item_id": 74,
+      "name": "Sun Hammer",
+      "icon": "item074",
+      "base_value": 650
+    },
+    "75": {
+      "mm8_source_item_id": 75,
+      "name": "Trollish Maul",
+      "icon": "item075",
+      "base_value": 850
+    },
+    "87": {
+      "mm8_source_item_id": 87,
+      "name": "Regnan Leather",
+      "icon": "item087",
+      "base_value": 850
+    },
+    "88": {
+      "mm8_source_item_id": 88,
+      "name": "Alvarian Leather",
+      "icon": "item088",
+      "base_value": 1300
+    },
+    "92": {
+      "mm8_source_item_id": 92,
+      "name": "Siertal Chainmail",
+      "icon": "item092",
+      "base_value": 1500
+    },
+    "93": {
+      "mm8_source_item_id": 93,
+      "name": "Erudine Chainmail",
+      "icon": "item093",
+      "base_value": 1900
+    },
+    "96": {
+      "mm8_source_item_id": 96,
+      "name": "Minotaur Plate",
+      "icon": "item096",
+      "base_value": 2000
+    },
+    "97": {
+      "mm8_source_item_id": 97,
+      "name": "Dark Knight Plate",
+      "icon": "item097",
+      "base_value": 2700
+    },
+    "98": {
+      "mm8_source_item_id": 98,
+      "name": "Dragoning Plate",
+      "icon": "item098",
+      "base_value": 3800
+    },
+    "102": {
+      "mm8_source_item_id": 102,
+      "name": "Veteran Shield",
+      "icon": "item102",
+      "base_value": 600
+    },
+    "103": {
+      "mm8_source_item_id": 103,
+      "name": "Dragon Hunter's Shield",
+      "icon": "item103",
+      "base_value": 1000
+    },
+    "107": {
+      "mm8_source_item_id": 107,
+      "name": "Death Head Shield",
+      "icon": "item107",
+      "base_value": 550
+    },
+    "108": {
+      "mm8_source_item_id": 108,
+      "name": "Eldritch Shield",
+      "icon": "item108",
+      "base_value": 700
+    },
+    "125": {
+      "mm8_source_item_id": 125,
+      "name": "Necromancer Cloak",
+      "icon": "item125",
+      "base_value": 400
+    },
+    "135": {
+      "mm8_source_item_id": 135,
+      "name": "Alvarian Boots",
+      "icon": "item135",
+      "base_value": 650
+    },
+    "145": {
+      "mm8_source_item_id": 145,
+      "name": "Sun Opal Ring",
+      "icon": "item145",
+      "base_value": 1800
+    },
+    "172": {
+      "mm8_source_item_id": 172,
+      "name": "Necrotic Wand of Implosion",
+      "icon": "item156",
+      "base_value": 3000
+    }
+  },
+  "policy": "Native positive records: guaranteed MM8 equipment plus seeded draws without replacement. Explicit pools bypass merged tier selection and random enchantment. Outdoor picks top ordinary equipment; indoor mixes upper-middle equipment with a guaranteed final Headsman\u2019s Reaver. Map treasure6/5 still governs other native rewards; fixed chest gold1500\u20132250/750\u20131500. MMerge global metaquest hooks remain active: an eligible party may find the existing cross-continent Letter for YOU; it is not a generated map reward or a copied original map event."
+}

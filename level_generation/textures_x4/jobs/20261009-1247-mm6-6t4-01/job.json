@@ -1,0 +1,834 @@
+{
+ "id": "20261009-1247-mm6-6t4-01",
+ "world": "mm6",
+ "maps": [
+  "6t4.blv"
+ ],
+ "created": "2026-10-09T10:48:04+00:00",
+ "textures": [
+  "mm6/bemhwal",
+  "mm6/d2wlcctr",
+  "mm6/d2wlbc",
+  "mm6/orertlga",
+  "mm6/d2wlble",
+  "mm6/d2wlbre",
+  "mm6/orerthrf",
+  "mm6/d2wlcle",
+  "mm6/oceil",
+  "mm6/d2wlcre",
+  "mm6/orair256",
+  "mm6/bedtop",
+  "mm6/d2wlbsml",
+  "mm6/cb1top1",
+  "mm6/ch2side",
+  "mm6/cb1side1",
+  "mm6/ch2frntb",
+  "mm6/cb1frnt",
+  "mm6/ch2topb",
+  "mm6/ch1top",
+  "mm6/ch1frnt",
+  "mm6/ch2bakb",
+  "mm6/ch2frle",
+  "mm6/ch2frre",
+  "mm6/ch2tople",
+  "mm6/ch2topre",
+  "mm6/ch2bakle",
+  "mm6/ch2bakre"
+ ],
+ "requests": {
+  "mm6/bemhwal": {
+   "name": "bemhwal",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     569
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "polished red-brown wood paneling of horizontal boards with dark grooves",
+   "notes": {}
+  },
+  "mm6/d2wlcctr": {
+   "name": "d2wlcctr",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown rough fieldstone block wall with deep black mortar",
+   "notes": {}
+  },
+  "mm6/d2wlbc": {
+   "name": "d2wlbc",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown rough stone brick wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d2niche3"
+     ],
+     "fraction": 0.468
+    }
+   }
+  },
+  "mm6/orertlga": {
+   "name": "orertlga",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished deep orange-brown marble with fine golden-cream veining",
+   "notes": {
+    "3": "Continuous polished marble with flowing veins: no mosaic of small cells or crackle tiles."
+   },
+   "ref_blur": {
+    "3": 2.5
+   }
+  },
+  "mm6/d2wlble": {
+   "name": "d2wlble",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     640,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark grey-brown rough stone brick wall framed by a dark wooden post on the left and a beam on top",
+   "notes": {},
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d2wlbc",
+      "mm6/d2niche1"
+     ],
+     "fraction": 0.532
+    },
+    "4": {
+     "sources": [
+      "mm6/d2wlbc",
+      "mm6/d2niche1"
+     ],
+     "fraction": 0.532
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm6/d2wlbctr",
+     "left": "mm6/crsmdr2"
+    },
+    "4": {
+     "right": "mm6/d2wlbctr",
+     "left": "mm6/crsmdr2"
+    }
+   }
+  },
+  "mm6/d2wlbre": {
+   "name": "d2wlbre",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown rough stone brick wall framed by a dark wooden post on the right and a beam on top",
+   "notes": {}
+  },
+  "mm6/orerthrf": {
+   "name": "orerthrf",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished dark red-brown marble with bright golden fiery veins and a thin dark border",
+   "notes": {}
+  },
+  "mm6/d2wlcle": {
+   "name": "d2wlcle",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown rough stone brick wall with a dark wooden post along the left edge",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm6/d2wlcre"
+    }
+   }
+  },
+  "mm6/oceil": {
+   "name": "oceil",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "a real polished pale pink-white marble slab, photographed flat, glassy smooth surface with soft grey and rose veins",
+   "notes": {
+    "2": "The reference's fine checkered dither is a compression artefact: paint smooth polished marble with continuous soft veins, never a checker or crosshatch pattern.",
+    "3": "Smooth polished stone only: absolutely no crosshatch, diagonal hatching, grid or woven texture anywhere.",
+    "4": "Smooth polished stone only: absolutely no crosshatch, diagonal hatching, grid or woven texture anywhere."
+   }
+  },
+  "mm6/d2wlcre": {
+   "name": "d2wlcre",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown rough stone brick wall with a dark wooden post along the right edge",
+   "notes": {
+    "3": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/d2wlcctr"
+     ],
+     "fraction": 0.685
+    },
+    "3": {
+     "sources": [
+      "mm6/d2wlcctr"
+     ],
+     "fraction": 0.684
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm6/orair256": {
+   "name": "orair256",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale icy sky-blue marble with soft white cloud-like veins",
+   "notes": {}
+  },
+  "mm6/bedtop": {
+   "name": "bedtop",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven orange-brown tapestry bedspread with a repeating dark ornamental lattice pattern",
+   "notes": {}
+  },
+  "mm6/d2wlbsml": {
+   "name": "d2wlbsml",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown rough stone bricks with dark mortar",
+   "notes": {}
+  },
+  "mm6/cb1top1": {
+   "name": "cb1top1",
+   "reference": {
+    "pad": [
+     16,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     512
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished orange burl walnut tabletop with a dark wood border",
+   "notes": {
+    "3": "Sharp photographic burl wood figure, invented anew; keep the dark border."
+   },
+   "ref_blur": {
+    "3": 2.0
+   }
+  },
+  "mm6/ch2side": {
+   "name": "ch2side",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "teal-green painted iron chest side with an iron handle plate and rivets",
+   "notes": {}
+  },
+  "mm6/cb1side1": {
+   "name": "cb1side1",
+   "reference": {
+    "pad": [
+     54,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     688,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished orange burl walnut furniture side panel with a dark border",
+   "notes": {}
+  },
+  "mm6/ch2frntb": {
+   "name": "ch2frntb",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "teal-green painted iron chest front with a dark iron lock plate and rivets, red-brown wooden edge banding",
+   "notes": {
+    "4": "Keep the native's edge columns exactly: no added dark band or hairline at the edges; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/ch2frnt"
+     ],
+     "fraction": 0.375
+    },
+    "4": {
+     "sources": [
+      "mm6/ch2frnt"
+     ],
+     "fraction": 0.375
+    }
+   },
+   "context": {
+    "4": {}
+   }
+  },
+  "mm6/cb1frnt": {
+   "name": "cb1frnt",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ornate orange burl walnut wardrobe front with carved double doors, a drawer and a dark arched cornice",
+   "notes": {}
+  },
+  "mm6/ch2topb": {
+   "name": "ch2topb",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "teal-green painted iron chest lid with an embossed circular ornament and red-brown wooden edge banding",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1top": {
+   "name": "ch1top",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey wooden chest lid planks with dark iron corner bands",
+   "notes": {}
+  },
+  "mm6/ch1frnt": {
+   "name": "ch1frnt",
+   "reference": {
+    "pad": [
+     8,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     819
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey wooden chest front planks with an iron lock plate and dark iron bands",
+   "notes": {}
+  },
+  "mm6/ch2bakb": {
+   "name": "ch2bakb",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "teal-green painted iron chest back with rivets and red-brown wooden edge banding",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch2frle": {
+   "name": "ch2frle",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "u",
+    "size": [
+     576,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "teal-green painted iron chest front edge piece with rivets and a dark iron corner band",
+   "notes": {
+    "4": "Keep the native's edge columns exactly: no added dark band or hairline at the edges; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm6/ch2frntb"
+    },
+    "4": {
+     "right": "mm6/ch2frntb"
+    }
+   }
+  },
+  "mm6/ch2frre": {
+   "name": "ch2frre",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "u",
+    "size": [
+     576,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "teal-green painted iron chest front edge piece with rivets and a dark iron corner band",
+   "notes": {
+    "3": "Copy the composition exactly: mirror the left end piece, with dark riveted iron corner brackets at the top-right and bottom-right corners as in the reference; continue the neighbouring chest front seamlessly across the left edge.",
+    "4": "Copy the composition exactly: a narrow teal band runs along the top and bottom edges as in the reference; the riveted iron corner brackets sit at the right just below the top band and above the bottom band; dark iron edge along the right side; no dark line along the left or top edge; continue the neighbouring chest front seamlessly across the left edge.",
+    "5": "Copy the reference exactly: teal painted iron with a darker rounded bevel frame curving in at the top-right and bottom-right corners; the teal reaches the left border at full brightness with no dark line along the left edge.",
+    "6": "Rebuilt on the corrected relative. The teal reaches the left border at full brightness: no dark line along the left edge. Keep the darker rounded bevel frame curving in at the top-right and bottom-right corners as in the reference.",
+    "7": "Copy the composition exactly, as the mirror image of the left end piece: a narrow teal band along the top and bottom edges; below the top band and above the bottom band, dark riveted triangular iron corner brackets at the right; a thin dark iron strip down the right edge between them. No rounded bevel frame, no dark line along the left edge; continue the neighbouring chest front seamlessly across the left edge."
+   },
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/ch2frntb"
+    },
+    "3": {
+     "left": "mm6/ch2frntb"
+    },
+    "4": {
+     "left": "mm6/ch2frntb"
+    },
+    "5": {
+     "left": "mm6/ch2frntb"
+    },
+    "6": {
+     "left": "mm6/ch2frntb"
+    },
+    "7": {
+     "left": "mm6/ch2frntb"
+    }
+   }
+  },
+  "mm6/ch2tople": {
+   "name": "ch2tople",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  },
+  "mm6/ch2topre": {
+   "name": "ch2topre",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  },
+  "mm6/ch2bakle": {
+   "name": "ch2bakle",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  },
+  "mm6/ch2bakre": {
+   "name": "ch2bakre",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  }
+ }
+}

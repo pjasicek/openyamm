@@ -1,0 +1,95 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b ONLY.
+# Verify the full hash before loading. Research labels, not original symbols or recovered signatures.
+# Evidence, confidence and limitations: OUTDOOR_RENDERING.md. Adds flags/comments without writing EXE bytes.
+f+ research.mm8rel.OutdoorFrame @ 0x47b25b
+f+ research.mm8rel.LoadOdm @ 0x47df28
+f+ research.mm8rel.OutdoorSetup @ 0x47b04f
+f+ research.mm8rel.ReadRenderSettings @ 0x465936
+f+ research.mm8rel.ApplyOutdoorRenderSettings @ 0x465f96
+f+ research.mm8rel.BuildTerrainDistanceMask @ 0x4807c0
+f+ research.mm8rel.SelectTerrainStrips @ 0x4808b6
+f+ research.mm8rel.EmitTerrainD3D @ 0x4815f0
+f+ research.mm8rel.EmitTerrainSoftware @ 0x482510
+f+ research.mm8rel.TerrainHeightByteScaled @ 0x47ffea
+f+ research.mm8rel.TerrainDepthReject @ 0x4831bf
+f+ research.mm8rel.TerrainFacingPlane @ 0x48327e
+f+ research.mm8rel.ModelFacingPlane @ 0x48341f
+f+ research.mm8rel.RenderModelsD3D @ 0x47893a
+f+ research.mm8rel.RenderModelsSoftware @ 0x479395
+f+ research.mm8rel.ModelVisibility @ 0x479a4c
+f+ research.mm8rel.ApproximateDistance @ 0x46155d
+f+ research.mm8rel.RefreshCachedPolygonShading @ 0x479d20
+f+ research.mm8rel.SkyD3D @ 0x479f2d
+f+ research.mm8rel.SubmitModelPolygonD3D @ 0x4a1b10
+f+ research.mm8rel.SubmitTerrainPolygonD3D @ 0x4a2581
+f+ research.mm8rel.ClearUsedPolygons @ 0x48317c
+f+ research.mm8rel.ResetOutdoorFrameState @ 0x48319e
+f+ research.mm8rel.AllocateSpanBuffers @ 0x487e58
+f+ research.mm8rel.PreparePolygonEdges @ 0x487f7e
+f+ research.mm8rel.ResolveVisibleSpans @ 0x4883ca
+f+ research.mm8rel.DrawSoftwareSpans @ 0x4887ca
+f+ research.mm8rel.MapTerrainPerspectiveSpans @ 0x485c09
+f+ research.mm8rel.PrepareMonsterBillboards @ 0x47c1d2
+f+ research.mm8rel.PrepareDecorationBillboards @ 0x47b61b
+f+ research.mm8rel.PrepareObjectBillboards @ 0x47bca5
+f+ research.mm8rel.DispatchBillboards @ 0x47c8aa
+f+ research.mm8rel.UpdateSunDirection @ 0x48a779
+f+ research.mm8rel.UpdateOutdoorFog @ 0x48a854
+f+ research.mm8rel.OutdoorObject @ 0x6ceae0
+f+ research.mm8rel.ModelCount @ 0x6ceb94
+f+ research.mm8rel.HeightMapPointer @ 0x6ceb98
+f+ research.mm8rel.TileMapPointer @ 0x6ceb9c
+f+ research.mm8rel.ModelArrayPointer @ 0x6cebbc
+f+ research.mm8rel.FarDistance @ 0x6f2f1c
+f+ research.mm8rel.PolygonCount @ 0x6f2f3c
+f+ research.mm8rel.TerrainGridRadius @ 0x6f2f58
+f+ research.mm8rel.TerrainDistanceMask @ 0x7ac30c
+f+ research.mm8rel.SubmittedVertices @ 0x7bc310
+f+ research.mm8rel.PolygonArray @ 0x7bc950
+f+ research.mm8rel.BillboardArray @ 0x523908
+f+ research.mm8rel.BillboardCount @ 0x529e98
+f+ research.mm8rel.SelectSpriteFrame @ 0x44c26c
+f+ research.mm8rel.SelectReverseSpriteFrame @ 0x44c2bc
+f+ research.mm8rel.SelectBitmapAnimation @ 0x44cb61
+f+ research.mm8rel.DrawScaledSpriteSoftware @ 0x4ad16d
+f+ research.mm8rel.SelectShadePalette @ 0x41f1bd
+f+ research.mm8rel.QueueOutdoorSpriteD3D @ 0x4a3f0b
+f+ research.mm8rel.InsertD3DBillboardByDepth @ 0x4a15c4
+f+ research.mm8rel.DrawD3DBillboardQueue @ 0x4a16af
+f+ research.mm8rel.SetBillboardBlendMode @ 0x4a1839
+f+ research.mm8rel.BeginRenderScope @ 0x4a1954
+f+ research.mm8rel.EndRenderScope @ 0x4a1a7c
+f+ research.mm8rel.SubmitSkyPolygonD3D @ 0x4a2c7d
+f+ research.mm8rel.DrawTexturedSkySpan @ 0x486471
+f+ research.mm8rel.FindOrLoadBitmap @ 0x411278
+f+ research.mm8rel.LoadBitmapData @ 0x4113e0
+f+ research.mm8rel.FindOrLoadSprite @ 0x4acd0f
+f+ research.mm8rel.LoadSpriteScanlines @ 0x4acbca
+f+ research.mm8rel.OpenHwlArchive @ 0x450f23
+f+ research.mm8rel.ReadHwlImage @ 0x451090
+f+ research.mm8rel.ReduceHwlPackedColors @ 0x450fe6
+f+ research.mm8rel.UploadBitmapD3D @ 0x4a4d10
+f+ research.mm8rel.UploadSpriteD3D @ 0x4a4f76
+f+ research.mm8rel.CreateTextureSurface @ 0x49d911
+f+ research.mm8rel.RestoreLostSpriteTextures @ 0x4ad02b
+f+ research.mm8rel.D3DBillboardQueue @ 0xfc4fd0
+f+ research.mm8rel.D3DBillboardQueueCount @ 0xfeb130
+CC "Branches on Direct3D pointer 0xf01908 and rebuild argument. Software can retain geometry and spans." @ 0x47b25b
+CC "Diagnostic identifies D3D RenderBuildings. Sequential model/face loops, no BSP traversal in this path." @ 0x47893a
+CC "Bands 1 and 2 arrive in ECX and EDX, final radius on stack. Precomputes four-byte records." @ 0x4807c0
+CC "Both terrain emitters test distance-mask byte for nonzero. Flat cells use a quad, others two triangles." @ 0x4815f0
+CC "Software pixel-span subdivision and mip selection. This is not geometric terrain LOD." @ 0x485c09
+CC "DrawPrimitive TRIANGLEFAN, FVF 0x1c4 pretransformed lit textured vertices, flags 0x10 DONOTLIGHT." @ 0x4a2166
+CC "Sorted nonnegative components a >= b >= c: a + ((11*b)>>5) + (c>>2). Check caller absolute values." @ 0x46155d
+CC "Outdoor initialization overrides several INI defaults. Inspect branch on byte 0x6f38e0." @ 0x465f96
+CC "Sprite duration table: time shifted by 3, modulo total duration, then sequential frame-duration lookup." @ 0x44c26c
+CC "Software sprite row bounds skip exterior margins and empty rows. Index zero is transparent. Packed depth/ID test." @ 0x4ad16d
+CC "Builds cropped four-vertex sprite and queues it. Does not issue DrawPrimitive here." @ 0x4a3f0b
+CC "Binary-search ascending depth then shift 156-byte records. Saturation at 999 returns slot zero." @ 0x4a15c4
+CC "Draws queue back-to-front with depth writes off. Reuses blend mode, but binds texture and draws each entry." @ 0x4a16af
+CC "Calls queued billboard rendering before D3D EndScene at the outermost render scope." @ 0x4a1a98
+CC "Sky vertex-loop decrement. Broad decompilation incorrectly showed an infinite loop and unreachable submission." @ 0x4a2d21
+CC "Sky TRIANGLEFAN with flags 0x18 DONOTLIGHT plus DONOTUPDATEEXTENTS. Submitted Z is approximately 0.9999." @ 0x4a2d59
+CC "Loads sprite row bounds and pixels, then fixes row offsets to pointers. Decompression occurs at load time." @ 0x4acbca
+CC "HWL index binary search and image read. Reader member +0x61a94 optionally halves both image dimensions." @ 0x451090
+CC "Sprite texture upload retains crop/original-size metadata, copies 16-bit HWL pixels, then frees temporary image." @ 0x4a4f76

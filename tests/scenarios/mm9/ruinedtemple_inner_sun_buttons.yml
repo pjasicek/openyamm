@@ -1,0 +1,36 @@
+# The Ruined Temple's hidden doors open from their far sides too (level_generation/projects/mm9r_ruinedtemple/README.md,
+# "Deviations from MM9 and why", fixed 2026-11-08). SunButton2 (event 202, the elevator room's side of HiddenDoor) and
+# SunButton3 (event 203, the spiral top's side of HiddenDoor2) are MM9's DoubleDoorName pairs of SunButton and
+# SunButton4; converted as decoys, they shut in a party that rode the lift down or climbed the spiral with the Tree of
+# Life (found by the MM9 promotion playthrough, segment 25). Each press is a real click on the button in front of the
+# party.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/ruinedtemple_inner_sun_buttons.yml --scenario-no-color
+id: mm9.ruinedtemple_inner_sun_buttons
+title: "Ruined Temple: the inner sun buttons open HiddenDoor and HiddenDoor2 (and unlock LeftDoor)"
+world: mm9
+mode: faithful
+tags: [mm9, events, doors]
+steps:
+  - load_map: {map: ruinedtemple.blv}
+  - advance_runtime: {seconds: 1}
+  # The skeletons by the pews die first: a door reopens on contact, so one walking into the doorway would hold it open.
+  - damage_actor: {actor_index: 7, amount: 100000, skip_dead: true}
+  - damage_actor: {actor_index: 12, amount: 100000, skip_dead: true}
+  - damage_actor: {actor_index: 19, amount: 100000, skip_dead: true}
+  # Inside the elevator room, facing HiddenDoor (south): SunButton2.
+  - assert: {mechanism: {id: 32, state: closed}}
+  - set_pose: {map: ruinedtemple.blv, x: -2212, y: 4380, z: -2293, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {mechanism: {id: 32, state: open}}
+  - advance_runtime: {seconds: 11}
+  - assert: {mechanism: {id: 32, state: closed}}
+  # At the spiral's top, facing HiddenDoor2 (south): SunButton3; LeftDoor is unlocked with it.
+  - assert: {mechanism: {id: 33, state: closed}, state_dump_named_map_var: {name: LeftDoorUnlocked, value: 0}}
+  - set_pose: {map: ruinedtemple.blv, x: 1802, y: 1790, z: -1719, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {mechanism: {id: 33, state: open}}
+  - assert: {state_dump_named_map_var: {name: LeftDoorUnlocked, value: 1}}

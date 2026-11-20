@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export the approved-menu compass for Windows, Linux/Flatpak and Android.
+"""Export the approved-menu compass for Windows, Linux and Android.
 
 Run from any directory with system Python, PyGObject/librsvg and pycairo.
 The editable source is packaging/artwork/openyamm-icon.svg; no screenshot crops
@@ -65,7 +65,6 @@ def main():
     frames = {size: render(icon_svg(size), size) for size in sizes}
     for size in sizes:
         write(ROOT / f"packaging/icons/hicolor/{size}x{size}/apps/{APP_ID}.png", frames[size])
-    write(ROOT / f"packaging/flatpak/{APP_ID}.svg", SOURCE.read_bytes())
     write(ROOT / "assets_dev/engine/branding/app_icon.png", frames[256])
 
     # PNG-backed ICO entries retain each small-size rendering, rather than
@@ -92,7 +91,7 @@ def main():
 
     # A committed full-size master also makes the installed artwork easy to inspect.
     write(ROOT / "android/artwork/openyamm_compass_icon_master.png", render(icon_svg(1024), 1024))
-    print("Exported compass icons for Windows, Linux/Flatpak, Android and the SDL window.")
+    print("Exported compass icons for Windows, Linux, Android and the SDL window.")
 
 
 if __name__ == "__main__":

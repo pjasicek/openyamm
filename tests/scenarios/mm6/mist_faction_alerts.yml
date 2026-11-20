@@ -1,0 +1,46 @@
+id: mm6.mist_faction_alerts
+title: "Misty Islands: hitting an Assassin or a Follower of Baa leaves the villagers and guards friendly"
+world: mm6
+mode: faithful
+tags: [mm6, actors, regression]
+steps:
+  - note:
+      text: >-
+        The Assassin (603) is the C variant of the PeasantF3 spawn and wears a peasant's sprite. A party hit alerts only
+        actors of its own relation entry (MM8 0x4391ca), never the female villagers whose PeasantF1/PeasantF2 labels
+        share the word "Peasant". Hitting a villager still rouses the villagers and guards around it.
+  - new_game_flow: {start_map: oute2.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 596, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 631, hostile: true, max: 0}
+  # Beside villager 0 (596 at -672, -11392) and guard 18 (631 at -767, -11055).
+  - spawn_actor: {monster_id: 603, x: -472, y: -11392, z: 64}
+  - spawn_actor: {monster_id: 613, x: -472, y: -11192, z: 64}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {monster_id: 603, hostile: true, min: 1}
+  - assert:
+      actor_count: {monster_id: 613, hostile: true, min: 1}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 596, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 597, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 598, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 608, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 609, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 631, hostile: true, max: 0}
+  - damage_actor: {actor_index: 0, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 596, hostile: true, min: 2}
+  - assert:
+      actor_count: {monster_id: 631, hostile: true, min: 1}

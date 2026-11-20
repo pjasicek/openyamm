@@ -1,0 +1,5867 @@
+[
+ {
+  "name": "dec56",
+  "hint": "torch",
+  "outdoor": 0,
+  "dungeon": 729,
+  "maps": {
+   "d13.blv": 104,
+   "d32.blv": 58,
+   "d16.blv": 53,
+   "d41.blv": 53,
+   "d27.blv": 49,
+   "d25.blv": 43,
+   "d31.blv": 40,
+   "d43.blv": 39,
+   "eleme.blv": 39,
+   "d44.blv": 38,
+   "d12.blv": 30,
+   "d45.blv": 26,
+   "d22.blv": 24,
+   "d06.blv": 23,
+   "d20.blv": 21,
+   "d18.blv": 20,
+   "d19.blv": 18,
+   "d28.blv": 16,
+   "d46.blv": 16,
+   "d21.blv": 11,
+   "d30.blv": 8
+  },
+  "light": 96,
+  "flags": "0",
+  "sprite": "dec56",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec56a",
+   "dec56b",
+   "dec56c",
+   "dec56d",
+   "dec56e",
+   "dec56f",
+   "dec56g",
+   "dec56h"
+  ],
+  "tex": "dec56a",
+  "files": [
+   "dec56a_p8.png",
+   "dec56b_p8.png",
+   "dec56c_p8.png",
+   "dec56d_p8.png",
+   "dec56e_p8.png",
+   "dec56f_p8.png",
+   "dec56g_p8.png",
+   "dec56h_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   24,
+   118
+  ],
+  "scale": 1.0,
+  "height": 118,
+  "width": 24,
+  "same_image_bound": [
+   "mm8:dec56:engine/models/mm6_deco_torch01.glb"
+  ]
+ },
+ {
+  "name": "dec57",
+  "hint": "path marker",
+  "outdoor": 428,
+  "dungeon": 0,
+  "maps": {
+   "elema.odm": 428
+  },
+  "light": 96,
+  "flags": "0",
+  "sprite": "dec57",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec57"
+  ],
+  "tex": "dec57",
+  "files": [
+   "dec57_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   122,
+   122
+  ],
+  "scale": 0.5,
+  "height": 61,
+  "width": 61,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree29",
+  "hint": "pine tree",
+  "outdoor": 397,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 346,
+   "out07.odm": 51
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree29",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree29"
+  ],
+  "tex": "tree29",
+  "files": [
+   "tree29_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   193,
+   244
+  ],
+  "scale": 4.0,
+  "height": 976,
+  "width": 772,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree12",
+  "hint": "tree",
+  "outdoor": 389,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 278,
+   "out02.odm": 70,
+   "out03.odm": 41
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree12",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree12"
+  ],
+  "tex": "tree12",
+  "files": [
+   "tree12_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   252,
+   236
+  ],
+  "scale": 4.0,
+  "height": 944,
+  "width": 1008,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree10",
+  "hint": "tree",
+  "outdoor": 342,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 228,
+   "out03.odm": 58,
+   "out02.odm": 56
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree10",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree10"
+  ],
+  "tex": "tree10",
+  "files": [
+   "tree10_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   207,
+   248
+  ],
+  "scale": 4.0,
+  "height": 992,
+  "width": 828,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree62a",
+  "hint": "tree",
+  "outdoor": 260,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 232,
+   "out02.odm": 28
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree62a",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree62a"
+  ],
+  "tex": "tree62a",
+  "files": [
+   "tree62a_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   251,
+   250
+  ],
+  "scale": 4.0,
+  "height": 1000,
+  "width": 1004,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree11",
+  "hint": "tree",
+  "outdoor": 250,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 136,
+   "out03.odm": 58,
+   "out02.odm": 56
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree11",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree11"
+  ],
+  "tex": "tree11",
+  "files": [
+   "tree11_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   185,
+   247
+  ],
+  "scale": 4.0,
+  "height": 988,
+  "width": 740,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec05",
+  "hint": "skeleton",
+  "outdoor": 215,
+  "dungeon": 8,
+  "maps": {
+   "out04.odm": 118,
+   "out06.odm": 95,
+   "d12.blv": 8,
+   "out03.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec05",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec05"
+  ],
+  "tex": "dec05",
+  "files": [
+   "dec05_p8.png"
+  ],
+  "native_size": [
+   254,
+   131
+  ],
+  "opaque_size": [
+   254,
+   131
+  ],
+  "scale": 0.799988,
+  "height": 105,
+  "width": 203,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock16",
+  "hint": "rock",
+  "outdoor": 213,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 150,
+   "out04.odm": 36,
+   "out02.odm": 27
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock16",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock16"
+  ],
+  "tex": "rock16",
+  "files": [
+   "rock16_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   61,
+   26
+  ],
+  "scale": 1.0,
+  "height": 26,
+  "width": 61,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree30",
+  "hint": "pine tree",
+  "outdoor": 209,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 112,
+   "out07.odm": 97
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree30",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree30"
+  ],
+  "tex": "tree30",
+  "files": [
+   "tree30_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   186,
+   250
+  ],
+  "scale": 4.0,
+  "height": 1000,
+  "width": 744,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree01",
+  "hint": "palm tree",
+  "outdoor": 201,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 102,
+   "out01.odm": 99
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree01",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree01"
+  ],
+  "tex": "tree01",
+  "files": [
+   "tree01_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   245,
+   245
+  ],
+  "scale": 4.0,
+  "height": 980,
+  "width": 980,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree04",
+  "hint": "palm tree",
+  "outdoor": 159,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 95,
+   "out13.odm": 64
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree04",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree04"
+  ],
+  "tex": "tree04",
+  "files": [
+   "tree04_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   240,
+   243
+  ],
+  "scale": 4.0,
+  "height": 972,
+  "width": 960,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec03",
+  "hint": "dec03",
+  "outdoor": 97,
+  "dungeon": 47,
+  "maps": {
+   "out02.odm": 23,
+   "d07.blv": 21,
+   "out03.odm": 20,
+   "out01.odm": 13,
+   "out06.odm": 11,
+   "out07.odm": 10,
+   "out13.odm": 10,
+   "d12.blv": 9,
+   "d41.blv": 9,
+   "out04.odm": 8,
+   "d21.blv": 4,
+   "d31.blv": 4,
+   "out08.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec03",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec03"
+  ],
+  "tex": "dec03",
+  "files": [
+   "dec03_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   95,
+   124
+  ],
+  "scale": 1.0,
+  "height": 124,
+  "width": 95,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree18",
+  "hint": "tree",
+  "outdoor": 138,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 137,
+   "out05.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree18",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree18"
+  ],
+  "tex": "tree18",
+  "files": [
+   "tree18_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   245,
+   250
+  ],
+  "scale": 4.0,
+  "height": 1000,
+  "width": 980,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant27",
+  "hint": "flower",
+  "outdoor": 121,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 80,
+   "out02.odm": 25,
+   "out13.odm": 9,
+   "out01.odm": 7
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant27",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant27"
+  ],
+  "tex": "plant27",
+  "files": [
+   "plant27_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   124,
+   78
+  ],
+  "scale": 0.659988,
+  "height": 51,
+  "width": 82,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree28",
+  "hint": "dead tree",
+  "outdoor": 115,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 84,
+   "out08.odm": 31
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree28",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree28"
+  ],
+  "tex": "tree28",
+  "files": [
+   "tree28_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   215,
+   252
+  ],
+  "scale": 4.0,
+  "height": 1008,
+  "width": 860,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree25",
+  "hint": "tree",
+  "outdoor": 111,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 100,
+   "out05.odm": 11
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree25",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree25"
+  ],
+  "tex": "tree25",
+  "files": [
+   "tree25_p337.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   117,
+   125
+  ],
+  "scale": 4.0,
+  "height": 500,
+  "width": 468,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree02",
+  "hint": "palm tree",
+  "outdoor": 103,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 65,
+   "out01.odm": 38
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree02",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree02"
+  ],
+  "tex": "tree02",
+  "files": [
+   "tree02_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   193,
+   236
+  ],
+  "scale": 4.0,
+  "height": 944,
+  "width": 772,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec59",
+  "hint": "Coral",
+  "outdoor": 100,
+  "dungeon": 0,
+  "maps": {
+   "elemw.odm": 100
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec59",
+  "frames": 10,
+  "anim": 20,
+  "frame_textures": [
+   "weed020",
+   "weed021",
+   "weed022",
+   "weed023",
+   "weed024",
+   "weed025",
+   "weed026",
+   "weed027",
+   "weed028",
+   "weed029"
+  ],
+  "tex": "weed020",
+  "files": [
+   "weed020_p335.png",
+   "weed021_p335.png",
+   "weed022_p335.png",
+   "weed023_p335.png",
+   "weed024_p335.png",
+   "weed025_p335.png",
+   "weed026_p335.png",
+   "weed027_p335.png",
+   "weed028_p335.png",
+   "weed029_p335.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   124,
+   243
+  ],
+  "scale": 1.0,
+  "height": 243,
+  "width": 124,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree08",
+  "hint": "palm tree",
+  "outdoor": 99,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 56,
+   "out01.odm": 43
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree08",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree08"
+  ],
+  "tex": "tree08",
+  "files": [
+   "tree08_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   240,
+   243
+  ],
+  "scale": 4.0,
+  "height": 972,
+  "width": 960,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree21",
+  "hint": "tree",
+  "outdoor": 96,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 65,
+   "out05.odm": 31
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree21",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree21"
+  ],
+  "tex": "tree21",
+  "files": [
+   "tree21_p337.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   120,
+   122
+  ],
+  "scale": 4.0,
+  "height": 488,
+  "width": 480,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant26",
+  "hint": "flower",
+  "outdoor": 90,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 59,
+   "out02.odm": 19,
+   "out01.odm": 5,
+   "out13.odm": 5,
+   "out05.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant26",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant26"
+  ],
+  "tex": "plant26",
+  "files": [
+   "plant26_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   106
+  ],
+  "scale": 1.0,
+  "height": 106,
+  "width": 126,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant47",
+  "hint": "tree stump",
+  "outdoor": 89,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 89
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant47",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant47"
+  ],
+  "tex": "plant47",
+  "files": [
+   "plant47_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   84,
+   93
+  ],
+  "scale": 1.0,
+  "height": 93,
+  "width": 84,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock17",
+  "hint": "rock",
+  "outdoor": 88,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 41,
+   "out02.odm": 35,
+   "out05.odm": 12
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock17",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock17"
+  ],
+  "tex": "rock17",
+  "files": [
+   "rock17_p336.png"
+  ],
+  "native_size": [
+   32,
+   32
+  ],
+  "opaque_size": [
+   28,
+   14
+  ],
+  "scale": 1.0,
+  "height": 14,
+  "width": 28,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec17",
+  "hint": "rune post",
+  "outdoor": 85,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 85
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec17",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec17"
+  ],
+  "tex": "dec17",
+  "files": [
+   "dec17_p8.png"
+  ],
+  "native_size": [
+   38,
+   61
+  ],
+  "opaque_size": [
+   38,
+   61
+  ],
+  "scale": 1.0,
+  "height": 61,
+  "width": 38,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock22",
+  "hint": "rock",
+  "outdoor": 82,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 39,
+   "out06.odm": 34,
+   "out03.odm": 9
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock22",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock22"
+  ],
+  "tex": "rock22",
+  "files": [
+   "rock22_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   59,
+   29
+  ],
+  "scale": 1.0,
+  "height": 29,
+  "width": 59,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock24",
+  "hint": "rock",
+  "outdoor": 81,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 56,
+   "out08.odm": 25
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock24",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock24"
+  ],
+  "tex": "rock24",
+  "files": [
+   "rock24_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   41,
+   36
+  ],
+  "scale": 1.0,
+  "height": 36,
+  "width": 41,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree31",
+  "hint": "tree",
+  "outdoor": 79,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 78,
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree31",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree31"
+  ],
+  "tex": "tree31",
+  "files": [
+   "tree31_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   239,
+   238
+  ],
+  "scale": 4.0,
+  "height": 952,
+  "width": 956,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec29",
+  "hint": "bones",
+  "outdoor": 29,
+  "dungeon": 49,
+  "maps": {
+   "d21.blv": 26,
+   "d16.blv": 16,
+   "out04.odm": 9,
+   "out13.odm": 9,
+   "out02.odm": 6,
+   "d20.blv": 6,
+   "out08.odm": 5,
+   "d24.blv": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec29",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec29"
+  ],
+  "tex": "dec29",
+  "files": [
+   "dec29_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   112,
+   60
+  ],
+  "scale": 1.0,
+  "height": 60,
+  "width": 112,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree60a",
+  "hint": "tree",
+  "outdoor": 77,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 39,
+   "out02.odm": 38
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree60a",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree60a"
+  ],
+  "tex": "tree60a",
+  "files": [
+   "tree60a_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   254,
+   251
+  ],
+  "scale": 4.0,
+  "height": 1004,
+  "width": 1016,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant23",
+  "hint": "flower",
+  "outdoor": 75,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 35,
+   "out02.odm": 21,
+   "out01.odm": 15,
+   "out13.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant23",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant23"
+  ],
+  "tex": "plant23",
+  "files": [
+   "plant23_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   124,
+   107
+  ],
+  "scale": 0.659988,
+  "height": 71,
+  "width": 82,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree62c",
+  "hint": "tree",
+  "outdoor": 72,
+  "dungeon": 0,
+  "maps": {
+   "out08.odm": 72
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree62c",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree62c"
+  ],
+  "tex": "tree62c",
+  "files": [
+   "tree62c_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   251,
+   250
+  ],
+  "scale": 4.0,
+  "height": 1000,
+  "width": 1004,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree07",
+  "hint": "palm tree",
+  "outdoor": 68,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 50,
+   "out01.odm": 18
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree07",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree07"
+  ],
+  "tex": "tree07",
+  "files": [
+   "tree07_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   193,
+   234
+  ],
+  "scale": 4.0,
+  "height": 936,
+  "width": 772,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree20",
+  "hint": "tree",
+  "outdoor": 65,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 37,
+   "out04.odm": 28
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree20",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree20"
+  ],
+  "tex": "tree20",
+  "files": [
+   "tree20_p337.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   127,
+   125
+  ],
+  "scale": 4.0,
+  "height": 500,
+  "width": 508,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree63b",
+  "hint": "tree",
+  "outdoor": 63,
+  "dungeon": 0,
+  "maps": {
+   "out08.odm": 63
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree63b",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree63b"
+  ],
+  "tex": "tree63b",
+  "files": [
+   "tree63b_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   239,
+   239
+  ],
+  "scale": 4.0,
+  "height": 956,
+  "width": 956,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant54",
+  "hint": "cactus",
+  "outdoor": 60,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 60
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant54",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant54"
+  ],
+  "tex": "plant54",
+  "files": [
+   "plant54_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   55,
+   125
+  ],
+  "scale": 2.0,
+  "height": 250,
+  "width": 110,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock07",
+  "hint": "rock",
+  "outdoor": 57,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 55,
+   "out01.odm": 1,
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock07",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock07"
+  ],
+  "tex": "rock07",
+  "files": [
+   "rock07_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   62,
+   33
+  ],
+  "scale": 1.0,
+  "height": 33,
+  "width": 62,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant04",
+  "hint": "plant",
+  "outdoor": 54,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 42,
+   "out02.odm": 12
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant04",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant04"
+  ],
+  "tex": "plant04",
+  "files": [
+   "plant04_p335.png"
+  ],
+  "native_size": [
+   128,
+   64
+  ],
+  "opaque_size": [
+   115,
+   60
+  ],
+  "scale": 0.659988,
+  "height": 40,
+  "width": 76,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock10",
+  "hint": "boulder",
+  "outdoor": 54,
+  "dungeon": 0,
+  "maps": {
+   "out08.odm": 40,
+   "out04.odm": 10,
+   "out02.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock10",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock10"
+  ],
+  "tex": "rock10",
+  "files": [
+   "rock10_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   124,
+   101
+  ],
+  "scale": 1.0,
+  "height": 101,
+  "width": 124,
+  "same_image_bound": [
+   "mm6:rock10:engine/models/mm6_deco_boulder10.glb",
+   "mm8:rock10:engine/models/mm6_deco_boulder10.glb"
+  ]
+ },
+ {
+  "name": "dec07",
+  "hint": "lantern",
+  "outdoor": 0,
+  "dungeon": 54,
+  "maps": {
+   "d24.blv": 51,
+   "d06.blv": 3
+  },
+  "light": 96,
+  "flags": "0",
+  "sprite": "dec07",
+  "frames": 6,
+  "anim": 12,
+  "frame_textures": [
+   "dec07a",
+   "dec07b",
+   "dec07c",
+   "dec07d",
+   "dec07e",
+   "dec07f"
+  ],
+  "tex": "dec07a",
+  "files": [
+   "dec07a_p8.png",
+   "dec07b_p8.png",
+   "dec07c_p8.png",
+   "dec07d_p8.png",
+   "dec07e_p8.png",
+   "dec07f_p8.png"
+  ],
+  "native_size": [
+   81,
+   128
+  ],
+  "opaque_size": [
+   81,
+   128
+  ],
+  "scale": 1.0,
+  "height": 128,
+  "width": 81,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant05",
+  "hint": "fern",
+  "outdoor": 53,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 53
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant05",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant05"
+  ],
+  "tex": "plant05",
+  "files": [
+   "plant05_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   125,
+   119
+  ],
+  "scale": 1.199997,
+  "height": 143,
+  "width": 150,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant44",
+  "hint": "tree stump",
+  "outdoor": 52,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 52
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant44",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant44"
+  ],
+  "tex": "plant44",
+  "files": [
+   "plant44_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   77,
+   101
+  ],
+  "scale": 1.0,
+  "height": 101,
+  "width": 77,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant17",
+  "hint": "flower",
+  "outdoor": 49,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 25,
+   "out03.odm": 24
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant17",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant17"
+  ],
+  "tex": "plant17",
+  "files": [
+   "plant17_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   110
+  ],
+  "scale": 0.659988,
+  "height": 73,
+  "width": 83,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec58",
+  "hint": "Seaweed",
+  "outdoor": 48,
+  "dungeon": 0,
+  "maps": {
+   "elemw.odm": 48
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec58",
+  "frames": 10,
+  "anim": 20,
+  "frame_textures": [
+   "weed010",
+   "weed011",
+   "weed012",
+   "weed013",
+   "weed014",
+   "weed015",
+   "weed016",
+   "weed017",
+   "weed018",
+   "weed019"
+  ],
+  "tex": "weed010",
+  "files": [
+   "weed010_p335.png",
+   "weed011_p335.png",
+   "weed012_p335.png",
+   "weed013_p335.png",
+   "weed014_p335.png",
+   "weed015_p335.png",
+   "weed016_p335.png",
+   "weed017_p335.png",
+   "weed018_p335.png",
+   "weed019_p335.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   147,
+   251
+  ],
+  "scale": 1.0,
+  "height": 251,
+  "width": 147,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant21",
+  "hint": "flower",
+  "outdoor": 46,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 18,
+   "out13.odm": 11,
+   "out03.odm": 10,
+   "out05.odm": 7
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant21",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant21"
+  ],
+  "tex": "plant21",
+  "files": [
+   "plant21_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   112,
+   110
+  ],
+  "scale": 0.659988,
+  "height": 73,
+  "width": 74,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant50",
+  "hint": "cactus",
+  "outdoor": 46,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 46
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant50",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant50"
+  ],
+  "tex": "plant50",
+  "files": [
+   "plant50_p335.png"
+  ],
+  "native_size": [
+   174,
+   128
+  ],
+  "opaque_size": [
+   150,
+   120
+  ],
+  "scale": 1.0,
+  "height": 120,
+  "width": 150,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant22",
+  "hint": "flower",
+  "outdoor": 45,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 41,
+   "out05.odm": 3,
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant22",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant22"
+  ],
+  "tex": "plant22",
+  "files": [
+   "plant22_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   127,
+   93
+  ],
+  "scale": 0.659988,
+  "height": 61,
+  "width": 84,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec15",
+  "hint": "rune post",
+  "outdoor": 45,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 45
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec15",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec15"
+  ],
+  "tex": "dec15",
+  "files": [
+   "dec15_p8.png"
+  ],
+  "native_size": [
+   80,
+   124
+  ],
+  "opaque_size": [
+   80,
+   124
+  ],
+  "scale": 1.0,
+  "height": 124,
+  "width": 80,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant34",
+  "hint": "corn",
+  "outdoor": 43,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 43
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant34",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant34"
+  ],
+  "tex": "plant34",
+  "files": [
+   "plant34_p335.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   52,
+   118
+  ],
+  "scale": 2.0,
+  "height": 236,
+  "width": 104,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant19",
+  "hint": "flower",
+  "outdoor": 42,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 27,
+   "out05.odm": 9,
+   "out03.odm": 6
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant19",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant19"
+  ],
+  "tex": "plant19",
+  "files": [
+   "plant19_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   125,
+   101
+  ],
+  "scale": 0.659988,
+  "height": 67,
+  "width": 82,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock09",
+  "hint": "rock",
+  "outdoor": 42,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 39,
+   "out02.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock09",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock09"
+  ],
+  "tex": "rock09",
+  "files": [
+   "rock09_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   45,
+   15
+  ],
+  "scale": 1.0,
+  "height": 15,
+  "width": 45,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock30",
+  "hint": "rock",
+  "outdoor": 39,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 39
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock30",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock30"
+  ],
+  "tex": "rock30",
+  "files": [
+   "rock30_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   53,
+   39
+  ],
+  "scale": 1.0,
+  "height": 39,
+  "width": 53,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree17",
+  "hint": "tree",
+  "outdoor": 39,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 39
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree17",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree17"
+  ],
+  "tex": "tree17",
+  "files": [
+   "tree17_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   250,
+   254
+  ],
+  "scale": 4.0,
+  "height": 1016,
+  "width": 1000,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree06",
+  "hint": "palm tree",
+  "outdoor": 38,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 38
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree06",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree06"
+  ],
+  "tex": "tree06",
+  "files": [
+   "tree06_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   202,
+   230
+  ],
+  "scale": 4.0,
+  "height": 920,
+  "width": 808,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant16",
+  "hint": "flower",
+  "outdoor": 38,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 16,
+   "out01.odm": 11,
+   "out13.odm": 6,
+   "out03.odm": 5
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant16",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant16"
+  ],
+  "tex": "plant16",
+  "files": [
+   "plant16_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   123,
+   109
+  ],
+  "scale": 0.659988,
+  "height": 72,
+  "width": 81,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant32",
+  "hint": "shrub",
+  "outdoor": 37,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 37
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant32",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant32"
+  ],
+  "tex": "plant32",
+  "files": [
+   "plant32_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   125,
+   127
+  ],
+  "scale": 1.299988,
+  "height": 165,
+  "width": 162,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock01",
+  "hint": "rock",
+  "outdoor": 37,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 20,
+   "out05.odm": 17
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock01",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock01"
+  ],
+  "tex": "rock01",
+  "files": [
+   "rock01_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   118,
+   70
+  ],
+  "scale": 1.0,
+  "height": 70,
+  "width": 118,
+  "same_image_bound": [
+   "mm6:rock01:engine/models/mm6_deco_boulder01.glb",
+   "mm8:rock01:engine/models/mm6_deco_boulder01.glb"
+  ]
+ },
+ {
+  "name": "plant01",
+  "hint": "plants",
+  "outdoor": 36,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 36
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant01",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant01"
+  ],
+  "tex": "plant01",
+  "files": [
+   "plant01_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   120,
+   106
+  ],
+  "scale": 0.659988,
+  "height": 70,
+  "width": 79,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec13",
+  "hint": "rune post",
+  "outdoor": 36,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 36
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec13",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec13"
+  ],
+  "tex": "dec13",
+  "files": [
+   "dec13_p8.png"
+  ],
+  "native_size": [
+   131,
+   256
+  ],
+  "opaque_size": [
+   130,
+   255
+  ],
+  "scale": 1.0,
+  "height": 255,
+  "width": 130,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock18",
+  "hint": "rock",
+  "outdoor": 35,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 33,
+   "out02.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock18",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock18"
+  ],
+  "tex": "rock18",
+  "files": [
+   "rock18_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   60,
+   33
+  ],
+  "scale": 1.0,
+  "height": 33,
+  "width": 60,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant11",
+  "hint": "plant",
+  "outdoor": 34,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 18,
+   "out01.odm": 16
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant11",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant11"
+  ],
+  "tex": "plant11",
+  "files": [
+   "plant11_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   92,
+   100
+  ],
+  "scale": 0.659988,
+  "height": 66,
+  "width": 61,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec14",
+  "hint": "rune post",
+  "outdoor": 33,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 33
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec14",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec14"
+  ],
+  "tex": "dec14",
+  "files": [
+   "dec14_p8.png"
+  ],
+  "native_size": [
+   131,
+   256
+  ],
+  "opaque_size": [
+   97,
+   255
+  ],
+  "scale": 1.0,
+  "height": 255,
+  "width": 97,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock02",
+  "hint": "rock",
+  "outdoor": 32,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 25,
+   "out02.odm": 7
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock02",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock02"
+  ],
+  "tex": "rock02",
+  "files": [
+   "rock02_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   117,
+   39
+  ],
+  "scale": 1.0,
+  "height": 39,
+  "width": 117,
+  "same_image_bound": [
+   "mm6:rock02:engine/models/mm6_deco_boulder02.glb",
+   "mm8:rock02:engine/models/mm6_deco_boulder02.glb"
+  ]
+ },
+ {
+  "name": "dec23",
+  "hint": "trash heap",
+  "outdoor": 31,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 19,
+   "out02.odm": 12
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec23",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec23"
+  ],
+  "tex": "dec23",
+  "files": [
+   "dec23_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   128,
+   101
+  ],
+  "scale": 1.0,
+  "height": 101,
+  "width": 128,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock56",
+  "hint": "rock",
+  "outdoor": 31,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 31
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock56",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock56"
+  ],
+  "tex": "rock56",
+  "files": [
+   "rock56_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   122,
+   54
+  ],
+  "scale": 1.0,
+  "height": 54,
+  "width": 122,
+  "same_image_bound": []
+ },
+ {
+  "name": "torch01",
+  "hint": "torch",
+  "outdoor": 0,
+  "dungeon": 31,
+  "maps": {
+   "d42.blv": 31
+  },
+  "light": 512,
+  "flags": "0",
+  "sprite": "torch01",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "torch01a",
+   "torch01b",
+   "torch01c",
+   "torch01d",
+   "torch01e",
+   "torch01f",
+   "torch01g",
+   "torch01h"
+  ],
+  "tex": "torch01a",
+  "files": [
+   "torch01a_p1.png",
+   "torch01b_p1.png",
+   "torch01c_p1.png",
+   "torch01d_p1.png",
+   "torch01e_p1.png",
+   "torch01f_p1.png",
+   "torch01g_p1.png",
+   "torch01h_p1.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   24,
+   118
+  ],
+  "scale": 1.0,
+  "height": 118,
+  "width": 24,
+  "same_image_bound": [
+   "mm6:torch01:engine/models/mm6_deco_torch01.glb",
+   "mm8:torch01:engine/models/mm6_deco_torch01.glb"
+  ]
+ },
+ {
+  "name": "tree15",
+  "hint": "tree",
+  "outdoor": 30,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 29,
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree15",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree15"
+  ],
+  "tex": "tree15",
+  "files": [
+   "tree15_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   187,
+   205
+  ],
+  "scale": 4.0,
+  "height": 820,
+  "width": 748,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree16",
+  "hint": "tree",
+  "outdoor": 30,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 30
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree16",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree16"
+  ],
+  "tex": "tree16",
+  "files": [
+   "tree16_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   252,
+   227
+  ],
+  "scale": 4.0,
+  "height": 908,
+  "width": 1008,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant25",
+  "hint": "flower",
+  "outdoor": 29,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 22,
+   "out13.odm": 4,
+   "out03.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant25",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant25"
+  ],
+  "tex": "plant25",
+  "files": [
+   "plant25_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   122
+  ],
+  "scale": 0.659988,
+  "height": 81,
+  "width": 83,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock52",
+  "hint": "rock",
+  "outdoor": 29,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 26,
+   "out02.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock52",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock52"
+  ],
+  "tex": "rock52",
+  "files": [
+   "rock52_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   112,
+   50
+  ],
+  "scale": 1.0,
+  "height": 50,
+  "width": 112,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant09",
+  "hint": "plant",
+  "outdoor": 27,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 18,
+   "out03.odm": 5,
+   "out02.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant09",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant09"
+  ],
+  "tex": "plant09",
+  "files": [
+   "plant09_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   92
+  ],
+  "scale": 0.659988,
+  "height": 61,
+  "width": 83,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock44",
+  "hint": "rock",
+  "outdoor": 27,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 19,
+   "out03.odm": 8
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock44",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock44"
+  ],
+  "tex": "rock44",
+  "files": [
+   "rock44_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   55,
+   22
+  ],
+  "scale": 1.0,
+  "height": 22,
+  "width": 55,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock05",
+  "hint": "rock",
+  "outdoor": 26,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 15,
+   "out02.odm": 6,
+   "out01.odm": 5
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock05",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock05"
+  ],
+  "tex": "rock05",
+  "files": [
+   "rock05_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   118,
+   69
+  ],
+  "scale": 1.0,
+  "height": 69,
+  "width": 118,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant48",
+  "hint": "plant",
+  "outdoor": 26,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 26
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant48",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant48"
+  ],
+  "tex": "plant48",
+  "files": [
+   "plant48_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   118,
+   116
+  ],
+  "scale": 1.0,
+  "height": 116,
+  "width": 118,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec16",
+  "hint": "rune post",
+  "outdoor": 26,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 26
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec16",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec16"
+  ],
+  "tex": "dec16",
+  "files": [
+   "dec16_p8.png"
+  ],
+  "native_size": [
+   80,
+   124
+  ],
+  "opaque_size": [
+   53,
+   124
+  ],
+  "scale": 1.0,
+  "height": 124,
+  "width": 53,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant13",
+  "hint": "plant",
+  "outdoor": 24,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 11,
+   "out01.odm": 7,
+   "out05.odm": 6
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant13",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant13"
+  ],
+  "tex": "plant13",
+  "files": [
+   "plant13_p335.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   52,
+   62
+  ],
+  "scale": 0.659988,
+  "height": 41,
+  "width": 34,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree14",
+  "hint": "tree",
+  "outdoor": 24,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 24
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree14",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree14"
+  ],
+  "tex": "tree14",
+  "files": [
+   "tree14_p337.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   101,
+   104
+  ],
+  "scale": 4.0,
+  "height": 416,
+  "width": 404,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock51",
+  "hint": "rock",
+  "outdoor": 24,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 24
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock51",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock51"
+  ],
+  "tex": "rock51",
+  "files": [
+   "rock51_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   64,
+   27
+  ],
+  "scale": 1.0,
+  "height": 27,
+  "width": 64,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock53",
+  "hint": "rock",
+  "outdoor": 24,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 24
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock53",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock53"
+  ],
+  "tex": "rock53",
+  "files": [
+   "rock53_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   113,
+   68
+  ],
+  "scale": 1.0,
+  "height": 68,
+  "width": 113,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant24",
+  "hint": "flower",
+  "outdoor": 23,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 10,
+   "out02.odm": 9,
+   "out03.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant24",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant24"
+  ],
+  "tex": "plant24",
+  "files": [
+   "plant24_p335.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   61,
+   61
+  ],
+  "scale": 0.659988,
+  "height": 40,
+  "width": 40,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree03",
+  "hint": "palm tree",
+  "outdoor": 20,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 20
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree03",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree03"
+  ],
+  "tex": "tree03",
+  "files": [
+   "tree03_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   202,
+   231
+  ],
+  "scale": 4.0,
+  "height": 924,
+  "width": 808,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock14",
+  "hint": "rock",
+  "outdoor": 20,
+  "dungeon": 0,
+  "maps": {
+   "out08.odm": 20
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock14",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock14"
+  ],
+  "tex": "rock14",
+  "files": [
+   "rock14_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   120,
+   56
+  ],
+  "scale": 1.0,
+  "height": 56,
+  "width": 120,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant02",
+  "hint": "plant",
+  "outdoor": 18,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 10,
+   "out03.odm": 5,
+   "out02.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant02",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant02"
+  ],
+  "tex": "plant02",
+  "files": [
+   "plant02_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   108
+  ],
+  "scale": 1.199997,
+  "height": 130,
+  "width": 151,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant08",
+  "hint": "plant",
+  "outdoor": 18,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 8,
+   "out01.odm": 6,
+   "out13.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant08",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant08"
+  ],
+  "tex": "plant08",
+  "files": [
+   "plant08_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   108
+  ],
+  "scale": 1.199997,
+  "height": 130,
+  "width": 151,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock28",
+  "hint": "rock",
+  "outdoor": 18,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 17,
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock28",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock28"
+  ],
+  "tex": "rock28",
+  "files": [
+   "rock28_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   59,
+   29
+  ],
+  "scale": 1.0,
+  "height": 29,
+  "width": 59,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree19",
+  "hint": "tree",
+  "outdoor": 18,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 18
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree19",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree19"
+  ],
+  "tex": "tree19",
+  "files": [
+   "tree19_p337.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   105
+  ],
+  "scale": 4.0,
+  "height": 420,
+  "width": 504,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec30",
+  "hint": "buoy",
+  "outdoor": 17,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 9,
+   "out02.odm": 4,
+   "out13.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec30",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec30a",
+   "dec30b",
+   "dec30c",
+   "dec30d",
+   "dec30e",
+   "dec30f",
+   "dec30g",
+   "dec30h"
+  ],
+  "tex": "dec30a",
+  "files": [
+   "dec30a_p8.png",
+   "dec30b_p8.png",
+   "dec30c_p8.png",
+   "dec30d_p8.png",
+   "dec30e_p8.png",
+   "dec30f_p8.png",
+   "dec30g_p8.png",
+   "dec30h_p8.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   87,
+   234
+  ],
+  "scale": 1.0,
+  "height": 234,
+  "width": 87,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant33",
+  "hint": "flower",
+  "outdoor": 17,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 17
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant33",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant33"
+  ],
+  "tex": "plant33",
+  "files": [
+   "plant33_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   125,
+   127
+  ],
+  "scale": 1.0,
+  "height": 127,
+  "width": 125,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock25",
+  "hint": "rock",
+  "outdoor": 16,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 16
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock25",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock25"
+  ],
+  "tex": "rock25",
+  "files": [
+   "rock25_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   29,
+   17
+  ],
+  "scale": 1.0,
+  "height": 17,
+  "width": 29,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock26",
+  "hint": "boulder",
+  "outdoor": 16,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 14,
+   "out03.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock26",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock26"
+  ],
+  "tex": "rock26",
+  "files": [
+   "rock26_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   117,
+   106
+  ],
+  "scale": 1.0,
+  "height": 106,
+  "width": 117,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant10",
+  "hint": "plant",
+  "outdoor": 15,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 13,
+   "out05.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant10",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant10"
+  ],
+  "tex": "plant10",
+  "files": [
+   "plant10_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   92,
+   105
+  ],
+  "scale": 1.199997,
+  "height": 126,
+  "width": 110,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec08",
+  "hint": "chandelier",
+  "outdoor": 0,
+  "dungeon": 15,
+  "maps": {
+   "d40.blv": 13,
+   "d27.blv": 2
+  },
+  "light": 96,
+  "flags": "0",
+  "sprite": "dec08",
+  "frames": 6,
+  "anim": 12,
+  "frame_textures": [
+   "dec08a",
+   "dec08b",
+   "dec08b",
+   "dec08b",
+   "dec08a",
+   "dec08b"
+  ],
+  "tex": "dec08a",
+  "files": [
+   "dec08a_p8.png",
+   "dec08b_p8.png"
+  ],
+  "native_size": [
+   106,
+   127
+  ],
+  "opaque_size": [
+   106,
+   127
+  ],
+  "scale": 1.0,
+  "height": 127,
+  "width": 106,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock03",
+  "hint": "boulder",
+  "outdoor": 13,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 8,
+   "out01.odm": 4,
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock03",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock03"
+  ],
+  "tex": "rock03",
+  "files": [
+   "rock03_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   124,
+   104
+  ],
+  "scale": 1.0,
+  "height": 104,
+  "width": 124,
+  "same_image_bound": [
+   "mm6:rock03:engine/models/mm6_deco_boulder03.glb",
+   "mm8:rock03:engine/models/mm6_deco_boulder03.glb"
+  ]
+ },
+ {
+  "name": "tree05",
+  "hint": "palm tree",
+  "outdoor": 12,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 12
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree05",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree05"
+  ],
+  "tex": "tree05",
+  "files": [
+   "tree05_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   196,
+   243
+  ],
+  "scale": 4.0,
+  "height": 972,
+  "width": 784,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant20",
+  "hint": "flower",
+  "outdoor": 12,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 11,
+   "out01.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant20",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant20"
+  ],
+  "tex": "plant20",
+  "files": [
+   "plant20_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   122,
+   101
+  ],
+  "scale": 0.659988,
+  "height": 67,
+  "width": 81,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant03",
+  "hint": "plant",
+  "outdoor": 12,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 12
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant03",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant03"
+  ],
+  "tex": "plant03",
+  "files": [
+   "plant03_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   126,
+   67
+  ],
+  "scale": 0.659988,
+  "height": 44,
+  "width": 83,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant31",
+  "hint": "flower",
+  "outdoor": 11,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 11
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant31",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant31"
+  ],
+  "tex": "plant31",
+  "files": [
+   "plant31_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   124,
+   100
+  ],
+  "scale": 1.0,
+  "height": 100,
+  "width": 124,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock20",
+  "hint": "rock",
+  "outdoor": 11,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 11
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock20",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock20"
+  ],
+  "tex": "rock20",
+  "files": [
+   "rock20_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   42,
+   15
+  ],
+  "scale": 1.0,
+  "height": 15,
+  "width": 42,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree59",
+  "hint": "willow tree",
+  "outdoor": 10,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 10
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree59",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree59"
+  ],
+  "tex": "tree59",
+  "files": [
+   "tree59_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   215,
+   240
+  ],
+  "scale": 4.0,
+  "height": 960,
+  "width": 860,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock62",
+  "hint": "tar rock",
+  "outdoor": 10,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 10
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock62",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock62"
+  ],
+  "tex": "rock62",
+  "files": [
+   "rock62_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   123,
+   100
+  ],
+  "scale": 1.0,
+  "height": 100,
+  "width": 123,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec24",
+  "hint": "campfire",
+  "outdoor": 9,
+  "dungeon": 0,
+  "maps": {
+   "out08.odm": 4,
+   "out02.odm": 2,
+   "out01.odm": 1,
+   "out04.odm": 1,
+   "out13.odm": 1
+  },
+  "light": 128,
+  "flags": "0",
+  "sprite": "dec24",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec24a",
+   "dec24b",
+   "dec24c",
+   "dec24d",
+   "dec24e",
+   "dec24f",
+   "dec24g",
+   "dec24h"
+  ],
+  "tex": "dec24a",
+  "files": [
+   "dec24a_p8.png",
+   "dec24b_p8.png",
+   "dec24c_p8.png",
+   "dec24d_p8.png",
+   "dec24e_p8.png",
+   "dec24f_p8.png",
+   "dec24g_p8.png",
+   "dec24h_p8.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   63,
+   51
+  ],
+  "scale": 1.0,
+  "height": 51,
+  "width": 63,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree13",
+  "hint": "tree",
+  "outdoor": 9,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 4,
+   "out05.odm": 3,
+   "out03.odm": 1,
+   "out13.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree13",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree13"
+  ],
+  "tex": "tree13",
+  "files": [
+   "tree13_p337.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   108,
+   123
+  ],
+  "scale": 4.0,
+  "height": 492,
+  "width": 432,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec21",
+  "hint": "bones",
+  "outdoor": 9,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 9
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec21",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec21"
+  ],
+  "tex": "dec21",
+  "files": [
+   "dec21_p8.png"
+  ],
+  "native_size": [
+   128,
+   67
+  ],
+  "opaque_size": [
+   128,
+   67
+  ],
+  "scale": 1.0,
+  "height": 67,
+  "width": 128,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec27",
+  "hint": "chandelier",
+  "outdoor": 0,
+  "dungeon": 9,
+  "maps": {
+   "d09.blv": 5,
+   "d06.blv": 4
+  },
+  "light": 96,
+  "flags": "0",
+  "sprite": "dec27",
+  "frames": 6,
+  "anim": 12,
+  "frame_textures": [
+   "dec27a",
+   "dec27b",
+   "dec27c",
+   "dec27d",
+   "dec27e",
+   "dec27f"
+  ],
+  "tex": "dec27a",
+  "files": [
+   "dec27a_p8.png",
+   "dec27b_p8.png",
+   "dec27c_p8.png",
+   "dec27d_p8.png",
+   "dec27e_p8.png",
+   "dec27f_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   123,
+   127
+  ],
+  "scale": 1.0,
+  "height": 127,
+  "width": 123,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant29",
+  "hint": "shrub",
+  "outdoor": 8,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 8
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant29",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant29"
+  ],
+  "tex": "plant29",
+  "files": [
+   "plant29_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   127,
+   112
+  ],
+  "scale": 1.0,
+  "height": 112,
+  "width": 127,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec06",
+  "hint": "torch",
+  "outdoor": 8,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 8
+  },
+  "light": 128,
+  "flags": "0",
+  "sprite": "dec06",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec06a",
+   "dec06b",
+   "dec06c",
+   "dec06d",
+   "dec06e",
+   "dec06f",
+   "dec06g",
+   "dec06h"
+  ],
+  "tex": "dec06a",
+  "files": [
+   "dec06a_p8.png",
+   "dec06b_p8.png",
+   "dec06c_p8.png",
+   "dec06d_p8.png",
+   "dec06e_p8.png",
+   "dec06f_p8.png",
+   "dec06g_p8.png",
+   "dec06h_p8.png"
+  ],
+  "native_size": [
+   44,
+   125
+  ],
+  "opaque_size": [
+   29,
+   119
+  ],
+  "scale": 1.0,
+  "height": 119,
+  "width": 29,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant51",
+  "hint": "cactus",
+  "outdoor": 8,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 8
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant51",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant51"
+  ],
+  "tex": "plant51",
+  "files": [
+   "plant51_p335.png"
+  ],
+  "native_size": [
+   172,
+   128
+  ],
+  "opaque_size": [
+   157,
+   124
+  ],
+  "scale": 1.0,
+  "height": 124,
+  "width": 157,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant15",
+  "hint": "plant",
+  "outdoor": 7,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 7
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant15",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant15"
+  ],
+  "tex": "plant15",
+  "files": [
+   "plant15_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   125,
+   84
+  ],
+  "scale": 0.659988,
+  "height": 55,
+  "width": 82,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock27",
+  "hint": "rock",
+  "outdoor": 7,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 4,
+   "out03.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock27",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock27"
+  ],
+  "tex": "rock27",
+  "files": [
+   "rock27_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   118,
+   56
+  ],
+  "scale": 1.0,
+  "height": 56,
+  "width": 118,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock54",
+  "hint": "rock",
+  "outdoor": 7,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 7
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock54",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock54"
+  ],
+  "tex": "rock54",
+  "files": [
+   "rock54_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   125,
+   63
+  ],
+  "scale": 1.0,
+  "height": 63,
+  "width": 125,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock08",
+  "hint": "rock",
+  "outdoor": 6,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 3,
+   "out04.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock08",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock08"
+  ],
+  "tex": "rock08",
+  "files": [
+   "rock08_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   59,
+   36
+  ],
+  "scale": 1.0,
+  "height": 36,
+  "width": 59,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock47",
+  "hint": "rock",
+  "outdoor": 6,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 5,
+   "out07.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock47",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock47"
+  ],
+  "tex": "rock47",
+  "files": [
+   "rock47_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   117,
+   89
+  ],
+  "scale": 1.0,
+  "height": 89,
+  "width": 117,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant28",
+  "hint": "shrub",
+  "outdoor": 6,
+  "dungeon": 0,
+  "maps": {
+   "out05.odm": 6
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant28",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant28"
+  ],
+  "tex": "plant28",
+  "files": [
+   "plant28_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   127,
+   112
+  ],
+  "scale": 1.0,
+  "height": 112,
+  "width": 127,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec36",
+  "hint": "wood plate",
+  "outdoor": 0,
+  "dungeon": 6,
+  "maps": {
+   "d41.blv": 6
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec36",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec36"
+  ],
+  "tex": "dec36",
+  "files": [
+   "dec36_p8.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   60,
+   23
+  ],
+  "scale": 1.0,
+  "height": 23,
+  "width": 60,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec35",
+  "hint": "glass",
+  "outdoor": 0,
+  "dungeon": 6,
+  "maps": {
+   "d41.blv": 6
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec35",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec35"
+  ],
+  "tex": "dec35",
+  "files": [
+   "dec35_p8.png"
+  ],
+  "native_size": [
+   32,
+   32
+  ],
+  "opaque_size": [
+   13,
+   30
+  ],
+  "scale": 1.0,
+  "height": 30,
+  "width": 13,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree09",
+  "hint": "palm tree",
+  "outdoor": 5,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 4,
+   "out13.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree09",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree09"
+  ],
+  "tex": "tree09",
+  "files": [
+   "tree09_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   195,
+   246
+  ],
+  "scale": 4.0,
+  "height": 984,
+  "width": 780,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec25",
+  "hint": "campfire",
+  "outdoor": 5,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 2,
+   "out03.odm": 1,
+   "out05.odm": 1,
+   "out08.odm": 1
+  },
+  "light": 128,
+  "flags": "0",
+  "sprite": "dec25",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec25a",
+   "dec25b",
+   "dec25c",
+   "dec25d",
+   "dec25e",
+   "dec25f",
+   "dec25g",
+   "dec25h"
+  ],
+  "tex": "dec25a",
+  "files": [
+   "dec25a_p8.png",
+   "dec25b_p8.png",
+   "dec25c_p8.png",
+   "dec25d_p8.png",
+   "dec25e_p8.png",
+   "dec25f_p8.png",
+   "dec25g_p8.png",
+   "dec25h_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   104,
+   106
+  ],
+  "scale": 1.0,
+  "height": 106,
+  "width": 104,
+  "same_image_bound": [
+   "mm6:dec25:engine/models/mm6_deco_campfire.glb",
+   "mm8:dec25:engine/models/mm6_deco_campfire.glb"
+  ]
+ },
+ {
+  "name": "dec26",
+  "hint": "cauldron",
+  "outdoor": 5,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 2,
+   "out04.odm": 1,
+   "out05.odm": 1,
+   "out08.odm": 1
+  },
+  "light": 128,
+  "flags": "0",
+  "sprite": "dec26",
+  "frames": 7,
+  "anim": 14,
+  "frame_textures": [
+   "dec26a",
+   "dec26b",
+   "dec26c",
+   "dec26d",
+   "dec26e",
+   "dec26f",
+   "dec26g"
+  ],
+  "tex": "dec26a",
+  "files": [
+   "dec26a_p8.png",
+   "dec26b_p8.png",
+   "dec26c_p8.png",
+   "dec26d_p8.png",
+   "dec26e_p8.png",
+   "dec26f_p8.png",
+   "dec26g_p8.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   127,
+   128
+  ],
+  "scale": 1.0,
+  "height": 128,
+  "width": 127,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock04",
+  "hint": "rock",
+  "outdoor": 5,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 5
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock04",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock04"
+  ],
+  "tex": "rock04",
+  "files": [
+   "rock04_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   118,
+   69
+  ],
+  "scale": 1.0,
+  "height": 69,
+  "width": 118,
+  "same_image_bound": [
+   "mm6:rock04:engine/models/mm6_deco_boulder01.glb",
+   "mm8:rock04:engine/models/mm6_deco_boulder01.glb"
+  ]
+ },
+ {
+  "name": "plant53",
+  "hint": "flowering cactus",
+  "outdoor": 5,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 5
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant53",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant53"
+  ],
+  "tex": "plant53",
+  "files": [
+   "plant53_p335.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   40,
+   123
+  ],
+  "scale": 2.0,
+  "height": 246,
+  "width": 80,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock33",
+  "hint": "rock",
+  "outdoor": 5,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 5
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock33",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock33"
+  ],
+  "tex": "rock33",
+  "files": [
+   "rock33_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   95,
+   54
+  ],
+  "scale": 1.0,
+  "height": 54,
+  "width": 95,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec01",
+  "hint": "Elf Statue",
+  "outdoor": 5,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 5
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec01",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec01a"
+  ],
+  "tex": "dec01a",
+  "files": [
+   "dec01a0_p8.png",
+   "dec01a1_p8.png",
+   "dec01a2_p8.png",
+   "dec01a3_p8.png",
+   "dec01a4_p8.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   93,
+   217
+  ],
+  "scale": 1.0,
+  "height": 217,
+  "width": 93,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant30",
+  "hint": "shrub",
+  "outdoor": 4,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant30",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant30"
+  ],
+  "tex": "plant30",
+  "files": [
+   "plant30_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   123,
+   98
+  ],
+  "scale": 1.299988,
+  "height": 127,
+  "width": 160,
+  "same_image_bound": []
+ },
+ {
+  "name": "tree61a",
+  "hint": "tree",
+  "outdoor": 4,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "tree61a",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "tree61a"
+  ],
+  "tex": "tree61a",
+  "files": [
+   "tree61a_p337.png"
+  ],
+  "native_size": [
+   256,
+   256
+  ],
+  "opaque_size": [
+   255,
+   230
+  ],
+  "scale": 4.0,
+  "height": 920,
+  "width": 1020,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant49",
+  "hint": "tumbleweed",
+  "outdoor": 4,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant49",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant49"
+  ],
+  "tex": "plant49",
+  "files": [
+   "plant49_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   123,
+   120
+  ],
+  "scale": 1.0,
+  "height": 120,
+  "width": 123,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock35",
+  "hint": "rock",
+  "outdoor": 4,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock35",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock35"
+  ],
+  "tex": "rock35",
+  "files": [
+   "rock35_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   107,
+   58
+  ],
+  "scale": 1.0,
+  "height": 58,
+  "width": 107,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec39",
+  "hint": "metal plates",
+  "outdoor": 0,
+  "dungeon": 4,
+  "maps": {
+   "d31.blv": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec39",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec39"
+  ],
+  "tex": "dec39",
+  "files": [
+   "dec39_p8.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   62,
+   28
+  ],
+  "scale": 1.0,
+  "height": 28,
+  "width": 62,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec32",
+  "hint": "metal bowls",
+  "outdoor": 0,
+  "dungeon": 4,
+  "maps": {
+   "d31.blv": 4
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec32",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec32"
+  ],
+  "tex": "dec32",
+  "files": [
+   "dec32_p8.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   59,
+   44
+  ],
+  "scale": 1.0,
+  "height": 44,
+  "width": 59,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec28",
+  "hint": "fruit bowl",
+  "outdoor": 0,
+  "dungeon": 4,
+  "maps": {
+   "d31.blv": 3,
+   "d41.blv": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec28",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec28"
+  ],
+  "tex": "dec28",
+  "files": [
+   "dec28_p8.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   61,
+   39
+  ],
+  "scale": 1.0,
+  "height": 39,
+  "width": 61,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock06",
+  "hint": "rock",
+  "outdoor": 3,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 2,
+   "out04.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock06",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock06"
+  ],
+  "tex": "rock06",
+  "files": [
+   "rock06_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   60,
+   15
+  ],
+  "scale": 1.0,
+  "height": 15,
+  "width": 60,
+  "same_image_bound": [
+   "mm6:rock06:engine/models/mm6_deco_boulder06.glb",
+   "mm8:rock06:engine/models/mm6_deco_boulder06.glb"
+  ]
+ },
+ {
+  "name": "dec43",
+  "hint": "beacon fire",
+  "outdoor": 3,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1,
+   "out06.odm": 1,
+   "out13.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec43",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec43a",
+   "dec43b",
+   "dec43c",
+   "dec43d",
+   "dec43e",
+   "dec43f",
+   "dec43g",
+   "dec43h"
+  ],
+  "tex": "dec43a",
+  "files": [
+   "dec43a_p8.png",
+   "dec43b_p8.png",
+   "dec43c_p8.png",
+   "dec43d_p8.png",
+   "dec43e_p8.png",
+   "dec43f_p8.png",
+   "dec43g_p8.png",
+   "dec43h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   56,
+   118
+  ],
+  "scale": 1.599991,
+  "height": 189,
+  "width": 90,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec42",
+  "hint": "beacon fire",
+  "outdoor": 3,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 1,
+   "out04.odm": 1,
+   "out08.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec42",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec42a",
+   "dec42b",
+   "dec42c",
+   "dec42d",
+   "dec42e",
+   "dec42f",
+   "dec42g",
+   "dec42h"
+  ],
+  "tex": "dec42a",
+  "files": [
+   "dec42a_p8.png",
+   "dec42b_p8.png",
+   "dec42c_p8.png",
+   "dec42d_p8.png",
+   "dec42e_p8.png",
+   "dec42f_p8.png",
+   "dec42g_p8.png",
+   "dec42h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   56,
+   118
+  ],
+  "scale": 1.599991,
+  "height": 189,
+  "width": 90,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock34",
+  "hint": "rock",
+  "outdoor": 3,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock34",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock34"
+  ],
+  "tex": "rock34",
+  "files": [
+   "rock34_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   105,
+   39
+  ],
+  "scale": 1.0,
+  "height": 39,
+  "width": 105,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant52",
+  "hint": "cactus",
+  "outdoor": 3,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant52",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant52"
+  ],
+  "tex": "plant52",
+  "files": [
+   "plant52_p335.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   40,
+   123
+  ],
+  "scale": 2.0,
+  "height": 246,
+  "width": 80,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock61",
+  "hint": "tar rock",
+  "outdoor": 3,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 3
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock61",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock61"
+  ],
+  "tex": "rock61",
+  "files": [
+   "rock61_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   118,
+   69
+  ],
+  "scale": 1.0,
+  "height": 69,
+  "width": 118,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant38",
+  "hint": "lily pad",
+  "outdoor": 2,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant38",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant38"
+  ],
+  "tex": "plant38",
+  "files": [
+   "plant38_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   118,
+   42
+  ],
+  "scale": 1.0,
+  "height": 42,
+  "width": 118,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant37",
+  "hint": "lily pad",
+  "outdoor": 2,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant37",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant37"
+  ],
+  "tex": "plant37",
+  "files": [
+   "plant37_p335.png"
+  ],
+  "native_size": [
+   128,
+   64
+  ],
+  "opaque_size": [
+   69,
+   33
+  ],
+  "scale": 1.0,
+  "height": 33,
+  "width": 69,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec49",
+  "hint": "magic pedastal",
+  "outdoor": 2,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 1,
+   "out04.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec49",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec49a",
+   "dec49b",
+   "dec49c",
+   "dec49d",
+   "dec49e",
+   "dec49f",
+   "dec49g",
+   "dec49h"
+  ],
+  "tex": "dec49a",
+  "files": [
+   "dec49a_p8.png",
+   "dec49b_p8.png",
+   "dec49c_p8.png",
+   "dec49d_p8.png",
+   "dec49e_p8.png",
+   "dec49f_p8.png",
+   "dec49g_p8.png",
+   "dec49h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant46",
+  "hint": "tree stump",
+  "outdoor": 2,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant46",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant46"
+  ],
+  "tex": "plant46",
+  "files": [
+   "plant46_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   120,
+   109
+  ],
+  "scale": 1.0,
+  "height": 109,
+  "width": 120,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec41",
+  "hint": "beacon fire",
+  "outdoor": 2,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1,
+   "out07.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec41",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec41a",
+   "dec41b",
+   "dec41c",
+   "dec41d",
+   "dec41e",
+   "dec41f",
+   "dec41g",
+   "dec41h"
+  ],
+  "tex": "dec41a",
+  "files": [
+   "dec41a_p8.png",
+   "dec41b_p8.png",
+   "dec41c_p8.png",
+   "dec41d_p8.png",
+   "dec41e_p8.png",
+   "dec41f_p8.png",
+   "dec41g_p8.png",
+   "dec41h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   56,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 90,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant42",
+  "hint": "plant",
+  "outdoor": 2,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant42",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant42"
+  ],
+  "tex": "plant42",
+  "files": [
+   "plant42_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   120,
+   109
+  ],
+  "scale": 1.0,
+  "height": 109,
+  "width": 120,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec37",
+  "hint": "wood plates",
+  "outdoor": 0,
+  "dungeon": 2,
+  "maps": {
+   "d41.blv": 2
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec37",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec37"
+  ],
+  "tex": "dec37",
+  "files": [
+   "dec37_p8.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   62,
+   28
+  ],
+  "scale": 1.0,
+  "height": 28,
+  "width": 62,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock19",
+  "hint": "rock",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock19",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock19"
+  ],
+  "tex": "rock19",
+  "files": [
+   "rock19_p336.png"
+  ],
+  "native_size": [
+   64,
+   64
+  ],
+  "opaque_size": [
+   57,
+   30
+  ],
+  "scale": 1.0,
+  "height": 30,
+  "width": 57,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec40",
+  "hint": "beacon fire",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out01.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec40",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec40a",
+   "dec40b",
+   "dec40c",
+   "dec40d",
+   "dec40e",
+   "dec40f",
+   "dec40g",
+   "dec40h"
+  ],
+  "tex": "dec40a",
+  "files": [
+   "dec40a_p8.png",
+   "dec40b_p8.png",
+   "dec40c_p8.png",
+   "dec40d_p8.png",
+   "dec40e_p8.png",
+   "dec40f_p8.png",
+   "dec40g_p8.png",
+   "dec40h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   56,
+   118
+  ],
+  "scale": 1.599991,
+  "height": 189,
+  "width": 90,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock65",
+  "hint": "ancient rune stone",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock65",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock65"
+  ],
+  "tex": "rock65",
+  "files": [
+   "rock65_p336.png"
+  ],
+  "native_size": [
+   128,
+   256
+  ],
+  "opaque_size": [
+   128,
+   255
+  ],
+  "scale": 1.25,
+  "height": 319,
+  "width": 160,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock68",
+  "hint": "ancient rune stone",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock68",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock68"
+  ],
+  "tex": "rock68",
+  "files": [
+   "rock68_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   120,
+   91
+  ],
+  "scale": 1.0,
+  "height": 91,
+  "width": 120,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec45",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec45",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec45a",
+   "dec45b",
+   "dec45c",
+   "dec45d",
+   "dec45e",
+   "dec45f",
+   "dec45g",
+   "dec45h"
+  ],
+  "tex": "dec45a",
+  "files": [
+   "dec45a_p8.png",
+   "dec45b_p8.png",
+   "dec45c_p8.png",
+   "dec45d_p8.png",
+   "dec45e_p8.png",
+   "dec45f_p8.png",
+   "dec45g_p8.png",
+   "dec45h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant56",
+  "hint": "plants",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant56",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant56"
+  ],
+  "tex": "plant56",
+  "files": [
+   "plant56_p335.png"
+  ],
+  "native_size": [
+   248,
+   128
+  ],
+  "opaque_size": [
+   247,
+   128
+  ],
+  "scale": 1.0,
+  "height": 128,
+  "width": 247,
+  "same_image_bound": []
+ },
+ {
+  "name": "plant43",
+  "hint": "tree stump",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "plant43",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "plant43"
+  ],
+  "tex": "plant43",
+  "files": [
+   "plant43_p335.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   91,
+   93
+  ],
+  "scale": 1.0,
+  "height": 93,
+  "width": 91,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock12",
+  "hint": "boulder",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out02.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock12",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock12"
+  ],
+  "tex": "rock12",
+  "files": [
+   "rock12_p336.png"
+  ],
+  "native_size": [
+   128,
+   128
+  ],
+  "opaque_size": [
+   124,
+   105
+  ],
+  "scale": 1.0,
+  "height": 105,
+  "width": 124,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec46",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out03.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec46",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec46a",
+   "dec46b",
+   "dec46c",
+   "dec46d",
+   "dec46e",
+   "dec46f",
+   "dec46g",
+   "dec46h"
+  ],
+  "tex": "dec46a",
+  "files": [
+   "dec46a_p8.png",
+   "dec46b_p8.png",
+   "dec46c_p8.png",
+   "dec46d_p8.png",
+   "dec46e_p8.png",
+   "dec46f_p8.png",
+   "dec46g_p8.png",
+   "dec46h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec04",
+  "hint": "campfire",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 1
+  },
+  "light": 128,
+  "flags": "0",
+  "sprite": "dec04",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec04a",
+   "dec04b",
+   "dec04c",
+   "dec04d",
+   "dec04e",
+   "dec04f",
+   "dec04g",
+   "dec04h"
+  ],
+  "tex": "dec04a",
+  "files": [
+   "dec04a_p8.png",
+   "dec04b_p8.png",
+   "dec04c_p8.png",
+   "dec04d_p8.png",
+   "dec04e_p8.png",
+   "dec04f_p8.png",
+   "dec04g_p8.png",
+   "dec04h_p8.png"
+  ],
+  "native_size": [
+   171,
+   128
+  ],
+  "opaque_size": [
+   103,
+   111
+  ],
+  "scale": 1.0,
+  "height": 111,
+  "width": 103,
+  "same_image_bound": [
+   "mm6:dec04:engine/models/mm6_deco_logfire.glb",
+   "mm8:dec04:engine/models/mm6_deco_logfire.glb"
+  ]
+ },
+ {
+  "name": "dec22",
+  "hint": "carrion",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out04.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "dec22",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "dec22"
+  ],
+  "tex": "dec22",
+  "files": [
+   "dec22_p8.png"
+  ],
+  "native_size": [
+   126,
+   70
+  ],
+  "opaque_size": [
+   126,
+   70
+  ],
+  "scale": 1.0,
+  "height": 70,
+  "width": 126,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec48",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out06.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec48",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec48a",
+   "dec48b",
+   "dec48c",
+   "dec48d",
+   "dec48e",
+   "dec48f",
+   "dec48g",
+   "dec48h"
+  ],
+  "tex": "dec48a",
+  "files": [
+   "dec48a_p8.png",
+   "dec48b_p8.png",
+   "dec48c_p8.png",
+   "dec48d_p8.png",
+   "dec48e_p8.png",
+   "dec48f_p8.png",
+   "dec48g_p8.png",
+   "dec48h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec50",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec50",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec50a",
+   "dec50b",
+   "dec50c",
+   "dec50d",
+   "dec50e",
+   "dec50f",
+   "dec50g",
+   "dec50h"
+  ],
+  "tex": "dec50a",
+  "files": [
+   "dec50a_p8.png",
+   "dec50b_p8.png",
+   "dec50c_p8.png",
+   "dec50d_p8.png",
+   "dec50e_p8.png",
+   "dec50f_p8.png",
+   "dec50g_p8.png",
+   "dec50h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec51",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec51",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec51a",
+   "dec51b",
+   "dec51c",
+   "dec51d",
+   "dec51e",
+   "dec51f",
+   "dec51g",
+   "dec51h"
+  ],
+  "tex": "dec51a",
+  "files": [
+   "dec51a_p8.png",
+   "dec51b_p8.png",
+   "dec51c_p8.png",
+   "dec51d_p8.png",
+   "dec51e_p8.png",
+   "dec51f_p8.png",
+   "dec51g_p8.png",
+   "dec51h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "rock69",
+  "hint": "ancient rune stone",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out07.odm": 1
+  },
+  "light": 0,
+  "flags": "0",
+  "sprite": "rock69",
+  "frames": 1,
+  "anim": 2,
+  "frame_textures": [
+   "rock69"
+  ],
+  "tex": "rock69",
+  "files": [
+   "rock69_p336.png"
+  ],
+  "native_size": [
+   256,
+   128
+  ],
+  "opaque_size": [
+   254,
+   128
+  ],
+  "scale": 1.0,
+  "height": 128,
+  "width": 254,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec52",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out08.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec52",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec52a",
+   "dec52b",
+   "dec52c",
+   "dec52d",
+   "dec52e",
+   "dec52f",
+   "dec52g",
+   "dec52h"
+  ],
+  "tex": "dec52a",
+  "files": [
+   "dec52a_p8.png",
+   "dec52b_p8.png",
+   "dec52c_p8.png",
+   "dec52d_p8.png",
+   "dec52e_p8.png",
+   "dec52f_p8.png",
+   "dec52g_p8.png",
+   "dec52h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec54",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec54",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec54a",
+   "dec54b",
+   "dec54c",
+   "dec54d",
+   "dec54e",
+   "dec54f",
+   "dec54g",
+   "dec54h"
+  ],
+  "tex": "dec54a",
+  "files": [
+   "dec54a_p8.png",
+   "dec54b_p8.png",
+   "dec54c_p8.png",
+   "dec54d_p8.png",
+   "dec54e_p8.png",
+   "dec54f_p8.png",
+   "dec54g_p8.png",
+   "dec54h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec55",
+  "hint": "magic pedastal",
+  "outdoor": 1,
+  "dungeon": 0,
+  "maps": {
+   "out13.odm": 1
+  },
+  "light": 256,
+  "flags": "0",
+  "sprite": "dec55",
+  "frames": 8,
+  "anim": 16,
+  "frame_textures": [
+   "dec55a",
+   "dec55b",
+   "dec55c",
+   "dec55d",
+   "dec55e",
+   "dec55f",
+   "dec55g",
+   "dec55h"
+  ],
+  "tex": "dec55a",
+  "files": [
+   "dec55a_p8.png",
+   "dec55b_p8.png",
+   "dec55c_p8.png",
+   "dec55d_p8.png",
+   "dec55e_p8.png",
+   "dec55f_p8.png",
+   "dec55g_p8.png",
+   "dec55h_p8.png"
+  ],
+  "native_size": [
+   64,
+   128
+  ],
+  "opaque_size": [
+   59,
+   125
+  ],
+  "scale": 1.599991,
+  "height": 200,
+  "width": 94,
+  "same_image_bound": []
+ },
+ {
+  "name": "dec02",
+  "hint": "candle stick",
+  "outdoor": 0,
+  "dungeon": 1,
+  "maps": {
+   "d06.blv": 1
+  },
+  "light": 86,
+  "flags": "0",
+  "sprite": "dec02",
+  "frames": 6,
+  "anim": 12,
+  "frame_textures": [
+   "dec02a",
+   "dec02b",
+   "dec02c",
+   "dec02d",
+   "dec02e",
+   "dec02f"
+  ],
+  "tex": "dec02a",
+  "files": [
+   "dec02a_p8.png",
+   "dec02b_p8.png",
+   "dec02c_p8.png",
+   "dec02d_p8.png",
+   "dec02e_p8.png",
+   "dec02f_p8.png"
+  ],
+  "native_size": [
+   78,
+   123
+  ],
+  "opaque_size": [
+   78,
+   123
+  ],
+  "scale": 1.0,
+  "height": 123,
+  "width": 78,
+  "same_image_bound": []
+ }
+]

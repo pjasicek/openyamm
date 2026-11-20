@@ -1,0 +1,274 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "requested_transparent_background": true,
+  "maximum_corrective_regenerations_per_view": 1,
+  "status": "Generated and saved unresized returns; exact brief requirements not met.",
+  "selected_means": "Best available within the permitted two attempts, not approval or passing all checks.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: game-model albedo texture source, FRONT orthographic painted view.\nEDIT IMAGE 1 (guide_front.png) in place. Produce ONE 1024 x 1024 PNG with genuine transparent background, retaining its original canvas. This is surface painting of this exact model, not a new design or a new rendering.\nInput roles:\n1. guide_front.png: edit target and absolute authority for silhouette, geometry, camera, framing, all edges, openings and object placement.\n2. design_reference.png: approved design, colour and material authority ONLY; do not borrow its perspective, silhouette, proportions or extra geometry.\n3. concept_crop.png: supporting original concept and surface-material reference ONLY.\nPreserve IMAGE 1 pixel-registered: same outline, size and position in the frame, every shape edge, opening and detail exactly where the guide has them. Keep its alpha silhouette including every notch and transparent hole unchanged. Do not move, enlarge, shrink, rotate, reframe, crop, smooth or redesign the model. Nothing may extend outside the guide's opaque shape. The front guide's nontransparent bounds are x=66..957, y=75..948 on the 1024-square canvas; keep the thin central summit at its original pixel location, the huge curved left tusk, each right-hand dish and sphere, all transverse ribs, doorway, terminal and the wide flat root base in precisely their existing positions.\nPaint the surface materials of IMAGE 2 onto that fixed geometry: black-violet resin vertebrae and spreading roots, saturated orange glowing rib windows, white ceramic and gold Ancient dishes with blue glowing lights, ivory tusks. Give the existing vertebral ribs and roots deep black-violet/plum resin colour with fine reference-matching organic surface detail. Between the existing ribs, paint orange sac/window surfaces with dark violet surrounds. Existing white ceramic dish and panel areas are warm white/ivory with thin antique-gold borders and seam ornament. Preserve the exact guide geometry of the large ivory tusk and gold-trimmed ceramic crescents. Paint existing relay spheres cyan-blue and the existing door-side light blue. Paint the doorway interior orange in its existing outline. Use the design reference's colours and fine ornament as surface texture, without introducing new shape edges or cutouts.\nLIGHTING IS CRITICAL: albedo only, evenly lit flat and shadowless from the viewer. No cast shadows, no ambient-occlusion darkening, no directional light, no strong specular highlights, no reflections, no rim light. Suggest the glossy resin material through colour and surface pattern, NOT baked shiny highlights. Orange sacs and seams and cyan lights are painted at their glowing colour with NO bloom halo and NO light cast on nearby surfaces. Keep the ceramic surfaces evenly coloured rather than copying the guide's grey shading. No background, floor, ground plane, scenery, atmosphere, drop shadow, labels, text or watermark.\nReturn only the complete painted FRONT image, 1024 x 1024, genuine alpha transparency. Exact geometry and alignment of IMAGE 1 take precedence over decorative richness.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16892-24f9-7053-a52d-aa01f97cfebc/exec-ab9e1c62-6ab6-4ba7-a53e-a3d961cb96b5.png",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the flatter correction. Native return is 1254 x 1254, not 1024 x 1024; guide geometry changed and glossy highlights, cavity shading and emissive gradients were baked in.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6f8a1d7b4fc4aacd03033ec1f096938d287d3d11f0c97fbea3b50c6aec79870f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output_sha256": "009db390a56f1161cc813e4165b5170bca956508234ed838fa687e8515a45872",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          21,
+          1226,
+          1230
+        ],
+        "opaque_bbox_threshold_127": [
+          79,
+          84,
+          1177,
+          1160
+        ],
+        "guide_alpha_bbox": [
+          66,
+          75,
+          958,
+          949
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "all_brief_checks_pass": false,
+        "visual": {
+          "materials_and_colours": "Requested palette present; geometry and some material boundaries drift.",
+          "flat_even_light": "fail: glossy highlights, recess shading and emissive gradients.",
+          "silhouette_identical": "fail: resolution differs and shape edges drift."
+        }
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. Create a native 1024 x 1024 transparent PNG. Exact 1024 x 1024 output is required; do not return 1254 x 1254. Do not resize the object or canvas.\n\nUse case: style-transfer. IMAGE 1 guide_front.png is the exact image to paint. IMAGE 2 design_reference.png gives materials and colours only. IMAGE 3 concept_crop.png gives supporting material detail only. This task is a texture-source edit of image 1, NOT a concept illustration. The previous attempt failed because it changed the silhouette and shape edges, returned the wrong canvas size and baked in highlights and shading.\n\nMake a flat albedo colour pass directly on the original image 1 at its original pixel coordinates. Lock the original alpha mask, outline, all object boundaries and all internal geometry. Leave every transparent pixel transparent. Same 1024-square framing, same orthographic FRONT camera, same scale. Nontransparent bounds must remain x=66..957, y=75..948. Trace and keep all existing polygon edges, notches, gaps, ribs, tusks, spheres, doorway and base. Do not add reference geometry or cut new holes. Do not extend ornament outside any original edge. The large left tusk, top spike, upper horns, right crescent and its sphere, doorway and small front-right terminal must exactly retain image 1's shape and placement. Surface ornament must fit within those existing shapes.\n\nColours/materials from image 2: black-violet resin vertebrae and spreading roots; bright orange rib-window/sac areas; ivory tusks and white ceramic Ancient dishes and door panels with restrained gold seam ornament; cyan-blue existing relay spheres/lights. Paint orange window colour between the existing central ribs without changing rib boundaries. Keep dark violet readable and the ceramic evenly ivory. Use fine material surface marks from the reference while prioritizing exact geometry over ornament.\n\nThis is ALBEDO, not a lit render. Remove the grey guide's lighting and ambient occlusion. Even flat shadowless colour from the viewer, zero cast shadows, zero cavity/AO darkening, no directional gradients, no specular or white glints, no reflections, no rim light. Glossy resin is a material identity only and must have no baked gloss. Orange and blue glowing parts have saturated local colour only: no bloom, no halos, no spill on neighbouring surfaces. No scenery, floor, background, checkerboard, text or watermark. Return ONE unresized 1024 x 1024 RGBA image with genuine transparent background.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16892-24f9-7053-a52d-aa01f97cfebc/exec-e2a4cdec-4c88-44cf-bf51-9d58d2d031e0.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the flatter of the two front returns. Still fails exact 1024 x 1024 output and pixel-identical guide geometry; some baked shading and small glints remain. Corrective regeneration allowance exhausted.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6f8a1d7b4fc4aacd03033ec1f096938d287d3d11f0c97fbea3b50c6aec79870f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output_sha256": "4964b4d2a8d3b89a6c6bbd7f8f3e60558751e74b2bf71fe515991d0df491f9da",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          15,
+          1202,
+          1182
+        ],
+        "opaque_bbox_threshold_127": [
+          78,
+          86,
+          1176,
+          1161
+        ],
+        "guide_alpha_bbox": [
+          66,
+          75,
+          958,
+          949
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "all_brief_checks_pass": false,
+        "visual": {
+          "materials_and_colours": "Requested black-violet, orange, ivory, gold and cyan palette present; not an exact guide-registered material transfer.",
+          "flat_even_light": "partial: flatter lights and ceramic, but resin glints and cavity shading remain.",
+          "silhouette_identical": "fail: resolution differs and shape edges drift."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nPaint IMAGE 1, guide_top.png, as a flat albedo texture source. Return ONE native 1024 x 1024 transparent PNG at the exact original resolution of IMAGE 1. No upscaling and no resizing.\nINPUT ROLES: Image 1 is the edit target: the exact TOP-DOWN ORTHOGRAPHIC model render whose geometry, alpha mask, orientation, framing and every visible shape edge must stay fixed. Image 2, design_reference.png, is the approved material and colour authority ONLY. Image 3, concept_crop.png, is supporting material reference ONLY.\nThis is the decoration viewed straight down from above, with the model's top surfaces visible. Keep image 1's exact camera and top-down arrangement. Do not recreate the front or three-quarter composition of images 2 or 3.\nPixel registration is mandatory: keep the same silhouette, size, position, all edges, notches, openings and details as image 1. Its existing nontransparent bounds are x=66..957, y=66..957 on a 1024 x 1024 canvas. Preserve every jagged root-base edge, the lower central notch, all crossing rods and the six visible round nodes at their current positions, the central stacked spire seen end-on, all tusks and curved dishes seen from above. Nothing added outside the silhouette, nothing cropped. No invented extra geometry, no added perforations. Paint texture ONLY inside the guide's current surface shapes. Preserve its transparent pixels and alpha edge.\nApply image 2's materials: dark black-violet resin for the existing vertebrae, structural ribs and radiating roots; orange glowing sac/window surfaces between existing ribs; warm white ceramic and ivory tusks; thin gold trims and Ancient seam ornament on the existing ceramic dishes and panels; saturated cyan-blue existing light orbs. The top view's broad base is dark violet resin root structure, with orange local-colour details on its existing surfaces. Use the design's colours and fine surface ornament, fitted to the guide's geometry rather than importing any reference geometry.\nLIGHTING: texture source ALBEDO. Flat even shadowless light from the viewer. Remove the grey render's ambient occlusion and shading. No cast shadows, no AO/cavity darkening, no strong specular highlights, no reflections, no directional shading, no rim light. Depict glossy resin through its surface material identity and colour only, without baked shine. Orange sacs and seams and cyan-blue lights have their glowing colour only, with NO bloom, NO halo and NO light spill. No background, floor, ground, scenery, text, labels, checkerboard or watermark.\nReturn only the painted TOP image, native 1024 x 1024 RGBA with true alpha transparency. The guide's exact geometry has priority over richer decoration.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16892-24f9-7053-a52d-aa01f97cfebc/exec-9dd2789d-95e1-4e2c-aaea-72f951bf9909.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the flatter correction. Top view is recognisable, but native return is 1254 x 1254 with changed geometry and prominent baked highlights/cavity shading.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "d8d2214f82aad04f3d1fef6e85cfe02ab58296f65e49b8948b919709ed090051"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output_sha256": "6f29aa3076e511f24c3af1e5878a5e4fc8abdb89153dd9182bbd7cfd48e1332e",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1230,
+          1254
+        ],
+        "opaque_bbox_threshold_127": [
+          81,
+          80,
+          1174,
+          1173
+        ],
+        "guide_alpha_bbox": [
+          66,
+          66,
+          958,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "all_brief_checks_pass": false,
+        "visual": {
+          "materials_and_colours": "Requested palette present; ceramic extends across too much of the base.",
+          "flat_even_light": "fail: glossy highlights, cavity shading and bright-centred orbs.",
+          "silhouette_identical": "fail: resolution differs and outline/notch edges drift."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "CORRECTIVE REGENERATION \u2014 TOP ALBEDO VIEW.\nReturn exactly 1024 x 1024 pixels, a PNG with true transparent background. The original edit target is 1024 x 1024. The previous 1254 x 1254 return was incorrect. Do not enlarge, shrink, crop, reframe or rescale the original target or model.\n\nIMAGE 1 (guide_top.png) is the edit target. IMAGE 2 (design_reference.png) is material/colour reference only. IMAGE 3 (concept_crop.png) is supporting surface reference only.\nPaint the exact grey pixels of image 1, while retaining its alpha mask and all geometry. This is a straight-down orthographic TOP view of a model, not a new concept and not a front-facing image. All guide edges and object positions are immutable. Preserve the guide's exact silhouette at x=66..957 and y=66..957; all jagged base edges, all transparent holes and notches including the irregular lower central notch, all crossing rods, central stacked forms, ivory blades, dishes and existing circular nodes stay at their original coordinates. Do not fill transparent holes, cut new holes, add additional roots, extend gold trim outside edges or turn the underlying geometry into an ornate lattice. Use the guide's existing ribs and surfaces. Decorations are colour markings on those exact surfaces.\n\nPaint the reference's material colours: existing roots and vertebrae deep black-violet/plum resin; orange sac/window colour in the existing areas between ribs; existing ivory tusks and white ceramic dishes with thin gold Ancient seam decoration; existing light orbs saturated cyan blue. The broad root base must read predominantly black-violet resin, with orange window/sac markings. White ceramic belongs to the existing blades/dishes/panels, not newly invented panels. All top-down visible surfaces retain image 1's original shape.\n\nCORRECT THE LIGHTING: this must be a flat unlit ALBEDO TEXTURE SOURCE. Paint uniformly lit surface colour, without directional shading. No grey-guide shading retained, NO ambient occlusion, NO cavity shadows, NO cast shadows, NO glossy/specular shine, NO reflections, NO rim lights, NO white glints. Gold is flat ochre-gold colour with fine linework, not shiny metallic highlights. Resin is flat deep violet with organic colour detail, not bright glossy ridges. Ceramic is uniform warm ivory. Blue and orange emissive details are painted bright local colours only; no radiating halos, bloom, gradients suggesting light cast on nearby areas, or reflected orange. Reference lighting is not to be copied.\nNo scenery, floor, background, checkerboard, text, watermark. Only one painted TOP view in a native 1024 x 1024 RGBA image. Exact guide alignment and shadowless material colour take precedence over decorative detail.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16892-24f9-7053-a52d-aa01f97cfebc/exec-73d2b521-3c5a-4bd5-83f3-72ce9406ab8f.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the flatter of the two top returns, with flatter cyan lights and less shine. Still fails exact native size and guide geometry; residual shading and overly extensive ceramic regions remain. Corrective regeneration allowance exhausted.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "d8d2214f82aad04f3d1fef6e85cfe02ab58296f65e49b8948b919709ed090051"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output_sha256": "17d7bb9a081e7752322023560602cdd948ac96c5fc4602fc7da9e674014ab7e7",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          13,
+          1236,
+          1254
+        ],
+        "opaque_bbox_threshold_127": [
+          79,
+          80,
+          1175,
+          1173
+        ],
+        "guide_alpha_bbox": [
+          66,
+          66,
+          958,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_output": true,
+        "all_brief_checks_pass": false,
+        "visual": {
+          "materials_and_colours": "Requested palette present; ceramic still occupies too many root-base surfaces.",
+          "flat_even_light": "partial: flatter blue lights and ceramic, but residual cavity/facet shading remains.",
+          "silhouette_identical": "fail: resolution differs and outline/notch edges drift."
+        }
+      }
+    }
+  ],
+  "postprocessing": "None. Selected and rejected PNGs copied byte-for-byte from built-in tool outputs; no resizing, cropping, recolouring, alpha replacement or compositing.",
+  "builds_run": false
+}

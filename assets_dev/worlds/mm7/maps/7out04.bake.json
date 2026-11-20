@@ -2,6 +2,14 @@
   "asset_helper_sha256": "527cd61ed843013076fe65f35390d655364720e82c7376a2fca8971939939c81",
   "backend": "5.3.0",
   "geometry_helper_sha256": "791c7cc5333fc0299872f71ce003e8d6114656580e3ed79c2885d78a3b6472e3",
+  "nonvisual_source_revalidation": {
+    "after_sha256": "7cc1959bb2939e64f957ac6900e75fecf035f2059cfbfa75376cfd83286896eb",
+    "before_revision": "7429884d0",
+    "before_sha256": "862cf154adaa4d65a189f631c1ec63ea807f651cb696f0609d376161b8c986af",
+    "dependency": "worlds/mm7/maps/7out04.scene.yml",
+    "reason": "Only initial actor hostility fields changed; all visual scene data is identical.",
+    "retained_lighting_sha256": "eeba364b7dba7d1f8e9978e05e8b4b40da5fb8fa0e7642b6f49732591327da96"
+  },
   "producer_sha256": "7f3a809ab0611285dd1d6a1b3b72325a93e807ef07887fa1872903c8469e5aa8",
   "profile": {
     "azimuth": 315,

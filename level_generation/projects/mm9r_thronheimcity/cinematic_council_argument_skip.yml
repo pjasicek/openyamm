@@ -1,0 +1,26 @@
+# The war council's cinematic skipped at 3 s: its remaining steps still run (:War's keys, the hall restored), and
+# Yrsa appears 7 s after. README "Cinematics".
+id: mm9r.thronheimcity.cinematic_council_argument_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: thronheimcity.blv}
+- set_pose: {map: thronheimcity.blv, x: -11264, y: 15700, z: 3278, yaw: 1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90090}
+- setup_shortcut: {kind: set_qbit, id: 90091}
+- execute_event: {id: 232}
+- advance_runtime: {seconds: 3.0}
+- console: {line: cinematic list, expect_contains: playing council_argument}
+- assert: {qbit_clear: [90040]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- assert: {qbit_set: [90184, 90040, 90085, 90093]}
+- assert: {actor_visible: {actor_index: 50, hidden: true}}   # Kira's stage actor
+- assert: {actor_visible: {actor_index: 41, hidden: false}}
+- assert: {actor_visible: {actor_index: 42, hidden: true}}
+- advance_runtime: {seconds: 8}
+- assert: {actor_visible: {actor_index: 42, hidden: false}}
+- note: {text: "the door again: the council does not start twice"}
+- execute_event: {id: 232}
+- advance_runtime: {seconds: 1.0}
+- assert: {qbit_set: [90040]}

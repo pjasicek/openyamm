@@ -1,0 +1,200 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_frosgardcity/review/v02_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_docks_start
+  position:
+  - 4260
+  - -10240
+  - -81
+  yaw: 1.5708
+  pitch: 0.0
+- name: s02_pier_harbour_west
+  position:
+  - 4260
+  - -8960
+  - -81
+  yaw: 3.1416
+  pitch: 0.0
+- name: s03_viking_ship
+  position:
+  - 4352
+  - -9856
+  - -81
+  yaw: -0.4314
+  pitch: -0.0873
+- name: s04_harbour_from_shore
+  position:
+  - 768
+  - -5120
+  - 1
+  yaw: -0.9828
+  pitch: -0.0873
+- name: s05_north_gate_start
+  position:
+  - 10486
+  - 6912
+  - -4
+  yaw: -1.6506
+  pitch: 0.0
+- name: s06_north_gate_road
+  position:
+  - 11776
+  - 7680
+  - -4
+  yaw: -1.9684
+  pitch: 0.0
+- name: s07_town_portal_square
+  position:
+  - 12032
+  - 3200
+  - 423
+  yaw: -2.6387
+  pitch: 0.0
+- name: s08_well_square
+  position:
+  - 1152
+  - -819
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: s09_maypole
+  position:
+  - 3200
+  - -1664
+  - 1
+  yaw: 0.3218
+  pitch: 0.0
+- name: s10_temple_front
+  position:
+  - 4260
+  - 640
+  - 1
+  yaw: 1.5708
+  pitch: 0.1396
+- name: s11_hall_front
+  position:
+  - -896
+  - -1638
+  - 1
+  yaw: 3.1416
+  pitch: 0.0873
+- name: s12_west_street
+  position:
+  - -3072
+  - -256
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: s13_south_street
+  position:
+  - 2048
+  - -5376
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: s14_east_street
+  position:
+  - 13568
+  - -2816
+  - 1
+  yaw: 2.7092
+  pitch: 0.0
+- name: s15_north_street
+  position:
+  - 3328
+  - 4864
+  - -4
+  yaw: 0.0
+  pitch: 0.0
+- name: s16_cannon_hill
+  position:
+  - 14848
+  - -1792
+  - 2
+  yaw: -0.3218
+  pitch: 0.0
+- name: s17_town_from_pier
+  position:
+  - 4260
+  - -7680
+  - -81
+  yaw: 1.5708
+  pitch: 0.1745
+- name: s18_bank_hatch
+  position:
+  - 2703
+  - 4992
+  - -4
+  yaw: 1.5708
+  pitch: 0.0524
+- name: i01_tryggva_hall
+  position:
+  - -1946
+  - -1638
+  - 47
+  yaw: 3.1135
+  pitch: 0.0
+- name: i02_tavern
+  position:
+  - 1618
+  - -2918
+  - 45
+  yaw: -2.2688
+  pitch: 0.0
+- name: i03_temple
+  position:
+  - 4260
+  - 1946
+  - 47
+  yaw: 1.5708
+  pitch: 0.0
+- name: i04_training_hall
+  position:
+  - 8448
+  - 2130
+  - 45
+  yaw: 0.1919
+  pitch: 0.0
+- name: i05_shop_203
+  position:
+  - 6963
+  - 164
+  - 45
+  yaw: 3.1416
+  pitch: 0.0
+- name: i06_weapons_armour
+  position:
+  - 8520
+  - -2253
+  - 45
+  yaw: -1.5708
+  pitch: 0.0
+- name: i07_magic_shop
+  position:
+  - 12288
+  - 3712
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: i08_house_door7
+  position:
+  - -983
+  - 3174
+  - 24
+  yaw: 0.9029
+  pitch: 0.0
+- name: i09_house_door13
+  position:
+  - 9994
+  - -5018
+  - 4
+  yaw: 1.7313
+  pitch: 0.0
+- name: i10_house_rdoor0
+  position:
+  - -492
+  - -5990
+  - 4
+  yaw: 1.9937
+  pitch: 0.0

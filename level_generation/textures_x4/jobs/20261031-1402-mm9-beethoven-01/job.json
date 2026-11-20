@@ -1,0 +1,469 @@
+{
+ "id": "20261031-1402-mm9-beethoven-01",
+ "world": "mm9",
+ "maps": [
+  "beethoven.blv"
+ ],
+ "created": "2026-10-31T13:02:09+00:00",
+ "textures": [
+  "mm9/granv1lmbw",
+  "mm9/prisifn2ad",
+  "mm9/grilf0rntm",
+  "mm9/prisfq8r3p",
+  "mm9/prisf1bw5x",
+  "mm9/sewe0bwg93",
+  "mm9/prisiy8ntp",
+  "mm9/plasqzmtu9",
+  "mm9/floox94cuw",
+  "mm9/beamtbbuah",
+  "mm9/web32n735s",
+  "mm9/sturzzhdpq",
+  "mm9/floos7jioi",
+  "mm9/stonxcckdv",
+  "mm9/clif0ebr22",
+  "mm9/darkjibm20",
+  "mm9/sewehxrts0",
+  "mm9/marb94orui",
+  "mm9/ironn7dmbs",
+  "mm9/drag1k6hyx",
+  "mm9/sewex32pna",
+  "mm9/abndkw52jl",
+  "mm9/skulbmy5a4",
+  "mm9/sturhef8ux"
+ ],
+ "requests": {
+  "mm9/granv1lmbw": {
+   "name": "granv1lmbw",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey granite with fine speckled black and grey crystalline grain and faint lighter streaks, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisifn2ad": {
+   "name": "prisifn2ad",
+   "versions": [
+    1
+   ],
+   "material": "a dungeon wall of dark grey-brown rough stone blocks in regular courses with mossy greenish damp stains and thin dark mortar, a row of larger greenish base stones along the bottom, and at the bottom centre a round dark drain hole in a stone ring",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pris2g3jfp"
+     ],
+     "fraction": 0.777
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/grilf0rntm": {
+   "name": "grilf0rntm",
+   "versions": [
+    1
+   ],
+   "material": "a square lattice grate of rusty orange-brown iron bars crossing in a regular grid on black, with a ragged broken hole in the middle where several bars are bent and snapped",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/gril2fj7qi"
+     ],
+     "fraction": 0.713
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisfq8r3p": {
+   "name": "prisfq8r3p",
+   "versions": [
+    1
+   ],
+   "material": "a dungeon wall of dark grey-brown rough stone blocks in regular courses with mossy greenish damp stains and thin dark mortar, a row of larger greenish base stones along the bottom, and at the bottom centre a round iron drain grate with vertical bars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pris2g3jfp"
+     ],
+     "fraction": 0.707
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisf1bw5x": {
+   "name": "prisf1bw5x",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a dungeon wall of dark grey-brown rough stone blocks in regular courses with mossy greenish damp stains and thin dark mortar, a row of larger greenish base stones along the bottom, with crude dark runic letters scratched into the upper blocks",
+   "notes": {
+    "2": "keep the large dark carved runes/glyphs cut across the stones, in two columns, exactly where the native has them; they are the point of this texture"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/prisfq8r3p",
+      "mm9/prisifn2ad",
+      "mm9/pris2g3jfp"
+     ],
+     "fraction": 0.615
+    },
+    "2": {
+     "sources": [
+      "mm9/prisfq8r3p",
+      "mm9/prisifn2ad",
+      "mm9/pris2g3jfp"
+     ],
+     "fraction": 0.615
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/sewe0bwg93": {
+   "name": "sewe0bwg93",
+   "versions": [
+    1
+   ],
+   "material": "wet dark olive-green sewer stone wall fading into bright mossy green slime at the bottom, damp streaks and grime",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/prisiy8ntp": {
+   "name": "prisiy8ntp",
+   "versions": [
+    1
+   ],
+   "material": "a dungeon wall of dark grey-brown rough stone blocks in regular courses with mossy greenish damp stains and thin dark mortar, a row of larger greenish base stones along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pris2g3jfp",
+      "mm9/prisf1bw5x"
+     ],
+     "fraction": 0.362
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/plasqzmtu9": {
+   "name": "plasqzmtu9",
+   "versions": [
+    1
+   ],
+   "material": "warm orange-peach weathered plaster wall with soft mottled stains and fine cracks, and along the top a band of faded painted ochre floral ornament",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/floox94cuw": {
+   "name": "floox94cuw",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey cut stone floor slabs of mixed rectangular sizes in a staggered pattern with chiselled surfaces, dark narrow joints and chipped edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/beamtbbuah": {
+   "name": "beamtbbuah",
+   "versions": [
+    1
+   ],
+   "material": "a dark weathered timber ceiling: vertical heavy wooden beams with deep cracked grain alternating with recessed panels of dark rough stone bricks between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/web32n735s": {
+   "name": "web32n735s",
+   "versions": [
+    1
+   ],
+   "material": "tangled white spider web strands crossing in a dense irregular net, on plain black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturzzhdpq": {
+   "name": "sturzzhdpq",
+   "versions": [
+    1
+   ],
+   "material": "a sewer wall of mossy olive-green and grey stone bricks in running-bond courses, rough damp faces with dark green slime in the mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/floos7jioi": {
+   "name": "floos7jioi",
+   "versions": [
+    1
+   ],
+   "material": "pale sandy-ochre cracked flagstones of irregular rectangular shapes with dark thin joints, worn dusty surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonxcckdv": {
+   "name": "stonxcckdv",
+   "versions": [
+    1
+   ],
+   "material": "a weathered olive-grey stone relief wall carved with skeletal remains, bones, skulls and lizard-like creatures in low relief, mossy greenish patina and grime",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/clif0ebr22": {
+   "name": "clif0ebr22",
+   "versions": [
+    1
+   ],
+   "material": "a rough dark cliff face of layered brown and grey rock strata with deep cracks and crevices, earthy dark tones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/darkjibm20": {
+   "name": "darkjibm20",
+   "versions": [
+    1
+   ],
+   "material": "a dark ceiling panel of slate-blue stone carved with a symmetric star and diamond lattice of raised bronze-gold ribs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sewehxrts0": {
+   "name": "sewehxrts0",
+   "versions": [
+    1
+   ],
+   "material": "a sewer wall: rough dark green-grey stone blocks with mossy slime above, a protruding rounded mossy stone ledge band across the middle, darker damp stone below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/marb94orui": {
+   "name": "marb94orui",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-black marble with fine white and pale blue veins in a crackled network, polished",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ironn7dmbs": {
+   "name": "ironn7dmbs",
+   "versions": [
+    1
+   ],
+   "material": "dark rusty iron plate with mottled blackened brown corrosion, fine pitting and orange rust specks, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/drag1k6hyx": {
+   "name": "drag1k6hyx",
+   "versions": [
+    1
+   ],
+   "material": "a wall of large grey-green rough stone blocks in regular running-bond courses with dark mortar, damp weathered faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sewex32pna": {
+   "name": "sewex32pna",
+   "versions": [
+    1
+   ],
+   "material": "a slate blue-grey stone sewer wall with mottled damp stains and fine cracks, and a darker grimy band along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abndkw52jl": {
+   "name": "abndkw52jl",
+   "versions": [
+    1
+   ],
+   "material": "a heavy wooden door of warm orange-brown vertical planks with an oval carved emblem in the centre: dark red and orange ornate scrollwork and two crossed grey iron straps, black iron strap hinges with arrow points on both sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/skulbmy5a4": {
+   "name": "skulbmy5a4",
+   "versions": [
+    1
+   ],
+   "material": "a wall of piled human skulls and bones stacked tightly together, aged yellow-grey bone with dark eye sockets and shadowed gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturhef8ux": {
+   "name": "sturhef8ux",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-blue carved stone gable: a triangular pediment with a raised moulded border and a small carved crest in the centre, on smooth grey stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

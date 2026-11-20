@@ -1,0 +1,14 @@
+[
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. Paint a FLAT DIFFUSE ALBEDO atlas for this specific Wolf Statuette. Image 1 is the exact six-view mesh guide and edit target, 1536x1024, THREE columns / TWO rows, equal square cells. Preserve ALL outlines, alpha, poses, positions, scale, directions and interior gaps EXACTLY. Do not rotate or reinterpret views: the guide's first view may be lateral. Upper cells FRONT, BACK, LEFT; lower cells RIGHT, TOP, BOTTOM. Image 2 defines only the gold sculpture's fine appearance. Golden wolf statuette standing alert on all four legs, tall pointed ears, long narrow muzzle facing left, straight front legs, thick hindquarters and bushy tail sweeping to the right. No plinth. Preserve the standing pose in the icon. Paint the sculpture in the guide as uniformly matte antique ochre GOLD BASE COLOUR (#bd943f), fine muted patina and subtle engraved anatomical detail consistent across all views. worn yellow gold. Remove lighting from the references: NO directional shading, reflections, specular, hot highlights, dark shadows, ambient occlusion, gradients, rim light, glow or halos. This is unlit material colour for a game renderer, not a shaded photograph. Keep the exact shapes from Image 1, adding detail only by painting within them. All six views remain in their original grid and exact framing. True transparent empty background, no floor, text, labels, frame, pedestal or extra ornaments. Return one 3:2 atlas.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-591f0824-6d57-4aee-84b2-d42b046c7ab9.png",
+    "raw_sha256": "73328275dcdb7fbcc19154ecc211ee98bff06337967c9d2262e1a7ca0ae4f0d4",
+    "selected_atlas_sha256": "73328275dcdb7fbcc19154ecc211ee98bff06337967c9d2262e1a7ca0ae4f0d4",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_statuet3/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "e8b7f803e1e0a18f5089238d27bdf91708d4db56cdd4b2bec8d1aded11f499e9",
+    "exact_guide_input": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/codex_tex/sculpture_statuet3/paint_input_atlas.png",
+    "exact_guide_input_sha256": "b2e9268ac7ad92394f136a4c84521c1eb367c288e18ed3e61234153ff2f2ffc7"
+  }
+]

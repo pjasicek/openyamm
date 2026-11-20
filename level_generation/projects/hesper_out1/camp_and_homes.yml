@@ -1,0 +1,102 @@
+# S1 and the Ashrunner camp, the scouts' and Kesh's shops, Landfall's home residents and street people (the
+# integrator's follow-ups 24, 36, 39, 41; README "The camp, the shops and the homes"). Run from
+# output/hesper_stage/scenario_run (its settings.ini mounts the stage):
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario ../../../level_generation/projects/hesper_out1/camp_and_homes.yml
+# Door poses: out1_build.json `door_poses` (25 Kesh's stall, 26 the stolen crawler's console, 65 Venn's home, 68 the
+# first cliff home). Checked in the game instead (headless cannot): the camp folk hidden before S1 and shown after,
+# the crawlers' swap, the statue with the Founder's Head and the tablets on their plinths.
+id: hesper.out1.camp_and_homes
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+- assert: {map: hes_out1.odm}
+- note: {text: "The camp's edge (event 27, a ring of pressure plates): walking in from the south-east, the sentry's
+    shout gives S1 (100221)."}
+- movement_segment:
+    input: forward
+    duration_ms: 4000
+    delta_game_minutes: 0.0
+    start: {x: -11800, y: 6270, z: 1060, map: hes_out1.odm, yaw: 2.4026, pitch: 0}
+    expect_stop: {x: -13000, y: 7370, z: 1088, map: hes_out1.odm, yaw: 2.4026, pitch: 0}
+    tolerance_xy: 1500
+    tolerance_z: 200
+    loose_tolerance: true
+- assert:
+    qbit_set: [100221]
+    qbit_clear: [100101]
+- press_action: {action: cancel_dialog}       # the shout's message
+- note: {text: "The stolen crawler's console in the scrapyard (event 26): S1 done, the given bit cleared."}
+- set_pose: {map: hes_out1.odm, x: 13276, y: 3130, z: 992, yaw: 0.0, pitch: 0}
+- press_interact: {}
+- assert:
+    qbit_set: [100101]
+    qbit_clear: [100221]
+- press_action: {action: cancel_dialog}       # the crawler's message
+- note: {text: "The empty bay (event 28, the slab the crawler stood on): once she has gone, its click is P4's track marks
+    (a status line; headless checks the target)."}
+- set_pose: {map: hes_out1.odm, x: 13276, y: 3130, z: 992, yaw: 0.0, pitch: -0.5}
+- press_interact:
+    expect: {kind: event_target, name: "The crawler bay"}
+- note: {text: "Garrow: his reward (an Engram, 100113) and M12 from him (100212)."}
+- speak_npc: {source_id: 9507}
+- select_topic: {kind: npc_topic, action_id: 9706}
+- assert:
+    qbit_set: [100113]
+- select_topic: {kind: npc_topic, action_id: 9707}
+- select_topic: {kind: npc_topic, action_id: 9705}
+- assert:
+    qbit_set: [100212]
+    qbit_clear: [100012]
+- press_action: {action: cancel_dialog}
+- note: {text: "Kesh's stall (event 25, vendor 9458), open from S1, with Kesh in it."}
+- set_pose: {map: hes_out1.odm, x: -12913, y: 10020, z: 1088, yaw: 0.6947, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9458, action_id: 9508}
+- select_topic: {kind: npc_topic, source_id: 9508, action_id: 9715}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- note: {text: "The camp folk talk: Teg, Old Ketter, Juna; Dace before M12."}
+- speak_npc: {source_id: 9580}
+- select_topic: {kind: npc_topic, action_id: 9854}
+- press_action: {action: cancel_dialog}
+- speak_npc: {source_id: 9581}
+- select_topic: {kind: npc_topic, action_id: 9855}
+- press_action: {action: cancel_dialog}
+- speak_npc: {source_id: 9582}
+- select_topic: {kind: npc_topic, action_id: 9856}
+- press_action: {action: cancel_dialog}
+- speak_npc: {source_id: 9224}
+- select_topic: {kind: npc_topic, action_id: 9756}
+- press_action: {action: cancel_dialog}
+- note: {text: "The Re-entry Emitter fitted (D0, 100043): Garrow closes M12 (100012), and Dace teaches (topic 9224)."}
+- setup_shortcut: {kind: set_qbit, id: 100043, reason: the Re-entry Emitter fitted in D0}
+- speak_npc: {source_id: 9507}
+- select_topic: {kind: npc_topic, action_id: 9705}
+- assert:
+    qbit_set: [100012]
+    qbit_clear: [100212]
+- press_action: {action: cancel_dialog}
+- speak_npc: {source_id: 9224}
+- select_topic: {kind: npc_topic, action_id: 9224}     # the mastery offer (the party knows no Shield Tech)
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- note: {text: "Venn's home is her shop (event 65, vendor 9460), Venn in it."}
+- set_pose: {map: hes_out1.odm, x: -19588, y: -13604, z: 1472, yaw: 1.5708, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9460, action_id: 9513}
+- select_topic: {kind: npc_topic, source_id: 9513, action_id: 9736}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- note: {text: "The first cliff home (event 68, house 9461): Brin and his opening news (9771, until M2)."}
+- set_pose: {map: hes_out1.odm, x: -20710, y: -13700, z: 1472, yaw: -3.1416, pitch: 0}
+- press_interact: {}
+- assert: {dialog: {source_id: 9523, house_dialog: false}}     # a home with one resident opens on him, as in MM
+- select_topic: {kind: npc_topic, source_id: 9523, action_id: 9771}
+- press_action: {action: cancel_dialog}
+- note: {text: "A street person: Lune (villager actor 20) after M2 tells 9773; her later item (9785) waits for Node East."}
+- setup_shortcut: {kind: set_qbit, id: 100002, reason: M2 done (D1's Drone Control)}
+- speak_npc: {source_id: 9533}
+- select_topic: {kind: npc_topic, action_id: 9773}
+- press_action: {action: cancel_dialog}

@@ -1,0 +1,297 @@
+{
+  "equipment_6boots1": {
+    "title": "Old Leather Boots",
+    "icons": [
+      "6boots1"
+    ],
+    "master_icon": "6boots1",
+    "identity": "Pair of warm brown ankle-high leather boots, rounded toes, tall open flared cuffs, side straps and brass buckles; soft leather wrinkles.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_6boots1",
+    "route": "codex",
+    "tris": 3200,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 54.5,
+    "material_masks": true,
+    "family": "boots",
+    "unseen_material": "leather"
+  },
+  "equipment_6boots5": {
+    "title": "Ultimate Boots",
+    "icons": [
+      "6boots5"
+    ],
+    "master_icon": "6boots5",
+    "identity": "Pair of oxblood dragonhide boots with molded amber horn reinforcement strips and bird-like cuff ornaments, steel rivets and silver square ankle buckles. Keep source icon colours; only the actual rivets/buckles are metal.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_6boots5",
+    "route": "codex",
+    "tris": 3200,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 51.3,
+    "material_masks": true,
+    "family": "boots",
+    "unseen_material": "leather",
+    "mask_notes": "Dragonhide body, soles, straps and lining GREEN. Molded amber horn reinforcement strips/cuff ornaments YELLOW. Steel rivets and silver buckle frames RED; leather inside buckle openings GREEN."
+  },
+  "equipment_6boots6": {
+    "title": "Lucius",
+    "icons": [
+      "6boots6"
+    ],
+    "master_icon": "6boots6",
+    "identity": "Pair of dark oxblood leather boots with pointed folded cuffs, gold bird motifs, studded ankle panels and broad silver square buckles. This is a genuine geometry variant; match the attached 6boots6 icon colours and ornament instead of copying the master variant colours.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_6boots5",
+    "route": "codex",
+    "tris": 3200,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 51.3,
+    "material_masks": true,
+    "family": "boots",
+    "unseen_material": "leather"
+  },
+  "equipment_6boots7": {
+    "title": "Hermes",
+    "icons": [
+      "6boots7"
+    ],
+    "master_icon": "6boots7",
+    "identity": "Pair of dark oxblood leather boots with pointed folded cuffs, gold bird motifs, studded ankle panels and broad silver square buckles. This is a genuine geometry variant; match the attached 6boots7 icon colours and ornament instead of copying the master variant colours.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_6boots5",
+    "route": "codex",
+    "tris": 3200,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 51.3,
+    "material_masks": true,
+    "family": "boots",
+    "unseen_material": "leather"
+  },
+  "equipment_7item348": {
+    "title": "Moon Cloak",
+    "icons": [
+      "7item348"
+    ],
+    "master_icon": "7item348",
+    "identity": "Compact folded rich blue cloak, gold stars and a gold crescent-moon brooch at its upper right.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_7item348",
+    "route": "codex",
+    "tris": 1800,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 79.4,
+    "material_masks": true,
+    "family": "cloaks",
+    "unseen_material": "cloth"
+  },
+  "equipment_item124": {
+    "title": "Alvar Cloak",
+    "icons": [
+      "item124"
+    ],
+    "master_icon": "item124",
+    "identity": "Low soft folded charcoal cloak, thick rounded folds, diagonal flap and central gold wheel-shaped brooch.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_item124",
+    "route": "codex",
+    "tris": 1800,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 89.5,
+    "material_masks": true,
+    "family": "cloaks",
+    "unseen_material": "leather",
+    "material_classes": [
+      "metal",
+      "leather"
+    ]
+  },
+  "equipment_item125": {
+    "title": "Necromancer Cloak",
+    "icons": [
+      "item125"
+    ],
+    "master_icon": "item125",
+    "identity": "Low folded black cloak, rectangular thick stack with silver rectangular chain fastening and two red-jewelled square fittings.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_item125",
+    "route": "codex",
+    "tris": 1800,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 89.5,
+    "material_masks": true,
+    "family": "cloaks",
+    "unseen_material": "leather",
+    "material_classes": [
+      "metal",
+      "leather",
+      "gem"
+    ],
+    "gems_in_metal": true
+  },
+  "equipment_6crown1": {
+    "title": "Wreath Crown",
+    "icons": [
+      "6crown1"
+    ],
+    "master_icon": "6crown1",
+    "identity": "Open autumn-leaf wreath crown, irregular ring of gold and russet leaves with tiny purple accent buds, real open centre and leaf thickness.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_6crown1",
+    "route": "codex",
+    "tris": 1600,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 41.4,
+    "material_masks": true,
+    "family": "helms",
+    "unseen_material": "horn",
+    "mask_notes": "Gold and russet METAL leaf ornaments RED; tiny purple accent buds GEM BLACK.",
+    "surface_material": "horn",
+    "material_note": "Autumn foliage/woody wreath and berries: dielectric, not a solid metal crown."
+  },
+  "equipment_6hat1": {
+    "title": "Cloth Hat",
+    "icons": [
+      "6hat1"
+    ],
+    "master_icon": "6hat1",
+    "identity": "Soft low green cloth cap with long pointed left tip, folded brim and one small brown feather at the back right.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_6hat1",
+    "route": "codex",
+    "tris": 1600,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 53.6,
+    "material_masks": true,
+    "family": "helms",
+    "unseen_material": "cloth",
+    "surface_material": "cloth"
+  },
+  "equipment_6hat3": {
+    "title": "Wizard Cap",
+    "icons": [
+      "6hat3"
+    ],
+    "master_icon": "6hat3",
+    "identity": "Tall pointed purple wizard hat with broad uneven brim, pale silver band and ornate silver-and-gold fleur-de-lis front clasp.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_6hat3",
+    "route": "codex",
+    "tris": 1600,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 53.1,
+    "material_masks": true,
+    "family": "helms",
+    "unseen_material": "cloth",
+    "material_classes": [
+      "metal",
+      "cloth"
+    ]
+  },
+  "equipment_7item095": {
+    "title": "Traveller's Hat",
+    "icons": [
+      "7item095"
+    ],
+    "master_icon": "7item095",
+    "identity": "Low soft tan traveller cap with crumpled sloping crown, curved folded brim and small round top button.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_7item095",
+    "route": "codex",
+    "tris": 1600,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 52.2,
+    "material_masks": true,
+    "family": "helms",
+    "unseen_material": "cloth",
+    "surface_material": "cloth"
+  },
+  "equipment_7item096": {
+    "title": "Fancy Hat",
+    "icons": [
+      "7item096"
+    ],
+    "master_icon": "7item096",
+    "identity": "Soft squat tan-gold velvet cap with padded cylindrical crown, thick rounded brim and small front green oval gem.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_7item096",
+    "route": "codex",
+    "tris": 1600,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 37.8,
+    "material_masks": true,
+    "family": "helms",
+    "unseen_material": "cloth"
+  },
+  "equipment_7item344": {
+    "title": "Shadow's Mask",
+    "icons": [
+      "7item344"
+    ],
+    "master_icon": "7item344",
+    "identity": "Black soft leather eye mask with two moulded eye cups, forehead seam, long fabric ties knotted at the right; genuine mask concavity, no face.",
+    "materials": "Use separately painted material-class mask views: red=exposed metal, green=leather, blue=cloth or fur, yellow=horn or wood; black=gem. Metal is metallic 1; every other class metallic 0. Paint all non-metal parts independently; no baked light, AO or highlights.",
+    "geometry_design": "equipment_7item344",
+    "route": "codex",
+    "tris": 2800,
+    "rough": [
+      0.65,
+      0.4
+    ],
+    "normal": 1.0,
+    "length": 44.1,
+    "material_masks": true,
+    "family": "helms",
+    "unseen_material": "leather",
+    "surface_material": "leather",
+    "material_note": "Uniform black leather mask, strap and ties: one dielectric class, no mask views."
+  }
+}

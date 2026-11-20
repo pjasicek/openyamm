@@ -1,0 +1,24 @@
+{
+  "land": {
+    "grass": {"background": "dirt", "foreground": "grass", "prefix": "grdrt"},
+    "volcano": {"background": "dirt", "foreground": "volcano", "prefix": "vol"},
+    "rock": {"background": "dirt", "foreground": "rock", "prefix": "rk"},
+    "sandstone": {"background": "dirt", "foreground": "sandstone", "prefix": "rc"},
+    "red_dirt": {"background": "dirt", "foreground": "red_dirt", "prefix": "rd"},
+    "plains_sand": {"background": "plains", "foreground": "plains_sand", "prefix": "plsa"},
+    "grey_stone": {"background": "grey_dirt", "foreground": "grey_stone", "prefix": "gs"}
+  },
+  "liquid_overlays": {
+    "shore_dirt": {"land": "dirt", "liquid": "water", "prefix": "wtrdr"},
+    "shore_grey": {"land": "grey_dirt", "liquid": "water", "prefix": "wa"},
+    "lava_dirt": {"land": "dirt", "liquid": "lava", "prefix": "lvdr"},
+    "lava_plains": {"land": "plains", "liquid": "lava", "prefix": "lv"},
+    "tar_grey": {"land": "grey_dirt", "liquid": "tar", "prefix": "tr"}
+  },
+  "roads": {
+    "roads_dirt": {"land": "dirt", "prefix": "drsr", "type": "continuous_cobbles"},
+    "roads_grey": {"land": "grey_dirt", "prefix": "gdrd", "type": "continuous_cobbles"},
+    "roads_plains": {"land": "plains", "prefix": "plrd", "type": "separate_native_stepping_stones"}
+  },
+  "status": "Bindings inferred from native sheets and descriptors; verify per-tile recovery before building transitions"
+}

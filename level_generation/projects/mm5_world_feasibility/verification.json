@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": {
+    "logicalMaps": 129,
+    "uniquelyOwnedBlocks": 183,
+    "completeRegionalLayers": 2,
+    "assembledMapPlans": 129,
+    "matchingSourceHashes": 446,
+    "csvInventories": 5,
+    "localDocumentLinks": 148,
+    "atlasInteractionChecks": {
+      "maps": 112,
+      "regions": 12,
+      "layerButtons": 48
+    }
+  },
+  "limitations": [
+    "Static source and UI checks; conditional event reachability and the proposed runtime layouts are not tested."
+  ]
+}

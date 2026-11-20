@@ -1,0 +1,494 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None. Generated returns are copied byte-for-byte; no resizing, masking or compositing.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic game-item albedo texture projection.\nEdit only the opaque surface pixels of input image 1, the named geometry guide. Input image 2 is design_reference.png, the approved colour/material/design authority ONLY; do not copy its camera, silhouette, framing or lighting.\nOutput a single 1024 x 1024 PNG with genuine transparent background. Preserve the guide's complete alpha silhouette, every part edge, orientation, exact size and position on the canvas. Keep the large transparent margins; do not enlarge, recenter, rotate, crop, change the camera or create a perspective view. Never add anything outside the guide silhouette.\nObject is a Noble's duelling knife. Transfer the approved design's warm white ivory ceramic with delicate beige wear and hairline markings, black-violet resin ribs, restrained brushed-gold trim, orange crystal insets and thin blue-white luminous cutting edge onto the existing parts as visible from this exact view. Surfaces unseen in the design continue these materials plausibly. Preserve all part boundaries and ridges from the guide. Fine engraved lines and seams only where appropriate; no letters, text or symbols.\nTEXTURE SOURCE / ALBEDO: flat, even, shadowless illumination from the viewer. Remove the gray guide's lighting/shadows. No cast shadows, no ambient-occlusion darkening, no directional gradients, no hot specular highlights or reflections, no rim lighting. Gold is ochre-gold base colour with at most a faint sheen. Orange/blue glowing parts are solid bright colour, with no bloom, halo or light spill outside the object. No background, floor, checkerboard pattern, scenery, labels or watermark.\n\nFRONT VIEW: image 1 is guide_front.png. This is an extremely foreshortened END-ON view, not the broad side of the knife. The entire visible object is the little horizontally pointed silhouette occupying x=404..619 and y=478..545 of the 1024 square. Keep its apex near x=490,y=478, its existing central surfaces and its lower point. The broad white blade seen in the design is foreshortened. Paint only this small end-on silhouette using plausible ceramic/resin/gold surface continuation, with only the insets visible at this angle. Do not reveal the full length of the knife.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_front.png",
+          "sha256": "71540990cf64bb36349cb6003c02ff07fbb4be7c0565c1317e65dc9ab5d5e6fe"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eaa-bcec-7681-ad04-d52fc43de6ef/exec-b7ffd90e-ec21-4c7d-94a8-ef686b2c2fc0.png",
+      "output": "runs/paint_front_01.png",
+      "selected": true,
+      "reason": "Selected the initial return for closer guide alignment: normalized opaque-mask IoU 0.9496, versus 0.5716 for the correction. Exact silhouette and flat-albedo requirements remain unmet.",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_nonzero_bbox": [
+          130,
+          71,
+          1230,
+          1150
+        ],
+        "alpha_128_bbox": [
+          495,
+          586,
+          759,
+          666
+        ],
+        "transparent_pixel_fraction": 0.992141256432367,
+        "normalized_mask_iou_alpha_128": 0.9496314496314496,
+        "opaque_pixels_outside_normalized_guide": 287,
+        "missing_opaque_guide_pixels": 205,
+        "exact_guide_alpha": false,
+        "visual_review": {
+          "materials": "Ivory ceramic, gold, black-violet resin, orange insets and cyan accents broadly match the approved palette.",
+          "flat_even_albedo": "Not fully met: baked bevel/relief shading and highlights remain.",
+          "transparent_background": "RGBA transparency present, with exterior low-alpha residue and edge fringe.",
+          "no_text_or_letters": true,
+          "exact_silhouette": "Not met; see alpha comparison metrics."
+        }
+      },
+      "output_sha256": "0379a526635e81e5b9c9f3d73a517918e55e8859e8901986293826866ed0a377",
+      "deliverable": "paint_front.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic game-item albedo texture projection.\nEdit only the opaque surface pixels of input image 1, the named geometry guide. Input image 2 is design_reference.png, the approved colour/material/design authority ONLY; do not copy its camera, silhouette, framing or lighting.\nOutput a single 1024 x 1024 PNG with genuine transparent background. Preserve the guide's complete alpha silhouette, every part edge, orientation, exact size and position on the canvas. Keep the large transparent margins; do not enlarge, recenter, rotate, crop, change the camera or create a perspective view. Never add anything outside the guide silhouette.\nObject is a Noble's duelling knife. Transfer the approved design's warm white ivory ceramic with delicate beige wear and hairline markings, black-violet resin ribs, restrained brushed-gold trim, orange crystal insets and thin blue-white luminous cutting edge onto the existing parts as visible from this exact view. Surfaces unseen in the design continue these materials plausibly. Preserve all part boundaries and ridges from the guide. Fine engraved lines and seams only where appropriate; no letters, text or symbols.\nTEXTURE SOURCE / ALBEDO: flat, even, shadowless illumination from the viewer. Remove the gray guide's lighting/shadows. No cast shadows, no ambient-occlusion darkening, no directional gradients, no hot specular highlights or reflections, no rim lighting. Gold is ochre-gold base colour with at most a faint sheen. Orange/blue glowing parts are solid bright colour, with no bloom, halo or light spill outside the object. No background, floor, checkerboard pattern, scenery, labels or watermark.\n\nBACK VIEW: image 1 is guide_back.png. This is the opposite extremely foreshortened END-ON view, not the broad side of the knife. The entire visible object is the little horizontally pointed silhouette occupying x=404..619 and y=478..545 of the 1024 square. Keep its apex near x=534,y=478, all existing central surfaces and its lower point. Paint only this small end-on silhouette using plausible ceramic/resin/gold surface continuation, with only the insets visible at this angle. Do not reveal the full length of the knife.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_back.png",
+          "sha256": "0834caef5506b791fd368f7d670e663b5ce35ee050f0a9a22169b2f8d9c437aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eaa-bcec-7681-ad04-d52fc43de6ef/exec-3836d0bb-90a8-4a79-8369-414eb7118a2d.png",
+      "output": "runs/paint_back_01.png",
+      "selected": true,
+      "reason": "Selected the initial return for closer guide alignment: normalized opaque-mask IoU 0.9200, versus 0.5796 for the correction. Exact silhouette and flat-albedo requirements remain unmet.",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_nonzero_bbox": [
+          234,
+          71,
+          1232,
+          956
+        ],
+        "alpha_128_bbox": [
+          497,
+          585,
+          758,
+          671
+        ],
+        "transparent_pixel_fraction": 0.9921934021657013,
+        "normalized_mask_iou_alpha_128": 0.9199805068226121,
+        "opaque_pixels_outside_normalized_guide": 784,
+        "missing_opaque_guide_pixels": 37,
+        "exact_guide_alpha": false,
+        "visual_review": {
+          "materials": "Ivory ceramic, gold, black-violet resin, orange insets and cyan accents broadly match the approved palette.",
+          "flat_even_albedo": "Not fully met: baked bevel/relief shading and highlights remain.",
+          "transparent_background": "RGBA transparency present, with exterior low-alpha residue and edge fringe.",
+          "no_text_or_letters": true,
+          "exact_silhouette": "Not met; see alpha comparison metrics."
+        }
+      },
+      "output_sha256": "d7c065b602c602cc94dd4a15818b6df64c809ae87f6a1a9dc290b5ec2b69cad8",
+      "deliverable": "paint_back.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic game-item albedo texture projection.\nEdit only the opaque surface pixels of input image 1, the named geometry guide. Input image 2 is design_reference.png, the approved colour/material/design authority ONLY; do not copy its camera, silhouette, framing or lighting.\nOutput a single 1024 x 1024 PNG with genuine transparent background. Preserve the guide's complete alpha silhouette, every part edge, orientation, exact size and position on the canvas. Keep the large transparent margins; do not enlarge, recenter, rotate, crop, change the camera or create a perspective view. Never add anything outside the guide silhouette.\nObject is a Noble's duelling knife. Transfer the approved design's warm white ivory ceramic with delicate beige wear and hairline markings, black-violet resin ribs, restrained brushed-gold trim, orange crystal insets and thin blue-white luminous cutting edge onto the existing parts as visible from this exact view. Surfaces unseen in the design continue these materials plausibly. Preserve all part boundaries and ridges from the guide. Fine engraved lines and seams only where appropriate; no letters, text or symbols.\nTEXTURE SOURCE / ALBEDO: flat, even, shadowless illumination from the viewer. Remove the gray guide's lighting/shadows. No cast shadows, no ambient-occlusion darkening, no directional gradients, no hot specular highlights or reflections, no rim lighting. Gold is ochre-gold base colour with at most a faint sheen. Orange/blue glowing parts are solid bright colour, with no bloom, halo or light spill outside the object. No background, floor, checkerboard pattern, scenery, labels or watermark.\n\nLEFT VIEW: image 1 is guide_left.png. Keep this EXACT razor-thin horizontal EDGE-ON profile, knife tip LEFT at x=66,y=511, pommel RIGHT at x=957,y=511, guard near x=620. Entire silhouette occupies x=66..957 and y=478..545. The blade runs x=66..620; handle runs approximately x=650..860; pommel x=860..957. Paint the visible narrow blade thickness in ceramic and black-violet resin, a restrained cyan-white cutting seam where visible, gold guard fittings, ivory grip crossed by black-violet wrap, and resin/ceramic/gold pommel. The broad orange blade insets are mostly hidden by this true edge-on view; do not widen the blade to show them. Preserve every edge notch and thickness bulge.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_left.png",
+          "sha256": "69e58560a14c4c3c49fda2cbb33fda6ca2184c60859d41746b0c68e45889c223"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eaa-bcec-7681-ad04-d52fc43de6ef/exec-fa8f27ee-f9c1-4c08-a11a-6a8eec163d04.png",
+      "output": "runs/paint_left_01.png",
+      "selected": true,
+      "reason": "Selected the available first-pass return. The single corrective request was blocked by the image tool. Colour and orientation are usable references, but exact silhouette and flat-albedo requirements remain unmet.",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_nonzero_bbox": [
+          41,
+          45,
+          1216,
+          1218
+        ],
+        "alpha_128_bbox": [
+          82,
+          586,
+          1176,
+          666
+        ],
+        "transparent_pixel_fraction": 0.9681828356595418,
+        "normalized_mask_iou_alpha_128": 0.9307222682119205,
+        "opaque_pixels_outside_normalized_guide": 1811,
+        "missing_opaque_guide_pixels": 867,
+        "exact_guide_alpha": false,
+        "visual_review": {
+          "materials": "Ivory ceramic, gold, black-violet resin, orange insets and cyan accents broadly match the approved palette.",
+          "flat_even_albedo": "Not fully met: baked bevel/relief shading and highlights remain.",
+          "transparent_background": "RGBA transparency present, with exterior low-alpha residue and edge fringe.",
+          "no_text_or_letters": true,
+          "exact_silhouette": "Not met; see alpha comparison metrics."
+        }
+      },
+      "output_sha256": "10c4c3c875a299aba723b8618eede35d91f49c560067d2ecd2dcb66f9d238774",
+      "deliverable": "paint_left.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic game-item albedo texture projection.\nEdit only the opaque surface pixels of input image 1, the named geometry guide. Input image 2 is design_reference.png, the approved colour/material/design authority ONLY; do not copy its camera, silhouette, framing or lighting.\nOutput a single 1024 x 1024 PNG with genuine transparent background. Preserve the guide's complete alpha silhouette, every part edge, orientation, exact size and position on the canvas. Keep the large transparent margins; do not enlarge, recenter, rotate, crop, change the camera or create a perspective view. Never add anything outside the guide silhouette.\nObject is a Noble's duelling knife. Transfer the approved design's warm white ivory ceramic with delicate beige wear and hairline markings, black-violet resin ribs, restrained brushed-gold trim, orange crystal insets and thin blue-white luminous cutting edge onto the existing parts as visible from this exact view. Surfaces unseen in the design continue these materials plausibly. Preserve all part boundaries and ridges from the guide. Fine engraved lines and seams only where appropriate; no letters, text or symbols.\nTEXTURE SOURCE / ALBEDO: flat, even, shadowless illumination from the viewer. Remove the gray guide's lighting/shadows. No cast shadows, no ambient-occlusion darkening, no directional gradients, no hot specular highlights or reflections, no rim lighting. Gold is ochre-gold base colour with at most a faint sheen. Orange/blue glowing parts are solid bright colour, with no bloom, halo or light spill outside the object. No background, floor, checkerboard pattern, scenery, labels or watermark.\n\nRIGHT VIEW: image 1 is guide_right.png. Keep this EXACT razor-thin horizontal EDGE-ON profile, knife tip RIGHT at x=957,y=511, pommel LEFT at x=66,y=511, guard near x=404. Entire silhouette occupies x=66..957 and y=478..545. The blade runs x=404..957; handle runs approximately x=162..375; pommel x=66..162. Paint the visible narrow blade thickness in ceramic and black-violet resin, a restrained cyan-white cutting seam where visible, gold guard fittings, ivory grip crossed by black-violet wrap, and resin/ceramic/gold pommel. The broad orange blade insets are mostly hidden by this true edge-on view; do not widen the blade to show them. Preserve every edge notch and thickness bulge.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_right.png",
+          "sha256": "4d38803f61bd846c1705882ec6f748fdb2c02fd59d0da80c5f83a8c32884a441"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eaa-bcec-7681-ad04-d52fc43de6ef/exec-40ee44eb-35e4-4355-85d3-0d8344b279f0.png",
+      "output": "runs/paint_right_01.png",
+      "selected": true,
+      "reason": "Selected the available first-pass return. The single corrective request was blocked by the image tool. Colour and orientation are usable references, but exact silhouette and flat-albedo requirements remain unmet.",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_nonzero_bbox": [
+          49,
+          71,
+          1226,
+          1186
+        ],
+        "alpha_128_bbox": [
+          80,
+          586,
+          1173,
+          665
+        ],
+        "transparent_pixel_fraction": 0.9690947500693157,
+        "normalized_mask_iou_alpha_128": 0.9231011743688096,
+        "opaque_pixels_outside_normalized_guide": 1217,
+        "missing_opaque_guide_pixels": 1710,
+        "exact_guide_alpha": false,
+        "visual_review": {
+          "materials": "Ivory ceramic, gold, black-violet resin, orange insets and cyan accents broadly match the approved palette.",
+          "flat_even_albedo": "Not fully met: baked bevel/relief shading and highlights remain.",
+          "transparent_background": "RGBA transparency present, with exterior low-alpha residue and edge fringe.",
+          "no_text_or_letters": true,
+          "exact_silhouette": "Not met; see alpha comparison metrics."
+        }
+      },
+      "output_sha256": "5ef3e47c302443840577c373fa5db6cff4b28eab5ee8983d5427f0aef2bc4779",
+      "deliverable": "paint_right.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic game-item albedo texture projection.\nEdit only the opaque surface pixels of input image 1, the named geometry guide. Input image 2 is design_reference.png, the approved colour/material/design authority ONLY; do not copy its camera, silhouette, framing or lighting.\nOutput a single 1024 x 1024 PNG with genuine transparent background. Preserve the guide's complete alpha silhouette, every part edge, orientation, exact size and position on the canvas. Keep the large transparent margins; do not enlarge, recenter, rotate, crop, change the camera or create a perspective view. Never add anything outside the guide silhouette.\nObject is a Noble's duelling knife. Transfer the approved design's warm white ivory ceramic with delicate beige wear and hairline markings, black-violet resin ribs, restrained brushed-gold trim, orange crystal insets and thin blue-white luminous cutting edge onto the existing parts as visible from this exact view. Surfaces unseen in the design continue these materials plausibly. Preserve all part boundaries and ridges from the guide. Fine engraved lines and seams only where appropriate; no letters, text or symbols.\nTEXTURE SOURCE / ALBEDO: flat, even, shadowless illumination from the viewer. Remove the gray guide's lighting/shadows. No cast shadows, no ambient-occlusion darkening, no directional gradients, no hot specular highlights or reflections, no rim lighting. Gold is ochre-gold base colour with at most a faint sheen. Orange/blue glowing parts are solid bright colour, with no bloom, halo or light spill outside the object. No background, floor, checkerboard pattern, scenery, labels or watermark.\n\nTOP VIEW: image 1 is guide_top.png. This is the broad flat face of the knife viewed directly from above. Keep its exact silhouette in x=404..619,y=66..957, tip at upper right near x=585,y=66, scalloped blade spine on the RIGHT, smooth outward cutting edge on the LEFT, two guard hooks around y=600..680, narrow grip around x=477..538,y=653..869 and hooked pommel ending lower LEFT near x=436,y=957. The approved design reference is opposite-handed in its image; map the materials onto this guide's correct orientation without mirroring or changing the guide. Warm white finely worn ceramic is the main broad blade face to the left; thin bright cyan-white cutting line stays INSIDE the left smooth edge. Black-violet organic resin ribs follow the scalloped RIGHT spine with the reference's orange elongated crystal insets in that spine. Gold frames the orange guard inset and joins, ivory and violet grip with diagonal wraps, violet/gold/ivory hooked pommel with orange inset. Respect the guide's exact geometry, including gaps and notches; don't reproduce the design reference's different silhouette.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_top.png",
+          "sha256": "a8aea13fcad89acd240c3db6c35fc14d3884f691f6abd53418ab4d3a1c105f54"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eaa-bcec-7681-ad04-d52fc43de6ef/exec-0c8620b9-f497-4174-ae82-d7521abf669e.png",
+      "output": "runs/paint_top_01.png",
+      "selected": true,
+      "reason": "Selected the available first-pass return. The single corrective request was blocked by the image tool. Colour and orientation are usable references, but exact silhouette and flat-albedo requirements remain unmet.",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_nonzero_bbox": [
+          81,
+          47,
+          1242,
+          1222
+        ],
+        "alpha_128_bbox": [
+          496,
+          79,
+          759,
+          1177
+        ],
+        "transparent_pixel_fraction": 0.930698956322225,
+        "normalized_mask_iou_alpha_128": 0.9169499349532083,
+        "opaque_pixels_outside_normalized_guide": 6626,
+        "missing_opaque_guide_pixels": 1290,
+        "exact_guide_alpha": false,
+        "visual_review": {
+          "materials": "Ivory ceramic, gold, black-violet resin, orange insets and cyan accents broadly match the approved palette.",
+          "flat_even_albedo": "Not fully met: baked bevel/relief shading and highlights remain.",
+          "transparent_background": "RGBA transparency present, with exterior low-alpha residue and edge fringe.",
+          "no_text_or_letters": true,
+          "exact_silhouette": "Not met; see alpha comparison metrics."
+        }
+      },
+      "output_sha256": "452d16b7660309a7e1442786c96b5a12d5a3afe66a6daf030f5918fecfc6b5fa",
+      "deliverable": "paint_top.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "SINGLE CORRECTIVE PASS \u2014 material recolouring strictly inside a locked silhouette.\nInput image 1: guide_front.png, the authoritative 1024 x 1024 geometry and alpha mask.\nInput image 2: design_reference.png, colour and material authority.\nInput image 3: first painted front attempt, colour-placement reference only. It has unwanted exterior coloured fringes/specks, outline drift and too much glossy relief shading. Correct those errors.\nThe top priority is to keep image 1's alpha mask exactly. Paint inside its existing opaque surface; leave every transparent pixel perfectly transparent. Do not reconstruct or beautify the outline. No cyan glow, pale residue, stray pixels, gold fringe or any semitransparent haze beyond the guide. Do not change the scale or part edges to accommodate ornamentation.\nSecond, make the painted colours genuinely FLAT ALBEDO: keep ivory ceramic micro-wear, muted ochre-gold trim, black-violet resin and bright orange/cyan insets, but remove simulated bevel highlights, resin shine, gold glare, crystal reflections and dark lighting gradients. Material borders/engraved lines remain; there is no baked illumination. No light effects outside the silhouette.\nOutput exactly 1024 x 1024 with transparent background, the same canvas as image 1.\nFRONT VIEW: image 1 is guide_front.png. This is an extremely foreshortened END-ON view, not the broad side of the knife. The entire visible object is the little horizontally pointed silhouette occupying x=404..619 and y=478..545 of the 1024 square. Keep its apex near x=490,y=478, its existing central surfaces and its lower point. The broad white blade seen in the design is foreshortened. Paint only this small end-on silhouette using plausible ceramic/resin/gold surface continuation, with only the insets visible at this angle. Do not reveal the full length of the knife.\nNo text, letters, background, floor, shadow, labels or watermark.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_front.png",
+          "sha256": "71540990cf64bb36349cb6003c02ff07fbb4be7c0565c1317e65dc9ab5d5e6fe"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/runs/paint_front_01.png",
+          "sha256": "0379a526635e81e5b9c9f3d73a517918e55e8859e8901986293826866ed0a377"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eaa-bcec-7681-ad04-d52fc43de6ef/exec-38a2347a-5a2f-4d96-962b-4b45f6df58fd.png",
+      "output": "runs/paint_front_02.png",
+      "selected": false,
+      "reason": "Rejected correction: it enlarged/shifted the visible object and substantially worsened silhouette alignment; glossy shading also remains.",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_nonzero_bbox": [
+          459,
+          328,
+          1134,
+          1007
+        ],
+        "alpha_128_bbox": [
+          486,
+          589,
+          777,
+          687
+        ],
+        "transparent_pixel_fraction": 0.9905717970437184,
+        "normalized_mask_iou_alpha_128": 0.5715572804768175,
+        "opaque_pixels_outside_normalized_guide": 4948,
+        "missing_opaque_guide_pixels": 1234,
+        "exact_guide_alpha": false,
+        "visual_review": {
+          "materials": "Ivory ceramic, gold, black-violet resin, orange insets and cyan accents broadly match the approved palette.",
+          "flat_even_albedo": "Not fully met: baked bevel/relief shading and highlights remain.",
+          "transparent_background": "RGBA transparency present, with exterior low-alpha residue and edge fringe.",
+          "no_text_or_letters": true,
+          "exact_silhouette": "Not met; see alpha comparison metrics."
+        }
+      },
+      "output_sha256": "9b2eeb6c9b5d7206db4a20f3fe01e3b134487c3e6cfe971af18a8bae5d260c7f"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "SINGLE CORRECTIVE PASS \u2014 material recolouring strictly inside a locked silhouette.\nInput image 1: guide_back.png, the authoritative 1024 x 1024 geometry and alpha mask.\nInput image 2: design_reference.png, colour and material authority.\nInput image 3: first painted back attempt, colour-placement reference only. It has unwanted exterior coloured fringes/specks, outline drift and too much glossy relief shading. Correct those errors.\nThe top priority is to keep image 1's alpha mask exactly. Paint inside its existing opaque surface; leave every transparent pixel perfectly transparent. Do not reconstruct or beautify the outline. No cyan glow, pale residue, stray pixels, gold fringe or any semitransparent haze beyond the guide. Do not change the scale or part edges to accommodate ornamentation.\nSecond, make the painted colours genuinely FLAT ALBEDO: keep ivory ceramic micro-wear, muted ochre-gold trim, black-violet resin and bright orange/cyan insets, but remove simulated bevel highlights, resin shine, gold glare, crystal reflections and dark lighting gradients. Material borders/engraved lines remain; there is no baked illumination. No light effects outside the silhouette.\nOutput exactly 1024 x 1024 with transparent background, the same canvas as image 1.\nBACK VIEW: image 1 is guide_back.png. This is the opposite extremely foreshortened END-ON view, not the broad side of the knife. The entire visible object is the little horizontally pointed silhouette occupying x=404..619 and y=478..545 of the 1024 square. Keep its apex near x=534,y=478, all existing central surfaces and its lower point. Paint only this small end-on silhouette using plausible ceramic/resin/gold surface continuation, with only the insets visible at this angle. Do not reveal the full length of the knife.\nNo text, letters, background, floor, shadow, labels or watermark.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_back.png",
+          "sha256": "0834caef5506b791fd368f7d670e663b5ce35ee050f0a9a22169b2f8d9c437aa"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/runs/paint_back_01.png",
+          "sha256": "d7c065b602c602cc94dd4a15818b6df64c809ae87f6a1a9dc290b5ec2b69cad8"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16eaa-bcec-7681-ad04-d52fc43de6ef/exec-8320f9cf-6903-47c8-83c5-33bd5d448aed.png",
+      "output": "runs/paint_back_02.png",
+      "selected": false,
+      "reason": "Rejected correction: it enlarged/shifted the visible object and substantially worsened silhouette alignment; glossy shading also remains.",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_nonzero_bbox": [
+          280,
+          577,
+          808,
+          1198
+        ],
+        "alpha_128_bbox": [
+          478,
+          580,
+          805,
+          690
+        ],
+        "transparent_pixel_fraction": 0.9880637144550517,
+        "normalized_mask_iou_alpha_128": 0.5795858350692317,
+        "opaque_pixels_outside_normalized_guide": 6846,
+        "missing_opaque_guide_pixels": 16,
+        "exact_guide_alpha": false,
+        "visual_review": {
+          "materials": "Ivory ceramic, gold, black-violet resin, orange insets and cyan accents broadly match the approved palette.",
+          "flat_even_albedo": "Not fully met: baked bevel/relief shading and highlights remain.",
+          "transparent_background": "RGBA transparency present, with exterior low-alpha residue and edge fringe.",
+          "no_text_or_letters": true,
+          "exact_silhouette": "Not met; see alpha comparison metrics."
+        }
+      },
+      "output_sha256": "a1d418def8a4bb2bad11e6d8ddffe73ead05c46bf89ae1f107c6f39e5d0f2796"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "SINGLE CORRECTIVE PASS \u2014 material recolouring strictly inside a locked silhouette.\nInput image 1: guide_left.png, the authoritative 1024 x 1024 geometry and alpha mask.\nInput image 2: design_reference.png, colour and material authority.\nInput image 3: first painted left attempt, colour-placement reference only. It has unwanted exterior coloured fringes/specks, outline drift and too much glossy relief shading. Correct those errors.\nThe top priority is to keep image 1's alpha mask exactly. Paint inside its existing opaque surface; leave every transparent pixel perfectly transparent. Do not reconstruct or beautify the outline. No cyan glow, pale residue, stray pixels, gold fringe or any semitransparent haze beyond the guide. Do not change the scale or part edges to accommodate ornamentation.\nSecond, make the painted colours genuinely FLAT ALBEDO: keep ivory ceramic micro-wear, muted ochre-gold trim, black-violet resin and bright orange/cyan insets, but remove simulated bevel highlights, resin shine, gold glare, crystal reflections and dark lighting gradients. Material borders/engraved lines remain; there is no baked illumination. No light effects outside the silhouette.\nOutput exactly 1024 x 1024 with transparent background, the same canvas as image 1.\nLEFT VIEW: image 1 is guide_left.png. Keep this EXACT razor-thin horizontal EDGE-ON profile, knife tip LEFT at x=66,y=511, pommel RIGHT at x=957,y=511, guard near x=620. Entire silhouette occupies x=66..957 and y=478..545. The blade runs x=66..620; handle runs approximately x=650..860; pommel x=860..957. Paint the visible narrow blade thickness in ceramic and black-violet resin, a restrained cyan-white cutting seam where visible, gold guard fittings, ivory grip crossed by black-violet wrap, and resin/ceramic/gold pommel. The broad orange blade insets are mostly hidden by this true edge-on view; do not widen the blade to show them. Preserve every edge notch and thickness bulge.\nNo text, letters, background, floor, shadow, labels or watermark.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_left.png",
+          "sha256": "69e58560a14c4c3c49fda2cbb33fda6ca2184c60859d41746b0c68e45889c223"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/runs/paint_left_01.png",
+          "sha256": "10c4c3c875a299aba723b8618eede35d91f49c560067d2ecd2dcb66f9d238774"
+        }
+      ],
+      "source_output": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by image-generation safety filter for violence. No image returned; no further retry under the brief's limit.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "efda6a11-c76d-4515-8a54-6b709372123d"
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "SINGLE CORRECTIVE PASS \u2014 material recolouring strictly inside a locked silhouette.\nInput image 1: guide_right.png, the authoritative 1024 x 1024 geometry and alpha mask.\nInput image 2: design_reference.png, colour and material authority.\nInput image 3: first painted right attempt, colour-placement reference only. It has unwanted exterior coloured fringes/specks, outline drift and too much glossy relief shading. Correct those errors.\nThe top priority is to keep image 1's alpha mask exactly. Paint inside its existing opaque surface; leave every transparent pixel perfectly transparent. Do not reconstruct or beautify the outline. No cyan glow, pale residue, stray pixels, gold fringe or any semitransparent haze beyond the guide. Do not change the scale or part edges to accommodate ornamentation.\nSecond, make the painted colours genuinely FLAT ALBEDO: keep ivory ceramic micro-wear, muted ochre-gold trim, black-violet resin and bright orange/cyan insets, but remove simulated bevel highlights, resin shine, gold glare, crystal reflections and dark lighting gradients. Material borders/engraved lines remain; there is no baked illumination. No light effects outside the silhouette.\nOutput exactly 1024 x 1024 with transparent background, the same canvas as image 1.\nRIGHT VIEW: image 1 is guide_right.png. Keep this EXACT razor-thin horizontal EDGE-ON profile, knife tip RIGHT at x=957,y=511, pommel LEFT at x=66,y=511, guard near x=404. Entire silhouette occupies x=66..957 and y=478..545. The blade runs x=404..957; handle runs approximately x=162..375; pommel x=66..162. Paint the visible narrow blade thickness in ceramic and black-violet resin, a restrained cyan-white cutting seam where visible, gold guard fittings, ivory grip crossed by black-violet wrap, and resin/ceramic/gold pommel. The broad orange blade insets are mostly hidden by this true edge-on view; do not widen the blade to show them. Preserve every edge notch and thickness bulge.\nNo text, letters, background, floor, shadow, labels or watermark.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_right.png",
+          "sha256": "4d38803f61bd846c1705882ec6f748fdb2c02fd59d0da80c5f83a8c32884a441"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/runs/paint_right_01.png",
+          "sha256": "5ef3e47c302443840577c373fa5db6cff4b28eab5ee8983d5427f0aef2bc4779"
+        }
+      ],
+      "source_output": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by image-generation safety filter for violence. No image returned; no further retry under the brief's limit.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "cdd8cd91-372d-4ab5-bbbd-d0e5c2914cd3"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "SINGLE CORRECTIVE PASS \u2014 material recolouring strictly inside a locked silhouette.\nInput image 1: guide_top.png, the authoritative 1024 x 1024 geometry and alpha mask.\nInput image 2: design_reference.png, colour and material authority.\nInput image 3: first painted top attempt, colour-placement reference only. It has unwanted exterior coloured fringes/specks, outline drift and too much glossy relief shading. Correct those errors.\nThe top priority is to keep image 1's alpha mask exactly. Paint inside its existing opaque surface; leave every transparent pixel perfectly transparent. Do not reconstruct or beautify the outline. No cyan glow, pale residue, stray pixels, gold fringe or any semitransparent haze beyond the guide. Do not change the scale or part edges to accommodate ornamentation.\nSecond, make the painted colours genuinely FLAT ALBEDO: keep ivory ceramic micro-wear, muted ochre-gold trim, black-violet resin and bright orange/cyan insets, but remove simulated bevel highlights, resin shine, gold glare, crystal reflections and dark lighting gradients. Material borders/engraved lines remain; there is no baked illumination. No light effects outside the silhouette.\nOutput exactly 1024 x 1024 with transparent background, the same canvas as image 1.\nTOP VIEW: image 1 is guide_top.png. This is the broad flat face of the knife viewed directly from above. Keep its exact silhouette in x=404..619,y=66..957, tip at upper right near x=585,y=66, scalloped blade spine on the RIGHT, smooth outward cutting edge on the LEFT, two guard hooks around y=600..680, narrow grip around x=477..538,y=653..869 and hooked pommel ending lower LEFT near x=436,y=957. The approved design reference is opposite-handed in its image; map the materials onto this guide's correct orientation without mirroring or changing the guide. Warm white finely worn ceramic is the main broad blade face to the left; thin bright cyan-white cutting line stays INSIDE the left smooth edge. Black-violet organic resin ribs follow the scalloped RIGHT spine with the reference's orange elongated crystal insets in that spine. Gold frames the orange guard inset and joins, ivory and violet grip with diagonal wraps, violet/gold/ivory hooked pommel with orange inset. Respect the guide's exact geometry, including gaps and notches; don't reproduce the design reference's different silhouette.\nNo text, letters, background, floor, shadow, labels or watermark.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/guide_top.png",
+          "sha256": "a8aea13fcad89acd240c3db6c35fc14d3884f691f6abd53418ab4d3a1c105f54"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/design_reference.png",
+          "sha256": "75edb140839188f504f4d224fe1742bf3a827dace30d87bb83533505a13d8472"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_noble_fang/runs/paint_top_01.png",
+          "sha256": "452d16b7660309a7e1442786c96b5a12d5a3afe66a6daf030f5918fecfc6b5fa"
+        }
+      ],
+      "source_output": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by image-generation safety filter for violence. No image returned; no further retry under the brief's limit.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "58c527fd-6509-490f-91d0-16acb0c5e6fd"
+      }
+    }
+  ],
+  "status": "generated_with_unresolved_requirements",
+  "checks_method": "Image inspection plus alpha-mask comparison. For normalized silhouette IoU only, the original guide alpha was sampled to the returned canvas size in memory with nearest-neighbour sampling and both masks thresholded at alpha >= 128. Generated image files were never resized or edited.",
+  "limitations": [
+    "All successful tool returns are 1254 x 1254 rather than the requested 1024 x 1024; retained unresized as the brief permits.",
+    "No return has the exact guide silhouette. Selected normalized opaque-mask IoU is approximately 0.917 to 0.950. Edge drift and low-alpha residue outside the guide remain.",
+    "Material colours broadly match the design reference, but baked highlights and relief shading remain; strict flat-albedo lighting is not fully met.",
+    "The front and back corrections worsened silhouette alignment and were not selected. The left, right and top corrective requests were rejected by the image tool safety filter for violence.",
+    "Selection identifies the closest available raw return, not acceptance of unresolved requirements. No additional correction was requested beyond the one-per-view limit."
+  ],
+  "deliverables": {
+    "front": "paint_front.png",
+    "back": "paint_back.png",
+    "left": "paint_left.png",
+    "right": "paint_right.png",
+    "top": "paint_top.png"
+  }
+}

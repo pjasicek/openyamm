@@ -1,0 +1,50 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_wolf.glb",
+  "components": 31,
+  "body": 0,
+  "size": 3.7277954816818237,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 31,
+   "attached_in_every_pose": 30
+  },
+  "concealed": {},
+  "shallow": {},
+  "root_lift": {
+   "29": {
+    "joint": "Bone09",
+    "where": "below, -z",
+    "triangles": 22,
+    "extent": 0.0555,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01008,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 359,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00964,
+     "on": "Bone34",
+     "clip": "Walking",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00943,
+     "on": "Bone34",
+     "clip": "Walking",
+     "frame": 21,
+     "time": 0.7
+    }
+   }
+  }
+ }
+]

@@ -1,0 +1,29 @@
+# Integrator capture: fresh map, shared stage/engine locks, minimized launcher.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d16/review/pickups
+settle_seconds: 1.5
+exit: true
+shots:
+- name: t1_supply_store
+  position:
+  - 2440
+  - 6500
+  - -512
+  yaw: -2.5
+  pitch: -0.3
+  commands:
+  - config toggle immortal
+  - config toggle invisible
+- name: satchel_vestibule
+  position:
+  - 4650
+  - 450
+  - 0
+  yaw: -2.4
+  pitch: -0.4
+- name: scrap_bundle_graft
+  position:
+  - 10100
+  - 6450
+  - -512
+  yaw: -2.9
+  pitch: -0.3

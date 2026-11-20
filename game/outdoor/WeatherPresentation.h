@@ -23,7 +23,7 @@ struct LightningStrike
 };
 
 // What the weather shows this frame, smoothed in real time from the game-time weather sample: precipitation fades
-// in and out (rain and snow never overlap), wind gusts, and storms throw lightning.
+// in and out (rain, snow and ash never overlap), wind gusts, and storms throw lightning.
 class WeatherPresentation
 {
 public:
@@ -35,6 +35,7 @@ public:
 
     float rainLevel() const;
     float snowLevel() const;
+    float ashLevel() const;
     float cloudCover() const;
     float wetness() const;
     float windX() const;
@@ -49,6 +50,7 @@ private:
 
     float m_rainLevel = 0.0f;
     float m_snowLevel = 0.0f;
+    float m_ashLevel = 0.0f;
     float m_cloudCover = 0.0f;
     float m_wetness = 0.0f;
     float m_baseWindX = 0.0f;

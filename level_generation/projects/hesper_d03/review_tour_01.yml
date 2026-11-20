@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d03/review/build01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: 01-gatehouse
+  position:
+  - 8100
+  - 2614
+  - 160
+  yaw: 3.14
+  pitch: 0.0
+- name: 02-first_view
+  position:
+  - 5900
+  - 2600
+  - 160
+  yaw: 3.14
+  pitch: -0.35
+- name: 03-yard_lane_north
+  position:
+  - 5200
+  - 3000
+  - -608
+  yaw: 3.14
+  pitch: 0.0
+- name: 04-yard_open
+  position:
+  - 4800
+  - 2000
+  - -608
+  yaw: 3.14
+  pitch: 0.1
+- name: 05-pod_bay
+  position:
+  - 3800
+  - 1200
+  - -608
+  yaw: -1.57
+  pitch: 0.0
+- name: 06-barracks
+  position:
+  - 2600
+  - 4300
+  - -608
+  yaw: 0.0
+  pitch: 0.0
+- name: 07-crusher
+  position:
+  - 1400
+  - -700
+  - -1376
+  yaw: 0.0
+  pitch: 0.0
+- name: 08-quarry_face
+  position:
+  - 1500
+  - -2400
+  - -1376
+  yaw: 0.0
+  pitch: 0.0
+- name: 09-emitter_lab
+  position:
+  - 6400
+  - -850
+  - -1376
+  yaw: 0.0
+  pitch: 0.0
+- name: 10-roost
+  position:
+  - 600
+  - 2400
+  - 160
+  yaw: 1.0
+  pitch: 0.0
+- name: 11-signal_room
+  position:
+  - 1150
+  - 4400
+  - 160
+  yaw: 1.57
+  pitch: 0.0
+- name: 12-yard_from_roost
+  position:
+  - 2000
+  - 3300
+  - 160
+  yaw: 0.0
+  pitch: -0.3

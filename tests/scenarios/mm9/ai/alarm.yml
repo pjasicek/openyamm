@@ -1,0 +1,46 @@
+id: mm9.ai.alarm
+title: MM9 alerts - a friend's alert sets up the target it names, and a cascade carries it beyond the first radius
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The wolf notices the party and alerts at once (its next alert after
+        g_nRandom seconds: the 40 % taunt roll it just drew, 57). Skeletoid 1 (within 1 229) takes the party from the
+        alert and alerts in turn (with no random drawn yet: no repeat); Skeletoid 2, beyond the wolf's radius but
+        within Skeletoid 1's 1 536, takes it from that one. The Bird ignores every alert (it reads the alerter, a
+        friend). Neither Skeletoid perceives the party itself.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: alarm.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, target: party, before: 0.01, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: send_alert, target: party, detail: seconds 57.00, before: 0.01,
+                 min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: alert, detail: take, target: party, before: 0.02, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: send_alert, detail: seconds 0.00, before: 0.02, min_count: 1,
+                 max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: alert, before: 0.02, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: alert, detail: take, target: party, before: 0.03, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: detect, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: detect, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, min_count: 1}
+  # It joins the fight: its blows land (plain or strafe attacks, as its rolls fall).
+  - assert:
+      ai_trace: {arena_monster: 2, event: impact, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: alert, detail: ignored, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: taunt_detect, max_count: 0}

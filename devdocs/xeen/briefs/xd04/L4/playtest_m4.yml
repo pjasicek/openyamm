@@ -1,0 +1,131 @@
+# Playtest of the Witch Tower (XD-04, L4), the second way: a party that Valia has already named Crusaders (qbit
+# m4_crusaders, set on X1). It climbs to the broken balcony and takes the careless way down through the gap in the rail
+# (a 1280 fall to the cauldron floor), finds the hoist's call button dead while the brake holds (a message says why),
+# climbs the tower again to the face door without its key and without having freed Rosebud (the door's message names
+# the keyhole and the coven's key), goes back down to the herb loft for the key in the witches' stores, opens the face
+# door with it, crosses the sanctum, and the ward over the roof stair falls for the Crusaders; up the roof stair,
+# through the hatch onto the roof, and away up the cloud stair to the X8 stand-in.
+# Numbers are ids.lock.yml's. Nothing depends on chance: every walk past a spawn point clears hostiles near it.
+id: xeen.xd04.l4.m4
+title: Witch Tower (XD-04 L4), after M4, the broken balcony's drop, the ward and the cloud stair
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd04.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Paladin, level: 10, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 10, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 10, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 10, skills: [], equipment: {}}
+  - assert: {map: xeen_xd04.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 110047}
+  # Up the east and west stairs to the third floor.
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
+  - walk_to: {x: 2560, y: -1312, z: 320, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 2560, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1312, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1312, y: 1450, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1312, y: 2528, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 0, y: 2560, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -650, y: 2400, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1600}
+  - clear_hostiles: {radius: 1600}
+  # The broken balcony: through the gap in the rail, a fall to the cauldron floor.
+  - walk_to: {x: -896, y: 1312, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 384, y: 1180, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 384, y: 820, z: 0, radius: 96, timeout_seconds: 30}
+  - play_lua: {source: "wait(2)"}
+  - assert: {party_position: {x: 384, y: 820, radius: 220, z_min: -8, z_max: 8}}
+  - clear_hostiles: {radius: 1500}
+  # The hoist's call button is dead while the brake holds the cage at the top.
+  - walk_to: {x: -880, y: -760, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - play_lua:
+      source: |
+        click(11); wait(1)
+  - assert:
+      dialog: {text_contains: "rope is held fast somewhere above"}
+  - play_lua:
+      source: |
+        if not close() then error("the dead call button opened no message window") end
+        if door_state(22) ~= "open" or door_state(6) ~= "closed" then error("the cage or the lower gate moved") end
+        click(52); wait(1)
+  - assert:
+      dialog: {text_contains: "plank gate closes the witches' hoist"}
+  - play_lua:
+      source: |
+        if not close() then error("the hoist gate opened no message window") end
+        if door_state(22) ~= "open" or door_state(6) ~= "closed" then error("the hoist gate moved before the brake") end
+  # Back up: the arches, the east stair, the west stair, the broken balcony, the north stair.
+  - walk_to: {x: 320, y: -900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 320, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
+  - walk_to: {x: 2560, y: -1312, z: 320, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 2560, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1312, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1312, y: 1450, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1312, y: 2528, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 0, y: 2560, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -896, y: 1312, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -1300, y: 1312, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
+  - walk_to: {x: -3072, y: 1080, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  # The face door without its key: its message names the keyhole and the coven's key.
+  - play_lua: {source: "if qbit(110044) or has_item(2187) then error('this walk comes to the door without Rosebud and without the key') end; click(34); wait(1)"}
+  - assert:
+      dialog: {text_contains: "the coven's own key would fit it"}
+  - play_lua: {source: "if not close() then error('the locked face opened no message window') end; wait(1); if door_state(15) ~= 'closed' then error('the face opened without its key') end"}
+  # Back down the north stair to the herb loft: the coven's key in the witches' stores.
+  - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -1300, y: 1312, z: 1280, radius: 48, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: -896, y: 1312, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 780, y: 2060, z: 1472, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua:
+      source: |
+        loot_chest(47)
+        if held() ~= 0 then stow() end
+        if not has_item(2187) then error("the witches' stores did not hold the coven's key") end
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -896, y: 1312, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -1300, y: 1312, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
+  - walk_to: {x: -3072, y: 1080, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(34); wait(4); if door_state(15) ~= 'open' then error('the face did not open to the coven key') end"}
+  # The sanctum, and the ward falls for the Crusaders.
+  - walk_to: {x: -3072, y: 700, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 3200}
+  - play_lua: {source: "wait(2); clear_hostiles(3200); wait(4); clear_hostiles(3200); wait(1)"}
+  - walk_to: {x: -3900, y: 448, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(19) ~= "closed" then error("the ward does not start shut") end
+        click(43); wait(5)
+        if door_state(19) ~= "open" then error("the ward did not fall for the Crusaders: " .. door_state(19)) end
+  # The roof stair, the hatch, the roof.
+  - walk_to: {x: -4250, y: 448, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -5300, y: 448, z: 2528, radius: 64, timeout_seconds: 40}
+  - play_lua:
+      source: |
+        click(27); wait(5)
+        if door_state(8) ~= "open" then error("the roof hatch did not open: " .. door_state(8)) end
+  - walk_to: {x: -5800, y: 448, z: 2560, radius: 64, timeout_seconds: 30}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -5800, y: 448, radius: 100, z_min: 2552, z_max: 2568}}
+  - assert: {state_dump_map_var: {index: 13, value: 1}}
+  # The cloud stair: up to the X8 stand-in.
+  - walk_to: {x: -7150, y: 448, z: 2560, radius: 64, timeout_seconds: 30}
+  - execute_event: {id: 15}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: 7out01.odm}
+  - play_lua: {source: "if not qbit(110047) then error('m4_crusaders was lost') end"}

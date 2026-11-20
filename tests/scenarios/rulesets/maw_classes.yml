@@ -1,0 +1,32 @@
+id: rulesets.maw_classes
+title: Ruleset - a party of MAW's new classes plays a map, fights, and keeps its classes through save and load
+world: mm6
+mode: faithful
+tags: [rulesets, maw, classes]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      # The map's first actors are townsfolk: MAW's friendly-fire preference lets the party hit them.
+      ruleset: {id: maw, difficulty: hard, progression: horizontal, friendly_fire: true}
+      party:
+        gold: 1000
+        food: 10
+        members:
+          - {name: Seraph, class: Seraphim, level: 20, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+          - {name: Knight, class: DeathKnight, level: 20, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+          - {name: Healer, class: Shaman, level: 20, skills: [{name: SpiritMagic, level: 4, mastery: 1}], equipment: {}}
+          - {name: Caster, class: Elementalist, level: 20, skills: [{name: FireMagic, level: 4, mastery: 1}], equipment: {}}
+  - combat_loot: {actor_index: 0}
+  - combat_loot: {actor_index: 1}
+  - combat_loot: {actor_index: 2}
+  - advance_runtime: {seconds: 2}
+  - save_game: maw_classes
+  - load_game: maw_classes
+  - advance_runtime: {seconds: 2}
+  - assert:
+      map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: hard
+        progression: horizontal
+        member_classes: [Seraphim, DeathKnight, Shaman, Elementalist]

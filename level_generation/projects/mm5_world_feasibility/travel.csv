@@ -1,0 +1,854 @@
+source,x,y,spatial,destination,arrival,kind,eventOffset,line,sourceName,destinationName,scope
+1,10,4,True,49,"[15, 8]",teleport/exit,30,4,Area A1,Castle Alamar Level 1,MM5
+2,5,0,True,39,"[1, 0]",teleport/exit,30,4,Area A2,Gemstone Mines,MM5
+2,7,4,True,39,"[2, 14]",teleport/exit,108,4,Area A2,Gemstone Mines,MM5
+2,13,1,True,39,"[10, 2]",teleport/exit,69,4,Area A2,Gemstone Mines,MM5
+3,4,9,True,57,"[11, 8]",keyed service entrance,1838,0,Area A3,Western Tower Lvl 1,MM5
+3,14,7,True,91,"[13, 8]",teleport/exit,2144,3,Area A3,Skyroad A3,MM5
+4,5,14,True,41,"[15, 7]",teleport/exit,833,7,Area A4,Castle Kalindra Level 1,MM5
+4,14,8,True,30,"[17, 0]",teleport/exit,1061,4,Area A4,Castleview Sewer,MM5
+4,14,10,True,29,"[15, 31]",keyed service entrance,842,0,Area A4,Castleview,MM5
+5,2,9,True,88,"[22, 6]",teleport/exit,268,4,Area B1,Escpae Pod 2,MM5
+6,1,0,True,39,"[16, 0]",teleport/exit,92,3,Area B2,Gemstone Mines,MM5
+6,3,8,True,87,"[22, 7]",teleport/exit,61,8,Area B2,Escape Pod 1,MM5
+6,4,2,True,39,"[19, 31]",teleport/exit,123,3,Area B2,Gemstone Mines,MM5
+6,8,12,True,35,"[15, 8]",keyed service entrance,132,0,Area B2,Necropolis,MM5
+7,6,12,True,7,"[6, 9]",teleport/exit,548,61,Area B3,Area B3,MM5
+7,10,9,True,39,"[25, 0]",teleport/exit,1504,3,Area B3,Gemstone Mines,MM5
+8,8,12,True,40,"[3, 3]",fall,426,8,Area B4,Troll Holes,MM5
+8,8,12,True,40,"[3, 3]",teleport/exit,443,10,Area B4,Troll Holes,MM5
+8,11,6,True,40,"[15, 3]",fall,608,8,Area B4,Troll Holes,MM5
+8,11,6,True,40,"[15, 3]",teleport/exit,625,10,Area B4,Troll Holes,MM5
+8,12,13,True,40,"[9, 3]",fall,517,8,Area B4,Troll Holes,MM5
+8,12,13,True,40,"[9, 3]",teleport/exit,534,10,Area B4,Troll Holes,MM5
+11,2,0,True,40,"[19, 3]",fall,169,6,Area C3,Troll Holes,MM5
+11,2,0,True,40,"[19, 3]",teleport/exit,208,11,Area C3,Troll Holes,MM5
+11,6,7,True,39,"[30, 10]",teleport/exit,69,4,Area C3,Gemstone Mines,MM5
+11,6,9,True,39,"[11, 10]",teleport/exit,30,4,Area C3,Gemstone Mines,MM5
+11,12,7,True,39,"[24, 25]",teleport/exit,108,4,Area C3,Gemstone Mines,MM5
+12,1,7,True,12,"[1, 9]",teleport/exit,733,24,Area C4,Area C4,MM5
+12,2,8,True,73,"[0, 7]",keyed service entrance,1145,1,Area C4,Temple of Bark Lvl 1,MM5
+12,4,14,True,40,"[28, 5]",fall,52,6,Area C4,Troll Holes,MM5
+12,4,14,True,40,"[28, 5]",teleport/exit,91,11,Area C4,Troll Holes,MM5
+12,5,12,True,40,"[6, 13]",fall,152,6,Area C4,Troll Holes,MM5
+12,5,12,True,40,"[6, 13]",teleport/exit,191,11,Area C4,Troll Holes,MM5
+12,7,5,True,40,"[17, 12]",fall,252,6,Area C4,Troll Holes,MM5
+12,7,5,True,40,"[17, 12]",teleport/exit,291,11,Area C4,Troll Holes,MM5
+12,13,5,True,40,"[28, 15]",fall,352,6,Area C4,Troll Holes,MM5
+12,13,5,True,40,"[28, 15]",teleport/exit,391,11,Area C4,Troll Holes,MM5
+12,14,11,True,40,"[26, 19]",fall,452,6,Area C4,Troll Holes,MM5
+12,14,11,True,40,"[26, 19]",teleport/exit,491,11,Area C4,Troll Holes,MM5
+13,2,10,True,69,"[7, 4]",keyed service entrance,199,0,Area D1,Northern Tower Lvl 1,MM5
+13,10,5,True,13,"[10, 3]",teleport/exit,522,24,Area D1,Area D1,MM5
+14,0,5,True,83,"[11, 1]",teleport/exit,61,8,Area D2,The Great Pyramid Level 1,MM5
+14,12,2,True,32,"[0, 16]",teleport/exit,551,4,Area D2,Sandcaster Sewer,MM5
+15,4,5,True,39,"[6, 26]",teleport/exit,537,4,Area D3,Gemstone Mines,MM5
+15,11,5,True,15,"[9, 5]",teleport/exit,489,54,Area D3,Area D3,MM5
+16,2,7,True,61,"[7, 12]",keyed service entrance,275,0,Area D4,Southern Tower Lvl 1,MM5
+16,8,12,True,40,"[22, 19]",fall,158,8,Area D4,Troll Holes,MM5
+16,8,12,True,40,"[22, 19]",teleport/exit,175,10,Area D4,Troll Holes,MM5
+16,14,5,True,40,"[14, 23]",fall,249,8,Area D4,Troll Holes,MM5
+16,14,5,True,40,"[14, 23]",teleport/exit,266,10,Area D4,Troll Holes,MM5
+19,4,12,True,31,"[31, 16]",keyed service entrance,125,0,Area E3,Sandcaster,MM5
+19,7,0,True,40,"[14, 30]",fall,99,8,Area E3,Troll Holes,MM5
+19,7,0,True,40,"[14, 30]",teleport/exit,116,10,Area E3,Troll Holes,MM5
+20,2,12,True,20,"[1, 12]",teleport/continue,1027,2,Area E4,Area E4,MM5
+20,2,13,True,20,"[2, 12]",teleport/continue,1002,2,Area E4,Area E4,MM5
+20,2,14,True,20,"[2, 13]",teleport/continue,977,2,Area E4,Area E4,MM5
+20,2,15,True,20,"[2, 14]",teleport/continue,952,2,Area E4,Area E4,MM5
+20,3,15,True,20,"[2, 15]",teleport/continue,927,2,Area E4,Area E4,MM5
+20,5,5,True,40,"[22, 26]",fall,244,8,Area E4,Troll Holes,MM5
+20,5,5,True,40,"[22, 26]",teleport/exit,261,10,Area E4,Troll Holes,MM5
+20,6,8,True,40,"[29, 26]",fall,153,8,Area E4,Troll Holes,MM5
+20,6,8,True,40,"[29, 26]",teleport/exit,170,10,Area E4,Troll Holes,MM5
+20,13,6,True,40,"[2, 24]",fall,335,8,Area E4,Troll Holes,MM5
+20,13,6,True,40,"[2, 24]",teleport/exit,352,10,Area E4,Troll Holes,MM5
+21,1,6,True,21,"[2, 6]",teleport/continue,542,2,Area F1,Area F1,MM5
+21,1,7,True,21,"[1, 6]",teleport/continue,517,2,Area F1,Area F1,MM5
+21,1,8,True,21,"[1, 7]",teleport/continue,492,2,Area F1,Area F1,MM5
+21,2,4,True,21,"[3, 4]",teleport/continue,617,2,Area F1,Area F1,MM5
+21,2,5,True,21,"[2, 4]",teleport/continue,592,2,Area F1,Area F1,MM5
+21,2,6,True,21,"[2, 5]",teleport/continue,567,2,Area F1,Area F1,MM5
+21,2,8,True,21,"[1, 8]",teleport/continue,467,2,Area F1,Area F1,MM5
+21,3,4,True,21,"[4, 4]",teleport/continue,642,2,Area F1,Area F1,MM5
+21,3,8,True,21,"[2, 8]",teleport/continue,442,2,Area F1,Area F1,MM5
+21,4,3,True,21,"[5, 3]",teleport/continue,692,2,Area F1,Area F1,MM5
+21,4,4,True,21,"[4, 3]",teleport/continue,667,2,Area F1,Area F1,MM5
+21,4,8,True,21,"[3, 8]",teleport/continue,417,2,Area F1,Area F1,MM5
+21,4,9,True,21,"[4, 8]",teleport/continue,392,2,Area F1,Area F1,MM5
+21,5,3,True,21,"[6, 3]",teleport/continue,717,2,Area F1,Area F1,MM5
+21,5,9,True,21,"[4, 9]",teleport/continue,367,2,Area F1,Area F1,MM5
+21,6,0,True,22,"[6, 15]",teleport/continue,817,2,Area F1,Area F2,MM5
+21,6,1,True,21,"[6, 0]",teleport/continue,792,2,Area F1,Area F1,MM5
+21,6,2,True,21,"[6, 1]",teleport/continue,767,2,Area F1,Area F1,MM5
+21,6,3,True,21,"[6, 2]",teleport/continue,742,2,Area F1,Area F1,MM5
+21,6,9,True,21,"[5, 9]",teleport/continue,342,2,Area F1,Area F1,MM5
+21,7,9,True,21,"[6, 9]",teleport/continue,317,2,Area F1,Area F1,MM5
+21,7,10,True,21,"[7, 9]",teleport/continue,292,2,Area F1,Area F1,MM5
+21,9,11,True,45,"[7, 8]",teleport/exit,142,7,Area F1,Castle Blackfang Level 1,MM5
+22,3,15,True,33,"[0, 3]",keyed service entrance,0,0,Area F2,Lakeside,MM5
+22,6,10,True,78,"[8, 14]",keyed service entrance,7,0,Area F2,Lost Souls Dungeon Lvl 1,MM5
+23,6,14,True,23,"[7, 14]",teleport/continue,299,2,Area F3,Area F3,MM5
+23,6,15,True,23,"[6, 14]",teleport/continue,249,2,Area F3,Area F3,MM5
+23,7,12,True,23,"[7, 11]",teleport/continue,424,2,Area F3,Area F3,MM5
+23,7,13,True,23,"[7, 12]",teleport/continue,374,2,Area F3,Area F3,MM5
+23,7,14,True,23,"[7, 13]",teleport/continue,324,2,Area F3,Area F3,MM5
+23,7,15,True,23,"[7, 14]",teleport/continue,274,2,Area F3,Area F3,MM5
+23,8,12,True,23,"[8, 11]",teleport/continue,449,2,Area F3,Area F3,MM5
+23,8,13,True,23,"[8, 12]",teleport/continue,399,2,Area F3,Area F3,MM5
+23,8,14,True,23,"[8, 13]",teleport/continue,349,2,Area F3,Area F3,MM5
+23,10,9,True,65,"[3, 8]",keyed service entrance,0,0,Area F3,Eastern Tower Lvl 1,MM5
+25,13,2,True,89,"[3, 13]",fall,64,0,Elemental Plane of Fire,Skyroad A1,MM5
+26,2,2,True,109,"[12, 13]",fall,64,0,Elemental Plane of Air,Skyroad F1,MM5
+27,2,13,True,112,"[13, 2]",fall,64,0,Elemental Plane of Earth,Skyroad F4,MM5
+28,13,13,True,89,"[2, 13]",fall,64,0,Elemental Plane of Water,Skyroad A1,MM5
+29,1,13,True,30,"[1, 13]",teleport/exit,2033,2,Castleview,Castleview Sewer,MM5
+29,2,29,True,30,"[2, 29]",teleport/exit,2007,2,Castleview,Castleview Sewer,MM5
+29,12,10,True,53,"[11, 8]",keyed service entrance,2353,0,Castleview,Ellinger's Tower Lvl 1,MM5
+29,12,30,True,30,"[12, 30]",teleport/exit,1981,2,Castleview,Castleview Sewer,MM5
+29,15,31,True,4,"[14, 11]",teleport/exit,70,9,Castleview,Area A4,MM5
+29,26,1,True,30,"[26, 1]",teleport/exit,2059,2,Castleview,Castleview Sewer,MM5
+29,29,13,True,29,"[27, 13]",teleport/exit,743,39,Castleview,Castleview,MM5
+29,30,18,True,30,"[30, 18]",teleport/exit,1955,2,Castleview,Castleview Sewer,MM5
+30,1,13,True,29,"[1, 13]",teleport/exit,827,0,Castleview Sewer,Castleview,MM5
+30,2,29,True,29,"[2, 29]",teleport/exit,818,0,Castleview Sewer,Castleview,MM5
+30,12,30,True,29,"[12, 30]",teleport/exit,809,0,Castleview Sewer,Castleview,MM5
+30,17,0,True,4,"[14, 8]",teleport/exit,2795,0,Castleview Sewer,Area A4,MM5
+30,26,1,True,29,"[26, 1]",teleport/exit,836,0,Castleview Sewer,Castleview,MM5
+30,30,18,True,29,"[30, 18]",teleport/exit,800,0,Castleview Sewer,Castleview,MM5
+31,1,1,True,32,"[1, 1]",teleport/exit,182,4,Sandcaster,Sandcaster Sewer,MM5
+31,1,26,True,32,"[1, 26]",teleport/exit,104,4,Sandcaster,Sandcaster Sewer,MM5
+31,13,9,True,32,"[13, 9]",teleport/exit,221,4,Sandcaster,Sandcaster Sewer,MM5
+31,13,28,True,32,"[13, 28]",teleport/exit,143,4,Sandcaster,Sandcaster Sewer,MM5
+31,27,10,True,32,"[27, 10]",teleport/exit,260,4,Sandcaster,Sandcaster Sewer,MM5
+31,30,21,True,32,"[30, 21]",teleport/exit,299,4,Sandcaster,Sandcaster Sewer,MM5
+31,31,16,True,19,"[5, 12]",teleport/exit,30,4,Sandcaster,Area E3,MM5
+32,0,16,True,14,"[12, 2]",teleport/exit,886,3,Sandcaster Sewer,Area D2,MM5
+32,1,1,True,31,"[1, 1]",teleport/exit,8,1,Sandcaster Sewer,Sandcaster,MM5
+32,1,26,True,31,"[1, 26]",teleport/exit,43,1,Sandcaster Sewer,Sandcaster,MM5
+32,13,9,True,31,"[13, 9]",teleport/exit,17,0,Sandcaster Sewer,Sandcaster,MM5
+32,13,28,True,31,"[13, 28]",teleport/exit,60,1,Sandcaster Sewer,Sandcaster,MM5
+32,25,4,True,32,"[24, 4]",teleport/exit,917,2,Sandcaster Sewer,Sandcaster Sewer,MM5
+32,27,10,True,31,"[27, 10]",teleport/exit,26,0,Sandcaster Sewer,Sandcaster,MM5
+32,30,21,True,31,"[30, 21]",teleport/exit,69,0,Sandcaster Sewer,Sandcaster,MM5
+33,0,3,True,22,"[2, 15]",teleport/exit,346,3,Lakeside,Area F2,MM5
+33,1,11,True,34,"[1, 11]",teleport/exit,424,4,Lakeside,Lakeside Sewer,MM5
+33,3,5,True,34,"[8, 8]",fall,553,5,Lakeside,Lakeside Sewer,MM5
+33,7,14,True,34,"[7, 14]",teleport/exit,463,4,Lakeside,Lakeside Sewer,MM5
+33,11,6,True,34,"[11, 6]",teleport/exit,502,4,Lakeside,Lakeside Sewer,MM5
+33,15,14,True,22,"[6, 8]",teleport/exit,1080,4,Lakeside,Area F2,MM5
+34,1,11,True,33,"[1, 11]",teleport/exit,853,0,Lakeside Sewer,Lakeside,MM5
+34,7,14,True,33,"[7, 14]",teleport/exit,862,0,Lakeside Sewer,Lakeside,MM5
+34,11,6,True,33,"[11, 6]",teleport/exit,871,0,Lakeside Sewer,Lakeside,MM5
+35,1,9,True,36,"[1, 9]",teleport/exit,1623,3,Necropolis,Necropolis Sewer,MM5
+35,8,5,True,36,"[8, 5]",teleport/exit,1561,4,Necropolis,Necropolis Sewer,MM5
+35,8,14,True,36,"[8, 14]",teleport/exit,1592,3,Necropolis,Necropolis Sewer,MM5
+35,15,8,True,6,"[9, 12]",teleport/exit,22,3,Necropolis,Area B2,MM5
+36,1,9,True,35,"[1, 9]",teleport/exit,0,0,Necropolis Sewer,Necropolis,MM5
+36,8,5,True,35,"[8, 5]",teleport/exit,18,0,Necropolis Sewer,Necropolis,MM5
+36,8,14,True,35,"[8, 14]",teleport/exit,9,0,Necropolis Sewer,Necropolis,MM5
+37,1,5,True,38,"[1, 5]",teleport/exit,61,4,Olympus,Olympus Sewer,MM5
+37,5,14,True,38,"[5, 14]",teleport/exit,139,4,Olympus,Olympus Sewer,MM5
+37,7,0,True,98,"[2, 7]",teleport/exit,22,3,Olympus,Skyroad C2,MM5
+37,10,7,True,38,"[10, 7]",teleport/exit,100,4,Olympus,Olympus Sewer,MM5
+37,14,5,True,38,"[14, 5]",teleport/exit,178,4,Olympus,Olympus Sewer,MM5
+38,1,5,True,37,"[1, 5]",teleport/exit,425,1,Olympus Sewer,Olympus,MM5
+38,5,14,True,37,"[5, 14]",teleport/exit,442,1,Olympus Sewer,Olympus,MM5
+38,10,7,True,37,"[10, 7]",teleport/exit,459,1,Olympus Sewer,Olympus,MM5
+38,14,5,True,37,"[14, 5]",teleport/exit,476,1,Olympus Sewer,Olympus,MM5
+39,1,0,True,2,"[5, 0]",teleport/exit,14591,4,Gemstone Mines,Area A2,MM5
+39,2,14,True,2,"[7, 5]",teleport/exit,14747,4,Gemstone Mines,Area A2,MM5
+39,6,26,True,15,"[4, 5]",teleport/exit,14864,4,Gemstone Mines,Area D3,MM5
+39,10,2,True,2,"[13, 1]",teleport/exit,14630,4,Gemstone Mines,Area A2,MM5
+39,11,10,True,11,"[6, 9]",teleport/exit,14786,4,Gemstone Mines,Area C3,MM5
+39,16,0,True,6,"[1, 0]",teleport/exit,14669,4,Gemstone Mines,Area B2,MM5
+39,19,31,True,6,"[4, 2]",teleport/exit,14903,4,Gemstone Mines,Area B2,MM5
+39,24,25,True,11,"[12, 7]",teleport/exit,14942,4,Gemstone Mines,Area C3,MM5
+39,25,0,True,7,"[10, 9]",teleport/exit,14708,4,Gemstone Mines,Area B3,MM5
+39,30,10,True,11,"[6, 7]",teleport/exit,14825,4,Gemstone Mines,Area C3,MM5
+40,2,24,True,20,"[13, 6]",teleport/exit,3865,3,Troll Holes,Area E4,MM5
+40,3,3,True,8,"[8, 12]",teleport/exit,3431,3,Troll Holes,Area B4,MM5
+40,6,13,True,12,"[5, 12]",teleport/exit,3586,3,Troll Holes,Area C4,MM5
+40,7,24,True,20,"[13, 6]",teleport/exit,3374,17,Troll Holes,Area E4,MM5
+40,7,24,True,20,"[13, 6]",teleport/exit,3400,20,Troll Holes,Area E4,MM5
+40,9,3,True,8,"[12, 13]",teleport/exit,3462,3,Troll Holes,Area B4,MM5
+40,14,23,True,16,"[14, 5]",teleport/exit,3741,3,Troll Holes,Area D4,MM5
+40,14,30,True,19,"[7, 0]",teleport/exit,3834,3,Troll Holes,Area E3,MM5
+40,15,3,True,8,"[11, 6]",teleport/exit,3493,3,Troll Holes,Area B4,MM5
+40,17,12,True,12,"[7, 5]",teleport/exit,3617,3,Troll Holes,Area C4,MM5
+40,19,3,True,11,"[2, 0]",teleport/exit,3524,3,Troll Holes,Area C3,MM5
+40,22,19,True,16,"[8, 12]",teleport/exit,3710,3,Troll Holes,Area D4,MM5
+40,22,26,True,20,"[5, 5]",teleport/exit,3803,3,Troll Holes,Area E4,MM5
+40,26,19,True,12,"[14, 11]",teleport/exit,3679,3,Troll Holes,Area C4,MM5
+40,28,5,True,12,"[4, 14]",teleport/exit,3555,3,Troll Holes,Area C4,MM5
+40,28,15,True,12,"[13, 5]",teleport/exit,3648,3,Troll Holes,Area C4,MM5
+40,29,26,True,20,"[6, 8]",teleport/exit,3772,3,Troll Holes,Area E4,MM5
+41,0,7,True,42,"[0, 7]",teleport/exit,269,5,Castle Kalindra Level 1,Castle Kalindra Level 2,MM5
+41,4,3,True,44,"[4, 3]",teleport/exit,413,5,Castle Kalindra Level 1,Castle Kalindra Dungeon,MM5
+41,6,3,True,42,"[6, 3]",teleport/exit,317,5,Castle Kalindra Level 1,Castle Kalindra Level 2,MM5
+41,6,5,True,42,"[5, 5]",teleport/exit,221,4,Castle Kalindra Level 1,Castle Kalindra Level 2,MM5
+41,13,15,True,44,"[13, 15]",teleport/exit,365,5,Castle Kalindra Level 1,Castle Kalindra Dungeon,MM5
+41,15,0,True,42,"[15, 0]",teleport/exit,181,5,Castle Kalindra Level 1,Castle Kalindra Level 2,MM5
+41,15,7,True,4,"[6, 14]",teleport/exit,22,3,Castle Kalindra Level 1,Area A4,MM5
+41,15,15,True,42,"[15, 15]",teleport/exit,133,5,Castle Kalindra Level 1,Castle Kalindra Level 2,MM5
+42,0,7,True,41,"[0, 7]",teleport/exit,251,1,Castle Kalindra Level 2,Castle Kalindra Level 1,MM5
+42,4,3,True,43,"[4, 3]",teleport/exit,183,5,Castle Kalindra Level 2,Castle Kalindra Level 3,MM5
+42,4,7,True,43,"[4, 7]",teleport/exit,39,5,Castle Kalindra Level 2,Castle Kalindra Level 3,MM5
+42,5,5,True,41,"[6, 5]",teleport/exit,292,4,Castle Kalindra Level 2,Castle Kalindra Level 1,MM5
+42,5,5,True,43,"[5, 5]",teleport/exit,340,10,Castle Kalindra Level 2,Castle Kalindra Level 3,MM5
+42,6,3,True,41,"[6, 3]",teleport/exit,234,1,Castle Kalindra Level 2,Castle Kalindra Level 1,MM5
+42,15,0,True,41,"[15, 0]",teleport/exit,217,1,Castle Kalindra Level 2,Castle Kalindra Level 1,MM5
+42,15,5,True,43,"[15, 5]",teleport/exit,135,5,Castle Kalindra Level 2,Castle Kalindra Level 3,MM5
+42,15,10,True,43,"[15, 10]",teleport/exit,87,5,Castle Kalindra Level 2,Castle Kalindra Level 3,MM5
+42,15,15,True,41,"[15, 15]",teleport/exit,200,1,Castle Kalindra Level 2,Castle Kalindra Level 1,MM5
+43,4,3,True,42,"[4, 3]",teleport/exit,59,1,Castle Kalindra Level 3,Castle Kalindra Level 2,MM5
+43,4,7,True,42,"[4, 7]",teleport/exit,25,1,Castle Kalindra Level 3,Castle Kalindra Level 2,MM5
+43,5,5,True,92,"[5, 14]",teleport/exit,92,3,Castle Kalindra Level 3,Skyroad A4,MM5
+43,5,5,True,42,"[5, 5]",teleport/exit,109,5,Castle Kalindra Level 3,Castle Kalindra Level 2,MM5
+43,11,0,True,43,"[11, 13]",teleport/exit,302,1,Castle Kalindra Level 3,Castle Kalindra Level 3,MM5
+43,11,15,True,43,"[11, 2]",teleport/exit,318,1,Castle Kalindra Level 3,Castle Kalindra Level 3,MM5
+43,15,5,True,42,"[15, 5]",teleport/exit,8,1,Castle Kalindra Level 3,Castle Kalindra Level 2,MM5
+43,15,10,True,42,"[15, 10]",teleport/exit,42,1,Castle Kalindra Level 3,Castle Kalindra Level 2,MM5
+44,4,3,True,41,"[4, 3]",teleport/exit,25,1,Castle Kalindra Dungeon,Castle Kalindra Level 1,MM5
+44,13,15,True,41,"[13, 15]",teleport/exit,8,1,Castle Kalindra Dungeon,Castle Kalindra Level 1,MM5
+45,0,10,True,46,"[0, 10]",teleport/exit,25,1,Castle Blackfang Level 1,Castle Blackfang Level 2,MM5
+45,0,12,True,46,"[0, 12]",teleport/exit,8,1,Castle Blackfang Level 1,Castle Blackfang Level 2,MM5
+45,7,8,True,21,"[9, 11]",teleport/exit,85,2,Castle Blackfang Level 1,Area F1,MM5
+45,11,12,True,48,"[11, 12]",teleport/exit,59,1,Castle Blackfang Level 1,Castle Blackfang Dungeon,MM5
+45,12,0,True,46,"[12, 0]",teleport/exit,42,1,Castle Blackfang Level 1,Castle Blackfang Level 2,MM5
+46,0,10,True,45,"[0, 10]",teleport/exit,76,1,Castle Blackfang Level 2,Castle Blackfang Level 1,MM5
+46,0,12,True,45,"[0, 12]",teleport/exit,93,1,Castle Blackfang Level 2,Castle Blackfang Level 1,MM5
+46,8,1,True,47,"[8, 1]",teleport/exit,59,1,Castle Blackfang Level 2,Castle Blackfang Level 3,MM5
+46,12,0,True,45,"[12, 0]",teleport/exit,42,1,Castle Blackfang Level 2,Castle Blackfang Level 1,MM5
+46,15,10,True,47,"[15, 10]",teleport/exit,8,1,Castle Blackfang Level 2,Castle Blackfang Level 3,MM5
+46,15,12,True,47,"[15, 12]",teleport/exit,25,1,Castle Blackfang Level 2,Castle Blackfang Level 3,MM5
+47,8,1,True,46,"[8, 1]",teleport/exit,8,1,Castle Blackfang Level 3,Castle Blackfang Level 2,MM5
+47,15,0,True,109,"[9, 11]",teleport/exit,89,1,Castle Blackfang Level 3,Skyroad F1,MM5
+47,15,10,True,46,"[15, 10]",teleport/exit,25,1,Castle Blackfang Level 3,Castle Blackfang Level 2,MM5
+47,15,12,True,46,"[15, 12]",teleport/exit,72,5,Castle Blackfang Level 3,Castle Blackfang Level 2,MM5
+48,11,12,True,45,"[11, 12]",teleport/exit,8,1,Castle Blackfang Dungeon,Castle Blackfang Level 1,MM5
+49,0,1,True,49,"[1, 1]",teleport/continue,870,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,2,True,49,"[0, 1]",teleport/continue,853,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,3,True,49,"[0, 2]",teleport/continue,844,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,4,True,49,"[0, 3]",teleport/continue,835,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,5,True,49,"[0, 4]",teleport/continue,826,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,6,True,49,"[0, 5]",teleport/continue,817,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,8,True,50,"[0, 8]",teleport/exit,56,1,Castle Alamar Level 1,Castle Alamar Level 2,MM5
+49,0,10,True,49,"[0, 11]",teleport/continue,329,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,11,True,49,"[0, 12]",teleport/continue,338,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,12,True,49,"[0, 13]",teleport/continue,347,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,13,True,49,"[0, 14]",teleport/continue,356,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,14,True,49,"[0, 15]",teleport/continue,365,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,0,15,True,49,"[1, 15]",teleport/continue,382,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,1,True,49,"[2, 1]",teleport/continue,879,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,2,True,49,"[1, 3]",teleport/continue,1018,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,3,True,49,"[1, 4]",teleport/continue,1027,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,4,True,49,"[2, 4]",teleport/continue,1044,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,12,True,49,"[2, 12]",teleport/continue,556,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,13,True,49,"[1, 12]",teleport/continue,539,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,14,True,49,"[1, 13]",teleport/continue,530,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,1,15,True,49,"[2, 15]",teleport/continue,391,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,2,1,True,49,"[3, 1]",teleport/continue,888,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,2,2,True,49,"[1, 2]",teleport/continue,1001,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,2,14,True,49,"[1, 14]",teleport/continue,513,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,2,15,True,49,"[3, 15]",teleport/continue,400,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,1,True,49,"[4, 1]",teleport/continue,897,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,2,True,49,"[2, 2]",teleport/continue,992,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,3,True,49,"[3, 2]",teleport/continue,975,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,4,True,49,"[3, 3]",teleport/continue,966,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,12,True,49,"[3, 13]",teleport/continue,478,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,13,True,49,"[3, 14]",teleport/continue,487,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,14,True,49,"[2, 14]",teleport/continue,504,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,3,15,True,49,"[4, 15]",teleport/continue,409,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,1,True,49,"[4, 2]",teleport/continue,914,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,2,True,49,"[4, 3]",teleport/continue,923,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,3,True,49,"[4, 4]",teleport/continue,932,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,4,True,49,"[3, 4]",teleport/continue,949,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,12,True,49,"[3, 12]",teleport/continue,461,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,13,True,49,"[4, 12]",teleport/continue,444,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,14,True,49,"[4, 13]",teleport/continue,435,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,4,15,True,49,"[4, 14]",teleport/continue,426,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,1,True,49,"[5, 2]",teleport/continue,1158,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,2,True,49,"[5, 3]",teleport/continue,1167,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,3,True,49,"[5, 4]",teleport/continue,1184,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,4,True,49,"[6, 4]",teleport/continue,1193,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,12,True,49,"[6, 12]",teleport/continue,705,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,13,True,49,"[5, 12]",teleport/continue,688,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,14,True,49,"[5, 13]",teleport/continue,679,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,5,15,True,49,"[5, 14]",teleport/continue,670,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,1,True,49,"[5, 1]",teleport/continue,1141,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,2,True,49,"[7, 2]",teleport/continue,1236,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,3,True,49,"[6, 2]",teleport/continue,1219,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,4,True,49,"[6, 3]",teleport/continue,1210,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,12,True,49,"[6, 13]",teleport/continue,722,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,13,True,49,"[6, 14]",teleport/continue,731,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,14,True,49,"[7, 14]",teleport/continue,748,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,6,15,True,49,"[5, 15]",teleport/continue,653,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,7,1,True,49,"[6, 1]",teleport/continue,1132,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,7,2,True,49,"[8, 2]",teleport/continue,1245,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,7,14,True,49,"[8, 14]",teleport/continue,757,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,7,15,True,49,"[6, 15]",teleport/continue,644,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,1,True,49,"[7, 1]",teleport/continue,1123,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,2,True,49,"[8, 3]",teleport/continue,1262,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,3,True,49,"[8, 4]",teleport/continue,1271,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,4,True,49,"[7, 4]",teleport/continue,1288,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,12,True,49,"[7, 12]",teleport/continue,800,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,13,True,49,"[8, 12]",teleport/continue,783,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,14,True,49,"[8, 13]",teleport/continue,774,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,8,15,True,49,"[7, 15]",teleport/continue,635,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,1,True,49,"[8, 1]",teleport/continue,1114,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,2,True,49,"[9, 1]",teleport/continue,1097,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,3,True,49,"[9, 2]",teleport/continue,1088,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,4,True,49,"[9, 3]",teleport/continue,1079,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,5,True,49,"[9, 4]",teleport/continue,1070,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,6,True,49,"[9, 5]",teleport/continue,1061,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,10,True,49,"[9, 11]",teleport/continue,573,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,11,True,49,"[9, 12]",teleport/continue,582,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,12,True,49,"[9, 13]",teleport/continue,591,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,13,True,49,"[9, 14]",teleport/continue,600,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,14,True,49,"[9, 15]",teleport/continue,609,0,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,9,15,True,49,"[8, 15]",teleport/continue,626,1,Castle Alamar Level 1,Castle Alamar Level 1,MM5
+49,15,1,True,52,"[15, 1]",teleport/exit,39,1,Castle Alamar Level 1,Castle Alamar Dungeon,MM5
+49,15,8,True,1,"[11, 4]",teleport/exit,22,3,Castle Alamar Level 1,Area A1,MM5
+50,0,8,True,49,"[0, 8]",teleport/exit,8,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,3,True,49,"[0, 6]",fall,4442,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,4,True,49,"[0, 6]",fall,4478,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,5,True,49,"[0, 6]",fall,4487,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,6,True,49,"[0, 6]",fall,4504,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,7,True,49,"[0, 6]",fall,4519,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,8,True,49,"[0, 6]",fall,4536,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,9,True,49,"[0, 6]",fall,4551,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,10,True,49,"[0, 6]",fall,4568,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,11,True,49,"[0, 6]",fall,4583,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,12,True,49,"[0, 6]",fall,4592,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,2,13,True,49,"[0, 6]",fall,4451,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,3,True,49,"[0, 6]",fall,4961,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,4,True,49,"[9, 10]",fall,4970,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,4,True,49,"[9, 10]",fall,4979,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,5,True,49,"[9, 10]",fall,4988,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,6,True,49,"[9, 10]",fall,5005,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,7,True,49,"[9, 10]",fall,5020,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,8,True,49,"[9, 10]",fall,5037,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,9,True,49,"[9, 10]",fall,5052,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,10,True,49,"[9, 10]",fall,5069,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,11,True,49,"[9, 10]",fall,5084,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,12,True,49,"[9, 10]",fall,5093,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,3,13,True,49,"[0, 6]",fall,4601,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,3,True,49,"[0, 6]",fall,4952,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,4,True,49,"[9, 10]",fall,5426,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,5,True,49,"[0, 10]",fall,5435,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,6,True,49,"[0, 10]",fall,5452,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,7,True,49,"[0, 10]",fall,5467,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,8,True,49,"[0, 10]",fall,5484,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,9,True,49,"[0, 10]",fall,5499,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,10,True,49,"[0, 10]",fall,5516,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,11,True,49,"[0, 10]",fall,5531,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,12,True,49,"[9, 10]",fall,5102,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,4,13,True,49,"[0, 6]",fall,4610,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,3,True,49,"[0, 6]",fall,4937,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,4,True,49,"[9, 10]",fall,5411,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,5,True,49,"[0, 10]",fall,5804,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,6,True,49,"[9, 6]",fall,5819,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,7,True,49,"[9, 6]",fall,5836,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,8,True,49,"[9, 6]",fall,5859,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,9,True,49,"[9, 6]",fall,5882,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,10,True,49,"[9, 6]",fall,5897,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,11,True,49,"[0, 10]",fall,5548,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,12,True,49,"[9, 10]",fall,5119,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,5,13,True,49,"[0, 6]",fall,4627,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,3,True,49,"[0, 6]",fall,4920,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,4,True,49,"[9, 10]",fall,5394,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,5,True,49,"[0, 10]",fall,5787,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,6,True,49,"[9, 6]",fall,6116,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,10,True,49,"[9, 6]",fall,5914,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,11,True,49,"[0, 10]",fall,5563,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,12,True,49,"[9, 10]",fall,5134,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,6,13,True,49,"[0, 6]",fall,4642,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,3,True,49,"[0, 6]",fall,4905,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,4,True,49,"[9, 10]",fall,5379,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,5,True,49,"[0, 10]",fall,5772,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,6,True,49,"[9, 6]",fall,6093,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,10,True,49,"[9, 6]",fall,5937,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,11,True,49,"[0, 10]",fall,5580,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,12,True,49,"[9, 10]",fall,5151,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,7,13,True,49,"[0, 6]",fall,4659,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,3,True,49,"[0, 6]",fall,4888,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,4,True,49,"[9, 10]",fall,5362,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,5,True,49,"[0, 10]",fall,5755,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,6,True,49,"[9, 6]",fall,6070,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,10,True,49,"[9, 6]",fall,5960,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,11,True,49,"[0, 10]",fall,5595,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,12,True,49,"[9, 10]",fall,5166,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,8,13,True,49,"[0, 6]",fall,4674,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,3,True,49,"[0, 6]",fall,4873,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,4,True,49,"[9, 10]",fall,5347,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,5,True,49,"[0, 10]",fall,5740,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,6,True,49,"[9, 6]",fall,6053,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,7,True,49,"[9, 6]",fall,6038,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,8,True,49,"[9, 6]",fall,6015,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,9,True,49,"[9, 6]",fall,5992,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,10,True,49,"[9, 6]",fall,5975,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,11,True,49,"[0, 10]",fall,5612,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,12,True,49,"[9, 10]",fall,5183,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,9,13,True,49,"[0, 6]",fall,4691,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,3,True,49,"[0, 6]",fall,4856,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,4,True,49,"[9, 10]",fall,5330,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,5,True,49,"[0, 10]",fall,5723,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,6,True,49,"[0, 10]",fall,5708,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,7,True,49,"[0, 10]",fall,5691,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,8,True,49,"[0, 10]",fall,5676,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,9,True,49,"[0, 10]",fall,5659,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,10,True,49,"[0, 10]",fall,5644,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,11,True,49,"[0, 10]",fall,5627,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,12,True,49,"[9, 10]",fall,5198,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,10,13,True,49,"[0, 6]",fall,4706,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,3,True,49,"[0, 6]",fall,4847,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,4,True,49,"[9, 10]",fall,5321,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,5,True,49,"[9, 10]",fall,5312,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,6,True,49,"[9, 10]",fall,5297,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,7,True,49,"[9, 10]",fall,5280,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,8,True,49,"[9, 10]",fall,5265,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,9,True,49,"[9, 10]",fall,5248,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,10,True,49,"[9, 10]",fall,5233,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,11,True,49,"[9, 10]",fall,5216,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,12,True,49,"[9, 10]",fall,5207,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,11,13,True,49,"[0, 6]",fall,4715,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,3,True,49,"[0, 6]",fall,4469,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,4,True,49,"[0, 6]",fall,4838,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,5,True,49,"[0, 6]",fall,4829,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,6,True,49,"[0, 6]",fall,4814,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,7,True,49,"[0, 6]",fall,4797,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,8,True,49,"[0, 6]",fall,4782,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,9,True,49,"[0, 6]",fall,4765,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,10,True,49,"[0, 6]",fall,4750,1,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,11,True,49,"[0, 6]",fall,4733,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,12,True,49,"[0, 6]",fall,4724,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,12,13,True,49,"[0, 6]",fall,4460,0,Castle Alamar Level 2,Castle Alamar Level 1,MM5
+50,15,8,True,51,"[15, 8]",teleport/exit,55,5,Castle Alamar Level 2,Castle Alamar Level 3,MM5
+51,1,1,True,49,"[9, 6]",fall,906,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,1,2,True,49,"[9, 6]",fall,897,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,2,1,True,49,"[0, 10]",fall,681,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,2,5,True,51,"[2, 6]",teleport/continue,173,6,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,2,6,True,51,"[2, 7]",teleport/continue,182,0,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,2,7,True,51,"[2, 8]",teleport/continue,191,0,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,2,8,True,51,"[2, 9]",teleport/continue,200,0,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,2,9,True,51,"[2, 10]",teleport/continue,209,0,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,2,10,True,51,"[2, 11]",teleport/continue,218,0,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,2,11,True,51,"[2, 12]",teleport/continue,227,0,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,2,12,True,51,"[2, 13]",teleport/continue,236,0,Castle Alamar Level 3,Castle Alamar Level 3,MM5
+51,3,1,True,49,"[9, 10]",fall,537,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,4,1,True,49,"[0, 6]",fall,384,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,4,8,True,89,"[9, 4]",teleport/exit,17,0,Castle Alamar Level 3,Skyroad A1,MM5
+51,5,1,True,49,"[9, 6]",fall,915,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,5,3,True,49,"[9, 10]",fall,609,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,5,4,True,49,"[9, 10]",fall,618,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,5,13,True,49,"[9, 6]",fall,996,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,1,True,49,"[0, 10]",fall,690,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,4,True,49,"[0, 10]",fall,771,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,5,True,49,"[0, 10]",fall,780,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,7,True,49,"[0, 6]",fall,465,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,9,True,49,"[0, 10]",fall,834,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,10,True,49,"[0, 6]",fall,483,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,11,True,49,"[0, 6]",fall,492,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,13,True,49,"[0, 10]",fall,861,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,6,14,True,49,"[0, 6]",fall,510,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,7,1,True,49,"[9, 10]",fall,546,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,7,2,True,49,"[9, 10]",fall,555,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,7,5,True,49,"[9, 10]",fall,627,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,7,7,True,49,"[9, 6]",fall,1050,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,2,True,49,"[0, 10]",fall,699,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,3,True,49,"[0, 10]",fall,708,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,5,True,49,"[0, 6]",fall,429,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,7,True,49,"[0, 10]",fall,825,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,8,True,49,"[0, 6]",fall,474,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,10,True,49,"[0, 10]",fall,843,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,11,True,49,"[0, 10]",fall,852,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,12,True,49,"[0, 6]",fall,501,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,14,True,49,"[0, 10]",fall,870,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,8,15,True,49,"[0, 10]",fall,879,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,9,0,True,49,"[9, 10]",fall,573,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,9,3,True,49,"[9, 10]",fall,564,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,9,5,True,49,"[9, 6]",fall,978,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,0,True,49,"[0, 10]",fall,744,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,1,True,49,"[0, 10]",fall,753,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,3,True,49,"[0, 6]",fall,402,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,5,True,49,"[0, 10]",fall,789,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,6,True,49,"[0, 6]",fall,438,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,7,True,49,"[0, 6]",fall,447,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,8,True,49,"[0, 10]",fall,798,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,9,True,49,"[0, 10]",fall,807,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,10,True,49,"[0, 6]",fall,456,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,12,True,49,"[0, 10]",fall,888,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,10,14,True,49,"[0, 6]",fall,519,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,11,0,True,49,"[9, 6]",fall,942,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,11,3,True,49,"[9, 6]",fall,924,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,11,6,True,49,"[9, 10]",fall,636,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,11,10,True,49,"[9, 10]",fall,645,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,11,12,True,49,"[9, 6]",fall,1005,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,11,13,True,49,"[9, 10]",fall,654,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,11,14,True,49,"[9, 10]",fall,663,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,12,0,True,49,"[0, 6]",fall,393,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,12,2,True,49,"[0, 10]",fall,717,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,12,3,True,49,"[0, 10]",fall,726,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,12,4,True,49,"[0, 6]",fall,411,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,12,8,True,49,"[0, 6]",fall,420,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,12,10,True,49,"[0, 10]",fall,816,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,2,True,49,"[9, 6]",fall,933,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,4,True,49,"[9, 10]",fall,582,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,5,True,49,"[9, 6]",fall,960,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,6,True,49,"[9, 6]",fall,969,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,7,True,49,"[9, 10]",fall,591,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,8,True,49,"[9, 10]",fall,600,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,10,True,49,"[9, 6]",fall,987,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,12,True,49,"[9, 10]",fall,672,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,13,True,49,"[9, 6]",fall,1014,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,13,14,True,49,"[9, 6]",fall,1023,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,14,0,True,49,"[0, 10]",fall,762,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,14,5,True,49,"[0, 10]",fall,735,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,14,14,True,49,"[0, 6]",fall,528,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,15,3,True,49,"[9, 6]",fall,951,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,15,8,True,50,"[15, 8]",teleport/exit,8,1,Castle Alamar Level 3,Castle Alamar Level 2,MM5
+51,15,11,True,49,"[9, 6]",fall,1032,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+51,15,12,True,49,"[9, 6]",fall,1041,0,Castle Alamar Level 3,Castle Alamar Level 1,MM5
+52,15,1,True,49,"[15, 1]",teleport/exit,8,1,Castle Alamar Dungeon,Castle Alamar Level 1,MM5
+53,7,8,True,54,"[7, 8]",teleport/exit,39,1,Ellinger's Tower Lvl 1,Ellinger's Tower Lvl 2,MM5
+53,9,8,True,0,"[0, 0]",teleport/exit,111,8,Ellinger's Tower Lvl 1,dynamic/mirror/fall destination,MM5
+53,10,8,True,29,"[12, 10]",teleport/exit,161,5,Ellinger's Tower Lvl 1,Castleview,MM5
+53,11,8,True,29,"[13, 10]",teleport/exit,22,3,Ellinger's Tower Lvl 1,Castleview,MM5
+54,7,8,True,53,"[7, 8]",teleport/exit,1445,1,Ellinger's Tower Lvl 2,Ellinger's Tower Lvl 1,MM5
+54,9,8,True,55,"[9, 8]",teleport/exit,1462,1,Ellinger's Tower Lvl 2,Ellinger's Tower Lvl 3,MM5
+55,7,8,True,56,"[7, 8]",teleport/continue,776,1,Ellinger's Tower Lvl 3,Ellinger's Tower Lvl 4,MM5
+55,9,8,True,54,"[9, 8]",teleport/exit,810,1,Ellinger's Tower Lvl 3,Ellinger's Tower Lvl 2,MM5
+55,11,8,True,56,"[11, 8]",teleport/exit,793,1,Ellinger's Tower Lvl 3,Ellinger's Tower Lvl 4,MM5
+56,7,8,True,55,"[7, 8]",teleport/exit,58,4,Ellinger's Tower Lvl 4,Ellinger's Tower Lvl 3,MM5
+56,7,8,True,53,"[11, 8]",teleport/exit,101,9,Ellinger's Tower Lvl 4,Ellinger's Tower Lvl 1,MM5
+56,9,8,True,92,"[14, 10]",teleport/exit,0,0,Ellinger's Tower Lvl 4,Skyroad A4,MM5
+56,11,8,True,55,"[11, 8]",teleport/exit,17,1,Ellinger's Tower Lvl 4,Ellinger's Tower Lvl 3,MM5
+57,7,9,True,58,"[7, 9]",teleport/exit,348,1,Western Tower Lvl 1,Western Tower Lvl 2,MM5
+57,7,12,True,0,"[0, 0]",teleport/exit,63,8,Western Tower Lvl 1,dynamic/mirror/fall destination,MM5
+57,10,6,True,58,"[10, 6]",teleport/exit,365,1,Western Tower Lvl 1,Western Tower Lvl 2,MM5
+57,11,8,True,3,"[5, 9]",teleport/exit,396,3,Western Tower Lvl 1,Area A3,MM5
+58,7,9,True,57,"[7, 9]",teleport/exit,461,1,Western Tower Lvl 2,Western Tower Lvl 1,MM5
+58,8,8,True,59,"[8, 8]",teleport/exit,410,1,Western Tower Lvl 2,Western Tower Lvl 3,MM5
+58,10,6,True,57,"[10, 6]",teleport/exit,444,1,Western Tower Lvl 2,Western Tower Lvl 1,MM5
+58,11,8,True,59,"[11, 8]",teleport/exit,427,1,Western Tower Lvl 2,Western Tower Lvl 3,MM5
+59,7,9,True,60,"[7, 9]",teleport/exit,371,1,Western Tower Lvl 3,Western Tower Lvl 4,MM5
+59,8,8,True,58,"[8, 8]",teleport/exit,405,1,Western Tower Lvl 3,Western Tower Lvl 2,MM5
+59,10,6,True,60,"[10, 6]",teleport/exit,388,1,Western Tower Lvl 3,Western Tower Lvl 4,MM5
+59,11,8,True,58,"[11, 8]",teleport/exit,422,1,Western Tower Lvl 3,Western Tower Lvl 2,MM5
+60,7,9,True,59,"[7, 9]",teleport/exit,628,1,Western Tower Lvl 4,Western Tower Lvl 3,MM5
+60,10,6,True,59,"[10, 6]",teleport/exit,645,1,Western Tower Lvl 4,Western Tower Lvl 3,MM5
+60,11,8,True,91,"[4, 9]",teleport/exit,611,0,Western Tower Lvl 4,Skyroad A3,MM5
+61,7,12,True,16,"[2, 8]",teleport/exit,22,3,Southern Tower Lvl 1,Area D4,MM5
+61,9,11,True,0,"[0, 0]",teleport/exit,179,8,Southern Tower Lvl 1,dynamic/mirror/fall destination,MM5
+61,10,6,True,62,"[10, 6]",teleport/exit,39,1,Southern Tower Lvl 1,Southern Tower Lvl 2,MM5
+62,3,8,True,61,"[3, 8]",fall,110,4,Southern Tower Lvl 2,Southern Tower Lvl 1,MM5
+62,7,4,True,61,"[3, 8]",fall,159,4,Southern Tower Lvl 2,Southern Tower Lvl 1,MM5
+62,7,12,True,63,"[7, 12]",teleport/exit,8,1,Southern Tower Lvl 2,Southern Tower Lvl 3,MM5
+62,10,6,True,61,"[10, 6]",teleport/exit,25,1,Southern Tower Lvl 2,Southern Tower Lvl 1,MM5
+62,11,8,True,61,"[3, 8]",fall,208,4,Southern Tower Lvl 2,Southern Tower Lvl 1,MM5
+63,3,8,True,62,"[3, 8]",fall,68,4,Southern Tower Lvl 3,Southern Tower Lvl 2,MM5
+63,7,4,True,64,"[7, 4]",teleport/exit,25,1,Southern Tower Lvl 3,Southern Tower Lvl 4,MM5
+63,7,12,True,62,"[7, 12]",teleport/exit,8,1,Southern Tower Lvl 3,Southern Tower Lvl 2,MM5
+63,11,8,True,62,"[11, 8]",fall,117,4,Southern Tower Lvl 3,Southern Tower Lvl 2,MM5
+64,3,8,True,63,"[3, 8]",fall,171,4,Southern Tower Lvl 4,Southern Tower Lvl 3,MM5
+64,7,4,True,63,"[7, 4]",teleport/exit,17,1,Southern Tower Lvl 4,Southern Tower Lvl 3,MM5
+64,7,12,True,104,"[2, 7]",teleport/exit,0,0,Southern Tower Lvl 4,Skyroad D4,MM5
+64,11,8,True,63,"[11, 8]",fall,220,4,Southern Tower Lvl 4,Southern Tower Lvl 3,MM5
+65,3,8,True,23,"[9, 9]",teleport/exit,22,3,Eastern Tower Lvl 1,Area F3,MM5
+65,4,6,True,66,"[4, 6]",teleport/exit,39,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,4,10,True,66,"[4, 10]",teleport/exit,56,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,5,5,True,66,"[5, 5]",teleport/exit,209,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,5,11,True,66,"[5, 11]",teleport/exit,73,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,7,4,True,66,"[7, 4]",teleport/exit,192,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,7,6,True,65,"[7, 8]",teleport/exit,293,3,Eastern Tower Lvl 1,Eastern Tower Lvl 1,MM5
+65,7,6,True,65,"[5, 7]",teleport/exit,309,5,Eastern Tower Lvl 1,Eastern Tower Lvl 1,MM5
+65,7,10,True,65,"[7, 8]",teleport/exit,243,3,Eastern Tower Lvl 1,Eastern Tower Lvl 1,MM5
+65,7,10,True,65,"[9, 9]",teleport/exit,259,5,Eastern Tower Lvl 1,Eastern Tower Lvl 1,MM5
+65,7,12,True,66,"[7, 12]",teleport/exit,90,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,9,5,True,66,"[9, 5]",teleport/exit,175,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,9,11,True,66,"[9, 11]",teleport/exit,107,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,10,6,True,66,"[10, 6]",teleport/exit,158,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,10,10,True,66,"[10, 10]",teleport/exit,124,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+65,11,8,True,66,"[11, 8]",teleport/exit,141,1,Eastern Tower Lvl 1,Eastern Tower Lvl 2,MM5
+66,3,8,True,67,"[3, 8]",teleport/exit,59,1,Eastern Tower Lvl 2,Eastern Tower Lvl 3,MM5
+66,4,6,True,65,"[4, 6]",teleport/exit,229,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,4,10,True,65,"[4, 10]",teleport/exit,246,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,5,5,True,65,"[5, 5]",teleport/exit,212,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,5,11,True,65,"[5, 11]",teleport/exit,110,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,7,4,True,65,"[7, 4]",teleport/exit,195,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,7,9,True,67,"[7, 9]",teleport/exit,8,1,Eastern Tower Lvl 2,Eastern Tower Lvl 3,MM5
+66,7,11,True,67,"[7, 11]",teleport/exit,42,1,Eastern Tower Lvl 2,Eastern Tower Lvl 3,MM5
+66,7,12,True,65,"[7, 12]",teleport/exit,76,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,8,8,True,67,"[8, 8]",teleport/exit,25,1,Eastern Tower Lvl 2,Eastern Tower Lvl 3,MM5
+66,9,5,True,65,"[9, 5]",teleport/exit,178,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,9,11,True,65,"[9, 11]",teleport/exit,93,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,10,6,True,65,"[10, 6]",teleport/exit,161,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,10,8,True,0,"[0, 0]",teleport/exit,318,8,Eastern Tower Lvl 2,dynamic/mirror/fall destination,MM5
+66,10,10,True,65,"[10, 10]",teleport/exit,127,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+66,11,8,True,65,"[11, 8]",teleport/exit,144,1,Eastern Tower Lvl 2,Eastern Tower Lvl 1,MM5
+67,3,8,True,66,"[3, 8]",teleport/exit,178,1,Eastern Tower Lvl 3,Eastern Tower Lvl 2,MM5
+67,4,6,True,68,"[4, 6]",teleport/exit,76,1,Eastern Tower Lvl 3,Eastern Tower Lvl 4,MM5
+67,4,8,True,68,"[4, 8]",teleport/exit,42,1,Eastern Tower Lvl 3,Eastern Tower Lvl 4,MM5
+67,4,10,True,68,"[4, 10]",teleport/exit,93,1,Eastern Tower Lvl 3,Eastern Tower Lvl 4,MM5
+67,6,8,True,68,"[6, 8]",teleport/exit,127,1,Eastern Tower Lvl 3,Eastern Tower Lvl 4,MM5
+67,7,7,True,68,"[7, 7]",teleport/exit,59,1,Eastern Tower Lvl 3,Eastern Tower Lvl 4,MM5
+67,7,9,True,66,"[7, 9]",teleport/exit,110,1,Eastern Tower Lvl 3,Eastern Tower Lvl 2,MM5
+67,7,11,True,66,"[7, 11]",teleport/exit,161,1,Eastern Tower Lvl 3,Eastern Tower Lvl 2,MM5
+67,7,12,True,68,"[7, 12]",teleport/exit,8,1,Eastern Tower Lvl 3,Eastern Tower Lvl 4,MM5
+67,8,8,True,66,"[8, 8]",teleport/exit,144,1,Eastern Tower Lvl 3,Eastern Tower Lvl 2,MM5
+67,9,11,True,68,"[9, 11]",teleport/exit,25,1,Eastern Tower Lvl 3,Eastern Tower Lvl 4,MM5
+68,3,8,True,111,"[10, 9]",teleport/exit,0,0,Eastern Tower Lvl 4,Skyroad F3,MM5
+68,4,6,True,67,"[4, 6]",teleport/exit,85,1,Eastern Tower Lvl 4,Eastern Tower Lvl 3,MM5
+68,4,8,True,67,"[4, 8]",teleport/exit,51,1,Eastern Tower Lvl 4,Eastern Tower Lvl 3,MM5
+68,4,10,True,67,"[4, 10]",teleport/exit,119,1,Eastern Tower Lvl 4,Eastern Tower Lvl 3,MM5
+68,6,8,True,67,"[6, 8]",teleport/exit,102,1,Eastern Tower Lvl 4,Eastern Tower Lvl 3,MM5
+68,7,7,True,67,"[7, 7]",teleport/exit,68,1,Eastern Tower Lvl 4,Eastern Tower Lvl 3,MM5
+68,7,12,True,67,"[7, 12]",teleport/exit,17,1,Eastern Tower Lvl 4,Eastern Tower Lvl 3,MM5
+68,9,11,True,67,"[9, 11]",teleport/exit,34,1,Eastern Tower Lvl 4,Eastern Tower Lvl 3,MM5
+69,5,5,True,0,"[0, 0]",teleport/exit,143,8,Northern Tower Lvl 1,dynamic/mirror/fall destination,MM5
+69,7,4,True,13,"[2, 9]",teleport/exit,22,3,Northern Tower Lvl 1,Area D1,MM5
+69,7,12,True,70,"[7, 12]",teleport/exit,39,1,Northern Tower Lvl 1,Northern Tower Lvl 2,MM5
+70,7,4,True,71,"[7, 4]",teleport/exit,25,1,Northern Tower Lvl 2,Northern Tower Lvl 3,MM5
+70,7,12,True,69,"[7, 12]",teleport/exit,8,1,Northern Tower Lvl 2,Northern Tower Lvl 1,MM5
+71,7,4,True,70,"[7, 4]",teleport/exit,25,1,Northern Tower Lvl 3,Northern Tower Lvl 2,MM5
+71,7,12,True,72,"[7, 12]",teleport/exit,8,1,Northern Tower Lvl 3,Northern Tower Lvl 4,MM5
+72,7,4,True,72,"[7, 10]",teleport/exit,234,8,Northern Tower Lvl 4,Northern Tower Lvl 4,MM5
+72,7,4,True,72,"[7, 10]",teleport/exit,316,18,Northern Tower Lvl 4,Northern Tower Lvl 4,MM5
+72,7,12,True,71,"[7, 12]",teleport/exit,8,1,Northern Tower Lvl 4,Northern Tower Lvl 3,MM5
+72,9,11,True,101,"[2, 10]",teleport/exit,25,1,Northern Tower Lvl 4,Skyroad D1,MM5
+73,0,7,True,12,"[2, 9]",teleport/exit,0,0,Temple of Bark Lvl 1,Area C4,MM5
+73,15,12,True,74,"[15, 12]",teleport/exit,17,1,Temple of Bark Lvl 1,Temple of Bark Lvl 2,MM5
+74,7,0,True,75,"[7, 0]",teleport/exit,25,1,Temple of Bark Lvl 2,Temple of Bark Lvl 3,MM5
+74,15,12,True,73,"[15, 12]",teleport/exit,8,1,Temple of Bark Lvl 2,Temple of Bark Lvl 1,MM5
+75,7,0,True,74,"[7, 0]",teleport/exit,8,1,Temple of Bark Lvl 3,Temple of Bark Lvl 2,MM5
+75,8,8,True,75,"[8, 9]",teleport/exit,1489,7,Temple of Bark Lvl 3,Temple of Bark Lvl 3,MM5
+75,14,0,True,76,"[14, 0]",teleport/exit,25,1,Temple of Bark Lvl 3,Temple of Bark Lvl 4,MM5
+76,1,0,True,77,"[16, 20]",teleport/continue,344,6,Temple of Bark Lvl 4,Temple of Bark Lvl 5,MM5
+76,14,0,True,75,"[14, 0]",teleport/exit,361,1,Temple of Bark Lvl 4,Temple of Bark Lvl 3,MM5
+77,16,20,True,76,"[1, 0]",teleport/exit,0,0,Temple of Bark Lvl 5,Temple of Bark Lvl 4,MM5
+78,8,1,True,78,"[8, 2]",teleport/exit,279,4,Lost Souls Dungeon Lvl 1,Lost Souls Dungeon Lvl 1,MM5
+78,8,1,True,80,"[7, 14]",teleport/exit,368,15,Lost Souls Dungeon Lvl 1,Lost Souls Dungeon Lvl 2,MM5
+78,8,14,True,22,"[6, 9]",teleport/exit,8,1,Lost Souls Dungeon Lvl 1,Area F2,MM5
+79,7,14,True,79,"[7, 13]",teleport/exit,480,6,Lost Souls Dungeon Lvl 3,Lost Souls Dungeon Lvl 3,MM5
+79,7,14,True,79,"[7, 13]",teleport/exit,634,25,Lost Souls Dungeon Lvl 3,Lost Souls Dungeon Lvl 3,MM5
+79,7,14,True,81,"[7, 1]",teleport/exit,667,29,Lost Souls Dungeon Lvl 3,Lost Souls Dungeon Lvl 4,MM5
+79,8,1,True,80,"[7, 1]",teleport/exit,8,1,Lost Souls Dungeon Lvl 3,Lost Souls Dungeon Lvl 2,MM5
+80,7,1,True,80,"[7, 2]",teleport/exit,3293,4,Lost Souls Dungeon Lvl 2,Lost Souls Dungeon Lvl 2,MM5
+80,7,1,True,80,"[7, 2]",teleport/exit,3387,15,Lost Souls Dungeon Lvl 2,Lost Souls Dungeon Lvl 2,MM5
+80,7,1,True,79,"[8, 1]",teleport/exit,3495,28,Lost Souls Dungeon Lvl 2,Lost Souls Dungeon Lvl 3,MM5
+80,7,14,True,78,"[8, 1]",teleport/exit,8,1,Lost Souls Dungeon Lvl 2,Lost Souls Dungeon Lvl 1,MM5
+81,7,1,True,79,"[7, 14]",teleport/exit,1920,1,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 3,MM5
+81,8,2,True,81,"[7, 2]",teleport/continue,2212,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,8,4,True,81,"[9, 4]",teleport/continue,2452,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,8,6,True,81,"[9, 6]",teleport/continue,2662,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,8,8,True,81,"[9, 8]",teleport/continue,2992,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,8,10,True,81,"[7, 10]",teleport/continue,3022,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,8,12,True,81,"[9, 12]",teleport/continue,3202,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,8,14,True,81,"[9, 14]",teleport/continue,3322,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,2,True,81,"[8, 2]",teleport/continue,2242,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,3,True,81,"[9, 2]",teleport/continue,2392,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,4,True,81,"[9, 3]",teleport/continue,2422,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,6,True,81,"[10, 6]",teleport/continue,2632,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,8,True,81,"[10, 8]",teleport/continue,2962,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,10,True,81,"[8, 10]",teleport/continue,3052,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,12,True,81,"[10, 12]",teleport/continue,3232,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,9,14,True,81,"[10, 14]",teleport/continue,3352,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,10,2,True,81,"[9, 2]",teleport/continue,2272,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,10,6,True,81,"[11, 6]",teleport/continue,2602,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,10,8,True,81,"[11, 8]",teleport/continue,2932,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,10,10,True,81,"[9, 10]",teleport/continue,3082,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,10,11,True,81,"[10, 10]",teleport/continue,3292,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,10,12,True,81,"[10, 11]",teleport/continue,3262,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,10,14,True,81,"[11, 14]",teleport/continue,3382,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,2,True,81,"[10, 2]",teleport/continue,2302,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,3,True,81,"[11, 2]",teleport/continue,2482,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,4,True,81,"[11, 3]",teleport/continue,2512,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,5,True,81,"[11, 4]",teleport/continue,2542,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,6,True,81,"[11, 5]",teleport/continue,2572,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,8,True,81,"[12, 8]",teleport/continue,2902,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,10,True,81,"[10, 10]",teleport/continue,3112,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,11,14,True,81,"[12, 14]",teleport/continue,3412,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,12,2,True,81,"[11, 2]",teleport/continue,2332,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,12,8,True,81,"[13, 8]",teleport/continue,2872,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,12,10,True,81,"[11, 10]",teleport/continue,3142,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,12,11,True,81,"[12, 10]",teleport/continue,3532,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,12,12,True,81,"[12, 11]",teleport/continue,3502,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,12,13,True,81,"[12, 12]",teleport/continue,3472,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,12,14,True,81,"[12, 13]",teleport/continue,3442,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,2,True,81,"[12, 2]",teleport/continue,2362,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,3,True,81,"[13, 2]",teleport/continue,2692,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,4,True,81,"[13, 3]",teleport/continue,2722,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,5,True,81,"[13, 4]",teleport/continue,2752,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,6,True,81,"[13, 5]",teleport/continue,2782,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,7,True,81,"[13, 6]",teleport/continue,2812,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,8,True,81,"[13, 7]",teleport/continue,2842,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,13,10,True,81,"[12, 10]",teleport/continue,3172,2,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,14,2,True,81,"[13, 2]",teleport/exit,1995,8,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 4,MM5
+81,14,2,True,82,"[31, 23]",teleport/exit,2188,29,Lost Souls Dungeon Lvl 4,Lost Souls Dungeon Lvl 5,MM5
+82,31,23,True,81,"[14, 2]",teleport/exit,8,1,Lost Souls Dungeon Lvl 5,Lost Souls Dungeon Lvl 4,MM5
+83,5,6,True,84,"[6, 6]",teleport/exit,1024,15,The Great Pyramid Level 1,The Great Pyramid Level 2,MM5
+83,11,1,True,14,"[0, 4]",teleport/exit,22,3,The Great Pyramid Level 1,Area D2,MM5
+84,6,6,True,83,"[5, 6]",teleport/exit,8,1,The Great Pyramid Level 2,The Great Pyramid Level 1,MM5
+84,9,9,True,85,"[9, 10]",teleport/exit,177,4,The Great Pyramid Level 2,The Great Pyramid Level 3,MM5
+85,9,10,True,84,"[9, 9]",teleport/exit,25,1,The Great Pyramid Level 3,The Great Pyramid Level 2,MM5
+85,11,19,True,85,"[9, 21]",teleport/exit,41,1,The Great Pyramid Level 3,The Great Pyramid Level 3,MM5
+85,13,16,True,85,"[11, 18]",teleport/exit,57,1,The Great Pyramid Level 3,The Great Pyramid Level 3,MM5
+85,16,16,True,86,"[8, 8]",teleport/exit,8,1,The Great Pyramid Level 3,The Great Pyramid Level 4,MM5
+85,18,14,True,85,"[20, 12]",teleport/exit,73,1,The Great Pyramid Level 3,The Great Pyramid Level 3,MM5
+85,20,13,True,85,"[22, 11]",teleport/exit,89,1,The Great Pyramid Level 3,The Great Pyramid Level 3,MM5
+86,8,8,True,85,"[16, 16]",teleport/exit,8,1,The Great Pyramid Level 4,The Great Pyramid Level 3,MM5
+86,10,5,True,102,"[0, 5]",teleport/exit,1034,4,The Great Pyramid Level 4,Skyroad D2,MM5
+87,22,7,True,6,"[4, 8]",teleport/exit,884,3,Escape Pod 1,Area B2,MM5
+87,22,9,True,6,"[4, 8]",teleport/exit,915,3,Escape Pod 1,Area B2,MM5
+88,22,6,True,5,"[2, 9]",teleport/exit,62,4,Escpae Pod 2,Area B1,MM5
+88,22,8,True,5,"[1, 9]",teleport/exit,101,4,Escpae Pod 2,Area B1,MM5
+89,2,13,True,89,"[2, 14]",teleport/exit,215,5,Skyroad A1,Skyroad A1,MM5
+89,2,13,True,25,"[1, 1]",fall,224,6,Skyroad A1,Elemental Plane of Fire,MM5
+89,10,4,True,51,"[4, 8]",teleport/exit,164,8,Skyroad A1,Castle Alamar Level 3,MM5
+91,4,9,True,60,"[11, 8]",teleport/exit,37,4,Skyroad A3,Western Tower Lvl 4,MM5
+91,13,7,True,3,"[14, 7]",teleport/exit,158,3,Skyroad A3,Area A3,MM5
+92,2,2,True,92,"[3, 2]",teleport/exit,254,5,Skyroad A4,Skyroad A4,MM5
+92,2,2,True,28,"[1, 1]",fall,263,6,Skyroad A4,Elemental Plane of Water,MM5
+92,5,14,True,43,"[5, 5]",teleport/exit,203,7,Skyroad A4,Castle Kalindra Level 3,MM5
+92,14,10,True,56,"[9, 8]",teleport/exit,141,4,Skyroad A4,Ellinger's Tower Lvl 4,MM5
+95,11,8,True,95,"[11, 9]",teleport/continue,148,7,Skyroad B3,Skyroad B3,MM5
+95,11,9,True,95,"[11, 10]",teleport/continue,172,2,Skyroad B3,Skyroad B3,MM5
+95,11,10,True,95,"[11, 11]",teleport/continue,196,2,Skyroad B3,Skyroad B3,MM5
+95,11,11,True,95,"[11, 12]",teleport/continue,220,2,Skyroad B3,Skyroad B3,MM5
+95,11,12,True,95,"[11, 13]",teleport/continue,244,2,Skyroad B3,Skyroad B3,MM5
+95,11,13,True,95,"[12, 13]",teleport/continue,276,3,Skyroad B3,Skyroad B3,MM5
+95,12,6,True,95,"[11, 6]",teleport/continue,638,4,Skyroad B3,Skyroad B3,MM5
+95,12,7,True,95,"[12, 6]",teleport/continue,596,2,Skyroad B3,Skyroad B3,MM5
+95,12,8,True,95,"[12, 7]",teleport/continue,572,2,Skyroad B3,Skyroad B3,MM5
+95,12,9,True,95,"[12, 8]",teleport/continue,548,2,Skyroad B3,Skyroad B3,MM5
+95,12,10,True,95,"[12, 9]",teleport/continue,524,2,Skyroad B3,Skyroad B3,MM5
+95,12,11,True,95,"[12, 10]",teleport/continue,500,2,Skyroad B3,Skyroad B3,MM5
+95,12,12,True,95,"[12, 11]",teleport/continue,476,3,Skyroad B3,Skyroad B3,MM5
+95,12,13,True,95,"[13, 13]",teleport/continue,300,2,Skyroad B3,Skyroad B3,MM5
+95,13,12,True,95,"[12, 12]",teleport/continue,444,2,Skyroad B3,Skyroad B3,MM5
+95,13,13,True,95,"[14, 13]",teleport/continue,324,2,Skyroad B3,Skyroad B3,MM5
+95,14,12,True,95,"[13, 12]",teleport/continue,420,2,Skyroad B3,Skyroad B3,MM5
+95,14,13,True,95,"[15, 13]",teleport/continue,348,2,Skyroad B3,Skyroad B3,MM5
+95,15,12,True,95,"[14, 12]",teleport/continue,396,2,Skyroad B3,Skyroad B3,MM5
+95,15,13,True,99,"[0, 13]",teleport/continue,372,2,Skyroad B3,Skyroad C3,MM5
+98,2,0,True,98,"[2, 1]",teleport/continue,212,2,Skyroad C2,Skyroad C2,MM5
+98,2,1,True,98,"[2, 2]",teleport/continue,236,2,Skyroad C2,Skyroad C2,MM5
+98,2,2,True,98,"[2, 3]",teleport/continue,260,2,Skyroad C2,Skyroad C2,MM5
+98,2,3,True,98,"[2, 4]",teleport/continue,284,2,Skyroad C2,Skyroad C2,MM5
+98,2,4,True,98,"[2, 5]",teleport/continue,318,3,Skyroad C2,Skyroad C2,MM5
+98,2,7,True,37,"[7, 0]",keyed service entrance,0,0,Skyroad C2,Olympus,MM5
+98,3,0,True,99,"[3, 15]",teleport/continue,188,2,Skyroad C2,Skyroad C3,MM5
+98,3,1,True,98,"[3, 0]",teleport/continue,164,2,Skyroad C2,Skyroad C2,MM5
+98,3,2,True,98,"[3, 1]",teleport/continue,140,2,Skyroad C2,Skyroad C2,MM5
+98,3,3,True,98,"[3, 2]",teleport/continue,116,2,Skyroad C2,Skyroad C2,MM5
+98,3,4,True,98,"[3, 3]",teleport/continue,92,2,Skyroad C2,Skyroad C2,MM5
+98,3,5,True,98,"[3, 4]",teleport/continue,68,7,Skyroad C2,Skyroad C2,MM5
+98,4,8,True,98,"[5, 8]",teleport/continue,388,7,Skyroad C2,Skyroad C2,MM5
+98,5,7,True,98,"[4, 7]",teleport/continue,1062,3,Skyroad C2,Skyroad C2,MM5
+98,5,8,True,98,"[6, 8]",teleport/continue,412,2,Skyroad C2,Skyroad C2,MM5
+98,6,7,True,98,"[5, 7]",teleport/continue,1028,2,Skyroad C2,Skyroad C2,MM5
+98,6,8,True,98,"[7, 8]",teleport/continue,436,2,Skyroad C2,Skyroad C2,MM5
+98,7,7,True,98,"[6, 7]",teleport/continue,1004,2,Skyroad C2,Skyroad C2,MM5
+98,7,8,True,98,"[8, 8]",teleport/continue,460,2,Skyroad C2,Skyroad C2,MM5
+98,8,7,True,98,"[7, 7]",teleport/continue,980,2,Skyroad C2,Skyroad C2,MM5
+98,8,8,True,98,"[9, 8]",teleport/continue,484,2,Skyroad C2,Skyroad C2,MM5
+98,9,5,True,98,"[9, 6]",teleport/continue,900,3,Skyroad C2,Skyroad C2,MM5
+98,9,6,True,98,"[9, 7]",teleport/continue,924,2,Skyroad C2,Skyroad C2,MM5
+98,9,7,True,98,"[8, 7]",teleport/continue,956,3,Skyroad C2,Skyroad C2,MM5
+98,9,8,True,98,"[10, 8]",teleport/continue,508,2,Skyroad C2,Skyroad C2,MM5
+98,10,5,True,98,"[9, 5]",teleport/continue,868,2,Skyroad C2,Skyroad C2,MM5
+98,10,6,True,98,"[11, 6]",teleport/continue,596,3,Skyroad C2,Skyroad C2,MM5
+98,10,7,True,98,"[10, 6]",teleport/continue,564,2,Skyroad C2,Skyroad C2,MM5
+98,10,8,True,98,"[10, 7]",teleport/continue,540,3,Skyroad C2,Skyroad C2,MM5
+98,11,5,True,98,"[10, 5]",teleport/continue,844,2,Skyroad C2,Skyroad C2,MM5
+98,11,6,True,98,"[12, 6]",teleport/continue,620,2,Skyroad C2,Skyroad C2,MM5
+98,12,5,True,98,"[11, 5]",teleport/continue,820,2,Skyroad C2,Skyroad C2,MM5
+98,12,6,True,98,"[13, 6]",teleport/continue,644,2,Skyroad C2,Skyroad C2,MM5
+98,13,5,True,98,"[12, 5]",teleport/continue,796,2,Skyroad C2,Skyroad C2,MM5
+98,13,6,True,98,"[14, 6]",teleport/continue,668,2,Skyroad C2,Skyroad C2,MM5
+98,14,5,True,98,"[13, 5]",teleport/continue,772,7,Skyroad C2,Skyroad C2,MM5
+98,14,6,True,98,"[15, 6]",teleport/continue,702,3,Skyroad C2,Skyroad C2,MM5
+99,0,12,True,95,"[15, 12]",teleport/continue,458,2,Skyroad C3,Skyroad B3,MM5
+99,0,13,True,99,"[1, 13]",teleport/continue,178,2,Skyroad C3,Skyroad C3,MM5
+99,1,12,True,99,"[0, 12]",teleport/continue,434,2,Skyroad C3,Skyroad C3,MM5
+99,1,13,True,99,"[2, 13]",teleport/continue,202,2,Skyroad C3,Skyroad C3,MM5
+99,2,12,True,99,"[1, 12]",teleport/continue,410,2,Skyroad C3,Skyroad C3,MM5
+99,2,13,True,99,"[2, 14]",teleport/continue,234,3,Skyroad C3,Skyroad C3,MM5
+99,2,14,True,99,"[2, 15]",teleport/continue,258,2,Skyroad C3,Skyroad C3,MM5
+99,2,15,True,98,"[2, 0]",teleport/continue,282,2,Skyroad C3,Skyroad C2,MM5
+99,3,12,True,99,"[2, 12]",teleport/continue,386,3,Skyroad C3,Skyroad C3,MM5
+99,3,13,True,99,"[3, 12]",teleport/continue,354,2,Skyroad C3,Skyroad C3,MM5
+99,3,14,True,99,"[3, 13]",teleport/continue,330,2,Skyroad C3,Skyroad C3,MM5
+99,3,15,True,99,"[3, 14]",teleport/continue,306,2,Skyroad C3,Skyroad C3,MM5
+101,2,10,True,72,"[9, 11]",teleport/exit,127,4,Skyroad D1,Northern Tower Lvl 4,MM5
+102,0,5,True,86,"[10, 5]",teleport/exit,30,4,Skyroad D2,The Great Pyramid Level 4,MM5
+104,2,7,True,64,"[7, 12]",teleport/exit,30,4,Skyroad D4,Southern Tower Lvl 4,MM5
+107,8,4,True,0,"[0, 0]",fall,7,0,Skyroad E3,dynamic/mirror/fall destination,MM5
+108,11,9,True,108,"[11, 10]",teleport/continue,306,3,Skyroad E4,Skyroad E4,MM5
+108,11,10,True,108,"[11, 11]",teleport/continue,330,2,Skyroad E4,Skyroad E4,MM5
+108,11,11,True,108,"[11, 12]",teleport/continue,354,2,Skyroad E4,Skyroad E4,MM5
+108,11,12,True,108,"[11, 13]",teleport/continue,378,2,Skyroad E4,Skyroad E4,MM5
+108,11,13,True,108,"[11, 14]",teleport/continue,402,2,Skyroad E4,Skyroad E4,MM5
+108,11,14,True,108,"[11, 15]",teleport/continue,426,2,Skyroad E4,Skyroad E4,MM5
+108,11,15,True,107,"[11, 0]",teleport/continue,460,3,Skyroad E4,Skyroad E3,MM5
+108,12,9,True,108,"[11, 9]",teleport/continue,274,2,Skyroad E4,Skyroad E4,MM5
+108,13,9,True,108,"[12, 9]",teleport/continue,250,2,Skyroad E4,Skyroad E4,MM5
+108,14,9,True,108,"[13, 9]",teleport/continue,226,2,Skyroad E4,Skyroad E4,MM5
+108,15,9,True,108,"[14, 9]",teleport/continue,202,2,Skyroad E4,Skyroad E4,MM5
+109,9,11,True,47,"[15, 0]",teleport/exit,141,4,Skyroad F1,Castle Blackfang Level 3,MM5
+109,13,13,True,109,"[12, 13]",teleport/exit,192,5,Skyroad F1,Skyroad F1,MM5
+109,13,13,True,26,"[1, 1]",fall,201,6,Skyroad F1,Elemental Plane of Air,MM5
+111,10,9,True,68,"[3, 8]",teleport/exit,127,4,Skyroad F3,Eastern Tower Lvl 4,MM5
+112,0,9,True,108,"[15, 9]",teleport/continue,357,2,Skyroad F4,Skyroad E4,MM5
+112,1,9,True,112,"[0, 9]",teleport/continue,333,2,Skyroad F4,Skyroad F4,MM5
+112,2,9,True,112,"[1, 9]",teleport/continue,309,2,Skyroad F4,Skyroad F4,MM5
+112,3,9,True,112,"[2, 9]",teleport/continue,285,2,Skyroad F4,Skyroad F4,MM5
+112,4,9,True,112,"[3, 9]",teleport/continue,261,2,Skyroad F4,Skyroad F4,MM5
+112,5,9,True,112,"[4, 9]",teleport/continue,237,2,Skyroad F4,Skyroad F4,MM5
+112,6,9,True,112,"[5, 9]",teleport/continue,213,4,Skyroad F4,Skyroad F4,MM5
+112,13,2,True,112,"[12, 2]",teleport/exit,160,5,Skyroad F4,Skyroad F4,MM5
+112,13,2,True,27,"[1, 1]",fall,169,6,Skyroad F4,Elemental Plane of Earth,MM5
+113,7,4,True,7,"[11, 0]",teleport/exit,29,4,Darkstone Tower Level 1,Area B3,WoX bonus
+113,7,12,True,114,"[7, 12]",teleport/exit,195,7,Darkstone Tower Level 1,Darkstone Tower Level 2,WoX bonus
+114,7,4,True,115,"[7, 4]",teleport/exit,116,5,Darkstone Tower Level 2,Darkstone Tower Level 3,WoX bonus
+114,7,12,True,113,"[7, 12]",teleport/exit,8,1,Darkstone Tower Level 2,Darkstone Tower Level 1,WoX bonus
+115,7,4,True,114,"[7, 4]",teleport/exit,8,1,Darkstone Tower Level 3,Darkstone Tower Level 2,WoX bonus
+115,7,12,True,116,"[7, 12]",teleport/exit,214,7,Darkstone Tower Level 3,Darkstone Tower Level 4,WoX bonus
+116,7,4,True,129,"[29, 2]",teleport/exit,34,2,Darkstone Tower Level 4,Clouds of the Ancients,WoX bonus
+116,7,9,True,116,"[4, 8]",teleport/exit,225,12,Darkstone Tower Level 4,Darkstone Tower Level 4,WoX bonus
+116,7,12,True,115,"[7, 12]",teleport/exit,8,1,Darkstone Tower Level 4,Darkstone Tower Level 3,WoX bonus
+117,5,11,True,118,"[5, 11]",teleport/exit,25,1,Dragon Tower Level 1,Dragon Tower Level 2,WoX bonus
+117,7,4,True,13,"[10, 5]",teleport/exit,225,5,Dragon Tower Level 1,Area D1,WoX bonus
+117,7,12,True,118,"[7, 12]",teleport/exit,8,1,Dragon Tower Level 1,Dragon Tower Level 2,WoX bonus
+117,9,11,True,118,"[9, 11]",teleport/exit,42,1,Dragon Tower Level 1,Dragon Tower Level 2,WoX bonus
+118,5,5,True,119,"[5, 5]",teleport/exit,59,1,Dragon Tower Level 2,Dragon Tower Level 3,WoX bonus
+118,5,11,True,117,"[5, 11]",teleport/exit,8,1,Dragon Tower Level 2,Dragon Tower Level 1,WoX bonus
+118,7,4,True,119,"[7, 4]",teleport/exit,76,1,Dragon Tower Level 2,Dragon Tower Level 3,WoX bonus
+118,7,12,True,117,"[7, 12]",teleport/exit,25,1,Dragon Tower Level 2,Dragon Tower Level 1,WoX bonus
+118,9,5,True,119,"[9, 5]",teleport/exit,93,1,Dragon Tower Level 2,Dragon Tower Level 3,WoX bonus
+118,9,11,True,117,"[9, 11]",teleport/exit,42,1,Dragon Tower Level 2,Dragon Tower Level 1,WoX bonus
+119,5,5,True,118,"[5, 5]",teleport/exit,25,1,Dragon Tower Level 3,Dragon Tower Level 2,WoX bonus
+119,7,4,True,118,"[7, 4]",teleport/exit,42,1,Dragon Tower Level 3,Dragon Tower Level 2,WoX bonus
+119,7,12,True,120,"[7, 12]",teleport/exit,8,1,Dragon Tower Level 3,Dragon Tower Level 4,WoX bonus
+119,9,5,True,118,"[9, 5]",teleport/exit,59,1,Dragon Tower Level 3,Dragon Tower Level 2,WoX bonus
+120,7,4,True,128,"[15, 10]",teleport/exit,25,1,Dragon Tower Level 4,Dragon Clouds,WoX bonus
+120,7,12,True,119,"[7, 12]",teleport/exit,8,1,Dragon Tower Level 4,Dragon Tower Level 3,WoX bonus
+121,18,0,True,19,"[3, 4]",teleport/exit,29,4,Dungeon of Death Level 1,Area E3,WoX bonus
+121,20,0,True,122,"[20, 0]",teleport/exit,151,14,Dungeon of Death Level 1,Dungeon of Death Level 2,WoX bonus
+122,17,0,True,123,"[18, 0]",teleport/exit,8,1,Dungeon of Death Level 2,Dungeon of Death Level 3,WoX bonus
+122,20,0,True,121,"[20, 0]",teleport/exit,25,1,Dungeon of Death Level 2,Dungeon of Death Level 1,WoX bonus
+123,1,1,True,123,"[18, 1]",teleport/exit,395,5,Dungeon of Death Level 3,Dungeon of Death Level 3,WoX bonus
+123,18,0,True,122,"[17, 0]",teleport/exit,25,1,Dungeon of Death Level 3,Dungeon of Death Level 2,WoX bonus
+123,20,0,True,124,"[19, 0]",teleport/exit,8,1,Dungeon of Death Level 3,Dungeon of Death Level 4,WoX bonus
+124,19,0,True,123,"[20, 0]",teleport/exit,8,1,Dungeon of Death Level 4,Dungeon of Death Level 3,WoX bonus
+125,5,10,True,125,"[4, 30]",teleport/exit,3464,15,Southern Sphinx Level 1,Southern Sphinx Level 1,WoX bonus
+125,7,5,True,2,"[11, 9]",teleport/exit,29,4,Southern Sphinx Level 1,Area A2,WoX bonus
+125,7,15,True,126,"[7, 10]",teleport/exit,3787,1,Southern Sphinx Level 1,Southern Sphinx Level 2,WoX bonus
+125,7,15,True,125,"[7, 16]",teleport/exit,3838,7,Southern Sphinx Level 1,Southern Sphinx Level 1,WoX bonus
+125,9,10,True,125,"[4, 30]",teleport/exit,3632,15,Southern Sphinx Level 1,Southern Sphinx Level 1,WoX bonus
+125,13,23,True,127,"[7, 9]",teleport/exit,67,1,Southern Sphinx Level 1,Southern Sphinx Level 3,WoX bonus
+126,7,10,True,125,"[7, 15]",teleport/exit,0,0,Southern Sphinx Level 2,Southern Sphinx Level 1,WoX bonus
+127,7,9,True,125,"[13, 23]",teleport/exit,0,0,Southern Sphinx Level 3,Southern Sphinx Level 1,WoX bonus
+128,15,10,True,120,"[7, 4]",teleport/exit,30,4,Dragon Clouds,Dragon Tower Level 4,WoX bonus
+129,29,2,True,116,"[7, 4]",teleport/exit,30,4,Clouds of the Ancients,Darkstone Tower Level 4,WoX bonus

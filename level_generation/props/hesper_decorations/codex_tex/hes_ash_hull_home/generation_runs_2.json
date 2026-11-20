@@ -1,0 +1,78 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "Generated and saved; exact brief compliance failed. One corrective regeneration exhausted.",
+  "postprocessing": "None. Original generated PNG files copied byte-for-byte; no resizing or alpha-mask edits.",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: sketch-to-render. Produce ONE 1024 x 1024 PNG with true transparent background, a texture-source/albedo painting of the BACK view of the Ashrunner crawler-hull home.\n\nInputs in order:\n1. guide_back.png: EDIT TARGET and absolute geometry authority. Paint onto this exact orthographic grey render. Keep its silhouette EXACTLY, all outline pixels, frame position, scale, every internal shape edge, opening and detail. The object occupies precisely the same area as the guide. Do not change the camera or invent geometry.\n2. design_reference.png: approved design, colour and material authority ONLY. Its three-quarter camera is NOT the requested view.\n3. concept_crop.png: supporting original concept, materials only.\n\nPaint the surface materials from the approved reference onto the existing guide geometry: rust-brown and dark steel tracks and hull, chipped white ceramic armour with gold edges, faded red-brown and grey tarps, black cable, warm lantern colour where existing lantern/doorway shapes are visible. The broad top tarp is faded red-brown with grey patchwork; the lower draped tarp is faded grey, matching the guide's intact edges and existing openings. The chimney at upper left is oxidized steel. Existing broad hull/armour surfaces receive chipped off-white ceramic with restrained gold trim; mechanical parts dark steel/rust. Preserve the back-side geometry including the large right-hand curved panel and its hanging loop, the under-awning shapes, poles, ropes, containers and model-base shapes exactly where present. Do not invent a front door, stairs, tread wheels, new holes, frayed silhouettes or any detail that changes the guide geometry. Surface wear is painted texture only.\n\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even flat shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. All surfaces readable with their intrinsic material colours. Glowing parts are painted at their glowing colour, never casting light on surroundings. No background, no floor or added ground plane: retain only the shapes already in the guide including existing base geometry. Nothing added outside the silhouette, nothing removed, nothing cropped. No text, no labels, no border. Return at exactly 1024 x 1024, true alpha transparency.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "223a14a84a10bd194beb1b9fb2fe0213ac8fd95d6ffa746feb77b25331c74dbc",
+          "role": "geometry authority / edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c",
+          "role": "approved material and colour authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05",
+          "role": "supporting concept reference"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: enlarged subject/framing, changed silhouette/internal details, baked shading, and 1254x1254 return instead of requested 1024x1024.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_met": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match approved palette.",
+        "flat_even_light": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "CORRECTIVE GENERATION, final allowed attempt. Use case: sketch-to-render / exact texture painting.\nReturn a PNG at EXACTLY 1024 x 1024 pixels, unresized, with true transparent background.\n\nImage 1 guide_back.png is the TARGET IMAGE. Edit its surface colours only. Preserve its existing alpha mask, silhouette, projection, framing, shapes, openings, objects, edges and empty margins exactly. Keep the same 1024x1024 canvas. The visible guide geometry has bounding box x=80..942 and y=234..788. Do not expand it to fill the canvas. Preserve large empty margins above and below and the exact silhouette. All fine ropes and poles remain in their original positions. Do not change any geometry, crop, zoom or reframe.\nImage 2 design_reference.png is material/colour reference only; do not reproduce its viewpoint, shapes or lighting.\nImage 3 concept_crop.png is supporting material reference only.\n\nPaint the existing BACK VIEW guide geometry as the Ashrunner crawler-hull home: faded rust-red/brown and grey fabric tarps, black cables, oxidized steel chimney, rust-brown/dark steel hull and machinery, chipped white ceramic armour with gold edges. Match the colour/material identity of the reference. Keep the lower drape grey and top canopy faded red-brown/grey. Keep every guide opening and fabric edge EXACTLY intact: no additional holes or ragged edges, no extra objects. The large right curved armour panel and hanging loop retain their exact forms. Existing containers and supports remain in place. Existing base shapes remain in place; no added floor or environment. Only colour existing visible lantern surfaces warm amber, with NO cast glow.\n\nThis is a flat ALBEDO texture source, not a beauty render. Use even shadowless viewer-facing illumination across every surface. Remove all directional lighting, cast shadow, AO darkening, rim lighting, bright metal glints and reflections. Recessed surfaces remain legible and evenly coloured. Do not imitate the reference's dramatic lighting. Surface texture and wear only, no lighting baked into the texture.\n\nCRITICAL FIXES versus previous attempt: EXACT 1024x1024 output; target geometry stays within the original x=80..942 y=234..788 footprint; unchanged target alpha/silhouette; unchanged internal shape edges; neutral flat albedo. No text. No background. True alpha.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "223a14a84a10bd194beb1b9fb2fe0213ac8fd95d6ffa746feb77b25331c74dbc",
+          "role": "geometry authority / edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "216416f1afecfffa0a5412b79cbd5b979ac0d900bfa8151bcfa9b882a68bde5c",
+          "role": "approved material and colour authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "1c6f93bff26a89cbced5366ad48f8b95f8108763f6288c83d37d5c4c76d23c05",
+          "role": "supporting concept reference"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as closer of the two unresized returns: framing is much closer to the guide and materials broadly match. Not compliant: still 1254x1254, changed edges/holes/internal details and residual baked shadows/specular highlights. No further generation permitted by brief.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_met": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match approved palette.",
+        "flat_even_light": false
+      }
+    }
+  ]
+}

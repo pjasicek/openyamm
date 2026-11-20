@@ -1,0 +1,62 @@
+id: mm6.ships.outd2.valkyrie
+title: Valkyrie boarding and cabin
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: outd2.odm
+- movement_segment:
+    start:
+      map: outd2.odm
+      x: 1064
+      y: 3952
+      z: 161
+      yaw: 6.283185307179586
+      pitch: 0
+    expect_stop:
+      map: outd2.odm
+      x: 1544
+      y: 3952
+      z: 89
+      yaw: 6.283185307179586
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- movement_segment:
+    start:
+      map: outd2.odm
+      x: 1544
+      y: 3952
+      z: 89
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: outd2.odm
+      x: 1159
+      y: 3952
+      z: 161
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- press_interact:
+    pose:
+      map: outd2.odm
+      x: 1696
+      y: 3728
+      z: 89
+      yaw: 4.71238898038469
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 62
+      face_index: 42
+      triggered_event: 16

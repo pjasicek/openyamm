@@ -1,0 +1,117 @@
+[
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 0.4
+  },
+  {
+    "click": [
+      400,
+      500
+    ]
+  },
+  {
+    "text": "config set terrain_decorations true"
+  },
+  {
+    "key": "Return"
+  },
+  {
+    "wait": 0.3
+  },
+  {
+    "screenshot": "console_true"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "burst": {
+      "count": 6,
+      "interval": 0.3,
+      "prefix": "wind"
+    }
+  },
+  {
+    "screenshot": "on_before"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 0.4
+  },
+  {
+    "click": [
+      400,
+      500
+    ]
+  },
+  {
+    "text": "config set terrain_decorations false"
+  },
+  {
+    "key": "Return"
+  },
+  {
+    "wait": 0.3
+  },
+  {
+    "screenshot": "console_false"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "screenshot": "off"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 0.4
+  },
+  {
+    "click": [
+      400,
+      500
+    ]
+  },
+  {
+    "text": "config set terrain_decorations true"
+  },
+  {
+    "key": "Return"
+  },
+  {
+    "wait": 0.3
+  },
+  {
+    "screenshot": "console_true"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "screenshot": "on"
+  },
+  {
+    "hold": {
+      "key": "s",
+      "seconds": 1
+    }
+  },
+  {
+    "screenshot": "walk"
+  }
+]

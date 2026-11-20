@@ -1,0 +1,96 @@
+id: rulesets.maw_dimension_rift
+title: Ruleset - a MAW dimension map opens a rift beside its map, which stays as the party left it
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Seer
+            class: Knight
+            level: 120
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  # Goblinwatch itself, completed before, with its first monster slain: that is how it must stay.
+  - ruleset_banks: {mm6: 0, completed_maps: [6d01.blv], dimension_quest_done: true}
+  - load_map: {map: 6d01.blv}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {actor_index: 0, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_visible: {actor_index: 0, dead: true}
+  # A map used inside the dungeon it opens: the rift is another place with its own monsters, and the party holds
+  # the portal. The map can be neither dropped nor sold only while the quest runs; here the quest is done.
+  - grant_item: {item_id: 290, dimension_map: {map_id: 152, affixes: [15, 11, 1, 16], active: 2, power: 10}}
+  - use_item: {item_id: 290}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: 6d01.blv
+      inventory_any_member: [{item_id: 290, count: 0}, {item_id: 1071, count: 1}]
+      actor_visible: {actor_index: 0, dead: false}
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, power: 10, affix_count: 2, completed: false,
+        min_family_actors: 5}}
+  # A teleporter of the dungeon stays inside the rift; its Exit Door leads not to New Sorpigal but back to where the
+  # map was used, Goblinwatch itself; the portal leads in again.
+  - execute_event: {id: 31}
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert:
+      map: 6d01.blv
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: false}}
+  - execute_event: {id: 51}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert:
+      map: 6d01.blv
+      actor_visible: {actor_index: 0, dead: true}
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: false, completed: false}}
+  - use_item: {item_id: 1071}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: 6d01.blv
+      actor_visible: {actor_index: 0, dead: false}
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: false, min_family_actors: 5}}
+  # The rift keeps its state through a save, and what is slain there stays slain when the party leaves and returns.
+  - damage_actor: {actor_index: 0, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - save_game: maw_dimension_rift
+  - load_game: maw_dimension_rift
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: 6d01.blv
+      actor_visible: {actor_index: 0, dead: true}
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: false}}
+  # Out by the portal: Goblinwatch itself, where the map was used, as it was left.
+  - use_item: {item_id: 1071}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: 6d01.blv
+      inventory_any_member: [{item_id: 1071, count: 1}]
+      actor_visible: {actor_index: 0, dead: true}
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: false, completed: false}}
+  - assert:
+      actor_visible: {actor_index: 1, dead: false}
+  # Back in from another map; clearing the rift gives the next map, and the cleared rift stays open.
+  - load_map: {map: oute3.odm}
+  - use_item: {item_id: 1071}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: 6d01.blv
+      actor_visible: {actor_index: 0, dead: true}
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: false}}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      inventory_any_member: [{item_id: 290, count: 1}, {item_id: 1071, count: 1}]
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: true, completed: true}}
+  - use_item: {item_id: 1071}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      map: oute3.odm
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, inside: false, completed: true}}

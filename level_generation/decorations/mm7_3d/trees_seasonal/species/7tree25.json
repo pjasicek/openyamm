@@ -1,0 +1,138 @@
+{
+ "sprite": "7tree25_p120",
+ "output": "mm7_deco_7tree25.glb",
+ "height_m": 7.83,
+ "note": "Summer state of the 7tree25/tree26/tree27 family (288 placements): slender reddish trunk forking at half height into spreading limbs under a broad light-green crown.",
+ "sapling": {
+  "autoTaper": false,
+  "taper": [
+   0.85,
+   0.85,
+   0.85,
+   1.0
+  ],
+  "closeTip": true,
+  "ratioPower": 1.0,
+  "curveRes": [
+   12,
+   4,
+   3,
+   1
+  ],
+  "downAngleV": [
+   0,
+   18,
+   10,
+   10
+  ],
+  "curveV": [
+   15,
+   40,
+   50,
+   0
+  ],
+  "scale": 9.49,
+  "baseSplits": 0,
+  "splitHeight": 0.42,
+  "segSplits": [
+   0.02,
+   0.2,
+   0.2,
+   0
+  ],
+  "splitAngle": [
+   28,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.45,
+  "branches": [
+   0,
+   18,
+   9,
+   8
+  ],
+  "length": [
+   1.0,
+   0.5,
+   0.4,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   60,
+   45,
+   45
+  ],
+  "seed": 725,
+  "ratio": 0.019,
+  "attractUp": [
+   0,
+   0.35,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.38,
+  "centre": 0.66,
+  "clumps": 115,
+  "inner_clumps": 16,
+  "gap": 0.82,
+  "lobes": {
+   "fraction": 0.3,
+   "slack": 1.12
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   120,
+   60,
+   40
+  ],
+  "budget": [
+   1300,
+   480,
+   200
+  ],
+  "clip_below_crown": true,
+  "roots": 3,
+  "root_radius": 0.45,
+  "root_reach": 0.18
+ },
+ "leaves": {
+  "target_srgb": [
+   134,
+   200,
+   66
+  ],
+  "seeds": [
+   825,
+   841,
+   857,
+   873
+  ],
+  "value": [
+   0.85,
+   1.6
+  ],
+  "jitter_red": [
+   0.85,
+   1.25
+  ]
+ },
+ "occlusion": {
+  "floor": 0.38,
+  "range": 0.62,
+  "power": 1.1
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ]
+ },
+ "transparent_bounces": 64
+}

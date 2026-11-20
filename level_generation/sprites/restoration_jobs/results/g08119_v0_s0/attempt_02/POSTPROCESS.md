@@ -1,0 +1,1 @@
+Process with default registration. Save ungraded final as .before_tone.png, run restore_native_tone.py, then queue.py check g08119_v0_s0. Foliage and bark are graded independently to native opaque RGB means; alpha unchanged. Refresh backup after reprocessing.

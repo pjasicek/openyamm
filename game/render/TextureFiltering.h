@@ -93,8 +93,18 @@ PreparedBgraTexture prepareBgraTexture2D(
     uint32_t pixelBytes,
     TextureFilterProfile profile,
     BgraTexturePixelPreparation pixelPreparation = BgraTexturePixelPreparation::Required);
+// Takes over the pixels instead of copying them.
+PreparedBgraTexture prepareBgraTexture2D(
+    uint16_t width,
+    uint16_t height,
+    std::vector<uint8_t> pixels,
+    TextureFilterProfile profile,
+    BgraTexturePixelPreparation pixelPreparation = BgraTexturePixelPreparation::Required);
 bgfx::TextureHandle createPreparedBgraTexture2D(
     const PreparedBgraTexture &prepared, TextureFilterProfile profile, uint64_t extraFlags = BGFX_TEXTURE_NONE);
+// Hands the prepared pixels to bgfx instead of copying them.
+bgfx::TextureHandle createPreparedBgraTexture2D(
+    PreparedBgraTexture &&prepared, TextureFilterProfile profile, uint64_t extraFlags = BGFX_TEXTURE_NONE);
 
 // A cooked texture's blocks and stored mip chain as one 2D texture with the profile's sampler. Throws when the GPU
 // cannot sample the codec (an asset package built for another platform's texture profile).

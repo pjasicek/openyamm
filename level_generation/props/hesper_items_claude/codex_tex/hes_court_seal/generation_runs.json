@@ -1,0 +1,663 @@
+{
+  "schema_version": 1,
+  "generator": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "postprocessing": "None. All image returns copied byte-for-byte from the built-in tool; no resize, crop, mask replacement or colour adjustment.",
+  "checks_method": "Exact alpha equality checked at native size. For normalized silhouette IoU only, the guide alpha is sampled at normalized output pixel coordinates with nearest-neighbour lookup and thresholded at alpha 128. No image files are modified by this measurement. Palette, lighting and absence of text inspected visually.",
+  "status": "Five requested files saved; strict silhouette and flat-albedo acceptance checks not met.",
+  "limitations": [
+    "All built-in returns are 1254x1254, retained unresized and recorded as allowed by the brief.",
+    "None has the guide's exact alpha silhouette, including after accounting for returned canvas dimensions.",
+    "Subtle to moderate bevel/relief shading and highlights remain; these are not strictly unlit albedo sources.",
+    "Partial-alpha stray pixels and coloured edge fringes remain outside guide coverage. Generated alpha is preserved.",
+    "One corrective regeneration was used for each view; no further attempts made."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "selected": false,
+      "output": "paint_front_attempt1.png",
+      "reason": "Rejected: strip displaced vertically; normalized silhouette overlap 68.8%.",
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for the exact existing 3D item hes_court_seal.\nINPUTS: Image 1 is the exact guide/edit target; Image 2 is design_reference.png, the approved colour/material/design authority only, NOT its perspective, silhouette, size, pose, composition or lighting.\nEdit ONLY the visible surface colours of Image 1. Keep the guide's alpha/silhouette pixel for pixel, canvas 1024 x 1024, same position, scale, orthographic camera, every part boundary and hole. Preserve its generous empty transparent space. Do not zoom, crop, recenter, rotate, enlarge, redraw the geometry or add any part outside the guide. The pale guide tints are material labels, not final colours.\nSubject/materials: a Kreegan Court of Nobles seal, polished black-violet bone and resin with a gilded rim and short gold chain. Fine and cruel noble craftsmanship. Pale cream guide parts become warm brushed antique gold with fine restrained scratches and minute worn gold-leaf grain; lavender guide parts become nearly black violet resin/bone with subtle dark plum marbling, fine natural veins and restrained wear matching the design reference. Keep material boundaries in exactly the guide positions. Gold is its warm medium base colour with only faint sheen, never cream-white. Only materials actually present in this item; no added glass, lights, gemstones, leather or cloth.\nLIGHTING: this is an ALBEDO texture painting, entirely even flat shadowless frontal illumination. No cast shadows, no ambient occlusion darkening, no directional light, no gradients that imply lighting, no strong specular highlights, reflections or white hot spots, no rim light, no floor, no backdrop. Material texture may vary subtly in colour. Actual transparent RGBA background, including holes. No text, letters, numerals, labels, watermarks or extra decorations.\nReturn exactly one 1024 x 1024 PNG painting, with the guide's full-size canvas and unchanged silhouette.\n\nVIEW FRONT: this view is strictly EDGE-ON, a very thin horizontal strip, not a face-on medallion. Entire occupied bounding box is x=171..852, y=473..550 in the 1024 square. The upper gilded bevel/rim runs from y=473 to 514; the lower black-violet body runs from y=514 to 550. Preserve its slanted end bevels and straight horizontal long boundaries exactly. No chain is visible in this guide. Do not reveal the circular face or put a large sigil on this edge. Paint delicate brushed gold and subdued violet-black marbling onto these thin strips only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_front.png",
+          "sha256": "9dd080e0af26f977839e26f8aab269d57037d92baf8a4501cb8a53f5125032b5"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/design_reference.png",
+          "sha256": "c1594514c70273676462a48e7a97eed9c4993669f9e31e5b80ed7be979c75a76"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-9125be63-d823-4b2b-8280-34e4f9c225c1.png",
+      "output_sha256": "0b9be1490970fc2366555fc0a66b4bb05785d824b5595bf2aa1dd622f8f8994c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 94.9439,
+        "alpha_bbox": [
+          81,
+          224,
+          1200,
+          1131
+        ],
+        "alpha_128_bbox": [
+          211,
+          598,
+          1043,
+          689
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          171,
+          473,
+          853,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.688213,
+        "outside_normalized_guide_pixels_alpha_128": 12524,
+        "outside_normalized_guide_pixels_any_alpha": 15115,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "selected": true,
+      "output": "paint_front.png",
+      "reason": "Selected: correction improved normalized silhouette overlap to 97.7%. Alternate returned size and nonexact alpha retained unmodified; some bright gold bevel shading remains.",
+      "prompt": "CORRECTIVE REGENERATION: The previous return had the wrong canvas dimensions and displaced edges. Lock to the LAST input, the 1024x1024 guide_front.png. Output a 1024x1024 canvas; preserve its original alpha mask and all existing pixels' coverage exactly, including completely empty transparent background. Apply colour only inside that mask. Every pixel outside the existing guide must remain alpha=0. The first input is ONLY a colour and texture swatch reference, never a size reference. Reduce bright edge lines to the same gold base colour. Do not put transparent stray marks anywhere.\n\nUse case: precise-object-edit. Asset: orthographic albedo texture-source painting for the exact existing 3D item hes_court_seal.\nINPUTS: Image 2 (LAST IMAGE) is the exact 1024 x 1024 guide/edit target; Image 1 is design_reference.png, the approved colour/material/design authority only, NOT its perspective, silhouette, size, pose, composition or lighting.\nEdit ONLY the visible surface colours of Image 2. Keep the guide's alpha/silhouette pixel for pixel, canvas 1024 x 1024, same position, scale, orthographic camera, every part boundary and hole. Preserve its generous empty transparent space. Do not zoom, crop, recenter, rotate, enlarge, redraw the geometry or add any part outside the guide. The pale guide tints are material labels, not final colours.\nSubject/materials: a Kreegan Court of Nobles seal, polished black-violet bone and resin with a gilded rim and short gold chain. Fine and cruel noble craftsmanship. Pale cream guide parts become warm brushed antique gold with fine restrained scratches and minute worn gold-leaf grain; lavender guide parts become nearly black violet resin/bone with subtle dark plum marbling, fine natural veins and restrained wear matching the design reference. Keep material boundaries in exactly the guide positions. Gold is its warm medium base colour with only faint sheen, never cream-white. Only materials actually present in this item; no added glass, lights, gemstones, leather or cloth.\nLIGHTING: this is an ALBEDO texture painting, entirely even flat shadowless frontal illumination. No cast shadows, no ambient occlusion darkening, no directional light, no gradients that imply lighting, no strong specular highlights, reflections or white hot spots, no rim light, no floor, no backdrop. Material texture may vary subtly in colour. Actual transparent RGBA background, including holes. No text, letters, numerals, labels, watermarks or extra decorations.\nReturn exactly one 1024 x 1024 PNG painting, with the guide's full-size canvas and unchanged silhouette.\n\nVIEW FRONT: this view is strictly EDGE-ON, a very thin horizontal strip, not a face-on medallion. Entire occupied bounding box is x=171..852, y=473..550 in the 1024 square. The upper gilded bevel/rim runs from y=473 to 514; the lower black-violet body runs from y=514 to 550. Preserve its slanted end bevels and straight horizontal long boundaries exactly. No chain is visible in this guide. Do not reveal the circular face or put a large sigil on this edge. Paint delicate brushed gold and subdued violet-black marbling onto these thin strips only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/design_reference.png",
+          "sha256": "c1594514c70273676462a48e7a97eed9c4993669f9e31e5b80ed7be979c75a76"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_front.png",
+          "sha256": "9dd080e0af26f977839e26f8aab269d57037d92baf8a4501cb8a53f5125032b5"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-35ecbeeb-20e9-4c3d-b0d2-796de0b18ee0.png",
+      "output_sha256": "3b232219bd2c0006a88f3cb5b7a7e8acafa501ca86a07b7ff935a6429ee11402",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 94.7695,
+        "alpha_bbox": [
+          21,
+          19,
+          1234,
+          1254
+        ],
+        "alpha_128_bbox": [
+          211,
+          580,
+          1043,
+          675
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          171,
+          473,
+          853,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.977036,
+        "outside_normalized_guide_pixels_alpha_128": 1711,
+        "outside_normalized_guide_pixels_any_alpha": 7057,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "selected": false,
+      "output": "paint_back_attempt1.png",
+      "reason": "Rejected: bright gold bevel highlights; correction has flatter gold and slightly better silhouette overlap.",
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for the exact existing 3D item hes_court_seal.\nINPUTS: Image 2 (LAST IMAGE) is the exact 1024 x 1024 guide/edit target; Image 1 is design_reference.png, the approved colour/material/design authority only, NOT its perspective, silhouette, size, pose, composition or lighting.\nEdit ONLY the visible surface colours of Image 2. Keep the guide's alpha/silhouette pixel for pixel, canvas 1024 x 1024, same position, scale, orthographic camera, every part boundary and hole. Preserve its generous empty transparent space. Do not zoom, crop, recenter, rotate, enlarge, redraw the geometry or add any part outside the guide. The pale guide tints are material labels, not final colours.\nSubject/materials: a Kreegan Court of Nobles seal, polished black-violet bone and resin with a gilded rim and short gold chain. Fine and cruel noble craftsmanship. Pale cream guide parts become warm brushed antique gold with fine restrained scratches and minute worn gold-leaf grain; lavender guide parts become nearly black violet resin/bone with subtle dark plum marbling, fine natural veins and restrained wear matching the design reference. Keep material boundaries in exactly the guide positions. Gold is its warm medium base colour with only faint sheen, never cream-white. Only materials actually present in this item; no added glass, lights, gemstones, leather or cloth.\nLIGHTING: this is an ALBEDO texture painting, entirely even flat shadowless frontal illumination. No cast shadows, no ambient occlusion darkening, no directional light, no gradients that imply lighting, no strong specular highlights, reflections or white hot spots, no rim light, no floor, no backdrop. Material texture may vary subtly in colour. Actual transparent RGBA background, including holes. No text, letters, numerals, labels, watermarks or extra decorations.\nReturn exactly one 1024 x 1024 PNG painting, with the guide's full-size canvas and unchanged silhouette.\n\nVIEW BACK: this view is strictly EDGE-ON, a very thin horizontal strip, not a face-on medallion. Entire occupied bounding box is x=171..852, y=473..550 in the 1024 square. The upper gilded bevel/rim runs from y=473 to 514; the lower black-violet body runs from y=514 to 550. Preserve its slanted end bevels and straight horizontal long boundaries exactly. At the centre there is a small existing gold chain part seen end-on, around x=480..544 and y=481..549, with a narrow vertical stem and a horizontal bevelled foot; paint it gold and preserve its exact shape and occlusion. Do not reveal the circular face or add a sigil to this thin edge.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/design_reference.png",
+          "sha256": "c1594514c70273676462a48e7a97eed9c4993669f9e31e5b80ed7be979c75a76"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_back.png",
+          "sha256": "89d8c80fde005af5de18c6865f37a9f880b537e13a1c3c177ba096f0db10d588"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-0676c941-ba3a-4167-93c7-21069aaaca92.png",
+      "output_sha256": "0d83fb90d21c6cc0c33989d74fb56c4acd0fba906f7731279288814e0330371d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 94.8498,
+        "alpha_bbox": [
+          0,
+          0,
+          1216,
+          1190
+        ],
+        "alpha_128_bbox": [
+          209,
+          579,
+          1045,
+          673
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          171,
+          473,
+          853,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.965909,
+        "outside_normalized_guide_pixels_alpha_128": 1835,
+        "outside_normalized_guide_pixels_any_alpha": 5795,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "selected": true,
+      "output": "paint_back.png",
+      "reason": "Selected: flatter medium gold and 96.7% normalized silhouette overlap. Subtle facet shading and nonexact alpha remain.",
+      "prompt": "Use case: precise-object-edit. Corrective regeneration of paint_back.png; render only surface albedo onto this exact guide_back.png. This single input is the authoritative geometry and 1024 x 1024 canvas. Preserve the alpha mask and every part boundary EXACTLY, including all the empty area. Object bounding box x171..852,y473..550. This is an EDGE-ON thin seal, never a round face-on pendant. Same bevels, same tiny central gold stem and horizontal foot, same placement. Do not expand, smooth, resize, crop, rotate or recenter anything.\n\nMatch the approved Hesper seal material design: the cream upper band and central tiny chain part become finely worn brushed warm antique GOLD, medium gold base colour (#b38b41 range) with faint grain and delicate scratches; the lavender lower band becomes nearly black VIOLET BONE/RESIN, near #241b2b, with restrained dark plum marbling and fine veins. Material boundaries exactly match the guide. No additional sigil, links or marks.\n\nTARGETED CORRECTION: strictly shadowless ALBEDO: make every gold bevel the same medium base brightness and every resin bevel the same dark violet base brightness. No bright outline along the gold, no white or pale yellow highlight, no reflection, no shading gradients, no darkening at the junctions, no rim light, no cast shadows or ambient occlusion. Only subtle colour variation from the material. Transparent RGBA outside the exact guide silhouette; absolutely no faint stray pixels in the empty canvas. No text, letters, labels, floor, backdrop or watermark. Return one 1024 x 1024 transparent PNG, original composition unchanged.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_back.png",
+          "sha256": "89d8c80fde005af5de18c6865f37a9f880b537e13a1c3c177ba096f0db10d588"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-b74f5f78-ba05-45b7-a4d6-381d7237b00a.png",
+      "output_sha256": "fbde67070c2876b909e5ddd72c526b140db9a503992104b1069a8ca627cdcbe3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 94.7162,
+        "alpha_bbox": [
+          33,
+          39,
+          1218,
+          1188
+        ],
+        "alpha_128_bbox": [
+          209,
+          579,
+          1045,
+          675
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          171,
+          473,
+          853,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.967486,
+        "outside_normalized_guide_pixels_alpha_128": 2527,
+        "outside_normalized_guide_pixels_any_alpha": 7896,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "selected": false,
+      "output": "paint_left_attempt1.png",
+      "reason": "Rejected: pronounced bright gold bevel lines; correction is flatter with comparable silhouette overlap.",
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for the exact existing 3D item hes_court_seal.\nINPUTS: Image 2 (LAST IMAGE) is the exact 1024 x 1024 guide/edit target; Image 1 is design_reference.png, the approved colour/material/design authority only, NOT its perspective, silhouette, size, pose, composition or lighting.\nEdit ONLY the visible surface colours of Image 2. Keep the guide's alpha/silhouette pixel for pixel, canvas 1024 x 1024, same position, scale, orthographic camera, every part boundary and hole. Preserve its generous empty transparent space. Do not zoom, crop, recenter, rotate, enlarge, redraw the geometry or add any part outside the guide. The pale guide tints are material labels, not final colours.\nSubject/materials: a Kreegan Court of Nobles seal, polished black-violet bone and resin with a gilded rim and short gold chain. Fine and cruel noble craftsmanship. Pale cream guide parts become warm brushed antique gold with fine restrained scratches and minute worn gold-leaf grain; lavender guide parts become nearly black violet resin/bone with subtle dark plum marbling, fine natural veins and restrained wear matching the design reference. Keep material boundaries in exactly the guide positions. Gold is its warm medium base colour with only faint sheen, never cream-white. Only materials actually present in this item; no added glass, lights, gemstones, leather or cloth.\nLIGHTING: this is an ALBEDO texture painting, entirely even flat shadowless frontal illumination. No cast shadows, no ambient occlusion darkening, no directional light, no gradients that imply lighting, no strong specular highlights, reflections or white hot spots, no rim light, no floor, no backdrop. Material texture may vary subtly in colour. Actual transparent RGBA background, including holes. No text, letters, numerals, labels, watermarks or extra decorations.\nReturn exactly one 1024 x 1024 PNG painting, with the guide's full-size canvas and unchanged silhouette.\n\nVIEW LEFT: this view is strictly EDGE-ON, a thin horizontal profile with the chain at LEFT. Entire occupied bounding box is x=66..957, y=473..550 in the 1024 square. The large disc edge is on the right, roughly x=277..957: gold upper rim y=473..514, black-violet resin lower body y=514..550. Short existing chain parts sit at x=66..293: horizontal links around y=525..550 and one polygonal oval ring around x=131..237, y=480..549. Keep its transparent central hole exactly. Preserve all low-poly angular outlines and overlapping boundaries. Do not make the chain longer, thicker or rounder; do not reveal the circular face or add a sigil to this edge.\nCritical albedo instruction: avoid copying any bright lighting from the design reference. Gold remains a midtone muted warm gold on all facets, with no bright edge lines; resin remains deep dark violet with fine veining. Every transparent pixel outside the guide must remain fully transparent; zero stray marks.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/design_reference.png",
+          "sha256": "c1594514c70273676462a48e7a97eed9c4993669f9e31e5b80ed7be979c75a76"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_left.png",
+          "sha256": "d353cf680fe5553e0a867ddd6b8afeb7a360e4fb105b97ddda8ad7e7faaf04e4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-621990fe-7416-4868-a2b3-8f7c6ccf4ae4.png",
+      "output_sha256": "e5481d541bff43be0e771b7dc665a4e206b55d4d33ca9e422e21660cef9b929b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 93.7753,
+        "alpha_bbox": [
+          31,
+          69,
+          1253,
+          1115
+        ],
+        "alpha_128_bbox": [
+          81,
+          578,
+          1173,
+          675
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          66,
+          473,
+          958,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.940938,
+        "outside_normalized_guide_pixels_alpha_128": 5309,
+        "outside_normalized_guide_pixels_any_alpha": 12561,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "selected": true,
+      "output": "paint_right.png",
+      "reason": "Selected: better normalized silhouette overlap (94.8%) and fewer outside-guide pixels than correction. Mild bevel shading and partial-alpha fringe remain.",
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for the exact existing 3D item hes_court_seal.\nINPUTS: Image 2 (LAST IMAGE) is the exact 1024 x 1024 guide/edit target; Image 1 is design_reference.png, the approved colour/material/design authority only, NOT its perspective, silhouette, size, pose, composition or lighting.\nEdit ONLY the visible surface colours of Image 2. Keep the guide's alpha/silhouette pixel for pixel, canvas 1024 x 1024, same position, scale, orthographic camera, every part boundary and hole. Preserve its generous empty transparent space. Do not zoom, crop, recenter, rotate, enlarge, redraw the geometry or add any part outside the guide. The pale guide tints are material labels, not final colours.\nSubject/materials: a Kreegan Court of Nobles seal, polished black-violet bone and resin with a gilded rim and short gold chain. Fine and cruel noble craftsmanship. Pale cream guide parts become warm brushed antique gold with fine restrained scratches and minute worn gold-leaf grain; lavender guide parts become nearly black violet resin/bone with subtle dark plum marbling, fine natural veins and restrained wear matching the design reference. Keep material boundaries in exactly the guide positions. Gold is its warm medium base colour with only faint sheen, never cream-white. Only materials actually present in this item; no added glass, lights, gemstones, leather or cloth.\nLIGHTING: this is an ALBEDO texture painting, entirely even flat shadowless frontal illumination. No cast shadows, no ambient occlusion darkening, no directional light, no gradients that imply lighting, no strong specular highlights, reflections or white hot spots, no rim light, no floor, no backdrop. Material texture may vary subtly in colour. Actual transparent RGBA background, including holes. No text, letters, numerals, labels, watermarks or extra decorations.\nReturn exactly one 1024 x 1024 PNG painting, with the guide's full-size canvas and unchanged silhouette.\n\nVIEW RIGHT: this view is strictly EDGE-ON, a thin horizontal profile with the chain at RIGHT. Entire occupied bounding box is x=66..957, y=473..550 in the 1024 square. The large disc edge is on the left, roughly x=66..747: gold upper rim y=473..514, black-violet resin lower body y=514..550. Short existing chain parts sit at x=730..957: horizontal links around y=525..550 and one polygonal oval ring around x=787..893, y=480..549. Keep its transparent central hole exactly. Preserve all low-poly angular outlines and overlapping boundaries. Do not make the chain longer, thicker or rounder; do not reveal the circular face or add a sigil to this edge.\nCritical albedo instruction: REMOVE ALL LIGHTING from both inputs, like an unlit texture pass. Warm medium gold (#b38b41) stays the same brightness across EVERY bevel and every chain facet, with very faint gold-leaf grain only. The lower band is deep dark violet (#241b2b) with restrained plum marbling. No bright edge strokes, no glowing golden outlines, no white points, no simulated bevel highlights or dark chain recesses. Strictly flat painted basecolour. Every transparent pixel outside the guide must remain alpha zero.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/design_reference.png",
+          "sha256": "c1594514c70273676462a48e7a97eed9c4993669f9e31e5b80ed7be979c75a76"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_right.png",
+          "sha256": "063c0fc314f0b14fec1559dad047f5461e453bf989e66718e4ec0918d6178bc4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-9b5d617d-77c0-4030-af5c-17b29bfa7920.png",
+      "output_sha256": "629fd2c2869f4e88094473a9a603aaaee7d9549b3d71ed399c6fcdcf57d97a10",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 93.7237,
+        "alpha_bbox": [
+          39,
+          21,
+          1210,
+          1189
+        ],
+        "alpha_128_bbox": [
+          79,
+          581,
+          1179,
+          676
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          66,
+          473,
+          958,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.947849,
+        "outside_normalized_guide_pixels_alpha_128": 3949,
+        "outside_normalized_guide_pixels_any_alpha": 13570,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "selected": false,
+      "output": "paint_top_attempt1.png",
+      "reason": "Rejected: disc placed slightly high, added cardinal tips, normalized silhouette overlap 94.9%.",
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for the exact existing 3D item hes_court_seal.\nINPUTS: Image 2 (LAST IMAGE) is the exact 1024 x 1024 guide/edit target; Image 1 is design_reference.png, the approved colour/material/design authority only, NOT its perspective, silhouette, size, pose, composition or lighting.\nEdit ONLY the visible surface colours of Image 2. Keep the guide's alpha/silhouette pixel for pixel, canvas 1024 x 1024, same position, scale, orthographic camera, every part boundary and hole. Preserve its generous empty transparent space. Do not zoom, crop, recenter, rotate, enlarge, redraw the geometry or add any part outside the guide. The pale guide tints are material labels, not final colours.\nSubject/materials: a Kreegan Court of Nobles seal, polished black-violet bone and resin with a gilded rim and short gold chain. Fine and cruel noble craftsmanship. Pale cream guide parts become warm brushed antique gold with fine restrained scratches and minute worn gold-leaf grain; lavender guide parts become nearly black violet resin/bone with subtle dark plum marbling, fine natural veins and restrained wear matching the design reference. Keep material boundaries in exactly the guide positions. Gold is its warm medium base colour with only faint sheen, never cream-white. Only materials actually present in this item; no added glass, lights, gemstones, leather or cloth.\nLIGHTING: this is an ALBEDO texture painting, entirely even flat shadowless frontal illumination. No cast shadows, no ambient occlusion darkening, no directional light, no gradients that imply lighting, no strong specular highlights, reflections or white hot spots, no rim light, no floor, no backdrop. Material texture may vary subtly in colour. Actual transparent RGBA background, including holes. No text, letters, numerals, labels, watermarks or extra decorations.\nReturn exactly one 1024 x 1024 PNG painting, with the guide's full-size canvas and unchanged silhouette.\n\nVIEW TOP: this is the strictly face-on orthographic disc face, with its short chain vertical above at 12 o'clock, exactly as guide_top.png. Entire occupied bounding box x=171..852, y=66..957 in the 1024 square. Disc extends roughly x=171..852,y=279..957, centre (512,618). Preserve the existing slightly faceted circular outer gold rim and inner material boundary exactly. Chain occupies x=477..546,y=66..282; keep its angular links, vertical connector and transparent holes exactly, do not use the curved chain placement from the design reference. Paint the rim and chain warm brushed worn gold, and the entire lavender inner disc black-violet marbled resin/bone. On the disc face, faithfully translate the reference's central nonalphabetic gold-leaf sigil into this straight-on view: a long central pointed spear, two tall cruel flanking barbs, inward curved sharp branches and a long pointed lower chevron, balanced and fine; preserve its reference identity, not a letter or new emblem. Keep the sigil well inside the inner disc; it is flat gold leaf cut into the surface, no raised extrusion or shadow. The reference's fine four pointed ornamental motifs at cardinal positions may be painted into the existing rim but must never change or protrude beyond the guide silhouette. All microdetails use restrained albedo colour, no lighting highlights.\nCritical albedo instruction: REMOVE ALL LIGHTING from both inputs, like an unlit texture pass. Warm medium gold (#b38b41) stays the same brightness across the rim, sigil and all chain facets, with very faint gold-leaf grain only. The circular inset is deep dark violet (#241b2b) with restrained plum marbling, mostly black-violet. No bright edge strokes, no white points, no specular reflections, no simulated bevel highlights, no dark relief shadows at the sigil or on chain recesses. The gold sigil is embedded flush in the resin and has NO outline shadow. Flat painted basecolour, not a shaded 3D render. Every transparent pixel outside the guide must remain alpha zero.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/design_reference.png",
+          "sha256": "c1594514c70273676462a48e7a97eed9c4993669f9e31e5b80ed7be979c75a76"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_top.png",
+          "sha256": "69ed27b547bb76435824790f2fce0d06192b857e693eadaa99b2b102a50fad18"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-3e39b407-0b9e-46f8-accb-a24f665d1f2a.png",
+      "output_sha256": "c7ecc74d59fbdd04d6e85ba89e2b1b8e41be15a10133f5e8df488b589a39ba6f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 64.5854,
+        "alpha_bbox": [
+          0,
+          21,
+          1214,
+          1200
+        ],
+        "alpha_128_bbox": [
+          212,
+          71,
+          1042,
+          1165
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          171,
+          66,
+          853,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.949016,
+        "outside_normalized_guide_pixels_alpha_128": 9559,
+        "outside_normalized_guide_pixels_any_alpha": 17533,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "selected": true,
+      "output": "paint_left.png",
+      "reason": "Selected: substantially flatter midtone gold and slightly better normalized silhouette overlap (94.1%). Shape drift, partial-alpha fringe and slight facet shading remain.",
+      "prompt": "Use case: precise-object-edit. One corrective regeneration of the LEFT edge view for a 3D texture source.\nImage 1: previous paint_left.png, MATERIAL APPEARANCE only. Image 2: original 1024x1024 guide_left.png, exact edit target and absolute authority for canvas, silhouette, positions, scale, all holes and every part edge.\nPaint only within Image 2's existing alpha mask. Preserve Image 2's exact pixel coverage and full square canvas, with no stray marks in the transparent area. Do not copy geometry drift from Image 1. Thin EDGE-ON profile only: disc body x277..957,y473..550; short chain at LEFT x66..293; upper rim gold y473..514; lower body black-violet resin y514..550. Preserve the original angular links, ring hole and chain overlaps exactly.\nTARGETED CHANGE: remove the bright outlines and all baked lighting from Image 1. Gold must be an even midtone warm antique gold (#b38b41), almost matte with only extremely subtle worn grain and scratches, same base brightness on all facets. Resin must be near-black violet (#241b2b) with subtle fine natural plum marbling, no lower-edge darkening. Colours and material character still match the seal design. No cast shadow, no ambient occlusion, no specular streaks or hot points, no bright bevel edges, no directional shading. No added sigil or decorations on this edge. No letters, text, labels, floor or background. Return one 1024x1024 transparent RGBA PNG at the guide's unchanged scale and position.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/paint_left.png",
+          "preserved_as": "paint_left_attempt1.png",
+          "source_run": {
+            "view": "left",
+            "attempt": 1
+          },
+          "sha256": "e5481d541bff43be0e771b7dc665a4e206b55d4d33ca9e422e21660cef9b929b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_left.png",
+          "sha256": "d353cf680fe5553e0a867ddd6b8afeb7a360e4fb105b97ddda8ad7e7faaf04e4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-2e8396e0-e84a-45b3-ae07-0b7488dd6e23.png",
+      "output_sha256": "f85d85d981951a353686e23e077e6339d570ed090855d656ee7f4d7f6f491f88",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 93.747,
+        "alpha_bbox": [
+          27,
+          55,
+          1224,
+          1158
+        ],
+        "alpha_128_bbox": [
+          77,
+          580,
+          1184,
+          675
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          66,
+          473,
+          958,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.941377,
+        "outside_normalized_guide_pixels_alpha_128": 5272,
+        "outside_normalized_guide_pixels_any_alpha": 13008,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "selected": false,
+      "output": "paint_right_attempt2.png",
+      "reason": "Rejected: correction decreased normalized silhouette overlap to 93.8% and increased outside-guide coverage; did not materially improve shading.",
+      "prompt": "Use case: precise-object-edit. One corrective regeneration of the RIGHT edge view for a 3D texture source.\nImage 1: previous paint_right.png, material appearance reference only. Image 2: original guide_right.png, the exact edit target; authoritative 1024x1024 canvas, silhouette, position, scale, all holes and part edges.\nTARGETED CORRECTION: repaint Image 2 with the material colours of Image 1 while restoring Image 2's exact shape. Preserve Image 2's original alpha coverage pixel-for-pixel; every originally transparent pixel must stay alpha=0. No red/yellow fringe, halo, noise or stray pixels outside the silhouette or inside the ring hole. Do not reproduce Image 1's slightly enlarged shape. Canvas stays 1024x1024. Thin EDGE-ON profile only, bounding box x66..957,y473..550. Disc on LEFT x66..747, upper gold band y473..514, lower black-violet body y514..550; chain on RIGHT x730..957, with original polygonal ring around x787..893,y480..549 and existing horizontal links. Keep all part boundaries and the ring hole identical to the original guide.\nPaint worn brushed antique gold, medium warm basecolour around #b38b41, with fine restrained wear and faint grain. Black-violet bone/resin around #241b2b with restrained dark plum marbling and fine veins. Strict ALBEDO: flat shadowless frontal illumination, no bright bevel strokes, no specular streaks or hot spots, no drop shadows or ambient occlusion, no darkened material junctions or lower-edge shading. Metal has only faint sheen, never harsh highlights. No added links or face sigil on this edge. No text, letters, labels, floor, background or watermark. One transparent RGBA PNG, unchanged guide composition.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/paint_right.png",
+          "preserved_as": "paint_right.png",
+          "source_run": {
+            "view": "right",
+            "attempt": 1
+          },
+          "sha256": "629fd2c2869f4e88094473a9a603aaaee7d9549b3d71ed399c6fcdcf57d97a10"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_right.png",
+          "sha256": "063c0fc314f0b14fec1559dad047f5461e453bf989e66718e4ec0918d6178bc4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-b7de841c-5035-4b77-b578-deb2bb7f00ff.png",
+      "output_sha256": "0f74a93f59ed53e4e958241b340e450256117c29438ccb57055334b99825d085",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 93.659,
+        "alpha_bbox": [
+          76,
+          185,
+          1234,
+          1188
+        ],
+        "alpha_128_bbox": [
+          79,
+          578,
+          1173,
+          675
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          66,
+          473,
+          958,
+          551
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.937921,
+        "outside_normalized_guide_pixels_alpha_128": 5538,
+        "outside_normalized_guide_pixels_any_alpha": 14393,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "selected": true,
+      "output": "paint_top.png",
+      "reason": "Selected: improved normalized silhouette overlap (96.0%) and reduced stray edge coverage while retaining the reference sigil. Nonexact circular/chain edges, partial-alpha fringe and mild relief shading remain.",
+      "prompt": "Use case: precise-object-edit. One corrective regeneration of the TOP view albedo painting for the Hesper Court seal.\nImage 1 is the previous painting: reference for its black-violet resin, warm gold and precise nonalphabetic branching spear sigil only. Image 2 is guide_top.png, the EXACT geometry target with authoritative 1024x1024 canvas and alpha mask.\nTARGETED CORRECTION: transfer the materials and sigil from Image 1 onto Image 2's exact silhouette, restoring the exact circle, chain, ring holes, material boundaries, scale and position. Image 1 sits slightly too high and adds protruding cardinal tips: do NOT copy those deviations. The guide disc is centred at (512,618), with its top at y279, bottom at y957, left x171 and right x852, and has a slightly faceted circular outline. The short chain sits vertically at x477..546,y66..282. KEEP every outline corner, hole and overlap exactly as in Image 2. All four cardinal ornament motifs must be painted flat WITHIN the existing rim; none may change either material boundary or extend outside the guide. Return a 1024x1024 canvas without zooming or cropping.\nKeep the central gold-leaf spear and branching barbs from Image 1, correctly centred and contained well within the resin disc. Paint a warm medium antique gold, with restrained fine scratches/grain and only faint sheen. Resin is almost black violet with natural dark plum marbling. Strict even shadowless ALBEDO: no bright edge outlines, hot highlights, reflection, drop shadow, ambient occlusion or dark relief outline around the sigil. All gold regions have the same medium base brightness. Sigil is thin flush gold leaf, never raised.\nOutside Image 2's silhouette and inside all chain holes: alpha exactly zero, completely transparent, no coloured outlines, halo, fringe or stray marks. No backdrop, floor, text, letters, symbols other than the original central abstract sigil, labels or watermark. One transparent RGBA PNG.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/paint_top.png",
+          "preserved_as": "paint_top_attempt1.png",
+          "source_run": {
+            "view": "top",
+            "attempt": 1
+          },
+          "sha256": "c7ecc74d59fbdd04d6e85ba89e2b1b8e41be15a10133f5e8df488b589a39ba6f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_court_seal/guide_top.png",
+          "sha256": "69ed27b547bb76435824790f2fce0d06192b857e693eadaa99b2b102a50fad18"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16db4-5b80-7fd0-ba82-c3d00ba649c4/exec-5e4d5229-285d-491c-b4f5-005815f983fc.png",
+      "output_sha256": "4d3053c2c7d3691ce0164b107de4285d628684954a740fd15a8382dfc65a1263",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "alternate_size_preserved_unresized": true,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "fully_transparent_pixels_percent": 65.0606,
+        "alpha_bbox": [
+          0,
+          52,
+          1199,
+          1166
+        ],
+        "alpha_128_bbox": [
+          213,
+          75,
+          1041,
+          1163
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "guide_alpha_bbox": [
+          171,
+          66,
+          853,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_128": 0.95959,
+        "outside_normalized_guide_pixels_alpha_128": 4751,
+        "outside_normalized_guide_pixels_any_alpha": 9445,
+        "materials_visual_review": "Warm antique gold and dark black-violet marbled resin retained; gold brightness differs slightly across views.",
+        "flat_even_albedo_lighting_pass": false,
+        "lighting_visual_review": "Residual bevel or relief shading remains; see selection reason for comparison.",
+        "no_text_or_letters_visual_review": true,
+        "resized": false,
+        "byte_identical_to_tool_return": true
+      }
+    }
+  ]
+}

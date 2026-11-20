@@ -1,0 +1,90 @@
+{
+  "checks": [
+    {
+      "frame": 0,
+      "native_error": 3.0090279812282987,
+      "restored_error": 2.942696109347873,
+      "ratio": 0.9779557145050713
+    },
+    {
+      "frame": 1,
+      "native_error": 3.044463037561487,
+      "restored_error": 3.0751979686595776,
+      "ratio": 1.0100953536695614
+    },
+    {
+      "frame": 2,
+      "native_error": 3.27261882075557,
+      "restored_error": 3.238894466824002,
+      "ratio": 0.9896949948103696
+    },
+    {
+      "frame": 3,
+      "native_error": 3.459147299307364,
+      "restored_error": 3.443765140109592,
+      "ratio": 0.9955531933546594
+    },
+    {
+      "frame": 4,
+      "native_error": 3.16319263599537,
+      "restored_error": 3.0719403980396414,
+      "ratio": 0.9711518555913007
+    },
+    {
+      "frame": 5,
+      "native_error": 3.2374211007577403,
+      "restored_error": 3.176043525978371,
+      "ratio": 0.9810412137101956
+    },
+    {
+      "frame": 6,
+      "native_error": 3.2139739990234375,
+      "restored_error": 3.087310208921079,
+      "ratio": 0.9605896655850841
+    },
+    {
+      "frame": 7,
+      "native_error": 3.30668872974537,
+      "restored_error": 3.339656225133825,
+      "ratio": 1.0099699421635593
+    },
+    {
+      "frame": 8,
+      "native_error": 3.1822722088849105,
+      "restored_error": 3.120455508761936,
+      "ratio": 0.9805746661299488
+    },
+    {
+      "frame": 9,
+      "native_error": 3.0179122529206452,
+      "restored_error": 2.9858490611888744,
+      "ratio": 0.9893757044457667
+    },
+    {
+      "frame": 10,
+      "native_error": 3.2913933082863136,
+      "restored_error": 3.226486324734158,
+      "ratio": 0.9802797850415665
+    },
+    {
+      "frame": 11,
+      "native_error": 3.6088656220612703,
+      "restored_error": 3.556331527144821,
+      "ratio": 0.9854430448739059
+    },
+    {
+      "frame": 12,
+      "native_error": 3.016407538519965,
+      "restored_error": 2.946216515435113,
+      "ratio": 0.9767302586973071
+    },
+    {
+      "frame": 13,
+      "native_error": 3.128137619583695,
+      "restored_error": 3.1355199008517793,
+      "ratio": 1.0023599605151217
+    }
+  ],
+  "passed": true,
+  "method": "Each sequence uses its own wave motion because repaired borders have new connected shapes; residual error must be <1.2x v2"
+}

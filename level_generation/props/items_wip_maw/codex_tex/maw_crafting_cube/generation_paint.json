@@ -1,0 +1,30 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (first input), using design_reference.png (second input) for material/details and icon_x8.png (third input) for color only (magenta is background). Produce ONE transparent PNG, 3:4 canvas 1536x2048 or nearest 3:4 size. Preserve EXACT guide layout: 3 columns by FOUR rows of equal square cells. Row 1 FRONT BACK LEFT; row 2 RIGHT TOP EMPTY; row 3 FRONT BACK LEFT; row 4 RIGHT TOP EMPTY. Paint only existing grey objects; preserve each object's exact position, size, outline, geometry, gaps and openings. Do not redraw, enlarge, move, redesign or change cameras. Rows 1-2: unlit base color, dark grey-black stone blocks, polished gold edges/frames/studs, orange-amber gems. Cube assembled from 3x3x3 blocks, diamond-shaped central gems. Facets, engravings, scrollwork and inner swirls follow design reference scaled to guide views, but guide geometry takes priority. No lighting, shadows, ambient occlusion, hot highlights, reflections, glow halos, sparkles, aura, ground, outlines or text. Gaps and openings fully transparent. Rows 3-4 are MATERIAL MASKS of the same five corresponding painted views: fill every silhouette pixel with exactly one flat pure color: metal = #FF0000 pure red; gemstones/crystal/glass/pearl/mirror glass/liquid through glass = #000000 pure black; matte nonmetal stone/sand = #FFFF00 pure yellow. No shading, textures, outlines, or antialiased internal color blends in material masks. Match material boundaries to painted views above. Nothing outside silhouettes. Column 3 row 2 and column 3 row 4 fully empty transparent. Preserve genuine alpha background throughout.\nCORRECTION: Strict clean alpha silhouettes are essential. No speckles, stray pixels, red/yellow overspray or colored fringes anywhere outside original grey guide objects. Preserve original guide geometry precisely including the filled central TOP gem surface (not a hole). Treat guide alpha as an immutable stencil. Every row must retain the original guide spacing and margins. Flat mask regions must be completely solid exact RGB values with no outlines.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (first input), using design_reference.png (second input) for material/details and icon_x8.png (third input) for color only (magenta is background). Produce ONE transparent PNG, 3:4 canvas 1536x2048 or nearest 3:4 size. Preserve EXACT guide layout: 3 columns by FOUR rows of equal square cells. Row 1 FRONT BACK LEFT; row 2 RIGHT TOP EMPTY; row 3 FRONT BACK LEFT; row 4 RIGHT TOP EMPTY. Paint only existing grey objects; preserve each object's exact position, size, outline, geometry, gaps and openings. Do not redraw, enlarge, move, redesign or change cameras. Rows 1-2: unlit base color, dark grey-black stone blocks, polished gold edges/frames/studs, orange-amber gems. Cube assembled from 3x3x3 blocks, diamond-shaped central gems. Facets, engravings, scrollwork and inner swirls follow design reference scaled to guide views, but guide geometry takes priority. No lighting, shadows, ambient occlusion, hot highlights, reflections, glow halos, sparkles, aura, ground, outlines or text. Gaps and openings fully transparent. Rows 3-4 are MATERIAL MASKS of the same five corresponding painted views: fill every silhouette pixel with exactly one flat pure color: metal = #FF0000 pure red; gemstones/crystal/glass/pearl/mirror glass/liquid through glass = #000000 pure black; matte nonmetal stone/sand = #FFFF00 pure yellow. No shading, textures, outlines, or antialiased internal color blends in material masks. Match material boundaries to painted views above. Nothing outside silhouettes. Column 3 row 2 and column 3 row 4 fully empty transparent. Preserve genuine alpha background throughout.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16cd8-25a3-7bb2-83e7-fb7f73d95430/exec-202cdf4f-377d-4b9e-b0ce-da27c85646b8.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_crafting_cube/paint_mask_guide.png",
+      "sha256": "02fb55e6e0ac92ccfe096695167b50617e39f35a0eb6249bc7917438ae2770c3"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_crafting_cube/design_reference.png",
+      "sha256": "d517c7af146fcfac9e30fce51541420b9c314ffd7920149095bb4e9f7e41daac"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_crafting_cube/icon_x8.png",
+      "sha256": "a403db004798ae2f10a567bd5242ad0efe04f406e7af165f6d40bd26005e890a"
+    }
+  ],
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_crafting_cube/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": "Corrective generation still has stray colored edge pixels, silhouette deviations, shading, and non-pure mask colors; exact brief compliance not achieved. Raw tool output preserved without edits."
+  }
+}

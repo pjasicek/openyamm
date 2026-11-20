@@ -9,6 +9,25 @@
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+// A field of 99 sets the value to the other side's (ArcomageRules::applyScalarChange); any other field is a delta.
+int scalarChange(int value, int otherValue, int field)
+{
+    return field == 99 ? std::max(0, otherValue) - value : field;
+}
+
+// The score of one value: the own and shared fields count as the AI's change, the enemy field against it. The fields
+// are read in the order ArcomageRules::applyEffectBundle applies them, so the enemy field sees the AI's new value.
+int valueGain(int ownValue, int enemyValue, int ownField, int enemyField, int bothField)
+{
+    const int ownChange = scalarChange(ownValue, enemyValue, ownField);
+    const int enemyChange = scalarChange(enemyValue, ownValue + ownChange, enemyField);
+    const int sharedChange = scalarChange(ownValue + ownChange, enemyValue + enemyChange, bothField);
+    return ownChange + sharedChange - enemyChange;
+}
+}
+
 ArcomageAi::Action ArcomageAi::chooseAction(const ArcomageLibrary &library, const ArcomageState &state) const
 {
     const size_t playerIndex = state.currentPlayerIndex;
@@ -131,23 +150,40 @@ int ArcomageAi::calculateCardPower(
         {{1, 2}},
     }};
 
-    const ArcomageEffectBundle &bundle = card.primary;
+    const ArcomageEffectBundle &bundle =
+        ArcomageRules::evaluateCondition(card.condition, player, enemy) ? card.primary : card.secondary;
+    const ArcomageRules::SpecialCardEffect special = ArcomageRules::specialCardEffect(card, player, enemy);
     const int masteryIndex = std::clamp(mastery, 0, 1);
+
+    const int towerGain = valueGain(player.tower, enemy.tower, bundle.playerTower, bundle.enemyTower, bundle.bothTower)
+        + special.playerTower - special.enemyTower;
+    const int wallGain = valueGain(player.wall, enemy.wall, bundle.playerWall, bundle.enemyWall, bundle.bothWall)
+        + special.playerWall - special.enemyWall;
+    const int buildingsGain = bundle.playerBuildings + bundle.bothBuildings - bundle.enemyBuildings;
+    const int quarryGain =
+        valueGain(player.quarry, enemy.quarry, bundle.playerQuarry, bundle.enemyQuarry, bundle.bothQuarry);
+    const int magicGain = valueGain(player.magic, enemy.magic, bundle.playerMagic, bundle.enemyMagic, bundle.bothMagic);
+    const int dungeonGain =
+        valueGain(player.dungeon, enemy.dungeon, bundle.playerDungeon, bundle.enemyDungeon, bundle.bothDungeon)
+        + special.playerDungeon - special.enemyDungeon;
+    const int bricksGain =
+        valueGain(player.bricks, enemy.bricks, bundle.playerBricks, bundle.enemyBricks, bundle.bothBricks);
+    const int gemsGain = valueGain(player.gems, enemy.gems, bundle.playerGems, bundle.enemyGems, bundle.bothGems);
+    const int recruitsGain =
+        valueGain(player.recruits, enemy.recruits, bundle.playerRecruits, bundle.enemyRecruits, bundle.bothRecruits);
+
     int score = 0;
-
-    const int towerGain = bundle.playerTower + bundle.bothTower - bundle.enemyTower;
     score += (player.tower >= 10 ? MasteryCoeff[0][masteryIndex] : 20) * towerGain;
-
-    const int wallGain = bundle.playerWall + bundle.bothWall - bundle.enemyWall;
     score += (player.wall >= 10 ? MasteryCoeff[1][masteryIndex] : 5) * wallGain;
+    score += 7 * buildingsGain;
+    score += 40 * (quarryGain + magicGain + dungeonGain);
+    score += 2 * (bricksGain + gemsGain + recruitsGain);
 
-    score += 7 * (bundle.playerBuildings + bundle.bothBuildings - bundle.enemyBuildings);
-    score += 40 * (bundle.playerQuarry + bundle.bothQuarry - bundle.enemyQuarry);
-    score += 40 * (bundle.playerMagic + bundle.bothMagic - bundle.enemyMagic);
-    score += 40 * (bundle.playerDungeon + bundle.bothDungeon - bundle.enemyDungeon);
-    score += 2 * (bundle.playerBricks + bundle.bothBricks - bundle.enemyBricks);
-    score += 2 * (bundle.playerGems + bundle.bothGems - bundle.enemyGems);
-    score += 2 * (bundle.playerRecruits + bundle.bothRecruits - bundle.enemyRecruits);
+    // A card whose selected effects change nothing only spends resources; discarding it is free.
+    if (score == 0 && !bundle.playAgain && bundle.extraDraw <= 0)
+    {
+        return 0;
+    }
 
     if (bundle.playAgain || bundle.extraDraw > 0)
     {
@@ -176,7 +212,11 @@ int ArcomageAi::calculateCardPower(
 
     score += 5 * std::min(3, spareResource);
 
-    if (enemy.tower + std::min(0, bundle.enemyTower) <= 0)
+    const int enemyTowerChange = scalarChange(enemy.tower, player.tower, bundle.enemyTower) + special.enemyTower;
+    const int buildingDamage = std::max(0, -bundle.enemyBuildings);
+    const int towerDamageThroughWall = std::max(0, buildingDamage - enemy.wall);
+
+    if (enemy.tower + std::min(0, enemyTowerChange) - towerDamageThroughWall <= 0)
     {
         score += 9999;
     }

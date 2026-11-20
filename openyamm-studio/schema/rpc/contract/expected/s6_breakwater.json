@@ -1,0 +1,971 @@
+{
+ "00 open": {
+  "result": {
+   "revision": "ed570eb6a231b358c376bf66c1d0f8ad",
+   "lock_hash": "9e0ee0ce01e4acbda37f9149d05b6969",
+   "files": {
+    "project.yml": {
+     "tree": {
+      "format": 0,
+      "id": "studio06",
+      "name": "The Breakwater Store",
+      "world": "mm6",
+      "kind": "indoor",
+      "profile": "dungeon",
+      "units": {
+       "plan_grid": 512,
+       "snap": 64
+      },
+      "migrated": [
+       "platform_in_sunken_level"
+      ],
+      "map_stats": {
+       "id": 9306,
+       "reference": "6d01.blv",
+       "encounter_chance": 0,
+       "treasure_level": 1
+      },
+      "notes": "S6's test map (devdocs/map_studio/S6_PLAN.md): a barricade of boards across the store's doorway and a barrel that break, a pool to swim in with a ladder out, and a short cinematic on arrival. Plain on purpose."
+     }
+    },
+    "plan.yml": {
+     "tree": {
+      "format": 0,
+      "level": "L3",
+      "spaces": [
+       {
+        "id": "room:yard",
+        "kind": "room",
+        "size": "M"
+       },
+       {
+        "id": "room:store",
+        "kind": "room",
+        "size": "S"
+       }
+      ],
+      "links": [
+       {
+        "id": "link:yard_store",
+        "from": "room:yard",
+        "to": "room:store",
+        "kind": "open"
+       }
+      ]
+     }
+    },
+    "rooms.yml": {
+     "tree": {
+      "format": 0,
+      "themes": [
+       {
+        "id": "theme:masonry",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ]
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        }
+       },
+       {
+        "id": "theme:open_yard",
+        "wall": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ]
+        },
+        "floor": {
+         "texture": "oflr",
+         "size": [
+          128,
+          128
+         ]
+        },
+        "ceiling": {
+         "texture": "d2ceil4",
+         "size": [
+          256,
+          256
+         ],
+         "sky": true
+        },
+        "reveal": {
+         "texture": "t1trima",
+         "size": [
+          32,
+          32
+         ],
+         "scale": 2
+        }
+       }
+      ],
+      "defaults": {
+       "theme": "theme:masonry",
+       "ambient": 14
+      },
+      "rooms": [
+       {
+        "id": "room:yard",
+        "name": "Yard",
+        "theme": "theme:open_yard",
+        "outline": [
+         [
+          0,
+          0
+         ],
+         [
+          1024,
+          0
+         ],
+         [
+          1024,
+          1024
+         ],
+         [
+          0,
+          1024
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 512,
+        "levels": [
+         {
+          "id": "level:pool",
+          "outline": [
+           [
+            192,
+            512
+           ],
+           [
+            640,
+            512
+           ],
+           [
+            640,
+            896
+           ],
+           [
+            192,
+            896
+           ]
+          ],
+          "floor": -192,
+          "edge": {
+           "texture": "t1w11a",
+           "size": [
+            128,
+            256
+           ]
+          },
+          "surface": {
+           "texture": "oflr",
+           "size": [
+            128,
+            128
+           ]
+          },
+          "notes": "The pool's bed, 192 under the yard."
+         }
+        ],
+        "platforms": [
+         {
+          "id": "platform:pool_surface",
+          "outline": [
+           [
+            192,
+            512
+           ],
+           [
+            640,
+            512
+           ],
+           [
+            640,
+            896
+           ],
+           [
+            192,
+            896
+           ]
+          ],
+          "base": 172,
+          "rise": 4,
+          "solid": false,
+          "top_surface": {
+           "texture": "6wtrtyl",
+           "liquid": "water"
+          },
+          "notes": "The water's face: drawn, not solid, so the party sinks into the volume under it (objects.yml water)."
+         }
+        ]
+       },
+       {
+        "id": "room:store",
+        "name": "Store",
+        "outline": [
+         [
+          1088,
+          0
+         ],
+         [
+          1856,
+          0
+         ],
+         [
+          1856,
+          768
+         ],
+         [
+          1088,
+          768
+         ]
+        ],
+        "floor": 0,
+        "ceiling": 384,
+        "platforms": [
+         {
+          "id": "platform:barricade",
+          "at": [
+           1120,
+           384
+          ],
+          "size": [
+           64,
+           256
+          ],
+          "rise": 256,
+          "surface": {
+           "texture": "t1w11a",
+           "size": [
+            128,
+            256
+           ]
+          },
+          "notes": "Boards nailed across the doorway from the store's side."
+         }
+        ]
+       }
+      ],
+      "openings": [
+       {
+        "id": "open:yard_store",
+        "from": "room:yard",
+        "to": "room:store",
+        "link": "link:yard_store",
+        "width": 192,
+        "height": 256
+       }
+      ]
+     }
+    },
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "start": {
+       "room": "room:yard",
+       "at": [
+        900,
+        200
+       ],
+       "facing": "n"
+      },
+      "decorations": [
+       {
+        "id": "deco:barrel",
+        "room": "room:yard",
+        "decoration": "bigbarel",
+        "at": [
+         880,
+         880
+        ]
+       }
+      ],
+      "lights": [
+       {
+        "id": "light:yard",
+        "room": "room:yard",
+        "radius": 1400,
+        "color": [
+         255,
+         200,
+         140
+        ]
+       },
+       {
+        "id": "light:store",
+        "room": "room:store",
+        "radius": 900,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       }
+      ],
+      "destructibles": [
+       {
+        "id": "destructible:barricade",
+        "of": "platform:barricade",
+        "hp": 20,
+        "material": "wood",
+        "sound": "41rockblast01.wav",
+        "on_destroyed": "evt:barricade_down"
+       },
+       {
+        "id": "destructible:barrel",
+        "of": "deco:barrel",
+        "hp": 5,
+        "material": "wood",
+        "sound": "41rockblast01.wav",
+        "on_destroyed": "evt:barrel_gold"
+       }
+      ],
+      "water": [
+       {
+        "id": "water:pool",
+        "of": "level:pool",
+        "top": -16,
+        "tint": [
+         0.1,
+         0.4,
+         0.6
+        ]
+       }
+      ],
+      "ladders": [
+       {
+        "id": "ladder:pool",
+        "room": "room:yard",
+        "at": [
+         416,
+         890
+        ],
+        "facing": "n",
+        "height": 192,
+        "floor_height": -192,
+        "exit": [
+         416,
+         960
+        ],
+        "surface": {
+         "texture": "t1w11a",
+         "size": [
+          128,
+          256
+         ],
+         "uneven": true
+        }
+       }
+      ],
+      "sounds": [
+       {
+        "id": "sound:drip",
+        "room": "room:yard",
+        "at": [
+         300,
+         300
+        ],
+        "sound": "01_01.wav",
+        "radius": 900,
+        "wait": [
+         3,
+         7
+        ],
+        "night_only": true
+       }
+      ]
+     }
+    },
+    "wiring.yml": {
+     "tree": {
+      "format": 0,
+      "events": [
+       {
+        "id": "evt:arrival",
+        "preset": "script",
+        "trigger": "load",
+        "condition": {
+         "not": {
+          "map_var": "arrived"
+         }
+        },
+        "effects": [
+         {
+          "set": {
+           "var": {
+            "map_var": "arrived"
+           },
+           "value": 1
+          }
+         },
+         {
+          "cinematic": {
+           "id": "cinematic:arrival",
+           "then": "evt:arrival_done"
+          }
+         }
+        ]
+       },
+       {
+        "id": "evt:arrival_lamp",
+        "preset": "text",
+        "trigger": "call",
+        "text": "Someone has barred the store."
+       },
+       {
+        "id": "evt:arrival_done",
+        "preset": "script",
+        "trigger": "call",
+        "effects": [
+         {
+          "set": {
+           "var": {
+            "map_var": "arrival_seen"
+           },
+           "value": 1
+          }
+         },
+         {
+          "gold": 1
+         }
+        ]
+       },
+       {
+        "id": "evt:barricade_down",
+        "preset": "text",
+        "trigger": "call",
+        "text": "The boards give way."
+       },
+       {
+        "id": "evt:barrel_gold",
+        "preset": "text",
+        "trigger": "call",
+        "text": "Coins spill out of the broken barrel.",
+        "effects": [
+         {
+          "gold": 25
+         }
+        ]
+       }
+      ],
+      "variables": [
+       "arrived",
+       "arrival_seen"
+      ],
+      "cinematics": [
+       {
+        "id": "cinematic:arrival",
+        "shots": [
+         {
+          "seconds": 2.5,
+          "at": [
+           120,
+           120,
+           420
+          ],
+          "look_at": "deco:barrel",
+          "fov": 70
+         },
+         {
+          "seconds": 3,
+          "at": [
+           800,
+           300,
+           200
+          ],
+          "look_at": [
+           1120,
+           384,
+           128
+          ],
+          "easing": "smooth",
+          "keys": [
+           {
+            "seconds": 3,
+            "at": [
+             960,
+             384,
+             180
+            ],
+            "look_at": [
+             1120,
+             384,
+             128
+            ]
+           }
+          ]
+         },
+         {
+          "seconds": 1,
+          "party": true
+         }
+        ],
+        "cues": [
+         {
+          "at": 0,
+          "fade": "in",
+          "seconds": 1
+         },
+         {
+          "at": 2.5,
+          "subtitle": "The store is barred from within.",
+          "seconds": 2.5
+         },
+         {
+          "at": 3,
+          "event": "evt:arrival_lamp"
+         },
+         {
+          "at": 5,
+          "shake": 0.3,
+          "seconds": 1
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "atmosphere.yml": {
+     "tree": {
+      "format": 0,
+      "open_sky": {
+       "mode": "open",
+       "preset": "fair"
+      },
+      "daylight": {
+       "ambient_rgb": [
+        90,
+        90,
+        100
+       ],
+       "sun_rgb": [
+        255,
+        240,
+        220
+       ]
+      },
+      "notes": "The yard is open to the sky (its theme's ceiling has `sky`); the store keeps its roof."
+     }
+    },
+    "ids.lock.yml": {
+     "tree": {
+      "format": 0,
+      "sectors": {
+       "room:store": 1,
+       "room:yard": 2
+      },
+      "events": {
+       "evt:arrival": 3,
+       "evt:arrival_done": 5,
+       "evt:arrival_lamp": 4,
+       "evt:barrel_gold": 2,
+       "evt:barricade_down": 1
+      },
+      "cogs": {
+       "deco:barrel": 2,
+       "platform:barricade": 1
+      },
+      "map_vars": {
+       "arrival_seen": 1,
+       "arrived": 0
+      },
+      "sounds": {
+       "sound:drip": 1
+      },
+      "decorations": {
+       "deco:barrel": 0
+      },
+      "destructibles": {
+       "destructible:barrel": 2,
+       "destructible:barricade": 1
+      }
+     }
+    }
+   },
+   "ids": [
+    {
+     "id": "room:yard",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:store",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "link:yard_store",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "theme:masonry",
+     "file": "rooms.yml",
+     "list": "themes"
+    },
+    {
+     "id": "theme:open_yard",
+     "file": "rooms.yml",
+     "list": "themes"
+    },
+    {
+     "id": "room:yard",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml",
+     "list": "rooms"
+    },
+    {
+     "id": "open:yard_store",
+     "file": "rooms.yml",
+     "list": "openings"
+    },
+    {
+     "id": "deco:barrel",
+     "file": "objects.yml",
+     "list": "decorations"
+    },
+    {
+     "id": "light:yard",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "light:store",
+     "file": "objects.yml",
+     "list": "lights"
+    },
+    {
+     "id": "destructible:barricade",
+     "file": "objects.yml",
+     "list": "destructibles"
+    },
+    {
+     "id": "destructible:barrel",
+     "file": "objects.yml",
+     "list": "destructibles"
+    },
+    {
+     "id": "water:pool",
+     "file": "objects.yml",
+     "list": "water"
+    },
+    {
+     "id": "ladder:pool",
+     "file": "objects.yml",
+     "list": "ladders"
+    },
+    {
+     "id": "sound:drip",
+     "file": "objects.yml",
+     "list": "sounds"
+    },
+    {
+     "id": "evt:arrival",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:arrival_lamp",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:arrival_done",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:barricade_down",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:barrel_gold",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "cinematic:arrival",
+     "file": "wiring.yml",
+     "list": "cinematics"
+    }
+   ],
+   "issues": [],
+   "keys": [
+    {
+     "address": "room:yard/levels/level1",
+     "file": "rooms.yml"
+    },
+    {
+     "address": "room:yard/platforms/platform1",
+     "file": "rooms.yml"
+    },
+    {
+     "address": "room:store/platforms/platform1",
+     "file": "rooms.yml"
+    }
+   ]
+  }
+ },
+ "01 validate": {
+  "result": {
+   "ok": true,
+   "with_assets": true,
+   "issues": [],
+   "notes": []
+  }
+ },
+ "02 build, dry run": {
+  "result": {
+   "map": "studio06.blv",
+   "kind": "indoor",
+   "counts": {
+    "sectors": 3,
+    "faces": 88,
+    "vertices": 116,
+    "portals": 1,
+    "doors": 0,
+    "lights": 2,
+    "spawns": 0,
+    "entities": 1,
+    "events": 5,
+    "chests": 0
+   },
+   "files": [],
+   "warnings": [],
+   "ids_lock_changed": false
+  }
+ },
+ "03 layout": {
+  "result": {
+   "revision": "ed570eb6a231b358c376bf66c1d0f8ad",
+   "view_revision": "ed570eb6a231b358c376bf66c1d0f8ad",
+   "stale": false,
+   "kind": "indoor",
+   "world": "mm6",
+   "bounds": {
+    "min": [
+     0,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     1024,
+     512
+    ]
+   },
+   "rooms": [
+    {
+     "id": "room:store",
+     "sector": 1,
+     "outline": [
+      [
+       1088,
+       0
+      ],
+      [
+       1856,
+       0
+      ],
+      [
+       1856,
+       768
+      ],
+      [
+       1088,
+       768
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 384,
+     "levels": [
+      {
+       "outline": [
+        [
+         1088,
+         256
+        ],
+        [
+         1152,
+         256
+        ],
+        [
+         1152,
+         512
+        ],
+        [
+         1088,
+         512
+        ]
+       ],
+       "height": 256
+      }
+     ]
+    },
+    {
+     "id": "room:yard",
+     "sector": 2,
+     "outline": [
+      [
+       0,
+       0
+      ],
+      [
+       1024,
+       0
+      ],
+      [
+       1024,
+       1024
+      ],
+      [
+       0,
+       1024
+      ]
+     ],
+     "floor": 0,
+     "ceiling": 512,
+     "levels": [
+      {
+       "outline": [
+        [
+         192,
+         512
+        ],
+        [
+         640,
+         512
+        ],
+        [
+         640,
+         896
+        ],
+        [
+         192,
+         896
+        ]
+       ],
+       "height": -192
+      }
+     ]
+    }
+   ],
+   "openings": [
+    {
+     "id": "open:yard_store",
+     "from": "room:yard",
+     "to": "room:store",
+     "a": [
+      1024,
+      288
+     ],
+     "b": [
+      1024,
+      480
+     ],
+     "bottom": 0,
+     "top": 256
+    }
+   ],
+   "doors": [],
+   "lifts": [],
+   "things": [
+    {
+     "id": "light:yard",
+     "kind": "light",
+     "at": [
+      512,
+      512,
+      384
+     ]
+    },
+    {
+     "id": "light:store",
+     "kind": "light",
+     "at": [
+      1472,
+      384,
+      288
+     ]
+    },
+    {
+     "id": "deco:barrel",
+     "kind": "decoration",
+     "at": [
+      880,
+      880,
+      0
+     ],
+     "name": "bigbarel"
+    },
+    {
+     "id": "sound:1",
+     "kind": "sound",
+     "at": [
+      300,
+      300,
+      64
+     ],
+     "name": "01_01.wav"
+    },
+    {
+     "id": "pool",
+     "kind": "ladder",
+     "at": [
+      416,
+      890,
+      -192
+     ],
+     "facing": 90
+    }
+   ],
+   "start": {
+    "at": [
+     900,
+     200,
+     0
+    ],
+    "facing": 90
+   }
+  }
+ },
+ "04 no overlay": {
+  "error": {
+   "code": -32000,
+   "message": "view.overlay is for overlay projects of indoor maps (project.yml `base` naming a BLV)",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ }
+}

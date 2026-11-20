@@ -1,6 +1,11 @@
 #include "game/items/InventoryItemMixingRuntime.h"
+#include "engine/Localization.h"
 
+#include "game/items/InventoryBags.h"
 #include "game/items/ItemEnchantRuntime.h"
+#include "game/items/ItemEnchantTables.h"
+#include "game/items/ItemRuntime.h"
+#include "game/rules/GameRules.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/PotionMixingTable.h"
@@ -14,8 +19,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t RechargePotionItemId = 233;
-constexpr uint32_t SlayingPotionItemId = 263;
 
 bool parsePositiveInteger(const std::string &value, uint32_t &result)
 {
@@ -69,6 +72,101 @@ uint8_t requiredFailureDamageLevel(
         : 0;
 }
 
+// What a potion does when poured onto an item (potion_effects.yml), or None for other items.
+PotionItemAction potionItemAction(const MergedPotionSettingTable &potionSettingTable, uint32_t itemId)
+{
+    const PotionDefinition *pPotion = potionSettingTable.effects().find(itemId);
+    return pPotion != nullptr ? pPotion->itemAction : PotionItemAction::None;
+}
+
+bool isWeaponItem(const ItemDefinition &itemDefinition)
+{
+    const ItemEnchantCategory category = ItemEnchantRuntime::categoryForItem(itemDefinition);
+    return category == ItemEnchantCategory::OneHandedWeapon
+        || category == ItemEnchantCategory::TwoHandedWeapon
+        || category == ItemEnchantCategory::Missile;
+}
+
+// Potions poured onto a weapon or piece of equipment: Harden Item, and the weapon potions that add a temporary
+// special enchantment, or Slaying's permanent one. Refused targets keep the potion, as in the original game.
+InventoryItemMixResult applyEquipmentPotion(
+    const InventoryItem &heldItem,
+    InventoryItem &targetItem,
+    const ItemDefinition &targetDefinition,
+    const MergedPotionSettingTable &potionSettingTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
+{
+    const bool isEquipment = ItemEnchantRuntime::categoryForItem(targetDefinition) != ItemEnchantCategory::None
+        || InventoryItemMixingRuntime::isWandItem(targetDefinition);
+
+    if (!isEquipment)
+    {
+        return {};
+    }
+
+    InventoryItemMixResult result = {};
+    result.handled = true;
+
+    const PotionItemAction potionAction = potionItemAction(potionSettingTable, heldItem.objectDescriptionId);
+
+    if (potionAction == PotionItemAction::Harden)
+    {
+        result.action = InventoryItemMixAction::HardenPotion;
+
+        if (targetItem.broken || ItemRuntime::isArtifact(targetDefinition))
+        {
+            return result;
+        }
+
+        if (targetItem.hardened)
+        {
+            result.statusText = Engine::tr("Item already hardened!");
+            return result;
+        }
+
+        targetItem.hardened = true;
+        result.success = true;
+        result.heldItemConsumed = true;
+        result.targetItemChanged = true;
+        return result;
+    }
+
+    if (potionAction != PotionItemAction::TemporarySpecialEnchant
+        && potionAction != PotionItemAction::PermanentSpecialEnchant)
+    {
+        return {};
+    }
+
+    result.action = InventoryItemMixAction::WeaponEnchantPotion;
+    const PotionEffectTable &potionEffects = potionSettingTable.effects();
+    const SpecialItemEnchantKind enchantKind = potionEffects.find(heldItem.objectDescriptionId)->enchant;
+    const uint16_t enchantId = pSpecialEnchantTable != nullptr ? pSpecialEnchantTable->findId(enchantKind) : 0;
+
+    // Only plain weapons take the enchantment; blasters, artifacts and enchanted weapons refuse it.
+    if (enchantId == 0
+        || !isWeaponItem(targetDefinition)
+        || targetDefinition.skillGroup == "Blaster"
+        || targetItem.broken
+        || ItemRuntime::isArtifact(targetDefinition)
+        || targetItem.rarity != ItemRarity::Common
+        || targetItem.artifactId != 0
+        || targetItem.standardEnchantId != 0
+        || targetItem.specialEnchantId != 0)
+    {
+        return result;
+    }
+
+    // A zero duration would make the enchantment permanent, so a powerless potion still lasts 30 minutes.
+    const uint16_t power = std::max<uint16_t>(1, itemPower(heldItem));
+    targetItem.specialEnchantId = enchantId;
+    targetItem.temporaryBonusRemainingSeconds = potionAction == PotionItemAction::PermanentSpecialEnchant
+        ? 0.0f : static_cast<float>(power) * potionEffects.timedSecondsPerPower();
+    result.success = true;
+    result.heldItemConsumed = true;
+    result.targetItemChanged = true;
+    return result;
+}
+
 void attachBottleResult(
     Party &party,
     size_t memberIndex,
@@ -106,13 +204,6 @@ uint16_t InventoryItemMixingRuntime::reagentPower(const ItemDefinition &itemDefi
     return parsePositiveInteger(itemDefinition.mod1, power)
         ? static_cast<uint16_t>(std::min<uint32_t>(power, 0xFFFFu))
         : 0;
-}
-
-uint32_t InventoryItemMixingRuntime::effectiveAlchemyLevel(const Character &member)
-{
-    const CharacterSkill *pSkill = member.findSkill("Alchemy");
-    const int baseLevel = pSkill != nullptr ? static_cast<int>(pSkill->level) : 0;
-    return static_cast<uint32_t>(std::max(0, baseLevel + member.skillBonus("Alchemy")));
 }
 
 bool InventoryItemMixingRuntime::isWandItem(const ItemDefinition &itemDefinition)
@@ -183,9 +274,9 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
     const MergedPotionSettingEntry *pHeldPotionSetting = potionSettingTable.getByItemId(heldItemId);
     const MergedPotionSettingEntry *pTargetPotionSetting = potionSettingTable.getByItemId(targetItemId);
 
-    if (heldItemId == RechargePotionItemId && isWandItem(*pTargetDefinition))
+    if (potionItemAction(potionSettingTable, heldItemId) == PotionItemAction::RechargeWand)
     {
-        if (targetItem.broken)
+        if (!isWandItem(*pTargetDefinition) || targetItem.broken)
         {
             return {};
         }
@@ -199,7 +290,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
 
         if (newCharges == 0)
         {
-            result.statusText = "Wand already charged!";
+            result.statusText = Engine::tr("Wand already charged!");
             return result;
         }
 
@@ -213,12 +304,15 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
     const std::optional<uint32_t> heldReagentResult = reagentSettingTable.resultItemIdForReagent(heldItemId);
     const std::optional<uint32_t> targetReagentResult = reagentSettingTable.resultItemIdForReagent(targetItemId);
     const auto mixReagentIntoBottle =
-        [&targetItem, alchemyLevel](uint32_t resultItemId, const ItemDefinition &reagentDefinition)
+        [alchemyLevel, alchemyMastery](InventoryItem &bottle,
+            uint32_t resultItemId, const ItemDefinition &reagentDefinition, const InventoryItem &reagent)
         {
-            targetItem.objectDescriptionId = resultItemId;
-            const uint32_t power = alchemyLevel + InventoryItemMixingRuntime::reagentPower(reagentDefinition);
-            targetItem.standardEnchantPower = static_cast<uint16_t>(std::min<uint32_t>(0xFFFFu, power));
-            targetItem.identified = true;
+            const uint32_t power = alchemyLevel
+                + uint32_t(std::max(0,
+                    boundGameRules().potions.reagentPower(reagentDefinition, reagent, alchemyMastery, alchemyLevel)));
+            bottle.objectDescriptionId = resultItemId;
+            bottle.standardEnchantPower = static_cast<uint16_t>(std::min<uint32_t>(0xFFFFu, power));
+            bottle.identified = true;
 
             InventoryItemMixResult result = {};
             result.handled = true;
@@ -226,18 +320,32 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
             result.heldItemConsumed = true;
             result.targetItemChanged = true;
             result.action = InventoryItemMixAction::ReagentBottleMix;
-            result.statusText = "Mixed potion";
+            result.statusText = Engine::tr("Mixed potion");
             return result;
         };
 
     if (heldReagentResult.has_value() && targetItemId == bottleItemId)
     {
-        return mixReagentIntoBottle(*heldReagentResult, *pHeldDefinition);
+        return mixReagentIntoBottle(targetItem, *heldReagentResult, *pHeldDefinition, heldItem);
     }
 
     if (heldItemId == bottleItemId && targetReagentResult.has_value())
     {
-        return mixReagentIntoBottle(*targetReagentResult, *pTargetDefinition);
+        // The held bottle takes the potion and the reagent is used up: a potion does not fit a reagent's slot.
+        InventoryItem potion = heldItem;
+        InventoryItemMixResult result =
+            mixReagentIntoBottle(potion, *targetReagentResult, *pTargetDefinition, targetItem);
+        result.targetItemChanged = false;
+        result.targetItemRemoved = true;
+
+        if (const ItemDefinition *pPotionDefinition = itemTable.get(potion.objectDescriptionId))
+        {
+            potion.width = std::max<uint8_t>(1, pPotionDefinition->inventoryWidth);
+            potion.height = std::max<uint8_t>(1, pPotionDefinition->inventoryHeight);
+        }
+
+        result.heldItemReplacement = potion;
+        return result;
     }
 
     if (pHeldPotionSetting == nullptr || pTargetPotionSetting == nullptr)
@@ -251,26 +359,22 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
 
     if (heldItemId == catalystItemId || targetItemId == catalystItemId)
     {
-        if (heldItemId == catalystItemId && targetItemId == catalystItemId)
-        {
-            targetItem.standardEnchantPower = std::max(itemPower(targetItem), itemPower(heldItem));
-        }
-        else if (targetItemId == catalystItemId)
+        const int power = boundGameRules().potions.catalystMixPower(itemPower(targetItem), itemPower(heldItem),
+            heldItemId == catalystItemId && targetItemId == catalystItemId, alchemyMastery, alchemyLevel);
+
+        if (targetItemId == catalystItemId)
         {
             targetItem.objectDescriptionId = heldItemId;
-            targetItem.standardEnchantPower = itemPower(heldItem);
         }
-        else
-        {
-            targetItem.standardEnchantPower = itemPower(heldItem);
-        }
+
+        targetItem.standardEnchantPower = uint16_t(std::clamp(power, 0, 0xFFFF));
 
         targetItem.identified = true;
         result.success = true;
         result.heldItemConsumed = true;
         result.targetItemChanged = true;
         result.returnsBottle = true;
-        result.statusText = "Mixed potion";
+        result.statusText = Engine::tr("Mixed potion");
         return result;
     }
 
@@ -292,7 +396,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
         result.heldItemConsumed = true;
         result.targetItemRemoved = true;
         result.failureDamageLevel = damageLevel;
-        result.statusText = "Ooops";
+        result.statusText = Engine::tr("Ooops");
         return result;
     }
 
@@ -314,7 +418,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
         }
     }
 
-    result.statusText = "Mixed potion";
+    result.statusText = Engine::tr("Mixed potion");
     return result;
 }
 
@@ -338,75 +442,44 @@ InventoryItemMixResult InventoryItemMixingRuntime::tryApplyHeldItemToInventoryIt
         return {};
     }
 
-    if (heldItem.objectDescriptionId == SlayingPotionItemId)
-    {
-        const ItemDefinition *pDefinition = itemTable.get(pTargetItem->objectDescriptionId);
-        const SpecialItemEnchantTable *pEnchantTable = party.specialItemEnchantTable();
-        const ItemEnchantCategory category = pDefinition != nullptr
-            ? ItemEnchantRuntime::categoryForItem(*pDefinition)
-            : ItemEnchantCategory::None;
-        const bool isWeapon = category == ItemEnchantCategory::OneHandedWeapon
-            || category == ItemEnchantCategory::TwoHandedWeapon
-            || category == ItemEnchantCategory::Missile;
-
-        // Other potions still go through the mixing rules below.
-        if (isWeapon)
-        {
-            InventoryItemMixResult result = {};
-            result.handled = true;
-            result.action = InventoryItemMixAction::EnchantWeaponPotion;
-            result.statusText = "Spell failed";
-
-            if (pTargetItem->broken
-                || pTargetItem->rarity != ItemRarity::Common
-                || pDefinition->rarity != ItemRarity::Common
-                || pTargetItem->standardEnchantId != 0
-                || pTargetItem->specialEnchantId != 0
-                || pTargetItem->artifactId != 0
-                || pEnchantTable == nullptr)
-            {
-                return result;
-            }
-
-            const std::vector<SpecialItemEnchantEntry> &enchants = pEnchantTable->entries();
-
-            for (size_t index = 0; index < enchants.size(); ++index)
-            {
-                if (enchants[index].kind == SpecialItemEnchantKind::DragonSlaying)
-                {
-                    pTargetItem->specialEnchantId = static_cast<uint16_t>(index + 1);
-                    pTargetItem->temporaryBonusRemainingSeconds = 0.0f;
-                    result.success = true;
-                    result.heldItemConsumed = true;
-                    result.targetItemChanged = true;
-                    result.statusText.clear();
-                    return result;
-                }
-            }
-
-            return result;
-        }
-    }
-
     const Character *pAlchemyMember = party.bestPartyWideUtilitySkillMember("Alchemy");
     const Character &alchemyMember = pAlchemyMember != nullptr ? *pAlchemyMember : *pMember;
     const uint32_t targetItemId = pTargetItem->objectDescriptionId;
     const uint32_t heldItemId = heldItem.objectDescriptionId;
-    InventoryItemMixResult result = mixItems(
-        heldItem,
-        *pTargetItem,
-        alchemyMastery(alchemyMember),
-        effectiveAlchemyLevel(alchemyMember),
-        itemTable,
-        potionMixingTable,
-        potionSettingTable,
-        reagentSettingTable,
-        pPotionNoteTable);
+    const ItemDefinition *pTargetDefinition = itemTable.get(targetItemId);
+    InventoryItemMixResult result = pTargetDefinition != nullptr
+        ? applyEquipmentPotion(
+            heldItem,
+            *pTargetItem,
+            *pTargetDefinition,
+            potionSettingTable,
+            party.specialItemEnchantTable())
+        : InventoryItemMixResult {};
+
+    if (!result.handled)
+    {
+        result = mixItems(
+            heldItem,
+            *pTargetItem,
+            alchemyMastery(alchemyMember),
+            gameRulesFor(&party).potions.mixingAlchemyLevel(alchemyMember),
+            itemTable,
+            potionMixingTable,
+            potionSettingTable,
+            reagentSettingTable,
+            pPotionNoteTable);
+    }
 
     if (result.targetItemRemoved)
     {
         InventoryItem removedItem = {};
         party.takeItemFromMemberInventoryCell(memberIndex, pTargetItem->gridX, pTargetItem->gridY, removedItem);
+    }
+    else if (result.targetItemChanged)
+    {
+        // A bottle mixed into its potion takes the potion's size in the bag (OY-240).
+        InventoryBags::refitChangedItem(party, memberIndex, pMember->rulesetState.currentBag,
+            gameRulesFor(&party).items.bagCount(party), pTargetItem->gridX, pTargetItem->gridY, itemTable);
     }
 
     if (result.failureDamageLevel != 0)

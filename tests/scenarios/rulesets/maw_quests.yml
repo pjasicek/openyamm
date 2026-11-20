@@ -1,0 +1,37 @@
+id: rulesets.maw_quests
+title: "Ruleset - MAW quests: black potions from any world's reagents, the Druid Circlet, quest gold"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  # Thistle's Pure Speed quest takes MM7 and MM6 reagents too and pays MAW's Pure Resilience (254).
+  - setup_shortcut: {kind: set_qbit, id: 113}
+  - grant_item: {item_id: 1002}
+  - grant_item: {item_id: 1003}
+  - grant_item: {item_id: 1764}
+  - grant_item: {item_id: 200}
+  - grant_item: {item_id: 1007}
+  - grant_item: {item_id: 1763}
+  - grant_item: {item_id: 1012}
+  - speak_npc: {source_id: 68}
+  - select_topic: {action_id: 181}
+  - assert:
+      qbit_set: [114]
+      qbit_clear: [113]
+      inventory_any_member: [{item_id: 1002, count: 0}, {item_id: 1763, count: 0}]
+  - assert:
+      held_item: {active: true, item_id: 254}
+  # The Druid Circlet for Dantillion.
+  - press_action: {action: cancel_dialog}
+  - speak_npc: {source_id: 41}
+  - select_topic: {action_id: 10020}
+  - assert:
+      qbit_set: [10001]
+  - grant_item: {item_id: 638}
+  - select_topic: {action_id: 10020}
+  - assert:
+      qbit_clear: [10001]
+      inventory_any_member: [{item_id: 638, count: 0}]

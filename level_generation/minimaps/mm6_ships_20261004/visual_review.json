@@ -1,0 +1,46 @@
+{
+  "result": "PASS",
+  "count": 15,
+  "reviewer": "assistant",
+  "reviewed_at": "2026-10-04T19:23:08.993321+00:00",
+  "exports_sha256": "e535bdad5b0da224da38acf1d42d2bdb2528b86cc728430ef2fb7d4b651653ab",
+  "reviewed_targets": [
+    "worlds-mm6--icons--outa1.bmp",
+    "worlds-mm6--icons--outa2.bmp",
+    "worlds-mm6--icons--outa3.bmp",
+    "worlds-mm6--icons--outb1.bmp",
+    "worlds-mm6--icons--outb2.bmp",
+    "worlds-mm6--icons--outb3.bmp",
+    "worlds-mm6--icons--outc1.bmp",
+    "worlds-mm6--icons--outc2.bmp",
+    "worlds-mm6--icons--outc3.bmp",
+    "worlds-mm6--icons--outd1.bmp",
+    "worlds-mm6--icons--outd2.bmp",
+    "worlds-mm6--icons--outd3.bmp",
+    "worlds-mm6--icons--oute1.bmp",
+    "worlds-mm6--icons--oute2.bmp",
+    "worlds-mm6--icons--oute3.bmp"
+  ],
+  "ships_reviewed": 12,
+  "ship_maps": 7,
+  "review_images_sha256": {
+    "mm6_overview.png": "349c2623eb6d2da128696fc9f8b77353515593df133d39db6066e01dcaabbc56",
+    "ships_before_after.png": "67b889053e0e55881baffc44b1daec8637d49cd202bc63aca99f8600a26079db",
+    "ships_master_detail.png": "1c0e358ae5c7dc127f28e8e40f57f71b5c8651641fff86c985fb253fcc569ca1",
+    "map_detail_1.png": "f3b4bbd8fbd0c804e0a6e124f67e40bd5381460181647b1828b7e52844c2bba3",
+    "map_detail_2.png": "66945b1a174026786aa77250007807eafa8fc6c8062b30e0a0e0ab6b0da24a27",
+    "map_detail_3.png": "3e99ebc58da545e43d35cb571f5eae3f05cf455037519ad4861a3c16bf271b65"
+  },
+  "method": "All-map overview, every ship at exact x2 pixels and 2048px master detail, centre detail crops for all 15 maps.",
+  "observations": [
+    "All 12 native ship assemblies are visible and aligned with their original piers or offshore location.",
+    "All 15 maps retain coherent terrain and static-object layers with no empty renders or missing texture blocks.",
+    "The approved lighting, terrain grain, colour processing and native bounds are retained.",
+    "Boat size and orientation derive from installed ODM vertices, not a painted overlay."
+  ],
+  "known_limitations": [
+    "Static terrain/BModels; sprite vegetation, actors, animated water and dynamic event state are absent.",
+    "Native angular coastlines and repeated water textures remain visible.",
+    "This is assistant review under the existing approved recipe and current regeneration request."
+  ]
+}

@@ -1,0 +1,20 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/v2/club_outdoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel held club1
+  - console: viewmodel tier 1
+  - wait: 2
+  - capture: t1_idle
+  - console: viewmodel pose onehandattackright 0.3
+  - wait: 0.5
+  - capture: t1_swing
+  - console: viewmodel pose off
+  - console: viewmodel tier auto
+  - console: viewmodel weapons ours
+  - console: viewmodel held club1
+  - wait: 2
+  - capture: ours_idle
+  - console: viewmodel pose onehandattackright 0.3
+  - wait: 0.5
+  - capture: ours_swing

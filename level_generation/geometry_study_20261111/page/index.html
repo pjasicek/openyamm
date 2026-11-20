@@ -1,0 +1,536 @@
+<title>Sorpigal Geometry Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fondamento&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: one reading column; each view is a full-width figure with a Now / A / B switch above it. */
+:root {
+  --bg: #f3f2ef; --panel: #ffffff; --fg: #1d1f22; --muted: #5d6168; --line: #d9d6cf;
+  --accent: #8a5a2b; --accent-soft: #efe3d3; --good: #2f6b45;
+  --display: "Fondamento", Georgia, serif;
+  --body: "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16171a; --panel: #1f2125; --fg: #e8e6e1; --muted: #a2a49f; --line: #34363b;
+  --accent: #d9a46a; --accent-soft: #3a2c1e; --good: #7cc497; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #16171a; --panel: #1f2125; --fg: #e8e6e1; --muted: #a2a49f; --line: #34363b;
+  --accent: #d9a46a; --accent-soft: #3a2c1e; --good: #7cc497; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.6; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 40px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 48px; }
+h1, h2 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: 26px; }
+h3 { margin: 0; font-size: 16px; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+.lede { font-size: 17px; color: var(--muted); max-width: 68ch; }
+section { display: grid; gap: 16px; }
+.verdict { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 18px 20px; display: grid; gap: 8px; }
+.verdict strong { color: var(--accent); }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.view { display: grid; gap: 10px; }
+.view-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.seg { display: inline-flex; border: 1px solid var(--line); background: var(--panel); }
+.seg button { font: 500 13px var(--body); padding: 6px 14px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: var(--panel); border: 1px solid var(--line); }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .18s; }
+.frame img.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .frame img { transition: none; } }
+.cap { font-size: 14px; color: var(--muted); max-width: 80ch; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td.n { font-family: var(--mono); white-space: nowrap; }
+tr.hl td { color: var(--accent); font-weight: 600; }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 76ch; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.cols > div { display: grid; gap: 10px; align-content: start; min-width: 0; }
+code { font-family: var(--mono); font-size: 13px; }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:12px">
+    <div class="eyebrow">New Sorpigal · oute3.odm · 11 November 2026</div>
+    <h1>How much more geometry should the buildings get?</h1>
+    <p class="lede">Engine captures from five of your eleven poses, each next to two Codex image edits: A, a modest
+      modular upgrade, and B, a hand-modelled hero version. The edits show what the extra geometry would look like.
+      They are not renders.</p>
+  </header>
+
+  <div class="verdict">
+    <p><strong>Aim for A.</strong> Give walls real thickness at windows and doors, raise the timber off the plaster,
+      give roofs slab thickness, overhangs and ridge caps, chamfer corners and posts, and add a plinth and coping
+      stones. That is about 1,500 to 4,000 triangles per building, all within the same textures. Keep B for a few
+      landmarks (the castle, temple, tower), if anywhere.</p>
+    <p>Most of the gain in these images comes from edges and silhouettes: roofs that end in a shadowed overhang
+      instead of a paper edge, and windows that sit in the wall. Parallax and the surface maps already handle the
+      relief inside each face. What they cannot do is change an outline. That is the part geometry has to add.</p>
+  </div>
+
+  <div class="verdict">
+    <p><strong>Shelved on 2026-11-12.</strong> The kit applied to all of New Sorpigal still collided with what is
+      painted and modelled on the buildings:</p>
+    <ul>
+      <li>striped textures on the porch posts;</li>
+      <li>door frames over carved friezes;</li>
+      <li>corner stones that read as loose blocks;</li>
+      <li>knee braces that meet neither post nor beam;</li>
+      <li>window frames that miss the painted frames.</li>
+    </ul>
+    <p>The project is kept as an experiment. Its handoff
+      (<code>level_generation/projects/mm6_sorpigal_geometry_pilot/HANDOFF.md</code>) lists what was tried, the
+      open issues with screenshots, and how to resume.</p>
+  </div>
+
+  <section id="kit">
+    <h2>Silhouette kit prototype</h2>
+    <p>Your note on the Free Haven stable was right. Most of the automatic pass's triangles went into relief taken from
+      the painted textures: timbers raised 5–6 units, windows set in by 12. That can't be seen from normal distance,
+      and the window recesses baked black. What the concepts add is a short list of large pieces, and the kit builds
+      exactly those:</p>
+    <ul>
+      <li>the eave continued outward in the roof's own plane, with a soffit, a heavy fascia board and rafter ends (no
+        lip over a sign or a door under the eave);</li>
+      <li>corner posts on timber walls, and corner stones on stone walls;</li>
+      <li>door frames with a threshold step;</li>
+      <li>full window frames (jambs, head and sill), proud of the wall;</li>
+      <li>openings set in by only 4–6 units, and no raised painted timber.</li>
+    </ul>
+    <p>On six buildings across the five towns the kit goes from 20,863 to 12,214 triangles (−41%). The roof edge is
+      the part that reads most clearly: every roof gets a real overhang and a shadow line. Door frames and corner
+      posts show at street level. Flat-roofed buildings, such as the Silver Cove tavern, gain the least.</p>
+    <p class="cap">Fixed after your review of the prototype:</p>
+    <ul class="cap">
+      <li>The lip used to stop either side of a door, which left pieces that read as separate porches. It now runs
+        all the way round. On a roof with a blade sign under its eave (the stable's horse sign), the whole roof's lip is
+        made shorter and its fascia slimmer, with no rafter ends, until no new face cuts into the sign's box (an exact
+        test in the generator). The sign stays where it was. A notch in the rim, lowering the sign and hanging it from an
+        arm were all tried: moving the sign opened a hole in the wall it was set into.</li>
+      <li>On timber houses the soffit and fascia are now in the house's own timber; grey slate boards looked like a
+        different material.</li>
+      <li>Door frames now stop below the eave; lintels used to stick up into the roof.</li>
+      <li>Hip caps now run out to the lip corners, so they no longer end as stubs on the old roof corner.</li>
+      <li>Timber houses get wooden steps instead of grey stone ones.</li>
+    </ul>
+  </section>
+
+  <section id="round2">
+    <h2>Round 2: towards Concept A</h2>
+    <p>After your review, round 2 changes the rules, not just the examples you pointed at. Every view below has four
+      states: the concept, the map today, round 1 and round 2. Round 2 is engine captures with a 64-sample bake.</p>
+    <ul>
+      <li><b>Trim matches what it sits on.</b> In round 1, one light granite trim went everywhere. Round 2 has eight
+        trim textures generated with Codex, each a dressed or board version of its host's texture: the town rubble,
+        Goblinwatch's black stone, the tower's sandstone, the temple's marble, terracotta for the brick buildings,
+        barn-red boards, and cedar, grey and slate caps for the three roof families. Caps on the grey slate roofs are
+        now slate, not red wood.</li>
+      <li><b>Size and outline as in the concept.</b> Coping is thicker and overhangs, with a weathered top. The wall
+        piers have pyramid caps. The gate keeps its own rubble tops and gets a low stepped base. Goblinwatch has no
+        battlements (the concept has none), a slimmer plinth, a lighter cornice on corbels, and no stripes of quoins on
+        the towers.</li>
+      <li><b>Everything is supported.</b> Post bases are clipped to the floor they stand on, so the tavern's corner
+        bases end flush with the platform. Windows get one sill each (round 1 put a bar under every pane of the barn
+        windows), and roof caps stop at slope breaks (the temple roof's red stripes).</li>
+      <li><b>Tavern:</b> short, thick knee braces, solid post shoes, mouldings and joist ends on the porch roof, a brick
+        nosing on the platform, stone surrounds round the windows, and a stone course at the wall foot.</li>
+      <li><b>Dock and ship:</b> a new deck texture with broad golden planks laid across the pier, raised edge strips
+        and sparse piles. On the ship: heavier yards with collars on the mast, cap rails on the bulwarks, and framed
+        gun ports.</li>
+    </ul>
+    <p class="cap">How it is checked now: each view goes to Codex (gpt-6-astra) as concept, original and result, with
+      the rules above and none of our notes, and comes back as a list of differences. I check each one against crops
+      and fix it, then the town is rebuilt and checked again (five rounds so far). The reviewer is strict and still
+      lists differences on every view. These are now mostly how strongly features read: window hoods, door
+      thresholds and steps, bargeboards on gables, and the ship's gun ports. The plinth under half-timbering stays
+      out, as you asked, though the concepts show it.</p>
+    <p class="cap">Lighting: the bake gives every new face its own lightmap chart. That cannot fit in the original
+      17.2 MB at any texel density, and today's file is 79.4 MB. The research
+      (<code>LIGHTING_PROPOSAL.md</code>) recommends that detail faces borrow the lightmap chart of the face they
+      replace or sit on. The small shadows (recesses, sills, cap undersides) would come from the runtime sun shadow
+      maps plus one baked occlusion value per vertex. Estimated file: about 17.6 MB, about 15.4 MB with tighter
+      padding. This needs an engine change (loader, shader, a sun-shadow caster pass for BModels), opt-in per map.</p>
+  </section>
+
+  <section id="towns">
+    <h2>Four more towns: Frozen Highlands, Free Haven, Silver Cove, Castle Ironfist</h2>
+    <p>The same playbook, applied to four more maps. Each map got these steps:</p>
+    <ul>
+      <li>its own config;</li>
+      <li>matched trims for its new materials (nine new Codex textures);</li>
+      <li>a re-bake of the unchanged map for a fair before;</li>
+      <li>13–14 Codex concept edits;</li>
+      <li>the automatic pass;</li>
+      <li>an Astra review of every concept view.</li>
+    </ul>
+    <p>Captures are taken with weather off, so snow doesn't hide the buildings. The Frozen Highlands fog is the
+      map's own and stays. All results are engine captures with a 64-sample bake.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Map</th><th>Triangles before</th><th>Added</th><th>Detail models</th><th>Lighting (review bake)</th><th>Lighting, unchanged map</th></tr></thead>
+      <tbody>
+        <tr><td>Frozen Highlands (outc1.odm)</td><td class="n">10,462</td><td class="n">+144,300</td><td class="n">102</td><td class="n">92.5 MB</td><td class="n">19.7 MB</td></tr>
+        <tr><td>Free Haven (outc2.odm)</td><td class="n">15,087</td><td class="n">+238,155</td><td class="n">109</td><td class="n">137.0 MB</td><td class="n">23.3 MB</td></tr>
+        <tr><td>Silver Cove (outd1.odm)</td><td class="n">10,977</td><td class="n">+135,321</td><td class="n">82</td><td class="n">84.6 MB</td><td class="n">19.7 MB</td></tr>
+        <tr><td>Castle Ironfist (outd3.odm)</td><td class="n">9,075</td><td class="n">+67,230</td><td class="n">54</td><td class="n">55.8 MB</td><td class="n">19.3 MB</td></tr>
+      </tbody>
+    </table></div>
+    <p>What these maps needed that New Sorpigal didn't:</p>
+    <ul>
+      <li><b>Class and height maps.</b> Relief reads each texture's surface-material maps, and 44–93% of these maps'
+        wall area had none. The existing surface-material pipeline (<code>mat.py auto</code>, two Codex calls per
+        texture) made about 200 of them. They are installed in <code>assets_source</code> and not cooked into the
+        game, so the comparisons here are about geometry only.</li>
+      <li><b>A relief budget.</b> Snowy logs, rubble and noisy class maps first broke faces into thousands of small
+        pieces: 1.26 million triangles on Frozen Highlands. Now any face whose relief gets too complex stays flat, and
+        plain beams, boards and logs get no raised wood. Every building is now under about 8,000 triangles.</li>
+      <li><b>New automatic rules, also applied to New Sorpigal (round 3):</b>
+        <ul>
+          <li>wood-on-wood walls take their frames from the height map;</li>
+          <li>coping goes only on real wall tops (stair treads got it), slim on ashlar and chunky on rubble;</li>
+          <li>rafter ends go only where an eave really overhangs a wall;</li>
+          <li>doors get jambs and a lintel, and flat-topped windows get a head;</li>
+          <li>windows get one sill per window, not per pane;</li>
+          <li>log and plank houses get a stone footing (never painted half-timbering);</li>
+          <li>a plinth on the ground gets no bottom face (one had baked a black patch round Free Haven's dungeon
+            entrance).</li>
+        </ul></li>
+    </ul>
+    <p class="cap">Astra still lists differences on every view. Across Frozen Highlands, Castle Ironfist and Free
+      Haven the most frequent are, in order: eaves and gable edges (verge boards), door steps and thresholds, dressed
+      corner stones, window surrounds, plinths, then coping and rafter ends. These are the next round. Frozen
+      Highlands' round balcony parapet is capped only in part. The lighting files grow 3–6 times because each new face
+      gets its own lightmap chart; the lighting change would bring them back to their original size.</p>
+  </section>
+
+  <section id="pilot">
+    <h2>Round 1 pilot in the engine: Armory, tavern, bridge and Goblinwatch</h2>
+    <p>Level A built for real on seven BModels of New Sorpigal: the Armory, the tavern's front and hall, the stone
+      bridge and the three parts of Goblinwatch. These are engine captures at the same poses. Both sides were re-baked
+      with today's bake tool at 64 samples, so only the geometry differs. Your normal video settings were used. The changes are subtler than in the Codex edits because the light is the game's own soft 9:00 light,
+      not a repaint.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Building</th><th>Triangles before</th><th>Added</th><th>What changed</th></tr></thead>
+      <tbody>
+        <tr><td>Armory</td><td class="n">134</td><td class="n">+1,636</td><td>Raised timbers, recessed windows and door, sills, thicker roof with deeper eaves, rafter ends, ridge beam, light stone plinth</td></tr>
+        <tr><td>Tavern front</td><td class="n">195</td><td class="n">+2,352</td><td>Recessed doors and stained glass, stone sills, chamfered porch posts with bases, capitals and brackets</td></tr>
+        <tr><td>Tavern hall</td><td class="n">176</td><td class="n">+2,551</td><td>Recessed windows and sills, hip and ridge caps, fascia board and rafter ends under the eaves</td></tr>
+        <tr><td>Bridge</td><td class="n">112</td><td class="n">+1,896</td><td>Light dressed coping stones on both parapets, a ring of arch stones (voussoirs) on both faces</td></tr>
+        <tr><td>Goblinwatch keep</td><td class="n">183</td><td class="n">+6,239</td><td>Stepped plinth around the whole castle, quoins up every outer corner, a heavy cornice on corbels, a stone frame at the gate, recessed windows and doors, sills, hip caps</td></tr>
+        <tr><td>Goblinwatch wings</td><td class="n">334</td><td class="n">+2,390</td><td>Battlements on the wall walks, recessed windows, pilasters, caps on the four spires</td></tr>
+      </tbody>
+    </table></div>
+    <p class="cap">Everything comes from the existing textures. A script reads each texture's surface material map
+      (wood, glass, iron…) and turns it into depth. The original faces stay invisible but still collide, and the doors
+      still open through the new recessed door faces. Headless checks confirm all three doors, and walking into the
+      walls, porch and posts stops at exactly the same spots as before.</p>
+  </section>
+
+  <section id="town">
+    <h2>The whole town, round 1</h2>
+    <p>Every New Sorpigal BModel now has its detail model: 61 of them, adding 94,600 triangles to the 8,322 of the
+      original map. The seven buildings above were tuned by hand. The rest come from an automatic pass that reads
+      each building's own faces and textures: windows and doors set in, timber proud, sills, roof caps and fascia,
+      coping on stone wall tops, chamfered posts, a light plinth under stone and brick buildings (never under
+      half-timbering), and pillar caps. Hand-written extensions add the tower's string courses, the gate's pillar caps
+      and the dock's kerbs, piles and mooring posts. The concepts below were made from the same poses before
+      building.</p>
+    <p class="cap">Not changed: the ship (an MM8 model that already has its own detail), crates, sign boards and the
+      obelisk. The lighting file is the open cost: 79.5 MB against 17.2 MB for the unchanged map, set mostly by the
+      number of new faces, each with its own small lightmap chart.</p>
+  </section>
+
+  <section id="concept-check">
+    <h2>Concept against result</h2>
+    <p>Each pilot pose that has a concept edit, side by side: the Codex concept (A), the map today and the pilot.
+      The first Goblinwatch pass looked the same as the original. Its trim was made of the same black rubble, so the
+      new depth did not show. Two new dressed-stone textures, generated with Codex from the castle's and the town's
+      own stone, plus bigger forms (plinth, quoins, cornice, battlements, gate frame) brought it in line with the
+      concept. This comparison is now a fixed step in the playbook.</p>
+  </section>
+
+  <section id="views">
+    <h2>The five concept views</h2>
+    <p class="cap">Use the switch to flip between the engine capture and the two edits, which keep the same framing.
+      The edits are about 1,670 pixels wide, scaled to the 1600 × 900 capture. Codex also nudged some texture and HUD
+      pixels, so treat small colour changes as noise.</p>
+  </section>
+
+  <section>
+    <h2>Budget</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item</th><th>Triangles</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>New Sorpigal today, all 90 BModels</td><td class="n">8,322</td><td>About 90 per building; the largest (tavern front) is 195</td></tr>
+        <tr><td>MM9 Arslegard city (BLV), already running in this engine</td><td class="n">37,841</td><td>Includes interiors</td></tr>
+        <tr><td>One installed 3D monster (LOD0)</td><td class="n">5,000–15,000</td><td>Several are on screen at once</td></tr>
+        <tr class="hl"><td>A per building</td><td class="n">1,500–4,000</td><td>Small sheds and walls are 300–1,000</td></tr>
+        <tr class="hl"><td>A for the whole map</td><td class="n">≈ 150,000–250,000</td><td>Under the cost of a few monster packs; one LOD step cuts the distant half</td></tr>
+        <tr><td>B per hero building</td><td class="n">8,000–15,000</td><td>Modelled shingles, quoins, mouldings; handwork per building</td></tr>
+      </tbody>
+    </table></div>
+    <p class="cap">Only the outside counts. MM6–MM8 buildings are closed shells, and the door opens the house
+      screen. Nothing has to line up inside, so a window recess is a short reveal with glass or a dark backing behind
+      it. Backs facing cliffs or the map edge, and roof undersides nobody sees, get nothing.</p>
+  </section>
+
+  <section>
+    <h2>What A is made of</h2>
+    <div class="cols">
+      <div>
+        <h3>Walls and openings</h3>
+        <ul>
+          <li>Windows and doors recessed 10–20 units, with frame, sill and lintel standing proud</li>
+          <li>Half-timber beams and corner boards raised a few units off the plaster</li>
+          <li>Stone plinth or foundation course along the base</li>
+          <li>Chamfered wall corners</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Roofs</h3>
+        <ul>
+          <li>A thick slab instead of a single face</li>
+          <li>Eaves overhang with fascia and visible rafter ends</li>
+          <li>Ridge caps, and barge boards on the gables</li>
+          <li>Straight silhouette: shingles stay in the texture and parallax</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Wood, stone, bridges</h3>
+        <ul>
+          <li>Posts with chamfers, bases and simple brackets</li>
+          <li>Steps with real treads and nosing</li>
+          <li>Coping stones along bridge parapets and town walls</li>
+          <li>Arch voussoirs on bridges and gates</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How it would be built</h2>
+    <p>Most of A can be generated from data we already have, and then touched up by hand per building. None of it
+      has to be modelled from scratch.</p>
+    <ul>
+      <li><b>Where the windows are.</b> Windows, doors and timbers are painted into the textures, not modelled. The
+        surface material maps already mark each texel's class (glass, wood, iron, plaster…) and height, so a script
+        can find the window and door rectangles in a face's UVs, cut them and recess them. It can also turn the wood
+        strips on plaster into raised beams.</li>
+      <li><b>Roofs and edges.</b> Roof faces are easy to tell apart by texture and slope. A generator thickens them,
+        extends the eaves and adds ridge and fascia strips. A bevel pass handles corners and posts.</li>
+      <li><b>Textures.</b> The new mesh reuses the 4× masters with the same UVs on the original faces. New strips
+        (fascia, sills, coping) take a small shared trim sheet in the same art style.</li>
+      <li><b>In the engine.</b> A BModel gets a visual mesh drawn in place of its faces. The original faces stay,
+        invisible, for collision, door clicks, events and picking, so gameplay does not change. The far LOD can be
+        the original faces themselves. The lighting bake must be redone for every changed map.</li>
+      <li><b>Dungeons.</b> The same approach works for BLV maps (trims at floor and ceiling edges, door and arch
+        frames, pillars), but the faces are seen from inside. Detail has to stay inside its sector and clear of
+        portals and the party's collision. That makes it a second phase, after the town pilot.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What these images exaggerate</h2>
+    <ul>
+      <li>Codex also lightly cleaned and relit some surfaces. The real version keeps today's textures and lighting,
+        plus the shadows of the new geometry once the bake is redone.</li>
+      <li>B's ragged roof edges need each tile row modelled and UV-mapped to the shingle texture. That is the
+        expensive part of B, and in-game it mostly shows on the silhouette against the sky.</li>
+      <li>The castle roof texture in B changed from a noisy pattern to real slates. That texture needs replacing
+        anyway, whatever we do with the geometry.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What the pilot showed</h2>
+    <ul>
+      <li>About 1,000–2,500 triangles per building, mostly automatic. The hand-written part was a few rectangles
+        (doors, painted pilasters), post bracket directions, the face lists for roofs, coping and arches, and a few
+        depth values per texture family.</li>
+      <li>No engine change was needed. The only tool change is an opt-in finer lightmap density for the detail
+        models (4 units per texel instead of 32). That density is what lets the small recesses shade at all. Its cost
+        is the main open question: with these seven BModels the map's lighting file goes from 17.2 MB to 36.4 MB
+        (both baked with today's tool). A whole town needs a coarser density (8 or 16) or a shared atlas.</li>
+      <li>Dark materials need contrast and big forms. Two new seamless textures (dark basalt ashlar for Goblinwatch,
+        light granite ashlar for the bridge and the Armory plinth) were generated with Codex, cooked into the stage
+        and baked, without touching the installed assets.</li>
+      <li>One bug found and fixed on the way: steps along a wall's bottom edge lay on the terrain and baked black
+        patches into it. Those faces are now skipped.</li>
+      <li>At this sun angle the gain is real but quiet: silhouettes, eaves and porch posts change the most, and flat
+        timbers the least. Ambient occlusion and lower sun angles would bring out more.</li>
+      <li>Not done yet: plinths along the bases, a stone plinth under the keep, and the seams where new faces
+        meet.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const PILOT = [
+  ["armory_v03", "Armory, your view 03", "The frames, sills and timbers now cast small shadows, and the windows sit inside the wall. The roof ends in a slab with rafter ends instead of a paper edge."],
+  ["armory_door", "Armory door", "The door is set 14 units back behind posts that stand 8 units proud. The transom glass and both windows are recessed, with sills."],
+  ["armory_eave", "Armory gable", "Deeper eaves and gable overhang with a soffit, rafter ends and a ridge beam."],
+  ["armory_nw", "Armory from the north-west", "The roof slab and the gable's barge edge read at a distance; the timbers stay subtle in this light."],
+  ["tavern_v01", "Tavern, your view 01", "Chamfered posts on bases with capitals and diagonal brackets. The door and stained-glass windows are recessed into the stone."],
+  ["tavern_oblique", "Tavern porch, oblique", "At a glancing angle the recesses and the brackets show the most."],
+  ["tavern_porch", "Tavern porch, close", "The brackets carry the porch beam; the arch's carved band stands proud of the stone."],
+  ["tavern_roof", "Tavern hall roof", "Hip and ridge caps, a dark fascia under the eaves and a cap rail on the balcony parapet."],
+  ["tavern_hall_south", "Tavern hall, south wall", "The fascia and rafter ends give the eave a real edge; the stained glass sits in the wall with a stone sill."],
+  ["bridge_v08", "Bridge, your view 08", "Coping stones overhang both parapets. From this height they read as a lighter, thicker edge."],
+  ["bridge_side", "Bridge from the river bank", "A ring of separate arch stones stands out around the opening, and the coping makes a shadowed top line."],
+  ["bridge_oblique", "Bridge, oblique", "The parapet tops now have thickness and a slight overhang."],
+  ["goblinwatch_v07", "Goblinwatch, your view 07", "The windows are set into the walls with sills, and the gate and upper door are recessed. The corner pilasters stand 8 units proud."],
+  ["goblinwatch_front", "Goblinwatch gate", "Recessed leaded windows over the recessed gate."],
+  ["goblinwatch_oblique", "Goblinwatch from the north-east", "The hip caps on the roof and spires sharpen the silhouette, and the coping shows on the wall walks."]
+];
+const VIEWS = [
+  ["v01", "Tavern porch", "The porch gets bracketed posts with bases, a thick porch roof with a fascia, an eaves line with rafter ends on the stone storey, and window reveals with sills. In B the posts become carved columns and the upper roof gets modelled tiles."],
+  ["v03", "Half-timbered house", "The clearest case for A. Raised timbers, a roof slab overhanging the wall with rafter ends, framed recessed windows and a stone plinth make the flat box read as a building. B adds a gutter, quoins and a front step."],
+  ["v05", "Tower over the town", "From above, geometry shows up as eaves shadows and roof thickness. The tower gains a corbelled band and deeper window reveals. At this distance A and B are almost the same, which is the argument for an LOD."],
+  ["v07", "Dark keep", "A adds a plinth, corner pilasters, a cornice with corbels and window sills. B models the slate roof, which removes most of the old noisy roof texture."],
+  ["v08", "Stone bridge", "Coping stones on the parapets and a voussoir ring on the arch are cheap (a few hundred triangles) and change the bridge's outline the most. B adds end piers and squared corner stones."]
+];
+function gallery(host, views, labels, prefix, eager) {
+views.forEach(([id, title, text], i) => {
+  const fig = document.createElement("figure");
+  fig.className = "view"; fig.style.margin = "0";
+  const head = document.createElement("div"); head.className = "view-head";
+  const h = document.createElement("h3"); h.textContent = `${title}`;
+  const seg = document.createElement("div"); seg.className = "seg"; seg.setAttribute("role", "group");
+  seg.setAttribute("aria-label", `${title} version`);
+  const frame = document.createElement("div"); frame.className = "frame";
+  const imgs = {};
+  labels.forEach(([key, label], k) => {
+    const img = document.createElement("img");
+    img.src = `img/${prefix}${id}_${key}.jpg`; img.alt = `${title}, ${label}`; img.loading = eager && i < 2 ? "eager" : "lazy";
+    if (k === 0) img.className = "on";
+    frame.appendChild(img); imgs[key] = img;
+    const b = document.createElement("button"); b.type = "button"; b.id = `${prefix}${id}-${key}`; b.textContent = label;
+    b.setAttribute("aria-pressed", k === 0 ? "true" : "false");
+    b.addEventListener("click", () => {
+      seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      Object.entries(imgs).forEach(([kk, im]) => im.classList.toggle("on", kk === key));
+    });
+    seg.appendChild(b);
+  });
+  head.append(h, seg);
+  const cap = document.createElement("figcaption"); cap.className = "cap"; cap.textContent = text;
+  fig.append(head, frame, cap);
+  host.appendChild(fig);
+});
+}
+gallery(document.getElementById("kit"), [
+  ["stable_sign_zoom", "Free Haven stable close-up, HUD off: the horse sign in its original place, the roof's lip fitted above it", ""],
+  ["stable_sign_right_wide", "Free Haven stable close-up: from the right", ""],
+  ["stable_three_quarter", "Free Haven stable close-up: three-quarter", ""],
+  ["stable_front", "Free Haven stable close-up: front (the sign is a blade sign, seen edge-on here)", ""]
+], [["now", "Now"], ["kit", "Kit"]], "cs7_", false);
+gallery(document.getElementById("kit"), [["outc2_100_Stable2part1", "Free Haven stable: 4,414 triangles in round 3, 2,501 with the kit", ""], ["outc2_76_tavern2N", "Free Haven tavern: 6,456 triangles in round 3, 2,737 with the kit", ""], ["outd3_25_HseP130aE", "Castle Ironfist house: 1,962 triangles in round 3, 411 with the kit", ""], ["outd1_22_tavernS", "Silver Cove tavern: 3,171 triangles in round 3, 2,326 with the kit", ""], ["outc1_41_C1HouseW", "Frozen Highlands log house: 3,416 triangles in round 3, 2,949 with the kit", ""], ["oute3_32_HseP2aS_3", "New Sorpigal plaster house: 1,444 triangles in round 3, 1,290 with the kit", ""]], [["concept", "Concept A"], ["now", "Now"], ["r3", "Round 3"], ["kit", "Kit"]], "k_", true);
+gallery(document.getElementById("kit"), [["outc2_100_Stable2part1_street1", "Free Haven stable, street level", ""], ["outc2_100_Stable2part1_street2", "Free Haven stable, street level", ""], ["outc2_76_tavern2N_street1", "Free Haven tavern, street level", ""], ["outc2_76_tavern2N_street2", "Free Haven tavern, street level", ""], ["outd3_25_HseP130aE_street2", "Castle Ironfist house, street level", ""], ["outd1_22_tavernS_street1", "Silver Cove tavern, street level", ""], ["oute3_32_HseP2aS_3_street1", "New Sorpigal plaster house, street level", ""], ["oute3_32_HseP2aS_3_street2", "New Sorpigal plaster house, street level", ""]], [["now", "Now"], ["kit", "Kit"]], "k_", false);
+gallery(document.getElementById("round2"), [
+  ["03-14_EntranceN", "Town gate", "Low stepped bases; the pillars keep their own rubble tops, as in the concept. The planters and walls have weathered coping in dressed town stone."],
+  ["39-town_walls", "Town walls", "Thicker overhanging coping a step lighter than the rubble, and pyramid caps on the piers."],
+  ["40-dock_ship", "Dock and ship", "Broad golden planks across the pier, raised edge strips, sparse piles. Heavier yards with collars, cap rails on the bulwarks."],
+  ["48-tavern_v01", "Tavern, your view 01", "Corner bases flush with the platform, short thick braces, post shoes, porch-roof mouldings and joist ends, brick nosing, window surrounds."],
+  ["51-goblinwatch_v07", "Goblinwatch, your view 07", "Trim in Goblinwatch's own black stone, a step lighter; no battlements; slimmer plinth; cornice on corbels."],
+  ["50-bridge_v08", "Bridge, your view 08", "Unchanged from round 1 (you liked it)."],
+  ["53-armory_v03", "Armory, your view 03", "No plinth under the half-timbering; the painted sole beam shows."],
+  ["20-52_TownE", "Town hall", "Marble trim, and roof caps and fascia in each roof's own family."],
+  ["37-84_AntiFlyE3W", "Tower", "String courses on corbels in the tower's own sandstone."],
+  ["16-48_MagicGS", "Magic guild", "Terracotta trim instead of the green-grey."],
+  ["13-44_HseR3W_1", "Big houses", "Grey slate caps on the grey roofs instead of red wood."],
+  ["06-32_HseP2aS_3", "Small houses", "Slate hip caps instead of red wood."],
+  ["36-83_SmKeepFrnt", "Keep", "One sill per window (no bars across the panes)."],
+  ["46-temple", "Temple", "No caps on the roof's slope breaks; marble fascia."],
+  ["29-73_SLuckN", "Shrine", "Roof caps in the shrine's wood."],
+  ["31-75_D18N", "Outlying house", "Roof caps and fascia in the roof's own grey wood."]
+], [["concept", "Concept A"], ["now", "Now"], ["r1", "Round 1"], ["r2", "Round 2"], ["r3", "Round 3"]], "r2_", true);
+gallery(document.getElementById("towns"), [
+  ["outc2_13-14_guild_airE", "Free Haven: guild airE", ""],
+  ["outc2_21-22_magic_richW_1", "Free Haven: magic richW 1", ""],
+  ["outc2_30-34_C2TopS", "Free Haven: C2TopS", ""],
+  ["outc2_43-50_shrineS", "Free Haven: shrineS", ""],
+  ["outc2_50-57_temple_of_baaE", "Free Haven: temple of baaE", ""],
+  ["outc2_63-76_tavern2N", "Free Haven: tavern2N", ""],
+  ["outc2_67-80_d10back", "Free Haven: d10back", ""],
+  ["outc2_74-87_bridge2ns", "Free Haven: bridge2ns", ""],
+  ["outc2_82-95_C2TwrsBackS", "Free Haven: C2TwrsBackS", ""],
+  ["outc2_85-98_C2openingS", "Free Haven: C2openingS", ""],
+  ["outc2_87-100_Stable2part1", "Free Haven: Stable2part1", ""],
+  ["outc2_92-105_bridge_3", "Free Haven: bridge 3", ""],
+  ["outc2_99-114_HseR1N_1", "Free Haven: HseR1N 1", ""]
+], [["concept", "Concept A"], ["now", "Now"], ["result", "Result"]], "m_", false);
+gallery(document.getElementById("towns"), [
+  ["outd3_01-00_2", "Castle Ironfist: 2", ""],
+  ["outd3_08-07_4", "Castle Ironfist: 4", ""],
+  ["outd3_10-12_TavernS", "Castle Ironfist: TavernS", ""],
+  ["outd3_15-17_HseR130aS", "Castle Ironfist: HseR130aS", ""],
+  ["outd3_17-19_HseP228fS", "Castle Ironfist: HseP228fS", ""],
+  ["outd3_18-20_BlacksmithRN", "Castle Ironfist: BlacksmithRN", ""],
+  ["outd3_19-21_Stables2N", "Castle Ironfist: Stables2N", ""],
+  ["outd3_22-24_ArmoryN", "Castle Ironfist: ArmoryN", ""],
+  ["outd3_23-25_HseP130aE", "Castle Ironfist: HseP130aE", ""],
+  ["outd3_39-43_GuildprtW", "Castle Ironfist: GuildprtW", ""],
+  ["outd3_47-58_IrTop", "Castle Ironfist: IrTop", ""],
+  ["outd3_48-59_IrGate", "Castle Ironfist: IrGate", ""],
+  ["outd3_53-65_GuildPart3", "Castle Ironfist: GuildPart3", ""],
+  ["outd3_56-68_ThievesS", "Castle Ironfist: ThievesS", ""]
+], [["concept", "Concept A"], ["now", "Now"], ["result", "Result"]], "m_", false);
+gallery(document.getElementById("towns"), [
+  ["outd1_01-00_lighthouse2_", "Silver Cove: lighthouse2 ", ""],
+  ["outd1_02-01_Docks3W", "Silver Cove: Docks3W", ""],
+  ["outd1_03-02_bridgeN", "Silver Cove: bridgeN", ""],
+  ["outd1_07-06_LightN", "Silver Cove: LightN", ""],
+  ["outd1_13-13_2_rich_houseS_1", "Silver Cove: 2 rich houseS 1", ""],
+  ["outd1_18-18_tcbase", "Silver Cove: tcbase", ""],
+  ["outd1_21-22_tavernS", "Silver Cove: tavernS", ""],
+  ["outd1_57-60_genstorS", "Silver Cove: genstorS", ""],
+  ["outd1_64-67_Stable_1_D3N", "Silver Cove: Stable 1 D3N", ""],
+  ["outd1_65-68_stable_2_D3N", "Silver Cove: stable 2 D3N", ""],
+  ["outd1_72-78_merv_guildN", "Silver Cove: merv guildN", ""],
+  ["outd1_76-82_StoneH1", "Silver Cove: StoneH1", ""],
+  ["outd1_77-117_AntiFlyD1S", "Silver Cove: AntiFlyD1S", ""]
+], [["concept", "Concept A"], ["now", "Now"], ["result", "Result"]], "m_", false);
+gallery(document.getElementById("towns"), [
+  ["outc1_02-01_Balcony", "Frozen Highlands: Balcony", ""],
+  ["outc1_04-03_tStair", "Frozen Highlands: tStair", ""],
+  ["outc1_05-05_CastleBase", "Frozen Highlands: CastleBase", ""],
+  ["outc1_06-06_CastleBack", "Frozen Highlands: CastleBack", ""],
+  ["outc1_09-12_Bridge2", "Frozen Highlands: Bridge2", ""],
+  ["outc1_15-19_snow_stablN_1", "Frozen Highlands: snow stablN 1", ""],
+  ["outc1_16-20_snow_shrineN", "Frozen Highlands: snow shrineN", ""],
+  ["outc1_17-21_C1ThievesW", "Frozen Highlands: C1ThievesW", ""],
+  ["outc1_18-22_D15Base", "Frozen Highlands: D15Base", ""],
+  ["outc1_33-39_C1HouseR1SnowW", "Frozen Highlands: C1HouseR1SnowW", ""],
+  ["outc1_35-41_C1HouseW", "Frozen Highlands: C1HouseW", ""],
+  ["outc1_48-54_C1TavernSnowS", "Frozen Highlands: C1TavernSnowS", ""],
+  ["outc1_53-63_C1CaptainS", "Frozen Highlands: C1CaptainS", ""],
+  ["outc1_57-87_Wc_S", "Frozen Highlands: Wc S", ""]
+], [["concept", "Concept A"], ["now", "Now"], ["result", "Result"]], "m_", false);
+
+gallery(document.getElementById("pilot"), PILOT, [["now", "Now"], ["pilot", "Pilot"]], "p_", true);
+gallery(document.getElementById("town"), [
+  ["03-14_EntranceN", "Town gate", "Cap and base courses on both pillars, as in the concept."],
+  ["39-town_walls", "Town walls", "Light coping along the wall tops."],
+  ["40-dock_ship", "Dock and ship", "Timber kerbs, piles into the water and mooring posts; the ship is unchanged."],
+  ["20-52_TownE", "Town hall", "Hip and ridge caps, fascia, recessed windows and a light plinth."],
+  ["37-84_AntiFlyE3W", "Tower", "String courses on corbels under and over the window storey."],
+  ["16-48_MagicGS", "Magic guild", "Recessed windows, roof caps and a plinth."],
+  ["13-44_HseR3W_1", "Big houses", "Raised timbers, recessed windows with sills, roof caps."],
+  ["06-32_HseP2aS_3", "Small houses", "Raised timbers, recessed windows and doors, hip caps and fascia."],
+  ["36-83_SmKeepFrnt", "Keep", "Red half-timbering raised and windows set in; the roof trim barely shows."],
+  ["46-temple", "Temple", "Plinth, recessed openings and roof caps."],
+  ["29-73_SLuckN", "Shrine", "Roof caps and fascia."],
+  ["31-75_D18N", "Outlying house", "Recessed door and windows, roof caps."]
+], [["concept", "Concept A"], ["now", "Now"], ["pilot", "Pilot"]], "t_", false);
+gallery(document.getElementById("concept-check"), [
+  ["goblinwatch_v07", "Goblinwatch, view 07", "Plinth, quoins, cornice and gate frame now match the concept; the battlements go beyond it."],
+  ["bridge_v08", "Bridge, view 08", "Light dressed coping as in the concept; the concept's blocks are a little chunkier."],
+  ["armory_v03", "Armory, view 03", "Eaves, frames, sills and the light plinth as in the concept."],
+  ["tavern_v01", "Tavern, view 01", "Posts, brackets and recesses match; the concept's window surrounds read a little stronger."]
+], [["concept", "Concept A"], ["now", "Now"], ["pilot", "Pilot"]], "c_", false);
+gallery(document.getElementById("views"), VIEWS, [["now", "Now"], ["a", "A · target"], ["b", "B · stretch"]], "", false);
+</script>

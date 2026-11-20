@@ -1,0 +1,158 @@
+{
+  "horizontal:dirt/dirt": {
+    "white_intervals": [],
+    "crossings": []
+  },
+  "vertical:dirt/dirt": {
+    "white_intervals": [],
+    "crossings": []
+  },
+  "vertical:road_opening": {
+    "white_intervals": [
+      [
+        136,
+        372
+      ]
+    ],
+    "crossings": [
+      136,
+      372
+    ]
+  },
+  "horizontal:road_opening": {
+    "white_intervals": [
+      [
+        145,
+        371
+      ]
+    ],
+    "crossings": [
+      145,
+      371
+    ]
+  },
+  "horizontal:grass/dirt": {
+    "white_intervals": [
+      [
+        0,
+        257
+      ]
+    ],
+    "crossings": [
+      257
+    ]
+  },
+  "vertical:grass/grass": {
+    "white_intervals": [
+      [
+        0,
+        512
+      ]
+    ],
+    "crossings": []
+  },
+  "vertical:dirt/grass": {
+    "white_intervals": [
+      [
+        246,
+        512
+      ]
+    ],
+    "crossings": [
+      246
+    ]
+  },
+  "horizontal:grass/grass": {
+    "white_intervals": [
+      [
+        0,
+        512
+      ]
+    ],
+    "crossings": []
+  },
+  "horizontal:dirt/grass": {
+    "white_intervals": [
+      [
+        252,
+        512
+      ]
+    ],
+    "crossings": [
+      252
+    ]
+  },
+  "vertical:grass/dirt": {
+    "white_intervals": [
+      [
+        0,
+        243
+      ]
+    ],
+    "crossings": [
+      243
+    ]
+  },
+  "horizontal:volcano/dirt": {
+    "white_intervals": [
+      [
+        0,
+        237
+      ]
+    ],
+    "crossings": [
+      237
+    ]
+  },
+  "vertical:volcano/volcano": {
+    "white_intervals": [
+      [
+        0,
+        512
+      ]
+    ],
+    "crossings": []
+  },
+  "vertical:dirt/volcano": {
+    "white_intervals": [
+      [
+        261,
+        512
+      ]
+    ],
+    "crossings": [
+      261
+    ]
+  },
+  "horizontal:volcano/volcano": {
+    "white_intervals": [
+      [
+        0,
+        512
+      ]
+    ],
+    "crossings": []
+  },
+  "horizontal:dirt/volcano": {
+    "white_intervals": [
+      [
+        262,
+        512
+      ]
+    ],
+    "crossings": [
+      262
+    ]
+  },
+  "vertical:volcano/dirt": {
+    "white_intervals": [
+      [
+        0,
+        241
+      ]
+    ],
+    "crossings": [
+      241
+    ]
+  }
+}

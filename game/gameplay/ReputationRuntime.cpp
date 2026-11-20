@@ -1,4 +1,5 @@
 #include "game/gameplay/ReputationRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
@@ -193,21 +194,21 @@ std::string reputationLabel(int effectiveReputation)
     switch (reputationLevel(effectiveReputation))
     {
         case ReputationLevel::Saintly:
-            return "Saintly";
+            return Engine::localize("Saintly");
 
         case ReputationLevel::Friendly:
-            return "Friendly";
+            return Engine::localize("Friendly");
 
         case ReputationLevel::Neutral:
-            return "Neutral";
+            return Engine::localize("Neutral");
 
         case ReputationLevel::Unfriendly:
-            return "Unfriendly";
+            return Engine::localize("Unfriendly");
 
         case ReputationLevel::Notorious:
-            return "Notorious";
+            return Engine::localize("Notorious");
     }
 
-    return "Neutral";
+    return Engine::localize("Neutral");
 }
 }

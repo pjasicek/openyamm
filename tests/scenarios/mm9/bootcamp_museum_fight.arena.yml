@@ -1,0 +1,12 @@
+# Bootcamp with its own actors kept (24 of them; the fight's sorcerer and Oculus spawn as actors 24 and 25), the
+# party in the gallery north of the museum's arena, the decision trace on. See bootcamp_museum_fight.yml.
+name: bootcamp_museum_fight
+world: mm9
+map: bootcamp.blv
+clear_actors: false
+party:
+  position: [2600, -9650, 1311]
+  yaw_degrees: -90
+  invulnerable: true
+trace: true
+monsters: []

@@ -1,0 +1,22 @@
+id: levelgen.original_exit.mm7
+world: mm7
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: d01.blv
+- set_pose:
+    map: d01.blv
+    x: 5.818181818181818
+    y: -64.0
+    z: 0.0
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 0
+    kind: map_transition_confirm
+    expect_before:
+      dialog:
+        active: true
+- assert:
+    map: 7out03.odm

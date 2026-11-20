@@ -1,5 +1,6 @@
 #include "game/tables/SpellTable.h"
 
+#include <algorithm>
 #include <cctype>
 
 namespace OpenYAMM::Game
@@ -87,15 +88,47 @@ bool isNumericString(const std::string &value)
 
     return true;
 }
+
+int intCell(const std::vector<std::string> &row, size_t column, int fallback)
+{
+    return row.size() > column && !row[column].empty() ? std::stoi(row[column]) : fallback;
 }
 
-bool SpellTable::loadFromRows(
-    const std::vector<std::vector<std::string>> &rows,
-    const std::vector<std::vector<std::string>> &canonicalRows)
+int scaledDamage(int value, int percent)
+{
+    return (value * percent + 50) / 100;
+}
+}
+
+SpellMasteryNumbers spellNumbersAtMastery(const SpellEntry &entry, SkillMastery mastery)
+{
+    const size_t index = mastery == SkillMastery::Grandmaster ? 3
+        : mastery == SkillMastery::Master                     ? 2
+        : mastery == SkillMastery::Expert                     ? 1
+                                                              : 0;
+    const std::array<int, 4> manaCosts = {
+        entry.normalManaCost, entry.expertManaCost, entry.masterManaCost, entry.grandmasterManaCost};
+    const std::array<int, 4> recoveryTicks = {
+        entry.normalRecoveryTicks, entry.expertRecoveryTicks, entry.masterRecoveryTicks,
+        entry.grandmasterRecoveryTicks};
+    const int percent = entry.damagePercents[index];
+    const bool fixed = entry.damageDiceMin == entry.damageDiceSides;
+    SpellMasteryNumbers numbers = {};
+    numbers.manaCost = std::max(0, manaCosts[index]);
+    numbers.recoveryTicks = recoveryTicks[index];
+    numbers.damageBase = scaledDamage(entry.damageBase, percent);
+    numbers.damageDiceMax = scaledDamage(std::max(entry.damageDiceMin, entry.damageDiceSides), percent);
+    numbers.damageDiceMin = fixed ? numbers.damageDiceMax : entry.damageDiceMin;
+    numbers.projectileCount = std::max<uint32_t>(1, entry.projectileCounts[index]);
+    return numbers;
+}
+
+bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_entries.clear();
     m_entryIndexById.clear();
     m_entryIndexByNormalizedName.clear();
+    m_shadowedEntryIndicesByName.clear();
 
     for (const std::vector<std::string> &row : rows)
     {
@@ -129,31 +162,31 @@ bool SpellTable::loadFromRows(
         entry.impactDisplayObjectId = row.size() > 21 && !row[21].empty() ? std::stoi(row[21]) : 0;
         entry.damageBase = row.size() > 22 && !row[22].empty() ? std::stoi(row[22]) : 0;
         entry.damageDiceSides = row.size() > 23 && !row[23].empty() ? std::stoi(row[23]) : 0;
+        entry.requiredMastery = row.size() > 24 ? parseSkillMasteryToken(row[24]) : SkillMastery::None;
+        entry.requiredMastery = entry.requiredMastery == SkillMastery::None ? SkillMastery::Normal
+                                                                            : entry.requiredMastery;
+        entry.damageDiceMin = intCell(row, 25, 1);
+
+        for (size_t index = 0; index < 4; ++index)
+        {
+            entry.projectileCounts[index] = static_cast<uint32_t>(std::max(1, intCell(row, 26 + index, 1)));
+            entry.damagePercents[index] = intCell(row, 30 + index, 100);
+        }
+
         m_entryIndexById[entry.id] = m_entries.size();
-        m_entryIndexByNormalizedName[entry.normalizedName] = m_entries.size();
-        m_entryIndexByNormalizedName[compactName(entry.name)] = m_entries.size();
+
+        for (const std::string &key : {entry.normalizedName, compactName(entry.name)})
+        {
+            const auto [entryIt, inserted] = m_entryIndexByNormalizedName.try_emplace(key, m_entries.size());
+
+            if (!inserted && entryIt->second != m_entries.size())
+            {
+                m_shadowedEntryIndicesByName[key].push_back(entryIt->second);
+                entryIt->second = m_entries.size();
+            }
+        }
+
         m_entries.push_back(std::move(entry));
-    }
-
-    // Display names are translated; monster descriptors and spell rules use the base table's names.
-    // Match by id because translated tables need not retain the base row order.
-    for (const std::vector<std::string> &row : canonicalRows)
-    {
-        if (row.size() < 3 || !isNumericString(row[0]))
-        {
-            continue;
-        }
-
-        const auto entryIt = m_entryIndexById.find(std::stoi(row[0]));
-        if (entryIt == m_entryIndexById.end())
-        {
-            continue;
-        }
-
-        SpellEntry &entry = m_entries[entryIt->second];
-        entry.normalizedName = canonicalLegacySpellAlias(normalizeName(row[2]));
-        m_entryIndexByNormalizedName[entry.normalizedName] = entryIt->second;
-        m_entryIndexByNormalizedName[compactName(row[2])] = entryIt->second;
     }
 
     return !m_entries.empty();
@@ -187,6 +220,38 @@ const SpellEntry *SpellTable::findByName(const std::string &name) const
     }
 
     return &m_entries[entryIt->second];
+}
+
+const SpellEntry *SpellTable::findByName(
+    const std::string &name,
+    const std::function<bool(const SpellEntry &)> &prefer) const
+{
+    const SpellEntry *pEntry = findByName(name);
+
+    if (pEntry == nullptr || prefer(*pEntry))
+    {
+        return pEntry;
+    }
+
+    for (const std::string &key : {canonicalLegacySpellAlias(normalizeName(name)), compactName(name)})
+    {
+        const auto shadowedIt = m_shadowedEntryIndicesByName.find(key);
+
+        if (shadowedIt == m_shadowedEntryIndicesByName.end())
+        {
+            continue;
+        }
+
+        for (const size_t index : shadowedIt->second)
+        {
+            if (prefer(m_entries[index]))
+            {
+                return &m_entries[index];
+            }
+        }
+    }
+
+    return pEntry;
 }
 
 const std::vector<SpellEntry> &SpellTable::entries() const

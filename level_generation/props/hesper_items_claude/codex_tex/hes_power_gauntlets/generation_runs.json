@@ -1,0 +1,551 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper servo gauntlets 3D model.\nEdit image 1 (guide_front.png). Image 1 is the absolute pixel-position, part-edge, silhouette, camera, scale, occlusion and alpha-mask authority. Image 2 (design_reference.png) is ONLY the approved material/color/design reference; never copy its pose, lighting or composition.\nOutput ONE 1024 x 1024 RGBA PNG with true transparent background: paint_front.png.\nPrecisely paint the existing white/gray guide surfaces without moving or redesigning geometry. Keep the exact guide silhouette and every part edge pixel-aligned, including angular mesh contours, tiny holes, negative spaces, finger separations and overlap. Preserve the original empty margins, canvas framing and every existing transparent pixel. Do not enlarge, shrink, rotate, smooth, round, crop or rearrange any part. Do not add geometry beyond the guide's footprint.\nView-specific constraint: The guide shows the two gauntlets foreshortened from their fingertip side, fingers across the upper portion, wrist bodies below. Preserve all visible palm/underside surfaces and every finger position; do not substitute the top view from the design.\nPaint the design reference's actual surfaces onto those guide shapes: worn ivory-white ceramic armor plates with delicate fine scratches and subtle hairline wear, muted brushed warm gold trim and rings, dark black-violet resin understructure and articulated finger segments, dark mechanical cable joints, and bright orange/amber Kreegan energy inset into the existing reactors and channels. Match the approved material distribution and fine seams, panel joins and engraved non-text lines. Continue unseen faces plausibly with the same materials. Orange energy is just flat bright orange/yellow base color; no bloom or spill. Do not invent blue lights.\nLIGHTING IS CRITICAL: unlit ALBEDO, flat and evenly colored, shadowless viewer-facing illumination. Remove the guide's gray lighting as you paint. No cast shadows, no ambient occlusion darkening, no directional gradient, no rim light, no strong specular highlight, no reflections. Gold must read by its base ochre-gold color with at most a faint sheen; ceramic must remain even ivory across its faces, dark resin its true violet-black base color. Retain fine material surface detail without baked lighting.\nTransparent background only, no floor, no background color, no checkerboard painted into image, no text, no letters, no labels, no watermark. The result must overlay the guide exactly at native resolution.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "79c96c2df44ee6ce6f5e139fd4dd014d6335331763cea4c5882e01d8cd503b44"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        }
+      ],
+      "selected": false,
+      "reason": "Rejected: visibly shaded metallic highlights and silhouette/part-layout drift.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-5bd1f27f-c622-4bd8-8e1d-e64736c8a3c8.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-5bd1f27f-c622-4bd8-8e1d-e64736c8a3c8.png",
+      "output_sha256": "a3ca00c60916a8b93ea6026227b1c7812c086100ab6b0a823351be8d563451ac",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1250,
+          1254
+        ],
+        "opaque_bbox": [
+          73,
+          248,
+          1183,
+          956
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8902834622577682,
+        "extra_normalized_mask_pixels": 24811,
+        "missing_normalized_mask_pixels": 17839,
+        "materials_match_reference": true,
+        "flat_lighting": "Fails: strong shading and highlights.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1, FRONT view. Image 1 is ONLY the approved color/material reference. Image 2 is the EXACT image to paint, guide_front.png, a 1024 x 1024 orthographic mesh render. Output 1024 x 1024 transparent PNG.\nThe previous attempt changed the silhouette and produced shaded presentation art. Correct ONLY those failures: faithfully TRACE the existing guide as a 2D paint-by-region image and apply FLAT UNLIT ALBEDO colors. The second image's contours, angular facets, part edges, framing, positions and ALL negative spaces are immutable. Copy its alpha coverage and empty canvas margins exactly. The solid object occupies x=66..957 and y=224..799 on the 1024 canvas. Keep these bounds and the exact local contours within them. Keep the guide's foreshortening, finger lengths, broad lower cuff bodies, pair spacing and asymmetry. Do not approximate these with newly drawn gauntlets. Preserve every guide edge. The guide's large gray palm/underside planes remain those same broad planes; do not cover them with invented raised pipes or extra armor geometry.\nReplace white/gray guide colors using image 1: warm ivory ceramic panels with fine scratches, matte ochre brushed gold edging, muted black-violet resin and joint segments, small vivid flat orange/amber energy insets. Plausible undersides follow these materials. Fine seams and etched lines are surface color only.\nTrue ALBEDO map: uniform intrinsic color across each material, ZERO shadows, ZERO ambient occlusion, ZERO white highlights, ZERO metallic reflections or gradients. No glossy rendering. Do not bake the reference's lighting into the output. Gold is a subdued gold base color; ivory is ivory; violet resin is even violet-black. Energy is orange color without halo, bloom or illuminating neighboring areas.\nNo new shapes, no silhouette smoothing, no camera shift, no rescaling or recentering, no text, no letters, no floor, no background. True RGBA transparent canvas, including the same holes as the guide. This is a geometry-locked texture projection plate.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "79c96c2df44ee6ce6f5e139fd4dd014d6335331763cea4c5882e01d8cd503b44"
+        }
+      ],
+      "selected": true,
+      "reason": "Selected correction: substantially flatter albedo and restrained orange energy; exact guide alignment remains a limitation.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-95679e4f-534f-4900-832c-4cea464fac55.png",
+      "output": "paint_front.png",
+      "output_sha256": "e35ae1bc74ee2d73105d5d10f3b80bf6235e908ab1a92e38a4b639f5ddd14c2c",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          25,
+          1232,
+          1230
+        ],
+        "opaque_bbox": [
+          75,
+          271,
+          1197,
+          982
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9552187146616502,
+        "extra_normalized_mask_pixels": 14566,
+        "missing_normalized_mask_pixels": 2383,
+        "materials_match_reference": true,
+        "flat_lighting": "Improved; some residual facet shading and dark joints remain.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper servo gauntlets 3D model.\nEdit image 2 (guide_back.png). Image 2 is the absolute pixel-position, part-edge, silhouette, camera, scale, occlusion and alpha-mask authority. Image 1 (design_reference.png) is ONLY the approved material/color/design reference; never copy its pose, lighting or composition.\nOutput ONE 1024 x 1024 RGBA PNG with true transparent background: paint_back.png.\nPrecisely paint the existing white/gray guide surfaces without moving or redesigning geometry. Keep the exact guide silhouette and every part edge pixel-aligned, including angular mesh contours, tiny holes, negative spaces, finger separations and overlap. Preserve the original empty margins, canvas framing and every existing transparent pixel. Do not enlarge, shrink, rotate, smooth, round, crop or rearrange any part. Do not add geometry beyond the guide's footprint.\nView-specific constraint: The guide shows the two gauntlets from the open wrist/cuff side, with two large hollow cuff openings in the lower half and fingers receding toward the upper half. Keep the cuff openings hollow, their original shapes, and the existing side reactor bosses exactly where the guide puts them. Continue the design onto interior surfaces plausibly.\nPaint the design reference's actual surfaces onto those guide shapes: worn ivory-white ceramic armor plates with delicate fine scratches and subtle hairline wear, muted brushed warm gold trim and rings, dark black-violet resin understructure and articulated finger segments, dark mechanical cable joints, and bright orange/amber Kreegan energy inset into the existing reactors and channels. Match the approved material distribution and fine seams, panel joins and engraved non-text lines. Continue unseen faces plausibly with the same materials. Orange energy is just flat bright orange/yellow base color; no bloom or spill. Do not invent blue lights.\nLIGHTING IS CRITICAL: unlit ALBEDO, flat and evenly colored, shadowless viewer-facing illumination. Remove the guide's gray lighting as you paint. No cast shadows, no ambient occlusion darkening, no directional gradient, no rim light, no strong specular highlight, no reflections. Gold must read by its base ochre-gold color with at most a faint sheen; ceramic must remain even ivory across its faces, dark resin its true violet-black base color. Retain fine material surface detail without baked lighting.\nTransparent background only, no floor, no background color, no checkerboard painted into image, no text, no letters, no labels, no watermark. The result must overlay the guide exactly at native resolution.\nExecution priority: TRACE image 2 exactly as a 2D paint-by-region image. Its 1024 x 1024 canvas and object bounds (x=66..957, y=224..799) are fixed. Use uniform intrinsic material colors with delicate surface detail. ZERO cast shading, ZERO white specular accents, ZERO broad lighting gradients. This is an unlit texture-projection plate, not a polished 3D product illustration. Keep all large existing planes and angular contours; texture never changes their geometry.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "bbdd46bb8c4c15198c5e5ea88c80cecf6a79648ae773b3d2b1377e2e3a32f7d9"
+        }
+      ],
+      "selected": false,
+      "reason": "Rejected: material palette is faithful but highlights and cavity shading are too strong; silhouette/part edges also drift.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-d8cdb8b1-fa5a-4f1a-96c1-1b4712b40dd3.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-d8cdb8b1-fa5a-4f1a-96c1-1b4712b40dd3.png",
+      "output_sha256": "4ed2002b37da6f3914591506b46e4b9c596ee3fc2216598b727974b67197ab4d",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          67,
+          27,
+          1236,
+          1222
+        ],
+        "opaque_bbox": [
+          73,
+          269,
+          1188,
+          979
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9564483030781373,
+        "extra_normalized_mask_pixels": 16181,
+        "missing_normalized_mask_pixels": 373,
+        "materials_match_reference": true,
+        "flat_lighting": "Fails: glossy highlights and dark cavity shading.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1. Produce paint_back.png, 1024 x 1024 with real transparent alpha.\nImage 1 supplies ONLY the material colors. Image 2, guide_back.png, is the EXACT locked canvas to recolor. Preserve image 2's alpha mask, ALL contours, all angular facets, the two hollow cuff openings, and every part location. Do not redraw geometry or recenter the gauntlets. Its object bounds are x=66..957 and y=224..799.\nPaint flat unlit base colors directly inside the guide surfaces: ivory-white ceramic on plates, muted ochre-gold trim, dusty black-violet resin on understructure and joints, vivid orange energy centers in the existing circular side bosses and small recessed channels. Subtle scratches and thin non-text panel seams follow the reference. Continue interior cuff surfaces using even muted violet resin, without darkening due to depth.\nCRITICAL CORRECTION: absolutely flat ALBEDO, like an unlit material-ID view with delicately painted wear. No 3D illumination, no highlights at all, no shadows at all, no bright edge bevels, no occlusion, no cavity gradient, no reflected glow, no metallic shine. Every ceramic face has the same ivory lightness, every gold region the same gold lightness, every violet region the same violet lightness. Orange energy is solid bright orange with small yellow-orange centers, not bloom.\nTrace the guide's polygon outline precisely, preserving the original angular openings and all empty margins. Do not round geometry, invent ribs, fill transparent holes, add objects or change the pose. No text, letters, labels or background. Return the painted guide at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "bbdd46bb8c4c15198c5e5ea88c80cecf6a79648ae773b3d2b1377e2e3a32f7d9"
+        }
+      ],
+      "selected": true,
+      "reason": "Selected correction: markedly flatter colors, open cuff interiors and angular forms closer to the guide. Exact pixel silhouette is not achieved.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-87a311ce-70e7-49df-a890-a4012c6a1704.png",
+      "output": "paint_back.png",
+      "output_sha256": "bf4546936f7ef7f1cab82fe23c64053092f09b3f590a7b071bcc7d6ee1a7abd1",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1242,
+          1230
+        ],
+        "opaque_bbox": [
+          79,
+          274,
+          1179,
+          981
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9833196357895192,
+        "extra_normalized_mask_pixels": 5977,
+        "missing_normalized_mask_pixels": 193,
+        "materials_match_reference": true,
+        "flat_lighting": "Improved; residual darkening inside cuffs and edge/facet shading remain.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper servo gauntlets 3D model.\nEdit image 2 (guide_left.png). Image 2 is the absolute pixel-position, part-edge, silhouette, camera, scale, occlusion and alpha-mask authority. Image 1 (design_reference.png) is ONLY the approved material/color/design reference; never copy its pose, lighting or composition.\nOutput ONE 1024 x 1024 RGBA PNG with true transparent background: paint_left.png.\nPrecisely paint the existing white/gray guide surfaces without moving or redesigning geometry. Keep the exact guide silhouette and every part edge pixel-aligned, including angular mesh contours, tiny holes, negative spaces, finger separations and overlap. Preserve the original empty margins, canvas framing and every existing transparent pixel. Do not enlarge, shrink, rotate, smooth, round, crop or rearrange any part. Do not add geometry beyond the guide's footprint.\nView-specific constraint: The guide shows a strongly overlapping side view: large wrist/cuff at lower left, fingers extending toward upper right. Preserve that single combined overlapping silhouette and all occlusion relationships exactly. Place the orange reactor center in the guide's existing circular boss; do not move it.\nPaint the design reference's actual surfaces onto those guide shapes: worn ivory-white ceramic armor plates with delicate fine scratches and subtle hairline wear, muted brushed warm gold trim and rings, dark black-violet resin understructure and articulated finger segments, dark mechanical cable joints, and bright orange/amber Kreegan energy inset into the existing reactors and channels. Match the approved material distribution and fine seams, panel joins and engraved non-text lines. Continue unseen faces plausibly with the same materials. Orange energy is just flat bright orange/yellow base color; no bloom or spill. Do not invent blue lights.\nLIGHTING IS CRITICAL: unlit ALBEDO, flat and evenly colored, shadowless viewer-facing illumination. Remove the guide's gray lighting as you paint. No cast shadows, no ambient occlusion darkening, no directional gradient, no rim light, no strong specular highlight, no reflections. Gold must read by its base ochre-gold color with at most a faint sheen; ceramic must remain even ivory across its faces, dark resin its true violet-black base color. Retain fine material surface detail without baked lighting.\nTransparent background only, no floor, no background color, no checkerboard painted into image, no text, no letters, no labels, no watermark. The result must overlay the guide exactly at native resolution.\nExecution priority: TRACE image 2 exactly as a 2D paint-by-region image. Its 1024 x 1024 canvas and object bounds (x=79..944, y=224..799) are fixed. Use uniform intrinsic material colors with delicate surface detail. ZERO cast shading, ZERO white specular accents, ZERO broad lighting gradients. This is an unlit texture-projection plate, not a polished 3D product illustration. Keep all large existing planes and angular contours; texture never changes their geometry.\nTreat this as a hand-painted UNLIT MATERIAL-ID view with fine wear. Absolutely no highlights at all, no 3D illumination, no bright bevel lighting, no shadows, no cavity gradient, no reflected glow or metallic shine. All ceramic faces share the same ivory lightness; all gold regions share one muted gold lightness; all resin regions share one dusty violet-black lightness. Thin seams separate them without shaded bevels.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "d8f36d2903b933d7ca68317d31ad9b5fcf042b7e8e3effe5db416caaf84c7674"
+        }
+      ],
+      "selected": false,
+      "reason": "Rejected: shaded highlights and emissive halos are unsuitable for albedo; new surface geometry and outline drift.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-f107b09e-1001-44b4-9b44-c651e3aaf6cb.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-f107b09e-1001-44b4-9b44-c651e3aaf6cb.png",
+      "output_sha256": "ac4673e2c1bfe0aaa93d0d4aa03b21ea4f49decbecee916c25674056c728e06c",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          49,
+          1180,
+          1254
+        ],
+        "opaque_bbox": [
+          80,
+          271,
+          1175,
+          981
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9483393558523173,
+        "extra_normalized_mask_pixels": 16194,
+        "missing_normalized_mask_pixels": 247,
+        "materials_match_reference": true,
+        "flat_lighting": "Fails: glossy material highlights, dark joints, and luminous halos.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1. Produce paint_left.png, 1024 x 1024, genuine transparent alpha.\nImage 1 supplies material colors ONLY. Image 2, guide_left.png, is the EXACT locked 1024 x 1024 canvas to recolor. Preserve its alpha mask, every angular outline and every polygon/part location. Trace image 2; do not redraw a similar model. Its occupied bounds are x=79..944, y=224..799. Large cuff at lower left, curled fingers toward upper right, same overlapping pair silhouette.\nApply flat unlit base colors: warm ivory-white ceramic plates, matte muted ochre-gold trim, dusty black-violet resin between armor and on articulated fingers, flat orange centers in EXISTING circular reactor bosses and small existing channels. Use fine scratches and thin seams from image 1. Match the main boss on the upper-left cuff and retain the big plain polygonal side panel and cuff end face as the guide depicts them; do not invent extra round glowing reactors. Broad smooth planes must remain broad smooth planes.\nCRITICAL CORRECTION: absolutely flat ALBEDO, an unlit material-ID view with delicately painted wear. No illumination shading, no highlights, no bright bevels, no shadows, no occlusion, no cavity gradients, no reflected glow, no metallic shine. Each material has uniform lightness over all differently oriented faces. Orange is a solid orange base color. No halos.\nKeep the guide's exact angular contours, fingers and cutouts. No outline smoothing, added pipes beyond the mesh, recentering, resizing, text, letters, labels, floor or background. Preserve all transparent pixels and return one 1024 x 1024 image.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "d8f36d2903b933d7ca68317d31ad9b5fcf042b7e8e3effe5db416caaf84c7674"
+        }
+      ],
+      "selected": true,
+      "reason": "Selected correction: much flatter material colors and orange insets, with broader planes closer to the guide. Exact guide edges and part layout remain imperfect; an extra cuff-end orange inset remains.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-6fbc77b6-12cd-4480-a29f-7841df615100.png",
+      "output": "paint_left.png",
+      "output_sha256": "60013b66ca64926245b4417da3bb44ecd8e262dcf2294f2b15a6ed2a9911eaae",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1172,
+          1229
+        ],
+        "opaque_bbox": [
+          99,
+          275,
+          1160,
+          979
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9874305489307249,
+        "extra_normalized_mask_pixels": 1935,
+        "missing_normalized_mask_pixels": 1886,
+        "materials_match_reference": true,
+        "flat_lighting": "Improved: no strong highlights or glow; residual facet shading and dark seams remain.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Produce paint_right.png: a 1024 x 1024 transparent orthographic albedo painting of guide_right.png.\nImage 1 is ONLY the approved color/material reference. Image 2 is the exact 1024 x 1024 guide to PAINT IN PLACE. Its alpha, angular silhouette, every existing part edge, overlap and position are immutable. Precisely trace the guide; do not redraw a similar object. The occupied bounds are x=79..944, y=224..799. The fingers extend toward the upper LEFT and the large cuffs toward the lower RIGHT. Preserve the combined overlapping pair and foreshortening exactly.\nColor the existing plates warm ivory-white ceramic with fine worn scratches; edging muted ochre brushed gold; understructure and articulated joints dusty black-violet resin; EXISTING circular reactor boss bright flat orange in a gold ring. Continue unseen faces with those same materials. Use thin seams and non-text engraved lines. Keep the cuff opening shape, the angular side plates and fingers exactly where the guide has them.\nALBEDO ONLY: absolutely uniform intrinsic color across each material, no illumination shading, no ambient occlusion, no cast shadows, no highlights, no metallic reflection, no rim lighting, no bloom, no gradient inside cavities. Gold is gold base color with at most faint sheen. Orange energy is painted flat orange; it does not illuminate neighbors. Think unlit material colors with subtle painted wear.\nNo new geometry, no rounding or smoothing of silhouette, no reframe, no resize, no perspective change, no extra reactor circles or fingers. Preserve all original negative spaces. True transparent RGBA background, no checkerboard, floor, labels, letters or text. One image, at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "f789d05097bc7312c1ebceac96aeb9c250dff3c77216db4291b8207be4f63ae7"
+        }
+      ],
+      "selected": false,
+      "reason": "Rejected: light/shade remains baked into ceramic, resin and metal; cuff opening is interpreted as another orange reactor.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-4cfdebe7-bdaa-49a7-8914-fad93257ca6a.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-4cfdebe7-bdaa-49a7-8914-fad93257ca6a.png",
+      "output_sha256": "b848b5bed51a82e11558b0e8718086027a013277585dd6df87e1d905d09202fd",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          49,
+          37,
+          1226,
+          1216
+        ],
+        "opaque_bbox": [
+          106,
+          275,
+          1163,
+          978
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9713062014361634,
+        "extra_normalized_mask_pixels": 3337,
+        "missing_normalized_mask_pixels": 5426,
+        "materials_match_reference": true,
+        "flat_lighting": "Fails: directional surface shading, specular edging and dark crevices.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1 for paint_right.png, 1024 x 1024, real transparent alpha.\nImage 1 is a reference ONLY for colors. Image 2 is the exact guide_right.png canvas to recolor. TRACE every outline and angular polygon of image 2 exactly, including the silhouette, finger placements, ring openings, part edges and transparent holes. Keep the image 2 camera, scale, framing and asymmetric overlapping pair. Occupied bounds x=79..944, y=224..799. Fingers upper left, cuffs lower right.\nCorrect the previous failures: no rendered lighting, and do not turn the OPEN CUFF in the lower-right foreground into an orange reactor. Only the circular boss on top of the large central cuff is an orange reactor with gold ring. The lower-right cuff end retains the guide's large hollow polygonal mouth with simple even dark-violet inner lining, NO orange disk inside it.\nPaint the existing guide surfaces in matte warm ivory ceramic, subdued ochre-gold trims, dusty black-violet resin joints, and flat orange existing small energy channels. Delicate scratches, subtle chips and thin panel seams only. Do not add cables or plates that displace the guide's edges.\nAbsolutely flat ALBEDO, an unlit material-ID view with fine painted wear: ZERO highlights, ZERO white edge shine, ZERO shadows, ZERO ambient occlusion, ZERO depth darkening, ZERO metallic reflection, ZERO glow halos. The same material has the same intrinsic lightness across all face orientations. Orange is solid orange, gold is solid muted gold, ivory solid ivory. Surface wear adds fine color variation without lighting gradients.\nPreserve exact mesh silhouette, including awkward angular corners, not a rounded reinterpretation. No text, letters, watermark, floor or background. Output one transparent PNG, 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "f789d05097bc7312c1ebceac96aeb9c250dff3c77216db4291b8207be4f63ae7"
+        }
+      ],
+      "selected": true,
+      "reason": "Selected correction: restores a hollow dark cuff mouth and flat orange reactor; reduced lighting. Exact guide geometry and alpha remain imperfect. Selected despite lower normalized silhouette overlap (0.941 versus 0.971) because it corrects the cuff opening and reduces baked lighting.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-d8938093-89b9-4e65-9fab-b3ccc9443fb3.png",
+      "output": "paint_right.png",
+      "output_sha256": "5b03fcfabbd107bd90ede10d2e2c8c68ee6b9237ccc81774beee45b9ce891e6f",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1232,
+          1229
+        ],
+        "opaque_bbox": [
+          97,
+          278,
+          1186,
+          986
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9410740971946352,
+        "extra_normalized_mask_pixels": 15118,
+        "missing_normalized_mask_pixels": 3572,
+        "materials_match_reference": true,
+        "flat_lighting": "Improved; no glow or strong specular highlights, but residual facet shading and highlighted ceramic wear remain.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Paint guide_top.png in place to produce paint_top.png, ONE 1024 x 1024 RGBA image with true transparent background.\nImage 1 is the approved material/color reference ONLY. Image 2 is the exact orthographic TOP guide canvas to recolor. TRACE image 2's existing geometry pixel-for-pixel: preserve its alpha mask, silhouette, ALL part edges, finger separation, holes, overlap, positions, scale, and camera. The two gauntlets remain in the guide's diagonal arrangement: left gauntlet higher, right lower, cuffs above, fingers downward. Object bounds x=66..957, y=79..944 on the 1024 canvas. Do not use image 1's different framing or geometry.\nPaint each existing surface to match the design reference: lightly worn warm ivory-white ceramic plates, muted brushed gold trim and reactor rings, black-violet resin articulated fingers and dark cable joints, vivid orange/amber energy insets. Ceramic finger inserts follow the guide's EXISTING finger planes; gold and dark resin delineate their seams without moving them. Small engraved lines and subtle scratches only, no symbols or text. Continue unseen faces plausibly with the same materials.\nThis is UNLIT ALBEDO for texture baking. Absolutely flat, even intrinsic color over each material, independent of face orientation. No cast or self shadows, no ambient occlusion, no highlights, no bright rim or bevel lighting, no specular reflections or broad gradients. Gold is ochre-gold base color, ceramic is even ivory, resin even dusty violet-black, orange energy solid bright orange without bloom or illumination spill. Do not copy lighting from either input.\nNo new geometry, no added fingers, no rounded silhouette, no altered pose, no resizing/recentering/cropping. Preserve the guide's empty canvas and exact transparent negative spaces. No background, floor, checkerboard, text, letters, labels or watermark. Return the painted guide at exactly 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9464391c535cf6c2ad8362fedcd5dc9d0d4e5a478eb88400360283cb9da293cd"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "08dc0d18a7ff873131e195d293831ce0a1bbd7139c1d1c6233e5572912b69d44"
+        }
+      ],
+      "selected": false,
+      "reason": "Rejected: follows the approved illustration's pose/contours too strongly instead of the guide's angular geometry and retains shaded rendering.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-c561eee8-555c-4257-882a-63b3fd648810.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-c561eee8-555c-4257-882a-63b3fd648810.png",
+      "output_sha256": "5a2626a97884e8e0bde104f7c3835f37630cee72782e2195c77baa1e98fccd36",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          61,
+          1210,
+          1234
+        ],
+        "opaque_bbox": [
+          72,
+          64,
+          1207,
+          1228
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8253670324878262,
+        "extra_normalized_mask_pixels": 93180,
+        "missing_normalized_mask_pixels": 2931,
+        "materials_match_reference": true,
+        "flat_lighting": "Fails: highlighted ceramic and metal, shaded cable recesses.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1: recolor THIS EXACT supplied image, guide_top.png, into paint_top.png. Keep its original 1024 x 1024 canvas and alpha mask IDENTICAL. This is a precise 2D paint-over of a mesh guide for albedo texture projection, not a newly composed illustration.\nThe guide has two angular mechanical gauntlets in a diagonal arrangement, the left higher, both cuffs above and fingers below. Every boundary is immutable: trace exactly the full angular silhouette, each finger's width, bend and tip, thumbs, plate borders, ring shapes, negative spaces and overlap. Keep the original positions, scale and orthographic top camera. Occupied bounds x=66..957 and y=79..944. DO NOT inflate the fingers, move the hands, redraw the silhouette, smooth the angular low-poly contours, or change their spacing.\nApproved Hesper servo-gauntlet material design to paint INSIDE those exact existing surfaces: ivory-white ceramic armor plates with subtle warm mineral flecks, very fine worn scratches and occasional hairline wear; restrained brushed ochre-gold narrow borders and mechanical rings; deep dusty black-violet resin visible between plates, on articulated finger segments and in the wrist understructure; black-violet segmented cable detail only as painted surface lines; vivid flat orange/amber Kreegan energy centers inside the two existing circular outer cuff bosses. Small thin orange energy channels in the resin at existing finger/knuckle seams. Fingers have narrow ivory ceramic inserts over violet resin segments and small gold joint pivots, following their EXISTING GUIDE PLANES exactly. Cuffs have broad ivory plates, narrow muted gold edges and violet joints. Fine seams and engraved lines, no letters.\nCRITICAL: uniform flat ALBEDO COLORS only. Remove ALL white/gray lighting from the guide and replace it with intrinsic surface colors. No shadows, ambient occlusion, highlights, reflections, bevel shine, rim light, face-orientation gradients or glow. Ivory regions the same ivory value on every face; gold regions matte ochre-gold; resin regions uniform violet-black. Only delicate surface wear changes the colors. Orange insets solid bright orange, no bloom or reflected illumination.\nPreserve every transparent pixel, all margins and every internal transparent hole. No floor, background, checkerboard, text, letters or watermark. Return one 1024 x 1024 RGBA transparent PNG that overlays this exact guide.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "08dc0d18a7ff873131e195d293831ce0a1bbd7139c1d1c6233e5572912b69d44"
+        }
+      ],
+      "selected": true,
+      "reason": "Selected correction: closely follows the guide's angular plates, fingers, spacing and silhouette with flatter colors. Approved design colors were described in the prompt; only the geometry guide was supplied to avoid copying the illustration's pose. Exact alpha and perfectly unlit colors are not achieved.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e37-4f0c-7862-95ae-78f7b496470b/exec-aab0255d-92cc-4389-9008-2986f87f86c0.png",
+      "output": "paint_top.png",
+      "output_sha256": "fb8cf548742b831615c6966a6ca22594aa8df026eaf2288315a803a3c7c08e7d",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          93,
+          1178,
+          1160
+        ],
+        "opaque_bbox": [
+          80,
+          96,
+          1174,
+          1157
+        ],
+        "matches_requested_size": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9879399565646938,
+        "extra_normalized_mask_pixels": 2354,
+        "missing_normalized_mask_pixels": 3188,
+        "materials_match_reference": true,
+        "flat_lighting": "Improved: subdued materials and solid orange insets; some facet shading and dark joints remain.",
+        "no_text_or_letters": true
+      },
+      "size_note": "Native tool return preserved byte-for-byte; no resize, recolor, masking, or other postprocessing."
+    }
+  ],
+  "status": "generated_with_known_deviations",
+  "selected_means": "Best retained tool return after at most one corrective regeneration; not a claim that every brief check passed.",
+  "normalization_note": "Silhouette IoU compares alpha>=128 masks sampled in normalized canvas coordinates for analysis only. No saved image was resized or altered. Exact silhouette checks use full alpha and native dimensions.",
+  "remaining_deviations": [
+    "All selected tool returns are 1254 x 1254 rather than the requested 1024 x 1024; retained unresized as required.",
+    "No selected return has an alpha mask identical to its guide. Outline/part-edge drift and stray edge-alpha pixels remain.",
+    "Lighting is substantially flatter after correction but some facet shading, dark joints and highlighted surface wear remain.",
+    "The left view retains an extra orange cuff-end inset; the right correction fixes its cuff mouth but has lower silhouette IoU than its first attempt."
+  ],
+  "not_performed": [
+    "Resizing, compositing, alpha masking, recoloring or other image postprocessing.",
+    "More than one corrective generation per view.",
+    "Texture baking, game integration, builds or runtime testing."
+  ]
+}

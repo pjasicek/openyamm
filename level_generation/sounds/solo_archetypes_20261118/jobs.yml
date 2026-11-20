@@ -1,0 +1,35 @@
+schema: openyamm.elevenlabs.jobs.v1
+# MAW solo run: sounds of the archetypes' new actives (devdocs/solo_action/ARCHETYPES_BUILD.md), user request
+# 2026-11-18. In the style of the first set (level_generation/sounds/solo_talents_20261114/): a classic fantasy MMO
+# warrior's abilities. Installed into assets_dev/engine/audio/solo_talents/.
+budget: 3000
+defaults: {kind: sfx, model: eleven_text_to_sound_v2, prompt_influence: 0.5, variants: 3,
+           formats: [wav_48000, mp3_44100_192]}
+jobs:
+  - id: talent_challenge
+    title: Challenge
+    use: Challenge, as it is used (every hostile near stops shooting and comes to blows)
+    prompt: "Fantasy warrior taunt ability: a deep brass war horn blast, short and commanding, with a fierce male
+      battle shout on top and a low ringing echo that carries across a battlefield"
+    duration: 1.6
+    highpass_hz: 30
+    loudness_db: -8
+    score_bias: power
+  - id: talent_heroic_strike
+    title: Heroic Strike
+    use: Heroic Strike, at the blow (one hard blow that spends the full rage bar)
+    prompt: "Fantasy warrior heavy strike ability: a short fierce grunt of effort, a fast heavy sword swing whoosh,
+      then one massive crushing metal impact with a deep bass thump and a short bright ring, a single decisive blow"
+    duration: 1.1
+    highpass_hz: 30
+    loudness_db: -8
+    score_bias: power
+  - id: talent_demoralizing_shout
+    title: Demoralizing Shout
+    use: Demoralizing Shout, as it is used (monsters near deal less for a few seconds)
+    prompt: "Fantasy warrior demoralizing shout ability: a huge terrifying guttural male roar, long and menacing, with
+      a deep rumbling sub bass shockwave rolling outward and a dark fading echo"
+    duration: 1.8
+    highpass_hz: 30
+    loudness_db: -8
+    score_bias: power

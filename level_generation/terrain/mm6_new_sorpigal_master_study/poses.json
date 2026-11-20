@@ -1,0 +1,35 @@
+{
+  "map": "oute3.odm",
+  "world": "mm6",
+  "poses": {
+    "overview": {
+      "x": -11825.771,
+      "y": -12076.673,
+      "z": 1733.715,
+      "heading_degrees": 41.27,
+      "pitch_degrees": -28.963
+    },
+    "cobbles": {
+      "x": -9247.492,
+      "y": -10485.38,
+      "z": 161.0,
+      "heading_degrees": 1.822,
+      "pitch_degrees": -19.423
+    },
+    "grass_dirt": {
+      "x": -9429.897,
+      "y": -11473.65,
+      "z": 161.0,
+      "heading_degrees": 272.871,
+      "pitch_degrees": -12.977
+    },
+    "volcano": {
+      "x": -12919.706,
+      "y": 13123.153,
+      "z": 1069.94,
+      "heading_degrees": 88.466,
+      "pitch_degrees": -21.918
+    }
+  },
+  "note": "User supplied identical grass and dirt poses; use one capture for both. Degrees retain more precision than the rounded yaw radians."
+}

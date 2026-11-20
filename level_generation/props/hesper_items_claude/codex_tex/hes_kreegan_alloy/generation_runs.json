@@ -1,0 +1,473 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None. Raw outputs will be copied byte-for-byte, without resizing or alpha editing.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Texture-source image edit.\nCreate exactly one 1024 x 1024 transparent PNG: paint_front.png for the Kreegan chitin-metal armour fragment.\nInput 1 (guide_front.png) is the EDIT TARGET and absolute geometry/alpha authority. Input 2 (design_reference.png) is ONLY the approved material, colour and design reference.\nRepaint the existing white surfaces of Input 1 in place. Preserve its exact orthographic FRONT view, silhouette, alpha mask, every part edge, overlaps, notches, position and scale. The object stays a low horizontal edge-on fragment in the central strip, x=66..957 and y=392..631 on a 1024-square canvas. Keep all the large transparent margins. No rotation, reframing, enlargement or perspective change. Do not turn this edge view into the broad face view of Input 2. Nothing outside the guide silhouette; no clipping.\nTransfer only the materials actually visible in the reference: layered black-violet chitin/resin-metal plates with fine worn hairline cracks and restrained bronze-gray edge wear; weathered warm ivory bone/ceramic on the existing raised rib pieces; dark brown fibrous interstitial material; fractured dull gray alloy on the broken thickness/underside; small saturated orange ember-coloured seams where applicable. Continue the same materials plausibly onto unseen faces. Preserve the guide's part boundaries. Do not invent new ribs, fins, holes, mechanical parts, glass, blue lights, cloth or markings absent from the reference.\nLIGHTING: pure diffuse albedo texture source, even flat shadowless viewer-facing illumination across every surface. Use material base colours with only a faint sheen. Remove the guide's light/shadow gradients; do not copy the reference's directional lighting. No cast shadows, no ambient occlusion darkening, no glossy hotspots or reflections, no rim light. Orange seams are painted bright orange with no bloom or light spill.\nBackground is real transparent alpha, never black or checkerboard paint. Preserve the guide's exact silhouette and all internal transparent regions. No floor, background, text, letters, labels, watermark or collage. Return the full square 1024 x 1024 image unresized.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "860276442f52a5f767c9c3a0de4f178a7af36d791ae305d0828abbc9b3521cda"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-201bd294-402e-4fda-a450-7535f51c8aa6.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-201bd294-402e-4fda-a450-7535f51c8aa6.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide silhouette. Original raw return retained at source_output.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true
+      },
+      "output_sha256": "15b29ef9ad9d641270972a8d9e6260f7d9273ebe3da2432ee75030816cef5146",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.9449698997967174,
+        "normalized_nonzero_alpha_pixels_outside_guide": 8176,
+        "normalized_visible_pixels_outside_guide": 4742,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint an albedo texture source on an existing exact mesh guide.\nProduce one 1024 x 1024 RGBA PNG, paint_back.png.\nINPUT 1 guide_back.png: EDIT TARGET. This image is the absolute authority for silhouette, camera, part edges, position, scale and transparency.\nINPUT 2 design_reference.png: material/colour/design authority only; ignore its camera and lighting.\nEdit only the white/gray surfaces of INPUT 1, in their existing pixel positions. BACK orthographic edge view. Broad blunt broken end is on the left; narrow taper is on the right. Preserve the central overlapping forms and the series of raised arch/rib forms toward the right. Object bounding strip x=66..957, y=392..631. Keep all transparent margins exactly. The square canvas must stay 1024 x 1024. Never rotate, enlarge, move, reframe or reinterpret the model. Preserve the EXACT guide outline, notches, holes, overlaps and every part's edge. Never draw anything outside the guide alpha.\nPaint the reference's Kreegan chitin-metal armour fragment materials onto corresponding surfaces: black-violet resin-metal plates with fine pale worn hairline fissures, dull bronze-gray wear on existing trim, weathered warm ivory bone/ceramic on existing raised ribs, dark brown fibrous connections, broken dull gray alloy thickness. Small existing interior seams may be bright saturated orange as in the reference. Continue unseen faces with these same materials. Detailed but restrained surface wear, no new geometry or details that alter part edges. No invented blue lights, glass, fabric, symbols or extra bones.\nCrucial lighting: FLAT UNLIT DIFFUSE ALBEDO, evenly visible base colours. Do not copy the shaded white clay render's light gradients and do not copy the reference's specular lighting. Every face of a material has the same base brightness regardless of surface orientation. Material variation comes from actual pigment/wear, not lighting. No cast shadow, no ambient occlusion darkening, no undercuts shaded black, no bright specular edge outlines, no highlights, no reflections, no rim lighting; only very faint metal sheen. Orange is flat bright pigment without bloom or illuminating adjacent surfaces.\nReal transparent alpha background. All empty guide pixels remain fully transparent, with no faint stray pixels, haze or shadow; all solid surface interiors are fully opaque. Keep the original antialiased silhouette edge. No floor, text, letters, labels, watermark, checkerboard painting, background or multiple views. Return the single full square image.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "a92ab80a683a9da0fe75d5600a2cd61115c127283007b5f3c03daaa2daa67e45"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-46ea77b5-ba21-49ea-8337-8a9e89056a03.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-46ea77b5-ba21-49ea-8337-8a9e89056a03.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide silhouette. Original raw return retained at source_output.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true
+      },
+      "output_sha256": "9dabb97a1d88446d5d2e821bba87bfd1f00022914f8d55a968205e30753751a5",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.919786199444273,
+        "normalized_nonzero_alpha_pixels_outside_guide": 10081,
+        "normalized_visible_pixels_outside_guide": 7235,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint an albedo texture source on an existing exact mesh guide.\nProduce one 1024 x 1024 RGBA PNG, paint_left.png.\nINPUT 1 guide_left.png: EDIT TARGET. This image is the absolute authority for silhouette, camera, part edges, position, scale and transparency.\nINPUT 2 design_reference.png: material/colour/design authority only; ignore its camera and lighting.\nEdit only the white/gray surfaces of INPUT 1, in their existing pixel positions. LEFT orthographic edge view. Small blunt tip on the left, two broad central lobes with the guide's upper and lower central notches, taper at the right. Preserve every existing curling rib/arch crossing the middle and right. Object bounding strip x=67..956, y=392..631. Keep all transparent margins exactly. The square canvas must stay 1024 x 1024. Never rotate, enlarge, move, reframe or reinterpret the model. Preserve the EXACT guide outline, notches, holes, overlaps and every part's edge. Never draw anything outside the guide alpha.\nPaint the reference's Kreegan chitin-metal armour fragment materials onto corresponding surfaces: black-violet resin-metal plates with fine pale worn hairline fissures, dull bronze-gray wear on existing trim, weathered warm ivory bone/ceramic on existing raised ribs, dark brown fibrous connections, broken dull gray alloy thickness. Small existing interior seams may be bright saturated orange as in the reference. Continue unseen faces with these same materials. Detailed but restrained surface wear, no new geometry or details that alter part edges. No invented blue lights, glass, fabric, symbols or extra bones.\nCrucial lighting: FLAT UNLIT DIFFUSE ALBEDO, evenly visible base colours. Do not copy the shaded white clay render's light gradients and do not copy the reference's specular lighting. Every face of a material has the same base brightness regardless of surface orientation. Material variation comes from actual pigment/wear, not lighting. No cast shadow, no ambient occlusion darkening, no undercuts shaded black, no bright specular edge outlines, no highlights, no reflections, no rim lighting; only very faint metal sheen. Orange is flat bright pigment without bloom or illuminating adjacent surfaces.\nReal transparent alpha background. All empty guide pixels remain fully transparent, with no faint stray pixels, haze or shadow; all solid surface interiors are fully opaque. Keep the original antialiased silhouette edge. No floor, text, letters, labels, watermark, checkerboard painting, background or multiple views. Return the single full square image.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "1eff4fbcbbce8af63ba02ab93334cd860f43df7c700323dd6ee7e8c83f099117"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-824be805-16b8-4c6c-a7d4-31e985e7c557.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-824be805-16b8-4c6c-a7d4-31e985e7c557.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide silhouette. Original raw return retained at source_output.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true
+      },
+      "output_sha256": "98f34e159394ed23ee1838e102262f9f627eb2718dc6d28f70cbbeec11cbbf7f",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.9720517618119251,
+        "normalized_nonzero_alpha_pixels_outside_guide": 7970,
+        "normalized_visible_pixels_outside_guide": 3656,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint an albedo texture source on an existing exact mesh guide.\nProduce one 1024 x 1024 RGBA PNG, paint_right.png.\nINPUT 1 guide_right.png: EDIT TARGET. This image is the absolute authority for silhouette, camera, part edges, position, scale and transparency.\nINPUT 2 design_reference.png: material/colour/design authority only; ignore its camera and lighting.\nEdit only the white/gray surfaces of INPUT 1, in their existing pixel positions. RIGHT orthographic edge view. Tapered broken wedge on the left, small blunt end on the right, two broad lobes separated by the existing upper and lower central notches. Preserve all the tall slanted rib segments over the left and middle. Object bounding strip x=67..956, y=392..631. Keep all transparent margins exactly. The square canvas must stay 1024 x 1024. Never rotate, enlarge, move, reframe or reinterpret the model. Preserve the EXACT guide outline, notches, holes, overlaps and every part's edge. Never draw anything outside the guide alpha.\nPaint the reference's Kreegan chitin-metal armour fragment materials onto corresponding surfaces: black-violet resin-metal plates with fine pale worn hairline fissures, dull bronze-gray wear on existing trim, weathered warm ivory bone/ceramic on existing raised ribs, dark brown fibrous connections, broken dull gray alloy thickness. Small existing interior seams may be bright saturated orange as in the reference. Continue unseen faces with these same materials. Detailed but restrained surface wear, no new geometry or details that alter part edges. No invented blue lights, glass, fabric, symbols or extra bones.\nCrucial lighting: FLAT UNLIT DIFFUSE ALBEDO, evenly visible base colours. Do not copy the shaded white clay render's light gradients and do not copy the reference's specular lighting. Every face of a material has the same base brightness regardless of surface orientation. Material variation comes from actual pigment/wear, not lighting. No cast shadow, no ambient occlusion darkening, no undercuts shaded black, no bright specular edge outlines, no highlights, no reflections, no rim lighting; only very faint metal sheen. Orange is flat bright pigment without bloom or illuminating adjacent surfaces.\nReal transparent alpha background. All empty guide pixels remain fully transparent, with no faint stray pixels, haze or shadow; all solid surface interiors are fully opaque. Keep the original antialiased silhouette edge. No floor, text, letters, labels, watermark, checkerboard painting, background or multiple views. Return the single full square image.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "35714302478c301aa445ec0ae738de7f5cc3e28418fe0b54692c8b026f41f78a"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-2d7e3b03-0a53-4ce1-ac9f-832695636f03.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-2d7e3b03-0a53-4ce1-ac9f-832695636f03.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide silhouette. Original raw return retained at source_output.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true
+      },
+      "output_sha256": "a60446e62cd201879954407a2a8e20563ab8778e62a8b9d824f3c2b4b324b6b2",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.8428314301380313,
+        "normalized_nonzero_alpha_pixels_outside_guide": 21992,
+        "normalized_visible_pixels_outside_guide": 18597,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint an albedo texture source on an existing exact mesh guide.\nProduce one 1024 x 1024 RGBA PNG, paint_top.png.\nINPUT 1 guide_top.png: EDIT TARGET. This image is the absolute authority for silhouette, camera, part edges, position, scale and transparency.\nINPUT 2 design_reference.png: material/colour/design authority only; ignore its camera and lighting.\nEdit only the white/gray surfaces of INPUT 1, in their existing pixel positions. TOP view directly above, the broad face visible. Preserve the diagonal fragment from lower-left to upper-right, the hooked projection near the top, the rib row on the left, the overlapping plate panels across center and right, and the jagged broken alloy along lower/right margins. Object bounding box x=66..957, y=66..956. Keep all transparent margins exactly. The square canvas must stay 1024 x 1024. Never rotate, enlarge, move, reframe or reinterpret the model. Preserve the EXACT guide outline, notches, holes, overlaps and every part's edge. Never draw anything outside the guide alpha.\nPaint the reference's Kreegan chitin-metal armour fragment materials onto corresponding surfaces: black-violet resin-metal plates with fine pale worn hairline fissures, dull bronze-gray wear on existing trim, weathered warm ivory bone/ceramic on existing raised ribs, dark brown fibrous connections, broken dull gray alloy thickness. Small existing interior seams may be bright saturated orange as in the reference. Continue unseen faces with these same materials. Detailed but restrained surface wear, no new geometry or details that alter part edges. No invented blue lights, glass, fabric, symbols or extra bones.\nCrucial lighting: FLAT UNLIT DIFFUSE ALBEDO, evenly visible base colours. Do not copy the shaded white clay render's light gradients and do not copy the reference's specular lighting. Every face of a material has the same base brightness regardless of surface orientation. Material variation comes from actual pigment/wear, not lighting. No cast shadow, no ambient occlusion darkening, no undercuts shaded black, no bright specular edge outlines, no highlights, no reflections, no rim lighting; only very faint metal sheen. Orange is flat bright pigment without bloom or illuminating adjacent surfaces.\nReal transparent alpha background. All empty guide pixels remain fully transparent, with no faint stray pixels, haze or shadow; all solid surface interiors are fully opaque. Keep the original antialiased silhouette edge. No floor, text, letters, labels, watermark, checkerboard painting, background or multiple views. Return the single full square image.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "8cfed3c6e339a9c83a234ea1e206839d35826138dcbf356e7ace995e04adbff1"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-89739c8a-7b60-4e2c-8c99-0f66993cb295.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-89739c8a-7b60-4e2c-8c99-0f66993cb295.png",
+      "selected": false,
+      "reason": "Not selected: corrective return has closer guide silhouette. Original raw return retained at source_output.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true
+      },
+      "output_sha256": "2481141316cb6826e9540deb48b843ec5ff01787dec7f801733a3e021bc2c69f",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.8275959998926626,
+        "normalized_nonzero_alpha_pixels_outside_guide": 27639,
+        "normalized_visible_pixels_outside_guide": 23154,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective regeneration of paint_front.png.\nINPUT 1 design_reference.png supplies ONLY surface colours and materials.\nINPUT 2 guide_front.png is the canvas to EDIT. Work on THIS SECOND IMAGE, at its exact 1024 x 1024 size. Preserve the second image's alpha mask, silhouette and every boundary pixel exactly.\nThe previous attempt drifted from the guide and looked directionally shaded. Correct those two defects by starting from the untouched second image. This is a meticulous colour/material fill over existing mesh geometry, not a new illustration.\nThe target fragment is horizontal, edge-on, confined to x=66..957 and y=392..631. Every projection, recess, notch, lobe and flat polygon edge must remain exactly where the second image puts it. Keep the guide's low 240-pixel height and huge transparent margins. No repositioning, scaling, rotation, perspective change, rounding or added parts.\nUse the first image's black-violet chitin-metal plates, warm worn ivory bone ribs, brown fibrous connections, fractured dull gray alloy, and small orange interior seams. Allocate these materials to the existing parts; continue unseen surfaces plausibly. Keep hairline cracks and fine wear as colour texture.\nALBEDO ONLY: replace ALL white clay shading with unlit base colours. Equally expose upward, side and downward surfaces; do not darken undersides or recesses. Dark violet remains a consistent violet charcoal colour on every face, ivory remains a consistent warm ivory on every face, gray alloy remains gray. NO bright bevel highlights, no specular reflections, no black shadow bands at joins, no cast shadows, no AO, no directional lighting. Only fine pigment variation and wear; at most a very faint sheen. Flat bright orange seams without bloom.\nRetain EXACTLY the second image's transparent areas, with alpha zero outside the guide, fully opaque object interiors and its antialiased outline. No stray edge pixels, ground, backdrop, text, letters, labels or watermark. Return just the painted second image at 1024 x 1024, unchanged framing.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        },
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "860276442f52a5f767c9c3a0de4f178a7af36d791ae305d0828abbc9b3521cda"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-1fb13ea6-6cdd-4823-bfd3-e540ef934cbb.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide silhouette than the initial attempt, with the reference palette and materials retained. Exact silhouette and flat-lighting requirements remain unmet; maximum one correction reached.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true,
+        "notes": "Reference palette and texture detail retained. Shaded recesses and bright edges remain; not a fully flat albedo."
+      },
+      "output_sha256": "5c8580eea11a1f3709cc5428f470b0204d591541cb349a3f77ef14ccf8fa20c2",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.9919716042647485,
+        "normalized_nonzero_alpha_pixels_outside_guide": 6006,
+        "normalized_visible_pixels_outside_guide": 226,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective regeneration of paint_back.png.\nINPUT 1 design_reference.png supplies ONLY surface colours and materials.\nINPUT 2 guide_back.png is the canvas to EDIT. Work on THIS SECOND IMAGE, at its exact 1024 x 1024 size. Preserve the second image's alpha mask, silhouette and every boundary pixel exactly.\nThe previous attempt drifted from the guide and looked directionally shaded. Correct those defects by starting from the untouched second image. This is a meticulous flat colour/material fill over existing mesh geometry, not a new 3D illustration.\nThe target fragment is a horizontal BACK edge view, confined to x=66..957 and y=392..631. Broad blunt broken end at left, narrower taper at right; central interlocking forms and curved rib bands toward the right remain precisely as in the guide. Keep the low 240-pixel height and huge transparent margins.\nEvery projection, recess, notch, lobe, part boundary and flat polygon edge must remain exactly where the second image puts it. No repositioning, scaling, rotation, perspective change, rounding or added parts.\nUse the first image's black-violet chitin-metal plates, warm worn ivory bone ribs, brown fibrous connections, fractured dull gray alloy, and small orange interior seams. Allocate these materials to the existing parts; continue unseen surfaces plausibly. Keep hairline cracks and fine wear as colour texture.\nALBEDO ONLY: replace ALL white clay shading with unlit base colours. Equally expose upward, side and downward surfaces; do not darken undersides or recesses. Dark violet remains a consistent violet charcoal colour on every face, ivory remains a consistent warm ivory on every face, gray alloy remains gray. NO bright bevel highlights, no specular reflections, no black shadow bands at joins, no cast shadows, no AO, no directional lighting. Flat diffuse texture paint, NOT a lit/rendered asset. Only fine pigment variation and wear; at most a very faint sheen. Flat bright orange seams without bloom.\nRetain EXACTLY the second image's transparent areas, with alpha zero outside the guide, fully opaque object interiors and its antialiased outline. No stray edge pixels, ground, backdrop, text, letters, labels or watermark. Return just the painted second image at 1024 x 1024, unchanged framing.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        },
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "a92ab80a683a9da0fe75d5600a2cd61115c127283007b5f3c03daaa2daa67e45"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-5e3b6377-c55b-4f93-92cf-1ee5d1f916f5.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide silhouette than the initial attempt, with the reference palette and materials retained. Exact silhouette and flat-lighting requirements remain unmet; maximum one correction reached.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true,
+        "notes": "Reference palette and texture detail retained. Shaded recesses and bright edges remain; not a fully flat albedo."
+      },
+      "output_sha256": "9d6c9ff896b5690c90ee5bc95f39a9630d0bddee153bf44bbb2ef9a8512c7ed5",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.98679197527575,
+        "normalized_nonzero_alpha_pixels_outside_guide": 7545,
+        "normalized_visible_pixels_outside_guide": 1899,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective regeneration of paint_left.png.\nINPUT 1 design_reference.png supplies ONLY surface colours and materials.\nINPUT 2 guide_left.png is the canvas to EDIT. Work on THIS SECOND IMAGE, at its exact 1024 x 1024 size. Preserve the second image's alpha mask, silhouette and every boundary pixel exactly.\nThe previous attempt drifted from the guide and looked directionally shaded. Correct those defects by starting from the untouched second image. This is a meticulous flat colour/material fill over existing mesh geometry, not a new 3D illustration.\nThe target fragment is a horizontal LEFT edge view, confined to x=67..956 and y=392..631. Small blunt end at left, rightward taper, two broad central lobes with the exact upper and lower central notches and existing curling ribs through the middle and right. Keep the low 240-pixel height and huge transparent margins.\nEvery projection, recess, notch, lobe, part boundary and flat polygon edge must remain exactly where the second image puts it. No repositioning, scaling, rotation, perspective change, rounding or added parts.\nUse the first image's black-violet chitin-metal plates, warm worn ivory bone ribs, brown fibrous connections, fractured dull gray alloy, and small orange interior seams. Allocate these materials to the existing parts; continue unseen surfaces plausibly. Keep hairline cracks and fine wear as colour texture.\nALBEDO ONLY: replace ALL white clay shading with unlit base colours. Equally expose upward, side and downward surfaces; do not darken undersides or recesses. Dark violet remains a consistent violet charcoal colour on every face, ivory remains a consistent warm ivory on every face, gray alloy remains gray. NO bright bevel highlights, no specular reflections, no black shadow bands at joins, no cast shadows, no AO, no directional lighting. Flat diffuse texture paint, NOT a lit/rendered asset. Only fine pigment variation and wear; at most a very faint sheen. Flat bright orange seams without bloom.\nRetain EXACTLY the second image's transparent areas, with alpha zero outside the guide, fully opaque object interiors and its antialiased outline. No stray edge pixels, ground, backdrop, text, letters, labels or watermark. Return just the painted second image at 1024 x 1024, unchanged framing.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        },
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "1eff4fbcbbce8af63ba02ab93334cd860f43df7c700323dd6ee7e8c83f099117"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-23b05dd6-63c8-43c5-9e91-909b90f22e63.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide silhouette than the initial attempt, with the reference palette and materials retained. Exact silhouette and flat-lighting requirements remain unmet; maximum one correction reached.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true,
+        "notes": "Reference palette and texture detail retained. Shaded recesses and bright edges remain; not a fully flat albedo."
+      },
+      "output_sha256": "63a192a1d832780d0bc91ac1c17afff80d56b6f29285ca589d63106da4ee5ba2",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.9873284195022921,
+        "normalized_nonzero_alpha_pixels_outside_guide": 5829,
+        "normalized_visible_pixels_outside_guide": 1533,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective regeneration of paint_right.png.\nINPUT 1 design_reference.png supplies ONLY surface colours and materials.\nINPUT 2 guide_right.png is the canvas to EDIT. Work on THIS SECOND IMAGE, at its exact 1024 x 1024 size. Preserve the second image's alpha mask, silhouette and every boundary pixel exactly.\nThe previous attempt drifted from the guide and looked directionally shaded. Correct those defects by starting from the untouched second image. This is a meticulous flat colour/material fill over existing mesh geometry, not a new 3D illustration.\nThe target fragment is a horizontal RIGHT edge view, confined to x=67..956 and y=392..631. Tapered wedge at left, small blunt end at right, two broad lobes with the guide's central notches. Preserve all tall slanted rib segments over left and center and the diagonal edges at right. Keep the low 240-pixel height and huge transparent margins. The previous attempt raised the object and deepened the central notches: copy the second image's positions and outline directly.\nEvery projection, recess, notch, lobe, part boundary and flat polygon edge must remain exactly where the second image puts it. No repositioning, scaling, rotation, perspective change, rounding or added parts.\nUse the first image's black-violet chitin-metal plates, warm worn ivory bone ribs, brown fibrous connections, fractured dull gray alloy, and small orange interior seams. Allocate these materials to the existing parts; continue unseen surfaces plausibly. Keep hairline cracks and fine wear as colour texture.\nALBEDO ONLY: replace ALL white clay shading with unlit base colours. Equally expose upward, side and downward surfaces; do not darken undersides or recesses. Dark violet remains a consistent violet charcoal colour on every face, ivory remains a consistent warm ivory on every face, gray alloy remains gray. NO bright bevel highlights, no specular reflections, no black shadow bands at joins, no cast shadows, no AO, no directional lighting. Flat diffuse texture paint, NOT a lit/rendered asset. Only fine pigment variation and wear; at most a very faint sheen. Flat bright orange seams without bloom.\nRetain EXACTLY the second image's transparent areas, with alpha zero outside the guide, fully opaque object interiors and its antialiased outline. No stray edge pixels, ground, backdrop, text, letters, labels or watermark. Return just the painted second image at 1024 x 1024, unchanged framing.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        },
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "35714302478c301aa445ec0ae738de7f5cc3e28418fe0b54692c8b026f41f78a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-dc56f136-bdb7-4024-8e18-5da7daa515d2.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide silhouette than the initial attempt, with the reference palette and materials retained. Exact silhouette and flat-lighting requirements remain unmet; maximum one correction reached.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true,
+        "notes": "Reference palette and texture detail retained. Shaded recesses and bright edges remain; not a fully flat albedo."
+      },
+      "output_sha256": "c9040085b2a76f84e34c10a025910ef579be02448a7daf691b1aac28c320a608",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.9834508080293731,
+        "normalized_nonzero_alpha_pixels_outside_guide": 4408,
+        "normalized_visible_pixels_outside_guide": 61,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective regeneration of paint_top.png.\nINPUT 1 design_reference.png supplies ONLY surface colours and materials.\nINPUT 2 guide_top.png is the canvas to EDIT. Work on THIS SECOND IMAGE, at its exact 1024 x 1024 size. Preserve the second image's alpha mask, silhouette and every boundary pixel exactly.\nThe previous attempt drifted from the guide and looked directionally shaded. Correct those defects by starting from the untouched second image. This is a meticulous flat colour/material fill over existing mesh geometry, not a new 3D illustration.\nThe target is the TOP orthographic view of the broad flat fragment, confined to x=66..957 and y=66..956. Copy the second image's diagonal arrangement EXACTLY: hooked top at (approximately 500,70), broad chipped lower-left corner, existing ivory ribs on the left, layered plates on right and center, jagged alloy lower-right edge. Do not rotate the reference art into this view; PAINT THE SECOND IMAGE itself. The previous attempt shifted and reshaped the outline substantially. Preserve every angular notch and corner from the guide, even if it looks low-poly.\nEvery projection, recess, notch, lobe, part boundary and flat polygon edge must remain exactly where the second image puts it. No repositioning, scaling, rotation, perspective change, rounding or added parts.\nUse the first image's black-violet chitin-metal plates, warm worn ivory bone ribs, brown fibrous connections, fractured dull gray alloy, and small orange interior seams. Allocate these materials to the existing parts; continue unseen surfaces plausibly. Keep hairline cracks and fine wear as colour texture.\nALBEDO ONLY: replace ALL white clay shading with unlit base colours. Equally expose upward, side and downward surfaces; do not darken undersides or recesses. Dark violet remains a consistent violet charcoal colour on every face, ivory remains a consistent warm ivory on every face, gray alloy remains gray. NO bright bevel highlights, no specular reflections, no black shadow bands at joins, no cast shadows, no AO, no directional lighting. Flat diffuse texture paint, NOT a lit/rendered asset. Only fine pigment variation and wear; at most a very faint sheen. Flat bright orange seams without bloom.\nRetain EXACTLY the second image's transparent areas, with alpha zero outside the guide, fully opaque object interiors and its antialiased outline. No stray edge pixels, ground, backdrop, text, letters, labels or watermark. Return just the painted second image at 1024 x 1024, unchanged framing.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "826a021e25f1ec417bfeb9d23317c14363ff01d47da02d9b0fe3e45f2970e89b"
+        },
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "8cfed3c6e339a9c83a234ea1e206839d35826138dcbf356e7ace995e04adbff1"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e92-432e-7d70-ab01-c1ea86e84d68/exec-a282d873-7259-4df2-ab63-a78c828ca2dc.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide silhouette than the initial attempt, with the reference palette and materials retained. Exact silhouette and flat-lighting requirements remain unmet; maximum one correction reached.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_even_lighting": false,
+        "no_text_or_letters": true,
+        "notes": "Reference palette and texture detail retained. Shaded recesses and bright edges remain; not a fully flat albedo."
+      },
+      "output_sha256": "f4eaddc85bf04fbe74c40e8d7eb51403575e4bf2d076317c63acf09f37d81f21",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.9936111340060522,
+        "normalized_nonzero_alpha_pixels_outside_guide": 11278,
+        "normalized_visible_pixels_outside_guide": 611,
+        "measurement_note": "Normalized coordinate comparison only; image file is never resized.",
+        "all_brief_requirements_met": false
+      }
+    }
+  ],
+  "status": "completed_generation_budget_with_unmet_visual_requirements",
+  "corrective_regenerations_per_view": 1,
+  "selection_note": "Selected is the closest of the two permitted raw returns, not a declaration that every brief requirement passed.",
+  "limitations": [
+    "The built-in generator returned 1254 x 1254 for every attempt instead of 1024 x 1024. All selected PNGs are preserved byte-for-byte and unresized as instructed.",
+    "The selected views have 98.35% to 99.36% normalized silhouette overlap, but no view has a pixel-identical guide silhouette. Faint stray alpha and small edge mismatches remain.",
+    "Directional facet shading, shaded recesses and bright edges remain. The images are not fully flat, shadowless albedo sources."
+  ]
+}

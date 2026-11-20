@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "scope": "New Sorpigal in-game visual spot check",
+  "world": "mm6",
+  "map": "oute3.odm",
+  "screenshot": "runtime_mm6.png",
+  "screenshot_sha256": "e4596f82cd9398e1e03bfe5d38b7ff29ee6b9ac44a5d4f7fab0afe6aaffd1e9a",
+  "run_record": "runtime_check/run.json",
+  "renderer": "OpenGL 3.3 (game.log)",
+  "gpu": "Not reported by this run; no GPU performance claims.",
+  "observations": [
+    "Game loaded the requested map using assets_dev and exited normally.",
+    "The newly captured town buildings, roads and light-noise terrain are visible in the HUD minimap.",
+    "Browser checks cover all 42 replacements; this runtime capture checks the approved reference map."
+  ]
+}

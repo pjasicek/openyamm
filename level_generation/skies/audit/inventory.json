@@ -1,0 +1,6174 @@
+{
+  "scope": "Development MM6/MM7/MM8 maps and sky art; mmmerge duplicate sources included. uses_by_name records references, not proof of selected source at runtime. Native map headers may be overridden by merged weather. No saves/mods/packages scanned.",
+  "summary": {
+    "native_files_by_world": {
+      "mm6": 28,
+      "mm7": 27,
+      "mm8": 12,
+      "mmmerge": 3
+    },
+    "unique_rgb_images": 66,
+    "distinct_names": 67,
+    "maps_scanned": {
+      "mm6.blv": 51,
+      "mm6.odm": 15,
+      "mm7.blv": 63,
+      "mm7.odm": 13,
+      "mm8.blv": 47,
+      "mm8.odm": 14
+    },
+    "maps_with_sky_surfaces": 24,
+    "installed_files": [
+      {
+        "path": "assets_dev/worlds/mm6/textures_x2/orair256.png",
+        "size": [
+          512,
+          512
+        ],
+        "sha256": "910b407651a60cd54bfbf75eb34da890480a5ace7c0a6c33ca681882b8c11971"
+      },
+      {
+        "path": "assets_dev/worlds/mm7/textures_x2/7solid01.png",
+        "size": [
+          32,
+          32
+        ],
+        "sha256": "9ecf4191afe23e2c740b88143836c2bbbd1e450baff0ac359b7fc19e5b5be14f"
+      },
+      {
+        "path": "assets_dev/worlds/mm7/textures_x2/sgstars.png",
+        "size": [
+          128,
+          128
+        ],
+        "sha256": "e5734c4ed35a785c95075352cd1883f962cfd68d1727706c2f2c51f3224b315a"
+      },
+      {
+        "path": "assets_dev/worlds/mm8/textures_x2/cloudsabove.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "sha256": "6a9fdaa78ef64850ebb584ae0a3bffb53652f536385ed7739e2af8a110ed0db8"
+      },
+      {
+        "path": "assets_dev/worlds/mm8/textures_x2/stormclds.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "sha256": "0654c8ab3078754db65e8493bc18f205cd638d6714b6d908464b738e10847206"
+      },
+      {
+        "path": "assets_dev/worlds/mm8/textures_x2/sunsetclouds.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "sha256": "17ec4e37d133f5108a4aa76d81edd82bc1649693cbe18fbc73fe2e3aae37bb83"
+      }
+    ],
+    "scan_errors": [],
+    "accepted_mm6_alias": {
+      "path": "assets_dev/worlds/mm6/textures_x2/plansky1.png",
+      "sha256": "a6db629efaca1289b267cc806ce11c6a187d871dd11ecbe31d591baf8f9e65d1"
+    },
+    "sky_art_files_mm6_mm8": 65,
+    "sky_art_jobs_by_wave": {
+      "A0: MM6 native fair-weather baseline": 1,
+      "D: native archive": 33,
+      "A: outdoor weather/custom": 18,
+      "C: additional map/event artwork": 9,
+      "B: legacy outdoor fallback": 3
+    },
+    "planned_sky_install_paths": 78
+  },
+  "continent_skies": {
+    "1": [
+      "plansky3",
+      "plansky1",
+      "sky06",
+      "sky02",
+      "sky03",
+      "stormclds",
+      "stormclds"
+    ],
+    "2": [
+      "7plansky3",
+      "7sky01",
+      "sky12",
+      "7sky02",
+      "sky12",
+      "7sky04",
+      "sky19"
+    ],
+    "3": [
+      "6plansky1",
+      "6plansky1",
+      "6sky06",
+      "6sky12",
+      "6sky03",
+      "6sky04",
+      "6sky19"
+    ],
+    "4": [
+      "plansky3",
+      "plansky1",
+      "sky06",
+      "6sky02",
+      "sky03",
+      "stormclds",
+      "6sky19"
+    ]
+  },
+  "assets": [
+    {
+      "world": "mm6",
+      "name": "6plansky1",
+      "source": "assets_dev/worlds/mm6/textures/6plansky1.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "852560c09d25b5f468613121203dd3c24090cd334462fbd52dbdae7775e2a1c3",
+      "rgb_sha256": "fdd1489fb52c05f725e3c6b97c9a615c82436666cd01162735a779210419d97a",
+      "target": "assets_dev/worlds/mm6/textures_x2/6plansky1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute3.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6plansky1.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6plansky2",
+      "source": "assets_dev/worlds/mm6/textures/6plansky2.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "164007060e41af2422049d6025389de9853eda47519edca795a829a72af35b4d",
+      "rgb_sha256": "16ec5435b06cb76891d98e7a246d8156d6e8369e1513170de8cd214c421ca95a",
+      "target": "assets_dev/worlds/mm6/textures_x2/6plansky2.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6plansky2.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky01",
+      "source": "assets_dev/worlds/mm6/textures/6sky01.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "34b9ff61ae594ee4175120bc3b68ebd839ec9067cb695a0993e0c3c3c4c9b840",
+      "rgb_sha256": "fdd1489fb52c05f725e3c6b97c9a615c82436666cd01162735a779210419d97a",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky01.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky01.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky02",
+      "source": "assets_dev/worlds/mm6/textures/6sky02.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "f5ff730841f693dcafc2a43cc783ed6e070cbc512e8ead6d55605b0b45b726eb",
+      "rgb_sha256": "702008dfe462bceb0a190e94a3eff068e76b5c9fd752fa3609ef6b2ffa629da0",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky02.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky02.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky03",
+      "source": "assets_dev/worlds/mm6/textures/6sky03.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "83ce6928ddbdb82b2061d118850570092f4210632f15183777c4e4c8ba9bebcd",
+      "rgb_sha256": "f38029d1d6badbb74b17d1a3dc6cdd5cb1bbcfa94a308f62af60ae7b8063db35",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky03.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute3.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky03.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky04",
+      "source": "assets_dev/worlds/mm6/textures/6sky04.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "32669b65eaa16111db3c71904bb0c9ada71e418cd15e2057a5453e56c00cd94a",
+      "rgb_sha256": "00d1428336e2cb0185c19b8b08e338e64e6d4d1b7ae88ee375e986c2f65c075e",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky04.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute3.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky04.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky05",
+      "source": "assets_dev/worlds/mm6/textures/6sky05.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "5eb5c8a6ebdc66e7e6f04780fd695325c2f9796bac4f1fe45655715baaba34ab",
+      "rgb_sha256": "678b6a53a7ed32b1a0a35436aca9ad411f9db4ffb656295f47889a94f86afb70",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky05.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky05.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky06",
+      "source": "assets_dev/worlds/mm6/textures/6sky06.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "44e618e81abd0b4c61bcabd1fd9664cd0cab6fcaafd364d065fa59da577c594f",
+      "rgb_sha256": "642d5e189eee20787cd4f951c287e29592e11c62c47d7fc5ecaf5efb69e4a35d",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky06.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute3.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky06.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky07",
+      "source": "assets_dev/worlds/mm6/textures/6sky07.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "ec07a55de96128bc03aa0c1e82c23427549a7e010d79afb98c506838ac19c2d3",
+      "rgb_sha256": "41310d7a791cf0687f63f150d241867daed4e7340a5b58686e5a8916975fcb4b",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky07.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky07.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky08",
+      "source": "assets_dev/worlds/mm6/textures/6sky08.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "93ac57181016bf4dd6808bdd37660fbfd4685d15b86103085ced9d50a50aef67",
+      "rgb_sha256": "af69e86a215465d0690cc69ce3ce6c8a2e3724c6b124fbe48d5279e35686870c",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky08.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky08.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky09",
+      "source": "assets_dev/worlds/mm6/textures/6sky09.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "7fb91edd2467e0a4c8497ad4dc91e10dc56d4d762987c724f3f04c6ee22a4985",
+      "rgb_sha256": "3d09213c59889bc7c0c4e04480a05ce9509f2199d1a9b09c1bc224a5ba937aa7",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky09.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky09.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky10",
+      "source": "assets_dev/worlds/mm6/textures/6sky10.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "62f3dbc9ba4fa3c12635e5682022805fd8e46d6b730e636432bbd0a9a96d143c",
+      "rgb_sha256": "98432ae87111d9e485fdb1680f400c3a7fee93572f7708f21b80ff5042a41fd6",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky10.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky10.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky11",
+      "source": "assets_dev/worlds/mm6/textures/6sky11.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "1c457861c4f1971683e09941581ffd4fda75916af325591d812766e1e2bbfc9d",
+      "rgb_sha256": "d7db0b804f22418af29864bbb9e8a1006f9db3edf54898f6dc49b3b6387597d7",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky11.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky11.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky12",
+      "source": "assets_dev/worlds/mm6/textures/6sky12.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "2db0a1f15ce347d90f8c88aa3b2476a52ff94b8c862747ffa726cb9d1d2cfccc",
+      "rgb_sha256": "86a5b8c4b93a34a39d50f38e20f7b5a0c983cde29c8d37d71a7f426e35d6be3c",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky12.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute3.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky12.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky13",
+      "source": "assets_dev/worlds/mm6/textures/6sky13.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "c2d303821173c05eece2e391be6f27dbb541883e425493e358e5aa9a45534902",
+      "rgb_sha256": "82916ca88aa9e7ab3c299ec5cc2c4cad0be960b1d1cf6c33c551dfb3e22f1ba9",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky13.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky13.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky14",
+      "source": "assets_dev/worlds/mm6/textures/6sky14.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "d67a21218df2547bbdf9a3b1303b721755b9559166ce07deade2f41f0674fe31",
+      "rgb_sha256": "80878aadcb623f44742deaacbf9a9ad886d6459ac96f0e660940b41af203c624",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky14.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky14.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky15",
+      "source": "assets_dev/worlds/mm6/textures/6sky15.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "9584684786091959283a2e9539408e4a9576dc0a23f2f59332899d1147d13afe",
+      "rgb_sha256": "a3d3a57ec7728685663dd4d2d8945eaf08a1d5ecde155fc1d91987267736702b",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky15.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky15.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky16",
+      "source": "assets_dev/worlds/mm6/textures/6sky16.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "75994392358121e4c6a37494a2ad950b3930c76adf7d562e6c76bd9ac7d58833",
+      "rgb_sha256": "68373a894d1066680a0a4f77a51113b4f57018dc392a342b61b35b1175926d16",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky16.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky16.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky17",
+      "source": "assets_dev/worlds/mm6/textures/6sky17.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "ca2d4c83567f35a297e427abd7bcdd7187fd41721be64d56d626062a58c40918",
+      "rgb_sha256": "f854731f217c3c12bfe07d242cb123b0a9deea3cd0de1a725d314f81ec75fecc",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky17.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky17.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky18",
+      "source": "assets_dev/worlds/mm6/textures/6sky18.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "e791ea43773c1715be48be850cbf3cbd12dcabac15bd2db3f0b83f5f14e47071",
+      "rgb_sha256": "3463131679350825981d089196304af1c7035260f3e84f35911a2422a1558f8d",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky18.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky18.png"
+    },
+    {
+      "world": "mm6",
+      "name": "6sky19",
+      "source": "assets_dev/worlds/mm6/textures/6sky19.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "90480ef83340ecd5b82677b0c800c8e7f98ad1dc88b50fd0f0b004174be43a35",
+      "rgb_sha256": "a9ac522d676bac8cb0c31ee4045ff9c075d7e63da09da4938f445379fa9ad386",
+      "target": "assets_dev/worlds/mm6/textures_x2/6sky19.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outa3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outb3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outc3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "outd3.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute1.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute2.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm6",
+          "map": "oute3.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_6sky19.png"
+    },
+    {
+      "world": "mm6",
+      "name": "orair256",
+      "source": "assets_dev/worlds/mm6/textures/orair256.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "56b254c55b11884954bca6312cdf2b2fa95e1c63a6bf2a15bc87a06c5944f2ef",
+      "rgb_sha256": "0becc2481f2de3d411ed1b66550c3716be9ebad00317558b97c28a5175917c00",
+      "target": "assets_dev/worlds/mm6/textures_x2/orair256.png",
+      "installed": {
+        "path": "assets_dev/worlds/mm6/textures_x2/orair256.png",
+        "size": [
+          512,
+          512
+        ],
+        "sha256": "910b407651a60cd54bfbf75eb34da890480a5ace7c0a6c33ca681882b8c11971"
+      },
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm6",
+          "map": "6t4.blv",
+          "faces": 1
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_orair256.png"
+    },
+    {
+      "world": "mm6",
+      "name": "sky20",
+      "source": "assets_dev/worlds/mm6/textures/sky20.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "2c8594a6da3ea16eb48e401ac659d90fce9b89c67833b7d991b2e071b766f6b3",
+      "rgb_sha256": "a2624a72ea524e78c8ad9d6c50b3a35b04470617d17db1c34ad673b19b57560d",
+      "target": "assets_dev/worlds/mm6/textures_x2/sky20.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_sky20.png"
+    },
+    {
+      "world": "mm6",
+      "name": "sky21",
+      "source": "assets_dev/worlds/mm6/textures/sky21.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "af1234a19c91704b4bbfdab19b8046261df22df36436d53b40e6265d0a7dfb6f",
+      "rgb_sha256": "353acace8b4f9870cb9b5f260f6b126e53026daf879b6135ab02c4f5e46876ea",
+      "target": "assets_dev/worlds/mm6/textures_x2/sky21.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_sky21.png"
+    },
+    {
+      "world": "mm6",
+      "name": "sky_clo1",
+      "source": "assets_dev/worlds/mm6/textures/sky_clo1.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "410678ae44eb7f1898907bfa01d69d30be22fb1a1b7f6d9a8fa5800aff51b87c",
+      "rgb_sha256": "67d5743d368971706096246beb9bf644860065444c9eaf41a23fd3913698c329",
+      "target": "assets_dev/worlds/mm6/textures_x2/sky_clo1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm6",
+          "map": "zarena.blv",
+          "faces": 1
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm6",
+          "map": "zddb09.blv",
+          "faces": 1
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_sky_clo1.png"
+    },
+    {
+      "world": "mm6",
+      "name": "sky_nit1",
+      "source": "assets_dev/worlds/mm6/textures/sky_nit1.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "337890aea95c7b6435ed11b041de4ea963d563fd8a161c511ee6906543f22e5d",
+      "rgb_sha256": "8b62cf40f158f2ae5f55ae057f72cf775177bcb9d1932922b265eb4f448bc6b7",
+      "target": "assets_dev/worlds/mm6/textures_x2/sky_nit1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "sky_named_surface",
+          "world": "mm6",
+          "map": "6t4.blv",
+          "faces": 4
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm6",
+          "map": "oracle.blv",
+          "faces": 1
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 113,
+          "texture": "sky_nit1"
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 138,
+          "texture": "sky_nit1"
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 154,
+          "texture": "sky_nit1"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_sky_nit1.png"
+    },
+    {
+      "world": "mm6",
+      "name": "sky_nit2",
+      "source": "assets_dev/worlds/mm6/textures/sky_nit2.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "edce5be4c2e67b5c2c57fa0e8d25a1edc2948d4d321a2ff609ae948005074f0d",
+      "rgb_sha256": "26ea5ceec2e9e0cb73f79a743ed68666306fdd9a73a92d3451184007a14b19d0",
+      "target": "assets_dev/worlds/mm6/textures_x2/sky_nit2.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm6",
+          "map": "6d02.blv",
+          "faces": 1
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm6",
+          "map": "6d18.blv",
+          "faces": 1
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm6",
+          "map": "6t6.blv",
+          "faces": 2
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm6",
+          "map": "sci-fi.blv",
+          "faces": 1
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_sky_nit2.png"
+    },
+    {
+      "world": "mm6",
+      "name": "sky_sns1",
+      "source": "assets_dev/worlds/mm6/textures/sky_sns1.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "ae1d85efbdcb7cb88e936ba2cc67177aa2a61913e0dbb25d3b5bd996f4a22f42",
+      "rgb_sha256": "46c503790ff3f3457102c3f16741b744d71d9479898ccfdd78e56403616e70f1",
+      "target": "assets_dev/worlds/mm6/textures_x2/sky_sns1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "sky_named_surface",
+          "world": "mm6",
+          "map": "6t4.blv",
+          "faces": 1
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm6",
+          "map": "6t6.blv",
+          "faces": 1
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm6",
+          "map": "6t6.blv",
+          "faces": 2
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 125,
+          "texture": "sky_sns1"
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 131,
+          "texture": "sky_sns1"
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 143,
+          "texture": "sky_sns1"
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 150,
+          "texture": "sky_sns1"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm6_sky_sns1.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7plansky1",
+      "source": "assets_dev/worlds/mm7/textures/7plansky1.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "cd305243206f94c9d9164f0f845c2de2410f9c49ef827c8ddabfc5b09f8b664b",
+      "rgb_sha256": "7c90ae0ecab7ddda91f3d4935efe4e04966546435f31d9956808cd3a7f9681a3",
+      "target": "assets_dev/worlds/mm7/textures_x2/7plansky1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "7d05.blv",
+          "faces": 1
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "7d07.blv",
+          "faces": 1
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "7d25.blv",
+          "faces": 212
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm7",
+          "map": "7d25.blv",
+          "faces": 1
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "t01.blv",
+          "faces": 6
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm7",
+          "map": "t01.blv",
+          "faces": 4
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7plansky1.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7plansky3",
+      "source": "assets_dev/worlds/mm7/textures/7plansky3.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "848b8ecc4c2410bb3602ce38f6c24e11bdf90b9502f0b70bccc4902eba09ad45",
+      "rgb_sha256": "63c8c66f99355e9abb2acdd3e759633291a5a0b0174cc28fd3eee3a87333cb8d",
+      "target": "assets_dev/worlds/mm7/textures_x2/7plansky3.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "custom_sky",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out09.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out10.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out11.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out12.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out14.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7plansky3.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7sky01",
+      "source": "assets_dev/worlds/mm7/textures/7sky01.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "838ffda2454d268e69e32d015591123c6bcf86a08c9af614c9e2fbed43e2e440",
+      "rgb_sha256": "c1529badd980afc2d7cab820555dd674b1d94ed853771f8d7830ddc5d10b65f3",
+      "target": "assets_dev/worlds/mm7/textures_x2/7sky01.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "7d22.blv",
+          "faces": 1
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out09.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out10.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out11.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out12.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out14.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7sky01.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7sky02",
+      "source": "assets_dev/worlds/mm7/textures/7sky02.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "005124ae54932b99848829624460f3b37b9e17f427059095dc599205b28a7dc2",
+      "rgb_sha256": "1d18adeee730b0c88de77b4c95dda88344568a9aabcdb7cfd226f0552299ad2f",
+      "target": "assets_dev/worlds/mm7/textures_x2/7sky02.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out09.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out10.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out11.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out12.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out14.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7sky02.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7sky03",
+      "source": "assets_dev/worlds/mm7/textures/7sky03.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "bbae8bdbab1e00beb775d5567f44489a66908446042d0644c9b3023461617611",
+      "rgb_sha256": "c87ab06491b26e01db0887b097748f83c720b5c1ea34480640bae84c30eeb554",
+      "target": "assets_dev/worlds/mm7/textures_x2/7sky03.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7sky03.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7sky04",
+      "source": "assets_dev/worlds/mm7/textures/7sky04.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "3304ccab30e57101ffdf241632ffb21c6ddb604e29342baba8aa102bb3f53ba7",
+      "rgb_sha256": "9dd5fbfd35f7096e65a077dffc9599a11da6ba58b27ac484e0ba25050cbdabd7",
+      "target": "assets_dev/worlds/mm7/textures_x2/7sky04.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out09.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out10.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out11.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out12.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out14.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7sky04.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7sky05",
+      "source": "assets_dev/worlds/mm7/textures/7sky05.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "2e3b065b7c6b1c2fb4eb631a841979d1d4d6f9743a9936c8c679747bbf7427b3",
+      "rgb_sha256": "04a4b11545f05061c6fb2a0a76c885ec62db714f2e77462a5b4ba2dc70605983",
+      "target": "assets_dev/worlds/mm7/textures_x2/7sky05.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7sky05.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7sky06",
+      "source": "assets_dev/worlds/mm7/textures/7sky06.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "3bcc183ac1bd44bd81eaf420727e287308e8c035abef9490f48c5a1068b293ab",
+      "rgb_sha256": "50157a0f19a7ce3b68e8a6cb0b6686dcf2d8f9b346aae09d0329dbdd0413c1fd",
+      "target": "assets_dev/worlds/mm7/textures_x2/7sky06.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7sky06.png"
+    },
+    {
+      "world": "mm7",
+      "name": "7solid01",
+      "source": "assets_dev/worlds/mm7/textures/7solid01.bmp",
+      "native_size": [
+        16,
+        16
+      ],
+      "x2_size": [
+        32,
+        32
+      ],
+      "source_sha256": "51083447b4f37c7a30465d15f7afd3e0bba001e22af401f913b68804fbc164f6",
+      "rgb_sha256": "b020ef1760ee32d98671bafef4899c230afd70cf5f87427fea2d4b2948412995",
+      "target": "assets_dev/worlds/mm7/textures_x2/7solid01.png",
+      "installed": {
+        "path": "assets_dev/worlds/mm7/textures_x2/7solid01.png",
+        "size": [
+          32,
+          32
+        ],
+        "sha256": "9ecf4191afe23e2c740b88143836c2bbbd1e450baff0ac359b7fc19e5b5be14f"
+      },
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "7d31.blv",
+          "faces": 2
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_7solid01.png"
+    },
+    {
+      "world": "mm7",
+      "name": "plansky2",
+      "source": "assets_dev/worlds/mm7/textures/plansky2.bmp",
+      "native_size": [
+        128,
+        128
+      ],
+      "x2_size": [
+        256,
+        256
+      ],
+      "source_sha256": "30187fed65f25a7447c5257d8779274ba12072dada8634df708f17bc3d6806d7",
+      "rgb_sha256": "68621e1fb016ad660f205cbf8f08a85b855b03bb474696b166bff0dd30a07636",
+      "target": "assets_dev/worlds/mm7/textures_x2/plansky2.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "t01.blv",
+          "faces": 2
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_plansky2.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sgstars",
+      "source": "assets_dev/worlds/mm7/textures/sgstars.bmp",
+      "native_size": [
+        64,
+        64
+      ],
+      "x2_size": [
+        128,
+        128
+      ],
+      "source_sha256": "a2a6ca47029e9cf51b42a2a8798828c015cc331f27d37c0ab48f6f3962598299",
+      "rgb_sha256": "e2cdefb8da715eec5d69e4d13ec666882c5c31c45971c90c8c2a94e235b205e4",
+      "target": "assets_dev/worlds/mm7/textures_x2/sgstars.png",
+      "installed": {
+        "path": "assets_dev/worlds/mm7/textures_x2/sgstars.png",
+        "size": [
+          128,
+          128
+        ],
+        "sha256": "e5734c4ed35a785c95075352cd1883f962cfd68d1727706c2f2c51f3224b315a"
+      },
+      "uses_by_name": [
+        {
+          "kind": "sky_named_surface",
+          "world": "mm7",
+          "map": "7d08.blv",
+          "faces": 25
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm7",
+          "map": "7d23.blv",
+          "faces": 1
+        },
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "t02.blv",
+          "faces": 1
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sgstars.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky07",
+      "source": "assets_dev/worlds/mm7/textures/sky07.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "6f21c17214312bf158a4a8583ea165bdd9418ef3341df7954d38ac2e4f0dc2c8",
+      "rgb_sha256": "a1451d6b03e1aa44f1276169fdd8b3180a64b02196a478e3a6d9054222feab07",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky07.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky07.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky08",
+      "source": "assets_dev/worlds/mm7/textures/sky08.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "bd2b4861037a0d8bc84bc02e069e0d72200ef8c6ebf4f766ec2dede63c9b1236",
+      "rgb_sha256": "7dd9401816ee48361f79f1cdb0450566e454fcbb99b21bb9c94cb4a2f3cc088d",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky08.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky08.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky09",
+      "source": "assets_dev/worlds/mm7/textures/sky09.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "c5df2dc2e7e86eef5b3629574a8171dc9ee26013747793f9b82864e74c898783",
+      "rgb_sha256": "9c681538460c7e3cfceda4f8a651332a9b248e558ca8936dca110104867650ae",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky09.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky09.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky10",
+      "source": "assets_dev/worlds/mm7/textures/sky10.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "583587725016259ebaf0afa5fcb0166ef75b69a48162b72083425c4f33f4ed50",
+      "rgb_sha256": "4dc0b86a6396fad8a287e0663947b2bc10fe049fb78ef9c304ca4390272a559d",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky10.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky10.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky11",
+      "source": "assets_dev/worlds/mm7/textures/sky11.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "865706e177f6c3769b12ae23bc6a2cdd7961773d7231f1aae9db9d048438b1f3",
+      "rgb_sha256": "6d4a5b6deecc8c9142e47909a2237537229214e6b70511fbb1fc71719a6339ae",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky11.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky11.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky12",
+      "source": "assets_dev/worlds/mm7/textures/sky12.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "6a67a94afd7ed422ef4eff61959e5d8050e40d073e90b4b5dfc25e77af266fcb",
+      "rgb_sha256": "db91c280a4aa9c1c017d2aaec1b2d3a573d652b82e67e2a9f77f71d62b697f8e",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky12.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out09.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out09.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out10.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out10.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out11.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out11.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out12.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out12.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out14.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out14.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky12.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky13",
+      "source": "assets_dev/worlds/mm7/textures/sky13.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "3307312cfd143702f6f7f47503d0d26ae87e064194d049b9097701b7025f5faf",
+      "rgb_sha256": "d0f48a9ea90eb76c2fdb73755530a751d5a0fea7e23f97abd38a9814b1bb70a4",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky13.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm7",
+          "map": "7d19.blv",
+          "faces": 1
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky13.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky14",
+      "source": "assets_dev/worlds/mm7/textures/sky14.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "a0ece285ebe0ffd17827b367cf8f1a47b940434f0b3e9ebaefae801a212a79d1",
+      "rgb_sha256": "bc8928256654f0716f27b890a3a0628e56147ddab991a57b19135ceefa942f2f",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky14.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky14.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky15",
+      "source": "assets_dev/worlds/mm7/textures/sky15.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "d70b5529f3ed9f18e41d2633cf1aaff67e0d3b0f23e9c7c4fc6403d54dfdb074",
+      "rgb_sha256": "475ba7348d8436251e744f29bdbecf862fb4eeca419e195b86d22b66149a9ae7",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky15.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky15.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky16",
+      "source": "assets_dev/worlds/mm7/textures/sky16.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "69277ee340d3945f7aa65c1f84d68c2a58b8eb36800757614732b84a9544aad3",
+      "rgb_sha256": "0bb69eaff8d70e8c33bef0b3d309c7cc8005fa32eed523ff190cd8a6301ab486",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky16.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky16.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky17",
+      "source": "assets_dev/worlds/mm7/textures/sky17.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "707e94e756674c3d84254f3655f23fb390e56d38756cbd2b5eac4fe22027f622",
+      "rgb_sha256": "f38974f39fb61d7e98f81515c9e8ca4ea24312946c95b1d3da1d0a49f96c9693",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky17.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky17.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky18",
+      "source": "assets_dev/worlds/mm7/textures/sky18.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "c096e08e39fb7780d8beb4a04290b6f0b312cb7181a1d989f86e91494267c998",
+      "rgb_sha256": "a96d39d8d26dd608dd746a17c8cc92780670a3b92f3d4adcc4ad8821fc28ecab",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky18.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky18.png"
+    },
+    {
+      "world": "mm7",
+      "name": "sky19",
+      "source": "assets_dev/worlds/mm7/textures/sky19.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "9f08dea4c56811c9d8f342eca906c2a7125d14e974920a8a7bb01880aedd57e2",
+      "rgb_sha256": "6078e65e65b72c404c41d273b64fc5cc132a53ad790cabfad2ea638af30473b1",
+      "target": "assets_dev/worlds/mm7/textures_x2/sky19.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "sky_named_surface",
+          "world": "mm7",
+          "map": "7d25.blv",
+          "faces": 578
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "7out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out09.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out10.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out11.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out12.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm7",
+          "map": "out14.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_sky19.png"
+    },
+    {
+      "world": "mm7",
+      "name": "skycity01",
+      "source": "assets_dev/worlds/mm7/textures/skycity01.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "9ca90056809527a07056c49fb0c9c2287163f94bd34b2a048bb050f3bd77cd5e",
+      "rgb_sha256": "8a9acee305610c335de04d01701c6de27266932b878f95ea0d3320eac9ef35f4",
+      "target": "assets_dev/worlds/mm7/textures_x2/skycity01.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_skycity01.png"
+    },
+    {
+      "world": "mm7",
+      "name": "testsky1",
+      "source": "assets_dev/worlds/mm7/textures/testsky1.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "64fa9112a5ba47570a9d7e87843375a874a4aa7df39c79127634b8125dfbe042",
+      "rgb_sha256": "d937eacdb59dacba56a6aca7cc2caf360537b30701e1baadb27cf0101c7b4343",
+      "target": "assets_dev/worlds/mm7/textures_x2/testsky1.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_testsky1.png"
+    },
+    {
+      "world": "mm7",
+      "name": "testsky2",
+      "source": "assets_dev/worlds/mm7/textures/testsky2.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "2ce1b9864c9cb02a687e0205da4dfe3c8c4e00b2f4585b481f186fb8b4562ffd",
+      "rgb_sha256": "c308c8b834c7234839908cd2532bc9d9409a90e4879bad4959e7403083434a29",
+      "target": "assets_dev/worlds/mm7/textures_x2/testsky2.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm7_testsky2.png"
+    },
+    {
+      "world": "mm8",
+      "name": "plansky1",
+      "source": "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "d969a067bc8a82e1cb6994edea9fe6620c57ed3011ea31191bd062130e27e27b",
+      "rgb_sha256": "771466da0d9af3c752e0efae9582c054691f4eb203c882c80a47b06c62157900",
+      "target": "assets_dev/worlds/mm8/textures_x2/plansky1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm8",
+          "map": "d42.blv",
+          "faces": 1
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "custom_sky",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "elema.odm",
+          "faces": 2
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "out07.odm",
+          "faces": 2
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        },
+        {
+          "kind": "runtime_fallback",
+          "world": "all"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_plansky1.png"
+    },
+    {
+      "world": "mm8",
+      "name": "plansky3",
+      "source": "assets_dev/worlds/mm8/textures/PLANSKY3.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "fee03dc822395996ce7f9ee9f10eeaac5ce551b04043b81ce009c429a36e0a94",
+      "rgb_sha256": "d98faa053cb120f29fdff56ebc6750d15df43344cc617eb5eed0611ff53f43c7",
+      "target": "assets_dev/worlds/mm8/textures_x2/plansky3.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "d39.blv",
+          "faces": 1
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "custom_sky",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        },
+        {
+          "kind": "runtime_fallback",
+          "world": "all"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_plansky3.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sky02",
+      "source": "assets_dev/worlds/mm8/textures/SKY02.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "4ca4f9ec72753baac726c39c97fb9b38efaa983205a165b61130c5b7aa81ed97",
+      "rgb_sha256": "bebda362ddebcd3376db65ed9aa4cb53fc3eb67633ef53a8a4f44cd29fbeec5e",
+      "target": "assets_dev/worlds/mm8/textures_x2/sky02.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "d27.blv",
+          "faces": 2
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "d39.blv",
+          "faces": 131
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sky02.png"
+    },
+    {
+      "world": "mm8",
+      "name": "cloudsabove",
+      "source": "assets_dev/worlds/mm8/textures/cloudsabove.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "52e096dea202ea7ce26e77bb7585706cdbb76de4691edd3ff94e789281739338",
+      "rgb_sha256": "9c7b12dbb53107c6e30bb863b9bb43624d088d4111518b2bb3669c0b754459f1",
+      "target": "assets_dev/worlds/mm8/textures_x2/cloudsabove.png",
+      "installed": {
+        "path": "assets_dev/worlds/mm8/textures_x2/cloudsabove.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "sha256": "6a9fdaa78ef64850ebb584ae0a3bffb53652f536385ed7739e2af8a110ed0db8"
+      },
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_cloudsabove.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sky01",
+      "source": "assets_dev/worlds/mm8/textures/sky01.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "366613b9b896b38dfdb9fb0b0a3a65be9e5e5faf8d417db454d04b4316c54f71",
+      "rgb_sha256": "f4b73c89ea00d60adfbf6eefea77b30d3f4822c6671f11935152d5b9447397a0",
+      "target": "assets_dev/worlds/mm8/textures_x2/sky01.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "runtime_fallback",
+          "world": "all"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sky01.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sky03",
+      "source": "assets_dev/worlds/mm8/textures/sky03.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "2d8874cec0d6ff18a5218c6e4b1f51942207716bc0bd36726f4b5737d9644d5c",
+      "rgb_sha256": "22b586301bd8e6ad24e18dc3df02c3fcce39cb3ae1c63607de5ee504f7282041",
+      "target": "assets_dev/worlds/mm8/textures_x2/sky03.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sky03.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sky04",
+      "source": "assets_dev/worlds/mm8/textures/sky04.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "cd0e955e2b05bc3533eb5d57627b5d2157817ebe929c00263a3931f6e72f5c18",
+      "rgb_sha256": "c181608d9de369b840f0595eae020e56811b843e67382fa0811e8cd84a7dd9cc",
+      "target": "assets_dev/worlds/mm8/textures_x2/sky04.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "SetOutdoorSky",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/common/mm6_common.lua",
+          "line": 298,
+          "texture": "sky04"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sky04.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sky05",
+      "source": "assets_dev/worlds/mm8/textures/sky05.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "363c7106d7deac56a9098fd0714b663171afd4c8ad5df29adc92861173b9f97d",
+      "rgb_sha256": "f86286e99f12e492dd92d8919322fbf48d21b7969ea7a7c0a52a51f1cd9ee112",
+      "target": "assets_dev/worlds/mm8/textures_x2/sky05.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "runtime_fallback",
+          "world": "all"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sky05.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sky06",
+      "source": "assets_dev/worlds/mm8/textures/sky06.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "d256f186805bd1e5dbd1434071d82793e229573329fcff43c931c708256833a3",
+      "rgb_sha256": "eed2c626c67230448cb63c0fa48c8576663c467a20ea11aa03841f47d81799c9",
+      "target": "assets_dev/worlds/mm8/textures_x2/sky06.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sky06.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sky6pm",
+      "source": "assets_dev/worlds/mm8/textures/sky6pm.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "fe5980ed4a485389a2fa57e40b47a2ee563ba84b4044d2b69064e4f1f6204c9d",
+      "rgb_sha256": "6b3c551e5785879e7251067efcb6ba8206aab138c81690225947e74d06080b83",
+      "target": "assets_dev/worlds/mm8/textures_x2/sky6pm.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "runtime_fallback",
+          "world": "all"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sky6pm.png"
+    },
+    {
+      "world": "mm8",
+      "name": "stormclds",
+      "source": "assets_dev/worlds/mm8/textures/stormclds.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "566c698749ee3ef03469d892ac07bc14464b310cb5e158ed450dd72953b9002d",
+      "rgb_sha256": "3f97d875977c9b04ea47eb1f5289738d57b5535de278b011c59301d24e040860",
+      "target": "assets_dev/worlds/mm8/textures_x2/stormclds.png",
+      "installed": {
+        "path": "assets_dev/worlds/mm8/textures_x2/stormclds.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "sha256": "0654c8ab3078754db65e8493bc18f205cd638d6714b6d908464b738e10847206"
+      },
+      "uses_by_name": [
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "custom_sky",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "pbp.odm",
+          "faces": 61
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_stormclds.png"
+    },
+    {
+      "world": "mm8",
+      "name": "sunsetclouds",
+      "source": "assets_dev/worlds/mm8/textures/sunsetclouds.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "d9058b30c099430ff5452cb62b9840d933dcb0f1903c16ad770900840101b8cc",
+      "rgb_sha256": "692d29e777ae52ec848f4c224d082e0d2564eeb93ad060fa59683417f18d9b64",
+      "target": "assets_dev/worlds/mm8/textures_x2/sunsetclouds.png",
+      "installed": {
+        "path": "assets_dev/worlds/mm8/textures_x2/sunsetclouds.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "sha256": "17ec4e37d133f5108a4aa76d81edd82bc1649693cbe18fbc73fe2e3aae37bb83"
+      },
+      "uses_by_name": [
+        {
+          "kind": "custom_sky",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "custom_sky",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "runtime_fallback",
+          "world": "all"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mm8_sunsetclouds.png"
+    },
+    {
+      "world": "mmmerge",
+      "name": "plansky1",
+      "source": "assets_dev/worlds/mmmerge/textures/plansky1.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "d969a067bc8a82e1cb6994edea9fe6620c57ed3011ea31191bd062130e27e27b",
+      "rgb_sha256": "771466da0d9af3c752e0efae9582c054691f4eb203c882c80a47b06c62157900",
+      "target": "assets_dev/worlds/mmmerge/textures_x2/plansky1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "indoor_sky_face",
+          "world": "mm8",
+          "map": "d42.blv",
+          "faces": 1
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "custom_sky",
+          "world": "mm8",
+          "map": "elema.odm"
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "elema.odm",
+          "faces": 2
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemf.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "elemw.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out01.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out02.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out03.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out04.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out05.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out06.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out07.odm"
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm8",
+          "map": "out07.odm",
+          "faces": 2
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out08.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out13.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "out15.odm"
+        },
+        {
+          "kind": "weather_table",
+          "world": "mm8",
+          "map": "pbp.odm"
+        },
+        {
+          "kind": "runtime_fallback",
+          "world": "all"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mmmerge_plansky1.png"
+    },
+    {
+      "world": "mmmerge",
+      "name": "sky16",
+      "source": "assets_dev/worlds/mmmerge/textures/sky16.bmp",
+      "native_size": [
+        256,
+        256
+      ],
+      "x2_size": [
+        512,
+        512
+      ],
+      "source_sha256": "69277ee340d3945f7aa65c1f84d68c2a58b8eb36800757614732b84a9544aad3",
+      "rgb_sha256": "0bb69eaff8d70e8c33bef0b3d309c7cc8005fa32eed523ff190cd8a6301ab486",
+      "target": "assets_dev/worlds/mmmerge/textures_x2/sky16.png",
+      "installed": null,
+      "uses_by_name": [],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mmmerge_sky16.png"
+    },
+    {
+      "world": "mmmerge",
+      "name": "sky_nit1",
+      "source": "assets_dev/worlds/mmmerge/textures/sky_nit1.bmp",
+      "native_size": [
+        512,
+        512
+      ],
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source_sha256": "337890aea95c7b6435ed11b041de4ea963d563fd8a161c511ee6906543f22e5d",
+      "rgb_sha256": "8b62cf40f158f2ae5f55ae057f72cf775177bcb9d1932922b265eb4f448bc6b7",
+      "target": "assets_dev/worlds/mmmerge/textures_x2/sky_nit1.png",
+      "installed": null,
+      "uses_by_name": [
+        {
+          "kind": "sky_named_surface",
+          "world": "mm6",
+          "map": "6t4.blv",
+          "faces": 4
+        },
+        {
+          "kind": "sky_named_surface",
+          "world": "mm6",
+          "map": "oracle.blv",
+          "faces": 1
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 113,
+          "texture": "sky_nit1"
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 138,
+          "texture": "sky_nit1"
+        },
+        {
+          "kind": "SetTexture",
+          "world": "mm6",
+          "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+          "line": 154,
+          "texture": "sky_nit1"
+        }
+      ],
+      "thumbnail": "level_generation/skies/audit/thumbnails/mmmerge_sky_nit1.png"
+    }
+  ],
+  "pixel_duplicate_groups": [
+    [
+      "assets_dev/worlds/mm6/textures/6plansky1.bmp",
+      "assets_dev/worlds/mm6/textures/6sky01.bmp"
+    ],
+    [
+      "assets_dev/worlds/mm6/textures/sky_nit1.bmp",
+      "assets_dev/worlds/mmmerge/textures/sky_nit1.bmp"
+    ],
+    [
+      "assets_dev/worlds/mm7/textures/sky16.bmp",
+      "assets_dev/worlds/mmmerge/textures/sky16.bmp"
+    ],
+    [
+      "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+      "assets_dev/worlds/mmmerge/textures/plansky1.bmp"
+    ]
+  ],
+  "maps": [
+    {
+      "world": "mm6",
+      "file": "6d02.blv",
+      "name": "Abandoned Temple",
+      "id": 153,
+      "path": "assets_dev/worlds/mm6/maps/6d02.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky_nit2",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm6",
+      "file": "6d18.blv",
+      "name": "Gharik's Forge",
+      "id": 169,
+      "path": "assets_dev/worlds/mm6/maps/6d18.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky_nit2",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm6",
+      "file": "6t4.blv",
+      "name": "Temple of the Sun",
+      "id": 175,
+      "path": "assets_dev/worlds/mm6/maps/6t4.blv",
+      "sky_surfaces": [
+        {
+          "texture": "orair256",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        },
+        {
+          "texture": "sky_nit1",
+          "kind": "sky_named_surface",
+          "faces": 4
+        },
+        {
+          "texture": "sky_sns1",
+          "kind": "sky_named_surface",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm6",
+      "file": "6t6.blv",
+      "name": "Supreme Temple of Baa",
+      "id": 177,
+      "path": "assets_dev/worlds/mm6/maps/6t6.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky_nit2",
+          "kind": "sky_named_surface",
+          "faces": 2
+        },
+        {
+          "texture": "sky_sns1",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        },
+        {
+          "texture": "sky_sns1",
+          "kind": "sky_named_surface",
+          "faces": 2
+        }
+      ]
+    },
+    {
+      "world": "mm6",
+      "file": "oracle.blv",
+      "name": "Oracle of Enroth",
+      "id": 185,
+      "path": "assets_dev/worlds/mm6/maps/oracle.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky_nit1",
+          "kind": "sky_named_surface",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm6",
+      "file": "outa1.odm",
+      "name": "Sweet Water",
+      "id": 137,
+      "path": "assets_dev/worlds/mm6/maps/outa1.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outa2.odm",
+      "name": "Paradise Valley",
+      "id": 138,
+      "path": "assets_dev/worlds/mm6/maps/outa2.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outa3.odm",
+      "name": "Hermit's Isle",
+      "id": 139,
+      "path": "assets_dev/worlds/mm6/maps/outa3.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outb1.odm",
+      "name": "Kriegspire",
+      "id": 140,
+      "path": "assets_dev/worlds/mm6/maps/outb1.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outb2.odm",
+      "name": "Blackshire",
+      "id": 141,
+      "path": "assets_dev/worlds/mm6/maps/outb2.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outb3.odm",
+      "name": "Dragonsand",
+      "id": 142,
+      "path": "assets_dev/worlds/mm6/maps/outb3.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outc1.odm",
+      "name": "Frozen Highlands",
+      "id": 143,
+      "path": "assets_dev/worlds/mm6/maps/outc1.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outc2.odm",
+      "name": "Free Haven",
+      "id": 144,
+      "path": "assets_dev/worlds/mm6/maps/outc2.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outc3.odm",
+      "name": "Mire of the Damned",
+      "id": 145,
+      "path": "assets_dev/worlds/mm6/maps/outc3.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outd1.odm",
+      "name": "Silver Cove",
+      "id": 146,
+      "path": "assets_dev/worlds/mm6/maps/outd1.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outd2.odm",
+      "name": "Bootleg Bay",
+      "id": 147,
+      "path": "assets_dev/worlds/mm6/maps/outd2.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "outd3.odm",
+      "name": "Castle Ironfist",
+      "id": 148,
+      "path": "assets_dev/worlds/mm6/maps/outd3.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "oute1.odm",
+      "name": "Eel Infested Waters",
+      "id": 149,
+      "path": "assets_dev/worlds/mm6/maps/oute1.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "oute2.odm",
+      "name": "Misty Islands",
+      "id": 150,
+      "path": "assets_dev/worlds/mm6/maps/oute2.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "oute3.odm",
+      "name": "New Sorpigal",
+      "id": 151,
+      "path": "assets_dev/worlds/mm6/maps/oute3.odm",
+      "native_header_sky": "",
+      "continent": 3,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "6plansky1",
+        "6plansky1",
+        "6sky06",
+        "6sky12",
+        "6sky03",
+        "6sky04",
+        "6sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm6",
+      "file": "sci-fi.blv",
+      "name": "Control Center",
+      "id": 186,
+      "path": "assets_dev/worlds/mm6/maps/sci-fi.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky_nit2",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm6",
+      "file": "zarena.blv",
+      "name": "The Arena",
+      "id": 188,
+      "path": "assets_dev/worlds/mm6/maps/zarena.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky_clo1",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm6",
+      "file": "zddb09.blv",
+      "name": "pending",
+      "id": 197,
+      "path": "assets_dev/worlds/mm6/maps/zddb09.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky_clo1",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d05.blv",
+      "name": "The Arena",
+      "id": 79,
+      "path": "assets_dev/worlds/mm7/maps/7d05.blv",
+      "sky_surfaces": [
+        {
+          "texture": "7plansky1",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d07.blv",
+      "name": "Thunderfist Mountain",
+      "id": 81,
+      "path": "assets_dev/worlds/mm7/maps/7d07.blv",
+      "sky_surfaces": [
+        {
+          "texture": "7plansky1",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d08.blv",
+      "name": "The Tularean Caves",
+      "id": 82,
+      "path": "assets_dev/worlds/mm7/maps/7d08.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sgstars",
+          "kind": "sky_named_surface",
+          "faces": 25
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d19.blv",
+      "name": "Grand Temple of the Moon",
+      "id": 93,
+      "path": "assets_dev/worlds/mm7/maps/7d19.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky13",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d22.blv",
+      "name": "The Hall under the Hill",
+      "id": 96,
+      "path": "assets_dev/worlds/mm7/maps/7d22.blv",
+      "sky_surfaces": [
+        {
+          "texture": "7sky01",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d23.blv",
+      "name": "The Lincoln",
+      "id": 97,
+      "path": "assets_dev/worlds/mm7/maps/7d23.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sgstars",
+          "kind": "sky_named_surface",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d25.blv",
+      "name": "Celeste",
+      "id": 99,
+      "path": "assets_dev/worlds/mm7/maps/7d25.blv",
+      "sky_surfaces": [
+        {
+          "texture": "7plansky1",
+          "kind": "indoor_sky_face",
+          "faces": 212
+        },
+        {
+          "texture": "7plansky1",
+          "kind": "sky_named_surface",
+          "faces": 1
+        },
+        {
+          "texture": "sky19",
+          "kind": "sky_named_surface",
+          "faces": 578
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7d31.blv",
+      "name": "Fort Riverstride",
+      "id": 105,
+      "path": "assets_dev/worlds/mm7/maps/7d31.blv",
+      "sky_surfaces": [
+        {
+          "texture": "7solid01",
+          "kind": "indoor_sky_face",
+          "faces": 2
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "7out01.odm",
+      "name": "Emerald Island",
+      "id": 62,
+      "path": "assets_dev/worlds/mm7/maps/7out01.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "7out02.odm",
+      "name": "Harmondale",
+      "id": 63,
+      "path": "assets_dev/worlds/mm7/maps/7out02.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "7out03.odm",
+      "name": "Erathia",
+      "id": 64,
+      "path": "assets_dev/worlds/mm7/maps/7out03.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "7out04.odm",
+      "name": "The Tularean Forest",
+      "id": 65,
+      "path": "assets_dev/worlds/mm7/maps/7out04.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "7out05.odm",
+      "name": "Deyja",
+      "id": 66,
+      "path": "assets_dev/worlds/mm7/maps/7out05.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "7out06.odm",
+      "name": "The Bracada Desert",
+      "id": 67,
+      "path": "assets_dev/worlds/mm7/maps/7out06.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "-",
+      "custom_sky": "7plansky3",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "7out13.odm",
+      "name": "Tatalia",
+      "id": 72,
+      "path": "assets_dev/worlds/mm7/maps/7out13.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "7out15.odm",
+      "name": "Shoals",
+      "id": 74,
+      "path": "assets_dev/worlds/mm7/maps/7out15.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "out09.odm",
+      "name": "Evenmorn Island",
+      "id": 68,
+      "path": "assets_dev/worlds/mm7/maps/out09.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "out10.odm",
+      "name": "Mount Nighon",
+      "id": 69,
+      "path": "assets_dev/worlds/mm7/maps/out10.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "out11.odm",
+      "name": "The Barrow Downs",
+      "id": 70,
+      "path": "assets_dev/worlds/mm7/maps/out11.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "out12.odm",
+      "name": "The Land of the Giants",
+      "id": 71,
+      "path": "assets_dev/worlds/mm7/maps/out12.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "out14.odm",
+      "name": "Avlee",
+      "id": 73,
+      "path": "assets_dev/worlds/mm7/maps/out14.odm",
+      "native_header_sky": "",
+      "continent": 2,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "7plansky3",
+        "7sky01",
+        "sky12",
+        "7sky02",
+        "sky12",
+        "7sky04",
+        "sky19"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm7",
+      "file": "t01.blv",
+      "name": "Temple of the Light",
+      "id": 133,
+      "path": "assets_dev/worlds/mm7/maps/t01.blv",
+      "sky_surfaces": [
+        {
+          "texture": "7plansky1",
+          "kind": "indoor_sky_face",
+          "faces": 6
+        },
+        {
+          "texture": "7plansky1",
+          "kind": "sky_named_surface",
+          "faces": 4
+        },
+        {
+          "texture": "plansky2",
+          "kind": "indoor_sky_face",
+          "faces": 2
+        }
+      ]
+    },
+    {
+      "world": "mm7",
+      "file": "t02.blv",
+      "name": "Temple of the Dark",
+      "id": 134,
+      "path": "assets_dev/worlds/mm7/maps/t02.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sgstars",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm8",
+      "file": "d27.blv",
+      "name": "Castle of Air",
+      "id": 38,
+      "path": "assets_dev/worlds/mm8/maps/d27.blv",
+      "sky_surfaces": [
+        {
+          "texture": "sky02",
+          "kind": "sky_named_surface",
+          "faces": 2
+        }
+      ]
+    },
+    {
+      "world": "mm8",
+      "file": "d39.blv",
+      "name": "Prison of the Lord of Earth",
+      "id": 50,
+      "path": "assets_dev/worlds/mm8/maps/d39.blv",
+      "sky_surfaces": [
+        {
+          "texture": "plansky3",
+          "kind": "sky_named_surface",
+          "faces": 1
+        },
+        {
+          "texture": "sky02",
+          "kind": "sky_named_surface",
+          "faces": 131
+        }
+      ]
+    },
+    {
+      "world": "mm8",
+      "file": "d42.blv",
+      "name": "Arena",
+      "id": 53,
+      "path": "assets_dev/worlds/mm8/maps/d42.blv",
+      "sky_surfaces": [
+        {
+          "texture": "plansky1",
+          "kind": "indoor_sky_face",
+          "faces": 1
+        }
+      ]
+    },
+    {
+      "world": "mm8",
+      "file": "elema.odm",
+      "name": "Plane of Air",
+      "id": 9,
+      "path": "assets_dev/worlds/mm8/maps/elema.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "-",
+      "custom_sky": "plansky1",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": [
+        {
+          "texture": "plansky1",
+          "kind": "sky_named_surface",
+          "faces": 2
+        }
+      ]
+    },
+    {
+      "world": "mm8",
+      "file": "elemf.odm",
+      "name": "Plane of Fire",
+      "id": 11,
+      "path": "assets_dev/worlds/mm8/maps/elemf.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "-",
+      "custom_sky": "sunsetclouds",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "elemw.odm",
+      "name": "Plane of Water",
+      "id": 12,
+      "path": "assets_dev/worlds/mm8/maps/elemw.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out01.odm",
+      "name": "Dagger Wound Island",
+      "id": 1,
+      "path": "assets_dev/worlds/mm8/maps/out01.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "-",
+      "custom_sky": "sunsetclouds",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out02.odm",
+      "name": "Ravenshore",
+      "id": 2,
+      "path": "assets_dev/worlds/mm8/maps/out02.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out03.odm",
+      "name": "Alvar",
+      "id": 3,
+      "path": "assets_dev/worlds/mm8/maps/out03.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out04.odm",
+      "name": "Ironsand Desert",
+      "id": 4,
+      "path": "assets_dev/worlds/mm8/maps/out04.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "-",
+      "custom_sky": "plansky3",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out05.odm",
+      "name": "Garrote Gorge",
+      "id": 5,
+      "path": "assets_dev/worlds/mm8/maps/out05.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out06.odm",
+      "name": "Shadowspire",
+      "id": 6,
+      "path": "assets_dev/worlds/mm8/maps/out06.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "x",
+      "custom_sky": "stormclds",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out07.odm",
+      "name": "Murmurwoods",
+      "id": 7,
+      "path": "assets_dev/worlds/mm8/maps/out07.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": [
+        {
+          "texture": "plansky1",
+          "kind": "sky_named_surface",
+          "faces": 2
+        }
+      ]
+    },
+    {
+      "world": "mm8",
+      "file": "out08.odm",
+      "name": "Ravage Roaming",
+      "id": 8,
+      "path": "assets_dev/worlds/mm8/maps/out08.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out13.odm",
+      "name": "Regna",
+      "id": 13,
+      "path": "assets_dev/worlds/mm8/maps/out13.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "x",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "out15.odm",
+      "name": "Tutorial",
+      "id": 15,
+      "path": "assets_dev/worlds/mm8/maps/out15.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": []
+    },
+    {
+      "world": "mm8",
+      "file": "pbp.odm",
+      "name": "Plane Between Planes",
+      "id": 14,
+      "path": "assets_dev/worlds/mm8/maps/pbp.odm",
+      "native_header_sky": "",
+      "continent": 1,
+      "weather_enabled": "-",
+      "custom_sky": "",
+      "weather_skies": [
+        "plansky3",
+        "plansky1",
+        "sky06",
+        "sky02",
+        "sky03",
+        "stormclds",
+        "stormclds"
+      ],
+      "sky_surfaces": [
+        {
+          "texture": "stormclds",
+          "kind": "sky_named_surface",
+          "faces": 61
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "kind": "SetOutdoorSky",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/common/mm6_common.lua",
+      "line": 298,
+      "texture": "sky04"
+    },
+    {
+      "kind": "SetTexture",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+      "line": 113,
+      "texture": "sky_nit1"
+    },
+    {
+      "kind": "SetTexture",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+      "line": 125,
+      "texture": "sky_sns1"
+    },
+    {
+      "kind": "SetTexture",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+      "line": 131,
+      "texture": "sky_sns1"
+    },
+    {
+      "kind": "SetTexture",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+      "line": 138,
+      "texture": "sky_nit1"
+    },
+    {
+      "kind": "SetTexture",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+      "line": 143,
+      "texture": "sky_sns1"
+    },
+    {
+      "kind": "SetTexture",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+      "line": 150,
+      "texture": "sky_sns1"
+    },
+    {
+      "kind": "SetTexture",
+      "world": "mm6",
+      "path": "assets_dev/worlds/mm6/events/maps/6t4.lua",
+      "line": 154,
+      "texture": "sky_nit1"
+    }
+  ],
+  "nonempty_scene_skies": [],
+  "restoration_jobs": [
+    {
+      "source": "assets_dev/worlds/mm6/textures/6plansky1.bmp",
+      "pixel_sha256": "fdd1489fb52c05f725e3c6b97c9a615c82436666cd01162735a779210419d97a",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6plansky1.bmp",
+        "assets_dev/worlds/mm6/textures/6sky01.bmp"
+      ],
+      "wave": "A0: MM6 native fair-weather baseline",
+      "status": "visual review",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6plansky1.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6plansky1.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky01.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky01.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ],
+      "project_manifest": "level_generation/skies/mm6/6plansky1/manifest.json",
+      "selected_export": "level_generation/skies/mm6/6plansky1/runtime_x2/6plansky1.png",
+      "runtime_sha256": "526270bc6b784382254a4ea4eb8dc85c9003ed6914fd482d56e206fe7bc543a3"
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky03.bmp",
+      "pixel_sha256": "f38029d1d6badbb74b17d1a3dc6cdd5cb1bbcfa94a308f62af60ae7b8063db35",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky03.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky03.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky03.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky04.bmp",
+      "pixel_sha256": "00d1428336e2cb0185c19b8b08e338e64e6d4d1b7ae88ee375e986c2f65c075e",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky04.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky04.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky04.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky06.bmp",
+      "pixel_sha256": "642d5e189eee20787cd4f951c287e29592e11c62c47d7fc5ecaf5efb69e4a35d",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky06.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky06.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky06.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky12.bmp",
+      "pixel_sha256": "86a5b8c4b93a34a39d50f38e20f7b5a0c983cde29c8d37d71a7f426e35d6be3c",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky12.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky12.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky12.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky19.bmp",
+      "pixel_sha256": "a9ac522d676bac8cb0c31ee4045ff9c075d7e63da09da4938f445379fa9ad386",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky19.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky19.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky19.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7plansky3.bmp",
+      "pixel_sha256": "63c8c66f99355e9abb2acdd3e759633291a5a0b0174cc28fd3eee3a87333cb8d",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7plansky3.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7plansky3.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7plansky3.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7sky01.bmp",
+      "pixel_sha256": "c1529badd980afc2d7cab820555dd674b1d94ed853771f8d7830ddc5d10b65f3",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7sky01.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7sky01.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7sky01.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7sky02.bmp",
+      "pixel_sha256": "1d18adeee730b0c88de77b4c95dda88344568a9aabcdb7cfd226f0552299ad2f",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7sky02.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7sky02.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7sky02.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7sky04.bmp",
+      "pixel_sha256": "9dd5fbfd35f7096e65a077dffc9599a11da6ba58b27ac484e0ba25050cbdabd7",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7sky04.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7sky04.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7sky04.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky12.bmp",
+      "pixel_sha256": "db91c280a4aa9c1c017d2aaec1b2d3a573d652b82e67e2a9f77f71d62b697f8e",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky12.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky12.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky12.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky19.bmp",
+      "pixel_sha256": "6078e65e65b72c404c41d273b64fc5cc132a53ad790cabfad2ea638af30473b1",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky19.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky19.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky19.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+      "pixel_sha256": "771466da0d9af3c752e0efae9582c054691f4eb203c882c80a47b06c62157900",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+        "assets_dev/worlds/mmmerge/textures/plansky1.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "accepted MM8-palette artwork; not an authentic MM6 baseline",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/plansky1.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/plansky1.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/plansky1.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/PLANSKY3.bmp",
+      "pixel_sha256": "d98faa053cb120f29fdff56ebc6750d15df43344cc617eb5eed0611ff53f43c7",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/PLANSKY3.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/PLANSKY3.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/plansky3.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/PLANSKY3.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/plansky3.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/PLANSKY3.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/plansky3.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/SKY02.bmp",
+      "pixel_sha256": "bebda362ddebcd3376db65ed9aa4cb53fc3eb67633ef53a8a4f44cd29fbeec5e",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/SKY02.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/SKY02.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sky02.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/sky03.bmp",
+      "pixel_sha256": "22b586301bd8e6ad24e18dc3df02c3fcce39cb3ae1c63607de5ee504f7282041",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/sky03.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky03.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sky03.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/sky06.bmp",
+      "pixel_sha256": "eed2c626c67230448cb63c0fa48c8576663c467a20ea11aa03841f47d81799c9",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/sky06.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky06.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sky06.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/stormclds.bmp",
+      "pixel_sha256": "3f97d875977c9b04ea47eb1f5289738d57b5535de278b011c59301d24e040860",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/stormclds.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/stormclds.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/stormclds.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/sunsetclouds.bmp",
+      "pixel_sha256": "692d29e777ae52ec848f4c224d082e0d2564eeb93ad060fa59683417f18d9b64",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/sunsetclouds.bmp"
+      ],
+      "wave": "A: outdoor weather/custom",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/sunsetclouds.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sunsetclouds.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sunsetclouds.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sunsetclouds.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sunsetclouds.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sunsetclouds.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/sky01.bmp",
+      "pixel_sha256": "f4b73c89ea00d60adfbf6eefea77b30d3f4822c6671f11935152d5b9447397a0",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/sky01.bmp"
+      ],
+      "wave": "B: legacy outdoor fallback",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky01.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sky01.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky01.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky01.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky01.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky01.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/sky05.bmp",
+      "pixel_sha256": "f86286e99f12e492dd92d8919322fbf48d21b7969ea7a7c0a52a51f1cd9ee112",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/sky05.bmp"
+      ],
+      "wave": "B: legacy outdoor fallback",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky05.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sky05.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky05.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky05.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky05.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky05.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/sky6pm.bmp",
+      "pixel_sha256": "6b3c551e5785879e7251067efcb6ba8206aab138c81690225947e74d06080b83",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/sky6pm.bmp"
+      ],
+      "wave": "B: legacy outdoor fallback",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky6pm.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sky6pm.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky6pm.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky6pm.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky6pm.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky6pm.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/sky_clo1.bmp",
+      "pixel_sha256": "67d5743d368971706096246beb9bf644860065444c9eaf41a23fd3913698c329",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/sky_clo1.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/sky_clo1.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky_clo1.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/sky_nit1.bmp",
+      "pixel_sha256": "8b62cf40f158f2ae5f55ae057f72cf775177bcb9d1932922b265eb4f448bc6b7",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/sky_nit1.bmp",
+        "assets_dev/worlds/mmmerge/textures/sky_nit1.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/sky_nit1.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky_nit1.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/sky_nit2.bmp",
+      "pixel_sha256": "26ea5ceec2e9e0cb73f79a743ed68666306fdd9a73a92d3451184007a14b19d0",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/sky_nit2.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/sky_nit2.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky_nit2.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/sky_sns1.bmp",
+      "pixel_sha256": "46c503790ff3f3457102c3f16741b744d71d9479898ccfdd78e56403616e70f1",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/sky_sns1.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/sky_sns1.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky_sns1.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7plansky1.bmp",
+      "pixel_sha256": "7c90ae0ecab7ddda91f3d4935efe4e04966546435f31d9956808cd3a7f9681a3",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7plansky1.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7plansky1.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7plansky1.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/plansky2.bmp",
+      "pixel_sha256": "68621e1fb016ad660f205cbf8f08a85b855b03bb474696b166bff0dd30a07636",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/plansky2.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/plansky2.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/plansky2.png",
+          "size": [
+            256,
+            256
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sgstars.bmp",
+      "pixel_sha256": "e2cdefb8da715eec5d69e4d13ec666882c5c31c45971c90c8c2a94e235b205e4",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sgstars.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sgstars.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sgstars.png",
+          "size": [
+            128,
+            128
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky13.bmp",
+      "pixel_sha256": "d0f48a9ea90eb76c2fdb73755530a751d5a0fea7e23f97abd38a9814b1bb70a4",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky13.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky13.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky13.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/sky04.bmp",
+      "pixel_sha256": "c181608d9de369b840f0595eae020e56811b843e67382fa0811e8cd84a7dd9cc",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/sky04.bmp"
+      ],
+      "wave": "C: additional map/event artwork",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky04.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/sky04.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        },
+        {
+          "source": "assets_dev/worlds/mm8/textures/sky04.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky04.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "world-local outdoor weather/custom/event/fallback closure"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6plansky2.bmp",
+      "pixel_sha256": "16ec5435b06cb76891d98e7a246d8156d6e8369e1513170de8cd214c421ca95a",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6plansky2.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6plansky2.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6plansky2.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky02.bmp",
+      "pixel_sha256": "702008dfe462bceb0a190e94a3eff068e76b5c9fd752fa3609ef6b2ffa629da0",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky02.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky02.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky02.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky05.bmp",
+      "pixel_sha256": "678b6a53a7ed32b1a0a35436aca9ad411f9db4ffb656295f47889a94f86afb70",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky05.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky05.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky05.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky07.bmp",
+      "pixel_sha256": "41310d7a791cf0687f63f150d241867daed4e7340a5b58686e5a8916975fcb4b",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky07.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky07.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky07.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky08.bmp",
+      "pixel_sha256": "af69e86a215465d0690cc69ce3ce6c8a2e3724c6b124fbe48d5279e35686870c",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky08.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky08.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky08.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky09.bmp",
+      "pixel_sha256": "3d09213c59889bc7c0c4e04480a05ce9509f2199d1a9b09c1bc224a5ba937aa7",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky09.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky09.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky09.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky10.bmp",
+      "pixel_sha256": "98432ae87111d9e485fdb1680f400c3a7fee93572f7708f21b80ff5042a41fd6",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky10.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky10.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky10.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky11.bmp",
+      "pixel_sha256": "d7db0b804f22418af29864bbb9e8a1006f9db3edf54898f6dc49b3b6387597d7",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky11.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky11.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky11.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky13.bmp",
+      "pixel_sha256": "82916ca88aa9e7ab3c299ec5cc2c4cad0be960b1d1cf6c33c551dfb3e22f1ba9",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky13.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky13.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky13.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky14.bmp",
+      "pixel_sha256": "80878aadcb623f44742deaacbf9a9ad886d6459ac96f0e660940b41af203c624",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky14.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky14.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky14.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky15.bmp",
+      "pixel_sha256": "a3d3a57ec7728685663dd4d2d8945eaf08a1d5ecde155fc1d91987267736702b",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky15.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky15.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky15.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky16.bmp",
+      "pixel_sha256": "68373a894d1066680a0a4f77a51113b4f57018dc392a342b61b35b1175926d16",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky16.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky16.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky16.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky17.bmp",
+      "pixel_sha256": "f854731f217c3c12bfe07d242cb123b0a9deea3cd0de1a725d314f81ec75fecc",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky17.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky17.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky17.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/6sky18.bmp",
+      "pixel_sha256": "3463131679350825981d089196304af1c7035260f3e84f35911a2422a1558f8d",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/6sky18.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/6sky18.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/6sky18.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/sky20.bmp",
+      "pixel_sha256": "a2624a72ea524e78c8ad9d6c50b3a35b04470617d17db1c34ad673b19b57560d",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/sky20.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/sky20.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky20.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm6/textures/sky21.bmp",
+      "pixel_sha256": "353acace8b4f9870cb9b5f260f6b126e53026daf879b6135ab02c4f5e46876ea",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm6/textures/sky21.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm6/textures/sky21.bmp",
+          "target": "assets_dev/worlds/mm6/textures_x2/sky21.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7sky03.bmp",
+      "pixel_sha256": "c87ab06491b26e01db0887b097748f83c720b5c1ea34480640bae84c30eeb554",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7sky03.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7sky03.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7sky03.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7sky05.bmp",
+      "pixel_sha256": "04a4b11545f05061c6fb2a0a76c885ec62db714f2e77462a5b4ba2dc70605983",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7sky05.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7sky05.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7sky05.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/7sky06.bmp",
+      "pixel_sha256": "50157a0f19a7ce3b68e8a6cb0b6686dcf2d8f9b346aae09d0329dbdd0413c1fd",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/7sky06.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/7sky06.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/7sky06.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky07.bmp",
+      "pixel_sha256": "a1451d6b03e1aa44f1276169fdd8b3180a64b02196a478e3a6d9054222feab07",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky07.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky07.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky07.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky08.bmp",
+      "pixel_sha256": "7dd9401816ee48361f79f1cdb0450566e454fcbb99b21bb9c94cb4a2f3cc088d",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky08.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky08.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky08.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky09.bmp",
+      "pixel_sha256": "9c681538460c7e3cfceda4f8a651332a9b248e558ca8936dca110104867650ae",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky09.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky09.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky09.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky10.bmp",
+      "pixel_sha256": "4dc0b86a6396fad8a287e0663947b2bc10fe049fb78ef9c304ca4390272a559d",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky10.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky10.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky10.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky11.bmp",
+      "pixel_sha256": "6d4a5b6deecc8c9142e47909a2237537229214e6b70511fbb1fc71719a6339ae",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky11.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky11.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky11.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky14.bmp",
+      "pixel_sha256": "bc8928256654f0716f27b890a3a0628e56147ddab991a57b19135ceefa942f2f",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky14.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky14.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky14.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky15.bmp",
+      "pixel_sha256": "475ba7348d8436251e744f29bdbecf862fb4eeca419e195b86d22b66149a9ae7",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky15.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky15.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky15.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky16.bmp",
+      "pixel_sha256": "0bb69eaff8d70e8c33bef0b3d309c7cc8005fa32eed523ff190cd8a6301ab486",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky16.bmp",
+        "assets_dev/worlds/mmmerge/textures/sky16.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky16.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky16.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky17.bmp",
+      "pixel_sha256": "f38974f39fb61d7e98f81515c9e8ca4ea24312946c95b1d3da1d0a49f96c9693",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky17.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky17.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky17.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/sky18.bmp",
+      "pixel_sha256": "a96d39d8d26dd608dd746a17c8cc92780670a3b92f3d4adcc4ad8821fc28ecab",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/sky18.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/sky18.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/sky18.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/skycity01.bmp",
+      "pixel_sha256": "8a9acee305610c335de04d01701c6de27266932b878f95ea0d3320eac9ef35f4",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/skycity01.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/skycity01.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/skycity01.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/testsky1.bmp",
+      "pixel_sha256": "d937eacdb59dacba56a6aca7cc2caf360537b30701e1baadb27cf0101c7b4343",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/testsky1.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/testsky1.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/testsky1.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm7/textures/testsky2.bmp",
+      "pixel_sha256": "c308c8b834c7234839908cd2532bc9d9409a90e4879bad4959e7403083434a29",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm7/textures/testsky2.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm7/textures/testsky2.bmp",
+          "target": "assets_dev/worlds/mm7/textures_x2/testsky2.png",
+          "size": [
+            512,
+            512
+          ],
+          "reason": "native owner"
+        }
+      ]
+    },
+    {
+      "source": "assets_dev/worlds/mm8/textures/cloudsabove.bmp",
+      "pixel_sha256": "9c7b12dbb53107c6e30bb863b9bb43624d088d4111518b2bb3669c0b754459f1",
+      "equivalent_sources": [
+        "assets_dev/worlds/mm8/textures/cloudsabove.bmp"
+      ],
+      "wave": "D: native archive",
+      "status": "pending review/restoration",
+      "destinations": [
+        {
+          "source": "assets_dev/worlds/mm8/textures/cloudsabove.bmp",
+          "target": "assets_dev/worlds/mm8/textures_x2/cloudsabove.png",
+          "size": [
+            1024,
+            1024
+          ],
+          "reason": "native owner"
+        }
+      ]
+    }
+  ]
+}

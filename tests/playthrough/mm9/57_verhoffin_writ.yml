@@ -1,0 +1,91 @@
+# MM9 playthrough, segment 7: the Capstone on the headsman's block in the Verhoffin Ruins, the Writ of Fate, and the
+# second death (guide: Chapter III, "Pick up the Writ of Fate", "Back to Arslegard"). The party travels to the Isle of
+# Ashes as the other boat trips do. The ruins are walked (walk_to): the bolted
+# door is broken by hitting its bolt, the pentagram is walked in the order of the Scrap of Diary's colours (red,
+# yellow, blue, green, orange: south-east, north, south, north-east, west), and the party goes in by the leaf the
+# puzzle opens. Then into the electrified pit before the block, where the party is knocked out (the save's party
+# cannot drown in a fair time); a defeated party wakes in Arslegard City. Research: prep/06_08_guberland_verhoffin_afterworld.md.
+#   python3 tests/playthrough/mm9/run.py 57
+id: mm9.playthrough.57_verhoffin_writ
+title: "MM9 playthrough 57: set the Capstone in the Verhoffin Ruins, take the Writ of Fate and die again"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/56_guberland_capstone.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90098, 90188], qbit_clear: [90099, 90100]}
+
+  # Guberland to the Isle of Ashes (The Flying Bird, Tuesdays, 3 days; outdoors the party is moved), as the other
+  # boat trips are travelled; the fare is not paid.
+  - console: {line: "gold get"}
+  - travel: {map: isleofashes.blv, days: 3}
+  - assert: {map: isleofashes.blv}
+
+  # The stair down to the ruins in the middle of the isle.
+  - set_pose: {map: isleofashes.blv, x: 1260, y: 4636, z: 860, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1290, y: 4198, z: 1000, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: verhoffinruins.blv}
+
+  # West along the south corridor to the bolted prison door below the pentagram floor.
+  - walk_to: {x: -4430, y: -4420, z: -328, timeout_seconds: 400, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(205); wait(0.3)
+        local s = status()
+        log("the door: " .. s)
+        if s:find("bolted") then
+          click(38648); wait(0.5)          -- hit the bolt until it breaks
+          log("the bolt breaks: " .. status())
+          click(205); wait(2.5)
+        end
+  - assert: {state_dump_named_map_var: {name: BoltBroken, value: 1}}
+
+  # The pentagram: the centre lights the five flames; then the points in the flames' colour order.
+  - walk_to: {x: -4382, y: -3727, z: -327, radius: 20, timeout_seconds: 60, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'click(225); log("the Scrap of Diary: RED, YELLOW, BLUE, GREEN, ORANGE; flames lit: " .. mapvar("PuzzleStarted"))'}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: -4137, y: -3891, z: -327, radius: 20, timeout_seconds: 30, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -4423, y: -3481, z: -327, radius: 20, timeout_seconds: 30, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -4423, y: -3973, z: -327, radius: 20, timeout_seconds: 30, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -4137, y: -3563, z: -327, radius: 20, timeout_seconds: 30, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -4628, y: -3727, z: -327, radius: 20, timeout_seconds: 30, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 3.0}
+  - assert: {state_dump_named_map_var: {name: PuzzleFailures, value: 0}}
+  - assert: {state_dump_named_map_var: {name: PuzzleSolved, value: 1}}
+  - assert: {mechanism: {id: 65, state: open}}
+
+  # Through the open (south) leaf, past the paddle and round the pit to the headsman's block.
+  - walk_to: {via: [[-4640, -3830, -328], [-5000, -3830, -328]], x: -6984, y: -3628, z: -204, radius: 60,
+              timeout_seconds: 300, clear_hostiles: 1500}
+  - assert: {state_dump_named_map_var: {name: ShootersOn, value: 0}}
+  - play_lua:
+      source: |
+        click(223); wait(0.5)
+        if not qbit(90099) then error("the capstone was not placed on the block") end
+        log("the Capstone of Order settles on the headsman's block; the Writ appears on the table")
+  # The Writ lies on the table behind the block (a world item since the R11 promotion, 2026-11-08): walk up, take it.
+  - walk_to: {x: -7250, y: -3728, z: -204, plan: false, radius: 40, timeout_seconds: 30}
+  - pick_up: {item_id: 10392}
+  - play_lua: {source: 'log("the Writ of Fate is in the pack")'}
+  - assert: {qbit_set: [90099, 90100]}
+
+  # The second death: into the electrified pit before the block, then the party falls.
+  - walk_to: {x: -6226, y: -3728, z: -410, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 3}
+  - setup_shortcut: {kind: immortal, value: false}
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        if not has_item(10392) then error("the Writ of Fate was lost in the death") end
+        log("awake in Arslegard City with the Writ of Fate")
+  - save_game: {name: "07 Writ of Fate", path: output/playthrough/mm9/checkpoints/57_verhoffin_writ.oysav}

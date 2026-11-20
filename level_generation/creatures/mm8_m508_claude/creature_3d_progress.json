@@ -1,0 +1,205 @@
+{
+  "creature_3d_identity": "mm8:m508",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "scope": "complete_production",
+  "stage": "runtime_delivery",
+  "status": "complete",
+  "substep": "Muscular revision installed; revised anatomy, nine actions, LODs, game captures and family regression verified.",
+  "user_direction": "MM8 Air Elemental m508: accepted MM6 air wind treatment plus Djinn upper-body movement; preserve visible humanoid torso. Follow-up: larger and more defined muscles, using restored x2 front/side/attack references.",
+  "required_components": [
+    {
+      "id": "humanoid_torso",
+      "required": true,
+      "artifact_role": "model",
+      "selected_revision": "9d3281a595e011fcf849b9f3fd07c339f5dd01d6e4b9a22c9df3d175d5398132",
+      "assembly_review": "complete",
+      "evidence": "review/shots/muscle_front.png",
+      "source": "native/inventory.json; restored x2 m508sa0, m508sa2 and m508ac0 muscular anatomy",
+      "attachment": "Body skinned to upper-body rig"
+    },
+    {
+      "id": "wind_funnel",
+      "required": true,
+      "artifact_role": "model",
+      "selected_revision": "9d3281a595e011fcf849b9f3fd07c339f5dd01d6e4b9a22c9df3d175d5398132",
+      "assembly_review": "complete",
+      "evidence": "review/shots/muscle_front.png",
+      "source": "textures/provenance.json; accepted MM6 Air shell treatment",
+      "attachment": "Wind skinned to six funnel and six leaf width bones"
+    },
+    {
+      "id": "native_attack_discharge",
+      "required": true,
+      "artifact_role": "model",
+      "selected_revision": "9d3281a595e011fcf849b9f3fd07c339f5dd01d6e4b9a22c9df3d175d5398132",
+      "assembly_review": "complete",
+      "evidence": "review/shots/muscle_cast.png",
+      "source": "textures/provenance.json; restored native m508ac0 palms",
+      "attachment": "Lightning follows both hands during Attack/Cast"
+    }
+  ],
+  "next_action": {
+    "owner": "none",
+    "action": "Complete; user approved the muscular revision."
+  },
+  "acceptance": {
+    "technical": "complete",
+    "agent_visual": "complete",
+    "user_artistic": "accepted",
+    "user_approval": {
+      "recorded_at": "2026-10-18T14:41:33.718732+00:00",
+      "message": "ok",
+      "revision": "muscle_revision_20261018",
+      "model_sha256": "9d3281a595e011fcf849b9f3fd07c339f5dd01d6e4b9a22c9df3d175d5398132"
+    }
+  },
+  "reference_projects": {
+    "wind": "../mm6_aie1_claude/README.md",
+    "motion": "../mm6_djn_claude/README.md",
+    "effect_torso": "../mm6_fie1_claude/README.md"
+  },
+  "updated_at": "2026-10-18T14:41:33.718732+00:00",
+  "selected_artifacts": [
+    {
+      "role": "model",
+      "path": "export/mm8_m508.glb",
+      "sha256": "9d3281a595e011fcf849b9f3fd07c339f5dd01d6e4b9a22c9df3d175d5398132"
+    },
+    {
+      "role": "editable_master",
+      "path": "export/mm8_m508.blend",
+      "sha256": "22f1284cb77235f8bc5fcaf6c89659495aebc42ab2f5e669535204b3ceabf8bf"
+    },
+    {
+      "role": "body_texture",
+      "path": "textures/m508_body.png",
+      "sha256": "133edfb3792a58b42b3e43da1425f952b735cac48e3ddaf73e02cd347b453024"
+    },
+    {
+      "role": "wind_texture",
+      "path": "textures/m508_wind.png",
+      "sha256": "f05ec7d50577c7d10a770461f5698e2c9f107e4d90b8a1ea4394d2baf6dfe6e8"
+    },
+    {
+      "role": "lightning_texture",
+      "path": "textures/m508_lightning.png",
+      "sha256": "dab74febc037f252e696d7139828ccfb368732176872488517cdca74d49e97a9"
+    }
+  ],
+  "installed_artifacts": [
+    {
+      "path": "assets_source/worlds/mm8/models/mm8_m508.glb",
+      "sha256": "9d3281a595e011fcf849b9f3fd07c339f5dd01d6e4b9a22c9df3d175d5398132"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/models/mm8_m508.glb",
+      "sha256": "247f8e70ca9f30559cc1ca9ee42da2b6cd0c542ee8ba27dd2eeaca106301a575"
+    }
+  ],
+  "route": {
+    "method": "effect_body_procedural_with_mpfb_torso_exception",
+    "playbook": "../CLAUDE_QUADRUPED_PLAYBOOK.md",
+    "meshy_credits_used": 0,
+    "wind_reference": "../mm6_aie1_claude/README.md",
+    "upper_body_motion": "../mm6_djn_claude/export/mm6_djn.glb",
+    "source_motion_sha256": "2cd22c6dcb6ba383546442add9d87b302a6bfefccda321a6ad239708758764ba"
+  },
+  "verification": {
+    "model_sha256": "9d3281a595e011fcf849b9f3fd07c339f5dd01d6e4b9a22c9df3d175d5398132",
+    "gate_report": "work/gates.json",
+    "gate_checks_passed": 615,
+    "gate_failures": 0,
+    "gate_scope": "Effect body, MPFB torso exception; shared GLB decoder/skinning/BVH, 48 Hz rotations/skin and 24 Hz surface contacts",
+    "not_applicable": [
+      "feet, soles, knees and grounded gait: floating legless vortex",
+      "prop grip and cloth containment: no equipment or clothing",
+      "solid collision of translucent wind layers: deliberate overlapping shells"
+    ],
+    "reimport_report": "work/reimport_parity.json",
+    "reimport_max_error_m": 8.647150571831134e-07,
+    "viewer_report": "review/viewer_check.json",
+    "playback": "review/playback/playback.json",
+    "playback_review": "All nine revised clips at normal and half speed; 18 WebMs, sampled frames and nine contact sheets, plus front/torso/cast/side/back close views.",
+    "regression": "review/muscle_revision/regression.log",
+    "reference_regressions": [
+      "review/mm6_air_regression.log",
+      "review/mm6_djinn_regression.log"
+    ],
+    "game_review": [
+      "review/muscle_revision/outdoor_models",
+      "review/muscle_revision/indoor_models",
+      "review/muscle_revision/indoor_combat"
+    ],
+    "game_renderer": "OpenGL 3.3, NVIDIA vendor 0x10de, Wayland; visual checks only",
+    "not_tested": [
+      "Android",
+      "Vulkan",
+      "performance benchmark"
+    ],
+    "reference_regression_note": "MM6 Air and Djinn regressions are historical checks from initial delivery; no engine or reference assets changed in the muscle revision.",
+    "native_comparison": "review/muscle_revision/{indoor,outdoor}_comparison.jpg: new model captures beside unchanged native captures at the same cameras.",
+    "regression_note": "Current production manifest: pass 1, fail 0. A prior attempt encountered a concurrent unrelated Ogre socket update; the final retry passes. Isolated family regression also passes.",
+    "historical_game_review": "review/ingame: six initial delivery runs, including outdoor combat, preserved for history; these use the prior torso."
+  },
+  "corrections": [
+    {
+      "finding": "Waist trim initially clipped low hands",
+      "fix": "Restrict waist cut to central torso; preserve complete digits",
+      "recheck": "Final front/side/palms and posed surface checks pass"
+    },
+    {
+      "finding": "Initial shoulder weights stretched the axilla during retargeted casts",
+      "fix": "Local weight smoothing, normalize four influences, fit elbow hinge and upper-arm/wrist twists; smooth source axial turn",
+      "recheck": "615 checks pass; normal/half-speed Attack and Cast reviewed"
+    },
+    {
+      "finding": "Initial dispersal used stepped rings",
+      "fix": "Continuous soft ellipsoid cloud and singular mesh visibility for Dead",
+      "recheck": "Export visibility regression and both game death sequences pass"
+    },
+    {
+      "finding": "Shadow LOD list referenced the base mesh itself",
+      "fix": "Only Body_LOD1/2/3 in the shadow chain; assert non-self and unique references",
+      "recheck": "Final model loads in regression and all six GPU runs"
+    },
+    {
+      "finding": "Native empty corpse generated a None.png viewer request",
+      "fix": "Omit null native frame",
+      "recheck": "All 27 tier/clip switches pass with zero browser errors"
+    },
+    {
+      "finding": "User requested larger and more defined muscles, matching restored x2 anatomy",
+      "fix": "Increase MPFB body mass, pectorals, back, deltoids, upper arms and forearms; sculpt abdominal relief; preserve 6400 torso triangles after waist trimming; reduce cloud mottling and rebake muscle shading",
+      "recheck": "Restored/before/revised comparison, all nine actions, 615 checks, 27 viewer switches and indoor/outdoor game captures pass"
+    },
+    {
+      "finding": "Muscle bake exposed a left upper-arm UV overlap and back scapular fold",
+      "fix": "Use smaller UV charts with a pixel overlap assertion, smooth the local back fold, and bake azimuth-neutral top lighting",
+      "recheck": "Final side/back/cast close views and deformation checks pass"
+    }
+  ],
+  "findings": [],
+  "runtime_bindings": {
+    "manifest": "assets_dev/worlds/mm8/models/actors.yml",
+    "descriptors": [
+      "Air Elemental A",
+      "Air Elemental B",
+      "Air Elemental C"
+    ],
+    "snapshot": "review/runtime_bindings.json",
+    "snapshot_sha256": "756543222174581b85ac31b95fef4f2879049ec4c8b46327134a6dccc9a66673",
+    "note": "Snapshot only this family because other creatures share and concurrently update the manifest; selected entries match the tested fixture."
+  },
+  "history": [
+    {
+      "revision": "pre_muscle_revision",
+      "state": "archive/pre_muscle_revision/creature_3d_progress.json",
+      "user_feedback": "Should be more buff, more defined and bigger muscles; use restored x2 references.",
+      "user_artistic": "rejected: insufficient muscle size and definition"
+    }
+  ],
+  "revision": "muscle_revision_20261018"
+}

@@ -1,0 +1,576 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.1000terrors_scripted
+title: Thousand Terrors (native BLV) - button puzzle, gear lift, hidden button, trap doors, shooter plate, demon statues,
+  death trigger, chess, Njam's taunt, the win switch, lamp, note
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: 1000terrors.blv
+- note:
+    text: 'StairGate0: shut; a real click from the landing opens it (event 369); StairGate stays shut.'
+- assert:
+    mechanism:
+      id: 108
+      state: closed
+- assert:
+    mechanism:
+      id: 107
+      state: closed
+- set_pose:
+    map: 1000terrors.blv
+    x: 8090
+    y: -6874
+    z: -127
+    yaw: -1.5708
+    pitch: -0.5791
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 108
+      state: opening
+- assert:
+    mechanism:
+      id: 107
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: OpenStairGate0
+      value: 1
+- note:
+    text: A second use of StairGate0 keeps it rising; it shuts by itself (CloseWaitTime), and a hostile Lesser Demon beside
+      it pushes it open.
+- set_pose:
+    map: 1000terrors.blv
+    x: 8090
+    y: -6554
+    z: -127
+    yaw: -1.5708
+    pitch: 0
+- execute_event:
+    id: 369
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    mechanism:
+      id: 108
+      state: opening
+- assert:
+    state_dump_named_map_var:
+      name: OpenStairGate0
+      value: 1
+- advance_runtime:
+    seconds: 24.0
+- assert:
+    mechanism:
+      id: 108
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: OpenStairGate0
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Gate0ByMonster
+      value: 0
+- set_pose:
+    map: 1000terrors.blv
+    x: 8090
+    y: -6554
+    z: -127
+    yaw: -1.5708
+    pitch: 0
+- spawn_actor:
+    monster_id: 9241
+    count: 1
+    x: 8090
+    y: -6804
+    z: -128
+    group: 77
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: Gate0ByMonster
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: OpenStairGate0
+      value: 1
+- assert:
+    mechanism:
+      id: 108
+      state: opening
+- note:
+    text: 'The button puzzle: the wall is hidden until the party steps into TriggerPuzzleDoor0 (SetTrap); every block shut.'
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTriggerState
+      value: 0
+- set_pose:
+    map: 1000terrors.blv
+    x: 9554
+    y: -22784
+    z: -127
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.8
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTriggerState
+      value: 1
+- note:
+    text: A real click on PuzzleDoor5 pushes it and its four neighbours (1, 4, 6, 9) in; a second click pushes them out again.
+- set_pose:
+    map: 1000terrors.blv
+    x: 9722
+    y: -22722
+    z: -127
+    yaw: 0.0
+    pitch: 0.4124
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger_5
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger_1
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger_4
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger_6
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger_9
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger_0
+      value: 0
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger_5
+      value: 0
+- note:
+    text: 'MM9''s lights-out rule: the presses [0, 1, 2, 3, 4, 7, 8, 9, 10, 11] push all sixteen in; the wall opens (MoveAway:
+      hidden, untouchable).'
+- execute_event:
+    id: 300
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 301
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 302
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 303
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 304
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 307
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 308
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 309
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 310
+- advance_runtime:
+    seconds: 0.3
+- execute_event:
+    id: 311
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTriggerState
+      value: 2
+- note:
+    text: 'Puzzle B: the trap, a press, then Pull2 (OpenTrigger0 ButtonTrigger0 Reset) shuts every block again.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 14868
+    y: -19078
+    z: -127
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.8
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger0State
+      value: 1
+- execute_event:
+    id: 321
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger0_5
+      value: 1
+- note:
+    text: 'Pull2: no click pose picks it headless (work/click_poses.json): its event'
+- execute_event:
+    id: 361
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: ButtonTrigger0_5
+      value: 0
+- note:
+    text: 'LowerLever (the gear lift''s lower lever): a click sends GearElevator up 912 LT.'
+- assert:
+    mechanism:
+      id: 12
+      state: closed
+- set_pose:
+    map: 1000terrors.blv
+    x: 4823
+    y: -13105
+    z: -122
+    yaw: -1.5708
+    pitch: 0.0682
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 5.660546875
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- note:
+    text: 'HiddenButton1: a click opens TreasureDoor and TreasureDoor0.'
+- note:
+    text: 'HiddenButton1: no click pose picks it headless (work/click_poses.json): its event'
+- execute_event:
+    id: 366
+- advance_runtime:
+    seconds: 6.1
+- assert:
+    mechanism:
+      id: 119
+      state: open
+- assert:
+    mechanism:
+      id: 120
+      state: open
+- note:
+    text: 'Rotating Lever 17: a click opens TrapDoor1/2 over the water pit.'
+- note:
+    text: 'Lever17: no click pose picks it headless (work/click_poses.json): its event'
+- execute_event:
+    id: 363
+- advance_runtime:
+    seconds: 3.0500000000000003
+- assert:
+    mechanism:
+      id: 111
+      state: open
+- assert:
+    mechanism:
+      id: 112
+      state: open
+- note:
+    text: 'Trigger5: stepping in sinks ShooterPlate1 and Shooter5/6 fire; it rises after 4 s.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 11492
+    y: -22274
+    z: -158
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: FiredTrigger5
+      value: 1
+- assert:
+    mechanism:
+      id: 94
+      state: open
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 94
+      state: closed
+- note:
+    text: 'Trigger18 fires SpawnTrigger0-3: four demons from the four statues, which crumble.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 4670
+    y: -11714
+    z: 2273
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: SpawnSpawnLoc0
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: SpawnSpawnLoc1
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: SpawnSpawnLoc2
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: SpawnSpawnLoc3
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: DestroyedSpawnPiece0
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: DestroyedSpawnPiece3
+      value: 1
+- note:
+    text: 'TrigSkelHeadOn0: the skeleton head turns (1 s) and SkelHeadShooter0/1 fire five bolts each.'
+- assert:
+    state_dump_named_map_var:
+      name: SkullGoSkeletonHead
+      value: 0
+- set_pose:
+    map: 1000terrors.blv
+    x: 8315
+    y: -8847
+    z: -2078
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.6
+- assert:
+    state_dump_named_map_var:
+      name: SkullGoSkeletonHead
+      value: 1
+- advance_runtime:
+    seconds: 5.5
+- note:
+    text: 'GreaterDemon1''s DeathTrigger (Spawner8 default): a Lesser Demon spawns and EndCount counts it.'
+- damage_actor:
+    actor_index: 68
+    amount: 100000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: EndCount
+      value: 1
+- note:
+    text: 'Chess: BoardObj2 is attacked by a piece; stepping onto it hurts the party.'
+- assert:
+    state_dump_named_map_var:
+      name: ChessHits
+      value: 0
+- set_pose:
+    map: 1000terrors.blv
+    x: 8312
+    y: -15122
+    z: -2748
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    state_dump_named_map_var:
+      name: ChessHits
+      value: 1
+- console:
+    line: cinematic list
+    expect_contains: playing chess_capture_2
+- advance_runtime:
+    seconds: 2.5
+- note:
+    text: 'WinMan without key 108: only the lightning (SwitchThrown).'
+- set_pose:
+    map: 1000terrors.blv
+    x: 8928
+    y: -9258
+    z: 2776
+    yaw: -1.5708
+    pitch: -0.4896
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: SwitchThrown
+      value: 1
+- note:
+    text: 'TauntMan with key 108 (Trigger19): the cinematic njam_taunt (cinematics_1000t.py): key 497, Door0 opens at 1 s,
+      Njam at TauntMarker, Door0 shut, Njam gone at the end.'
+- console:
+    line: qbit set 90108
+- set_pose:
+    map: 1000terrors.blv
+    x: 1802
+    y: -16630
+    z: 2254
+    yaw: 0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.8
+- assert:
+    qbit_set:
+    - 90497
+- console:
+    line: cinematic list
+    expect_contains: playing njam_taunt
+- advance_runtime:
+    seconds: 3.3421875
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- advance_runtime:
+    seconds: 2.3578125
+- assert:
+    actor_visible:
+      actor_index: 113
+      near:
+        x: 8151
+        y: -9748
+        max_distance: 300
+- advance_runtime:
+    seconds: 13.0
+- assert:
+    actor_visible:
+      actor_index: 113
+      hidden: true
+- note:
+    text: 'Njam1000.inc :Init SetPropNumber CanDamage FALSE: no blow of any kind hurts the hunting Njam (scene mm9_can_receive_damage
+      false).'
+- lua_event:
+    source: evt.SetMonsterBit(113, ActorAttribute.Invisible, 0)
+- damage_actor:
+    actor_index: 113
+    amount: 100000
+    expect: refused
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_visible:
+      actor_index: 113
+      dead: false
+      hp: 6600
+- lua_event:
+    source: evt.SetMonsterBit(113, ActorAttribute.Invisible, 1)
+- assert:
+    state_dump_named_map_var:
+      name: OpenDoor0
+      value: 0
+- note:
+    text: 'WinMan with key 108: the cinematic njam_freeze_win: 234 000 experience, the monsters gone, at its end key 109 and
+      the level change.'
+- set_pose:
+    map: 1000terrors.blv
+    x: 8928
+    y: -9258
+    z: 2776
+    yaw: -1.5708
+    pitch: -0.4896
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- console:
+    line: cinematic list
+    expect_contains: playing njam_freeze_win
+- assert:
+    qbit_clear:
+    - 90109
+- advance_runtime:
+    seconds: 37
+    follow_map_move: true
+- assert:
+    qbit_set:
+    - 90109
+- assert:
+    map_arrived:
+      map: hallofthegods.blv
+- load_map:
+    map: 1000terrors.blv
+- note:
+    text: 'Genielamp: a real click.'
+- set_pose:
+    map: 1000terrors.blv
+    x: -2457
+    y: -13187
+    z: -2569
+    yaw: 1.5708
+    pitch: -0.3692
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: GenieUsed
+      value: 1
+- note:
+    text: 'ChessNote0 (at the foot of ToLowerTombGate), a world item: picked up from the south.'
+- set_pose:
+    map: 1000terrors.blv
+    x: -707
+    y: -3097
+    z: -2324
+    yaw: 1.5708
+    pitch: -1.2432
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    inventory_any_member:
+    - item_id: 10598
+      count: 1

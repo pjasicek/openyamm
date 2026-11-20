@@ -76,7 +76,11 @@ struct DecorationLookupResult
 class DecorationTable
 {
 public:
+    // Rows in increasing '#' order (decoration id = '#' - 1). Numbers may skip (a world's rows start in its own range
+    // past the engine's): a skipped id is no decoration, get() returns null for it. Fails on a repeated or decreasing
+    // number.
     bool loadRows(const std::vector<std::vector<std::string>> &rows);
+    // Null for an id past the table or skipped by its rows.
     const DecorationEntry *get(uint16_t decorationId) const;
     const DecorationEntry *findByInternalName(const std::string &internalName) const;
     std::optional<uint16_t> findIdByInternalName(const std::string &internalName) const;
@@ -84,6 +88,8 @@ public:
 
 private:
     std::vector<DecorationEntry> m_entries;
+    // False for the ids the rows skip.
+    std::vector<bool> m_entryPresent;
     std::unordered_map<std::string, uint16_t> m_entryIndexByInternalName;
     std::unordered_map<std::string, uint16_t> m_entryIndexByMapAlias;
 };

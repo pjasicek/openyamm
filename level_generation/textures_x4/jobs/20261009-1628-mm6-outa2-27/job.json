@@ -1,0 +1,520 @@
+{
+ "id": "20261009-1628-mm6-outa2-27",
+ "world": "mm6",
+ "maps": [
+  "outa2.odm",
+  "outb1.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/armorrch",
+  "mm6/desdr1",
+  "mm6/desdr2",
+  "mm6/desdr3",
+  "mm6/deslft3",
+  "mm6/desrf1",
+  "mm6/desrf2a",
+  "mm6/desrf3a",
+  "mm6/desrt3",
+  "mm6/deswin3",
+  "mm6/deswin3a",
+  "mm6/deswin3b",
+  "mm6/magicpor",
+  "mm6/tentdor3",
+  "mm6/tentwal3",
+  "mm6/training",
+  "mm6/trim",
+  "mm6/gbdor",
+  "mm6/gbrt",
+  "mm6/gbend",
+  "mm6/gblft",
+  "mm6/gbcnt",
+  "mm6/vh2ctr",
+  "mm6/vh4winle"
+ ],
+ "requests": {
+  "mm6/armorrch": {
+   "name": "armorrch",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "armoury shop sign: a gilded horned great helm on orange-brown vertical wooden boards between riveted gold trim bands, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge. Keep the brass riveted bands at top and bottom running to the canvas edge as in the reference.",
+    "3": "Keep the gilded gold helmet colour of the reference (warm yellow gold, not silver or blue). The brass riveted band at the top runs straight to the top canvas border at its own bright brass brightness, with no dark hairline or shadow above it.",
+    "4": "No dark outline or shadow along any outer edge; the brass band reaches the bottom border at its own brightness. Keep the warm orange-brown plank colour of the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     36
+    ]
+   }
+  },
+  "mm6/desdr1": {
+   "name": "desdr1",
+   "versions": [
+    1
+   ],
+   "material": "rough vertical wooden plank door with two cross battens set in a reddish rubble stone wall, a horned animal skull mounted above the door, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/desdr2": {
+   "name": "desdr2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "arched dark grey weathered wooden door with black iron bands and a small barred peephole, set in a red-ochre stucco wall, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/desrt2",
+     "left": "mm6/deslft2"
+    }
+   }
+  },
+  "mm6/desdr3": {
+   "name": "desdr3",
+   "versions": [
+    1
+   ],
+   "material": "doorway under a rough wooden lintel hung with a striped beaded curtain in brown, orange and blue, set in a red-ochre stucco wall, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/deslft3": {
+   "name": "deslft3",
+   "versions": [
+    1
+   ],
+   "material": "rough red-ochre adobe stucco house wall with a lumpy hand-smoothed surface, left-hand piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/desrf1": {
+   "name": "desrf1",
+   "versions": [
+    1
+   ],
+   "material": "grey weathered horizontal wooden roof planks with dark gaps and knots",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/desrf2a": {
+   "name": "desrf2a",
+   "versions": [
+    1
+   ],
+   "material": "red-orange clay barrel roof tiles in overlapping rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/desrf3a": {
+   "name": "desrf3a",
+   "versions": [
+    1
+   ],
+   "material": "rounded red-brown clay roof tiles in square-staggered rows with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/desrt3": {
+   "name": "desrt3",
+   "versions": [
+    1
+   ],
+   "material": "rough red-ochre adobe stucco house wall with a lumpy hand-smoothed surface and a vertical dark wooden corner post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/deswin3": {
+   "name": "deswin3",
+   "versions": [
+    1
+   ],
+   "material": "rough red-ochre adobe stucco house wall with a lumpy hand-smoothed surface and a small dark square window opening",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/deswin3a": {
+   "name": "deswin3a",
+   "versions": [
+    1
+   ],
+   "material": "rough red-ochre adobe stucco house wall with a lumpy hand-smoothed surface, a small dark square window opening and a vertical dark wooden corner post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/deswin3b": {
+   "name": "deswin3b",
+   "versions": [
+    1
+   ],
+   "material": "rough red-ochre adobe stucco house wall with a lumpy hand-smoothed surface, a small dark square window opening and a vertical dark wooden corner post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/magicpor": {
+   "name": "magicpor",
+   "versions": [
+    1
+   ],
+   "material": "magic shop sign: a glowing blue-white rolled scroll with a golden aura on orange wooden boards, riveted steel-blue side bands, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentdor3": {
+   "name": "tentdor3",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "blue and white striped tent wall with a scalloped valance, the front flaps tied back with cords around a dark entrance opening, copy the composition exactly",
+   "notes": {
+    "3": "Start the blue stripe flush at the left edge with no pale border strip or line; the left and right edge stripes continue the tent wall stripes exactly.",
+    "4": "The blue stripe begins at the very first pixel column on the left; no pale beige strip of any width at the left edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/tentwal3",
+     "left": "mm6/tentwal3"
+    },
+    "3": {
+     "right": "mm6/tentwal3",
+     "left": "mm6/tentwal3"
+    },
+    "4": {
+     "right": "mm6/tentwal3",
+     "left": "mm6/tentwal3"
+    }
+   }
+  },
+  "mm6/tentwal3": {
+   "name": "tentwal3",
+   "versions": [
+    1
+   ],
+   "material": "blue and white vertically striped heavy canvas tent wall with a scalloped valance along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/training": {
+   "name": "training",
+   "versions": [
+    1
+   ],
+   "material": "training hall sign: a blue and white heraldic shield with a golden rampant lion on brown wooden boards between riveted steel-blue side bands, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/trim": {
+   "name": "trim",
+   "versions": [
+    1
+   ],
+   "material": "plain dark brown wood trim strip with straight horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gbdor": {
+   "name": "gbdor",
+   "versions": [
+    1
+   ],
+   "material": "large double wooden door of vertical brown planks with gilded square ornament plates and long gold handles, a gilded studded band along the bottom, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gbrt": {
+   "name": "gbrt",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey stone brick house wall with reddish mortar and a projecting square stone pilaster on the right",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gbdor"
+     ],
+     "fraction": 0.148
+    },
+    "2": {
+     "sources": [
+      "mm6/gbdor"
+     ],
+     "fraction": 0.148
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/gbdor"
+    }
+   }
+  },
+  "mm6/gbend": {
+   "name": "gbend",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey stone brick house wall with reddish mortar and projecting square stone pilasters at both edges",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gbrt"
+     ],
+     "fraction": 0.76
+    },
+    "2": {
+     "sources": [
+      "mm6/gbrt"
+     ],
+     "fraction": 0.76
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/gblft": {
+   "name": "gblft",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey stone brick house wall with reddish mortar and a projecting square stone pilaster on the left",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gbend"
+     ],
+     "fraction": 0.743
+    },
+    "2": {
+     "sources": [
+      "mm6/gbend"
+     ],
+     "fraction": 0.743
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/gbrt"
+    }
+   }
+  },
+  "mm6/gbcnt": {
+   "name": "gbcnt",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey stone brick house wall with reddish mortar",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gbrt",
+      "mm6/gblft"
+     ],
+     "fraction": 0.96
+    },
+    "2": {
+     "sources": [
+      "mm6/gbrt",
+      "mm6/gblft"
+     ],
+     "fraction": 0.96
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/gbrt",
+     "left": "mm6/gblft"
+    },
+    "2": {
+     "right": "mm6/gbrt",
+     "left": "mm6/gblft"
+    }
+   }
+  },
+  "mm6/vh2ctr": {
+   "name": "vh2ctr",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade: dark brown timber frame with a middle rail enclosing two panels of dark grey brick infill",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh4winle": {
+   "name": "vh4winle",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade: dark brown timber frame with a diagonal brace, a cream plaster panel, a lit amber barred window with a green wooden shutter and dark grey brick infill below, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

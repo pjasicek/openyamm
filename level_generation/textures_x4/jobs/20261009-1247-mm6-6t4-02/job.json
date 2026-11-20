@@ -1,0 +1,667 @@
+{
+ "id": "20261009-1247-mm6-6t4-02",
+ "world": "mm6",
+ "maps": [
+  "6t4.blv",
+  "6d11.blv"
+ ],
+ "created": "2026-10-09T10:48:10+00:00",
+ "textures": [
+  "mm6/ch2frnt",
+  "mm6/bedsid2",
+  "mm6/ch2tople",
+  "mm6/ch2top",
+  "mm6/ch2topre",
+  "mm6/bemstrb1",
+  "mm6/ch2bak",
+  "mm6/ch2bakre",
+  "mm6/ch2bakle",
+  "mm6/d1wctra",
+  "mm6/d8wlb",
+  "mm6/d2wlbmed",
+  "mm6/d8wlble",
+  "mm6/d2niche4",
+  "mm6/d1sbpa",
+  "mm6/d2niche3",
+  "mm6/cedsqrdk",
+  "mm6/cvdor3",
+  "mm6/d2niche1",
+  "mm6/d2niche2",
+  "mm6/d2skulbs",
+  "mm6/ch4side",
+  "mm6/d2skulas",
+  "mm6/ch4frntb"
+ ],
+ "requests": {
+  "mm6/ch2frnt": {
+   "name": "ch2frnt",
+   "reference": {
+    "pad": [
+     8,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     819
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "teal-green painted iron chest front with rivets and a dark iron keyhole plate",
+   "notes": {}
+  },
+  "mm6/bedsid2": {
+   "name": "bedsid2",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 3,
+    "gap": 16,
+    "stack_axis": "v",
+    "size": [
+     1024,
+     796
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved red-brown wooden bed side rail with a row of turned spindles",
+   "notes": {}
+  },
+  "mm6/ch2tople": {
+   "name": "ch2tople",
+   "reference": {
+    "pad": [
+     14,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     704,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "teal-green painted iron chest lid edge piece with rivets",
+   "notes": {
+    "2": "Plain riveted painted iron only: no scrollwork or ornament that the reference does not show."
+   }
+  },
+  "mm6/ch2top": {
+   "name": "ch2top",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "teal-green painted iron chest lid with an embossed circular ornament and a thin pale rim",
+   "notes": {
+    "2": "Keep the reference's exact medallion design and proportions; do not substitute a different ornament.",
+    "3": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge.",
+    "4": "Keep the outer edges exactly like the reference's edges: no darker or lighter rim, frame line or shadow on any side. Keep the reference's dark outer border.",
+    "5": "Keep the reference's dark outer border."
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch2topre": {
+   "name": "ch2topre",
+   "reference": {
+    "pad": [
+     14,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     704,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "teal-green painted iron chest lid edge piece with rivets",
+   "notes": {
+    "2": "Plain riveted painted iron only: no scrollwork or ornament that the reference does not show.",
+    "3": "Plain riveted painted iron only: no scrollwork or ornament that the reference does not show."
+   }
+  },
+  "mm6/bemstrb1": {
+   "name": "bemstrb1",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 4,
+    "gap": 8,
+    "stack_axis": "v",
+    "size": [
+     1024,
+     608
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown wooden trim strip with a darker carved underside",
+   "notes": {}
+  },
+  "mm6/ch2bak": {
+   "name": "ch2bak",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "teal-green painted iron chest back with rivets and dark iron corner bands",
+   "notes": {}
+  },
+  "mm6/ch2bakre": {
+   "name": "ch2bakre",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "u",
+    "size": [
+     576,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "teal-green painted iron chest back edge piece with rivets",
+   "notes": {}
+  },
+  "mm6/ch2bakle": {
+   "name": "ch2bakle",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "u",
+    "size": [
+     576,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "teal-green painted iron chest back edge piece with rivets",
+   "notes": {}
+  },
+  "mm6/d1wctra": {
+   "name": "d1wctra",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown fieldstone wall with a pale weathered wooden post in the middle and a wooden beam on top",
+   "notes": {}
+  },
+  "mm6/d8wlb": {
+   "name": "d8wlb",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-green rough fieldstone wall with dark mortar and a stone base course",
+   "notes": {}
+  },
+  "mm6/d2wlbmed": {
+   "name": "d2wlbmed",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-violet rough stone brick wall with dark mortar",
+   "notes": {}
+  },
+  "mm6/d8wlble": {
+   "name": "d8wlble",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "grey-green rough fieldstone wall inside a grey stone frame on the left, bottom and top",
+   "notes": {
+    "4": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge.",
+    "5": "Keep the outer edges exactly like the reference's edges: no darker or lighter rim, frame line or shadow on any side."
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d8wlb"
+     ],
+     "fraction": 0.55
+    },
+    "4": {
+     "sources": [
+      "mm6/d8wlb"
+     ],
+     "fraction": 0.544
+    },
+    "5": {
+     "sources": [
+      "mm6/d8wlb"
+     ],
+     "fraction": 0.544
+    }
+   }
+  },
+  "mm6/d2niche4": {
+   "name": "d2niche4",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown stone brick wall with a shallow recessed rectangular niche of rough brown stone",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d2niche3"
+     ],
+     "fraction": 0.716
+    }
+   }
+  },
+  "mm6/d1sbpa": {
+   "name": "d1sbpa",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dry yellow-brown woven straw thatch",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d2niche3": {
+   "name": "d2niche3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown stone brick wall with a deep dark recessed niche",
+   "notes": {}
+  },
+  "mm6/cedsqrdk": {
+   "name": "cedsqrdk",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark red-brown polished cedar wood with straight grain and a few small knots",
+   "notes": {}
+  },
+  "mm6/cvdor3": {
+   "name": "cvdor3",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey weathered steel-banded door with diagonal iron braces and a small square viewing slot, inside a grey stone frame",
+   "notes": {}
+  },
+  "mm6/d2niche1": {
+   "name": "d2niche1",
+   "reference": {
+    "pad": [
+     0,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     910,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown stone brick wall with a dark recessed niche holding old bones and a skull",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d2niche3"
+     ],
+     "fraction": 0.933
+    }
+   }
+  },
+  "mm6/d2niche2": {
+   "name": "d2niche2",
+   "reference": {
+    "pad": [
+     0,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     910,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown stone brick wall with a dark recessed niche holding old bones and a skull",
+   "notes": {}
+  },
+  "mm6/d2skulbs": {
+   "name": "d2skulbs",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved grey stone skull relief set in a dark recessed square stone panel",
+   "notes": {}
+  },
+  "mm6/ch4side": {
+   "name": "ch4side",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red lacquered wooden chest side with dark iron bands and a pale skull clasp",
+   "notes": {}
+  },
+  "mm6/d2skulas": {
+   "name": "d2skulas",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved brown stone skull relief in a recessed square stone panel",
+   "notes": {}
+  },
+  "mm6/ch4frntb": {
+   "name": "ch4frntb",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red lacquered wooden chest front with dark iron bands, studs and a pale skull clasp",
+   "notes": {}
+  }
+ }
+}

@@ -1,0 +1,138 @@
+{
+ "sprite": "6tree22",
+ "output": "mm6_deco_tree22.glb",
+ "height_m": 2.58,
+ "note": "Broad rounded dark-green broadleaf crown from a third of the height, short reddish trunk forking into limbs.",
+ "sapling": {
+  "scale": 1.83,
+  "baseSplits": 0,
+  "splitHeight": 0.45,
+  "splitAngle": [
+   30,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.36,
+  "seed": 221,
+  "ratio": 0.055,
+  "curveRes": [
+   8,
+   4,
+   3,
+   1
+  ],
+  "attractUp": [
+   0,
+   0.35,
+   0.3,
+   0
+  ],
+  "rootFlare": 1.3,
+  "scaleV": 0.0,
+  "segSplits": [
+   0.0,
+   0.25,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.35,
+  "centre": 0.64,
+  "clumps": 110,
+  "inner_clumps": 16,
+  "outer_radius": [
+   0.17,
+   0.27
+  ],
+  "inner_radius": [
+   0.16,
+   0.22
+  ],
+  "card": [
+   0.26,
+   0.34
+  ],
+  "lobes": {
+   "fraction": 0.3,
+   "slack": 1.12
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   104,
+   62,
+   34
+  ],
+  "min_thickness": [
+   0.012,
+   0.022,
+   0.04
+  ],
+  "root_reach": 0.15,
+  "roots": 4,
+  "clip_below_crown": true,
+  "root_radius": 0.4,
+  "budget": [
+   1700,
+   600,
+   260
+  ]
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "lod2_card_scale": 0.95,
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.07,
+    1.15,
+    1.04
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   100,
+   190,
+   72
+  ],
+  "seeds": [
+   221,
+   233,
+   247,
+   251
+  ],
+  "value": [
+   0.8,
+   1.5
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "impostor_dilate": 6,
+ "impostor_edge_fill": true,
+ "transparent_bounces": 64,
+ "impostor_tone": [
+  0.865,
+  0.785,
+  0.94
+ ],
+ "albedo_tint": [
+  0.608,
+  0.561,
+  0.859
+ ]
+}

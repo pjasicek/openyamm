@@ -17,8 +17,9 @@ namespace OpenYAMM::Game
 class MusicStream final : public Engine::AudioStreamSource
 {
 public:
-    // Decodes the encoded track (any audio FFmpeg reads) from its start.
-    explicit MusicStream(std::shared_ptr<const std::vector<uint8_t>> pEncodedTrack);
+    // Decodes the encoded track (any audio FFmpeg reads) from its start; loopGapSeconds of silence follow each pass
+    // (MM9 plays a song once, waits 10 s and plays it again).
+    explicit MusicStream(std::shared_ptr<const std::vector<uint8_t>> pEncodedTrack, float loopGapSeconds = 0.0f);
     ~MusicStream() override;
 
     MusicStream(const MusicStream &) = delete;
@@ -34,6 +35,7 @@ private:
     bool writeFrames(const float *pSamples, uint32_t frameCount);
 
     std::shared_ptr<const std::vector<uint8_t>> m_pEncodedTrack;
+    uint32_t m_loopGapFrames = 0;
     std::vector<float> m_buffer;
     uint64_t m_framesWritten = 0;
     uint64_t m_framesRead = 0;

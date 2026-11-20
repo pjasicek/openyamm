@@ -1,0 +1,13 @@
+output_dir: /tmp/obsidian-native-house
+exit: true
+steps:
+  - wait: 2
+  - action: trigger
+  - wait: 2
+  - capture: house
+  - click: [1300, 140]
+  - wait: 1
+  - capture: resident
+  - click: [1240, 490]
+  - wait: 1
+  - capture: topic

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/party/SkillData.h"
+#include "game/rules/ActorRulesetFacts.h"
 #include "game/tables/MonsterTable.h"
 
 #include <cstdint>
@@ -22,6 +23,8 @@ struct GameplayBolsterRuntimeContext
     const MergedBolsterMonsterTable *pBolsterMonsterTable = nullptr;
     const Party *pParty = nullptr;
     bool bolsterMonstersEnabled = false;
+    // What the ruleset resolved for this actor before: a reload or re-resolve keeps its rolls (bosses).
+    const ActorRulesetFacts *pExistingFacts = nullptr;
 };
 
 struct GameplayMonsterBolsterResult
@@ -53,6 +56,9 @@ struct GameplayMonsterBolsterResult
     int maxHp = 0;
     int armorClass = 0;
     uint16_t moveSpeed = 0;
+    // The speed while the monster is not hostile to the party, when the rules give one (MAW: no speed bonus until it
+    // fights); 0 for moveSpeed always.
+    uint16_t calmMoveSpeed = 0;
     int attack1DamageDiceRolls = 0;
     int attack1DamageDiceSides = 0;
     int attack1DamageBonus = 0;
@@ -63,6 +69,9 @@ struct GameplayMonsterBolsterResult
     SkillMastery spell1SkillMastery = SkillMastery::None;
     uint32_t spell2SkillLevel = 0;
     SkillMastery spell2SkillMastery = SkillMastery::None;
+    // The special attack the rules give the monster instead of its table's (MAW: weak diseases become poisons).
+    std::optional<MonsterSpecialAttackKind> specialAttackKind;
+    ActorRulesetFacts rulesetFacts;
 };
 
 int gameplayBolsterAveragePartyLevel(const Party *pParty);

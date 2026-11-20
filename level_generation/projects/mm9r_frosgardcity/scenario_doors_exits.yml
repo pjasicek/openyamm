@@ -1,0 +1,131 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.frosgardcity_doors_exits
+title: Frosgard City (native BLV) - the tavern's door, a locked facade door, the bank's hatch, the north gate's exit
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: frosgardcity.blv
+- note:
+    text: 'Taverndoor (door 65, event 106): shut, stops the party, opens on its click; the party walks into the tavern.'
+- assert:
+    mechanism:
+      id: 65
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: frosgardcity.blv
+      x: 1618
+      y: -2342
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: frosgardcity.blv
+      x: 1618
+      y: -2602
+      z: 45
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 40
+- execute_event:
+    id: 106
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 65
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: frosgardcity.blv
+      x: 1618
+      y: -2342
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: frosgardcity.blv
+      x: 1618
+      y: -2942
+      z: 45
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'Door14 (a facade door, Locked, MoveDist 0): a click says it is locked; it stays shut.'
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 9
+      state: closed
+- note:
+    text: 'The bank''s hatch (Bankdoor): a click opens it and the banker''s dialogue (RUDE 206); the dialogue''s exit shuts
+      it (NPC206.scr :OnRude toggles bankdoor).'
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 206
+- assert:
+    mechanism:
+      id: 2
+      state: opening
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- note:
+    text: 'ExitTrigger0 (DAT object 46): the north gate road to the Frosgard wilderness.'
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: frosgardcity.blv
+      x: 11983
+      y: 7696
+      z: -4
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: frosgardcity.blv
+      x: 11983
+      y: 8246
+      z: -4
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 46

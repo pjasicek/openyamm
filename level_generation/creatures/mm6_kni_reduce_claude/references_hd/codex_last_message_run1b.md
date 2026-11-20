@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_kni_reduce_claude/references_hd/00_three_quarter.png) at 1024×1536 using built-in image generation. Recorded the exact prompt and input hashes in `generation_runs.json`.
+
+Cuirass corrected; no additional retry. The returned image has alpha but retains a visible dark backdrop, so clean transparency remains unmet.

@@ -1,0 +1,98 @@
+# The arrival (README "The arrival"): a new game on Starport Reach starts by the wreck; the Pilot gives M1; about
+# 30 s after the load the four Seekers appear (checked in the game, not here); the East Gate guard sends the party to the
+# Warden, who closes M1 and gives M2. Run from output/hesper_stage/scenario_run (its settings.ini mounts the stage):
+#   ../../../build/game/openyamm --headless-run-scenario ../../../level_generation/projects/hesper_out1/arrival.yml
+# Actors (build_out1.py order): 11 the East Gate's south guard (NPC 9003; the scenario's actor activation carries no NPC
+# id, so he is spoken to directly too); 35-38 the arrival's Seekers (group 70).
+# The wreck's click (event 85, until M4 is given) and the Warden's Post door (event 55) are evt.SpeakNPC; headless
+# scenarios cannot click outdoor model decorations, so the Pilot and the Warden are spoken to directly.
+id: hesper.out1.arrival
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+- assert:
+    map: hes_out1.odm
+- note: {text: "The drones wait invisible over the crater floor: they do not move before the timer."}
+- advance_runtime: {seconds: 5}
+- assert:
+    actor_visible:
+      actor_index: 35
+      monster_id: 10050
+      report_state: true
+      near: {x: -5988, y: -9172, max_distance: 5}
+- note: {text: "The Pilot: Planetfall (M1)."}
+- speak_npc: {source_id: 9001}
+- select_topic: {kind: npc_topic, action_id: 9001}
+- assert:
+    qbit_set: [100201]
+    qbit_clear: [100001]
+- press_action: {action: cancel_dialog}
+- note: {text: "A minute on: the drone groups by the walls and the crater rim (spawns.yml) leave the town alone (the
+    Hesperian-versus-drone relation is 2 one way, 1 the other: short range). The arrival's timer (event 87) does not run
+    here: the headless runtime does not run outdoor map timers (checked in the game: README)."}
+- advance_runtime: {seconds: 60}
+- assert:
+    actor_visible:
+      actor_index: 11
+      report_state: true
+      dead: false
+      has_aim_target: false
+      near: {x: -9740, y: -15820, max_distance: 60}
+- assert:
+    actor_visible:
+      actor_index: 35
+      report_state: true
+      hostile_to_party: true
+- note: {text: "The East Gate guard sends the strangers to the Warden's Post."}
+- set_pose: {map: hes_out1.odm, x: -9300, y: -15820, z: 1400, yaw: 3.14159, pitch: 0}
+- speak_npc: {source_id: 9003}           # actor 11 carries npc_id 9003; the headless actor hit carries no NPC id
+- select_topic: {kind: npc_topic, action_id: 9021}
+- assert:
+    qbit_set: [100700]
+- press_action: {action: cancel_dialog}
+- note: {text: "The Warden closes M1 and gives M2."}
+- speak_npc: {source_id: 9002}
+- select_topic: {kind: npc_topic, action_id: 9011}
+- assert:
+    qbit_set: [100001]
+    qbit_clear: [100201]
+- select_topic: {kind: npc_topic, action_id: 9014}
+- assert:
+    qbit_set: [100202]
+- press_action: {action: cancel_dialog}
+- note: {text: "The black box (CR-P4-15): the Pilot's Black box gives it (100232) and Log cores (9005) shows; with no
+    core carried it reads nothing (the runner's granted items do not reach the map's Lua, so the reading is checked in
+    the game)."}
+- speak_npc: {source_id: 9001}
+- select_topic: {kind: npc_topic, action_id: 9002}
+- assert:
+    qbit_set: [100232]
+- select_topic: {kind: npc_topic, action_id: 9005}
+- assert:
+    qbit_clear: [100235, 100233]
+- note: {text: "M4 given: after M1 the Pilot's Below the rim (9006) hands over his core (11489, M4 given 100204). The
+    wreck's console then goes dark (event 85: wreck_states.yml, a hybrid scenario, runs the event)."}
+- select_topic: {kind: npc_topic, action_id: 9006}
+- assert:
+    qbit_set: [100204]
+    qbit_clear: [100004]
+    held_item: {active: true, item_id: 11489}       # a topic's gift comes to the hand, as in MM
+- assert:
+    held_item: {active: false, item_id: 11489}      # put in the pack
+- assert:
+    inventory_any_member:
+    - {item_id: 11489}
+- press_action: {action: cancel_dialog}
+- note: {text: "After M2 the East Gate guard's The walls (9023) shows and his Strangers (9021) is gone; Sergeant Ost
+    (9521) and the North Gate guard (9522) talk."}
+- setup_shortcut: {kind: set_qbit, id: 100002, reason: M2 done (D1's Drone Control)}
+- speak_npc: {source_id: 9003}
+- select_topic: {kind: npc_topic, action_id: 9023}
+- press_action: {action: cancel_dialog}
+- speak_npc: {source_id: 9521}
+- select_topic: {kind: npc_topic, action_id: 9761}
+- press_action: {action: cancel_dialog}
+- speak_npc: {source_id: 9522}
+- select_topic: {kind: npc_topic, action_id: 9762}

@@ -1,0 +1,39 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_inventastorca/review/cave06
+settle_seconds: 1.5
+exit: true
+shots:
+- name: l07_cave_floor
+  position:
+  - -845
+  - -1152
+  - -1637
+  yaw: 1.2152
+  pitch: 0.0
+- name: l08_cave_shaft
+  position:
+  - -845
+  - -1152
+  - -1637
+  yaw: 1.2152
+  pitch: 0.8727
+- name: l10_cave_wall_from_hall
+  position:
+  - -440
+  - -1843
+  - -1637
+  yaw: 1.5708
+  pitch: 0.0
+- name: u03_entrance_corridor
+  position:
+  - -768
+  - 256
+  - -890
+  yaw: 3.1416
+  pitch: 0.0
+- name: c6_shaft_mid
+  position:
+  - -845
+  - -1152
+  - -1637
+  yaw: 1.2152
+  pitch: 0.3491

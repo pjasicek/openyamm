@@ -1,0 +1,1 @@
+Process with default registration. Save the ungraded final PNG to its matching .before_tone.png, run restore_native_tone.py, then queue.py check g08116_v0_s0. Native foliage and bark RGB means are matched separately; alpha is unchanged. Refresh the backup after any new registration.

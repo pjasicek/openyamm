@@ -1,0 +1,237 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generation_complete_with_failed_acceptance_checks",
+  "maximum_corrective_regenerations_per_view": 1,
+  "note": "The built-in tool returned 1254 x 1254 on every call despite explicit 1024 x 1024 prompts. Raw returns were preserved as required. No further attempts were made beyond the brief's limit. selected means the preferred retained candidate, not approval against all checks.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: game prop orthographic texture-source painting, albedo only, 1024 x 1024 PNG with a genuinely transparent background. Image 1 is the EXACT geometry guide/edit target. Image 2 is ONLY the design, colour, and material reference. Paint the guide's existing surfaces; the guide is the absolute authority for every shape, silhouette, position, scale, edge, opening, overlap, isolated debris piece and detail. Keep its outline EXACTLY, without moving, enlarging, shrinking, recentering, cropping, inventing or removing any geometry. Do not copy the reference composition or its camera. Materials from the design: chipped cracked white/ivory ceramic panels with tarnished muted gold edging and simple gold inlays, rust-brown and grey steel pipes and sheets, black rubber cables, dark glass console face where present, grime and dust. Preserve faceted edges. Texture detail stays inside each existing shape. LIGHTING: flat even shadowless frontal illumination; paint base colour only, without directional shading, cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim lighting or glow spill. No background, floor, text, watermark, checkerboard painted into pixels, or extra props. Preserve full transparent empty margins exactly as in guide. Deliver ONLY the FRONT view over guide_front.png. Preserve the very low broad heap in the same middle-lower band of the square canvas: highest fragment at about y=335, groundmost rubble about y=689, left edge about x=65 and right edge about x=959. The foreground jagged broad central plate stays exactly where it is; left and right polygonal open pipe mouths, diagonal plates and upper protruding fragments must retain their exact guide contours. Do not turn it into a three-quarter presentation render.",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by the single corrective regeneration, which has less cavity shading. Native return was 1254 x 1254 and had geometry drift.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "geometry guide and edit target",
+          "sha256": "e9c9a15d7881e36586cbf45b5f115d9fd6b4d5477f165af8d0228e7b822d216f"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material reference only",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "silhouette_identical": {
+          "passed": false,
+          "detail": "Native resolution differs; visible contour, opening and internal shape differences remain."
+        },
+        "materials_and_colours": {
+          "passed": true,
+          "detail": "Visual palette check: chipped ivory ceramic, tarnished gold, rust-brown and grey steel, charcoal cables and dark glass."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "detail": "Some cavity/overlap shading remains despite explicit shadowless albedo prompts."
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        "unresized_return": {
+          "passed": true,
+          "detail": "Copied native PNG bytes without resizing, recolouring, masking or other image editing."
+        }
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: game prop orthographic texture-source painting, albedo only, 1024 x 1024 PNG with a genuinely transparent background. Image 1 is the EXACT geometry guide/edit target. Image 2 is ONLY the design, colour, and material reference. Paint the guide's existing surfaces; the guide is the absolute authority for every shape, silhouette, position, scale, edge, opening, overlap, isolated debris piece and detail. Keep its outline EXACTLY, without moving, enlarging, shrinking, recentering, cropping, inventing or removing any geometry. Do not copy the reference composition or its camera. Materials from the design: chipped cracked white/ivory ceramic panels with tarnished muted gold edging and simple gold inlays, rust-brown and grey steel pipes and sheets, black rubber cables, dark glass console face where present, grime and dust. Preserve faceted edges. Texture detail stays inside each existing shape. LIGHTING: flat even shadowless frontal illumination; paint base colour only, without directional shading, cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim lighting or glow spill. No background, floor, text, watermark, checkerboard painted into pixels, or extra props. Preserve full transparent empty margins exactly as in guide. Deliver ONLY the FRONT view over guide_front.png. Preserve the very low broad heap in the same middle-lower band of the square canvas: highest fragment at about y=335, groundmost rubble about y=689, left edge about x=65 and right edge about x=959. The foreground jagged broad central plate stays exactly where it is; left and right polygonal open pipe mouths, diagonal plates and upper protruding fragments must retain their exact guide contours. Do not turn it into a three-quarter presentation render.\nCORRECTION REQUEST: previous attempt returned 1254 x 1254, changed small shape edges and introduced shaded cavities. Produce an actual 1024 x 1024 image natively, not 1254, not 1536. The output image dimensions MUST be 1024 x 1024. Use the FIRST input guide as a locked pixel-space stencil. Keep all alpha boundaries and every piece at exactly the guide coordinates. Only replace grey surface colours with the described material colours. Reduce cavity shading and all illumination gradients for flat shadowless albedo. Do not make a new arrangement. Transparent PNG.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the best permitted front return for flatter material rendering. This is a retained candidate, not a fully compliant result: native dimensions are 1254 x 1254, geometry differs from the guide, and some cavity shading remains.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "geometry guide and edit target",
+          "sha256": "e9c9a15d7881e36586cbf45b5f115d9fd6b4d5477f165af8d0228e7b822d216f"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material reference only",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "silhouette_identical": {
+          "passed": false,
+          "detail": "Native resolution differs; visible contour, opening and internal shape differences remain."
+        },
+        "materials_and_colours": {
+          "passed": true,
+          "detail": "Visual palette check: chipped ivory ceramic, tarnished gold, rust-brown and grey steel, charcoal cables and dark glass."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "detail": "Some cavity/overlap shading remains despite explicit shadowless albedo prompts."
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        "unresized_return": {
+          "passed": true,
+          "detail": "Copied native PNG bytes without resizing, recolouring, masking or other image editing."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: game prop orthographic texture-source painting, albedo only, 1024 x 1024 PNG with a genuinely transparent background. Image 1 is the EXACT geometry guide/edit target. Image 2 is ONLY the design, colour, and material reference. Paint the guide's existing surfaces; the guide is the absolute authority for every shape, silhouette, position, scale, edge, opening, overlap, isolated debris piece and detail. Keep its outline EXACTLY, without moving, enlarging, shrinking, recentering, cropping, inventing or removing any geometry. Do not copy the reference composition or its camera. Materials from the design: chipped cracked white/ivory ceramic panels with tarnished muted gold edging and simple gold inlays, rust-brown and grey steel pipes and sheets, black rubber cables, dark glass console face where present, grime and dust. Preserve faceted edges. Texture detail stays inside each existing shape. LIGHTING: flat even shadowless frontal illumination; paint base colour only, without directional shading, cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim lighting or glow spill. No background, floor, text, watermark, checkerboard painted into pixels, or extra props. Preserve full transparent empty margins exactly as in guide. Deliver ONLY the TOP view over guide_top.png. Strict orthographic overhead view, with all pieces and openings in the exact guide positions. Keep the large broken upper plate, broad lower-left plate, bottom-centre jagged plate, diagonal pipes with flanges, rectangular sheets and scattered debris exactly as drawn in the guide. No perspective tilt. Maintain the full square canvas and existing margins.\nOutput image resolution: exactly 1024 x 1024 pixels, native square PNG. Match the first input guide's resolution. It is a surface repaint of that 1024-pixel guide, preserving its alpha silhouette.",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by the single corrective regeneration for flatter shading and more steel treatment. Native return was 1254 x 1254 and had geometry drift.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "geometry guide and edit target",
+          "sha256": "efcd404b5b7479cbe70ca7a40f14139953a3d5dbb37248914e731d7820513893"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material reference only",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "silhouette_identical": {
+          "passed": false,
+          "detail": "Native resolution differs; visible contour, opening and internal shape differences remain."
+        },
+        "materials_and_colours": {
+          "passed": true,
+          "detail": "Visual palette check: chipped ivory ceramic, tarnished gold, rust-brown and grey steel, charcoal cables and dark glass."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "detail": "Some cavity/overlap shading remains despite explicit shadowless albedo prompts."
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        "unresized_return": {
+          "passed": true,
+          "detail": "Copied native PNG bytes without resizing, recolouring, masking or other image editing."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: game prop orthographic texture-source painting, albedo only, 1024 x 1024 PNG with a genuinely transparent background. Image 1 is the EXACT geometry guide/edit target. Image 2 is ONLY the design, colour, and material reference. Paint the guide's existing surfaces; the guide is the absolute authority for every shape, silhouette, position, scale, edge, opening, overlap, isolated debris piece and detail. Keep its outline EXACTLY, without moving, enlarging, shrinking, recentering, cropping, inventing or removing any geometry. Do not copy the reference composition or its camera. Materials from the design: chipped cracked white/ivory ceramic panels with tarnished muted gold edging and simple gold inlays, rust-brown and grey steel pipes and sheets, black rubber cables, dark glass console face where present, grime and dust. Preserve faceted edges. Texture detail stays inside each existing shape. LIGHTING: flat even shadowless frontal illumination; paint base colour only, without directional shading, cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim lighting or glow spill. No background, floor, text, watermark, checkerboard painted into pixels, or extra props. Preserve full transparent empty margins exactly as in guide. Deliver ONLY the TOP view over guide_top.png. Strict orthographic overhead view, with all pieces and openings in the exact guide positions. Keep the large broken upper plate, broad lower-left plate, bottom-centre jagged plate, diagonal pipes with flanges, rectangular sheets and scattered debris exactly as drawn in the guide. No perspective tilt. Maintain the full square canvas and existing margins.\nOutput image resolution: exactly 1024 x 1024 pixels, native square PNG. Match the first input guide's resolution. It is a surface repaint of that 1024-pixel guide, preserving its alpha silhouette.\nCORRECTIVE REGENERATION: Match guide_top.png pixel for pixel in shape. Actual output resolution MUST be 1024 x 1024; the previous return was oversized. Lock geometry and alpha to the first input. The guide's horizontal thin central strip remains a metal strip in the same geometry, not an invented ceramic chunk. Preserve its openings and individual debris contours exactly. FLATTEN the lighting completely: no dark shadows beneath overlapping panels or between pipes, no occlusion shading, no specular shine on the sheet. Show local material colour evenly lit from the camera everywhere. Muted dusty ivory, tarnished ochre-gold, rusty grey steel, matte charcoal rubber. Transparent background. Surface repaint only.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the best permitted top return for flatter shading and steel surface treatment. This is a retained candidate, not a fully compliant result: native dimensions are 1254 x 1254, geometry differs from the guide, and some occlusion shading remains.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "geometry guide and edit target",
+          "sha256": "efcd404b5b7479cbe70ca7a40f14139953a3d5dbb37248914e731d7820513893"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material reference only",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "silhouette_identical": {
+          "passed": false,
+          "detail": "Native resolution differs; visible contour, opening and internal shape differences remain."
+        },
+        "materials_and_colours": {
+          "passed": true,
+          "detail": "Visual palette check: chipped ivory ceramic, tarnished gold, rust-brown and grey steel, charcoal cables and dark glass."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "detail": "Some cavity/overlap shading remains despite explicit shadowless albedo prompts."
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        "unresized_return": {
+          "passed": true,
+          "detail": "Copied native PNG bytes without resizing, recolouring, masking or other image editing."
+        }
+      }
+    }
+  ]
+}

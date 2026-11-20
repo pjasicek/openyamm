@@ -1,0 +1,577 @@
+{
+ "id": "20261009-1628-mm6-6t2-03",
+ "world": "mm6",
+ "maps": [
+  "6t2.blv",
+  "6d10.blv",
+  "6d01.blv"
+ ],
+ "created": "2026-10-09T14:28:25+00:00",
+ "textures": [
+  "mm6/t1swbu",
+  "mm6/t1trima",
+  "mm6/bd1hdbrd",
+  "mm6/bd1hdbrs",
+  "mm6/6voltyl",
+  "mm6/bd1ftbrd",
+  "mm6/bemh16a",
+  "mm6/bemh32b",
+  "mm6/bmplnk",
+  "mm6/ch3tpbv",
+  "mm6/ch3tplev",
+  "mm6/ch3tprev",
+  "mm6/d3smlb",
+  "mm6/t3dr1",
+  "mm6/t3wbstd",
+  "mm6/t3wbstbd",
+  "mm6/t3wsmtd",
+  "mm6/t1spcl1",
+  "mm6/t3wsptbd",
+  "mm6/t3wsmtbd",
+  "mm6/t3wsbtd",
+  "mm6/t3wbltbd",
+  "mm6/t1wl1cts",
+  "mm6/t1wl1lea"
+ ],
+ "requests": {
+  "mm6/t1swbu": {
+   "name": "t1swbu",
+   "versions": [
+    1
+   ],
+   "material": "small square pale pink-white marble tile holding a round domed orange-gold button set in a dark red socket; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1trima": {
+   "name": "t1trima",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "mottled pink, cream and grey speckled stone trim tile, a bright white bevel strip along the top and right edges, a dark grey-brown shadow strip along the bottom and left edges",
+   "notes": {
+    "2": "Copy the composition exactly: veined pale marble fills almost the whole square; only a thin bright bevel along the top and right edges and a thin dark shading line along the bottom and left edges, no wide frame or border on all four sides.",
+    "3": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border. No bevel or bright highlight along the bottom or right edge; keep the native's simple framing.",
+    "4": "Copy the composition exactly: mottled speckled stone fills the square; bright strip only along the top and right edges, dark strip only along the bottom and left edges; no bevelled frame, no marble panel, no bright line along the bottom."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bd1hdbrd": {
+   "name": "bd1hdbrd",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown carved wooden bed headboard with rows of recessed panels holding orange floral relief carvings and braided rope moulding; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bd1rail"
+     ],
+     "fraction": 0.25
+    }
+   }
+  },
+  "mm6/bd1hdbrs": {
+   "name": "bd1hdbrs",
+   "versions": [],
+   "material": "plain dark reddish-brown carved wooden bedpost strip with a braided rope relief running its length",
+   "notes": {}
+  },
+  "mm6/6voltyl": {
+   "name": "6voltyl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark charcoal-black volcanic stone with fine pale grey speckles and mottling",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/ctflor5"
+    }
+   }
+  },
+  "mm6/bd1ftbrd": {
+   "name": "bd1ftbrd",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown carved wooden bed footboard with recessed panels holding orange floral relief carvings and a small central panel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemh16a": {
+   "name": "bemh16a",
+   "versions": [
+    1
+   ],
+   "material": "plain reddish-brown polished wood grain horizontal strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemh32b": {
+   "name": "bemh32b",
+   "versions": [
+    1
+   ],
+   "material": "plain reddish-brown polished wood grain horizontal strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bmplnk": {
+   "name": "bmplnk",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wooden plank boards with wavy grain and dark seams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch3tpbv": {
+   "name": "ch3tpbv",
+   "versions": [
+    1
+   ],
+   "material": "one complete top face of a gold treasure chest: polished hammered gold lid surface with a raised gold rim border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch3tplev": {
+   "name": "ch3tplev",
+   "versions": [],
+   "material": "plain polished hammered gold chest lid edge strip with a raised rim",
+   "notes": {}
+  },
+  "mm6/ch3tprev": {
+   "name": "ch3tprev",
+   "versions": [],
+   "material": "plain polished hammered gold chest lid edge strip with a raised rim",
+   "notes": {}
+  },
+  "mm6/d3smlb": {
+   "name": "d3smlb",
+   "versions": [
+    1
+   ],
+   "material": "narrow weathered purple-brown vertical plank wooden door with a small barred iron grille window near the top and an iron lock plate; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3dr1": {
+   "name": "t3dr1",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown vertical plank wooden door with a row of dark square studs along the top, a round bronze medallion with an embossed beast in the centre, and two carved crosses on the lower panel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3wbstd": {
+   "name": "t3wbstd",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey and dark grey rough stone block wall with dark mortar, a band of rusty red-brown crenellated brick blocks along the top",
+   "notes": {
+    "3": "Wherever the reference's left edge is black mortar the leftmost columns are solid black mortar; no pale stone touching the left edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wspp",
+      "mm6/t3wsbp",
+      "mm6/t3wbltd",
+      "mm6/t3wbsr",
+      "mm6/t3wsptr"
+     ],
+     "fraction": 0.604
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wspp",
+      "mm6/t3wsbp",
+      "mm6/t3wbltd",
+      "mm6/t3wbsr"
+     ],
+     "fraction": 0.603
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wspp",
+      "mm6/t3wsbp",
+      "mm6/t3wbltd",
+      "mm6/t3wbsr"
+     ],
+     "fraction": 0.599
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/bemv32b",
+     "right": "mm6/d2lgdor"
+    },
+    "3": {
+     "left": "mm6/bemv32b",
+     "right": "mm6/d2lgdor"
+    }
+   },
+   "prefill_from": [
+    "mm6/t3wspp",
+    "mm6/t3wsbp",
+    "mm6/t3wbltd",
+    "mm6/t3wbsr"
+   ]
+  },
+  "mm6/t3wbstbd": {
+   "name": "t3wbstbd",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey and dark grey rough stone block wall with dark mortar, a band of rusty red-brown crenellated brick blocks along the top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wspp",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.676
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wspp",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.661
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/t3wsmtd": {
+   "name": "t3wsmtd",
+   "versions": [
+    1
+   ],
+   "material": "grey and dark grey rough stone block wall with dark mortar dripping green slime, a carved bone frieze with a central horned skull and ribs along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1spcl1": {
+   "name": "t1spcl1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale pink-white veined marble block wall with an arched dark niche holding a grey stone statue of a muscular warrior wrestling a figure; copy the composition exactly",
+   "notes": {
+    "2": "All figures fully clothed in long robes; no bare skin.",
+    "3": "All figures fully clothed in long robes; no bare skin. The statue group and its large drape are dark weathered bronze as in the reference, not pale grey stone; keep the drape filling the lower niche and spilling over its bottom edge as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl3cts"
+     ],
+     "fraction": 0.508
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1cts"
+     ],
+     "fraction": 0.299
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl1cts"
+     ],
+     "fraction": 0.299
+    }
+   }
+  },
+  "mm6/t3wsptbd": {
+   "name": "t3wsptbd",
+   "versions": [
+    1
+   ],
+   "material": "grey and dark grey rough stone block wall with dark mortar, a carved bone frieze with a central horned skull and ribs along the top and a bone-and-rib frieze along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsmtd"
+     ],
+     "fraction": 0.553
+    }
+   }
+  },
+  "mm6/t3wsmtbd": {
+   "name": "t3wsmtbd",
+   "versions": [
+    1
+   ],
+   "material": "grey and dark grey rough stone block wall with dark mortar dripping green slime, a carved bone frieze with a central horned skull and ribs along the top and a bone-and-rib frieze along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsptbd",
+      "mm6/t3wsmtd"
+     ],
+     "fraction": 0.685
+    }
+   }
+  },
+  "mm6/t3wsbtd": {
+   "name": "t3wsbtd",
+   "versions": [
+    1
+   ],
+   "material": "grey and dark grey rough stone block wall with dark mortar dripping red blood, a carved bone frieze with a central horned skull and ribs along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsmtd",
+      "mm6/t3wsptbd"
+     ],
+     "fraction": 0.634
+    }
+   }
+  },
+  "mm6/t3wbltbd": {
+   "name": "t3wbltbd",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey and dark grey rough stone block wall with dark mortar, a band of large rusty red-brown stepped brick blocks along the top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbltd",
+      "mm6/t3wbstd"
+     ],
+     "fraction": 0.404
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbltd",
+      "mm6/t3wbstd"
+     ],
+     "fraction": 0.404
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/t1wl1cts": {
+   "name": "t1wl1cts",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale pink-white veined marble block wall with bevelled blocks, a band of small rose-brown crenellated marble blocks along the top",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.978
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   }
+  },
+  "mm6/t1wl1lea": {
+   "name": "t1wl1lea",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale pink-white veined marble block wall with bevelled blocks, a column of small rose-brown marble blocks on the left edge and a band of them along the top",
+   "notes": {
+    "3": "No dark hairline along the right edge: the marble blocks continue to the right border at even brightness, joints only where the reference has them.",
+    "4": "No dark hairline along the right edge: the marble blocks continue to the right border at even brightness, joints only where the reference has them."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl1ctl",
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl4leb",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.864
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1ctl",
+      "mm6/t1wl1cts",
+      "mm6/t1wl4leb",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.86
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl1leb",
+      "mm6/t1wl1ctl",
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl4lea"
+     ],
+     "fraction": 0.91
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl1leb",
+      "mm6/t1wl1ctl",
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.891
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {
+     "right": "mm6/t1wl1ctl"
+    }
+   },
+   "roll": {
+    "2": [
+     89,
+     0
+    ],
+    "3": [
+     89,
+     0
+    ]
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  }
+ }
+}

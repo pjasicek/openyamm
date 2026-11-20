@@ -73,7 +73,8 @@ public:
             entry.followerPanel = descendantOfAny(manager, *pLayout, {"outdoorfollowerpanel"});
             entry.widescreen = entry.followerPanel || descendantOfAny(manager, *pLayout, {
                 "outdoorfollowertoggle", "outdoorgameplaybasebar", "outdoortopbar", "outdooroptionsbar", "outdoorgoldbar",
-                "outdoorfoodrestbar", "outdoorflybufficon", "outdoorwaterwalkbufficon",
+                "outdoorfoodrestbar", "outdoorflybufficon", "outdoorlevitatebufficon",
+                "outdoorwaterwalkbufficon", "outdoorfleetfootbufficon",
                 "outdoorbuffbodypanel", "outdoorbuffskullpanel",
                 "outdoorminimapframe", "outdoormobileactionpanel", "outdoormobileflightpanel",
                 "outdoormobilesystempanel", "outdoormobilebuttonquickcast",

@@ -1,0 +1,303 @@
+{
+ "hes_spire_great": {
+  "title": "Great hive spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   40,
+   20,
+   350,
+   640
+  ],
+  "identity": "A great Kreegan hive spire about thirty metres tall, grown not built: a tall twisting trunk of glossy black-violet resin made of interwoven vertebral ribs and root-like strands, widening at the foot into flaring root buttresses that spread over the ground, its surface pierced by a column of tall pointed slit windows glowing hot orange from inside, ivory bone spikes jutting out of it all the way up, ending in two or three sharp ivory spikes at the top.",
+  "materials": "glossy wet black-violet resin and chitin with a faint violet sheen, hot glowing orange slit windows and veins, ivory bone spikes with pale tips",
+  "tris": 2400,
+  "length": 3000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_spire_roost": {
+  "title": "Roost spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   352,
+   50,
+   598,
+   640
+  ],
+  "identity": "A great Kreegan hive spire about thirty metres tall topped by a roost: the same twisting trunk of glossy black-violet resin ribs with glowing orange slit windows and ivory bone spikes, crowned by a wide cup-shaped nest of woven resin and bone with two huge curved ivory tusks rising from its rim like a crescent. The roost cup is EMPTY: the winged creature perched on it in the concept is NOT part of this model.",
+  "materials": "glossy wet black-violet resin and chitin, hot glowing orange slit windows, ivory bone spikes and two great ivory tusks, a dark woven resin nest cup",
+  "tris": 2800,
+  "length": 3000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_spire_mid": {
+  "title": "Mid hive spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   614,
+   285,
+   702,
+   640
+  ],
+  "identity": "A slender Kreegan hive spire about sixteen metres tall: a narrow cone of glossy black-violet interwoven resin ribs on a small root foot, one cluster of glowing orange slit windows in its middle, ivory bone thorns along it and one ivory spike at the tip.",
+  "materials": "glossy wet black-violet resin and chitin, glowing orange slit windows, ivory bone thorns",
+  "tris": 1400,
+  "length": 1600,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_spire_cluster": {
+  "title": "Spike cluster",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   770,
+   420,
+   885,
+   640
+  ],
+  "identity": "A low cluster of three short Kreegan resin spikes about eight metres tall fused together at a common root mass: lattices of black-violet resin ribs with a faint orange glow inside, each spike ending in an ivory bone point, the root mass spreading over the ground.",
+  "materials": "glossy black-violet resin lattice, faint glowing orange inside, ivory bone points",
+  "tris": 800,
+  "length": 800,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5
+ },
+ "hes_spire_fallen": {
+  "title": "Fallen hive spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   922,
+   430,
+   1275,
+   640
+  ],
+  "identity": "A great Kreegan hive spire that has toppled and broken: three hollow segments of its black-violet resin rib trunk lying in a row on the ground, about twenty metres long in all, the broken ends jagged and open showing dim orange inside, ivory bone spikes sticking out sideways and up, the root end with its torn buttresses lifted.",
+  "materials": "glossy black-violet resin and chitin, dim glowing orange inside the hollow broken ends, ivory bone spikes",
+  "tris": 1600,
+  "length": 2000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_hive_mound": {
+  "title": "Hive mound",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   1300,
+   470,
+   1490,
+   640
+  ],
+  "identity": "A Kreegan hive mound about nine metres across and six high: a ribbed dome of black-violet resin lattice with round vent openings, half-sunk glowing amber eggs bulging out at its foot, short ivory bone spikes on its crown.",
+  "materials": "glossy black-violet resin lattice, glowing orange inside the vents, translucent glowing amber eggs, ivory bone spikes",
+  "tris": 2500,
+  "length": 900,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5
+ },
+ "hes_egg_mound": {
+  "title": "Egg-field mound",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   30,
+   0,
+   560,
+   300
+  ],
+  "identity": "A low membrane mound of an egg field about six metres across: a nest of black-violet resin roots and tendrils holding a heap of big glossy amber Kreegan eggs, one cracked open and glowing hot orange inside, smaller eggs round its rim.",
+  "materials": "glossy black-violet resin roots, translucent glowing amber-orange eggs with dark veins, a hot orange glow inside the cracked egg",
+  "tris": 2500,
+  "length": 600,
+  "metallic": 0.0,
+  "rough": [
+   0.4,
+   0.2
+  ],
+  "normal": 1.4
+ },
+ "hes_nest_mound": {
+  "title": "Acid crawler nest mound",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone3/concepts/z3_05_decorations.png",
+   "design/kreegan_world/zone3/concepts/z3_03_spires.png"
+  ],
+  "identity": "A nest mound of the acid crawlers about seven metres across and two high: a squat lumpy heap of hardened black-violet resin and marsh mud, pocked with four or five dark burrow holes round its sides, crusted with pale yellow acid crystals and glossy bile-green acid dripping from the holes. Organic, wet, alien; no eggs, no bones.",
+  "materials": "dark wet black-violet resin and grey-olive dried mud, pale yellow crystalline acid crust, glowing bile-green acid in the holes",
+  "tris": 2000,
+  "length": 700,
+  "metallic": 0.0,
+  "rough": [
+   0.5,
+   0.25
+  ],
+  "normal": 1.4
+ },
+ "hes_turret_mount_k": {
+  "title": "Grafted turret mount",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   40,
+   640,
+   430,
+   1000
+  ],
+  "identity": "ONLY the pedestal under the turret in the concept, with NO turret on it: a broken white Ancient ceramic plinth of stacked gold-edged blocks, overgrown by a black-violet resin mass with glowing orange veins that climbs it and ends in a flat round resin socket on top where a turret will stand. About seven metres across and four high.",
+  "materials": "chipped white ceramic blocks with gold edges, glossy black-violet resin with glowing orange veins, a flat dark resin socket on top",
+  "tris": 2000,
+  "length": 700,
+  "metallic": 0.1,
+  "rough": [
+   0.5,
+   0.25
+  ],
+  "normal": 1.4
+ },
+ "hes_giant_rib": {
+  "title": "Giant rib bone",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   30,
+   300,
+   750,
+   500
+  ],
+  "identity": "One giant ivory rib bone about twelve metres long lying on its side on the ground, gently curved, its thick knobbed head at one end, its surface cracked into plates, half grown over at the foot by thin black-violet resin roots and a few loose bone shards.",
+  "materials": "ivory bone with brown-amber cracks and stains, thin black-violet resin roots",
+  "tris": 2000,
+  "length": 1200,
+  "metallic": 0.0,
+  "rough": [
+   0.6,
+   0.35
+  ],
+  "normal": 1.4
+ },
+ "hes_acid_shelf": {
+  "title": "Acid crust shelf",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   750,
+   320,
+   1045,
+   500
+  ],
+  "identity": "A shelf of pale yellow acid crust at the rim of an acid pool, about four metres across: a flat crystalline slab cracked into cells, its edge dripping glowing bile-green acid in thick drips, a few acid bubbles, dark roots under it.",
+  "materials": "pale yellow crystalline acid crust, glowing translucent bile-green acid drips, dark violet roots",
+  "tris": 1500,
+  "length": 400,
+  "metallic": 0.0,
+  "rough": [
+   0.35,
+   0.15
+  ],
+  "normal": 1.3
+ },
+ "hes_hatchery_tower": {
+  "title": "Hatchery tower",
+  "concept": "../../zone3/concepts/z3_04_entrances.png",
+  "crop": [
+   905,
+   515,
+   1250,
+   880
+  ],
+  "identity": "The Kreegan hatchery: a squat tower of black-violet resin lattice about twenty-six metres tall and fourteen across, its broad base of arched resin ribs with glowing orange openings, stepping in to a narrower top crowned by an ivory bone spike and two curved ivory horns. Only the tower: no eggs round it, no flying creatures.",
+  "materials": "glossy black-violet resin lattice and chitin, glowing orange arched openings, ivory bone spike and horns",
+  "tris": 5000,
+  "length": 2600,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_relay_spire": {
+  "title": "The Relay Spire",
+  "concept": "../../zone3/concepts/z3_04_entrances.png",
+  "crop": [
+   180,
+   0,
+   650,
+   460
+  ],
+  "identity": "A Kreegan signal tower grown over a stolen Ancient relay mast, sixty-four metres tall: a spine of black-violet resin vertebrae rising from a broad mound of buttress roots, its east face straight with enclosed stair galleries and rib windows glowing orange, its other faces stepping in ring by ring, three white-and-gold Ancient relay dishes and coils with blue glowing lights grafted near its top under a resin spike, two great ivory tusks curving up beside it. A grafted white Ancient blast door half open in the root mound. Seen whole from base to tip.",
+  "materials": "glossy black-violet resin vertebrae and roots, glowing orange rib windows, white ceramic and gold Ancient dishes with blue glowing lights, ivory tusks",
+  "tris": 8000,
+  "length": 6400,
+  "metallic": 0.15,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_seedship": {
+  "title": "The Seedship",
+  "concept": "../../zone3/concepts/z3_06_seedship.png",
+  "crop": [
+   270,
+   330,
+   1210,
+   600
+  ],
+  "identity": "The Kreegan Seedship, a colossal organic ship about 120 metres long, 40 wide and 45 high, lying low: a long dark resin hull vaulted over by ivory ribs along its whole length, rows of glowing amber openings along both flanks, a crest of bone spines along its spine, a blunt armoured bow. ONLY the ship: none of the giant ivory arches standing round it in the concept, no gantry, no ground, no flying creatures.",
+  "materials": "dark violet-black resin hull, ivory bone ribs and plates with thin gold-brown veins, glowing amber-orange openings, ivory spines",
+  "tris": 15000,
+  "length": 12000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_cradle_arch": {
+  "title": "Cradle arch",
+  "concept": "../../zone3/concepts/z3_06_seedship.png",
+  "crop": [
+   1110,
+   300,
+   1340,
+   600
+  ],
+  "identity": "One of the Seedship's cradle arches: a single colossal ivory bone arch about seventy metres tall rising from a broad foot on the ground and curving over like a tusk, its surface in ivory plates with a gold-brown vein pattern, one round blue-white glowing Ancient beacon set in it near the foot.",
+  "materials": "ivory bone plates with thin gold-brown veins, a round blue-white glowing beacon lens",
+  "tris": 3000,
+  "length": 7000,
+  "metallic": 0.0,
+  "rough": [
+   0.55,
+   0.3
+  ],
+  "normal": 1.4
+ }
+}

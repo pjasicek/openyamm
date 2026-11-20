@@ -1,0 +1,52 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MM6 demon — native attack study</title>
+<style>
+*{box-sizing:border-box}body{background:#171d23;color:#e7edf3;font:16px/1.55 system-ui;margin:0;padding:24px;max-width:1400px;margin:auto}
+h1{font-size:25px;margin:0 0 6px}h2{font-size:17px;margin:6px 0}p{margin:6px 0 14px}.muted{color:#abbac8}.notice{background:#273441;padding:14px;border-left:4px solid #efb767}
+.controls{display:flex;gap:16px;align-items:center;padding:16px 0;flex-wrap:wrap}input{flex:1;min-width:260px}button{background:#344858;color:white;border:1px solid #8095a5;padding:8px 14px;border-radius:5px;cursor:pointer}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:#202932;border:1px solid #465461;padding:12px;border-radius:6px}
+canvas{width:100%;height:auto;background:#222a32;image-rendering:pixelated}table{border-collapse:collapse;width:100%;font-size:14px}td,th{text-align:left;padding:6px;border-bottom:1px solid #394652}th{color:#a7cadd}
+.r{color:#ffad56}.l{color:#63d6eb}.bar{margin:16px 0}.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}a{color:#95d0f6}
+@media(max-width:760px){.pair,.two{grid-template-columns:1fr}body{padding:14px}}
+</style>
+<h1>MM6 demon — attack motion specification</h1>
+<p>Six original poses / 750 ms. Planned 37 samples at 48 fps. <strong>This is a motion study; no 3D attack has been authored or accepted.</strong></p>
+<p class="notice">The right-hand claw rises, lowers, then sweeps across the chest. Native attack art has one frontal view. Depth and subframes are inferred. The guide on the right shows approximate screen targets, never a solved skeleton or proof of deformation quality.</p>
+<div class="controls"><button id="play">Play guide</button><label for="frame">Sample</label><input id="frame" type="range" min="0" max="36" value="0" step="1"><output id="time"></output></div>
+<div class="pair">
+<section class="card"><h2 id="nativeTitle"></h2><canvas id="native" width="708" height="660"></canvas><p class="muted">Untouched native RGBA pixels on a dark background. Native frames are held for 125 ms.</p></section>
+<section class="card"><h2 id="guideTitle"></h2><canvas id="guide" width="708" height="660"></canvas><p><span class="r">Anatomical right</span> · <span class="l">Anatomical left</span> · S shoulder / E elbow / W wrist / P palm. Joint centers ±6 px.</p></section>
+</div>
+<p id="observed" class="bar"></p>
+<div class="two"><section class="card"><h2>Movement for this sample</h2><div id="movement"></div><p class="muted">Fixed-length arm IK and rotations must produce the actual pose. Do not move individual skeleton joints onto these 2D interpolated lines.</p></section>
+<section class="card"><h2>Inferred fitting seeds</h2><p class="muted">Semantic targets, not bone-local Euler angles. Adjust from front and profile evidence while preserving native action.</p><table><tbody id="controls"></tbody></table></section></div>
+<section class="card bar"><h2>Required deformation checks — pending authoring</h2><table><tbody id="checks"></tbody></table></section>
+<p class="notice"><strong>Rig prerequisites found by isolated tests:</strong> the candidate jaw control moves the upper face/skull; a distal Pinky region stretches during knuckle opening; the thumb rigidity measurement lacks sufficient selected geometry. Repair or resolve these before accepting attack poses.</p>
+<p><a href="ATTACK_MOTION_SPEC.md">Full authoring and verification specification</a> · <a href="planned_frames.csv">All 37 sample instructions</a> · <a href="attack_motion_spec.json">Machine-readable plan</a> · <a href="annotated_native_attack.png">Annotated native poses</a></p>
+<script>
+const spec=__SPEC_DATA__;
+const art=__NATIVE_IMAGES__;
+const sprites={};let loaded=0;
+Object.entries(art).forEach(([name,src])=>{const im=new Image();im.onload=()=>{loaded++;if(loaded===6)render()};im.src=src;sprites[name]=im});
+const slider=document.querySelector('#frame'),play=document.querySelector('#play');let playing=false,start=0;
+function background(ctx){ctx.clearRect(0,0,708,660);ctx.fillStyle='#222a32';ctx.fillRect(0,0,708,660);ctx.imageSmoothingEnabled=false;ctx.strokeStyle='#697787';ctx.beginPath();ctx.moveTo(0,658);ctx.lineTo(708,658);ctx.stroke()}
+function path(ctx,points,color){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=3;ctx.beginPath();points.forEach(([x,y],i)=>{if(i)ctx.lineTo(x*2,y*2);else ctx.moveTo(x*2,y*2)});ctx.stroke();ctx.font='16px system-ui';points.forEach(([x,y],i)=>{ctx.beginPath();ctx.arc(x*2,y*2,5,0,Math.PI*2);ctx.fill();ctx.fillText(['S','E','W','P'][i],x*2+7,y*2-5)})}
+function render(){if(loaded<6)return;const f=spec.planned_frames[+slider.value],a=spec.anchors[Math.min(Math.floor(f.sample/6),5)],b=spec.anchors[Math.min(Math.floor(f.sample/6)+1,5)];
+document.querySelector('#time').textContent=`${f.sample}/36 · ${f.time_ms.toFixed(1)} ms`;
+document.querySelector('#nativeTitle').textContent=`Native ${a.letter.toUpperCase()} — ${a.phase}`;
+document.querySelector('#guideTitle').textContent=`Planned ${f.transition} — ${(f.transition_fraction*100).toFixed(0)}%`;
+const n=document.querySelector('#native').getContext('2d'),g=document.querySelector('#guide').getContext('2d');background(n);background(g);n.drawImage(sprites[a.source_frame],0,0,708,660);
+g.globalAlpha=.25;g.drawImage(sprites[a.source_frame],0,0,708,660);if(a!==b){g.globalAlpha=.15;g.drawImage(sprites[b.source_frame],0,0,708,660)}g.globalAlpha=1;
+path(g,f.screen_guide_only.right,'#ffad56');path(g,f.screen_guide_only.left,'#63d6eb');
+for(const key of ['eyes','chin','clasp']){const p=f.other_screen_guides[key];if(p){g.strokeStyle='#c4b4ff';g.beginPath();g.arc(p[0]*2,p[1]*2,5,0,Math.PI*2);g.stroke()}}
+document.querySelector('#observed').textContent=`Observed source ${a.letter.toUpperCase()}: ${a.observed}`;
+const moves=document.querySelector('#movement');moves.replaceChildren();Object.entries(f.movement).forEach(([k,v])=>{const p=document.createElement('p');p.textContent=v;moves.append(p)});const feet=document.createElement('p');feet.textContent=f.feet;moves.append(feet);
+const ct=document.querySelector('#controls');ct.replaceChildren();Object.entries(f.inferred_control_seeds).forEach(([k,v])=>{const tr=document.createElement('tr'),td=document.createElement('td'),val=document.createElement('td');td.textContent=k.replaceAll('_',' ');val.textContent=v.toFixed(2);tr.append(td,val);ct.append(tr)});
+const checks=document.querySelector('#checks');checks.replaceChildren();Object.entries(spec.checks).forEach(([k,v])=>{const tr=document.createElement('tr'),id=document.createElement('th'),td=document.createElement('td');id.textContent=k+(f.priority_checks.includes(k)?' ★':'');td.textContent=v;tr.append(id,td);checks.append(tr)});
+}
+slider.addEventListener('input',()=>{playing=false;play.textContent='Play guide';render()});
+play.addEventListener('click',()=>{playing=!playing;play.textContent=playing?'Pause':'Play guide';if(playing){if(+slider.value===36)slider.value=0;start=performance.now()-(+slider.value/48)*1000;requestAnimationFrame(tick)}});
+function tick(now){if(!playing)return;slider.value=Math.min(36,Math.floor((now-start)*48/1000));render();if(+slider.value===36){playing=false;play.textContent='Play guide'}else requestAnimationFrame(tick)}
+</script>

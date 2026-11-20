@@ -1,0 +1,535 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "maximum_corrective_regenerations_per_view": 1,
+  "status": "Five best-effort returns saved; exact silhouette and fully flat albedo requirements were not met within the permitted attempts.",
+  "selection_note": "Selected means best retained attempt for the named deliverable, not full brief compliance.",
+  "validation_method": "Read PNG metadata and alpha; visually compare all returns to guides/reference. Diagnostic mask IoU compares alpha >=128 after nearest-neighbor normalization to guide size in memory only; delivered PNG bytes are unchanged.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for the Hesper carapace mail, overlapping plates of Kreegan chitin-alloy cut from fallen Troopers.\nInput image 1 is design_reference.png: MATERIAL AND COLOUR AUTHORITY ONLY, not camera or silhouette. Input image 2 is the named guide: EDIT TARGET and absolute authority for geometry, silhouette, all openings, every edge and panel, camera orientation, position and scale.\nPaint directly over the exact white/grey geometry of input image 2. Keep its exact 1024 x 1024 canvas and alpha silhouette, every protrusion, internal transparent hole, jagged edge, framing and pixel position. Preserve even unusual camera directions. Do not turn the object upright, reinterpret the view name, change perspective, move, rescale, expand or crop the geometry. Do not replace this guide with the reference's attractive three-quarter pose.\nApply the design reference's actual materials: muted dark violet and black-purple mottled chitin-alloy overlapping plates with fine warm worn edges and fine hairline cracks; warm ivory bone/ceramic claw-shaped edging with small beige wear marks; dark warm brown leather straps and stitched lining; restrained brushed antique gold/brass buckles. Only where the existing chest light element is visible, paint its inset a bright orange/amber light colour. Continue materials plausibly on unseen backs and undersides. Keep every part and seam at its guide location. Do not invent extra structures, symbols, trim, holes or markings.\nLIGHTING: pure painted base colour/albedo under completely flat even shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening between parts, no edge shadows, no strong specular highlights, no reflections, no rim light, no cinematic gradient, no glowing light spill or bloom. Metal has its base colour with at most a faint sheen. Existing light recess is bright painted orange. Surface variation comes from the materials' colour and fine wear, not lighting.\nReturn one 1024 x 1024 RGBA PNG on a truly transparent background, including transparent holes in the guide. No background, floor, checkerboard drawn into the image, text, letters, labels, watermark or multiple-view sheet. Do not add any pixels outside the guide's silhouette.\nVIEW: guide_front.png. This is the short, strongly foreshortened annular end-on view shown in image 2. Preserve its roughly oval outer outline within x=179..844, y=244..780 and its large polygonal central transparent opening centered near (510,500). Follow the guide rather than a conventional upright front view. The broad inside surfaces are brown leather lining; exterior plate faces are violet chitin. Keep all pointed plate lips and bands exactly as modeled.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "f8e76f8cdd6daddf2e32af1506549de4136006fdaa4e901f158d539f8600f169",
+          "role": "exact geometry edit target"
+        }
+      ],
+      "attempt": 1,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-0c2bea71-c3d8-46bc-bd70-2f5dff3fe347.png",
+      "selected": false,
+      "reason": "Rejected: enlarged object, invented panel boundaries, strong lighting and poor guide alignment (normalized mask IoU 0.529).",
+      "output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-0c2bea71-c3d8-46bc-bd70-2f5dff3fe347.png",
+      "output_sha256": "6aa1e45a4daf8f047ef2d10d86279c571e3a14e28e5fdf9c5a0fb48918a6660a",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.528766,
+        "normalized_mask_mismatched_pixels": 185036,
+        "alpha_nonzero_bbox": [
+          0,
+          19,
+          1214,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          87,
+          224,
+          1168,
+          1030
+        ],
+        "fully_transparent_pixel_count": 1001783,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Edit image 1 (guide_front.png) by colouring its EXISTING surfaces only. This is a material paint-over, NOT a redesign or a new rendering. Image 2 is only the colour/material palette reference.\nOUTPUT exactly 1024 x 1024 PNG with true transparency. Copy image 1's alpha channel unchanged. Keep its outer contour, large central hole, and ALL geometric facet boundaries EXACTLY at the original pixel locations. The complete object stays inside x=179..844 and y=244..780. There must remain 244 pixels of transparent margin above it and 243 below; 179 pixels left and right. Do NOT enlarge it to fill the canvas. The central hole stays precisely as in image 1. Do NOT replace or embellish the geometry with details from image 2.\nThe existing broad concave inside surface in this view is dark brown leather. Paint the existing exterior plate faces muted black-violet chitin-alloy with very fine warm wear and restrained mottling. Existing claw-like trim is worn warm ivory, existing straps brown leather, existing buckles muted brass. Do not add any claws, buckles or orange core that are not visible on this end-on view. Preserve the guide's jagged faceted shape and the exact smooth large uninterrupted surfaces where it has them.\nThis is a flat ALBEDO colour texture source: make all faces evenly lit without shadows, ambient occlusion, highlights, reflections, bevel lighting or rim lights. Use only material pigment variation. No black outlines. Do not reproduce the dramatic lighting of the material reference. No text, letters, backdrop, floor, glow, or extra objects.\nCorrection goal: avoid the previous generation's enlarged ring, invented plates and shaded bevels. The grayscale guide must dictate everything except colour.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "f8e76f8cdd6daddf2e32af1506549de4136006fdaa4e901f158d539f8600f169",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 2,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-eff02e2f-8be1-47fe-825f-1995c4745bb1.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected: large improvement in framing and guide geometry over attempt 1. Keeps the main annular surfaces and opening. Residual shading and alpha/silhouette differences remain; this is the best permitted return, not an exact-mask pass.",
+      "output_sha256": "721d52ffe6eba553eaf65c62c03587b465fab50b18b3c0375149b2e230d85dd4",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.986193,
+        "normalized_mask_mismatched_pixels": 3248,
+        "alpha_nonzero_bbox": [
+          0,
+          32,
+          1240,
+          1182
+        ],
+        "alpha_at_least_128_bbox": [
+          220,
+          299,
+          1034,
+          954
+        ],
+        "fully_transparent_pixel_count": 1209325,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Edit image 1, the grayscale orthographic GUIDE, by colouring its EXISTING surfaces only. This is an albedo material paint-over, not a redesign. Image 2, design_reference.png, is ONLY the colour and material authority.\nReturn one 1024 x 1024 RGBA PNG with genuine transparency. Copy image 1's exact alpha, framing, camera, position and scale: every contour, hole, protrusion, facet and internal panel boundary must remain at the original pixel location. Preserve even the unusual orientation of the model in this guide. Do not enlarge to fill the canvas, rotate upright, change perspective, crop or add structures.\nUse the reference's muted dark black-violet chitin-alloy plates with restrained mottling and fine warm worn edges, warm ivory bone/ceramic existing claw trim with small beige wear, warm dark brown leather existing straps and lining, and muted brass existing buckles. Materials continue plausibly on unseen faces. Paint only the existing geometric parts; do not add new ornament, buckles, panel divisions or holes. Orange/amber belongs only to the existing chest light inset, if visible in this guide, with no spill or bloom. No blue light or white metal.\nALBEDO: every surface under the same completely flat even shadowless light from the viewer. Material colours and fine wear only. No cast shadows, ambient occlusion, dark edge shading, gradients caused by lighting, strong highlights, reflections, bright edge sheen or rim light. Metal as base colour with only a faint sheen. Do not copy the design reference's cinematic lighting. No background, floor, text, letters, labels, logos, watermarks or multiple-view layout. Preserve all transparent holes.\nEDIT TARGET: guide_back.png. Preserve this low foreshortened annular end-on view, with the object exactly within x=179..844, y=244..780, wide transparent margins, and the polygonal central hole near (515,500). In this specific guide the top pointed plates are violet chitin, the central hole's existing rim and the existing long curved side strips carry the reference's ivory trim, the broad curved shell sections are violet chitin, and the inner lining is brown leather. Do not introduce a conventional upright back view or a breastplate front light.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "e425fd07db70a3c57f73bbe8da552f8e81beb906218364d59e1c7c10ec569b38",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 1,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-7a604751-34e2-4370-93e2-de3c2e917a4c.png",
+      "selected": true,
+      "output": "paint_back.png",
+      "reason": "Selected: closer guide silhouette and more consistent ivory trim placement than correction. Main plate and rim boundaries are recognizable. Residual shaded edges and stray alpha remain.",
+      "output_sha256": "47d3e518ed0a9f15fffdd9a603e5ba527647f899ea40fa8f839151f1820d837a",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.990836,
+        "normalized_mask_mismatched_pixels": 2150,
+        "alpha_nonzero_bbox": [
+          0,
+          20,
+          1234,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          220,
+          298,
+          1035,
+          956
+        ],
+        "fully_transparent_pixel_count": 1208910,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Edit image 1, the grayscale orthographic GUIDE, by colouring its EXISTING surfaces only. This is an albedo material paint-over, not a redesign. Image 2, design_reference.png, is ONLY the colour and material authority.\nReturn one 1024 x 1024 RGBA PNG with genuine transparency. Copy image 1's exact alpha, framing, camera, position and scale: every contour, hole, protrusion, facet and internal panel boundary must remain at the original pixel location. Preserve even the unusual orientation of the model in this guide. Do not enlarge to fill the canvas, rotate upright, change perspective, crop or add structures.\nUse the reference's muted dark black-violet chitin-alloy plates with restrained mottling and fine warm worn edges, warm ivory bone/ceramic existing claw trim with small beige wear, warm dark brown leather existing straps and lining, and muted brass existing buckles. Materials continue plausibly on unseen faces. Paint only the existing geometric parts; do not add new ornament, buckles, panel divisions or holes. Orange/amber belongs only to the existing chest light inset, if visible in this guide, with no spill or bloom. No blue light or white metal.\nALBEDO: every surface under the same completely flat even shadowless light from the viewer. Material colours and fine wear only. No cast shadows, ambient occlusion, dark edge shading, gradients caused by lighting, strong highlights, reflections, bright edge sheen or rim light. Metal as base colour with only a faint sheen. Do not copy the design reference's cinematic lighting. No background, floor, text, letters, labels, logos, watermarks or multiple-view layout. Preserve all transparent holes.\nEDIT TARGET: guide_left.png. Keep the model horizontal, exactly as image 1, complete outline inside x=66..957, y=244..779; transparent margins above and below remain 244 pixels. The large vertical oval transparent armhole remains on the LEFT near (320,520). The pointed skirt plates extend to the RIGHT. Keep the exact outline of every pointed jagged plate on the top and right edges, the narrow middle section and the visible curled hook near (550,410). Paint the existing armhole edge and hooked trim warm ivory, the existing broad overlapping plates dark muted violet chitin and visible underlayer/straps brown leather. Do not rotate upright or reverse the view. Only existing geometry; no extra dangling claws or buckles.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1eb17808b377e91dbf56623a98ab73f9533b656de77b5825f08a22355b3f2f37",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 1,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-09741310-955b-467f-96ad-9a5825237f7b.png",
+      "selected": false,
+      "output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-09741310-955b-467f-96ad-9a5825237f7b.png",
+      "reason": "Rejected in favor of correction with better guide-mask overlap and less pronounced shading.",
+      "output_sha256": "b66b231a2a89a7457b7104573f6e54282568a492bd65d3452f0273e6ae36c54d",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.984173,
+        "normalized_mask_mismatched_pixels": 4616,
+        "alpha_nonzero_bbox": [
+          0,
+          19,
+          1216,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          80,
+          298,
+          1174,
+          955
+        ],
+        "fully_transparent_pixel_count": 1112289,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Edit image 1, the grayscale orthographic GUIDE, by colouring its EXISTING surfaces only. This is an albedo material paint-over, not a redesign. Image 2, design_reference.png, is ONLY the colour and material authority.\nReturn one 1024 x 1024 RGBA PNG with genuine transparency. Copy image 1's exact alpha, framing, camera, position and scale: every contour, hole, protrusion, facet and internal panel boundary must remain at the original pixel location. Preserve even the unusual orientation of the model in this guide. Do not enlarge to fill the canvas, rotate upright, change perspective, crop or add structures.\nUse the reference's muted dark black-violet chitin-alloy plates with restrained mottling and fine warm worn edges, warm ivory bone/ceramic existing claw trim with small beige wear, warm dark brown leather existing straps and lining, and muted brass existing buckles. Materials continue plausibly on unseen faces. Paint only the existing geometric parts; do not add new ornament, buckles, panel divisions or holes. Orange/amber belongs only to the existing chest light inset, if visible in this guide, with no spill or bloom. No blue light or white metal.\nALBEDO: every surface under the same completely flat even shadowless light from the viewer. Material colours and fine wear only. No cast shadows, ambient occlusion, dark edge shading, gradients caused by lighting, strong highlights, reflections, bright edge sheen or rim light. Metal as base colour with only a faint sheen. Do not copy the design reference's cinematic lighting. No background, floor, text, letters, labels, logos, watermarks or multiple-view layout. Preserve all transparent holes.\nEDIT TARGET: guide_right.png. Keep the model HORIZONTAL exactly as image 1, entire outline inside x=66..957, y=244..779; transparent margins above/below are 244 pixels. The large oval transparent armhole is on the RIGHT near (705,520). The pointed skirt plates extend to the LEFT. Preserve all jagged top plate tips, the scalloped left skirt boundary, the narrow middle section and the visible curled hook near (460,410). The existing armhole edging and hooked trim use worn warm ivory; existing broad overlapping plates use muted violet chitin with fine restrained wear; visible underlayers and straps are brown leather, only existing buckles brass. Do not mirror the other side: copy this specific guide exactly. Do not add an orange light absent from this side, dangling claws, extra buckles, panels or seams.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "b2c4913702b5332673b8d6c026cd36645d385701c28f3f110c68a25dbc77aefe",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 1,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-28ebac43-0581-4405-a373-88e96dbff2e7.png",
+      "selected": true,
+      "output": "paint_right.png",
+      "reason": "Selected: closer material assignment to the design and the opposite-side painting; correction incorrectly turns the large upper plate and lower corner plate ivory. This return has somewhat worse mask overlap, residual shading and edge fringe.",
+      "output_sha256": "088a385488729331c09c91a568dc72d7c64e17739225725ac9010d0eb0208d00",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.981239,
+        "normalized_mask_mismatched_pixels": 5488,
+        "alpha_nonzero_bbox": [
+          75,
+          32,
+          1208,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          79,
+          299,
+          1176,
+          957
+        ],
+        "fully_transparent_pixel_count": 1112928,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Edit image 1, the grayscale orthographic GUIDE, by colouring its EXISTING surfaces only. This is an albedo material paint-over, not a redesign. Image 2, design_reference.png, is ONLY the colour and material authority.\nReturn one 1024 x 1024 RGBA PNG with genuine transparency. Copy image 1's exact alpha, framing, camera, position and scale: every contour, hole, protrusion, facet and internal panel boundary must remain at the original pixel location. Preserve even the unusual orientation of the model in this guide. Do not enlarge to fill the canvas, rotate upright, change perspective, crop or add structures.\nUse the reference's muted dark black-violet chitin-alloy plates with restrained mottling and fine warm worn edges, warm ivory bone/ceramic existing claw trim with small beige wear, warm dark brown leather existing straps and lining, and muted brass existing buckles. Materials continue plausibly on unseen faces. Paint only the existing geometric parts; do not add new ornament, buckles, panel divisions or holes. Orange/amber belongs only to the existing chest light inset, if visible in this guide, with no spill or bloom. No blue light or white metal.\nALBEDO: every surface under the same completely flat even shadowless light from the viewer. Material colours and fine wear only. No cast shadows, ambient occlusion, dark edge shading, gradients caused by lighting, strong highlights, reflections, bright edge sheen or rim light. Metal as base colour with only a faint sheen. Do not copy the design reference's cinematic lighting. No background, floor, text, letters, labels, logos, watermarks or multiple-view layout. Preserve all transparent holes.\nEDIT TARGET: guide_top.png. Although the file is named top, this camera sees the broad breastplate surface: preserve this upright, straight orthographic guide exactly. Bounds x=179..844, y=66..957. Collar at top, narrow waist in middle, pointed overlapping skirt at bottom. Copy every plate border exactly. Existing long chest centerpiece at upper center has a bright painted amber/orange slit bordered by the reference's ivory claw shape. Existing collar claws, shoulder strips and side hooks are ivory; all existing broad armor plates are violet chitin; visible underlying seams/straps are brown leather with existing hardware muted brass.\nTechnical unlit material pass: behave as if the base-colour texture is plugged into an emission shader with strength 1 and no lighting. The bone on top-facing and downward-facing facets must be the same matte ivory value; chitin facets must be the same muted violet base value. Remove ALL guide shading. Fine surface pigment wear only, no modeled-looking bevel highlights or dark recess shadows. Keep exactly the guide's shape; no rendering embellishment.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "ad6643a0322fd4a885596c26585b535924c7570c2f87b1eb20e5fd1bb4adef30",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 1,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-66e3931d-820a-42eb-af9e-1d908e3d4315.png",
+      "selected": false,
+      "output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-66e3931d-820a-42eb-af9e-1d908e3d4315.png",
+      "reason": "Rejected in favor of correction with tighter guide-mask alignment and reduced highlight streaks.",
+      "output_sha256": "0654069799dbc6973e73a44eb8238ac4675f729cfae6852dd74e90310dc5466a",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.990324,
+        "normalized_mask_mismatched_pixels": 4203,
+        "alpha_nonzero_bbox": [
+          0,
+          19,
+          1246,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          219,
+          80,
+          1036,
+          1177
+        ],
+        "fully_transparent_pixel_count": 905781,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Paint ONLY the existing white/grey surfaces of IMAGE 1, guide_back.png: the short annular end-on view. Keep its large central polygonal transparent hole; paired pointed upper chitin plates; ivory curves beside the central opening and down the outer sides. Outer bounds x=179..844,y=244..780. NO orange breastplate lamp in this view.\nIMAGE 1 is an exact geometric stencil, every outside and inside contour must stay at the identical pixels. IMAGE 2 is the material palette reference only. Do not transfer its pose or its lighting. Keep all existing panel edges and plain facets; never add, subdivide or reshape a part. Copy the input guide alpha exactly, including its transparent openings.\nCorrection requirements: the earlier paint had shaded bevels, dark crevices, highlight streaks, altered contour pixels and stray semi-transparent fringe. Remove all of those defects. Return a truly FLAT, SHADOWLESS DIFFUSE-COLOUR TEXTURE painted within the original stencil. Give every facet of a material the SAME base brightness regardless of its direction. No ambient occlusion, no shaded cracks, no edge highlights, no reflection, no gloss. The thin warm abrasion along a plate is pigment wear, never a bright metallic highlight. No black outline. Keep transparent pixels fully clear, with no coloured fringe or isolated particles.\nMaterials: muted matte black-violet chitin with subtle mauve mottling and fine warm abrasion; existing claw strips and rims matte aged ivory with fine beige wear; existing leather backing and straps medium-dark warm brown, enough colour to read without black shadow; existing buckles matte antique brass. Keep fine colour texture but NO lighting information. The design reference determines these materials, nothing should be snow white or blue. Plausibly continue the same materials on hidden undersides.\nOne 1024 x 1024 RGBA image, same framing and untouched transparent margins as IMAGE 1. No resize, recenter, rotation, zoom, crop, new decorations, extra hardware, text, letters, watermark, background or floor. This is a texture painter's unlit base-colour image, not a shaded product render.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "e425fd07db70a3c57f73bbe8da552f8e81beb906218364d59e1c7c10ec569b38",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 2,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-c29a5532-8aca-4b2e-8f1f-c0982bcbf009.png",
+      "selected": false,
+      "output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-c29a5532-8aca-4b2e-8f1f-c0982bcbf009.png",
+      "reason": "Rejected: slightly worse guide-mask overlap, broader ivory side panels than the reference, and more visible edge fringe. Correction did not remove all shading.",
+      "output_sha256": "816df3c8ecc98965839d713ef5493b722258fabe6a2b9c12381b6f325a3a3e8e",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.989039,
+        "normalized_mask_mismatched_pixels": 2574,
+        "alpha_nonzero_bbox": [
+          0,
+          9,
+          1240,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          219,
+          298,
+          1034,
+          953
+        ],
+        "fully_transparent_pixel_count": 1198034,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Paint ONLY the existing white/grey surfaces of IMAGE 1, guide_left.png: the model lies HORIZONTALLY, oval armhole on the LEFT, pointed skirt on the RIGHT, curled hook near the middle top. Outer bounds x=66..957,y=244..779. No orange lamp in this view.\nIMAGE 1 is an exact geometric stencil, every outside and inside contour must stay at the identical pixels. IMAGE 2 is the material palette reference only. Do not transfer its pose or its lighting. Keep all existing panel edges and plain facets; never add, subdivide or reshape a part. Copy the input guide alpha exactly, including its transparent openings.\nCorrection requirements: the earlier paint had shaded bevels, dark crevices, highlight streaks, altered contour pixels and stray semi-transparent fringe. Remove all of those defects. Return a truly FLAT, SHADOWLESS DIFFUSE-COLOUR TEXTURE painted within the original stencil. Give every facet of a material the SAME base brightness regardless of its direction. No ambient occlusion, no shaded cracks, no edge highlights, no reflection, no gloss. The thin warm abrasion along a plate is pigment wear, never a bright metallic highlight. No black outline. Keep transparent pixels fully clear, with no coloured fringe or isolated particles.\nMaterials: muted matte black-violet chitin with subtle mauve mottling and fine warm abrasion; existing claw strips and rims matte aged ivory with fine beige wear; existing leather backing and straps medium-dark warm brown, enough colour to read without black shadow; existing buckles matte antique brass. Keep fine colour texture but NO lighting information. The design reference determines these materials, nothing should be snow white or blue. Plausibly continue the same materials on hidden undersides.\nOne 1024 x 1024 RGBA image, same framing and untouched transparent margins as IMAGE 1. No resize, recenter, rotation, zoom, crop, new decorations, extra hardware, text, letters, watermark, background or floor. This is a texture painter's unlit base-colour image, not a shaded product render.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1eb17808b377e91dbf56623a98ab73f9533b656de77b5825f08a22355b3f2f37",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 2,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-ae9d6ff7-e9c3-473c-84e5-377698e0f8c3.png",
+      "selected": true,
+      "output": "paint_left.png",
+      "reason": "Selected: improved silhouette alignment and flatter plate faces. Palette continues violet chitin, ivory trim and brown leather. Residual edge fringe, shaded seams and some painted hardware interpretation remain.",
+      "output_sha256": "5ba07e14747294ba7419f02102f132d4c1297c41fac98dc8bb3371df919faf6e",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.991176,
+        "normalized_mask_mismatched_pixels": 2553,
+        "alpha_nonzero_bbox": [
+          0,
+          15,
+          1216,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          81,
+          299,
+          1172,
+          955
+        ],
+        "fully_transparent_pixel_count": 1114331,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Paint ONLY the existing white/grey surfaces of IMAGE 1, guide_right.png: the model lies HORIZONTALLY, oval armhole on the RIGHT, pointed skirt on the LEFT, curled hook near the middle top. Outer bounds x=66..957,y=244..779. No orange lamp in this view.\nIMAGE 1 is an exact geometric stencil, every outside and inside contour must stay at the identical pixels. IMAGE 2 is the material palette reference only. Do not transfer its pose or its lighting. Keep all existing panel edges and plain facets; never add, subdivide or reshape a part. Copy the input guide alpha exactly, including its transparent openings.\nCorrection requirements: the earlier paint had shaded bevels, dark crevices, highlight streaks, altered contour pixels and stray semi-transparent fringe. Remove all of those defects. Return a truly FLAT, SHADOWLESS DIFFUSE-COLOUR TEXTURE painted within the original stencil. Give every facet of a material the SAME base brightness regardless of its direction. No ambient occlusion, no shaded cracks, no edge highlights, no reflection, no gloss. The thin warm abrasion along a plate is pigment wear, never a bright metallic highlight. No black outline. Keep transparent pixels fully clear, with no coloured fringe or isolated particles.\nMaterials: muted matte black-violet chitin with subtle mauve mottling and fine warm abrasion; existing claw strips and rims matte aged ivory with fine beige wear; existing leather backing and straps medium-dark warm brown, enough colour to read without black shadow; existing buckles matte antique brass. Keep fine colour texture but NO lighting information. The design reference determines these materials, nothing should be snow white or blue. Plausibly continue the same materials on hidden undersides.\nOne 1024 x 1024 RGBA image, same framing and untouched transparent margins as IMAGE 1. No resize, recenter, rotation, zoom, crop, new decorations, extra hardware, text, letters, watermark, background or floor. This is a texture painter's unlit base-colour image, not a shaded product render.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "b2c4913702b5332673b8d6c026cd36645d385701c28f3f110c68a25dbc77aefe",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 2,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-149a4b33-43a4-4443-ab64-4862953eb4a4.png",
+      "selected": false,
+      "output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-149a4b33-43a4-4443-ab64-4862953eb4a4.png",
+      "reason": "Rejected: improved mask overlap, but introduces broad ivory plate faces inconsistent with the reference and the other side, with conspicuous fringe and stray pixels inside the armhole.",
+      "output_sha256": "f415fb0de0b1cdec61ca40e90a41d15920389ffd7b10c6db95684f947f9a755f",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.988539,
+        "normalized_mask_mismatched_pixels": 3325,
+        "alpha_nonzero_bbox": [
+          0,
+          8,
+          1254,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          81,
+          299,
+          1174,
+          955
+        ],
+        "fully_transparent_pixel_count": 1094254,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Paint ONLY the existing white/grey surfaces of IMAGE 1, guide_top.png: the upright long breastplate surface, collar above, skirt below. Outer bounds x=179..844,y=66..957. Existing narrow center chest slit is painted bright orange with ivory trim, no glow or light spill.\nIMAGE 1 is an exact geometric stencil, every outside and inside contour must stay at the identical pixels. IMAGE 2 is the material palette reference only. Do not transfer its pose or its lighting. Keep all existing panel edges and plain facets; never add, subdivide or reshape a part. Copy the input guide alpha exactly, including its transparent openings.\nCorrection requirements: the earlier paint had shaded bevels, dark crevices, highlight streaks, altered contour pixels and stray semi-transparent fringe. Remove all of those defects. Return a truly FLAT, SHADOWLESS DIFFUSE-COLOUR TEXTURE painted within the original stencil. Give every facet of a material the SAME base brightness regardless of its direction. No ambient occlusion, no shaded cracks, no edge highlights, no reflection, no gloss. The thin warm abrasion along a plate is pigment wear, never a bright metallic highlight. No black outline. Keep transparent pixels fully clear, with no coloured fringe or isolated particles.\nMaterials: muted matte black-violet chitin with subtle mauve mottling and fine warm abrasion; existing claw strips and rims matte aged ivory with fine beige wear; existing leather backing and straps medium-dark warm brown, enough colour to read without black shadow; existing buckles matte antique brass. Keep fine colour texture but NO lighting information. The design reference determines these materials, nothing should be snow white or blue. Plausibly continue the same materials on hidden undersides.\nOne 1024 x 1024 RGBA image, same framing and untouched transparent margins as IMAGE 1. No resize, recenter, rotation, zoom, crop, new decorations, extra hardware, text, letters, watermark, background or floor. This is a texture painter's unlit base-colour image, not a shaded product render.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "ad6643a0322fd4a885596c26585b535924c7570c2f87b1eb20e5fd1bb4adef30",
+          "role": "exact geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b856099c61e3f84cf73698372e627b315ac31d250377bb413fa422099245f3d5",
+          "role": "material and colour reference"
+        }
+      ],
+      "attempt": 2,
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e44-53d9-7eb3-936e-5b3ad2ff0410/exec-11daddb3-468b-4b69-8649-5f5e1a621940.png",
+      "selected": true,
+      "output": "paint_top.png",
+      "reason": "Selected: best guide silhouette alignment of the two attempts, flatter chest plates and a restrained painted orange inset. Some recessed shading and edge fringe remain; the collar lining also has a chitin-like pigment treatment rather than uniformly brown leather.",
+      "output_sha256": "c89cf8d6163c96ac7d98a3df4af29f323ed2086d9c7bb0c0c3d543a755f2c73d",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_dimensions_met": false,
+        "unresized": true,
+        "alpha_identical_to_guide": false,
+        "normalized_mask_iou": 0.995038,
+        "normalized_mask_mismatched_pixels": 2144,
+        "alpha_nonzero_bbox": [
+          0,
+          0,
+          1248,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          219,
+          80,
+          1033,
+          1174
+        ],
+        "fully_transparent_pixel_count": 904764,
+        "transparent_background": "RGBA transparency present; residual nonzero-alpha fringe and stray low-alpha pixels remain outside the intended silhouette.",
+        "colours_and_materials": "Main reference palette recognizable; specific material-placement issues are documented in the selection reason.",
+        "flat_even_light_no_shadows_or_hot_highlights": "Not fully met: painted bevel highlights and/or recessed darkening remain.",
+        "no_text_or_letters": "Passed visual inspection.",
+        "overall_brief_compliance": false
+      }
+    }
+  ]
+}

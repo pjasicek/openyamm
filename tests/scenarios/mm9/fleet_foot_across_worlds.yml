@@ -1,0 +1,24 @@
+# Fly and MM9's Fleet Foot across worlds (Party::setFleetFootWorld, on every map's binding): a Fleet Foot cast in MM9
+# ends on arriving in MM6-MM8 (Town Portal, Lloyd's Beacon, dimensional travel); a Fly brought into MM9 becomes Fleet
+# Foot for its remaining time (the user, 2026-11-09). The buff assertion names the casting spell (21 for both), so
+# which buff it is is checked in SpellRegressionTests "MM9 Fleet Foot replaces every Fly".
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/fleet_foot_across_worlds.yml --scenario-no-color
+id: mm9.fleet_foot_across_worlds
+title: "Fleet Foot ends leaving MM9; a Fly entering MM9 becomes Fleet Foot"
+world: mm9
+mode: faithful
+tags: [mm9, spells, travel]
+steps:
+  - new_game_flow: {start_map: isleofashes.blv}
+  - cast_spell: {member_index: 0, spell_id: 21, skill: 10, mastery: 3}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {buff: {spell_id: 21, present: true}}
+  - load_map: {map: oute3.odm}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {buff: {spell_id: 21, present: false}}
+  - cast_spell: {member_index: 0, spell_id: 21, skill: 10, mastery: 3}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {buff: {spell_id: 21, present: true}}
+  - load_map: {map: isleofashes.blv}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {buff: {spell_id: 21, present: true}}

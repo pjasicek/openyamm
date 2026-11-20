@@ -1,0 +1,1550 @@
+[
+  {
+    "icon": "6hammer4",
+    "family": "maces",
+    "items": [
+      {
+        "id": 2021,
+        "name": "Thor"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6hammer4",
+      "model": "engine/world_items/models/item_6hammer4.glb",
+      "length": 126.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "6hammer4",
+      "name": "Thor",
+      "id": 2021,
+      "triangles": 144,
+      "runtime_triangles": 144,
+      "thickness_pct_length": 5.84,
+      "zero_thickness_triangles": 42,
+      "zero_thickness_area_pct": 42.98,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6hammer4.png"
+  },
+  {
+    "icon": "6mace7",
+    "family": "maces",
+    "items": [
+      {
+        "id": 2036,
+        "name": "Ares"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6mace7",
+      "model": "engine/world_items/models/item_6mace7.glb",
+      "length": 125.1
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "6mace7",
+      "name": "Ares",
+      "id": 2036,
+      "triangles": 253,
+      "runtime_triangles": 253,
+      "thickness_pct_length": 7.11,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 2.63,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6mace7.png"
+  },
+  {
+    "icon": "7item050",
+    "family": "maces",
+    "items": [
+      {
+        "id": 852,
+        "name": "Crude Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item050",
+      "model": "engine/world_items/models/item_7item050.glb",
+      "length": 122.4
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item050",
+      "name": "Crude Mace",
+      "id": 852,
+      "triangles": 284,
+      "runtime_triangles": 284,
+      "thickness_pct_length": 9.51,
+      "zero_thickness_triangles": 2,
+      "zero_thickness_area_pct": 0.04,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item050.png"
+  },
+  {
+    "icon": "7item051",
+    "family": "maces",
+    "items": [
+      {
+        "id": 853,
+        "name": "Spiked Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item051",
+      "model": "engine/world_items/models/item_7item051.glb",
+      "length": 116.1
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item051",
+      "name": "Spiked Mace",
+      "id": 853,
+      "triangles": 255,
+      "runtime_triangles": 255,
+      "thickness_pct_length": 8.93,
+      "zero_thickness_triangles": 9,
+      "zero_thickness_area_pct": 3.12,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item051.png"
+  },
+  {
+    "icon": "7item052",
+    "family": "maces",
+    "items": [
+      {
+        "id": 854,
+        "name": "Zealot Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item052",
+      "model": "engine/world_items/models/item_7item052.glb",
+      "length": 117.9
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item052",
+      "name": "Zealot Mace",
+      "id": 854,
+      "triangles": 241,
+      "runtime_triangles": 241,
+      "thickness_pct_length": 8.49,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 5.29,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item052.png"
+  },
+  {
+    "icon": "7item053",
+    "family": "maces",
+    "items": [
+      {
+        "id": 855,
+        "name": "Dwarven Morningstar"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item053",
+      "model": "engine/world_items/models/item_7item053.glb",
+      "length": 95.0
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item053",
+      "name": "Dwarven Morningstar",
+      "id": 855,
+      "triangles": 275,
+      "runtime_triangles": 275,
+      "thickness_pct_length": 9.75,
+      "zero_thickness_triangles": 79,
+      "zero_thickness_area_pct": 11.1,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item053.png"
+  },
+  {
+    "icon": "7item054",
+    "family": "maces",
+    "items": [
+      {
+        "id": 856,
+        "name": "Supreme Flail"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item054",
+      "model": "engine/world_items/models/item_7item054.glb",
+      "length": 115.7
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item054",
+      "name": "Supreme Flail",
+      "id": 856,
+      "triangles": 486,
+      "runtime_triangles": 486,
+      "thickness_pct_length": 8.66,
+      "zero_thickness_triangles": 190,
+      "zero_thickness_area_pct": 15.12,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item054.png"
+  },
+  {
+    "icon": "7item055",
+    "family": "maces",
+    "items": [
+      {
+        "id": 857,
+        "name": "Makeshift Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item055",
+      "model": "engine/world_items/models/item_7item055.glb",
+      "length": 116.1
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item055",
+      "name": "Makeshift Hammer",
+      "id": 857,
+      "triangles": 273,
+      "runtime_triangles": 273,
+      "thickness_pct_length": 7.93,
+      "zero_thickness_triangles": 87,
+      "zero_thickness_area_pct": 15.54,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item055.png"
+  },
+  {
+    "icon": "7item056",
+    "family": "maces",
+    "items": [
+      {
+        "id": 858,
+        "name": "Battle Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item056",
+      "model": "engine/world_items/models/item_7item056.glb",
+      "length": 109.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item056",
+      "name": "Battle Hammer",
+      "id": 858,
+      "triangles": 234,
+      "runtime_triangles": 234,
+      "thickness_pct_length": 6.3,
+      "zero_thickness_triangles": 16,
+      "zero_thickness_area_pct": 4.18,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item056.png"
+  },
+  {
+    "icon": "7item057",
+    "family": "maces",
+    "items": [
+      {
+        "id": 859,
+        "name": "Dwarven Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item057",
+      "model": "engine/world_items/models/item_7item057.glb",
+      "length": 108.9
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item057",
+      "name": "Dwarven Hammer",
+      "id": 859,
+      "triangles": 146,
+      "runtime_triangles": 146,
+      "thickness_pct_length": 6.68,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 18.64,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item057.png"
+  },
+  {
+    "icon": "7item058",
+    "family": "maces",
+    "items": [
+      {
+        "id": 860,
+        "name": "Primitive Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item058",
+      "model": "engine/world_items/models/item_7item058.glb",
+      "length": 139.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item058",
+      "name": "Primitive Club",
+      "id": 860,
+      "triangles": 350,
+      "runtime_triangles": 350,
+      "thickness_pct_length": 6.74,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 2.06,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item058.png"
+  },
+  {
+    "icon": "7item059",
+    "family": "maces",
+    "items": [
+      {
+        "id": 861,
+        "name": "Thorned Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item059",
+      "model": "engine/world_items/models/item_7item059.glb",
+      "length": 108.9
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item059",
+      "name": "Thorned Club",
+      "id": 861,
+      "triangles": 207,
+      "runtime_triangles": 207,
+      "thickness_pct_length": 6.58,
+      "zero_thickness_triangles": 35,
+      "zero_thickness_area_pct": 6.41,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item059.png"
+  },
+  {
+    "icon": "7item060",
+    "family": "maces",
+    "items": [
+      {
+        "id": 862,
+        "name": "Steel Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item060",
+      "model": "engine/world_items/models/item_7item060.glb",
+      "length": 124.2
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item060",
+      "name": "Steel Club",
+      "id": 862,
+      "triangles": 254,
+      "runtime_triangles": 254,
+      "thickness_pct_length": 5.94,
+      "zero_thickness_triangles": 28,
+      "zero_thickness_area_pct": 5.84,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item060.png"
+  },
+  {
+    "icon": "7item230",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1329,
+        "name": "Justice"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item230",
+      "model": "engine/world_items/models/item_7item230.glb",
+      "length": 122.4
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item230",
+      "name": "Justice",
+      "id": 1329,
+      "triangles": 647,
+      "runtime_triangles": 647,
+      "thickness_pct_length": 7.9,
+      "zero_thickness_triangles": 171,
+      "zero_thickness_area_pct": 11.46,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item230.png"
+  },
+  {
+    "icon": "7item231",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1330,
+        "name": "Mekorig's Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item231",
+      "model": "engine/world_items/models/item_7item231.glb",
+      "length": 113.9
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item231",
+      "name": "Mekorig's Hammer",
+      "id": 1330,
+      "triangles": 254,
+      "runtime_triangles": 254,
+      "thickness_pct_length": 5.84,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 7.31,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item231.png"
+  },
+  {
+    "icon": "7item232",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1316,
+        "name": "Mash"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item232",
+      "model": "engine/world_items/models/item_7item232.glb",
+      "length": 123.3
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "7item232",
+      "name": "Mash",
+      "id": 1316,
+      "triangles": 276,
+      "runtime_triangles": 276,
+      "thickness_pct_length": 7.25,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 3.53,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item232.png"
+  },
+  {
+    "icon": "club1",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1660,
+        "name": "Root Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "club1",
+      "model": "engine/world_items/models/item_club1.glb",
+      "length": 135.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "club1",
+      "name": "Root Club",
+      "id": 1660,
+      "triangles": 313,
+      "runtime_triangles": 313,
+      "thickness_pct_length": 6.8,
+      "zero_thickness_triangles": 9,
+      "zero_thickness_area_pct": 1.51,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/club1.png"
+  },
+  {
+    "icon": "club2",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1661,
+        "name": "Spiked Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "club2",
+      "model": "engine/world_items/models/item_club2.glb",
+      "length": 166.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "club2",
+      "name": "Spiked Club",
+      "id": 1661,
+      "triangles": 510,
+      "runtime_triangles": 510,
+      "thickness_pct_length": 6.05,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 1.2,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/club2.png"
+  },
+  {
+    "icon": "club3",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1662,
+        "name": "Killer Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "club3",
+      "model": "engine/world_items/models/item_club3.glb",
+      "length": 135.9
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "club3",
+      "name": "Killer Club",
+      "id": 1662,
+      "triangles": 215,
+      "runtime_triangles": 215,
+      "thickness_pct_length": 4.98,
+      "zero_thickness_triangles": 13,
+      "zero_thickness_area_pct": 18.59,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/club3.png"
+  },
+  {
+    "icon": "hammer1",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1657,
+        "name": "Massive Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "hammer1",
+      "model": "engine/world_items/models/item_hammer1.glb",
+      "length": 135.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "hammer1",
+      "name": "Massive Hammer",
+      "id": 1657,
+      "triangles": 338,
+      "runtime_triangles": 338,
+      "thickness_pct_length": 9.45,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 4.74,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/hammer1.png"
+  },
+  {
+    "icon": "hammer2",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1658,
+        "name": "Dark Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "hammer2",
+      "model": "engine/world_items/models/item_hammer2.glb",
+      "length": 123.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "hammer2",
+      "name": "Dark Hammer",
+      "id": 1658,
+      "triangles": 229,
+      "runtime_triangles": 229,
+      "thickness_pct_length": 5.21,
+      "zero_thickness_triangles": 19,
+      "zero_thickness_area_pct": 6.32,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/hammer2.png"
+  },
+  {
+    "icon": "hammer3",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1659,
+        "name": "Holy Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "hammer3",
+      "model": "engine/world_items/models/item_hammer3.glb",
+      "length": 126.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "hammer3",
+      "name": "Holy Hammer",
+      "id": 1659,
+      "triangles": 144,
+      "runtime_triangles": 144,
+      "thickness_pct_length": 5.84,
+      "zero_thickness_triangles": 42,
+      "zero_thickness_area_pct": 42.98,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/hammer3.png"
+  },
+  {
+    "icon": "item066",
+    "family": "maces",
+    "items": [
+      {
+        "id": 66,
+        "name": "Sturdy Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item066",
+      "model": "engine/world_items/models/item_item066.glb",
+      "length": 139.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item066",
+      "name": "Sturdy Mace",
+      "id": 66,
+      "triangles": 337,
+      "runtime_triangles": 337,
+      "thickness_pct_length": 9.51,
+      "zero_thickness_triangles": 3,
+      "zero_thickness_area_pct": 0.19,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item066.png"
+  },
+  {
+    "icon": "item067",
+    "family": "maces",
+    "items": [
+      {
+        "id": 67,
+        "name": "Flail"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item067",
+      "model": "engine/world_items/models/item_item067.glb",
+      "length": 140.0
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item067",
+      "name": "Flail",
+      "id": 67,
+      "triangles": 721,
+      "runtime_triangles": 721,
+      "thickness_pct_length": 8.65,
+      "zero_thickness_triangles": 155,
+      "zero_thickness_area_pct": 9.19,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item067.png"
+  },
+  {
+    "icon": "item068",
+    "family": "maces",
+    "items": [
+      {
+        "id": 68,
+        "name": "Temple Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item068",
+      "model": "engine/world_items/models/item_item068.glb",
+      "length": 150.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item068",
+      "name": "Temple Mace",
+      "id": 68,
+      "triangles": 391,
+      "runtime_triangles": 391,
+      "thickness_pct_length": 9.11,
+      "zero_thickness_triangles": 21,
+      "zero_thickness_area_pct": 4.1,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item068.png"
+  },
+  {
+    "icon": "item069",
+    "family": "maces",
+    "items": [
+      {
+        "id": 69,
+        "name": "Reverend Sceptre"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item069",
+      "model": "engine/world_items/models/item_item069.glb",
+      "length": 202.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item069",
+      "name": "Reverend Sceptre",
+      "id": 69,
+      "triangles": 356,
+      "runtime_triangles": 356,
+      "thickness_pct_length": 4.02,
+      "zero_thickness_triangles": 26,
+      "zero_thickness_area_pct": 3.46,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item069.png"
+  },
+  {
+    "icon": "item070",
+    "family": "maces",
+    "items": [
+      {
+        "id": 70,
+        "name": "Trollish War Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item070",
+      "model": "engine/world_items/models/item_item070.glb",
+      "length": 177.3
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item070",
+      "name": "Trollish War Mace",
+      "id": 70,
+      "triangles": 455,
+      "runtime_triangles": 455,
+      "thickness_pct_length": 7.43,
+      "zero_thickness_triangles": 19,
+      "zero_thickness_area_pct": 3.68,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item070.png"
+  },
+  {
+    "icon": "item071",
+    "family": "maces",
+    "items": [
+      {
+        "id": 71,
+        "name": "Sledgehammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item071",
+      "model": "engine/world_items/models/item_item071.glb",
+      "length": 115.2
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item071",
+      "name": "Sledgehammer",
+      "id": 71,
+      "triangles": 438,
+      "runtime_triangles": 438,
+      "thickness_pct_length": 10.76,
+      "zero_thickness_triangles": 76,
+      "zero_thickness_area_pct": 4.83,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item071.png"
+  },
+  {
+    "icon": "item072",
+    "family": "maces",
+    "items": [
+      {
+        "id": 72,
+        "name": "Field Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item072",
+      "model": "engine/world_items/models/item_item072.glb",
+      "length": 120.6
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item072",
+      "name": "Field Hammer",
+      "id": 72,
+      "triangles": 139,
+      "runtime_triangles": 139,
+      "thickness_pct_length": 4.18,
+      "zero_thickness_triangles": 27,
+      "zero_thickness_area_pct": 25.49,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item072.png"
+  },
+  {
+    "icon": "item073",
+    "family": "maces",
+    "items": [
+      {
+        "id": 73,
+        "name": "Warhammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item073",
+      "model": "engine/world_items/models/item_item073.glb",
+      "length": 118.4
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item073",
+      "name": "Warhammer",
+      "id": 73,
+      "triangles": 77,
+      "runtime_triangles": 77,
+      "thickness_pct_length": 5.73,
+      "zero_thickness_triangles": 27,
+      "zero_thickness_area_pct": 59.42,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item073.png"
+  },
+  {
+    "icon": "item074",
+    "family": "maces",
+    "items": [
+      {
+        "id": 74,
+        "name": "Sun Hammer"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item074",
+      "model": "engine/world_items/models/item_item074.glb",
+      "length": 129.2
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item074",
+      "name": "Sun Hammer",
+      "id": 74,
+      "triangles": 137,
+      "runtime_triangles": 137,
+      "thickness_pct_length": 5.5,
+      "zero_thickness_triangles": 43,
+      "zero_thickness_area_pct": 39.62,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item074.png"
+  },
+  {
+    "icon": "item075",
+    "family": "maces",
+    "items": [
+      {
+        "id": 75,
+        "name": "Trollish Maul"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item075",
+      "model": "engine/world_items/models/item_item075.glb",
+      "length": 134.1
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item075",
+      "name": "Trollish Maul",
+      "id": 75,
+      "triangles": 338,
+      "runtime_triangles": 338,
+      "thickness_pct_length": 8.57,
+      "zero_thickness_triangles": 18,
+      "zero_thickness_area_pct": 2.77,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item075.png"
+  },
+  {
+    "icon": "item076",
+    "family": "maces",
+    "items": [
+      {
+        "id": 76,
+        "name": "Barbed Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item076",
+      "model": "engine/world_items/models/item_item076.glb",
+      "length": 149.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item076",
+      "name": "Barbed Club",
+      "id": 76,
+      "triangles": 307,
+      "runtime_triangles": 307,
+      "thickness_pct_length": 5.34,
+      "zero_thickness_triangles": 73,
+      "zero_thickness_area_pct": 10.82,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item076.png"
+  },
+  {
+    "icon": "item077",
+    "family": "maces",
+    "items": [
+      {
+        "id": 77,
+        "name": "Thornbark Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item077",
+      "model": "engine/world_items/models/item_item077.glb",
+      "length": 146.7
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item077",
+      "name": "Thornbark Club",
+      "id": 77,
+      "triangles": 548,
+      "runtime_triangles": 548,
+      "thickness_pct_length": 7.55,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 2.22,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item077.png"
+  },
+  {
+    "icon": "item078",
+    "family": "maces",
+    "items": [
+      {
+        "id": 78,
+        "name": "Overlord's Club"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item078",
+      "model": "engine/world_items/models/item_item078.glb",
+      "length": 159.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item078",
+      "name": "Overlord's Club",
+      "id": 78,
+      "triangles": 554,
+      "runtime_triangles": 554,
+      "thickness_pct_length": 7.07,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 3.65,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item078.png"
+  },
+  {
+    "icon": "item247",
+    "family": "maces",
+    "items": [
+      {
+        "id": 510,
+        "name": "Breaker"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item247",
+      "model": "engine/world_items/models/item_item247.glb",
+      "length": 204.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item247",
+      "name": "Breaker",
+      "id": 510,
+      "triangles": 777,
+      "runtime_triangles": 777,
+      "thickness_pct_length": 8.02,
+      "zero_thickness_triangles": 51,
+      "zero_thickness_area_pct": 4.39,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item247.png"
+  },
+  {
+    "icon": "item249",
+    "family": "maces",
+    "items": [
+      {
+        "id": 509,
+        "name": "Scepter of Kings"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item249",
+      "model": "engine/world_items/models/item_item249.glb",
+      "length": 174.2
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item249",
+      "name": "Scepter of Kings",
+      "id": 509,
+      "triangles": 485,
+      "runtime_triangles": 485,
+      "thickness_pct_length": 7.65,
+      "zero_thickness_triangles": 7,
+      "zero_thickness_area_pct": 0.71,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item249.png"
+  },
+  {
+    "icon": "item340",
+    "family": "maces",
+    "items": [
+      {
+        "id": 538,
+        "name": "Mace of the Sun"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item340",
+      "model": "engine/world_items/models/item_item340.glb",
+      "length": 150.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "item340",
+      "name": "Mace of the Sun",
+      "id": 538,
+      "triangles": 391,
+      "runtime_triangles": 391,
+      "thickness_pct_length": 9.11,
+      "zero_thickness_triangles": 21,
+      "zero_thickness_area_pct": 4.1,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item340.png"
+  },
+  {
+    "icon": "mace1",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1652,
+        "name": "Simple Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "mace1",
+      "model": "engine/world_items/models/item_mace1.glb",
+      "length": 105.3
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "mace1",
+      "name": "Simple Mace",
+      "id": 1652,
+      "triangles": 204,
+      "runtime_triangles": 204,
+      "thickness_pct_length": 9.1,
+      "zero_thickness_triangles": 18,
+      "zero_thickness_area_pct": 4.99,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/mace1.png"
+  },
+  {
+    "icon": "mace2",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1653,
+        "name": "Wicked Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "mace2",
+      "model": "engine/world_items/models/item_mace2.glb",
+      "length": 149.8
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "mace2",
+      "name": "Wicked Mace",
+      "id": 1653,
+      "triangles": 239,
+      "runtime_triangles": 239,
+      "thickness_pct_length": 5.65,
+      "zero_thickness_triangles": 61,
+      "zero_thickness_area_pct": 6.8,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/mace2.png"
+  },
+  {
+    "icon": "mace3",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1654,
+        "name": "Thunder Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "mace3",
+      "model": "engine/world_items/models/item_mace3.glb",
+      "length": 139.5
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "mace3",
+      "name": "Thunder Mace",
+      "id": 1654,
+      "triangles": 265,
+      "runtime_triangles": 265,
+      "thickness_pct_length": 8.21,
+      "zero_thickness_triangles": 13,
+      "zero_thickness_area_pct": 5.71,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/mace3.png"
+  },
+  {
+    "icon": "mace4",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1655,
+        "name": "Wonder Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "mace4",
+      "model": "engine/world_items/models/item_mace4.glb",
+      "length": 117.0
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "mace4",
+      "name": "Wonder Mace",
+      "id": 1655,
+      "triangles": 215,
+      "runtime_triangles": 215,
+      "thickness_pct_length": 8.14,
+      "zero_thickness_triangles": 17,
+      "zero_thickness_area_pct": 6.75,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/mace4.png"
+  },
+  {
+    "icon": "mace5",
+    "family": "maces",
+    "items": [
+      {
+        "id": 1656,
+        "name": "Death Mace"
+      }
+    ],
+    "owner": "weapons_blunt",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "mace5",
+      "model": "engine/world_items/models/item_mace5.glb",
+      "length": 125.1
+    },
+    "baseline_audit": {
+      "family": "maces",
+      "icon": "mace5",
+      "name": "Death Mace",
+      "id": 1656,
+      "triangles": 253,
+      "runtime_triangles": 253,
+      "thickness_pct_length": 7.11,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 2.63,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/mace5.png"
+  }
+]

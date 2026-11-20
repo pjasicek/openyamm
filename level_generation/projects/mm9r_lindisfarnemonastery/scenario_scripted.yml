@@ -1,0 +1,251 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.lindisfarnemonastery_scripted
+title: Lindisfarne Monastery (native BLV) - letters, organ, bells, Thjorad, the monks' alarm
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lindisfarnemonastery.blv
+- note:
+    text: 'Prop5 (BookLetter.scr "470 Letter"): a click shows it.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 5322
+    y: 7061
+    z: 370
+    yaw: -2.0054
+    pitch: -1.0474
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop6 (BookLetter.scr "471 Letter"): a click shows it.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -1389
+    y: 7235
+    z: 987
+    yaw: -2.0054
+    pitch: -0.61
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop7 (BookLetter.scr "472 Letter"): a click shows it.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 16
+    y: 11638
+    z: 103
+    yaw: -2.0054
+    pitch: -1.0467
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Prop8 (BookLetter.scr "473 Letter"): a click shows it.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 112
+    y: 1172
+    z: 1
+    yaw: 1.5691
+    pitch: -0.67
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'The organ''s C2 key: a click from beside the organist presses it (its note plays) and it rises again.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -77
+    y: 10317
+    z: 2297
+    yaw: 2.8083
+    pitch: -0.2885
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    mechanism:
+      id: 12
+      state: closed
+- note:
+    text: 'Rope1 by a real click from the bell floor: it lowers and Bell1 swings and rings; it reports Bell1 when it stops.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -246
+    y: 6064
+    z: 3237
+    yaw: -1.5708
+    pitch: 1.3069
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1.6
+- assert:
+    mechanism:
+      id: 30
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: BellBusy1
+      value: 3
+- note:
+    text: 'Wrong order: Rope2 (Bell3) after Bell1 resets (Gosub Reset); finishing 4-5 gives nothing.'
+- execute_event:
+    id: 92
+- execute_event:
+    id: 94
+- execute_event:
+    id: 93
+- advance_runtime:
+    seconds: 5.5
+- assert:
+    state_dump_named_map_var:
+      name: FifthBell
+      value: 0
+- assert:
+    qbit_clear:
+    - 99507
+- note:
+    text: 'Thjorad before the bells: its event takes nothing (Thjorad.scr: On is False; its four monks stand round it, so
+      the real click comes after the bells).'
+- execute_event:
+    id: 75
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_clear:
+    - 90162
+- note:
+    text: 'MM9''s order Bell1-Bell5 (Rope1, Rope5, Rope2, Rope4, Rope3): key 9507, the peal, the Thjorad monks at their prayer
+      markers.'
+- execute_event:
+    id: 91
+- advance_runtime:
+    seconds: 1
+- execute_event:
+    id: 95
+- advance_runtime:
+    seconds: 1
+- execute_event:
+    id: 92
+- advance_runtime:
+    seconds: 1
+- execute_event:
+    id: 94
+- advance_runtime:
+    seconds: 1
+- execute_event:
+    id: 93
+- advance_runtime:
+    seconds: 1
+- advance_runtime:
+    seconds: 4.5
+- assert:
+    qbit_set:
+    - 99507
+- assert:
+    actor_visible:
+      actor_index: 23
+      near:
+        x: 61
+        y: 10393
+        max_distance: 40
+- assert:
+    actor_visible:
+      actor_index: 24
+      near:
+        x: -107
+        y: 10398
+        max_distance: 40
+- assert:
+    actor_visible:
+      actor_index: 25
+      near:
+        x: -327
+        y: 10398
+        max_distance: 40
+- assert:
+    actor_visible:
+      actor_index: 26
+      near:
+        x: -552
+        y: 10403
+        max_distance: 40
+- note:
+    text: 'Thjorad now: a click gives item 197, key 162 and 1000 experience; the hammer is gone.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 6967
+    y: 5996
+    z: 1
+    yaw: 0.0
+    pitch: -0.4098
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90162
+- assert:
+    inventory_any_member:
+    - item_id: 10197
+      count: 1
+- load_map:
+    map: lindisfarnemonastery.blv
+- note:
+    text: 'The monks'' alarm (MonkHostility.inc): friendly until the party hurts one; then every monk is hostile.'
+- assert:
+    actor_visible:
+      actor_index: 16
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 19
+      hostile_to_party: false
+- damage_actor:
+    actor_index: 16
+    amount: 5
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 19
+      hostile_to_party: true

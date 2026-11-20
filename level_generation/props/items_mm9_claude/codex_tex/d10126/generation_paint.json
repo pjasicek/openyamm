@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit image 1 paint_mask_guide.png exactly as a texture-paint atlas. Image 2 design_reference.png is material and detail reference only. Image 3 icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. Guide is 3 columns by FOUR rows of equal square cells. Rows 1-2 and rows 3-4 hold the same five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact guide position, size, outline, geometry and camera. Paint the grey objects only; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour of warm reddish-brown leather ankle boots with turned-down tan leather cuff, three small brass buttons up outer side, rounded toes and dark leather sole. Use reference leather grain, stitching and details scaled to each view. No illumination, shadows, AO, hot highlights, reflections, glow, halos, ground, outlines or text. Keep neutral flat albedo with material detail.\nRows 3-4 MATERIAL MASK: identical five silhouettes with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 every metal part including brass buttons. Pure green #00FF00 every leather part including straps, padding, hide, suede, leather cuff and sole, and fur. Pure blue #0000FF every cloth part including linings, cords, ribbons and hair. Pure yellow #FFFF00 every matte non-metal solid including wood, bone, horn, stone, parchment, paper, wax. Every silhouette pixel exactly one category colour; nothing outside silhouettes. These boots are leather with brass buttons: green surfaces and red buttons in mask.\nKeep every gap and opening exactly as guide and fully transparent. Empty cells column 3 row 2 and column 3 row 4 remain completely transparent. Preserve all four rows, do not crop or rearrange. Transparent background, no checkerboard painted into image.\nCRITICAL CORRECTION: Restrict every pixel to the original guide silhouettes. The material-mask half must contain only isolated clean boot silhouettes and brass-button regions, separated by completely transparent empty space. NO green haze, spray, speckles, bridges, background fill, or strokes outside boots. No drawn seam lines within green masks; each leather region is a solid uniform pure green fill. All space between views and rows is transparent. Strictly copy guide silhouettes.",
+  "initial_prompt": "Edit image 1 paint_mask_guide.png exactly as a texture-paint atlas. Image 2 design_reference.png is material and detail reference only. Image 3 icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. Guide is 3 columns by FOUR rows of equal square cells. Rows 1-2 and rows 3-4 hold the same five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact guide position, size, outline, geometry and camera. Paint the grey objects only; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour of warm reddish-brown leather ankle boots with turned-down tan leather cuff, three small brass buttons up outer side, rounded toes and dark leather sole. Use reference leather grain, stitching and details scaled to each view. No illumination, shadows, AO, hot highlights, reflections, glow, halos, ground, outlines or text. Keep neutral flat albedo with material detail.\nRows 3-4 MATERIAL MASK: identical five silhouettes with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 every metal part including brass buttons. Pure green #00FF00 every leather part including straps, padding, hide, suede, leather cuff and sole, and fur. Pure blue #0000FF every cloth part including linings, cords, ribbons and hair. Pure yellow #FFFF00 every matte non-metal solid including wood, bone, horn, stone, parchment, paper, wax. Every silhouette pixel exactly one category colour; nothing outside silhouettes. These boots are leather with brass buttons: green surfaces and red buttons in mask.\nKeep every gap and opening exactly as guide and fully transparent. Empty cells column 3 row 2 and column 3 row 4 remain completely transparent. Preserve all four rows, do not crop or rearrange. Transparent background, no checkerboard painted into image.",
+  "tool": "built-in image_gen",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-19a8-73b3-a9a9-2c08177a8059/exec-8015bdc3-0e44-4bc9-b2e5-b9eb91e17526.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10126/paint_mask_raw_v1.png",
+  "validation": "Corrective regeneration exhausted. Visible green spill outside mask silhouettes persists; output does not meet strict mask requirements.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10126/paint_mask_guide.png",
+      "sha256": "a735fa9304a6b9768f3b3231f0b8290868541f1153b90da6141574ab7ed4d5fa"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10126/design_reference.png",
+      "sha256": "3c1deaf47343d591e58cdb5549737cf2e328a1b450a4b2aa2e49bcc8d732df54"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10126/icon_x8.png",
+      "sha256": "a1a9b8c7771f3768e2aa6581f9d9874d6f756ec25ce951078d1b248a2753c688"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

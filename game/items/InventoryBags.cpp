@@ -1,0 +1,911 @@
+#include "game/items/InventoryBags.h"
+
+#include "game/party/Party.h"
+#include "game/rules/GameRules.h"
+#include "game/tables/ItemTable.h"
+
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <map>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <utility>
+#include <vector>
+
+namespace OpenYAMM::Game
+{
+namespace
+{
+using BagGrid = std::array<bool, Character::InventoryWidth * Character::InventoryHeight>;
+
+// The first free place for the item, column by column, as Character::addInventoryItem looks.
+std::optional<std::pair<uint8_t, uint8_t>> firstFreePlace(const BagGrid &occupied, uint8_t width, uint8_t height)
+{
+    for (int x = 0; x + width <= Character::InventoryWidth; ++x)
+    {
+        for (int y = 0; y + height <= Character::InventoryHeight; ++y)
+        {
+            bool free = true;
+
+            for (int offsetY = 0; offsetY < height && free; ++offsetY)
+            {
+                for (int offsetX = 0; offsetX < width && free; ++offsetX)
+                {
+                    free = !occupied[size_t(y + offsetY) * Character::InventoryWidth + size_t(x + offsetX)];
+                }
+            }
+
+            if (free)
+            {
+                return std::pair(uint8_t(x), uint8_t(y));
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
+void occupy(BagGrid &occupied, const InventoryItem &item)
+{
+    for (int y = item.gridY; y < item.gridY + item.height; ++y)
+    {
+        for (int x = item.gridX; x < item.gridX + item.width; ++x)
+        {
+            occupied[size_t(y) * Character::InventoryWidth + size_t(x)] = true;
+        }
+    }
+}
+
+bool reachableBag(int bag, int bagCount)
+{
+    return bag >= 0 && bag < std::max(1, bagCount);
+}
+
+// The `bagCount` bags from `firstBag` that a sort of every bag covers: all of them, or with several tabs (a party of
+// one) the open bag's tab.
+struct BagRange
+{
+    int firstBag = 0;
+    int bagCount = 1;
+
+    bool contains(int bag) const
+    {
+        return bag >= firstBag && bag < firstBag + bagCount;
+    }
+};
+
+BagRange sortedBagRange(const Character &character, int bagCount)
+{
+    const int count = std::max(1, bagCount);
+
+    if (count <= InventoryBags::TabBags)
+    {
+        return {0, count};
+    }
+
+    const int first = InventoryBags::tabFirstBag(character.rulesetState.currentBag);
+    return {first, std::clamp(count - first, 1, InventoryBags::TabBags)};
+}
+
+// The items of the open bag, or of every bag in the range.
+std::vector<InventoryItem> bagItems(const Character &character, bool allBags, const BagRange &range)
+{
+    std::vector<InventoryItem> items = character.inventory;
+
+    for (const auto &[bag, stored] : character.rulesetState.storedBags)
+    {
+        if (allBags && range.contains(bag))
+        {
+            items.insert(items.end(), stored.begin(), stored.end());
+        }
+    }
+
+    return items;
+}
+
+// The cells the items of a bag cover.
+BagGrid occupiedCells(const std::vector<InventoryItem> &items)
+{
+    BagGrid occupied = {};
+
+    for (const InventoryItem &item : items)
+    {
+        occupy(occupied, item);
+    }
+
+    return occupied;
+}
+
+// MAW's sort order (zzMaw-Item-Sorter.lua): the tallest first (1.5 for a wide item one cell tall), then by skill and
+// item id.
+// An item's skill as the engine numbers it (const.Skills), which MAW's sort compares: the weapons and armour from Staff
+// (0) to Plate (11), then Misc (12), then clubs (39); anything else after them.
+int engineSkillNumber(const std::string &skillGroup)
+{
+    static constexpr std::array<std::string_view, 13> Skills = {
+        "Staff", "Sword", "Dagger", "Axe", "Spear", "Bow", "Mace", "Blaster", "Shield", "Leather", "Chain", "Plate",
+        "Misc"};
+    const auto found = std::find(Skills.begin(), Skills.end(), skillGroup);
+
+    if (found != Skills.end())
+    {
+        return int(found - Skills.begin());
+    }
+
+    return skillGroup == "Club" ? 39 : 40;
+}
+
+void sortByMawOrder(std::vector<InventoryItem> &items, const ItemTable *pItemTable)
+{
+    // Tallest first (a wide item one cell tall counts 1.5), then the skill's number, then the item id
+    // (zzMaw-Item-Sorter.lua:155-167).
+    const auto sortKey =
+        [pItemTable](const InventoryItem &item)
+        {
+            const double size = item.height == 1 && item.width > 1 ? 1.5 : double(item.height);
+            const ItemDefinition *pDefinition = pItemTable != nullptr ? pItemTable->get(item.objectDescriptionId)
+                                                                      : nullptr;
+            return std::tuple(-size, pDefinition != nullptr ? engineSkillNumber(pDefinition->skillGroup) : 40,
+                item.objectDescriptionId);
+        };
+    std::stable_sort(items.begin(), items.end(),
+        [&sortKey](const InventoryItem &left, const InventoryItem &right)
+        {
+            return sortKey(left) < sortKey(right);
+        });
+}
+
+// Places the items in order into `bagCount` bags, filled column by column from the first bag on; a full bag is not
+// looked at again (MAW moves on to the next bag for good). Returns what did not fit.
+std::vector<InventoryItem> packIntoBags(
+    const std::vector<InventoryItem> &items,
+    int bagCount,
+    std::vector<std::vector<InventoryItem>> &bags)
+{
+    bags.assign(size_t(std::max(1, bagCount)), {});
+    std::vector<BagGrid> grids(bags.size());
+    std::vector<InventoryItem> leftovers;
+    size_t firstOpenBag = 0;
+
+    for (InventoryItem item : items)
+    {
+        item.width = std::max<uint8_t>(1, item.width);
+        item.height = std::max<uint8_t>(1, item.height);
+        bool placed = false;
+
+        for (size_t bag = firstOpenBag; bag < bags.size() && !placed; ++bag)
+        {
+            const std::optional<std::pair<uint8_t, uint8_t>> place =
+                firstFreePlace(grids[bag], item.width, item.height);
+
+            if (!place)
+            {
+                firstOpenBag = bag + 1;
+                continue;
+            }
+
+            item.gridX = place->first;
+            item.gridY = place->second;
+            occupy(grids[bag], item);
+            bags[bag].push_back(item);
+            placed = true;
+        }
+
+        if (!placed)
+        {
+            leftovers.push_back(item);
+        }
+    }
+
+    return leftovers;
+}
+
+// packIntoBags for a sort of every bag of the open tab when the member has other tabs: the tab's bags, then the free
+// places of the other tabs' bags, the next tab first and round (OY-651). Items placed in other tabs are added to
+// `otherTabs` by bag; the tab's own bags are packed afresh into `bags`.
+std::vector<InventoryItem> packIntoTabBags(
+    const std::vector<InventoryItem> &items,
+    const BagRange &range,
+    int bagCount,
+    const Character &character,
+    std::vector<std::vector<InventoryItem>> &bags,
+    std::map<uint8_t, std::vector<InventoryItem>> &otherTabs)
+{
+    const int count = std::max(1, range.bagCount);
+    // The other tabs' bags, the next tab first and round.
+    std::vector<int> otherBags;
+    const int tabs = InventoryBags::tabCount(bagCount);
+    const int openTab = range.firstBag / InventoryBags::TabBags;
+
+    for (int step = 1; step < tabs; ++step)
+    {
+        const int first = (openTab + step) % tabs * InventoryBags::TabBags;
+
+        for (int bag = first; bag < std::min(bagCount, first + InventoryBags::TabBags); ++bag)
+        {
+            otherBags.push_back(bag);
+        }
+    }
+
+    if (otherBags.empty())
+    {
+        return packIntoBags(items, count, bags);
+    }
+
+    bags.assign(size_t(count), {});
+    std::vector<BagGrid> grids(bags.size());
+    // The other tabs' bags keep their items: only their free places are used.
+    std::vector<BagGrid> otherGrids;
+
+    for (const int bag : otherBags)
+    {
+        otherGrids.push_back(occupiedCells(InventoryBags::itemsInBag(character, uint8_t(bag))));
+    }
+
+    std::vector<InventoryItem> leftovers;
+
+    for (InventoryItem item : items)
+    {
+        item.width = std::max<uint8_t>(1, item.width);
+        item.height = std::max<uint8_t>(1, item.height);
+        bool placed = false;
+
+        for (int bag = 0; bag < count && !placed; ++bag)
+        {
+            if (const std::optional<std::pair<uint8_t, uint8_t>> place =
+                    firstFreePlace(grids[size_t(bag)], item.width, item.height))
+            {
+                item.gridX = place->first;
+                item.gridY = place->second;
+                occupy(grids[size_t(bag)], item);
+                bags[size_t(bag)].push_back(item);
+                placed = true;
+            }
+        }
+
+        for (size_t other = 0; other < otherBags.size() && !placed; ++other)
+        {
+            if (const std::optional<std::pair<uint8_t, uint8_t>> place =
+                    firstFreePlace(otherGrids[other], item.width, item.height))
+            {
+                item.gridX = place->first;
+                item.gridY = place->second;
+                occupy(otherGrids[other], item);
+                otherTabs[uint8_t(otherBags[other])].push_back(item);
+                placed = true;
+            }
+        }
+
+        if (!placed)
+        {
+            leftovers.push_back(item);
+        }
+    }
+
+    return leftovers;
+}
+
+// Puts packed bags back: the first is the open bag when only it was sorted; else packed bag i is the range's bag
+// firstBag + i, the same one open.
+void storeBags(Character &character, std::vector<std::vector<InventoryItem>> bags, bool allBags, const BagRange &range)
+{
+    CharacterRulesetState &state = character.rulesetState;
+
+    if (!allBags)
+    {
+        character.inventory = std::move(bags.front());
+        return;
+    }
+
+    std::erase_if(state.storedBags,
+        [&range](const auto &entry)
+        {
+            return range.contains(entry.first);
+        });
+    character.inventory.clear();
+
+    for (size_t index = 0; index < bags.size(); ++index)
+    {
+        const uint8_t bag = uint8_t(range.firstBag + int(index));
+
+        if (bag == state.currentBag)
+        {
+            character.inventory = std::move(bags[index]);
+        }
+        else if (!bags[index].empty())
+        {
+            state.storedBags[bag] = std::move(bags[index]);
+        }
+    }
+}
+}
+
+namespace InventoryBags
+{
+bool openBag(Character &character, uint8_t bag, int bagCount)
+{
+    CharacterRulesetState &state = character.rulesetState;
+
+    // Not while a pouch is the open bag for an operation (withBagOpen): its items are not this character's to store.
+    if (bag == state.currentBag || !reachableBag(int(bag), bagCount) || isPouchBag(state.currentBag))
+    {
+        return false;
+    }
+
+    if (!character.inventory.empty())
+    {
+        state.storedBags[state.currentBag] = std::move(character.inventory);
+    }
+
+    character.inventory.clear();
+    const auto stored = state.storedBags.find(bag);
+
+    if (stored != state.storedBags.end())
+    {
+        character.inventory = std::move(stored->second);
+        state.storedBags.erase(stored);
+    }
+
+    state.currentBag = bag;
+    return true;
+}
+
+bool sortAllBags(Character &character, int bagCount, const ItemTable *pItemTable)
+{
+    const BagRange range = {0, std::max(1, bagCount)};
+    std::vector<InventoryItem> items = bagItems(character, true, range);
+    sortByMawOrder(items, pItemTable);
+    std::vector<std::vector<InventoryItem>> bags;
+
+    if (!packIntoBags(items, range.bagCount, bags).empty())
+    {
+        return false;
+    }
+
+    storeBags(character, std::move(bags), true, range);
+    return true;
+}
+
+bool sortPartyBags(Party &party, const std::vector<size_t> &members, bool allBags, int bagCount)
+{
+    const ItemTable *pItemTable = party.itemTable();
+    std::vector<std::vector<std::vector<InventoryItem>>> packed(party.members().size());
+    // What each member's sort put into their other tabs' bags.
+    std::vector<std::map<uint8_t, std::vector<InventoryItem>>> otherTabs(party.members().size());
+
+    for (const size_t memberIndex : members)
+    {
+        const Character *pMember = party.member(memberIndex);
+
+        if (pMember == nullptr)
+        {
+            return false;
+        }
+
+        const BagRange bagRange = sortedBagRange(*pMember, bagCount);
+        std::vector<InventoryItem> items = bagItems(*pMember, allBags, bagRange);
+        sortByMawOrder(items, pItemTable);
+        // The open bag alone has nowhere else to send an item.
+        const std::vector<InventoryItem> leftOver = allBags
+            ? packIntoTabBags(items, bagRange, bagCount, *pMember, packed[memberIndex], otherTabs[memberIndex])
+            : packIntoBags(items, 1, packed[memberIndex]);
+
+        if (!leftOver.empty())
+        {
+            return false;
+        }
+    }
+
+    for (const size_t memberIndex : members)
+    {
+        Character &member = *party.member(memberIndex);
+        storeBags(member, std::move(packed[memberIndex]), allBags, sortedBagRange(member, bagCount));
+
+        // The open bag is in the sorted tab, so these are all stored bags.
+        for (auto &[bag, added] : otherTabs[memberIndex])
+        {
+            std::vector<InventoryItem> &stored = member.rulesetState.storedBags[bag];
+            stored.insert(stored.end(), added.begin(), added.end());
+        }
+    }
+
+    return true;
+}
+
+void sortPouch(Party &party, ItemPouch pouch)
+{
+    std::vector<InventoryItem> &stored = party.pouchItemsMutable(pouch);
+    std::vector<InventoryItem> items = stored;
+    const ItemTable *pItemTable = party.itemTable();
+    // sortAllBags' order (the tallest first, then by skill and item id), then what tells two of a kind apart: the
+    // higher level, the stronger and the fuller first.
+    const auto sortKey = [pItemTable](const InventoryItem &item)
+    {
+        const ItemDefinition *pDefinition = pItemTable != nullptr ? pItemTable->get(item.objectDescriptionId) : nullptr;
+        return std::tuple(-int(std::max<uint8_t>(1, item.height)),
+            pDefinition != nullptr ? engineSkillNumber(pDefinition->skillGroup) : 40, item.objectDescriptionId,
+            -int(item.rulesetFields.dropLevel), -int(item.standardEnchantPower), -int(item.currentCharges));
+    };
+    std::stable_sort(items.begin(), items.end(),
+        [&sortKey](const InventoryItem &left, const InventoryItem &right)
+        {
+            return sortKey(left) < sortKey(right);
+        });
+    // Row by row from the top: a free place of a row above takes a smaller item, so the rows close up.
+    std::vector<bool> occupied(size_t(PouchColumns) * size_t(PouchRows), false);
+    const auto freeAt = [&occupied](int x, int y, int width, int height)
+    {
+        for (int offsetY = 0; offsetY < height; ++offsetY)
+        {
+            for (int offsetX = 0; offsetX < width; ++offsetX)
+            {
+                if (occupied[size_t(y + offsetY) * size_t(PouchColumns) + size_t(x + offsetX)])
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    };
+    const auto rowFull = [&occupied](int y)
+    {
+        return std::all_of(occupied.begin() + y * PouchColumns, occupied.begin() + (y + 1) * PouchColumns,
+            [](bool cell) { return cell; });
+    };
+    std::vector<InventoryItem> packed;
+    packed.reserve(items.size());
+    // Rows above it have no free cell.
+    int firstOpenRow = 0;
+
+    for (InventoryItem item : items)
+    {
+        item.width = std::max<uint8_t>(1, item.width);
+        item.height = std::max<uint8_t>(1, item.height);
+        bool placed = false;
+
+        for (int y = firstOpenRow; y + item.height <= PouchRows && !placed; ++y)
+        {
+            for (int x = 0; x + item.width <= PouchColumns && !placed; ++x)
+            {
+                if (!freeAt(x, y, item.width, item.height))
+                {
+                    continue;
+                }
+
+                item.gridX = uint8_t(x);
+                item.gridY = uint8_t(y);
+
+                for (int offsetY = 0; offsetY < item.height; ++offsetY)
+                {
+                    for (int offsetX = 0; offsetX < item.width; ++offsetX)
+                    {
+                        occupied[size_t(y + offsetY) * size_t(PouchColumns) + size_t(x + offsetX)] = true;
+                    }
+                }
+
+                packed.push_back(item);
+                placed = true;
+            }
+        }
+
+        // The pouch held them all before the sort, so every item finds a place; were one not to, nothing changes.
+        if (!placed)
+        {
+            return;
+        }
+
+        while (firstOpenRow < PouchRows && rowFull(firstOpenRow))
+        {
+            ++firstOpenRow;
+        }
+    }
+
+    stored = std::move(packed);
+}
+
+size_t fitIntoBagCount(Party &party, int bagCount)
+{
+    const int bags = std::max(1, bagCount);
+    // The items of the bags past the count, with their owners.
+    std::vector<std::pair<InventoryItem, size_t>> overflow;
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        Character &member = *party.member(memberIndex);
+        CharacterRulesetState &state = member.rulesetState;
+
+        // A member whose open bag is gone opens the first.
+        if (state.currentBag >= bags)
+        {
+            if (!member.inventory.empty())
+            {
+                state.storedBags[state.currentBag] = std::move(member.inventory);
+            }
+
+            member.inventory.clear();
+            const auto first = state.storedBags.find(0);
+
+            if (first != state.storedBags.end())
+            {
+                member.inventory = std::move(first->second);
+                state.storedBags.erase(first);
+            }
+
+            state.currentBag = 0;
+        }
+
+        for (auto entry = state.storedBags.begin(); entry != state.storedBags.end();)
+        {
+            if (reachableBag(entry->first, bags))
+            {
+                ++entry;
+                continue;
+            }
+
+            for (const InventoryItem &item : entry->second)
+            {
+                overflow.emplace_back(item, memberIndex);
+            }
+
+            entry = state.storedBags.erase(entry);
+        }
+    }
+
+    // Into the owner's first free place, bag by bag, then any other member's.
+    const auto place = [&party, bags](size_t memberIndex, InventoryItem item)
+    {
+        Character &member = *party.member(memberIndex);
+
+        for (int bag = 0; bag < bags; ++bag)
+        {
+            const uint8_t bagIndex = uint8_t(bag);
+            const std::optional<std::pair<uint8_t, uint8_t>> free = firstFreePlace(
+                occupiedCells(itemsInBag(member, bagIndex)), std::max<uint8_t>(1, item.width),
+                std::max<uint8_t>(1, item.height));
+
+            if (!free)
+            {
+                continue;
+            }
+
+            item.gridX = free->first;
+            item.gridY = free->second;
+            (bagIndex == member.rulesetState.currentBag ? member.inventory : member.rulesetState.storedBags[bagIndex])
+                .push_back(item);
+            return true;
+        }
+
+        return false;
+    };
+    size_t left = 0;
+
+    for (const auto &[item, owner] : overflow)
+    {
+        bool placed = place(owner, item);
+
+        for (size_t memberIndex = 0; memberIndex < party.members().size() && !placed; ++memberIndex)
+        {
+            placed = memberIndex != owner && place(memberIndex, item);
+        }
+
+        // What fits nowhere waits for takeOverflow.
+        if (!placed)
+        {
+            party.member(owner)->rulesetState.storedBags[InventoryBags::OverflowBag].push_back(item);
+            ++left;
+        }
+    }
+
+    return left;
+}
+
+std::vector<InventoryItem> takeOverflow(Character &character)
+{
+    std::vector<InventoryItem> items;
+    const auto overflow = character.rulesetState.storedBags.find(OverflowBag);
+
+    if (overflow != character.rulesetState.storedBags.end())
+    {
+        items = std::move(overflow->second);
+        character.rulesetState.storedBags.erase(overflow);
+    }
+
+    return items;
+}
+
+size_t storedItemCount(const Character &character)
+{
+    size_t count = 0;
+
+    for (const auto &[bag, items] : character.rulesetState.storedBags)
+    {
+        count += items.size();
+    }
+
+    return count;
+}
+
+const std::vector<InventoryItem> &itemsInBag(const Character &character, uint8_t bag)
+{
+    static const std::vector<InventoryItem> NoItems;
+
+    if (bag == character.rulesetState.currentBag)
+    {
+        return character.inventory;
+    }
+
+    const auto stored = character.rulesetState.storedBags.find(bag);
+    return stored != character.rulesetState.storedBags.end() ? stored->second : NoItems;
+}
+
+const InventoryItem *itemInBagAt(const Character &character, uint8_t bag, uint8_t gridX, uint8_t gridY)
+{
+    for (const InventoryItem &item : itemsInBag(character, bag))
+    {
+        if (gridX >= item.gridX && gridX < item.gridX + std::max<uint8_t>(1, item.width)
+            && gridY >= item.gridY && gridY < item.gridY + std::max<uint8_t>(1, item.height))
+        {
+            return &item;
+        }
+    }
+
+    return nullptr;
+}
+
+InventoryItem *itemInBagAt(Character &character, uint8_t bag, uint8_t gridX, uint8_t gridY)
+{
+    return const_cast<InventoryItem *>(itemInBagAt(std::as_const(character), bag, gridX, gridY));
+}
+
+const std::vector<InventoryItem> &itemsInBag(const Party &party, size_t memberIndex, uint8_t bag)
+{
+    static const std::vector<InventoryItem> NoItems;
+
+    if (isPouchBag(bag))
+    {
+        return party.pouchItems(pouchOfBag(bag));
+    }
+
+    const Character *pMember = party.member(memberIndex);
+    return pMember != nullptr ? itemsInBag(*pMember, bag) : NoItems;
+}
+
+const InventoryItem *itemInBagAt(const Party &party, size_t memberIndex, uint8_t bag, uint8_t gridX, uint8_t gridY)
+{
+    for (const InventoryItem &item : itemsInBag(party, memberIndex, bag))
+    {
+        if (gridX >= item.gridX && gridX < item.gridX + std::max<uint8_t>(1, item.width)
+            && gridY >= item.gridY && gridY < item.gridY + std::max<uint8_t>(1, item.height))
+        {
+            return &item;
+        }
+    }
+
+    return nullptr;
+}
+
+InventoryItem *itemInBagAt(Party &party, size_t memberIndex, uint8_t bag, uint8_t gridX, uint8_t gridY)
+{
+    return const_cast<InventoryItem *>(itemInBagAt(std::as_const(party), memberIndex, bag, gridX, gridY));
+}
+
+std::vector<uint8_t> carriedBags(const Party &party, int bagCount, bool withPouches)
+{
+    std::vector<uint8_t> bags;
+
+    for (int bag = 0; bag < std::max(1, bagCount); ++bag)
+    {
+        bags.push_back(uint8_t(bag));
+    }
+
+    if (withPouches && party.rules().items.hasPouches())
+    {
+        bags.push_back(AlchemyPouchBag);
+        bags.push_back(CraftingPouchBag);
+        bags.push_back(QuestPouchBag);
+    }
+
+    return bags;
+}
+
+bool withBagOpen(Party &party, size_t memberIndex, uint8_t bag, int bagCount, const std::function<bool()> &operation)
+{
+    Character *pMember = party.member(memberIndex);
+
+    if (pMember != nullptr && isPouchBag(bag))
+    {
+        CharacterRulesetState &state = pMember->rulesetState;
+
+        if (state.currentBag == bag)
+        {
+            return operation();
+        }
+
+        // One member at a time: the pouch's items are that member's inventory for the call.
+        for (const Character &member : party.members())
+        {
+            if (member.rulesetState.currentBag == bag)
+            {
+                return false;
+            }
+        }
+
+        // As openBag: the member's open bag waits with the stored ones, so item checks still find its items.
+        const uint8_t openBagIndex = state.currentBag;
+        std::vector<InventoryItem> pouchItems = std::move(party.pouchItemsMutable(pouchOfBag(bag)));
+        party.pouchItemsMutable(pouchOfBag(bag)).clear();
+
+        if (!pMember->inventory.empty())
+        {
+            state.storedBags[openBagIndex] = std::move(pMember->inventory);
+        }
+
+        pMember->inventory = std::move(pouchItems);
+        state.currentBag = bag;
+        const bool done = operation();
+        // The member is looked up again: the operation may have changed the party.
+        pMember = party.member(memberIndex);
+        CharacterRulesetState &stateAfter = pMember->rulesetState;
+        pouchItems = std::move(pMember->inventory);
+        pMember->inventory.clear();
+        stateAfter.currentBag = openBagIndex;
+        const auto stored = stateAfter.storedBags.find(openBagIndex);
+
+        if (stored != stateAfter.storedBags.end())
+        {
+            pMember->inventory = std::move(stored->second);
+            stateAfter.storedBags.erase(stored);
+        }
+
+        party.pouchItemsMutable(pouchOfBag(bag)) = std::move(pouchItems);
+        return done;
+    }
+
+    if (pMember == nullptr || !reachableBag(int(bag), bagCount) || isPouchBag(pMember->rulesetState.currentBag))
+    {
+        return false;
+    }
+
+    const uint8_t openBagIndex = pMember->rulesetState.currentBag;
+
+    if (bag == openBagIndex)
+    {
+        return operation();
+    }
+
+    openBag(*pMember, bag, bagCount);
+    const bool done = operation();
+    openBag(*pMember, openBagIndex, bagCount);
+    return done;
+}
+
+bool placeInBag(
+    Party &party,
+    size_t memberIndex,
+    uint8_t bag,
+    int bagCount,
+    const InventoryItem &item,
+    uint8_t gridX,
+    uint8_t gridY,
+    std::optional<InventoryItem> &replacedItem)
+{
+    replacedItem.reset();
+    return withBagOpen(party, memberIndex, bag, bagCount,
+        [&]() { return party.tryPlaceItemInMemberInventoryCell(memberIndex, item, gridX, gridY, replacedItem); });
+}
+
+PlacementPreview previewPlaceInBag(
+    const Party &party,
+    size_t memberIndex,
+    uint8_t bag,
+    const InventoryItem &item,
+    uint8_t gridX,
+    uint8_t gridY)
+{
+    PlacementPreview preview;
+    preview.gridX = gridX;
+    preview.gridY = gridY;
+    const std::optional<ItemPouch> pouch = party.pouchFor(item);
+
+    // An item goes to its pouch wherever it is dropped, and a pouch takes nothing else: no place to show.
+    if (pouch ? bag != pouchBag(*pouch) : isPouchBag(bag))
+    {
+        return preview;
+    }
+
+    // The real placement on a copy of the bag's items, on the bag's grid.
+    Character probe;
+    probe.inventory = itemsInBag(party, memberIndex, bag);
+    probe.rulesetState.currentBag = isPouchBag(bag) ? bag : 0;
+    preview.fits = probe.tryPlaceInventoryItemAt(item, gridX, gridY, preview.replacedItem);
+
+    if (preview.fits && !probe.inventory.empty())
+    {
+        preview.gridX = probe.inventory.back().gridX;
+        preview.gridY = probe.inventory.back().gridY;
+    }
+    else
+    {
+        preview.gridX = gridX;
+        preview.gridY = gridY;
+        preview.replacedItem.reset();
+    }
+
+    return preview;
+}
+
+bool takeFromBag(
+    Party &party,
+    size_t memberIndex,
+    uint8_t bag,
+    int bagCount,
+    uint8_t gridX,
+    uint8_t gridY,
+    InventoryItem &item)
+{
+    return withBagOpen(party, memberIndex, bag, bagCount,
+        [&]() { return party.takeItemFromMemberInventoryCell(memberIndex, gridX, gridY, item); });
+}
+
+bool refitChangedItem(
+    Party &party,
+    size_t memberIndex,
+    uint8_t bag,
+    int bagCount,
+    uint8_t gridX,
+    uint8_t gridY,
+    const ItemTable &itemTable)
+{
+    const InventoryItem *pItem =
+        party.member(memberIndex) != nullptr ? itemInBagAt(party, memberIndex, bag, gridX, gridY) : nullptr;
+    const ItemDefinition *pDefinition = pItem != nullptr ? itemTable.get(pItem->objectDescriptionId) : nullptr;
+
+    if (pDefinition == nullptr)
+    {
+        return false;
+    }
+
+    const uint8_t width = std::max<uint8_t>(1, pDefinition->inventoryWidth);
+    const uint8_t height = std::max<uint8_t>(1, pDefinition->inventoryHeight);
+
+    if (pItem->width == width && pItem->height == height)
+    {
+        return true;
+    }
+
+    const uint8_t originX = pItem->gridX;
+    const uint8_t originY = pItem->gridY;
+    InventoryItem item = {};
+
+    if (!takeFromBag(party, memberIndex, bag, bagCount, originX, originY, item))
+    {
+        return false;
+    }
+
+    InventoryItem refitted = item;
+    refitted.width = width;
+    refitted.height = height;
+    std::optional<InventoryItem> replaced;
+
+    // Where it lies when its new size fits there without moving another item, else wherever the party has room.
+    if (!previewPlaceInBag(party, memberIndex, bag, refitted, originX, originY).replacedItem
+        && placeInBag(party, memberIndex, bag, bagCount, refitted, originX, originY, replaced))
+    {
+        return true;
+    }
+
+    if (party.tryGrantInventoryItemStartingAt(memberIndex, refitted))
+    {
+        return true;
+    }
+
+    // No room anywhere: it stays where it was at its old size.
+    placeInBag(party, memberIndex, bag, bagCount, item, originX, originY, replaced);
+    return false;
+}
+}
+}

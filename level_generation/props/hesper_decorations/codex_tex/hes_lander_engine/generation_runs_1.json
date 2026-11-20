@@ -1,0 +1,138 @@
+{
+  "tool": "built-in image_gen",
+  "status": "generated_with_unmet_constraints",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Produce one 1024 x 1024 PNG with genuine transparent background, a texture-source/albedo paintover. Image 1 is the exact geometry guide/edit target; image 2 is the approved design reference for materials and colours ONLY, not camera or shape. Keep image 1's silhouette EXACTLY: the same outline, size and position in the 1024 square, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Do not enlarge or recenter the object. Paint chipped white ceramic plates with broad gold rings, dark steel exhaust nozzle with a gold turbine ring, black soot and scorch and black cables, matching image 2. Preserve the existing model geometry and all its thin cables and broken edges. LIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Black steel and soot are material colours, not lighting shadows. No text or labels. Return the unresized 1024 x 1024 image. View: FRONT, looking directly into the torn circular front of the nacelle. Use guide_front.png exactly; preserve its relatively small centered object and broad empty margins.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "e78d4808727269f8e7b1e674d05bce233270d08132ce795bd4320405d21dd008"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Image tool rejected output: moderation_blocked, violence. Request ID a6b0f65f-2a68-488e-a895-ebdd20dc2c13.",
+      "status": "tool_rejected"
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Produce one 1024 x 1024 PNG with genuine transparent background, a texture-source/albedo paintover. Image 1 is the exact geometry guide/edit target; image 2 is the approved design reference for materials and colours ONLY, not camera or shape. Keep image 1's silhouette EXACTLY: the same outline, size and position in the 1024 square, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Do not enlarge or recenter the object. Paint chipped white ceramic plates with broad gold rings, dark steel exhaust nozzle with a gold turbine ring, black soot and scorch and black cables, matching image 2. Preserve the existing model geometry and all its thin cables and broken edges. LIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Black steel and soot are material colours, not lighting shadows. No text or labels. Return the unresized 1024 x 1024 image. View: FRONT, looking directly into the torn circular front of the nacelle. Use guide_front.png exactly; preserve its relatively small centered object and broad empty margins.\nSubject clarification: this is solely an inanimate unoccupied spacecraft engine component: ceramic housing, metal machinery and electrical cables. No people, creatures, organic material, injury or violent action are present.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "e78d4808727269f8e7b1e674d05bce233270d08132ce795bd4320405d21dd008"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16565-74df-7df0-a658-fbe4a3d6f911/exec-443573e4-ab33-43d2-b80d-89b0b57b36e8.png",
+      "selected": false,
+      "reason": "Initial return changes cables and internal shapes; corrective pass selected.",
+      "status": "generated"
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Produce one 1024 x 1024 PNG with genuine transparent background, a texture-source/albedo paintover. Image 1 is the exact geometry guide/edit target; image 2 is the approved design reference for materials and colours ONLY, not camera or shape. Keep image 1's silhouette EXACTLY: the same outline, size and position in the 1024 square, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Do not enlarge or recenter the object. Paint chipped white ceramic plates with broad gold rings, dark steel exhaust nozzle with a gold turbine ring, black soot and scorch and black cables, matching image 2. Preserve the existing model geometry and all its thin cables and broken edges. LIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Black steel and soot are material colours, not lighting shadows. No text or labels. Return the unresized 1024 x 1024 image. View: TOP. Use guide_top.png exactly, its vertical long axis and exact full-length framing. Exhaust nozzle at the TOP of the canvas, ceramic barrel in the middle, fractured ceramic and trailing electrical cables at the BOTTOM. The subject is solely an inanimate unoccupied spacecraft engine component, no people or creatures. Preserve 1024 x 1024 pixel canvas.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "fea71919cd774dce4da39fe59f4ccb057e002faa379480b9bf7e0b90c63c76b4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16565-74df-7df0-a658-fbe4a3d6f911/exec-34e2a5ed-d629-438e-80be-2d5ca45dfe7f.png",
+      "selected": false,
+      "reason": "Initial return changes the straight nozzle edge into an ellipse; corrective pass selected.",
+      "status": "generated"
+    },
+    {
+      "view": "top",
+      "prompt": "Edit the FIRST image by changing surface colours only. Output must be exactly 1024 x 1024 pixels, same canvas as the first image. This is an orthographic TOP texture projection for an inanimate spacecraft engine. Keep the first image's alpha silhouette, pixel positions, scale, shapes and internal geometry unchanged. In particular the nozzle has a perfectly STRAIGHT horizontal top edge at y=65, NOT a curved ellipse. Do not change its camera. Preserve all original white shape boundaries precisely, including cables and open gaps at the bottom. Apply only surface material colours from the SECOND image: chipped ivory white ceramic shell, broad gold bands, dark steel nozzle, gold collar, black electrical cables and local soot marks near the broken shell. Paint flat diffuse albedo with NO lighting gradients, shadows, ambient occlusion, highlights or reflections. Empty pixels remain truly transparent. Do not fill openings with machinery. No text. Preserve margins: the entire guide shape spans approximately x=263..760 and y=65..959 on the 1024x1024 canvas. Exact geometry preservation takes priority over adding texture details. Return one native 1024 x 1024 PNG, no resizing.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "fea71919cd774dce4da39fe59f4ccb057e002faa379480b9bf7e0b90c63c76b4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16565-74df-7df0-a658-fbe4a3d6f911/exec-47e1ba19-879e-444d-bfbd-82de3184def1.png",
+      "selected": true,
+      "reason": "Closer to guide: straight nozzle edge restored. Best returned candidate, not compliant with all brief checks.",
+      "status": "generated",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_colours": "White ceramic, gold, dark steel, soot and black cables match reference palette.",
+        "flat_even_light": "Not fully met: residual shading and highlights remain.",
+        "geometry": "Visual deviations in internal edges and cable paths; canvas dimensions differ.",
+        "alpha": "Transparency present; visible edge fringe remains."
+      },
+      "output_sha256": "cd87039cd9ea90d8b45810f97590e6f96fe7678cf43d6192509fd31b22cc57f3"
+    },
+    {
+      "view": "front",
+      "prompt": "Edit the FIRST image by changing surface colours only. Output must be exactly 1024 x 1024 pixels, same canvas as first image. Orthographic FRONT texture projection for an inanimate unoccupied spacecraft engine. Keep image 1's alpha silhouette, pixel positions, scale, shapes and internal geometry unchanged. Entire object is approximately within x=262..762, y=290..734, with broad empty margins. Keep every original guide cable path, polygonal plate edge and hole. Add NO cables or connectors. SECOND image is ONLY material-colour reference. Apply chipped ivory ceramic plates, brass gold rings and brackets, dark steel machinery, black electrical cables, surface soot and scratches. No organic subjects. Paint flat diffuse ALBEDO: no shadows, no ambient occlusion, no directional light, no highlights or reflections. Keep details legible in evenly coloured steel. Empty pixels must be fully transparent with no fringe or noise. Do not redesign or fill the cavity with new machinery. No labels. Exact geometry preservation has priority over additional detail. Return one native 1024 x 1024 PNG, no resizing.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "e78d4808727269f8e7b1e674d05bce233270d08132ce795bd4320405d21dd008"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16565-74df-7df0-a658-fbe4a3d6f911/exec-1be343ad-156c-4bc7-81ce-2dfdeed13d73.png",
+      "selected": true,
+      "reason": "Closer to guide with fewer added mechanical details. Best returned candidate, not compliant with all brief checks.",
+      "status": "generated",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_colours": "White ceramic, gold, dark steel, soot and black cables match reference palette.",
+        "flat_even_light": "Not fully met: residual shading and highlights remain.",
+        "geometry": "Visual deviations in internal edges and cable paths; canvas dimensions differ.",
+        "alpha": "Transparency present; visible edge fringe remains."
+      },
+      "output_sha256": "d05fc724e331dd8a7cfce03a587848e20116de2419acbe9178cc1cff7c30683d"
+    }
+  ]
+}

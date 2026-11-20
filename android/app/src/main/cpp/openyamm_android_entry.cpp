@@ -1,5 +1,7 @@
 #include "game/app/OpenYammMain.h"
 #include "AndroidShaderPaths.h"
+#include "engine/AssetPackIndex.h"
+#include "engine/update/ReleaseManifest.h"
 
 #include <android/log.h>
 #include <android/asset_manager_jni.h>
@@ -90,10 +92,6 @@ private:
     android_LogPriority m_priority;
     std::string m_line;
 };
-
-constexpr std::array<PackagedAsset, 1> PackagedRuntimeFiles = {{
-    {"settings.ini", "settings.ini"}
-}};
 
 void openYammLog(const char *pFormat, ...)
 {
@@ -250,7 +248,7 @@ std::vector<uint8_t> readApkAsset(const char *pPath)
         throw std::runtime_error(std::string("Missing APK asset: ") + pPath);
     }
     const off64_t length = AAsset_getLength64(pAsset);
-    // Only shaders and the small initial settings file are extracted through this path.
+    // Only shaders are extracted through this path.
     if (length <= 0 || length > 16 * 1024 * 1024)
     {
         AAsset_close(pAsset);
@@ -321,19 +319,6 @@ void extractPackagedAssetIfNeeded(const std::filesystem::path &storageRoot, cons
     openYammLog("Extracted %s", targetPath.string().c_str());
 }
 
-void extractPackagedAssetIfMissing(const std::filesystem::path &storageRoot, const PackagedAsset &asset)
-{
-    const std::filesystem::path targetPath = storageRoot / asset.pExtractedPath;
-
-    if (std::filesystem::is_regular_file(targetPath))
-    {
-        openYammLog("Preserving writable runtime file: %s", targetPath.string().c_str());
-        return;
-    }
-
-    extractPackagedAssetIfNeeded(storageRoot, asset);
-}
-
 void prepareAndroidAssetRoot()
 {
     const std::filesystem::path storageRoot = getAndroidExternalStorageRoot();
@@ -341,11 +326,6 @@ void prepareAndroidAssetRoot()
     for (const char *pShaderPath : OpenYAMM::Game::AndroidShaderPaths)
     {
         extractPackagedAssetIfNeeded(storageRoot, {pShaderPath, pShaderPath});
-    }
-
-    for (const PackagedAsset &runtimeFile : PackagedRuntimeFiles)
-    {
-        extractPackagedAssetIfMissing(storageRoot, runtimeFile);
     }
 
     std::filesystem::current_path(storageRoot);
@@ -361,6 +341,35 @@ void installAndroidLogStreams()
     std::cout.rdbuf(&outputBuffer);
     std::cerr.rdbuf(&errorBuffer);
 }
+}
+
+// The Java update screen (OpenYammUpdater.java) checks manifests with the game's keys and Ed25519 code.
+extern "C" JNIEXPORT jboolean JNICALL Java_org_openyamm_android_OpenYammUpdater_nativeVerifyManifest(
+    JNIEnv *pEnvironment, jclass, jbyteArray manifest, jbyteArray signature)
+{
+    const auto bytes = [pEnvironment](jbyteArray array)
+    {
+        std::string text(size_t(pEnvironment->GetArrayLength(array)), '\0');
+        pEnvironment->GetByteArrayRegion(array, 0, jsize(text.size()), reinterpret_cast<jbyte *>(text.data()));
+        return text;
+    };
+    std::string error;
+    const bool verified = OpenYAMM::Engine::verifyManifestSignature(bytes(manifest), bytes(signature),
+                                                                    OpenYAMM::Engine::releaseManifestPublicKeys(),
+                                                                    error)
+                              .has_value();
+
+    if (!verified)
+    {
+        openYammLog("Update manifest rejected: %s", error.c_str());
+    }
+
+    return verified ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNIEXPORT jint JNICALL Java_org_openyamm_android_OpenYammUpdater_nativeContentFormat(JNIEnv *, jclass)
+{
+    return jint(OpenYAMM::Engine::SupportedContentFormat);
 }
 
 int main(int argc, char **argv)

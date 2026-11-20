@@ -1,0 +1,463 @@
+format: 0
+level: L1
+pitch: "The orcs raiding Vertigo's farms answer to drums that boom out of a cave in the north hills. Inside the skull-hung mouth a timber palisade blocks the cave, archers on its firing step. Beyond it the warband lives in smoky caves round a cookfire, keeps a captured farmer in a pit, and gathers in the Drum Hall, a tall natural amphitheatre of rock terraces where the Drum-Master pounds a great war drum on a timber scaffold and his drumming drives the orcs into a frenzy. A shaman beats a spirit drum in a bone-hung den; a third drum signals from the palisade. Burn all three and the hills fall quiet. A bat chimney climbs from the Drum Hall back up to the palisade, and a narrow tunnel runs north to a barred back gate on Mount Firestone's slopes, held by two big orc guards."
+purpose: "Optional Act I dungeon: burn the three war drums (the outposts on X1 lose heart: their orcs stop returning), free the captive farmer, take the warband's plunder. Monster levels 3 to 9, with a tougher pair of guards at the optional back gate to X7. A party of about level 5 to 8; about 15 minutes."
+mood: "Smoke, firelight and noise: the drums are heard from the mouth and grow louder all the way in; each drum burnt takes a layer of the sound away, and the last leaves the caves silent."
+datum: arrival
+spaces:
+  - id: room:back_gate
+    name: Back gate
+    kind: room
+    size: S
+    extent: [1024, 768]
+    shape: "Rough guardroom at the top of the back tunnel, a heavy barred door in its north wall, daylight under it."
+    where: North edge.
+    floor: 320
+    clear_height: 448
+    relief: flat
+    purpose: "Optional: the two Orc Guards and the bar of the back gate (set:back_gate)."
+    population:
+      - {actor: Orc Guard, role: gate guard, groups: 2, levels: [12, 12], placed: true, strength: heavy, notes: "The family's rank b, above the rest of the map: the price of the back way."}
+  - id: room:back_tunnel
+    name: Back tunnel
+    kind: room
+    size: M
+    extent: [384, 2560]
+    shape: "Narrow tunnel twisting north and steeply up from the drum hall's floor, worn smooth by orc feet."
+    where: North of the drum hall.
+    floor: [-640, 320]
+    clear_height: 384
+    relief: slope
+    purpose: The way to the back gate.
+    empty: true
+    notes: "Climbs about 960 over about 2,600 of walking: ramps, with a few steps of 32 at the steepest bends."
+  - id: room:bat_chimney
+    name: Bat chimney
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    shape: "Tall round natural chimney with a ledge spiralling up its wall from the drum hall's upper terrace to the upper ledge; bats roost in the dark top."
+    where: East of the drum hall.
+    floor: [-384, 192]
+    clear_height: [1024, 1600]
+    relief: slope
+    purpose: "The climb that closes loop:chimney; bats."
+    population:
+      - {slot: 2, groups: 2, per_marker: [1, 2], strength: light, rank: a, notes: Drop from the roost as the party climbs.}
+  - id: room:cave_mouth
+    name: Cave mouth
+    kind: room
+    size: S
+    extent: [1024, 1024]
+    shape: "Broad cave mouth narrowing inward, orc skulls and bones on poles; daylight behind."
+    where: South edge.
+    floor: 0
+    clear_height: [448, 640]
+    relief: uneven
+    purpose: "Arrival and the X1 exit. Safe; the drums are loud already."
+    empty: true
+  - id: room:cookfire_cave
+    name: Cookfire cave
+    kind: room
+    size: M
+    extent: [1536, 1280]
+    shape: "Round cave with a great fire pit in the middle under a smoke hole, spits and pots; low rock benches round it."
+    where: Centre of the map.
+    floor: -256
+    clear_height: [512, 768]
+    relief: flat
+    islands: 1
+    purpose: "The warband's hearth: a pack fight round the fire; exits to the sleeping hollows, the drum hall and the shaman's den."
+    fires: 1
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], strength: pack, rank: a}
+  - id: room:drum_hall
+    name: Drum Hall
+    kind: room
+    size: XL
+    extent: [2560, 2304]
+    shape: "Natural amphitheatre: four rock terraces of 64 (two steps of 32 between each) curve round a flat floor; the great drum stands on a timber scaffold platform at the floor's north end, reached by a ladder; the roof is lost in smoke."
+    where: North-centre.
+    floor: {level: -640, range: [-640, -384]}
+    clear_height: [768, 1536]
+    relief: steps
+    features:
+      - {kind: terraces, rise: 64, count: 4, where: "South, east and west sides, curving round the floor"}
+      - {kind: platform, rise: 384, where: North end of the floor, notes: "The drum scaffold, timber, with a ladder; the great drum on it."}
+    purpose: "Signature room: the Drum-Master and the great drum (set:drum_master); the bat chimney from its top terrace, the back tunnel from its floor."
+    population:
+      - {actor: Orc Archer, role: Drum-Master, groups: 1, levels: [9, 9], placed: true, strength: boss, notes: "On the scaffold; boss hit points (about three times the curve)."}
+      - {slot: 1, groups: 3, per_marker: [2, 3], strength: heavy, rank: a, notes: "On the terraces and the floor; frenzied while the great drum plays."}
+  - id: room:loot_cache
+    name: Plunder cache
+    kind: room
+    size: S
+    extent: [768, 640]
+    shape: "Low side cave behind a boulder, heaped with sacks, a farm cart wheel and stolen goods."
+    where: Off the sleeping hollows.
+    floor: -224
+    clear_height: 384
+    relief: flat
+    purpose: The warband's plunder from Vertigo's farms.
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3], notes: "A farmer's strongbox, about 400 gold and goods."}
+    secret: true
+  - id: room:palisade_cave
+    name: Palisade cave
+    kind: room
+    size: M
+    extent: [1792, 1280]
+    shape: "Cave cut across by a timber palisade with a gate in its middle; a firing step 192 up runs along the palisade's inner side, reached by ladders; the signal drum on a platform at its east end."
+    where: North of the mouth.
+    floor: 0
+    clear_height: [640, 896]
+    relief: flat
+    features:
+      - {kind: firing_step, rise: 192, where: Along the palisade's inner (north) side, notes: Archers shoot over the palisade from it.}
+    purpose: "The first fight, from behind and above: archers on the step shoot at the party as it opens the gate. The signal drum is the first of three."
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], strength: pack, rank: a, notes: On the firing step.}
+      - {slot: 1, groups: 1, per_marker: [1, 2], strength: light, rank: a, notes: Behind the gate.}
+  - id: room:prisoner_pit
+    name: Prisoner pit
+    kind: room
+    size: S
+    extent: [768, 768]
+    shape: "Round pit 256 deep beside the hollows, a rope ladder pulled up and tied off at the rim."
+    where: Off the sleeping hollows.
+    floor: -480
+    clear_height: 640
+    relief: pit
+    purpose: "Tam, a farmer's son from Oslo's farm, held for ransom (set:captive)."
+    empty: true
+  - id: room:shaman_den
+    name: Shaman's den
+    kind: room
+    size: S
+    extent: [1024, 896]
+    shape: "Oval den hung with bones and hides, thick with smoke; the spirit drum on a skull pile."
+    where: West of the cookfire cave.
+    floor: -192
+    clear_height: 448
+    relief: flat
+    purpose: "The shaman and the spirit drum, the third drum; the shaman's chest."
+    fires: 1
+    population:
+      - {actor: Orc Archer, role: shaman, groups: 1, levels: [9, 9], placed: true, strength: heavy, notes: Casts a low spell (a poison or slow) instead of shooting.}
+      - {slot: 1, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [1, 2]}
+  - id: room:sleeping_hollows
+    name: Sleeping hollows
+    kind: room
+    size: M
+    extent: [1792, 1024]
+    shape: "A crooked passage with three rounded hollows off it, each a sleeping place of hides; drag marks on the floor lead to a boulder."
+    where: East of the cookfire cave.
+    floor: -224
+    clear_height: [384, 512]
+    relief: uneven
+    purpose: "Orcs asleep; the boulder hiding the plunder; the prisoner pit."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: Asleep until disturbed.}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, items: [1, 2], notes: A hide-wrapped bundle in the far hollow.}
+  - id: room:snake_pool
+    name: Snake pool
+    kind: room
+    size: S
+    extent: [1024, 1024]
+    shape: "Dripping kidney-shaped cave below the bat chimney's foot, half filled by a shallow pool; a sunken chest in the water."
+    where: South-east of the drum hall.
+    floor: {level: -704, range: [-768, -704]}
+    clear_height: [384, 576]
+    relief: pit
+    purpose: "Optional: giant snakes and a chest under the water."
+    population:
+      - {slot: 3, groups: 2, per_marker: [1, 2], strength: pack, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, items: [2, 3], reached_by: water, notes: "In the pool, knee-deep."}
+  - id: room:twisting_run
+    name: Twisting run
+    kind: room
+    size: M
+    extent: [512, 2048]
+    shape: "S-bend passage falling north from the palisade, wider at its bends."
+    floor: [-256, 0]
+    clear_height: 448
+    relief: slope
+    purpose: The way from the palisade to the cookfire cave.
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: At the lower bend.}
+  - id: room:upper_ledge
+    name: Upper ledge
+    kind: room
+    size: S
+    extent: [384, 1792]
+    shape: "Narrow natural ledge running high along the side of the twisting run's cave, from the palisade's firing step to the chimney's top."
+    where: "Above the twisting run, east side."
+    floor: 192
+    clear_height: 384
+    relief: flat
+    purpose: "The high way between the palisade and the bat chimney; looks down on the run."
+    empty: true
+  - id: zone:drum_scaffold
+    name: Drum scaffold
+    kind: zone
+    part_of: room:drum_hall
+    extent: [768, 768]
+    shape: "Square timber platform on legs at the north end of the hall's floor; the great drum on it."
+    floor: -256
+    relief: flat
+    purpose: The Drum-Master's post and the great drum.
+  - id: zone:firing_step
+    name: Firing step
+    kind: zone
+    part_of: room:palisade_cave
+    extent: [1792, 256]
+    shape: "Timber walkway along the palisade's inner side; the signal drum at its east end."
+    floor: 192
+    relief: flat
+    purpose: "The archers' post and the signal drum; joins the upper ledge."
+regions:
+  - id: region:deep
+    name: The deep caves
+    spaces: [room:drum_hall, zone:drum_scaffold, room:bat_chimney, room:snake_pool, room:back_tunnel, room:back_gate]
+    theme: "Tall wet rock, smoke, dripping water"
+  - id: region:front
+    name: The front
+    spaces: [room:cave_mouth, room:palisade_cave, zone:firing_step, room:twisting_run, room:upper_ledge]
+    theme: "Dry rock, timber palisade, skull poles"
+  - id: region:warren
+    name: The warren
+    spaces: [room:cookfire_cave, room:sleeping_hollows, room:prisoner_pit, room:loot_cache, room:shaman_den]
+    theme: "Smoke-blackened rock, hides, bones, firelight"
+links:
+  - id: link:back_tunnel_gate
+    from: room:back_tunnel
+    to: room:back_gate
+    kind: open
+  - id: link:chimney_snake_pool
+    from: room:bat_chimney
+    to: room:snake_pool
+    kind: ramp
+    rise: -320
+    notes: A wet slope down from the chimney's foot.
+  - id: link:chimney_upper_ledge
+    from: room:bat_chimney
+    to: room:upper_ledge
+    kind: open
+    notes: The top of the chimney's spiral ledge.
+  - id: link:cookfire_drum_hall
+    from: room:cookfire_cave
+    to: room:drum_hall
+    kind: ramp
+    rise: -128
+    notes: Enters on the drum hall's top terrace.
+  - id: link:cookfire_hollows
+    from: room:cookfire_cave
+    to: room:sleeping_hollows
+    kind: open
+  - id: link:cookfire_shaman
+    from: room:cookfire_cave
+    to: room:shaman_den
+    kind: open
+    notes: Through a curtain of hides.
+  - id: link:drum_hall_back_tunnel
+    from: room:drum_hall
+    to: room:back_tunnel
+    kind: open
+  - id: link:drum_hall_chimney
+    from: room:drum_hall
+    to: room:bat_chimney
+    kind: open
+    notes: From the top (south-east) terrace.
+  - id: link:drum_hall_scaffold
+    from: room:drum_hall
+    to: zone:drum_scaffold
+    kind: ladder
+    rise: 384
+  - id: link:firing_step_ladders
+    from: room:palisade_cave
+    to: zone:firing_step
+    kind: ladder
+    rise: 192
+    notes: "Two ladders, one each side of the gate, on the inner side."
+  - id: link:firing_step_upper_ledge
+    from: zone:firing_step
+    to: room:upper_ledge
+    kind: open
+  - id: link:hollows_loot_cache
+    from: room:sleeping_hollows
+    to: room:loot_cache
+    kind: secret_door
+    motion: slide
+    notes: "A boulder that rolls aside on a click; drag marks on the floor lead to it."
+  - id: link:hollows_prisoner_pit
+    from: room:sleeping_hollows
+    to: room:prisoner_pit
+    kind: ladder
+    rise: -256
+    notes: "The rope ladder: untied and dropped from the rim (set:captive)."
+  - id: link:mouth_palisade
+    from: room:cave_mouth
+    to: room:palisade_cave
+    kind: open
+  - id: link:palisade_gate
+    from: room:palisade_cave
+    to: room:twisting_run
+    kind: double_door
+    motion: swing
+    notes: "The palisade gate: plain click, but under the archers' fire from the step."
+  - id: link:run_cookfire
+    from: room:twisting_run
+    to: room:cookfire_cave
+    kind: open
+loops:
+  - id: loop:chimney
+    spaces: [room:palisade_cave, zone:firing_step, room:upper_ledge, room:bat_chimney, room:drum_hall, room:cookfire_cave, room:twisting_run]
+    notes: "In by the gate and the run, out by the chimney and the high ledge (or the reverse): the party can come down on the archers' step from above, or leave the deep caves without passing the warren again."
+entrances:
+  - id: entrance:back_gate
+    space: room:back_gate
+    kind: both
+    neighbour: exit:x7_slopes
+    how: "The barred door in the guardroom's north wall; lifting the bar opens it to X7."
+    condition: {qbit: orc_back_gate_open}
+  - id: entrance:mouth
+    space: room:cave_mouth
+    kind: both
+    neighbour: exit:x1_hills
+    facing: n
+    how: "Inside the skull-hung mouth, facing in; daylight behind."
+critical_path: [room:cave_mouth, room:palisade_cave, zone:firing_step, room:palisade_cave, room:twisting_run, room:cookfire_cave, room:shaman_den, room:cookfire_cave, room:drum_hall, zone:drum_scaffold]
+return_path: [zone:drum_scaffold, room:drum_hall, room:bat_chimney, room:upper_ledge, zone:firing_step, room:palisade_cave, room:cave_mouth]
+goals:
+  - id: goal:back_gate
+    space: room:back_gate
+    kind: set
+    what: "Optional: lift the bar of the back gate."
+    gives:
+      qbit: orc_back_gate_open
+  - id: goal:captive
+    space: room:prisoner_pit
+    kind: use
+    what: "Optional: drop the rope ladder and bring Tam out of the pit."
+    handed_in_at: X1
+    gives:
+      qbit: captive_freed
+    notes: "Tam runs home; his father Oslo (X1) rewards the party with a little gold and food."
+  - id: goal:war_drums
+    space: room:drum_hall
+    kind: set
+    what: "Burn all three war drums: the signal drum on the palisade, the spirit drum in the shaman's den, the great drum on the scaffold."
+    gives:
+      qbit: war_drums_burned
+    notes: "Experience for each drum (the source's burn-the-camp rewards) and a larger sum for the last; the X1 orc outposts stop refilling (an X1 state)."
+points_of_interest:
+  - id: poi:back_gate_bar
+    space: room:back_gate
+    kind: bar
+    behaviour: "Lifts the heavy bar: the gate opens on the X7 slopes."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: orc_back_gate_open
+  - id: poi:drums
+    spaces: [zone:firing_step, room:shaman_den, zone:drum_scaffold]
+    count: 3
+    kind: war drum
+    behaviour: "Clicking a drum sets it alight ('The hide catches and the drum burns'); it burns to a charred frame and its beat drops out of the caves' sound. The third one burnt sets the quest bit."
+    uses: {times: 1, per: party, reset: never}
+    after_use: {shows: [charred drum frame, smoke], hides: [drum]}
+  - id: poi:rope_ladder
+    space: room:sleeping_hollows
+    kind: rope ladder
+    behaviour: Untying it drops the ladder into the prisoner pit (link:hollows_prisoner_pit).
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: ladder_down
+landmarks:
+  - id: landmark:great_drum
+    space: zone:drum_scaffold
+    what: "The great war drum on its scaffold, lit by braziers, the Drum-Master's arms rising and falling; heard long before it is seen."
+    seen_from: [room:drum_hall, room:bat_chimney]
+sightlines:
+  - id: sightline:drum_hall_entry
+    from: room:cookfire_cave
+    to: [landmark:great_drum]
+    what: "Coming down the ramp onto the top terrace: the whole amphitheatre, the orcs on the terraces and the drum on its scaffold beyond the floor."
+set_pieces:
+  - id: set:back_gate
+    kind: scripted
+    spaces: [room:back_gate]
+    rule: "The bar lifts from the inside only; the gate is then a two-way door to the X7 slopes for good."
+    inputs: [lift the bar]
+    states: [barred, open]
+    gives:
+      qbit: orc_back_gate_open
+  - id: set:captive
+    kind: scripted
+    spaces: [room:sleeping_hollows, room:prisoner_pit]
+    rule: "Tam sits in the pit. Untying the rope ladder at the rim drops it; talking to Tam in the pit frees him and he climbs out and runs home (removed from the map)."
+    inputs: [untie the ladder, talk to Tam]
+    states: [held, ladder down, freed]
+    gives:
+      qbit: captive_freed
+  - id: set:drum_master
+    kind: boss
+    spaces: [room:drum_hall, zone:drum_scaffold]
+    rule: "While the Drum-Master lives on the scaffold, the great drum plays and every orc in the drum hall is frenzied (attacks faster, never flees). Killing him stops the drum and the frenzy; burning the drum afterwards is still needed for the quest. He stays on the scaffold and throws spears down; reaching him means the ladder under fire, or archery."
+    inputs: [Drum-Master alive, great drum burnt]
+    states: [drumming (frenzy), silent]
+    population:
+      - {actor: Orc Archer, role: Drum-Master, groups: 1, levels: [9, 9], placed: true, strength: boss}
+  - id: set:drums_fade
+    kind: scripted
+    spaces: [room:cave_mouth, room:palisade_cave, room:cookfire_cave, room:drum_hall]
+    rule: "The three drums are three layers of looping sound across the whole map. Each one burnt removes its layer; with all three burnt the caves fall silent but for dripping water, and the quest bit is set."
+    inputs: [burn a drum]
+    states: [three drums, two, one, silent]
+    gives:
+      qbit: war_drums_burned
+  - id: set:palisade_fire
+    kind: ambush
+    spaces: [room:palisade_cave, zone:firing_step]
+    rule: "Archers on the firing step shoot over the palisade as soon as the party comes within sight of the gate; the gate group waits behind it. Coming down from the upper ledge (the loop's other end) takes the archers from behind."
+mechanisms:
+  - {kind: palisade double gate, count: 1}
+  - {kind: barred door to another map, count: 1}
+  - {kind: secret rolling boulder, count: 1}
+  - {kind: ladder, count: 4, notes: "Two firing-step ladders, the scaffold ladder, the rope ladder into the pit."}
+  - {kind: burnable drum, count: 3}
+  - {kind: rope ladder (one-time drop), count: 1}
+height_bands:
+  - id: band:deep
+    range: [-768, -384]
+    spaces: [room:drum_hall, room:snake_pool, room:prisoner_pit]
+    partly: [room:bat_chimney, room:back_tunnel]
+  - id: band:front
+    range: [0, 320]
+    spaces: [room:cave_mouth, room:palisade_cave, zone:firing_step, room:upper_ledge, room:back_gate]
+    partly: [room:twisting_run, room:bat_chimney, room:back_tunnel]
+  - id: band:warren
+    range: [-256, -192]
+    spaces: [room:cookfire_cave, room:sleeping_hollows, room:loot_cache, room:shaman_den, zone:drum_scaffold]
+    partly: [room:twisting_run]
+diagram: {file: diagram.txt}
+totals:
+  burnable_drums: 3
+  chests: 4
+  critical_path_length: 7000
+  doors: 2
+  fixed_actors: 4
+  floor_area_munits2: 26
+  height_range: 1088
+  loops: 1
+  monsters_about: 35
+  rooms: 15
+  secret_faces: 1
+  sectors: 17
+  spawn_points: 12
+  traps: 0
+notes: "Size S (about 35 monsters in about 17 sectors, 2 per sector, the top of the band), placed unevenly: nothing at the mouth, the ledge, the tunnel or the side caves with loot; an ambush at the palisade; packs at the fire; the heaviest fight in the drum hall; a tough optional pair at the back gate. No trap events: the danger is the archers' high ground and the frenzy. One loop, though S needs none, because the chimney climb is the cave's best moment. Nearly every space is a natural cave shape (round, oval, kidney, S-bend, amphitheatre); only the palisade and the scaffold are straight timber. Risers are 32 on the terraces and stairs; the steep tunnels are ramps. Lowest ceiling 384."

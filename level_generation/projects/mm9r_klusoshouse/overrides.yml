@@ -1,0 +1,87 @@
+# Explicit conversion choices for MM9's Klusos House (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: klusoshouse
+  display_name: Klusos House
+  starts: [StartPoint0, WindowStartPoint]   # start 0: the front door (Drangheim City ExitTrigger2); 1: the window
+  monster_classes: [GuardCaptain, Count]
+  offset: [0, 0, 0]                   # the old bmodel_world map's frame (fits int16): transitions stay valid
+  ambient: 31                         # sector minimum light 31: no frame ambient is subtracted from the decorations' light
+                                      # (Inventa Storca "Black tables"; the bake's floor is kept by ambient_scale x 1.92)
+  model_lighting: false               # tried 2026-10-31 (review/model_lighting_props01.jpg): props darker than
+                                      # this path and MM9 without the capped fill lights (INDOOR_MODEL_LIGHTING.md)
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  thin_walls: true                    # walls and rails under a voxel thick keep their far face (gallery handrails, beams)
+plan_levels:
+  lower: [-40, 150]                   # ground floor (floor 0 LT; the front hall 64)
+  upper: [150, 420]                   # upper floor (floor 176 LT)
+models:
+  # --- MM9 rotating double doors: one rotate mover per leaf, a click toggles the pair, doorway portal at the leaves
+  RDoor9a: {group: RDoor9, motion: rotate, doorway: true, portal: doorportal10}
+  RDoor9b: {group: RDoor9, motion: rotate, doorway: true, portal: doorportal10}
+  RDoor10a: {group: RDoor10, motion: rotate, doorway: true, portal: doorportal4}
+  RDoor10b: {group: RDoor10, motion: rotate, doorway: true, portal: doorportal4}
+  RDoor11a: {group: RDoor11, motion: rotate, doorway: true, portal: doorportal11}
+  RDoor11b: {group: RDoor11, motion: rotate, doorway: true, portal: doorportal11}
+  RDoor12a: {group: RDoor12, motion: rotate, doorway: true, portal: doorportal6}
+  RDoor12b: {group: RDoor12, motion: rotate, doorway: true, portal: doorportal6}
+  RDoor13a: {group: RDoor13, motion: rotate, doorway: true, portal: doorportal9}
+  RDoor13b: {group: RDoor13, motion: rotate, doorway: true, portal: doorportal9}
+  RDoor14a: {group: RDoor14, motion: rotate, doorway: true, portal: doorportal8}
+  RDoor14b: {group: RDoor14, motion: rotate, doorway: true, portal: doorportal8}
+  RDoor15a: {group: RDoor15, motion: rotate, doorway: true, portal: doorportal7}
+  RDoor15b: {group: RDoor15, motion: rotate, doorway: true, portal: doorportal7}
+  RDoor16a: {group: RDoor16, motion: rotate, doorway: true, portal: doorportal5}
+  RDoor16b: {group: RDoor16, motion: rotate, doorway: true, portal: doorportal5}
+  RotatingDoor7: {group: RotatingDoor7, motion: rotate, doorway: true, portal: DDPortal0}
+  RotatingDoor8: {group: RotatingDoor7, motion: rotate, doorway: true, portal: DDPortal0}
+  RotatingDoor0a: {group: RotatingDoor0, motion: rotate, doorway: true, portal: doorportal1}
+  RotatingDoor0b: {group: RotatingDoor0, motion: rotate, doorway: true, portal: doorportal1}
+  RotatingDoor3a: {group: RotatingDoor3, motion: rotate, doorway: true, portal: doorportal2}
+  RotatingDoor3b: {group: RotatingDoor3, motion: rotate, doorway: true, portal: doorportal2}
+  # no UserPortal: the doorway portal comes from the leaves' rectangle
+  # RDoor2/6 (the great hall's east door) closes no portal: the great hall is open above its walls to the upper
+  # gallery (a handrail over balusters along two sides), so it is one room with the front hall and the stair; a cut
+  # through the balusters would need one portal per gap (playbook: loops cannot be cut once).
+  RDoor2: {group: RDoor2, motion: rotate}
+  RDoor6: {group: RDoor2, motion: rotate}
+  RDoor4: {group: RDoor4, motion: rotate, doorway: true}
+  RDoor5: {group: RDoor4, motion: rotate, doorway: true}
+  # --- static world objects
+  InvisibleBrush0: static            # invisible collision blocks on the upper landing
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  "Transparent Window Grate13": static   # the window pane (window_03, opaque as in the Temple of Honk) at the window exit
+  WorldObject14: static              # chain-link hangers (ChainLink.dtx) in invisible boxes
+  WorldObject15: static
+  WorldObject16: static
+  Carpet29: static
+  Carpet30: static
+  Carpet31: static
+  Carpet32: static
+  # --- not built
+  TOD_Sky0: skip                     # sky objects far outside the house
+  SkyBox0: skip
+  Terrain0: skip                     # the hillside outside the west window (NWROCK, MainGrass): no air reaches it
+seed_exclude: [GuardTrigger]              # the patrols' relay trigger, parked outside the walls (KlusosPatrol.scr)
+model_patterns: {}
+portals:
+  - {name: central_hall_arch, axis: x, point: [-40, 60, 320], span: 400}   # the open side of the central room onto the front hall
+exits: {}
+textures:
+  "TEXTURES\\Skybox\\skymarker.dtx": {alias: CLOUVKSJD0, width: 256, height: 256}
+  "TEXTURES\\LevelTextures\\Skybox\\skymarker.dtx": {alias: CLOUVKSJD0, width: 256, height: 256}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [Kluso0]
+  themed_near: [Bookcase56, Bookcase57, Bookcase58, Bookcase59]
+
+# MM9's pickable props drawn as MM9 hung them (dungeon/pickups.py scene_entry `placement`): the Blackheart hangs upright
+# on the library wall above the fireplace, blade tip up and its face to the room, below Kluso's red shield (Prop27: the
+# wall face at y about -1142), not flat on the mantel (the user, 2026-11-10). pose: pitch -90 stands the item's -y end
+# (the blade tip) up; offset: its pommel 2 units above the mantel top (z 143), its back 6 units toward the wall.
+pickups:
+  Blackheart: {pose: [0, -90, 0], offset: [0, -6, 2]}

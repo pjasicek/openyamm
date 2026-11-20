@@ -1,0 +1,131 @@
+{
+ "sprite": "tree62a",
+ "note": "260 placements (Murmurwoods 232, Ravenshore 28). Round open crown of smaller olive-green maple sprays on many thin limbs, slim light tan trunk forking at a fifth of the height.",
+ "sapling": {
+  "scale": 9.0,
+  "ratio": 0.04,
+  "baseSize": 0.2,
+  "baseSplits": 0,
+  "splitHeight": 0.22,
+  "branches": [
+   0,
+   34,
+   12,
+   6
+  ],
+  "length": [
+   1.0,
+   0.55,
+   0.35,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   45,
+   40,
+   45
+  ],
+  "downAngleV": [
+   0,
+   20,
+   10,
+   10
+  ],
+  "attractUp": [
+   0,
+   0.5,
+   0.3,
+   0
+  ],
+  "curve": [
+   0,
+   -10,
+   0,
+   0
+  ],
+  "shape": "2",
+  "seed": 62,
+  "segSplits": [
+   0,
+   0.15,
+   0.25,
+   0
+  ],
+  "splitAngle": [
+   25,
+   15,
+   15,
+   0
+  ],
+  "curveRes": [
+   8,
+   4,
+   3,
+   1
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.2,
+  "centre": 0.55,
+  "clumps": 125,
+  "underside": 0.42,
+  "low_keep": 0.55,
+  "gap": 0.85,
+  "card": [
+   0.95,
+   1.1
+  ],
+  "gen_cards": 1847,
+  "keep": 0.6
+ },
+ "occlusion": {
+  "floor": 0.1,
+  "range": 0.9,
+  "power": 1.1,
+  "hue": [
+   1.4,
+   1.0,
+   0.9
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   199,
+   196,
+   78
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   150,
+   126,
+   100
+  ],
+  "root_reach": 0.2
+ },
+ "lod": {
+  "tone": [
+   0.91,
+   0.882,
+   1.175
+  ],
+  "lod2_card_scale": 0.805,
+  "triangles": [
+   3300,
+   1300,
+   500
+  ],
+  "grow": [
+   1.05,
+   1.42,
+   1.6
+  ],
+  "card_frac": [
+   1.0,
+   0.9,
+   1.0
+  ],
+  "lod2_vertical": 2,
+  "lod2_capacity": 0.85
+ }
+}

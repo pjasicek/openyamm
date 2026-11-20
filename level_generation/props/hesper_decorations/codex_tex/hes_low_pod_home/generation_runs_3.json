@@ -1,0 +1,170 @@
+[
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent RGBA texture-source painting, LEFT orthographic view.\nInputs in order: (1) guide_left.png is the EDIT TARGET and absolute geometry/alpha/framing authority; (2) design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; (3) concept_crop.png is supporting original design reference.\nPaint directly over input 1. Preserve its EXACT pixel silhouette, scale, position, orthographic camera, every shape edge, opening, overlapping part, debris polygon and transparent gap. Preserve the guide alpha boundary. Do not reconstruct the shape from the design reference; do not use its three-quarter camera. Guide has tail fin upper left, circular assembly left of centre, nose facing right. Keep all guide geometry unchanged, including the large central side panel.\nApply chipped off-white ceramic panels with thin gold seams and rivets, dull gold/brass borders, dark tinted glass in existing glass areas, dark grey machinery, rust on existing landing legs, and warm amber lamplight colour only within any existing doorway/interior opening. Preserve all existing rubble and parts within guide silhouette; add no new objects or floor.\nThis is unlit ALBEDO for texture projection, not a beauty render. Flat, even, shadowless viewer illumination: no cast shadows, no ambient-occlusion darkening, no directional shading, no specular shine or reflections, no rim lighting. White ceramic stays off-white across surfaces, brass is matte ochre gold, glass is flat dark tinted charcoal. Glowing parts are painted their warm colour without lighting nearby surfaces. Match reference material colours and wear, not reference lighting. No background, no floor, no text. Return native 1024 x 1024, transparent background, unchanged framing, no resizing/cropping.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "231cfc091e7bbae21443fb43b013cdd51b7f3ac57a331fba2e1224fd034813e4"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d96-5a79-73b2-b622-01eb312c7ddf/exec-77285710-a534-4203-9e23-acaa3ec08232.png",
+    "output": "paint_left_attempt1.png",
+    "selected": false,
+    "reason": "Not selected: incorrect native dimensions, invented or altered geometry and excessive shading.",
+    "tool": "built-in image_gen",
+    "output_sha256": "ba79844047694c2e5b569d68f01442f3d4528b3b61ab200077afe851736a9eb0",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_and_colours": "White ceramic, gold trim and dark machinery broadly match; warm doorway colour not reliably retained in corrective returns.",
+      "flat_even_light": "Fail: residual shading and highlights remain.",
+      "unresized_return": true,
+      "overall_pass": false
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent RGBA texture-source painting, LEFT orthographic view.\nInputs in order: (1) guide_left.png is the EDIT TARGET and absolute geometry/alpha/framing authority; (2) design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; (3) concept_crop.png is supporting original design reference.\nPaint directly over input 1. Preserve its EXACT pixel silhouette, scale, position, orthographic camera, every shape edge, opening, overlapping part, debris polygon and transparent gap. Preserve the guide alpha boundary. Do not reconstruct the shape from the design reference; do not use its three-quarter camera. Guide has tail fin upper left, circular assembly left of centre, nose facing right. Keep all guide geometry unchanged, including the large central side panel.\nApply chipped off-white ceramic panels with thin gold seams and rivets, dull gold/brass borders, dark tinted glass in existing glass areas, dark grey machinery, rust on existing landing legs, and warm amber lamplight colour only within any existing doorway/interior opening. Preserve all existing rubble and parts within guide silhouette; add no new objects or floor.\nThis is unlit ALBEDO for texture projection, not a beauty render. Flat, even, shadowless viewer illumination: no cast shadows, no ambient-occlusion darkening, no directional shading, no specular shine or reflections, no rim lighting. White ceramic stays off-white across surfaces, brass is matte ochre gold, glass is flat dark tinted charcoal. Glowing parts are painted their warm colour without lighting nearby surfaces. Match reference material colours and wear, not reference lighting. No background, no floor, no text. Return native 1024 x 1024, transparent background, unchanged framing, no resizing/cropping.\nCORRECTIVE GENERATION (last allowed attempt): Output must be exactly 1024 by 1024 pixels, matching input 1's native canvas. A previous attempt returned 1254 by 1254 and is invalid. Do not upscale. Do not add openings, windows, machinery geometry, or any sculpted detail; material seams and chips are painted colour only. Geometry takes precedence over design beauty. Trace the existing grey guide exactly, including the angular unadorned large centre panel, simple circular hub and existing right-hand cavity. The guide object occupies approximately x=65..958 and y=206..817 on the 1024 canvas. KEEP THIS EXACT LOCATION AND SCALE. Reduce contrast: absolutely no glossy highlights, dark crevice occlusion, cast shadows or volumetric shading. Matte base colour only. Keep transparent alpha outside the exact input guide shape.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "231cfc091e7bbae21443fb43b013cdd51b7f3ac57a331fba2e1224fd034813e4"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d96-5a79-73b2-b622-01eb312c7ddf/exec-827e2bd8-04dd-4951-a10e-a7caff1abd68.png",
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected corrective return for closer guide panel geometry and reduced shine. Does not fully satisfy the brief: native dimensions and silhouette differ, and residual lighting remains.",
+    "tool": "built-in image_gen",
+    "output_sha256": "1f56a38c7e145b521e780a27b3d16f13e7b28113f00b6a3d42ea879ce3cbb7d8",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_and_colours": "White ceramic, gold trim and dark machinery broadly match; warm doorway colour not reliably retained in corrective returns.",
+      "flat_even_light": "Fail: residual shading and highlights remain.",
+      "unresized_return": true,
+      "overall_pass": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent RGBA texture-source painting, RIGHT orthographic view.\nInputs in order: (1) guide_right.png is the EDIT TARGET and absolute geometry/alpha/framing authority; (2) design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; (3) concept_crop.png is supporting original design reference.\nPaint directly over input 1. Preserve its EXACT pixel silhouette, scale, position, orthographic camera, every shape edge, opening, overlapping part, debris polygon and transparent gap. Preserve the guide alpha boundary. Do not reconstruct the shape from the design reference; do not use its three-quarter camera. Guide has tail fin upper right, circular assembly right of centre, nose facing left. Keep all guide geometry unchanged, including the large central side panel.\nApply chipped off-white ceramic panels with thin gold seams and rivets, dull gold/brass borders, dark tinted glass in existing glass areas, dark grey machinery, rust on existing landing legs, and warm amber lamplight colour only within any existing doorway/interior opening. Preserve all existing rubble and parts within guide silhouette; add no new objects or floor.\nThis is unlit ALBEDO for texture projection, not a beauty render. Flat, even, shadowless viewer illumination: no cast shadows, no ambient-occlusion darkening, no directional shading, no specular shine or reflections, no rim lighting. White ceramic stays off-white across surfaces, brass is matte ochre gold, glass is flat dark tinted charcoal. Glowing parts are painted their warm colour without lighting nearby surfaces. Match reference material colours and wear, not reference lighting. No background, no floor, no text. Return native 1024 x 1024, transparent background, unchanged framing, no resizing/cropping.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "d225707cde51dfd37ae0e1b3eaed162c4a4ed021213baf0a376fe1f8d9a1918b"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d96-5a79-73b2-b622-01eb312c7ddf/exec-d2459d50-daba-4851-8936-3c30131304e5.png",
+    "output": "paint_right_attempt1.png",
+    "selected": false,
+    "reason": "Not selected: incorrect native dimensions, invented or altered geometry and excessive shading.",
+    "tool": "built-in image_gen",
+    "output_sha256": "dde06be33ec7b003c261f512e330b078ba79092c643868842098f53b56c7f6e2",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_and_colours": "White ceramic, gold trim and dark machinery broadly match; warm doorway colour not reliably retained in corrective returns.",
+      "flat_even_light": "Fail: residual shading and highlights remain.",
+      "unresized_return": true,
+      "overall_pass": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Use case: sketch-to-render. Create ONE 1024 x 1024 transparent RGBA texture-source painting, RIGHT orthographic view.\nInputs in order: (1) guide_right.png is the EDIT TARGET and absolute geometry/alpha/framing authority; (2) design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; (3) concept_crop.png is supporting original design reference.\nPaint directly over input 1. Preserve its EXACT pixel silhouette, scale, position, orthographic camera, every shape edge, opening, overlapping part, debris polygon and transparent gap. Preserve the guide alpha boundary. Do not reconstruct the shape from the design reference; do not use its three-quarter camera. Guide has tail fin upper right, circular assembly right of centre, nose facing left. Keep all guide geometry unchanged, including the large central side panel.\nApply chipped off-white ceramic panels with thin gold seams and rivets, dull gold/brass borders, dark tinted glass in existing glass areas, dark grey machinery, rust on existing landing legs, and warm amber lamplight colour only within any existing doorway/interior opening. Preserve all existing rubble and parts within guide silhouette; add no new objects or floor.\nThis is unlit ALBEDO for texture projection, not a beauty render. Flat, even, shadowless viewer illumination: no cast shadows, no ambient-occlusion darkening, no directional shading, no specular shine or reflections, no rim lighting. White ceramic stays off-white across surfaces, brass is matte ochre gold, glass is flat dark tinted charcoal. Glowing parts are painted their warm colour without lighting nearby surfaces. Match reference material colours and wear, not reference lighting. No background, no floor, no text. Return native 1024 x 1024, transparent background, unchanged framing, no resizing/cropping.\nCORRECTIVE GENERATION (last allowed attempt): Output must be exactly 1024 by 1024 pixels, matching input 1's native canvas. A previous attempt returned 1254 by 1254 and is invalid. Do not upscale. Do not add openings, windows, machinery geometry, or any sculpted detail; material seams and chips are painted colour only. Geometry takes precedence over design beauty. Trace the existing grey guide exactly, including its completely closed large centre-left side panel. DO NOT invent a doorway in this panel. Keep the existing forward opening left of this panel and all existing polygon boundaries. The guide object occupies approximately x=65..958 and y=206..817 on the 1024 canvas. KEEP THIS EXACT LOCATION AND SCALE. Reduce contrast: absolutely no glossy highlights, dark crevice occlusion, cast shadows or volumetric shading. Matte base colour only. Keep transparent alpha outside the exact input guide shape.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "d225707cde51dfd37ae0e1b3eaed162c4a4ed021213baf0a376fe1f8d9a1918b"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a15d96-5a79-73b2-b622-01eb312c7ddf/exec-3afb2c17-39b3-4f18-aa7e-e4f74bd849cb.png",
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected corrective return for closer guide panel geometry and reduced shine. Does not fully satisfy the brief: native dimensions and silhouette differ, and residual lighting remains.",
+    "tool": "built-in image_gen",
+    "output_sha256": "2bb2b479f0f24611cb8e60291573965b1f038b30c24ac8e0529199811ed17c01",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_and_colours": "White ceramic, gold trim and dark machinery broadly match; warm doorway colour not reliably retained in corrective returns.",
+      "flat_even_light": "Fail: residual shading and highlights remain.",
+      "unresized_return": true,
+      "overall_pass": false
+    }
+  }
+]

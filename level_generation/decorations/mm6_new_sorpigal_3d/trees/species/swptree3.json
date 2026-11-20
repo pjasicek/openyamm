@@ -1,0 +1,182 @@
+{
+ "sprite": "swptree3",
+ "output": "mm6_deco_swptree3.glb",
+ "height_m": 3.78,
+ "note": "Banyan-like swamp tree: broad low crown on curving limbs, prop roots dropping from the limbs, big surface roots, some moss.",
+ "sapling": {
+  "scale": 2.67,
+  "baseSplits": 0,
+  "splitHeight": 0.25,
+  "splitAngle": [
+   28,
+   20,
+   15,
+   0
+  ],
+  "downAngle": [
+   90,
+   58,
+   45,
+   45
+  ],
+  "attractUp": [
+   0,
+   0.3,
+   0.3,
+   0
+  ],
+  "branches": [
+   0,
+   12,
+   25,
+   8
+  ],
+  "seed": 121,
+  "segSplits": [
+   0,
+   0.25,
+   0.3,
+   0
+  ],
+  "scaleV": 0.3,
+  "baseSize": 0.25,
+  "ratio": 0.075,
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "length": [
+   1.0,
+   0.85,
+   0.35,
+   0.3
+  ],
+  "downAngleV": [
+   0,
+   12,
+   10,
+   10
+  ],
+  "curve": [
+   0,
+   25,
+   0,
+   0
+  ],
+  "rootFlare": 2.0
+ },
+ "crown": {
+  "canopy_low": 0.25,
+  "centre": 0.58,
+  "clumps": 115,
+  "inner_clumps": 18,
+  "outer_radius": [
+   0.34,
+   0.54
+  ],
+  "inner_radius": [
+   0.32,
+   0.45
+  ],
+  "moss": {
+   "strands": 60,
+   "length": [
+    0.2,
+    0.5
+   ],
+   "width": 0.12,
+   "srgb": [
+    150,
+    165,
+    112
+   ],
+   "seed": 708
+  },
+  "gap": 0.8
+ },
+ "bark": {
+  "target_srgb": [
+   80,
+   86,
+   58
+  ],
+  "roots": 10,
+  "root_reach": 0.9,
+  "budget": [
+   3700,
+   1250,
+   520
+  ],
+  "min_thickness": [
+   0.02,
+   0.035,
+   0.06
+  ],
+  "aerial_roots": {
+   "count": 9,
+   "z": [
+    0.2,
+    0.42
+   ],
+   "reach": [
+    0.3,
+    0.7
+   ],
+   "radius": [
+    0.06,
+    0.12
+   ],
+   "seed": 404
+  }
+ },
+ "lod": {
+  "triangles": [
+   9000,
+   3400,
+   1100
+  ],
+  "tone": [
+   1.0,
+   0.92,
+   [
+    1.22,
+    1.22,
+    1.1
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   145,
+   205,
+   90
+  ],
+  "value": [
+   0.95,
+   1.6
+  ],
+  "jitter_red": [
+   0.85,
+   1.25
+  ],
+  "seeds": [
+   19,
+   37,
+   53,
+   79
+  ]
+ },
+ "occlusion": {
+  "floor": 0.3,
+  "range": 0.7,
+  "power": 1.4
+ },
+ "impostor_tone": [
+  0.94,
+  0.92,
+  1.0
+ ],
+ "impostor_dilate": 4
+}

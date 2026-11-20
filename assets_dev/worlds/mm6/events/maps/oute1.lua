@@ -32,6 +32,10 @@ SetMapMetadata({
     [227] = { kind = "obelisk", source = "title" },
     [261] = { kind = "shrine", source = "title" },
     },
+    learnedEffect = {
+    [100] = { autonote = 405, effect = "+20 Elemental resistance temporary" },
+    [101] = { autonote = 406, effect = "+20 Magic resistance temporary" },
+    },
     textureNames = {},
     spriteNames = {"swrdstx"},
     castSpellIds = {},

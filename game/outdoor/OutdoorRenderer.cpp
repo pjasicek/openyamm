@@ -12,6 +12,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/ui/EnemyHealthBarRenderer.h"
+#include "game/party/PartySpellSystem.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorFogProfile.h"
@@ -22,6 +23,8 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorLightingRuntime.h"
 #include "game/outdoor/OutdoorMechanismRuntime.h"
+#include "game/render/SkyState.h"
+#include "game/render/SurfaceTextureGradients.h"
 #include "game/render/TextureFiltering.h"
 #include "game/render/ViewFrustum.h"
 #include "game/StringUtils.h"
@@ -56,6 +59,11 @@ constexpr uint16_t MainViewId = 1;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float CameraVerticalFovDegrees = 60.0f;
 // Far end of the clustered light grid's depth slices; lights fade out over its last 15 %.
+// Surface materials of bmodel faces (devdocs/SURFACE_MATERIALS_PLAN.md): the distance at which their parallax has
+// faded out, and the strengths of their highlights and sky reflection.
+constexpr float SurfaceParallaxDistance = 1600.0f;
+constexpr float SurfaceHighlightStrength = 1.0f;
+constexpr float SurfaceReflectionStrength = 1.0f;
 // Strength of the terrain's sun and point-light highlights (video.terrain_specular; lighting plan, phase 6).
 constexpr float TerrainSpecularStrength = 3.0f;
 constexpr float OutdoorLightGridFarDistance = 8192.0f;
@@ -67,6 +75,8 @@ constexpr float ShownPrecipitationThreshold = 0.03f;
 // Matches the sky: a larger game-clock jump snaps the weather instead of fading it.
 constexpr double WeatherSnapGameMinutes = 30.0;
 constexpr float OutdoorFxLightRefreshIntervalSeconds = 1.0f / 60.0f;
+// Share of the sky (ambient) light that reaches creature models as a directional key light (fs_model.sc).
+constexpr float OutdoorCreatureKeyFraction = 0.4f;
 constexpr float OutdoorTerrainChunkWorldSize = 4096.0f;
 
 bool sameWorldFxLightEmitter(const WorldFxLightEmitter &left, const WorldFxLightEmitter &right)
@@ -425,7 +435,7 @@ uint32_t computeOutdoorSkyFogColorAbgr(const OutdoorWorldRuntime::AtmosphereStat
         return makeAbgr(UnderwaterFogRed, UnderwaterFogGreen, UnderwaterFogBlue);
     }
 
-    if ((atmosphereState.weatherFlags & MapWeatherFoggy) == 0)
+    if (!atmosphereState.shownFog().foggy)
     {
         return 0xff000000u;
     }
@@ -855,18 +865,21 @@ OutdoorFogParameters buildOutdoorWorldFogParameters(
         1.0f
     };
 
+    const OutdoorWorldRuntime::AtmosphereState::ShownFog shownFog =
+        pAtmosphereState != nullptr ? pAtmosphereState->shownFog() : OutdoorWorldRuntime::AtmosphereState::ShownFog{};
+
     if (pAtmosphereState != nullptr
-        && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
-        && pAtmosphereState->fogWeakDistance >= 0
-        && pAtmosphereState->fogStrongDistance > pAtmosphereState->fogWeakDistance)
+        && shownFog.foggy
+        && shownFog.weakDistance >= 0
+        && shownFog.strongDistance > shownFog.weakDistance)
     {
         const OutdoorFogProfile fogProfile = pAtmosphereState->directFog
             ? buildOutdoorDirectFogProfile(
-                pAtmosphereState->fogWeakDistance,
-                pAtmosphereState->fogStrongDistance)
+                shownFog.weakDistance,
+                shownFog.strongDistance)
             : buildOutdoorFogProfile(
-                pAtmosphereState->fogWeakDistance,
-                pAtmosphereState->fogStrongDistance,
+                shownFog.weakDistance,
+                shownFog.strongDistance,
                 clampedFarClipDistance,
                 OutdoorWorldFogNearOpacity,
                 OutdoorWorldFogStrongOpacity);
@@ -929,18 +942,21 @@ OutdoorFogParameters buildOutdoorSkyFogParameters(
         1.0f
     };
 
+    const OutdoorWorldRuntime::AtmosphereState::ShownFog shownFog =
+        pAtmosphereState != nullptr ? pAtmosphereState->shownFog() : OutdoorWorldRuntime::AtmosphereState::ShownFog{};
+
     if (pAtmosphereState != nullptr
-        && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
-        && pAtmosphereState->fogWeakDistance >= 0
-        && pAtmosphereState->fogStrongDistance > pAtmosphereState->fogWeakDistance)
+        && shownFog.foggy
+        && shownFog.weakDistance >= 0
+        && shownFog.strongDistance > shownFog.weakDistance)
     {
         const OutdoorFogProfile fogProfile = pAtmosphereState->directFog
             ? buildOutdoorDirectFogProfile(
-                pAtmosphereState->fogWeakDistance,
-                pAtmosphereState->fogStrongDistance)
+                shownFog.weakDistance,
+                shownFog.strongDistance)
             : buildOutdoorFogProfile(
-                pAtmosphereState->fogWeakDistance,
-                pAtmosphereState->fogStrongDistance,
+                shownFog.weakDistance,
+                shownFog.strongDistance,
                 clampedRenderDistance,
                 OutdoorSkyFogNearOpacity,
                 OutdoorSkyFogStrongOpacity);
@@ -1082,6 +1098,18 @@ void OutdoorRenderer::ensureSunShadowPrograms(OutdoorGameView &view)
                 baked ? "fs_outdoor_bmodel_baked_array_shadow" : "fs_outdoor_bmodel_lightmap_array");
             view.m_outdoorTexturedFogShadowArrayProgramHandle = loadProgramHandle("vs_outdoor_textured_fog",
                 "fs_outdoor_textured_fog_array_shadow");
+            if (baked && view.m_surfaceMaterialMaps)
+            {
+                view.m_outdoorBModelMaterialShadowProgramHandle = loadProgramHandle("vs_outdoor_bmodel_lightmap",
+                    "fs_outdoor_bmodel_baked_shadow_materials");
+                view.m_outdoorBModelMaterialShadowArrayProgramHandle = loadProgramHandle(
+                    "vs_outdoor_bmodel_lightmap", "fs_outdoor_bmodel_baked_array_shadow_materials");
+                if (!bgfx::isValid(view.m_outdoorBModelMaterialShadowProgramHandle)
+                    || !bgfx::isValid(view.m_outdoorBModelMaterialShadowArrayProgramHandle))
+                {
+                    throw std::runtime_error("Cannot load the surface material mesh-shadow receiver programs");
+                }
+            }
         }
         if (!bgfx::isValid(view.m_outdoorTexturedFogShadowProgramHandle)
             || (lightmaps && (!bgfx::isValid(view.m_outdoorBModelShadowProgramHandle)
@@ -1126,6 +1154,7 @@ void OutdoorRenderer::updateWeather(OutdoorGameView &view, const OutdoorWorldRun
     target.windX = atmosphere.windX;
     target.windY = atmosphere.windY;
     target.storm = atmosphere.storm;
+    target.dryLightning = atmosphere.dryLightning;
     target.wetness = atmosphere.wetness;
     view.m_weatherPresentation.update(view.m_pOutdoorWorldRuntime->weatherRules(), target, deltaSeconds);
     const float rainLevel = view.m_weatherPresentation.rainLevel();
@@ -1138,7 +1167,7 @@ void OutdoorRenderer::updateWeather(OutdoorGameView &view, const OutdoorWorldRun
     if (view.m_pGameAudioSystem != nullptr)
     {
         view.m_weatherAudio.update(*view.m_pGameAudioSystem, view.m_pOutdoorWorldRuntime->weatherRules().sounds,
-            view.m_weatherPresentation, strikes, !atmosphere.underwater, deltaSeconds);
+            view.m_weatherPresentation, strikes, atmosphere.underwater ? 0.0f : 1.0f, deltaSeconds);
     }
 }
 
@@ -1150,7 +1179,7 @@ void OutdoorRenderer::renderWeather(OutdoorGameView &view, uint16_t viewId,
 
     if (pAtmosphereState == nullptr || pAtmosphereState->underwater
         || view.m_gameSettings.weatherQuality == WeatherQuality::Off || !view.m_renderLayers.effects
-        || (weather.rainLevel() <= 0.0f && weather.snowLevel() <= 0.0f))
+        || (weather.rainLevel() <= 0.0f && weather.snowLevel() <= 0.0f && weather.ashLevel() <= 0.0f))
     {
         view.m_weatherRenderer.resetCamera();
         return;
@@ -1204,6 +1233,17 @@ void OutdoorRenderer::renderWeather(OutdoorGameView &view, uint16_t viewId,
     frame.deltaSeconds = view.m_weatherFrameSeconds;
     frame.rainLevel = weather.rainLevel();
     frame.snowLevel = weather.snowLevel();
+    frame.ashLevel = weather.ashLevel();
+
+    if (view.m_pOutdoorWorldRuntime != nullptr)
+    {
+        const WeatherRules &rules = view.m_pOutdoorWorldRuntime->weatherRules();
+        const WeatherMapSettings settings = view.m_pOutdoorWorldRuntime->weatherMapSettings();
+        frame.snowLook = rules.snowFlakes;
+        frame.ashLook = settings.ashLook.value_or(rules.ashFlakes);
+        frame.rainColor = settings.rainColor;
+    }
+
     frame.windX = weather.windX();
     frame.windY = weather.windY();
     frame.light = light;
@@ -1262,9 +1302,9 @@ void OutdoorRenderer::updateEnhancedSky(
     inputs.redFog = atmosphere.redFog;
     inputs.alwaysLight = atmosphere.alwaysLight;
     inputs.alwaysDark = atmosphere.alwaysDark;
-    inputs.foggy = (atmosphere.weatherFlags & MapWeatherFoggy) != 0
-        && atmosphere.fogStrongDistance > atmosphere.fogWeakDistance;
-    inputs.fogStrongDistance = static_cast<float>(atmosphere.fogStrongDistance);
+    const OutdoorWorldRuntime::AtmosphereState::ShownFog shownFog = atmosphere.shownFog();
+    inputs.foggy = shownFog.foggy && shownFog.strongDistance > shownFog.weakDistance;
+    inputs.fogStrongDistance = static_cast<float>(shownFog.strongDistance);
     // The sky follows the shown weather, which fades in step with the sky's own cross-fade.
     const WeatherPresentation &weather = view.m_weatherPresentation;
     inputs.raining = weather.rainLevel() > ShownPrecipitationThreshold;
@@ -1322,6 +1362,15 @@ void OutdoorRenderer::applyOutdoorSurfaceUniforms(OutdoorGameView &view)
     const std::array<float, 4> wetness = {wetSurfaces ? view.m_weatherPresentation.wetness() : 0.0f, 0.0f, 0.0f, 0.0f};
     bgfx::setUniform(view.m_wetnessUniformHandle, wetness.data());
     applySkyFogUniform(view);
+    if (bgfx::isValid(view.m_surfaceSunUniformHandle))
+    {
+        const std::array<float, 3> &sun = view.m_pOutdoorMapData->lightingData->sunDirection;
+        const std::array<float, 4> surfaceSun = {sun[0], sun[1], sun[2], 0.0f};
+        bgfx::setUniform(view.m_surfaceSunUniformHandle, surfaceSun.data());
+        // Windows light up from inside as the sun sets: none while it is up, all once it is well below the horizon.
+        const float sunHeight = skySunDirection(std::fmod(view.m_pOutdoorWorldRuntime->gameMinutes(), 1440.0f))[2];
+        view.m_surfaceNightGlow = std::clamp((0.05f - sunHeight) / 0.2f, 0.0f, 1.0f);
+    }
     if (bgfx::isValid(view.m_bakedLightingUniformHandle))
     {
         const OutdoorLightingData &lighting = *view.m_pOutdoorMapData->lightingData;
@@ -1464,15 +1513,6 @@ void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const b
                   << " combined_depth_slices=" << spriteStats.combinedDepthSlices
                   << " combined_slice_texture_groups=" << spriteStats.combinedDepthSliceTextureGroups
                   << " combined_slice_items=" << spriteStats.combinedDepthSliceItems
-                  << " world_item_items=" << spriteStats.worldItemItems
-                  << " world_item_batch_submits=" << spriteStats.worldItemBatchSubmits
-                  << " world_item_batched=" << spriteStats.worldItemBatchedItems
-                  << " world_item_submits=" << spriteStats.worldItemSubmits
-                  << " world_item_outline_submits=" << spriteStats.worldItemOutlineSubmits
-                  << " world_item_texture_switches=" << spriteStats.worldItemTextureSwitches
-                  << " world_item_depth_slices=" << spriteStats.worldItemDepthSlices
-                  << " world_item_slice_texture_groups=" << spriteStats.worldItemDepthSliceTextureGroups
-                  << " world_item_slice_items=" << spriteStats.worldItemDepthSliceItems
                   << " projectile_items=" << spriteStats.runtimeProjectileItems
                   << " projectile_batch_submits=" << spriteStats.runtimeProjectileBatchSubmits
                   << " projectile_batched=" << spriteStats.runtimeProjectileBatchedItems
@@ -1512,9 +1552,69 @@ void OutdoorRenderer::destroyResolvedBModelDrawGroups(OutdoorGameView &view)
     view.m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
 }
 
+void OutdoorRenderer::ensureSwapTextures(OutdoorGameView &view, const EventRuntimeState *pEventRuntimeState)
+{
+    if (pEventRuntimeState == nullptr || view.m_pAssetFileSystem == nullptr)
+    {
+        return;
+    }
+
+    const auto ensure = [&view](const std::string &textureName)
+    {
+        const std::string normalizedName = toLowerCopy(textureName);
+
+        if (normalizedName.empty() || view.m_missingSwapTextureNames.contains(normalizedName)
+            || std::any_of(view.m_bmodelTextureAnimations.begin(), view.m_bmodelTextureAnimations.end(),
+                [&normalizedName](const OutdoorGameView::BModelTextureAnimationHandle &animation)
+                {
+                    return animation.textureName == normalizedName;
+                }))
+        {
+            return;
+        }
+
+        const std::optional<OutdoorBitmapTexture> texture =
+            loadSurfaceTexture(*view.m_pAssetFileSystem, normalizedName);
+        const bgfx::TextureHandle handle = texture
+            ? createSurfaceTexture2D(uint16_t(texture->physicalWidth), uint16_t(texture->physicalHeight),
+                texture->pixels, texture->cookedTexture.get(), TextureFilterProfile::BModel)
+            : bgfx::TextureHandle(BGFX_INVALID_HANDLE);
+
+        if (!bgfx::isValid(handle))
+        {
+            std::cerr << "OutdoorRenderer: swapped-in texture " << normalizedName << " not found\n";
+            view.m_missingSwapTextureNames.insert(normalizedName);
+            return;
+        }
+
+        OutdoorGameView::BModelTextureAnimationHandle animation = {};
+        animation.textureName = normalizedName;
+        animation.liquid = texture->liquid;
+        animation.waterColorAbgr = texture->waterColorAbgr;
+        animation.width = uint16_t(texture->physicalWidth);
+        animation.height = uint16_t(texture->physicalHeight);
+        animation.frameTextureHandles.push_back(handle);
+        animation.frameLengthTicks.push_back(0);
+        animation.frameHasPartialAlphaPixels.push_back(texture->hasPartialAlphaPixels);
+        view.m_bmodelTextureAnimations.push_back(std::move(animation));
+    };
+
+    for (const auto &[key, textureName] : pEventRuntimeState->textureOverrides)
+    {
+        ensure(textureName);
+    }
+
+    for (const auto &[key, textureName] : pEventRuntimeState->outdoorModelFacetTextureOverrides)
+    {
+        ensure(textureName);
+    }
+}
+
 void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
 {
     destroyResolvedBModelDrawGroups(view);
+    ensureSwapTextures(view,
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr);
 
     if (view.m_texturedBModelBatches.empty() || view.m_bmodelTextureAnimations.empty())
     {
@@ -1718,6 +1818,7 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             vertex.z = source.z;
             vertex.secretPulse = source.secretPulse;
             vertex.textureLayer = float(animation.arrayLayer);
+            vertex.materialLayer = float(animation.materialLayer);
             vertex.flowUPerSecond = source.flowUPerSecond;
             vertex.flowVPerSecond = source.flowVPerSecond;
             vertex.lavaFlow = source.lavaFlow;
@@ -1806,6 +1907,8 @@ void OutdoorRenderer::refreshBModelWorldRenderChunks(OutdoorGameView &view)
     {
         return;
     }
+
+    ensureSwapTextures(view, pEventRuntimeState);
 
     const auto effectiveAttributesForFace = [&](const OutdoorGameView::BModelWorldRenderFace &face)
     {
@@ -2457,6 +2560,19 @@ std::vector<OutdoorGameView::LightmappedBModelVertex> OutdoorRenderer::buildLigh
             vertex.staticColorAbgr = sourceLighting.staticColorAbgr;
             result.push_back(vertex);
         }
+        OutdoorGameView::LightmappedBModelVertex *pTriangle = &result[result.size() - 3];
+        std::array<float, 3> gradientU = {};
+        std::array<float, 3> gradientV = {};
+        surfaceTextureGradients(
+            {bx::Vec3{pTriangle[0].x, pTriangle[0].y, pTriangle[0].z}, bx::Vec3{pTriangle[1].x, pTriangle[1].y,
+                pTriangle[1].z}, bx::Vec3{pTriangle[2].x, pTriangle[2].y, pTriangle[2].z}},
+            {{{pTriangle[0].u, pTriangle[0].v}, {pTriangle[1].u, pTriangle[1].v}, {pTriangle[2].u, pTriangle[2].v}}},
+            gradientU, gradientV);
+        for (size_t corner = 0; corner < 3; ++corner)
+        {
+            pTriangle[corner].gradientU = gradientU;
+            pTriangle[corner].gradientV = gradientV;
+        }
     }
 
     return result;
@@ -2816,6 +2932,13 @@ void OutdoorRenderer::createBModelTextureBatches(
             animationHandle.frameTextureHandles.push_back(textureHandle);
             animationHandle.frameLengthTicks.push_back(frame.frameLengthTicks);
             animationHandle.frameHasPartialAlphaPixels.push_back(pFrameTexture->hasPartialAlphaPixels);
+            if (animation.frames.size() == 1 && pFrameTexture->materialNormal != nullptr)
+            {
+                animationHandle.materialNormal =
+                    createCookedTexture2D(*pFrameTexture->materialNormal, TextureFilterProfile::BModel);
+                animationHandle.materialDetail =
+                    createCookedTexture2D(*pFrameTexture->materialDetail, TextureFilterProfile::BModel);
+            }
         }
 
         if (!animationHandle.frameTextureHandles.empty() || !animationHandle.frameLengthTicks.empty())
@@ -2843,7 +2966,15 @@ void OutdoorRenderer::createBModelTextureBatches(
                 {
                     throw std::runtime_error("Cannot create bmodel texture");
                 }
-                view.m_bmodelTextureAnimations[animationIndex].frameTextureHandles.push_back(texture);
+                OutdoorGameView::BModelTextureAnimationHandle &animation = view.m_bmodelTextureAnimations[animationIndex];
+                animation.frameTextureHandles.push_back(texture);
+                if (pTexture->materialNormal != nullptr)
+                {
+                    animation.materialNormal =
+                        createCookedTexture2D(*pTexture->materialNormal, TextureFilterProfile::BModel);
+                    animation.materialDetail =
+                        createCookedTexture2D(*pTexture->materialDetail, TextureFilterProfile::BModel);
+                }
                 continue;
             }
             OutdoorGameView::BModelTextureArray array = {};
@@ -2881,6 +3012,34 @@ void OutdoorRenderer::createBModelTextureBatches(
                 }
                 view.m_bmodelTextureAnimations[animationIndex].arrayIndex = int32_t(view.m_bmodelTextureArrays.size());
                 view.m_bmodelTextureAnimations[animationIndex].arrayLayer = layer;
+            }
+            // The layers with surface material maps, in arrays of their own; each face finds its maps' layer per
+            // vertex. One layer is repeated: bgfx makes a one-layer array an ordinary 2D texture.
+            std::vector<const Engine::CookedTexture *> normalLayers;
+            std::vector<const Engine::CookedTexture *> detailLayers;
+            for (uint16_t layer = 0; layer < layers; ++layer)
+            {
+                const auto &[animationIndex, pTexture] = members[first + layer];
+                if (pTexture->materialNormal != nullptr)
+                {
+                    view.m_bmodelTextureAnimations[animationIndex].materialLayer = int32_t(normalLayers.size());
+                    normalLayers.push_back(pTexture->materialNormal.get());
+                    detailLayers.push_back(pTexture->materialDetail.get());
+                }
+            }
+            if (normalLayers.size() == 1)
+            {
+                normalLayers.push_back(normalLayers.front());
+                detailLayers.push_back(detailLayers.front());
+            }
+            if (!normalLayers.empty())
+            {
+                array.materialNormal = createCookedTexture2DArray(normalLayers, TextureFilterProfile::BModel);
+                array.materialDetail = createCookedTexture2DArray(detailLayers, TextureFilterProfile::BModel);
+                if (!bgfx::isValid(array.materialNormal) || !bgfx::isValid(array.materialDetail))
+                {
+                    throw std::runtime_error("Cannot create bmodel surface material arrays");
+                }
             }
             view.m_bmodelTextureArrays.push_back(array);
         }
@@ -3098,7 +3257,8 @@ bool OutdoorRenderer::ensureTerrainMaterials(OutdoorGameView &view)
             loadProgramHandle("vs_outdoor_terrain_materials", pFragment),
             loadProgramHandle("vs_outdoor_terrain_materials", shadowFragment.c_str()),
             loadProgramHandle("vs_outdoor_terrain_materials", singleFragment.c_str()),
-            loadProgramHandle("vs_outdoor_terrain_materials", singleShadowFragment.c_str()), error))
+            loadProgramHandle("vs_outdoor_terrain_materials", singleShadowFragment.c_str()),
+            loadProgramHandle("vs_outdoor_terrain_materials", "fs_outdoor_terrain_depth"), error))
     {
         std::cerr << "Terrain materials unavailable for " << map.fileName << ": " << error << '\n';
         return false;
@@ -3219,10 +3379,44 @@ void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const Outdoo
     {
         const DecorationBillboard &billboard = billboards[index];
         const uint16_t sprite = OutdoorInteractionController::resolveDecorationBillboardSpriteId(view, billboard, hidden);
-        hidden = hidden || OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex);
         state = OutdoorInteractionController::interactiveDecorationState(view, billboard.entityIndex);
         return sprite;
     });
+    const EventRuntimeState *pEvents =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+    if (pEvents != nullptr && !pEvents->decorationAims.empty())
+    {
+        models.poseAimed(billboards, [pEvents](uint32_t key, float &yawRadians, float &back,
+            std::array<float, 3> &offset)
+        {
+            const auto aim = pEvents->decorationAims.find(key);
+            if (aim == pEvents->decorationAims.end())
+            {
+                return false;
+            }
+            yawRadians = aim->second.currentRadians;
+            back = aim->second.back();
+            offset = aim->second.offset;
+            return true;
+        });
+    }
+    // Animated decorations: their parts, whole moving models and skinned copies (evt.PlayDecorationClip, idle clips).
+    const DecorationModelSet::PartClip decorationClip =
+        [pEvents](uint32_t key, std::string &clipName, float &seconds, bool &loop)
+    {
+        return decorationClipFor(pEvents, key, clipName, seconds, loop);
+    };
+    const float decorationSeconds = float(SDL_GetTicks()) * 0.001f;
+    if (pEvents != nullptr && !pEvents->decorationUses.empty())
+    {
+        models.noteUses(billboards, [pEvents](uint32_t key)
+        {
+            const auto found = pEvents->decorationUses.find(key);
+            return found != pEvents->decorationUses.end() ? found->second : 0u;
+        }, decorationSeconds);
+    }
+    models.poseParts(billboards, decorationClip, decorationSeconds);
+    models.poseInstances(billboards, decorationClip, decorationSeconds, view.m_worldFxSystem.models());
     const bool baked = pBakedLighting != nullptr && pBakedLighting->hasBakedSources() && pAtmosphereState != nullptr;
     if (view.m_pDecorationModelProbeSource != pBakedLighting || view.m_decorationModelProbes.size() != billboards.size())
     {
@@ -3428,6 +3622,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     view.m_screenTintProgramHandle = loadProgramHandle("vs_screen_color", "fs_cubes");
     view.m_texturedTerrainProgramHandle = loadProgramHandle("vs_shadowmaps_texture", "fs_shadowmaps_texture");
     view.m_hudTintedProgramHandle = loadProgramHandle("vs_shadowmaps_texture", "fs_menu_tint");
+    view.m_hudDrawListProgramHandle = loadProgramHandle("vs_hud", "fs_hud");
     view.m_spellAreaPreviewProgramHandle = loadProgramHandle("vs_spell_area_preview", "fs_spell_area_preview");
     view.m_outdoorLitBillboardProgramHandle =
         loadProgramHandle("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
@@ -3449,8 +3644,21 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     {
         std::cerr << "Decoration models require renderer instancing support; decorations stay sprites.\n";
     }
+    // Emissive-texture variants of the colour programs, loaded only when a model with an emissive texture appears.
+    view.m_modelRenderer.setEmissiveProgramLoader([]()
+    {
+        return Engine::ModelEmissivePrograms{loadProgramHandle("vs_model", "fs_model_emissive"),
+            loadProgramHandle("vs_model_skinned_instanced", "fs_model_emissive"),
+            loadProgramHandle("vs_model_instanced", "fs_model_emissive")};
+    });
+    view.m_modelRenderer.setShieldShellProgramLoader([]()
+    {
+        return loadProgramHandle("vs_model_shield", "fs_model_shield");
+    });
     view.m_outdoorTexturedFogProgramHandle =
         loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
+    view.m_surfaceMaterialMaps =
+        outdoorBModelTextureSet && hasSurfaceMaterialMaps(outdoorBModelTextureSet->textures);
     if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
     {
         view.m_outdoorBModelLightmapProgramHandle =
@@ -3463,6 +3671,18 @@ bool OutdoorRenderer::initializeWorldRenderResources(
                     ? "fs_outdoor_bmodel_baked_array" : "fs_outdoor_bmodel_lightmap_array");
         view.m_outdoorTexturedFogArrayProgramHandle =
             loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog_array");
+        if (outdoorMapData.lightingData->hasBakedSources() && view.m_surfaceMaterialMaps)
+        {
+            view.m_outdoorBModelMaterialProgramHandle =
+                loadProgramHandle("vs_outdoor_bmodel_lightmap", "fs_outdoor_bmodel_baked_materials");
+            view.m_outdoorBModelMaterialArrayProgramHandle =
+                loadProgramHandle("vs_outdoor_bmodel_lightmap", "fs_outdoor_bmodel_baked_array_materials");
+            if (!bgfx::isValid(view.m_outdoorBModelMaterialProgramHandle)
+                || !bgfx::isValid(view.m_outdoorBModelMaterialArrayProgramHandle))
+            {
+                throw std::runtime_error("Cannot load the surface material programs of baked bmodel faces");
+            }
+        }
     }
 
 
@@ -3920,6 +4140,50 @@ void OutdoorRenderer::bindLightGrid(OutdoorGameView &view, bool mainCamera)
     view.m_lightGridBinding.bind(mainCamera ? &view.m_lightGrid : nullptr, Engine::LightGridModeFull);
 }
 
+bool OutdoorRenderer::bindSurfaceMaterial(OutdoorGameView &view, const OutdoorGameView::ResolvedBModelDrawGroup &group,
+    const OutdoorGameView::BModelTextureAnimationHandle *pAnimation, size_t frameIndex, uint16_t viewId)
+{
+    if (!view.m_gameSettings.surfaceMaterials || !bgfx::isValid(view.m_surfaceMaterialUniformHandle)
+        || view.m_pOutdoorMapData->lightingData->directSunPagesRle.empty())
+    {
+        return false;
+    }
+    bgfx::TextureHandle normal = BGFX_INVALID_HANDLE;
+    bgfx::TextureHandle detail = BGFX_INVALID_HANDLE;
+    if (group.arrayIndex >= 0)
+    {
+        const OutdoorGameView::BModelTextureArray &array = view.m_bmodelTextureArrays[group.arrayIndex];
+        normal = array.materialNormal;
+        detail = array.materialDetail;
+    }
+    else if (pAnimation->arrayIndex < 0 && frameIndex == 0)
+    {
+        normal = pAnimation->materialNormal;
+        detail = pAnimation->materialDetail;
+    }
+    if (!bgfx::isValid(normal))
+    {
+        return false;
+    }
+    bindTexture(7, view.m_surfaceNormalSamplerHandle, normal, TextureFilterProfile::BModel);
+    bindTexture(8, view.m_surfaceDetailSamplerHandle, detail, TextureFilterProfile::BModel);
+    // Without mesh shadows the direct-only sun page is not bound yet; the relighting needs it.
+    if (!view.m_modelRenderer.hasSunShadows())
+    {
+        bindTexture(5, view.m_bakedSunDirectSamplerHandle, bakedSunDirectTexture(view, group.lightmapPageIndex),
+            TextureFilterProfile::Lightmap);
+    }
+    // Parallax only in the main view: reflections are small and blurred.
+    const float parallax = view.m_gameSettings.surfaceParallax && viewId == MainViewId ? SurfaceParallaxDistance : 0.0f;
+    const std::array<float, 4> values = {
+        parallax, view.m_surfaceNightGlow, SurfaceHighlightStrength, SurfaceReflectionStrength};
+    bgfx::setUniform(view.m_surfaceMaterialUniformHandle, values.data());
+    // Screen-space reflections trace the previous main view, so only main-view draws use them.
+    view.m_surfaceReflectionBinding.bind(viewId == MainViewId && view.m_gameSettings.surfaceReflections
+        && view.m_pPostProcessing != nullptr ? view.m_pPostProcessing->reflectionHistory() : nullptr);
+    return true;
+}
+
 void OutdoorRenderer::submitResolvedBModelDrawGroup(OutdoorGameView &view,
     const OutdoorGameView::ResolvedBModelDrawGroup &group, uint16_t viewId, size_t frameIndex, uint32_t transform)
 {
@@ -3971,7 +4235,15 @@ void OutdoorRenderer::submitResolvedBModelDrawGroup(OutdoorGameView &view,
         view.m_modelRenderer.bindSunShadows();
     }
     bgfx::ProgramHandle program = BGFX_INVALID_HANDLE;
-    if (group.usesStaticLighting)
+    if (group.usesStaticLighting && bindSurfaceMaterial(view, group, pAnimation, frameIndex, viewId))
+    {
+        const bgfx::ProgramHandle lit = arrayed
+            ? view.m_outdoorBModelMaterialArrayProgramHandle : view.m_outdoorBModelMaterialProgramHandle;
+        const bgfx::ProgramHandle shadowed = arrayed
+            ? view.m_outdoorBModelMaterialShadowArrayProgramHandle : view.m_outdoorBModelMaterialShadowProgramHandle;
+        program = meshShadows ? shadowed : lit;
+    }
+    else if (group.usesStaticLighting)
     {
         const bgfx::ProgramHandle lit = arrayed
             ? view.m_outdoorBModelLightmapArrayProgramHandle : view.m_outdoorBModelLightmapProgramHandle;
@@ -4002,8 +4274,9 @@ bool OutdoorRenderer::initializeWaterResources(OutdoorGameView &view, const Outd
         std::map<std::pair<int32_t, int32_t>, std::array<bx::Vec3, 2>> patches;
     };
     // Separate surfaces per liquid, so each draws as its own kind and only water takes a reflection.
-    std::map<std::pair<LiquidKind, float>, SurfaceBuild> planes;
-    std::map<LiquidKind, SurfaceBuild> sloped;
+    // A liquid that takes no reflection gets surfaces of its own.
+    std::map<std::tuple<LiquidKind, float, bool>, SurfaceBuild> planes;
+    std::map<std::pair<LiquidKind, bool>, SurfaceBuild> sloped;
     for (size_t index = 0; index + 6 <= vertices.size(); index += 6)
     {
         const OutdoorGameView::TexturedTerrainVertex &first = vertices[index];
@@ -4019,10 +4292,12 @@ bool OutdoorRenderer::initializeWaterResources(OutdoorGameView &view, const Outd
         }
         const OutdoorTerrainTile &tile = terrainTiles.tiles[size_t(first.flowUPerSecond)];
         const float liquid = liquidShaderValue(tile.liquid);
-        SurfaceBuild &surface = planar ? planes[{tile.liquid, first.z}] : sloped[tile.liquid];
+        SurfaceBuild &surface = planar ? planes[{tile.liquid, first.z, tile.liquidReflects}]
+            : sloped[{tile.liquid, tile.liquidReflects}];
         surface.geometry.height = first.z;
         surface.geometry.planar = planar;
         surface.geometry.liquid = tile.liquid;
+        surface.geometry.reflects = tile.liquidReflects;
         for (size_t offset = 0; offset < 6; ++offset)
         {
             const OutdoorGameView::TexturedTerrainVertex &vertex = vertices[index + offset];
@@ -4054,7 +4329,7 @@ bool OutdoorRenderer::initializeWaterResources(OutdoorGameView &view, const Outd
     {
         append(surface);
     }
-    for (auto &[liquid, surface] : sloped)
+    for (auto &[key, surface] : sloped)
     {
         append(surface);
     }
@@ -4196,6 +4471,69 @@ Engine::ModelRenderLighting OutdoorRenderer::creatureModelLighting(OutdoorGameVi
     return selected;
 }
 
+Engine::ModelRenderLighting OutdoorRenderer::eyeModelLighting(OutdoorGameView &view, const ModelSceneLighting &scene,
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
+    const std::array<float, 3> &eye)
+{
+    // As a creature standing at the eye (creatureModelLighting), with its nearest lights as a list: the view model's
+    // own view has no light grid.
+    Engine::ModelRenderLighting selected = scene.creatures;
+    selected.pLightGrid = nullptr;
+    constexpr float Reach = 256.0f;
+    const bx::Vec3 center = {eye[0], eye[1], eye[2]};
+    const OutdoorLightSelectionBounds bounds = {{eye[0] - Reach, eye[1] - Reach, eye[2] - Reach},
+        {eye[0] + Reach, eye[1] + Reach, eye[2] + Reach}, true};
+    const OutdoorSelectedFxLights lights = view.m_outdoorLightingRuntime.selectForBounds(center, bounds);
+    selected.pointCount = lights.lightCount;
+    std::copy(lights.positions.begin(), lights.positions.end(), selected.pointPositions.begin());
+    std::copy(lights.colors.begin(), lights.colors.end(), selected.pointColors.begin());
+    for (size_t index = 0; index < lights.lightCount; ++index)
+    {
+        selected.pointColors[index * 4 + 3] *= lights.params[2];
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            selected.pointPositions[index * 4 + axis] -= eye[axis];
+        }
+    }
+    if (pLightingData != nullptr && pLightingData->hasBakedSources() && pAtmosphereState != nullptr
+        && pLightingData->formatVersion >= 4)
+    {
+        const OutdoorLightingData &baked = *pLightingData;
+        constexpr float RefreshDistance = 32.0f;
+        float moved = 0.0f;
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            moved += (view.m_eyeProbeCenter[axis] - eye[axis]) * (view.m_eyeProbeCenter[axis] - eye[axis]);
+        }
+        if (view.m_pEyeProbeData != &baked || moved > RefreshDistance * RefreshDistance)
+        {
+            view.m_eyeProbe = baked.sampleProbe(eye, [&](const std::array<float, 3> &point)
+            {
+                return view.m_pOutdoorWorldRuntime->hasClearOutdoorLineOfSight(
+                    center, {point[0], point[1], point[2]}, true);
+            });
+            view.m_pEyeProbeData = &baked;
+            view.m_eyeProbeCenter = eye;
+        }
+        const std::optional<OutdoorLightingData::Probe> &probe = view.m_eyeProbe;
+        const std::array<std::array<float, 4>, 2> colors = view.bakedLightingColors(*pAtmosphereState);
+        selected.lightDirection = baked.sunDirection;
+        selected.direct = probe && !pAtmosphereState->underwater
+            && view.m_pOutdoorMapData->locationType == OutdoorLocationType::Exterior
+            ? probe->sunVisibility : 0.0f;
+        selected.ambient = 1.0f;
+        for (size_t channel = 0; channel < 3; ++channel)
+        {
+            selected.directColor[channel] = baked.sunDirectResponse[channel] * colors[0][channel];
+            selected.ambientColor[channel] = probe
+                ? probe->sunIndirect[channel] * colors[0][channel] + probe->sky[channel] * colors[1][channel]
+                : 0.25f * colors[1][channel];
+        }
+    }
+    selected.environmentScale = scene.sky ? scene.skyTint : std::array<float, 3>{0.15f, 0.15f, 0.15f};
+    return selected;
+}
+
 void OutdoorRenderer::submitTerrainMaterials(OutdoorGameView &view, uint16_t viewId, const ViewFrustum &frustum,
     const bx::Vec3 &cameraPosition, bool openWater, bool sunShadows, bool reflection)
 {
@@ -4203,6 +4541,28 @@ void OutdoorRenderer::submitTerrainMaterials(OutdoorGameView &view, uint16_t vie
     const bool baked = view.m_gameSettings.lightmaps && lighting && lighting->hasBakedSources();
     const bgfx::ProgramHandle singleProgram = view.m_terrainMaterials.program(sunShadows, true);
     const bgfx::ProgramHandle program = view.m_terrainMaterials.program(sunShadows, false);
+    // The main view takes the terrain's depth first (colour masked, the same pixels cut), so its expensive shading
+    // runs once per pixel instead of for every hill behind a hill; the shaded pass then only tests the depth. The
+    // sequential view keeps this order.
+    const bgfx::ProgramHandle depthProgram = view.m_terrainMaterials.depthProgram();
+    const bool depthWritten = !reflection && bgfx::isValid(depthProgram);
+    if (depthWritten)
+    {
+        for (const OutdoorTerrainMaterials::Chunk &chunk : view.m_terrainMaterials.chunks())
+        {
+            const uint32_t indexCount = chunk.landIndexCount + (openWater ? chunk.waterIndexCount : 0);
+            if (indexCount == 0 || !frustum.intersectsBounds(chunk.boundsMin, chunk.boundsMax))
+            {
+                continue;
+            }
+            bgfx::setVertexBuffer(0, chunk.vertices);
+            bgfx::setIndexBuffer(chunk.indices, 0, indexCount);
+            view.m_waterRenderer.bindCoverage(4);
+            view.m_terrainMaterials.bindDepth();
+            bgfx::setState(BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA);
+            bgfx::submit(viewId, depthProgram);
+        }
+    }
     for (const OutdoorTerrainMaterials::Chunk &chunk : view.m_terrainMaterials.chunks())
     {
         // Open water draws through the water renderer when it is active.
@@ -4247,8 +4607,8 @@ void OutdoorRenderer::submitTerrainMaterials(OutdoorGameView &view, uint16_t vie
         view.m_terrainMaterials.bind(baked ? &*lighting : nullptr, directSun,
             view.m_gameSettings.terrainAntiTiling && !reflection, foliage, view.m_terrainDecorations.foliageParams(),
             view.m_gameSettings.terrainSpecular && !reflection ? TerrainSpecularStrength : 0.0f);
-        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_MSAA);
+        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | (depthWritten ? 0 : BGFX_STATE_WRITE_Z)
+            | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA);
         if (sunShadows)
         {
             view.m_modelRenderer.bindSunShadows();
@@ -4501,12 +4861,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         &view.m_decorationModels.groups(), view.m_elapsedTime,
         terrainCasters ? std::function<void(uint16_t, const CasterTest &)>(terrainShadows)
                        : std::function<void(uint16_t, const CasterTest &)>());
-    // The baked direct-sun pages light mesh-shadow receivers and the terrain: free them only when neither uses them
-    // (decoding a page every frame costs milliseconds).
+    // The baked direct-sun pages light mesh-shadow receivers, the terrain and surface materials: free them only when
+    // none uses them (decoding a page every frame costs milliseconds).
     const bool terrainMaterials = view.m_terrainMaterials.ready();
     if (!view.m_modelRenderer.hasSunShadows() && !view.m_modelRenderer.hasSunShadowResources())
     {
-        if (!terrainMaterials)
+        if (!terrainMaterials && !view.m_gameSettings.surfaceMaterials)
         {
             destroySunReceiverResources(view);
         }
@@ -4704,7 +5064,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         {
             ensureTerrainDecorations(view, *view.m_pOutdoorMapData);
             const bool viewChanged = view.m_terrainDecorations.setView(
-                cameraPosition, cameraForward, cameraRight, cameraUp, aspectRatio, bx::toRad(CameraVerticalFovDegrees));
+                cameraPosition, cameraForward, cameraRight, cameraUp, aspectRatio,
+                bx::toRad(view.m_viewVerticalFovDegrees));
             const uint64_t now = SDL_GetTicksNS();
             const uint32_t lightCount = view.m_outdoorLightingRuntime.sourceLightCount();
             // Refresh stationary-camera visibility/lighting at 20 Hz. Camera and light-count changes are immediate.
@@ -4828,7 +5189,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
 
                     if (bmodelWorld)
                     {
-                        const float verticalTangent = std::tan(CameraVerticalFovDegrees * Pi / 360.0f);
+                        const float verticalTangent = std::tan(view.m_viewVerticalFovDegrees * Pi / 360.0f);
                         const float horizontalTangent = verticalTangent * aspectRatio;
                         const auto chunkVisible = [&](const OutdoorGameView::BModelWorldRenderChunk &chunk) {
                             if (!chunk.hasBounds)
@@ -5146,6 +5507,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                             vertex.z = transformed.z;
                             vertex.secretPulse = secretPulse;
                             vertex.textureLayer = float(animation.arrayLayer);
+                            vertex.materialLayer = float(animation.materialLayer);
                             vertex.flowUPerSecond = flowInfo[0];
                             vertex.flowVPerSecond = flowInfo[1];
                             vertex.lavaFlow = flowInfo[2];
@@ -5284,6 +5646,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
             waterSky[0] * brightness, waterSky[1] * brightness, waterSky[2] * brightness, brightness};
         if (view.m_renderLayers.water)
         {
+            applySkyFogUniform(view);
             view.m_waterRenderer.render(transparentView, view.m_elapsedTime,
                 sunDirection, sunColor, skyColor, view.m_weatherPresentation.rainLevel(),
                 view.m_gameSettings.waterMovementRipples ? &view.m_worldFxSystem.waterRipples() : nullptr);
@@ -5300,7 +5663,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
 
     if (view.m_showSpriteObjects)
     {
-        OutdoorBillboardRenderer::renderRuntimeWorldItems(view, transparentView, pViewMatrix, cameraPosition, frustum);
+        OutdoorBillboardRenderer::outlineRuntimeWorldItems(view, pViewMatrix);
         OutdoorBillboardRenderer::renderSpriteObjectBillboards(view, transparentView, pViewMatrix, cameraPosition);
     }
 
@@ -5330,6 +5693,11 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     }
 
     ModelSceneLighting modelScene = modelSceneLighting(view, pAtmosphereState, pLightingData, farClipDistance);
+    // Creatures take part of their sky light from a camera-side key, as indoors: without it the ambient, which lights
+    // every side alike, leaves their normal-map relief flat out of the sun.
+    modelScene.creatures.keyDirection =
+        Engine::spriteKeyLightDirection({cameraForward.x, cameraForward.y, cameraForward.z});
+    modelScene.creatures.keyFraction = OutdoorCreatureKeyFraction;
     // Terrain bushes keep no point lights: foliage has no specular to take from them.
     const Engine::ModelRenderLighting bushLighting = modelScene.decorations;
     modelScene.creatures.pLightGrid = &view.m_lightGrid;
@@ -5340,6 +5708,9 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         return frustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
             {bounds.max[0], bounds.max[1], bounds.max[2]});
     };
+    view.m_eyeModelLighting = eyeModelLighting(view, modelScene, pAtmosphereState, pLightingData,
+        {cameraPosition.x, cameraPosition.y, cameraPosition.z});
+    view.m_hasEyeModelLighting = true;
     const float modelFocalPixels = view.m_gameSettings.modelLods ? std::abs(pProjectionMatrix[5]) * viewHeight * 0.5f
         : 0.0f;
     if (!view.m_decorationModels.empty() && view.m_renderLayers.decorationModels)
@@ -5386,6 +5757,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
     {
         OutdoorBillboardRenderer::renderFxSegmentProjectiles(view, transparentView, pViewMatrix);
+        if (view.m_gameSettings.mist && view.m_gameSettings.mistWisps && view.m_pOutdoorMapData->mist.enabled())
+        {
+            // The mist's wisps near the eye (devdocs/MIST.md "Wisps").
+            view.m_mistWisps.update(view.m_pOutdoorMapData->mist, {cameraPosition.x, cameraPosition.y, cameraPosition.z},
+                view.m_elapsedTime, view.mistLight(), view.m_worldFxSystem.particles());
+        }
         ParticleRenderer::renderParticles(
             view.m_worldFxRenderResources, view.m_worldFxSystem.particles(), transparentView,
             pViewMatrix, cameraPosition, aspectRatio, view.m_worldFxSystem.glowBillboards());
@@ -5408,8 +5785,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     }
     view.m_shieldDomeRenderer.render(transparentView, view.m_worldFxSystem.shieldDomes(), cameraPosition,
         view.m_worldFxSystem.shieldDomeTimeSeconds());
-    EnemyHealthBarRenderer::render(view.m_gameSession.gameplayScreenRuntime(), view.m_pendingEnemyHealthBars,
-        transparentView, cameraPosition, pViewMatrix, pProjectionMatrix, view.m_lastRenderHeight);
+    // A cinematic draws no health bars (the HUD is hidden).
+    if (!view.m_gameSession.cinematicRuntime().takesOverView())
+    {
+        EnemyHealthBarRenderer::render(view.m_gameSession.gameplayScreenRuntime(), view.m_pendingEnemyHealthBars,
+            transparentView, cameraPosition, pViewMatrix, pProjectionMatrix, view.m_lastRenderHeight);
+    }
     view.m_pendingEnemyHealthBars.clear();
     if (view.m_pPostProcessing != nullptr
         && (view.m_modelRenderer.glowDrawn() || view.m_worldFxRenderResources.glowDrawn()))
@@ -5458,7 +5839,7 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(
         return;
     }
 
-    const std::optional<bx::Vec3> targetPoint =
+    std::optional<bx::Vec3> targetPoint =
         pendingSpellCast.hasSelectedGroundTargetPoint
             ? std::optional<bx::Vec3>(bx::Vec3{
                 pendingSpellCast.selectedGroundTargetX,
@@ -5472,6 +5853,10 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(
     {
         return;
     }
+
+    // The marker sits where the spell will fall: at its range limit when the cursor is further.
+    targetPoint = PartySpellSystem::resolveFallingSpellTargetPoint(
+        *view.m_pOutdoorWorldRuntime, pendingSpellCast.spellId, *targetPoint);
 
     constexpr size_t RingSegments = 64;
     constexpr float PreviewHeightOffset = 6.0f;

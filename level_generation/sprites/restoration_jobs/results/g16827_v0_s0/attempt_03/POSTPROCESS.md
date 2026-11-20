@@ -1,0 +1,1 @@
+Built-in spill repair replaces baked checkerboard with magenta. Process --adjust 0.99 0 0; run restore_native_tone.py; queue check. Refresh before_tone backup when reprocessing. Both final backgrounds inspected for connected bars and empty gaps.

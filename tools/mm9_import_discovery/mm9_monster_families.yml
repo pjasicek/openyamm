@@ -1,0 +1,86 @@
+# MM9 monster families: MM-style A/B/C tier pictures for map-stats encounter slots and spawn points.
+#
+# OpenYAMM resolves an encounter slot picture "<base>" to tiers through the monster pictures "<base> A|B|C".
+# generate_mm9_monster_tables.py writes the picture "MM9 <name> <tier>" for every row below (monster_data picture
+# column and monster_descriptors InternalName); every other MM9 IsMonster row keeps the unique picture
+# "MM9 <source number> <name>". generate_mm9_map_stats_encounters.py names these families in the MM9 map-stats rows.
+#
+# tiers: MM9 MONSTERS.txt source numbers (IsMonster 1 rows only) in A, B, C order; two entries give an A/B family.
+# A family normally is one MONSTERS.txt body (rows sharing a ModelName) ordered by level. Exceptions are commented.
+#
+# Single-picture rows (no family):
+#   bosses and unique actors: 206 Yanmir, 209 Lich King, 212 Dragon King, 261 Njam the Meddler, 301 Ebora;
+#   185 Skull Thrower, 192 Skeleton L40, 244 MagreebBaby, 302 Concubine (see the skeleton, magreeb and ebora notes).
+families:
+  - {id: dragonfly, name: Dragonfly, tiers: [75, 76, 77]}          # Dragonfly Mite, Dragonfly, Fire Dragonfly
+  - {id: imp, name: Imp, tiers: [78, 79, 80]}                      # Imply, Imp, Imp Elder
+  - {id: nagate, name: Nagate, tiers: [81, 82, 83]}                # Nagate Hatchling, Nagate, Nagate Elder
+  # lobberpod.abc (84 Lobber Pod L1, 85 Lobber Pod L2, 105 Ice Lobbercicle L13) and lobber.abc (86 Lobber L7,
+  # 106 Ice Lobber L20) are split by element instead of body: the pods grow into the lobber that launches them,
+  # so a normal family Pod/Pod/Lobber and an ice family Lobbercicle/Ice Lobber keep packs to one element and a
+  # level ladder (L1/L2/L7, L13/L20). This also separates the two rows both named "Lobber Pod".
+  - {id: lobber, name: Lobber, tiers: [84, 85, 86]}
+  - {id: ice_lobber, name: Ice Lobber, tiers: [105, 106]}
+  - {id: icky, name: Icky, tiers: [87, 88, 89]}                    # Airborne Icky, Flying Icky, Astral Icky
+  - {id: thrall, name: Thrall, tiers: [90, 91, 92]}                # Field Thrall, Thrall, Thrall Master
+  # Three rows all named "Bird" (crow.abc, L9/L13/L17); the family pictures tell them apart.
+  - {id: bird, name: Bird, tiers: [93, 94, 95]}
+  - {id: troglodyte, name: Troglodyte, tiers: [96, 97, 98]}        # Troglodyte, Troglodyte Wren, Troglodyte Gnoll
+  - {id: highwayman, name: Highwayman, tiers: [99, 100, 101]}      # Cutpurse, Burglar, Bandit
+  - {id: half_orc, name: Half Orc, tiers: [102, 103, 104]}         # Half Orc Recruit, Soldier, Captain
+  - {id: guard, name: Guard, tiers: [111, 112, 113]}               # Guard, Guard Segeant, Guard Captain
+  - {id: wolf, name: Wolf, tiers: [114, 115, 116]}                 # Grey Wolf, Red Wolf, Black Wolf
+  - {id: dwarf, name: Dwarf, tiers: [120, 121, 122]}               # Dwarven Guard, Soldier, Commander
+  - {id: monk, name: Monk, tiers: [123, 124, 125]}                 # Initiate, Monk, Reverend Monk
+  - {id: horde, name: Horde, tiers: [129, 130, 131]}               # Horde Grunt, Warrior, Leader
+  # skeleton.abc has five rows: 183 Skeletoid L3, 184 Bone Thrasher L3, 185 Skull Thrower L2, 135 Skeleton L16 and
+  # 192 Skeleton L40. Spawns use the melee ladder Skeletoid, Bone Thrasher (the most placed row, the second skin),
+  # Skeleton L16. The ranged Skull Thrower (its own skull projectile and model override) and the late-game
+  # duplicate Skeleton L40 stay single pictures, as does the shared name "Skeleton" of 135 and 192.
+  - {id: skeleton, name: Skeleton, tiers: [183, 184, 135]}
+  - {id: skeleton_warrior, name: Skeleton Warrior, tiers: [136, 137]}   # Skeleton Warrior, Skeleton Master
+  - {id: ghost, name: Ghost, tiers: [138, 139, 140]}               # Shadow, Apparition, Specter
+  - {id: mummy, name: Mummy, tiers: [144, 145, 146]}               # Canopic, Embalmed, Petrified Mummy
+  - {id: dagrell, name: Dagrell, tiers: [147, 148, 149]}           # Dagrell, Venomous Dagrell, Spectre Dagrell
+  - {id: basilisk, name: Basilisk, tiers: [150, 151, 152]}         # Basilisk, Fibrase Basilisk, King Basilisk
+  - {id: nobleman, name: Nobleman, tiers: [153, 154, 155]}         # Baron, Viscount, Count
+  - {id: evil_sorcerer, name: Evil Sorcerer, tiers: [156, 157, 158]}   # Evil Apprentice, Sorcerer, Grand Sorcerer
+  - {id: winged_mutant, name: Winged Mutant, tiers: [159, 160, 161]}   # Winged Oddity, Mutant, Aberration
+  - {id: banshee, name: Banshee, tiers: [162, 163, 164]}           # Fright, Dread, Terror
+  - {id: trellborg, name: Trellborg, tiers: [165, 166, 167]}       # Trellborg, Kin Trellborg, Ancient Trellborg
+  - {id: jellyspore, name: Jellyspore, tiers: [168, 169, 170]}     # Jellyspore, Gelatinous Spore, Nettle Spore
+  - {id: gezzampt, name: Gezzampt, tiers: [171, 172, 173]}         # Gezzamptling, Gezzampt, Gezzampt Elder
+  - {id: ghoul, name: Ghoul, tiers: [174, 175, 176]}               # Ghast, Ghoul, Revenant
+  - {id: sea_monster, name: Sea Monster, tiers: [177, 178]}        # Sea Monster Male, Sea Monster Female
+  - {id: zombie, name: Zombie, tiers: [180, 181, 182]}             # Rotter, Dripper, Zombie
+  # honkmale.abc (216 Honk L70, 187 Elder Honk L75, 188 Honk Seer L85) and honkfemale.abc (186 Honk L70,
+  # 217 Elder Honk L85) are two bodies sharing the names Honk and Elder Honk; one family per body. MAP STATS
+  # "ElderHonk" resolves to the first row of that name (187), the male family, as DAT placement does.
+  - {id: honk, name: Honk, tiers: [216, 187, 188]}
+  - {id: honk_female, name: Honk Female, tiers: [186, 217]}
+  - {id: lizard_orc, name: Lizard-Orc, tiers: [189, 190, 191]}     # Lizard-Orc, Warrior, Mage
+  - {id: nosferatu, name: Nosferatu, tiers: [195, 196, 197]}       # Bloodsucker, Annelid, Vampir
+  - {id: bigfoot, name: Bigfoot, tiers: [198, 199, 200]}           # Bigfoot, Sasquatch, Yeti
+  # giant.abc has two rows; Yanmir (yanmir.abc) is a unique boss, not the giants' C tier.
+  - {id: giant, name: Giant, tiers: [204, 205]}                    # Plain Giant, Forest Giant
+  # lich.abc has two rows; the Lich King (lichking.abc) is a unique boss.
+  - {id: lich, name: Lich, tiers: [207, 208]}                      # Lich, Power Lich
+  - {id: eye, name: Eye, tiers: [228, 229, 230]}                   # Eye, Orbus, Oculus
+  - {id: colloidal, name: Colloidal, tiers: [234, 235, 236]}       # Colloidal Soldier, Warrior, Guardian
+  - {id: terror, name: Terror, tiers: [237, 238, 239]}             # Amphibious, Desert, Reptilian Terror
+  # stage1demon.abc and stage2demon.abc hold one row each; their names and model names state the rank (Lesser L70,
+  # Greater L75), so they form one A/B family for Thousand Terrors' "LesserDemon" encounter.
+  - {id: demon, name: Demon, tiers: [241, 242]}
+  # magreeb.abc: 276 Magreeb Spawn L16, 277 Magreeb L22, 278 Armored Magreeb L33. 244 MagreebBaby (L50 with
+  # spawn-level health, one placement) is a scripted actor and stays a single picture.
+  - {id: magreeb, name: Magreeb, tiers: [276, 277, 278]}
+
+# MAPSTATS.txt monster names that are misspelled in the source, keyed by the name with spaces removed. Other names
+# match a MONSTERS.txt row name (case, spaces and punctuation ignored; a repeated name resolves to its first row)
+# or a family name. So The Afterworld's "Terror" is the banshee row 164 Terror (MM9 resolves names to rows), not the
+# Terror family.
+mapstats_aliases:
+  Burgler: 100            # Burglar
+  Skelton: 135            # Skeleton L16
+  SkeltonMaster: 137      # Skeleton Master
+  VenemousDagrell: 148    # Venomous Dagrell

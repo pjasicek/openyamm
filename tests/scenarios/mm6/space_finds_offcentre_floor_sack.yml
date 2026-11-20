@@ -1,0 +1,17 @@
+id: mm6.space_finds_offcentre_floor_sack
+title: "Dragoons' Caverns: Space finds a flour sack well off the crosshair, and prefers the one under it"
+world: mm6
+mode: faithful
+tags: [mm6, interaction]
+steps:
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d06.blv}
+  # Sack 93 sits about 190 pixels right of and below the crosshair, with nothing usable under the crosshair: the
+  # screen scan finds it. Decorations used to count only within 96 pixels of the crosshair.
+  - press_interact:
+      pose: {map: 6d06.blv, x: -6784, y: 900, z: -384, yaw_degrees: 320, pitch_degrees: -15}
+      expect: {kind: event_target, target_kind: 2, target_index: 93}
+  # Sack 92 is straight ahead and below the crosshair; sack 94 is off to the side and about as far: 92 wins.
+  - press_interact:
+      pose: {map: 6d06.blv, x: -6784, y: 900, z: -384, yaw_degrees: 270, pitch_degrees: -15}
+      expect: {kind: event_target, target_kind: 2, target_index: 92}

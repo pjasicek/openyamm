@@ -1,0 +1,1 @@
+Preserved cyan master; default native rectangle registration and native RGB tone matching via restore_native_tone.py. Alpha unchanged by grading. Hanging ceiling anchor retained; light/dark proofs reviewed.

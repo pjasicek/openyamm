@@ -1,0 +1,27 @@
+{
+  "status": "complete_accepted_deployed",
+  "prepared_maps": 42,
+  "rendered_maps": 42,
+  "accepted_replacements": 42,
+  "deployed_replacements": 42,
+  "next_step": "No pending batch work. Use deploy_icons.py --check or --install to verify/redeploy the current accepted index.",
+  "prior_instruction": "nevermind stop please. we need another try - the minimap now looks like \"too flat\". we think some noise would help there",
+  "instruction": "yes light noise is the winner here. accept this approach, regen all minimaps and deploy them to icons_x2",
+  "worlds": {
+    "mm6": 15,
+    "mm7": 13,
+    "mm8": 14
+  },
+  "completed_at": "2026-09-27T12:42:27.493821+00:00",
+  "accepted_receipt": "accepted.json",
+  "deployment_receipt": "installed.json",
+  "validation": "validation.json",
+  "browser_check": "browser_check.json",
+  "latest_revision": "esrgan_study_20260928/accepted.json",
+  "current_methods": {
+    "mm6": "registered Blender capture with light noise",
+    "mm7": "native anime-video v3 direct 2x",
+    "mm8": "native anime-video v3 direct 2x"
+  },
+  "latest_deployment": "esrgan_study_20260928/installed.json"
+}

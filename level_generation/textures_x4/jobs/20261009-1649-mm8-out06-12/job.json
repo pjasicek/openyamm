@@ -1,0 +1,538 @@
+{
+ "id": "20261009-1649-mm8-out06-12",
+ "world": "mm8",
+ "maps": [
+  "out06.odm",
+  "out02.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t19b04c",
+  "mm8/t19a02",
+  "mm8/t19b04b",
+  "mm8/t19b03c2",
+  "mm8/t19b11a",
+  "mm8/sgstabl",
+  "mm8/solid02",
+  "mm8/t01a05b",
+  "mm8/t05a05",
+  "mm8/t09a05b",
+  "mm8/t14abcd10",
+  "mm8/t19a05a",
+  "mm8/t19a05b",
+  "mm8/t19b03c1",
+  "mm8/t19b10a",
+  "mm8/t19b10b",
+  "mm8/voltyl",
+  "mm8/t14c12ba",
+  "mm8/t14c12a",
+  "mm8/t06b09",
+  "mm8/t06d03",
+  "mm8/t06e04",
+  "mm8/t06c03",
+  "mm8/t14b01"
+ ],
+ "requests": {
+  "mm8/t19b04c": {
+   "name": "t19b04c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey granite ashlar wall with a gothic double lancet window of teal leaded glass under a carved pointed stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.496
+    },
+    "2": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.496
+    }
+   }
+  },
+  "mm8/t19a02": {
+   "name": "t19a02",
+   "versions": [
+    1
+   ],
+   "material": "grey granite ashlar blocks with dark mortar, rough chiselled faces",
+   "notes": {}
+  },
+  "mm8/t19b04b": {
+   "name": "t19b04b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey granite ashlar wall with a tall arched window of teal stained glass with a pale figure in a carved stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.294
+    },
+    "2": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.294
+    },
+    "3": {
+     "sources": [
+      "mm8/t19b04c",
+      "mm8/t19b04a"
+     ],
+     "fraction": 0.296
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t19b06",
+     "left": "mm8/t19b01",
+     "bottom": "mm8/t19a02",
+     "top": "mm8/t19a02"
+    }
+   }
+  },
+  "mm8/t19b03c2": {
+   "name": "t19b03c2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey stone wall with a carved stone panelled door and a twisted vine-carved stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.137
+    },
+    "2": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.137
+    },
+    "3": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.062
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t19b06",
+     "left": "mm8/t19b07"
+    }
+   }
+  },
+  "mm8/t19b11a": {
+   "name": "t19b11a",
+   "versions": [
+    1
+   ],
+   "material": "horizontal grey stone cornice with a row of rounded carved corbels",
+   "notes": {}
+  },
+  "mm8/sgstabl": {
+   "name": "sgstabl",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: woven straw-tan board with a brown horse head, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/solid02": {
+   "name": "solid02",
+   "versions": [
+    1
+   ],
+   "material": "flat solid pure red",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t01a05b": {
+   "name": "t01a05b",
+   "versions": [
+    1
+   ],
+   "material": "overlapping rounded olive-brown stone roof shingles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05a05": {
+   "name": "t05a05",
+   "versions": [
+    1
+   ],
+   "material": "overlapping curved reddish-brown wooden roof shingles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t09a05b": {
+   "name": "t09a05b",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden roof planks laid in a herringbone chevron pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t14abcd10": {
+   "name": "t14abcd10",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered brown wood grain, vertical",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t19a05a": {
+   "name": "t19a05a",
+   "versions": [
+    1
+   ],
+   "material": "teal-green glazed tiles with a pale greek-key meander pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t19a05b": {
+   "name": "t19a05b",
+   "versions": [
+    1
+   ],
+   "material": "overlapping rounded olive-green glazed roof tiles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t19b03c1": {
+   "name": "t19b03c1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey stone wall with a carved stone panelled door and a twisted vine-carved stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t19b10a": {
+   "name": "t19b10a",
+   "versions": [
+    1
+   ],
+   "material": "vertical column of grey-green stone quoin blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t19b10b": {
+   "name": "t19b10b",
+   "versions": [
+    1
+   ],
+   "material": "single grey-green stone quoin block",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/voltyl": {
+   "name": "voltyl",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-black gritty volcanic ash ground",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t14c12ba": {
+   "name": "t14c12ba",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough tan-brown fieldstone wall with a small arched window closed by a broken dark wooden plank shutter hanging askew, a glimpse of green-grey behind it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t14c12a": {
+   "name": "t14c12a",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall with a small arched window closed by a broken dark wooden plank shutter hanging askew, a glimpse of green-grey behind it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c12ba"
+     ],
+     "fraction": 0.896
+    }
+   }
+  },
+  "mm8/t06b09": {
+   "name": "t06b09",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rounded grey river cobblestones in dark mortar beside a dark oak plank door under a carved wooden lintel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a09",
+      "mm8/t06b01"
+     ],
+     "fraction": 0.88
+    },
+    "2": {
+     "sources": [
+      "mm8/t06a09"
+     ],
+     "fraction": 0.859
+    }
+   }
+  },
+  "mm8/t06d03": {
+   "name": "t06d03",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rounded grey river cobblestones in dark mortar beside a dark oak plank door with iron straps under a carved wooden lintel",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06b03",
+      "mm8/t06b01"
+     ],
+     "fraction": 0.862
+    },
+    "2": {
+     "sources": [
+      "mm8/t06b03"
+     ],
+     "fraction": 0.837
+    },
+    "3": {
+     "sources": [
+      "mm8/t06b03",
+      "mm8/t06e04"
+     ],
+     "fraction": 0.864
+    },
+    "4": {
+     "sources": [
+      "mm8/t06a03",
+      "mm8/t06b01",
+      "mm8/t06b03",
+      "mm8/t06e04"
+     ],
+     "fraction": 0.849
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "4": {
+     "left": "mm8/t06b01",
+     "right": "mm8/t06b01"
+    }
+   }
+  },
+  "mm8/t06e04": {
+   "name": "t06e04",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rounded grey river cobblestones in dark mortar around a dark oak plank door under a carved wooden lintel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06d04",
+      "mm8/t06b01"
+     ],
+     "fraction": 0.838
+    },
+    "2": {
+     "sources": [
+      "mm8/t06d04"
+     ],
+     "fraction": 0.808
+    }
+   }
+  },
+  "mm8/t06c03": {
+   "name": "t06c03",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rounded grey river cobblestones in dark mortar beside a dark oak plank door with an iron ring under a carved wooden lintel",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a03",
+      "mm8/t06b01"
+     ],
+     "fraction": 0.835
+    },
+    "2": {
+     "sources": [
+      "mm8/t06a03",
+      "mm8/t06b01"
+     ],
+     "fraction": 0.835
+    }
+   }
+  },
+  "mm8/t14b01": {
+   "name": "t14b01",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under a band of dark brown wooden shingles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b12c"
+     ],
+     "fraction": 0.276
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "bottom": "mm8/t14a05"
+    }
+   }
+  }
+ }
+}

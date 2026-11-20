@@ -1,0 +1,56 @@
+# The Mercenary promotion's night watch on Atli's boat in Guberland (atlipromo.scr, Atliwagon.scr, BanditAttack.scr,
+# NPC186.scr; level_generation/projects/mm9r_guberland_blv/regionlua.py). The watch is a night's (the user,
+# 2026-11-08). With Atli's job (keys 124, 125):
+# - night 1: the party relieves the late guard at 2:50 (he walks off to Atli), then leaves the dock and sleeps through
+#   the night far away (no rest alarm there): the raid it was not there for fails the night. Key 197 is taken back and
+#   the guard walks back to his post.
+# - night 2: relieved again; by the dock a wait stops at 3:30 (evt.SetRestAlarm: MM9's clock triggers fire during a
+#   wait) and the raid comes. Its raiders dead, the next wait stops at 6:00: Atli, his daughter and the guard walk to
+#   the dock, and Atli pays (key 127, 1 000 gold).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/atli_dock_watch.yml --scenario-no-color
+id: mm9.atli_dock_watch
+title: "Atli's dock watch: a night slept through away from the dock fails and the guard returns; the next night the raid stops a rest at 3:30, its end lets Atli come at 6:00 and pay"
+world: mm9
+mode: faithful
+tags: [mm9, quests, rest]
+steps:
+  - new_game_flow:
+      start_map: guberland.blv
+  - advance_runtime: {seconds: 1}
+  - console: {line: gold set 0}
+  - lua_event: {source: "evt.SetQuestBit(90124) evt.SetQuestBit(90125)"}
+  # Night 1: relieved, then away (Dook's Castle exit, far from the dock) for the night.
+  - console: {line: time set 02:50}
+  - set_pose: {map: guberland.blv, x: 18000, y: 4700, z: -100, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 5}
+  - lua_event: {source: "local x, y = evt.GetMapActorPosition(56) if not evt.HasQuestBit(90197) or evt.GetMapVar('GuardLeaving', 0) ~= 1 or (x - 18116) ^ 2 + (y - 4860) ^ 2 < 300 ^ 2 then error('the guard was not relieved or did not walk') end"}
+  - console: {line: tp -13341 16820 200}
+  - advance_runtime: {seconds: 4}   # the watch's poll (every 3 s) sees the party gone from the dock
+  - console: {line: rest wait 360, expect_contains: Resting}
+  - advance_runtime: {seconds: 3}
+  - console: {line: rest close}   # a finished wait leaves the rest screen open, the world paused under it
+  - advance_runtime: {seconds: 4}
+  - lua_event: {source: "local m = math.floor(evt.CurrentGameMinutes()) % 1440 if m < 525 then error('a rest far from the dock was stopped: ' .. m) end if evt.HasQuestBit(90197) or evt.HasQuestBit(90126) or evt.GetMapVar('GuardLeaving', 0) ~= 2 then error('the missed raid did not fail the night') end"}
+  - advance_runtime: {seconds: 60}
+  - lua_event: {source: "local x, y = evt.GetMapActorPosition(56) if (x - 18116) ^ 2 + (y - 4860) ^ 2 > 700 ^ 2 then error(string.format('the guard is not back at his post: %.0f %.0f', x, y)) end"}
+  # Night 2: relieved again, at the dock; a four-hour wait stops at 3:30 and the raid comes.
+  - console: {line: time set 02:50}
+  - set_pose: {map: guberland.blv, x: 18000, y: 4700, z: -100, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 5}
+  - lua_event: {source: "if not evt.HasQuestBit(90197) then error('not relieved on the second night') end"}
+  - console: {line: rest wait 240, expect_contains: Resting}
+  - advance_runtime: {seconds: 4}
+  - lua_event: {source: "local m = math.floor(evt.CurrentGameMinutes()) % 1440 if m < 210 or m > 220 or evt.GetMapVar('BanditsSent', 0) ~= 1 then error('the wait was not stopped for the raid: ' .. m) end"}
+  - advance_runtime: {seconds: 20}
+  - console: {line: actor kill 30000}
+  - advance_runtime: {seconds: 2}
+  # The raiders dead, the next wait stops at 6:00: Atli is summoned and walks with his daughter and the guard.
+  - console: {line: rest wait 240, expect_contains: Resting}
+  - advance_runtime: {seconds: 4}
+  - lua_event: {source: "local m = math.floor(evt.CurrentGameMinutes()) % 1440 if m < 360 or m > 370 or not evt.HasQuestBit(90126) or evt.GetMapVar('AtliComing', 0) ~= 1 then error('the wait was not stopped for Atli: ' .. m) end"}
+  - advance_runtime: {seconds: 90}
+  - lua_event: {source: "for _, i in ipairs({54, 55, 56}) do local x, y = evt.GetMapActorPosition(i) if (x - 17461) ^ 2 + (y - 4696) ^ 2 > 700 ^ 2 then error(string.format('actor %d is not at the dock: %.0f %.0f', i, x, y)) end end"}
+  - execute_event: {id: 50085}
+  - assert:
+      gold: 1000
+      qbit_set: [90127]

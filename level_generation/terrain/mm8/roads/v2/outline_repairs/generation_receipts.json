@@ -1,0 +1,46 @@
+[
+  {
+    "name": "drsrne1",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-ad8708d5-574b-4806-93c1-21cc87e58b74.png",
+    "raw_sha256": "c1fcbc889735cc5ae40e8f11d6467f82027468eb32d1c76c2d62a3a62ee0e83a",
+    "prompt_sha256": "bce4f6d940193590d028e3b4b5c3d7945316597b6bdba44cf49a37445fa24628",
+    "inputs": {
+      "drsrne1_target.png": "7a0f5c3cfd5e32313e135084794554550dbbce97c390ec43d0692c890e5bfab4",
+      "drsrne1_coverage.png": "e2ba3a11df57512d15ade6a79b04f3e7b7652c4676c6c127995afed7aeb7bd74"
+    }
+  },
+  {
+    "name": "drsrne2",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-f26592e7-96f3-4f39-b7f3-2f18baffd487.png",
+    "raw_sha256": "63757a822ba80df0c1d00205b03ceb6fd685edd1edbc37be56181ca9f90afdfc",
+    "prompt_sha256": "bce4f6d940193590d028e3b4b5c3d7945316597b6bdba44cf49a37445fa24628",
+    "inputs": {
+      "drsrne2_target.png": "fd102db2bd719a5ec8e03fdb17f8cb44fbcb859518b4f111b54d4ddfffd09e45",
+      "drsrne2_coverage.png": "7a3509db20fab2159ad8cd79f542bb3ac8dee329ac32b7630f03b93e5b3d110f"
+    }
+  },
+  {
+    "name": "drsrnw1",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-d16db405-f539-4538-b9b6-1626ff3e5407.png",
+    "raw_sha256": "841e06500b8f788a1c36cbd6ee13fa5f8ca8e00db3940f438778aeee1f87a262",
+    "prompt_sha256": "bce4f6d940193590d028e3b4b5c3d7945316597b6bdba44cf49a37445fa24628",
+    "inputs": {
+      "drsrnw1_target.png": "6500349f4b71f16c91ca46e6e60eb7309792a0d4f29b25bb8500d770415215f9",
+      "drsrnw1_coverage.png": "306bba5d6f9f5cffc04409084d8d4e080c35be7eee143be49e0a121cf99cf378"
+    }
+  },
+  {
+    "name": "drsrnw2",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-ad857ef1-3f45-4643-9b6d-500765c0d4dd.png",
+    "raw_sha256": "5abd70c964bdaae5da5261aef9f88c6298ab5c8ff27749dad811691d906c5a42",
+    "prompt_sha256": "bce4f6d940193590d028e3b4b5c3d7945316597b6bdba44cf49a37445fa24628",
+    "inputs": {
+      "drsrnw2_target.png": "87fa02523e2892f7b68099df285b458fe7a628118e8390d1e0aa3c95b9d39efe",
+      "drsrnw2_coverage.png": "245f15c9b8184cb0c842e2a8666a522eb202b3da880756993e6632d0c8edbbba"
+    }
+  }
+]

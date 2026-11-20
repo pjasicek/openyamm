@@ -1,0 +1,115 @@
+# Approved design specification; not live UI schema.
+design: carved-obsidian-journal-r01
+approved: '2026-09-28'
+logical_canvas:
+- 640
+- 480
+review_scale: 1.875
+map_viewport:
+- 131
+- 101
+- 300
+- 300
+text_viewport:
+- 101
+- 96
+- 360
+- 293
+text_to_submenu_gap:
+  logical: 28.066667
+  reference: test_img/2105.png
+  treatment: Narrow body to 360 logical; retain submenu positions, button sizes and font size
+palette:
+  body: '#e5dcc7'
+  title: '#e4c793'
+  page_count: '#b4ad95'
+  coordinates: '#d0c7b0'
+fonts:
+  title:
+    face: Book2
+    size: 30
+    min_title_size: 22.4
+  body:
+    face: AUTONOTE
+    native_height: 18
+    scale: 0.9
+    presentation: tintable
+  map_fields:
+    face: Create
+    native_height: 18
+  page_count:
+    face: SMALLNUM
+    native_height: 14
+  buttons:
+    face: Fondamento
+    descriptor_height: 32
+    scale: label logical height / 32
+  status_specimen:
+    face: Lucida
+    native_height: 17
+    review_logical_size: 16.2
+live_content: Keep current tables, unlock checks, localization, substitution and native pagination.
+body_alignment:
+  mode: justify
+  views:
+  - quests
+  - story
+  - notes
+  distribution: inter-word
+  paragraph_final_line: left
+  single_line_entries: left
+  automatic_hyphenation: false
+  page_continuation: Justify the page's last line when its paragraph continues
+  runtime: Shared native text layout needs justification; current align_x supports left/center/right
+  comparison: Browser-only Body alignment control; default justify
+map:
+  zoom_levels:
+  - 384
+  - 768
+  - 1536
+  button_zoom: Recentre on party
+  wheel_zoom: Retain native behavior
+  panning: true
+  notes: Existing visible discovered pins, hover/selection and coordinates
+  border:
+    asset: obsidian_journal_map_frame
+    rect:
+    - 118.2
+    - 88.2
+    - 325.6
+    - 325.6
+    transparent_interior: true
+    changes_hit_region: false
+backdrop:
+  asset: obsidian_journal_backdrop_tile
+  draw: Repeat behind the full viewport; centre pattern
+  logical_tile_size:
+  - 293.3333333333333
+  - 559.1160220994475
+  stretch: false
+  root_shadow: black, 70 review pixels of blur behind centred journal
+entry_divider:
+  asset: obsidian_journal_entry_divider
+  width_fraction: 0.8
+  height: 3.7333333333333334
+  separation: 18.666666666666668
+  top_offset: 7.466666666666667
+  views:
+  - quests
+  - notes
+page_count: Native page / total; hidden for map and empty content
+icon_drawing: Contain within measured child bounds; preserve master alpha and aspect ratio
+status_specimen:
+  asset: obsidian_journal_status_strip
+  scope: 2090 strip treatment only
+  integration: Apply within current creation status slot; no full creation layout replacement
+  review_rect:
+  - 200
+  - 391
+  - 1200
+  - 82
+  text_padding:
+  - 16.533333333333335
+  - 12.266666666666667
+geometry: masters/review_geometry.json
+runtime_installed: false

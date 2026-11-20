@@ -1,0 +1,24 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/oblivion_weapon_skins_20261114/ingame/autotier
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit auto
+  - console: viewmodel tier auto
+  - console: viewmodel equip 1 0
+  - wait: 2
+  - capture: item1
+  - console: viewmodel equip 3 0
+  - wait: 2
+  - capture: item3
+  - console: viewmodel equip 4 0
+  - wait: 2
+  - capture: item4
+  - console: viewmodel equip 500 0
+  - wait: 2
+  - capture: item500
+  - console: viewmodel equip 6 0
+  - wait: 2
+  - capture: item6
+  - console: viewmodel equip 9 0
+  - wait: 2
+  - capture: item9

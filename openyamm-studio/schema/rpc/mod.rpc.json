@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: mods",
+  "description": "Named mods and sharing (devdocs/map_studio/S6_PLAN.md item M): projects' builds packed into a mod folder (mod.yml, the files as the game's packages hold them, the rows of engine tables), a mods folder's mods listed, and a free map number for a new project from the mod's or the world's declared range. Installing into a game's mods folder and switching a mod off stay on the command line (oymap mod install|disable|enable): they write into a player's install.",
+  "x-group": "mod",
+  "methods": {
+    "pack": {
+      "summary": "Packs projects into a mod: `<out>/<id>/` with mod.yml (schema mod.schema.json), the maps' files under worlds/<world>/, and the rows they add to or change in engine tables (tables/<table>.append.txt, .override.txt), so that two mods adding map rows do not clash. With `build` (default true) each project is built first; else each must have a build. `maps` declares the mod's map numbers (mod.yml idRanges.maps); a new map numbered outside it is warned of.",
+      "since": 1,
+      "lane": "jobs",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "mount",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "bad_request",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "projects",
+          "id",
+          "out"
+        ],
+        "properties": {
+          "projects": {
+            "description": "The projects whose builds it holds.",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "items": {
+              "$ref": "common.rpc.json#/$defs/project_path"
+            }
+          },
+          "id": {
+            "description": "Lower case letters, digits and underscores: the mod's folder.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,48}$"
+          },
+          "out": {
+            "description": "A folder for mods. The host maps what a browser names onto its own mods folder (\"default\"); the core takes the folder as given. The mod is written into <out>/<id>/ (an older pack of the same id replaced).",
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "author": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "maps": {
+            "description": "[first, last]: the map numbers the mod declares as its own.",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "build": {
+            "description": "Build each project first. Default true.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "id",
+          "files",
+          "maps",
+          "tables",
+          "warnings"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "files": {
+            "description": "The mod's files, relative to its folder (mod.yml first).",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "maps": {
+            "description": "Its maps: new maps and overlays.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "file",
+                "world",
+                "kind",
+                "project"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "world": {
+                  "type": "string"
+                },
+                "kind": {
+                  "enum": [
+                    "new",
+                    "overlay"
+                  ]
+                },
+                "project": {
+                  "type": "string"
+                },
+                "map_number": {
+                  "type": "integer"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "tables": {
+            "description": "The engine tables whose rows it carries.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "warnings": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "list": {
+      "summary": "The mods of a mods folder: merged installs (the loose folder the game mounts in front of the named mods: studio_mods.yml), named installs and packed mods (<id>/mod.yml), each with its map numbers and declared range.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "mods"
+        ],
+        "properties": {
+          "mods": {
+            "description": "A folder for mods. The host maps what a browser names onto its own mods folder (\"default\"); the core takes the folder as given.",
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "merged",
+          "named"
+        ],
+        "properties": {
+          "merged": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/mod_entry"
+            }
+          },
+          "named": {
+            "description": "Named installs and packed mods (a folder with mod.yml).",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/mod_entry"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "map_number": {
+      "summary": "A free map number (map_stats id) for a new project: the first of the range that no map takes. The range is the mod's (`mod`, by its id in `mods`: mod.yml idRanges.maps), else the world's (world.yml idRanges.maps), else the studio's band 9400 to 9999. Taken: the asset root's map_stats rows, every mod in `mods` (and a merged install's composed table), and the map cards of `projects`. Declared ranges that overlap are warned of.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "world"
+        ],
+        "properties": {
+          "world": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "mods": {
+            "description": "A folder for mods. The host maps what a browser names onto its own mods folder (\"default\"); the core takes the folder as given.",
+            "type": "string",
+            "minLength": 1
+          },
+          "mod": {
+            "description": "The mod the new map belongs to (its id in `mods`).",
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,48}$"
+          },
+          "projects": {
+            "description": "Projects whose map numbers are taken too (the host passes all of its own).",
+            "type": "array",
+            "maxItems": 4096,
+            "items": {
+              "$ref": "common.rpc.json#/$defs/project_path"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "number",
+          "range",
+          "from",
+          "taken",
+          "warnings"
+        ],
+        "properties": {
+          "number": {
+            "type": "integer"
+          },
+          "range": {
+            "description": "[first, last] of the range it was taken from.",
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "from": {
+            "description": "mod:<id>, world:<world> or studio.",
+            "type": "string"
+          },
+          "taken": {
+            "description": "How many numbers of the range are taken.",
+            "type": "integer"
+          },
+          "warnings": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "mod_entry": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "version",
+        "enabled",
+        "map_numbers"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "enabled": {
+          "description": "Merged: whether its files are in the mods folder now. Named: whether enabled.yml lists it (the game mounts the listed ones at its next start; devdocs/NAMED_MODS.md).",
+          "type": "boolean"
+        },
+        "files": {
+          "description": "Merged installs: the files it put into the mods folder.",
+          "type": "integer"
+        },
+        "maps": {
+          "description": "Named installs and packed mods: the maps its manifest lists.",
+          "type": "integer"
+        },
+        "map_numbers": {
+          "description": "The map_stats numbers its new maps take.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "map_range": {
+          "description": "[first, last]: the map numbers it declares as its own (mod.yml idRanges.maps).",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

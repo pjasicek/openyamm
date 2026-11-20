@@ -1,0 +1,68 @@
+{
+  "version": "pilot",
+  "pilot": true,
+  "generated_count": 9,
+  "authoring_size": 512,
+  "runtime_size": 256,
+  "base_composites": "v4",
+  "coverage_masks": "connected_v4 unchanged",
+  "water": "excluded",
+  "boundary_band": "AI RGB edit: full through10px, fade to0 by24px; rock6..16px at65% strength",
+  "seams": "Axis/topology mean AI RGB delta;8px mirrored lock;24px smooth approach",
+  "tiles": [
+    {
+      "tile": "6drsrecap",
+      "raw_sha256": "942ff82999d702566b8dec60f737c8bb0778646d8223f00082388a5187f86dcd",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.180084228515625
+    },
+    {
+      "tile": "6drsrew",
+      "raw_sha256": "7e2d8398a10a3ec234f992b2b97879b65c1b11fcf5d62adac8b20485f798afee",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.17573165893554688
+    },
+    {
+      "tile": "6drsrn_e",
+      "raw_sha256": "308686f7e49e45177147757e8548ad7ebe7aa925b3d6208daeb2dcab69e35ec9",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.1566925048828125
+    },
+    {
+      "tile": "6grdrtn",
+      "raw_sha256": "58487c0ea2464bce43cd73afceb2dc7e41b220bb5fb6a499066b84ebbcfbfbc0",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.18799591064453125
+    },
+    {
+      "tile": "6grdrtne",
+      "raw_sha256": "6aa0aef2a97ec4d58af7bec6fd345939ea1e19961abcca9e5ffb25c4d10e72af",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.3439788818359375
+    },
+    {
+      "tile": "6grdrtxsw",
+      "raw_sha256": "ef73afe8b6e7ba2473f75cccad0e6dffec1f2473d9cc1941bcb4648f88a994f3",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.263153076171875
+    },
+    {
+      "tile": "voldrtn",
+      "raw_sha256": "4181de1e04725759d16e9917a6a502f318b36c53433e9d613e422ac5607ba89d",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.2221221923828125
+    },
+    {
+      "tile": "voldrtne",
+      "raw_sha256": "1823968c7547858ab32ad1871327ee35c46a4f5238b96beb0c1a79d34d3d84e9",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.2679557800292969
+    },
+    {
+      "tile": "voldrtxsw",
+      "raw_sha256": "5907a9334b7d0360c710595c552633c0b1184749babfcbf382225013f6b25181",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.17331314086914062
+    }
+  ]
+}

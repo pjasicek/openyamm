@@ -13,7 +13,7 @@ FetchContent_Declare(openyamm_zstd
     URL_HASH SHA256=37d7284556b20954e56e1ca85b80226768902e2edabd3b649e9e72c0c9012ee3
     SOURCE_SUBDIR build/cmake)
 FetchContent_MakeAvailable(openyamm_zstd)
-# Link the library into the game; do not install dependency headers/static archives in Flatpak releases.
+# Link the library into the game; do not build or install zstd's own programs and archives.
 set_property(DIRECTORY "${openyamm_zstd_SOURCE_DIR}/build/cmake" PROPERTY EXCLUDE_FROM_ALL TRUE)
 
 if (NOT CMAKE_CROSSCOMPILING)

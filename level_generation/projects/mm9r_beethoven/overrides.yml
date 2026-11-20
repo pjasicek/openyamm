@@ -1,0 +1,127 @@
+# Explicit conversion choices for MM9's Beethoven, the Sturmford sewers (convert.py and the shared converter read this;
+# a rerun keeps them). Keys: ../mm9r_common/DUNGEON_PLAYBOOK.md (overrides.yml).
+map:
+  stem: beethoven
+  display_name: Beethoven
+  starts: [SewerS, SewerW, SewerE, Sewergrate]
+  monster_classes: [BoneThrasher, Lobber, Rotter, Skeleton, AirBorneIcky, LobberPodA, LobberPodB]
+  offset: [0, 0, 0]
+  ambient: 31                # sector minimum light 31 (none), since the re-light of 2026-10-30: the frame ambient the
+                             # engine subtracts from a decoration's baked room light is then 0, not 0.345 (Inventa
+                             # Storca's black tables); the bake's floor is the profile's ambient_scale x 0.18
+  split_minor_rooms: true
+plan_levels:
+  sewers: [-100, 700]
+  catacombs: [-900, -300]
+  lower: [-1600, -1000]
+models:
+  # --- the catacombs' double doors (RotatingDoor pairs with a UserPortal): MM9's own swing, 90 degrees away from the
+  # opener, closing after 3 s
+  LeftDoor2: {group: Door2, motion: rotate, doorway: true, portal: Portal2}
+  RightDoor2: {group: Door2, motion: rotate, doorway: true, portal: Portal2}
+  LeftDoor3: {group: Door3, motion: rotate, doorway: true, portal: Portal3}
+  RightDoor3: {group: Door3, motion: rotate, doorway: true, portal: Portal3}
+  LeftDoor5: {group: Door5, motion: rotate, doorway: true, portal: Portal5}
+  RightDoor5: {group: Door5, motion: rotate, doorway: true, portal: Portal5}
+  LeftDoor10: {group: Door10, motion: rotate, doorway: true, portal: Portal10}
+  RightDoor10: {group: Door10, motion: rotate, doorway: true, portal: Portal10}
+  LeftDoor9: {group: Door9, motion: rotate, doorway: true, portal: Portal9}
+  RightDoor9: {group: Door9, motion: rotate, doorway: true, portal: Portal9}
+  LeftDoor12: {group: Door12, motion: rotate, doorway: true, portal: Portal12}
+  RightDoor12: {group: Door12, motion: rotate, doorway: true, portal: Portal12}
+  LeftDoor15: {group: Door15, motion: rotate, doorway: true, portal: Portal15}
+  RightDoor15: {group: Door15, motion: rotate, doorway: true, portal: Portal15}
+  LeftDoor18: {group: Door18, motion: rotate, doorway: true, portal: Portal18}
+  RightDoor18: {group: Door18, motion: rotate, doorway: true, portal: Portal18}
+  LeftDoor16: {group: Door16, motion: rotate, doorway: true, portal: Portal16}
+  RightDoor16: {group: Door16, motion: rotate, doorway: true, portal: Portal16}
+  LeftDoor14: {group: Door14, motion: rotate, doorway: true, portal: Portal14}
+  RightDoor14: {group: Door14, motion: rotate, doorway: true, portal: Portal14}
+  LeftDoor19: {group: Door19, motion: rotate, doorway: true, portal: Portal19}
+  RightDoor19: {group: Door19, motion: rotate, doorway: true, portal: Portal19}
+  LeftDoor21: {group: Door21, motion: rotate, doorway: true, portal: Portal21}
+  RightDoor21: {group: Door21, motion: rotate, doorway: true, portal: Portal21}
+  LeftDoor22: {group: Door22, motion: rotate, doorway: true, portal: Portal22}
+  RightDoor22: {group: Door22, motion: rotate, doorway: true, portal: Portal22}
+  RotatingDoor18: {group: SewerDoorE, motion: rotate, doorway: true, portal: Sewerportal2}   # the door before ExitE
+  # --- the maze's three stone doors (RotatingDoor, stoneoevil like the hedge walls), which swing like the rest
+  HedgeDoor1: {group: HedgeDoor1, motion: rotate}
+  HedgeDoor2: {group: HedgeDoor2, motion: rotate}
+  HedgeDoor3: {group: HedgeDoor3, motion: rotate}
+  # --- the great door to the maze (Door pair SDoor11/12: the halves part by 130 up and down) and its two levers
+  SDoor11: {group: GreatDoor, motion: dat, doorway: true, portal: SDPortal1, click: false}
+  SDoor12: {group: GreatDoor, motion: dat, doorway: true, portal: SDPortal1, click: false}
+  Lever5: {group: GreatDoorLevers, motion: dat}
+  Lever6: {group: GreatDoorLevers, motion: dat}
+model_patterns:
+  WorldObject: static
+  InvisibleBrush: static
+  Grates: static
+  WaterTop: static
+  PortalZone: skip
+  frigidarium water: skip
+  GrandEntrance Water: skip
+  Caldarium water: skip
+  BlueWater: skip
+# Skeleton4 stands in the solid rock over the maze (MM9 drops it to the floor with MoveToFloor).
+seed_exclude: [Skeleton4]
+# MM9's Ladder volumes. facing_lt: (x, z) toward the ladder; surface_lt: where a climber stops along it (the rung face);
+# top_exit_lt: where the party stands after climbing off. Ladder0 and Ladder1 stand in holes in the floor: convert.py
+# gives them a longer reach, so a party on the lip takes them.
+ladders:
+  Ladder2: {facing_lt: [-1, 0], surface_lt: -3866, top_exit_lt: [-3830, 212, 212]}
+  Ladder4: {facing_lt: [-1, 0], surface_lt: -3866, top_exit_lt: [-3830, 212, 40]}
+  Ladder7: {facing_lt: [-1, 0], surface_lt: -6454, top_exit_lt: [-6420, 212, 5120]}
+  Ladder8: {facing_lt: [-1, 0], surface_lt: -6454, top_exit_lt: [-6420, 212, 4950]}
+  Ladder0: {facing_lt: [0, -1], surface_lt: -990, top_exit_lt: [-672, 40, -860]}
+  Ladder1: {facing_lt: [0, -1], surface_lt: -1108, top_exit_lt: [-5632, -736, -985]}
+# Archway portals: a voxel slice perpendicular to `axis` through `point` (LT) seals the opening it stands in.
+portals:
+  - {name: west_arm_5300, axis: x, point: [-5300, 200, 5120], span: 300}
+  - {name: west_arm_4200, axis: x, point: [-4200, 200, 5120], span: 300}
+  - {name: northwest_bend, axis: z, point: [-2860, 200, 4300], span: 300}
+  - {name: north_arm_2200, axis: x, point: [-2200, 200, 3650], span: 400}
+  - {name: ring_west_3000, axis: z, point: [-1550, 200, 3000], span: 300}
+  - {name: ring_west_2000, axis: z, point: [-1550, 200, 2300], span: 300}
+  - {name: ring_south_west, axis: x, point: [-2100, 200, 1900], span: 300}
+  - {name: south_arm_1000, axis: z, point: [-2830, 200, 1000], span: 400}
+  - {name: south_arm_3300, axis: x, point: [-3300, 200, 256], span: 300}
+  - {name: ring_east_3600, axis: z, point: [100, 200, 3300], span: 400}
+  - {name: ring_east_2400, axis: z, point: [100, 200, 2400], span: 300}
+  - {name: east_arm_900, axis: x, point: [900, 200, 4600], span: 300}
+  - {name: east_arm_6200, axis: z, point: [1530, 200, 6200], span: 300}
+  - {name: hub_north, axis: z, point: [-672, 200, 300], span: 300}
+  # the lower sewers (floor -1216)
+  - {name: lower_a, axis: z, point: [-4224, -1100, 300], span: 400}
+  - {name: lower_b, axis: x, point: [-4700, -1100, -1060], span: 400}
+  - {name: lower_c, axis: x, point: [-3700, -1100, -128], span: 400}
+  - {name: lower_d, axis: z, point: [-3330, -1100, -1100], span: 400}
+  - {name: lower_e, axis: z, point: [-5250, -1100, -1800], span: 400}
+  - {name: lower_f, axis: x, point: [-5450, -1100, -128], span: 400}
+  - {name: lower_g, axis: z, point: [-5640, -1100, -600], span: 400}
+  - {name: lower_h, axis: x, point: [-5700, -1100, -2650], span: 400}
+  - {name: lower_i, axis: x, point: [-2800, -1100, -2200], span: 400}
+  - {name: lower_j, axis: z, point: [-2200, -1100, -1400], span: 400}
+  - {name: lower_k, axis: x, point: [-1720, -1180, -896], span: 400}
+# The exits: MM9's volumes at the head of the ladders, reached down so a party climbing Ladder2 / Ladder7 meets them.
+exits:
+  ExitS: {bottom_lt: 340}
+  ExitW: {bottom_lt: 340}
+# Horizontal portals: the shaft under the hub (MM9's BHportal, which the UserPortal reader skips as diagonal) and the
+# hole of Ladder1. Ladders pass them: the compiler flags the room above a floor portal (sector flag 0x8).
+rect_portals:
+  - {name: BHportal, min_lt: [-736, -256, -1003], max_lt: [-608, -256, -876]}
+  - {name: Ladder1Hole, min_lt: [-5680, -740, -1120], max_lt: [-5568, -740, -992]}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [SkeletonMaster0, SkeletonMaster1, SkeletonMaster2]
+  themed_near: [CoffinRaised3, CoffinRaised5, CoffinRaised7, CoffinRaised9, CoffinRaised15, BonePile0, BonePile1, BonePile2]
+
+# Ludwig's manuscript (dungeon/pickups.py scene_entry `placement`): MM9 sank it 24 units under the lower sewers' slime
+# (surface -1191 LT, about -3049; the item at walkway height, -3073), where the 0.8-opacity slime hid it almost
+# completely (the user, 2026-11-09). It floats on the surface instead, flat (pose), its underside 2 units above it.
+pickups:
+  Manuscript: {pose: [0, 0, 0], offset: [0, 0, 26]}

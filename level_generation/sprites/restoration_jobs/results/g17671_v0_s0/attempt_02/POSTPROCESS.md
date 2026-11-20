@@ -1,0 +1,1 @@
+Preserved delivered-alpha master. Process --adjust 0.99 0 0, run restore_native_tone.py then queue check. Native RGB tone matching preserves alpha. Zero solid clipping; final light/dark proofs reviewed.

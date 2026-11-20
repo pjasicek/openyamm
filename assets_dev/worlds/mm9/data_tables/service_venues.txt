@@ -1,0 +1,31 @@
+service_id	package_id	source_service_id	canonical_id	name	location	service_type	price_multiplier	temple_healing_tier	training_max_level	can_heal	can_donate	can_learn_skills	scene_policy	opening_policy	source_line	learn_skills	skill_price_multiplier	map
+30013	mm9	13	mm9:service/13	Bank of Thjorgaard	Thjorgard	Bank	0	0	0	0	0	0	LiveGameplay	RudeQuestKey	5			thjorgardcity.blv
+30014	mm9	14	mm9:service/14	The Drunken Berserker	Thjorgard	Tavern	30	0	0	0	0	1	LiveGameplay	RudeQuestKey	6	Merchant|RepairItem|Perception|DisarmTraps|Stealing	3	thjorgardcity.blv
+30016	mm9	16	mm9:service/16	The Tree of Life	Thjorgard	Temple	30	0	0	1	1	1	LiveGameplay	RudeQuestKey	8	Regeneration|Meditation|Unarmed|Dodging	3	thjorgardcity.blv
+30021	mm9	21	mm9:service/21	Hal'an's Arm	Thjorgard	Training	30	0	0	0	0	1	LiveGameplay	RudeQuestKey	13	Armsmaster|Bodybuilding|Unarmed|Dodging	3	thjorgardcity.blv
+30056	mm9	56	mm9:service/56	Sturmgaard Central Bank	Sturmford	Bank	0	0	0	0	0	0	LiveGameplay	RudeQuestKey	17			sturmfordcity.blv
+30057	mm9	57	mm9:service/57	Wartooth's Lounge	Sturmford	Tavern	12	0	0	0	0	1	LiveGameplay	RudeQuestKey	18	Merchant|RepairItem|Perception|DisarmTraps|Stealing	1.2	sturmfordcity.blv
+30058	mm9	58	mm9:service/58	Fre's Gift	Sturmford	Temple	12	0	0	1	1	1	LiveGameplay	RudeQuestKey	19	Regeneration|Meditation|Unarmed|Dodging	1.2	sturmfordcity.blv
+30062	mm9	62	mm9:service/62	The Fenced Fighter	Sturmford	Training	10	0	0	0	0	1	LiveGameplay	RudeQuestKey	23	Armsmaster|Bodybuilding|Unarmed|Dodging	1	sturmfordcity.blv
+30100	mm9	100	mm9:service/100	Bank of Drangheim	Drangheim	Bank	0	0	0	0	0	0	LiveGameplay	RudeQuestKey	27			drangheimcity.blv
+30101	mm9	101	mm9:service/101	The Dancing Bard	Drangheim	Tavern	12	0	0	0	0	1	LiveGameplay	RudeQuestKey	28	Merchant|RepairItem|Perception|DisarmTraps|Stealing	1.2	drangheimcity.blv
+30102	mm9	102	mm9:service/102	Fre's Touch	Drangheim	Temple	12	0	0	1	1	1	LiveGameplay	RudeQuestKey	29	Regeneration|Meditation|Unarmed|Dodging	1.2	drangheimcity.blv
+30105	mm9	105	mm9:service/105	The Training Hall	Drangheim	Training	12	0	0	0	0	1	LiveGameplay	RudeQuestKey	32	Armsmaster|Bodybuilding|Unarmed|Dodging	1.2	drangheimcity.blv
+30140	mm9	140	mm9:service/140	Bank of Guberland	Guberland	Bank	0	0	0	0	0	0	LiveGameplay	RudeQuestKey	39			guberlandcity.blv
+30141	mm9	141	mm9:service/141	Akl'ai's Spirits	Guberland	Tavern	20	0	0	0	0	1	LiveGameplay	RudeQuestKey	40	Merchant|RepairItem|Perception|DisarmTraps|Stealing	2	guberlandcity.blv
+30143	mm9	143	mm9:service/143	Fre's Spirit	Guberland	Temple	20	0	0	1	1	1	LiveGameplay	RudeQuestKey	42	Regeneration|Meditation|Unarmed|Dodging	2	guberlandcity.blv
+30147	mm9	147	mm9:service/147	The Trained Sword	Guberland	Training	20	0	0	0	0	1	LiveGameplay	RudeQuestKey	46	Armsmaster|Bodybuilding|Unarmed|Dodging	2	guberlandcity.blv
+30184	mm9	184	mm9:service/184	Great White North	Frosgard	Tavern	35	0	0	0	0	1	LiveGameplay	RudeQuestKey	54	Merchant|RepairItem|Perception|DisarmTraps|Stealing	3.5	frosgardcity.blv
+30206	mm9	206	mm9:service/206	Bank of Frosgaard	Frosgard	Bank	0	0	0	0	0	0	LiveGameplay	RudeQuestKey	53			frosgardcity.blv
+30208	mm9	208	mm9:service/208	Fre's Touch	Frosgard	Temple	35	0	0	1	1	1	LiveGameplay	RudeQuestKey	56	Regeneration|Meditation|Unarmed|Dodging	3.5	frosgardcity.blv
+30212	mm9	212	mm9:service/212	The Sword of Skill	Frosgard	Training	35	0	0	0	0	1	LiveGameplay	RudeQuestKey	60	Armsmaster|Bodybuilding|Unarmed|Dodging	3.5	frosgardcity.blv
+30241	mm9	241	mm9:service/241	Ealusaid A'Norta a'thrakan	Thronheim	Temple	25	0	0	1	0	1	LiveGameplay	RudeQuestKey	14	Regeneration|Meditation|Unarmed|Dodging	2.5	thronheimcity.blv
+30243	mm9	243	mm9:service/243	Bank of Thronheim	Thronheim	Bank	0	0	0	0	0	0	LiveGameplay	RudeQuestKey	67			thronheimcity.blv
+30252	mm9	252	mm9:service/252	Fafnir's Training	Thronheim	Training	10	0	0	0	0	1	LiveGameplay	RudeQuestKey	66	Armsmaster|Bodybuilding|Unarmed|Dodging	1	thronheimcity.blv
+30254	mm9	254	mm9:service/254	Trellborg's Fight	Thronheim	Tavern	25	0	0	0	0	1	LiveGameplay	RudeQuestKey	68	Merchant|RepairItem|Perception|DisarmTraps|Stealing	2.5	thronheimcity.blv
+30256	mm9	256	mm9:service/256	Fre's Hand	Thronheim	Temple	25	0	0	1	1	1	LiveGameplay	RudeQuestKey	70	Regeneration|Meditation|Unarmed|Dodging	2.5	thronheimcity.blv
+30260	mm9	260	mm9:service/260	The Hall	Thronheim	Training	25	0	0	0	0	1	LiveGameplay	RudeQuestKey	74	Armsmaster|Bodybuilding|Unarmed|Dodging	2.5	thronheimcity.blv
+30339	mm9	339	mm9:service/339	The Stumbling Hero	Arslegard	Tavern	40	0	0	0	0	1	LiveGameplay	RudeQuestKey	87	Merchant|RepairItem|Perception|DisarmTraps|Stealing	4	arslegardcity.blv
+30346	mm9	346	mm9:service/346	Bank of Arslegaard	Arslegard	Bank	0	0	0	0	0	0	LiveGameplay	RudeQuestKey	86			arslegardcity.blv
+30348	mm9	348	mm9:service/348	Temple of Fre	Arslegard	Temple	40	0	0	1	1	1	LiveGameplay	RudeQuestKey	88	Regeneration|Meditation|Unarmed|Dodging	4	arslegardcity.blv
+30351	mm9	351	mm9:service/351	The Pummeled Fist	Arslegard	Training	40	0	0	0	0	1	LiveGameplay	RudeQuestKey	91	Armsmaster|Bodybuilding|Unarmed|Dodging	4	arslegardcity.blv

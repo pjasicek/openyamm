@@ -1,0 +1,47 @@
+id: mm9.ai.spell_conditions
+title: An MM9 Lich's Fear leaves Afraid; an Oculus casts Curse and Paralyze, and its Paralyze leaves Paralyzed for its MM9 duration
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, spells]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The Lich casts Fear at the party. The Oculus casts on half its shots
+        (100 - Att% 50) and fires its BlueLine on the rest; of its casts a quarter are Paralyze (SpellUse%1 25) and the
+        rest Curse, as Dark Grasp (MM9_SPELL_MAPPING.md section 6.6: table chances 13 and 43, which the balance
+        scales by 0.4 to 5 and 17: BALANCE_PLAN.md section 3.2). It shoots only out of reach, at its shot checks; in reach it always strikes (MM9_AI_NATIVE_RE.md section 7.2.3). Fear and Paralyze are
+        projectiles without damage; each cast leaves its spell_conditions condition on the member it strikes unless
+        the member saves (as against a special attack). The arena party is invulnerable: its health stays full, its
+        conditions do not.
+  # A party to strike: the other MM9 arenas run with none, so no blow or spell of theirs ever lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: spell_conditions.arena.yml}
+  # The Oculus's first Paralyze (cast at 127.2 s) lands at about 128 s; MM9's duration (1 minute per point of e1:
+  # E10, 10 game minutes, 20 s) wears it off at about 148 s (spell_conditions spell1_minutes). Its Curse of 150.7 s
+  # holds from about 151 s for 10 s.
+  - advance_runtime: {seconds: 130}
+  - assert:
+      condition: {name: paralyzed, present: true}
+  - advance_runtime: {seconds: 24}
+  - assert:
+      condition: {name: paralyzed, present: false}
+  - assert:
+      condition: {name: cursed, present: true}
+  - advance_runtime: {seconds: 30}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, min_count: 3}
+  # Both its spells, Curse more often than Paralyze (MM9: 3 to 1), and its BlueLine; between its shots it strikes.
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_spell, detail: spell1, min_count: 1, max_count: 6}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_spell, detail: spell2, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, min_count: 5}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_ranged, detail: attack1, min_count: 3}
+  - assert:
+      condition: {name: fear, present: true}
+  - assert:
+      party_health: {full: true}

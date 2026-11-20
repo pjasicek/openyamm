@@ -1,0 +1,27 @@
+format: 0
+id: mm6hive
+name: The Hive
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9714
+  reference: hive.blv
+neighbours:
+  - id: exit:new_sorpigal
+    to: oute3.odm
+    kind: door
+    arrival: [0, 0, 0]
+    direction: 0
+    notes: "The arrival is the original event 60: 0, 0, 0 on New Sorpigal."
+  - id: exit:sweet_water
+    to: outa1.odm
+    kind: door
+    arrival: [-14355, 15010, 3841]
+    direction: 247.5
+qbits:
+  exit_unlocked: 1226
+  reactor_destroyed: 1204
+items:
+  reactor_way_key: 2190
+notes: "Rebuild of the Hive (MM6, hive.blv) in its own frame, for the Map Studio calibration (devdocs/map_studio/REBUILD_PROCEDURE.md). The project files are the source and are edited by hand (round one wrote them with a generator, kept in gen/ and not to be run again); NOTES.md says where the rebuild stands."

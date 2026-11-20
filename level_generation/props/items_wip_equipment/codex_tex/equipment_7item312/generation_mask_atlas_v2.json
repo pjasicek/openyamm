@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Seven League Boots (7item312). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of tall mottled tan boots, wide warm brown turned-over leather cuffs, ankle straps and brass buckles, rounded toes. Exact material boundaries: The entire mottled tan boot, brown turned-over cuff, ankle strap, toe, heel, sole and interior lining is LEATHER = GREEN. Only the brass buckle frames are METAL = RED. These boots have no metal shin guards or toe caps. Every buckle centre opening shows LEATHER GREEN through the RED metal frame; never fill a buckle opening with solid red. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Use RED for every exposed metal fitting identified by the icon and GREEN for the surrounding leather; for gloves this includes all cuff metal bands, round studs and side spikes; all five fingers and leather weave are GREEN. For boots the shin/toe plates and metal instep bands are RED; lining, flexible joints and sole are GREEN. Keep all parts solid exactly as in the guide. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item312/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "5eaeb017822d83bc5387a96c6853b6e63818f818f30024b879ae798b051f631a",
+  "revision": 2,
+  "input_icon": "7item312",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-dcc47c7f-1cc2-4009-9024-1f34f497a839.png",
+  "output": "mask_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "dd9dcd914ffba0c273120faa83ffaff288aaa5ed399cf32330b8189bb3c90fa0",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item312.png",
+  "input_icon_sha256": "09a510a3a3844f0a3f027de53cf2f2db766152f10fcd8b5bc301c149f722e3a8",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

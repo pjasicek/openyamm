@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Steel Gauntlets (7item111). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single polished steel long gauntlet, straight fingers and bent thumb, dark wrist insert and gold star-shaped cuff ornament and trim. Exact material boundaries: Silver plates, gold star, gold cuff edges and rivets are METAL RED. Palm, finger flex joints and inner cuff lining are LEATHER GREEN. CORRECTION: previous material map cut into solid grey surfaces. Every solid guide surface, palm, lining, fingers and hardware must remain opaque. No new holes, ragged edges or missing thin regions. Black gemstone pixels stay fully opaque RGBA(0,0,0,255); only the actual background is transparent. Preserve original grey guide framing exactly. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item111/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "3b2fc96627f288eee96e8994a277e8bc3a3d554c7d53fbc7320de5f4950182b2",
+  "revision": 2,
+  "input_icon": "7item111",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-6b2ac5aa-7c94-425e-970d-6385ff363443.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "a08997b12e800537a573aba817602ce42ec99fa63f6ec0d2ac377f83bab1190a",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item111.png",
+  "input_icon_sha256": "71ba65a037f9876da842c70293864cfb0a2c24ae1b120982ecd268e5ba5427e1",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

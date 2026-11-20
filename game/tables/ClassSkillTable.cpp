@@ -290,6 +290,7 @@ bool ClassSkillTable::loadClassSpellPointMetadataFromRows(const std::vector<std:
 bool ClassSkillTable::applyRaceSkillOverrides(const MergedRaceSkillTable &raceSkillTable)
 {
     m_raceSkillRules.clear();
+    m_raceShiftWithoutClassCap = raceSkillTable.shiftWithoutClassCap();
 
     for (const MergedRaceSkillOverride &entry : raceSkillTable.overrides())
     {
@@ -302,6 +303,9 @@ bool ClassSkillTable::applyRaceSkillOverrides(const MergedRaceSkillTable &raceSk
         rule.raceId = *entry.raceId;
         rule.skillName = canonicalSkillName(entry.skillName);
         rule.minMastery = clampSkillMastery(static_cast<int32_t>(entry.minMastery));
+        rule.maxMastery = entry.maxMastery
+            ? std::optional<SkillMastery>(clampSkillMastery(static_cast<int32_t>(*entry.maxMastery)))
+            : std::nullopt;
         rule.add = entry.add;
         rule.exceptionCode = entry.exceptionCode;
 
@@ -344,6 +348,13 @@ SkillMastery ClassSkillTable::getClassCap(const std::string &className, const st
 {
     const std::string canonicalClass = canonicalClassName(className);
     const std::string canonicalSkill = canonicalSkillName(skillName);
+
+    // Technology skills are learned technology, not class talents: every class can reach Grandmaster.
+    if (isTechnologySkill(canonicalSkill))
+    {
+        return SkillMastery::Grandmaster;
+    }
+
     const std::unordered_map<std::string, std::unordered_map<std::string, SkillMastery>>::const_iterator classIt =
         m_caps.find(canonicalClass);
 
@@ -377,6 +388,7 @@ SkillMastery ClassSkillTable::getEffectiveCap(
     }
 
     SkillMastery minMastery = SkillMastery::None;
+    std::optional<SkillMastery> maxMastery;
     int32_t add = 0;
 
     for (const RaceSkillRule &rule : m_raceSkillRules)
@@ -393,10 +405,28 @@ SkillMastery ClassSkillTable::getEffectiveCap(
             minMastery = rule.minMastery;
         }
 
+        if (rule.maxMastery && (!maxMastery || *rule.maxMastery < *maxMastery))
+        {
+            maxMastery = rule.maxMastery;
+        }
+
         if (rule.add > add)
         {
             add = rule.add;
         }
+    }
+
+    if (m_raceShiftWithoutClassCap)
+    {
+        // MAW: shift, then the race's maximum, then its minimum (SK:216-247).
+        int32_t shifted = static_cast<int32_t>(baseCap) + add;
+
+        if (maxMastery)
+        {
+            shifted = std::min(shifted, static_cast<int32_t>(*maxMastery));
+        }
+
+        return clampSkillMastery(std::max(shifted, static_cast<int32_t>(minMastery)));
     }
 
     int32_t result = std::max(static_cast<int32_t>(baseCap), static_cast<int32_t>(minMastery));
@@ -821,5 +851,39 @@ bool ClassSkillTable::classIdIsAtLeast(uint32_t currentClassId, uint32_t minimum
 bool ClassSkillTable::hasClass(const std::string &className) const
 {
     return classIdForName(className).has_value();
+}
+
+const ClassMetadataEntry *ClassSkillTable::classMetadata(const std::string &className) const
+{
+    return metadataForClass(canonicalClassName(className));
+}
+
+std::vector<std::string> ClassSkillTable::classNamesOfKind(uint32_t classKind, uint32_t promotionStep) const
+{
+    std::vector<const ClassMetadataEntry *> entries;
+
+    for (const auto &[name, entry] : m_classMetadata)
+    {
+        if (entry.classKind == classKind && entry.promotionStep == promotionStep)
+        {
+            entries.push_back(&entry);
+        }
+    }
+
+    std::sort(
+        entries.begin(),
+        entries.end(),
+        [](const ClassMetadataEntry *pLeft, const ClassMetadataEntry *pRight)
+        {
+            return pLeft->classId < pRight->classId;
+        });
+    std::vector<std::string> names;
+
+    for (const ClassMetadataEntry *pEntry : entries)
+    {
+        names.push_back(pEntry->className);
+    }
+
+    return names;
 }
 }

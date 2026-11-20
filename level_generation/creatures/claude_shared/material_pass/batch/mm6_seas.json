@@ -1,0 +1,111 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_seas.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_seas.glb",
+ "assignments": [
+  {
+   "match": "=Seas_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_seas_claude/textures/seas_material_classes.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "seas_metal_rough_1k",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "Seas_A",
+    "Seas_B",
+    "Seas_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 341530,
+     "uv_covered_without_class": 0.0723,
+     "uv_covered_without_class_far": 0.0034,
+     "class_texels_outside_uv": 0.0063,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_seas_claude/textures/seas_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.9216,
+      "claw": 0.0486,
+      "mouth": 0.0298
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.9216,
+    "claw": 0.0486,
+    "mouth": 0.0298
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "claw": 0.0,
+    "mouth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.235,
+    "claw": 0.908,
+    "mouth": 0.372
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.824,
+    "claw": 0.492,
+    "mouth": 0.499
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Seas_A": null,
+    "Seas_B": null,
+    "Seas_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 50.0
+    },
+    "G": {
+     "min": 89,
+     "max": 230,
+     "mean": 194.6
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

@@ -1,0 +1,555 @@
+{
+  "owner": "monks_s",
+  "plantPositions": [
+    [
+      -2470,
+      -710
+    ],
+    [
+      -2390,
+      -650
+    ],
+    [
+      -2470,
+      -570
+    ],
+    [
+      -2380,
+      -475
+    ],
+    [
+      -2480,
+      -450
+    ],
+    [
+      -1950,
+      -570
+    ],
+    [
+      -1830,
+      -565
+    ],
+    [
+      -1680,
+      -580
+    ],
+    [
+      -1910,
+      -450
+    ],
+    [
+      -1780,
+      -450
+    ],
+    [
+      -1660,
+      -450
+    ],
+    [
+      -1750,
+      -570
+    ]
+  ],
+  "clearApproach": [
+    -2300,
+    -1120,
+    -2050,
+    154
+  ],
+  "props": [
+    {
+      "id": "chapter_court_bench",
+      "semanticId": "mm5:castleview/chapter_court_bench",
+      "owner": "monks_s",
+      "title": "Chapterhouse garden bench",
+      "frontOrigin": [
+        -2480,
+        -200
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 736,
+      "palette": "working_props",
+      "behavior": "inert architectural scenery",
+      "materialKeys": {
+        "stone": "t05a01c",
+        "wood": "t05a10",
+        "crate": "crate_w64",
+        "water": "wtrtyl",
+        "metal": "gn_mtl03",
+        "ore": "t68a03a"
+      },
+      "radius": 150,
+      "purpose": "Shared outdoor quiet court; preserve direct southern door approach",
+      "solidFootprints": [
+        [
+          [
+            -2624,
+            -232
+          ],
+          [
+            -2336,
+            -232
+          ],
+          [
+            -2336,
+            -158
+          ],
+          [
+            -2624,
+            -158
+          ]
+        ]
+      ],
+      "groundSupports": [
+        {
+          "footprint": [
+            [
+              -2588,
+              -226
+            ],
+            [
+              -2564,
+              -226
+            ],
+            [
+              -2564,
+              -170
+            ],
+            [
+              -2588,
+              -170
+            ]
+          ],
+          "groundRange": [
+            720.125,
+            725.125
+          ],
+          "bottom": 704.125,
+          "top": 800
+        },
+        {
+          "footprint": [
+            [
+              -2396,
+              -226
+            ],
+            [
+              -2372,
+              -226
+            ],
+            [
+              -2372,
+              -170
+            ],
+            [
+              -2396,
+              -170
+            ]
+          ],
+          "groundRange": [
+            721.875,
+            725.375
+          ],
+          "bottom": 705.875,
+          "top": 800
+        }
+      ]
+    },
+    {
+      "id": "chapter_court_edging",
+      "semanticId": "mm5:castleview/chapter_court_edging",
+      "owner": "monks_s",
+      "title": "Chapterhouse garden edging",
+      "frontOrigin": [
+        -2058,
+        -624
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "padHeight": 704,
+      "palette": "working_props",
+      "behavior": "inert architectural scenery",
+      "materialKeys": {
+        "stone": "t05a01c",
+        "wood": "t05a10",
+        "crate": "crate_w64",
+        "water": "wtrtyl",
+        "metal": "gn_mtl03",
+        "ore": "t68a03a"
+      },
+      "radius": 520,
+      "purpose": "Shared outdoor quiet court; preserve direct southern door approach",
+      "solidFootprints": [
+        [
+          [
+            -2540,
+            -786
+          ],
+          [
+            -2424,
+            -786
+          ],
+          [
+            -2424,
+            -762
+          ],
+          [
+            -2540,
+            -762
+          ]
+        ],
+        [
+          [
+            -2418,
+            -786
+          ],
+          [
+            -2336,
+            -786
+          ],
+          [
+            -2336,
+            -762
+          ],
+          [
+            -2418,
+            -762
+          ]
+        ],
+        [
+          [
+            -2550,
+            -750
+          ],
+          [
+            -2526,
+            -750
+          ],
+          [
+            -2526,
+            -634
+          ],
+          [
+            -2550,
+            -634
+          ]
+        ],
+        [
+          [
+            -2550,
+            -628
+          ],
+          [
+            -2526,
+            -628
+          ],
+          [
+            -2526,
+            -512
+          ],
+          [
+            -2550,
+            -512
+          ]
+        ],
+        [
+          [
+            -2000,
+            -664
+          ],
+          [
+            -1852,
+            -664
+          ],
+          [
+            -1852,
+            -640
+          ],
+          [
+            -2000,
+            -640
+          ]
+        ],
+        [
+          [
+            -1846,
+            -664
+          ],
+          [
+            -1710,
+            -664
+          ],
+          [
+            -1710,
+            -640
+          ],
+          [
+            -1846,
+            -640
+          ]
+        ],
+        [
+          [
+            -1704,
+            -664
+          ],
+          [
+            -1596,
+            -664
+          ],
+          [
+            -1596,
+            -640
+          ],
+          [
+            -1704,
+            -640
+          ]
+        ],
+        [
+          [
+            -1590,
+            -630
+          ],
+          [
+            -1566,
+            -630
+          ],
+          [
+            -1566,
+            -522
+          ],
+          [
+            -1590,
+            -522
+          ]
+        ]
+      ],
+      "groundSupports": [
+        {
+          "footprint": [
+            [
+              -2540,
+              -786
+            ],
+            [
+              -2424,
+              -786
+            ],
+            [
+              -2424,
+              -762
+            ],
+            [
+              -2540,
+              -762
+            ]
+          ],
+          "groundRange": [
+            686.875,
+            688.375
+          ],
+          "bottom": 670.875,
+          "top": 712.375
+        },
+        {
+          "footprint": [
+            [
+              -2418,
+              -786
+            ],
+            [
+              -2336,
+              -786
+            ],
+            [
+              -2336,
+              -762
+            ],
+            [
+              -2418,
+              -762
+            ]
+          ],
+          "groundRange": [
+            686.875,
+            688.375
+          ],
+          "bottom": 670.875,
+          "top": 712.375
+        },
+        {
+          "footprint": [
+            [
+              -2550,
+              -750
+            ],
+            [
+              -2526,
+              -750
+            ],
+            [
+              -2526,
+              -634
+            ],
+            [
+              -2550,
+              -634
+            ]
+          ],
+          "groundRange": [
+            689.125,
+            696.375
+          ],
+          "bottom": 673.125,
+          "top": 720.375
+        },
+        {
+          "footprint": [
+            [
+              -2550,
+              -628
+            ],
+            [
+              -2526,
+              -628
+            ],
+            [
+              -2526,
+              -512
+            ],
+            [
+              -2550,
+              -512
+            ]
+          ],
+          "groundRange": [
+            696.75,
+            704.0
+          ],
+          "bottom": 680.75,
+          "top": 728.0
+        },
+        {
+          "footprint": [
+            [
+              -2000,
+              -664
+            ],
+            [
+              -1852,
+              -664
+            ],
+            [
+              -1852,
+              -640
+            ],
+            [
+              -2000,
+              -640
+            ]
+          ],
+          "groundRange": [
+            694.5,
+            696.0
+          ],
+          "bottom": 678.5,
+          "top": 720.0
+        },
+        {
+          "footprint": [
+            [
+              -1846,
+              -664
+            ],
+            [
+              -1710,
+              -664
+            ],
+            [
+              -1710,
+              -640
+            ],
+            [
+              -1846,
+              -640
+            ]
+          ],
+          "groundRange": [
+            694.5,
+            696.0
+          ],
+          "bottom": 678.5,
+          "top": 720.0
+        },
+        {
+          "footprint": [
+            [
+              -1704,
+              -664
+            ],
+            [
+              -1596,
+              -664
+            ],
+            [
+              -1596,
+              -640
+            ],
+            [
+              -1704,
+              -640
+            ]
+          ],
+          "groundRange": [
+            694.5,
+            696.0
+          ],
+          "bottom": 678.5,
+          "top": 720.0
+        },
+        {
+          "footprint": [
+            [
+              -1590,
+              -630
+            ],
+            [
+              -1566,
+              -630
+            ],
+            [
+              -1566,
+              -522
+            ],
+            [
+              -1590,
+              -522
+            ]
+          ],
+          "groundRange": [
+            696.625,
+            703.375
+          ],
+          "bottom": 680.625,
+          "top": 727.375
+        }
+      ]
+    }
+  ],
+  "status": "Authored source; native visual acceptance pending",
+  "design": "One south-facing bench, five western and seven eastern plants, low partial stone edging. Both road branches and the direct chapterhouse approach remain unfurnished."
+}

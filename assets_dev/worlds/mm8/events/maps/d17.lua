@@ -51,7 +51,7 @@ SetMapMetadata({
     [131] = { kind = "enter_house", source = "opcode", houseId = 572, targetName = "Ishton's Cave" },
     [132] = { kind = "enter_house", source = "opcode", houseId = 573, targetName = "Ithilgore's Cave" },
     [133] = { kind = "enter_house", source = "opcode", houseId = 574, targetName = "Scarwing's Cave" },
-    [201] = { kind = "enter_house", source = "opcode", houseId = 774, targetName = "Dragon Leader's Cavern " },
+    [201] = { kind = "enter_house", source = "opcode", houseId = 774, targetName = "Dragon Leader's Cavern" },
     [501] = { kind = "leave_dungeon", source = "opcode", targetMap = "out05.odm", targetName = "Garrote Gorge" },
     },
     textureNames = {},
@@ -240,9 +240,9 @@ RegisterEvent(133, "Scarwing's Cave", function()
     evt.EnterHouse(574) -- Scarwing's Cave
 end, "Scarwing's Cave")
 
-RegisterEvent(201, "Dragon Leader's Cavern ", function()
+RegisterEvent(201, "Dragon Leader's Cavern", function()
     evt.EnterHouse(774) -- Dragon Leader's Cavern
-end, "Dragon Leader's Cavern ")
+end, "Dragon Leader's Cavern")
 
 RegisterEvent(451, nil, function()
     if IsAtLeast(Invisible, 0) then return end

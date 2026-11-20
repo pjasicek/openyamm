@@ -1,0 +1,1 @@
+Common .98,0,0 registration; registration_checks.json retains clipping evidence. Separate foliage/bark grade in material_tone.py; g17938 additionally uses trunk_tone.py to match exposed native bark. Alpha unchanged. Masters and intermediate pixels preserved; final light/dark proofs inspected.

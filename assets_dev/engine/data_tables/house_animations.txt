@@ -97,10 +97,10 @@
 96	194	The Scribbled Page		human magic shop01			30910	0529	Magic Shop
 97	377	The Seeing Eye		magmid			31610	0040	Magic Shop
 98	375	Witch's Brew		apthcwch			31630	0054	Magic Shop
-99	378	The Little Magic Shop		magicpor			31600	0039	Magic Shop
+99	378	The Little Magic Shop		magicpor			46600	0039	Magic Shop
 100	374	Abdul's Discount Magic Supplies		apthcmid			31640	0055	Magic Shop
 101	373	Eye of Newt		apthcrch			31650	0056	Magic Shop
-102	378	Smoke and Mirrors		magicpor			31600	0039	Magic Shop
+102	378	Smoke and Mirrors		magicpor			46600	0039	Magic Shop
 103	375	"Apples, Thorns, and Potions"		apthcwch			31630	0054	Magic Shop
 104	374	Unusual Enchantments		apthcmid			31640	0055	Magic Shop
 105	376	The Sorcerer's Shoppe		magrch			31620	0041	Magic Shop
@@ -119,62 +119,62 @@
 118	180	Lead Transformations		human alchemisht01			31190	0539	Alchemist
 119	185	The Bubbling Cauldron		elf alchemist			31130	1549	Alchemist
 120	181	The Blackened Vial		necromancer alchemist01			31010	0515	Alchemist
-121	183	Edmond's Ampules		wizard alchemist			30700	1506	Alchemist
-122	183	Phials of Faith		wizard alchemist			30700	1506	Alchemist
+121	183	Edmond's Ampules		wizard alchemist			45700	1506	Alchemist
+122	183	Phials of Faith		wizard alchemist			45700	1506	Alchemist
 123	181	Infernal Temptations		necromancer alchemist01			31010	0515	Alchemist
 124	182	Potent Potions & Brews		dwarven achemist01			30560	1552	Alchemist
 125	180	Beakers and Bottles		human alchemisht01			31190	0539	Alchemist
 126	180	Aromatic Therapies		human alchemisht01			31190	0539	Alchemist
 127	180	Helpful Solutions		human alchemisht01			31190	0539	Alchemist
-128	240	Guild of Fire - Initiate		fire guild			30920	0538	Fire Guild
-129	240	Guild of Fire - Adept		fire guild			30920	0538	Fire Guild
-130	240	Guild of Fire - Master		fire guild			30920	0538	Fire Guild
-131	240	Guild of Fire - Grandmaster		fire guild			30920	0538	Fire Guild
-132	423	Guild of Fire - Initiate		elemfire			31660	0047	Fire Guild
-133	423	Guild of Fire - Grandmaster		elemfire			31660	0047	Fire Guild
-134	236	Guild of Air - Initiate		air guild			30530	0851	Air Guild
-135	236	Guild of Air - Adept		air guild			30530	0851	Air Guild
-136	236	Guild of Air - Master		air guild			30530	0851	Air Guild
-137	236	Guild of Air - Grandmaster		air guild			30530	0851	Air Guild
-138	425	Guild of Air - Initiate		elemair			31670	0049	Air Guild
-139	425	Guild of Air - Grandmaster		elemair			31670	0049	Air Guild
-140	244	Guild of Water - Initiate		water guild			30690	0518	Water Guild
-141	244	Guild of Water - Adept		water guild			30690	0518	Water Guild
-142	244	Guild of Water - Master		water guild			30690	0518	Water Guild
-143	244	Guild of Water - Grandmaster		water guild			30690	0518	Water Guild
-144	426	Guild of Water - Initiate		elemwatr			31680	0046	Water Guild
-145	426	Guild of Water - Grandmaster		elemwatr			31680	0046	Water Guild
-146	239	Guild of Earth - Initiate		earth guild			31120	0526	Earth Guild
-147	239	Guild of Earth - Adept		earth guild			31120	0526	Earth Guild
-148	239	Guild of Earth - Master		earth guild			31120	0526	Earth Guild
-149	239	Guild of Earth - Grandmaster		earth guild			31120	0526	Earth Guild
-150	424	Guild of Earth - Initiate		elemerth			31690	0048	Earth Guild
-151	424	Guild of Earth - Grandmaster		elemerth			31690	0048	Earth Guild
-152	243	Guild of Spirit - Initiate		spirit guild			30810	0519	Spirit Guild
-153	243	Guild of Spirit - Adept		spirit guild			30810	0519	Spirit Guild
-154	243	Guild of Spirit - Master		spirit guild			30810	0519	Spirit Guild
-155	243	Guild of Spirit - Grandmaster		spirit guild			30810	0519	Spirit Guild
-156	431	Guild of Spirit - Initiate		selfspir			31700	0193	Spirit Guild
-157	431	Guild of Spirit - Grandmaster		selfspir			31700	0193	Spirit Guild
-158	242	Guild of Mind - Initiate		mind guild			30800	0786	Mind Guild
-159	242	Guild of Mind - Adept		mind guild			30800	0786	Mind Guild
-160	242	Guild of Mind - Master		mind guild			30800	0786	Mind Guild
-161	242	Guild of Mind - Grandmaster		mind guild			30800	0786	Mind Guild
-162	432	Guild of Mind - Initiate		selfmind			31710	0392	Mind Guild
-163	432	Guild of Mind - Grandmaster		selfmind			31710	0392	Mind Guild
-164	237	Guild of Body - Initiate		body guild			30540	0511	Body Guild
-165	237	Guild of Body - Adept		body guild			30540	0511	Body Guild
-166	237	Guild of Body - Master		body guild			30540	0511	Body Guild
-167	237	Guild of Body - Grandmaster		body guild			30540	0511	Body Guild
-168	433	Guild of Body - Initiate		selfbody			31720	1034	Body Guild
-169	433	Guild of Body - Grandmaster		selfbody			31720	1034	Body Guild
-170	156	Guild of Light - Master		desplshp			31700	1115	Light Guild
-171	241	Guild of Light - Adept		light guild			30850	0516	Light Guild
-172	241	Guild of Light - Grandmaster		light guild			30850	0516	Light Guild
-173	428	Guild of Light - Initiate		mirpthl			31730	0121	Light Guild
-174	428	Guild of Light - Master		mirpthl			31730	0121	Light Guild
-175	165	Guild of Dark - Master		nsplshp			35000	1095	Dark Guild
-176	238	Guild of Dark - Adept		dark guild			30550	0520	Dark Guild
+128	240	Initiate Guild of Fire		fire guild			30920	0538	Fire Guild
+129	240	Adept Guild of Fire		fire guild			30920	0538	Fire Guild
+130	240	Master Guild of Fire		fire guild			30920	0538	Fire Guild
+131	240	Paramount Guild of Fire		fire guild			30920	0538	Fire Guild
+132	423	Initiate Guild of Fire		elemfire			31660	0047	Fire Guild
+133	423	Adept Guild of Fire		elemfire			31660	0047	Fire Guild
+134	236	Initiate Guild of Air		air guild			30530	0851	Air Guild
+135	236	Adept Guild of Air		air guild			30530	0851	Air Guild
+136	236	Master Guild of Air		air guild			30530	0851	Air Guild
+137	236	Paramount Guild of Air		air guild			30530	0851	Air Guild
+138	425	Initiate Guild of Air		elemair			31670	0049	Air Guild
+139	425	Adept Guild of Air		elemair			31670	0049	Air Guild
+140	244	Initiate Guild of Water		water guild			30690	0518	Water Guild
+141	244	Adept Guild of Water		water guild			30690	0518	Water Guild
+142	244	Master Guild of Water		water guild			30690	0518	Water Guild
+143	244	Paramount Guild of Water		water guild			30690	0518	Water Guild
+144	426	Initiate Guild of Water		elemwatr			31680	0046	Water Guild
+145	426	Adept Guild of Water		elemwatr			31680	0046	Water Guild
+146	239	Initiate Guild of Earth		earth guild			31120	0526	Earth Guild
+147	239	Adept Guild of Earth		earth guild			31120	0526	Earth Guild
+148	239	Master Guild of Earth		earth guild			31120	0526	Earth Guild
+149	239	Paramount Guild of Earth		earth guild			31120	0526	Earth Guild
+150	424	Initiate Guild of Earth		elemerth			31690	0048	Earth Guild
+151	424	Adept Guild of Earth		elemerth			31690	0048	Earth Guild
+152	243	Initiate Guild of Spirit		spirit guild			30810	0519	Spirit Guild
+153	243	Adept Guild of Spirit		spirit guild			30810	0519	Spirit Guild
+154	243	Master Guild of Spirit		spirit guild			30810	0519	Spirit Guild
+155	243	Paramount Guild of Spirit		spirit guild			30810	0519	Spirit Guild
+156	431	Initiate Guild of Spirit		selfspir			46700	0193	Spirit Guild
+157	431	Adept Guild of Spirit		selfspir			46700	0193	Spirit Guild
+158	242	Initiate Guild of Mind		mind guild			45800	0786	Mind Guild
+159	242	Adept Guild of Mind		mind guild			45800	0786	Mind Guild
+160	242	Master Guild of Mind		mind guild			45800	0786	Mind Guild
+161	242	Paramount Guild of Mind		mind guild			45800	0786	Mind Guild
+162	432	Initiate Guild of Mind		selfmind			31710	0392	Mind Guild
+163	432	Adept Guild of Mind		selfmind			31710	0392	Mind Guild
+164	237	Initiate Guild of Body		body guild			30540	0511	Body Guild
+165	237	Adept Guild of Body		body guild			30540	0511	Body Guild
+166	237	Master Guild of Body		body guild			30540	0511	Body Guild
+167	237	Paramount Guild of Body		body guild			30540	0511	Body Guild
+168	433	Initiate Guild of Body		selfbody			31720	1034	Body Guild
+169	433	Adept Guild of Body		selfbody			31720	1034	Body Guild
+170	156	Guild of Light		desplshp			31700	1115	Light Guild
+171	241	Guild of Illumination		light guild			30850	0516	Light Guild
+172	241	Guild of Enlightenment		light guild			30850	0516	Light Guild
+173	428	Initiate Guild of Light		mirpthl			31730	0121	Light Guild
+174	428	Adept Guild of Light		mirpthl			31730	0121	Light Guild
+175	165	Guild of Dark		nsplshp			35000	1095	Dark Guild
+176	238	Guild of Twilight		dark guild			30550	0520	Dark Guild
 177	238	Placeholder		dark guild			30550	0520	Dark Guild
 178	238	Guild of Dark - Grandmaster		dark guild			30550	0520	Dark Guild
 179	238	Placeholder		dark guild			30550	0520	Dark Guild
@@ -197,14 +197,14 @@
 196	418	Smugglers' Guild		thfpoor			31460	0023	Merc Guild
 197	422	Blades' End		mercpoor			31480	0036	Merc Guild
 198	421	Duelists' Edge		mercmid			31490	0037	Merc Guild
-199	420	Berserkers' Fury		mercrich			31500	0038	Merc Guild
+199	420	Berserkers' Fury		mercrich			46500	0038	Merc Guild
 200	421	Duelists' Edge		mercmid			31490	0037	Merc Guild
 201	422	Blades' End		mercpoor			31480	0036	Merc Guild
-202	420	Berserkers' Fury		mercrich			31500	0038	Merc Guild
+202	420	Berserkers' Fury		mercrich			46500	0038	Merc Guild
 203	218	Harmondale Townhall		human town hall				1531	Town Hall
 204	218	Steadwick Townhall		human town hall				1531	Town Hall
 205	223	Pierpont Townhall		elf town hall			31050	0484	Town Hall
-206	221	Hall of Dawn		wizard town hall			30600	1498	Town Hall
+206	221	Hall of Dawn		wizard town hall			45600	1498	Town Hall
 207	219	Hall of Midnight		necromancer town hall01			30960	1522	Town Hall
 208	383	Town Hall	788,1076	citymid			31320	0	Town Hall
 209	385	High Council	1084,1085,1086,1087,1088,1089	cityspec				0	Town Hall
@@ -222,7 +222,7 @@
 221	354	Throne Room		necromancer throne room empty				0	Throne
 222	389	Throne Room	789,798	throne02			31780	0	Throne
 223	390	Throne Room	790	throne01			31820	0	Throne
-224	387	Throne Room	791	throne06			31800	0	Throne
+224	387	Throne Room	791	throne06			46800	0	Throne
 225	388	Throne Room	801	throne03			31790	0	Throne
 226	391	Throne Room	799	throne05			31810	0	Throne
 227	392	Throne Room	800	throne04			31830	0	Throne
@@ -259,7 +259,7 @@
 258	206	The Elegant Orc		human tavern01			30870	0535	Tavern
 259	206	The Bird Paradise		human tavern01			30870	0535	Tavern
 260	394	A Lonely Knight	786,787	tavrich			31390	0027	Tavern
-261	393	The Imp Slapper		tavpoor1			31400	0278	Tavern
+261	393	The Imp Slapper		tavpoor1			46400	0278	Tavern
 262	397	An Arrow's Flight		tavpirat			31430	0095	Tavern
 263	398	A Stone's Throw		tavgob			31440	1031	Tavern
 264	394	The King's Crown		tavrich			31390	0027	Tavern
@@ -269,14 +269,14 @@
 268	397	Anchors Away		tavpirat			31430	0095	Tavern
 269	396	The Grove		tavmid			31420	0156	Tavern
 270	395	The Haunt	817	tavpoor2			31410	0433	Tavern
-271	393	The Rusted Shield		tavpoor1			31400	0278	Tavern
+271	393	The Rusted Shield		tavpoor1			46400	0278	Tavern
 272	394	Viktor's Hall		tavrich			31390	0027	Tavern
 273	396	The Echoing Whisper		tavmid			31420	0156	Tavern
 274	395	Rockham's Pride	792	tavpoor2			31410	0433	Tavern
 275	396	Rime and Reason		tavmid			31420	0156	Tavern
-276	393	The Frosty Tankard		tavpoor1			31400	0278	Tavern
+276	393	The Frosty Tankard		tavpoor1			46400	0278	Tavern
 277	395	The Oasis		tavpoor2			31410	0433	Tavern
-278	393	The Howling Moon		tavpoor1			31400	0278	Tavern
+278	393	The Howling Moon		tavpoor1			46400	0278	Tavern
 279	394	The Broken Promise		tavrich			31390	0027	Tavern
 280	396	The Last Chance		tavmid			31420	0156	Tavern
 281	22	The Some Place Safe		lbank			30800	1123	Bank
@@ -448,7 +448,7 @@
 447	474	Gharik's Forge		d18				0	Dungeon Ent
 448	475	Agar's Laboratory		d19				0	Dungeon Ent
 449	477	Caves of the Dragon Riders		d20				0	Dungeon Ent
-450	411	The Seer	794	oracpoor			31200	0	Seer
+450	411	The Seer	794	oracpoor			46200	0	Seer
 451	410	The Oracle	793	oracrich			31210	0	Seer
 452	104	Guild Caravans		stables			32200	1155	Stables
 453	104	Guild Caravans		stables			32200	1155	Stables
@@ -468,32 +468,32 @@
 467	205	Plush Coaches		elf stables			31080	0697	Stables
 468	200	Placeholder		human stables01			30860	0917	Stables
 469	200	Placeholder		human stables01			30860	0917	Stables
-470	414	New Sorpigal Coach Company		6stables			31300	0068	Stables
-471	414	Royal Lines		6stables			31300	0068	Stables
-472	414	Free Haven Travel East		6stables			31300	0068	Stables
-473	414	Free Haven Travel West		6stables			31300	0068	Stables
-474	414	Darkmoor Travel		6stables			31300	0068	Stables
-475	414	Abdul's Discount Travel		6stables			31300	0068	Stables
-476	414	White Cap Transport Co.		6stables			31300	0068	Stables
-477	414	King's Highway		6stables			31300	0068	Stables
-478	414	Blackshire Coach and Buggy		6stables			31300	0068	Stables
+470	414	New Sorpigal Coach Company		6stables			46300	0068	Stables
+471	414	Royal Lines		6stables			46300	0068	Stables
+472	414	Free Haven Travel East		6stables			46300	0068	Stables
+473	414	Free Haven Travel West		6stables			46300	0068	Stables
+474	414	Darkmoor Travel		6stables			46300	0068	Stables
+475	414	Abdul's Discount Travel		6stables			46300	0068	Stables
+476	414	White Cap Transport Co.		6stables			46300	0068	Stables
+477	414	King's Highway		6stables			46300	0068	Stables
+478	414	Blackshire Coach and Buggy		6stables			46300	0068	Stables
 479	39	The Windling		deboat			32100	1111	Boats
 480	39	The Dauntless		deboat			32100	1111	Boats
 481	90	Smoke		wrboat				1069	Boats
 482	90	Mist		wrboat				1069	Boats
 483	90	Wind		wrboat				1069	Boats
 484	39	Spindrift		deboat			32100	1111	Boats
-485	192	Lady Margaret		boat01			30900	0890	Boats
-486	192	Lady Catherine		boat01			30900	0890	Boats
-487	192	Sea Sprite		boat01			30900	0890	Boats
-488	192	Enchantress		boat01			30900	0890	Boats
-489	192	Sacred Sails		boat01			30900	0890	Boats
-490	192	Dauntless		boat01			30900	0890	Boats
-491	192	Narwhale		boat01			30900	0890	Boats
-492	192	Wind Runner		boat01			30900	0890	Boats
-493	192	Mist Flyer		boat01			30900	0890	Boats
-494	192	Placeholder		boat01			30900	0890	Boats
-495	192	Placeholder		boat01			30900	0890	Boats
+485	192	Lady Margaret		boat01			45900	0890	Boats
+486	192	Lady Catherine		boat01			45900	0890	Boats
+487	192	Sea Sprite		boat01			45900	0890	Boats
+488	192	Enchantress		boat01			45900	0890	Boats
+489	192	Sacred Sails		boat01			45900	0890	Boats
+490	192	Dauntless		boat01			45900	0890	Boats
+491	192	Narwhale		boat01			45900	0890	Boats
+492	192	Wind Runner		boat01			45900	0890	Boats
+493	192	Mist Flyer		boat01			45900	0890	Boats
+494	192	Placeholder		boat01			45900	0890	Boats
+495	192	Placeholder		boat01			45900	0890	Boats
 496	415	Odyssey		ship			31290	0381	Boats
 497	415	Zephyr		ship			31290	0381	Boats
 498	415	Queen Catherine		ship			31290	0381	Boats
@@ -1166,7 +1166,7 @@
 1165	351	Arbiter	413	arbiter neutral town				0	House
 1166	353	Arbiter		arbiter evil town				0	House
 1167	246	Donna Wyrith's Residence	351	human poor house 1				0	House
-1168	359	The Lady Margaret	350	boat01			30900	0	House
+1168	359	The Lady Margaret	350	boat01			45900	0	House
 1169	341	Throne Room		harmondale throne room				0	House
 1170	247	Mia Lucille' Home	353	human poor house 2				0	House
 1171	248	Vandalir Residence	352	human poor house 2				0	House

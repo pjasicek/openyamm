@@ -1,0 +1,32 @@
+# The joust horse's wheels (d2w1-4, MM9 RotatingBrush: scene mover.spin, evt.SpinMover; INDOOR_ROTATING_MOVERS_AND_LADDERS.md
+# "Continuous spinners"): the lever (d2lever, event 201) sends them on and reverse as the horse rides out, off when it
+# arrives (1190 LT at 1250 LT/s); pulled back, reverse and on, off after the slow ride home (1190 LT at 200 LT/s).
+id: mm9r.traininghall_spin
+title: 'Training Hall (native BLV): the horse''s wheels spin while it rides'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: traininghall.blv
+- advance_runtime: {seconds: 0.5}
+- assert:
+    mechanism: {id: 5, spinning: false}
+- execute_event: {id: 201}
+- advance_runtime: {seconds: 0.4}
+- assert:
+    mechanism: {id: 5, spinning: true, spin_rate_min: -1.0}
+- assert:
+    mechanism: {id: 2, spinning: true}
+- advance_runtime: {seconds: 3.0}
+- assert:
+    mechanism: {id: 5, spinning: false}
+- execute_event: {id: 201}
+- advance_runtime: {seconds: 2.0}
+- assert:
+    mechanism: {id: 5, spinning: true, spin_rate_min: 0.99}
+- advance_runtime: {seconds: 6.0}
+- assert:
+    mechanism: {id: 5, spinning: false}

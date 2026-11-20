@@ -1,0 +1,139 @@
+# Material classes of BLV and BModel face textures (devdocs/SURFACE_MATERIALS_PLAN.md), read by
+# tools/surface_materials.py (cook) and level_generation/surface_materials/mat.py (the material-map prompt).
+#
+# Each texture has a class map: every texel one of the flat key colours below. The cook turns a class into:
+#   roughness: [smooth, rough] range; the texel's place in it follows the colour texture's fine brightness detail,
+#              brighter detail rougher (gloss: false; dust on stone) or smoother (gloss: true; worn metal highlights)
+#   metal:     0 dielectric, 1 metal
+#   normal:    strength of the relief from the height map
+#   ao:        strength of the ambient occlusion from the height map
+#   depth:     typical depth of its relief in world units (one unit is about a centimetre): the height map's
+#              black-to-white range is the texel-weighted mean of its classes' depths unless textures.yml says
+#   glow:      none, night (lit from inside at night outdoors; always indoors, where glass is lit from outside) or
+#              always (fire, runes)
+# The prompt lists the classes in this order with their descriptions.
+classes:
+  brick:
+    key: [220, 30, 30]
+    describe: brick
+    roughness: [0.78, 0.92]
+    metal: 0
+    normal: 1.0
+    ao: 1.0
+    depth: 2.0
+  mortar:
+    key: [110, 110, 110]
+    describe: mortar and grout between bricks, tiles or stones
+    roughness: [0.88, 1.0]
+    metal: 0
+    normal: 0.8
+    ao: 1.0
+    depth: 2.0
+  stone:
+    key: [190, 150, 90]
+    describe: "stone of any kind: rough stone blocks, dressed stone, carved stone relief and statues, cobbles, slate"
+    roughness: [0.72, 0.92]
+    metal: 0
+    normal: 1.0
+    ao: 1.0
+    depth: 4.0
+  polished_stone:
+    key: [255, 255, 170]
+    describe: polished stone or marble
+    roughness: [0.2, 0.45]
+    metal: 0
+    normal: 0.6
+    ao: 0.8
+    depth: 2.0
+  plaster:
+    key: [255, 255, 255]
+    describe: plaster, stucco, whitewash
+    roughness: [0.85, 0.97]
+    metal: 0
+    normal: 0.7
+    ao: 0.8
+    depth: 1.0
+  wood:
+    key: [255, 128, 0]
+    describe: wood of any kind, including painted wood
+    roughness: [0.55, 0.8]
+    metal: 0
+    normal: 0.8
+    ao: 1.0
+    depth: 1.5
+  iron:
+    key: [0, 60, 255]
+    describe: iron, steel, lead and other dark metal (bands, nails, hinges, handles, window leading, grilles)
+    roughness: [0.4, 0.7]
+    gloss: true
+    metal: 1
+    normal: 1.0
+    ao: 0.8
+    depth: 2.5
+  bright_metal:
+    key: [160, 0, 255]
+    describe: bronze, brass, copper, gold, silver (bright metal)
+    roughness: [0.25, 0.55]
+    gloss: true
+    metal: 1
+    normal: 1.0
+    ao: 0.7
+    depth: 2.0
+  patina:
+    key: [0, 200, 110]
+    describe: verdigris or other patina, corroded green metal
+    roughness: [0.7, 0.88]
+    metal: 0
+    normal: 1.0
+    ao: 1.0
+    depth: 2.0
+  glass:
+    key: [0, 255, 255]
+    describe: glass, including stained glass panes
+    roughness: [0.04, 0.12]
+    metal: 0
+    normal: 0.25
+    ao: 0.3
+    depth: 0.5
+    glow: night
+  painted:
+    key: [255, 110, 200]
+    describe: painted or enamelled ornament, glazed tile, ceramic
+    roughness: [0.35, 0.6]
+    metal: 0
+    normal: 0.8
+    ao: 0.9
+    depth: 1.5
+  cloth:
+    key: [0, 110, 110]
+    describe: cloth, fabric, leather, rope
+    roughness: [0.85, 1.0]
+    metal: 0
+    normal: 0.7
+    ao: 0.9
+    depth: 1.0
+  earth:
+    key: [100, 50, 20]
+    describe: earth, dirt, mud
+    roughness: [0.9, 1.0]
+    metal: 0
+    normal: 0.8
+    ao: 1.0
+    depth: 2.0
+  foliage:
+    key: [120, 220, 0]
+    describe: leaves, moss, plants
+    roughness: [0.7, 0.9]
+    metal: 0
+    normal: 0.8
+    ao: 1.0
+    depth: 2.0
+  glowing:
+    key: [255, 255, 0]
+    describe: "anything self-luminous: fire, flames, embers, lava, glowing runes or crystals"
+    roughness: [0.6, 0.9]
+    metal: 0
+    normal: 0.4
+    ao: 0.4
+    depth: 1.0
+    glow: always

@@ -1,0 +1,13 @@
+import bpy,json,hashlib,shutil
+from pathlib import Path
+P=Path(__file__).resolve().parents[1];V=P/'review/viewer';V.mkdir(exist_ok=True);bpy.ops.wm.open_mainfile(filepath=str(P/'work/pilot_v1.blend'));r=bpy.data.objects['Rig'];o=bpy.data.objects['Body']
+for ob in bpy.context.scene.objects:ob.select_set(ob in (r,o,bpy.data.objects['Trident']))
+bpy.context.view_layer.objects.active=r;bpy.ops.export_scene.gltf(filepath=str(V/'pilot.glb'),use_selection=True,export_format='GLB',export_animations=True,export_animation_mode='ACTIONS',export_force_sampling=True,export_all_influences=True,export_anim_slide_to_zero=True,export_attributes=False)
+src=P.parent/'mm6_fmp_codex/review/viewer';html=(src/'index.html').read_text().replace('MM6 PeasantF2 3D Review','MM6 Water Elemental 3D Review').replace('MM6 PeasantF2 · town peasant','MM6 Water Elemental')
+a=html.index('<header>');b=html.index('</header>',a);html=html[:a]+'<header><h1>MM6 Water Elemental · animation WIP</h1><p>Native tail glide, trident sweep, and sinking death. Use slow playback and the frame controls to inspect the model.</p>'+html[b:];html=html.replace('apron and cap colours','tabard and eye colours').replace('Apron / skirt','Lower shroud').replace('>Feet<','>Hem<');(V/'index.html').write_text(html);js=(src/'review.js').read_text().replace('mm6-fmp','mm6-wel').replace('MM6 PeasantF2','MM6 Water Elemental').replace('body:[0,.83,-.12,3.6], head:[0,1.51,.03,.67], arms:[0,1.05,0,2.0], shoulders:[0,1.27,0,1.1]', 'body:[0,1.3,-.2,5.8], head:[0,1.92,.03,.9], arms:[0,1.4,0,2.4], shoulders:[0,1.55,0,1.5]');(V/'review.js').write_text(js)
+clips={};audit=json.loads((P/'work/animation_audit.json').read_text())
+for name,info in audit.items():
+ f='weldyf0' if name=='Dead' else 'weldya0' if name=='Death' else 'welata0' if name=='Attack' else 'welwia0' if name=='Hit' else 'welsta0'
+ clips[name]={'label':name,'duration':info['duration'],'mode':'loop' if name in ['Standing','Walking','Running'] else 'once','provenance':'Native MM6 Water Elemental choreography; owned GetHitF2 recoil.','anchors':[{'time':0,'label':'Native','phase':'reference','source_images':[f'../../../mm6_wel/native/{f}.png']}]}
+(V/'manifest.json').write_text(json.dumps({'revision':'water_pilot_v1','model':'MM6 Water Elemental','default_clip':'Standing','default_model':'pilot','feedback':'feedback/user_feedback.json','models':[{'id':'pilot','label':'Clay motion pilot','url':'pilot.glb?v='+hashlib.sha256((V/'pilot.glb').read_bytes()).hexdigest()[:12]}],'clips':clips},indent=2))
+(V/'feedback').mkdir(exist_ok=True);(V/'feedback/user_feedback.json').write_text('{"findings":[]}\n')

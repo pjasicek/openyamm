@@ -1,0 +1,4997 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "thronheim.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 836,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 837,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 838,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 839,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 840,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 841,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 23491,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21893,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21894,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21895,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21896,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21897,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21898,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21899,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21900,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21901,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21902,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21903,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21904,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21905,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21906,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21907,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21908,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21909,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21910,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21911,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21912,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21913,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21914,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21915,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21916,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21917,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21918,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21919,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21920,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21921,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21922,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21923,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21924,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21925,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21926,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21927,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21928,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21929,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21930,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21931,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21932,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21933,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21934,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21935,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21936,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21937,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21938,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21939,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21940,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21941,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21942,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21943,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21944,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21945,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21946,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21947,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21948,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21949,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21950,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21951,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21952,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21953,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21954,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21955,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21956,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21957,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21958,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21959,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21960,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21961,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21962,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21963,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21964,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21965,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21966,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21967,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21968,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21969,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21970,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21971,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21972,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21973,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21974,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21975,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21976,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21977,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21978,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21979,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21980,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21981,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21982,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21983,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21984,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21985,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21986,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21987,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21988,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21989,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21990,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21991,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21992,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21993,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21994,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21995,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21996,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21997,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21998,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 21999,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22000,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22001,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22002,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22003,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22004,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22005,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22006,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22007,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22008,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22009,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22010,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22011,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22012,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22013,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22014,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22015,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22016,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22017,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22018,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22019,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22020,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22021,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22022,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22023,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22024,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22025,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22026,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22027,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 22028,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23177,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23178,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23179,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23180,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23181,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23182,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23183,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23184,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23185,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23186,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23187,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23188,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23189,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23190,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23191,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23192,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23193,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23194,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23195,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23196,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23197,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23198,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23199,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23200,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23201,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23202,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23203,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23204,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23205,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23206,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23207,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23208,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23209,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23210,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23211,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23212,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23213,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23214,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23215,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23216,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23217,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23218,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23219,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23220,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23221,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23222,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23223,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23224,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23225,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23226,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23227,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23228,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23229,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23230,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23231,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23232,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23233,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23234,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23235,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23236,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23237,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23238,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23239,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23240,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23241,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23242,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23243,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23244,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23245,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23246,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23247,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23248,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23249,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23250,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23251,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23252,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23253,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23254,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23255,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23256,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23257,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23258,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23259,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23260,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23261,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23262,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23263,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23264,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23265,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23266,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23267,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23268,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23269,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23270,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23271,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23272,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23273,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23274,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23275,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23276,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23277,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23278,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23279,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23280,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23281,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23282,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23283,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23284,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23285,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23286,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23287,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23288,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23289,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23290,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23291,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23292,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23293,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23294,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23295,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23296,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23297,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23298,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23299,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23300,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23301,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23302,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23303,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23304,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23305,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23306,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23307,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23308,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23309,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23310,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23311,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23312,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23313,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23314,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23315,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23316,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23317,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23318,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23319,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23320,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23321,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23322,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23323,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23324,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23325,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23326,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23327,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23328,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23329,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23330,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23331,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23332,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23333,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23334,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23335,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23336,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23337,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23338,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23339,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23340,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23341,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23342,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23343,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23344,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23345,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23346,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23347,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23348,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23349,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23350,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23351,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23352,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23353,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23354,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23355,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23356,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23357,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23358,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23359,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23360,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23361,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23362,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23363,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23364,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23365,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23366,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23367,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23368,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23369,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23370,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23371,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23372,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23373,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23374,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23375,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23376,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23377,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23378,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23379,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23380,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23381,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23382,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23383,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23384,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23385,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23386,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23387,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23388,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23389,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23390,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23391,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23392,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23393,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23394,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23395,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23396,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23397,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23398,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23399,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23400,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23401,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23402,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23403,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23404,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23405,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23406,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23407,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23408,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23409,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23410,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23411,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23412,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23413,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23414,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23415,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23416,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23417,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23418,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23419,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23420,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23421,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23422,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23423,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23424,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23425,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23426,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23427,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23428,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23429,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23430,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23431,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23432,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23433,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23434,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23435,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23436,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23437,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23438,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23439,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23440,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23441,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23442,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23443,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23444,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23445,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23446,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23447,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23448,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23449,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23450,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23451,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23452,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23453,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23454,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23455,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23456,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23457,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23458,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23459,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23460,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23461,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23462,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23463,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23464,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23465,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23466,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23467,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23468,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23469,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23470,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23471,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23472,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23473,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23474,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23475,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23476,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23477,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23478,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23479,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23480,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23481,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23482,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23483,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23484,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23485,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23486,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23487,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23488,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23489,
+    "texture_name": "lqseamm9"
+   },
+   {
+    "face_index": 23490,
+    "texture_name": "lqseamm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -15053,
+     "y": -17792,
+     "z": 2571
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -14562,
+     "y": -17464,
+     "z": 2571
+    },
+    "initial_yaw_units": 341,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -15381,
+     "y": -18119,
+     "z": 2558
+    },
+    "initial_yaw_units": 668,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19149,
+     "y": -13696,
+     "z": 2571
+    },
+    "initial_yaw_units": 284,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -18248,
+     "y": -12795,
+     "z": 2571
+    },
+    "initial_yaw_units": 455,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -20952,
+     "y": -11320,
+     "z": 2571
+    },
+    "initial_yaw_units": 1805,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -18248,
+     "y": -9763,
+     "z": 2571
+    },
+    "initial_yaw_units": 1654,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -17265,
+     "y": -11648,
+     "z": 2571
+    },
+    "initial_yaw_units": 1832,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -15955,
+     "y": -10091,
+     "z": 2571
+    },
+    "initial_yaw_units": 1761,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -13989,
+     "y": -13941,
+     "z": 2571
+    },
+    "initial_yaw_units": 775,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -10302,
+     "y": -12795,
+     "z": 2571
+    },
+    "initial_yaw_units": 810,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 2805,
+     "y": -12795,
+     "z": 2088
+    },
+    "initial_yaw_units": 1877,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 3624,
+     "y": -12958,
+     "z": 2085
+    },
+    "initial_yaw_units": 712,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 2969,
+     "y": -13122,
+     "z": 2086
+    },
+    "initial_yaw_units": 228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 2969,
+     "y": -12303,
+     "z": 2083
+    },
+    "initial_yaw_units": 1680,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 3624,
+     "y": -12467,
+     "z": 2082
+    },
+    "initial_yaw_units": 1290,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 13045,
+     "y": -18529,
+     "z": 2088
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 13209,
+     "y": -17874,
+     "z": 2089
+    },
+    "initial_yaw_units": 1761,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 13700,
+     "y": -17874,
+     "z": 2091
+    },
+    "initial_yaw_units": 1326,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 19,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 13864,
+     "y": -18529,
+     "z": 2143
+    },
+    "initial_yaw_units": 659,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 20,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 13537,
+     "y": -18693,
+     "z": 2088
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 21,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 15032,
+     "y": -11914,
+     "z": 2091
+    },
+    "initial_yaw_units": 1326,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 22,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 9584,
+     "y": -11013,
+     "z": 2091
+    },
+    "initial_yaw_units": 1752,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 23,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 10362,
+     "y": -11013,
+     "z": 2091
+    },
+    "initial_yaw_units": 1316,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 24,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 6652,
+     "y": -18035,
+     "z": 2088
+    },
+    "initial_yaw_units": 237,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 25,
+    "name": "Fibrase Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 149,
+    "hostility_type": 4,
+    "monster_info_id": 9151,
+    "monster_id": 9151,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -3093,
+     "y": -11156,
+     "z": 1971
+    },
+    "initial_yaw_units": 228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 26,
+    "name": "King Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9152,
+    "monster_id": 9152,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -2438,
+     "y": -8535,
+     "z": 1742
+    },
+    "initial_yaw_units": 1716,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 27,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -2602,
+     "y": -9682,
+     "z": 1809
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 28,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": 839,
+     "y": -15,
+     "z": 2123
+    },
+    "initial_yaw_units": 1192,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 29,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 8703,
+     "y": 21612,
+     "z": 425
+    },
+    "initial_yaw_units": 1378,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 30,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 17551,
+     "y": 10143,
+     "z": 425
+    },
+    "initial_yaw_units": 979,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 31,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 18861,
+     "y": 640,
+     "z": 425
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 32,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 19517,
+     "y": 968,
+     "z": 425
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 33,
+    "name": "Jellyspore",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9168,
+    "monster_id": 9168,
+    "radius": 41,
+    "height": 133,
+    "move_speed": 256,
+    "position": {
+     "x": 19844,
+     "y": 1951,
+     "z": 425
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 34,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -16528,
+     "y": 5228,
+     "z": 1520
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 35,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -16692,
+     "y": 8996,
+     "z": 1401
+    },
+    "initial_yaw_units": 819,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 36,
+    "name": "King Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9152,
+    "monster_id": 9152,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -13743,
+     "y": 1951,
+     "z": 2411
+    },
+    "initial_yaw_units": 1645,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 37,
+    "name": "Fibrase Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 149,
+    "hostility_type": 4,
+    "monster_info_id": 9151,
+    "monster_id": 9151,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -14726,
+     "y": 2279,
+     "z": 2428
+    },
+    "initial_yaw_units": 1166,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 38,
+    "name": "Fibrase Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 149,
+    "hostility_type": 4,
+    "monster_info_id": 9151,
+    "monster_id": 9151,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -12514,
+     "y": -2247,
+     "z": 2430
+    },
+    "initial_yaw_units": 668,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 39,
+    "name": "Fibrase Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 149,
+    "hostility_type": 4,
+    "monster_info_id": 9151,
+    "monster_id": 9151,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -12309,
+     "y": -3026,
+     "z": 2391
+    },
+    "initial_yaw_units": 1929,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 40,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -5448,
+     "y": -2677,
+     "z": 2299
+    },
+    "initial_yaw_units": 1592,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 41,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -4936,
+     "y": -4705,
+     "z": 2292
+    },
+    "initial_yaw_units": 228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 42,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -6841,
+     "y": -7634,
+     "z": 2290
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 43,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -7025,
+     "y": -4439,
+     "z": 2300
+    },
+    "initial_yaw_units": 1832,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 44,
+    "name": "Bikki Yrsadotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9029,
+    "monster_id": 9029,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -725,
+     "y": 5097,
+     "z": 1279
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc244.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 24,
+    "mm9_rude_id": 244
+   },
+   {
+    "actor_index": 45,
+    "name": "Moenach A'Tryht",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 20,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 7638,
+     "y": 14976,
+     "z": 1281
+    },
+    "initial_yaw_units": 802,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "guard_refuge": false
+     },
+     "script": "npcshopkeeper.scr",
+     "script_params": "\\voices\\npc\\NPC_257.wav"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 44,
+    "mm9_rude_id": 257
+   },
+   {
+    "actor_index": 46,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -15038,
+     "y": -17925,
+     "z": 2571
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 47,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -19023,
+     "y": -13743,
+     "z": 2571
+    },
+    "initial_yaw_units": 284,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 48,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -18136,
+     "y": -12869,
+     "z": 2571
+    },
+    "initial_yaw_units": 455,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 49,
+    "name": "Gezzampt",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9172,
+    "monster_id": 9172,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -20923,
+     "y": -11189,
+     "z": 2571
+    },
+    "initial_yaw_units": 1805,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 50,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -18181,
+     "y": -9879,
+     "z": 2571
+    },
+    "initial_yaw_units": 1654,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 51,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -17238,
+     "y": -11779,
+     "z": 2571
+    },
+    "initial_yaw_units": 1832,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 52,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -16035,
+     "y": -10199,
+     "z": 2571
+    },
+    "initial_yaw_units": 1761,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 53,
+    "name": "Gezzamptling",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 79,
+    "hostility_type": 4,
+    "monster_info_id": 9171,
+    "monster_id": 9171,
+    "radius": 51,
+    "height": 256,
+    "move_speed": 256,
+    "position": {
+     "x": -13966,
+     "y": -13809,
+     "z": 2571
+    },
+    "initial_yaw_units": 775,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 54,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 2855,
+     "y": -12905,
+     "z": 2088
+    },
+    "initial_yaw_units": 1877,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 55,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 2861,
+     "y": -13176,
+     "z": 2087
+    },
+    "initial_yaw_units": 228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 56,
+    "name": "Bloodsucker",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 120,
+    "hostility_type": 4,
+    "monster_info_id": 9195,
+    "monster_id": 9195,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 12942,
+     "y": -18466,
+     "z": 2088
+    },
+    "initial_yaw_units": 171,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 57,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 13820,
+     "y": -17860,
+     "z": 2089
+    },
+    "initial_yaw_units": 1326,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 58,
+    "name": "Annelid",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 263,
+    "hostility_type": 4,
+    "monster_info_id": 9196,
+    "monster_id": 9196,
+    "radius": 31,
+    "height": 169,
+    "move_speed": 256,
+    "position": {
+     "x": 9676,
+     "y": -11091,
+     "z": 2091
+    },
+    "initial_yaw_units": 1752,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 59,
+    "name": "King Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9152,
+    "monster_id": 9152,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -2695,
+     "y": -8484,
+     "z": 1752
+    },
+    "initial_yaw_units": 1716,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 60,
+    "name": "Fibrase Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 149,
+    "hostility_type": 4,
+    "monster_info_id": 9151,
+    "monster_id": 9151,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -14465,
+     "y": 2253,
+     "z": 2422
+    },
+    "initial_yaw_units": 1166,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 61,
+    "name": "Fibrase Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 149,
+    "hostility_type": 4,
+    "monster_info_id": 9151,
+    "monster_id": 9151,
+    "radius": 115,
+    "height": 108,
+    "move_speed": 192,
+    "position": {
+     "x": -12259,
+     "y": -2185,
+     "z": 2436
+    },
+    "initial_yaw_units": 668,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    11763,
+    15161,
+    1281
+   ],
+   "direction_degrees": 179
+  },
+  {
+   "start_index": 1,
+   "source_name": "MountainPassStart",
+   "position": [
+    -17893,
+    13937,
+    2502
+   ],
+   "direction_degrees": 239
+  },
+  {
+   "start_index": 2,
+   "source_name": "TownExit",
+   "position": [
+    1412,
+    5883,
+    1279
+   ],
+   "direction_degrees": 250
+  },
+  {
+   "start_index": 3,
+   "source_name": "TownDockExit",
+   "position": [
+    5099,
+    15222,
+    1270
+   ],
+   "direction_degrees": 359
+  },
+  {
+   "start_index": 4,
+   "source_name": "FTFrosgardStart",
+   "position": [
+    -8884,
+    -19522,
+    1760
+   ],
+   "direction_degrees": 40
+  },
+  {
+   "start_index": 5,
+   "source_name": "ConnectingTunnelsExit",
+   "position": [
+    16168,
+    -16706,
+    2090
+   ],
+   "direction_degrees": 90
+  },
+  {
+   "start_index": 6,
+   "source_name": "InventaStorcaExit",
+   "position": [
+    -22426,
+    -6036,
+    2573
+   ],
+   "direction_degrees": 45
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:thronheim:object:45",
+   "source_object_index": 45,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest2",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "skins\\props\\Chest1.dtx",
+   "source_position_lt": [
+    -19072.0,
+    1152.0,
+    -7296.0
+   ],
+   "position": {
+    "x": -15217,
+    "y": -18693,
+    "z": 2949
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 6,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:thronheim:object:91",
+   "source_object_index": 91,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    -11840.0,
+    928.0,
+    -4736.0
+   ],
+   "position": {
+    "x": 3297,
+    "y": -12139,
+    "z": 2376
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 8,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:thronheim:object:92",
+   "source_object_index": 92,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    -7712.0,
+    896.0,
+    -7296.0
+   ],
+   "position": {
+    "x": 13864,
+    "y": -18693,
+    "z": 2294
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 2,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 8,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "both"
+ },
+ "translucent_faces": [
+  {
+   "faces": [
+    22114
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    23492,
+    23493,
+    23494,
+    23495,
+    23496,
+    23497,
+    23498,
+    23499,
+    23500,
+    23501,
+    23502,
+    23503,
+    23504,
+    23505,
+    23506,
+    23507,
+    23508,
+    23509,
+    23510,
+    23511,
+    23512,
+    23513,
+    23514,
+    23515
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -5714.6,
+       39306.6
+      ],
+      [
+       33607.0,
+       39306.6
+      ],
+      [
+       33607.0,
+       -36715.2
+      ],
+      [
+       -5714.6,
+       -36715.2
+      ]
+     ],
+     "bottom": -23.0,
+     "top": 819.2
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     98
+    ],
+    "near_distance": 1280.0,
+    "far_distance": 7680.0
+   }
+  },
+  {
+   "id": "BlueWater1",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       6573.4,
+       -13286.0
+      ],
+      [
+       12635.5,
+       -13286.0
+      ],
+      [
+       12635.5,
+       -17873.6
+      ],
+      [
+       6573.4,
+       -17873.6
+      ]
+     ],
+     "bottom": 1239.0,
+     "top": 2068.5
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 84,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3207,
+    -12733,
+    2089
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 95,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    13475,
+    -18291,
+    2102
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   100,
+   100,
+   100
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   121,
+   133,
+   180
+  ],
+  "sun_gain": 4.0
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "fire6ytklq"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "refign3xtl",
+    "thro4ooc83"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "throuo7m8b"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "cavesmm1lp",
+    "coluw11o92",
+    "fros2v4xvl",
+    "invizvjn7n",
+    "lqseamm9",
+    "marbga5jqp",
+    "thjo4biequ",
+    "thjov5txvm",
+    "thro8obdrl",
+    "throjhhvfb",
+    "throylr9li",
+    "trai6437mj"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "sturvz46as",
+    "thjo4xgsld",
+    "thjoszlkbz",
+    "woodv944p9"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ],
+ "party_movement": {
+  "steep_slopes": "block"
+ },
+ "actor_detection": {
+  "wakes": "none"
+ },
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": -14432,
+    "y": 1696,
+    "z": 2534
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -17504,
+    "y": -11616,
+    "z": 2570
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -17376,
+    "y": -11360,
+    "z": 2570
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -3040,
+    "y": -8928,
+    "z": 1751
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": -16224,
+    "y": -18272,
+    "z": 2732
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": -21472,
+    "y": -10848,
+    "z": 2612
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": 672,
+    "y": -96,
+    "z": 2116
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": -5216,
+    "y": -2016,
+    "z": 2298
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  }
+ ],
+ "terrain": {
+  "materials": "thronheim_blv.yml",
+  "textures": [
+   "thro4ooc83",
+   "throuo7m8b"
+  ],
+  "exclude_faces": [
+   361,
+   373,
+   386
+  ],
+  "grass": "worlds/mm9/terrain_decorations/thronheim_blv.yml"
+ }
+}

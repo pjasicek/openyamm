@@ -1,0 +1,343 @@
+[
+  {
+    "id": "dragon_three_quarter_v1",
+    "family": "dragon_statuette",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Dragon Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE PORTRAIT 1024 x 1536 PNG, genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 statuette crop enlarged 8x nearest-neighbour, the design, pose, proportions and silhouette authority. Magenta is background; the grey strip at the bottom is the pedestal top, NOT part of the statuette.\nInput 2: whole native sprite enlarged 3x, contextual reference for the complete gold statuette including its feet and curved tail. The sprite shows the statuette's anatomical LEFT side, head toward the left of the image. Disregard the entire marble pedestal and its gold trim.\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet (or talons, tail tip) end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\nIdentity (from the native sprite): a dragon crouched low on its haunches with its long neck raised straight up and the head on top looking forward, a crest of sharp spikes (or small swept-up wings, exactly as drawn in the crop) rising behind the head, small clawed forelegs reaching forward off the ground, the hind legs folded under the body, a long thick tail curving down and back to the ground. Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal.\nPreserve the native low horizontal body, prominent folded haunches and tall narrow upright neck; do not replace the silhouette with a standing dragon or erect torso. Resolve the native sculpted forms into smooth coherent high-definition surfaces, not enlarged pixel blocks. Every feature is cast gold, including eyes, claws and crest.\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. Do not add large outspread wings or invented ornament.\nTransparency: render only the solid gold statuette. All exterior empty pixels have alpha 0, apart from the narrow antialias edge. No opaque or painted checkerboard, backdrop, haze, vignette, glow, cast shadow, magenta spill or matte fringe.\nChecks: one statuette, pose and silhouette as the sprite, all legs / talons / tail present and separated as drawn, transparent background, nothing cropped, same statuette in all views.\nCamera for this PRIMARY view: FRONT-LEFT THREE-QUARTER, camera turned exactly about 40 degrees from the native LEFT SIDE view toward the animal's face, and slightly above at about 20 degrees elevation. Show the front and anatomical left flank together; the dragon faces diagonally toward screen-left and the camera. Rotate the CAMERA around the original pose, do not turn only the head or re-pose the animal. Whole figure from crest tips to talons and complete curved tail inside the frame, with generous transparent margins. This is the primary reference and this image alone will be sent to a 3D generator, so the crouched shape, clawed forelegs off the ground, folded hind legs, neck, face and tail must all read clearly.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png"
+    ],
+    "reason": "Superseded: primary camera too close to left profile and right-side margin too tight; crest also extended too far down the neck compared with the native head silhouette.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-05379697-77d6-4fc2-95ad-7f358c4e04ee.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/raw/dragon_three_quarter_v1.png",
+    "superseded_by": "dragon_three_quarter_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+        "sha256": "a10876be09878339c94d8546fbe0fdfff193100dff8fed0febc3491af2b8295e"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+        "sha256": "29f8bfdec4ddedc319484e3734e9d2a554f39b146caeb503de8108468e85b911"
+      }
+    ],
+    "raw_sha256": "643ba19eaf27b96c074b84b0fd5feda7c83ecefbd08f923cee27c8ec9348a493",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      52,
+      73,
+      1009,
+      1419
+    ],
+    "alpha_zero_fraction": 0.675201416015625,
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "dragon_three_quarter_v2",
+    "family": "dragon_statuette",
+    "role": "primary",
+    "selected": true,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Dragon Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE PORTRAIT 1024 x 1536 PNG, genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 statuette crop enlarged 8x nearest-neighbour, the design, pose, proportions and silhouette authority. Magenta is background; the grey strip at the bottom is the pedestal top, NOT part of the statuette.\nInput 2: whole native sprite enlarged 3x, contextual reference for the complete gold statuette including its feet and curved tail. The sprite shows the statuette's anatomical LEFT side, head toward the left of the image. Disregard the entire marble pedestal and its gold trim.\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet (or talons, tail tip) end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\nIdentity (from the native sprite): a dragon crouched low on its haunches with its long neck raised straight up and the head on top looking forward, a crest of sharp spikes (or small swept-up wings, exactly as drawn in the crop) rising behind the head, small clawed forelegs reaching forward off the ground, the hind legs folded under the body, a long thick tail curving down and back to the ground. Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal.\nPreserve the native low horizontal body, prominent folded haunches and tall narrow upright neck; do not replace the silhouette with a standing dragon or erect torso. Resolve the native sculpted forms into smooth coherent high-definition surfaces, not enlarged pixel blocks. Every feature is cast gold, including eyes, claws and crest.\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. Do not add large outspread wings or invented ornament.\nTransparency: render only the solid gold statuette. All exterior empty pixels have alpha 0, apart from the narrow antialias edge. No opaque or painted checkerboard, backdrop, haze, vignette, glow, cast shadow, magenta spill or matte fringe.\nChecks: one statuette, pose and silhouette as the sprite, all legs / talons / tail present and separated as drawn, transparent background, nothing cropped, same statuette in all views.\nInput 3: first HD reconstruction, supporting gold-material and pose reference ONLY. It is too close to side profile; do not copy its camera. Native inputs 1 and 2 remain the silhouette authority.\nPRIMARY CAMERA CORRECTION: rotate the near-orthographic CAMERA 40 degrees FROM THE ORIGINAL LEFT SIDE toward the animal's FRONT, so the camera is 50 degrees from straight front on the animal's anatomical left. Also elevate the camera 20 degrees above body level. A clear FRONT-LEFT THREE-QUARTER with visible front of muzzle, chest and left flank together, depth between nearer and farther shoulder/hip, and the top of the low back visible. The entire crouched dragon, not just its head, has this oblique projection. Do not re-pose its legs or turn the head relative to its neck.\nKeep the original low crouched body, folded hind legs, raised small clawed forelegs, long tall neck, gold face and complete thick curved tail. Restore the compact spike/fin crest BEHIND THE HEAD as in native input 1: do not continue a long invented spike row down the neck.\nFRAMING: pull the camera back. Entire silhouette including head crest, claws and tail inside x=110..914 and y=150..1386 on the 1024 x 1536 portrait canvas. Generous EMPTY alpha margins on every side. Center the whole figure. NO base/pedestal/floor/shadow. Genuine transparent PNG. Soft even neutral light, polished slightly worn solid yellow gold, crisp cast-sculpture detail.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-05379697-77d6-4fc2-95ad-7f358c4e04ee.png"
+    ],
+    "reason": "Selected: front-left oblique view with slightly elevated camera, complete gold statuette and curved tail, distinct raised clawed forelegs and folded haunches, compact head crest, wider empty margins and genuine alpha.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-7da43dea-420b-4e72-a8a4-920d5e0e4a20.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/raw/dragon_three_quarter_v2.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png",
+    "supersedes": [
+      "dragon_three_quarter_v1"
+    ],
+    "review": {
+      "method": "Visual comparison to original native sprites plus full-resolution light/dark alpha proof; actual-size, alpha, bounds and byte-identity checks.",
+      "one_statuette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "matching_native_pose_proportions": true,
+      "legs_talons_tail": "Raised clawed forelegs, folded hind legs and whole tapering curved tail present, with visible digits and limbs separated.",
+      "camera": "Front-left oblique view, slightly elevated; requested 40 degrees from left profile toward front and approximately 20 degrees elevation."
+    },
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+        "sha256": "a10876be09878339c94d8546fbe0fdfff193100dff8fed0febc3491af2b8295e"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+        "sha256": "29f8bfdec4ddedc319484e3734e9d2a554f39b146caeb503de8108468e85b911"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-05379697-77d6-4fc2-95ad-7f358c4e04ee.png",
+        "sha256": "643ba19eaf27b96c074b84b0fd5feda7c83ecefbd08f923cee27c8ec9348a493"
+      }
+    ],
+    "raw_sha256": "d1a24e43953478d7f5a0b1a69aea97f49a3e3e9fa2768608f5ed8c147f2f4d45",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      65,
+      141,
+      981,
+      1360
+    ],
+    "alpha_zero_fraction": 0.7115453084309896,
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_sha256": "d1a24e43953478d7f5a0b1a69aea97f49a3e3e9fa2768608f5ed8c147f2f4d45"
+  },
+  {
+    "id": "dragon_left_v1",
+    "family": "dragon_statuette",
+    "role": "left",
+    "selected": false,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Dragon Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE PORTRAIT 1024 x 1536 PNG, genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 statuette crop enlarged 8x nearest-neighbour, the design, pose, proportions and silhouette authority. Magenta is background; the grey strip at the bottom is the pedestal top, NOT part of the statuette.\nInput 2: whole native sprite enlarged 3x, contextual reference for the complete gold statuette including its feet and curved tail. The sprite shows the statuette's anatomical LEFT side, head toward the left of the image. Disregard the entire marble pedestal and its gold trim.\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet (or talons, tail tip) end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\nIdentity (from the native sprite): a dragon crouched low on its haunches with its long neck raised straight up and the head on top looking forward, a crest of sharp spikes (or small swept-up wings, exactly as drawn in the crop) rising behind the head, small clawed forelegs reaching forward off the ground, the hind legs folded under the body, a long thick tail curving down and back to the ground. Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal.\nPreserve the native low horizontal body, prominent folded haunches and tall narrow upright neck; do not replace the silhouette with a standing dragon or erect torso. Resolve the native sculpted forms into smooth coherent high-definition surfaces, not enlarged pixel blocks. Every feature is cast gold, including eyes, claws and crest.\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. Do not add large outspread wings or invented ornament.\nTransparency: render only the solid gold statuette. All exterior empty pixels have alpha 0, apart from the narrow antialias edge. No opaque or painted checkerboard, backdrop, haze, vignette, glow, cast shadow, magenta spill or matte fringe.\nChecks: one statuette, pose and silhouette as the sprite, all legs / talons / tail present and separated as drawn, transparent background, nothing cropped, same statuette in all views.\nInput 3: the SELECTED primary high-definition statuette. This is the SAME physical statuette to view from a different camera. Preserve its exact gold sculptural identity, head/crest details, neck and body proportions, limb anatomy, cast-gold surface, and crouched pose in BODY coordinates. Native inputs 1 and 2 remain the original silhouette authority. Rotate the CAMERA ONLY, no pose changes and no redesigned features. The animal's head continues to look body-forward, forelegs remain raised reaching forward off the ground, hind legs stay folded below the low horizontal body, and the same thick tapering tail curves down/back to the invisible ground plane.\nCamera: EXACT ANATOMICAL LEFT SIDE PROFILE, as shown in native inputs 1 and 2, dragon facing SCREEN-LEFT. Near-orthographic lateral camera exactly perpendicular to the body, LEVEL WITH THE BODY, zero elevation and zero three-quarter rotation. One near eye visible. Near shoulder/haunch naturally occlude their far counterparts; the far legs may be partially visible as in the native sprite, but do not splay them or rotate them to reveal them. Preserve the whole complete tail curve. Keep the neck raised and head forward, the low horizontal crouched body and native silhouette.\nFrame the complete statuette with generous transparent margins on every side, including crest, muzzle, talons and tail. Fit width comfortably into the PORTRAIT 1024 x 1536 native return; pull back the orthographic camera as necessary rather than elongating the animal to fill the portrait. No ground, pedestal, floor, shadow or background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: camera remained oblique rather than exact lateral profile, exposing the far foreleg too far forward.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-d739c90f-ab58-43e7-9f77-6e209d911328.png",
+    "superseded_by": "dragon_left_v2",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/raw/dragon_left_v1.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+        "sha256": "a10876be09878339c94d8546fbe0fdfff193100dff8fed0febc3491af2b8295e"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+        "sha256": "29f8bfdec4ddedc319484e3734e9d2a554f39b146caeb503de8108468e85b911"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png",
+        "sha256": "d1a24e43953478d7f5a0b1a69aea97f49a3e3e9fa2768608f5ed8c147f2f4d45"
+      }
+    ],
+    "raw_sha256": "371840705e3519ada59ed11e53b33ecdcd2ba4df84cdf3f129ae086eadc72a54",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      51,
+      220,
+      989,
+      1330
+    ],
+    "alpha_zero_fraction": 0.7197577158610026,
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "dragon_front_v1",
+    "family": "dragon_statuette",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Dragon Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE PORTRAIT 1024 x 1536 PNG, genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 statuette crop enlarged 8x nearest-neighbour, the design, pose, proportions and silhouette authority. Magenta is background; the grey strip at the bottom is the pedestal top, NOT part of the statuette.\nInput 2: whole native sprite enlarged 3x, contextual reference for the complete gold statuette including its feet and curved tail. The sprite shows the statuette's anatomical LEFT side, head toward the left of the image. Disregard the entire marble pedestal and its gold trim.\nONE statuette, centred, generous margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text: the feet (or talons, tail tip) end on an invisible flat ground plane. Even soft neutral studio light (no dramatic light), so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting.\nIdentity (from the native sprite): a dragon crouched low on its haunches with its long neck raised straight up and the head on top looking forward, a crest of sharp spikes (or small swept-up wings, exactly as drawn in the crop) rising behind the head, small clawed forelegs reaching forward off the ground, the hind legs folded under the body, a long thick tail curving down and back to the ground. Keep the sprite's proportions and pose exactly; sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal.\nPreserve the native low horizontal body, prominent folded haunches and tall narrow upright neck; do not replace the silhouette with a standing dragon or erect torso. Resolve the native sculpted forms into smooth coherent high-definition surfaces, not enlarged pixel blocks. Every feature is cast gold, including eyes, claws and crest.\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it. Do not add large outspread wings or invented ornament.\nTransparency: render only the solid gold statuette. All exterior empty pixels have alpha 0, apart from the narrow antialias edge. No opaque or painted checkerboard, backdrop, haze, vignette, glow, cast shadow, magenta spill or matte fringe.\nChecks: one statuette, pose and silhouette as the sprite, all legs / talons / tail present and separated as drawn, transparent background, nothing cropped, same statuette in all views.\nInput 3: the SELECTED primary high-definition statuette. This is the SAME physical statuette to view from a different camera. Preserve its exact gold sculptural identity, head/crest details, neck and body proportions, limb anatomy, cast-gold surface, and crouched pose in BODY coordinates. Native inputs 1 and 2 remain the original silhouette authority. Rotate the CAMERA ONLY, no pose changes and no redesigned features. The animal's head continues to look body-forward, forelegs remain raised reaching forward off the ground, hind legs stay folded below the low horizontal body, and the same thick tapering tail curves down/back to the invisible ground plane.\nCamera: EXACT STRAIGHT FRONT, the face looking directly toward the camera because camera is directly in front of the whole statuette; camera LEVEL WITH THE BODY, zero elevation. Near-orthographic frontal projection, camera centered on the animal's longitudinal midline, no oblique or side angle. Show the symmetrical front of muzzle, both eyes, front of upright neck/chest, both small clawed forelegs reaching forward off the ground, and folded hind legs on either side of the low body. The long back/body and tail point away from the camera and foreshorten naturally; do NOT move the tail around to the front just to expose it. Keep the complete tail physically present, allowing natural frontal occlusion by the body; any visible tail tip remains gold. All visible talons separated as drawn.\nPreserve input 3's EXACT crouched pose and proportions; do not turn the crouch into an upright seated humanoid or standing animal and do not spread the legs/arms sideways. Center the whole figure with generous empty transparent margins. ONE unresized PORTRAIT 1024 x 1536 genuine transparent PNG, no pedestal, ground, floor, shadow or backdrop.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: frontal camera and primary identity were good, but tail was moved visibly to the side instead of naturally foreshortening behind the body.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-cfebdcf3-e7be-4d8e-8ed2-ac3fbf8b463b.png",
+    "superseded_by": "dragon_front_v2",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/raw/dragon_front_v1.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+        "sha256": "a10876be09878339c94d8546fbe0fdfff193100dff8fed0febc3491af2b8295e"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+        "sha256": "29f8bfdec4ddedc319484e3734e9d2a554f39b146caeb503de8108468e85b911"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png",
+        "sha256": "d1a24e43953478d7f5a0b1a69aea97f49a3e3e9fa2768608f5ed8c147f2f4d45"
+      }
+    ],
+    "raw_sha256": "cfa958ec36edf418823303c5964166f5190505e6a255001b03d0ff490400c71b",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      136,
+      60,
+      948,
+      1398
+    ],
+    "alpha_zero_fraction": 0.6816768646240234,
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "dragon_left_v2",
+    "family": "dragon_statuette",
+    "role": "left",
+    "selected": true,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION, exact LEFT SIDE modelling reference for the EXISTING small cast-gold Dragon Statuette. Use case: identity-preserve.\nImage 1 is the native statuette crop: absolute original design, pose, proportion and LEFT PROFILE camera authority. Magenta and bottom grey strip are background.\nImage 2 is the full native sprite: complete gold animal silhouette and tail authority only; OMIT the entire pedestal.\nImage 3 is the selected HD primary: preserve this exact statuette identity, proportions, worn polished yellow gold, head/crest sculpt and crouched BODY-SPACE pose.\nImage 4 is the HD LEFT view to correct. Its CAMERA is still too oblique: both forelegs are displayed separately with a large screen offset. Fix this CAMERA defect only.\nGenerate exactly ONE 1024 x 1536 PORTRAIT genuinely transparent PNG, whole statuette uncropped with generous margins; unresized native return. NO pedestal, base, floor, shadow, text or environment. Soft even neutral light on the gold object only.\nROTATE THE CAMERA TO A TRUE ORTHOGRAPHIC LEFT LATERAL VIEW at BODY HEIGHT, zero elevation. Dragon faces exactly SCREEN-LEFT. Its longitudinal body axis is exactly parallel to the image plane. This is a pure SIDE ELEVATION, matching the native sprite's viewing angle, NOT front-left three-quarter. Show ONE near eye, ONE near nostril and only the SIDE EDGE of the neck/chest. The near shoulder and near haunch OCCLUDE the far shoulder and far haunch.\nPROFILE LIMB PROJECTION: the near raised foreleg and clawed hand mostly superimpose over the far foreleg/hand; do NOT display a separate far hand 100 pixels to the left of the near hand. Far limb can show only a small natural sliver behind the near one. Near folded hind leg mostly occludes the far hind leg. This occlusion is produced by the CAMERA ROTATION, not by changing or deleting limbs.\nKeep all four limbs physically present and the precise original pose: low horizontal crouched body; folded hind legs; small forelegs raised forward off ground; long neck upright; head looking forward; compact sharp crest behind the head; long thick tapering tail curves down/back to ground as in original input 2. Keep the same tail's complete lateral curve visible. No invented wings, new anatomy, gems, armour, stand or additional animal. ALL gold, including eyes and talons.\nFit the full silhouette comfortably inside the portrait, with approximately 75 pixels empty alpha at left/right and generous top/bottom margins. Do not stretch the animal vertically. Every exterior pixel alpha 0 apart from a narrow antialias edge; no haze, glow, painted checkerboard or background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-d739c90f-ab58-43e7-9f77-6e209d911328.png"
+    ],
+    "reason": "Selected: true left lateral camera with natural overlap of the raised forelegs and folded hind legs, complete side silhouette and tail curve; same gold sculptural identity and crouched pose as primary, no pedestal, genuine alpha.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-6261a6ee-bb09-4c27-8968-61ced3009367.png",
+    "supersedes": [
+      "dragon_left_v1"
+    ],
+    "review": {
+      "method": "Visual comparison to original native sprites and selected primary, followed by full-resolution light/dark alpha proof and actual-size, alpha, bounds and byte-identity checks.",
+      "one_statuette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "matching_primary_identity_pose_proportions": true,
+      "legs_talons_tail": "Visible limbs and claws separated, far limbs naturally overlap near limbs; complete curved tail visible.",
+      "camera": "Left profile, facing screen-left; camera level with body."
+    },
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/raw/dragon_left_v2.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+        "sha256": "a10876be09878339c94d8546fbe0fdfff193100dff8fed0febc3491af2b8295e"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+        "sha256": "29f8bfdec4ddedc319484e3734e9d2a554f39b146caeb503de8108468e85b911"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png",
+        "sha256": "d1a24e43953478d7f5a0b1a69aea97f49a3e3e9fa2768608f5ed8c147f2f4d45"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-d739c90f-ab58-43e7-9f77-6e209d911328.png",
+        "sha256": "371840705e3519ada59ed11e53b33ecdcd2ba4df84cdf3f129ae086eadc72a54"
+      }
+    ],
+    "raw_sha256": "9839f78ee8779baf6feef99bf3578279f69145741914a34f985c1ce82d0271ad",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      51,
+      225,
+      974,
+      1342
+    ],
+    "alpha_zero_fraction": 0.7439467112223307,
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/01_left.png",
+    "output_sha256": "9839f78ee8779baf6feef99bf3578279f69145741914a34f985c1ce82d0271ad"
+  },
+  {
+    "id": "dragon_front_v2",
+    "family": "dragon_statuette",
+    "role": "front",
+    "selected": true,
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION. Use case: identity-preserve. ONE existing small solid cast-gold Dragon Statuette, not a new design.\nInputs: 1 = original native statuette design/pose/proportion authority, magenta and bottom grey strip are background; 2 = whole native sprite for gold animal only, no pedestal; 3 = selected HD primary of the exact SAME sculpture/pose; 4 = FRONT VIEW TO CORRECT.\nCHANGE ONLY THE TAIL PROJECTION in image 4. Preserve its exact STRAIGHT FRONT near-orthographic camera at body level, centered face looking to camera, head/crest, gold features, neck, front chest, all four limbs, raised reaching forelegs with separated claws, folded haunches/hind feet, body proportions, worn polished yellow gold material and neutral studio light.\nThe tail originates from the rear of the SAME low horizontal crouched body and curves DOWN and BACK in the dragon's sagittal/longitudinal plane, as the lateral tail loop in native input 2 and primary input 3. Viewed from straight front, this tail is foreshortened AWAY from camera and naturally OCCLUDED behind the body/haunches. REMOVE the incorrect large visible side-facing tail loop sticking out on the image RIGHT. Do not move the tail to the front or swing it sideways for visibility. The entire tail remains physically present behind the body; a small tip may be visible only if consistent with the frontal camera and the SAME primary pose.\nKeep exact image 4 identity and pose; no other redesign, no new limbs, no changes to head/horns/fins or hands/feet. No base, plinth, pedestal, ground, floor, shadow, scenery, text, gems, saddle or armour.\nONE PORTRAIT 1024 x 1536 PNG, genuine alpha transparency, unresized native return. Whole figure centered, generous empty margins on every side, no cropping. Render only the gold sculpture; exterior pixels alpha 0 apart from antialias edge. No backdrop, vignette, haze, glow or painted checkerboard.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-cfebdcf3-e7be-4d8e-8ed2-ac3fbf8b463b.png"
+    ],
+    "reason": "Selected: centered straight front at body height, matching face/crest and upright neck, both raised clawed forelegs and folded haunches, tail correctly occluded behind body rather than moved sideways; same gold statuette, genuine alpha.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-86dfed24-2654-4b46-a103-d06cd3225e66.png",
+    "supersedes": [
+      "dragon_front_v1"
+    ],
+    "review": {
+      "method": "Visual comparison to original native sprites and selected primary, followed by full-resolution light/dark alpha proof and actual-size, alpha, bounds and byte-identity checks.",
+      "one_statuette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "matching_primary_identity_pose_proportions": true,
+      "legs_talons_tail": "Both raised forelegs and folded hind legs visible with separated talons; the tail stays behind the body with natural frontal occlusion.",
+      "camera": "Straight front, face toward camera; camera level with body."
+    },
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/raw/dragon_front_v2.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_statuette_x8.png",
+        "sha256": "a10876be09878339c94d8546fbe0fdfff193100dff8fed0febc3491af2b8295e"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/native_full_x3.png",
+        "sha256": "29f8bfdec4ddedc319484e3734e9d2a554f39b146caeb503de8108468e85b911"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/00_three_quarter.png",
+        "sha256": "d1a24e43953478d7f5a0b1a69aea97f49a3e3e9fa2768608f5ed8c147f2f4d45"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4d97-7fa1-a099-4d57299de760/exec-cfebdcf3-e7be-4d8e-8ed2-ac3fbf8b463b.png",
+        "sha256": "cfa958ec36edf418823303c5964166f5190505e6a255001b03d0ff490400c71b"
+      }
+    ],
+    "raw_sha256": "34af7d924be0bbe1b9da8a70f61a29cfdc20322524b1d68cefaa02a24a62af40",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      136,
+      60,
+      854,
+      1399
+    ],
+    "alpha_zero_fraction": 0.6983553568522135,
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/dragon/references_hd/02_front.png",
+    "output_sha256": "34af7d924be0bbe1b9da8a70f61a29cfdc20322524b1d68cefaa02a24a62af40"
+  }
+]

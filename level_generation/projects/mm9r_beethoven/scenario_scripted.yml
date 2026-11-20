@@ -1,0 +1,131 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.beethoven_scripted
+title: Beethoven (native BLV) - coffins, the great door, Ludwig's manuscript, the bottle
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: beethoven.blv
+- note:
+    text: Trigger0 opens CoffinRaised3's lid (1 s) over PetrifiedMummy0, which lies inside; it wakes (wakeup2) and at its
+      kick (3.232 s on) the coffin breaks (CoffinRaise.scr, CoffinMummy.scr).
+- assert:
+    actor_visible:
+      actor_index: 74
+      hidden: true
+- movement_segment:
+    input: forward
+    seconds: 0.32
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: beethoven.blv
+      x: -8438
+      y: 5968
+      z: -1883
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: beethoven.blv
+      x: -8438
+      y: 6188
+      z: -1883
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 70
+    tolerance_z: 24
+- assert:
+    state_dump_named_map_var:
+      name: Coffin5
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 74
+      hidden: false
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    state_dump_named_map_var:
+      name: Coffin5
+      value: 3
+- advance_runtime:
+    seconds: 3.732
+- assert:
+    state_dump_named_map_var:
+      name: Coffin5
+      value: 2
+- note:
+    text: Lever6 (event 91) parts the great door for good (Door SDoor11/12, Lever5/6).
+- assert:
+    mechanism:
+      id: 27
+      state: closed
+- execute_event:
+    id: 91
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 27
+      state: open
+- assert:
+    mechanism:
+      id: 28
+      state: open
+- assert:
+    mechanism:
+      id: 29
+      state: open
+- execute_event:
+    id: 91
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 27
+      state: open
+- note:
+    text: 'The manuscript (Ludwigsmanuscript.scr), clicked between the bars of its grate: item 248, key 110 without Ludwig''s
+      key 14; a second click does nothing.'
+- set_pose:
+    map: beethoven.blv
+    x: -8521
+    y: -8249
+    z: -3111
+    yaw: -1.5708
+    pitch: -0.5526
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 90110
+- assert:
+    qbit_clear:
+    - 90016
+- assert:
+    inventory_any_member:
+    - item_id: 10248
+      count: 1
+- execute_event:
+    id: 90
+- assert:
+    inventory_any_member:
+    - item_id: 10248
+      count: 1
+- note:
+    text: 'The bottle: arriving at the south start started bottle 1; another start''s trigger changes nothing (BottleFollow.scr:
+      the other three are removed).'
+- assert:
+    state_dump_named_map_var:
+      name: Bottle
+      value: 1
+- execute_event:
+    id: 173
+- assert:
+    state_dump_named_map_var:
+      name: Bottle
+      value: 1

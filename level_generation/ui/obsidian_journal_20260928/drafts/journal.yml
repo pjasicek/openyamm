@@ -1,0 +1,760 @@
+# APPROVED DESIGN 01 / 2026-09-28 / UNMOUNTED RUNTIME DRAFT. Reuses native actions and IDs.
+# See README.md for font, animated-icon and child drawing hooks.
+screen: Journal
+elements:
+- id: JournalRoot
+  anchor: center
+  width: 640
+  height: 480
+  z_index: 440
+  visible: true
+  scale:
+    min: 1.0
+    max: 8.0
+  children:
+  - id: JournalBackground
+    anchor: top_left
+    offset_x: 0
+    offset_y: 0
+    width: 640
+    height: 480
+    z_index: 0
+    asset:
+      default: obsidian_journal_background
+  - id: JournalQuestsTopLeftArt
+    anchor: top_left
+    offset_x: 39.466667
+    offset_y: 27.733333
+    width: 47.466667
+    height: 47.466667
+    z_index: 10
+    asset:
+      default: obsidian_journal_icon_quests
+    notes: Use staged icon at this restrained size; retain conditional view visibility.
+  - id: JournalStoryTopLeftArt
+    anchor: top_left
+    offset_x: 39.466667
+    offset_y: 27.733333
+    width: 47.466667
+    height: 47.466667
+    z_index: 10
+    asset:
+      default: obsidian_journal_icon_story
+    notes: Use staged icon at this restrained size; retain conditional view visibility.
+  - id: JournalNotesTopLeftArt
+    anchor: top_left
+    offset_x: 39.466667
+    offset_y: 27.733333
+    width: 47.466667
+    height: 47.466667
+    z_index: 10
+    asset:
+      default: obsidian_journal_icon_notes
+    notes: Use staged icon at this restrained size; retain conditional view visibility.
+  - id: JournalMainViewMap
+    anchor: top_left
+    offset_x: 560
+    offset_y: 24
+    width: 67.2
+    height: 80
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+    children:
+    - id: JournalMainViewMapIcon
+      anchor: top_left
+      offset_y: 4.266667
+      width: 52.8
+      height: 52.933333
+      asset:
+        default: obsidian_journal_icon_map
+      offset_x: 7.2
+      z_index: 31
+    - id: JournalMainViewMapLabel
+      anchor: top_left
+      offset_y: 59.333333
+      width: 27.858333
+      height: 15.333333
+      text:
+        value: Map
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 19.666667
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalMainViewQuests
+    anchor: top_left
+    offset_x: 560
+    offset_y: 121.066667
+    width: 67.2
+    height: 80
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+    children:
+    - id: JournalMainViewQuestsIcon
+      anchor: top_left
+      offset_y: 4.266667
+      width: 52.8
+      height: 52.933333
+      asset:
+        default: obsidian_journal_icon_quests
+      offset_x: 7.2
+      z_index: 31
+    - id: JournalMainViewQuestsLabel
+      anchor: top_left
+      offset_y: 59.333333
+      width: 40.075
+      height: 15.333333
+      text:
+        value: Quests
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 13.558333
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalMainViewStory
+    anchor: top_left
+    offset_x: 560
+    offset_y: 218.133333
+    width: 67.2
+    height: 80
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+    children:
+    - id: JournalMainViewStoryIcon
+      anchor: top_left
+      offset_y: 4.266667
+      width: 52.8
+      height: 52.933333
+      asset:
+        default: obsidian_journal_icon_story
+      offset_x: 7.2
+      z_index: 31
+    - id: JournalMainViewStoryLabel
+      anchor: top_left
+      offset_y: 59.333333
+      width: 32.191667
+      height: 15.333333
+      text:
+        value: Story
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 17.5
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalMainViewNotes
+    anchor: top_left
+    offset_x: 560
+    offset_y: 315.2
+    width: 67.2
+    height: 80
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+    children:
+    - id: JournalMainViewNotesIcon
+      anchor: top_left
+      offset_y: 4.266667
+      width: 52.8
+      height: 52.933333
+      asset:
+        default: obsidian_journal_icon_notes
+      offset_x: 7.2
+      z_index: 31
+    - id: JournalMainViewNotesLabel
+      anchor: top_left
+      offset_y: 59.333333
+      width: 34.258333
+      height: 15.333333
+      text:
+        value: Notes
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 16.466667
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalMapViewport
+    anchor: top_left
+    offset_x: 131
+    offset_y: 101
+    width: 300
+    height: 300
+    z_index: 15
+  - id: JournalMapTitleText
+    anchor: top_left
+    offset_x: 109.333333
+    offset_y: 56.533333
+    width: 339.2
+    height: 35.733333
+    z_index: 20
+    text:
+      value: '{map_title}'
+      font: Book2
+      align_x: center
+      align_y: middle
+      scale: 1
+      color: '#e4c793'
+    notes: Keep recreated Book2. Fit long titles only down to 22.4 logical; preserve native title binding.
+  - id: JournalMapCoordinatesText
+    anchor: top_left
+    offset_x: 131
+    offset_y: 452
+    width: 300
+    height: 20
+    z_index: 25
+    text:
+      value: '{coords}'
+      font: Create
+      align_x: center
+      align_y: top
+      color: '#d0c7b0'
+    notes: Keep live coordinates / selected or hovered note; no fixture text enters runtime.
+  - id: JournalMapNoteTextBackground
+    anchor: top_left
+    offset_x: 98
+    offset_y: 408
+    width: 364
+    height: 24
+    z_index: 24
+    asset:
+      default: obsidian_journal_note_bar
+  - id: JournalMapNoteText
+    anchor: top_left
+    offset_x: 106
+    offset_y: 411
+    width: 348
+    height: 18
+    z_index: 25
+    text:
+      value: '{map_note}'
+      font: Create
+      align_x: left
+      align_y: middle
+      color: '#e5dcc7'
+    notes: Keep live coordinates / selected or hovered note; no fixture text enters runtime.
+  - id: JournalMapZoomInButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 38
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+      selected: obsidian_journal_page_selected
+    children:
+    - id: JournalMapZoomInButtonIcon
+      anchor: top_left
+      offset_y: 7.2
+      width: 20.266667
+      height: 16
+      asset:
+        default: obsidian_journal_zoom_in
+      offset_x: 20
+      z_index: 31
+    - id: JournalMapZoomInButtonLabel
+      anchor: top_left
+      offset_y: 24.266667
+      width: 37.7
+      height: 12.266667
+      text:
+        value: Zoom in
+        font: Fondamento
+        scale: 0.3333333333333333
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 11.283333
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalMapZoomOutButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 90.266667
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+      selected: obsidian_journal_page_selected
+    children:
+    - id: JournalMapZoomOutButtonIcon
+      anchor: top_left
+      offset_y: 7.2
+      width: 20.266667
+      height: 16
+      asset:
+        default: obsidian_journal_zoom_out
+      offset_x: 20
+      z_index: 31
+    - id: JournalMapZoomOutButtonLabel
+      anchor: top_left
+      offset_y: 24.266667
+      width: 44.116667
+      height: 12.266667
+      text:
+        value: Zoom out
+        font: Fondamento
+        scale: 0.3333333333333333
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 8.075
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalPrevPageButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 38
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+      selected: obsidian_journal_page_selected
+    children:
+    - id: JournalPrevPageButtonIcon
+      anchor: top_left
+      offset_y: 7.2
+      width: 20.266667
+      height: 16
+      asset:
+        default: obsidian_journal_previous
+      offset_x: 20
+      z_index: 31
+    - id: JournalPrevPageButtonLabel
+      anchor: top_left
+      offset_y: 24.266667
+      width: 39.933333
+      height: 12.266667
+      text:
+        value: Previous
+        font: Fondamento
+        scale: 0.3333333333333333
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 10.166667
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalNextPageButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 90.266667
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+      selected: obsidian_journal_page_selected
+    children:
+    - id: JournalNextPageButtonIcon
+      anchor: top_left
+      offset_y: 7.2
+      width: 20.266667
+      height: 16
+      asset:
+        default: obsidian_journal_next
+      offset_x: 20
+      z_index: 31
+    - id: JournalNextPageButtonLabel
+      anchor: top_left
+      offset_y: 24.266667
+      width: 23.008333
+      height: 12.266667
+      text:
+        value: Next
+        font: Fondamento
+        scale: 0.3333333333333333
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 18.625
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalTitleText
+    anchor: top_left
+    offset_x: 109.333333
+    offset_y: 56.533333
+    width: 339.2
+    height: 35.733333
+    z_index: 20
+    text:
+      value: '{title}'
+      font: Book2
+      align_x: center
+      align_y: middle
+      scale: 1
+      color: '#e4c793'
+    notes: Keep recreated Book2. Fit long titles only down to 22.4 logical; preserve native title binding.
+  - id: JournalTextViewport
+    anchor: top_left
+    offset_x: 101
+    offset_y: 96
+    width: 360
+    height: 293
+    z_index: 20
+    text:
+      value: '{body}'
+      font: AUTONOTE
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+      scale: 0.9
+    notes: 'USER REFINEMENT: justify body paragraphs to both edges using inter-word spacing; leave paragraph final
+      lines and single-line entries left aligned. A paragraph continuing on the next page stays justified. The current
+      parser only supports left/center/right, so align_x stays parseable until native justification is added. See
+      design/theme.yml body_alignment. Use the 360-logical-wide text block and 28-logical gap to submenu controls
+      from reference 2105. Preserve original font/scale, native pagination and tintable Autonote.'
+  - id: JournalNotesPotionButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 144
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_category_normal
+      highlighted: obsidian_journal_category_hover
+      pressed: obsidian_journal_category_pressed
+      selected: obsidian_journal_category_selected
+    children:
+    - id: JournalNotesPotionButtonIcon
+      anchor: top_left
+      offset_y: 1.908333
+      width: 28.266667
+      height: 28.266667
+      asset:
+        default: obsidian_journal_icon_potion
+      offset_x: 16
+      z_index: 31
+    - id: JournalNotesPotionButtonLabel
+      anchor: top_left
+      offset_y: 30.175
+      width: 32.283333
+      height: 11.65
+      text:
+        value: Potions
+        font: Fondamento
+        scale: 0.31666666666666665
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 13.991667
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalNotesFountainButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 190.4
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_category_normal
+      highlighted: obsidian_journal_category_hover
+      pressed: obsidian_journal_category_pressed
+      selected: obsidian_journal_category_selected
+    children:
+    - id: JournalNotesFountainButtonIcon
+      anchor: top_left
+      offset_y: 1.908333
+      width: 28.266667
+      height: 28.266667
+      asset:
+        default: obsidian_journal_icon_fountain
+      offset_x: 16
+      z_index: 31
+    - id: JournalNotesFountainButtonLabel
+      anchor: top_left
+      offset_y: 30.175
+      width: 42.208333
+      height: 11.65
+      text:
+        value: Fountains
+        font: Fondamento
+        scale: 0.31666666666666665
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 9.025
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalNotesObeliskButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 236.8
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_category_normal
+      highlighted: obsidian_journal_category_hover
+      pressed: obsidian_journal_category_pressed
+      selected: obsidian_journal_category_selected
+    children:
+    - id: JournalNotesObeliskButtonIcon
+      anchor: top_left
+      offset_y: 1.908333
+      width: 28.266667
+      height: 28.266667
+      asset:
+        default: obsidian_journal_icon_obelisk
+      offset_x: 16
+      z_index: 31
+    - id: JournalNotesObeliskButtonLabel
+      anchor: top_left
+      offset_y: 30.175
+      width: 37.625
+      height: 11.65
+      text:
+        value: Obelisks
+        font: Fondamento
+        scale: 0.31666666666666665
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 11.316667
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalNotesSeerButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 283.2
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_category_normal
+      highlighted: obsidian_journal_category_hover
+      pressed: obsidian_journal_category_pressed
+      selected: obsidian_journal_category_selected
+    children:
+    - id: JournalNotesSeerButtonIcon
+      anchor: top_left
+      offset_y: 1.908333
+      width: 28.266667
+      height: 28.266667
+      asset:
+        default: obsidian_journal_icon_seer
+      offset_x: 16
+      z_index: 31
+    - id: JournalNotesSeerButtonLabel
+      anchor: top_left
+      offset_y: 30.175
+      width: 18.75
+      height: 11.65
+      text:
+        value: Seer
+        font: Fondamento
+        scale: 0.31666666666666665
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 20.758333
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalNotesMiscButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 329.6
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_category_normal
+      highlighted: obsidian_journal_category_hover
+      pressed: obsidian_journal_category_pressed
+      selected: obsidian_journal_category_selected
+    children:
+    - id: JournalNotesMiscButtonIcon
+      anchor: top_left
+      offset_y: 1.908333
+      width: 28.266667
+      height: 28.266667
+      asset:
+        default: obsidian_journal_icon_misc
+      offset_x: 16
+      z_index: 31
+    - id: JournalNotesMiscButtonLabel
+      anchor: top_left
+      offset_y: 30.175
+      width: 24.883333
+      height: 11.65
+      text:
+        value: Misc.
+        font: Fondamento
+        scale: 0.31666666666666665
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 17.691667
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalNotesTrainerButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 376
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_category_normal
+      highlighted: obsidian_journal_category_hover
+      pressed: obsidian_journal_category_pressed
+      selected: obsidian_journal_category_selected
+    children:
+    - id: JournalNotesTrainerButtonIcon
+      anchor: top_left
+      offset_y: 1.908333
+      width: 28.266667
+      height: 28.266667
+      asset:
+        default: obsidian_journal_icon_trainer
+      offset_x: 16
+      z_index: 31
+    - id: JournalNotesTrainerButtonLabel
+      anchor: top_left
+      offset_y: 30.175
+      width: 35.45
+      height: 11.65
+      text:
+        value: Trainers
+        font: Fondamento
+        scale: 0.31666666666666665
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 12.408333
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalCloseButton
+    anchor: top_left
+    offset_x: 560
+    offset_y: 428.266667
+    width: 67.2
+    height: 29.866667
+    z_index: 40
+    interactive: true
+    asset:
+      default: obsidian_journal_close_normal
+      highlighted: obsidian_journal_close_hover
+      pressed: obsidian_journal_close_pressed
+      selected: obsidian_journal_close_selected
+    children:
+    - id: JournalCloseButtonLabel
+      anchor: top_left
+      offset_y: 5.733333
+      width: 37.125
+      height: 18.4
+      text:
+        value: Close
+        font: Fondamento
+        scale: 0.5
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 15.033333
+      z_index: 41
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalPageNumber
+    anchor: top_left
+    offset_x: 101
+    offset_y: 422.4
+    width: 360
+    height: 14.4
+    text:
+      value: '{page} / {pages}'
+      font: SMALLNUM
+      scale: 1
+      color: '#b4ad95'
+      align_x: center
+    notes: Approved page-count binding; hidden on map and empty journal. The review hides it in reference mode.
+  - id: JournalMapFrame
+    anchor: top_left
+    offset_x: 118.2
+    offset_y: 88.2
+    width: 325.6
+    height: 325.6
+    z_index: 16
+    asset:
+      default: obsidian_journal_map_frame
+    notes: Transparent frame drawn over the map only. Keep JournalMapViewport and its hit region unchanged.

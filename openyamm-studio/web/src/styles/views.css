@@ -1,0 +1,57 @@
+/* Elements the framework-free view modules make (no CSS modules there): the plan's canvas and label layer, the 3D
+   canvas. Colours from the tokens. */
+.oy-plan-canvas, .oy-plan-svg, .oy-viewport-canvas
+{
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+
+.oy-plan-canvas
+{
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.oy-viewport-canvas
+{
+    outline: none;
+    touch-action: none;
+}
+
+.oy-plan-svg
+{
+    pointer-events: none;
+}
+
+.oy-plan-label
+{
+    font: 600 var(--size-s) var(--mono);
+    fill: var(--text);
+    paint-order: stroke;
+    stroke: var(--surface);
+    stroke-width: 3px;
+    text-anchor: middle;
+}
+
+.oy-plan-label-selected
+{
+    fill: var(--plan-select);
+}
+
+.oy-plan-stale
+{
+    fill: var(--warn);
+    text-anchor: start;
+}
+
+/* The game's frame over the 3D view in walk mode (Viewport.setFrameShown): what the game shows from the same pose at
+   16:9, the rest of the view lying outside it. */
+.oy-game-frame
+{
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px dashed color-mix(in srgb, var(--view-crosshair, #fff) 70%, transparent);
+    box-shadow: 0 0 0 9999px rgb(0 0 0 / 0.18);
+    pointer-events: none;
+}

@@ -1,0 +1,26 @@
+{
+  "prompt": "# Lachmon Hauberk: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10104/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: A short-sleeved long hauberk of pale green-silver chain mail with a round neck and a long skirt split at the front; pale green tint on silver links, no trim..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A short-sleeved long hauberk of pale green-silver chain mail with a round neck and a long skirt split at the front; pale green tint on silver links, no trim.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10104/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nUse case: precise-object-edit. Input 1 paint_mask_guide.png is the exact edit target; input 2 design_reference.png is material detail only; input 3 icon_x8.png is colour only. Preserve the guide alpha silhouettes and all 10 placements exactly. All surfaces are metal, so all five lower-half mask silhouettes must be solid pure #FF0000 throughout, including visible inner surfaces. Do not interpret view names to rotate anything: copy the actual guide orientations exactly. Output 1536x2048 transparent PNG.\nCRITICAL correction: the previous attempt produced red speckled clouds outside the bottom mask shapes. This is forbidden. Produce pristine clean alpha edges, absolutely zero red pixels outside the exact original grey silhouettes. Lower five shapes must be uniform solid red with no black outlines, no noise, no gradients. Preserve original holes and sleeve openings. Follow the original guide, not the failed output. Canvas must be 3:4.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acb3-e58f-7833-bf75-6cb42ccaaf8e/exec-ea69789f-367a-48fe-a74b-b7ebf9d1bd60.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10104/paint_mask_guide.png",
+      "sha256": "efd497d52c2ad063d44ac16dc0476a6c9491b373113ec568de9465aaaaf407ee"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10104/design_reference.png",
+      "sha256": "43fbd55e585a1cb8c70ef9877d5e367686b9ec9364ad986a7998ab309a00abfc"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10104/icon_x8.png",
+      "sha256": "4fdd373f2259d59ef6162a926c3cc4c2c08fdf1d84b99185099eec1d883a60f6"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10104/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Failed visual inspection: stray red pixels outside mask silhouettes persist after the one allowed corrective regeneration; raw output preserved unchanged."
+}

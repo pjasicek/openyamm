@@ -1,0 +1,18 @@
+{
+  "source": "assets_dev/worlds/mm6/maps/oute3.odm",
+  "kind": "outdoor",
+  "view": "heightfield and BModel isometric",
+  "camera_position": [
+    328.1999816894531,
+    -455.1999816894531,
+    727.0750122070312
+  ],
+  "camera_target": [
+    -2.0,
+    2.0,
+    15.875
+  ],
+  "scale_game_units_per_blender_unit": 128,
+  "missing_textures": [],
+  "limitations": "Inspection lighting; no actors, decoration billboards, gameplay state, or animated water compositing"
+}

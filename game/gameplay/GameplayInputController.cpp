@@ -1,17 +1,33 @@
 #include "game/gameplay/GameplayInputController.h"
+#include "game/ui/GameplaySoloTalentsPage.h"
+#include "engine/Localization.h"
+#include "game/ui/GameplayBattleOrders.h"
+#include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplaySoloBarSelector.h"
+#include "game/ui/GameplayLootSummaryRenderer.h"
 
 #include "game/audio/SoundIds.h"
 #include "game/gameplay/GameplayActionController.h"
 #include "game/app/GameSettings.h"
+#include "game/gameplay/GameplayHudInputController.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayItemService.h"
+#include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplaySpellActionController.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/party/Party.h"
+#include "game/party/SpeechIds.h"
+#include "game/tables/SpellTable.h"
+#include "game/ui/GameplayQuickItems.h"
+#include "game/ui/GameplaySoloHud.h"
 
 #include <SDL3/SDL.h>
 
+#include <array>
 #include <optional>
 
 namespace OpenYAMM::Game
@@ -147,6 +163,16 @@ GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries(
 }
 } // namespace
 
+bool GameplayInputController::updateAutoWalk(bool active, const GameplayAutoWalkInput &input)
+{
+    if (!input.canWalk || input.turnBased || input.forwardPressed || input.backwardPressed)
+    {
+        return false;
+    }
+
+    return input.togglePressed ? !active : active;
+}
+
 GameplayMouseLookPolicyResult GameplayInputController::updateGameplayMouseLookPolicy(
     GameplayScreenState::GameplayMouseLookState &state,
     const GameplayMouseLookPolicyConfig &config)
@@ -168,8 +194,12 @@ void GameplayInputController::handleStandardUiHotkeys(
     GameplayScreenRuntime &context,
     const GameplayStandardUiHotkeyConfig &config)
 {
-    // Letters typed into the alchemy bench search are text, not hotkeys; the bench handles Escape itself.
-    if (GameplayUiController::alchemyBenchSearchActive(context.characterScreenReadOnly()))
+    // Letters typed into the alchemy bench, inventory, journal, Battle Orders or solo bar selector search are text, not
+    // hotkeys; each handles Escape itself.
+    if (GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
+        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly())
+        || GameplaySoloBarSelector::isOpen(context))
     {
         return;
     }
@@ -193,9 +223,10 @@ void GameplayInputController::handleStandardUiHotkeys(
     const bool houseShopActive = context.houseShopOverlay().active;
     const bool houseBankInputActive = context.houseBankState().inputActive();
     const bool gameplayHudActive = context.currentHudScreenState() == GameplayHudScreenState::Gameplay;
-    const bool canOpenRestFromGameplay =
-        config.canOpenRest
-        && gameplayHudActive
+    const bool formationBuilderOpen = GameplayFormationBuilder::isOpen(context);
+    // Play with nothing open: the rest key and MAW's play keys act.
+    const bool gameplayIdle =
+        gameplayHudActive
         && !activeEventDialog
         && !hasActiveLootView
         && !characterScreenOpen
@@ -211,9 +242,13 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !quickReferenceActive
         && !context.inventoryNestedOverlay().active
         && !context.readableScrollOverlayReadOnly().active
+        && !context.lootSummaryOverlayReadOnly().active
+        && !formationBuilderOpen
+        && !GameplaySoloBarSelector::armed(context)
         && !context.utilitySpellOverlayReadOnly().active
         && !houseShopActive
         && !houseBankInputActive;
+    const bool canOpenRestFromGameplay = config.canOpenRest && gameplayIdle;
 
     if (isEscapeNewlyPressed(context, config.pKeyboardState))
     {
@@ -222,9 +257,36 @@ void GameplayInputController::handleStandardUiHotkeys(
             return;
         }
 
+        if (context.readableScrollOverlayReadOnly().active)
+        {
+            context.itemService().closeReadableScrollOverlay();
+            context.interactionState().menuToggleLatch = true;
+            return;
+        }
+
+        if (context.lootSummaryOverlayReadOnly().active)
+        {
+            GameplayLootSummaryRenderer::close(context);
+            context.interactionState().menuToggleLatch = true;
+            return;
+        }
+
+        // Escape keeps the old formation, as Cancel.
+        if (formationBuilderOpen)
+        {
+            GameplayFormationBuilder::close(context);
+            context.interactionState().menuToggleLatch = true;
+            return;
+        }
+
         if (spellbookActive)
         {
-            context.closeSpellbookOverlay();
+            // The Battle Orders window and the spell menu take their own Escape (the spellbook's input).
+            if (!GameplayBattleOrders::isOpen(context) && !GameplayBattleOrders::spellMenuOpen(context))
+            {
+                context.closeSpellbookOverlay();
+            }
+
             context.interactionState().menuToggleLatch = true;
             return;
         }
@@ -236,8 +298,14 @@ void GameplayInputController::handleStandardUiHotkeys(
             return;
         }
 
-        // An open alchemy bench takes this Escape itself and leaves the character screen open.
-        if (characterScreenOpen && !context.characterScreenReadOnly().alchemyBench.active)
+        // An open alchemy bench, an inventory item search (cleared by it) and a solo run's Talents page (back to the
+        // Skills page) take this Escape themselves and leave the character screen open.
+        const GameplayUiController::CharacterScreenState &characterScreen = context.characterScreenReadOnly();
+
+        if (characterScreenOpen && !characterScreen.alchemyBench.active
+            && !(characterScreen.page == GameplayUiController::CharacterPage::Inventory
+                && !characterScreen.inventorySearch.empty())
+            && !GameplaySoloTalentsPage::pageShown(context))
         {
             context.closeCharacterScreen();
             context.interactionState().menuToggleLatch = true;
@@ -253,8 +321,11 @@ void GameplayInputController::handleStandardUiHotkeys(
         }
     }
 
+    // Escape closes the quick item popup or ring first (GameplayQuickItems).
     const bool canToggleMenu =
         !activeEventDialog
+        && !GameplayQuickItems::needsCursor(context)
+        && !formationBuilderOpen
         && !hasActiveLootView
         && !characterScreenOpen
         && !spellbookActive
@@ -299,7 +370,7 @@ void GameplayInputController::handleStandardUiHotkeys(
             {
                 if (!context.interactionState().restToggleLatch)
                 {
-                    context.setStatusBarEvent("You can't rest in turn-based mode!");
+                    context.setStatusBarEvent(Engine::tr("You can't rest in turn-based mode!"));
                     context.playCantRestHereReaction();
                     context.interactionState().restToggleLatch = true;
                 }
@@ -350,7 +421,26 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !quickReferenceActive
         && !houseShopActive
         && !houseBankInputActive
+        && !formationBuilderOpen
         && !config.blockSpellbookToggle;
+
+    // The Battle Orders key opens the window over the book (the book with it), and closes it again.
+    if (isActionNewlyPressed(context, KeyboardAction::BattleOrders, config.pInputFrame, config.pKeyboardState))
+    {
+        if (GameplayBattleOrders::isOpen(context))
+        {
+            GameplayBattleOrders::close(context);
+        }
+        else if (context.spellbookReadOnly().active)
+        {
+            GameplayBattleOrders::open(context, false);
+        }
+        else if (canToggleSpellbook)
+        {
+            context.openSpellbookOverlay();
+            GameplayBattleOrders::open(context, true);
+        }
+    }
 
     if (isActionNewlyPressed(context, KeyboardAction::Cast, config.pInputFrame, config.pKeyboardState))
     {
@@ -375,9 +465,10 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !loadGameActive
         && !journalActive
         && !quickReferenceActive
+        && !formationBuilderOpen
         && !config.blockInventoryToggle;
 
-    if (isActionNewlyPressed(context, KeyboardAction::Quest, config.pInputFrame, config.pKeyboardState)
+    if (isActionNewlyPressed(context, KeyboardAction::Inventory, config.pInputFrame, config.pKeyboardState)
         && canToggleInventory)
     {
         if (hasActiveLootView)
@@ -395,6 +486,105 @@ void GameplayInputController::handleStandardUiHotkeys(
         {
             context.toggleCharacterInventoryScreen();
         }
+    }
+
+    // MM9's formation key opens the builder over play and closes it again (keeping the old formation).
+    if (isActionNewlyPressed(context, KeyboardAction::PartyFormation, config.pInputFrame, config.pKeyboardState))
+    {
+        if (formationBuilderOpen)
+        {
+            GameplayFormationBuilder::close(context);
+        }
+        else if (gameplayIdle && GameplayFormationBuilder::available(context))
+        {
+            GameplayFormationBuilder::open(context);
+        }
+    }
+
+    // The gather key closes the loot summary it opened.
+    if (context.lootSummaryOverlayReadOnly().active
+        && isActionNewlyPressed(context, KeyboardAction::GatherLoot, config.pInputFrame, config.pKeyboardState))
+    {
+        GameplayLootSummaryRenderer::close(context);
+    }
+
+    // MAW's keys (devdocs/maw/GAPS.md §11 D.18), listed in the key bindings of a MAW game only.
+    if (Party *pParty = context.party(); gameplayIdle && pParty != nullptr && pWorldRuntime != nullptr)
+    {
+        if (isActionNewlyPressed(context, KeyboardAction::Unstuck, config.pInputFrame, config.pKeyboardState))
+        {
+            std::string statusText;
+
+            if (!GameplayActionController::tryUnstuckParty(*pParty, *pWorldRuntime, statusText) && !statusText.empty())
+            {
+                context.setStatusBarEvent(statusText);
+            }
+        }
+
+        if (isActionNewlyPressed(context, KeyboardAction::GatherLoot, config.pInputFrame, config.pKeyboardState))
+        {
+            GameplayActionController::GatherLootResult result =
+                GameplayActionController::gatherLoot(*pParty, *pWorldRuntime);
+
+            if (result.summary.active)
+            {
+                context.lootSummaryOverlay() = std::move(result.summary);
+            }
+            else if (result.statusText)
+            {
+                context.setStatusBarEvent(*result.statusText);
+            }
+        }
+    }
+
+    // MMMerge's follower keys (NPCFollowers.lua:345-351): the follower panel, and a word with each of the first four
+    // followers; none in a world without followers (MM9).
+    const Party *pFollowerParty = context.partyReadOnly();
+    if (gameplayIdle && pFollowerParty != nullptr && pFollowerParty->npcFollowersActive())
+    {
+        if (isActionNewlyPressed(context, KeyboardAction::FollowerPanel, config.pInputFrame, config.pKeyboardState))
+        {
+            context.toggleFollowerPanel();
+        }
+
+        constexpr std::array<KeyboardAction, 4> FollowerActions = {KeyboardAction::Follower1,
+            KeyboardAction::Follower2, KeyboardAction::Follower3, KeyboardAction::Follower4};
+
+        for (size_t follower = 0; follower < FollowerActions.size(); ++follower)
+        {
+            if (isActionNewlyPressed(context, FollowerActions[follower], config.pInputFrame, config.pKeyboardState))
+            {
+                context.openFollowerNpcDialogueByIndex(follower);
+            }
+        }
+    }
+
+    // The potion radial's slots for the active member (GAPS.md H.6), in every world.
+    const Party *pQuickParty = context.partyReadOnly();
+    if (gameplayIdle && pQuickParty != nullptr)
+    {
+        constexpr std::array<KeyboardAction, QuickItemSlotCount> QuickItemActions = {KeyboardAction::QuickItem1,
+            KeyboardAction::QuickItem2, KeyboardAction::QuickItem3, KeyboardAction::QuickItem4,
+            KeyboardAction::QuickItem5, KeyboardAction::QuickItem6};
+
+        for (size_t slot = 0; slot < QuickItemActions.size(); ++slot)
+        {
+            if (isActionNewlyPressed(context, QuickItemActions[slot], config.pInputFrame, config.pKeyboardState))
+            {
+                context.itemService().useQuickItemSlot(context, pQuickParty->activeMemberIndex(), slot);
+            }
+        }
+    }
+
+    if (isActionNewlyPressed(context, KeyboardAction::OpenWorkbench, config.pInputFrame, config.pKeyboardState)
+        && canToggleInventory && !hasActiveLootView && !houseShopActive)
+    {
+        if (!characterScreenOpen)
+        {
+            context.toggleCharacterInventoryScreen();
+        }
+
+        GameplayPartyOverlayInputController::openWorkbench(context);
     }
 
     const bool canCyclePartyMember =
@@ -426,19 +616,33 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !journalActive
         && !context.inventoryNestedOverlay().active
         && !context.readableScrollOverlayReadOnly().active
+        && !context.lootSummaryOverlayReadOnly().active
+        && !formationBuilderOpen
         && !context.utilitySpellOverlayReadOnly().active
         && !houseShopActive
         && !houseBankInputActive;
 
-    if (isActionNewlyPressed(context, KeyboardAction::QuickRef, config.pInputFrame, config.pKeyboardState))
+    // Quick Ref and Statistics open their page of the overlay; the key of the page shown closes it.
+    using QuickReferencePage = GameplayUiController::QuickReferencePage;
+    const std::array<std::pair<KeyboardAction, QuickReferencePage>, 2> pageKeys = {{
+        {KeyboardAction::QuickRef, QuickReferencePage::Party},
+        {KeyboardAction::Statistics, QuickReferencePage::Statistics},
+    }};
+
+    for (const auto &[action, page] : pageKeys)
     {
-        if (quickReferenceActive)
+        if (!isActionNewlyPressed(context, action, config.pInputFrame, config.pKeyboardState))
+        {
+            continue;
+        }
+
+        if (quickReferenceActive && context.quickReferenceScreenStateReadOnly().page == page)
         {
             context.closeQuickReferenceOverlay();
         }
-        else if (canToggleQuickReference)
+        else if (quickReferenceActive || canToggleQuickReference)
         {
-            context.openQuickReferenceOverlay();
+            context.openQuickReferenceOverlay(page);
         }
     }
 
@@ -473,12 +677,51 @@ void GameplayInputController::handleSharedGameplayHotkeys(
     const GameplaySharedGameplayHotkeyConfig &config)
 {
     if (config.pKeyboardState == nullptr
-        || GameplayUiController::alchemyBenchSearchActive(context.characterScreenReadOnly()))
+        || GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
+        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly())
+        || GameplaySoloBarSelector::isOpen(context))
     {
         context.interactionState().alwaysRunToggleLatch = false;
         context.interactionState().adventurersInnToggleLatch = false;
         context.interactionState().turnBasedToggleLatch = false;
+        context.interactionState().yellLatch = false;
         return;
+    }
+
+    // Yell: nearby villagers flee for two seconds and the party drops Invisibility; not in turn-based combat
+    // (OE Party::yell, Io/KeyboardInputHandler). The active member yells again only once the last yell has finished;
+    // each yell restarts the face animation.
+    if (config.canToggleAlwaysRun
+        && isActionHeld(context, KeyboardAction::Yell, config.pInputFrame, config.pKeyboardState))
+    {
+        if (!context.interactionState().yellLatch)
+        {
+            context.interactionState().yellLatch = true;
+            Party *pParty = context.party();
+            IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+
+            if (pParty != nullptr
+                && pWorldRuntime != nullptr
+                && !context.turnBasedCombatRuntime().active()
+                && !context.isMemberSpeechPlaying(pParty->activeMemberIndex(), SpeechId::Yell))
+            {
+                constexpr float YellRadius = 512.0f;
+                constexpr float YellFleeSeconds = 2.0f;
+                pParty->clearPartyBuff(PartyBuffId::Invisibility);
+                pWorldRuntime->scareNearbyPeasants(YellRadius, YellFleeSeconds);
+                const Character *pActive = pParty->activeMember();
+
+                if (pActive != nullptr && GameMechanics::canAct(*pActive))
+                {
+                    context.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::Yell, true);
+                }
+            }
+        }
+    }
+    else
+    {
+        context.interactionState().yellLatch = false;
     }
 
     if (config.canToggleAlwaysRun
@@ -503,9 +746,13 @@ void GameplayInputController::handleSharedGameplayHotkeys(
         context.interactionState().alwaysRunToggleLatch = false;
     }
 
+    // The keypad's Enter toggles too while the key is the default Enter; a rebound key replaces both.
+    const InputBinding combatBinding = context.settingsSnapshot().keyboard.binding(KeyboardAction::Combat);
+    const bool combatOnEnter =
+        combatBinding.kind == InputBindingKind::Keyboard && combatBinding.scancode == SDL_SCANCODE_RETURN;
     const bool combatKeyHeld =
         isActionHeld(context, KeyboardAction::Combat, config.pInputFrame, config.pKeyboardState)
-        || isScancodeHeld(SDL_SCANCODE_KP_ENTER, config.pInputFrame, config.pKeyboardState);
+        || (combatOnEnter && isScancodeHeld(SDL_SCANCODE_KP_ENTER, config.pInputFrame, config.pKeyboardState));
     const bool combatPressed =
         config.canToggleAlwaysRun
         && combatKeyHeld;
@@ -535,7 +782,9 @@ void GameplayInputController::handleSharedGameplayHotkeys(
         context.interactionState().turnBasedToggleLatch = false;
     }
 
-    if (config.canToggleAdventurersInn && config.pKeyboardState[SDL_SCANCODE_P])
+    if (config.canToggleAdventurersInn && config.pKeyboardState[SDL_SCANCODE_P]
+        && !(isActionHeld(context, KeyboardAction::SkillCover, config.pInputFrame, config.pKeyboardState)
+            && GameplayPartyOverlayInputController::skillSwitchForAction(context, KeyboardAction::SkillCover)))
     {
         if (!context.interactionState().adventurersInnToggleLatch)
         {
@@ -559,7 +808,7 @@ void GameplayInputController::handleSharedGameplayHotkeys(
             }
             else
             {
-                context.setStatusBarEvent("The Adventurer's Inn is empty.");
+                context.setStatusBarEvent(Engine::tr("The Adventurer's Inn is empty."));
             }
 
             context.interactionState().adventurersInnToggleLatch = true;
@@ -590,9 +839,11 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
     const GameplayUiController::HeldInventoryItemState &heldInventoryItem = context.heldInventoryItem();
     const bool blocksUnderlyingMouseInput =
         context.currentHudScreenState() != GameplayHudScreenState::Gameplay
-        || config.isReadableScrollOverlayActive;
-    const bool gameplayMouseLookAllowed =
-        context.settingsSnapshot().controlScheme == ControlScheme::Modern
+        || config.isModalOverlayActive;
+    const GameSettings &settings = context.settingsSnapshot();
+    const bool modernControls = settings.controlScheme == ControlScheme::Modern;
+    const bool mouseLookPossible =
+        modernControls
         && GameplayScreenController::canEnableGameplayMouseLook(
             context,
             GameplayMouseLookEnableConfig{
@@ -601,6 +852,23 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 .blockOnUtilitySpellOverlay = true,
             });
 
+    // The Free Cursor key (OY-637, GrayFace's middle button): mouse look off and the cursor free over play, the world
+    // running and the party moving as under the classic controls, until pressed again. It acts only over play, where
+    // mouse look could be on; screens opened meanwhile keep the mode.
+    if (!modernControls)
+    {
+        gameplayMouseLookState.freeCursorToggled = false;
+    }
+    else if (mouseLookPossible
+        && isActionNewlyPressed(context, KeyboardAction::CursorMode, config.pInputFrame, config.pKeyboardState))
+    {
+        gameplayMouseLookState.freeCursorToggled = !gameplayMouseLookState.freeCursorToggled;
+    }
+
+    const bool gameplayMouseLookAllowed = mouseLookPossible && !gameplayMouseLookState.freeCursorToggled;
+
+    // Holding the right button is the cursor mode under mouse look; this frame lets it go.
+    const bool cursorModeReleased = gameplayMouseLookState.cursorModeActive && !config.rightButtonPressed;
     frameResult.mouseLookPolicy =
         updateGameplayMouseLookPolicy(
             gameplayMouseLookState,
@@ -649,14 +917,17 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                             .leftButtonPressed = config.leftButtonPressed,
                             .rightButtonPressed = config.rightButtonPressed,
                             .allowGameplayPointerInput = frameResult.mouseLookPolicy.allowGameplayPointerInput,
+                            .rightPressUsesHeldItem = !frameResult.mouseLookPolicy.cursorModeActive,
                             .mouseWheelDelta = config.mouseWheelDelta,
                             .blockPortraitInput =
-                                config.isUtilitySpellModalActive || config.isReadableScrollOverlayActive,
+                                config.isUtilitySpellModalActive || config.isModalOverlayActive,
                             .blockHudButtonInput = blocksUnderlyingMouseInput || config.isUtilitySpellModalActive,
                             .blockJournalToggle =
                                 hasPendingSpellCast
                                 || context.characterScreenReadOnly().open
-                                || heldInventoryItem.active,
+                                || heldInventoryItem.active
+                                || GameplayFormationBuilder::isOpen(context)
+                                || GameplaySoloBarSelector::isOpen(context),
                             .requireGameplayReadyForPortraitSelection = !hasPendingSpellCast,
                             .onPortraitActivated =
                                 [&screenState, &context, &spellService, &config, hasPendingSpellCast](
@@ -702,6 +973,23 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
         return frameResult;
     }
 
+    if (cursorModeReleased
+        && config.processStandardUiInput
+        && heldInventoryItem.active
+        && !hasPendingSpellCast
+        && !hasActiveLootView
+        && !config.isUtilitySpellModalActive
+        && !config.isModalOverlayActive
+        && context.currentHudScreenState() == GameplayHudScreenState::Gameplay)
+    {
+        GameplayHudInputController::useHeldItemOnPortraitAtPointer(
+            context,
+            config.screenWidth,
+            config.screenHeight,
+            config.pointerX,
+            config.pointerY);
+    }
+
     const bool canRunStandardGameplayAction =
         GameplayScreenController::canRunStandardGameplayAction(
             context,
@@ -726,6 +1014,8 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
     GameplayOverlayInteractionState &interactionState = context.interactionState();
     const bool quickCastButtonRequested = interactionState.gameplayHudQuickCastRequested;
     interactionState.gameplayHudQuickCastRequested = false;
+    // A solo run's Upkeep bar slot, held: as the Upkeep key held.
+    bool heldBarUpkeep = false;
 
     if (canRunStandardGameplayAction && config.processQuickCast)
     {
@@ -735,9 +1025,84 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
             context.passTurnBasedTurn();
         }
 
-        const bool isQuickCastPressed =
+        // MMMerge's extra quick spells (ExtraQuickSpells.lua) share the quick spell's hold, repeat and attack fallback;
+        // the held key's slot decides the spell.
+        constexpr std::array<KeyboardAction, ExtraQuickSpellSlotCount> ExtraQuickSpellActions = {
+            KeyboardAction::QuickSpell1, KeyboardAction::QuickSpell2, KeyboardAction::QuickSpell3,
+            KeyboardAction::QuickSpell4};
+        std::optional<size_t> heldExtraSlot;
+
+        for (size_t slot = 0; slot < ExtraQuickSpellActions.size() && !heldExtraSlot; ++slot)
+        {
+            if (isActionHeld(context, ExtraQuickSpellActions[slot], config.pInputFrame, config.pKeyboardState)
+                && !GameplayQuickItems::takesPointerAction(context, ExtraQuickSpellActions[slot]))
+            {
+                heldExtraSlot = slot;
+            }
+        }
+
+        // A solo run's action bar (devdocs/solo_action/HUD.md): keys 1-0 use the active member's slot. A spell casts
+        // through the quick spell's path (its hold, repeat, recovery and attack fallback), a potion or scroll kind is
+        // used as a quick item slot is, the weapon slot attacks. A left click on a key acts as that key held while the
+        // button stays down.
+        std::string heldBarSpell;
+        if (context.soloHud() && config.pInputFrame != nullptr)
+        {
+            Party *pBarParty = context.party();
+            const GameplayInputFrame &barInput = *config.pInputFrame;
+            const std::optional<size_t> keySlot = GameplaySoloHud::heldBarSlot(barInput);
+            const std::optional<size_t> clickedSlot =
+                barInput.leftMouseButton.held ? GameplaySoloBarSelector::clickedBarSlot(context) : std::nullopt;
+            const std::optional<size_t> barSlot = keySlot ? keySlot : clickedSlot;
+            const Character *pBarMember = pBarParty != nullptr ? pBarParty->activeMember() : nullptr;
+            if (barSlot && pBarMember != nullptr)
+            {
+                const ActionBarSlot &slot = pBarMember->actionBar[*barSlot];
+                const bool pressed = keySlot ? GameplaySoloHud::barSlotPressed(barInput, *barSlot)
+                                             : barInput.leftMouseButton.pressed;
+                if (slot.kind == ActionBarSlotKind::Spell && context.spellTable() != nullptr)
+                {
+                    if (const SpellEntry *pSpell = context.spellTable()->findById(int(slot.id)))
+                    {
+                        heldBarSpell = pSpell->name;
+                    }
+                }
+                else if (slot.kind == ActionBarSlotKind::Item && pressed)
+                {
+                    // A bar key drinks or reads the strongest of its kind first (user, 2026-11-16); the bar has no
+                    // weakest-first choice, so a key saved with the old default drinks the strongest too.
+                    QuickItemSlot strongest = slot.item;
+                    strongest.bottleRule = QuickItemBottleRule::Strongest;
+                    context.itemService().useQuickItemKind(context, pBarParty->activeMemberIndex(), strongest);
+                }
+                else if (slot.kind == ActionBarSlotKind::Weapon && pressed)
+                {
+                    // Weapon slot 0 attacks; slot id 1 swaps the melee weapon and the bow.
+                    (slot.id == ActionBarWeaponSwapId ? context.interactionState().soloWeaponSwapRequested
+                                                      : context.interactionState().gameplayHudAttackRequested) = true;
+                }
+                else if (slot.kind == ActionBarSlotKind::Talent && pressed)
+                {
+                    context.interactionState().soloTalentRequested = slot.id;
+                }
+                else if (slot.kind == ActionBarSlotKind::Upkeep)
+                {
+                    heldBarUpkeep = true;
+                }
+            }
+        }
+
+        const bool mainQuickCastPressed =
             quickCastButtonRequested
-            || isActionHeld(context, KeyboardAction::CastReady, config.pInputFrame, config.pKeyboardState);
+            || (isActionHeld(context, KeyboardAction::CastReady, config.pInputFrame, config.pKeyboardState)
+                && !GameplayQuickItems::takesPointerAction(context, KeyboardAction::CastReady));
+        const bool isQuickCastPressed = mainQuickCastPressed || heldExtraSlot.has_value() || !heldBarSpell.empty();
+
+        if (isQuickCastPressed && !quickSpellState.castLatch)
+        {
+            quickSpellState.extraSlot = mainQuickCastPressed ? std::nullopt : heldExtraSlot;
+            quickSpellState.barSpellName = mainQuickCastPressed || heldExtraSlot ? std::string() : heldBarSpell;
+        }
 
         const GameplayActionController::QuickCastActionDecision quickCastDecision =
             GameplayActionController::updateQuickCastAction(
@@ -746,6 +1111,8 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                     .canRunAction = true,
                     .quickCastPressed = isQuickCastPressed,
                     .hasReadyMember = config.hasReadyMember,
+                    .turnBased = context.turnBasedCombatRuntime().active(),
+                    .fastRepeat = context.settingsSnapshot().fastAttackRepeat,
                 });
 
         if (quickCastDecision.shouldBeginQuickCast)
@@ -768,13 +1135,50 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 }
             }
 
-            if (!quickCastHandledByTurnBasedMode && config.canBeginQuickCast && context.worldRuntime() != nullptr)
+            // A solo run's arms play the cast first: the spell is cast at the clip's release key (below), its
+            // recovery counted from now. A cast or swing already under way takes the press.
+            GameplayScreenRuntime::ViewModelLink &viewModel = context.viewModelLink();
+            const Party *pCastParty = context.partyReadOnly();
+            const Character *pCaster = pCastParty != nullptr ? pCastParty->activeMember() : nullptr;
+            const std::string deferredSpell = pCaster == nullptr ? std::string()
+                : !quickSpellState.barSpellName.empty() ? quickSpellState.barSpellName
+                : quickSpellState.extraSlot && *quickSpellState.extraSlot < ExtraQuickSpellSlotCount
+                    ? pCaster->extraQuickSpellNames[*quickSpellState.extraSlot]
+                    : pCaster->quickSpellName;
+            bool quickCastTakenByArms = false;
+            if (!quickCastHandledByTurnBasedMode && viewModel.swingWaiting)
+            {
+                quickCastTakenByArms = true;
+            }
+            else if (!quickCastHandledByTurnBasedMode && config.canBeginQuickCast && viewModel.meleeSwings
+                && !context.turnBasedCombatRuntime().active() && pCaster != nullptr
+                && GameMechanics::canTakeGameplayAction(*pCaster)
+                && !screenState.pendingSpellTarget().active
+                && GameplaySpellActionController::prepareViewModelCast(context, *pCaster, deferredSpell))
+            {
+                viewModel.swingWaiting = true;
+                viewModel.waitIsCast = true;
+                viewModel.quickCastWaiting = true;
+                viewModel.quickCastExtraSlot = quickSpellState.extraSlot;
+                viewModel.quickCastBarSpell = quickSpellState.barSpellName;
+                viewModel.blowReleased = false;
+                viewModel.blowDirection.reset();
+                viewModel.swingWaitSeconds = 0.0f;
+                ++viewModel.swingSerial;
+                quickCastResult = GameplayActionController::QuickCastActionResult::CastStarted;
+                quickCastTakenByArms = true;
+            }
+
+            if (!quickCastHandledByTurnBasedMode && !quickCastTakenByArms && config.canBeginQuickCast
+                && context.worldRuntime() != nullptr)
             {
                 const GameplaySpellActionController::SpellActionResult spellActionResult =
                     GameplaySpellActionController::tryBeginQuickSpellCast(
                         context,
                         spellService,
-                        buildSpellActionTargetQueries(screenState, config));
+                        buildSpellActionTargetQueries(screenState, config),
+                        quickSpellState.extraSlot,
+                        quickSpellState.barSpellName);
 
                 if (spellActionResult == GameplaySpellActionController::SpellActionResult::AttackFallback)
                 {
@@ -783,6 +1187,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 else if (spellActionResult == GameplaySpellActionController::SpellActionResult::CastStarted)
                 {
                     quickCastResult = GameplayActionController::QuickCastActionResult::CastStarted;
+                    context.noteViewModelAction(GameplayScreenRuntime::ViewModelAction::Cast);
                 }
             }
 
@@ -794,6 +1199,72 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
         GameplayActionController::updateQuickCastAction(
             quickSpellState,
             GameplayActionController::QuickCastActionConfig{});
+    }
+
+    // A deferred quick or action-bar cast reaches its clip's release key (or the arms never report it): cast it now,
+    // its recovery shortened by the time the clip took, so it still counts from the press.
+    if (config.processQuickCast)
+    {
+        constexpr float CastTimeoutSeconds = 2.0f;
+        GameplayScreenRuntime::ViewModelLink &viewModel = context.viewModelLink();
+        if (viewModel.swingWaiting && viewModel.quickCastWaiting
+            && (viewModel.blowReleased || viewModel.swingWaitSeconds > CastTimeoutSeconds))
+        {
+            const float spent = viewModel.swingWaitSeconds;
+            viewModel.swingWaiting = false;
+            viewModel.quickCastWaiting = false;
+            viewModel.blowReleased = false;
+            viewModel.swingWaitSeconds = 0.0f;
+            if (context.worldRuntime() != nullptr)
+            {
+                const GameplaySpellActionController::SpellActionResult released =
+                    GameplaySpellActionController::tryBeginQuickSpellCast(
+                        context,
+                        spellService,
+                        buildSpellActionTargetQueries(screenState, config),
+                        viewModel.quickCastExtraSlot,
+                        viewModel.quickCastBarSpell);
+                Party *pParty = context.party();
+                Character *pCaster = pParty != nullptr ? pParty->member(pParty->activeMemberIndex()) : nullptr;
+                if (released == GameplaySpellActionController::SpellActionResult::CastStarted && pCaster != nullptr)
+                {
+                    pCaster->recoverySecondsRemaining = std::max(0.0f, pCaster->recoverySecondsRemaining - spent);
+                }
+            }
+        }
+    }
+
+    // The Upkeep key (devdocs/BATTLE_ORDERS.md "Upkeep"): a ready member casts the first due spell of their list.
+    if (config.processQuickCast)
+    {
+        const bool turnBased = context.turnBasedCombatRuntime().active();
+        const GameplayActionController::UpkeepActionDecision upkeepDecision =
+            GameplayActionController::updateUpkeepAction(
+                screenState.upkeepActionState(),
+                canRunStandardGameplayAction
+                    && (heldBarUpkeep
+                        || isActionHeld(context, KeyboardAction::Upkeep, config.pInputFrame, config.pKeyboardState)),
+                turnBased);
+
+        if (upkeepDecision.shouldAttemptUpkeep && config.canBeginQuickCast)
+        {
+            if (turnBased && context.turnBasedCombatRuntime().stage() == TurnBasedCombatStage::Movement)
+            {
+                context.turnBasedCombatRuntime().finishMovementPhase();
+            }
+            else
+            {
+                GameplayActionController::executePartyUpkeep(
+                    GameplayActionController::PartyUpkeepConfig{
+                        .pRuntime = &context,
+                        .pSpellService = &spellService,
+                        .pWorldRuntime = context.worldRuntime(),
+                        .pParty = context.party(),
+                        .pSpellTable = context.spellTable(),
+                        .pressedThisFrame = upkeepDecision.pressedThisFrame,
+                    });
+            }
+        }
     }
 
     const GameplayStandardWorldInputGateResult worldInputGateResult =

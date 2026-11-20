@@ -1,6 +1,5 @@
 #include "game/ui/GameplayUiController.h"
-
-#include "game/localization/LocalizationCatalog.h"
+#include "engine/Localization.h"
 
 #include <algorithm>
 #include <iostream>
@@ -9,16 +8,11 @@
 
 namespace OpenYAMM::Game
 {
-void GameplayUiController::bindLocalizationCatalog(const LocalizationCatalog *pLocalizationCatalog)
-{
-    m_pLocalizationCatalog = pLocalizationCatalog;
-}
-
 namespace
 {
 const std::vector<std::string> GameplayLayoutFiles = {
     "Data/ui/gameplay/gameplay.yml",
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     "Data/ui/gameplay/touch_controls.yml",
 #endif
     "Data/ui/gameplay/chest.yml",
@@ -35,6 +29,7 @@ const std::vector<std::string> GameplayLayoutFiles = {
     "Data/ui/gameplay/load_game.yml",
     "Data/ui/gameplay/journal.yml",
     "Data/ui/gameplay/quick_reference.yml",
+    "Data/ui/gameplay/statistics.yml",
     "Data/ui/gameplay/alchemy_bench.yml",
     "Data/ui/gameplay/town_portal.yml",
     "Data/ui/gameplay/lloyds_beacon.yml",
@@ -44,13 +39,39 @@ const std::vector<std::string> GameplayLayoutFiles = {
     "Data/ui/gameplay/buff_inspect.yml",
     "Data/ui/gameplay/character_detail.yml",
     "Data/ui/gameplay/actor_inspect.yml",
-    "Data/ui/gameplay/spell_inspect.yml"
+    "Data/ui/gameplay/spell_inspect.yml",
+    "Data/ui/gameplay/loot_summary.yml",
+    "Data/ui/gameplay/mm9_formation.yml"
 };
 }
 
-bool GameplayUiController::alchemyBenchSearchActive(const CharacterScreenState &screen)
+bool GameplayUiController::characterScreenSearchActive(const CharacterScreenState &screen)
 {
-    return screen.open && screen.alchemyBench.active && screen.alchemyBench.recipeSearchActive;
+    if (!screen.open)
+    {
+        return false;
+    }
+
+    if (screen.alchemyBench.active)
+    {
+        return screen.alchemyBench.craftingTab ? screen.alchemyBench.crafting.searchActive
+                                               : screen.alchemyBench.recipeSearchActive;
+    }
+
+    return screen.page == CharacterPage::Inventory && screen.inventorySearchActive;
+}
+
+bool GameplayUiController::journalSearchActive(const JournalScreenState &screen)
+{
+    return screen.active
+        && ((screen.view == JournalView::Notes && screen.notesSearchActive)
+            || (screen.view == JournalView::Map && screen.mapNoteEditing));
+}
+
+bool GameplayUiController::spellbookSearchActive(const SpellbookState &spellbook)
+{
+    return spellbook.active && spellbook.battleOrders.open
+        && (spellbook.battleOrders.paletteSearchActive || spellbook.battleOrders.capturingUpkeepKey);
 }
 
 bool GameplayUiController::characterScreenSupportsInspection(const CharacterScreenState &screen)
@@ -229,6 +250,16 @@ const GameplayUiController::ReadableScrollOverlayState &GameplayUiController::re
     return resolvedState().readableScrollOverlay;
 }
 
+GameplayUiController::LootSummaryOverlayState &GameplayUiController::lootSummaryOverlay()
+{
+    return resolvedState().lootSummaryOverlay;
+}
+
+const GameplayUiController::LootSummaryOverlayState &GameplayUiController::lootSummaryOverlay() const
+{
+    return resolvedState().lootSummaryOverlay;
+}
+
 GameplayUiController::SpellbookState &GameplayUiController::spellbook()
 {
     return resolvedState().spellbook;
@@ -380,7 +411,6 @@ PartySpellCastRequest GameplayUiController::UtilitySpellOverlayState::castReques
     request.applyRecovery = applyRecovery;
     request.bypassRequiredMastery = bypassRequiredMastery;
     request.bypassGameplayCasterValidation = bypassGameplayCasterValidation;
-    request.bypassTownPortalFailureChecks = bypassTownPortalFailureChecks;
     return request;
 }
 
@@ -431,7 +461,6 @@ void GameplayUiController::openSpellbook(SpellbookSchool school)
     state.spellInspectOverlay = {};
     state.spellbook.active = true;
     state.spellbook.school = school;
-    state.spellbook.hasRememberedSchool = true;
 }
 
 void GameplayUiController::closeSpellbook()
@@ -439,6 +468,8 @@ void GameplayUiController::closeSpellbook()
     State &state = resolvedState();
     state.spellbook.active = false;
     state.spellbook.selectedSpellId = 0;
+    state.spellbook.battleOrders = {};
+    state.spellbook.spellMenu = {};
     state.spellInspectOverlay = {};
 }
 
@@ -464,17 +495,36 @@ void GameplayUiController::openInventoryNestedOverlay(InventoryNestedOverlayMode
     {
         beginHouseShopVisit(houseId);
     }
+    // A shop going from one service to another (Display to Sell closes the inventory and opens it again) keeps the
+    // pouch's tab it showed; another house's inventory, or a chest's after a shop's, starts on the bags.
+    if (state.inventoryNestedOverlay.pouchHouseId != houseId)
+    {
+        state.inventoryNestedOverlay.pouch = {};
+    }
+
+    state.inventoryNestedOverlay.pouchHouseId = houseId;
+    state.inventoryNestedOverlay.pouch.thumbDragOffset.reset();
+
     state.inventoryNestedOverlay.active = true;
     state.inventoryNestedOverlay.mode = mode;
     state.inventoryNestedOverlay.houseId = houseId;
+    state.inventoryNestedOverlay.bagZoomed = false;
+    state.inventoryNestedOverlay.sellTrashPicking = false;
+    state.inventoryNestedOverlay.sellTrashItems.clear();
 }
 
 void GameplayUiController::closeInventoryNestedOverlay()
 {
-    resolvedState().inventoryNestedOverlay = {};
+    // The pouch view stays for when the same house opens the inventory again (openInventoryNestedOverlay).
+    InventoryNestedOverlayState &overlay = resolvedState().inventoryNestedOverlay;
+    const InventoryPouchViewState pouch = overlay.pouch;
+    const uint32_t pouchHouseId = overlay.pouchHouseId;
+    overlay = {};
+    overlay.pouch = pouch;
+    overlay.pouchHouseId = pouchHouseId;
 }
 
-void GameplayUiController::openHouseShopOverlay(uint32_t houseId, HouseShopMode mode)
+void GameplayUiController::openHouseShopOverlay(uint32_t houseId, HouseShopMode mode, uint32_t spellbookShelf)
 {
     if (mode == HouseShopMode::None || houseId == 0)
     {
@@ -488,11 +538,49 @@ void GameplayUiController::openHouseShopOverlay(uint32_t houseId, HouseShopMode 
     state.houseShopOverlay.active = true;
     state.houseShopOverlay.houseId = houseId;
     state.houseShopOverlay.mode = mode;
+    state.houseShopOverlay.spellbookShelf = spellbookShelf;
+    state.houseShopOverlay.ledgerFirstRow = 0;
+    state.houseShopOverlay.ledgerFilter = HouseShopLedgerCategory::All;
+    state.houseShopOverlay.ledgerSort = {};
 }
 
 void GameplayUiController::closeHouseShopOverlay()
 {
     resolvedState().houseShopOverlay = {};
+}
+
+GameplayUiController::TransportScheduleState &GameplayUiController::transportSchedule()
+{
+    return resolvedState().transportSchedule;
+}
+
+const GameplayUiController::TransportScheduleState &GameplayUiController::transportSchedule() const
+{
+    return resolvedState().transportSchedule;
+}
+
+void GameplayUiController::openTransportSchedule(uint32_t houseId)
+{
+    closeInventoryNestedOverlay();
+    closeHouseShopOverlay();
+    TransportScheduleState &schedule = resolvedState().transportSchedule;
+    schedule = {};
+    schedule.active = houseId != 0;
+    schedule.houseId = houseId;
+}
+
+void GameplayUiController::openMm9TransportSchedule(uint32_t dockId)
+{
+    closeInventoryNestedOverlay();
+    TransportScheduleState &schedule = resolvedState().transportSchedule;
+    schedule = {};
+    schedule.active = dockId != 0;
+    schedule.mm9DockId = dockId;
+}
+
+void GameplayUiController::closeTransportSchedule()
+{
+    resolvedState().transportSchedule = {};
 }
 
 void GameplayUiController::beginHouseShopVisit(uint32_t houseId)
@@ -550,13 +638,21 @@ void GameplayUiController::openUtilitySpellOverlay(
     state.utilitySpellOverlay.applyRecovery = true;
     state.utilitySpellOverlay.bypassRequiredMastery = false;
     state.utilitySpellOverlay.bypassGameplayCasterValidation = false;
-    state.utilitySpellOverlay.bypassTownPortalFailureChecks = false;
     state.utilitySpellOverlay.lloydRecallMode = lloydRecallMode;
+    state.utilitySpellOverlay.townPortalContinent.clear();
 }
 
 void GameplayUiController::closeUtilitySpellOverlay()
 {
-    resolvedState().utilitySpellOverlay = {};
+    State &state = resolvedState();
+
+    // The overlay's hover text (a Town Portal town, a beacon slot) goes with it (audit STD2-3).
+    if (state.utilitySpellOverlay.active && !state.statusBar.hoverTextFromWorld)
+    {
+        clearStatusBarHoverText();
+    }
+
+    state.utilitySpellOverlay = {};
 }
 
 void GameplayUiController::beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode)
@@ -597,9 +693,7 @@ void GameplayUiController::setStatusBarEvent(
         return;
     }
 
-    state.statusBar.eventText = m_pLocalizationCatalog != nullptr
-        ? m_pLocalizationCatalog->translateText(text)
-        : text;
+    state.statusBar.eventText = Engine::localize(text);
     state.statusBar.eventRemainingSeconds = std::max(0.0f, durationSeconds);
     state.statusBar.eventPriority = priority;
 }
@@ -610,7 +704,7 @@ bool GameplayUiController::statusBarEventActive() const
     return state.statusBar.eventRemainingSeconds > 0.0f && !state.statusBar.eventText.empty();
 }
 
-void GameplayUiController::setStatusBarHoverText(const std::string &text)
+void GameplayUiController::setStatusBarHoverText(const std::string &text, bool fromWorld)
 {
     if (text.empty())
     {
@@ -625,14 +719,26 @@ void GameplayUiController::setStatusBarHoverText(const std::string &text)
         return;
     }
 
-    state.statusBar.hoverText = m_pLocalizationCatalog != nullptr
-        ? m_pLocalizationCatalog->translateText(text)
-        : text;
+    state.statusBar.hoverText = Engine::localize(text);
+    state.statusBar.hoverTextFromWorld = fromWorld;
 }
 
 void GameplayUiController::clearStatusBarHoverText()
 {
     resolvedState().statusBar.hoverText.clear();
+    resolvedState().statusBar.worldItemLabel.clear();
+}
+
+void GameplayUiController::clearWorldStatusBarHoverText()
+{
+    StatusBarState &statusBar = resolvedState().statusBar;
+
+    if (statusBar.hoverTextFromWorld)
+    {
+        statusBar.hoverText.clear();
+    }
+
+    statusBar.worldItemLabel.clear();
 }
 
 void GameplayUiController::updateStatusBarEvent(float deltaSeconds)
@@ -666,21 +772,6 @@ void GameplayUiController::clearEventDialog()
 
 void GameplayUiController::setEventDialogContent(const EventDialogContent &content)
 {
-    EventDialogContent localizedContent = content;
-    if (m_pLocalizationCatalog != nullptr)
-    {
-        localizedContent.houseTitle = m_pLocalizationCatalog->translateText(localizedContent.houseTitle);
-        localizedContent.title = m_pLocalizationCatalog->translateText(localizedContent.title);
-        for (std::string &line : localizedContent.lines)
-        {
-            line = m_pLocalizationCatalog->translateText(line);
-        }
-        for (EventDialogAction &action : localizedContent.actions)
-        {
-            action.label = m_pLocalizationCatalog->translateText(action.label);
-            action.disabledReason = m_pLocalizationCatalog->translateText(action.disabledReason);
-        }
-    }
-    resolvedState().eventDialog.content = std::move(localizedContent);
+    resolvedState().eventDialog.content = content;
 }
 }

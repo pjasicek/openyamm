@@ -1,4 +1,5 @@
 #include "game/ui/UiLayoutManager.h"
+#include "engine/Localization.h"
 
 #include "game/StringUtils.h"
 
@@ -449,7 +450,9 @@ bool UiLayoutManager::loadLayoutText(const std::string &sourceName, const std::s
                 if (textNode && textNode.IsMap())
                 {
                     element.fontName = yamlStringOrEmpty(textNode, "font");
-                    element.labelText = yamlStringOrEmpty(textNode, "value");
+                    // In the interface language; a control too narrow for the usual translation can have its own
+                    // (context ui:<element id>, devdocs/LOCALIZATION.md).
+                    element.labelText = Engine::localize(yamlStringOrEmpty(textNode, "value"), "ui:" + element.id);
                     const std::string textColor = yamlStringOrEmpty(textNode, "color");
 
                     const std::optional<TextAlignX> textAlignX = parseTextAlignX(yamlStringOrEmpty(textNode, "align_x"));

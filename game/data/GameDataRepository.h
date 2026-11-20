@@ -1,12 +1,13 @@
 #pragma once
 
 #include "game/arcomage/ArcomageTypes.h"
+#include "game/gameplay/TrainerDirectory.h"
 #include "game/items/ItemEnchantTables.h"
-#include "game/localization/LocalizationCatalog.h"
 #include "game/mm9/Mm9MapTransition.h"
 #include "game/mm9/Mm9TeacherSchedule.h"
 #include "game/mm9/Mm9QuestMarkers.h"
 #include "game/mm9/Mm9RudeDialogue.h"
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/mm9/Mm9SkillTrainer.h"
 #include "game/mm9/Mm9TransportRoute.h"
 #include "game/tables/CharacterDollTable.h"
@@ -39,11 +40,18 @@
 #include "game/tables/SpellFxTable.h"
 #include "game/tables/TransitionTable.h"
 
+#include <string>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
 class GameDataLoader;
+class MawItemData;
+struct MawPromotionData;
+class MawCraftingData;
+class MawDimensionData;
+class MawTextData;
+class MawMapLevels;
 
 class GameDataRepository
 {
@@ -51,7 +59,6 @@ public:
     void clear();
     void bind(const GameDataLoader &loader);
     bool isBound() const;
-    const LocalizationCatalog &localizationCatalog() const;
 
     const MapStats &mapStats() const;
     const std::vector<MapStatsEntry> &mapEntries() const;
@@ -75,10 +82,12 @@ public:
     const Mm9TeacherScheduleTable &mm9TeacherScheduleTable() const;
     const Mm9RudeDialogueTable &mm9RudeDialogueTable() const;
     const Mm9SkillTrainerTable &mm9SkillTrainerTable() const;
+    const Mm9HirelingTable &mm9HirelingTable() const;
     const Mm9TransportRouteTable &mm9TransportRouteTable() const;
     const Mm9QuestInteractionTable &mm9QuestInteractionTable() const;
     const RosterTable &rosterTable() const;
     const CharacterDollTable &characterDollTable() const;
+    const MergedCharacterVoiceTable &characterVoiceTable() const;
     const CharacterInspectTable &characterInspectTable() const;
     const RaceStartingStatsTable &raceStartingStatsTable() const;
     const ReadableScrollTable &readableScrollTable() const;
@@ -104,13 +113,25 @@ public:
     const MergedContinentSettingTable &mergedContinentSettingTable() const;
     const MergedMonsterPortraitTable &mergedMonsterPortraitTable() const;
     const MergedPotionSettingTable &mergedPotionSettingTable() const;
+    // The address of the active ruleset's player's guide (`guide_url`), empty for none.
+    const std::string &rulesetGuideUrl() const;
+    // Whether the active ruleset plays in a world (its `worlds`; every world when it names none).
+    bool rulesetSupportsWorld(const std::string &worldId) const;
+    // Null unless the MAW ruleset is active.
+    const MawMapLevels *mawMapLevels() const;
+    const MawItemData *mawItemData() const;
+    const MawPromotionData *mawPromotionData() const;
+    const MawCraftingData *mawCraftingData() const;
+    const MawDimensionData *mawDimensionData() const;
+    const MawTextData *mawTextData() const;
     const MergedReagentSettingTable &mergedReagentSettingTable() const;
     const MergedComplexItemPictureTable &mergedComplexItemPictureTable() const;
     const MergedTeacherTopicTable &mergedTeacherTopicTable() const;
+    const MergedRaceSkillTable &mergedRaceSkillTable() const;
     const MergedTeacherAutonoteTable &mergedTeacherAutonoteTable() const;
+    const TrainerDirectory &trainerDirectory() const;
 
 private:
-    const LocalizationCatalog *m_pLocalizationCatalog = nullptr;
     const MapStats *m_pMapStats = nullptr;
     const MonsterTable *m_pMonsterTable = nullptr;
     const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;
@@ -132,10 +153,12 @@ private:
     const Mm9TeacherScheduleTable *m_pMm9TeacherScheduleTable = nullptr;
     const Mm9RudeDialogueTable *m_pMm9RudeDialogueTable = nullptr;
     const Mm9SkillTrainerTable *m_pMm9SkillTrainerTable = nullptr;
+    const Mm9HirelingTable *m_pMm9HirelingTable = nullptr;
     const Mm9TransportRouteTable *m_pMm9TransportRouteTable = nullptr;
     const Mm9QuestInteractionTable *m_pMm9QuestInteractionTable = nullptr;
     const RosterTable *m_pRosterTable = nullptr;
     const CharacterDollTable *m_pCharacterDollTable = nullptr;
+    const MergedCharacterVoiceTable *m_pCharacterVoiceTable = nullptr;
     const CharacterInspectTable *m_pCharacterInspectTable = nullptr;
     const RaceStartingStatsTable *m_pRaceStartingStatsTable = nullptr;
     const ReadableScrollTable *m_pReadableScrollTable = nullptr;
@@ -161,9 +184,19 @@ private:
     const MergedContinentSettingTable *m_pMergedContinentSettingTable = nullptr;
     const MergedMonsterPortraitTable *m_pMergedMonsterPortraitTable = nullptr;
     const MergedPotionSettingTable *m_pMergedPotionSettingTable = nullptr;
+    const MawMapLevels *m_pMawMapLevels = nullptr;
+    const MawItemData *m_pMawItemData = nullptr;
+    const MawPromotionData *m_pMawPromotionData = nullptr;
+    const MawCraftingData *m_pMawCraftingData = nullptr;
+    const MawDimensionData *m_pMawDimensionData = nullptr;
+    const MawTextData *m_pMawTextData = nullptr;
+    std::string m_rulesetGuideUrl;
+    std::vector<std::string> m_rulesetWorlds;
     const MergedReagentSettingTable *m_pMergedReagentSettingTable = nullptr;
     const MergedComplexItemPictureTable *m_pMergedComplexItemPictureTable = nullptr;
     const MergedTeacherTopicTable *m_pMergedTeacherTopicTable = nullptr;
+    const MergedRaceSkillTable *m_pMergedRaceSkillTable = nullptr;
     const MergedTeacherAutonoteTable *m_pMergedTeacherAutonoteTable = nullptr;
+    const TrainerDirectory *m_pTrainerDirectory = nullptr;
 };
 } // namespace OpenYAMM::Game

@@ -1,0 +1,876 @@
+{
+ "id": "20261009-1649-mm7-out14-20",
+ "world": "mm7",
+ "maps": [
+  "out14.odm",
+  "7d33.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/hep1d",
+  "mm7/ckdr",
+  "mm7/ckdl",
+  "mm7/hep1rw",
+  "mm7/ceb1w",
+  "mm7/hem1rfa",
+  "mm7/hep1rf",
+  "mm7/her1d",
+  "mm7/trim7_16a",
+  "mm7/t5elr",
+  "mm7/t5s1be",
+  "mm7/t5s1bh",
+  "mm7/t3s2b1f",
+  "mm7/tfb1r3a",
+  "mm7/tfb1r3c",
+  "mm7/tfb1r3e",
+  "mm7/tfb1r3g",
+  "mm7/tfb1r3b",
+  "mm7/chb1p2",
+  "mm7/tfb1r3d",
+  "mm7/tfb1r3f",
+  "mm7/tfb1r3h",
+  "mm7/ch001d",
+  "mm7/ch001j"
+ ],
+ "requests": {
+  "mm7/hep1d": {
+   "name": "hep1d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough grey fieldstone wall framed by weathered green-painted wooden posts and beams, with a tall narrow door of vertical green-stained planks between the posts, thin golden-brown vine tendrils climbing the posts and pale green ivy leaves at the base; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hep1b",
+      "mm7/hep1bs1"
+     ],
+     "fraction": 0.188
+    },
+    "2": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.171
+    },
+    "3": {
+     "sources": [
+      "mm7/hep1b"
+     ],
+     "fraction": 0.171
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     190
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hep1lw",
+     "right": "mm7/hep1b"
+    },
+    "3": {
+     "left": "mm7/hep1lw",
+     "right": "mm7/hep1b"
+    }
+   }
+  },
+  "mm7/ckdr": {
+   "name": "ckdr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: left half of an arched door of brown oak planks with dark iron strap hinges and a horizontal wooden crossbar with an iron latch, framed on the left by an arch of tan and olive mossy rounded fieldstones with dark joints - right part: right half of an arched door of brown oak planks with dark iron strap hinges and a horizontal wooden crossbar with an iron latch, framed on the right by an arch of tan and olive mossy rounded fieldstones with dark joints; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.188
+    },
+    "2": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.188
+    },
+    "3": {
+     "sources": [
+      "mm7/ckb",
+      "mm7/ckber",
+      "mm7/ckbw",
+      "mm7/ckbel"
+     ],
+     "fraction": 0.187
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm7/ckber"
+    }
+   }
+  },
+  "mm7/ckdl": {
+   "name": "ckdl",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "left half of an arched door of brown oak planks with dark iron strap hinges and a horizontal wooden crossbar with an iron latch, framed on the left by an arch of tan and olive mossy rounded fieldstones with dark joints; copy the composition exactly",
+   "notes": {
+    "3": "the topmost rows are the rounded mossy fieldstones exactly as bright as the reference, with no dark rim, shadow or joint line running along the top edge",
+    "4": "the topmost rows are the rounded mossy fieldstones exactly as bright as the reference, with no dark rim, shadow or joint line running along the top edge",
+    "5": "the narrow near-black gap between the two door leaves runs along the right edge from the arch down to the bottom: the rightmost columns are near-black, continuing the sharp black gap in the right margin; the fieldstones of the arch top stay as bright as the reference",
+    "6": "the narrow near-black gap between the two door leaves runs along the right edge from the arch down to the bottom: the rightmost columns are near-black, continuing the sharp black gap in the right margin; the fieldstones of the arch top stay as bright as the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.187
+    },
+    "2": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.187
+    },
+    "3": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.187
+    },
+    "4": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.187
+    },
+    "5": {
+     "sources": [
+      "mm7/ckb"
+     ],
+     "fraction": 0.187
+    }
+   },
+   "context": {
+    "4": {
+     "right": "mm7/ckdr"
+    },
+    "5": {
+     "right": "mm7/ckdr"
+    }
+   },
+   "roll": {
+    "5": [
+     0,
+     163
+    ]
+   }
+  },
+  "mm7/hep1rw": {
+   "name": "hep1rw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough grey fieldstone wall framed by weathered green-painted wooden posts and beams, with diagonal green braces and a small diamond-shaped window of amber glass with a green cross mullion set in the stone, leafy pale green ivy climbing up from the base; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "3": "copy the composition exactly: the diamond window with its amber glass and green cross bars at the same size and position as in the reference, under a carved green arch brace; every edge keeps the reference colours right up to the last pixel row and column: the green post runs to the very right edge with no dark line",
+    "4": "copy the composition exactly: the diamond window with its amber glass and green cross bars at the same size and position as in the reference, under a carved green arch brace; the green post runs to the very right edge at its normal green tone with no dark line",
+    "5": "copy the composition exactly: the diamond window with its amber glass and green cross bars at the same size and position as in the reference; the right part is a broad weathered green-painted wooden post whose pale green planks run to the very last pixel column with no dark outline or shadow line at the right edge; the left edge continues the grey fieldstone shown in the left margin with no dark line",
+    "6": "copy the composition exactly: the diamond window with its amber glass and green cross bars at the same size and position as in the reference; the broad green-painted post on the right is cut through by the picture edge and simply continues beyond it: its pale green planks run straight to the edge at full brightness, and where the post meets grey fieldstone there is no dark gap, groove or shadow line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hep1lw"
+     ],
+     "fraction": 0.134
+    },
+    "2": {
+     "sources": [
+      "mm7/hep1lw"
+     ],
+     "fraction": 0.134
+    },
+    "3": {
+     "sources": [
+      "mm7/hep1lw"
+     ],
+     "fraction": 0.134
+    },
+    "4": {
+     "sources": [
+      "mm7/hep1lw"
+     ],
+     "fraction": 0.134
+    },
+    "5": {
+     "sources": [
+      "mm7/hep1lw"
+     ],
+     "fraction": 0.134
+    },
+    "6": {
+     "sources": [
+      "mm7/hep1lw"
+     ],
+     "fraction": 0.134
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hep1el"
+    },
+    "3": {
+     "left": "mm7/hep1el"
+    },
+    "4": {},
+    "5": {
+     "left": "mm7/hep1el"
+    },
+    "6": {}
+   },
+   "roll": {
+    "4": [
+     95,
+     0
+    ],
+    "6": [
+     95,
+     0
+    ]
+   },
+   "match_neighbor": true
+  },
+  "mm7/ceb1w": {
+   "name": "ceb1w",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-green dressed limestone blocks with light mortar joints, with a narrow pointed arched window opening onto black darkness, framed in rough grey stone with a projecting stone sill; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hem1rfa": {
+   "name": "hem1rfa",
+   "versions": [
+    1
+   ],
+   "material": "roof of overlapping thick dark brown rough tree-bark shingles in staggered rows with deep furrowed bark grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hep1rf": {
+   "name": "hep1rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of weathered teal-green painted wooden boards, cracked and peeling, overlapping with dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/her1d": {
+   "name": "her1d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "arched wooden double door of weathered pale grey-brown planks with a round green carved wooden boss in the centre and two small red arched windows, framed by dark wooden pointed gothic tracery with a green gem at the apex, golden yellow plank panels to each side, and green ivy vines with teal-green carved columns; copy the composition exactly",
+   "notes": {
+    "3": "keep every element at exactly the reference's height and position (no vertical drift): the pointed arch, the green gem, the round green boss and the side posts; the right edge continues straight into the neighbouring wall shown in the margin, same colours and timber, with no dark line along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/her1elw",
+     "right": "mm7/her1b"
+    },
+    "3": {
+     "left": "mm7/her1elw",
+     "right": "mm7/her1b"
+    }
+   }
+  },
+  "mm7/trim7_16a": {
+   "name": "trim7_16a",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of brown wood grain plank, slightly worn",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t5elr": {
+   "name": "t5elr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a carved golden-tan zigzag-lattice pilaster along both the left and right edges; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1el",
+      "mm7/t5s1er"
+     ],
+     "fraction": 0.68
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1el",
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.546
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1el",
+      "mm7/t5s1er",
+      "mm7/t5bs"
+     ],
+     "fraction": 0.85
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm7/t5s1be": {
+   "name": "t5s1be",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a hung painting of a grey stone ruin in a silver frame; copy the composition exactly",
+   "notes": {
+    "2": "the framed picture came out as a mosaic of small cells; paint it as a smooth oil painting of a grey ruined stone tower under a pale sky with soft brushwork, keeping the same composition and frame",
+    "3": "the framed picture came out as a mosaic of small cells; paint it as a smooth oil painting of a grey ruined stone tower under a pale sky with soft brushwork, keeping the same composition and frame",
+    "4": "the grey granite around the frame continues the sharp granite exactly: the same fine speckle size, the same mid-grey tone and colour, so no darker, coarser or bluer patch outlines the frame; only a soft short drop shadow under the frame",
+    "5": "paint the granite around the frame exactly like the sharp granite further out: the same fine small speckle, same light mid-grey tone, no coarser, darker or blotchier granite near the frame, no halo or outline around it; the frame casts only a very thin soft shadow"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.606
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.606
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.606
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.606
+    },
+    "5": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.606
+    }
+   }
+  },
+  "mm7/t5s1bh": {
+   "name": "t5s1bh",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a hung portrait of a hooded man in a dark draped cloak in a gilded frame; copy the composition exactly",
+   "notes": {
+    "3": "the grey granite around the frame continues the sharp granite exactly: the same fine speckle size, the same mid-grey tone and colour, so no darker, coarser or bluer patch outlines the frame; only a soft short drop shadow under the frame",
+    "4": "paint the granite around the frame exactly like the sharp granite further out: the same fine small speckle, same light mid-grey tone, no coarser, darker or blotchier granite near the frame, no halo or outline around it; the frame casts only a very thin soft shadow"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.469
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.469
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.469
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.469
+    }
+   }
+  },
+  "mm7/t3s2b1f": {
+   "name": "t3s2b1f",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-beige mottled marble wall panels divided by thin incised lines, with a hung portrait of a crowned king with a dark moustache in dark robes, in a black and silver ornate frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2b1"
+     ],
+     "fraction": 0.368
+    }
+   }
+  },
+  "mm7/tfb1r3a": {
+   "name": "tfb1r3a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's outer corner with stone above and to the left; copy the composition exactly",
+   "notes": {
+    "2": "full-brightness native colours right up to every edge pixel: no dark, black or red line along any part of any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb1r3c": {
+   "name": "tfb1r3c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's outer corner with stone to the left and below; copy the composition exactly",
+   "notes": {
+    "2": "full-brightness native colours right up to every edge pixel: no dark, black or red line along any part of any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.205
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.205
+    }
+   }
+  },
+  "mm7/tfb1r3e": {
+   "name": "tfb1r3e",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's outer corner with stone below and to the right; copy the composition exactly",
+   "notes": {
+    "3": "full-brightness native colours right up to every edge pixel: no dark, black or red line along any part of any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3c"
+     ],
+     "fraction": 0.171
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3c"
+     ],
+     "fraction": 0.171
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r3c"
+     ],
+     "fraction": 0.171
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm7/tfb1r3g": {
+   "name": "tfb1r3g",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's outer corner with stone above and to the right; copy the composition exactly",
+   "notes": {
+    "3": "the stones just above the carpet's top edge continue the sharp grey-brown stone exactly in colour and grain down to a dark shadow joint directly above the carpet; no pale, chalky or greenish band along the bottom of those stones",
+    "4": "the stones just above the carpet's top edge continue the sharp grey-brown stone exactly in colour and grain down to a dark shadow joint directly above the carpet; no pale, chalky or greenish band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3e",
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.358
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3e",
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.358
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r3e",
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.358
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb1r3e",
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.358
+    }
+   },
+   "context": {
+    "4": {}
+   }
+  },
+  "mm7/tfb1r3b": {
+   "name": "tfb1r3b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's left edge with stone on the left; copy the composition exactly",
+   "notes": {
+    "2": "full-brightness native colours right up to every edge pixel: no dark, black or red line along any part of any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.358
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3a"
+     ],
+     "fraction": 0.358
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm7/tfb1r3a",
+     "bottom": "mm7/tfb1r3c"
+    }
+   }
+  },
+  "mm7/chb1p2": {
+   "name": "chb1p2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale beige stone wall above a strip of rounded tan cobblestones, with a hung portrait of a fully clothed noblewoman in a red and gold gown with a gable headdress and gold necklaces, in a gilded red-brown frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1p1"
+     ],
+     "fraction": 0.18
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.18
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.18
+    }
+   },
+   "context": {
+    "3": {
+     "top": "mm7/chb1",
+     "bottom": "mm7/chb1"
+    }
+   }
+  },
+  "mm7/tfb1r3d": {
+   "name": "tfb1r3d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's lower edge with stone below; copy the composition exactly",
+   "notes": {
+    "3": "the leftmost pixel column in the stone area below the carpet is grey-brown stone like its neighbours, with no red line; the carpet's red stays strictly inside the carpet",
+    "4": "the leftmost pixel column in the stone area below the carpet is grey-brown stone like its neighbours, with no red line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3c"
+     ],
+     "fraction": 0.177
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3c"
+     ],
+     "fraction": 0.177
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r3c"
+     ],
+     "fraction": 0.177
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb1r3c"
+     ],
+     "fraction": 0.177
+    }
+   },
+   "context": {
+    "4": {
+     "left": "mm7/tfb1r3c",
+     "right": "mm7/tfb1r3e"
+    }
+   }
+  },
+  "mm7/tfb1r3f": {
+   "name": "tfb1r3f",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's right edge with stone on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3e",
+      "mm7/tfb1r3g"
+     ],
+     "fraction": 0.211
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3e",
+      "mm7/tfb1r3g"
+     ],
+     "fraction": 0.211
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm7/tfb1r3g",
+     "bottom": "mm7/tfb1r3e"
+    }
+   }
+  },
+  "mm7/tfb1r3h": {
+   "name": "tfb1r3h",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's upper edge with stone above; copy the composition exactly",
+   "notes": {
+    "2": "keep the flagstones the same warm grey-brown as the reference, not pale or greenish; keep the carpet red as in the reference",
+    "3": "match the reference colours exactly: the carpet field is a warm orange-red (vermilion), not crimson; the flagstones are warm brown-grey with dark joints"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3a",
+      "mm7/tfb1r3g"
+     ],
+     "fraction": 0.198
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3a",
+      "mm7/tfb1r3g"
+     ],
+     "fraction": 0.198
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb1r3a",
+      "mm7/tfb1r3g"
+     ],
+     "fraction": 0.198
+    }
+   }
+  },
+  "mm7/ch001d": {
+   "name": "ch001d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, framed by dark riveted iron bands along all four edges, with a dark iron lock plate with a rectangular slot in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch001j": {
+   "name": "ch001j",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "orange-brown varnished wooden chest panel of vertical planks with fine wood grain, with dark riveted iron bands along the top and bottom edges; copy the composition exactly",
+   "notes": {
+    "3": "the leftmost and rightmost columns are plain plank wood as bright as the reference, with no dark joint or rim line on the left or right edge; directly under the top iron band and above the bottom band a thin dark shadow line, not a bright metallic line",
+    "4": "all plank joints, including the ones on the very left and right edges, are soft medium-brown grooves only slightly darker than the wood, never black lines; the outermost left and right pixel columns stay medium brown as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch004j"
+     ],
+     "fraction": 0.234
+    },
+    "2": {
+     "sources": [
+      "mm7/ch004j"
+     ],
+     "fraction": 0.234
+    },
+    "3": {
+     "sources": [
+      "mm7/ch004j"
+     ],
+     "fraction": 0.234
+    },
+    "4": {
+     "sources": [
+      "mm7/ch004j"
+     ],
+     "fraction": 0.234
+    }
+   }
+  }
+ }
+}

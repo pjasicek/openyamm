@@ -1,0 +1,78 @@
+{
+  "tool": "built-in image_gen",
+  "status": "requirements_unmet",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Create one 1024 x 1024 transparent PNG texture-source painting for the BACK orthographic view of the Wire scrub thicket.\nInput 1 design_reference.png is material and colour authority ONLY. Input 2 guide_back.png is the edit target and exact geometry, silhouette and composition authority.\nRepaint ONLY the grey surfaces in input 2 with the materials of input 1: matte charcoal-black woody wire stems with rust-red thorn tips, grey ash tufts and ash at the foot.\nCRITICAL: preserve the guide's EXACT silhouette, size and position in the 1024 square frame, every angular shape edge, opening, overlap, point and detail in the same pixel locations. Retain the guide's angular broad faces: paint material onto them, do not remodel them into slender curved branches. Nothing added outside the guide silhouette, nothing removed, nothing cropped. Do not imitate the three-quarter camera, round silhouette, or composition of input 1. Keep the broad empty transparent margin above and below the guide. Preserve transparency and all transparent openings.\nLIGHTING: this is albedo texture source. Even flat shadowless lighting from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Show material colour evenly on all faces, including deeper surfaces. Paint any glowing material at its colour only, without cast light. No text, labels, border, watermark, or extra objects. Output exactly 1024 x 1024, transparent background.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "41af175c3b6c5931b6cfd105cb3171ecd25e95d0a0b24010e78d4b6165615da2"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-44be-7b82-9c99-50ae6b264e75/exec-b7c83ee3-7751-483d-9dec-3bf69506ef79.png",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong dimensions, altered silhouette, bright orange edge accents.",
+      "output_sha256": "b35f99b2819fbc8b5dc9219551ee90d5fac68c19098308004e09f36585e26fc0",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_visual": "Charcoal bark, rust tips and grey ash present; bright grain remains.",
+        "flat_light_visual": "No cast shadow or floor; some depth shading and bright texture remain."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Edit guide_back.png, the SECOND input image, directly. Return exactly 1024 x 1024 pixels, PNG RGBA with transparent background. This is a precise material-only repaint of this existing image, not a new composition.\nThe first input, design_reference.png, supplies ONLY colours/materials: matte charcoal-black woody wire stems, muted rust-red thorn tips, grey ash tufts and ash at the foot. Paint these surface materials within the existing grey polygons of the second input.\nCORRECTION REQUIREMENTS: the prior attempt changed edges, added bright orange rim highlights and returned 1254 x 1254. This return must be 1024 x 1024 and must preserve the second input's alpha mask pixel for pixel, including every internal opening and antialiased edge. Occupied silhouette bounds in the 1024 x 1024 guide are x=66 through 957 and y=259 through 764. Keep all that space above/below empty and transparent. No new protrusions, no new thin branches, no added foreground tufts that change the outline, no added holes. Keep every jagged triangular face exactly the same size and pixel position. Do not zoom, crop, scale, rotate, shift, smooth, or replace geometry. Recolour the guide's existing faces.\nTEXTURE SOURCE / ALBEDO: flat, shadowless, even front illumination over all polygons, no ambient occlusion or darkness from depth. Matte charcoal bark colour and small-scale bark grain. Rust red is restricted to the thorn tips, subdued not luminous, not bright orange edge outlines. Grey ash texture on existing lower surfaces. No white specular streaks, gloss, reflections, rim light, directional shading, cast shadows, background, floor, text or labels. Do not copy the first input's three-quarter camera, rounded branches, brown background or dramatic lighting. Preserve the exact angular back-view guide, 1024-square canvas, and original transparency.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "41af175c3b6c5931b6cfd105cb3171ecd25e95d0a0b24010e78d4b6165615da2"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-44be-7b82-9c99-50ae6b264e75/exec-33ed2743-35a8-4695-b5d1-874a0be04b20.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two raw returns: more faithful angular geometry and subdued rust tips. Not accepted as brief-compliant: dimensions and exact silhouette requirements remain unmet; some bright grain/depth shading remains. Corrective regeneration limit reached.",
+      "output_sha256": "a9c6860f9d4ff58ca71703487af20a93b0be309c9beb6b724f3290d2c4b3bdd2",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_visual": "Charcoal bark, rust tips and grey ash present; bright grain remains.",
+        "flat_light_visual": "No cast shadow or floor; some depth shading and bright texture remain."
+      }
+    }
+  ]
+}

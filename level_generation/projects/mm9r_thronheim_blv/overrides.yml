@@ -1,0 +1,56 @@
+# Thronheim as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  stem: thronheim
+  display_name: Thronheim
+  starts: [StartPoint0, MountainPassStart, TownExit, TownDockExit, FTFrosgardStart, ConnectingTunnelsExit, InventaStorcaExit]   # the old map's party_start_points order
+  monster_classes: [Gezzamptling, Basilisk, Annelid, Bloodsucker, JellySpore, FibraseBasilisk, Gezzampt, KingBasilisk]
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [-33607, 15, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  Terrain0: static   # Terrain
+  TOD_Sky0: skip   # TOD_Sky
+  SkyBox0: skip   # DemoSkyWorldModel
+  Ocean: static   # WorldObject
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py THRONHEIM): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    thronheimcliff: grass_patches   # 86 %: rock under green moss
+    thronheimgrass: grass
+  slope: cliff
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [KingBasilisk0, KingBasilisk1]
+  themed_near: [Cookpot0]

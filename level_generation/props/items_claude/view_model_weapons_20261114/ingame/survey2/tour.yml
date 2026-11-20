@@ -1,0 +1,54 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/survey2
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit twohand w_zztest_s20.glb 0
+  - wait: 2
+  - capture: s20_00idle
+  - console: viewmodel pose twohandattackright 0.2
+  - wait: 0.5
+  - capture: s20_01_twohandattackright_0_2
+  - console: viewmodel pose twohandattackright 0.3
+  - wait: 0.5
+  - capture: s20_02_twohandattackright_0_3
+  - console: viewmodel pose twohandattackleft 0.25
+  - wait: 0.5
+  - capture: s20_03_twohandattackleft_0_25
+  - console: viewmodel pose twohandattackforwardpower 0.3
+  - wait: 0.5
+  - capture: s20_04_twohandattackforwardpower_0_3
+  - console: viewmodel pose twohandattackleft_chop 0.25
+  - wait: 0.5
+  - capture: s20_05_twohandattackleft_chop_0_25
+  - console: viewmodel pose onehandattackforwardpower 0.6
+  - wait: 0.5
+  - capture: s20_06_onehandattackforwardpower_0_6
+  - console: viewmodel pose twohandblockidle 0.5
+  - wait: 0.5
+  - capture: s20_07_twohandblockidle_0_5
+  - console: viewmodel pose off
+  - console: viewmodel kit twohand w_zztest_s30.glb 0
+  - wait: 2
+  - capture: s30_00idle
+  - console: viewmodel pose twohandattackright 0.2
+  - wait: 0.5
+  - capture: s30_01_twohandattackright_0_2
+  - console: viewmodel pose twohandattackright 0.3
+  - wait: 0.5
+  - capture: s30_02_twohandattackright_0_3
+  - console: viewmodel pose twohandattackleft 0.25
+  - wait: 0.5
+  - capture: s30_03_twohandattackleft_0_25
+  - console: viewmodel pose twohandattackforwardpower 0.3
+  - wait: 0.5
+  - capture: s30_04_twohandattackforwardpower_0_3
+  - console: viewmodel pose twohandattackleft_chop 0.25
+  - wait: 0.5
+  - capture: s30_05_twohandattackleft_chop_0_25
+  - console: viewmodel pose onehandattackforwardpower 0.6
+  - wait: 0.5
+  - capture: s30_06_onehandattackforwardpower_0_6
+  - console: viewmodel pose twohandblockidle 0.5
+  - wait: 0.5
+  - capture: s30_07_twohandblockidle_0_5
+  - console: viewmodel pose off

@@ -1,0 +1,291 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/bathhouse/x4/bathhouse
+settle_seconds: 2.0
+exit: true
+shots:
+- name: karha5r44e-d9-closed-front
+  position:
+  - 15278
+  - -3242
+  - -819
+  yaw: 1.5708
+  pitch: 0.065
+- name: karha5r44e-d9-joint-graze
+  position:
+  - 15398
+  - -2512
+  - -819
+  yaw: 2.2143
+  pitch: 0.15
+- name: karha5r44e-d9-closed-back
+  position:
+  - 15278
+  - -1464
+  - -819
+  yaw: -1.5708
+  pitch: 0.065
+- name: karha5r44e-d9-open-front
+  position:
+  - 15278
+  - -3242
+  - -819
+  yaw: 1.5708
+  pitch: 0.065
+  commands:
+  - event 107
+  settle_seconds: 5.0
+- name: karhq6l81q-d1-closed-front
+  position:
+  - 82
+  - -1995
+  - -243
+  yaw: -1.5708
+  pitch: 0.14
+- name: karhq6l81q-d1-joint-graze
+  position:
+  - -38
+  - -2676
+  - -243
+  yaw: -0.9273
+  pitch: 0.15
+- name: karhq6l81q-d1-closed-back
+  position:
+  - 82
+  - -3678
+  - -243
+  yaw: 1.5708
+  pitch: 0.14
+- name: karhq6l81q-d1-open-front
+  position:
+  - 82
+  - -1995
+  - -243
+  yaw: -1.5708
+  pitch: 0.14
+  commands:
+  - event 101
+  settle_seconds: 5.0
+- name: karhrjad72-d6-closed-front
+  position:
+  - 5730
+  - -3191
+  - -243
+  yaw: -0.0
+  pitch: 0.14
+- name: karhrjad72-d6-joint-graze
+  position:
+  - 6412
+  - -3311
+  - -243
+  yaw: 0.6435
+  pitch: 0.15
+- name: karhrjad72-d6-closed-back
+  position:
+  - 7413
+  - -3191
+  - -243
+  yaw: 3.1416
+  pitch: 0.14
+- name: karhrjad72-d6-open-front
+  position:
+  - 5730
+  - -3191
+  - -243
+  yaw: -0.0
+  pitch: 0.14
+  commands:
+  - event 106
+  settle_seconds: 5.0
+- name: metak2vphu-d11-closed-front
+  position:
+  - 3377
+  - -5250
+  - -23
+  yaw: -0.0
+  pitch: -0.151
+- name: metak2vphu-d11-joint-graze
+  position:
+  - 3517
+  - -5370
+  - -23
+  yaw: 0.6435
+  pitch: 0.15
+- name: metak2vphu-d11-closed-back
+  position:
+  - 3977
+  - -5250
+  - -23
+  yaw: 3.1416
+  pitch: -0.151
+- name: refixbtk8r-d17-closed-front
+  position:
+  - 9124
+  - 174
+  - -984
+  yaw: 0.0
+  pitch: -0.14
+- name: refixbtk8r-d17-joint-graze
+  position:
+  - 9264
+  - 294
+  - -984
+  yaw: -0.6435
+  pitch: 0.15
+- name: roofduxzc7-d16-closed-front
+  position:
+  - 7871
+  - -4195
+  - -225
+  yaw: -1.5708
+  pitch: -0.026
+- name: roofduxzc7-d16-joint-graze
+  position:
+  - 7751
+  - -4378
+  - -225
+  yaw: -0.9273
+  pitch: 0.15
+- name: roofduxzc7-d16-closed-back
+  position:
+  - 7871
+  - -4881
+  - -225
+  yaw: 1.5708
+  pitch: -0.026
+- name: room16-e
+  position: &id001
+  - 2912
+  - -65
+  - -305
+  yaw: 0.0
+  pitch: -0.12
+- name: room16-n
+  position: *id001
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room16-w
+  position: *id001
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room16-s
+  position: *id001
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room16-up
+  position: *id001
+  yaw: 0.0
+  pitch: 0.9
+- name: room20-e
+  position: &id002
+  - 12820
+  - -410
+  - -323
+  yaw: 0.0
+  pitch: -0.12
+- name: room20-n
+  position: *id002
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room20-w
+  position: *id002
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room20-s
+  position: *id002
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room20-up
+  position: *id002
+  yaw: 0.0
+  pitch: 0.9
+- name: room6-e
+  position: &id003
+  - 7232
+  - -3579
+  - -243
+  yaw: 0.0
+  pitch: -0.12
+- name: room6-n
+  position: *id003
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room6-w
+  position: *id003
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room6-s
+  position: *id003
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room6-up
+  position: *id003
+  yaw: 0.0
+  pitch: 0.9
+- name: room22-e
+  position: &id004
+  - 15111
+  - -633
+  - -819
+  yaw: 0.0
+  pitch: -0.12
+- name: room22-n
+  position: *id004
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room22-w
+  position: *id004
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room22-s
+  position: *id004
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room22-up
+  position: *id004
+  yaw: 0.0
+  pitch: 0.9
+- name: room24-e
+  position: &id005
+  - 1331
+  - 1674
+  - -282
+  yaw: 0.0
+  pitch: -0.12
+- name: room24-n
+  position: *id005
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room24-w
+  position: *id005
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room24-s
+  position: *id005
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room24-up
+  position: *id005
+  yaw: 0.0
+  pitch: 0.9
+- name: room14-e
+  position: &id006
+  - 3774
+  - -860
+  - -1260
+  yaw: 0.0
+  pitch: -0.12
+- name: room14-n
+  position: *id006
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room14-w
+  position: *id006
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room14-s
+  position: *id006
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room14-up
+  position: *id006
+  yaw: 0.0
+  pitch: 0.9

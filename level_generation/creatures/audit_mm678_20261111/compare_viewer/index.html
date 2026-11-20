@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MM6–MM8 Before / After</title>
+<link rel="icon" href="data:,">
+<style>
+:root { --bg:#16191c; --panel:#1f2327; --line:#30363c; --fg:#e4e7ea; --muted:#8d969e; --accent:#5fbfb2;
+  --tex:#5fa8e8; --clips:#e0a56b; --attack:#e57373; --rebuild:#b48cf0; --other:#8d969e; }
+* { box-sizing:border-box; }
+html, body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:13px/1.45 system-ui, sans-serif; }
+#app { display:grid; grid-template-columns:290px 1fr; height:100%; }
+#side { border-right:1px solid var(--line); display:flex; flex-direction:column; min-height:0; background:var(--panel); }
+#side header { padding:12px; border-bottom:1px solid var(--line); display:grid; gap:8px; }
+#side h1 { font-size:15px; margin:0; }
+#search { width:100%; padding:6px 8px; background:var(--bg); border:1px solid var(--line); color:var(--fg); border-radius:4px; }
+.chips { display:flex; flex-wrap:wrap; gap:4px; }
+.chip { border:1px solid var(--line); border-radius:10px; padding:1px 8px; cursor:pointer; color:var(--muted); background:none; font:inherit; }
+.chip.on { color:var(--bg); background:var(--accent); border-color:var(--accent); }
+#list { overflow:auto; flex:1; }
+#list button { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--line);
+  color:var(--fg); padding:6px 12px; cursor:pointer; font:inherit; }
+#list button:hover { background:#262b30; }
+#list button.sel { background:#2c3a38; }
+#list .w { color:var(--muted); font-size:11px; }
+.tag { display:inline-block; font-size:10px; padding:0 5px; border-radius:6px; margin-left:3px; color:#111; }
+.tag.texture { background:var(--tex); } .tag.clips { background:var(--clips); } .tag.attack { background:var(--attack); }
+.tag.rebuild { background:var(--rebuild); } .tag.other { background:var(--other); }
+#main { display:grid; grid-template-rows:auto 1fr auto; min-width:0; min-height:0; }
+#bar { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; padding:8px 12px; border-bottom:1px solid var(--line); }
+#bar h2 { margin:0; font-size:15px; }
+#bar label { color:var(--muted); display:flex; gap:5px; align-items:center; }
+select, #bar button { background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:4px; padding:3px 6px; font:inherit; }
+#bar button { cursor:pointer; }
+.roles { display:flex; gap:3px; flex-wrap:wrap; }
+.roles button.on { background:var(--accent); color:var(--bg); }
+#stage { position:relative; min-height:0; }
+#stage canvas { display:block; width:100%; height:100%; }
+.label { position:absolute; top:8px; padding:3px 8px; background:rgba(0,0,0,.55); border-radius:4px; pointer-events:none; }
+#lb { left:8px; } #la { left:calc(50% + 8px); }
+.clipname { position:absolute; bottom:8px; padding:2px 8px; background:rgba(0,0,0,.55); border-radius:4px; color:var(--muted);
+  pointer-events:none; font-size:12px; }
+#cb { left:8px; } #ca { left:calc(50% + 8px); }
+#divider { position:absolute; top:0; bottom:0; left:50%; width:2px; background:var(--line); pointer-events:none; }
+#error { position:absolute; inset:auto 8px 40px 8px; color:#ff8a80; background:rgba(0,0,0,.7); padding:6px; border-radius:4px; }
+#loading { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); color:var(--muted); }
+#foot { border-top:1px solid var(--line); padding:8px 12px; max-height:28vh; overflow:auto; display:grid; gap:6px; }
+#foot .n { display:grid; grid-template-columns:auto 1fr; gap:8px; align-items:start; }
+#readout { color:var(--muted); font-size:12px; }
+#scrub { width:220px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <header>
+      <h1>MM6–MM8 before / after</h1>
+      <div style="color:var(--muted)">Left: before the 2026-11-11 fixes (assets_source HEAD). Right: installed now.
+        Same camera, same tier.</div>
+      <input id="search" type="search" placeholder="Filter by name or model">
+      <div class="chips" id="chips"></div>
+    </header>
+    <div id="list"></div>
+  </aside>
+  <section id="main">
+    <div id="bar">
+      <h2 id="title">…</h2>
+      <label>Tier <select id="modelRevision"></select></label>
+      <div class="roles" id="roles"></div>
+      <label>Clip <select id="clip"></select></label>
+      <button id="play">Pause</button>
+      <label>Speed <select id="speed"><option>0.25</option><option>0.5</option><option selected>1</option></select></label>
+      <label><input type="checkbox" id="sync"> sync by fraction</label>
+      <input type="range" id="scrub" min="0" max="1" step="0.001" value="0" aria-label="Clip position">
+      <label>View <select id="view"><option>front</option><option>three-quarter</option><option>side</option>
+        <option>back</option><option>head close-up</option></select></label>
+    </div>
+    <div id="stage">
+      <canvas id="canvas"></canvas>
+      <div id="divider"></div>
+      <div class="label" id="lb">Before</div><div class="label" id="la">After (installed)</div>
+      <div class="clipname" id="cb"></div><div class="clipname" id="ca"></div>
+      <div id="loading" hidden>Loading…</div>
+      <div id="error" hidden></div>
+    </div>
+    <div id="foot"><div id="readout"></div><div id="notes"></div></div>
+  </section>
+</div>
+<script type="importmap">{"imports":{"three":"../../mm6_goblin/review_20261006/vendor/build/three.module.js",
+"three/addons/":"../../mm6_goblin/review_20261006/vendor/addons/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const $ = id => document.getElementById(id);
+const manifest = await (await fetch('manifest.json?v=' + Date.now())).json();
+const STREAMS = ['all', 'texture', 'clips', 'attack', 'rebuild'];
+const ROLES = [['standing', 'Stand'], ['walking', 'Walk'], ['run', 'Run'], ['attack_melee', 'Attack'],
+  ['attack_ranged', 'Ranged'], ['cast', 'Cast'], ['hit', 'Hit'], ['dying', 'Death'], ['fidget', 'Fidget']];
+let playing = true, fraction = 0;
+let stream = 'all', current = null, role = 'standing', clipName = null, first = true;
+
+const canvas = $('canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.setScissorTest(true);
+const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 10000);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+
+function makeScene() {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x3a3f44);
+  scene.add(new THREE.HemisphereLight(0xdfe6ee, 0x3a3226, 1.6));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.2); sun.position.set(2, 4, 3); scene.add(sun);
+  const fill = new THREE.DirectionalLight(0xbfd0ff, 0.6); fill.position.set(-3, 2, -2); scene.add(fill);
+  const grid = new THREE.GridHelper(4, 16, 0x56606a, 0x464d55); grid.name = 'grid'; scene.add(grid);
+  return scene;
+}
+const sides = { before: { scene: makeScene() }, after: { scene: makeScene() } };
+const loader = new GLTFLoader();
+
+// Region ramps: the engine's fs_model.sc maths. Inside each mask channel the linear base colour moves to that region's
+// 16-stop linear ramp, indexed by luminance normalised to the region's range.
+function regionMaterial(material, parser) {
+  const ramps = material.userData && material.userData.openyamm_region_ramps;
+  const mask = material.userData && material.userData.openyamm_region_mask;
+  if (!ramps || !mask || material.userData.regionPatched || new URLSearchParams(location.search).get('noregion')) return;
+  material.userData.regionPatched = true;
+  const data = new Float32Array(16 * 4 * 4);
+  const lo = new THREE.Vector4(0, 0, 0, 0), hi = new THREE.Vector4(1, 1, 1, 1), on = new THREE.Vector4(0, 0, 0, 0);
+  ramps.slice(0, 4).forEach((r, row) => {
+    lo.setComponent(row, r.range[0]); hi.setComponent(row, r.range[1]); on.setComponent(row, 1);
+    r.colors.forEach((c, i) => { const o = (row * 16 + i) * 4; data[o] = c[0]; data[o + 1] = c[1]; data[o + 2] = c[2]; data[o + 3] = 1; });
+  });
+  const rampTex = new THREE.DataTexture(data, 16, 4, THREE.RGBAFormat, THREE.FloatType);
+  rampTex.magFilter = THREE.LinearFilter; rampTex.minFilter = THREE.LinearFilter; rampTex.needsUpdate = true;
+  const uniforms = material.userData.regionUniforms = { regionMask: { value: null }, regionRamp: { value: rampTex }, regionLo: { value: lo },
+    regionHi: { value: hi }, regionOn: { value: on } };
+  parser.getDependency('texture', mask.index).then(t => { t.colorSpace = THREE.NoColorSpace; uniforms.regionMask.value = t;
+    material.needsUpdate = true; });
+  material.onBeforeCompile = shader => {
+    Object.assign(shader.uniforms, uniforms);
+    shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', `#include <map_fragment>
+#ifdef USE_MAP
+{
+  vec4 rm = texture2D(regionMask, vMapUv) * regionOn;
+  float lum = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+  vec4 p = clamp((vec4(lum) - regionLo) / max(regionHi - regionLo, vec4(0.0001)), 0.0, 1.0);
+  vec4 u = (p * 15.0 + 0.5) / 16.0;
+  diffuseColor.rgb = mix(diffuseColor.rgb, texture2D(regionRamp, vec2(u.x, 0.125)).rgb, rm.r);
+  diffuseColor.rgb = mix(diffuseColor.rgb, texture2D(regionRamp, vec2(u.y, 0.375)).rgb, rm.g);
+  diffuseColor.rgb = mix(diffuseColor.rgb, texture2D(regionRamp, vec2(u.z, 0.625)).rgb, rm.b);
+  diffuseColor.rgb = mix(diffuseColor.rgb, texture2D(regionRamp, vec2(u.w, 0.875)).rgb, rm.a);
+}
+#endif`).replace('void main() {', `uniform sampler2D regionMask; uniform sampler2D regionRamp;
+uniform vec4 regionLo; uniform vec4 regionHi; uniform vec4 regionOn;
+void main() {`);
+  };
+  material.customProgramCacheKey = () => 'region' + material.uuid;
+}
+
+async function applyVariant(side, skin) {
+  const gltf = side.gltf; if (!gltf) return;
+  const parser = gltf.parser, json = parser.json;
+  const variants = (json.extensions && json.extensions.KHR_materials_variants || {}).variants || [];
+  const vi = variants.findIndex(v => v.name === skin);
+  const jobs = [];
+  gltf.scene.traverse(o => {
+    if (!o.isMesh) return;
+    const assoc = parser.associations.get(o);
+    if (!assoc || assoc.meshes === undefined) return;
+    const prim = json.meshes[assoc.meshes].primitives[assoc.primitives || 0];
+    let index = prim.material;
+    const mappings = prim.extensions && prim.extensions.KHR_materials_variants && prim.extensions.KHR_materials_variants.mappings;
+    if (vi >= 0 && mappings) { const m = mappings.find(x => x.variants.includes(vi)); if (m) index = m.material; }
+    if (index === undefined) return;
+    if (!o.userData.defaultMaterial) o.userData.defaultMaterial = o.material;
+    jobs.push(parser.getDependency('material', index).then(mat => {
+      regionMaterial(mat, parser);
+      if (o.isSkinnedMesh && mat.isMaterial) o.material = mat; else o.material = mat;
+    }));
+  });
+  await Promise.all(jobs);
+}
+
+function sanitize(name) { return THREE.PropertyBinding.sanitizeNodeName(name || ''); }
+
+function hideHelpers(root) {
+  root.traverse(o => { if (o.isMesh && /shadow|lod[1-3]/i.test(o.name)) o.visible = false; });
+}
+
+async function loadSide(key, url, binding) {
+  const side = sides[key];
+  if (side.root) { side.scene.remove(side.root); side.root.traverse(o => { if (o.geometry) o.geometry.dispose(); }); }
+  side.root = null; side.gltf = null; side.mixer = null;
+  const gltf = await loader.loadAsync(url);
+  side.gltf = gltf;
+  const root = new THREE.Group();
+  root.add(gltf.scene);
+  hideHelpers(gltf.scene);
+  gltf.scene.traverse(o => { if (o.isMesh) { o.frustumCulled = false; } });
+  for (const att of binding.attachments || []) {
+    try {
+      const a = await loader.loadAsync(att.url);
+      hideHelpers(a.scene);
+      const node = gltf.scene.getObjectByName(sanitize(att.node)) || gltf.scene.getObjectByName(att.node);
+      if (node) node.add(a.scene); else console.warn('attachment node missing', att.node);
+      a.scene.traverse(o => { if (o.isMesh) { o.frustumCulled = false; } });
+      side.attach = (side.attach || []).concat([a]);
+    } catch (e) { console.warn('attachment', att.url, e); }
+  }
+  side.root = root;
+  side.mixer = new THREE.AnimationMixer(gltf.scene);
+  side.clips = Object.fromEntries(gltf.animations.map(c => [c.name, c]));
+  side.scene.add(root);
+}
+
+function tier() { return current.tiers[Number($('modelRevision').value) || 0]; }
+
+async function applyTier() {
+  const t = tier();
+  for (const key of ['before', 'after']) {
+    const s = sides[key], b = t[key];
+    if (!s.root) continue;
+    const scale = b.scale || 1;
+    s.root.scale.setScalar(scale / (t.before.scale || 1));
+    s.root.rotation.y = key === 'after' ? (t.after.yaw - t.before.yaw) : 0;
+    await applyVariant(s, b.skin);
+  }
+}
+
+function clipFor(key) {
+  const s = sides[key];
+  if (!s.clips) return null;
+  if (clipName) return s.clips[clipName] ? clipName : null;
+  const bound = tier()[key].clips || {};
+  const name = bound[role] || (role === 'run' ? bound.walking : null);
+  if (name && s.clips[name]) return name;
+  const fallback = { standing: 'Standing', walking: 'Walking', run: 'Running', attack_melee: 'Attack', cast: 'Cast',
+    hit: 'Hit', dying: 'Death', fidget: 'Fidget', attack_ranged: 'Attack' }[role];
+  return s.clips[fallback] ? fallback : null;
+}
+
+function startClips() {
+  for (const key of ['before', 'after']) {
+    const s = sides[key];
+    if (!s.mixer) continue;
+    s.mixer.stopAllAction();
+    const name = clipFor(key);
+    s.clipName = name;
+    $(key === 'before' ? 'cb' : 'ca').textContent = name ? `${name} · ${s.clips[name].duration.toFixed(2)} s` : 'no such clip';
+    if (name) { s.action = s.mixer.clipAction(s.clips[name]); s.action.play(); } else s.action = null;
+  }
+  fraction = 0;
+}
+
+function frameCamera(view) {
+  const box = new THREE.Box3();
+  for (const key of ['before', 'after']) { const s = sides[key]; if (!s.root) continue;
+    if (s.mixer) s.mixer.update(0);
+    s.root.updateMatrixWorld(true);
+    s.root.traverse(o => {
+      if (!o.isMesh) return;
+      for (let p = o; p; p = p.parent) if (!p.visible) return;
+      if (o.isSkinnedMesh) o.skeleton.update();
+      const b = new THREE.Box3();
+      if (o.isSkinnedMesh) { o.computeBoundingBox(); b.copy(o.boundingBox).applyMatrix4(o.matrixWorld); }
+      else { if (!o.geometry.boundingBox) o.geometry.computeBoundingBox(); b.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld); }
+      if (!b.isEmpty() && isFinite(b.min.x)) box.union(b);
+    }); }
+  if (box.isEmpty()) return;
+  const size = box.getSize(new THREE.Vector3()), centre = box.getCenter(new THREE.Vector3());
+  const h = Math.max(size.y, size.x * 0.6, size.z * 0.6);
+  for (const key of ['before', 'after']) { const g = sides[key].scene.getObjectByName('grid');
+    g.scale.setScalar(Math.max(size.x, size.z, h) / 3); g.position.y = box.min.y; }
+  let target = centre.clone(), dist = h * 2.2, dir;
+  switch (view) {
+    case 'three-quarter': dir = new THREE.Vector3(0.7, 0.15, 0.7); break;
+    case 'side': dir = new THREE.Vector3(1, 0.05, 0); break;
+    case 'back': dir = new THREE.Vector3(0, 0.1, -1); break;
+    case 'head close-up': dir = new THREE.Vector3(0.35, 0.05, 1); target.y = box.max.y - size.y * 0.12; dist = h * 0.55; break;
+    default: dir = new THREE.Vector3(0, 0.1, 1);
+  }
+  camera.near = h / 500; camera.far = h * 100; camera.updateProjectionMatrix();
+  camera.position.copy(target).addScaledVector(dir.normalize(), dist);
+  controls.target.copy(target); controls.update();
+}
+
+async function select(entry) {
+  current = entry;
+  location.hash = entry.stem;
+  document.body.dataset.ready = 'false';
+  $('error').hidden = true; $('loading').hidden = false;
+  [...$('list').children].forEach(b => b.classList.toggle('sel', b.dataset.stem === entry.stem));
+  $('title').textContent = `${entry.name} · ${entry.stem} (${entry.worlds.join('+')})`;
+  $('modelRevision').innerHTML = entry.tiers.map((t, i) => `<option value="${i}">${t.descriptor}</option>`).join('');
+  $('notes').innerHTML = entry.notes.map(n => `<div class="n"><span class="tag ${n.stream}">${n.stream}</span>` +
+    `<div><b>${escapeHtml(n.status)}</b> · ${escapeHtml(n.text)}</div></div>`).join('') || '<i>No ledger note.</i>';
+  try {
+    const t = entry.tiers[0];
+    await Promise.all([loadSide('before', entry.before, t.before), loadSide('after', entry.after, t.after)]);
+    const q = new URLSearchParams(location.search);
+    if (first && q.get('tier')) { $('modelRevision').value = q.get('tier');
+      await Promise.all([loadSide('before', entry.before, tier().before), loadSide('after', entry.after, tier().after)]); }
+    await applyTier();
+    fillClips();
+    pickDefaultRole(entry);
+    if (first && q.get('role')) { role = q.get('role'); renderRoles(); }
+    if (first && q.get('view')) $('view').value = q.get('view');
+    if (first && q.get('t')) { playing = false; $('play').textContent = 'Play'; }
+    first = false;
+    startClips();
+    frameCamera($('view').value);
+    const qt = new URLSearchParams(location.search).get('t');
+    if (qt !== null && !playing) { fraction = Number(qt); setFraction(); }
+    window.debugMaterials = () => ['before', 'after'].map(k => { const out = []; sides[k].gltf.scene.traverse(o => { if (o.isMesh && o.visible)
+      out.push([o.material.userData.regionUniforms ? { on: o.material.userData.regionUniforms.regionOn.value.toArray(),
+        lo: o.material.userData.regionUniforms.regionLo.value.toArray(), hi: o.material.userData.regionUniforms.regionHi.value.toArray(),
+        mask: o.material.userData.regionUniforms.regionMask.value && [o.material.userData.regionUniforms.regionMask.value.image.width,
+          o.material.userData.regionUniforms.regionMask.value.uuid === (o.material.map && o.material.map.uuid)],
+        ramp0: Array.from(o.material.userData.regionUniforms.regionRamp.value.image.data.slice(0, 8)) } : null, o.name, o.material.name, !!o.material.map, o.material.color.getHexString(), o.material.metalness, o.material.roughness,
+        !!o.material.metalnessMap, o.material.vertexColors, o.material.transparent, o.material.opacity]); }); return [k, out]; });
+    document.body.dataset.ready = 'true';
+  } catch (e) {
+    $('error').textContent = 'Could not load: ' + e; $('error').hidden = false;
+  }
+  $('loading').hidden = true;
+}
+
+function pickDefaultRole(entry) {
+  clipName = null; $('clip').value = '';
+  const s = entry.streams;
+  role = s.includes('attack') || s.includes('rebuild') ? 'attack_melee' : s.includes('clips') ? 'hit' : 'standing';
+  const note = entry.notes.map(n => n.text).join(' ');
+  if (s.includes('clips') && /Jog|Run2|Sprint|Walking|Walk2|Running/.test(note) && !/Hit:/.test(note)) role = /Walking/.test(note) ? 'walking' : 'run';
+  renderRoles();
+}
+
+function fillClips() {
+  const names = new Set([...Object.keys(sides.before.clips || {}), ...Object.keys(sides.after.clips || {})]);
+  $('clip').innerHTML = '<option value="">(by role)</option>' + [...names].sort().map(n =>
+    `<option value="${n}">${n}${sides.before.clips[n] ? '' : ' (after only)'}${sides.after.clips[n] ? '' : ' (before only)'}</option>`).join('');
+}
+
+function renderRoles() {
+  $('roles').innerHTML = ROLES.map(([r, label]) => `<button data-role="${r}" class="${!clipName && r === role ? 'on' : ''}">${label}</button>`).join('');
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+function renderList() {
+  const q = $('search').value.trim().toLowerCase();
+  const list = manifest.models.filter(e => (stream === 'all' || e.streams.includes(stream)) &&
+    (!q || (e.name + ' ' + e.stem + ' ' + e.tiers.map(t => t.descriptor).join(' ')).toLowerCase().includes(q)));
+  $('list').innerHTML = list.map(e => `<button data-stem="${e.stem}" class="${current && current.stem === e.stem ? 'sel' : ''}">` +
+    `${escapeHtml(e.name)} <span class="w">${e.stem}</span><br>${e.streams.map(s => `<span class="tag ${s}">${s}</span>`).join('')}</button>`).join('');
+}
+
+$('chips').innerHTML = STREAMS.map(s => `<button class="chip ${s === stream ? 'on' : ''}" data-s="${s}">${s} (${
+  s === 'all' ? manifest.models.length : manifest.models.filter(e => e.streams.includes(s)).length})</button>`).join('');
+$('chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; stream = b.dataset.s;
+  [...$('chips').children].forEach(c => c.classList.toggle('on', c === b)); renderList(); });
+$('search').addEventListener('input', renderList);
+$('list').addEventListener('click', e => { const b = e.target.closest('button'); if (b) select(manifest.models.find(m => m.stem === b.dataset.stem)); });
+$('roles').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; role = b.dataset.role; clipName = null;
+  $('clip').value = ''; renderRoles(); startClips(); });
+$('clip').addEventListener('change', () => { clipName = $('clip').value || null; renderRoles(); startClips(); });
+$('modelRevision').addEventListener('change', async () => {
+  document.body.dataset.ready = 'false';
+  const t = tier();
+  // Attachments can differ per tier: reload both sides for the tier's bindings.
+  await Promise.all([loadSide('before', current.before, t.before), loadSide('after', current.after, t.after)]);
+  await applyTier(); fillClips(); startClips(); frameCamera($('view').value);
+  document.body.dataset.ready = 'true';
+});
+$('view').addEventListener('change', () => frameCamera($('view').value));
+$('play').addEventListener('click', () => { playing = !playing; $('play').textContent = playing ? 'Pause' : 'Play'; });
+$('scrub').addEventListener('input', () => { playing = false; $('play').textContent = 'Play'; fraction = Number($('scrub').value); setFraction(); });
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  const items = [...$('list').children]; const i = items.findIndex(b => b.classList.contains('sel'));
+  if (e.key === 'ArrowDown' && i < items.length - 1) { items[i + 1].click(); items[i + 1].scrollIntoView({ block: 'nearest' }); e.preventDefault(); }
+  if (e.key === 'ArrowUp' && i > 0) { items[i - 1].click(); items[i - 1].scrollIntoView({ block: 'nearest' }); e.preventDefault(); }
+  if (e.key === ' ') { $('play').click(); e.preventDefault(); }
+});
+
+function setFraction() {
+  for (const key of ['before', 'after']) { const s = sides[key]; if (s.action) s.mixer.setTime(fraction * s.action.getClip().duration); }
+}
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.floor(w * renderer.getPixelRatio()) || canvas.height !== Math.floor(h * renderer.getPixelRatio()))
+    renderer.setSize(w, h, false);
+  camera.aspect = (w / 2) / h; camera.updateProjectionMatrix();
+}
+
+const clock = new THREE.Clock();
+renderer.setAnimationLoop(() => {
+  resize();
+  const dt = clock.getDelta() * Number($('speed').value);
+  if (playing) {
+    if ($('sync').checked) {
+      const d = (sides.after.action || sides.before.action);
+      if (d) { fraction = (fraction + dt / d.getClip().duration) % 1; setFraction(); }
+    } else {
+      for (const key of ['before', 'after']) { const s = sides[key]; if (s.mixer) s.mixer.update(dt); }
+      const a = sides.after.action || sides.before.action;
+      if (a) fraction = (a.time % a.getClip().duration) / a.getClip().duration;
+    }
+    $('scrub').value = fraction;
+  }
+  controls.update();
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  renderer.setViewport(0, 0, w / 2, h); renderer.setScissor(0, 0, w / 2, h); renderer.render(sides.before.scene, camera);
+  renderer.setViewport(w / 2, 0, w / 2, h); renderer.setScissor(w / 2, 0, w / 2, h); renderer.render(sides.after.scene, camera);
+  $('readout').textContent = current ? `${current.tiers.length} tier(s) · time ${(fraction * 100).toFixed(0)} % · ` +
+    `drag to orbit, wheel to zoom, ↑/↓ next model, space play/pause` : '';
+});
+
+renderList();
+const start = manifest.models.find(m => m.stem === location.hash.slice(1)) || manifest.models[0];
+select(start);
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_verhoffinruins/review/features_v01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: f01_pentacenter
+  position:
+  - -4383
+  - -3727
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: f02_pentagram_flames
+  position:
+  - -3994
+  - -3328
+  - -327
+  yaw: -2.3432
+  pitch: -0.2094
+- name: f03_pentagram_flames_side
+  position:
+  - -4383
+  - -3200
+  - -327
+  yaw: -1.5708
+  pitch: -0.2094
+- name: f04_sconce_side
+  position:
+  - -6554
+  - -3200
+  - -327
+  yaw: -2.0755
+  pitch: 0.0
+- name: f05_sconce_front
+  position:
+  - -6554
+  - -3738
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: f06_stained_glass
+  position:
+  - -6272
+  - -2637
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: f07_pit
+  position:
+  - -5837
+  - -3328
+  - -327
+  yaw: -2.3689
+  pitch: -0.3491

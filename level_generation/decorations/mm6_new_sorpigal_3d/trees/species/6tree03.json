@@ -1,0 +1,100 @@
+{
+ "sprite": "6tree03",
+ "output": "mm6_deco_tree03.glb",
+ "height_m": 4.44,
+ "note": "13 placements. Round red crown on one straight trunk.",
+ "sapling": {
+  "scale": 3.14,
+  "baseSplits": 0,
+  "branches": [
+   0,
+   60,
+   12,
+   8
+  ],
+  "baseSize": 0.45,
+  "seed": 51,
+  "ratio": 0.07,
+  "downAngle": [
+   90,
+   40,
+   45,
+   45
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.31,
+  "centre": 0.595,
+  "clumps": 55,
+  "inner_clumps": 10,
+  "outer_radius": [
+   0.34,
+   0.54
+  ],
+  "inner_radius": [
+   0.32,
+   0.45
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   78,
+   66,
+   56
+  ],
+  "min_thickness": [
+   0.02,
+   0.035,
+   0.06
+  ],
+  "root_reach": 0.3
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "lod2_card_scale": 1.0,
+  "tone": [
+   1.0,
+   0.92,
+   [
+    1.35,
+    0.7,
+    0.52
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   235,
+   38,
+   20
+  ],
+  "jitter_red": [
+   0.9,
+   1.1
+  ],
+  "jitter_blue": [
+   0.85,
+   1.15
+  ],
+  "seeds": [
+   19,
+   37,
+   47,
+   61
+  ],
+  "value": [
+   0.85,
+   1.25
+  ]
+ },
+ "impostor_tone": [
+  0.855,
+  0.8,
+  1.02
+ ],
+ "impostor_dilate": 3
+}

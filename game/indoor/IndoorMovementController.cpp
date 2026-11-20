@@ -1,4 +1,5 @@
 #include "game/indoor/IndoorMovementController.h"
+#include "game/indoor/IndoorMovers.h"
 
 #include "game/FaceEnums.h"
 #include "game/indoor/IndoorCollisionPrimitives.h"
@@ -24,13 +25,20 @@ constexpr float SteepFloorSlideHorizontalSpeed = 10.0f;
 constexpr float SteepFloorSlideDownSpeed = 20.0f;
 constexpr float GravityPerSecond = 960.0f;
 constexpr float GroundSnapSlack = 8.0f;
+constexpr float SquatBodyLeadingProbeDistance = 64.0f;
 constexpr float CoplanarFloorHeightTolerance = 1.0f;
+constexpr float FlatTreadNormalZ = 0.999f;
+// A walkable slope's edge this far above the feet is stepped onto (a flat tread only from GroundSnapSlack up).
+constexpr float SlopeFootStepSlack = 0.5f;
 constexpr float CylinderCollisionHorizontalEpsilon = 0.0001f;
 constexpr float SteepFloorUphillEpsilon = 0.01f;
 constexpr float IndoorMovementSubstepDistance = 24.0f;
 constexpr int MaxIndoorMovementSubsteps = 64;
 constexpr float WallOverlapRecoveryMinVelocity = 480.0f;
 constexpr float BlockedWallMinimumUsefulResponseDistance = 0.25f;
+constexpr uint8_t StuckAirborneRecoveryRetrySteps = 32;
+// At least the edge slack the floor sampler allows around a face's bounds (IndoorGeometryUtils' FloorSlack).
+constexpr float SupportFaceBoundsSlack = 16.0f;
 
 bool hasCylinderCollisionHorizontalComponent(float x, float y)
 {
@@ -122,7 +130,7 @@ bool indoorFloorTooSteepForUphillStep(
 
 bool indoorFaceIsSteepFloorCollisionSurface(const IndoorFaceGeometryData &geometry)
 {
-    if (geometry.normal.z <= 0.0f || geometry.normal.z >= MaximumUphillSlopeNormalZ)
+    if (geometry.normal.z < IndoorMinimumSteepFloorNormalZ || geometry.normal.z >= MaximumUphillSlopeNormalZ)
     {
         return false;
     }
@@ -166,6 +174,66 @@ bool indoorFaceBlocksPathRecovery(const IndoorFaceGeometryData &geometry, float 
     return hasCylinderCollisionHorizontalComponent(geometry.normal.x, geometry.normal.y);
 }
 
+// A face wholly over the head of a squat body. Its sweep spheres sit at its radius and reach 2R up, over a head H high:
+// it would stop under a slab with room to pass (the landing of the Thousand Terrors' spiral).
+bool indoorFaceIsOverSquatBodyHead(const IndoorFaceGeometryData &geometry, const IndoorBodyDimensions &body, float footZ)
+{
+    return body.height < 2.0f * body.radius && geometry.minZ >= footZ + body.height;
+}
+
+// The point inside the face's outline seen from above (a face that is not vertical).
+bool indoorPointInsideFaceOutlineXY(const IndoorFaceGeometryData &geometry, float x, float y)
+{
+    bool inside = false;
+    const size_t count = geometry.vertices.size();
+    for (size_t index = 0, previous = count - 1; index < count; previous = index++)
+    {
+        const bx::Vec3 &a = geometry.vertices[index];
+        const bx::Vec3 &b = geometry.vertices[previous];
+        if ((a.y > y) != (b.y > y) && x < a.x + (y - a.y) * (b.x - a.x) / (b.y - a.y))
+        {
+            inside = !inside;
+        }
+    }
+    return inside;
+}
+
+// The face's outline seen from above: the point itself when it lies inside, else the nearest point on an edge.
+bx::Vec3 indoorNearestFaceOutlinePointXY(const IndoorFaceGeometryData &geometry, float x, float y)
+{
+    if (geometry.vertices.empty() || indoorPointInsideFaceOutlineXY(geometry, x, y))
+    {
+        return {x, y, 0.0f};
+    }
+
+    bx::Vec3 nearest = {geometry.vertices.front().x, geometry.vertices.front().y, 0.0f};
+    float nearestDistanceSquared = std::numeric_limits<float>::max();
+    const size_t count = geometry.vertices.size();
+
+    for (size_t index = 0, previous = count - 1; index < count; previous = index++)
+    {
+        const float ax = geometry.vertices[previous].x;
+        const float ay = geometry.vertices[previous].y;
+        const float edgeX = geometry.vertices[index].x - ax;
+        const float edgeY = geometry.vertices[index].y - ay;
+        const float edgeLengthSquared = edgeX * edgeX + edgeY * edgeY;
+        const float t = edgeLengthSquared > 0.0f
+            ? std::clamp(((x - ax) * edgeX + (y - ay) * edgeY) / edgeLengthSquared, 0.0f, 1.0f)
+            : 0.0f;
+        const float pointX = ax + edgeX * t;
+        const float pointY = ay + edgeY * t;
+        const float distanceSquared = (x - pointX) * (x - pointX) + (y - pointY) * (y - pointY);
+
+        if (distanceSquared < nearestDistanceSquared)
+        {
+            nearestDistanceSquared = distanceSquared;
+            nearest = {pointX, pointY, 0.0f};
+        }
+    }
+
+    return nearest;
+}
+
 bool indoorBodyStartsInsideSteepFloorSweepRadius(
     const IndoorFaceGeometryData &geometry,
     const IndoorBodyDimensions &body,
@@ -175,6 +243,15 @@ bool indoorBodyStartsInsideSteepFloorSweepRadius(
 )
 {
     if (!indoorFaceIsSteepFloorCollisionSurface(geometry) || geometry.vertices.empty())
+    {
+        return false;
+    }
+
+    // Not a body under the slope itself: standing within the face's outline, below its surface there, it walks into
+    // the face (a cliff of MM9 terrain rising over a floor that runs on under it) and must collide; excused, it walked
+    // through the Isle of Ashes' cliffs. A neighbour's plane extended past its edge (cave floor seams) still excuses.
+    if (calculateIndoorFaceHeight(geometry, x, y) > footZ + GroundSnapSlack
+        && indoorPointInsideFaceOutlineXY(geometry, x, y))
     {
         return false;
     }
@@ -284,6 +361,16 @@ IndoorFloorSample sampleInvisibleSupportFaceWithFootprint(
     }
 
     const float probeRadius = std::max(radius, 0.0f);
+
+    // Every map's ramps are tried on each step of each body: skip the ones no probe of the footprint can reach.
+    if (x + probeRadius < pGeometry->minX - SupportFaceBoundsSlack
+        || x - probeRadius > pGeometry->maxX + SupportFaceBoundsSlack
+        || y + probeRadius < pGeometry->minY - SupportFaceBoundsSlack
+        || y - probeRadius > pGeometry->maxY + SupportFaceBoundsSlack)
+    {
+        return {};
+    }
+
     const float diagonalProbeRadius = probeRadius * 0.70710678f;
     const std::array<std::pair<float, float>, 9> probes = {{
         {0.0f, 0.0f},
@@ -447,6 +534,40 @@ float resolveDoorDistance(
     return runtimeMechanism.currentDistance;
 }
 
+int8_t resolveDoorRotationDirection(
+    const MapDeltaDoor &door,
+    const std::optional<EventRuntimeState> *pEventRuntimeState
+)
+{
+    if (pEventRuntimeState != nullptr && pEventRuntimeState->has_value())
+    {
+        const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator iterator =
+            (*pEventRuntimeState)->mechanisms.find(door.doorId);
+
+        if (iterator != (*pEventRuntimeState)->mechanisms.end())
+        {
+            return iterator->second.rotationDirection;
+        }
+    }
+
+    return 1;
+}
+
+float resolveDoorSpinDegrees(const MapDeltaDoor &door, const std::optional<EventRuntimeState> *pEventRuntimeState)
+{
+    if (pEventRuntimeState != nullptr && pEventRuntimeState->has_value())
+    {
+        const auto iterator = (*pEventRuntimeState)->mechanisms.find(door.doorId);
+
+        if (iterator != (*pEventRuntimeState)->mechanisms.end())
+        {
+            return iterator->second.spinDegrees;
+        }
+    }
+
+    return 0.0f;
+}
+
 IndoorSweptBody buildPrimitiveSweptBody(
     float x,
     float y,
@@ -521,6 +642,53 @@ bx::Vec3 normalizeVec(const bx::Vec3 &value)
     return scaleVec(value, 1.0f / length);
 }
 
+// What the sector face grid depends on besides the map: the doors' faces, vertices and travel.
+uint64_t indoorDoorLayoutSignature(const MapDeltaData *pMapDeltaData)
+{
+    uint64_t hash = 14695981039346656037ull;
+    const auto mix = [&hash](uint64_t value)
+    {
+        hash = (hash ^ value) * 1099511628211ull;
+    };
+
+    if (pMapDeltaData == nullptr)
+    {
+        return hash;
+    }
+
+    mix(pMapDeltaData->doors.size());
+
+    for (const MapDeltaDoor &door : pMapDeltaData->doors)
+    {
+        mix(door.doorId);
+        mix(static_cast<uint32_t>(door.directionX));
+        mix(static_cast<uint32_t>(door.directionY));
+        mix(static_cast<uint32_t>(door.directionZ));
+        mix(door.moveLength);
+
+        for (const std::vector<uint16_t> *pList : {&door.vertexIds, &door.faceIds})
+        {
+            mix(pList->size());
+
+            for (uint16_t value : *pList)
+            {
+                mix(value);
+            }
+        }
+
+        for (const std::vector<int16_t> *pList : {&door.xOffsets, &door.yOffsets, &door.zOffsets})
+        {
+            mix(pList->size());
+
+            for (int16_t value : *pList)
+            {
+                mix(static_cast<uint16_t>(value));
+            }
+        }
+    }
+
+    return hash;
+}
 }
 
 IndoorMovementController::IndoorMovementController(
@@ -532,6 +700,20 @@ IndoorMovementController::IndoorMovementController(
     , m_pMapDeltaData(pMapDeltaData)
     , m_pEventRuntimeState(pEventRuntimeState)
 {
+}
+
+void IndoorMovementController::setSlopeRule(IndoorSlopeRule slopeRule)
+{
+    m_slopeRule = slopeRule;
+}
+
+void IndoorMovementController::setBlockedByActorBarriers(bool blocked)
+{
+    if (m_blockedByActorBarriers != blocked)
+    {
+        m_blockedByActorBarriers = blocked;
+        invalidateRuntimeGeometryCache();
+    }
 }
 
 void IndoorMovementController::setActorColliders(const std::vector<IndoorActorCollision> &actorColliders)
@@ -569,7 +751,20 @@ void IndoorMovementController::setSpriteObjectColliders(
 
 void IndoorMovementController::invalidateRuntimeGeometryCache()
 {
+    // The sector face grid and the sector list ranks outlive face changes (refreshRuntimeGeometryCache checks the
+    // door layout the grid was built for).
+    IndoorSectorFaceGrid sectorFaceGrid = std::move(m_runtimeGeometryCache.sectorFaceGrid);
+    std::vector<std::vector<std::pair<int16_t, uint32_t>>> faceSectorListRanks =
+        std::move(m_runtimeGeometryCache.faceSectorListRanks);
+    const bool sectorFaceGridBuilt = m_runtimeGeometryCache.sectorFaceGridBuilt;
+    const uint64_t sectorFaceGridDoorSignature = m_runtimeGeometryCache.sectorFaceGridDoorSignature;
+    const bool faceSectorListRanksBuilt = m_runtimeGeometryCache.faceSectorListRanksBuilt;
     m_runtimeGeometryCache = {};
+    m_runtimeGeometryCache.sectorFaceGrid = std::move(sectorFaceGrid);
+    m_runtimeGeometryCache.faceSectorListRanks = std::move(faceSectorListRanks);
+    m_runtimeGeometryCache.sectorFaceGridBuilt = sectorFaceGridBuilt;
+    m_runtimeGeometryCache.sectorFaceGridDoorSignature = sectorFaceGridDoorSignature;
+    m_runtimeGeometryCache.faceSectorListRanksBuilt = faceSectorListRanksBuilt;
 }
 
 void IndoorMovementController::applyMechanismGeometryUpdate(const std::vector<uint32_t> &changedDoorIds)
@@ -602,13 +797,26 @@ void IndoorMovementController::applyMechanismGeometryUpdate(const std::vector<ui
 
         const MapDeltaDoor &door = *doorIterator;
         const float distance = resolveDoorDistance(door, m_pEventRuntimeState);
-        applyIndoorMechanismDoorToVertices(door, distance, m_runtimeGeometryCache.vertices);
+        applyIndoorMechanismDoorToVertices(
+            door,
+            findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId),
+            distance,
+            resolveDoorRotationDirection(door, m_pEventRuntimeState),
+            m_runtimeGeometryCache.vertices,
+            resolveDoorSpinDegrees(door, m_pEventRuntimeState));
 
         for (uint16_t faceId : door.faceIds)
         {
             m_runtimeGeometryCache.geometryCache.invalidateFace(faceId);
         }
     }
+}
+
+uint32_t IndoorMovementController::effectiveFaceAttributes(size_t faceId, const MapDeltaData *pMapDeltaData) const
+{
+    return pMapDeltaData != nullptr && faceId < pMapDeltaData->faceAttributes.size()
+        ? pMapDeltaData->faceAttributes[faceId]
+        : m_pIndoorMapData->faces[faceId].attributes;
 }
 
 void IndoorMovementController::refreshRuntimeGeometryCache() const
@@ -621,6 +829,8 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     const MapDeltaData *pMapDeltaData =
         m_pMapDeltaData != nullptr && m_pMapDeltaData->has_value() ? &m_pMapDeltaData->value() : nullptr;
     const uint64_t surfaceRevision = pMapDeltaData != nullptr ? pMapDeltaData->surfaceRevision : 0;
+    // The cache points at this controller's own grid (a copied or moved controller re-attaches its copy here).
+    m_runtimeGeometryCache.geometryCache.setSectorFaceGrid(&m_runtimeGeometryCache.sectorFaceGrid);
 
     if (m_runtimeGeometryCache.valid && m_runtimeGeometryCache.surfaceRevision == surfaceRevision)
     {
@@ -629,114 +839,104 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
 
     const EventRuntimeState *pEventRuntimeState =
         m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
-
-    const bool wasValid = m_runtimeGeometryCache.valid;
-    const uint64_t previousSurfaceRevision = m_runtimeGeometryCache.surfaceRevision;
-    const bool supportFaceIdsNeedRefresh =
-        !wasValid
-        || previousSurfaceRevision != surfaceRevision;
-    m_runtimeGeometryCache.vertices = buildIndoorMechanismAdjustedVertices(
+    std::vector<IndoorVertex> vertices = buildIndoorMechanismAdjustedVertices(
         *m_pIndoorMapData,
         pMapDeltaData,
         pEventRuntimeState);
+
+    // Face bits changed and no face moved (a face hidden or made untouchable, a destructible broken): the changed faces
+    // alone are redone. Redoing every face's geometry for the masks cost a region-sized map 20-45 ms (2026-11-11).
+    if (m_runtimeGeometryCache.valid
+        && pMapDeltaData != nullptr
+        && m_runtimeGeometryCache.faceAttributes.size() == m_pIndoorMapData->faces.size()
+        && std::equal(vertices.begin(), vertices.end(), m_runtimeGeometryCache.vertices.begin(),
+            m_runtimeGeometryCache.vertices.end(),
+            [](const IndoorVertex &a, const IndoorVertex &b)
+            {
+                return a.x == b.x && a.y == b.y && a.z == b.z;
+            }))
+    {
+        refreshChangedFaceAttributes(*pMapDeltaData);
+        m_runtimeGeometryCache.surfaceRevision = surfaceRevision;
+        return;
+    }
+
+    m_runtimeGeometryCache.vertices = std::move(vertices);
     // OE updates moved mechanism vertices in-place, then floor and wall collision use that current geometry.
     // Do not add open/closed masking here: platforms, stairs, plates, and doors all need their moved faces sampled.
     m_runtimeGeometryCache.nonBlockingMechanismFaceMask.clear();
     m_runtimeGeometryCache.mechanismBlockingFaceMask.clear();
     m_runtimeGeometryCache.actorSupportFaceMask.clear();
-    if (supportFaceIdsNeedRefresh)
+    m_runtimeGeometryCache.mechanismSupportFaceIds.clear();
+    m_runtimeGeometryCache.sectorMechanismSupportFaceIds.clear();
+    m_runtimeGeometryCache.invisibleSupportRampFaceIds.clear();
+    m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
+    m_runtimeGeometryCache.actorBarrierFaceMask.clear();
+    if (m_blockedByActorBarriers && !m_pIndoorMapData->actorBarrierFaceIds.empty())
     {
-        m_runtimeGeometryCache.mechanismSupportFaceIds.clear();
-        m_runtimeGeometryCache.sectorMechanismSupportFaceIds.clear();
-        m_runtimeGeometryCache.invisibleSupportRampFaceIds.clear();
+        m_runtimeGeometryCache.actorBarrierFaceMask.assign(m_pIndoorMapData->faces.size(), 0);
+        for (uint16_t faceId : m_pIndoorMapData->actorBarrierFaceIds)
+        {
+            if (faceId < m_runtimeGeometryCache.actorBarrierFaceMask.size())
+            {
+                m_runtimeGeometryCache.actorBarrierFaceMask[faceId] = 1;
+            }
+        }
     }
-
-    if (!wasValid || previousSurfaceRevision != surfaceRevision)
+    m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+    // The grid places the faces no door moves by their bounds and those sliding doors move by their whole travel,
+    // so only another door layout (another map state) needs a new one: a face hidden, a moving door or a broken
+    // window keeps it (IndoorSectorFaceGrid.h).
+    const uint64_t doorLayoutSignature = indoorDoorLayoutSignature(pMapDeltaData);
+    if (!m_runtimeGeometryCache.sectorFaceGridBuilt
+        || m_runtimeGeometryCache.sectorFaceGridDoorSignature != doorLayoutSignature)
     {
-        m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
-        m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+        m_runtimeGeometryCache.sectorFaceGrid.build(
+            *m_pIndoorMapData, m_runtimeGeometryCache.vertices, pMapDeltaData);
+        m_runtimeGeometryCache.sectorFaceGridBuilt = true;
+        m_runtimeGeometryCache.sectorFaceGridDoorSignature = doorLayoutSignature;
+    }
+    m_runtimeGeometryCache.geometryCache.setSectorFaceGrid(&m_runtimeGeometryCache.sectorFaceGrid);
+    std::vector<std::vector<std::pair<int16_t, uint32_t>>> &ranks = m_runtimeGeometryCache.faceSectorListRanks;
+    // The sector lists are the map's own: built once.
+    if (!m_runtimeGeometryCache.faceSectorListRanksBuilt)
+    {
+        ranks.assign(m_pIndoorMapData->faces.size(), {});
+        for (size_t sectorId = 0; sectorId < m_pIndoorMapData->sectors.size(); ++sectorId)
+        {
+            const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
+            uint32_t rank = 0;
+            for (const std::vector<uint16_t> *pList :
+                {&sector.floorFaceIds, &sector.wallFaceIds, &sector.ceilingFaceIds})
+            {
+                for (uint16_t faceId : *pList)
+                {
+                    if (faceId < ranks.size())
+                    {
+                        ranks[faceId].push_back({static_cast<int16_t>(sectorId), rank});
+                    }
+                    ++rank;
+                }
+            }
+        }
+        m_runtimeGeometryCache.faceSectorListRanksBuilt = true;
     }
 
     m_runtimeGeometryCache.surfaceRevision = surfaceRevision;
     m_runtimeGeometryCache.geometryCache.setAttributeOverrides(pMapDeltaData);
 
-    if (supportFaceIdsNeedRefresh && pMapDeltaData != nullptr)
+    if (pMapDeltaData != nullptr)
     {
-        std::vector<uint8_t> seenMechanismSupportFaces(m_pIndoorMapData->faces.size(), 0);
-        const std::vector<std::vector<uint16_t>> neighboringSectorIds =
-            buildNeighboringIndoorSectorIds(*m_pIndoorMapData);
-        m_runtimeGeometryCache.sectorMechanismSupportFaceIds.assign(m_pIndoorMapData->sectors.size(), {});
-
-        for (const MapDeltaDoor &door : pMapDeltaData->doors)
-        {
-            if (!indoorDoorCarriesPartySupport(door))
-            {
-                continue;
-            }
-
-            for (uint16_t faceId : door.faceIds)
-            {
-                if (faceId >= seenMechanismSupportFaces.size() || seenMechanismSupportFaces[faceId] != 0)
-                {
-                    continue;
-                }
-
-                seenMechanismSupportFaces[faceId] = 1;
-                const IndoorFaceGeometryData *pGeometry =
-                    m_runtimeGeometryCache.geometryCache.geometryForFace(
-                        *m_pIndoorMapData,
-                        m_runtimeGeometryCache.vertices,
-                        faceId);
-
-                if (pGeometry != nullptr && pGeometry->kind == IndoorFaceKind::Floor && pGeometry->isWalkable)
-                {
-                    m_runtimeGeometryCache.mechanismSupportFaceIds.push_back(faceId);
-
-                    std::vector<uint16_t> faceSectorIds;
-                    appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->sectorId);
-                    appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->backSectorId);
-
-                    for (uint16_t faceSectorId : faceSectorIds)
-                    {
-                        if (faceSectorId >= neighboringSectorIds.size())
-                        {
-                            continue;
-                        }
-
-                        for (uint16_t nearbySectorId : neighboringSectorIds[faceSectorId])
-                        {
-                            if (nearbySectorId < m_runtimeGeometryCache.sectorMechanismSupportFaceIds.size())
-                            {
-                                appendUniqueFaceId(
-                                    m_runtimeGeometryCache.sectorMechanismSupportFaceIds[nearbySectorId],
-                                    faceId);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        rebuildMechanismSupportFaceIds(*pMapDeltaData);
     }
 
-    if (supportFaceIdsNeedRefresh)
+    m_runtimeGeometryCache.faceAttributes.resize(m_pIndoorMapData->faces.size());
+    for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
     {
-        for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
+        m_runtimeGeometryCache.faceAttributes[faceId] = effectiveFaceAttributes(faceId, pMapDeltaData);
+
+        if (faceIsCachedInvisibleSupportRamp(faceId, pMapDeltaData))
         {
-            const IndoorFaceGeometryData *pGeometry =
-                m_runtimeGeometryCache.geometryCache.geometryForFace(
-                    *m_pIndoorMapData,
-                    m_runtimeGeometryCache.vertices,
-                    faceId);
-
-            if (pGeometry == nullptr
-                || pGeometry->kind != IndoorFaceKind::Floor
-                || !pGeometry->isWalkable
-                || !indoorFaceIsInvisibleSupportRamp(m_pIndoorMapData->faces[faceId], pGeometry->attributes)
-                || faceId > std::numeric_limits<uint16_t>::max())
-            {
-                continue;
-            }
-
             m_runtimeGeometryCache.invisibleSupportRampFaceIds.push_back(static_cast<uint16_t>(faceId));
         }
     }
@@ -744,22 +944,160 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     m_runtimeGeometryCache.actorSupportFaceMask.assign(m_pIndoorMapData->faces.size(), 0);
     for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
     {
-        const bool excludedByMechanism =
-            faceId < m_runtimeGeometryCache.nonBlockingMechanismFaceMask.size()
-            && m_runtimeGeometryCache.nonBlockingMechanismFaceMask[faceId] != 0;
-        const IndoorFaceGeometryData *pGeometry =
-            m_runtimeGeometryCache.geometryCache.geometryForFace(
-                *m_pIndoorMapData,
-                m_runtimeGeometryCache.vertices,
-                faceId);
-
-        if (excludedByMechanism || pGeometry == nullptr || !pGeometry->isWalkable)
-        {
-            m_runtimeGeometryCache.actorSupportFaceMask[faceId] = 1;
-        }
+        m_runtimeGeometryCache.actorSupportFaceMask[faceId] = faceExcludedFromActorSupport(faceId) ? 1 : 0;
     }
 
     m_runtimeGeometryCache.valid = true;
+}
+
+void IndoorMovementController::refreshChangedFaceAttributes(const MapDeltaData &mapDeltaData) const
+{
+    RuntimeGeometryCache &cache = m_runtimeGeometryCache;
+    std::vector<size_t> changedFaces;
+
+    for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
+    {
+        const uint32_t attributes = effectiveFaceAttributes(faceId, &mapDeltaData);
+
+        if (attributes != cache.faceAttributes[faceId])
+        {
+            cache.faceAttributes[faceId] = attributes;
+            changedFaces.push_back(faceId);
+        }
+    }
+
+    // The geometry cache rebuilds a changed face when next asked for (IndoorFaceGeometryCache::geometryForFace).
+    cache.geometryCache.setAttributeOverrides(&mapDeltaData);
+
+    for (size_t faceId : changedFaces)
+    {
+        if (faceId < cache.actorSupportFaceMask.size())
+        {
+            cache.actorSupportFaceMask[faceId] = faceExcludedFromActorSupport(faceId) ? 1 : 0;
+        }
+
+        // The ramp list stays in face order, as a full build makes it.
+        std::vector<uint16_t> &ramps = cache.invisibleSupportRampFaceIds;
+        const std::vector<uint16_t>::iterator place = std::lower_bound(ramps.begin(), ramps.end(), faceId);
+        const bool listed = place != ramps.end() && *place == faceId;
+        const bool ramp = faceIsCachedInvisibleSupportRamp(faceId, &mapDeltaData);
+
+        if (listed && !ramp)
+        {
+            ramps.erase(place);
+        }
+        else if (!listed && ramp)
+        {
+            ramps.insert(place, static_cast<uint16_t>(faceId));
+        }
+    }
+
+    // A carrying door's face may have stopped or started to be a floor the party stands on.
+    for (const MapDeltaDoor &door : mapDeltaData.doors)
+    {
+        for (uint16_t faceId : door.faceIds)
+        {
+            if (std::binary_search(changedFaces.begin(), changedFaces.end(), size_t(faceId)))
+            {
+                rebuildMechanismSupportFaceIds(mapDeltaData);
+                return;
+            }
+        }
+    }
+}
+
+void IndoorMovementController::rebuildMechanismSupportFaceIds(const MapDeltaData &mapDeltaData) const
+{
+    m_runtimeGeometryCache.mechanismSupportFaceIds.clear();
+    std::vector<uint8_t> seenMechanismSupportFaces(m_pIndoorMapData->faces.size(), 0);
+    const std::vector<std::vector<uint16_t>> neighboringSectorIds = buildNeighboringIndoorSectorIds(*m_pIndoorMapData);
+    m_runtimeGeometryCache.sectorMechanismSupportFaceIds.assign(m_pIndoorMapData->sectors.size(), {});
+    for (const MapDeltaDoor &door : mapDeltaData.doors)
+    {
+        // A carrying rotating mover's faces all may be floors at some point of its swing (the sampler checks).
+        const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId);
+        const bool rotatingCarrier = pMover != nullptr && pMover->carry && pMover->rotation;
+
+        if (!indoorDoorCarriesPartySupport(door, pMover) && !rotatingCarrier)
+        {
+            continue;
+        }
+
+        for (uint16_t faceId : door.faceIds)
+        {
+            if (faceId >= seenMechanismSupportFaces.size() || seenMechanismSupportFaces[faceId] != 0)
+            {
+                continue;
+            }
+
+            seenMechanismSupportFaces[faceId] = 1;
+            const IndoorFaceGeometryData *pGeometry =
+                m_runtimeGeometryCache.geometryCache.geometryForFace(
+                    *m_pIndoorMapData,
+                    m_runtimeGeometryCache.vertices,
+                    faceId);
+
+            if (pGeometry != nullptr
+                && (rotatingCarrier || (pGeometry->kind == IndoorFaceKind::Floor && pGeometry->isWalkable)))
+            {
+                m_runtimeGeometryCache.mechanismSupportFaceIds.push_back(faceId);
+
+                std::vector<uint16_t> faceSectorIds;
+                appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->sectorId);
+                appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->backSectorId);
+
+                for (uint16_t faceSectorId : faceSectorIds)
+                {
+                    if (faceSectorId >= neighboringSectorIds.size())
+                    {
+                        continue;
+                    }
+
+                    for (uint16_t nearbySectorId : neighboringSectorIds[faceSectorId])
+                    {
+                        if (nearbySectorId < m_runtimeGeometryCache.sectorMechanismSupportFaceIds.size())
+                        {
+                            appendUniqueFaceId(
+                                m_runtimeGeometryCache.sectorMechanismSupportFaceIds[nearbySectorId],
+                                faceId);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool IndoorMovementController::faceIsCachedInvisibleSupportRamp(size_t faceId, const MapDeltaData *pMapDeltaData) const
+{
+    // Only an invisible face of the ramp type can be one (its geometry's attributes are these): the rest need no
+    // geometry here.
+    const IndoorFace &face = m_pIndoorMapData->faces[faceId];
+
+    if (!indoorFaceIsInvisibleSupportRamp(face, effectiveFaceAttributes(faceId, pMapDeltaData))
+        || faceId > std::numeric_limits<uint16_t>::max())
+    {
+        return false;
+    }
+
+    const IndoorFaceGeometryData *pGeometry =
+        m_runtimeGeometryCache.geometryCache.geometryForFace(
+            *m_pIndoorMapData, m_runtimeGeometryCache.vertices, faceId);
+    return pGeometry != nullptr
+        && pGeometry->kind == IndoorFaceKind::Floor
+        && pGeometry->isWalkable
+        && indoorFaceIsInvisibleSupportRamp(face, pGeometry->attributes);
+}
+
+bool IndoorMovementController::faceExcludedFromActorSupport(size_t faceId) const
+{
+    const bool excludedByMechanism =
+        faceId < m_runtimeGeometryCache.nonBlockingMechanismFaceMask.size()
+        && m_runtimeGeometryCache.nonBlockingMechanismFaceMask[faceId] != 0;
+    const IndoorFaceGeometryData *pGeometry =
+        m_runtimeGeometryCache.geometryCache.geometryForFace(
+            *m_pIndoorMapData, m_runtimeGeometryCache.vertices, faceId);
+    return excludedByMechanism || pGeometry == nullptr || !pGeometry->isWalkable;
 }
 
 const IndoorMovementController::RuntimeGeometryCache &IndoorMovementController::runtimeGeometryCache() const
@@ -1468,6 +1806,160 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
     return state;
 }
 
+std::optional<IndoorMoveState> IndoorMovementController::airborneStateAt(
+    float x,
+    float y,
+    float footZ,
+    const IndoorBodyDimensions &body
+) const
+{
+    if (m_pIndoorMapData == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
+    IndoorFaceGeometryCache &geometryCache = m_runtimeGeometryCache.geometryCache;
+    const std::optional<int16_t> sectorId =
+        findIndoorSectorForPoint(*m_pIndoorMapData, runtimeCache.vertices, {x, y, footZ + 1.0f}, &geometryCache, false);
+    const std::optional<int16_t> eyeSectorId = findIndoorSectorForPoint(
+        *m_pIndoorMapData, runtimeCache.vertices, {x, y, footZ + body.height}, &geometryCache, false);
+
+    if (!sectorId || !eyeSectorId)
+    {
+        return std::nullopt;
+    }
+
+    if (collidesAtPosition(
+            runtimeCache.vertices,
+            geometryCache,
+            x,
+            y,
+            footZ,
+            body,
+            &runtimeCache.collisionFaceMask,
+            &runtimeCache.mechanismBlockingFaceMask,
+            *sectorId,
+            *eyeSectorId,
+            static_cast<size_t>(-1),
+            static_cast<size_t>(-1),
+            0.0f,
+            0.0f,
+            nullptr))
+    {
+        return std::nullopt;
+    }
+
+    IndoorMoveState state = {};
+    state.x = x;
+    state.y = y;
+    state.footZ = footZ;
+    state.eyeHeight = body.height;
+    state.sectorId = *sectorId;
+    state.eyeSectorId = *eyeSectorId;
+    state.fallStartZ = footZ;
+    return state;
+}
+
+bool IndoorMovementController::hasFloorAt(float x, float y, float z, float maxRise, float maxDrop) const
+{
+    if (m_pIndoorMapData == nullptr)
+    {
+        return false;
+    }
+
+    const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
+    IndoorBodyDimensions point;
+    point.radius = 0.0f;
+    return sampleSupportedFloor(
+        runtimeCache.vertices,
+        m_runtimeGeometryCache.geometryCache,
+        x,
+        y,
+        z,
+        maxRise,
+        maxDrop,
+        point,
+        std::nullopt,
+        &runtimeCache.nonBlockingMechanismFaceMask).hasFloor;
+}
+
+// A step-up lifts a body walking onto a tread as soon as its lower sphere meets the tread's edge, with its centre still
+// up to a radius short of the tread. Support was otherwise tested at the centre alone, so the body lost the tread on
+// the next step: it dipped between the treads of a stair, and one that stopped there sank back down the edge or, lifted
+// again, bobbed. A grounded body therefore keeps a flat tread its footprint still overlaps while it stands still or
+// keeps heading onto it. One moving away keeps the centre test: walking off a ledge or down a stair drops at once.
+IndoorMoveState IndoorMovementController::holdFootprintSupport(
+    const IndoorMoveState &start,
+    const IndoorMoveState &resolved,
+    const IndoorBodyDimensions &body,
+    bool requireWalkableSupport
+) const
+{
+    constexpr float NoHeadwayDistance = 0.05f;
+    const size_t faceIndex = start.supportFaceIndex;
+
+    if (resolved.grounded || resolved.verticalVelocity > 0.0f || faceIndex >= m_pIndoorMapData->faces.size())
+    {
+        return resolved;
+    }
+
+    const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
+    const std::vector<uint8_t> &supportFaceMask =
+        requireWalkableSupport ? runtimeCache.actorSupportFaceMask : runtimeCache.nonBlockingMechanismFaceMask;
+
+    // Mover faces carry their bodies by their own footprint rule (sampleMechanismSupportFaceWithFootprint).
+    if ((faceIndex < supportFaceMask.size() && supportFaceMask[faceIndex] != 0)
+        || std::find(
+               runtimeCache.mechanismSupportFaceIds.begin(),
+               runtimeCache.mechanismSupportFaceIds.end(),
+               static_cast<uint16_t>(faceIndex)) != runtimeCache.mechanismSupportFaceIds.end())
+    {
+        return resolved;
+    }
+
+    const IndoorFaceGeometryData *pGeometry =
+        m_runtimeGeometryCache.geometryCache.geometryForFace(*m_pIndoorMapData, runtimeCache.vertices, faceIndex);
+
+    if (pGeometry == nullptr
+        || pGeometry->kind != IndoorFaceKind::Floor
+        || !pGeometry->isWalkable
+        || pGeometry->normal.z < FlatTreadNormalZ)
+    {
+        return resolved;
+    }
+
+    const float deltaX = resolved.x - start.x;
+    const float deltaY = resolved.y - start.y;
+    const bool standingStill = deltaX * deltaX + deltaY * deltaY <= NoHeadwayDistance * NoHeadwayDistance;
+    IndoorMoveState held = standingStill ? start : resolved;
+    const bx::Vec3 nearest = indoorNearestFaceOutlinePointXY(*pGeometry, held.x, held.y);
+    const float towardTreadX = nearest.x - held.x;
+    const float towardTreadY = nearest.y - held.y;
+
+    if (towardTreadX * towardTreadX + towardTreadY * towardTreadY >= body.radius * body.radius
+        || (!standingStill && deltaX * towardTreadX + deltaY * towardTreadY <= 0.0f))
+    {
+        return resolved;
+    }
+
+    const float height = calculateIndoorFaceHeight(*pGeometry, held.x, held.y);
+
+    if (std::fabs(height - start.footZ) > GroundSnapSlack || held.footZ < height - GroundSnapSlack)
+    {
+        return resolved;
+    }
+
+    held.footZ = height;
+    held.verticalVelocity = 0.0f;
+    held.grounded = true;
+    held.supportFaceIndex = faceIndex;
+    held.landedThisFrame = false;
+    held.fallStartZ = height;
+    held.fallDistance = 0.0f;
+    return held;
+}
+
 IndoorMoveState IndoorMovementController::resolveMove(
     const IndoorMoveState &state,
     const IndoorBodyDimensions &body,
@@ -1496,6 +1988,11 @@ IndoorMoveState IndoorMovementController::resolveMove(
         return state;
     }
 
+    const bool mayHoldFootprintSupport = state.grounded && !jumpRequested && !flyingActive && !lockVerticalPosition;
+    const auto finishMove = [&](const IndoorMoveState &resolved) -> IndoorMoveState
+    {
+        return mayHoldFootprintSupport ? holdFootprintSupport(state, resolved, body, requireWalkableSupport) : resolved;
+    };
     const int substepCount = indoorMovementSubstepCount(
         state,
         desiredVelocityX,
@@ -1507,7 +2004,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
 
     if (substepCount <= 1)
     {
-        return resolveMoveSingleStep(
+        return finishMove(resolveMoveSingleStep(
             state,
             body,
             desiredVelocityX,
@@ -1527,7 +2024,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
             allowUnsupportedPathRecovery,
             allowBlockedWallRecovery,
             requireWalkableSupport,
-            gravityPerSecond);
+            gravityPerSecond));
     }
 
     const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
@@ -1543,7 +2040,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
 
     if (!preflightEyeSectorId)
     {
-        return resolveMoveSingleStep(
+        return finishMove(resolveMoveSingleStep(
             state,
             body,
             desiredVelocityX,
@@ -1563,7 +2060,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
             allowUnsupportedPathRecovery,
             allowBlockedWallRecovery,
             requireWalkableSupport,
-            gravityPerSecond);
+            gravityPerSecond));
     }
 
     IndoorMoveState currentState = state;
@@ -1620,7 +2117,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
         currentState.fallDistance = maxLandingFallDistance;
     }
 
-    return currentState;
+    return finishMove(currentState);
 }
 
 IndoorMoveState IndoorMovementController::resolveFlyingActorMove(
@@ -1783,6 +2280,18 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
     const std::vector<uint8_t> &collisionFaceMask = runtimeCache.collisionFaceMask;
     const MapDeltaData *pMapDeltaData =
         m_pMapDeltaData != nullptr && m_pMapDeltaData->has_value() ? &m_pMapDeltaData->value() : nullptr;
+    const bool steepSlopesClimbable = m_slopeRule == IndoorSlopeRule::Party;
+    const auto floorTooSteepForUphillStep =
+        [&](const IndoorFloorSample &floor, float currentFootZ) -> bool
+    {
+        return !steepSlopesClimbable
+            && indoorFloorTooSteepForUphillStep(*m_pIndoorMapData, pMapDeltaData, floor, currentFootZ);
+    };
+    const auto steepFloorCollisionResponse =
+        [&](const bx::Vec3 &step, const IndoorFaceGeometryData *pGeometry) -> bx::Vec3
+    {
+        return steepSlopesClimbable ? step : applySteepFloorCollisionResponse(step, pGeometry, deltaSeconds);
+    };
 
     const SweptCollisionRequest sweptRequest = buildSweptCollisionRequest(
         state,
@@ -1842,8 +2351,23 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
     bool fullMoveBlockedByActor = false;
     IndoorWallCollision fullMoveWallCollision = {};
 
+    // A tread the body stepped up onto during this step (the edge step-up in the sweep below). The rest of the step's
+    // movement is resolved at the centre, which is still short of the tread; the body ends the step standing on it.
+    size_t liftedTreadFaceIndex = static_cast<size_t>(-1);
+    float liftedTreadFootZ = 0.0f;
     const auto finalizeFallState = [&](IndoorMoveState result) -> IndoorMoveState
     {
+        if (!result.grounded
+            && liftedTreadFaceIndex != static_cast<size_t>(-1)
+            && result.verticalVelocity <= 0.0f
+            && std::fabs(result.footZ - liftedTreadFootZ) <= GroundSnapSlack)
+        {
+            result.footZ = liftedTreadFootZ;
+            result.verticalVelocity = 0.0f;
+            result.grounded = true;
+            result.supportFaceIndex = liftedTreadFaceIndex;
+        }
+
         if (pDebugInfo != nullptr && pDebugInfo->collisionResponseSucceeded)
         {
             const float distance = pDebugInfo->wantedHorizontalMove
@@ -2037,6 +2561,38 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             pDebugInfo->invalidEyeSectorId = debugEyeSectorId.value_or(int16_t(-1));
         };
 
+        // A floor of the current sector at (x, y), too high to step onto and within `reach` above that: the rising
+        // part of a steep cave slope, which floor samples skip.
+        const auto sampleSectorFloorOverhead = [&](float x, float y, float reach) -> IndoorFloorSample
+        {
+            if (flying || state.sectorId < 0 || static_cast<size_t>(state.sectorId) >= m_pIndoorMapData->sectors.size())
+            {
+                return {};
+            }
+
+            for (uint16_t faceId : m_pIndoorMapData->sectors[state.sectorId].floorFaceIds)
+            {
+                const IndoorFloorSample sample = sampleIndoorFloorOnFace(
+                    *m_pIndoorMapData,
+                    vertices,
+                    faceId,
+                    x,
+                    y,
+                    positionFootZ + MaximumRise,
+                    reach,
+                    0.0f,
+                    &supportFaceMask,
+                    &geometryCache);
+
+                if (sample.hasFloor && sample.height > positionFootZ + MaximumRise)
+                {
+                    return sample;
+                }
+            }
+
+            return {};
+        };
+
         if (guardGroundActorAgainstLedgeDrop && floorDropsBelowActorLedgeGuard(floor))
         {
             recordInvalidPosition(
@@ -2054,8 +2610,13 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             && !sweptRequest.jumpRequested
             && movementLength > 0.0001f)
         {
-            const float probeX = candidateX + movementX / movementLength * body.radius;
-            const float probeY = candidateY + movementY / movementLength * body.radius;
+            // A squat body's radius ahead can pass over a stair's next tread, too high to step to, onto the floor
+            // under the stair (the Thousand Terrors' spiral): it never stepped up and stood crushed under that tread's
+            // underside. It looks for the next tread a party's reach ahead.
+            const bool squatBody = body.height < 2.0f * body.radius;
+            const float probeDistance = squatBody ? std::min(body.radius, SquatBodyLeadingProbeDistance) : body.radius;
+            const float probeX = candidateX + movementX / movementLength * probeDistance;
+            const float probeY = candidateY + movementY / movementLength * probeDistance;
             leadingFootprintFloor = sampleSupportedFloor(
                 vertices,
                 geometryCache,
@@ -2080,37 +2641,127 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 return false;
             }
 
-            // A coplanar face ahead changes no height; keeping the face under the centre stops the support face
-            // flickering across tile seams, where it would toggle pressure plates every step.
+            // The probe ahead can reach under a steep cave slope of this room and find another room's floor far below,
+            // which would drop the body into that room.
+            const auto probeReachedUnderSectorFloor = [&]()
+            {
+                constexpr float AnyHeight = 8192.0f;
+                const float middleX = (candidateX + probeX) * 0.5f;
+                const float middleY = (candidateY + probeY) * 0.5f;
+                return leadingFootprintFloor.sectorId != state.sectorId
+                    && leadingFootprintFloor.height < floor.height - MaximumDrop
+                    && (sampleSectorFloorOverhead(candidateX, candidateY, AnyHeight).hasFloor
+                        || sampleSectorFloorOverhead(middleX, middleY, AnyHeight).hasFloor
+                        || sampleSectorFloorOverhead(probeX, probeY, AnyHeight).hasFloor);
+            };
+
+            // A face ahead at another height is stepped onto early. A coplanar one changes no height; keeping the face
+            // under the centre stops the support face flickering across tile seams, where it would toggle pressure
+            // plates every step. A squat body also steps up from another face of its tread (a tread built of two
+            // faces): its centre reaches the riser, and the next tread's underside over it, before it steps.
+            const bool standsOnSupport = floor.faceIndex == state.supportFaceIndex
+                || (squatBody && std::abs(floor.height - state.footZ) <= CoplanarFloorHeightTolerance);
+            // Only from tread to tread: on sloped faces (terrain converted to floors) the surface is continuous and
+            // the face ahead's height a radius away is not the height here; taking it lifted and dropped the body at
+            // every seam (a rapid up-down on MM9 terrain).
+            const bool treadToTread =
+                floor.normalZ >= FlatTreadNormalZ && leadingFootprintFloor.normalZ >= FlatTreadNormalZ;
             if (floor.hasFloor
-                && floor.faceIndex == state.supportFaceIndex
+                && standsOnSupport
+                && treadToTread
                 && leadingFootprintFloor.hasFloor
                 && leadingFootprintFloor.faceIndex != floor.faceIndex
                 && std::abs(leadingFootprintFloor.height - floor.height) > CoplanarFloorHeightTolerance
-                && !indoorFloorTooSteepForUphillStep(
-                    *m_pIndoorMapData,
-                    pMapDeltaData,
-                    leadingFootprintFloor,
-                    state.footZ)
-                && leadingFootprintFloor.height <= state.footZ + MaximumStepUpFromCurrentFootZ)
+                && !floorTooSteepForUphillStep(leadingFootprintFloor, state.footZ)
+                && leadingFootprintFloor.height <= state.footZ + MaximumStepUpFromCurrentFootZ
+                && !probeReachedUnderSectorFloor())
             {
                 floor = leadingFootprintFloor;
+            }
+        }
+
+        // A walkable floor under the centre above the chosen one and within a step of the feet passes through the
+        // body: stand on it. The original engine samples the floor a body radius over the feet and takes the nearest;
+        // the sample at the feet kept a sloped floor running on under a buried slab (MM9 terrain under the sunken end
+        // of a bridge deck: Ravensford's moat bridge, the Isle of Ashes' bridge ramp), and the body walked on inside
+        // the slab until its underside met the terrain and trapped it. Trigger faces are not stood on this way (the
+        // MM9 converter's invisible trigger plates a few units over a floor fired again), nor mover faces, whose
+        // support has its own rules: monsters lifted onto a sunken door's 20-unit top were not carried as it rose and
+        // held it open (Ruined Temple door 34).
+        if (floor.hasFloor
+            && state.grounded
+            && !flying
+            && !sweptRequest.jumpRequested)
+        {
+            constexpr uint32_t TriggerFaceAttributes = faceAttributeBit(FaceAttribute::PressurePlate)
+                | faceAttributeBit(FaceAttribute::TriggerByTouch);
+            constexpr int MaximumOverlappingFloorSamples = 4;
+            float windowTop = state.footZ + MaximumStepUpFromCurrentFootZ;
+
+            for (int sampleIndex = 0;
+                 sampleIndex < MaximumOverlappingFloorSamples
+                     && windowTop > floor.height + CoplanarFloorHeightTolerance;
+                 ++sampleIndex)
+            {
+                const IndoorFloorSample overlappingFloor = sampleSupportedFloor(
+                    vertices,
+                    geometryCache,
+                    candidateX,
+                    candidateY,
+                    windowTop,
+                    0.0f,
+                    windowTop - floor.height - CoplanarFloorHeightTolerance,
+                    body,
+                    preferredSectorId,
+                    &supportFaceMask);
+
+                if (!overlappingFloor.hasFloor
+                    || overlappingFloor.faceIndex == floor.faceIndex
+                    || overlappingFloor.height <= floor.height + CoplanarFloorHeightTolerance)
+                {
+                    break;
+                }
+
+                const IndoorFaceGeometryData *pOverlappingGeometry =
+                    geometryCache.geometryForFace(*m_pIndoorMapData, vertices, overlappingFloor.faceIndex);
+
+                const bool moverFace = std::find(
+                    m_runtimeGeometryCache.mechanismSupportFaceIds.begin(),
+                    m_runtimeGeometryCache.mechanismSupportFaceIds.end(),
+                    static_cast<uint16_t>(overlappingFloor.faceIndex))
+                    != m_runtimeGeometryCache.mechanismSupportFaceIds.end();
+
+                if (moverFace
+                    || (pOverlappingGeometry != nullptr
+                        && (pOverlappingGeometry->attributes & TriggerFaceAttributes) != 0))
+                {
+                    windowTop = overlappingFloor.height - CoplanarFloorHeightTolerance;
+                    continue;
+                }
+
+                // Only a floor under the centre itself: support samples reach a body radius round it (invisible
+                // ramps), which stood the party on the lip of a riser ahead with its centre over the floor below.
+                if (overlappingFloor.isWalkable
+                    && !floorTooSteepForUphillStep(overlappingFloor, state.footZ)
+                    && pOverlappingGeometry != nullptr
+                    && indoorPointInsideFaceOutlineXY(*pOverlappingGeometry, candidateX, candidateY))
+                {
+                    floor = overlappingFloor;
+                }
+
+                break;
             }
         }
 
         if (floor.hasFloor
             && !flying
             && !sweptRequest.jumpRequested
-            && indoorFloorTooSteepForUphillStep(*m_pIndoorMapData, pMapDeltaData, floor, state.footZ))
+            && floorTooSteepForUphillStep(floor, state.footZ))
         {
             if (leadingFootprintFloor.hasFloor)
             {
                 if (leadingFootprintFloor.faceIndex != floor.faceIndex
-                    && !indoorFloorTooSteepForUphillStep(
-                        *m_pIndoorMapData,
-                        pMapDeltaData,
-                        leadingFootprintFloor,
-                        state.footZ)
+                    && !floorTooSteepForUphillStep(leadingFootprintFloor, state.footZ)
                     && leadingFootprintFloor.height <= state.footZ + MaximumStepUpFromCurrentFootZ)
                 {
                     floor = leadingFootprintFloor;
@@ -2121,7 +2772,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
         if (floor.hasFloor
             && !flying
             && !sweptRequest.jumpRequested
-            && indoorFloorTooSteepForUphillStep(*m_pIndoorMapData, pMapDeltaData, floor, state.footZ))
+            && floorTooSteepForUphillStep(floor, state.footZ))
         {
             const IndoorFaceGeometryData *pSteepFloorGeometry =
                 geometryCache.geometryForFace(*m_pIndoorMapData, vertices, floor.faceIndex);
@@ -2163,6 +2814,26 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 std::nullopt,
                 positionFootZ);
             return false;
+        }
+
+        // The floor sample skipped a slope of the current room and took another room's floor far below: the body
+        // would stand inside the slope.
+        if (floor.hasFloor && floor.sectorId != state.sectorId && floor.height < positionFootZ - MaximumDrop)
+        {
+            const IndoorFloorSample embeddingFloor =
+                sampleSectorFloorOverhead(candidateX, candidateY, body.height - MaximumRise);
+
+            if (embeddingFloor.hasFloor)
+            {
+                recordInvalidPosition(
+                    IndoorMoveInvalidPositionReason::StepUpTooHigh,
+                    embeddingFloor,
+                    leadingFootprintFloor,
+                    nullptr,
+                    std::nullopt,
+                    positionFootZ);
+                return false;
+            }
         }
 
         if (floor.hasFloor
@@ -2469,7 +3140,8 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 continue;
             }
 
-            if (pFace->kind == IndoorFaceKind::Wall && pFace->maxZ <= baseState.footZ + MaximumRise)
+            if ((pFace->kind == IndoorFaceKind::Wall && pFace->maxZ <= baseState.footZ + MaximumRise)
+                || indoorFaceIsOverSquatBodyHead(*pFace, body, baseState.footZ))
             {
                 continue;
             }
@@ -2488,6 +3160,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
         sweepOptions.pCollisionFaceMask = &collisionFaceMask;
         sweepOptions.pMechanismBlockingFaceMask = &mechanismBlockingFaceMask;
         sweepOptions.includePortalFaces = false;
+        sweepOptions.pActorBarrierFaceMask = actorBarrierFaceMask();
         return selectNearestIndoorFaceHit(
             buildPrimitiveSweptBody(baseState.x, baseState.y, baseState.footZ, body),
             direction,
@@ -2704,7 +3377,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                     &supportFaceMask);
 
                 if (!floor.hasFloor
-                    || indoorFloorTooSteepForUphillStep(*m_pIndoorMapData, pMapDeltaData, floor, baseState.footZ)
+                    || floorTooSteepForUphillStep(floor, baseState.footZ)
                     || recoveryTraceBlockedByFace(baseState, candidateX, candidateY))
                 {
                     continue;
@@ -2742,6 +3415,164 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
         }
 
         return std::nullopt;
+    };
+
+    // An airborne body that no move or slide can leave would hang forever: its feet below a steep slope it cannot
+    // climb, or wedged between converging walls. Settle it at the nearest reachable valid position so it falls again.
+    // A lifted candidate is traced at its lift, which is how it clears the lip the lift is for. One over a walkable
+    // floor is preferred: a monster pressed against a tunnel's sloped side, its centre a few units past the crease
+    // where the floor ends, sat on the floor's edge with the slope against it; every move and every trace at its own
+    // height met that edge, and the nearest valid spot (beside it, still over the slope) dropped it back into the
+    // crease (Connecting Tunnels' dagrells, 2026-11-11).
+    const auto tryRecoverStuckAirborne = [&](const IndoorMoveState &baseState) -> std::optional<IndoorMoveState>
+    {
+        // A body that cannot move sideways still falls: resolve the step again without the horizontal input.
+        // That step runs this search itself when it cannot move either.
+        if (stepX * stepX + stepY * stepY > 0.0001f)
+        {
+            return resolveMoveSingleStep(
+                state,
+                body,
+                0.0f,
+                0.0f,
+                false,
+                deltaSeconds,
+                pContactedActorIndices,
+                ignoredActorIndex,
+                blockActorSlide,
+                pDebugInfo,
+                flyingActive,
+                ignoreActorCollisions,
+                jumpVelocity,
+                jumpLift,
+                lockVerticalPosition,
+                preventGroundActorLedgeDrop,
+                allowUnsupportedPathRecovery,
+                allowBlockedWallRecovery,
+                requireWalkableSupport,
+                gravityPerSecond);
+        }
+
+        constexpr std::array<float, 6> RecoveryDistances = {{4.0f, 8.0f, 16.0f, 32.0f, 48.0f, 64.0f}};
+        constexpr std::array<float, 2> RecoveryLifts = {{0.0f, GroundSnapSlack * 2.0f}};
+        constexpr int RecoveryDirectionCount = 8;
+        std::optional<IndoorMoveState> unsupportedRecovery;
+
+        const auto recovered = [&](const IndoorMoveState &recoveredState) -> IndoorMoveState
+        {
+            if (pDebugInfo != nullptr)
+            {
+                pDebugInfo->collisionResponseTried = true;
+                pDebugInfo->collisionResponseSucceeded = true;
+                pDebugInfo->responseStep = {
+                    recoveredState.x - baseState.x,
+                    recoveredState.y - baseState.y,
+                    recoveredState.footZ - baseState.footZ
+                };
+            }
+
+            return recoveredState;
+        };
+
+        for (float distance : RecoveryDistances)
+        {
+            for (float lift : RecoveryLifts)
+            {
+                IndoorMoveState liftedState = baseState;
+                liftedState.footZ += lift;
+
+                for (int directionIndex = 0; directionIndex < RecoveryDirectionCount; ++directionIndex)
+                {
+                    const float angle =
+                        static_cast<float>(directionIndex) * bx::kPi2 / static_cast<float>(RecoveryDirectionCount);
+                    const float candidateX = baseState.x + std::cos(angle) * distance;
+                    const float candidateY = baseState.y + std::sin(angle) * distance;
+
+                    if (recoveryTraceBlockedByFace(liftedState, candidateX, candidateY))
+                    {
+                        continue;
+                    }
+
+                    IndoorMoveState recoveredState = {};
+
+                    if (!tryResolvePosition(
+                            baseState.x,
+                            baseState.y,
+                            candidateX,
+                            candidateY,
+                            liftedState.footZ,
+                            0.0f,
+                            recoveredState,
+                            true,
+                            nullptr,
+                            nullptr))
+                    {
+                        continue;
+                    }
+
+                    const IndoorFloorSample floor = sampleSupportedFloor(
+                        vertices,
+                        geometryCache,
+                        candidateX,
+                        candidateY,
+                        recoveredState.footZ,
+                        MaximumRise,
+                        body.height + 1024.0f,
+                        body,
+                        preferredSectorId,
+                        &supportFaceMask);
+
+                    if (recoveredState.grounded || (floor.hasFloor && floor.isWalkable))
+                    {
+                        return recovered(recoveredState);
+                    }
+
+                    if (!unsupportedRecovery)
+                    {
+                        unsupportedRecovery = recoveredState;
+                    }
+                }
+            }
+        }
+
+        if (unsupportedRecovery)
+        {
+            return recovered(*unsupportedRecovery);
+        }
+
+        return std::nullopt;
+    };
+
+    // Swept responses can converge to no movement at all; an airborne body must not stay there. A failed search
+    // waits before it repeats, so a body stuck where no position is valid does not search every step.
+    const auto finalizeSweptState = [&](const IndoorMoveState &result) -> IndoorMoveState
+    {
+        if (result.grounded
+            || flying
+            || lockVerticalPosition
+            || movementDistance(result.x - state.x, result.y - state.y, result.footZ - state.footZ) > 0.0001f)
+        {
+            return finalizeFallState(result);
+        }
+
+        // Nothing moved, so gravity must not keep accelerating the body: an ever larger fall speed would only
+        // raise the substep count of every later step.
+        IndoorMoveState stuckState = result;
+        stuckState.verticalVelocity = 0.0f;
+
+        if (stuckState.stuckRecoveryCooldownSteps > 0)
+        {
+            --stuckState.stuckRecoveryCooldownSteps;
+            return finalizeFallState(stuckState);
+        }
+
+        if (const std::optional<IndoorMoveState> recoveredState = tryRecoverStuckAirborne(result))
+        {
+            return finalizeFallState(*recoveredState);
+        }
+
+        stuckState.stuckRecoveryCooldownSteps = StuckAirborneRecoveryRetrySteps;
+        return finalizeFallState(stuckState);
     };
 
     if (!state.grounded
@@ -2931,7 +3762,8 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
         // Use the sweep's contact normal. Reconstructing it at the backed-off
         // position tilts a tangent slide into the opposite floor or ceiling.
         bx::Vec3 slideDirection = normalizeVec(projectIndoorVelocityAlongPlane(step, hit.normal, 1.0f));
-        if (pHitGeometry != nullptr
+        if (!steepSlopesClimbable
+            && pHitGeometry != nullptr
             && indoorFaceIsSteepFloorCollisionSurface(*pHitGeometry)
             && slideDirection.z > 0.0f)
         {
@@ -2944,7 +3776,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
 
         const bx::Vec3 responseStep = scaleVec(slideDirection, dotVec(step, slideDirection) * SlideFactor);
         return lockVerticalStep(
-            applySteepFloorCollisionResponse(responseStep, pHitGeometry, deltaSeconds),
+            steepFloorCollisionResponse(responseStep, pHitGeometry),
             pHitGeometry);
     };
 
@@ -2972,7 +3804,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             return finalizeFallState(stationaryState);
         }
 
-        return state;
+        return finalizeSweptState(state);
     }
 
     for (int iteration = 0; iteration < MaxSweptIterations; ++iteration)
@@ -2986,7 +3818,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 pDebugInfo->collisionResponseSucceeded = true;
             }
 
-            return finalizeFallState(iterativeState);
+            return finalizeSweptState(iterativeState);
         }
 
         const bx::Vec3 remainingDirection =
@@ -3015,7 +3847,8 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 continue;
             }
 
-            if (pFace->kind == IndoorFaceKind::Wall && pFace->maxZ <= iterativeState.footZ + MaximumRise)
+            if ((pFace->kind == IndoorFaceKind::Wall && pFace->maxZ <= iterativeState.footZ + MaximumRise)
+                || indoorFaceIsOverSquatBodyHead(*pFace, body, iterativeState.footZ))
             {
                 continue;
             }
@@ -3044,6 +3877,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
         sweepOptions.pCollisionFaceMask = &collisionFaceMask;
         sweepOptions.pMechanismBlockingFaceMask = &mechanismBlockingFaceMask;
         sweepOptions.includePortalFaces = false;
+        sweepOptions.pActorBarrierFaceMask = actorBarrierFaceMask();
         const std::optional<IndoorSweptFaceHit> faceHit = selectNearestIndoorFaceHit(
             buildPrimitiveSweptBody(iterativeState.x, iterativeState.y, iterativeState.footZ, body),
             remainingDirection,
@@ -3152,7 +3986,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 const bx::Vec3 projectedSlideStep =
                     projectIndoorVelocityAlongPlane(remainingStep, fullMoveWallCollision.normal, SlideFactor);
                 const bx::Vec3 slideStep = lockVerticalStep(
-                    applySteepFloorCollisionResponse(projectedSlideStep, pWallGeometry, deltaSeconds),
+                    steepFloorCollisionResponse(projectedSlideStep, pWallGeometry),
                     pWallGeometry);
 
                 if (movementDistance(slideStep.x, slideStep.y, slideStep.z) > 0.0001f)
@@ -3214,11 +4048,13 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             pDebugInfo->hitHeightOffset = nearestHit->heightOffset;
         }
 
-        if (nearestHit->type == SweptCollisionHitType::Floor && iterativeVerticalVelocity < 0.0f)
+        if (nearestHit->type == SweptCollisionHitType::Floor && iterativeVerticalVelocity < 0.0f
+            && nearestHit->normal.z > 0.0001f)
         {
             iterativeVerticalVelocity = 0.0f;
         }
-        else if (nearestHit->type == SweptCollisionHitType::Ceiling && iterativeVerticalVelocity > 0.0f)
+        else if (nearestHit->type == SweptCollisionHitType::Ceiling && iterativeVerticalVelocity > 0.0f
+            && nearestHit->normal.z < -0.0001f)
         {
             iterativeVerticalVelocity = 0.0f;
         }
@@ -3277,17 +4113,95 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             && !pNearestHitGeometry->vertices.empty()
             && !sweptRequest.jumpRequested)
         {
-            const float stepFloorZ = pNearestHitGeometry->vertices.front().z;
+            // The tread's height where the body met its edge: a flat tread has one height, a sloped face (terrain
+            // converted to floors) another at each point, and its first vertex may lie far above the contact.
+            const float stepFloorZ =
+                calculateIndoorFaceHeight(*pNearestHitGeometry, nearestHit->point.x, nearestHit->point.y);
             const float stepDelta = stepFloorZ - iterativeState.footZ;
 
+            // A step-up is for a body walking onto the tread. One that only falls or slides past the edge, or is
+            // pressed against a wall behind a lip too narrow to take its centre, was lifted with its centre off the
+            // tread; the support test at the centre dropped it on the next step and it met the edge again, an endless
+            // bob (MM9 Sturmford City's ledge at the foot of a wall, its railings). Such a
+            // body stays below and the edge answers it like any other contact, as in the original, where support is
+            // only ever taken under the centre.
+            const auto liftsOntoTread = [&]() -> bool
+            {
+                const float normalLengthXY =
+                    std::sqrt(nearestHit->normal.x * nearestHit->normal.x + nearestHit->normal.y * nearestHit->normal.y);
+                const float towardTreadX = normalLengthXY > 0.0001f ? -nearestHit->normal.x / normalLengthXY : 0.0f;
+                const float towardTreadY = normalLengthXY > 0.0001f ? -nearestHit->normal.y / normalLengthXY : 0.0f;
+
+                if (stepX * stepX + stepY * stepY <= 0.0001f
+                    || (normalLengthXY > 0.0001f && stepX * towardTreadX + stepY * towardTreadY <= 0.0f))
+                {
+                    return false;
+                }
+
+                constexpr float InsideTreadEdgeDistance = 1.0f;
+                const float treadX = nearestHit->point.x + towardTreadX * InsideTreadEdgeDistance;
+                const float treadY = nearestHit->point.y + towardTreadY * InsideTreadEdgeDistance;
+                // Met at a corner, the point inward from the contact lies off the tread (a tread may be split into
+                // several faces of one height): the body passes beside it.
+                constexpr float TreadHeightTolerance = 2.0f;
+                const IndoorFloorSample treadFloor = sampleSupportedFloor(
+                    vertices,
+                    geometryCache,
+                    treadX,
+                    treadY,
+                    stepFloorZ,
+                    TreadHeightTolerance,
+                    TreadHeightTolerance,
+                    body,
+                    static_cast<int16_t>(pNearestHitGeometry->sectorId),
+                    &supportFaceMask);
+
+                if (!treadFloor.hasFloor || std::fabs(treadFloor.height - stepFloorZ) > TreadHeightTolerance)
+                {
+                    return false;
+                }
+
+                return !collidesAtPosition(
+                    vertices,
+                    geometryCache,
+                    treadX,
+                    treadY,
+                    stepFloorZ,
+                    body,
+                    &collisionFaceMask,
+                    &mechanismBlockingFaceMask,
+                    static_cast<int16_t>(pNearestHitGeometry->sectorId),
+                    iterativeState.eyeSectorId >= 0
+                        ? std::optional<int16_t>(iterativeState.eyeSectorId)
+                        : std::nullopt,
+                    nearestHit->faceIndex,
+                    static_cast<size_t>(-1),
+                    treadX - iterativeState.x,
+                    treadY - iterativeState.y,
+                    nullptr);
+            };
+
+            // A flat tread this close to the feet is the floor under them, but a walkable slope met at its foot (not
+            // the face under the feet, and walking up it) is climbed from there: a ramp made of thin triangles
+            // (Thjorad Mine's, north from the landing at x -3604) put an edge of the next one at the body's front at
+            // every step, a hit at no distance that a slide along the edge never cleared, and the body stood at the
+            // ramp's foot for good.
+            const bool climbsSlope = pNearestHitGeometry->normal.z < FlatTreadNormalZ
+                && nearestHit->faceIndex != iterativeState.supportFaceIndex
+                && stepX * pNearestHitGeometry->normal.x + stepY * pNearestHitGeometry->normal.y < 0.0f;
+            const float minimumStepDelta = climbsSlope ? SlopeFootStepSlack : GroundSnapSlack;
+
             if (pNearestHitGeometry->normal.z >= MaximumUphillSlopeNormalZ
-                && stepDelta >= GroundSnapSlack
-                && stepDelta < MaximumStepUpFromCurrentFootZ)
+                && stepDelta >= minimumStepDelta
+                && stepDelta < MaximumStepUpFromCurrentFootZ
+                && liftsOntoTread())
             {
                 advancedState.footZ = stepFloorZ;
                 advancedState.verticalVelocity = 0.0f;
                 advancedState.grounded = true;
                 advancedState.supportFaceIndex = nearestHit->faceIndex;
+                liftedTreadFaceIndex = nearestHit->faceIndex;
+                liftedTreadFootZ = stepFloorZ;
                 advancedState.sectorId = static_cast<int16_t>(pNearestHitGeometry->sectorId);
                 advancedState.eyeSectorId = advancedState.sectorId;
                 iterativeVerticalVelocity = 0.0f;
@@ -3320,7 +4234,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 pDebugInfo->collisionResponseSucceeded = true;
             }
 
-            return finalizeFallState(iterativeState);
+            return finalizeSweptState(iterativeState);
         }
 
         const bx::Vec3 leftoverStep = {
@@ -3341,7 +4255,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 projectIndoorVelocityAlongPlane(leftoverStep, nearestHit->normal, responseDamping);
             remainingStep =
                 lockVerticalStep(
-                    applySteepFloorCollisionResponse(responseStep, pNearestHitGeometry, deltaSeconds),
+                    steepFloorCollisionResponse(responseStep, pNearestHitGeometry),
                     pNearestHitGeometry);
         }
 
@@ -3407,7 +4321,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             pDebugInfo->collisionResponseSucceeded = true;
         }
 
-        return finalizeFallState(iterativeState);
+        return finalizeSweptState(iterativeState);
     }
 
     if (fullMoveWallCollision.hit)
@@ -3448,7 +4362,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
     }
 
     writePrimaryBlockDebug();
-    return finalizeFallState(iterativeState);
+    return finalizeSweptState(iterativeState);
 }
 
 IndoorCollisionTraceInfo IndoorMovementController::traceCollisionIssues(
@@ -3520,6 +4434,7 @@ IndoorCollisionTraceInfo IndoorMovementController::traceCollisionIssues(
     sweepOptions.pCollisionFaceMask = &collisionFaceMask;
     sweepOptions.pMechanismBlockingFaceMask = &mechanismBlockingFaceMask;
     sweepOptions.includePortalFaces = false;
+    sweepOptions.pActorBarrierFaceMask = actorBarrierFaceMask();
 
     const std::optional<IndoorSweptFaceHit> wallHit =
         selectNearestIndoorFaceHit(sweptBody, direction, moveDistance, blockingWallCandidates, sweepOptions);
@@ -3683,6 +4598,7 @@ std::string IndoorMovementController::buildCollisionTraceProbeDetails(
     sweepOptions.pCollisionFaceMask = &collisionFaceMask;
     sweepOptions.pMechanismBlockingFaceMask = &mechanismBlockingFaceMask;
     sweepOptions.includePortalFaces = true;
+    sweepOptions.pActorBarrierFaceMask = actorBarrierFaceMask();
 
     std::vector<ProbeFace> probeFaces;
     probeFaces.reserve(32);
@@ -4111,6 +5027,9 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
         };
 
     const bool useSectorFilteredFaces = !collisionSectorIds.empty();
+    const IndoorSectorFaceGrid *pFaceGrid = geometryCache.sectorFaceGrid();
+    const bool useFaceGrid = useSectorFilteredFaces && pFaceGrid != nullptr && !pFaceGrid->empty()
+        && std::isfinite(startX) && std::isfinite(startY);
     struct SectorFaceCandidate
     {
         uint16_t faceIndex = 0;
@@ -4140,9 +5059,14 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
             }
 
             const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
-            appendFaceIds(sector.floorFaceIds, false);
-            appendFaceIds(sector.wallFaceIds, false);
-            appendFaceIds(sector.ceilingFaceIds, false);
+
+            // With the grid only the cylinder faces come from the lists (the grid gives the rest near the move).
+            if (!useFaceGrid)
+            {
+                appendFaceIds(sector.floorFaceIds, false);
+                appendFaceIds(sector.wallFaceIds, false);
+                appendFaceIds(sector.ceilingFaceIds, false);
+            }
 
             if (useCollisionFaceMask)
             {
@@ -4227,6 +5151,7 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
         sweepOptions.pCollisionFaceMask = requireCollisionMask ? pCollisionFaceMask : nullptr;
         sweepOptions.pMechanismBlockingFaceMask = pMechanismBlockingFaceMask;
         sweepOptions.includePortalFaces = false;
+        sweepOptions.pActorBarrierFaceMask = actorBarrierFaceMask();
 
         if (!canSweepAgainstIndoorFace(*pGeometry, sweepOptions))
         {
@@ -4235,6 +5160,55 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
 
         candidates.push_back(pGeometry);
     };
+
+    if (useFaceGrid)
+    {
+        // Only the faces the grid finds near the move, widened by the body's radius, instead of every face of the
+        // sectors: a region's open air is one sector of 27 000 faces, and every monster's move tested them all
+        // (devdocs/mm9_rework/BLV_GEOMETRY_COSTS.md, E2). In face order; the cylinder faces after, with their mask.
+        std::vector<size_t> nearFaces;
+        collectIndoorSegmentFaceCandidates(*m_pIndoorMapData, geometryCache, collisionSectorIds,
+            {startX, startY, startFootZ}, {startX + movementX, startY + movementY, startFootZ + movementZ},
+            body.radius + 1.0f, nearFaces);
+        // The sector lists' order: the first of the move's sectors whose floor, wall or ceiling list holds the face,
+        // then its place there (cylinder-only faces have no rank and come with the cylinder pass below).
+        const std::vector<std::vector<std::pair<int16_t, uint32_t>>> &ranks =
+            m_runtimeGeometryCache.faceSectorListRanks;
+        std::vector<std::pair<uint64_t, size_t>> ordered;
+        ordered.reserve(nearFaces.size());
+        for (size_t faceIndex : nearFaces)
+        {
+            if (faceIndex >= ranks.size())
+            {
+                continue;
+            }
+            for (size_t sectorOrder = 0; sectorOrder < collisionSectorIds.size(); ++sectorOrder)
+            {
+                const auto found = std::find_if(ranks[faceIndex].begin(), ranks[faceIndex].end(),
+                    [&](const std::pair<int16_t, uint32_t> &entry)
+                    { return entry.first == collisionSectorIds[sectorOrder]; });
+                if (found != ranks[faceIndex].end())
+                {
+                    ordered.push_back({(uint64_t(sectorOrder) << 32) | found->second, faceIndex});
+                    break;
+                }
+            }
+        }
+        std::sort(ordered.begin(), ordered.end());
+        candidates.reserve(ordered.size() + sectorFaceIds.size());
+        for (const std::pair<uint64_t, size_t> &entry : ordered)
+        {
+            appendCandidateFace(entry.second, false);
+        }
+        for (const SectorFaceCandidate &candidate : sectorFaceIds)
+        {
+            if (candidate.requireCollisionMask)
+            {
+                appendCandidateFace(candidate.faceIndex, true);
+            }
+        }
+        return candidates;
+    }
 
     if (useSectorFilteredFaces)
     {
@@ -4357,6 +5331,12 @@ bool IndoorMovementController::collidesWithActors(
     }
 
     return false;
+}
+
+const std::vector<uint8_t> *IndoorMovementController::actorBarrierFaceMask() const
+{
+    const std::vector<uint8_t> &mask = m_runtimeGeometryCache.actorBarrierFaceMask;
+    return mask.empty() ? nullptr : &mask;
 }
 
 std::vector<uint8_t> IndoorMovementController::buildCollisionFaceMask() const

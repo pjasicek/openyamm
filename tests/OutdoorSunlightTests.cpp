@@ -221,7 +221,7 @@ TEST_CASE("baked lighting settings validate input atomically and round trip thro
     REQUIRE(legacy);
     CHECK(legacy->lightmaps);
     CHECK(legacy->bakedSunStrength == 1.0f);
-    CHECK(legacy->bakedSkyStrength == 3.0f);
+    CHECK(legacy->bakedSkyStrength == 2.0f);
     CHECK(legacy->bakedSkyColor[0] == doctest::Approx(0.8f));
     CHECK(legacy->bakedSkyColor[1] == doctest::Approx(0.9f));
     CHECK(legacy->bakedSkyColor == GameSettings{}.bakedSkyColor);

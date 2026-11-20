@@ -1,0 +1,38 @@
+{
+  "creature_3d_identity": "mm7:m298",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 0
+  },
+  "scope": "MM7 batch I triangle reduction of mm7_m298_claude (user: \"do the tri reduction on all 5\"); no retexture, not installed",
+  "source": {
+    "work/mm7_m298_source_pre_reduce.glb": "703fccb7d8ffd30bf915e148163e40e37f3cf337397afab08f90dbb84c7123ac"
+  },
+  "status": {
+    "stage": "exported (reduced)",
+    "install": "not done (batch rule); command in README.md",
+    "user_artistic_acceptance": "not recorded"
+  },
+  "selected": {
+    "export/mm7_m298.glb": "4a5060be86f6f303b1918615f7ca063efd5b85f4b435becde0ffa03c35d15d13"
+  },
+  "result": {
+    "lod0_before": 4662,
+    "lod0_after": 3904,
+    "lods_before": [
+      2330,
+      838,
+      273
+    ],
+    "lods": [
+      1952,
+      702,
+      232
+    ],
+    "pick": "h Cand_83"
+  },
+  "next_action": {
+    "owner": "user",
+    "action": "review review/viewer/ (batch I vs reduced) and decide installation"
+  }
+}

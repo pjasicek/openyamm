@@ -1,0 +1,26 @@
+{
+  "prompt": "# Decorative prop d10092: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10092/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: A short-sleeved black-brown leather brigandine densely covered in small silver rivets, built of horizontal panels, with a brown leather belt at the waist and a short skirt of vertical studded panels below it..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A harmless static decorative prop for a cosy fantasy game, texture sheet only. A short-sleeved black-brown leather brigandine densely covered in small silver rivets, built of horizontal panels, with a brown leather belt at the waist and a short skirt of vertical studded panels below it.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10092/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nInput order: image 1 is paint_mask_guide.png, the exact edit target; image 2 is design_reference.png, appearance only; image 3 is icon_x8.png, palette only. Preserve the guide's unusual orientations literally, do not reinterpret the view labels or rotate any object. Output the complete 3-column 4-row transparent atlas. Material-mask rivets pure red, all leather pure green. No labels.\nCRITICAL CORRECTION: The previous attempt spilled green across the lower background and filled holes. Strictly clip ALL paint and mask colours to the exact original guide alpha silhouettes. Lower half must have five isolated clean cutouts with completely transparent space between, around, and within the original openings. No green fog, speckles, edge spill, or filled transparent holes. Flat green leather and flat red rivet dots only in the bottom five objects. Match original guide silhouette positions exactly.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10092/paint_mask_guide.png",
+      "sha256": "d8f050a2f3d9aec996b3edff0d690568297c0b52c50ec9042542c743ab283325"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10092/design_reference.png",
+      "sha256": "146e81ff4e456b6f79234145674bbc385208bc5fea41e546e0bc1f9a28f86764"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10092/icon_x8.png",
+      "sha256": "58d1ee157504f9e162e4565cd49c540d2209afca65e36033738643b8f830469b"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad28-d7d2-78f0-9e1b-349eeb60e56c/exec-0891c2f5-1f11-40d8-9ca4-52bcaac07282.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10092/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; visible green spill outside lower mask silhouettes and filled openings remain. Raw tool output preserved as requested."
+}

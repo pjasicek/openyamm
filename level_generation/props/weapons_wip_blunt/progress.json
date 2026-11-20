@@ -1,0 +1,3398 @@
+{
+  "status": "complete_wip",
+  "mesh_spend": 360,
+  "icons": {
+    "6hammer4": {
+      "status": "installed",
+      "name": "Thor",
+      "binding_length": 126.5,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "moon_hammer",
+      "baseline_source_sha256": "00255e759f6e8cae0d0558aff731bef192ee0d4efd4aafa9d53e207025eefe20",
+      "baseline_runtime_sha256": "e81f629722de003752550e3ad402a6fbfadc9f6e93c5cce3dd51f619be3e6351",
+      "remaining_defects": [],
+      "icon": "6hammer4",
+      "triangles": 3390,
+      "vertices": 332,
+      "export": "work/meshy/6hammer4_export.glb",
+      "texture_size": 1024,
+      "design": "moon_hammer",
+      "boundary_edges_repaired": 74,
+      "closure_faces": 4,
+      "mesh_job": "moon_hammer_textured_v1",
+      "mesh_task_id": "01a14e98-8d11-7682-ae72-44ba5564fbb0",
+      "mesh_design_cost": 15,
+      "sha256": "45b77b261ede6757da959fe439cd3bd201c75a9078405f048e441d4c439d7ff8",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.9999998989515007e-05,
+        0.999904990196228
+      ],
+      "gltf_bounds": [
+        [
+          -0.179207906126976,
+          0.0,
+          -0.5
+        ],
+        [
+          0.179207906126976,
+          0.11211176216602325,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/6hammer4_above.png",
+        "review/meshy/6hammer4_three_quarter.png",
+        "review/meshy/6hammer4_low.png",
+        "review/meshy/6hammer4_underside.png",
+        "review/meshy_clay/6hammer4_above.png",
+        "review/meshy_clay/6hammer4_three_quarter.png",
+        "review/meshy_clay/6hammer4_low.png",
+        "review/meshy_clay/6hammer4_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "45b77b261ede6757da959fe439cd3bd201c75a9078405f048e441d4c439d7ff8",
+      "runtime_sha256": "7e623604426550da062fc3521526470e0407b2843928d465ca8600c90ca01f67",
+      "cooked_verified": true,
+      "runtime_triangles": 3394,
+      "runtime_back_copies": 4,
+      "native_outdoor_capture": "review/native_outdoor/01-6hammer4.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "6mace7": {
+      "status": "installed",
+      "name": "Ares",
+      "binding_length": 125.1,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "ares",
+      "baseline_source_sha256": "4ffca47b292a2635f4b7120ac60fd4c5043d76852939bbba5137c6561903fb49",
+      "baseline_runtime_sha256": "4d62266e7660fcb26bd61b821d974c4a06945df0d1dab493d3ac112d77683f32",
+      "remaining_defects": [],
+      "icon": "6mace7",
+      "design": "ares",
+      "triangles": 4644,
+      "export": "work/meshy/6mace7_export.glb",
+      "texture_size": 1024,
+      "boundary_edges_repaired": 41,
+      "closure_faces": 15,
+      "mesh_job": "ares_textured_v1",
+      "mesh_task_id": "01a14e90-c916-7450-8996-d85bb3f2d333",
+      "mesh_design_cost": 15,
+      "sha256": "ca64ca45279d0c561c9aa091aeef9d5ddd5693ee35ed19164e3c4724645b0023",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        7.000000096013537e-06,
+        0.9999920129776001
+      ],
+      "gltf_bounds": [
+        [
+          -0.158146932721138,
+          0.0,
+          -0.5
+        ],
+        [
+          0.158146932721138,
+          0.34519055485725403,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/6mace7_above.png",
+        "review/meshy/6mace7_three_quarter.png",
+        "review/meshy/6mace7_low.png",
+        "review/meshy/6mace7_underside.png",
+        "review/meshy_clay/6mace7_above.png",
+        "review/meshy_clay/6mace7_three_quarter.png",
+        "review/meshy_clay/6mace7_low.png",
+        "review/meshy_clay/6mace7_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "ca64ca45279d0c561c9aa091aeef9d5ddd5693ee35ed19164e3c4724645b0023",
+      "runtime_sha256": "73e0b0aff6750318e0bbf461075033bc9d3e70ea04fd0519657a153ee34ba19f",
+      "cooked_verified": true,
+      "runtime_triangles": 4644,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/02-6mace7.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "7item050": {
+      "status": "installed",
+      "name": "Crude Mace",
+      "binding_length": 122.4,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "crude",
+      "baseline_source_sha256": "c5fb6c83663d0df876a9ef39078eeb60e9a7dfca5ed3504210f37df7bc65e178",
+      "baseline_runtime_sha256": "1f02f9a101ca7e5b3570e49b76eddfbc603b79a8e4c91d6a6dfa28a4af421c69",
+      "remaining_defects": [],
+      "icon": "7item050",
+      "triangles": 3414,
+      "vertices": 686,
+      "export": "work/meshy/7item050_export.glb",
+      "texture_size": 1024,
+      "design": "crude",
+      "boundary_edges_repaired": 220,
+      "closure_faces": 68,
+      "mesh_job": "crude_textured_v1",
+      "mesh_task_id": "01a14e9d-0629-7559-b153-44ddd122b63b",
+      "mesh_design_cost": 15,
+      "sha256": "2059409e75e593bf7d7f97abd9a2d12e78e6c6229a8a07b20d3872310f1c3b9f",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        9.999999974752427e-07,
+        0.9998379945755005
+      ],
+      "gltf_bounds": [
+        [
+          -0.1191503256559372,
+          0.0,
+          -0.5
+        ],
+        [
+          0.1191503256559372,
+          0.2411552369594574,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/7item050_above.png",
+        "review/meshy/7item050_three_quarter.png",
+        "review/meshy/7item050_low.png",
+        "review/meshy/7item050_underside.png",
+        "review/meshy_clay/7item050_above.png",
+        "review/meshy_clay/7item050_three_quarter.png",
+        "review/meshy_clay/7item050_low.png",
+        "review/meshy_clay/7item050_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "2059409e75e593bf7d7f97abd9a2d12e78e6c6229a8a07b20d3872310f1c3b9f",
+      "runtime_sha256": "e64e69cbf72b41b562209a16028f01242e6049d5ea89a32188053c54a9e30b5e",
+      "cooked_verified": true,
+      "runtime_triangles": 3414,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/03-7item050.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "7item051": {
+      "status": "installed",
+      "name": "Spiked Mace",
+      "binding_length": 116.1,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item051",
+      "baseline_source_sha256": "53665a956441dba0b7353efd950d6d2b2e484cf71c1744a6939840a5adfedcf3",
+      "baseline_runtime_sha256": "522a3dc10cf992da3519f056c924024c10ea6b36a8044d2d59b08cd58a761cc9",
+      "remaining_defects": [],
+      "icon": "7item051",
+      "triangles": 808,
+      "vertices": 434,
+      "export": "work/blender/7item051_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "c8077695cd5a22d914f0d083c68dca77ace8b72f764ee299cc1d7e01ebaaf1e1",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.6312040090560913
+      ],
+      "gltf_bounds": [
+        [
+          -0.1447000652551651,
+          0.0,
+          -0.5
+        ],
+        [
+          0.1447000652551651,
+          0.26709288358688354,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item051_above.png",
+        "review/blender/7item051_three_quarter.png",
+        "review/blender/7item051_low.png",
+        "review/blender/7item051_underside.png",
+        "review/blender_clay/7item051_above.png",
+        "review/blender_clay/7item051_three_quarter.png",
+        "review/blender_clay/7item051_low.png",
+        "review/blender_clay/7item051_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "c8077695cd5a22d914f0d083c68dca77ace8b72f764ee299cc1d7e01ebaaf1e1",
+      "runtime_sha256": "2d61a6ccd12ac1e4c45f456874f8e005743bd4c12203e0c23ca32812ff71a773",
+      "cooked_verified": true,
+      "runtime_triangles": 808,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/04-7item051.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "34399231a37410b3c34dd79f8c5dc2d9f153780d4f9aaaa628a77a269b500295",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/01-7item051.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "7item052": {
+      "status": "installed",
+      "name": "Zealot Mace",
+      "binding_length": 117.9,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "zealot",
+      "baseline_source_sha256": "2ef119778f3e65e9c80f64cfb662e3b825dad74a26e43e19d2ba059181401376",
+      "baseline_runtime_sha256": "66dd6f8e457d93ceabfa238108f085c29a407bd89815a1b3f19c573c63444bf5",
+      "remaining_defects": [],
+      "icon": "7item052",
+      "triangles": 3288,
+      "vertices": 396,
+      "export": "work/meshy/7item052_export.glb",
+      "texture_size": 1024,
+      "design": "zealot",
+      "boundary_edges_repaired": 239,
+      "closure_faces": 21,
+      "mesh_job": "zealot_textured_v1",
+      "mesh_task_id": "01a14e9c-965f-72a4-b046-215d654a1728",
+      "mesh_design_cost": 15,
+      "sha256": "32ebcf39f65857fd3b897349fb01de35d580095093598d3b412135a0e7000e88",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        9.999999747378752e-06,
+        0.9998289942741394
+      ],
+      "gltf_bounds": [
+        [
+          -0.15460479259490967,
+          0.0,
+          -0.5
+        ],
+        [
+          0.15460479259490967,
+          0.3032706081867218,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/7item052_above.png",
+        "review/meshy/7item052_three_quarter.png",
+        "review/meshy/7item052_low.png",
+        "review/meshy/7item052_underside.png",
+        "review/meshy_clay/7item052_above.png",
+        "review/meshy_clay/7item052_three_quarter.png",
+        "review/meshy_clay/7item052_low.png",
+        "review/meshy_clay/7item052_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "32ebcf39f65857fd3b897349fb01de35d580095093598d3b412135a0e7000e88",
+      "runtime_sha256": "b6cbb5d88b88a65191f1ac9d9ec8bfc798ab2df3f0d3e62152d0a4ac55b97d8c",
+      "cooked_verified": true,
+      "runtime_triangles": 3291,
+      "runtime_back_copies": 3,
+      "native_outdoor_capture": "review/native_outdoor/05-7item052.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "7item053": {
+      "status": "installed",
+      "name": "Dwarven Morningstar",
+      "binding_length": 95.0,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item053",
+      "baseline_source_sha256": "d9cb3b227dfbaa4184b41b6d8ff662a1fdc7802395703abd75aeb0fb277adcc3",
+      "baseline_runtime_sha256": "25d04fdbb2c08dccf792060eff23bbe451961339b5814f77776fb748d1747081",
+      "remaining_defects": [],
+      "icon": "7item053",
+      "triangles": 1668,
+      "vertices": 866,
+      "export": "work/blender/7item053_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "77cc0acd0498d5186495b45bf7f4faeecf20e704e53ac63bb66d7cd8ea8d28ba",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499992847442627,
+        0.882614016532898
+      ],
+      "gltf_bounds": [
+        [
+          -0.19483965635299683,
+          0.0,
+          -0.5
+        ],
+        [
+          0.19483965635299683,
+          0.28959301114082336,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item053_above.png",
+        "review/blender/7item053_three_quarter.png",
+        "review/blender/7item053_low.png",
+        "review/blender/7item053_underside.png",
+        "review/blender_clay/7item053_above.png",
+        "review/blender_clay/7item053_three_quarter.png",
+        "review/blender_clay/7item053_low.png",
+        "review/blender_clay/7item053_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "77cc0acd0498d5186495b45bf7f4faeecf20e704e53ac63bb66d7cd8ea8d28ba",
+      "runtime_sha256": "bc3a46294b500c14c53a6d000e1a52549cbee6b6c9de3d7d6bbc8119f41c8d1e",
+      "cooked_verified": true,
+      "runtime_triangles": 1668,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/06-7item053.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "5d500a9c21cd0a7e4318db2be94d622ac8a1b55845299dcf2b9eae272c92fbbe",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/02-7item053.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "7item054": {
+      "status": "installed",
+      "name": "Supreme Flail",
+      "binding_length": 115.7,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item054",
+      "baseline_source_sha256": "cab8f3d475d22e6ae61b93df649d29e57d194676f7826a6bee714aa3983eedb1",
+      "baseline_runtime_sha256": "33ca4a522dcc904cf82387efbe41a5557a0a9ee40552a130ccb2df3f3ae1b98c",
+      "remaining_defects": [],
+      "icon": "7item054",
+      "triangles": 3280,
+      "vertices": 1688,
+      "export": "work/blender/7item054_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "4121da9da5aa3790821600bcb84686ea51c83ef85858692ee8f8fed47fa69df8",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.882614016532898
+      ],
+      "gltf_bounds": [
+        [
+          -0.22793923318386078,
+          0.0,
+          -0.5
+        ],
+        [
+          0.22793923318386078,
+          0.22593247890472412,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item054_above.png",
+        "review/blender/7item054_three_quarter.png",
+        "review/blender/7item054_low.png",
+        "review/blender/7item054_underside.png",
+        "review/blender_clay/7item054_above.png",
+        "review/blender_clay/7item054_three_quarter.png",
+        "review/blender_clay/7item054_low.png",
+        "review/blender_clay/7item054_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "4121da9da5aa3790821600bcb84686ea51c83ef85858692ee8f8fed47fa69df8",
+      "runtime_sha256": "e82382e1b1264ac21edeee3bb81037c1a5f6474b9932568cc83a3f777bd7e2ab",
+      "cooked_verified": true,
+      "runtime_triangles": 3280,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/07-7item054.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "dbe8c254e1e01d6ada01343ae1e60962e5b534fa80b76d1e5874534d8f988e05",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/03-7item054.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "7item055": {
+      "status": "installed",
+      "name": "Makeshift Hammer",
+      "binding_length": 116.1,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item055",
+      "baseline_source_sha256": "149f770fb32dc00b7aad676a5f6cda3bf8c15038fcab2d0813062a774c9763a3",
+      "baseline_runtime_sha256": "02a9c476279fc01c6935c88fb4e193713fe9a4ecf7c50e19fb9554ef31cbc4be",
+      "remaining_defects": [],
+      "icon": "7item055",
+      "triangles": 692,
+      "vertices": 364,
+      "export": "work/blender/7item055_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "a2579b52e6dca3b2577f79b610227563f4bb489ed1c3525f09e94b2b1a7023a5",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499992847442627,
+        0.6734687089920044
+      ],
+      "gltf_bounds": [
+        [
+          -0.15329916775226593,
+          0.0,
+          -0.5
+        ],
+        [
+          0.15329916775226593,
+          0.17279845476150513,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item055_above.png",
+        "review/blender/7item055_three_quarter.png",
+        "review/blender/7item055_low.png",
+        "review/blender/7item055_underside.png",
+        "review/blender_clay/7item055_above.png",
+        "review/blender_clay/7item055_three_quarter.png",
+        "review/blender_clay/7item055_low.png",
+        "review/blender_clay/7item055_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "a2579b52e6dca3b2577f79b610227563f4bb489ed1c3525f09e94b2b1a7023a5",
+      "runtime_sha256": "01d2e0a507c2fff51ddaa2a97aaff5368c3fa814e6f74757d39426c037d95b03",
+      "cooked_verified": true,
+      "runtime_triangles": 692,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/08-7item055.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "1286ca8f9e8a735a5e0f3c23dca9653e2ff4bc202c5b5c560a42338f6262648a",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/04-7item055.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "7item056": {
+      "status": "installed",
+      "name": "Battle Hammer",
+      "binding_length": 109.8,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item056",
+      "baseline_source_sha256": "4d51a598c8d5665e18c800d32abf31c43561b16a6ed9b4944b64ce835c4204be",
+      "baseline_runtime_sha256": "1c963c70ca53b11ff17e5ea69cf104fd63c96e2776f3adbfc16ee3f286fdf0e0",
+      "remaining_defects": [],
+      "icon": "7item056",
+      "triangles": 584,
+      "vertices": 316,
+      "export": "work/blender/7item056_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "8e7b66bf24bda61d8161fd3fae09a084a88bda64f2a0a2a99a8b57eb95a68139",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499992847442627,
+        0.881767988204956
+      ],
+      "gltf_bounds": [
+        [
+          -0.19844290614128113,
+          0.0,
+          -0.4999999701976776
+        ],
+        [
+          0.19844290614128113,
+          0.11423129588365555,
+          0.4999999701976776
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item056_above.png",
+        "review/blender/7item056_three_quarter.png",
+        "review/blender/7item056_low.png",
+        "review/blender/7item056_underside.png",
+        "review/blender_clay/7item056_above.png",
+        "review/blender_clay/7item056_three_quarter.png",
+        "review/blender_clay/7item056_low.png",
+        "review/blender_clay/7item056_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "8e7b66bf24bda61d8161fd3fae09a084a88bda64f2a0a2a99a8b57eb95a68139",
+      "runtime_sha256": "2d9b1b5ce4e57281e36c107bae64db6409cceec155c3e5e68cfe484d3746b63c",
+      "cooked_verified": true,
+      "runtime_triangles": 584,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/09-7item056.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "b427369290c32593f21c3ece9e0d1e4d5b0ef424d3d84abdc11d89e64cbc1a51",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/05-7item056.png",
+      "normal_pass_indoor_direct_sample": false
+    },
+    "7item057": {
+      "status": "installed",
+      "name": "Dwarven Hammer",
+      "binding_length": 108.9,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "dwarven",
+      "baseline_source_sha256": "348160da82ba05e05e49fe34bb35839492e11a0fe396f2270d69746b5010a613",
+      "baseline_runtime_sha256": "ccf191929b52f7d073eff6e38c4e763b055ed8767eca9f091bb9affb2ad37939",
+      "remaining_defects": [],
+      "icon": "7item057",
+      "triangles": 3492,
+      "vertices": 376,
+      "export": "work/meshy/7item057_export.glb",
+      "texture_size": 1024,
+      "design": "dwarven",
+      "boundary_edges_repaired": 199,
+      "closure_faces": 14,
+      "mesh_job": "dwarven_textured_v1",
+      "mesh_task_id": "01a14e9c-d811-7403-8fc9-ce2a424d093d",
+      "mesh_design_cost": 15,
+      "sha256": "aa25922d5eb3a358beb55cbd9633963821e8c91f35958b00664dec86dcb278ae",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.00014699999883305281,
+        0.9999979734420776
+      ],
+      "gltf_bounds": [
+        [
+          -0.2162952423095703,
+          0.0,
+          -0.5
+        ],
+        [
+          0.2162952423095703,
+          0.1528259664773941,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/7item057_above.png",
+        "review/meshy/7item057_three_quarter.png",
+        "review/meshy/7item057_low.png",
+        "review/meshy/7item057_underside.png",
+        "review/meshy_clay/7item057_above.png",
+        "review/meshy_clay/7item057_three_quarter.png",
+        "review/meshy_clay/7item057_low.png",
+        "review/meshy_clay/7item057_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "aa25922d5eb3a358beb55cbd9633963821e8c91f35958b00664dec86dcb278ae",
+      "runtime_sha256": "203018a07f73217b68a700ce8287ad58a4b28b0bbbf80cc7caf35a9080d27e26",
+      "cooked_verified": true,
+      "runtime_triangles": 3492,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/10-7item057.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "7item058": {
+      "status": "installed",
+      "name": "Primitive Club",
+      "binding_length": 139.5,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "primitive_club",
+      "baseline_source_sha256": "8e30947d1a17c51922564e1311cda1f7b32632ccc59b1846d3376630a144dc65",
+      "baseline_runtime_sha256": "d9aed9673aa943bbf7419b3d36873b0a01cb19576e5667d7ab074273085f518c",
+      "remaining_defects": [],
+      "icon": "7item058",
+      "design": "primitive_club",
+      "triangles": 2800,
+      "export": "work/meshy/7item058_export.glb",
+      "texture_size": 1024,
+      "boundary_edges_repaired": 0,
+      "closure_faces": 0,
+      "mesh_job": "primitive_club_textured_v1",
+      "mesh_task_id": "01a14e91-0b10-7608-96d2-334caea5198d",
+      "mesh_design_cost": 15,
+      "sha256": "afcaeefddb536185787c716260ff65571f5da5c19945c01ad6d69ac332b9cbcb",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        4.8000001697801054e-05,
+        0.9999229907989502
+      ],
+      "gltf_bounds": [
+        [
+          -0.09128038585186005,
+          0.0,
+          -0.5
+        ],
+        [
+          0.09128038585186005,
+          0.1582971215248108,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/7item058_above.png",
+        "review/meshy/7item058_three_quarter.png",
+        "review/meshy/7item058_low.png",
+        "review/meshy/7item058_underside.png",
+        "review/meshy_clay/7item058_above.png",
+        "review/meshy_clay/7item058_three_quarter.png",
+        "review/meshy_clay/7item058_low.png",
+        "review/meshy_clay/7item058_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "afcaeefddb536185787c716260ff65571f5da5c19945c01ad6d69ac332b9cbcb",
+      "runtime_sha256": "4ceabccd57c2c453bc4aadbc52f929f369cb194ee57a8fd2fb8061e308d7f433",
+      "cooked_verified": true,
+      "runtime_triangles": 2800,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/11-7item058.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "7item059": {
+      "status": "installed",
+      "name": "Thorned Club",
+      "binding_length": 108.9,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item059",
+      "baseline_source_sha256": "ead9bb704bc5a5e51f12f57d70c018834ac72aa210f6d6449d41b837eda02ad4",
+      "baseline_runtime_sha256": "4cb2f4faf68d8524e1fac4f443ef2a632ae391f8cbd2b326d25621bc53efc185",
+      "remaining_defects": [],
+      "icon": "7item059",
+      "triangles": 844,
+      "vertices": 472,
+      "export": "work/blender/7item059_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "2898c6f7497601574f20f38ceba7a74a1eadc9848ed2626f442ae1053401d8ca",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.7425000071525574
+      ],
+      "gltf_bounds": [
+        [
+          -0.0890551432967186,
+          0.0,
+          -0.5
+        ],
+        [
+          0.0890551432967186,
+          0.1886812150478363,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item059_above.png",
+        "review/blender/7item059_three_quarter.png",
+        "review/blender/7item059_low.png",
+        "review/blender/7item059_underside.png",
+        "review/blender_clay/7item059_above.png",
+        "review/blender_clay/7item059_three_quarter.png",
+        "review/blender_clay/7item059_low.png",
+        "review/blender_clay/7item059_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "2898c6f7497601574f20f38ceba7a74a1eadc9848ed2626f442ae1053401d8ca",
+      "runtime_sha256": "897ff3e1b70d0b5de942c6baca99f37c7e6eaf48015f23e581b528e2b54b7cff",
+      "cooked_verified": true,
+      "runtime_triangles": 844,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/12-7item059.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "e85f8d5bdcf8cf61c6b62960474bf088fedc4c5405938d805b98549e55279f6c",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/06-7item059.png",
+      "normal_pass_indoor_direct_sample": false
+    },
+    "7item060": {
+      "status": "installed",
+      "name": "Steel Club",
+      "binding_length": 124.2,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item060",
+      "baseline_source_sha256": "057331d2eb638dc6d7821989ef0be72b07241ea89a2f83d081266c36aea1851c",
+      "baseline_runtime_sha256": "d3c141939295d678f9d90658e26e7ae2f94bec9389fea58738be749482ecb166",
+      "remaining_defects": [],
+      "icon": "7item060",
+      "triangles": 1164,
+      "vertices": 616,
+      "export": "work/blender/7item060_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "3decc1de44242947664c5d53b49caf18951099949c2c6c5dfe86d4ce450300bc",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.7425000071525574
+      ],
+      "gltf_bounds": [
+        [
+          -0.0817658081650734,
+          0.0,
+          -0.4999999701976776
+        ],
+        [
+          0.0817658081650734,
+          0.17130769789218903,
+          0.4999999701976776
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item060_above.png",
+        "review/blender/7item060_three_quarter.png",
+        "review/blender/7item060_low.png",
+        "review/blender/7item060_underside.png",
+        "review/blender_clay/7item060_above.png",
+        "review/blender_clay/7item060_three_quarter.png",
+        "review/blender_clay/7item060_low.png",
+        "review/blender_clay/7item060_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "3decc1de44242947664c5d53b49caf18951099949c2c6c5dfe86d4ce450300bc",
+      "runtime_sha256": "3f133a1fc32b9a0ed784ce69e0b70b8e6874b69c7318e8b00bb57dc9f4ad0a85",
+      "cooked_verified": true,
+      "runtime_triangles": 1164,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/13-7item060.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "a316bd0250f2670326a79f01a174c13969cf16d6fa2df3b545297b0e651dd4ef",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/07-7item060.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "7item230": {
+      "status": "installed",
+      "name": "Justice",
+      "binding_length": 122.4,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "7item230",
+      "baseline_source_sha256": "a15b2c8b573cc23f3e320ebf2473091ccdb8899b3e2640fd77b726b7361732fc",
+      "baseline_runtime_sha256": "cd74b4fd50885c06954cdf5f6cb3dad5377e4b30b88a15c23aed0c9c9a6c9e29",
+      "remaining_defects": [],
+      "icon": "7item230",
+      "triangles": 5276,
+      "vertices": 2702,
+      "export": "work/blender/7item230_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "e50d15371396349a676bb0621892183a76b53cb0a38a626c980f554b02bfbcd9",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499992847442627,
+        0.6313449740409851
+      ],
+      "gltf_bounds": [
+        [
+          -0.279416024684906,
+          0.0,
+          -0.5
+        ],
+        [
+          0.279416024684906,
+          0.22593247890472412,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/7item230_above.png",
+        "review/blender/7item230_three_quarter.png",
+        "review/blender/7item230_low.png",
+        "review/blender/7item230_underside.png",
+        "review/blender_clay/7item230_above.png",
+        "review/blender_clay/7item230_three_quarter.png",
+        "review/blender_clay/7item230_low.png",
+        "review/blender_clay/7item230_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "e50d15371396349a676bb0621892183a76b53cb0a38a626c980f554b02bfbcd9",
+      "runtime_sha256": "beaea58d6375af292e667930fecba845689b3a97169f54cfcef4db94d6ddf5ce",
+      "cooked_verified": true,
+      "runtime_triangles": 5276,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/14-7item230.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "9ce601cf0008ff07aed03fba5f8dd7cefdcf0e6be4295e9464340299f243eda4",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/08-7item230.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "7item231": {
+      "status": "installed",
+      "name": "Mekorig's Hammer",
+      "binding_length": 113.9,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "mekorig",
+      "baseline_source_sha256": "d004f8337ef61de526e4bc85c894a8d941437a3b43a7c239e4d24693528c641a",
+      "baseline_runtime_sha256": "f569cfdc9412dd6dbe24e33f4051ccfd6970c700dd8d80f75a5c698a79c7c61f",
+      "remaining_defects": [],
+      "icon": "7item231",
+      "triangles": 3528,
+      "vertices": 581,
+      "export": "work/meshy/7item231_export.glb",
+      "texture_size": 1024,
+      "design": "mekorig",
+      "boundary_edges_repaired": 70,
+      "closure_faces": 5,
+      "mesh_job": "mekorig_textured_v1",
+      "mesh_task_id": "01a14e9d-181c-7621-87f3-7c696a968baf",
+      "mesh_design_cost": 15,
+      "sha256": "c7756dc6a528cea186521a20fb3a091155403989a48ba98981f60a2c591e68c7",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        2.09808349609375e-05,
+        0.9999849796295166
+      ],
+      "gltf_bounds": [
+        [
+          -0.20217014849185944,
+          0.0,
+          -0.5
+        ],
+        [
+          0.20217014849185944,
+          0.20367750525474548,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/7item231_above.png",
+        "review/meshy/7item231_three_quarter.png",
+        "review/meshy/7item231_low.png",
+        "review/meshy/7item231_underside.png",
+        "review/meshy_clay/7item231_above.png",
+        "review/meshy_clay/7item231_three_quarter.png",
+        "review/meshy_clay/7item231_low.png",
+        "review/meshy_clay/7item231_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "c7756dc6a528cea186521a20fb3a091155403989a48ba98981f60a2c591e68c7",
+      "runtime_sha256": "5344af3662777fba6fb834b9f4441acbf76afe4fe76f304f2a65002c73d1f6a7",
+      "cooked_verified": true,
+      "runtime_triangles": 3528,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/15-7item231.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "7item232": {
+      "status": "installed",
+      "name": "Mash",
+      "binding_length": 123.3,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "mash",
+      "baseline_source_sha256": "b8046dd1ee4c51714985ffac55fffd8cb78b7530f9b91a38bcebe747aa5c4eb2",
+      "baseline_runtime_sha256": "c452c0dab7f23a40c4f987a9d6a9037f00af4b15911765c7368cf4e6c31cb817",
+      "remaining_defects": [],
+      "icon": "7item232",
+      "triangles": 3462,
+      "vertices": 444,
+      "export": "work/meshy/7item232_export.glb",
+      "texture_size": 1024,
+      "design": "mash",
+      "boundary_edges_repaired": 304,
+      "closure_faces": 69,
+      "mesh_job": "mash_textured_v1",
+      "mesh_task_id": "01a14e9c-d05c-7694-9504-e4e167159c6e",
+      "mesh_design_cost": 15,
+      "sha256": "3765c9be61e21ac725c4a064a2cf8a4dec975a63b261589786f58d56a94a1724",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.000000106112566e-06,
+        0.9999650120735168
+      ],
+      "gltf_bounds": [
+        [
+          -0.11074278503656387,
+          0.0,
+          -0.5
+        ],
+        [
+          0.11074278503656387,
+          0.10570226609706879,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/7item232_above.png",
+        "review/meshy/7item232_three_quarter.png",
+        "review/meshy/7item232_low.png",
+        "review/meshy/7item232_underside.png",
+        "review/meshy_clay/7item232_above.png",
+        "review/meshy_clay/7item232_three_quarter.png",
+        "review/meshy_clay/7item232_low.png",
+        "review/meshy_clay/7item232_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "3765c9be61e21ac725c4a064a2cf8a4dec975a63b261589786f58d56a94a1724",
+      "runtime_sha256": "1f874fb3d9f76876f7ff3a9a6e6a53dbbdaccb9788a2151377bfc17623bb4c93",
+      "cooked_verified": true,
+      "runtime_triangles": 3462,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/16-7item232.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "club1": {
+      "status": "installed",
+      "name": "Root Club",
+      "binding_length": 135.5,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "root_club",
+      "baseline_source_sha256": "1d4a9a04df80594bdf27e128f9185d735baa4d6e116a72d6154e0f15a16eabe7",
+      "baseline_runtime_sha256": "bb39a59ddd9e43eb6729c5aacc34b5fd2d30291f45cf8634a1c42e4d41e9021a",
+      "remaining_defects": [],
+      "icon": "club1",
+      "design": "root_club",
+      "triangles": 2842,
+      "export": "work/meshy/club1_export.glb",
+      "texture_size": 1024,
+      "boundary_edges_repaired": 47,
+      "closure_faces": 2,
+      "mesh_job": "root_club_textured_v1",
+      "mesh_task_id": "01a14e90-f9be-7021-91ad-e6bc292d7525",
+      "mesh_design_cost": 15,
+      "sha256": "6bd55c33df25c79679ea052f991cf49e450949ed8aeff72296c7fa87b53af556",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.000000106112566e-06,
+        0.999983012676239
+      ],
+      "gltf_bounds": [
+        [
+          -0.12418553233146667,
+          0.0,
+          -0.5
+        ],
+        [
+          0.12418553233146667,
+          0.15169690549373627,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/club1_above.png",
+        "review/meshy/club1_three_quarter.png",
+        "review/meshy/club1_low.png",
+        "review/meshy/club1_underside.png",
+        "review/meshy_clay/club1_above.png",
+        "review/meshy_clay/club1_three_quarter.png",
+        "review/meshy_clay/club1_low.png",
+        "review/meshy_clay/club1_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "6bd55c33df25c79679ea052f991cf49e450949ed8aeff72296c7fa87b53af556",
+      "runtime_sha256": "9937454d3d211b1942e506f116aa819c2cec11e0e062b291104294a2a7a03253",
+      "cooked_verified": true,
+      "runtime_triangles": 2843,
+      "runtime_back_copies": 1,
+      "native_outdoor_capture": "review/native_outdoor/17-club1.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "club2": {
+      "status": "installed",
+      "name": "Spiked Club",
+      "binding_length": 166.5,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "crystal_club",
+      "baseline_source_sha256": "9753f7f128331cdc03fbdace4739ff85a3d907bb9726a3c2d9b1a8fe4868f374",
+      "baseline_runtime_sha256": "ffe4a1752d82a7319bb201d35e381c6833901cdf5174b27798133a7e00a7d429",
+      "remaining_defects": [],
+      "icon": "club2",
+      "design": "crystal_club",
+      "triangles": 2702,
+      "export": "work/meshy/club2_export.glb",
+      "texture_size": 1024,
+      "boundary_edges_repaired": 0,
+      "closure_faces": 0,
+      "mesh_job": "crystal_club_textured_v1",
+      "mesh_task_id": "01a14e91-0278-70cf-a302-5ee7138efc8d",
+      "mesh_design_cost": 15,
+      "sha256": "38a3e957525f42cefedec8ab480e83997039fac1f3d138543071d7d701e80c63",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.7000001611886546e-05,
+        0.9999250173568726
+      ],
+      "gltf_bounds": [
+        [
+          -0.12558592855930328,
+          0.0,
+          -0.5
+        ],
+        [
+          0.12558592855930328,
+          0.2228884994983673,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/club2_above.png",
+        "review/meshy/club2_three_quarter.png",
+        "review/meshy/club2_low.png",
+        "review/meshy/club2_underside.png",
+        "review/meshy_clay/club2_above.png",
+        "review/meshy_clay/club2_three_quarter.png",
+        "review/meshy_clay/club2_low.png",
+        "review/meshy_clay/club2_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "38a3e957525f42cefedec8ab480e83997039fac1f3d138543071d7d701e80c63",
+      "runtime_sha256": "c52de5a6d188f993ace4d5958cac5dc42a723a50bfd265f4c7cf7bbfc2519c97",
+      "cooked_verified": true,
+      "runtime_triangles": 2702,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/18-club2.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "club3": {
+      "status": "installed",
+      "name": "Killer Club",
+      "binding_length": 135.9,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "killer",
+      "baseline_source_sha256": "a38c7d63affc824a61002522f4c6eecc7ce076601849235f59197510d13ff7e9",
+      "baseline_runtime_sha256": "8de012e2bade33da3581c910d722ba41af52780868e52783315871b01ba1599d",
+      "remaining_defects": [],
+      "icon": "club3",
+      "triangles": 3460,
+      "vertices": 404,
+      "export": "work/meshy/club3_export.glb",
+      "texture_size": 1024,
+      "design": "killer",
+      "boundary_edges_repaired": 327,
+      "closure_faces": 55,
+      "mesh_job": "killer_textured_v1",
+      "mesh_task_id": "01a14e9c-f373-7515-b789-23c72fefbd93",
+      "mesh_design_cost": 15,
+      "sha256": "26a78c415a6c5d88a8a7ec46377c069f941eddcec3bd432e551c8af905e2574f",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.993511199951172e-06,
+        0.9999799728393555
+      ],
+      "gltf_bounds": [
+        [
+          -0.0671813040971756,
+          0.0,
+          -0.5
+        ],
+        [
+          0.0671813040971756,
+          0.14624805748462677,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/club3_above.png",
+        "review/meshy/club3_three_quarter.png",
+        "review/meshy/club3_low.png",
+        "review/meshy/club3_underside.png",
+        "review/meshy_clay/club3_above.png",
+        "review/meshy_clay/club3_three_quarter.png",
+        "review/meshy_clay/club3_low.png",
+        "review/meshy_clay/club3_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "26a78c415a6c5d88a8a7ec46377c069f941eddcec3bd432e551c8af905e2574f",
+      "runtime_sha256": "a0491ad820d939a0abfd026d6a6ab3bd66810de2b605f75b7c1445ed07b61323",
+      "cooked_verified": true,
+      "runtime_triangles": 3460,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/19-club3.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "hammer1": {
+      "status": "installed",
+      "name": "Massive Hammer",
+      "binding_length": 135.5,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "hammer1",
+      "baseline_source_sha256": "c60f8bf8c7234c8cc4d2122953f278cd04376c4ab67a1c5d8834aef6c6db25cb",
+      "baseline_runtime_sha256": "944db82a58ab0ea98f1f4d1a73d9317c15489f0da73e2baae5f36f1c09cd2d76",
+      "remaining_defects": [],
+      "icon": "hammer1",
+      "triangles": 692,
+      "vertices": 364,
+      "export": "work/blender/hammer1_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "48510e0cffcb662c527ae7f959a9cf237a247c045b27d059b0c39410f3e28de2",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499992847442627,
+        0.881767988204956
+      ],
+      "gltf_bounds": [
+        [
+          -0.15329916775226593,
+          0.0,
+          -0.5
+        ],
+        [
+          0.15329916775226593,
+          0.17279845476150513,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/hammer1_above.png",
+        "review/blender/hammer1_three_quarter.png",
+        "review/blender/hammer1_low.png",
+        "review/blender/hammer1_underside.png",
+        "review/blender_clay/hammer1_above.png",
+        "review/blender_clay/hammer1_three_quarter.png",
+        "review/blender_clay/hammer1_low.png",
+        "review/blender_clay/hammer1_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "48510e0cffcb662c527ae7f959a9cf237a247c045b27d059b0c39410f3e28de2",
+      "runtime_sha256": "20f2861bf5b8a8321be5a4ac535c397da4678b3376d732cbf426c2f7cb1af140",
+      "cooked_verified": true,
+      "runtime_triangles": 692,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/20-hammer1.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "c9f94ccbe9d823581b70fc1ec28ea1dab089129c2c97ef292324065833762c42",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/09-hammer1.png",
+      "normal_pass_indoor_direct_sample": false
+    },
+    "hammer2": {
+      "status": "installed",
+      "name": "Dark Hammer",
+      "binding_length": 123.8,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "dark_hammer",
+      "baseline_source_sha256": "7f42e760ffd2918d7f49ec53e7fc29bb5eccfb6470a4d85c7185b590a2f0dbc2",
+      "baseline_runtime_sha256": "280f43c3b964ebfdfbcebdb4007d600a46b8e251bd8eb4a6ee06a066260d4e84",
+      "remaining_defects": [],
+      "icon": "hammer2",
+      "triangles": 3368,
+      "vertices": 250,
+      "export": "work/meshy/hammer2_export.glb",
+      "texture_size": 1024,
+      "design": "dark_hammer",
+      "boundary_edges_repaired": 382,
+      "closure_faces": 22,
+      "mesh_job": "dark_hammer_textured_v1",
+      "mesh_task_id": "01a14e9c-dfe2-76a0-a58a-5aeb1b952c09",
+      "mesh_design_cost": 15,
+      "sha256": "5e12f00264f3bbc1e270196b832aaba0181386e415e25f97bda96875fbee40da",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        9.999999974752427e-07,
+        0.9998660087585449
+      ],
+      "gltf_bounds": [
+        [
+          -0.25097742676734924,
+          0.0,
+          -0.5
+        ],
+        [
+          0.25097742676734924,
+          0.16379578411579132,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/hammer2_above.png",
+        "review/meshy/hammer2_three_quarter.png",
+        "review/meshy/hammer2_low.png",
+        "review/meshy/hammer2_underside.png",
+        "review/meshy_clay/hammer2_above.png",
+        "review/meshy_clay/hammer2_three_quarter.png",
+        "review/meshy_clay/hammer2_low.png",
+        "review/meshy_clay/hammer2_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "5e12f00264f3bbc1e270196b832aaba0181386e415e25f97bda96875fbee40da",
+      "runtime_sha256": "ee6d641fe1cf099e565a74116bfb082f2395a768bc20544501cc8d023123414c",
+      "cooked_verified": true,
+      "runtime_triangles": 3368,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/21-hammer2.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "hammer3": {
+      "status": "installed",
+      "name": "Holy Hammer",
+      "binding_length": 126.5,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "moon_hammer",
+      "baseline_source_sha256": "07af4db2123791b6e7f2b0a9cc128f52c42a31248dd63346f839051e7e886996",
+      "baseline_runtime_sha256": "c2fa7a3df406288df04e231d8dab88028adad58c1a9ab79975f2e94ad7a56fa8",
+      "remaining_defects": [],
+      "icon": "hammer3",
+      "triangles": 3390,
+      "vertices": 332,
+      "export": "work/meshy/hammer3_export.glb",
+      "texture_size": 1024,
+      "design": "moon_hammer",
+      "boundary_edges_repaired": 74,
+      "closure_faces": 4,
+      "mesh_job": "moon_hammer_textured_v1",
+      "mesh_task_id": "01a14e98-8d11-7682-ae72-44ba5564fbb0",
+      "mesh_design_cost": 15,
+      "sha256": "45b77b261ede6757da959fe439cd3bd201c75a9078405f048e441d4c439d7ff8",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.9999998989515007e-05,
+        0.999904990196228
+      ],
+      "gltf_bounds": [
+        [
+          -0.179207906126976,
+          0.0,
+          -0.5
+        ],
+        [
+          0.179207906126976,
+          0.11211176216602325,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/hammer3_above.png",
+        "review/meshy/hammer3_three_quarter.png",
+        "review/meshy/hammer3_low.png",
+        "review/meshy/hammer3_underside.png",
+        "review/meshy_clay/hammer3_above.png",
+        "review/meshy_clay/hammer3_three_quarter.png",
+        "review/meshy_clay/hammer3_low.png",
+        "review/meshy_clay/hammer3_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "45b77b261ede6757da959fe439cd3bd201c75a9078405f048e441d4c439d7ff8",
+      "runtime_sha256": "6cb8819ad819a30813edfe7f2369af273e1c205a8687ebb38cf32cad62250d5d",
+      "cooked_verified": true,
+      "runtime_triangles": 3394,
+      "runtime_back_copies": 4,
+      "native_outdoor_capture": "review/native_outdoor/22-hammer3.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item066": {
+      "status": "installed",
+      "name": "Sturdy Mace",
+      "binding_length": 139.5,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "sturdy",
+      "baseline_source_sha256": "cb5d6692d5d1eed37ceaa90c583908c09312084d017f0b2b38a7301031e4bc88",
+      "baseline_runtime_sha256": "794fd09092b318927489d6a596d02c2ab774e00fcc24e1d5f63317ec5f082936",
+      "remaining_defects": [],
+      "icon": "item066",
+      "triangles": 3484,
+      "vertices": 602,
+      "export": "work/meshy/item066_export.glb",
+      "texture_size": 1024,
+      "design": "sturdy",
+      "boundary_edges_repaired": 257,
+      "closure_faces": 18,
+      "mesh_job": "sturdy_textured_v1",
+      "mesh_task_id": "01a14e9d-0fb5-71f5-889f-681db45e3b45",
+      "mesh_design_cost": 15,
+      "sha256": "9abeb3af026e21468dabec71dd61372112cd220ec2120589c94a4467c7085b0f",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        9.999999974752427e-07,
+        0.9999619722366333
+      ],
+      "gltf_bounds": [
+        [
+          -0.14045052230358124,
+          0.0,
+          -0.5
+        ],
+        [
+          0.14045052230358124,
+          0.28624048829078674,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item066_above.png",
+        "review/meshy/item066_three_quarter.png",
+        "review/meshy/item066_low.png",
+        "review/meshy/item066_underside.png",
+        "review/meshy_clay/item066_above.png",
+        "review/meshy_clay/item066_three_quarter.png",
+        "review/meshy_clay/item066_low.png",
+        "review/meshy_clay/item066_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "9abeb3af026e21468dabec71dd61372112cd220ec2120589c94a4467c7085b0f",
+      "runtime_sha256": "fabcd68fe481acb95a95e9636fa6dfc400a5413b37485e7a42496de90f738d2b",
+      "cooked_verified": true,
+      "runtime_triangles": 3484,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/23-item066.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item067": {
+      "status": "installed",
+      "name": "Flail",
+      "binding_length": 140.0,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "item067",
+      "baseline_source_sha256": "1c4cec5d3687644857069fe0b730642c2839b6a66761a776526bef06c684ef08",
+      "baseline_runtime_sha256": "e91cf42e1da4eb5e77fdf6b6955d76889e5fdc881913402855f78c8631583cda",
+      "remaining_defects": [],
+      "icon": "item067",
+      "triangles": 3960,
+      "vertices": 2024,
+      "export": "work/blender/item067_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "0c40525618486cb2ce99841d20de8b111ec0d14b43973d612ed9d19a0a212ae9",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499992847442627,
+        0.882614016532898
+      ],
+      "gltf_bounds": [
+        [
+          -0.21010763943195343,
+          0.0,
+          -0.5
+        ],
+        [
+          0.21010763943195343,
+          0.1724999099969864,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/item067_above.png",
+        "review/blender/item067_three_quarter.png",
+        "review/blender/item067_low.png",
+        "review/blender/item067_underside.png",
+        "review/blender_clay/item067_above.png",
+        "review/blender_clay/item067_three_quarter.png",
+        "review/blender_clay/item067_low.png",
+        "review/blender_clay/item067_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "0c40525618486cb2ce99841d20de8b111ec0d14b43973d612ed9d19a0a212ae9",
+      "runtime_sha256": "b0d8f6b98923a67bfd5c0a69a1178ce56787ed175d8ac4b5aeab7075daebb918",
+      "cooked_verified": true,
+      "runtime_triangles": 3960,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/24-item067.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "33b88146300dd2bc370045939b797c4e1789a22ddd80a9c15a0580ec4afe9c4c",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/10-item067.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "item068": {
+      "status": "installed",
+      "name": "Temple Mace",
+      "binding_length": 150.8,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "temple",
+      "baseline_source_sha256": "1bef2efcc43a2fcfa071d89e22d63398a30c9c7d916521a94bf48fa8f6d29f5b",
+      "baseline_runtime_sha256": "943bd2fb69c14a6a5c3c78a178ab72882085230e5b19b7154a8a3440879bddb0",
+      "remaining_defects": [],
+      "icon": "item068",
+      "triangles": 3512,
+      "vertices": 436,
+      "export": "work/meshy/item068_export.glb",
+      "texture_size": 1024,
+      "design": "temple",
+      "boundary_edges_repaired": 0,
+      "closure_faces": 0,
+      "mesh_job": "temple_textured_v1",
+      "mesh_task_id": "01a14e9a-16b6-7604-9b93-3e8e1699e2ac",
+      "mesh_design_cost": 15,
+      "sha256": "bdd6e7902b1bd5b0f1cd204c7413ce22cf0371427cb47dc9e36e1d00ed074a4e",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        1.6987323760986328e-05,
+        0.999970018863678
+      ],
+      "gltf_bounds": [
+        [
+          -0.22990064322948456,
+          0.0,
+          -0.5
+        ],
+        [
+          0.22990064322948456,
+          0.420368492603302,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item068_above.png",
+        "review/meshy/item068_three_quarter.png",
+        "review/meshy/item068_low.png",
+        "review/meshy/item068_underside.png",
+        "review/meshy_clay/item068_above.png",
+        "review/meshy_clay/item068_three_quarter.png",
+        "review/meshy_clay/item068_low.png",
+        "review/meshy_clay/item068_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "bdd6e7902b1bd5b0f1cd204c7413ce22cf0371427cb47dc9e36e1d00ed074a4e",
+      "runtime_sha256": "288c00f024a99e4f558d4c2405298c771c6d807954572b5f5632c12e78621c00",
+      "cooked_verified": true,
+      "runtime_triangles": 3512,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/25-item068.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item069": {
+      "status": "installed",
+      "name": "Reverend Sceptre",
+      "binding_length": 202.5,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "item069",
+      "baseline_source_sha256": "ed3619f8e384c71b5c49c4f7dc7d91dfc74964cf401d69d8d547114b626deaf1",
+      "baseline_runtime_sha256": "e5cb852c6918c6d2c8e38ef9817a17db2785993d485f9e54cba5c4b658d4a90e",
+      "remaining_defects": [],
+      "icon": "item069",
+      "triangles": 1012,
+      "vertices": 584,
+      "export": "work/blender/item069_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "070556a79550ce9d1e5ac392d45f7cfcdc15c3cecc3e6fc654766227c91e0169",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.4925000071525574
+      ],
+      "gltf_bounds": [
+        [
+          -0.04267400503158569,
+          0.0,
+          -0.5
+        ],
+        [
+          0.04267400503158569,
+          0.07847990095615387,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/item069_above.png",
+        "review/blender/item069_three_quarter.png",
+        "review/blender/item069_low.png",
+        "review/blender/item069_underside.png",
+        "review/blender_clay/item069_above.png",
+        "review/blender_clay/item069_three_quarter.png",
+        "review/blender_clay/item069_low.png",
+        "review/blender_clay/item069_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "070556a79550ce9d1e5ac392d45f7cfcdc15c3cecc3e6fc654766227c91e0169",
+      "runtime_sha256": "756d58abc86754962037e99f5caa065a1e539e1f3f6792499add451ef9d7e427",
+      "cooked_verified": true,
+      "runtime_triangles": 1012,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/26-item069.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "44f35f101fdce157baf5e3a8073ad8e60e1f2270710faf9095282223abbdb4fe",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/11-item069.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "item070": {
+      "status": "installed",
+      "name": "Trollish War Mace",
+      "binding_length": 177.3,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "trollish_mace",
+      "baseline_source_sha256": "8cb7dda427557445a5a5f87fc8cdadab7e88cef59375f268c8240a5189f62a95",
+      "baseline_runtime_sha256": "6df69cdb3564f406897967b9d4791bd701a5094975cf806fae2e3226480ee218",
+      "remaining_defects": [],
+      "icon": "item070",
+      "triangles": 3446,
+      "vertices": 556,
+      "export": "work/meshy/item070_export.glb",
+      "texture_size": 1024,
+      "design": "trollish_mace",
+      "boundary_edges_repaired": 244,
+      "closure_faces": 14,
+      "mesh_job": "trollish_mace_textured_v1",
+      "mesh_task_id": "01a14e9b-bf0c-70f0-98a5-04ed42946cd0",
+      "mesh_design_cost": 15,
+      "sha256": "49da68a452990d5889ef94c6c0ca940ae5950588f81dc43d00d804936eeaf017",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        5.199999941396527e-05,
+        0.9999970197677612
+      ],
+      "gltf_bounds": [
+        [
+          -0.1493818163871765,
+          0.0,
+          -0.5
+        ],
+        [
+          0.1493818163871765,
+          0.31446707248687744,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item070_above.png",
+        "review/meshy/item070_three_quarter.png",
+        "review/meshy/item070_low.png",
+        "review/meshy/item070_underside.png",
+        "review/meshy_clay/item070_above.png",
+        "review/meshy_clay/item070_three_quarter.png",
+        "review/meshy_clay/item070_low.png",
+        "review/meshy_clay/item070_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "49da68a452990d5889ef94c6c0ca940ae5950588f81dc43d00d804936eeaf017",
+      "runtime_sha256": "6f73795c42530dc42b4babc836f5c2058eef69e73c5d8f4178c74a067a34a0ae",
+      "cooked_verified": true,
+      "runtime_triangles": 3446,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/27-item070.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item071": {
+      "status": "installed",
+      "name": "Sledgehammer",
+      "binding_length": 115.2,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "sledge",
+      "baseline_source_sha256": "ed4b20b2b68e211dbcc892e59e90042ba3b619034cce2ae2e8e5beb1e7fe1c5a",
+      "baseline_runtime_sha256": "9c72ef95469e5aa0bf28396158ee28dd09f9898c2508ce42d2902308b6e21679",
+      "remaining_defects": [],
+      "icon": "item071",
+      "triangles": 3528,
+      "vertices": 681,
+      "export": "work/meshy/item071_export.glb",
+      "texture_size": 1024,
+      "design": "sledge",
+      "boundary_edges_repaired": 80,
+      "closure_faces": 19,
+      "mesh_job": "sledge_textured_v1",
+      "mesh_task_id": "01a14e9c-fcaf-7623-931a-dc899d3d0bfe",
+      "mesh_design_cost": 15,
+      "sha256": "4c01630625c04f5c687c55cd6a0d9069ca6f9cdb6203397cd55f42548c6f0d3d",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        2.300000051036477e-05,
+        0.9999510049819946
+      ],
+      "gltf_bounds": [
+        [
+          -0.2233595848083496,
+          0.0,
+          -0.5
+        ],
+        [
+          0.2233595848083496,
+          0.1558694988489151,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item071_above.png",
+        "review/meshy/item071_three_quarter.png",
+        "review/meshy/item071_low.png",
+        "review/meshy/item071_underside.png",
+        "review/meshy_clay/item071_above.png",
+        "review/meshy_clay/item071_three_quarter.png",
+        "review/meshy_clay/item071_low.png",
+        "review/meshy_clay/item071_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "4c01630625c04f5c687c55cd6a0d9069ca6f9cdb6203397cd55f42548c6f0d3d",
+      "runtime_sha256": "1500fd92779e77051bf33869c344200c65a8707359cc78ea8c16b7143f6fd13c",
+      "cooked_verified": true,
+      "runtime_triangles": 3528,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/28-item071.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item072": {
+      "status": "installed",
+      "name": "Field Hammer",
+      "binding_length": 120.6,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "item072",
+      "baseline_source_sha256": "97bd1ab38c9fa3668c4d9d10dbcf6214dbb8ea7aeaf79d292d53d38bb7a4c466",
+      "baseline_runtime_sha256": "b8da116509fb185db377c2e09f56e5b21a410255bb2b6dba74be5eec3e5921c2",
+      "remaining_defects": [],
+      "icon": "item072",
+      "triangles": 568,
+      "vertices": 308,
+      "export": "work/blender/item072_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "8eb9aecdd81692b994b4efa0d0a2e23b13220f8205a1691706c6804bf8c92e3c",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499992847442627,
+        0.881767988204956
+      ],
+      "gltf_bounds": [
+        [
+          -0.17326590418815613,
+          0.0,
+          -0.4999999701976776
+        ],
+        [
+          0.17326590418815613,
+          0.11423129588365555,
+          0.4999999701976776
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/item072_above.png",
+        "review/blender/item072_three_quarter.png",
+        "review/blender/item072_low.png",
+        "review/blender/item072_underside.png",
+        "review/blender_clay/item072_above.png",
+        "review/blender_clay/item072_three_quarter.png",
+        "review/blender_clay/item072_low.png",
+        "review/blender_clay/item072_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "8eb9aecdd81692b994b4efa0d0a2e23b13220f8205a1691706c6804bf8c92e3c",
+      "runtime_sha256": "ac145dbf4ead593a7a73103e13542639b822c2fe1a01c3a45a93847bec1b8c25",
+      "cooked_verified": true,
+      "runtime_triangles": 568,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/29-item072.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "2c600afa23953b8a8ed0b4d8979ee8b75719b7df50d0657bfe31bf9e6601b4a4",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/12-item072.png",
+      "normal_pass_indoor_direct_sample": false
+    },
+    "item073": {
+      "status": "installed",
+      "name": "Warhammer",
+      "binding_length": 118.4,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "item073",
+      "baseline_source_sha256": "ab0d4face08554ce0577a55a2003bdc28b308b97198df449aec53cf1d966c863",
+      "baseline_runtime_sha256": "57b2f267eab3e1479e4fcd811d43f75aab6fbd1893ef6356eb54d48eb57e147d",
+      "remaining_defects": [],
+      "icon": "item073",
+      "triangles": 584,
+      "vertices": 316,
+      "export": "work/blender/item073_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "1c7a5db5bc19f97970b928e08eda6fe6b767868f437898c314a486317865dc44",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.8806399703025818
+      ],
+      "gltf_bounds": [
+        [
+          -0.19844290614128113,
+          0.0,
+          -0.4999999701976776
+        ],
+        [
+          0.19844290614128113,
+          0.11423129588365555,
+          0.4999999701976776
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/item073_above.png",
+        "review/blender/item073_three_quarter.png",
+        "review/blender/item073_low.png",
+        "review/blender/item073_underside.png",
+        "review/blender_clay/item073_above.png",
+        "review/blender_clay/item073_three_quarter.png",
+        "review/blender_clay/item073_low.png",
+        "review/blender_clay/item073_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "1c7a5db5bc19f97970b928e08eda6fe6b767868f437898c314a486317865dc44",
+      "runtime_sha256": "6053c1d841341ac84612bdc2c037d32c11e1fd5c570daab7239413edc361bd67",
+      "cooked_verified": true,
+      "runtime_triangles": 584,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/30-item073.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "3d939283b2d575f7628691e2bd16e71956a1567e01fb75dced206ed6cee48724",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/13-item073.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "item074": {
+      "status": "installed",
+      "name": "Sun Hammer",
+      "binding_length": 129.2,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "item074",
+      "baseline_source_sha256": "0731c42f679e5ef44697ab36109b114742b1289d7331d8af3408dd926dad10d2",
+      "baseline_runtime_sha256": "c5428101d6dc4bcffaf8ddf2537fca6852bf85ffeaf4625444c861e127e50570",
+      "remaining_defects": [],
+      "icon": "item074",
+      "triangles": 684,
+      "vertices": 376,
+      "export": "work/blender/item074_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "be9a30d369a0bdb61ca05273fe4d2b2e6a647094ea82a19adebd5e9d73db2d8c",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.03193998336791992,
+        0.881767988204956
+      ],
+      "gltf_bounds": [
+        [
+          -0.2006465345621109,
+          0.0,
+          -0.4999999701976776
+        ],
+        [
+          0.2006465345621109,
+          0.11423129588365555,
+          0.4999999701976776
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/item074_above.png",
+        "review/blender/item074_three_quarter.png",
+        "review/blender/item074_low.png",
+        "review/blender/item074_underside.png",
+        "review/blender_clay/item074_above.png",
+        "review/blender_clay/item074_three_quarter.png",
+        "review/blender_clay/item074_low.png",
+        "review/blender_clay/item074_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "be9a30d369a0bdb61ca05273fe4d2b2e6a647094ea82a19adebd5e9d73db2d8c",
+      "runtime_sha256": "8744525c117c1c3f52e58ebec83ca2d6a3315ac82c409200a0ae47f049a6e3c1",
+      "cooked_verified": true,
+      "runtime_triangles": 684,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/31-item074.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "ba1e9ad78a938f26aef26bf0257fdf4f6de433e723053089b5b57f5f7a20b11c",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/14-item074.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "item075": {
+      "status": "installed",
+      "name": "Trollish Maul",
+      "binding_length": 134.1,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "trollish_maul",
+      "baseline_source_sha256": "0af9dd2902430c89eed85c55efea2a63d6f103d9ac2fbb03926a803fc5c716d2",
+      "baseline_runtime_sha256": "c4523227ec4705bbb51c1080c59146cc1ab223cda0678cfde17fbb501cbd4f04",
+      "remaining_defects": [],
+      "icon": "item075",
+      "triangles": 3554,
+      "vertices": 308,
+      "export": "work/meshy/item075_export.glb",
+      "texture_size": 1024,
+      "design": "trollish_maul",
+      "boundary_edges_repaired": 285,
+      "closure_faces": 41,
+      "mesh_job": "trollish_maul_textured_v1",
+      "mesh_task_id": "01a14e9c-a565-773a-a9de-2c000dbe6aab",
+      "mesh_design_cost": 15,
+      "sha256": "cc62f4c98d722179f5e28d68e87e4de2700e8b241788f501a1f448cf23b3aa12",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.0,
+        1.0
+      ],
+      "gltf_bounds": [
+        [
+          -0.2043892741203308,
+          0.0,
+          -0.5
+        ],
+        [
+          0.2043892741203308,
+          0.13453207910060883,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item075_above.png",
+        "review/meshy/item075_three_quarter.png",
+        "review/meshy/item075_low.png",
+        "review/meshy/item075_underside.png",
+        "review/meshy_clay/item075_above.png",
+        "review/meshy_clay/item075_three_quarter.png",
+        "review/meshy_clay/item075_low.png",
+        "review/meshy_clay/item075_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "cc62f4c98d722179f5e28d68e87e4de2700e8b241788f501a1f448cf23b3aa12",
+      "runtime_sha256": "feb36fa3cc38de4ae67422371de57a537637dfd070cd65b23233a891d151e2fe",
+      "cooked_verified": true,
+      "runtime_triangles": 3569,
+      "runtime_back_copies": 15,
+      "native_outdoor_capture": "review/native_outdoor/32-item075.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item076": {
+      "status": "installed",
+      "name": "Barbed Club",
+      "binding_length": 149.8,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "item076",
+      "baseline_source_sha256": "72b174776896c2947365e4c19acbfd9201f392063744b128cb354efccb286748",
+      "baseline_runtime_sha256": "9229c3e6adfee640939007cb6728475fd0aed68547c549dfa2a6b9346dd160ff",
+      "remaining_defects": [],
+      "icon": "item076",
+      "triangles": 1104,
+      "vertices": 616,
+      "export": "work/blender/item076_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "2576a2b727faaf48336c6e1b2c9cfe6a9a9db168217cea0be0b7d70ad1603b20",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.880075991153717
+      ],
+      "gltf_bounds": [
+        [
+          -0.05610612779855728,
+          0.0,
+          -0.5
+        ],
+        [
+          0.05610612779855728,
+          0.1358262449502945,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/item076_above.png",
+        "review/blender/item076_three_quarter.png",
+        "review/blender/item076_low.png",
+        "review/blender/item076_underside.png",
+        "review/blender_clay/item076_above.png",
+        "review/blender_clay/item076_three_quarter.png",
+        "review/blender_clay/item076_low.png",
+        "review/blender_clay/item076_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "2576a2b727faaf48336c6e1b2c9cfe6a9a9db168217cea0be0b7d70ad1603b20",
+      "runtime_sha256": "d64092dcba558db0a839fec255e3109bf0057511ed5cfd27cc774e50b0c883c6",
+      "cooked_verified": true,
+      "runtime_triangles": 1104,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/33-item076.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "657c5ba8b134075d6571af32b4b2f3b2bdfb9ce8291b860368620db50e209fec",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/15-item076.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "item077": {
+      "status": "installed",
+      "name": "Thornbark Club",
+      "binding_length": 146.7,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "thornbark",
+      "baseline_source_sha256": "a067ee838e709817fef18fe8a7110458b151c94fb0071778ea0a1e6104fbcf6d",
+      "baseline_runtime_sha256": "637fbc101d9e3b73c906e24a1e96e5292cad3cc761450c00a5ca78e5cee61475",
+      "remaining_defects": [],
+      "icon": "item077",
+      "design": "thornbark",
+      "triangles": 2800,
+      "export": "work/meshy/item077_export.glb",
+      "texture_size": 1024,
+      "boundary_edges_repaired": 44,
+      "closure_faces": 3,
+      "mesh_job": "thornbark_textured_v1",
+      "mesh_task_id": "01a14e91-13b3-72fe-bbf7-7bb8b0224020",
+      "mesh_design_cost": 15,
+      "sha256": "cf45ee2a4a278970ff4783f589d7a4499f2aba46284bbbaf0daf1fa47507b748",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.999999989900971e-06,
+        0.9999099969863892
+      ],
+      "gltf_bounds": [
+        [
+          -0.1703587770462036,
+          0.0,
+          -0.5
+        ],
+        [
+          0.1703587770462036,
+          0.22849220037460327,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item077_above.png",
+        "review/meshy/item077_three_quarter.png",
+        "review/meshy/item077_low.png",
+        "review/meshy/item077_underside.png",
+        "review/meshy_clay/item077_above.png",
+        "review/meshy_clay/item077_three_quarter.png",
+        "review/meshy_clay/item077_low.png",
+        "review/meshy_clay/item077_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "cf45ee2a4a278970ff4783f589d7a4499f2aba46284bbbaf0daf1fa47507b748",
+      "runtime_sha256": "de1474404e0b823955c376f5a0d01e4891e5b552d911300d970f2c4afa15e4c2",
+      "cooked_verified": true,
+      "runtime_triangles": 2800,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/34-item077.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item078": {
+      "status": "installed",
+      "name": "Overlord's Club",
+      "binding_length": 159.8,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "overlord",
+      "baseline_source_sha256": "f8a19400bcd8fe671053efefca40187670262ea8d7203229cb5e3d7642bcb0b4",
+      "baseline_runtime_sha256": "5bb54826a5f1694a3ca81187744ec81e624bcf766b6ab8c79db88a75d374577a",
+      "remaining_defects": [],
+      "icon": "item078",
+      "triangles": 3496,
+      "vertices": 488,
+      "export": "work/meshy/item078_export.glb",
+      "texture_size": 1024,
+      "design": "overlord",
+      "boundary_edges_repaired": 0,
+      "closure_faces": 0,
+      "mesh_job": "overlord_textured_v1",
+      "mesh_task_id": "01a14e9c-e92a-7553-8fbe-14e42552d61e",
+      "mesh_design_cost": 15,
+      "sha256": "22be7e97adf45d98f7f1c0a3d6885537d2dd26165c3f043210cd05b15e69b536",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        1.9999999949504854e-06,
+        0.999987006187439
+      ],
+      "gltf_bounds": [
+        [
+          -0.15928804874420166,
+          0.0,
+          -0.5
+        ],
+        [
+          0.15928804874420166,
+          0.31996381282806396,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item078_above.png",
+        "review/meshy/item078_three_quarter.png",
+        "review/meshy/item078_low.png",
+        "review/meshy/item078_underside.png",
+        "review/meshy_clay/item078_above.png",
+        "review/meshy_clay/item078_three_quarter.png",
+        "review/meshy_clay/item078_low.png",
+        "review/meshy_clay/item078_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "22be7e97adf45d98f7f1c0a3d6885537d2dd26165c3f043210cd05b15e69b536",
+      "runtime_sha256": "608939ea2d065a1d19c25ba6463d0c2c3aec7d2942a455f567859e9b9be629fc",
+      "cooked_verified": true,
+      "runtime_triangles": 3496,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/35-item078.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item247": {
+      "status": "installed",
+      "name": "Breaker",
+      "binding_length": 204.8,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "breaker",
+      "baseline_source_sha256": "aca1d698fe261a7a3f2d63334ab39e2f71ece2a105ff1ab10a167451151547bf",
+      "baseline_runtime_sha256": "16f8ee82bc7f49d8c9318f87e70ec1155f74ceb3bb665e94b0ca18af80331115",
+      "remaining_defects": [],
+      "icon": "item247",
+      "design": "breaker",
+      "triangles": 4558,
+      "export": "work/meshy/item247_export.glb",
+      "texture_size": 1024,
+      "boundary_edges_repaired": 102,
+      "closure_faces": 8,
+      "mesh_job": "breaker_textured_v1",
+      "mesh_task_id": "01a14e90-f313-70dc-83ef-84ca242bfb7d",
+      "mesh_design_cost": 15,
+      "sha256": "e49e02b782529e655a9d8059ffe0373c9cdcc5211fa69958b3d96116fe4e57da",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        2.4000000848900527e-05,
+        0.9999840259552002
+      ],
+      "gltf_bounds": [
+        [
+          -0.17290428280830383,
+          0.0,
+          -0.5
+        ],
+        [
+          0.17290428280830383,
+          0.2587391436100006,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item247_above.png",
+        "review/meshy/item247_three_quarter.png",
+        "review/meshy/item247_low.png",
+        "review/meshy/item247_underside.png",
+        "review/meshy_clay/item247_above.png",
+        "review/meshy_clay/item247_three_quarter.png",
+        "review/meshy_clay/item247_low.png",
+        "review/meshy_clay/item247_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "e49e02b782529e655a9d8059ffe0373c9cdcc5211fa69958b3d96116fe4e57da",
+      "runtime_sha256": "8416b5dd219102bf6c5224e24f32cfd698f07601f091ff385b136004455eeba3",
+      "cooked_verified": true,
+      "runtime_triangles": 4558,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/36-item247.png",
+      "native_indoor_direct_sample": true,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item249": {
+      "status": "installed",
+      "name": "Scepter of Kings",
+      "binding_length": 174.2,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "kings_scepter",
+      "baseline_source_sha256": "9eaba877f38357f2968ef94d9c029cc4652aab663c9e509c614857c586a1f7f8",
+      "baseline_runtime_sha256": "ef4c49ea2e6c4e48ad6fc7ea5e51288bcb1384ad23696407e33f64ca495df34a",
+      "remaining_defects": [],
+      "icon": "item249",
+      "triangles": 3382,
+      "vertices": 422,
+      "export": "work/meshy/item249_export.glb",
+      "texture_size": 1024,
+      "design": "kings_scepter",
+      "boundary_edges_repaired": 0,
+      "closure_faces": 0,
+      "mesh_job": "kings_scepter_textured_v1",
+      "mesh_task_id": "01a14e9c-c7a3-7046-a860-00555c014dc0",
+      "mesh_design_cost": 15,
+      "sha256": "32740ca89edb6bb01eda1e64397eb45706b98eb84b74c0dd228ea8b1b9165f1e",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        2.099999983329326e-05,
+        0.9999629855155945
+      ],
+      "gltf_bounds": [
+        [
+          -0.1018601581454277,
+          0.0,
+          -0.5
+        ],
+        [
+          0.1018601581454277,
+          0.20861442387104034,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item249_above.png",
+        "review/meshy/item249_three_quarter.png",
+        "review/meshy/item249_low.png",
+        "review/meshy/item249_underside.png",
+        "review/meshy_clay/item249_above.png",
+        "review/meshy_clay/item249_three_quarter.png",
+        "review/meshy_clay/item249_low.png",
+        "review/meshy_clay/item249_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "32740ca89edb6bb01eda1e64397eb45706b98eb84b74c0dd228ea8b1b9165f1e",
+      "runtime_sha256": "669dc25f7accf06fcb72c48e92c7e741f1d5e90b182388d6e25ee721c3ae877d",
+      "cooked_verified": true,
+      "runtime_triangles": 3382,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/37-item249.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "item340": {
+      "status": "installed",
+      "name": "Mace of the Sun",
+      "binding_length": 150.8,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "temple",
+      "baseline_source_sha256": "6e08061b7389367a57a86799ffa6a3ae63d032358077d490f35e8d823093cb3c",
+      "baseline_runtime_sha256": "df48adadae3e0c024f04861876dcaf5904f94bb02d3f1cfad09c34453bdba3cf",
+      "remaining_defects": [],
+      "icon": "item340",
+      "triangles": 3512,
+      "vertices": 436,
+      "export": "work/meshy/item340_export.glb",
+      "texture_size": 1024,
+      "design": "temple",
+      "boundary_edges_repaired": 0,
+      "closure_faces": 0,
+      "mesh_job": "temple_textured_v1",
+      "mesh_task_id": "01a14e9a-16b6-7604-9b93-3e8e1699e2ac",
+      "mesh_design_cost": 15,
+      "sha256": "bdd6e7902b1bd5b0f1cd204c7413ce22cf0371427cb47dc9e36e1d00ed074a4e",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        1.6987323760986328e-05,
+        0.999970018863678
+      ],
+      "gltf_bounds": [
+        [
+          -0.22990064322948456,
+          0.0,
+          -0.5
+        ],
+        [
+          0.22990064322948456,
+          0.420368492603302,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/item340_above.png",
+        "review/meshy/item340_three_quarter.png",
+        "review/meshy/item340_low.png",
+        "review/meshy/item340_underside.png",
+        "review/meshy_clay/item340_above.png",
+        "review/meshy_clay/item340_three_quarter.png",
+        "review/meshy_clay/item340_low.png",
+        "review/meshy_clay/item340_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "bdd6e7902b1bd5b0f1cd204c7413ce22cf0371427cb47dc9e36e1d00ed074a4e",
+      "runtime_sha256": "e2e2b5f08be73ed17a21c0bb31dec8021fd19371e882689409de381f93bc1032",
+      "cooked_verified": true,
+      "runtime_triangles": 3512,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/38-item340.png",
+      "native_indoor_direct_sample": false,
+      "native_outdoor_detail": "review/native_outdoor_detail/01-item340_unobscured.png",
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "mace1": {
+      "status": "installed",
+      "name": "Simple Mace",
+      "binding_length": 105.3,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "simple_mace",
+      "baseline_source_sha256": "ae89b7815e955082bd8091659b2410e46271674b169c40946c8b1f67fb5271cf",
+      "baseline_runtime_sha256": "1c1adec0fda03b18c62ed8b3060fbe7b12b69573e2b6eed69a028cd735016ea4",
+      "remaining_defects": [],
+      "icon": "mace1",
+      "triangles": 3356,
+      "vertices": 786,
+      "export": "work/meshy/mace1_export.glb",
+      "texture_size": 1024,
+      "design": "simple_mace",
+      "boundary_edges_repaired": 211,
+      "closure_faces": 13,
+      "mesh_job": "simple_mace_textured_v1",
+      "mesh_task_id": "01a14e9c-b752-773f-80d6-b40479e0be7a",
+      "mesh_design_cost": 15,
+      "sha256": "a93f1dfe540e14e7227eb08a220e43c98c4c25c58f32d2690ff8add0ad7a1a3e",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        9.999999974752427e-07,
+        0.9999889731407166
+      ],
+      "gltf_bounds": [
+        [
+          -0.1007319837808609,
+          0.0,
+          -0.5
+        ],
+        [
+          0.1007319837808609,
+          0.22549526393413544,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/mace1_above.png",
+        "review/meshy/mace1_three_quarter.png",
+        "review/meshy/mace1_low.png",
+        "review/meshy/mace1_underside.png",
+        "review/meshy_clay/mace1_above.png",
+        "review/meshy_clay/mace1_three_quarter.png",
+        "review/meshy_clay/mace1_low.png",
+        "review/meshy_clay/mace1_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "a93f1dfe540e14e7227eb08a220e43c98c4c25c58f32d2690ff8add0ad7a1a3e",
+      "runtime_sha256": "3193bebd1094d7acd583023ff82cf5fb44753ed42ed4eb621abc5f51b58723e4",
+      "cooked_verified": true,
+      "runtime_triangles": 3358,
+      "runtime_back_copies": 2,
+      "native_outdoor_capture": "review/native_outdoor/39-mace1.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "mace2": {
+      "status": "installed",
+      "name": "Wicked Mace",
+      "binding_length": 149.8,
+      "route": "authored Blender components + imagegen UV atlas",
+      "design_group": "mace2",
+      "baseline_source_sha256": "5d76046b00166e5b18f25a4dde6cdc9ef45638d2c66a5e1e5c390d3c60d4dc7e",
+      "baseline_runtime_sha256": "1080923cb2c94fc6d334e3efc49a1457a9e3470c920eecd66b76041c073f8c3e",
+      "remaining_defects": [],
+      "icon": "mace2",
+      "triangles": 1004,
+      "vertices": 522,
+      "export": "work/blender/mace2_export.glb",
+      "texture_size": 1024,
+      "mesh_design_cost": 0,
+      "sha256": "c74fe8b180232d1ebe4f4bd47ae9302902d231193d558fa95077acfd11b9a095",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        0.007499999832361937,
+        0.6312040090560913
+      ],
+      "gltf_bounds": [
+        [
+          -0.05112442374229431,
+          0.0,
+          -0.5
+        ],
+        [
+          0.05112442374229431,
+          0.11411739885807037,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/blender/mace2_above.png",
+        "review/blender/mace2_three_quarter.png",
+        "review/blender/mace2_low.png",
+        "review/blender/mace2_underside.png",
+        "review/blender_clay/mace2_above.png",
+        "review/blender_clay/mace2_three_quarter.png",
+        "review/blender_clay/mace2_low.png",
+        "review/blender_clay/mace2_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "c74fe8b180232d1ebe4f4bd47ae9302902d231193d558fa95077acfd11b9a095",
+      "runtime_sha256": "96040e675fadc48821354604ad9ce36d628eb05f3f5cbdfc3bfbc0f0f468b130",
+      "cooked_verified": true,
+      "runtime_triangles": 1004,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/40-mace2.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1,
+      "normal_map_generation": "review/normal_pass/generation.json",
+      "previous_source_sha256": "317a064cf93a73f60777eef2537d125c7770da036c05daf3e6e09622f2d0c631",
+      "normal_map_visual_review": "passed: subtle material detail, opposing raking lights",
+      "normal_pass_native_review": "passed",
+      "normal_pass_outdoor_capture": "review/normal_pass/native_outdoor/16-mace2.png",
+      "normal_pass_indoor_direct_sample": true
+    },
+    "mace3": {
+      "status": "installed",
+      "name": "Thunder Mace",
+      "binding_length": 139.5,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "thunder",
+      "baseline_source_sha256": "2f715917b0b939965f33448af3ce7a2f748fc165218ad38b8885eede4af8f7df",
+      "baseline_runtime_sha256": "bcb26488fb99bf4f69f671a86f8aedd4c3fb72c4684d2ac316f32fca1874f1a9",
+      "remaining_defects": [],
+      "icon": "mace3",
+      "triangles": 3398,
+      "vertices": 556,
+      "export": "work/meshy/mace3_export.glb",
+      "texture_size": 1024,
+      "design": "thunder",
+      "boundary_edges_repaired": 40,
+      "closure_faces": 16,
+      "mesh_job": "thunder_textured_v1",
+      "mesh_task_id": "01a14e9c-ae17-72e8-88d2-a5d0e0307899",
+      "mesh_design_cost": 15,
+      "sha256": "92c870598b6be6a7be4b5587f29e39716d325bd73c52a54d27a9b7843d3ed4a1",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        3.49879264831543e-05,
+        0.9999809861183167
+      ],
+      "gltf_bounds": [
+        [
+          -0.12127573043107986,
+          0.0,
+          -0.5
+        ],
+        [
+          0.12127573043107986,
+          0.26019972562789917,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/mace3_above.png",
+        "review/meshy/mace3_three_quarter.png",
+        "review/meshy/mace3_low.png",
+        "review/meshy/mace3_underside.png",
+        "review/meshy_clay/mace3_above.png",
+        "review/meshy_clay/mace3_three_quarter.png",
+        "review/meshy_clay/mace3_low.png",
+        "review/meshy_clay/mace3_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "92c870598b6be6a7be4b5587f29e39716d325bd73c52a54d27a9b7843d3ed4a1",
+      "runtime_sha256": "5b475440a133f88dfa880802bc62f0f9abc957dc9281279f53c78eeaa412dd75",
+      "cooked_verified": true,
+      "runtime_triangles": 3401,
+      "runtime_back_copies": 3,
+      "native_outdoor_capture": "review/native_outdoor/41-mace3.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "mace4": {
+      "status": "installed",
+      "name": "Wonder Mace",
+      "binding_length": 117.0,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "wonder",
+      "baseline_source_sha256": "31124723c779d3467bbf83a54c6fb53e6710e3152fac6d07e86b375ba287bbc2",
+      "baseline_runtime_sha256": "065a62ec13059b12f1bc1f7a7da905a940d69c6ee9257bf399f3680692389e6b",
+      "remaining_defects": [],
+      "icon": "mace4",
+      "triangles": 3338,
+      "vertices": 674,
+      "export": "work/meshy/mace4_export.glb",
+      "texture_size": 1024,
+      "design": "wonder",
+      "boundary_edges_repaired": 135,
+      "closure_faces": 9,
+      "mesh_job": "wonder_textured_v1",
+      "mesh_task_id": "01a14e9c-c0b7-7245-88af-0a4f1afaef40",
+      "mesh_design_cost": 15,
+      "sha256": "cacb7f6d988d565de05e8e1e80b5bfd977322a18e62560cf978b0369a21dd9e4",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        1.0132789611816406e-06,
+        0.999891996383667
+      ],
+      "gltf_bounds": [
+        [
+          -0.09972115606069565,
+          0.0,
+          -0.5
+        ],
+        [
+          0.09972115606069565,
+          0.21510037779808044,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/mace4_above.png",
+        "review/meshy/mace4_three_quarter.png",
+        "review/meshy/mace4_low.png",
+        "review/meshy/mace4_underside.png",
+        "review/meshy_clay/mace4_above.png",
+        "review/meshy_clay/mace4_three_quarter.png",
+        "review/meshy_clay/mace4_low.png",
+        "review/meshy_clay/mace4_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "cacb7f6d988d565de05e8e1e80b5bfd977322a18e62560cf978b0369a21dd9e4",
+      "runtime_sha256": "01a8d10ed93d4822548c36305200aaefbd1a51f78b4e423bc765b5a974bfeedd",
+      "cooked_verified": true,
+      "runtime_triangles": 3339,
+      "runtime_back_copies": 1,
+      "native_outdoor_capture": "review/native_outdoor/42-mace4.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    },
+    "mace5": {
+      "status": "installed",
+      "name": "Death Mace",
+      "binding_length": 125.1,
+      "route": "imagegen HD master + Meshy Smart Topology textured + local PBR correction",
+      "design_group": "ares",
+      "baseline_source_sha256": "f21848e2fd2b903c9e9666ed1b4c45301d825efaa11aa59c8819d1f8397975ff",
+      "baseline_runtime_sha256": "113dfb1d53ed3be3877e20591d1ca83262699ada28d9f840ab4cd63a27f17e22",
+      "remaining_defects": [],
+      "icon": "mace5",
+      "design": "ares",
+      "triangles": 4644,
+      "export": "work/meshy/mace5_export.glb",
+      "texture_size": 1024,
+      "boundary_edges_repaired": 41,
+      "closure_faces": 15,
+      "mesh_job": "ares_textured_v1",
+      "mesh_task_id": "01a14e90-c916-7450-8996-d85bb3f2d333",
+      "mesh_design_cost": 15,
+      "sha256": "ca64ca45279d0c561c9aa091aeef9d5ddd5693ee35ed19164e3c4724645b0023",
+      "degenerate_triangles": 0,
+      "boundary_edges": 0,
+      "uv_range": [
+        7.000000096013537e-06,
+        0.9999920129776001
+      ],
+      "gltf_bounds": [
+        [
+          -0.158146932721138,
+          0.0,
+          -0.5
+        ],
+        [
+          0.158146932721138,
+          0.34519055485725403,
+          0.5
+        ]
+      ],
+      "embedded_pngs": 3,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "opposed_normals": 0,
+      "winding_passed": true,
+      "reviews": [
+        "review/meshy/mace5_above.png",
+        "review/meshy/mace5_three_quarter.png",
+        "review/meshy/mace5_low.png",
+        "review/meshy/mace5_underside.png",
+        "review/meshy_clay/mace5_above.png",
+        "review/meshy_clay/mace5_three_quarter.png",
+        "review/meshy_clay/mace5_low.png",
+        "review/meshy_clay/mace5_underside.png"
+      ],
+      "native_review": "passed",
+      "source_sha256": "ca64ca45279d0c561c9aa091aeef9d5ddd5693ee35ed19164e3c4724645b0023",
+      "runtime_sha256": "39fa944e214c83cd1bef2be6e872661fad84dc909f1a483c0af0b38e8b81baee",
+      "cooked_verified": true,
+      "runtime_triangles": 4644,
+      "runtime_back_copies": 0,
+      "native_outdoor_capture": "review/native_outdoor/43-mace5.png",
+      "native_indoor_direct_sample": false,
+      "normal_map": true,
+      "normal_scale": 1
+    }
+  },
+  "native_indoor": {
+    "status": "passed",
+    "capture_count": 4,
+    "representatives": 12,
+    "run_record": "review/native_run_records/indoor/run.json",
+    "metallic_adjustment": null,
+    "review": "Binary metal retained: dark iron and gold details remain readable in dim 6d19.blv; wood, cloth and bone retain diffuse shading.",
+    "current_binary_recheck": true
+  },
+  "completed_icons": 43,
+  "unresolved_defects": [],
+  "native_outdoor": {
+    "status": "passed",
+    "survey_captures": 43,
+    "additional_detail_captures": 1,
+    "run_record": "review/native_run_records/outdoor/run.json",
+    "detail_run_record": "review/native_run_records/outdoor_detail/run.json",
+    "review": "All 43 icon models inspected in the MM7 all-items save. Mace of the Sun received an extra unobscured drop/capture because a neighboring purse hid its original head."
+  },
+  "normal_pass": {
+    "status": "complete",
+    "updated_icons": [
+      "7item051",
+      "7item053",
+      "7item054",
+      "7item055",
+      "7item056",
+      "7item059",
+      "7item060",
+      "7item230",
+      "hammer1",
+      "item067",
+      "item069",
+      "item072",
+      "item073",
+      "item074",
+      "item076",
+      "mace2"
+    ],
+    "normal_mapped_icons": 43,
+    "normal_generation": "review/normal_pass/generation.json",
+    "geometry_uv_albedo_mr_byte_identical": true,
+    "unmodified_other_icons": 27,
+    "normal_convention": "glTF/OpenGL +Y",
+    "normal_strength": 1,
+    "additional_mesh_credits": 0,
+    "raking_comparison": "review/normal_pass/raking_comparison.png",
+    "outdoor_captures": 16,
+    "indoor_captures": 4,
+    "indoor_representative_icons": [
+      "item073",
+      "7item051",
+      "7item053",
+      "7item054",
+      "7item230",
+      "item067",
+      "7item055",
+      "7item060",
+      "item069",
+      "item074",
+      "item076",
+      "mace2"
+    ],
+    "native_renderer": "OpenGL 3.3, NVIDIA vendor 0x10de, Wayland",
+    "native_binary_sha256": "81862943c6e761aca5405818c12b6e4cbf947d2451fceee0ec07497cbd061f1f",
+    "native_run_records": {
+      "outdoor": "review/normal_pass/native_run_records/outdoor/run.json",
+      "indoor": "review/normal_pass/native_run_records/indoor/run.json"
+    },
+    "unresolved_defects": []
+  }
+}

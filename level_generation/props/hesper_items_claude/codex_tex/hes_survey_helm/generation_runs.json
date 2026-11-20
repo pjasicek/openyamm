@@ -1,0 +1,627 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nEdit the FIRST input image, the gray orthographic guide. The SECOND input is design_reference.png, used ONLY as the colour/material/design authority, never as the camera or shape authority.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the first guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: FRONT, exactly as guide_front.png. Crown at the top, broad collar at the bottom. Keep the slightly asymmetric front guide geometry. Place gold on its brow and cheek braces, navy only on its existing visor panel, ivory on its lower face and chin pieces. The existing small lens mount is at image upper-left. Guide alpha bounding box is x=107..916, y=66..957 on the 1024-square canvas.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "13fe2e0f69fc0c2639b696f7b5830db52786e43ed6330dd9e40957ba825dd534"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      }
+    ],
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Not selected. Selected corrective return: normalized silhouette IoU improved from 0.94085 to 0.97595. Colour/materials match, but exact silhouette/part alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-ea8e5f7b-efab-45a3-9b1b-5500d8ea56c9.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        21,
+        32,
+        1253,
+        1233
+      ],
+      "solid_bbox": [
+        131,
+        62,
+        1123,
+        1161
+      ],
+      "normalized_silhouette_iou": 0.9408547666903366,
+      "solid_pixels_outside_normalized_guide": 28954,
+      "missing_solid_pixels_inside_normalized_guide": 20188,
+      "silhouette_identical": false,
+      "sha256": "ba6b5bc5db4f7738b0df7e51ebbcbf6d183b0624fb00fead8a72395fe1b42c27",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief."
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_front.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: FRONT, exactly as guide_front.png. Crown at the top, broad collar at the bottom. Keep the slightly asymmetric front guide geometry. Place gold on its brow and cheek braces, navy only on its existing visor panel, ivory on its lower face and chin pieces. The existing small lens mount is at image upper-left. Guide alpha bounding box is x=107..916, y=66..957 on the 1024-square canvas.\nCORRECTIVE PASS (the only allowed correction): The earlier result enlarged/repositioned the object and added reflective gold lighting. Correct those two errors. Use the SECOND image as the literal pixel canvas. It is 1024 by 1024 pixels. Do not regenerate its outline. Retain the exact guide mask from x107 to916 and y66 to957, including the angular crown strip, existing lens mount, polygonal ear sides, angular chin block and wide low collar. Fill colours inside these already fixed shapes. Match each part's edge directly to the guide. Remove ALL broad value gradients, shadows in creases, glints, shiny edge lines and reflective streaks: this is a flat base-colour texture projection, not a beauty render. Use uniform midtone antique gold, ivory and navy with only subtle fine wear. All exterior transparent pixels must remain transparent; no scattered pixels or fringe outside the guide.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_front.png",
+        "sha256": "13fe2e0f69fc0c2639b696f7b5830db52786e43ed6330dd9e40957ba825dd534"
+      }
+    ],
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected corrective return: normalized silhouette IoU improved from 0.94085 to 0.97595. Colour/materials match, but exact silhouette/part alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-b362135b-fced-47a7-9331-e96cf7a4fae6.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1236,
+        1254
+      ],
+      "solid_bbox": [
+        136,
+        71,
+        1117,
+        1183
+      ],
+      "normalized_silhouette_iou": 0.9759515562481985,
+      "solid_pixels_outside_normalized_guide": 16848,
+      "missing_solid_pixels_inside_normalized_guide": 2842,
+      "silhouette_identical": false,
+      "sha256": "ebc19f66b47300b9ab8b6821e51474873988a5ef4cbeeb73f99e3580001359b8",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief.",
+    "selection_status": "Best available within the one-correction limit; requires review before projection."
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_back.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: BACK, exactly as guide_back.png. Rear shell is off-white ceramic; rear encircling brace and seam trim continue in muted gold. This is the back of the helmet: NO visor on the back and NO new rear light. Ear discs are seen edge-on at both sides. Lower neck sealing material is charcoal resin, collar shell ivory and its perimeter trim gold. Preserve the guide's broad curved underside of the collar. Guide alpha bounding box is x=107..916, y=66..957 on the 1024-square canvas.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "12d787a16ae3cab95a5e19c0b219201bc9155d3a252cdae76fa3c622f7fec11e"
+      }
+    ],
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Not selected. Selected corrective return: normalized silhouette IoU improved from 0.97399 to 0.99031 and crown asymmetry is closer to the guide. Exact silhouette/part alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-53262987-428d-4988-8efb-46c617d0de7a.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        55,
+        1226,
+        1250
+      ],
+      "solid_bbox": [
+        126,
+        72,
+        1128,
+        1180
+      ],
+      "normalized_silhouette_iou": 0.973989169850575,
+      "solid_pixels_outside_normalized_guide": 20979,
+      "missing_solid_pixels_inside_normalized_guide": 425,
+      "silhouette_identical": false,
+      "sha256": "f7a6614a43aa2069da54c6749b959cf08bc8d8547767a0e3e08534e1008042ef",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief."
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_back.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: BACK, exactly as guide_back.png. Rear shell is off-white ceramic; rear encircling brace and seam trim continue in muted gold. This is the back of the helmet: NO visor on the back and NO new rear light. Ear discs are seen edge-on at both sides. Lower neck sealing material is charcoal resin, collar shell ivory and its perimeter trim gold. Preserve the guide's broad curved underside of the collar. Guide alpha bounding box is x=107..916, y=66..957 on the 1024-square canvas.\nCORRECTIVE PASS, the only allowed regeneration for this view. Treat the SECOND image as a fixed flat colouring canvas. Earlier output drifted from its exact geometry and retained beauty-render lighting. Fix both: preserve ALL guide pixel boundaries and alpha, trace rather than reconstruct, including polygon facets and internal part edges. Keep the original asymmetrical raised crown strip with the small recess at upper-left; do not make it symmetric. Preserve exactly the low curved rear band and broad collar underside boundary. Rear panels remain ivory; rear brace gold; the guide has no rear visor. STRICT UNLIT BASE COLOUR: matte ivory fills, matte muted ochre-gold fills, matte dark navy glass where shown, matte charcoal resin. Fine surface wear is allowed but NO illumination gradients, shadowed seams, bevel highlights, reflective metal streaks, glossy reflections or edge lighting. Material identification must come from colour and fine texture alone. Keep ceramic equally light everywhere and gold equally midtone everywhere. The only bright part is the existing lens painted blue-white with no bloom. True alpha background including every guide gap; no semi-transparent debris around the item. Desired exact original 1024x1024 canvas, with no crop, scaling, warping or extra margins.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "12d787a16ae3cab95a5e19c0b219201bc9155d3a252cdae76fa3c622f7fec11e"
+      }
+    ],
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected corrective return: normalized silhouette IoU improved from 0.97399 to 0.99031 and crown asymmetry is closer to the guide. Exact silhouette/part alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-c51abc7f-2deb-4144-ac6a-7a5341954bbc.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1248,
+        1250
+      ],
+      "solid_bbox": [
+        132,
+        80,
+        1121,
+        1177
+      ],
+      "normalized_silhouette_iou": 0.9903077731040394,
+      "solid_pixels_outside_normalized_guide": 5439,
+      "missing_solid_pixels_inside_normalized_guide": 2386,
+      "silhouette_identical": false,
+      "sha256": "a7eb956e301b1f6abcb350746ce5bc0388df4df0337b899912c52b7bae1efee7",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief.",
+    "selection_status": "Best available within the one-correction limit; requires review before projection."
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_left.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: LEFT PROFILE, exactly as guide_left.png, helmet facing image RIGHT. The big concentric ear disc stays at its guide position, ivory center and gold rings. The small lens housing forward and above the ear disc is the existing blue-white lens in gold mount. The visor is only the existing forward panel toward image RIGHT; rear panels at image LEFT are ivory, not glass. Keep all guide profile notches and its sloping collar. Guide alpha bounding box is x=100..923, y=66..957 on the 1024-square canvas.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "a10fc4001012088a2ce86067a98b0a2790cb8cb9d5dd6ac412b01dd2a0e2c729"
+      }
+    ],
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected first return: closer guide silhouette (IoU 0.94914 versus 0.91844 for correction) and better position/scale. Correction flattened the lens but worsened the silhouette. Exact alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-ef6a5958-0926-4b7f-ae50-9097c6cd930c.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        37,
+        1144,
+        1254
+      ],
+      "solid_bbox": [
+        136,
+        76,
+        1118,
+        1191
+      ],
+      "normalized_silhouette_iou": 0.9491439495297472,
+      "solid_pixels_outside_normalized_guide": 22849,
+      "missing_solid_pixels_inside_normalized_guide": 18279,
+      "silhouette_identical": false,
+      "sha256": "322ff4159e33c9d88badfe15d82b83a5dbcb0d57b9ad358d9b8e30b45a0d65e8",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief.",
+    "selection_status": "Best available within the one-correction limit; requires review before projection."
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_left.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: LEFT PROFILE, exactly as guide_left.png, helmet facing image RIGHT. The big concentric ear disc stays at its guide position, ivory center and gold rings. The small lens housing forward and above the ear disc is the existing blue-white lens in gold mount. The visor is only the existing forward panel toward image RIGHT; rear panels at image LEFT are ivory, not glass. Keep all guide profile notches and its sloping collar. Guide alpha bounding box is x=100..923, y=66..957 on the 1024-square canvas.\nCORRECTIVE PASS, the only allowed regeneration for this view. Treat the SECOND image as a fixed flat colouring canvas. Earlier output drifted from its exact geometry and retained beauty-render lighting. Fix both: preserve ALL guide pixel boundaries and alpha, trace rather than reconstruct, including polygon facets and internal part edges. Keep the original faceted ear disc at exactly its guide center, its size unchanged. Preserve its angular polygon circumference. Keep the lens stub above and forward of the ear at precisely its guide location, paint its end blue-white. Keep the rear notch and triangular negative space above the collar. Front faces image RIGHT. STRICT UNLIT BASE COLOUR: matte ivory fills, matte muted ochre-gold fills, matte dark navy glass where shown, matte charcoal resin. Fine surface wear is allowed but NO illumination gradients, shadowed seams, bevel highlights, reflective metal streaks, glossy reflections or edge lighting. Material identification must come from colour and fine texture alone. Keep ceramic equally light everywhere and gold equally midtone everywhere. The only bright part is the existing lens painted blue-white with no bloom. True alpha background including every guide gap; no semi-transparent debris around the item. Desired exact original 1024x1024 canvas, with no crop, scaling, warping or extra margins.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "a10fc4001012088a2ce86067a98b0a2790cb8cb9d5dd6ac412b01dd2a0e2c729"
+      }
+    ],
+    "output": "paint_left_attempt2.png",
+    "selected": false,
+    "reason": "Not selected. Selected first return: closer guide silhouette (IoU 0.94914 versus 0.91844 for correction) and better position/scale. Correction flattened the lens but worsened the silhouette. Exact alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-05d325ee-7d16-4da5-a2c5-8672a1ad753d.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        23,
+        1254,
+        1254
+      ],
+      "solid_bbox": [
+        143,
+        85,
+        1121,
+        1202
+      ],
+      "normalized_silhouette_iou": 0.9184421177346822,
+      "solid_pixels_outside_normalized_guide": 27778,
+      "missing_solid_pixels_inside_normalized_guide": 38581,
+      "silhouette_identical": false,
+      "sha256": "f30f346c8b19bc80128b4324a15640157def31909a25db6bd812d42c7d4bf2ce",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief."
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_right.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: RIGHT PROFILE, exactly as guide_right.png, helmet facing image LEFT. The big concentric ear disc stays at its guide position, ivory center and gold rings. No temple lens is visible on this side: do not mirror or add one. Visor is only the existing forward panel toward image LEFT; rear panels at image RIGHT are ivory, not glass. Keep every profile notch and sloping collar. Guide alpha bounding box is x=100..923, y=66..957 on the 1024-square canvas.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_right.png",
+        "sha256": "e504dc84c2eed856db7b5cdd2d966d531efe5be8e9eee9adeecfdcc63a59c289"
+      }
+    ],
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected first return: closer guide silhouette (IoU 0.96541 versus 0.93883 for correction). Both correctly omit a lens on this side. Exact alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-3281261d-ce71-4b4f-bbd2-8410ed6a59e6.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        52,
+        1219,
+        1228
+      ],
+      "solid_bbox": [
+        144,
+        79,
+        1132,
+        1175
+      ],
+      "normalized_silhouette_iou": 0.9654063352680822,
+      "solid_pixels_outside_normalized_guide": 3571,
+      "missing_solid_pixels_inside_normalized_guide": 23738,
+      "silhouette_identical": false,
+      "sha256": "b2b720a7cfbb3177bb3b6c4222dfdbe0b9b61bb75414e20629a93fdfb9e5bd9a",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief.",
+    "selection_status": "Best available within the one-correction limit; requires review before projection."
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_right.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: RIGHT PROFILE, exactly as guide_right.png, helmet facing image LEFT. The big concentric ear disc stays at its guide position, ivory center and gold rings. No temple lens is visible on this side: do not mirror or add one. Visor is only the existing forward panel toward image LEFT; rear panels at image RIGHT are ivory, not glass. Keep every profile notch and sloping collar. Guide alpha bounding box is x=100..923, y=66..957 on the 1024-square canvas.\nCORRECTIVE PASS, the only allowed regeneration for this view. Treat the SECOND image as a fixed flat colouring canvas. Earlier output drifted from its exact geometry and retained beauty-render lighting. Fix both: preserve ALL guide pixel boundaries and alpha, trace rather than reconstruct, including polygon facets and internal part edges. Keep the original faceted ear disc at exactly its guide center, its size unchanged. Preserve its angular polygon circumference. Retain the rear notch and triangular negative space above the collar, front faces image LEFT. No lens on this side. STRICT UNLIT BASE COLOUR: matte ivory fills, matte muted ochre-gold fills, matte dark navy glass where shown, matte charcoal resin. Fine surface wear is allowed but NO illumination gradients, shadowed seams, bevel highlights, reflective metal streaks, glossy reflections or edge lighting. Material identification must come from colour and fine texture alone. Keep ceramic equally light everywhere and gold equally midtone everywhere. The only bright part is the existing lens painted blue-white with no bloom. True alpha background including every guide gap; no semi-transparent debris around the item. Desired exact original 1024x1024 canvas, with no crop, scaling, warping or extra margins.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_right.png",
+        "sha256": "e504dc84c2eed856db7b5cdd2d966d531efe5be8e9eee9adeecfdcc63a59c289"
+      }
+    ],
+    "output": "paint_right_attempt2.png",
+    "selected": false,
+    "reason": "Not selected. Selected first return: closer guide silhouette (IoU 0.96541 versus 0.93883 for correction). Both correctly omit a lens on this side. Exact alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-944acf72-8a67-478b-9e37-e50f9cdf88e9.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        7,
+        1250,
+        1230
+      ],
+      "solid_bbox": [
+        145,
+        75,
+        1136,
+        1179
+      ],
+      "normalized_silhouette_iou": 0.9388325949230968,
+      "solid_pixels_outside_normalized_guide": 27834,
+      "missing_solid_pixels_inside_normalized_guide": 21937,
+      "silhouette_identical": false,
+      "sha256": "bfed069e46a343522671b4120fbdb70ff7cb7cb72e8150b218eef9a9b2bd3c69",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief."
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_top.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: DIRECTLY ABOVE, exactly as guide_top.png. The top guide alone fixes orientation: the front is toward image BOTTOM, the small existing lens housing is toward lower image LEFT. Dominant ivory ceramic crown with the exact guide central raised strip and panel outlines, fine pale tan wear, thin gold continuation of the approved seam/brow trim where present. Both ear housings stay at the sides. Do not invent a front elevation visor on the top surface. Preserve all guide asymmetries and polygon edges. Guide alpha bounding box is x=107..916, y=99..923 on the 1024-square canvas.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "144f3d4894e4f9be2bb07c7c0b572258a5bbed7f1190127889deb27cd029b491"
+      }
+    ],
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected first return: closer guide silhouette (IoU 0.95777 versus 0.91329 for correction). Correction improved the irregular crown seam but narrowed the outline and exposed too much face. Exact silhouette/internal seam alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-474102a6-ba10-4fe6-adfd-2e708bbb92f5.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1251,
+        1254
+      ],
+      "solid_bbox": [
+        125,
+        108,
+        1130,
+        1149
+      ],
+      "normalized_silhouette_iou": 0.9577693413633864,
+      "solid_pixels_outside_normalized_guide": 24912,
+      "missing_solid_pixels_inside_normalized_guide": 6958,
+      "silhouette_identical": false,
+      "sha256": "39ab782eba07c30795f9ddc6621cffbc5e7da8511b8b6753d6342fe00082f8d0",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief.",
+    "selection_status": "Best available within the one-correction limit; requires review before projection."
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for the Hesper survey helmet 3D model.\nThe FIRST input is design_reference.png, ONLY a colour/material reference. The SECOND input, guide_top.png, is the actual image to edit; copy its canvas size and alpha channel exactly.\nOutput one 1024 x 1024 RGBA PNG with true transparent background. Paint directly over the second image guide without moving, scaling, rotating, smoothing, rebuilding or redesigning any geometry. Preserve its alpha silhouette exactly, including the polygon corners, outline, internal holes, every part edge and exact placement in the frame. The guide is the exact model and must remain the pixel-aligned template. Do not copy the reference's three-quarter camera.\nSurface design: empty wearable colonial survey helmet, warm off-white ceramic shell with restrained fine tan wear and fine hairline marks, muted brushed yellow-gold brow and cheek braces and trim, narrow opaque dark navy-blue visor, dark charcoal/black-violet rubber-resin collar seal, ceramic circular ear housings with gold concentric rings. Small blue-white lens only on the raised lens mount already present in the guide. Follow the approved design's panel joins, seams and engraved lines as painted surface details; no added geometry. Continue hidden surfaces plausibly in the same materials. No horns and no head inside.\nLIGHTING IS STRICTLY ALBEDO: perfectly even flat shadowless front illumination across every surface, no cast shadows, no ambient occlusion, no directional form shading or darkening toward sides/under parts, no rim light, no hot highlights, no reflected environment, no blue reflected streaks on the visor. Gold is its midtone base colour with only a faint sheen; glass is a subdued uniform dark navy material; emissive lens is bright blue-white paint with no bloom or light spill. Do not copy the glossy lighting of the design reference. Fine material texture must remain subtle.\nNo background, floor, text, letters, labels, numbers, logo, watermark or layout sheet. One isolated painted view, same position and scale as its guide, nothing outside its silhouette and nothing cropped.\nVIEW: DIRECTLY ABOVE, exactly as guide_top.png. The top guide alone fixes orientation: the front is toward image BOTTOM, the small existing lens housing is toward lower image LEFT. Dominant ivory ceramic crown with the exact guide central raised strip and panel outlines, fine pale tan wear, thin gold continuation of the approved seam/brow trim where present. Both ear housings stay at the sides. Do not invent a front elevation visor on the top surface. Preserve all guide asymmetries and polygon edges. Guide alpha bounding box is x=107..916, y=99..923 on the 1024-square canvas.\nCORRECTIVE PASS, the only allowed regeneration for this view. Treat the SECOND image as a fixed flat colouring canvas. Earlier output drifted from its exact geometry and retained beauty-render lighting. Fix both: preserve ALL guide pixel boundaries and alpha, trace rather than reconstruct, including polygon facets and internal part edges. Do not replace the irregular asymmetrical central crown strip with a regular symmetric one. Keep its long straight image-left edge and irregular segmented image-right edge EXACTLY as the guide. Keep the guide's small lower-left lens block where it is. Preserve the ear side protrusions at exactly the guide outline, without expanding them. The front tip toward image bottom is the guide crown; do not add extra bands outside it. STRICT UNLIT BASE COLOUR: matte ivory fills, matte muted ochre-gold fills, matte dark navy glass where shown, matte charcoal resin. Fine surface wear is allowed but NO illumination gradients, shadowed seams, bevel highlights, reflective metal streaks, glossy reflections or edge lighting. Material identification must come from colour and fine texture alone. Keep ceramic equally light everywhere and gold equally midtone everywhere. The only bright part is the existing lens painted blue-white with no bloom. True alpha background including every guide gap; no semi-transparent debris around the item. Desired exact original 1024x1024 canvas, with no crop, scaling, warping or extra margins.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "510e4b1f662595cc2114ce7e945a246d52e9b3930abdd6e95a82cd7bfa95ee53"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "144f3d4894e4f9be2bb07c7c0b572258a5bbed7f1190127889deb27cd029b491"
+      }
+    ],
+    "output": "paint_top_attempt2.png",
+    "selected": false,
+    "reason": "Not selected. Selected first return: closer guide silhouette (IoU 0.95777 versus 0.91329 for correction). Correction improved the irregular crown seam but narrowed the outline and exposed too much face. Exact silhouette/internal seam alignment and fully unlit albedo requirements remain unmet.",
+    "tool": "image_gen.imagegen",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-eaf7-7b31-9602-95d40404d0d1/exec-dee77ff9-ff05-45b4-9a5a-6549361ed7ef.png",
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        35,
+        25,
+        1240,
+        1222
+      ],
+      "solid_bbox": [
+        159,
+        113,
+        1095,
+        1144
+      ],
+      "normalized_silhouette_iou": 0.913288733423941,
+      "solid_pixels_outside_normalized_guide": 8963,
+      "missing_solid_pixels_inside_normalized_guide": 55092,
+      "silhouette_identical": false,
+      "sha256": "e13284dd3883668bd783976fa23feed452b35aa4c180cf3ffce7d96f0e1e0262",
+      "materials_match_reference": true,
+      "flat_even_light": false,
+      "no_text_or_letters": true,
+      "background_transparent": true,
+      "part_edges_identical": false,
+      "edge_cleanliness": "Residual translucent fringe/debris remains outside the principal silhouette.",
+      "silhouette_metric_method": "Guide alpha sampled at output pixel centers for measurement only; masks thresholded at alpha >= 128. Saved output bytes are unchanged.",
+      "all_brief_checks_passed": false
+    },
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "size_note": "Tool returned 1254 x 1254; preserved without resizing or other image postprocessing, as permitted by the brief."
+  }
+]

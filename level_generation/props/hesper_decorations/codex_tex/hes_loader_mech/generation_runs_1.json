@@ -1,0 +1,308 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated_with_unmet_requirements",
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "postprocessing": "None. PNG returns copied byte-for-byte; no resizing, alpha replacement, cropping, or painting after generation.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: game-model albedo texture-source painting, NOT a beauty render.\nInputs: Image 1 is design_reference.png, the approved design, colour and material authority ONLY. Image 2 is the grey orthographic geometry guide and the exact edit target. Do not use Image 1's camera or geometry. Paint only the existing surfaces of Image 2.\nOutput: one 1024 x 1024 PNG with genuine transparent background. Preserve the guide's alpha silhouette EXACTLY, same outline, size, pixel position, every opening, internal shape edge, joint, protrusion and detail; nothing added outside the silhouette, nothing cropped. Keep every guide component in precisely its guide location. This is a paintover, not a redesign or remodelling.\nMaterials: white ceramic armour plates with worn gold trim matching the design reference; yellow-black hazard stripes on the existing forks; dark grey steel joints and pistons; black cables; scuffs and ash dust. Seat upholstery is dark charcoal grey as in the design. Use the reference's aged ivory ceramic and muted brass/gold palette and worn industrial material detail, applied to the GUIDE's geometry.\nLIGHTING: TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Surface colours must stay consistent across planes without directional shading. Any glowing parts already in the guide are painted at their glowing colour, never as light cast on surroundings. Add no new glowing parts. No text, labels or watermark.\nView: FRONT, exactly the front orthographic view in Image 2 (guide_front.png). Preserve the guide's apparent asymmetry and foreshortening, including the forks seen end-on in this view. Do not extend forks toward the viewer or substitute the three-quarter reference. Occupied guide bounds are x=187..836, y=182..841 on the 1024-square canvas; leave all surrounding pixels transparent. Keep the central seat, safety cage, under-seat rectangular plate, arms, end-on fork assemblies, feet and all gaps exactly aligned.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70",
+          "role": "design, colour and material reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "0388f50cfabb74207e80fa4042ce13cb0561ea173f8792e32e159ed11092dfe4",
+          "role": "exact geometry/edit target"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "output_sha256": "8e35ba43cc12982cee5e2e6baa6cf24a68369c95a921a67ef681d77eda55dfdc",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: reframed/enlarged the mech, invented visible projecting forks, retained shaded lighting, and returned 1254x1254 instead of 1024x1024.",
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette": {
+          "identical_to_guide": false,
+          "guide_alpha_bounds": [
+            187,
+            182,
+            837,
+            842
+          ],
+          "output_alpha_bounds": [
+            0,
+            23,
+            1254,
+            1254
+          ],
+          "output_opaque_bounds": [
+            153,
+            64,
+            1128,
+            1205
+          ],
+          "reason": "Different canvas dimensions and altered contours/details; nonzero alpha also extends beyond the intended object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "note": "Ivory ceramic, gold trim, charcoal steel/seat, black cables, worn surfaces and yellow-black fork hazard markings are present."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "note": "Residual crevice darkening, directional shading and metal highlights remain."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "note": "Transparent RGBA, with stray faint alpha beyond the main object; exact guide alpha fails."
+        }
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit Image 1, guide_front.png, IN PLACE. Produce exactly 1024x1024 pixels with transparent background. Keep the object small at its existing size and position within the canvas, with the existing wide transparent margins. Do not reframe, zoom, centre differently, enlarge or crop. The object's exact occupied rectangle is x187 through x836 and y182 through y841. The guide's camera, silhouette, openings, every boundary and component must remain exactly unchanged. Do not change a single shape. The forks are end-on and do not extend downward beyond the feet. Do not invent extending fork tines. The central seat top is below the thin cage crossbar, all in their existing positions. THIS IS COLOURING THE GREY GUIDE, NOT GENERATING A NEW MODEL RENDER.\nImage 2, design_reference.png, is ONLY a colour/material swatch reference. Ignore its framing, view angle and geometry.\nPaint the existing armour surfaces ivory white ceramic with muted aged gold trim, existing joints and pistons dark grey steel, existing cables black, seat dark charcoal grey, yellow-black hazard stripes on the existing fork surfaces; subtle scuffs and ash dust. Keep the exact shapes of the guide, not extra reference details.\nThis is albedo texture-source art. FLAT UNLIT BASE COLOURS, even and shadowless from the viewer. No AO, dark crevice shading, cast shadows, directional light, specular reflections, rim light, floor or background. No text or watermark. Output genuine transparent RGBA. Preserve every pixel of the guide's alpha silhouette, including all transparent gaps. Output exactly the guide's 1024x1024 canvas with no resizing.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "0388f50cfabb74207e80fa4042ce13cb0561ea173f8792e32e159ed11092dfe4",
+          "role": "exact geometry/edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_front.png",
+      "output_sha256": "e53d0d93b81fae996d536a97d477fdf8d81cad89818ca3a5ded7f1789ace9253",
+      "selected": true,
+      "accepted": false,
+      "reason": "Best available front return: substantially closer to guide framing and end-on forks. Still fails exact dimensions, identical silhouette and fully flat albedo requirements. Selected for preservation, not accepted as brief-compliant.",
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette": {
+          "identical_to_guide": false,
+          "guide_alpha_bounds": [
+            187,
+            182,
+            837,
+            842
+          ],
+          "output_alpha_bounds": [
+            0,
+            21,
+            1244,
+            1254
+          ],
+          "output_opaque_bounds": [
+            229,
+            224,
+            1025,
+            1030
+          ],
+          "reason": "Different canvas dimensions and altered contours/details; nonzero alpha also extends beyond the intended object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "note": "Ivory ceramic, gold trim, charcoal steel/seat, black cables, worn surfaces and yellow-black fork hazard markings are present."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "note": "Residual crevice darkening, directional shading and metal highlights remain."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "note": "Transparent RGBA, with stray faint alpha beyond the main object; exact guide alpha fails."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Edit Image 1, guide_top.png, IN PLACE. Output exactly 1024x1024 pixels, genuine transparent RGBA background. Keep the original guide canvas, camera, scale, object position, silhouette, openings, every shape edge and all details EXACTLY unchanged. Occupied rectangle: x187 through x836, y66 through y957. Do not reframe, zoom or redesign. Paint surface colours only.\nThis is the orthographic TOP view. The back feet are at the top corners; the seat and cage are in the middle; the two long fork tines point down toward the bottom of the picture. Preserve their exact lengths, widths, taper, asymmetry and every gap. Keep every guide component at its original pixel location.\nImage 2, design_reference.png, supplies only design palette and materials. It does not supply geometry or framing for this output.\nPaint the guide's existing armour surfaces white/ivory ceramic with worn muted gold trim, dark grey steel joints and pistons, black cables, charcoal grey seat upholstery, scuffs and ash dust. Paint yellow-black diagonal industrial hazard stripes on both existing fork tines. No extra geometry, seams that imply new shapes, accessories or labels.\nLighting: this is an ALBEDO TEXTURE SOURCE, not a rendered product illustration. Even, flat, shadowless light from the viewer. No ambient occlusion or darkened crevices, no cast shadows, no specular glints or reflections, no rim light, background or floor. Use flat base colours and surface wear; do not copy the design reference's lighting. Any guide-existing glowing parts are their glowing colour without lighting their surroundings; invent none. No text or watermark. Preserve guide alpha exactly, including every internal gap. Leave ample transparent margins exactly as in the guide. Return 1024x1024 unresized.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f9adee5c62a45be1cb04a5955a90df16ad2bbafe5b7465ca2954a6348af02334",
+          "role": "exact geometry/edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "output_sha256": "139724e81c95d15b44043b019b5b67ae42d25987f0903af4bf7de8a0ed7cc15a",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected in favour of correction: guide-like top layout and requested materials, but changed fork widths/details, retained shading and returned 1254x1254.",
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette": {
+          "identical_to_guide": false,
+          "guide_alpha_bounds": [
+            187,
+            66,
+            837,
+            958
+          ],
+          "output_alpha_bounds": [
+            0,
+            0,
+            1244,
+            1254
+          ],
+          "output_opaque_bounds": [
+            228,
+            80,
+            1026,
+            1174
+          ],
+          "reason": "Different canvas dimensions and altered contours/details; nonzero alpha also extends beyond the intended object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "note": "Ivory ceramic, gold trim, charcoal steel/seat, black cables, worn surfaces and yellow-black fork hazard markings are present."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "note": "Residual crevice darkening, directional shading and metal highlights remain."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "note": "Transparent RGBA, with stray faint alpha beyond the main object; exact guide alpha fails."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Colour the supplied grey TOP-view guide in place, retaining exactly its 1024 x 1024 pixel canvas. Return a 1024x1024 transparent PNG, not 1254x1254. This is an unlit albedo paintover. Keep ALL original geometry, silhouette, pixel positions, transparent gaps and detail boundaries unchanged; no new surface modelling or bevels. Use the precise guide shapes even where the material reference differs. The occupied bounds must remain (187,66)-(837,958) on a 1024-square canvas. Do not rescale, reframe or change orientation.\nImage 1 is the exact top-view guide to paint. Image 2 is a colour/material reference ONLY.\nUse flat matte ivory white ceramic armour, muted gold trim following existing armour edges, matte dark grey steel joints and pistons, black cables, charcoal seat, yellow and black hazard stripes on the existing long fork tines. Fine chipped paint scuffs and ash dust are surface albedo detail. Do not introduce additional mechanical geometry. Keep the wide, slightly tapered shapes of the guide's fork tines, not thinner rounded sticks. Keep the safety cage's original grid and the exact guide seat and all other original parts.\nCorrect lighting: remove ALL shading, specular highlights, dark crevices, ambient occlusion and directional light. Each material has a consistent base colour regardless of surface orientation. The ivory armour must be equally ivory in every recess and on every side. No light or shadow baked into this texture-source image. No background, floor, rim light, cast shadow or glow cast onto surroundings. True transparent alpha outside the EXACT guide silhouette and in EVERY guide opening. No text, watermark or added objects. Preserve 1024x1024 pixels.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f9adee5c62a45be1cb04a5955a90df16ad2bbafe5b7465ca2954a6348af02334",
+          "role": "exact geometry/edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_top.png",
+      "output_sha256": "c21f9e636132026ae3c52d8ec31b7df24f27c569075f419955a6878ff6e8f668",
+      "selected": true,
+      "accepted": false,
+      "reason": "Best available top return: flatter ceramic areas and closer guide cage grid. Still fails exact dimensions, identical silhouette and fully shadowless albedo requirements. Selected for preservation, not accepted as brief-compliant.",
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette": {
+          "identical_to_guide": false,
+          "guide_alpha_bounds": [
+            187,
+            66,
+            837,
+            958
+          ],
+          "output_alpha_bounds": [
+            0,
+            19,
+            1230,
+            1230
+          ],
+          "output_opaque_bounds": [
+            229,
+            77,
+            1026,
+            1177
+          ],
+          "reason": "Different canvas dimensions and altered contours/details; nonzero alpha also extends beyond the intended object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "note": "Ivory ceramic, gold trim, charcoal steel/seat, black cables, worn surfaces and yellow-black fork hazard markings are present."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "note": "Residual crevice darkening, directional shading and metal highlights remain."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "note": "Transparent RGBA, with stray faint alpha beyond the main object; exact guide alpha fails."
+        }
+      }
+    }
+  ]
+}

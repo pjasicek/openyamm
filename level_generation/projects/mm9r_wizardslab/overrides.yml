@@ -1,0 +1,191 @@
+# Explicit conversion choices for MM9's Wizard's Lab (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md. Built like the cities (user, 2026-11-04,
+# devdocs/mm9_rework/REGIONS_FINISH.md step 3): CityHooks, the open sky behind MM9's sky faces, daylight; no terrain
+# block and no street structure (README "The sky, daylight and no terrain").
+map:
+  stem: wizardslab
+  display_name: Wizard's Lab
+  # one start: StartPoint0 by the exit portal (Yorwick's WizardLabExit row 7 arrives there; map_transitions.txt)
+  starts: [StartPoint0]
+  # MM9's monsters (all resolve to MM9 rows 9xxx). Left out: ReverendMonk (ReverendMonk0 is Robinssen, NPC55.scr,
+  # RUDE 55: convert.py places him as a friendly dialogue actor, OUTDOOR_BLV_ALL.md "NPC classes that resolve to
+  # monster rows") and GreaterDemon (GreaterDemonCACHEONLY, CacheOnly 1: WizardMaster.scr spawns the demon; citylua
+  # summons row 9242). The seven SummoningGuy* (WizardSummoner.scr, WizardMaster.scr) are placed friendly.
+  monster_classes: [WingedAberration, WingedOddity, SeaMonsterMale, SeaMonsterFemale, EvilApprentice,
+                    EvilGrandSorcerer, EvilSorcerer, Skeleton, Eye, Oculus]
+  # No `painted_minimap`: the lab is an ordinary interior, so it keeps the outline pass and the Map style setting
+  # chooses its line map or MM9's painted one (catalog entry wizardslab kept) (user, 2026-11-10).
+  offset: [0, 0, 0]                   # the old map's frame (native x -22 077..5 578, y -717..17 323): fits int16
+  ambient: 20
+  model_lighting: false
+  # Forced arrivals (pack growth, ../mm9r_common/dungeon/density.py): the teleporter stations' landings keep MM9's
+  # monsters plus at most `copies` grown ones within `radius` (height counted double); the rest go to other packs
+  # (user, 2026-11-09).
+  density_arrivals:
+  - {name: TeleporterAtGreen, at: [-17654, 12431, -563], radius: 2000, copies: 3}
+  - {name: TeleporterAtWhite, at: [-41, 7168, 246], radius: 2000, copies: 2}
+  - {name: TeleporterAtRed, at: [-2949, 3236, 246], radius: 2000, copies: 2}
+  - {name: TeleporterAtYellow, at: [492, 10629, 246], radius: 2000, copies: 2}
+  bright_scale_lights: true           # BLV light colour x BrightScale, as the cities (CITY_PLAYBOOK "Street lights")
+  # No `fog`: WorldProperties EnableFog 0 and no Fog object (Source.fog writes nothing).
+  swim: true                          # DirtyWater0 (the sea monsters' pool), DirtyWater1-3, the power waters
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  cells: [-800, -100]                 # the cell block (floor -216) and the pool under it (-736..-360)
+  main: [-100, 300]                   # the lab floor (0..96): the start, the halls, the bedrooms, the eye rooms
+  upper: [300, 1700]                  # the cloud room's upper air and the summoning tower (576..1600)
+model_patterns:
+  AITrack: skip                       # AIRail helpers: MM9's walkable graph, not built
+models:
+  'power water': skip                                       # ClearWater (Visible 0): a water volume, no geometry
+  'power water0': skip                                      # ClearWater (Visible 0): a water volume, no geometry
+  'power water1': skip                                      # ClearWater (Visible 0): a water volume, no geometry
+  'power water2': skip                                      # ClearWater (Visible 0): a water volume, no geometry
+  'power water3': skip                                      # ClearWater (Visible 0): a water volume, no geometry
+  'power water4': skip                                      # ClearWater (Visible 0): a water volume, no geometry
+  'power water5': skip                                      # ClearWater (Visible 0): a water volume, no geometry
+  'energy bolts': static                                    # the cloud room's energy shells (non-solid sprites)
+  firethrough: static                                       # invisible collision
+  spheres: static                                           # the cloud room's energy shells (non-solid sprites)
+  InvisibleBrush6: static                                   # invisible collision
+  Greenhills-Lake: skip                                     # DemoSkyWorldModel: MM9's starfield sky box
+  DirtyWater0: skip                                         # DirtyWater (Visible 0): a water volume, no geometry
+  Cell21: {group: Cell21, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell20: {group: Cell20, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell19: {group: Cell19, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell18: {group: Cell18, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell17: {group: Cell17, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell16: {group: Cell16, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell15: {group: Cell15, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell28: {group: Cell28, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell27: {group: Cell27, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell26: {group: Cell26, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell25: {group: Cell25, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell24: {group: Cell24, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell23: {group: Cell23, motion: dat, click: false}        # 88 up; its lever opens it
+  Cell22: {group: Cell22, motion: dat, click: false}        # 88 up; its lever opens it
+  Switch20: {group: Switch20, motion: rotate}               # lever: Cell20
+  Switch19: {group: Switch19, motion: rotate}               # lever: Cell19
+  Switch21: {group: Switch21, motion: rotate}               # lever: Cell21
+  Switch16: {group: Switch16, motion: rotate}               # lever: Cell16
+  Switch18: {group: Switch18, motion: rotate}               # lever: Cell18
+  Switch15: {group: Switch15, motion: rotate}               # lever: Cell15
+  Switch17: {group: Switch17, motion: rotate}               # lever: Cell17
+  Switch27: {group: Switch27, motion: rotate}               # lever: Cell27
+  Switch26: {group: Switch26, motion: rotate}               # lever: Cell26
+  Switch28: {group: Switch28, motion: rotate}               # lever: Cell28
+  Switch23: {group: Switch23, motion: rotate}               # lever: Cell23
+  Switch25: {group: Switch25, motion: rotate}               # lever: Cell25
+  Switch22: {group: Switch22, motion: rotate}               # lever: Cell22
+  Switch24: {group: Switch24, motion: rotate}               # lever: Cell24
+  DoubleDoorL12: {group: DoubleDoor12, motion: dat, doorway: true, portal: DoubleDoorPortal12}   # Lift
+  DoubleDoorR12: {group: DoubleDoor12, motion: dat, doorway: true, portal: DoubleDoorPortal12}   # Lift
+  DoubleDoorL17: {group: DoubleDoor17, motion: dat, doorway: true, portal: DoubleDoorPortal17}   # Lift
+  DoubleDoorR17: {group: DoubleDoor17, motion: dat, doorway: true, portal: DoubleDoorPortal17}   # Lift
+  DoubleDoorL18: {group: DoubleDoor18, motion: dat, doorway: true, portal: DoubleDoorPortal18}   # Lift, super eye lock
+  DoubleDoorR18: {group: DoubleDoor18, motion: dat, doorway: true, portal: DoubleDoorPortal18}   # Lift, super eye lock
+  DoubleDoorL21: {group: DoubleDoor21, motion: dat, doorway: true, portal: DoubleDoorPortal21}   # Lift
+  DoubleDoorR21: {group: DoubleDoor21, motion: dat, doorway: true, portal: DoubleDoorPortal21}   # Lift
+  DoubleDoorL25: {group: DoubleDoor25, motion: dat, doorway: true, portal: DoubleDoorPortal25}   # Lift, super eye lock
+  DoubleDoorR25: {group: DoubleDoor25, motion: dat, doorway: true, portal: DoubleDoorPortal25}   # Lift, super eye lock
+  DoubleDoorL27: {group: DoubleDoor27, motion: dat, doorway: true, portal: DoubleDoorPortal27}   # Lift
+  DoubleDoorR27: {group: DoubleDoor27, motion: dat, doorway: true, portal: DoubleDoorPortal27}   # Lift
+  'super eye door': {group: super eye door, motion: dat, click: false}   # the force field: 256 down
+  DresserDoorR1: static                                     # pivot 6 500 LT away (README)
+  DresserDoorL1: static                                     # pivot 6 500 LT away (README)
+  Drawer2: {group: Drawer2, motion: dat}                    # drawer, 12 out
+  Drawer1: {group: Drawer1, motion: dat}                    # drawer, 12 out
+  Closet2Door1: {group: Closet2Door, motion: rotate}         # closet leaf
+  Closet2Door2: {group: Closet2Door, motion: rotate}         # closet leaf
+  Closet1Door1: {group: Closet1Door, motion: rotate}         # closet leaf
+  Closet1Door2: {group: Closet1Door, motion: rotate}         # closet leaf
+  DresserDoorR2: {group: DresserDoor2, motion: rotate}      # dresser leaf
+  DresserDoorL2: {group: DresserDoor2, motion: rotate}      # dresser leaf
+  Drawer3: {group: Drawer3, motion: dat}                    # drawer, 12 out
+  Drawer4: {group: Drawer4, motion: dat}                    # drawer, 12 out
+  DoubleDoorL10: {group: DoubleDoor10, motion: dat, doorway: true, portal: DoubleDoorPortal10}   # Lift, Locked 1
+  DoubleDoorR10: {group: DoubleDoor10, motion: dat, doorway: true, portal: DoubleDoorPortal10}   # Lift, Locked 1
+  DoubleDoorL11: {group: DoubleDoor11, motion: dat, doorway: true, portal: DoubleDoorPortal11}   # Lift
+  DoubleDoorR11: {group: DoubleDoor11, motion: dat, doorway: true, portal: DoubleDoorPortal11}   # Lift
+  DoubleDoorL8: {group: DoubleDoor8, motion: dat, doorway: true, portal: DoubleDoorPortal8}   # Lift
+  DoubleDoorR8: {group: DoubleDoor8, motion: dat, doorway: true, portal: DoubleDoorPortal8}   # Lift
+  DoubleDoorL9: {group: DoubleDoor9, motion: dat, doorway: true, portal: DoubleDoorPortal9}   # Lift
+  DoubleDoorR9: {group: DoubleDoor9, motion: dat, doorway: true, portal: DoubleDoorPortal9}   # Lift
+  DirtyWater3: skip                                         # DirtyWater (Visible 0): a water volume, no geometry
+  DirtyWater2: skip                                         # DirtyWater (Visible 0): a water volume, no geometry
+  DirtyWater1: skip                                         # DirtyWater (Visible 0): a water volume, no geometry
+  yellow0: {group: yellow0, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  white0: {group: white0, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  red0: {group: red0, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  purple0: {group: purple0, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  green0: {group: green0, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  yellow1: {group: yellow1, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  white1: {group: white1, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  red1: {group: red1, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  purple1: {group: purple1, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  blue1: {group: blue1, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  yellow2: {group: yellow2, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  white2: {group: white2, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  red2: {group: red2, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  green2: {group: green2, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  blue2: {group: blue2, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  yellow3: {group: yellow3, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  white3: {group: white3, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  purple3: {group: purple3, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  green3: {group: green3, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  blue3: {group: blue3, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  yellow4: {group: yellow4, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  red4: {group: red4, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  purple4: {group: purple4, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  green4: {group: green4, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  blue4: {group: blue4, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  white5: {group: white5, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  red5: {group: red5, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  purple5: {group: purple5, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  green5: {group: green5, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  blue5: {group: blue5, motion: nudge, move_lt: [0, -8, 0]}   # TeleporterSwitch.scr crystal
+  InvisibleBrush0: static                                   # invisible collision
+  InvisibleBrush1: static                                   # invisible collision
+  InvisibleBrush2: static                                   # invisible collision
+  InvisibleBrush3: static                                   # invisible collision
+  InvisibleBrush4: static                                   # invisible collision
+  InvisibleBrush5: static                                   # invisible collision
+  'teleporter effect4': static                              # teleporter shimmer (non-solid)
+  'teleporter effect3': static                              # teleporter shimmer (non-solid)
+  'teleporter effect2': static                              # teleporter shimmer (non-solid)
+  'teleporter effect': static                               # teleporter shimmer (non-solid)
+  'teleporter effect0': static                              # teleporter shimmer (non-solid)
+  'teleporter effect1': static                              # teleporter shimmer (non-solid)
+  'teleporter effect5': static                              # teleporter shimmer (non-solid)
+  WorldObject0: static                                      # teleporter shimmer (non-solid)
+  WorldObject1: static                                      # teleporter shimmer (non-solid)
+textures:
+  # The five sky faces (flags 0x111, texture "Default": the summoning tower's open top) are retextured by convert.py
+  # (sky_faces) to this marker, which CityHooks turns into IndoorSky faces with the open sky behind them.
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+# The super eye's force field (super eye door: Perception.spr, Alpha 0.35): drawn translucent (0.35 by the brush)
+glass:
+  perception.spr: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# The open sky (city/hooks.py CityHooks.scene). No street structure (convert.py extra_portals: the tower's open air is
+# one room), no outdoor view (an indoor lab: the scene's own view; MM9 has no fog here), no half steps.
+city:
+  daylight: false                     # MM9: AmbientLight 35 and no StaticSunLight; night at every hour
+  sky_preset: night_stars             # MM9's starfield sky box (user, 2026-11-05)
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [EvilGrandSorcerer0, EvilGrandSorcerer1, EvilGrandSorcerer2]
+  themed_near: [BonePile0, BonePile1, BonePile2, BonePile3]
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated, translucent where MM9's are.
+# The stations' sheets and crystals are translucent in convert.py (SPR_SURFACES); Ocean.spr, the power water's
+# Water115 and the cloud room's water123flowing get their frames.
+spr_surfaces:
+  # Left opaque for now (2026-11-10): the spheres (Alpha 0.85, 1 088 faces: as many translucent draws for a 15 %
+  # difference) and the energy bolts (Alpha 0.15), whose slime faces are liquids (a retexture, not this rule).
+  skip: [spheres, energy bolts]

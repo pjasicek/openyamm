@@ -1,0 +1,1619 @@
+{
+ "id": "20261009-1628-mm6-6t1-10",
+ "world": "mm6",
+ "maps": [
+  "6t1.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/t1w15b",
+  "mm6/t1wl4reb",
+  "mm6/t1wl4ctr",
+  "mm6/t1wl4lea",
+  "mm6/t1wl5leb",
+  "mm6/t1wl9leb",
+  "mm6/t1wl5lea",
+  "mm6/t1wl3lea",
+  "mm6/t1wl9rea",
+  "mm6/t1wl9spc",
+  "mm6/t1wl9spa",
+  "mm6/t1wl9spb",
+  "mm6/t1wl3rea",
+  "mm6/t1wl9lea",
+  "mm6/t1wl9spd",
+  "mm6/t1wl4spb",
+  "mm6/t1curtr",
+  "mm6/t1wl6leb",
+  "mm6/orair64",
+  "mm6/orwtr64",
+  "mm6/oceil1",
+  "mm6/orwtrrf",
+  "mm6/t1curtl",
+  "mm6/t1d3"
+ ],
+ "requests": {
+  "mm6/t1w15b": {
+   "name": "t1w15b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "Each marble block is one continuous polished surface: no rectangular lighter or darker patches, no stepped notches along block edges; veins flow across the whole block. No mosaic of small cells or scales."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1wl4ctl"
+     ],
+     "fraction": 0.948
+    },
+    "2": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1wl4cts"
+     ],
+     "fraction": 0.93
+    },
+    "3": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1wl4cts"
+     ],
+     "fraction": 0.93
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   }
+  },
+  "mm6/t1wl4reb": {
+   "name": "t1wl4reb",
+   "versions": [
+    1
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, with a column of small raised pink marble quoin blocks along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.896
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/t1wl4ctr": {
+   "name": "t1wl4ctr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, with a row of small raised pink marble blocks along the top",
+   "notes": {
+    "2": "No dark or pale hairline along the right edge; the marble blocks and joints continue to the border as in the reference.",
+    "3": "The right border cuts through the blocks: where the reference shows a light grey block bevel at the right edge, that bevel runs out of the picture with no dark joint, groove or hairline in the outermost columns.",
+    "4": "Right edge: keep the reference's block faces and joints exactly at the edge; no pale or dark hairline along the right side.",
+    "5": "Right edge: keep the reference's block faces and joints exactly at the edge; no pale or dark hairline along the right side.",
+    "6": "Render every brick bevel and mortar line cleanly: no dark smudges on bevel corners, no notches in the mortar and no tone seams inside a brick.",
+    "7": "Every brick is one continuous marble slab with clean bevels: no vertical tone seam inside any brick, no notches in the bevels, unbroken mortar.",
+    "8": "The right edge is plain marble brick face as in the reference, with no dark vertical band; the vertical mortar joint belongs only at the left edge. Every brick one continuous slab.",
+    "9": "Match the reference course heights exactly so the mortar rows fall at the reference rows and the texture ends in the dark mortar row at the bottom edge; the right edge is plain brick face."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.619
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.619
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl4rea",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.621
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl4rea",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.621
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15a",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.612
+    },
+    "6": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15a",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.612
+    },
+    "7": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15a",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.612
+    },
+    "9": {
+     "sources": [
+      "mm6/t1wl4cts",
+      "mm6/t1w15a",
+      "mm6/t1w15b",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.612
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "9": {}
+   },
+   "roll": {
+    "2": [
+     49,
+     0
+    ],
+    "3": [
+     49,
+     0
+    ],
+    "4": [
+     49,
+     0
+    ]
+   },
+   "ref_blur": {
+    "9": 0.6
+   }
+  },
+  "mm6/t1wl4lea": {
+   "name": "t1wl4lea",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, with small raised pink marble quoin blocks along the top and down the left edge",
+   "notes": {
+    "2": "Rebuild on the accepted neighbouring pieces: no dark hairline across the lower bricks, no dark blots or notches at the joints; every brick is clean marble with crisp bevels.",
+    "3": "Rebuild on the accepted neighbouring pieces: no dark hairline across the lower bricks, no dark blots or notches at the joints; every brick is clean marble with crisp bevels.",
+    "4": "Draw the recessed wall bricks next to the protruding sawtooth column cleanly with a soft cast shadow as in the reference; no ghosted, doubled or semi-transparent bricks and no blotches.",
+    "5": "Clean recessed marble bricks beside the sawtooth column with no pale ghosted patches or smeared mortar; the right edge continues the marble smoothly with no strip.",
+    "6": "The right edge ends in pale marble brick face matching the neighbouring wall's tone and veining, with no mortar strip and no bevel line at the edge; clean recessed bricks beside the sawtooth column."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl4leb",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl7lea",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.857
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl4leb",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl7lea",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.857
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl4leb",
+      "mm6/t1wl4ctl",
+      "mm6/t1w15a",
+      "mm6/t1wl1leb",
+      "mm6/t1wl7lea",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.853
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl4leb",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl1lea",
+      "mm6/t1w15a"
+     ],
+     "fraction": 0.876
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl4leb",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl1lea",
+      "mm6/t1w15a"
+     ],
+     "fraction": 0.876
+    },
+    "6": {
+     "sources": [
+      "mm6/t1wl4leb",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl1lea",
+      "mm6/t1w15a"
+     ],
+     "fraction": 0.876
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {
+     "right": "mm6/t1wl4ctl",
+     "bottom": "mm6/t1wl4leb"
+    },
+    "4": {
+     "right": "mm6/t1wl4ctl",
+     "bottom": "mm6/t1wl4leb"
+    },
+    "5": {
+     "right": "mm6/t1wl4ctl",
+     "bottom": "mm6/t1wl4leb"
+    },
+    "6": {
+     "right": "mm6/t1wl4ctl",
+     "bottom": "mm6/t1wl4leb"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/t1wl5leb": {
+   "name": "t1wl5leb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl4ctr",
+      "mm6/t1w15a",
+      "mm6/t1wl5ctl",
+      "mm6/t1wl5rea",
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.934
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl4ctr",
+      "mm6/t1w15a",
+      "mm6/t1wl5ctl",
+      "mm6/t1wl4spa",
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.931
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/t1wl9leb": {
+   "name": "t1wl9leb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with a fluted grey marble column on the left edge",
+   "notes": {
+    "4": "No dark or light line along the bottom or top edge: the outermost rows continue the marble bricks and the column base exactly as in the reference.",
+    "5": "No dark or light line along the bottom or top edge: the outermost rows continue the marble bricks and the column base exactly as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9ctb",
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.748
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9ctb",
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.748
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9ctb",
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.748
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl9ctb",
+      "mm6/t1wl9rea"
+     ],
+     "fraction": 0.748
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl9ctb",
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.727
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t1wl9ctb"
+    },
+    "3": {},
+    "4": {
+     "left": "mm6/t1wl9ctb"
+    },
+    "5": {
+     "right": "mm6/t1wl9ctl",
+     "left": "mm6/t1wl9ctb"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     141
+    ],
+    "4": [
+     0,
+     141
+    ]
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl5lea": {
+   "name": "t1wl5lea",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, with a column of half blocks along the left edge",
+   "notes": {
+    "2": "Marble veins run continuously across each block face; no blotchy square or stair-stepped patches inside the blocks.",
+    "3": "Marble veins run continuously across each block face; no blotchy square or stair-stepped patches inside the blocks."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl2lea",
+      "mm6/t1wl5ct",
+      "mm6/t1wl5ctl",
+      "mm6/t1wl2leb",
+      "mm6/t1wl7lea",
+      "mm6/t1wl4lea"
+     ],
+     "fraction": 0.675
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl2lea",
+      "mm6/t1wl5ct",
+      "mm6/t1wl5ctl",
+      "mm6/t1wl2leb",
+      "mm6/t1wl7lea",
+      "mm6/t1wl4lea"
+     ],
+     "fraction": 0.675
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl2lea",
+      "mm6/t1wl5ct",
+      "mm6/t1wl5ctl",
+      "mm6/t1wl7lea",
+      "mm6/t1wl4lea"
+     ],
+     "fraction": 0.675
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {
+     "right": "mm6/t1wl5rea",
+     "top": "mm6/pxshings"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/t1wl3lea": {
+   "name": "t1wl3lea",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, framed by a carved dark silver-grey ornamental border along the left, top and bottom",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "Natural pink marble with irregular veining: no mosaic of cells, no stair-step pixel blocks.",
+    "4": "Copy the reference composition exactly; even dark grey mortar of constant width with no marks, crosses or ticks along the edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a"
+     ],
+     "fraction": 0.389
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a"
+     ],
+     "fraction": 0.389
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a"
+     ],
+     "fraction": 0.389
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1lea",
+      "mm6/t1wl6leb",
+      "mm6/t1spcl1",
+      "mm6/t1wl3rea"
+     ],
+     "fraction": 0.596
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {
+     "right": "mm6/t1wl3cts",
+     "left": "mm6/t1wl3cts"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl9rea": {
+   "name": "t1wl9rea",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with a vertical teal-green Greek key border down the right edge",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "3": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material.",
+    "4": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.752
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.752
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.752
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.752
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1w11a"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl9spc": {
+   "name": "t1wl9spc",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with an inset grey stone relief panel of a procession of robed figures; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "3": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "4": "No pale vertical line about three quarters across; the marble bricks there are uninterrupted. Keep the procession relief."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.718
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9rea",
+      "mm6/t1wl9spd",
+      "mm6/t1wl9ctb"
+     ],
+     "fraction": 0.718
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spd"
+     ],
+     "fraction": 0.718
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spb"
+     ],
+     "fraction": 0.718
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t1wl9rea"
+    },
+    "3": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctl"
+    },
+    "4": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctl"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl9spa": {
+   "name": "t1wl9spa",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with an inset grey-teal stone relief panel of a crowded battle frieze; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "3": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "4": "No pale vertical line about three quarters across; the marble bricks there are uninterrupted."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.687
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.687
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spd"
+     ],
+     "fraction": 0.687
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spb"
+     ],
+     "fraction": 0.687
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t1wl9rea"
+    },
+    "3": {
+     "right": "mm6/t1wl9ctl",
+     "left": "mm6/t1wl9ctl"
+    },
+    "4": {
+     "right": "mm6/t1wl9ctl",
+     "left": "mm6/t1wl9ctl"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl9spb": {
+   "name": "t1wl9spb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with an inset grey stone relief panel of a rearing white horse; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "3": "Keep the horse relief panel exactly as now; no dark or light line along the bottom edge: the outermost rows continue the marble bricks exactly as in the reference.",
+    "4": "Keep the horse relief panel exactly as now; no dark or light line along the bottom edge: the outermost rows continue the marble bricks exactly as in the reference.",
+    "5": "The marble bricks in the lower right are continuous; no thin pale vertical hairline through the bottom brick rows.",
+    "6": "Each marble brick is continuous: no pale vertical hairline about three quarters across, in either the top or the bottom row.",
+    "7": "No pale vertical line about three quarters across; the marble bricks there are uninterrupted. Keep the horse relief."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.675
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.675
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.675
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spd"
+     ],
+     "fraction": 0.675
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spd"
+     ],
+     "fraction": 0.675
+    },
+    "6": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spd"
+     ],
+     "fraction": 0.675
+    },
+    "7": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9spd"
+     ],
+     "fraction": 0.675
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t1ww9rec"
+    },
+    "3": {
+     "right": "mm6/t1ww9rec"
+    },
+    "4": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctl"
+    },
+    "5": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctl"
+    },
+    "6": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctl"
+    },
+    "7": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctl"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     183
+    ]
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ],
+    "7": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl3rea": {
+   "name": "t1wl3rea",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, framed by a carved dark silver-grey ornamental border along the right, top and bottom",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "Natural pink marble with irregular veining: no mosaic of cells, no stair-step pixel blocks.",
+    "4": "The ornamented iron frame on the right runs to the right border exactly as in the reference: no dark or pale hairline in the outermost columns.",
+    "5": "Right edge: the ornamental frame continues exactly to the outermost column as in the reference; no pale or dark hairline along the right side.",
+    "6": "Right edge: the ornamental frame continues exactly to the outermost column as in the reference; no pale or dark hairline along the right side.",
+    "7": "Run the ornament band flush to the right edge on its pale backing; no dark line and no pale strip at the right boundary.",
+    "8": "The ornament band's pale ground runs right to the right edge; the outermost pixel columns on the right are the same pale ground, with no dark hairline."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1ctl",
+      "mm6/t1wl3lea",
+      "mm6/t1curtr",
+      "mm6/t1wl6reb"
+     ],
+     "fraction": 0.499
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1ctl",
+      "mm6/t1wl3lea",
+      "mm6/t1curtr",
+      "mm6/t1wl6reb"
+     ],
+     "fraction": 0.499
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1ctl",
+      "mm6/t1wl3lea",
+      "mm6/t1curtr",
+      "mm6/t1wl6reb"
+     ],
+     "fraction": 0.499
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1rea",
+      "mm6/t1wl3lea",
+      "mm6/t1curtr",
+      "mm6/t1wl6reb"
+     ],
+     "fraction": 0.502
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1rea",
+      "mm6/t1wl3lea",
+      "mm6/t1curtr",
+      "mm6/t1wl6reb"
+     ],
+     "fraction": 0.502
+    },
+    "6": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl3lea",
+      "mm6/t1curtr"
+     ],
+     "fraction": 0.385
+    },
+    "7": {
+     "sources": [
+      "mm6/t1wl3cts",
+      "mm6/t1w11a",
+      "mm6/t1wl1ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl3lea",
+      "mm6/t1curtr"
+     ],
+     "fraction": 0.385
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {
+     "left": "mm6/t1wl3cts",
+     "right": "mm6/t1w11a"
+    },
+    "7": {
+     "left": "mm6/t1wl3cts",
+     "right": "mm6/t1w11a"
+    }
+   },
+   "roll": {
+    "4": [
+     90,
+     0
+    ],
+    "5": [
+     90,
+     0
+    ]
+   },
+   "pad": {
+    "6": [
+     32,
+     16
+    ],
+    "7": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl9lea": {
+   "name": "t1wl9lea",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with a vertical teal-green Greek key border down the left edge",
+   "notes": {
+    "2": "No dark outline, joint line or shadow along the right edge: the outermost columns keep the same brightness as the marble beside them. Each marble block one even tone with natural veining, no patchy stepped areas.",
+    "3": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "4": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "5": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.574
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.574
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.574
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.574
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl9cts",
+      "mm6/t1wl9ctb"
+     ],
+     "fraction": 0.574
+    }
+   },
+   "ref_blur": {
+    "3": 2.0,
+    "4": 2.0,
+    "5": 2.0
+   },
+   "context": {
+    "4": {
+     "right": "mm6/t1wl9rea"
+    },
+    "5": {
+     "right": "mm6/t1wl9cts",
+     "left": "mm6/t1wl9cts"
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl9spd": {
+   "name": "t1wl9spd",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with a recessed dark niche holding a bronze statue group of three figures struggling with serpents, all fully clothed in long draped robes; copy the composition exactly",
+   "notes": {
+    "2": "All figures fully clothed in long robes; no bare skin.",
+    "3": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.578
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.578
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.578
+    }
+   },
+   "ref_blur": {
+    "3": 2.0
+   },
+   "roll": {
+    "4": [
+     0,
+     71
+    ]
+   }
+  },
+  "mm6/t1wl4spb": {
+   "name": "t1wl4spb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, with a tall dark arched niche holding a bronze statue of a knight in full plate armour with a shield on a fluted grey stone column pedestal",
+   "notes": {
+    "2": "All figures fully clothed in long robes; no bare skin.",
+    "3": "All figures fully clothed in long robes; no bare skin. No dark or light hairline along the right edge: the marble bricks continue to the border exactly as in the reference.",
+    "4": "All figures fully clothed in long robes; no bare skin. No hairline in the outermost columns: the marble bricks and their mortar joints run to the right and left borders exactly as in the reference.",
+    "5": "All figures fully clothed in long robes; no bare skin. The right border ends on the light marble block faces exactly as in the reference: no vertical mortar joint, dark line or shadow in the rightmost columns; the only vertical edge joint is the dark one along the left border.",
+    "6": "All figures fully clothed in long robes; no bare skin. Copy the statue group, niche and column exactly as in the reference. No bright or dark line along the bottom or right edge.",
+    "7": "All figures fully clothed in long robes; no bare skin. Copy the statue group, niche and column exactly as in the reference. The right border cuts through the marble bricks: their light faces run out of the picture with no mortar joint, dark strip or hairline in the outermost right columns.",
+    "8": "Right edge: the marble blocks and joints continue exactly to the outermost column as in the reference; no pale or dark hairline along the right side.",
+    "9": "The statue is a fully armoured knight; no bare skin.",
+    "10": "All figures fully clothed in long robes; no bare skin. Copy the statue group, niche and column exactly as in the reference. The right border cuts through the marble bricks: their light faces run out of the picture with no mortar joint, dark strip or hairline in the outermost right columns."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "2": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "3": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "4": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "5": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "6": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "7": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "8": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "9": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.282
+    },
+    "10": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15b"
+     ],
+     "fraction": 0.266
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {},
+    "10": {
+     "left": "mm6/t1wl4cts",
+     "right": "mm6/t1wl4cts"
+    }
+   },
+   "roll": {
+    "3": [
+     32,
+     0
+    ],
+    "4": [
+     32,
+     0
+    ],
+    "6": [
+     32,
+     185
+    ],
+    "7": [
+     32,
+     0
+    ],
+    "8": [
+     32,
+     0
+    ]
+   },
+   "border": "edge",
+   "pad": {
+    "10": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1curtr": {
+   "name": "t1curtr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, half covered on the left by a draped crimson-pink silk curtain gathered and twisted at mid height; copy the composition exactly",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "Natural pink marble with irregular veining: no mosaic of cells, no stair-step pixel blocks.",
+    "4": "Natural pink marble with irregular veining: no mosaic of cells, no stair-step pixel blocks.",
+    "6": "Keep the native's edge columns exactly: no added dark band or hairline at the edges; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl3cts"
+     ],
+     "fraction": 0.237
+    },
+    "2": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.232
+    },
+    "3": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.232
+    },
+    "4": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1spcl1",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.237
+    },
+    "5": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1spcl1",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.237
+    },
+    "6": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.231
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "4": [
+     0,
+     149
+    ],
+    "5": [
+     0,
+     149
+    ]
+   }
+  },
+  "mm6/t1wl6leb": {
+   "name": "t1wl6leb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, with a carved dark silver-grey ornamental border strip on the left edge",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "No dark outline, joint line or shadow along the right or left edge: the outermost columns keep the same brightness as the marble and the grey border beside them, as in the reference.",
+    "5": "The right border cuts through the marble blocks: their light faces run out of the picture with no joint, dark line or shadow in the outermost right columns, as in the reference.",
+    "6": "Right edge: the marble blocks continue to the outermost column as bright as the reference; no dark joint line or rim along the right side.",
+    "7": "Right edge: the marble blocks continue to the outermost column as bright as the reference; no dark joint line or rim along the right side."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl3lea"
+     ],
+     "fraction": 0.18
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl3lea"
+     ],
+     "fraction": 0.18
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl3lea"
+     ],
+     "fraction": 0.18
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl3lea"
+     ],
+     "fraction": 0.18
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl3lea"
+     ],
+     "fraction": 0.18
+    },
+    "6": {
+     "sources": [
+      "mm6/t1wl3lea"
+     ],
+     "fraction": 0.18
+    },
+    "7": {
+     "sources": [
+      "mm6/t1wl3lea"
+     ],
+     "fraction": 0.18
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   },
+   "roll": {
+    "4": [
+     32,
+     0
+    ],
+    "5": [
+     32,
+     0
+    ],
+    "6": [
+     32,
+     0
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {
+     "right": "mm6/t1w15b"
+    }
+   },
+   "pad": {
+    "7": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/orair64": {
+   "name": "orair64",
+   "versions": [
+    1
+   ],
+   "material": "pale icy sky-blue marbled stone with soft white cloudy veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/orair256b"
+     ],
+     "fraction": 0.65
+    }
+   }
+  },
+  "mm6/orwtr64": {
+   "name": "orwtr64",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-blue marble with pale crackled veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/oceil1": {
+   "name": "oceil1",
+   "versions": [
+    1
+   ],
+   "material": "pink-salmon finely speckled marble with pale cream flecks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orwtrrf": {
+   "name": "orwtrrf",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-blue marble with pale crackled veining and a thin dark bevelled border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1curtl": {
+   "name": "t1curtl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink and cream veined marble ashlar wall of bevelled blocks with dark joints, raised pink blocks alternating with flush cream blocks, half covered on the left by a wide draped crimson-pink silk curtain gathered and twisted at mid height; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t1w11a"
+    }
+   }
+  },
+  "mm6/t1d3": {
+   "name": "t1d3",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pink-cream veined marble door with a bevelled marble frame and two stacked recessed red-brown marble panels; copy the composition exactly",
+   "notes": {
+    "3": "The left edge continues the grey-brown marble and the right edge continues the pale marble right up to the last pixel; no dark border lines on either side.",
+    "4": "Carry the white marble straight to the last pixel column on the right edge with no dark or brown strip; the left edge keeps the reference's grey-brown shading."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm6/t1wl8ctc",
+     "left": "mm6/t1wl8rea",
+     "right": "mm6/pxstrdr"
+    },
+    "3": {
+     "top": "mm6/t1wl8ctc",
+     "left": "mm6/t1wl8rea",
+     "right": "mm6/pxstrdr"
+    },
+    "4": {
+     "top": "mm6/t1wl8ctc",
+     "left": "mm6/t1wl8rea",
+     "right": "mm6/pxstrdr"
+    }
+   }
+  }
+ }
+}

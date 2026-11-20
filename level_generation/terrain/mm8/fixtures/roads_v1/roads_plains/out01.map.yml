@@ -1,0 +1,21 @@
+format_version: 1
+kind: outdoor_map_package
+package_id: mm8:flat_roads_plains
+display_name: MM8 flat roads_plains
+map_file: out01.odm
+scene_file: out01.scene.yml
+geometry_metadata_file: out01.geometry.yml
+terrain_metadata_file: out01.terrain.yml
+script_module: Data/scripts/maps/out01.lua
+map_stats_id: 10001
+redbook_track: 4
+environment_name: grassland
+is_top_level_area: true
+outdoor_bounds:
+  enabled: true
+  min_x: -23143
+  max_x: 23143
+  min_y: -23143
+  max_y: 23143
+source_fingerprint: E4CF2BB33DFD0192
+built_source_fingerprint: E4CF2BB33DFD0192

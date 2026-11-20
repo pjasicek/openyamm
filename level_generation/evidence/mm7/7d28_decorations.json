@@ -1,0 +1,349 @@
+{
+  "world": "mm7",
+  "map": "7d28.blv",
+  "kind": "indoor",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm7/maps/7d28.blv",
+      "sha256": "ccf44073ea8c7b91eb82e5ef0aa9c366f912c91c921d57f69299e24560e7f786"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/maps/7d28.scene.yml",
+      "sha256": "f9bf1afd83001c395410b8121f92c2b9a9f8af9464a0e959b214e117a07c5447"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/decoration_data.txt",
+      "sha256": "0ad51cc583a71f2e4255211fb79be965e2adb1a51f7baeb0d603f777073bca7f"
+    },
+    {
+      "path": "assets_dev/engine/rendering/sprite_frame_data_common.yml",
+      "sha256": "197b5a71379e4d38b08f2ab2c31f74aea0de38e4dc6b724e7bb4beeba953726b"
+    }
+  ],
+  "records": [
+    {
+      "index": 0,
+      "source_name": "Party Start",
+      "id": 14,
+      "name": "party start",
+      "hint": "null",
+      "radius": 16,
+      "height": 16,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "DontDraw",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        924,
+        2248,
+        36
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 0
+    },
+    {
+      "index": 1,
+      "source_name": "7dec18",
+      "id": 257,
+      "name": "7dec18",
+      "hint": "bones",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 8028,
+      "category": "props",
+      "position": [
+        128,
+        2816,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/7dec18.bmp",
+        "pixels": [
+          128,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 2,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          73,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm7/decoration_frames/7dec18.png",
+        "palette_path": "assets_dev/worlds/mm7/textures/pal002.act"
+      }
+    },
+    {
+      "index": 2,
+      "source_name": "7dec18",
+      "id": 257,
+      "name": "7dec18",
+      "hint": "bones",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 8028,
+      "category": "props",
+      "position": [
+        28,
+        2184,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/7dec18.bmp",
+        "pixels": [
+          128,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 2,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          73,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm7/decoration_frames/7dec18.png",
+        "palette_path": "assets_dev/worlds/mm7/textures/pal002.act"
+      }
+    },
+    {
+      "index": 3,
+      "source_name": "7dec20",
+      "id": 260,
+      "name": "7dec20",
+      "hint": "skull",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 8030,
+      "category": "props",
+      "position": [
+        220,
+        1992,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/7dec20.bmp",
+        "pixels": [
+          128,
+          128
+        ],
+        "scale": 0.599991,
+        "palette_id": 2,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          73,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm7/decoration_frames/7dec20.png",
+        "palette_path": "assets_dev/worlds/mm7/textures/pal002.act"
+      }
+    },
+    {
+      "index": 4,
+      "source_name": "dec19",
+      "id": 259,
+      "name": "dec19",
+      "hint": "bones",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 8029,
+      "category": "props",
+      "position": [
+        -128,
+        2816,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/dec19.bmp",
+        "pixels": [
+          128,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 2,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          73,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm7/decoration_frames/dec19.png",
+        "palette_path": "assets_dev/worlds/mm7/textures/pal002.act"
+      }
+    },
+    {
+      "index": 5,
+      "source_name": "7dec18",
+      "id": 257,
+      "name": "7dec18",
+      "hint": "bones",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 8028,
+      "category": "props",
+      "position": [
+        668,
+        1928,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/7dec18.bmp",
+        "pixels": [
+          128,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 2,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          73,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm7/decoration_frames/7dec18.png",
+        "palette_path": "assets_dev/worlds/mm7/textures/pal002.act"
+      }
+    },
+    {
+      "index": 6,
+      "source_name": "7dec18",
+      "id": 257,
+      "name": "7dec18",
+      "hint": "bones",
+      "radius": 52,
+      "height": 52,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 8028,
+      "category": "props",
+      "position": [
+        604,
+        2440,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/7dec18.bmp",
+        "pixels": [
+          128,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 2,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          73,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm7/decoration_frames/7dec18.png",
+        "palette_path": "assets_dev/worlds/mm7/textures/pal002.act"
+      }
+    }
+  ],
+  "missing_sprites": [],
+  "models": [],
+  "counts": {
+    "native": 7,
+    "visible": 6,
+    "categories": {
+      "props": 6
+    },
+    "palette": {
+      "7dec18": 4,
+      "7dec20": 1,
+      "dec19": 1
+    },
+    "light_emitters": 0
+  }
+}

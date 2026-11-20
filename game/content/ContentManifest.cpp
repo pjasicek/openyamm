@@ -1,9 +1,11 @@
 #include "game/content/ContentManifest.h"
 
+#include "game/StringUtils.h"
 #include "game/maps/MapIdentity.h"
 
 #include <yaml-cpp/yaml.h>
 
+#include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <exception>
@@ -129,6 +131,70 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         manifest.start.introMovie = scalarStringOrDefault(startNode, "introMovie", manifest.start.introMovie);
     }
 
+    if (const YAML::Node deathNode = root["partyDeath"])
+    {
+        const YAML::Node positionNode = deathNode["position"];
+
+        if (!deathNode.IsMap() || !deathNode["map"] || !positionNode || !positionNode.IsSequence()
+            || positionNode.size() != 3)
+        {
+            errorMessage = "world.yml partyDeath must declare map and position [x, y, z]";
+            return false;
+        }
+
+        manifest.partyDeath.mapFileName = scalarStringOrDefault(deathNode, "map", {});
+
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            manifest.partyDeath.position[axis] = positionNode[axis].as<int>();
+        }
+
+        manifest.partyDeath.directionYawUnits = deathNode["yaw"] ? deathNode["yaw"].as<int>() : 0;
+        manifest.partyDeath.movie = scalarStringOrDefault(deathNode, "movie", {});
+        manifest.partyDeath.keepGold = deathNode["keepGold"] && deathNode["keepGold"].as<bool>();
+
+        if (const YAML::Node whenNode = deathNode["when"])
+        {
+            const YAML::Node otherwiseNode = deathNode["otherwise"];
+
+            if (!whenNode.IsSequence() || whenNode.size() == 0 || !otherwiseNode || !otherwiseNode.IsMap()
+                || !otherwiseNode["reloadAutosave"] || !otherwiseNode["reloadAutosave"].as<bool>())
+            {
+                errorMessage = "world.yml partyDeath when needs a non-empty list and otherwise: {reloadAutosave: true}";
+                return false;
+            }
+
+            for (const YAML::Node &conditionNode : whenNode)
+            {
+                WorldPartyDeathCondition condition;
+
+                if (const YAML::Node setNode = conditionNode["qbits"])
+                {
+                    condition.qbits = setNode.as<std::vector<uint32_t>>();
+                }
+
+                if (const YAML::Node clearNode = conditionNode["notQbits"])
+                {
+                    condition.notQbits = clearNode.as<std::vector<uint32_t>>();
+                }
+
+                manifest.partyDeath.when.push_back(std::move(condition));
+            }
+
+            manifest.partyDeath.otherwiseMovie = scalarStringOrDefault(otherwiseNode, "movie", {});
+        }
+    }
+
+    const std::string autosave = scalarStringOrDefault(root, "autosave", "departure");
+
+    if (autosave != "departure" && autosave != "arrival")
+    {
+        errorMessage = "world.yml autosave must be departure or arrival";
+        return false;
+    }
+
+    manifest.autosaveOnArrival = autosave == "arrival";
+
     const YAML::Node qbitsNode = root["qbits"];
     if (qbitsNode && qbitsNode.IsMap())
     {
@@ -223,6 +289,475 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
             errorMessage = "world.yml actorAwareness partyEngagementRange must be finite and positive";
             return false;
         }
+
+        const auto readNonNegative = [&](const YAML::Node &parent, const char *pKey, float &value, const char *pName)
+        {
+            const YAML::Node node = parent[pKey];
+
+            if (!node)
+            {
+                return true;
+            }
+
+            if (!node.IsScalar() || !std::isfinite(node.as<float>()) || node.as<float>() < 0.0f)
+            {
+                errorMessage = std::string("world.yml actorAwareness ") + pName + " must be a finite number, 0 or more";
+                return false;
+            }
+
+            value = node.as<float>();
+            return true;
+        };
+
+        if (const YAML::Node sightNode = actorAwarenessNode["mm9Sight"])
+        {
+            const YAML::Node allRoundNode = sightNode.IsMap() ? sightNode["allRound"] : YAML::Node();
+
+            if (!sightNode.IsMap() || (allRoundNode && !allRoundNode.IsScalar()))
+            {
+                errorMessage = "world.yml actorAwareness mm9Sight must be a map of allRound, scale and max";
+                return false;
+            }
+
+            manifest.actorAwareness.mm9SightAllRound = allRoundNode && allRoundNode.as<bool>();
+
+            if (!readNonNegative(sightNode, "scale", manifest.actorAwareness.mm9SightScale, "mm9Sight scale")
+                || !readNonNegative(sightNode, "max", manifest.actorAwareness.mm9SightMax, "mm9Sight max"))
+            {
+                return false;
+            }
+        }
+
+        if (const YAML::Node provokeNode = actorAwarenessNode["mm9Provoke"])
+        {
+            if (!provokeNode.IsMap())
+            {
+                errorMessage = "world.yml actorAwareness mm9Provoke must be a map of range and radius";
+                return false;
+            }
+
+            if (!readNonNegative(provokeNode, "range", manifest.actorAwareness.mm9ProvokeRange, "mm9Provoke range")
+                || !readNonNegative(provokeNode, "radius", manifest.actorAwareness.mm9ProvokeRadius,
+                    "mm9Provoke radius"))
+            {
+                return false;
+            }
+        }
+    }
+
+    if (const YAML::Node actorCombatNode = root["actorCombat"])
+    {
+        const YAML::Node reachNode = actorCombatNode.IsMap() ? actorCombatNode["meleeVerticalReach"] : YAML::Node();
+        if (!reachNode || !reachNode.IsScalar())
+        {
+            errorMessage = "world.yml actorCombat must declare meleeVerticalReach";
+            return false;
+        }
+
+        manifest.actorCombat.meleeVerticalReach = reachNode.as<float>();
+
+        if (!std::isfinite(manifest.actorCombat.meleeVerticalReach)
+            || manifest.actorCombat.meleeVerticalReach < 0.0f || manifest.actorCombat.meleeVerticalReach > 4.0f)
+        {
+            errorMessage = "world.yml actorCombat meleeVerticalReach must be a number in 0-4";
+            return false;
+        }
+    }
+
+    if (const YAML::Node actorMovementNode = root["actorMovement"])
+    {
+        const YAML::Node limitNode = actorMovementNode.IsMap() ? actorMovementNode["levelRadiusLimit"] : YAML::Node();
+        if (!limitNode || !limitNode.IsScalar())
+        {
+            errorMessage = "world.yml actorMovement must declare levelRadiusLimit";
+            return false;
+        }
+
+        manifest.actorMovement.levelRadiusLimit = limitNode.as<float>();
+
+        if (!std::isfinite(manifest.actorMovement.levelRadiusLimit) || manifest.actorMovement.levelRadiusLimit < 0.0f)
+        {
+            errorMessage = "world.yml actorMovement levelRadiusLimit must be a finite number, 0 or more";
+            return false;
+        }
+    }
+
+    if (const YAML::Node humNode = root["hum"])
+    {
+        const YAML::Node qbitsNode = humNode.IsMap() ? humNode["qbits"] : YAML::Node();
+        const YAML::Node percentsNode = humNode.IsMap() ? humNode["percents"] : YAML::Node();
+
+        if (!qbitsNode || !qbitsNode.IsSequence() || !percentsNode || !percentsNode.IsSequence()
+            || percentsNode.size() != qbitsNode.size() + 1)
+        {
+            errorMessage = "world.yml hum needs qbits and one more percents than qbits";
+            return false;
+        }
+
+        manifest.hum.declared = true;
+
+        for (const YAML::Node &qbit : qbitsNode)
+        {
+            manifest.hum.qbits.push_back(qbit.as<uint32_t>());
+        }
+
+        for (const YAML::Node &percent : percentsNode)
+        {
+            manifest.hum.percents.push_back(percent.as<int>());
+        }
+
+        if (const YAML::Node mapsNode = humNode["maps"])
+        {
+            for (const auto &entry : mapsNode)
+            {
+                manifest.hum.mapPercents[toLowerCopy(entry.first.as<std::string>())] = entry.second.as<int>();
+            }
+        }
+
+        for (const int percent : manifest.hum.percents)
+        {
+            if (percent < 0 || percent > 100)
+            {
+                errorMessage = "world.yml hum percents must be 0-100";
+                return false;
+            }
+        }
+    }
+
+    if (const YAML::Node objectivesNode = root["objectives"])
+    {
+        if (!objectivesNode.IsSequence())
+        {
+            errorMessage = "world.yml objectives must be a list of QBits";
+            return false;
+        }
+
+        for (const YAML::Node &qbit : objectivesNode)
+        {
+            manifest.objectiveQBits.push_back(qbit.as<uint32_t>());
+        }
+    }
+
+    if (const YAML::Node burnNode = root["floorBurn"])
+    {
+        if (!burnNode.IsMap())
+        {
+            errorMessage = "world.yml floorBurn must be a map of type, resisted and maps";
+            return false;
+        }
+
+        manifest.floorBurn.type = burnNode["type"].as<std::string>(manifest.floorBurn.type);
+        manifest.floorBurn.resisted = burnNode["resisted"].as<bool>(false);
+
+        if (const YAML::Node mapsNode = burnNode["maps"])
+        {
+            for (const auto &entry : mapsNode)
+            {
+                manifest.floorBurn.mapTypes[toLowerCopy(entry.first.as<std::string>())] = entry.second.as<std::string>();
+            }
+        }
+    }
+
+    if (const YAML::Node loadingNode = root["loadingScreens"])
+    {
+        if (!loadingNode.IsSequence() || loadingNode.size() == 0)
+        {
+            errorMessage = "world.yml loadingScreens must be a nonempty list of page names";
+            return false;
+        }
+
+        for (const YAML::Node &page : loadingNode)
+        {
+            manifest.loadingScreens.push_back(page.as<std::string>());
+        }
+    }
+
+    if (const YAML::Node completionNode = root["completion"])
+    {
+        WorldCompletionDefinition &completion = manifest.completion;
+
+        if (!completionNode.IsMap() || completionNode["qbit"].as<uint32_t>(0) == 0
+            || completionNode["art"].as<std::string>("").empty() || completionNode["headline"].as<std::string>("").empty())
+        {
+            errorMessage = "world.yml completion must declare a qbit, art and a headline";
+            return false;
+        }
+
+        completion.declared = true;
+        completion.qbit = completionNode["qbit"].as<uint32_t>();
+        completion.continent = completionNode["continent"].as<std::string>("");
+        completion.art = completionNode["art"].as<std::string>();
+        completion.headline = completionNode["headline"].as<std::string>();
+        completion.text = completionNode["text"].as<std::string>("");
+
+        if (const YAML::Node layoutNode = completionNode["layout"])
+        {
+            const YAML::Node textNode = layoutNode["text"];
+            const YAML::Node markNode = layoutNode["mark"];
+
+            if (!textNode.IsSequence() || textNode.size() != 4 || !markNode.IsSequence() || markNode.size() != 3)
+            {
+                errorMessage = "world.yml completion layout must give text [left, top, right, bottom] and mark [x, y, "
+                               "height]";
+                return false;
+            }
+
+            completion.layout.declared = true;
+
+            for (size_t index = 0; index < 4; ++index)
+            {
+                completion.layout.text[index] = textNode[index].as<float>();
+            }
+
+            for (size_t index = 0; index < 3; ++index)
+            {
+                completion.layout.mark[index] = markNode[index].as<float>();
+            }
+
+            completion.layout.drawHeadline = layoutNode["draw_headline"].as<bool>(true);
+        }
+
+        if (const YAML::Node variantsNode = completionNode["variants"])
+        {
+            for (const YAML::Node &variantNode : variantsNode)
+            {
+                WorldCompletionDefinition::Variant variant;
+                variant.qbit = variantNode["qbit"].as<uint32_t>(0);
+                variant.headline = variantNode["headline"].as<std::string>(completion.headline);
+                variant.text = variantNode["text"].as<std::string>(completion.text);
+
+                if (variant.qbit == 0)
+                {
+                    errorMessage = "world.yml completion variants must each declare a qbit";
+                    return false;
+                }
+
+                completion.variants.push_back(std::move(variant));
+            }
+        }
+    }
+
+    if (const YAML::Node ambienceNode = root["ambience"])
+    {
+        if (!ambienceNode.IsMap())
+        {
+            errorMessage = "world.yml ambience must map map files to sound names";
+            return false;
+        }
+
+        for (const auto &entry : ambienceNode)
+        {
+            manifest.ambience[toLowerCopy(entry.first.as<std::string>())] = entry.second.as<std::string>();
+        }
+
+        manifest.ambienceVolume = root["ambienceVolume"].as<float>(0.6f);
+    }
+
+    if (const YAML::Node areasNode = root["musicAreas"])
+    {
+        for (const auto &mapEntry : areasNode)
+        {
+            std::vector<WorldManifest::MusicArea> &areas =
+                manifest.musicAreas[toLowerCopy(mapEntry.first.as<std::string>())];
+
+            for (const YAML::Node &areaNode : mapEntry.second)
+            {
+                const std::vector<float> rect = areaNode["rect"].as<std::vector<float>>();
+
+                if (rect.size() != 4 || rect[0] >= rect[2] || rect[1] >= rect[3] || areaNode["track"].as<int>(0) <= 0)
+                {
+                    errorMessage = "world.yml musicAreas entries need a track and rect [minX, minY, maxX, maxY]";
+                    return false;
+                }
+
+                areas.push_back({areaNode["track"].as<int>(), {rect[0], rect[1], rect[2], rect[3]}});
+            }
+        }
+    }
+
+    if (const YAML::Node musicNode = root["music"])
+    {
+        if (!musicNode.IsMap())
+        {
+            errorMessage = "world.yml music must be a map of repeatGapSeconds, battleTrack and battleFadeSeconds";
+            return false;
+        }
+
+        manifest.music.repeatGapSeconds = musicNode["repeatGapSeconds"].as<float>(0.0f);
+        manifest.music.battleTrack = musicNode["battleTrack"].as<int>(0);
+        manifest.music.battleFadeSeconds = musicNode["battleFadeSeconds"].as<float>(2.5f);
+
+        if (manifest.music.repeatGapSeconds < 0.0f || manifest.music.battleTrack < 0
+            || manifest.music.battleFadeSeconds <= 0.0f)
+        {
+            errorMessage = "world.yml music needs repeatGapSeconds >= 0, battleTrack >= 0 and battleFadeSeconds > 0";
+            return false;
+        }
+    }
+
+    if (const YAML::Node soundsNode = root["ambientSounds"])
+    {
+        const YAML::Node dayNode = soundsNode["dayHours"];
+
+        if (!soundsNode.IsMap() || (dayNode && (!dayNode.IsSequence() || dayNode.size() != 2)))
+        {
+            errorMessage = "world.yml ambientSounds must be a map of dayHours [start, end] and pan";
+            return false;
+        }
+
+        if (dayNode)
+        {
+            manifest.ambientSounds.dayStartHour = dayNode[0].as<float>();
+            manifest.ambientSounds.dayEndHour = dayNode[1].as<float>();
+        }
+
+        manifest.ambientSounds.pan = soundsNode["pan"].as<bool>(true);
+        const WorldAmbientSoundDefinition &sounds = manifest.ambientSounds;
+
+        if (sounds.dayStartHour < 0.0f || sounds.dayStartHour >= sounds.dayEndHour || sounds.dayEndHour > 24.0f)
+        {
+            errorMessage = "world.yml ambientSounds dayHours must be [start, end] within 0-24, start first";
+            return false;
+        }
+    }
+
+    if (const YAML::Node hirelingsNode = root["tavernHirelings"])
+    {
+        if (!hirelingsNode.IsScalar())
+        {
+            errorMessage = "world.yml tavernHirelings must be true or false";
+            return false;
+        }
+
+        manifest.tavernHirelings = hirelingsNode.as<bool>();
+    }
+
+    if (const YAML::Node streetNpcsNode = root["streetNpcs"])
+    {
+        if (!streetNpcsNode.IsScalar())
+        {
+            errorMessage = "world.yml streetNpcs must be true or false";
+            return false;
+        }
+
+        manifest.streetNpcs = streetNpcsNode.as<bool>();
+    }
+
+    if (const YAML::Node blockNode = root["friendlyActorsBlockParty"])
+    {
+        if (!blockNode.IsScalar())
+        {
+            errorMessage = "world.yml friendlyActorsBlockParty must be true or false";
+            return false;
+        }
+
+        manifest.friendlyActorsBlockParty = blockNode.as<bool>();
+    }
+
+    if (const YAML::Node followersNode = root["npcFollowers"])
+    {
+        if (!followersNode.IsScalar())
+        {
+            errorMessage = "world.yml npcFollowers must be true or false";
+            return false;
+        }
+
+        manifest.npcFollowers = followersNode.as<bool>();
+    }
+
+    if (const YAML::Node formationsNode = root["formations"])
+    {
+        if (!formationsNode.IsScalar())
+        {
+            errorMessage = "world.yml formations must be true or false";
+            return false;
+        }
+
+        manifest.formations = formationsNode.as<bool>();
+    }
+
+    if (const YAML::Node fleetFootNode = root["fleetFoot"])
+    {
+        if (!fleetFootNode.IsScalar())
+        {
+            errorMessage = "world.yml fleetFoot must be true or false";
+            return false;
+        }
+
+        manifest.fleetFoot = fleetFootNode.as<bool>();
+    }
+
+    if (const YAML::Node combatLogNode = root["combatLog"])
+    {
+        if (!combatLogNode.IsScalar())
+        {
+            errorMessage = "world.yml combatLog must be true or false";
+            return false;
+        }
+
+        manifest.combatLog = combatLogNode.as<bool>();
+    }
+
+    if (const YAML::Node chestArtifactsNode = root["chestArtifactsOnly"])
+    {
+        if (!chestArtifactsNode.IsScalar())
+        {
+            errorMessage = "world.yml chestArtifactsOnly must be true or false";
+            return false;
+        }
+
+        manifest.chestArtifactsOnly = chestArtifactsNode.as<bool>();
+    }
+
+    if (const YAML::Node groundGoldNode = root["groundGoldByItemTier"])
+    {
+        if (!groundGoldNode.IsScalar())
+        {
+            errorMessage = "world.yml groundGoldByItemTier must be true or false";
+            return false;
+        }
+
+        manifest.groundGoldByItemTier = groundGoldNode.as<bool>();
+    }
+
+    if (const YAML::Node openAirNode = root["openAirMaps"])
+    {
+        if (!openAirNode.IsSequence())
+        {
+            errorMessage = "world.yml openAirMaps must be a list of map file names";
+            return false;
+        }
+
+        for (const YAML::Node &mapNode : openAirNode)
+        {
+            if (!mapNode.IsScalar() || mapNode.as<std::string>().empty())
+            {
+                errorMessage = "world.yml openAirMaps must be a list of map file names";
+                return false;
+            }
+
+            manifest.openAirMaps.push_back(toLowerCopy(mapNode.as<std::string>()));
+        }
+    }
+
+    if (const YAML::Node noTeleportNode = root["noTeleportMaps"])
+    {
+        if (!noTeleportNode.IsSequence())
+        {
+            errorMessage = "world.yml noTeleportMaps must be a list of map file names";
+            return false;
+        }
+
+        for (const YAML::Node &mapNode : noTeleportNode)
+        {
+            if (!mapNode.IsScalar() || mapNode.as<std::string>().empty())
+            {
+                errorMessage = "world.yml noTeleportMaps must be a list of map file names";
+                return false;
+            }
+
+            manifest.noTeleportMaps.push_back(toLowerCopy(mapNode.as<std::string>()));
+        }
     }
 
     const YAML::Node dependenciesNode = root["dependencies"];
@@ -256,39 +791,9 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         }
     }
 
-    const YAML::Node idRangesNode = root["idRanges"];
-    if (idRangesNode)
+    if (!parseContentIdRanges(root["idRanges"], "world.yml", manifest.idRanges, errorMessage))
     {
-        if (!idRangesNode.IsMap())
-        {
-            errorMessage = "world.yml idRanges must be a map";
-            return false;
-        }
-
-        std::unordered_set<std::string> domains;
-
-        for (YAML::const_iterator iterator = idRangesNode.begin(); iterator != idRangesNode.end(); ++iterator)
-        {
-            if (!iterator->first.IsScalar() || !iterator->second.IsMap())
-            {
-                errorMessage = "world.yml idRanges entries must map a domain to a range";
-                return false;
-            }
-
-            ContentIdRangeDefinition range = {};
-            range.domain = normalizedToken(iterator->first.as<std::string>());
-            range.begin = scalarUint32OrDefault(iterator->second, "begin", 0);
-            range.end = scalarUint32OrDefault(iterator->second, "end", 0);
-
-            if (range.domain.empty() || range.begin == 0 || range.begin > range.end
-                || !domains.insert(range.domain).second)
-            {
-                errorMessage = "world.yml idRanges contain an invalid or duplicate domain range";
-                return false;
-            }
-
-            manifest.idRanges.push_back(std::move(range));
-        }
+        return false;
     }
 
     const YAML::Node contributionsNode = root["tableContributions"];
@@ -412,6 +917,90 @@ std::optional<WorldManifest> loadWorldManifest(
     return manifest;
 }
 
+bool isWorldPackageMounted(const Engine::AssetFileSystem &assetFileSystem, const std::string &worldId)
+{
+    const std::string normalizedWorldId = normalizeWorldId(worldId);
+    return !normalizedWorldId.empty() && assetFileSystem.exists("worlds/" + normalizedWorldId + "/world.yml");
+}
+
+bool loadMountedWorldManifests(
+    const Engine::AssetFileSystem &assetFileSystem,
+    std::vector<WorldManifest> &manifests,
+    std::string &errorMessage)
+{
+    manifests.clear();
+    errorMessage.clear();
+
+    for (const std::string &worldPackageId : assetFileSystem.enumerate("worlds"))
+    {
+        const std::string normalizedPackageId = normalizeWorldId(worldPackageId);
+
+        if (normalizedPackageId.empty())
+        {
+            continue;
+        }
+
+        const std::string manifestPath = "worlds/" + normalizedPackageId + "/world.yml";
+        std::string manifestError;
+        const std::optional<WorldManifest> manifest =
+            loadWorldManifest(assetFileSystem, manifestPath, normalizedPackageId, manifestError);
+
+        if (!manifest)
+        {
+            if (assetFileSystem.exists(manifestPath))
+            {
+                errorMessage = "failed to load " + manifestPath + ": " + manifestError;
+                return false;
+            }
+
+            continue;
+        }
+
+        if (manifest->id != normalizedPackageId)
+        {
+            errorMessage = "manifest id '" + manifest->id + "' does not match package path '"
+                + normalizedPackageId + "'";
+            return false;
+        }
+
+        manifests.push_back(*manifest);
+    }
+
+    std::sort(
+        manifests.begin(),
+        manifests.end(),
+        [](const WorldManifest &left, const WorldManifest &right)
+        {
+            return left.id < right.id;
+        });
+
+    std::unordered_set<std::string> mountedPackageIds = {"engine"};
+
+    for (const WorldManifest &manifest : manifests)
+    {
+        if (!mountedPackageIds.insert(manifest.id).second)
+        {
+            errorMessage = "duplicate mounted content package id: " + manifest.id;
+            return false;
+        }
+    }
+
+    for (const WorldManifest &manifest : manifests)
+    {
+        for (const std::string &dependency : manifest.dependencies)
+        {
+            if (!mountedPackageIds.contains(dependency))
+            {
+                errorMessage = "mounted content package '" + manifest.id + "' requires missing package '"
+                    + dependency + "'";
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 WorldManifest loadActiveWorldManifestOrDefault(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &worldId,
@@ -438,4 +1027,66 @@ WorldManifest loadActiveWorldManifestOrDefault(
     return manifest;
 }
 
+
+bool parseContentIdRanges(
+    const YAML::Node &node,
+    const std::string &owner,
+    std::vector<ContentIdRangeDefinition> &ranges,
+    std::string &errorMessage)
+{
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap())
+    {
+        errorMessage = owner + " idRanges must be a map";
+        return false;
+    }
+
+    std::unordered_set<std::string> domains;
+
+    for (YAML::const_iterator iterator = node.begin(); iterator != node.end(); ++iterator)
+    {
+        if (!iterator->first.IsScalar() || !iterator->second.IsMap())
+        {
+            errorMessage = owner + " idRanges entries must map a domain to a range";
+            return false;
+        }
+
+        ContentIdRangeDefinition range = {};
+        range.domain = normalizedToken(iterator->first.as<std::string>());
+        range.begin = scalarUint32OrDefault(iterator->second, "begin", 0);
+        range.end = scalarUint32OrDefault(iterator->second, "end", 0);
+
+        if (range.domain.empty() || range.begin == 0 || range.begin > range.end || !domains.insert(range.domain).second)
+        {
+            errorMessage = owner + " idRanges contain an invalid or duplicate domain range";
+            return false;
+        }
+
+        ranges.push_back(std::move(range));
+    }
+
+    return true;
+}
+
+std::optional<std::string> overlappingContentIdRange(
+    const std::vector<ContentIdRangeDefinition> &left,
+    const std::vector<ContentIdRangeDefinition> &right)
+{
+    for (const ContentIdRangeDefinition &first : left)
+    {
+        for (const ContentIdRangeDefinition &second : right)
+        {
+            if (first.domain == second.domain && first.begin <= second.end && second.begin <= first.end)
+            {
+                return first.domain;
+            }
+        }
+    }
+
+    return std::nullopt;
+}
 }

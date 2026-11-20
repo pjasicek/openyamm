@@ -1,0 +1,117 @@
+# Native clicks at every authored pickup; shared mechanics are covered by hesper_pickups_test/pickups.yml.
+id: hesper.d09.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d09.blv
+    party:
+      members:
+      - {name: Ada, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Bram, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Cyra, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Dana, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}
+# 701: Brood Barracks
+- set_pose: {"map": "hes_d09.blv", "x": 1600, "y": 2720, "z": -1536, "yaw": -1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 28}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+# 702: Brood Barracks
+- set_pose: {"map": "hes_d09.blv", "x": 1800, "y": 2720, "z": -1536, "yaw": -1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 29}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.702, value: 8}}
+# 703: Brood Barracks
+- set_pose: {"map": "hes_d09.blv", "x": 2000, "y": 2720, "z": -1536, "yaw": -1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 30}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.703, value: 8}}
+# 704: Brood Barracks
+- set_pose: {"map": "hes_d09.blv", "x": 2200, "y": 2720, "z": -1536, "yaw": -1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 31}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.704, value: 8}}
+# 705: Brood Larder
+- set_pose: {"map": "hes_d09.blv", "x": 2420, "y": 1030, "z": -768, "yaw": -1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 32}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+# 706: Brood Larder
+- set_pose: {"map": "hes_d09.blv", "x": 2240, "y": 1050, "z": -768, "yaw": 0, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 33}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.706, value: 8}}
+# 707: North Ledge
+- set_pose: {"map": "hes_d09.blv", "x": 4480, "y": 4070, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 34}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+# 708: North Ledge
+- set_pose: {"map": "hes_d09.blv", "x": 4700, "y": 4070, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 35}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.708, value: 8}}
+# 751: Sinkhole Descent
+- set_pose: {"map": "hes_d09.blv", "x": 8110, "y": 1380, "z": 0, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 8}}
+# 752: Sinkhole Descent
+- set_pose: {"map": "hes_d09.blv", "x": 6430, "y": 2400, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 9}}
+# 753: East Ledge
+- set_pose: {"map": "hes_d09.blv", "x": 5630, "y": 1200, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 10}}
+# 754: North Ledge
+- set_pose: {"map": "hes_d09.blv", "x": 5700, "y": 4030, "z": 0, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 11}}
+# 755: West Ledge
+- set_pose: {"map": "hes_d09.blv", "x": 1950, "y": 3000, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 12}}
+# 756: Molt Hall
+- set_pose: {"map": "hes_d09.blv", "x": -520, "y": 1500, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 13}}
+# 757: Molt Hall
+- set_pose: {"map": "hes_d09.blv", "x": 1120, "y": 1500, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 14}}
+# 758: Hatchery Niche
+- set_pose: {"map": "hes_d09.blv", "x": 2560, "y": 5200, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 15}}
+# 759: Crèche
+- set_pose: {"map": "hes_d09.blv", "x": 5510, "y": 5220, "z": 0, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 16}}
+# 760: Crèche
+- set_pose: {"map": "hes_d09.blv", "x": 3980, "y": 5050, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 17}}
+# 761: Brood Larder
+- set_pose: {"map": "hes_d09.blv", "x": 2030, "y": 1420, "z": -768, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 18}}
+# 762: Lower North Tier
+- set_pose: {"map": "hes_d09.blv", "x": 4750, "y": 3010, "z": -768, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 19}}
+# 763: Lower West Tier
+- set_pose: {"map": "hes_d09.blv", "x": 2800, "y": 2370, "z": -768, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 20}}
+# 764: Lower East Tier
+- set_pose: {"map": "hes_d09.blv", "x": 4800, "y": 2370, "z": -768, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 21}}
+# 765: Acid Sump
+- set_pose: {"map": "hes_d09.blv", "x": 5850, "y": 760, "z": -1536, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 22}}
+# 766: Acid Cistern
+- set_pose: {"map": "hes_d09.blv", "x": 8200, "y": 760, "z": -1536, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 23}}
+# 767: Brood Barracks
+- set_pose: {"map": "hes_d09.blv", "x": 1100, "y": 2770, "z": -1536, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 24}}
+# 768: Root Throat
+- set_pose: {"map": "hes_d09.blv", "x": 2380, "y": 320, "z": -2944, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 25}}
+# 769: Royal Gallery
+- set_pose: {"map": "hes_d09.blv", "x": 900, "y": 1900, "z": -2944, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 26}}
+# 770: Royal Gallery
+- set_pose: {"map": "hes_d09.blv", "x": 2390, "y": 1130, "z": -2944, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 27}}
+- save_game: d09_pickups
+- load_game: d09_pickups
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.702, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.703, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.704, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.706, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.708, value: 8}}

@@ -139,10 +139,31 @@ elements:
       scale: 0.43333
       pad_x: 8.5333
     notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsAudioTabInterface
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0502
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Interface
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
   - id: SettingsAudioTabVideo
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 164.0501
+    offset_y: 203.5169
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -163,7 +184,7 @@ elements:
   - id: SettingsAudioTabAudio
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 203.5168
+    offset_y: 242.9836
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -184,9 +205,9 @@ elements:
   - id: SettingsAudioTabControls
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 242.9835
+    offset_y: 282.4503
     width: 97.6
-    height: 53.3333
+    height: 34.1333
     z_index: 10
     visible: true
     interactive: true
@@ -194,7 +215,7 @@ elements:
       default: hud_x2/menus/omenu_tab.png
       selected: hud_x2/menus/omenu_tab_selected.png
     text:
-      value: Mouse & Controls
+      value: Controls
       font: fondamento
       color: '#bfc1b2'
       align_x: left
@@ -205,7 +226,7 @@ elements:
   - id: SettingsAudioTabKeyboard
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 301.6501
+    offset_y: 321.917
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -216,6 +237,48 @@ elements:
       selected: hud_x2/menus/omenu_tab_selected.png
     text:
       value: Keyboard
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsAudioTabGame
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Rules
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsAudioTabUpdates
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Updates
       font: fondamento
       color: '#bfc1b2'
       align_x: left
@@ -362,7 +425,7 @@ elements:
       anchor: top_left
       offset_x: 0.0
       offset_y: 0.0
-      width: 533.3333
+      width: 525.3333
       height: 18.1333
       z_index: 10
       visible: true
@@ -378,14 +441,14 @@ elements:
     - id: SettingsAudioGroup1
       anchor: top_left
       offset_x: 0.0
-      offset_y: 146.6416
-      width: 533.3333
+      offset_y: 146.6426
+      width: 525.3333
       height: 18.1333
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: World sounds
+        value: Sounds
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -396,7 +459,7 @@ elements:
       anchor: top_left
       offset_x: 1.6
       offset_y: 25.6
-      width: 229.9499
+      width: 382.9333
       height: 14.0752
       z_index: 10
       visible: true
@@ -413,13 +476,13 @@ elements:
       anchor: top_left
       offset_x: 1.6
       offset_y: 41.8085
-      width: 392.9333
+      width: 382.9333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Weapons, spells, interface sounds, and the world.
+        value: Weapons, spells, the interface and the world. Zero mutes.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -428,19 +491,17 @@ elements:
         pad_x: 0.0
     - id: SettingsAudioSoundVolumeControl
       anchor: top_left
-      offset_x: 408.5333
-      offset_y: 31.4587
+      offset_x: 400.5333
+      offset_y: 31.4627
       width: 88.5333
       height: 16.0
       z_index: 10
       visible: true
       interactive: true
-      notes: Bind to audio.sound_volume; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior.
     - id: SettingsAudioSoundVolumeValue
       anchor: top_left
-      offset_x: 505.0667
-      offset_y: 33.592
+      offset_x: 497.0666
+      offset_y: 33.596
       width: 26.6667
       height: 11.7333
       z_index: 10
@@ -454,12 +515,11 @@ elements:
         align_y: middle
         scale: 0.67765
         pad_x: 0.0
-      notes: Controller supplies live text.
     - id: SettingsAudioMusicVolumeLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 64.5253
-      width: 176.9835
+      width: 382.9333
       height: 14.0752
       z_index: 10
       visible: true
@@ -475,14 +535,14 @@ elements:
     - id: SettingsAudioMusicVolumeDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 80.7333
-      width: 392.9333
+      offset_y: 80.7338
+      width: 382.9333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Music in menus, towns, and dungeons.
+        value: Music in menus, towns and dungeons. Zero mutes.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -491,19 +551,17 @@ elements:
         pad_x: 0.0
     - id: SettingsAudioMusicVolumeControl
       anchor: top_left
-      offset_x: 408.5333
-      offset_y: 70.3835
+      offset_x: 400.5333
+      offset_y: 70.388
       width: 88.5333
       height: 16.0
       z_index: 10
       visible: true
       interactive: true
-      notes: Bind to audio.music_volume; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior.
     - id: SettingsAudioMusicVolumeValue
       anchor: top_left
-      offset_x: 505.0667
-      offset_y: 72.5168
+      offset_x: 497.0666
+      offset_y: 72.5213
       width: 26.6667
       height: 11.7333
       z_index: 10
@@ -517,12 +575,11 @@ elements:
         align_y: middle
         scale: 0.67765
         pad_x: 0.0
-      notes: Controller supplies live text.
     - id: SettingsAudioVoiceVolumeLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 103.4501
-      width: 190.2251
+      offset_y: 103.4506
+      width: 382.9333
       height: 14.0752
       z_index: 10
       visible: true
@@ -538,14 +595,14 @@ elements:
     - id: SettingsAudioVoiceVolumeDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 119.6587
-      width: 392.9333
+      offset_y: 119.6591
+      width: 382.9333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Spoken character reactions and dialogue.
+        value: Spoken character reactions and dialogue. Zero mutes.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -554,19 +611,17 @@ elements:
         pad_x: 0.0
     - id: SettingsAudioVoiceVolumeControl
       anchor: top_left
-      offset_x: 408.5333
-      offset_y: 109.3083
+      offset_x: 400.5333
+      offset_y: 109.3133
       width: 88.5333
       height: 16.0
       z_index: 10
       visible: true
       interactive: true
-      notes: Bind to audio.voice_volume; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior.
     - id: SettingsAudioVoiceVolumeValue
       anchor: top_left
-      offset_x: 505.0667
-      offset_y: 111.4416
+      offset_x: 497.0666
+      offset_y: 111.4466
       width: 26.6667
       height: 11.7333
       z_index: 10
@@ -580,12 +635,11 @@ elements:
         align_y: middle
         scale: 0.67765
         pad_x: 0.0
-      notes: Controller supplies live text.
     - id: SettingsAudioWalksoundLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 172.2416
-      width: 148.6917
+      offset_y: 172.2426
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -601,8 +655,8 @@ elements:
     - id: SettingsAudioWalksoundDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 188.4501
-      width: 464.9333
+      offset_y: 188.4511
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
@@ -618,7 +672,7 @@ elements:
     - id: SettingsAudioWalksoundControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 170.0212
+      offset_y: 170.0263
       width: 70.4
       height: 32.158
       z_index: 10
@@ -627,16 +681,66 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsAudioRepeatedVoiceLinesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 211.1679
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
       text:
-        value: '{walksound}'
-        font: menu_lucida
-        color: '#e8d5a1'
+        value: Repeated voice lines
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsAudioRepeatedVoiceLinesValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 211.1679
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{repeated_voice_lines}'
+        font: fondamento
+        color: '#e0c990'
         align_x: center
         align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to controls.walksound; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsAudioRepeatedVoiceLinesControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 231.6679
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsAudioRepeatedVoiceLinesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 251.1679
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: A character says the same line at most once in this time, such as a cry when hurt or a remark on an item.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
   - id: SettingsAudioNavigationRule
     anchor: top_left
     offset_x: 201.6

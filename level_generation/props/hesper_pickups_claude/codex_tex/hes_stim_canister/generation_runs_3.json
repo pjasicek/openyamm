@@ -1,0 +1,283 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated_candidates_fail_strict_brief_checks",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "raw_returns_preserved": true,
+  "resampling_or_postprocessing": false,
+  "maximum_corrective_regenerations_per_view": 1,
+  "selection_note": "Selected indicates the best available candidate within the attempt limit, not acceptance of the strict texture-source gates.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: LEFT orthographic albedo texture-source painting of the Stim canister. Produce one image, exactly 1024 x 1024 pixels, with a truly transparent background.\n\nINPUT ROLES, in supplied order:\n1. guide_left.png is the EDIT TARGET and absolute geometry, framing, silhouette and alpha authority. Repaint this exact grey model in place, without redesigning or rendering it from another angle.\n2. design_reference.png is ONLY the approved design, colour and material reference. Its three-quarter perspective, lighting and background must NOT transfer.\n3. concept_crop.png is supporting original colour/design reference only.\n\nGEOMETRY LOCK: Preserve the first image's exact outline, size, position, every shape edge, opening, existing bevel and visible detail. Its silhouette bounding box is x=304..719, y=66..957 in the 1024 square canvas. Top wheel is seen EDGE-ON as the narrow horizontal shape in the guide, NOT an ellipse seen from above. Keep the stem, domed shoulder, side protrusions, straight horizontal bands, two tall inset windows, central lower clasp, foot and base precisely where they are in the guide. Do not enlarge, shrink, move, rotate, crop, add new geometry or add anything outside the original silhouette. Paint the existing surface only. This is the decoration viewed from its LEFT.\n\nMATERIALS: Match the approved design with bone-white ceramic plates, sparse fine chips and grey grime, gold bands/window frames/rivets/valve wheel, deep-blue painted livery stripe on the existing central ceramic strip and matching upper/base livery, and clear glass over bright saturated RED stim fluid in both existing window recesses. Keep fluid evenly self-lit, with modest small bubbles and subtle red variations from the reference. Use the existing small fitting for the small blue-white light; no large new front-facing medallion. Gold should read as clean polished gold through its base colour and fine wear, without painted lighting. Match the design's restrained chips and rivets as surface details, never change the silhouette or structural edges.\n\nLIGHTING: FLAT ALBEDO TEXTURE SOURCE, not a beauty render. Uniform shadowless frontal illumination, equally bright at left and right and top and bottom. Remove the grey guide's baked lighting while retaining exact geometric boundaries. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights, no reflections, no white glossy streaks, no rim light, no vignette, no floor, no background, no glow cast onto adjacent surfaces. Luminous parts are simply their bright local red or blue-white colours. No black edge gradients around the windows. No text or labels. Keep the guide's transparent pixels transparent. Return the finished native 1024 x 1024 RGBA image without resizing.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "3c51faadb6630f2e603c2dd21f7014105844c24df187e5a2b32da6887c577d25",
+          "role": "edit target; exact geometry, silhouette, framing and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "supporting original concept"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ab9-ed2e-7020-b3c4-67016de5d5bf/exec-c43fd5ae-2d6c-4b20-aab4-8a27c47f341a.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: native return is 1254x1254 instead of 1024x1024; geometry and alpha drift; strong highlights and window recess shading; required small blue-white light not evident.",
+      "output_sha256": "d359fb7de693dde7dccab9f5c7ce65a169f95b81a65acf90339ecaddd6aa7d01",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "transparent_background_pass": false,
+        "transparent_background_note": "RGBA transparency exists, but stray nonzero alpha extends beyond the principal silhouette.",
+        "alpha_bbox_nonzero": [
+          17,
+          9,
+          1240,
+          1254
+        ],
+        "alpha_bbox_128": [
+          371,
+          80,
+          883,
+          1138
+        ],
+        "guide_alpha_bbox": [
+          304,
+          66,
+          720,
+          958
+        ],
+        "guide_alpha_identical": false,
+        "silhouette_and_internal_edges_pass": false,
+        "silhouette_note": "Different native canvas dimensions; outline and feature placement also drift visibly.",
+        "materials_and_colours": "Ivory ceramic, gold, deep blue and red fluid present. Selected candidates omit an evident blue-white light.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual metallic highlights and dark window recesses remain.",
+        "unresized_return_pass": true,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "Edit image 1, guide_left.png, IN PLACE. This is the sole corrective attempt for paint_left.png. Return exactly 1024×1024 pixels (NOT 1254×1254); preserve the input canvas resolution. Transparent RGBA, unchanged original guide alpha mask, no stray opacity outside its outline.\n\nImage 1 is the exact target geometry: LEFT orthographic side of a stim canister. Image 2 is the approved design_reference.png for MATERIAL COLOURS ONLY. Image 3 is the original concept_crop.png. Image 4 is the rejected first painting: colour idea only, reject its glossy lighting, changed geometry, larger canvas and stray alpha.\n\nRecolour/paint the grey surfaces of image 1 without changing any pixel edge location. Exact canvas 1024 square. Original object x304..719, top y66, bottom y957, center x512. Wheel edge-on at y66..97; stem down to y164; collar y164..190; domed shoulder below; upper gold band y283..315; the two tall window frames extend y358..720 at x348..467 and x556..676; lower band y770..804; centered clasp x490..532 y730..837; raised foot support and broad base y901..957. Respect these geometry edges and all guide irregularities. Do not round off, simplify, inflate or move the silhouette. Do not draw an overhead view of the wheel. Do not change the exact orthographic angle or the two window shapes.\n\nPaint the same bone-white worn ceramic, deep-blue vertical central livery stripe and foot accent, gold-coloured bands, existing window rims, valve and fittings as the design reference; sparse fine chips, grey grime and subtle small rivets as texture details. Small blue-white light on the existing tiny upper fitting. Both original recessed windows contain bright saturated red glowing stim fluid with restrained red bubble detail, equally bright throughout. Reference style and material colours, geometry strictly image 1.\n\nCritical correction: this is unlit BASE COLOUR / ALBEDO for texture projection, NOT a lit 3D illustration. Make every material FLAT and evenly coloured, with only small local texture/wear. Ceramic equally bright across full body. Gold colour with fine wear but no shiny bands or white highlights. Red windows evenly bright, no glossy white strips or dark cavity surrounds. No ambient occlusion, shadows, reflections, metallic light gradients, cast glow, rim light, directional shading, background, floor, labels, or vignette. Keep seams as fine material boundaries rather than dark shadows. Do not imitate image 2's illumination or image 4's specular lighting. Return an unresized 1024 by 1024 transparent PNG.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "3c51faadb6630f2e603c2dd21f7014105844c24df187e5a2b32da6887c577d25",
+          "role": "edit target; exact geometry, silhouette, framing and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "supporting original concept"
+        },
+        {
+          "path": "paint_left_attempt1.png",
+          "source_path": "/home/pjasicek/.codex/generated_images/01a16ab9-ed2e-7020-b3c4-67016de5d5bf/exec-c43fd5ae-2d6c-4b20-aab4-8a27c47f341a.png",
+          "role": "rejected first attempt, corrective comparison",
+          "sha256": "d359fb7de693dde7dccab9f5c7ce65a169f95b81a65acf90339ecaddd6aa7d01"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ab9-ed2e-7020-b3c4-67016de5d5bf/exec-6c050219-5179-422a-b311-98fbd2eaa326.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the flatter of the two left candidates, with softer window highlights. Still fails required dimensions, exact silhouette/edge alignment and fully shadowless albedo; required small blue-white light not evident.",
+      "output_sha256": "fb07f4f76cc51191b0692e5c674e4639924cf0131419390f4829ee6ef4f153c2",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "transparent_background_pass": false,
+        "transparent_background_note": "RGBA transparency exists, but stray nonzero alpha extends beyond the principal silhouette.",
+        "alpha_bbox_nonzero": [
+          0,
+          13,
+          1224,
+          1230
+        ],
+        "alpha_bbox_128": [
+          376,
+          81,
+          879,
+          1145
+        ],
+        "guide_alpha_bbox": [
+          304,
+          66,
+          720,
+          958
+        ],
+        "guide_alpha_identical": false,
+        "silhouette_and_internal_edges_pass": false,
+        "silhouette_note": "Different native canvas dimensions; outline and feature placement also drift visibly.",
+        "materials_and_colours": "Ivory ceramic, gold, deep blue and red fluid present. Selected candidates omit an evident blue-white light.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual metallic highlights and dark window recesses remain.",
+        "unresized_return_pass": true,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Paint directly over the supplied guide_right.png (image 1). Output a single 1024x1024 PNG, transparent RGBA, the SAME PIXEL DIMENSIONS and alpha silhouette as image 1. This is a precision texture-source task, not a redesigned product picture.\n\nInput image 1: guide_right.png, untextured exact model viewed orthographically from the RIGHT, authoritative for every shape, edge, opening, pose and position.\nInput image 2: design_reference.png, approved colour and material design ONLY; ignore its perspective and lighting.\nInput image 3: concept_crop.png, supporting original design ONLY.\n\nPreserve the first image exactly as an edit target. Merely replace the grey surface colours with painted base-colour material textures. No geometric change. Preserve its straight-on orthographic camera, the top wheel's narrow edge-on horizontal profile, the stem and collar, domed shoulder, tiny upper fitting, upper band and its small central triangular shape, side mounts, the TWO existing narrow tall inset window frames, lower band and central clasp, foot supports and broad base. Do not turn the wheel into a perspective ellipse. Do not change the footprint, scale or centering.\n1024x1024 canvas coordinates: outer bounds x=304 to 719 and y=66 to 957, centre x=512. Wheel y66..97, stem y98..164, collar y164..190; upper band y283..315; windows y358..720, x348..467 and x556..676; lower band y770..804; clasp x490..532 y730..837; broad base y901..957. Keep all original edges and background transparencies in place.\n\nPaint the design reference materials on this shape: bone-white ceramic with sparse fine chips and grey grime; gold bands, window frames, rivets, fittings and valve wheel; deep-blue painted livery stripe down the central ceramic between the windows, with matching upper and base accents; clear glass windows over evenly bright saturated RED stim fluid, a few subtle red bubbles; a small blue-white light on the existing small fitting. Gold represented by its uniform warm gold base colour and fine wear. No new shape and nothing outside the original alpha.\n\nThis is ALBEDO / UNLIT BASE COLOUR for texture projection: viewer-facing flat even shadowless light, no gradients from illumination. No ambient occlusion, no recess darkening, no cast shadows, no strong specular highlights, no reflections, no white glossy streaks, no rim light, no cast red/blue glow. No floor, no backdrop, no vignette, no text, no labels. Bright parts have their glowing local colour without lighting their surroundings. Entire silhouette remains opaque, including red window contents; everything outside is fully transparent with alpha zero. Preserve original 1024 by 1024 resolution; do not enlarge or resize.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ec3d54114f388838a4c4db116f1e8379038c28cdc349903a45268433893a0d00",
+          "role": "edit target; exact geometry, silhouette, framing and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "supporting original concept"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ab9-ed2e-7020-b3c4-67016de5d5bf/exec-69de7d80-6f12-4ecf-8569-d02f5d84f873.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected for closer preservation of the upper shoulder geometry than the correction, which introduced a large medallion. Still fails required dimensions, exact silhouette/edge alignment and flat albedo; required small blue-white light not evident.",
+      "output_sha256": "9fe162d6d3d6931b12e4812cef2ad1e62965f4454bba448596f28b76b0bcc250",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "transparent_background_pass": false,
+        "transparent_background_note": "RGBA transparency exists, but stray nonzero alpha extends beyond the principal silhouette.",
+        "alpha_bbox_nonzero": [
+          15,
+          24,
+          1240,
+          1230
+        ],
+        "alpha_bbox_128": [
+          371,
+          78,
+          883,
+          1178
+        ],
+        "guide_alpha_bbox": [
+          304,
+          66,
+          720,
+          958
+        ],
+        "guide_alpha_identical": false,
+        "silhouette_and_internal_edges_pass": false,
+        "silhouette_note": "Different native canvas dimensions; outline and feature placement also drift visibly.",
+        "materials_and_colours": "Ivory ceramic, gold, deep blue and red fluid present. Selected candidates omit an evident blue-white light.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual metallic highlights and dark window recesses remain.",
+        "unresized_return_pass": true,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "Create paint_right.png by painting image 1 IN PLACE at its native resolution of exactly 1024 x 1024 pixels. This is the one corrective regeneration of the RIGHT-side stim-canister texture source. The first attempt incorrectly returned 1254 pixels and baked highlights/shadows, so correct those failures.\n\nImage 1 (guide_right.png) controls EVERY geometry edge, outline and alpha pixel. Image 2 (design_reference.png) controls materials and colours only. Image 3 (concept_crop.png) supports the design. No rejected painting is an input: trace the grey guide itself.\n\nPrecisely preserve the grey guide’s silhouette and framing: bounding box [304,66,720,958) on the 1024 canvas. Every shape is fixed. Edge-on top valve wheel, stem, collar, domed ceramic shoulder, existing tiny upper fitting, upper horizontal band including its small center triangular detail, side protrusions, two long inset windows with clipped/rounded corners, bottom band and clasp, support neck, bottom foot and wide chamfered plinth. Do not center/reframe/resize or change the guide’s camera; do not use the design’s three-quarter view. Do not smooth away guide facets or introduce bevel geometry. The window edges must lie on the grey window edges.\n\nPaint only local base colours: bone-white ceramic plates, small fine chips and grey grime; warm polished GOLD material on bands, frames, rivets and the edge-on valve wheel; deep-blue livery stripe down the central ceramic strip, upper collar and base, matching the reference. Clear glass windows with bright saturated RED stim fluid behind them, evenly self-lit, with subtle small red bubbles. Include the required SMALL BLUE-WHITE LIGHT as paint on the existing tiny fitting near the upper center of the shoulder; do not add a new medallion or geometric feature. All texture wear is fine and sparse. Polished material appearance is supplied later by a game shader.\n\nFLAT ALBEDO IS ESSENTIAL. Render as unlit base-colour pass, evenly lit shadowlessly from the viewer. Colour differentiation comes only from material and subtle painted wear. Gold should be flat gold, no shiny white streaks or metallic lighting gradients. Ivory equally bright across curved and flat surfaces. Red fluid bright and uniform, no dark strips in its margins, no white reflection streaks. No cast shadows, ambient occlusion, dark recess shading, strong specular highlights, reflections, directional light, rim light, floor, background or glow spill. Existing seams can be narrow flat material lines; avoid dark shaded wells. Preserve a fully TRANSPARENT background with no stray flecks, residual glow or opacity outside the guide’s exact silhouette. Object interior opaque including red windows. No labels or text. Return an actual 1024×1024 transparent PNG, unresized.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ec3d54114f388838a4c4db116f1e8379038c28cdc349903a45268433893a0d00",
+          "role": "edit target; exact geometry, silhouette, framing and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "supporting original concept"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ab9-ed2e-7020-b3c4-67016de5d5bf/exec-3234d585-c04c-4637-8c52-668ae6e04b04.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: adds a front-facing blue-white medallion absent from the guide; remains 1254x1254 with silhouette drift, highlights and window recess shading.",
+      "output_sha256": "56f53d562afaa0c34a12f3ed354c4cbf9ab1e117f8e79a4d17d588c5b50c0694",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "transparent_background_pass": false,
+        "transparent_background_note": "RGBA transparency exists, but stray nonzero alpha extends beyond the principal silhouette.",
+        "alpha_bbox_nonzero": [
+          41,
+          15,
+          1224,
+          1228
+        ],
+        "alpha_bbox_128": [
+          371,
+          74,
+          883,
+          1176
+        ],
+        "guide_alpha_bbox": [
+          304,
+          66,
+          720,
+          958
+        ],
+        "guide_alpha_identical": false,
+        "silhouette_and_internal_edges_pass": false,
+        "silhouette_note": "Different native canvas dimensions; outline and feature placement also drift visibly.",
+        "materials_and_colours": "Ivory ceramic, gold, deep blue and red fluid present. Selected candidates omit an evident blue-white light.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual metallic highlights and dark window recesses remain.",
+        "unresized_return_pass": true,
+        "byte_identical_to_tool_return": true
+      }
+    }
+  ]
+}

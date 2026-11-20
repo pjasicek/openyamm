@@ -1,0 +1,148 @@
+# Thjorgard City portal-view tour (devdocs/mm9_rework/CITY_STREET_COST.md): 12 streets, 2 hill, 3 interiors from
+# review_tour_v03.yml at 12:00. Add `portals gpu on` and `portals rebuild on` to the first shot's commands for the
+# timing runs; captures go to output/mm9_rework/city_street_cost/.
+output_dir: ../../../output/mm9_rework/city_street_cost
+settle_seconds: 3.5
+exit: true
+shots:
+- name: s01_docks_start
+  position:
+  - 655
+  - 0
+  - -19
+  yaw: 1.5708
+  pitch: 0.0
+  settle_seconds: 3.5
+  time: '12:00'
+  commands:
+  - portals faces traversed
+  - portals readout on
+  - portals log on
+- name: s02_main_street_north
+  position:
+  - 512
+  - 1792
+  - -19
+  yaw: 1.5708
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s03_town_hall_plaza
+  position:
+  - -1536
+  - 3328
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s04_southwest_diagonal
+  position:
+  - -3584
+  - 2816
+  - 1
+  yaw: -2.3996
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s05_southeast_diagonal
+  position:
+  - 3840
+  - 3072
+  - -19
+  yaw: -0.7419
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s06_west_gate_start
+  position:
+  - -8028
+  - 3277
+  - -19
+  yaw: 0.0
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s07_east_west_street
+  position:
+  - -6144
+  - 6016
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s09_market_street
+  position:
+  - -1536
+  - 7680
+  - -19
+  yaw: 0.0
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s12_forge_street
+  position:
+  - -3840
+  - 10496
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s13_east_side
+  position:
+  - 8448
+  - 4608
+  - -19
+  yaw: 1.5708
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s16_training_hall_square
+  position:
+  - -2560
+  - 13312
+  - -19
+  yaw: 0.2606
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s22_roofs_from_street
+  position:
+  - 512
+  - 2560
+  - -19
+  yaw: 0.7854
+  pitch: 0.4363
+  settle_seconds: 3.5
+- name: s19_hill_path
+  position:
+  - -2304
+  - 16128
+  - 299
+  yaw: 0.9273
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: s20_palace_terrace
+  position:
+  - 82
+  - 18688
+  - 2379
+  yaw: 1.5708
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: i01_tavern
+  position:
+  - -1024
+  - 512
+  - 1
+  yaw: -2.8966
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: i04_magic_shop
+  position:
+  - 0
+  - 6272
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+  settle_seconds: 3.5
+- name: i09_forge
+  position:
+  - -164
+  - 11264
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+  settle_seconds: 3.5

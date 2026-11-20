@@ -1,0 +1,68 @@
+# Existing Hesper bodies stand in for D5's missing Overseer and Noble Duellist art.
+- descriptor: Vhorrax stand-in
+  model: worlds/hesper/models/hes_kreegan_trooper.glb
+  skin: hkr_c
+  scale: 146.80726424
+  yaw_offset: -1.570796327
+  animation:
+    run: Carbine_Running
+    stride_length: 1.217
+    run_stride_length: 2.946
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      muzzle: Socket_Muzzle
+    events:
+      attack_melee:
+        impact: 0.367
+      attack_ranged:
+        impact: 0.367
+        release: muzzle
+  clips:
+    standing: Carbine_Standing
+    walking: Carbine_Walking
+    attack_melee: Carbine_Attack
+    attack_ranged: Carbine_Attack
+    hit: Carbine_Hit
+    dying: Carbine_Death
+    dead: Carbine_Dead
+    fidget: Carbine_Fidget
+  attachments:
+  - model: worlds/hesper/models/hes_kreegan_crest.glb
+    node: B_Head
+  - model: worlds/hesper/models/hes_kreegan_pauldron_l.glb
+    node: B_L_Pauldron
+  - model: worlds/hesper/models/hes_kreegan_spikes_l.glb
+    node: B_L_Spikes
+  - model: worlds/hesper/models/hes_kreegan_pauldron_r.glb
+    node: B_R_Pauldron
+  - model: worlds/hesper/models/hes_kreegan_spikes_r.glb
+    node: B_R_Spikes
+  - model: worlds/hesper/models/hes_kreegan_buckler.glb
+    node: B_L_Buckler
+  - model: worlds/hesper/models/hes_kreegan_carbine.glb
+    node: Rifle
+- model: worlds/hesper/models/hes_kreegan.glb
+  scale: 104.8623316
+  yaw_offset: -1.570796327
+  animation:
+    stride_length: 1.217
+    run_stride_length: 2.946
+    run: Demon_Running
+    upper_body_root: B_Spine
+    cast: Demon_Cast_FireBolt
+  clips:
+    standing: Demon_Standing
+    walking: Demon_Walking
+    attack_melee: Demon_Attack
+    attack_ranged: Demon_Cast_FireBolt
+    hit: Demon_Hit
+    dying: Demon_Death
+    dead: Demon_Dead
+    fidget: Demon_Fidget
+  descriptor: Overseer stand-in

@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png for material/detail and icon_x8.png for colour (ignore magenta background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide exactly: 3 columns and FOUR rows, five renders per half at their exact original positions, sizes, outlines, rotations and openings. The guide itself is authoritative for all shapes and orientations, even where the named views seem unusual. Do not straighten or reinterpret the views. Paint only grey surfaces.\nRows 1\u20132: unlit base colour: sleeveless black metal plate cuirass, gold rims around neck, armholes and hem and two large gold chest spiral scrolls. Faint dark black flame-like embossed patterns across lower breastplate. Follow reference engravings and scrollwork scaled to each view. No baked illumination, shadows, AO, highlights or reflections. Black metal is visibly charcoal-black base colour; gold is gold base colour.\nRows 3\u20134: MATERIAL MASK ONLY, same five silhouettes and gaps, every metal surface including black plate and gold is FLAT PURE RED #FF0000. This item is metal throughout, so these silhouettes are solid pure red with no internal details, texture, shading or blends. If any actual nonmetal surface is present, leather/fur pure green #00FF00, cloth/hair pure blue #0000FF, gem/glass/enamel pure black #000000. No invented nonmetal parts.\nAll openings and background remain fully transparent. Column 3 of rows 2 and 4 is completely empty transparent. No text, grid lines, ground, outlines, aura, sparkle. Never enlarge, move, redraw or redesign the grey objects. Reference beauty image is appearance only, never its camera or silhouette. Use case: precise-object-edit; production base-colour plus material-ID view atlas.\nCRITICAL CORRECTION: The prior attempt leaked red speckles everywhere outside the lower silhouettes and into holes. Keep exact alpha silhouette from the original guide, with absolutely NO red pixels, mist, noise or texture outside objects or inside cutout holes. Lower half must be five clean flat red cutouts on fully transparent empty background. Do not generate transparency noise. Preserve exact guide boundaries. Mask surfaces are uniform RGB (255,0,0), including inward-facing metal.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0c-88d4-70c2-959a-6d89338c443c/exec-663b97ef-86bc-4342-8ba0-b1db6d51b46c.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10230/paint_mask_guide.png",
+      "sha256": "ba47fbff7b2dce4a1693769152248ef8353dd816f99a08c48d954325797a70b5"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10230/design_reference.png",
+      "sha256": "4ff21b8ae5ca4ec8dead8e4756dbcf27573c7d3e771eec167483417a11cae7f3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10230/icon_x8.png",
+      "sha256": "3e34451d9af4216d7394c67c63293dacaae4863bf8c3d5e38aada716dac78486"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10230/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Failed visual inspection: red leakage outside material-mask silhouettes and inside openings remains after the allowed correction. Raw tool output preserved without modification."
+}

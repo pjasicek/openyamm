@@ -1,11 +1,11 @@
 #include "game/outdoor/OutdoorLightingData.h"
 
 #include "game/outdoor/OutdoorMapData.h"
+#include "game/render/lighting/BakedLightingFormat.h"
 
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstring>
 
 namespace OpenYAMM::Game
 {
@@ -26,100 +26,10 @@ constexpr uint32_t LightStaticObjectEligible = 0x04;
 constexpr uint32_t LightGlobalObject = 0x20;
 constexpr uint32_t LightKnownFlags = 0x3f;
 
-uint16_t readU16(const std::vector<uint8_t> &bytes, size_t offset)
-{
-    return static_cast<uint16_t>(bytes[offset]) | (static_cast<uint16_t>(bytes[offset + 1]) << 8);
-}
-
-uint32_t readU32(const std::vector<uint8_t> &bytes, size_t offset)
-{
-    return static_cast<uint32_t>(bytes[offset])
-        | (static_cast<uint32_t>(bytes[offset + 1]) << 8)
-        | (static_cast<uint32_t>(bytes[offset + 2]) << 16)
-        | (static_cast<uint32_t>(bytes[offset + 3]) << 24);
-}
-
-uint64_t readU64(const std::vector<uint8_t> &bytes, size_t offset)
-{
-    return static_cast<uint64_t>(readU32(bytes, offset))
-        | (static_cast<uint64_t>(readU32(bytes, offset + 4)) << 32);
-}
-
-float readFloat(const std::vector<uint8_t> &bytes, size_t offset)
-{
-    const uint32_t bits = readU32(bytes, offset);
-    float value = 0.0f;
-    std::memcpy(&value, &bits, sizeof(value));
-    return value;
-}
-
-bool decodeRleBgra(
-    const std::vector<uint8_t> &bytes,
-    size_t offset,
-    size_t byteCount,
-    size_t expectedPixelCount,
-    std::vector<uint32_t> *pPixels)
-{
-    const size_t end = offset + byteCount;
-    size_t decodedPixelCount = 0;
-    if (pPixels != nullptr)
-    {
-        pPixels->reserve(expectedPixelCount);
-    }
-    while (offset < end && decodedPixelCount < expectedPixelCount)
-    {
-        const uint8_t tag = bytes[offset++];
-        const size_t spanLength = size_t(tag & 0x7f) + 1;
-        if (spanLength > expectedPixelCount - decodedPixelCount)
-        {
-            return false;
-        }
-        if ((tag & 0x80) != 0)
-        {
-            if (end - offset < sizeof(uint32_t))
-            {
-                return false;
-            }
-            const uint32_t pixel = readU32(bytes, offset);
-            offset += sizeof(uint32_t);
-            if (pPixels != nullptr)
-            {
-                pPixels->insert(pPixels->end(), spanLength, pixel);
-            }
-        }
-        else
-        {
-            const size_t spanBytes = spanLength * sizeof(uint32_t);
-            if (end - offset < spanBytes)
-            {
-                return false;
-            }
-            if (pPixels != nullptr)
-            {
-                for (size_t index = 0; index < spanLength; ++index)
-                {
-                    pPixels->push_back(readU32(bytes, offset + index * sizeof(uint32_t)));
-                }
-            }
-            offset += spanBytes;
-        }
-        decodedPixelCount += spanLength;
-    }
-    return offset == end && decodedPixelCount == expectedPixelCount;
-}
-
-uint64_t fnv1a64(const std::vector<uint8_t> &bytes)
-{
-    uint64_t value = 14695981039346656037ULL;
-
-    for (uint8_t byte : bytes)
-    {
-        value ^= byte;
-        value *= 1099511628211ULL;
-    }
-
-    return value;
-}
+using BakedLightingFormat::readU16;
+using BakedLightingFormat::readU32;
+using BakedLightingFormat::readU64;
+using BakedLightingFormat::readFloat;
 
 size_t outdoorFaceCount(const OutdoorMapData &outdoorMapData)
 {
@@ -151,7 +61,7 @@ size_t outdoorFaceVertexCount(const OutdoorMapData &outdoorMapData)
 
 uint64_t outdoorLightingContentHash(const std::vector<uint8_t> &bytes)
 {
-    return fnv1a64(bytes);
+    return BakedLightingFormat::contentHash(bytes);
 }
 
 std::vector<uint32_t> OutdoorLightingData::decodeDirectSunPage(uint32_t sunPageIndex) const
@@ -164,7 +74,7 @@ std::vector<uint32_t> OutdoorLightingData::decodeDirectSunPage(uint32_t sunPageI
     }
     const OutdoorLightmapAtlasPage &page = atlasPages[sunPageIndex];
     const std::vector<uint8_t> &bytes = directSunPagesRle[sunPageIndex / 2];
-    if (!decodeRleBgra(bytes, 0, bytes.size(), size_t(page.width) * page.height, &pixels))
+    if (!BakedLightingFormat::decodeRle(bytes, 0, bytes.size(), size_t(page.width) * page.height, &pixels))
     {
         pixels.clear();
     }
@@ -181,10 +91,33 @@ uint64_t probeCellKey(int32_t x, int32_t y)
 
 void OutdoorLightingData::indexProbes()
 {
+    // A probe the bake put inside a building sees neither sky nor sun: it would blacken any actor near a doorway or a
+    // passable model (OY-137). Such probes are left out of the index, so sampling uses the open ones around them. Dark
+    // maps keep theirs: a probe counts as enclosed only against the map's brightest one.
+    const auto ambient = [](const Probe &probe)
+    {
+        return std::max({probe.sky[0], probe.sky[1], probe.sky[2]})
+            + std::max({probe.sunIndirect[0], probe.sunIndirect[1], probe.sunIndirect[2]});
+    };
+    float brightestAmbient = 0.0f;
+
+    for (const Probe &probe : probes)
+    {
+        brightestAmbient = std::max(brightestAmbient, ambient(probe));
+    }
+
+    constexpr float EnclosedAmbientShare = 0.02f;
+    constexpr float EnclosedSunVisibility = 0.01f;
     probesByCell.clear();
     for (uint32_t index = 0; index < probes.size(); ++index)
     {
         const Probe &probe = probes[index];
+
+        if (probe.sunVisibility < EnclosedSunVisibility && ambient(probe) < brightestAmbient * EnclosedAmbientShare)
+        {
+            continue;
+        }
+
         const int32_t x = int32_t(std::floor(probe.position[0] / 512.0f));
         const int32_t y = int32_t(std::floor(probe.position[1] / 512.0f));
         probesByCell[probeCellKey(x, y)].push_back(index);
@@ -387,7 +320,7 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
         return std::nullopt;
     }
 
-    if (geometryHash != fnv1a64(geometryBytes))
+    if (geometryHash != BakedLightingFormat::contentHash(geometryBytes))
     {
         errorMessage = "outdoor lighting data was cooked for different geometry";
         return std::nullopt;
@@ -428,7 +361,8 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
         }
 
         const size_t pixelCount = static_cast<size_t>(page.width) * page.height;
-        if (!decodeRleBgra(lightingBytes, pagePixelOffset, pagePixelBytes, pixelCount, &page.pixelsBgra))
+        if (!BakedLightingFormat::decodeRle(
+                lightingBytes, pagePixelOffset, pagePixelBytes, pixelCount, &page.pixelsBgra))
         {
             errorMessage = "outdoor lighting atlas compression is invalid";
             return std::nullopt;
@@ -576,10 +510,7 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
                 return std::nullopt;
             }
             const std::string path(reinterpret_cast<const char *>(lightingBytes.data() + cursor), length);
-            if ((!path.starts_with("worlds/") && !path.starts_with("engine/")
-                    && !path.starts_with("_legacy/sprites_original/"))
-                || path.find("..") != std::string::npos || path.find('\\') != std::string::npos
-                || path.find('\0') != std::string::npos)
+            if (!BakedLightingFormat::validDependencyPath(path))
             {
                 errorMessage = "invalid baked outdoor dependency path";
                 return std::nullopt;
@@ -610,7 +541,8 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
                 const OutdoorLightmapAtlasPage &sunPage = result.atlasPages[pageIndex * 2];
                 if (width != sunPage.width || height != sunPage.height || byteCount == 0
                     || byteCount > lightingBytes.size() - cursor
-                    || !decodeRleBgra(lightingBytes, cursor, byteCount, size_t(width) * height, nullptr))
+                    || !BakedLightingFormat::decodeRle(
+                        lightingBytes, cursor, byteCount, size_t(width) * height, nullptr))
                 {
                     errorMessage = "invalid baked outdoor direct-sun page dimensions or compression";
                     return std::nullopt;

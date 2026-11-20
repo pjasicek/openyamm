@@ -1,0 +1,103 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dookscastle_chests
+title: Dook's Castle (native BLV) - the chests open from in front of them; the lake bed's by diving
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dookscastle.blv
+- set_pose:
+    map: dookscastle.blv
+    x: 2647
+    y: 7612
+    z: 411
+    yaw: -0.8727
+    pitch: -0.7273
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: dookscastle.blv
+    x: -579
+    y: 4425
+    z: 411
+    yaw: -0.9634
+    pitch: -0.7273
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: dookscastle.blv
+    x: -2475
+    y: 4227
+    z: 411
+    yaw: 0.857
+    pitch: -0.7273
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: dookscastle.blv
+    x: -5911
+    y: 4667
+    z: 411
+    yaw: 3.1259
+    pitch: -0.7273
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: dookscastle.blv
+    x: -2540
+    y: 10760
+    z: 513
+    yaw: -1.5708
+    pitch: -0.7287
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: dookscastle.blv
+    x: 13148
+    y: 4450
+    z: -2579
+    yaw: -1.5708
+    pitch: -0.7307
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: dookscastle.blv
+    x: 9142
+    y: 6311
+    z: -4914
+    yaw: 1.0472
+    pitch: -0.7317
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog

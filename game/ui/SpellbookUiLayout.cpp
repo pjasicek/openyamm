@@ -1,6 +1,10 @@
 #include "game/ui/SpellbookUiLayout.h"
 
+#include "engine/Localization.h"
+#include "game/party/Party.h"
 #include "game/party/SpellIds.h"
+#include "game/rules/GameRules.h"
+#include "game/rules/SpellRules.h"
 
 #include <array>
 #include <iomanip>
@@ -76,34 +80,35 @@ const SpellbookSchoolUiDefinition *findSpellbookSchoolUiDefinitionForSpellId(uin
     return nullptr;
 }
 
+// English names (the display translates them); each view is of a literal, so data() ends with its terminator.
 const char *spellbookSchoolDisplayName(SpellbookSchool school)
 {
     switch (school)
     {
         case SpellbookSchool::Fire:
-            return "Fire Magic";
+            return Engine::trNoop("Fire Magic").data();
         case SpellbookSchool::Air:
-            return "Air Magic";
+            return Engine::trNoop("Air Magic").data();
         case SpellbookSchool::Water:
-            return "Water Magic";
+            return Engine::trNoop("Water Magic").data();
         case SpellbookSchool::Earth:
-            return "Earth Magic";
+            return Engine::trNoop("Earth Magic").data();
         case SpellbookSchool::Spirit:
-            return "Spirit Magic";
+            return Engine::trNoop("Spirit Magic").data();
         case SpellbookSchool::Mind:
-            return "Mind Magic";
+            return Engine::trNoop("Mind Magic").data();
         case SpellbookSchool::Body:
-            return "Body Magic";
+            return Engine::trNoop("Body Magic").data();
         case SpellbookSchool::Light:
-            return "Light Magic";
+            return Engine::trNoop("Light Magic").data();
         case SpellbookSchool::Dark:
-            return "Dark Magic";
+            return Engine::trNoop("Dark Magic").data();
         case SpellbookSchool::DarkElf:
-            return "Dark Elf Ability";
+            return Engine::trNoop("Dark Elf Ability").data();
         case SpellbookSchool::Vampire:
-            return "Vampire Ability";
+            return Engine::trNoop("Vampire Ability").data();
         case SpellbookSchool::Dragon:
-            return "Dragon Ability";
+            return Engine::trNoop("Dragon Ability").data();
     }
 
     return "";
@@ -339,5 +344,68 @@ std::string spellbookSpellLayoutId(SpellbookSchool school, uint32_t spellOrdinal
     std::ostringstream stream;
     stream << pDefinition->pPageLayoutId << "Spell" << std::setw(2) << std::setfill('0') << spellOrdinal;
     return stream.str();
+}
+
+const SpellbookSkin *activeSpellbookSkin(const Party *pParty)
+{
+    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    return pMember != nullptr ? gameRulesFor(pParty).spells.spellbookSkin(*pMember) : nullptr;
+}
+
+const SpellbookSkinPage *activeSpellbookSkinPage(const Party *pParty, SpellbookSchool school)
+{
+    const SpellbookSkin *pSkin = activeSpellbookSkin(pParty);
+    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(school);
+    return pSkin != nullptr && pDefinition != nullptr ? pSkin->page(pDefinition->firstSpellId) : nullptr;
+}
+
+std::vector<SpellbookSkinTab> spellbookSkinTabs(
+    const SpellbookSkin &skin,
+    const std::function<bool(SpellbookSchool)> &memberHasSchool)
+{
+    // The standard tabs: 48 x 39 at the book's right edge, the first 2 from the top, one every 39 (spellbook.yml).
+    static constexpr float TabWidth = 48;
+    static constexpr float TabHeight = 39;
+    static constexpr float TabTop = 2;
+    std::vector<SpellbookSkinTab> tabs;
+    const auto add = [&tabs](SpellbookSchool school, const SpellbookSkinPage *pPage)
+    {
+        const float top = TabTop + TabHeight * float(tabs.size());
+        tabs.push_back({school, pPage, {640 - TabWidth, top, TabWidth, TabHeight}});
+    };
+
+    for (const SpellbookSkinPage &page : skin.pages)
+    {
+        const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinitionForSpellId(page.firstSpellId);
+
+        if (pDefinition != nullptr && memberHasSchool(pDefinition->school))
+        {
+            add(pDefinition->school, &page);
+        }
+    }
+
+    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
+    {
+        if (skin.page(definition.firstSpellId) == nullptr && memberHasSchool(definition.school))
+        {
+            add(definition.school, nullptr);
+        }
+    }
+
+    return tabs;
+}
+
+GameplayResolvedHudLayoutElement spellbookSkinScreenRect(
+    const GameplayResolvedHudLayoutElement &root,
+    const SpellbookSkinRect &rect)
+{
+    const float scale = root.width / 640;
+    GameplayResolvedHudLayoutElement resolved;
+    resolved.x = root.x + rect.x * scale;
+    resolved.y = root.y + rect.y * scale;
+    resolved.width = rect.width * scale;
+    resolved.height = rect.height * scale;
+    resolved.scale = root.scale;
+    return resolved;
 }
 }

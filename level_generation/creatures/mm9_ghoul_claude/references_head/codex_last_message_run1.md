@@ -1,0 +1,3 @@
+Saved run 1’s best result as [00_three_quarter.png](level_generation/creatures/mm9_ghoul_claude/references_head/00_three_quarter.png), using built-in image generation. Raw returns, prompts and input hashes are recorded in [generation_runs.json](level_generation/creatures/mm9_ghoul_claude/references_head/generation_runs.json).
+
+Stopped after the one permitted correction; run 2 was not started. The return remains 1254×1254, preserved unresized, with some coloured edge artifacts—so it does not fully meet the brief.

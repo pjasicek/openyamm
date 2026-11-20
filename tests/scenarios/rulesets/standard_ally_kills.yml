@@ -1,0 +1,23 @@
+id: rulesets.standard_ally_kills
+title: "Ruleset - Standard party allies: their kills give no experience; killing one gives its usual experience"
+world: mm6
+mode: faithful
+tags: [rulesets]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  # The Standard counterpart of maw_ally_kills.yml (audit FMON-2-2): only the party's own kills reward.
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - spawn_actor: {monster_id: 209, near_party: true, party_ally: true}
+  - spawn_actor: {monster_id: 49, near_party: true}
+  - advance_runtime: {seconds: 30}
+  - assert:
+      actor_count: {hostile: true, max: 0}
+      runtime_event_variable: {id: 13, member_index: 0, value: 0}
+  - damage_actor: {actor_index: last-1, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {max: 0}
+      runtime_event_variable: {id: 13, member_index: 0, min: 1}

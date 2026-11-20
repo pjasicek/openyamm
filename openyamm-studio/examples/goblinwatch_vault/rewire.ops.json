@@ -1,0 +1,421 @@
+[
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_a",
+   "replaces": "evt:e19",
+   "title": "A",
+   "preset": "script",
+   "lua": "evt.CastSpell(6, 3, 1, 2496, 4864, 360, 0, 0, 0)",
+   "notes": "Key A is the trap: a Fireball at the vault door."
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_b",
+   "replaces": "evt:e20",
+   "title": "B",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 2
+    }
+   },
+   "sets": {
+    "map_var": 2
+   },
+   "opens": [
+    "door:d57",
+    "door:d58"
+   ],
+   "closes": [
+    "door:d55",
+    "door:d56"
+   ],
+   "texture": {
+    "cog": -2011,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_c",
+   "replaces": "evt:e21",
+   "title": "C",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 3
+    }
+   },
+   "sets": {
+    "map_var": 3
+   },
+   "opens": [
+    "door:d55",
+    "door:d56"
+   ],
+   "closes": [
+    "door:d57",
+    "door:d58"
+   ],
+   "texture": {
+    "cog": -2012,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_d",
+   "replaces": "evt:e22",
+   "title": "D",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 4
+    }
+   },
+   "sets": {
+    "map_var": 4
+   },
+   "opens": [
+    "door:d57",
+    "door:d58"
+   ],
+   "closes": [
+    "door:d40",
+    "door:d52",
+    "door:d51"
+   ],
+   "texture": {
+    "cog": -2013,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_e",
+   "replaces": "evt:e23",
+   "title": "E",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 5
+    }
+   },
+   "sets": {
+    "map_var": 5
+   },
+   "opens": [
+    "door:d40",
+    "door:d52",
+    "door:d51"
+   ],
+   "closes": [
+    "door:d57",
+    "door:d58"
+   ],
+   "texture": {
+    "cog": -2009,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_f",
+   "replaces": "evt:e24",
+   "title": "F",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 6
+    }
+   },
+   "sets": {
+    "map_var": 6
+   },
+   "opens": [
+    "door:d55",
+    "door:d56"
+   ],
+   "closes": [
+    "door:d36",
+    "door:d47",
+    "door:d48"
+   ],
+   "texture": {
+    "cog": -2008,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_g",
+   "replaces": "evt:e25",
+   "title": "G",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 7
+    }
+   },
+   "sets": {
+    "map_var": 7
+   },
+   "closes": [
+    "door:d59",
+    "door:d60"
+   ],
+   "texture": {
+    "cog": -2007,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_h",
+   "replaces": "evt:e26",
+   "title": "H",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 8
+    }
+   },
+   "sets": {
+    "map_var": 8
+   },
+   "opens": [
+    "door:d36",
+    "door:d47",
+    "door:d48"
+   ],
+   "closes": [
+    "door:d38",
+    "door:d44"
+   ],
+   "texture": {
+    "cog": -2006,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_i",
+   "replaces": "evt:e27",
+   "title": "I",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 9
+    }
+   },
+   "sets": {
+    "map_var": 9
+   },
+   "opens": [
+    "door:d38",
+    "door:d44"
+   ],
+   "closes": [
+    "door:d36",
+    "door:d47",
+    "door:d48"
+   ],
+   "texture": {
+    "cog": -2002,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_j",
+   "replaces": "evt:e28",
+   "title": "J",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 10
+    }
+   },
+   "sets": {
+    "map_var": 10
+   },
+   "opens": [
+    "door:d40",
+    "door:d52",
+    "door:d51"
+   ],
+   "closes": [
+    "door:d36",
+    "door:d47",
+    "door:d48"
+   ],
+   "texture": {
+    "cog": -2003,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_k",
+   "replaces": "evt:e29",
+   "title": "K",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 11
+    }
+   },
+   "sets": {
+    "map_var": 11
+   },
+   "opens": [
+    "door:d57",
+    "door:d58"
+   ],
+   "closes": [
+    "door:d59",
+    "door:d60"
+   ],
+   "texture": {
+    "cog": -2004,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_l",
+   "replaces": "evt:e30",
+   "title": "L",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 12
+    }
+   },
+   "sets": {
+    "map_var": 12
+   },
+   "opens": [
+    "door:d55",
+    "door:d56"
+   ],
+   "closes": [
+    "door:d38",
+    "door:d44"
+   ],
+   "texture": {
+    "cog": -2005,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_m",
+   "replaces": "evt:e31",
+   "title": "M",
+   "preset": "teleport",
+   "to": [
+    9000,
+    1916,
+    -767
+   ],
+   "direction": 22.5
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_n",
+   "replaces": "evt:e32",
+   "title": "N",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 13
+    }
+   },
+   "sets": {
+    "map_var": 13
+   },
+   "opens": [
+    "door:d36",
+    "door:d47",
+    "door:d48"
+   ],
+   "closes": [
+    "door:d40",
+    "door:d51",
+    "door:d52"
+   ],
+   "texture": {
+    "cog": -2000,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_o",
+   "replaces": "evt:e33",
+   "title": "O",
+   "preset": "switch",
+   "condition": {
+    "not": {
+     "map_var": 14
+    }
+   },
+   "sets": {
+    "map_var": 14
+   },
+   "opens": [
+    "door:d59",
+    "door:d60"
+   ],
+   "closes": [
+    "door:d57",
+    "door:d58"
+   ],
+   "texture": {
+    "cog": -1999,
+    "name": "t1swdu"
+   }
+  }
+ },
+ {
+  "op": "event.add",
+  "value": {
+   "id": "evt:key_p",
+   "replaces": "evt:e34",
+   "title": "P",
+   "preset": "script",
+   "lua": "SetValue(MapVar(2), 0)\nSetValue(MapVar(3), 0)\nSetValue(MapVar(4), 0)\nSetValue(MapVar(5), 0)\nSetValue(MapVar(6), 0)\nSetValue(MapVar(7), 0)\nSetValue(MapVar(8), 0)\nSetValue(MapVar(9), 0)\nSetValue(MapVar(10), 0)\nSetValue(MapVar(11), 0)\nSetValue(MapVar(12), 0)\nSetValue(MapVar(13), 0)\nSetValue(MapVar(14), 0)\nevt.SetTexture(-2011, \"t1swdd\")\nevt.SetTexture(-2012, \"t1swdd\")\nevt.SetTexture(-2013, \"t1swdd\")\nevt.SetTexture(-2009, \"t1swdd\")\nevt.SetTexture(-2008, \"t1swdd\")\nevt.SetTexture(-2007, \"t1swdd\")\nevt.SetTexture(-2006, \"t1swdd\")\nevt.SetTexture(-2002, \"t1swdd\")\nevt.SetTexture(-2003, \"t1swdd\")\nevt.SetTexture(-2004, \"t1swdd\")\nevt.SetTexture(-2005, \"t1swdd\")\nevt.SetTexture(-2000, \"t1swdd\")\nevt.SetTexture(-1999, \"t1swdd\")\nevt.SetDoorState(40, DoorAction.Open)\nevt.SetDoorState(51, DoorAction.Open)\nevt.SetDoorState(52, DoorAction.Open)\nevt.SetDoorState(36, DoorAction.Open)\nevt.SetDoorState(47, DoorAction.Open)\nevt.SetDoorState(48, DoorAction.Open)\nevt.SetDoorState(38, DoorAction.Open)\nevt.SetDoorState(44, DoorAction.Open)\nevt.SetDoorState(55, DoorAction.Open)\nevt.SetDoorState(56, DoorAction.Open)\nevt.SetDoorState(57, DoorAction.Open)\nevt.SetDoorState(58, DoorAction.Open)\nevt.SetDoorState(59, DoorAction.Open)\nevt.SetDoorState(60, DoorAction.Open)",
+   "notes": "The reset key: every key works again and every vault door returns."
+  }
+ }
+]

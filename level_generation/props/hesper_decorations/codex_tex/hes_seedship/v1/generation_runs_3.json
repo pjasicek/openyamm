@@ -1,0 +1,202 @@
+[
+  {
+    "view": "left",
+    "attempt": 1,
+    "tool": "image_gen.imagegen",
+    "prompt": "Use case: precise-object-edit.\nAsset type: 3D game decoration TEXTURE SOURCE / unlit albedo painting.\nProduce ONE 1024 x 1024 PNG with a truly transparent background, retaining this square canvas at its original resolution.\nInput 1, guide_left.png, is the EDIT TARGET and absolute geometry authority. Paint directly over its existing grey object. Input 2, design_reference.png, is the approved colour and material authority only. Input 3, concept_crop.png, is supporting original concept only.\n\nPaint the LEFT orthographic view of The Seedship. The guide's object occupies x=66..957 and y=391..631 of a 1024-square image, a long low horizontal hull in the middle with large transparent margins above and below. The tall curled tail is at the LEFT, pointed armoured bow at the RIGHT. Do not fill the canvas or enlarge it. Preserve exactly the guide's camera, silhouette, object position, size, aspect ratio, every spike, rib, plate, edge, opening, and all alpha coverage. Keep the exact curvature and tip coordinates of both tall terminal horns, the existing row of small upper spines, the side ribs and hanging underside spikes. No new or removed geometry, no changed proportions, no perspective or three-quarter rotation. The material reference must never override guide geometry.\n\nChange only surface colour/material: dark violet-black resin hull; the EXISTING projecting bone ribs and plates painted warm ivory with thin gold-brown veins; luminous saturated amber-orange sacs/openings between ribs, using the reference's organic cellular motif as surface painting; ivory spines. Match the design reference's colour, fine organic vein pattern and material identity without importing its different outline or spike arrangement. All marks stay inside existing guide alpha. Preserve existing transparent gaps.\n\nLighting: flat, even, shadowless frontal illumination, an albedo texture painting. No directional shading, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light. Orange sacs and seams have their glowing orange colour only: no bloom, no halo, and no orange light cast onto nearby surfaces. No background, floor, environment, text, border or extra objects. Return the whole unresized 1024-square canvas, not a cropped close-up.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "5faee7010436db41be2654ecc96f6217b33ba2e21b6fff8663a626dac7c1298f"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+      }
+    ],
+    "output": "paint_left_attempt1.png",
+    "output_sha256": "1996c4d6b65dfa7e1427657b0bac17da60f2050dfd146f64e851b65f90505fee",
+    "selected": false,
+    "reason": "Superseded by the one permitted corrective regeneration. Raw return has the wrong dimensions, silhouette/alpha drift, and stronger shading than requested.",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "rgba": true,
+      "alpha_bbox": [
+        55,
+        17,
+        1202,
+        1213
+      ],
+      "silhouette_identical": false,
+      "materials_and_colours": "Broad palette match: dark violet-black hull, ivory bone, thin gold-brown veins, amber-orange cells.",
+      "flat_even_light": false,
+      "lighting_reason": "Painted shaded recesses and bright bone highlights remain.",
+      "transparent_background": true,
+      "clean_alpha": false,
+      "raw_return_preserved": true,
+      "accepted_against_brief": false
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "tool": "image_gen.imagegen",
+    "prompt": "Use case: precise-object-edit.\nAsset type: 3D game decoration TEXTURE SOURCE / unlit albedo painting.\nProduce ONE 1024 x 1024 PNG with a truly transparent background, retaining this square canvas at its original resolution.\nInput 1, guide_left.png, is the EDIT TARGET and absolute geometry authority. Paint directly over its existing grey object. Input 2, design_reference.png, is the approved colour and material authority only. Input 3, concept_crop.png, is supporting original concept only.\n\nPaint the LEFT orthographic view of The Seedship. The guide's object occupies x=66..957 and y=391..631 of a 1024-square image, a long low horizontal hull in the middle with large transparent margins above and below. The tall curled tail is at the LEFT, pointed armoured bow at the RIGHT. Do not fill the canvas or enlarge it. Preserve exactly the guide's camera, silhouette, object position, size, aspect ratio, every spike, rib, plate, edge, opening, and all alpha coverage. Keep the exact curvature and tip coordinates of both tall terminal horns, the existing row of small upper spines, the side ribs and hanging underside spikes. No new or removed geometry, no changed proportions, no perspective or three-quarter rotation. The material reference must never override guide geometry.\n\nChange only surface colour/material: dark violet-black resin hull; the EXISTING projecting bone ribs and plates painted warm ivory with thin gold-brown veins; luminous saturated amber-orange sacs/openings between ribs, using the reference's organic cellular motif as surface painting; ivory spines. Match the design reference's colour, fine organic vein pattern and material identity without importing its different outline or spike arrangement. All marks stay inside existing guide alpha. Preserve existing transparent gaps.\n\nLighting: flat, even, shadowless frontal illumination, an albedo texture painting. No directional shading, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light. Orange sacs and seams have their glowing orange colour only: no bloom, no halo, and no orange light cast onto nearby surfaces. No background, floor, environment, text, border or extra objects. Return the whole unresized 1024-square canvas, not a cropped close-up.\n\nCORRECTIVE REGENERATION, the only correction allowed for this view. The earlier return failed the canvas and silhouette requirements. Use the ORIGINAL guide_left.png as the fixed 1024 x 1024 edit canvas. The new PNG MUST itself have exactly 1024 pixel width and 1024 pixel height. Keep the guide's original alpha mask exactly: zero alpha everywhere that the guide is transparent, solid opaque painted interiors matching the guide, and only the guide's existing antialiasing at its edges. No stray translucent dots, smudges or coloured edge halos. The silhouette must overlay the guide at pixel level, including each individual spike. Do not add new organic protrusions from the design reference. Bone is matte ivory with thin veins, no shaded crevices or shiny white highlights. Use orange colour only inside the existing hull, without illumination spill.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "5faee7010436db41be2654ecc96f6217b33ba2e21b6fff8663a626dac7c1298f"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+      }
+    ],
+    "output": "paint_left.png",
+    "output_sha256": "e22e0578f74a37b42a4c5a700eb853eb695cecc83354dec986222b130448e750",
+    "selected": true,
+    "reason": "Selected as the best available raw return after the single allowed correction; selection is not acceptance. Bone, violet hull and amber cells broadly match the reference, but the 1254x1254 canvas, stray alpha, changed edges and residual shading fail the exact brief. Saved byte-for-byte without resizing or postprocessing.",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "rgba": true,
+      "alpha_bbox": [
+        33,
+        33,
+        1234,
+        1226
+      ],
+      "silhouette_identical": false,
+      "materials_and_colours": "Broad palette match: dark violet-black hull, ivory bone, thin gold-brown veins, amber-orange cells.",
+      "flat_even_light": false,
+      "lighting_reason": "Painted shaded recesses and bright bone highlights remain.",
+      "transparent_background": true,
+      "clean_alpha": false,
+      "raw_return_preserved": true,
+      "accepted_against_brief": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "tool": "image_gen.imagegen",
+    "prompt": "Use case: precise-object-edit.\nAsset type: 3D game decoration TEXTURE SOURCE / unlit albedo painting.\nProduce ONE 1024 x 1024 PNG with a truly transparent background, retaining this square canvas at its original resolution.\nInput 1, guide_right.png, is the EDIT TARGET and absolute geometry authority. Paint directly over its existing grey object. Input 2, design_reference.png, is the approved colour and material authority only. Input 3, concept_crop.png, is supporting original concept only.\n\nPaint the RIGHT orthographic view of The Seedship. The guide's object occupies x=66..957 and y=391..632 of a 1024-square image, a long low horizontal hull in the middle with large transparent margins above and below. The tall curled tail is at the RIGHT, pointed armoured bow at the LEFT. Do not fill the canvas or enlarge it. Preserve exactly the guide's camera, silhouette, object position, size, aspect ratio, every spike, rib, plate, edge, opening, and all alpha coverage. Keep the exact curvature and tip coordinates of both tall terminal horns, the existing row of small upper spines, the side ribs and hanging underside spikes. No new or removed geometry, no changed proportions, no perspective or three-quarter rotation. The material reference must never override guide geometry.\n\nChange only surface colour/material: dark violet-black resin hull; the EXISTING projecting bone ribs and plates painted warm ivory with thin gold-brown veins; luminous saturated amber-orange sacs/openings between ribs, using the reference's organic cellular motif as surface painting; ivory spines. Match the design reference's colour, fine organic vein pattern and material identity without importing its different outline or spike arrangement. All marks stay inside existing guide alpha. Preserve existing transparent gaps.\n\nLighting: flat, even, shadowless frontal illumination, an albedo texture painting. No directional shading, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light. Orange sacs and seams have their glowing orange colour only: no bloom, no halo, and no orange light cast onto nearby surfaces. No background, floor, environment, text, border or extra objects. Return the whole unresized 1024-square canvas, not a cropped close-up.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "df597d0228d9ee07e55641fd92c6686ad7f32e3dafd28f428d1f87bda7fc0272"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+      }
+    ],
+    "output": "paint_right_attempt1.png",
+    "output_sha256": "8f3195aac3ceb8ec919b84bc24639d0e0b74e76cc1ccca044743fbb21d298995",
+    "selected": false,
+    "reason": "Superseded by the one permitted corrective regeneration. Raw return has the wrong dimensions, silhouette/alpha drift, and stronger shading than requested.",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "rgba": true,
+      "alpha_bbox": [
+        0,
+        21,
+        1186,
+        1230
+      ],
+      "silhouette_identical": false,
+      "materials_and_colours": "Broad palette match: dark violet-black hull, ivory bone, thin gold-brown veins, amber-orange cells.",
+      "flat_even_light": false,
+      "lighting_reason": "Painted shaded recesses and bright bone highlights remain.",
+      "transparent_background": true,
+      "clean_alpha": false,
+      "raw_return_preserved": true,
+      "accepted_against_brief": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "tool": "image_gen.imagegen",
+    "prompt": "Use case: precise-object-edit.\nAsset type: 3D game decoration TEXTURE SOURCE / unlit albedo painting.\nProduce ONE 1024 x 1024 PNG with a truly transparent background, retaining this square canvas at its original resolution.\nInput 1, guide_right.png, is the EDIT TARGET and absolute geometry authority. Paint directly over its existing grey object. Input 2, design_reference.png, is the approved colour and material authority only. Input 3, concept_crop.png, is supporting original concept only.\n\nPaint the RIGHT orthographic view of The Seedship. The guide's object occupies x=66..957 and y=391..632 of a 1024-square image, a long low horizontal hull in the middle with large transparent margins above and below. The tall curled tail is at the RIGHT, pointed armoured bow at the LEFT. Do not fill the canvas or enlarge it. Preserve exactly the guide's camera, silhouette, object position, size, aspect ratio, every spike, rib, plate, edge, opening, and all alpha coverage. Keep the exact curvature and tip coordinates of both tall terminal horns, the existing row of small upper spines, the side ribs and hanging underside spikes. No new or removed geometry, no changed proportions, no perspective or three-quarter rotation. The material reference must never override guide geometry.\n\nChange only surface colour/material: dark violet-black resin hull; the EXISTING projecting bone ribs and plates painted warm ivory with thin gold-brown veins; luminous saturated amber-orange sacs/openings between ribs, using the reference's organic cellular motif as surface painting; ivory spines. Match the design reference's colour, fine organic vein pattern and material identity without importing its different outline or spike arrangement. All marks stay inside existing guide alpha. Preserve existing transparent gaps.\n\nLighting: flat, even, shadowless frontal illumination, an albedo texture painting. No directional shading, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light. Orange sacs and seams have their glowing orange colour only: no bloom, no halo, and no orange light cast onto nearby surfaces. No background, floor, environment, text, border or extra objects. Return the whole unresized 1024-square canvas, not a cropped close-up.\n\nCORRECTIVE REGENERATION, the only correction allowed for this view. The earlier return failed the canvas and silhouette requirements. Use the ORIGINAL guide_right.png as the fixed 1024 x 1024 edit canvas. The new PNG MUST itself have exactly 1024 pixel width and 1024 pixel height. Keep the guide's original alpha mask exactly: zero alpha everywhere that the guide is transparent, solid opaque painted interiors matching the guide, and only the guide's existing antialiasing at its edges. No stray translucent dots, smudges or coloured edge halos. The silhouette must overlay the guide at pixel level, including each individual spike. Do not add new organic protrusions from the design reference. Bone is matte ivory with thin veins, no shaded crevices or shiny white highlights. Use orange colour only inside the existing hull, without illumination spill.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "df597d0228d9ee07e55641fd92c6686ad7f32e3dafd28f428d1f87bda7fc0272"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "489b68f6ec2cfe5e8a67931773bfaa50a7f1c36f72cf11d87d9c1001af2708e9"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "759f9bc6f313bcf532c0694e67f2fc0bede0757f55fdaf3f32ad4d16d39e162f"
+      }
+    ],
+    "output": "paint_right.png",
+    "output_sha256": "d20ab163f0464739d9f8331386929786ab6458836bb93ea743b3503fcd1beb56",
+    "selected": true,
+    "reason": "Selected as the best available raw return after the single allowed correction; selection is not acceptance. Bone, violet hull and amber cells broadly match the reference, but the 1254x1254 canvas, stray alpha, changed edges and residual shading fail the exact brief. Saved byte-for-byte without resizing or postprocessing.",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "rgba": true,
+      "alpha_bbox": [
+        47,
+        23,
+        1234,
+        1216
+      ],
+      "silhouette_identical": false,
+      "materials_and_colours": "Broad palette match: dark violet-black hull, ivory bone, thin gold-brown veins, amber-orange cells.",
+      "flat_even_light": false,
+      "lighting_reason": "Painted shaded recesses and bright bone highlights remain.",
+      "transparent_background": true,
+      "clean_alpha": false,
+      "raw_return_preserved": true,
+      "accepted_against_brief": false
+    }
+  }
+]

@@ -135,6 +135,10 @@ SetMapMetadata({
     [213] = { kind = "obelisk", source = "title" },
     [261] = { kind = "shrine", source = "title" },
     },
+    learnedEffect = {
+    [161] = { autonote = 418, effect = "+2 Might permanent" },
+    [163] = { autonote = 419, effect = "+25 Hit points restored" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {6},

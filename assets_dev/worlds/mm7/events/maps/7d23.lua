@@ -528,9 +528,6 @@ end)
 
 RegisterEvent(153, nil, function()
     evt.SetDoorState(18, DoorAction.Trigger)
-    if not IsAtLeast(MapVar(4), 1) then return end
-    evt.SetDoorState(47, DoorAction.Close)
-    evt.SetDoorState(26, DoorAction.Close)
 end)
 
 RegisterEvent(154, nil, function()

@@ -1,0 +1,288 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool_mode": "built-in image generation",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": 1,
+  "status": "Generated and saved best raw candidates; neither selected image passes the brief.",
+  "limitation": "Every tool return was 1254 x 1254 despite explicit 1024 x 1024 prompts, and exact guide edges and flat lighting were not preserved. The one-correction-per-view limit is exhausted. No resize, warp, alpha-mask replacement or other image post-processing was performed.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "type": "initial",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "prompt": "Use case: style-transfer. Asset type: flat albedo texture-paint source for the Graft-serum vat 3D model, left orthographic view.\nINPUT ROLES: Image 1, guide_left.png, is the EDIT TARGET and absolute geometry authority. Image 2, design_reference.png, is the approved authority for design, colour and surface materials ONLY. Image 3, concept_crop.png, is supplementary original material/design reference ONLY.\nDELIVER ONE IMAGE: a 1024 x 1024 RGBA PNG with genuinely transparent background. Repaint image 1 IN PLACE. Preserve its original canvas, alpha silhouette, size, position, orthographic camera, all shape boundaries and openings exactly. The guide's occupied bounds are x=66 through 957, y=139 through 884. Every claw tip, polygonal rim, supporting rib, oval window, foot, inner gap, overlapping edge and bottom contour must remain exactly where it is in image 1. Do not move, rotate, mirror, expand, shrink, smooth, redesign, crop, add or remove any geometry. Do not copy the three-quarter perspective or composition of image 2 or 3. Retain the guide's slightly asymmetric mesh geometry rather than inventing symmetry.\nMATERIAL PAINT: Paint the guide's structural cage, oval window borders, rim, basal shell and supporting ribs with the design reference's glossy black-violet Kreegan resin, fine organic ridges and faint thin orange seams. Glossy describes the underlying material identity; do not bake strong highlights or reflections into the albedo. Paint the existing long upper hooked claws and pointed foot tips with pale warm ivory bone, with restrained warm natural grain and fine cracks. Paint the existing membrane/serum window surfaces and visible serum surface at the top with bright saturated green, evenly lit from inside, with darker green branching veins and restrained small bubbles following the references. Preserve the exact borders between resin, claws and membrane as defined by the guide; no new protrusions or openings. The green windows are painted surfaces, not alpha holes. Orange seams or sacs use their glowing orange local colour, with NO light spill.\nLIGHTING IS CRITICAL: this is an ALBEDO TEXTURE SOURCE, not a beauty render. Uniform, flat, shadowless frontal illumination across all visible surfaces. No directional shading, no cast shadows, no ambient occlusion or dark crevice lighting, no strong specular highlights, no reflections, no rim light, no bloom, no glow halo. Keep colour variations attributable only to material pigments and fine surface texture. Dark black-violet is the resin's intrinsic colour; ivory and green must stay evenly lit even on lower or side-facing parts.\nBACKGROUND AND INVARIANTS: true transparent alpha everywhere outside the original guide silhouette and in its background openings. No background colour, no floor, no ground shadow, no text, no labels, no frame, no extra objects. The requested change is surface colour/material painting only; keep image 1's exact silhouette and every shape edge untouched. Return the full original 1024 x 1024 canvas unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/guide_left.png",
+          "sha256": "984315673ea6a5b767f1f9a2cc662dba8e0ce0408de60e48ba8b64e3cc6f77cf",
+          "role": "edit target; absolute geometry authority"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd",
+          "role": "approved design, material and colour reference"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_left.png",
+      "output_sha256": "aaff91581c8c4e9e9977d84acff986bdee5c0394dd6833e5b0ceb23bc22af7de",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-965e1457-2e7f-42bc-b97f-f9af40191448.png",
+      "selected": true,
+      "selected_means": "Best raw return retained at the requested deliverable filename; not acceptance against the brief.",
+      "reason": "Closest of the two raw left returns to the guide silhouette after normalized-coordinate mask comparison; the corrective return did not solve native size, geometry or lighting failures. Retained unresized. Does not meet the brief's acceptance criteria.",
+      "brief_compliant": false,
+      "checks": {
+        "source": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-965e1457-2e7f-42bc-b97f-f9af40191448.png",
+        "sha256": "aaff91581c8c4e9e9977d84acff986bdee5c0394dd6833e5b0ceb23bc22af7de",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          71,
+          3,
+          1202,
+          1254
+        ],
+        "alpha_128_bbox": [
+          79,
+          167,
+          1176,
+          1085
+        ],
+        "transparent_pixels": 743223,
+        "normalized_mask_iou": 0.9829702844454081,
+        "native_size_pass": false,
+        "silhouette_identical": false,
+        "transparency_present": true,
+        "transparent_background_clean": false,
+        "transparency_note": "RGBA with transparent surroundings, but low-alpha stray pixels extend beyond the main silhouette.",
+        "materials_and_colours_match": "partial",
+        "material_note": "Black-violet resin, ivory bone, orange seams and green serum are present; resin is too faceted/marbled and veins remain brighter than the green field.",
+        "flat_even_light": false,
+        "lighting_note": "Painted crevice shadows and highlights remain; not a clean shadowless albedo source.",
+        "every_shape_edge_identical": false,
+        "geometry_note": "Dimensions and exact silhouette fail. Some interior boundaries and material partitions also drift.",
+        "normalized_mask_iou_note": "Diagnostic only: compare alpha>=128 at matching normalized canvas coordinates by nearest pixel sampling. No output image was resized or edited."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "type": "corrective",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "prompt": "Use case: style-transfer. Asset type: flat albedo texture-paint source for the Graft-serum vat 3D model, left orthographic view.\nINPUT ROLES: Image 1, guide_left.png, is the EDIT TARGET and absolute geometry authority. Image 2, design_reference.png, is the approved authority for design, colour and surface materials ONLY. Image 3, concept_crop.png, is supplementary original material/design reference ONLY.\nDELIVER ONE IMAGE: a 1024 x 1024 RGBA PNG with genuinely transparent background. Repaint image 1 IN PLACE. Preserve its original canvas, alpha silhouette, size, position, orthographic camera, all shape boundaries and openings exactly. The guide's occupied bounds are x=66 through 957, y=139 through 884. Every claw tip, polygonal rim, supporting rib, oval window, foot, inner gap, overlapping edge and bottom contour must remain exactly where it is in image 1. Do not move, rotate, mirror, expand, shrink, smooth, redesign, crop, add or remove any geometry. Do not copy the three-quarter perspective or composition of image 2 or 3. Retain the guide's slightly asymmetric mesh geometry rather than inventing symmetry.\nMATERIAL PAINT: Paint the guide's structural cage, oval window borders, rim, basal shell and supporting ribs with the design reference's glossy black-violet Kreegan resin, fine organic ridges and faint thin orange seams. Glossy describes the underlying material identity; do not bake strong highlights or reflections into the albedo. Paint the existing long upper hooked claws and pointed foot tips with pale warm ivory bone, with restrained warm natural grain and fine cracks. Paint the existing membrane/serum window surfaces and visible serum surface at the top with bright saturated green, evenly lit from inside, with darker green branching veins and restrained small bubbles following the references. Preserve the exact borders between resin, claws and membrane as defined by the guide; no new protrusions or openings. The green windows are painted surfaces, not alpha holes. Orange seams or sacs use their glowing orange local colour, with NO light spill.\nLIGHTING IS CRITICAL: this is an ALBEDO TEXTURE SOURCE, not a beauty render. Uniform, flat, shadowless frontal illumination across all visible surfaces. No directional shading, no cast shadows, no ambient occlusion or dark crevice lighting, no strong specular highlights, no reflections, no rim light, no bloom, no glow halo. Keep colour variations attributable only to material pigments and fine surface texture. Dark black-violet is the resin's intrinsic colour; ivory and green must stay evenly lit even on lower or side-facing parts.\nBACKGROUND AND INVARIANTS: true transparent alpha everywhere outside the original guide silhouette and in its background openings. No background colour, no floor, no ground shadow, no text, no labels, no frame, no extra objects. The requested change is surface colour/material painting only; keep image 1's exact silhouette and every shape edge untouched. Return the full original 1024 x 1024 canvas unresized.\nCORRECTIVE PASS (one permitted): Image 4 is the rejected first painting, supplied only to identify its defects. It returned 1254 x 1254 instead of 1024 x 1024 and displaced the original edges. Correct those defects by editing IMAGE 1 directly at its native 1024 x 1024 size; do not rescale, resample or reframe it. Keep image 1's alpha mask and all original edges exactly. No faint particles or tinted pixels outside that mask. Do not reconstruct or enlarge the vat. The original guide bounds must remain x=66..957 and y=139..884 on the final 1024 x 1024 canvas. Do not follow image 4's changed outline. Make the green membrane evenly bright saturated green with DARKER green branching veins, not luminous yellow-white veins; remove the first attempt's baked crevice shadows and edge highlights. Deliver native 1024 x 1024 RGBA.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/guide_left.png",
+          "sha256": "984315673ea6a5b767f1f9a2cc662dba8e0ce0408de60e48ba8b64e3cc6f77cf",
+          "role": "edit target; absolute geometry authority"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd",
+          "role": "approved design, material and colour reference"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7",
+          "role": "original concept reference"
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-965e1457-2e7f-42bc-b97f-f9af40191448.png",
+          "sha256": "aaff91581c8c4e9e9977d84acff986bdee5c0394dd6833e5b0ceb23bc22af7de",
+          "role": "rejected initial painting for defect identification",
+          "retained_copy": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/paint_left.png"
+        }
+      ],
+      "output": "paint_left_attempt_2.png",
+      "output_sha256": "400dead38510de33fa5e61e75dff2ff9988562a561cec6fad50eeec0ec7f5a3a",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-9b300ae8-6988-4de4-a9ca-a382ebbe2d12.png",
+      "selected": false,
+      "selected_means": "Best raw return retained at the requested deliverable filename; not acceptance against the brief.",
+      "reason": "Corrective pass failed to obtain 1024 x 1024 or exact guide geometry, retained baked shading/highlights and bright veins, and had lower normalized silhouette overlap than attempt 1. Not selected.",
+      "brief_compliant": false,
+      "checks": {
+        "source": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-9b300ae8-6988-4de4-a9ca-a382ebbe2d12.png",
+        "sha256": "400dead38510de33fa5e61e75dff2ff9988562a561cec6fad50eeec0ec7f5a3a",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          9,
+          1236,
+          1254
+        ],
+        "alpha_128_bbox": [
+          80,
+          161,
+          1176,
+          1073
+        ],
+        "transparent_pixels": 759606,
+        "normalized_mask_iou": 0.9636507847638244,
+        "native_size_pass": false,
+        "silhouette_identical": false,
+        "transparency_present": true,
+        "transparent_background_clean": false,
+        "transparency_note": "RGBA with transparent surroundings, but low-alpha stray pixels extend beyond the main silhouette.",
+        "materials_and_colours_match": "partial",
+        "material_note": "Black-violet resin, ivory bone, orange seams and green serum are present; resin is too faceted/marbled and veins remain brighter than the green field.",
+        "flat_even_light": false,
+        "lighting_note": "Painted crevice shadows and highlights remain; not a clean shadowless albedo source.",
+        "every_shape_edge_identical": false,
+        "geometry_note": "Dimensions and exact silhouette fail. Some interior boundaries and material partitions also drift.",
+        "normalized_mask_iou_note": "Diagnostic only: compare alpha>=128 at matching normalized canvas coordinates by nearest pixel sampling. No output image was resized or edited."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "type": "initial",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "prompt": "Use case: style-transfer. Asset type: flat albedo texture-paint source for the Graft-serum vat 3D model, right orthographic view.\nINPUT ROLES: Image 1, guide_right.png, is the EDIT TARGET and absolute geometry authority. Image 2, design_reference.png, is the approved authority for design, colour and surface materials ONLY. Image 3, concept_crop.png, is supplementary original material/design reference ONLY.\nDELIVER ONE IMAGE: a 1024 x 1024 RGBA PNG with genuinely transparent background. Repaint image 1 IN PLACE. Preserve its original canvas, alpha silhouette, size, position, orthographic camera, all shape boundaries and openings exactly. The guide's occupied bounds are x=66 through 957, y=139 through 884. Every claw tip, polygonal rim, supporting rib, oval window, foot, inner gap, overlapping edge and bottom contour must remain exactly where it is in image 1. Do not move, rotate, mirror, expand, shrink, smooth, redesign, crop, add or remove any geometry. Do not copy the three-quarter perspective or composition of image 2 or 3. Retain the guide's slightly asymmetric mesh geometry rather than inventing symmetry.\nMATERIAL PAINT: Paint the guide's structural cage, oval window borders, rim, basal shell and supporting ribs with the design reference's glossy black-violet Kreegan resin, fine organic ridges and faint thin orange seams. Glossy describes the underlying material identity; do not bake strong highlights or reflections into the albedo. Paint the existing long upper hooked claws and pointed foot tips with pale warm ivory bone, with restrained warm natural grain and fine cracks. Paint the existing membrane/serum window surfaces and visible serum surface at the top with bright saturated green, evenly lit from inside, with darker green branching veins and restrained small bubbles following the references. Preserve the exact borders between resin, claws and membrane as defined by the guide; no new protrusions or openings. The green windows are painted surfaces, not alpha holes. Orange seams or sacs use their glowing orange local colour, with NO light spill.\nLIGHTING IS CRITICAL: this is an ALBEDO TEXTURE SOURCE, not a beauty render. Uniform, flat, shadowless frontal illumination across all visible surfaces. No directional shading, no cast shadows, no ambient occlusion or dark crevice lighting, no strong specular highlights, no reflections, no rim light, no bloom, no glow halo. Keep colour variations attributable only to material pigments and fine surface texture. Dark black-violet is the resin's intrinsic colour; ivory and green must stay evenly lit even on lower or side-facing parts.\nBACKGROUND AND INVARIANTS: true transparent alpha everywhere outside the original guide silhouette and in its background openings. No background colour, no floor, no ground shadow, no text, no labels, no frame, no extra objects. The requested change is surface colour/material painting only; keep image 1's exact silhouette and every shape edge untouched. Return the full original 1024 x 1024 canvas unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/guide_right.png",
+          "sha256": "edc85eca626075bceda7ba29a20f8ca1db1016f129cfb1409c9e97c918799cc4",
+          "role": "edit target; absolute geometry authority"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd",
+          "role": "approved design, material and colour reference"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_right.png",
+      "output_sha256": "51ab66484094e1568d59400b4f5d013e17295da84c2aad7d19a33d8d0a504986",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-77f9f52e-19f8-4275-8b82-5716452b544d.png",
+      "selected": true,
+      "selected_means": "Best raw return retained at the requested deliverable filename; not acceptance against the brief.",
+      "reason": "Closest of the two raw right returns to the guide silhouette after normalized-coordinate mask comparison; the corrective return did not solve native size, geometry or lighting failures. Retained unresized. Does not meet the brief's acceptance criteria.",
+      "brief_compliant": false,
+      "checks": {
+        "source": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-77f9f52e-19f8-4275-8b82-5716452b544d.png",
+        "sha256": "51ab66484094e1568d59400b4f5d013e17295da84c2aad7d19a33d8d0a504986",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          21,
+          1192,
+          1254
+        ],
+        "alpha_128_bbox": [
+          80,
+          170,
+          1174,
+          1084
+        ],
+        "transparent_pixels": 745660,
+        "normalized_mask_iou": 0.9903636565731543,
+        "native_size_pass": false,
+        "silhouette_identical": false,
+        "transparency_present": true,
+        "transparent_background_clean": false,
+        "transparency_note": "RGBA with transparent surroundings, but low-alpha stray pixels extend beyond the main silhouette.",
+        "materials_and_colours_match": "partial",
+        "material_note": "Black-violet resin, ivory bone, orange seams and green serum are present; resin is too faceted/marbled and veins remain brighter than the green field.",
+        "flat_even_light": false,
+        "lighting_note": "Painted crevice shadows and highlights remain; not a clean shadowless albedo source.",
+        "every_shape_edge_identical": false,
+        "geometry_note": "Dimensions and exact silhouette fail. Some interior boundaries and material partitions also drift.",
+        "normalized_mask_iou_note": "Diagnostic only: compare alpha>=128 at matching normalized canvas coordinates by nearest pixel sampling. No output image was resized or edited."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "type": "corrective",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "prompt": "Use case: style-transfer. CORRECTIVE REGENERATION of the RIGHT orthographic albedo painting of the Graft-serum vat.\nImage 1 is guide_right.png, the exact 1024 x 1024 edit target. Image 2 is design_reference.png, the material and colour authority only. Image 3 is concept_crop.png, supplementary original design reference.\nReturn exactly 1024 x 1024 pixels with true transparent alpha. Work directly on image 1: lock its original alpha mask, camera, every polygon edge, asymmetry, opening, all six upper claws, oval membranes, supporting ribs, lower feet and contour. Preserve the image's exact original object placement and margins; the original nonzero-alpha bounds are [66,139,958,885] in the 1024-pixel square. Keep every original geometry edge; do not enlarge the object or canvas, shift, mirror, rotate, smooth, add, remove or redesign geometry. No outside alpha flecks. Recolour only within image 1's existing opaque surfaces.\nPaint the guide with the approved design's glossy black-violet Kreegan resin with fine organic ridges and faint thin orange seams, pale ivory bone claws and foot tips, and bright saturated green serum/membranes evenly lit from inside WITH DARKER GREEN VEINS. Paint orange seams at their own glowing colour, without illumination of surrounding surfaces.\nCorrect the prior result's specific failures: the output must be native 1024 x 1024, not 1254 x 1254. Keep the guide's exact silhouette and every shape edge. Green veins must be darker than their bright green field, not brighter yellow-white lines. Remove specular bands and crevice shadows. Use fine resin ridges, not marble-like rocky highlights.\nTEXTURE SOURCE ONLY: even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Do not copy the three-quarter camera or dramatic lighting of the reference. No bloom, no halo, no text. Preserve transparency around the complete uncropped original guide. Deliver the unresized 1024 x 1024 RGBA image.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/guide_right.png",
+          "sha256": "edc85eca626075bceda7ba29a20f8ca1db1016f129cfb1409c9e97c918799cc4",
+          "role": "edit target; absolute geometry authority"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd",
+          "role": "approved design, material and colour reference"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_serum_vat/concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7",
+          "role": "original concept reference"
+        }
+      ],
+      "output": "paint_right_attempt_2.png",
+      "output_sha256": "4f19717180e78611987923cd94c7efbf1751733bb582480f85525bd05568333a",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-87c15a2c-aa7c-4c03-84fe-9720a8e3a44c.png",
+      "selected": false,
+      "selected_means": "Best raw return retained at the requested deliverable filename; not acceptance against the brief.",
+      "reason": "Corrective pass failed to obtain 1024 x 1024 or exact guide geometry, retained baked shading/highlights and bright veins, and had lower normalized silhouette overlap than attempt 1. Not selected.",
+      "brief_compliant": false,
+      "checks": {
+        "source": "/home/pjasicek/.codex/generated_images/01a16abf-3a68-7052-8c53-1849cd958410/exec-87c15a2c-aa7c-4c03-84fe-9720a8e3a44c.png",
+        "sha256": "4f19717180e78611987923cd94c7efbf1751733bb582480f85525bd05568333a",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          3,
+          1250,
+          1254
+        ],
+        "alpha_128_bbox": [
+          78,
+          169,
+          1175,
+          1082
+        ],
+        "transparent_pixels": 752952,
+        "normalized_mask_iou": 0.989560258593919,
+        "native_size_pass": false,
+        "silhouette_identical": false,
+        "transparency_present": true,
+        "transparent_background_clean": false,
+        "transparency_note": "RGBA with transparent surroundings, but low-alpha stray pixels extend beyond the main silhouette.",
+        "materials_and_colours_match": "partial",
+        "material_note": "Black-violet resin, ivory bone, orange seams and green serum are present; resin is too faceted/marbled and veins remain brighter than the green field.",
+        "flat_even_light": false,
+        "lighting_note": "Painted crevice shadows and highlights remain; not a clean shadowless albedo source.",
+        "every_shape_edge_identical": false,
+        "geometry_note": "Dimensions and exact silhouette fail. Some interior boundaries and material partitions also drift.",
+        "normalized_mask_iou_note": "Diagnostic only: compare alpha>=128 at matching normalized canvas coordinates by nearest pixel sampling. No output image was resized or edited."
+      }
+    }
+  ]
+}

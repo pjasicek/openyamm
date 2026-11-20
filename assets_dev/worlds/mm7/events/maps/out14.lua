@@ -91,6 +91,10 @@ SetMapMetadata({
     [502] = { kind = "enter_dungeon", source = "opcode", targetMap = "d04.blv", targetName = "The Temple of Baa" },
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d22.blv", targetName = "The Hall under the Hill" },
     },
+    learnedEffect = {
+    [204] = { autonote = 287, effect = "+20 Water Resistance (Temporary)" },
+    [205] = { autonote = 286, effect = "+2 Endurance (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {"0", "7tree13", "7tree14", "7tree15", "7tree16", "7tree17", "7tree18", "7tree22", "7tree24", "7tree30", "tree37"},
     castSpellIds = {},

@@ -1,0 +1,405 @@
+# Monster level bands of the MAW ruleset by map file (MAW ef23ee17, zzMaw-Monsters.lua mapLevels 963-1592),
+# horizontal starter maps and Beyond Madness levels. low/mid/high: the B-tier level the 1st/2nd/3rd native monster
+# family (sorted by base B level) is pinned to; see devdocs/maw/BALANCE_MODEL.md section 7. Generated from
+# devdocs/maw/data/map_levels.yml; two maps use the band MAW meant rather than the one a duplicate key gave them
+# (devdocs/maw/DEVIATIONS.md item 7).
+
+bands:
+  out01.odm: [3, 4, 4]
+  out02.odm: [14, 14, 17]
+  out03.odm: [21, 24, 35]
+  out04.odm: [16, 28, 36]
+  out05.odm: [38, 45, 50]
+  out06.odm: [28, 35, 45]
+  out07.odm: [23, 27, 35]
+  out08.odm: [28, 28, 35]
+  elema.odm: [60, 62, 65]
+  eleme.blv: [70, 75, 80]
+  elemf.odm: [65, 70, 75]
+  elemw.odm: [60, 65, 70]
+  out13.odm: [45, 50, 55]
+  pbp.odm: [85, 90, 90]
+  out15.odm: [1, 1, 1]
+  d05.blv: [5, 6, 7]
+  d06.blv: [45, 51, 51]
+  d07.blv: [11, 13, 17]
+  d08.blv: [14, 14, 14]
+  d09.blv: [1, 1, 1]
+  d10.blv: [70, 80, 90]
+  d11.blv: [18, 18, 18]
+  d12.blv: [20, 24, 24]
+  d13.blv: [16, 16, 16]
+  d14.blv: [42, 42, 42]
+  d15.blv: [31, 40, 49]
+  d16.blv: [35, 40, 45]
+  d17.blv: [35, 60, 85]
+  d18.blv: [30, 34, 38]
+  d19.blv: [28, 34, 42]
+  d20.blv: [37, 42, 45]
+  d21.blv: [42, 42, 42]
+  d22.blv: [40, 40, 40]
+  d23.blv: [45, 49, 60]
+  d24.blv: [35, 47, 59]
+  d25.blv: [25, 28, 36]
+  d26.blv: [32, 36, 40]
+  d27.blv: [65, 65, 65]
+  d28.blv: [1, 1, 1]
+  d29.blv: [75, 75, 75]
+  d30.blv: [65, 70, 75]
+  d31.blv: [50, 55, 55]
+  d32.blv: [50, 55, 60]
+  d33.blv: [50, 55, 60]
+  d34.blv: [50, 55, 55]
+  d35.blv: [80, 90, 100]
+  d36.blv: [85, 90, 100]
+  d37.blv: [85, 90, 100]
+  d38.blv: [85, 90, 100]
+  d39.blv: [85, 90, 100]
+  d40.blv: [30, 35, 40]
+  d41.blv: [20, 22, 24]
+  d42.blv: [1, 1, 1]
+  d43.blv: [23, 25, 27]
+  d44.blv: [21, 23, 27]
+  d45.blv: [14, 16, 20]
+  d46.blv: [20, 22, 26]
+  d47.blv: [35, 60, 85]
+  d48.blv: [35, 60, 85]
+  d49.blv: [35, 60, 85]
+  d50.blv: [1, 1, 1]
+  7out01.odm: [4, 4, 4]
+  7out02.odm: [6, 11.5, 17]
+  7out03.odm: [17, 20, 23]
+  7out04.odm: [18, 22, 24]
+  7out05.odm: [14, 16, 18]
+  7out06.odm: [25, 29, 35]
+  out09.odm: [24, 27, 30]
+  out10.odm: [65, 69, 85]
+  out11.odm: [11, 13, 16]
+  out12.odm: [70, 75, 90]
+  7out13.odm: [19, 23.5, 28]
+  out14.odm: [22, 24, 28]
+  7out15.odm: [70, 70, 70]
+  d01.blv: [15, 18.5, 22]
+  d02.blv: [75, 85, 89]
+  d03.blv: [53, 57, 62]
+  d04.blv: [38, 44, 50]
+  7d05.blv: [1, 1, 1]
+  7d06.blv: [5, 6, 8]
+  7d07.blv: [55, 65, 75]
+  7d08.blv: [18, 22, 28]
+  7d09.blv: [75, 82.5, 90]
+  7d10.blv: [44, 52, 64]
+  7d11.blv: [42, 55, 64]
+  7d12.blv: [50, 55, 60]
+  7d13.blv: [17, 18, 19]
+  7d14.blv: [45, 45, 45]
+  7d15.blv: [45, 45, 50]
+  7d16.blv: [42, 45, 55]
+  7d17.blv: [18, 20, 21]
+  7d18.blv: [28, 44, 60]
+  7d19.blv: [29, 31, 33]
+  7d20.blv: [44, 49, 60]
+  7d21.blv: [14, 16, 18]
+  7d22.blv: [12, 18, 24]
+  7d23.blv: [100, 100, 100]
+  7d24.blv: [17, 18.5, 20]
+  7d25.blv: [35, 39, 50]
+  7d26.blv: [50, 53, 55]
+  7d27.blv: [85, 85, 85]
+  7d28.blv: [5, 20, 35]
+  7d29.blv: [5, 6, 6]
+  7d30.blv: [55, 55, 75]
+  7d31.blv: [30, 32, 37]
+  7d32.blv: [25, 32, 43]
+  7d33.blv: [31, 36, 50]
+  7d34.blv: [18, 23, 28]
+  7d35.blv: [31, 33, 35]
+  7d36.blv: [60, 70, 70]
+  7d37.blv: [14, 17, 19]
+  mdk01.blv: [11, 12, 13]
+  mdk02.blv: [10, 11.5, 13]
+  mdk03.blv: [13, 15, 17]
+  mdk04.blv: [17, 18, 19]
+  mdk05.blv: [17, 18, 19]
+  mdt01.blv: [10, 10.5, 11]
+  mdt02.blv: [17, 18, 19]
+  mdt03.blv: [17, 18, 19]
+  mdt04.blv: [17, 18, 19]
+  mdt05.blv: [17, 18, 19]
+  mdr01.blv: [10, 10.5, 11]
+  mdr02.blv: [10, 11.5, 13]
+  mdr03.blv: [10, 11.5, 13]
+  mdr04.blv: [13, 15, 17]
+  mdr05.blv: [13, 15, 17]
+  mdt09.blv: [55, 55, 55]
+  mdt10.blv: [33, 46.5, 60]
+  mdt11.blv: [65, 67.5, 70]
+  mdt12.blv: [90, 90, 90]
+  mdt14.blv: [15, 16, 17]
+  mdt15.blv: [5, 42.5, 80]
+  t01.blv: [42, 48, 60]
+  t02.blv: [47, 50, 63]
+  t03.blv: [26, 28, 30]
+  t04.blv: [33, 37, 42]
+  outa1.odm: [70, 85, 100]
+  outa2.odm: [55, 75, 90]
+  outa3.odm: [36, 55, 75]
+  outb1.odm: [40, 45, 79]
+  outb2.odm: [40, 44, 50]
+  outb3.odm: [50, 60, 90]
+  outc1.odm: [17, 19, 20]
+  outc2.odm: [6, 12.5, 19]
+  outc3.odm: [17, 26, 29]
+  outd1.odm: [30, 31.5, 33]
+  outd2.odm: [7, 12, 12]
+  outd3.odm: [4, 5, 7]
+  oute1.odm: [24, 35, 36]
+  oute2.odm: [5, 5, 5]
+  oute3.odm: [4, 4, 4]
+  6d01.blv: [4, 4, 6]
+  6d02.blv: [6, 8, 10]
+  6d03.blv: [11, 13, 15]
+  6d04.blv: [10, 10, 20]
+  6d05.blv: [30, 32.5, 35]
+  6d06.blv: [18, 20, 26]
+  6d07.blv: [10, 12, 12]
+  6d08.blv: [12, 20, 30]
+  6d09.blv: [30, 33, 40]
+  6d10.blv: [26, 30, 34]
+  6d11.blv: [26, 29, 55]
+  6d12.blv: [26, 40, 50]
+  6d13.blv: [24, 30, 40]
+  6d14.blv: [26, 29, 55]
+  6d15.blv: [20, 23, 26]
+  6d16.blv: [34, 40, 80]
+  6d17.blv: [35, 40, 45]
+  6d18.blv: [39, 39, 50]
+  6d19.blv: [35, 40, 55]
+  6d20.blv: [60, 70, 80]
+  6t1.blv: [8, 16, 26]
+  6t2.blv: [5, 10, 11]
+  6t3.blv: [9, 10, 11]
+  6t4.blv: [15, 24, 25]
+  6t5.blv: [10, 30, 45]
+  6t6.blv: [65, 70, 80]
+  6t7.blv: [50, 60, 70]
+  6t8.blv: [45, 67.5, 90]
+  cd1.blv: [44, 50, 50]
+  cd2.blv: [60, 70, 80]
+  cd3.blv: [59, 69, 79]
+  sewer.blv: [4, 10, 12]
+  pyramid.blv: [65, 66, 90]
+  oracle.blv: [1, 1, 1]
+  sci-fi.blv: [90, 90, 90]
+  hive.blv: [80, 90, 100]
+  zarena.blv: [1, 1, 1]
+  zddb01.blv: [90, 90, 90]
+  zddb02.blv: [1, 1, 1]
+  zddb03.blv: [1, 1, 1]
+  zddb04.blv: [1, 1, 1]
+  zddb05.blv: [1, 1, 1]
+  zddb06.blv: [1, 1, 1]
+  zddb07.blv: [1, 1, 1]
+  zddb08.blv: [1, 1, 1]
+  zddb09.blv: [1, 1, 1]
+  zddb10.blv: [1, 1, 1]
+  zdtl01.blv: [1, 1, 1]
+  zdtl02.blv: [40, 50, 50]
+  zdwj01.blv: [1, 1, 1]
+  zdwj02.blv: [56, 56, 56]
+  znwc.blv: [1, 1, 1]
+  7nwc.blv: [1, 1, 1]
+
+horizontal_starter_maps: [d05.blv, 7d29.blv, out01.odm, 7out01.odm, 6d01.blv, oute3.odm, 6d02.blv, 7d28.blv, 7d06.blv]
+
+madness:
+  starting_maps: [out01.odm, 7out01.odm, oute3.odm, 7d28.blv, 7d06.blv]
+  levels:
+    oute3.odm: 4
+    6d01.blv: 22
+    6d02.blv: 29
+    outd3.odm: 36
+    6d03.blv: 43
+    oute2.odm: 51
+    outd2.odm: 58
+    6t2.blv: 66
+    6t3.blv: 74
+    6d07.blv: 82
+    6d04.blv: 91
+    outc2.odm: 99
+    sewer.blv: 107
+    6t1.blv: 116
+    6d06.blv: 125
+    outc1.odm: 134
+    6d08.blv: 143
+    6d15.blv: 152
+    6d10.blv: 161
+    6d11.blv: 170
+    6d14.blv: 180
+    6t5.blv: 189
+    outc3.odm: 198
+    d22.blv: 173
+    6t4.blv: 173
+    6d05.blv: 218
+    6d09.blv: 227
+    outd1.odm: 237
+    6d13.blv: 247
+    6d12.blv: 257
+    6d16.blv: 267
+    zddb01.blv: 277
+    outb2.odm: 287
+    6d17.blv: 297
+    6d18.blv: 307
+    oute1.odm: 318
+    6d19.blv: 328
+    cd1.blv: 338
+    outb1.odm: 349
+    zdwj02.blv: 359
+    6t7.blv: 370
+    cd2.blv: 380
+    6t8.blv: 391
+    outa2.odm: 402
+    cd3.blv: 412
+    6d20.blv: 423
+    outa3.odm: 434
+    6t6.blv: 445
+    outb3.odm: 456
+    pyramid.blv: 467
+    outa1.odm: 478
+    sci-fi.blv: 489
+    hive.blv: 500
+    7out01.odm: 4
+    7d28.blv: 4
+    7d06.blv: 4
+    7d29.blv: 23
+    7out02.odm: 30
+    7d21.blv: 37
+    7out04.odm: 45
+    7d22.blv: 53
+    7out03.odm: 61
+    mdt14.blv: 69
+    d01.blv: 78
+    out11.odm: 86
+    mdt03.blv: 95
+    mdk03.blv: 95
+    mdk05.blv: 95
+    mdk02.blv: 95
+    mdt01.blv: 95
+    mdr03.blv: 95
+    mdt02.blv: 95
+    mdk01.blv: 95
+    mdt04.blv: 95
+    mdr01.blv: 95
+    mdr04.blv: 95
+    mdr02.blv: 95
+    mdt05.blv: 95
+    mdk04.blv: 95
+    mdr05.blv: 95
+    7d13.blv: 95
+    7d37.blv: 104
+    7d24.blv: 112
+    7out05.odm: 122
+    7d18.blv: 140
+    7d17.blv: 140
+    out09.odm: 149
+    7out06.odm: 159
+    7d34.blv: 168
+    7out13.odm: 178
+    t03.blv: 188
+    7d19.blv: 198
+    out14.odm: 208
+    7d31.blv: 218
+    7d08.blv: 218
+    7d35.blv: 228
+    mdt09.blv: 248
+    t04.blv: 258
+    7d10.blv: 269
+    7d11.blv: 269
+    7d32.blv: 279
+    7d14.blv: 290
+    d04.blv: 290
+    mdt11.blv: 300
+    7d33.blv: 311
+    mdt10.blv: 311
+    7d20.blv: 322
+    7d15.blv: 332
+    7d25.blv: 343
+    7d26.blv: 343
+    t02.blv: 354
+    t01.blv: 354
+    d03.blv: 365
+    7d30.blv: 365
+    7d12.blv: 376
+    7d16.blv: 376
+    7d07.blv: 387
+    out10.odm: 398
+    d02.blv: 409
+    mdt15.blv: 420
+    7d36.blv: 432
+    7d09.blv: 443
+    out12.odm: 454
+    mdt12.blv: 466
+    7d27.blv: 477
+    7out15.odm: 488
+    7d23.blv: 500
+    out01.odm: 4
+    d05.blv: 20
+    out02.odm: 26
+    d08.blv: 33
+    d07.blv: 40
+    d45.blv: 46
+    out03.odm: 53
+    d11.blv: 61
+    d12.blv: 68
+    out04.odm: 75
+    d13.blv: 83
+    d41.blv: 91
+    d46.blv: 99
+    out08.odm: 107
+    d25.blv: 115
+    d44.blv: 123
+    d24.blv: 131
+    out07.odm: 139
+    d43.blv: 148
+    out06.odm: 156
+    d20.blv: 165
+    d40.blv: 182
+    d15.blv: 191
+    d26.blv: 200
+    d14.blv: 209
+    out05.odm: 218
+    d18.blv: 227
+    d16.blv: 236
+    d21.blv: 245
+    d19.blv: 254
+    d06.blv: 263
+    d34.blv: 273
+    out13.odm: 282
+    d31.blv: 292
+    d33.blv: 301
+    d32.blv: 311
+    d23.blv: 320
+    elema.odm: 330
+    d27.blv: 339
+    elemw.odm: 349
+    elemf.odm: 359
+    d30.blv: 369
+    d29.blv: 379
+    eleme.blv: 388
+    d17.blv: 398
+    d48.blv: 408
+    d47.blv: 418
+    d49.blv: 428
+    d10.blv: 439
+    pbp.odm: 449
+    d35.blv: 459
+    d36.blv: 469
+    d39.blv: 479
+    d38.blv: 490
+    d37.blv: 500
+    BrBase.blv: 1100
+    Breach.odm: 1100
+    BrAlvar.odm: 1100
+    7d05.blv: 1
+    zarena.blv: 1
+    d50.blv: 1

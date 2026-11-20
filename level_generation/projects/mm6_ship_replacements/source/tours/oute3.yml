@@ -1,0 +1,32 @@
+output_dir: ../../review/oute3
+settle_seconds: 1.5
+exit: true
+shots:
+- name: odyssey_overview
+  position:
+  - -132
+  - -7236
+  - 1396
+  yaw: 5.33238898038469
+  pitch: -0.3
+- name: odyssey_boarding
+  position:
+  - 1470
+  - -10208
+  - 160
+  yaw: 6.283185307179586
+  pitch: -0.2
+- name: odyssey_return
+  position:
+  - 2016
+  - -10208
+  - 89
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: odyssey_cabin
+  position:
+  - 2168
+  - -10432
+  - 89
+  yaw: 4.71238898038469
+  pitch: 0

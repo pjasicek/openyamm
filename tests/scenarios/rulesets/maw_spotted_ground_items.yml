@@ -1,0 +1,42 @@
+id: rulesets.maw_spotted_ground_items
+title: "Ruleset - MAW: ground items the party passes with a clear line are spotted, and the gather key on a completed map takes them"
+world: mm8
+mode: faithful
+tags: [rulesets, maw, loot]
+steps:
+  - note:
+      text: >-
+        WorldItemSpotter: a ground item within 1200 (outdoors) or 1000 (indoors) of the party with nothing of the map
+        in between is spotted a moment later; on a completed map the gather key takes every spotted item through the
+        loot filter (Off here: kept) into the bags, beside the satchels. An item beyond the radius is not spotted and
+        stays where it lies.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free, friendly_fire: true}
+  - set_pose: {map: out01.odm, x: 12296, y: 8216, z: 736, yaw_degrees: -78}
+  - damage_actor: {all: true, amount: 10000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      ruleset: {id: maw, map_cleared: true}
+  # A Champion's Sword beside the party, a Templar's Sword 3000 away.
+  - lua_event:
+      source: "evt.SummonItem(5, 12446, 8216, 800, 0, 1, false) evt.SummonItem(4, 12296, 11216, 800, 0, 1, false)"
+  - advance_runtime: {seconds: 3}
+  - press_action: gather_loot
+  - advance_runtime: {seconds: 0.2}
+  - assert:
+      inventory_any_member: [{item_id: 5, count: 1}, {item_id: 4, count: 0}]
+  # Indoors the same, on a cleared dungeon.
+  - load_map: {map: d06.blv}
+  - set_pose: {map: d06.blv, x: 296, y: -640, z: 0, yaw_degrees: 180, pitch: 0}
+  - damage_actor: {all: true, amount: 10000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      ruleset: {id: maw, map_cleared: true}
+  - lua_event:
+      source: "evt.SummonItem(3, -50, -640, 100, 0, 1, false)"
+  - advance_runtime: {seconds: 3}
+  - press_action: gather_loot
+  - advance_runtime: {seconds: 0.2}
+  - assert:
+      inventory_any_member: [{item_id: 3, count: 1}]

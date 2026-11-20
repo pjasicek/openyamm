@@ -1,0 +1,32 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint-only game texture view atlas. Edit guide_atlas.png (first input), preserving its exact 1536x1024 canvas, alpha silhouette, positions, sizes and orthographic geometry. Three columns by two rows of 512x512 cells: FRONT, BACK, LEFT across top; RIGHT, TOP, empty across bottom. Paint only the existing grey objects. Four side silhouettes are wide shallow crowns over triangular pavilions; the bottom-middle TOP is rounded square. Never replace side views with top views. Use design_reference.png (second input) for sapphire material/facet details and icon_x8.png (third input) for deep royal-blue colour; ignore magenta background. Cushion-cut sapphire, flat table, many crown facets, faceted pavilion. Deep royal blue faceted base colour with brighter blue facets toward the middle. Facet detail follows reference scaled to each view, with no invented engraving. UNLIT BASE COLOUR ONLY: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Keep every gap transparent. Entire background and bottom-right cell fully transparent. Paint grey objects only; never redraw, enlarge, move or redesign. Output ONE 1536x1024 transparent PNG.\nCORRECTION: Previous output incorrectly painted large blue glow halos in the transparent area and bright white reflections. Preserve the guide's alpha silhouette exactly. All pixels outside the five guide silhouettes MUST have alpha=0, including all space between objects and the entire bottom-right cell. No blue or black background, NO HALOS. Flat unlit blue facet pigment, no white specular highlights. Match the guide's exact top-down square silhouette and side-view outlines.",
+  "initial_prompt": "Use case: precise-object-edit. Paint-only game texture view atlas. Edit guide_atlas.png (first input), preserving its exact 1536x1024 canvas, alpha silhouette, positions, sizes and orthographic geometry. Three columns by two rows of 512x512 cells: FRONT, BACK, LEFT across top; RIGHT, TOP, empty across bottom. Paint only the existing grey objects. Four side silhouettes are wide shallow crowns over triangular pavilions; the bottom-middle TOP is rounded square. Never replace side views with top views. Use design_reference.png (second input) for sapphire material/facet details and icon_x8.png (third input) for deep royal-blue colour; ignore magenta background. Cushion-cut sapphire, flat table, many crown facets, faceted pavilion. Deep royal blue faceted base colour with brighter blue facets toward the middle. Facet detail follows reference scaled to each view, with no invented engraving. UNLIT BASE COLOUR ONLY: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Keep every gap transparent. Entire background and bottom-right cell fully transparent. Paint grey objects only; never redraw, enlarge, move or redesign. Output ONE 1536x1024 transparent PNG.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce5-5d5a-7310-83ae-08b65344e5a5/exec-067c426d-2093-44e9-9bcb-a1b707c6c9ca.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem09/paint_raw_v1.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem09/guide_atlas.png",
+      "sha256": "ebd38f8de36b25f6e830edee2275ee9583631aadc1da6c05ed7e482bbc02f30e"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem09/design_reference.png",
+      "sha256": "1e669c4fcdbd920850879e59a73b364d7c97f4769eb50f75a3c3950fe479aefe"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem09/icon_x8.png",
+      "sha256": "4ea0f66af0c61c5646646304395f14cc89175dd7a16b02865d06cfbd401912e0"
+    }
+  ],
+  "size": [
+    1536,
+    1024
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "Failed visual requirements: blue halos remain outside silhouettes after one corrective generation."
+  }
+}

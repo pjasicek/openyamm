@@ -1,0 +1,32 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_wizardslab/review/walkthrough_v01b
+settle_seconds: 2.0
+exit: true
+shots:
+- name: skeleton_w
+  position:
+  - -182
+  - 12737
+  - 0
+  yaw: 0.0
+  pitch: -0.3142
+- name: skeleton_s
+  position:
+  - 138
+  - 12417
+  - 0
+  yaw: 1.5708
+  pitch: -0.3142
+- name: relic_close
+  position:
+  - -1010
+  - 12546
+  - 0
+  yaw: 0.6327
+  pitch: -0.384
+- name: cauldron_close
+  position:
+  - 764
+  - 6968
+  - 60
+  yaw: 0.6557
+  pitch: -0.4363

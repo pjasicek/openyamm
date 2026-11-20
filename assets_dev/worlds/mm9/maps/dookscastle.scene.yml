@@ -1,0 +1,6098 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "dookscastle.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -2540,
+     "y": 9462,
+     "z": 413
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 10,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 1
+   },
+   {
+    "actor_index": 1,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -41,
+     "y": 5366,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 2
+   },
+   {
+    "actor_index": 2,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 0,
+     "y": 4588,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 3
+   },
+   {
+    "actor_index": 3,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -41,
+     "y": 8397,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 4
+   },
+   {
+    "actor_index": 4,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 1475,
+     "y": 7741,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 8,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 5
+   },
+   {
+    "actor_index": 5,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 1024,
+     "y": 6554,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 6,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 6
+   },
+   {
+    "actor_index": 6,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 1761,
+     "y": 5571,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 6,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 7
+   },
+   {
+    "actor_index": 7,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -1188,
+     "y": 4956,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 5,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 8
+   },
+   {
+    "actor_index": 8,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -3154,
+     "y": 9052,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 10,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 9
+   },
+   {
+    "actor_index": 9,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -1229,
+     "y": 5816,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 5,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 10
+   },
+   {
+    "actor_index": 10,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -2662,
+     "y": 7741,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 11
+   },
+   {
+    "actor_index": 11,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -2744,
+     "y": 4792,
+     "z": 411
+    },
+    "initial_yaw_units": 228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 4,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 12
+   },
+   {
+    "actor_index": 12,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -82,
+     "y": 7045,
+     "z": 411
+    },
+    "initial_yaw_units": 1760,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 13
+   },
+   {
+    "actor_index": 13,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -2621,
+     "y": 8724,
+     "z": 413
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 10,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 14
+   },
+   {
+    "actor_index": 14,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 778,
+     "y": 2785,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 15
+   },
+   {
+    "actor_index": 15,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -901,
+     "y": 2826,
+     "z": 411
+    },
+    "initial_yaw_units": 1533,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 1,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dookguardbasic.scr"
+    },
+    "mm9_source_object_index": 16
+   },
+   {
+    "actor_index": 16,
+    "name": "The Dook",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 417,
+    "hostility_type": 0,
+    "monster_info_id": 9153,
+    "monster_id": 9153,
+    "radius": 38,
+    "height": 184,
+    "move_speed": 224,
+    "position": {
+     "x": -2540,
+     "y": 10281,
+     "z": 513
+    },
+    "initial_yaw_units": 1535,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 10,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "ranged_type": 2,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc415.scr"
+    },
+    "mm9_can_receive_damage": false,
+    "respawns_on_refill": false,
+    "mm9_rude_id": 415,
+    "mm9_source_object_index": 17
+   },
+   {
+    "actor_index": 17,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 1884,
+     "y": 9830,
+     "z": -604
+    },
+    "initial_yaw_units": 672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 18
+   },
+   {
+    "actor_index": 18,
+    "name": "Ancient Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9167,
+    "monster_id": 9167,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 3604,
+     "y": 8192,
+     "z": -777
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 19
+   },
+   {
+    "actor_index": 19,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 3604,
+     "y": 8929,
+     "z": -777
+    },
+    "initial_yaw_units": 1633,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 20
+   },
+   {
+    "actor_index": 20,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 4014,
+     "y": 8356,
+     "z": -789
+    },
+    "initial_yaw_units": 612,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 21
+   },
+   {
+    "actor_index": 21,
+    "name": "Ancient Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9167,
+    "monster_id": 9167,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 12616,
+     "y": 8929,
+     "z": -3478
+    },
+    "initial_yaw_units": 964,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 22
+   },
+   {
+    "actor_index": 22,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 13025,
+     "y": 9257,
+     "z": -3424
+    },
+    "initial_yaw_units": 1616,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 23
+   },
+   {
+    "actor_index": 23,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 13271,
+     "y": 8602,
+     "z": -3390
+    },
+    "initial_yaw_units": 228,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 24
+   },
+   {
+    "actor_index": 24,
+    "name": "Ancient Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9167,
+    "monster_id": 9167,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 11551,
+     "y": 9667,
+     "z": -3512
+    },
+    "initial_yaw_units": 1659,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 25
+   },
+   {
+    "actor_index": 25,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 11223,
+     "y": 8847,
+     "z": -3507
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 26
+   },
+   {
+    "actor_index": 26,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 7782,
+     "y": 9339,
+     "z": -2801
+    },
+    "initial_yaw_units": 57,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 27
+   },
+   {
+    "actor_index": 27,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 8929,
+     "y": 8192,
+     "z": -2462
+    },
+    "initial_yaw_units": 114,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 28
+   },
+   {
+    "actor_index": 28,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 8192,
+     "y": 2785,
+     "z": -1966
+    },
+    "initial_yaw_units": 398,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 29
+   },
+   {
+    "actor_index": 29,
+    "name": "Winged Aberration",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 517,
+    "hostility_type": 4,
+    "monster_info_id": 9161,
+    "monster_id": 9161,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 10650,
+     "y": 2785,
+     "z": -1966
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 30
+   },
+   {
+    "actor_index": 30,
+    "name": "Winged Oddity",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 191,
+    "hostility_type": 4,
+    "monster_info_id": 9159,
+    "monster_id": 9159,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 12780,
+     "y": 4096,
+     "z": -1966
+    },
+    "initial_yaw_units": 998,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 31
+   },
+   {
+    "actor_index": 31,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 7864,
+     "y": 5571,
+     "z": -1966
+    },
+    "initial_yaw_units": 1820,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 32
+   },
+   {
+    "actor_index": 32,
+    "name": "Winged Aberration",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 517,
+    "hostility_type": 4,
+    "monster_info_id": 9161,
+    "monster_id": 9161,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 10158,
+     "y": 4424,
+     "z": -1311
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 33
+   },
+   {
+    "actor_index": 33,
+    "name": "Winged Mutant",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 346,
+    "hostility_type": 4,
+    "monster_info_id": 9160,
+    "monster_id": 9160,
+    "radius": 46,
+    "height": 133,
+    "move_speed": 448,
+    "position": {
+     "x": 11796,
+     "y": 6062,
+     "z": -1311
+    },
+    "initial_yaw_units": 1308,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 2,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 34
+   },
+   {
+    "actor_index": 34,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 79,
+    "hostility_type": 0,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 35,
+    "height": 32,
+    "move_speed": 192,
+    "position": {
+     "x": 11784,
+     "y": 8842,
+     "z": -2428
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 4,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.3,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "scurrycreature.scr",
+     "script_params": "HideMarker0"
+    },
+    "mm9_source_object_index": 432
+   },
+   {
+    "actor_index": 35,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 79,
+    "hostility_type": 0,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 35,
+    "height": 32,
+    "move_speed": 192,
+    "position": {
+     "x": 11960,
+     "y": 8847,
+     "z": -2424
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 4,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.3,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "scurrycreature.scr",
+     "script_params": "HideMarker0"
+    },
+    "mm9_source_object_index": 433
+   },
+   {
+    "actor_index": 36,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 79,
+    "hostility_type": 0,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 35,
+    "height": 32,
+    "move_speed": 192,
+    "position": {
+     "x": 11878,
+     "y": 8684,
+     "z": -2455
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 4,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.3,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "scurrycreature.scr",
+     "script_params": "HideMarker0"
+    },
+    "mm9_source_object_index": 434
+   },
+   {
+    "actor_index": 37,
+    "name": "King Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9152,
+    "monster_id": 9152,
+    "radius": 86,
+    "height": 81,
+    "move_speed": 192,
+    "position": {
+     "x": 11387,
+     "y": 9585,
+     "z": -2146
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.75,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 437
+   },
+   {
+    "actor_index": 38,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 79,
+    "hostility_type": 0,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 35,
+    "height": 32,
+    "move_speed": 192,
+    "position": {
+     "x": 6131,
+     "y": 7941,
+     "z": -1133
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 5,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.3,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "scurrycreature.scr",
+     "script_params": "HideMarker0"
+    },
+    "mm9_source_object_index": 438
+   },
+   {
+    "actor_index": 39,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 79,
+    "hostility_type": 0,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 35,
+    "height": 32,
+    "move_speed": 192,
+    "position": {
+     "x": 6226,
+     "y": 7782,
+     "z": -1146
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 5,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.3,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "scurrycreature.scr",
+     "script_params": "HideMarker1"
+    },
+    "mm9_source_object_index": 439
+   },
+   {
+    "actor_index": 40,
+    "name": "King Basilisk",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 225,
+    "hostility_type": 4,
+    "monster_info_id": 9152,
+    "monster_id": 9152,
+    "radius": 86,
+    "height": 81,
+    "move_speed": 192,
+    "position": {
+     "x": 7045,
+     "y": 8356,
+     "z": -1269
+    },
+    "initial_yaw_units": 1221,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.75,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_source_object_index": 442
+   },
+   {
+    "actor_index": 41,
+    "name": "Basilisk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 79,
+    "hostility_type": 0,
+    "monster_info_id": 9150,
+    "monster_id": 9150,
+    "radius": 35,
+    "height": 32,
+    "move_speed": 192,
+    "position": {
+     "x": 6308,
+     "y": 7946,
+     "z": -1146
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 5,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.3,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "scurrycreature.scr",
+     "script_params": "HideMarker1"
+    },
+    "mm9_source_object_index": 443
+   },
+   {
+    "actor_index": 42,
+    "name": "Half Orc Captain",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9104,
+    "monster_id": 9104,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -573,
+     "y": 5243,
+     "z": 411
+    },
+    "initial_yaw_units": 2045,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 5,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 768,
+     "hearing": 184,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dc_sargent.scr",
+     "script_params": "HallwaySleeper 4 SMkr"
+    },
+    "mm9_source_object_index": 453
+   },
+   {
+    "actor_index": 43,
+    "name": "Half Orc Soldier",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 159,
+    "hostility_type": 4,
+    "monster_info_id": 9103,
+    "monster_id": 9103,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -205,
+     "y": 5857,
+     "z": 411
+    },
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 3,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 768,
+     "hearing": 184,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "dormant": {
+      "until": "trigger",
+      "pose": "sleep"
+     },
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dooksleepgaurd.scr",
+     "script_params": "SleepCaptain SleepEastMarker"
+    },
+    "dormant": true,
+    "mm9_source_object_index": 454
+   },
+   {
+    "actor_index": 44,
+    "name": "Half Orc Soldier",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 159,
+    "hostility_type": 4,
+    "monster_info_id": 9103,
+    "monster_id": 9103,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 205,
+     "y": 5693,
+     "z": 411
+    },
+    "initial_yaw_units": 1021,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 3,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 768,
+     "hearing": 184,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "dormant": {
+      "until": "trigger",
+      "pose": "sleep"
+     },
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dooksleepgaurd.scr",
+     "script_params": "SleepCaptain SleepWestMarker"
+    },
+    "dormant": true,
+    "mm9_source_object_index": 455
+   },
+   {
+    "actor_index": 45,
+    "name": "Half Orc Soldier",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 159,
+    "hostility_type": 4,
+    "monster_info_id": 9103,
+    "monster_id": 9103,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": -205,
+     "y": 6533,
+     "z": 411
+    },
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 3,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 768,
+     "hearing": 184,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "dormant": {
+      "until": "trigger",
+      "pose": "sleep"
+     },
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dooksleepgaurd.scr",
+     "script_params": "SleepCaptain SleepEastMarker SMkr1 SWalker1 SWalker2"
+    },
+    "dormant": true,
+    "mm9_source_object_index": 456
+   },
+   {
+    "actor_index": 46,
+    "name": "Half Orc Soldier",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 159,
+    "hostility_type": 4,
+    "monster_info_id": 9103,
+    "monster_id": 9103,
+    "radius": 38,
+    "height": 195,
+    "move_speed": 320,
+    "position": {
+     "x": 205,
+     "y": 6420,
+     "z": 411
+    },
+    "initial_yaw_units": 1021,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 7,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 3,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 768,
+     "hearing": 184,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "dormant": {
+      "until": "trigger",
+      "pose": "sleep"
+     },
+     "hostility": "hostile_after_event",
+     "faction": "dook",
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "dooksleepgaurd.scr",
+     "script_params": "SleepCaptain SleepWestMarker"
+    },
+    "dormant": true,
+    "mm9_source_object_index": 457
+   },
+   {
+    "actor_index": 47,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 1957,
+     "y": 9930,
+     "z": -596
+    },
+    "initial_yaw_units": 672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 48,
+    "name": "Ancient Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9167,
+    "monster_id": 9167,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 3489,
+     "y": 8145,
+     "z": -777
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 49,
+    "name": "Ancient Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9167,
+    "monster_id": 9167,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 12736,
+     "y": 8898,
+     "z": -3468
+    },
+    "initial_yaw_units": 964,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 50,
+    "name": "Ancient Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9167,
+    "monster_id": 9167,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 11440,
+     "y": 9612,
+     "z": -3508
+    },
+    "initial_yaw_units": 1659,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 51,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 7695,
+     "y": 9427,
+     "z": -2811
+    },
+    "initial_yaw_units": 57,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 52,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 8805,
+     "y": 8186,
+     "z": -2484
+    },
+    "initial_yaw_units": 114,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 53,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 2006,
+     "y": 9807,
+     "z": -623
+    },
+    "initial_yaw_units": 672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 54,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 7899,
+     "y": 9299,
+     "z": -2802
+    },
+    "initial_yaw_units": 57,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 55,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 8935,
+     "y": 8068,
+     "z": -2461
+    },
+    "initial_yaw_units": 114,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 56,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 1761,
+     "y": 9812,
+     "z": -581
+    },
+    "initial_yaw_units": 672,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 57,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 11245,
+     "y": 8725,
+     "z": -3511
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 58,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 7581,
+     "y": 9307,
+     "z": -2778
+    },
+    "initial_yaw_units": 57,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 59,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 9002,
+     "y": 8292,
+     "z": -2443
+    },
+    "initial_yaw_units": 114,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 60,
+    "name": "Kin Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 289,
+    "hostility_type": 4,
+    "monster_info_id": 9166,
+    "monster_id": 9166,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 3677,
+     "y": 8829,
+     "z": -777
+    },
+    "initial_yaw_units": 1633,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 11,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 61,
+    "name": "Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 139,
+    "hostility_type": 4,
+    "monster_info_id": 9165,
+    "monster_id": 9165,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 13058,
+     "y": 9377,
+     "z": -3413
+    },
+    "initial_yaw_units": 1616,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   },
+   {
+    "actor_index": 62,
+    "name": "Ancient Trellborg",
+    "npc_id": 0,
+    "attributes": 524288,
+    "hp": 499,
+    "hostility_type": 4,
+    "monster_info_id": 9167,
+    "monster_id": 9167,
+    "radius": 46,
+    "height": 198,
+    "move_speed": 256,
+    "position": {
+     "x": 11581,
+     "y": 9547,
+     "z": -3516
+    },
+    "initial_yaw_units": 1659,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 9,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.9,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    }
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     6877,
+     6878,
+     6879,
+     6880,
+     6881,
+     6882,
+     6883,
+     6884
+    ],
+    "face_ids": [
+     7442,
+     7443,
+     7444,
+     7445,
+     7446,
+     7447
+    ],
+    "sector_ids": [
+     8
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2662,
+     2662,
+     2580,
+     2580,
+     2580,
+     2580,
+     2662,
+     2662
+    ],
+    "y_offsets": [
+     9298,
+     9339,
+     9339,
+     9298,
+     9298,
+     9339,
+     9339,
+     9298
+    ],
+    "z_offsets": [
+     655,
+     655,
+     655,
+     655,
+     573,
+     573,
+     573,
+     573
+    ],
+    "ai_open": [
+     1
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       2621.44,
+       9338.88,
+       614.4
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "hold",
+     "carry": false
+    },
+    "sounds": {
+     "open_stop": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6885,
+     6886,
+     6887,
+     6888,
+     6889,
+     6890,
+     6891,
+     6892
+    ],
+    "face_ids": [
+     7448,
+     7449,
+     7450,
+     7451,
+     7452,
+     7453
+    ],
+    "sector_ids": [
+     7,
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -338,
+     -338,
+     -338,
+     -338,
+     -317,
+     -317,
+     -317,
+     -317
+    ],
+    "y_offsets": [
+     5243,
+     5243,
+     5407,
+     5407,
+     5407,
+     5407,
+     5243,
+     5243
+    ],
+    "z_offsets": [
+     410,
+     717,
+     717,
+     410,
+     410,
+     717,
+     717,
+     410
+    ],
+    "ai_open": [
+     2,
+     3
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -327.68,
+       5396.48,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6893,
+     6894,
+     6895,
+     6896,
+     6897,
+     6898,
+     6899,
+     6900
+    ],
+    "face_ids": [
+     7454,
+     7455,
+     7456,
+     7457,
+     7458,
+     7459
+    ],
+    "sector_ids": [
+     7,
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -338,
+     -338,
+     -338,
+     -338,
+     -317,
+     -317,
+     -317,
+     -317
+    ],
+    "y_offsets": [
+     5243,
+     5079,
+     5079,
+     5243,
+     5079,
+     5243,
+     5079,
+     5243
+    ],
+    "z_offsets": [
+     410,
+     410,
+     717,
+     717,
+     717,
+     717,
+     410,
+     410
+    ],
+    "ai_open": [
+     2,
+     3
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -327.68,
+       5089.28,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6901,
+     6902,
+     6903,
+     6904,
+     6905,
+     6906,
+     6907,
+     6908
+    ],
+    "face_ids": [
+     7460,
+     7461,
+     7462,
+     7463,
+     7464,
+     7465
+    ],
+    "sector_ids": [
+     6,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     317,
+     317,
+     317,
+     317,
+     338,
+     338,
+     338,
+     338
+    ],
+    "y_offsets": [
+     6922,
+     6922,
+     7086,
+     7086,
+     7086,
+     7086,
+     6922,
+     6922
+    ],
+    "z_offsets": [
+     410,
+     717,
+     717,
+     410,
+     410,
+     717,
+     717,
+     410
+    ],
+    "ai_open": [
+     4,
+     5
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       327.68,
+       7075.84,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6909,
+     6910,
+     6911,
+     6912,
+     6913,
+     6914,
+     6915,
+     6916
+    ],
+    "face_ids": [
+     7466,
+     7467,
+     7468,
+     7469,
+     7470,
+     7471
+    ],
+    "sector_ids": [
+     6,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     317,
+     317,
+     317,
+     317,
+     338,
+     338,
+     338,
+     338
+    ],
+    "y_offsets": [
+     6922,
+     6758,
+     6758,
+     6922,
+     6758,
+     6922,
+     6758,
+     6922
+    ],
+    "z_offsets": [
+     410,
+     410,
+     717,
+     717,
+     717,
+     717,
+     410,
+     410
+    ],
+    "ai_open": [
+     4,
+     5
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       327.68,
+       6768.64,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6917,
+     6918,
+     6919,
+     6920,
+     6921,
+     6922,
+     6923,
+     6924
+    ],
+    "face_ids": [
+     7472,
+     7473,
+     7474,
+     7475,
+     7476,
+     7477
+    ],
+    "sector_ids": [
+     6,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     317,
+     317,
+     317,
+     317,
+     338,
+     338,
+     338,
+     338
+    ],
+    "y_offsets": [
+     5243,
+     5243,
+     5407,
+     5407,
+     5407,
+     5407,
+     5243,
+     5243
+    ],
+    "z_offsets": [
+     410,
+     717,
+     717,
+     410,
+     410,
+     717,
+     717,
+     410
+    ],
+    "ai_open": [
+     6,
+     7
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       327.68,
+       5396.48,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6925,
+     6926,
+     6927,
+     6928,
+     6929,
+     6930,
+     6931,
+     6932
+    ],
+    "face_ids": [
+     7478,
+     7479,
+     7480,
+     7481,
+     7482,
+     7483
+    ],
+    "sector_ids": [
+     6,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     317,
+     317,
+     317,
+     317,
+     338,
+     338,
+     338,
+     338
+    ],
+    "y_offsets": [
+     5243,
+     5079,
+     5079,
+     5243,
+     5079,
+     5243,
+     5079,
+     5243
+    ],
+    "z_offsets": [
+     410,
+     410,
+     717,
+     717,
+     717,
+     717,
+     410,
+     410
+    ],
+    "ai_open": [
+     6,
+     7
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       327.68,
+       5089.28,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6933,
+     6934,
+     6935,
+     6936,
+     6937,
+     6938,
+     6939,
+     6940
+    ],
+    "face_ids": [
+     7484,
+     7485,
+     7486,
+     7487,
+     7488,
+     7489
+    ],
+    "sector_ids": [
+     8,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     317,
+     317,
+     317,
+     317,
+     338,
+     338,
+     338,
+     338
+    ],
+    "y_offsets": [
+     9093,
+     9093,
+     9257,
+     9257,
+     9257,
+     9257,
+     9093,
+     9093
+    ],
+    "z_offsets": [
+     410,
+     717,
+     717,
+     410,
+     410,
+     717,
+     717,
+     410
+    ],
+    "ai_open": [
+     8,
+     9
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       327.68,
+       9246.72,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 8,
+    "legacy_attributes": 0,
+    "door_id": 9,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6941,
+     6942,
+     6943,
+     6944,
+     6945,
+     6946,
+     6947,
+     6948
+    ],
+    "face_ids": [
+     7490,
+     7491,
+     7492,
+     7493,
+     7494,
+     7495
+    ],
+    "sector_ids": [
+     8,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     317,
+     317,
+     317,
+     317,
+     338,
+     338,
+     338,
+     338
+    ],
+    "y_offsets": [
+     9093,
+     8929,
+     8929,
+     9093,
+     8929,
+     9093,
+     8929,
+     9093
+    ],
+    "z_offsets": [
+     410,
+     410,
+     717,
+     717,
+     717,
+     717,
+     410,
+     410
+    ],
+    "ai_open": [
+     8,
+     9
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       327.68,
+       8939.52,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 9,
+    "legacy_attributes": 0,
+    "door_id": 10,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6949,
+     6950,
+     6951,
+     6952,
+     6953,
+     6954,
+     6955,
+     6956
+    ],
+    "face_ids": [
+     7496,
+     7497,
+     7498,
+     7499,
+     7500,
+     7501
+    ],
+    "sector_ids": [
+     10,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2540,
+     -2540,
+     -2703,
+     -2703,
+     -2703,
+     -2703,
+     -2540,
+     -2540
+    ],
+    "y_offsets": [
+     8059,
+     8059,
+     8059,
+     8059,
+     8079,
+     8079,
+     8079,
+     8079
+    ],
+    "z_offsets": [
+     410,
+     717,
+     717,
+     410,
+     410,
+     717,
+     717,
+     410
+    ],
+    "ai_open": [
+     10,
+     11
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2693.12,
+       8069.12,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 10,
+    "legacy_attributes": 0,
+    "door_id": 11,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6957,
+     6958,
+     6959,
+     6960,
+     6961,
+     6962,
+     6963,
+     6964
+    ],
+    "face_ids": [
+     7502,
+     7503,
+     7504,
+     7505,
+     7506,
+     7507
+    ],
+    "sector_ids": [
+     10,
+     7
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2540,
+     -2376,
+     -2376,
+     -2540,
+     -2376,
+     -2540,
+     -2376,
+     -2540
+    ],
+    "y_offsets": [
+     8059,
+     8059,
+     8059,
+     8059,
+     8079,
+     8079,
+     8079,
+     8079
+    ],
+    "z_offsets": [
+     410,
+     410,
+     717,
+     717,
+     717,
+     717,
+     410,
+     410
+    ],
+    "ai_open": [
+     10,
+     11
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2385.92,
+       8069.12,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 11,
+    "legacy_attributes": 0,
+    "door_id": 12,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6965,
+     6966,
+     6967,
+     6968,
+     6969,
+     6970,
+     6971,
+     6972
+    ],
+    "face_ids": [
+     7508,
+     7509,
+     7510,
+     7511,
+     7512,
+     7513
+    ],
+    "sector_ids": [
+     7,
+     4
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2540,
+     -2540,
+     -2703,
+     -2703,
+     -2703,
+     -2703,
+     -2540,
+     -2540
+    ],
+    "y_offsets": [
+     5929,
+     5929,
+     5929,
+     5929,
+     5949,
+     5949,
+     5949,
+     5949
+    ],
+    "z_offsets": [
+     410,
+     717,
+     717,
+     410,
+     410,
+     717,
+     717,
+     410
+    ],
+    "ai_open": [
+     12,
+     13
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2693.12,
+       5939.2,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 12,
+    "legacy_attributes": 0,
+    "door_id": 13,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6973,
+     6974,
+     6975,
+     6976,
+     6977,
+     6978,
+     6979,
+     6980
+    ],
+    "face_ids": [
+     7514,
+     7515,
+     7516,
+     7517,
+     7518,
+     7519
+    ],
+    "sector_ids": [
+     7,
+     4
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2540,
+     -2376,
+     -2376,
+     -2540,
+     -2376,
+     -2540,
+     -2376,
+     -2540
+    ],
+    "y_offsets": [
+     5929,
+     5929,
+     5929,
+     5929,
+     5949,
+     5949,
+     5949,
+     5949
+    ],
+    "z_offsets": [
+     410,
+     410,
+     717,
+     717,
+     717,
+     717,
+     410,
+     410
+    ],
+    "ai_open": [
+     12,
+     13
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2385.92,
+       5939.2,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 13,
+    "legacy_attributes": 0,
+    "door_id": 14,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6981,
+     6982,
+     6983,
+     6984,
+     6985,
+     6986,
+     6987,
+     6988
+    ],
+    "face_ids": [
+     7520,
+     7521,
+     7522,
+     7523,
+     7524,
+     7525
+    ],
+    "sector_ids": [
+     4,
+     3
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3246,
+     -3246,
+     -3246,
+     -3246,
+     -3226,
+     -3226,
+     -3226,
+     -3226
+    ],
+    "y_offsets": [
+     4915,
+     4915,
+     5079,
+     5079,
+     5079,
+     5079,
+     4915,
+     4915
+    ],
+    "z_offsets": [
+     410,
+     717,
+     717,
+     410,
+     410,
+     717,
+     717,
+     410
+    ],
+    "ai_open": [
+     14,
+     15
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -3235.84,
+       5068.8,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 14,
+    "legacy_attributes": 0,
+    "door_id": 15,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 750,
+    "close_speed": 750,
+    "state": 2,
+    "vertex_ids": [
+     6989,
+     6990,
+     6991,
+     6992,
+     6993,
+     6994,
+     6995,
+     6996
+    ],
+    "face_ids": [
+     7526,
+     7527,
+     7528,
+     7529,
+     7530,
+     7531
+    ],
+    "sector_ids": [
+     4,
+     3
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3246,
+     -3246,
+     -3246,
+     -3246,
+     -3226,
+     -3226,
+     -3226,
+     -3226
+    ],
+    "y_offsets": [
+     4915,
+     4751,
+     4751,
+     4915,
+     4751,
+     4915,
+     4751,
+     4915
+    ],
+    "z_offsets": [
+     410,
+     410,
+     717,
+     717,
+     717,
+     717,
+     410,
+     410
+    ],
+    "ai_open": [
+     14,
+     15
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -3235.84,
+       4761.6,
+       563.2
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 3.0
+    },
+    "sounds": {
+     "open_start": "Door/doormetal_open02.wav",
+     "close_stop": "Door/doormetal_close01.wav"
+    }
+   },
+   {
+    "door_index": 15,
+    "legacy_attributes": 0,
+    "door_id": 16,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65536,
+     0,
+     0
+    ],
+    "move_length": 451,
+    "open_speed": 115,
+    "close_speed": 115,
+    "state": 2,
+    "vertex_ids": [
+     6997,
+     6998,
+     6999,
+     7000,
+     7001,
+     7002,
+     7003,
+     7004
+    ],
+    "face_ids": [
+     7532,
+     7533,
+     7534,
+     7535,
+     7536,
+     7537
+    ],
+    "sector_ids": [
+     8
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     409,
+     409,
+     450,
+     450,
+     450,
+     450,
+     409,
+     409
+    ],
+    "y_offsets": [
+     7700,
+     7455,
+     7455,
+     7700,
+     7700,
+     7455,
+     7455,
+     7700
+    ],
+    "z_offsets": [
+     819,
+     819,
+     819,
+     819,
+     410,
+     410,
+     410,
+     410
+    ],
+    "sounds": {
+     "open_busy": "Events/boulderroll.wav",
+     "close_busy": "Events/boulderroll.wav",
+     "close_stop": "Events/slam.wav"
+    }
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    0,
+    1393,
+    1
+   ],
+   "direction_degrees": 90
+  }
+ ],
+ "ladders": [
+  {
+   "id": "Ladder0",
+   "bottom": [
+    9113.6,
+    2928.64,
+    -4010.24
+   ],
+   "top": [
+    9113.6,
+    2928.64,
+    -3133.44
+   ],
+   "facing_degrees": 0.0,
+   "width": 204.8,
+   "reach": 48.0,
+   "top_exit": [
+    9241.6,
+    2944.0,
+    -3102.72
+   ],
+   "grab_at_top": true
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:dookscastle:object:304",
+   "source_object_index": 304,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    1072.0,
+    176.0,
+    2928.0
+   ],
+   "position": {
+    "x": 2744,
+    "y": 7496,
+    "z": 451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 5,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:dookscastle:object:305",
+   "source_object_index": 305,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest2",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    -192.0,
+    176.0,
+    1680.0
+   ],
+   "position": {
+    "x": -492,
+    "y": 4301,
+    "z": 451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 5,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:dookscastle:object:306",
+   "source_object_index": 306,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest3",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    -928.0,
+    176.0,
+    1696.0
+   ],
+   "position": {
+    "x": -2376,
+    "y": 4342,
+    "z": 451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 2,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 5,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:dookscastle:object:307",
+   "source_object_index": 307,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest4",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    -2368.0,
+    176.0,
+    1824.0
+   ],
+   "position": {
+    "x": -6062,
+    "y": 4669,
+    "z": 451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 3,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 5,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:dookscastle:object:308",
+   "source_object_index": 308,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest5",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    -992.0,
+    224.0,
+    4144.0
+   ],
+   "position": {
+    "x": -2540,
+    "y": 10609,
+    "z": 573
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 4,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 4,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 5,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:dookscastle:object:385",
+   "source_object_index": 385,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\BlackChest.ABC",
+   "source_skin": "Skins\\Props\\BlackChest.dtx",
+   "source_position_lt": [
+    5136.0,
+    -992.0,
+    1680.0
+   ],
+   "position": {
+    "x": 13148,
+    "y": 4301,
+    "z": -2540
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 5,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": false,
+   "ai_drop": false,
+   "trap_level": 14,
+   "should_repopulate": false,
+   "fixed_items": [
+    {
+     "slot": 1,
+     "raw_mm9_item_id": 184,
+     "item_id": 10184
+    }
+   ],
+   "remove_when_empty": false
+  },
+  {
+   "source_id": "mm9:dookscastle:object:458",
+   "source_object_index": 458,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest6",
+   "source_model": "models\\Props\\BlackChest.ABC",
+   "source_skin": "Skins\\Props\\BlackChest.dtx",
+   "source_position_lt": [
+    3600.0,
+    -1872.0,
+    2516.0
+   ],
+   "position": {
+    "x": 9216,
+    "y": 6441,
+    "z": -4792
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 6,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 7,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 24,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 1
+  }
+ ],
+ "static_lights": {
+  "sides": "front"
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "ClearWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       6553.6,
+       4426.8
+      ],
+      [
+       6553.6,
+       6881.3
+      ],
+      [
+       9008.1,
+       6881.3
+      ],
+      [
+       9008.1,
+       4426.8
+      ]
+     ],
+     "bottom": -5406.7,
+     "top": -3850.2
+    },
+    {
+     "polygon": [
+      [
+       9008.1,
+       2129.9
+      ],
+      [
+       6553.6,
+       2129.9
+      ],
+      [
+       6553.6,
+       4426.8
+      ],
+      [
+       9008.1,
+       4426.8
+      ]
+     ],
+     "bottom": -5406.7,
+     "top": -3850.2
+    },
+    {
+     "polygon": [
+      [
+       9008.1,
+       4426.8
+      ],
+      [
+       9008.1,
+       6881.3
+      ],
+      [
+       11465.7,
+       6881.3
+      ],
+      [
+       11465.7,
+       4426.8
+      ]
+     ],
+     "bottom": -5406.7,
+     "top": -3850.2
+    },
+    {
+     "polygon": [
+      [
+       11465.7,
+       2129.9
+      ],
+      [
+       9008.1,
+       2129.9
+      ],
+      [
+       9008.1,
+       4426.8
+      ],
+      [
+       11465.7,
+       4426.8
+      ]
+     ],
+     "bottom": -5406.7,
+     "top": -3850.2
+    },
+    {
+     "polygon": [
+      [
+       13434.9,
+       6881.3
+      ],
+      [
+       13434.9,
+       4584.4
+      ],
+      [
+       13434.9,
+       4426.8
+      ],
+      [
+       11465.7,
+       4426.8
+      ],
+      [
+       11465.7,
+       6881.3
+      ]
+     ],
+     "bottom": -5406.7,
+     "top": -3850.2
+    },
+    {
+     "polygon": [
+      [
+       13434.9,
+       4426.8
+      ],
+      [
+       13434.9,
+       2129.9
+      ],
+      [
+       11465.7,
+       2129.9
+      ],
+      [
+       11465.7,
+       4426.8
+      ]
+     ],
+     "bottom": -5406.7,
+     "top": -3850.2
+    }
+   ],
+   "tint": [
+    0.3,
+    0.8,
+    0.8
+   ],
+   "fog": {
+    "color_rgb": [
+     0,
+     0,
+     0
+    ],
+    "near_distance": 1280.0,
+    "far_distance": 5120.0
+   }
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 405,
+   "sound": "ambient/rodents/bat squeek 01.wav",
+   "position": [
+    8028,
+    5407,
+    -2294
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2048,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    4.0,
+    10.0
+   ]
+  },
+  {
+   "key": 406,
+   "sound": "ambient/rodents/bat squeek 02 loop.wav",
+   "position": [
+    8356,
+    3277,
+    -2294
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2048,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    8.0,
+    25.0
+   ]
+  },
+  {
+   "key": 407,
+   "sound": "ambient/rodents/bat squeek 02 loop.wav",
+   "position": [
+    10977,
+    5243,
+    -2294
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2048,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    8.0,
+    25.0
+   ]
+  },
+  {
+   "key": 408,
+   "sound": "ambient/rodents/bat squeek 023.wav",
+   "position": [
+    12124,
+    3768,
+    -2294
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2048,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    20.0,
+    30.0
+   ]
+  },
+  {
+   "key": 409,
+   "sound": "ambient/rodents/bat squeek 02 loop.wav",
+   "position": [
+    11960,
+    3604,
+    -2294
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2048,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    8.0,
+    25.0
+   ]
+  },
+  {
+   "key": 418,
+   "sound": "ambient/woodcreak2.wav",
+   "position": [
+    7373,
+    4424,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 419,
+   "sound": "ambient/woodcreak2.wav",
+   "position": [
+    9011,
+    3932,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 420,
+   "sound": "ambient/woodcreak2.wav",
+   "position": [
+    10158,
+    5243,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 421,
+   "sound": "ambient/woodcreak2.wav",
+   "position": [
+    10650,
+    3768,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 422,
+   "sound": "ambient/woodcreak2.wav",
+   "position": [
+    11633,
+    5079,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 423,
+   "sound": "ambient/woodcreak2.wav",
+   "position": [
+    12616,
+    4588,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 424,
+   "sound": "ambient/woodcreek.wav",
+   "position": [
+    8192,
+    4096,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 425,
+   "sound": "ambient/woodcreek.wav",
+   "position": [
+    9667,
+    4424,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 426,
+   "sound": "ambient/woodcreek.wav",
+   "position": [
+    9339,
+    2949,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 427,
+   "sound": "ambient/woodcreek.wav",
+   "position": [
+    10322,
+    5734,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 428,
+   "sound": "ambient/woodcreek.wav",
+   "position": [
+    11141,
+    4424,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 429,
+   "sound": "ambient/woodcreek.wav",
+   "position": [
+    12288,
+    5079,
+    -2949
+   ],
+   "inner_radius": 256,
+   "outer_radius": 640,
+   "volume": 0.21,
+   "loop": true,
+   "wait": [
+    20.0,
+    60.0
+   ]
+  },
+  {
+   "key": 127,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1106,
+    1987,
+    102
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 131,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1106,
+    1987,
+    102
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 134,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1106,
+    3072,
+    492
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 136,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1106,
+    3072,
+    492
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 139,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    0,
+    2271,
+    696
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 149,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -225,
+    4260,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 152,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -225,
+    8028,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 155,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    225,
+    6103,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 158,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1311,
+    7148,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 161,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2765,
+    6922,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 167,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1700,
+    5243,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 170,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1065,
+    6164,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 173,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1065,
+    4239,
+    604
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 175,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    594,
+    6062,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 178,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2519,
+    6062,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 181,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1475,
+    7148,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 184,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1475,
+    5018,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 187,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1884,
+    7393,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 190,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1884,
+    9318,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 193,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2847,
+    8356,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 196,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    922,
+    8356,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 202,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1987,
+    4915,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 205,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2540,
+    3953,
+    594
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 209,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -5919,
+    5693,
+    502
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 212,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -5919,
+    4137,
+    512
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 215,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4219,
+    3973,
+    512
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 218,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4219,
+    5857,
+    512
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 223,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2540,
+    10483,
+    1188
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 227,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2540,
+    9500,
+    1188
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 231,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2540,
+    8517,
+    1188
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": 13704,
+    "y": 9224,
+    "z": -3263
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": 13448,
+    "y": 9352,
+    "z": -3325
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -1144,
+    "y": 4616,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -3576,
+    "y": 8968,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": -3704,
+    "y": 5000,
+    "z": 412
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": -2168,
+    "y": 4232,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 6,
+   "position": {
+    "x": 1928,
+    "y": 6792,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 7,
+   "position": {
+    "x": 1672,
+    "y": 6664,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 8,
+   "position": {
+    "x": -888,
+    "y": 2184,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 9,
+   "position": {
+    "x": 8,
+    "y": 2696,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 10,
+   "position": {
+    "x": 1672,
+    "y": 7816,
+    "z": 410
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 11,
+   "position": {
+    "x": 2824,
+    "y": 8200,
+    "z": -641
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  }
+ ]
+}

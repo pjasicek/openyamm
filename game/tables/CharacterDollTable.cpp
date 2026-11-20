@@ -152,6 +152,7 @@ bool CharacterDollTable::loadCharacterRows(const std::vector<std::vector<std::st
         entry.facePicturesPrefix = trimAsciiWhitespaceCopy(row[19]);
         parseUnsigned(row[22], entry.npcPictureId);
         parseSigned32(row[23], entry.raceId);
+        entry.worldId = row.size() > 25 ? trimAsciiWhitespaceCopy(row[25]) : std::string();
         m_characterEntries[entry.id] = std::move(entry);
     }
 
@@ -246,5 +247,10 @@ const CharacterDollTypeEntry *CharacterDollTable::getDollType(uint32_t dollTypeI
 const std::unordered_map<uint32_t, CharacterDollEntry> &CharacterDollTable::characters() const
 {
     return m_characterEntries;
+}
+
+void CharacterDollTable::removeCharactersOfWorld(const std::string &worldId)
+{
+    std::erase_if(m_characterEntries, [&worldId](const auto &item) { return item.second.worldId == worldId; });
 }
 }

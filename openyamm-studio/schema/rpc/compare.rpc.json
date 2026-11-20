@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: compare",
+  "description": "How alike a rebuild and its original are (CALIBRATION.md; S5_BROWSER_EDITOR.md 3.14): indoor by rays from every stand point, outdoor layer by layer on the terrain's grid. The scorecard's compare part and the Compare view.",
+  "x-group": "compare",
+  "methods": {
+    "run": {
+      "summary": "Compares a rebuild (a project, or a second map file) with its original (default: the project's map_stats.reference, else the shipped map it overlays): the score with its parts, whether it is within the band (indoor 97 %, outdoor 90 %), the worst places (indoor the 40 worst stand points, outdoor the 12 worst blocks of 16 x 16 cells), every stand point's or block's score as a heat map, the floor one map has and the other has not, and the full report of `oymap compare --json` as `report`. Seconds to tens of seconds: lane J.",
+      "since": 1,
+      "lane": "jobs",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "has_errors",
+        "no_such_map",
+        "bad_request",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "map"
+        ],
+        "properties": {
+          "map": {
+            "$ref": "common.rpc.json#/$defs/map_target"
+          },
+          "world": {
+            "description": "The world of a shipped map (mm6, mm7, mm8, mm9); a project names its own.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "built": {
+            "description": "Read with the session's mount of installed builds in front of the asset root (after build.install).",
+            "type": "boolean"
+          },
+          "original": {
+            "description": "The original's map file (default: the project's map_stats.reference, else its base). A shipped map's file name, never a path.",
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+\\.(blv|odm)$"
+          },
+          "original_world": {
+            "description": "The original's world (default: the project's world, else `world`).",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "kind",
+          "original",
+          "rebuilt",
+          "world",
+          "score",
+          "band",
+          "parts",
+          "vertical_offset",
+          "worst",
+          "heat",
+          "floor_missing_in_rebuild",
+          "floor_only_in_rebuild",
+          "notes",
+          "report"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "indoor",
+              "outdoor"
+            ]
+          },
+          "original": {
+            "type": "string"
+          },
+          "rebuilt": {
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "x-decimals": 4
+          },
+          "band": {
+            "type": "object",
+            "required": [
+              "at_least",
+              "within"
+            ],
+            "properties": {
+              "at_least": {
+                "description": "The band's lower edge: 0.97 indoor, 0.9 outdoor (HANDOFF.md, \"Within bands\").",
+                "type": "number",
+                "x-decimals": 2
+              },
+              "within": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "weight",
+                "score",
+                "what"
+              ],
+              "properties": {
+                "id": {
+                  "description": "indoor: shape, textures, offsets; outdoor: heights, relief, cliffs, rim, water, ground, roads, buildings, decorations, spawns, events.",
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "weight": {
+                  "description": "Share of the score (the weights add up to 1; offsets are reported with 0).",
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "x-decimals": 4
+                },
+                "score": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "x-decimals": 4
+                },
+                "what": {
+                  "description": "What the part counted, in one sentence.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "vertical_offset": {
+            "description": "How much higher the whole rebuild lies than the original (indoor; 0 outdoors): the Compare view moves the original by it.",
+            "type": "integer"
+          },
+          "worst": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "at",
+                "score",
+                "what"
+              ],
+              "properties": {
+                "name": {
+                  "description": "The original's sector (indoor) or the block of 16 x 16 cells (outdoor, A1 the north-west).",
+                  "type": "string"
+                },
+                "at": {
+                  "$ref": "common.rpc.json#/$defs/point3i",
+                  "description": "A stand point on the original's floor (indoor), or a block's middle on the original's land (outdoor)."
+                },
+                "score": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "x-decimals": 4
+                },
+                "what": {
+                  "description": "What differs there most, in one sentence.",
+                  "type": "string"
+                },
+                "yaw_radians": {
+                  "description": "Indoor: where to look to see the most of what differs (0 east, counter-clockwise).",
+                  "type": "number",
+                  "x-decimals": 4
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "heat": {
+            "type": "object",
+            "required": [
+              "cell",
+              "points"
+            ],
+            "properties": {
+              "cell": {
+                "description": "The side of the square each point stands for, in world units (indoor the stand points' step, outdoor a block of 16 cells: 8192).",
+                "type": "integer",
+                "minimum": 1
+              },
+              "points": {
+                "description": "[x, y, score in thousandths] of every stand point (indoor; -1 where the rebuild has no floor) or block middle (outdoor).",
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "floor_missing_in_rebuild": {
+            "type": "array",
+            "items": {
+              "$ref": "common.rpc.json#/$defs/point3i"
+            }
+          },
+          "floor_only_in_rebuild": {
+            "type": "array",
+            "items": {
+              "$ref": "common.rpc.json#/$defs/point3i"
+            }
+          },
+          "notes": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "report": {
+            "description": "The full report (`oymap compare --json`): method, totals, sectors or regions, texture pairs, offsets, buildings ...",
+            "type": "object",
+            "x-tree": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

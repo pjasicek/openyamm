@@ -1,0 +1,30 @@
+[
+  {
+    "name": "sculpture_7item261",
+    "prompt": "Use case: precise-object-edit. This is a FLAT DIFFUSE ALBEDO TEXTURE PAINTING, not a beauty render. Image 1 is the EXACT edit target: six orthographic mesh guides in one transparent 1536x1024 atlas, three columns and two rows. Keep its PIXEL-EXACT outlines, alpha, internal holes, shapes, directions, centres, scale, framing and six-cell grid. Never rearrange, enlarge, shrink or rotate the objects. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / BOTTOM. Image 2 supplies design and material only; IGNORE ITS SHADOWS AND HIGHLIGHTS. Paint only these exact mesh surfaces: MATTE steel grey knight and sword (#99958d), matte warm grey stone stepped plinth (#a19886), fine patina and restrained incised ornament. ALL of bottom-right cell is stone. antique silver steel knight; grey engraved stone plinth. Every surface receives uniform matte ambient light: NO 3D SHADING, NO HIGHLIGHTS, NO SPECULAR, NO REFLECTIONS, NO LIGHT GRADIENTS, NO AMBIENT OCCLUSION, NO DROP SHADOW, NO HALO. Remove the grey guide's lighting gradients too. Surface colour may vary only for actual pigments, engraved patterns, material grain or wear, never to suggest lighting. These paintings will be lit by a game renderer later. Keep the original transparent background completely empty. No floor, background colour, labels, outlines, decorative frame or extra objects. Return exactly one 3:2 six-cell atlas with the original placement, all six views.",
+    "generated_path": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-022886bb-9793-4f8d-87aa-3004b32aeb9b.png",
+    "tool": "built-in image_gen",
+    "selected": true,
+    "output_sha256": "36738e6d4db4a670d908f79bf99952482d375a22cdce97750d1257d81d5db4c3",
+    "output_size": [
+      1536,
+      1024
+    ],
+    "mesh_guide": "guide_atlas.png (regenerated during seam cleanup; registration uses final guides)",
+    "material_reference": "assets_dev/engine/icons_x2/7item261.png",
+    "material_reference_sha256": "ba626f71defaee0b6d4da9c5c228b1bd14c6b0495826d7734041c631b29d81c3",
+    "superseded": "paint_atlas_v1.png: excessive shading and larger silhouette drift",
+    "status": "superseded"
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. This is a FLAT DIFFUSE ALBEDO TEXTURE PAINTING, not a beauty render. Image 1 is the EXACT edit target: six orthographic mesh guides in one transparent 1536x1024 atlas, three columns and two rows. Keep its PIXEL-EXACT outlines, alpha, internal holes, shapes, directions, centres, scale, framing and six-cell grid. Never rearrange, enlarge, shrink or rotate the objects. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / BOTTOM. Image 2 supplies design and material only; IGNORE ITS SHADOWS AND HIGHLIGHTS. Paint only these exact mesh surfaces: MATTE steel grey knight and sword (#99958d), matte warm grey stone stepped plinth (#a19886), fine patina and restrained incised ornament. ALL of bottom-right cell is stone. antique silver steel knight; grey engraved stone plinth. Every surface receives uniform matte ambient light: NO 3D SHADING, NO HIGHLIGHTS, NO SPECULAR, NO REFLECTIONS, NO LIGHT GRADIENTS, NO AMBIENT OCCLUSION, NO DROP SHADOW, NO HALO. Remove the grey guide's lighting gradients too. Surface colour may vary only for actual pigments, engraved patterns, material grain or wear, never to suggest lighting. These paintings will be lit by a game renderer later. Keep the original transparent background completely empty. No floor, background colour, labels, outlines, decorative frame or extra objects. Return exactly one 3:2 six-cell atlas with the original placement, all six views.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-022886bb-9793-4f8d-87aa-3004b32aeb9b.png",
+    "raw_sha256": "36738e6d4db4a670d908f79bf99952482d375a22cdce97750d1257d81d5db4c3",
+    "selected_atlas_sha256": "36738e6d4db4a670d908f79bf99952482d375a22cdce97750d1257d81d5db4c3",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/assets_dev/engine/icons_x2/7item261.png",
+    "material_reference_sha256": "ba626f71defaee0b6d4da9c5c228b1bd14c6b0495826d7734041c631b29d81c3",
+    "guide_input_note": "Exact earlier guide revision was not retained; final mesh guides are retained. Repaired geometry used for final bake."
+  }
+]

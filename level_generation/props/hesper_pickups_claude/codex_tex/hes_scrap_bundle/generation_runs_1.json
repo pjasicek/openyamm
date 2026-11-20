@@ -1,0 +1,294 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "max_corrective_regenerations_per_view": 1,
+  "postprocessing": "None. Selected PNGs copied byte-for-byte; no resize, mask replacement, crop, or colour edits.",
+  "all_requirements_passed": false,
+  "runs": [
+    {
+      "view": "front",
+      "selected": false,
+      "reason": "Rejected: adds an extra claw and lower-left hardware absent from the guide; strong highlights and shaded crevices; returned 1254x1254 instead of 1024x1024.",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create paint_front.png, a 1024 x 1024 transparent PNG texture-source/albedo painting of the Kreegan scrap bundle.\nINPUT ROLES: image 1 guide_front.png is the exact edit target and absolute authority for every geometry edge, opening, silhouette, camera, placement and scale. Image 2 design_reference.png is the approved colour/material design authority only. Image 3 concept_crop.png is supporting original concept only.\nPaint DIRECTLY OVER the supplied grey orthographic front guide in image 1. Preserve its complete 1024 x 1024 canvas and exact original alpha mask. The object occupies approximately x=172..851, y=274..749; leave all of its existing transparent margins. Preserve the wide end-on shape, exact interwoven bands, angular openings and internal scrap shapes, central angular tube, and the curved claw on the right. Every shape edge must stay at the same pixel coordinates. Do not rotate the object to match the three-quarter design reference; keep the front guide's camera and geometry. Do not recenter, zoom, enlarge, crop, smooth away geometry, introduce new parts or fill existing holes.\nOnly paint surface materials from the approved design: black-violet Kreegan resin wraps with faint orange glowing seams, bone-white ceramic and polished gold on the wrapped scrap, a dark rubber hose, a pale ivory bone claw clasp with a gold ring. Use rich dark violet material colours with subtle resin grain, restrained orange seam colour, warm bone-white chipped ceramic, gold material colour and restrained wear on the existing shapes. Preserve the original shape of the claw and the hardware. Represent polish with material colour/detail only.\nLIGHTING IS FLAT ALBEDO: even, flat, shadowless light from the viewer; remove the guide's baked shadows and ambient-occlusion darkening. No cast shadows, no ambient-occlusion darkening in creases, no strong specular highlights or reflections, no rim light, no directional shading. Paint glowing seams at their orange glowing colour without bloom or light cast on surroundings. Keep material colour consistent across facing surfaces. No background, no floor, no ground shadow, no text or labels. Actual transparent alpha outside the original silhouette and through every guide opening. Exactly one image, 1024 x 1024, unresized output.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/guide_front.png",
+          "sha256": "d66f68717c7e8c6cc86bd0ffcb0ee3c1b8769a4199ce4ec560b3dde5466b741b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/design_reference.png",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/concept_crop.png",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16acf-15d0-74c2-b97e-fe0f0c3a9746/exec-ed8521be-714a-4530-9ec2-b6220bcec9be.png",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16acf-15d0-74c2-b97e-fe0f0c3a9746/exec-ed8521be-714a-4530-9ec2-b6220bcec9be.png",
+      "accepted": false,
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "alpha_zero_pixels": 1194370
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Native dimensions differ; guide-to-output pixel registration is not identical. Visual edge and internal-shape differences also remain.",
+          "guide_bbox_alpha_at_least_128": [
+            174,
+            276,
+            850,
+            749
+          ],
+          "output_bbox_alpha_at_least_128": [
+            208,
+            335,
+            1047,
+            1000
+          ]
+        },
+        "materials_and_colours": {
+          "status": "visually consistent palette",
+          "details": "Black-violet resin, orange seams, ivory ceramic/claw, gold trim and charcoal rubber are present. Material boundaries are approximate."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Pronounced highlights, shaded recesses and strong orange seams remain."
+        },
+        "unresized_return": {
+          "passed": true
+        }
+      },
+      "output_sha256": "45a8dbb9db2a1ceb1db36732b8b524aa0ed19d38d0a151b67c08348d7441123a"
+    },
+    {
+      "view": "front",
+      "selected": true,
+      "reason": "Best available after the one permitted corrective regeneration: removes the extra claw and added hardware, improves guide alignment, and reduces shine and orange glow. Selected for delivery, not accepted as compliant: native size and exact silhouette fail; residual shading remains.",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, front view. Edit the attached guide_front.png as a STRICT COLOURIZATION, preserving the original 1024x1024 image dimensions. Output exactly 1024x1024 PNG with transparency.\nThe attached grey object is the final geometry, not a loose sketch. Keep its pixels registered in place. Preserve its existing alpha mask pixel-for-pixel: same outer silhouette, same openings and same partially transparent antialiased boundary pixels. Preserve ALL angular internal shape boundaries. No redrawing, remodelling, smoothing, repositioning, cropping or enlargement. Object bounds in the 1024x1024 image must remain x172..851, y274..749. The broad end-on bundle remains in the middle with the large empty margins above and below exactly as attached.\nOnly apply flat albedo surface colour within these existing shapes:\n- All interwoven outer angular resin bands: very dark black-violet purple (#25152f to #3c2644), restrained surface grain and thin FAINT orange seams (#f17c22).\n- The exposed internal scrap plates and rectangular central protrusion: warm bone-white ceramic (#dfd3b9), restrained chips, gold edge trim (#b9903f).\n- Existing flexible tube surfaces: dark charcoal rubber (#303035).\n- The SINGLE curved claw already present on the far RIGHT, spanning roughly x730..851 and y437..694: pale ivory (#e8dbc0), with warm gold at its existing attachment only.\nDo not add a second claw, ring, hose, cylinder or connector anywhere. Do not introduce circular hardware in the lower-left corner. All details must fit the EXACT existing guide geometry. There is only the ONE right-hand claw shown in this guide.\nThis is a 3D texture projection source, so use completely flat diffuse albedo colours under even frontal illumination. REMOVE all grey-guide ambient occlusion and shadows. No dark cavities caused by shading, no metallic speculars, no reflections, no white edge highlights, no rim light, no bloom or emitted light spill. The orange is just seam colour. Gold polish is implied by gold material colour, not shiny lighting. No floor, no background, no shadow, no text. Keep the transparent background and all original empty margins. Export at exactly 1024x1024 native pixels.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/guide_front.png",
+          "sha256": "d66f68717c7e8c6cc86bd0ffcb0ee3c1b8769a4199ce4ec560b3dde5466b741b"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/paint_front.png",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16acf-15d0-74c2-b97e-fe0f0c3a9746/exec-2ebd0eba-071e-4c2d-9567-8d408528a7b0.png",
+      "accepted": false,
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "alpha_zero_pixels": 1233163
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Native dimensions differ; guide-to-output pixel registration is not identical. Visual edge and internal-shape differences also remain.",
+          "guide_bbox_alpha_at_least_128": [
+            174,
+            276,
+            850,
+            749
+          ],
+          "output_bbox_alpha_at_least_128": [
+            211,
+            336,
+            1044,
+            919
+          ]
+        },
+        "materials_and_colours": {
+          "status": "visually consistent palette",
+          "details": "Black-violet resin, orange seams, ivory ceramic/claw, gold trim and charcoal rubber are present. Material boundaries are approximate."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Corrective output is flatter, but residual facet/recess shading remains."
+        },
+        "unresized_return": {
+          "passed": true
+        }
+      },
+      "output_sha256": "ed1e1636e2bfc9dc51ed1431efef6bcda66278d8691991c2a8838bc3e22e4086"
+    },
+    {
+      "view": "top",
+      "selected": false,
+      "reason": "Rejected: strong glossy highlights, bright emissive seams and shaded crevices violate flat albedo lighting; returned 1254x1254 instead of 1024x1024.",
+      "attempt": 1,
+      "prompt": "Edit image 1 (guide_top.png) by painting its surfaces, keeping the geometry unchanged.\nDeliverable: paint_top.png, EXACTLY 1024 x 1024 pixels, transparent background, native unresized return. The whole supplied image 1 including its transparent margins is the edit target.\nImage 2 (design_reference.png) is the approved material/colour authority. Image 3 (concept_crop.png) is the original concept. Neither image 2 nor image 3 supplies any geometry: use them only as surface material references.\nThe guide is a plain grey orthographic top render of the EXACT 3D model. Keep its silhouette EXACTLY: same outline, size and position in frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Keep the canvas 1024x1024 and object bounds x172..850 y66..957, with the long axis vertical, the claw pointing to the right and its gold attachment ring in place. Keep the top-down projection and the precise angular shapes, gaps, layering, band widths and existing scrap outlines. Preserve its alpha mask pixel-for-pixel. Do not remodel or add, remove, rotate, enlarge or relocate anything.\nPaint the surface materials of the design reference onto that shape: black-violet Kreegan resin wraps with FAINT orange glowing seams, bone-white ceramic and polished gold on the wrapped scrap, a dark rubber hose, a pale ivory bone claw clasp with a gold ring. Material colours and modest painted surface wear only.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Remove all shadows and ambient occlusion from the grey guide. Glowing seams are painted at their glowing colour, not as light cast on their surroundings; no bloom. Gold and resin should read through their colour, never through glossy lighting. Preserve the original transparent background and internal holes. One image only, no labels.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/guide_top.png",
+          "sha256": "fe0a41c6010434ef73f45e3530a7165202807cd77776c996664c6f1deb7067d4"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/design_reference.png",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/concept_crop.png",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16acf-15d0-74c2-b97e-fe0f0c3a9746/exec-7a17fe8e-2f0c-4221-ace9-a3083f51d465.png",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16acf-15d0-74c2-b97e-fe0f0c3a9746/exec-7a17fe8e-2f0c-4221-ace9-a3083f51d465.png",
+      "accepted": false,
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "alpha_zero_pixels": 914864
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Native dimensions differ; guide-to-output pixel registration is not identical. Visual edge and internal-shape differences also remain.",
+          "guide_bbox_alpha_at_least_128": [
+            174,
+            67,
+            850,
+            957
+          ],
+          "output_bbox_alpha_at_least_128": [
+            211,
+            79,
+            1044,
+            1174
+          ]
+        },
+        "materials_and_colours": {
+          "status": "visually consistent palette",
+          "details": "Black-violet resin, orange seams, ivory ceramic/claw, gold trim and charcoal rubber are present. Material boundaries are approximate."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Pronounced highlights, shaded recesses and strong orange seams remain."
+        },
+        "unresized_return": {
+          "passed": true
+        }
+      },
+      "output_sha256": "17e2976be172492f7e83bd6a36aba518c354bdd88ec1e3dea7c031eab1fc3677"
+    },
+    {
+      "view": "top",
+      "selected": true,
+      "reason": "Best available after the one permitted corrective regeneration: substantially flatter material colours and faint seams with improved guide adherence. Selected for delivery, not accepted as compliant: native size and exact silhouette fail; some facet and recess shading remains.",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, TOP view. STRICT FLAT ALBEDO COLOURIZATION of the attached grey guide_top.png. Deliver one transparent PNG at exactly 1024 x 1024 native pixels. Do not output 1254 x 1254.\nKeep this guide's exact top-down orthographic geometry, canvas, position, scale and every shape edge. Preserve the guide alpha mask pixel-for-pixel, including all gaps and antialiased pixels. Canvas is 1024x1024; the object occupies x172..850, y66..957. Its long axis is vertical. The one ivory claw points horizontally right from its gold ring. Leave the original transparent margins untouched. No new geometry; no added objects, tube fittings, bands, claw, symbols or technology. Do not change the widths or positions of any interwoven angular band or internal plate.\nApply the Kreegan scrap bundle's approved material palette, as flat material colour:\nExisting outer resin wraps are dark BLACK-VIOLET (#2d1c36) with very subtle resin grain and thin faint orange seams (#e9822c); orange seam colour only, never light spilling onto the wraps.\nExisting broad scrap plates are BONE-WHITE CERAMIC (#e4d8bf), with sparse tiny beige chips and restrained GOLD (#bd9647) trim.\nExisting flexible hose surfaces are DARK CHARCOAL RUBBER (#343238).\nThe single existing rightward claw is PALE IVORY (#e9ddc3), and its existing polygonal attachment ring is GOLD (#bd9647).\nTreat every surface as an unlit diffuse texture, a painted colour ID map with gentle material microdetail. REMOVE the grey source's shading completely. No dark gradients across surfaces, no ambient occlusion between bands, no baked cavity shadows, no cast shadows. No shiny white highlights, no specular reflection, no metallic highlight lines, no rim light, no bloom. The ceramic faces must stay an even bone-white regardless of orientation; violet faces stay evenly violet; gold faces stay evenly ochre gold. Polished gold is represented by its gold hue and subtle wear, not lighting. Even flat shadowless frontal illumination only. NO background, NO floor, NO shadow, NO labels. Transparent background outside the exact original guide silhouette and within existing openings. This is a texture source to project onto this exact model, so all original silhouette and internal edges must remain in precise pixel registration. Output 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/guide_top.png",
+          "sha256": "fe0a41c6010434ef73f45e3530a7165202807cd77776c996664c6f1deb7067d4"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_scrap_bundle/paint_top.png",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16acf-15d0-74c2-b97e-fe0f0c3a9746/exec-93fed4d4-7347-4ab4-aa18-ccf410dc174f.png",
+      "accepted": false,
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "passed": false
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "alpha_range": [
+            0,
+            255
+          ],
+          "alpha_zero_pixels": 915582
+        },
+        "silhouette_identical_to_guide": {
+          "passed": false,
+          "reason": "Native dimensions differ; guide-to-output pixel registration is not identical. Visual edge and internal-shape differences also remain.",
+          "guide_bbox_alpha_at_least_128": [
+            174,
+            67,
+            850,
+            957
+          ],
+          "output_bbox_alpha_at_least_128": [
+            212,
+            79,
+            1045,
+            1176
+          ]
+        },
+        "materials_and_colours": {
+          "status": "visually consistent palette",
+          "details": "Black-violet resin, orange seams, ivory ceramic/claw, gold trim and charcoal rubber are present. Material boundaries are approximate."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "reason": "Corrective output is flatter, but residual facet/recess shading remains."
+        },
+        "unresized_return": {
+          "passed": true
+        }
+      },
+      "output_sha256": "e0f6efed199dfb53419e67ef655a185ae9d616cb4e6d006ed9f520549b0388ac"
+    }
+  ]
+}

@@ -1,0 +1,484 @@
+{
+ "id": "20261009-1649-mm8-d09-31",
+ "world": "mm8",
+ "maps": [
+  "d09.blv",
+  "d10.blv",
+  "d37.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/grlft-b",
+  "mm8/grt-b",
+  "mm8/grlft-t",
+  "mm8/grrt-t",
+  "mm8/grbas0",
+  "mm8/grdor1a",
+  "mm8/grdor1b",
+  "mm8/grstr1",
+  "mm8/gcryflr3",
+  "mm8/gcrysc1",
+  "mm8/gcrysc2",
+  "mm8/gcrysc3",
+  "mm8/gcrysc4",
+  "mm8/gcrysflr",
+  "mm8/gcryswal",
+  "mm8/hhr1d",
+  "mm8/gtempdor2"
+ ],
+ "requests": {
+  "mm8/grlft-b": {
+   "name": "grlft-b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "carved reddish-brown wooden pilaster beside a vertical plank wainscot under smooth pale grey plaster",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: no pale or dark strip, groove or highlight along any edge; the grey plaster meets the wooden pilaster directly",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas1"
+     ],
+     "fraction": 0.955
+    },
+    "2": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas1"
+     ],
+     "fraction": 0.955
+    },
+    "3": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas1"
+     ],
+     "fraction": 0.955
+    },
+    "4": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas1"
+     ],
+     "fraction": 0.955
+    },
+    "5": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas1",
+      "mm8/grlft-t"
+     ],
+     "fraction": 0.948
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {
+     "right": "mm8/grbas1",
+     "top": "mm8/grlft"
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/grt-b": {
+   "name": "grt-b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved reddish-brown wooden pilaster beside a vertical plank wainscot under smooth pale grey plaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gr-rt",
+      "mm8/grbas1"
+     ],
+     "fraction": 0.928
+    },
+    "2": {
+     "sources": [
+      "mm8/gr-rt",
+      "mm8/grbas0",
+      "mm8/grbas1"
+     ],
+     "fraction": 0.955
+    }
+   }
+  },
+  "mm8/grlft-t": {
+   "name": "grlft-t",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "carved reddish-brown wooden pilaster with a curved wooden bracket, smooth pale grey plaster, carved pale stone cornice at the top",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: no pale or dark strip, groove or highlight along any edge; the grey plaster meets the wooden pilaster directly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas3"
+     ],
+     "fraction": 0.934
+    },
+    "2": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas3"
+     ],
+     "fraction": 0.934
+    },
+    "3": {
+     "sources": [
+      "mm8/grlft",
+      "mm8/grbas3",
+      "mm8/grrt-t"
+     ],
+     "fraction": 0.936
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm8/grbas3"
+    }
+   }
+  },
+  "mm8/grrt-t": {
+   "name": "grrt-t",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "carved reddish-brown wooden pilaster with a curved wooden bracket, smooth pale grey plaster, carved pale stone cornice at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gr-rt",
+      "mm8/grbas3"
+     ],
+     "fraction": 0.915
+    },
+    "2": {
+     "sources": [
+      "mm8/gr-rt",
+      "mm8/grbas3",
+      "mm8/grlft-t"
+     ],
+     "fraction": 0.918
+    },
+    "3": {
+     "sources": [
+      "mm8/gr-rt",
+      "mm8/grbas3"
+     ],
+     "fraction": 0.915
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm8/grbas3"
+    }
+   }
+  },
+  "mm8/grbas0": {
+   "name": "grbas0",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth pale grey plaster above a reddish-brown vertical plank wainscot with a small carved panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/grbas1"
+     ],
+     "fraction": 0.692
+    },
+    "2": {
+     "sources": [
+      "mm8/grbas1"
+     ],
+     "fraction": 0.692
+    }
+   }
+  },
+  "mm8/grdor1a": {
+   "name": "grdor1a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey stone archway beside a pale stone column around a carved reddish-brown wooden door with a round carved medallion and iron handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gr-rt"
+     ],
+     "fraction": 0.207
+    },
+    "2": {
+     "sources": [
+      "mm8/gr-rt"
+     ],
+     "fraction": 0.207
+    }
+   }
+  },
+  "mm8/grdor1b": {
+   "name": "grdor1b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey stone archway beside a pale stone column around a carved reddish-brown wooden door with a round carved medallion and iron handle",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/grdor1a"
+    }
+   }
+  },
+  "mm8/grstr1": {
+   "name": "grstr1",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "smooth light tan wooden board with a bevelled edge",
+   "notes": {
+    "3": "a single plain board: no extra groove, seam or line inside it",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcryflr3": {
+   "name": "gcryflr3",
+   "versions": [
+    1
+   ],
+   "material": "glossy deep red crystal with fine vertical streaks and grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcrysc1": {
+   "name": "gcrysc1",
+   "versions": [
+    1
+   ],
+   "material": "small glossy emerald green crystal shard",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcrysc2": {
+   "name": "gcrysc2",
+   "versions": [
+    1
+   ],
+   "material": "small glossy yellow-green crystal shard",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcrysc3": {
+   "name": "gcrysc3",
+   "versions": [
+    1
+   ],
+   "material": "small glossy cyan crystal shard",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcrysc4": {
+   "name": "gcrysc4",
+   "versions": [
+    1
+   ],
+   "material": "small glossy violet-purple crystal shard",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcrysflr": {
+   "name": "gcrysflr",
+   "versions": [
+    1
+   ],
+   "material": "pale pink-red crystal with fine vertical streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcryswal": {
+   "name": "gcryswal",
+   "versions": [
+    1
+   ],
+   "material": "mottled red and pale pink crystal with fine veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/hhr1d": {
+   "name": "hhr1d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark wooden door with ornate golden brass hinge straps and a ring handle, inside a carved pale stone frame with a dark pointed lintel",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/hhr1bs2"
+     ],
+     "fraction": 0.165
+    },
+    "2": {
+     "sources": [
+      "mm8/hhr1bs2"
+     ],
+     "fraction": 0.165
+    },
+    "3": {
+     "sources": [
+      "mm8/hhr1bs2"
+     ],
+     "fraction": 0.165
+    }
+   }
+  },
+  "mm8/gtempdor2": {
+   "name": "gtempdor2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "glowing red crystal door panel with a carved spiral emblem in the upper half, a band of small cross marks and a plain lower panel, dark red frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/gtempw1",
+     "right": "mm8/gtempw1",
+     "left": "mm8/gtempw1"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,37 @@
+format_version: 1
+kind: indoor_scene_overlay
+source:
+  geometry_file: 6d01.blv
+  notes: "Written by oymap build from the Map Studio project \"s6_lamps\". Change the project, not this file."
+authored_content:
+  spawns:
+    - radius: 128
+      type_id: 3
+      index: 1
+      attributes: 0
+      group: 0
+      position:
+        x: 7300
+        y: 3000
+        z: 128
+removals:
+  spawns:
+    - position: [512, 1024, -768]
+      index: 2
+pulsing_lights:
+  - key: 49001
+    position: [7456, 3164, 256]
+    color: [120, 180, 255]
+    intensity: [0.4, 1, 0.7, 0]
+    radius: [300, 700, 0.7, 0]
+    start_on: true
+ambient_sounds:
+  - key: 60001
+    sound: 01_01.wav
+    position: [7456, 3164, 200]
+    inner_radius: 225
+    outer_radius: 900
+    volume: 1
+    loop: true
+    wait: [3, 8]
+    start_on: true

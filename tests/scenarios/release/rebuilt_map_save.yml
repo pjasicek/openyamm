@@ -1,0 +1,51 @@
+id: release.rebuilt_map_save
+title: Release check - a save loads deterministically after one of its maps was rebuilt
+world: mm6
+mode: faithful
+tags: [mm6, release, save_load]
+steps:
+  - note:
+      text: >-
+        A save records each map state's layout identity (devdocs/SAVED_MAP_STATE_IDENTITY.md). rebuilt_maps rewrites
+        the save as if 6d01.blv had been rebuilt after it: loading resets that map's state (its map variables, doors,
+        actors) and starts the party at its start point, while the party (gold, QBits) and the unchanged New Sorpigal
+        keep theirs. The same save without the rewrite loads exactly as saved.
+  - new_game_flow:
+      start_map: oute3.odm
+  - lua_event: {source: "SetValue(MapVar(40), 7)"}
+  - load_map:
+      map: 6d01.blv
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      party_position: {x: 576, y: 6912, radius: 16}
+  - set_pose: {map: 6d01.blv, x: 576, y: 6400, z: 0, yaw_degrees: 90}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "SetValue(MapVar(41), 9) SetValue(Gold, 4321)"}
+  - setup_shortcut: {kind: set_qbit, id: 10001}
+  - assert:
+      state_dump_map_var: {index: 41, value: 9}
+  - assert: {gold: 4321}
+  - save_game: unchanged
+  - save_game: {name: rebuilt, rebuilt_maps: [6d01.blv]}
+  - lua_event: {source: "SetValue(MapVar(41), 3) SetValue(Gold, 5)"}
+  - load_game: unchanged
+  - assert:
+      map: 6d01.blv
+  - assert:
+      party_position: {x: 576, y: 6400, radius: 16}
+  - assert:
+      state_dump_map_var: {index: 41, value: 9}
+  - assert: {gold: 4321}
+  - quick_load: {save: rebuilt, expect: loaded, expect_status: "has changed since this save"}
+  - assert:
+      map: 6d01.blv
+  - assert:
+      party_position: {x: 576, y: 6912, radius: 16}
+  - assert:
+      state_dump_map_var: {index: 41, value: 0}
+  - assert: {gold: 4321}
+  - assert: {qbit_set: [10001]}
+  - load_map:
+      map: oute3.odm
+  - assert:
+      state_dump_map_var: {index: 40, value: 7}

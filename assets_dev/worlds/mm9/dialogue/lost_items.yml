@@ -1,0 +1,70 @@
+# Hjordisa the Hag's lost items (devdocs/mm9_rework/PLACED_ITEMS_PLAN.md section 4). Written by
+# tools/mm9_import_discovery/generate_mm9_lost_items.py; do not edit by hand. Read by the RUDE dialogue table
+# (game/mm9/Mm9RudeDialogue.cpp loadLostItemsText): the keepers' first page offers "We've lost something.",
+# which gives back the first item here the party has owned, holds nowhere now and has not handed in
+# (the named global MM9.HandedIn.<raw>, set by mm9_common.lua MM9.takeItem through evt.SetGlobalVar).
+format_version: 1
+keepers: [132]
+items:
+  - {raw: 184, item_id: 10184}
+  - {raw: 189, item_id: 10189}
+  - {raw: 197, item_id: 10197}
+  - {raw: 216, item_id: 10216}
+  - {raw: 240, item_id: 10240}
+  - {raw: 241, item_id: 10241}
+  - {raw: 242, item_id: 10242}
+  - {raw: 243, item_id: 10243}
+  - {raw: 244, item_id: 10244}
+  - {raw: 245, item_id: 10245}
+  - {raw: 247, item_id: 10247}
+  - {raw: 248, item_id: 10248}
+  - {raw: 249, item_id: 10249}
+  - {raw: 250, item_id: 10250}
+  - {raw: 251, item_id: 10251}
+  - {raw: 252, item_id: 10252}
+  - {raw: 358, item_id: 10358}
+  - {raw: 359, item_id: 10359}
+  - {raw: 360, item_id: 10360}
+  - {raw: 361, item_id: 10361}
+  - {raw: 362, item_id: 10362}
+  - {raw: 363, item_id: 10363}
+  - {raw: 364, item_id: 10364}
+  - {raw: 365, item_id: 10365}
+  - {raw: 366, item_id: 10366}
+  - {raw: 367, item_id: 10367}
+  - {raw: 368, item_id: 10368}
+  - {raw: 369, item_id: 10369}
+  - {raw: 370, item_id: 10370}
+  - {raw: 371, item_id: 10371}
+  - {raw: 372, item_id: 10372}
+  - {raw: 375, item_id: 10375}
+  - {raw: 378, item_id: 10378}
+  - {raw: 380, item_id: 10380}
+  - {raw: 390, item_id: 10390}
+  - {raw: 391, item_id: 10391}
+  - {raw: 394, item_id: 10394}
+  - {raw: 395, item_id: 10395}
+  - {raw: 396, item_id: 10396}
+  - {raw: 398, item_id: 10398}
+  - {raw: 399, item_id: 10399}
+  - {raw: 400, item_id: 10400}
+  - {raw: 401, item_id: 10401}
+  - {raw: 430, item_id: 10430}
+  - {raw: 446, item_id: 10446}
+  - {raw: 557, item_id: 10557}
+  - {raw: 558, item_id: 10558}
+  - {raw: 559, item_id: 10559}
+  - {raw: 561, item_id: 10561}
+  - {raw: 563, item_id: 10563}
+  - {raw: 564, item_id: 10564}
+  - {raw: 565, item_id: 10565}
+  - {raw: 566, item_id: 10566}
+  - {raw: 567, item_id: 10567}
+  - {raw: 568, item_id: 10568}
+  - {raw: 576, item_id: 10576}
+  - {raw: 579, item_id: 10579}
+  - {raw: 591, item_id: 10591}
+  - {raw: 594, item_id: 10594}
+  - {raw: 596, item_id: 10596}
+  - {raw: 599, item_id: 10599}
+  - {raw: 600, item_id: 10600}

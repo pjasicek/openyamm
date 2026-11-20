@@ -1,0 +1,176 @@
+format: 0
+events:
+  - id: evt:key_a
+    preset: script
+    replaces: evt:e19
+    title: A
+    lua: "evt.CastSpell(6, 3, 1, 2496, 4864, 360, 0, 0, 0)"
+    notes: "Key A is the trap: a Fireball at the vault door."
+  - id: evt:key_b
+    preset: switch
+    replaces: evt:e20
+    title: B
+    condition: {not: {map_var: 2}}
+    texture: {cog: -2011, name: t1swdu}
+    opens: [door:d57, door:d58]
+    closes: [door:d55, door:d56]
+    sets: {map_var: 2}
+  - id: evt:key_c
+    preset: switch
+    replaces: evt:e21
+    title: C
+    condition: {not: {map_var: 3}}
+    texture: {cog: -2012, name: t1swdu}
+    opens: [door:d55, door:d56]
+    closes: [door:d57, door:d58]
+    sets: {map_var: 3}
+  - id: evt:key_d
+    preset: switch
+    replaces: evt:e22
+    title: D
+    condition: {not: {map_var: 4}}
+    texture: {cog: -2013, name: t1swdu}
+    opens: [door:d57, door:d58]
+    closes: [door:d40, door:d52, door:d51]
+    sets: {map_var: 4}
+  - id: evt:key_e
+    preset: switch
+    replaces: evt:e23
+    title: E
+    condition: {not: {map_var: 5}}
+    texture: {cog: -2009, name: t1swdu}
+    opens: [door:d40, door:d52, door:d51]
+    closes: [door:d57, door:d58]
+    sets: {map_var: 5}
+  - id: evt:key_f
+    preset: switch
+    replaces: evt:e24
+    title: F
+    condition: {not: {map_var: 6}}
+    texture: {cog: -2008, name: t1swdu}
+    opens: [door:d55, door:d56]
+    closes: [door:d36, door:d47, door:d48]
+    sets: {map_var: 6}
+  - id: evt:key_g
+    preset: switch
+    replaces: evt:e25
+    title: G
+    condition: {not: {map_var: 7}}
+    texture: {cog: -2007, name: t1swdu}
+    closes: [door:d59, door:d60]
+    sets: {map_var: 7}
+  - id: evt:key_h
+    preset: switch
+    replaces: evt:e26
+    title: H
+    condition: {not: {map_var: 8}}
+    texture: {cog: -2006, name: t1swdu}
+    opens: [door:d36, door:d47, door:d48]
+    closes: [door:d38, door:d44]
+    sets: {map_var: 8}
+  - id: evt:key_i
+    preset: switch
+    replaces: evt:e27
+    title: I
+    condition: {not: {map_var: 9}}
+    texture: {cog: -2002, name: t1swdu}
+    opens: [door:d38, door:d44]
+    closes: [door:d36, door:d47, door:d48]
+    sets: {map_var: 9}
+  - id: evt:key_j
+    preset: switch
+    replaces: evt:e28
+    title: J
+    condition: {not: {map_var: 10}}
+    texture: {cog: -2003, name: t1swdu}
+    opens: [door:d40, door:d52, door:d51]
+    closes: [door:d36, door:d47, door:d48]
+    sets: {map_var: 10}
+  - id: evt:key_k
+    preset: switch
+    replaces: evt:e29
+    title: K
+    condition: {not: {map_var: 11}}
+    texture: {cog: -2004, name: t1swdu}
+    opens: [door:d57, door:d58]
+    closes: [door:d59, door:d60]
+    sets: {map_var: 11}
+  - id: evt:key_l
+    preset: switch
+    replaces: evt:e30
+    title: L
+    condition: {not: {map_var: 12}}
+    texture: {cog: -2005, name: t1swdu}
+    opens: [door:d55, door:d56]
+    closes: [door:d38, door:d44]
+    sets: {map_var: 12}
+  - id: evt:key_m
+    preset: teleport
+    replaces: evt:e31
+    title: M
+    to: [9000, 1916, -767]
+    direction: 22.5
+  - id: evt:key_n
+    preset: switch
+    replaces: evt:e32
+    title: N
+    condition: {not: {map_var: 13}}
+    texture: {cog: -2000, name: t1swdu}
+    opens: [door:d36, door:d47, door:d48]
+    closes: [door:d40, door:d51, door:d52]
+    sets: {map_var: 13}
+  - id: evt:key_o
+    preset: switch
+    replaces: evt:e33
+    title: O
+    condition: {not: {map_var: 14}}
+    texture: {cog: -1999, name: t1swdu}
+    opens: [door:d59, door:d60]
+    closes: [door:d57, door:d58]
+    sets: {map_var: 14}
+  - id: evt:key_p
+    preset: script
+    replaces: evt:e34
+    title: P
+    lua: |-
+      SetValue(MapVar(2), 0)
+      SetValue(MapVar(3), 0)
+      SetValue(MapVar(4), 0)
+      SetValue(MapVar(5), 0)
+      SetValue(MapVar(6), 0)
+      SetValue(MapVar(7), 0)
+      SetValue(MapVar(8), 0)
+      SetValue(MapVar(9), 0)
+      SetValue(MapVar(10), 0)
+      SetValue(MapVar(11), 0)
+      SetValue(MapVar(12), 0)
+      SetValue(MapVar(13), 0)
+      SetValue(MapVar(14), 0)
+      evt.SetTexture(-2011, "t1swdd")
+      evt.SetTexture(-2012, "t1swdd")
+      evt.SetTexture(-2013, "t1swdd")
+      evt.SetTexture(-2009, "t1swdd")
+      evt.SetTexture(-2008, "t1swdd")
+      evt.SetTexture(-2007, "t1swdd")
+      evt.SetTexture(-2006, "t1swdd")
+      evt.SetTexture(-2002, "t1swdd")
+      evt.SetTexture(-2003, "t1swdd")
+      evt.SetTexture(-2004, "t1swdd")
+      evt.SetTexture(-2005, "t1swdd")
+      evt.SetTexture(-2000, "t1swdd")
+      evt.SetTexture(-1999, "t1swdd")
+      evt.SetDoorState(40, DoorAction.Open)
+      evt.SetDoorState(51, DoorAction.Open)
+      evt.SetDoorState(52, DoorAction.Open)
+      evt.SetDoorState(36, DoorAction.Open)
+      evt.SetDoorState(47, DoorAction.Open)
+      evt.SetDoorState(48, DoorAction.Open)
+      evt.SetDoorState(38, DoorAction.Open)
+      evt.SetDoorState(44, DoorAction.Open)
+      evt.SetDoorState(55, DoorAction.Open)
+      evt.SetDoorState(56, DoorAction.Open)
+      evt.SetDoorState(57, DoorAction.Open)
+      evt.SetDoorState(58, DoorAction.Open)
+      evt.SetDoorState(59, DoorAction.Open)
+      evt.SetDoorState(60, DoorAction.Open)
+    notes: "The reset key: every key works again and every vault door returns."

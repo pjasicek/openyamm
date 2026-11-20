@@ -1,0 +1,20 @@
+id: mm7.barrow_downs_teleporting_chest
+title: "MM7 - The Barrow Downs chest that teleports its opener stays open after the teleport"
+world: mm7
+mode: faithful
+tags: [mm7, chests, events, regression]
+steps:
+  - note:
+      text: >-
+        Bug report 2026-11-06: out11 event 208 runs OpenChest(8) then a same-map MoveToMap. The same-map teleport
+        closed every transient UI, so the chest shut before anything could be taken. As in the original, the party
+        is now moved behind the open loot screen.
+  - new_game_flow:
+      start_map: 7out01.odm
+  - load_map: {map: out11.odm}
+  - advance_runtime: {seconds: 1}
+  - execute_event: {id: 208}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      chest_view: {open: true, chest_id: 8}
+      party_position: {x: 3072, y: -416, radius: 64}

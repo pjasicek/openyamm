@@ -1,0 +1,36 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b
+# Preferred image base 0x400000. Static research labels, not original symbols.
+# Apply after analysis. See WEATHER.md for confidence and activation limitations.
+afn mm8rel_rain_dispatch @ 0x4c2d34
+afn mm8rel_rain_initialize_list @ 0x4c2d8b
+afn mm8rel_rain_add_batch @ 0x4c2dcd
+afn mm8rel_rain_update @ 0x4c2e1c
+afn mm8rel_rain_allocate_drop @ 0x4c2f07
+afn mm8rel_rain_unlink_free_drop @ 0x4c2f94
+afn mm8rel_rain_recycle_drop @ 0x4c2fd4
+afn mm8rel_rain_project @ 0x4c2fe5
+afn mm8rel_rain_draw @ 0x4c307d
+afn mm8rel_rain_seed_drop @ 0x4c3460
+f+ mm8rel_rain_clear_list @ 0x4c351a
+f+ mm8rel_rain_object @ 0x6f2568
+f+ mm8rel_rain_enabled_byte @ 0x6f2ea4
+CC "Outdoor frame calls rain dispatcher with object 0x6f2568" @ 0x47b492
+CC "EVT opcode 0x0a SetSnow forwards two bytes to empty RET at 0x450f22" @ 0x445e97
+CC "Shared empty function, including SetSnow call at 0x445e9f" @ 0x450f22
+CC "Rain enable initialized false, no enabling writer established" @ 0x461d3d
+CC "Rain count cap 499, each heap node 0xb0 bytes" @ 0x4c2f15
+CC "Refill requests rand modulo 20 plus 1 per call, insertion enforces cap" @ 0x4c2dde
+CC "Rain reset checks X separation only against 1000" @ 0x4c2e42
+CC "relativeZ += timerDelta at 0x51d274 times velocityZ" @ 0x4c2ec0
+CC "Timer producer uses 128 ticks per second, max delta 32" @ 0x425008
+CC "Rebuild world XYZ from current party XYZ plus stored relative XYZ" @ 0x4c3001
+CC "Second endpoint adds random 30 through 59 in camera-space vertical" @ 0x4c3037
+CC "World-to-view helper, then shared projection for both endpoints" @ 0x4c3026
+CC "Seed velocityZ -6.5 per timer tick, nominal -832 units per second" @ 0x4c34bc
+CC "Cache terrain/building floor from combined outdoor query at seed time" @ 0x4c34f2
+CC "D3D alpha enable, SRCALPHA plus ONE, texture null, inherited depth states" @ 0x4c30a6
+CC "Reject near depth below 8 and endpoints outside viewport" @ 0x4c3166
+CC "Ground equality branch draws two-pixel vertical mark" @ 0x4c32ca
+CC "One two-vertex D3D line-list draw for this falling drop" @ 0x4c3385
+CC "Software first endpoint depth gate, then depth-tested line rasterizer" @ 0x4c339a
+CC "Software line pixel depth test and depth write" @ 0x4a06c6

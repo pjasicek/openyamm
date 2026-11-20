@@ -1,0 +1,229 @@
+format: 0
+variables: [bridge_out, catch_thrown, purse_taken]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "Rivercity's robber gang has its den somewhere under the great bridge. Princess Roxanne of Castle Burlock wants them stopped: her diamond tiara was stolen from her room, and she believes the robbers took it. They are led by a devious and cunning boss, who keeps the gang's takings locked away in the den. Bring the tiara back to her."
+    notes: "Say why the party is here (Q-C3; Roxanne's words from aaze0066 #0, shortened)."
+  - id: evt:boss_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:robber_boss}}
+    once: true
+    effects:
+      - qbit: robber_boss_slain
+    text: The Robber Boss falls. A ring of heavy keys hangs at his belt.
+    notes: "set:robber_boss: his death is plain; he carries the vault's keys."
+  - id: evt:boss_door
+    preset: door
+    source: door:boss
+    title: Door
+    action: open
+  - id: evt:bunk_1
+    preset: text
+    source: platform:bunk_1
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+    notes: "Original line, Rivercity (aaze0030 #24)."
+  - id: evt:bunk_2
+    preset: text
+    source: platform:bunk_2
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+    notes: "Original line, Rivercity (aaze0030 #24)."
+  - id: evt:bunk_3
+    preset: text
+    source: platform:bunk_3
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+    notes: "Original line, Rivercity (aaze0030 #24)."
+  - id: evt:bunk_4
+    preset: text
+    source: platform:bunk_4
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+    notes: "Original line, Rivercity (aaze0030 #24)."
+  - id: evt:bunks_door
+    preset: door
+    source: door:bunks
+    title: Door
+    action: open
+  - id: evt:catch
+    preset: switch
+    source: switch:catch
+    title: Catch
+    condition: {not: {map_var: catch_thrown}}
+    sets: {map_var: catch_thrown}
+    else_effects:
+      - text: "The catch is thrown: the passage's darts are locked."
+    text: You throw the catch. Deep in the wall of the passage something ratchets and locks.
+    notes: "set:strongroom_traps: throws once and stays."
+  - id: evt:chest_boss
+    preset: chest
+    source: chest:boss
+    title: Chest
+  - id: evt:chest_fence
+    preset: chest
+    source: chest:fence
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+    sets: {qbit: tiara_recovered}
+    notes: "goal:tiara: Princess Roxanne's tiara is in the strongbox (Q-C3)."
+  - id: evt:darts
+    preset: script
+    source: plate:dart_1
+    trigger: step
+    sources: [plate:dart_2, plate:dart_3]
+    condition: {not: {map_var: catch_thrown}}
+    effects:
+      - damage:
+          amount: 10
+          kind: physical
+          who: all
+    text: "Click. Darts hiss out of the walls!"
+    notes: "set:strongroom_traps: every slab fires until the catch is thrown."
+  - id: evt:den_door
+    preset: door
+    source: door:den
+    title: Door
+    action: open
+  - id: evt:dicing_seen
+    preset: text
+    source: room:dicing_room
+    trigger: step
+    once: true
+    text: "Scratched over the dicing table: NOW THIS IS A WILD TOWN."
+    notes: "Original line, Rivercity's tavern (aaze0030 #23)."
+  - id: evt:dues_box
+    preset: text
+    source: panel:dues_box
+    title: Dues box
+    text: "The gang's dues box. Empty. Scratched beside the slot: WHAT DID YOU EXPECT, MONEY?"
+    notes: "Original line, Rivercity (aaze0030 #33)."
+  - id: evt:exit_quay
+    preset: exit
+    source: exit:quay
+    title: Quay door
+  - id: evt:fence_door
+    preset: door
+    source: door:fence
+    title: Fence's door
+    condition: {any: [{item: ring_of_keys}, {stat: {name: DisarmTrapSkill, at_least: 3}}]}
+    locked_text: "Locked: a good lock from Rivercity Smithing. A thief who can disarm traps (skill 3) could pick it; the boss's keys would open it."
+    action: open
+    text: The lock gives with a click.
+    notes: "link:sluice_fence: the boss's ring of keys or a thief's skill (Disarm Traps 3, the MM7 skill standing in for Xeen's Thievery)."
+  - id: evt:footprints
+    preset: text
+    source: plate:footprints
+    trigger: step
+    once: true
+    text: "Wet footprints lead from the drain to the north wall and stop dead at the stones. One block is cleaner than the rest, worn smooth by hands."
+    seconds: 6
+    notes: The clue to the hidden way in.
+  - id: evt:ledger
+    preset: text
+    source: platform:desk
+    title: Boss's ledger
+    text: "The Robber Boss's ledger. Takings by the week; a royal tiara, 'not to be fenced'; and at the foot, underlined twice: STRONGROOM - throw the catch by the hearth BEFORE you walk the passage. Darts for anyone who forgets. That means you, Weasel."
+    window: true
+    notes: The clue to the strongroom passage's traps.
+  - id: evt:loose_stone
+    preset: script
+    source: panel:loose_stone
+    title: Loose brick
+    condition: {not: {map_var: purse_taken}}
+    effects:
+      - set:
+          var:
+            map_var: purse_taken
+          value: 1
+      - add:
+          var: Gold
+          value: 150
+    else_effects:
+      - text: An empty hole behind a loose brick.
+    text: "Behind the loose brick: a robber's purse. 150 gold."
+  - id: evt:secret_door
+    preset: door
+    source: door:secret
+    title: Worn block
+    action: open
+    sets: {qbit: robbers_den_found}
+    text: "You push the worn block: it slides aside on greased runners. A brick passage runs north into the dark."
+    notes: "link:cellar_crawl: the hidden way in."
+  - id: evt:sluice_door
+    preset: door
+    source: door:sluice
+    title: Door
+    action: open
+  - id: evt:sluice_seen
+    preset: text
+    source: room:sluice
+    trigger: step
+    once: true
+    text: The river roars in through the grate. The old sluice wall makes a catwalk across the race.
+  - id: evt:stair_voices
+    preset: text
+    source: room:boss_stair
+    trigger: step
+    once: true
+    text: "Voices above: \"...a royal tiara won't fence in Rivercity, boss. Too hot.\" \"Then it stays in the strongroom till it cools.\""
+    seconds: 7
+  - id: evt:tiara_found
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {item: roxannes_tiara}
+    once: true
+    effects:
+      - message: "Princess Roxanne's diamond tiara, safe in its velvet bag. Take it back to her at Castle Burlock."
+    notes: "goal:tiara: says plainly that the goal is in hand and where it goes."
+  - id: evt:tripwire
+    preset: script
+    source: plate:tripwire
+    trigger: step
+    once: true
+    effects:
+      - damage:
+          amount: 12
+          kind: physical
+          who: current
+    text: "A tripwire! A crossbow bolt whips out of the wall."
+    notes: "set:tripwire: once."
+  - id: evt:undercroft_seen
+    preset: text
+    source: room:undercroft
+    trigger: step
+    once: true
+    text: "You stand inside the great bridge. Carts rumble overhead; the race runs dark and fast beneath. The robbers' plank bridge is drawn back to the far bank."
+    seconds: 6
+  - id: evt:vault_door
+    preset: door
+    source: door:vault
+    title: Iron door
+    condition: {item: ring_of_keys}
+    locked_text: An iron door with three locks. The Robber Boss carries the keys on a ring at his belt.
+    action: open
+    sets: {qbit: robbers_vault_opened}
+    text: "The three keys turn one after another, and the iron door grinds up."
+    notes: "link:strongroom_vault: the boss's ring of keys."
+  - id: evt:winch
+    preset: switch
+    source: switch:winch
+    title: Bridge winch
+    condition: {not: {map_var: bridge_out}}
+    opens: [mover:drawbridge]
+    sets: {map_var: bridge_out}
+    else_effects:
+      - text: The bridge is out across the race.
+    text: "The winch clanks round: the plank bridge rolls out across the race to the west bank."
+    notes: "set:drawbridge: once out it stays out; the short way back west."

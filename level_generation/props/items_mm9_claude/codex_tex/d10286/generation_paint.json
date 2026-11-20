@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (input 1), using design_reference.png (input 2) for detail/material and icon_x8.png (input 3) for color only. Produce ONE transparent PNG 1536x2048 or nearest 3:4 canvas. Preserve EXACT guide layout, object positions, sizes, outlines and transparent gaps. Three columns by FOUR rows of square cells. Each two-row half contains five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Do not redraw, enlarge, move or redesign geometry. The object is the aged Bow Skill book in references: parchment tan cover with faded dark central winding emblem and surrounding marks, warm ochre brown leather spine and bound edges, dense aged golden paper page edges. No readable text. Top cover broad face follows reference emblem; edge-on views show pages or leather spine as appropriate to geometry. Rows 1-2: paint grey objects only with detailed unlit base color from references, no lighting, shadows, ambient occlusion, hot highlights or reflections. Rows 3-4: identical five guide silhouettes filled with FLAT PURE material colors only: leather/fur #00FF00 green; cloth/hair #0000FF blue; metal #FF0000 red; matte nonmetal including parchment/paper/wood #FFFF00 yellow. Thus parchment cover and paper page blocks pure yellow, leather spine and leather binding edges pure green. No shading, texture, outlines, gradients or antialiased color blends inside material masks. Every silhouette pixel receives exactly one material color. Nothing outside silhouettes. Empty column 3 rows 2 and 4 remains fully transparent. Preserve guide canvas and exact geometry above everything. No ground, glow, aura, sparkles or added objects.\nCORRECTION, critical: use the ORIGINAL grey guide silhouettes as hard clipping boundaries. Previous attempt had colored speckles and large green/red spill outside objects; absolutely no spill allowed. Entire background fully transparent with clean exact guide edges. Material half must be literal uniform #00FF00 and #FFFF00 regions, with NO dark seam lines, NO gradients, NO shading. Retain the original guide narrow spine width and cover shape. Match original guide position precisely. Output clean usable technical texture atlas.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (input 1), using design_reference.png (input 2) for detail/material and icon_x8.png (input 3) for color only. Produce ONE transparent PNG 1536x2048 or nearest 3:4 canvas. Preserve EXACT guide layout, object positions, sizes, outlines and transparent gaps. Three columns by FOUR rows of square cells. Each two-row half contains five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Do not redraw, enlarge, move or redesign geometry. The object is the aged Bow Skill book in references: parchment tan cover with faded dark central winding emblem and surrounding marks, warm ochre brown leather spine and bound edges, dense aged golden paper page edges. No readable text. Top cover broad face follows reference emblem; edge-on views show pages or leather spine as appropriate to geometry. Rows 1-2: paint grey objects only with detailed unlit base color from references, no lighting, shadows, ambient occlusion, hot highlights or reflections. Rows 3-4: identical five guide silhouettes filled with FLAT PURE material colors only: leather/fur #00FF00 green; cloth/hair #0000FF blue; metal #FF0000 red; matte nonmetal including parchment/paper/wood #FFFF00 yellow. Thus parchment cover and paper page blocks pure yellow, leather spine and leather binding edges pure green. No shading, texture, outlines, gradients or antialiased color blends inside material masks. Every silhouette pixel receives exactly one material color. Nothing outside silhouettes. Empty column 3 rows 2 and 4 remains fully transparent. Preserve guide canvas and exact geometry above everything. No ground, glow, aura, sparkles or added objects.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0f-4522-7c81-8210-32d7aa8e3d86/exec-c5b072c8-440c-47d1-ac68-81154115f746.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10286/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: colored spill remains outside silhouettes and material masks are not uniformly flat. Saved raw output unchanged per brief.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10286/paint_mask_guide.png",
+      "sha256": "1ddcfa20dee68e42ce41d68183e19001340d90c4cbde5d6bad4910f31f2f1c94"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10286/design_reference.png",
+      "sha256": "088aa7adc637cc573d502e41f847a27a4c5abf29213392e74abb6c00f44dbdcc"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10286/icon_x8.png",
+      "sha256": "adadbc8bfb020d916cd5a8022a952c88e856a457d0a08bf7abb7dd53de2be966"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

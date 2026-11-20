@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <array>
+#include <functional>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -34,6 +35,14 @@ enum class DialogueScenePolicy : uint8_t
     LiveGameplay,
 };
 
+// How a shop's Buy Standard and Buy Special show their stock: the MM6-MM8 shelf picture, or MM9's scrolling ledger
+// (a vendors buy_view cell).
+enum class ShopBuyView : uint8_t
+{
+    Shelf = 0,
+    Ledger,
+};
+
 struct HouseEntry
 {
     struct DeterministicStockItem
@@ -44,12 +53,22 @@ struct HouseEntry
         uint16_t standardEnchantId = 0;
         uint16_t standardEnchantPower = 0;
         uint16_t specialEnchantId = 0;
+        // Offered once the party has done this many of the world's major objectives (vendor_stock min_objectives).
+        uint16_t minObjectives = 0;
     };
 
     struct DeterministicStockPage
     {
         uint32_t pageIndex = 0;
         std::vector<DeterministicStockItem> items;
+    };
+
+    // A stack a solo run's shop always has (data_tables/solo_shop_stock.yml).
+    struct SoloStockItem
+    {
+        uint32_t itemId = 0;
+        uint32_t minQuantity = 1;
+        uint32_t maxQuantity = 1;
     };
 
     struct StockRule
@@ -128,10 +147,18 @@ struct HouseEntry
     int specialStockTier = 0;
     int stockRefreshDays = 0;
     int trainingMaxLevel = 0;
+    // The most a vendor pays for an item, a per cent of its value (vendors resale_cap_percent); 100: uncapped.
+    int resaleCapPercent = 100;
     int openHour = 0;
     int closeHour = 0;
     std::string enterText;
     std::vector<std::string> offeredSkills;
+    // The skill cell said `none`: it teaches nothing, rather than its type's skills.
+    bool teachesNothing = false;
+    // A price switched by an objective (house_data cell 25, "qbit:multiplier"): once the party has the QBit, the
+    // house's price multiplier is priceAfterQBit (HouseTable::get answers with the switched entry). 0: none.
+    uint32_t priceQBit = 0;
+    float priceAfterQBit = 0.0f;
     std::vector<uint32_t> residentNpcIds;
     uint32_t restHostNpcId = 0;
     std::vector<TransportRoute> transportRoutes;
@@ -148,6 +175,7 @@ struct HouseEntry
     uint32_t sourceServiceId = 0;
     VendorStockProfile vendorStockProfile = VendorStockProfile::None;
     DialogueScenePolicy dialogueScenePolicy = DialogueScenePolicy::HouseVideo;
+    ShopBuyView shopBuyView = ShopBuyView::Shelf;
     bool vendorCanSell = true;
     bool vendorCanIdentify = true;
     bool vendorCanRepair = true;
@@ -157,6 +185,8 @@ struct HouseEntry
     uint32_t deterministicStockGenerationVersion = 0;
     std::vector<DeterministicStockPage> deterministicStandardStockPages;
     std::vector<DeterministicStockPage> deterministicSpecialStockPages;
+    // In a solo run each fresh standard stock gives its last slots to these, in order from the last.
+    std::vector<SoloStockItem> soloStock;
 };
 
 class HouseTable
@@ -175,21 +205,32 @@ public:
     bool appendServiceVenueRows(
         const std::vector<std::vector<std::string>> &venueRows,
         const std::vector<std::vector<std::string>> &aliasRows,
-        std::string &errorMessage);
+        std::string &errorMessage,
+        const MapStats *pMapStats = nullptr);
     bool validateVendorStock(
         const ItemTable &itemTable,
         const StandardItemEnchantTable &standardItemEnchantTable,
         const SpecialItemEnchantTable &specialItemEnchantTable,
         std::string &errorMessage) const;
+    // A ruleset that no longer rolls a special enchantment on a slot (MAW's Undead Slaying weapons) takes it off the
+    // fixed stock of that slot: the item is sold plain. Returns how many stock items lost their enchantment.
+    size_t removeSpecialEnchantsTheRulesetDoesNotRoll(
+        const ItemTable &itemTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable);
     bool applyHouseRules(
         const MergedHouseRuleTable &houseRules,
         const MergedTransportLocationTable &transportLocations,
         const MapStats &mapStats
     );
     bool applyHouseExits(const MergedHouseExitTable &houseExits, const MapStats &mapStats);
+    // A solo run's extra shop stock (data_tables/solo_shop_stock.yml) onto its houses.
+    bool loadSoloStockYaml(const std::string &text, std::string &errorMessage);
     void applyMapWorlds(const MapStats &mapStats);
     std::optional<std::string> getName(uint32_t houseId) const;
     const HouseEntry *get(uint32_t houseId) const;
+    // Answers whether the party has a QBit, for the houses whose price an objective switches (HouseEntry::priceQBit).
+    // The session sets it; without one every house keeps its own price.
+    void setQuestBitQuery(std::function<bool(uint32_t)> query) const;
     const HouseEntry *resolvePackageSourceVendorId(
         const std::string &packageId,
         uint32_t sourceVendorId) const;
@@ -199,6 +240,8 @@ public:
     const std::unordered_map<uint32_t, HouseEntry> &entries() const;
 
 private:
+    mutable std::function<bool(uint32_t)> m_questBitQuery;
+    mutable std::unordered_map<uint32_t, HouseEntry> m_priceSwitchedEntries;
     bool loadAnimationRows(
         const std::vector<std::vector<std::string>> &rows,
         const std::unordered_map<uint32_t, std::string> &movieStemsByAnimationId);

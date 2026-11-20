@@ -1,0 +1,95 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "Noncompliant best return preserved; one allowed corrective regeneration exhausted. No resizing or post-processing.",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Create paint_back.png, a 1024 x 1024 transparent PNG albedo texture-source painting. Image 1 (guide_back.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the approved colour/material reference. Paint materials onto image 1 without altering its alpha silhouette, framing, geometry or edge locations. Preserve the guide's exact orthographic back view: unchanged small object occupying bounding box x=262..761, y=290..733 in a full 1024 square, with broad empty transparent margins. Do not enlarge, recenter, crop, rotate, change perspective, smooth the polygonal shape or add protrusions. Match every outline corner, existing edge, opening and detail in the guide. The dominant concentric exhaust bowl is dark steel, with a gold turbine ring following the existing circular rim and the existing small central nozzle opening retained exactly. The ragged exterior pieces are chipped white ceramic plates with broad gold band remnants, black soot and scorch and black cables where the existing geometry permits. Transfer the reference's worn white ceramic, warm gold metal, dark steel and black soot material colours, never its three-quarter composition or lighting. LIGHTING: flat even shadowless viewer-facing illumination, texture albedo only. No cast shadow, ambient occlusion, strong highlights, reflections, rim light, floor or background. Dark steel must be dark because of its material pigment, not shaded lighting. No new openings or turbine blades, no invented geometry, no text. Preserve the guide silhouette EXACTLY and retain genuine transparency outside it. Return the native image at exactly 1024 x 1024, not a resized return.",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, altered silhouette, and introduced a transparent center opening; directional highlights remain.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "e39b01584f1f610f15faf519a2ef4cad2a574ba5a65a2ffa569d46018bbc1022"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output_sha256": "67eeff4f56a9e6c80ad39b8b0559a7a58aa83ddc61f241f8b12e937eb59b4a47",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          28,
+          1208,
+          1236
+        ],
+        "transparent_background": true,
+        "exact_silhouette": false,
+        "material_palette": "Matches white ceramic, warm gold, dark steel and soot",
+        "flat_even_light": "Not fully satisfied; visible shading and highlights remain"
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "CORRECTIVE GENERATION, final attempt. Use case: precise-object-edit. Edit the attached guide_back.png IN PLACE, keeping its 1024 by 1024 pixel canvas and its exact original alpha mask. Return a native 1024x1024 PNG with genuine transparent background. Do not rescale the canvas or the object. Material painting only, for albedo texture projection. The first image is the exact geometry template; the second image design_reference.png supplies only material colours. Strict silhouette bounds are x=262 through 761, y=290 through 733 on the 1024 square. Keep the original broad empty margins. Trace EVERY existing polygon corner and edge exactly; keep the central polygonal region fully OPAQUE as in the guide, paint it dark steel, do NOT punch a transparent hole through it. Preserve all existing geometry divisions, outer fragments, circular rim and center detail at their exact guide coordinates. No new gaps, no added protrusions, no additional geometry. Paint the broad inner nozzle surface uniformly dark charcoal steel with subtle worn steel albedo details; a warm worn gold turbine ring follows the existing rim; surrounding outer ceramic fragments are chipped off-white with broad gold band remnants, soot/scorch and black cable materials restricted to existing shapes. Match the design reference's material palette. LIGHTING MUST BE FLAT: uniformly illuminated from viewer, shadowless albedo, no lower-face bright reflection, no lighting gradient, no specular highlights, no occlusion, no cast shadows, no rim lighting. No floor/background, no text. This is a registered texture source, NOT a presentation render. The exact unaltered guide silhouette, original pixel positions, alpha coverage and native 1024 x 1024 output are mandatory.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best of the two allowed returns: restores opaque center and matches the material palette. Selected for preservation only, not compliant: native dimensions and silhouette differ from the guide; lighting still has shading/highlights. Saved unchanged and unresized.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "e39b01584f1f610f15faf519a2ef4cad2a574ba5a65a2ffa569d46018bbc1022"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output_sha256": "05102aa9796cefde4ec6d3a2ae54d89cb38cf942217ef94d7b839456111173e3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          30,
+          1224,
+          1198
+        ],
+        "transparent_background": true,
+        "exact_silhouette": false,
+        "material_palette": "Matches white ceramic, warm gold, dark steel and soot",
+        "flat_even_light": "Not fully satisfied; visible shading and highlights remain"
+      }
+    }
+  ]
+}

@@ -74,6 +74,9 @@ SetMapMetadata({
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "d15.blv", targetName = "Chain of Fire" },
     [506] = { kind = "enter_dungeon", source = "opcode", targetMap = "d48.blv", targetName = "Ilsingore's Cave" },
     },
+    learnedEffect = {
+    [101] = { autonote = 215, effect = "Endurance +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},
@@ -380,13 +383,13 @@ RegisterEvent(495, "Rock", function()
     if not IsAtLeast(DisarmTrapSkill, 5) then return end
     local randomStep = PickRandomOption(495, 4, {5, 7, 9, 11})
     if randomStep == 5 then
-        evt.SummonItem(2138, 1728, -3776, 1008, 1000, 1, true) -- Diary Page
+        evt.SummonRandomItem(2, 138, 1728, -3776, 1008, 1000, 1, true) -- random item of the Gold Ring's kind
     elseif randomStep == 7 then
-        evt.SummonItem(2139, 1728, -3776, 1008, 1000, 1, true) -- Page from Agar's Journal
+        evt.SummonRandomItem(2, 139, 1728, -3776, 1008, 1000, 1, true) -- random item of the Pearl Ring's kind
     elseif randomStep == 9 then
-        evt.SummonItem(2140, 1728, -3776, 1008, 1000, 1, true) -- Remains of a Journal
+        evt.SummonRandomItem(2, 140, 1728, -3776, 1008, 1000, 1, true) -- random item of the Gemstone Ring's kind
     elseif randomStep == 11 then
-        evt.SummonItem(2141, 1728, -3776, 1008, 1000, 1, true) -- Letter from the Dragon Riders
+        evt.SummonRandomItem(2, 141, 1728, -3776, 1008, 1000, 1, true) -- random item of the Amethyst Ring's kind
     end
     SetQBit(QBit(277)) -- Reagant spout area 4
 end, "Rock")

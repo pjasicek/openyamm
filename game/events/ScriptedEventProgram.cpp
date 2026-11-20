@@ -1,5 +1,6 @@
 #include "game/events/ScriptedEventProgram.h"
 
+#include "engine/Localization.h"
 #include "engine/scripting/LuaStateOwner.h"
 
 #include <algorithm>
@@ -46,6 +47,16 @@ void registerMetadataBindings(lua_State *pLuaState)
     lua_setfield(pLuaState, -2, "meta");
 
     lua_setglobal(pLuaState, "evt");
+
+    // Reading the metadata runs a script's top level only; a tr() there gives back its English, which the program's
+    // getters translate when shown.
+    lua_pushcfunction(pLuaState, [](lua_State *pState) -> int
+                      {
+                          luaL_checkstring(pState, 1);
+                          lua_settop(pState, 1);
+                          return 1;
+                      });
+    lua_setglobal(pLuaState, "tr");
 }
 
 bool pushEvtSubtable(lua_State *pLuaState, const char *pFieldName)
@@ -165,6 +176,58 @@ std::vector<TValue> readIntegerArrayFromField(
         sortAndUnique(values);
     }
     return values;
+}
+
+// factionRelations = {{faction, otherFaction, relation}, ...}; malformed rows fail the map's load.
+bool readFactionRelations(
+    lua_State *pLuaState,
+    int tableIndex,
+    std::vector<ScriptedEventProgram::FactionRelation> &relations,
+    std::string &error)
+{
+    relations.clear();
+    lua_getfield(pLuaState, tableIndex, "factionRelations");
+
+    if (lua_istable(pLuaState, -1))
+    {
+        const size_t entryCount = lua_rawlen(pLuaState, -1);
+
+        for (size_t index = 1; index <= entryCount; ++index)
+        {
+            lua_geti(pLuaState, -1, static_cast<lua_Integer>(index));
+            lua_Integer values[3] = {-1, -1, -1};
+
+            if (lua_istable(pLuaState, -1) && lua_rawlen(pLuaState, -1) == 3)
+            {
+                for (int field = 0; field < 3; ++field)
+                {
+                    lua_geti(pLuaState, -1, field + 1);
+
+                    if (lua_isinteger(pLuaState, -1))
+                    {
+                        values[field] = lua_tointeger(pLuaState, -1);
+                    }
+
+                    lua_pop(pLuaState, 1);
+                }
+            }
+
+            lua_pop(pLuaState, 1);
+
+            if (values[0] < 1 || values[1] < 0 || values[2] < 0 || values[2] > 4)
+            {
+                error = "factionRelations entry " + std::to_string(index)
+                    + " must be {faction >= 1, otherFaction >= 0, relation 0-4}";
+                lua_pop(pLuaState, 1);
+                return false;
+            }
+
+            relations.push_back({uint32_t(values[0]), uint32_t(values[1]), int(values[2])});
+        }
+    }
+
+    lua_pop(pLuaState, 1);
+    return true;
 }
 
 std::vector<std::string> readStringArrayFromField(lua_State *pLuaState, int tableIndex, const char *pFieldName)
@@ -604,6 +667,13 @@ bool ScriptedEventProgram::populateMetadataFromLua(
     program.m_textureNames = readStringArrayFromField(pLuaState, -1, "textureNames");
     program.m_spriteNames = readStringArrayFromField(pLuaState, -1, "spriteNames");
     program.m_castSpellIds = readIntegerArrayFromField<uint32_t>(pLuaState, -1, "castSpellIds");
+
+    if (!readFactionRelations(pLuaState, -1, program.m_factionRelations, error))
+    {
+        lua_pop(pLuaState, 3);
+        return false;
+    }
+
     program.m_levitateTrapFaceMask = readOptionalUnsignedField(pLuaState, -1, "levitateTrapFaceMask").value_or(0);
     program.m_levitateTrapEvents = readIntegerArrayFromField<uint16_t>(pLuaState, -1, "levitateTrapEvents", true);
     program.m_timerTriggers = readTimerTriggers(pLuaState, -1, scope);
@@ -716,6 +786,11 @@ const std::vector<uint32_t> &ScriptedEventProgram::castSpellIds() const
     return m_castSpellIds;
 }
 
+const std::vector<ScriptedEventProgram::FactionRelation> &ScriptedEventProgram::factionRelations() const
+{
+    return m_factionRelations;
+}
+
 const std::vector<ScriptedEventProgram::TimerTrigger> &ScriptedEventProgram::timerTriggers() const
 {
     return m_timerTriggers;
@@ -740,19 +815,33 @@ bool ScriptedEventProgram::isHintOnlyEvent(uint16_t eventId) const
 std::optional<std::string> ScriptedEventProgram::getHint(uint16_t eventId) const
 {
     const auto iterator = m_hints.find(eventId);
-    return iterator != m_hints.end() ? std::optional<std::string>(iterator->second) : std::nullopt;
+    return iterator != m_hints.end() ? std::optional<std::string>(localizedText(iterator->second)) : std::nullopt;
 }
 
-const ScriptedEventProgram::LearnedEffect *ScriptedEventProgram::learnedEffect(uint16_t eventId) const
+std::string ScriptedEventProgram::localizedText(const std::string &english) const
+{
+    // A map's script ("@events/maps/oute3.lua") has its own translations first; the global script has none.
+    return Engine::localize(english, m_scope == ScriptedEventScope::Map && m_luaSourceName
+                                         ? Engine::mapTextContext(*m_luaSourceName)
+                                         : std::string());
+}
+
+std::optional<ScriptedEventProgram::LearnedEffect> ScriptedEventProgram::learnedEffect(uint16_t eventId) const
 {
     const auto iterator = m_learnedEffects.find(eventId);
-    return iterator != m_learnedEffects.end() ? &iterator->second : nullptr;
+
+    if (iterator == m_learnedEffects.end())
+    {
+        return std::nullopt;
+    }
+
+    return LearnedEffect{iterator->second.autonoteId, localizedText(iterator->second.effect)};
 }
 
 std::optional<std::string> ScriptedEventProgram::summarizeEvent(uint16_t eventId) const
 {
     const auto iterator = m_summaries.find(eventId);
-    return iterator != m_summaries.end() ? std::optional<std::string>(iterator->second) : std::nullopt;
+    return iterator != m_summaries.end() ? std::optional<std::string>(localizedText(iterator->second)) : std::nullopt;
 }
 
 std::vector<uint32_t> ScriptedEventProgram::getOpenedChestIds(uint16_t eventId) const
@@ -765,9 +854,20 @@ std::optional<ScriptedEventProgram::ContextActionMetadata> ScriptedEventProgram:
     uint16_t eventId) const
 {
     const auto iterator = m_contextActionsByEventId.find(eventId);
-    return iterator != m_contextActionsByEventId.end()
-        ? std::optional<ContextActionMetadata>(iterator->second)
-        : std::nullopt;
+
+    if (iterator == m_contextActionsByEventId.end())
+    {
+        return std::nullopt;
+    }
+
+    ContextActionMetadata metadata = iterator->second;
+
+    if (metadata.targetName)
+    {
+        metadata.targetName = localizedText(*metadata.targetName);
+    }
+
+    return metadata;
 }
 
 std::vector<ScriptedEventTimerDefinition> scriptedEventTimerDefinitionsFromPrograms(

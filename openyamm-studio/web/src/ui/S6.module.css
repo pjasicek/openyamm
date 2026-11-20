@@ -1,0 +1,247 @@
+/* The drawer's Cinematics and Overlay panels (devdocs/map_studio/S6_PLAN.md items C and O). Colours from the tokens. */
+.panel
+{
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--space-2) var(--space-4) var(--space-4);
+    font-size: var(--size-s);
+}
+
+.summary
+{
+    margin: 0 0 var(--space-2);
+    color: var(--text-dim);
+}
+
+.row
+{
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-2);
+}
+
+.pick
+{
+    padding: 2px var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.pickOn
+{
+    composes: pick;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.timeline
+{
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.ruler
+{
+    stroke: var(--line-strong);
+}
+
+.tick
+{
+    fill: var(--text-dim);
+    font: 10px var(--mono);
+}
+
+.shot
+{
+    fill: var(--accent-soft);
+    stroke: var(--accent);
+}
+
+.shotParty
+{
+    fill: var(--surface-3);
+    stroke: var(--line-strong);
+}
+
+.shotLabel
+{
+    fill: var(--text);
+    font: 11px var(--font);
+}
+
+.cue
+{
+    fill: var(--warn);
+}
+
+.cueEvent
+{
+    fill: var(--good);
+}
+
+.cueSpan
+{
+    fill: var(--warn-soft);
+}
+
+.cueLabel
+{
+    fill: var(--text-dim);
+    font: 10px var(--font);
+}
+
+.playhead
+{
+    stroke: var(--bad);
+    stroke-width: 2;
+}
+
+.scrub
+{
+    width: 100%;
+    margin: var(--space-2) 0;
+}
+
+.camera
+{
+    font-family: var(--mono);
+    color: var(--text-dim);
+}
+
+.group
+{
+    margin-bottom: var(--space-3);
+}
+
+.heading
+{
+    margin: var(--space-2) 0 var(--space-1);
+    font-size: var(--size-s);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+}
+
+.thing
+{
+    display: grid;
+    grid-template-columns: 9rem 8rem 1fr;
+    gap: var(--space-2);
+    padding: 1px 0;
+}
+
+.mono
+{
+    font-family: var(--mono);
+}
+
+.dim
+{
+    color: var(--text-dim);
+}
+
+.overlayGrid
+{
+    display: grid;
+    grid-template-columns: minmax(220px, 300px) 1fr;
+    gap: var(--space-4);
+}
+
+.plan
+{
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--canvas);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.added { fill: var(--good); stroke: var(--good); }
+.changed { fill: var(--warn); stroke: var(--warn); }
+.removed { fill: var(--bad); stroke: var(--bad); }
+.kept { fill: var(--plan-thing); stroke: var(--plan-thing); }
+.water { fill: var(--plan-water); fill-opacity: 0.35; }
+
+/* The Overlay tab's tools (S6, the second run). */
+.form
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+}
+
+.field
+{
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.field > span
+{
+    color: var(--text-dim);
+}
+
+.input
+{
+    height: 22px;
+    min-width: 0;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+}
+
+.bad
+{
+    color: var(--bad);
+}
+
+.placing
+{
+    cursor: crosshair;
+}
+
+.pickRing
+{
+    stroke: var(--plan-select);
+}
+
+.thing
+{
+    cursor: pointer;
+}
+
+.thingPicked
+{
+    background: var(--accent-soft);
+}
+
+@media (max-width: 720px)
+{
+    .overlayGrid
+    {
+        grid-template-columns: 1fr;
+    }
+}

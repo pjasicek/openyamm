@@ -15,6 +15,20 @@
 
 namespace OpenYAMM::Game
 {
+// Sweeps a sphere from position along a unit direction by up to currentMoveDistance against an outdoor face (its plane,
+// then its edges and corners). On contact, moveDistance is the distance to it and collisionPoint the contact. A
+// one-sided face only stops a sphere moving against its normal.
+bool collideSphereWithFace(
+    const OutdoorFaceGeometryData &geometry,
+    const bx::Vec3 &position,
+    float radius,
+    const bx::Vec3 &direction,
+    float currentMoveDistance,
+    bool doubleSidedFace,
+    float &moveDistance,
+    bx::Vec3 &collisionPoint
+);
+
 enum class OutdoorSupportKind
 {
     None,
@@ -38,6 +52,13 @@ struct OutdoorMoveState
     bool landedThisFrame = false;
     float fallStartZ = 0.0f;
     float fallDistance = 0.0f;
+
+    // Deep water that drowns the party and stops its jumps: water terrain only. Fluid BModel floors (fountains,
+    // pools before dungeon entrances) are shallow: they splash but never drown, as in the original games.
+    bool supportOnDeepWater() const
+    {
+        return supportOnWater && supportKind == OutdoorSupportKind::Terrain;
+    }
 };
 
 struct OutdoorBodyDimensions
@@ -142,6 +163,15 @@ public:
         float y,
         float footZHint,
         float bodyRadius) const;
+    // The party placed at a point (a map arrival, a teleport): a model floor up to stepUp above the feet, which the
+    // body would otherwise stand inside, holds it, as the stairs under the Castle of Air's door do (OY-392).
+    OutdoorMoveState initializePartyArrivalState(
+        float x,
+        float y,
+        float footZHint,
+        float bodyRadius,
+        float stepUp,
+        bool keepHeight = false) const;
     OutdoorMoveState initializeActorStateForBody(
         float x,
         float y,
@@ -217,6 +247,8 @@ public:
         float maxFloorRise) const;
     bool isInDeepWater(const OutdoorMoveState &state) const;
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
+    // Per map entity: decorations that are hidden now (hiddenDecorationEntities) and so do not collide.
+    void setHiddenDecorationEntities(const std::vector<bool> &hiddenEntities);
     void setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes);
     void updateFaceGeometries(const std::vector<OutdoorFaceGeometryData> &geometries);
 
@@ -233,6 +265,7 @@ private:
     size_t m_faceGridWidth = 0;
     size_t m_faceGridHeight = 0;
     std::vector<OutdoorDecorationCollision> m_decorationColliders;
+    std::vector<bool> m_hiddenDecorationEntities;
     std::vector<OutdoorActorCollision> m_actorColliders;
     std::vector<OutdoorSpriteObjectCollision> m_spriteObjectColliders;
     std::vector<std::vector<size_t>> m_spriteObjectGridCells;
@@ -248,7 +281,8 @@ private:
         float footZHint,
         float bodyRadius,
         bool actorConditionalBModelSupport,
-        bool preserveFootZ) const;
+        bool preserveFootZ,
+        float arrivalStepUp = 0.0f) const;
     void buildFaceCache();
     void buildFaceSpatialIndex();
     void buildDecorationColliderCache(const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet);

@@ -1,0 +1,19 @@
+id: mm6.geometry_pilot.armory_door
+title: Pilot detail geometry keeps the armory door clickable
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: oute3.odm
+- press_interact:
+    pose:
+      map: oute3.odm
+      x: -8640
+      y: -6352
+      z: 161
+      yaw: 0.0
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 90
+      triggered_event: 5

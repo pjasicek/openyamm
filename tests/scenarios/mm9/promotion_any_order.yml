@@ -1,0 +1,72 @@
+# MM9 promotions in any order (the user, 2026-11-08; devdocs/mm9/MM9_RUDE_SCR_INTEGRATION.md "Promotions And Classes",
+# worlds/mm9/dialogue/promotions.yml). Two Knights who never became Cavaliers take Fridleif Gjukissen's Gladiator
+# labours (RUDE 61; MM9 offered them only after the Mercenary promotion, key 127). Done (key 26), the labours pay
+# their 5 000 gold and promote no one. Fridleif then keeps "Promote our eligible characters.": with one Knight a
+# Cavalier now, it makes her a Champion, pays nothing and leaves the other Knight as he is.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/promotion_any_order.yml --scenario-no-color
+id: mm9.promotion_any_order
+title: "MM9 promotions in any order: Gladiator labours offered to Knights, rewards without a promotion, then Fridleif promotes a Cavalier later"
+world: mm9
+mode: faithful
+tags: [mm9, promotions, dialogue]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Astrid
+            class: Knight
+            level: 20
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {}
+          - name: Bjorn
+            class: Knight
+            level: 20
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {}
+  - advance_runtime: {seconds: 1}
+  # The labours without the Mercenary promotion: "We have heard that you can promote Mercenaries." leads to them.
+  - interact_actor: {actor_index: 31}
+  - assert:
+      dialog:
+        active: true
+        source_id: 61
+        action_label_absent: Promote our eligible characters.
+  - select_topic: {action_id: 40, match_label: "We have heard that you can promote Mercenaries."}
+  - assert:
+      dialog:
+        action_label_present: Yes, we have members who would like to be Gladiators.
+  - press_action: {action: cancel_dialog}
+  # The labours done (key 26): the talk's close pays 5 000 gold and key 221, and promotes no Knight.
+  - lua_event: {source: "evt.SetQuestBit(90026)"}
+  - interact_actor: {actor_index: 31}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+  - assert:
+      gold: 5000
+      qbit_set: [90221]
+  - lua_event: {source: "for _, i in ipairs(PartyMembers()) do if GetPlayerClassName(i) ~= 'Knight' then error('member ' .. i .. ' is a ' .. GetPlayerClassName(i)) end end"}
+  # Later: Astrid became a Cavalier elsewhere; Fridleif promotes her, for nothing.
+  - lua_event: {source: "SetPlayerClass(0, 'Cavalier')"}
+  - interact_actor: {actor_index: 31}
+  - assert:
+      dialog:
+        active: true
+        source_id: 61
+        action_label_present: Promote our eligible characters.
+  - select_topic: {action_id: 0, match_label: "Promote our eligible characters."}
+  - assert:
+      gold: 5000
+      dialog:
+        active: true
+        text_contains: Astrid is now a Champion.
+  - lua_event: {source: "if GetPlayerClassName(0) ~= 'Champion' or GetPlayerClassName(1) ~= 'Knight' then error(GetPlayerClassName(0) .. ' / ' .. GetPlayerClassName(1)) end"}
+  # Nobody else is ready: the topic stays and says so.
+  - select_topic: {action_id: 0, match_label: "Promote our eligible characters."}
+  - assert:
+      dialog:
+        text_contains: No one among you can take this promotion now.

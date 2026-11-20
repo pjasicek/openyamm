@@ -1,0 +1,10 @@
+from pathlib import Path
+import bpy,numpy as np,math,json,sys
+from mathutils import Matrix,Vector
+p=Path(__file__).resolve().parents[1];sys.path.insert(0,str(p/'scripts'));import common,armik
+bpy.ops.wm.open_mainfile(filepath=str(p/'work/full_reduced.blend'));rig=bpy.data.objects['Rig'];body=bpy.data.objects['Body'];me=body.data;sc=bpy.context.scene;rest=np.array([tuple(v.co) for v in me.vertices]);part=np.array([a.value for a in me.attributes['piece'].data]);core=(part==0)&(rest[:,2]>.8)&(rest[:,2]<1.4)&(abs(rest[:,0])<.20);head=(part==0)&(rest[:,2]-.6*rest[:,1]>1.44)&(abs(rest[:,0])<.20)
+a=bpy.data.actions['Dead'];rig.animation_data.action=a;rig.animation_data.action_slot=a.slots[0];sc.frame_set(0);bpy.context.view_layer.update();ev=body.evaluated_get(bpy.context.evaluated_depsgraph_get());m=ev.to_mesh();co=np.array([tuple(v.co) for v in m.vertices]);ev.to_mesh_clear();P=armik.W(rig,'B_Pelvis').copy();origin=np.array(P.translation);rows=[]
+for x in range(-24,25,2):
+ for y in range(-24,25,2):
+  R=Matrix.Rotation(math.radians(x),3,'X')@Matrix.Rotation(math.radians(y),3,'Y');posed=(co-origin)@np.array(R).T;low=posed[:,2].min();gap=float(posed[core,2].min()-low);hg=float(posed[head,2].min()-low);height=float(np.ptp(posed[:,2]));score=gap*4+hg*.6+height*.25+(x*x+y*y)*.00005;rows.append({'x':x,'y':y,'core_gap':gap,'head_gap':hg,'height':height,'score':score})
+best=min(rows,key=lambda r:r['score']);print('SUPPORT_BEST',best,'ORIGINAL',next(r for r in rows if r['x']==r['y']==0));(p/'review/corpse_support_probe.json').write_text(json.dumps({'best':best,'original':next(r for r in rows if r['x']==r['y']==0),'candidates':sorted(rows,key=lambda r:r['score'])[:10]},indent=2));rig.animation_data.action=None;R=Matrix.Rotation(math.radians(best['x']),3,'X')@Matrix.Rotation(math.radians(best['y']),3,'Y');M=armik.rot_world(P,R@P.to_3x3());posed=(co-origin)@np.array(R).T+origin;M.translation.z+=.003-float(posed[:,2].min());armik.set_world(rig,'B_Pelvis',M);common.workbench_clay(sc);common.render_views(str(p/'review/corpse_supported'),.24,1.3,views=('front','left','three_quarter'),resolution=(768,640))

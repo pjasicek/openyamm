@@ -1,0 +1,809 @@
+<title>MM9 Buy View Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a documentation column around one large game stage (the 4:3 house screen at 1.875x), dark only,
+   because every mockup sits inside the Carved Obsidian frame. */
+:root {
+  --page: #101513;
+  --page-raised: #18201d;
+  --rule: #2c3631;
+  --ink: #e5dcc7;          /* soft ivory, the overlay reading colour */
+  --ink-muted: #a59d8b;
+  --brass: #e4c793;        /* pale brass headings */
+  --gold: #e6c36c;
+  --jade: #85df8b;
+  --blue: #8ebcfa;
+  --coral: #ee8275;
+  --font-display: 'Fondamento', Georgia, serif;
+  --font-read: 'Arrus', Georgia, serif;
+  --font-note: 'Smallnum', 'Trebuchet MS', sans-serif;
+  --font-comic: 'Comic', 'Trebuchet MS', sans-serif;
+  --font-create: 'Create', Georgia, serif;
+  --font-body: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  color-scheme: dark;
+}
+@font-face { font-family: 'Fondamento'; src: url(assets/fonts/fondamento.ttf); }
+@font-face { font-family: 'Arrus'; src: url(assets/fonts/arrus.ttf); }
+@font-face { font-family: 'Smallnum'; src: url(assets/fonts/smallnum.ttf); }
+@font-face { font-family: 'Comic'; src: url(assets/fonts/comic.ttf); }
+@font-face { font-family: 'Create'; src: url(assets/fonts/create.ttf); }
+
+* { box-sizing: border-box; }
+html, body { background: var(--page); color: var(--ink); }
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 40px; }
+.prose { max-width: 70ch; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; color: var(--brass); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; }
+h2 { font-size: 27px; margin-bottom: 10px; }
+h3 { font-size: 20px; margin-bottom: 6px; }
+p { margin: 0 0 12px; }
+.lede { font-size: 18px; color: var(--ink); max-width: 72ch; margin-top: 10px; }
+.meta { color: var(--ink-muted); font-size: 14px; }
+code { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 0.86em; color: var(--brass); }
+a { color: var(--blue); }
+
+/* Facts */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.fact { background: var(--page-raised); border: 1px solid var(--rule); padding: 14px 16px; min-width: 0; }
+.fact b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 30px; color: var(--gold);
+  line-height: 1.1; font-variant-numeric: tabular-nums; }
+.fact span { color: var(--ink-muted); font-size: 14px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.figure img { display: block; width: 100%; border: 1px solid var(--rule); }
+.figure figcaption { color: var(--ink-muted); font-size: 14px; margin-top: 6px; }
+figure { margin: 0; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--brass); font-weight: 400; font-family: var(--font-display); font-size: 16px; }
+td.n { text-align: right; }
+
+/* Viewer controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: end; margin-bottom: 12px; }
+.control { display: grid; gap: 4px; min-width: 0; }
+.control label, .control .label { font-size: 13px; color: var(--ink-muted); letter-spacing: 0.04em; }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; }
+.seg button, select {
+  font-family: var(--font-display); font-size: 16px; color: var(--ink); background: #1d2622;
+  border: 1px solid #3a4640; padding: 5px 12px; cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: #3a3220; border-color: #a8894e; color: var(--gold); }
+.seg button:focus-visible, select:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+select { max-width: 100%; }
+
+/* Stage: the 4:3 house screen, 1200x900 = 640x480 logical at 1.875x */
+.stage-box { width: 100%; max-width: 1200px; aspect-ratio: 4 / 3; position: relative; overflow: hidden;
+  border: 1px solid var(--rule); background: #0b0f0d; }
+.stage { position: absolute; left: 0; top: 0; width: 1200px; height: 900px; transform-origin: 0 0;
+  background: url(assets/frame.jpg) -200px 0 / 1600px 900px no-repeat; user-select: none; }
+.media { position: absolute; left: 15px; top: 54px; width: 862px; height: 634px; overflow: hidden; }
+.room { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.rail { position: absolute; left: 22px; top: 693px; width: 876px; height: 28px; display: flex; align-items: center;
+  justify-content: center; font-family: var(--font-read); font-size: 22px; color: var(--ink); white-space: nowrap;
+  overflow: hidden; text-shadow: 0 1px 2px #000; }
+.rail .hint { color: var(--ink-muted); }
+.rail .gold { color: var(--gold); }
+
+/* Right sidebar (DialogueEventDialog) */
+.side { position: absolute; left: 877px; top: 0; width: 323px; height: 688px; text-align: center; }
+.side .title { position: absolute; top: 24px; left: 30px; right: 30px; font-family: var(--font-create); font-size: 27px;
+  color: var(--ink); line-height: 1.05; text-shadow: 0 2px 2px #000; }
+.medal { position: absolute; top: 112px; left: 50%; width: 118px; height: 118px; margin-left: -59px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 38%, #24302b 0 55%, #121916 70%);
+  box-shadow: 0 0 0 5px #8c6e3d, 0 0 0 7px #2a2216, 0 0 0 10px #c9a465, 0 4px 14px 10px rgba(0,0,0,.55);
+  display: grid; place-items: center; font-family: var(--font-create); font-size: 62px; color: var(--brass);
+  text-shadow: 0 2px 3px #000; }
+.side .who { position: absolute; top: 252px; left: 26px; right: 26px; font-family: var(--font-create); font-size: 24px;
+  color: var(--brass); line-height: 1.15; }
+.side .who small { display: block; font-size: 19px; color: var(--ink-muted); }
+.topics { position: absolute; top: 372px; left: 30px; right: 30px; display: grid; gap: 6px; }
+.topic { font-family: var(--font-create); font-size: 29px; color: var(--ink); padding: 14px 0; cursor: pointer;
+  border-bottom: 1px solid rgba(201,164,101,.18); text-shadow: 0 2px 2px #000; background: none; border-top: 0;
+  border-left: 0; border-right: 0; }
+.topic.on { color: var(--gold); }
+.topic:hover { color: #fff3cf; }
+
+/* Framed obsidian panel used inside the media rectangle */
+.panel { position: absolute; isolation: isolate; border: 34px solid transparent;
+  border-image: url(assets/frame9.png) 164 / 34px stretch; }
+.panel::before { content: ''; position: absolute; inset: -22px; z-index: -1;
+  background: url(assets/reading_surface.jpg) center / 960px 720px; box-shadow: inset 0 0 40px rgba(0,0,0,.65); }
+.panel.thin { border-width: 24px; border-image-width: 24px; }
+.panel.thin::before { inset: -14px; }
+
+.chips { display: flex; gap: 6px; flex-wrap: nowrap; overflow: hidden; }
+.chip { font-family: var(--font-display); font-size: 21px; color: var(--ink-muted); padding: 2px 12px 3px;
+  border: 1px solid rgba(201,164,101,.28); background: rgba(10,14,12,.55); cursor: pointer; white-space: nowrap; }
+.chip.on { color: var(--gold); border-color: #b99456; background: rgba(58,48,26,.7); }
+.chip i { font-style: normal; color: var(--ink-muted); font-family: var(--font-note); font-size: 17px; margin-left: 4px; }
+.price { font-family: var(--font-read); color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.price::before { content: ''; display: inline-block; width: 0.78em; height: 0.78em; border-radius: 50%; margin-right: 6px;
+  vertical-align: -0.06em; background: radial-gradient(circle at 35% 30%, #fff1b0, #d9a93c 55%, #8a6420); }
+.qty { font-family: var(--font-note); font-size: 18px; color: #17120a; background: #c9a465; padding: 0 7px;
+  border-radius: 9px; }
+.ench { color: var(--jade); }
+.sold { opacity: .22; filter: grayscale(1); pointer-events: none; }
+
+/* A: ledger */
+.ledger { left: 0; top: 0; width: 862px; height: 634px; }
+.ledger .head { display: flex; justify-content: space-between; align-items: center; height: 40px; gap: 12px; }
+.ledger .cols { display: grid; grid-template-columns: 76px 1fr 170px 120px; gap: 0 14px; font-family: var(--font-note);
+  font-size: 16px; color: var(--ink-muted); padding: 10px 14px 4px; border-bottom: 1px solid rgba(201,164,101,.3); }
+.ledger .cols span:last-child { text-align: right; }
+.rows { position: absolute; left: 0; right: 0; top: 76px; bottom: 34px; overflow-y: auto; scrollbar-width: thin;
+  scrollbar-color: #8c6e3d rgba(0,0,0,.3); }
+.row { display: grid; grid-template-columns: 76px 1fr 170px 120px; gap: 0 14px; align-items: center; height: 72px;
+  padding: 0 14px; border-bottom: 1px solid rgba(201,164,101,.12); cursor: pointer; }
+.row:nth-child(even) { background: rgba(0,0,0,.18); }
+.row:hover, .row.sel { background: rgba(201,164,101,.14); box-shadow: inset 0 0 0 1px rgba(228,199,147,.55); }
+.well { width: 66px; height: 62px; display: grid; place-items: center; background: rgba(0,0,0,.35);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.9), 0 1px 0 rgba(228,199,147,.15); }
+.well img { max-width: 60px; max-height: 58px; }
+.row .nm { font-family: var(--font-read); font-size: 27px; line-height: 1.05; min-width: 0; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; }
+.row .sub { font-family: var(--font-note); font-size: 17px; color: var(--ink-muted); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+.row .st { font-family: var(--font-comic); font-size: 19px; color: var(--ink); }
+.row .price { font-size: 25px; text-align: right; }
+.foot { position: absolute; left: 6px; right: 6px; bottom: 0; height: 28px; display: flex; justify-content: space-between;
+  align-items: center; font-family: var(--font-note); font-size: 17px; color: var(--ink-muted); }
+
+/* B: merchant's chest */
+.chest { left: 0; top: 0; width: 862px; height: 634px; }
+.chest .head { display: flex; justify-content: space-between; align-items: center; height: 30px; gap: 12px; }
+.grid { position: absolute; left: 17px; top: 38px; width: 780px; height: 540px; /* 13 x 9 cells of 32 logical */
+  background-image:
+    linear-gradient(rgba(201,164,101,.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,164,101,.16) 1px, transparent 1px);
+  background-size: 60px 60px; background-color: rgba(0,0,0,.28); box-shadow: inset 0 0 0 1px rgba(201,164,101,.4); }
+.gitem { position: absolute; display: grid; place-items: center; cursor: pointer; }
+.gitem img { filter: drop-shadow(0 3px 3px rgba(0,0,0,.7)); }
+.gitem:hover { background: rgba(228,199,147,.13); box-shadow: inset 0 0 0 1px rgba(228,199,147,.6); }
+.gitem .tag { position: absolute; right: 3px; bottom: 3px; font-size: 18px; padding: 0 6px; background: rgba(8,10,9,.82);
+  border: 1px solid rgba(201,164,101,.45); display: none; }
+.showprices .gitem .tag, .gitem:hover .tag { display: block; }
+.gitem .tag.price::before { width: .7em; height: .7em; }
+
+/* C: display niches */
+.niches { left: 0; top: 0; width: 862px; height: 634px; }
+.niches .head { display: flex; justify-content: space-between; align-items: center; height: 40px; }
+.tiles { position: absolute; left: 0; right: 0; top: 50px; display: grid; grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 162px); gap: 10px; }
+.tile { position: relative; display: grid; grid-template-rows: 1fr auto; cursor: pointer; padding: 30px 8px 6px;
+  background: linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.22));
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.95), inset 0 0 0 1px rgba(201,164,101,.22), 0 1px 0 rgba(228,199,147,.12); }
+.tile:hover, .tile.sel { box-shadow: inset 0 2px 6px rgba(0,0,0,.95), inset 0 0 0 1px rgba(228,199,147,.75); }
+.tile .pic { display: grid; place-items: center; min-height: 0;
+  background: radial-gradient(ellipse at 50% 25%, rgba(255,236,190,.10), transparent 65%); }
+.tile .pic img { filter: drop-shadow(0 4px 4px rgba(0,0,0,.8)); }
+.tile .nm { font-family: var(--font-read); font-size: 21px; line-height: 1.05; text-align: center; height: 44px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tile .price { position: absolute; left: 8px; top: 6px; font-size: 20px; }
+.tile .qty { position: absolute; right: 8px; top: 8px; }
+.tile .gem { position: absolute; right: 9px; bottom: 54px; width: 13px; height: 13px; transform: rotate(45deg);
+  background: linear-gradient(135deg, #c8f5cb, #3fa957); box-shadow: 0 0 6px rgba(133,223,139,.6); }
+.pager { display: flex; gap: 10px; align-items: center; }
+.pager b { width: 11px; height: 11px; transform: rotate(45deg); background: #3c3527; border: 1px solid #8c6e3d; display: block; }
+.pager b.on { background: var(--gold); }
+
+/* D: counter over the live room */
+.dlist { left: 10px; top: 10px; width: 404px; height: 614px; }
+.dlist .chips { flex-wrap: wrap; height: auto; }
+.dlist .rows { top: 46px; bottom: 30px; }
+.dlist .row { grid-template-columns: 52px 1fr auto; height: 58px; padding: 0 8px; gap: 0 10px; }
+.dlist .well { width: 50px; height: 48px; }
+.dlist .well img { max-width: 46px; max-height: 44px; }
+.dlist .row .nm { font-size: 22px; }
+.dlist .row .price { font-size: 21px; }
+.spot { position: absolute; left: 424px; top: 14px; width: 430px; height: 380px; display: grid; place-items: center;
+  background: radial-gradient(ellipse at 50% 55%, rgba(255,226,160,.30), rgba(255,226,160,.06) 45%, transparent 70%); }
+.spot img { filter: drop-shadow(0 10px 12px rgba(0,0,0,.85)); }
+.plate { left: 430px; top: 392px; width: 422px; height: 232px; }
+.plate .t { font-family: var(--font-read); font-size: 29px; color: var(--brass); line-height: 1.1; }
+.plate .l { font-family: var(--font-comic); font-size: 20px; line-height: 1.35; }
+.plate .buy { position: absolute; right: -8px; bottom: -10px; width: 207px; height: 51px; border: 0; cursor: pointer;
+  background: url(assets/button_close_normal.png) 0 0 / 207px 51px; font-family: var(--font-display); font-size: 24px;
+  color: var(--ink); padding: 0 0 2px; }
+.plate .buy:hover { background-image: url(assets/button_close_hover.png); }
+
+/* Today: shelf art */
+.shelf { position: absolute; left: 0; top: 0; width: 862px; height: 645px; background-size: 862px 645px; }
+.slot { position: absolute; display: flex; justify-content: center; cursor: pointer; }
+.slot img { position: absolute; }
+.slot:hover { box-shadow: inset 0 0 0 1px rgba(228,199,147,.6); }
+.dupmark { position: absolute; left: 4px; top: 4px; font-family: var(--font-note); font-size: 16px; color: #17120a;
+  background: var(--coral); padding: 0 6px; z-index: 2; }
+
+/* Inspect (held RMB) */
+.inspect { position: absolute; width: 470px; z-index: 50; pointer-events: none; }
+.inspect .in { display: grid; grid-template-columns: 120px 1fr; gap: 14px; }
+.inspect .pic { display: grid; place-items: center; min-height: 120px; }
+.inspect .t { font-family: var(--font-read); font-size: 30px; color: var(--ink); text-align: center; margin-bottom: 8px; }
+.inspect .l { font-family: var(--font-comic); font-size: 20px; line-height: 1.3; }
+.inspect .d { font-family: var(--font-note); font-size: 17px; color: var(--ink); margin-top: 8px; line-height: 1.3; }
+.inspect .v { font-family: var(--font-comic); font-size: 20px; border-top: 1px solid rgba(201,164,101,.35);
+  margin-top: 10px; padding-top: 6px; }
+
+/* Notes under the viewer */
+.notes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px 28px; margin-top: 16px; }
+@media (max-width: 860px) { .notes { grid-template-columns: minmax(0, 1fr); } }
+.notes ul { margin: 0; padding-left: 20px; }
+.notes li { margin-bottom: 4px; }
+.pill { display: inline-block; font-size: 13px; padding: 1px 8px; border: 1px solid var(--rule); color: var(--ink-muted);
+  margin-right: 6px; }
+.pill.good { color: var(--jade); border-color: #2f5a35; }
+.pill.warn { color: var(--gold); border-color: #5d4c26; }
+.pill.bad { color: var(--coral); border-color: #6a332d; }
+.compare td:first-child { color: var(--brass); font-family: var(--font-display); white-space: nowrap; }
+@media (prefers-reduced-motion: no-preference) { .row, .tile, .gitem { transition: background .12s, box-shadow .12s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="meta">OpenYAMM · MM9 world · UI study · 5 November 2026</p>
+    <h1>MM9 Buy View</h1>
+    <p class="lede">Five ways to show an MM9 vendor's goods on the Buy screen. Sell, identify, repair and the party
+      inventory screens stay exactly as they are; only what you see after choosing Buy Standard or Buy Special
+      changes. Every mockup uses the real checked-in stock, item art and native Obsidian frame.</p>
+  </header>
+
+  <section>
+    <h2>What MM9 did, and what we have</h2>
+    <div class="two">
+      <figure class="figure">
+        <img src="assets/mm9_merchantbg.jpg" alt="Original MM9 merchant screen: two open books, a merchant list on the left, the character's inventory list on the right, four portrait slots between them">
+        <figcaption>MM9's merchant screen (<code>MERCHANTBG.pcx</code>, 800×600). Store list on the left (9 visible
+          rows), the active character's list on the right (8 rows), both scrolled, each with six filter tabs.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>MM9 never put goods on a shelf. Its <code>MERCHANT-COORDS.txt</code> places a <b>scrolling list</b> of
+          32×32 icons with a 168-pixel name column, filter tabs (Weapons, Armor, Gloves/Boots, Jewelry,
+          Potions/Misc, Quest), a scrollbar, and Buy/Sell buttons with running totals. Repair, Identify and Exit
+          sit in the middle column under the four party faces.</p>
+        <p>The stock size is in the game code (<code>object.lto</code>), not the table. On each restock a shop is
+          emptied and refilled with <b>30 random rolls: 15 from each of its two treasure-level ranges</b>. The
+          <code>Quanity</code> and <code>Merchandise</code> columns are never read, so magic shops named for one
+          school sell spells from every school. Rolls are independent, so copies are common.</p>
+        <p>Our importer did the opposite: it sized every page to the MM6–MM8 shelf it is drawn on. That is where
+          the problems below come from.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="facts">
+      <div class="fact"><b>48</b><span>MM9 vendors with stock: 8 weapon, 8 armour, 15 magic, 5 apothecary, 6 general, 6 library</span></div>
+      <div class="fact"><b>6 · 8 · 12</b><span>items per page, fixed by the MM6–MM8 shelf: weapon table, armoury and general store, book and apothecary shelves</span></div>
+      <div class="fact"><b>706</b><span>of 3,816 stock slots are padding: the same item repeated on one page to fill the shelf</span></div>
+      <div class="fact"><b>48 / 48</b><span>vendors whose Buy Special page lists the same items as Buy Standard, with enchantments added</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Worst padding</th><th>Shelf</th><th class="n">Distinct items</th><th>What one page shows</th></tr></thead>
+        <tbody>
+          <tr><td>Thorkell's Light, Guberland (Light magic)</td><td>book shelf, 12</td><td class="n">2</td><td>Light Bolt ×6, Destroy Undead ×6</td></tr>
+          <tr><td>The Dark Hand, Frigg's Sprit (Guberland)</td><td>book shelf, 12</td><td class="n">2</td><td>two spellbooks, six copies each</td></tr>
+          <tr><td>Eye of Newt, Guberland (apothecary)</td><td>general shelf, 12</td><td class="n">4</td><td>four items ×3, on all eight restock pages</td></tr>
+          <tr><td>The Golden Dryad, Thjorgard (apothecary)</td><td>general shelf, 12</td><td class="n">9</td><td>Platinum Amulet, Green Stone and Red Stone twice</td></tr>
+          <tr><td>Wyrde's Light, Krohn's Fist, The Fires of Penance (Arslegard)</td><td>book shelf, 12</td><td class="n">4</td><td>four spellbooks ×3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>What an original MM9 shop held</h2>
+    <p class="prose">Per restock (every 2 weeks, or 2 months in Frosgard): 30 rolls. Each roll picks a treasure level in
+      the shop's range, converts it to an item level with a random table, then picks a random item of that level
+      among the types the shop sells. Averages below come from 4,000 simulated restocks per shop using
+      <code>MASTERITEMLIST.csv</code>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Shop type</th><th>Sells (item types in the code)</th><th class="n">Catalogue</th><th class="n">Items per restock</th><th class="n">Different items</th></tr></thead>
+        <tbody>
+          <tr><td>Library</td><td>skill books only</td><td class="n">22</td><td class="n">28–30</td><td class="n">12–14</td></tr>
+          <tr><td>Magic</td><td>spells, all schools</td><td class="n">47</td><td class="n">30</td><td class="n">18–22</td></tr>
+          <tr><td>Armor</td><td>armour, helms, shields, gloves, boots, belts</td><td class="n">87</td><td class="n">30</td><td class="n">16–23</td></tr>
+          <tr><td>Weapon</td><td>one-handed, two-handed and ranged weapons</td><td class="n">84</td><td class="n">30</td><td class="n">17–22</td></tr>
+          <tr><td>Apothecary</td><td>rings, amulets, potions, belts, scrolls, runestones (no wands)</td><td class="n">115</td><td class="n">30</td><td class="n">23–25</td></tr>
+          <tr><td>General Store</td><td>rings, gloves, potions, belts, scrolls, runestones, weapons, ranged weapons</td><td class="n">176</td><td class="n">30</td><td class="n">24–26</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="meta">Thjorgard's Ancient Scrolls, for example, put about 30 skill books on its list, but only about 14
+      different titles, mostly level-1 books. A Guberland "Light Magic" shop showed about 20 different spells from all
+      four schools. Our generated pages hold 6–12 per lane instead.</p>
+  </section>
+
+  <section id="viewer">
+    <h2>Mockups</h2>
+    <div class="controls">
+      <div class="control"><span class="label">VIEW</span>
+        <div class="seg" id="variantSeg" role="group" aria-label="View"></div></div>
+      <div class="control"><label for="vendorSel">VENDOR</label><select id="vendorSel"></select></div>
+      <div class="control"><span class="label">RESTOCK PAGE</span><div class="seg" id="pageSeg" role="group" aria-label="Restock page"></div></div>
+    </div>
+    <div class="stage-box" id="stageBox">
+      <div class="stage" id="stage">
+        <div class="media" id="media"></div>
+        <div class="side" id="side"></div>
+        <div class="rail" id="rail"></div>
+      </div>
+    </div>
+    <p class="meta" style="margin-top:8px">Hover an item for its status-rail line, hold the right mouse button to inspect it, click to buy (it is
+      marked sold). Buy Standard and Buy Special in the sidebar switch the stock. Prices shown are item values;
+      the shop price formula is not applied.</p>
+    <div class="notes" id="notes"></div>
+  </section>
+
+  <section>
+    <h2>Side by side</h2>
+    <div class="table-wrap">
+      <table class="compare">
+        <thead><tr><th></th><th>Holds</th><th>Fits our UI</th><th>Feels like MM9</th><th>Touch (Android)</th><th>Engine work</th></tr></thead>
+        <tbody>
+          <tr><td>Today: MM6–MM8 shelf</td><td>6, 8 or 12, fixed</td><td>Yes, but shelf art from another world</td><td>No</td><td>Good</td><td>None</td></tr>
+          <tr><td>A · Ledger</td><td>Any number (scrolls)</td><td>Reading surface, Arrus/Comic/Smallnum roles</td><td>Closest: it is MM9's list</td><td>Good, rows are 38 logical px tall</td><td>New list widget with filters and scrolling</td></tr>
+          <tr><td>B · Merchant's chest</td><td>About 20–30 items in 13×9 cells; a full MM9 restock of 30 often does not fit</td><td>Same 32-px cell grid as the inventory and chests</td><td>Partly</td><td>Good</td><td>Small: reuse the chest grid and its packing</td></tr>
+          <tr><td>C · Display niches</td><td>12 per page, then pages</td><td>Obsidian wells, Fondamento chips</td><td>Partly</td><td>Best: large equal targets</td><td>New tile view and pager</td></tr>
+          <tr><td>D · Counter</td><td>Any number (scrolls)</td><td>List plus an inspect plate</td><td>Yes: the shop room stays visible</td><td>Fair: narrow list</td><td>List widget plus a live-world backdrop</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="prose" style="max-width:80ch">
+    <h2>Recommendation</h2>
+    <p><b>A, the ledger, for MM9 vendors.</b> It is the original MM9 behaviour translated into our reading
+      surface and fonts, so it fits both worlds at once. It is the only view that shows any number of items
+      without paging or cropping, that groups by category, and that shows prices and stats together, which suits
+      MM9's text-heavy goods: spellbooks, skill books, reagents and rings that look alike as pictures. For Android
+      or controller play, the same rows are already large touch targets.</p>
+    <p><b>B is the low-cost fallback.</b> It reuses the inventory/chest grid we already draw and hit-test, and it
+      reads as an extension of the party inventory beside it. It loses on books and spellbooks, which become a
+      wall of identical covers.</p>
+    <p><b>Stock data should change with either choice.</b> Once the Buy view no longer has 6, 8 or 12 fixed
+      places, the vendor generator can stop padding pages: drop the 706 duplicate slots, or emit them as a
+      quantity (the runtime table already has a <code>quantity</code> column, always 1 today). The importer's
+      "slot counts match the visual layout" check should become a per-profile maximum. Buy Special could also
+      become a filter in the same list (only enchanted items) rather than a second identical list.</p>
+    <p class="meta">Assets: native capture <code>overlay_arcs/images/house-topic.png</code> with the runtime
+      <code>obsidian_house_sidebar</code>, reading surface and carved frame slices; Thjorgard City review captures
+      for the shop rooms; MM9 item icons from <code>worlds/mm9/icons_x2</code>. Regenerate with
+      <code>prepare.py</code>.</p>
+  </section>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  const DATA = window.SHOP_DATA;
+  const ITEMS = DATA.items;
+  const K = 1.875;
+  const VARIANTS = [
+    { id: 'today', label: 'Today' },
+    { id: 'ledger', label: 'A · Ledger' },
+    { id: 'chest', label: "B · Merchant's chest" },
+    { id: 'niches', label: 'C · Display niches' },
+    { id: 'counter', label: 'D · Counter' },
+  ];
+  const NOTES = {
+    today: {
+      what: 'What the game draws now for an MM9 vendor: the MM6–MM8 shelf picture inside the house-video area, with the shop page filling its fixed places. Duplicated items on the page are marked in coral.',
+      good: ['Already implemented and tested', 'Reads instantly as a shop'],
+      bad: ['Shelf art and arrangement belong to MM6–MM8 shops', 'Page size is fixed, so the importer pads it with copies', 'No names or prices until you hover', 'Long MM9 polearms and bows are shrunk or cropped to the slot'],
+    },
+    ledger: {
+      what: "MM9's own list, rebuilt on the Obsidian reading surface. Category chips replace MM9's six filter tabs, copies collapse into one row with a count, and every row shows name, enchantment, the main stat and the price. Scrolls when a page is longer than seven rows.",
+      good: ['Any stock size, no padding needed', 'Names, stats and prices readable without hovering', 'Best for books, reagents and jewellery', 'Faithful to MM9'],
+      bad: ['Less of a picture: the goods are small icons', 'Needs a scrolling list widget with filters'],
+    },
+    chest: {
+      what: "The vendor's stock laid out like a chest: the same 32×32-logical cells as the party inventory, items at their real footprint. Hovering shows a price tag; the Prices chip shows all of them.",
+      good: ['Same visual language as the inventory, chests and the MM9 treasure bag', 'Uses grid code we already have', 'Item sizes are honest: a spear looks long'],
+      bad: ['Holds roughly 20–30 items before it needs pages', 'Spellbooks and skill books become identical covers', 'Prices need a hover or a toggle'],
+    },
+    niches: {
+      what: 'Equal display wells, twelve to a page, each item scaled to fill its well, with its name and price. Enchanted goods carry a jade gem; copies show a count. A pager appears after twelve.',
+      good: ['Large, even targets: best on touch screens', 'Tidy for mixed shapes', 'Names and prices always visible'],
+      bad: ['Scaling hides real size differences', 'Paging instead of scrolling', 'New layout unlike any other screen'],
+    },
+    counter: {
+      what: 'The shop room stays visible, as it was in MM9 where you stand at the counter. A narrow list on the left; the chosen item is shown large on the counter with a plate giving its details and a Buy button.',
+      good: ['Keeps the walk-in shop on screen', 'Detail without opening inspect', 'Any stock size'],
+      bad: ['Only about nine rows visible', 'Two steps to buy (select, then Buy), unlike MM6–MM8', 'The room behind must stay readable at every time of day'],
+    },
+  };
+
+  const state = { variant: 'ledger', vendor: 0, lane: 'standard', page: 0, category: 'All', sold: new Set(),
+    selected: null, showPrices: false, nichePage: 0 };
+  try { const saved = localStorage.getItem('mm9buy.variant'); if (saved && VARIANTS.some(v => v.id === saved)) state.variant = saved; } catch (e) {}
+  const [hashVariant, hashVendor] = location.hash.slice(1).split('-');
+  if (VARIANTS.some(v => v.id === hashVariant)) state.variant = hashVariant;
+  if (hashVendor && DATA.vendors[Number(hashVendor)]) state.vendor = Number(hashVendor);
+
+  const $ = id => document.getElementById(id);
+  const stage = $('stage');
+  const media = $('media');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function vendor() { return DATA.vendors[state.vendor]; }
+  function slots() {
+    const lanes = vendor().lanes[state.lane];
+    return lanes[Math.min(state.page, lanes.length - 1)] || [];
+  }
+  function groups(list) {
+    const map = new Map();
+    list.forEach((slot, index) => {
+      const key = slot.item + '|' + slot.name;
+      if (!map.has(key)) map.set(key, { slot, item: ITEMS[slot.item], indices: [] });
+      map.get(key).indices.push(index);
+    });
+    return [...map.values()];
+  }
+  function remaining(group) { return group.indices.filter(i => !state.sold.has(i)); }
+  function naturalSize(item) { return [item.iconSize[0] / 2 * K, item.iconSize[1] / 2 * K]; }
+  function fitImg(item, maxW, maxH, allowUp) {
+    const [w, h] = naturalSize(item);
+    let scale = Math.min(maxW / w, maxH / h);
+    if (!allowUp) scale = Math.min(scale, 1);
+    return `<img src="${item.icon}" alt="" width="${Math.round(w * scale)}" height="${Math.round(h * scale)}" draggable="false">`;
+  }
+  function subline(slot, item) {
+    const parts = [item.typeName];
+    if (item.skill && item.skill !== 'Misc' && item.skill !== item.typeName) parts.push(item.skill);
+    const ench = slot.enchant ? ` · <span class="ench">${esc(slot.enchant)}</span>` : '';
+    return esc(parts.join(' · ')) + ench;
+  }
+  function categoriesOf(list) {
+    const counts = new Map();
+    groups(list).forEach(g => counts.set(g.item.category, (counts.get(g.item.category) || 0) + 1));
+    return counts;
+  }
+  function chipsHtml(list, extra) {
+    const counts = categoriesOf(list);
+    let html = `<div class="chips">`;
+    if (counts.size > 1) {
+      html += `<span class="chip ${state.category === 'All' ? 'on' : ''}" data-cat="All">All<i>${groups(list).length}</i></span>`;
+      counts.forEach((n, cat) => { html += `<span class="chip ${state.category === cat ? 'on' : ''}" data-cat="${esc(cat)}">${esc(cat)}<i>${n}</i></span>`; });
+    } else {
+      const only = [...counts.keys()][0] || '';
+      html += `<span class="chip on">${esc(only)}<i>${groups(list).length}</i></span>`;
+    }
+    return html + (extra || '') + `</div>`;
+  }
+  function filtered(list) {
+    return groups(list).filter(g => state.category === 'All' || g.item.category === state.category);
+  }
+  function footHtml(list) {
+    const distinct = groups(list).length;
+    const copies = list.length - distinct;
+    const left = list.length - state.sold.size;
+    return `<div class="foot"><span>${left} of ${list.length} for sale${copies ? ` · ${copies} copies grouped` : ''}</span><span>New stock every ${vendor().restockDays} days</span></div>`;
+  }
+
+  /* ---------- Today: MM6–MM8 shelf layouts from game/ui/HouseShopLayout.cpp ---------- */
+  function shelfLayout(profile) {
+    const slotsOut = [];
+    if (profile === 'Spellbook' || profile === 'Mm9Library') {
+      for (let i = 0; i < 6; ++i) slotsOut.push({ x: 6 + i * 75, y: 56, w: 74, h: 132, align: 'bottom', fit: true });
+      for (let i = 0; i < 6; ++i) slotsOut.push({ x: 6 + i * 75, y: 199, w: 74, h: 128, align: 'bottom', fit: true });
+      return { bg: 'magshelf', slots: slotsOut };
+    }
+    if (profile === 'Weapon') {
+      [88, 34, 112, 58, 128, 46].forEach((top, i) => slotsOut.push({ x: 25 + i * 70, y: top, w: 70, h: 334 - top, align: 'top', fit: false }));
+      return { bg: 'wepntabl', slots: slotsOut };
+    }
+    if (profile === 'Armor') {
+      for (let i = 0; i < 4; ++i) slotsOut.push({ x: 34 + i * 105, y: 8, w: 105, h: 90, align: 'bottom', fit: true });
+      for (let i = 0; i < 4; ++i) slotsOut.push({ x: 34 + i * 105, y: 126, w: 105, h: 190, align: 'top', fit: true });
+      return { bg: 'armory', slots: slotsOut };
+    }
+    const columns = profile === 'Mm9GeneralStore' ? 4 : 6;
+    const width = 450 / columns;
+    for (let i = 0; i < columns; ++i) slotsOut.push({ x: 6 + i * width, y: 63, w: width - 1, h: 132, base: 201, align: 'base', fit: true });
+    for (let i = 0; i < columns; ++i) slotsOut.push({ x: 6 + i * width, y: 192, w: width - 1, h: 128, base: 324, align: 'base', fit: true });
+    return { bg: 'genshelf', slots: slotsOut };
+  }
+  function renderToday() {
+    const list = slots();
+    const layout = shelfLayout(vendor().profile);
+    const seen = new Map();
+    list.forEach(s => seen.set(s.item + '|' + s.name, (seen.get(s.item + '|' + s.name) || 0) + 1));
+    const firstSeen = new Set();
+    let html = `<div class="shelf" style="background-image:url(assets/shelf_${layout.bg}.jpg)">`;
+    layout.slots.forEach((box, index) => {
+      const slot = list[index];
+      if (!slot) return;
+      const item = ITEMS[slot.item];
+      const key = slot.item + '|' + slot.name;
+      const dup = firstSeen.has(key);
+      firstSeen.add(key);
+      let [w, h] = naturalSize(item);
+      const bw = box.w * K, bh = box.h * K;
+      if (box.fit) { const s = Math.min(1, bw / w, bh / h); w *= s; h *= s; }
+      let top;
+      if (box.align === 'top') top = 0;
+      else if (box.align === 'bottom') top = bh - h;
+      else top = (box.base - box.y) * K - h;
+      const sold = state.sold.has(index) ? ' sold' : '';
+      html += `<div class="slot${sold}" data-idx="${index}" style="left:${box.x * K}px;top:${box.y * K}px;width:${bw}px;height:${bh}px">` +
+        (dup ? `<span class="dupmark">copy</span>` : '') +
+        `<img src="${item.icon}" alt="" draggable="false" style="width:${w}px;height:${h}px;top:${top}px;left:${(bw - w) / 2}px"></div>`;
+    });
+    media.innerHTML = html + `</div>`;
+  }
+
+  /* ---------- A: ledger ---------- */
+  function rowHtml(g, compact) {
+    const left = remaining(g);
+    const sold = left.length === 0 ? ' sold' : '';
+    const idx = left.length ? left[0] : g.indices[0];
+    const qty = left.length > 1 ? ` <span class="qty">×${left.length}</span>` : '';
+    const sel = state.selected === g.slot.item + '|' + g.slot.name ? ' sel' : '';
+    if (compact) {
+      return `<div class="row${sold}${sel}" data-idx="${idx}"><div class="well">${fitImg(g.item, 46, 44, true)}</div>` +
+        `<div style="min-width:0"><div class="nm">${esc(g.slot.name)}${qty}</div></div><span class="price">${g.item.value}</span></div>`;
+    }
+    return `<div class="row${sold}${sel}" data-idx="${idx}"><div class="well">${fitImg(g.item, 60, 58, true)}</div>` +
+      `<div style="min-width:0"><div class="nm">${esc(g.slot.name)}${qty}</div><div class="sub">${subline(g.slot, g.item)}</div></div>` +
+      `<div class="st">${esc(g.item.stat)}</div><span class="price">${g.item.value}</span></div>`;
+  }
+  function renderLedger() {
+    const list = slots();
+    const laneName = state.lane === 'standard' ? 'Standard stock' : 'Special stock';
+    let html = `<div class="panel ledger"><div class="head">${chipsHtml(list)}<span class="meta" style="font-family:var(--font-display);font-size:20px;color:var(--brass)">${laneName}</span></div>`;
+    html += `<div class="cols"><span></span><span>Item</span><span>Stat</span><span>Price</span></div><div class="rows">`;
+    filtered(list).forEach(g => { html += rowHtml(g, false); });
+    html += `</div>${footHtml(list)}</div>`;
+    media.innerHTML = html;
+  }
+
+  /* ---------- B: merchant's chest ---------- */
+  function packGrid(groupsList, cols, rows) {
+    const occupied = Array.from({ length: rows }, () => new Array(cols).fill(false));
+    const placed = [];
+    const entries = [];
+    groupsList.forEach(g => g.indices.forEach(i => entries.push({ g, i })));
+    entries.sort((a, b) => (b.g.item.cells[1] - a.g.item.cells[1]) || (b.g.item.cells[0] - a.g.item.cells[0]));
+    entries.forEach(entry => {
+      const [w, h] = entry.g.item.cells;
+      for (let x = 0; x <= cols - w; ++x) {
+        for (let y = 0; y <= rows - h; ++y) {
+          let free = true;
+          for (let yy = y; yy < y + h && free; ++yy) for (let xx = x; xx < x + w && free; ++xx) if (occupied[yy][xx]) free = false;
+          if (free) {
+            for (let yy = y; yy < y + h; ++yy) for (let xx = x; xx < x + w; ++xx) occupied[yy][xx] = true;
+            placed.push({ ...entry, x, y, w, h });
+            return;
+          }
+        }
+      }
+    });
+    return placed;
+  }
+  function renderChest() {
+    const list = slots();
+    const laneName = state.lane === 'standard' ? 'Standard stock' : 'Special stock';
+    const pricesChip = `<span class="chip ${state.showPrices ? 'on' : ''}" data-prices="1">Prices</span>`;
+    let html = `<div class="panel thin chest${state.showPrices ? ' showprices' : ''}"><div class="head">${chipsHtml(list, pricesChip)}<span class="chestinfo" style="font-family:var(--font-display);font-size:20px;color:var(--brass);white-space:nowrap">${laneName} · ${list.length - state.sold.size} of ${list.length}</span></div><div class="grid">`;
+    const placed = packGrid(filtered(list), 13, 9);
+    placed.forEach(p => {
+      const cell = 60;
+      const sold = state.sold.has(p.i) ? ' sold' : '';
+      html += `<div class="gitem${sold}" data-idx="${p.i}" style="left:${p.x * cell}px;top:${p.y * cell}px;width:${p.w * cell}px;height:${p.h * cell}px">` +
+        `${fitImg(p.g.item, p.w * cell - 4, p.h * cell - 4, false)}<span class="tag price">${p.g.item.value}</span></div>`;
+    });
+    html += `</div></div>`;
+    media.innerHTML = html;
+    const total = filtered(list).reduce((n, g) => n + g.indices.length, 0);
+    if (placed.length < total) {
+      media.querySelector('.chestinfo').innerHTML += ` · <span style="color:var(--coral)">${total - placed.length} do not fit</span>`;
+    }
+  }
+
+  /* ---------- C: display niches ---------- */
+  function renderNiches() {
+    const list = slots();
+    const all = filtered(list);
+    const pages = Math.max(1, Math.ceil(all.length / 12));
+    state.nichePage = Math.min(state.nichePage, pages - 1);
+    const shown = all.slice(state.nichePage * 12, state.nichePage * 12 + 12);
+    let pager = '';
+    if (pages > 1) {
+      pager = `<div class="pager">` + Array.from({ length: pages }, (_, i) => `<b class="${i === state.nichePage ? 'on' : ''}" data-np="${i}"></b>`).join('') + `</div>`;
+    } else {
+      pager = `<span style="font-family:var(--font-display);font-size:20px;color:var(--brass)">${state.lane === 'standard' ? 'Standard stock' : 'Special stock'}</span>`;
+    }
+    let html = `<div class="panel niches"><div class="head">${chipsHtml(list)}${pager}</div><div class="tiles">`;
+    shown.forEach(g => {
+      const left = remaining(g);
+      const sold = left.length === 0 ? ' sold' : '';
+      const idx = left.length ? left[0] : g.indices[0];
+      html += `<div class="tile${sold}" data-idx="${idx}"><div class="pic">${fitImg(g.item, 150, 100, true)}</div>` +
+        `<div class="nm">${esc(g.slot.name)}</div><span class="price">${g.item.value}</span>` +
+        (left.length > 1 ? `<span class="qty">×${left.length}</span>` : '') + (g.slot.enchant ? `<span class="gem" title="Enchanted"></span>` : '') + `</div>`;
+    });
+    html += `</div>${footHtml(list)}</div>`;
+    media.innerHTML = html;
+  }
+
+  /* ---------- D: counter ---------- */
+  function renderCounter() {
+    const list = slots();
+    const all = filtered(list);
+    if (!state.selected || !all.some(g => g.slot.item + '|' + g.slot.name === state.selected)) {
+      const first = all.find(g => remaining(g).length) || all[0];
+      state.selected = first ? first.slot.item + '|' + first.slot.name : null;
+    }
+    const sel = all.find(g => g.slot.item + '|' + g.slot.name === state.selected);
+    let html = `<div class="room" style="background-image:url(${vendor().room})"></div>`;
+    html += `<div class="panel thin dlist">${chipsHtml(list)}<div class="rows">`;
+    all.forEach(g => { html += rowHtml(g, true); });
+    html += `</div>${footHtml(list).replace('New stock every', 'Restock')}</div>`;
+    if (sel) {
+      const left = remaining(sel);
+      html += `<div class="spot">${fitImg(sel.item, 420, 350, true)}</div>`;
+      html += `<div class="panel plate"><div class="t">${esc(sel.slot.name)}</div>` +
+        `<div class="l">${esc(sel.item.typeName)}${sel.item.stat ? ' · ' + esc(sel.item.stat) : ''}</div>` +
+        (sel.slot.enchant ? `<div class="l ench">${esc(sel.slot.enchant)}</div>` : '') +
+        `<div class="l" style="color:var(--ink-muted)">${left.length > 1 ? left.length + ' in stock' : (left.length ? 'Last one' : 'Sold out')}</div>` +
+        (left.length ? `<button class="buy" data-buy="${left[0]}">Buy · ${sel.item.value}</button>` : '') + `</div>`;
+    }
+    media.innerHTML = html;
+  }
+
+  /* ---------- Sidebar, rail, inspect ---------- */
+  function renderSide() {
+    const v = vendor();
+    const owner = v.name.replace(/^The\s+/, '');
+    $('side').innerHTML = `<div class="title">${esc(v.name)}</div><div class="medal" aria-hidden="true">${esc(owner[0])}</div>` +
+      `<div class="who">${esc(v.location)}<small>${esc(v.type)}</small></div>` +
+      `<div class="topics"><button class="topic ${state.lane === 'standard' ? 'on' : ''}" data-lane="standard">Buy Standard</button>` +
+      `<button class="topic ${state.lane === 'special' ? 'on' : ''}" data-lane="special">Buy Special</button>` +
+      `<button class="topic">Display Equipment</button></div>`;
+  }
+  function setRail(html) { $('rail').innerHTML = html; }
+  function defaultRail() {
+    setRail(state.variant === 'counter'
+      ? `<span class="hint">Choose an item, then Buy. Hold right mouse to inspect.</span>`
+      : `<span class="hint">Click an item to buy it. Hold right mouse to inspect.</span>`);
+  }
+  function slotAt(index) { return slots()[index]; }
+
+  function renderInspect(index, x, y) {
+    hideInspect();
+    const slot = slotAt(index);
+    if (!slot) return;
+    const item = ITEMS[slot.item];
+    const box = document.createElement('div');
+    box.className = 'panel thin inspect';
+    box.id = 'inspect';
+    box.innerHTML = `<div class="t">${esc(slot.name)}</div><div class="in"><div class="pic">${fitImg(item, 116, 200, true)}</div><div>` +
+      `<div class="l">Type: ${esc(item.typeName)}</div>` + (item.stat ? `<div class="l">${esc(item.stat)}</div>` : '') +
+      (slot.enchant ? `<div class="l ench">${esc(slot.enchant)}</div>` : '') +
+      (item.notes ? `<div class="d">${esc(item.notes)}</div>` : '') + `</div></div><div class="v">Value: ${item.value}</div>`;
+    stage.appendChild(box);
+    const w = 470, h = box.offsetHeight;
+    box.style.left = Math.max(10, Math.min(1190 - w, x + 20)) + 'px';
+    box.style.top = Math.max(10, Math.min(880 - h, y - h / 2)) + 'px';
+  }
+  function hideInspect() { const el = $('inspect'); if (el) el.remove(); }
+
+  function stagePoint(event) {
+    const rect = stage.getBoundingClientRect();
+    const scale = rect.width / 1200;
+    return [(event.clientX - rect.left) / scale, (event.clientY - rect.top) / scale];
+  }
+
+  function render() {
+    renderSide();
+    ({ today: renderToday, ledger: renderLedger, chest: renderChest, niches: renderNiches, counter: renderCounter })[state.variant]();
+    defaultRail();
+    renderControls();
+    renderNotes();
+  }
+
+  function renderControls() {
+    $('variantSeg').innerHTML = VARIANTS.map(v => `<button type="button" aria-pressed="${v.id === state.variant}" data-variant="${v.id}">${esc(v.label)}</button>`).join('');
+    const pageCount = vendor().lanes[state.lane].length;
+    $('pageSeg').innerHTML = Array.from({ length: pageCount }, (_, i) => `<button type="button" aria-pressed="${i === state.page}" data-page="${i}">${i + 1}</button>`).join('');
+  }
+  function renderNotes() {
+    const n = NOTES[state.variant];
+    $('notes').innerHTML = `<div class="prose"><h3>${esc(VARIANTS.find(v => v.id === state.variant).label)}</h3><p>${esc(n.what)}</p></div>` +
+      `<div><ul>${n.good.map(t => `<li><span class="pill good">+</span>${esc(t)}</li>`).join('')}${n.bad.map(t => `<li><span class="pill bad">−</span>${esc(t)}</li>`).join('')}</ul></div>`;
+  }
+
+  function resetStock() { state.sold = new Set(); state.selected = null; state.category = 'All'; state.nichePage = 0; }
+
+  /* ---------- Events ---------- */
+  const vendorSel = $('vendorSel');
+  vendorSel.innerHTML = DATA.vendors.map((v, i) => `<option value="${i}">${esc(v.name)} — ${esc(v.location)}, ${esc(v.type)}</option>`).join('');
+  vendorSel.value = String(state.vendor);
+  vendorSel.addEventListener('change', () => { state.vendor = Number(vendorSel.value); state.page = 0; resetStock(); render(); });
+
+  document.addEventListener('click', event => {
+    const variantButton = event.target.closest('[data-variant]');
+    if (variantButton) {
+      state.variant = variantButton.dataset.variant;
+      try { localStorage.setItem('mm9buy.variant', state.variant); } catch (e) {}
+      history.replaceState(null, '', '#' + state.variant);
+      resetStock(); render(); return;
+    }
+    const pageButton = event.target.closest('[data-page]');
+    if (pageButton) { state.page = Number(pageButton.dataset.page); resetStock(); render(); return; }
+  });
+
+  stage.addEventListener('click', event => {
+    const lane = event.target.closest('[data-lane]');
+    if (lane) { state.lane = lane.dataset.lane; state.page = Math.min(state.page, vendor().lanes[state.lane].length - 1); resetStock(); render(); return; }
+    const chip = event.target.closest('[data-cat]');
+    if (chip) { state.category = chip.dataset.cat; state.nichePage = 0; render(); return; }
+    if (event.target.closest('[data-prices]')) { state.showPrices = !state.showPrices; render(); return; }
+    const np = event.target.closest('[data-np]');
+    if (np) { state.nichePage = Number(np.dataset.np); render(); return; }
+    const buy = event.target.closest('[data-buy]');
+    if (buy) {
+      const index = Number(buy.dataset.buy);
+      const slot = slotAt(index);
+      state.sold.add(index);
+      render();
+      setRail(`Bought ${esc(slot.name)} for <span class="gold">${ITEMS[slot.item].value}</span> gold`);
+      return;
+    }
+    const target = event.target.closest('[data-idx]');
+    if (!target) return;
+    const index = Number(target.dataset.idx);
+    const slot = slotAt(index);
+    if (state.variant === 'counter') { state.selected = slot.item + '|' + slot.name; render(); return; }
+    state.sold.add(index);
+    render();
+    setRail(`Bought ${esc(slot.name)} for <span class="gold">${ITEMS[slot.item].value}</span> gold`);
+  });
+
+  stage.addEventListener('mouseover', event => {
+    const target = event.target.closest('[data-idx]');
+    if (!target) return;
+    const slot = slotAt(Number(target.dataset.idx));
+    if (!slot) return;
+    const verb = state.variant === 'counter' ? 'Show' : 'Buy';
+    setRail(`${verb} ${esc(slot.name)} for <span class="gold">${ITEMS[slot.item].value}</span> gold`);
+  });
+  stage.addEventListener('mouseleave', () => { defaultRail(); hideInspect(); });
+  stage.addEventListener('contextmenu', event => event.preventDefault());
+  stage.addEventListener('mousedown', event => {
+    if (event.button !== 2) return;
+    const target = event.target.closest('[data-idx]');
+    if (!target) return;
+    const [x, y] = stagePoint(event);
+    renderInspect(Number(target.dataset.idx), x, y);
+  });
+  window.addEventListener('mouseup', event => { if (event.button === 2) hideInspect(); });
+  window.addEventListener('blur', hideInspect);
+
+  function fit() {
+    const box = $('stageBox');
+    stage.style.transform = `scale(${box.clientWidth / 1200})`;
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1);
+    if (VARIANTS.some(v => v.id === id) && id !== state.variant) { state.variant = id; resetStock(); render(); }
+  });
+  fit();
+  render();
+})();
+</script>

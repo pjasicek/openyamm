@@ -1,0 +1,26 @@
+# Integrator capture: run minimized against the Hesper stage with stage.lock and engine_build.lock shared.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d03/review/pickups
+settle_seconds: 1.5
+exit: true
+shots:
+- name: garrison_serum_store
+  position:
+  - 4420
+  - -620
+  - -1536
+  yaw: 1.5707963
+  pitch: -0.15
+- name: yard_corpse_bundle
+  position:
+  - 3100
+  - 1100
+  - -768
+  yaw: 3.08451
+  pitch: -0.4
+- name: crusher_bundle
+  position:
+  - 1750
+  - -1100
+  - -1536
+  yaw: -2.46685
+  pitch: -0.4

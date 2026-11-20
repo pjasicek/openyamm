@@ -1,0 +1,186 @@
+{
+ "sprite": "7tree29_p121",
+ "output": "mm7_deco_7tree29.glb",
+ "height_m": 7.0,
+ "note": "Red maple: round red and rose crown from a quarter of the height, thick dark trunk with branches showing in gaps.",
+ "sapling": {
+  "scale": 4.95,
+  "baseSplits": 0,
+  "baseSize": 0.35,
+  "splitHeight": 0.32,
+  "attractUp": [
+   0,
+   0.6,
+   0.35,
+   0
+  ],
+  "seed": 291,
+  "ratio": 0.045,
+  "downAngle": [
+   90,
+   45,
+   45,
+   45
+  ],
+  "rootFlare": 1.1
+ },
+ "crown": {
+  "canopy_low": 0.27,
+  "centre": 0.6,
+  "clumps": 72,
+  "inner_clumps": 8,
+  "gap": 1.0
+ },
+ "bark": {
+  "target_srgb": [
+   72,
+   56,
+   44
+  ],
+  "root_reach": 0.3,
+  "roots": 0
+ },
+ "leaves": {
+  "target_srgb": [
+   220,
+   110,
+   106
+  ],
+  "seeds": [
+   291,
+   307,
+   311,
+   313
+  ],
+  "value": [
+   0.9,
+   1.6
+  ],
+  "palette": [
+   [
+    [
+     [
+      216,
+      92,
+      92
+     ],
+     0.5
+    ],
+    [
+     [
+      246,
+      141,
+      132
+     ],
+     0.3
+    ],
+    [
+     [
+      165,
+      51,
+      57
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      246,
+      141,
+      132
+     ],
+     0.5
+    ],
+    [
+     [
+      216,
+      92,
+      92
+     ],
+     0.3
+    ],
+    [
+     [
+      255,
+      176,
+      154
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      165,
+      51,
+      57
+     ],
+     0.5
+    ],
+    [
+     [
+      198,
+      77,
+      81
+     ],
+     0.3
+    ],
+    [
+     [
+      121,
+      44,
+      55
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      216,
+      92,
+      92
+     ],
+     0.4
+    ],
+    [
+     [
+      176,
+      66,
+      70
+     ],
+     0.4
+    ],
+    [
+     [
+      246,
+      141,
+      132
+     ],
+     0.2
+    ]
+   ]
+  ]
+ },
+ "lod": {
+  "triangles": [
+   7000,
+   2700,
+   900
+  ],
+  "tone": [
+   1.0,
+   0.92,
+   0.99
+  ]
+ },
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.55,
+  "range": 0.45,
+  "power": 1.0,
+  "local_floor": 0.45,
+  "core_floor": 0.72
+ }
+}

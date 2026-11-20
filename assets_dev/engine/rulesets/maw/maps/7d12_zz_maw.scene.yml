@@ -1,0 +1,7 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §3.4): Clanker's Laboratory's bookcase that is door 17 opens it and door 3; the map
+# gives its face the empty-bookcase event instead (zzMaw-BookSwitches.lua).
+format_version: 1
+kind: indoor_scene_overlay
+initial_state:
+  face_attribute_overrides:
+    - {face_index: 1817, cog_triggered: 3}

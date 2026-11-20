@@ -1,0 +1,28 @@
+{
+  "status": "offline_family_review_passed_native_review_pending",
+  "reviewed_by": "assistant visual inspection",
+  "scope": "12 native/raw/composite/mask comparisons and all 12 2x2 repeat layouts",
+  "observations": [
+    "Native individual stone counts and exposed earth gaps retained.",
+    "Broad orange/brown palette and layered flat stone faces preserved; generated earth discarded for accepted master.",
+    "No obvious square seams in repeat sheets; diagonal cut contact-shadow defect corrected by distinguishing antialiasing from physical edge coverage.",
+    "Masks have slightly rounder outlines and some small boundary stones are inset; native positions remain broadly aligned.",
+    "Cap and turn self repeats only screen substrate continuity; they are not valid connected path layouts."
+  ],
+  "limits": [
+    "In-game and movement acceptance outstanding.",
+    "Numerical native pair checks are RGB continuity checks, not proof of every native layout or perspective."
+  ],
+  "build_sha256": "4d122d220efd3ab4e60f8d4e3e257e7d62feb91d37491fb5cdb01584d60543f0",
+  "validation_sha256": "09a6e55e8e5d97e84f9e95a39daadd4d3c0dcb657d7549c483b7476687d291b7",
+  "images": {
+    "comparison_1.png": "81fbe35e3ba32ff160f4b82352ff19a9c14ac385d037806bad99fe6dc7d9bfa0",
+    "comparison_2.png": "b09b8d2b76cb3be354a62a110bfbdd4767a86675a9709a4cd8831ef5e89f82d4",
+    "comparison_3.png": "78755e50c02961800f4883a0dd0aacb0fb35b214b5e6c0943ba863b6a646560f",
+    "comparison_4.png": "e66eb1e703b32a3e2890688741e61d7192ca32ba6528b4c0fe051c45012647ec",
+    "repeats_1.png": "709a3a4f4f073544c182d9b9db48a17b6071c1a52626e008c0ec17fc789dd8a8",
+    "repeats_2.png": "b2ec35d20a14b1c7aa7cd6bf00da59d6bd455aeba0bbb934a9766f01a48283d7",
+    "repeats_3.png": "9bfaabdc445e8c4d847fbe3a0e3b2dcfc1c7e0e399f3050162f647bad71ce287",
+    "repeats_4.png": "14b3513a1b74f20d922fa8fe392ea9816162dd7e6884f5d98c4bd1eb4fdf892e"
+  }
+}

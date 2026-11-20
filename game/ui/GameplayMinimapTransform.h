@@ -4,6 +4,7 @@
 #include "game/ui/GameplayOverlayTypes.h"
 
 #include <algorithm>
+#include <cmath>
 
 namespace OpenYAMM::Game
 {
@@ -60,6 +61,16 @@ inline GameplayMinimapPoint gameplayMinimapWorldToUv(
     }
 
     return {std::clamp(u, 0.0f, 1.0f), std::clamp(v, 0.0f, 1.0f)};
+}
+
+// The party heading as it appears on the map image, in the convention of the MAPDIR arrows (+X right, +Y up).
+// Mirrors the image flips the position goes through, so a flipped map (MM9 exteriors are drawn rotated 180 degrees)
+// shows the arrow pointing where the party walks.
+inline float gameplayMinimapDisplayYaw(const GameplayMinimapState &state, float worldYawRadians)
+{
+    const float screenRight = std::cos(worldYawRadians) * (state.flipU ? -1.0f : 1.0f);
+    const float screenUp = std::sin(worldYawRadians) * (state.flipV ? 1.0f : -1.0f);
+    return std::atan2(screenUp, screenRight);
 }
 
 inline GameplayMinimapPoint gameplayMinimapUvToWorld(

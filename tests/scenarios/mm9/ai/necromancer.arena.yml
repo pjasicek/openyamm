@@ -1,0 +1,28 @@
+# AI arena: MM9's resurrection chain (AICommon.inc). An Evil Apprentice (9156, a resurrecter with a ResurrectSpell
+# clip) holds its place behind a Skeleton Warrior (9136) and a Skeleton Master (9137), both placed
+# can_be_resurrected (their models have a Resurrect clip). The scenario kills the warrior: its corpse asks, the
+# apprentice answers, casts and raises it. Then it kills the apprentice and the master: with no resurrecter left
+# around, the master (a resurrecter itself) raises itself. See README.md.
+name: mm9_necromancer
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  # The scenario names them from the end of the actor list: the warrior is last, the apprentice last-1.
+  - monster_id: 9137
+    position: [-900, 400, 1]
+    yaw_degrees: 270
+    mm9_ai: {can_be_resurrected: true}
+  - monster_id: 9156
+    position: [600, 900, 1]
+    yaw_degrees: 270
+  - monster_id: 9136
+    position: [-300, -200, 1]
+    yaw_degrees: 270
+    mm9_ai: {can_be_resurrected: true}

@@ -1,0 +1,377 @@
+{
+  "creature": "MM9 dragonfly family (Dragonfly Mite, Dragonfly, Fire Dragonfly; monsters 9075-9077)",
+  "identity": "mm9:dragonfly",
+  "scope": "FULL: HD masters, Meshy model + retexture, MM9 skeleton/clip reuse, tiers, LODs, install (mm9 world), binding, checks",
+  "meshy": {
+    "credit_limit": 30,
+    "jobs": {
+      "body_smart_v1": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:references_hd/00_three_quarter.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "target_polycount": 15000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "references_hd/00_three_quarter.png",
+            "sha256": "2374fc967cdee38572fbc81202cda953d03380ca3e59ee99db7e409edc698eb5"
+          }
+        ],
+        "fingerprint": "118ea442634c364f7ff99003ad869eee8854627d445abb08caa69c1b2443e1b4",
+        "account": "backup",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-29T20:44:05.530139+00:00",
+        "task_id": "01a18967-d65b-71e2-804f-ac36e23bae4f",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a18967-d65b-71e2-804f-ac36e23bae4f",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1793306648046,
+          "progress": 100,
+          "started_at": 1793306648057,
+          "finished_at": 1793306651792,
+          "expires_at": 1793565851792,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18967-d65b-71e2-804f-ac36e23bae4f/output/model.glb?Expires=1793565851&Signature=lnWQ9qBtpHG9KnCrypHqqC5mIjcDkAfMkTwbb9FcrZ0t7VzrHfXQe5Yrg0ZqqrAb-GuabwR-Mq1VTH1vbYaeLFrraIcO5nc49VikVfGv31L6PsdHv-7azZUWNKxrT0ZYnWvIjZa6cqfqzv3jasnelBk2qaeahJBvExQxeYK1gUb28G007QXss-jvg-m1zbIfJYyEsGMVBp3~rvQM5wHIDFpzBTaSmqvB4dcDN2S64nC5WiBmKbR7r1iJnQG2249nB3YdlMAVUBef9WY~EZZUNQth29r~XGVcD9u6upb00Ip1cn3bi6SJHzaguCbifhF5TgDE7zLC4heIT096wVBHxQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18967-d65b-71e2-804f-ac36e23bae4f/output/model.glb?Expires=1793565851&Signature=lnWQ9qBtpHG9KnCrypHqqC5mIjcDkAfMkTwbb9FcrZ0t7VzrHfXQe5Yrg0ZqqrAb-GuabwR-Mq1VTH1vbYaeLFrraIcO5nc49VikVfGv31L6PsdHv-7azZUWNKxrT0ZYnWvIjZa6cqfqzv3jasnelBk2qaeahJBvExQxeYK1gUb28G007QXss-jvg-m1zbIfJYyEsGMVBp3~rvQM5wHIDFpzBTaSmqvB4dcDN2S64nC5WiBmKbR7r1iJnQG2249nB3YdlMAVUBef9WY~EZZUNQth29r~XGVcD9u6upb00Ip1cn3bi6SJHzaguCbifhF5TgDE7zLC4heIT096wVBHxQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18967-d65b-71e2-804f-ac36e23bae4f/output/preview.png?Expires=1793565851&Signature=mA-Ga7MFjwAC9I5yK6eqC~HbQTnf7e-75iqPbnZIOMjDBC6sCQ1eGMhjsFSKCAv3FN6FRAdO3HKmZKNBa-XYcORN~s-Ev9g9gK6sxVUb8koqUTt7wt-~oi0C6-Lmmnop-MWTDQsetKrkikFS5mJMyHM0iHc7aAI9eYPz04vffyHuUqzSFlTLo~QwMtTd0YSU7Dxc4qsAEN1mBVBNJ04sopCHxgGTv7lof0NMjHDIw1H5ySWGjIbsJUNmNc9Wfo8hfPmZI7kDQ-e2R57UFFzUJTl-zFkEjmpYeUFBcu7zO7Fb8Te5Sim3d6NWgl6Qg25d1LI7U6uH4BCr35x3e9ZA0Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/body_smart_v1/model_urls_glb.glb",
+            "sha256": "630e6435e4017292344001d42b823e6e65f8c0c0c3a5fcb04a98a854cfe48d09"
+          },
+          "thumbnail_url": {
+            "path": "meshy/body_smart_v1/thumbnail_url.png",
+            "sha256": "673e90405e16aac17fa897e48ee5c42ceec79e30ea10bc767e0140cc4bd3340a"
+          }
+        }
+      },
+      "retexture_v1": {
+        "kind": "retexture",
+        "request": {
+          "model_url": "@file:texturing/dfly_body_upload.glb",
+          "ai_model": "meshy-7",
+          "enable_original_uv": true,
+          "enable_pbr": true,
+          "texture_resolution": "2k",
+          "target_formats": [
+            "glb"
+          ],
+          "multiview_image_urls": [
+            "@file:references_hd/01_front.png",
+            "@file:references_hd/03_left.png",
+            "@file:references_hd/02_back.png",
+            "@file:references_hd/04_right.png"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "texturing/dfly_body_upload.glb",
+            "sha256": "b8164c3e25d70ea4f31f58f1087cfeb48899a869a4553304d13dd8f8048d92d3"
+          },
+          {
+            "path": "references_hd/01_front.png",
+            "sha256": "33f0b02329e5ad118daa2057388d089da4ed1e3713f2961bcf44f38d032de2d7"
+          },
+          {
+            "path": "references_hd/03_left.png",
+            "sha256": "2b10507422caf32944ba6668f8cbf786864cd718ed5692089f53e7957f961cff"
+          },
+          {
+            "path": "references_hd/02_back.png",
+            "sha256": "6dcdffbb709b92fa3b5ea3e0a9d4d94da21d8df4b87a340bd1a0742085e2e97d"
+          },
+          {
+            "path": "references_hd/04_right.png",
+            "sha256": "343e144a5c0b3033394fd19487dc0a7e5883b089422a225d6e6099e107ccdebd"
+          }
+        ],
+        "fingerprint": "ed63736eb4503c56aa4c03cc1bad08c35ed172543f74654c5232d4111608fd44",
+        "account": "backup",
+        "reserved_credits": 10,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-29T20:57:53.184959+00:00",
+        "task_id": "01a18974-775a-76df-8f36-80e89ebb8a07",
+        "consumed_credits": 10,
+        "task": {
+          "id": "01a18974-775a-76df-8f36-80e89ebb8a07",
+          "type": "retexture",
+          "name": "",
+          "art_style": "realistic",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "multiview_image_urls": [
+            "https://assets.meshy.ai/uploads/0_01a18974-775a-76df-8f36-80e89ebb8a07.png?Expires=1793566732&Signature=neiIeTFMzBSY2Lnmd2hTMcKBpKfZ30h~cEsbSIpvqIUpYc0s9~wCRHReexrrdr3OFu3j4L9j~qESe02UavMchBNhGFyxmG77mdJl-~2N-A4~-DVl2UfrbCKWSXTkiIM8Iq1vc54g1rLxvibOjExNKU1YNPIWvHxzwJKqAh4~hkvFOlgt750~Jtm5fBlDRdfoYtEbUe2~t0phS2oS7P5V7pPkg~Z-n5dh2pYl3sd6jdYz6YVHRa25jf17l1TqrmpLMWOpS9gwFGK3RTz3jw0UrDqmgYEXNDfIJIiMYVwJeWwjb2Tv04-XFcbZ1QdlZRAgiYFCzWv9H94jh55IA3pmJw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+            "https://assets.meshy.ai/uploads/1_01a18974-775a-76df-8f36-80e89ebb8a07.png?Expires=1793566732&Signature=alA2JAxxbYDArt3pOlF7KD8OZQSrVNJITFFWRZlDtIoPnr~ZXHsABcyTlZq9JoTSuZC~3wDNqHRcVUEkch35ffR5zyvIArrShzUZ5uL2H5LTxDrW1XavSNRevuheJUElrCJ-GddRQdYfCmBFYb5BtO8C59RyS9aJ8qCQoZxa~jv-fYPLkXUNiqC4XKPVFweZxi0yhym8UWlUwMSI7AWJp9JED0VBSQFdR8cUWGYEHFJJzbfolUQsn9zuabMcKp8YuNrsAB5KcO0B55KrZGyPpf~qGqevszFH5m9pnUUf0iiIUKo-fQHk1UbalVcwfkSwWL2CNZZNncThf5oY7VVwMQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+            "https://assets.meshy.ai/uploads/2_01a18974-775a-76df-8f36-80e89ebb8a07.png?Expires=1793566732&Signature=cT~ESdQbsdE3Ay2-VC52XKlvtvDoXWKd65YdxrxbDNfcFPouNV0qLWfZeFv8rj10bDPK0Bw2Hr4D9mqVbhdYQBy2XE4XLPKhAkr6l7fhUBqFxuSbmBcIAC7a2j1EA8dnnqc2zaHDM-zqZw2R22RmiFZ9M~pforXwvt1AooURcczUdROH8zlFF3Uy3W2pA0DJ4m38w1Ace-JjEHD~jeTLq4goFDxF1xCHLc1ndHK7dVps5j-sSyme4RoEoAQO3m9luxghR3BlVusomnpE1FP2nD-v0vvnMItuyUda8gCVq9nMBL60GdySKqio4rnjt1iQ42~SnDo0FWOJZg8XQSQaVg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+            "https://assets.meshy.ai/uploads/3_01a18974-775a-76df-8f36-80e89ebb8a07.png?Expires=1793566732&Signature=lvHCEnp0sBshPl5hZm5NCzKJJ0lIYYzRCNImv9jIoGJ5-g3tA3oL40vXzpEpKTg9Edmx4HjTeoVzUBTpCILdUJ5Vc~OZkqA8OA9sHMzpzP35Z3PSW6cjEIHz0ud9bw4aUFmYtWXdzJcXon5U~i7ClP8hN9qkBy8m00i9d02BHApUzW1mdD1B7nQcqvyiBkeAqxXfrY2iz66iX3sY1452i3i1cQ9mFKlvqbdD1HULhpyqDABk652S7V1TGH~OAI2ETk2Y8CfCrR4aMi59VrGu9xOvX6wTZAIe7WWbPa7~cC2fW0uJ8RvalvnpXgVTYJtiLDSvnYcydq2SsGAaeDCV~A__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          ],
+          "status": "SUCCEEDED",
+          "created_at": 1793307476808,
+          "progress": 100,
+          "started_at": 1793307476824,
+          "finished_at": 1793307532308,
+          "expires_at": 1793566732308,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18974-775a-76df-8f36-80e89ebb8a07/output/model.glb?Expires=1793566732&Signature=pCmOLd25nGANA8jj3tPk32b0G4YuAoCX6V0RBd4kaIAD3Tg7JVAPj50ug3zMjjagt8sHSM-ic9KOG0PMLkFPK~Ho8ozIieSD~QAXdOQdpGkvhhDVSECMf7DLQJr2GGqXQWuYUs4KJp88YxXqSoyZ-dWCyTKVLi1Q7v5Ft~4gS3rYxTABelyEhKSKtCRTXsbG8MQYHxMYb9cPAoHBtjZsmj~KkBDU-GDqP6qY4Cy0fPJWL51oic-fJKiyDyJTWtJ~aVcw2KzyBFfBy4zCrrN3zICg1f1dPUSzyC0kx6gh2vhQ4kwK8vkFvwaSNMW8CsMD4N4uVzLImgKdsP~Z3r941g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18974-775a-76df-8f36-80e89ebb8a07/output/model.glb?Expires=1793566732&Signature=pCmOLd25nGANA8jj3tPk32b0G4YuAoCX6V0RBd4kaIAD3Tg7JVAPj50ug3zMjjagt8sHSM-ic9KOG0PMLkFPK~Ho8ozIieSD~QAXdOQdpGkvhhDVSECMf7DLQJr2GGqXQWuYUs4KJp88YxXqSoyZ-dWCyTKVLi1Q7v5Ft~4gS3rYxTABelyEhKSKtCRTXsbG8MQYHxMYb9cPAoHBtjZsmj~KkBDU-GDqP6qY4Cy0fPJWL51oic-fJKiyDyJTWtJ~aVcw2KzyBFfBy4zCrrN3zICg1f1dPUSzyC0kx6gh2vhQ4kwK8vkFvwaSNMW8CsMD4N4uVzLImgKdsP~Z3r941g__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18974-775a-76df-8f36-80e89ebb8a07/output/preview.png?Expires=1793566732&Signature=bacX7aGCtwIlHbYIobGfRYMgjdmXpH55L3gdeZKskhyXctbDVinm4Rj8nCcu9egjcKv7228gYdyWJwiidciN~cHYWBp7ttxtIuk2OzmxofunE3ktXBXBy1DEGQglV12jazf9OAH~nuJkW6gcCp9MSMrKSD8z985ioBmrR~yLtHmdk4AdW5~V~Nsx6lZWD81ansCEaNBcD4ciHfEy-zqfBKjmFZ668mOACErPo8qozE-ix2UYtq5CFScmKvp-GuxJ48ZoI60eE~03XnMLUkW2mu6mI9rsYV6rQGJHeEmOsO7szHsCm4Qk3aajJ0n0dsJ9FzgOmmIgyMrdZyOCsnLvhw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [
+            {
+              "base_color": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18974-775a-76df-8f36-80e89ebb8a07/output/texture_0.png?Expires=1793566732&Signature=KtnVOXhpqXGa2wp9igIOXwwfx57FE3LQAT8DJp3EBE206U-51Bi07tP-cIGi4myRaomaGZ27mWLOOV5NGOyAvucN6hD7m4JEaYut9NeE5SjIj6uIs6FguCceqik1~4x-yyHKbuKnG4XdJAIfQU1s~0QtaUukZWSQafP6vtaBwYIZuvtMcEwtiSQTw3H2xIfV7Nu8vPhCt-CAVlQd0C3GgwcYaVOmA5-eSIwFD87SG1rfeU9qnoZXjgM6c7EsgkRA7vd432eQhxEunJs-vxv-xzt-7~cgdTfOo3RvcrFbcE7oJhftPrlPCkG9-oqDnRgq8GNpIuqK4Sxap9b0PySdpw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "metallic": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18974-775a-76df-8f36-80e89ebb8a07/output/texture_0_metallic.png?Expires=1793566732&Signature=n7OY7Xy8SUplCoRZj8nwCbLYTem6Q-GBfh0DqUUQOLQXh~fhbpSYL03u1QHgkoEgx3GbrDYCHuzdjNNo0Fu2uUPO2gtCclV5J9fUojP1pfqrt2x5xQlGJt8iwYE0yh30rte2p2rlIqZfwjQ7BD2m0xQj82CyyPTJ4o3QDjzvvbelQB16-7wKMjCeq~SrO-3~mnePFhiRND2P2mK-AUwxnESEidSdhEASpX~DLvR9s6t38FienW2jAmyOeHQO7Od0NmW2p2sVm45XJrgBYeiDVGouPaL5QiFfPawsIO2Et-PD~qy1jBLKFNFicXNZdMGej8xtfAFVbpaZ88-Be~Bbxw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "roughness": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18974-775a-76df-8f36-80e89ebb8a07/output/texture_0_roughness.png?Expires=1793566732&Signature=Tdt-A-KPozCT~BbBU9f2GVYnFWeWg9wo9kXW8AA8Wb5ETX5PjcW8un71-cl6BYgCCm8rBHEAm8LYw8tQob18W6o9RSGQu0B7U0G~sSq8ogXBl9wVp0~uMUMChq79tIDLnnYIHyqueelVJ6GtzCQUSE428GHIzftd8B86lSWoIaRLhVCSMxfZjGf5jV2MmHWGcrqVAwUC2pihYPe~a~TyT1G8VJkkIiSNbI~wvpe3DIG0J2FHkwdp0-K76hKfH0yFqQfg6xwnl1lGQo5wepU0r43ljoWEMiKpnaTkJHpjBfPwkD6BR2WyihxFM7iABAeqBzIKZsFBPGZh-brN92SHZQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "normal": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a18974-775a-76df-8f36-80e89ebb8a07/output/texture_0_normal.png?Expires=1793566732&Signature=nGEafUqYPeFUx3hKYmhT4FFEq4OHo1rKtQ~CJu1H2V9PLfY2DaX9C5uY2nhMCwvGYUaFwj~mC0rrW5~Msl5KERli0AIPCOW25AWJChVttYFJ9SbWCUZodiqLiOuuvD7r1pebteBY-fCTggG10b2LQTM2of4zxKCwGBtiaNA1yTfM681yvCtaguh0-H46iQpWzQHWBqI9Zc0qQXlb1oCAgW65PxqJZ2U5qi2cV7iPYXNrcQ~3DDaqz-RZ0FXhrHo8Ov6ppgaXpiPEsnUKyu3yu6a-bASk95S7iC2sgbeh6TopxvXAJBjwGuC-UR9vrTeTT4MFbMZSnZ4S79YEL76DdA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+            }
+          ],
+          "consumed_credits": 10
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/retexture_v1/model_urls_glb.glb",
+            "sha256": "3c287c0a87ccf71e9f02af85a058162560b1c0946fbb13af69b1225164f35b36"
+          },
+          "texture_urls_0_base_color": {
+            "path": "meshy/retexture_v1/texture_urls_0_base_color.png",
+            "sha256": "52fe624b51f53669caa93915008a95f603576651dcc5ea82141b99f6eb00ffe4"
+          },
+          "texture_urls_0_metallic": {
+            "path": "meshy/retexture_v1/texture_urls_0_metallic.png",
+            "sha256": "16b11decb12d6b501335792c4cb40a2006cf01e19fdee8fbf0526e193ccde79f"
+          },
+          "texture_urls_0_roughness": {
+            "path": "meshy/retexture_v1/texture_urls_0_roughness.png",
+            "sha256": "edac5bcc08d3d73c8d3129db5114d5aeb28e388754232918f63b03f2e3726d90"
+          },
+          "texture_urls_0_normal": {
+            "path": "meshy/retexture_v1/texture_urls_0_normal.png",
+            "sha256": "fcb5605ca868be2bb80f6000042e32dedd9541fb5a8a72cb571c00a4fa641550"
+          },
+          "thumbnail_url": {
+            "path": "meshy/retexture_v1/thumbnail_url.png",
+            "sha256": "753c724a407f64d8834e5c24b31c0cbfda3d8f253d0b8d543fdf28551e0547dc"
+          }
+        }
+      }
+    }
+  },
+  "creature_3d_identity": "mm9:dragonfly",
+  "last_update": "2026-10-29",
+  "references_hd": {
+    "00_three_quarter.png": "2374fc967cdee38572fbc81202cda953d03380ca3e59ee99db7e409edc698eb5",
+    "01_front.png": "33f0b02329e5ad118daa2057388d089da4ed1e3713f2961bcf44f38d032de2d7",
+    "02_back.png": "6dcdffbb709b92fa3b5ea3e0a9d4d94da21d8df4b87a340bd1a0742085e2e97d",
+    "03_left.png": "2b10507422caf32944ba6668f8cbf786864cd718ed5692089f53e7957f961cff",
+    "04_right.png": "343e144a5c0b3033394fd19487dc0a7e5883b089422a225d6e6099e107ccdebd",
+    "05_wings_top.png": "0d7623693a80ff7cbf9c6c45790b8b9277667570da23b2ccbca6358cc765d3f6"
+  },
+  "references_hd_gate": "00 accepted (MM9 identity, S-curve bind pose, four wings, black eyes, teeth). 01/02 show six wings (extra short pair): accepted for the body retexture only, the wings are our own geometry textured from 05.",
+  "required_components": [
+    {
+      "id": "body",
+      "artifact_role": "body",
+      "required": true,
+      "state": "installed"
+    },
+    {
+      "id": "wings",
+      "artifact_role": "body (Dfly_Wing material)",
+      "required": true,
+      "state": "installed",
+      "source": "build_wings.py from references_hd/05 + MM9 wing planes"
+    }
+  ],
+  "selected": {
+    "meshy_model": "meshy/body_smart_v1/model_urls_glb.glb",
+    "retexture": "meshy/retexture_v1/",
+    "animated_master": "work/anim_v1.blend",
+    "export_lod0": "export/mm9_dfly_lod0.glb",
+    "runtime": {
+      "path": "export/mm9_dfly.glb",
+      "sha256": "36251689047a57997deb4102f53955776128b2d158c10b844e9328870915dc48"
+    }
+  },
+  "installed": {
+    "source": "assets_source/worlds/mm9/models/mm9_dfly.glb",
+    "source_sha256": "36251689047a57997deb4102f53955776128b2d158c10b844e9328870915dc48",
+    "runtime": "assets_dev/worlds/mm9/models/mm9_dfly.glb (cooked)",
+    "binding": "assets_dev/worlds/mm9/models/actors.yml (MM9 75/76/77, skins dfly_a/b/c)"
+  },
+  "triangles": {
+    "lod0": 5867,
+    "lod1": 2930,
+    "lod2": 1019,
+    "lod3": 313,
+    "lod0_breakdown": {
+      "body": 1942,
+      "head_skin": 1872,
+      "teeth_jaw": 517,
+      "eyes": 576,
+      "wings": 960
+    }
+  },
+  "clips": {
+    "Standing": {
+      "sources": [
+        "StandAir"
+      ],
+      "loop": true,
+      "source_keys": 9,
+      "seam_pop_before_deg": 8.37,
+      "seam_pop_bone": "XwingA03",
+      "duration": 1.4,
+      "frames": 42,
+      "seam_after_deg": 0.0
+    },
+    "Walking": {
+      "sources": [
+        "Flap"
+      ],
+      "loop": true,
+      "source_keys": 10,
+      "seam_pop_before_deg": 0.0,
+      "seam_pop_bone": "Scene Root",
+      "duration": 1.3,
+      "frames": 39,
+      "seam_after_deg": 0.0
+    },
+    "Fidget": {
+      "sources": [
+        "FidgetAir1"
+      ],
+      "loop": false,
+      "source_keys": 10,
+      "duration": 1.4,
+      "frames": 42
+    },
+    "AttackMelee": {
+      "sources": [
+        "HAttackair1"
+      ],
+      "loop": false,
+      "source_keys": 17,
+      "duration": 1.4,
+      "frames": 42
+    },
+    "AttackRanged": {
+      "sources": [
+        "Rattack1"
+      ],
+      "loop": false,
+      "source_keys": 16,
+      "duration": 1.2,
+      "frames": 36
+    },
+    "Hit": {
+      "sources": [
+        "WinceAir1"
+      ],
+      "loop": false,
+      "source_keys": 10,
+      "duration": 1.4,
+      "frames": 42
+    },
+    "Death": {
+      "sources": [
+        "DieAir1",
+        "fall1",
+        "FallDOwn1"
+      ],
+      "loop": false,
+      "join_jump_deg": [
+        28.4,
+        0.0
+      ],
+      "duration": 2.7,
+      "frames": 81
+    },
+    "Running": {
+      "sources": [
+        "Flap"
+      ],
+      "loop": true,
+      "rate": 1.4444444444444444,
+      "duration": 0.9,
+      "frames": 27,
+      "seam_after_deg": 0.0
+    },
+    "Dead": {
+      "sources": [
+        "Death last pose"
+      ],
+      "duration": 1.0
+    }
+  },
+  "events": {
+    "attack_melee": 0.649,
+    "attack_ranged": 0.673,
+    "cast": 0.673,
+    "release_socket": "Socket_Mouth"
+  },
+  "floor": {
+    "hover_m": 0.8493,
+    "corpse_grounded_m": 0.6204,
+    "audit": "floor_audit.py --world mm9: 3/3 ok"
+  },
+  "stages": {
+    "references_and_motion": "complete",
+    "model_and_rig": "complete",
+    "animation_textures_export": "complete",
+    "runtime_install_binding": "complete",
+    "regression": "complete (mm9_actor_models_build_every_binding: 3 descriptors, 0 failed; MM6-MM8 647/0)",
+    "viewer": "complete (check_viewer: 3 tiers x 9 clips, 0 errors)",
+    "ingame_review": "complete for tier A close-up (static models, all clips) and flying actors at range; B/C close-up in game not captured (fliers keep range), verified in viewer/Blender"
+  },
+  "user_acceptance": "not_recorded",
+  "findings": [
+    "Tail tip compresses to ~0.1 edge ratio on a few tiny inner-curl edges in Hit/AttackMelee (MM9 tight tail curls); not visible at review size.",
+    "MM9 front wings flap by joint translation: their inner third stretches ~10-40% like the MM9 original.",
+    "Eye spheres take ~17% of the body atlas (head islands x2.5 incl. eyes); harmless, wasteful.",
+    "Isolated run_game.sh cannot prepare MM9 saves (save_game fails for every MM9 map); in-game checks used a private --user-data folder instead."
+  ],
+  "corrections": [
+    {
+      "finding": "viewer tiers showed only wing colours",
+      "cause": "RGBA mask resize premultiplied by alpha",
+      "fix": "per-channel resize in viewer_tiers.py"
+    },
+    {
+      "finding": "inverted wing/teeth parts in shadow LODs",
+      "cause": "shrink_shadow_lods pushed thin parts inside out",
+      "fix": "wings and parts < 3 cm are not pushed; winding check 0"
+    }
+  ],
+  "next_action": {
+    "owner": "user",
+    "action": "artistic review of the viewer and in-game captures"
+  }
+}

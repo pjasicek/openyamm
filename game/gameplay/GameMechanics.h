@@ -2,7 +2,11 @@
 
 #include "game/gameplay/CharacterAttackTuning.h"
 #include "game/party/Party.h"
+#include "game/rules/ExperienceRules.h"
+#include "game/tables/MonsterShields.h"
 
+#include <array>
+#include <functional>
 #include <optional>
 #include <random>
 #include <string>
@@ -68,6 +72,12 @@ enum class CombatDamageType
     Irresistible,
 };
 
+constexpr size_t CombatDamageTypeCount = size_t(CombatDamageType::Irresistible) + 1;
+
+// The original engine's stun: the hit reaction and a few ticks of recovery, with a knockback (rulesets whose crowd
+// control comes from paralysis use it for the stun itself).
+constexpr float StaggerStunSeconds = 0.5f;
+
 struct ElementalDamageBonuses
 {
     int fire = 0;
@@ -81,6 +91,24 @@ struct ElementalDamageBonuses
     {
         return fire + air + water + body + light + dark;
     }
+
+    ElementalDamageBonuses &operator+=(const ElementalDamageBonuses &other)
+    {
+        fire += other.fire;
+        air += other.air;
+        water += other.water;
+        body += other.body;
+        light += other.light;
+        dark += other.dark;
+        return *this;
+    }
+};
+
+// The least and most elemental damage a character's weapons add to one blow or arrow.
+struct ElementalDamageRange
+{
+    ElementalDamageBonuses minimum;
+    ElementalDamageBonuses maximum;
 };
 
 struct MonsterDamageResistances
@@ -122,6 +150,19 @@ struct CharacterAttackProfile
     int rangedSpellId = 0;
     float meleeRecoverySeconds = 1.0f;
     float rangedRecoverySeconds = 1.0f;
+    // What the attacks are to an energy shield: EnergyBlade weapons and Energy Guns items are Kreegan energy.
+    ShieldAttackTier meleeShieldTier = ShieldAttackTier::Physical;
+    ShieldAttackTier rangedShieldTier = ShieldAttackTier::Physical;
+    // Energy Blades Grandmaster with an energy blade: melee hits may overload a raised shield
+    // (MonsterShieldTable::overloadRules).
+    bool meleeShieldOverload = false;
+    // A world enchantment's chance per melee hit to overload the target's shield (Hesper's Overloading), 0-1.
+    float meleeShieldOverloadChance = 0.0f;
+    // What Energy Blades and Energy Guns masteries and the weapon's ShieldDamage<percent> flag add to its shield hits.
+    ShieldHitModifiers meleeShieldModifiers;
+    ShieldHitModifiers rangedShieldModifiers;
+    // Energy Guns Grandmaster with an energy gun (not a scatter gun): its shots home onto their target.
+    bool rangedHoming = false;
 };
 
 struct CharacterAttackResult
@@ -144,9 +185,35 @@ struct CharacterAttackResult
     float projectileSpreadArcRadians = 0.0f;
     int spellId = 0;
     CombatDamageType damageType = CombatDamageType::Physical;
+    ShieldAttackTier shieldTier = ShieldAttackTier::Physical;
+    // A melee hit that may overload a raised shield (CharacterAttackProfile::meleeShieldOverload), or does so at this
+    // chance (meleeShieldOverloadChance).
+    bool shieldOverload = false;
+    float shieldOverloadChance = 0.0f;
+    ShieldHitModifiers shieldModifiers;
+    // Its projectiles home (CharacterAttackProfile::rangedHoming).
+    bool homing = false;
     bool criticalDamage = false;
+    // Elemental damage the rules add to the blow, each part resisted by its own element (MAW's Shaman Fire).
+    ElementalDamageBonuses rulesElementalDamage;
+    // The rules' elemental damage replaces the item table's weapon enchantments (MAW's level-scaled enchantments).
+    bool rulesWeaponElements = false;
+    // Damage the rules add after the monster's other stages, by damage type, each resisted by its own (MAW's artifact
+    // on-hit damage).
+    std::array<int, CombatDamageTypeCount> rulesLateDamage = {};
+    // The rules fire this arrow burning: the fire-arrow object, resisted by the weaker of physical and fire (MAW's
+    // Grandmaster bow).
+    bool fireArrow = false;
+    // A Carnage bow's arrow: fire, it cannot miss, and it explodes like a fireball where it strikes.
+    bool explosiveArrow = false;
     bool stunTarget = false;
+    // How long the stun lasts when the rules set it (MAW's item stuns); otherwise 0.5 s plus 0.35 s per skill level.
+    std::optional<float> stunSeconds;
+    // Whether the weapon's item effects stunned, before the weapon skill's own roll (rules that replace it keep this).
+    bool itemStunTarget = false;
     bool paralyzeTarget = false;
+    // How long the paralysis lasts when the rules set it (MAW's Retaliation); otherwise the skill level in minutes.
+    std::optional<float> paralyzeSeconds;
     bool fearTarget = false;
     bool enrageTarget = false;
     bool halveTargetArmorClass = false;
@@ -189,12 +256,33 @@ struct CharacterEquipPlan
     bool autoStoreDisplacedItem = false;
 };
 
+// Sections of the monster inspect popup revealed by the Identify Monster skill.
+struct IdentifyMonsterReveal
+{
+    bool hasSkill = false;
+    bool hitPointsAndArmorClass = false;
+    bool attackAndDamage = false;
+    bool spellsAndEffects = false;
+    bool resistances = false;
+
+    bool identified() const
+    {
+        return hitPointsAndArmorClass;
+    }
+};
+
+// Recovery ticks (128 per second of the original real-time pace) as real-time recovery seconds.
+float ticksToRecoverySeconds(int ticks);
+
 class GameMechanics
 {
 public:
-    static void bindClassMultiplierTable(const GameSession &session, const ClassMultiplierTable *pClassMultiplierTable);
-    static uint64_t experienceRequiredForNextLevel(uint32_t currentLevel);
-    static uint32_t maximumTrainableLevelFromExperience(const Character &character);
+    static void bindClassMultiplierTable(
+        const GameSession &session, const ClassMultiplierTable *pClassMultiplierTable);
+    static uint32_t maximumTrainableLevelFromExperience(
+        const Character &character,
+        const ExperienceRules &experienceRules = standardExperienceRules());
+
     static int calculateBaseCharacterMaxHealth(
         const Character &character,
         const ClassMultiplierTable *pClassMultiplierTable = nullptr);
@@ -211,7 +299,28 @@ public:
         Character &character,
         bool restoreCurrentToMaximum = false,
         const ClassMultiplierTable *pClassMultiplierTable = nullptr);
-    static std::string buildExperienceInspectSupplement(const Character &character);
+    static std::string buildExperienceInspectSupplement(
+        const Character &character,
+        const ExperienceRules &experienceRules = standardExperienceRules());
+    // The bonus of a primary stat's value (MM8's table: 13 gives 0, 15 +1, 500 and over +30).
+    static int primaryStatBonus(int value);
+    // The lowest value with a higher bonus than `value`'s; nothing at the top of the table.
+    static std::optional<int> nextPrimaryStatBonusValue(int value);
+    // The share of a hit's damage resistance takes off on average, 0 to 1. `resistance` is the damage type's resistance
+    // plus the Luck bonus; above 0, each of up to four rolls halves the hit with chance resistance / (resistance + 30).
+    static float averageResistedDamageShare(int resistance);
+    // The chance to resist a monster's curse, poison, disease or other effect, 0 to 1. `bonus` is the Luck bonus plus
+    // the effect's stat bonus or resistance; the save rolls rand() % (bonus + 30) and holds on 30 or more.
+    static float monsterEffectResistChance(int bonus);
+    // The HP an Endurance of `endurance` adds through the character's class: its bonus counts as that many levels of
+    // the class's HP per level.
+    static int enduranceHealthBonus(const Character &character, int endurance);
+    // The SP an Intellect or Personality ("Intellect", "Personality") of `value` adds the same way, or nothing when
+    // the class's SP do not grow with that stat.
+    static std::optional<int> primaryStatSpellPointBonus(
+        const Character &character,
+        const std::string &statName,
+        int value);
     static int resolveCharacterItemSkillBonus(const Character &character, const std::string &skillName);
     static int resolveCharacterDisplayedBasePrimaryStat(
         const Character &character,
@@ -225,13 +334,26 @@ public:
         const ItemTable *pItemTable,
         const StandardItemEnchantTable *pStandardItemEnchantTable = nullptr,
         const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr);
+    // The training fields use `experienceRules`: the party's rules where the sheet is shown.
     static CharacterSheetSummary buildCharacterSheetSummary(
         const Character &character,
         const ItemTable *pItemTable,
         const StandardItemEnchantTable *pStandardItemEnchantTable = nullptr,
         const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr,
-        CharacterAttackTuning attackTuning = {});
+        CharacterAttackTuning attackTuning = {},
+        const ExperienceRules &experienceRules = standardExperienceRules());
+    // A solo run with the bow drawn (devdocs/solo_action/WEAPONS.md "Bow swap"): Attack shoots the bow even in melee
+    // reach; none without a usable bow or with the eye under water, when the attack falls back to its usual choice.
+    static std::optional<CharacterAttackMode> soloBowShotMode(const CharacterAttackProfile &profile, bool eyeUnderWater);
     static CharacterAttackProfile buildCharacterAttackProfile(
+        const Character &character,
+        const ItemTable *pItemTable,
+        const SpellTable *pSpellTable,
+        CharacterAttackTuning attackTuning = {});
+    // What the caster's Lattice Resonator adds to its spells' hits on raised shields.
+    static ShieldHitModifiers spellShieldModifiers(const Character &character);
+    // The profile without the per-cent damage of Hesper's item effects (buildCharacterAttackProfile adds it).
+    static CharacterAttackProfile buildBaseCharacterAttackProfile(
         const Character &character,
         const ItemTable *pItemTable,
         const SpellTable *pSpellTable,
@@ -244,11 +366,27 @@ public:
         float targetDistance,
         std::mt19937 &rng,
         CharacterAttackTuning attackTuning = {});
+    // A Carnage bow's shot (the ExplosiveArrows item flag): a fire arrow that cannot miss and explodes where it strikes.
+    static void applyExplosiveArrows(const Character &character, CharacterAttackResult &attack);
     static SoundId resolveCharacterAttackSoundId(
         const Character &character,
         const ItemTable *pItemTable,
         CharacterAttackMode attackMode);
+    // Where the party aims at an actor, above its feet: 60% of its height.
     static float actorTargetHeight(uint16_t actorHeight);
+    // The same for an actor drawn as a 3D model spanning modelBottom..modelTop above its feet: 60% up the model when
+    // that is lower (a model shorter than its collision height), so a shot meets the body rather than the air above.
+    static float actorTargetHeight(uint16_t actorHeight, float modelBottom, float modelTop);
+    // Where a party shot aims at an actor, above its feet, given whether the line from the shot's source to a height on
+    // it is clear (lineClear): its target height when that line is clear, else the lowest of three points from there up
+    // to near the top of its height that is, so a slope or ridge edge in front of the target's legs does not take the
+    // shot (OY-463). None when no line is clear. At most four tests.
+    static std::optional<float> clearPartyShotAimHeight(
+        float targetHeight, uint16_t actorHeight, const std::function<bool(float)> &lineClear);
+    // Whether any part of an actor's upright box (its radius, foot to head) projects into the viewport, so a monster cut
+    // by the screen edge counts as on screen (the party's fallback target, OY-154). Row-major bx view-projection.
+    static bool actorBoxInViewport(
+        const float viewProjection[16], float x, float y, float footZ, float radius, float height);
     // Yaw offset of fan member `projectileIndex` when `projectileCount` projectiles spread evenly across
     // `arcRadians`, centred on the aim direction.
     static float projectileFanYawOffsetRadians(uint32_t projectileCount, uint32_t projectileIndex, float arcRadians);
@@ -257,7 +395,17 @@ public:
         int attackBonus,
         float targetDistance,
         std::mt19937 &rng);
+    static IdentifyMonsterReveal resolveIdentifyMonsterReveal(
+        int identifySkillLevel,
+        SkillMastery mastery,
+        int monsterLevel);
+    static IdentifyMonsterReveal resolveIdentifyMonsterReveal(const Character &character, int monsterLevel);
     static SpeechId resolveIdentifyMonsterSpeech(const Character &character, int monsterLevel);
+    // The speaker's comment on what the party learned (the rules' reveal) about a monster of this level.
+    static SpeechId resolveIdentifyMonsterSpeech(
+        const IdentifyMonsterReveal &reveal,
+        const Character &speaker,
+        int monsterLevel);
     static CombatDamageType parseCombatDamageType(const std::string &value);
     static CombatDamageType spellCombatDamageType(uint32_t spellId, const SpellTable *pSpellTable);
     static int resolveCharacterIncomingDamage(
@@ -289,6 +437,8 @@ public:
         int attackBonus,
         std::mt19937 &rng);
     static std::optional<CharacterCondition> displayedCondition(const Character &character);
+    // The condition as the character sheet names it ("Poisoned" for every poison).
+    static std::string conditionName(CharacterCondition condition);
     static bool canAct(const Character &character);
     static int resolveCharacterPerceptionValue(const Character &character);
     static int resolvePartyPerceptionValue(const Party &party);
@@ -300,6 +450,11 @@ public:
         const Character &character,
         const ItemDefinition &itemDefinition,
         const CharacterDollTypeEntry *pCharacterDollType);
+    // Why canCharacterEquipItem refuses, when the reason is the character's (skill, class, race, stat).
+    static std::optional<std::string> equipRefusalReason(
+        const Character &character,
+        const ItemDefinition &itemDefinition,
+        const CharacterDollTypeEntry *pCharacterDollType);
     static std::optional<CharacterEquipPlan> resolveCharacterEquipPlan(
         const Character &character,
         const ItemDefinition &itemDefinition,
@@ -307,6 +462,11 @@ public:
         const CharacterDollTypeEntry *pCharacterDollType,
         std::optional<EquipmentSlot> explicitSlot,
         bool preferOffHand);
+    // MM7's Wetsuit worn as armour: its wearer takes no water damage (OY-309).
+    static bool hasWetsuitEquipped(const Character &character);
+    // A character's age: the game's years so far from the starting year, less the birth year, plus magical ageing
+    // (Character::ageModifier); without a birth year, the ageing alone (OY-349).
+    static int characterAge(const Character &character);
     static bool isEquipmentAllowedWithWetsuit(
         const Character &character,
         const ItemTable *pItemTable,

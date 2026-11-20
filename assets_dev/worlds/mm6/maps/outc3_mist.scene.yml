@@ -1,0 +1,15 @@
+format_version: 1
+kind: "outdoor_scene_overlay"
+source:
+  geometry_file: "outc3.odm"
+# Mire of the Damned: a sickly green mist over the mire (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [132, 160, 118]
+      base_height: 165
+      falloff_height: 80
+      visibility: 660
+      max_opacity: 0.75
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]

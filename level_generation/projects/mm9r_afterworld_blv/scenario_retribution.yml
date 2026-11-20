@@ -1,0 +1,42 @@
+# Hand-written (2026-11-05): regionlua.py's Retribution counter and the Rebirth exit gate.
+id: mm9r.afterworld_retribution
+title: 'Afterworld (native BLV): Forad Darre''s death, ExitTrigger1 off until Rebirth'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: afterworld.blv
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Mm9ExitDisabled105
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: true
+- note:
+    text: 'TM_Hardrock.scr "1 387": Forad Darre''s death gives key 387.'
+- console:
+    line: qbit set 90386
+- execute_event:
+    id: 50094
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- damage_actor:
+    actor_index: 0
+    amount: 5000
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    qbit_set:
+    - 90387

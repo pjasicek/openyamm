@@ -1,0 +1,137 @@
+id: hesper.d12.d12_round_trips
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d12.blv
+    party:
+      food: 200
+      members:
+      - name: Crown tester 1
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: &id001
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Crown tester 2
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 3
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 4
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 5
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+- setup_shortcut:
+    kind: set_qbit
+    id: 100603
+- set_pose:
+    map: hes_d12.blv
+    x: -900
+    y: 1450
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.1
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 400
+    z: 0
+    yaw: 4.71238898038469
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 50
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    selection_index: 0
+    label: OK
+- assert:
+    map: hes_out4.odm
+- set_pose:
+    map: hes_out4.odm
+    x: 0
+    y: -4817
+    z: 1088
+    yaw: 1.5708
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d12.blv
+- set_pose:
+    map: hes_d12.blv
+    x: 8164
+    y: 4180
+    z: -1536
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    selection_index: 0
+    label: OK
+- assert:
+    map: hes_out4.odm
+- set_pose:
+    map: hes_out4.odm
+    x: 2880
+    y: -13580
+    z: 1160
+    yaw: 1.5708
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d12.blv
+- set_pose:
+    map: hes_d12.blv
+    x: 9064
+    y: 2560
+    z: -1536
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d15.blv
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 14930
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d12.blv
+- assert:
+    qbit_set:
+    - 100603

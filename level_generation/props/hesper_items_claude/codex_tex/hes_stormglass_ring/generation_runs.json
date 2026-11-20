@@ -1,0 +1,558 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: painted orthographic albedo texture source for an existing 3D game item, Hesper stormglass ring.\nImage 1 is the exact geometry edit target. Image 2 is ONLY the approved material/design reference. Paint directly onto Image 1, retaining its exact 1024 x 1024 canvas, alpha silhouette, internal open spaces, every part boundary, scale, camera angle and pixel position. Do not reshape the guide to resemble the reference geometry. Preserve even the guide's polygonal contours. No new geometry.\nMaterial authority: brushed warm gold ring and bezels; ivory-white ceramic setting with fine restrained wear, delicate hairline mineral veins and fine gold seams/engraved curves as in the reference; two glass cabochons, one cloudy ice-blue and one clear sea-green, quiet internal light. Paint only materials actually present on each visible guide part. Material tints in the guide are identifiers, not final colors. Continue unseen surfaces plausibly in the same materials.\nLighting: flat evenly lit ALBEDO ONLY, frontally illuminated shadowless texture painting. Gold is an even warm ochre-gold base color with fine brushed grain and only a faint sheen. Ceramic stays evenly ivory white. Glass has colored internal cloud/wisp details, not reflected lights. Remove the guide's baked shading. No cast shadows, no ambient occlusion, no contact darkening, no strong specular highlights, no reflections, no white glints, no rim light, no directional gradients, no bloom. Do not reproduce the reference's dramatic lighting.\nGenuinely transparent RGBA background, including every open ring hole. No black backdrop, no floor, no checkerboard painted into pixels. No text, letters, labels or watermark. Produce ONE 1024 x 1024 image, unresized. The guide silhouette and registration take priority over embellishment.\n\nVIEW: FRONT, matching guide_front.png exactly. This is the guide showing the plain back/underside of the ceramic setting at the top, hidden behind the broad gold annulus in the foreground. The gems are occluded: do NOT reveal or invent two gem faces. Only the two tiny guide bezel slivers at the top are visible. Keep the broad ceramic block exactly where it is at x248..776, y192..335; keep the gold band outer silhouette spanning x111..912, down to y841. Preserve the exact transparent lens-shaped opening at x238..785, y474..644. The large curved inner and outer band surfaces are brushed gold with subdued fine grain, equal even base color across their faces. The ceramic rear face has subtle matching fine wear and gold seams without changing its shape.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "4d9c37162988fa998b93c87cca934291bfb1b7dc5db216cfbaaeca5b8f68f785"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "491b5de8ac7947549ea7fa48fb0908d93952f5dd0c3adf34eb3d6f4b4e02a68a"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-5143d8bb-e11b-482f-906e-52f531630b06.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: excessive metallic lighting and geometry drift.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8867148304234397,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          138,
+          203,
+          1117,
+          1010
+        ],
+        "zero_alpha_fraction": 0.6538203744826762,
+        "partial_alpha_fraction": 0.34586293557585424,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          253.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "Too much metallic shading and reflection; guide contours drift. Superseded by corrective return."
+      },
+      "output_sha256": "9fcaa638ad87e375462dc3e20e4f5928851c3a50e19f477b90f5d8b3991d9ab0"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: painted orthographic albedo texture source for an existing 3D game item, Hesper stormglass ring.\nImage 1 is ONLY the approved material/design reference. Image 2 is the exact geometry edit target and controls the output size. Paint directly onto Image 2, retaining its exact 1024 x 1024 canvas, alpha silhouette, internal open spaces, every part boundary, scale, camera angle and pixel position. Do not reshape the guide to resemble the reference geometry. Preserve even the guide's polygonal contours. No new geometry.\nMaterial authority: brushed warm gold ring and bezels; ivory-white ceramic setting with fine restrained wear, delicate hairline mineral veins and fine gold seams/engraved curves as in the reference; two glass cabochons, one cloudy ice-blue and one clear sea-green, quiet internal light. Paint only materials actually present on each visible guide part. Material tints in the guide are identifiers, not final colors. Continue unseen surfaces plausibly in the same materials.\nLighting: flat evenly lit ALBEDO ONLY, frontally illuminated shadowless texture painting. Gold is an even warm ochre-gold base color with fine brushed grain and only a faint sheen. Ceramic stays evenly ivory white. Glass has colored internal cloud/wisp details, not reflected lights. Remove the guide's baked shading. No cast shadows, no ambient occlusion, no contact darkening, no strong specular highlights, no reflections, no white glints, no rim light, no directional gradients, no bloom. Do not reproduce the reference's dramatic lighting.\nGenuinely transparent RGBA background, including every open ring hole. No black backdrop, no floor, no checkerboard painted into pixels. No text, letters, labels or watermark. Produce ONE 1024 x 1024 image, unresized. The guide silhouette and registration take priority over embellishment.\n\nVIEW FRONT. Corrective regeneration 1 of 1. Output must use the 1024 x 1024 SECOND IMAGE geometry and framing, not the first image's canvas. Preserve Image 2's silhouette and alpha exactly. Treat this as recoloring the existing guide, with NO redrawing, zooming, reframing, contour smoothing or proportion changes. The entire band is x111..912, y298..841; the ceramic back is x248..775 y192..334; two tiny gold bezel caps reach y182; the transparent lens opening is x238..785 y474..644. KEEP these coordinates.\nThe guide shows the underside of the setting. No stone faces are visible; preserve this occlusion. Paint the broad band with a flat, uniform muted warm gold base color and very subtle fine brushed grain. Every face has the same brightness, even the inner band. No metallic lighting stripes, bright beveled edges, specular white lines or dark inner face. Do not add coarse cracking or pitting to the gold. Ivory ceramic at the top with only fine restrained gold-tinted hairlines and a few delicate seams. Preserve the ceramic bevel boundaries as guide parts but do not darken them. Background and ring opening alpha zero. Strictly a registered flat texture paint-over of Image 2.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "491b5de8ac7947549ea7fa48fb0908d93952f5dd0c3adf34eb3d6f4b4e02a68a"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "4d9c37162988fa998b93c87cca934291bfb1b7dc5db216cfbaaeca5b8f68f785"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-2747519f-195f-430d-bf92-98f24bebf6d9.png",
+      "selected": true,
+      "reason": "Selected correction has much closer framing and less heavy gold wear; residual metallic sheen and shading remain. One correction limit exhausted.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9869327091334682,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          136,
+          219,
+          1118,
+          1028
+        ],
+        "zero_alpha_fraction": 0.6469797445622175,
+        "partial_alpha_fraction": 0.3526406090621653,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          253.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "Underside orientation and hidden gem faces preserved. Brighter rim and metal gradients remain; not fully flat albedo."
+      },
+      "output_sha256": "7e1628b7cbfdaba9f1eb684d7a1cfef7348a05a35f6fb38d2ff601d352c133d5"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: painted orthographic albedo texture source for an existing 3D game item, Hesper stormglass ring.\nImage 1 is ONLY the approved material/design reference. Image 2 is the exact geometry edit target and controls the output size. Paint directly onto Image 2, retaining its exact 1024 x 1024 canvas, alpha silhouette, internal open spaces, every part boundary, scale, camera angle and pixel position. Do not reshape the guide to resemble the reference geometry. Preserve even the guide's polygonal contours. No new geometry.\nMaterial authority: brushed warm gold ring and bezels; ivory-white ceramic setting with fine restrained wear, delicate hairline mineral veins and fine gold seams/engraved curves as in the reference; two glass cabochons, one cloudy ice-blue and one clear sea-green, quiet internal light. Paint only materials actually present on each visible guide part. Material tints in the guide are identifiers, not final colors. Continue unseen surfaces plausibly in the same materials.\nLighting: flat evenly lit ALBEDO ONLY, frontally illuminated shadowless texture painting. Gold is an even warm ochre-gold base color with fine brushed grain and only a faint sheen. Ceramic stays evenly ivory white. Glass has colored internal cloud/wisp details, not reflected lights. Remove the guide's baked shading. No cast shadows, no ambient occlusion, no contact darkening, no strong specular highlights, no reflections, no white glints, no rim light, no directional gradients, no bloom. Do not reproduce the reference's dramatic lighting.\nGenuinely transparent RGBA background, including every open ring hole. No black backdrop, no floor, no checkerboard painted into pixels. No text, letters, labels or watermark. Produce ONE 1024 x 1024 image, unresized. The guide silhouette and registration take priority over embellishment.\n\nVIEW BACK: paint Image 2 guide_back.png exactly. Entire silhouette x111..912, y182..841 on the 1024 canvas. Two round glass cabochons above a broad rectangular beveled ivory ceramic setting: LEFT glass CLOUDY ICE-BLUE, RIGHT glass CLEAR SEA-GREEN, each with quiet colored internal light and no reflected highlights. Keep their exact guide positions, diameters and visible gold bezels. Retain the ceramic block x248..775 y192..473 and all its straight boundaries; fine pale gold hairline wear and delicate gold seams painted on it. Lower plain annulus stays brushed warm gold, not ceramic. Preserve precisely the lens-shaped transparent ring opening at x238..785 y474..644. Keep the same simple guide architecture, do not turn it into the design reference's rounded sculptural shoulders. Gold faces must have uniform albedo brightness with faint brushing only, no gradient or edge gleam.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "491b5de8ac7947549ea7fa48fb0908d93952f5dd0c3adf34eb3d6f4b4e02a68a"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "e62d3a558cc2cbae40d20b4ca9085711c828ec280e362e9f9cb10231a035e45a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-aeed7549-e1be-4f7f-bf1b-472f175b01d6.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: excessive metallic lighting and geometry drift.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9622723869566779,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          133,
+          223,
+          1121,
+          1037
+        ],
+        "zero_alpha_fraction": 0.6366739670693334,
+        "partial_alpha_fraction": 0.363078658659117,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          253.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "Too much metallic shading and reflection; guide contours drift. Superseded by corrective return."
+      },
+      "output_sha256": "c61cfe8bafb24cef09e4f0400b078059ee272f340d1bcbf881842727037935f8"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: painted orthographic albedo texture source for an existing 3D game item, Hesper stormglass ring.\nImage 1 is ONLY the approved material/design reference. Image 2 is the exact geometry edit target and controls the output size. Paint directly onto Image 2, retaining its exact 1024 x 1024 canvas, alpha silhouette, internal open spaces, every part boundary, scale, camera angle and pixel position. Do not reshape the guide to resemble the reference geometry. Preserve even the guide's polygonal contours. No new geometry.\nMaterial authority: brushed warm gold ring and bezels; ivory-white ceramic setting with fine restrained wear, delicate hairline mineral veins and fine gold seams/engraved curves as in the reference; two glass cabochons, one cloudy ice-blue and one clear sea-green, quiet internal light. Paint only materials actually present on each visible guide part. Material tints in the guide are identifiers, not final colors. Continue unseen surfaces plausibly in the same materials.\nLighting: flat evenly lit ALBEDO ONLY, frontally illuminated shadowless texture painting. Gold is an even warm ochre-gold base color with fine brushed grain and only a faint sheen. Ceramic stays evenly ivory white. Glass has colored internal cloud/wisp details, not reflected lights. Remove the guide's baked shading. No cast shadows, no ambient occlusion, no contact darkening, no strong specular highlights, no reflections, no white glints, no rim light, no directional gradients, no bloom. Do not reproduce the reference's dramatic lighting.\nGenuinely transparent RGBA background, including every open ring hole. No black backdrop, no floor, no checkerboard painted into pixels. No text, letters, labels or watermark. Produce ONE 1024 x 1024 image, unresized. The guide silhouette and registration take priority over embellishment.\n\nVIEW LEFT: Image 2 guide_left.png is a strict edge-on profile. Preserve the EXACT diagonal silhouette running from the glass/ceramic setting at TOP LEFT to the plain gold band at BOTTOM RIGHT. Whole silhouette x66..957,y183..840, setting at x66..351,y183..473. The long straight gold band runs from x248,y301 to x957,y679 then x925,y771 and x857,y841 back toward x248,y461. It is a narrow straight diagonal strap in this projection: do NOT invent a visible ring hole or a curved hoop; the geometry is occluded edge-on. The single partly visible cabochon dome at the upper left is CLEAR SEA-GREEN glass, with subtle internal sea-green wisps and quiet internal light, NO reflected glints. The other stone is occluded. Preserve the thin polygonal gold bezel and white ceramic shoulder exactly; ivory ceramic may have fine pale gold hairline wear and restrained gold seams from the design. The long band is uninterrupted brushed warm gold with tiny subtle brushing, NOT a ceramic inlay. Strict flat base colors, identical brightness across gold, no directional shading, no bevel highlights, no rim light. Do not change any part edge or angle.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "491b5de8ac7947549ea7fa48fb0908d93952f5dd0c3adf34eb3d6f4b4e02a68a"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "8648c940cf9d29ecd3cf2a5d54a7f8d33814706e35fad4e2555ace705067e7a4"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-da5dcb0b-7fc6-42ae-9aa0-87c2d210d8b6.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: excessive metallic lighting and geometry drift.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9161494745715906,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          81,
+          222,
+          1195,
+          1060
+        ],
+        "zero_alpha_fraction": 0.7991155574887633,
+        "partial_alpha_fraction": 0.20063897601041897,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          253.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "Too much metallic shading and reflection; guide contours drift. Superseded by corrective return."
+      },
+      "output_sha256": "ad48ee3fa1ea65e938871ace347768e09a5b614e0864331ffa747904c477c9b9"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: painted orthographic albedo texture source for an existing 3D game item, Hesper stormglass ring.\nImage 1 is ONLY the approved material/design reference. Image 2 is the exact geometry edit target and controls the output size. Paint directly onto Image 2, retaining its exact 1024 x 1024 canvas, alpha silhouette, internal open spaces, every part boundary, scale, camera angle and pixel position. Do not reshape the guide to resemble the reference geometry. Preserve even the guide's polygonal contours. No new geometry.\nMaterial authority: brushed warm gold ring and bezels; ivory-white ceramic setting with fine restrained wear, delicate hairline mineral veins and fine gold seams/engraved curves as in the reference; two glass cabochons, one cloudy ice-blue and one clear sea-green, quiet internal light. Paint only materials actually present on each visible guide part. Material tints in the guide are identifiers, not final colors. Continue unseen surfaces plausibly in the same materials.\nLighting: flat evenly lit ALBEDO ONLY, frontally illuminated shadowless texture painting. Gold is an even warm ochre-gold base color with fine brushed grain and only a faint sheen. Ceramic stays evenly ivory white. Glass has colored internal cloud/wisp details, not reflected lights. Remove the guide's baked shading. No cast shadows, no ambient occlusion, no contact darkening, no strong specular highlights, no reflections, no white glints, no rim light, no directional gradients, no bloom. Do not reproduce the reference's dramatic lighting.\nGenuinely transparent RGBA background, including every open ring hole. No black backdrop, no floor, no checkerboard painted into pixels. No text, letters, labels or watermark. Produce ONE 1024 x 1024 image, unresized. The guide silhouette and registration take priority over embellishment.\n\nVIEW RIGHT: Image 2 guide_right.png is a strict edge-on profile. Preserve the EXACT diagonal silhouette running from the plain gold band at BOTTOM LEFT to the glass/ceramic setting at TOP RIGHT. Whole silhouette x66..957,y183..840, setting at x672..957,y183..473. The long straight gold band runs from x66,y679 to x775,y301, x775,y461 then x167,y841 and x98,y771. It is a narrow straight diagonal strap in this projection: do NOT invent a visible ring hole or a curved hoop; the geometry is occluded edge-on. The single partly visible cabochon dome at the upper right is CLOUDY ICE-BLUE glass, with subtle internal pale blue cloudy wisps and quiet internal light, NO reflected glints. The other stone is occluded. Preserve the thin polygonal gold bezel and white ceramic shoulder exactly; ivory ceramic may have fine pale gold hairline wear and restrained gold seams from the design. The long band is uninterrupted brushed warm gold with tiny subtle brushing, NOT a ceramic inlay. Strict flat base colors, identical brightness across gold, no directional shading, no bevel highlights, no rim light. Do not change any part edge or angle.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "491b5de8ac7947549ea7fa48fb0908d93952f5dd0c3adf34eb3d6f4b4e02a68a"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "72b26580c17e793e981f383b62077cbbbf7f4a4879d4e2042a061f284b307c1c"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-f79604e2-1b78-454b-bded-f33cb69d1796.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: excessive metallic lighting and geometry drift.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9276545859163885,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          85,
+          225,
+          1172,
+          1045
+        ],
+        "zero_alpha_fraction": 0.8092598103930262,
+        "partial_alpha_fraction": 0.19040187826387775,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          253.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "Too much metallic shading and reflection; guide contours drift. Superseded by corrective return."
+      },
+      "output_sha256": "1429cad3b200a33d53115bf72c7265ea5084c49978d0393885ebd1d304babfe4"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: painted orthographic albedo texture source for an existing 3D game item, Hesper stormglass ring.\nImage 1 is ONLY the approved material/design reference. Image 2 is the exact geometry edit target and controls the output size. Paint directly onto Image 2, retaining its exact 1024 x 1024 canvas, alpha silhouette, internal open spaces, every part boundary, scale, camera angle and pixel position. Do not reshape the guide to resemble the reference geometry. Preserve even the guide's polygonal contours. No new geometry.\nMaterial authority: brushed warm gold ring and bezels; ivory-white ceramic setting with fine restrained wear, delicate hairline mineral veins and fine gold seams/engraved curves as in the reference; two glass cabochons, one cloudy ice-blue and one clear sea-green, quiet internal light. Paint only materials actually present on each visible guide part. Material tints in the guide are identifiers, not final colors. Continue unseen surfaces plausibly in the same materials.\nLighting: flat evenly lit ALBEDO ONLY, frontally illuminated shadowless texture painting. Gold is an even warm ochre-gold base color with fine brushed grain and only a faint sheen. Ceramic stays evenly ivory white. Glass has colored internal cloud/wisp details, not reflected lights. Remove the guide's baked shading. No cast shadows, no ambient occlusion, no contact darkening, no strong specular highlights, no reflections, no white glints, no rim light, no directional gradients, no bloom. Do not reproduce the reference's dramatic lighting.\nGenuinely transparent RGBA background, including every open ring hole. No black backdrop, no floor, no checkerboard painted into pixels. No text, letters, labels or watermark. Produce ONE 1024 x 1024 image, unresized. The guide silhouette and registration take priority over embellishment.\n\nVIEW TOP: paint Image 2 guide_top.png exactly, its existing directly-above orthographic orientation. Entire silhouette x111..912, y66..957 on a 1024 canvas. Keep the two cabochon domes at y66..208, their polygonal gold bezel boundaries, the rectangular beveled white ceramic block x248..775 y96..350, and the long gold annulus beneath. In this TOP camera the stones are LEFT CLEAR SEA-GREEN and RIGHT CLOUDY ICE-BLUE; these are the same physical stones as back view (camera reverses screen horizontal axis). Keep their internal colored wisps and quiet internal light, without specular glints. Preserve the large open transparent ring hole, x200..819 approximately y371..801, EXACTLY as the guide. Ceramic has fine pale gold hairline wear and restrained gold seams; remaining band is brushed warm gold. No painted shadows beneath the setting, no dark inner band or gleaming beveled edge. This is flat albedo, no lighting gradients.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "491b5de8ac7947549ea7fa48fb0908d93952f5dd0c3adf34eb3d6f4b4e02a68a"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "25ec9ab7787b7abad0dc752c95e3962595064a322bb949f05de928f84c1ab344"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-0c42ba3e-875d-4c08-a960-7f67d25f027a.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: excessive metallic lighting and geometry drift.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9683190754064925,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          136,
+          75,
+          1118,
+          1177
+        ],
+        "zero_alpha_fraction": 0.6469816523329492,
+        "partial_alpha_fraction": 0.3524466523711047,
+        "foreground_alpha_percentiles": [
+          128.0,
+          251.0,
+          253.0,
+          253.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "Too much metallic shading and reflection; guide contours drift. Superseded by corrective return."
+      },
+      "output_sha256": "d5070f810de6b50a91d9afa3a0e7135a1821b134bede0e9d421ec073a8fcb985"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE corrective paint-over, 1024 x 1024 transparent PNG. The ONLY attached image is the exact 1024 x 1024 orthographic geometry guide. Edit its surface colors in place. Copy its alpha channel unchanged. Retain every contour, silhouette, angle, part boundary, position, size and empty pixel exactly. NO changing camera, zooming, repositioning, smoothing shape or adding any geometry.\nThis is an UNLIT BASE-COLOR TEXTURE SOURCE, not a beauty render. Paint material colors and fine texture ONLY, with zero lighting. All gold has one consistent warm ochre gold base color (approximately #BE944F), with very fine faint brushed gold grain and only the faintest sheen. No lighter bands, bright edge lines, reflections, glints, speculars, shadows, dark outlines, contact shadow or ambient occlusion anywhere. White ceramic has even ivory-white albedo (approximately #EFECE2) with sparse tiny pale tan/gold hairline wear and fine curved gold seam lines inspired by the approved design, staying within the existing ceramic part. The glass is painted as softly luminous colored glass with subtle internal wisps, no bright reflection spots. Ignore the guide's rendered lighting gradients and remove them; use local material color with no directional shading. The shape is conveyed by the existing regions, not lighting. Preserve the exact transparent surrounding canvas, no floor, no backdrop, no painted checkerboard, no text or letters.\n\nBACK VIEW: preserve this exact guide geometry and registration. Two small glass circles on the ivory rectangular setting: screen LEFT is CLOUDY ICE-BLUE (#90BDD9 with subtle milky pale blue internal cloud threads); screen RIGHT is clear SEA-GREEN (#67AFA0 with translucent-looking pale mint inner wisps and tiny quiet gold inclusions). Glass remains an opaque texture color layer, with soft quiet internal colored light, no shiny reflection dots or hot highlights. Both gold bezels are the same flat gold as the band. The ceramic is the exact beveled rectangular guide block, fine wear and gold seams painted within it only. The lower annulus is all brushed gold and keeps the guide's exact transparent lens-shaped hole at x238..785, y474..644. Preserve the band x111..912 down to y841. Setting x248..775,y192..473. The first attempt added bright metallic stripes, shadowy band gradients and shifted edges. Correct those by painting only local base colors on THIS supplied guide; no scene lighting, no shadow under the ceramic. Do not copy the guide's grey shadows. Keep the simple guide construction and its angular part outlines.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "e62d3a558cc2cbae40d20b4ca9085711c828ec280e362e9f9cb10231a035e45a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-9efd40ce-42dc-4096-8dcc-a426f61c2a3d.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected after the one permitted correction: flatter albedo and closer guide construction. Best retained raw return, not confirmation of exact brief compliance.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "b3039dc19d0d3670d5ab8521ec348dbe53ce182aa3a3b6e5f29909e95df203c8",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9895120504054474,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          136,
+          223,
+          1117,
+          1030
+        ],
+        "zero_alpha_fraction": 0.6465307825166803,
+        "partial_alpha_fraction": 0.3527684297011922,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          254.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "No floor or cast scene shadow. Minor edge contamination and residual form shading remain."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE corrective paint-over, 1024 x 1024 transparent PNG. The ONLY attached image is the exact 1024 x 1024 orthographic geometry guide. Edit its surface colors in place. Copy its alpha channel unchanged. Retain every contour, silhouette, angle, part boundary, position, size and empty pixel exactly. NO changing camera, zooming, repositioning, smoothing shape or adding any geometry.\nThis is an UNLIT BASE-COLOR TEXTURE SOURCE, not a beauty render. Paint material colors and fine texture ONLY, with zero lighting. All gold has one consistent warm ochre gold base color (approximately #BE944F), with very fine faint brushed gold grain and only the faintest sheen. No lighter bands, bright edge lines, reflections, glints, speculars, shadows, dark outlines, contact shadow or ambient occlusion anywhere. White ceramic has even ivory-white albedo (approximately #EFECE2) with sparse tiny pale tan/gold hairline wear and fine curved gold seam lines inspired by the approved design, staying within the existing ceramic part. The glass is painted as softly luminous colored glass with subtle internal wisps, no bright reflection spots. Ignore the guide's rendered lighting gradients and remove them; use local material color with no directional shading. The shape is conveyed by the existing regions, not lighting. Preserve the exact transparent surrounding canvas, no floor, no backdrop, no painted checkerboard, no text or letters.\n\nLEFT VIEW: retain the supplied diagonal edge-on geometry, setting upper left and plain straight gold band extending to lower right. The tiny visible glass crescent at upper left is clear SEA-GREEN, with subtle pale mint internal wisps and tiny subdued golden inclusions as in the approved stormglass design. This view sees only that stone; do not invent the second one. Gold bezel, ivory ceramic side block, long plain brushed gold band. Do not add a ring hole; this camera sees the ring edge-on. At 1024 x 1024 the overall guide bounds are x66..957,y183..840. Keep the original angular end cap and gold width. The first painting bent the setting and extended the band; this correction must preserve THIS guide precisely and flatten the lighting. No other reference image may override this geometry.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "8648c940cf9d29ecd3cf2a5d54a7f8d33814706e35fad4e2555ace705067e7a4"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-62e886d9-ea22-4b0a-9c04-95acf1df51f5.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected after the one permitted correction: flatter albedo and closer guide construction. Best retained raw return, not confirmation of exact brief compliance.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "02d38416104e5fe24c1e490cb65a52416aac91a409758a242aebb9e1fdbdf89d",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9562882321407995,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          82,
+          225,
+          1172,
+          1043
+        ],
+        "zero_alpha_fraction": 0.8067180238547652,
+        "partial_alpha_fraction": 0.19284573257124252,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          253.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "No floor or cast scene shadow. Minor edge contamination and residual form shading remain."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE corrective paint-over, 1024 x 1024 transparent PNG. The ONLY attached image is the exact 1024 x 1024 orthographic geometry guide. Edit its surface colors in place. Copy its alpha channel unchanged. Retain every contour, silhouette, angle, part boundary, position, size and empty pixel exactly. NO changing camera, zooming, repositioning, smoothing shape or adding any geometry.\nThis is an UNLIT BASE-COLOR TEXTURE SOURCE, not a beauty render. Paint material colors and fine texture ONLY, with zero lighting. All gold has one consistent warm ochre gold base color (approximately #BE944F), with very fine faint brushed gold grain and only the faintest sheen. No lighter bands, bright edge lines, reflections, glints, speculars, shadows, dark outlines, contact shadow or ambient occlusion anywhere. White ceramic has even ivory-white albedo (approximately #EFECE2) with sparse tiny pale tan/gold hairline wear and fine curved gold seam lines inspired by the approved design, staying within the existing ceramic part. The glass is painted as softly luminous colored glass with subtle internal wisps, no bright reflection spots. Ignore the guide's rendered lighting gradients and remove them; use local material color with no directional shading. The shape is conveyed by the existing regions, not lighting. Preserve the exact transparent surrounding canvas, no floor, no backdrop, no painted checkerboard, no text or letters.\n\nRIGHT VIEW: retain the supplied diagonal edge-on geometry, plain straight gold band extending from lower left toward setting upper right. The tiny visible glass crescent at upper right is CLOUDY ICE-BLUE, with subtle pale icy wisps as in the approved stormglass design. This view sees only that stone; do not invent the second one. Gold bezel, ivory ceramic side block, long plain brushed gold band. Do not add a ring hole; this camera sees the ring edge-on. At 1024 x 1024 the overall guide bounds are x66..957,y183..840. Keep the original angular end cap and gold width. The first painting shifted the ceramic shape and band; this correction must preserve THIS guide precisely and flatten the lighting. No other reference image may override this geometry.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "72b26580c17e793e981f383b62077cbbbf7f4a4879d4e2042a061f284b307c1c"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-96ea8253-4aa5-4f6c-a3e7-3f9ec98b615e.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected after the one permitted correction: flatter albedo and closer guide construction. Best retained raw return, not confirmation of exact brief compliance.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "126c17f4eb327dfa651d43902f287b0783c4554d24a8b72239b257685affc520",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9546528507783951,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          82,
+          225,
+          1172,
+          1042
+        ],
+        "zero_alpha_fraction": 0.8061526877945916,
+        "partial_alpha_fraction": 0.19343777742166057,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          254.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "No floor or cast scene shadow. Minor edge contamination and residual form shading remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE corrective paint-over, 1024 x 1024 transparent PNG. The ONLY attached image is the exact 1024 x 1024 orthographic geometry guide. Edit its surface colors in place. Copy its alpha channel unchanged. Retain every contour, silhouette, angle, part boundary, position, size and empty pixel exactly. NO changing camera, zooming, repositioning, smoothing shape or adding any geometry.\nThis is an UNLIT BASE-COLOR TEXTURE SOURCE, not a beauty render. Paint material colors and fine texture ONLY, with zero lighting. All gold has one consistent warm ochre gold base color (approximately #BE944F), with very fine faint brushed gold grain and only the faintest sheen. No lighter bands, bright edge lines, reflections, glints, speculars, shadows, dark outlines, contact shadow or ambient occlusion anywhere. White ceramic has even ivory-white albedo (approximately #EFECE2) with sparse tiny pale tan/gold hairline wear and fine curved gold seam lines inspired by the approved design, staying within the existing ceramic part. The glass is painted as softly luminous colored glass with subtle internal wisps, no bright reflection spots. Ignore the guide's rendered lighting gradients and remove them; use local material color with no directional shading. The shape is conveyed by the existing regions, not lighting. Preserve the exact transparent surrounding canvas, no floor, no backdrop, no painted checkerboard, no text or letters.\n\nTOP VIEW: preserve this exact supplied directly-above guide geometry and registration. Two small glass domes on the ivory rectangular setting: screen LEFT is clear SEA-GREEN (#67AFA0 with translucent-looking pale mint inner wisps and tiny quiet gold inclusions); screen RIGHT is CLOUDY ICE-BLUE (#90BDD9 with subtle milky pale blue internal cloud threads). This color order is correct for this camera. Glass remains an opaque texture color layer, with soft quiet internal colored light, no shiny reflection dots or hot highlights. Both gold bezels are the same flat gold as the band. The ceramic is the exact beveled rectangular guide block x248..775,y96..350, fine wear and gold seams painted within it only. Domes y66..208. The lower annulus is all brushed gold and keeps the guide's exact large transparent opening, including every angular contour: approximately x200..819,y371..801. Whole silhouette x111..912,y66..957. The first attempt added bright metallic stripes, shadowy band gradients and shifted edges. Correct those by painting only local base colors on THIS supplied guide; no scene lighting, no shadow under the ceramic. Do not copy the guide's grey shadows. Keep the simple guide construction and its angular part outlines.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "25ec9ab7787b7abad0dc752c95e3962595064a322bb949f05de928f84c1ab344"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e05-3d2e-7c32-800a-204a7f6476a9/exec-563af516-01dd-4d2f-acf3-f7fd15675d5b.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected after the one permitted correction: flatter albedo and closer guide construction. Best retained raw return, not confirmation of exact brief compliance.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "d5bdb93514bdaaacf829d4dd02df3d26273a0a9b220804866306537b350a2f40",
+      "checks": {
+        "requested_size": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "alpha_identical": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9856710468669017,
+        "normalized_silhouette_note": "Nearest pixel sampling onto guide coordinates for measurement only; saved image is unchanged.",
+        "opaque_bbox": [
+          136,
+          82,
+          1118,
+          1174
+        ],
+        "zero_alpha_fraction": 0.6525707846533835,
+        "partial_alpha_fraction": 0.3462215964734222,
+        "foreground_alpha_percentiles": [
+          128.0,
+          252.0,
+          253.0,
+          254.0,
+          255.0
+        ],
+        "transparent_background": true,
+        "clean_alpha_edges": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Gold, ivory ceramic and appropriate blue/green glass present; exact painted detail differs from the approved art.",
+        "flat_even_light": false,
+        "visual_review": "No floor or cast scene shadow. Minor edge contamination and residual form shading remain."
+      }
+    }
+  ],
+  "selection_note": "selected=true identifies the best retained raw return, not acceptance of failed checks.",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "processing": "Built-in image_gen only. Tool PNGs copied byte-for-byte; no resizing, alpha replacement, compositing or manual image editing.",
+  "material_authority": {
+    "path": "design_reference.png",
+    "sha256": "491b5de8ac7947549ea7fa48fb0908d93952f5dd0c3adf34eb3d6f4b4e02a68a"
+  },
+  "correction_note": "Each view used exactly one corrective regeneration. Later back/left/right/top calls used only the matching guide as image input to reduce geometry and lighting drift; material descriptions derive from the approved design reference used in each initial call.",
+  "stone_consistency": "Back: blue screen-left, green screen-right. Left side: green. Right side: blue. Top: green screen-left, blue screen-right. Matches opposite horizontal axes of back and top cameras.",
+  "status": "Five selected paintings saved; exact silhouette and fully flat-light checks not achieved within the permitted correction limit.",
+  "limitations": [
+    "All tool returns are 1254 x 1254 and retained unresized as instructed.",
+    "Silhouettes are not pixel-identical to guides, including after normalized-coordinate comparison.",
+    "Some form shading and alpha edge contamination remain; front retains more metallic sheen than other selected views.",
+    "No runtime integration or builds performed; scope was image generation only."
+  ]
+}

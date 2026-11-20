@@ -1,0 +1,22 @@
+{
+ "format_version": 1,
+ "kind": "outdoor_map_package",
+ "package_id": "hesper:the_scour",
+ "display_name": "The Scour",
+ "map_file": "hes_out2.odm",
+ "scene_file": "hes_out2.scene.yml",
+ "geometry_metadata_file": "hes_out2.geometry.yml",
+ "terrain_metadata_file": "hes_out2.terrain.yml",
+ "script_module": "maps/hes_out2.lua",
+ "map_stats_id": 9110,
+ "redbook_track": 0,
+ "environment_name": "grassland",
+ "is_top_level_area": true,
+ "outdoor_bounds": {
+  "enabled": true,
+  "min_x": -23040,
+  "max_x": 23040,
+  "min_y": -23040,
+  "max_y": 23040
+ }
+}

@@ -1,0 +1,85 @@
+{
+  "label": "Treant A",
+  "creature": "treant",
+  "description": "The original rooted leafless evil tree: a broad conical dark earthy brown bark trunk flaring into a ragged root skirt, long narrow central face with two small vivid green eyes and a low broad mouth of pale uneven teeth. A jagged central spike and twisted bare branching crown, asymmetrical winding limbs and tiny twigs. Preserve dark native tonal weight, muted warm bark and subtle cool branch shadows. No humanoid legs, foliage, arms with hands, invented ornaments or redesigned face.",
+  "custom_batches": true,
+  "core_magenta_tolerance": 8,
+  "protect_warm_contours": false,
+  "connected_pose_calibration": true,
+  "fixed_grid_batches": [
+    "death_corpse_detail_1",
+    "standing"
+  ],
+  "connected_owner_rectangles": {
+    "death_corpse_detail_margin_1": {
+      "m479dd0": [
+        [
+          0,
+          0,
+          1024,
+          864
+        ]
+      ],
+      "m479de0": [
+        [
+          0,
+          864,
+          1024,
+          1536
+        ]
+      ]
+    },
+    "death_corpse_detail_margin_2": {
+      "m479df0": [
+        [
+          0,
+          0,
+          1024,
+          950
+        ]
+      ],
+      "m479xa0": [
+        [
+          0,
+          950,
+          1024,
+          1536
+        ]
+      ]
+    },
+    "death_corpse_detail_0": {
+      "m479da0": [
+        [
+          0,
+          0,
+          598,
+          657
+        ]
+      ],
+      "m479db0": [
+        [
+          598,
+          0,
+          1196,
+          657
+        ]
+      ],
+      "m479dc0": [
+        [
+          0,
+          657,
+          598,
+          1315
+        ]
+      ],
+      "m479dd0": [
+        [
+          598,
+          657,
+          1196,
+          1315
+        ]
+      ]
+    }
+  }
+}

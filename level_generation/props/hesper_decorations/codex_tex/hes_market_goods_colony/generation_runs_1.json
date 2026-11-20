@@ -1,0 +1,156 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "incomplete_requirements_not_met",
+  "selection_note": "Selected means best generated return saved, not acceptance against the brief. No resizing or postprocessing performed. One corrective regeneration per view used.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA transparent albedo texture-source painting.\nImage 1 guide_front.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is ONLY the approved material/design reference, not a camera or layout reference.\nPaint directly over the exact grey front-view model in image 1. Keep every silhouette pixel, all object positions, scale, shape edges, openings, gaps, occlusions and small details exactly in place. Preserve the generous transparent margins and original orthographic front projection. Do not enlarge, recenter, rearrange, smooth or remodel anything. The three crates remain stacked at left; fungi basket in center, three canisters behind, rack at right, cable low in front as in the guide.\nMaterials from the design reference, following brief: white and ochre composite crates with black stencils and worn dark metal fittings, grey canisters with red and teal caps, dark woven synthetic basket, pale cream fungi, blue glowing cells in a steel rack, black cable. Retain the reference's teal and ochre-orange accents, worn composite material and fine surface wear. Apply detail as surface paint without changing any guide edge. Do not add forms absent from the guide.\nLighting: flat even shadowless viewer-facing illumination, unlit base-color/albedo map appearance. NO cast shadows, ambient occlusion, directional shading, strong specular highlights, reflections or rim light. Blue glowing cells are solid bright cyan-blue material with no light cast onto surrounding objects. No background, no floor, no text labels or watermark. Actual alpha transparency outside the EXACT original guide silhouette and in its openings. Return one image only, native 1024 x 1024, without resizing.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "ba4bcf621568ced423d88e587384e11622d0613e00502b5868f67fae97190983"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1604d-e849-7822-972f-f3643bfe317f/exec-70b245a7-140d-4402-96cf-d6fc78b0d11d.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1604d-e849-7822-972f-f3643bfe317f/exec-70b245a7-140d-4402-96cf-d6fc78b0d11d.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, altered guide geometry, light basket and baked shading.",
+      "output_sha256": "775c53a81d99d6abf08896a7c2efe3fa667badde4acbe141336aa021f459d5f1",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "geometry_edges_preserved": false,
+        "materials_and_colours": "Partial visual match; deviations from prescribed stencils and palette remain.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA transparent albedo texture-source painting.\nImage 1 guide_top.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is ONLY the approved material/design reference, not a camera or layout reference.\nPaint directly over the exact grey top-view model in image 1. Keep every silhouette pixel, all object positions, scale, shape edges, openings, gaps, occlusions and small details exactly in place. Preserve the generous transparent margins and original orthographic directly-overhead top projection. Do not enlarge, recenter, rearrange, smooth or remodel anything. The long crate top is diagonally aligned at left; fungi basket is centered; three canister caps lie along the upper side; rack top is at right; cable ring with a transparent central opening is at lower-right. Preserve the precise polygonal geometry and footprints of the guide. Paint the rack top as the solid top geometry actually shown, without exposing cells or changing the camera.\nMaterials from the design reference, following brief: white and ochre composite crates with black stencils and worn dark metal fittings, grey canisters with red and teal caps, dark woven synthetic basket, pale cream fungi, blue glowing cells in a steel rack, black cable. Retain the reference's teal and ochre-orange accents, worn composite material and fine surface wear. Apply detail as surface paint without changing any guide edge. Do not add forms absent from the guide.\nLighting: flat even shadowless viewer-facing illumination, unlit base-color/albedo map appearance. NO cast shadows, ambient occlusion, directional shading, strong specular highlights, reflections or rim light. Blue glowing cells are solid bright cyan-blue material with no light cast onto surrounding objects. No background, no floor, no text labels or watermark. Actual alpha transparency outside the EXACT original guide silhouette and in its openings. Return one image only, native 1024 x 1024, without resizing.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "8205d92fb5ffdd75b8128fe1291c94350ee3bd5f5b6004ed88fd06254c16be18"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1604d-e849-7822-972f-f3643bfe317f/exec-da04f876-4d5b-44bf-aa54-2191b4a3946f.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1604d-e849-7822-972f-f3643bfe317f/exec-da04f876-4d5b-44bf-aa54-2191b4a3946f.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, altered guide geometry, rack top interpreted as composite crate and baked shading.",
+      "output_sha256": "7e1f78513dcbbdf6415027ee8e5ac6f80368e096adfca9fee0c18daa50628f94",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "geometry_edges_preserved": false,
+        "materials_and_colours": "Partial visual match; deviations from prescribed stencils and palette remain.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA transparent albedo texture-source painting.\nImage 1 guide_front.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is ONLY the approved material/design reference, not a camera or layout reference.\nPaint directly over the exact grey front-view model in image 1. Keep every silhouette pixel, all object positions, scale, shape edges, openings, gaps, occlusions and small details exactly in place. Preserve the generous transparent margins and original orthographic front projection. Do not enlarge, recenter, rearrange, smooth or remodel anything. The three crates remain stacked at left; fungi basket in center, three canisters behind, rack at right, cable low in front as in the guide.\nMaterials from the design reference, following brief: white and ochre composite crates with black stencils and worn dark metal fittings, grey canisters with red and teal caps, dark woven synthetic basket, pale cream fungi, blue glowing cells in a steel rack, black cable. Retain the reference's teal and ochre-orange accents, worn composite material and fine surface wear. Apply detail as surface paint without changing any guide edge. Do not add forms absent from the guide.\nLighting: flat even shadowless viewer-facing illumination, unlit base-color/albedo map appearance. NO cast shadows, ambient occlusion, directional shading, strong specular highlights, reflections or rim light. Blue glowing cells are solid bright cyan-blue material with no light cast onto surrounding objects. No background, no floor, no text labels or watermark. Actual alpha transparency outside the EXACT original guide silhouette and in its openings. Return one image only, native 1024 x 1024, without resizing.\nCORRECTIVE PASS (last allowed attempt): The previous return was incorrectly 1254x1254 and changed geometry. Output MUST be exactly 1024x1024 pixels natively. This is a locked-pixel material paint-over of image 1, not a new rendering of the reference scene. The alpha boundary of the guide must remain IDENTICAL. Original guide opaque bounds are approximately x=65..959 and y=289..734 on its 1024 canvas: hold those locations. Keep the basket handle at its original y=510..565 and the fungi as the exact few broad polygonal caps at y=418..528; do not multiply fungi, lower the handle or raise the basket rim. Keep the cable's original angular outer contour at the lower right. Paint all details INSIDE original polygons, no added geometry. White/ochre crates with black stencils; DARK woven synthetic basket. Remove all baked shadows and shiny highlights for flat albedo.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "ba4bcf621568ced423d88e587384e11622d0613e00502b5868f67fae97190983"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1604d-e849-7822-972f-f3643bfe317f/exec-2ae90cd7-2bb4-4829-9a21-9a3dada0213b.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available front return after the one allowed correction: darker basket and closer handle/fungi placement. Selected for saving only; fails exact dimensions, silhouette, edge and flat-light requirements.",
+      "output_sha256": "48b58c9e9a6c717f0fbd52ef44cd17f8dcd5c0bf8a31e90489ae42f9556c0b81",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "geometry_edges_preserved": false,
+        "materials_and_colours": "Partial visual match; deviations from prescribed stencils and palette remain.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA transparent albedo texture-source painting.\nImage 1 guide_top.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is ONLY the approved material/design reference, not a camera or layout reference.\nPaint directly over the exact grey top-view model in image 1. Keep every silhouette pixel, all object positions, scale, shape edges, openings, gaps, occlusions and small details exactly in place. Preserve the generous transparent margins and original orthographic directly-overhead top projection. Do not enlarge, recenter, rearrange, smooth or remodel anything. The long crate top is diagonally aligned at left; fungi basket is centered; three canister caps lie along the upper side; rack top is at right; cable ring with a transparent central opening is at lower-right. Preserve the precise polygonal geometry and footprints of the guide. Paint the rack top as the solid top geometry actually shown, without exposing cells or changing the camera.\nMaterials from the design reference, following brief: white and ochre composite crates with black stencils and worn dark metal fittings, grey canisters with red and teal caps, dark woven synthetic basket, pale cream fungi, blue glowing cells in a steel rack, black cable. Retain the reference's teal and ochre-orange accents, worn composite material and fine surface wear. Apply detail as surface paint without changing any guide edge. Do not add forms absent from the guide.\nLighting: flat even shadowless viewer-facing illumination, unlit base-color/albedo map appearance. NO cast shadows, ambient occlusion, directional shading, strong specular highlights, reflections or rim light. Blue glowing cells are solid bright cyan-blue material with no light cast onto surrounding objects. No background, no floor, no text labels or watermark. Actual alpha transparency outside the EXACT original guide silhouette and in its openings. Return one image only, native 1024 x 1024, without resizing.\nCORRECTIVE PASS (last allowed attempt): The previous return was incorrectly 1254x1254 and changed geometry. Output MUST be exactly 1024x1024 pixels natively. This is a locked-pixel material paint-over of image 1, not a new rendering. Alpha silhouette and all interior polygon edges must remain identical to the 1024x1024 guide. Do NOT scale the guide. Preserve each existing large polygonal fungi cap separately; do not add extra caps, smaller mushrooms or frills. Retain the polygonal cable ring and the exact transparent hole shape. The solid rack top at right is STEEL, with original panel edges, not a fourth composite crate: paint its grey metal and cyan cell indicators as surface texture only. White/ochre crates with black stencils; DARK woven synthetic basket. Remove all baked shadows, ambient-occlusion darkening and shiny highlights for flat albedo.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "8205d92fb5ffdd75b8128fe1291c94350ee3bd5f5b6004ed88fd06254c16be18"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1604d-e849-7822-972f-f3643bfe317f/exec-8699bb98-5423-483a-b1e8-a6c4af0954bd.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available top return after the one allowed correction: steel rack top and fewer, more polygonal fungi caps. Selected for saving only; fails exact dimensions, silhouette, edge and flat-light requirements.",
+      "output_sha256": "52cb8d6dd023d00112c740fe37fdcb1e7d70cbca8d8ad97505f11d0cff071a13",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "geometry_edges_preserved": false,
+        "materials_and_colours": "Partial visual match; deviations from prescribed stencils and palette remain.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    }
+  ]
+}

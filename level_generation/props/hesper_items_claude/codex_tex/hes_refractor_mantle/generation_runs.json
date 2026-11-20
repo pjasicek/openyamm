@@ -1,0 +1,584 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "scope": "Image generation only; raw unresized tool returns.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 1 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 2 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 1. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nFRONT VIEW. Exactly copy guide_front.png: object alpha bounding box x=66..957, y=224..799. High open collar at top center, existing round blue-white front clasp around x=508,y=456, existing small vertical tab below it, ceramic shoulder plates at the upper sides, all irregular layered cloth folds and openings below unchanged.",
+      "output": "_attempts/front_1.png",
+      "selected": false,
+      "reason": "Rejected: greater silhouette drift than correction (normalized IoU 0.9267 versus 0.9842); shading remains.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-3b5b5b3f-1876-4b67-a7f1-0b41476756a0.png",
+      "raw_output": "_attempts/front_1.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "45e74f77205821c06839c6c572e02b81e1df4185b24c91989428a9c0d634f7fc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        }
+      ],
+      "output_sha256": "c67c3dfea65778fa9be81fb1b0e93659523fbe01e0456f7dcf2570ec493c40ff",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          37,
+          1240,
+          1254
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.926661125889412,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          82,
+          266,
+          1213,
+          991
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nFRONT VIEW. Exactly copy guide_front.png: object alpha bounding box x=66..957, y=224..799. High open collar at top center, existing round blue-white front clasp around x=508,y=456, existing small vertical tab below it, ceramic shoulder plates at the upper sides, all irregular layered cloth folds and openings below unchanged.\nCORRECTIVE REGENERATION: the earlier attempt changed outlines and carried too much dimensional shading. This is a strict paint-over of IMAGE 2, not a reconstructed object. Keep its exact angular uneven folds, cutouts, collar and clasp outlines; do not round, smooth, enlarge, move or simplify ANY part. Only replace white/gray surface colours with the reference materials. Keep image 2's exact 1024x1024 canvas and exact alpha mask. Flatten all material lighting: no gold gleams, no shaded hems and no shading on cloth. Produce only this corrected front-view texture source.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as closest available front geometry within the one-correction limit. Ivory, gold, silver cloth and blue clasp match the palette. Exact silhouette and flat-light checks still fail.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-7729f761-0e8a-4ae4-a3b0-4d9e3833f44f.png",
+      "raw_output": "_attempts/front_2.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "45e74f77205821c06839c6c572e02b81e1df4185b24c91989428a9c0d634f7fc"
+        }
+      ],
+      "output_sha256": "79f0176a8bb11b64fa66f233e94a99ea4f4252668fc40b960e6e43f0b3a80831",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          39,
+          1236,
+          1198
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.9842146999743037,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          78,
+          272,
+          1176,
+          981
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nBACK VIEW. Exactly copy guide_back.png: object alpha bounding box x=66..957, y=224..799. Rear collar and broad upper back ceramic shoulder yoke, existing side shoulder plates, all irregular cloth tiers, gaps, folds and edges unchanged. There is NO front jewel or front clasp on this rear view; do not add one.\nTreat the clay render as a locked pixel stencil. Surface painting only; every uneven geometric fold is intentional. No smoothing, straightening or added dimension. Diffuse base colours only. Output exactly 1024x1024.",
+      "output": "_attempts/back_1.png",
+      "selected": false,
+      "reason": "Rejected: darker cloth undersides and marginally weaker silhouette overlap than correction.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-98e6d6ee-8386-4462-ba59-5f5e530d819d.png",
+      "raw_output": "_attempts/back_1.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "f8b9ca186f6d6afbef0259654d4225b9c6fb3b28773ff9ecd0a3c0e5ad0d1de2"
+        }
+      ],
+      "output_sha256": "16f3cda59ef7435e57ec3ecb543bf984d164050ca9ce5d75f498c2ba014e62ba",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          39,
+          20,
+          1216,
+          1244
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.9758750816152629,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          81,
+          275,
+          1179,
+          974
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nLEFT VIEW. Exactly copy guide_left.png: object alpha bounding box x=105..918, y=224..799. Preserve the tilted collar, arched layered ceramic shoulder profile and the highly irregular folded cloth and exposed undersides. Preserve the large transparent gap at bottom middle and every protrusion. Do not turn it into a front view or add a front-facing clasp.\nTreat image 2 as a locked 1024x1024 pixel stencil, not an inspiration. Replace only its surface colours with diffuse matte base colours of the design. Gold edges must be dull ochre-gold, never shiny; fabric must be uniform light silver-gray with very fine blue-lilac weave, never shading gradients. Every uneven geometric fold and transparent gap is intentional and must remain exactly fixed.",
+      "output": "_attempts/left_1.png",
+      "selected": false,
+      "reason": "Rejected: material placement is more faithful, but silhouette drift is much greater (normalized IoU 0.8992 versus 0.9688).",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-f2d1dc61-0ffc-41cc-a8c6-52e99f43604e.png",
+      "raw_output": "_attempts/left_1.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "c50688b06e618d8949a4385c781a78f35c0477e53ef08673748c8f9df0cbfa90"
+        }
+      ],
+      "output_sha256": "f050144becc918c12bfea467ddbb3f324e5b5234923b146985d6065cfdbaa901",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          63,
+          33,
+          1206,
+          1230
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.8991565511972651,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          130,
+          255,
+          1142,
+          987
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nRIGHT VIEW. Exactly copy guide_right.png: object alpha bounding box x=105..918, y=224..799. Preserve this exact side and tilt, the collar, arched layered ceramic shoulder profile, the existing near-central polygonal tubular cloth opening, and all irregular lower folds and gaps. Do not mirror the left guide, rotate the view or invent a front-facing jewel.\nStrict pixel-stencil edit: the angular faceted mesh is intentional. Do not round or smooth any edge or fold. Copy the exact edge coordinates and the exact 1024x1024 canvas of image 2. Matte diffuse base-colour material paint, uniformly illuminated and free of all metal highlights and fabric shading.",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected: closer silhouette and more faithful material placement than correction. Existing polygonal cloth opening is retained. Exact silhouette and flat-light checks still fail.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-e178eff9-964a-4d37-acaa-008e429fa23f.png",
+      "raw_output": "_attempts/right_1.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "f4ab03273448e773d450f1b16d7269278c507c90d618738719f18499b2f2832a"
+        }
+      ],
+      "output_sha256": "86c3f49d8abd73dc42ad323c6ce9c9964d0294c04855b661569be4ba10368c60",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          89,
+          1232,
+          1230
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.9747706515576114,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          132,
+          272,
+          1127,
+          981
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nTOP VIEW, directly overhead. Exactly copy guide_top.png: object alpha bounding box x=66..957, y=105..918. Preserve the asymmetric perimeter, collar's exact shape, all concentric shoulder panels, all cloth folds, and especially the true transparent neck opening in the upper-middle of the collar. The front is toward the bottom of the canvas, where only the guide's existing clasp region can carry the blue-white crystal. Do not turn the overhead view into a tilted perspective.\nUse image 2 as a LOCKED stencil. Preserve its exact alpha mask including the irregular open black/transparent neck hole. Apply texture colour only, with no new shapes or extra geometry, no smoother outlines, no reflections, no directional lighting or shadows. Maintain all the guide's angular/faceted edges and the overhead orthographic camera. Exact 1024x1024 image canvas.",
+      "output": "_attempts/top_1.png",
+      "selected": false,
+      "reason": "Rejected despite stronger silhouette overlap: invents a second dark collar cavity in the solid upper ceramic panel.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-e65d319e-9d65-4899-bfdf-f4c75828b507.png",
+      "raw_output": "_attempts/top_1.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "2cf9ba01546acbdfea8128bb288e94439241467f6aeb21a06a62f84fbaaef1ad"
+        }
+      ],
+      "output_sha256": "f0697c62ee116073d032dbfc9cc1a76f904b3b1ecc306fd3c6ca38d52219899c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          77,
+          55,
+          1194,
+          1200
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.9900804665719044,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          80,
+          124,
+          1177,
+          1126
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nTOP VIEW, directly overhead. Exactly copy guide_top.png: object alpha bounding box x=66..957, y=105..918. Preserve the asymmetric perimeter, collar's exact shape, all concentric shoulder panels, all cloth folds, and especially the true transparent neck opening in the upper-middle of the collar. The front is toward the bottom of the canvas, where only the guide's existing clasp region can carry the blue-white crystal. Do not turn the overhead view into a tilted perspective.\nCORRECTION: this is a DIRECTLY OVERHEAD projection, and the broad upper-central shape in guide_top at roughly x=325..680, y=230..425 is a SOLID IVORY CERAMIC BACK PANEL. Do NOT turn that solid panel into a second dark open collar cavity. There is exactly ONE neck opening: the existing irregular transparent polygon near x=400..550, y=470..565. Preserve its exact position and polygonal outline. Keep all surfaces below this hole exactly where the guide has them, no second oval, invented flap or elongated jewel. Colour only the existing small clasp area at the lower collar in blue-white. Exact faceted perimeter and part boundaries, matte ivory and subdued ochre-gold upper armor, pale silver woven cloth around the perimeter. Flat albedo with no reflected streaks, shadows, shading gradients or gloss.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected: corrects the upper panel to solid ivory ceramic and preserves the single transparent neck hole. Some folds and clasp proportions still differ; exact silhouette and flat-light checks fail.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-ef62ceb2-838b-4b2d-9424-ea371ed847a3.png",
+      "raw_output": "_attempts/top_2.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "2cf9ba01546acbdfea8128bb288e94439241467f6aeb21a06a62f84fbaaef1ad"
+        }
+      ],
+      "output_sha256": "91ec60891d43f994f933e84a203547d1661f0bd1dde31cf4ac4efda11bb89265",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          24,
+          1182,
+          1254
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.9788842023223743,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          78,
+          122,
+          1176,
+          1128
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nBACK VIEW. Exactly copy guide_back.png: object alpha bounding box x=66..957, y=224..799. Rear collar and broad upper back ceramic shoulder yoke, existing side shoulder plates, all irregular cloth tiers, gaps, folds and edges unchanged. There is NO front jewel or front clasp on this rear view; do not add one.\nCORRECTION: earlier output smoothed and moved the outline and shaded the materials. Lock the guide's exact polygonal silhouette, ragged perimeter, little pointed protrusion at lower left, cloth lobe edges, exposed bottom band and every sharp interior fold. Only colour the visible guide surfaces. All ceramic should be matte ivory, all existing rim lines dull ochre-gold, all cloth pale silvery lavender, with uniform base colour regardless of surface angle. Remove darkening under overlaps and metallic reflections. Undersides of cloth have the same pale silver material, while only explicitly recessed collar lining is charcoal-violet. No added border thickness. Absolutely no jewel on this back view.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected: slightly closer silhouette and lighter cloth undersides, with plausible rear ceramic yoke and no invented rear jewel. Exact silhouette and flat-light checks still fail.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-1973f41e-584b-42c5-9817-8ebde5c8c1e0.png",
+      "raw_output": "_attempts/back_2.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "f8b9ca186f6d6afbef0259654d4225b9c6fb3b28773ff9ecd0a3c0e5ad0d1de2"
+        }
+      ],
+      "output_sha256": "c153e269c5049a0f201899a3341b26039cd51e88a5a2c0d3cd4c17e0ecd17f80",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1224,
+          1254
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.9774132315842238,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          75,
+          272,
+          1180,
+          982
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": "approximate",
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nLEFT VIEW. Exactly copy guide_left.png: object alpha bounding box x=105..918, y=224..799. Preserve the tilted collar, arched layered ceramic shoulder profile and the highly irregular folded cloth and exposed undersides. Preserve the large transparent gap at bottom middle and every protrusion. Do not turn it into a front view or add a front-facing clasp.\nCORRECTION: the previous painting rounded and lengthened the guide's parts. Preserve the exact angular faceted silhouette of guide_left, including the sloping top edge of the collar, the short flat left shoulder tip, the small lower-left downward point, the deep triangular transparent gap at bottom middle, and the two flat strips toward lower right. Each fold boundary stays in the identical pixel position. Do not remodel any curled strip. Apply the materials as uniform base colours with fine surface grain only. Dull gold, matte ivory and pale silver-gray cloth, no shadows or reflected highlights. Cloth undersides use subdued silver-gray, not dark shadows.",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected for substantially closer silhouette, the brief's primary invariant. Some material assignments remain wrong: a shoulder plate is cloth-like and some cloth flaps are ivory. Exact silhouette, material placement and flat-light checks still fail.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-76d8501a-8815-46b4-bf0b-e87bd0089496.png",
+      "raw_output": "_attempts/left_2.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "c50688b06e618d8949a4385c781a78f35c0477e53ef08673748c8f9df0cbfa90"
+        }
+      ],
+      "output_sha256": "c26c5a809c89ea9e12635e8a184aaad17d8721c6c0190f78b3b4d872901a5485",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          123,
+          31,
+          1216,
+          1254
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.9688371563549434,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          128,
+          271,
+          1128,
+          982
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": false,
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper Refractor Mantle.\nImage 2 is the EDIT TARGET: the exact 1024 x 1024 transparent clay guide for this view. Image 1 is the DESIGN AND MATERIAL REFERENCE ONLY: the approved mantle art, not its shape, pose, camera, proportions or lighting.\nPaint ONLY the existing surfaces of image 2. Preserve its alpha silhouette pixel-for-pixel, all holes, the exact outline, every part edge, fold, overlap, size and position. Keep the same canvas, scale and camera. The guide is a short compressed, ruffled, faceted mantle; do not lengthen it into the reference's hanging cloak, tidy the irregular folds, fill openings or reshape any geometry.\nTransfer the reference's material design: warm ivory white ceramic shoulder and outer collar panels with very fine wear and hairline engraving, subdued brushed antique gold narrow rims and panel borders, black-violet charcoal resin or leather in collar lining and recessed joins, pale silver-gray cloth with fine woven grain and subtle blue-lilac pearlescent pigment, gold piping along existing cloth hems. Where present in the guide, the existing front clasp is blue-white crystal in a restrained gold bezel with the existing vertical decorative tab. Continue the same materials plausibly across unseen backs and undersides; no extra ornaments or new parts.\nALBEDO ONLY: perfectly even flat shadowless viewer illumination. Remove the guide's gray lighting gradients and shadows as you paint. No cast shadows, no ambient occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Gold is its diffuse ochre-gold base colour with only a faint sheen. Cloth iridescence is subtle colour pigment, never bright reflected streaks. Crystal is bright pale blue-white colour, without bloom or light spill. Keep physically dark materials distinct from shadows.\nOutput one 1024 x 1024 PNG with genuine transparent background, preserving the guide's transparent pixels and negative space. No background, floor, cast shadow, text, letters, labels, watermark, extra objects or collage.\nRIGHT VIEW. Exactly copy guide_right.png: object alpha bounding box x=105..918, y=224..799. Preserve this exact side and tilt, the collar, arched layered ceramic shoulder profile, the existing near-central polygonal tubular cloth opening, and all irregular lower folds and gaps. Do not mirror the left guide, rotate the view or invent a front-facing jewel.\nCORRECTION: preserve the exact faceted guide silhouette and all part boundaries. The visible near-center polygonal opening is curled cloth, with its existing polygonal silver-gray interior and only narrow gold piping on its actual edge; do not grow a thick new ring. No extra blue jewel outside the guide's surface. Exact sharp irregular lower edges, deep lower-middle transparent gap, collar tilt and position, same size in the same 1024x1024 canvas. Paint flat material base colours only; remove all deep fold shadows, shine, highlights and directional shading.",
+      "output": "_attempts/right_2.png",
+      "selected": false,
+      "reason": "Rejected: worse silhouette overlap and excessive ceramic treatment on lower cloth panels; shadows remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ee4-f277-7802-9578-d00430b6143a/exec-a145ac86-220e-4e8a-8f57-e1c7a1f35be3.png",
+      "raw_output": "_attempts/right_2.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ca6747e99f7378283b7656ee4ff96a40a78c7c3a801a9f5b2e854e0601e98d8b"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "f4ab03273448e773d450f1b16d7269278c507c90d618738719f18499b2f2832a"
+        }
+      ],
+      "output_sha256": "d21c4f0cec1c58a7c3d56d51c44d22933e3913ea39332c86f7314cf2c0d6dadf",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          28,
+          39,
+          1238,
+          1254
+        ],
+        "alpha_exact_match": false,
+        "normalized_silhouette_iou": 0.945805671433441,
+        "resized": false,
+        "opaque_bbox_alpha_128": [
+          126,
+          262,
+          1130,
+          971
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters_visual_check": true,
+        "palette_matches_reference_visual_check": true,
+        "material_placement_matches_reference": false,
+        "flat_even_shadowless_lighting": false,
+        "visual_lighting_note": "Residual directional fold shading, darkening at overlaps and bright metal edging remain despite albedo prompts.",
+        "silhouette_note": "Guide geometry is approximated, not identical. Small stray alpha pixels and edge changes remain. IoU compares alpha>=128 at normalized canvas coordinates for inspection only; no output was resized.",
+        "meets_all_brief_checks": false
+      }
+    }
+  ],
+  "status": "Five requested filenames saved; best available attempts selected. Strict silhouette and flat-light requirements remain unmet.",
+  "actual_output_size": [
+    1254,
+    1254
+  ],
+  "size_note": "Built-in tool returned 1254x1254 for all attempts despite requesting 1024x1024. All returns are kept unresized as the brief directs.",
+  "correction_limit": 1,
+  "corrections_used_per_view": {
+    "front": 1,
+    "back": 1,
+    "left": 1,
+    "right": 1,
+    "top": 1
+  },
+  "postprocessing": "None. Selected PNGs are byte-for-byte copies of raw built-in tool returns; no resizing, masking, repainting or recompression.",
+  "builds_run": false,
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "acceptance_note": "Selected means preferred within the allowed two attempts per view; it does not certify exact compliance or projection readiness."
+}

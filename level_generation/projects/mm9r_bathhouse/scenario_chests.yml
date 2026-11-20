@@ -1,0 +1,64 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.bathhouse_chests
+title: Bathhouse (native BLV) - the four MM9 treasure chests open from in front of their models
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: bathhouse.blv
+- set_pose:
+    map: bathhouse.blv
+    x: 16084
+    y: -4554
+    z: -818
+    yaw: -0.8814
+    pitch: -0.7317
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: bathhouse.blv
+    x: 16029
+    y: 0
+    z: -818
+    yaw: -0.0
+    pitch: -0.7171
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: bathhouse.blv
+    x: 16029
+    y: -778
+    z: -818
+    yaw: 0.0
+    pitch: -0.7171
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: bathhouse.blv
+    x: 14473
+    y: 1958
+    z: -818
+    yaw: -2.2689
+    pitch: -0.7171
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog

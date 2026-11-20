@@ -1,0 +1,239 @@
+{
+  "creature_3d_identity": "mm8:m596",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100,
+    "spent_credits": 0
+  },
+  "creature": "MM8 Crystal Walker",
+  "identity": "mm8:m596",
+  "requested_scope": "Complete Claude-playbook 3D production including rigid-part rig, animations, materials, LODs, runtime integration and checks",
+  "source_manifest": "level_generation/creatures/mm8_packed_outline_collection_20261002/families/mm8_m596/manifest.json",
+  "user_constraints": [
+    "Distinctive angular crystal body",
+    "Rigid crystal surfaces; motion at joints",
+    "Apply Reactor rigid-part construction lessons"
+  ],
+  "stage": "delivery",
+  "status": "complete",
+  "required_components": [
+    {
+      "id": "crystal_body",
+      "required": true,
+      "artifact_role": "portable_runtime_model",
+      "artifact": "export/mm8_m596.glb",
+      "source_evidence": "sources/native_summary.json",
+      "assembly": "integral rigid crystal sections",
+      "review_status": "complete"
+    },
+    {
+      "id": "crown_and_face",
+      "required": true,
+      "artifact_role": "portable_runtime_model",
+      "artifact": "export/mm8_m596.glb",
+      "source_evidence": "sources/native_summary.json",
+      "assembly": "integral rigid crystal sections",
+      "review_status": "complete"
+    },
+    {
+      "id": "paired_clawed_hands",
+      "required": true,
+      "artifact_role": "portable_runtime_model",
+      "artifact": "export/mm8_m596.glb",
+      "source_evidence": "sources/native_summary.json",
+      "assembly": "integral rigid crystal sections",
+      "review_status": "complete"
+    },
+    {
+      "id": "paired_crystal_feet",
+      "required": true,
+      "artifact_role": "portable_runtime_model",
+      "artifact": "export/mm8_m596.glb",
+      "source_evidence": "sources/native_summary.json",
+      "assembly": "integral rigid crystal sections",
+      "review_status": "complete"
+    }
+  ],
+  "user_acceptance": {
+    "status": "not_recorded"
+  },
+  "next_action": {
+    "owner": "user",
+    "action": "Optional artistic review in the existing viewer; production delivery is complete."
+  },
+  "references_hd": {
+    "selected": [
+      {
+        "path": "references_hd/00_three_quarter.png",
+        "sha256": "db08b41e195661c7e7721e0aa8c510cc0b5147f7b9651eaf0af4b0b804d8ef65"
+      },
+      {
+        "path": "references_hd/01_front.png",
+        "sha256": "668b837b41fe48b55c6cc8d81491e5a58a702ebd3243679661b8721d9cef3563"
+      },
+      {
+        "path": "references_hd/02_back.png",
+        "sha256": "08fcbe836831082010bc4321b8d7793ca2f62fc6f715f5b19a9337ed93fb0a9c"
+      },
+      {
+        "path": "references_hd/03_left.png",
+        "sha256": "f66e642251bcf0a5ac2b0588d42f19c75ea4f77fde3a7f58ed49398578dc155a"
+      },
+      {
+        "path": "references_hd/04_right.png",
+        "sha256": "cae441907f4dd82f364517b4c30b3a57140844360a881624afdaadf0f91525c4"
+      }
+    ],
+    "review": "references_hd/selected_views_review.png",
+    "notes": "Native skull proportions supersede slightly elongated HD head. Original and generated backgrounds inspected with alpha composition."
+  },
+  "route": "Local rigid-part construction, following Reactor and segmented-creature rules; authored native-intent motion; no Meshy jobs",
+  "technical_checks": {
+    "export_audit": "work/export_audit.json",
+    "actor_regression": "review/actor_regression.log",
+    "viewer_switches": 27,
+    "viewer_errors": 0,
+    "playback": "review/playback/playback.json",
+    "all_lod_rigidity": "work/all_lod_rigidity.json",
+    "inward_closed_parts": 0,
+    "texture_recipe_matches": true,
+    "source_export_hash_matches": true,
+    "native_runs": "review/ingame/runs.json",
+    "cpp_diff_whitespace": "pass"
+  },
+  "updated_at": "2026-10-18T07:35:24.568674+00:00",
+  "selected_artifacts": [
+    {
+      "role": "editable_master",
+      "path": "work/crystal_walker.blend",
+      "sha256": "0a25323f08c666cbc2f0df02a33527bd6176387ec1cc7e57cffc15abac1dfd49"
+    },
+    {
+      "role": "portable_runtime_model",
+      "path": "export/mm8_m596.glb",
+      "sha256": "6a6bb7034392a56fa0da7f528a5253ef0974bc4a269d7c5c50e7bd538cfb8df6"
+    },
+    {
+      "role": "basecolor",
+      "path": "textures/crystal_basecolor.png",
+      "sha256": "9dc6938c4b9ee38bc8093517b9a887f61f57dc94320c930aa11d8d5cd8157e68"
+    },
+    {
+      "role": "material_classes",
+      "path": "textures/crystal_material_classes.png",
+      "sha256": "7db277240f5e2e91d624b48a7e724cf71a8eb63c6d62160a5fa4223276d8f45f"
+    }
+  ],
+  "installed": {
+    "source": {
+      "path": "assets_source/worlds/mm8/models/mm8_m596.glb",
+      "sha256": "6a6bb7034392a56fa0da7f528a5253ef0974bc4a269d7c5c50e7bd538cfb8df6"
+    },
+    "runtime": {
+      "path": "assets_dev/worlds/mm8/models/mm8_m596.glb",
+      "sha256": "d5d66e78fc7dafb7cad58b5d6ca5b188d0738728c9bda60409dc58eddce1f70b"
+    },
+    "textures": [
+      {
+        "path": "assets_dev/worlds/mm8/models/textures/6ec86b6e5088d63bf703e057b22032f7.oytex",
+        "sha256": "205e653c6bba86c6dfa81985065333874c6896787c44f2b9574588f817adfc55"
+      }
+    ],
+    "bindings": "assets_dev/worlds/mm8/models/actors.yml",
+    "binding_snapshot": "review/installed_bindings.json"
+  },
+  "stages": {
+    "native_sources_and_references": {
+      "status": "complete",
+      "evidence": [
+        "sources/native_summary.json",
+        "references_hd/generation_runs.json",
+        "references_hd/selected_views_review.png"
+      ]
+    },
+    "geometry_and_rig": {
+      "status": "complete",
+      "evidence": [
+        "work/build_report.json",
+        "work/all_lod_rigidity.json"
+      ]
+    },
+    "animations_and_export": {
+      "status": "complete",
+      "evidence": [
+        "work/export_audit.json",
+        "review/playback/playback.json"
+      ]
+    },
+    "materials_and_lods": {
+      "status": "complete",
+      "evidence": [
+        "export/lods.json",
+        "textures/crystal_material_classes.png"
+      ]
+    },
+    "runtime_installation_and_review": {
+      "status": "complete",
+      "evidence": [
+        "review/installed_bindings.json",
+        "review/actor_regression.log",
+        "review/ingame/runs.json"
+      ]
+    }
+  },
+  "agent_visual_review": {
+    "status": "complete",
+    "artifact_sha256": "6a6bb7034392a56fa0da7f528a5253ef0974bc4a269d7c5c50e7bd538cfb8df6",
+    "method": "Native/HD comparisons; Blender static views; delivered GLB browser normal and half-speed playback, intermediate samples and video filmstrip; actual GPU game captures.",
+    "coverage": [
+      "all nine clips at 1x and 0.5x",
+      "front, back, side and three-quarter silhouette",
+      "face, crown, both three-claw hands, knees and feet",
+      "all three tiers indoors and outdoors against sprites",
+      "forced LOD2 indoors and outdoors",
+      "native debug action poses, including attack release at 0.833333 seconds",
+      "ordinary hostile approach/attack, damage command, backward death and default loot-satchel transition"
+    ],
+    "findings": []
+  },
+  "correction_ledger": [
+    {
+      "finding": "Generated profile views changed camera/occluded anatomy",
+      "correction": "Regenerated true side views; selected v1 three-quarter over oversaturated revision. Native wedge-head proportions retained.",
+      "recheck": "Five selected HD views inspected against native frames."
+    },
+    {
+      "finding": "World pose assignments were not parent-relative",
+      "correction": "Calculate matrix_basis from parent-relative rest and posed transforms.",
+      "recheck": "Export/master surface parity below one micron."
+    },
+    {
+      "finding": "Feet were tilted; gait stance needed stable contacts",
+      "correction": "Level foot rings, authored two-bone leg IK, constant stance travel and smooth swing path.",
+      "recheck": "48 Hz exported floor/contact and playback review passed."
+    },
+    {
+      "finding": "Hands raised the fallen body off the floor",
+      "correction": "Place arms outward with rigid arm IK during backward fall.",
+      "recheck": "Corpse floor contact and hand/torso intersections passed; native death/remains inspected."
+    },
+    {
+      "finding": "B/C scale_reference depended on a loaded foreign sprite family",
+      "correction": "Use explicit measured native scales 1, 1.299988 and 1.599991.",
+      "recheck": "MM8 actor regression and all-tier MM6 indoor/outdoor captures passed."
+    }
+  ],
+  "deviations": [
+    "Local rigid construction and authored native-intent motion replace Meshy geometry/auto-rig and human motion retargeting. No paid Meshy jobs.",
+    "All three native tiers share palette 596, so one material is reused without redundant colour variants.",
+    "Authored LODs reduce 1216 to 916 to 664 triangles; retaining closed joints, crown and claws takes priority over approximate 50-percent steps.",
+    "Opaque crystal, matching native art: no refraction, glow or rubber-like skin blending.",
+    "Attack/cast include recovery to 1.5 seconds; release is 0.833333 seconds. Gameplay action timing is unchanged; Hit remains shorter than native 0.8125 seconds."
+  ],
+  "limits": [
+    "Vulkan and Android not tested.",
+    "No performance benchmark claimed.",
+    "Death interpolation floor undershoot is at most 6.3 mm; locomotion at most 2.0 mm.",
+    "User artistic acceptance remains not_recorded."
+  ]
+}

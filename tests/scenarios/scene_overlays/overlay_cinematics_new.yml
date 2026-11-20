@@ -1,0 +1,16 @@
+# Cinematics overlays (G2 of devdocs/map_studio/S6_PLAN.md): a map without a cinematics file of its own gets one from
+# an overlay alone. Needs the test mount (run.sh): 6d02_scenetest.cinematics.yml gives the Abandoned Temple
+# overlay_intro (2 s).
+id: scene_overlays.cinematics_new
+title: An overlay's cinematic plays on a map that has none of its own
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: 6d02.blv
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: cinematic list, expect_contains: "Cinematics: overlay_intro (2 s)"}
+  - console: {line: cinematic play overlay_intro, expect_contains: Playing overlay_intro}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: cinematic list, expect_contains: playing overlay_intro}
+  - advance_runtime: {seconds: 2.5}

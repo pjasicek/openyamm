@@ -1,0 +1,649 @@
+{
+ "id": "20261009-1232-mm6-6d02-00",
+ "world": "mm6",
+ "maps": [
+  "6d02.blv",
+  "zddb03.blv",
+  "zddb01.blv",
+  "zdtl01.blv"
+ ],
+ "created": "2026-10-09T10:32:14+00:00",
+ "textures": [
+  "mm6/orwtrtyl",
+  "mm6/d1ceil1",
+  "mm6/descnr3",
+  "mm6/cbtiny",
+  "mm6/tdoore",
+  "mm6/t3d2b",
+  "mm6/t3d2a",
+  "mm6/d2ceil2",
+  "mm6/d1wblnka",
+  "mm6/bemtila",
+  "mm6/d1medbw",
+  "mm6/d1mbea",
+  "mm6/d1flr",
+  "mm6/crdflr3",
+  "mm6/beemdorc",
+  "mm6/bemstara",
+  "mm6/d1wblnka1",
+  "mm6/bdksh16a",
+  "mm6/bdksh16b",
+  "mm6/bdksh32a",
+  "mm6/cb3frnt",
+  "mm6/bdksv16b",
+  "mm6/bemdk1",
+  "mm6/bdksv32a"
+ ],
+ "requests": {
+  "mm6/orwtrtyl": {
+   "name": "orwtrtyl",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     960
+    ]
+   },
+   "versions": [
+    1
+   ],
+   "material": "shallow clear pool water seen from above, rippling blue with bright white caustic light lines",
+   "notes": {}
+  },
+  "mm6/d1ceil1": {
+   "name": "d1ceil1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     864,
+     864
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark aged wooden ceiling of long vertical planks and beams with deep black gaps between them",
+   "notes": {}
+  },
+  "mm6/descnr3": {
+   "name": "descnr3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     480,
+     864
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough reddish-pink granular sandstone with fine mineral speckle",
+   "notes": {}
+  },
+  "mm6/cbtiny": {
+   "name": "cbtiny",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 12,
+    "size": [
+     960,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small pale pine crate side with a plank frame and diagonal X brace, worn edges",
+   "notes": {}
+  },
+  "mm6/tdoore": {
+   "name": "tdoore",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 4,
+    "size": [
+     512,
+     1024
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "old weathered plank door of grey-blue sun-bleached wood with dark iron hinges, latch and keyhole",
+   "notes": {}
+  },
+  "mm6/t3d2b": {
+   "name": "t3d2b",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 4,
+    "size": [
+     1024,
+     1024
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "heavy dark oak dungeon door built from inlaid geometric planks, iron ring knocker, tufts of green moss at the base",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/t3d2a"
+     ],
+     "fraction": 0.361
+    }
+   }
+  },
+  "mm6/t3d2a": {
+   "name": "t3d2a",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 4,
+    "size": [
+     1024,
+     1024
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "heavy dark oak dungeon door built from inlaid geometric planks, iron ring knocker, tufts of green moss at the base",
+   "notes": {}
+  },
+  "mm6/d2ceil2": {
+   "name": "d2ceil2",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     864,
+     864
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown wooden ceiling of horizontal planks crossed by heavier beams",
+   "notes": {}
+  },
+  "mm6/d1wblnka": {
+   "name": "d1wblnka",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     864,
+     864
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy olive-grey limestone blocks with dark recessed mortar and greenish damp patina",
+   "notes": {}
+  },
+  "mm6/bemtila": {
+   "name": "bemtila",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished cherry wood board photographed in sharp focus: crisp continuous fine grain lines, subtle figure and pores",
+   "notes": {
+    "3": "Sharp photographic wood grain, no smeared, blurred or painted streaks."
+   }
+  },
+  "mm6/d1medbw": {
+   "name": "d1medbw",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "mossy olive-grey limestone blocks with dark recessed mortar and greenish damp patina",
+   "notes": {},
+   "prefill": {
+    "4": {
+     "sources": [
+      "mm6/d1wblnka"
+     ],
+     "fraction": 0.68
+    }
+   }
+  },
+  "mm6/d1mbea": {
+   "name": "d1mbea",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 12,
+    "size": [
+     960,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mossy olive-grey limestone blocks with dark recessed mortar and greenish damp patina",
+   "notes": {}
+  },
+  "mm6/d1flr": {
+   "name": "d1flr",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mossy olive-grey limestone floor slab with a carved recessed square border, damp patina",
+   "notes": {}
+  },
+  "mm6/crdflr3": {
+   "name": "crdflr3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey crushed gravel and small angular stones",
+   "notes": {}
+  },
+  "mm6/beemdorc": {
+   "name": "beemdorc",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     480,
+     864
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished red-brown mahogany door with raised and recessed rectangular panels",
+   "notes": {
+    "3": "Sharp photographic wood grain and crisp panel bevels; no smeared or painted texture."
+   }
+  },
+  "mm6/bemstara": {
+   "name": "bemstara",
+   "reference": {
+    "pad": [
+     16,
+     80
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     864,
+     576
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown mahogany trim with fine grain and a lighter bevelled edge",
+   "notes": {}
+  },
+  "mm6/d1wblnka1": {
+   "name": "d1wblnka1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     480,
+     864
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mossy olive-grey limestone blocks with dark recessed mortar and greenish damp patina",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d1wblnka"
+     ],
+     "fraction": 0.683
+    }
+   }
+  },
+  "mm6/bdksh16a": {
+   "name": "bdksh16a",
+   "reference": {
+    "pad": [
+     16,
+     46
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     648
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "polished red-brown mahogany trim with fine grain and a lighter bevelled edge",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/bdksh32b"
+     ],
+     "fraction": 0.906
+    },
+    "3": {
+     "sources": [
+      "mm6/bdksh32b"
+     ],
+     "fraction": 0.906
+    }
+   }
+  },
+  "mm6/bdksh16b": {
+   "name": "bdksh16b",
+   "reference": {
+    "pad": [
+     16,
+     46
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     648
+    ]
+   },
+   "versions": [
+    1
+   ],
+   "material": "polished red-brown mahogany trim with fine grain and a lighter bevelled edge",
+   "notes": {}
+  },
+  "mm6/bdksh32a": {
+   "name": "bdksh32a",
+   "reference": {
+    "pad": [
+     16,
+     38
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     960,
+     648
+    ]
+   },
+   "versions": [
+    1
+   ],
+   "material": "polished red-brown mahogany trim with fine grain and a lighter bevelled edge",
+   "notes": {}
+  },
+  "mm6/cb3frnt": {
+   "name": "cb3frnt",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 4,
+    "size": [
+     1024,
+     1024
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ornate black lacquered cabinet front with gilded carved filigree panels and a dark open shelf",
+   "notes": {}
+  },
+  "mm6/bdksv16b": {
+   "name": "bdksv16b",
+   "reference": {
+    "pad": [
+     46,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     648,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown mahogany trim with fine grain and a lighter bevelled edge",
+   "notes": {}
+  },
+  "mm6/bemdk1": {
+   "name": "bemdk1",
+   "reference": {
+    "pad": [
+     16,
+     80
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 3,
+    "size": [
+     864,
+     576
+    ]
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown mahogany trim with fine grain and a lighter bevelled edge",
+   "notes": {}
+  },
+  "mm6/bdksv32a": {
+   "name": "bdksv32a",
+   "reference": {
+    "pad": [
+     38,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "factor": 6,
+    "size": [
+     648,
+     960
+    ]
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished red-brown mahogany trim with fine grain and a lighter bevelled edge",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/bemdk6"
+     ],
+     "fraction": 0.719
+    }
+   }
+  }
+ }
+}

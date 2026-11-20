@@ -1,0 +1,461 @@
+{
+ "id": "20261031-1402-mm9-tasaracademy-03",
+ "world": "mm9",
+ "maps": [
+  "tasaracademy.blv",
+  "connectingtunnels.blv"
+ ],
+ "created": "2026-10-31T13:02:09+00:00",
+ "textures": [
+  "mm9/tasablrb1n",
+  "mm9/ccol3odce9",
+  "mm9/tilej53lv1",
+  "mm9/woodv944p9",
+  "mm9/dirtet431x",
+  "mm9/tasa5kd41a",
+  "mm9/wind0csb50",
+  "mm9/wood6dt5mt",
+  "mm9/coluuwo314",
+  "mm9/tasaxesmfz",
+  "mm9/tasahz9x1x",
+  "mm9/woodj4b5cr",
+  "mm9/steeiybti4",
+  "mm9/dung4m50hb",
+  "mm9/tapebwefmk",
+  "mm9/tasasqjnjf",
+  "mm9/benc25qrwi",
+  "mm9/oldwbgvrwh",
+  "mm9/strah3bois",
+  "mm9/doorlhdf9y",
+  "mm9/wood9zi2qf",
+  "mm9/karhdsxw8r",
+  "mm9/karh3v44vq",
+  "mm9/karh2jnb0i"
+ ],
+ "requests": {
+  "mm9/tasablrb1n": {
+   "name": "tasablrb1n",
+   "versions": [
+    1
+   ],
+   "material": "a pale olive-beige sandstone wall plaque carved in low relief: a downward-pointing triangle with a stylised sword passing through a ring, raised moulded border, weathered stone with soft stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/tasaz7phf7"
+     ],
+     "fraction": 0.584
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ccol3odce9": {
+   "name": "ccol3odce9",
+   "versions": [
+    1
+   ],
+   "material": "fluted wooden column surface: evenly spaced vertical rounded flutes of warm brown wood with darker grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tilej53lv1": {
+   "name": "tilej53lv1",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-beige marble ceiling tile with faded ochre floral painting in the corners and a long dark crack across it, soft mottled stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/woodv944p9": {
+   "name": "woodv944p9",
+   "versions": [
+    1
+   ],
+   "material": "dark olive-brown wood grain with long horizontal fibres and soft darker streaks, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dirtet431x": {
+   "name": "dirtet431x",
+   "versions": [
+    1
+   ],
+   "material": "dry sandy olive-brown dirt ground with fine gravel, small pebbles and dusty speckles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tasa5kd41a": {
+   "name": "tasa5kd41a",
+   "versions": [
+    1
+   ],
+   "material": "a dark wooden bookcase with four shelves full of old leather-bound books in red, green, brown and grey with faded gold lettering",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wind0csb50": {
+   "name": "wind0csb50",
+   "versions": [
+    1
+   ],
+   "material": "a leaded window of pale blue-white frosted glass diamonds held in a diagonal lattice of copper-brown lead cames",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wood6dt5mt": {
+   "name": "wood6dt5mt",
+   "versions": [
+    1
+   ],
+   "material": "horizontal weathered wooden planks with brown grain, worn rounded edges and dark gaps between planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/coluuwo314": {
+   "name": "coluuwo314",
+   "versions": [
+    1
+   ],
+   "material": "a weathered grey-green stone column tile: a carved band of angular runes along the top above plain mottled grey-olive stone, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tasaxesmfz": {
+   "name": "tasaxesmfz",
+   "versions": [
+    1
+   ],
+   "material": "a pale olive-ochre stone hallway arch: a pointed archway with stepped carved jambs and a fluted wooden-looking panelled frieze above, the recess inside the arch mottled sandy stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tasahz9x1x": {
+   "name": "tasahz9x1x",
+   "versions": [
+    1
+   ],
+   "material": "a square pale olive-beige sandstone wall panel with a raised moulded border, carved in low relief with a stylised sword passing through a ring, weathered stone with soft stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/woodj4b5cr": {
+   "name": "woodj4b5cr",
+   "versions": [
+    1
+   ],
+   "material": "warm reddish-brown wood grain with long horizontal fibres, rich glossy-matte finish",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/steeiybti4": {
+   "name": "steeiybti4",
+   "versions": [
+    1
+   ],
+   "material": "a vertical dull grey-brown steel support beam with mottled grime, rivets and faint rust stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung4m50hb": {
+   "name": "dung4m50hb",
+   "versions": [
+    1
+   ],
+   "material": "a mottled grey-green stone plaster wall with soft cloudy stains and faint cracks, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tapebwefmk": {
+   "name": "tapebwefmk",
+   "versions": [
+    1
+   ],
+   "material": "a woven heraldic tapestry quartered in red, yellow and blue cloth with a black rampant lion in the centre, coarse linen texture and a fringed bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tasasqjnjf": {
+   "name": "tasasqjnjf",
+   "versions": [
+    1
+   ],
+   "material": "a narrow vertical pale sandstone trim strip carved with a column of chevron herringbone grooves inside a raised border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/benc25qrwi": {
+   "name": "benc25qrwi",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown polished bench wood with fine grain, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/oldwbgvrwh": {
+   "name": "oldwbgvrwh",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered vertical wooden boards with deep cracked brown grain and darker gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/strah3bois": {
+   "name": "strah3bois",
+   "versions": [
+    1
+   ],
+   "material": "golden yellow straw thatch with long vertical stalks, dense and slightly glossy",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/doorlhdf9y": {
+   "name": "doorlhdf9y",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark iron-bound wooden dungeon door leaves with ornate bronze bars, studs, small barred panels and latch fittings, worn dark brown wood, a narrow dark gap down the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wood9zi2qf": {
+   "name": "wood9zi2qf",
+   "versions": [
+    1
+   ],
+   "material": "vertical golden-brown wooden planks with flowing grain and knots, warm matte finish",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhdsxw8r": {
+   "name": "karhdsxw8r",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture and soft faint stains; along the bottom a band of blue and white glazed tiles painted with a stylised fish and wave scroll",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karh3v44vq": {
+   "name": "karh3v44vq",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture and soft faint stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karhdsxw8r"
+     ],
+     "fraction": 0.602
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karh2jnb0i": {
+   "name": "karh2jnb0i",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture and soft faint stains, with a dark iron wall ring holder on a round mount in the upper middle; along the bottom a band of blue and white glazed tiles painted with a stylised fish and wave scroll",
+   "notes": {
+    "2": "the iron wall ring holder has a round mount shaped as a small sculpted human face mask, the ring hangs from its chin, exactly as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karhdsxw8r"
+     ],
+     "fraction": 0.797
+    },
+    "2": {
+     "sources": [
+      "mm9/karhdsxw8r"
+     ],
+     "fraction": 0.797
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  }
+ }
+}

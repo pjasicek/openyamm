@@ -8,6 +8,8 @@ class GameplayScreenRuntime;
 class GameplayOverlayInputController
 {
 public:
+    // The open chest's Take All (goldOnly: Take Gold) button: gold, then every item that fits in the party's packs.
+    static void takeAllActiveChestItems(GameplayScreenRuntime &view, bool goldOnly);
     static bool handleRestOverlayInput(
         GameplayScreenRuntime &view,
         const GameplayInputFrame &input);
@@ -32,7 +34,8 @@ public:
         bool canToggleJournal,
         bool mapShortcutPressed,
         bool storyShortcutPressed,
-        bool notesShortcutPressed,
+        bool questsShortcutPressed,
+        bool progressShortcutPressed,
         bool zoomInPressed,
         bool zoomOutPressed,
         float mouseWheelDelta);

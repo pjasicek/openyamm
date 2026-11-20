@@ -1,0 +1,176 @@
+{
+  "scope": "All 33 accepted land transitions: installed hash and nonzero AI treatment-layer check; visual comparison of all 12 volcano tiles and representative grass/road tiles.",
+  "tiles": [
+    {
+      "tile": "6drsrecap",
+      "nonzero_treatment_pixels": 52020,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrew",
+      "nonzero_treatment_pixels": 51514,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrew_s",
+      "nonzero_treatment_pixels": 54076,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrn_e",
+      "nonzero_treatment_pixels": 46282,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrn_w",
+      "nonzero_treatment_pixels": 45359,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrns",
+      "nonzero_treatment_pixels": 53241,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrs_e",
+      "nonzero_treatment_pixels": 45072,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrs_w",
+      "nonzero_treatment_pixels": 44079,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6drsrwcap",
+      "nonzero_treatment_pixels": 49155,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrte",
+      "nonzero_treatment_pixels": 61945,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtn",
+      "nonzero_treatment_pixels": 57581,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtne",
+      "nonzero_treatment_pixels": 98956,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtnw",
+      "nonzero_treatment_pixels": 106718,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrts",
+      "nonzero_treatment_pixels": 73480,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtse",
+      "nonzero_treatment_pixels": 76602,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtsw",
+      "nonzero_treatment_pixels": 97208,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtw",
+      "nonzero_treatment_pixels": 83817,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtxne",
+      "nonzero_treatment_pixels": 71342,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtxnw",
+      "nonzero_treatment_pixels": 57565,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtxse",
+      "nonzero_treatment_pixels": 60580,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "6grdrtxsw",
+      "nonzero_treatment_pixels": 78216,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrte",
+      "nonzero_treatment_pixels": 71579,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtn",
+      "nonzero_treatment_pixels": 64305,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtne",
+      "nonzero_treatment_pixels": 77042,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtnw",
+      "nonzero_treatment_pixels": 69781,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrts",
+      "nonzero_treatment_pixels": 67851,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtse",
+      "nonzero_treatment_pixels": 86586,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtsw",
+      "nonzero_treatment_pixels": 50292,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtw",
+      "nonzero_treatment_pixels": 74750,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtxne",
+      "nonzero_treatment_pixels": 64329,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtxnw",
+      "nonzero_treatment_pixels": 63153,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtxse",
+      "nonzero_treatment_pixels": 83321,
+      "installed_matches_accepted": true
+    },
+    {
+      "tile": "voldrtxsw",
+      "nonzero_treatment_pixels": 50740,
+      "installed_matches_accepted": true
+    }
+  ],
+  "visual_findings": {
+    "volcano": "Irregular granular rock-earth mixing is present, including inward corners. Dark contact treatment is subtle; original rock is lighter and more speckled. No missing shoreline-style layer was found.",
+    "grass": "Representative tiles retain ragged turf fringe and shaded soil contact.",
+    "roads": "Representative tiles retain stone-edge contact and earth bleed; broad original shapes retained, individual stone arrangement differs."
+  },
+  "runtime_changed": false
+}

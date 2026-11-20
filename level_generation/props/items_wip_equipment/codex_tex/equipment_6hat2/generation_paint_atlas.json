@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Dandy Hat (6hat2). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Purple wide-brimmed hat, tall rounded cylindrical crown, pale purple ribbon and drooping white feather on the left. Exact material boundaries: Use the icon and identity; red only for actual metal fittings, keep leather, horn and fabric in their own classes. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6hat2/inputs/guide_paint.png",
+  "input_guide_sha256": "2a2d2a85921a1fdec4a3897f11219721b46de21c0193248f3669b78112208f87",
+  "revision": 1,
+  "input_icon": "6hat2",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-2ea376aa-b5a5-4db7-ac52-59bcff85d726.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "e19411101f1049a240874dc6e6be2e26e1d3930ae55d613f2fca4b5ea56ff71e",
+  "input_icon_path": "assets_dev/engine/icons_x2/6hat2.png",
+  "input_icon_sha256": "e4eeb1d82d78b657774c6045a9494e896448d288d3edd3e853b0fdb38aba5b13",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

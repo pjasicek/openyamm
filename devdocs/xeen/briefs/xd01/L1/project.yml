@@ -1,0 +1,44 @@
+format: 0
+id: xeen_xd01
+name: Joe's Warehouse
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-01
+units: {plan_grid: 512}
+extent: {footprint_cells: [9, 7], climbs: s}
+map_stats:
+  id: 9131
+  encounter_chance: 10
+  treasure_level: 1
+  trap_dice: 1
+  perception_difficulty: 0
+  refill_days: 672
+  music: dungeon_light
+  environment: stone hall
+  lock_difficulty: 0
+  slots:
+    - {monster: Oozes, tier: 1, per_marker: [2, 3], weight: 50}
+    - {monster: Swarms, tier: 1, per_marker: [2, 4], weight: 50}
+neighbours:
+  - id: exit:vertigo_riverbank
+    to: X1
+    kind: door
+    arrival_hint: "On Vertigo's riverbank below the warehouse, beside the culvert grate."
+    one_way: true
+    notes: "The culvert grate is lifted from the inside (set:culvert_grate). Before that the culvert is a way out only; afterwards the grate on X1's riverbank is a second way in."
+  - id: exit:vertigo_street
+    to: X1
+    kind: door
+    arrival_hint: "In Vertigo's warehouse lane, in front of the loading doors of Joe's warehouse, facing away from them."
+    condition: {any: [{item: warehouse_key}, {stat: {name: Perception, at_least: 3}}]}
+    notes: "The street door is locked. The drunk in Lady Geraldine's Tavern says Joe 'keeps his spare under the rain barrel' (the key lies there on X1), or a character with Perception 3 spots the loose shutter beside the door. Either opens the door for good."
+qbits:
+  culvert_grate_open: 110012
+  joe_invoice_found: 110010
+  joe_pair_slain: 110011
+items:
+  joes_invoice: 12002
+  pen_key: 12003
+  warehouse_key: 12001
+notes: "Xeen design brief, level L1, for a new map (no original to rebuild). Story step M2 (devdocs/xeen/QUESTS.md). Encounter slots are Xeen families from devdocs/xeen/MONSTERS_AND_ITEMS.md: slot 1 Oozes (Slime 2, Breeder Slime 4), slot 2 Swarms (Doom Bug 2); only their A ranks appear here, so the whole map stays at monster levels 2 to 4. The family names stand in for monster_data rows the Xeen world has not made yet (monster ids 11000-11999). Provisional ids: map_stats row 9131 (Xeen rows 9101-9199; 9101-9130 left for the outdoor, sky and plane maps, dungeons from 9131 in XD order), qbits 110010-110012 and items 12001-12003 from the Xeen ranges in devdocs/xeen/PRODUCTION.md; none is registered yet. Both neighbours are on X1 (Vertigo Meadows), inside the town of Vertigo."

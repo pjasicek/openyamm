@@ -1,0 +1,627 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: game-model albedo texture source, paint_front.png.\nEdit input image 1 (guide_front.png). Input image 2 (design_reference.png) is ONLY the surface-material and color reference.\nOutput one 1024 x 1024 RGBA PNG, genuinely transparent background, same canvas and pixel placement as image 1.\nLOCK the alpha silhouette and every internal part edge of image 1 exactly; recolor only its existing visible surfaces. This FRONT view is intentionally END-ON: it is the tiny, foreshortened irregular crystal-and-lattice cross-section centered near pixel (512,512), occupying ONLY x=464..559 and y=465..558 inclusive. Preserve its 96 x 94 pixel footprint and all the large transparent empty space. Do not enlarge, move, turn, unroll or show a full-length staff. The shaft is occluded end-on. Preserve every hole and the irregular overlapping ceramic strips exactly as in image 1.\nItem: staff of grown Lattice crystal. Transfer image 2's warm ivory-white worn ceramic lattice, fine brushed muted-gold edging at existing fittings, black-violet/plum resin/crystal with bright orange amber fissures onto the exact surfaces of image 1. Continue hidden faces plausibly; add no geometry. Small blue-white glass only where an actual inset is visible. Retain fine wear, engraved lines, seams and panel joins on the existing parts, no written symbols.\nLIGHTING: flat evenly lit shadowless ALBEDO from viewer. No cast shadows, ambient occlusion, directional shading, strong specular highlights, reflections, rim light or light spill. Gold is its base color with a faint sheen. Orange light is painted as bright pigment within crystal, not bloom. No background, floor, halo, text, letters, labels or watermark. Preserve outline, part edges, size and position exactly; nothing outside the input silhouette and nothing cropped.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-638f598e-92d9-4eaa-824f-7338ac5f2e6f.png",
+    "output": "rejected/paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Superseded by the sole corrective return with closer guide silhouette. Kept unresized for audit.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "380b5bd808b28df72237290ef662cc4d6dd267831c5f09bfb164d7b5b32a2bb4"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        95,
+        66,
+        1111,
+        1131
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.7152131203553429,
+      "bbox_alpha_gt127": [
+        562,
+        563,
+        693,
+        691
+      ],
+      "transparent_pixel_count": 1558881,
+      "nonzero_alpha_outside_normalized_guide": 3912,
+      "opaque_pixels_outside_normalized_guide": 2109,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "75f507d2f3173cd2822f5a4905e3e71437c2fa480f08a96198a41b5b46272ecc"
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: game-model ALBEDO texture source.\nInput 1 is the exact orthographic white model guide to PAINT IN PLACE. Input 2 is design_reference.png, only the material and color authority, not the framing.\nProduce one 1024x1024 RGBA PNG with genuine transparent background. Repaint ONLY pixels of the guide's existing object. Copy its alpha mask, silhouette, every part edge, gaps, proportions, exact size, orientation and canvas placement. Do not reinterpret the geometry or fit the item larger in frame.\nPaint the reference's surfaces onto corresponding parts: warm ivory-white ceramic with fine wear on the sweeping lattice and raised bands, muted brushed-gold trims and fittings, faceted black-violet/plum resin/crystal with thin bright orange/amber internal fissures, dark brown-black textured leather at the existing grips, blue-white glass in the existing circular medallion where visible. Continue unseen back and underside faces plausibly. Retain engraved fine lines, seams, joins and small non-letter markings inside existing surfaces. Add no parts.\nThis is an unlit texture source: even flat shadowless viewer light, no directional shading, cast shadows, ambient occlusion, strong specular highlights, reflections, rim light or hot highlights. Metal as base color with only faint sheen. Glow is painted bright color INSIDE the crystal, no bloom or light spill. All background and holes fully transparent with no stray pixels. No floor, background, text, letters, watermark, labels.\n\nDeliverable: paint_back.png.\nThis BACK view is intentionally END-ON. Keep the tiny round irregular cross-section centered (512,512) occupying ONLY x=464..559, y=465..558 inclusive in the 1024 canvas, 96x94 pixels. The shaft is entirely foreshortened and occluded. The broad faceted center and looping thin ivory lattice are EXACTLY those of the guide. Preserve this end-on view and empty transparent space; DO NOT show a full staff, enlarge it, or add a shaft. Paint the visible crystal facets dark plum with narrow orange fissures and the lattice ivory.\nExact guide geometry and alpha mask take priority over ornamental detail.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-c111694b-a39d-4e5e-b0e6-3b058c0df4cb.png",
+    "output": "rejected/paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Superseded by the sole corrective return with closer guide silhouette. Kept unresized for audit.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "b0554ca71bc40ebdf88b383f7815557547a196bc12efa5595203937d36554097"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        353,
+        89,
+        1071,
+        1012
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.7853793103448276,
+      "bbox_alpha_gt127": [
+        565,
+        569,
+        689,
+        689
+      ],
+      "transparent_pixel_count": 1559502,
+      "nonzero_alpha_outside_normalized_guide": 3278,
+      "opaque_pixels_outside_normalized_guide": 1204,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "943d4371df4e4d5236dd862a4ced5beec2e1cce3b003d3eef085a039b58d11e6"
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: game-model ALBEDO texture source.\nInput 1 is the exact orthographic white model guide to PAINT IN PLACE. Input 2 is design_reference.png, only the material and color authority, not the framing.\nProduce one 1024x1024 RGBA PNG with genuine transparent background. Repaint ONLY pixels of the guide's existing object. Copy its alpha mask, silhouette, every part edge, gaps, proportions, exact size, orientation and canvas placement. Do not reinterpret the geometry or fit the item larger in frame.\nPaint the reference's surfaces onto corresponding parts: warm ivory-white ceramic with fine wear on the sweeping lattice and raised bands, muted brushed-gold trims and fittings, faceted black-violet/plum resin/crystal with thin bright orange/amber internal fissures, dark brown-black textured leather at the existing grips, blue-white glass in the existing circular medallion where visible. Continue unseen back and underside faces plausibly. Retain engraved fine lines, seams, joins and small non-letter markings inside existing surfaces. Add no parts.\nThis is an unlit texture source: even flat shadowless viewer light, no directional shading, cast shadows, ambient occlusion, strong specular highlights, reflections, rim light or hot highlights. Metal as base color with only faint sheen. Glow is painted bright color INSIDE the crystal, no bloom or light spill. All background and holes fully transparent with no stray pixels. No floor, background, text, letters, watermark, labels.\n\nDeliverable: paint_left.png.\nThis LEFT view is HORIZONTAL, with large crystal head at the LEFT and small pointed butt at the RIGHT. Exact opaque footprint x=66..957, y=465..558 inclusive in a 1024 square; long horizontal centerline y=512. Match the guide's narrow 892x94 pixel silhouette with large empty space above and below. Preserve all curved head lattice strips, faceted crystal, the existing medallion near x=292, each existing shaft band, and small pointed butt. No rotation, widening, enlargement, added ornament or silhouette drift.\nExact guide geometry and alpha mask take priority over ornamental detail.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-a1c19a92-f165-4704-bab9-4cc63e8f038b.png",
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Retained initial square composition. Corrective return changed the aspect ratio to 1774x887 and reduced normalized silhouette overlap from 0.6885 to 0.2628. Exact silhouette and flat albedo requirements remain unmet.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "d60de7cab3df9127de5d36621c49933fadba3a58e0ae175063d08cdf4053f747"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        45,
+        78,
+        1208,
+        1228
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.6884614575222543,
+      "bbox_alpha_gt127": [
+        49,
+        566,
+        1205,
+        688
+      ],
+      "transparent_pixel_count": 1512502,
+      "nonzero_alpha_outside_normalized_guide": 20485,
+      "opaque_pixels_outside_normalized_guide": 8545,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "ea028218107c1ed304f34ffc5f0481d6a9ea29bd5908c3c1084d3409a7137a25",
+    "selection_status": "best_available_return_not_full_brief_acceptance"
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: game-model ALBEDO texture source.\nInput 1 is the exact orthographic white model guide to PAINT IN PLACE. Input 2 is design_reference.png, only the material and color authority, not the framing.\nProduce one 1024x1024 RGBA PNG with genuine transparent background. Repaint ONLY pixels of the guide's existing object. Copy its alpha mask, silhouette, every part edge, gaps, proportions, exact size, orientation and canvas placement. Do not reinterpret the geometry or fit the item larger in frame.\nPaint the reference's surfaces onto corresponding parts: warm ivory-white ceramic with fine wear on the sweeping lattice and raised bands, muted brushed-gold trims and fittings, faceted black-violet/plum resin/crystal with thin bright orange/amber internal fissures, dark brown-black textured leather at the existing grips, blue-white glass in the existing circular medallion where visible. Continue unseen back and underside faces plausibly. Retain engraved fine lines, seams, joins and small non-letter markings inside existing surfaces. Add no parts.\nThis is an unlit texture source: even flat shadowless viewer light, no directional shading, cast shadows, ambient occlusion, strong specular highlights, reflections, rim light or hot highlights. Metal as base color with only faint sheen. Glow is painted bright color INSIDE the crystal, no bloom or light spill. All background and holes fully transparent with no stray pixels. No floor, background, text, letters, watermark, labels.\n\nDeliverable: paint_right.png.\nThis RIGHT view is HORIZONTAL, with small pointed butt at the LEFT and large crystal head at the RIGHT. Exact opaque footprint x=66..957, y=465..558 inclusive in a 1024 square; long horizontal centerline y=512. Match the guide's narrow 892x94 pixel silhouette with large empty space above and below. Preserve all curved head lattice strips, faceted crystal, the existing medallion near x=733, each existing shaft band, and small pointed butt. No rotation, widening, enlargement, added ornament or silhouette drift.\nExact guide geometry and alpha mask take priority over ornamental detail.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-dc627b07-de20-4dc5-b050-a0b018cd9bfe.png",
+    "output": "rejected/paint_right_attempt1.png",
+    "selected": false,
+    "reason": "Superseded by the sole corrective return with closer guide silhouette. Kept unresized for audit.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "c82250219b2545c12f431383bc5213d25279b0391a68085c861b4da5a37100ec"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        33,
+        126,
+        1218,
+        1115
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.8269768323305065,
+      "bbox_alpha_gt127": [
+        80,
+        569,
+        1176,
+        687
+      ],
+      "transparent_pixel_count": 1516220,
+      "nonzero_alpha_outside_normalized_guide": 16038,
+      "opaque_pixels_outside_normalized_guide": 3003,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "10cf372d9e291cd86f9ce8c6ecba39972703e9f34e60ef7ec25412973a21feaf"
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: game-model ALBEDO texture source.\nInput 1 is the exact orthographic white model guide to PAINT IN PLACE. Input 2 is design_reference.png, only the material and color authority, not the framing.\nProduce one 1024x1024 RGBA PNG with genuine transparent background. Repaint ONLY pixels of the guide's existing object. Copy its alpha mask, silhouette, every part edge, gaps, proportions, exact size, orientation and canvas placement. Do not reinterpret the geometry or fit the item larger in frame.\nPaint the reference's surfaces onto corresponding parts: warm ivory-white ceramic with fine wear on the sweeping lattice and raised bands, muted brushed-gold trims and fittings, faceted black-violet/plum resin/crystal with thin bright orange/amber internal fissures, dark brown-black textured leather at the existing grips, blue-white glass in the existing circular medallion where visible. Continue unseen back and underside faces plausibly. Retain engraved fine lines, seams, joins and small non-letter markings inside existing surfaces. Add no parts.\nThis is an unlit texture source: even flat shadowless viewer light, no directional shading, cast shadows, ambient occlusion, strong specular highlights, reflections, rim light or hot highlights. Metal as base color with only faint sheen. Glow is painted bright color INSIDE the crystal, no bloom or light spill. All background and holes fully transparent with no stray pixels. No floor, background, text, letters, watermark, labels.\n\nDeliverable: paint_top.png.\nThis directly-above TOP guide shows the full staff VERTICAL, with large crystal head at the TOP and small pointed butt at the BOTTOM. Exact opaque footprint x=464..559, y=66..957 inclusive in a 1024 square; centerline x=512. Match its very narrow 96x892 silhouette with large empty space on either side. Preserve every sweeping head lattice strip, faceted crystal, existing circular blue-white medallion at y=292, each existing shaft band and small pointed butt. Do not widen the staff to match the reference; the guide geometry is authoritative.\nExact guide geometry and alpha mask take priority over ornamental detail.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-47480f4f-4cd2-4df2-9043-037fa14f3617.png",
+    "output": "rejected/paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Superseded by the sole corrective return with closer guide silhouette. Kept unresized for audit.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "e9ce46d73a603f04c0b498e16e763aeb8951676c3ad9031ebad1f50a1f1162ed"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        130,
+        30,
+        1202,
+        1218
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.8431743363451706,
+      "bbox_alpha_gt127": [
+        567,
+        79,
+        688,
+        1174
+      ],
+      "transparent_pixel_count": 1517546,
+      "nonzero_alpha_outside_normalized_guide": 14467,
+      "opaque_pixels_outside_normalized_guide": 3212,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "57cfb4af34cd28ebbaf2929902f62cbb9f475b7f6a72c5d28a6e5593837fd341"
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "Corrective regeneration 1 of 1, paint_front.png, 1024 x 1024 transparent RGBA.\nImage 1 is the material/color reference. Image 2 is the EXACT edit target guide_front.png. Paint image 2 in place; preserve its complete alpha channel and geometry without redrawing, widening, zooming, moving, rotating or changing any part edges or holes.\nThis is the END-ON FRONT view of the staff: ONLY a tiny irregular 96x94 pixel cross-section at x464..559 y465..558 in the 1024 square. All surrounding space remains fully alpha=0. Its shaft is occluded. No full-length staff.\nThe earlier attempt enlarged and changed the outline and applied glossy shading. Correct those errors by following image 2's precise white-surface boundaries. Apply MATTE UNLIT DIFFUSE BASE COLOR: warm ivory ceramic looping strips with subtle fine wear, dark violet crystal facets with thin bright orange seams, restrained gold only where appropriate. Use the design as color authority, not lighting authority. Keep the internal crystal shape and each ceramic strip in exactly its original place.\nUniform shadowless albedo: NO specular dots, shiny rims, reflections, baked lighting, dark contact shadows, AO, bloom, orange fringe or background specks. Bright orange is only the pigment of the crystal seams. Every non-object pixel fully transparent; no text, letters, marks outside the object. Material color change only. Output just the painted image, no comparison.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-9fdc4d1c-3179-4eae-a462-c40af5d7582b.png",
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected the sole corrective return: normalized silhouette overlap improved from 0.7152 to 0.8601. Exact silhouette and flat albedo requirements remain unmet.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      },
+      {
+        "path": "guide_front.png",
+        "sha256": "380b5bd808b28df72237290ef662cc4d6dd267831c5f09bfb164d7b5b32a2bb4"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        242,
+        142,
+        1023,
+        1021
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.8600973236009732,
+      "bbox_alpha_gt127": [
+        568,
+        571,
+        686,
+        687
+      ],
+      "transparent_pixel_count": 1561108,
+      "nonzero_alpha_outside_normalized_guide": 1735,
+      "opaque_pixels_outside_normalized_guide": 455,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "407d2459933fd87fb273a8837a8687c45e1d1d8de98f9990a2080e64755eeae6",
+    "selection_status": "best_available_return_not_full_brief_acceptance"
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "Corrective regeneration 1 of 1, paint_back.png, 1024 x 1024 transparent RGBA.\nImage 1 is the material/color reference. Image 2 is the EXACT edit target guide_back.png. Paint image 2 in place; preserve its complete alpha channel and geometry without redrawing, widening, zooming, moving, rotating or changing any part edges or holes.\nThis is the END-ON BACK view of the staff: ONLY a tiny irregular 96x94 pixel cross-section at x464..559 y465..558 in the 1024 square. All surrounding space remains fully alpha=0. Its shaft is occluded. No full-length staff. Carefully retain the broad central faceted shape and each thin curved ceramic strip of image 2.\nThe earlier attempt enlarged and changed the outline and applied glossy shading. Correct those errors by following image 2's precise white-surface boundaries. Apply MATTE UNLIT DIFFUSE BASE COLOR: warm ivory ceramic looping strips with subtle fine wear, dark violet crystal facets with thin bright orange seams, restrained gold only where appropriate. Use the design as color authority, not lighting authority. Continue hidden back-face materials plausibly.\nUniform shadowless albedo: NO specular dots, shiny rims, reflections, baked lighting, dark contact shadows, AO, bloom, orange fringe or background specks. Bright orange is only the pigment of the crystal seams. Every non-object pixel fully transparent; no text, letters, marks outside the object. Material color change only. Output just the painted image, no comparison.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-413f58b4-6c11-44e8-91a9-c83783cc1205.png",
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected the sole corrective return: normalized silhouette overlap improved from 0.7854 to 0.8205. Exact silhouette and flat albedo requirements remain unmet.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "b0554ca71bc40ebdf88b383f7815557547a196bc12efa5595203937d36554097"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        379,
+        86,
+        1103,
+        1181
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.8205476791610021,
+      "bbox_alpha_gt127": [
+        568,
+        568,
+        690,
+        687
+      ],
+      "transparent_pixel_count": 1560264,
+      "nonzero_alpha_outside_normalized_guide": 2533,
+      "opaque_pixels_outside_normalized_guide": 817,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "29df48dfdd9691ff2a1e854540cd0eb80788b3e67dadfb51ec200d5efcb93767",
+    "selection_status": "best_available_return_not_full_brief_acceptance"
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "Corrective regeneration 1 of 1, paint_left.png. Output one 1024x1024 PNG, genuine transparent alpha.\nImage 1: approved material/color reference. Image 2: guide_left.png, the EXACT geometry and composition to edit.\nPaint IMAGE 2 IN PLACE. Keep its original alpha silhouette, scale, location, gaps and all part edges. Horizontal staff, head on LEFT, butt on RIGHT. Total extent precisely x66..957 y465..558 in 1024x1024; axis y512, overall length 892 pixels. Most of the image is transparent empty space. Preserve it.\nThe prior attempt stretched the staff and made the shaft too thick. Correct this: FOLLOW IMAGE 2'S EXISTING THIN SHAFT, exact raised band positions, fine curved lattice bars and every opening. No additional straps or widened caps. Do not copy the design image's proportions. Keep head tip at x66, medallion near x292, small butt ending x957. Thin shaft remains roughly 8 pixels wide between existing bindings.\nColor only existing surfaces: warm ivory ceramic lattice and bands, muted brushed-gold narrow trims, black-violet/plum crystal carrying narrow bright orange fissures, existing dark brown leather twists, pale blue-white inset in the circular medallion. Surface engravings and wear only where space permits. Continue unseen surfaces plausibly.\nFlat MATTE ALBEDO, uniform shadowless frontal illumination. Paint color without highlights: no reflected white streaks, specular dots, AO, dark contact shadows, shaded undersides, bloom, light spill or rim lighting. Orange and blue are just their bright base colors. No orange edge fringe or transparent background specks. All non-guide pixels including gaps alpha=0. No text, labels, letters, floor or extra parts. Preserve silhouette exactly over detail.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-53fd88b0-f01c-4735-976e-295b2ce50c1f.png",
+    "output": "rejected/paint_left_attempt2.png",
+    "selected": false,
+    "reason": "Rejected: corrective return changed the square canvas to landscape and worsened silhouette placement. Kept unresized for audit.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "d60de7cab3df9127de5d36621c49933fadba3a58e0ae175063d08cdf4053f747"
+      }
+    ],
+    "checks": {
+      "size": [
+        1774,
+        887
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        27,
+        46,
+        1685,
+        839
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.2627698611017312,
+      "bbox_alpha_gt127": [
+        94,
+        381,
+        1665,
+        542
+      ],
+      "transparent_pixel_count": 1474472,
+      "nonzero_alpha_outside_normalized_guide": 66726,
+      "opaque_pixels_outside_normalized_guide": 50511,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "7033783cd0adadb32b3a1c957f0bbd49d5898e1b4ab85733356d67c2cb3b7b37"
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "SQUARE 1024x1024 TRANSPARENT PNG. Corrective material repaint of guide_right.png, one image only.\nInput 1 is the exact square image to edit. Input 2 is the approved surface color reference.\nKEEP INPUT 1 EXACTLY: full SQUARE canvas, complete alpha silhouette, tiny thin HORIZONTAL staff at mid-height, tip at left, big head at right, enormous empty transparent regions above and below. Same size and placement. Do not crop the canvas to a landscape image.\nPaint onto input 1's gray/white object pixels with the reference materials. Keep every boundary, part, opening and ceramic wrapping in precisely the same place. Ivory ceramic lattice, muted gold trim, black-violet resin/crystal with thin bright orange fissures, dark leather grips and pale blue-white circular inset. Match reference colors, continue hidden surfaces plausibly. Add no geometry, bindings or decorative structures.\nThe previous attempt had silhouette drift, background speckles and strong highlights. Correct those while preserving exact guide shape. MATTE DIFFUSE ALBEDO ONLY: uniform shadowless viewer light, no shiny white reflections or streaks, no strong highlights, no contact shadows or ambient occlusion, no rim light, glow bloom or orange edge halos. Represent light solely as bright pigment in crystal seams. No text or letters.\nAt 1024x1024 the entire object is within x66..957, y465..558 inclusive. Exact horizontal center y512. End-to-end length892, maximum height94. Follow the narrow existing shaft and raised band geometry; do not thicken it. The round inset stays near x733. All pixels outside original guide alpha, including openings, remain fully transparent. Output a SQUARE 1024x1024 image with the unchanged guide framing.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-cf3878ed-4529-49ca-86f1-a6e5a36199f5.png",
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected the sole corrective return: normalized silhouette overlap improved from 0.8270 to 0.9111. Exact silhouette and flat albedo requirements remain unmet.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "c82250219b2545c12f431383bc5213d25279b0391a68085c861b4da5a37100ec"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        65,
+        101,
+        1184,
+        1182
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.9110646756026706,
+      "bbox_alpha_gt127": [
+        83,
+        569,
+        1171,
+        685
+      ],
+      "transparent_pixel_count": 1518127,
+      "nonzero_alpha_outside_normalized_guide": 13962,
+      "opaque_pixels_outside_normalized_guide": 429,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "833e9ca2a7f6cd43bd0c6047acde81ca63f0f6d339eb69286286488897a73436",
+    "selection_status": "best_available_return_not_full_brief_acceptance"
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "SQUARE 1024x1024 TRANSPARENT PNG. Corrective material repaint of guide_top.png, one image only.\nInput 1 is the exact square orthographic image to edit. Input 2 is the approved surface color reference.\nKEEP INPUT 1 EXACTLY: full SQUARE canvas, complete alpha silhouette, very thin VERTICAL staff in the middle, large head at top, pointed butt at bottom, enormous empty transparent regions left and right. Same size, position, shape, holes and every part edge. Do not crop to a portrait canvas.\nPaint onto input 1's gray/white object pixels with the reference materials. Retain each precise curved lattice strip and shaft binding in place. Ivory-white ceramic lattice and raised bands with fine wear, restrained muted brushed-gold trim, black-violet resin/crystal with narrow bright orange fissures, dark leather grips and pale blue-white circular inset. Continue unseen surfaces plausibly. Fine engraved lines and joins remain inside the existing surfaces. Add no geometry or extra bands.\nThe previous attempt had silhouette drift, added glossy shading and background speckles. Correct those by prioritizing the original guide's exact boundaries and MATTE DIFFUSE ALBEDO. Even shadowless light from viewer, no reflected white streaks, specular hotspots, AO, cast shadows, dark contact shadows, rim light or glow spill. Orange/blue light is painted as bright pigment, no bloom. No orange fringe outside the object, no text or letters.\nAt 1024x1024 the entire object is within x464..559, y66..957 inclusive. Center x512. Top tip y66, blue-white round medallion near y292, bottom butt tip y957. Thin shaft roughly 8 pixels wide between existing bindings. Follow input 1's precise shapes, not the reference's wider proportions. All pixels outside the guide alpha and in its openings must stay fully transparent. Output a SQUARE 1024x1024 image with original guide framing.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16ee3-e8a0-7fb2-a43f-feb511c0a52e/exec-f93c401a-161b-4103-bf2e-899e42fdf28c.png",
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected the sole corrective return: normalized silhouette overlap improved from 0.8432 to 0.9023. Exact silhouette and flat albedo requirements remain unmet.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "e9ce46d73a603f04c0b498e16e763aeb8951676c3ad9031ebad1f50a1f1162ed"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "bcc4d88ac11b2aba30581950dce7979a73b12ac6bd4690f025c2c39c808c1b32"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt0": [
+        83,
+        75,
+        1057,
+        1182
+      ],
+      "exact_guide_alpha": false,
+      "normalized_silhouette_iou": 0.9022628548338216,
+      "bbox_alpha_gt127": [
+        568,
+        79,
+        686,
+        1174
+      ],
+      "transparent_pixel_count": 1520125,
+      "nonzero_alpha_outside_normalized_guide": 12030,
+      "opaque_pixels_outside_normalized_guide": 973,
+      "transparent_background": "RGBA transparency present, but faint stray alpha pixels and edge fringes remain",
+      "colors_and_materials": "Reference palette present: ivory ceramic, muted gold, dark violet crystal/resin, orange fissures; blue-white inset and dark grips in full-length views",
+      "flat_even_light_no_shadows_or_hot_highlights": false,
+      "lighting_review": "Painted surface shading, contact darkening and highlights remain; not strictly unlit albedo",
+      "no_text_or_letters": true,
+      "visual_inspection": "Reviewed generated return at native presentation",
+      "meets_all_brief_checks": false,
+      "comparison_method": "Exact alpha comparison requires equal dimensions. Diagnostic normalized IoU compares alpha>127 after nearest-neighbor scaling of the GUIDE in memory only; no output pixels were resized or modified."
+    },
+    "output_sha256": "4d46f357aa02f04960d4382fdadca45356c1a465959d72957f5b13150e0e7e16",
+    "selection_status": "best_available_return_not_full_brief_acceptance"
+  }
+]

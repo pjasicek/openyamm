@@ -1,0 +1,1154 @@
+{
+ "id": "20261009-1628-mm6-6d01-04",
+ "world": "mm6",
+ "maps": [
+  "6d01.blv"
+ ],
+ "created": "2026-10-09T14:28:25+00:00",
+ "textures": [
+  "mm6/t3wbstb",
+  "mm6/t1wl1lea1",
+  "mm6/t3wbst",
+  "mm6/t1wl1leb",
+  "mm6/t1wl1rea",
+  "mm6/t3wsptl",
+  "mm6/t3wbstb1",
+  "mm6/t1wl2lea",
+  "mm6/t1wl1reb",
+  "mm6/t3wspp",
+  "mm6/t1wl2leb",
+  "mm6/t1wl2rea",
+  "mm6/d6wlale",
+  "mm6/t1wl5rea",
+  "mm6/t3wbstr",
+  "mm6/t3wsbtl",
+  "mm6/t3wsptr",
+  "mm6/t3wsmp",
+  "mm6/t1wl2reb",
+  "mm6/t3wsbtr",
+  "mm6/t3wbstl",
+  "mm6/t3wbstbl",
+  "mm6/t3wbltl",
+  "mm6/t3wbltr"
+ ],
+ "requests": {
+  "mm6/t3wbstb": {
+   "name": "t3wbstb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, with rows of rust-red bevelled brick tiles along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstbd",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbsr",
+      "mm6/t3wbstl",
+      "mm6/t3wbltd",
+      "mm6/t3wpg",
+      "mm6/t3wcl"
+     ],
+     "fraction": 0.625
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbstbd",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbsr",
+      "mm6/t3wbltd",
+      "mm6/t3wpg",
+      "mm6/t3wbltbd",
+      "mm6/t3wcl"
+     ],
+     "fraction": 0.622
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t3wbsr",
+     "right": "mm6/t3wbsl"
+    }
+   }
+  },
+  "mm6/t1wl1lea1": {
+   "name": "t1wl1lea1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with toothed columns of small marble bricks along both side edges",
+   "notes": {
+    "3": "Clean raised side columns casting a soft shadow into the recessed centre as in the reference; every block a single clean slab with crisp bevels; no semi-transparent pale rectangles, no doubled or broken mortar lines."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl4reb",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.856
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl4reb",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.856
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl4reb",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.856
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/t3wbst": {
+   "name": "t3wbst",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, with a row of rust-red bevelled brick tiles along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstd",
+      "mm6/t3wbstb",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wsbp",
+      "mm6/t3wbsr",
+      "mm6/t3wbstl",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.859
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbstd",
+      "mm6/t3wbstb",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wsbp",
+      "mm6/t3wbsr",
+      "mm6/t3wpg",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.857
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/t1wl1leb": {
+   "name": "t1wl1leb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a toothed column of small marble bricks along the left edge",
+   "notes": {
+    "2": "Keep the native's edge columns exactly: no added dark band or hairline at the edges; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl4leb"
+     ],
+     "fraction": 0.855
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1cts",
+      "mm6/t1spcl1",
+      "mm6/t1wl4leb"
+     ],
+     "fraction": 0.849
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/t1wl1rea": {
+   "name": "t1wl1rea",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a toothed column of small marble bricks along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl1lea1",
+      "mm6/t1wl1cts",
+      "mm6/t1wl1ctl",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl4reb",
+      "mm6/t1wl4ctl"
+     ],
+     "fraction": 0.863
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1lea1",
+      "mm6/t1wl1cts",
+      "mm6/t1wl1ctl",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl4reb",
+      "mm6/t1wl7rea",
+      "mm6/t1wl3rea",
+      "mm6/t1wl4ctl"
+     ],
+     "fraction": 0.861
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t1wl1lea",
+     "right": "mm6/t1wl1leb"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t3wsptl": {
+   "name": "t3wsptl",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown rough stone block wall with green moss in the mortar joints, with a dark wooden post on the left edge bearing a carved ivory bone skeleton relief, skull at the middle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.22
+    }
+   }
+  },
+  "mm6/t3wbstb1": {
+   "name": "t3wbstb1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, with rows of rust-red bevelled brick tiles along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstb"
+     ],
+     "fraction": 0.909
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbstb"
+     ],
+     "fraction": 0.909
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/t1wl2lea": {
+   "name": "t1wl2lea",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a stepped toothed block edge along the left side and top",
+   "notes": {
+    "3": "Courses 2, 4 and 6 have plain brick face to the very last pixel on the right with no vertical joint; only the top course has a dark joint, in its last few pixels.",
+    "4": "Keep the right edges as now; add the vertical mortar joint at about 77% of the width in course 3 and the dark joint in the last pixels of the top course; no plus-shaped smudge in course 2.",
+    "5": "Keep everything as now and restore the dark vertical mortar joint in course 2 at about 51% of the width, as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl1leb",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.386
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl1leb",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.386
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl1leb",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.386
+    },
+    "4": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl1leb",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.386
+    },
+    "5": {
+     "sources": [
+      "mm6/t1wl1lea",
+      "mm6/t1wl1leb",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.386
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "right": "mm6/t1wl2ctl"
+    },
+    "3": {
+     "right": "mm6/t1wl2ctl"
+    },
+    "4": {
+     "right": "mm6/t1wl2ctl"
+    },
+    "5": {
+     "right": "mm6/t1wl2ctl"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t1wl1reb": {
+   "name": "t1wl1reb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a toothed column of small marble bricks along the right edge",
+   "notes": {
+    "3": "In courses 2, 4 and 6 the wall brick is one brick that darkens across a soft shadow ramp into the dark joint at about 82% of the width; no false joint at 73% and no pale smeared strip."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1w11a",
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl1lea1",
+      "mm6/t1wl4reb",
+      "mm6/t1wl1leb"
+     ],
+     "fraction": 0.797
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1rea",
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl1lea1",
+      "mm6/t1wl4reb",
+      "mm6/t1wl1leb"
+     ],
+     "fraction": 0.811
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl1rea",
+      "mm6/t1wl1cts",
+      "mm6/t1wl2ctl",
+      "mm6/t1spcl1",
+      "mm6/t1wl1lea1",
+      "mm6/t1wl4reb",
+      "mm6/t1wl1leb"
+     ],
+     "fraction": 0.811
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t1wl1leb",
+     "right": "mm6/t1wl1lea"
+    },
+    "3": {
+     "left": "mm6/t1wl1leb",
+     "right": "mm6/t1wl1lea"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t3wspp": {
+   "name": "t3wspp",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, green moss growing in the mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wbsr",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.671
+    }
+   }
+  },
+  "mm6/t1wl2leb": {
+   "name": "t1wl2leb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a stepped toothed block edge along the left side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl2lea",
+      "mm6/t1wl1leb",
+      "mm6/t1wl1lea",
+      "mm6/t1wl1cts",
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl1reb"
+     ],
+     "fraction": 0.814
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl2lea",
+      "mm6/t1wl1leb",
+      "mm6/t1wl1lea",
+      "mm6/t1wl1cts",
+      "mm6/t1w11a",
+      "mm6/t1wl2ctl",
+      "mm6/t1wl1reb"
+     ],
+     "fraction": 0.814
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/t1wl2rea": {
+   "name": "t1wl2rea",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a stepped toothed block edge along the right side and top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl1reb",
+      "mm6/t1wl1rea",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.373
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl1reb",
+      "mm6/t1wl1rea",
+      "mm6/t1wl2ctl"
+     ],
+     "fraction": 0.372
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t1wl2ctl"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/d6wlale": {
+   "name": "d6wlale",
+   "versions": [
+    1
+   ],
+   "material": "dark brown packed earth cave wall with rough crumbly texture and faint roots, with a vertical weathered wooden support beam wrapped in green vines along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wlactr"
+     ],
+     "fraction": 0.654
+    }
+   }
+  },
+  "mm6/t1wl5rea": {
+   "name": "t1wl5rea",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a stepped toothed block edge along the right side and a row of smaller blocks at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl5ctl",
+      "mm6/t1wl2rea",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.786
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl5ctl",
+      "mm6/t1wl2rea",
+      "mm6/t1wl5ct",
+      "mm6/t1wl7rea",
+      "mm6/t1wl5leb"
+     ],
+     "fraction": 0.795
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t1wl5ctl",
+     "top": "mm6/pxshings"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/t3wbstr": {
+   "name": "t3wbstr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, with a toothed column of rust-red bevelled brick tiles along the right edge",
+   "notes": {
+    "3": "Keep the mortar at the left edge uniformly dark and flush with the stones; no pale hairline or highlight strip along the left edge.",
+    "4": "Uniformly dark mortar at the left edge with no pale stone sliver; the red brick quoins on the right run flush to the right edge with their bright bevel, no dark groove.",
+    "5": "The first eight pixel columns at the left edge are solid dark mortar over the full height; no stone face, bevel or pale sliver touches the left edge. Keep the red quoins flush with the right edge as now.",
+    "6": "In every course where the reference's left edge is black mortar, the leftmost columns are solid black mortar; no pale stone touching the left edge; red quoins flush on the right.",
+    "7": "Wherever the reference's left edge is black mortar, the leftmost columns are solid black mortar; stone faces start only after it."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbsr",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.538
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbsr",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.538
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wbsr",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.538
+    },
+    "4": {
+     "sources": [
+      "mm6/t3wbsr",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.538
+    },
+    "5": {
+     "sources": [
+      "mm6/t3wbsr",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.538
+    },
+    "6": {
+     "sources": [
+      "mm6/t3wbsr",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.538
+    },
+    "7": {
+     "sources": [
+      "mm6/t3wbsr",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.538
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ],
+    "7": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t3wbstd",
+     "right": "mm6/bemv32b"
+    },
+    "3": {
+     "left": "mm6/t3wbstd",
+     "right": "mm6/bemv32b"
+    },
+    "4": {
+     "left": "mm6/t3wbstd",
+     "right": "mm6/bemv32b"
+    },
+    "5": {
+     "left": "mm6/t3wbstd",
+     "right": "mm6/bemv32b"
+    },
+    "6": {
+     "left": "mm6/t3wbstd",
+     "right": "mm6/bemv32b"
+    },
+    "7": {
+     "left": "mm6/t3wbstd",
+     "right": "mm6/bemv32b"
+    }
+   },
+   "ref_blur": {
+    "6": 0.6,
+    "7": 0.6
+   }
+  },
+  "mm6/t3wsbtl": {
+   "name": "t3wsbtl",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown rough stone block wall with bright red blood dripping from the mortar joints, with a dark wooden post on the left edge bearing a carved ivory bone skeleton relief with red-eyed skull at the middle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsptl",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.819
+    }
+   }
+  },
+  "mm6/t3wsptr": {
+   "name": "t3wsptr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey-brown rough stone block wall with green moss in the mortar joints, with a dark wooden post on the right edge bearing a carved ivory bone skeleton relief, skull at the middle; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the left edge bricks continue straight to the border as in the reference.",
+    "3": "No dark rim at the left edge: the outermost pixels continue the material.",
+    "4": "No dark rim at the left edge: the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wbsr"
+     ],
+     "fraction": 0.323
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wbsr"
+     ],
+     "fraction": 0.323
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wbsr",
+      "mm6/t3wbstd",
+      "mm6/t3wsmtb"
+     ],
+     "fraction": 0.332
+    },
+    "4": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wbsr"
+     ],
+     "fraction": 0.322
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {
+     "left": "mm6/t3wspp"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t3wsmp": {
+   "name": "t3wsmp",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, green moss growing in the mortar joints",
+   "notes": {
+    "2": "Copy the composition exactly: keep the green moss drips hanging down from the mortar joints as in the reference.",
+    "3": "Copy the composition exactly: keep the green moss drips hanging down from the mortar joints as in the reference.",
+    "4": "Wherever the reference's left edge is black mortar the leftmost columns are solid black mortar; no pale stone touching the left edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wspp",
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wpg",
+      "mm6/t3wsptl"
+     ],
+     "fraction": 0.715
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wspp",
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wpg",
+      "mm6/t3wsptl"
+     ],
+     "fraction": 0.715
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wspp",
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wpf",
+      "mm6/t3wsptl"
+     ],
+     "fraction": 0.705
+    },
+    "4": {
+     "sources": [
+      "mm6/t3wspp",
+      "mm6/t3wsbp",
+      "mm6/t3wpf",
+      "mm6/t3wsptl"
+     ],
+     "fraction": 0.702
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm6/t3wpf"
+    },
+    "4": {
+     "left": "mm6/t3wpf"
+    }
+   },
+   "prefill_from": [
+    "mm6/t3wspp",
+    "mm6/t3wsbp",
+    "mm6/t3wpf",
+    "mm6/t3wsptl"
+   ]
+  },
+  "mm6/t1wl2reb": {
+   "name": "t1wl2reb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with red-brown veining and dark bevelled joints, with a stepped toothed block edge along the right side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl2rea",
+      "mm6/t1wl1reb",
+      "mm6/t1wl1rea"
+     ],
+     "fraction": 0.723
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl2rea",
+      "mm6/t1wl1reb",
+      "mm6/t1wl1rea"
+     ],
+     "fraction": 0.723
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/t3wsbtr": {
+   "name": "t3wsbtr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown rough stone block wall with bright red blood dripping from the mortar joints, with a dark wooden post on the right edge bearing a carved ivory bone skeleton relief with red-eyed skull at the middle; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior. Natural stone grain throughout: no enlarged square pixel blocks.",
+    "3": "No dark outline or shadow along the left edge: the stone bricks and red mortar continue at full brightness to the very first column."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsptr",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.714
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsptr",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.714
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsptr",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.714
+    }
+   }
+  },
+  "mm6/t3wbstl": {
+   "name": "t3wbstl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, with a toothed column of rust-red bevelled brick tiles along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wpg",
+      "mm6/t3wbltd",
+      "mm6/t3wbsr"
+     ],
+     "fraction": 0.407
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbd",
+      "mm6/t3wbltd",
+      "mm6/t3wbsr",
+      "mm6/t3wbltbd"
+     ],
+     "fraction": 0.418
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t3wbstd",
+     "left": "mm6/bemv32b"
+    }
+   }
+  },
+  "mm6/t3wbstbl": {
+   "name": "t3wbstbl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, with rust-red bevelled brick tiles along the left edge and the bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstl",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.553
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbstl",
+      "mm6/t3wbstb",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.536
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t3wbstb",
+     "bottom": "mm6/t3wbsl"
+    }
+   }
+  },
+  "mm6/t3wbltl": {
+   "name": "t3wbltl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, framed by large rust-red bevelled brick quoins along the top edge and a toothed column down the left edge",
+   "notes": {
+    "3": "Keep this v2 composition. The bottom rows must stay dark mortar exactly like the native bottom edge; do not wrap the orange brick from the top edge onto the bottom edge (no orange line in the last rows). The right edge is dark mortar/grey stone."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstl",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstb",
+      "mm6/t3wbltd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.353
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbstl",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbl",
+      "mm6/t3wbltd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.352
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wbstl",
+      "mm6/t3wbst",
+      "mm6/t3wbstd",
+      "mm6/t3wsp",
+      "mm6/t3wbstbl",
+      "mm6/t3wbltd",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.352
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d8dord",
+     "right": "mm6/t3wbltr"
+    },
+    "3": {
+     "left": "mm6/d8dord",
+     "right": "mm6/t3wbltr"
+    }
+   }
+  },
+  "mm6/t3wbltr": {
+   "name": "t3wbltr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, framed by large rust-red bevelled brick quoins along the top edge and a toothed column down the right edge",
+   "notes": {
+    "2": "The leftmost columns must be the grey stone/dark mortar of the native left edge. Do not wrap the orange brick from the right edge onto the left edge; no orange or brick-coloured line at x=0."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

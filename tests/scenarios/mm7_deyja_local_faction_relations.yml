@@ -1,0 +1,19 @@
+id: mm7.deyja_local_faction_relations
+title: "Deyja: the goblins are peaceful by the map's own faction relations until QBit 611 sets their group hostile"
+world: mm7
+mode: faithful
+tags: [mm7, actors, regression]
+steps:
+  - note:
+      text: >-
+        MMMerge's Scripts/Maps/7out05.lua sets Game.HostileTxt[91][0] = 0 (Goblins peaceful toward the party), then
+        sets group 55's Hostile bit from QBit 611. The group bit decides over the map's faction relation, as in MMMerge.
+  - new_game_flow: {start_map: 7out05.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 272, hostile: true, max: 0}
+  - setup_shortcut: {kind: set_qbit, id: 611, value: true}
+  - load_map: {map: 7out05.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 272, hostile: true, min: 8}

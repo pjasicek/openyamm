@@ -253,24 +253,94 @@ std::vector<ScriptedEventTimerState> reconcileScriptedEventTimers(
     return states;
 }
 
+void controlScriptedEventTimers(
+    std::vector<ScriptedEventTimerState> &states,
+    uint16_t eventId,
+    bool start,
+    double delayGameMinutes,
+    double currentGameMinutes)
+{
+    for (ScriptedEventTimerState &state : states)
+    {
+        if (state.definition.eventId != eventId)
+        {
+            continue;
+        }
+
+        state.stopped = !start;
+
+        if (start)
+        {
+            const double intervalGameMinutes =
+                std::max(MinimumNativeTimerIntervalGameMinutes, state.definition.intervalGameMinutes);
+            state.nextAlarmGameMinutes =
+                currentGameMinutes + (delayGameMinutes >= 0.0 ? delayGameMinutes : intervalGameMinutes);
+            state.eligibleGameMinutes = std::min(state.eligibleGameMinutes, currentGameMinutes);
+            state.hasFired = false;
+        }
+    }
+}
+
+namespace
+{
+// Apply and clear the queued requests. firedEventId / firedAlarmGameMinutes: the timer whose handler just made them
+// (0: none), whose own restart counts from its alarm while that alarm is less than the delay behind the clock.
+void applyScriptedEventTimerControls(
+    std::vector<ScriptedEventTimerState> &states,
+    std::vector<ScriptedEventTimerControl> &controls,
+    double currentGameMinutes,
+    uint16_t firedEventId,
+    double firedAlarmGameMinutes)
+{
+    for (const ScriptedEventTimerControl &control : controls)
+    {
+        double fromGameMinutes = currentGameMinutes;
+
+        if (control.start && firedEventId != 0 && control.eventId == firedEventId && control.delayGameMinutes >= 0.0
+            && firedAlarmGameMinutes + control.delayGameMinutes > currentGameMinutes)
+        {
+            fromGameMinutes = firedAlarmGameMinutes;
+        }
+
+        controlScriptedEventTimers(states, control.eventId, control.start, control.delayGameMinutes, fromGameMinutes);
+    }
+
+    controls.clear();
+}
+}
+
 bool updateScriptedEventTimers(
     std::vector<ScriptedEventTimerState> &states,
     double currentGameMinutes,
-    const std::function<bool(const ScriptedEventTimerDefinition &)> &executeTimer)
+    const std::function<bool(const ScriptedEventTimerDefinition &)> &executeTimer,
+    std::vector<ScriptedEventTimerControl> *pControls)
 {
+    if (pControls != nullptr)
+    {
+        applyScriptedEventTimerControls(states, *pControls, currentGameMinutes, 0, 0.0);
+    }
+
     bool executedAny = false;
 
     for (ScriptedEventTimerState &state : states)
     {
-        if ((state.hasFired && !state.definition.repeating)
+        if (state.stopped
+            || (state.hasFired && !state.definition.repeating)
             || currentGameMinutes < state.eligibleGameMinutes
             || currentGameMinutes < state.nextAlarmGameMinutes)
         {
             continue;
         }
 
+        const uint16_t eventId = state.definition.eventId;
+        const double alarmGameMinutes = state.nextAlarmGameMinutes;
         executedAny = executeTimer(state.definition) || executedAny;
         advanceTimerAfterFire(state, currentGameMinutes);
+
+        if (pControls != nullptr)
+        {
+            applyScriptedEventTimerControls(states, *pControls, currentGameMinutes, eventId, alarmGameMinutes);
+        }
     }
 
     return executedAny;

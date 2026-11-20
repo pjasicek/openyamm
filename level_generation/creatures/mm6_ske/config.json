@@ -1,0 +1,21 @@
+{
+  "family": "ske",
+  "title": "MM6 Skeleton",
+  "descriptor_ids": [
+    628,
+    629,
+    630
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 816,
+  "matte": "magenta",
+  "mask_kind": "bone",
+  "description": "Native MM6 Skeleton A: very thin ivory-white animated skeleton with long slender limbs, narrow ribcage, small skull, tiny red eye points in dark sockets and original toothy jaw. Holds the original short broad rusty brown curved sword in its right hand (image left); the free hand rests at its waist in standing poses. Preserve every thin bone, native skull and rib proportions, original blade length and angle and native open spaces. No flesh, clothes, armor, shield, extra weapons, glowing aura or modern redesign. Original warm ivory highlights and grey-brown bone shadows, modest baked lighting.",
+  "regions": "Ivory bones change to native pale yellow for B and very dark muted red-brown for C; the rusty sword has its own native palette shift and must be isolated separately. Tiny red eye points and deep black sockets remain protected. Generate only original A ivory base artwork.",
+  "variant_names": {
+    "816": "Skeleton A / ivory",
+    "817": "Skeleton B / yellow",
+    "818": "Skeleton C / dark red-brown"
+  },
+  "material_module": "materials.py"
+}

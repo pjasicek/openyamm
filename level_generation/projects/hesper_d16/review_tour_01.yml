@@ -1,0 +1,74 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d16/review/build01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: vestibule
+  position:
+  - 4800
+  - 300
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: guard_hall
+  position:
+  - 4800
+  - 1300
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: galleries
+  position:
+  - 2000
+  - 5472
+  - -512
+  yaw: 0.0
+  pitch: 0
+- name: cleanhall
+  position:
+  - 8764
+  - 5200
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: graft
+  position:
+  - 10528
+  - 6000
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: t2
+  position:
+  - 8696
+  - 8200
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: columns
+  position:
+  - 4800
+  - 6300
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: core
+  position:
+  - 6000
+  - 8400
+  - -512
+  yaw: 3.6651914291880923
+  pitch: 0
+- name: vault
+  position:
+  - 4800
+  - 9400
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: tunnel
+  position:
+  - 3424
+  - 9500
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0

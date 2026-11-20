@@ -1,0 +1,30 @@
+id: rulesets.maw_map_boss_count
+title: "Ruleset - MAW makes ceil((monsters - 30) / 150) bosses on a map's first visit, indoors and outdoors"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  # Counted once the spawn points have filled the map (zzMaw-Monsters.lua:2966): New Sorpigal has about 230 monsters.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {boss: true, min: 2, max: 2}
+  # 6d01 fills to about 220 monsters. A dungeon's first visit is told apart before its actors take their facts.
+  - load_map: {map: 6d01.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {boss: true, min: 2, max: 2}
+  # A revisit keeps the map's bosses and makes no more.
+  - load_map: {map: oute3.odm}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {boss: true, min: 2, max: 2}
+  # Below MAW difficulty there are none.
+  - new_game_flow:
+      start_map: 6d01.blv
+      ruleset: {id: maw, difficulty: normal, progression: free}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {boss: true, max: 0}

@@ -1,0 +1,25 @@
+id: mm9.ai.reposition_rush
+title: A repositioning Evil Sorcerer backs off from a party rushing it, then casts
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The party runs at the sorcerer from 4 s to 5.9 s; inside 640 units it
+        backs off (back_off_rush note spot) and casts from where the back-off leaves it; the party never comes into its
+        reach, so it never strikes.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: reposition_rush.arena.yml}
+  - advance_runtime: {seconds: 10}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: back_off_rush, detail: spot, after: 4, before: 6, min_count: 1,
+        max_count: 1, report: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, after: 5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition, max_count: 0}

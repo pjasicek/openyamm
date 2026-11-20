@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png only as material/detail reference and icon_x8.png only as colour reference (magenta is background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. This is Accountant's Key, a simple brass/gold key.\n\nThe guide is authoritative: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five orthographic model silhouettes: FRONT, BACK, LEFT / RIGHT, TOP, empty. Keep EXACT positions, sizes, outlines and orientation. The very thin horizontal strips are intentional edge-on views: preserve them exactly. The vertical key silhouette's solid polygonal head is intentional model geometry: do not replace it with the reference's ring hole. Preserve all existing gaps/openings exactly. Paint grey objects only, never redraw, enlarge, move or redesign them.\n\nRows 1-2: unlit base colour matching the warm aged golden brass and subtle copper-brown mottled material of the reference, scaled to each view. Facets, engravings, scrollwork and inner swirls follow the reference where present; no invented ornament. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, sparkles, outlines, text or ground.\nRows 3-4: identical five silhouettes, ALL filled uniformly pure red #FF0000 because every part is metal. FLAT pure colour only: no shading, texture, outlines, or antialiased colour blends inside.\nEverything outside the guide silhouettes fully transparent. Column 3 in rows 2 and 4 stays empty and transparent. Do not reproduce black or magenta backgrounds.\nCORRECTION: The previous attempt had extra red flecks and bumpy protrusions outside the silhouettes. Use the ORIGINAL grey guide's alpha boundaries precisely. All horizontal strips must have clean straight thin rectangular boundaries exactly as supplied; no stray marks anywhere. No red at all in the upper paint rows. The lower masks are solid pure #FF0000 with clean boundaries. Preserve the original guide's key tooth cutouts and shaft thickness precisely.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10445/paint_mask_guide.png",
+      "sha256": "84b44010b405ec6219bc60987551d04d12df3231459aca833c0514638bbdffea"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10445/design_reference.png",
+      "sha256": "a79d469006a9e41ce564f621af44e8e63f238bd0fdcf2ca403c4e3b82835a23e"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10445/icon_x8.png",
+      "sha256": "037ec8b2fafd1d3b6c1f2b84fe3e9d7b6944a4bf9937eb3e784b901c05e1e629"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad13-1547-7561-bf1d-ca3d2832d768/exec-0627dc7d-f51e-49d7-9f67-158a5613e4c8.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10445/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_note": "Visible stray edge pixels remain after the single permitted corrective generation; raw tool output preserved unchanged."
+}

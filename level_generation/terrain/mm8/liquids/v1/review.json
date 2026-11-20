@@ -1,0 +1,32 @@
+{
+  "status": "liquid_artwork_and_three_native_motion_pilots_reviewed_bank_cleanup_open",
+  "scope": "All42 restored offset frames and3 repeated surfaces visually screened; three native original/restored still comparisons and enhanced40-frame motion sample sheets reviewed. Recurrence measured in all6 captures.",
+  "observations": [
+    "Water remains muted slate blue with diagonal ripples; no white sparkle, foam or brightness redesign.",
+    "Lava retains orange/red flowing streaks and original broad contrast; isolated Alvar capture avoids hostile effects.",
+    "Tar retains near-black swirling ridges and muted highlights; open Shadowspire pool avoids bmodel roof occlusion.",
+    "Motion samples show shifting native-scale wave/ridge forms without obvious alternating palette or inserted straight edge bands.",
+    "Some native map triangle boundaries remain visible; comparison includes them in original and enhanced views."
+  ],
+  "limits": [
+    "This is a three-pose stationary flying review, not ordinary camera movement or controlled empty flat fixture coverage.",
+    "40 screenshots sampled at0.1s cover over2 native cycles; temporal recurrence is a screen, not proof of every GPU configuration.",
+    "Water capture contains a static landing craft and distant actors; tar capture contains rain and a distant actor.",
+    "Bank contour and partial-magenta-key defects remain open in bank_visual_issues.json."
+  ],
+  "rejected_sets": [
+    "Initial hazardous ground poses: death movies and interrupted lava burst.",
+    "Initial Plane of Fire flying lava: enemy fire obscures view.",
+    "Initial flying tar: bmodel roof, no liquid motion."
+  ],
+  "measurements_sha256": "db44466dc7de6546f5a91e52bc2befd2d98225d8304bbf47da7be298d06b8b9b",
+  "build_sha256": "a14f784a6013fc7615f557b5a69f3ab4f6ea5e6bd5163b24b3d063d2c4260687",
+  "validation_sha256": "49e1af3f19118e417e5c1aa6db9c5ce391bdabe6e12eba75838eedee2a7ab6fa",
+  "images": {
+    "native_review/native_comparison.png": "6ef7c2ddd3bfca09e82371115e60d6712200cbcfbe904973ed79be2db2be4ff5",
+    "native_review/water_x2_motion_samples.png": "2869674467b8555646f21e0006a7f0f31b6b83110f44d790414a8ca7415f813c",
+    "native_review/lava_x2_motion_samples.png": "703c5535ba3790e68ce3f402d7c52e62dfd2ac2ce3670e3143c0403052e40625",
+    "native_review/tar_x2_motion_samples.png": "6ad8c868a0e2874963e847510f7166b6882609443f209e2a3ca6537f599cc3e3"
+  },
+  "bank_issues_sha256": "b5d625e65fdbb76aa246b6192c056d8e6c74a6bc5f7ef76f5d50615cd78bff85"
+}

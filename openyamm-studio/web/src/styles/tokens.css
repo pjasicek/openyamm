@@ -1,0 +1,172 @@
+/* Design tokens (S5_BROWSER_EDITOR.md 4.16): every colour, size and font of the web app comes from here, the plan
+   view's and the 3D view's colours included (they read these properties at draw time). Light and dark sets. */
+:root
+{
+    --bg: #f6f5f2;
+    --surface: #ffffff;
+    --surface-2: #efede8;
+    --surface-3: #e6e3dc;
+    --line: #d8d4cc;
+    --line-strong: #b9b3a8;
+    --text: #1f1d1a;
+    --text-dim: #6a655c;
+    --accent: #2f6db5;
+    --accent-soft: #dfe9f6;
+    --on-accent: #ffffff;
+    --warn: #a35b00;
+    --warn-soft: #fbeedd;
+    --bad: #b3261e;
+    --bad-soft: #f9e0de;
+    --good: #2e7d32;
+    --good-soft: #e2f1e3;
+    --note: #5a6b7d;
+    --note-soft: #e8edf2;
+    --geom: #7b4fb0;
+    --geom-soft: #efe6f9;
+    --canvas: #e9e6df;
+    --plan-grid: #d9d5cc;
+    --plan-room-low: #c7d3de;
+    --plan-room-high: #f2e7cf;
+    --plan-room-edge: #5b6470;
+    --plan-faint: #c9c5bc;
+    --plan-opening: #14897f;
+    --plan-door: #c62828;
+    --plan-thing: #3d4a5c;
+    --plan-start: #2e7d32;
+    --plan-pin: #d1450d;
+    --plan-link: #b8860b;
+    --plan-select: #2f6db5;
+    --plan-hover: #e08a00;
+    --plan-model: #7a5a3a;
+    --plan-water: #4f86b8;
+    --plan-land-low: #6d8a4e;
+    --plan-land-high: #d8ccb0;
+    --view-bg: #30343a;
+    --view-grey: #b8b4ac;
+    --view-liquid: #3a6fa0;
+    --view-select: #4a90e2;
+    --view-hover: #f0a030;
+
+    --space-1: 2px;
+    --space-2: 4px;
+    --space-3: 8px;
+    --space-4: 12px;
+    --space-5: 16px;
+    --radius: 4px;
+    --row-height: 26px;
+    --bar-height: 34px;
+    --status-height: 24px;
+    --inspector-width: 420px;
+    --drawer-height: 240px;
+    --rail-width: 0px;
+    --rail-author-width: 112px;
+
+    --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --size-s: 11px;
+    --size-m: 12.5px;
+    --size-l: 14px;
+
+    color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark)
+{
+    :root:not([data-theme="light"])
+    {
+        --bg: #17181a;
+        --surface: #1f2023;
+        --surface-2: #26282c;
+        --surface-3: #2e3035;
+        --line: #34363b;
+        --line-strong: #4a4d54;
+        --text: #e6e4df;
+        --text-dim: #9a968e;
+        --accent: #6aa5ec;
+        --accent-soft: #1d2d42;
+        --on-accent: #0d1a2a;
+        --warn: #e0a050;
+        --warn-soft: #3a2c19;
+        --bad: #ef7b72;
+        --bad-soft: #3d1f1d;
+        --good: #77c27b;
+        --good-soft: #1d3320;
+        --note: #9fb3c8;
+        --note-soft: #222b35;
+        --geom: #b892e6;
+        --geom-soft: #2d2340;
+        --canvas: #1b1c1f;
+        --plan-grid: #2a2c30;
+        --plan-room-low: #2c3f52;
+        --plan-room-high: #5c5136;
+        --plan-room-edge: #9aa3ae;
+        --plan-faint: #2f3135;
+        --plan-opening: #3cc2b4;
+        --plan-door: #ff6b5e;
+        --plan-thing: #c4cdd8;
+        --plan-start: #77c27b;
+        --plan-pin: #ff8a4c;
+        --plan-link: #e6b84a;
+        --plan-select: #6aa5ec;
+        --plan-hover: #ffb547;
+        --plan-model: #c09a70;
+        --plan-water: #3a6fa0;
+        --plan-land-low: #3d5530;
+        --plan-land-high: #8a8068;
+        --view-bg: #1c1e22;
+        --view-grey: #b8b4ac;
+        --view-liquid: #3a6fa0;
+        --view-select: #4a90e2;
+        --view-hover: #f0a030;
+        color-scheme: dark;
+    }
+}
+
+:root[data-theme="dark"]
+{
+    --bg: #17181a;
+    --surface: #1f2023;
+    --surface-2: #26282c;
+    --surface-3: #2e3035;
+    --line: #34363b;
+    --line-strong: #4a4d54;
+    --text: #e6e4df;
+    --text-dim: #9a968e;
+    --accent: #6aa5ec;
+    --accent-soft: #1d2d42;
+    --on-accent: #0d1a2a;
+    --warn: #e0a050;
+    --warn-soft: #3a2c19;
+    --bad: #ef7b72;
+    --bad-soft: #3d1f1d;
+    --good: #77c27b;
+    --good-soft: #1d3320;
+    --note: #9fb3c8;
+    --note-soft: #222b35;
+    --geom: #b892e6;
+    --geom-soft: #2d2340;
+    --canvas: #1b1c1f;
+    --plan-grid: #2a2c30;
+    --plan-room-low: #2c3f52;
+    --plan-room-high: #5c5136;
+    --plan-room-edge: #9aa3ae;
+    --plan-faint: #2f3135;
+    --plan-opening: #3cc2b4;
+    --plan-door: #ff6b5e;
+    --plan-thing: #c4cdd8;
+    --plan-start: #77c27b;
+    --plan-pin: #ff8a4c;
+    --plan-link: #e6b84a;
+    --plan-select: #6aa5ec;
+    --plan-hover: #ffb547;
+    --plan-model: #c09a70;
+    --plan-water: #3a6fa0;
+    --plan-land-low: #3d5530;
+    --plan-land-high: #8a8068;
+    --view-bg: #1c1e22;
+    --view-grey: #b8b4ac;
+    --view-liquid: #3a6fa0;
+    --view-select: #4a90e2;
+    --view-hover: #f0a030;
+    color-scheme: dark;
+}

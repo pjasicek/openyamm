@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM Sprite Changeset Review</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="toolbar">
+    <div class="toolbar-title">
+      <div>
+        <h1>Sprite restoration changeset · round 3</h1>
+        <p>Current accepted art versus proposed 2× revisions. Animations play automatically while you scroll.</p>
+        <p>The latest review flagged four packed-sheet crops. These now use isolated repairs fitted to their original
+          opaque bounds. Use the round 3 filter to check them first. No candidate is installed yet.</p>
+      </div>
+      <button id="export-button" class="primary" type="button">Copy review <span id="flag-count">0</span></button>
+    </div>
+    <div class="toolbar-controls">
+      <label class="search-label">Search <input id="search" type="search" placeholder="Name, ID, or image" autocomplete="off"></label>
+      <label>Category <select id="category-filter">
+        <option value="all">All candidates</option>
+        <option value="world_items">World items</option>
+        <option value="effects_projectiles_other">Effects / projectiles</option>
+        <option value="interface_overlays">Interface overlays</option>
+      </select></label>
+      <label>Show <select id="filter"><option value="all">All</option><option value="round3">Four round 3 repairs</option><option value="revised">Eight round 2 repairs</option><option value="kept">Four kept current</option><option value="animated">Animated / multiple views</option><option value="flagged">Flagged only</option></select></label>
+      <label>Background <select id="background"><option value="dark">Dark</option><option value="light">Light</option><option value="checker">Checker</option></select></label>
+      <label class="check-label"><input id="play-all" type="checkbox" checked> Play visible</label>
+      <label class="check-label"><input id="rotate-views" type="checkbox" checked> Rotate views</label>
+      <span id="progress" class="progress" aria-live="polite"></span>
+    </div>
+  </header>
+
+  <main>
+    <p id="empty" class="empty" hidden>No sprites match this search.</p>
+    <div id="cards" class="cards"></div>
+    <div id="load-more" class="load-more" aria-hidden="true"></div>
+  </main>
+
+  <dialog id="export-dialog">
+    <div class="dialog-heading">
+      <div><h2>Changeset decision</h2><p>Flag any candidates to revisit, then choose whether to approve the rest. Copy or download the JSON and send it to me.</p></div>
+      <button id="close-export" type="button" aria-label="Close">×</button>
+    </div>
+    <label class="check-label"><input id="approve-unflagged" type="checkbox"> Approve every unflagged candidate</label>
+    <textarea id="export-json" readonly spellcheck="false"></textarea>
+    <div class="dialog-actions">
+      <span id="copy-status" role="status"></span>
+      <button id="download-json" type="button">Download JSON</button>
+      <button id="copy-json" class="primary" type="button">Copy JSON</button>
+    </div>
+  </dialog>
+
+  <script src="changeset_catalog.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

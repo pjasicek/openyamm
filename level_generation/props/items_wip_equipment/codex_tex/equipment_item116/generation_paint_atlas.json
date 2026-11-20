@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Merchantman's Hat (item116). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Dark charcoal wrapped turban with cream folded upper cloth and large central gold-rimmed oval red jewel. Exact material boundaries: Dark charcoal and cream wrapped cloth BLUE. Gold jewel rim RED. Red oval jewel BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item116/inputs/guide_paint.png",
+  "input_guide_sha256": "c8fb7656fd19bb9b31419d5d71c25365b0405adbd03b311c558299d916c0ce22",
+  "revision": 1,
+  "input_icon": "item116",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-afa05729-585f-4fad-a9e5-b66d5634b3dc.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "badf03452c0bfb7907e17a11045fc22c45c57844e361a2171f6eed7af19c8611",
+  "input_icon_path": "assets_dev/engine/icons_x2/item116.png",
+  "input_icon_sha256": "db9a0615e77ab62947c4956a6bae590708e9f8abfa5cb8fc282dc188fc24ab92",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

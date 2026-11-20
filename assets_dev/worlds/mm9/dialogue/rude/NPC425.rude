@@ -1,0 +1,8 @@
+425,999,1,"Goodbye.","blank",-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+425,1,1,"Alright.  Anything else?","Stay away from the lower level.  We abandoned that to those infernal insects years ago.  We are not responsible for your safety if you find your way down there.",999,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+425,425,1,"We want to get into the prison.","See the man at the counter.  He'll give you a Visitor's Pass.",999,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5007,5008,0,0,0,0,0,0,0,0
+425,425,2,"We want to get in.","You have a Visitor's Pass?  Very well.  Here are the rules:  No consorting with the prisoners.  Stay out of the way of the guards, and do not go into any of the security booths.  Should you do any of those, you will find yourself in deep trouble.",1,5007,0,0,0,0,0,0,0,0,0,0,0,0,0,5008,0,0,0,0,0,0,0,0,0
+425,425,3,"We have a criminal here.","Been caught stealing, eh?  Very well.  I'll let him in.",999,5008,0,154,0,0,0,0,0,0,0,0,0,0,0,5009,0,0,0,0,0,0,0,0,0
+425,425,4,"We want you to open the door.","Very well.",999,5008,0,0,0,0,0,0,0,0,5018,0,0,0,0,5018,0,0,0,0,0,0,0,0,0
+425,425,5,"Thanks.  You can close the door now.","Very well.",999,5008,0,5018,0,0,0,0,0,0,5019,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+425,425,7,"Nothing.  Goodbye.","blank.",-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

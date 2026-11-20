@@ -1,0 +1,300 @@
+id: levelgen_trap_projectiles
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg02.blv
+    party: &id001
+      gold: 50000
+      food: 40
+      members:
+      - level: 25
+        might: 30
+        intellect: 20
+        personality: 20
+        endurance: 30
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Knight
+        class: Knight
+        portrait_id: 0
+        race_id: 0
+        skills:
+        - name: Sword
+          level: 7
+          mastery: 2
+        - name: Bow
+          level: 4
+          mastery: 2
+        - name: Plate
+          level: 4
+          mastery: 2
+        - name: Shield
+          level: 4
+          mastery: 2
+        - name: Body Building
+          level: 7
+          mastery: 2
+        - name: Armsmaster
+          level: 4
+          mastery: 2
+        - name: Repair Item
+          level: 4
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 4
+          off_hand: 101
+          bow: 64
+          armor: 96
+        spells: []
+      - level: 25
+        might: 20
+        intellect: 20
+        personality: 35
+        endurance: 25
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Cleric
+        class: Cleric
+        portrait_id: 4
+        race_id: 0
+        skills:
+        - name: Mace
+          level: 7
+          mastery: 2
+        - name: Chain
+          level: 4
+          mastery: 2
+        - name: Shield
+          level: 4
+          mastery: 2
+        - name: Body Magic
+          level: 7
+          mastery: 2
+        - name: Spirit Magic
+          level: 4
+          mastery: 2
+        - name: Mind Magic
+          level: 4
+          mastery: 2
+        - name: Meditation
+          level: 7
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 69
+          off_hand: 101
+          armor: 91
+        spells:
+        - 46
+        - 48
+        - 51
+        - 57
+        - 68
+        - 69
+        - 70
+      - level: 25
+        might: 20
+        intellect: 20
+        personality: 20
+        endurance: 25
+        speed: 30
+        accuracy: 30
+        luck: 20
+        name: Test Dark Elf
+        class: Dark Elf
+        portrait_id: 16
+        race_id: 2
+        skills:
+        - name: Sword
+          level: 7
+          mastery: 2
+        - name: Bow
+          level: 7
+          mastery: 2
+        - name: Disarm Trap
+          level: 7
+          mastery: 2
+        - name: Perception
+          level: 7
+          mastery: 2
+        - name: Chain
+          level: 4
+          mastery: 2
+        - name: Merchant
+          level: 4
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 3
+          bow: 59
+          armor: 91
+        spells: []
+      - level: 25
+        might: 40
+        intellect: 20
+        personality: 20
+        endurance: 35
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Minotaur
+        class: Minotaur
+        portrait_id: 20
+        race_id: 3
+        skills:
+        - name: Axe
+          level: 7
+          mastery: 2
+        - name: Bow
+          level: 4
+          mastery: 2
+        - name: Chain
+          level: 4
+          mastery: 2
+        - name: Body Building
+          level: 7
+          mastery: 2
+        - name: Armsmaster
+          level: 4
+          mastery: 2
+        - name: Perception
+          level: 4
+          mastery: 2
+        equipment:
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          main_hand: 34
+          bow: 64
+          armor: 91
+        spells: []
+      - level: 25
+        might: 20
+        intellect: 35
+        personality: 20
+        endurance: 25
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Necromancer
+        class: Necromancer
+        portrait_id: 8
+        race_id: 0
+        skills:
+        - name: Staff
+          level: 4
+          mastery: 2
+        - name: Leather
+          level: 4
+          mastery: 2
+        - name: Fire Magic
+          level: 7
+          mastery: 2
+        - name: Water Magic
+          level: 7
+          mastery: 2
+        - name: Air Magic
+          level: 4
+          mastery: 2
+        - name: Earth Magic
+          level: 4
+          mastery: 2
+        - name: Meditation
+          level: 7
+          mastery: 2
+        - name: Identify Item
+          level: 4
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 82
+          armor: 86
+        spells:
+        - 2
+        - 6
+        - 12
+        - 15
+        - 24
+        - 27
+        - 35
+- set_pose:
+    map: lg02.blv
+    x: 3008
+    y: 3072
+    z: 384
+    yaw: 0
+    pitch: 0
+- save_game: trap301_before
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 3008
+      y: 3072
+      z: 384
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 3280
+      y: 3072
+      z: 384
+      yaw: 0
+      pitch: 0
+    seconds: 0.3541666666666667
+    input: forward
+- save_game: trap301_air
+- advance_runtime:
+    seconds: 0.5
+- save_game: trap301_after
+- new_game_flow:
+    start_map: lg02.blv
+    party: *id001
+- set_pose:
+    map: lg02.blv
+    x: -1152
+    y: 3072
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- save_game: trap302_before
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: -1152
+      y: 3072
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: -1568
+      y: 3072
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 0.5416666666666666
+    input: forward
+- save_game: trap302_air
+- advance_runtime:
+    seconds: 0.5
+- save_game: trap302_after

@@ -1,0 +1,970 @@
+{
+ "id": "20261009-1649-mm7-7d32-08",
+ "world": "mm7",
+ "maps": [
+  "7d32.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/7t1s2b",
+  "mm7/ceb1wsb",
+  "mm7/ceb1sa-d",
+  "mm7/ceb1sa-3",
+  "mm7/ceb1sa-4",
+  "mm7/ceb1sa-1",
+  "mm7/ceb1sa-5",
+  "mm7/t3s2fl1n",
+  "mm7/t3s2fl1f",
+  "mm7/t3s2fl1h",
+  "mm7/t3s2fl1d",
+  "mm7/t3s2fl1g",
+  "mm7/ceb1elfb",
+  "mm7/ceb1dl",
+  "mm7/ceb1dr",
+  "mm7/t5s1c2",
+  "mm7/t3s2fl1l",
+  "mm7/t3s2fl1a",
+  "mm7/t3s2fl1c",
+  "mm7/t3s2fl1e",
+  "mm7/ch003d",
+  "mm7/ch003j",
+  "mm7/ch004j",
+  "mm7/ch003f",
+  "mm7/ch003g"
+ ],
+ "requests": {
+  "mm7/7t1s2b": {
+   "name": "7t1s2b",
+   "versions": [
+    1
+   ],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ceb1wsb": {
+   "name": "ceb1wsb",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale grey-green squared limestone blocks with dark recessed mortar, with a narrow pointed arched window opening onto black darkness, green ivy vines climbing around it; copy the composition exactly",
+   "notes": {
+    "3": "the top row of pixels is the pale lower face of the block course above, not a dark mortar joint: the horizontal mortar joint near the top sits a little below the very top edge, exactly as in the reference, with no dark line along the top edge",
+    "4": "the picture is cut through the middle of a horizontal mortar joint at the top: the top edge shows only a thin, softly mid-grey half of that joint (no darker than the lower parts of the stone blocks), and the pale stone face starts within the first few pixel rows; never a black or near-black line along the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1ws",
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.656
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1ws"
+     ],
+     "fraction": 0.522
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1ws"
+     ],
+     "fraction": 0.522
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1ws"
+     ],
+     "fraction": 0.522
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/ceb1sa-d": {
+   "name": "ceb1sa-d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale grey-green squared limestone blocks with dark recessed mortar, with a hung painting of a green lizard creature in a dark carved wooden frame; copy the composition exactly",
+   "notes": {
+    "3": "the picture frame is pale weathered greyish-beige carved wood with a thin dark beaded inner moulding, exactly as light as in the reference, not dark brown",
+    "4": "the horizontal mortar joint that runs along the top edge is very thin there: only the lowest sliver of it shows in the first pixel row, mid grey, and the pale stone face begins immediately below; the dark mortar joint along the bottom edge keeps the reference's thickness; the picture frame is pale weathered greyish-beige carved wood with a thin dark beaded inner moulding"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.534
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.408
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.408
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.408
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   },
+   "roll": {
+    "3": [
+     0,
+     150
+    ],
+    "4": [
+     0,
+     150
+    ]
+   }
+  },
+  "mm7/ceb1sa-3": {
+   "name": "ceb1sa-3",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, with a hung portrait of a young brown-haired man in a black and silver ornate frame; copy the composition exactly",
+   "notes": {
+    "3": "the horizontal mortar joint near the top edge lies mostly above the picture: only its lowest sliver shows in the first pixel row, mid grey, and the pale stone face begins immediately below; the dark mortar joint along the bottom edge keeps the reference's thickness",
+    "4": "the mortar in this wall is a medium grey-green, never black; the horizontal joint at the top edge is a thin medium-grey line only one or two pixels thick, and the pale stone face fills everything below it",
+    "5": "the mortar in this wall is a medium grey-green, never black; the horizontal joint at the top edge is a thin medium-grey line only one or two pixels thick, and the pale stone face fills everything below it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.52
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.444
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.444
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.444
+    },
+    "5": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.52
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   },
+   "roll": {
+    "3": [
+     0,
+     140
+    ],
+    "4": [
+     0,
+     140
+    ]
+   }
+  },
+  "mm7/ceb1sa-4": {
+   "name": "ceb1sa-4",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, with a hung portrait of a blond woman in a white gown holding a sword over her shoulder in a red and gold frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.465
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.454
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.465
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/ceb1sa-1": {
+   "name": "ceb1sa-1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, with a hung painting of a green hooded robed figure in a dark carved wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.38
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.38
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.38
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/ceb1sa-5": {
+   "name": "ceb1sa-5",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, with a hung portrait of a dark-haired archer with a headband, dressed in a brown leather tunic with a quiver strap across the chest, against a blue sky, in a pale weathered greyish-beige carved wooden frame; copy the composition exactly",
+   "notes": {
+    "2": "the frame is pale weathered greyish-beige carved wood, not gold",
+    "3": "the frame is pale weathered greyish-beige carved wood, not gold",
+    "4": "the frame is pale weathered greyish-beige carved wood, not gold"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.384
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1sa-4"
+     ],
+     "fraction": 0.386
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.384
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.384
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/t3s2fl1n": {
+   "name": "t3s2fl1n",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl1f": {
+   "name": "t3s2fl1f",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1n"
+     ],
+     "fraction": 0.497
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1n"
+     ],
+     "fraction": 0.497
+    }
+   }
+  },
+  "mm7/t3s2fl1h": {
+   "name": "t3s2fl1h",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1n"
+     ],
+     "fraction": 0.403
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1n"
+     ],
+     "fraction": 0.403
+    }
+   }
+  },
+  "mm7/t3s2fl1d": {
+   "name": "t3s2fl1d",
+   "versions": [
+    1
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl1g": {
+   "name": "t3s2fl1g",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {
+    "2": "keep every element exactly where the reference has it: the stone border along the top and right, the golden fringe line and the red border bands at the same positions and widths; do not shift the carpet down or sideways",
+    "3": "keep every element exactly where the reference has it: the stone border along the top and right, the golden fringe line and the red border bands at the same positions and widths; do not shift the carpet down or sideways"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1h",
+      "mm7/t3s2fl1f"
+     ],
+     "fraction": 0.455
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1h",
+      "mm7/t3s2fl1f",
+      "mm7/t3s2fl1a",
+      "mm7/t3s2fl1e"
+     ],
+     "fraction": 0.472
+    },
+    "3": {
+     "sources": [
+      "mm7/t3s2fl1h",
+      "mm7/t3s2fl1f"
+     ],
+     "fraction": 0.455
+    }
+   }
+  },
+  "mm7/ceb1elfb": {
+   "name": "ceb1elfb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, with a hanging green cloth banner bearing a golden tree emblem and swallowtail-cut lower ends; copy the composition exactly",
+   "notes": {
+    "4": "at the top edge the golden tree trunk, the green cloth and both floral borders continue exactly from the sharp banner part in the top margin: same trunk width and position, same green tone, no seam; the banner's two triangular notches and three pointed tails reach exactly as low as in the reference",
+    "5": "at the top edge the golden trunk, the green cloth and both floral borders continue exactly from the sharp banner part in the top margin, with the same bright emerald green tone and the same weave all the way down the banner, never darker; the triangular notches and pointed tails reach exactly as low as in the reference",
+    "6": "at the top edge the golden trunk, the green cloth and both floral borders continue exactly from the sharp banner part in the top margin, with the same bright emerald green tone and weave, never darker; the triangular notches and pointed tails reach exactly as low as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.255
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.245
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.255
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.255
+    },
+    "5": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.255
+    },
+    "6": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.255
+    }
+   },
+   "context": {
+    "3": {
+     "top": "mm7/ceb1elfa"
+    },
+    "4": {
+     "top": "mm7/ceb1elfa"
+    },
+    "5": {
+     "top": "mm7/ceb1elfa"
+    },
+    "6": {}
+   }
+  },
+  "mm7/ceb1dl": {
+   "name": "ceb1dl",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "left half of a pointed arched door of weathered grey oak planks with brass strap hinges, framed by pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black and green ivy vines; copy the composition exactly",
+   "notes": {
+    "2": "the top rows are pale grey-green limestone blocks at full brightness right up to the top edge; no dark rim, shadow or outline along the top edge",
+    "3": "the top rows are pale grey-green limestone blocks at full brightness right up to the top edge; no dark rim, shadow or outline along the top edge",
+    "4": "the mortar in this wall is a medium grey-green, never black; the horizontal joint at the top edge is a thin medium-grey line only one or two pixels thick, and the pale stone face fills everything below it",
+    "5": "the mortar in this wall is a medium grey-green, never black; the horizontal joint at the top edge is a thin medium-grey line only one or two pixels thick, and the pale stone face fills everything below it",
+    "6": "the mortar in this wall is a medium grey-green, never black; the horizontal joint at the top edge is a thin medium-grey line only one or two pixels thick, and the pale stone face fills everything below it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.238
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.238
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.142
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1sa-3"
+     ],
+     "fraction": 0.142
+    },
+    "5": {
+     "sources": [
+      "mm7/ceb1wsa"
+     ],
+     "fraction": 0.238
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {
+     "left": "mm7/ceb1el"
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     97
+    ]
+   }
+  },
+  "mm7/ceb1dr": {
+   "name": "ceb1dr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: left half of a pointed arched door of weathered grey oak planks with brass strap hinges, framed by pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black and green ivy vines - right part: right half of a pointed arched door of weathered grey oak planks with a brass ring handle, framed by pale grey-green squared limestone blocks with dark recessed mortar and green ivy vines; copy the composition exactly",
+   "notes": {
+    "3": "the mortar in this wall is a medium grey-green, never black; the horizontal joint at the top edge is a thin medium-grey line only one or two pixels thick, and the pale stone face fills everything below it",
+    "4": "the right-hand column block beside the door at mid height is ONE continuous stone with no horizontal joint across it, exactly as in the reference; keep every block and joint where the reference has them",
+    "5": "the right-hand column block beside the door at mid height is ONE continuous stone with no horizontal joint across it, exactly as in the reference; keep every block and joint where the reference has them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.237
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.237
+    },
+    "5": {
+     "sources": [
+      "mm7/ceb1wsa",
+      "mm7/ceb1wsb",
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.236
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/ceb1dl"
+    },
+    "3": {},
+    "4": {
+     "left": "mm7/ceb1dl",
+     "right": "mm7/ceb1re"
+    },
+    "5": {
+     "left": "mm7/ceb1el",
+     "right": "mm7/ceb1re"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     95
+    ]
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/t5s1c2": {
+   "name": "t5s1c2",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "carved golden-tan sandstone relief of interlocking gothic tracery and rounded lobes over grey speckled granite, dusty and worn; copy the composition exactly",
+   "notes": {
+    "4": "the grey speckled granite panel is one even tone across its whole width: no darker vertical stripe, streak, seam or line anywhere in the granite",
+    "5": "the tracery repeats seamlessly top to bottom: no straight horizontal line, groove or hairline anywhere"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.434
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.434
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.434
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.434
+    },
+    "5": {
+     "sources": [
+      "mm7/t5bs"
+     ],
+     "fraction": 0.434
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {}
+   },
+   "roll": {
+    "5": [
+     0,
+     69
+    ]
+   }
+  },
+  "mm7/t3s2fl1l": {
+   "name": "t3s2fl1l",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1d"
+     ],
+     "fraction": 0.404
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1d"
+     ],
+     "fraction": 0.404
+    }
+   }
+  },
+  "mm7/t3s2fl1a": {
+   "name": "t3s2fl1a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1h"
+     ],
+     "fraction": 0.146
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1h"
+     ],
+     "fraction": 0.146
+    }
+   }
+  },
+  "mm7/t3s2fl1c": {
+   "name": "t3s2fl1c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1d",
+      "mm7/t3s2fl1a",
+      "mm7/t3s2fl1e"
+     ],
+     "fraction": 0.279
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1d",
+      "mm7/t3s2fl1a",
+      "mm7/t3s2fl1e"
+     ],
+     "fraction": 0.279
+    }
+   }
+  },
+  "mm7/t3s2fl1e": {
+   "name": "t3s2fl1e",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1d",
+      "mm7/t3s2fl1f"
+     ],
+     "fraction": 0.289
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1d",
+      "mm7/t3s2fl1f"
+     ],
+     "fraction": 0.289
+    }
+   }
+  },
+  "mm7/ch003d": {
+   "name": "ch003d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - upper part: mottled blue-grey brushed steel chest panel with faint rust flecks, inside a frame of dark riveted rusty iron bands along all four edges - lower part: mottled blue-grey slate chest panel framed by dark riveted rusty iron bands along the left, right and bottom edges, with a dark iron lock plate with a nested rectangular slot in the centre; copy the composition exactly",
+   "notes": {
+    "3": "the blue-grey slate runs right up to the dark iron bands and the lock plate: where the slate meets the bottom band, the right band and the top of the lock plate there is no orange, wooden or rust-coloured strip or line; paint slate there even where the reference shows a thin orange line",
+    "4": "where the slate meets the bottom iron band and the lock plate there is only a thin dark grey-brown shadow line, darker than the slate; never an orange or bright rust-coloured line; paint it dark even where the sharp areas show orange",
+    "5": "where the slate meets the bottom iron band and the lock plate there is only a thin dark grey-brown shadow line, darker than the slate; never an orange or bright rust-coloured line; paint it dark even where the sharp areas show orange",
+    "6": "freshly painted 4x material detail everywhere, never enlarged pixel blocks; wherever a blue-grey panel meets an iron band or the lock plate there is only a thin dark grey-brown shadow line, never an orange or bright rust-coloured line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.481
+    },
+    "2": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.481
+    },
+    "3": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.481
+    },
+    "4": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.481
+    },
+    "5": {
+     "sources": [
+      "mm7/ch003b",
+      "mm7/ch001d"
+     ],
+     "fraction": 0.824
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "5": {},
+    "6": {}
+   },
+   "standalone": true
+  },
+  "mm7/ch003j": {
+   "name": "ch003j",
+   "versions": [
+    1
+   ],
+   "material": "brushed grey steel chest panel with dark riveted iron bands along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch004j": {
+   "name": "ch004j",
+   "versions": [
+    1
+   ],
+   "material": "brushed pale grey steel chest panel with dark riveted iron bands along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003j"
+     ],
+     "fraction": 0.234
+    }
+   }
+  },
+  "mm7/ch003f": {
+   "name": "ch003f",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "mottled blue-grey slate chest panel, plain, with two small dark rusty iron keyhole plates at the top centre and bottom centre edges; copy the composition exactly",
+   "notes": {
+    "2": "the steel is one plain flat surface: no frame, no border lines, no raised or recessed panels and no rivets along the edges; only the two latch plates",
+    "3": "the sharp steel areas in the reference are final: paint the rest of the steel with exactly their tone, brushing direction and grain so no rectangular patch or outline is visible; no frame, border lines or panels; only the two latch plates",
+    "4": "the steel is one plain flat surface: no frame, no border lines, no raised or recessed panels and no rivets along the edges; only the two latch plates",
+    "5": "no thin dark line or rectangle anywhere: the slate surface continues evenly from the sharp areas right out to all four edges without any border line, groove or outline",
+    "6": "the sharp slate areas are final: paint the rest with exactly their mid blue-grey tone, the same fine diagonal brushed grain and the same faint rust mottling, so no lighter or darker rectangle, band or step shows anywhere; no lines or frame"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.397
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.397
+    },
+    "3": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.397
+    },
+    "4": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.397
+    },
+    "5": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.397
+    },
+    "6": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.397
+    }
+   }
+  },
+  "mm7/ch003g": {
+   "name": "ch003g",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  }
+ }
+}

@@ -1,0 +1,13 @@
+# Screenshot tour: Bjarni's hall in Sturmford City with a four-member party, no dialogue (mockup backdrop), camera pitched down so the NPC sits in the upper half.
+output_dir: ../backdrops_1600x900
+settle_seconds: 2.0
+exit: true
+shots:
+  - name: bjarni_hall
+    position: [6900, 8192, 19799]
+    yaw: 0.0
+    pitch: -0.2
+    commands:
+      - player add Knight Aslaug
+      - player add Cleric Hrafn
+      - player add Sorcerer Sigrun

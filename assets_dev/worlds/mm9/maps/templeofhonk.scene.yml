@@ -1,0 +1,8603 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "templeofhonk.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 5734,
+    "texture_name": "lqw115o37"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": 1229,
+     "y": 4096,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollowgoose.scr",
+     "script_params": "BigHonk1"
+    }
+   },
+   {
+    "actor_index": 1,
+    "name": "Goose",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 1485,
+    "hostility_type": 0,
+    "monster_info_id": 9293,
+    "monster_id": 9293,
+    "radius": 38,
+    "height": 82,
+    "move_speed": 256,
+    "position": {
+     "x": 1720,
+     "y": 3031,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.5,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "profile": {
+      "archetype": "skirmisher",
+      "ranged": "walker",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "dumbgoose.scr"
+    }
+   },
+   {
+    "actor_index": 2,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 192,
+    "position": {
+     "x": 2130,
+     "y": 3850,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollowgoose.scr",
+     "script_params": "BigHonk1"
+    }
+   },
+   {
+    "actor_index": 3,
+    "name": "Elder Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 962,
+    "hostility_type": 0,
+    "monster_info_id": 9187,
+    "monster_id": 9187,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 256,
+    "position": {
+     "x": 5458,
+     "y": 3400,
+     "z": 452
+    },
+    "initial_yaw_units": 1024,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 15,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkleader.scr",
+     "script_params": "6 15 1",
+     "idle_clip": "prop_stand",
+     "routines": {
+      "preach": [
+       {
+        "chance": 0.333,
+        "steps": [
+         {
+          "walk": [
+           5530,
+           3236,
+           451
+          ]
+         },
+         {
+          "face": 180.0
+         },
+         {
+          "clips": [
+           {
+            "clip": "prop_fidget",
+            "seconds": 4.0
+           },
+           {
+            "clip": "prop_fidget2",
+            "seconds": 2.0
+           },
+           {
+            "clip": "fidget",
+            "seconds": 2.5
+           },
+           {
+            "clip": "prop_stand",
+            "seconds": 1.8
+           }
+          ]
+         },
+         {
+          "wait": [
+           1,
+           3
+          ]
+         }
+        ]
+       },
+       {
+        "chance": 0.5,
+        "steps": [
+         {
+          "walk": [
+           5530,
+           3564,
+           451
+          ]
+         },
+         {
+          "face": 180.0
+         },
+         {
+          "clips": [
+           {
+            "clip": "prop_fidget",
+            "seconds": 4.0
+           },
+           {
+            "clip": "prop_fidget2",
+            "seconds": 2.0
+           },
+           {
+            "clip": "fidget",
+            "seconds": 2.5
+           },
+           {
+            "clip": "prop_stand",
+            "seconds": 1.8
+           }
+          ]
+         },
+         {
+          "wait": [
+           1,
+           3
+          ]
+         }
+        ]
+       },
+       {
+        "walk": [
+         5530,
+         3400,
+         451
+        ]
+       },
+       {
+        "face": 180.0
+       },
+       {
+        "clips": [
+         {
+          "clip": "prop_fidget",
+          "seconds": 4.0
+         },
+         {
+          "clip": "prop_fidget2",
+          "seconds": 2.0
+         },
+         {
+          "clip": "fidget",
+          "seconds": 2.5
+         },
+         {
+          "clip": "prop_stand",
+          "seconds": 1.8
+         }
+        ]
+       },
+       {
+        "wait": [
+         1,
+         3
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 4,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": -1311,
+     "y": 3113,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerL 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3113,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 27.9
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 4.0
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.1
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 5,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": -328,
+     "y": 3277,
+     "z": 45
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerL 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3113,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 27.9
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 4.0
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.1
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 6,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 192,
+    "position": {
+     "x": -819,
+     "y": 3277,
+     "z": 45
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerL 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3113,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 27.9
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 2.5
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.0
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 7,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 192,
+    "position": {
+     "x": -164,
+     "y": 2949,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerL 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3113,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 27.9
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 2.5
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.0
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         2949,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         1966,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         1393,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         82,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         -246,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         82,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1966,
+         737,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1720,
+         1802,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3195,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3113,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3113,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 8,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": 1638,
+     "y": 2785,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerR 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3523,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 347.2
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 4.0
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.1
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 9,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": 492,
+     "y": 3277,
+     "z": 45
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerR 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3523,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 347.2
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 4.0
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.1
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 10,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": -655,
+     "y": 3604,
+     "z": 45
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerR 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3523,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 347.2
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 4.0
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.1
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 11,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 192,
+    "position": {
+     "x": 0,
+     "y": 3441,
+     "z": 45
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerR 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3523,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 347.2
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 2.5
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.0
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 12,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 192,
+    "position": {
+     "x": -819,
+     "y": 3932,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerR 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3523,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 347.2
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 2.5
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.0
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 13,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 192,
+    "position": {
+     "x": 1147,
+     "y": 2621,
+     "z": 42
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 14,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollower.scr",
+     "script_params": "CeremonyMarkerR 0 11",
+     "routines": {
+      "go": [
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         4915,
+         3523,
+         328
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ],
+      "worship": [
+       {
+        "face": 347.2
+       },
+       {
+        "clips": [
+         {
+          "clip": "attack_melee",
+          "seconds": 0.7
+         },
+         {
+          "clip": "fidget",
+          "seconds": 2.5
+         },
+         {
+          "clip": "fidget2",
+          "seconds": 1.0
+         }
+        ]
+       }
+      ],
+      "home": [
+       {
+        "walk": [
+         4342,
+         3686,
+         328
+        ]
+       },
+       {
+        "walk": [
+         3604,
+         4833,
+         696
+        ]
+       },
+       {
+        "walk": [
+         3686,
+         5407,
+         655
+        ]
+       },
+       {
+        "walk": [
+         3523,
+         6717,
+         532
+        ]
+       },
+       {
+        "walk": [
+         2785,
+         7045,
+         369
+        ]
+       },
+       {
+        "walk": [
+         2130,
+         6717,
+         205
+        ]
+       },
+       {
+        "walk": [
+         1884,
+         5980,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         4997,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3604,
+         61
+        ]
+       },
+       {
+        "walk": [
+         492,
+         3604,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         3604,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 14,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": 696,
+     "y": 6676,
+     "z": 45
+    },
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 22,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkaccountant.scr",
+     "script_params": "PathMarker 0 13 CollectionChest key0",
+     "routines": {
+      "trip": [
+       {
+        "walk": [
+         1229,
+         6636,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1311,
+         5898,
+         44
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3523,
+         44
+        ]
+       },
+       {
+        "walk": [
+         410,
+         3768,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         4260,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         4915,
+         44
+        ]
+       },
+       {
+        "walk": [
+         -3031,
+         4915,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -2949,
+         5571,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -2253,
+         5775,
+         -123
+        ]
+       },
+       {
+        "walk": [
+         -2212,
+         6390,
+         -369
+        ]
+       },
+       {
+        "walk": [
+         -2662,
+         6554,
+         -522
+        ]
+       },
+       {
+        "walk": [
+         -2703,
+         5816,
+         -522
+        ]
+       },
+       {
+        "walk": [
+         -3113,
+         5734,
+         -522
+        ]
+       },
+       {
+        "walk": [
+         -3011,
+         5489,
+         -522
+        ]
+       },
+       {
+        "clips": [
+         {
+          "clip": "prop_fidget",
+          "seconds": 3.0
+         }
+        ]
+       },
+       {
+        "walk": [
+         -3113,
+         5734,
+         -522
+        ]
+       },
+       {
+        "walk": [
+         -2703,
+         5816,
+         -522
+        ]
+       },
+       {
+        "walk": [
+         -2662,
+         6554,
+         -522
+        ]
+       },
+       {
+        "walk": [
+         -2212,
+         6390,
+         -369
+        ]
+       },
+       {
+        "walk": [
+         -2253,
+         5775,
+         -123
+        ]
+       },
+       {
+        "walk": [
+         -2949,
+         5571,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -3031,
+         4915,
+         41
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         4915,
+         44
+        ]
+       },
+       {
+        "walk": [
+         -655,
+         4260,
+         41
+        ]
+       },
+       {
+        "walk": [
+         410,
+         3768,
+         41
+        ]
+       },
+       {
+        "walk": [
+         1638,
+         3523,
+         44
+        ]
+       },
+       {
+        "walk": [
+         1311,
+         5898,
+         44
+        ]
+       },
+       {
+        "walk": [
+         1229,
+         6636,
+         41
+        ]
+       },
+       {
+        "wait": [
+         3600,
+         3600
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "actor_index": 15,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9186,
+    "monster_id": 9186,
+    "radius": 31,
+    "height": 195,
+    "move_speed": 256,
+    "position": {
+     "x": -2785,
+     "y": 6963,
+     "z": -521
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollowgoose2.scr",
+     "script_params": "BigHonk0"
+    }
+   },
+   {
+    "actor_index": 16,
+    "name": "Honk",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 850,
+    "hostility_type": 0,
+    "monster_info_id": 9216,
+    "monster_id": 9216,
+    "radius": 31,
+    "height": 179,
+    "move_speed": 192,
+    "position": {
+     "x": -3195,
+     "y": 6881,
+     "z": -521
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "script": "honkfollowgoose2.scr",
+     "script_params": "BigHonk0"
+    }
+   },
+   {
+    "actor_index": 17,
+    "name": "Goose",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 1485,
+    "hostility_type": 0,
+    "monster_info_id": 9293,
+    "monster_id": 9293,
+    "radius": 38,
+    "height": 82,
+    "move_speed": 256,
+    "position": {
+     "x": -3277,
+     "y": 6554,
+     "z": -521
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.5,
+    "mm9_ai": {
+     "sight": 1536,
+     "hearing": 369,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ],
+     "hostility": "friendly_until_provoked",
+     "faction": "honk",
+     "profile": {
+      "archetype": "skirmisher",
+      "ranged": "walker",
+      "skirmisher": {
+       "strafe_attack_chance": 0.8,
+       "evade_chance": 0.4,
+       "taunt_seconds": 0.0
+      }
+     },
+     "script": "dumbgoose2.scr"
+    }
+   },
+   {
+    "actor_index": 18,
+    "name": "Fish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9227,
+    "monster_id": 9227,
+    "radius": 20,
+    "height": 22,
+    "move_speed": 38,
+    "position": {
+     "x": -3031,
+     "y": 7209,
+     "z": -530
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.5,
+    "mm9_ai": {
+     "sight": 128,
+     "hearing": 128,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 205,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_can_receive_damage": false
+   },
+   {
+    "actor_index": 19,
+    "name": "Fish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9227,
+    "monster_id": 9227,
+    "radius": 16,
+    "height": 22,
+    "move_speed": 38,
+    "position": {
+     "x": -2990,
+     "y": 6717,
+     "z": -530
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.4,
+    "mm9_ai": {
+     "sight": 128,
+     "hearing": 128,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 205,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_can_receive_damage": false
+   },
+   {
+    "actor_index": 20,
+    "name": "Fish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9227,
+    "monster_id": 9227,
+    "radius": 29,
+    "height": 22,
+    "move_speed": 38,
+    "position": {
+     "x": -3031,
+     "y": 6226,
+     "z": -530
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.7,
+    "mm9_ai": {
+     "sight": 128,
+     "hearing": 128,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 205,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_can_receive_damage": false
+   },
+   {
+    "actor_index": 21,
+    "name": "Fish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9227,
+    "monster_id": 9227,
+    "radius": 16,
+    "height": 22,
+    "move_speed": 38,
+    "position": {
+     "x": -3031,
+     "y": 6513,
+     "z": -530
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.4,
+    "mm9_ai": {
+     "sight": 128,
+     "hearing": 128,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 205,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_can_receive_damage": false
+   },
+   {
+    "actor_index": 22,
+    "name": "Fish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9227,
+    "monster_id": 9227,
+    "radius": 29,
+    "height": 22,
+    "move_speed": 38,
+    "position": {
+     "x": -3072,
+     "y": 6881,
+     "z": -530
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.7,
+    "mm9_ai": {
+     "sight": 128,
+     "hearing": 128,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 205,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_can_receive_damage": false
+   },
+   {
+    "actor_index": 23,
+    "name": "Fish",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 4,
+    "hostility_type": 0,
+    "monster_info_id": 9227,
+    "monster_id": 9227,
+    "radius": 20,
+    "height": 22,
+    "move_speed": 38,
+    "position": {
+     "x": -2949,
+     "y": 6472,
+     "z": -530
+    },
+    "initial_yaw_units": 512,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 21,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 0.5,
+    "mm9_ai": {
+     "sight": 128,
+     "hearing": 128,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_leash": 205,
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_can_receive_damage": false
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10058,
+     10059,
+     10060,
+     10061,
+     10062,
+     10063,
+     10064,
+     10065
+    ],
+    "face_ids": [
+     5897,
+     5898,
+     5899,
+     5900,
+     5901,
+     5902
+    ],
+    "sector_ids": [
+     5,
+     9
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3348,
+     3369,
+     3369,
+     3348,
+     3348,
+     3369,
+     3369,
+     3348
+    ],
+    "y_offsets": [
+     819,
+     819,
+     942,
+     942,
+     942,
+     942,
+     819,
+     819
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3358.72,
+       931.84,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10066,
+     10067,
+     10068,
+     10069,
+     10070,
+     10071,
+     10072,
+     10073
+    ],
+    "face_ids": [
+     5903,
+     5904,
+     5905,
+     5906,
+     5907,
+     5908
+    ],
+    "sector_ids": [
+     5,
+     9
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3348,
+     3369,
+     3369,
+     3348,
+     3348,
+     3369,
+     3369,
+     3348
+    ],
+    "y_offsets": [
+     696,
+     696,
+     819,
+     819,
+     819,
+     819,
+     696,
+     696
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3358.72,
+       706.56,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10074,
+     10075,
+     10076,
+     10077,
+     10078,
+     10079,
+     10080,
+     10081
+    ],
+    "face_ids": [
+     5909,
+     5910,
+     5911,
+     5912,
+     5913,
+     5914
+    ],
+    "sector_ids": [
+     16,
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -4588,
+     -4588,
+     -4710,
+     -4710,
+     -4710,
+     -4710,
+     -4588,
+     -4588
+    ],
+    "y_offsets": [
+     3840,
+     3860,
+     3860,
+     3840,
+     3840,
+     3860,
+     3860,
+     3840
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -4700.16,
+       3850.24,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10082,
+     10083,
+     10084,
+     10085,
+     10086,
+     10087,
+     10088,
+     10089
+    ],
+    "face_ids": [
+     5915,
+     5916,
+     5917,
+     5918,
+     5919,
+     5920
+    ],
+    "sector_ids": [
+     16,
+     13
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -4465,
+     -4465,
+     -4588,
+     -4588,
+     -4588,
+     -4588,
+     -4465,
+     -4465
+    ],
+    "y_offsets": [
+     3840,
+     3860,
+     3860,
+     3840,
+     3840,
+     3860,
+     3860,
+     3840
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -4474.88,
+       3850.24,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10090,
+     10091,
+     10092,
+     10093,
+     10094,
+     10095,
+     10096,
+     10097
+    ],
+    "face_ids": [
+     5921,
+     5922,
+     5923,
+     5924,
+     5925,
+     5926
+    ],
+    "sector_ids": [
+     13,
+     6
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2785,
+     -2785,
+     -2908,
+     -2908,
+     -2908,
+     -2908,
+     -2785,
+     -2785
+    ],
+    "y_offsets": [
+     1956,
+     1976,
+     1976,
+     1956,
+     1956,
+     1976,
+     1976,
+     1956
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     5,
+     6
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2897.92,
+       1966.08,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10098,
+     10099,
+     10100,
+     10101,
+     10102,
+     10103,
+     10104,
+     10105
+    ],
+    "face_ids": [
+     5927,
+     5928,
+     5929,
+     5930,
+     5931,
+     5932
+    ],
+    "sector_ids": [
+     13,
+     6
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2662,
+     -2662,
+     -2785,
+     -2785,
+     -2785,
+     -2785,
+     -2662,
+     -2662
+    ],
+    "y_offsets": [
+     1956,
+     1976,
+     1976,
+     1956,
+     1956,
+     1976,
+     1976,
+     1956
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     5,
+     6
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2672.64,
+       1966.08,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10106,
+     10107,
+     10108,
+     10109,
+     10110,
+     10111,
+     10112,
+     10113
+    ],
+    "face_ids": [
+     5933,
+     5934,
+     5935,
+     5936,
+     5937,
+     5938
+    ],
+    "sector_ids": [
+     2,
+     12
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -4915,
+     -4915,
+     -5038,
+     -5038,
+     -5038,
+     -5038,
+     -4915,
+     -4915
+    ],
+    "y_offsets": [
+     801,
+     822,
+     822,
+     801,
+     801,
+     822,
+     822,
+     801
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     7,
+     8
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -5027.84,
+       811.52,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10114,
+     10115,
+     10116,
+     10117,
+     10118,
+     10119,
+     10120,
+     10121
+    ],
+    "face_ids": [
+     5939,
+     5940,
+     5941,
+     5942,
+     5943,
+     5944
+    ],
+    "sector_ids": [
+     2,
+     12
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -4792,
+     -4792,
+     -4915,
+     -4915,
+     -4915,
+     -4915,
+     -4792,
+     -4792
+    ],
+    "y_offsets": [
+     801,
+     822,
+     822,
+     801,
+     801,
+     822,
+     822,
+     801
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     7,
+     8
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -4802.56,
+       811.52,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 8,
+    "legacy_attributes": 0,
+    "door_id": 9,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10122,
+     10123,
+     10124,
+     10125,
+     10126,
+     10127,
+     10128,
+     10129
+    ],
+    "face_ids": [
+     5945,
+     5946,
+     5947,
+     5948,
+     5949,
+     5950
+    ],
+    "sector_ids": [
+     21,
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3011,
+     -3011,
+     -3133,
+     -3133,
+     -3133,
+     -3133,
+     -3011,
+     -3011
+    ],
+    "y_offsets": [
+     5315,
+     5335,
+     5335,
+     5315,
+     5315,
+     5335,
+     5335,
+     5315
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -3123.2,
+       5324.8,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 9,
+    "legacy_attributes": 0,
+    "door_id": 10,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10130,
+     10131,
+     10132,
+     10133,
+     10134,
+     10135,
+     10136,
+     10137
+    ],
+    "face_ids": [
+     5951,
+     5952,
+     5953,
+     5954,
+     5955,
+     5956
+    ],
+    "sector_ids": [
+     21,
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2888,
+     -2888,
+     -3011,
+     -3011,
+     -3011,
+     -3011,
+     -2888,
+     -2888
+    ],
+    "y_offsets": [
+     5315,
+     5335,
+     5335,
+     5315,
+     5315,
+     5335,
+     5335,
+     5315
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -2897.92,
+       5324.8,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 10,
+    "legacy_attributes": 0,
+    "door_id": 11,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10138,
+     10139,
+     10140,
+     10141,
+     10142,
+     10143,
+     10144,
+     10145
+    ],
+    "face_ids": [
+     5957,
+     5958,
+     5959,
+     5960,
+     5961,
+     5962
+    ],
+    "sector_ids": [
+     7,
+     10
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -1034,
+     -1014,
+     -1014,
+     -1034,
+     -1034,
+     -1014,
+     -1014,
+     -1034
+    ],
+    "y_offsets": [
+     1434,
+     1434,
+     1556,
+     1556,
+     1556,
+     1556,
+     1434,
+     1434
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -1024.0,
+       1546.24,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 11,
+    "legacy_attributes": 0,
+    "door_id": 12,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10146,
+     10147,
+     10148,
+     10149,
+     10150,
+     10151,
+     10152,
+     10153
+    ],
+    "face_ids": [
+     5963,
+     5964,
+     5965,
+     5966,
+     5967,
+     5968
+    ],
+    "sector_ids": [
+     7,
+     10
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -1034,
+     -1014,
+     -1014,
+     -1034,
+     -1034,
+     -1014,
+     -1014,
+     -1034
+    ],
+    "y_offsets": [
+     1311,
+     1311,
+     1434,
+     1434,
+     1434,
+     1434,
+     1311,
+     1311
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -1024.0,
+       1320.96,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {}
+   },
+   {
+    "door_index": 12,
+    "legacy_attributes": 0,
+    "door_id": 13,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10154,
+     10155,
+     10156,
+     10157,
+     10158,
+     10159,
+     10160,
+     10161
+    ],
+    "face_ids": [
+     5969,
+     5970,
+     5971,
+     5972,
+     5973,
+     5974
+    ],
+    "sector_ids": [
+     20,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3348,
+     3369,
+     3369,
+     3348,
+     3348,
+     3369,
+     3369,
+     3348
+    ],
+    "y_offsets": [
+     5980,
+     5980,
+     6103,
+     6103,
+     6103,
+     6103,
+     5980,
+     5980
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3358.72,
+       6092.8,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 13,
+    "legacy_attributes": 0,
+    "door_id": 14,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10162,
+     10163,
+     10164,
+     10165,
+     10166,
+     10167,
+     10168,
+     10169
+    ],
+    "face_ids": [
+     5975,
+     5976,
+     5977,
+     5978,
+     5979,
+     5980
+    ],
+    "sector_ids": [
+     20,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3348,
+     3369,
+     3369,
+     3348,
+     3348,
+     3369,
+     3369,
+     3348
+    ],
+    "y_offsets": [
+     5857,
+     5857,
+     5980,
+     5980,
+     5980,
+     5980,
+     5857,
+     5857
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3358.72,
+       5867.52,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 14,
+    "legacy_attributes": 0,
+    "door_id": 15,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10170,
+     10171,
+     10172,
+     10173,
+     10174,
+     10175,
+     10176,
+     10177
+    ],
+    "face_ids": [
+     5981,
+     5982,
+     5983,
+     5984,
+     5985,
+     5986
+    ],
+    "sector_ids": [
+     20,
+     15
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3645,
+     3645,
+     3523,
+     3523,
+     3523,
+     3523,
+     3645,
+     3645
+    ],
+    "y_offsets": [
+     5151,
+     5171,
+     5171,
+     5151,
+     5151,
+     5171,
+     5171,
+     5151
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     15,
+     16
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3532.8,
+       5160.96,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 15,
+    "legacy_attributes": 0,
+    "door_id": 16,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10178,
+     10179,
+     10180,
+     10181,
+     10182,
+     10183,
+     10184,
+     10185
+    ],
+    "face_ids": [
+     5987,
+     5988,
+     5989,
+     5990,
+     5991,
+     5992
+    ],
+    "sector_ids": [
+     20,
+     15
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3768,
+     3768,
+     3645,
+     3645,
+     3645,
+     3645,
+     3768,
+     3768
+    ],
+    "y_offsets": [
+     5151,
+     5171,
+     5171,
+     5151,
+     5151,
+     5171,
+     5171,
+     5151
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     15,
+     16
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3758.08,
+       5160.96,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 16,
+    "legacy_attributes": 0,
+    "door_id": 17,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10186,
+     10187,
+     10188,
+     10189,
+     10190,
+     10191,
+     10192,
+     10193
+    ],
+    "face_ids": [
+     5993,
+     5994,
+     5995,
+     5996,
+     5997,
+     5998
+    ],
+    "sector_ids": [
+     15,
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3645,
+     3645,
+     3523,
+     3523,
+     3523,
+     3523,
+     3645,
+     3645
+    ],
+    "y_offsets": [
+     1628,
+     1649,
+     1649,
+     1628,
+     1628,
+     1649,
+     1649,
+     1628
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     17,
+     18
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3532.8,
+       1638.4,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 17,
+    "legacy_attributes": 0,
+    "door_id": 18,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10194,
+     10195,
+     10196,
+     10197,
+     10198,
+     10199,
+     10200,
+     10201
+    ],
+    "face_ids": [
+     5999,
+     6000,
+     6001,
+     6002,
+     6003,
+     6004
+    ],
+    "sector_ids": [
+     15,
+     5
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     3768,
+     3768,
+     3645,
+     3645,
+     3645,
+     3645,
+     3768,
+     3768
+    ],
+    "y_offsets": [
+     1628,
+     1649,
+     1649,
+     1628,
+     1628,
+     1649,
+     1649,
+     1628
+    ],
+    "z_offsets": [
+     901,
+     901,
+     901,
+     901,
+     655,
+     655,
+     655,
+     655
+    ],
+    "ai_open": [
+     17,
+     18
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       3758.08,
+       1638.4,
+       778.24
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 18,
+    "legacy_attributes": 0,
+    "door_id": 19,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10202,
+     10203,
+     10204,
+     10205,
+     10206,
+     10207,
+     10208,
+     10209
+    ],
+    "face_ids": [
+     6005,
+     6006,
+     6007,
+     6008,
+     6009,
+     6010
+    ],
+    "sector_ids": [
+     14,
+     11
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1761,
+     1761,
+     1638,
+     1638,
+     1638,
+     1638,
+     1761,
+     1761
+    ],
+    "y_offsets": [
+     2120,
+     2140,
+     2140,
+     2120,
+     2120,
+     2140,
+     2140,
+     2120
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     19,
+     20
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1648.64,
+       2129.92,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 19,
+    "legacy_attributes": 0,
+    "door_id": 20,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10210,
+     10211,
+     10212,
+     10213,
+     10214,
+     10215,
+     10216,
+     10217
+    ],
+    "face_ids": [
+     6011,
+     6012,
+     6013,
+     6014,
+     6015,
+     6016
+    ],
+    "sector_ids": [
+     14,
+     11
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1884,
+     1884,
+     1761,
+     1761,
+     1761,
+     1761,
+     1884,
+     1884
+    ],
+    "y_offsets": [
+     2120,
+     2140,
+     2140,
+     2120,
+     2120,
+     2140,
+     2140,
+     2120
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     19,
+     20
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1873.92,
+       2129.92,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 20,
+    "legacy_attributes": 0,
+    "door_id": 21,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10218,
+     10219,
+     10220,
+     10221,
+     10222,
+     10223,
+     10224,
+     10225
+    ],
+    "face_ids": [
+     6017,
+     6018,
+     6019,
+     6020,
+     6021,
+     6022
+    ],
+    "sector_ids": [
+     18,
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1638,
+     1638,
+     1516,
+     1516,
+     1516,
+     1516,
+     1638,
+     1638
+    ],
+    "y_offsets": [
+     4669,
+     4690,
+     4690,
+     4669,
+     4669,
+     4690,
+     4690,
+     4669
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     21,
+     22
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1525.76,
+       4669.44,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 21,
+    "legacy_attributes": 0,
+    "door_id": 22,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10226,
+     10227,
+     10228,
+     10229,
+     10230,
+     10231,
+     10232,
+     10233
+    ],
+    "face_ids": [
+     6023,
+     6024,
+     6025,
+     6026,
+     6027,
+     6028
+    ],
+    "sector_ids": [
+     18,
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1761,
+     1761,
+     1638,
+     1638,
+     1638,
+     1638,
+     1761,
+     1761
+    ],
+    "y_offsets": [
+     4669,
+     4690,
+     4690,
+     4669,
+     4669,
+     4690,
+     4690,
+     4669
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     21,
+     22
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1751.04,
+       4669.44,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 22,
+    "legacy_attributes": 0,
+    "door_id": 23,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10234,
+     10235,
+     10236,
+     10237,
+     10238,
+     10239,
+     10240,
+     10241
+    ],
+    "face_ids": [
+     6029,
+     6030,
+     6031,
+     6032,
+     6033,
+     6034
+    ],
+    "sector_ids": [
+     22,
+     18
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1229,
+     1229,
+     1106,
+     1106,
+     1106,
+     1106,
+     1229,
+     1229
+    ],
+    "y_offsets": [
+     6257,
+     6277,
+     6277,
+     6257,
+     6257,
+     6277,
+     6277,
+     6257
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     23,
+     24
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1116.16,
+       6266.88,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 23,
+    "legacy_attributes": 0,
+    "door_id": 24,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10242,
+     10243,
+     10244,
+     10245,
+     10246,
+     10247,
+     10248,
+     10249
+    ],
+    "face_ids": [
+     6035,
+     6036,
+     6037,
+     6038,
+     6039,
+     6040
+    ],
+    "sector_ids": [
+     22,
+     18
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     1352,
+     1352,
+     1229,
+     1229,
+     1229,
+     1229,
+     1352,
+     1352
+    ],
+    "y_offsets": [
+     6257,
+     6277,
+     6277,
+     6257,
+     6257,
+     6277,
+     6277,
+     6257
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     23,
+     24
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       1341.44,
+       6266.88,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 24,
+    "legacy_attributes": 0,
+    "door_id": 25,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10250,
+     10251,
+     10252,
+     10253,
+     10254,
+     10255,
+     10256,
+     10257
+    ],
+    "face_ids": [
+     6041,
+     6042,
+     6043,
+     6044,
+     6045,
+     6046
+    ],
+    "sector_ids": [
+     16,
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -655,
+     -655,
+     -778,
+     -778,
+     -778,
+     -778,
+     -655,
+     -655
+    ],
+    "y_offsets": [
+     4618,
+     4639,
+     4639,
+     4618,
+     4618,
+     4639,
+     4639,
+     4618
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -768.0,
+       4628.48,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 25,
+    "legacy_attributes": 0,
+    "door_id": 26,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 700,
+    "close_speed": 700,
+    "state": 2,
+    "vertex_ids": [
+     10258,
+     10259,
+     10260,
+     10261,
+     10262,
+     10263,
+     10264,
+     10265
+    ],
+    "face_ids": [
+     6047,
+     6048,
+     6049,
+     6050,
+     6051,
+     6052
+    ],
+    "sector_ids": [
+     16,
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -532,
+     -532,
+     -655,
+     -655,
+     -655,
+     -655,
+     -532,
+     -532
+    ],
+    "y_offsets": [
+     4618,
+     4639,
+     4639,
+     4618,
+     4618,
+     4639,
+     4639,
+     4618
+    ],
+    "z_offsets": [
+     287,
+     287,
+     287,
+     287,
+     41,
+     41,
+     41,
+     41
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -542.72,
+       4628.48,
+       163.84
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 7.0
+    },
+    "sounds": {
+     "open_start": "Door/door06open.wav",
+     "close_stop": "Door/trapdoorclose.wav"
+    }
+   },
+   {
+    "door_index": 26,
+    "legacy_attributes": 0,
+    "door_id": 27,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 10,
+    "open_speed": 64,
+    "close_speed": 64,
+    "state": 2,
+    "vertex_ids": [
+     10266,
+     10267,
+     10268,
+     10269,
+     10270,
+     10271,
+     10272,
+     10273
+    ],
+    "face_ids": [
+     6053,
+     6054,
+     6055,
+     6056,
+     6057,
+     6058
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3011,
+     -3011,
+     -2970,
+     -2970,
+     -2970,
+     -2970,
+     -3011,
+     -3011
+    ],
+    "y_offsets": [
+     5811,
+     5811,
+     5811,
+     5811,
+     5826,
+     5826,
+     5826,
+     5826
+    ],
+    "z_offsets": [
+     -364,
+     -399,
+     -399,
+     -364,
+     -399,
+     -364,
+     -399,
+     -364
+    ],
+    "sounds": {
+     "open_start": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 27,
+    "legacy_attributes": 0,
+    "door_id": 28,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 123,
+    "open_speed": 38,
+    "close_speed": 38,
+    "state": 2,
+    "vertex_ids": [
+     10274,
+     10275,
+     10276,
+     10277,
+     10278,
+     10279,
+     10280,
+     10281
+    ],
+    "face_ids": [
+     6059,
+     6060,
+     6061,
+     6062,
+     6063,
+     6064
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3169,
+     -3139,
+     -3139,
+     -3169,
+     -3169,
+     -3139,
+     -3139,
+     -3169
+    ],
+    "y_offsets": [
+     7419,
+     7419,
+     7450,
+     7450,
+     7450,
+     7450,
+     7419,
+     7419
+    ],
+    "z_offsets": [
+     -348,
+     -348,
+     -348,
+     -348,
+     -512,
+     -512,
+     -512,
+     -512
+    ],
+    "sounds": {
+     "open_busy": "Door/stonedoorslide02.wav"
+    }
+   },
+   {
+    "door_index": 28,
+    "legacy_attributes": 0,
+    "door_id": 29,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 10,
+    "open_speed": 64,
+    "close_speed": 64,
+    "state": 2,
+    "vertex_ids": [
+     10282,
+     10283,
+     10284,
+     10285,
+     10286,
+     10287,
+     10288,
+     10289
+    ],
+    "face_ids": [
+     6065,
+     6066,
+     6067,
+     6068,
+     6069,
+     6070
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3011,
+     -3011,
+     -2970,
+     -2970,
+     -2970,
+     -2970,
+     -3011,
+     -3011
+    ],
+    "y_offsets": [
+     5811,
+     5811,
+     5811,
+     5811,
+     5826,
+     5826,
+     5826,
+     5826
+    ],
+    "z_offsets": [
+     -328,
+     -364,
+     -364,
+     -328,
+     -364,
+     -328,
+     -364,
+     -328
+    ],
+    "sounds": {
+     "open_start": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 29,
+    "legacy_attributes": 0,
+    "door_id": 30,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 123,
+    "open_speed": 38,
+    "close_speed": 38,
+    "state": 2,
+    "vertex_ids": [
+     10290,
+     10291,
+     10292,
+     10293,
+     10294,
+     10295,
+     10296,
+     10297
+    ],
+    "face_ids": [
+     6071,
+     6072,
+     6073,
+     6074,
+     6075,
+     6076
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3169,
+     -3139,
+     -3139,
+     -3169,
+     -3169,
+     -3139,
+     -3139,
+     -3169
+    ],
+    "y_offsets": [
+     5842,
+     5842,
+     5873,
+     5873,
+     5873,
+     5873,
+     5842,
+     5842
+    ],
+    "z_offsets": [
+     -348,
+     -348,
+     -348,
+     -348,
+     -512,
+     -512,
+     -512,
+     -512
+    ],
+    "sounds": {
+     "open_busy": "Door/stonedoorslide02.wav"
+    }
+   },
+   {
+    "door_index": 30,
+    "legacy_attributes": 0,
+    "door_id": 31,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 10,
+    "open_speed": 64,
+    "close_speed": 64,
+    "state": 2,
+    "vertex_ids": [
+     10298,
+     10299,
+     10300,
+     10301,
+     10302,
+     10303,
+     10304,
+     10305
+    ],
+    "face_ids": [
+     6077,
+     6078,
+     6079,
+     6080,
+     6081,
+     6082
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3052,
+     -3052,
+     -3011,
+     -3011,
+     -3011,
+     -3011,
+     -3052,
+     -3052
+    ],
+    "y_offsets": [
+     5811,
+     5811,
+     5811,
+     5811,
+     5826,
+     5826,
+     5826,
+     5826
+    ],
+    "z_offsets": [
+     -364,
+     -399,
+     -399,
+     -364,
+     -399,
+     -364,
+     -399,
+     -364
+    ],
+    "sounds": {
+     "open_start": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 31,
+    "legacy_attributes": 0,
+    "door_id": 32,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 123,
+    "open_speed": 38,
+    "close_speed": 38,
+    "state": 2,
+    "vertex_ids": [
+     10306,
+     10307,
+     10308,
+     10309,
+     10310,
+     10311,
+     10312,
+     10313
+    ],
+    "face_ids": [
+     6083,
+     6084,
+     6085,
+     6086,
+     6087,
+     6088
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2883,
+     -2852,
+     -2852,
+     -2883,
+     -2883,
+     -2852,
+     -2852,
+     -2883
+    ],
+    "y_offsets": [
+     7419,
+     7419,
+     7450,
+     7450,
+     7450,
+     7450,
+     7419,
+     7419
+    ],
+    "z_offsets": [
+     -348,
+     -348,
+     -348,
+     -348,
+     -512,
+     -512,
+     -512,
+     -512
+    ],
+    "sounds": {
+     "open_busy": "Door/stonedoorslide02.wav"
+    }
+   },
+   {
+    "door_index": 32,
+    "legacy_attributes": 0,
+    "door_id": 33,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     -65536,
+     0
+    ],
+    "move_length": 10,
+    "open_speed": 64,
+    "close_speed": 64,
+    "state": 2,
+    "vertex_ids": [
+     10314,
+     10315,
+     10316,
+     10317,
+     10318,
+     10319,
+     10320,
+     10321
+    ],
+    "face_ids": [
+     6089,
+     6090,
+     6091,
+     6092,
+     6093,
+     6094
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3052,
+     -3052,
+     -3011,
+     -3011,
+     -3011,
+     -3011,
+     -3052,
+     -3052
+    ],
+    "y_offsets": [
+     5811,
+     5811,
+     5811,
+     5811,
+     5826,
+     5826,
+     5826,
+     5826
+    ],
+    "z_offsets": [
+     -328,
+     -364,
+     -364,
+     -328,
+     -364,
+     -328,
+     -364,
+     -328
+    ],
+    "sounds": {
+     "open_start": "Door/doorlatch02.wav"
+    }
+   },
+   {
+    "door_index": 33,
+    "legacy_attributes": 0,
+    "door_id": 34,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     -65536
+    ],
+    "move_length": 123,
+    "open_speed": 38,
+    "close_speed": 38,
+    "state": 2,
+    "vertex_ids": [
+     10322,
+     10323,
+     10324,
+     10325,
+     10326,
+     10327,
+     10328,
+     10329
+    ],
+    "face_ids": [
+     6095,
+     6096,
+     6097,
+     6098,
+     6099,
+     6100
+    ],
+    "sector_ids": [
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -2883,
+     -2852,
+     -2852,
+     -2883,
+     -2883,
+     -2852,
+     -2852,
+     -2883
+    ],
+    "y_offsets": [
+     5842,
+     5842,
+     5873,
+     5873,
+     5873,
+     5873,
+     5842,
+     5842
+    ],
+    "z_offsets": [
+     -348,
+     -348,
+     -348,
+     -348,
+     -512,
+     -512,
+     -512,
+     -512
+    ],
+    "sounds": {
+     "open_busy": "Door/stonedoorslide02.wav"
+    }
+   },
+   {
+    "door_index": 34,
+    "legacy_attributes": 0,
+    "door_id": 35,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     65274,
+     5858,
+     0
+    ],
+    "move_length": 200,
+    "open_speed": 128,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     10330,
+     10331,
+     10332,
+     10333,
+     10334,
+     10335,
+     10336,
+     10337
+    ],
+    "face_ids": [
+     6101,
+     6102,
+     6103,
+     6104,
+     6105,
+     6106
+    ],
+    "sector_ids": [
+     17
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -3312,
+     -3107,
+     -3107,
+     -3312,
+     -3312,
+     -3107,
+     -3107,
+     -3312
+    ],
+    "y_offsets": [
+     5450,
+     5450,
+     5471,
+     5471,
+     5471,
+     5471,
+     5450,
+     5450
+    ],
+    "z_offsets": [
+     -246,
+     -246,
+     -246,
+     -246,
+     -522,
+     -522,
+     -522,
+     -522
+    ],
+    "sounds": {
+     "open_busy": "Events/boulderroll.wav",
+     "close_busy": "Events/boulderroll.wav",
+     "close_stop": "Door/doorslammetal01.wav"
+    }
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    -3011,
+    7670,
+    -521
+   ],
+   "direction_degrees": 270
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:templeofhonk:object:58",
+   "source_object_index": 58,
+   "source_class": "TreasureChest",
+   "source_name": "CollectionChest",
+   "source_model": "models\\Props\\Chest3.ABC",
+   "source_skin": "Skins\\Props\\Chest3.dtx",
+   "source_position_lt": [
+    192.0,
+    56.0,
+    1464.0
+   ],
+   "position": {
+    "x": 492,
+    "y": 3748,
+    "z": 143
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 20,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:templeofhonk:object:552",
+   "source_object_index": 552,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest3",
+   "source_model": "models\\Props\\Chest1.abc",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    -1056.0,
+    -176.0,
+    2064.0
+   ],
+   "position": {
+    "x": -2703,
+    "y": 5284,
+    "z": -451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 20,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:templeofhonk:object:553",
+   "source_object_index": 553,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest2",
+   "source_model": "models\\Props\\Chest1.abc",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    -1296.0,
+    -176.0,
+    2064.0
+   ],
+   "position": {
+    "x": -3318,
+    "y": 5284,
+    "z": -451
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 2,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 20,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:templeofhonk:object:554",
+   "source_object_index": 554,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest1.abc",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    304.0,
+    -96.0,
+    480.0
+   ],
+   "position": {
+    "x": 778,
+    "y": 1229,
+    "z": -246
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 3,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 20,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  },
+  {
+   "source_id": "mm9:templeofhonk:object:555",
+   "source_object_index": 555,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest1.abc",
+   "source_skin": "Skins\\Props\\Chest2.dtx",
+   "source_position_lt": [
+    288.0,
+    32.0,
+    2736.0
+   ],
+   "position": {
+    "x": 737,
+    "y": 7004,
+    "z": 82
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 4,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 6,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 20,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 3
+  }
+ ],
+ "static_lights": {
+  "sides": "front"
+ },
+ "translucent_faces": [
+  {
+   "faces": [
+    5214,
+    5215,
+    5216,
+    5217,
+    5218,
+    5219,
+    5220,
+    5221
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": false
+  },
+  {
+   "faces": [
+    5896
+   ],
+   "opacity": 0.5,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ],
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       -3153.9,
+       7475.2
+      ],
+      [
+       -2867.2,
+       7475.2
+      ],
+      [
+       -2867.2,
+       5816.3
+      ],
+      [
+       -3153.9,
+       5816.3
+      ]
+     ],
+     "bottom": -573.4,
+     "top": -517.1
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  }
+ ],
+ "world_items": [
+  {
+   "source_id": "templeofhonk:key0",
+   "source_object_index": 61,
+   "source_name": "key0",
+   "position": {
+    "x": 819,
+    "y": 6758,
+    "z": 141
+   },
+   "item_id": 10445,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [
+    97000
+   ],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 75
+  },
+  {
+   "source_id": "templeofhonk:Honk",
+   "source_object_index": 453,
+   "source_name": "Honk",
+   "position": {
+    "x": 5691,
+    "y": 3400,
+    "z": 573
+   },
+   "item_id": 10369,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [
+    90344,
+    90345
+   ],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 76
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 592,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    -3011,
+    7291,
+    -512
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 593,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    -3011,
+    6902,
+    -512
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 594,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    -3011,
+    6554,
+    -512
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 595,
+   "sound": "ambient/water/waterlap02.wav",
+   "position": [
+    -3011,
+    6246,
+    -512
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1024,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 84,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4833,
+    5079,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 87,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2683,
+    5775,
+    111
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 90,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -5816,
+    3604,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 93,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -5816,
+    1229,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 96,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4669,
+    1720,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 99,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2703,
+    778,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 102,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3523,
+    1597,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 105,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4746,
+    -169,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 108,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1352,
+    -184,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 111,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1761,
+    686,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 114,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2386,
+    696,
+    737
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 117,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3185,
+    1587,
+    737
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 120,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    492,
+    6472,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 123,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1311,
+    7209,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 126,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1618,
+    6108,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 129,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2381,
+    6103,
+    737
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 132,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3195,
+    5197,
+    737
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 135,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3077,
+    4915,
+    732
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 138,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3077,
+    1884,
+    732
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 141,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    5647,
+    1879,
+    732
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 144,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    5642,
+    4905,
+    732
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 147,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -579,
+    5079,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 150,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    246,
+    4424,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 153,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1551,
+    4424,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 156,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    241,
+    2376,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 159,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    742,
+    4424,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 162,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2565,
+    4419,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 165,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    742,
+    2376,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 168,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2580,
+    2376,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 171,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4004,
+    246,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 174,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1894,
+    246,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 177,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1894,
+    -737,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 180,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4009,
+    -737,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 183,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2381,
+    3604,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 187,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    771,
+    1761,
+    -246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 190,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -36,
+    614,
+    -246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 192,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1444,
+    1884,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 195,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2079,
+    1884,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 198,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2378,
+    2373,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 201,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1556,
+    2376,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 204,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -655,
+    1925,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 207,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1966,
+    1884,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 210,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -1234,
+    696,
+    123
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 213,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3338,
+    5775,
+    111
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 216,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3343,
+    7818,
+    -445
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 219,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2678,
+    7818,
+    -445
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 222,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3011,
+    5652,
+    -118
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 225,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    4444,
+    3809,
+    942
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 229,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    4444,
+    2990,
+    942
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 232,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -4577,
+    3336,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 235,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -617,
+    -433,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 238,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3789,
+    4805,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 241,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -468,
+    1004,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 244,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3505,
+    1178,
+    901
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 247,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    3505,
+    5635,
+    901
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 250,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -2294,
+    4805,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 253,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -3873,
+    2985,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 256,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    2112,
+    4977,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 259,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    1124,
+    4959,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 263,
+   "sound": "ambient/torchlight.wav",
+   "position": [
+    -5302,
+    2540,
+    246
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": -3448,
+    "y": 4872,
+    "z": 44
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -1528,
+    "y": 1032,
+    "z": 44
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": 2568,
+    "y": 5256,
+    "z": 655
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -3320,
+    "y": 1544,
+    "z": 41
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": -3192,
+    "y": 5256,
+    "z": -522
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  }
+ ]
+}

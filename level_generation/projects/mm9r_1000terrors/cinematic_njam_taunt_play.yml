@@ -1,0 +1,28 @@
+# njam_taunt (TauntMan.scr :OnStart, Trigger19 with key 108 and without 497; cinematics_1000t.py) played through: key
+# 497 at 0, Door0 open at 1 s and shut on Njam's arrival (5.8 s), his vanishing (14.8 s), the end at 18.8 s.
+id: mm9r.1000terrors.cinematic_njam_taunt_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: 1000terrors.blv}
+- set_pose: {map: 1000terrors.blv, x: 8929, y: -9150, z: 2776, yaw: -1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90108}
+- console: {line: cinematic list, expect_contains: njam_taunt}
+- note: {text: "Trigger19's Start message runs TauntMan (event 379)"}
+- execute_event: {id: 379}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing njam_taunt}
+- assert: {qbit_set: [90497]}
+- assert: {state_dump_named_map_var: {name: OpenDoor0, value: 0}}
+- advance_runtime: {seconds: 1.0}
+- note: {text: ":FadeIn (1 s): Door0 opens"}
+- assert: {state_dump_named_map_var: {name: OpenDoor0, value: 1}}
+- advance_runtime: {seconds: 4.8}
+- note: {text: ":OnCloseUp (5.8 s): Door0 shuts"}
+- assert: {state_dump_named_map_var: {name: OpenDoor0, value: 0}}
+- assert: {state_dump_named_map_var: {name: Cinema.njam_taunt.step.vanish, value: 0}}
+- advance_runtime: {seconds: 9}
+- assert: {state_dump_named_map_var: {name: Cinema.njam_taunt.step.vanish, value: 1}}
+- console: {line: cinematic list, expect_contains: playing njam_taunt}
+- advance_runtime: {seconds: 4.5}
+- assert: {qbit_set: [90497]}

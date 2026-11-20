@@ -1,0 +1,35 @@
+id: rulesets.potion_slot_keys
+title: "Quick items - a slot's key drinks a bottle of its kind; the Potions and Scrolls keys open the basebar popups"
+world: mm6
+mode: faithful
+tags: [rulesets, potions]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - grant_item: {item_id: 222, power: 10, member_index: 0}
+  - grant_item: {item_id: 222, power: 40, member_index: 0}
+  # The new party carries one already.
+  - assert:
+      inventory_any_member: [{item_id: 222, count: 3}]
+  # An empty slot uses nothing.
+  - press_action: {action: quick_item_2}
+  - assert:
+      inventory_any_member: [{item_id: 222, count: 3}]
+  - setup_shortcut: {kind: set_quick_item, member_index: 0, slot: 0, item_id: 222}
+  - press_action: {action: quick_item_1}
+  - assert:
+      inventory_any_member: [{item_id: 222, count: 2}]
+  # With the quick item rings off (the default), the Potions key opens the basebar's potion popup for the active
+  # member and the Scrolls key switches to the scroll popup; each key closes its own (game/ui/GameplayQuickItems.cpp).
+  - assert:
+      quick_item_popup: {kind: none}
+  - press_action: {action: quick_item_wheel}
+  - assert:
+      quick_item_popup: {kind: potions, member_index: 0}
+      quick_item_ring: {open: false}
+  - press_action: {action: scroll_popup}
+  - assert:
+      quick_item_popup: {kind: scrolls, member_index: 0}
+  - press_action: {action: scroll_popup}
+  - assert:
+      quick_item_popup: {kind: none}

@@ -1,0 +1,155 @@
+{
+ "sprite": "tree59",
+ "note": "10 placements (Ravenshore). Weeping willow: trunk forking at 30 % into arching limbs, curtains of hanging narrow-leaved strands down to a tenth of the height.",
+ "sapling": {
+  "scale": 9.6,
+  "ratio": 0.045,
+  "baseSize": 0.3,
+  "branches": [
+   0,
+   22,
+   10,
+   6
+  ],
+  "length": [
+   1.0,
+   0.6,
+   0.35,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   40,
+   40,
+   45
+  ],
+  "downAngleV": [
+   0,
+   15,
+   10,
+   10
+  ],
+  "attractUp": [
+   0,
+   0.25,
+   0.3,
+   0
+  ],
+  "curve": [
+   0,
+   30,
+   0,
+   0
+  ],
+  "shape": "2",
+  "seed": 59,
+  "segSplits": [
+   0.05,
+   0.2,
+   0.25,
+   0
+  ],
+  "splitAngle": [
+   20,
+   15,
+   15,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.45,
+  "centre": 0.72,
+  "clumps": 55,
+  "inner_clumps": 4,
+  "underside": 0.65,
+  "low_keep": 1.0,
+  "shell_radial": 0.6,
+  "moss": {
+   "strands": 480,
+   "length": [
+    1.3,
+    5.0
+   ],
+   "width": 0.56,
+   "seed": 591,
+   "anywhere": true,
+   "keep": [
+    1.0,
+    0.36,
+    0.15
+   ],
+   "grow": [
+    1.0,
+    1.5,
+    2.4
+   ],
+   "value": [
+    0.35,
+    1.15
+   ],
+   "depth": [
+    0.35,
+    1.5
+   ]
+  },
+  "gen_cards": 881,
+  "keep": 0.368
+ },
+ "lod": {
+  "triangles": [
+   3400,
+   1350,
+   520
+  ],
+  "tone": [
+   1.0,
+   1.018,
+   1.369
+  ],
+  "lod2_card_scale": 0.864,
+  "grow": [
+   1.0,
+   1.3,
+   1.6
+  ],
+  "card_frac": [
+   1.0,
+   0.9,
+   1.0
+  ],
+  "lod2_vertical": 2,
+  "lod2_capacity": 0.85
+ },
+ "occlusion": {
+  "floor": 0.1,
+  "range": 0.9,
+  "power": 1.1,
+  "hue": [
+   1.35,
+   1.0,
+   0.95
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   190,
+   204,
+   82
+  ],
+  "lift": {
+   "highlight": [
+    1.08,
+    1.06,
+    0.95
+   ]
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   128,
+   112,
+   90
+  ]
+ },
+ "impostor_dilate": 1
+}

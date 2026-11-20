@@ -1,0 +1,171 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjorgardcity_doors_exits
+title: Thjorgard City (native BLV) - the general store's double door, a locked facade door, the exits
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjorgardcity.blv
+- note:
+    text: 'StoredoorL/R (door 125, event 138): shut, stops the party, opens on its click; the party walks into the general
+      store.'
+- assert:
+    mechanism:
+      id: 125
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjorgardcity.blv
+      x: 1966
+      y: 9455
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: thjorgardcity.blv
+      x: 1966
+      y: 9195
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 40
+- execute_event:
+    id: 138
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 125
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjorgardcity.blv
+      x: 1966
+      y: 9455
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: thjorgardcity.blv
+      x: 1966
+      y: 8855
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'Door12 (a facade door, Locked, MoveDist 0): a click says it is locked; it stays shut.'
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 16
+      state: closed
+- note:
+    text: Thjorgarddocks (DAT object 690) to thjorgard.odm.
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjorgardcity.blv
+      x: 655
+      y: -419
+      z: -19
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: thjorgardcity.blv
+      x: 655
+      y: -1019
+      z: -19
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 690
+- load_map:
+    map: thjorgardcity.blv
+- note:
+    text: Arenaexit (DAT object 685) to thearena.blv.
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjorgardcity.blv
+      x: 9512
+      y: 11141
+      z: -19
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: thjorgardcity.blv
+      x: 10112
+      y: 11141
+      z: -19
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 685
+- load_map:
+    map: thjorgardcity.blv
+- note:
+    text: Thjorgardcityexit (DAT object 689) to thjorgard.odm.
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjorgardcity.blv
+      x: -8284
+      y: 2949
+      z: -19
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: thjorgardcity.blv
+      x: -8884
+      y: 2949
+      z: -19
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 689
+- load_map:
+    map: thjorgardcity.blv

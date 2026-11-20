@@ -1,0 +1,830 @@
+{
+ "id": "20261009-1649-mm7-7d26-02",
+ "world": "mm7",
+ "maps": [
+  "7d26.blv"
+ ],
+ "created": "2026-10-09T14:49:59+00:00",
+ "textures": [
+  "mm7/hnp3w",
+  "mm7/hnrerw",
+  "mm7/hnm1ab",
+  "mm7/hnrelw",
+  "mm7/hnp3re",
+  "mm7/twb1a",
+  "mm7/hnrb",
+  "mm7/hnp1b",
+  "mm7/cnb1s",
+  "mm7/hnp2b",
+  "mm7/hnm1abw",
+  "mm7/cnb1ser",
+  "mm7/hnp1er",
+  "mm7/hnrbs",
+  "mm7/hnm1aelw",
+  "mm7/cnb1el",
+  "mm7/cnb1er",
+  "mm7/hnp1el",
+  "mm7/hnm1aerw",
+  "mm7/hnm1b",
+  "mm7/hnp2erw",
+  "mm7/hnm1ael",
+  "mm7/hnp1erw",
+  "mm7/hnp1elw"
+ ],
+ "requests": {
+  "mm7/hnp3w": {
+   "name": "hnp3w",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, with a jagged broken hole into black darkness in the upper stonework; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3wle",
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.978
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3wle",
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.978
+    }
+   }
+  },
+  "mm7/hnrerw": {
+   "name": "hnrerw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom, with a carved wooden pilaster on the right edge and a small arched double window with a dark wooden frame and a steep pointed hood in the upper centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrer"
+     ],
+     "fraction": 0.742
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrer"
+     ],
+     "fraction": 0.742
+    }
+   }
+  },
+  "mm7/hnm1ab": {
+   "name": "hnm1ab",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "deep maroon-red rough stucco wall with a carved dark-red bat-wing crest and small emblem at the top centre and a band of carved runes along the bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hnrelw": {
+   "name": "hnrelw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom, with a carved wooden pilaster on the left edge and a small arched double window with a dark wooden frame and a steep pointed hood in the upper centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrel",
+      "mm7/hnrerw"
+     ],
+     "fraction": 0.965
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrel",
+      "mm7/hnrerw"
+     ],
+     "fraction": 0.965
+    }
+   }
+  },
+  "mm7/hnp3re": {
+   "name": "hnp3re",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, with a dark vertical wooden post on the right edge",
+   "notes": {
+    "2": "no dark rim or shadow along the left edge: the stonework continues at full brightness right up to the left edge",
+    "3": "no dark rim along the left or right edge: the wooden post and stonework keep full brightness right up to both outer edges",
+    "4": "no dark rim along the left or right edge: the wooden post and stonework keep full brightness right up to both outer edges",
+    "5": "the leftmost pixel columns are rubble stone and mortar at full brightness exactly like just inside (no dark vertical line), and the timber post on the right runs straight off the right edge with the same wood colour on its last column (no dark outline)"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    }
+   }
+  },
+  "mm7/twb1a": {
+   "name": "twb1a",
+   "versions": [
+    1
+   ],
+   "material": "pale tan sandy plaster wall with a few thin dark hairline cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hnrb": {
+   "name": "hnrb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom",
+   "notes": {
+    "3": "the cornice band along the top sits at exactly the reference height and has the same tone and carving as the cornice of the neighbouring pieces shown in the side borders; plain cornice, no brick-like patches"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrer",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.909
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrer",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.909
+    },
+    "3": {
+     "sources": [
+      "mm7/hnrer",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.909
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hnrelw",
+     "right": "mm7/hnrerw",
+     "top": "mm7/hnrel"
+    }
+   }
+  },
+  "mm7/hnp1b": {
+   "name": "hnp1b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/cnb1s": {
+   "name": "cnb1s",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints",
+   "notes": {
+    "2": "no dark rim at the top or bottom edge: the pale stone band reaches the very top edge and the blocks run to the bottom edge at full brightness",
+    "3": "no dark rim at the top or bottom edge: the pale band reaches the very top edge and the stone blocks run to the bottom edge at full brightness, no dark joint line along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.8
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.8
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.8
+    }
+   }
+  },
+  "mm7/hnp2b": {
+   "name": "hnp2b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top",
+   "notes": {
+    "2": "the bottom edge keeps the reference brightness right down to the last pixel row: no dark band, shadow or line along the bottom"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/hnm1abw": {
+   "name": "hnm1abw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "deep maroon-red rough stucco wall with a carved dark-red bat-wing crest and small emblem at the top centre and a band of carved runes along the bottom, with a narrow pointed gothic window with green glass and an iron cross mullion, surrounded by carved angular ornament, with a carved glyph panel beneath it; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1ab"
+     ],
+     "fraction": 0.682
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1ab"
+     ],
+     "fraction": 0.682
+    }
+   }
+  },
+  "mm7/cnb1ser": {
+   "name": "cnb1ser",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with a column of large tan sandstone corner blocks along the right edge",
+   "notes": {
+    "2": "the tan corner blocks continue past the right edge into the margin with no dark border line or shadow at the right side",
+    "3": "no dark border line on any edge: the pale top band reaches the very top edge and the tan corner blocks reach the right edge at full brightness"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.449
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.449
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.449
+    }
+   }
+  },
+  "mm7/hnp1er": {
+   "name": "hnp1er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, with a column of dark rough rubble stone along the right edge",
+   "notes": {
+    "2": "the sharp plaster areas are final: paint the new plaster in exactly their tone and texture so no lighter or darker square patches appear",
+    "3": "the sharp plaster areas are final and fixed: the new plaster must have the same even pale cream tone and the same soft mottling, with no brighter white or darker grey blotches, so the sharp and new areas are indistinguishable"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    }
+   }
+  },
+  "mm7/hnrbs": {
+   "name": "hnrbs",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom, with a carved wooden shield bearing a horned demon head at the top centre; copy the composition exactly",
+   "notes": {
+    "3": "the cornice band along the top sits at exactly the reference height and has the same tone and carving as the cornice of the neighbouring pieces shown in the side borders; plain cornice, no brick-like patches"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrer",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.789
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrer",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.789
+    },
+    "3": {
+     "sources": [
+      "mm7/hnrb",
+      "mm7/hnrer",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.79
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "bottom": "mm7/hnrb",
+     "right": "mm7/hnrer",
+     "left": "mm7/hnrel"
+    }
+   }
+  },
+  "mm7/hnm1aelw": {
+   "name": "hnm1aelw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "deep maroon-red rough stucco wall with a carved dark-red bat-wing crest and small emblem at the top centre and a band of carved runes along the bottom, with a thin dark post on the left edge and a narrow pointed gothic window with green glass and an iron cross mullion, surrounded by carved angular ornament, with a carved glyph panel beneath it; copy the composition exactly",
+   "notes": {
+    "2": "no dark rim along the left edge: the thin post keeps full brightness right up to the left edge",
+    "3": "no dark rim along the left edge: the thin post keeps full brightness right up to the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1abw",
+      "mm7/hnm1ab"
+     ],
+     "fraction": 0.625
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1abw",
+      "mm7/hnm1ab"
+     ],
+     "fraction": 0.625
+    },
+    "3": {
+     "sources": [
+      "mm7/hnm1abw",
+      "mm7/hnm1ab"
+     ],
+     "fraction": 0.625
+    }
+   }
+  },
+  "mm7/cnb1el": {
+   "name": "cnb1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with a column of large tan sandstone corner blocks along the left edge",
+   "notes": {
+    "2": "no dark rim along the right edge: blocks run to the right edge at full brightness; continue the sharp areas so no block is split into two tones",
+    "3": "the sharp areas are final: match their exact grey tone so no block shows two different tones; no dark rim on the right edge",
+    "4": "the sharp areas are final: match their exact grey tone so no block shows two different tones; no dark rim on the right edge",
+    "5": "the tan sandstone corner blocks reach the very left edge at full brightness: no dark mortar line, gap or shadow along the left edge; the sharp grey areas are final, match their exact tone",
+    "6": "the wall repeats sideways: the dark mortar joint between the grey blocks and the sandstone corner blocks sits only at the right edge; the sandstone blocks begin in the very first pixel column at the left edge with no dark line, gap or shadow before them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.56
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.56
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.56
+    },
+    "4": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.56
+    },
+    "5": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.56
+    },
+    "6": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.56
+    }
+   }
+  },
+  "mm7/cnb1er": {
+   "name": "cnb1er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with a column of large tan sandstone corner blocks along the right edge",
+   "notes": {
+    "2": "the tan corner blocks continue past the right edge into the margin at full brightness, no dark joint line or shadow along the right edge; match the sharp areas' grey tone so no block shows two tones",
+    "3": "paint the stone wall extending well beyond the right edge: the column of tan blocks at the right is cut through by the edge, with no mortar line, frame or shadow at the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.561
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.561
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.561
+    }
+   }
+  },
+  "mm7/hnp1el": {
+   "name": "hnp1el",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, with a column of dark rough rubble stone along the left edge",
+   "notes": {
+    "2": "the sharp plaster areas are final: paint the new plaster in exactly their tone and texture so no lighter or darker square patches appear",
+    "3": "the sharp plaster areas are final and fixed: the new plaster must have the same even pale cream tone and the same soft mottling, with no brighter white or darker grey blotches, so the sharp and new areas are indistinguishable"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.611
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.611
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.611
+    }
+   }
+  },
+  "mm7/hnm1aerw": {
+   "name": "hnm1aerw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "deep maroon-red rough stucco wall with a carved dark-red bat-wing crest and small emblem at the top centre and a band of carved runes along the bottom, with a thin dark post on the right edge and a narrow pointed gothic window with green glass and an iron cross mullion, surrounded by carved angular ornament, with a carved glyph panel beneath it; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1ab",
+      "mm7/hnm1abw"
+     ],
+     "fraction": 0.615
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1ab",
+      "mm7/hnm1abw"
+     ],
+     "fraction": 0.615
+    }
+   }
+  },
+  "mm7/hnm1b": {
+   "name": "hnm1b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/hnp2erw": {
+   "name": "hnp2erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a dark wooden post on the right edge and a carved horned demon head with red eyes above a tattered brown cloth hanging over a small window with a wooden sill; copy the composition exactly",
+   "notes": {
+    "3": "keep every element at exactly the native's height and width: the beam with its row of claws at the top, the horned demon mask and its tattered cloth, the small window and its sill directly below, and the timber post at the right edge; the post runs straight off the right edge with no dark line on the outermost column",
+    "4": "this is a cut from a continuous wall: the timber post at the right and the planks at the bottom continue beyond the edges; the outermost pixel column on the right is post wood and the bottom pixel rows are plank wood, both at the same brightness as just inside; no black outline on any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.201
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.201
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.201
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.201
+    }
+   }
+  },
+  "mm7/hnm1ael": {
+   "name": "hnm1ael",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "deep maroon-red rough stucco wall with a carved dark-red bat-wing crest and small emblem at the top centre and a band of carved runes along the bottom, with faint carved angular glyph lines on the panel and a thin dark post on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1ab",
+      "mm7/hnm1aelw"
+     ],
+     "fraction": 0.845
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1ab",
+      "mm7/hnm1aelw"
+     ],
+     "fraction": 0.845
+    }
+   }
+  },
+  "mm7/hnp1erw": {
+   "name": "hnp1erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, with a column of dark rough rubble stone along the right edge and a closed wooden shutter window with a diamond cutout in a dark timber frame in the upper part; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.309
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.309
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.309
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp1er",
+      "mm7/hnp1el"
+     ],
+     "fraction": 0.542
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {
+     "left": "mm7/hnp1el"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hnp1elw": {
+   "name": "hnp1elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, with a column of dark rough rubble stone along the left edge and a closed wooden shutter window with a diamond cutout in a dark timber frame in the upper part; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b",
+      "mm7/hnp1erw"
+     ],
+     "fraction": 0.609
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b",
+      "mm7/hnp1erw"
+     ],
+     "fraction": 0.609
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp1el",
+      "mm7/hnp1erw"
+     ],
+     "fraction": 0.845
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp1el",
+      "mm7/hnp1erw"
+     ],
+     "fraction": 0.845
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {
+     "right": "mm7/hnp1er"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  }
+ }
+}

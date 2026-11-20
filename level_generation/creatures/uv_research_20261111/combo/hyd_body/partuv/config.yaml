@@ -1,0 +1,17 @@
+num_cuda_streams: 10
+pipeline:
+  checkNon2Manifold: true
+  checkSelfIntersection: false
+  component_maxDepth: 10
+  num_cuda_streams: 10
+  num_omp_threads: 8
+  parallelDepth: 10
+  threshold: 1.25
+save_stuff: false
+unwrap:
+  abf_iters: 5
+  agg_parts: 10
+  method: abf
+  pamo: true
+  usePamoFaceThreshold: 1000
+verbose: false

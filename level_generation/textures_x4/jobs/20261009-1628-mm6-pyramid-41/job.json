@@ -1,0 +1,611 @@
+{
+ "id": "20261009-1628-mm6-pyramid-41",
+ "world": "mm6",
+ "maps": [
+  "pyramid.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/egyswbof",
+  "mm6/egyswbon",
+  "mm6/egytrma",
+  "mm6/egytrmas",
+  "mm6/egytrmb",
+  "mm6/egytrmbs",
+  "mm6/egytrmcs",
+  "mm6/egytrmd",
+  "mm6/egytrmds",
+  "mm6/egywalh",
+  "mm6/egywlc",
+  "mm6/egywle",
+  "mm6/egywles",
+  "mm6/egywlf",
+  "mm6/egywlgvs",
+  "mm6/egywlh",
+  "mm6/egywlj",
+  "mm6/egywlspa",
+  "mm6/egywlspb",
+  "mm6/egywlspc",
+  "mm6/orflrd64",
+  "mm6/swall1",
+  "mm6/swall2",
+  "mm6/swall3"
+ ],
+ "requests": {
+  "mm6/egyswbof": {
+   "name": "egyswbof",
+   "versions": [
+    1
+   ],
+   "material": "small square sandstone switch tile painted with an Egyptian Eye of Horus in yellow with a red iris and black outline, unlit; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyswbon": {
+   "name": "egyswbon",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small square pale sandstone switch tile painted with an Egyptian Eye of Horus in pale blue with a green iris and black outline, lit; copy the composition exactly",
+   "notes": {
+    "3": "No dark outline or hairline along the top edge; the sandstone continues to the border at even brightness."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     21
+    ],
+    "3": [
+     0,
+     21
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/egytrma": {
+   "name": "egytrma",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "Egyptian gilded trim of a row of gold lotus-bud balusters with black openings between them, speckled gold leaf",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     39
+    ]
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/egytrmas": {
+   "name": "egytrmas",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "Egyptian gilded trim of a row of gold lotus-bud balusters with black openings between them, speckled gold leaf",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "2": [
+     15,
+     0
+    ]
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/egytrmb": {
+   "name": "egytrmb",
+   "versions": [
+    1
+   ],
+   "material": "plain Egyptian painted trim strip of horizontal bands in dark red-brown, ochre and tan",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egytrmbs": {
+   "name": "egytrmbs",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain Egyptian painted trim strip of horizontal bands in dark red-brown, ochre and tan",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     12
+    ]
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/egytrmcs": {
+   "name": "egytrmcs",
+   "versions": [
+    1
+   ],
+   "material": "small gold sandstone tile with carved black Egyptian hieroglyphs of birds and symbols; copy every glyph shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egytrmd": {
+   "name": "egytrmd",
+   "versions": [
+    1
+   ],
+   "material": "Egyptian painted frieze of teal-blue lotus flowers on slender pale columns against an off-white plaster background, a tan band at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egytrmds": {
+   "name": "egytrmds",
+   "versions": [
+    1
+   ],
+   "material": "Egyptian painted frieze of a single teal-blue lotus flower on a slender pale column against an off-white plaster background",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywalh": {
+   "name": "egywalh",
+   "versions": [
+    1
+   ],
+   "material": "pale tan sandstone wall with soft wavy strata and faint cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlc": {
+   "name": "egywlc",
+   "versions": [
+    1
+   ],
+   "material": "golden-yellow fine-grained speckled sandstone wall",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywle": {
+   "name": "egywle",
+   "versions": [
+    1
+   ],
+   "material": "burnt-orange sandstone wall with shallow carved Egyptian hieroglyph reliefs in a repeating grid",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywles": {
+   "name": "egywles",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "burnt-orange sandstone wall with shallow carved Egyptian hieroglyph reliefs in a repeating grid",
+   "notes": {
+    "2": "Copy the composition exactly: same hieroglyph shapes and positions as in the reference; no frame border, no added eye or ankh.",
+    "3": "Copy the composition exactly; the hieroglyph reliefs continue across the left and right edges, no vertical groove or line at the edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "3": [
+     28,
+     0
+    ]
+   }
+  },
+  "mm6/egywlf": {
+   "name": "egywlf",
+   "versions": [
+    1
+   ],
+   "material": "gold-ochre sandstone wall densely carved with columns of raised Egyptian hieroglyphs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlgvs": {
+   "name": "egywlgvs",
+   "versions": [
+    1
+   ],
+   "material": "golden tan coarse sand and fine gravel surface",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlh": {
+   "name": "egywlh",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth pale tan sandstone wall with a carved band of small Egyptian hieroglyphs along the top and bottom edges; copy every glyph shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/egywlhle",
+     "right": "mm6/egywlhre"
+    }
+   }
+  },
+  "mm6/egywlj": {
+   "name": "egywlj",
+   "versions": [
+    1
+   ],
+   "material": "pale tan sandstone wall with soft wavy strata and faint cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlspa": {
+   "name": "egywlspa",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "tan sandstone block wall with a recessed relief of two grey stone ibis-headed Egyptian gods holding staffs, striding left; copy the composition exactly",
+   "notes": {
+    "3": "No dark outline or hairline along the top or bottom edge; the sandstone blocks continue to the border.",
+    "5": "The sandstone blocks continue to the bottom border: no dark or pale hairline along the bottom edge.",
+    "6": "The dark mortar joint along the top and bottom borders keeps the same thickness and colour as the interior horizontal joints and runs right to the border: no extra pale or dark hairline on the top or bottom edge.",
+    "7": "Top and bottom edges: the sandstone blocks run to the canvas border with no mortar groove, dark line or shadow along the top or bottom edge, as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     175
+    ],
+    "3": [
+     0,
+     175
+    ],
+    "4": [
+     0,
+     175
+    ],
+    "5": [
+     0,
+     175
+    ],
+    "6": [
+     0,
+     175
+    ],
+    "7": [
+     0,
+     175
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   }
+  },
+  "mm6/egywlspb": {
+   "name": "egywlspb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "tan sandstone block wall with a dark arched niche between two carved papyrus columns, holding three green-grey stone statues of Egyptian deities with headdresses; copy the composition exactly",
+   "notes": {
+    "3": "No dark outline or hairline along the top or bottom edge; the sandstone blocks continue to the border. All figures fully clothed."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     187
+    ],
+    "3": [
+     0,
+     187
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/egywlspc": {
+   "name": "egywlspc",
+   "versions": [
+    1
+   ],
+   "material": "painted Egyptian tomb mural on off-white plaster: a winged sun disk above, a red-skinned figure offering before a seated pharaoh on a throne, columns of coloured hieroglyphs, inside a striped painted border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/orflrd64": {
+   "name": "orflrd64",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark red-brown and black mottled granite floor",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     33,
+     20
+    ]
+   }
+  },
+  "mm6/swall1": {
+   "name": "swall1",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-green oxidised metal wall panel with a raised bevelled rectangular frame and a recessed inner panel, rust-brown flecks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swall2": {
+   "name": "swall2",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-green oxidised metal wall panel with a raised bevelled frame, diagonal struts meeting a central diamond boss, rust-brown flecks; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swall3": {
+   "name": "swall3",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-green oxidised metal wall panel with a raised frame enclosing a grille of vertical bars and horizontal rails, rust-brown flecks; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

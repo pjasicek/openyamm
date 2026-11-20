@@ -35,6 +35,16 @@ public:
         std::string effect;
     };
 
+    // A map's own cell of the faction relation table (hostile.txt), as MMMerge's map scripts patch Game.HostileTxt
+    // after LocalHostileTxt(): how faction `faction` treats faction `otherFaction` (0 is the party) on this map.
+    // Factions are the table's numbers: monster id m belongs to faction (m - 1) / 3 + 1.
+    struct FactionRelation
+    {
+        uint32_t faction = 0;
+        uint32_t otherFaction = 0;
+        int relation = 0;
+    };
+
     static std::optional<ScriptedEventProgram> loadFromLuaText(
         const std::string &luaSourceText,
         const std::string &luaSourceName,
@@ -54,17 +64,20 @@ public:
     const std::vector<std::string> &textureNames() const;
     const std::vector<std::string> &spriteNames() const;
     const std::vector<uint32_t> &castSpellIds() const;
+    const std::vector<FactionRelation> &factionRelations() const;
     const std::vector<TimerTrigger> &timerTriggers() const;
     bool hasEvent(uint16_t eventId) const;
     bool isLevitateSensitivePressurePlate(uint16_t eventId, uint32_t faceAttributes) const;
     bool isHintOnlyEvent(uint16_t eventId) const;
     std::optional<std::string> getHint(uint16_t eventId) const;
     std::optional<std::string> summarizeEvent(uint16_t eventId) const;
-    const LearnedEffect *learnedEffect(uint16_t eventId) const;
+    std::optional<LearnedEffect> learnedEffect(uint16_t eventId) const;
     std::vector<uint32_t> getOpenedChestIds(uint16_t eventId) const;
     std::optional<ContextActionMetadata> getContextActionMetadata(uint16_t eventId) const;
 
 private:
+    // A title, hint or target name in the interface language (devdocs/LOCALIZATION.md).
+    std::string localizedText(const std::string &english) const;
     static bool populateMetadataFromLua(
         lua_State *pLuaState,
         ScriptedEventScope scope,
@@ -89,6 +102,7 @@ private:
     std::vector<std::string> m_textureNames;
     std::vector<std::string> m_spriteNames;
     std::vector<uint32_t> m_castSpellIds;
+    std::vector<FactionRelation> m_factionRelations;
     uint32_t m_levitateTrapFaceMask = 0;
     std::vector<uint16_t> m_levitateTrapEvents;
     std::vector<TimerTrigger> m_timerTriggers;

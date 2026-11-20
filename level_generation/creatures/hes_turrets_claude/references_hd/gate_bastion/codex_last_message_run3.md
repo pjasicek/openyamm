@@ -1,0 +1,3 @@
+Regenerated `01_front.png` and `02_back.png` with the built-in tool: 1536×1024, unresized, binary transparency. Preserved Run 2 originals in `superseded_run2/`, recorded all prompts/results in `generation_runs.json`, and refreshed `selected_views_review.png`.
+
+No builds or Meshy calls. Remaining limitations: slight perspective and detail differences; short barrel sections remain visible from behind.

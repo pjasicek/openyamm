@@ -1,12 +1,15 @@
 #pragma once
 
+#include "game/content/ContentManifest.h"
+
 #include "game/events/EventRuntime.h"
 #include "game/app/GameSettings.h"
+#include "game/gameplay/CinematicRuntime.h"
 #include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayInputController.h"
-#include "game/gameplay/GameplayAutoRun.h"
 #include "game/gameplay/GameplayScreenState.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayProjectileService.h"
@@ -16,7 +19,9 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/maps/SaveGame.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/mm9/Mm9QuestMarkers.h"
+#include "game/rules/maw/MawRules.h"
 #include "game/scene/SceneKind.h"
 #include "game/data/GameDataRepository.h"
 #include "game/ui/GameplayOverlayTypes.h"
@@ -29,6 +34,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -64,6 +70,9 @@ struct GameplayUiFramePerformanceDiagnostics
     GameplayUiOverlayFramePerformanceDiagnostics overlays = {};
 };
 
+// Joins a map's state key and the id of an instance of it (GameSession::mapStateKey).
+constexpr char MapInstanceKeySeparator = '#';
+
 class GameSession
 {
 public:
@@ -94,8 +103,36 @@ public:
     const std::string &currentMapFileName() const;
     void setCurrentMapFileName(const std::string &mapFileName);
     void setCurrentMapFileName(std::string &&mapFileName);
+    // The instance of the current map the party is in: a second state of the same map file that leaves the map's own
+    // state alone (MAW's dimension rifts). Empty on the map itself. It belongs to the current map: set it together
+    // with the map's file name when the party moves.
+    const std::string &mapInstanceId() const;
+    void setMapInstanceId(const std::string &instanceId);
+    // The key a state of the map goes under in outdoorWorldStates() and indoorSceneStates(): the map's own, or its
+    // instance's.
+    std::string mapStateKey(const std::string &mapFileName, const std::string &instanceId) const;
+    // Drops the states of map instances the rules no longer keep (MonsterRules::liveMapInstances).
+    void discardEndedMapInstances();
     float gameMinutes() const;
     void setGameMinutes(float gameMinutes);
+    // The rules this game is played by; the loaded tables must match (GameApplication::activateRuleset).
+    const RulesetSelection &ruleset() const;
+    // Builds the ruleset's rules (MAW) and installs them on the party.
+    void setRuleset(const RulesetSelection &ruleset);
+    // Changes the options of the game's ruleset mid-game (the Current game page): MAW re-sizes the current map's
+    // monsters now and every other map's when it loads. The caller checks what the ruleset allows.
+    void setRulesetOptions(const RulesetOptions &options);
+    // The rules the ruleset plays by; null for Standard.
+    const GameRules *rulesetGameRules() const;
+    // The MAW rules of a MAW game, else null.
+    MawRules *mawRules();
+    const MawRules *mawRules() const;
+    // Root of the game's named random streams (game/rules/RandomStreams.h), chosen at new game and saved.
+    uint64_t randomRootSeed() const;
+    void setRandomRootSeed(uint64_t rootSeed);
+    // Where MAW's Beyond Madness death ledger lives, for every MAW game the session creates (scenarios keep it in their
+    // own save folder); the default is the game's saves folder.
+    void setMadnessLedgerFile(const std::filesystem::path &file);
 
     GameplayUiController &gameplayUiController();
     const GameplayUiController &gameplayUiController() const;
@@ -105,6 +142,63 @@ public:
     const GameplayUiRuntime &gameplayUiRuntime() const;
     GameplayActorService &gameplayActorService();
     const GameplayActorService &gameplayActorService() const;
+    // The active world's taverns seat generated mercenaries (world.yml tavernHirelings).
+    void setTavernHirelings(bool enabled)
+    {
+        m_tavernHirelings = enabled;
+    }
+    // Whether the active world's friendly actors without an NPC of their own talk as MMerge street NPCs: their group's
+    // news or a generated NPC (world.yml streetNpcs).
+    void setStreetNpcs(bool enabled)
+    {
+        m_streetNpcs = enabled;
+    }
+    bool streetNpcs() const
+    {
+        return m_streetNpcs;
+    }
+    // Whether the active world has the MM6-MM8 hired NPC followers (world.yml npcFollowers), handed to the party for
+    // each map it enters.
+    void setNpcFollowers(bool enabled)
+    {
+        m_npcFollowers = enabled;
+    }
+    // Whether the active world shows the combat log under its combat_log setting's Auto (world.yml combatLog).
+    void setWorldCombatLog(bool shown)
+    {
+        m_worldCombatLog = shown;
+    }
+    bool worldCombatLog() const
+    {
+        return m_worldCombatLog;
+    }
+    // Whether the active world places the party on MM9's formation grid (world.yml formations), handed to the party
+    // for each map it enters.
+    void setFormations(bool enabled)
+    {
+        m_formations = enabled;
+    }
+    // Whether the active world casts MM9's Fleet Foot from Fly's slot (world.yml fleetFoot), handed to the party for
+    // each map it enters.
+    void setFleetFoot(bool enabled)
+    {
+        m_fleetFoot = enabled;
+    }
+    // The active world's Hum (world.yml hum), handed to the party for each map it enters.
+    void setWorldHum(const WorldHumDefinition &hum)
+    {
+        m_worldHum = hum;
+    }
+
+    void setWorldFloorBurn(const WorldFloorBurnDefinition &floorBurn)
+    {
+        m_worldFloorBurn = floorBurn;
+    }
+
+    void setWorldObjectiveQBits(const std::vector<uint32_t> &qbits)
+    {
+        m_worldObjectiveQBits = qbits;
+    }
     GameplayCombatController &gameplayCombatController();
     const GameplayCombatController &gameplayCombatController() const;
     GameplayItemService &gameplayItemService();
@@ -131,6 +225,9 @@ public:
     Mm9QuestMarkerState questMarkerForActor(size_t actorIndex) const;
     const GameplayInputFrame *currentGameplayInputFrame() const;
     void bindCurrentGameplayInputFrame(const GameplayInputFrame *pInputFrame);
+    // Fast mode's factor on the gameplay delta (1 in scenarios): overheard talk runs its timeline at real pace,
+    // matching its real-time voices, while the party around it plays on fast.
+    void setGameSpeed(float speed);
     void updateGameplay(
         const GameplayInputFrame &input,
         float deltaSeconds,
@@ -143,6 +240,7 @@ public:
     void renderGameplayUi(int width, int height);
     const GameplaySharedInputFrameResult &sharedInputFrameResult() const;
     bool sharedWorldInteractionBlockedThisFrame() const;
+    bool autoWalkActive() const;
     void requestRelativeMouseMotionReset();
     bool consumeRelativeMouseMotionResetRequest();
 
@@ -156,7 +254,6 @@ public:
 
     const std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> &outdoorWorldStates() const;
     std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> &outdoorWorldStates();
-    void storeOutdoorWorldState(const std::string &mapFileName, const OutdoorWorldRuntime::Snapshot &snapshot);
 
     const std::optional<IndoorSceneRuntime::Snapshot> &currentIndoorSceneState() const;
     void setCurrentIndoorSceneState(const IndoorSceneRuntime::Snapshot &snapshot);
@@ -164,7 +261,6 @@ public:
 
     const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> &indoorSceneStates() const;
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> &indoorSceneStates();
-    void storeIndoorSceneState(const std::string &mapFileName, const IndoorSceneRuntime::Snapshot &snapshot);
 
     const std::unordered_map<std::string, int32_t> &namedGlobalVars() const;
     int32_t namedGlobalVar(const std::string &name, int32_t defaultValue = 0) const;
@@ -172,6 +268,20 @@ public:
     void clearNamedGlobalVar(const std::string &name);
     void mergeNamedGlobalVarsFromRuntime(const EventRuntimeState &runtimeState);
     void applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState) const;
+
+    // In-engine cinematics (game/gameplay/CinematicRuntime.h): the current map's <stem>.cinematics.yml, set by the
+    // application at each map load (none: the map has no file), and the playing cinematic with the camera shake.
+    void setMapCinematics(std::optional<CinematicLibrary> library);
+    const std::optional<CinematicLibrary> &mapCinematics() const;
+    CinematicRuntime &cinematicRuntime();
+    const CinematicRuntime &cinematicRuntime() const;
+    // Starts a cinematic of the current map; false (logged, and its done event runs) when the map has none of that id.
+    bool playCinematic(const std::string &id, uint16_t doneEventId);
+    // Ends the playing cinematic and the camera shake without running anything (the map changed).
+    void stopCinematics();
+    // Finishes overheard talk at once (its remaining map events run, as on a skip) so a save can be written; a
+    // cinematic that takes over the view is left playing.
+    void finishAmbientCinematic();
 
     // Camera of the current scene (outdoor or indoor), saved and restored with the game.
     void setCameraAngles(float yawRadians, float pitchRadians);
@@ -220,11 +330,33 @@ public:
         const IndoorSceneRuntime::Snapshot &snapshot
     );
 
+    // The layout identity of the map whose runtime is being built (MapAssetInfo::layoutIdentity): the capture
+    // functions stamp it on that map's state (devdocs/SAVED_MAP_STATE_IDENTITY.md).
+    void setCurrentMapLayoutIdentity(uint64_t identity);
+    // Drops a map's saved state (doors, mechanisms, actors, chests, items on the ground, map and decoration
+    // variables, timers): the map starts from its initial state when it is next built. With partyInside (a save made
+    // in that map is being loaded) the party's saved place and camera there go too, so the party starts at the map's
+    // start point. Party state (members, inventory, gold, QBits, journal, hirelings, global variables) stays.
+    // In a map instance (mapInstanceId) the current map's state is the instance's: only that one goes.
+    void discardMapState(const std::string &mapFileName, bool partyInside);
+
+    // The playthrough's statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md); they outlive clear(), since a load of the
+    // same playthrough continues them.
+    PlaythroughStatistics &playthroughStatistics();
+    const PlaythroughStatistics &playthroughStatistics() const;
     std::optional<GameSaveData> buildSaveData() const;
     void restoreFromSaveData(const GameSaveData &saveData);
     void restoreHeldInventoryItemFromSaveData(const GameSaveData &saveData);
 
 private:
+    // The one key a map's stored state goes under: its canonical id, or the file name of a map MapStats does not list.
+    std::string mapStateKey(const std::string &mapFileName) const;
+    // The key of the current map's state: its instance's when the party is in one.
+    std::string currentMapStateKey(const std::string &mapFileName) const;
+    // A save from before rifts were map instances (SaveVersionMapInstances): the open dimension run moves out of its
+    // map's state into the rift's, and the party gets the dimensional portal.
+    void migrateDimensionRunsToInstances();
+
     struct GameplayUpdatePerformanceDiagnostics
     {
         uint64_t frames = 0;
@@ -277,22 +409,37 @@ private:
         float movementDeltaSeconds,
         float frameDeltaSeconds);
     void updateMm9QuestMarkerCache();
+    // Takes the events' cinematic and shake requests, the skip keys and advances the cinematic; true while one plays
+    // (the frame's input is then m_cinematicInputFrame: nothing held).
+    bool updateCinematics(const GameplayInputFrame &input, float deltaSeconds);
+    void renderCinematicOverlay(int width, int height);
 
     const GameDataRepository *m_pDataRepository = nullptr;
+    std::optional<std::filesystem::path> m_madnessLedgerFile;
+    PlaythroughStatistics m_playthroughStatistics;
     std::optional<Party> m_partyState;
     SceneKind m_currentSceneKind = SceneKind::Outdoor;
     std::string m_currentMapFileName;
+    std::string m_mapInstanceId;
     GameplayScreenState m_gameplayScreenState;
     GameplayUiController m_gameplayUiController;
     GameplayUiRuntime m_gameplayUiRuntime;
     GameplayActorService m_gameplayActorService;
+    bool m_tavernHirelings = true;
+    bool m_streetNpcs = true;
+    bool m_npcFollowers = true;
+    bool m_worldCombatLog = true;
+    bool m_formations = false;
+    bool m_fleetFoot = false;
+    WorldHumDefinition m_worldHum;
+    WorldFloorBurnDefinition m_worldFloorBurn;
+    std::vector<uint32_t> m_worldObjectiveQBits;
     GameplayCombatController m_gameplayCombatController;
     GameplayItemService m_gameplayItemService;
     GameplayProjectileService m_gameplayProjectileService;
     GameplayFxService m_gameplayFxService;
     GameplaySpellService m_gameplaySpellService;
     TurnBasedCombatRuntime m_turnBasedCombatRuntime;
-    GameplayAutoRun m_autoRun;
     size_t m_turnBasedPendingWorldActions = 0;
     GameplayScreenRuntime m_gameplayScreenRuntime;
     GameplayDialogController m_gameplayDialogController;
@@ -304,14 +451,20 @@ private:
     const GameplayInputFrame *m_pCurrentGameplayInputFrame = nullptr;
     GameplaySharedInputFrameResult m_sharedInputFrameResult = {};
     bool m_sharedWorldInteractionBlockedThisFrame = false;
+    // Auto-walk (KeyboardAction::AutoWalk): the party walks forward as if Forward were held.
+    bool m_autoWalkActive = false;
     bool m_relativeMouseMotionResetRequested = false;
     std::optional<OutdoorPartyRuntime::Snapshot> m_outdoorPartyState;
     std::optional<OutdoorWorldRuntime::Snapshot> m_currentOutdoorWorldState;
     std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> m_outdoorWorldStates;
     std::optional<IndoorSceneRuntime::Snapshot> m_currentIndoorSceneState;
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> m_indoorSceneStates;
+    uint64_t m_currentMapLayoutIdentity = 0;
     std::unordered_map<std::string, int32_t> m_namedGlobalVars;
     float m_gameMinutes = 9.0f * 60.0f;
+    RulesetSelection m_ruleset;
+    std::unique_ptr<MawRules> m_pMawRules;
+    uint64_t m_randomRootSeed = 0;
     float m_cameraYawRadians = 0.0f;
     float m_cameraPitchRadians = 0.0f;
     bool m_cameraAnglesValid = false;
@@ -325,5 +478,9 @@ private:
     GameplayUpdateFramePerformanceDiagnostics m_lastGameplayUpdateFramePerformanceDiagnostics = {};
     GameplayUiFramePerformanceDiagnostics m_lastGameplayUiFramePerformanceDiagnostics = {};
     TurnBasedFrameTraceState m_turnBasedFrameTraceState;
+    std::optional<CinematicLibrary> m_mapCinematics;
+    CinematicRuntime m_cinematicRuntime;
+    float m_gameSpeed = 1.0f;
+    GameplayInputFrame m_cinematicInputFrame = {};
 };
 }

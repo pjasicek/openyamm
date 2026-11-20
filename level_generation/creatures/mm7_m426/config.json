@@ -1,0 +1,271 @@
+{
+  "label": "Warlock A",
+  "creature": "warlock sorceress",
+  "base_palette": 107,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "true_alpha": true,
+  "preserve_delivered_rgb": true,
+  "material_edge_hue_repair": false,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m426sa0",
+    "m426sa1",
+    "m426sa2",
+    "m426sa3",
+    "m426sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original adult female fantasy warlock: tall slender human woman with pale gray-pink skin, stern small oval face, dark eyes, long swept-back copper-orange hair falling to mid-back. Long ankle-length deep crimson-red gown with fitted bodice, native rounded gold-trimmed neckline, narrow gold waist belt and crossing gold waist cords. Bare shoulders and arms as in the original costume. Dark midnight-indigo floor-length cape with pale silver edging and small folded shoulder corners, no hood. Gold armband on her left upper arm, small gold wrist bands, small gold neck ornament. Her left hand holds the single native short brown-gold wand/staff diagonally, its top at chest height: ornate branching gold head enclosing a pale cyan crystal, narrow brown shaft with gold rings and gold bottom knob. Bare feet and toes at the hem, no shoes. Preserve exact wand grip and orientation, thin silver cape rim, tiny face, long skirt folds, slim proportions and dark native tonal weight. Only the crimson gown changes to native purple and green palettes; copper hair, indigo cape, skin, gold trim and cyan crystal stay protected. Match only the exact native white-blue spell sparks in casting poses, no invented magic. No added accessories, armor, weapons, symbols, extra jewelry or redesign.",
+  "materials": {
+    "regions": [
+      {
+        "name": "crimson_gown",
+        "selector": "burgundy",
+        "thresholds": [
+          0.4,
+          0.65
+        ],
+        "maximum_green_over_blue": [
+          0.08,
+          0.2
+        ],
+        "palette_indices": [
+          152,
+          154,
+          155,
+          157,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          167,
+          169,
+          172,
+          173,
+          176,
+          177,
+          178,
+          179,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          201,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          228,
+          230,
+          233,
+          235,
+          239,
+          242
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5,
+        "native_palette_spatial_support": [
+          152,
+          154,
+          155,
+          157,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          167,
+          169,
+          172,
+          173,
+          176,
+          177,
+          178,
+          179,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          201,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          228,
+          230,
+          233,
+          235,
+          239,
+          242
+        ],
+        "support_padding": 6
+      }
+    ],
+    "limitation": "Enhanced crimson gown coverage approximates native indexed cloth; darkest folds and neutral highlights only partly recolor."
+  },
+  "cleanup_note": "Retain delivered RGB and true alpha: gown interiors have alpha 252-253; opaque-core hue repair treated them as edges and introduced visible gold-gray speckles. Raw composites are clean; final residual edge audit remains required.",
+  "clear_alpha1_border_batches": [
+    "w_4",
+    "a_0_0",
+    "a_0_1",
+    "a_1_0",
+    "a_1_1",
+    "a_2_0",
+    "a_2_1",
+    "a_3_1",
+    "a_4_0",
+    "n_0",
+    "n_1",
+    "n_3",
+    "n_4",
+    "fidget",
+    "death_corpse"
+  ],
+  "reviewed_border_alpha_limits": {
+    "a_0_0": 2
+  },
+  "reviewed_placement_translation_px": {
+    "m426wc1": [
+      -24,
+      0
+    ],
+    "m426wd1": [
+      -16,
+      0
+    ],
+    "m426we1": [
+      -16,
+      0
+    ],
+    "m426wf1": [
+      -16,
+      0
+    ],
+    "m426wg1": [
+      -16,
+      0
+    ],
+    "m426wh1": [
+      -16,
+      0
+    ],
+    "m426af0": [
+      -24,
+      0
+    ],
+    "m426ag0": [
+      -30,
+      0
+    ],
+    "m426ab1": [
+      -20,
+      0
+    ],
+    "m426ad1": [
+      -12,
+      0
+    ],
+    "m426ae1": [
+      -12,
+      0
+    ],
+    "m426af1": [
+      -24,
+      0
+    ],
+    "m426ad3": [
+      -24,
+      0
+    ],
+    "m426nb1": [
+      -24,
+      0
+    ],
+    "m426nc1": [
+      -24,
+      0
+    ]
+  },
+  "placement_review_note": "All native/restored sequences inspected on common logical canvas. Translations correct detected head/waist lateral drift in oblique walks, selected casts and oblique recoil, using face/shoulder and waist plus foot contact independently of silhouette mass. Cape, hair and gown silhouette interpretation remains."
+}

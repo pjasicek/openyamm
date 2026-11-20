@@ -1,0 +1,17 @@
+format: 0
+daily_fog:
+  small: {chance: 20, weak_distance: 4096, strong_distance: 8192}
+  average: {chance: 10, weak_distance: 0, strong_distance: 4096}
+  dense: {chance: 5, weak_distance: 0, strong_distance: 2048}
+mist:
+  layer:
+    color_rgb: [150, 168, 158]
+    base_height: 100
+    falloff_height: 80
+    visibility: 720
+    max_opacity: 0.7
+    noise: 0.6
+    noise_size: 1100
+    drift: [16, 7]
+sky_theme: necrotic
+notes: "As the original (out06.scene.yml with out06_1.scene.yml): fog by the day, no rain. Not said: the ground mist of out06_mist.scene.yml (pale grey-green layer at 100, falloff 80) and the necrotic sky theme, which engine/rendering/sky/sky.yml keys by the map file out06.odm."

@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "scope": "New Sorpigal HUD and map-book visual spot check",
+  "world": "mm6",
+  "map": "oute3.odm",
+  "run_record": "runtime_check/run.json",
+  "tour": "runtime_tour.yml",
+  "screenshots": {
+    "runtime_check/captures/ship-hud.png": "a4d1e304210bc97019440a3924009df7202100fc3bc4fe431f0ad1735e20e986",
+    "runtime_check/captures/ship-map-book.png": "641ab97ecf00f23af614abc862b67b761f0b97dbf226a81645fe4e8ebf95f99b"
+  },
+  "renderer": "OpenGL 3.3",
+  "gpu_vendor": "NVIDIA (0x10de; device/model not identified by this run)",
+  "reviewed_at": "2026-10-04T19:29:28.947579+00:00",
+  "observations": [
+    "Normal desktop game loaded the installed assets_dev map and exited normally.",
+    "Odyssey is visible at its native pier in the refreshed circular HUD minimap.",
+    "Map book uses the same refreshed map, with ordinary explored-area masking.",
+    "All 15 maps and 12 ships were reviewed in offline exports; this native check covers New Sorpigal."
+  ]
+}

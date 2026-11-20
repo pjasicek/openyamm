@@ -1,0 +1,11 @@
+# AI arena for mm8_summon_patrol_out01.yml: Dagger Wound (out01.odm, the outdoor runtime) cleared and the party
+# placed; the monster comes from the scenario's evt.SummonMonstersById (traced: every actor after the arena's).
+name: mm8_summon_patrol_out01
+world: mm8
+map: out01.odm
+party:
+  position: [3760, 7696, 0]
+  yaw_degrees: 0
+  pitch_degrees: -8
+  invulnerable: true
+trace: true

@@ -1,0 +1,71 @@
+# The slice's acceptance walk (devdocs/map_studio/PLAN.md, milestone S0): from the arrival to the strong room chest,
+# using every mechanism of the map as a player would. Build and install the project into a scratch asset root, then:
+#   build/game/openyamm --asset-root <scratch root> --headless-run-scenario <this file>
+# (run it from a private working folder; openyamm-studio/tests/run_slice.sh does all of it).
+id: studio.gatehouse_cellars.walk
+title: The Gatehouse Cellars, start to goal
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: studio01.blv
+  - assert: {map: studio01.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  # Every door starts shut.
+  - assert_mechanism: {id: 1, state: closed}
+  - assert_mechanism: {id: 2, state: closed}
+  - assert_mechanism: {id: 3, state: closed}
+  - assert_mechanism: {id: 4, state: closed}
+
+  # Entry -> hall through the open doorway.
+  - walk_to: {x: 384, y: 1344, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+
+  # The gate does not open by hand, and the strong room door is locked without its key.
+  - play_lua:
+      source: |
+        click(2); wait(1)
+        if door_state(1) ~= "closed" then error("the gate opened by hand") end
+        log("gate: " .. status())
+        click(8); wait(1)
+        if door_state(4) ~= "closed" then error("the strong room door opened without its key") end
+        log("strong room door: " .. status())
+
+  # Store room: the click door, then the chest with the key.
+  - walk_to: {x: -128, y: 1408, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: "open_door(6, 3)"}
+  - walk_to: {x: -640, y: 1408, z: 0, radius: 128, timeout_seconds: 60, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -760, y: 1520, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        loot_chest(5)
+        if not has_item(2177) then error("no Treasure Room Key from the store room chest") end
+        log("the key from the store room chest")
+
+  # Guard room: the click door, then the lever that raises the gate.
+  - walk_to: {x: 896, y: 1344, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: "open_door(4, 2)"}
+  - walk_to: {x: 1728, y: 1344, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        click(3); wait(4)
+        if door_state(1) ~= "open" then error("the lever did not raise the gate: " .. door_state(1)) end
+        log("lever: " .. status())
+        click(3); wait(1)
+        if door_state(1) ~= "open" then error("the lever worked twice") end
+  - assert_mechanism: {id: 1, state: open}
+
+  # Through the gate and the passage to the strong room door, opened with the key.
+  - walk_to: {x: 384, y: 1700, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
+  - walk_to: {x: 384, y: 2560, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(8); wait(4)
+        if door_state(4) ~= "open" then error("the key did not open the strong room door: " .. door_state(4)) end
+  - walk_to: {x: 384, y: 3200, z: 0, radius: 128, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        loot_chest(7)
+        log("the strong room chest is open: gold " .. gold())
+  - assert: {party_position: {x: 384, y: 3200, radius: 300, z_min: -16, z_max: 64}}

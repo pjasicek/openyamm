@@ -1,0 +1,562 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "item": "hes_reflex_1",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "requested_background": "transparent",
+  "postprocessing": "None. All saved PNGs are byte-for-byte copies of unresized tool returns.",
+  "corrective_regenerations_per_view": 1,
+  "design_authority": {
+    "path": "design_reference.png",
+    "sha256": "42d8dae695eb895dd83af1e36ca08e833e15e1e2b70d64de4580c6dc6259d9bd"
+  },
+  "overall_status": "Selected best available returns after the permitted corrective passes; exact silhouette and fully flat albedo requirements remain unmet.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an existing orthographic model guide into a flat albedo texture-projection source for the Hesper item hes_reflex_1 (+10% melee damage).\nINPUT ROLES: Image 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic grey model render. Image 2 is the approved DESIGN/MATERIAL REFERENCE only; do not adopt its camera, pose, silhouette or lighting.\nOutput ONE 1024 x 1024 RGBA PNG, genuine transparent background. Preserve the edit target's entire silhouette and alpha boundary EXACTLY, including antialiasing, all protruding pins, every part edge, camera angle, occlusion, object size and position, and the large empty transparent margins. Paint only within its existing pixels. Do not reframe, enlarge, straighten, rotate, remodel, add or remove anything.\nMATERIALS: map the design onto the guide's actual surfaces: gently worn warm ivory ceramic shell panels with fine beige wear, thin engraved seams and panel joins; brushed warm ochre-gold structural borders, collars and connector pins; black-violet resin and purple conduits in recessed exposed structures, violet insulators around gold pins. Where the central crystal or light inlays are genuinely visible in this view, use their reference purple/violet and bright lavender-white light colour without bloom. Continue hidden-side materials plausibly and consistently. Keep existing guide geometry visible; do not invent an extra front-facing central gem on a side/underside that does not show it.\nLIGHTING: this is an unlit ALBEDO texture source, not a beauty render. Flat even shadowless viewer illumination on ALL surfaces. Metal is a muted gold BASE COLOUR with at most a faint sheen; no shiny white highlights, no reflections, no cast shadows, no ambient occlusion, no dark lighting gradients, no rim light. Retain material-colour differences and small wear only. No background, floor, checkerboard, labels, letters, numbers, symbols or watermark.\nVIEW: FRONT. The edit target is guide_front.png. Preserve its low horizontal silhouette exactly, bounded by x=66..957 and y=331..692 in the 1024-square canvas. The tall central foreground terminal projects upward to y=331, and its exposed end faces the viewer; the other two arms extend sideways. Preserve the pin count and the partial occlusions of this specific guide. Do not replace this low side view with the reference's top view.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "747819903db8ecc4b1f5c7336a30d4e54d46db6e0c786daee30ac33ab9274890"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42d8dae695eb895dd83af1e36ca08e833e15e1e2b70d64de4580c6dc6259d9bd"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-ecf7ca59-c5ec-4b46-924e-57747c911151.png",
+      "output": "attempts/front_1.png",
+      "selected": false,
+      "selected_output": null,
+      "reason": "Not selected: changes the guide geometry, adds an underside light, and has strong baked shading and specular highlights.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "8b8209b8dbecc729bcb4e295f6797f2a23d5bcf8762549b8b1a83e4f6f7b949e",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1259678,
+        "nonzero_alpha_bbox": [
+          0,
+          23,
+          1192,
+          1238
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          72,
+          410,
+          1188,
+          839
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.938692,
+        "opaque_pixels_outside_normalized_guide": 6240,
+        "missing_opaque_pixels_inside_normalized_guide": 13218,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint an existing orthographic model guide into a flat albedo texture-projection source for the Hesper item hes_reflex_1 (+10% melee damage).\nINPUT ROLES: Image 2 is the EDIT TARGET, an exact 1024 x 1024 orthographic grey model render. Image 1 is the approved DESIGN/MATERIAL REFERENCE only; do not adopt its camera, pose, silhouette or lighting.\nOutput ONE 1024 x 1024 RGBA PNG, genuine transparent background. Preserve the edit target's entire silhouette and alpha boundary EXACTLY, including antialiasing, all protruding pins, every part edge, camera angle, occlusion, object size and position, and the large empty transparent margins. Paint only within its existing pixels. Do not reframe, enlarge, straighten, rotate, remodel, add or remove anything.\nMATERIALS: map the design onto the guide's actual surfaces: gently worn warm ivory ceramic shell panels with fine beige wear, thin engraved seams and panel joins; brushed warm ochre-gold structural borders, collars and connector pins; black-violet resin and purple conduits in recessed exposed structures, violet insulators around gold pins. Where the central crystal or light inlays are genuinely visible in this view, use their reference purple/violet and bright lavender-white light colour without bloom. Continue hidden-side materials plausibly and consistently. Keep existing guide geometry visible; do not invent an extra front-facing central gem on a side/underside that does not show it.\nLIGHTING: this is an unlit ALBEDO texture source, not a beauty render. Flat even shadowless viewer illumination on ALL surfaces. Metal is a muted gold BASE COLOUR with at most a faint sheen; no shiny white highlights, no reflections, no cast shadows, no ambient occlusion, no dark lighting gradients, no rim light. Retain material-colour differences and small wear only. No background, floor, checkerboard, labels, letters, numbers, symbols or watermark.\nCORRECTIVE GENERATION: the first attempt adopted the reference canvas size and added too much shaded volume and shiny metal. Correct these issues. Work on the SECOND image's original 1024 x 1024 canvas and preserve its exact alpha, NOT the first image's 1254 canvas. Colour in the existing guide geometry with matte pigment-like material base colours. Flatten lighting even in crevices. FRONT view: low horizontal object bounded by x=66..957, y=331..692, central foreground terminal facing the viewer and rising to y=331. Keep all guide part boundaries and pin locations. No extra central crystal or triangular light on this mostly underside view unless present in the guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "42d8dae695eb895dd83af1e36ca08e833e15e1e2b70d64de4580c6dc6259d9bd"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "747819903db8ecc4b1f5c7336a30d4e54d46db6e0c786daee30ac33ab9274890"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-be356a44-d30b-47cb-bacb-4a4a98139617.png",
+      "output": "attempts/front_2.png",
+      "selected": true,
+      "selected_output": "paint_front.png",
+      "reason": "Selected corrective return: removes the unsupported underside light and reduces some highlights. Shape and internal part placement still drift, and lighting is not fully flat.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "8d02482baa23f4b2afa02c409b468fe257d957dbe14b82929cdbe4e932e1265e",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1252099,
+        "nonzero_alpha_bbox": [
+          0,
+          17,
+          1234,
+          1254
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          79,
+          404,
+          1174,
+          842
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.974115,
+        "opaque_pixels_outside_normalized_guide": 1743,
+        "missing_opaque_pixels_inside_normalized_guide": 6356,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an existing orthographic model guide into a flat albedo texture-projection source for the Hesper item hes_reflex_1 (+10% melee damage).\nINPUT ROLES: Image 2 is the EDIT TARGET, an exact 1024 x 1024 orthographic grey model render. Image 1 is the approved DESIGN/MATERIAL REFERENCE only; do not adopt its camera, pose, silhouette or lighting.\nOutput ONE 1024 x 1024 RGBA PNG, genuine transparent background. Preserve the edit target's entire silhouette and alpha boundary EXACTLY, including antialiasing, all protruding pins, every part edge, camera angle, occlusion, object size and position, and the large empty transparent margins. Paint only within its existing pixels. Do not reframe, enlarge, straighten, rotate, remodel, add or remove anything.\nMATERIALS: map the design onto the guide's actual surfaces: gently worn warm ivory ceramic shell panels with fine beige wear, thin engraved seams and panel joins; brushed warm ochre-gold structural borders, collars and connector pins; black-violet resin and purple conduits in recessed exposed structures, violet insulators around gold pins. Where the central crystal or light inlays are genuinely visible in this view, use their reference purple/violet and bright lavender-white light colour without bloom. Continue hidden-side materials plausibly and consistently. Keep existing guide geometry visible; do not invent an extra front-facing central gem on a side/underside that does not show it.\nLIGHTING: this is an unlit ALBEDO texture source, not a beauty render. Flat even shadowless viewer illumination on ALL surfaces. Metal is a muted gold BASE COLOUR with at most a faint sheen; no shiny white highlights, no reflections, no cast shadows, no ambient occlusion, no dark lighting gradients, no rim light. Retain material-colour differences and small wear only. No background, floor, checkerboard, labels, letters, numbers, symbols or watermark.\nBACK VIEW: Work on the SECOND image guide_back.png, 1024 x 1024. The entire object occupies x=66..957, y=331..692, with large transparent areas above and below. Wide curved rear-facing body, two outer terminals, a third arm rising centrally BEHIND the middle body, mostly occluded. Preserve the low horizontal side silhouette. Match every guide part and pin, and continue ceramic shells, gold frame strips and dark violet internal resin plausibly onto this reverse side. The top-mounted violet crystal is hidden; do not add a new crystal to the back.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "42d8dae695eb895dd83af1e36ca08e833e15e1e2b70d64de4580c6dc6259d9bd"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "ab70b98cafeef75776d39d9aca7bd4c7ca9ae9351f61bb39be5cb89d8daadf4e"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-edac818e-3935-45de-a70a-c14793b1568e.png",
+      "output": "attempts/back_1.png",
+      "selected": false,
+      "selected_output": null,
+      "reason": "Not selected: adds a second visible pin at the right terminal and has strong specular highlights and shading.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "26583050a5dc723cd5bfd61db0375304a7054aafe630dbc12db4df4ddfa39277",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1244138,
+        "nonzero_alpha_bbox": [
+          0,
+          27,
+          1224,
+          1214
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          74,
+          404,
+          1194,
+          847
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.96452,
+        "opaque_pixels_outside_normalized_guide": 8002,
+        "missing_opaque_pixels_inside_normalized_guide": 3321,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective pass, BACK texture-source view of hes_reflex_1. COLORIZE THIS EXACT GREY GUIDE on its existing 1024 x 1024 RGBA canvas. Keep the existing alpha channel and every edge pixel. Do not redraw the object silhouette or change any component's outline, shape, position, proportions or occlusion. This is a geometry-locked color fill, not a new illustration. The object spans x=66..957 y=331..692; keep all transparent margin.\nApproved design's material palette: warm off-white ivory ceramic (#ded3bb) exterior shells, muted brushed golden ochre (#b58d43) structural frames and end collars, the existing connector prongs are the same dull gold; dark aubergine/black-violet (#3d2944) resin in the exposed channels and purple (#67476e) connector insulators. Continue these same materials on unseen reverse surfaces. Fine beige wear on ivory, very fine seams and panel joins along existing sculpted lines. No extra ornament or lights on this back side.\nCORRECT the previous attempt's changed pins and shiny shaded material: the rightmost terminal has ONLY THE ONE PRONG VISIBLE IN THE GUIDE. Keep all actual source guide forms, including the dome behind centre, TWO visible pins at left and ONE visible pin at right. Do not add a second pin to the right. Preserve the guide faceting rather than making new curved metal geometry.\nUNLIT DIFFUSE ALBEDO PASS: flat even colour across each material. Remove ALL guide lighting and all specular/reflection cues. No dark undersides, no AO crevices, no cast or form shadows, no highlights, no bright edge strokes. Material hue identifies shape. Gold should look like matte ochre pigment with very faint brushed texture, not shining metal. Transparent background without stray pixels. No text, letters, checkerboard or floor. Return 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ab70b98cafeef75776d39d9aca7bd4c7ca9ae9351f61bb39be5cb89d8daadf4e"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-43d2146c-42dc-45a0-90e7-f3ab3de3b730.png",
+      "output": "attempts/back_2.png",
+      "selected": true,
+      "selected_output": "paint_back.png",
+      "reason": "Selected corrective return: restores the guide's two left pins and one right pin and follows the faceted rear structure more closely, with much less glare. Edge drift, simplified design detail and some shading remain.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "6c6d71015f01a020c06542af592342f7feafb3fbdb6b9ed839eb1a0eb533eb2b",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1243561,
+        "nonzero_alpha_bbox": [
+          31,
+          19,
+          1246,
+          1236
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          80,
+          409,
+          1174,
+          849
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.989158,
+        "opaque_pixels_outside_normalized_guide": 3013,
+        "missing_opaque_pixels_inside_normalized_guide": 393,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an existing orthographic model guide into a flat albedo texture-projection source for the Hesper item hes_reflex_1 (+10% melee damage).\nINPUT ROLES: Image 2 is the EDIT TARGET, an exact 1024 x 1024 orthographic grey model render. Image 1 is the approved DESIGN/MATERIAL REFERENCE only; do not adopt its camera, pose, silhouette or lighting.\nOutput ONE 1024 x 1024 RGBA PNG, genuine transparent background. Preserve the edit target's entire silhouette and alpha boundary EXACTLY, including antialiasing, all protruding pins, every part edge, camera angle, occlusion, object size and position, and the large empty transparent margins. Paint only within its existing pixels. Do not reframe, enlarge, straighten, rotate, remodel, add or remove anything.\nMATERIALS: map the design onto the guide's actual surfaces: gently worn warm ivory ceramic shell panels with fine beige wear, thin engraved seams and panel joins; brushed warm ochre-gold structural borders, collars and connector pins; black-violet resin and purple conduits in recessed exposed structures, violet insulators around gold pins. Where the central crystal or light inlays are genuinely visible in this view, use their reference purple/violet and bright lavender-white light colour without bloom. Continue hidden-side materials plausibly and consistently. Keep existing guide geometry visible; do not invent an extra front-facing central gem on a side/underside that does not show it.\nLIGHTING: this is an unlit ALBEDO texture source, not a beauty render. Flat even shadowless viewer illumination on ALL surfaces. Metal is a muted gold BASE COLOUR with at most a faint sheen; no shiny white highlights, no reflections, no cast shadows, no ambient occlusion, no dark lighting gradients, no rim light. Retain material-colour differences and small wear only. No background, floor, checkerboard, labels, letters, numbers, symbols or watermark.\nLEFT VIEW, guide_left.png (Image 2). The exact guide silhouette occupies x=158..865 and y=331..692 in a 1024-square canvas. Low curved body: near round terminal at lower-left foreground, distant cylindrical terminal upper-right with its projecting pins, small portions of far-left pins just peeking out. Preserve their exact occlusions, counts and edges. Only recolour the existing forms. Central gem on the top is not visible. Keep all surfaces evenly coloured without shading, metallic white glints, black shadows or extra geometry.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "42d8dae695eb895dd83af1e36ca08e833e15e1e2b70d64de4580c6dc6259d9bd"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "0e53fb0991adcd393e894928ca1bb74a60ca93e4c8f6e9c197f27b81a9c569df"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-61bf5c7a-f0d4-43e7-9668-7626f5c8cacf.png",
+      "output": "attempts/left_1.png",
+      "selected": false,
+      "selected_output": null,
+      "reason": "Not selected: changes the foreshortened near connector pins and retains shiny metal and recessed shadows.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "aa1cdb61c1b0f6657a934e9a9468776ea440bc61e0590396a8e88ac74c1db9a5",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1318960,
+        "nonzero_alpha_bbox": [
+          0,
+          95,
+          1232,
+          1203
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          195,
+          406,
+          1059,
+          847
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.990259,
+        "opaque_pixels_outside_normalized_guide": 1029,
+        "missing_opaque_pixels_inside_normalized_guide": 1356,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective texture-source painting of hes_reflex_1. COLORIZE THE PROVIDED GREY GUIDE while keeping EVERY existing shape and edge, camera, proportions, occlusion, silhouette and alpha. Use its original 1024 x 1024 transparent canvas. Do not render a new model, redesign the component shapes, round the faceted pins, enlarge the object or recenter it. Keep the wide transparent margins.\nTransfer the approved material design: warm ivory ceramic shell panels with delicate beige wear and fine engraved seams; muted brushed ochre-gold structural strips, collar rims and terminal pins; black-violet resin in the existing channels, and purple insulators around the pins. Continue those same materials on unseen surfaces. Fit panel joins to the existing guide geometry. Keep the reference's understated fine ceramic surface wear and thin seam detail.\nCorrect the previous attempt's geometry drift and shiny illumination. UNLIT ALBEDO: pigment-like ivory and ochre gold with flat even shadowless lighting. No bright reflected white strokes, no polished metallic highlights, no directional shading, no cast shadows or AO darkening in crevices. Do not paint a top-facing crystal onto this side view. No additional light strips or invented parts. Actual transparent background, no text or letters, no checkerboard, floor or stray pixels.\n\nLEFT VIEW guide_left.png. Object bounds exactly x=158..865 and y=331..692. Preserve its low curved body and every polygonal feature: large near circular terminal at lower left, distant arm upper right, two far-left partially hidden pins. Keep all pins at the exact angles and lengths in the guide; the near terminal pins project mostly towards the viewer and must retain their guide foreshortening, not long sideways pins.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "0e53fb0991adcd393e894928ca1bb74a60ca93e4c8f6e9c197f27b81a9c569df"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-b488a8d5-2724-4035-be68-5a4d5bc0078c.png",
+      "output": "attempts/left_2.png",
+      "selected": true,
+      "selected_output": "paint_left.png",
+      "reason": "Selected corrective return: follows the faceted near terminal and internal guide structure more closely, with reduced glare. Some pin/edge changes, dark recesses and shading remain.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "beac40cdf2fc931c9005f317258879b7c9e186acebe4fae53a7519bf8da579b0",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1316217,
+        "nonzero_alpha_bbox": [
+          0,
+          0,
+          1224,
+          1230
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          193,
+          403,
+          1057,
+          848
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.976609,
+        "opaque_pixels_outside_normalized_guide": 3415,
+        "missing_opaque_pixels_inside_normalized_guide": 2368,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an existing orthographic model guide into a flat albedo texture-projection source for the Hesper item hes_reflex_1 (+10% melee damage).\nINPUT ROLES: Image 2 is the EDIT TARGET, an exact 1024 x 1024 orthographic grey model render. Image 1 is the approved DESIGN/MATERIAL REFERENCE only; do not adopt its camera, pose, silhouette or lighting.\nOutput ONE 1024 x 1024 RGBA PNG, genuine transparent background. Preserve the edit target's entire silhouette and alpha boundary EXACTLY, including antialiasing, all protruding pins, every part edge, camera angle, occlusion, object size and position, and the large empty transparent margins. Paint only within its existing pixels. Do not reframe, enlarge, straighten, rotate, remodel, add or remove anything.\nMATERIALS: map the design onto the guide's actual surfaces: gently worn warm ivory ceramic shell panels with fine beige wear, thin engraved seams and panel joins; brushed warm ochre-gold structural borders, collars and connector pins; black-violet resin and purple conduits in recessed exposed structures, violet insulators around gold pins. Where the central crystal or light inlays are genuinely visible in this view, use their reference purple/violet and bright lavender-white light colour without bloom. Continue hidden-side materials plausibly and consistently. Keep existing guide geometry visible; do not invent an extra front-facing central gem on a side/underside that does not show it.\nLIGHTING: this is an unlit ALBEDO texture source, not a beauty render. Flat even shadowless viewer illumination on ALL surfaces. Metal is a muted gold BASE COLOUR with at most a faint sheen; no shiny white highlights, no reflections, no cast shadows, no ambient occlusion, no dark lighting gradients, no rim light. Retain material-colour differences and small wear only. No background, floor, checkerboard, labels, letters, numbers, symbols or watermark.\nRIGHT VIEW, guide_right.png (Image 2). The exact guide silhouette occupies x=158..865 and y=331..692 in a 1024-square canvas. Low curved body: large near terminal at right foreground has THREE gold prongs; farther terminal at upper left is largely side-on with its occluded prongs. Preserve the actual guide silhouette and every prong in its exact position; do not mirror the left-view image, change perspective, or round away the guide outline. Central top gem is hidden. Flat matte unlit base-colour materials, even within recesses.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "42d8dae695eb895dd83af1e36ca08e833e15e1e2b70d64de4580c6dc6259d9bd"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "8fb700197daaa7bebfba95960827a04f2335c21e6ce337a8fdcfa437d4a34fb6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-2ead806d-bc0c-4d38-9524-bbe6157930a9.png",
+      "output": "attempts/right_1.png",
+      "selected": false,
+      "selected_output": null,
+      "reason": "Not selected: changes the near-terminal prong positions and internal structure, adds light strips, and retains strong specular highlights.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "3080b527954d434cfc99177b4a3ea19e6ee2f19720899982bf2845f3036ed18b",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1316326,
+        "nonzero_alpha_bbox": [
+          0,
+          23,
+          1232,
+          1230
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          197,
+          407,
+          1101,
+          844
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.961716,
+        "opaque_pixels_outside_normalized_guide": 6150,
+        "missing_opaque_pixels_inside_normalized_guide": 3421,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective texture-source painting of hes_reflex_1. COLORIZE THE PROVIDED GREY GUIDE while keeping EVERY existing shape and edge, camera, proportions, occlusion, silhouette and alpha. Use its original 1024 x 1024 transparent canvas. Do not render a new model, redesign the component shapes, round the faceted pins, enlarge the object or recenter it. Keep the wide transparent margins.\nTransfer the approved material design: warm ivory ceramic shell panels with delicate beige wear and fine engraved seams; muted brushed ochre-gold structural strips, collar rims and terminal pins; black-violet resin in the existing channels, and purple insulators around the pins. Continue those same materials on unseen surfaces. Fit panel joins to the existing guide geometry. Keep the reference's understated fine ceramic surface wear and thin seam detail.\nCorrect the previous attempt's geometry drift and shiny illumination. UNLIT ALBEDO: pigment-like ivory and ochre gold with flat even shadowless lighting. No bright reflected white strokes, no polished metallic highlights, no directional shading, no cast shadows or AO darkening in crevices. Do not paint a top-facing crystal onto this side view. No additional light strips or invented parts. Actual transparent background, no text or letters, no checkerboard, floor or stray pixels.\n\nRIGHT VIEW guide_right.png. Exact occupied bounds x=158..865, y=331..692. Preserve the low curved body with near terminal on the right foreground and rear arm pointing upper-left. The three near prongs have different lengths in projection and must remain where the guide puts them, including the small top stub. Preserve the distant left terminal's faceted prongs exactly rather than fusing them or adding new ones. Do not mirror the other side. Surface colour follows the exact existing faceted sculpt.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "8fb700197daaa7bebfba95960827a04f2335c21e6ce337a8fdcfa437d4a34fb6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-c14fda88-0e18-4216-bc75-a152e8d3ef49.png",
+      "output": "attempts/right_2.png",
+      "selected": true,
+      "selected_output": "paint_right.png",
+      "reason": "Selected corrective return: improves the near-terminal prong arrangement and matches the guide's internal structure more closely. Some rounded pin geometry, edge drift and shading remain.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "bb86f1983632f7765af0ee4ab45741fceb91b3f693b48beb5b35240560de5c61",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1313066,
+        "nonzero_alpha_bbox": [
+          0,
+          20,
+          1222,
+          1254
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          195,
+          405,
+          1060,
+          848
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.986027,
+        "opaque_pixels_outside_normalized_guide": 2473,
+        "missing_opaque_pixels_inside_normalized_guide": 969,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an existing orthographic model guide into a flat albedo texture-projection source for the Hesper item hes_reflex_1 (+10% melee damage).\nINPUT ROLES: Image 2 is the EDIT TARGET, an exact 1024 x 1024 orthographic grey model render. Image 1 is the approved DESIGN/MATERIAL REFERENCE only; do not adopt its camera, pose, silhouette or lighting.\nOutput ONE 1024 x 1024 RGBA PNG, genuine transparent background. Preserve the edit target's entire silhouette and alpha boundary EXACTLY, including antialiasing, all protruding pins, every part edge, camera angle, occlusion, object size and position, and the large empty transparent margins. Paint only within its existing pixels. Do not reframe, enlarge, straighten, rotate, remodel, add or remove anything.\nMATERIALS: map the design onto the guide's actual surfaces: gently worn warm ivory ceramic shell panels with fine beige wear, thin engraved seams and panel joins; brushed warm ochre-gold structural borders, collars and connector pins; black-violet resin and purple conduits in recessed exposed structures, violet insulators around gold pins. Where the central crystal or light inlays are genuinely visible in this view, use their reference purple/violet and bright lavender-white light colour without bloom. Continue hidden-side materials plausibly and consistently. Keep existing guide geometry visible; do not invent an extra front-facing central gem on a side/underside that does not show it.\nLIGHTING: this is an unlit ALBEDO texture source, not a beauty render. Flat even shadowless viewer illumination on ALL surfaces. Metal is a muted gold BASE COLOUR with at most a faint sheen; no shiny white highlights, no reflections, no cast shadows, no ambient occlusion, no dark lighting gradients, no rim light. Retain material-colour differences and small wear only. No background, floor, checkerboard, labels, letters, numbers, symbols or watermark.\nTOP VIEW: EDIT THE SECOND IMAGE guide_top.png on its exact 1024 x 1024 canvas. Three branches of the Y-shaped device: left arm points upper-left, right arm upper-right, third arm points downward. Exact alpha outline bounded by x=66..957, y=158..865. Preserve the faceted outlines and exact pin counts, lengths and directions in this guide. The central polygonal circular bezel contains the reference violet crystal with a pale lavender-white slit, surrounded by gold. Exposed channelwork is black-violet resin, shells ivory with fine wear and engraved panel lines. Render diffuse base colour only: no illumination gradients across ceramic, no gold glints, no reflected white strokes, no contact shadows. Preserve each existing geometry boundary.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "42d8dae695eb895dd83af1e36ca08e833e15e1e2b70d64de4580c6dc6259d9bd"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "a4f9b1fa58ca4e3ede5b34727416644bcb8e9caf18c4f340f5efa4474c166428"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-58732641-69d8-462d-a5fd-7ec7c512ab68.png",
+      "output": "attempts/top_1.png",
+      "selected": false,
+      "selected_output": null,
+      "reason": "Not selected: follows the design illustration's rounded details more than the exact guide and retains shiny gold and strong baked shading.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "91d60be3310ba17485b2aa2e0bbc984e8c41c168ca97e9345db815a177899a8a",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1175028,
+        "nonzero_alpha_bbox": [
+          0,
+          32,
+          1234,
+          1254
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          75,
+          190,
+          1179,
+          1066
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.968356,
+        "opaque_pixels_outside_normalized_guide": 9141,
+        "missing_opaque_pixels_inside_normalized_guide": 2998,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective TOP texture-source view of hes_reflex_1. Colour in ONLY this exact provided 1024 x 1024 grey orthographic guide, keeping its precise alpha silhouette, every part edge, faceting, size and location. It is a three-arm Y-shaped device with two gold pins on the upper-left terminal, three on the upper-right terminal, and two on the bottom terminal. Preserve the precise angles, foreshortening and occlusion shown in the guide. Object bounds x=66..957, y=158..865; preserve the transparent margins. The image is a geometry-locked albedo projection source, not a beauty illustration. No changes to the mesh outline.\nApply the approved design: ivory ceramic panels, gently worn with fine beige marks and engraved seams following the guide's sculpted lines; muted brushed gold structural borders and collars; gold pins on dark purple insulators; dark black-violet resin in the guide's exposed channels. The central polygonal circular bezel is gold and contains a violet crystal with a bright lavender-white vertical slit. A few tiny violet/lavender-white inlays lie in the existing sculpted gold frame near the central crystal, as in the design. Paint light sources in their solid bright colour, without glare or lighting spill. Continue material placement consistently across branches.\nCorrect the earlier attempt's shiny shading and silhouette drift. Keep the EXACT guide outline and flatten ALL illumination into diffuse material base colours: evenly illuminated ivory, matte muted ochre gold with only fine brushing and at most very faint sheen, dark-violet resin uniformly coloured. No cast shadows, no AO, no darkening on lower surfaces, no bright specular streaks, no hot gold highlights, no white rim highlights, no reflections, no glows outside the silhouette. Surface wear and panel linework are welcome, directional light gradients are not. Actual transparent background. No text, letters, numbers, watermark, floor or checkerboard. Return the guide's 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "a4f9b1fa58ca4e3ede5b34727416644bcb8e9caf18c4f340f5efa4474c166428"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-10f4-7850-a4cf-eaef18c6436b/exec-c778d756-bbd7-4bed-ae7c-5fc7687f2fa6.png",
+      "output": "attempts/top_2.png",
+      "selected": true,
+      "selected_output": "paint_top.png",
+      "reason": "Selected corrective return: follows the guide's faceted central bezel and Y structure more closely, with reduced directional highlights. Material placement differs in places, pins are rounded, and edge drift and shading remain.",
+      "visual_checks": {
+        "colours_and_materials": "Ivory ceramic, gold and violet palette retained; per-part fidelity is approximate.",
+        "flat_even_light": "fail: baked form shading remains; see selection reason.",
+        "no_text_or_letters": true,
+        "silhouette_identical": "fail: generated edges and some part geometry differ from the guide."
+      },
+      "output_sha256": "cd03b7f0978e77861ca470789f8cd713f0626c45a4cd7358dc6a67e7f3da0678",
+      "output_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "requested_size_matches": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "transparent_pixel_count": 1174070,
+        "nonzero_alpha_bbox": [
+          0,
+          12,
+          1236,
+          1254
+        ],
+        "opaque_silhouette_bbox_threshold_128": [
+          79,
+          193,
+          1175,
+          1061
+        ],
+        "silhouette_pixel_identical": false,
+        "canvas_normalized_silhouette_iou": 0.984614,
+        "opaque_pixels_outside_normalized_guide": 4705,
+        "missing_opaque_pixels_inside_normalized_guide": 1129,
+        "comparison_note": "IoU compares alpha >= 128 in normalized canvas coordinates. Guide alpha sampled at output pixel centres solely for measurement; no output transformations.",
+        "unresized_unmodified_return": true
+      },
+      "size_note": "Tool returned another size; preserved unresized as required by the brief."
+    }
+  ]
+}

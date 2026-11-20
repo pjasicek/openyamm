@@ -1,0 +1,17 @@
+{
+  "iteration": "v1",
+  "case_id": "copy exact bench case ID",
+  "tile_names": [],
+  "input_sha256": {},
+  "failure_type": "mask_shape | mask_edge | master_repeat | material_phase | composite_colour | runtime_sampling | source_map_layout",
+  "location": "side/corner and pixel range",
+  "severity": "blocking",
+  "evidence": {"original_crop": "", "candidate_crop": "", "mask_crop": "", "engine_capture": ""},
+  "observed_defect": "",
+  "requested_single_change": "",
+  "locked_invariants": ["accepted material interiors", "native tile orientation", "reviewed shared edge profiles", "road width"],
+  "dependent_case_ids": [],
+  "targeted_retry_count": 0,
+  "checks": {"structural": "pending", "flat_images": "pending", "native_flat_map": "pending", "new_sorpigal": "pending"},
+  "reviewer_decision": "pending"
+}

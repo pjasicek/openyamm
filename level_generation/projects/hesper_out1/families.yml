@@ -1,0 +1,157 @@
+# Hesper's ground plants (design/kreegan_world/art/ground_plants, hesper_plants_v1.png, a 4 x 4 atlas): cells
+# 0-3 ash tufts, 4-7 black wire scrub, 8-9 dead stalks, 10-11 glass needles, 12-13 lichens, 14-15 ember moss.
+# No grass, flowers, verges, undergrowth or bushes on Hesper: sparse families, little or no wind.
+version: 2
+tuft_texture: hesper_plants_v1.png
+tuft_atlas_grid:
+- 4
+- 4
+families:
+  ash_tufts:
+    kind: grass
+    candidates: 14
+    width: 70
+    height: 52
+    tint:
+    - 1
+    - 1
+    - 1
+    variants:
+    - layer: 0
+      weight: 4
+      width_scale: 1
+      height_scale: 1
+    - layer: 1
+      weight: 4
+      width_scale: 1
+      height_scale: 0.9
+    - layer: 2
+      weight: 2
+      width_scale: 1.0
+      height_scale: 1.1
+    - layer: 3
+      weight: 2
+      width_scale: 0.9
+      height_scale: 0.85
+    - layer: 8
+      weight: 0.6
+      width_scale: 0.8
+      height_scale: 1.3
+    full_footprint: false
+    wind_strength: 1.0
+  wire_scrub:
+    kind: grass
+    candidates: 8
+    width: 90
+    height: 60
+    tint:
+    - 1
+    - 1
+    - 1
+    variants:
+    - layer: 4
+      weight: 3
+      width_scale: 1
+      height_scale: 1
+    - layer: 5
+      weight: 3
+      width_scale: 1
+      height_scale: 1
+    - layer: 6
+      weight: 2
+      width_scale: 1.0
+      height_scale: 1
+    - layer: 7
+      weight: 2
+      width_scale: 0.9
+      height_scale: 0.9
+    - layer: 9
+      weight: 0.8
+      width_scale: 0.8
+      height_scale: 1.3
+    full_footprint: false
+    wind_strength: 0.4
+  dead_stalks:
+    kind: grass
+    candidates: 6
+    width: 70
+    height: 80
+    tint:
+    - 1
+    - 1
+    - 1
+    variants:
+    - layer: 8
+      weight: 2
+      width_scale: 1
+      height_scale: 1.2
+    - layer: 9
+      weight: 2
+      width_scale: 1
+      height_scale: 1.3
+    - layer: 4
+      weight: 1
+      width_scale: 1
+      height_scale: 0.9
+    full_footprint: false
+    wind_strength: 0.6
+  glass_grass:
+    kind: grass
+    candidates: 10
+    width: 60
+    height: 55
+    tint:
+    - 1
+    - 1
+    - 1
+    variants:
+    - layer: 10
+      weight: 3
+      width_scale: 1
+      height_scale: 1
+    - layer: 11
+      weight: 3
+      width_scale: 1
+      height_scale: 1.1
+    full_footprint: false
+    wind_strength: 0.0
+  lichen:
+    kind: grass
+    candidates: 10
+    width: 80
+    height: 30
+    tint:
+    - 1
+    - 1
+    - 1
+    variants:
+    - layer: 12
+      weight: 3
+      width_scale: 1
+      height_scale: 0.6
+    - layer: 13
+      weight: 3
+      width_scale: 1
+      height_scale: 0.6
+    full_footprint: false
+    wind_strength: 0.0
+  ember_moss:
+    kind: grass
+    candidates: 16
+    width: 80
+    height: 36
+    tint:
+    - 1
+    - 1
+    - 1
+    variants:
+    - layer: 14
+      weight: 3
+      width_scale: 1
+      height_scale: 0.7
+    - layer: 15
+      weight: 3
+      width_scale: 1
+      height_scale: 0.7
+    full_footprint: false
+    wind_strength: 0.0

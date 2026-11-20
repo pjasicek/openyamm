@@ -1,0 +1,35 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_mer1_new.glb",
+ "patch_materials": {
+  "MerchantHeadL0_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MerchantHandsL0_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MerchantL0_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MerchantL0_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MerchantL0_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_mer1_new",
+ "size": 300,
+ "front": "-y"
+}

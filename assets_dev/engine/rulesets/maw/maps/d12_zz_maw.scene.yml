@@ -1,0 +1,17 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §2.3): the Ogre Fortress entrance spawns change and two Ogres are slimmer, so they no
+# longer stick in the corridors.
+format_version: 1
+kind: indoor_scene_overlay
+removals:
+  spawns:
+    - {position: [-3456, 768, 0], index: 1}
+    - {position: [-3456, -640, 0], index: 3}
+    - {position: [-3968, 768, 0], index: 3}
+authored_content:
+  spawns:
+    - {position: {x: -4398, y: -561, z: 0}, radius: 32, type_id: 3, index: 1, group: 10}
+    - {position: {x: -3968, y: 768, z: 0}, radius: 32, type_id: 3, index: 1, group: 10}
+initial_state:
+  actor_overrides:
+    - {actor_index: 0, radius: 90}
+    - {actor_index: 1, radius: 90}

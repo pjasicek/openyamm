@@ -1,0 +1,176 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated and saved; strict acceptance checks failed. One corrective regeneration used per view.",
+  "postprocessing": "None. Selected PNGs copied byte-for-byte without resizing or alpha modification.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce paint_front.png, a 1024 x 1024 RGBA texture-source painting, true transparent background, unresized output.\nInput 1 guide_front.png is the EDIT TARGET: exact orthographic front render of the actual lowfolk shelter mesh. Inputs 2 design_reference.png and 3 concept_crop.png are MATERIAL/COLOUR references only, never composition references.\nPaint directly over the first image. Preserve EXACTLY its alpha silhouette, pixel position, scale, camera, every shape edge, opening, thin rope, pole, rock, hanging bag and prop. No additions, removals, re-layout, perspective changes or cropping. Keep the wide low frontal shelter at precisely the same position within the 1024 square; do not enlarge it.\nApply the approved reference materials to the existing shapes: pale stained beige canvas tarp; chipped ivory white ceramic slab with a vertical worn gold stripe on the tall rear slab; charcoal black glass rubble; weathered wooden and steel poles; tan rope and hanging net bags; muted rusty red bedding and mat; worn pale/steel containers; warm candle colour only where the guide already contains it. Render material detail as albedo colour.\nLIGHTING: even flat shadowless illumination from viewer, no cast shadows, NO ambient occlusion darkening under canopy or between objects, no directional shading, no strong specular highlights or reflections, no rim light. Paint any flame/glowing detail at warm orange colour without light spill. The entire sheltered interior remains evenly readable. No background, no floor beyond existing mesh footprint, no text. Preserve guide geometry over reference geometry in every conflict. This is an aligned albedo projection source, not a beauty render. Return exactly one 1024x1024 transparent PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-c38b-7431-848e-c00da8d6257e/exec-eb124060-97c5-4453-a487-21c6cedfd870.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d97-c38b-7431-848e-c00da8d6257e/exec-eb124060-97c5-4453-a487-21c6cedfd870.png",
+      "selected": false,
+      "reason": "Rejected: invented hanging bags and canopy holes, residual shading, wrong native resolution.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "082056dc88197f78a61d6f8227b056d5e4506dafd1d9b02b15dfbbeebb5a2752"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "output_sha256": "94463eb3b2bd1a238b1dce3efd616925afeca245e31496a185cf7a8e029f9b6d",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_identical_to_guide": false,
+        "material_colours": "Visually consistent ivory ceramic, gold stripe, beige canvas, black rubble, wood and steel.",
+        "flat_even_light": "FAIL: residual directional shading and occlusion remain.",
+        "geometry": "FAIL: visible detail drift; not pixel-identical to guide.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce paint_front.png, a 1024 x 1024 RGBA texture-source painting, true transparent background, unresized output.\nInput 1 guide_front.png is the EDIT TARGET: exact orthographic front render of the actual lowfolk shelter mesh. Inputs 2 design_reference.png and 3 concept_crop.png are MATERIAL/COLOUR references only, never composition references.\nPaint directly over the first image. Preserve EXACTLY its alpha silhouette, pixel position, scale, camera, every shape edge, opening, thin rope, pole, rock, hanging bag and prop. No additions, removals, re-layout, perspective changes or cropping. Keep the wide low frontal shelter at precisely the same position within the 1024 square; do not enlarge it.\nApply the approved reference materials to the existing shapes: pale stained beige canvas tarp; chipped ivory white ceramic slab with a vertical worn gold stripe on the tall rear slab; charcoal black glass rubble; weathered wooden and steel poles; tan rope and hanging net bags; muted rusty red bedding and mat; worn pale/steel containers; warm candle colour only where the guide already contains it. Render material detail as albedo colour.\nLIGHTING: even flat shadowless illumination from viewer, no cast shadows, NO ambient occlusion darkening under canopy or between objects, no directional shading, no strong specular highlights or reflections, no rim light. Paint any flame/glowing detail at warm orange colour without light spill. The entire sheltered interior remains evenly readable. No background, no floor beyond existing mesh footprint, no text. Preserve guide geometry over reference geometry in every conflict. This is an aligned albedo projection source, not a beauty render. Return exactly one 1024x1024 transparent PNG.\nCORRECTIVE GENERATION, final allowed attempt: The preceding result incorrectly returned 1254x1254 and introduced extra hanging bags, bedding and holes. Start again from the exact guide_front.png (input 1), not the generated painting. Set the actual output pixel dimensions to 1024 by 1024. Retain the original alpha exactly, including its empty margins: guide object bounds x=66..957, y=246..777 on the 1024 square. Do not merely produce a square at another resolution. Copy every shape and internal edge from the grey target exactly; only paint material colours on those existing surfaces. No invented hanging bags or new holes. Flatten all light and shadow into neutral albedo. Exact guide silhouette is required.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-c38b-7431-848e-c00da8d6257e/exec-62552be5-23b6-41d5-936f-d4ad33699065.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best permitted return: closer to guide geometry and hanging bag shapes. Not fully compliant: native resolution differs, silhouette is not pixel-identical, and under-canopy shading remains.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "082056dc88197f78a61d6f8227b056d5e4506dafd1d9b02b15dfbbeebb5a2752"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "output_sha256": "8b25cfe3b00221588d0d25906173fa25b692cda53a14772440c6606a92478933",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_identical_to_guide": false,
+        "material_colours": "Visually consistent ivory ceramic, gold stripe, beige canvas, black rubble, wood and steel.",
+        "flat_even_light": "FAIL: residual directional shading and occlusion remain.",
+        "geometry": "FAIL: visible detail drift; not pixel-identical to guide.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce paint_top.png: exactly 1024 x 1024 pixels, true transparent RGBA PNG.\nINPUT 1 guide_top.png is the edit target and absolute geometry authority: a grey orthographic overhead render of the EXACT shelter mesh. INPUT 2 design_reference.png is approved material and colour authority only. INPUT 3 concept_crop.png is supporting material reference only.\nPaint the surfaces of INPUT 1 directly without moving or reshaping anything. Preserve its EXACT silhouette, alpha outline, position, size, every internal edge, opening, pole, rope and rock. Use the exact overhead camera of input 1. The canopy dominates the middle of the image, with a narrow jagged rear wall along the upper arc, scattered objects and stones at the edge. Do NOT turn this into a front or three-quarter view. Do NOT enlarge or reframe the model.\nApply reference colours to the existing mesh: pale stained beige canvas with woven texture and wear on the broad tarp; chipped ivory white ceramic slab with a gold stripe on the appropriate rear slab surface; black glass rubble; weathered wood and steel poles; tan ropes; existing containers in worn steel/ceramic. A warm candle only where visible in the guide. Match shapes to guide, not the differently posed reference. Do not invent extra tears, objects or detail outside the silhouette.\nThis is an ALBEDO TEXTURE SOURCE: flat even shadowless light from the viewer on ALL surfaces. NO cast shadows, NO ambient occlusion, no shadow darkening under objects or canopy, NO strong specular highlights, reflections or rim light. Paint glowing parts at their glowing colour without light spill. No backdrop, no added floor, no text.\nReturn one 1024 by 1024 PNG with actual transparent background, keeping the guide's empty margins and exact silhouette. Pixel dimensions must be 1024x1024, not 1254x1254; output will be used unresized.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-c38b-7431-848e-c00da8d6257e/exec-4961c6ce-923c-44d9-a09a-9e51a0698321.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d97-c38b-7431-848e-c00da8d6257e/exec-4961c6ce-923c-44d9-a09a-9e51a0698321.png",
+      "selected": false,
+      "reason": "Rejected: invented canopy holes and props, strong shading, wrong native resolution.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7d0eccd2aa671b82cc39867401380ca22134b9230e122f0db9fa913754ab76ca"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "output_sha256": "00f9924c127ec35135fed7d33e933e8087a0f9827fd044eaf67ccad2966d6aba",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_identical_to_guide": false,
+        "material_colours": "Visually consistent ivory ceramic, gold stripe, beige canvas, black rubble, wood and steel.",
+        "flat_even_light": "FAIL: residual directional shading and occlusion remain.",
+        "geometry": "FAIL: visible detail drift; not pixel-identical to guide.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce paint_top.png: exactly 1024 x 1024 pixels, true transparent RGBA PNG.\nINPUT 1 guide_top.png is the edit target and absolute geometry authority: a grey orthographic overhead render of the EXACT shelter mesh. INPUT 2 design_reference.png is approved material and colour authority only. INPUT 3 concept_crop.png is supporting material reference only.\nPaint the surfaces of INPUT 1 directly without moving or reshaping anything. Preserve its EXACT silhouette, alpha outline, position, size, every internal edge, opening, pole, rope and rock. Use the exact overhead camera of input 1. The canopy dominates the middle of the image, with a narrow jagged rear wall along the upper arc, scattered objects and stones at the edge. Do NOT turn this into a front or three-quarter view. Do NOT enlarge or reframe the model.\nApply reference colours to the existing mesh: pale stained beige canvas with woven texture and wear on the broad tarp; chipped ivory white ceramic slab with a gold stripe on the appropriate rear slab surface; black glass rubble; weathered wood and steel poles; tan ropes; existing containers in worn steel/ceramic. A warm candle only where visible in the guide. Match shapes to guide, not the differently posed reference. Do not invent extra tears, objects or detail outside the silhouette.\nThis is an ALBEDO TEXTURE SOURCE: flat even shadowless light from the viewer on ALL surfaces. NO cast shadows, NO ambient occlusion, no shadow darkening under objects or canopy, NO strong specular highlights, reflections or rim light. Paint glowing parts at their glowing colour without light spill. No backdrop, no added floor, no text.\nReturn one 1024 by 1024 PNG with actual transparent background, keeping the guide's empty margins and exact silhouette. Pixel dimensions must be 1024x1024, not 1254x1254; output will be used unresized.\nCORRECTIVE GENERATION \u2014 final allowed attempt. Previous result added canopy holes, new objects and pronounced occlusion/shading, and returned the wrong 1254x1254 size. Repaint the ORIGINAL grey guide_top.png, not the previous painting. Preserve its geometrical regions precisely. Do not invent canvas perforations, seams changing surface geometry, extra buckets, fires, stones or ropes. Only surface-colour painting. Use uniform material brightness across every face of the same material, even under the canopy; remove all cast shadows and all ambient occlusion. The actual file must measure 1024x1024 pixels. Keep the target's original alpha mask pixel for pixel and preserve every opening and the position of every edge. Output real RGBA transparency.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-c38b-7431-848e-c00da8d6257e/exec-3e23f0cf-f667-4dde-9ab6-3fc900c1de75.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best permitted return: fewer invented canopy details and flatter canopy colour. Not fully compliant: native resolution differs, silhouette is not pixel-identical, and residual shading remains.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7d0eccd2aa671b82cc39867401380ca22134b9230e122f0db9fa913754ab76ca"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "output_sha256": "28cf9db82ff91dd318e49a87777acfde00b71909a30ffdcd05842233b8511569",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_identical_to_guide": false,
+        "material_colours": "Visually consistent ivory ceramic, gold stripe, beige canvas, black rubble, wood and steel.",
+        "flat_even_light": "FAIL: residual directional shading and occlusion remain.",
+        "geometry": "FAIL: visible detail drift; not pixel-identical to guide.",
+        "unresized": true
+      }
+    }
+  ]
+}

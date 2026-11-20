@@ -1,0 +1,194 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.1000terrors_chests
+title: Thousand Terrors (native BLV) - the fourteen MM9 treasure chests open by a click
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: 1000terrors.blv
+- set_pose:
+    map: 1000terrors.blv
+    x: 7061
+    y: -22361
+    z: -66
+    yaw: 3.1311
+    pitch: -0.7341
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 7143
+    y: -22776
+    z: -66
+    yaw: 3.1311
+    pitch: -0.7341
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 7061
+    y: -23196
+    z: -66
+    yaw: 3.1311
+    pitch: -0.7341
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 12990
+    y: -9198
+    z: -142
+    yaw: 3.1259
+    pitch: -0.7311
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 15108
+    y: -9194
+    z: -142
+    yaw: -0.0157
+    pitch: -0.7165
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 16890
+    y: -20613
+    z: -127
+    yaw: -0.0017
+    pitch: -0.7324
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 16920
+    y: -17541
+    z: -127
+    yaw: -0.0017
+    pitch: -0.7179
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 18104
+    y: -14104
+    z: -96
+    yaw: -1.5708
+    pitch: -0.7168
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 7
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 18105
+    y: -10226
+    z: -96
+    yaw: 1.5778
+    pitch: -0.7168
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 8
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 10663
+    y: -9212
+    z: -142
+    yaw: -0.0297
+    pitch: -0.7165
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 9
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 5147
+    y: -9254
+    z: -142
+    yaw: -3.1241
+    pitch: -0.7165
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 10
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 9774
+    y: -15264
+    z: -2661
+    yaw: -0.0297
+    pitch: -0.731
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 11
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: 9774
+    y: -15643
+    z: -2661
+    yaw: -0.0297
+    pitch: -0.731
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 12
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: 1000terrors.blv
+    x: -232
+    y: 1556
+    z: -2185
+    yaw: 0.0
+    pitch: -0.717
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 13
+- press_action:
+    action: cancel_dialog

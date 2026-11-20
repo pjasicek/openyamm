@@ -1,0 +1,275 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background_requested": true,
+  "maximum_corrective_regenerations_per_view": 1,
+  "corrective_regenerations_used": {
+    "front": 1,
+    "top": 1
+  },
+  "status": "Generated and saved raw results; acceptance checks failed.",
+  "selection_note": "Selected means the preferred raw attempt saved under the requested output filename, not acceptance against the brief.",
+  "limitation": "All four native returns are 1254 x 1254 despite explicit 1024 x 1024 requests. Exact guide silhouettes, flat albedo lighting and clean exterior alpha were not achieved. No resizing, masking, repainting or other image post-processing was performed.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: style-transfer.\nCreate ONE 1024 x 1024 RGBA transparent PNG: paint_front.png, a front orthographic albedo texture-source painting of the exact giant rib decoration shown in input 1.\n\nINPUT ROLES AND PRIORITY:\nInput 1 guide_front.png is the edit target and absolute geometry/alpha authority. Keep its exact pixel placement, scale, silhouette, shape edges, openings, and details. Paint its existing surfaces only.\nInput 2 design_reference.png is the approved authority for surface design, colours, and materials only. It is a three-quarter view; DO NOT copy its camera, shape, composition, lighting, ground or background.\nInput 3 concept_crop.png is the original concept, supplementary material reference only.\n\nEDIT THE FIRST IMAGE IN PLACE. Output canvas stays exactly 1024 x 1024. The existing front-view object occupies x=66..957, y=409..614, with enormous transparent margins above and below. Maintain these margins and this low wide silhouette exactly; do not zoom, recenter, raise, expand, crop or rotate it. Preserve the upward-curving thin left tip, long bowed horizontal rib, large rounded right knuckle, every angular root shape below and around it, scattered existing fragments, and all transparent holes. Do not invent tendrils, stones, surfaces or geometry outside the guide; keep the guide's exact alpha silhouette and hole boundaries.\n\nPaint the guide's bone surfaces with the reference's warm ivory bone, irregular cream flaking bone plates, brown-amber cracks and subtle brown-amber stains. Paint existing root shapes as thin black-violet resin roots, with restrained purple colour variation. Existing bone chips remain ivory. Surface colour detailing is allowed only within the guide's original shape. The amber is pigment, not a light source.\n\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless illumination from the viewer, with no directional light gradient, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light. Do not reproduce the guide's shaded grey material or the design reference's dramatic lighting. Cracks have brown-amber local pigment; visible roots remain legible by their local purple colour, never by shiny white dots. Any glowing-colour seams are painted their colour without light spill. No background, no floor, no halo, no haze, no labels, no text, no checkerboard painted into the image. True transparent background and openings. Return the single finished 1024 x 1024 painting without resizing.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "868622f8f10cbce0f31e47dd40f383a35ae9cb7480d3b5eee996899ef1f557c9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: native return is not 1024 x 1024; object silhouette, holes and material boundaries drift from guide, with residual highlights and shaded undersides.",
+      "attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "dbe8940d0e933e91358b8d00fc1dfdc5d27a3f008a5d822545a3f73ea5715dfb",
+      "checks": {
+        "size_1024x1024": false,
+        "silhouette_identical": false,
+        "guide_alpha_bbox": [
+          66,
+          409,
+          958,
+          615
+        ],
+        "output_alpha_bbox": [
+          0,
+          55,
+          1219,
+          1228
+        ],
+        "output_alpha_128_bbox": [
+          42,
+          509,
+          1213,
+          762
+        ],
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1398655,
+        "partially_transparent_pixels": 173029,
+        "fully_opaque_pixels": 832,
+        "flat_even_light": false,
+        "materials_and_colours_match": "partial",
+        "transparent_background_review": "True alpha present; faint stray alpha pixels extend outside the visible object.",
+        "visual_review": "Ivory bone, amber cracks and violet resin are recognizable. Shape edges and holes differ from the guide. Residual shading and highlights remain."
+      },
+      "accepted": false,
+      "unresized_return": true
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: style-transfer. Corrective generation, front view. Produce exactly ONE native 1024x1024 PNG, transparent background. This is a strict image edit of input 1, NOT a new depiction of the prop.\n\nThe prior generation was rejected because it changed the canvas to 1254x1254, shifted and widened the object, changed openings, and introduced highlights and underside shadows. Correct those errors by starting afresh from the ORIGINAL FIRST INPUT. Keep its original 1024x1024 canvas and exact original alpha mask, including antialiased edges. Do not scale or move the guide. The original object is only 892 pixels wide and 206 pixels high: its alpha bounding rectangle is [66,409,958,615) on this 1024px square. Everything above y409 and below y614 is completely transparent. Do not crop the very large transparent margins.\n\nInput 1 guide_front.png: THE EXACT EDIT TARGET. Retain every original shape edge, every hole, every tiny fragment, every original silhouette pixel and root position. The roots are the existing angular supports and strips under/alongside the rib, including the prominent strip near the left tip and the strips descending from the right rounded end; colour these black-violet. Do not invent geometry. The large smooth arched rib and rounded right knuckle are ivory bone; small existing loose bone fragments are ivory. Keep the guide's full orthographic side/front shape and camera.\nInput 2 design_reference.png: MATERIAL AND COLOUR authority only. Transfer warm ivory bone with irregular cream plates and narrow brown-amber cracks/stains, and thin BLACK-VIOLET resin roots. Do not borrow this reference's camera, composition, added roots, ground, lighting or reflections.\nInput 3 concept_crop.png: supplementary original concept for the same materials.\n\nApply ONLY flat painted surface colour inside the first image's original silhouette. Remove the grey lighting from the guide. Albedo texture source: uniformly lit from the viewer, SHADOWLESS, no cast shadows, no ambient occlusion, no darkening underneath, no directional shading, no specular highlights or white shine on roots, no reflections or rim light. Bone colour is warm ivory, not bright saturated yellow/orange; brown-amber only in cracks and stains. Resin colour is very dark violet with modest purple local colour variation. If any amber seams appear, they are pigment only with no light cast on anything else. No background, floor, halo, haze, glow or text. All original empty areas and openings remain true alpha=0. Preserve the exact 1024x1024 canvas, silhouette, holes and geometry of the FIRST input.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "868622f8f10cbce0f31e47dd40f383a35ae9cb7480d3b5eee996899ef1f557c9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected over the first return for closer front-guide proportions and less glossy roots. Not accepted as brief-compliant: generator still changes canvas size and silhouette, paints some root supports ivory, and retains underside shading. One corrective generation used; raw output retained without resizing or masking.",
+      "attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "93c1204b58efa5b563b127564a16374ea3f17b8b6dc726c3d6c58ea43cee8fad",
+      "checks": {
+        "size_1024x1024": false,
+        "silhouette_identical": false,
+        "guide_alpha_bbox": [
+          66,
+          409,
+          958,
+          615
+        ],
+        "output_alpha_bbox": [
+          49,
+          25,
+          1222,
+          1230
+        ],
+        "output_alpha_128_bbox": [
+          66,
+          512,
+          1189,
+          759
+        ],
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1404910,
+        "partially_transparent_pixels": 167193,
+        "fully_opaque_pixels": 413,
+        "flat_even_light": false,
+        "materials_and_colours_match": "partial",
+        "transparent_background_review": "True alpha present; faint stray alpha pixels extend outside the visible object.",
+        "visual_review": "Ivory bone, amber cracks and violet resin are recognizable. Shape edges and holes differ from the guide. Residual shading and highlights remain."
+      },
+      "accepted": false,
+      "unresized_return": true
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: style-transfer.\nCreate ONE native 1024 x 1024 RGBA PNG with a true transparent background: paint_top.png. Strictly recolour the FIRST input image in place to make a flat albedo texture source. Preserve that input's original 1024 x 1024 canvas and exact alpha mask; do not enlarge or resize the canvas.\n\nINPUTS:\n1. guide_top.png is the edit target, the absolute silhouette, geometry and camera authority: the EXACT giant rib model in a straight-down orthographic TOP view. Keep every pixel boundary, opening, fragment, position and scale. Its original alpha bounding box is [66,275,958,749), on a 1024 x 1024 canvas.\n2. design_reference.png is the approved material/colour/design authority ONLY. It shows the same subject from a different THREE-QUARTER view. Transfer its surface materials onto input 1; NEVER copy its camera, silhouette, background, floor, lighting or shadows.\n3. concept_crop.png is supplementary original concept for those materials.\n\nONLY EDIT THE SURFACES INSIDE INPUT 1'S SILHOUETTE. Keep the exact top orthographic shape: broad rounded left bone tip, gently narrowed broad horizontal shaft, three bulbous bone lobes arranged vertically on the right, the existing raised Y-shaped root on the left-central bone surface, and all existing angular root strips and small fragments around the perimeter. Preserve all exact edges and transparent openings between pieces. The Y-shaped strip and perimeter root structures are BLACK-VIOLET RESIN; the broad main shape and right rounded lobes are WARM IVORY BONE; existing loose bone chips are ivory. Nothing added or deleted. Keep the object size and placement and generous empty margins exactly like input 1.\n\nPaint materials matching the approved design: irregular warm-ivory/cream bone plates, brown-amber cracks and subtle stains. Thin resin root surfaces are very dark black-violet with restrained purple local colour detail. Preserve geometry boundaries instead of inventing new roots. Amber seams are local painted colour, with NO emitted light on surrounding material.\n\nSTRICT FLAT ALBEDO: even shadowless illumination directly from the viewer. No cast shadows, no ambient occlusion or darkening in crevices or underneath, no strong highlights, no reflections, no white glossy dots on roots, no rim light. Remove the guide's grey shaded rendering; do not reproduce the reference's directional lighting. Material colour variation and cracks are painted details, not simulated lighting. No floor, no background, no halo, no glow, no haze, no text, no labels, no painted checkerboard. Transparent background and every original opening remain alpha=0.\nOutput a single unresized native 1024x1024 PNG with the first input's exact unchanged top-view silhouette and frame placement.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "197dc70d7819b225a42368508e65bf13cf5815d0d3385401d4e57be2a006ba21"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: native canvas is 1254 x 1254, silhouette expands and some holes change. Colours are too amber-saturated with residual glossy highlights and shading.",
+      "attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "b772e0f83cb0c4a1983d82c4b641c9e47fc8fb30227b7b626f53b6da12b4e904",
+      "checks": {
+        "size_1024x1024": false,
+        "silhouette_identical": false,
+        "guide_alpha_bbox": [
+          66,
+          275,
+          958,
+          749
+        ],
+        "output_alpha_bbox": [
+          17,
+          33,
+          1238,
+          1254
+        ],
+        "output_alpha_128_bbox": [
+          23,
+          335,
+          1220,
+          965
+        ],
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1026289,
+        "partially_transparent_pixels": 545871,
+        "fully_opaque_pixels": 356,
+        "flat_even_light": false,
+        "materials_and_colours_match": "partial",
+        "transparent_background_review": "True alpha present; faint stray alpha pixels extend outside the visible object.",
+        "visual_review": "Ivory bone, amber cracks and violet resin are recognizable. Shape edges and holes differ from the guide. Residual shading and highlights remain."
+      },
+      "accepted": false,
+      "unresized_return": true
+    },
+    {
+      "view": "top",
+      "prompt": "Corrective edit. The first attached image guide_top.png is the actual image to edit. Return that same 1024-by-1024 PNG canvas with that same exact alpha mask, unchanged silhouette, all unchanged holes, all unchanged geometry edges and fragment positions. Only replace the grey surface colours with painted albedo materials from the second image. Input 2 design_reference.png and input 3 concept_crop.png are only colour/material references; do not borrow their lighting or composition.\n\nThis is the TOP orthographic view of the giant rib. The shape must remain precisely the broad rounded left end, gently narrower middle and three rounded right knuckles from the FIRST image. Do not reinterpret or enlarge it. The entire silhouette occupies x66 through x957 and y275 through y748 on the original 1024 square: 6.45% clear left and right margins, 26.86% clear top and bottom margins. Keep these large margins. Nothing may be added around the perimeter. The raised Y-shaped strand on the left half and the connected thin angular root strands around the bone are black-violet resin. Main bone and the existing loose chips are cream ivory. Preserve every existing geometry edge and every transparent gap exactly as input 1.\n\nFlat painted materials: warm pale ivory, subtle cream plate variation, narrow muted brown-amber cracks and stains, very dark black-violet roots with modest purple variation. The previous attempt made the cracks much too orange and shiny and the whole object too large; correct that. No orange sacs or additional details except what exists in the guide. The bone must read as ivory with brown-amber cracks, not as glowing orange rock.\n\nTEXTURE SOURCE / ALBEDO: flat even shadowless light from the viewer. NO shading gradients, NO cast shadows, NO ambient occlusion, NO specular highlights or reflections, NO rim lighting, NO glow. No dark shading between the three knuckles, under the Y strand, in holes or at bone edges: only the local material colours. Reference surface design is retained but reference illumination is removed.\n\nTrue transparent background, transparent original openings, completely clean alpha outside the exact guide silhouette; no background, floor, halo, stray pixels, haze, labels or text. Keep the native output exactly 1024 x 1024. Paint the first image without moving, resizing, cropping, rounding, adding or deleting any shape.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "197dc70d7819b225a42368508e65bf13cf5815d0d3385401d4e57be2a006ba21"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected over the first top return for closer guide framing and less orange material colour. Not accepted as brief-compliant: native size is still 1254 x 1254, exact silhouette and holes drift, and specular highlights and shading remain. One corrective generation used; raw output retained without resizing or masking.",
+      "attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "38ffc41e492257ddb8c3b4679ffe234d16d1a720c7ce7dc284d6544ae84a2b08",
+      "checks": {
+        "size_1024x1024": false,
+        "silhouette_identical": false,
+        "guide_alpha_bbox": [
+          66,
+          275,
+          958,
+          749
+        ],
+        "output_alpha_bbox": [
+          0,
+          19,
+          1234,
+          1254
+        ],
+        "output_alpha_128_bbox": [
+          82,
+          336,
+          1174,
+          918
+        ],
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1115706,
+        "partially_transparent_pixels": 456260,
+        "fully_opaque_pixels": 550,
+        "flat_even_light": false,
+        "materials_and_colours_match": "partial",
+        "transparent_background_review": "True alpha present; faint stray alpha pixels extend outside the visible object.",
+        "visual_review": "Ivory bone, amber cracks and violet resin are recognizable. Shape edges and holes differ from the guide. Residual shading and highlights remain."
+      },
+      "accepted": false,
+      "unresized_return": true
+    }
+  ]
+}

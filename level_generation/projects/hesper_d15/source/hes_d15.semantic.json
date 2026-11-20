@@ -1,0 +1,1537 @@
+{
+  "arrivals": {
+    "deep_stair": {
+      "position": [
+        600,
+        400,
+        512
+      ],
+      "direction_degrees": 0
+    },
+    "service_lift": {
+      "position": [
+        14292,
+        14600,
+        0
+      ],
+      "direction_degrees": 270
+    },
+    "tram_west": {
+      "position": [
+        8500,
+        -160,
+        -64
+      ],
+      "direction_degrees": 0
+    },
+    "tram_east": {
+      "position": [
+        13500,
+        -160,
+        -64
+      ],
+      "direction_degrees": 0
+    }
+  },
+  "door_ids": {
+    "door_1": 1,
+    "door_2": 2,
+    "door_3": 3,
+    "door_4": 4,
+    "door_5": 5,
+    "door_6": 6,
+    "door_9": 9,
+    "door_10": 10,
+    "door_11": 11,
+    "door_12": 12,
+    "door_13": 13,
+    "door_14": 14,
+    "door_7": 7,
+    "door_8": 8
+  },
+  "chest_events": {
+    "30": 0,
+    "31": 1,
+    "32": 2,
+    "33": 3,
+    "34": 4,
+    "35": 5
+  },
+  "monster_packs": [
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 3600,
+      "y": 600,
+      "label": "Reaver Drones \u00d74, a swarm in the dark",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 5400,
+      "y": 200,
+      "label": "Reaver Drones \u00d74",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 6800,
+      "y": 800,
+      "label": "Reaver Drones \u00d73",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 4728,
+      "y": -1300,
+      "label": "Reaver Drones \u00d73 (the bay)",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 5000,
+      "y": 2200,
+      "label": "Reaver Drones \u00d74 among the carriages",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 8600,
+      "y": 800,
+      "label": "Reaver Drones \u00d75 round the dead tram",
+      "count": 5
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 8900,
+      "y": 2600,
+      "label": "The drones' nest: Reaver Drones \u00d76 on their cradles",
+      "count": 6
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 15500,
+      "y": 1300,
+      "label": "Crown Lancers \u00d72, Reaver Drones \u00d74: posted at the platform's far end",
+      "count": 6
+    },
+    {
+      "kind": "monster",
+      "floor": "Flooded Cut (z -512)",
+      "x": 14200,
+      "y": 4600,
+      "label": "Reaver Drones \u00d76 over the water",
+      "count": 6
+    },
+    {
+      "kind": "monster",
+      "floor": "Flooded Cut (z -512)",
+      "x": 16556,
+      "y": 5300,
+      "label": "Reaver Drones \u00d74 (the pumps)",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Flooded Cut (z -512)",
+      "x": 11400,
+      "y": 4900,
+      "label": "Drudge Hulks \u00d76, digging",
+      "count": 6
+    },
+    {
+      "kind": "monster",
+      "floor": "Flooded Cut (z -512)",
+      "x": 9000,
+      "y": 5300,
+      "label": "Drudge Hulks \u00d76 in the burrow",
+      "count": 6
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 13200,
+      "y": 10400,
+      "label": "Crown Sentinels \u00d74 on the junction's ramparts",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 15300,
+      "y": 11200,
+      "label": "Crown Lancers \u00d74, the Junction patrol",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 16956,
+      "y": 10600,
+      "label": "Crown Lancers \u00d72 at the boards",
+      "count": 2
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 13000,
+      "y": 12200,
+      "label": "Crown Lancers \u00d73 (hidden: they come while the lock turns)",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Line (z 0)",
+      "x": 14292,
+      "y": 13400,
+      "label": "Crown Sentinels \u00d72 by the lift",
+      "count": 2
+    }
+  ],
+  "room_bounds": {
+    "landing": [
+      0,
+      0,
+      1200,
+      1200,
+      511,
+      1024
+    ],
+    "servstair": [
+      1264,
+      200,
+      2664,
+      1000,
+      -1,
+      896
+    ],
+    "maint": [
+      3528,
+      -1864,
+      5928,
+      -664,
+      -1,
+      512
+    ],
+    "tramw": [
+      7792,
+      -480,
+      10392,
+      160,
+      -65,
+      384
+    ],
+    "shed": [
+      8392,
+      1864,
+      10192,
+      3264,
+      -1,
+      512
+    ],
+    "trame": [
+      12792,
+      -480,
+      15392,
+      160,
+      -65,
+      384
+    ],
+    "cutramp": [
+      13892,
+      1864,
+      14692,
+      3264,
+      -513,
+      768
+    ],
+    "junramp": [
+      13892,
+      7792,
+      14692,
+      9192,
+      -513,
+      512
+    ],
+    "signal": [
+      16156,
+      10056,
+      17756,
+      11456,
+      -1,
+      512
+    ],
+    "rootlock": [
+      13692,
+      12520,
+      14892,
+      13920,
+      -1,
+      448
+    ],
+    "lift": [
+      13692,
+      13984,
+      14892,
+      15184,
+      -1,
+      448
+    ],
+    "linew_0_0": [
+      2728,
+      -200,
+      3928,
+      1400,
+      -129,
+      640
+    ],
+    "linew_1_0": [
+      3928,
+      -200,
+      5128,
+      1400,
+      -129,
+      640
+    ],
+    "linew_2_0": [
+      5128,
+      -200,
+      6328,
+      1400,
+      -129,
+      640
+    ],
+    "linew_3_0": [
+      6328,
+      -200,
+      7528,
+      1400,
+      -129,
+      640
+    ],
+    "siding_0_0": [
+      3528,
+      1464,
+      5128,
+      2864,
+      -1,
+      640
+    ],
+    "siding_1_0": [
+      5128,
+      1464,
+      6728,
+      2864,
+      -1,
+      640
+    ],
+    "platw_0_0": [
+      7592,
+      -600,
+      8725,
+      1800,
+      -129,
+      768
+    ],
+    "platw_1_0": [
+      8725,
+      -600,
+      9859,
+      1800,
+      -129,
+      768
+    ],
+    "platw_2_0": [
+      9859,
+      -600,
+      10992,
+      1800,
+      -129,
+      768
+    ],
+    "plate_0_0": [
+      12592,
+      -600,
+      13725,
+      1800,
+      -129,
+      768
+    ],
+    "plate_1_0": [
+      13725,
+      -600,
+      14859,
+      1800,
+      -129,
+      768
+    ],
+    "plate_2_0": [
+      14859,
+      -600,
+      15992,
+      1800,
+      -129,
+      768
+    ],
+    "cut_0_0": [
+      12892,
+      3328,
+      15692,
+      4428,
+      -513,
+      256
+    ],
+    "cut_0_1": [
+      12892,
+      4428,
+      15692,
+      5528,
+      -513,
+      256
+    ],
+    "cut_0_2": [
+      12892,
+      5528,
+      15692,
+      6628,
+      -513,
+      256
+    ],
+    "cut_0_3": [
+      12892,
+      6628,
+      15692,
+      7728,
+      -513,
+      256
+    ],
+    "pumpgal_0_0": [
+      15756,
+      4128,
+      17356,
+      5328,
+      -513,
+      0
+    ],
+    "pumpgal_0_1": [
+      15756,
+      5328,
+      17356,
+      6528,
+      -513,
+      0
+    ],
+    "breach_0_0": [
+      10428,
+      4128,
+      11228,
+      6528,
+      -513,
+      128
+    ],
+    "breach_1_0": [
+      11228,
+      4128,
+      12028,
+      6528,
+      -513,
+      128
+    ],
+    "breach_2_0": [
+      12028,
+      4128,
+      12828,
+      6528,
+      -513,
+      128
+    ],
+    "burrow_0_0": [
+      7964,
+      4528,
+      9164,
+      6128,
+      -513,
+      0
+    ],
+    "burrow_1_0": [
+      9164,
+      4528,
+      10364,
+      6128,
+      -513,
+      0
+    ],
+    "junction_0_0": [
+      12492,
+      9256,
+      14292,
+      10856,
+      -1,
+      768
+    ],
+    "junction_1_0": [
+      14292,
+      9256,
+      16092,
+      10856,
+      -1,
+      768
+    ],
+    "junction_0_1": [
+      12492,
+      10856,
+      14292,
+      12456,
+      -1,
+      768
+    ],
+    "junction_1_1": [
+      14292,
+      10856,
+      16092,
+      12456,
+      -1,
+      768
+    ]
+  },
+  "plan_budget": {
+    "map": "d15_undercroft",
+    "extent": [
+      17756,
+      17048
+    ],
+    "floor_area_m_units": 84.6,
+    "floors": 3,
+    "rooms": 20,
+    "sectors": 38,
+    "doors": 14,
+    "monsters": 72,
+    "chests": 6,
+    "interactables": 8,
+    "houses": 0,
+    "lights": 35,
+    "max_lights_at_a_point": 3
+  },
+  "dressing_solids": [
+    [
+      10428,
+      4368,
+      -512,
+      10748,
+      4688,
+      128
+    ],
+    [
+      10428,
+      5968,
+      -512,
+      10748,
+      6288,
+      128
+    ],
+    [
+      12508,
+      4368,
+      -512,
+      12828,
+      4688,
+      128
+    ],
+    [
+      12508,
+      5968,
+      -512,
+      12828,
+      6288,
+      128
+    ],
+    [
+      12492,
+      9336,
+      0,
+      12812,
+      9656,
+      768
+    ],
+    [
+      12492,
+      10696,
+      0,
+      12812,
+      11016,
+      768
+    ],
+    [
+      12492,
+      12056,
+      0,
+      12812,
+      12376,
+      768
+    ],
+    [
+      15772,
+      9336,
+      0,
+      16092,
+      9656,
+      768
+    ],
+    [
+      15772,
+      10948.0,
+      0,
+      16092,
+      11268.0,
+      768
+    ],
+    [
+      15772,
+      12056,
+      0,
+      16092,
+      12376,
+      768
+    ],
+    [
+      12128,
+      4328,
+      -512,
+      12568,
+      4508,
+      -416
+    ],
+    [
+      12128,
+      6108,
+      -512,
+      12568,
+      6288,
+      -416
+    ]
+  ],
+  "ramp_bounds": [
+    [
+      13400,
+      10300,
+      14424,
+      10812
+    ],
+    [
+      15144,
+      10932,
+      15656,
+      11700
+    ],
+    [
+      14844,
+      9800,
+      15356,
+      10568
+    ]
+  ],
+  "chamfers": {
+    "landing": 192,
+    "maint": 192,
+    "siding": 192,
+    "shed": 192,
+    "cut": 256,
+    "pumpgal": 192,
+    "breach": 320,
+    "burrow": 240,
+    "junction": 320,
+    "signal": 192,
+    "rootlock": 128,
+    "lift": 128
+  },
+  "review_lights": [
+    {
+      "id": "F1",
+      "floor": "Deep Stair (z 512)",
+      "x": 600,
+      "y": 1200,
+      "z": 792,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "The bulkhead's lamp (the Undervault's power)",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 180
+    },
+    {
+      "id": "F2",
+      "floor": "Line (z 0)",
+      "x": 1964,
+      "y": 1000,
+      "z": 520,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Service Stair lamp",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 180
+    },
+    {
+      "id": "L1",
+      "floor": "Line (z 0)",
+      "x": 3200,
+      "y": 600,
+      "z": 280,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "A live lamp in the dark line (one of two)",
+      "fixture": null,
+      "facing": 0
+    },
+    {
+      "id": "L2",
+      "floor": "Line (z 0)",
+      "x": 6200,
+      "y": 600,
+      "z": 280,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "A live lamp in the dark line (two of two)",
+      "fixture": null,
+      "facing": 0
+    },
+    {
+      "id": "F3",
+      "floor": "Line (z 0)",
+      "x": 4128,
+      "y": -1864,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Maintenance Bay lamp",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 0
+    },
+    {
+      "id": "F4",
+      "floor": "Line (z 0)",
+      "x": 5328,
+      "y": -1864,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Maintenance Bay lamp",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 0
+    },
+    {
+      "id": "F5",
+      "floor": "Line (z 0)",
+      "x": 8159,
+      "y": 1800,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 1,
+      "note": "Platform West lamp (the power)",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 180
+    },
+    {
+      "id": "F6",
+      "floor": "Line (z 0)",
+      "x": 10425,
+      "y": 1800,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 1,
+      "note": "Platform West lamp (the power)",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 180
+    },
+    {
+      "id": "L3",
+      "floor": "Line (z 0)",
+      "x": 9092,
+      "y": 1700,
+      "z": 300,
+      "radius": 630,
+      "colour": [
+        130,
+        220,
+        255
+      ],
+      "group": 1,
+      "note": "The route board lit (the power)",
+      "fixture": null,
+      "facing": 0
+    },
+    {
+      "id": "L4",
+      "floor": "Line (z 0)",
+      "x": 9092,
+      "y": -480,
+      "z": 200,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 1,
+      "note": "Tram 1's cabin lights (the power)",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 0
+    },
+    {
+      "id": "F7",
+      "floor": "Line (z 0)",
+      "x": 8842,
+      "y": 3264,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Tram Shed lamp (its own battery)",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 180
+    },
+    {
+      "id": "F8",
+      "floor": "Line (z 0)",
+      "x": 9742,
+      "y": 3264,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Tram Shed lamp (its own battery)",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 180
+    },
+    {
+      "id": "L5",
+      "floor": "Line (z 0)",
+      "x": 14092,
+      "y": -480,
+      "z": 200,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Tram 2's cabin lights",
+      "fixture": "hes_d15_graft_light",
+      "facing": 0
+    },
+    {
+      "id": "F9",
+      "floor": "Line (z 0)",
+      "x": 13442,
+      "y": 1800,
+      "z": 260,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Platform East: grafted lights",
+      "fixture": "hes_d15_graft_light",
+      "facing": 180
+    },
+    {
+      "id": "F10",
+      "floor": "Line (z 0)",
+      "x": 15142,
+      "y": 1800,
+      "z": 260,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Platform East: grafted lights",
+      "fixture": "hes_d15_graft_light",
+      "facing": 180
+    },
+    {
+      "id": "L6",
+      "floor": "Flooded Cut (z -512)",
+      "x": 14292,
+      "y": 5528,
+      "z": -350,
+      "radius": 900,
+      "colour": [
+        110,
+        140,
+        120
+      ],
+      "group": 0,
+      "note": "The water's oily sheen (a dim reflected glow)",
+      "fixture": null,
+      "facing": 0
+    },
+    {
+      "id": "F11",
+      "floor": "Flooded Cut (z -512)",
+      "x": 15692,
+      "y": 4428,
+      "z": -92,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "The Flooded Cut: a lamp above the water",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 90
+    },
+    {
+      "id": "F12",
+      "floor": "Flooded Cut (z -512)",
+      "x": 15692,
+      "y": 6628,
+      "z": -92,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "The Flooded Cut: a lamp above the water",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 90
+    },
+    {
+      "id": "F13",
+      "floor": "Flooded Cut (z -512)",
+      "x": 17356,
+      "y": 4728,
+      "z": -252,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Pump Gallery lamp",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 90
+    },
+    {
+      "id": "F14",
+      "floor": "Flooded Cut (z -512)",
+      "x": 17356,
+      "y": 5928,
+      "z": -252,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Pump Gallery lamp",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 90
+    },
+    {
+      "id": "F15",
+      "floor": "Flooded Cut (z -512)",
+      "x": 10428,
+      "y": 4728,
+      "z": -312,
+      "radius": 768,
+      "colour": [
+        255,
+        140,
+        60
+      ],
+      "group": 0,
+      "note": "The breach: resin vents",
+      "fixture": "hes_d15_vent_glow",
+      "facing": 270
+    },
+    {
+      "id": "F16",
+      "floor": "Flooded Cut (z -512)",
+      "x": 10428,
+      "y": 5928,
+      "z": -312,
+      "radius": 768,
+      "colour": [
+        255,
+        140,
+        60
+      ],
+      "group": 0,
+      "note": "The breach: resin vents",
+      "fixture": "hes_d15_vent_glow",
+      "facing": 270
+    },
+    {
+      "id": "F17",
+      "floor": "Flooded Cut (z -512)",
+      "x": 8564,
+      "y": 6128,
+      "z": -312,
+      "radius": 768,
+      "colour": [
+        255,
+        140,
+        60
+      ],
+      "group": 0,
+      "note": "The burrow: resin vents",
+      "fixture": "hes_d15_vent_glow",
+      "facing": 180
+    },
+    {
+      "id": "F18",
+      "floor": "Flooded Cut (z -512)",
+      "x": 9764,
+      "y": 6128,
+      "z": -312,
+      "radius": 768,
+      "colour": [
+        255,
+        140,
+        60
+      ],
+      "group": 0,
+      "note": "The burrow: resin vents",
+      "fixture": "hes_d15_vent_glow",
+      "facing": 180
+    },
+    {
+      "id": "F19",
+      "floor": "Line (z 0)",
+      "x": 12492,
+      "y": 10056,
+      "z": 260,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Crown Junction: grafted lights",
+      "fixture": "hes_d15_graft_light",
+      "facing": 270
+    },
+    {
+      "id": "F20",
+      "floor": "Line (z 0)",
+      "x": 12492,
+      "y": 11656,
+      "z": 260,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Crown Junction: grafted lights",
+      "fixture": "hes_d15_graft_light",
+      "facing": 270
+    },
+    {
+      "id": "F21",
+      "floor": "Line (z 0)",
+      "x": 16092,
+      "y": 10056,
+      "z": 260,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Crown Junction: grafted lights",
+      "fixture": "hes_d15_graft_light",
+      "facing": 90
+    },
+    {
+      "id": "F22",
+      "floor": "Line (z 0)",
+      "x": 16092,
+      "y": 11656,
+      "z": 260,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Crown Junction: grafted lights",
+      "fixture": "hes_d15_graft_light",
+      "facing": 90
+    },
+    {
+      "id": "F23",
+      "floor": "Line (z 0)",
+      "x": 17756,
+      "y": 10756,
+      "z": 260,
+      "radius": 768,
+      "colour": [
+        220,
+        232,
+        255
+      ],
+      "group": 0,
+      "note": "Signal Room light",
+      "fixture": "hes_d15_graft_light",
+      "facing": 90
+    },
+    {
+      "id": "L7",
+      "floor": "Line (z 0)",
+      "x": 14292,
+      "y": 13700,
+      "z": 300,
+      "radius": 630,
+      "colour": [
+        120,
+        230,
+        255
+      ],
+      "group": 2,
+      "note": "The root lock's glyph ring (cyan when it turns)",
+      "fixture": null,
+      "facing": 0
+    },
+    {
+      "id": "F24",
+      "floor": "Line (z 0)",
+      "x": 13692,
+      "y": 13220,
+      "z": 208,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Root Lock lamp",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 270
+    },
+    {
+      "id": "F25",
+      "floor": "Line (z 0)",
+      "x": 14892,
+      "y": 14584,
+      "z": 208,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "Service Lift lamp",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 90
+    },
+    {
+      "id": "B_siding",
+      "floor": "Line (z 0)",
+      "x": 5500,
+      "y": 2864,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 180
+    },
+    {
+      "id": "B_cut_ramp",
+      "floor": "Line (z 0)",
+      "x": 13892,
+      "y": 2550,
+      "z": 260,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 270
+    },
+    {
+      "id": "B_junction_ramp",
+      "floor": "Flooded Cut (z -512)",
+      "x": 14692,
+      "y": 8500,
+      "z": 4,
+      "radius": 960,
+      "colour": [
+        255,
+        165,
+        70
+      ],
+      "group": 0,
+      "note": "",
+      "fixture": "hes_d15_tunnel_lamp",
+      "facing": 90
+    }
+  ],
+  "pickups": [
+    {
+      "model": "hes_colony_satchel",
+      "event": 751,
+      "room": "landing",
+      "position": [
+        1000,
+        200,
+        512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 752,
+      "room": "landing",
+      "position": [
+        160,
+        1040,
+        512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 753,
+      "room": "maint",
+      "position": [
+        3750,
+        -850,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 754,
+      "room": "maint",
+      "position": [
+        5650,
+        -850,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 755,
+      "room": "siding",
+      "position": [
+        3760,
+        1830,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 756,
+      "room": "siding",
+      "position": [
+        6500,
+        2400,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 757,
+      "room": "linew",
+      "position": [
+        7100,
+        1120,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 758,
+      "room": "platw",
+      "position": [
+        7800,
+        1450,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 759,
+      "room": "platw",
+      "position": [
+        10550,
+        1500,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 760,
+      "room": "shed",
+      "position": [
+        9900,
+        2050,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 761,
+      "room": "plate",
+      "position": [
+        12850,
+        1450,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 762,
+      "room": "plate",
+      "position": [
+        15750,
+        650,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 763,
+      "room": "pumpgal",
+      "position": [
+        17100,
+        4400,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 764,
+      "room": "pumpgal",
+      "position": [
+        16400,
+        6000,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 765,
+      "room": "signal",
+      "position": [
+        17450,
+        10300,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 766,
+      "room": "rootlock",
+      "position": [
+        13850,
+        12720,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 767,
+      "room": "breach",
+      "position": [
+        11300,
+        4350,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 768,
+      "room": "breach",
+      "position": [
+        11300,
+        6300,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 769,
+      "room": "burrow",
+      "position": [
+        8200,
+        4750,
+        -512
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 770,
+      "room": "burrow",
+      "position": [
+        10000,
+        5900,
+        -512
+      ]
+    }
+  ],
+  "map": "hes_d15.blv",
+  "events": {
+    "101": "door_1",
+    "102": "door_2",
+    "103": "door_3",
+    "105": "door_5",
+    "109": "door_9",
+    "110": "door_10",
+    "112": "door_12",
+    "113": "door_13",
+    "60": "plate_60",
+    "63": "plate_63",
+    "61": "plate_61",
+    "62": "plate_62",
+    "10": "console_10",
+    "11": "console_11",
+    "12": "console_12",
+    "75": "console_75",
+    "72": "tram_console_72",
+    "73": "tram_console_73",
+    "13": "stair_warning",
+    "76": "lift_release",
+    "50": "exit_50",
+    "51": "exit_51",
+    "80": "supply_cache_0",
+    "81": "supply_cache_1"
+  },
+  "decorations": 97,
+  "sectors": [
+    "room_breach_0_0",
+    "room_breach_1_0",
+    "room_breach_2_0",
+    "room_burrow_0_0",
+    "room_burrow_1_0",
+    "room_cut_0_0",
+    "room_cut_0_1",
+    "room_cut_0_2",
+    "room_cut_0_3",
+    "room_cutramp",
+    "room_junction_0_0",
+    "room_junction_0_1",
+    "room_junction_1_0",
+    "room_junction_1_1",
+    "room_junramp",
+    "room_landing",
+    "room_lift",
+    "room_linew_0_0",
+    "room_linew_1_0",
+    "room_linew_2_0",
+    "room_linew_3_0",
+    "room_maint",
+    "room_plate_0_0",
+    "room_plate_1_0",
+    "room_plate_2_0",
+    "room_platw_0_0",
+    "room_platw_1_0",
+    "room_platw_2_0",
+    "room_pumpgal_0_0",
+    "room_pumpgal_0_1",
+    "room_rootlock",
+    "room_servstair",
+    "room_shed",
+    "room_siding_0_0",
+    "room_siding_1_0",
+    "room_signal",
+    "room_trame",
+    "room_tramw"
+  ],
+  "doors": {
+    "door_1": 1,
+    "door_2": 2,
+    "door_3": 3,
+    "door_4": 4,
+    "door_5": 5,
+    "door_6": 6,
+    "door_9": 9,
+    "door_10": 10,
+    "door_11": 11,
+    "door_12": 12,
+    "door_13": 13,
+    "door_14": 14,
+    "door_7": 7,
+    "door_8": 8
+  }
+}

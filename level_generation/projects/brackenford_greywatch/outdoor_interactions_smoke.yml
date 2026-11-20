@@ -1,0 +1,120 @@
+id: levelgen.brackenford.outdoor_interactions
+title: Actual well/obelisk/chest picking, nonstacking Might and saved local discovery
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg01.odm
+- assert:
+    runtime_event_variable:
+      id: 25
+      value: 0
+      member_index: 0
+- set_pose:
+    map: lg01.odm
+    x: -8704
+    y: 1472
+    z: 608
+    yaw: 1.5707963267948966
+    pitch: -0.4
+- press_interact: {}
+- assert:
+    runtime_event_variable:
+      id: 25
+      value: 25
+      member_index: 0
+- press_interact: {}
+- assert:
+    runtime_event_variable:
+      id: 25
+      value: 25
+      member_index: 0
+- set_pose:
+    map: lg01.odm
+    x: -18432
+    y: 15104
+    z: 1536
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 11
+      value: 1
+    qbit_clear:
+    - 187
+- save_game: landmark_state
+- load_game: landmark_state
+- assert:
+    state_dump_map_var:
+      index: 11
+      value: 1
+    qbit_clear:
+    - 187
+- assert:
+    runtime_event_variable:
+      id: 25
+      value: 25
+      member_index: 0
+- assert:
+    new_game_party_skill:
+      member_index: 0
+      name: Disarm Trap
+      level: 10
+      mastery: 3
+- set_pose:
+    map: lg01.odm
+    x: 21248
+    y: 3328
+    z: 1104
+    yaw: 1.5707963267948966
+    pitch: -0.55
+- press_interact: {}
+- assert:
+    chest_opened:
+      map: Brackenford
+      chest_id: 0
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: 21760
+    y: 3328
+    z: 1072
+    yaw: 1.5707963267948966
+    pitch: -0.55
+- press_interact: {}
+- assert:
+    chest_opened:
+      map: Brackenford
+      chest_id: 1
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: 9984
+    y: -22784
+    z: 1120
+    yaw: 1.5707963267948966
+    pitch: -0.55
+- press_interact: {}
+- assert:
+    chest_opened:
+      map: Brackenford
+      chest_id: 2
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: 10496
+    y: -22784
+    z: 1120
+    yaw: 1.5707963267948966
+    pitch: -0.55
+- press_interact: {}
+- assert:
+    chest_opened:
+      map: Brackenford
+      chest_id: 3
+- press_action:
+    action: escape

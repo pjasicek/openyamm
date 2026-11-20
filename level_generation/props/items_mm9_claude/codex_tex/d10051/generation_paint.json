@@ -1,0 +1,30 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as a texture and material-mask atlas. Reference image 1 is the exact guide to paint; reference image 2 design_reference.png is the approved material/detail reference; reference image 3 icon_x8.png is the original colour reference (magenta is background).\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Keep the guide's three columns and FOUR rows of square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat these exact five views for material masks. Preserve every object's exact position, size, silhouette, orientation, gaps and openings. Paint grey pixels only; never redraw, enlarge, move or redesign the geometry. The side views look horizontal, end views like circular centres on a thin horizontal limb, top view like the full crossbow. Preserve these exact projections rather than substituting the reference front painting.\nRows 1-2 PAINT: unlit base colour of the decorative fantasy crossbow: ivory recurved limbs, black string, long brown wooden stock, cream mechanism, pale rear hook, gold/brass fittings and steel tip as in references. Facets, engravings, scrollwork and inner swirls follow design_reference, scaled to each view. No illumination, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes, FLAT pure colours ONLY, no shading, texture, outlines or antialiased colour blends inside. #FF0000 every metal including gold/brass/steel; #00FF00 leather/fur; #0000FF cloth/cord/hair (including bow string); #FFFF00 matte non-metal solids including wood, bone, horn; #000000 gemstone/crystal/glass/pearl/enamel/liquid. Every silhouette pixel exactly one of these colours and nothing outside. Preserve transparent gaps. Empty cell column 3 row 2 and column 3 row 4 completely transparent. Background genuine alpha transparency. This is a harmless static decorative game prop texture sheet.\nCORRECTION: The previous attempt had scattered red/yellow pixels and coloured halos outside the objects, and changed outlines. Start afresh from the original grey guide alpha silhouettes, lock their shapes exactly. Absolutely no stray pixels or coloured fringes outside those shapes. Preserve the guide's simple geometry even when the detailed reference differs. The lower half must be solid exact palette region fills without gradients or texture.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as a texture and material-mask atlas. Reference image 1 is the exact guide to paint; reference image 2 design_reference.png is the approved material/detail reference; reference image 3 icon_x8.png is the original colour reference (magenta is background).\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Keep the guide's three columns and FOUR rows of square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat these exact five views for material masks. Preserve every object's exact position, size, silhouette, orientation, gaps and openings. Paint grey pixels only; never redraw, enlarge, move or redesign the geometry. The side views look horizontal, end views like circular centres on a thin horizontal limb, top view like the full crossbow. Preserve these exact projections rather than substituting the reference front painting.\nRows 1-2 PAINT: unlit base colour of the decorative fantasy crossbow: ivory recurved limbs, black string, long brown wooden stock, cream mechanism, pale rear hook, gold/brass fittings and steel tip as in references. Facets, engravings, scrollwork and inner swirls follow design_reference, scaled to each view. No illumination, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes, FLAT pure colours ONLY, no shading, texture, outlines or antialiased colour blends inside. #FF0000 every metal including gold/brass/steel; #00FF00 leather/fur; #0000FF cloth/cord/hair (including bow string); #FFFF00 matte non-metal solids including wood, bone, horn; #000000 gemstone/crystal/glass/pearl/enamel/liquid. Every silhouette pixel exactly one of these colours and nothing outside. Preserve transparent gaps. Empty cell column 3 row 2 and column 3 row 4 completely transparent. Background genuine alpha transparency. This is a harmless static decorative game prop texture sheet.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-daba-7bf2-aaad-e7dff95f1a52/exec-e6c37df8-83f1-4063-b27f-183c9c22d021.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10051/paint_mask_raw_v1.png",
+  "generation_tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10051/paint_mask_guide.png",
+      "sha256": "022eb56f47bb33584cff2a1488d9091e56a42236aa080f2431e27527f74b3a8f"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10051/design_reference.png",
+      "sha256": "f6e0d744c33a28b7b6f25f813b95a2e4b1d21b21e3d62a1e78168a7186247d29"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10051/icon_x8.png",
+      "sha256": "e37eecc9a038b044529a19e457d005d86e4a9ad2d3c66703cb187bff64bfff61"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": "Visible coloured fringe pixels remain outside silhouettes; exact guide alignment and pure mask palette are not satisfied after the permitted correction."
+  }
+}

@@ -1,0 +1,27 @@
+id: rulesets.maw_quest_pouch
+title: "Ruleset - MAW's quest pouch: a real quest gives its item there, finds it there and takes it from there"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  # Dadeross gives his letter to Fellmoon (741, worth nothing: a quest item, so it lies in the party's quest pouch).
+  - speak_npc: {source_id: 2}
+  - select_topic: {action_id: 20}
+  - assert:
+      qbit_set: [3]
+      inventory_any_member: [{item_id: 741, count: 1}]
+  # Every member has it as much as another; a range check counts it; a priced quest item stays in a member's bag.
+  - grant_item: {item_id: 628}
+  - lua_event:
+      source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not evt.PartyMemberHasItem(i, 741) or evt.PartyMemberItemCount(i, 741) ~= 1 then error('member ' .. i .. ' has no letter') end end if not evt.CheckItemsCount(740, 742, 1) then error('the range check misses the letter') end if not evt.HasItemAnywhere(741) then error('HasItemAnywhere misses the letter') end"
+  - press_action: {action: cancel_dialog}
+  # Fellmoon finds the letter, takes it and ends the quest.
+  - speak_npc: {source_id: 3}
+  - select_topic: {action_id: 28}
+  - assert:
+      qbit_set: [4]
+      qbit_clear: [3, 221]
+      inventory_any_member: [{item_id: 741, count: 0}, {item_id: 628, count: 1}]

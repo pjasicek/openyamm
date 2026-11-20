@@ -1,0 +1,19 @@
+{
+  "reason": "Identical source icon pixels and genuine shared geometry; selected canonical painted views and material IDs",
+  "source_icon": "6boots5",
+  "target_icon": "6boots7",
+  "artifacts": [
+    {
+      "kind": "paint",
+      "source": "codex_tex/equipment_6boots5/paint_atlas.png",
+      "sha256": "f6d2f594e2f8043ec42c9f373e82c0c88de4fc5ee0cf089192686b19a84d39cf",
+      "original": "paint_atlas_before_identical_reuse.png"
+    },
+    {
+      "kind": "mask",
+      "source": "codex_tex/equipment_6boots5/mask_atlas.png",
+      "sha256": "b61e442cced2977a889e7a41edb927630c4cb60119c4a9531b761b7d386bc2ff",
+      "original": "mask_atlas_before_identical_reuse.png"
+    }
+  ]
+}

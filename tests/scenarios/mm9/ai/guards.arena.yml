@@ -1,0 +1,31 @@
+# AI arena: MM9's town guards and monsters at war (PoliceMan.inc AddEnemy AIBase; MM9_MONSTER_AI_PLAN.md phase 4b,
+# worlds/mm9/relations.yml, generated). A Town Guard facing west, friendly to the party, notices a Bandit (hostile to
+# the party) and fights it; the Bandit takes the guard, the nearer of its two enemies (IsFriend asks both sides: the
+# guard counts it an enemy, so it is not the guard's friend either). A second guard beside the party (facing east,
+# seeing 600 units) takes the Bandit from the first guard's alert (PoliceAlert: a fellow guard) and counts the party's
+# hits: the third makes the party its enemy (PoliceMan.inc OnDamage). See README.md.
+name: mm9_guards
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9107
+    position: [0, 100, 1]
+    yaw_degrees: 180
+    hostile: false
+    mm9_ai: {sight: 1000, hearing: 50}
+  - monster_id: 9101
+    position: [-900, 100, 1]
+    yaw_degrees: 0
+    mm9_ai: {runaway_chance: 0}
+  - monster_id: 9107
+    position: [400, -1300, 1]
+    yaw_degrees: 0
+    hostile: false
+    mm9_ai: {sight: 600, hearing: 50}

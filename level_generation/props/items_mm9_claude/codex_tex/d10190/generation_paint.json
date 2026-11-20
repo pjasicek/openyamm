@@ -1,0 +1,25 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise-object-edit, using design_reference.png for materials/details and icon_x8.png for colors (magenta is background only).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the guide's exact three-column FOUR-row layout, all object positions, scales, outlines and openings. Paint ONLY existing grey pixels; do not enlarge, move, redraw or redesign silhouettes. The tiny end-on views must stay tiny. Rows 1-2 are five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat identical five views for material masks. Columns 3 in rows 2 and 4 stay transparent.\nPAINT rows 1-2: Faithfully extrapolate complete MM9 Formanir in MM6-MM8 inventory style, as reference: golden-orange leaf/flame spear point with cream center ridge, tiny blue-violet metal socket, orange-and-ivory wrapped upper shaft, sparse gold collars, long golden-brown wooden lower shaft. Full length spear without redesign. Facets, engravings, scrollwork and inner swirls follow reference scaled to views. Unlit base color only: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nMATERIAL MASK rows 3-4: identical silhouettes with FLAT pure colors only, no shading, texture, outlines or antialiased internal color blends. Every metal part including golden blade, cream metallic ridge, blue-violet metal socket, gold collars and metal tip is pure red #FF0000. Every leather part including leather wrapping is pure green #00FF00. Cloth/cord/ribbon/hair pure blue #0000FF if present. Every matte non-metal solid including wooden long lower shaft is pure yellow #FFFF00. Gemstone/crystal/glass/pearl/enamel/liquid-through-glass pure black #000000 if present. Each silhouette pixel must have exactly one category color. Nothing outside silhouettes. Preserve all gaps/openings fully transparent.\nInput guide is authoritative for geometry and layout; design and icon are appearance references only.\nCRITICAL CORRECTION: Preserve the grey guide's silhouettes exactly. The horizontal side-view spearheads are EDGE-ON narrow slivers, NOT broad leaf blades. Do not turn them into face-on blades. The vertical blades retain the guide's exact polygon outline. No stray pixels, fringes or colored halos anywhere. All lower masks have absolutely flat solid category fills with no dark shading or highlights. Precisely trace the guide coverage; do not expand the shaft or blade. Preserve relative positions including bottom row centers.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad06-2b7f-7572-82fc-e83692b02be7/exec-bd9d15ab-5412-4394-80cc-10c6fde923e4.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10190/paint_mask_raw_v1.png",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10190/paint_mask_guide.png",
+      "sha256": "391caa4da175c02984470041d95eb2965d2ec856277e2199176bd701fc885ef8"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10190/design_reference.png",
+      "sha256": "2f206e09636614e88e17c42063635b1755872419e5b430fca8b35bb99c434db0"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10190/icon_x8.png",
+      "sha256": "612cf42438ec2babd4d80874eeb02469fafb6c41fb5648220767802f324ffae5"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1
+}

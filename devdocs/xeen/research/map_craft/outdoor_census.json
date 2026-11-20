@@ -1,0 +1,4240 @@
+[
+ {
+  "world": "mm6",
+  "map": "outa1",
+  "name": "Sweet Water",
+  "biome": "blighted",
+  "tilesets": [
+   "crktyl",
+   "6wtrtyl",
+   "snotyl",
+   "6drsrcros"
+  ],
+  "water_pct": 1.0,
+  "shore_pct": 0.4,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.7,
+  "height_max": 4064,
+  "height_p90_land": 2112,
+  "land_blocks4096": 253.6,
+  "deco_visible": 725,
+  "deco_per_block": "4.51",
+  "trees": 118,
+  "rocks": 18,
+  "flowers_plants": 12,
+  "dry": 83,
+  "deadwood": 493,
+  "remains": 0,
+  "ritual": 1,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 23,
+  "poi_classes": {
+   "unnamed": 2,
+   "well": 1,
+   "dungeon_entrance": 1,
+   "obelisk": 1,
+   "fountain": 2,
+   "chest": 1,
+   "pedestal": 1
+  },
+  "native_interactive": {
+   "pedestal": 1
+  },
+  "pois_merged": 7,
+  "poi_nn": [
+   8502,
+   9104,
+   11834
+  ],
+  "pois_per_block": 0.03,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 20,
+  "spawn_slots": {
+   "1": 11,
+   "2": 9
+  },
+  "expected_spawned": 60.0,
+  "enc": [
+   "Demon 2-4",
+   "DemonFly 2-4",
+   "0 1-4"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 17,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2717,
+   3053,
+   3419
+  ],
+  "start_to_fight": [
+   4557,
+   5094,
+   10109
+  ],
+  "start_to_service": null,
+  "starts": 3,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "outa2",
+  "name": "Paradise Valley",
+  "biome": "lush highlands",
+  "tilesets": [
+   "6sandtyl",
+   "6wtrtyl",
+   "crktyl",
+   "6drsrcros"
+  ],
+  "water_pct": 7.7,
+  "shore_pct": 0.5,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.7,
+  "height_max": 3200,
+  "height_p90_land": 2368,
+  "land_blocks4096": 236.2,
+  "deco_visible": 381,
+  "deco_per_block": "1.85",
+  "trees": 134,
+  "rocks": 60,
+  "flowers_plants": 0,
+  "dry": 151,
+  "deadwood": 35,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 1,
+  "bmodels": 40,
+  "poi_classes": {
+   "service:Temple": 1,
+   "service:Training": 1,
+   "service:Tavern": 1,
+   "residence": 15,
+   "service:Armor Shop": 1,
+   "service:Magic Shop": 1,
+   "service:Weapon Shop": 1,
+   "obelisk": 1,
+   "fountain": 1,
+   "chest": 3
+  },
+  "native_interactive": {
+   "campfire": 1
+  },
+  "pois_merged": 12,
+  "poi_nn": [
+   854,
+   1219,
+   5370
+  ],
+  "pois_per_block": 0.05,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 63,
+  "spawn_slots": {
+   "3": 28,
+   "2": 27,
+   "1": 8
+  },
+  "expected_spawned": 153.0,
+  "enc": [
+   "DragonCover 1-3",
+   "BHydra 2-4",
+   "BTitan 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 47,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2502,
+   4058,
+   5591
+  ],
+  "start_to_fight": [
+   1843,
+   3536,
+   3728
+  ],
+  "start_to_service": [
+   8726,
+   20902,
+   24631
+  ],
+  "starts": 5,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "outa3",
+  "name": "Hermit's Isle",
+  "biome": "island",
+  "tilesets": [
+   "6sandtyl",
+   "6wtrtyl",
+   "6voltyl",
+   "6drsrcros"
+  ],
+  "water_pct": 42.8,
+  "shore_pct": 3.3,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.3,
+  "height_max": 3200,
+  "height_p90_land": 512,
+  "land_blocks4096": 146.5,
+  "deco_visible": 341,
+  "deco_per_block": "2.38",
+  "trees": 102,
+  "rocks": 45,
+  "flowers_plants": 0,
+  "dry": 150,
+  "deadwood": 44,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 7,
+  "poi_classes": {
+   "obelisk": 1,
+   "dungeon_entrance": 1,
+   "fountain": 1,
+   "chest": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 4,
+  "poi_nn": [
+   2925,
+   8513,
+   20242
+  ],
+  "pois_per_block": 0.03,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 93,
+  "spawn_slots": {
+   "3": 32,
+   "1": 32,
+   "2": 29
+  },
+  "expected_spawned": 324.0,
+  "enc": [
+   "BTitan 2-3",
+   "BHydra 3-5",
+   "SeaSerpent 3-5"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 72,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2851,
+   3801,
+   4665
+  ],
+  "start_to_fight": [
+   2613,
+   3122,
+   3631
+  ],
+  "start_to_service": null,
+  "starts": 2,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "outb1",
+  "name": "Kriegspire",
+  "biome": "highlands",
+  "tilesets": [
+   "snotyl",
+   "6wtrtyl",
+   "6voltyl",
+   "6drsrcros"
+  ],
+  "water_pct": 0.1,
+  "shore_pct": 0.2,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.8,
+  "height_max": 3552,
+  "height_p90_land": 2688,
+  "land_blocks4096": 255.8,
+  "deco_visible": 425,
+  "deco_per_block": "1.93",
+  "trees": 385,
+  "rocks": 2,
+  "flowers_plants": 22,
+  "dry": 0,
+  "deadwood": 13,
+  "remains": 0,
+  "ritual": 1,
+  "working": 0,
+  "fires": 1,
+  "bmodels": 47,
+  "poi_classes": {
+   "service:Tavern": 1,
+   "service:Training": 1,
+   "well": 2,
+   "tree": 1,
+   "service:Armor Shop": 1,
+   "service:Weapon Shop": 1,
+   "residence": 15,
+   "dungeon_entrance": 6,
+   "service:Magic Shop": 1,
+   "service:Stables": 1,
+   "shrine": 2,
+   "obelisk": 1,
+   "fountain": 3,
+   "chest": 2,
+   "pedestal": 1
+  },
+  "native_interactive": {
+   "campfire": 1,
+   "pedestal": 1
+  },
+  "pois_merged": 25,
+  "poi_nn": [
+   1578,
+   1798,
+   6380
+  ],
+  "pois_per_block": 0.1,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 33,
+  "spawn_slots": {
+   "1": 16,
+   "2": 15,
+   "3": 2
+  },
+  "expected_spawned": 98.0,
+  "enc": [
+   "BMinotaur 2-4",
+   "ElemEarth 2-4",
+   "BDragonFly 2-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 15,
+  "group_marker_sizes": [
+   1,
+   1,
+   3
+  ],
+  "group_center_nn": [
+   2231,
+   3018,
+   5093
+  ],
+  "start_to_fight": [
+   11383,
+   12672,
+   13364
+  ],
+  "start_to_service": [
+   20348,
+   26097,
+   33054
+  ],
+  "starts": 4,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "outb2",
+  "name": "Blackshire",
+  "biome": "dry settlement",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "6sandtyl",
+   "6drsrcros"
+  ],
+  "water_pct": 1.3,
+  "shore_pct": 0.9,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.1,
+  "height_max": 4064,
+  "height_p90_land": 2464,
+  "land_blocks4096": 252.6,
+  "deco_visible": 451,
+  "deco_per_block": "2.67",
+  "trees": 203,
+  "rocks": 16,
+  "flowers_plants": 0,
+  "dry": 154,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 69,
+  "poi_classes": {
+   "fountain": 3,
+   "residence": 17,
+   "service:Dark Guild": 1,
+   "service:Light Guild": 1,
+   "service:Alchemist": 1,
+   "well": 2,
+   "service:Stables": 1,
+   "service:Armor Shop": 1,
+   "service:Training": 1,
+   "service:Temple": 2,
+   "service:Bank": 1,
+   "service:Magic Shop": 1,
+   "service:Thieves guild": 1,
+   "service:Weapon Shop": 1,
+   "dungeon_entrance": 2,
+   "obelisk": 1,
+   "sign": 1,
+   "service:Tavern": 2,
+   "chest": 6,
+   "service:Circus": 7,
+   "unnamed": 1,
+   "shrine": 1
+  },
+  "native_interactive": {
+   "food_tree": 77
+  },
+  "pois_merged": 36,
+  "poi_nn": [
+   1139,
+   1279,
+   5897
+  ],
+  "pois_per_block": 0.14,
+  "chests_scene": 20,
+  "loose_items": 3,
+  "item_spawns": 0,
+  "spawn_markers": 43,
+  "spawn_slots": {
+   "2": 12,
+   "3": 17,
+   "1": 14
+  },
+  "expected_spawned": 134.0,
+  "enc": [
+   "DragonCave 2-3",
+   "Werewolf 3-5",
+   "ElemAir 2-4"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 28,
+  "hostile_groups_1600": 32,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   3531,
+   4598,
+   6224
+  ],
+  "start_to_fight": [
+   6804,
+   18460,
+   18476
+  ],
+  "start_to_service": [
+   6546,
+   6707,
+   7921
+  ],
+  "starts": 5,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "outb3",
+  "name": "Dragonsand",
+  "biome": "desert",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "6sandtyl",
+   "6drsrcros"
+  ],
+  "water_pct": 33.3,
+  "shore_pct": 3.9,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.2,
+  "height_max": 2560,
+  "height_p90_land": 832,
+  "land_blocks4096": 170.9,
+  "deco_visible": 446,
+  "deco_per_block": "2.97",
+  "trees": 86,
+  "rocks": 69,
+  "flowers_plants": 0,
+  "dry": 290,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 1,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 27,
+  "poi_classes": {
+   "dungeon_entrance": 2,
+   "residence": 6,
+   "map_exit": 1,
+   "shrine": 1,
+   "obelisk": 1,
+   "service:Circus": 5,
+   "fountain": 3,
+   "chest": 5,
+   "pedestal": 1
+  },
+  "native_interactive": {
+   "pedestal": 1
+  },
+  "pois_merged": 17,
+  "poi_nn": [
+   1347,
+   5427,
+   7692
+  ],
+  "pois_per_block": 0.1,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 74,
+  "spawn_slots": {
+   "1": 18,
+   "3": 23,
+   "2": 33
+  },
+  "expected_spawned": 205.5,
+  "enc": [
+   "DragonLand 2-4",
+   "DragonCover 2-3",
+   "DragonCave 2-4"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 55,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   1998,
+   2604,
+   3785
+  ],
+  "start_to_fight": [
+   3289,
+   5359,
+   6576
+  ],
+  "start_to_service": [
+   28845,
+   33837,
+   35314
+  ],
+  "starts": 4,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "outc1",
+  "name": "Frozen Highlands",
+  "biome": "snow",
+  "tilesets": [
+   "snotyl",
+   "6wtrtyl",
+   "snotyl",
+   "6drsrcros"
+  ],
+  "water_pct": 5.8,
+  "shore_pct": 2.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.9,
+  "height_max": 3200,
+  "height_p90_land": 2560,
+  "land_blocks4096": 241.2,
+  "deco_visible": 491,
+  "deco_per_block": "2.86",
+  "trees": 469,
+  "rocks": 9,
+  "flowers_plants": 9,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 3,
+  "bmodels": 117,
+  "poi_classes": {
+   "service:Throne": 2,
+   "residence": 30,
+   "well": 2,
+   "fountain": 6,
+   "dungeon_entrance": 2,
+   "service:Dark Guild": 1,
+   "stone": 1,
+   "other": 2,
+   "service:Stables": 1,
+   "shrine": 1,
+   "service:Thieves guild": 1,
+   "obelisk": 1,
+   "service:Temple": 1,
+   "service:Elemental Guild": 1,
+   "service:Merc Guild": 1,
+   "service:Armor Shop": 2,
+   "service:Weapon Shop": 2,
+   "service:Bank": 1,
+   "service:Magic Shop": 1,
+   "service:Tavern": 2,
+   "service:Alchemist": 1,
+   "service:Training": 1,
+   "chest": 2,
+   "unnamed": 1
+  },
+  "native_interactive": {
+   "campfire": 3
+  },
+  "pois_merged": 36,
+  "poi_nn": [
+   1067,
+   1824,
+   3263
+  ],
+  "pois_per_block": 0.15,
+  "chests_scene": 20,
+  "loose_items": 2,
+  "item_spawns": 0,
+  "spawn_markers": 71,
+  "spawn_slots": {
+   "2": 23,
+   "1": 21,
+   "3": 27
+  },
+  "expected_spawned": 305.0,
+  "enc": [
+   "BHarpy 4-6",
+   "Barbarian 3-5",
+   "BArcher 3-5"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 40,
+  "hostile_groups_1600": 54,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2562,
+   3080,
+   3912
+  ],
+  "start_to_fight": [
+   2138,
+   2335,
+   4026
+  ],
+  "start_to_service": [
+   4018,
+   10550,
+   18688
+  ],
+  "starts": 5,
+  "hints_other": [
+   "Castle Stromgard",
+   "White Cap"
+  ]
+ },
+ {
+  "world": "mm6",
+  "map": "outc2",
+  "name": "Free Haven",
+  "biome": "temperate city",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "6sandtyl",
+   "6drsrcros"
+  ],
+  "water_pct": 14.0,
+  "shore_pct": 4.7,
+  "burn_pct": 0.0,
+  "road_pct_land": 4.1,
+  "height_max": 3072,
+  "height_p90_land": 1888,
+  "land_blocks4096": 220.2,
+  "deco_visible": 455,
+  "deco_per_block": "2.78",
+  "trees": 300,
+  "rocks": 41,
+  "flowers_plants": 9,
+  "dry": 78,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 3,
+  "fires": 3,
+  "bmodels": 137,
+  "poi_classes": {
+   "residence": 63,
+   "chest": 2,
+   "campfire": 1,
+   "service:Fire Guild": 1,
+   "trough/cart": 1,
+   "service:Water Guild": 2,
+   "service:Magic Shop": 4,
+   "other": 12,
+   "stone": 5,
+   "service:Air Guild": 1,
+   "service:Spirit Guild": 1,
+   "service:Earth Guild": 1,
+   "service:Thieves guild": 1,
+   "unnamed": 2,
+   "service:Tavern": 3,
+   "service:Temple": 2,
+   "service:Armor Shop": 2,
+   "well": 2,
+   "service:Stables": 2,
+   "service:Body Guild": 2,
+   "dungeon_entrance": 3,
+   "shrine": 1,
+   "service:Bank": 1,
+   "fountain": 1,
+   "service:Training": 1,
+   "obelisk": 1,
+   "service:Weapon Shop": 2,
+   "service:Town Hall": 1,
+   "service:Mind Guild": 1,
+   "service:Merc Guild": 1,
+   "service:Throne": 1,
+   "service:Boats": 1
+  },
+  "native_interactive": {
+   "food_tree": 19,
+   "campfire": 3,
+   "barrel": 3
+  },
+  "pois_merged": 48,
+  "poi_nn": [
+   684,
+   2003,
+   4194
+  ],
+  "pois_per_block": 0.22,
+  "chests_scene": 20,
+  "loose_items": 40,
+  "item_spawns": 0,
+  "spawn_markers": 48,
+  "spawn_slots": {
+   "1": 18,
+   "2": 30
+  },
+  "expected_spawned": 222.0,
+  "enc": [
+   "BArcher 3-5",
+   "PeasantM2 4-6",
+   "0 0-0"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 58,
+  "hostile_groups_1600": 25,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   1980,
+   3316,
+   7280
+  ],
+  "start_to_fight": [
+   4188,
+   6616,
+   6781
+  ],
+  "start_to_service": [
+   3733,
+   5160,
+   8288
+  ],
+  "starts": 5,
+  "hints_other": [
+   "Armory",
+   "Blackshire",
+   "Castle Temper",
+   "Darkmoor",
+   "Free Haven",
+   "Guild of Mind",
+   "Guild of Water",
+   "Temple",
+   "Temple of Baa",
+   "Whitecap"
+  ]
+ },
+ {
+  "world": "mm6",
+  "map": "outc3",
+  "name": "Mire of the Damned",
+  "biome": "haunted wetland",
+  "tilesets": [
+   "swmtyl",
+   "6wtrtyl",
+   "swmtyl",
+   "6drsrcros"
+  ],
+  "water_pct": 37.9,
+  "shore_pct": 5.3,
+  "burn_pct": 0.0,
+  "road_pct_land": 3.0,
+  "height_max": 3008,
+  "height_p90_land": 2080,
+  "land_blocks4096": 159.0,
+  "deco_visible": 460,
+  "deco_per_block": "3.28",
+  "trees": 302,
+  "rocks": 84,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 1,
+  "working": 0,
+  "fires": 1,
+  "bmodels": 59,
+  "poi_classes": {
+   "dungeon_entrance": 3,
+   "service:Tavern": 2,
+   "obelisk": 1,
+   "shrine": 1,
+   "service:Temple": 1,
+   "residence": 14,
+   "service:Stables": 1,
+   "service:Magic Shop": 1,
+   "service:Armor Shop": 1,
+   "fountain": 1,
+   "chest": 3,
+   "unnamed": 2,
+   "service:Circus": 7,
+   "service:Weapon Shop": 1,
+   "pedestal": 1
+  },
+  "native_interactive": {
+   "food_tree": 72,
+   "campfire": 1,
+   "pedestal": 1
+  },
+  "pois_merged": 25,
+  "poi_nn": [
+   1171,
+   1415,
+   2974
+  ],
+  "pois_per_block": 0.16,
+  "chests_scene": 20,
+  "loose_items": 12,
+  "item_spawns": 0,
+  "spawn_markers": 89,
+  "spawn_slots": {
+   "3": 44,
+   "1": 27,
+   "2": 18
+  },
+  "expected_spawned": 386.5,
+  "enc": [
+   "BGhost 2-5",
+   "BHarpy 3-5",
+   "Skeleton 4-6"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 15,
+  "hostile_groups_1600": 73,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2434,
+   2629,
+   3372
+  ],
+  "start_to_fight": [
+   3178,
+   3971,
+   4143
+  ],
+  "start_to_service": [
+   6224,
+   7899,
+   12759
+  ],
+  "starts": 4,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "outd1",
+  "name": "Silver Cove",
+  "biome": "coastal grassland",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "troptyl",
+   "6drsrcros"
+  ],
+  "water_pct": 52.5,
+  "shore_pct": 5.4,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.5,
+  "height_max": 3808,
+  "height_p90_land": 704,
+  "land_blocks4096": 121.5,
+  "deco_visible": 519,
+  "deco_per_block": "4.87",
+  "trees": 325,
+  "rocks": 169,
+  "flowers_plants": 11,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 3,
+  "working": 0,
+  "fires": 2,
+  "bmodels": 129,
+  "poi_classes": {
+   "residence": 42,
+   "service:Earth Guild": 1,
+   "service:Thieves guild": 1,
+   "service:Light Guild": 1,
+   "unnamed": 6,
+   "service:Tavern": 2,
+   "service:Weapon Shop": 1,
+   "service:Armor Shop": 1,
+   "obelisk": 1,
+   "service:Throne": 1,
+   "well": 1,
+   "other": 1,
+   "stone": 2,
+   "dungeon_entrance": 3,
+   "shrine": 1,
+   "service:Magic Shop": 2,
+   "service:Stables": 1,
+   "service:Temple": 1,
+   "service:Self Guild": 1,
+   "fountain": 4,
+   "service:Merc Guild": 1,
+   "service:Training": 1,
+   "service:Bank": 1,
+   "service:Town Hall": 1,
+   "chest": 3,
+   "service:Boats": 2,
+   "deco_interactive": 3
+  },
+  "native_interactive": {
+   "campfire": 2,
+   "sword_in_stone": 3
+  },
+  "pois_merged": 38,
+  "poi_nn": [
+   860,
+   1950,
+   4273
+  ],
+  "pois_per_block": 0.31,
+  "chests_scene": 20,
+  "loose_items": 2,
+  "item_spawns": 0,
+  "spawn_markers": 47,
+  "spawn_slots": {
+   "2": 24,
+   "1": 23
+  },
+  "expected_spawned": 165.0,
+  "enc": [
+   "Druidess 2-4",
+   "BGargoyle 3-5",
+   "0 1-4"
+  ],
+  "hostile_fixed": 7,
+  "town_actors": 28,
+  "hostile_groups_1600": 40,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2106,
+   3101,
+   4009
+  ],
+  "start_to_fight": [
+   2606,
+   2635,
+   2860
+  ],
+  "start_to_service": [
+   14389,
+   27673,
+   27932
+  ],
+  "starts": 3,
+  "hints_other": [
+   "Silver Cove"
+  ]
+ },
+ {
+  "world": "mm6",
+  "map": "outd2",
+  "name": "Bootleg Bay",
+  "biome": "tropical coast",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "troptyl",
+   "6drsrcros"
+  ],
+  "water_pct": 63.4,
+  "shore_pct": 3.5,
+  "burn_pct": 0.0,
+  "road_pct_land": 4.3,
+  "height_max": 3712,
+  "height_p90_land": 224,
+  "land_blocks4096": 93.8,
+  "deco_visible": 412,
+  "deco_per_block": "6.21",
+  "trees": 353,
+  "rocks": 29,
+  "flowers_plants": 4,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 5,
+  "ritual": 1,
+  "working": 10,
+  "fires": 2,
+  "bmodels": 70,
+  "poi_classes": {
+   "chest": 5,
+   "service:Tavern": 3,
+   "shrine": 1,
+   "service:Training": 1,
+   "other": 3,
+   "residence": 8,
+   "service:Temple": 2,
+   "service:Magic Shop": 1,
+   "well": 2,
+   "service:Circus": 7,
+   "dungeon_entrance": 4,
+   "obelisk": 1,
+   "service:Armor Shop": 2,
+   "service:Weapon Shop": 1,
+   "fountain": 3,
+   "service:Boats": 2,
+   "pedestal": 1
+  },
+  "native_interactive": {
+   "food_tree": 6,
+   "campfire": 2,
+   "pedestal": 1
+  },
+  "pois_merged": 38,
+  "poi_nn": [
+   983,
+   1425,
+   4614
+  ],
+  "pois_per_block": 0.41,
+  "chests_scene": 20,
+  "loose_items": 15,
+  "item_spawns": 0,
+  "spawn_markers": 37,
+  "spawn_slots": {
+   "1": 13,
+   "3": 13,
+   "2": 11
+  },
+  "expected_spawned": 172.0,
+  "enc": [
+   "PeasantM4 4-6",
+   "PeasantF4 4-6",
+   "LizardArch 3-5"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 16,
+  "hostile_groups_1600": 21,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   2336,
+   3818,
+   6783
+  ],
+  "start_to_fight": [
+   920,
+   1600,
+   2900
+  ],
+  "start_to_service": [
+   4848,
+   7618,
+   10451
+  ],
+  "starts": 4,
+  "hints_other": [
+   "Circus (Winter)",
+   "Freehaven",
+   "Ironfist Castle"
+  ]
+ },
+ {
+  "world": "mm6",
+  "map": "outd3",
+  "name": "Castle Ironfist",
+  "biome": "wooded highlands",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "swmtyl",
+   "6drsrcros"
+  ],
+  "water_pct": 40.1,
+  "shore_pct": 5.9,
+  "burn_pct": 0.0,
+  "road_pct_land": 5.6,
+  "height_max": 4064,
+  "height_p90_land": 1824,
+  "land_blocks4096": 153.3,
+  "deco_visible": 271,
+  "deco_per_block": "1.96",
+  "trees": 230,
+  "rocks": 6,
+  "flowers_plants": 19,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 1,
+  "working": 0,
+  "fires": 1,
+  "bmodels": 79,
+  "poi_classes": {
+   "dungeon_entrance": 5,
+   "service:Temple": 2,
+   "other": 4,
+   "service:Magic Shop": 1,
+   "unnamed": 2,
+   "fountain": 3,
+   "service:Tavern": 2,
+   "residence": 17,
+   "service:Weapon Shop": 2,
+   "service:Armor Shop": 2,
+   "service:Stables": 1,
+   "service:Training": 1,
+   "shrine": 1,
+   "service:Seer": 1,
+   "obelisk": 1,
+   "service:Spirit Guild": 2,
+   "service:Mind Guild": 2,
+   "service:Body Guild": 1,
+   "chest": 5,
+   "service:Throne": 1,
+   "service:?": 1,
+   "well": 1,
+   "service:Merc Guild": 1,
+   "service:Boats": 2,
+   "deco_interactive": 1
+  },
+  "native_interactive": {
+   "sword_in_stone": 1,
+   "campfire": 1
+  },
+  "pois_merged": 37,
+  "poi_nn": [
+   1257,
+   2347,
+   5097
+  ],
+  "pois_per_block": 0.24,
+  "chests_scene": 20,
+  "loose_items": 13,
+  "item_spawns": 0,
+  "spawn_markers": 80,
+  "spawn_slots": {
+   "2": 8,
+   "1": 30,
+   "3": 42
+  },
+  "expected_spawned": 366.0,
+  "enc": [
+   "LizardArch 3-5",
+   "Bloodsucker 3-6",
+   "PeasantM3 4-6"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 44,
+  "hostile_groups_1600": 58,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   1845,
+   2228,
+   2983
+  ],
+  "start_to_fight": [
+   1836,
+   4352,
+   7080
+  ],
+  "start_to_service": [
+   5070,
+   8427,
+   11600
+  ],
+  "starts": 4,
+  "hints_other": [
+   "Ironfist Castle",
+   "Keep Off!",
+   "New Sorpigal"
+  ]
+ },
+ {
+  "world": "mm6",
+  "map": "oute1",
+  "name": "Eel Infested Waters",
+  "biome": "islands",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "troptyl",
+   "6drsrcros"
+  ],
+  "water_pct": 86.9,
+  "shore_pct": 3.4,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.8,
+  "height_max": 640,
+  "height_p90_land": 0,
+  "land_blocks4096": 33.5,
+  "deco_visible": 173,
+  "deco_per_block": "3.79",
+  "trees": 106,
+  "rocks": 40,
+  "flowers_plants": 7,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 3,
+  "ritual": 1,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 34,
+  "poi_classes": {
+   "dungeon_entrance": 1,
+   "service:Tavern": 2,
+   "residence": 6,
+   "stone": 1,
+   "shrine": 1,
+   "service:Temple": 1,
+   "obelisk": 1,
+   "service:Magic Shop": 1,
+   "fountain": 2,
+   "chest": 2,
+   "service:Boats": 2,
+   "deco_interactive": 1
+  },
+  "native_interactive": {
+   "sword_in_stone": 1
+  },
+  "pois_merged": 14,
+  "poi_nn": [
+   2042,
+   4088,
+   6851
+  ],
+  "pois_per_block": 0.42,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 62,
+  "spawn_slots": {
+   "1": 30,
+   "2": 23,
+   "3": 9
+  },
+  "expected_spawned": 202.0,
+  "enc": [
+   "SeaSerpent 1-3",
+   "Cockatrice 4-6",
+   "ElemWater 2-4"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 44,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   3072,
+   3846,
+   5245
+  ],
+  "start_to_fight": [
+   4465,
+   5599,
+   6733
+  ],
+  "start_to_service": [
+   1438,
+   1868,
+   2297
+  ],
+  "starts": 2,
+  "hints_other": []
+ },
+ {
+  "world": "mm6",
+  "map": "oute2",
+  "name": "Misty Islands",
+  "biome": "island settlement",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "6grastyl",
+   "6drsrcros"
+  ],
+  "water_pct": 84.5,
+  "shore_pct": 4.2,
+  "burn_pct": 0.0,
+  "road_pct_land": 3.8,
+  "height_max": 640,
+  "height_p90_land": 0,
+  "land_blocks4096": 39.8,
+  "deco_visible": 156,
+  "deco_per_block": "3.9",
+  "trees": 117,
+  "rocks": 13,
+  "flowers_plants": 11,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 1,
+  "fires": 4,
+  "bmodels": 60,
+  "poi_classes": {
+   "trough/cart": 2,
+   "residence": 13,
+   "other": 1,
+   "service:Temple": 1,
+   "service:Tavern": 1,
+   "well": 1,
+   "service:Merc Guild": 1,
+   "service:Fire Guild": 1,
+   "campfire": 1,
+   "dungeon_entrance": 1,
+   "service:Throne": 1,
+   "service:Thieves guild": 1,
+   "service:Bank": 1,
+   "service:Town Hall": 1,
+   "service:Magic Shop": 1,
+   "unnamed": 4,
+   "barrel": 1,
+   "service:Weapon Shop": 1,
+   "shrine": 1,
+   "service:Armor Shop": 1,
+   "fountain": 3,
+   "service:Alchemist": 1,
+   "service:Training": 1,
+   "service:Air Guild": 1,
+   "service:Water Guild": 1,
+   "obelisk": 1,
+   "chest": 5,
+   "service:Boats": 1,
+   "tree": 6
+  },
+  "native_interactive": {
+   "barrel": 1,
+   "campfire": 4,
+   "food_tree": 8
+  },
+  "pois_merged": 39,
+  "poi_nn": [
+   806,
+   1057,
+   1389
+  ],
+  "pois_per_block": 0.98,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 32,
+  "spawn_slots": {
+   "2": 14,
+   "1": 18
+  },
+  "expected_spawned": 160.0,
+  "enc": [
+   "PeasantM3 4-6",
+   "PeasantF3 4-6",
+   "0 1-4"
+  ],
+  "hostile_fixed": 4,
+  "town_actors": 18,
+  "hostile_groups_1600": 18,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   2752,
+   4613,
+   5047
+  ],
+  "start_to_fight": [
+   2972,
+   2972,
+   2972
+  ],
+  "start_to_service": [
+   2532,
+   2532,
+   2532
+  ],
+  "starts": 1,
+  "hints_other": [
+   "Welcome to Misty Islands"
+  ]
+ },
+ {
+  "world": "mm6",
+  "map": "oute3",
+  "name": "New Sorpigal",
+  "biome": "coastal village",
+  "tilesets": [
+   "6grastyl",
+   "6wtrtyl",
+   "6voltyl",
+   "6drsrcros"
+  ],
+  "water_pct": 69.8,
+  "shore_pct": 6.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.3,
+  "height_max": 4064,
+  "height_p90_land": 320,
+  "land_blocks4096": 77.3,
+  "deco_visible": 477,
+  "deco_per_block": "6.32",
+  "trees": 371,
+  "rocks": 43,
+  "flowers_plants": 32,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 4,
+  "working": 4,
+  "fires": 5,
+  "bmodels": 90,
+  "poi_classes": {
+   "dungeon_entrance": 3,
+   "fountain": 3,
+   "service:Temple": 1,
+   "unnamed": 6,
+   "other": 1,
+   "service:Self Guild": 2,
+   "service:Elemental Guild": 1,
+   "chest": 16,
+   "well": 2,
+   "residence": 22,
+   "service:Stables": 1,
+   "service:Magic Shop": 1,
+   "service:Merc Guild": 1,
+   "service:Armor Shop": 1,
+   "service:Town Hall": 1,
+   "service:Weapon Shop": 1,
+   "service:Alchemist": 1,
+   "service:Thieves guild": 1,
+   "map_exit": 1,
+   "service:Bank": 1,
+   "service:Training": 1,
+   "service:Tavern": 2,
+   "shrine": 1,
+   "obelisk": 1,
+   "service:Boats": 1,
+   "tree": 6,
+   "deco_interactive": 1
+  },
+  "native_interactive": {
+   "campfire": 5,
+   "food_tree": 15,
+   "sword_in_stone": 1,
+   "barrel": 4
+  },
+  "pois_merged": 54,
+  "poi_nn": [
+   928,
+   1133,
+   2269
+  ],
+  "pois_per_block": 0.7,
+  "chests_scene": 20,
+  "loose_items": 42,
+  "item_spawns": 0,
+  "spawn_markers": 56,
+  "spawn_slots": {
+   "1": 30,
+   "2": 26
+  },
+  "expected_spawned": 224.0,
+  "enc": [
+   "BGoblin 3-5",
+   "PeasantM2 3-5",
+   "0 1-4"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 43,
+  "hostile_groups_1600": 16,
+  "group_marker_sizes": [
+   1,
+   1,
+   4
+  ],
+  "group_center_nn": [
+   2214,
+   4238,
+   5624
+  ],
+  "start_to_fight": [
+   3607,
+   4598,
+   5588
+  ],
+  "start_to_service": [
+   3818,
+   5470,
+   7121
+  ],
+  "starts": 2,
+  "hints_other": [
+   "Welcome to New Sorpigal"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out01",
+  "name": "Emerald Island",
+  "biome": "island village",
+  "tilesets": [
+   "7grastyl",
+   "7wtrtyl",
+   "7swtyl",
+   "7drsrcros"
+  ],
+  "water_pct": 92.7,
+  "shore_pct": 1.2,
+  "burn_pct": 0.0,
+  "road_pct_land": 5.6,
+  "height_max": 2176,
+  "height_p90_land": 0,
+  "land_blocks4096": 18.6,
+  "deco_visible": 141,
+  "deco_per_block": "7.09",
+  "trees": 53,
+  "rocks": 22,
+  "flowers_plants": 51,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 4,
+  "working": 0,
+  "fires": 2,
+  "bmodels": 98,
+  "poi_classes": {
+   "service:Tavern": 1,
+   "service:Weapon Shop": 1,
+   "unnamed": 19,
+   "residence": 7,
+   "service:Magic Shop": 1,
+   "service:Armor Shop": 1,
+   "other": 7,
+   "service:Air Guild": 1,
+   "campfire": 1,
+   "service:Fire Guild": 1,
+   "service:Spirit Guild": 1,
+   "service:Body Guild": 1,
+   "service:Training": 1,
+   "hut/tent": 1,
+   "service:Temple": 1,
+   "service:Alchemist": 1,
+   "barrel": 1,
+   "chest": 3,
+   "dungeon_entrance": 2,
+   "well": 6,
+   "trough/cart": 1,
+   "lever": 1
+  },
+  "native_interactive": {
+   "campfire": 2,
+   "signpost": 9
+  },
+  "pois_merged": 27,
+  "poi_nn": [
+   954,
+   1539,
+   2058
+  ],
+  "pois_per_block": 1.45,
+  "chests_scene": 20,
+  "loose_items": 9,
+  "item_spawns": 0,
+  "spawn_markers": 11,
+  "spawn_slots": {
+   "1": 11
+  },
+  "expected_spawned": 38.5,
+  "enc": [
+   "Dragonfly 2-5",
+   "0 1-3",
+   "0 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 32,
+  "hostile_groups_1600": 2,
+  "group_marker_sizes": [
+   3,
+   5,
+   7
+  ],
+  "group_center_nn": [
+   4102,
+   4102,
+   4102
+  ],
+  "start_to_fight": [
+   17737,
+   17737,
+   17737
+  ],
+  "start_to_service": [
+   4065,
+   4065,
+   4065
+  ],
+  "starts": 1,
+  "hints_other": [
+   "Anvil",
+   "Guilds",
+   "House",
+   "Lady Margaret",
+   "Lord Markham",
+   "Shops",
+   "Welcome to Emerald Isle"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out02",
+  "name": "Harmondale",
+  "biome": "temperate highlands",
+  "tilesets": [
+   "7grastyl",
+   "7wtrtyl",
+   "7snow",
+   "7drsrcros"
+  ],
+  "water_pct": 1.5,
+  "shore_pct": 1.6,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.1,
+  "height_max": 4000,
+  "height_p90_land": 2688,
+  "land_blocks4096": 252.1,
+  "deco_visible": 564,
+  "deco_per_block": "3.94",
+  "trees": 284,
+  "rocks": 41,
+  "flowers_plants": 231,
+  "dry": 0,
+  "deadwood": 3,
+  "remains": 0,
+  "ritual": 2,
+  "working": 0,
+  "fires": 3,
+  "bmodels": 114,
+  "poi_classes": {
+   "service:Tavern": 1,
+   "service:Weapon Shop": 1,
+   "service:Armor Shop": 1,
+   "service:Training": 1,
+   "service:Air Guild": 1,
+   "service:Water Guild": 1,
+   "fountain": 1,
+   "service:Earth Guild": 1,
+   "campfire": 8,
+   "service:Fire Guild": 1,
+   "service:Spirit Guild": 1,
+   "service:Body Guild": 1,
+   "service:Alchemist": 1,
+   "service:Magic Shop": 1,
+   "service:Mind Guild": 1,
+   "service:Temple": 1,
+   "other": 6,
+   "residence": 16,
+   "well": 4,
+   "service:Town Hall": 2,
+   "chest": 10,
+   "service:Bank": 1,
+   "hut/tent": 1,
+   "dungeon_entrance": 2,
+   "shrine": 1,
+   "map_exit": 1,
+   "service:Stables": 2,
+   "obelisk": 1,
+   "unnamed": 2,
+   "tree": 8
+  },
+  "native_interactive": {
+   "campfire": 3
+  },
+  "pois_merged": 52,
+  "poi_nn": [
+   1024,
+   1331,
+   1942
+  ],
+  "pois_per_block": 0.21,
+  "chests_scene": 20,
+  "loose_items": 72,
+  "item_spawns": 6,
+  "spawn_markers": 43,
+  "spawn_slots": {
+   "1": 43
+  },
+  "expected_spawned": 150.5,
+  "enc": [
+   "Goblin 2-5",
+   "Swordsman 1-3",
+   "0 1-3"
+  ],
+  "hostile_fixed": 93,
+  "town_actors": 49,
+  "hostile_groups_1600": 48,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2087,
+   2826,
+   3646
+  ],
+  "start_to_fight": [
+   3506,
+   4829,
+   5573
+  ],
+  "start_to_service": [
+   15584,
+   20976,
+   24964
+  ],
+  "starts": 4,
+  "hints_other": [
+   "East",
+   "Harmondale",
+   "Hatch",
+   "House",
+   "South to Barrow Downs",
+   "West to Erathia"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out03",
+  "name": "Erathia",
+  "biome": "temperate city",
+  "tilesets": [
+   "7grastyl",
+   "7wtrtyl",
+   "7snow",
+   "7drsrcros"
+  ],
+  "water_pct": 16.2,
+  "shore_pct": 3.5,
+  "burn_pct": 0.0,
+  "road_pct_land": 3.0,
+  "height_max": 7872,
+  "height_p90_land": 4672,
+  "land_blocks4096": 214.5,
+  "deco_visible": 523,
+  "deco_per_block": "4.03",
+  "trees": 168,
+  "rocks": 68,
+  "flowers_plants": 270,
+  "dry": 0,
+  "deadwood": 5,
+  "remains": 0,
+  "ritual": 3,
+  "working": 1,
+  "fires": 1,
+  "bmodels": 124,
+  "poi_classes": {
+   "service:Stables": 1,
+   "hut/tent": 2,
+   "residence": 30,
+   "obelisk": 1,
+   "dungeon_entrance": 11,
+   "other": 11,
+   "well": 6,
+   "service:Temple": 1,
+   "service:Body Guild": 1,
+   "service:Tavern": 1,
+   "service:Bank": 1,
+   "service:Alchemist": 1,
+   "service:Magic Shop": 1,
+   "service:Weapon Shop": 1,
+   "service:Armor Shop": 1,
+   "service:Training": 1,
+   "service:Spirit Guild": 1,
+   "service:Mind Guild": 1,
+   "fountain": 1,
+   "service:Town Hall": 1,
+   "shrine": 2,
+   "service:Boats": 2,
+   "chest": 11,
+   "lever": 1,
+   "tree": 8
+  },
+  "native_interactive": {
+   "signpost": 7,
+   "barrel": 1,
+   "campfire": 1
+  },
+  "pois_merged": 57,
+  "poi_nn": [
+   842,
+   1165,
+   1889
+  ],
+  "pois_per_block": 0.27,
+  "chests_scene": 20,
+  "loose_items": 16,
+  "item_spawns": 14,
+  "spawn_markers": 48,
+  "spawn_slots": {
+   "1": 28,
+   "2": 20
+  },
+  "expected_spawned": 96.0,
+  "enc": [
+   "Fighter Leather 1-3",
+   "Griffin 1-3",
+   "0 1-3"
+  ],
+  "hostile_fixed": 15,
+  "town_actors": 25,
+  "hostile_groups_1600": 35,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   2355,
+   3094,
+   3393
+  ],
+  "start_to_fight": [
+   3851,
+   4930,
+   7528
+  ],
+  "start_to_service": [
+   17144,
+   23277,
+   25584
+  ],
+  "starts": 4,
+  "hints_other": [
+   "City of Steadwick",
+   "Docks",
+   "East to Harmondale",
+   "Guilds",
+   "House",
+   "North to Deyja Moors",
+   "Plaza",
+   "Sewer",
+   "South to the Bracada Desert",
+   "Stables",
+   "West to Tatalia"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out04",
+  "name": "The Tularean Forest",
+  "biome": "forest",
+  "tilesets": [
+   "7grastyl",
+   "7wtrtyl",
+   "7sand",
+   "7drsrcros"
+  ],
+  "water_pct": 39.0,
+  "shore_pct": 3.9,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.6,
+  "height_max": 8000,
+  "height_p90_land": 4768,
+  "land_blocks4096": 156.1,
+  "deco_visible": 465,
+  "deco_per_block": "4.55",
+  "trees": 231,
+  "rocks": 35,
+  "flowers_plants": 188,
+  "dry": 0,
+  "deadwood": 1,
+  "remains": 0,
+  "ritual": 3,
+  "working": 0,
+  "fires": 4,
+  "bmodels": 128,
+  "poi_classes": {
+   "obelisk": 1,
+   "dungeon_entrance": 4,
+   "unnamed": 2,
+   "chest": 7,
+   "hut/tent": 1,
+   "residence": 20,
+   "well": 2,
+   "service:Weapon Shop": 1,
+   "service:Armor Shop": 1,
+   "service:Tavern": 1,
+   "service:Training": 1,
+   "fountain": 2,
+   "service:Temple": 2,
+   "other": 1,
+   "service:Town Hall": 1,
+   "service:Bank": 1,
+   "service:Magic Shop": 1,
+   "campfire": 1,
+   "service:Fire Guild": 1,
+   "service:Water Guild": 1,
+   "service:Stables": 1,
+   "shrine": 2,
+   "service:Boats": 2,
+   "service:Air Guild": 1,
+   "service:Earth Guild": 1,
+   "cauldron": 1,
+   "service:Alchemist": 1,
+   "tree": 9
+  },
+  "native_interactive": {
+   "campfire": 4,
+   "signpost": 3
+  },
+  "pois_merged": 45,
+  "poi_nn": [
+   971,
+   1258,
+   2878
+  ],
+  "pois_per_block": 0.29,
+  "chests_scene": 20,
+  "loose_items": 109,
+  "item_spawns": 7,
+  "spawn_markers": 47,
+  "spawn_slots": {
+   "1": 46,
+   "2": 1
+  },
+  "expected_spawned": 48.0,
+  "enc": [
+   "Treant 1-1",
+   "Elf Spearman 1-3",
+   "Fighter Chain 1-3"
+  ],
+  "hostile_fixed": 4,
+  "town_actors": 31,
+  "hostile_groups_1600": 36,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   1773,
+   2050,
+   2629
+  ],
+  "start_to_fight": [
+   8616,
+   11599,
+   12675
+  ],
+  "start_to_service": [
+   10360,
+   11840,
+   19600
+  ],
+  "starts": 3,
+  "hints_other": [
+   "House"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out05",
+  "name": "Deyja",
+  "biome": "necropolis",
+  "tilesets": [
+   "7wastetile",
+   "7wtrtyl",
+   "7sand",
+   "7drsrcros"
+  ],
+  "water_pct": 18.5,
+  "shore_pct": 1.2,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.3,
+  "height_max": 8000,
+  "height_p90_land": 5600,
+  "land_blocks4096": 208.7,
+  "deco_visible": 282,
+  "deco_per_block": "2.11",
+  "trees": 0,
+  "rocks": 9,
+  "flowers_plants": 0,
+  "dry": 172,
+  "deadwood": 98,
+  "remains": 0,
+  "ritual": 3,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 70,
+  "poi_classes": {
+   "obelisk": 1,
+   "well": 7,
+   "door/gate": 1,
+   "service:Magic Shop": 1,
+   "service:Temple": 1,
+   "service:Dark Guild": 1,
+   "other": 1,
+   "residence": 20,
+   "service:Alchemist": 1,
+   "service:Spirit Guild": 1,
+   "service:Tavern": 1,
+   "unnamed": 3,
+   "shrine": 2,
+   "chest": 7,
+   "service:Stables": 1,
+   "dungeon_entrance": 4
+  },
+  "native_interactive": {},
+  "pois_merged": 27,
+  "poi_nn": [
+   1295,
+   3061,
+   4806
+  ],
+  "pois_per_block": 0.13,
+  "chests_scene": 20,
+  "loose_items": 36,
+  "item_spawns": 7,
+  "spawn_markers": 50,
+  "spawn_slots": {
+   "2": 44,
+   "3": 6
+  },
+  "expected_spawned": 100.0,
+  "enc": [
+   "0 1-3",
+   "Harpy 1-3",
+   "Zombie 1-3"
+  ],
+  "hostile_fixed": 8,
+  "town_actors": 16,
+  "hostile_groups_1600": 38,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2234,
+   2820,
+   3243
+  ],
+  "start_to_fight": [
+   4436,
+   4776,
+   5117
+  ],
+  "start_to_service": [
+   16940,
+   17409,
+   17877
+  ],
+  "starts": 2,
+  "hints_other": [
+   "House"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out06",
+  "name": "The Bracada Desert",
+  "biome": "desert city",
+  "tilesets": [
+   "7wastetile",
+   "7wtrtyl",
+   "7sand",
+   "7drsrcros"
+  ],
+  "water_pct": 7.1,
+  "shore_pct": 0.9,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.7,
+  "height_max": 2400,
+  "height_p90_land": 800,
+  "land_blocks4096": 237.8,
+  "deco_visible": 260,
+  "deco_per_block": "1.77",
+  "trees": 0,
+  "rocks": 53,
+  "flowers_plants": 0,
+  "dry": 204,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 3,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 94,
+  "poi_classes": {
+   "service:Stables": 1,
+   "other": 11,
+   "residence": 15,
+   "service:Temple": 1,
+   "service:Light Guild": 1,
+   "service:Alchemist": 1,
+   "service:Water Guild": 1,
+   "service:Magic Shop": 1,
+   "obelisk": 1,
+   "dungeon_entrance": 3,
+   "unnamed": 17,
+   "well": 3,
+   "chest": 6,
+   "service:Boats": 2,
+   "service:Tavern": 1,
+   "shrine": 2,
+   "fountain": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 24,
+  "poi_nn": [
+   1180,
+   4393,
+   8196
+  ],
+  "pois_per_block": 0.1,
+  "chests_scene": 20,
+  "loose_items": 18,
+  "item_spawns": 12,
+  "spawn_markers": 37,
+  "spawn_slots": {
+   "2": 24,
+   "1": 13
+  },
+  "expected_spawned": 74.0,
+  "enc": [
+   "Golem 1-3",
+   "Griffin 1-3",
+   "0 1-3"
+  ],
+  "hostile_fixed": 6,
+  "town_actors": 25,
+  "hostile_groups_1600": 27,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   1812,
+   2648,
+   3428
+  ],
+  "start_to_fight": [
+   5091,
+   5261,
+   5430
+  ],
+  "start_to_service": [
+   5672,
+   8025,
+   10377
+  ],
+  "starts": 2,
+  "hints_other": [
+   "Docks",
+   "Drink",
+   "Guilds",
+   "House",
+   "Red Dwarf Mines",
+   "School of Sorcery",
+   "Stables",
+   "Tavern",
+   "Temple",
+   "To Main Square"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out13",
+  "name": "Tatalia",
+  "biome": "wetland coast",
+  "tilesets": [
+   "7wtrtyl",
+   "7snow",
+   "7swtyl",
+   "7drsrcros"
+  ],
+  "water_pct": 26.1,
+  "shore_pct": 1.9,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.1,
+  "height_max": 6400,
+  "height_p90_land": 5248,
+  "land_blocks4096": 189.3,
+  "deco_visible": 390,
+  "deco_per_block": "3.63",
+  "trees": 387,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 3,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 101,
+  "poi_classes": {
+   "dungeon_entrance": 6,
+   "other": 9,
+   "residence": 22,
+   "service:Stables": 1,
+   "service:Weapon Shop": 2,
+   "well": 4,
+   "service:Boats": 2,
+   "obelisk": 1,
+   "service:Armor Shop": 2,
+   "service:Temple": 1,
+   "stone": 1,
+   "service:Mind Guild": 1,
+   "unnamed": 1,
+   "shrine": 3,
+   "service:The Adventurer's Inn": 1,
+   "chest": 1,
+   "service:Training": 1,
+   "service:Bank": 1,
+   "service:Tavern": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 26,
+  "poi_nn": [
+   878,
+   2017,
+   4330
+  ],
+  "pois_per_block": 0.14,
+  "chests_scene": 20,
+  "loose_items": 40,
+  "item_spawns": 21,
+  "spawn_markers": 43,
+  "spawn_slots": {
+   "3": 37,
+   "1": 6
+  },
+  "expected_spawned": 86.0,
+  "enc": [
+   "Archer 1-3",
+   "0 1-3",
+   "ATroll 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 39,
+  "hostile_groups_1600": 8,
+  "group_marker_sizes": [
+   2,
+   5,
+   7
+  ],
+  "group_center_nn": [
+   3725,
+   6145,
+   9023
+  ],
+  "start_to_fight": [
+   8307,
+   8307,
+   8307
+  ],
+  "start_to_service": [
+   15368,
+   15368,
+   15368
+  ],
+  "starts": 1,
+  "hints_other": [
+   "Drink",
+   "East to Steadwick",
+   "House",
+   "North ",
+   "Stables",
+   "Tatalia",
+   "Temple",
+   "Tidewater Caverns",
+   "Wharf"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "7out15",
+  "name": "Shoals",
+  "biome": "underwater",
+  "tilesets": [
+   "7sand",
+   "7grastyl",
+   "7snow",
+   "7drsrcros"
+  ],
+  "water_pct": 0.0,
+  "shore_pct": 0.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.0,
+  "height_max": 8000,
+  "height_p90_land": 5024,
+  "land_blocks4096": 256.0,
+  "deco_visible": 2,
+  "deco_per_block": "0.01",
+  "trees": 0,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 2,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 33,
+  "poi_classes": {
+   "dungeon_entrance": 1,
+   "chest": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 2,
+  "poi_nn": [
+   27210,
+   27210,
+   27210
+  ],
+  "pois_per_block": 0.01,
+  "chests_scene": 20,
+  "loose_items": 6,
+  "item_spawns": 28,
+  "spawn_markers": 28,
+  "spawn_slots": {
+   "1": 28
+  },
+  "expected_spawned": 56.0,
+  "enc": [
+   "Sea Monster 1-3",
+   "0 1-3",
+   "0 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 28,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   5697,
+   6736,
+   7542
+  ],
+  "start_to_fight": [
+   5249,
+   5249,
+   5249
+  ],
+  "start_to_service": null,
+  "starts": 1,
+  "hints_other": []
+ },
+ {
+  "world": "mm7",
+  "map": "out09",
+  "name": "Evenmorn Island",
+  "biome": "ruined island",
+  "tilesets": [
+   "7wtrtyl",
+   "7grastyl",
+   "7sand",
+   "7drsrcros"
+  ],
+  "water_pct": 84.7,
+  "shore_pct": 3.1,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.0,
+  "height_max": 1280,
+  "height_p90_land": 32,
+  "land_blocks4096": 39.2,
+  "deco_visible": 371,
+  "deco_per_block": "9.47",
+  "trees": 0,
+  "rocks": 86,
+  "flowers_plants": 174,
+  "dry": 0,
+  "deadwood": 70,
+  "remains": 33,
+  "ritual": 4,
+  "working": 4,
+  "fires": 0,
+  "bmodels": 64,
+  "poi_classes": {
+   "other": 1,
+   "residence": 3,
+   "service:Tavern": 1,
+   "dungeon_entrance": 2,
+   "obelisk": 1,
+   "chest": 6,
+   "service:Boats": 2,
+   "well": 3,
+   "shrine": 3,
+   "service:Water Guild": 1
+  },
+  "native_interactive": {
+   "barrel": 4
+  },
+  "pois_merged": 18,
+  "poi_nn": [
+   1458,
+   3194,
+   6585
+  ],
+  "pois_per_block": 0.46,
+  "chests_scene": 20,
+  "loose_items": 5,
+  "item_spawns": 7,
+  "spawn_markers": 48,
+  "spawn_slots": {
+   "3": 11,
+   "2": 14,
+   "1": 23
+  },
+  "expected_spawned": 96.0,
+  "enc": [
+   "Skeleton Warrior 1-3",
+   "Ghost 1-3",
+   "Gargoyle 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 23,
+  "group_marker_sizes": [
+   1,
+   2,
+   2
+  ],
+  "group_center_nn": [
+   2007,
+   2524,
+   3088
+  ],
+  "start_to_fight": [
+   2122,
+   2122,
+   2122
+  ],
+  "start_to_service": [
+   2042,
+   2042,
+   2042
+  ],
+  "starts": 1,
+  "hints_other": [
+   "House"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "out10",
+  "name": "Mount Nighon",
+  "biome": "snow mountains",
+  "tilesets": [
+   "7snow",
+   "7wtrtyl",
+   "7sand",
+   "7drsrcros"
+  ],
+  "water_pct": 10.4,
+  "shore_pct": 1.5,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.3,
+  "height_max": 8000,
+  "height_p90_land": 4736,
+  "land_blocks4096": 229.5,
+  "deco_visible": 235,
+  "deco_per_block": "1.73",
+  "trees": 129,
+  "rocks": 102,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 4,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 69,
+  "poi_classes": {
+   "service:Tavern": 1,
+   "service:Magic Shop": 1,
+   "other": 1,
+   "residence": 13,
+   "well": 6,
+   "service:Weapon Shop": 1,
+   "service:Armor Shop": 1,
+   "service:Training": 1,
+   "campfire": 1,
+   "service:Fire Guild": 1,
+   "fountain": 2,
+   "obelisk": 1,
+   "chest": 7,
+   "dungeon_entrance": 6,
+   "shrine": 1,
+   "service:Temple": 2,
+   "unnamed": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 30,
+  "poi_nn": [
+   934,
+   1239,
+   4067
+  ],
+  "pois_per_block": 0.13,
+  "chests_scene": 20,
+  "loose_items": 31,
+  "item_spawns": 9,
+  "spawn_markers": 71,
+  "spawn_slots": {
+   "1": 7,
+   "2": 34,
+   "3": 30
+  },
+  "expected_spawned": 142.0,
+  "enc": [
+   "Warlock 1-3",
+   "Roc 1-3",
+   "Hydra 1-3"
+  ],
+  "hostile_fixed": 9,
+  "town_actors": 23,
+  "hostile_groups_1600": 37,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   1849,
+   2305,
+   3466
+  ],
+  "start_to_fight": [
+   523,
+   523,
+   523
+  ],
+  "start_to_service": [
+   705,
+   705,
+   705
+  ],
+  "starts": 1,
+  "hints_other": [
+   "House"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "out11",
+  "name": "The Barrow Downs",
+  "biome": "burial landscape",
+  "tilesets": [
+   "7grastyl",
+   "7wtrtyl",
+   "7grastyl",
+   "7drsrcros"
+  ],
+  "water_pct": 9.0,
+  "shore_pct": 7.8,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.8,
+  "height_max": 3840,
+  "height_p90_land": 768,
+  "land_blocks4096": 233.1,
+  "deco_visible": 786,
+  "deco_per_block": "4.75",
+  "trees": 367,
+  "rocks": 69,
+  "flowers_plants": 69,
+  "dry": 0,
+  "deadwood": 275,
+  "remains": 0,
+  "ritual": 3,
+  "working": 1,
+  "fires": 2,
+  "bmodels": 112,
+  "poi_classes": {
+   "dungeon_entrance": 6,
+   "shrine": 2,
+   "obelisk": 1,
+   "other": 1,
+   "residence": 6,
+   "well": 2,
+   "stone": 1,
+   "chest": 7,
+   "service:Tavern": 1,
+   "tree": 6
+  },
+  "native_interactive": {
+   "campfire": 2,
+   "barrel": 1
+  },
+  "pois_merged": 26,
+  "poi_nn": [
+   1089,
+   2429,
+   4727
+  ],
+  "pois_per_block": 0.11,
+  "chests_scene": 20,
+  "loose_items": 63,
+  "item_spawns": 13,
+  "spawn_markers": 65,
+  "spawn_slots": {
+   "2": 28,
+   "1": 29,
+   "3": 8
+  },
+  "expected_spawned": 130.0,
+  "enc": [
+   "AGog 1-3",
+   "Ghost 1-3",
+   "Gargoyle 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 46,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2401,
+   3745,
+   4270
+  ],
+  "start_to_fight": [
+   5172,
+   5724,
+   6277
+  ],
+  "start_to_service": [
+   13139,
+   24270,
+   35402
+  ],
+  "starts": 2,
+  "hints_other": [
+   "House"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "out12",
+  "name": "The Land of the Giants",
+  "biome": "barren highlands",
+  "tilesets": [
+   "7wastetile",
+   "7wtrtyl",
+   "7snow",
+   "7drsrcros"
+  ],
+  "water_pct": 42.3,
+  "shore_pct": 2.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.1,
+  "height_max": 8000,
+  "height_p90_land": 5792,
+  "land_blocks4096": 147.7,
+  "deco_visible": 383,
+  "deco_per_block": "3.52",
+  "trees": 187,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 183,
+  "remains": 0,
+  "ritual": 13,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 24,
+  "poi_classes": {
+   "other": 2,
+   "residence": 1,
+   "obelisk": 1,
+   "dungeon_entrance": 5,
+   "well": 1,
+   "shrine": 1,
+   "map_exit": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 8,
+  "poi_nn": [
+   4556,
+   7687,
+   10285
+  ],
+  "pois_per_block": 0.05,
+  "chests_scene": 20,
+  "loose_items": 55,
+  "item_spawns": 14,
+  "spawn_markers": 66,
+  "spawn_slots": {
+   "3": 26,
+   "1": 18,
+   "2": 22
+  },
+  "expected_spawned": 132.0,
+  "enc": [
+   "ADragon 1-3",
+   "Titan 1-3",
+   "Devil 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 38,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   1940,
+   2210,
+   3112
+  ],
+  "start_to_fight": [
+   5660,
+   5660,
+   5660
+  ],
+  "start_to_service": null,
+  "starts": 1,
+  "hints_other": [
+   "House",
+   "Tunnel Entrance"
+  ]
+ },
+ {
+  "world": "mm7",
+  "map": "out14",
+  "name": "Avlee",
+  "biome": "forest coast",
+  "tilesets": [
+   "7wtrtyl",
+   "7grastyl",
+   "7snow",
+   "7drsrcros"
+  ],
+  "water_pct": 28.2,
+  "shore_pct": 4.6,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.7,
+  "height_max": 6400,
+  "height_p90_land": 3584,
+  "land_blocks4096": 183.9,
+  "deco_visible": 184,
+  "deco_per_block": "1.97",
+  "trees": 110,
+  "rocks": 18,
+  "flowers_plants": 46,
+  "dry": 0,
+  "deadwood": 2,
+  "remains": 0,
+  "ritual": 3,
+  "working": 0,
+  "fires": 5,
+  "bmodels": 93,
+  "poi_classes": {
+   "obelisk": 1,
+   "hut/tent": 1,
+   "residence": 13,
+   "well": 5,
+   "other": 7,
+   "chest": 2,
+   "service:Stables": 1,
+   "dungeon_entrance": 3,
+   "service:Boats": 2,
+   "service:Training": 1,
+   "sign": 1,
+   "service:Weapon Shop": 1,
+   "service:Armor Shop": 1,
+   "service:Bank": 1,
+   "service:Mind Guild": 1,
+   "service:Body Guild": 1,
+   "service:Temple": 1,
+   "service:Tavern": 1,
+   "shrine": 3,
+   "tree": 10
+  },
+  "native_interactive": {
+   "campfire": 5
+  },
+  "pois_merged": 39,
+  "poi_nn": [
+   947,
+   1366,
+   1755
+  ],
+  "pois_per_block": 0.21,
+  "chests_scene": 20,
+  "loose_items": 31,
+  "item_spawns": 13,
+  "spawn_markers": 64,
+  "spawn_slots": {
+   "2": 24,
+   "3": 29,
+   "1": 11
+  },
+  "expected_spawned": 128.0,
+  "enc": [
+   "Elf Spearman 1-3",
+   "AWyvern 1-3",
+   "Elemental Water 1-3"
+  ],
+  "hostile_fixed": 6,
+  "town_actors": 33,
+  "hostile_groups_1600": 43,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   1846,
+   2237,
+   2583
+  ],
+  "start_to_fight": [
+   5736,
+   6068,
+   6399
+  ],
+  "start_to_service": [
+   14946,
+   19629,
+   24313
+  ],
+  "starts": 2,
+  "hints_other": [
+   "Avlee",
+   "Docks",
+   "East to the Tularean Forest",
+   "Hall under the Hill",
+   "House",
+   "Temple of Baa",
+   "Titan Stronghold"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "elema",
+  "name": "Plane of Air",
+  "biome": "air plane",
+  "tilesets": [
+   "rktyl",
+   "wtrtyl",
+   "rdtyl",
+   "drsrcros"
+  ],
+  "water_pct": 0.0,
+  "shore_pct": 0.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.0,
+  "height_max": 3136,
+  "height_p90_land": 2208,
+  "land_blocks4096": 256.0,
+  "deco_visible": 428,
+  "deco_per_block": "2.97",
+  "trees": 0,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 39,
+  "poi_classes": {
+   "residence": 14,
+   "map_exit": 1,
+   "other": 2,
+   "dungeon_entrance": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 1,
+  "poi_nn": null,
+  "pois_per_block": 0.0,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 68,
+  "spawn_slots": {
+   "3": 33,
+   "1": 15,
+   "2": 20
+  },
+  "expected_spawned": 136.0,
+  "enc": [
+   "Air Elemental 1-3",
+   "Thunderbird 1-3",
+   "Raven Man 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 63,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   1987,
+   2540,
+   2949
+  ],
+  "start_to_fight": [
+   10425,
+   10425,
+   10425
+  ],
+  "start_to_service": null,
+  "starts": 1,
+  "hints_other": [
+   "Castle of Air",
+   "Raven Man Nest"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "elemf",
+  "name": "Plane of Fire",
+  "biome": "fire plane",
+  "tilesets": [
+   "voltyl",
+   "lavtyl",
+   "voltyl",
+   "drsrcros"
+  ],
+  "water_pct": 74.4,
+  "shore_pct": 8.0,
+  "burn_pct": 74.4,
+  "road_pct_land": 0.0,
+  "height_max": 5184,
+  "height_p90_land": 3424,
+  "land_blocks4096": 65.5,
+  "deco_visible": 0,
+  "deco_per_block": "0.0",
+  "trees": 0,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 30,
+  "poi_classes": {
+   "map_exit": 1,
+   "campfire": 1,
+   "dungeon_entrance": 2,
+   "other": 1,
+   "residence": 6
+  },
+  "native_interactive": {},
+  "pois_merged": 3,
+  "poi_nn": [
+   1141,
+   1141,
+   18262
+  ],
+  "pois_per_block": 0.05,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 70,
+  "spawn_slots": {
+   "1": 37,
+   "3": 17,
+   "2": 16
+  },
+  "expected_spawned": 140.0,
+  "enc": [
+   "Fire Elemental 1-3",
+   "Efreeti 1-3",
+   "Salamander 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 43,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   2360,
+   3025,
+   5383
+  ],
+  "start_to_fight": [
+   1096,
+   1096,
+   1096
+  ],
+  "start_to_service": null,
+  "starts": 1,
+  "hints_other": [
+   "War Camp"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "elemw",
+  "name": "Plane of Water",
+  "biome": "water plane",
+  "tilesets": [
+   "dirttyl",
+   "dirttyl",
+   "rdtyl",
+   "drsrcros"
+  ],
+  "water_pct": 0.0,
+  "shore_pct": 0.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.0,
+  "height_max": 7040,
+  "height_p90_land": 4598,
+  "land_blocks4096": 256.0,
+  "deco_visible": 148,
+  "deco_per_block": "0.96",
+  "trees": 0,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 22,
+  "poi_classes": {
+   "map_exit": 1,
+   "residence": 6
+  },
+  "native_interactive": {},
+  "pois_merged": 0,
+  "poi_nn": null,
+  "pois_per_block": 0.0,
+  "chests_scene": 20,
+  "loose_items": 1,
+  "item_spawns": 0,
+  "spawn_markers": 97,
+  "spawn_slots": {
+   "3": 18,
+   "2": 42,
+   "1": 37
+  },
+  "expected_spawned": 194.0,
+  "enc": [
+   "Water Elemental 1-3",
+   "Triton 1-3",
+   "Dragon Turtle 1-3"
+  ],
+  "hostile_fixed": 22,
+  "town_actors": 0,
+  "hostile_groups_1600": 70,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2112,
+   2496,
+   2917
+  ],
+  "start_to_fight": [
+   404,
+   404,
+   404
+  ],
+  "start_to_service": null,
+  "starts": 1,
+  "hints_other": []
+ },
+ {
+  "world": "mm8",
+  "map": "out01",
+  "name": "Dagger Wound Island",
+  "biome": "tropical islands",
+  "tilesets": [
+   "voltyl",
+   "wtrtyl",
+   "grastyl",
+   "drsrcros"
+  ],
+  "water_pct": 70.3,
+  "shore_pct": 7.2,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.6,
+  "height_max": 6432,
+  "height_p90_land": 288,
+  "land_blocks4096": 76.0,
+  "deco_visible": 731,
+  "deco_per_block": "11.83",
+  "trees": 367,
+  "rocks": 11,
+  "flowers_plants": 281,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 2,
+  "working": 13,
+  "fires": 1,
+  "bmodels": 128,
+  "poi_classes": {
+   "chest": 7,
+   "residence": 19,
+   "hut/tent": 9,
+   "service:Magic Shop": 1,
+   "other": 5,
+   "dungeon_entrance": 5,
+   "well": 3,
+   "service:Alchemist": 1,
+   "service:Throne": 1,
+   "unnamed": 8,
+   "service:Bank": 1,
+   "service:Training": 1,
+   "service:Weapon Shop": 1,
+   "service:Tavern": 2,
+   "service:Elemental Guild": 2,
+   "obelisk": 1,
+   "service:The Adventurer's Inn": 1,
+   "service:Temple": 1,
+   "sign": 1,
+   "fountain": 2,
+   "campfire": 5,
+   "service:Armor Shop": 1,
+   "library/book": 1,
+   "boat/ship": 3,
+   "service:Boats": 2,
+   "tree": 1
+  },
+  "native_interactive": {
+   "food_tree": 43,
+   "stat_challenge": 1,
+   "barrel": 13,
+   "signpost": 9,
+   "campfire": 1,
+   "buff_pedestal": 1
+  },
+  "pois_merged": 53,
+  "poi_nn": [
+   841,
+   1690,
+   2501
+  ],
+  "pois_per_block": 0.7,
+  "chests_scene": 20,
+  "loose_items": 35,
+  "item_spawns": 4,
+  "spawn_markers": 46,
+  "spawn_slots": {
+   "2": 36,
+   "1": 10
+  },
+  "expected_spawned": 107.0,
+  "enc": [
+   "Lizardmen Warrior 2-5",
+   "Wimpy Pirate Warrior Male 1-3",
+   "Couatl (winged snake) 1-3"
+  ],
+  "hostile_fixed": 3,
+  "town_actors": 59,
+  "hostile_groups_1600": 10,
+  "group_marker_sizes": [
+   1,
+   4,
+   7
+  ],
+  "group_center_nn": [
+   5719,
+   6500,
+   10987
+  ],
+  "start_to_fight": [
+   3762,
+   3762,
+   3762
+  ],
+  "start_to_service": [
+   2119,
+   2119,
+   2119
+  ],
+  "starts": 1,
+  "hints_other": [
+   "Abandoned Temple",
+   "Buoy",
+   "Flower",
+   "Landing Craft"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out02",
+  "name": "Ravenshore",
+  "biome": "temperate city",
+  "tilesets": [
+   "grastyl",
+   "wtrtyl",
+   "rktyl",
+   "drsrcros"
+  ],
+  "water_pct": 25.6,
+  "shore_pct": 3.6,
+  "burn_pct": 0.0,
+  "road_pct_land": 4.2,
+  "height_max": 6400,
+  "height_p90_land": 2528,
+  "land_blocks4096": 190.4,
+  "deco_visible": 807,
+  "deco_per_block": "7.07",
+  "trees": 268,
+  "rocks": 205,
+  "flowers_plants": 269,
+  "dry": 0,
+  "deadwood": 3,
+  "remains": 6,
+  "ritual": 5,
+  "working": 35,
+  "fires": 12,
+  "bmodels": 121,
+  "poi_classes": {
+   "chest": 12,
+   "well": 2,
+   "dungeon_entrance": 7,
+   "other": 4,
+   "residence": 54,
+   "stone": 3,
+   "service:Training": 2,
+   "service:Tavern": 2,
+   "service:Alchemist": 1,
+   "door/gate": 1,
+   "service:Weapon Shop": 1,
+   "service:Elemental Guild": 1,
+   "service:Magic Shop": 2,
+   "obelisk": 1,
+   "grave": 1,
+   "service:Armor Shop": 1,
+   "service:Bank": 1,
+   "service:Self Guild": 1,
+   "service:Stables": 1,
+   "service:The Adventurer's Inn": 1,
+   "fountain": 2,
+   "service:Temple": 1,
+   "service:Boats": 4,
+   "tree": 2
+  },
+  "native_interactive": {
+   "buff_pedestal": 1,
+   "campfire": 12,
+   "stat_challenge": 2,
+   "barrel": 23,
+   "signpost": 4
+  },
+  "pois_merged": 53,
+  "poi_nn": [
+   732,
+   1547,
+   4173
+  ],
+  "pois_per_block": 0.28,
+  "chests_scene": 20,
+  "loose_items": 88,
+  "item_spawns": 0,
+  "spawn_markers": 59,
+  "spawn_slots": {
+   "3": 43,
+   "2": 16
+  },
+  "expected_spawned": 118.0,
+  "enc": [
+   "Human Mercenary 2-5",
+   "Centaur 1-3",
+   "Dire Wolf 1-3"
+  ],
+  "hostile_fixed": 72,
+  "town_actors": 71,
+  "hostile_groups_1600": 32,
+  "group_marker_sizes": [
+   1,
+   2,
+   4
+  ],
+  "group_center_nn": [
+   2413,
+   3006,
+   4228
+  ],
+  "start_to_fight": [
+   2065,
+   3777,
+   6095
+  ],
+  "start_to_service": [
+   17669,
+   27579,
+   27684
+  ],
+  "starts": 3,
+  "hints_other": [
+   "Buoy",
+   "Chapel of Eep",
+   "Dire Wolf Den",
+   "Merchant House of Alvar"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out03",
+  "name": "Alvar",
+  "biome": "temperate city",
+  "tilesets": [
+   "grastyl",
+   "wtrtyl",
+   "rktyl",
+   "drsrcros"
+  ],
+  "water_pct": 6.9,
+  "shore_pct": 4.6,
+  "burn_pct": 0.0,
+  "road_pct_land": 3.4,
+  "height_max": 4064,
+  "height_p90_land": 3392,
+  "land_blocks4096": 238.2,
+  "deco_visible": 1038,
+  "deco_per_block": "6.68",
+  "trees": 616,
+  "rocks": 88,
+  "flowers_plants": 288,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 2,
+  "ritual": 2,
+  "working": 41,
+  "fires": 1,
+  "bmodels": 99,
+  "poi_classes": {
+   "chest": 9,
+   "dungeon_entrance": 4,
+   "well": 3,
+   "service:Stables": 1,
+   "service:Armor Shop": 1,
+   "service:Alchemist": 1,
+   "service:Magic Shop": 1,
+   "service:Weapon Shop": 1,
+   "other": 2,
+   "obelisk": 1,
+   "hut/tent": 1,
+   "residence": 36,
+   "service:Bank": 1,
+   "service:Training": 1,
+   "service:Temple": 2,
+   "fountain": 2,
+   "service:Self Guild": 1,
+   "service:Elemental Guild": 1,
+   "service:Tavern": 2,
+   "tree": 2
+  },
+  "native_interactive": {
+   "cauldron": 2,
+   "barrel": 20,
+   "stat_challenge": 1,
+   "buff_pedestal": 1,
+   "campfire": 1
+  },
+  "pois_merged": 38,
+  "poi_nn": [
+   1166,
+   1921,
+   4173
+  ],
+  "pois_per_block": 0.16,
+  "chests_scene": 20,
+  "loose_items": 132,
+  "item_spawns": 4,
+  "spawn_markers": 61,
+  "spawn_slots": {
+   "2": 26,
+   "3": 35
+  },
+  "expected_spawned": 122.0,
+  "enc": [
+   "Dark Elf Warrior 1-3",
+   "Ogre Warrior 1-3",
+   "Wasp Warrior 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 26,
+  "hostile_groups_1600": 36,
+  "group_marker_sizes": [
+   1,
+   1,
+   2
+  ],
+  "group_center_nn": [
+   1819,
+   2289,
+   3085
+  ],
+  "start_to_fight": [
+   2163,
+   6266,
+   12039
+  ],
+  "start_to_service": [
+   6652,
+   15289,
+   23796
+  ],
+  "starts": 4,
+  "hints_other": [
+   "Dark Dwarf Compound",
+   "Wasp Nest"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out04",
+  "name": "Ironsand Desert",
+  "biome": "desert",
+  "tilesets": [
+   "plsatyl",
+   "lavtyl",
+   "plntyl",
+   "plrdcros"
+  ],
+  "water_pct": 16.6,
+  "shore_pct": 2.8,
+  "burn_pct": 16.6,
+  "road_pct_land": 1.6,
+  "height_max": 4064,
+  "height_p90_land": 2080,
+  "land_blocks4096": 213.4,
+  "deco_visible": 582,
+  "deco_per_block": "4.04",
+  "trees": 81,
+  "rocks": 225,
+  "flowers_plants": 0,
+  "dry": 126,
+  "deadwood": 0,
+  "remains": 137,
+  "ritual": 2,
+  "working": 9,
+  "fires": 2,
+  "bmodels": 48,
+  "poi_classes": {
+   "other": 4,
+   "residence": 21,
+   "stone": 2,
+   "service:Stables": 1,
+   "map_exit": 1,
+   "chest": 7,
+   "dungeon_entrance": 5,
+   "obelisk": 1,
+   "grave": 1,
+   "service:Tavern": 1
+  },
+  "native_interactive": {
+   "campfire": 2,
+   "barrel": 8,
+   "buff_pedestal": 1,
+   "stat_challenge": 1,
+   "cauldron": 1
+  },
+  "pois_merged": 23,
+  "poi_nn": [
+   554,
+   832,
+   3266
+  ],
+  "pois_per_block": 0.11,
+  "chests_scene": 20,
+  "loose_items": 40,
+  "item_spawns": 0,
+  "spawn_markers": 74,
+  "spawn_slots": {
+   "3": 27,
+   "1": 43,
+   "2": 4
+  },
+  "expected_spawned": 148.0,
+  "enc": [
+   "Gog 1-3",
+   "Troll 1-3",
+   "Cyclops 1-3"
+  ],
+  "hostile_fixed": 5,
+  "town_actors": 28,
+  "hostile_groups_1600": 54,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2069,
+   2891,
+   3595
+  ],
+  "start_to_fight": [
+   1629,
+   1776,
+   4116
+  ],
+  "start_to_service": [
+   23984,
+   24354,
+   26666
+  ],
+  "starts": 3,
+  "hints_other": [
+   "A Cave",
+   "Cactus",
+   "Cyclops Larder",
+   "Destroyed Building"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out05",
+  "name": "Garrote Gorge",
+  "biome": "grass and dirt forts",
+  "tilesets": [
+   "grastyl",
+   "wtrtyl",
+   "rdtyl",
+   "drsrcros"
+  ],
+  "water_pct": 1.0,
+  "shore_pct": 3.4,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.9,
+  "height_max": 4064,
+  "height_p90_land": 1856,
+  "land_blocks4096": 253.4,
+  "deco_visible": 263,
+  "deco_per_block": "1.55",
+  "trees": 131,
+  "rocks": 77,
+  "flowers_plants": 53,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 1,
+  "fires": 1,
+  "bmodels": 56,
+  "poi_classes": {
+   "other": 4,
+   "dungeon_entrance": 4,
+   "chest": 4,
+   "obelisk": 1,
+   "hut/tent": 1,
+   "service:Magic Shop": 1,
+   "service:Temple": 1,
+   "service:Stables": 1,
+   "service:Weapon Shop": 1,
+   "service:Armor Shop": 1,
+   "service:Tavern": 1,
+   "well": 3,
+   "residence": 18,
+   "service:Training": 1
+  },
+  "native_interactive": {
+   "cauldron": 1,
+   "campfire": 1
+  },
+  "pois_merged": 21,
+  "poi_nn": [
+   831,
+   1762,
+   6049
+  ],
+  "pois_per_block": 0.08,
+  "chests_scene": 20,
+  "loose_items": 26,
+  "item_spawns": 2,
+  "spawn_markers": 73,
+  "spawn_slots": {
+   "1": 24,
+   "3": 33,
+   "2": 16
+  },
+  "expected_spawned": 182.0,
+  "enc": [
+   "Naga 2-5",
+   "Wimpy Dragon 1-3",
+   "Dragon Hunter 1-3"
+  ],
+  "hostile_fixed": 3,
+  "town_actors": 1,
+  "hostile_groups_1600": 42,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2326,
+   2655,
+   3210
+  ],
+  "start_to_fight": [
+   6048,
+   9126,
+   10994
+  ],
+  "start_to_service": [
+   14241,
+   17412,
+   21749
+  ],
+  "starts": 4,
+  "hints_other": [
+   "Dragon Cave",
+   "Dragon Hunter Camp",
+   "Grand Temple of Eep",
+   "Naga Vault"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out06",
+  "name": "Shadowspire",
+  "biome": "necropolis",
+  "tilesets": [
+   "gstyl",
+   "wtrtyl",
+   "tartyl",
+   "gdrdcros"
+  ],
+  "water_pct": 10.1,
+  "shore_pct": 2.6,
+  "burn_pct": 0.0,
+  "road_pct_land": 2.1,
+  "height_max": 5632,
+  "height_p90_land": 1152,
+  "land_blocks4096": 230.1,
+  "deco_visible": 604,
+  "deco_per_block": "4.18",
+  "trees": 0,
+  "rocks": 159,
+  "flowers_plants": 28,
+  "dry": 0,
+  "deadwood": 84,
+  "remains": 95,
+  "ritual": 227,
+  "working": 11,
+  "fires": 0,
+  "bmodels": 84,
+  "poi_classes": {
+   "service:Bank": 1,
+   "service:Temple": 1,
+   "residence": 33,
+   "well": 1,
+   "other": 3,
+   "dungeon_entrance": 4,
+   "service:Stables": 2,
+   "obelisk": 1,
+   "service:Alchemist": 1,
+   "grave": 1,
+   "fountain": 2,
+   "service:Armor Shop": 1,
+   "service:Tavern": 1,
+   "service:Weapon Shop": 1,
+   "service:Magic Shop": 1,
+   "service:Training": 1,
+   "service:Dark Guild": 1,
+   "chest": 6,
+   "service:Boats": 2,
+   "sign": 3
+  },
+  "native_interactive": {
+   "barrel": 11,
+   "stat_challenge": 1,
+   "buff_pedestal": 1
+  },
+  "pois_merged": 31,
+  "poi_nn": [
+   959,
+   1518,
+   2636
+  ],
+  "pois_per_block": 0.13,
+  "chests_scene": 20,
+  "loose_items": 32,
+  "item_spawns": 7,
+  "spawn_markers": 56,
+  "spawn_slots": {
+   "1": 22,
+   "2": 26,
+   "3": 8
+  },
+  "expected_spawned": 112.0,
+  "enc": [
+   "Vampire (monster) 1-3",
+   "Skeletons Archer 1-3",
+   "Bone Dragon 1-3"
+  ],
+  "hostile_fixed": 8,
+  "town_actors": 19,
+  "hostile_groups_1600": 55,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2206,
+   2955,
+   3602
+  ],
+  "start_to_fight": [
+   1648,
+   1824,
+   3818
+  ],
+  "start_to_service": [
+   6596,
+   12473,
+   22419
+  ],
+  "starts": 3,
+  "hints_other": [
+   "A Cave",
+   "Mad Necromancer's Lab",
+   "Necromancers' Guild"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out07",
+  "name": "Murmurwoods",
+  "biome": "forest",
+  "tilesets": [
+   "grastyl",
+   "wtrtyl",
+   "rdtyl",
+   "drsrcros"
+  ],
+  "water_pct": 0.0,
+  "shore_pct": 0.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.2,
+  "height_max": 3712,
+  "height_p90_land": 1664,
+  "land_blocks4096": 256.0,
+  "deco_visible": 1847,
+  "deco_per_block": "10.08",
+  "trees": 1480,
+  "rocks": 207,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 141,
+  "remains": 0,
+  "ritual": 9,
+  "working": 10,
+  "fires": 0,
+  "bmodels": 31,
+  "poi_classes": {
+   "map_exit": 1,
+   "dungeon_entrance": 3,
+   "well": 2,
+   "obelisk": 1,
+   "service:Tavern": 1,
+   "stone": 1,
+   "residence": 10,
+   "service:Light Guild": 1,
+   "chest": 2,
+   "other": 1,
+   "unnamed": 2,
+   "tree": 1,
+   "statue": 5
+  },
+  "native_interactive": {
+   "stat_challenge": 1,
+   "buff_pedestal": 2,
+   "barrel": 10
+  },
+  "pois_merged": 20,
+  "poi_nn": [
+   3314,
+   5111,
+   6966
+  ],
+  "pois_per_block": 0.08,
+  "chests_scene": 20,
+  "loose_items": 39,
+  "item_spawns": 0,
+  "spawn_markers": 81,
+  "spawn_slots": {
+   "1": 28,
+   "2": 25,
+   "3": 28
+  },
+  "expected_spawned": 162.0,
+  "enc": [
+   "Will ' O Wisp 1-3",
+   "Thunder Lizard 1-3",
+   "Unicorn 1-3"
+  ],
+  "hostile_fixed": 1,
+  "town_actors": 18,
+  "hostile_groups_1600": 62,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2025,
+   2555,
+   2916
+  ],
+  "start_to_fight": [
+   8313,
+   10939,
+   11046
+  ],
+  "start_to_service": [
+   7703,
+   7789,
+   15276
+  ],
+  "starts": 3,
+  "hints_other": [
+   "A Druid Circle"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out08",
+  "name": "Ravage Roaming",
+  "biome": "dry grassland",
+  "tilesets": [
+   "rctyl",
+   "wtrtyl",
+   "dirttyl",
+   "drsrcros"
+  ],
+  "water_pct": 14.1,
+  "shore_pct": 3.7,
+  "burn_pct": 0.0,
+  "road_pct_land": 1.3,
+  "height_max": 4064,
+  "height_p90_land": 2400,
+  "land_blocks4096": 219.9,
+  "deco_visible": 266,
+  "deco_per_block": "1.64",
+  "trees": 135,
+  "rocks": 85,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 31,
+  "remains": 5,
+  "ritual": 2,
+  "working": 3,
+  "fires": 5,
+  "bmodels": 61,
+  "poi_classes": {
+   "map_exit": 1,
+   "other": 3,
+   "dungeon_entrance": 8,
+   "grave": 1,
+   "chest": 10,
+   "obelisk": 1,
+   "residence": 6,
+   "service:Tavern": 1,
+   "service:Boats": 2
+  },
+  "native_interactive": {
+   "buff_pedestal": 1,
+   "stat_challenge": 1,
+   "campfire": 5,
+   "barrel": 2,
+   "cauldron": 1
+  },
+  "pois_merged": 31,
+  "poi_nn": [
+   606,
+   867,
+   3322
+  ],
+  "pois_per_block": 0.14,
+  "chests_scene": 20,
+  "loose_items": 2,
+  "item_spawns": 10,
+  "spawn_markers": 71,
+  "spawn_slots": {
+   "3": 13,
+   "1": 16,
+   "2": 42
+  },
+  "expected_spawned": 142.0,
+  "enc": [
+   "Wyvern 1-3",
+   "Gorgon 1-3",
+   "Ogre Warrior 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 6,
+  "hostile_groups_1600": 46,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2264,
+   2676,
+   3363
+  ],
+  "start_to_fight": [
+   11903,
+   12038,
+   13601
+  ],
+  "start_to_service": [
+   20044,
+   37897,
+   38109
+  ],
+  "starts": 3,
+  "hints_other": [
+   "Balthazar Lair",
+   "Barbarian Fortress",
+   "Church of Eep"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out13",
+  "name": "Regna",
+  "biome": "tropical island",
+  "tilesets": [
+   "grastyl",
+   "wtrtyl",
+   "rdtyl",
+   "drsrcros"
+  ],
+  "water_pct": 73.7,
+  "shore_pct": 4.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.0,
+  "height_max": 4064,
+  "height_p90_land": 640,
+  "land_blocks4096": 67.4,
+  "deco_visible": 446,
+  "deco_per_block": "6.55",
+  "trees": 339,
+  "rocks": 19,
+  "flowers_plants": 61,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 9,
+  "ritual": 3,
+  "working": 10,
+  "fires": 1,
+  "bmodels": 116,
+  "poi_classes": {
+   "boat/ship": 2,
+   "other": 4,
+   "well": 2,
+   "residence": 16,
+   "chest": 6,
+   "dungeon_entrance": 6,
+   "obelisk": 1,
+   "service:Temple": 1,
+   "service:Magic Shop": 1,
+   "service:Weapon Shop": 1,
+   "service:Boats": 2,
+   "service:Elemental Guild": 1,
+   "service:Alchemist": 1,
+   "fountain": 2,
+   "campfire": 1,
+   "service:Tavern": 1,
+   "door/gate": 1,
+   "service:Armor Shop": 1,
+   "tree": 2
+  },
+  "native_interactive": {
+   "buff_pedestal": 2,
+   "stat_challenge": 1,
+   "signpost": 4,
+   "barrel": 10,
+   "campfire": 1
+  },
+  "pois_merged": 34,
+  "poi_nn": [
+   737,
+   2001,
+   3731
+  ],
+  "pois_per_block": 0.5,
+  "chests_scene": 20,
+  "loose_items": 46,
+  "item_spawns": 0,
+  "spawn_markers": 64,
+  "spawn_slots": {
+   "2": 23,
+   "3": 19,
+   "1": 22
+  },
+  "expected_spawned": 128.0,
+  "enc": [
+   "Pirate Warrior Male 1-3",
+   "Pirate Crossbowman (Female) 1-3",
+   "Pirate Mage Male 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 16,
+  "hostile_groups_1600": 17,
+  "group_marker_sizes": [
+   2,
+   3,
+   5
+  ],
+  "group_center_nn": [
+   3710,
+   4725,
+   5639
+  ],
+  "start_to_fight": [
+   10565,
+   10565,
+   10565
+  ],
+  "start_to_service": [
+   1792,
+   1792,
+   1792
+  ],
+  "starts": 1,
+  "hints_other": [
+   "A Cave",
+   "Abandoned Pirate Keep",
+   "Pirate Stronghold",
+   "Tower"
+  ]
+ },
+ {
+  "world": "mm8",
+  "map": "out15",
+  "name": "Tutorial",
+  "biome": "tutorial",
+  "tilesets": [
+   "dirttyl",
+   "dirttyl",
+   "rdtyl",
+   "drsrcros"
+  ],
+  "water_pct": 0.0,
+  "shore_pct": 0.0,
+  "burn_pct": 0.0,
+  "road_pct_land": 0.0,
+  "height_max": 7040,
+  "height_p90_land": 4598,
+  "land_blocks4096": 256.0,
+  "deco_visible": 0,
+  "deco_per_block": "0.0",
+  "trees": 0,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 0,
+  "poi_classes": {},
+  "native_interactive": {},
+  "pois_merged": 0,
+  "poi_nn": null,
+  "pois_per_block": 0.0,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 0,
+  "spawn_slots": {},
+  "expected_spawned": 0.0,
+  "enc": [
+   "0 1-3",
+   "0 1-3",
+   "0 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 0,
+  "group_marker_sizes": null,
+  "group_center_nn": null,
+  "start_to_fight": null,
+  "start_to_service": null,
+  "starts": 0,
+  "hints_other": []
+ },
+ {
+  "world": "mm8",
+  "map": "pbp",
+  "name": "Plane Between Planes",
+  "biome": "otherworld",
+  "tilesets": [
+   "lavtyl",
+   "wtrtyl",
+   "voltyl",
+   "drsrcros"
+  ],
+  "water_pct": 19.2,
+  "shore_pct": 4.6,
+  "burn_pct": 9.1,
+  "road_pct_land": 0.0,
+  "height_max": 6400,
+  "height_p90_land": 1920,
+  "land_blocks4096": 206.8,
+  "deco_visible": 0,
+  "deco_per_block": "0.0",
+  "trees": 0,
+  "rocks": 0,
+  "flowers_plants": 0,
+  "dry": 0,
+  "deadwood": 0,
+  "remains": 0,
+  "ritual": 0,
+  "working": 0,
+  "fires": 0,
+  "bmodels": 35,
+  "poi_classes": {
+   "dungeon_entrance": 7,
+   "other": 3,
+   "campfire": 1
+  },
+  "native_interactive": {},
+  "pois_merged": 7,
+  "poi_nn": [
+   12647,
+   16536,
+   20604
+  ],
+  "pois_per_block": 0.03,
+  "chests_scene": 20,
+  "loose_items": 0,
+  "item_spawns": 0,
+  "spawn_markers": 112,
+  "spawn_slots": {
+   "2": 19,
+   "1": 66,
+   "3": 27
+  },
+  "expected_spawned": 224.0,
+  "enc": [
+   "Ether Knight 1-3",
+   "Plane Guardian 1-3",
+   "Nightmare 1-3"
+  ],
+  "hostile_fixed": 0,
+  "town_actors": 0,
+  "hostile_groups_1600": 93,
+  "group_marker_sizes": [
+   1,
+   1,
+   1
+  ],
+  "group_center_nn": [
+   2009,
+   2325,
+   3135
+  ],
+  "start_to_fight": [
+   1810,
+   1810,
+   1810
+  ],
+  "start_to_service": null,
+  "starts": 1,
+  "hints_other": [
+   "Prison of the Air Lord",
+   "Prison of the Earth Lord",
+   "Prison of the Water Lord"
+  ]
+ }
+]

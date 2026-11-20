@@ -1,0 +1,19 @@
+format: 0
+id: studio02
+name: The Shapes Gallery
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9302
+  reference: 6d01.blv
+  encounter_chance: 0
+  treasure_level: 1
+neighbours:
+  - id: exit:new_sorpigal
+    to: oute3.odm
+    kind: door
+    arrival: [-18400, -14982, 1600]
+    direction: 90
+migrated: [ceiling_level_sides]
+notes: "The S3 test dungeon (devdocs/map_studio/S3.md): one of every room shape the build learned in S3, joined so a walk goes through all of them. An L-shaped hall with a pillar and a dais, a bent corridor drawn as a path, a flight of eight steps up to a gallery, a closet behind a hinged door, and a ramp down into a cave whose outline bends inward."

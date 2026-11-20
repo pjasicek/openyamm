@@ -1,0 +1,1056 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "dragonstadium.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 1155,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1156,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1157,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1158,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1159,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1160,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1161,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1162,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1163,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1164,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1165,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1166,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1167,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1168,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1169,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1170,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1171,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1172,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1173,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1174,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1175,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1176,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1177,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1178,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1179,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1180,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1181,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1182,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1183,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1184,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1185,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1186,
+    "legacy_attributes": 4194304
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Dragon King",
+    "npc_id": 0,
+    "attributes": 589824,
+    "hp": 35100,
+    "hostility_type": 4,
+    "monster_info_id": 9212,
+    "monster_id": 9212,
+    "radius": 512,
+    "height": 1700,
+    "move_speed": 640,
+    "position": {
+     "x": 1864,
+     "y": 737,
+     "z": -163
+    },
+    "initial_yaw_units": 1535,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 3,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 7936,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "dormant": true,
+    "mm9_source_object_index": 26
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    1802,
+    -5734,
+    -163
+   ],
+   "direction_degrees": 90
+  }
+ ],
+ "loot_containers": [
+  {
+   "source_id": "mm9:dragonstadium:object:43",
+   "source_object_index": 43,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\BlackChest.ABC",
+   "source_skin": "Skins\\Props\\BlackChest.dtx",
+   "source_position_lt": [
+    576.0,
+    64.0,
+    1216.0
+   ],
+   "position": {
+    "x": 1475,
+    "y": 3113,
+    "z": 164
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 7,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 20,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 1
+  },
+  {
+   "source_id": "mm9:dragonstadium:object:44",
+   "source_object_index": 44,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\BlackChest.ABC",
+   "source_skin": "Skins\\Props\\BlackChest.dtx",
+   "source_position_lt": [
+    1568.0,
+    64.0,
+    736.0
+   ],
+   "position": {
+    "x": 4014,
+    "y": 1884,
+    "z": 164
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 7,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 20,
+   "should_repopulate": false,
+   "fixed_items": [],
+   "remove_when_empty": false,
+   "random_records": 1
+  }
+ ],
+ "static_lights": {
+  "sides": "front"
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [],
+ "model_lighting": {
+  "mode": "mm9",
+  "ambient": [
+   252,
+   252,
+   252
+  ],
+  "add": [
+   30,
+   30,
+   30
+  ],
+  "light_scale": 6.67
+ },
+ "destructibles": [
+  {
+   "id": 1,
+   "name": "p1 level 1",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    492,
+    -1434,
+    82
+   ],
+   "cog": 300,
+   "destroyed_event": 130
+  },
+  {
+   "id": 2,
+   "name": "p1 level 2",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    573,
+    -1434,
+    737
+   ],
+   "cog": 301,
+   "destroyed_event": 131
+  },
+  {
+   "id": 3,
+   "name": "p1 level 3",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    532,
+    -1393,
+    1393
+   ],
+   "cog": 302,
+   "destroyed_event": 132
+  },
+  {
+   "id": 4,
+   "name": "p1 level 4",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    532,
+    -1434,
+    1802
+   ],
+   "cog": 303,
+   "destroyed_event": 133
+  },
+  {
+   "id": 5,
+   "name": "p1 level 5",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    492,
+    -1475,
+    2130
+   ],
+   "cog": 304,
+   "destroyed_event": 134
+  },
+  {
+   "id": 6,
+   "name": "p1 level 6",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    451,
+    -1270,
+    2458
+   ],
+   "cog": 305,
+   "destroyed_event": 135
+  },
+  {
+   "id": 7,
+   "name": "p1 level 7",
+   "hp": 25,
+   "damage_enabled": true,
+   "trigger_destroy_only": true,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    860,
+    -1065,
+    2867
+   ],
+   "cog": 306,
+   "destroyed_event": 136
+  },
+  {
+   "id": 8,
+   "name": "p2 level 1",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    164,
+    3400,
+    82
+   ],
+   "cog": 307,
+   "destroyed_event": 137
+  },
+  {
+   "id": 9,
+   "name": "p2 level 2",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    205,
+    3441,
+    737
+   ],
+   "cog": 308,
+   "destroyed_event": 138
+  },
+  {
+   "id": 10,
+   "name": "p2 level 3",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    123,
+    3400,
+    1393
+   ],
+   "cog": 309,
+   "destroyed_event": 139
+  },
+  {
+   "id": 11,
+   "name": "p2 level 4",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    41,
+    3441,
+    1802
+   ],
+   "cog": 310,
+   "destroyed_event": 140
+  },
+  {
+   "id": 12,
+   "name": "p2 level 5",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    41,
+    3359,
+    2130
+   ],
+   "cog": 311,
+   "destroyed_event": 141
+  },
+  {
+   "id": 13,
+   "name": "p2 level 6",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    82,
+    3441,
+    2458
+   ],
+   "cog": 312,
+   "destroyed_event": 142
+  },
+  {
+   "id": 14,
+   "name": "p2 level 7",
+   "hp": 25,
+   "damage_enabled": true,
+   "trigger_destroy_only": true,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    901,
+    2662,
+    2867
+   ],
+   "cog": 313,
+   "destroyed_event": 143
+  },
+  {
+   "id": 15,
+   "name": "p3 level 1",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    4956,
+    1106,
+    82
+   ],
+   "cog": 314,
+   "destroyed_event": 144
+  },
+  {
+   "id": 16,
+   "name": "p3 level 2",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    4874,
+    1106,
+    737
+   ],
+   "cog": 315,
+   "destroyed_event": 145
+  },
+  {
+   "id": 17,
+   "name": "p3 level 3",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    4956,
+    1188,
+    1393
+   ],
+   "cog": 316,
+   "destroyed_event": 146
+  },
+  {
+   "id": 18,
+   "name": "p3 level 4",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    5038,
+    1270,
+    1802
+   ],
+   "cog": 317,
+   "destroyed_event": 147
+  },
+  {
+   "id": 19,
+   "name": "p3 level 6",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    5038,
+    1024,
+    2458
+   ],
+   "cog": 319,
+   "destroyed_event": 149
+  },
+  {
+   "id": 20,
+   "name": "p3 level 5",
+   "hp": 200,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    4997,
+    1188,
+    2130
+   ],
+   "cog": 318,
+   "destroyed_event": 148
+  },
+  {
+   "id": 21,
+   "name": "p3 level 7",
+   "hp": 25,
+   "damage_enabled": true,
+   "trigger_destroy_only": true,
+   "sound": "Events/stonecrumble.wav",
+   "effect": "openyamm:fx/destructible/stone",
+   "effect_scale": 1.5,
+   "center": [
+    3932,
+    1147,
+    2867
+   ],
+   "cog": 320,
+   "destroyed_event": 150
+  }
+ ],
+ "searchable_loot_props": [
+  {
+   "source_id": "mm9:dragonstadium:object:45",
+   "source_object_index": 45,
+   "source_class": "BonePile",
+   "source_name": "Prop0",
+   "source_model": "models\\Props\\SkeletonLaying.ABC",
+   "source_skin": "Skins\\Props\\Skeleton.dtx",
+   "source_position_lt": [
+    704.0,
+    -18.0,
+    -416.0
+   ],
+   "position": {
+    "x": 1802,
+    "y": -1065,
+    "z": -46
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 3,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 75,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 0,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:dragonstadium:object:46",
+   "source_object_index": 46,
+   "source_class": "BonePile",
+   "source_name": "Prop1",
+   "source_model": "models\\Props\\SkeletonLaying.ABC",
+   "source_skin": "Skins\\Props\\Skeleton.dtx",
+   "source_position_lt": [
+    960.0,
+    -16.0,
+    -384.0
+   ],
+   "position": {
+    "x": 2458,
+    "y": -983,
+    "z": -41
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 3,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 75,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 0,
+   "keep_visual_after_search": true
+  },
+  {
+   "source_id": "mm9:dragonstadium:object:47",
+   "source_object_index": 47,
+   "source_class": "BonePile",
+   "source_name": "Prop2",
+   "source_model": "models\\Props\\SkeletonLaying.ABC",
+   "source_skin": "Skins\\Props\\Skeleton.dtx",
+   "source_position_lt": [
+    1088.0,
+    -20.0,
+    576.0
+   ],
+   "position": {
+    "x": 2785,
+    "y": 1475,
+    "z": -51
+   },
+   "script_name": "",
+   "script_params": "",
+   "kind": "bone_pile",
+   "random_treasure_level": 4,
+   "loot_rolls": 1,
+   "hazard": {
+    "condition": "disease",
+    "chance": 75,
+    "comparison": "roll_1_100_strictly_less_than",
+    "severity": "mm9_native_fixed"
+   },
+   "source_disease_power": 0,
+   "keep_visual_after_search": true
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 38,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    164,
+    1311,
+    2621
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.157,
+   "loop": true
+  },
+  {
+   "key": 39,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    2294,
+    2621,
+    3113
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.157,
+   "loop": true
+  },
+  {
+   "key": 40,
+   "sound": "ambient/wind/canyon_wind02.wav",
+   "position": [
+    2458,
+    -164,
+    3113
+   ],
+   "inner_radius": 1280,
+   "outer_radius": 5120,
+   "volume": 0.157,
+   "loop": true
+  },
+  {
+   "key": 41,
+   "sound": "ambient/rodents/rat squeek 01.wav",
+   "position": [
+    2621,
+    -6717,
+    0
+   ],
+   "inner_radius": 512,
+   "outer_radius": 2560,
+   "volume": 0.394,
+   "loop": true,
+   "wait": [
+    5.0,
+    20.0
+   ]
+  },
+  {
+   "key": 42,
+   "sound": "ambient/rodents/rat squeek 03.wav",
+   "position": [
+    2458,
+    -6881,
+    0
+   ],
+   "inner_radius": 512,
+   "outer_radius": 1280,
+   "volume": 0.315,
+   "loop": true,
+   "wait": [
+    7.0,
+    18.0
+   ]
+  }
+ ]
+}

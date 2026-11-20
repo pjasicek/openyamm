@@ -1,0 +1,29 @@
+# MAW in MM9 (devdocs/maw/MM9_SUPPORT.md, MM9_BALANCE_DESIGN.md): Sturmford's packs at MAW's density by difficulty.
+# MAW (factor 1.0) keeps MM9's grown scene: 29 Field Thralls. Nightmare (1.4) adds the first 38 copies of its pack
+# reserve (rulesets/maw/maps/sturmford_zz_maw.scene.yml), 13 of them Field Thralls: 42. Standard never reads the
+# reserve. Regenerating the reserve (tools/maw/mm9_pack_reserve.py) may change these counts.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/maw_density.yml --scenario-no-color
+id: mm9.maw_density
+title: "MAW in MM9: a map's pack reserve joins it by difficulty (Sturmford: MAW, Nightmare, Standard)"
+world: mm9
+mode: faithful
+tags: [mm9, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: sturmford.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - assert:
+      actor_count: {monster_id: 9090, min: 29, max: 29}
+  - new_game_flow:
+      start_map: sturmford.blv
+      ruleset: {id: maw, difficulty: nightmare, progression: free}
+  - assert:
+      actor_count: {monster_id: 9090, min: 42, max: 42}
+  - save_game: maw_density_nightmare
+  - load_game: maw_density_nightmare
+  - assert:
+      actor_count: {monster_id: 9090, min: 42, max: 42}
+  - new_game_flow:
+      start_map: sturmford.blv
+  - assert:
+      actor_count: {monster_id: 9090, min: 29, max: 29}

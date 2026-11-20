@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "count": 42,
+  "url": "http://127.0.0.1:8899/level_generation/minimaps/",
+  "checks": [
+    "42 distinct replacements loaded",
+    "15/13/14 world filters",
+    "geometry overlay",
+    "zoom",
+    "native blink and restore",
+    "no browser exceptions"
+  ]
+}

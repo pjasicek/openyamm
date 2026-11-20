@@ -1,0 +1,167 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/people",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "east_gate_arrival",
+   "position": [
+    -8300,
+    -15400,
+    896
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.3604
+  },
+  {
+   "name": "east_gate_guard",
+   "position": [
+    -9150,
+    -15950,
+    1088
+   ],
+   "yaw": 2.9247,
+   "pitch": 0.4313
+  },
+  {
+   "name": "main_street",
+   "position": [
+    -10800,
+    -15250,
+    1472
+   ],
+   "yaw": -3.0419,
+   "pitch": -0.0028
+  },
+  {
+   "name": "square",
+   "position": [
+    -14250,
+    -15300,
+    1472
+   ],
+   "yaw": -2.4579,
+   "pitch": 0.023
+  },
+  {
+   "name": "lift_sergeants",
+   "position": [
+    -14250,
+    -16200,
+    1472
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.088
+  },
+  {
+   "name": "wardens_post",
+   "position": [
+    -14700,
+    -16700,
+    1472
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.1326
+  },
+  {
+   "name": "north_gate_outside",
+   "position": [
+    -15800,
+    -10500,
+    1440
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.1422
+  },
+  {
+   "name": "north_street",
+   "position": [
+    -15800,
+    -12850,
+    1472
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.0032
+  },
+  {
+   "name": "north_wall_turrets",
+   "position": [
+    -13600,
+    -13700,
+    1472
+   ],
+   "yaw": 1.1384,
+   "pitch": 0.3909
+  },
+  {
+   "name": "east_wall_outside",
+   "position": [
+    -8700,
+    -17000,
+    896
+   ],
+   "yaw": -2.5536,
+   "pitch": 0.5543
+  },
+  {
+   "name": "gate_bastion_close",
+   "position": [
+    -9300,
+    -14300,
+    2252
+   ],
+   "yaw": -2.577,
+   "pitch": 0.0563
+  },
+  {
+   "name": "wall_walk_close",
+   "position": [
+    -11000,
+    -13300,
+    2372
+   ],
+   "yaw": -0.9197,
+   "pitch": -0.2662
+  },
+  {
+   "name": "south_lane",
+   "position": [
+    -11400,
+    -19400,
+    1472
+   ],
+   "yaw": -3.1199,
+   "pitch": -0.0022
+  },
+  {
+   "name": "stone_lane_fountain",
+   "position": [
+    -16800,
+    -16050,
+    1472
+   ],
+   "yaw": 3.1189,
+   "pitch": -0.0045
+  },
+  {
+   "name": "aerial",
+   "position": [
+    -12500,
+    -23500,
+    7464
+   ],
+   "yaw": 1.9996,
+   "pitch": -0.6743
+  },
+  {
+   "name": "top_down",
+   "position": [
+    -15900,
+    -16400,
+    10478
+   ],
+   "yaw": 1.5708,
+   "pitch": -1.5
+  }
+ ]
+}

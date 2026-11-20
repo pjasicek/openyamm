@@ -1,0 +1,19 @@
+Use case: background-extraction (material coverage, opaque grayscale output)
+Asset: MM6 New Sorpigal 6drsrs_e; turn; roads.
+All reference paths below are relative to mm6_new_sorpigal_transitions/, not this prompt folder.
+Input 1, edit target: ../mm6_new_sorpigal/source_rgb/6drsrs_e.png (original 128px tile, unrotated).
+Input 2, supporting image reference: contexts/6drsrs_e.png; target is the central tile.
+Gray blank cells in the context are excluded water, not a material to extract.
+Input 3, supporting reference: reviewed shared edge profiles when available; extraction cannot be finalized without them.
+Extract material coverage only: white=all cobbles coverage, black=all underlying dirt.
+Return one square opaque grayscale mask. No material texture, colour, labels, perspective, shadows, border or padding.
+Preserve the native silhouette, area, orientation, meaningful islands and indentations. Do not turn internal
+material shading or cobble grout into dirt holes. Gray is only narrow coverage/antialiasing at the boundary,
+not broad soft gray regions. Do not invent a cleaner geometric layout or widen the road.
+Corner materials clockwise NW/NE/SE/SW: dirt, dirt, dirt, dirt.
+Edge topology (N/S read left-to-right, E/W top-to-bottom): {"N": "dirt/dirt", "E": "road_opening", "S": "road_opening", "W": "dirt/dirt"}.
+Road openings: SE. Preserve source widths and termination shape.
+Native outline is authoritative in the interior. Reviewed shared edge profiles are authoritative at joins.
+Keep corner samples and edge crossings fixed in later revisions; modify only the specifically failed area.
+Work at sufficient resolution for a 512px authoring mask. Retain raw output; normalize size mechanically once.
+This is a candidate extraction, not an exact recovered alpha. Review with neighboring candidates before acceptance.

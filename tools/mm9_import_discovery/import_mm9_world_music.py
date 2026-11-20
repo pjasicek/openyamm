@@ -8,8 +8,16 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+# MM9-SongNN.mp3 is OpenYAMM track 90000 + NN (worlds/mm9/music/900NN.mp3).
 MM9_MUSIC_TRACK_BASE = 90000
 MM9_MUSIC_PATTERN = re.compile(r"^MM9-Song(\d{2})\.mp3$", re.IGNORECASE)
+
+
+def track_for_mapstats_music(music_track: int) -> int:
+    """The OpenYAMM track of MM9 MAPSTATS's "Music Track" N: MM9 plays MM9-Song(N-1), as the column counts CD tracks
+    and the CD's track 1 was data (devdocs/mm9_rework/MM9_AMBIENT_AUDIO_RE.md section 2). 0 for N below 2, which MM9
+    plays nothing new for."""
+    return MM9_MUSIC_TRACK_BASE + music_track - 1 if music_track >= 2 else 0
 
 
 @dataclass(frozen=True)

@@ -1,0 +1,83 @@
+{
+  "tool": "built-in imagegen",
+  "source": "/home/pjasicek/.codex/generated_images/01a14de2-b151-7590-9890-726d2905cefd/exec-b897a0c5-7293-45fd-9963-db1270c955f1.png",
+  "saved": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item030/paint_atlas_v1.png",
+  "sha256": "b8cfefd7e990af70e0b8c26a8e2f4358020686934233adeca498e5c378a7b2a6",
+  "kind": "paint",
+  "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item030/paint_atlas_prompt.txt",
+  "cells": {
+    "front": {
+      "crop": [
+        0,
+        231,
+        512,
+        283
+      ],
+      "size": [
+        512,
+        52
+      ]
+    },
+    "back": {
+      "crop": [
+        512,
+        231,
+        1024,
+        283
+      ],
+      "size": [
+        512,
+        52
+      ]
+    },
+    "left": {
+      "crop": [
+        0,
+        740,
+        512,
+        794
+      ],
+      "size": [
+        512,
+        54
+      ]
+    },
+    "right": {
+      "crop": [
+        512,
+        740,
+        1024,
+        794
+      ],
+      "size": [
+        512,
+        54
+      ]
+    },
+    "top": {
+      "crop": [
+        0,
+        819,
+        512,
+        1507
+      ],
+      "size": [
+        512,
+        688
+      ]
+    },
+    "bottom": {
+      "crop": [
+        512,
+        818,
+        1024,
+        1507
+      ],
+      "size": [
+        512,
+        689
+      ]
+    }
+  },
+  "guide_sha256": "61df29d671482521b5e2aa3facb7f3b93e76fa4cc0bd09f22ad41094ad0eca44"
+}

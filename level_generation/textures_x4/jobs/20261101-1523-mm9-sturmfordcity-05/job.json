@@ -1,0 +1,518 @@
+{
+ "id": "20261101-1523-mm9-sturmfordcity-05",
+ "world": "mm9",
+ "maps": [
+  "sturmfordcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/signfrgald",
+  "mm9/sign0xzevw",
+  "mm9/signuth36o",
+  "mm9/stur2dbzhe",
+  "mm9/stur4zok4x",
+  "mm9/sturwggqis",
+  "mm9/signqbd5l6",
+  "mm9/stucbxndut",
+  "mm9/extwacxaaw",
+  "mm9/extwtm9q6u",
+  "mm9/sturrycyii",
+  "mm9/stur1cp3mh",
+  "mm9/sture4gufh",
+  "mm9/stur3r5xzz",
+  "mm9/refign3xtl",
+  "mm9/stuczqc6bd",
+  "mm9/keep2v1aa1",
+  "mm9/sturc81g3o",
+  "mm9/stucrougk2",
+  "mm9/stur8v4pk9",
+  "mm9/stur38spe7",
+  "mm9/stuc28ewlc",
+  "mm9/cwawa77oyy",
+  "mm9/forthnvyd8"
+ ],
+ "requests": {
+  "mm9/signfrgald": {
+   "name": "signfrgald",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a dark wooden shop sign with iron corner straps reading \"ARMOR\" in gold serif letters across the top and a small framed silver breastplate emblem below in the centre",
+   "notes": {
+    "2": "keep the dark bottom edge of the sign clean, with no coloured or white specks along the bottom rows"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/sign0xzevw": {
+   "name": "sign0xzevw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a dark wooden shop sign with iron corner straps reading \"MAGI\" in gold serif letters across the top and below it a small gold-framed square emblem on dark red: a white-bearded wizard in a tall purple hat rising out of golden flames",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/signfrgald"
+     ],
+     "fraction": 0.595
+    },
+    "2": {
+     "sources": [
+      "mm9/signfrgald"
+     ],
+     "fraction": 0.595
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/signuth36o": {
+   "name": "signuth36o",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a dark wooden shop sign with iron corner straps reading \"WEAPONS\" in gold serif letters across the top and below it a small iron-framed square emblem on reddish-brown wood: a steel battle axe (blade top left) crossed with a long sword",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/signfrgald"
+     ],
+     "fraction": 0.581
+    },
+    "2": {
+     "sources": [
+      "mm9/signfrgald"
+     ],
+     "fraction": 0.581
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/stur2dbzhe": {
+   "name": "stur2dbzhe",
+   "versions": [
+    1
+   ],
+   "material": "white-grey plaster wall in dark brown half-timber framing, a row of short vertical posts along the top, a V of diagonal braces and a horizontal beam across the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur4zok4x": {
+   "name": "stur4zok4x",
+   "versions": [
+    1
+   ],
+   "material": "pale plaster wall in dark half-timber framing, heavily overgrown with green ivy leaves hanging from the top and down the sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stur2dbzhe"
+     ],
+     "fraction": 0.281
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturwggqis": {
+   "name": "sturwggqis",
+   "versions": [
+    1
+   ],
+   "material": "grey stone wall with a small barred window under a carved stone lintel in the centre, green ivy growing thickly over the top and sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturh1ow08"
+     ],
+     "fraction": 0.294
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/signqbd5l6": {
+   "name": "signqbd5l6",
+   "versions": [
+    1
+   ],
+   "material": "a dark wooden shop sign with iron corner straps reading \"FOOD & LODGE\" in gold serif letters on two lines and a small framed silver tankard emblem in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/signfrgald"
+     ],
+     "fraction": 0.54
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stucbxndut": {
+   "name": "stucbxndut",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cream-beige plaster wall framed by brown wooden posts at the sides and a beam across the top with three small joist ends hanging below",
+   "notes": {
+    "2": "the plaster panel is one even cream-beige surface with soft stains; no rectangular patches or stepped outlines"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturtofwx7",
+      "mm9/stucgi60y8"
+     ],
+     "fraction": 0.276
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "standalone": true
+  },
+  "mm9/extwacxaaw": {
+   "name": "extwacxaaw",
+   "versions": [
+    1
+   ],
+   "material": "cream plaster wall framed in brown wood, a central vertical post with two curved wooden braces sweeping outward and up to the top beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/extw6tm3x3"
+     ],
+     "fraction": 0.269
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/extwtm9q6u": {
+   "name": "extwtm9q6u",
+   "versions": [
+    1
+   ],
+   "material": "cream plaster wall under a brown beam, a narrow arched window with dark lattice panes in the centre above a small wooden flower box",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/extwb69r89"
+     ],
+     "fraction": 0.152
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturrycyii": {
+   "name": "sturrycyii",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-grey stone brick wall of rectangular blocks in staggered courses with pale grey mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur1cp3mh": {
+   "name": "stur1cp3mh",
+   "versions": [
+    1
+   ],
+   "material": "a carved grey stone round arch with moulded voussoirs framing a dark blue-grey brick wall filling the arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturrycyii"
+     ],
+     "fraction": 0.178
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sture4gufh": {
+   "name": "sture4gufh",
+   "versions": [
+    1
+   ],
+   "material": "grey-green weathered wooden shingles in overlapping horizontal rows with dark gaps between the courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur3r5xzz": {
+   "name": "stur3r5xzz",
+   "versions": [
+    1
+   ],
+   "material": "rough olive-brown fieldstone wall of irregular stones with green ivy leaves hanging along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refign3xtl": {
+   "name": "refign3xtl",
+   "versions": [
+    1
+   ],
+   "material": "rough brown earth and rock surface with darker cracks and lighter mottled patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stuczqc6bd": {
+   "name": "stuczqc6bd",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cream plaster wall framed by brown wooden beams across the top and bottom and posts at the sides",
+   "notes": {
+    "2": "carry the top beam straight up to the top edge with no dark hairline along it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     64
+    ]
+   }
+  },
+  "mm9/keep2v1aa1": {
+   "name": "keep2v1aa1",
+   "versions": [
+    1
+   ],
+   "material": "rough olive-tan stone block wall of irregular rectangular blocks in uneven courses, a pale plaster band along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturc81g3o": {
+   "name": "sturc81g3o",
+   "versions": [
+    1
+   ],
+   "material": "brown wooden boards with a darker vertical post down the centre and a horizontal beam crossing it in a cross shape",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stucrougk2": {
+   "name": "stucrougk2",
+   "versions": [
+    1
+   ],
+   "material": "cream plaster panel in a brown wooden frame, a central post with two thick curved braces branching outward to the upper corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur8v4pk9": {
+   "name": "stur8v4pk9",
+   "versions": [
+    1
+   ],
+   "material": "pale beige plaster wall with grey stains and patches under a thin brown beam at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur38spe7": {
+   "name": "stur38spe7",
+   "versions": [
+    1
+   ],
+   "material": "pale stained plaster wall over the upper half, dark brown vertical wooden planks below a horizontal rail across the lower half",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stuc28ewlc": {
+   "name": "stuc28ewlc",
+   "versions": [
+    1
+   ],
+   "material": "cream plaster wall framed by brown wooden beams at the top and bottom and posts at the sides, a dark brown band along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/cwawa77oyy": {
+   "name": "cwawa77oyy",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "blue woven cloth, light sky-blue on the left two-thirds and a darker slate-blue band on the right, with fine fabric texture",
+   "notes": {
+    "2": "fully opaque striped cloth edge to edge with even shading, a crisp stripe boundary as in the native, no dark vignette at the borders and no rainbow specks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/forthnvyd8": {
+   "name": "forthnvyd8",
+   "versions": [
+    1
+   ],
+   "material": "grey-tan stone brick wall in staggered courses below a dark wooden ledge beam along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

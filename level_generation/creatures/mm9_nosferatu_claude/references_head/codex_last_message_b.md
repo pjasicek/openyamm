@@ -1,0 +1,3 @@
+Saved all five `b_*.png` images in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_nosferatu_claude/references_head), plus raw attempts and `generation_runs_b.json` containing prompts and checks. Used built-in image generation; outputs are unresized RGBA and match the clay dimensions.
+
+No builds or Meshy work performed. **Exact alignment failed:** silhouette drift and edge artifacts remain after the allowed corrections, so these are not projection-ready.

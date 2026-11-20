@@ -1,0 +1,137 @@
+id: lmroll.tasaracademy_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: tasaracademy.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: tasaracademy.blv
+      x: -2732
+      y: -1395
+      z: 83
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: tasaracademy.blv
+      x: -2732
+      y: -1800
+      z: 83
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: tasaracademy.blv
+      x: -2813
+      y: -1303
+      z: 62
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: tasaracademy.blv
+      x: -2883
+      y: -1272
+      z: 62
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: tasaracademy.blv
+      x: -2883
+      y: -1923
+      z: 62
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: tasaracademy.blv
+      x: -2691
+      y: -1597
+      z: 83
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id007
+      map: tasaracademy.blv
+      x: -2813
+      y: -1892
+      z: 62
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id007
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id008
+      map: tasaracademy.blv
+      x: -2813
+      y: -3105
+      z: 62
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id008
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

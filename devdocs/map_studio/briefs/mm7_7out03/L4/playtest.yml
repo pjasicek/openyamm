@@ -1,0 +1,80 @@
+# The rebuilt Erathia (oymap build of this project, installed into output/studio_cal/mm7_7out03/mount) entered by a
+# new game: shops and the town hall opened through their built doors, a chest at the healers' tents, the castle's
+# side door locked without Catherine's key, off the south edge to the Bracada Desert and back.
+id: studio.mm7_7out03.walk
+title: Rebuilt Erathia, arrival and a walk
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calib_erathia.odm
+  - assert: {map: calib_erathia.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  # The new game puts the party at the map's start: the east arrival on the east road (build.json start).
+  - assert: {party_position: {x: 22528, y: -2048, radius: 700}}
+  # Griffin's Rest (house 241): its door looks east (build.json: -11456, 9010 at 480).
+  - set_pose: {map: calib_erathia.odm, x: -11220, y: 9010, z: 480, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 241
+  - press_action: {action: cancel_dialog}
+  # Queen Catherine's Smithy (house 49), the west of the two smithies under one roof; its door looks south.
+  - set_pose: {map: calib_erathia.odm, x: -15948, y: 3900, z: 768, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 49
+  - press_action: {action: cancel_dialog}
+  # Steadwick Townhall (house 204): its door under the portico on the plaza side, looking north.
+  - set_pose: {map: calib_erathia.odm, x: -10564, y: 4500, z: 800, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 204
+  - press_action: {action: cancel_dialog}
+  # The chest beside the healers' tents (chest_E_3 of the original, chest 2), clicked from the north.
+  - set_pose: {map: calib_erathia.odm, x: 15608, y: -11200, z: 1760, yaw: -1.5708, pitch: -0.6}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - play_lua:
+      source: |
+        wait(1)
+        if not take_chest() then error("the tents' chest did not open: " .. status()) end
+        close()
+  # Castle Gryphonheart's side door (504) refuses without Catherine's Key (item 1462): no map change.
+  - execute_event: {id: 85}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: calib_erathia.odm}
+  # Leaving by the south road: over the travel square's south side to the Bracada Desert, and back to the rebuilt
+  # map's south arrival.
+  - set_pose: {map: calib_erathia.odm, x: 512, y: -22800, z: 700, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 512, y: -23600, z: 600, z_tolerance: 2000, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: 7out06.odm}
+  - set_pose: {map: 7out06.odm, x: 2816, y: 22800, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 2816, y: 23600, z: 0, z_tolerance: 2000, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: calib_erathia.odm}
+  - assert: {party_position: {x: 512, y: -22016, radius: 900}}

@@ -1,0 +1,312 @@
+# The MAW ruleset (devdocs/maw/HANDOFF.md): behaviour of MAW commit ef23ee17, reimplemented for OpenYAMM.
+# Tables below engine/data_tables/ are changed by the patches listed under `tables` (RulesetDefinition.h describes the
+# override and replace formats); the engine tables themselves stay the Standard ruleset.
+id: maw
+name: MAW
+description: >-
+  Might and Magic rebalance: monsters scale with the expected party, difficulty from Easy to Nightmare, free or
+  horizontal progression, new loot rarities, skills, spells, classes and crafting.
+credits:
+  - Malekith, lead developer and designer
+  - Rawsugar, co-lead designer
+  - Eksekk, senior contributor
+  - Yuji Sakai/Knightmarevive, contributor
+  - 2D (Perduelion), alchemy design
+  - Thor Thunderfist, skill limit removal
+  - With thanks to GrayFace and Rodril
+contentSchemaVersion: 1
+# The worlds MAW plays in: its four continents, Jadame, Antagarich, Enroth and Chedian (MM9: the user, 2026-11-09;
+# devdocs/maw/MM9_SUPPORT.md). A world left out here is greyed out at a new game and has no dimension door portal.
+worlds: [mm6, mm7, mm8, mm9]
+# The player's guide, linked from the Rules panel and the journal's Progress tab.
+guide_url: https://jasicek.net/openyamm/maw-guide/
+# The ids MAW's own rows take (the quests and topics it adds, its boss names, the Lich Troll portrait); a world may not
+# claim them too.
+idRanges:
+  qbits: {begin: 10001, end: 10099}
+  npc_topics: {begin: 10001, end: 10099}
+  monster_names: {begin: 205, end: 301}
+  portraits: {begin: 78, end: 78}
+options:
+  difficulties: [easy, normal, maw, hard, hell, nightmare]
+  defaultDifficulty: maw
+  progressions: [free, horizontal]
+  defaultProgression: free
+  # Phase 9 (devdocs/maw/PHASE9_SCOPE.md): the modes are offered while their rules are completed. MAW's randomizer is
+  # not ported (DEVIATIONS 138).
+  challengeModes: [none, doom, road_to_insanity, beyond_madness, austerity]
+  randomizer: false
+  preferences: true
+# Skills shown under another name: Learning no longer gives experience but powers spells (CLASSES_SPELLS_SPEC.md §2).
+skillNames:
+  Learning: Ascension
+# The new-game Rules panel. Monster HP and damage are relative to MAW for a level-100 party
+# (devdocs/maw/data/difficulty.yml relative_to_maw.level_100); groups are monster group sizes, loot the rarity weight
+# bonus. Normal uses MAW's otherwise unreachable difficulty index 2 (devdocs/maw/DEVIATIONS.md item 1).
+rulesPanel:
+  title: MAW Rules
+  subtitle: Might and Magic rebalance
+  summary: MAW rebalances monsters, items, skills and spells.
+  difficultyColumns: [Monster HP, Monster dmg, Groups, Loot]
+  difficulties:
+    easy:
+      values: [×0.50, ×0.50, 1–3, —]
+      description: No bosses. Monsters have half the health and deal half the damage of MAW.
+    normal:
+      values: [×0.75, ×0.70, 1–3, —]
+      description: No bosses. A gentler start for players new to MAW.
+    maw:
+      values: [×1.00, ×1.00, 1–3, —]
+      description: The intended experience. Every map has bosses with special abilities.
+    hard:
+      values: [×1.29, ×1.11, 1–4, +10 %]
+      description: Larger groups and better loot. Attacking while flying ends Fly on most maps.
+    hell:
+      values: [×1.60, ×1.22, 1–4, +20 %]
+      description: As Hard; melee monsters outdoors can also gain a ranged attack.
+    nightmare:
+      values: [×1.99, ×1.42, 2–4, +40 %]
+      description: >-
+        Saving costs food, and Lloyd's Beacon and Town Portal fail near enemies; dungeons left below 65 % cleared
+        revive their dead.
+      warning: Cannot be lowered later.
+  progressions:
+    free: >-
+      Monsters on a new continent gain the levels you earned elsewhere. Suits playing one continent at a time.
+      Masteries need skill 4, 7 and 10.
+    horizontal: >-
+      Every map has a fixed level, about 2.5× its original band; travel between continents to progress. Suits clearing
+      the whole game. Masteries need skill 6, 12 and 20.
+  challengeModes:
+    none: MAW's rules with no extra challenge.
+    doom: >-
+      Nightmare's rules with stronger monsters, larger groups, more bosses and hits that cause conditions. Items must
+      be identified before wearing, locked chests need Disarm Trap skill and hirelings refuse to join. Masteries need
+      skill 6, 12 and 20, and teachers charge more. Starts with 5,000 gold and bonus experience.
+    road_to_insanity: >-
+      A harder Doom: tougher monsters in larger groups, maps never refill or reset, dungeons cap the food you carry
+      and a heavy overkill can disintegrate a character. Teachers, training and spell books cost far more; loot is
+      stronger and gems drop more often. Masteries need skill 8, 16 and 25.
+    beyond_madness: >-
+      Road to Insanity, and every character, recruits too, starts at level 1. Maps have fixed levels up to 500,
+      dimension maps replay old dungeons, and the Arena and bounties give no rewards. Every death counts, as does
+      loading or quitting soon after a hit. No mercenaries. Horizontal progression; masteries need skill 10, 24 and 40.
+    austerity: >-
+      No Legendary or Celestial items and no crafting rewards, weaker enchantments and reagents, flatter bosses and a
+      minimum armour value from the armour skills. Combines with any difficulty.
+tables:
+  - table: items.txt
+    mode: override
+    path: patches/items.txt
+    keyColumn: 0
+    headerRow: 1
+  - table: random_items.txt
+    mode: override
+    path: patches/random_items.txt
+    keyColumn: 0
+    headerRow: 2
+  - table: monster_data.txt
+    mode: override
+    path: patches/monster_data.txt
+    keyColumn: 0
+    headerRow: 1
+  - table: map_stats.txt
+    mode: override
+    path: patches/map_stats.txt
+    keyColumn: 0
+    headerRow: 2
+  - table: special_item_enchants.txt
+    mode: override
+    path: patches/special_item_enchants.txt
+    keyColumn: "row"
+    headerRow: 2
+  - table: english/place_mon.txt
+    mode: override
+    path: patches/english/place_mon.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: english/class.txt
+    mode: override
+    path: patches/english/class.txt
+    append: patches/english/class.append.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: english/potion.txt
+    mode: replace
+    path: tables/english/potion.txt
+  - table: english/potnotes.txt
+    mode: replace
+    path: tables/english/potnotes.txt
+  - table: class_extra.txt
+    mode: override
+    path: patches/class_extra.txt
+    append: patches/class_extra.append.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: class_multipliers.txt
+    mode: override
+    path: patches/class_multipliers.txt
+    append: patches/class_multipliers.append.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: class_skills.txt
+    mode: override
+    path: patches/class_skills.txt
+    append: patches/class_skills.append.txt
+    appendColumns: patches/class_skills.columns.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: class_starting_skills.txt
+    mode: override
+    path: patches/class_starting_skills.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: class_starting_stats.txt
+    mode: override
+    path: patches/class_starting_stats.txt
+    keyColumn: "row"
+    headerRow: 0
+  - table: potion_settings.txt
+    mode: override
+    path: patches/potion_settings.txt
+    keyColumn: 1
+    headerRow: 0
+  - table: spells.txt
+    mode: override
+    path: patches/spells.txt
+    keyColumn: 2
+    headerRow: 0
+  # Written by hand in content/ (the patch tool rewrites patches/ and tables/), applied after the generated ones:
+  # the skill reset topics of the Oracle, Judge Grey and the Seer (events/Global_maw.lua); no class picks Learning
+  # (Ascension) at creation; the texts of Ascension and the four new skills; the new classes' starting skills and
+  # descriptions; free class selection at creation; what each potion does (potion_effects.yml); the crafting
+  # materials' rows (1041-1070), the top reagents' power (MAW's 30, gray 45) and the
+  # potions' descriptions.
+  # MAW's special texts set at start-up (zzMaw-Items.lua GameInitialized2): keys are table rows, special id + 3.
+  - table: special_item_enchants.txt
+    mode: override
+    path: content/special_item_enchants_patch.txt
+    keyColumn: "row"
+    headerRow: 2
+  # The cost the name-keyed patch cannot reach, by spell id: Mind Charm 5 (both Charms share a name; MAW's
+  # Spells2.txt). The damage spells' costs come from spellPowers in the generated patch.
+  - table: spells.txt
+    mode: override
+    path: content/spells_patch.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: npc.txt
+    mode: override
+    path: content/npc_respec_patch.txt
+    keyColumn: 0
+    headerRow: 1
+  # MAW's quests (QBits from 10001): the Druid Circlet for Dantillion in Murmurwoods (events/Global_maw.lua).
+  - table: english/quests.txt
+    mode: override
+    path: content/quests_patch.txt
+    append: content/quests_maw.txt
+    keyColumn: 0
+    headerRow: 0
+  # MAW's own monster names (map content, devdocs/maw/MAPS_CONTENT.md): the Naga Empress (d18), the Temple of Baa's
+  # clergy (d04) and the Goblin King and his Lieutenant (7d29, 7out02).
+  - table: english/place_mon.txt
+    mode: override
+    path: content/place_mon_patch.txt
+    append: content/place_mon_names.txt
+    keyColumn: 0
+    headerRow: 0
+  # Ascension replaces Learning and Alchemy the MM6 Diplomacy teachers: topic names, teacher speeches and hints, and
+  # the Scholar, Teacher, Instructor, Counselor, Barrister and Negotiator descriptions
+  # (zzMAW_SkillTextCompatibility.lua, MAW 2f8ff014 and later).
+  - table: npc_topic.txt
+    mode: override
+    path: content/npc_topic_patch.txt
+    append: content/npc_topic_respec.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: npc_topic_text.txt
+    mode: override
+    path: content/npc_topic_text_patch.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: class_starting_skills.txt
+    mode: override
+    path: content/class_starting_skills_patch.txt
+    append: content/class_starting_skills_new.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: english/skill_des.txt
+    mode: override
+    path: content/skill_des_patch.txt
+    append: content/skill_des_new.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: character_selection.yml
+    mode: replace
+    path: content/character_selection.yml
+  - table: english/class.txt
+    mode: override
+    path: content/class_patch.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: race_skills.yml
+    mode: replace
+    path: content/race_skills.yml
+  - table: potion_effects.yml
+    mode: replace
+    path: content/potion_effects.yml
+  - table: items.txt
+    mode: override
+    path: content/items_patch.txt
+    keyColumn: 0
+    headerRow: 1
+  # MAW's collision shrink for monsters that get stuck (zzMaw-Monsters.lua:3615-3630): Height and Radius x0.75 for the
+  # Behemoths, the minotaurs and the MM6 demons. MAW's 0-based list misses the third MM6 minotaur and shrinks Merchant C
+  # instead; this follows its comment (DEVIATIONS; audit DAT-4).
+  - table: monster_descriptors.txt
+    mode: override
+    path: content/monster_descriptors_patch.txt
+    keyColumn: 0
+    headerRow: 1
+  # MAW's run-time monster table changes (zzMaw-Monsters.lua:50-56, 939-942, 3655-3661): monsters that steal break an
+  # item instead, and only wimps flee.
+  - table: monster_data.txt
+    mode: override
+    path: content/monster_data_patch.txt
+    keyColumn: 0
+    headerRow: 1
+  # Houses that open at 6 open at 5 (zzMAW-Skills.lua:1576-1587).
+  - table: house_data.txt
+    mode: override
+    path: content/house_data_patch.txt
+    keyColumn: 0
+    headerRow: 1
+  # Spellbook shops of types 1 and 5 sell one quality higher (MAW's House rules.txt). The file repeats keys per
+  # section, so its rows are keyed by number: the Spellbook shops section's types 1 and 5.
+  - table: house_rules.txt
+    mode: override
+    path: content/house_rules_patch.txt
+    keyColumn: "row"
+    headerRow: 0
+  # Zombies and Ghouls are hostile to the party, not to each other (zzMaw-Monsters.lua:1098-1101). A monster's
+  # attitude toward another faction is the cell in the other faction's row and its own column, so MAW's
+  # HostileTxt[Ghoul][Party] is the Party row's Ghoul column.
+  - table: hostile.txt
+    mode: override
+    path: content/hostile_patch.txt
+    keyColumn: 0
+    headerRow: 0
+  # The Hall under the Hill's second and third monsters (zzMaw-Monsters.lua AdjustMonsterDensity).
+  - table: map_stats.txt
+    mode: override
+    path: content/map_stats_patch.txt
+    keyColumn: 0
+    headerRow: 2
+  # MAW's portrait races (Character portraits.txt:68-78, one-based here): the Lich Dragon and Dragon Ghost are dragons,
+  # the Minotaur Lich and zombie minotaurs, the Zombie Troll a Troll Death Knight, and a second Lich Troll.
+  - table: character_data.txt
+    mode: override
+    path: content/character_data_patch.txt
+    append: content/character_data.append.txt
+    keyColumn: 0
+    headerRow: 0

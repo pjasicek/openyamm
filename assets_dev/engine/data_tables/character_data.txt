@@ -1,78 +1,98 @@
-StatsUI	Paperdoll type	Def class	Def voice	Def sex	Available at start	Body X	Body Y	Background	bod	head	LHd	LHu	LHo	RHb	Unk	Unk	RHd	RHu	Face pics prefix	DefAttack (melee)	DefAttack (range)	NPCPic	Race	Notes
-1	0	16	0	0	x	30	-33	backdolm	pc01bod	pc01head	pc01LHo	pc01LHu	pc01LHu	pc01RHb	pc01lwp1	pc01lhu	pc01RHd	pc01RHu	pc01-	0	0	1064	0	
-2	1	16	1	1	x	60	-47	backdoll	pc02bod	pc02head	pc02LHd	pc02LHu	pc02LHo	pc02RHb	pc18la2b	pc02lhu	pc02RHd	pc02RHu	pc02-	0	0	1063	0	
-3	0	16	2	0	x	30	-31	backdolm	pc03bod	pc03head	pc03LHo	pc03LHu	pc03LHu	pc03RHb	pc07lwp1	pc03lhu	pc03RHd	pc03RHu	pc03-	0	0	1062	0	
-4	1	16	3	1	x	60	-47	backdoll	pc04bod	pc04head	pc04LHd	pc04LHu	pc04LHo	pc04RHb	pc18la2b	pc04lhu	pc04RHd	pc04RHu	pc04-	0	0	1061	0	
-5	0	4	4	0	x	29	-34	backdolm	pc05bod	null	pc05LHo	pc05LHu	pc05LHu	pc05RHb	pc07lwp1	pc05lhu	pc05RHd	pc05RHu	pc05-	0	0	1060	0	
-6	1	4	5	1	x	60	-47	backdoll	pc06bod	pc06head	pc06LHd	pc06LHu	pc06LHo	pc06RHb	pc18la2b	pc06lhu	pc06RHd	pc06RHu	pc06-	0	0	1059	0	
-7	0	4	6	0	x	29	-34	backdolm	pc07bod	null	pc07LHo	pc07LHu	pc07LHu	pc07RHb	pc07lwp1	pc07lhu	pc07RHd	pc07RHu	pc07-	0	0	1058	0	
-8	1	4	7	1	x	60	-47	backdoll	pc08bod	pc08head	pc08LHd	pc08LHu	pc08LHo	pc08RHb	pc18la2b	pc08lhu	pc08RHd	pc08RHu	pc08-	0	0	1057	0	
-9	0	44	8	0	x	29	-34	backdolm	pc09bod	pc09head	pc09LHo	pc09LHu	pc09LHu	pc09RHb	pc07lwp1	pc09lhu	pc09RHd	pc09RHu	pc09-	0	0	1056	0	
-10	1	44	9	1	x	60	-54	backdoll	pc10bod	pc10head	pc10LHd	pc10LHu	pc10LHo	pc10RHb	pc18la2b	pc10lhu	pc10RHd	pc10RHu	pc10-	0	0	1055	0	
-11	0	44	10	0	x	29	-38	backdolm	pc11bod	pc11head	pc11LHo	pc11LHu	pc11LHu	pc11RHb	pc07lwp1	pc11lhu	pc11RHd	pc11RHu	pc11-	0	0	1054	0	
-12	1	44	11	1	x	60	-48	backdoll	pc12bod	pc12head	pc12LHd	pc12LHu	pc12LHo	pc12RHb	pc18la2b	pc12lhu	pc12RHd	pc12RHu	pc12-	0	0	1053	0	
-13	0	40	12	0	x	30	-33	backdolm	pc13bod	pc13head	pc13LHo	pc13LHu	pc13LHu	pc13RHb	pc07lwp1	pc13lhu	pc13RHd	pc13RHu	pc13-	0	0	1052	1	
-14	1	40	13	1	x	60	-47	backdoll	pc14bod	none	pc14LHd	pc14LHu	pc14LHo	pc14RHb	pc18la2b	pc14lhu	pc14RHd	pc14RHu	pc14-	0	0	1051	1	
-15	0	40	14	0	x	30	-34	backdolm	pc15bod	pc15head	pc15LHo	pc15LHu	pc15LHu	pc15RHb	pc07lwp1	pc15lhu	pc15RHd	pc15RHu	pc15-	0	0	1050	1	
-16	1	40	15	1	x	60	-47	backdoll	pc16bod	pc16head	pc16LHd	pc16LHu	pc16LHo	pc16RHb	pc18la2b	pc16lhu	pc16RHd	pc16RHu	pc16-	0	0	1049	1	
-17	0	8	16	0	x	30	-38	backdolm	pc17bod	pc17head	pc17LHo	pc17LHu	pc17LHu	pc17RHb	pc07lwp1	pc17lhu	pc17RHd	pc17RHu	pc17-	0	0	1048	2	
-18	1	8	17	1	x	60	-47	backdoll	pc18bod	none	pc18LHd	pc18LHu	pc18LHo	pc18RHb	pc18la2b	pc18lhu	pc18RHd	pc18RHu	pc18-	0	0	1047	2	
-19	0	8	18	0	x	30	-36	backdolm	pc19bod	none	pc19LHo	pc19LHu	pc19LHu	pc19RHb	pc07lwp1	pc19lhu	pc19RHd	pc19RHu	pc19-	0	0	1046	2	
-20	1	8	19	1	x	60	-47	backdoll	pc20bod	pc20head	pc20LHd	pc20LHu	pc20LHo	pc20RHb	pc18la2b	pc20lhu	pc20RHd	pc20RHu	pc20-	0	0	1045	2	
-21	2	20	20	0	x	47	-62	backdol3	pc21bod	none	pc21LHd	pc21LHu	pc21LHo	pc21RHb	pc07lwp1	pc21lhu	pc21RHd	pc21RHu	pc21-	0	0	1044	3	
-22	2	20	21	0	x	48	-54	backdol3	pc22bod	none	pc22LHd	pc22LHu	pc22LHo	pc22RHb	pc18la2b	pc22lhu	pc22RHd	pc22RHu	pc22-	0	0	1043	3	
-23	3	38	22	0	x	43	-43	backdol4	pc23bod	none	pc23LHd	pc23LHu	pc23LHo	pc23RHb	pc07lwp1	pc23lhu	pc23RHd	pc23RHu	pc23-	0	0	1042	4	
-24	3	38	23	0	x	41	-51	backdol4	pc24bod	none	pc24LHd	pc24LHu	pc24LHo	pc24RHb	pc07lwp1	pc24lhu	pc24RHd	pc24RHu	pc24-	0	0	1041	4	
-25	5	10	24	0	x	0	0	pc25bod	pc25bod	none	none	none	none	none	none	none	none	none	pc25-	0	137	1040	5
-26	5	10	25	0	x	0	0	pc26bod	pc26bod	none	none	none	none	none	none	none	none	none	pc26-	0	137	1039	5
-27	0	45	26	0	-	29	-33	backdolm	pc27bod	none	pc27LHo	pc27LHu	pc27LHu	pc27RHb	pc07lwp1	pc27lhu	pc27RHd	pc27RHu	pc27-	0	0	1038	6	Lich male
-28	1	45	27	1	-	61	-45	backdoll	pc28bod	none	pc28LHd	pc28LHu	pc28LHo	pc28RHb	pc07lwp1	pc28lhu	pc28RHd	pc28RHu	pc28-	0	0	439	6	Lich female
-29	0	-1	28	0	-	0	0	backdolm	pc29bod	none	pc29LHo	pc29LHu	pc29LHu	pc29RHb	pc07lwp1	pc29lhu	pc29RHd	pc29RHu	pc29-	0	0	0	-1	
-30	0	-1	29	0	-	0	0	backdoll	pc30bod	none	pc30LHd	pc30LHu	pc30LHo	pc30RHb	pc07lwp1	pc30lhu	pc30RHd	pc30RHu	pc30-	0	0	0	-1	
-31	0	-1	0	0	-	0	0	none	none	none	none	none	none	none	none	none	none	none	WetS_	0	0	0	-1	Wetsuit
-32	1	0	33	1	x	60	-47	BackElfF	pc31bod	none	pc31LHd	pc31LHu	pc31LHo	pc31RHb	none	pc31lhu	pc31RHd	pc31RHu	pc31-	0	0	1568	7	Elf F1
-33	0	0	32	0	x	29	-34	BackElfM	pc33bod	none	pc33LHo	pc33LHu	pc33LHu	pc33RHb	none	pc33lhu	pc33RHd	pc33RHu	pc33-	0	0	1570	7	Elf M1
-34	1	0	31	1	x	60	-47	BackElfF	pc32bod	none	pc32LHd	pc32LHu	pc32LHo	pc32RHb	none	pc32lhu	pc32RHd	pc32RHu	pc32-	0	0	1569	7	Elf F2
-35	0	0	34	0	x	29	-34	BackElfM	pc34bod	none	pc34LHo	pc34LHu	pc34LHu	pc34RHb	none	pc34lhu	pc34RHd	pc34RHu	pc34-	0	0	1571	7	Elf M2
-36	0	16	35	0	x	30	-33	backdolm	pc35bod	none	pc35LHo	pc35LHu	pc35LHu	pc35RHb	none	pc35lhu	pc35RHd	pc35RHu	pc35-	0	0	1572	0	
-37	1	16	36	1	x	60	-47	backdoll	pc36bod	none	pc36LHd	pc36LHu	pc36LHo	pc36RHb	none	pc36lhu	pc36RHd	pc36RHu	pc36-	0	0	1573	0	
-38	0	16	37	0	x	29	-34	6backdol	mlabod	none	malealho	malealhu	malealhu	malearhb	none	malealhu	malearhd	malearhu	malea	0	0	1575	0	MM6 man 1
-39	1	4	38	1	x	60	-47	6backdol	grlabod	none	grlalhd	grlalhu	grlalho	grlarhb	none	grlalhu	grlarhd	grlarhu	girla	0	0	1579	0	MM6 girl 1
-40	0	16	39	0	x	30	-33	6backdol	mlbbod	none	maleblho	maleblhu	maleblhu	malebrhb	none	maleblhu	malebrhd	malebrhu	maleb	0	0	1576	0	MM6 man 2
-41	1	4	40	1	x	60	-47	6backdol	grlbbod	none	grlblhd	grlblhu	grlblho	grlbrhb	none	grlblhu	grlbrhd	grlbrhu	girlb	0	0	1582	0	MM6 girl 2
-42	0	16	41	0	x	29	-34	6backdol	mlcbod	none	maleclho	maleclhu	maleclhu	malecrhb	none	maleclhu	malecrhd	malecrhu	malec	0	0	1577	0	MM6 man 3
-43	1	4	42	1	x	60	-47	6backdol	grlcbod	none	grlclhd	grlclhu	grlclho	grlcrhb	none	grlclhu	grlcrhd	grlcrhu	girlc	0	0	1580	0	MM6 girl 3
-44	0	16	43	0	x	29	-34	6backdol	mlhbod	none	malehlho	malehlhu	malehlhu	malehrhb	none	malehlhu	malehrhd	malehrhu	maleh	0	0	1578	0	MM6 man 4
-45	1	4	44	1	x	60	-47	6backdol	grldbod	none	grldlhd	grldlhu	grldlho	grldrhb	none	grldlhu	grldrhd	grldrhu	girld	0	0	1581	0	MM6 girl 4
-46	0	16	45	0	x	29	-34	6backdol	mldbod	none	maledlho	maledlhu	maledlhu	maledrhb	none	maledlhu	maledrhd	maledrhu	maled	0	0	1583	0	MM6 man 5
-47	0	16	46	0	x	29	-34	6backdol	mlebod	none	maleelho	maleelhu	maleelhu	maleerhb	none	maleelhu	maleerhd	maleerhu	malee	0	0	1584	0	MM6 man 6
-48	0	16	47	0	x	29	-34	6backdol	mlfbod	none	maleflho	maleflhu	maleflhu	malefrhb	none	maleflhu	malefrhd	malefrhu	malef	0	0	1585	0	MM6 man 7
-49	0	16	48	0	x	29	-34	6backdol	mlgbod	none	maleglho	maleglhu	maleglhu	malegrhb	none	maleglhu	malegrhd	malegrhu	maleg	0	0	1586	0	MM6 man 8
-50	0	16	49	0	x	29	-34	7backdoll	7pc01bod	none	7pc01LHo	7pc01LHu	7pc01LHd	7pc01rhb	none	7pc01lhu	7pc01rhd	7pc01rhu	7pc01-	0	0	7001	0	MM7 man 1
-51	1	4	50	1	x	60	-47	7backdoll	7pc05bod	none	7pc05LHd	7pc05LHu	7pc05LHo	7pc05RHb	none	7pc05lhu	7pc05RHd	7pc05RHu	7pc05-	0	0	7005	0	MM7 girl 1
-52	0	16	51	0	x	29	-34	7backdoll	7pc02bod	none	7pc02LHo	7pc02LHu	7pc02LHd	7pc02rhb	none	7pc02lhu	7pc02rhd	7pc02rhu	7pc02-	0	0	7002	0	MM7 man 2
-53	1	4	52	1	x	60	-47	7backdoll	7pc07bod	none	7pc07LHd	7pc07LHu	7pc07LHo	7pc07RHb	none	7pc07lhu	7pc07RHd	7pc07RHu	7pc07-	0	0	7007	0	MM7 girl 3
-54	0	16	53	0	x	29	-34	7backdoll	7pc04bod	none	7pc04LHo	7pc04LHu	7pc04LHd	7pc04rhb	none	7pc04lhu	7pc04rhd	7pc04rhu	7pc04-	0	0	7004	0	MM7 man 4
-55	1	4	54	1	x	60	-47	7backdoll	7pc08bod	none	7pc08LHd	7pc08LHu	7pc08LHo	7pc08RHb	none	7pc08lhu	7pc08RHd	7pc08RHu	7pc08-	0	0	7008	0	MM7 girl 4
-56	0	30	55	0	x	29	-34	backdol3	7pc17bod	none	7pc17LHo	7pc17LHu	7pc17LHd	7pc17rhb	none	7pc17lhu	7pc17rhd	7pc17rhu	7pc17-	0	0	7017	8	MM7 Mgob 1
-57	1	34	56	1	x	60	-47	backdol3	7pc19bod	none	7pc19LHd	7pc19LHu	7pc19LHo	7pc19RHb	none	7pc19lhu	7pc19RHd	7pc19RHu	7pc19-	0	0	7019	8	MM7 Fgob 1
-58	0	30	57	0	x	29	-34	backdol3	7pc18bod	none	7pc18LHo	7pc18LHu	7pc18LHd	7pc18rhb	none	7pc18lhu	7pc18rhd	7pc18rhu	7pc18-	0	0	7018	8	MM7 Mgob 2
-59	1	34	58	1	x	60	-47	backdol3	7pc20bod	none	7pc20LHd	7pc20LHu	7pc20LHo	7pc20RHb	none	7pc20lhu	7pc20RHd	7pc20RHu	7pc20-	0	0	7020	8	MM7 Fgob 2
-60	0	16	59	0	-	30	-33	backdolm	7pc24bod	none	7pc24LHo	7pc24LHu	7pc24LHd	7pc24rhb	none	7pc24lhu	7pc24rhd	7pc24rhu	7pc24-	0	0	7025	10	Zombie M (conditional portrait)
-61	1	16	60	1	-	60	-47	backdoll	7pc25bod	none	7pc25LHd	7pc25LHu	7pc25LHo	7pc25RHb	none	7pc25lhu	7pc25RHd	7pc25RHu	7pc25-	0	0	7026	10	Zombie F (conditional portrait)
-62	4	16	61	0	x	43	-43	7backdoll	7pc13bod	7pc13brd	7pc13LHd	7pc13LHu	7pc13LHo	7pc13RHb	none	7pc13lhu	7pc13RHd	7pc13RHu	7pc13-	0	0	7021	9	Dwarf M 1
-63	4	16	62	0	x	43	-43	7backdoll	7pc14bod	7pc14brd	7pc14LHd	7pc14LHu	7pc14LHo	7pc14RHb	none	7pc14lhu	7pc14RHd	7pc14RHu	7pc14-	0	0	7022	9	Dwarf M 2
-64	4	16	63	1	x	43	-43	7backdoll	7pc15bod	7pc15brd	7pc15LHd	7pc15LHu	7pc15LHo	7pc15RHb	none	7pc15lhu	7pc15RHd	7pc15RHu	7pc15-	0	0	7023	9	Dwarf F 1
-65	4	16	64	1	x	43	-43	7backdoll	7pc16bod	7pc16brd	7pc16LHd	7pc16LHu	7pc16LHo	7pc16RHb	none	7pc16lhu	7pc16RHd	7pc16RHu	7pc16-	0	0	7024	9	Dwarf F 2
-66	4	45	26	0	-	43	-43	7backdoll	7pc21bod	7pc21brd	7pc21LHd	7pc21LHu	7pc21LHo	7pc21RHb	none	7pc21lhu	7pc21RHd	7pc21RHu	pc27-	0	0	1038	6	Lich dwarf male
-67	4	45	27	1	-	43	-43	7backdoll	7pc22bod	7pc22brd	7pc22LHd	7pc22LHu	7pc22LHo	7pc22RHb	none	7pc22lhu	7pc22RHd	7pc22RHu	pc28-	0	0	439	6	Lich dwarf female
-68	5	10	28	0	-	0	0	pc37bod	pc37bod	none	none	none	none	none	none	none	none	none	pc37-	0	137	8037	6	Lich Dragon
-69	5	10	65	0	-	0	0	pc38bod	pc38bod	none	none	none	none	none	none	none	none	none	pc38-	0	137	8038	10	Dragon Ghost (conditional portrait)
-70	2	45	67	0	-	48	-54	backdol3	LMinbod	none	LMinLhd	LMinlhu	LMinlho	LMinrhb	none	LMinlhu	LMinrhd	LMinrhu	LMin-	0	0	7030	6	Minotaur Lich
-71	2	16	59	0	-	48	-54	backdol3	ZMinbod	none	ZMinLhd	ZMinlhu	ZMinlho	ZMinrhb	none	ZMinlhu	ZMinrhd	ZMinrhu	ZMin-	0	0	7029	10	Minotaur zombie (conditional portrait)
-72	5	10	25	0	x	0	0	pc39bod	pc39bod	none	none	none	none	none	none	none	none	none	pc39-	0	137	8039	5	Black dragon
-73	4	16	59	0	-	31	-46	7backdoll	dzmalbod	none	dzmalLHo	dzmalLHu	dzmalLHd	dzmalrhb	none	dzmallhu	dzmalrhd	dzmalrhu	7pc24-	0	0	7025	10	Dwarf zombie (conditional portrait)
-74	4	16	60	1	-	43	-43	7backdoll	dzfembod	none	dzfemLHd	dzfemLHu	dzfemLHo	dzfemRHb	none	dzfemlhu	dzfemRHd	dzfemRHu	7pc25-	0	0	7026	10	Dwarf zombie (conditional portrait)
-75	5	10	24	0	x	0	0	pc40bod	pc40bod	none	none	none	none	none	none	none	none	none	pc40-	0	137	8040	5	Gold Dragon
-76	3	38	72	0	-	41	-51	backdol4	pc41bod	none	pc41LHd	pc41LHu	pc41LHo	pc41RHb	pc07lwp1	pc41lhu	pc41RHd	pc41RHu	pc41-	0	0	8041	6	Lich Troll 1
-77	3	38	59	0	-	43	-43	backdol4	pc42bod	none	pc42LHd	pc42LHu	pc42LHo	pc42RHb	pc07lwp1	pc42lhu	pc42RHd	pc42RHu	pc42-	0	0	8042	10	Zombie Troll 1
+StatsUI	Paperdoll type	Def class	Def voice	Def sex	Available at start	Body X	Body Y	Background	bod	head	LHd	LHu	LHo	RHb	Unk	Unk	RHd	RHu	Face pics prefix	DefAttack (melee)	DefAttack (range)	NPCPic	Race	Notes	World
+1	0	16	0	0	x	30	-33	backdolm	pc01bod	pc01head	pc01LHo	pc01LHu	pc01LHu	pc01RHb	pc01lwp1	pc01lhu	pc01RHd	pc01RHu	pc01-	0	0	1064	0		mm8
+2	1	16	1	1	x	60	-47	backdoll	pc02bod	pc02head	pc02LHd	pc02LHu	pc02LHo	pc02RHb	pc18la2b	pc02lhu	pc02RHd	pc02RHu	pc02-	0	0	1063	0		mm8
+3	0	16	2	0	x	30	-31	backdolm	pc03bod	pc03head	pc03LHo	pc03LHu	pc03LHu	pc03RHb	pc07lwp1	pc03lhu	pc03RHd	pc03RHu	pc03-	0	0	1062	0		mm8
+4	1	16	3	1	x	60	-47	backdoll	pc04bod	pc04head	pc04LHd	pc04LHu	pc04LHo	pc04RHb	pc18la2b	pc04lhu	pc04RHd	pc04RHu	pc04-	0	0	1061	0		mm8
+5	0	4	4	0	x	29	-34	backdolm	pc05bod	null	pc05LHo	pc05LHu	pc05LHu	pc05RHb	pc07lwp1	pc05lhu	pc05RHd	pc05RHu	pc05-	0	0	1060	0		mm8
+6	1	4	5	1	x	60	-47	backdoll	pc06bod	pc06head	pc06LHd	pc06LHu	pc06LHo	pc06RHb	pc18la2b	pc06lhu	pc06RHd	pc06RHu	pc06-	0	0	1059	0		mm8
+7	0	4	6	0	x	29	-34	backdolm	pc07bod	null	pc07LHo	pc07LHu	pc07LHu	pc07RHb	pc07lwp1	pc07lhu	pc07RHd	pc07RHu	pc07-	0	0	1058	0		mm8
+8	1	4	7	1	x	60	-47	backdoll	pc08bod	pc08head	pc08LHd	pc08LHu	pc08LHo	pc08RHb	pc18la2b	pc08lhu	pc08RHd	pc08RHu	pc08-	0	0	1057	0		mm8
+9	0	44	8	0	x	29	-34	backdolm	pc09bod	pc09head	pc09LHo	pc09LHu	pc09LHu	pc09RHb	pc07lwp1	pc09lhu	pc09RHd	pc09RHu	pc09-	0	0	1056	0		mm8
+10	1	44	9	1	x	60	-54	backdoll	pc10bod	pc10head	pc10LHd	pc10LHu	pc10LHo	pc10RHb	pc18la2b	pc10lhu	pc10RHd	pc10RHu	pc10-	0	0	1055	0		mm8
+11	0	44	10	0	x	29	-38	backdolm	pc11bod	pc11head	pc11LHo	pc11LHu	pc11LHu	pc11RHb	pc07lwp1	pc11lhu	pc11RHd	pc11RHu	pc11-	0	0	1054	0		mm8
+12	1	44	11	1	x	60	-48	backdoll	pc12bod	pc12head	pc12LHd	pc12LHu	pc12LHo	pc12RHb	pc18la2b	pc12lhu	pc12RHd	pc12RHu	pc12-	0	0	1053	0		mm8
+13	0	40	12	0	x	30	-33	backdolm	pc13bod	pc13head	pc13LHo	pc13LHu	pc13LHu	pc13RHb	pc07lwp1	pc13lhu	pc13RHd	pc13RHu	pc13-	0	0	1052	1		mm8
+14	1	40	13	1	x	60	-47	backdoll	pc14bod	none	pc14LHd	pc14LHu	pc14LHo	pc14RHb	pc18la2b	pc14lhu	pc14RHd	pc14RHu	pc14-	0	0	1051	1		mm8
+15	0	40	14	0	x	30	-34	backdolm	pc15bod	pc15head	pc15LHo	pc15LHu	pc15LHu	pc15RHb	pc07lwp1	pc15lhu	pc15RHd	pc15RHu	pc15-	0	0	1050	1		mm8
+16	1	40	15	1	x	60	-47	backdoll	pc16bod	pc16head	pc16LHd	pc16LHu	pc16LHo	pc16RHb	pc18la2b	pc16lhu	pc16RHd	pc16RHu	pc16-	0	0	1049	1		mm8
+17	0	8	16	0	x	30	-38	backdolm	pc17bod	pc17head	pc17LHo	pc17LHu	pc17LHu	pc17RHb	pc07lwp1	pc17lhu	pc17RHd	pc17RHu	pc17-	0	0	1048	2		mm8
+18	1	8	17	1	x	60	-47	backdoll	pc18bod	none	pc18LHd	pc18LHu	pc18LHo	pc18RHb	pc18la2b	pc18lhu	pc18RHd	pc18RHu	pc18-	0	0	1047	2		mm8
+19	0	8	18	0	x	30	-36	backdolm	pc19bod	none	pc19LHo	pc19LHu	pc19LHu	pc19RHb	pc07lwp1	pc19lhu	pc19RHd	pc19RHu	pc19-	0	0	1046	2		mm8
+20	1	8	19	1	x	60	-47	backdoll	pc20bod	pc20head	pc20LHd	pc20LHu	pc20LHo	pc20RHb	pc18la2b	pc20lhu	pc20RHd	pc20RHu	pc20-	0	0	1045	2		mm8
+21	2	20	20	0	x	47	-62	backdol3	pc21bod	none	pc21LHd	pc21LHu	pc21LHo	pc21RHb	pc07lwp1	pc21lhu	pc21RHd	pc21RHu	pc21-	0	0	1044	3		mm8
+22	2	20	21	0	x	48	-54	backdol3	pc22bod	none	pc22LHd	pc22LHu	pc22LHo	pc22RHb	pc18la2b	pc22lhu	pc22RHd	pc22RHu	pc22-	0	0	1043	3		mm8
+23	3	38	22	0	x	43	-43	backdol4	pc23bod	none	pc23LHd	pc23LHu	pc23LHo	pc23RHb	pc07lwp1	pc23lhu	pc23RHd	pc23RHu	pc23-	0	0	1042	4		mm8
+24	3	38	23	0	x	41	-51	backdol4	pc24bod	none	pc24LHd	pc24LHu	pc24LHo	pc24RHb	pc07lwp1	pc24lhu	pc24RHd	pc24RHu	pc24-	0	0	1041	4		mm8
+25	5	10	24	0	x	0	0	pc25bod	pc25bod	none	none	none	none	none	none	none	none	none	pc25-	0	137	1040	5		mm8
+26	5	10	25	0	x	0	0	pc26bod	pc26bod	none	none	none	none	none	none	none	none	none	pc26-	0	137	1039	5		mm8
+27	0	45	26	0	-	29	-33	backdolm	pc27bod	none	pc27LHo	pc27LHu	pc27LHu	pc27RHb	pc07lwp1	pc27lhu	pc27RHd	pc27RHu	pc27-	0	0	1038	6	Lich male	mm8
+28	1	45	27	1	-	61	-45	backdoll	pc28bod	none	pc28LHd	pc28LHu	pc28LHo	pc28RHb	pc07lwp1	pc28lhu	pc28RHd	pc28RHu	pc28-	0	0	439	6	Lich female	mm8
+29	0	-1	28	0	-	0	0	backdolm	pc29bod	none	pc29LHo	pc29LHu	pc29LHu	pc29RHb	pc07lwp1	pc29lhu	pc29RHd	pc29RHu	pc29-	0	0	0	-1		mm8
+30	0	-1	29	0	-	0	0	backdoll	pc30bod	none	pc30LHd	pc30LHu	pc30LHo	pc30RHb	pc07lwp1	pc30lhu	pc30RHd	pc30RHu	pc30-	0	0	0	-1		mm8
+31	0	-1	0	0	-	0	0	none	none	none	none	none	none	none	none	none	none	none	WetS_	0	0	0	-1	Wetsuit	mm8
+32	1	0	33	1	x	60	-47	BackElfF	pc31bod	none	pc31LHd	pc31LHu	pc31LHo	pc31RHb	none	pc31lhu	pc31RHd	pc31RHu	pc31-	0	0	1568	7	Elf F1	mm8
+33	0	0	32	0	x	29	-34	BackElfM	pc33bod	none	pc33LHo	pc33LHu	pc33LHu	pc33RHb	none	pc33lhu	pc33RHd	pc33RHu	pc33-	0	0	1570	7	Elf M1	mm8
+34	1	0	31	1	x	60	-47	BackElfF	pc32bod	none	pc32LHd	pc32LHu	pc32LHo	pc32RHb	none	pc32lhu	pc32RHd	pc32RHu	pc32-	0	0	1569	7	Elf F2	mm8
+35	0	0	34	0	x	29	-34	BackElfM	pc34bod	none	pc34LHo	pc34LHu	pc34LHu	pc34RHb	none	pc34lhu	pc34RHd	pc34RHu	pc34-	0	0	1571	7	Elf M2	mm8
+36	0	16	35	0	x	30	-33	backdolm	pc35bod	none	pc35LHo	pc35LHu	pc35LHu	pc35RHb	none	pc35lhu	pc35RHd	pc35RHu	pc35-	0	0	1572	0		mm8
+37	1	16	36	1	x	60	-47	backdoll	pc36bod	none	pc36LHd	pc36LHu	pc36LHo	pc36RHb	none	pc36lhu	pc36RHd	pc36RHu	pc36-	0	0	1573	0		mm8
+38	0	16	37	0	x	29	-34	6backdol	mlabod	none	malealho	malealhu	malealhu	malearhb	none	malealhu	malearhd	malearhu	malea	0	0	1575	0	MM6 man 1	mm6
+39	1	4	38	1	x	60	-47	6backdol	grlabod	none	grlalhd	grlalhu	grlalho	grlarhb	none	grlalhu	grlarhd	grlarhu	girla	0	0	1579	0	MM6 girl 1	mm6
+40	0	16	39	0	x	30	-33	6backdol	mlbbod	none	maleblho	maleblhu	maleblhu	malebrhb	none	maleblhu	malebrhd	malebrhu	maleb	0	0	1576	0	MM6 man 2	mm6
+41	1	4	40	1	x	60	-47	6backdol	grlbbod	none	grlblhd	grlblhu	grlblho	grlbrhb	none	grlblhu	grlbrhd	grlbrhu	girlb	0	0	1582	0	MM6 girl 2	mm6
+42	0	16	41	0	x	29	-34	6backdol	mlcbod	none	maleclho	maleclhu	maleclhu	malecrhb	none	maleclhu	malecrhd	malecrhu	malec	0	0	1577	0	MM6 man 3	mm6
+43	1	4	42	1	x	60	-47	6backdol	grlcbod	none	grlclhd	grlclhu	grlclho	grlcrhb	none	grlclhu	grlcrhd	grlcrhu	girlc	0	0	1580	0	MM6 girl 3	mm6
+44	0	16	43	0	x	29	-34	6backdol	mlhbod	none	malehlho	malehlhu	malehlhu	malehrhb	none	malehlhu	malehrhd	malehrhu	maleh	0	0	1578	0	MM6 man 4	mm6
+45	1	4	44	1	x	60	-47	6backdol	grldbod	none	grldlhd	grldlhu	grldlho	grldrhb	none	grldlhu	grldrhd	grldrhu	girld	0	0	1581	0	MM6 girl 4	mm6
+46	0	16	45	0	x	29	-34	6backdol	mldbod	none	maledlho	maledlhu	maledlhu	maledrhb	none	maledlhu	maledrhd	maledrhu	maled	0	0	1583	0	MM6 man 5	mm6
+47	0	16	46	0	x	29	-34	6backdol	mlebod	none	maleelho	maleelhu	maleelhu	maleerhb	none	maleelhu	maleerhd	maleerhu	malee	0	0	1584	0	MM6 man 6	mm6
+48	0	16	47	0	x	29	-34	6backdol	mlfbod	none	maleflho	maleflhu	maleflhu	malefrhb	none	maleflhu	malefrhd	malefrhu	malef	0	0	1585	0	MM6 man 7	mm6
+49	0	16	48	0	x	29	-34	6backdol	mlgbod	none	maleglho	maleglhu	maleglhu	malegrhb	none	maleglhu	malegrhd	malegrhu	maleg	0	0	1586	0	MM6 man 8	mm6
+50	0	16	49	0	x	29	-34	7backdoll	7pc01bod	none	7pc01LHo	7pc01LHu	7pc01LHd	7pc01rhb	none	7pc01lhu	7pc01rhd	7pc01rhu	7pc01-	0	0	7001	0	MM7 man 1	mm7
+51	1	4	50	1	x	60	-47	7backdoll	7pc05bod	none	7pc05LHd	7pc05LHu	7pc05LHo	7pc05RHb	none	7pc05lhu	7pc05RHd	7pc05RHu	7pc05-	0	0	7005	0	MM7 girl 1	mm7
+52	0	16	51	0	x	29	-34	7backdoll	7pc02bod	none	7pc02LHo	7pc02LHu	7pc02LHd	7pc02rhb	none	7pc02lhu	7pc02rhd	7pc02rhu	7pc02-	0	0	7002	0	MM7 man 2	mm7
+53	1	4	52	1	x	60	-47	7backdoll	7pc07bod	none	7pc07LHd	7pc07LHu	7pc07LHo	7pc07RHb	none	7pc07lhu	7pc07RHd	7pc07RHu	7pc07-	0	0	7007	0	MM7 girl 3	mm7
+54	0	16	53	0	x	29	-34	7backdoll	7pc04bod	none	7pc04LHo	7pc04LHu	7pc04LHd	7pc04rhb	none	7pc04lhu	7pc04rhd	7pc04rhu	7pc04-	0	0	7004	0	MM7 man 4	mm7
+55	1	4	54	1	x	60	-47	7backdoll	7pc08bod	none	7pc08LHd	7pc08LHu	7pc08LHo	7pc08RHb	none	7pc08lhu	7pc08RHd	7pc08RHu	7pc08-	0	0	7008	0	MM7 girl 4	mm7
+56	0	30	55	0	x	29	-34	backdol3	7pc17bod	none	7pc17LHo	7pc17LHu	7pc17LHd	7pc17rhb	none	7pc17lhu	7pc17rhd	7pc17rhu	7pc17-	0	0	7017	8	MM7 Mgob 1	mm7
+57	1	34	56	1	x	60	-47	backdol3	7pc19bod	none	7pc19LHd	7pc19LHu	7pc19LHo	7pc19RHb	none	7pc19lhu	7pc19RHd	7pc19RHu	7pc19-	0	0	7019	8	MM7 Fgob 1	mm7
+58	0	30	57	0	x	29	-34	backdol3	7pc18bod	none	7pc18LHo	7pc18LHu	7pc18LHd	7pc18rhb	none	7pc18lhu	7pc18rhd	7pc18rhu	7pc18-	0	0	7018	8	MM7 Mgob 2	mm7
+59	1	34	58	1	x	60	-47	backdol3	7pc20bod	none	7pc20LHd	7pc20LHu	7pc20LHo	7pc20RHb	none	7pc20lhu	7pc20RHd	7pc20RHu	7pc20-	0	0	7020	8	MM7 Fgob 2	mm7
+60	0	16	59	0	-	30	-33	backdolm	7pc24bod	none	7pc24LHo	7pc24LHu	7pc24LHd	7pc24rhb	none	7pc24lhu	7pc24rhd	7pc24rhu	7pc24-	0	0	7025	10	Zombie M (conditional portrait)	mm7
+61	1	16	60	1	-	60	-47	backdoll	7pc25bod	none	7pc25LHd	7pc25LHu	7pc25LHo	7pc25RHb	none	7pc25lhu	7pc25RHd	7pc25RHu	7pc25-	0	0	7026	10	Zombie F (conditional portrait)	mm7
+62	4	16	61	0	x	43	-43	7backdoll	7pc13bod	7pc13brd	7pc13LHd	7pc13LHu	7pc13LHo	7pc13RHb	none	7pc13lhu	7pc13RHd	7pc13RHu	7pc13-	0	0	7021	9	Dwarf M 1	mm7
+63	4	16	62	0	x	43	-43	7backdoll	7pc14bod	7pc14brd	7pc14LHd	7pc14LHu	7pc14LHo	7pc14RHb	none	7pc14lhu	7pc14RHd	7pc14RHu	7pc14-	0	0	7022	9	Dwarf M 2	mm7
+64	4	16	63	1	x	43	-43	7backdoll	7pc15bod	7pc15brd	7pc15LHd	7pc15LHu	7pc15LHo	7pc15RHb	none	7pc15lhu	7pc15RHd	7pc15RHu	7pc15-	0	0	7023	9	Dwarf F 1	mm7
+65	4	16	64	1	x	43	-43	7backdoll	7pc16bod	7pc16brd	7pc16LHd	7pc16LHu	7pc16LHo	7pc16RHb	none	7pc16lhu	7pc16RHd	7pc16RHu	7pc16-	0	0	7024	9	Dwarf F 2	mm7
+66	4	45	26	0	-	43	-43	7backdoll	7pc21bod	7pc21brd	7pc21LHd	7pc21LHu	7pc21LHo	7pc21RHb	none	7pc21lhu	7pc21RHd	7pc21RHu	pc27-	0	0	1038	6	Lich dwarf male	mm8
+67	4	45	27	1	-	43	-43	7backdoll	7pc22bod	7pc22brd	7pc22LHd	7pc22LHu	7pc22LHo	7pc22RHb	none	7pc22lhu	7pc22RHd	7pc22RHu	pc28-	0	0	439	6	Lich dwarf female	mm8
+68	5	10	28	0	-	0	0	pc37bod	pc37bod	none	none	none	none	none	none	none	none	none	pc37-	0	137	8037	6	Lich Dragon	mm8
+69	5	10	65	0	-	0	0	pc38bod	pc38bod	none	none	none	none	none	none	none	none	none	pc38-	0	137	8038	10	Dragon Ghost (conditional portrait)	mm8
+70	2	45	67	0	-	48	-54	backdol3	LMinbod	none	LMinLhd	LMinlhu	LMinlho	LMinrhb	none	LMinlhu	LMinrhd	LMinrhu	LMin-	0	0	7030	6	Minotaur Lich	mm8
+71	2	16	59	0	-	48	-54	backdol3	ZMinbod	none	ZMinLhd	ZMinlhu	ZMinlho	ZMinrhb	none	ZMinlhu	ZMinrhd	ZMinrhu	ZMin-	0	0	7029	10	Minotaur zombie (conditional portrait)	mm8
+72	5	10	25	0	x	0	0	pc39bod	pc39bod	none	none	none	none	none	none	none	none	none	pc39-	0	137	8039	5	Black dragon	mm8
+73	4	16	59	0	-	31	-46	7backdoll	dzmalbod	none	dzmalLHo	dzmalLHu	dzmalLHd	dzmalrhb	none	dzmallhu	dzmalrhd	dzmalrhu	7pc24-	0	0	7025	10	Dwarf zombie (conditional portrait)	mm7
+74	4	16	60	1	-	43	-43	7backdoll	dzfembod	none	dzfemLHd	dzfemLHu	dzfemLHo	dzfemRHb	none	dzfemlhu	dzfemRHd	dzfemRHu	7pc25-	0	0	7026	10	Dwarf zombie (conditional portrait)	mm7
+75	5	10	24	0	x	0	0	pc40bod	pc40bod	none	none	none	none	none	none	none	none	none	pc40-	0	137	8040	5	Gold Dragon	mm8
+76	3	38	72	0	-	41	-51	backdol4	pc41bod	none	pc41LHd	pc41LHu	pc41LHo	pc41RHb	pc07lwp1	pc41lhu	pc41RHd	pc41RHu	pc41-	0	0	8041	6	Lich Troll 1	mm8
+77	3	38	59	0	-	43	-43	backdol4	pc42bod	none	pc42LHd	pc42LHu	pc42LHo	pc42RHb	pc07lwp1	pc42lhu	pc42RHd	pc42RHu	pc42-	0	0	8042	10	Zombie Troll 1	mm8
+9001	0	4	90	0	x	29	-34	backdolm	9pc01bod	none	pc05LHo	pc05LHu	pc05LHu	pc05RHb	pc07lwp1	pc05lhu	pc05RHd	pc05RHu	9pc01-	0	0	9101	0	MM9 PC01 human male (body pc05bod)	mm9
+9002	1	16	81	1	x	60	-47	backdoll	9pc02bod	none	pc02LHd	pc02LHu	pc02LHo	pc02RHb	pc18la2b	pc02lhu	pc02RHd	pc02RHu	9pc02-	0	0	9102	0	MM9 PC02 human female (body pc02bod)	mm9
+9003	0	4	89	0	x	29	-34	backdolm	9pc03bod	none	pc07LHo	pc07LHu	pc07LHu	pc07RHb	pc07lwp1	pc07lhu	pc07RHd	pc07RHu	9pc03-	0	0	9103	0	MM9 PC03 human male (body pc07bod)	mm9
+9004	1	16	84	1	x	60	-47	backdoll	9pc04bod	none	pc04LHd	pc04LHu	pc04LHo	pc04RHb	pc18la2b	pc04lhu	pc04RHd	pc04RHu	9pc04-	0	0	9104	0	MM9 PC04 human female (body pc04bod)	mm9
+9005	0	0	94	0	x	29	-34	BackElfM	9pc05bod	none	pc34LHo	pc34LHu	pc34LHu	pc34RHb	none	pc34lhu	pc34RHd	pc34RHu	9pc05-	0	0	9105	7	MM9 PC05 elf male (body pc34bod)	mm9
+9006	1	0	80	1	x	60	-47	BackElfF	9pc06bod	none	pc31LHd	pc31LHu	pc31LHo	pc31RHb	none	pc31lhu	pc31RHd	pc31RHu	9pc06-	0	0	9106	7	MM9 PC06 elf female (body pc31bod)	mm9
+9007	0	0	93	0	x	29	-34	BackElfM	9pc07bod	none	pc33LHo	pc33LHu	pc33LHu	pc33RHb	none	pc33lhu	pc33RHd	pc33RHu	9pc07-	0	0	9107	7	MM9 PC07 elf male (body pc33bod)	mm9
+9008	1	0	85	1	x	60	-47	BackElfF	9pc08bod	none	pc32LHd	pc32LHu	pc32LHo	pc32RHb	none	pc32lhu	pc32RHd	pc32RHu	9pc08-	0	0	9108	7	MM9 PC08 elf female (body pc32bod)	mm9
+9009	0	16	88	0	x	29	-34	7backdoll	9pc09bod	none	7pc04LHo	7pc04LHu	7pc04LHd	7pc04rhb	none	7pc04lhu	7pc04rhd	7pc04rhu	9pc09-	0	0	9109	8	MM9 PC09 half-orc male (body 7pc04bod)	mm9
+9010	1	4	79	1	x	60	-47	7backdoll	9pc10bod	none	7pc08LHd	7pc08LHu	7pc08LHo	7pc08RHb	none	7pc08lhu	7pc08RHd	7pc08RHu	9pc10-	0	0	9110	8	MM9 PC10 half-orc female (body 7pc08bod)	mm9
+9011	0	16	92	0	x	30	-31	backdolm	9pc11bod	none	pc03LHo	pc03LHu	pc03LHu	pc03RHb	pc07lwp1	pc03lhu	pc03RHd	pc03RHu	9pc11-	0	0	9111	8	MM9 PC11 half-orc male (body pc03bod)	mm9
+9012	1	8	83	1	x	60	-47	backdoll	9pc12bod	none	pc18LHd	pc18LHu	pc18LHo	pc18RHb	pc18la2b	pc18lhu	pc18RHd	pc18RHu	9pc12-	0	0	9112	8	MM9 PC12 half-orc female (body pc18bod)	mm9
+9013	4	16	91	0	x	43	-43	7backdoll	9pc13bod	none	7pc13LHd	7pc13LHu	7pc13LHo	7pc13RHb	none	7pc13lhu	7pc13RHd	7pc13RHu	9pc13-	0	0	9113	9	MM9 PC13 dwarf male (body 7pc13bod)	mm9
+9014	4	16	82	1	x	43	-43	7backdoll	9pc14bod	none	7pc16LHd	7pc16LHu	7pc16LHo	7pc16RHb	none	7pc16lhu	7pc16RHd	7pc16RHu	9pc14-	0	0	9114	9	MM9 PC14 dwarf female (body 7pc16bod)	mm9
+9015	4	16	93	0	x	43	-43	7backdoll	9pc15bod	none	7pc14LHd	7pc14LHu	7pc14LHo	7pc14RHb	none	7pc14lhu	7pc14RHd	7pc14RHu	9pc15-	0	0	9115	9	MM9 PC15 dwarf male (body 7pc14bod)	mm9
+9016	4	16	81	1	x	43	-43	7backdoll	9pc16bod	none	7pc15LHd	7pc15LHu	7pc15LHo	7pc15RHb	none	7pc15lhu	7pc15RHd	7pc15RHu	9pc16-	0	0	9116	9	MM9 PC16 dwarf female (body 7pc15bod)	mm9
+9019	0	45	95	0	-	29	-33	backdolm	9pc19bod	none	pc27LHo	pc27LHu	pc27LHu	pc27RHb	pc07lwp1	pc27lhu	pc27RHd	pc27RHu	9pc19-	0	0	9119	6	MM9 PC19 lich male (body pc27bod)	mm9
+9020	1	45	86	1	-	61	-45	backdoll	9pc20bod	none	pc28LHd	pc28LHu	pc28LHo	pc28RHb	pc07lwp1	pc28lhu	pc28RHd	pc28RHu	9pc20-	0	0	9120	6	MM9 PC20 lich female (body pc28bod)	mm9
+9023	0	45	95	0	-	29	-33	backdolm	9pc23bod	none	pc27LHo	pc27LHu	pc27LHu	pc27RHb	pc07lwp1	pc27lhu	pc27RHd	pc27RHu	9pc23-	0	0	9123	6	MM9 PC23 lich male (body pc27bod)	mm9
+9024	1	45	86	1	-	61	-45	backdoll	9pc24bod	none	pc28LHd	pc28LHu	pc28LHo	pc28RHb	pc07lwp1	pc28lhu	pc28RHd	pc28RHu	9pc24-	0	0	9124	6	MM9 PC24 lich female (body pc28bod)	mm9

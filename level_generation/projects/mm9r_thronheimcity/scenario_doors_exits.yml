@@ -1,0 +1,145 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thronheimcity_doors_exits
+title: Thronheim City (native BLV) - a shop's double door, a locked facade door, the exits
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thronheimcity.blv
+- note:
+    text: 'WeaponDoor1/2 (doors 38, event 113): shut, stops the party, opens on its click; the party walks into William the
+      Framish''s shop.'
+- assert:
+    mechanism:
+      id: 38
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thronheimcity.blv
+      x: 2491
+      y: 4874
+      z: 3114
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: thronheimcity.blv
+      x: 2231
+      y: 4874
+      z: 3114
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 40
+- execute_event:
+    id: 113
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 38
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thronheimcity.blv
+      x: 2491
+      y: 4874
+      z: 3114
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: thronheimcity.blv
+      x: 1891
+      y: 4874
+      z: 3114
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'Door1 (a facade door, Locked, MoveDist 0): a click says it is locked; it stays shut.'
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 3
+      state: closed
+- note:
+    text: 'ExitTrigger1 (DAT object 956): out of the city to the Thronheim wilderness.'
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thronheimcity.blv
+      x: 14450
+      y: 82
+      z: 3093
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: thronheimcity.blv
+      x: 15150
+      y: 82
+      z: 3093
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 956
+- load_map:
+    map: thronheimcity.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 136): out of the city to the Thronheim wilderness.'
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thronheimcity.blv
+      x: 2089
+      y: 14573
+      z: 3093
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: thronheimcity.blv
+      x: 2089
+      y: 15273
+      z: 3093
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 136
+- load_map:
+    map: thronheimcity.blv

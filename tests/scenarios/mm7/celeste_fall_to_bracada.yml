@@ -1,0 +1,20 @@
+id: mm7.celeste_fall_to_bracada
+title: MM7 - falling off Celeste drops the party into the Bracada Desert sky at once, without the leave question
+world: mm7
+mode: faithful
+tags: [mm7, transitions, regression]
+steps:
+  - new_game_flow:
+      start_map: 7out02.odm
+  - load_map: {map: 7d25.blv}
+  # The sky floor's event 451: no dialogue, straight to Bracada at z 3700, where the party starts falling.
+  - execute_event: {id: 451}
+  - advance_runtime: {seconds: 0.1, follow_map_move: true}
+  - assert:
+      map: 7out06.odm
+      input_prompt: {active: false}
+      party_position: {x: 0, y: 0, radius: 100000, z_min: 3000}
+  # It falls to the desert floor.
+  - advance_runtime: {seconds: 8}
+  - assert:
+      party_position: {x: 0, y: 0, radius: 100000, z_max: 2000}

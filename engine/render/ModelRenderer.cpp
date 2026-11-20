@@ -46,9 +46,9 @@ constexpr float GlowFlameCardWeight = 0.8f;
 constexpr uint64_t DepthPrepassState = BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA;
 constexpr uint64_t PrepassedState = BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_EQUAL
     | BGFX_STATE_MSAA;
-// u_modelOutline in a creature depth prepass: fs_model returns right after the alpha test (vs_model and the hover
-// outline's 1 keep the surface where it is).
-constexpr float CreatureDepthOnly[4] = {0, 0, 0, 2};
+// u_modelOutline in a depth prepass: fs_model returns right after the alpha test (the vertex shaders inflate only the
+// hover outline's 1 and keep the surface where it is).
+constexpr float DepthOnlyOutline[4] = {0, 0, 0, 2};
 // The fire over a burning creature's burnt surface: premultiplied over what is behind it (added light would turn pale
 // over a bright sky), both faces, no depth written.
 constexpr uint64_t BurnFireState = BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LEQUAL
@@ -279,7 +279,7 @@ bgfx::TextureHandle uploadTexture(const PreparedModelTexture &prepared)
 }
 
 // The images a material samples, in MaterialTextures order without the colour ramps (base, normal,
-// metallic-roughness, region mask, burn map).
+// metallic-roughness, region mask, burn map, emissive).
 struct MaterialImageUse
 {
     int imageIndex = -1;
@@ -288,7 +288,7 @@ struct MaterialImageUse
     bool mips = true;
 };
 
-std::array<MaterialImageUse, 5> materialImageUses(const ModelMaterial &material)
+std::array<MaterialImageUse, 6> materialImageUses(const ModelMaterial &material)
 {
     const uint8_t cutoff = material.alphaMode == ModelAlphaMode::Mask
         ? uint8_t(std::clamp(std::ceil(material.alphaCutoff * 255 / std::max(material.baseColor[3], 1.0e-6f)),
@@ -300,6 +300,7 @@ std::array<MaterialImageUse, 5> materialImageUses(const ModelMaterial &material)
             samplerUsesMips(material.metallicRoughnessSampler)},
         {material.regionMaskImageIndex, ImageMipSemantic::Linear, 0, samplerUsesMips(material.regionMaskSampler)},
         {material.burnMapImageIndex, ImageMipSemantic::Linear, 0, samplerUsesMips(material.burnMapSampler)},
+        {material.emissiveImageIndex, ImageMipSemantic::Srgb, 0, samplerUsesMips(material.emissiveSampler)},
     }};
 }
 
@@ -365,6 +366,18 @@ float modelPointCountUniform(const ModelRenderLighting &lighting)
     return lighting.pointSpecularOnly ? -count : count;
 }
 
+// u_modelLighting[1].w: 0 linear lighting, 1 display-space lighting, 2 fixed-function (MM9) lighting.
+float modelLightingModeUniform(const ModelRenderLighting &lighting)
+{
+    return lighting.fixedFunctionLighting ? 2.0f : lighting.displaySpaceLighting ? 1.0f : 0.0f;
+}
+
+// u_modelLighting[0].w: the sun strength, or with fixed-function lighting (which has no sun) the point light scale.
+float modelSunOrPointScaleUniform(const ModelRenderLighting &lighting, float sun)
+{
+    return lighting.fixedFunctionLighting ? lighting.fixedPointScale : sun;
+}
+
 std::array<float, 4> modelEnvironmentUniform(const ModelRenderLighting &lighting, float maxLod)
 {
     std::array<float, 4> environment = {0, 0, 0, maxLod};
@@ -382,7 +395,8 @@ bool sameSharedLighting(const ModelRenderLighting &left, const ModelRenderLighti
         && left.environmentScale == right.environmentScale
         && left.displaySpaceLighting == right.displaySpaceLighting && left.keyDirection == right.keyDirection
         && left.keyFraction == right.keyFraction && left.pLightGrid == right.pLightGrid
-        && left.pointSpecularOnly == right.pointSpecularOnly;
+        && left.pointSpecularOnly == right.pointSpecularOnly
+        && left.fixedFunctionLighting == right.fixedFunctionLighting && left.fixedPointScale == right.fixedPointScale;
 }
 
 // u_modelPbr.w: the specular scale, negated when the metallic-roughness red channel masks it per texel.
@@ -436,6 +450,18 @@ ModelBounds transformedBounds(const ModelBounds &bounds, const ModelMatrix &matr
 
 }
 
+std::array<float, 3> spriteKeyLightDirection(const std::array<float, 3> &viewForward)
+{
+    // left = up x forward, then forward * -0.55 + left * 0.45 + up * 0.7.
+    const float leftLength = std::hypot(viewForward[0], viewForward[1]);
+    const float leftX = leftLength > 0.0f ? -viewForward[1] / leftLength : 0.0f;
+    const float leftY = leftLength > 0.0f ? viewForward[0] / leftLength : 0.0f;
+    const std::array<float, 3> key = {-0.55f * viewForward[0] + 0.45f * leftX,
+        -0.55f * viewForward[1] + 0.45f * leftY, -0.55f * viewForward[2] + 0.7f};
+    const float length = std::sqrt(key[0] * key[0] + key[1] * key[1] + key[2] * key[2]);
+    return {key[0] / length, key[1] / length, key[2] / length};
+}
+
 struct ModelRenderer::Draw
 {
     const PrimitiveResources *pPrimitive = nullptr;
@@ -454,8 +480,12 @@ struct ModelRenderer::Draw
     ModelInstanceHandle instance;
     // Creature hit flash (ModelInstanceSystem::hitFlash), carried in u_modelEdge.y.
     float hitFlash = 0.0f;
+    // Creature emission multiplier (ModelInstanceSystem::emissionMultiplier).
+    float emissionMultiplier = 1.0f;
     // The instance's burn (ModelInstanceSystem::burn), null when whole.
     const ModelBurn *pBurn = nullptr;
+    // The instance's energy shield shell (ModelInstanceSystem::shieldShell), null without one.
+    const ModelShieldShell *pShield = nullptr;
 };
 
 ModelBounds ModelStaticGroup::placementBounds(const ModelStaticPlacement &placement) const
@@ -552,6 +582,13 @@ uint32_t ModelRenderer::jointPaletteRow(const Draw &draw)
         }
         if (row + rows > m_jointRowsUsed.size())
         {
+            // The search stops short of the end for multi-row skins without checking that start: the grown rows
+            // continue only the free run at the old end, never a row another skin uses.
+            row = uint32_t(m_jointRowsUsed.size());
+            while (row > 0 && m_jointRowsUsed[row - 1] == 0)
+            {
+                --row;
+            }
             const uint32_t limit = bgfx::getCaps()->limits.maxTextureSize;
             uint32_t height = std::max<uint32_t>(64, uint32_t(m_jointRowsUsed.size()));
             while (height < row + rows)
@@ -656,7 +693,22 @@ void ModelRenderer::bindTextureScroll(const ModelMaterial &material)
     // Wrapped to one texture period (repeat sampling), so a long session keeps its precision.
     const float u = material.uvScroll[0] * m_creatureTimeSeconds;
     const float v = material.uvScroll[1] * m_creatureTimeSeconds;
-    const float scroll[4] = {u - std::floor(u), v - std::floor(v), 0.0f, 0.0f};
+    float scroll[4] = {u - std::floor(u), v - std::floor(v), 0.0f, 0.0f};
+    // A flipbook (openyamm_flipbook [columns, rows, frames per second]) shows one cell of its grid, the frame at the
+    // creature clock, every creature of the material in step (MM9's .spr skins: the Nettle Spore): the shaders map
+    // texture coordinates to uv x zw + xy (zw 0: whole texture).
+    if (material.flipbook[2] > 0.0f && material.flipbook[0] >= 1.0f && material.flipbook[1] >= 1.0f)
+    {
+        const float columns = material.flipbook[0];
+        const float rows = material.flipbook[1];
+        const float frame = std::fmod(std::floor(m_creatureTimeSeconds * material.flipbook[2]), columns * rows);
+        const float column = std::fmod(frame, columns);
+        const float row = std::floor(frame / columns);
+        scroll[0] = (column + scroll[0]) / columns;
+        scroll[1] = (row + scroll[1]) / rows;
+        scroll[2] = 1.0f / columns;
+        scroll[3] = 1.0f / rows;
+    }
     bgfx::setUniform(m_scrollUniformHandle, scroll);
 }
 
@@ -671,7 +723,7 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
     {
         // Only the base texture's alpha test runs: no lighting uniforms or other textures.
         bindStaticMaterial(*draw.pResources, material, draw.materialIndex, 0.0f, true);
-        bgfx::setUniform(m_outlineUniformHandle, CreatureDepthOnly);
+        bgfx::setUniform(m_outlineUniformHandle, DepthOnlyOutline);
         bgfx::setState(DepthPrepassState | colorCullState(material, *draw.pCullMatrix));
         bgfx::submit(viewId, m_programHandle);
         return;
@@ -684,9 +736,10 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
         material.doubleSided ? 1.0f : 0.0f,
     };
     const float lightingValues[16] = {
-        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2], lighting.direct,
+        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2],
+        modelSunOrPointScaleUniform(lighting, lighting.direct),
         lighting.directColor[0], lighting.directColor[1], lighting.directColor[2],
-        lighting.displaySpaceLighting ? 1.0f : 0.0f,
+        modelLightingModeUniform(lighting),
         lighting.ambientColor[0], lighting.ambientColor[1], lighting.ambientColor[2], lighting.ambient,
         lighting.keyDirection[0] * lighting.keyFraction, lighting.keyDirection[1] * lighting.keyFraction,
         lighting.keyDirection[2] * lighting.keyFraction, modelPointCountUniform(lighting),
@@ -701,8 +754,9 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
 
     bgfx::setTexture(0, m_textureSamplerHandle, texture, samplerFlags(material.baseSampler));
     const bool hasNormal = bgfx::isValid(textures.normal);
-    const float surface[4] = {material.emissive[0], material.emissive[1], material.emissive[2],
-        hasNormal ? material.normalScale : -1.0f};
+    // Single draws are creatures (skinned or morphing): their pulse scales the emission here.
+    const std::array<float, 4> surface = surfaceUniform(material, textures,
+        modelCreaturePulse(material, m_creatureTimeSeconds) * draw.emissionMultiplier);
     const float pbr[4] = {material.metallic, material.roughness, material.translucency, modelSpecularUniform(material)};
     bgfx::setTexture(1, m_normalSamplerHandle, hasNormal ? textures.normal : m_whiteTextureHandle,
         samplerFlags(material.normalSampler));
@@ -726,13 +780,14 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
         const std::array<float, 4> environment = modelEnvironmentUniform(lighting, m_environmentMaxLod);
         bgfx::setUniform(m_environmentUniformHandle, environment.data());
     }
-    bgfx::setUniform(m_surfaceUniformHandle, surface);
+    bgfx::setUniform(m_surfaceUniformHandle, surface.data());
     bgfx::setUniform(m_materialUniformHandle, materialValues, 2);
     const float edge[4] = {material.edgeDarkening, draw.hitFlash, modelSpecularOcclusionSource(material),
         material.specularOcclusionReference};
     bgfx::setUniform(m_edgeUniformHandle, edge);
     bindColorRegions(material, textures);
     bindBurn(draw.pBurn, material, textures);
+    bindEmissiveTexture(material, textures);
     bgfx::setTexture(3, m_environmentSamplerHandle, m_environmentTextureHandle);
     bgfx::setTexture(4, m_environmentBrdfSamplerHandle, m_environmentBrdfTextureHandle);
     bindLightGrid(lighting);
@@ -759,14 +814,160 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
         bgfx::setUniform(m_outlineUniformHandle, noOutline);
     }
     bgfx::setState(state | colorCullState(material, *draw.pCullMatrix));
+    const bgfx::ProgramHandle program = colorProgram(textures, m_programHandle, m_emissivePrograms.single);
+    const bool glow = creatureGlows(material, textures);
     // A burning body has no contour: the shell would outline the parts already burnt away.
     if (drawsContour(material) && draw.pBurn == nullptr)
     {
-        bgfx::submit(viewId, m_programHandle, 0, BGFX_DISCARD_NONE);
-        submitContour(viewId, m_programHandle, *draw.pCullMatrix);
+        bgfx::submit(viewId, program, 0, BGFX_DISCARD_NONE);
+        if (glow)
+        {
+            submitCreatureGlow(program, material, *draw.pCullMatrix, true);
+        }
+        submitContour(viewId, program, *draw.pCullMatrix);
         return;
     }
-    bgfx::submit(viewId, m_programHandle);
+    bgfx::submit(viewId, program, 0, glow ? BGFX_DISCARD_NONE : BGFX_DISCARD_ALL);
+    if (glow)
+    {
+        submitCreatureGlow(program, material, *draw.pCullMatrix, false);
+    }
+}
+
+// A renderer without a loader (terrain bushes) draws emissive textures without emission.
+bool ModelRenderer::ensureEmissivePrograms()
+{
+    if (!m_emissiveProgramsAttempted && m_emissiveProgramLoader)
+    {
+        m_emissiveProgramsAttempted = true;
+        ModelEmissivePrograms programs = m_emissiveProgramLoader();
+        // Each colour program this renderer draws with needs its variant.
+        const bool complete = bgfx::isValid(programs.single)
+            && (!bgfx::isValid(m_skinnedInstancedProgramHandle) || bgfx::isValid(programs.skinnedInstanced))
+            && (!bgfx::isValid(m_staticProgramHandle) || bgfx::isValid(programs.staticInstanced));
+        if (complete)
+        {
+            m_emissiveSamplerHandle = bgfx::createUniform("s_modelEmissive", bgfx::UniformType::Sampler);
+        }
+        if (!complete || !bgfx::isValid(m_emissiveSamplerHandle))
+        {
+            for (const bgfx::ProgramHandle handle : {programs.single, programs.skinnedInstanced,
+                     programs.staticInstanced})
+            {
+                if (bgfx::isValid(handle))
+                {
+                    bgfx::destroy(handle);
+                }
+            }
+            programs = {};
+        }
+        m_emissivePrograms = programs;
+    }
+    if (m_emissiveProgramLoader && !bgfx::isValid(m_emissivePrograms.single))
+    {
+        throw std::runtime_error("Cannot load the emissive model programs (fs_model_emissive)");
+    }
+    return bgfx::isValid(m_emissivePrograms.single);
+}
+
+std::array<float, 4> ModelRenderer::surfaceUniform(const ModelMaterial &material,
+    const AssetResources::MaterialTextures &textures, float emissionScale) const
+{
+    // An emissive texture without its program would light the whole material with the factor: no emission instead.
+    const float emission = material.emissiveImageIndex >= 0 && !bgfx::isValid(textures.emissive) ? 0.0f
+        : emissionScale;
+    return {material.emissive[0] * emission, material.emissive[1] * emission, material.emissive[2] * emission,
+        bgfx::isValid(textures.normal) ? material.normalScale : -1.0f};
+}
+
+bgfx::ProgramHandle ModelRenderer::colorProgram(const AssetResources::MaterialTextures &textures,
+    bgfx::ProgramHandle program, bgfx::ProgramHandle emissiveProgram) const
+{
+    return bgfx::isValid(textures.emissive) && bgfx::isValid(emissiveProgram) ? emissiveProgram : program;
+}
+
+void ModelRenderer::bindEmissiveTexture(const ModelMaterial &material,
+    const AssetResources::MaterialTextures &textures) const
+{
+    // Only the emissive programs sample stage 7: other draws bind nothing there.
+    if (bgfx::isValid(textures.emissive))
+    {
+        bgfx::setTexture(7, m_emissiveSamplerHandle, textures.emissive, samplerFlags(material.emissiveSampler));
+    }
+}
+
+bool ModelRenderer::creatureGlows(const ModelMaterial &material,
+    const AssetResources::MaterialTextures &textures) const
+{
+    return m_glowView != UINT16_MAX && !m_reflectionPass && !m_portraitPass && material.bloom
+        && (material.emissive[0] > 0.0f || material.emissive[1] > 0.0f || material.emissive[2] > 0.0f)
+        && (material.emissiveImageIndex < 0 || bgfx::isValid(textures.emissive));
+}
+
+void ModelRenderer::submitCreatureGlow(bgfx::ProgramHandle program, const ModelMaterial &material,
+    const ModelMatrix &cullMatrix, bool keepBindings)
+{
+    // As the static emitters (submitStatic): the same draw again into the glow view over the world depth, writing
+    // only its emission (fs_model's glow output, fogged).
+    const float glow[4] = {1.0f, 0.0f, 0.0f, 0.0f};
+    bgfx::setUniform(m_glowUniformHandle, glow);
+    bgfx::setState(GlowEmissionState | colorCullState(material, cullMatrix));
+    bgfx::submit(m_glowView, program, 0, keepBindings ? BGFX_DISCARD_NONE : BGFX_DISCARD_ALL);
+    m_glowDrawn = true;
+    const float noGlow[4] = {};
+    bgfx::setUniform(m_glowUniformHandle, noGlow);
+}
+
+bool ModelRenderer::ensureShieldShellProgram()
+{
+    if (!m_shieldShellProgramAttempted)
+    {
+        m_shieldShellProgramAttempted = true;
+        if (m_shieldShellProgramLoader)
+        {
+            m_shieldShellProgram = m_shieldShellProgramLoader();
+        }
+        if (bgfx::isValid(m_shieldShellProgram))
+        {
+            m_shieldShellUniformHandle = bgfx::createUniform("u_shieldShell", bgfx::UniformType::Vec4, 8);
+        }
+    }
+    return bgfx::isValid(m_shieldShellProgram) && bgfx::isValid(m_shieldShellUniformHandle);
+}
+
+void ModelRenderer::submitShieldShell(const Draw &draw, uint16_t viewId, const std::array<float, 3> &cameraPosition)
+{
+    const ModelShieldShell &shell = *draw.pShield;
+    std::array<std::array<float, 4>, 8> values = {};
+    values[0] = {shell.color[0], shell.color[1], shell.color[2], shell.strength};
+    values[1] = {shell.seconds, shell.breakSeconds, shell.raiseSeconds, shell.fraction};
+    values[2] = {shell.footZ, shell.bodyHeight, 0.0f, shell.thickness};
+    values[3] = {cameraPosition[0], cameraPosition[1], cameraPosition[2], 0.0f};
+    for (size_t hit = 0; hit < ModelShieldShell::MaxHits; ++hit)
+    {
+        values[4 + hit] = shell.hits[hit];
+    }
+    // Additive over the scene, depth-tested without depth writes and with both faces, like the ward dome.
+    constexpr uint64_t ShellState = BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_BLEND_ADD
+        | BGFX_STATE_MSAA;
+    const bool glow = m_glowView != UINT16_MAX && !m_portraitPass;
+    if (!bindGeometry(draw))
+    {
+        return;
+    }
+    bgfx::setUniform(m_shieldShellUniformHandle, values.data(), 8);
+    bgfx::setState(ShellState);
+    bgfx::submit(viewId, m_shieldShellProgram, 0, glow ? BGFX_DISCARD_NONE : BGFX_DISCARD_ALL);
+    if (glow)
+    {
+        // The same shell into the bloom view at a share of its brightness, so it blooms with the other emitters.
+        values[2][2] = 0.45f;
+        bgfx::setUniform(m_shieldShellUniformHandle, values.data(), 8);
+        bgfx::setState(ShellState);
+        bgfx::submit(m_glowView, m_shieldShellProgram);
+        m_glowDrawn = true;
+    }
+    m_lastSubmit = {};
 }
 
 void ModelRenderer::submitBurnFire(const Draw &draw, uint16_t viewId)
@@ -859,7 +1060,7 @@ void ModelRenderer::submitInstancedSkinned(const std::vector<SkinnedRun> &runs, 
     bgfx::setUniform(m_skinParamsHandle, skin);
     if (depthPass)
     {
-        bgfx::setUniform(m_outlineUniformHandle, CreatureDepthOnly);
+        bgfx::setUniform(m_outlineUniformHandle, DepthOnlyOutline);
         for (const SkinnedRun &run : runs)
         {
             if (!run.prepassed)
@@ -880,9 +1081,10 @@ void ModelRenderer::submitInstancedSkinned(const std::vector<SkinnedRun> &runs, 
     }
     // Ambient and sun strength arrive per instance (v_color0), as on static placements.
     const float lightingValues[16] = {
-        shared.lightDirection[0], shared.lightDirection[1], shared.lightDirection[2], 1.0f,
+        shared.lightDirection[0], shared.lightDirection[1], shared.lightDirection[2],
+        modelSunOrPointScaleUniform(shared, 1.0f),
         shared.directColor[0], shared.directColor[1], shared.directColor[2],
-        shared.displaySpaceLighting ? 1.0f : 0.0f,
+        modelLightingModeUniform(shared),
         1.0f, 1.0f, 1.0f, 1.0f,
         shared.keyDirection[0] * shared.keyFraction, shared.keyDirection[1] * shared.keyFraction,
         shared.keyDirection[2] * shared.keyFraction, 0.0f,
@@ -896,7 +1098,8 @@ void ModelRenderer::submitInstancedSkinned(const std::vector<SkinnedRun> &runs, 
     for (const SkinnedRun &run : runs)
     {
         const Draw &draw = *run.pDraw;
-        bindStaticMaterial(*draw.pResources, *draw.pMaterial, draw.materialIndex, 0.0f, false);
+        bindStaticMaterial(*draw.pResources, *draw.pMaterial, draw.materialIndex, 0.0f, false, nullptr,
+            modelCreaturePulse(*draw.pMaterial, m_creatureTimeSeconds));
         bindTextureScroll(*draw.pMaterial);
         bgfx::setTexture(3, m_environmentSamplerHandle, m_environmentTextureHandle);
         bgfx::setTexture(4, m_environmentBrdfSamplerHandle, m_environmentBrdfTextureHandle);
@@ -911,14 +1114,30 @@ void ModelRenderer::submitInstancedSkinned(const std::vector<SkinnedRun> &runs, 
         bgfx::setInstanceDataBuffer(&run.buffer);
         bgfx::setState((run.prepassed ? PrepassedState : OpaqueState)
             | colorCullState(*draw.pMaterial, *draw.pCullMatrix));
+        AssetResources::MaterialTextures textures;
+        if (draw.materialIndex >= 0)
+        {
+            textures = draw.pResources->materialTextures[draw.materialIndex];
+        }
+        const bgfx::ProgramHandle program = colorProgram(textures, m_skinnedInstancedProgramHandle,
+            m_emissivePrograms.skinnedInstanced);
+        const bool glow = creatureGlows(*draw.pMaterial, textures);
         if (drawsContour(*draw.pMaterial))
         {
-            bgfx::submit(viewId, m_skinnedInstancedProgramHandle, 0, BGFX_DISCARD_NONE);
-            submitContour(viewId, m_skinnedInstancedProgramHandle, *draw.pCullMatrix);
+            bgfx::submit(viewId, program, 0, BGFX_DISCARD_NONE);
+            if (glow)
+            {
+                submitCreatureGlow(program, *draw.pMaterial, *draw.pCullMatrix, true);
+            }
+            submitContour(viewId, program, *draw.pCullMatrix);
         }
         else
         {
-            bgfx::submit(viewId, m_skinnedInstancedProgramHandle);
+            bgfx::submit(viewId, program, 0, glow ? BGFX_DISCARD_NONE : BGFX_DISCARD_ALL);
+            if (glow)
+            {
+                submitCreatureGlow(program, *draw.pMaterial, *draw.pCullMatrix, false);
+            }
         }
     }
     m_lastSubmit = {};
@@ -942,11 +1161,13 @@ void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances,
             std::make_move_iterator(m_attachmentOwners.begin() + ptrdiff_t(m_standInGroupCount)));
         standIns.assign(m_standInGroupCount, true);
     }
-    const auto groupFor = [&](const std::shared_ptr<const ModelAsset> &asset, uint32_t variant, bool standIn)
+    const auto groupFor = [&](const std::shared_ptr<const ModelAsset> &asset, uint32_t variant, bool standIn,
+        float minimumPixels)
     {
         size_t group = 0;
         while (group < groups.size()
-            && (groups[group].asset != asset || groups[group].variant != variant || standIns[group] != standIn))
+            && (groups[group].asset != asset || groups[group].variant != variant || standIns[group] != standIn
+                || groups[group].minimumPixels != minimumPixels))
         {
             ++group;
         }
@@ -955,6 +1176,7 @@ void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances,
             groups.push_back({asset, variant});
             owners.emplace_back();
             standIns.push_back(standIn);
+            groups.back().minimumPixels = minimumPixels;
             if (standIn)
             {
                 groups.back().lodPixels = ModelStandInLodPixels;
@@ -973,7 +1195,8 @@ void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances,
             {
                 continue;
             }
-            const size_t group = groupFor(standIn, instances.materialVariant(handle), true);
+            const size_t group = groupFor(standIn, instances.materialVariant(handle), true,
+                instances.staticStandInMinimumPixels(handle));
             ModelStaticPlacement placement;
             placement.matrix = composeModelTransform(*pRoot);
             placement.outlineColorAbgr = instances.outlineColor(handle);
@@ -1019,6 +1242,7 @@ void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances,
             {
                 continue;
             }
+            const ModelMatrix placedMatrix = attachment.placed(*pMatrix);
             const ModelBounds &local = attachment.asset->staticBounds;
             float radiusSquared = 0.0f;
             for (size_t axis = 0; axis < 3 && local.valid; ++axis)
@@ -1026,10 +1250,10 @@ void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances,
                 const float extent = std::max(std::abs(local.min[axis]), std::abs(local.max[axis]));
                 radiusSquared += extent * extent;
             }
-            carrierReach = std::max(carrierReach, std::sqrt(radiusSquared) * matrixScale(*pMatrix));
-            const size_t group = groupFor(attachment.asset, attachment.materialVariant, false);
+            carrierReach = std::max(carrierReach, std::sqrt(radiusSquared) * matrixScale(placedMatrix));
+            const size_t group = groupFor(attachment.asset, attachment.materialVariant, false, 0.0f);
             ModelStaticPlacement placement;
-            placement.matrix = *pMatrix;
+            placement.matrix = placedMatrix;
             placement.outlineColorAbgr = instances.outlineColor(handle);
             placement.coverage = instances.coverage(handle);
             groups[group].bounds.push_back(groups[group].placementBounds(placement));
@@ -1124,6 +1348,15 @@ std::vector<ModelRenderer::StaticBatch> ModelRenderer::collectStaticBatches(
                 const uint8_t previous = level;
                 const float pixels = shadow ? modelBoundsDiameter(bounds) * view.orthographicPixelsPerUnit
                     : modelProjectedPixels(bounds, view.camera, view.focalPixels);
+                if (!shadow && view.focalPixels > 0 && pixels < group.minimumPixels)
+                {
+                    // Back in sight, it shows its level without a crossfade from the level it had before.
+                    if (!view.keepState)
+                    {
+                        group.fades[index].seen = false;
+                    }
+                    continue;
+                }
                 level = uint8_t(view.enabled && (shadow || view.focalPixels > 0)
                     ? modelLodLevel(pixels, level, count, shadow, group.lodPixels) : 0);
                 if (!shadow && group.placements[index].colorLevel >= 0)
@@ -1210,7 +1443,7 @@ bool ModelRenderer::allocateStaticInstances(const StaticBatch &batch, const Mode
 }
 
 void ModelRenderer::bindStaticMaterial(const AssetResources &resources, const ModelMaterial &material,
-    int materialIndex, float timeSeconds, bool shadow, const std::array<float, 3> *pCardPivot)
+    int materialIndex, float timeSeconds, bool shadow, const std::array<float, 3> *pCardPivot, float emissionScale)
 {
     AssetResources::MaterialTextures textures;
     if (materialIndex >= 0)
@@ -1246,8 +1479,7 @@ void ModelRenderer::bindStaticMaterial(const AssetResources &resources, const Mo
         material.doubleSided ? 1.0f : 0.0f,
     };
     const bool hasNormal = bgfx::isValid(textures.normal);
-    const float surface[4] = {material.emissive[0], material.emissive[1], material.emissive[2],
-        hasNormal ? material.normalScale : -1.0f};
+    const std::array<float, 4> surface = surfaceUniform(material, textures, emissionScale);
     const float pbr[4] = {material.metallic, material.roughness, material.translucency, modelSpecularUniform(material)};
     bgfx::setTexture(1, m_normalSamplerHandle, hasNormal ? textures.normal : m_whiteTextureHandle,
         samplerFlags(material.normalSampler));
@@ -1257,10 +1489,11 @@ void ModelRenderer::bindStaticMaterial(const AssetResources &resources, const Mo
     const float edge[4] = {material.edgeDarkening, 0.0f, modelSpecularOcclusionSource(material),
         material.specularOcclusionReference};
     bgfx::setUniform(m_materialUniformHandle, materialValues, 2);
-    bgfx::setUniform(m_surfaceUniformHandle, surface);
+    bgfx::setUniform(m_surfaceUniformHandle, surface.data());
     bgfx::setUniform(m_pbrUniformHandle, pbr);
     bgfx::setUniform(m_edgeUniformHandle, edge);
     bindColorRegions(material, textures);
+    bindEmissiveTexture(material, textures);
 }
 
 void ModelRenderer::bindColorRegions(
@@ -1340,9 +1573,10 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
     const std::array<std::array<float, 4>, 3> fog = {lighting.fogColor, lighting.fogDensities, lighting.fogDistances};
     const float camera[4] = {cameraPosition[0], cameraPosition[1], cameraPosition[2], 0};
     const float lightingValues[16] = {
-        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2], lighting.direct,
+        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2],
+        modelSunOrPointScaleUniform(lighting, lighting.direct),
         lighting.directColor[0], lighting.directColor[1], lighting.directColor[2],
-        lighting.displaySpaceLighting ? 1.0f : 0.0f,
+        modelLightingModeUniform(lighting),
         lighting.ambientColor[0], lighting.ambientColor[1], lighting.ambientColor[2], lighting.ambient,
         lighting.keyDirection[0] * lighting.keyFraction, lighting.keyDirection[1] * lighting.keyFraction,
         lighting.keyDirection[2] * lighting.keyFraction, modelPointCountUniform(lighting),
@@ -1434,7 +1668,7 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
         return materialIndex >= 0 && size_t(materialIndex) < asset.materials.size()
             ? asset.materials[materialIndex] : defaultMaterial;
     };
-    // Hover outlines first, without depth writes: the shell is pushed out along the normals (outline flag 2), and the
+    // Hover outlines first, without depth writes: the shell is pushed out along the normals (outline flag 1), and the
     // model drawn after it covers all but the rim.
     for (size_t index = 0; index < sorted.size() && !m_reflectionPass; ++index)
     {
@@ -1456,7 +1690,7 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
             }
             const uint32_t color = placement.outlineColorAbgr;
             const float outline[4] = {float(color & 255) / 255, float((color >> 8) & 255) / 255,
-                float((color >> 16) & 255) / 255, 2.0f};
+                float((color >> 16) & 255) / 255, 1.0f};
             const MeshResources &mesh = batch.pResources->meshes[batch.meshIndex];
             for (size_t primitiveIndex = 0; primitiveIndex < mesh.primitives.size(); ++primitiveIndex)
             {
@@ -1488,8 +1722,7 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
     // coverage the leaves' prepass writes the samples their sharpened alpha covers (same vertex shader, so the same
     // depths), and the equal-depth shaded pass fills exactly those samples.
     const bool leafCoverage = m_alphaToCoverage && bgfx::isValid(m_staticCoverageProgramHandle);
-    const float depthOnly[4] = {0, 0, 0, 1};
-    bgfx::setUniform(m_outlineUniformHandle, depthOnly);
+    bgfx::setUniform(m_outlineUniformHandle, DepthOnlyOutline);
     // The opaque parts of foliage models (inner crown shells, trunks) go into the prepass before the leaves, so the
     // leaf cards they hide are rejected by depth before their alpha test runs. Their shaded pass (less-equal depth)
     // then draws them at the same depth with the same program.
@@ -1601,7 +1834,14 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
                 // Alpha-tested materials shade with the discard-free program: the prepass depth already holds the
                 // cutout.
                 const uint16_t submitView = blendedPass && transparentView != UINT16_MAX ? transparentView : viewId;
-                const bgfx::ProgramHandle program = prepassed ? m_staticPrepassedProgramHandle : m_staticProgramHandle;
+                // A material with an emissive texture shades with its emissive program, also after a prepass (the
+                // alpha test then repeats at equal depth).
+                const bgfx::ProgramHandle noProgram = BGFX_INVALID_HANDLE;
+                const bgfx::ProgramHandle emissiveProgram = materialIndex < 0 ? noProgram
+                    : colorProgram(batch.pResources->materialTextures[materialIndex], noProgram,
+                        m_emissivePrograms.staticInstanced);
+                const bgfx::ProgramHandle program = bgfx::isValid(emissiveProgram) ? emissiveProgram
+                    : prepassed ? m_staticPrepassedProgramHandle : m_staticProgramHandle;
                 // Emitters also draw their glow into the bloom view, with the same bindings.
                 const bool emissive = material.emissive[0] > 0.0f || material.emissive[1] > 0.0f
                     || material.emissive[2] > 0.0f;
@@ -1617,7 +1857,8 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
                     // With the alpha test (not the prepassed program): the glow pass tests depth against the world.
                     bgfx::setState((card ? GlowCardState : GlowEmissionState)
                         | colorCullState(material, batch.pGroup->placements[batch.placements.front()].matrix));
-                    bgfx::submit(m_glowView, m_staticProgramHandle);
+                    bgfx::submit(m_glowView,
+                        bgfx::isValid(emissiveProgram) ? emissiveProgram : m_staticProgramHandle);
                     m_glowDrawn = true;
                     const float noGlow[4] = {};
                     bgfx::setUniform(m_glowUniformHandle, noGlow);
@@ -1938,9 +2179,14 @@ void ModelRenderer::shutdown(bool destroyGpu)
         {
             bgfx::destroy(m_shadowProgramHandle);
         }
+        if (bgfx::isValid(m_shieldShellUniformHandle))
+        {
+            bgfx::destroy(m_shieldShellUniformHandle);
+        }
         for (const bgfx::ProgramHandle handle :
             {m_staticProgramHandle, m_staticShadowProgramHandle, m_staticPrepassedProgramHandle,
-                m_staticCoverageProgramHandle, m_skinnedInstancedProgramHandle})
+                m_staticCoverageProgramHandle, m_skinnedInstancedProgramHandle, m_emissivePrograms.single,
+                m_emissivePrograms.skinnedInstanced, m_emissivePrograms.staticInstanced, m_shieldShellProgram})
         {
             if (bgfx::isValid(handle))
             {
@@ -1950,6 +2196,10 @@ void ModelRenderer::shutdown(bool destroyGpu)
         if (bgfx::isValid(m_staticUniformHandle))
         {
             bgfx::destroy(m_staticUniformHandle);
+        }
+        if (bgfx::isValid(m_emissiveSamplerHandle))
+        {
+            bgfx::destroy(m_emissiveSamplerHandle);
         }
     }
     m_assets.clear();
@@ -1962,6 +2212,12 @@ void ModelRenderer::shutdown(bool destroyGpu)
     m_staticCoverageProgramHandle = BGFX_INVALID_HANDLE;
     m_staticCoverageProgramAttempted = false;
     m_skinnedInstancedProgramHandle = BGFX_INVALID_HANDLE;
+    m_emissivePrograms = {};
+    m_emissiveProgramsAttempted = false;
+    m_shieldShellProgram = BGFX_INVALID_HANDLE;
+    m_shieldShellUniformHandle = BGFX_INVALID_HANDLE;
+    m_shieldShellProgramAttempted = false;
+    m_emissiveSamplerHandle = BGFX_INVALID_HANDLE;
     m_staticUniformHandle = BGFX_INVALID_HANDLE;
     m_shadowSampler = BGFX_INVALID_HANDLE;
     m_shadowMatricesUniformHandle = BGFX_INVALID_HANDLE;
@@ -2422,10 +2678,14 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
             appendMeshDraws(draws, *asset, *pResources, *pPose, nodeIndex, meshIndex, variant,
                 instances.outlineColor(handle), handle);
             const float hitFlash = instances.hitFlash(handle);
+            const float emissionMultiplier = instances.emissionMultiplier(handle);
+            const ModelShieldShell *pShield = shadow ? nullptr : instances.shieldShell(handle);
             for (size_t drawIndex = firstDraw; drawIndex < draws.size(); ++drawIndex)
             {
                 draws[drawIndex].hitFlash = hitFlash;
+                draws[drawIndex].emissionMultiplier = emissionMultiplier;
                 draws[drawIndex].pBurn = pBurn;
+                draws[drawIndex].pShield = pShield;
             }
         }
     }
@@ -2479,6 +2739,7 @@ void ModelRenderer::render(
     std::vector<Draw> opaqueDraws;
     std::vector<Draw> transparentDraws;
     std::vector<Draw> fireDraws;
+    std::vector<Draw> shieldDraws;
     // Scene consumers own the environment, even outside the camera. Loading renders prewarm it too.
     prepareEnvironment(pSkyEnvironment);
     std::vector<Draw> draws = collectDraws(instances, visibleBounds,
@@ -2493,11 +2754,23 @@ void ModelRenderer::render(
                 lightingForBounds && pBounds != nullptr ? lightingForBounds(draw.instance, *pBounds) : lighting).first;
         }
         draw.pLighting = &found->second;
-        const std::array<float, 3> center = transformPoint(*draw.pCullMatrix, draw.pPrimitive->center);
+        // A blended skin sorts by where its main joint carries it this frame, not by its rest position: a sleeve
+        // or a flying head can swing across another blended part.
+        const int anchorJoint = draw.pSkin != nullptr && draw.pMaterial->alphaMode == ModelAlphaMode::Blend
+            && size_t(draw.pPrimitive->anchorJoint) < draw.pSkin->joints.size() ? draw.pPrimitive->anchorJoint : -1;
+        const std::array<float, 3> center = anchorJoint >= 0
+            ? transformPoint(multiplyModelMatrices(draw.pPose->globalMatrices[draw.pSkin->joints[anchorJoint]],
+                  draw.pSkin->inverseBindMatrices[anchorJoint]), draw.pPrimitive->center)
+            : transformPoint(*draw.pCullMatrix, draw.pPrimitive->center);
         for (size_t axis = 0; axis < 3; ++axis)
         {
             const float delta = center[axis] - cameraPosition[axis];
             draw.distanceSquared += delta * delta;
+        }
+        if (draw.pShield != nullptr && draw.pShield->strength > 0.0f && !m_reflectionPass
+            && (draw.pSkin != nullptr || draw.pVertices != nullptr))
+        {
+            shieldDraws.push_back(draw);
         }
         if (draw.pMaterial->alphaMode == ModelAlphaMode::Blend)
         {
@@ -2558,11 +2831,13 @@ void ModelRenderer::render(
     if (bgfx::isValid(m_skinnedInstancedProgramHandle) && bgfx::isValid(m_staticUniformHandle) && m_skinnedInstancing)
     {
         // Skinned creatures lit only by the shared sun and their own ambient draw instanced; point-lit, outlined,
-        // hit-flashing and morphing ones keep their own draws (point lights, outline shells and flashes are per draw).
+        // hit-flashing, glow-boosted and morphing ones keep their own draws (point lights, outline shells, flashes and
+        // emission multipliers are per draw).
         std::vector<Draw> single;
         for (const Draw &draw : opaqueDraws)
         {
             const bool eligible = draw.pSkin != nullptr && draw.outlineColorAbgr == 0 && draw.hitFlash <= 0.0f
+                && draw.emissionMultiplier == 1.0f
                 && draw.pBurn == nullptr && draw.pLighting->pointCount == 0
                 && (instanced.empty() || sameSharedLighting(*instanced.front().pLighting, *draw.pLighting));
             (eligible ? instanced : single).push_back(draw);
@@ -2684,6 +2959,13 @@ void ModelRenderer::render(
     {
         submit(draw, transparentView == UINT16_MAX ? viewId : transparentView, *draw.pLighting);
     }
+    if (!shieldDraws.empty() && ensureShieldShellProgram())
+    {
+        for (const Draw &draw : shieldDraws)
+        {
+            submitShieldShell(draw, transparentView == UINT16_MAX ? viewId : transparentView, cameraPosition);
+        }
+    }
     for (const ModelInstanceHandle handle : instances.handles())
     {
         if (!m_reflectionPass && instances.isVisible(handle) && instances.areNodeMarkersVisible(handle))
@@ -2721,6 +3003,7 @@ void ModelRenderer::renderPortrait(const ModelInstanceSystem &instances, ModelIn
     // The world's sun shadow maps do not cover the portrait: its draws read a disabled flag instead.
     const std::array<std::array<float, 4>, 4> shadowParams = m_shadowParams;
     m_shadowParams[0][0] = 0;
+    m_portraitPass = true;
     m_lastSubmit = {};
     const std::array<std::array<float, 4>, 3> fog = {lighting.fogColor, lighting.fogDensities, lighting.fogDistances};
     const float camera[4] = {cameraPosition[0], cameraPosition[1], cameraPosition[2], 0};
@@ -2728,6 +3011,10 @@ void ModelRenderer::renderPortrait(const ModelInstanceSystem &instances, ModelIn
     bgfx::setUniform(m_skyFogUniformHandle, lighting.skyFog.data(), uint16_t(lighting.skyFog.size()));
     bgfx::setUniform(m_cameraUniformHandle, camera);
     bgfx::setUniform(m_shadowParamsUniformHandle, m_shadowParams.data(), 4);
+    // Uniform values persist between draws in render order: the portrait view follows the bloom view, whose last
+    // glow submission would otherwise turn every portrait draw into its (black) glow output.
+    const float noGlow[4] = {};
+    bgfx::setUniform(m_glowUniformHandle, noGlow);
 
     std::vector<Draw> draws;
     const uint32_t variant = instances.materialVariant(handle);
@@ -2760,7 +3047,7 @@ void ModelRenderer::renderPortrait(const ModelInstanceSystem &instances, ModelIn
         attachments.push_back({attachment.asset, attachment.materialVariant});
         ModelStaticGroup &group = attachments.back();
         ModelStaticPlacement placement;
-        placement.matrix = *pMatrix;
+        placement.matrix = attachment.placed(*pMatrix);
         for (size_t channel = 0; channel < 3; ++channel)
         {
             placement.light[channel] = lighting.ambientColor[channel] * lighting.ambient;
@@ -2786,7 +3073,20 @@ void ModelRenderer::renderPortrait(const ModelInstanceSystem &instances, ModelIn
             submit(draw, viewId, lighting);
         }
     }
+    const ModelShieldShell *pShield = instances.shieldShell(handle);
+    if (pShield != nullptr && pShield->strength > 0.0f && ensureShieldShellProgram())
+    {
+        for (Draw &draw : draws)
+        {
+            if (draw.pSkin != nullptr || draw.pVertices != nullptr)
+            {
+                draw.pShield = pShield;
+                submitShieldShell(draw, viewId, cameraPosition);
+            }
+        }
+    }
     m_shadowParams = shadowParams;
+    m_portraitPass = false;
     m_lastSubmit = {};
 }
 
@@ -2974,7 +3274,7 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
     {
         for (const ModelMaterial &material : asset->materials)
         {
-            const std::array<MaterialImageUse, 5> uses = materialImageUses(material);
+            const std::array<MaterialImageUse, 6> uses = materialImageUses(material);
             resources.materialTextures.push_back({
                 textureFor(uses[0]),
                 textureFor(uses[1]),
@@ -2982,6 +3282,9 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
                 textureFor(uses[3]),
                 createRampTexture(material),
                 textureFor(uses[4]),
+                // Its programs load with the first emissive texture; models without one never ask for them.
+                uses[5].imageIndex >= 0 && ensureEmissivePrograms() ? textureFor(uses[5])
+                    : bgfx::TextureHandle{bgfx::kInvalidHandle},
             });
             if (bgfx::isValid(resources.materialTextures.back().regionRamps))
             {
@@ -3044,9 +3347,29 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
                         max[axis] = std::max(max[axis], vertex.position[axis]);
                     }
                 }
+                std::vector<float> jointWeights;
+                for (const ModelVertexInfluences &influence : primitive.influences)
+                {
+                    for (size_t slot = 0; slot < influence.weights.size(); ++slot)
+                    {
+                        if (influence.weights[slot] > 0.0f)
+                        {
+                            if (influence.joints[slot] >= jointWeights.size())
+                            {
+                                jointWeights.resize(size_t(influence.joints[slot]) + 1, 0.0f);
+                            }
+                            jointWeights[influence.joints[slot]] += influence.weights[slot];
+                        }
+                    }
+                }
                 for (size_t axis = 0; axis < 3; ++axis)
                 {
                     primitiveResources.center[axis] = (min[axis] + max[axis]) * 0.5f;
+                }
+                if (!jointWeights.empty())
+                {
+                    primitiveResources.anchorJoint =
+                        int(std::max_element(jointWeights.begin(), jointWeights.end()) - jointWeights.begin());
                 }
             }
             meshResources.primitives.push_back(primitiveResources);

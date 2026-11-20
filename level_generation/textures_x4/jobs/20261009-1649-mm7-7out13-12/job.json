@@ -1,0 +1,778 @@
+{
+ "id": "20261009-1649-mm7-7out13-12",
+ "world": "mm7",
+ "maps": [
+  "7out13.odm"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/hhm3bw2",
+  "mm7/hhm1b2le",
+  "mm7/hwm2el",
+  "mm7/hwm2er",
+  "mm7/hhm2b1",
+  "mm7/7hhr1bs2",
+  "mm7/7hhr1elw",
+  "mm7/7hhr1elw1",
+  "mm7/hwm2bw",
+  "mm7/7hhr1erw1",
+  "mm7/hhm2bs",
+  "mm7/hwm2elw",
+  "mm7/7hhr1erw",
+  "mm7/hhp1b",
+  "mm7/hhm1b2re",
+  "mm7/hhm2er",
+  "mm7/hwm2bs",
+  "mm7/hhm2bw",
+  "mm7/hhm3b",
+  "mm7/hhm2b2",
+  "mm7/hhm2el",
+  "mm7/hhm3er2a",
+  "mm7/hhm2erw",
+  "mm7/hhm3er2b"
+ ],
+ "requests": {
+  "mm7/hhm3bw2": {
+   "name": "hhm3bw2",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of rough grey-brown weathered stucco framed by dark brown timber posts, with an arched lattice window in a wooden frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm3bwr2",
+      "mm7/hhm3bwl2"
+     ],
+     "fraction": 0.991
+    }
+   }
+  },
+  "mm7/hhm1b2le": {
+   "name": "hhm1b2le",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall in a dark brown timber frame: upper panel of dark brown wattle and clay crossed by a diagonal timber brace, lower part of grey weathered vertical wooden planks, end piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1b2"
+     ],
+     "fraction": 0.814
+    }
+   }
+  },
+  "mm7/hwm2el": {
+   "name": "hwm2el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of rounded grey fieldstones with dark recessed mortar and dark grey carved stone trim bands, with a dressed stone pilaster on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.747
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.747
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hwm2b"
+    }
+   }
+  },
+  "mm7/hwm2er": {
+   "name": "hwm2er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of rounded grey fieldstones with dark recessed mortar and dark grey carved stone trim bands, with a dressed stone pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.491
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.491
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwm2b"
+    }
+   }
+  },
+  "mm7/hhm2b1": {
+   "name": "hhm2b1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     159
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/7hhr1bs2": {
+   "name": "7hhr1bs2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, lightly weathered, plain panel between horizontal beams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1b",
+      "mm7/7hhr1bs1",
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1bw",
+      "mm7/7hhr1d1"
+     ],
+     "fraction": 0.951
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1b",
+      "mm7/7hhr1bs1",
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1bw"
+     ],
+     "fraction": 0.931
+    }
+   }
+  },
+  "mm7/7hhr1elw": {
+   "name": "7hhr1elw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, lightly weathered, with a gabled dormer window of leaded glass above a chevron-planked timber panel and a thin carved timber post down the left edge; copy the composition exactly",
+   "notes": {
+    "2": "keep the carved dark timber corbel brackets on the left edge, one under the top cornice and one above the bottom beam, exactly as in the reference; the left edge is not a plain straight post",
+    "3": "keep the carved dark timber corbel brackets on the left edge, one under the top cornice and one above the bottom beam, exactly as in the reference; the left edge is not a plain straight post"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1bw",
+      "mm7/7hhr1el3"
+     ],
+     "fraction": 0.933
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1bw",
+      "mm7/7hhr1el3"
+     ],
+     "fraction": 0.933
+    },
+    "3": {
+     "sources": [
+      "mm7/7hhr1bw",
+      "mm7/7hhr1e4"
+     ],
+     "fraction": 0.933
+    }
+   }
+  },
+  "mm7/7hhr1elw1": {
+   "name": "7hhr1elw1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, lightly weathered, with a narrow leaded-glass window in a carved wooden frame and a thin carved timber post down the left edge; copy the composition exactly",
+   "notes": {
+    "2": "keep the carved dark timber corbel brackets on the left edge, one under the top cornice and one above the bottom beam, exactly as in the reference; the left edge is not a plain straight post",
+    "3": "keep the carved dark timber corbel brackets on the left edge, one under the top cornice and one above the bottom beam, exactly as in the reference; the left edge is not a plain straight post"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1e4"
+     ],
+     "fraction": 0.925
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1el3"
+     ],
+     "fraction": 0.925
+    },
+    "3": {
+     "sources": [
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1e4",
+      "mm7/7hhr1elw"
+     ],
+     "fraction": 0.949
+    }
+   }
+  },
+  "mm7/hwm2bw": {
+   "name": "hwm2bw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of rounded grey fieldstones with dark recessed mortar and dark grey carved stone trim bands, with a square window of carved four-petal wooden lattice",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.752
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.752
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwm2el",
+     "right": "mm7/hwm2er"
+    }
+   }
+  },
+  "mm7/7hhr1erw1": {
+   "name": "7hhr1erw1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, lightly weathered, with a narrow leaded-glass window in a carved wooden frame and a thin carved timber post down the right edge; copy the composition exactly",
+   "notes": {
+    "2": "keep the carved dark timber corbel brackets on the right edge, one under the top cornice and one above the bottom beam, exactly as in the reference; the right edge is not a plain straight post",
+    "3": "keep the carved dark timber corbel brackets on the right edge, one under the top cornice and one above the bottom beam, exactly as in the reference; the right edge is not a plain straight post"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1e4"
+     ],
+     "fraction": 0.944
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1e4"
+     ],
+     "fraction": 0.944
+    },
+    "3": {
+     "sources": [
+      "mm7/7hhr1bw2",
+      "mm7/7hhr1e4"
+     ],
+     "fraction": 0.944
+    }
+   }
+  },
+  "mm7/hhm2bs": {
+   "name": "hhm2bs",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace, with a small lattice vent at the top",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.945
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.945
+    },
+    "3": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.945
+    },
+    "4": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.945
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     159
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hhm2elw"
+    },
+    "3": {
+     "left": "mm7/hhm2elw"
+    },
+    "4": {}
+   }
+  },
+  "mm7/hwm2elw": {
+   "name": "hwm2elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of rounded grey fieldstones with dark recessed mortar and dark grey carved stone trim bands, with a square window of carved four-petal wooden lattice and a dressed stone pilaster on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2el",
+      "mm7/hwm2bw"
+     ],
+     "fraction": 0.933
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2el",
+      "mm7/hwm2bw"
+     ],
+     "fraction": 0.933
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hwm2b"
+    }
+   }
+  },
+  "mm7/7hhr1erw": {
+   "name": "7hhr1erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, lightly weathered, with a gabled dormer window of leaded glass above a chevron-planked timber panel and a thin carved timber post down the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1bw",
+      "mm7/7hhr1e4"
+     ],
+     "fraction": 0.921
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1bw",
+      "mm7/7hhr1e4"
+     ],
+     "fraction": 0.921
+    }
+   }
+  },
+  "mm7/hhp1b": {
+   "name": "hhp1b",
+   "versions": [
+    1
+   ],
+   "material": "plain rough grey weathered stucco plaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhm1b2re": {
+   "name": "hhm1b2re",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall in a dark brown timber frame: upper panel of dark brown wattle and clay crossed by a diagonal timber brace, lower part of grey weathered vertical wooden planks, end piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1b2",
+      "mm7/hhm1b2le"
+     ],
+     "fraction": 0.903
+    }
+   }
+  },
+  "mm7/hhm2er": {
+   "name": "hhm2er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace, end piece",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.145
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.145
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hhm2b1"
+    }
+   }
+  },
+  "mm7/hwm2bs": {
+   "name": "hwm2bs",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of rounded grey fieldstones with dark recessed mortar and dark grey carved stone trim bands, with a small arched iron-barred grate at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.886
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.886
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwm2el",
+     "right": "mm7/hwm2er"
+    }
+   }
+  },
+  "mm7/hhm2bw": {
+   "name": "hhm2bw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace, with a small arched shuttered wooden window",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2b1",
+      "mm7/hhm2er"
+     ],
+     "fraction": 0.295
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2b1",
+      "mm7/hhm2er"
+     ],
+     "fraction": 0.295
+    },
+    "3": {
+     "sources": [
+      "mm7/hhm2b1",
+      "mm7/hhm2er"
+     ],
+     "fraction": 0.295
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     159
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hhm2er",
+     "left": "mm7/hhm2b1"
+    },
+    "3": {
+     "right": "mm7/hhm2er",
+     "left": "mm7/hhm2b1"
+    }
+   }
+  },
+  "mm7/hhm3b": {
+   "name": "hhm3b",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of rough grey-brown weathered stucco framed by dark brown timber posts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm3er"
+     ],
+     "fraction": 0.887
+    }
+   }
+  },
+  "mm7/hhm2b2": {
+   "name": "hhm2b2",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "the plaster panel is one even, continuous sandy-yellow daub with only soft mottling and fine cracks, no sharp-edged lighter or darker patches; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2bw",
+      "mm7/hhm2er"
+     ],
+     "fraction": 0.859
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2bw",
+      "mm7/hhm2er"
+     ],
+     "fraction": 0.859
+    },
+    "3": {
+     "sources": [
+      "mm7/hhm2bw",
+      "mm7/hhm2er"
+     ],
+     "fraction": 0.859
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     159
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hhm2bw",
+     "left": "mm7/hhm2bw"
+    },
+    "3": {
+     "right": "mm7/hhm2bw",
+     "left": "mm7/hhm2bw"
+    },
+    "4": {
+     "right": "mm7/hhm2bw",
+     "left": "mm7/hhm2bw"
+    }
+   },
+   "standalone": true,
+   "match_neighbor": true
+  },
+  "mm7/hhm2el": {
+   "name": "hhm2el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace, end piece",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge",
+    "3": "the diagonal wooden brace in the lower panel is one straight unbroken beam from corner to corner, with no step or kink; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "the diagonal wooden brace in the lower panel is one straight unbroken beam from corner to corner, with no step or kink; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.314
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.314
+    },
+    "3": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.314
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hhm2bw"
+    },
+    "3": {
+     "right": "mm7/hhm2bw"
+    },
+    "4": {
+     "right": "mm7/hhm2bw"
+    }
+   },
+   "standalone": true,
+   "match_neighbor": true
+  },
+  "mm7/hhm3er2a": {
+   "name": "hhm3er2a",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of rough grey-brown weathered stucco framed by dark brown timber posts, with a diagonal timber brace",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm3er",
+      "mm7/hhm3bw2"
+     ],
+     "fraction": 0.845
+    }
+   }
+  },
+  "mm7/hhm2erw": {
+   "name": "hhm2erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace, with a small arched shuttered wooden window, end piece",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2er",
+      "mm7/hhm2bw"
+     ],
+     "fraction": 0.805
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2er",
+      "mm7/hhm2bw"
+     ],
+     "fraction": 0.805
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hhm2b1"
+    }
+   }
+  },
+  "mm7/hhm3er2b": {
+   "name": "hhm3er2b",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of rough grey-brown weathered stucco framed by dark brown timber posts, with a diagonal timber brace",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm3er",
+      "mm7/hhm3bwr2"
+     ],
+     "fraction": 0.804
+    }
+   }
+  }
+ }
+}

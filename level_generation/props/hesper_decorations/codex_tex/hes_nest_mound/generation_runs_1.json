@@ -1,0 +1,232 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "mode": "built-in image generation",
+  "status": "generation_complete_validation_failed",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None. Selected outputs are byte-for-byte copies of raw tool returns; no resizing, masking, alpha replacement or colour correction.",
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: Acid crawler nest mound FRONT orthographic albedo texture-source painting.\nImage 1 (guide_front.png) is the EDIT TARGET and immutable geometry/alpha template. Image 2 (design_reference.png) is ONLY the approved material and colour reference, never the camera, silhouette, lighting or composition reference.\nReturn ONE 1024 x 1024 PNG with true transparent background, at the exact unchanged resolution and framing of image 1. Paint directly onto image 1. Preserve its alpha silhouette EXACTLY, same outline, size, position, every shape edge, spike, facet, opening and detail at the same pixel locations. Preserve the actual transparent front-center tunnel cutout as transparent. Do not add geometry or fill transparent holes. The front guide is a very low wide mound in the middle-lower canvas, opaque bounding box x=66..957, y=352..671; retain all the empty space above and below. Do not enlarge or recenter it. Keep the guide's FRONT view, not the reference's three-quarter perspective.\nPaint the surface materials of image 2 onto those existing shapes: dark wet black-violet resin and grey-olive dried mud, pale yellow crystalline acid crust on the existing shard/crust forms, glowing bile-green acid in the existing holes and channels. Retain exactly the guide's large planar shapes and hole locations; material grain belongs inside them. Show detailed resin, dried mud and pale-yellow crystal colour variation without inventing new protrusions or openings.\nLIGHTING: TEXTURE SOURCE (ALBEDO). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on surroundings; no halos or bloom. Transfer the design's material colours and texture, not its dramatic illumination or glossy highlights. No text or labels. The exact guide geometry and transparency take priority over decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d905c5dc0ab7823e33ca7363ad5f7dd26fdb3ea7df6b0a4d285067d6e1b3c2de"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "output": "/home/pjasicek/.codex/generated_images/01a168a2-cfec-70c1-b35d-f9edc26cfec8/exec-e1eb84b3-3112-4a81-a7a9-b2d1704a1950.png",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a168a2-cfec-70c1-b35d-f9edc26cfec8/exec-e1eb84b3-3112-4a81-a7a9-b2d1704a1950.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Not selected: strong glossy highlights, deep cavity shading and altered geometry; returned 1254x1254 instead of 1024x1024.",
+      "output_sha256": "ac4749c058582faaa38345c4d3a7fc0964f5ecd24a40f815e058998884619ad7",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          32,
+          1222,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          73,
+          415,
+          1182,
+          815
+        ],
+        "guide_alpha_bbox": [
+          66,
+          352,
+          958,
+          672
+        ],
+        "silhouette_pixel_identical": false,
+        "material_colour_review": "Black-violet resin, yellow crystalline crust and bile-green acid present; mud is more brown than grey-olive.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Residual highlights, face shading and dark crevices remain; correction reduces them but is not fully unlit albedo."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Edit image 1, guide_top.png, by painting its grey surfaces. Output exactly 1024 x 1024 pixels, transparent RGBA PNG, one image, unresized. This is the TOP orthographic albedo texture source of the Acid crawler nest mound 3D model.\nImage 1 is the immutable geometry and alpha template. Keep its exact silhouette, position, scale, orientation, every edge, facet, opening and detail. Its nontransparent bounding box is x=66..957 and y=66..957 within the 1024-square canvas. Keep every jagged perimeter tip and the entire original margin unchanged. Do not rotate, recenter, enlarge, crop, round off, redesign, add holes or add shapes. Keep the direct overhead view.\nImage 2, design_reference.png, is the design, colour and material authority ONLY. Paint these materials onto the corresponding shapes of image 1: dark wet black-violet resin and grey-olive dried mud, pale yellow crystalline acid crust on the existing angular shards, glowing bile-green acid in the existing crevices and holes. Fine organic resin grain and crystalline colour detail are paint, not added geometry. Match the approved material palette.\nLIGHTING: this is a TEXTURE SOURCE (albedo), NOT a lit beauty render. Even, flat, shadowless light from the viewer. Remove all grey-guide shading. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint glowing material at its glowing colour without light cast on the surroundings, no halo or bloom. Preserve colours independent of face direction; no blackened crevice shading or white specular glints. Real transparent alpha, not painted black or checkerboard. No text, labels, border, or other objects.\nExact guide silhouette and 1024 x 1024 output are mandatory.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "9b6eb14700ecec701fc09d55e51062e37066b6d968a61ca63b7670fbc78348f5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "output": "/home/pjasicek/.codex/generated_images/01a168a2-cfec-70c1-b35d-f9edc26cfec8/exec-49698502-af36-4740-9225-cd73d177c246.png",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a168a2-cfec-70c1-b35d-f9edc26cfec8/exec-49698502-af36-4740-9225-cd73d177c246.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Not selected: introduced many tunnels/openings not in the top guide and strong glossy highlights.",
+      "output_sha256": "b3b7572f43ed46eda9f54a83d21d4d4556d916a45f9bfc91d2c5fe7e65b1c789",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1234,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          80,
+          81,
+          1173,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          66,
+          66,
+          958,
+          958
+        ],
+        "silhouette_pixel_identical": false,
+        "material_colour_review": "Black-violet resin, yellow crystalline crust and bile-green acid present; mud is more brown than grey-olive.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Residual highlights, face shading and dark crevices remain; correction reduces them but is not fully unlit albedo."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. Produce a 1024 by 1024 pixel PNG. Native output canvas MUST be 1024x1024, not 1254x1254. True transparent background.\nImage 1 is guide_front.png, the EXACT edit target. Image 2 is only the palette/material reference. This is a precise material colourization of the grey model in IMAGE 1, not a new rendition of image 2.\nLOCK all original geometry and alpha from image 1. Preserve its orthographic front camera, exact original canvas composition, outline, low profile, planar faces, shard edges, every opening and transparency including the center tunnel. Keep opaque geometry inside exactly x=66..957, y=352..671 on the 1024x1024 canvas. Keep the original transparent margins; no resizing, enlargement, relocation, rotation, added horns, new holes, new drips or changed edges.\nCORRECTION: The prior attempt had unwanted shiny highlights, deep ambient shadows, altered edges, and the wrong pixel dimensions. This replacement must be flat albedo only. Paint the guide's actual existing grey faces with the design's dark BLACK-VIOLET RESIN, GREY-OLIVE DRIED MUD, PALE YELLOW CRYSTALLINE ACID CRUST on its actual shards, and BILE-GREEN ACID on existing cavity surfaces. Retain subtle fine material colour mottling. No lighting is baked into the painting: no white sparkles or white glints, no glossy reflection streaks, no directional face shading, no rim light, no ambient occlusion, no cast shadows, no blackened cavity shading. Even flat shadowless viewer illumination. Glowing acid is a solid luminous bile-green local colour with no bloom, halo or light cast on other materials. Keep the genuinely transparent center tunnel transparent.\nChange ONLY surface colours and texture within the guide's exact existing alpha silhouette. No background, floor, text or labels. Output one raw 1024x1024 transparent RGBA image.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d905c5dc0ab7823e33ca7363ad5f7dd26fdb3ea7df6b0a4d285067d6e1b3c2de"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "output": "paint_front.png",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a168a2-cfec-70c1-b35d-f9edc26cfec8/exec-9ff863ff-bed1-46bc-af8f-942431ab1169.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the best available raw front return within the one-correction limit: flatter materials and closer guide forms. Selection does not mean brief acceptance; exact dimensions/silhouette and fully shadowless albedo requirements remain unmet.",
+      "output_sha256": "cb9793c13103f42ce8dc58142947f0573d41586cee592ae2dc429f9ea4908157",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1204,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          80,
+          433,
+          1174,
+          823
+        ],
+        "guide_alpha_bbox": [
+          66,
+          352,
+          958,
+          672
+        ],
+        "silhouette_pixel_identical": false,
+        "material_colour_review": "Black-violet resin, yellow crystalline crust and bile-green acid present; mud is more brown than grey-olive.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Residual highlights, face shading and dark crevices remain; correction reduces them but is not fully unlit albedo."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE MATERIAL PAINT-OVER. Edit the FIRST image, guide_top.png. Deliver one native 1024x1024 transparent PNG.\nTreat the first image as a locked colouring template: every polygon outline, all existing surface shapes and the entire perimeter must remain exactly where they are. Recolour its pixels without remodelling anything. Match the exact overhead orthographic view. The original silhouette spans x=66..957, y=66..957 in the 1024x1024 image. Preserve this framing and all transparent pixels. Do not make it an oblique view or a different shape.\nThe SECOND image is a material swatch reference ONLY. Transfer its dark black-violet resin, grey-olive dried mud, pale yellow crystalline acid crust and bile-green acid palette to the locked grey shape. Existing angular shard faces become pale-yellow mottled crystal crust; existing connecting surface areas become black-violet resin and grey-olive dried mud. Acid colour belongs only in existing guide recesses.\nCritical correction: DO NOT invent the numerous black tunnels, round cavities, dripping stalactites or extra shards from the design image. The overhead guide has its own precise continuous surface forms. Keep exactly those forms. Do not replace planar surfaces with round holes. Do not copy the reference's white glints, glossy reflections, strong highlights, shadowed recesses or glow spill. This is an UNLIT ALBEDO TEXTURE SOURCE, not a rendered model presentation.\nEven flat shadowless lighting from the viewer, no ambient occlusion, no cast shadow, no directional shading, no black shading in crevices, no rim light or reflections. Detailed but flat local-colour material mottling only; wet resin is represented by its deep purple local colour, not painted glare. Acid uses its luminous bile-green colour without illuminating adjacent surfaces. No background, floor, labels or text. Keep the alpha silhouette pixel-identical to image 1 and return native 1024x1024 without resizing.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "9b6eb14700ecec701fc09d55e51062e37066b6d968a61ca63b7670fbc78348f5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "output": "paint_top.png",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a168a2-cfec-70c1-b35d-f9edc26cfec8/exec-6be20b0d-7f45-4160-a927-429a76c04ceb.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the best available raw top return within the one-correction limit: removes invented tunnels and follows the guide's planar forms more closely, with flatter materials. Selection does not mean brief acceptance; exact dimensions/silhouette and fully shadowless albedo requirements remain unmet.",
+      "output_sha256": "2bc2cc3e41b48e310185a85e6bd4ad4118553bb376e3dd50e42a2e5228c1d434",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          15,
+          1226,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          81,
+          81,
+          1173,
+          1172
+        ],
+        "guide_alpha_bbox": [
+          66,
+          66,
+          958,
+          958
+        ],
+        "silhouette_pixel_identical": false,
+        "material_colour_review": "Black-violet resin, yellow crystalline crust and bile-green acid present; mud is more brown than grey-olive.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Residual highlights, face shading and dark crevices remain; correction reduces them but is not fully unlit albedo."
+      }
+    }
+  ]
+}

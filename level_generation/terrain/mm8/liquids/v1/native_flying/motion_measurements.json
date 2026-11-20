@@ -1,0 +1,1233 @@
+{
+  "scope": "40-frame stationary native captures per liquid and quality; period screen, not complete visual acceptance",
+  "expected_cycle_seconds": 1.640625,
+  "measurements": {
+    "water_x1": {
+      "captured_frames": 40,
+      "elapsed_seconds": 3.9001725380076095,
+      "roi": [
+        320,
+        420,
+        1200,
+        840
+      ],
+      "temporal_steps": [
+        2.5996825396825396,
+        2.626161616161616,
+        2.1437373737373737,
+        1.3705772005772006,
+        0.03493506493506494,
+        0.9445598845598846,
+        1.4141414141414141,
+        2.2116161616161616,
+        2.6073737373737376,
+        2.657936507936508,
+        0.030216450216450218,
+        2.1453679653679654,
+        1.3301875901875901,
+        0.9077777777777778,
+        1.4813852813852815,
+        2.2536796536796535,
+        0.030793650793650793,
+        4.385844155844156,
+        0.015151515151515152,
+        2.140707070707071,
+        1.3729148629148629,
+        0.9433189033189033,
+        1.4186147186147187,
+        2.2116450216450216,
+        2.610981240981241,
+        0.03494949494949495,
+        2.658989898989899,
+        2.14020202020202,
+        1.32995670995671,
+        0.9022799422799422,
+        0.04479076479076479,
+        1.4858730158730158,
+        2.261010101010101,
+        2.6105483405483407,
+        2.635122655122655,
+        2.143809523809524,
+        0.027792207792207792,
+        1.371024531024531,
+        0.9409956709956709
+      ],
+      "lag_errors": [
+        {
+          "lag": 1,
+          "seconds": 0.10000442405147716,
+          "mae": 1.6019654419654419
+        },
+        {
+          "lag": 2,
+          "seconds": 0.19962207576348814,
+          "mae": 2.82957963089542
+        },
+        {
+          "lag": 3,
+          "seconds": 0.3002140246492156,
+          "mae": 3.6363351663351664
+        },
+        {
+          "lag": 4,
+          "seconds": 0.40045913030593916,
+          "mae": 4.1306397306397304
+        },
+        {
+          "lag": 5,
+          "seconds": 0.5008742641724114,
+          "mae": 4.369661513090085
+        },
+        {
+          "lag": 6,
+          "seconds": 0.6007977415300796,
+          "mae": 4.478353705118411
+        },
+        {
+          "lag": 7,
+          "seconds": 0.7014023283343043,
+          "mae": 4.513782412873322
+        },
+        {
+          "lag": 8,
+          "seconds": 0.8017715039695759,
+          "mae": 4.513515963203464
+        },
+        {
+          "lag": 9,
+          "seconds": 0.902008331355436,
+          "mae": 4.5100986826793275
+        },
+        {
+          "lag": 10,
+          "seconds": 1.0019201916341747,
+          "mae": 4.465381433381434
+        },
+        {
+          "lag": 11,
+          "seconds": 1.102098052379884,
+          "mae": 4.409323779668608
+        },
+        {
+          "lag": 12,
+          "seconds": 1.20292594935745,
+          "mae": 4.279887652030509
+        },
+        {
+          "lag": 13,
+          "seconds": 1.3032469737776813,
+          "mae": 3.960001068889958
+        },
+        {
+          "lag": 14,
+          "seconds": 1.4037522308846326,
+          "mae": 3.3597091797091796
+        },
+        {
+          "lag": 15,
+          "seconds": 1.5044263990002218,
+          "mae": 2.3093881673881675
+        },
+        {
+          "lag": 16,
+          "seconds": 1.604694780458279,
+          "mae": 0.9838894901394901
+        },
+        {
+          "lag": 17,
+          "seconds": 1.7042104328258731,
+          "mae": 1.0303770625509756
+        },
+        {
+          "lag": 18,
+          "seconds": 1.8046378876368345,
+          "mae": 2.3435792994883906
+        },
+        {
+          "lag": 19,
+          "seconds": 1.9056033515232793,
+          "mae": 3.31553700267986
+        },
+        {
+          "lag": 20,
+          "seconds": 2.0061467533989346,
+          "mae": 3.9815584415584415
+        }
+      ],
+      "best_cycle_candidate": {
+        "lag": 16,
+        "seconds": 1.604694780458279,
+        "mae": 0.9838894901394901
+      },
+      "cycle_to_nonlocal_error_ratio": 0.2232130442969557,
+      "time_varying": 3.1774895834377164,
+      "metadata_sha256": "fd71b4b21014439bfb50d98bba29890f1f611f3bcdaf621e294acd75591300e8",
+      "burst_manifest_sha256": "a75a6d5d68ff7cb25e9738cbd2746cbac2b685ae419e79f2217a04209f30301d",
+      "screenshots": {
+        "mm8_liquid_water_flying_x1_cycle_000.png": "cfc05b2a0af6ae164e1f972457d1274565ca1c71095d9b3b5b59637caa8bd0ea",
+        "mm8_liquid_water_flying_x1_cycle_001.png": "90496526e0586ab00ff6e524dba954e6cf1d1e1965476b0ddb28fa7717ac6c68",
+        "mm8_liquid_water_flying_x1_cycle_002.png": "4918495e62da2c7dc11ad3a743c8f9d72fffe6d6dd91f73b58439103f30efecd",
+        "mm8_liquid_water_flying_x1_cycle_003.png": "3d1c63389a00dcb7dbc735df78b4c37865301454aae6ef2a4af0bece3ec81970",
+        "mm8_liquid_water_flying_x1_cycle_004.png": "26d6c0daa21e1e1fcb1bbb3190587b56bdb0337dacd5957f3a2626aea68dcf93",
+        "mm8_liquid_water_flying_x1_cycle_005.png": "1b24fc83a8545ab76039f1375916cc32e5b7c22b175162cf4fe5911f64e12028",
+        "mm8_liquid_water_flying_x1_cycle_006.png": "43784911dfb8a2172720a4bd9025e639b70ab3e623227d5e2557ec18509ddf20",
+        "mm8_liquid_water_flying_x1_cycle_007.png": "aaaf65dfc972fb25d0fde979dcab6994b3a42d3784b593d699c9f06d3c4cc15d",
+        "mm8_liquid_water_flying_x1_cycle_008.png": "661832ac21274c4fa4ff6f371550132a6867a1629bbd73d3b5463dce5a2488e7",
+        "mm8_liquid_water_flying_x1_cycle_009.png": "83aecd850872f365cf8ed9d650f74fabd9218ad553248357fc95524da1fa4585",
+        "mm8_liquid_water_flying_x1_cycle_010.png": "ce78cec9df6e5906669c4c939f819d4300507bd9e982f2d4eaf5f81ed1f17c02",
+        "mm8_liquid_water_flying_x1_cycle_011.png": "cf1238651334815000fd7d7dffe61265d1658f1ba8f13f5187c89d05ec5d712f",
+        "mm8_liquid_water_flying_x1_cycle_012.png": "cff664c248d434e5644d36f5379a052dd5b93ed9ab57c2e00e5d8de5e5e24752",
+        "mm8_liquid_water_flying_x1_cycle_013.png": "fc7e2ac7b878829a9069350ae1e4a296ea70a55f36f20a6e54067e58a18618df",
+        "mm8_liquid_water_flying_x1_cycle_014.png": "61a35662fe8c698267ad46d45eb305a06bac46d76a2ecac92b8e6e5feb1a9060",
+        "mm8_liquid_water_flying_x1_cycle_015.png": "e35ba6d27ba923d61ede6e1810f7e636fe0a2c3406ce3bd25e18ddcc2546274f",
+        "mm8_liquid_water_flying_x1_cycle_016.png": "81979364e84078983b0df8abcb642766212071d6cf44f5f4e2732a206287b3a8",
+        "mm8_liquid_water_flying_x1_cycle_017.png": "267a35a8350679c5f04b42e826a26e58a1d142f6cdd1092bb8a8006126d0b652",
+        "mm8_liquid_water_flying_x1_cycle_018.png": "c774258c5362ca9f995df9fb4b70621455006d0657994f1c899c76b9815f3e96",
+        "mm8_liquid_water_flying_x1_cycle_019.png": "dd4712c5b1b956fa23ee5587bb9980ee30d44fdb2d287695f139cddeb5c4a9f2",
+        "mm8_liquid_water_flying_x1_cycle_020.png": "fbb833a75056c41c1abe426c4d356a9d39955960b8dd61fea1883afdfe3a2e92",
+        "mm8_liquid_water_flying_x1_cycle_021.png": "da6aa1bc2a6b63baa52cead733b52b1d955233de8980103a8d61d4980e09e3ec",
+        "mm8_liquid_water_flying_x1_cycle_022.png": "7ccf6feeb7eb43b6f44202631d0ba6334c184f9973509b5b6c1423819643a6cf",
+        "mm8_liquid_water_flying_x1_cycle_023.png": "728ee4039ad6c6b3016cc5eb2fd712fbc3790ee4d496547d814c85bf3820632e",
+        "mm8_liquid_water_flying_x1_cycle_024.png": "1bb21e5a231d8c9cd10510b2f7847d00e9c8843d038b2466fcbd665f23dc6bd6",
+        "mm8_liquid_water_flying_x1_cycle_025.png": "2e3e85506326c12b3b6138b1b0d1bcef33a1ffea6866ddd9b6c051057b7b5dbe",
+        "mm8_liquid_water_flying_x1_cycle_026.png": "572e883be33816a01b063b344b76a7ec668a296d2552c2b7fa994dfc6a3daa12",
+        "mm8_liquid_water_flying_x1_cycle_027.png": "2f4a0589e3029743ed77ccf1a27656d5e48775b5918b08058736e3ef3f99fcde",
+        "mm8_liquid_water_flying_x1_cycle_028.png": "7134432f6088152b04710e0e7f8336cc85af6ccec7081fef3aa9d3879f617d7e",
+        "mm8_liquid_water_flying_x1_cycle_029.png": "880f51e14b5582eeb20bd5bab76cf8c51cb7ce83c31d0661a0ed27dc70bf7ad4",
+        "mm8_liquid_water_flying_x1_cycle_030.png": "94352983cdf814dadba4c0a992411be9885dbbc5965e1559b4d5ac2b6b4ba4fa",
+        "mm8_liquid_water_flying_x1_cycle_031.png": "51acf4adfc61bebaf4f7ae20b8652917c7deb0c99d22f7ecc2a2ef0e4de8ca63",
+        "mm8_liquid_water_flying_x1_cycle_032.png": "761fb0477d316b316969bfc37af777e86ed382f9b9d6cda2f4d7ca26e5578e52",
+        "mm8_liquid_water_flying_x1_cycle_033.png": "87d35311d2ad25286ff89f1144880e5f8a47079a2b0612141b2fcd3fac69d3b0",
+        "mm8_liquid_water_flying_x1_cycle_034.png": "ad6c8dabc50d66da97021fff736e0ef5d410324240aa380b8e41b2b67f816586",
+        "mm8_liquid_water_flying_x1_cycle_035.png": "99e13f07fe52ead480de15beac8ddb432b0ea362c9ac8cc54f970647cf514416",
+        "mm8_liquid_water_flying_x1_cycle_036.png": "6a1e649bb20255f384ddea492aa25388f2fd60e0b9e5e2412abc812fd334592c",
+        "mm8_liquid_water_flying_x1_cycle_037.png": "6fb3cf11e128514d202d6f055bbc7d65be72a36d66edf1daa542d7507988a36b",
+        "mm8_liquid_water_flying_x1_cycle_038.png": "fe4de09ae679748f2a7a2e3f715cc023ec6618068f82911a95e2fd3329b570c8",
+        "mm8_liquid_water_flying_x1_cycle_039.png": "1615d60538bcae38cea6dc0fbca00688be97b9cf424e0191805b5f4232ed6171"
+      }
+    },
+    "water_x2": {
+      "captured_frames": 40,
+      "elapsed_seconds": 3.907409793988336,
+      "roi": [
+        320,
+        420,
+        1200,
+        840
+      ],
+      "temporal_steps": [
+        0.9966089466089466,
+        1.4067243867243868,
+        2.1147474747474746,
+        2.4445887445887444,
+        2.411255411255411,
+        0.03196248196248196,
+        2.0069119769119768,
+        1.258932178932179,
+        0.86997113997114,
+        1.4053535353535354,
+        0.019913419913419914,
+        2.0490764790764793,
+        2.479206349206349,
+        2.683852813852814,
+        2.4095526695526694,
+        0.020793650793650795,
+        2.0202164502164504,
+        0.028051948051948054,
+        1.4086147186147187,
+        2.117994227994228,
+        2.446262626262626,
+        2.4084848484848487,
+        2.006161616161616,
+        1.254054834054834,
+        0.8636652236652237,
+        1.4084415584415584,
+        0.03819624819624819,
+        2.04972582972583,
+        2.4868975468975467,
+        2.6867388167388166,
+        2.410721500721501,
+        1.5092640692640693,
+        0.9950937950937951,
+        0.05432900432900433,
+        1.4132756132756132,
+        2.1156421356421355,
+        2.4434920634920636,
+        2.404069264069264,
+        1.9995238095238095
+      ],
+      "lag_errors": [
+        {
+          "lag": 1,
+          "seconds": 0.10018999471764964,
+          "mae": 1.6199581899581899
+        },
+        {
+          "lag": 2,
+          "seconds": 0.20010207084123977,
+          "mae": 2.8088964836333257
+        },
+        {
+          "lag": 3,
+          "seconds": 0.30011372102622724,
+          "mae": 3.5544101244101243
+        },
+        {
+          "lag": 4,
+          "seconds": 0.4001561997485826,
+          "mae": 3.967411415744749
+        },
+        {
+          "lag": 5,
+          "seconds": 0.49970950279883775,
+          "mae": 4.174468357039785
+        },
+        {
+          "lag": 6,
+          "seconds": 0.5991473246163771,
+          "mae": 4.246416263475087
+        },
+        {
+          "lag": 7,
+          "seconds": 0.6990254719381813,
+          "mae": 4.2682955092046
+        },
+        {
+          "lag": 8,
+          "seconds": 0.7990426146234313,
+          "mae": 4.275470328282828
+        },
+        {
+          "lag": 9,
+          "seconds": 0.8982109814504867,
+          "mae": 4.267377461248429
+        },
+        {
+          "lag": 10,
+          "seconds": 0.9972897468988473,
+          "mae": 4.227810004810005
+        },
+        {
+          "lag": 11,
+          "seconds": 1.0964347115167867,
+          "mae": 4.1309046126287505
+        },
+        {
+          "lag": 12,
+          "seconds": 1.1957233660713038,
+          "mae": 3.9362847866419295
+        },
+        {
+          "lag": 13,
+          "seconds": 1.2952620485933342,
+          "mae": 3.592774303885415
+        },
+        {
+          "lag": 14,
+          "seconds": 1.3949511439613371,
+          "mae": 2.924109779109779
+        },
+        {
+          "lag": 15,
+          "seconds": 1.4936437707592267,
+          "mae": 1.9033235209235209
+        },
+        {
+          "lag": 16,
+          "seconds": 1.592416542499753,
+          "mae": 0.7461694324194325
+        },
+        {
+          "lag": 17,
+          "seconds": 1.691064143130738,
+          "mae": 1.4240159357550661
+        },
+        {
+          "lag": 18,
+          "seconds": 1.7894814387731126,
+          "mae": 2.616534828807556
+        },
+        {
+          "lag": 19,
+          "seconds": 1.8884028848094334,
+          "mae": 3.4467498110355255
+        },
+        {
+          "lag": 20,
+          "seconds": 1.9872439739992842,
+          "mae": 3.9166219336219337
+        }
+      ],
+      "best_cycle_candidate": {
+        "lag": 16,
+        "seconds": 1.592416542499753,
+        "mae": 0.7461694324194325
+      },
+      "cycle_to_nonlocal_error_ratio": 0.17910722543437002,
+      "time_varying": 3.0138159047295745,
+      "metadata_sha256": "91efff19ad31960e6102373ccfa1808277a7136f49e89422b02d22f577f37db9",
+      "burst_manifest_sha256": "f3813d353d31d6c03a8c97257cfdeb407284e7a71acddb57515f3685f2f5f3a5",
+      "screenshots": {
+        "mm8_liquid_water_flying_x2_cycle_000.png": "332a5a90ced5a696286fb039043e4d53fb37fe722f97f3e522afc2476ecb10d2",
+        "mm8_liquid_water_flying_x2_cycle_001.png": "521ce2fe363967a16af06bf260f4edf5a0cb5af9db7535850a76372fa70ed360",
+        "mm8_liquid_water_flying_x2_cycle_002.png": "5f03b380c4d74215b40e6a88556ffe39e2f4e46c2f64b4307d193d062a71ddac",
+        "mm8_liquid_water_flying_x2_cycle_003.png": "bb5ea4b33bed0c99c7ed5d2698336ea9294cfa1488d4b90639c1fae1546a892f",
+        "mm8_liquid_water_flying_x2_cycle_004.png": "d925ab8906a57912312e7c4d9084b82bb434b93f84c77f9f3b9570e53459f389",
+        "mm8_liquid_water_flying_x2_cycle_005.png": "5e9d94ad6904632fbd1fc23a1976d6135f29f17fdb3a9c756f6ab32749d3272b",
+        "mm8_liquid_water_flying_x2_cycle_006.png": "15460717c11c8f506129f0532a419cef48ca551b0e28484674d7d3fcfc5aaae8",
+        "mm8_liquid_water_flying_x2_cycle_007.png": "eed0fd21255838c69206569dc3b4252a100b38f79ebe343cb0f290415ad8ccb0",
+        "mm8_liquid_water_flying_x2_cycle_008.png": "8cc1f5ad3b39198304e8d83f5178610c3388083b0bb2c54c25a6dc980ddb6fe3",
+        "mm8_liquid_water_flying_x2_cycle_009.png": "4a1e0132ff8a41f6d2e05075f44ccbcaca608b7f3b3a40f0deed6555604b66e5",
+        "mm8_liquid_water_flying_x2_cycle_010.png": "ff3a59ef4429d6f9bcdb70d049168dd093759cd9262bc42137f3f9ab33d9abd3",
+        "mm8_liquid_water_flying_x2_cycle_011.png": "02e0106916565e90a23a761ad7236612bf4c2c6674e3018c2033ff66d8180fe2",
+        "mm8_liquid_water_flying_x2_cycle_012.png": "ec2d9218390bb8a3667de30add5e58d112625d3786b99a71be970194defc8ac5",
+        "mm8_liquid_water_flying_x2_cycle_013.png": "8dffb9a495cc37b26532897e20d3f72af43e2f8e7351c57c747dc36169736a6d",
+        "mm8_liquid_water_flying_x2_cycle_014.png": "c9bad7cedc880eac7b5adde52ed656d95f42321ecf25970d2ec63816b917a3d3",
+        "mm8_liquid_water_flying_x2_cycle_015.png": "db0433a37d9d3101ede689ca098c34195472df567641d3da32c65390e84f03f3",
+        "mm8_liquid_water_flying_x2_cycle_016.png": "a712ef7fd2ed66a93367da98a6709b8b84fe382296e09c8a740525c6523cf461",
+        "mm8_liquid_water_flying_x2_cycle_017.png": "574b99fbb763028f317574e31e93efa157a4b28bd04b7a4b99cd02d18e5ee2b3",
+        "mm8_liquid_water_flying_x2_cycle_018.png": "452f3a8e6bf059006c7a822dc885ea704c00109e8b1e43988a0a6c8b661bbd1d",
+        "mm8_liquid_water_flying_x2_cycle_019.png": "817efd2af5ea72d1c9d3aead47379b573dbaddadb643a6614cfe83c0a74edec0",
+        "mm8_liquid_water_flying_x2_cycle_020.png": "4830d1400b6eb6b4f1a64a4e0d2da8d367689ec306d55f0316d0ce9db1dd8ea8",
+        "mm8_liquid_water_flying_x2_cycle_021.png": "d0c727acb2356be580aea220e64c903b279ea289704df9164bff4e0d93c0e1b7",
+        "mm8_liquid_water_flying_x2_cycle_022.png": "afc6952f87abfd8e71f92eb29c4f43071695ac96f90eaf1b2553e762425225fd",
+        "mm8_liquid_water_flying_x2_cycle_023.png": "b865eb12b68aa97fdb8c382ec822f25d89614812b5595238be95cdebb525fe84",
+        "mm8_liquid_water_flying_x2_cycle_024.png": "807eadd139040614ac062cb187c5c1af0aba19acdb2d899b32421d68a5ae5c60",
+        "mm8_liquid_water_flying_x2_cycle_025.png": "2e1c745e771b43a7651a9243c36e7c8e8aaebfc64643f7abe643c78cd4ca1028",
+        "mm8_liquid_water_flying_x2_cycle_026.png": "eb8904398b9fd6676fc13a6ffd92893a189b8f20e31fe122aaae8f0e5d2667a8",
+        "mm8_liquid_water_flying_x2_cycle_027.png": "4e960f4c55265ba6a44ce1bbb57dbf95d3584dbd1325dd86ebd005012ef5662a",
+        "mm8_liquid_water_flying_x2_cycle_028.png": "b25cbe6754da04f876303be55a659cc95d4ed195289661198ba72a3b12395ddf",
+        "mm8_liquid_water_flying_x2_cycle_029.png": "43a4874159bbd19526f595e747e0e03a118f0479118d6da89dd39f64806cf51a",
+        "mm8_liquid_water_flying_x2_cycle_030.png": "fd7ed1e96750c0a0b90fa55a227df2897d8e5b0aba19833957806d514a60b77a",
+        "mm8_liquid_water_flying_x2_cycle_031.png": "c5b44e36c65e35e9320997e1da4fd20307d0f46f9dd21378c3a201fae8be4f2d",
+        "mm8_liquid_water_flying_x2_cycle_032.png": "9ce30d1289ba62004865b6c9ae02b6297fc39b7f4954e5e4a8589913a563dc33",
+        "mm8_liquid_water_flying_x2_cycle_033.png": "a97abb9717945009ead5053a0e8f7c7c9bd7d5d793c44123137e4718b35a0a81",
+        "mm8_liquid_water_flying_x2_cycle_034.png": "aced89d73e2bf3cb2a204f3072806fbf1347badb83fd825cbabfef05f59d8d3e",
+        "mm8_liquid_water_flying_x2_cycle_035.png": "e144b65b2e6014279b1ff44a1894b423e0212ee65f511eed9b832b53bf081831",
+        "mm8_liquid_water_flying_x2_cycle_036.png": "e6d20314a3d5eb32064a05f8748376fa0395bace9d12ffcac48d5bb60fbfc05a",
+        "mm8_liquid_water_flying_x2_cycle_037.png": "80698cb4e0edade696cc0a8d9801170de6a76a5cf4348e89491f69059ee977fd",
+        "mm8_liquid_water_flying_x2_cycle_038.png": "bc450837edf3df768683344d195a05c4f42d835a9402b7e76df9d6e08714dbbd",
+        "mm8_liquid_water_flying_x2_cycle_039.png": "aaa4d66b1286c52987f259543ed6bf13da305867cbc8b3fe41209012fb211ce9"
+      }
+    },
+    "lava_x1": {
+      "captured_frames": 40,
+      "elapsed_seconds": 3.8520975049759727,
+      "roi": [
+        320,
+        420,
+        1200,
+        840
+      ],
+      "temporal_steps": [
+        1.609062049062049,
+        1.5795093795093795,
+        1.5202597402597402,
+        0.053665223665223666,
+        1.5441269841269842,
+        1.606955266955267,
+        1.6083694083694084,
+        1.6475036075036076,
+        1.6113997113997114,
+        25.397215007215006,
+        21.605266955266956,
+        3.6344300144300146,
+        2.492914862914863,
+        2.75988455988456,
+        2.50991341991342,
+        1.4895238095238095,
+        2.806349206349206,
+        2.232655122655123,
+        1.7315151515151515,
+        4.427085137085137,
+        13.154617604617604,
+        14.585137085137085,
+        2.9306204906204907,
+        1.0602164502164502,
+        3.789119769119769,
+        2.547979797979798,
+        2.7892063492063492,
+        2.4115873015873017,
+        2.2913997113997113,
+        0.8161616161616162,
+        2.3465223665223665,
+        2.246031746031746,
+        2.30010101010101,
+        1.8803174603174604,
+        2.0014574314574314,
+        0.5040404040404041,
+        1.8986002886002886,
+        100.24845598845599,
+        22.77098124098124
+      ],
+      "lag_errors": [
+        {
+          "lag": 1,
+          "seconds": 0.09877173089681981,
+          "mae": 6.831798941798942
+        },
+        {
+          "lag": 2,
+          "seconds": 0.19881242344701222,
+          "mae": 9.826825017088176
+        },
+        {
+          "lag": 3,
+          "seconds": 0.29896365713431955,
+          "mae": 11.03972582972583
+        },
+        {
+          "lag": 4,
+          "seconds": 0.39907064024899025,
+          "mae": 11.988229918229917
+        },
+        {
+          "lag": 5,
+          "seconds": 0.49910651362733915,
+          "mae": 12.769677179962894
+        },
+        {
+          "lag": 6,
+          "seconds": 0.5993564714110963,
+          "mae": 13.398843476784654
+        },
+        {
+          "lag": 7,
+          "seconds": 0.6995363442719363,
+          "mae": 13.887341816432725
+        },
+        {
+          "lag": 8,
+          "seconds": 0.7999296784055332,
+          "mae": 14.24218795093795
+        },
+        {
+          "lag": 9,
+          "seconds": 0.9003762654826841,
+          "mae": 14.483656844947168
+        },
+        {
+          "lag": 10,
+          "seconds": 1.0004021180648124,
+          "mae": 14.48123136123136
+        },
+        {
+          "lag": 11,
+          "seconds": 1.100782765239148,
+          "mae": 13.462693436831367
+        },
+        {
+          "lag": 12,
+          "seconds": 1.2009226857480826,
+          "mae": 13.533358585858586
+        },
+        {
+          "lag": 13,
+          "seconds": 1.300598765553096,
+          "mae": 13.199130992464326
+        },
+        {
+          "lag": 14,
+          "seconds": 1.4003880631890542,
+          "mae": 12.812144522144521
+        },
+        {
+          "lag": 15,
+          "seconds": 1.5004553668363951,
+          "mae": 12.31260202020202
+        },
+        {
+          "lag": 16,
+          "seconds": 1.6000615740388942,
+          "mae": 11.812391173641174
+        },
+        {
+          "lag": 17,
+          "seconds": 1.7000853744317757,
+          "mae": 11.153034694773826
+        },
+        {
+          "lag": 18,
+          "seconds": 1.8004599738606801,
+          "mae": 12.288799029253575
+        },
+        {
+          "lag": 19,
+          "seconds": 1.9004771661878164,
+          "mae": 14.151592798735656
+        },
+        {
+          "lag": 20,
+          "seconds": 2.0001302577977187,
+          "mae": 15.506962481962482
+        }
+      ],
+      "best_cycle_candidate": {
+        "lag": 17,
+        "seconds": 1.7000853744317757,
+        "mae": 11.153034694773826
+      },
+      "cycle_to_nonlocal_error_ratio": 0.8211009770523854,
+      "time_varying": 21.68896559748991,
+      "metadata_sha256": "996b66a4c698055aff062a1c85a8244b3c0f3a610539799b6d6dace83eb2c2e7",
+      "burst_manifest_sha256": "a4e07121044f7de49f8b8d43027a3835085393f42c06175a156209a83ad52e78",
+      "screenshots": {
+        "mm8_liquid_lava_flying_x1_cycle_000.png": "e0341a3b768aacb4917a8354add7fb52b9982c070c785e4e5a93c6c2f112baea",
+        "mm8_liquid_lava_flying_x1_cycle_001.png": "a6c2ca159fadd10da2121780e6daeaaa2d6e93e8eaa6c95fd6ff23e73e29824f",
+        "mm8_liquid_lava_flying_x1_cycle_002.png": "9d1aa224c608ad37be331ad98e56fa230f3cbb77cd9757589222fba18f1e11cc",
+        "mm8_liquid_lava_flying_x1_cycle_003.png": "a09d8444c9fd35912fce36c129ea38e5ffcfec3a13213dac6f3d4f73d4342d08",
+        "mm8_liquid_lava_flying_x1_cycle_004.png": "0b215a389dc7c74cf0198d21d9d85eb24f0387c850baee6e51281ff94f70f229",
+        "mm8_liquid_lava_flying_x1_cycle_005.png": "a9636d1dfd8adb1a5541349a1f63cbd277312f23634cb17d4e76d0764e941c51",
+        "mm8_liquid_lava_flying_x1_cycle_006.png": "b3821897f4112a52645280f8b8f49eb07064dce1a092c1df313667b0f4faed4e",
+        "mm8_liquid_lava_flying_x1_cycle_007.png": "d054d90db6cffaac88d009bbb6913451625734bd28f195ce46eeae5b75213e13",
+        "mm8_liquid_lava_flying_x1_cycle_008.png": "a037a75c8e89cb9b418e0f7e5a33e70351259d9a4f14ee1a85d484790dde2a7b",
+        "mm8_liquid_lava_flying_x1_cycle_009.png": "6d8a03da079d51185a57f2602a2db68b1f95ff5d80720749ee3696368c66ccf7",
+        "mm8_liquid_lava_flying_x1_cycle_010.png": "1630b2f5128261ba6373b515038759366c3b0f47bfdf2f4d772f26563470bc4a",
+        "mm8_liquid_lava_flying_x1_cycle_011.png": "e8e9d59263546b34ddee9a34d35d4f2b9ea015afca1fe691c05a55aa0d51daca",
+        "mm8_liquid_lava_flying_x1_cycle_012.png": "394284297db8ca69d814ec6e12f148ba706eeef749d440afee3dd58f4825c1b5",
+        "mm8_liquid_lava_flying_x1_cycle_013.png": "8647d64ee661a1948fbc5de2667c014077f92cc72a34843702c5846e49aa13c0",
+        "mm8_liquid_lava_flying_x1_cycle_014.png": "7a5c477a82f8c6037d325f728e125ca3bb15238ebc8fabc8b53888c669ae2639",
+        "mm8_liquid_lava_flying_x1_cycle_015.png": "a7452185be8595687475cb65069c82f1947525aca93ada31780b8f90813d2b71",
+        "mm8_liquid_lava_flying_x1_cycle_016.png": "103fc547da5a672d5c35cf6011075648cefbc0d6f2d56b23e37a382dd8e69e5f",
+        "mm8_liquid_lava_flying_x1_cycle_017.png": "b9b5ef44159e2424e3f0f19df698e2aefc60d94f5ff7d81707b753c6c0458686",
+        "mm8_liquid_lava_flying_x1_cycle_018.png": "bc14a2e24115398e4237c2f5db2fa5c059beece741839bedb6385560799056df",
+        "mm8_liquid_lava_flying_x1_cycle_019.png": "1e54e9b562a7b231f057ae4ac38a93662d7cb5dcb0e6bc5b4054484941d180e7",
+        "mm8_liquid_lava_flying_x1_cycle_020.png": "6f86dc0ae85f9233eccd968052779f1f817baa4b6d610f976b4cbf2bec7276b9",
+        "mm8_liquid_lava_flying_x1_cycle_021.png": "93619b1bcc043ca863c777d7f0336d634d3a2348f13c148ce461211d3254c41c",
+        "mm8_liquid_lava_flying_x1_cycle_022.png": "ec4edb4798baaccb9a6ee3d7a9045b770305d20a0bc038bbf6cd50096c6555a3",
+        "mm8_liquid_lava_flying_x1_cycle_023.png": "ac0b188c02aa909259dc282cd837287903aa11e244fcbe933328a7ff9d91b3d9",
+        "mm8_liquid_lava_flying_x1_cycle_024.png": "7ff8fe63219447057c2a6e2464392fee4022292e6ed2fb45377f08cca788b848",
+        "mm8_liquid_lava_flying_x1_cycle_025.png": "df61defe215bc468af8b4144ca7766f3be0bae23342aef554dbe5dcd10992746",
+        "mm8_liquid_lava_flying_x1_cycle_026.png": "df0e842aac995e79f7f9f19f5567d8aac675f5d9d4f3986b600d79e0ba62c5c9",
+        "mm8_liquid_lava_flying_x1_cycle_027.png": "b74716c77a49dec5bf7f721c88460e77614ff703a6cd5728d922ae2cfb95f550",
+        "mm8_liquid_lava_flying_x1_cycle_028.png": "1dd2596ac42d5e1d13eb2bab418317008319c89d3ab5fe426a665e18482e7537",
+        "mm8_liquid_lava_flying_x1_cycle_029.png": "232bb3916868b91d6821777163e13014283572846557504fbc37a540749ee4f8",
+        "mm8_liquid_lava_flying_x1_cycle_030.png": "ab399369acf5030d9a6327b0017e97f1fcbf81403edaf09bcfeb7b70ba0e160d",
+        "mm8_liquid_lava_flying_x1_cycle_031.png": "060fa7a3819b34a19246e6dd7854e4fb6d4a2d207797c74b004238904b3ac908",
+        "mm8_liquid_lava_flying_x1_cycle_032.png": "32959ec7c2490e012500618f91142a47dacf803e2dd837dbf1f2d56f8c517446",
+        "mm8_liquid_lava_flying_x1_cycle_033.png": "8da57272eb96f149b14d2ff5e51d6d2a0baec5fe21357cffd903367e1efa910d",
+        "mm8_liquid_lava_flying_x1_cycle_034.png": "8b95ed2e6dd847252a67c1659068bf16d76ce9ecaa65e8b0df088bb6b41d175c",
+        "mm8_liquid_lava_flying_x1_cycle_035.png": "cce8ecd788fd9507af705e49a45001d6bd11acae49b5ec6111454361d6bf1e21",
+        "mm8_liquid_lava_flying_x1_cycle_036.png": "0e1a5a45c9ee078f2f4a43d1dcf9c0f5a7b7b5e8184427e693a29a7bd2e0f2be",
+        "mm8_liquid_lava_flying_x1_cycle_037.png": "826cf559f1e61bcda923d7e35accec2935ed932fbb15f07d4f60a007de53fd90",
+        "mm8_liquid_lava_flying_x1_cycle_038.png": "5dfcee844c114cf639aafaf70462e67f158673dc6c13ac08012c00c155b5c79a",
+        "mm8_liquid_lava_flying_x1_cycle_039.png": "3621f3da2f283d552bd995c2b3181d3afb7a187159f155a1aa804f5ea072bbdc"
+      }
+    },
+    "lava_x2": {
+      "captured_frames": 40,
+      "elapsed_seconds": 3.893590026011225,
+      "roi": [
+        320,
+        420,
+        1200,
+        840
+      ],
+      "temporal_steps": [
+        1.754949494949495,
+        1.7377489177489178,
+        1.6813275613275613,
+        1.6631168831168832,
+        1.7173304473304474,
+        0.04871572871572872,
+        1.824834054834055,
+        1.8513131313131312,
+        25.394704184704185,
+        22.38168831168831,
+        3.1105194805194807,
+        2.9500721500721503,
+        2.8296392496392495,
+        1.049105339105339,
+        2.904098124098124,
+        2.5103174603174603,
+        1.8932756132756132,
+        1.7492352092352093,
+        1.6827994227994227,
+        1.9386002886002887,
+        2.0435786435786434,
+        0.335974025974026,
+        2.731746031746032,
+        3.7335353535353537,
+        2.8205194805194806,
+        2.634963924963925,
+        2.6186724386724385,
+        0.7872294372294373,
+        2.5984271284271285,
+        2.5285858585858585,
+        2.5601587301587303,
+        2.0268253968253966,
+        2.2015151515151516,
+        2.155844155844156,
+        0.470981240981241,
+        116.41584415584416,
+        28.845959595959595,
+        16.17024531024531,
+        12.86033189033189
+      ],
+      "lag_errors": [
+        {
+          "lag": 1,
+          "seconds": 0.09983564169259551,
+          "mae": 7.415752025752026
+        },
+        {
+          "lag": 2,
+          "seconds": 0.19963903639520714,
+          "mae": 11.124816966659072
+        },
+        {
+          "lag": 3,
+          "seconds": 0.29965387305443025,
+          "mae": 14.276321126321127
+        },
+        {
+          "lag": 4,
+          "seconds": 0.3988088593897474,
+          "mae": 16.518076799743465
+        },
+        {
+          "lag": 5,
+          "seconds": 0.49884474028700165,
+          "mae": 17.40060482374768
+        },
+        {
+          "lag": 6,
+          "seconds": 0.5988423507951666,
+          "mae": 18.09520753756048
+        },
+        {
+          "lag": 7,
+          "seconds": 0.6986245214251209,
+          "mae": 18.664245485154577
+        },
+        {
+          "lag": 8,
+          "seconds": 0.7987449404699873,
+          "mae": 19.06117784992785
+        },
+        {
+          "lag": 9,
+          "seconds": 0.898558911162376,
+          "mae": 19.320017688404786
+        },
+        {
+          "lag": 10,
+          "seconds": 0.9984588763676584,
+          "mae": 18.77968734968735
+        },
+        {
+          "lag": 11,
+          "seconds": 1.098542349621782,
+          "mae": 18.716139722346618
+        },
+        {
+          "lag": 12,
+          "seconds": 1.198539607143695,
+          "mae": 18.599298082869513
+        },
+        {
+          "lag": 13,
+          "seconds": 1.2983628644454897,
+          "mae": 18.470154989043877
+        },
+        {
+          "lag": 14,
+          "seconds": 1.3985212778083782,
+          "mae": 18.334085914085914
+        },
+        {
+          "lag": 15,
+          "seconds": 1.4983535669615957,
+          "mae": 18.0496202020202
+        },
+        {
+          "lag": 16,
+          "seconds": 1.5984072028768423,
+          "mae": 18.042003367003367
+        },
+        {
+          "lag": 17,
+          "seconds": 1.698162082958531,
+          "mae": 19.386886253842775
+        },
+        {
+          "lag": 18,
+          "seconds": 1.798401165138454,
+          "mae": 20.99913813459268
+        },
+        {
+          "lag": 19,
+          "seconds": 1.8986175018598304,
+          "mae": 22.60844018415447
+        },
+        {
+          "lag": 20,
+          "seconds": 1.9985799092522938,
+          "mae": 24.154448773448774
+        }
+      ],
+      "best_cycle_candidate": {
+        "lag": 16,
+        "seconds": 1.5984072028768423,
+        "mae": 18.042003367003367
+      },
+      "cycle_to_nonlocal_error_ratio": 0.9831889183328079,
+      "time_varying": 29.60697733382773,
+      "metadata_sha256": "f500c3200acd7d223f562f1118ae3e42a56db764734932a1d7ab0d55827e9c38",
+      "burst_manifest_sha256": "1169e14ff19497f0a4ffe8510b7b7286c7d2e74cf5301ac0c13d24a83af33887",
+      "screenshots": {
+        "mm8_liquid_lava_flying_x2_cycle_000.png": "9577f5a3b714dd5d2421652b242e8a1cbeb9c2d4ecb3bab9672e3165ccbb2402",
+        "mm8_liquid_lava_flying_x2_cycle_001.png": "8127bfa6568baf631b9386bff8ee063f937f375c40c94be39efd665960478112",
+        "mm8_liquid_lava_flying_x2_cycle_002.png": "ac2b333be444634faff64e96830d9fd0db1408b83fb5d0090401402bd758cfc7",
+        "mm8_liquid_lava_flying_x2_cycle_003.png": "88da775334bdab5cf79eea5f8c7b340a0482a785b31e31ab715ab1b24d5c80fc",
+        "mm8_liquid_lava_flying_x2_cycle_004.png": "94ffbe7e235179dcfbf96b8a466f8622e0f053b75beb1f37765b2c701e6c80a2",
+        "mm8_liquid_lava_flying_x2_cycle_005.png": "2569c1b01f5e2e665f31a6eab6c159bcfd5fe937ba1d18280e7303d223bff5c2",
+        "mm8_liquid_lava_flying_x2_cycle_006.png": "5c81669d7d09b60a0ac38540c61e442c40ed9fbed03a359f13443e1fe45ae19f",
+        "mm8_liquid_lava_flying_x2_cycle_007.png": "7dbc0d93dab8291df4ca65d98f095dc93a864b7d7ca9eac15224a7a8d8a36e6b",
+        "mm8_liquid_lava_flying_x2_cycle_008.png": "b1fdd12eda0dde5ab095b21b18c4b8bfc9245e49901ac15b4d3e693d863b2e71",
+        "mm8_liquid_lava_flying_x2_cycle_009.png": "0cf5ebe61a829325737b92e6f9a4c28ca87f80caac0f01b58bb0f18250f667c3",
+        "mm8_liquid_lava_flying_x2_cycle_010.png": "49848de3197a2ffa7559f16000ec438fccbac9993c9e5172ace2d450739915d2",
+        "mm8_liquid_lava_flying_x2_cycle_011.png": "934b604cb11b6cffb73285233bf4b129407231ba2bedae013606e45b88048cb7",
+        "mm8_liquid_lava_flying_x2_cycle_012.png": "f67db19416277f6a71d71555661ab9c13811b3f10624c36fd511420b7cf39760",
+        "mm8_liquid_lava_flying_x2_cycle_013.png": "9dc637df61df5b938cc0bff0468cac9d9af4d9df462bf21339e2ff6fa64d56f4",
+        "mm8_liquid_lava_flying_x2_cycle_014.png": "ff27741d59ba698f8c39f5e2ec97cfc3d1e403d6d3ebeafc35d07d0474a8ea94",
+        "mm8_liquid_lava_flying_x2_cycle_015.png": "c47c2b00d2b23e9b1a3e73d47a0fd545b74cbd1e5c7fef9c26895aae2ec9b070",
+        "mm8_liquid_lava_flying_x2_cycle_016.png": "23eec9c85698d853c1c32ddd88ae1d276268b9e32b209991792555852aa14e50",
+        "mm8_liquid_lava_flying_x2_cycle_017.png": "372127fa879085a908e5660a1b44a10f31bf36c5a0e8db73ef1cd336b24ab42c",
+        "mm8_liquid_lava_flying_x2_cycle_018.png": "2e47e30f697c526912265b2d90321b1da3486a71305771e07053b3003f3eec99",
+        "mm8_liquid_lava_flying_x2_cycle_019.png": "e0b4315c83237d936349e46a57017dcdcf05ac935e259b7a8013b9e013fc6eff",
+        "mm8_liquid_lava_flying_x2_cycle_020.png": "bd8ff3a5e9a40ef8934d0135d8c8fc735c404d5dc08ca2e47681e06d430dda5d",
+        "mm8_liquid_lava_flying_x2_cycle_021.png": "90c9907a1a26e645418d82d679af53e1bc497523f55f162555d167850d83b968",
+        "mm8_liquid_lava_flying_x2_cycle_022.png": "46358be02708f172b15d4313d10846cfccaaef05c019e8a6c285bcc72de263ae",
+        "mm8_liquid_lava_flying_x2_cycle_023.png": "1db747a6280cd51c992ffa87e997bbfe6068c09841c70375f345d07c6166834f",
+        "mm8_liquid_lava_flying_x2_cycle_024.png": "670f7ce9d9d7f0af5e459f570a7955ae460ab70ba94787bec6b358858de81ef0",
+        "mm8_liquid_lava_flying_x2_cycle_025.png": "783a698c7693dedb4e5c4567a0935f6b82cb6ffa86dcb28af5e83e37d2aa8408",
+        "mm8_liquid_lava_flying_x2_cycle_026.png": "6bc9e6f9365612b16aa4bf90c1d8dfc2fbc42491dea5f2cf5314f98cd33f4bf3",
+        "mm8_liquid_lava_flying_x2_cycle_027.png": "04232173bb2329473d663f36afec8295b9b6da07d6b87a0f9ab816ec5b326e45",
+        "mm8_liquid_lava_flying_x2_cycle_028.png": "5102d67293efa1a3f50cbbba369b7d8e7754c3e6c522c084500cc89446632228",
+        "mm8_liquid_lava_flying_x2_cycle_029.png": "6df3ab0fa3be34a7c07aa4e9e1d0648606629776e09124777df77a53d5057c09",
+        "mm8_liquid_lava_flying_x2_cycle_030.png": "a8207d8ef35178a62cbcf504f5896dc92d74ca384c061054f0e5ad1f5c03cd68",
+        "mm8_liquid_lava_flying_x2_cycle_031.png": "4d1fbfa17b773542064a697489a83e7e6b7772976556f08c8f34bffabbbeb0ac",
+        "mm8_liquid_lava_flying_x2_cycle_032.png": "d769f9fb046ac9edc98a2ccd29bb4f1c6ba2a9e27490293a59dba26e058dbf9e",
+        "mm8_liquid_lava_flying_x2_cycle_033.png": "9ece4f5b16489b81f5e07bfd7ba2d9fa7ab0913f10c323c96bdb59cdbb307dcf",
+        "mm8_liquid_lava_flying_x2_cycle_034.png": "3664f29af3a1bee1b056d5f7ab49de9fafb3864ea51a406d7cdd75c3dc4a284e",
+        "mm8_liquid_lava_flying_x2_cycle_035.png": "e3ef0dc9fa079941ca4bfebf2f91bd8550da742f7204649385f3666c1467705a",
+        "mm8_liquid_lava_flying_x2_cycle_036.png": "47432acc77c026a698f96b9a1bae79a9edd8e2d62543a6c23c706576f11c9482",
+        "mm8_liquid_lava_flying_x2_cycle_037.png": "e4a4eab68e2a496210dd4933a3ce8cda80a223b729db5fadcbe60b4bee2472be",
+        "mm8_liquid_lava_flying_x2_cycle_038.png": "52356ec0a458fcd0f7b14e2540c5080f1080fc6cf2b5dfe0f233226ccf725c04",
+        "mm8_liquid_lava_flying_x2_cycle_039.png": "d8beff291b07be51c7f56943b8aaaab1acb8b4cd871345fdb0c8386fe19f2751"
+      }
+    },
+    "tar_x1": {
+      "captured_frames": 40,
+      "elapsed_seconds": 3.902808589016786,
+      "roi": [
+        320,
+        420,
+        1200,
+        840
+      ],
+      "temporal_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "lag_errors": [
+        {
+          "lag": 1,
+          "seconds": 0.1000720151029945,
+          "mae": 0.0
+        },
+        {
+          "lag": 2,
+          "seconds": 0.20019256392123153,
+          "mae": 0.0
+        },
+        {
+          "lag": 3,
+          "seconds": 0.2999862043778538,
+          "mae": 0.0
+        },
+        {
+          "lag": 4,
+          "seconds": 0.39998957572162097,
+          "mae": 0.0
+        },
+        {
+          "lag": 5,
+          "seconds": 0.500025716942868,
+          "mae": 0.0
+        },
+        {
+          "lag": 6,
+          "seconds": 0.6001394044116537,
+          "mae": 0.0
+        },
+        {
+          "lag": 7,
+          "seconds": 0.700266840333246,
+          "mae": 0.0
+        },
+        {
+          "lag": 8,
+          "seconds": 0.80045192815669,
+          "mae": 0.0
+        },
+        {
+          "lag": 9,
+          "seconds": 0.9003591584201316,
+          "mae": 0.0
+        },
+        {
+          "lag": 10,
+          "seconds": 1.000233860766942,
+          "mae": 0.0
+        },
+        {
+          "lag": 11,
+          "seconds": 1.1003651318284844,
+          "mae": 0.0
+        },
+        {
+          "lag": 12,
+          "seconds": 1.2003205837505189,
+          "mae": 0.0
+        },
+        {
+          "lag": 13,
+          "seconds": 1.3003236934816447,
+          "mae": 0.0
+        },
+        {
+          "lag": 14,
+          "seconds": 1.4004939201158078,
+          "mae": 0.0
+        },
+        {
+          "lag": 15,
+          "seconds": 1.5006894242798443,
+          "mae": 0.0
+        },
+        {
+          "lag": 16,
+          "seconds": 1.6011723327089082,
+          "mae": 0.0
+        },
+        {
+          "lag": 17,
+          "seconds": 1.7013162554358132,
+          "mae": 0.0
+        },
+        {
+          "lag": 18,
+          "seconds": 1.801055670091459,
+          "mae": 0.0
+        },
+        {
+          "lag": 19,
+          "seconds": 1.9009078920491793,
+          "mae": 0.0
+        },
+        {
+          "lag": 20,
+          "seconds": 2.00087826680101,
+          "mae": 0.0
+        }
+      ],
+      "best_cycle_candidate": {
+        "lag": 13,
+        "seconds": 1.3003236934816447,
+        "mae": 0.0
+      },
+      "cycle_to_nonlocal_error_ratio": 0.0,
+      "time_varying": 0.0,
+      "metadata_sha256": "153026580775acf3ab2f219940f03a659fbb67b05ee1a10946f9043307a3cbb8",
+      "burst_manifest_sha256": "8c7e2e6a599d31fb17d09a414da40b29614280db38b2d0541ab0c1ac911c8f53",
+      "screenshots": {
+        "mm8_liquid_tar_flying_x1_cycle_000.png": "01ceeb5d160d0a9bc92bffec0d5180c2b91b7636876ab5154061c9f63c839595",
+        "mm8_liquid_tar_flying_x1_cycle_001.png": "3c32ea1e6d8f59cd468b1c05a07b09ac4fb56b9c5d5aeb4fbee84753ee61eddc",
+        "mm8_liquid_tar_flying_x1_cycle_002.png": "a250c3e775bdeacb128ca21903269a97bc2310096e226e0b0f766de7d02030a9",
+        "mm8_liquid_tar_flying_x1_cycle_003.png": "4600ef4172b9e2d19217186a55399fd65e9f219e1caea4f35cc2ae132e51dfb6",
+        "mm8_liquid_tar_flying_x1_cycle_004.png": "33fafe7741ccd131d48cf1bb2559f7bfc16bcca6e7e2333ccf7be5c794bdf0ef",
+        "mm8_liquid_tar_flying_x1_cycle_005.png": "60ba9bbc62f68b855419fed1957b93509bcff547a26b1486c9bfa65dc2881937",
+        "mm8_liquid_tar_flying_x1_cycle_006.png": "1fc0d5396cc93d9983a507a4187d8072d5e3c669c8b6fbbf016610daadf26c81",
+        "mm8_liquid_tar_flying_x1_cycle_007.png": "1d9bef50eb82e053b7ec06f4339a6f188a3ea104fa5f5834f7503bc75daae559",
+        "mm8_liquid_tar_flying_x1_cycle_008.png": "b3bf8cdc441f0cc8fccdca2cdb8915174cd979bc73264251e7946eebedf78b13",
+        "mm8_liquid_tar_flying_x1_cycle_009.png": "280d19e3b4f485f83cdd3ee3e89c8e4d848744737e6cf45006f2f48730b1c41d",
+        "mm8_liquid_tar_flying_x1_cycle_010.png": "423414bf8b0266a0e46f8fd94ebdc8eebcf596476bc2a5bf5484b84f7468ef73",
+        "mm8_liquid_tar_flying_x1_cycle_011.png": "66a5e27c4422546b3ffdeaf62570bea1771e71e4c4ecc67e779adac5984f04dc",
+        "mm8_liquid_tar_flying_x1_cycle_012.png": "61a88e63359fa8b8f0a4dfaaac365402802c518931941e9df664a07e5d968fdf",
+        "mm8_liquid_tar_flying_x1_cycle_013.png": "744f2161e975b137ee32db2b2ef35c05a7353c89f25a57b8dafd669d5d0f0c64",
+        "mm8_liquid_tar_flying_x1_cycle_014.png": "e91842dd19017db508a4c11a058ddfb12efa454de850a941a5c33032df8db7bd",
+        "mm8_liquid_tar_flying_x1_cycle_015.png": "5ac8be7cb0c0cf83244af3d9c4c3d91a23cbf4df19c33bc1a0cf9a257638c793",
+        "mm8_liquid_tar_flying_x1_cycle_016.png": "7d2a426f2c9cc5040fbe0bc615f635a080a759763b9426fdb2652d5527d0826d",
+        "mm8_liquid_tar_flying_x1_cycle_017.png": "a7f48c4624f87c77bbca71024c37088b471d2ab2a0b4c9531200da6554a523ba",
+        "mm8_liquid_tar_flying_x1_cycle_018.png": "8d329f52ec37316f64d570a335942e6de204e8e06ece7f89851b0fe8b76b4bd4",
+        "mm8_liquid_tar_flying_x1_cycle_019.png": "ab366c7e09c88355e8f1492fc3ccc7a5e7789bcc8ec594f01f9c5a309c43d707",
+        "mm8_liquid_tar_flying_x1_cycle_020.png": "2aec2ca11dcf0d41b6008fdef0d797b0beb02d7ef1663690cb3b3ac12df36a0a",
+        "mm8_liquid_tar_flying_x1_cycle_021.png": "790002a345d5c2ae480f209268eeda60539ea3e8a217ede77a340fb4d698262d",
+        "mm8_liquid_tar_flying_x1_cycle_022.png": "50a323c0b010d108474a3470317b5d6c81a581eb6f0d389ce52a50c3f532a9ac",
+        "mm8_liquid_tar_flying_x1_cycle_023.png": "bc090c8391caef893dc055f9949f9dffcb3c021f4d7f528cef450a141690d210",
+        "mm8_liquid_tar_flying_x1_cycle_024.png": "254f4c8a6643be2534945124fa58f869622da3a89f736bedc825b2d7e50ad3ed",
+        "mm8_liquid_tar_flying_x1_cycle_025.png": "825e964a49446893a58d876c88436a1120affe4eacee23652e9e0c47f4e7b3b4",
+        "mm8_liquid_tar_flying_x1_cycle_026.png": "110522f6662f73d7a2bbff8408b3b8c1a35d4d7b0bd9304fa0b8ac42b5a95326",
+        "mm8_liquid_tar_flying_x1_cycle_027.png": "65bfc5006a89b147efa972e50fb332d0801f1ac90ac392d720f4e8642af4847f",
+        "mm8_liquid_tar_flying_x1_cycle_028.png": "fe1a5718794d6bd24c55260629dc937d6e4b0e2abbc189b35bb8869fedb0e85e",
+        "mm8_liquid_tar_flying_x1_cycle_029.png": "d09307089c52f119673be7616c72e57adbd1fea74610a034b30cd6e4b06e1557",
+        "mm8_liquid_tar_flying_x1_cycle_030.png": "89608baf6e14c8eb7d36a0aa48e6be27ddb6c2c49d8a6c0152f86bad27d49256",
+        "mm8_liquid_tar_flying_x1_cycle_031.png": "8d0efd05f1daac9f734c50a76cbbe5102d720d74014a5609a6bfa2d08f118aea",
+        "mm8_liquid_tar_flying_x1_cycle_032.png": "94a1d252cbb93cf0e2d87e8d15095b900f90e0553cccf8a92950e4539fcf04f6",
+        "mm8_liquid_tar_flying_x1_cycle_033.png": "0cf25ba24fac82959ce37a6b881a16fc4aa3ae59358f56d5bbf2db1708dd49b1",
+        "mm8_liquid_tar_flying_x1_cycle_034.png": "9cde22c5fe3cc2ac299147b3f60f162e31346b898fdd2c4c094623615b633906",
+        "mm8_liquid_tar_flying_x1_cycle_035.png": "15622e683f28a679c4ae9060253ec759547bb553771ae38349c5be71bafe4181",
+        "mm8_liquid_tar_flying_x1_cycle_036.png": "afb7bbd263abe65f45b32504853d05a136943c1bbd6e92211bda2d2d34783d04",
+        "mm8_liquid_tar_flying_x1_cycle_037.png": "4f1cd7551472f939b4001cca880894dff3f4b1f1d490430914d1d27c18381641",
+        "mm8_liquid_tar_flying_x1_cycle_038.png": "3fc825b89544dffa57653daa4b5a7c05c27ada32fd180885b92a4d4463bb95d0",
+        "mm8_liquid_tar_flying_x1_cycle_039.png": "f3483713b9fe2051f4db03104963fbee882c0ff2b63a749275abc7a9dc90fe59"
+      }
+    },
+    "tar_x2": {
+      "captured_frames": 40,
+      "elapsed_seconds": 3.907724390999647,
+      "roi": [
+        320,
+        420,
+        1200,
+        840
+      ],
+      "temporal_steps": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "lag_errors": [
+        {
+          "lag": 1,
+          "seconds": 0.10019806130768326,
+          "mae": 0.0
+        },
+        {
+          "lag": 2,
+          "seconds": 0.19998203268455414,
+          "mae": 0.0
+        },
+        {
+          "lag": 3,
+          "seconds": 0.29989765794645695,
+          "mae": 0.0
+        },
+        {
+          "lag": 4,
+          "seconds": 0.39995485513969065,
+          "mae": 0.0
+        },
+        {
+          "lag": 5,
+          "seconds": 0.49996635937215095,
+          "mae": 0.0
+        },
+        {
+          "lag": 6,
+          "seconds": 0.6002166095003143,
+          "mae": 0.0
+        },
+        {
+          "lag": 7,
+          "seconds": 0.700319853000992,
+          "mae": 0.0
+        },
+        {
+          "lag": 8,
+          "seconds": 0.8005693583136235,
+          "mae": 0.0
+        },
+        {
+          "lag": 9,
+          "seconds": 0.9007734042271266,
+          "mae": 0.0
+        },
+        {
+          "lag": 10,
+          "seconds": 1.00093957533536,
+          "mae": 0.0
+        },
+        {
+          "lag": 11,
+          "seconds": 1.1006114491058818,
+          "mae": 0.0
+        },
+        {
+          "lag": 12,
+          "seconds": 1.20085706953874,
+          "mae": 0.0
+        },
+        {
+          "lag": 13,
+          "seconds": 1.3009184266697116,
+          "mae": 0.0
+        },
+        {
+          "lag": 14,
+          "seconds": 1.401225259003695,
+          "mae": 0.0
+        },
+        {
+          "lag": 15,
+          "seconds": 1.5015989560435992,
+          "mae": 0.0
+        },
+        {
+          "lag": 16,
+          "seconds": 1.6017533629625784,
+          "mae": 0.0
+        },
+        {
+          "lag": 17,
+          "seconds": 1.7020141598312994,
+          "mae": 0.0
+        },
+        {
+          "lag": 18,
+          "seconds": 1.8020817416876194,
+          "mae": 0.0
+        },
+        {
+          "lag": 19,
+          "seconds": 1.9023640132924942,
+          "mae": 0.0
+        },
+        {
+          "lag": 20,
+          "seconds": 2.002193896657263,
+          "mae": 0.0
+        }
+      ],
+      "best_cycle_candidate": {
+        "lag": 13,
+        "seconds": 1.3009184266697116,
+        "mae": 0.0
+      },
+      "cycle_to_nonlocal_error_ratio": 0.0,
+      "time_varying": 0.0,
+      "metadata_sha256": "6f7147be0c0a948ad0193b42ab2853c966059181798e7e1600c3dd6cdcf0f1a7",
+      "burst_manifest_sha256": "4eca5c93bfbb88bc44f48e5edaadb406dc7a77e22d1530b220ec929c62297852",
+      "screenshots": {
+        "mm8_liquid_tar_flying_x2_cycle_000.png": "b0a9f49e80e8f64b90698359ef9548f0bfeeaff7760706e4b10d47be79620281",
+        "mm8_liquid_tar_flying_x2_cycle_001.png": "3293042a444cc3f9079877e6d3a6d8bec452aade52ff6ad0a9b5f6a08a16ce36",
+        "mm8_liquid_tar_flying_x2_cycle_002.png": "3bc20ac554957ef8074023750a000742d7e6fc3646b82ab2454c235d83ad7298",
+        "mm8_liquid_tar_flying_x2_cycle_003.png": "26ffcddf1057d12f5678bc1be9fcbaba0aa354238781532df6130b18753e1ec2",
+        "mm8_liquid_tar_flying_x2_cycle_004.png": "41fd3541ddabdc8cca177c570a228ed7e73a89cdd2c673a10e6f86b0369f84fe",
+        "mm8_liquid_tar_flying_x2_cycle_005.png": "ae20cb3b4d172ccb0dc89a81636ccd4649febc81c3f1e20a4c854ecc0db4acca",
+        "mm8_liquid_tar_flying_x2_cycle_006.png": "bf16d2d47fb8cf5626ff2a5ad705dc463a9372a150adc2401aff953e8fb4ff2c",
+        "mm8_liquid_tar_flying_x2_cycle_007.png": "58ed5df6cc1a51fd8f0d75b3e74b9a44bbc0f47e91f04fa836c896c907f4c333",
+        "mm8_liquid_tar_flying_x2_cycle_008.png": "b34c01d014bffdc866f1ad60c0a425af55d699ff541e4c43975defaa8739d5ac",
+        "mm8_liquid_tar_flying_x2_cycle_009.png": "3f8200e68859ea50076607751accd9d45d9bceb20d981787464f5bfb580e54a5",
+        "mm8_liquid_tar_flying_x2_cycle_010.png": "55441f644d88909a44778bff066b47213f635607234b8210117aeb83483f447e",
+        "mm8_liquid_tar_flying_x2_cycle_011.png": "cbcd64a49849fe57bc20dff445a024e4c654bd481bf7c050c58c97c57d6a4af1",
+        "mm8_liquid_tar_flying_x2_cycle_012.png": "8e2b65d15a1dd17eed2a20ea60003095674f0a6dea42110822c547b5b5de24e8",
+        "mm8_liquid_tar_flying_x2_cycle_013.png": "3e7b531e8a9932141e767668b59a076d3ff7d51617587c2c398908a6e7fe297b",
+        "mm8_liquid_tar_flying_x2_cycle_014.png": "2389bc9ebc97e317bcdd985c323c113c5426e26e3877fbcce0b211efc3f8a047",
+        "mm8_liquid_tar_flying_x2_cycle_015.png": "14c041c3a219541494f80acbd5a8274f014204a1ab568c636cd124cfea769d9c",
+        "mm8_liquid_tar_flying_x2_cycle_016.png": "8cfc145409edfa95090d9b02c3c0d4bf2dd8506b4b79fdcfdfa4be6e0c637e91",
+        "mm8_liquid_tar_flying_x2_cycle_017.png": "7c90dd8b10908e5db68b0dbf255bcd6e64008c1018aa0f624d4c0b7ba194f015",
+        "mm8_liquid_tar_flying_x2_cycle_018.png": "19dd8007a63419ffd14b8575479fff5b387fd3d69b7ef18a28634eb0f0067378",
+        "mm8_liquid_tar_flying_x2_cycle_019.png": "b7ffed94984c4157f59dd8e201c47d67538f2c239652bf0334d3ca3d2631de14",
+        "mm8_liquid_tar_flying_x2_cycle_020.png": "ff64fb312db3d4819ccb9e5fcc8004ffe8a6915a1e8019cc6af40dbe948d3ec1",
+        "mm8_liquid_tar_flying_x2_cycle_021.png": "9245be737dcad8bbc00f24287b00f66694b877248e145c89ad80dd4d9cf82ac4",
+        "mm8_liquid_tar_flying_x2_cycle_022.png": "14b2b9f296b251ede24133c8b69f91ebc1b58bb278a54a677f848d7870462d42",
+        "mm8_liquid_tar_flying_x2_cycle_023.png": "603a2941c84e9058b063577fba88dcddf8277445dc1effde0b2095f6afc45bb6",
+        "mm8_liquid_tar_flying_x2_cycle_024.png": "90db4373549d13de86d8377be944c9256c62865f89472a251ce26586628e685f",
+        "mm8_liquid_tar_flying_x2_cycle_025.png": "414b16094fbe3033d738518de04cb559354a23157259f87f1099389ab965a619",
+        "mm8_liquid_tar_flying_x2_cycle_026.png": "127e5725a30cecbfea067cc3c2ae882f0a61c1cf2da154c743ed8dae192cbf42",
+        "mm8_liquid_tar_flying_x2_cycle_027.png": "d3268a25a7be05929c4acc654d198b348fa78e6c93b572cb76dfb6d06d28748d",
+        "mm8_liquid_tar_flying_x2_cycle_028.png": "beb7f8ae36f7b1bebef11bf600c54db19f09e614f63f0f903229d251d2ba69a7",
+        "mm8_liquid_tar_flying_x2_cycle_029.png": "cbef0cf827ceb062e6f731225b58c476ca78e5c208e4335af50508a95a7c9f40",
+        "mm8_liquid_tar_flying_x2_cycle_030.png": "fe991bad406739efd45d8cd5d99f4dd0d349d33b8ccf7e710e3308f418566f90",
+        "mm8_liquid_tar_flying_x2_cycle_031.png": "ed6018b7d8a6e3a4e30f1b730a866764ab1866fa5011fbdcefdab6f9f511a214",
+        "mm8_liquid_tar_flying_x2_cycle_032.png": "6cab3f7b57c312121b8a85f7e024064a2ef28ff16ba242ba869d370926dc0e2a",
+        "mm8_liquid_tar_flying_x2_cycle_033.png": "883d2b6a198b143d31d5a61dcc7a923805f26034bdbb51a2eab7e1825a96a2ca",
+        "mm8_liquid_tar_flying_x2_cycle_034.png": "c2faf7c0cb37964e3e352e65acc45101d14f56b0a4214b8fb80bf37e8518386f",
+        "mm8_liquid_tar_flying_x2_cycle_035.png": "1814a24aae28ab5181f402df275e43472f93f9a81dc73905bad5ae6ae788066c",
+        "mm8_liquid_tar_flying_x2_cycle_036.png": "f53d5ee66cb52827fbc21ae25ebb34cd5c7571cba7b3ffa01e1279643701131b",
+        "mm8_liquid_tar_flying_x2_cycle_037.png": "44d65db3624eae8944ced85e43b1846e4003604e719736238ff9bb1d58016f13",
+        "mm8_liquid_tar_flying_x2_cycle_038.png": "9f8c8f52187d3bdd30f244e860854d777ddacc80f6742ab9b2725b4c453df8ed",
+        "mm8_liquid_tar_flying_x2_cycle_039.png": "b32b009397f8b236676fcbfd37f5f0e040e71e1ea721243339543fe61757da26"
+      }
+    }
+  },
+  "build_sha256": "a14f784a6013fc7615f557b5a69f3ab4f6ea5e6bd5163b24b3d063d2c4260687",
+  "comparison_sha256": "d3df2815f81443930ab80959e2d43a8b4bbe1a1102a9afad7128840e942c6c59",
+  "script_sha256": "9982f5898c6c9b038748b54c8ae5121086e5e78474680f109e65af8782361e18"
+}

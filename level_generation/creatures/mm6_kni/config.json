@@ -1,0 +1,21 @@
+{
+  "family": "kni",
+  "title": "MM6 Plate Knight",
+  "descriptor_ids": [
+    565,
+    566,
+    567
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 760,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original MM6 plate knight A: fully enclosed near-black steel armor, narrow tall dark helmet with two thin upward-curving silver horns framing the face, dark faceplate, layered silver-grey breastplate and dark metal skirt. Original ornate rounded shoulder armor, spiked gauntlets, fitted dark greaves and boots. Muted blue-violet accents on collar/shoulder curls, elbow and knee joints, small belt fitting and blade handle. Holds the short broad curved grey sword across his waist in his right hand (image left), with original small rectangular notches near the blade root. Preserve the exact native proportions, silhouette, spike/horn count, weapon size and pose. No glowing eyes, extra weapons, giant shoulders, cape or newly invented decoration. Keep the native dark almost-black tonal weight and limited silver highlights. Preserve the original long black hair/helmet mane falling down the back to the waist, especially rear views; it is part of the native silhouette, not a cape.",
+  "regions": "Separate blue-violet accents and neutral material palette shifts, protecting warm grip/fittings",
+  "variant_names": {
+    "760": "Plate Knight A / blue-violet accents",
+    "761": "Plate Knight B / red accents",
+    "762": "Plate Knight C / brass accents"
+  },
+  "material_module": "materials.py"
+}

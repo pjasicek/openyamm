@@ -1,0 +1,64 @@
+# Start with the d01_after_power scenario save to include the work gang.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d01/review/monsters
+settle_seconds: 2
+exit: true
+shots:
+- name: custodian
+  position:
+  - 2400
+  - 3000
+  - -768
+  yaw: 3.141592653589793
+  pitch: 0
+  commands:
+  - immortal on
+  - invisible on
+- name: concourse_drones
+  position:
+  - 1500
+  - 4100
+  - 0
+  yaw: 0
+  pitch: 0
+- name: customs_turrets
+  position:
+  - 7300
+  - 4100
+  - 0
+  yaw: 0.65
+  pitch: 0
+- name: claim_crawlers
+  position:
+  - 3200
+  - 2650
+  - 0
+  yaw: -1.5707963267948966
+  pitch: -0.25
+- name: sorting_nest
+  position:
+  - 5800
+  - 2036
+  - 0
+  yaw: 0
+  pitch: 0
+- name: plant_guards
+  position:
+  - 4900
+  - 2800
+  - -768
+  yaw: 2.8
+  pitch: 0
+- name: tower_drones
+  position:
+  - 4000
+  - 7800
+  - 768
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: power_on_work_gang
+  position:
+  - 4400
+  - 4100
+  - 0
+  yaw: 2.3
+  pitch: 0

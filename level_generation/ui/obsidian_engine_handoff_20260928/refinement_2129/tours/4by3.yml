@@ -1,0 +1,10 @@
+output_dir: /tmp/obsidian-2129-4by3
+exit: true
+steps:
+- wait: 2
+- capture: gameplay
+- action: combat
+- capture: turn-based
+- action: combat
+- action: quest
+- capture: inventory

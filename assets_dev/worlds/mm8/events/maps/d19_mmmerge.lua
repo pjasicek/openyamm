@@ -1,5 +1,13 @@
 -- MMMerge supplement: Dyson checks are relaxed for invisibility and transformer completion.
 
+-- OpenYAMM: the guild's Skeleton Archers (faction 58, monsters 172-174) start peaceful toward the party, like the
+-- necromancers and vampires beside them, though hostile.txt has them hostile. All of them spawn in actor group 10, so
+-- the guild's own hostility events (the transformer room door, forcing the inner doors, QBit 20 or 229 on load) still
+-- turn them hostile with the rest of the guild.
+SetLocalFactionRelations({
+    {58, 0, 0},
+})
+
 local function applySkeletonTransformerDestroyedState()
     evt.SetFacetBit(30, FacetBits.Untouchable, 1)
     evt.SetFacetBit(30, FacetBits.Invisible, 1)

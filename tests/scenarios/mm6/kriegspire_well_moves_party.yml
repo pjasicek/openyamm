@@ -1,0 +1,18 @@
+id: mm6.kriegspire_well_moves_party
+title: "MM6 Kriegspire (outb1): the western well's +30 levels move the party to the dragonflies it summons"
+world: mm6
+mode: faithful
+tags: [mm6, events, regression]
+steps:
+  - note:
+      text: >-
+        OY-516: event 102 summons four pairs of dragonflies at fixed points in the frozen waste north of town, as the
+        original does. The well now also moves the party into the middle of them (outb1_mmmerge.lua).
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: outb1.odm}
+  - advance_runtime: {seconds: 1}
+  - execute_event: {id: 102}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      party_position: {x: -11900, y: 18750, radius: 96}
+      actor_visible: {actor_index: last, has_detected_party: true, report_state: true}

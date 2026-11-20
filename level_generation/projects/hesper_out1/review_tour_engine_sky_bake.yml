@@ -1,0 +1,164 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/engine_sky_bake
+exit: true
+settle_seconds: 3
+shots:
+- name: apron_clear
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 0.0
+  pitch: 0.02
+- name: street_clear
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -14420
+  - -15790
+  - 1478
+  yaw: -0.5358
+  pitch: 0.05
+- name: creep_g4_1940
+  time: '19:40'
+  commands:
+  - weather clear
+  position:
+  - 12900
+  - 1780
+  - 1392
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_h4_1200
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - 18084
+  - 2068
+  - 1424
+  yaw: 0.6327
+  pitch: -0.2118
+- name: landfall_aerial
+  time: '15:00'
+  commands:
+  - weather clear
+  position:
+  - -9000
+  - -9000
+  - 4200
+  yaw: -2.36
+  pitch: -0.45
+- name: sky_2300_moon
+  time: '23:00'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 0.0
+  pitch: 0.45
+- name: sky_0200_moon
+  time: 02:00
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 3.14159
+  pitch: 0.45
+- name: sky_0530_east
+  time: 05:30
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 0.0
+  pitch: 0.25
+- name: sky_1200_west
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 3.14159
+  pitch: 0.25
+- name: sky_2040_east
+  time: '20:40'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 0.0
+  pitch: 0.3
+- name: sky_2300_ring_east
+  time: '23:00'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 0.0
+  pitch: 0.6
+- name: sky_2310_ring_west
+  time: '23:10'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 3.14159
+  pitch: 0.6
+- name: sky_2320_ring_east
+  time: '23:20'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 0.0
+  pitch: 0.6
+- name: sky_2330_ring_west
+  time: '23:30'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 3.14159
+  pitch: 0.6
+- name: sky_2340_ring_east
+  time: '23:40'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 0.0
+  pitch: 0.6
+- name: sky_2350_ring_west
+  time: '23:50'
+  commands:
+  - weather clear
+  position:
+  - -3456
+  - 2880
+  - 1460
+  yaw: 3.14159
+  pitch: 0.6

@@ -1,0 +1,27 @@
+{
+ "creature_3d_identity": "mm7:m302",
+ "meshy": {
+  "jobs": {},
+  "credit_limit": 1
+ },
+ "scope": "Triangle reduction of the batch J model m302 (RETOPOLOGY_PLAYBOOK default route, no retexture); not installed",
+ "source": {
+  "body": "work/mm7_m302_source_pre_reduce.glb",
+  "club": "work/mm7_m302_club_source_pre_reduce.glb",
+  "from": "../mm7_m302_claude/export/"
+ },
+ "selected": {
+  "export/mm7_m302.glb": "9b15b58a840e05aa823e3da731d15a28ceb90c5caa5ae68220437bd1f4ed1689",
+  "export/mm7_m302_club.glb": "9441db2698dcc6793435df984ff21aaf32bf6622eb4d3c4da06a4b12b88f1080",
+  "work/mm7_m302_source_pre_reduce.glb": "97b7090cbe9e32089ba72052c8137d6ff47707845f675ea93c9748fba85e8ced"
+ },
+ "status": {
+  "stage": "exported",
+  "lod0": "10429 -> 8755",
+  "lods": "4376 / 1837 / 612",
+  "pick": "set d/e, shared cut 83 % (Cand_83 of work/ladder_e.blend)",
+  "meshy_credits": 0,
+  "install": "not done (batch J rule)",
+  "user_review": "pending"
+ }
+}

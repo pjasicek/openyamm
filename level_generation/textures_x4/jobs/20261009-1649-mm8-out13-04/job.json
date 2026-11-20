@@ -1,0 +1,436 @@
+{
+ "id": "20261009-1649-mm8-out13-04",
+ "world": "mm8",
+ "maps": [
+  "out13.odm",
+  "eleme.blv"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t09b11b",
+  "mm8/t1cabs",
+  "mm8/t22a01",
+  "mm8/t66abc11a",
+  "mm8/t66floor",
+  "mm8/t68a02b",
+  "mm8/t68a03a",
+  "mm8/t68a03b",
+  "mm8/t68a10a",
+  "mm8/t68a11",
+  "mm8/trim1_16",
+  "mm8/trim1_16a",
+  "mm8/trim9_32",
+  "mm8/trim9_32a",
+  "mm8/trimd",
+  "mm8/trimda",
+  "mm8/ygtempw1",
+  "mm8/gnecwal1",
+  "mm8/t06a03",
+  "mm8/gcav2flr",
+  "mm8/gcav2wal",
+  "mm8/gnecdr4l",
+  "mm8/gnecdr4r",
+  "mm8/gnecflr"
+ ],
+ "requests": {
+  "mm8/t09b11b": {
+   "name": "t09b11b",
+   "versions": [
+    1
+   ],
+   "material": "horizontal grey stone cornice with parallel carved mouldings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1cabs": {
+   "name": "t1cabs",
+   "versions": [
+    1
+   ],
+   "material": "golden-brown oak wood board with long straight vertical grain and knots",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t22a01": {
+   "name": "t22a01",
+   "versions": [
+    1
+   ],
+   "material": "small tan sandstone bricks in staggered courses with pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66abc11a": {
+   "name": "t66abc11a",
+   "versions": [
+    1
+   ],
+   "material": "horizontal dark reddish-brown wooden beam with straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66floor": {
+   "name": "t66floor",
+   "versions": [
+    1
+   ],
+   "material": "wide vertical reddish-brown wooden floor planks with dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t68a02b": {
+   "name": "t68a02b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-black rough volcanic rock with pale grey mineral streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.5,
+    "3": 3.0
+   }
+  },
+  "mm8/t68a03a": {
+   "name": "t68a03a",
+   "versions": [
+    1
+   ],
+   "material": "rough blue-grey stucco wall with lumpy texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t68a03b": {
+   "name": "t68a03b",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-blue speckled granite stone surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t68a10a": {
+   "name": "t68a10a",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown wood grain, vertical",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t68a11": {
+   "name": "t68a11",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown wood grain, horizontal",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/trim1_16": {
+   "name": "trim1_16",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown wood grain, vertical",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/trim1_16a": {
+   "name": "trim1_16a",
+   "versions": [
+    1
+   ],
+   "material": "weathered light brown wood grain, horizontal",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/trim9_32": {
+   "name": "trim9_32",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown wood grain, vertical",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/trim9_32a": {
+   "name": "trim9_32a",
+   "versions": [
+    1
+   ],
+   "material": "weathered light brown wood grain, horizontal",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/trimd": {
+   "name": "trimd",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown vertical wooden planks with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/trimda": {
+   "name": "trimda",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown horizontal wooden planks with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/ygtempw1": {
+   "name": "ygtempw1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream-yellow lumpy plaster with fine cracks, slightly glossy",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/gnecwal1": {
+   "name": "gnecwal1",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal grey rough rock with fine crackled pale grey veins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t06a03": {
+   "name": "t06a03",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rounded grey river cobblestones in dark mortar beside a dark carved oak door frame with an iron-barred window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a01"
+     ],
+     "fraction": 0.187
+    },
+    "2": {
+     "sources": [
+      "mm8/t06a01"
+     ],
+     "fraction": 0.187
+    }
+   }
+  },
+  "mm8/gcav2flr": {
+   "name": "gcav2flr",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal grey rough broken rock floor, chunky and gritty",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcav2wal": {
+   "name": "gcav2wal",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal grey cave rock wall with diagonal layered strata",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecdr4l": {
+   "name": "gnecdr4l",
+   "versions": [
+    1
+   ],
+   "material": "black iron door with a lattice of studded diagonal straps, a skull boss in the centre and riveted borders",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecdr4r": {
+   "name": "gnecdr4r",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "black iron door with a lattice of studded diagonal straps, a skull boss in the centre and riveted borders",
+   "notes": {
+    "3": "keep the small diamond lattice exactly as dense as in the reference: the same number of diamonds and studs"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gnecdr4l",
+     "right": "mm8/gnecwal4"
+    },
+    "3": {
+     "left": "mm8/gnecdr4l",
+     "right": "mm8/gnecwal4"
+    }
+   }
+  },
+  "mm8/gnecflr": {
+   "name": "gnecflr",
+   "versions": [
+    1
+   ],
+   "material": "grey stone floor of interlocking hexagonal carved tiles with bronze-brown outlines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

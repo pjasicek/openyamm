@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm8_m428_claude/references_hd/00_three_quarter.png), rejected `primary_v1.png`, and [generation_runs.json](level_generation/creatures/mm8_m428_claude/references_hd/generation_runs.json).
+
+Used built-in image generation with one corrective regeneration. The selected return still fails transparency and some costume checks; these are documented. No views 01–04 generated.

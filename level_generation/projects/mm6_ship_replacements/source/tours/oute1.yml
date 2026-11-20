@@ -1,0 +1,60 @@
+output_dir: ../../review/oute1
+settle_seconds: 1.5
+exit: true
+shots:
+- name: tigershark_overview
+  position:
+  - 9332
+  - 10100
+  - 1412
+  yaw: 3.7615926535897932
+  pitch: -0.3
+- name: tigershark_boarding
+  position:
+  - 6360
+  - 8498
+  - 176
+  yaw: 4.71238898038469
+  pitch: -0.2
+- name: tigershark_return
+  position:
+  - 6360
+  - 7952
+  - 105
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: tigershark_cabin
+  position:
+  - 6136
+  - 7800
+  - 105
+  yaw: 3.141592653589793
+  pitch: 0
+- name: cirrus_overview
+  position:
+  - -564
+  - -6972
+  - 1412
+  yaw: 2.1907963267948967
+  pitch: -0.3
+- name: cirrus_boarding
+  position:
+  - -2166
+  - -4000
+  - 176
+  yaw: 3.141592653589793
+  pitch: -0.2
+- name: cirrus_return
+  position:
+  - -2712
+  - -4000
+  - 105
+  yaw: 0.0
+  pitch: -0.12
+- name: cirrus_cabin
+  position:
+  - -2864
+  - -3776
+  - 105
+  yaw: 1.5707963267948966
+  pitch: 0

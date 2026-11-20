@@ -1,0 +1,71 @@
+# MM9 promotion playthrough, segment 09: the three labours handed in to Fridleif Gjukissen (guide: side_a.yml, the
+# three labours' last steps). To Sturmford, the city's land gate, Fridleif upstairs in the town hall. His talk's open
+# (NPC61.scr, handler 53833) sees the Basilisk Skin with the labours taken and gives key 215; "We have the Basilisk
+# Skin" (218), "We have Kira's Shield" (219), "We have won in the Arena." (220), then "We've completed all the
+# labors." (26). The talk's close (handler 50833) pays key 221, 37 500 experience to every member and 5 000 gold,
+# takes Kira's Shield and promotes every member of the Gladiator lines (MM9.promoteParty): this party has no
+# Cavalier, Initiate, Minotaur, Troll or Dragon, so nobody is promoted. Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 09
+id: mm9.promotions.09_gladiator_done
+title: "MM9 promotions 09: the Gladiator labours handed in: rewards paid, nobody promoted"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/07_arena_lord.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90214, 90216, 90217], qbit_clear: [90218, 90219, 90220, 90026, 90221]}
+  - play_lua: {source: 'if not (has_item(10380) and has_item(10375)) then error("no Basilisk Skin or Kira''s Shield") end'}
+
+  # To Sturmford, into the city by the land gate.
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # Fridleif: the three labours, then the completion.
+  - set_pose: {map: sturmfordcity.blv, x: 5560, y: 4603, z: 20565, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  # Gold, experience and classes before the hand-in, remembered for the checks after it.
+  - play_lua:
+      source: |
+        remember("gold", gold()); remember("classes", classes())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        log("BEFORE: gold " .. gold() .. ", classes " .. classes())
+  - interact_actor: {actor_index: 31}
+  - select_topic: {match_label: "We have the Basilisk Skin"}
+  - select_topic: {match_label: "Thanks."}
+  - select_topic: {match_label: "We have Kira's Shield"}
+  - select_topic: {match_label: "Thanks."}
+  - select_topic: {match_label: "We have won in the Arena."}
+  - select_topic: {match_label: "We've completed all the labors."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90215, 90218, 90219, 90220, 90026, 90221]}
+  # 5 000 gold and 37 500 experience for every member; nobody promoted; the shield taken, the skin kept.
+  - play_lua:
+      source: |
+        log("AFTER: gold +" .. (gold() - recall("gold")) .. ", classes " .. classes())
+        if gold() - recall("gold") ~= 5000 then error("the labours paid " .. (gold() - recall("gold")) .. " gold") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          log("EXPERIENCE member " .. i .. ": +" .. gain)
+          if gain ~= 37500 then error("member " .. i .. " got " .. gain .. " experience") end
+        end
+        if classes() ~= recall("classes") then error("the labours promoted someone: " .. classes()) end
+        if has_item(10375) then error("Fridleif did not take Kira's Shield") end
+        log("the skin stays in the packs: " .. tostring(has_item(10380)))
+        remember("gold", gold())
+
+  # Done: his first page now keeps "Promote our eligible characters.", which has nobody to promote yet.
+  - interact_actor: {actor_index: 31}
+  - assert: {dialog: {active: true, source_id: 61, action_label_present: "Promote our eligible characters.", action_label_absent: "We've completed all the labors."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'if classes() ~= recall("classes") or gold() ~= recall("gold") then error("the empty promotion changed something: " .. classes()) end'}
+  - save_game: {name: "P09 Gladiator labours done", path: output/playthrough/mm9/promotions/checkpoints/09_gladiator_done.oysav}

@@ -1,0 +1,18 @@
+# gate_writ skipped at about 2 s: its steps still run (key 9515, 170 000 experience as capped, Hanndl removed, the
+# Great Gate opens). README "Cinematics".
+id: mm9r.arslegardcity.cinematic_gate_writ_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: arslegardcity.blv}
+- setup_shortcut: {kind: set_qbit, id: 90098}
+- setup_shortcut: {kind: set_qbit, id: 90100}
+- advance_runtime: {seconds: 4}
+- console: {line: cinematic list, expect_contains: playing gate_writ}
+- assert: {mechanism: {id: 22, state: closed}}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 1}
+- assert: {qbit_set: [99515]}
+- assert: {mechanism: {id: 22, state: opening}}
+- assert: {mechanism: {id: 8, state: closed}}
+- assert: {actor_visible: {actor_index: 35, hidden: true}}

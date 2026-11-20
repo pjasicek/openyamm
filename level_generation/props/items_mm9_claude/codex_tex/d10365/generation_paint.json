@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference. Output ONE transparent PNG, 1536x2048 (3:4). Preserve the guide exactly: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain the same five orthographic model renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint existing grey objects only. Never redraw, enlarge, move, rotate or redesign them. Every silhouette, position, size, gap and opening must match the guide. Do not replace the unusual end-on or side-on views with upright gloves.\nRows 1-2: unlit base colour of soft KNITTED WOOL gloves, matte red yarn with visible knit/stitch texture and one white knitted stripe near each cuff end, matching references. The whole glove including cuffs and interior is wool. Follow the exact rendered geometry and put the stripe consistently around the cuff across views. Use reference material detail scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines or text.\nRows 3-4: same five silhouettes filled entirely with FLAT PURE BLUE #0000FF because every part is cloth, including white stripe and red wool. No shading, texture, outlines or antialiased colour blends inside. Material classification palette is red #FF0000 metal, green #00FF00 leather/fur, blue #0000FF cloth/hair, black #000000 glass/gems/liquid; this item is entirely cloth so use BLUE ONLY for lower silhouettes.\nKeep all background and gaps fully transparent. Column 3 of rows 2 and 4 remains completely empty and transparent. Layout/outline preservation is critical.\nCORRECTIVE GENERATION: The previous attempt had blue splatter/noise outside silhouettes. This must be eliminated. Treat the guide alpha as an exact hard boundary, preserving smooth clean silhouettes. Lower half is a clean segmentation mask, absolutely no particles, fuzz, scribbles, outlines, stray pixels or texture. Fill ONLY original guide silhouettes pure blue. Keep original guide placement and shapes exactly. Upper half also must have clean exact edges, no red flecks outside. Produce crisp transparent background.",
+  "initial_prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference. Output ONE transparent PNG, 1536x2048 (3:4). Preserve the guide exactly: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain the same five orthographic model renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint existing grey objects only. Never redraw, enlarge, move, rotate or redesign them. Every silhouette, position, size, gap and opening must match the guide. Do not replace the unusual end-on or side-on views with upright gloves.\nRows 1-2: unlit base colour of soft KNITTED WOOL gloves, matte red yarn with visible knit/stitch texture and one white knitted stripe near each cuff end, matching references. The whole glove including cuffs and interior is wool. Follow the exact rendered geometry and put the stripe consistently around the cuff across views. Use reference material detail scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines or text.\nRows 3-4: same five silhouettes filled entirely with FLAT PURE BLUE #0000FF because every part is cloth, including white stripe and red wool. No shading, texture, outlines or antialiased colour blends inside. Material classification palette is red #FF0000 metal, green #00FF00 leather/fur, blue #0000FF cloth/hair, black #000000 glass/gems/liquid; this item is entirely cloth so use BLUE ONLY for lower silhouettes.\nKeep all background and gaps fully transparent. Column 3 of rows 2 and 4 remains completely empty and transparent. Layout/outline preservation is critical.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-90f1-7bd1-9f6c-dee14e7e3e83/exec-2fd63a20-cf4d-4892-978e-e53d42cd54e3.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10365/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained, but visible stray blue pixels remain outside lower mask silhouettes; raw output preserved without postprocessing.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10365/paint_mask_guide.png",
+      "sha256": "4dd57de0a88c40525b756ed7e52a7591d510073d684e6ba3d7f50d3b047bda9a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10365/design_reference.png",
+      "sha256": "d1b988fda1190d2ae957cc4612a560dd4222f7a2ab73fdad26ec9d79aeeb181d"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10365/icon_x8.png",
+      "sha256": "fbbc5af15c4a7ed54d72705589a2dbbb7a4f5fe6c956fd652f57454086856f3d"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

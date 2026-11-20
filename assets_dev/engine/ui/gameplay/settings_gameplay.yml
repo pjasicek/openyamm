@@ -139,10 +139,31 @@ elements:
       scale: 0.43333
       pad_x: 8.5333
     notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayTabInterface
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0502
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Interface
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
   - id: SettingsGameplayTabVideo
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 164.0501
+    offset_y: 203.5169
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -163,7 +184,7 @@ elements:
   - id: SettingsGameplayTabAudio
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 203.5168
+    offset_y: 242.9836
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -184,9 +205,9 @@ elements:
   - id: SettingsGameplayTabControls
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 242.9835
+    offset_y: 282.4503
     width: 97.6
-    height: 53.3333
+    height: 34.1333
     z_index: 10
     visible: true
     interactive: true
@@ -194,7 +215,7 @@ elements:
       default: hud_x2/menus/omenu_tab.png
       selected: hud_x2/menus/omenu_tab_selected.png
     text:
-      value: Mouse & Controls
+      value: Controls
       font: fondamento
       color: '#bfc1b2'
       align_x: left
@@ -205,7 +226,7 @@ elements:
   - id: SettingsGameplayTabKeyboard
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 301.6501
+    offset_y: 321.917
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -216,6 +237,48 @@ elements:
       selected: hud_x2/menus/omenu_tab_selected.png
     text:
       value: Keyboard
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayTabGame
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Rules
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsGameplayTabUpdates
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Updates
       font: fondamento
       color: '#bfc1b2'
       align_x: left
@@ -368,7 +431,7 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Challenge
+        value: Difficulty
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -385,7 +448,7 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Exploration
+        value: Combat
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -395,14 +458,14 @@ elements:
     - id: SettingsGameplayGroup2
       anchor: top_left
       offset_x: 0.0
-      offset_y: 137.5835
+      offset_y: 277.3935
       width: 525.3333
       height: 18.1333
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Combat feedback
+        value: Fast mode
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -412,14 +475,14 @@ elements:
     - id: SettingsGameplayGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 362.0757
+      offset_y: 369.977
       width: 525.3333
       height: 18.1333
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Interaction
+        value: Turn-based combat
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -429,7 +492,41 @@ elements:
     - id: SettingsGameplayGroup4
       anchor: top_left
       offset_x: 0.0
-      offset_y: 430.8672
+      offset_y: 525.2773
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Loot
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsGameplayGroup5
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 605.5861
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Alchemy
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsGameplayGroup6
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 759.3706
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -443,11 +540,28 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
+    - id: SettingsGameplayGroup7
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 828.1626
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Saving
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
     - id: SettingsGameplayBolsterMonstersLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 25.6
-      width: 281.7248
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -464,13 +578,13 @@ elements:
       anchor: top_left
       offset_x: 1.6
       offset_y: 41.8085
-      width: 437.3333
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Scale monsters with the party. Apply when entering an area.
+        value: Monsters keep pace with the party's level. Takes effect on entering an area.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -480,7 +594,7 @@ elements:
     - id: SettingsGameplayBolsterMonstersControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 23.3796
+      offset_y: 23.3837
       width: 70.4
       height: 32.158
       z_index: 10
@@ -489,54 +603,44 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{bolster_monsters}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to features.bolster_monsters; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsGameplayQuestMarkersLabel
+    - id: SettingsGameplayMeleeHitFeedbackLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 94.392
-      width: 242.5915
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Quest markers
+        value: Melee impact feedback
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsGameplayQuestMarkersDescription
+    - id: SettingsGameplayMeleeHitFeedbackDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 110.6
-      width: 437.3333
+      offset_y: 110.6005
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Show quest markers where the game provides them.
+        value: Impact sounds by what was struck, and a brief pause of the struck creature.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsGameplayQuestMarkersControl
+    - id: SettingsGameplayMeleeHitFeedbackControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 92.1711
+      offset_y: 92.1756
       width: 70.4
       height: 32.158
       z_index: 10
@@ -545,54 +649,44 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{quest_markers}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.quest_markers; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsGameplayCombatTextLabel
+    - id: SettingsGameplayMeleeCameraKickLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 163.1835
-      width: 229.3499
+      offset_y: 133.3173
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Floating combat text
+        value: Camera kick
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsGameplayCombatTextDescription
+    - id: SettingsGameplayMeleeCameraKickDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 179.392
-      width: 437.3333
+      offset_y: 149.5258
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Show damage and combat messages in the world.
+        value: Nudge the view along the blow on critical hits and kills.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsGameplayCombatTextControl
+    - id: SettingsGameplayMeleeCameraKickControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 160.9626
+      offset_y: 131.1009
       width: 70.4
       height: 32.158
       z_index: 10
@@ -601,164 +695,44 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{combat_text}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.combat_text; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsGameplayEnemyHealthBarsLabel
+    - id: SettingsGameplayFastAttackRepeatLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 202.1083
-      width: 167.9499
+      offset_y: 172.2426
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Enemy health bars
+        value: Fast attack repeat
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsGameplayEnemyHealthBarsDescription
+    - id: SettingsGameplayFastAttackRepeatDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 218.3168
-      width: 397.2
-      height: 11.5168
+      offset_y: 188.4511
+      width: 435.7333
+      height: 23.0336
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Show the target, combatants or nearby enemies.
+        value: A held Attack or Quick Cast key repeats at once; off, a short tap acts for one character, as in the originals.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsGameplayEnemyHealthBarsControl
-      anchor: top_left
-      offset_x: 412.8
-      offset_y: 204.2336
-      width: 110.9333
-      height: 23.4667
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_text_field.png
-      text:
-        value: '{enemy_health_bars}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.enemy_health_bars; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsGameplayEnemyHealthBarValuesLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 241.0336
-      width: 143.2752
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Enemy HP values
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsGameplayEnemyHealthBarValuesDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 257.2416
-      width: 397.2
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Show current and maximum enemy health.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsGameplayEnemyHealthBarValuesControl
-      anchor: top_left
-      offset_x: 412.8
-      offset_y: 243.1589
-      width: 110.9333
-      height: 23.4667
-      z_index: 10
-      visible: true
-      interactive: true
-      asset:
-        default: hud_x2/menus/omenu_text_field.png
-      text:
-        value: '{enemy_health_bar_values}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.enemy_health_bar_values; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsGameplayEnemyHealthBarDamageTrailLabel
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 279.9584
-      width: 270
-      height: 14.0752
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Enemy damage trail
-        font: menu_arrus
-        color: '#eadfc6'
-        align_x: left
-        align_y: middle
-        scale: 0.74105
-        pad_x: 0.0
-    - id: SettingsGameplayEnemyHealthBarDamageTrailDescription
-      anchor: top_left
-      offset_x: 1.6
-      offset_y: 296.1669
-      width: 437.3333
-      height: 11.5168
-      z_index: 10
-      visible: true
-      interactive: false
-      text:
-        value: Briefly show recently lost health behind the current fill.
-        font: menu_lucida
-        color: '#aeb5a5'
-        align_x: left
-        align_y: middle
-        scale: 0.60235
-        pad_x: 0.0
-    - id: SettingsGameplayEnemyHealthBarDamageTrailControl
+    - id: SettingsGameplayFastAttackRepeatControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 277.738
+      offset_y: 175.7846
       width: 70.4
       height: 32.158
       z_index: 10
@@ -767,53 +741,45 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{enemy_health_bar_damage_trail}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.enemy_health_bar_damage_trail. Controller supplies live text.
-    - id: SettingsGameplayShowHitsLabel
+    - id: SettingsGameplayFormationsEverywhereLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 318.8837
-      width: 155.9083
+      offset_y: 222.6847
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Hit messages
+        value: Party formation everywhere
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsGameplayShowHitsDescription
+    - id: SettingsGameplayFormationsEverywhereDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 335.0922
-      width: 437.3333
-      height: 11.5168
+      offset_y: 238.8932
+      width: 435.7333
+      height: 23.0336
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Report attacks in the status text.
+        value: Might and Magic IX's formation on every continent; monsters strike the front rank more often. Off, monsters
+          of the older games choose their victims as in the originals.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsGameplayShowHitsControl
+    - id: SettingsGameplayFormationsEverywhereControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 316.6633
+      offset_y: 226.2267
       width: 70.4
       height: 32.158
       z_index: 10
@@ -822,54 +788,224 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-      text:
-        value: '{show_hits}'
-        font: menu_lucida
-        color: '#e8d5a1'
-        align_x: center
-        align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to controls.show_hits; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
-        controls need native dropdown/focus behavior. Controller supplies live text.
-    - id: SettingsGameplayContextActionPopupLabel
+    - id: SettingsGameplayFastModeSpeedLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 387.6757
-      width: 267.8752
-      height: 14.0752
+      offset_y: 302.9935
+      width: 216.7083
+      height: 18.1333
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Context action menu
+        value: Fast mode speed
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsGameplayContextActionPopupDescription
+    - id: SettingsGameplayFastModeSpeedValue
       anchor: top_left
       offset_x: 1.6
-      offset_y: 403.8837
-      width: 437.3333
+      offset_y: 302.9935
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{fast_mode_speed}'
+        font: fondamento
+        color: '#e0c990'
+        align_x: center
+        align_y: middle
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsGameplayFastModeSpeedControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 323.4935
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayFastModeSpeedDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 342.9935
+      width: 522.1333
       height: 11.5168
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: Offer contextual actions for the object under the pointer.
+        value: The game speed while fast mode is on. Its key (F2 unless rebound) turns fast mode on and off.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsGameplayContextActionPopupControl
+    - id: SettingsGameplayTurnBasedMonsterSpeedLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 395.577
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Monster turns speed
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedMonsterSpeedValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 395.577
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{turn_based_monster_speed}'
+        font: fondamento
+        color: '#e0c990'
+        align_x: center
+        align_y: middle
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedMonsterSpeedControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 416.077
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayTurnBasedMonsterSpeedDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 435.577
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Play the monsters' turns faster.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedPartySpeedLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 458.2938
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party attacks speed
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedPartySpeedValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 458.2938
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{turn_based_party_speed}'
+        font: fondamento
+        color: '#e0c990'
+        align_x: center
+        align_y: middle
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedPartySpeedControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 478.7938
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayTurnBasedPartySpeedDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 498.2938
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Play the party's attacks and spells in flight faster. Walking in the movement phase keeps its pace.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayMm9LootInOlderWorldsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 550.8773
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: MM9 loot in MM6-MM8
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayMm9LootInOlderWorldsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 567.0858
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Drops and chests in Enroth, Antagarich and Jadame can hold Might and Magic IX's weapons, armour and jewellery.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayMm9LootInOlderWorldsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 385.4548
+      offset_y: 554.4194
       width: 70.4
       height: 32.158
       z_index: 10
@@ -878,21 +1014,106 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplayWorkbenchKeepMixedPotionsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 631.1861
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
       text:
-        value: '{context_action_popup}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
+        value: Workbench keeps mixed potions
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
         align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to gameplay.context_action_popup; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayWorkbenchKeepMixedPotionsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 647.3946
+      width: 435.7333
+      height: 34.5504
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: The Workbench brews only from reagents and the basic potions. A recipe that needs a mixed potion brews
+          a fresh one, so the ones you carry are kept. Two potions you put in the slots yourself still mix.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayWorkbenchKeepMixedPotionsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 640.4866
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplayUpkeepAutoBrewLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 693.145
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Upkeep brews its potions
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayUpkeepAutoBrewDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 709.3535
+      width: 435.7333
+      height: 34.5504
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Before it drinks, the Upkeep key brews the potions the upkeep lists keep in stock, when fewer drinks are
+          left than they keep. It brews from what the party carries, never from the stocked potions themselves. Set the
+          stock of each potion in Battle Orders.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayUpkeepAutoBrewControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 702.4455
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsGameplaySkipEventCutscenesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 456.4672
-      width: 234.7669
+      offset_y: 784.9706
+      width: 435.7333
       height: 14.0752
       z_index: 10
       visible: true
@@ -908,8 +1129,8 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 472.6757
-      width: 437.3333
+      offset_y: 801.1791
+      width: 435.7333
       height: 11.5168
       z_index: 10
       visible: true
@@ -925,7 +1146,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 454.2463
+      offset_y: 782.7543
       width: 70.4
       height: 32.158
       z_index: 10
@@ -934,16 +1155,66 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplayQuicksaveSlotsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 853.7626
+      width: 382.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
       text:
-        value: '{skip_event_cutscenes}'
-        font: menu_lucida
-        color: '#b8b8a9'
-        align_x: center
+        value: Quicksaves kept
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
         align_y: middle
-        scale: 0.64
-        pad_x: 3.2
-      notes: Bind to video.skip_event_cutscenes; see contracts/settings.yml. Ranges need a track and thumb renderer;
-        selection controls need native dropdown/focus behavior. Controller supplies live text.
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayQuicksaveSlotsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 869.9711
+      width: 382.9333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Each game keeps this many quicksaves. A new one becomes the first and the oldest is removed.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayQuicksaveSlotsControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 865.3837
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayQuicksaveSlotsValue
+      anchor: top_left
+      offset_x: 497.0666
+      offset_y: 867.517
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{quicksave_slots}'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
   - id: SettingsGameplayNavigationRule
     anchor: top_left
     offset_x: 201.6

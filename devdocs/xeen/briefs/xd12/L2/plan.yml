@@ -1,0 +1,1579 @@
+format: 0
+level: L2
+pitch: "Baron Darzog's black tower on the wooded island in Lake Darzog, sealed since Crodo vanished. A square keep of four floors stands round one great Well open to the sky, where Darzog's lightning crackles from the gate floor to the clouds; every floor looks into it, and the windows and the battlements look out over the lake. Magic dies in this tower: the Baron's ward stills every spell but his own, so the party fights with steel. The gate floor's carnage hands, the forge where the hands are made, the library of his apprentices with its six study books and its cracked trapdoor floors, and at the top Darzog's own hall, where the Baron waits among six clones that wear his face. Behind his portrait sits Crodo. The roof opens on the clouds where Lord Xeen hides."
+purpose: "Story step M21 (QUESTS.md): with the Skeleton Key from the Tower of High Magic (M13) the party enters, kills Baron Darzog and his clones and frees Crodo, who tells them that 'Prince Roland' is Lord Xeen, that his hideout is in the clouds above this tower and that only the sword buried under Newcastle can kill him. The roof's cloud stair then leads up to X9, the Clouds of Xeen. Cloudside's first L set piece: monster levels 30 to 48, Darzog 55; a party of about level 33 that leaves at about 36. The six study books give +5 to a stat each, once per character (the source's +20, rescaled)."
+mood: "Cold, high and quiet: grey keep stone, blue-white lightning up the Well, the red glow of the forge below the library's candles, the Baron's portraits watching; wind and open sky at the top, the lake far below."
+datum: arrival
+spaces:
+  - id: room:assembly
+    name: Assembly hall
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: "Assembly hall: racks of iron limbs (blocks), a winch lever for the works gate on its west wall."
+    where: "Works, south"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: The lever that raises the works gate (east walk) to the east stair.
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b}
+  - id: room:bedchamber
+    name: Darzog's bedchamber
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: "L-shaped bedchamber round the cell; Darzog's own portrait on the north wall (the cell's door)."
+    where: "Darzog's floor, north-east"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: The portrait that hides Crodo's cell (set:crodo).
+    empty: true
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+  - id: room:cells
+    name: Cells
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Three barred cells off a guard walk.
+    where: "Gate floor, south-west"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "Old prisoners: bones; one hand."
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b}
+  - id: room:cistern
+    name: Cistern
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: "Hall with a sunken cistern 1,536 long (water 160 down) along its middle, walked round."
+    where: "Gate floor, south"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    features:
+      - {kind: pit, rise: -160, notes: "The cistern, water."}
+    purpose: "The tower's water; eyes over the cistern."
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [30, 30], strength: light, rank: a}
+  - id: room:cloister_e
+    name: East cloister
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "East walk of the cloister; the gate hall arch on its east side, the Well arch on its west."
+    where: "Gate floor, round the Well"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: The first sight of the Well.
+    empty: true
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+  - id: room:cloister_n
+    name: North cloister
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: "Gallery of the cloister ring, north of the Well; an arch into it."
+    where: "Gate floor, round the Well"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "The cloister's north walk; the disc comes down to the Well beside its arch."
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b, notes: Two hands on guard by the arch.}
+  - id: room:cloister_s
+    name: South cloister
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: South walk of the cloister.
+    where: "Gate floor, round the Well"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: To the cistern.
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [30, 30], strength: light, rank: a, notes: Eyes drifting out of the Well.}
+  - id: room:cloister_w
+    name: West cloister
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "West walk of the cloister; the west stair hall off its west side."
+    where: "Gate floor, round the Well"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: To the west stair.
+    empty: true
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+  - id: room:clone_vats
+    name: Clone vats
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Four vats of green brew on plinths where the clones were grown.
+    where: "Darzog's floor, south-east"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: Where the clones come from.
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [45, 45], strength: heavy, rank: c}
+  - id: room:crodo_cell
+    name: Crodo's cell
+    kind: room
+    size: S
+    extent: [512, 512]
+    shape: "Bare cell, a stool and a bowl."
+    where: Behind the bedchamber's north wall
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: Crodo (goal).
+    empty: true
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+    secret: true
+  - id: room:crypt
+    name: Crypt of the apprentices
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Vaulted room of six coffins on biers.
+    where: "Gate floor, north-west"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "Darzog's failed apprentices, laid out; a coffin to rob."
+    empty: true
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [1, 2], notes: A coffin (Sarcophagus).}
+  - id: room:darzog_hall
+    name: Darzog's hall
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: "Darzog's hall: the inlaid rug down its length, a dais with his chair at the east end, banners, two windows over the lake."
+    where: "Darzog's floor, north"
+    floor: 2304
+    clear_height: [640, 704]
+    relief: flat
+    purpose: "Baron Darzog and his six clones: the boss fight (set:darzog)."
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+    light: "candlelit: 4 standing candelabra, 2 torches; cold light on the dais"
+    population:
+      - {actor: Darzog Clone, groups: 6, levels: [45, 45], placed: true, strength: heavy}
+      - {actor: Darzog, role: Baron Darzog, groups: 1, levels: [55, 55], placed: true, strength: boss}
+  - id: room:darzog_study
+    name: Darzog's study
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: "Darzog's study: his desk with the journal, bookcases, his strongbox."
+    where: "Darzog's floor, north-west"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: "Darzog's journal names the portrait; his hoard."
+    empty: true
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+    treasure:
+      - {kind: chest, count: 1, tier: 5, items: [3, 4], notes: Darzog's hoard (one step up).}
+  - id: room:east_stair
+    name: East stair hall
+    kind: room
+    size: XL
+    extent: [1152, 3584]
+    shape: "Two-storey hall: the flight up the east wall rises south to a hanging gallery at 1536; tall window over the lake."
+    where: "East side, the works to the library"
+    floor: 768
+    clear_height: 1408
+    relief: steps
+    purpose: "The second climb, behind the works gate."
+    empty: true
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+  - id: room:forge
+    name: Forge of the Hands
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: "The forge of the hands: a lava channel along its north wall behind a low kerb, anvils (blocks), two half-built hands."
+    where: "Works, north"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: Where Darzog's carnage hands are made. Heavy fight.
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+    light: "red from the lava channel, 2 braziers"
+    furniture: ["the lava channel (sunken level, burning)", 3 anvils, half-built hands (statues)]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b}
+  - id: room:gate_hall
+    name: Gate hall
+    kind: room
+    size: XL
+    extent: [1152, 3584]
+    shape: "Long hall along the east wall; the tower door in the middle of the east wall, a great arch west into the cloister."
+    where: "Gate floor, east"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "Arrival from X2 (the tower door). Quiet: the first look through the arch into the Well and its lightning."
+    empty: true
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    light: "torchlit: 4 wall torches, cold blue light from the arch"
+    palette: ["torch01: wall torch", "bigbarel / smlbarel: barrels", Bucket]
+    furniture: ["the tower door (an exit face, 128 x 256)", two benches by the door]
+  - id: room:great_library
+    name: Great library
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: "The great library: three rows of free-standing bookcases, the Chief Librarian's desk, the Book of Accuracy on its lectern; one trapdoor."
+    where: "Library, south"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: "The Chief Librarian (placed, carries the library stair key) and his apprentices."
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [36, 36], strength: pack, rank: b}
+      - {actor: Wizard, role: Chief Librarian, groups: 1, levels: [45, 45], placed: true, strength: heavy, drops: library_key}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: A bookcase to search.}
+  - id: room:guard_hall
+    name: Guard hall
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Guard hall with racks.
+    where: "Darzog's floor, south-west"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: Elite hands.
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [48, 48], strength: heavy, rank: c}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3]}
+  - id: room:guardroom
+    name: Guardroom
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Square room with a table and racks.
+    where: "Gate floor, north-east"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: Guards of the gate.
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3]}
+  - id: room:hall_of_hands
+    name: Hall of Hands
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: Long hall with two rows of plinths where finished carnage hands stand waiting.
+    where: "Gate floor, north"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "The first real fight: hands step down off their plinths."
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    light: "dim: 2 torches"
+    furniture: ["10 plinths in two rows (platforms 192 square, 64 high)", statues of hands (7dec54) on some plinths]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b}
+  - id: room:library_e
+    name: East reading walk
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "East reading walk; the apprentice's warning note on the wall."
+    where: "Library, round the Well"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: "Arrival on the library; the warning about the cracked flags."
+    empty: true
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+  - id: room:library_n
+    name: North reading walk
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: "North reading walk lined with bookcases; a railed window over the Well; a trapdoor."
+    where: "Library, round the Well"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: Walk of the library.
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [40, 40], strength: pack, rank: b}
+  - id: room:library_s
+    name: South reading walk
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: South reading walk lined with bookcases.
+    where: "Library, round the Well"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: Walk of the library.
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [36, 36], strength: pack, rank: b}
+  - id: room:library_stair
+    name: Library stair hall
+    kind: room
+    size: XL
+    extent: [1152, 3584]
+    shape: "Two-storey hall: the flight up the west wall rises south to a hanging gallery at 2304."
+    where: "West side, the library to Darzog's floor"
+    floor: 1536
+    clear_height: 1408
+    relief: steps
+    purpose: "The third climb, behind the locked library door."
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [40, 40], strength: pack, rank: b}
+  - id: room:library_w
+    name: West reading walk
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "West reading walk; the locked library stair door; a trapdoor."
+    where: "Library, round the Well"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: The library stair door (the Chief Librarian's key).
+    empty: true
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+  - id: room:out_e
+    name: "Island and lake, east"
+    kind: room
+    size: XL
+    extent: [7680, 1024]
+    shape: "Band of open air outside the keep's wall: the island's grass at its foot, Lake Darzog beyond, the open sky."
+    where: Outside the keep
+    floor: 0
+    clear_height: 4224
+    relief: flat
+    purpose: "Seen from the windows and the roof; a fall from the keep lands here and leaves for X2."
+    empty: true
+    keep_clear: [spawns]
+    backdrop: true
+    theme: "Island grass 7grastyl, lake 7wtrtyl, open sky"
+  - id: room:out_n
+    name: "Island and lake, north"
+    kind: room
+    size: XL
+    extent: [7680, 1024]
+    shape: "Band of open air outside the keep's wall: the island's grass at its foot, Lake Darzog beyond, the open sky."
+    where: Outside the keep
+    floor: 0
+    clear_height: 4224
+    relief: flat
+    purpose: "Seen from the windows and the roof; a fall from the keep lands here and leaves for X2."
+    empty: true
+    keep_clear: [spawns]
+    backdrop: true
+    theme: "Island grass 7grastyl, lake 7wtrtyl, open sky"
+  - id: room:out_s
+    name: "Island and lake, south"
+    kind: room
+    size: XL
+    extent: [7680, 1024]
+    shape: "Band of open air outside the keep's wall: the island's grass at its foot, Lake Darzog beyond, the open sky."
+    where: Outside the keep
+    floor: 0
+    clear_height: 4224
+    relief: flat
+    purpose: "Seen from the windows and the roof; a fall from the keep lands here and leaves for X2."
+    empty: true
+    keep_clear: [spawns]
+    backdrop: true
+    theme: "Island grass 7grastyl, lake 7wtrtyl, open sky"
+  - id: room:out_w
+    name: "Island and lake, west"
+    kind: room
+    size: XL
+    extent: [7680, 1024]
+    shape: "Band of open air outside the keep's wall: the island's grass at its foot, Lake Darzog beyond, the open sky."
+    where: Outside the keep
+    floor: 0
+    clear_height: 4224
+    relief: flat
+    purpose: "Seen from the windows and the roof; a fall from the keep lands here and leaves for X2."
+    empty: true
+    keep_clear: [spawns]
+    backdrop: true
+    theme: "Island grass 7grastyl, lake 7wtrtyl, open sky"
+  - id: room:parts_store
+    name: Parts store
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: "Store of crates and barrels; trapdoor landing from the study above."
+    where: "Works, south-east"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: Under the Study of the Arm (trapdoor).
+    empty: true
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+  - id: room:portrait_hall
+    name: Portrait hall
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: "Gallery of the Baron's ancestors: portraits and tapestries on every wall, a window over the lake."
+    where: "Darzog's floor, south"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: "Walk; apprentices."
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [45, 45], strength: heavy, rank: c}
+  - id: room:quarters
+    name: Apprentices' quarters
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Four apprentices' beds and a table.
+    where: "Works, south-west"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: "The apprentices' quarters; their chest."
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [36, 36], strength: pack, rank: b}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3]}
+  - id: room:reading_room
+    name: Reading room
+    kind: room
+    size: XL
+    extent: [3584, 1152]
+    shape: "Long reading room: four reading tables, bookcases along the walls, two windows over the lake; two trapdoors in its floor."
+    where: "Library, north"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: "Apprentices at their books; the Book of Speed on a lectern at its west end."
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 3], levels: [36, 36], strength: pack, rank: b}
+  - id: room:roof_e
+    name: "Roof, east"
+    kind: room
+    size: M
+    extent: [896, 2048]
+    shape: Terrace between the Well and the sky stair.
+    where: "The roof, east"
+    floor: 3072
+    clear_height: 1152
+    relief: flat
+    purpose: Vista.
+    empty: true
+    theme: "Gloaming flags, stone parapets, open sky"
+  - id: room:roof_n
+    name: "Roof, north"
+    kind: room
+    size: XL
+    extent: [6144, 2048]
+    shape: "Battlemented terrace under the open sky; the cloud stair rises from its middle."
+    where: "The roof, north"
+    floor: 3072
+    clear_height: 1152
+    relief: flat
+    purpose: The cloud stair (exit to X9).
+    theme: "Gloaming flags, stone parapets, open sky"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [40, 40], strength: pack, rank: b}
+  - id: room:roof_s
+    name: "Roof, south"
+    kind: room
+    size: XL
+    extent: [6144, 2048]
+    shape: "Battlemented terrace; view over the lake."
+    where: "The roof, south"
+    floor: 3072
+    clear_height: 1152
+    relief: flat
+    purpose: Vista.
+    theme: "Gloaming flags, stone parapets, open sky"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [40, 40], strength: pack, rank: b}
+  - id: room:roof_w
+    name: "Roof, west"
+    kind: room
+    size: L
+    extent: [2048, 2048]
+    shape: Terrace by the Well's rim.
+    where: "The roof, west"
+    floor: 3072
+    clear_height: 1152
+    relief: flat
+    purpose: Vista down the Well.
+    empty: true
+    theme: "Gloaming flags, stone parapets, open sky"
+  - id: room:scrap_hall
+    name: Scrap hall
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Heaps of broken hands (trash heaps).
+    where: "Works, north-west"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: The hands that failed.
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b}
+  - id: room:sky_stair
+    name: Sky stair
+    kind: room
+    size: XL
+    extent: [1152, 3584]
+    shape: "Stair hall open to the sky: the flight up the east wall rises north to the roof."
+    where: "East side, Darzog's floor to the roof"
+    floor: 2304
+    clear_height: 1920
+    relief: steps
+    purpose: The way onto the roof.
+    empty: true
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+  - id: room:smelter
+    name: Smelter
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Square room round a sunken smelting pit of lava.
+    where: "Works, north-east"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: "Heat; a chest by the pit."
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3]}
+  - id: room:state_e
+    name: East state gallery
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "East state gallery; the sky stair off its east side."
+    where: "Darzog's floor, round the Well"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: To the roof.
+    empty: true
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+  - id: room:state_n
+    name: North state gallery
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: "North state gallery: the arch into Darzog's hall; the disc's landing on the Well behind a black grille."
+    where: "Darzog's floor, round the Well"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: "Before Darzog's hall; the way down by the disc after him."
+    empty: true
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+  - id: room:state_s
+    name: South state gallery
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: South state gallery.
+    where: "Darzog's floor, round the Well"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: Walk.
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [48, 48], strength: heavy, rank: c}
+  - id: room:state_w
+    name: West state gallery
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "West state gallery; the library stair gallery opens off it."
+    where: "Darzog's floor, round the Well"
+    floor: 2304
+    clear_height: 640
+    relief: flat
+    purpose: Arrival on Darzog's floor.
+    empty: true
+    theme: "Castle Gloaming's state rooms: cnb with portraits cnbport, banners, the rug tfb1r4"
+  - id: room:storeroom
+    name: Storeroom
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: "Square store of crates, barrels and sacks."
+    where: "Gate floor, south-east"
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "Supplies; a chest."
+    empty: true
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3]}
+  - id: room:study_ne
+    name: Study of the Voice
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Study with a lectern and a summoning circle.
+    where: "Library, north-east"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: The Book of Personality.
+    empty: true
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+  - id: room:study_nw
+    name: Study of the Mind
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Study with a lectern and a trapdoor.
+    where: "Library, north-west"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: The Book of Intellect.
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [40, 40], strength: pack, rank: b}
+  - id: room:study_se
+    name: Study of the Arm
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Study with a lectern and a trapdoor.
+    where: "Library, south-east"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: The Book of Might.
+    empty: true
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+  - id: room:study_sw
+    name: Study of the Body
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    shape: Study with a lectern.
+    where: "Library, south-west"
+    floor: 1536
+    clear_height: 640
+    relief: flat
+    purpose: The Book of Endurance.
+    theme: "School of Sorcery (MM7 7d14): twb2, 7tfb1, tfb2, bookcases 7t1books"
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [36, 36], strength: pack, rank: b}
+  - id: room:well
+    name: The Well
+    kind: room
+    size: XL
+    extent: [1792, 1792]
+    shape: "Octagon 1,792 across rising from the gate floor through every floor to the open sky."
+    where: "Centre of the keep, all floors"
+    floor: 0
+    clear_height: 4224
+    relief: flat
+    purpose: "The tower's spine: every floor looks into it; a column of Darzog's lightning crackles up its axis; his disc rides its north face from the gate floor to his own floor (the way down after Darzog)."
+    theme: "Castle Gloaming keep stone with brick courses; open sky"
+    light: "a column of pulsing blue-white light up the axis (5 lights from 64 to 3200), torches at each floor"
+    palette: ["brzier00: braziers round the rune circle"]
+    furniture: ["the rune circle on a low dais (td1, the School of Sorcery's summoning circle)", Darzog's disc (a lift 384 square)]
+    population:
+      - {slot: 3, groups: 2, per_marker: [2, 3], levels: [30, 30], strength: light, rank: a, notes: Floating eyes that drift up and down the Well.}
+  - id: room:west_stair
+    name: West stair hall
+    kind: room
+    size: XL
+    extent: [1152, 3584]
+    shape: "Two-storey hall: one long flight up the west wall to a hanging gallery at 768 across the north end and along the east wall; tall window over the lake."
+    where: "West side, gate floor to the works"
+    floor: 0
+    clear_height: 1408
+    relief: steps
+    purpose: "The first climb: the gate floor to the works."
+    theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [35, 35], strength: pack, rank: b, notes: "On the upper gallery, coming down the stair."}
+  - id: room:works_e
+    name: East walk of the works
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "East walk; the works gate (a portcullis) into the east stair hall."
+    where: "Works, round the Well"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: "The works gate: raised from the assembly hall."
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+    population:
+      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [30, 30], strength: light, rank: a}
+  - id: room:works_n
+    name: North walk of the works
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: "North walk; a railed window over the Well."
+    where: "Works, round the Well"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: Walk of the works.
+    empty: true
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+  - id: room:works_s
+    name: South walk of the works
+    kind: room
+    size: L
+    extent: [2816, 768]
+    shape: "South walk; a railed window over the Well."
+    where: "Works, round the Well"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: Walk of the works.
+    empty: true
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+  - id: room:works_w
+    name: West walk of the works
+    kind: room
+    size: L
+    extent: [768, 2816]
+    shape: "West walk; the west stair gallery opens off it."
+    where: "Works, round the Well"
+    floor: 768
+    clear_height: 640
+    relief: flat
+    purpose: Arrival on the works.
+    empty: true
+    theme: "Castle Gloaming's red rock cwb1, granite cfb1, lava"
+regions:
+  - id: region:darzog
+    name: Darzog's floor (2304)
+    spaces: [room:state_n, room:state_e, room:state_s, room:state_w, room:darzog_hall, room:darzog_study, room:bedchamber, room:crodo_cell, room:clone_vats, room:guard_hall, room:portrait_hall, room:sky_stair]
+    theme: "Gloaming's state rooms: portraits, banners, the inlaid rug."
+  - id: region:gate
+    name: Gate floor (0)
+    spaces: [room:gate_hall, room:cloister_n, room:cloister_e, room:cloister_s, room:cloister_w, room:hall_of_hands, room:guardroom, room:storeroom, room:cistern, room:cells, room:crypt, room:west_stair]
+    theme: "Castle Gloaming's grey keep stone, torches; carnage hands on guard."
+  - id: region:library
+    name: The library (1536)
+    spaces: [room:library_n, room:library_e, room:library_s, room:library_w, room:reading_room, room:great_library, room:study_ne, room:study_nw, room:study_se, room:study_sw, room:library_stair]
+    theme: "The School of Sorcery's books and flags; candles; trapdoors."
+  - id: region:outside
+    name: The island and the lake
+    spaces: [room:out_n, room:out_e, room:out_s, room:out_w]
+    theme: "Seen, not walked."
+  - id: region:roof
+    name: The roof (3072)
+    spaces: [room:roof_n, room:roof_s, room:roof_w, room:roof_e]
+    theme: Battlements under the open sky.
+  - id: region:spine
+    name: The Well
+    spaces: [room:well]
+    theme: "The core, gate floor to sky."
+  - id: region:works
+    name: The works (768)
+    spaces: [room:works_n, room:works_e, room:works_s, room:works_w, room:forge, room:assembly, room:smelter, room:scrap_hall, room:parts_store, room:quarters, room:east_stair]
+    theme: "Red rock and lava: the forge where the hands are made."
+links:
+  - id: link:arch_e
+    from: room:cloister_e
+    to: room:well
+    kind: open
+    width: 512
+    notes: An arch.
+  - id: link:arch_n
+    from: room:cloister_n
+    to: room:well
+    kind: open
+    width: 512
+    notes: An arch.
+  - id: link:arch_s
+    from: room:cloister_s
+    to: room:well
+    kind: open
+    width: 512
+    notes: An arch.
+  - id: link:arch_w
+    from: room:cloister_w
+    to: room:well
+    kind: open
+    width: 512
+    notes: An arch.
+  - id: link:assembly_parts
+    from: room:assembly
+    to: room:parts_store
+    kind: open
+    width: 256
+  - id: link:assembly_quarters
+    from: room:assembly
+    to: room:quarters
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:bedchamber_cell
+    from: room:bedchamber
+    to: room:crodo_cell
+    kind: secret_door
+    motion: slide
+    condition: {qbit: m21_darzog_slain}
+    notes: "Darzog's portrait: the cell's door; Darzog's spell holds it until he dies (set:crodo)."
+  - id: link:cistern_cells
+    from: room:cistern
+    to: room:cells
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:cistern_store
+    from: room:cistern
+    to: room:storeroom
+    kind: open
+    width: 256
+  - id: link:cloister_cistern
+    from: room:cloister_s
+    to: room:cistern
+    kind: open
+    width: 512
+  - id: link:cloister_hands
+    from: room:cloister_n
+    to: room:hall_of_hands
+    kind: open
+    width: 512
+  - id: link:cloister_wstair
+    from: room:cloister_w
+    to: room:west_stair
+    kind: open
+    width: 384
+  - id: link:disc
+    from: room:state_n
+    to: room:well
+    kind: lift
+    condition: {qbit: m21_darzog_slain}
+    rise: -2304
+    notes: "Darzog's disc: a stone disc 384 across on the Well's north face, from the gate floor to Darzog's floor; bound by his rune until he dies (set:disc)."
+  - id: link:disc_landing
+    from: room:state_n
+    to: room:well
+    kind: door
+    motion: slide
+    condition: {qbit: m21_darzog_slain}
+    notes: "A black grille over the Well where the disc lands; open while the disc is up and Darzog is dead."
+  - id: link:estair_library_e
+    from: room:east_stair
+    to: room:library_e
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:estair_study_ne
+    from: room:east_stair
+    to: room:study_ne
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:estair_study_se
+    from: room:east_stair
+    to: room:study_se
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:f0_ring_ne
+    from: room:cloister_n
+    to: room:cloister_e
+    kind: open
+    width: full
+  - id: link:f0_ring_nw
+    from: room:cloister_w
+    to: room:cloister_n
+    kind: open
+    width: full
+  - id: link:f0_ring_se
+    from: room:cloister_e
+    to: room:cloister_s
+    kind: open
+    width: full
+  - id: link:f0_ring_sw
+    from: room:cloister_s
+    to: room:cloister_w
+    kind: open
+    width: full
+  - id: link:f1_ring_ne
+    from: room:works_n
+    to: room:works_e
+    kind: open
+    width: full
+  - id: link:f1_ring_nw
+    from: room:works_w
+    to: room:works_n
+    kind: open
+    width: full
+  - id: link:f1_ring_se
+    from: room:works_e
+    to: room:works_s
+    kind: open
+    width: full
+  - id: link:f1_ring_sw
+    from: room:works_s
+    to: room:works_w
+    kind: open
+    width: full
+  - id: link:f2_ring_ne
+    from: room:library_n
+    to: room:library_e
+    kind: open
+    width: full
+  - id: link:f2_ring_nw
+    from: room:library_w
+    to: room:library_n
+    kind: open
+    width: full
+  - id: link:f2_ring_se
+    from: room:library_e
+    to: room:library_s
+    kind: open
+    width: full
+  - id: link:f2_ring_sw
+    from: room:library_s
+    to: room:library_w
+    kind: open
+    width: full
+  - id: link:f3_ring_ne
+    from: room:state_n
+    to: room:state_e
+    kind: open
+    width: full
+  - id: link:f3_ring_nw
+    from: room:state_w
+    to: room:state_n
+    kind: open
+    width: full
+  - id: link:f3_ring_se
+    from: room:state_e
+    to: room:state_s
+    kind: open
+    width: full
+  - id: link:f3_ring_sw
+    from: room:state_s
+    to: room:state_w
+    kind: open
+    width: full
+  - id: link:fall
+    from: room:roof_n
+    to: room:out_n
+    kind: drop
+    one_way: true
+    rise: -3072
+    notes: "Over the battlements (or out of a window): the fall lands on the island and leaves for X2."
+  - id: link:forge_scrap
+    from: room:forge
+    to: room:scrap_hall
+    kind: open
+    width: 256
+  - id: link:forge_smelter
+    from: room:forge
+    to: room:smelter
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:gate_cloister
+    from: room:gate_hall
+    to: room:cloister_e
+    kind: open
+    width: 768
+    notes: An arch.
+  - id: link:gate_guardroom
+    from: room:gate_hall
+    to: room:guardroom
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:gate_store
+    from: room:gate_hall
+    to: room:storeroom
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:great_study_se
+    from: room:great_library
+    to: room:study_se
+    kind: open
+    width: 256
+  - id: link:great_study_sw
+    from: room:great_library
+    to: room:study_sw
+    kind: door
+    motion: slide
+    notes: Carved door.
+  - id: link:hall_bedchamber
+    from: room:darzog_hall
+    to: room:bedchamber
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:hall_study
+    from: room:darzog_hall
+    to: room:darzog_study
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:hands_crypt
+    from: room:hall_of_hands
+    to: room:crypt
+    kind: door
+    motion: slide
+    notes: Plank door.
+  - id: link:hands_guardroom
+    from: room:hall_of_hands
+    to: room:guardroom
+    kind: open
+    width: 256
+  - id: link:library_great
+    from: room:library_s
+    to: room:great_library
+    kind: open
+    width: 512
+  - id: link:library_lstair
+    from: room:library_w
+    to: room:library_stair
+    kind: door
+    motion: slide
+    condition: {item: library_key}
+    notes: "The library stair door: carved, locked; the High Sorcerer's key in the Chief Librarian's cabinet (great library) opens it."
+  - id: link:library_reading
+    from: room:library_n
+    to: room:reading_room
+    kind: open
+    width: 512
+  - id: link:library_win_e
+    from: room:library_e
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:library_win_n
+    from: room:library_n
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:library_win_s
+    from: room:library_s
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:library_win_w
+    from: room:library_w
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:lstair_guard
+    from: room:library_stair
+    to: room:guard_hall
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:lstair_state_w
+    from: room:library_stair
+    to: room:state_w
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:lstair_study
+    from: room:library_stair
+    to: room:darzog_study
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:portraits_guard
+    from: room:portrait_hall
+    to: room:guard_hall
+    kind: open
+    width: 256
+  - id: link:portraits_vats
+    from: room:portrait_hall
+    to: room:clone_vats
+    kind: open
+    width: 256
+  - id: link:reading_study_ne
+    from: room:reading_room
+    to: room:study_ne
+    kind: open
+    width: 256
+  - id: link:reading_study_nw
+    from: room:reading_room
+    to: room:study_nw
+    kind: door
+    motion: slide
+    notes: Carved door.
+  - id: link:roof_ne
+    from: room:roof_e
+    to: room:roof_n
+    kind: open
+    width: full
+  - id: link:roof_nw
+    from: room:roof_w
+    to: room:roof_n
+    kind: open
+    width: full
+  - id: link:roof_se
+    from: room:roof_e
+    to: room:roof_s
+    kind: open
+    width: full
+  - id: link:roof_sw
+    from: room:roof_w
+    to: room:roof_s
+    kind: open
+    width: full
+  - id: link:roof_well_e
+    from: room:roof_e
+    to: room:well
+    kind: open
+    width: full
+  - id: link:roof_well_n
+    from: room:roof_n
+    to: room:well
+    kind: open
+    width: full
+  - id: link:roof_well_s
+    from: room:roof_s
+    to: room:well
+    kind: open
+    width: full
+  - id: link:roof_well_w
+    from: room:roof_w
+    to: room:well
+    kind: open
+    width: full
+  - id: link:skystair_roof_e
+    from: room:sky_stair
+    to: room:roof_e
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:skystair_roof_n
+    from: room:sky_stair
+    to: room:roof_n
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:skystair_roof_s
+    from: room:sky_stair
+    to: room:roof_s
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:state_hall
+    from: room:state_n
+    to: room:darzog_hall
+    kind: double_door
+    motion: slide
+    notes: "Darzog's doors: two leaves."
+  - id: link:state_portraits
+    from: room:state_s
+    to: room:portrait_hall
+    kind: open
+    width: 512
+  - id: link:state_skystair
+    from: room:state_e
+    to: room:sky_stair
+    kind: open
+    width: 384
+  - id: link:state_win_e
+    from: room:state_e
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:state_win_s
+    from: room:state_s
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:state_win_w
+    from: room:state_w
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:trap1
+    from: room:library_n
+    to: room:works_n
+    kind: drop
+    one_way: true
+    rise: -768
+    notes: "A trapdoor of cracked flags at [-1152, 1408]: steps on it and the hatch drops to the works below (set:trapdoors); a winch lever below raises it again."
+  - id: link:trap2
+    from: room:reading_room
+    to: room:forge
+    kind: drop
+    one_way: true
+    rise: -768
+    notes: "A trapdoor of cracked flags at [1216, 2496]: steps on it and the hatch drops to the works below (set:trapdoors); a winch lever below raises it again."
+  - id: link:trap3
+    from: room:library_w
+    to: room:works_w
+    kind: drop
+    one_way: true
+    rise: -768
+    notes: "A trapdoor of cracked flags at [-1408, -1152]: steps on it and the hatch drops to the works below (set:trapdoors); a winch lever below raises it again."
+  - id: link:trap4
+    from: room:study_se
+    to: room:parts_store
+    kind: drop
+    one_way: true
+    rise: -768
+    notes: "A trapdoor of cracked flags at [2240, -2560]: steps on it and the hatch drops to the works below (set:trapdoors); a winch lever below raises it again."
+  - id: link:trap5
+    from: room:study_nw
+    to: room:scrap_hall
+    kind: drop
+    one_way: true
+    rise: -768
+    notes: "A trapdoor of cracked flags at [-2496, 2304]: steps on it and the hatch drops to the works below (set:trapdoors); a winch lever below raises it again."
+  - id: link:vats_skystair
+    from: room:clone_vats
+    to: room:sky_stair
+    kind: open
+    width: 256
+  - id: link:works_assembly
+    from: room:works_s
+    to: room:assembly
+    kind: open
+    width: 512
+  - id: link:works_estair
+    from: room:works_e
+    to: room:east_stair
+    kind: portcullis
+    motion: slide
+    condition: {map_var: works_gate_up}
+    notes: "The works gate: a portcullis raised by the winch lever in the assembly hall (set:works_gate)."
+  - id: link:works_forge
+    from: room:works_n
+    to: room:forge
+    kind: open
+    width: 512
+  - id: link:works_win_e
+    from: room:works_e
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:works_win_n
+    from: room:works_n
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:works_win_s
+    from: room:works_s
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:works_win_w
+    from: room:works_w
+    to: room:well
+    kind: overlook
+    notes: "A railed opening onto the Well: seen through, not walked."
+  - id: link:wstair_cells
+    from: room:west_stair
+    to: room:cells
+    kind: open
+    width: 256
+  - id: link:wstair_crypt
+    from: room:west_stair
+    to: room:crypt
+    kind: open
+    width: 256
+  - id: link:wstair_quarters
+    from: room:west_stair
+    to: room:quarters
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:wstair_scrap
+    from: room:west_stair
+    to: room:scrap_hall
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:wstair_works_w
+    from: room:west_stair
+    to: room:works_w
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+loops:
+  - id: loop:disc
+    spaces: [room:well, room:cloister_n, room:cloister_w, room:west_stair, room:works_w, room:works_e, room:east_stair, room:library_e, room:library_w, room:library_stair, room:state_w, room:state_n]
+    closed_until: {qbit: m21_darzog_slain}
+    notes: "Up the stairs, down the disc: the whole tower becomes a ring after Darzog."
+  - id: loop:ring_darzog
+    spaces: [room:state_n, room:state_e, room:state_s, room:state_w]
+    notes: The galleries round the Well on this floor are one ring.
+  - id: loop:ring_gate
+    spaces: [room:cloister_n, room:cloister_e, room:cloister_s, room:cloister_w]
+    notes: The galleries round the Well on this floor are one ring.
+  - id: loop:ring_library
+    spaces: [room:library_n, room:library_e, room:library_s, room:library_w]
+    notes: The galleries round the Well on this floor are one ring.
+  - id: loop:ring_works
+    spaces: [room:works_n, room:works_e, room:works_s, room:works_w]
+    notes: The galleries round the Well on this floor are one ring.
+entrances:
+  - id: entrance:cloud_stair
+    space: room:roof_n
+    kind: exit
+    neighbour: exit:clouds_of_xeen
+    how: "The cloud stair on the roof: white steps of cloud climbing from the north terrace into the sky."
+    condition: {qbit: m21_crodo_freed}
+  - id: entrance:fall
+    space: room:out_e
+    kind: exit
+    neighbour: exit:lake_island
+    how: "Falling from the keep (a window, the battlements): the party lands on the island's shore by Medin's jetty."
+  - id: entrance:tower_door
+    space: room:gate_hall
+    kind: both
+    neighbour: exit:lake_island
+    facing: w
+    how: "Inside the tower door in the middle of the gate hall's east wall, facing west toward the Well; the door needs the Skeleton Key from outside."
+    condition: {item: skeleton_key}
+critical_path: [room:gate_hall, room:cloister_e, room:cloister_s, room:cloister_w, room:west_stair, room:works_w, room:works_s, room:assembly, room:works_s, room:works_e, room:east_stair, room:library_e, room:library_s, room:great_library, room:library_s, room:library_w, room:library_stair, room:state_w, room:state_n, room:darzog_hall, room:bedchamber, room:crodo_cell]
+return_path: [room:crodo_cell, room:bedchamber, room:darzog_hall, room:state_n, room:well, room:cloister_n, room:cloister_e, room:gate_hall]
+goals:
+  - id: goal:crodo
+    space: room:crodo_cell
+    kind: set
+    what: Free Crodo from the cell behind Darzog's portrait.
+    story: M21
+    handed_in_at: exit:lake_island
+    gives:
+      qbit: m21_crodo_freed
+  - id: goal:darzog
+    space: room:darzog_hall
+    kind: kill
+    what: Kill Baron Darzog (among his six clones).
+    story: M21
+    gives:
+      qbit: m21_darzog_slain
+keys:
+  - id: key:darzog_dead
+    grants: {qbit: m21_darzog_slain}
+    found_in: room:darzog_hall
+    how: "kill: Darzog's death breaks his bindings (the portrait, the disc)"
+  - id: key:library_key
+    grants: {item: library_key}
+    found_in: room:great_library
+    how: "chest: the Chief Librarian's cabinet in the great library (he stands guard by it)"
+  - id: key:skeleton_key
+    grants: {item: skeleton_key}
+    how: "another map: the Tower of High Magic (XD-11, M13); the tower door on X2 tests it"
+  - id: key:works_gate
+    grants: {map_var: works_gate_up}
+    found_in: room:assembly
+    how: "lever: the works gate winch on the assembly hall west wall"
+points_of_interest:
+  - id: poi:book_accuracy
+    space: room:great_library
+    kind: book
+    behaviour: "A study book on a lectern: whoever reads it gains +5 Accuracy for good, once per character (the source's +20 rescaled to MM6-MM8)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:book_endurance
+    space: room:study_sw
+    kind: book
+    behaviour: "A study book on a lectern: whoever reads it gains +5 Endurance for good, once per character (the source's +20 rescaled to MM6-MM8)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:book_intellect
+    space: room:study_nw
+    kind: book
+    behaviour: "A study book on a lectern: whoever reads it gains +5 Intellect for good, once per character (the source's +20 rescaled to MM6-MM8)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:book_might
+    space: room:study_se
+    kind: book
+    behaviour: "A study book on a lectern: whoever reads it gains +5 Might for good, once per character (the source's +20 rescaled to MM6-MM8)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:book_personality
+    space: room:study_ne
+    kind: book
+    behaviour: "A study book on a lectern: whoever reads it gains +5 Personality for good, once per character (the source's +20 rescaled to MM6-MM8)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:book_speed
+    space: room:reading_room
+    kind: book
+    behaviour: "A study book on a lectern: whoever reads it gains +5 Speed for good, once per character (the source's +20 rescaled to MM6-MM8)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:crodo
+    space: room:crodo_cell
+    kind: npc
+    behaviour: "Crodo, thin and grey. Clicking him: his story in a message window (M21's reveal: Roland is Lord Xeen, the hideout in the clouds above this tower, the sword under Newcastle); he goes home to Castle Burlock and the cloud stair will bear the party."
+    gives:
+      qbit: m21_crodo_freed
+  - id: poi:darzog_journal
+    space: room:darzog_study
+    kind: book
+    behaviour: "Darzog's journal on his desk: '... the old fool Crodo sits behind my own portrait, where he can admire me while he rots. Let him send his dreams; no spell leaves this tower.' Names the cell's door."
+  - id: poi:portrait
+    space: room:bedchamber
+    kind: secret door
+    behaviour: "Darzog's portrait. While Darzog lives: 'Behind the painted Baron's eyes something moves: an old man's face, then gone. The frame will not shift while Darzog's spell holds it.' After: it slides aside on the cell."
+  - id: poi:warning_note
+    space: room:library_e
+    kind: note
+    behaviour: "Pinned at the head of the east stair, an apprentice's note: 'Mind the cracked flags. The Master's hatches drop you to the works, and the hands down there are not friendly. -- Wil'. Names the trapdoors' tell before the first one."
+  - id: poi:works_winch
+    space: room:assembly
+    kind: lever
+    behaviour: Raises the works gate between the east walk and the east stair hall.
+    gives:
+      map_var: works_gate_up
+landmarks:
+  - id: landmark:lake
+    space: room:out_e
+    what: "Lake Darzog and the island's shore far below, from every window above the gate floor and from the battlements."
+    seen_from: [room:forge, room:reading_room, room:darzog_hall, room:roof_n, room:sky_stair]
+  - id: landmark:lightning
+    space: room:well
+    what: A column of Darzog's lightning (pulsing blue-white lights) up the Well's axis from the rune circle to the sky.
+    seen_from: [room:cloister_e, room:works_n, room:library_n, room:state_n, room:roof_w]
+sightlines:
+  - id: sightline:lake
+    from: room:roof_s
+    to: [room:out_s]
+    what: "Over the battlements: the island's grass at the keep's foot, the lake, the sky."
+  - id: sightline:well_down
+    from: room:roof_w
+    to: [room:well]
+    what: "From the roof's parapet, 3,000 down the Well to the rune circle."
+  - id: sightline:well_up
+    from: room:cloister_e
+    to: [room:well, landmark:lightning]
+    what: "Through the arch from the gate: up the Well past three floors of railed windows to the open sky."
+set_pieces:
+  - id: set:books
+    kind: puzzle
+    spaces: [room:study_se, room:study_sw, room:study_nw, room:study_ne, room:reading_room, room:great_library]
+    rule: "Six study books on lecterns, one stat each: +5 to the reader's base stat, once per character (player bits)."
+  - id: set:cloud_stair
+    kind: scripted
+    spaces: [room:roof_n]
+    rule: "White steps of cloud climb from the north roof. Before Crodo is freed they will not bear the party ('the cloud gives under your foot like fog'); after, the top step leads to X9."
+  - id: set:crodo
+    kind: scripted
+    spaces: [room:bedchamber, room:crodo_cell]
+    rule: "Darzog's journal names the portrait; the portrait shows an old man's face behind the Baron's eyes and will not move while Darzog lives; after his death it slides aside on Crodo's cell. Crodo tells the party the truth about Roland and goes home; the cloud stair on the roof will bear the party from then on."
+    enabled_by: {qbit: m21_darzog_slain}
+    gives:
+      qbit: m21_crodo_freed
+  - id: set:darzog
+    kind: boss
+    spaces: [room:darzog_hall]
+    rule: "Baron Darzog among six clones that wear his face (one family of casters, his lightning). The real Baron is the one with his name and three times the hit points; when he dies his bindings break (qbit m21_darzog_slain): the portrait yields, the disc unbinds, and a line says so."
+    gives:
+      qbit: m21_darzog_slain
+  - id: set:disc
+    kind: scripted
+    spaces: [room:well, room:state_n, room:cloister_n]
+    rule: "Darzog's disc rides the Well's north face between the gate floor and Darzog's floor. It rests at the top behind a black grille, bound by Darzog's rune; after his death the grille opens while the disc is up, clicking the disc rides it, and a call button at each end brings it."
+    enabled_by: {qbit: m21_darzog_slain}
+  - id: set:no_magic
+    kind: scripted
+    spaces: [room:gate_hall]
+    rule: "No spells inside the tower (a map flag): the party's spellbook, quick spells and scrolls are refused everywhere in the map; monsters still cast. The arrival message says so."
+  - id: set:trapdoors
+    kind: trap
+    spaces: [room:library_n, room:reading_room, room:library_w, room:study_se, room:study_nw]
+    rule: "Five hatches of cracked flags (the School of Sorcery's c1t1fl, in a floor of whole flags) in the library's floors. Stepping on one drops it with the party to the works below (768); a winch lever beside the fallen hatch below raises it again (and whoever stands on it). The note at the east stair names the tell."
+    inputs: [step on a hatch]
+    states: [set, dropped, raised again]
+  - id: set:works_gate
+    kind: puzzle
+    spaces: [room:works_e, room:assembly]
+    rule: "The works gate (portcullis) bars the east stair; its winch lever is in the assembly hall. Clicking the gate while down says where the winch is."
+mechanisms:
+  - {kind: plank door, count: 8, notes: "Gloaming's plank leaves 7trimd, folding sideways."}
+  - {kind: carved door, count: 2, notes: The School of Sorcery's hhm1d2 in the library.}
+  - {kind: double door, count: 1, notes: Darzog's hall.}
+  - {kind: locked door, count: 1, notes: The library stair door (High Sorcerer's key).}
+  - {kind: portcullis, count: 1, notes: "The works gate, raised by a winch lever in the assembly hall."}
+  - {kind: secret door, count: 1, notes: Darzog's portrait (cnbport) over Crodo's cell.}
+  - {kind: grille, count: 1, notes: Over the disc's landing on Darzog's floor.}
+  - {kind: lift, count: 1, notes: "Darzog's disc: 384 square, travel 2304, rests up; call buttons at each end."}
+  - {kind: trapdoor (dropping hatch), count: 5, notes: "A lift in the works room under each, raised flush with the library floor; a step drops it; a winch lever below raises it."}
+  - {kind: lever, count: 6, notes: The works winch and the five trapdoor winches.}
+  - {kind: study book, count: 6, notes: Lecterns (clicked blocks).}
+  - {kind: readable, count: 2, notes: "The warning note; Darzog's journal."}
+  - {kind: chest, count: 8, notes: "Chests at level 4 (guardroom, storeroom, crypt coffin, smelter, quarters, great library bookcase, guard hall; the librarian's cabinet holds the key); Darzog's hoard at 5."}
+  - {kind: exit, count: 3, notes: "The tower door (X2), the cloud stair (X9), a fall from the keep (X2)."}
+height_bands:
+  - id: band:floor_0
+    level: 0
+    spaces: [room:gate_hall, room:cloister_n, room:cloister_e, room:cloister_s, room:cloister_w, room:hall_of_hands, room:guardroom, room:storeroom, room:cistern, room:cells, room:crypt]
+    partly: [room:west_stair]
+  - id: band:floor_1
+    level: 768
+    spaces: [room:works_n, room:works_e, room:works_s, room:works_w, room:forge, room:assembly, room:smelter, room:scrap_hall, room:parts_store, room:quarters]
+    partly: [room:west_stair, room:east_stair]
+  - id: band:floor_2
+    level: 1536
+    spaces: [room:library_n, room:library_e, room:library_s, room:library_w, room:reading_room, room:great_library, room:study_ne, room:study_nw, room:study_se, room:study_sw]
+    partly: [room:east_stair, room:library_stair]
+  - id: band:floor_3
+    level: 2304
+    spaces: [room:state_n, room:state_e, room:state_s, room:state_w, room:darzog_hall, room:darzog_study, room:bedchamber, room:crodo_cell, room:clone_vats, room:guard_hall, room:portrait_hall]
+    partly: [room:library_stair, room:sky_stair]
+  - id: band:roof
+    level: 3072
+    spaces: [room:roof_n, room:roof_s, room:roof_w, room:roof_e]
+    partly: [room:sky_stair]
+atmosphere: "Cold and high. Music 22 (Castle Gloaming's) everywhere, environment stone hall. The Well is the brightest place: a column of pulsing blue-white light up its axis (five lights from the rune circle to the roof), braziers round the circle. The gate floor torchlit (ambient 14-16), the works red from the lava (ambient 14), the library candlelit with chandeliers (ambient 16-18), Darzog's floor dark state rooms with candelabra (ambient 18-20). The roof and the outside open to the sky (atmosphere open_sky, preset fair, daylight). No magic anywhere (set:no_magic)."
+diagram: {file: diagram.txt}
+totals:
+  chest_events: 9
+  critical_path_length: 26000
+  doors: 15
+  fixed_actors: 9
+  floor_area_millions: 151
+  height_range: 3392
+  loops: 5
+  monsters_about: 80
+  secret_faces: 2
+  sectors: 55
+  spawn_points: 29
+notes: "Size L: about 55 sectors (the 4 floors' double rings of 10-12 rooms, the Well, 4 stair halls, the roof's 4 parts, 4 bands of open air outside the keep, Crodo's cell); floor area inside the L band without the outside band (measured at L4: 150.8 M walked, 483.7 M with the band); about 80 monsters (29 spawn points of 2-3, 8 placed hostiles: Darzog, six clones and the Chief Librarian) in 1.2-1.5 per sector, none in the gate hall, stairs or outside. Floors 768 apart, rooms 640 high (128 floors), the Well 4,224 high and open to the sky. Stairs alternate west and east as two-storey halls with hanging galleries (rooms stack since S7; floor holes since S8), so every floor is crossed; the works gate and the library door make each crossing a task. Chests at Tres 4, Darzog's hoard at 5. Measured against MM7 Castle Gloaming (48 sectors, 175 M, height range 4,920) and Castle Lambent / Clanker's Laboratory (the same three monster families)."

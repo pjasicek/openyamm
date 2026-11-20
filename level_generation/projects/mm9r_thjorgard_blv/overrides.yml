@@ -1,0 +1,118 @@
+# Thjorgard as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  ambient_triggers: true             # touch Triggers switch AmbientSounds (dungeon/objects.py ambient_triggers)
+  stem: thjorgard
+  display_name: Thjorgard
+  starts: [FTThjorgardStart, MountainPassExit, StartPoint0, ThjoradMineExit, ThjorgardCityDockExit, ThjorgardCityTerrainExit, TrainingHallDoorExit, TrainingHallExit]   # the old map's party_start_points order
+  monster_classes: [Gezzamptling, Burgler, Bandit, GelatinousSpore, AstralIcky, FlyingIcky, AirBorneIcky, MagreebBaby,
+                    Magreeb]   # Magreeb0: the Scholar quest's adult (Scholarpromo.scr, key 202 on sight)
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [-3710, 27, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  Terrain0: static   # Terrain
+  TOD_Sky0: skip   # TOD_Sky
+  SkyBox0: skip   # DemoSkyWorldModel
+  Ocean: static   # WorldObject
+  # The training hall's bricked opening on its roof (TrainingEnter.scr: DestructableBrush7's death opens ExitTrigger3),
+  # seven pieces between the roof and the hut behind them. Built `static` they sealed the two rooms (the build's
+  # destructible_sealed_passages), so the hole stayed a wall to sight and drawing once broken; as one `break` group
+  # with a doorway they get one portal over the opening. No click: MM9 breaks them only with weapons.
+  DestructableBrush7: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush8: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush9: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush10: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush11: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush12: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush13: {group: TrainingWall, motion: break, doorway: true, click: false}
+  'mine cart door left': {group: mine_cart_door_left, motion: rotate}   # RotatingDoor
+  'mine cart door right': {group: mine_cart_door_left, motion: rotate}   # RotatingDoor
+  'cottage door': {group: cottage_door, motion: rotate}   # RotatingDoor
+  windows: static   # WorldObject
+  Square0: static   # WorldObject
+  Square1: static   # WorldObject
+  Square2: static   # WorldObject
+  Square3: static   # WorldObject
+  Square4: static   # WorldObject
+  Square5: static   # WorldObject
+  Square6: static   # WorldObject
+  Square7: static   # WorldObject
+  Square8: static   # WorldObject
+  Square9: static   # WorldObject
+  Square10: static   # WorldObject
+  Square11: static   # WorldObject
+  Square12: static   # WorldObject
+  Square13: static   # WorldObject
+  Square14: static   # WorldObject
+  Square15: static   # WorldObject
+  Square16: static   # WorldObject
+  Square17: static   # WorldObject
+  Square18: static   # WorldObject
+  Square19: static   # WorldObject
+  Square20: static   # WorldObject
+  Square21: static   # WorldObject
+  Square22: static   # WorldObject
+  Square23: static   # WorldObject
+  Square24: static   # WorldObject
+  Square25: static   # WorldObject
+  Square26: static   # WorldObject
+  Square27: static   # WorldObject
+  Square28: static   # WorldObject
+  Square29: static   # WorldObject
+  Square30: static   # WorldObject
+  Square31: static   # WorldObject
+  Square32: static   # WorldObject
+  Square33: static   # WorldObject
+  Square34: static   # WorldObject
+  Square35: static   # WorldObject
+  Switch: {group: Switch, motion: dat}   # Door
+  Switch0: {group: Switch0, motion: rotate}   # Switch: whack-a-honky's start lever (OpenTrigger0 Honky0 "start")
+  Strikeplate1: {group: Strikeplate1, motion: dat}   # Door
+  Riser1: {group: Riser1, motion: dat}   # Door
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+  # people without a dialogue whose script the map Lua carries: Armwrestle.scr "2" (regionlua.py)
+  people: {HalfOrcCaptain0: Half-Orc Captain}
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py THJORGARD): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    thjorgardcliff: rock              # 82 %: rough brown rock, half of it gentle ground
+    thjorgardcliff2: dirt_stones      # 11 %: the same rock with sparse plants
+    thjorgardcliffgrass: grass_patches  # 5 %: grass patches on dirt
+    thjorgardcliffgrass2: grass       # 2 %: lush grass
+  slope: cliff
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [Magreeb0, HalfOrcCaptain0]
+  avoid_near:
+    - {name: TicketMaster, radius: 3000}

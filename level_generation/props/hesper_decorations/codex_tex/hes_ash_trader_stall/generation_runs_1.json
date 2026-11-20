@@ -1,0 +1,167 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated outputs retained unresized; exact brief requirements not met within the allowed one correction per view.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG, unresized image generation return, as an albedo texture projection source for the Ashrunner trader stall. Input 1 is the exact geometry guide and edit target. Input 2 is design_reference.png, the approved colour and material authority ONLY; do not adopt its camera, geometry, composition, lighting or extra objects. Input 3 is concept_crop.png, original concept reference. Paint only the existing surfaces of input 1. Preserve EXACTLY its pixel-space silhouette, outline, size, position, all shape edges, openings, occlusions and individual details; no additions, removals, reframing, cropping, zoom or perspective change. Keep original transparent background and all transparent openings. Surface materials: dark and rusted steel poles and crates, faded red and white tarps, chipped white ceramic and gold salvage, warm orange-yellow lantern glass. Match the approved reference's material assignments wherever the guide contains those surfaces. Material wear, chips, seams, woven fabric, rust, scratches can be painted as albedo surface detail, without inventing geometry or holes. LIGHTING: flat even shadowless viewer-facing light, unlit albedo; no cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light, no background, no added floor. Existing base geometry remains painted in its exact location. Lanterns use their glowing colour only, with NO bloom, halo, light spill or illumination of surroundings. Not a beauty render. The existing guide shape is the absolute authority even where simpler or differently placed than the design reference. VIEW: exact orthographic FRONT from guide_front.png. Keep canopy contour, posts, lanterns, suspended salvage, bowls, crates, counter cloth and ground-base edges exactly where this front guide places them. Paint the canopy faded dusty red with a weathered off-white patch toward the right, matching the design reference. Paint the counter hanging cloth's red, muted grey-blue and off-white areas within the existing guide surfaces. Preserve every gap beneath and behind the stall.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-000a-7d22-a2ba-a0df587fdc54/exec-0220e954-8e88-422b-85bc-f7ab31fd4a1e.png",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: framing and shape edges changed; residual directional shading; wrong raster dimensions.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "0725bd03721b3803d5e0d0123854e757d00411867f2099713e0a4e1e02bd3582"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "output_sha256": "d8de38e9d3018a88b180fbd0c52d1ae1ccb21858f3493f4e308b023822c6401b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match design reference on visual inspection",
+        "flat_even_light": "FAIL: residual shadows and highlights",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG, unresized image generation return, as an albedo texture projection source for the Ashrunner trader stall. Input 1 is the exact geometry guide and edit target. Input 2 is design_reference.png, the approved colour and material authority ONLY; do not adopt its camera, geometry, composition, lighting or extra objects. Input 3 is concept_crop.png, original concept reference. Paint only the existing surfaces of input 1. Preserve EXACTLY its pixel-space silhouette, outline, size, position, all shape edges, openings, occlusions and individual details; no additions, removals, reframing, cropping, zoom or perspective change. Keep original transparent background and all transparent openings. Surface materials: dark and rusted steel poles and crates, faded red and white tarps, chipped white ceramic and gold salvage, warm orange-yellow lantern glass. Match the approved reference's material assignments wherever the guide contains those surfaces. Material wear, chips, seams, woven fabric, rust, scratches can be painted as albedo surface detail, without inventing geometry or holes. LIGHTING: flat even shadowless viewer-facing light, unlit albedo; no cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light, no background, no added floor. Existing base geometry remains painted in its exact location. Lanterns use their glowing colour only, with NO bloom, halo, light spill or illumination of surroundings. Not a beauty render. The existing guide shape is the absolute authority even where simpler or differently placed than the design reference. VIEW: exact orthographic FRONT from guide_front.png. Keep canopy contour, posts, lanterns, suspended salvage, bowls, crates, counter cloth and ground-base edges exactly where this front guide places them. Paint the canopy faded dusty red with a weathered off-white patch toward the right, matching the design reference. Paint the counter hanging cloth's red, muted grey-blue and off-white areas within the existing guide surfaces. Preserve every gap beneath and behind the stall.\nCORRECTION REQUIREMENTS: Actual output raster MUST be exactly 1024 pixels wide and 1024 pixels high, same canvas as input 1, not 1254 or any other size. Treat this as surface recolouring of input 1, not recreating the stall. The opaque guide bounds are x=66..957 and y=223..800 on the 1024 canvas. Retain the generous empty top and bottom margins exactly. Copy the guide alpha silhouette without modification. The previous attempt incorrectly expanded the stall in the canvas, added canopy holes and decorative silhouette detail, and shaded recesses strongly. Do not do those things. Leave every grey-guide surface outline completely untouched and paint FLAT diffuse material colour inside it, with uniform brightness even in recesses. No 3D studio lighting. No tiny stray alpha pixels outside the guide.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-000a-7d22-a2ba-a0df587fdc54/exec-ba896e0b-c38e-4b6c-bc2f-35d3873dc2e4.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best of two permitted returns: closer framing. Selected for delivery only, not approved: dimensions and silhouette fail exact guide requirements; residual shading/highlights remain.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "0725bd03721b3803d5e0d0123854e757d00411867f2099713e0a4e1e02bd3582"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "output_sha256": "d68f8bb90cdc41c158221935f1c522b175feda03b7289fa82bb7ee8cddfff449",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match design reference on visual inspection",
+        "flat_even_light": "FAIL: residual shadows and highlights",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG, unresized image generation return, as an albedo texture projection source for the Ashrunner trader stall. Input 1 is the exact geometry guide and edit target. Input 2 is design_reference.png, the approved colour and material authority ONLY; do not adopt its camera, geometry, composition, lighting or extra objects. Input 3 is concept_crop.png, original concept reference. Paint only the existing surfaces of input 1. Preserve EXACTLY its pixel-space silhouette, outline, size, position, all shape edges, openings, occlusions and individual details; no additions, removals, reframing, cropping, zoom or perspective change. Keep original transparent background and all transparent openings. Surface materials: dark and rusted steel poles and crates, faded red and white tarps, chipped white ceramic and gold salvage, warm orange-yellow lantern glass. Match the approved reference's material assignments wherever the guide contains those surfaces. Material wear, chips, seams, woven fabric, rust, scratches can be painted as albedo surface detail, without inventing geometry or holes. LIGHTING: flat even shadowless viewer-facing light, unlit albedo; no cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light, no background, no added floor. Existing base geometry remains painted in its exact location. Lanterns use their glowing colour only, with NO bloom, halo, light spill or illumination of surroundings. Not a beauty render. The existing guide shape is the absolute authority even where simpler or differently placed than the design reference. VIEW: exact orthographic TOP-DOWN from guide_top.png. Preserve the large central canopy geometry, its exact curved edges and transverse rope, the lower visible canopy underside band, every corner post, all peripheral salvage, crates, stones and irregular base contour at their exact image coordinates. Colour the canopy predominantly faded dusty red with a worn off-white patch toward the image's right, consistent with the approved front design, painting wear as texture without new geometric holes. Paint visible base ash-grey rubble and worn grey/red/off-white patchwork ground material within existing base only. Keep the guide's exact framing and overhead camera.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-000a-7d22-a2ba-a0df587fdc54/exec-ce519952-e7bd-4a2d-917d-2b589586a613.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: invented canopy holes and base details, residual shadows, wrong raster dimensions.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b7dec9fd61d92b2af91499620d08867741ae71b6f779e5d35786e9c7e5eb16a2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "output_sha256": "150f29aa812deaee07e2aa179f1a34d823e3327daf992c76a15d1387a919a0e3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match design reference on visual inspection",
+        "flat_even_light": "FAIL: residual shadows and highlights",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG, unresized image generation return, as an albedo texture projection source for the Ashrunner trader stall. Input 1 is the exact geometry guide and edit target. Input 2 is design_reference.png, the approved colour and material authority ONLY; do not adopt its camera, geometry, composition, lighting or extra objects. Input 3 is concept_crop.png, original concept reference. Paint only the existing surfaces of input 1. Preserve EXACTLY its pixel-space silhouette, outline, size, position, all shape edges, openings, occlusions and individual details; no additions, removals, reframing, cropping, zoom or perspective change. Keep original transparent background and all transparent openings. Surface materials: dark and rusted steel poles and crates, faded red and white tarps, chipped white ceramic and gold salvage, warm orange-yellow lantern glass. Match the approved reference's material assignments wherever the guide contains those surfaces. Material wear, chips, seams, woven fabric, rust, scratches can be painted as albedo surface detail, without inventing geometry or holes. LIGHTING: flat even shadowless viewer-facing light, unlit albedo; no cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light, no background, no added floor. Existing base geometry remains painted in its exact location. Lanterns use their glowing colour only, with NO bloom, halo, light spill or illumination of surroundings. Not a beauty render. The existing guide shape is the absolute authority even where simpler or differently placed than the design reference. VIEW: exact orthographic TOP-DOWN from guide_top.png. Preserve the large central canopy geometry, its exact curved edges and transverse rope, the lower visible canopy underside band, every corner post, all peripheral salvage, crates, stones and irregular base contour at their exact image coordinates. Colour the canopy predominantly faded dusty red with a worn off-white patch toward the image's right, consistent with the approved front design, painting wear as texture without new geometric holes. Paint visible base ash-grey rubble and worn grey/red/off-white patchwork ground material within existing base only. Keep the guide's exact framing and overhead camera.\nCORRECTION REQUIREMENTS: Return actual raster exactly 1024 x 1024 pixels, same as input 1, not 1254 or another size. Perform a precise surface recolouring of the grey guide, not a new rendition. Copy input 1 alpha outline exactly. NO new canopy holes: its solid cloth shape must remain solid. NO added crates, pots, stones or individual objects on the plain lower base; only paint the base as flat ash and patchwork colours. NO cast shadows under rope or cloth, NO ambient occlusion between objects, NO metal shine. Retain the guide's exact fabric borders, rope shape, irregular base outline, corner poles and every opening at their original coordinates. Preserve every pixel-space shape boundary and margin. The guide is absolute geometry authority. Use flat diffuse material colour and very fine albedo wear. Nothing else.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8f-000a-7d22-a2ba-a0df587fdc54/exec-2c8041a0-9887-48d3-ad08-2f5e05e3042c.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best of two permitted returns: removes invented canopy holes. Selected for delivery only, not approved: dimensions and silhouette fail exact guide requirements; added base details and residual shading remain.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b7dec9fd61d92b2af91499620d08867741ae71b6f779e5d35786e9c7e5eb16a2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "output_sha256": "0c53e7b5b6a6be4caf42eb893f88ef54caeedfced46d4a6bfee50f51fe309d50",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match design reference on visual inspection",
+        "flat_even_light": "FAIL: residual shadows and highlights",
+        "unresized_return": true
+      }
+    }
+  ]
+}

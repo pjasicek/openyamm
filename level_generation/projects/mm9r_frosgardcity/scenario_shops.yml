@@ -1,0 +1,85 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.frosgardcity_shops
+title: 'Frosgard City (native BLV) - walk-in shops: the shopkeepers'' dialogues open by real clicks and their service rows
+  open the shops'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: frosgardcity.blv
+- advance_runtime:
+    seconds: 1.5
+- note:
+    text: '201 (RUDE 201) in the shop: a click opens the dialogue; "Yes.  We''d like to see your wares." opens the shop.'
+- set_pose:
+    map: frosgardcity.blv
+    x: 8192
+    y: -2563
+    z: 147
+    yaw: -1.5708
+    pitch: -0.9622
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 201
+- assert:
+    dialog:
+      active: true
+      source_id: 201
+- select_topic:
+    action_id: 2
+    match_label: Yes.  We'd like to see your wares.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: '203 (RUDE 203) in the shop: a click opens the dialogue; "We''d like to see your stuff." opens the shop.'
+- set_pose:
+    map: frosgardcity.blv
+    x: 6472
+    y: 304
+    z: 45
+    yaw: -1.5708
+    pitch: -0.6132
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 203
+- assert:
+    dialog:
+      active: true
+      source_id: 203
+- select_topic:
+    action_id: 2
+    match_label: We'd like to see your stuff.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5

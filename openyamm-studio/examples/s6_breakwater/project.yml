@@ -1,0 +1,14 @@
+format: 0
+id: studio06
+name: The Breakwater Store
+world: mm6
+kind: indoor
+profile: dungeon
+units: {plan_grid: 512, snap: 64}
+migrated: [platform_in_sunken_level]
+map_stats:
+  id: 9306
+  reference: 6d01.blv
+  encounter_chance: 0
+  treasure_level: 1
+notes: "S6's test map (devdocs/map_studio/S6_PLAN.md): a barricade of boards across the store's doorway and a barrel that break, a pool to swim in with a ladder out, and a short cinematic on arrival. Plain on purpose."

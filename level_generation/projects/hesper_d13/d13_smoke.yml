@@ -1,0 +1,70 @@
+id: hesper.d13.d13_smoke
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d13.blv
+    party:
+      food: 200
+      members:
+      - name: Deepwell tester 1
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 2
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 3
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 4
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 5
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+- advance_runtime:
+    seconds: 1
+- assert:
+    map: hes_d13.blv
+- assert:
+    actor_visible:
+      actor_index: 12
+      combat_targeting_party: false
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- assert:
+    mechanism:
+      id: 4
+      state: closed

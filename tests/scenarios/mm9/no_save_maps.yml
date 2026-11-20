@@ -1,0 +1,19 @@
+# The Arena and Chadwick's Dungeon of Secrets forbid saving (the user, 2026-11-09), as MM6-MM8's arenas do (zarena,
+# 7d05, d42): the Arena's fights, bouts and Sven's staging live in its map Lua, which a load starts afresh (a game saved
+# after a won Lord fight paid nothing), and the Dungeon of Secrets starts a fresh trial on every load. Their converters
+# write `runtime_restrictions: {allow_save_game: false, allow_lloyds_beacon: false}` into the scenes
+# (level_generation/projects/mm9r_thearena/convert.py and mm9r_dungeonofsecrets/convert.py, scene()).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/no_save_maps.yml --scenario-no-color
+id: mm9.no_save_maps
+title: "MM9's Arena and Dungeon of Secrets forbid saving, as MM6-MM8's arenas do"
+world: mm9
+mode: faithful
+tags: [mm9, arena, save]
+steps:
+  - new_game_flow:
+      start_map: thearena.blv
+  - advance_runtime: {seconds: 1}
+  - reload: {expect_blocked: "forbids saving"}
+  - load_map: {map: dungeonofsecrets.blv}
+  - advance_runtime: {seconds: 1}
+  - reload: {expect_blocked: "forbids saving"}

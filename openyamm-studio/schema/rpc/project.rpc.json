@@ -1,0 +1,947 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: project",
+  "description": "Reading a project: all of it, one file, its revision.",
+  "x-group": "project",
+  "methods": {
+    "open": {
+      "summary": "Every project file as a tree, the source revision, the lock hash, every id and where it is, and the issues found by reading the files against their schemas (check.validate runs the full checks).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "not_a_project"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "lock_hash",
+          "files",
+          "ids",
+          "issues"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "lock_hash": {
+            "$ref": "common.rpc.json#/$defs/lock_hash"
+          },
+          "files": {
+            "description": "The files that exist and parse. A file that does not parse is absent here and named in issues (code yaml).",
+            "$ref": "common.rpc.json#/$defs/file_trees"
+          },
+          "ids": {
+            "description": "Every object with an id, in file and list order.",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id_place"
+            }
+          },
+          "issues": {
+            "description": "Files that could not be read or parsed, and schema issues.",
+            "$ref": "common.rpc.json#/$defs/issues"
+          },
+          "hand_edited": {
+            "$ref": "edit.rpc.json#/$defs/hand_mark"
+          },
+          "keys": {
+            "description": "Every keyed sub-object (format 1, core/Keys.h) by its address (room:hall/pillars/pillar2), with its file: what selections, pins and patches name. A key not written yet reads as the one the core gives.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "address",
+                "file"
+              ],
+              "properties": {
+                "address": {
+                  "type": "string"
+                },
+                "file": {
+                  "$ref": "common.rpc.json#/$defs/file_name"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "read": {
+      "summary": "One project file: its text as on disk and its tree.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "no_such_file"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "file"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "file": {
+            "$ref": "common.rpc.json#/$defs/file_name"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "file",
+          "text",
+          "canonical"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "file": {
+            "$ref": "common.rpc.json#/$defs/file_name"
+          },
+          "text": {
+            "description": "The file's bytes as UTF-8 text.",
+            "type": "string"
+          },
+          "canonical": {
+            "description": "Whether the text is already in the core's canonical form (oymap fmt would leave it).",
+            "type": "boolean"
+          },
+          "tree": {
+            "description": "Absent when the file does not parse.",
+            "$ref": "common.rpc.json#/$defs/file_tree"
+          },
+          "parse_error": {
+            "description": "Present when the file does not parse.",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "status": {
+      "summary": "The project's source revision and lock hash. An edit of a source file made outside the tool since the core last saw the project is recorded in its history (under .oymap/, author outside until project.record names one) and listed; a lock changed from outside is taken as the new record and noted in .oymap/lock.log.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "lock_hash",
+          "outside_changes"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "lock_hash": {
+            "$ref": "common.rpc.json#/$defs/lock_hash"
+          },
+          "outside_changes": {
+            "description": "The semantic diff of an outside edit found by this call: \"rooms.yml: room:hall changed outline\".",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "unreadable": {
+            "description": "Files that do not parse now (a generator half way, a typo in a text editor), with the parser's message; absent when every file parses. The project is read only until they parse (S5_BROWSER_EDITOR.md 2.4.3).",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "file",
+                "message"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "outside_sequence": {
+            "description": "The history entry this read recorded for an edit made outside the tool.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "outside_notice": {
+            "description": "That entry's error notice: a project edited by hand rewritten from outside (objects a person changed last that it replaced, keys it dropped), with the one step to revert it.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "hand_edited": {
+            "$ref": "edit.rpc.json#/$defs/hand_mark"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "record": {
+      "summary": "Puts an author and a label on the edits made outside the tool (a generator run, a text editor): the change on disk now is recorded first, then every unattributed outside entry since this author's latest entry takes the author and the label. Nothing else in the entries changes; the entries taken are listed, so one claimed by mistake is seen.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "author"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "author": {
+            "description": "user, or agent:<name>.",
+            "type": "string",
+            "pattern": "^(user|agent(:[A-Za-z0-9_.-]+)?)$"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "recorded"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "recorded": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "sequence",
+                "changes"
+              ],
+              "properties": {
+                "sequence": {
+                  "description": "The history entry's number.",
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "changes": {
+                  "$ref": "common.rpc.json#/$defs/strings"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "lock_prune": {
+      "summary": "Drops the id lock's entries of ids no source file has any more (builds keep them, so a number once given stays through undo). A deliberate step before sharing or shipping a map, or when a build says a table has no free number; written as a record (.oymap/lock.log), never undone. Outdoor and overlay projects keep every entry (a note says why).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "dry_run": {
+            "description": "List what would be dropped; write nothing.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "dropped",
+          "lock_hash_before",
+          "lock_hash"
+        ],
+        "properties": {
+          "dropped": {
+            "description": "\"events: evt:gone 3\": the table, the id and its number.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "lock_hash_before": {
+            "$ref": "common.rpc.json#/$defs/lock_hash"
+          },
+          "lock_hash": {
+            "description": "The lock's hash now (as before on a dry run).",
+            "$ref": "common.rpc.json#/$defs/lock_hash"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "new": {
+      "summary": "Makes an empty project in a folder that holds none. Indoor (the default): a map card, one masonry theme, no rooms yet (so it reports one issue until the first room and the start exist); the first edit adds rooms, the openings between them and the start together. Outdoor (S5b2): a map card, a plan with one space and its arrival, and a sketch of level land given by spot heights (heights.grid) with the arrival point in the middle: it validates and builds as made.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "project",
+      "assets": "none",
+      "errors": [
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "id",
+          "name"
+        ],
+        "properties": {
+          "project": {
+            "description": "The folder to make (made when missing; refused when it holds a project already).",
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "id": {
+            "description": "The map's file stem, lower case (crypt01 builds crypt01.blv).",
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,24}$"
+          },
+          "name": {
+            "description": "The map's name as the player reads it.",
+            "type": "string",
+            "minLength": 1
+          },
+          "world": {
+            "description": "Default mm6.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "reference": {
+            "description": "A shipped map of the world whose map_stats row the new map starts from (monsters, music); default 6d01.blv.",
+            "type": "string",
+            "minLength": 1
+          },
+          "stats_id": {
+            "description": "The number of the map's row in the map table; each new map needs its own (default 9400).",
+            "type": "integer",
+            "minimum": 1
+          },
+          "kind": {
+            "description": "indoor (the default) or outdoor.",
+            "enum": [
+              "indoor",
+              "outdoor"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "files",
+          "revision",
+          "next"
+        ],
+        "properties": {
+          "files": {
+            "description": "The files made, relative to the project folder.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "next": {
+            "description": "What to do first.",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "query": {
+      "summary": "Reads one object by id (with the engine number the last build gave it, from ids.lock.yml), one top-level list by its key, or without either the project's summary: the map card and the ids of each file's lists.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "no_such_object",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "id": {
+            "$ref": "common.rpc.json#/$defs/object_id"
+          },
+          "list": {
+            "description": "A top-level key of a source file whose value is a list (doors, rooms, events).",
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "file": {
+            "description": "The file of `id` or `list`, needed where it is in more than one file.",
+            "$ref": "common.rpc.json#/$defs/file_name"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "file": {
+            "$ref": "common.rpc.json#/$defs/file_name"
+          },
+          "list": {
+            "type": "string"
+          },
+          "object": {
+            "description": "The object as stored (with `id`).",
+            "type": "object",
+            "x-tree": true
+          },
+          "items": {
+            "description": "The list as stored (with `list` without `id`).",
+            "x-tree": true
+          },
+          "number": {
+            "description": "The engine number the build gave the id (the event number check.flow_event takes, a door's id).",
+            "type": "integer"
+          },
+          "number_of": {
+            "description": "The table of ids.lock.yml the number is in (events, doors, sectors ...).",
+            "type": "string"
+          },
+          "card": {
+            "description": "The map card's own words (summary only).",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "files": {
+            "description": "Summary only: per file, each list's ids (60 at most, then a count of the rest).",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "common.rpc.json#/$defs/strings"
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "import": {
+      "summary": "A shipped map as an overlay project (`oymap import`) in a folder that holds no project yet: the map card, a derived room graph, and the map's own numbers under stable ids (door:d12, evt:e20, room:s3) in ids.lock.yml. The geometry stays in the base map.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "project",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "no_such_map",
+        "bad_request",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "map",
+          "world"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path",
+            "description": "The folder to make the project in."
+          },
+          "map": {
+            "description": "The shipped map's file name (6d01.blv).",
+            "type": "string",
+            "minLength": 1
+          },
+          "world": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "written"
+        ],
+        "properties": {
+          "map": {
+            "type": "string"
+          },
+          "written": {
+            "description": "The files made, relative to the project.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "fmt": {
+      "summary": "Rewrites a project's files in canonical form (`oymap fmt`), or with `check` only names the files that are not. A rewrite is an edit made outside the operations: the next read records it in the history as one.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "project",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "has_errors",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "check": {
+            "description": "Only name the files not in canonical form; write nothing.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "checked_only",
+          "not_canonical"
+        ],
+        "properties": {
+          "checked_only": {
+            "type": "boolean"
+          },
+          "not_canonical": {
+            "description": "Files not in canonical form (rewritten unless `check`).",
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "protect": {
+      "summary": "\"Protect this project\" (S5_BROWSER_EDITOR.md 2.8): a person sets the hand-edit mark by hand (for one who edits the YAML in a text editor), or clears it (clear: a generator run then erases hand edits). Written as a transaction of author user; no agent and no procedure calls it.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "project",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "clear": {
+            "description": "Clear the mark instead.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "marked"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "marked": {
+            "type": "boolean"
+          },
+          "hand_edited": {
+            "$ref": "edit.rpc.json#/$defs/hand_mark"
+          },
+          "sequence": {
+            "description": "The history entry written (absent when nothing changed).",
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "migrate": {
+      "summary": "Writes every source file in canonical form with the keys of format 1 (rooms.yml and objects.yml: every room's pillars, platforms, levels ... and every mover's part gets the key it reads as), as one history entry of author migration. The browser never migrates by itself; it asks.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "project",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "dry_run": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "files",
+          "keys_written"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "files": {
+            "description": "The files rewritten (or for a dry run that would be).",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "keys_written": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "resolve": {
+      "summary": "The effective values of one object for the inspector (S5_BROWSER_EDITOR.md 3.8): its written fields, the values it takes when a field is not written (a room's theme and ambient from rooms.yml defaults, its surfaces from its theme) with where each comes from, and its resolved geometry from the view's lowering (view.layout's entry). A spawn point also gets the map card's encounter slots it draws on (`slots`). With `card: true` and no `id`: the map card (project.yml map_stats) as the game will read it: the columns it writes, those it takes from its reference map's row of map_stats.txt (source reference; needs the asset root), and its encounter slots.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "no_such_object",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "id": {
+            "$ref": "common.rpc.json#/$defs/object_id"
+          },
+          "file": {
+            "$ref": "common.rpc.json#/$defs/file_name"
+          },
+          "card": {
+            "description": "The map card itself (no `id`).",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "anyOf": [
+          {
+            "required": [
+              "id"
+            ]
+          },
+          {
+            "required": [
+              "card"
+            ]
+          }
+        ]
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "id",
+          "file",
+          "list",
+          "fields"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "file": {
+            "$ref": "common.rpc.json#/$defs/file_name"
+          },
+          "list": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "value",
+                "source"
+              ],
+              "properties": {
+                "value": {
+                  "x-tree": true
+                },
+                "source": {
+                  "enum": [
+                    "written",
+                    "default",
+                    "theme",
+                    "reference"
+                  ]
+                },
+                "from": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "layout": {
+            "description": "The object's entry in view.layout (resolved geometry in world units).",
+            "type": "object",
+            "x-tree": true
+          },
+          "layout_stale": {
+            "type": "boolean"
+          },
+          "slots": {
+            "description": "The map card's encounter slots 1 to 3 (a spawn point's, or the card's): the monster family, its picture where it differs, difficulty, monsters per spawn point and share of rest encounters as map_stats.txt has them, and whether project.yml writes the slot (`written`) or the reference map's row gives it (`reference`).",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "slot",
+                "monster",
+                "source",
+                "from"
+              ],
+              "properties": {
+                "slot": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 3
+                },
+                "monster": {
+                  "type": "string"
+                },
+                "picture": {
+                  "type": "string"
+                },
+                "tier": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "string"
+                },
+                "weight": {
+                  "type": "string"
+                },
+                "source": {
+                  "enum": [
+                    "written",
+                    "reference"
+                  ]
+                },
+                "from": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "card_note": {
+            "description": "Why the reference map's row was not read (no asset root, no row).",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "id_place": {
+      "type": "object",
+      "required": [
+        "id",
+        "file",
+        "list"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "common.rpc.json#/$defs/file_name"
+        },
+        "list": {
+          "description": "The top-level list it is in: rooms, doors, events, ...",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

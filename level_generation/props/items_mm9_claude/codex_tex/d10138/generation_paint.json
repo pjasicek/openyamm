@@ -1,0 +1,33 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png exactly, using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048, 3:4 aspect ratio. Preserve the guide's exact 3 columns by FOUR rows of 512x512 cells, all object positions, sizes, silhouettes, geometry, orientations and gaps. Paint existing grey objects only; do not redraw, enlarge, move or redesign.\nRows 1-2 are PAINT: same five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat identical views and placement but are MATERIAL MASK only.\nSubject: Superior Steel Gauntlets, source-faithful pair vertical cuffs-down, interpreted strictly through the existing guide geometry. Reference steel plates, segmented steel fingers, brass rivets and brass cuff accents, dark brown leather padding. Follow reference facets and details scaled to each view without inventing decoration.\nPAINT top half: unlit base colour only, silver grey steel with fine restrained material texture, brass gold rivets/accents and dark brown leather. No lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections.\nMATERIAL MASK bottom half: every metal part including steel and brass is flat pure red #FF0000. Every leather or fur part including padding is flat pure green #00FF00. Every cloth/cord/lining/hair part is flat pure blue #0000FF. Every gemstone/crystal/glass/pearl/enamel/liquid is flat pure black #000000. Each silhouette pixel exactly one of these pure colours. No shading, no texture, no outlines, no antialiased colour blends inside mask. Match material boundaries of top views.\nKeep every guide gap and opening exactly and fully transparent. Empty cells column 3 row 2 and row 4 stay completely transparent. Outside all silhouettes fully transparent. No text, grid, outlines, ground, halos, sparkles or aura. Guide is the authoritative layout; other two images are only appearance references.\nCRITICAL corrective generation: mask silhouettes must have clean exact edges matching the guide. Absolutely NO scattered pixels, noise, speckles or coloured haze outside silhouettes. Bottom half is a flat segmentation map, NOT a shaded red rendering: solid red and green regions with no dark creases, highlights, gradients or drawn outlines. Top half must be matte unlit albedo with no baked lighting. Preserve original guide positions and scale precisely.",
+  "initial_prompt": "Edit the supplied paint_mask_guide.png exactly, using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048, 3:4 aspect ratio. Preserve the guide's exact 3 columns by FOUR rows of 512x512 cells, all object positions, sizes, silhouettes, geometry, orientations and gaps. Paint existing grey objects only; do not redraw, enlarge, move or redesign.\nRows 1-2 are PAINT: same five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat identical views and placement but are MATERIAL MASK only.\nSubject: Superior Steel Gauntlets, source-faithful pair vertical cuffs-down, interpreted strictly through the existing guide geometry. Reference steel plates, segmented steel fingers, brass rivets and brass cuff accents, dark brown leather padding. Follow reference facets and details scaled to each view without inventing decoration.\nPAINT top half: unlit base colour only, silver grey steel with fine restrained material texture, brass gold rivets/accents and dark brown leather. No lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections.\nMATERIAL MASK bottom half: every metal part including steel and brass is flat pure red #FF0000. Every leather or fur part including padding is flat pure green #00FF00. Every cloth/cord/lining/hair part is flat pure blue #0000FF. Every gemstone/crystal/glass/pearl/enamel/liquid is flat pure black #000000. Each silhouette pixel exactly one of these pure colours. No shading, no texture, no outlines, no antialiased colour blends inside mask. Match material boundaries of top views.\nKeep every guide gap and opening exactly and fully transparent. Empty cells column 3 row 2 and row 4 stay completely transparent. Outside all silhouettes fully transparent. No text, grid, outlines, ground, halos, sparkles or aura. Guide is the authoritative layout; other two images are only appearance references.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-c469-7333-9193-e9c7161f167b/exec-4049c266-905c-4323-8aab-f796e64d41b3.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10138/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10138/paint_mask_guide.png",
+      "sha256": "9c2e31890368b66e4bd657bdaedfc407c5f474ff88d3f497bf7797ec9d026177"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10138/design_reference.png",
+      "sha256": "a493a4fe4bbb1675150596b3dd525e4384d6fc9a0212952ad1d07d48ad0a1bda"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10138/icon_x8.png",
+      "sha256": "9771752864ec61b0398b6b44dde22c7c358c9876ed399dc5b07db880ed6afb5d"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": [
+      "Visible baked highlights remain in paint views.",
+      "Mask contains dark outlines, non-pure colours and stray edge pixels; exact silhouette preservation is not achieved."
+    ]
+  }
+}

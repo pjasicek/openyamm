@@ -1,0 +1,594 @@
+format: 0
+themes:
+  - id: theme:cave
+    wall: {texture: swamptyl, size: [128, 128]}
+    floor: {texture: C1FL, size: [128, 128]}
+    ceiling: {texture: GNecStpV, size: [64, 128]}
+    notes: "The lower level (sectors 9 to 26): swamptyl walls 512 high, C1FL floor, GNecStpV ceiling."
+  - id: theme:lab
+    wall: {texture: GNecWalT, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: GNecWalB, size: [256, 256]}}
+    floor: {texture: GNecFlr, size: [128, 128]}
+    ceiling: {texture: gn_mtl03, size: [128, 128]}
+    reveal: {texture: GNecStpV, size: [64, 128]}
+    door: {texture: GNecWal2, size: [128, 256]}
+    notes: "The laboratory floors (sectors 1 to 5 and 8): GNecWalB from the floor to 256, GNecWalT above, GNecFlr floor, gn_mtl03 ceiling; doorways GNecStpV jambs (the original lintel is GNecStpT), leaves GNecWal2."
+  - id: theme:shaft
+    wall: {texture: GNecWal1, size: [256, 256]}
+    floor: {texture: GNecFlr, size: [128, 128]}
+    ceiling: {texture: GNecWal1, size: [256, 256]}
+    notes: "The lift shaft (sector 6): GNecWal1 walls and roof."
+  - id: theme:stair
+    wall: {texture: swamptyl, size: [128, 128]}
+    floor: {texture: GNecWal1, size: [256, 256]}
+    ceiling: {texture: GNecWal1, size: [256, 256]}
+    notes: "The square stair down (sector 7): swamptyl walls, GNecWal1 treads, landings and raking roofs, GNecStpV risers."
+  - id: theme:under
+    wall: {texture: Grastyl, size: [128, 128]}
+    floor: {texture: C1FL, size: [128, 128]}
+    ceiling: {texture: gn_mtl03, size: [128, 128]}
+    notes: "The room under the hall (the part of sector 1 at -1024): Grastyl walls, C1FL floor, gn_mtl03 ceiling."
+defaults: {theme: theme:lab, ambient: 22}
+rooms:
+  - id: room:c10
+    name: Long gallery
+    outline: [[-2560, -1076], [-2176, -1076], [-2176, -308], [-1024, -308], [-1024, -1076], [-640, -1076], [-640, -692], [1856, -692], [1856, -1076], [2624, -1076], [2624, -692], [2240, -692], [2240, -308], [2624, -308], [2624, 76], [1664, 76], [1664, -308], [-640, -308], [-640, 76], [-2560, 76]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 10.
+  - id: room:c11
+    name: North bend
+    outline: [[1664, 652], [1664, 1228], [704, 1228], [704, -308], [1088, -308], [1088, 652]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 11.
+  - id: room:c12
+    name: Dead end
+    outline: [[1280, 268], [1664, 268], [1664, 652], [1280, 652]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 12.
+  - id: room:c13
+    name: East chest room
+    outline: [[4544, -500], [5696, -500], [5696, -116], [4544, -116]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 13.
+  - id: room:c14
+    name: East gallery
+    outline: [[3392, 460], [3392, 76], [5696, 76], [5696, -500], [6080, -500], [6080, 460]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 14.
+  - id: room:c15
+    name: East bend
+    outline: [[2624, -1076], [3776, -1076], [3776, 76], [3392, 76], [3392, -692], [2624, -692]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 15.
+  - id: room:c16
+    name: South-east passage
+    outline: [[3200, -3572], [3200, -3956], [4352, -3956], [4352, 76], [3968, 76], [3968, -3572]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 16.
+  - id: room:c17
+    name: South caves
+    outline: [[3760, -2036], [3376, -2036], [3376, -2228], [2816, -2228], [2816, -6068], [3776, -6068], [3776, -4724], [3200, -4724], [3200, -2612], [3760, -2612]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    pillars:
+      - {outline: [[3200, -5684], [3392, -5684], [3392, -5108], [3200, -5108]], notes: "The block in the south cave (sector 17, faces at x 3200 to 3392)."}
+    notes: Sector 17.
+  - id: room:c18
+    name: South chest room
+    outline: [[4544, -4340], [4928, -4340], [4928, -2804], [4352, -2804], [4352, -3188], [4544, -3188]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 18.
+  - id: room:c19
+    name: North-east passage
+    outline: [[2624, 1228], [2624, -308], [3008, -308], [3008, 1228]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 19.
+  - id: room:c20
+    name: North-east bend
+    outline: [[3008, 844], [3392, 844], [3392, 2380], [3008, 2380]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 20.
+  - id: room:c21
+    name: Fire corridor
+    outline: [[3008, 2380], [1088, 2380], [1088, 1996], [3008, 1996]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    ceiling_levels:
+      - outline: [[1498, 2178], [1504, 2190], [1518, 2196], [1504, 2200], [1498, 2212], [1492, 2200], [1478, 2196], [1492, 2190]]
+        ceiling: -508
+        edge: {texture: T66flr2, size: [128, 128]}
+        surface: {texture: solid01, size: [16, 16]}
+        notes: "A fire vent in the roof (faces 1316 to 1326, 1377 to 1379): a star 40 by 34, 4 deep."
+      - outline: [[2552, 2178], [2558, 2190], [2572, 2196], [2558, 2200], [2552, 2212], [2546, 2200], [2532, 2196], [2546, 2190]]
+        ceiling: -508
+        edge: {texture: T66flr2, size: [128, 128]}
+        surface: {texture: solid01, size: [16, 16]}
+        notes: "A fire vent in the roof (faces 1316 to 1326, 1377 to 1379): a star 40 by 34, 4 deep."
+    notes: Sector 21.
+  - id: room:c22
+    name: North passage
+    outline: [[128, 1228], [512, 1228], [512, 1996], [1088, 1996], [1088, 2380], [512, 2380], [512, 2956], [128, 2956]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 22.
+  - id: room:c24
+    name: Passage to the cistern
+    outline: [[-572, 852], [-572, 468], [512, 468], [512, 1228], [128, 1228], [128, 852]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 24.
+  - id: room:c25
+    name: Hall of blades
+    outline: [[-640, 3916], [-1024, 3916], [-1024, 3148], [128, 3148], [128, 2956], [512, 2956], [512, 3148], [896, 3148], [896, 3532], [-640, 3532]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    walls:
+      - wall: 7
+        panels:
+          - {offset: 154, length: 86, bottom: 158, height: 8, surface: {texture: solid01, size: [16, 16]}}
+        notes: "The east blade slot (faces 1291 to 1295: a slot 86 wide, 8 high and 64 deep, T66flr2 inside, solid01 at its back): here its back as a panel in the wall."
+      - wall: 1
+        panels:
+          - {offset: 528, length: 86, bottom: 158, height: 8, surface: {texture: solid01, size: [16, 16]}}
+        notes: The west blade slot (faces 1303 to 1307).
+    notes: Sector 25.
+  - id: room:c26
+    name: Ebonest cave
+    outline: [[-64, 3532], [-64, 3724], [896, 3724], [896, 4108], [320, 4108], [320, 4684], [512, 4684], [512, 4876], [896, 4876], [896, 5644], [-1024, 5644], [-1024, 4684], [-832, 4684], [-832, 4300], [-64, 4300], [-64, 4108], [-448, 4108], [-448, 3532]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 26.
+  - id: room:c9
+    name: Lower passage
+    outline: [[-1600, -308], [-1600, -1136], [-2144, -1136], [-2144, -1568], [-1216, -1568], [-1216, -308]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:cave
+    notes: Sector 9.
+  - id: room:east
+    name: East store
+    outline: [[-224, 256], [1056, 256], [416, 1152], [-224, 1152]]
+    floor: 0
+    ceiling: 512
+    theme: theme:lab
+    platforms:
+      - {id: platform:shelf_e, at: [96, 1120], size: [640, 64], rise: 256, surface: {texture: T1books, size: [128, 256]}, end_surface: {texture: Trim9_32a, size: [64, 32], fit: false}, top_surface: {texture: Trim9_32a, size: [64, 32]}, notes: "The bookcase on the north wall (faces 674 to 676; event 453)."}
+    notes: Sector 8.
+  - id: room:flight1
+    name: "Stair, first flight"
+    outline: [[-2624, -1920], [-2240, -1920], [-2240, -1440], [-2624, -1440]]
+    floor: -240
+    slope: {to: 0, toward: north, steps: 15, riser: {texture: GNecStpV, size: [64, 128]}}
+    ceiling: 256
+    ceiling_slope: {to: 512, toward: north}
+    theme: theme:stair
+    notes: "Treads -240 to -16, 32 deep (faces 1445 to 1473); the roof rakes 256 to 512 (face 1577)."
+  - id: room:flight2
+    name: "Stair, second flight"
+    outline: [[-2976, -2304], [-2656, -2304], [-2656, -1920], [-2976, -1920]]
+    floor: -416
+    slope: {to: -256, toward: east, steps: 10, riser: {texture: GNecStpV, size: [64, 128]}}
+    ceiling: 80
+    ceiling_slope: {to: 240, toward: east}
+    theme: theme:stair
+    notes: "Treads -416 to -272 (faces 1478 to 1496); the roof rakes from 80 (face 1580)."
+  - id: room:flight3
+    name: "Stair, third flight"
+    outline: [[-3360, -1888], [-2976, -1888], [-2976, -1568], [-3360, -1568]]
+    floor: -592
+    slope: {to: -432, toward: south, steps: 10, riser: {texture: GNecStpV, size: [64, 128]}}
+    ceiling: -96
+    ceiling_slope: {to: 64, toward: south}
+    theme: theme:stair
+    notes: "Treads -592 to -448 (faces 1501 to 1519); the roof rakes -96 to 80 (face 1587)."
+  - id: room:flight4
+    name: "Stair, fourth flight"
+    outline: [[-2944, -1568], [-2144, -1568], [-2144, -1136], [-2944, -1136]]
+    floor: -1008
+    slope: {to: -608, toward: west, steps: 25, riser: {texture: GNecStpV, size: [64, 128]}}
+    ceiling: -512
+    ceiling_slope: {to: -112, toward: west}
+    theme: theme:stair
+    notes: "Treads -1008 to -624 (faces 1524 to 1572); the roof rakes -512 to -96 (face 1591)."
+  - id: room:hall
+    name: Hall of the well
+    outline: [[-1152, -256], [-704, -256], [-256, 256], [-256, 1152], [-704, 1664], [-704, 1440], [-1152, 1440], [-1152, 1664], [-1664, 1152], [-1664, 256]]
+    floor: 0
+    ceiling: 512
+    theme: theme:lab
+    walls:
+      - wall: 5
+        panels:
+          - {offset: 0, length: 32, surface: {texture: GNecWal1, size: [256, 256]}}
+          - {offset: 0, from: end, length: 32, surface: {texture: GNecWal1, size: [256, 256]}}
+        notes: "The lift shaft frame either side of the shaft (faces 1260, 1261, 1349 to 1358: GNecWal1)."
+    platforms:
+      - {id: platform:kerb_s, rise: 64, surface: {texture: GNecStpT, size: [128, 64]}, outline: [[-1088, 704], [-1088, 672], [-1040, 576], [-960, 544], [-896, 544], [-816, 576], [-768, 672], [-768, 704], [-800, 704], [-800, 672], [-832, 608], [-896, 576], [-960, 576], [-1024, 608], [-1056, 672], [-1056, 704]], top_surface: {texture: GNecStpT, size: [128, 64]}, notes: "The well kerb, south half: a ring of twelve sides 32 wide and 64 high (faces 8 to 43, GNecStpT)."}
+      - {id: platform:kerb_n, rise: 64, surface: {texture: GNecStpT, size: [128, 64]}, outline: [[-768, 704], [-768, 736], [-816, 832], [-896, 864], [-960, 864], [-1040, 832], [-1088, 736], [-1088, 704], [-1056, 704], [-1056, 736], [-1024, 800], [-960, 832], [-896, 832], [-832, 800], [-800, 736], [-800, 704]], top_surface: {texture: GNecStpT, size: [128, 64]}, notes: "The well kerb, north half."}
+      - {id: platform:well_water, rise: 1, surface: {texture: WtrTyl, liquid: water}, outline: [[-960, 576], [-896, 576], [-832, 608], [-800, 672], [-800, 736], [-832, 800], [-896, 832], [-960, 832], [-1024, 800], [-1056, 736], [-1056, 672], [-1024, 608]], top_surface: {texture: WtrTyl, liquid: water}, bottom_surface: {texture: WtrTyl, liquid: water}, solid: false, notes: "The water in the well (face 7, WtrTyl at 0, fluid, flagged untouchable): drawn and not solid, so the party falls through it down the shaft into the cistern, as in the original."}
+      - {id: platform:button_low, at: [-1136, 1436], size: [24, 8], rise: 24, surface: {texture: GNecClg2, size: [128, 256]}, top_surface: {texture: GNecClg2, size: [128, 256]}, bottom_surface: {texture: GNecClg2, size: [128, 256]}, base: 160, notes: "The lift's call button beside the shaft (door record 2, faces 1353 to 1357: a block 24 by 8 by 24 on the wall at 160 to 184; its record's direction is 0, so it does not move)."}
+    notes: "Sector 1 above the floor: the octagonal hall with the well, the lift shaft in its north side, the exit in its south wall, double doors west and east."
+  - id: room:land1
+    name: "Stair, first landing"
+    outline: [[-2656, -2304], [-2240, -2304], [-2240, -1920], [-2656, -1920]]
+    floor: -256
+    ceiling: 256
+    theme: theme:stair
+    notes: "Faces 1475, 1477 at -256, roof 1574 at 256."
+  - id: room:land2
+    name: "Stair, second landing"
+    outline: [[-3360, -2304], [-2976, -2304], [-2976, -1888], [-3360, -1888]]
+    floor: -432
+    ceiling: 80
+    theme: theme:stair
+    notes: "Faces 184, 1498 at -432, roof 1579 at 80."
+  - id: room:land3
+    name: "Stair, third landing"
+    outline: [[-3360, -1568], [-2944, -1568], [-2944, -1136], [-3360, -1136]]
+    floor: -608
+    ceiling: -96
+    theme: theme:stair
+    notes: "Faces 1520, 1522 at -608, roof 1585 at -96."
+  - id: room:lift
+    name: Lift shaft
+    outline: [[-1120, 1440], [-736, 1440], [-736, 1632], [-1120, 1632]]
+    floor: 0
+    ceiling: 1057
+    theme: theme:shaft
+    notes: "Sector 6: the shaft of the lift (door record 1), open to the hall below and the quarters above."
+  - id: room:se
+    name: South-east laboratory
+    outline: [[-32, -1504], [512, -2016], [1056, -1504], [1056, 160], [-32, 160]]
+    floor: 0
+    ceiling: 512
+    theme: theme:lab
+    platforms:
+      - {rise: 88, surface: {texture: T1beds2, size: [128, 256]}, outline: [[-32, -1000], [264, -1000], [264, -864], [104, -864], [104, -352], [232, -352], [232, -224], [-32, -224]], top_surface: {texture: T1beds2, size: [128, 256]}, notes: "The laboratory bench against the west wall, its body (faces 188 to 191, 336, 1603 to 1607: T1beds2 to 88)."}
+      - {rise: 8, surface: {texture: T1butts, size: [32, 32]}, outline: [[-32, -1008], [272, -1008], [272, -856], [112, -856], [112, -360], [240, -360], [240, -216], [-32, -216]], top_surface: {texture: T1beds2, size: [128, 256]}, bottom_surface: {texture: T1beds2, size: [128, 256]}, base: 88, notes: "Its top, 8 thick and 8 out over the body (T1butts edge 192 to 195, 330, 334, 337; top at 96)."}
+      - {at: [192, -928], size: [88, 72], rise: 6, surface: {texture: T01A01A, size: [128, 256]}, top_surface: {texture: WtrTyl, liquid: water}, base: 96, notes: "The basin in the bench (faces 200 to 203, 1369 to 1373): water at 86 under a T01A01A rim that rises to 102; here a slab of water from 96 to 102."}
+      - {id: platform:shelf_se_w, rise: 256, surface: {texture: T1books, size: [128, 256]}, outline: [[-32, -1504], [512, -2016], [512, -1892], [32, -1440]], top_surface: {texture: Trim9_32, size: [32, 64]}, notes: "The bookcase on the south-west wall (faces 398, 402, 403; event 455)."}
+      - {id: platform:shelf_se_e, rise: 256, surface: {texture: T1books, size: [128, 256]}, outline: [[512, -2016], [1056, -1504], [992, -1440], [512, -1892]], top_surface: {texture: Trim9_32, size: [32, 64]}, notes: "The bookcase on the south-east wall (faces 399 to 401; event 454)."}
+      - {at: [0, -840], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [80, -840], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [0, -680], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [80, -680], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [0, -536], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [80, -536], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [0, -376], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [80, -376], size: [16, 16], rise: 120, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 96, notes: A post of the shelves on the bench (faces 207 to 330).}
+      - {at: [40, -608], size: [112, 496], rise: 8, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, bottom_surface: {texture: T1beds2, size: [128, 256]}, base: 152, notes: The lower board of the shelves on the bench (152 to 160).}
+      - {at: [40, -608], size: [112, 496], rise: 8, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, bottom_surface: {texture: T1beds2, size: [128, 256]}, base: 216, notes: The upper board (216 to 224).}
+      - {at: [1024, -1248], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 369 to 397): post"}
+      - {at: [1024, -848], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 369 to 397): post"}
+      - {at: [1024, -1048], size: [64, 384], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 369 to 397): base to +64"}
+      - {at: [1024, -1048], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 128, notes: "Rack (faces 369 to 397): board +128 to +144"}
+      - {at: [1024, -1048], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 208, notes: "Rack (faces 369 to 397): board +208 to +224"}
+      - {at: [1024, -1048], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 288, notes: "Rack (faces 369 to 397): board +288 to +304"}
+      - {at: [1024, -432], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 340 to 368): post"}
+      - {at: [1024, -32], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 340 to 368): post"}
+      - {at: [1024, -232], size: [64, 384], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 340 to 368): base to +64"}
+      - {at: [1024, -232], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 128, notes: "Rack (faces 340 to 368): board +128 to +144"}
+      - {at: [1024, -232], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 208, notes: "Rack (faces 340 to 368): board +208 to +224"}
+      - {at: [1024, -232], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 288, notes: "Rack (faces 340 to 368): board +288 to +304"}
+    notes: "Sector 3: an arrow-ended room, bookcases along its two south walls."
+  - id: room:sw
+    name: South-west workroom
+    outline: [[-2976, -1440], [-1888, -1440], [-1888, 160], [-2976, 160]]
+    floor: 0
+    ceiling: 512
+    theme: theme:lab
+    platforms:
+      - {rise: 88, surface: {texture: T1beds2, size: [128, 256]}, outline: [[-2976, -880], [-2712, -880], [-2712, -744], [-2840, -744], [-2840, -232], [-2712, -232], [-2712, -104], [-2976, -104]], top_surface: {texture: T1beds2, size: [128, 256]}, notes: "The bench against the west wall, its body (faces 547 to 549, 557, 563, 566, 567: T1beds2 to 88)."}
+      - {rise: 8, surface: {texture: T1butts, size: [32, 32]}, outline: [[-2976, -888], [-2704, -888], [-2704, -736], [-2832, -736], [-2832, -240], [-2704, -240], [-2704, -96], [-2976, -96]], top_surface: {texture: T1beds2, size: [128, 256]}, bottom_surface: {texture: T1beds2, size: [128, 256]}, base: 88, notes: "Its top, 8 thick and standing 8 out over the body (T1butts edge 550 to 568, T1beds2 top at 96)."}
+      - {id: platform:basin, rise: 80, surface: {texture: T1butt, size: [32, 32]}, outline: [[-2971, 0], [-2956, -15], [-2936, -20], [-2916, -15], [-2901, 0], [-2896, 20], [-2901, 40], [-2916, 55], [-2936, 60], [-2956, 55], [-2971, 40], [-2976, 20]], top_surface: {texture: WtrTyl, liquid: water}, notes: "The basin in the north-west corner (faces 416 to 488, event 451): a bowl on a stem with water at 80 and a Trim9_32a rim at 88; here one block to 80 with the water on top."}
+      - {at: [-1920, -1280], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 496 to 524): post"}
+      - {at: [-1920, -880], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 496 to 524): post"}
+      - {at: [-1920, -1080], size: [64, 384], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 496 to 524): base to +64"}
+      - {at: [-1920, -1080], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 128, notes: "Rack (faces 496 to 524): board +128 to +144"}
+      - {at: [-1920, -1080], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 208, notes: "Rack (faces 496 to 524): board +208 to +224"}
+      - {at: [-1920, -1080], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 288, notes: "Rack (faces 496 to 524): board +288 to +304"}
+      - {at: [-1920, -464], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 489 to 517): post"}
+      - {at: [-1920, -64], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 489 to 517): post"}
+      - {at: [-1920, -264], size: [64, 384], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 489 to 517): base to +64"}
+      - {at: [-1920, -264], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 128, notes: "Rack (faces 489 to 517): board +128 to +144"}
+      - {at: [-1920, -264], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 208, notes: "Rack (faces 489 to 517): board +208 to +224"}
+      - {at: [-1920, -264], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 288, notes: "Rack (faces 489 to 517): board +288 to +304"}
+    notes: Sector 4.
+  - id: room:under
+    name: Cistern under the well
+    outline: [[-1264, 372], [-572, 372], [-572, 1052], [-1264, 1052]]
+    floor: -1024
+    ceiling: -512
+    theme: theme:under
+    notes: "The part of sector 1 at -1024: a cistern under the hall, its roof opening into the well."
+  - id: room:upper
+    name: Necromancer's quarters
+    outline: [[-1152, -256], [-704, -256], [-256, 256], [-256, 1152], [-704, 1664], [-704, 1440], [-1152, 1440], [-1152, 1664], [-1664, 1152], [-1664, 256]]
+    floor: 545
+    ceiling: 1057
+    theme: theme:lab
+    walls:
+      - wall: 5
+        panels:
+          - {offset: 0, length: 32, surface: {texture: GNecWal1, size: [256, 256]}}
+          - {offset: 0, from: end, length: 32, surface: {texture: GNecWal1, size: [256, 256]}}
+        notes: "The lift shaft frame (faces 1359 to 1368: GNecWal1)."
+      - wall: 8
+        panels:
+          - {id: panel:cell_door, offset: 384, length: 130, height: 256, surface: {texture: GNecDr4R, size: [128, 256]}}
+        notes: "The cell door (face 1283, GNecDr4R 130 by 256, event 131)."
+    platforms:
+      - {id: platform:button_high, at: [-1136, 1436], size: [24, 8], rise: 24, surface: {texture: GNecClg2, size: [128, 256]}, top_surface: {texture: GNecClg2, size: [128, 256]}, bottom_surface: {texture: GNecClg2, size: [128, 256]}, base: 160, notes: "The lift's call button on the upper floor (faces 1363 to 1367, 705 to 729)."}
+      - {at: [-994, -240], size: [128, 32], rise: 112, surface: {texture: T1books1, size: [128, 128]}, top_surface: {texture: T1books1, size: [128, 128]}, top_slope: {to: 192, toward: east}, notes: "The bed (faces 1135 to 1212): its headboard, west half, rising from 657 at the side to 737 in the middle (the original curves in four facets, T1books1)."}
+      - {at: [-866, -240], size: [128, 32], rise: 112, surface: {texture: T1books1, size: [128, 128]}, top_surface: {texture: T1books1, size: [128, 128]}, top_slope: {to: 192, toward: west}, notes: "The headboard, east half."}
+      - {at: [-930, -64], size: [256, 320], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds2, size: [128, 256]}, bottom_surface: {texture: T1books1, size: [128, 128]}, base: 32, notes: "The bed frame, its side rails T1beds from 577 to 593."}
+      - {at: [-930, -64], size: [240, 320], rise: 32, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 48, notes: "The mattress, 593 to 625."}
+      - {at: [-930, -188], size: [192, 56], rise: 24, surface: {texture: T1beds2, size: [128, 256]}, top_surface: {texture: T1beds2, size: [128, 256]}, base: 80, notes: "The pillow, 625 to 649 (rounded in the original)."}
+      - {at: [-930, 108], size: [256, 24], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "The footboard, 545 to 609."}
+      - {at: [-1046, 108], size: [24, 24], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, base: 64, notes: A knob of the footboard (to 673).}
+      - {at: [-814, 108], size: [24, 24], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, base: 64, notes: A knob of the footboard (to 673).}
+      - {at: [-288, 264], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 1226 to 1254): post"}
+      - {at: [-288, 664], size: [64, 16], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 1226 to 1254): post"}
+      - {at: [-288, 464], size: [64, 384], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 1226 to 1254): base to +64"}
+      - {at: [-288, 464], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 128, notes: "Rack (faces 1226 to 1254): board +128 to +144"}
+      - {at: [-288, 464], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 208, notes: "Rack (faces 1226 to 1254): board +208 to +224"}
+      - {at: [-288, 464], size: [64, 384], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 288, notes: "Rack (faces 1226 to 1254): board +288 to +304"}
+    notes: "Sector 5: the floor over the hall, at 545 under a roof at 1057; the bed against the south wall, a rack against the east wall, the cell door in the west wall."
+  - id: room:west
+    name: West store
+    outline: [[-2976, 256], [-1696, 256], [-1696, 1152], [-2336, 1152]]
+    floor: 0
+    ceiling: 512
+    theme: theme:lab
+    platforms:
+      - {id: platform:shelf_w, at: [-2016, 1120], size: [640, 64], rise: 256, surface: {texture: T1books, size: [128, 256]}, end_surface: {texture: Trim9_32a, size: [64, 32], fit: false}, top_surface: {texture: Trim9_32a, size: [64, 32]}, notes: "The bookcase on the north wall (face 582 T1books, 583, 584 Trim9_32a; event 452)."}
+      - {at: [-2900, 288], size: [16, 64], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 614 to 642): post"}
+      - {at: [-2500, 288], size: [16, 64], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 614 to 642): post"}
+      - {at: [-2700, 288], size: [384, 64], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 614 to 642): base to +64"}
+      - {at: [-2700, 288], size: [384, 64], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 128, notes: "Rack (faces 614 to 642): board +128 to +144"}
+      - {at: [-2700, 288], size: [384, 64], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 208, notes: "Rack (faces 614 to 642): board +208 to +224"}
+      - {at: [-2700, 288], size: [384, 64], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 288, notes: "Rack (faces 614 to 642): board +288 to +304"}
+      - {at: [-2136, 288], size: [16, 64], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 585 to 613): post"}
+      - {at: [-1736, 288], size: [16, 64], rise: 304, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 585 to 613): post"}
+      - {at: [-1936, 288], size: [384, 64], rise: 64, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, notes: "Rack (faces 585 to 613): base to +64"}
+      - {at: [-1936, 288], size: [384, 64], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 128, notes: "Rack (faces 585 to 613): board +128 to +144"}
+      - {at: [-1936, 288], size: [384, 64], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 208, notes: "Rack (faces 585 to 613): board +208 to +224"}
+      - {at: [-1936, 288], size: [384, 64], rise: 16, surface: {texture: T1beds, size: [256, 64]}, top_surface: {texture: T1beds, size: [256, 64]}, bottom_surface: {texture: T1beds, size: [256, 64]}, base: 288, notes: "Rack (faces 585 to 613): board +288 to +304"}
+    notes: Sector 2.
+openings:
+  - id: open:c10_c11
+    from: room:c10
+    to: room:c11
+    width: full
+    height: full
+    notes: Portal 779.
+  - id: open:c10_c15
+    from: room:c10
+    to: room:c15
+    width: full
+    height: full
+    notes: Portal 776.
+  - id: open:c10_c19
+    from: room:c10
+    to: room:c19
+    width: full
+    height: full
+    notes: Portal 778.
+  - id: open:c11_c12
+    from: room:c11
+    to: room:c12
+    from_wall: 5
+    to_wall: 2
+    width: full
+    height: full
+    notes: Portal 801.
+  - id: open:c14_c13
+    from: room:c14
+    to: room:c13
+    from_wall: 2
+    to_wall: 1
+    width: full
+    height: full
+    notes: Portal 812.
+  - id: open:c14_c16
+    from: room:c14
+    to: room:c16
+    width: full
+    height: full
+    notes: Portal 959.
+  - id: open:c15_c14
+    from: room:c15
+    to: room:c14
+    width: full
+    height: full
+    notes: Portal 825.
+  - id: open:c16_c17
+    from: room:c16
+    to: room:c17
+    from_wall: 0
+    to_wall: 7
+    width: full
+    height: full
+    notes: Portal 936.
+  - id: open:c16_c18
+    from: room:c16
+    to: room:c18
+    from_wall: 2
+    to_wall: 3
+    width: full
+    height: full
+    notes: Portal 859.
+  - id: open:c19_c20
+    from: room:c19
+    to: room:c20
+    width: full
+    height: full
+    notes: Portal 973.
+  - id: open:c20_c21
+    from: room:c20
+    to: room:c21
+    width: full
+    height: full
+    notes: Portal 974.
+  - id: open:c21_c22
+    from: room:c21
+    to: room:c22
+    width: full
+    height: full
+    notes: Portal 996.
+  - id: open:c22_c24
+    from: room:c22
+    to: room:c24
+    width: full
+    height: full
+    notes: Portal 1026.
+  - id: open:c22_c25
+    from: room:c22
+    to: room:c25
+    width: full
+    height: full
+    notes: Portal 1032.
+  - id: open:c24_under
+    from: room:c24
+    to: room:under
+    width: full
+    height: full
+    notes: Portal 1285.
+  - id: open:c25_c26
+    from: room:c25
+    to: room:c26
+    from_wall: 8
+    to_wall: 17
+    width: full
+    height: full
+    notes: Portal 1063.
+  - id: open:c9_c10
+    from: room:c9
+    to: room:c10
+    from_wall: 5
+    to_wall: 2
+    width: full
+    height: full
+    notes: Portal 707.
+  - id: open:east_se
+    from: room:east
+    to: room:se
+    along: 0.382352941
+    width: 256
+    height: 256
+    threshold: {texture: GNecFlr, size: [128, 128]}
+    notes: "Portal 673 and door records 55, 56: x 256 to 512."
+  - id: open:flight1_land1
+    from: room:flight1
+    to: room:land1
+    width: full
+    height: full
+  - id: open:flight2_land2
+    from: room:flight2
+    to: room:land2
+    width: full
+    height: full
+  - id: open:flight3_land3
+    from: room:flight3
+    to: room:land3
+    width: full
+    height: full
+  - id: open:flight4_c9
+    from: room:flight4
+    to: room:c9
+    width: full
+    height: full
+    notes: Portal 1595.
+  - id: open:hall_east
+    from: room:hall
+    to: room:east
+    width: 256
+    height: 256
+    threshold: {texture: GNecFlr, size: [128, 128]}
+    notes: "Portal 672 and door records 53, 54."
+  - id: open:hall_lift
+    from: room:hall
+    to: room:lift
+    from_wall: 5
+    to_wall: 0
+    width: full
+    height: full
+    notes: Portal 1347.
+  - id: open:hall_west
+    from: room:hall
+    to: room:west
+    width: 256
+    height: 256
+    threshold: {texture: GNecFlr, size: [128, 128]}
+    notes: Faces 153 (portal at x -1672) and the doorway of door records 51 and 52.
+  - id: open:land1_flight2
+    from: room:land1
+    to: room:flight2
+    width: full
+    height: full
+  - id: open:land2_flight3
+    from: room:land2
+    to: room:flight3
+    width: full
+    height: full
+  - id: open:land3_flight4
+    from: room:land3
+    to: room:flight4
+    width: full
+    height: full
+  - id: open:sw_flight1
+    from: room:sw
+    to: room:flight1
+    width: full
+    height: full
+    notes: Portal 1594.
+  - id: open:upper_lift
+    from: room:upper
+    to: room:lift
+    from_wall: 5
+    to_wall: 0
+    width: full
+    height: full
+    notes: Portal 1348.
+  - id: open:well
+    from: room:hall
+    to: room:under
+    in: floor
+    outline: [[-960, 576], [-896, 576], [-832, 608], [-800, 672], [-800, 736], [-832, 800], [-896, 832], [-960, 832], [-1024, 800], [-1056, 736], [-1056, 672], [-1024, 608]]
+    reveal: {texture: Grastyl, size: [128, 128]}
+    notes: "The well shaft (faces 155 to 166, Grastyl, 0 to -512): in the original one sector with the hall and the cistern; the party falls through the water (face 7, untouchable) to the cistern floor at -1024."
+  - id: open:west_sw
+    from: room:west
+    to: room:sw
+    along: 0.588235294
+    width: 256
+    height: 256
+    threshold: {texture: GNecFlr, size: [128, 128]}
+    notes: "Portal 187 and door records 57, 58: x -2464 to -2208 through the 96 between the rooms."

@@ -1,0 +1,35 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background only). Produce ONE transparent PNG 1536x2048, 3:4 canvas. Use case: precise-object-edit. This is a paint and material-mask view atlas, not a redesigned armor illustration.\nPreserve the guide's exact three columns and FOUR rows of 512x512 cells, all ten object silhouettes, positions, sizes, orientations, openings and gaps. Rows 1-2 and rows 3-4 contain the same five orthographic model views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Follow the actual guide geometry and orientation exactly even where view names might seem surprising. Never rotate or rearrange objects.\nRows 1-2 PAINT: paint only the grey objects with unlit base colour of blue-grey polished steel full plate: smooth rounded breastplate, layered rounded shoulder plates, segmented steel arm plates, skirt of overlapping horizontal steel lames. Match the reference's materials and fine details, with facets, engravings, scrollwork and inner swirls only as present in design reference scaled to each view. Unlit albedo only: NO lighting, cast shadows, ambient occlusion, hot highlights, reflections. Preserve all guide silhouette shapes exactly; do not redraw, enlarge, move or redesign.\nRows 3-4 MATERIAL MASK: same five exact silhouettes filled with FLAT pure semantic colours only: #FF0000 every metal part (steel iron chain mail gold silver bronze copper brass); #00FF00 leather straps padding hide suede fur; #0000FF cloth tabards quilting linings cords ribbons hair; #000000 gemstone crystal glass pearl enamel liquid through glass. This full plate is metal throughout, so use solid pure red across all its metal surfaces, including interiors. No shading, texture, outlines, or antialiased colour blends inside masks. Every silhouette pixel gets exactly one of these colours.\nEverything outside silhouettes and every hole/opening is fully transparent. Column 3 of rows 2 and 4 stays empty and transparent. No background, ground, text, labels, outlines, glow, sparkle or aura. Output only the edited guide atlas.",
+  "corrective_prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background only). Produce ONE transparent PNG 1536x2048, 3:4 canvas. Use case: precise-object-edit. This is a paint and material-mask view atlas, not a redesigned armor illustration.\nPreserve the guide's exact three columns and FOUR rows of 512x512 cells, all ten object silhouettes, positions, sizes, orientations, openings and gaps. Rows 1-2 and rows 3-4 contain the same five orthographic model views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Follow the actual guide geometry and orientation exactly even where view names might seem surprising. Never rotate or rearrange objects.\nRows 1-2 PAINT: paint only the grey objects with unlit base colour of blue-grey polished steel full plate: smooth rounded breastplate, layered rounded shoulder plates, segmented steel arm plates, skirt of overlapping horizontal steel lames. Match the reference's materials and fine details, with facets, engravings, scrollwork and inner swirls only as present in design reference scaled to each view. Unlit albedo only: NO lighting, cast shadows, ambient occlusion, hot highlights, reflections. Preserve all guide silhouette shapes exactly; do not redraw, enlarge, move or redesign.\nRows 3-4 MATERIAL MASK: same five exact silhouettes filled with FLAT pure semantic colours only: #FF0000 every metal part (steel iron chain mail gold silver bronze copper brass); #00FF00 leather straps padding hide suede fur; #0000FF cloth tabards quilting linings cords ribbons hair; #000000 gemstone crystal glass pearl enamel liquid through glass. This full plate is metal throughout, so use solid pure red across all its metal surfaces, including interiors. No shading, texture, outlines, or antialiased colour blends inside masks. Every silhouette pixel gets exactly one of these colours.\nEverything outside silhouettes and every hole/opening is fully transparent. Column 3 of rows 2 and 4 stays empty and transparent. No background, ground, text, labels, outlines, glow, sparkle or aura. Output only the edited guide atlas.\nCORRECTION: The prior attempt failed the lower material mask silhouettes by adding red noise outside the objects and shading inside. Start from the original guide again. Lower two rows must be EXACT flat #FF0000 silhouette cutouts with the guide's exact transparent holes and boundaries, zero stray pixels, no interior lines or shading. Treat these as solid binary segmentation shapes, not red-painted renderings. Preserve upper guide silhouettes and use diffuse base colour without highlights. Output 1536x2048.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1accf-249d-73c1-af3b-c3b99f316556/exec-8effc448-dc93-4dbc-8ecd-39f069694b84.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10110/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1accf-249d-73c1-af3b-c3b99f316556/exec-2a0fbf73-4b95-4984-8976-4167df31cc26.png",
+  "validation": {
+    "meets_brief": false,
+    "issues": [
+      "Stray red pixels outside material mask silhouettes",
+      "Material masks include shading and interior lines",
+      "Paint includes lighting",
+      "Correction rejected: wrong 1:2 canvas ratio and persistent mask artifacts"
+    ]
+  },
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10110/paint_mask_guide.png",
+      "sha256": "d8d24f8d7f2d31f331553152c8798a72ae90c59264afacd3552ed1e46dc01b8e"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10110/design_reference.png",
+      "sha256": "f042cbaae49d8b4a3536b69d2dd073dfb5cae5d4ca87cdc3de99d5e45f69801d"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10110/icon_x8.png",
+      "sha256": "f560949f8fa3108c88466887d9d55304cfae0b5a34ca7713c546418545f802c6"
+    }
+  ]
+}

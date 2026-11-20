@@ -1,0 +1,3360 @@
+format: 0
+grid: 512
+notes: "X1 Vertigo Meadows, L3 sketch written by output/studio_cal/x1/tools/gen.py. Cells [x, y], x east, y south. Heights are map units above the water below the rim (0); the meadow and the town stand at 640, the creek at 576, the northern hills to about 2,300, the rim cliff at x 104."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: west, span: [42, 50], neighbour: edge:west}
+    - {side: north, span: [66, 72], neighbour: edge:north}
+  rim:
+    - {side: north, form: ridge, height: [2200, 3400], floor: 2000, crest: 10, roughness: 100}
+    - {side: west, span: [0, 42], form: ridge, height: [1800, 3000], floor: 1200, crest: 10, roughness: 100}
+    - {side: west, span: [42, 58], form: level, height: 640, meet: 6, notes: The west road and the creek run out to the edge (to X3).}
+    - {side: west, span: [58, 128], form: ridge, height: [1600, 2800], floor: 900, crest: 10, roughness: 100}
+    - {side: south, form: ridge, height: [1600, 2800], floor: 900, crest: 10, roughness: 100}
+    - {side: east, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at x 104; below it, water at 0 stands for the stars."}
+  edge: {height: 1600, east: 0, west: 640}
+heights:
+  points:
+    - {at: [84, 46], h: 1120, notes: pyramid knoll}
+    - {at: [88, 84], h: 900, notes: witch rise}
+    - {at: [65, 67], h: 704, notes: Orothin's west isle}
+    - {at: [70, 66], h: 704, notes: Orothin's east isle}
+  cliffs:
+    - line: [[104, 19], [104, 58], [104, 62], [104, 110]]
+      drop: 900
+      down: left
+      notes: "The world rim: white cliffs (drawn from north to south, the low side east)."
+  ridges:
+    - {line: [[27, 94], [33, 94]], height: 1664, width: 2, slope: 2, notes: "Pass three: the rise the Temple of Yak's mouth is built into (crest 1600)."}
+    - {line: [[41, 29.5], [47, 29.5]], height: 1700, width: 2, slope: 2, notes: "Pass four: the hillside the Red Dwarf Mines' mouth is cut into (crest 1600): its shoulders stand over the shell, which stood as a mound on a gentle slope."}
+    - {line: [[79, 28.5], [85, 28.5]], height: 1880, width: 2, slope: 2, notes: "Pass four: the hillside the orc caves' mouth is cut into (crest 1824)."}
+  terraces:
+    - polygon: [[42.5, 39], [61.5, 39], [61.5, 41], [42.5, 41]]
+      height: 1152
+      slope: 0
+      ramps:
+        - {line: [[51, 43], [51, 41], [51, 40], [52, 39], [52, 38.5]], height: [640, 1152, 1152, 1152, 1152], width: 1, notes: the north street climbs to the upper town}
+      notes: "Pass four: the upper town, 512 over the main street, a step at its front held by a retaining wall; the north row of shops stands in front of the wall; the north street climbs on a ramp, two lanes and the town hall by flights of steps."
+  grid:
+    step: 4
+    unit: 32
+    rows: [[72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], [72, 67, 73, 75, 61, 58, 70, 91, 89, 70, 63, 69, 69, 62, 64, 77, 85, 81, 74, 67, 59, 58, 71, 83, 74, 72, 72, 72, 72, 72, 72, 72], [72, 66, 71, 70, 64, 63, 73, 89, 93, 71, 58, 58, 79, 88, 69, 60, 80, 96, 75, 58, 58, 77, 93, 81, 70, 72, 72, 72, 72, 72, 72, 72], [72, 58, 72, 76, 67, 68, 84, 89, 73, 58, 58, 67, 74, 78, 81, 78, 71, 68, 68, 63, 59, 71, 91, 90, 71, 72, 72, 72, 72, 72, 72, 72], [72, 66, 58, 64, 88, 93, 76, 62, 63, 66, 67, 70, 75, 73, 73, 79, 72, 58, 58, 74, 96, 87, 67, 68, 74, 72, 72, 72, 72, 72, 72, 72], [70, 75, 66, 62, 78, 95, 83, 64, 58, 70, 97, 85, 67, 70, 70, 76, 61, 57, 64, 91, 96, 83, 65, 62, 70, 70, 70, 70, 70, 70, 70, 70], [60, 59, 62, 72, 72, 61, 67, 68, 60, 59, 68, 68, 66, 60, 61, 73, 61, 52, 57, 64, 67, 63, 49, 60, 68, 63, 60, 60, 60, 60, 60, 60], [46, 55, 65, 57, 42, 36, 49, 49, 46, 46, 48, 48, 47, 46, 46, 46, 46, 47, 47, 46, 52, 46, 50, 49, 53, 49, 46, 46, 46, 46, 46, 46], [31, 29, 52, 50, 18, 21, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 34, 31, 32, 31, 31, 31, 31, 31, 31, 31], [21, 31, 17, 12, 15, 17, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 19, 19, 23, 22, 27, 34, 33, 33, 33, 33, 33, 33, 33], [20, 26, 9, 7, 9, 29, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 23, 25, 36, 35, 32, 32, 32, 32, 32, 32, 32], [20, 16, 7, 7, 28, 33, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 29, 31, 26, 29, 37, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 21, 23, 26, 29, 29, 32, 32, 32, 32, 32, 32, 32], [20, 15, 24, 30, 23, 16, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 21, 27, 29, 28, 22, 29, 31, 32, 32, 32, 32, 32], [20, 19, 32, 35, 29, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 20, 35, 25, 17, 20, 20, 21, 32, 32, 32, 32, 32], [20, 25, 33, 28, 18, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 32, 32, 32, 32, 32], [20, 38, 11, 8, 24, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 10, 11, 31, 27, 31, 32, 32, 32, 32, 32], [20, 37, 21, 7, 7, 22, 21, 19, 19, 24, 22, 20, 19, 17, 21, 23, 21, 20, 20, 20, 21, 20, 15, 25, 33, 32, 32, 32, 32, 32, 32, 32], [20, 13, 16, 21, 13, 7, 18, 40, 40, 19, 19, 19, 21, 15, 13, 25, 24, 20, 20, 19, 20, 21, 27, 40, 33, 32, 32, 32, 32, 32, 32, 32], [20, 13, 21, 19, 12, 19, 20, 24, 36, 20, 20, 19, 27, 38, 22, 9, 21, 20, 20, 19, 21, 24, 26, 34, 28, 32, 32, 32, 32, 32, 32, 32], [20, 7, 19, 28, 20, 20, 21, 21, 22, 13, 19, 20, 27, 27, 27, 26, 20, 19, 19, 20, 21, 25, 28, 29, 30, 32, 32, 32, 32, 32, 32, 32], [20, 18, 7, 12, 37, 27, 22, 21, 12, 21, 21, 20, 22, 29, 28, 24, 16, 8, 8, 20, 21, 25, 28, 29, 32, 32, 32, 32, 32, 32, 32, 32], [20, 24, 19, 16, 27, 41, 27, 25, 21, 23, 26, 23, 11, 14, 34, 30, 7, 7, 16, 39, 23, 23, 26, 29, 30, 32, 32, 32, 32, 32, 32, 32], [20, 23, 21, 29, 31, 20, 24, 41, 26, 25, 28, 33, 29, 16, 8, 14, 18, 15, 18, 33, 37, 24, 23, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 29, 42, 30, 11, 11, 22, 24, 24, 28, 23, 21, 26, 24, 8, 7, 14, 42, 42, 18, 8, 22, 33, 28, 30, 32, 32, 32, 32, 32, 32, 32], [20, 16, 35, 36, 8, 7, 16, 23, 30, 19, 10, 23, 28, 14, 7, 10, 30, 39, 33, 18, 8, 11, 28, 35, 30, 32, 32, 32, 32, 32, 32, 32], [20, 29, 15, 7, 12, 19, 19, 24, 33, 32, 17, 7, 12, 19, 18, 19, 31, 36, 23, 8, 10, 21, 25, 27, 33, 32, 32, 32, 32, 32, 32, 32], [20, 21, 7, 7, 12, 32, 38, 23, 11, 21, 31, 16, 7, 7, 38, 49, 25, 7, 10, 25, 22, 12, 19, 39, 35, 32, 32, 32, 32, 32, 32, 32], [20, 17, 7, 7, 31, 43, 29, 15, 15, 19, 17, 13, 13, 20, 32, 39, 28, 7, 7, 17, 36, 29, 17, 29, 36, 32, 32, 32, 32, 32, 32, 32], [20, 12, 21, 21, 22, 31, 32, 19, 8, 10, 16, 17, 22, 33, 34, 20, 8, 12, 18, 16, 18, 33, 44, 35, 28, 32, 32, 32, 32, 32, 32, 32], [20, 7, 30, 47, 31, 7, 11, 30, 25, 7, 7, 28, 49, 35, 9, 7, 15, 22, 19, 17, 23, 33, 40, 33, 27, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32]]
+    notes: Written by gen.py from its height function (design values).
+water:
+  bodies:
+    - id: water:delta
+      kind: pond
+      level: 576
+      polygon: [[63, 62], [68, 61], [73, 63], [74, 67], [69, 71], [64, 70], [61, 67]]
+    - id: water:sky
+      kind: sea
+      level: 0
+      polygon: [[105, 0], [128, 0], [128, 128], [105, 128]]
+      notes: "Below the rim: stands for the stars (gap: the game draws no void)."
+  rivers:
+    - id: water:creek
+      line: [[0, 51], [30, 51], [40, 52], [46, 52], [58, 52], [64, 52], [67, 55], [67, 62]]
+      width_cells: 3
+      level: 576
+      notes: Pitchfork Creek from the west edge through Vertigo into the delta pond.
+    - id: water:creek
+      line: [[73, 65], [76, 63], [79, 64], [81, 64], [84, 62], [87, 63], [90, 61], [93, 62], [95, 61], [97, 59], [100, 61], [103, 60]]
+      width_cells: 2
+      level: 576
+      notes: "The outflow east to the rim, where it falls off the world."
+roads:
+  - link: link:main_street
+    line: [[41.5, 44], [46.5, 44], [47.5, 43], [51, 43], [52, 44], [57, 44], [57, 46], [62.5, 46]]
+    width: road
+    surface: road_pebbles
+    notes: "Bends twice between the gates; straight runs and 45-degree steps only (second pass)."
+  - link: link:north_street
+    line: [[51, 43], [51, 40], [52, 39], [52, 38]]
+    width: road
+    surface: road_pebbles
+  - link: link:smith_lane
+    line: [[44.5, 44], [44.5, 43]]
+    width: road
+    surface: road_pebbles
+  - link: link:bank_lane
+    line: [[56.5, 44], [56.5, 43]]
+    width: road
+    surface: road_pebbles
+  - link: link:inn_lane
+    line: [[45.5, 44], [45.5, 48.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:south_street
+    line: [[52, 44], [52, 49.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:guild_lane
+    line: [[42, 55], [59, 55]]
+    width: road
+    surface: road_pebbles
+  - link: link:west_road
+    line: [[41.5, 44], [38.5, 44], [38.5, 46], [0, 46]]
+    width: road
+    surface: road_pebbles
+  - link: link:north_road
+    line: [[52, 38], [52, 35], [54, 33], [59, 33], [60, 32], [65, 27], [67, 25], [69, 23], [69, 0]]
+    width: road
+    surface: road_pebbles
+  - link: link:mine_lane
+    line: [[60, 32], [52, 33], [44, 32.5]]
+    width: lane
+    surface: dirt
+  - link: link:orc_lane
+    line: [[60, 32], [66, 31], [74, 31], [82, 31.5]]
+    width: lane
+    surface: dirt
+  - link: link:orchard_road
+    line: [[62.5, 46], [63.5, 46], [66, 43.5], [73, 43.5], [73, 45.5], [81, 45.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:rim_path
+    line: [[87, 46], [96, 47], [103, 47]]
+    width: lane
+    surface: dirt
+  - link: link:south_road
+    line: [[52, 55], [52, 58], [54, 60], [54, 64], [57, 67], [57, 70], [60, 73], [62, 73]]
+    width: road
+    surface: road_pebbles
+  - link: link:toad_lane
+    line: [[62, 73], [63.5, 74.5], [80, 74.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:tower_path
+    line: [[80, 74.5], [86, 79], [88, 81.5]]
+    width: lane
+    surface: dirt
+  - link: link:forest_path
+    line: [[62, 73], [52, 78], [42, 84], [34, 92], [34.5, 97.5], [31, 97.5]]
+    width: lane
+    surface: dirt
+districts:
+  - space: zone:meadows
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    rest: true
+    plots:
+      - {building: building:fringe_meadows, index: 1, at: [54, 35], facing: n, turn: 8, parts: [{id: body, at: [96, 112], size: [576, 576], textures: {roof: hhm2rf}, roof: none}, {id: upper, at: [48, 64], size: [672, 656], bottom: 256, textures: {roof: hhm2rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], kit: plaster, door: {part: body, wall: n}}
+      - {building: building:fringe_meadows, index: 2, at: [60, 34], facing: n, turn: -13, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: 7hhr1rf}, roof: hip, roof_pitch: 38}], kit: stone, door: {part: body, wall: n}}
+      - {building: building:fringe_meadows, index: 3, at: [49, 33.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], kit: poor, door: {part: body, wall: e}}
+      - {building: building:fringe_meadows, index: 4, at: [56.5, 34.5], facing: n, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], kit: plaster, door: {part: body, wall: n}}
+      - {building: building:fringe_meadows, index: 5, at: [55.5, 62], facing: w, turn: 6, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], kit: timber, door: {part: body, wall: w}}
+      - {building: building:fringe_meadows, index: 6, at: [57.5, 64], facing: s, parts: [{id: body, at: [48, 336], size: [672, 384], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 352], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], kit: grey, door: {part: body, wall: s}}
+      - {building: building:oslo_hut, at: [34, 59], facing: s, turn: -80, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 1124, title: Oslo's Hut, kit: poor, door: {part: body}}
+      - {building: building:celia_hut, at: [44, 86], facing: n, turn: -8, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 1126, title: Celia's Hut, kit: poor, door: {part: body, wall: n}}
+  - space: town:vertigo
+    polygon: [[31, 37], [71, 37], [71, 62], [31, 62]]
+  - space: district:vertigo_core
+    polygon: [[42, 38], [62, 38], [62, 50], [42, 50]]
+    plots:
+      - {building: building:weapon_shop, at: [42.5, 42], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 64], size: [537, 608], signs: [{wall: s, bay: 0, texture: sgweapon, size: [96, 96], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [473, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [585, 128], size: [135, 512], posts: 24, wall_height: 256, windows: none, roof: lean_to}], floor: 640, house: 9, title: Norman's Ironworks, kit: grey, door: {part: body, wall: s}}
+      - {building: building:armour_shop, at: [45, 42], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [320, 576], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: none}, {id: upper, at: [48, 48], size: [416, 656], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], floor: 640, house: 47, title: Vertigo Armoury, kit: timber, door: {part: body, wall: s}}
+      - {building: building:town_hall, at: [47.5, 39], facing: s, door_to: link:main_street, parts: [{id: hall, wall_height: 384, roof: gable, roof_pitch: 45}, {id: tower, at: [448, 768], size: [384, 384], textures: {roof: 7hhr1rf}, wall_height: 896, windows: none, roof: hip, roof_pitch: 55}], house: 203, title: Vertigo Town Hall, kit: rich, door: {part: tower, wall: s}}
+      - {building: building:magic_shop, at: [52.5, 42], facing: s, door_to: link:main_street, parts: [{id: tower, shape: round, at: [384, 309], radius: 261, sides: 10, textures: {roof: hhm2rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [168, 398], size: [430, 322], signs: [{wall: s, bay: 0, texture: sgmagi, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], floor: 640, house: 85, title: Gilbert's Hexes, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:tavern, at: [54.5, 42], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: 7sgtvrn, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm2rf}, wall_height: 512, roof: gable, roof_pitch: 48, ridge_along: ns}], floor: 640, house: 240, title: Lady Geraldine's Tavern, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:bank, at: [57, 42], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: 7hhr1rf}, wall_height: 384, roof: hip, roof_pitch: 38}], floor: 640, house: 286, title: Bank of Vertigo, kit: stone, door: {part: body, wall: s}}
+      - {building: building:core_houses, index: 3, at: [42.5, 39], facing: e, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 1101, title: Gunther House, kit: plaster, door: {part: body, wall: e}}
+      - {building: building:core_houses, index: 4, at: [45.5, 39], facing: s, door_to: link:main_street, turn: 90, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 1102, title: Weaver Residence, kit: poor, door: {part: body}}
+      - {building: building:core_houses, index: 5, at: [55, 39], facing: e, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [288, 384], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 1103, title: Pike Residence, kit: plaster, door: {part: body, wall: e}}
+      - {building: building:core_houses, index: 6, at: [57.5, 39], facing: w, door_to: link:main_street, parts: [{id: body, at: [48, 48], size: [384, 416], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [352, 256], size: [352, 144], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ew}], house: 1104, title: Thorne House, kit: plaster, door: {part: body, wall: w}}
+      - {building: building:core_houses, index: 2, at: [59, 42], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 1105, title: Ashby Residence, kit: grey, door: {part: body, wall: s}}
+      - {building: building:inn, at: [42.5, 45], facing: n, door_to: link:main_street, parts: [{id: body, at: [48, 48], size: [1184, 512], signs: [{wall: n, bay: 0, texture: 7sgtvrn, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [640, 480], size: [528, 480], textures: {roof: hhm1rf}, wall_height: 512, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 1607, title: The Adventurer's Inn, kit: timber, door: {part: body, wall: n}}
+      - {building: building:alchemist, at: [47, 44.5], facing: n, door_to: link:main_street, parts: [{id: body, at: [96, 112], size: [832, 832], signs: [{wall: n, bay: 0, texture: 7sgalch, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm2rf}, roof: none}, {id: upper, at: [48, 64], size: [928, 912], bottom: 256, textures: {roof: hhm2rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 117, title: Philters of Vertigo, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:core_houses, index: 1, at: [49.5, 44], facing: s, door_to: link:main_street, turn: 180, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 1106, title: Miller House, kit: poor, door: {part: body}}
+      - {building: building:temple, at: [57.5, 46.5], facing: n, door_to: link:main_street, parts: [{id: nave, at: [64, 384], size: [1152, 832], porches: [{wall: n, depth: 160, height: 288, posts: 32, floor: 16}], wall_height: 448, roof: gable, roof_pitch: 52, ridge_along: ns}, {id: spire, shape: round, at: [640, 1048], radius: 208, sides: 8, textures: {roof: 7hhr1rf}, wall_height: 1152, windows: none, roof: cone, roof_pitch: 74}], house: 311, title: Temple of Vertigo, kit: stone, door: {part: nave, wall: n}}
+      - {building: building:core_houses, index: 7, at: [60.5, 46.5], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 1107, title: Cobb Residence, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:core_houses, index: 8, at: [44, 47.5], facing: e, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [288, 384], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 1108, title: Bramble House, kit: plaster, door: {part: body, wall: e}}
+      - {building: building:core_houses, index: 9, at: [46.5, 47.5], facing: w, door_to: link:main_street, parts: [{id: body, at: [48, 48], size: [384, 416], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [352, 256], size: [352, 144], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}], house: 1121, title: Fenwick Residence, kit: timber, door: {part: body, wall: w}}
+  - space: district:vertigo_south
+    polygon: [[42, 53], [63, 53], [63, 62], [42, 62]]
+    plots:
+      - {building: building:guild_fire, at: [42.5, 56], facing: n, door_to: link:guild_lane, parts: [{id: tower, shape: round, at: [512, 628], radius: 348, sides: 10, textures: {roof: 7hhr1rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 48], size: [573, 430], signs: [{wall: n, bay: 0, texture: sgfire, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 129, title: Fire Guild of Vertigo, kit: stone, door: {part: body, wall: n}}
+      - {building: building:guild_air, at: [45.5, 56], facing: n, door_to: link:guild_lane, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgair, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 135, title: Air Guild of Vertigo, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:guild_water, at: [53, 56], facing: n, door_to: link:guild_lane, parts: [{id: body, at: [96, 112], size: [832, 832], signs: [{wall: n, bay: 0, texture: sgwater, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: none}, {id: upper, at: [48, 64], size: [928, 912], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 140, title: Water Guild of Vertigo, kit: grey, door: {part: body, wall: n}}
+      - {building: building:guild_earth, at: [55.5, 56], facing: n, door_to: link:guild_lane, parts: [{id: body, at: [64, 160], size: [896, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: n, bay: 0, texture: sgearth, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 146, title: Earth Guild of Vertigo, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:joes_shop, at: [60, 55.5], facing: w, door_to: link:guild_lane, parts: [{id: body, at: [48, 48], size: [476, 672], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [508, 96], size: [227, 512], textures: {roof: hhp2rf}, wall_height: 192, windows: none, roof: lean_to}], title: Joe the Exterminator, kit: poor, door: {part: body, wall: w}, effects: [{lua: "evt.SimpleMessage(\"A painted board: JOE THE EXTERMINATOR. Pests gone or your money back! The shutters are down and the door is bolted. Joe is never in when the pests are.\")"}]}
+      - {building: building:bank_houses, index: 1, at: [48, 56], facing: s, door_to: link:guild_lane, turn: 180, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 1122, title: Holt House, kit: poor, door: {part: body}}
+      - {building: building:bank_houses, index: 2, at: [48.5, 58], facing: e, door_to: link:guild_lane, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 1123, title: Reed Residence, kit: plaster, door: {part: body, wall: e}}
+      - {building: building:bank_houses, index: 3, at: [55, 58.5], facing: w, door_to: link:guild_lane, parts: [{id: body, at: [160, 64], size: [288, 384], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 1126, title: Tanner House, kit: plaster, door: {part: body, wall: w}}
+      - {building: building:fringe_vertigo_south, index: 1, at: [56.5, 60], facing: w, turn: -9, parts: [{id: body, at: [48, 48], size: [476, 416], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [508, 96], size: [227, 256], textures: {roof: hhp2rf}, wall_height: 192, windows: none, roof: lean_to}], kit: poor, door: {part: body, wall: w}}
+  - space: district:vertigo_outer
+    polygon: [[31, 38], [41, 38], [41, 50], [31, 50]]
+    plots:
+      - {building: building:training, at: [39, 40.5], facing: s, door_to: link:west_road, parts: [{id: body, at: [48, 342], size: [928, 634], signs: [{wall: s, bay: 0, texture: 7sgtrain, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 325], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 1571, title: Thylon's Training, kit: timber, door: {part: body, wall: s}}
+      - {building: building:west_houses, index: 1, at: [35, 43], facing: s, door_to: link:west_road, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 1127, title: Lark Residence, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:west_houses, index: 2, at: [35.5, 47], facing: s, door_to: link:west_road, turn: 180, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 1109, title: Cooper House, kit: poor, door: {part: body}}
+      - {building: building:west_houses, index: 3, at: [36, 41], facing: s, door_to: link:west_road, parts: [{id: body, at: [48, 147], size: [672, 317], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [512, 130], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 1128, title: Fletcher Residence, kit: timber, door: {part: body, wall: s}}
+  - space: district:vertigo_east
+    polygon: [[63, 38], [71, 38], [71, 50], [63, 50]]
+    plots:
+      - {building: building:stables, at: [64, 46.5], facing: n, door_to: link:orchard_road, parts: [{id: body, at: [48, 48], size: [1440, 634], signs: [{wall: n, bay: 0, texture: 7sgstabl, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 666], size: [1280, 325], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 461, title: Vertigo Stables, kit: timber, door: {part: body, wall: n}}
+      - {building: building:east_houses, index: 1, at: [64, 41], facing: s, door_to: link:orchard_road, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 1129, title: Wren House, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:east_houses, index: 2, at: [66.5, 41], facing: s, door_to: link:orchard_road, parts: [{id: body, at: [48, 336], size: [672, 384], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 352], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 1130, title: Marsh Residence, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:east_houses, index: 3, at: [68.5, 45], facing: s, door_to: link:orchard_road, turn: 180, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 1131, title: Hollis House, kit: poor, door: {part: body}}
+  - space: zone:square
+    polygon: [[53, 45], [57, 45], [57, 49], [53, 49]]
+  - space: zone:north_hills
+    polygon: [[19, 19], [109, 19], [109, 36], [19, 36]]
+  - space: zone:orchard
+    polygon: [[70, 40], [104, 40], [104, 52], [70, 52]]
+  - space: zone:pyramid_knoll
+    polygon: [[81, 43], [87, 43], [87, 49], [81, 49]]
+  - space: zone:rim
+    polygon: [[104, 0], [128, 0], [128, 128], [104, 128]]
+  - space: town:toad_meadow
+    polygon: [[72, 69], [82, 69], [82, 79], [72, 79]]
+    plots:
+      - {building: building:myra_hut, at: [74, 72], facing: s, door_to: link:toad_lane, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 1125, title: Myra the Herbalist, kit: poor, door: {part: body}}
+      - {building: building:valia_cottage, at: [78, 71], facing: s, door_to: link:toad_lane, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], title: Old Valia's Cottage, kit: poor, door: {part: body, wall: s}, condition: {not: {map_var: valia_key_given}}, else_effects: [{lua: "if IsQBitSet(QBit(110047)) then evt.SimpleMessage(\"Old Valia beams at you. \\\"Crusaders! The children are home and the realm knows your name.\\\"\") else evt.SimpleMessage(\"Old Valia: \\\"The Crystal Key opens the Witch Tower, south-east past the marsh. Bring back the Alacorn of Falista, and the children.\\\"\") end"}], effects: [{set: {var: {map_var: valia_key_given}, value: 1}}, {give_item: crystal_key}, {lua: "evt.SimpleMessage(\"Old Valia of Toad Meadow takes your hands. \\\"The witches of the tower turn our children into goblins. Take this Crystal Key: it opens the tower door, south-east past the marsh. Bring back the Alacorn of Falista and the children, and the realm will call you Crusaders.\\\" (You receive the Crystal Key.)\")"}]}
+      - {building: building:hamlet_houses, index: 1, at: [76, 76.5], facing: n, door_to: link:toad_lane, turn: 12, parts: [{id: body, at: [64, 160], size: [384, 288], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 1122, title: Bog House, kit: poor, door: {part: body, wall: n}}
+  - space: zone:toad_marsh
+    polygon: [[66, 66], [100, 66], [100, 98], [66, 98]]
+  - space: zone:witch_rise
+    polygon: [[84, 80], [93, 80], [93, 90], [84, 90]]
+  - space: zone:dead_forest
+    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+  - space: zone:warehouse_yard
+    polygon: [[59, 57], [63, 57], [63, 61], [59, 61]]
+points:
+  - {id: entrance:party_start, at: [54, 47], facing: n}
+  - {id: entrance:west_road, at: [21, 46], facing: e}
+  - {id: entrance:north_road, at: [69, 21], facing: s}
+  - {id: entrance:stable_yard, at: [65, 45], facing: w}
+  - {id: entrance:xd01_warehouse, at: [61, 58]}
+  - {id: entrance:xd01_culvert, at: [61, 54]}
+  - {id: entrance:xd02_portal, at: [44, 31]}
+  - {id: entrance:xd03_shaft, at: [62, 29]}
+  - {id: entrance:xd04_tower, at: [88, 81]}
+  - {id: entrance:xd05_mouth, at: [82, 30]}
+  - {id: entrance:pyramid, at: [84, 46]}
+  - {id: poi:obelisk, at: [74, 34]}
+  - {id: poi:fountain_ability, at: [46, 70]}
+  - {id: poi:waters_of_power, at: [92, 50]}
+  - {id: poi:wishing_well, at: [94, 92]}
+  - {id: poi:shrine_poison, at: [26, 82]}
+  - {id: poi:money_tree, at: [55, 47]}
+  - {id: poi:rain_barrel, at: [60, 59]}
+  - {id: poi:water_reflector, at: [102, 96]}
+  - {id: poi:gunther_notice, at: [53, 45]}
+  - {id: poi:orc_outposts, index: 1, at: [30, 29]}
+  - {id: poi:orc_outposts, index: 2, at: [56, 23]}
+  - {id: poi:orc_outposts, index: 3, at: [97, 31]}
+  - {id: poi:orothin_statues, index: 1, at: [65, 67]}
+  - {id: poi:orothin_statues, index: 2, at: [70, 66]}
+  - {id: poi:druid_grove, at: [26, 60]}
+  - {id: poi:derek_camp, at: [42, 78]}
+  - {id: poi:signs, index: 1, at: [59, 33]}
+  - {id: poi:signs, index: 2, at: [63, 72]}
+  - {id: poi:signs, index: 3, at: [38, 45]}
+  - {id: junction:west_gate, at: [41, 44]}
+  - {id: junction:north_gate, at: [52, 38]}
+  - {id: junction:east_gate, at: [62, 46]}
+  - {id: junction:south_gate, at: [52, 50]}
+  - {id: junction:hill_fork, at: [60, 32]}
+  - {id: junction:south_fork, at: [62, 73]}
+  - {id: landmark:witch_tower, at: [88, 84]}
+  - {id: landmark:temple_spire, at: [58, 46]}
+  - {id: landmark:pyramid, at: [84, 46]}
+  - {id: landmark:rim, at: [104, 47]}
+areas:
+  - id: pop:meadow_orcs
+    index: 1
+    kind: encounter
+    count: 2
+    circle: {at: [23, 60], r: 1.5}
+  - id: pop:meadow_orcs
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [25, 65], r: 1}
+  - id: pop:meadow_orcs
+    index: 3
+    kind: encounter
+    count: 3
+    circle: {at: [77, 109], r: 2}
+  - id: pop:meadow_orcs
+    index: 4
+    kind: encounter
+    count: 2
+    circle: {at: [65, 107], r: 1.5}
+  - id: pop:creek_flies
+    index: 1
+    kind: encounter
+    count: 2
+    circle: {at: [81, 62], r: 1.5}
+  - id: pop:creek_flies
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [95, 58], r: 1}
+  - id: pop:creek_flies
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [91, 63], r: 1}
+  - id: pop:creek_flies
+    index: 4
+    kind: encounter
+    count: 1
+    circle: {at: [70, 72], r: 1}
+  - id: pop:meadow_orcs
+    index: 5
+    kind: encounter
+    count: 2
+    circle: {at: [12, 43], r: 1.5}
+  - id: pop:creek_flies
+    index: 5
+    kind: encounter
+    count: 1
+    circle: {at: [6, 48], r: 0.5}
+  - id: pop:creek_flies
+    index: 6
+    kind: encounter
+    count: 1
+    circle: {at: [17, 48], r: 0.5}
+  - id: pop:hill_orcs
+    index: 1
+    kind: encounter
+    count: 2
+    circle: {at: [72, 10], r: 1.5}
+  - id: pop:dead
+    index: 1
+    kind: encounter
+    count: 1
+    circle: {at: [24, 99], r: 1}
+  - id: pop:dead
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [37, 102], r: 1}
+  - id: pop:toads
+    index: 1
+    kind: encounter
+    count: 1
+    circle: {at: [86, 101], r: 1}
+  - id: pop:toads
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [77, 83], r: 1}
+  - id: pop:hill_orcs
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [42, 29], r: 0.5}
+  - id: pop:hill_orcs
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [76, 32], r: 0.5}
+  - id: pop:hill_orcs
+    index: 4
+    kind: encounter
+    count: 2
+    circle: {at: [86, 28], r: 1.5}
+  - id: pop:hill_orcs
+    index: 5
+    kind: encounter
+    count: 1
+    circle: {at: [78, 27], r: 1}
+  - id: pop:hill_orcs
+    index: 6
+    kind: encounter
+    count: 1
+    circle: {at: [99, 22], r: 0.5}
+  - id: pop:hill_orcs
+    index: 7
+    kind: encounter
+    count: 1
+    circle: {at: [101, 27], r: 0.5}
+  - id: pop:hill_orcs
+    index: 8
+    kind: encounter
+    count: 1
+    circle: {at: [34, 24], r: 1}
+  - id: pop:hill_orcs
+    index: 9
+    kind: encounter
+    count: 2
+    circle: {at: [70, 22], r: 1.5}
+  - id: pop:hill_orcs
+    index: 10
+    kind: encounter
+    count: 1
+    circle: {at: [90, 36], r: 1}
+  - id: pop:hill_orcs
+    index: 11
+    kind: encounter
+    count: 1
+    circle: {at: [49, 23], r: 1}
+  - id: pop:hill_orcs
+    index: 12
+    kind: encounter
+    count: 2
+    circle: {at: [24, 33], r: 1.5}
+  - id: pop:toads
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [93, 98], r: 0.5}
+  - id: pop:toads
+    index: 4
+    kind: encounter
+    count: 1
+    circle: {at: [98, 93], r: 0.5}
+  - id: pop:toads
+    index: 5
+    kind: encounter
+    count: 2
+    circle: {at: [72, 89], r: 2}
+  - id: pop:toads
+    index: 6
+    kind: encounter
+    count: 2
+    circle: {at: [93, 76], r: 2}
+  - id: pop:toads
+    index: 7
+    kind: encounter
+    count: 1
+    circle: {at: [80, 94], r: 1}
+  - id: pop:toads
+    index: 8
+    kind: encounter
+    count: 1
+    circle: {at: [98, 82], r: 1}
+  - id: pop:toads
+    index: 9
+    kind: encounter
+    count: 1
+    circle: {at: [70, 97], r: 1}
+  - id: pop:tower_flies
+    index: 1
+    kind: encounter
+    count: 2
+    circle: {at: [84, 89], r: 1.5}
+  - id: pop:tower_flies
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [90, 88], r: 0.5}
+  - id: pop:dead
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [45, 81], r: 0.5}
+  - id: pop:dead
+    index: 4
+    kind: encounter
+    count: 1
+    circle: {at: [40, 81], r: 0.5}
+  - id: pop:dead
+    index: 5
+    kind: encounter
+    count: 1
+    circle: {at: [33, 99], r: 0.5}
+  - id: pop:dead
+    index: 6
+    kind: encounter
+    count: 2
+    circle: {at: [28, 86], r: 1.5}
+  - id: pop:dead
+    index: 7
+    kind: encounter
+    count: 2
+    circle: {at: [40, 95], r: 2}
+  - id: pop:dead
+    index: 8
+    kind: encounter
+    count: 2
+    circle: {at: [30, 104], r: 2}
+  - id: pop:dead
+    index: 9
+    kind: encounter
+    count: 1
+    circle: {at: [22, 92], r: 1}
+  - id: pop:dead
+    index: 10
+    kind: encounter
+    count: 1
+    circle: {at: [46, 104], r: 1}
+  - id: pop:dead
+    index: 11
+    kind: encounter
+    count: 1
+    circle: {at: [88, 109], r: 1}
+  - id: town:vertigo
+    kind: keep_clear
+    polygon: [[28, 33], [74, 33], [74, 66], [28, 66]]
+views:
+  - {id: entrance:party_start, at: [54, 48], height: 200, look: [54, 38], purpose: The square.}
+  - {id: landmark:witch_tower, at: [56, 50], height: 600, look: [88, 84], purpose: The Witch Tower from the town wall.}
+  - {id: landmark:rim, at: [76, 45], height: 200, look: [104, 47], purpose: "The signature view: the orchard road to the rim."}
+scatter:
+  - id: scatter:broadleaf
+    kinds:
+      7tree13: 30
+      7tree16: 25
+    count: 55
+    spacing: 1.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 0.9
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[19, 37], [41, 37], [41, 74], [19, 74]]
+  - id: scatter:broadleaf
+    decoration: 7tree16
+    count: 15
+    spacing: 1.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 0.9
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[30, 62], [66, 62], [66, 74], [30, 74]]
+  - id: scatter:broadleaf
+    decoration: 7tree13
+    count: 18
+    spacing: 1.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 0.9
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[70, 36], [103, 36], [103, 66], [70, 66]]
+  - id: scatter:flowers
+    decoration: flower01
+    count: 24
+    clusters: 7
+    polygon: [[19, 37], [41, 37], [41, 74], [19, 74]]
+  - id: scatter:flowers
+    decoration: flower06
+    count: 24
+    clusters: 7
+    polygon: [[30, 62], [66, 62], [66, 74], [30, 74]]
+  - id: scatter:flowers
+    decoration: flower02
+    count: 25
+    clusters: 8
+    polygon: [[70, 36], [103, 36], [103, 66], [70, 66]]
+  - id: scatter:rocks
+    decoration: 7rock09
+    count: 14
+    clusters: 7
+    polygon: [[19, 19], [109, 19], [109, 36], [19, 36]]
+  - id: scatter:rocks
+    decoration: 7rock08
+    count: 12
+    clusters: 6
+    polygon: [[19, 19], [109, 19], [109, 36], [19, 36]]
+  - id: scatter:hill_trees
+    kinds:
+      7tree16: 25
+      7tree22: 18
+    count: 43
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1.2
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[19, 19], [103, 19], [103, 36], [19, 36]]
+  - id: scatter:orchard
+    decoration: tree37
+    count: 5
+    line: [[75.5, 43.3], [81, 43.3]]
+  - id: scatter:orchard
+    decoration: tree37
+    count: 8
+    line: [[72.5, 46.8], [81, 46.8]]
+  - id: scatter:orchard
+    decoration: tree37
+    count: 6
+    line: [[88, 44.5], [100, 45.5]]
+  - id: scatter:orchard
+    decoration: tree37
+    count: 6
+    line: [[88, 48.5], [100, 49.5]]
+  - id: scatter:dead_trees
+    kinds:
+      tree41: 2
+      tree42: 1
+    count: 136
+    spacing: 1.6
+    spacing_group: trees
+    close_share: 0.08
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+  - id: scatter:dead_bushes
+    decoration: 7dec11
+    count: 16
+    clusters: 8
+    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+  - id: scatter:bones
+    decoration: 7dec18
+    count: 30
+    clusters: 12
+    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+  - id: scatter:bones
+    decoration: 7dec20
+    count: 8
+    clusters: 5
+    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+  - id: scatter:dead_rocks
+    decoration: 7rock08
+    count: 18
+    clusters: 8
+    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+  - id: scatter:dead_rocks
+    decoration: 7rock09
+    count: 14
+    clusters: 7
+    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+  - id: scatter:swamp_trees
+    kinds:
+      swptree1: 3
+      swptree2: 2
+    count: 50
+    spacing: 1.7
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[66, 78], [100, 78], [100, 100], [66, 100]]
+  - id: scatter:flowers
+    decoration: flower06
+    count: 15
+    clusters: 5
+    polygon: [[70, 66], [100, 66], [100, 78], [70, 78]]
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [70.82, 112.31], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [57.351, 102.024], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [62.286, 113.637], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [57.812, 113.332], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [85.095, 102.458], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [78.39, 108.06], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [71.866, 117.934], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [99.81, 107.253], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [60.52, 105.946], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [100.548, 115.096], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [68.842, 103.669], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [94.33, 117.802], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [51.61, 113.231], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [96.023, 111.721], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [88.68, 103.489], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [67.72, 107.131], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [84.278, 115.051], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [83.059, 109.825], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [60.218, 116.578], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [102.558, 103.544], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [74.104, 114.41], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [55.24, 117.694], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [86.725, 117.517], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [90.571, 117.731], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [93.499, 105.377], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [86.832, 109.439], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [77.774, 112.908], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [74.746, 102.405], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [56.297, 107.648], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [97.456, 104.659], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [76.492, 116.838], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [64.7, 103.268], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [67.157, 117.698], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [92.215, 101.11], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [63.159, 108.85], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [92.394, 109.755], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [75.153, 109.614], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [71.942, 105.361], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [100.348, 110.91], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [87.588, 113.674], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [54.935, 111.316], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [80.908, 105.537], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [60.76, 101.388], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [97.716, 117.475], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [81.388, 113.164], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [50.741, 117.784], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [92.028, 113.555], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [54.154, 100.217], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [67.305, 112.369], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [81.203, 116.607], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [85.021, 106.447], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [89.35, 107.107], r: 0.1}
+  - id: scatter:dead_trees
+    decoration: tree41
+    count: 1
+    circle: {at: [50.592, 109.725], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [59.679, 110.394], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [96.514, 108.11], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [102.421, 117.973], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [71.17, 108.81], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [75.492, 106.193], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [102.187, 100.068], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [63.822, 116.875], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [82.242, 52.009], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [97.607, 63.441], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [100.651, 54.01], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [102.58, 57.121], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [93.176, 53.091], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [90.395, 58.302], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [86.786, 54.706], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [102.602, 63.722], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [77.911, 60.841], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [70.717, 61.412], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [94, 56.879], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [89.335, 52.369], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [90.562, 63.943], r: 0.1}
+  - id: scatter:wild
+    decoration: swptree2
+    count: 1
+    circle: {at: [101.711, 86.76], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [102.451, 73.982], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [101.585, 80.029], r: 0.1}
+  - id: scatter:wild
+    decoration: swptree1
+    count: 1
+    circle: {at: [101.823, 90.491], r: 0.1}
+  - id: scatter:wild
+    decoration: flower06
+    count: 1
+    circle: {at: [100.372, 69.362], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [102.898, 93.927], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [12.876, 73.947], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [16.963, 110.243], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [17.468, 48.305], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [18.335, 55.193], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [9.98, 16.966], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [12.652, 23.96], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [9.565, 76.828], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [16.093, 93.309], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [7.123, 13.103], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [9.318, 70.027], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [14.277, 39.867], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [10.08, 29.896], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [11.511, 34.82], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [9.678, 111.236], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [17.25, 16.471], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [15.632, 119.725], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [11.461, 59.581], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [7.701, 37.929], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [7.356, 66.853], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [12.909, 109.783], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [6.846, 91.156], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [10.369, 43.217], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [10.445, 48.157], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [12.92, 12.7], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [9.504, 64.168], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [9.274, 86.529], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [18.95, 23.864], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [10.784, 100.421], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [15.774, 87.662], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [17.427, 116.786], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [15.797, 78.03], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [7.565, 33.352], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [12.305, 105.16], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [8.173, 57.678], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [14.856, 31.652], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [14.929, 9.262], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [8.18, 105.817], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [12.335, 88.383], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [9.273, 20.345], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [7.461, 116.47], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [6.77, 61.802], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [14.074, 65.963], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [6.178, 73.714], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [7.145, 96.181], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [7.468, 8.381], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [18.494, 27.598], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [15.015, 20.175], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [6.015, 48.377], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [14.504, 44.337], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [10.897, 93.41], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [15.081, 70.132], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [12.568, 6.19], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [11.547, 55.166], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [11.646, 120.892], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [6.058, 100.804], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [6.092, 25.904], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [14.142, 101.896], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [14.345, 62.299], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [6.525, 18.039], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [13.294, 96.472], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [13.646, 82.131], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [18.795, 11.247], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [18.551, 20.27], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [6.624, 109.463], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [13.076, 28.136], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [14.81, 56.264], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [8.884, 82.5], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [10.958, 116.523], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [6.437, 29.549], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [17.677, 63.661], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [14.318, 114.756], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [6.054, 42.966], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [6.134, 121.935], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [13.687, 16.787], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [6.574, 54.673], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [18.386, 7.047], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [6.696, 79.699], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [6.313, 22.055], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [10.896, 9.769], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [18.832, 121.827], r: 0.1}
+  - id: scatter:dead_trees
+    decoration: tree42
+    count: 1
+    circle: {at: [18.421, 90.785], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [6.072, 113], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [6.237, 84.677], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [10.091, 26.293], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [18.918, 113.63], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [15.74, 25.519], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [10.728, 39.625], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [12.472, 78.824], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [15.238, 107.063], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [14.034, 48.364], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [65.09, 15.757], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [81.774, 17.246], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [42.025, 10.766], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [79.257, 13.609], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [82.031, 10.736], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [99.24, 6.147], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [21.118, 14.776], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [23.333, 9.05], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [46.299, 8.042], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [32.788, 6.957], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [90.071, 7.08], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [95.391, 13.096], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [60.601, 11.134], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [51.669, 9.44], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [61.285, 15.836], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [93.673, 16.791], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [75.339, 13.128], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [27.22, 10.906], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [90.665, 11.748], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [76.186, 9.377], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [67.978, 8.85], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [26.942, 18.339], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [56.125, 11.144], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [64.341, 8.206], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [94.605, 7.276], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [84.235, 7.11], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [57.614, 14.935], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [87.02, 10.839], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [87.01, 14.966], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [99.686, 12.785], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [39.428, 7.884], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [38.27, 13.07], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [70.303, 17.288], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [58.108, 7.598], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [47.125, 11.831], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [49.419, 6.587], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [102.551, 6.975], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [31.778, 18.307], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [61.224, 6.012], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [50.166, 17.163], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [36.726, 17.222], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [70.454, 12.287], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [30.187, 13.49], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [83.632, 14.021], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [35.431, 9.242], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [25.487, 14.425], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [25.595, 6.223], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [54.83, 17.183], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [58.653, 18.787], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [34.646, 12.608], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [102.199, 15.701], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [40.467, 15.982], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [46.702, 16.276], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [54.005, 6.352], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [23.05, 18.276], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [50.913, 13.721], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [73.515, 6.712], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [74.015, 17.399], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [80.46, 7.303], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [90.374, 15.604], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [66.99, 12.587], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [77.662, 18.283], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [29.08, 7.328], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [102.998, 10.351], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [97.389, 9.727], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [44.099, 13.793], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [97.15, 16.008], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [42.666, 6.308], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [29.19, 121.782], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [48.737, 120.938], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [43.487, 120.376], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [26.677, 118.496], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [32.404, 116.281], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [35.826, 116.49], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [46.567, 114.097], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [22.827, 115.466], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [42.704, 115.815], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [23.297, 120.441], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [37.949, 112.069], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [29.791, 111.212], r: 0.1}
+  - id: scatter:wild
+    decoration: 7dec18
+    count: 1
+    circle: {at: [47.124, 110.64], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [38.57, 118.887], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [33.684, 121.359], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [47.053, 117.671], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [27.245, 114.518], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [40.432, 121.914], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [39.224, 115.39], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [82.744, 121.368], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [100.86, 121.885], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [69.139, 120.82], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [61.302, 119.668], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [75.123, 120.306], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [87.341, 121.59], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [79.149, 121.686], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [53.358, 79.104], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [59.003, 87.958], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [52.853, 93.699], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [56.782, 80.354], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock01
+    count: 1
+    circle: {at: [62.036, 95.489], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [58.214, 76.193], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [61.459, 81.646], r: 0.1}
+  - id: scatter:wild
+    decoration: 7dec18
+    count: 1
+    circle: {at: [50.008, 90.103], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [53.008, 87.069], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [58.266, 93.294], r: 0.1}
+  - id: scatter:wild
+    decoration: swptree1
+    count: 1
+    circle: {at: [64.901, 75.56], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [56.203, 83.831], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock09
+    count: 1
+    circle: {at: [54.334, 75.558], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [54.681, 90.459], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [61.96, 85.39], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [63.475, 91.89], r: 0.1}
+  - id: scatter:wild
+    decoration: swptree2
+    count: 1
+    circle: {at: [65.942, 86.405], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree13
+    count: 1
+    circle: {at: [57.135, 96.64], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [61.654, 78], r: 0.1}
+  - id: scatter:wild
+    decoration: 7dec18
+    count: 1
+    circle: {at: [50.789, 76.741], r: 0.1}
+  - id: scatter:wild_places
+    decoration: dec24x
+    count: 1
+    circle: {at: [66, 107], r: 0.1}
+  - id: scatter:wild_places
+    decoration: 7dec18
+    count: 1
+    circle: {at: [66.8, 107.6], r: 0.1}
+  - id: scatter:wild_places
+    decoration: 7dec20
+    count: 1
+    circle: {at: [65.3, 106.4], r: 0.1}
+  - id: scatter:wild_places
+    decoration: 7dec18
+    count: 1
+    circle: {at: [88.5, 110.4], r: 0.1}
+  - id: scatter:wild_places
+    decoration: 7rock08
+    count: 1
+    circle: {at: [88, 109.6], r: 0.1}
+  - id: scatter:wild_places
+    decoration: 7rock09
+    count: 1
+    circle: {at: [89.1, 109.8], r: 0.1}
+  - id: scatter:wild_places
+    decoration: 7rock09
+    count: 7
+    line: [[78, 58], [80, 56], [82.5, 56.5], [83, 59], [80.5, 60.5]]
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 10
+    clusters: 3
+    polygon: [[31, 37.5], [40.5, 37.5], [40.5, 40], [31, 40]]
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 8
+    clusters: 3
+    polygon: [[63.5, 37.5], [71, 37.5], [71, 41.5], [63.5, 41.5]]
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 8
+    clusters: 4
+    polygon: [[42, 51.5], [62, 51.5], [62, 53.5], [42, 53.5]]
+  - id: scatter:orchard
+    decoration: tree37
+    count: 5
+    line: [[34.5, 48.5], [39.5, 48.5]]
+  - id: scatter:orchard
+    decoration: tree37
+    count: 6
+    line: [[31.5, 49.8], [39.5, 49.8]]
+  - id: scatter:hedges
+    decoration: bush02
+    count: 4
+    line: [[42.5, 61], [47.5, 61], [47.5, 63.5], [42.5, 63.5]]
+  - id: scatter:crops
+    decoration: flower02
+    count: 4
+    polygon: [[42.9, 61.4], [47.1, 61.4], [47.1, 63.1], [42.9, 63.1]]
+  - id: scatter:hedges
+    decoration: bush02
+    count: 4
+    line: [[48.5, 61], [51, 61], [51, 63.5], [48.5, 63.5]]
+  - id: scatter:crops
+    decoration: flower02
+    count: 2
+    polygon: [[48.9, 61.4], [50.6, 61.4], [50.6, 63.1], [48.9, 63.1]]
+  - id: scatter:hedges
+    decoration: bush02
+    count: 6
+    line: [[24, 42], [31, 42], [31, 45], [24, 45]]
+  - id: scatter:crops
+    decoration: flower02
+    count: 7
+    polygon: [[24.4, 42.4], [30.6, 42.4], [30.6, 44.6], [24.4, 44.6]]
+  - id: scatter:hedges
+    decoration: bush02
+    count: 6
+    line: [[24, 47], [31, 47], [31, 50], [24, 50]]
+  - id: scatter:crops
+    decoration: flower02
+    count: 7
+    polygon: [[24.4, 47.4], [30.6, 47.4], [30.6, 49.6], [24.4, 49.6]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 10
+    circle: {at: [54.9, 46.4], r: 1.4}
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 8
+    line: [[53, 49], [56.5, 49]]
+  - id: scatter:verge
+    decoration: flower02
+    count: 24
+    clusters: 10
+    polygon: [[42.6, 38.9], [61.6, 38.9], [61.6, 49.2], [42.6, 49.2]]
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [42.97, 41.16], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [45.25, 41.32], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [50.13, 41.65], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [52.21, 41.52], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [54.21, 41.52], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [57.47, 41.16], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [46.81, 40.46], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [54.32, 39.07], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [59.68, 39.25], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [58.71, 41.52], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [43.01, 48.02], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [49.85, 46.17], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [51.18, 44.93], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [60.24, 49.53], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [61.22, 48.24], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [44.72, 49.24], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [46.32, 46.89], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [41.65, 56.33], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [47.76, 58.5], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [58.43, 56.66], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [60.47, 54.66], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [49.74, 56.28], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [50.29, 59.98], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [56.74, 58.78], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [38.15, 40.83], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [34.32, 43.07], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [34.82, 47.07], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [35.39, 41], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [66.3, 45.29], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [63.24, 41.2], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [66.21, 40.52], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [67.82, 45.07], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [53.24, 35.2], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [59.24, 34.2], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [48.24, 33.7], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [56.21, 34.02], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [55.21, 61.52], r: 0.25}
+  - id: scatter:town_trees
+    decoration: tree37
+    count: 1
+    circle: {at: [56.74, 64.2], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree16
+    count: 1
+    circle: {at: [55.89, 60], r: 0.25}
+  - id: scatter:town_trees
+    decoration: 7tree13
+    count: 1
+    circle: {at: [33.32, 59.07], r: 0.25}
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[60.92, 42.3], [60.92, 43.2]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[49.42, 44.9], [49.42, 46.1]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[50.92, 44.2], [50.92, 44.8]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[60.42, 47], [60.42, 48.5]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[60.08, 47.3], [60.08, 46.7]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[44.92, 56.4], [44.92, 57.6]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[45.08, 57.6], [45.08, 56.4]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[55.42, 56.4], [55.42, 57.6]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[55.08, 57.6], [55.08, 56.4]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[61.92, 55.8], [61.92, 56.7]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[49.42, 56.2], [49.42, 56.8]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[50.42, 58.3], [50.42, 59.2]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[54.58, 59.3], [54.58, 58.7]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[34.58, 43.8], [34.58, 43.2]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[35.08, 47.8], [35.08, 47.2]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[35.58, 41.8], [35.58, 41.2]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[67.42, 46.9], [67.42, 48.1]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[63.58, 42.2], [63.58, 41.3]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[68.42, 41.3], [68.42, 42.2]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[69.92, 45.2], [69.92, 45.8]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[55.97, 35.47], [55.84, 36.36]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[59.71, 35.45], [59.51, 34.57]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[50.92, 33.8], [50.92, 34.7]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[56.08, 35.7], [56.08, 34.8]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[57.46, 62.43], [57.37, 63.32]]
+  - id: scatter:town_flowers
+    decoration: flower01
+    count: 4
+    line: [[57.08, 65.2], [57.08, 64.3]]
+  - id: scatter:town_flowers
+    decoration: flower06
+    count: 4
+    line: [[58.36, 60.02], [58.45, 60.61]]
+  - id: scatter:town_flowers
+    decoration: flower02
+    count: 4
+    line: [[34.37, 58.54], [34.95, 58.65]]
+ground:
+  - material: grass_meadow
+    polygon: [[0, 0], [104, 0], [104, 128], [0, 128]]
+    notes: "meadow; the town floor is grass too (second pass): dirt only on roads, lanes, door aprons, the square"
+  - material: swamp
+    polygon: [[66, 78], [100, 78], [100, 100], [70, 100], [66, 92]]
+    notes: Toad Meadow marsh
+  - material: soil
+    polygon: [[20, 76], [48, 76], [48, 108], [20, 108]]
+    notes: "the dead forest floor: bare dark soil"
+  - material: soil
+    polygon: [[53, 45], [56, 45], [56, 48], [53, 48]]
+    notes: "the market square round the fountain (pass four: 3 x 3, was 4 x 4)"
+  - material: soil
+    polygon: [[59, 57], [62, 57], [62, 61], [59, 61]]
+    notes: Joe's yard
+  - material: soil
+    polygon: [[57, 111], [60, 111], [60, 113], [57, 113]]
+    notes: a bare patch in the meadow
+  - material: soil
+    polygon: [[94, 57], [97, 57], [97, 59], [94, 59]]
+    notes: a bare patch in the meadow
+  - material: soil
+    polygon: [[75, 103], [78, 103], [78, 105], [75, 105]]
+    notes: a bare patch in the meadow
+  - material: soil
+    polygon: [[23, 65], [26, 65], [26, 67], [23, 67]]
+    notes: a bare patch in the meadow
+  - material: soil
+    polygon: [[97, 111], [100, 111], [100, 113], [97, 113]]
+    notes: a bare patch in the meadow
+  - material: soil
+    polygon: [[59, 89], [62, 89], [62, 91], [59, 91]]
+    notes: a bare patch in the meadow
+  - material: soil
+    polygon: [[11, 39], [14, 39], [14, 41], [11, 41]]
+    notes: a bare patch in the meadow
+  - material: soil
+    polygon: [[39, 111], [42, 111], [42, 113], [39, 113]]
+    notes: a bare patch in the meadow
+  - material: soil
+    line: [[49, 42], [49, 43]]
+    width: 2
+    notes: path to the door of building:town_hall
+  - material: soil
+    line: [[60, 44.5], [60, 46]]
+    width: 2
+    notes: "path to the door of building:core_houses#2"
+  - material: soil
+    line: [[59, 56], [59, 55]]
+    width: 2
+    notes: path to the door of building:joes_shop
+  - material: soil
+    line: [[51, 59], [52, 58]]
+    width: 2
+    notes: "path to the door of building:bank_houses#2"
+  - material: soil
+    line: [[35.5, 45], [35.5, 46]]
+    width: 2
+    notes: "path to the door of building:west_houses#1"
+  - material: soil
+    line: [[37, 43], [38.5, 44]]
+    width: 2
+    notes: "path to the door of building:west_houses#3"
+  - material: soil
+    line: [[65.5, 45.5], [64.5, 45]]
+    width: 2
+    notes: path to the door of building:stables
+  - material: soil
+    line: [[55, 34], [55, 33]]
+    width: 2
+    notes: "path to the door of building:fringe_meadows#1"
+  - material: soil
+    line: [[60.5, 33], [59.5, 32.5]]
+    width: 2
+    notes: "path to the door of building:fringe_meadows#2"
+  - material: soil
+    line: [[58, 66.5], [57, 67]]
+    width: 2
+    notes: "path to the door of building:fringe_meadows#6"
+  - material: soil
+    line: [[55.5, 61], [54, 61]]
+    width: 2
+    notes: "path to the door of building:fringe_vertigo_south#1"
+  - material: soil
+    line: [[79, 73], [79, 74.5]]
+    width: 2
+    notes: path to the door of building:valia_cottage
+  - material: soil
+    line: [[77, 75.5], [77, 74.5]]
+    width: 2
+    notes: "path to the door of building:hamlet_houses#1"
+  - material: soil
+    line: [[36, 59.5], [42, 55]]
+    width: 2
+    notes: path to the door of building:oslo_hut
+  - material: soil
+    line: [[44.5, 85], [43, 83.5]]
+    width: 2
+    notes: path to the door of building:celia_hut
+  - material: soil
+    line: [[44.5, 41], [44.5, 39.5]]
+    width: 2
+    notes: a lane behind the shops
+  - material: soil
+    line: [[56.5, 41], [56.5, 39.5]]
+    width: 2
+    notes: a lane behind the shops
+structures:
+  - id: thing:wall_run_1
+    kind: wall
+    line: [[42, 38.5], [47, 38.2]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    parapet: 96
+    battlements: true
+    title: Town wall
+    batter: 128
+    batter_height: 320
+  - id: thing:wall_run_2
+    kind: wall
+    line: [[47, 38.2], [50.812, 38]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    parapet: 96
+    battlements: true
+    title: Town wall
+    batter: 128
+    batter_height: 320
+  - id: thing:wall_run_3
+    kind: wall
+    line: [[53.188, 38], [57, 38.2]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    parapet: 96
+    battlements: true
+    title: Town wall
+    batter: 128
+    batter_height: 320
+  - id: thing:wall_run_4
+    kind: wall
+    line: [[57, 38.2], [62.2, 38.6]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    parapet: 96
+    battlements: true
+    title: Town wall
+    batter: 128
+    batter_height: 320
+  - id: thing:wall_run_5
+    kind: wall
+    line: [[62.2, 38.6], [62.522, 44.813]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    title: Town wall
+    notes: "Climbs from the street to the upper town: its top follows the land."
+    batter: 128
+    batter_height: 320
+    top: follow
+  - id: thing:wall_run_6
+    kind: wall
+    line: [[62.478, 47.187], [62, 49.5]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    parapet: 96
+    battlements: true
+    title: Town wall
+    batter: 128
+    batter_height: 320
+  - id: thing:wall_run_11
+    kind: wall
+    line: [[42, 49.5], [41.5, 45.188]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    parapet: 96
+    battlements: true
+    title: Town wall
+    batter: 128
+    batter_height: 320
+  - id: thing:wall_run_12
+    kind: wall
+    line: [[41.5, 42.812], [42, 38.5]]
+    height: 512
+    thickness: 384
+    textures: {wall: cwb}
+    title: Town wall
+    notes: "Climbs from the street to the upper town: its top follows the land."
+    batter: 128
+    batter_height: 320
+    top: follow
+  - id: thing:wall_tower_1
+    kind: building
+    at: [41.25, 37.75]
+    size: [1.5, 1.5]
+    kit: castle
+    parts:
+      - {id: tower, shape: round, at: [384, 384], radius: 352, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 832, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+    door: none
+    title: Wall tower
+  - id: thing:wall_tower_2
+    kind: building
+    at: [46.25, 37.45]
+    size: [1.5, 1.5]
+    kit: castle
+    parts:
+      - {id: tower, shape: round, at: [384, 384], radius: 352, sides: 12, textures: {wall: cnb}, wall_height: 832, windows: none, roof: flat, parapet: 96, battlements: true}
+    door: none
+    title: Wall tower
+  - id: thing:gatehouse_north
+    kind: building
+    at: [50.25, 37.312]
+    size: [3.5, 1.375]
+    turn: 0
+    kit: castle
+    parts:
+      - {id: tower_l, shape: round, at: [288, 352], radius: 288, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 896, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+      - {id: tower_r, shape: round, at: [1504, 352], radius: 288, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 896, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+    door: none
+    title: Vertigo North gate
+    notes: "Two round towers under cone roofs; the wall between them carries the arched gate."
+  - id: thing:gate_arch_north
+    kind: wall
+    line: [[50.612, 38], [53.388, 38]]
+    height: 608
+    thickness: 448
+    gates:
+      - {at: [52, 38], width: 448, height: 416, arch: round, sides: 8}
+    textures: {wall: cnb}
+    parapet: 96
+    battlements: true
+    title: Vertigo North gate
+    notes: "Pass four: the gate passage under a round arch (was a level passage 448 over the road)."
+  - id: thing:wall_tower_3
+    kind: building
+    at: [56.25, 37.45]
+    size: [1.5, 1.5]
+    kit: castle
+    parts:
+      - {id: tower, shape: round, at: [384, 384], radius: 352, sides: 12, textures: {wall: cnb}, wall_height: 832, windows: none, roof: flat, parapet: 96, battlements: true}
+    door: none
+    title: Wall tower
+  - id: thing:wall_tower_4
+    kind: building
+    at: [61.45, 37.85]
+    size: [1.5, 1.5]
+    kit: castle
+    parts:
+      - {id: tower, shape: round, at: [384, 384], radius: 352, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 832, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+    door: none
+    title: Wall tower
+  - id: thing:gatehouse_east
+    kind: building
+    at: [61.812, 44.25]
+    size: [1.375, 3.5]
+    turn: 1.1
+    kit: castle
+    parts:
+      - {id: tower_l, shape: round, at: [352, 288], radius: 288, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 896, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+      - {id: tower_r, shape: round, at: [352, 1504], radius: 288, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 896, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+    door: none
+    title: Vertigo East gate
+    notes: "Two round towers under cone roofs; the wall between them carries the arched gate."
+  - id: thing:gate_arch_east
+    kind: wall
+    line: [[62.525, 44.613], [62.475, 47.387]]
+    height: 608
+    thickness: 448
+    gates:
+      - {at: [62.5, 46], width: 448, height: 416, arch: round, sides: 8}
+    textures: {wall: cnb}
+    parapet: 96
+    battlements: true
+    title: Vertigo East gate
+    notes: "Pass four: the gate passage under a round arch (was a level passage 448 over the road)."
+  - id: thing:wall_tower_5
+    kind: building
+    at: [61.25, 48.75]
+    size: [1.5, 1.5]
+    kit: castle
+    parts:
+      - {id: tower, shape: round, at: [384, 384], radius: 352, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 832, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+    door: none
+    title: Wall tower
+  - id: thing:wall_tower_8
+    kind: building
+    at: [41.25, 48.75]
+    size: [1.5, 1.5]
+    kit: castle
+    parts:
+      - {id: tower, shape: round, at: [384, 384], radius: 352, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 832, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+    door: none
+    title: Wall tower
+  - id: thing:gatehouse_west
+    kind: building
+    at: [40.812, 42.25]
+    size: [1.375, 3.5]
+    turn: 0
+    kit: castle
+    parts:
+      - {id: tower_l, shape: round, at: [352, 288], radius: 288, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 896, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+      - {id: tower_r, shape: round, at: [352, 1504], radius: 288, sides: 12, textures: {roof: 7hhr1rf, wall: cnb}, wall_height: 896, windows: none, roof: cone, roof_pitch: 58, eaves: 32}
+    door: none
+    title: Vertigo West gate
+    notes: "Two round towers under cone roofs; the wall between them carries the arched gate."
+  - id: thing:gate_arch_west
+    kind: wall
+    line: [[41.5, 45.388], [41.5, 42.612]]
+    height: 608
+    thickness: 448
+    gates:
+      - {at: [41.5, 44], width: 448, height: 416, arch: round, sides: 8}
+    textures: {wall: cnb}
+    parapet: 96
+    battlements: true
+    title: Vertigo West gate
+    notes: "Pass four: the gate passage under a round arch (was a level passage 448 over the road)."
+  - id: thing:well_northwest
+    kind: well
+    at: [43.55, 40.4]
+    frame: {height: 200}
+    title: Well
+    effects:
+      - text: Cool water.
+  - id: thing:well_northeast
+    kind: well
+    at: [60.7, 40.55]
+    frame: {height: 224, roof: gable, roof_height: 64}
+    title: Well
+    effects:
+      - text: Cool water.
+  - id: thing:well_south
+    kind: well
+    at: [50.6, 46.9]
+    frame: {height: 224, roof: gable, roof_height: 64}
+    title: Well
+    effects:
+      - text: Cool water.
+  - id: thing:well_bank
+    kind: well
+    at: [51, 57.4]
+    frame: {height: 200}
+    title: Well
+    effects:
+      - text: Cool water.
+  - id: thing:well_farm
+    kind: well
+    at: [31.7, 43]
+    frame: {height: 200}
+    title: Well
+    effects:
+      - text: Cool water.
+  - id: thing:stall_1
+    kind: building
+    at: [55.6, 44.8]
+    size: [1, 0.75]
+    turn: 90
+    kit: timber
+    parts:
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhm2rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    door: none
+    title: Market stall
+  - id: thing:stall_2
+    kind: building
+    at: [55.6, 46.05]
+    size: [1, 0.75]
+    turn: 90
+    kit: plaster
+    parts:
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: 7hhr1rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    door: none
+    title: Market stall
+  - id: thing:stall_3
+    kind: building
+    at: [52.7, 48]
+    size: [1, 0.75]
+    turn: 90
+    kit: timber
+    parts:
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    door: none
+    title: Market stall
+  - id: thing:shed_ne
+    kind: building
+    at: [60.4, 38.95]
+    size: [1, 0.75]
+    turn: 0
+    kit: poor
+    parts:
+      - {id: shed, at: [48, 48], size: [416, 288], wall_height: 256, windows: none, roof: lean_to}
+    door: none
+    title: Woodshed
+  - id: thing:shed_south
+    kind: building
+    at: [48.2, 48.2]
+    size: [1, 0.75]
+    turn: 0
+    kit: timber
+    parts:
+      - {id: shed, at: [48, 48], size: [416, 288], posts: 24, wall_height: 256, windows: none, roof: lean_to}
+    door: none
+    title: Cart shed
+  - id: thing:shed_west
+    kind: building
+    at: [33.6, 38.4]
+    size: [1.5, 1]
+    turn: 0
+    kit: timber
+    parts:
+      - {id: shed, at: [48, 48], size: [672, 416], wall_height: 256, windows: none, roof: gable}
+    door: none
+    title: Barn
+  - id: thing:shed_bank
+    kind: building
+    at: [44.5, 59.2]
+    size: [1, 0.75]
+    turn: 0
+    kit: poor
+    parts:
+      - {id: shed, at: [48, 48], size: [416, 288], wall_height: 256, windows: none, roof: lean_to}
+    door: none
+    title: Shed
+  - id: thing:garden_north
+    kind: fence
+    line: [[52.7, 39.2], [54.6, 39.2], [54.6, 40.95], [52.7, 40.95]]
+    closed: true
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:garden_south
+    kind: fence
+    line: [[49.8, 47.9], [51.3, 47.9], [51.3, 48.85], [49.8, 48.85]]
+    closed: true
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:pen_stables
+    kind: fence
+    line: [[64.4, 48.9], [67.6, 48.9], [67.6, 50.4], [64.4, 50.4]]
+    closed: true
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:pen_west
+    kind: fence
+    line: [[37.1, 47.2], [39.6, 47.2], [39.6, 47.9]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:prop_1
+    kind: decoration
+    at: [46.95, 41]
+    decoration: bigbarel
+  - id: thing:prop_2
+    kind: decoration
+    at: [47.15, 40.6]
+    decoration: 7dec21
+  - id: thing:prop_3
+    kind: decoration
+    at: [43.2, 44.7]
+    decoration: 7dec12
+  - id: thing:prop_4
+    kind: decoration
+    at: [49.4, 46.2]
+    decoration: bigbarel
+  - id: thing:prop_5
+    kind: decoration
+    at: [42.6, 47.6]
+    decoration: 7dec32
+  - id: thing:prop_6
+    kind: decoration
+    at: [49.6, 48.4]
+    decoration: 7dec21
+  - id: thing:prop_7
+    kind: decoration
+    at: [65.2, 49.6]
+    decoration: haybale2
+  - id: thing:prop_8
+    kind: decoration
+    at: [66.6, 49.3]
+    decoration: haybale2
+  - id: thing:prop_9
+    kind: decoration
+    at: [63.9, 48.3]
+    decoration: 7dec24
+  - id: thing:prop_10
+    kind: decoration
+    at: [35.5, 42.4]
+    decoration: 7dec12
+  - id: thing:prop_11
+    kind: decoration
+    at: [59.4, 59.8]
+    decoration: bigbarel
+  - id: thing:prop_12
+    kind: decoration
+    at: [64.2, 58]
+    decoration: 7dec32
+  - id: thing:prop_13
+    kind: decoration
+    at: [56.6, 48.6]
+    decoration: 7dec21
+  - id: thing:prop_14
+    kind: decoration
+    at: [61.7, 41.6]
+    decoration: 7dec11
+  - id: thing:town_hall_steps
+    kind: stairs
+    line: [[48.75, 43], [48.75, 41.3]]
+    width: 384
+    rise: 512
+    textures: {wall: chb1}
+    notes: "The town hall stands on the upper terrace; a flight of steps down to the main street."
+  - id: thing:smith_lane_steps
+    kind: stairs
+    line: [[44.5, 43.2], [44.5, 41]]
+    width: 384
+    rise: 512
+    textures: {wall: chb1}
+    notes: The lane climbs to the upper town by steps between the shops.
+  - id: thing:bank_lane_steps
+    kind: stairs
+    line: [[56.5, 43.2], [56.5, 41]]
+    width: 384
+    rise: 512
+    textures: {wall: chb1}
+    notes: The lane climbs to the upper town by steps between the shops.
+  - id: thing:terrace_wall_1
+    kind: wall
+    line: [[42.5, 41.5], [44.1, 41.5]]
+    height: 48
+    thickness: 512
+    textures: {wall: chb1}
+    title: Terrace wall
+    notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
+  - id: thing:terrace_wall_2
+    kind: wall
+    line: [[44.9, 41.5], [48.35, 41.5]]
+    height: 48
+    thickness: 512
+    textures: {wall: chb1}
+    title: Terrace wall
+    notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
+  - id: thing:terrace_wall_3
+    kind: wall
+    line: [[49.15, 41.5], [50.3, 41.5]]
+    height: 48
+    thickness: 512
+    textures: {wall: chb1}
+    title: Terrace wall
+    notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
+  - id: thing:terrace_wall_4
+    kind: wall
+    line: [[51.7, 41.5], [56.1, 41.5]]
+    height: 48
+    thickness: 512
+    textures: {wall: chb1}
+    title: Terrace wall
+    notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
+  - id: thing:terrace_wall_5
+    kind: wall
+    line: [[56.9, 41.5], [61.5, 41.5]]
+    height: 48
+    thickness: 512
+    textures: {wall: chb1}
+    title: Terrace wall
+    notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
+  - id: thing:town_bridge
+    kind: bridge
+    line: [[52, 50.3], [52, 54.6]]
+    width: 512
+    rise: 48
+    kerb: 48
+    title: Vertigo Bridge
+    notes: The stone bridge from the south gate over Pitchfork Creek.
+  - id: thing:fountain_square
+    kind: fountain
+    at: [54.5, 46.2]
+    title: Fountain
+    effects:
+      - text: "Refreshing!"
+  - id: thing:money_tree
+    kind: decoration
+    at: [55.8, 47.6]
+    decoration: tree37
+    title: Money Tree
+    condition: {not: {map_var: money_tree_shaken}}
+    else_effects:
+      - text: The money tree is bare until next year.
+    effects:
+      - set:
+          var:
+            map_var: money_tree_shaken
+          value: 1
+      - gold: 50
+      - text: "Coins rain from the money tree: +50 gold."
+  - id: thing:gunther_notice
+    kind: sign
+    at: [53.2, 45.2]
+    height: 192
+    width: 128
+    title: Mayor Gunther's notice
+    effects:
+      - lua: "evt.SimpleMessage(\"NOTICE. By order of Mayor Gunther: slimes and doom bugs plague Vertigo. Any who clear them will be paid at the Town Hall. Joe the Exterminator (south bank, by the creek) is not to be paid in advance. Joe's warehouse stands at the end of the guild lane.\")"
+  - id: thing:rain_barrel
+    kind: decoration
+    at: [60.2, 59.4]
+    decoration: 7dec24
+    title: Rain barrel
+    condition: {not: {map_var: barrel_key_taken}}
+    else_effects:
+      - text: Only wet stones under the barrel now.
+    effects:
+      - set:
+          var:
+            map_var: barrel_key_taken
+          value: 1
+      - give_item: warehouse_key
+      - lua: "evt.SimpleMessage(\"Under the rain barrel by Joe's warehouse, wrapped in oilcloth: a store-room key. Joe keeps his spare where everyone keeps theirs. (You receive the warehouse key.)\")"
+  - id: thing:warehouse_door
+    kind: doorway
+    at: [61.08, 58.3]
+    turn: 90
+    height: 352
+    width: 256
+    depth: 384
+    hood: 96
+    textures: {door: 7solid01, wall: cwb}
+    title: Enter Joe's Warehouse
+    into: {map: xeen_xd01.blv, at: [768, -900, 128], facing: 512}
+  - id: thing:culvert_grate
+    kind: culvert
+    at: [61, 53.916]
+    height: 320
+    width: 320
+    depth: 64
+    textures: {wall: cwb}
+    title: Culvert grate
+    into: {map: xeen_xd01.blv, at: [4832, 4000, -640], facing: 1024}
+    condition: {qbit: 110012}
+    locked_text: The culvert grate is barred fast from the inside.
+    hint: Culvert
+    outflow: 256
+    water_level: 8
+    wall: [960, 448]
+  - id: thing:mine_portal
+    kind: cave_mouth
+    at: [44, 31]
+    size: [1024, 1024]
+    textures: {door: 7solid01, shell: t2bs}
+    floor: 1184
+    title: Enter Red Dwarf Mines
+    into: {map: xeen_xd02.blv, at: [14376, 3392, 0], facing: 1024}
+    hint: Red Dwarf Mines
+    mouth: {width: 448, height: 352, depth: 75}
+    roughness: 0.6
+    seed: 3
+  - id: thing:shaft_head
+    kind: hatch
+    at: [62, 28]
+    size: [1024, 1024]
+    textures: {door: 7solid01, shell: cnb}
+    floor: 1472
+    title: The Clan King's shaft
+    into: {map: xeen_xd03.blv, at: [4288, 7168, 1216], facing: 1024}
+    condition: {qbit: 110031}
+    else_effects:
+      - lua: "evt.SimpleMessage(\"An iron hatch over a shaft, barred from below. Dwarf-work: the Clan King's escape shaft. It can only be opened from the Deep Mine, under the Red Dwarf Mines north-west of here.\")"
+    hint: The Clan King's shaft
+    mouth: {width: 384, height: 192, depth: 45}
+    form: wedge
+  - id: thing:witch_tower_door
+    kind: doorway
+    at: [88, 82.4]
+    turn: 180
+    height: 352
+    width: 192
+    depth: 384
+    hood: 128
+    textures: {door: 7solid01, wall: cnb}
+    title: Witch Tower
+    into: {map: xeen_xd04.blv, at: [0, -2900, 0], facing: 512}
+    condition: {any: [{item: 2110}, {lua: "evt.GetHeldItemId() == 2110"}]}
+    else_effects:
+      - lua: "evt.SimpleMessage(\"The tower door is sealed with a lock of green crystal. Old Valia of Toad Meadow, in the cottage north of the pond, keeps its key.\")"
+    arch: pointed
+  - id: thing:orc_cave_mouth
+    kind: cave_mouth
+    at: [82, 30]
+    size: [1024, 1024]
+    textures: {door: 7solid01, shell: cwb1}
+    floor: 1376
+    title: Enter Orc Caves
+    into: {map: xeen_xd05.blv, at: [0, 448, 0], facing: 512}
+    hint: Orc Caves
+    mouth: {width: 512, height: 384, depth: 75}
+    roughness: 0.7
+    seed: 5
+  - id: thing:way_in_dress_1
+    kind: decoration
+    at: [42.5, 32.6]
+    decoration: 7dec16
+  - id: thing:way_in_dress_2
+    kind: decoration
+    at: [45.6, 32.9]
+    decoration: 7dec16
+  - id: thing:way_in_dress_3
+    kind: decoration
+    at: [42.2, 33.3]
+    decoration: stump5a
+  - id: thing:way_in_dress_4
+    kind: decoration
+    at: [45.3, 32.4]
+    decoration: smlbarel
+  - id: thing:way_in_dress_5
+    kind: decoration
+    at: [45.55, 32.25]
+    decoration: bigbarel
+  - id: thing:way_in_dress_6
+    kind: decoration
+    at: [46.3, 32.5]
+    decoration: 7dec01
+  - id: thing:way_in_dress_7
+    kind: decoration
+    at: [46.7, 31.9]
+    decoration: dec23
+  - id: thing:way_in_dress_8
+    kind: decoration
+    at: [43.15, 32.12]
+    decoration: dec06
+  - id: thing:way_in_dress_9
+    kind: decoration
+    at: [44.85, 32.12]
+    decoration: dec06
+  - id: thing:way_in_dress_10
+    kind: decoration
+    at: [42.5, 31.2]
+    decoration: rock10
+  - id: thing:way_in_dress_11
+    kind: decoration
+    at: [45.5, 31]
+    decoration: rock12
+  - id: thing:way_in_dress_12
+    kind: decoration
+    at: [42.8, 30.3]
+    decoration: 7rock04
+  - id: thing:way_in_dress_13
+    kind: decoration
+    at: [45.2, 30.2]
+    decoration: rock26
+  - id: thing:way_in_dress_14
+    kind: decoration
+    at: [44.1, 29.6]
+    decoration: 7rock09
+  - id: thing:way_in_dress_15
+    kind: decoration
+    at: [41.8, 31.6]
+    decoration: 7rock05
+  - id: thing:way_in_dress_16
+    kind: decoration
+    at: [46.3, 31.3]
+    decoration: rock10
+  - id: thing:way_in_dress_17
+    kind: decoration
+    at: [81.05, 31.3]
+    decoration: fla3__01
+  - id: thing:way_in_dress_18
+    kind: decoration
+    at: [82.95, 31.3]
+    decoration: fla3__01
+  - id: thing:way_in_dress_19
+    kind: decoration
+    at: [80.6, 31.6]
+    decoration: sklplrev
+  - id: thing:way_in_dress_20
+    kind: decoration
+    at: [83.5, 31.7]
+    decoration: sklplrev
+  - id: thing:way_in_dress_21
+    kind: decoration
+    at: [81.5, 32]
+    decoration: dec19
+  - id: thing:way_in_dress_22
+    kind: decoration
+    at: [82.7, 32.3]
+    decoration: dec21
+  - id: thing:way_in_dress_23
+    kind: decoration
+    at: [83.4, 32.2]
+    decoration: dec05
+  - id: thing:way_in_dress_24
+    kind: decoration
+    at: [80.8, 32.4]
+    decoration: dec29
+  - id: thing:way_in_dress_25
+    kind: decoration
+    at: [84.4, 32.6]
+    decoration: cmpfyr00
+  - id: thing:way_in_dress_26
+    kind: decoration
+    at: [84.9, 32]
+    decoration: dec22
+  - id: thing:way_in_dress_27
+    kind: decoration
+    at: [80.2, 32.8]
+    decoration: corpse04
+  - id: thing:way_in_dress_28
+    kind: decoration
+    at: [80.4, 30.1]
+    decoration: 7rock08
+  - id: thing:way_in_dress_29
+    kind: decoration
+    at: [83.6, 30.2]
+    decoration: rock12
+  - id: thing:way_in_dress_30
+    kind: decoration
+    at: [82.2, 29]
+    decoration: 7rock04
+  - id: thing:way_in_dress_31
+    kind: decoration
+    at: [79.8, 30.9]
+    decoration: rock26
+  - id: thing:way_in_dress_32
+    kind: decoration
+    at: [60.5, 29.3]
+    decoration: 7dec16
+  - id: thing:way_in_dress_33
+    kind: decoration
+    at: [63.5, 28.8]
+    decoration: 7dec16
+  - id: thing:way_in_dress_34
+    kind: decoration
+    at: [63.4, 29.5]
+    decoration: smlbarel
+  - id: thing:way_in_dress_35
+    kind: decoration
+    at: [60.6, 28.4]
+    decoration: stump5a
+  - id: thing:way_in_dress_36
+    kind: decoration
+    at: [60.7, 27.8]
+    decoration: rock10
+  - id: thing:way_in_dress_37
+    kind: decoration
+    at: [63.3, 27.4]
+    decoration: rock12
+  - id: thing:way_in_dress_38
+    kind: decoration
+    at: [62, 26.6]
+    decoration: 7rock04
+  - id: thing:joes_warehouse
+    kind: building
+    at: [61, 57]
+    size: [2.5, 2.5]
+    kit: timber
+    parts:
+      - {id: store, at: [32, 32], size: [1184, 1216], textures: {base: cwb, roof: hhp2rf}, wall_height: 512, windows: none, roof: gable, roof_pitch: 35, ridge_along: ns}
+    door: none
+    title: Joe's Warehouse
+    notes: "Pass five: the store round XD-01's loading door (the door is the doorway thing)."
+  - id: thing:door_mark_1
+    kind: decoration
+    at: [60.75, 57.65]
+    decoration: dec06
+  - id: thing:door_mark_2
+    kind: decoration
+    at: [60.75, 58.95]
+    decoration: dec06
+  - id: thing:door_mark_3
+    kind: decoration
+    at: [60.75, 59.45]
+    decoration: bigbarel
+  - id: thing:door_mark_4
+    kind: decoration
+    at: [61, 59.7]
+    decoration: smlbarel
+  - id: thing:door_mark_5
+    kind: decoration
+    at: [60.6, 57.15]
+    decoration: 7dec21
+  - id: thing:door_mark_6
+    kind: decoration
+    at: [61.1, 29.3]
+    decoration: dec06
+  - id: thing:door_mark_7
+    kind: decoration
+    at: [62.9, 29.3]
+    decoration: dec06
+  - id: thing:door_mark_8
+    kind: decoration
+    at: [87.1, 81.95]
+    decoration: dec06
+  - id: thing:door_mark_9
+    kind: decoration
+    at: [88.9, 81.95]
+    decoration: dec06
+  - id: thing:door_mark_10
+    kind: decoration
+    at: [86.6, 81.2]
+    decoration: 7rock08
+  - id: thing:quay_wall_1
+    kind: wall
+    line: [[58.5, 53.54], [60, 53.54]]
+    height: 400
+    thickness: 256
+    textures: {wall: cwb}
+    title: Quay wall
+    notes: "Pass four: the bank wall the culvert stands in."
+  - id: thing:quay_wall_2
+    kind: wall
+    line: [[62, 53.54], [63.5, 53.54]]
+    height: 400
+    thickness: 256
+    textures: {wall: cwb}
+    title: Quay wall
+    notes: "Pass four: the bank wall the culvert stands in."
+  - id: thing:witch_tower
+    kind: building
+    at: [86, 82]
+    size: [4, 4]
+    kit: stone
+    facing: s
+    parts:
+      - {id: base, shape: round, at: [1024, 1024], radius: 640, sides: 10, wall_height: 768, windows: none, roof: none}
+      - {id: mid, shape: round, at: [1088, 960], radius: 544, sides: 10, bottom: 768, wall_height: 768, windows: all, roof: none}
+      - {id: top, shape: round, at: [1152, 896], radius: 480, sides: 10, bottom: 1536, wall_height: 640, windows: all, roof: cone, roof_pitch: 70}
+    door: none
+    title: The Witch Tower
+    notes: "Each storey set a little further north-east: the crooked tower of XD-04."
+  - id: thing:pyramid
+    kind: building
+    at: [82.5, 44.5]
+    size: [3, 3]
+    kit: stone
+    parts:
+      - {id: p, at: [128, 128], size: [1280, 1280], wall_height: 64, windows: none, roof: hip, roof_pitch: 52, title: Travel Pyramid, effects: [{lua: "evt.SimpleMessage(\"A pyramid of old stone, warm to the touch. A sigil-plate by its foot is blank. Some say it leads to the land below the land; whoever holds the Pyramid Sigil may one day pass.\")"}]}
+    door: none
+    title: Travel Pyramid
+    notes: "Sealed until M7 (Act II): says so."
+  - id: thing:rim_falls
+    kind: waterfall
+    line: [[104, 60], [106, 60]]
+    rise: 64
+    textures: {rock: t2bs}
+    title: Pitchfork Falls
+    notes: The creek's fall off the world rim (the studio's waterfall word).
+    top: 576
+    lean: 220
+    foot: 0
+    spread: 1.7
+    back: 768
+    pool: 768
+    rock_size: 400
+  - id: thing:falls_rock_1
+    kind: decoration
+    at: [104.4, 57.6]
+    decoration: 7rock09
+  - id: thing:falls_rock_2
+    kind: decoration
+    at: [104.6, 62.4]
+    decoration: 7rock09
+  - id: thing:falls_rock_3
+    kind: decoration
+    at: [103.6, 57.9]
+    decoration: 7rock08
+  - id: thing:falls_rock_4
+    kind: decoration
+    at: [103.7, 62.1]
+    decoration: 7rock08
+  - id: thing:falls_rock_5
+    kind: decoration
+    at: [105.6, 58.4]
+    decoration: 7rock09
+  - id: thing:falls_rock_6
+    kind: decoration
+    at: [105.7, 61.7]
+    decoration: 7rock08
+  - id: thing:falls_rock_7
+    kind: decoration
+    at: [106.5, 59]
+    decoration: 7rock09
+  - id: thing:falls_rock_8
+    kind: decoration
+    at: [106.5, 61]
+    decoration: 7rock04
+  - id: thing:falls_sound
+    kind: decoration
+    at: [104, 60]
+    decoration: Snd_Brook
+  - id: thing:obelisk
+    kind: obelisk
+    at: [74, 34]
+    height: 768
+    title: Obelisk
+    effects:
+      - lua: "evt.SimpleMessage(\"Carved into the obelisk: the first word of a riddle that runs across Cloudside: \\\"SEEK\\\". (The other obelisks are not built yet.)\")"
+  - id: thing:fountain_ability
+    kind: fountain
+    at: [46, 70]
+    title: Fountain of Ability
+    condition: {not: {map_var: ability_drunk}}
+    else_effects:
+      - text: The fountain has run dry for you.
+    effects:
+      - set:
+          var:
+            map_var: ability_drunk
+          value: 1
+      - add:
+          var: BaseLuck
+          value: 2
+      - text: "+2 Luck (permanent)"
+  - id: thing:waters_of_power
+    kind: well
+    at: [92, 50]
+    roofed: true
+    title: Waters of Power
+    effects:
+      - add:
+          var: HP
+          value: 25
+      - text: "+25 Hit points (temporary)"
+  - id: thing:wishing_well
+    kind: well
+    at: [94, 92]
+    title: Wishing Well
+    condition: {gold: {at_least: 1}}
+    locked_text: You have no coin to throw.
+    effects:
+      - gold: -1
+      - lua: "if math.random(1, 10) == 1 then evt.Add(\"Gold\", 25) evt.StatusText(\"Your wish comes true: 25 gold glitters in the bucket.\") else evt.StatusText(\"You make a wish.\") end"
+  - id: thing:shrine_poison
+    kind: building
+    at: [25, 81]
+    size: [2, 2]
+    kit: stone
+    parts:
+      - {id: s, at: [256, 256], size: [512, 512], posts: 48, wall_height: 320, roof: hip, roof_pitch: 40, title: Shrine of Poison, condition: {not: {map_var: shrine_used}}, else_effects: [{text: The shrine is silent.}], effects: [{set: {var: {map_var: shrine_used}, value: 1}}, {add: {var: BodyResistance, value: 5}}, {text: "+5 Body resistance (permanent)"}]}
+    door: none
+    title: Shrine of Poison
+  - id: thing:water_reflector
+    kind: obelisk
+    at: [102, 96]
+    height: 384
+    sides: 8
+    title: Water Reflector
+    effects:
+      - lua: "evt.SimpleMessage(\"A disc of dark crystal on a stone stem, turned toward the stars below the rim. It hums faintly. Whatever it is for, its day has not come.\")"
+  - id: thing:orothin_1
+    kind: decoration
+    at: [65, 67]
+    decoration: ped02
+    title: Orothin's statue
+    effects:
+      - text: "Orothin the Wise: 'The world has an edge. Mind it.'"
+  - id: thing:orothin_2
+    kind: decoration
+    at: [70, 66]
+    decoration: ped02
+    title: Orothin's statue
+    effects:
+      - text: "Orothin the Wise: 'What falls past the rim does not come back.'"
+  - id: thing:druid_stone
+    kind: decoration
+    at: [26, 60]
+    decoration: rock65
+    title: The Spring Druid's stone
+    effects:
+      - lua: "evt.SimpleMessage(\"Words cut in the rune stone: Drink at the Fountain of Ability south of town once, and luck will follow you. The Waters of Power by the orchard give strength for a day.\")"
+  - id: thing:outpost_fire_1
+    kind: decoration
+    at: [30, 29]
+    decoration: fire01
+    title: Orc campfire
+  - id: thing:outpost_crate_1
+    kind: crate
+    at: [30.8, 29.4]
+    title: Orc supplies
+  - id: thing:outpost_fire_2
+    kind: decoration
+    at: [56, 23]
+    decoration: fire01
+    title: Orc campfire
+  - id: thing:outpost_crate_2
+    kind: crate
+    at: [56.8, 23.4]
+    title: Orc supplies
+  - id: thing:outpost_fire_3
+    kind: decoration
+    at: [97, 31]
+    decoration: fire01
+    title: Orc campfire
+  - id: thing:outpost_crate_3
+    kind: crate
+    at: [97.8, 31.4]
+    title: Orc supplies
+  - id: thing:west_camp_fire
+    kind: decoration
+    at: [23.5, 62.3]
+    decoration: fire01
+    title: Orc campfire
+  - id: thing:west_camp_crate
+    kind: crate
+    at: [24.3, 62.8]
+    title: Orc supplies
+  - id: thing:west_camp_bones
+    kind: decoration
+    at: [22.8, 62.9]
+    decoration: dec05
+  - id: thing:west_road_fire
+    kind: decoration
+    at: [11.5, 41.8]
+    decoration: fire01
+    title: Orc campfire
+  - id: thing:west_road_crate
+    kind: crate
+    at: [12.3, 42.199999999999996]
+    title: Orc supplies
+  - id: thing:west_road_bones
+    kind: decoration
+    at: [10.8, 42.3]
+    decoration: dec05
+  - id: thing:north_road_fire
+    kind: decoration
+    at: [72.8, 9.2]
+    decoration: fire01
+    title: Orc campfire
+  - id: thing:north_road_crate
+    kind: crate
+    at: [73.6, 9.6]
+    title: Orc supplies
+  - id: thing:north_road_bones
+    kind: decoration
+    at: [72.1, 9.7]
+    decoration: dec05
+  - id: thing:derek_fire
+    kind: decoration
+    at: [42, 78]
+    decoration: fire01
+    title: Derek's campfire
+  - id: thing:derek_chest
+    kind: chest
+    at: [42.8, 78.4]
+    title: Derek's chest
+  - id: thing:sign_hills
+    kind: sign
+    at: [59.2, 33.2]
+    height: 256
+    arms:
+      - {title: Red Dwarf Mines, toward: w}
+      - {title: "Orc Caves, X7", toward: ne}
+      - {title: Vertigo, toward: s}
+  - id: thing:sign_south
+    kind: sign
+    at: [63, 72]
+    height: 256
+    arms:
+      - {title: "Toad Meadow, Witch Tower", toward: e}
+      - {title: Forest of the Walking Dead, toward: w}
+      - {title: Vertigo, toward: n}
+  - id: thing:sign_west
+    kind: sign
+    at: [37.6, 45.2]
+    height: 256
+    arms:
+      - {title: West road, toward: w}
+      - {title: Vertigo, toward: e}
+  - id: thing:hill_cache
+    kind: chest
+    at: [102, 24]
+    title: Chest
+  - id: thing:marsh_chest
+    kind: chest
+    at: [96, 96]
+    title: Chest
+actors:
+  - {monster: "371", at: [49.5, 43], spread: 0, group: 51}
+  - {monster: "368", at: [55, 43.6], spread: 0, group: 51}
+  - {monster: "354", at: [44.8, 43.9], spread: 0, group: 51}
+  - {monster: "350", at: [58.2, 44.2], spread: 0, group: 51}
+  - {monster: "371", at: [53.6, 48.4], spread: 0, group: 51}
+  - {monster: "368", at: [55.8, 45.5], spread: 0, group: 51}
+  - {monster: "354", at: [44.65, 40.2], spread: 0, group: 51}
+  - {monster: "350", at: [57.2, 40.4], spread: 0, group: 51}
+  - {monster: "371", at: [46.2, 46.5], spread: 0, group: 51}
+  - {monster: "368", at: [50.8, 46.4], spread: 0, group: 51}
+  - {monster: "354", at: [61, 45.1], spread: 0, group: 51}
+  - {monster: "350", at: [53.2, 46.8], spread: 0, group: 51}
+  - {monster: "371", at: [47.4, 54.6], spread: 0, group: 51}
+  - {monster: "368", at: [55, 54.8], spread: 0, group: 51}
+  - {monster: "354", at: [50.2, 57.2], spread: 0, group: 51}
+  - {monster: "350", at: [58.5, 56.3], spread: 0, group: 51}
+  - {monster: "371", at: [38, 43.6], spread: 0, group: 51}
+  - {monster: "368", at: [66.6, 44.6], spread: 0, group: 51}
+  - {monster: "354", at: [35.5, 44.2], spread: 0, group: 51}
+  - {monster: "350", at: [65.8, 48.2], spread: 0, group: 51}
+  - {monster: "371", at: [75, 75], spread: 0, group: 51}
+  - {monster: "368", at: [78, 73.5], spread: 0, group: 51}
+  - {monster: "354", at: [44, 61.5], spread: 0, group: 51}
+  - {monster: "404", at: [52, 36.9], spread: 0, group: 51}
+  - {monster: "404", at: [53.1, 36.9], spread: 0, group: 51}
+  - {monster: "404", at: [52, 51], spread: 0, group: 51}
+  - {monster: "404", at: [53, 50.7], spread: 0, group: 51}
+  - {monster: "404", at: [40.4, 44.6], spread: 0, group: 51}
+  - {monster: "404", at: [40.4, 43.5], spread: 0, group: 51}
+  - {monster: "404", at: [63.6, 45.6], spread: 0, group: 51}
+  - {monster: "404", at: [63.6, 46.7], spread: 0, group: 51}
+  - {monster: "404", at: [47.2, 44.4], spread: 0, group: 51}
+  - {monster: "404", at: [56.4, 47.6], spread: 0, group: 51}
+  - {monster: "404", at: [59.8, 44.9], spread: 0, group: 51}
+  - {monster: "404", at: [50.6, 55.4], spread: 0, group: 51}
+  - {monster: "404", at: [45.8, 40.6], spread: 0, group: 51}
+  - {monster: Goblin, at: [30, 29], count: 4, spread: 1.2, group: 60, hostile: true}
+  - {monster: Goblin, at: [56, 23], count: 6, spread: 1.2, group: 61, hostile: true}
+  - {monster: Goblin, at: [97, 31], count: 4, spread: 1.2, group: 62, hostile: true}
+  - {monster: Skeleton Warrior, at: [35, 89], count: 1, spread: 0, group: 70, hostile: true}
+  - {monster: Goblin, at: [47, 17], count: 1, spread: 0, group: 71, hostile: true}
+  - {monster: Goblin, at: [20, 45], count: 1, spread: 0, group: 72, hostile: true}
+  - {monster: Dragonfly, at: [86, 70], count: 1, spread: 0, group: 73, hostile: true}
+relations:
+  - {of: [226, 227, 228], toward: 271, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 272, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 273, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 397, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 398, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 399, relation: friendly, both_ways: true}
+events:
+  - id: evt:gunther_errand
+    trigger: timer
+    every: 2
+    effects:
+      - lua: "evt.SimpleMessage(\"Vertigo. A bolt from the sky destroyed Newcastle, and you woke here among its survivors. Mayor Gunther asks your help: slimes and doom bugs plague the town. Joe the Exterminator always turns up just after the pests, and his warehouse on the south bank is locked tight. The notice in the square says more; the Town Hall is on the main street.\")"
+    once: true
+    notes: "Why the party is here: M1/M2 (QUESTS.md), until the Xeen world's quests exist; once."

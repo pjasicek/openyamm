@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise-object-edit. Output ONE transparent PNG, 1536x2048 (3:4). Input roles: paint_mask_guide.png is the exact edit target and authoritative geometry/layout; design_reference.png is material/detail reference; icon_x8.png is colour reference (ignore magenta background). Follow this brief exactly:\n# Prote der Fatta: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10132/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: Plate boots: black lacquered shin plates with a polished gold rim at the top and a gold band at the ankle, and white-silver segmented plates over the feet ending in pointed toes..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: Plate boots: black lacquered shin plates with a polished gold rim at the top and a gold band at the ankle, and white-silver segmented plates over the feet ending in pointed toes.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10132/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nPreserve the exact guide silhouettes, positions and sizes. Top half is unlit albedo only, black lacquered METAL shins, gold metal cuffs/ankle bands, silver metal foot plates, dark leather soles. Bottom half repeats those same silhouettes as pure material IDs: lacquered metal shins are RED as are gold and silver parts, leather soles GREEN, any cloth lining BLUE. Do not confuse black lacquered metal with leather. No text or grid lines.\nCORRECTIVE GENERATION: The previous output had large red splatter artifacts outside the bottom-half silhouettes. This is unacceptable. Use the original guide alpha silhouettes strictly, with absolutely NO pixels outside them, no spray, speckling, debris or halo. The material masks must be clean solid flat vector-like fills limited to the guide objects. Preserve original guide layout exactly. Painted upper views must have flat unlit base colour without bright lighting reflections.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10132/paint_mask_guide.png",
+      "sha256": "604aaf26eaa61f5de6103f601ef68a188df3b1b2d2d09d9db3f62b7d999102a2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10132/design_reference.png",
+      "sha256": "124e31b1d872d8974aad092dc248af2dfd6203476f887baf4edc7341f15e6aad"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10132/icon_x8.png",
+      "sha256": "da0bbe9b56289009cba6121a26c2a3b580eb2627828e8bd897a4180767deb54f"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-ce0b-7ae2-aa1d-99f03403d662/exec-54d99cca-1266-4201-8b88-c5d6aab0b3b1.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10132/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "limitations": "Visible mask splatter and interior outlines remain after the permitted correction; raw output preserved without processing."
+}

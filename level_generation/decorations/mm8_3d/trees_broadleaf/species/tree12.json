@@ -1,0 +1,153 @@
+{
+ "sprite": "tree12",
+ "note": "389 placements (Murmurwoods 278, Ravenshore 70, Alvar 41). Wide rounded maple crown from 31 % of the height on many spreading limbs, thick straight grey-brown trunk, olive-green leaves with yellow highlights.",
+ "sapling": {
+  "scale": 9.2,
+  "ratio": 0.063,
+  "baseSize": 0.33,
+  "branches": [
+   0,
+   36,
+   12,
+   6
+  ],
+  "length": [
+   1.0,
+   0.55,
+   0.35,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   55,
+   40,
+   45
+  ],
+  "downAngleV": [
+   0,
+   25,
+   10,
+   10
+  ],
+  "attractUp": [
+   0,
+   0.35,
+   0.3,
+   0
+  ],
+  "curve": [
+   0,
+   -10,
+   0,
+   0
+  ],
+  "shape": "2",
+  "seed": 12,
+  "segSplits": [
+   0.05,
+   0.2,
+   0.25,
+   0
+  ],
+  "splitAngle": [
+   20,
+   15,
+   15,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.34,
+  "centre": 0.62,
+  "clumps": 110,
+  "inner_clumps": 8,
+  "gap": 0.8,
+  "outer_radius": [
+   0.6,
+   0.95
+  ],
+  "inner_radius": [
+   0.55,
+   0.75
+  ],
+  "card": [
+   1.15,
+   1.35
+  ],
+  "coverage": 0.45,
+  "flatten": 0.75,
+  "card_up": 0.25,
+  "shell_radial": 0.75,
+  "low_keep": 0.6,
+  "underside": 0.52,
+  "gen_cards": 1845,
+  "keep": 0.41,
+  "shell": {
+   "lum": 0.62
+  }
+ },
+ "occlusion": {
+  "floor": 0.14,
+  "range": 0.88,
+  "power": 1.0,
+  "hue": [
+   1.4,
+   1.0,
+   0.9
+  ]
+ },
+ "leaves": {
+  "cells": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "target_srgb": [
+   176,
+   177,
+   49
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   120,
+   104,
+   88
+  ],
+  "root_reach": 0.3,
+  "roots": 6
+ },
+ "transparent_bounces": 64,
+ "lod": {
+  "tone": [
+   1.0,
+   0.92,
+   1.45
+  ],
+  "lod2_card_scale": 0.82,
+  "card_frac": [
+   1.0,
+   0.9,
+   1.0
+  ],
+  "lod2_vertical": 2,
+  "lod2_capacity": 0.85,
+  "grow": [
+   1.0,
+   1.3,
+   1.6
+  ]
+ },
+ "impostor_tone": [
+  0.86,
+  0.86,
+  1.02
+ ],
+ "impostor_dilate": 5,
+ "impostor_edge_fill": true
+}

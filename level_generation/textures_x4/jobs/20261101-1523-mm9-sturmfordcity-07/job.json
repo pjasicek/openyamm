@@ -1,0 +1,500 @@
+{
+ "id": "20261101-1523-mm9-sturmfordcity-07",
+ "world": "mm9",
+ "maps": [
+  "sturmfordcity.blv",
+  "thronheimcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/bannhjp246",
+  "mm9/glaskgla08",
+  "mm9/doors33i72",
+  "mm9/bookhvcgqb",
+  "mm9/exte6b4idy",
+  "mm9/stur43122c",
+  "mm9/seweljgwql",
+  "mm9/irony8mmzy",
+  "mm9/chai53hw5s",
+  "mm9/stang73d2l",
+  "mm9/refiakxl46",
+  "mm9/thjop7hfw6",
+  "mm9/refijrqeyd",
+  "mm9/dark12wt8t",
+  "mm9/thjot4bv8e",
+  "mm9/thjoxe9p56",
+  "mm9/thjo5hdvqf",
+  "mm9/sturpnu6lf",
+  "mm9/thjoobsqc9",
+  "mm9/thjobl20e8",
+  "mm9/sturo0ppwl",
+  "mm9/stur7lpn4r",
+  "mm9/thjookpqku",
+  "mm9/thjok78y9i"
+ ],
+ "requests": {
+  "mm9/bannhjp246": {
+   "name": "bannhjp246",
+   "versions": [
+    1
+   ],
+   "material": "an orange-red cloth banner with a swallowtail-cut lower edge, a silver-blue crest with gold fleurs-de-lis at the top and a gold dragon on a shield below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/glaskgla08": {
+   "name": "glaskgla08",
+   "versions": [
+    1
+   ],
+   "material": "an arched pair of brown wooden door leaves, the left with herringbone planks, small leaded lattice windows in the arched tops, black iron strap hinges and ring handles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/doors33i72": {
+   "name": "doors33i72",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "a pair of orange-brown wooden door leaves with carved frames, each with a tall narrow stained-glass panel of blue, red and gold in the centre",
+   "notes": {
+    "2": "no dark hairline along the top edge, and keep the two narrow glass panels dark blue behind the native's dark iron grille bars rather than bright open stained glass",
+    "3": "each of the two narrow dark blue panels is covered by a dense dark iron grille of vertical and horizontal bars (as in the native), the gold fleur-de-lis only faintly visible behind the bars"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     86
+    ]
+   }
+  },
+  "mm9/bookhvcgqb": {
+   "name": "bookhvcgqb",
+   "versions": [
+    1
+   ],
+   "material": "a dark wooden bookcase with five shelves packed with upright leather books in red, green, brown and cream bindings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/exte6b4idy": {
+   "name": "exte6b4idy",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pair of pale grey weathered wooden door leaves with arched leaded lattice windows at the top and black iron strap hinges",
+   "notes": {
+    "2": "light weathered planks right up to the top edge with no dark line, and keep the native's thin dark line along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     94
+    ]
+   }
+  },
+  "mm9/stur43122c": {
+   "name": "stur43122c",
+   "versions": [
+    1
+   ],
+   "material": "a triangular grey stone pediment with a moulded rim and carved leafy scrolls, a gold \"$\" sign carved in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/seweljgwql": {
+   "name": "seweljgwql",
+   "versions": [
+    1
+   ],
+   "material": "a rusty brown iron grate frame with riveted edges and horizontal flat bars across it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/irony8mmzy": {
+   "name": "irony8mmzy",
+   "versions": [
+    1
+   ],
+   "material": "a lattice of thick grey iron bars crossing diagonally in a diamond pattern with rivets at the joins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/chai53hw5s": {
+   "name": "chai53hw5s",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rows of heavy grey iron chains hanging vertically side by side",
+   "notes": {
+    "2": "keep the wood backdrop fading to dark at the top and bottom as in the native, with the small transparent gaps between the chain ends at the top and bottom edges and no purple tint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/stang73d2l": {
+   "name": "stang73d2l",
+   "versions": [
+    1
+   ],
+   "material": "a pair of golden-brown vertical plank door leaves with small carved framed panels near the top, a dark iron hinge strap and an iron ring handle at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refiakxl46": {
+   "name": "refiakxl46",
+   "versions": [
+    1
+   ],
+   "material": "red-brown and green-grey brick wall in staggered courses under a dark wooden beam with iron pegs along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjop7hfw6": {
+   "name": "thjop7hfw6",
+   "versions": [
+    1
+   ],
+   "material": "dark brown-grey rough stone wall of irregular flat stones in uneven courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refijrqeyd": {
+   "name": "refijrqeyd",
+   "versions": [
+    1
+   ],
+   "material": "red-brown and green-grey brick wall framed by dark wooden beams at the top and sides with iron pegs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/refiakxl46"
+     ],
+     "fraction": 0.8
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dark12wt8t": {
+   "name": "dark12wt8t",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown wood with straight vertical grain streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/darkixxmfx"
+     ],
+     "fraction": 0.75
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjot4bv8e": {
+   "name": "thjot4bv8e",
+   "versions": [
+    1
+   ],
+   "material": "grey and tan stone block wall with a brown wooden post down the centre ending in a small bracket under a beam at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoxe9p56": {
+   "name": "thjoxe9p56",
+   "versions": [
+    1
+   ],
+   "material": "grey-tan rough fieldstone wall of irregular stones with pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo5hdvqf": {
+   "name": "thjo5hdvqf",
+   "versions": [
+    1
+   ],
+   "material": "grey-tan fieldstone wall with a small pointed wooden-framed window of blue panes in the centre above a flower box of green leaves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjoxe9p56"
+     ],
+     "fraction": 0.631
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturpnu6lf": {
+   "name": "sturpnu6lf",
+   "versions": [
+    1
+   ],
+   "material": "dark slate-grey stone panel with a large X of grey-teal metal beams corner to corner inside a matching frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturol8ay2"
+     ],
+     "fraction": 0.585
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoobsqc9": {
+   "name": "thjoobsqc9",
+   "versions": [
+    1
+   ],
+   "material": "grey rough stone wall with a narrow arched leaded lattice window in the centre and dark wooden posts at the edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjobl20e8": {
+   "name": "thjobl20e8",
+   "versions": [
+    1
+   ],
+   "material": "grey rough stone wall with dark wooden vertical posts along both sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjoobsqc9"
+     ],
+     "fraction": 0.445
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturo0ppwl": {
+   "name": "sturo0ppwl",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown brick wall in staggered courses with thin dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur7lpn4r": {
+   "name": "stur7lpn4r",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown brick wall over the upper half, a band of red checkered tiles above a row of large pale grey-tan stone blocks along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturo0ppwl"
+     ],
+     "fraction": 0.438
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjookpqku": {
+   "name": "thjookpqku",
+   "versions": [
+    1
+   ],
+   "material": "brown and grey brick wall of rough rectangular bricks in staggered courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjok78y9i": {
+   "name": "thjok78y9i",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown brick wall of rough rectangular bricks in staggered courses with darker brown patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

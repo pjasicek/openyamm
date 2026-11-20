@@ -1,0 +1,185 @@
+{
+  "map": "out02.odm",
+  "world": "mm8",
+  "kind": "outdoor",
+  "structure": {
+    "bmodels": 121,
+    "bmodel_faces": 6095,
+    "exits": 8
+  },
+  "scale": {
+    "building_footprint": {
+      "count": 121,
+      "min": 6144,
+      "q1": 393216,
+      "median": 608256,
+      "q3": 1493280,
+      "max": 4967424
+    },
+    "building_height": {
+      "count": 121,
+      "min": 32,
+      "q1": 416,
+      "median": 512,
+      "q3": 768,
+      "max": 2176
+    },
+    "nearest_building_gap": {
+      "count": 121,
+      "min": 0,
+      "q1": 592,
+      "median": 997,
+      "q3": 1412,
+      "max": 7323
+    },
+    "relief_range": 6400
+  },
+  "mechanisms": {
+    "bound_events": 161,
+    "door_events": 0,
+    "trap_events": 0,
+    "local_teleports": 0,
+    "chest_events": 13,
+    "fixed_actors": 143
+  },
+  "density": {
+    "spawn_points": 59,
+    "decorations": 827
+  },
+  "palette": {
+    "textures": 131,
+    "textures_by_faces": [{
+        "name": "t14b05",
+        "share": 0.075
+      },
+      {
+        "name": "t14c01b",
+        "share": 0.06
+      },
+      {
+        "name": "t14a05",
+        "share": 0.046
+      },
+      {
+        "name": "t14a05b",
+        "share": 0.041
+      },
+      {
+        "name": "btrima1",
+        "share": 0.04
+      },
+      {
+        "name": "bwoodb1",
+        "share": 0.039
+      },
+      {
+        "name": "t14abcd10",
+        "share": 0.032
+      },
+      {
+        "name": "cr_w128b",
+        "share": 0.028
+      },
+      {
+        "name": "t14d01",
+        "share": 0.023
+      },
+      {
+        "name": "t14abcd11",
+        "share": 0.021
+      },
+      {
+        "name": "t14c06",
+        "share": 0.021
+      },
+      {
+        "name": "t14c07",
+        "share": 0.02
+      }
+    ],
+    "decoration_kinds": 70,
+    "decorations_by_count": [{
+        "name": "tree12",
+        "share": 0.085
+      },
+      {
+        "name": "tree10",
+        "share": 0.068
+      },
+      {
+        "name": "tree11",
+        "share": 0.068
+      },
+      {
+        "name": "rock22",
+        "share": 0.047
+      },
+      {
+        "name": "tree60a",
+        "share": 0.046
+      },
+      {
+        "name": "plant32",
+        "share": 0.045
+      },
+      {
+        "name": "rock17",
+        "share": 0.042
+      },
+      {
+        "name": "tree62a",
+        "share": 0.034
+      },
+      {
+        "name": "plant19",
+        "share": 0.033
+      },
+      {
+        "name": "rock16",
+        "share": 0.033
+      },
+      {
+        "name": "plant17",
+        "share": 0.03
+      },
+      {
+        "name": "plant27",
+        "share": 0.03
+      }
+    ],
+    "tile_kinds": 102,
+    "tiles_by_cells": [{
+        "name": "90",
+        "share": 0.323
+      },
+      {
+        "name": "126",
+        "share": 0.206
+      },
+      {
+        "name": "1",
+        "share": 0.058
+      },
+      {
+        "name": "162",
+        "share": 0.045
+      },
+      {
+        "name": "91",
+        "share": 0.021
+      },
+      {
+        "name": "93",
+        "share": 0.021
+      },
+      {
+        "name": "92",
+        "share": 0.02
+      },
+      {
+        "name": "128",
+        "share": 0.015
+      }
+    ]
+  }
+}

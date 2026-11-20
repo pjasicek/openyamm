@@ -1,0 +1,17 @@
+id: rulesets.maw_content
+title: "Ruleset - MAW content: the edited maps' monsters"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  # The towns' dimensional travel pedestals (DEVIATIONS 49) are every ruleset's since 2026-11-09:
+  # ../dimensional_travel_pedestals.yml.
+  - load_map: {map: d18.blv}
+  - assert:
+      actor_visible: {actor_index: 0, name: "Naga Empress"}
+  - load_map: {map: d04.blv}
+  - assert:
+      actor_visible: {actor_index: 34, name: "High Cardinal"}

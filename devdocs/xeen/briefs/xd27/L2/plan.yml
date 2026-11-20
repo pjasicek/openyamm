@@ -1,0 +1,454 @@
+format: 0
+level: L2
+pitch: "For months the ogres of the river hills have thrown boulders at the boats on the Great River below Rivercity, because they like the sound of crunching wood and screaming men. Their lair is a warm brown cave in a river bluff. Its mouth is shut by a crude gate of logs that the ogres bar from inside, so the party climbs in by the midden crack, a bone-strewn fissure where the ogres throw their scraps and their dogs gnaw. Inside lie the bone den where the band sleeps on heaps of hides, the feast cave round a sunken cooking pit, the dog kennel, and the Chieftain's den, hung with the oars and the figurehead of Captain Nystor's sunk boats, with his larder behind a locked plank door. North, a boulder quarry where the ogres prise rocks from the walls feeds a timber chute down to the throwing ledge, a shelf in the bluff open over the river gorge, where the Chieftain and his throwers stand by a heap of boulders on a timber rack. Kill the Chieftain, knock out the rack so the heap goes thundering into the river, and break everything in the lair."
+purpose: "Side quest Q-C23 The Ogre Boulders: Captain Nystor (X2) wants the lair destroyed. The party arrives at about level 10 and leaves at 12; monster levels 14 to 20 (the map's band 12-20), groups of 2-3, 28 monsters, treasure level 2 with the Chieftain's larder one step up. About 15 minutes."
+mood: "A beast's den, warm and rank: brown rock, bones underfoot, smoke from the cooking pit; then daylight and the roar of the river from the throwing ledge, the gorge open below."
+datum: arrival
+spaces:
+  - id: room:bone_den
+    name: Bone den
+    kind: room
+    size: M
+    extent: [1664, 1280]
+    shape: "Low rounded cave strewn with bones; sleeping heaps of hides and straw along its walls; the midden crack opens in its floor's south corner."
+    where: "West, above the feast cave."
+    floor: 192
+    clear_height: [448, 576]
+    relief: uneven
+    purpose: "The band asleep; a bundle of loot in the far heap."
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot"
+    light: "dim: one campfire in the middle of the den"
+    palette: ["7dec01, trasheap: sleeping heaps of hides and straw", "7dec18, dec19, dec29: bones", "7dec02: campfire", "dec05: a skeleton", "smlbarel: a keg"]
+    furniture: [six sleeping heaps along the walls, steps of rock down to the feast cave]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [15, 15], strength: pack, rank: a, notes: Asleep on their heaps until disturbed.}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [1, 2], notes: A hide-wrapped bundle in the far heap.}
+  - id: room:chief_den
+    name: Chieftain's den
+    kind: room
+    size: M
+    extent: [1536, 1280]
+    shape: "Cave a step above the feast cave; a seat of piled boulders on a rock dais; the oars, a torn sail and the figurehead of a sunk boat hung as trophies; the larder door in its west wall."
+    where: "West of the feast cave, north of the bone den."
+    floor: 64
+    clear_height: 576
+    relief: steps
+    purpose: "The heart of the lair: here the party breaks everything (goal:lair); the larder behind it."
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; the seat of boulders on a rock dais; trophies of the boats in d08's timber and canvas (t68a13a)"
+    light: "fire-lit: a campfire before the seat, two skull torches"
+    fires: 1
+    palette: ["6rock01, 6rock08, 6rock09: the boulders of the seat", "sklplrev: skull piles", "7dec02: campfire", "7dec20: skulls"]
+    furniture: [the Chieftain's seat of piled boulders on a dais 64 up, oars (timber beams) and a torn sail (canvas panel) on the walls, a boat's figurehead (placeholder), the larder's plank door in the west wall]
+    population:
+      - {slot: 3, groups: 1, per_marker: [1, 2], levels: [20, 20], strength: light, rank: a, notes: The Chieftain's shamans.}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3], notes: The Chieftain's own chest beside his seat.}
+  - id: room:chute
+    name: Boulder chute
+    kind: corridor
+    size: S
+    extent: [448, 1792]
+    shape: "Timber-lined trough falling north-east from the quarry to the throwing ledge, worn smooth by boulders."
+    where: North-east of the quarry.
+    floor: [384, 128]
+    clear_height: 448
+    relief: slope
+    purpose: "The way to the ledge; the boulder trap (set:chute_boulder)."
+    empty: true
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; the trough lined with d08's planks (t68a10a) between timber kerbs"
+    light: the ledge's daylight ahead
+    palette: ["6rock03: the trap's boulder at the foot once it has fallen (geometry)"]
+  - id: room:feast_cave
+    name: Feast cave
+    kind: room
+    size: L
+    extent: [2560, 2048]
+    shape: "Round cave with a cooking pit sunk in its middle, a fire and a great cauldron in the pit, spits over it; rock benches and heaps of gnawed bones round the rim."
+    where: Centre.
+    floor: 0
+    clear_height: [640, 896]
+    relief: pit
+    features:
+      - {kind: pit, rise: -128, where: Centre, notes: "The cooking pit: two steps down, the fire and the cauldron in it."}
+    purpose: "Signature room: the lair's hearth and its heaviest fight; every way of the lair meets here."
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; the pit lined with blackened hearth stones (gcav1flr)"
+    light: "fire-lit: the great fire in the cooking pit, skull torches round the rim"
+    fires: 1
+    palette: ["dec04: log fire in the pit", "ckfyr00 + cauld00: the great cauldron over its fire", "dec36, dec37, dec32: wooden plates and bowls on the benches", "7dec10, trasheap: bone heaps", "7dec21, smlbarel, bigbarel: casks and kegs", "torskul0: skull torches on the rim"]
+    furniture: ["the cooking pit (128 deep, two steps)", four rock benches round the rim, spits over the fire (placeholder)]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [15, 20], strength: heavy, rank: a, notes: "Round the pit, one group each side, one of them rank b."}
+      - {slot: 3, groups: 1, per_marker: [1, 2], levels: [20, 20], strength: light, rank: a, notes: A shaman by the cauldron.}
+  - id: room:gate_yard
+    name: Gate yard
+    kind: room
+    size: M
+    extent: [1408, 1024]
+    shape: "Cave behind the log gate; the gate's heavy bar lies across it in two forked posts; a guards' fire."
+    where: "North of the mouth, east of the feast cave."
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "Gate guards; the bar (lifted from inside only) turns the gate into a short way out (loop:gate)."
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; d08's timber: t68a10a planks and posts, t68a11 beams, t68a10c iron bands, the t68a13 nine-part plank door"
+    light: "torchlit: the guards' campfire and two skull torches"
+    fires: 1
+    palette: ["7dec02: the guards' campfire", "smlbarel, 7dec21: kegs", "dec29: bones", "6rock06: a boulder"]
+    furniture: ["the gate's bar: a log beam across the gate in two forked posts (timber chocks)"]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [15, 15], strength: pack, rank: a, notes: The gate guards round their fire.}
+  - id: room:gorge
+    name: River gorge
+    kind: room
+    size: M
+    extent: [2560, 1024]
+    shape: "The river gorge below the ledge: flowing water far down, the far cliff opposite, the hills and the sky beyond."
+    where: North of the ledge.
+    floor: -896
+    clear_height: 2048
+    relief: flat
+    purpose: The view from the ledge. A party that goes over the parapet falls into the river and is washed out below the lair's mouth.
+    empty: true
+    backdrop: true
+    theme: "gorge: d08's rock gcav1wal as the cliffs; MM8's flowing water (wtrtyl) far below; MM8's fair sky plansky3 (d39's indoor sky) as the roof; the hills beyond the river on the far wall's upper band (xodaylt)"
+    light: bright daylight (the map's lightest ambient)
+  - id: room:kennel
+    name: Kennel
+    kind: room
+    size: S
+    extent: [1152, 1024]
+    shape: "Side cave off the feast cave fenced with a hurdle of stakes; straw, gnawed bones, a water trough."
+    where: East of the feast cave.
+    floor: 0
+    clear_height: 448
+    relief: flat
+    purpose: The ogres' dogs.
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; the hurdle of stakes in d08's posts"
+    light: "dim: the feast cave's fire through the hurdle"
+    palette: ["7dec01: straw bedding", "dec29, 7dec18: gnawed bones", "Bucket, foodbowl: water and food"]
+    furniture: [a hurdle of stakes across the mouth with a gap, a water trough (placeholder)]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [14, 19], strength: pack, rank: b, notes: The dogs and their pack leader.}
+  - id: room:larder
+    name: Chieftain's larder
+    kind: room
+    size: S
+    extent: [1024, 896]
+    shape: "Cold low cave behind a plank door: carcasses on hooks, casks, sacks and the cargo of Nystor's boats."
+    where: West of the Chieftain's den.
+    floor: 64
+    clear_height: 384
+    relief: flat
+    purpose: "The loot: the boats' cargo (the map's hoard, one treasure level up)."
+    empty: true
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; d08's timber: t68a10a planks and posts, t68a11 beams, t68a10c iron bands, the t68a13 nine-part plank door"
+    light: "dim: one wall torch inside the door"
+    palette: ["bigbarel, smlbarel, 7dec21, 7dec32, dec03: the boats' casks and barrels", "bag01, bag_A, floursac: sacks", "Corpse02: a carcass on the floor", "torch01: wall torch"]
+    furniture: [carcasses on hooks from a beam (placeholder), the boats' cargo stacked against the walls]
+    treasure:
+      - {kind: chest, count: 1, tier: 3, items: [2, 3], notes: "A ship's strongbox from Nystor's boats: the hoard, one level up."}
+      - {kind: chest, count: 1, tier: 2, items: [1, 2], notes: A cargo crate with gold.}
+  - id: room:midden
+    name: Midden crack
+    kind: corridor
+    size: S
+    extent: [448, 2304]
+    shape: "Narrow fissure climbing north-west from the mouth, floored with bones and refuse the ogres throw down from the den; a bend halfway."
+    where: West of the mouth and the gate yard.
+    floor: [0, 192]
+    clear_height: 384
+    relief: slope
+    purpose: "The way in while the gate is barred; the ogres' dogs gnaw here."
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; refuse heaps"
+    light: unlit but for the mouth's daylight at its foot
+    palette: ["trasheap, 7dec10, 7dec01: refuse and gnawed-bone heaps", "dec29, 7dec18: bones", "7dec20: a skull"]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [14, 14], strength: pack, rank: b, notes: Dogs gnawing bones at the bend.}
+  - id: room:mouth
+    name: Cave mouth
+    kind: room
+    size: S
+    extent: [1408, 1088]
+    shape: "Broad mouth in the bluff narrowing inward; daylight behind; the log gate across its inner end; the midden crack a dark fissure in its west wall."
+    where: South edge.
+    floor: 0
+    clear_height: [512, 640]
+    relief: uneven
+    purpose: "Arrival and the X2 exit. Safe. The gate is barred from inside (the gate's message sends the party to the midden crack); once the party lifts the bar from inside, the gate is the short way out."
+    empty: true
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; the exit panel in the south wall is daylight (xodaylt, the Xeen hills view made for XD-05)"
+    light: "daylight from the south: the map's lightest ambient; two skull torches by the gate"
+    palette: ["torskul0: skull torches on poles either side of the gate", "sklplrev: skull piles at their feet", "7dec18, dec19, dec29: scattered bones", "6rock02, 6rock05: fallen boulders along the walls", "Corpse04: a drowned boatman's body by the midden crack"]
+    furniture: ["the log gate (two leaves of the d08 plank door, iron-banded) across the inner end"]
+  - id: room:quarry
+    name: Boulder quarry
+    kind: room
+    size: M
+    extent: [1792, 1536]
+    shape: "Cave whose walls the ogres break up for boulders: rubble slopes, broken rock, heaps of rounded boulders ready to roll, timber levers and a sledge."
+    where: North-centre.
+    floor: [256, 384]
+    clear_height: [640, 768]
+    relief: uneven
+    purpose: "Where the boulders come from; a group of ogres at work."
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; rubble slopes and broken rock"
+    light: "dim: one campfire, two skull torches"
+    palette: ["6rock01-13, rock03, rock10: boulders in heaps and fallen", "7dec11: dirt", "7dec02: campfire"]
+    furniture: [heaps of rounded boulders, a rubble slope against the north wall, timber levers (beams leaning on the rock), a boulder sledge (placeholder)]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [15, 15], strength: pack, rank: a, notes: Ogres prising boulders from the wall.}
+  - id: room:quarry_ramp
+    name: Quarry ramp
+    kind: corridor
+    size: S
+    extent: [512, 1024]
+    shape: "Short rough ramp north out of the feast cave, scored by dragged boulders."
+    where: North of the feast cave.
+    floor: [0, 256]
+    clear_height: 448
+    relief: slope
+    purpose: The way up to the quarry.
+    empty: true
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot"
+    light: unlit
+    palette: ["dec29: bones", "6rock04: a boulder left on the way"]
+  - id: room:river_ledge
+    name: Throwing ledge
+    kind: room
+    size: M
+    extent: [2048, 896]
+    shape: "Shelf in the bluff, its north side open over the river gorge behind a low parapet of boulders; at its east end the boulder heap on a timber rack, ready to roll down a slide in the rock."
+    where: North edge.
+    floor: 128
+    clear_height: [640, 896]
+    relief: flat
+    purpose: "Signature view and the boss fight: the Chieftain and his throwers; the boulder heap (set:boulder_heap)."
+    theme: "den_rock: MM8 Dire Wolf Den (d08) brown cave rock gcav1wal on walls and roof, its grey-brown floor rock gcav1flr underfoot; the parapet of boulders; the rack in d08's timber"
+    light: "daylight from the gorge (bright ambient); skull torches by the rack"
+    palette: ["6rock02, 6rock06, 6rock12: boulders along the parapet", "torskul0: skull torches", "dec29: bones"]
+    furniture: [a parapet of boulders (96) along the open north side, the boulder heap on a timber rack at the head of a slide in the east wall]
+    population:
+      - {actor: Ogre Chieftain, role: chieftain, groups: 1, levels: [20, 20], placed: true, strength: heavy, rank: b, hostile: true, notes: "The Ogres family's rank b with a name; carries the larder key."}
+      - {actor: Ogre, role: thrower, groups: 3, levels: [15, 15], placed: true, strength: pack, rank: a, hostile: true, notes: Throwers at the parapet.}
+regions:
+  - id: region:den
+    name: The den
+    spaces: [room:mouth, room:midden, room:bone_den, room:feast_cave, room:gate_yard, room:kennel, room:chief_den, room:larder]
+    theme: "Warm brown cave rock, bones, hides, smoke and firelight"
+  - id: region:works
+    name: The boulder works
+    spaces: [room:quarry_ramp, room:quarry, room:chute, room:river_ledge, room:gorge]
+    theme: "Broken rock and rubble, timber troughs and racks, then daylight and the river"
+links:
+  - id: link:bone_den_feast
+    from: room:bone_den
+    to: room:feast_cave
+    kind: stairs
+    rise: -192
+  - id: link:chief_den_larder
+    from: room:chief_den
+    to: room:larder
+    kind: door
+    motion: swing
+    condition: {item: larder_key}
+    notes: "A heavy plank door with an iron lock; the Chieftain carries the key."
+  - id: link:chute_ledge
+    from: room:chute
+    to: room:river_ledge
+    kind: ramp
+    rise: -256
+  - id: link:feast_chief_den
+    from: room:feast_cave
+    to: room:chief_den
+    kind: stairs
+    rise: 64
+  - id: link:feast_gate_yard
+    from: room:feast_cave
+    to: room:gate_yard
+    kind: open
+  - id: link:feast_kennel
+    from: room:feast_cave
+    to: room:kennel
+    kind: open
+    notes: Through a gap in a hurdle of stakes.
+  - id: link:feast_quarry_ramp
+    from: room:feast_cave
+    to: room:quarry_ramp
+    kind: open
+  - id: link:ledge_gorge
+    from: room:river_ledge
+    to: room:gorge
+    kind: overlook
+    one_way: true
+    notes: "The parapet of boulders: the view over the gorge; going over it is a fall into the river (set:fall)."
+  - id: link:midden_bone_den
+    from: room:midden
+    to: room:bone_den
+    kind: ramp
+    rise: 192
+  - id: link:mouth_gate
+    from: room:mouth
+    to: room:gate_yard
+    kind: double_door
+    motion: swing
+    condition: {map_var: gate_unbarred}
+    opens_from: room:gate_yard
+    purpose: "The log gate, barred from inside: a shortcut once the bar is lifted (set:gate_bar)."
+  - id: link:mouth_midden
+    from: room:mouth
+    to: room:midden
+    kind: open
+    notes: A dark crack in the mouth's west wall with a reek of old bones.
+  - id: link:quarry_chute
+    from: room:quarry
+    to: room:chute
+    kind: open
+  - id: link:quarry_ramp_quarry
+    from: room:quarry_ramp
+    to: room:quarry
+    kind: ramp
+    rise: 256
+loops:
+  - id: loop:gate
+    spaces: [room:mouth, room:midden, room:bone_den, room:feast_cave, room:gate_yard]
+    notes: "In by the midden crack, out by the gate once its bar is lifted: the way back from the deep end does not climb through the midden again."
+entrances:
+  - id: entrance:mouth
+    space: room:mouth
+    kind: both
+    neighbour: exit:x2_hills
+    facing: n
+    how: "Inside the mouth, facing in; daylight behind."
+critical_path: [room:mouth, room:midden, room:bone_den, room:feast_cave, room:quarry_ramp, room:quarry, room:chute, room:river_ledge, room:chute, room:quarry, room:feast_cave, room:chief_den, room:larder]
+return_path: [room:larder, room:chief_den, room:feast_cave, room:gate_yard, room:mouth]
+goals:
+  - id: goal:boulders
+    space: room:river_ledge
+    kind: use
+    what: "Knock out the timber rack: the boulder heap goes down the slide into the river."
+    gives:
+      qbit: ogre_boulders_dumped
+    notes: "Optional for the quest, but the ogres' stock of boulders is gone (X2 may use the bit: no more boulders at the crossings)."
+  - id: goal:chieftain
+    space: room:river_ledge
+    kind: kill
+    what: Kill the Ogre Chieftain on the throwing ledge.
+    notes: "He carries the larder key; the lair cannot be broken while he lives."
+  - id: goal:lair
+    space: room:chief_den
+    kind: set
+    what: "Break everything in the lair: at the Chieftain's seat, once he is dead (the source's 'You have found an Ogre lair. Destroy?')."
+    handed_in_at: X2
+    gives:
+      qbit: ogre_lair_destroyed
+    notes: "Captain Nystor's quest bit; his reward, the boat route upriver, is X2's."
+keys:
+  - id: key:larder_key
+    grants: {item: larder_key}
+    found_in: room:river_ledge
+    how: "actor drop: the Ogre Chieftain carries it; it opens the Chieftain's larder door."
+points_of_interest:
+  - id: poi:boulder_rack
+    space: room:river_ledge
+    kind: timber rack
+    behaviour: "Knocks the props out: the boulder heap rolls down the slide and over the cliff into the river."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: ogre_boulders_dumped
+    after_use: {shows: [empty trough, broken props], hides: [boulder heap]}
+  - id: poi:gate_bar
+    space: room:gate_yard
+    kind: bar
+    behaviour: "Lifts the gate's bar: the gate opens both ways for good."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: gate_unbarred
+  - id: poi:lair
+    space: room:chief_den
+    kind: lair
+    behaviour: "'You have found an Ogre lair. Destroy?' Yes: 'You break everything you can find in the lair.' Only once the Chieftain is dead."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: ogre_lair_destroyed
+    after_use: {shows: [smashed seat, torn trophies], hides: [seat]}
+landmarks:
+  - id: landmark:cooking_pit
+    space: room:feast_cave
+    what: "The fire and the great cauldron in the sunken pit, seen from the bone den's steps."
+    seen_from: [room:bone_den, room:feast_cave]
+  - id: landmark:gorge
+    space: room:gorge
+    what: "The river gorge from the throwing ledge: water far below, the far cliff, the hills and sky; the first daylight since the mouth."
+    seen_from: [room:river_ledge, room:chute]
+sightlines:
+  - id: sightline:chute_ledge
+    from: room:chute
+    to: [landmark:gorge]
+    what: "Coming down the chute: daylight ahead, the Chieftain's silhouette against the gorge."
+set_pieces:
+  - id: set:boulder_heap
+    kind: scripted
+    spaces: [room:river_ledge]
+    rule: "The heap of boulders lies on a timber rack at the head of a slide in the rock. A click knocks out the props: the rack collapses, the heap rolls down the slide and out over the cliff, the cave shakes, and far below the river swallows the boulders."
+    inputs: [knock out the props]
+    states: [loaded, dumped]
+    gives:
+      qbit: ogre_boulders_dumped
+  - id: set:chute_boulder
+    kind: trap
+    spaces: [room:chute]
+    rule: "Halfway down the chute a boulder comes bounding after the party from the quarry: damage to the party, the cave shakes, and the boulder comes to rest at the chute's foot against the ledge's rock."
+    inputs: [walk down the chute]
+    states: [armed, sprung]
+  - id: set:fall
+    kind: trap
+    spaces: [room:river_ledge, room:gorge]
+    rule: "A party that goes over the parapet falls into the river gorge; the current washes it out below the lair's mouth (a teleport to the mouth with a message), bruised but alive."
+  - id: set:gate_bar
+    kind: scripted
+    spaces: [room:mouth, room:gate_yard]
+    rule: "From the mouth the gate does not move: a message says it is barred from inside and that a reek of bones blows from a crack in the west wall. From the gate yard the bar lifts; the gate then opens from both sides."
+    inputs: [lift the bar]
+    states: [barred, open]
+  - id: set:lair
+    kind: scripted
+    spaces: [room:chief_den]
+    rule: "The Chieftain's seat and his trophies: while he lives a click says the lair is guarded by its chief; once he is dead the source's question 'You have found an Ogre lair. Destroy?' Yes breaks everything: the seat and the trophies come down, and the quest bit is set."
+    inputs: [Chieftain dead, destroy]
+    states: [whole, broken]
+    gives:
+      qbit: ogre_lair_destroyed
+mechanisms:
+  - {kind: "log gate (two hinged leaves), barred from inside", count: 1}
+  - {kind: gate bar (a beam lifted from inside), count: 1}
+  - {kind: locked plank door (the Chieftain carries the key), count: 1}
+  - {kind: "boulder rack and heap (props knocked out, the heap rolls into a slide)", count: 1}
+  - {kind: "boulder trap in the chute (step: damage, shake, the boulder at the foot)", count: 1}
+  - {kind: lair to destroy (a question), count: 1}
+  - {kind: fall into the gorge (washed out at the mouth), count: 1}
+height_bands:
+  - id: band:den
+    range: [0, 192]
+    spaces: [room:mouth, room:midden, room:bone_den, room:feast_cave, room:gate_yard, room:kennel, room:chief_den, room:larder]
+  - id: band:river
+    range: [-896, -896]
+    spaces: [room:gorge]
+  - id: band:works
+    range: [128, 384]
+    spaces: [room:quarry_ramp, room:quarry, room:chute, room:river_ledge]
+atmosphere: "Dim firelit den (ambient about 18-20); the mouth and the ledge bright with daylight, the gorge brightest. Music: cave (MM7 track 18 while the Xeen world has no music table). Sound: the river's roar on the ledge and in the chute (a looping water sound at the gorge); the fire in the pit."
+diagram: {file: diagram.txt}
+totals:
+  chests: 4
+  critical_path_length: 9000
+  doors: 3
+  fixed_actors: 4
+  floor_area_millions: 19
+  loops: 1
+  monsters_about: 28
+  rooms: 13
+  sectors: 14
+  spawn_points: 10
+  traps: 1
+notes: "Size S: at most 15 sectors and 20 M units^2 (MAPS.md), measured against MM8's shipped small caves: the Dire Wolf Den (d08: 14 sectors, 14.7 M, 13 spawn points), the Ancient Troll Home (d43: 12, 17.7 M, 4 chests) and the Cyclops Larder (d14: 16, 19.6 M, 4 chests, a larder behind doors). About 28 monsters in 13 rooms, about 2 per room and placed unevenly: nothing at the mouth, the ramp, the chute or the larder; packs in the den and the kennel; the heaviest fight round the cooking pit; the Chieftain and three throwers on the ledge. One loop (the gate). Every room a natural cave shape; only the gate, the kennel hurdle, the chute's trough, the rack and the larder door are timber. Steps of 32; ramps under 0.5. L2: one texture family for the den and the works, MM8's Dire Wolf Den (d08, a small brown beast cave) with its own timber; the gorge outside is d08's rock with MM8's water and sky and the Xeen hills view of XD-05."

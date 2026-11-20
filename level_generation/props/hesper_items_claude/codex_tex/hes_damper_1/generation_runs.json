@@ -1,0 +1,474 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None. Tool returns copied byte-for-byte; no resize or mask edits.",
+  "brief_sha256": "6b1d0129f62ea4b33a2cf757bfe692661d9fdf782220522d0db850d4a8b15393",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the existing Hesper Hum damper 3D item.\nINPUT 1 is the exact orthographic white-model guide and the EDIT TARGET. INPUT 2 is design_reference.png, the material and colour authority ONLY. Repaint INPUT 1 in place with the materials of INPUT 2. Output one 1024 x 1024 RGBA PNG with genuinely transparent background.\nGEOMETRY AND REGISTRATION ARE STRICT: preserve INPUT 1's pixel silhouette, outline, central opening, frame coordinates, orientation, scale, orthographic camera and every part's edge exactly. Keep the guide's low-poly contours. Change only surface colour and texture. Do not rotate to match the design reference. No resizing, recentering, rounding-off silhouette corners, new geometry, cropping or new protrusions. Keep every connector pin at its exact guide location.\nMATERIALS: aged ivory-white ceramic shell with delicate sparse beige hairline wear, satin brushed warm gold framework, thin gold panel borders and connector pins, dark charcoal-violet resin insets with narrow ribbed grooves, violet-purple light where the existing capsule window is visible. The design reference's purple light remains purple. Fine engraved seam lines with no lettering. Plausibly continue these same materials on surfaces not shown by the design. No invented ornaments.\nLIGHTING: flat, even, shadowless viewer-facing ALBEDO ONLY. Remove guide shading rather than baking it in. Uniform base material colour, subtle surface grain only. Gold is matte warm golden base colour with at most a faint sheen: no white or black metallic reflection streaks. No cast shadows, no ambient occlusion, no shaded corners or edges, no specular hot spots, no rim lighting, no directional gradients, no environmental reflections, no lighting glow spill. Luminous glass is its bright violet-lilac base colour. No background, floor, text, labels, letters or watermark.\n\nVIEW: FRONT. Follow guide_front.png exactly: upright U with two tall ceramic arms and four pins pointing upward, bridge at bottom. Retain both broad plain ceramic arm faces. The bottom crossbar and its sculpted shoulders are gold; the visible inside of the U bridge has dark resin inset panels edged in gold. This side does not show the decorative outer bridge capsule recess; do not invent a new purple window on its plain outer bottom band. Connector bases and the four pins are gold. Preserve this guide's exact asymmetry and visible facets.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-23fc538a-0726-4ec7-be9a-1a8ecee9c31f.png",
+      "output": "paint_front_initial.png",
+      "selected": false,
+      "reason": "Initial result changes framing and rounds model edges; directional shading and metallic highlights need correction.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "9c89d22abecdef1d482c9ce78c62a2f9238d14ddf1b102112a50ea284fda8663"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6db873a4a2992863963013975bdac924e62abfd804147986fbce94285b823afa"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          39,
+          38,
+          1193,
+          1254
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.8787822342201581,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "summary": "Initial result changes framing and rounds model edges; directional shading and metallic highlights need correction.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "6f960bb30758aaad80b647480f1d911ea86c5f2965f9084827527fdaf9c2b5f7"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION, FRONT ALBEDO.\nImage 1 (design_reference.png) is ONLY a reference for material colours. Image 2 (guide_front.png) is the exact EDIT TARGET, canvas and alpha silhouette. Output exactly 1024 x 1024 pixels matching image 2.\nDirectly repaint the pixels of image 2. Preserve its existing alpha and pixel coordinates precisely. Do not redraw the object with a new silhouette, do not zoom, do not recenter. The object occupies x=66..957 and y=135..888 on the 1024-square canvas. Keep this exact boundary and transparent margins. Keep the guide's faceted model geometry and angular connector pins, central opening, arm widths, asymmetry and all internal part edges. Four pins point upward. The bridge stays below the two arms. Do not use the perspective or layout of image 1.\nPaint the long arm shells ivory-white ceramic, very subtle sparse beige hairline wear. Paint the four pins, connector plates, lower bridge and its shoulder framework uniform brushed warm gold. Only the existing inner arch panels are dark charcoal-violet resin, with gold seam borders. This plain reverse side has no purple capsule window. Do not add new side vents to the broad plain ceramic faces.\nCRITICAL CORRECTION: this is a FLAT DIFFUSE ALBEDO painting, not a lit product render. No shading gradients, dark underside, ambient occlusion, cast shadows, bright metallic edges, white specular streaks, highlights, reflections or rim light. All gold surfaces have the SAME medium warm golden base colour regardless of surface angle. All ceramic surfaces have the SAME light ivory base colour regardless of surface angle. Resin is dark because of its material, never because of shadows. Only tiny texture variation and thin panel seams. Fine material detail without glossy lighting. Keep every transparent pixel of image 2 transparent; do not include shadow, fringe or background. No text or letters.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-f2b5db80-f845-47aa-9420-5589bf0bb92b.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer to the plain front surfaces and flatter materials. Exact guide silhouette and fully shadowless gold are not achieved; retained unresized as required.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6db873a4a2992863963013975bdac924e62abfd804147986fbce94285b823afa"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "9c89d22abecdef1d482c9ce78c62a2f9238d14ddf1b102112a50ea284fda8663"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1212,
+          1254
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.9850516626408778,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "materials_match": "Ivory ceramic, gold and charcoal-violet resin present; local bridge panel allocation differs from reference continuation.",
+          "lighting": "Residual facet shading and metallic edge/pin highlights remain.",
+          "silhouette": "Not identical; smoothed contours, shifted boundaries and edge fringe.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "20589e6d02272fcc006352a322216c549132da1571db2a2a8f7724ab76b69f23"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the existing Hesper Hum damper 3D item.\nINPUT 1 is the exact orthographic white-model guide and the EDIT TARGET. INPUT 2 is design_reference.png, the material and colour authority ONLY. Repaint INPUT 1 in place with the materials of INPUT 2. Output one 1024 x 1024 RGBA PNG with genuinely transparent background.\nGEOMETRY AND REGISTRATION ARE STRICT: preserve INPUT 1's pixel silhouette, outline, central opening, frame coordinates, orientation, scale, orthographic camera and every part's edge exactly. Keep the guide's low-poly contours. Change only surface colour and texture. Do not rotate to match the design reference. No resizing, recentering, rounding-off silhouette corners, new geometry, cropping or new protrusions. Keep every connector pin at its exact guide location.\nMATERIALS: aged ivory-white ceramic shell with delicate sparse beige hairline wear, satin brushed warm gold framework, thin gold panel borders and connector pins, dark charcoal-violet resin insets with narrow ribbed grooves, violet-purple light where the existing capsule window is visible. The design reference's purple light remains purple. Fine engraved seam lines with no lettering. Plausibly continue these same materials on surfaces not shown by the design. No invented ornaments.\nLIGHTING: flat, even, shadowless viewer-facing ALBEDO ONLY. Remove guide shading rather than baking it in. Uniform base material colour, subtle surface grain only. Gold is matte warm golden base colour with at most a faint sheen: no white or black metallic reflection streaks. No cast shadows, no ambient occlusion, no shaded corners or edges, no specular hot spots, no rim lighting, no directional gradients, no environmental reflections, no lighting glow spill. Luminous glass is its bright violet-lilac base colour. No background, floor, text, labels, letters or watermark.\n\nVIEW: BACK. Follow guide_back.png exactly: upright U, four pins at the top, bridge at the bottom. Paint the two long shells ivory ceramic with their existing angular recessed vent strips in dark charcoal-violet resin, ribbed with subtle seams and edged in thin gold. The bottom bridge and curved structural shoulders are warm gold. The guide's existing horizontal rounded capsule inset centered on the bottom bridge is the purple-lilac luminous window from the design reference, with charcoal-violet end pieces and a gold border. Keep every existing guide edge and silhouette fixed.\nPreserve the exact 1024-square guide canvas with transparent margins; bounds x=66..957,y=135..888. Matte base-colour pass only: uniform gold, ivory and purple base colours with surface texture, not a studio product render.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-9e86d1de-85f8-4d95-9119-835f23c43661.png",
+      "output": "paint_back_initial.png",
+      "selected": false,
+      "reason": "Correct material layout, but strong metallic highlights, shaded lower bridge and changed framing require a corrective pass.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "9bfa1aa64a7d525902f6403b4d5fb25d6c452950ef3138f1b89b3cc8bc7534c9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6db873a4a2992863963013975bdac924e62abfd804147986fbce94285b823afa"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          20,
+          51,
+          1238,
+          1254
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.8931716995391732,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "summary": "Correct material layout, but strong metallic highlights, shaded lower bridge and changed framing require a corrective pass.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "24a7bc1c45b0eaf8e9fb4ca35bce307c210410e91e59103a730515b7fe0a5443"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit this exact 1024 x 1024 guide_back.png image in place into an UNLIT BASE-COLOR TEXTURE PASS. Preserve its alpha silhouette, all hard polygon edges, all interior part edges, geometry and exact pixel placement. No camera change, no reframe or resizing. The object bounds remain x=66..957,y=135..888.\nPaint ONLY material diffuse colour. Two long upward arms: warm ivory white ceramic, subtle fine beige wear, very faint hairline scratches. Existing angular inset strips on the inner fronts of the two arms: dark charcoal-violet resin with fine diagonal rib seams, thin muted gold border. Bridge at bottom and its curved shoulders: matte ochre gold (#b68d42), uniform hue and brightness across every facet. Four connector pins at top: same matte gold. Existing capsule recess on bottom bridge: bright purple-lilac (#b566ef) glass cylinder, charcoal-violet end caps, muted gold rim. Thin dark material seam lines. These are the approved reference materials.\nCRITICAL: Return a texture-source ALBEDO image, flat and shadowless, like a renderer with lighting disabled. Remove every light/shadow gradient in the white guide. Ceramic is ivory on every face, gold is the same medium golden ochre on every face, even underside and bevels. No lighting, specular highlights, bright white trim, reflections, metallic glints, cast shadows, ambient occlusion, gradients across the cylinders or bridge. No purple glow spill. Material texture only. No new geometry, no letters, no text, no scenery. Keep the original transparent background and central opening unchanged. Output exactly 1024 x 1024 RGBA.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-e3b9d988-26ea-46a2-bf1f-42b81456161c.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction: much flatter diffuse material colours and correct capsule/vent placement. Exact guide alpha is not preserved and return is not the requested resolution; no further regeneration allowed.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "9bfa1aa64a7d525902f6403b4d5fb25d6c452950ef3138f1b89b3cc8bc7534c9"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          8,
+          1226,
+          1254
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.9912569010654855,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "materials_match": "Ivory ceramic, matte gold, dark ribbed resin and purple capsule match the design palette.",
+          "lighting": "Substantially flatter; slight surface/facet variation remains.",
+          "silhouette": "Not identical; contour drift, changed vent edges and edge fringe.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "9f7cb659b9eb25a317e9fc39ab8289a11f24bb2610d9e297d01c7711a3e9bf4b"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source for the existing Hesper Hum damper 3D item.\nINPUT 1 is the exact orthographic white-model guide and the EDIT TARGET. INPUT 2 is design_reference.png, the material and colour authority ONLY. Repaint INPUT 1 in place with the materials of INPUT 2. Output one 1024 x 1024 RGBA PNG with genuinely transparent background.\nGEOMETRY AND REGISTRATION ARE STRICT: preserve INPUT 1's pixel silhouette, outline, central opening, frame coordinates, orientation, scale, orthographic camera and every part's edge exactly. Keep the guide's low-poly contours. Change only surface colour and texture. Do not rotate to match the design reference. No resizing, recentering, rounding-off silhouette corners, new geometry, cropping or new protrusions. Keep every connector pin at its exact guide location.\nMATERIALS: aged ivory-white ceramic shell with delicate sparse beige hairline wear, satin brushed warm gold framework, thin gold panel borders and connector pins, dark charcoal-violet resin insets with narrow ribbed grooves, violet-purple light where the existing capsule window is visible. The design reference's purple light remains purple. Fine engraved seam lines with no lettering. Plausibly continue these same materials on surfaces not shown by the design. No invented ornaments.\nLIGHTING: flat, even, shadowless viewer-facing ALBEDO ONLY. Remove guide shading rather than baking it in. Uniform base material colour, subtle surface grain only. Gold is matte warm golden base colour with at most a faint sheen: no white or black metallic reflection streaks. No cast shadows, no ambient occlusion, no shaded corners or edges, no specular hot spots, no rim lighting, no directional gradients, no environmental reflections, no lighting glow spill. Luminous glass is its bright violet-lilac base colour. No background, floor, text, labels, letters or watermark.\n\nVIEW: LEFT. Follow guide_left.png exactly, the narrow diagonal side silhouette running from lower left gold bridge tip to upper right connector pins. The single visible long arm is ivory ceramic with subtle wear; its edge seam is fine gold and its existing inset strip is charcoal-violet resin. Gold bridge at lower left, gold connector base and exactly the existing visible pins at upper right. Do not introduce a second arm or change this oblique side projection. Continue materials smoothly around the unseen side; only a window visible within the guide's existing bridge surfaces may show purple.\nCRITICAL: unlit base-color pass, lighting DISABLED. Gold base colour #b68d42, ceramic #eee8da, resin #39333e. Use the approved design only for these materials and their fine wear, never for reflective shading. Retain the exact 1024 x 1024 canvas of INPUT 1, with silhouette bounds x=156..867,y=135..888. No image resize or art enlargement.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-f28c7fe7-7399-4041-9e0d-4c6e34ae754d.png",
+      "output": "paint_left_initial.png",
+      "selected": false,
+      "reason": "Reference materials match, but strong gold reflections, ceramic highlights and silhouette drift need correction.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "aa52673f253ed8846e5a8bd214a70e64b5ee7db47c5dd8048af1cbd6a93ebef2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6db873a4a2992863963013975bdac924e62abfd804147986fbce94285b823afa"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          37,
+          1238,
+          1230
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.9163300780632724,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "summary": "Reference materials match, but strong gold reflections, ceramic highlights and silhouette drift need correction.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "16b160e6bc074e02aa03b5733f3e17c65fa20c95f8bd44a88194868a824932e3"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit the supplied guide_left.png directly in place, preserving this EXACT 1024 x 1024 canvas, alpha silhouette, framing, angular model contours and all geometry. Output an UNLIT ALBEDO / BASE COLOR TEXTURE PASS. It is the narrow diagonal left view of the existing Hum damper: lower-left curved bridge, one long arm rising to the upper-right pair of connector pins. Preserve the guide's hard corners, end cap and pin shapes, all at the same pixel coordinates. Bounds x=156..867,y=135..888. Do not redraw, round, recenter, change size or move the silhouette.\nApply approved materials: arm shell warm ivory ceramic #eee8da with extremely subtle tiny beige wear and fine scratches; existing thin inner-side recessed strip dark charcoal-violet resin #39333e with fine diagonal rib seams, edged in thin matte gold. Structural bridge at lower left, its shoulders, connector plate and pins at upper right: matte warm golden ochre #b68d42, subtle fine brushed grain, same brightness on every face. Thin seams only; no decorative text or invented geometry. No visible purple window on this side, since the guide does not expose that bridge face.\nTHIS IS NOT A SHADED RENDER: all lighting DISABLED, no white specular edges, metallic glints, reflections, hotspots, shaded underside, cast shadows, ambient occlusion, rim light or broad gradients. Remove the guide's lighting completely. Ceramic and gold retain their uniform base colours across all facets regardless of angle. Fine material grain and faint wear are the only variation. Match a flat texture painting for projection onto a 3D mesh. Preserve transparent background, no ground plane, no letters. Exactly 1024x1024 RGBA.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-34f660e7-3297-42f0-a233-bd5c59f56273.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: muted gold and much flatter ceramic; narrow diagonal projection retained approximately. Some facet shading, contour drift and edge fringe remain; return kept unresized.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "aa52673f253ed8846e5a8bd214a70e64b5ee7db47c5dd8048af1cbd6a93ebef2"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          25,
+          1238,
+          1222
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.9708303230467541,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "materials_match": "Ivory shell, muted brushed gold bridge/connectors and dark narrow inset continue the reference.",
+          "lighting": "Much flatter than initial; facet shading and pin highlights remain.",
+          "silhouette": "Not identical; contour and part-edge drift, with fringe.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "3e72a3a3f9d5574c399b709e8a1ee63928713ab7b3a7299c15f4edc6f0b440b1"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Create a FLAT UNLIT ALBEDO painting by repainting guide_right.png (image 1). Image 2 design_reference.png supplies the material design only; remove all of its light and reflections. This is a diffuse texture source, not a product render.\nPreserve EXACTLY image 1's 1024x1024 canvas, transparent alpha silhouette, coordinates, scale, shape, camera and every model part edge. The one narrow side-view arm runs diagonally from pins at upper left to bridge at lower right. Keep the guide's faceted hard outline and existing pins. Bounds x156..867,y135..888.\nShell: warm ivory ceramic (#eee8da), faint fine beige wear. Existing inset: dark charcoal-violet ribbed resin (#39333e), thin gold seam. Lower-right bridge, upper-left connector plate and pins: muted matte brushed gold (#b68d42). All colours stay the same brightness on every face and bevel. Very fine material grain only. Do not add a purple window to surfaces where the guide has none.\nUNLIT mode: zero shading, zero highlights, zero reflections, zero bright edges, zero cast shadows and zero AO; no dark underside. No lighting gradients. Do not invent geometry, second arm, text or markings. Transparent background. Output exactly 1024x1024 RGBA, retaining the original guide's complete framing.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-aff8d83e-2fb8-4ce3-bcff-fa5a128713ce.png",
+      "output": "paint_right_initial.png",
+      "selected": false,
+      "reason": "Flatter finish, but bottom bridge was incorrectly painted ceramic and inset/framing drifted; correct gold bridge and guide alignment.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0c70c3227310683a43c2830e9edc41a532b99e8df68f1acfff03010386025bb7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6db873a4a2992863963013975bdac924e62abfd804147986fbce94285b823afa"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          30,
+          1240,
+          1182
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.9204595803567636,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "summary": "Flatter finish, but bottom bridge was incorrectly painted ceramic and inset/framing drifted; correct gold bridge and guide alignment.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "f2af7c0d5ebd18e4a2b9ac26f8ed3d252613d104fa83d3f67da94661d9e3ff35"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Repaint this exact guide_right.png into an UNLIT DIFFUSE ALBEDO image. Preserve original 1024x1024 canvas, full alpha silhouette, exact pixel positioning, hard polygon contours and ALL existing part edges. Narrow diagonal side view, connector pins at upper left, curved structural bridge at lower right. Do not recenter, resize, rotate or smooth the guide. Original bounds x156..867 and y135..888.\nMATERIAL MAPPING: the large long central arm shell is warm ivory-white ceramic #eee8da with fine faint beige wear. Its thin side seam can have muted gold edging; only existing thin inset surfaces can be dark charcoal-violet resin #39333e. Do not invent a new wide vent in the middle of the ceramic.\nThe ENTIRE structural bridge at the LOWER RIGHT, below the diagonal seam where the long shell ends, is MATTE GOLD #b68d42. This lower-right curved and faceted component has NO ivory ceramic panel. The two pins and their connector plate at UPPER LEFT are the same matte gold. Preserve guide geometry exactly.\nLighting disabled. All gold the same medium golden ochre base colour regardless of facet angle; all ceramic the same ivory base colour. Fine brushed material grain, very faint scratches only. No metallic reflections, highlights, shadows, dark undersides, ambient occlusion, rim light, background, gradient lighting, text or letters. No purple lamp on this side. Preserve transparency. Flat texture source, not beauty render. 1024x1024 RGBA.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-d3deb457-2108-4c19-81f5-534b58c4d127.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction restores the gold bridge and removes the invented broad vent. Closer guide structure, though facet lighting, alpha drift and nonrequested resolution remain.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0c70c3227310683a43c2830e9edc41a532b99e8df68f1acfff03010386025bb7"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          33,
+          1240,
+          1224
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.98653386989027,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "materials_match": "Ivory shell, gold bridge/connectors and narrow dark inset surfaces match material distribution.",
+          "lighting": "Visible facet shading and pin highlights remain.",
+          "silhouette": "Not identical; guide outline approximation and edge fringe.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "b64883baf3b87740fd33000d64e685445a1e9d7144d03ad4fef1b55ed7db43cf"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Paint image 1 guide_top.png directly in place as an UNLIT ALBEDO texture-source view. Image 2 design_reference.png is the design/material reference ONLY; do not copy its reflections or lighting. Output 1024x1024 RGBA.\nGeometry: keep EXACTLY guide_top.png's original canvas, transparent alpha silhouette, all coordinates, all hard polygon facets and internal part edges. Bounds x66..957,y156..867. The gold bridge runs across the TOP, ceramic arms point down, two connector plates with FOUR foreshortened pins at the bottom. Central U opening stays transparent. No camera, zoom, crop, shape or position changes.\nMaterials: muted warm brushed gold (#b68d42) bridge and shoulders; warm ivory-white (#eee8da) ceramic arm shells with subtle fine beige wear; existing angular vent insets in dark charcoal-violet (#39333e) ribbed resin with thin gold edging. Existing capsule-shaped recess near top center contains bright violet-lilac (#b566ef) glass with dark resin end caps and gold frame. Existing inner arch panels: dark resin with gold boundaries. Bottom connector plates and four pins: gold.\nUse an UNLIT BASE COLOR pass. Uniform material brightness across every surface regardless of angle, only fine material texture. No shadow, AO, reflections, metallic hot spots, bright edge lighting, dark underside, glow spill or broad gradients. Purple light is its flat bright material colour. Preserve every guide edge, pin and opening exactly. No additions, letters, text, background or floor.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-b5e765a2-e2c6-41c7-9b85-37357e476702.png",
+      "output": "paint_top_initial.png",
+      "selected": false,
+      "reason": "Material design is consistent but lighting remains and pin shadows became apparent protruding strips; correct pin treatment, flatness and guide registration.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "e1f46ad65a9a3f7347ae099a1c71646551c10204653c4b75865e809e755aca5d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6db873a4a2992863963013975bdac924e62abfd804147986fbce94285b823afa"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1245,
+          1254
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.9549355556705834,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "summary": "Material design is consistent but lighting remains and pin shadows became apparent protruding strips; correct pin treatment, flatness and guide registration.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "40792d4cc890a575b16e04ce47660ba662bce1870f96578da5a128e85b4b4cde"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Repaint this exact guide_top.png IN PLACE as a FLAT UNLIT ALBEDO texture. Preserve the original 1024 x 1024 canvas, alpha mask, entire low-poly silhouette and all actual part edges at their precise pixel coordinates. Exact bounds x66..957,y156..867. Do not zoom, recenter, round, redesign or move anything.\nThe U opens downward: bridge across the top, two arms descending, two connector plates with exactly four short foreshortened pins at bottom. IMPORTANT: the dark grey diagonal streaks below the guide's bottom pins are CAST SHADOWS, NOT GEOMETRY. Remove those shadows. Do not turn them into protruding strips, do not extend the pins. The pins remain the four short real projections at their original positions; each connector plate below them is uniformly painted gold.\nColours/materials from the approved design: warm ivory-white ceramic #eee8da on both arm shells, faint beige micro-wear; muted warm brushed gold #b68d42 on the top bridge, shoulders, connector plates and pins; charcoal-violet ribbed resin #39333e on the existing narrow angular arm insets and inner arch panels, thin gold seam borders. The existing capsule recess across the top bridge contains bright purple-lilac #b566ef glass with charcoal resin end caps and thin gold border.\nALL LIGHTING DISABLED. Surface base colour is uniform on every facet, even inside arch, edges and undersides. Keep only fine material grain, sparse tiny scratches and narrow seam lines. No cast shadows, AO, shaded corners, dark undersides, highlights, white metallic glints, reflections, rim light, purple bloom or gradients. Texture-source albedo, not beauty render. No text, letters, extra geometry, floor or background. Preserve genuine transparency including central opening. 1024x1024 RGBA.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e67-2ae4-7dd1-9061-8abbdec3c11b/exec-eeb77d5a-1a14-455e-ac0b-a43819e9b307.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction removes false pin-shadow strips and yields flatter diffuse materials with better guide facets. Exact alpha/registration and fully shadowless lighting still fail; unresized return retained.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "e1f46ad65a9a3f7347ae099a1c71646551c10204653c4b75865e809e755aca5d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "unresized": true,
+        "exact_alpha_match": false,
+        "requested_size_match": false,
+        "scale_normalized_silhouette_iou": 0.9876767649762878,
+        "scale_normalized_metric_note": "Read-only nearest-coordinate mask comparison; no output image was resized or edited.",
+        "visual_review": {
+          "materials_match": "Ivory shell, gold bridge/connectors, dark resin and purple capsule follow the reference palette.",
+          "lighting": "Flatter than initial; facet/connector shading remains.",
+          "silhouette": "Not identical; edge drift and fringe; erroneous pin-shadow strips removed.",
+          "no_text_or_letters": true
+        },
+        "strict_brief_visual_checks_passed": false
+      },
+      "output_sha256": "ea225f143c857d529840568000a372fe0f8d842dbdbdfb339b3c3fa4a799497d"
+    }
+  ],
+  "status": "generated_with_known_deviations",
+  "selection_meaning": "Best of the two allowed attempts; selected does not mean strict visual compliance.",
+  "quality_note": "All selected returns are 1254x1254 and retained unresized. Pixel-identical guide silhouettes and completely unlit albedo were not achieved. Edge fringe remains. Review before texture projection.",
+  "source_inputs": [
+    {
+      "path": "design_reference.png",
+      "sha256": "6db873a4a2992863963013975bdac924e62abfd804147986fbce94285b823afa"
+    },
+    {
+      "path": "guide_front.png",
+      "sha256": "9c89d22abecdef1d482c9ce78c62a2f9238d14ddf1b102112a50ea284fda8663"
+    },
+    {
+      "path": "guide_back.png",
+      "sha256": "9bfa1aa64a7d525902f6403b4d5fb25d6c452950ef3138f1b89b3cc8bc7534c9"
+    },
+    {
+      "path": "guide_left.png",
+      "sha256": "aa52673f253ed8846e5a8bd214a70e64b5ee7db47c5dd8048af1cbd6a93ebef2"
+    },
+    {
+      "path": "guide_right.png",
+      "sha256": "0c70c3227310683a43c2830e9edc41a532b99e8df68f1acfff03010386025bb7"
+    },
+    {
+      "path": "guide_top.png",
+      "sha256": "e1f46ad65a9a3f7347ae099a1c71646551c10204653c4b75865e809e755aca5d"
+    }
+  ]
+}

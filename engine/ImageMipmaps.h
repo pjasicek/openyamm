@@ -33,4 +33,8 @@ void bleedTransparentBgraEdgeColors(uint16_t width, uint16_t height, std::vector
 std::vector<BgraMipLevel> prepareBgraMipChain(
     uint16_t width, uint16_t height, std::span<const uint8_t> pixels, uint8_t alphaCutoff = 0,
     ImageMipSemantic semantic = ImageMipSemantic::Linear);
+// Takes over the top level's pixels instead of copying them.
+std::vector<BgraMipLevel> prepareBgraMipChain(
+    uint16_t width, uint16_t height, std::vector<uint8_t> &&pixels, uint8_t alphaCutoff = 0,
+    ImageMipSemantic semantic = ImageMipSemantic::Linear);
 }

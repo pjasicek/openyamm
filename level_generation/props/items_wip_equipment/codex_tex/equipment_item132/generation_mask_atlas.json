@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Walking Boots (item132). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of plain russet leather walking boots, cylindrical open shafts, simple ankle straps and gold buckles. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Use RED for every exposed metal fitting identified by the icon and GREEN for the surrounding leather; for gloves this includes all cuff metal bands, round studs and side spikes; all five fingers and leather weave are GREEN. For boots the shin/toe plates and metal instep bands are RED; lining, flexible joints and sole are GREEN. Keep all parts solid exactly as in the guide. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item132/inputs/guide_mask.png",
+  "input_guide_sha256": "0453eb374326bdf3047c065792a2266cf57d5bcaf32a9034765815e5f24a0df1",
+  "revision": 1,
+  "input_icon": "item132",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-f1f3c28d-d62b-48b3-8883-4fce3473d74f.png",
+  "output": "mask_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "e2b400c38a5d8d8f2e6f3302d4336b6f6172caa27896874190822fbe90ec32b7",
+  "input_icon_path": "assets_dev/engine/icons_x2/item132.png",
+  "input_icon_sha256": "09559d3385e779f43fecc119590f01afc02927bedd3e6b070cdca391a9f684db",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

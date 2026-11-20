@@ -1,0 +1,259 @@
+# Explicit conversion choices for MM9's Dungeon of Secrets (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: dungeonofsecrets
+  display_name: Dungeon of Secrets
+  starts: [StartPoint0]                # the only start: the arrival from Frosgard (MovePlayerToFloor)
+  monster_classes: [CommonerHuman2MaleA]   # CHADWICK, Chadwick Boorsley (NPC417.scr, RUDE 417): the trial's warden
+  offset: [0, 0, 0]                    # the old map's frame
+  ambient: 30
+  split_minor_rooms: true
+  thin_walls: true
+  # model_lighting: off. Compared on six prop views (review/props_compare.jpg): with it the plate room's sconces draw black (MM9 lit them with the capped red fills, which model lighting never sees: Klusos House lesson); the old path draws them red like their walls. Torches read alike either way.
+models:
+  # --- the nine sections' end doors (RotatingDoor, PushOpen, CloseWaitTime 4): their OpenTrigger swings the axe
+  #     trap unless the section's timer lever still holds it locked
+  axe door 01: {group: axe_door_01, motion: rotate, doorway: true}
+  axe door 02: {group: axe_door_02, motion: rotate, doorway: true}
+  axe door 03: {group: axe_door_03, motion: rotate, doorway: true}
+  axe door 04: {group: axe_door_04, motion: rotate, doorway: true}
+  axe door 05: {group: axe_door_05, motion: rotate, doorway: true}
+  axe door 06: {group: axe_door_06, motion: rotate, doorway: true}
+  axe door 08: {group: axe_door_08, motion: rotate, doorway: true}
+  axe door 09: {group: axe_door_09, motion: rotate, doorway: true}
+  axe door 10: {group: axe_door_10, motion: rotate, doorway: true}
+  # --- the axe traps (RotatingDoor 180 deg at 650/s, non-solid blades; MM9 swings them through the doorway)
+  axe trap 01: {group: axe_trap_01, motion: rotate, click: false, bodies: push}
+  axe trap 02: {group: axe_trap_02, motion: rotate, click: false, bodies: push}
+  axe trap 03: {group: axe_trap_03, motion: rotate, click: false, bodies: push}
+  axe trap 04: {group: axe_trap_04, motion: rotate, click: false, bodies: push}
+  axe trap 05: {group: axe_trap_05, motion: rotate, click: false, bodies: push}
+  axe trap 06: {group: axe_trap_06, motion: rotate, click: false, bodies: push}
+  axe trap 08: {group: axe_trap_08, motion: rotate, click: false, bodies: push}
+  axe trap 09: {group: axe_trap_09, motion: rotate, click: false, bodies: push}
+  axe trap 10: {group: axe_trap_10, motion: rotate, click: false, bodies: push}
+  # --- the timer levers (Door 18 LT, PushOpen; closing at 2-9 LT/s is the section's clock)
+  timer lever 01: {group: timer_lever_01, motion: dat}
+  timer lever 02: {group: timer_lever_02, motion: dat}
+  timer lever 03: {group: timer_lever_03, motion: dat}
+  timer lever 03a: {group: timer_lever_03a, motion: dat}
+  timer lever 04: {group: timer_lever_04, motion: dat}
+  timer lever 05: {group: timer_lever_05, motion: dat}
+  timer lever 06: {group: timer_lever_06, motion: dat}
+  timer lever 08: {group: timer_lever_08, motion: dat}
+  timer lever 09: {group: timer_lever_09, motion: dat}
+  timer lever 10: {group: timer_lever_10, motion: dat}
+  # --- section 3's 21 fake levers beside the real one (no triggers)
+  fake lever 1: {group: fake_lever_1, motion: dat}
+  fake lever 2: {group: fake_lever_2, motion: dat}
+  fake lever 3: {group: fake_lever_3, motion: dat}
+  fake lever 4: {group: fake_lever_4, motion: dat}
+  fake lever 5: {group: fake_lever_5, motion: dat}
+  fake lever 6: {group: fake_lever_6, motion: dat}
+  fake lever 7: {group: fake_lever_7, motion: dat}
+  fake lever 8: {group: fake_lever_8, motion: dat}
+  fake lever 9: {group: fake_lever_9, motion: dat}
+  fake lever 10: {group: fake_lever_10, motion: dat}
+  fake lever 11: {group: fake_lever_11, motion: dat}
+  fake lever 12: {group: fake_lever_12, motion: dat}
+  fake lever 13: {group: fake_lever_13, motion: dat}
+  fake lever 14: {group: fake_lever_14, motion: dat}
+  fake lever 15: {group: fake_lever_15, motion: dat}
+  fake lever 16: {group: fake_lever_16, motion: dat}
+  fake lever 17: {group: fake_lever_17, motion: dat}
+  fake lever 18: {group: fake_lever_18, motion: dat}
+  fake lever 19: {group: fake_lever_19, motion: dat}
+  fake lever 20: {group: fake_lever_20, motion: dat}
+  fake lever 21: {group: fake_lever_21, motion: dat}
+  # --- section 1's floor plates (Door 6 LT down, CloseWaitTime 1): trigger<k> boxes press them, they fire shooter<k>
+  floor01: {group: floor01, motion: dat, click: false}
+  floor02: {group: floor02, motion: dat, click: false}
+  floor03: {group: floor03, motion: dat, click: false}
+  floor04: {group: floor04, motion: dat, click: false}
+  floor05: {group: floor05, motion: dat, click: false}
+  floor06: {group: floor06, motion: dat, click: false}
+  floor07: {group: floor07, motion: dat, click: false}
+  floor08: {group: floor08, motion: dat, click: false}
+  floor09: {group: floor09, motion: dat, click: false}
+  floor10: {group: floor10, motion: dat, click: false}
+  floor11: {group: floor11, motion: dat, click: false}
+  floor12: {group: floor12, motion: dat, click: false}
+  floor13: {group: floor13, motion: dat, click: false}
+  floor14: {group: floor14, motion: dat, click: false}
+  floor15: {group: floor15, motion: dat, click: false}
+  floor16: {group: floor16, motion: dat, click: false}
+  floor17: {group: floor17, motion: dat, click: false}
+  floor18: {group: floor18, motion: dat, click: false}
+  floor19: {group: floor19, motion: dat, click: false}
+  floor20: {group: floor20, motion: dat, click: false}
+  floor21: {group: floor21, motion: dat, click: false}
+  floor22: {group: floor22, motion: dat, click: false}
+  floor23: {group: floor23, motion: dat, click: false}
+  floor24: {group: floor24, motion: dat, click: false}
+  floor25: {group: floor25, motion: dat, click: false}
+  floor26: {group: floor26, motion: dat, click: false}
+  floor27: {group: floor27, motion: dat, click: false}
+  floor28: {group: floor28, motion: dat, click: false}
+  floor29: {group: floor29, motion: dat, click: false}
+  floor30: {group: floor30, motion: dat, click: false}
+  floor31: {group: floor31, motion: dat, click: false}
+  floor32: {group: floor32, motion: dat, click: false}
+  floor33: {group: floor33, motion: dat, click: false}
+  floor34: {group: floor34, motion: dat, click: false}
+  floor35: {group: floor35, motion: dat, click: false}
+  floor36: {group: floor36, motion: dat, click: false}
+  floor37: {group: floor37, motion: dat, click: false}
+  floor38: {group: floor38, motion: dat, click: false}
+  floor39: {group: floor39, motion: dat, click: false}
+  floor40: {group: floor40, motion: dat, click: false}
+  floor41: {group: floor41, motion: dat, click: false}
+  floor42: {group: floor42, motion: dat, click: false}
+  floor43: {group: floor43, motion: dat, click: false}
+  floor44: {group: floor44, motion: dat, click: false}
+  floor45: {group: floor45, motion: dat, click: false}
+  floor46: {group: floor46, motion: dat, click: false}
+  floor47: {group: floor47, motion: dat, click: false}
+  floor48: {group: floor48, motion: dat, click: false}
+  floor49: {group: floor49, motion: dat, click: false}
+  floor50: {group: floor50, motion: dat, click: false}
+  floor51: {group: floor51, motion: dat, click: false}
+  floor52: {group: floor52, motion: dat, click: false}
+  floor53: {group: floor53, motion: dat, click: false}
+  floor54: {group: floor54, motion: dat, click: false}
+  floor55: {group: floor55, motion: dat, click: false}
+  floor56: {group: floor56, motion: dat, click: false}
+  floor57: {group: floor57, motion: dat, click: false}
+  floor58: {group: floor58, motion: dat, click: false}
+  floor59: {group: floor59, motion: dat, click: false}
+  floor60: {group: floor60, motion: dat, click: false}
+  floor61: {group: floor61, motion: dat, click: false}
+  # --- section 6's gauntlet: plates gplate1-10 (pressed by gtrigger boxes) and their traps
+  gplate1: {group: gplate1, motion: dat, click: false}
+  gplate2: {group: gplate2, motion: dat, click: false}
+  gplate3: {group: gplate3, motion: dat, click: false}
+  gplate4: {group: gplate4, motion: dat, click: false}
+  gplate5: {group: gplate5, motion: dat, click: false}
+  gplate6: {group: gplate6, motion: dat, click: false}
+  gplate7: {group: gplate7, motion: dat, click: false}
+  gplate8: {group: gplate8, motion: dat, click: false}
+  gplate9: {group: gplate9, motion: dat, click: false}
+  gplate10: {group: gplate10, motion: dat, click: false}
+  gtrap1: {group: gtrap1, motion: rotate, click: false, bodies: push}     # a swinging bar (120 deg about y)
+  gtrap2: {group: gtrap2, motion: rotate, click: false, bodies: push}
+  gtrap3: {group: gtrap3, motion: dat, click: false}                      # a crusher, 80 LT down
+  gtrap4: {group: gtrap4, motion: dat, click: false}                      # a ram, 120 LT across
+  gtrap5: {group: gtrap5, motion: rotate, click: false, bodies: push}     # swinging scythes (75 deg about x)
+  gtrap6: {group: gtrap6, motion: rotate, click: false, bodies: push}
+  gtrap10: {group: gtrap10, motion: rotate, click: false, bodies: push}
+  gtrap7a: {group: gtrap7a, motion: rotate, click: false, bodies: push}   # two spinning blade wheels (360 deg)
+  gtrap7b: {group: gtrap7b, motion: rotate, click: false, bodies: push}
+  gtrap8a: {group: gtrap8a, motion: dat, click: false}    # two saws on rails, saw8a/b riding them
+  saw8a: {group: gtrap8a, motion: dat, click: false}      # RotatingBrush AttachTo gtrap8a: rides the rail, spins (mover spin)
+  gtrap8b: {group: gtrap8b, motion: dat, click: false}
+  saw8b: {group: gtrap8b, motion: dat, click: false}
+  gtrap9: {group: gtrap9, motion: rotate, click: false, bodies: push}   # the saw arm, saw9 on it
+  saw9: {group: gtrap9, motion: rotate, click: false, bodies: ignore}     # RotatingBrush AttachTo gtrap9: swings with the arm, spins
+  # --- section 4's double-axe trap: plates (TouchToOpen), the side door, the panels and the two axes
+  doubleaxe upper trigger: {group: doubleaxe_upper_trigger, motion: dat, click: false}
+  doubleaxe lower trigger: {group: doubleaxe_lower_trigger, motion: dat, click: false}
+  Side Door: {group: Side_Door, motion: rotate, click: false, bodies: push}
+  Top Door: {group: Top_Door, motion: dat, click: false}
+  Bottom Door: {group: Bottom_Door, motion: dat, click: false}
+  Panel Mover: skip                    # MM9's invisible carrier of the two panels (Invisible.dtx only): no faces; a door in the map Lua
+  Axe Mover: {group: Axe_Mover, motion: dat, click: false}
+  Top Axe: {group: Top_Axe, motion: rotate, click: false, bodies: push}
+  Bottom Axe: {group: Bottom_Axe, motion: rotate, click: false, bodies: push}
+  # --- section 2's blade under the stairs (BUS): the sliding panels and the spinning blade
+  Sliding Panels: {group: Sliding_Panels, motion: dat, click: false}
+  Blade: {group: Blade, motion: rotate, click: false, bodies: push}
+  # --- the hub: the entrance gate and its button, the exit gate, the elevator, the water grate
+  entrance gate: {group: entrance_gate, motion: rotate, click: false}   # a low gate inside the hub: no doorway (both sides one room)
+  entrance button: {group: entrance_button, motion: dat}
+  exit gate: {group: exit_gate, motion: rotate, click: false, doorway: true}
+  elevator: {group: elevator, motion: dat, click: false}
+  water grate: {group: water_grate, motion: rotate}
+  water grate opener: skip             # MM9's invisible push box over the grate (Invisible.dtx only): a door in the map Lua
+  ratdoortrigger: {group: ratdoortrigger, motion: dat, click: false}   # an invisible relay Door (rat death start)
+  # --- volumes and helpers
+  knockback01: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback02: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback03: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback04: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback05: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback06: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback08: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback09: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback10: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback11: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback12: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback13: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback14: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback15: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback16: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback17: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback18: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback19: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback20: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback21: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback22: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback23: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  knockback24: skip                # DamageBrush (Damage, Current): a polled knockback box (convert.py)
+  ClearWater0: skip                    # ClearWater volume: its surface is the map's own face (convert.py)
+  WorldObject0: static
+  WorldObject1: static
+  TOD_Sky0: skip                       # MM9's time-of-day sky box, outside the map
+  SkyBox0: skip
+textures:
+  "water:pool": {alias: WATEZWECUN, width: 128, height: 128}   # ClearWater0's surface: Water115.spr, SurfaceAlpha 0.3
+  # 3 PhysicsBSP faces carry MM9's skymarker (sky through an opening): drawn with MM9's Clouds1 sky (CLOUVKSJD0), as the
+  # Training Hall does; WorldObject0's own face already uses Clouds1.
+  'textures\skybox\skymarker.dtx': {alias: CLOUVKSJD0, width: 256, height: 256}
+# Seeds: relay triggers MM9 parks outside the walls (only messages reach them), the BUS trigger and its timer in the
+# sealed pocket under the stairs, and CHADWICK, whose origin stands a voxel into the floor (a 29-voxel pocket).
+seed_exclude:
+  - knockbackoff22
+  - knockbackon22
+  - 'Double Axe Trap Trigger'
+  - knockbackoff11
+  - knockbackoff10
+  - knockbackoff09
+  - knockbackoff08
+  - knockbackoff06
+  - knockbackoff05
+  - knockbackoff04
+  - knockbackoff03
+  - knockbackoff02
+  - knockbackoff01
+  - gtrap8trigger
+  - gtrap8timertrigger
+  - gtrap9timertrigger
+  - knockbackoff12
+  - knockbackoff13
+  - knockbackoff15
+  - knockbackoff16
+  - knockbackoff17
+  - knockbackoff18
+  - knockbackoff19
+  - knockbackoff20
+  - knockbackoff23
+  - knockbackoff24
+  - 'knockback off0'
+  - 'knockback off1'
+  - shoottrigger01
+  - rattrigger01
+  - shoottrigger02
+  - shoottrigger03
+  - rattrigger02
+  - shoottrigger04
+  - shoottrigger05
+  - shoottrigger06
+  - shoottrigger07
+  - shoottrigger08
+  - rattrigger03
+  - 'Timer (BUS)'
+  - 'Trigger (BUS)'
+  - CHADWICK
+plan_levels:
+  pool: [-300, -40]
+  ground: [-40, 150]
+  upper: [150, 600]

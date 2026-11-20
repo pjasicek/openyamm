@@ -1,0 +1,1286 @@
+{
+ "note": "DAT placements in the native frame (work/transform.json); content.py places them (work/content.json)",
+ "monster_counts": {
+  "AirBorneIcky": 5,
+  "GuardSegeant": 2,
+  "Imp": 5,
+  "ImpElder": 7,
+  "Imply": 12,
+  "NagateElder": 2,
+  "NagateHatchling": 14
+ },
+ "monsters": [
+  {
+   "dat_object_index": 991,
+   "name": "StarterImp0",
+   "class": "Imp",
+   "position_lt": [
+    128.0,
+    -160.0,
+    3264.0
+   ],
+   "position": [
+    328,
+    8356,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 992,
+   "name": "StarterNagate0",
+   "class": "NagateHatchling",
+   "position_lt": [
+    -256.0,
+    -96.0,
+    2048.0
+   ],
+   "position": [
+    -655,
+    5243,
+    -246
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\flyingicky.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 993,
+   "name": "StarterNagate1",
+   "class": "NagateHatchling",
+   "position_lt": [
+    128.0,
+    -96.0,
+    1664.0
+   ],
+   "position": [
+    328,
+    4260,
+    -246
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\flyingicky.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 994,
+   "name": "StarterIcky0",
+   "class": "AirBorneIcky",
+   "position_lt": [
+    -448.0,
+    -96.0,
+    2432.0
+   ],
+   "position": [
+    -1147,
+    6226,
+    -246
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\SpawnCreature.scr",
+   "Filename": "models\\flyingicky.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 995,
+   "name": "StarterIcky1",
+   "class": "AirBorneIcky",
+   "position_lt": [
+    448.0,
+    -96.0,
+    2944.0
+   ],
+   "position": [
+    1147,
+    7537,
+    -246
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\SpawnCreature.scr",
+   "Filename": "models\\flyingicky.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 996,
+   "name": "GiantImp",
+   "class": "Imp",
+   "position_lt": [
+    0.0,
+    -321.0,
+    4992.0
+   ],
+   "position": [
+    0,
+    12780,
+    -822
+   ],
+   "floor_z": -1065,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\AK_GiantImp.scr",
+   "Filename": "models\\Imp.abc",
+   "Scale": 2.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1800.0
+  },
+  {
+   "dat_object_index": 998,
+   "name": "GiantImpGuard0",
+   "class": "GuardSegeant",
+   "position_lt": [
+    -192.0,
+    -129.0,
+    5888.0
+   ],
+   "position": [
+    -492,
+    15073,
+    -330
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\AK_GiantImpGuard.scr",
+   "Filename": "models\\guard.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1800.0
+  },
+  {
+   "dat_object_index": 999,
+   "name": "GiantImpGuard1",
+   "class": "GuardSegeant",
+   "position_lt": [
+    192.0,
+    -129.0,
+    5888.0
+   ],
+   "position": [
+    492,
+    15073,
+    -330
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\AK_GiantImpGuard.scr",
+   "Filename": "models\\guard.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1800.0
+  },
+  {
+   "dat_object_index": 1033,
+   "name": "BustOutNagate0",
+   "class": "NagateHatchling",
+   "position_lt": [
+    1620.0,
+    -160.0,
+    1924.0
+   ],
+   "position": [
+    4147,
+    4925,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\KingKong.scr",
+   "Filename": "models\\nagate.abc",
+   "Scale": 0.699999988079071,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 1034,
+   "name": "BustOutNagate1",
+   "class": "NagateHatchling",
+   "position_lt": [
+    1620.0,
+    -160.0,
+    1884.0
+   ],
+   "position": [
+    4147,
+    4823,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\KingKong.scr",
+   "Filename": "models\\nagate.abc",
+   "Scale": 0.699999988079071,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 1035,
+   "name": "BustOutNagate2",
+   "class": "NagateHatchling",
+   "position_lt": [
+    1616.0,
+    -160.0,
+    1844.0
+   ],
+   "position": [
+    4137,
+    4721,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\KingKong.scr",
+   "Filename": "models\\nagate.abc",
+   "Scale": 0.699999988079071,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 1037,
+   "name": "BustOutIcky0",
+   "class": "AirBorneIcky",
+   "position_lt": [
+    -1096.0,
+    -92.0,
+    1240.0
+   ],
+   "position": [
+    -2806,
+    3174,
+    -236
+   ],
+   "floor_z": -328,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\KingKong.scr",
+   "Filename": "models\\flyingicky.abc",
+   "Scale": 0.699999988079071,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 1038,
+   "name": "BustOutIcky1",
+   "class": "AirBorneIcky",
+   "position_lt": [
+    -1056.0,
+    -92.0,
+    1256.0
+   ],
+   "position": [
+    -2703,
+    3215,
+    -236
+   ],
+   "floor_z": -328,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\KingKong.scr",
+   "Filename": "models\\flyingicky.abc",
+   "Scale": 0.699999988079071,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 1039,
+   "name": "BustOutIcky2",
+   "class": "AirBorneIcky",
+   "position_lt": [
+    -1056.0,
+    -76.0,
+    1296.0
+   ],
+   "position": [
+    -2703,
+    3318,
+    -195
+   ],
+   "floor_z": -328,
+   "facing_degrees": 0.0,
+   "ScriptName": "scripts\\KingKong.scr",
+   "Filename": "models\\flyingicky.abc",
+   "Scale": 0.699999988079071,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 600.0
+  },
+  {
+   "dat_object_index": 1193,
+   "name": "NagateHatchling0",
+   "class": "NagateHatchling",
+   "position_lt": [
+    -896.0,
+    -128.0,
+    1664.0
+   ],
+   "position": [
+    -2294,
+    4260,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 320.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1194,
+   "name": "NagateHatchling1",
+   "class": "NagateHatchling",
+   "position_lt": [
+    -2112.0,
+    -128.0,
+    3200.0
+   ],
+   "position": [
+    -5407,
+    8192,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1195,
+   "name": "NagateElder0",
+   "class": "NagateElder",
+   "position_lt": [
+    0.0,
+    -128.0,
+    3968.0
+   ],
+   "position": [
+    0,
+    10158,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 180.4,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1196,
+   "name": "ImpElder0",
+   "class": "ImpElder",
+   "position_lt": [
+    1216.0,
+    -128.0,
+    2944.0
+   ],
+   "position": [
+    3113,
+    7537,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 239.8,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1197,
+   "name": "Imply0",
+   "class": "Imply",
+   "position_lt": [
+    1088.0,
+    -128.0,
+    3008.0
+   ],
+   "position": [
+    2785,
+    7700,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 236.7,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1198,
+   "name": "Imply1",
+   "class": "Imply",
+   "position_lt": [
+    1152.0,
+    -128.0,
+    2816.0
+   ],
+   "position": [
+    2949,
+    7209,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 310.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1199,
+   "name": "ImpElder1",
+   "class": "ImpElder",
+   "position_lt": [
+    896.0,
+    -128.0,
+    1664.0
+   ],
+   "position": [
+    2294,
+    4260,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 46.2,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1200,
+   "name": "Imply2",
+   "class": "Imply",
+   "position_lt": [
+    1408.0,
+    -128.0,
+    1152.0
+   ],
+   "position": [
+    3604,
+    2949,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 228.9,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1201,
+   "name": "NagateHatchling2",
+   "class": "NagateHatchling",
+   "position_lt": [
+    576.0,
+    -128.0,
+    1024.0
+   ],
+   "position": [
+    1475,
+    2621,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1202,
+   "name": "NagateHatchling3",
+   "class": "NagateHatchling",
+   "position_lt": [
+    0.0,
+    -128.0,
+    1024.0
+   ],
+   "position": [
+    0,
+    2621,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1203,
+   "name": "NagateHatchling4",
+   "class": "NagateHatchling",
+   "position_lt": [
+    -128.0,
+    -128.0,
+    960.0
+   ],
+   "position": [
+    -328,
+    2458,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1204,
+   "name": "Imply3",
+   "class": "Imply",
+   "position_lt": [
+    -1472.0,
+    -128.0,
+    704.0
+   ],
+   "position": [
+    -3768,
+    1802,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 270.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1205,
+   "name": "Imply4",
+   "class": "Imply",
+   "position_lt": [
+    -1728.0,
+    -128.0,
+    832.0
+   ],
+   "position": [
+    -4424,
+    2130,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 196.1,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1206,
+   "name": "NagateElder1",
+   "class": "NagateElder",
+   "position_lt": [
+    -2560.0,
+    -128.0,
+    1856.0
+   ],
+   "position": [
+    -6554,
+    4751,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 270.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1207,
+   "name": "ImpElder2",
+   "class": "ImpElder",
+   "position_lt": [
+    -1472.0,
+    -128.0,
+    2496.0
+   ],
+   "position": [
+    -3768,
+    6390,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 270.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1208,
+   "name": "Imp0",
+   "class": "Imp",
+   "position_lt": [
+    -1536.0,
+    -128.0,
+    2560.0
+   ],
+   "position": [
+    -3932,
+    6554,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 43.1,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1209,
+   "name": "Imp1",
+   "class": "Imp",
+   "position_lt": [
+    -1536.0,
+    -128.0,
+    2432.0
+   ],
+   "position": [
+    -3932,
+    6226,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 127.4,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1210,
+   "name": "NagateHatchling5",
+   "class": "NagateHatchling",
+   "position_lt": [
+    -1024.0,
+    -128.0,
+    2944.0
+   ],
+   "position": [
+    -2621,
+    7537,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 266.3,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1211,
+   "name": "NagateHatchling6",
+   "class": "NagateHatchling",
+   "position_lt": [
+    -896.0,
+    -128.0,
+    2816.0
+   ],
+   "position": [
+    -2294,
+    7209,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 135.2,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1212,
+   "name": "Imply5",
+   "class": "Imply",
+   "position_lt": [
+    -1344.0,
+    -128.0,
+    3520.0
+   ],
+   "position": [
+    -3441,
+    9011,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 138.3,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1213,
+   "name": "Imply6",
+   "class": "Imply",
+   "position_lt": [
+    -1408.0,
+    -128.0,
+    3584.0
+   ],
+   "position": [
+    -3604,
+    9175,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 132.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1214,
+   "name": "Imply7",
+   "class": "Imply",
+   "position_lt": [
+    -1280.0,
+    -128.0,
+    3456.0
+   ],
+   "position": [
+    -3277,
+    8847,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 278.8,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1215,
+   "name": "NagateHatchling7",
+   "class": "NagateHatchling",
+   "position_lt": [
+    1280.0,
+    -128.0,
+    3456.0
+   ],
+   "position": [
+    3277,
+    8847,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 300.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1216,
+   "name": "NagateHatchling8",
+   "class": "NagateHatchling",
+   "position_lt": [
+    1408.0,
+    -128.0,
+    3584.0
+   ],
+   "position": [
+    3604,
+    9175,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 246.0,
+   "Filename": "models\\nagate.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1217,
+   "name": "Imply8",
+   "class": "Imply",
+   "position_lt": [
+    1728.0,
+    -128.0,
+    3072.0
+   ],
+   "position": [
+    4424,
+    7864,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 168.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1218,
+   "name": "ImpElder3",
+   "class": "ImpElder",
+   "position_lt": [
+    -320.0,
+    -128.0,
+    5248.0
+   ],
+   "position": [
+    -819,
+    13435,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 217.9,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1219,
+   "name": "ImpElder4",
+   "class": "ImpElder",
+   "position_lt": [
+    320.0,
+    -128.0,
+    5248.0
+   ],
+   "position": [
+    819,
+    13435,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 135.2,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1220,
+   "name": "ImpElder5",
+   "class": "ImpElder",
+   "position_lt": [
+    -320.0,
+    -128.0,
+    4672.0
+   ],
+   "position": [
+    -819,
+    11960,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 308.5,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1221,
+   "name": "ImpElder6",
+   "class": "ImpElder",
+   "position_lt": [
+    320.0,
+    -128.0,
+    4672.0
+   ],
+   "position": [
+    819,
+    11960,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 47.7,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1222,
+   "name": "Imply9",
+   "class": "Imply",
+   "position_lt": [
+    -896.0,
+    -128.0,
+    5184.0
+   ],
+   "position": [
+    -2294,
+    13271,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 202.3,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1223,
+   "name": "Imply10",
+   "class": "Imply",
+   "position_lt": [
+    -832.0,
+    -128.0,
+    5248.0
+   ],
+   "position": [
+    -2130,
+    13435,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 202.3,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1224,
+   "name": "Imp2",
+   "class": "Imp",
+   "position_lt": [
+    832.0,
+    -128.0,
+    5248.0
+   ],
+   "position": [
+    2130,
+    13435,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  },
+  {
+   "dat_object_index": 1225,
+   "name": "Imply11",
+   "class": "Imply",
+   "position_lt": [
+    896.0,
+    -128.0,
+    4992.0
+   ],
+   "position": [
+    2294,
+    12780,
+    -328
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Filename": "models\\Imp.abc",
+   "Scale": 1.0,
+   "ShouldRepopulate": 1,
+   "GiveTreasure": 1,
+   "SightDistance": 1320.0
+  }
+ ],
+ "chests": [
+  {
+   "dat_object_index": 37,
+   "name": "TreasureChest1",
+   "class": "TreasureChest",
+   "position_lt": [
+    1344.0,
+    -128.0,
+    480.0
+   ],
+   "position": [
+    3441,
+    1229,
+    -328
+   ],
+   "floor_z": -369,
+   "facing_degrees": 0.0,
+   "Locked": 0,
+   "TreasureLevel": 2.0,
+   "TrapLevel": 3.0,
+   "TreasureType0_7": 7.0,
+   "Gold": 0,
+   "GoldOnly": 0,
+   "Random": 1,
+   "AIDrop": 0,
+   "Item1": 0,
+   "Item2": 0,
+   "Item3": 0,
+   "Item4": 0,
+   "Item5": 0,
+   "TriggerTarget": "TreasureShooterTrigger1",
+   "Filename": "models\\Props\\Chest1.ABC",
+   "Scale": 0.800000011920929
+  },
+  {
+   "dat_object_index": 1109,
+   "name": "TreasureChest0",
+   "class": "TreasureChest",
+   "position_lt": [
+    -1440.0,
+    -160.0,
+    3024.0
+   ],
+   "position": [
+    -3686,
+    7741,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 270.0,
+   "Locked": 0,
+   "TreasureLevel": 1.0,
+   "TrapLevel": 2.0,
+   "TreasureType0_7": 7.0,
+   "Gold": 0,
+   "GoldOnly": 0,
+   "Random": 1,
+   "AIDrop": 0,
+   "Item1": 0,
+   "Item2": 0,
+   "Item3": 0,
+   "Item4": 0,
+   "Item5": 0,
+   "Filename": "models\\Props\\Chest1.ABC",
+   "Scale": 1.0
+  },
+  {
+   "dat_object_index": 1111,
+   "name": "TreasureChest2",
+   "class": "TreasureChest",
+   "position_lt": [
+    736.0,
+    -160.0,
+    3024.0
+   ],
+   "position": [
+    1884,
+    7741,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 270.0,
+   "Locked": 0,
+   "TreasureLevel": 1.0,
+   "TrapLevel": 2.0,
+   "TreasureType0_7": 7.0,
+   "Gold": 0,
+   "GoldOnly": 0,
+   "Random": 1,
+   "AIDrop": 0,
+   "Item1": 0,
+   "Item2": 0,
+   "Item3": 0,
+   "Item4": 0,
+   "Item5": 0,
+   "Filename": "models\\Props\\Chest1.ABC",
+   "Scale": 1.0
+  },
+  {
+   "dat_object_index": 1124,
+   "name": "TreasureChest3",
+   "class": "TreasureChest",
+   "position_lt": [
+    -1280.0,
+    -160.0,
+    1600.0
+   ],
+   "position": [
+    -3277,
+    4096,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 90.0,
+   "Locked": 0,
+   "TreasureLevel": 0,
+   "TrapLevel": 1.0,
+   "TreasureType0_7": 7.0,
+   "Gold": 0,
+   "GoldOnly": 0,
+   "Random": 1,
+   "AIDrop": 0,
+   "Item1": 0,
+   "Item2": 0,
+   "Item3": 0,
+   "Item4": 0,
+   "Item5": 0,
+   "Filename": "models\\Props\\Chest1.ABC",
+   "Scale": 1.0
+  },
+  {
+   "dat_object_index": 1125,
+   "name": "TreasureChest4",
+   "class": "TreasureChest",
+   "position_lt": [
+    -704.0,
+    -160.0,
+    2176.0
+   ],
+   "position": [
+    -1802,
+    5571,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 90.0,
+   "Locked": 0,
+   "TreasureLevel": 0,
+   "TrapLevel": 1.0,
+   "TreasureType0_7": 7.0,
+   "Gold": 0,
+   "GoldOnly": 0,
+   "Random": 1,
+   "AIDrop": 0,
+   "Item1": 0,
+   "Item2": 0,
+   "Item3": 0,
+   "Item4": 0,
+   "Item5": 0,
+   "Filename": "models\\Props\\Chest1.ABC",
+   "Scale": 1.0
+  },
+  {
+   "dat_object_index": 1126,
+   "name": "TreasureChest5",
+   "class": "TreasureChest",
+   "position_lt": [
+    -832.0,
+    -160.0,
+    2048.0
+   ],
+   "position": [
+    -2130,
+    5243,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Locked": 0,
+   "TreasureLevel": 0,
+   "TrapLevel": 1.0,
+   "TreasureType0_7": 7.0,
+   "Gold": 0,
+   "GoldOnly": 0,
+   "Random": 1,
+   "AIDrop": 0,
+   "Item1": 0,
+   "Item2": 0,
+   "Item3": 0,
+   "Item4": 0,
+   "Item5": 0,
+   "Filename": "models\\Props\\Chest1.ABC",
+   "Scale": 1.0
+  },
+  {
+   "dat_object_index": 1127,
+   "name": "TreasureChest6",
+   "class": "TreasureChest",
+   "position_lt": [
+    -1408.0,
+    -160.0,
+    1472.0
+   ],
+   "position": [
+    -3604,
+    3768,
+    -410
+   ],
+   "floor_z": -492,
+   "facing_degrees": 0.0,
+   "Locked": 0,
+   "TreasureLevel": 0,
+   "TrapLevel": 1.0,
+   "TreasureType0_7": 7.0,
+   "Gold": 0,
+   "GoldOnly": 0,
+   "Random": 1,
+   "AIDrop": 0,
+   "Item1": 0,
+   "Item2": 0,
+   "Item3": 0,
+   "Item4": 0,
+   "Item5": 0,
+   "Filename": "models\\Props\\Chest1.ABC",
+   "Scale": 1.0
+  }
+ ]
+}

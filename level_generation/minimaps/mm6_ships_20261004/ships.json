@@ -1,0 +1,354 @@
+{
+  "maps": 7,
+  "boats": 12,
+  "records": [
+    {
+      "map": "outc2.odm",
+      "location": "Free Haven",
+      "service": "Windrunner",
+      "models": [
+        127,
+        128,
+        129,
+        130,
+        131
+      ],
+      "native_xy_bounds": [
+        13200,
+        15952,
+        13432,
+        14504
+      ],
+      "x2_bounds": [
+        718.25,
+        285.375,
+        761.25,
+        302.125
+      ],
+      "position": [
+        14576,
+        13968,
+        -88
+      ]
+    },
+    {
+      "map": "outc2.odm",
+      "location": "Free Haven",
+      "service": "Offshore scenery",
+      "models": [
+        132,
+        133,
+        134,
+        135,
+        136
+      ],
+      "native_xy_bounds": [
+        16168,
+        18920,
+        13840,
+        14912
+      ],
+      "x2_bounds": [
+        764.625,
+        279.0,
+        807.625,
+        295.75
+      ],
+      "position": [
+        17544,
+        14376,
+        -88
+      ]
+    },
+    {
+      "map": "outd1.odm",
+      "location": "Silver Cove",
+      "service": "Barracuda",
+      "models": [
+        119,
+        120,
+        121,
+        122,
+        123
+      ],
+      "native_xy_bounds": [
+        11704,
+        14456,
+        11624,
+        12696
+      ],
+      "x2_bounds": [
+        694.875,
+        313.625,
+        737.875,
+        330.375
+      ],
+      "position": [
+        13080,
+        12160,
+        -104
+      ]
+    },
+    {
+      "map": "outd1.odm",
+      "location": "Silver Cove",
+      "service": "Cerulean Skies",
+      "models": [
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "native_xy_bounds": [
+        3376,
+        6128,
+        -13224,
+        -12152
+      ],
+      "x2_bounds": [
+        564.75,
+        701.875,
+        607.75,
+        718.625
+      ],
+      "position": [
+        4752,
+        -12688,
+        -88
+      ]
+    },
+    {
+      "map": "outd2.odm",
+      "location": "Bootleg Bay",
+      "service": "Valkyrie",
+      "models": [
+        60,
+        61,
+        62,
+        63,
+        64
+      ],
+      "native_xy_bounds": [
+        1160,
+        2232,
+        2848,
+        5600
+      ],
+      "x2_bounds": [
+        530.125,
+        424.5,
+        546.875,
+        467.5
+      ],
+      "position": [
+        1696,
+        4224,
+        -104
+      ]
+    },
+    {
+      "map": "outd2.odm",
+      "location": "Bootleg Bay",
+      "service": "Tsunami",
+      "models": [
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "native_xy_bounds": [
+        5840,
+        8592,
+        9960,
+        11032
+      ],
+      "x2_bounds": [
+        603.25,
+        339.625,
+        646.25,
+        356.375
+      ],
+      "position": [
+        7216,
+        10496,
+        -104
+      ]
+    },
+    {
+      "map": "outd3.odm",
+      "location": "Castle Ironfist",
+      "service": "Zephyr",
+      "models": [
+        69,
+        70,
+        71,
+        72,
+        73
+      ],
+      "native_xy_bounds": [
+        21304,
+        22376,
+        7088,
+        9840
+      ],
+      "x2_bounds": [
+        844.875,
+        358.25,
+        861.625,
+        401.25
+      ],
+      "position": [
+        21840,
+        8464,
+        -72
+      ]
+    },
+    {
+      "map": "outd3.odm",
+      "location": "Castle Ironfist",
+      "service": "Queen Catherine",
+      "models": [
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "native_xy_bounds": [
+        21304,
+        22376,
+        3504,
+        6256
+      ],
+      "x2_bounds": [
+        844.875,
+        414.25,
+        861.625,
+        457.25
+      ],
+      "position": [
+        21840,
+        4880,
+        -72
+      ]
+    },
+    {
+      "map": "oute1.odm",
+      "location": "Eel Infested Waters",
+      "service": "Tigershark",
+      "models": [
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "native_xy_bounds": [
+        5256,
+        8008,
+        7264,
+        8336
+      ],
+      "x2_bounds": [
+        594.125,
+        381.75,
+        637.125,
+        398.5
+      ],
+      "position": [
+        6632,
+        7800,
+        -88
+      ]
+    },
+    {
+      "map": "oute1.odm",
+      "location": "Eel Infested Waters",
+      "service": "Cirrus",
+      "models": [
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "native_xy_bounds": [
+        -3400,
+        -2328,
+        -5648,
+        -2896
+      ],
+      "x2_bounds": [
+        458.875,
+        557.25,
+        475.625,
+        600.25
+      ],
+      "position": [
+        -2864,
+        -4272,
+        -88
+      ]
+    },
+    {
+      "map": "oute2.odm",
+      "location": "Misty Islands",
+      "service": "Adventure",
+      "models": [
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "native_xy_bounds": [
+        -5336,
+        -4264,
+        -16256,
+        -13504
+      ],
+      "x2_bounds": [
+        428.625,
+        723.0,
+        445.375,
+        766.0
+      ],
+      "position": [
+        -4800,
+        -14880,
+        -88
+      ]
+    },
+    {
+      "map": "oute3.odm",
+      "location": "New Sorpigal",
+      "service": "Odyssey",
+      "models": [
+        85,
+        86,
+        87,
+        88,
+        89
+      ],
+      "native_xy_bounds": [
+        1632,
+        2704,
+        -11312,
+        -8560
+      ],
+      "x2_bounds": [
+        537.5,
+        645.75,
+        554.25,
+        688.75
+      ],
+      "position": [
+        2168,
+        -9936,
+        -104
+      ]
+    }
+  ]
+}

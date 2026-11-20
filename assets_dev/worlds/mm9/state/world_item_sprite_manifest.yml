@@ -1,0 +1,2651 @@
+format_version: 1
+kind: mm9_world_item_sprite_manifest
+selection: imported items whose source category or source marker classifies them as quest/miscellaneous
+item_count: 173
+visual_family_count: 49
+visual_families:
+- amuletfizbin
+- bag-herbs2
+- basket_fruit
+- basskin1
+- basskin2
+- blackorb
+- bookkey_real
+- bookrules
+- capstone
+- clothgloves
+- cronakiga
+- elixir
+- elixirdefedation
+- farmerplow
+- furhat
+- fuzzyslippers
+- girldolly
+- goldenhonk
+- gospelhonk
+- greatbookfake
+- greatbookreal
+- haghair
+- hammerthjorad
+- jar_broken
+- jar_empty
+- kegstrangebrew
+- key1
+- kirashield
+- lichinstructions
+- longsword
+- loveletter
+- ludwigmanuscript
+- machinepart_broken
+- machinepart_whole
+- orblinking
+- ore-chunk
+- ore-lode
+- ore-lump
+- potion_nutty
+- prize
+- quiltedarmor
+- relic
+- runestone_expert
+- scroll
+- scrollbadnews
+- shieldwooden
+- swordwooden
+- treeoflife
+- writ
+items:
+- raw_mm9_id: 197
+  item_id: 10197
+  name: Thjorad
+  source_category: Quest Item
+  source_marker: '6'
+  source_icon_stem: HammerThjorad
+  source_visual_family: hammerthjorad
+  inventory_icon: icons_x2/mm9_item_10197.png
+  world_sprite: sprites/mm9wi0197.png
+  object_id: 20197
+  sprite_id: 24197
+  width: 71
+  height: 153
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 216
+  item_id: 10216
+  name: Fizbin of Misfortune
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: AmuletFizbin
+  source_visual_family: amuletfizbin
+  inventory_icon: icons_x2/mm9_item_10216.png
+  world_sprite: sprites/mm9wi0216.png
+  object_id: 20216
+  sprite_id: 24216
+  width: 34
+  height: 55
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 239
+  item_id: 10239
+  name: Green Stone
+  source_category: Items
+  source_marker: '2'
+  source_icon_stem: RuneStone_Expert
+  source_visual_family: runestone_expert
+  inventory_icon: icons_x2/mm9_item_10239.png
+  world_sprite: sprites/mm9wi0239.png
+  object_id: 20239
+  sprite_id: 24239
+  width: 64
+  height: 51
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 240
+  item_id: 10240
+  name: Lock of Hair
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: haghair
+  source_visual_family: haghair
+  inventory_icon: icons_x2/mm9_item_10240.png
+  world_sprite: sprites/mm9wi0240.png
+  object_id: 20240
+  sprite_id: 24240
+  width: 23
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 241
+  item_id: 10241
+  name: Tree of Life
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: TreeofLife
+  source_visual_family: treeoflife
+  inventory_icon: icons_x2/mm9_item_10241.png
+  world_sprite: sprites/mm9wi0241.png
+  object_id: 20241
+  sprite_id: 24241
+  width: 44
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 242
+  item_id: 10242
+  name: Verhoffin's Book
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: GreatBookFake
+  source_visual_family: greatbookfake
+  inventory_icon: icons_x2/mm9_item_10242.png
+  world_sprite: sprites/mm9wi0242.png
+  object_id: 20242
+  sprite_id: 24242
+  width: 72
+  height: 63
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 243
+  item_id: 10243
+  name: Verhoffin's Book
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: GreatBookReal
+  source_visual_family: greatbookreal
+  inventory_icon: icons_x2/mm9_item_10243.png
+  world_sprite: sprites/mm9wi0243.png
+  object_id: 20243
+  sprite_id: 24243
+  width: 72
+  height: 58
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 244
+  item_id: 10244
+  name: Book Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: BookKey_Real
+  source_visual_family: bookkey_real
+  inventory_icon: icons_x2/mm9_item_10244.png
+  world_sprite: sprites/mm9wi0244.png
+  object_id: 20244
+  sprite_id: 24244
+  width: 72
+  height: 36
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 245
+  item_id: 10245
+  name: Lich Instructions
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: LichInstructions
+  source_visual_family: lichinstructions
+  inventory_icon: icons_x2/mm9_item_10245.png
+  world_sprite: sprites/mm9wi0245.png
+  object_id: 20245
+  sprite_id: 24245
+  width: 70
+  height: 36
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 246
+  item_id: 10246
+  name: Elixir of Defedation
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: ElixirDefedation
+  source_visual_family: elixirdefedation
+  inventory_icon: icons_x2/mm9_item_10246.png
+  world_sprite: sprites/mm9wi0246.png
+  object_id: 20246
+  sprite_id: 24246
+  width: 36
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 247
+  item_id: 10247
+  name: Love Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: LoveLetter
+  source_visual_family: loveletter
+  inventory_icon: icons_x2/mm9_item_10247.png
+  world_sprite: sprites/mm9wi0247.png
+  object_id: 20247
+  sprite_id: 24247
+  width: 69
+  height: 36
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 248
+  item_id: 10248
+  name: Ludwig's Manuscript
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: LudwigManuscript
+  source_visual_family: ludwigmanuscript
+  inventory_icon: icons_x2/mm9_item_10248.png
+  world_sprite: sprites/mm9wi0248.png
+  object_id: 20248
+  sprite_id: 24248
+  width: 72
+  height: 53
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 249
+  item_id: 10249
+  name: Keg of Strange Brew
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: KegStrangeBrew
+  source_visual_family: kegstrangebrew
+  inventory_icon: icons_x2/mm9_item_10249.png
+  world_sprite: sprites/mm9wi0249.png
+  object_id: 20249
+  sprite_id: 24249
+  width: 64
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 250
+  item_id: 10250
+  name: Black Orb of Knowledge
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: BlackOrb
+  source_visual_family: blackorb
+  inventory_icon: icons_x2/mm9_item_10250.png
+  world_sprite: sprites/mm9wi0250.png
+  object_id: 20250
+  sprite_id: 24250
+  width: 63
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 251
+  item_id: 10251
+  name: Scroll of Bad News
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: ScrollBadNews
+  source_visual_family: scrollbadnews
+  inventory_icon: icons_x2/mm9_item_10251.png
+  world_sprite: sprites/mm9wi0251.png
+  object_id: 20251
+  sprite_id: 24251
+  width: 70
+  height: 34
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 252
+  item_id: 10252
+  name: Orb of Linking
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: OrbLinking
+  source_visual_family: orblinking
+  inventory_icon: icons_x2/mm9_item_10252.png
+  world_sprite: sprites/mm9wi0252.png
+  object_id: 20252
+  sprite_id: 24252
+  width: 37
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 261
+  item_id: 10261
+  name: Red Stone
+  source_category: Items
+  source_marker: '2'
+  source_icon_stem: RuneStone_Expert
+  source_visual_family: runestone_expert
+  inventory_icon: icons_x2/mm9_item_10261.png
+  world_sprite: sprites/mm9wi0261.png
+  object_id: 20261
+  sprite_id: 24261
+  width: 64
+  height: 51
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 358
+  item_id: 10358
+  name: Jar
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Jar_Empty
+  source_visual_family: jar_empty
+  inventory_icon: icons_x2/mm9_item_10358.png
+  world_sprite: sprites/mm9wi0358.png
+  object_id: 20358
+  sprite_id: 24358
+  width: 36
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 359
+  item_id: 10359
+  name: Lump of Elemental Thjorad
+  source_category: Items
+  source_marker: '1'
+  source_icon_stem: ore-lump
+  source_visual_family: ore-lump
+  inventory_icon: icons_x2/mm9_item_10359.png
+  world_sprite: sprites/mm9wi0359.png
+  object_id: 20359
+  sprite_id: 24359
+  width: 64
+  height: 41
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 360
+  item_id: 10360
+  name: Chunk of Elemental Thjorad
+  source_category: Items
+  source_marker: '3'
+  source_icon_stem: ore-chunk
+  source_visual_family: ore-chunk
+  inventory_icon: icons_x2/mm9_item_10360.png
+  world_sprite: sprites/mm9wi0360.png
+  object_id: 20360
+  sprite_id: 24360
+  width: 64
+  height: 47
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 361
+  item_id: 10361
+  name: Lode of Elemental Thjorad
+  source_category: Items
+  source_marker: '5'
+  source_icon_stem: ore-lode
+  source_visual_family: ore-lode
+  inventory_icon: icons_x2/mm9_item_10361.png
+  world_sprite: sprites/mm9wi0361.png
+  object_id: 20361
+  sprite_id: 24361
+  width: 64
+  height: 32
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 362
+  item_id: 10362
+  name: Wooden Sword
+  source_category: Weapon
+  source_marker: Quest Item
+  source_icon_stem: swordwooden
+  source_visual_family: swordwooden
+  inventory_icon: icons_x2/mm9_item_10362.png
+  world_sprite: sprites/mm9wi0362.png
+  object_id: 20362
+  sprite_id: 24362
+  width: 42
+  height: 158
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 363
+  item_id: 10363
+  name: Wooden Shield
+  source_category: Shield
+  source_marker: Quest Item
+  source_icon_stem: shieldwooden
+  source_visual_family: shieldwooden
+  inventory_icon: icons_x2/mm9_item_10363.png
+  world_sprite: sprites/mm9wi0363.png
+  object_id: 20363
+  sprite_id: 24363
+  width: 99
+  height: 150
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 364
+  item_id: 10364
+  name: Fur Cap
+  source_category: Helm
+  source_marker: Quest Item
+  source_icon_stem: FurHat
+  source_visual_family: furhat
+  inventory_icon: icons_x2/mm9_item_10364.png
+  world_sprite: sprites/mm9wi0364.png
+  object_id: 20364
+  sprite_id: 24364
+  width: 49
+  height: 68
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 365
+  item_id: 10365
+  name: Cloth Gloves
+  source_category: Gloves
+  source_marker: Quest Item
+  source_icon_stem: ClothGloves
+  source_visual_family: clothgloves
+  inventory_icon: icons_x2/mm9_item_10365.png
+  world_sprite: sprites/mm9wi0365.png
+  object_id: 20365
+  sprite_id: 24365
+  width: 31
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 366
+  item_id: 10366
+  name: Fuzzy Slippers
+  source_category: Boots
+  source_marker: Quest Item
+  source_icon_stem: fuzzyslippers
+  source_visual_family: fuzzyslippers
+  inventory_icon: icons_x2/mm9_item_10366.png
+  world_sprite: sprites/mm9wi0366.png
+  object_id: 20366
+  sprite_id: 24366
+  width: 66
+  height: 50
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 367
+  item_id: 10367
+  name: Quilted Armor
+  source_category: Armor
+  source_marker: Quest Item
+  source_icon_stem: quiltedarmor
+  source_visual_family: quiltedarmor
+  inventory_icon: icons_x2/mm9_item_10367.png
+  world_sprite: sprites/mm9wi0367.png
+  object_id: 20367
+  sprite_id: 24367
+  width: 89
+  height: 103
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 368
+  item_id: 10368
+  name: Saint's Relic
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Relic
+  source_visual_family: relic
+  inventory_icon: icons_x2/mm9_item_10368.png
+  world_sprite: sprites/mm9wi0368.png
+  object_id: 20368
+  sprite_id: 24368
+  width: 64
+  height: 12
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 369
+  item_id: 10369
+  name: The Golden Honk
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: GoldenHonk
+  source_visual_family: goldenhonk
+  inventory_icon: icons_x2/mm9_item_10369.png
+  world_sprite: sprites/mm9wi0369.png
+  object_id: 20369
+  sprite_id: 24369
+  width: 63
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 370
+  item_id: 10370
+  name: Dolly
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: GirlDolly
+  source_visual_family: girldolly
+  inventory_icon: icons_x2/mm9_item_10370.png
+  world_sprite: sprites/mm9wi0370.png
+  object_id: 20370
+  sprite_id: 24370
+  width: 64
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 371
+  item_id: 10371
+  name: Farmer's Plow
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: FarmerPlow
+  source_visual_family: farmerplow
+  inventory_icon: icons_x2/mm9_item_10371.png
+  world_sprite: sprites/mm9wi0371.png
+  object_id: 20371
+  sprite_id: 24371
+  width: 64
+  height: 36
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 372
+  item_id: 10372
+  name: Midwife's Bag of Herbs
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Bag-Herbs2
+  source_visual_family: bag-herbs2
+  inventory_icon: icons_x2/mm9_item_10372.png
+  world_sprite: sprites/mm9wi0372.png
+  object_id: 20372
+  sprite_id: 24372
+  width: 64
+  height: 53
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 373
+  item_id: 10373
+  name: Basket of Food
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Basket_Fruit
+  source_visual_family: basket_fruit
+  inventory_icon: icons_x2/mm9_item_10373.png
+  world_sprite: sprites/mm9wi0373.png
+  object_id: 20373
+  sprite_id: 24373
+  width: 61
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 375
+  item_id: 10375
+  name: Kira's Shield
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: KiraShield
+  source_visual_family: kirashield
+  inventory_icon: icons_x2/mm9_item_10375.png
+  world_sprite: sprites/mm9wi0375.png
+  object_id: 20375
+  sprite_id: 24375
+  width: 78
+  height: 150
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 378
+  item_id: 10378
+  name: Elixir Ingredients
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: elixir
+  source_visual_family: elixir
+  inventory_icon: icons_x2/mm9_item_10378.png
+  world_sprite: sprites/mm9wi0378.png
+  object_id: 20378
+  sprite_id: 24378
+  width: 36
+  height: 29
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 379
+  item_id: 10379
+  name: Broken Jar
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Jar_Broken
+  source_visual_family: jar_broken
+  inventory_icon: icons_x2/mm9_item_10379.png
+  world_sprite: sprites/mm9wi0379.png
+  object_id: 20379
+  sprite_id: 24379
+  width: 42
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 380
+  item_id: 10380
+  name: Basilisk Skin
+  source_category: Items
+  source_marker: '5'
+  source_icon_stem: BasSkin1
+  source_visual_family: basskin1
+  inventory_icon: icons_x2/mm9_item_10380.png
+  world_sprite: sprites/mm9wi0380.png
+  object_id: 20380
+  sprite_id: 24380
+  width: 59
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 390
+  item_id: 10390
+  name: Crona Kiga
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: CronaKiga
+  source_visual_family: cronakiga
+  inventory_icon: icons_x2/mm9_item_10390.png
+  world_sprite: sprites/mm9wi0390.png
+  object_id: 20390
+  sprite_id: 24390
+  width: 64
+  height: 52
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 391
+  item_id: 10391
+  name: Book of Rules
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: BookRules
+  source_visual_family: bookrules
+  inventory_icon: icons_x2/mm9_item_10391.png
+  world_sprite: sprites/mm9wi0391.png
+  object_id: 20391
+  sprite_id: 24391
+  width: 72
+  height: 56
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 392
+  item_id: 10392
+  name: Writ of Fate
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Writ
+  source_visual_family: writ
+  inventory_icon: icons_x2/mm9_item_10392.png
+  world_sprite: sprites/mm9wi0392.png
+  object_id: 20392
+  sprite_id: 24392
+  width: 70
+  height: 13
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 393
+  item_id: 10393
+  name: Writ of Fate
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Writ
+  source_visual_family: writ
+  inventory_icon: icons_x2/mm9_item_10393.png
+  world_sprite: sprites/mm9wi0393.png
+  object_id: 20393
+  sprite_id: 24393
+  width: 70
+  height: 13
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 394
+  item_id: 10394
+  name: Writ of Fate
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Writ
+  source_visual_family: writ
+  inventory_icon: icons_x2/mm9_item_10394.png
+  world_sprite: sprites/mm9wi0394.png
+  object_id: 20394
+  sprite_id: 24394
+  width: 70
+  height: 13
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 395
+  item_id: 10395
+  name: Dragon
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Prize
+  source_visual_family: prize
+  inventory_icon: icons_x2/mm9_item_10395.png
+  world_sprite: sprites/mm9wi0395.png
+  object_id: 20395
+  sprite_id: 24395
+  width: 60
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 396
+  item_id: 10396
+  name: Capstone of Order
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Capstone
+  source_visual_family: capstone
+  inventory_icon: icons_x2/mm9_item_10396.png
+  world_sprite: sprites/mm9wi0396.png
+  object_id: 20396
+  sprite_id: 24396
+  width: 64
+  height: 51
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 397
+  item_id: 10397
+  name: Gospel of Honk
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: GospelHonk
+  source_visual_family: gospelhonk
+  inventory_icon: icons_x2/mm9_item_10397.png
+  world_sprite: sprites/mm9wi0397.png
+  object_id: 20397
+  sprite_id: 24397
+  width: 26
+  height: 36
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 398
+  item_id: 10398
+  name: Broken Slag Extractor
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: MachinePart_Broken
+  source_visual_family: machinepart_broken
+  inventory_icon: icons_x2/mm9_item_10398.png
+  world_sprite: sprites/mm9wi0398.png
+  object_id: 20398
+  sprite_id: 24398
+  width: 32
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 399
+  item_id: 10399
+  name: Slag Extractor
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: MachinePart_Whole
+  source_visual_family: machinepart_whole
+  inventory_icon: icons_x2/mm9_item_10399.png
+  world_sprite: sprites/mm9wi0399.png
+  object_id: 20399
+  sprite_id: 24399
+  width: 31
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 400
+  item_id: 10400
+  name: Victory Certificate
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10400.png
+  world_sprite: sprites/mm9wi0400.png
+  object_id: 20400
+  sprite_id: 24400
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 401
+  item_id: 10401
+  name: Peace Treaty
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10401.png
+  world_sprite: sprites/mm9wi0401.png
+  object_id: 20401
+  sprite_id: 24401
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 419
+  item_id: 10419
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10419.png
+  world_sprite: sprites/mm9wi0419.png
+  object_id: 20419
+  sprite_id: 24419
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 424
+  item_id: 10424
+  name: Invoice
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10424.png
+  world_sprite: sprites/mm9wi0424.png
+  object_id: 20424
+  sprite_id: 24424
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 425
+  item_id: 10425
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10425.png
+  world_sprite: sprites/mm9wi0425.png
+  object_id: 20425
+  sprite_id: 24425
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 426
+  item_id: 10426
+  name: Memo
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10426.png
+  world_sprite: sprites/mm9wi0426.png
+  object_id: 20426
+  sprite_id: 24426
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 427
+  item_id: 10427
+  name: Invoice
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10427.png
+  world_sprite: sprites/mm9wi0427.png
+  object_id: 20427
+  sprite_id: 24427
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 428
+  item_id: 10428
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10428.png
+  world_sprite: sprites/mm9wi0428.png
+  object_id: 20428
+  sprite_id: 24428
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 429
+  item_id: 10429
+  name: Wanted Poster
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10429.png
+  world_sprite: sprites/mm9wi0429.png
+  object_id: 20429
+  sprite_id: 24429
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 430
+  item_id: 10430
+  name: Ritual of Consecration
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10430.png
+  world_sprite: sprites/mm9wi0430.png
+  object_id: 20430
+  sprite_id: 24430
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 431
+  item_id: 10431
+  name: Soul Jar
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: Jar_Empty
+  source_visual_family: jar_empty
+  inventory_icon: icons_x2/mm9_item_10431.png
+  world_sprite: sprites/mm9wi0431.png
+  object_id: 20431
+  sprite_id: 24431
+  width: 36
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 432
+  item_id: 10432
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10432.png
+  world_sprite: sprites/mm9wi0432.png
+  object_id: 20432
+  sprite_id: 24432
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 433
+  item_id: 10433
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10433.png
+  world_sprite: sprites/mm9wi0433.png
+  object_id: 20433
+  sprite_id: 24433
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 434
+  item_id: 10434
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10434.png
+  world_sprite: sprites/mm9wi0434.png
+  object_id: 20434
+  sprite_id: 24434
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 435
+  item_id: 10435
+  name: Textbook
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10435.png
+  world_sprite: sprites/mm9wi0435.png
+  object_id: 20435
+  sprite_id: 24435
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 436
+  item_id: 10436
+  name: Textbook
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10436.png
+  world_sprite: sprites/mm9wi0436.png
+  object_id: 20436
+  sprite_id: 24436
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 437
+  item_id: 10437
+  name: Textbook
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10437.png
+  world_sprite: sprites/mm9wi0437.png
+  object_id: 20437
+  sprite_id: 24437
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 438
+  item_id: 10438
+  name: Textbook
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10438.png
+  world_sprite: sprites/mm9wi0438.png
+  object_id: 20438
+  sprite_id: 24438
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 439
+  item_id: 10439
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10439.png
+  world_sprite: sprites/mm9wi0439.png
+  object_id: 20439
+  sprite_id: 24439
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 440
+  item_id: 10440
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10440.png
+  world_sprite: sprites/mm9wi0440.png
+  object_id: 20440
+  sprite_id: 24440
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 441
+  item_id: 10441
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10441.png
+  world_sprite: sprites/mm9wi0441.png
+  object_id: 20441
+  sprite_id: 24441
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 442
+  item_id: 10442
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10442.png
+  world_sprite: sprites/mm9wi0442.png
+  object_id: 20442
+  sprite_id: 24442
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 443
+  item_id: 10443
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10443.png
+  world_sprite: sprites/mm9wi0443.png
+  object_id: 20443
+  sprite_id: 24443
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 444
+  item_id: 10444
+  name: Letter
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10444.png
+  world_sprite: sprites/mm9wi0444.png
+  object_id: 20444
+  sprite_id: 24444
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 445
+  item_id: 10445
+  name: Accountant's Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10445.png
+  world_sprite: sprites/mm9wi0445.png
+  object_id: 20445
+  sprite_id: 24445
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 446
+  item_id: 10446
+  name: Visitor's Pass
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10446.png
+  world_sprite: sprites/mm9wi0446.png
+  object_id: 20446
+  sprite_id: 24446
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 447
+  item_id: 10447
+  name: Lich Instructions
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: LichInstructions
+  source_visual_family: lichinstructions
+  inventory_icon: icons_x2/mm9_item_10447.png
+  world_sprite: sprites/mm9wi0447.png
+  object_id: 20447
+  sprite_id: 24447
+  width: 70
+  height: 36
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 448
+  item_id: 10448
+  name: Training Memo
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10448.png
+  world_sprite: sprites/mm9wi0448.png
+  object_id: 20448
+  sprite_id: 24448
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 449
+  item_id: 10449
+  name: Book
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10449.png
+  world_sprite: sprites/mm9wi0449.png
+  object_id: 20449
+  sprite_id: 24449
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 450
+  item_id: 10450
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10450.png
+  world_sprite: sprites/mm9wi0450.png
+  object_id: 20450
+  sprite_id: 24450
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 451
+  item_id: 10451
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10451.png
+  world_sprite: sprites/mm9wi0451.png
+  object_id: 20451
+  sprite_id: 24451
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 452
+  item_id: 10452
+  name: Invoice
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10452.png
+  world_sprite: sprites/mm9wi0452.png
+  object_id: 20452
+  sprite_id: 24452
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 453
+  item_id: 10453
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10453.png
+  world_sprite: sprites/mm9wi0453.png
+  object_id: 20453
+  sprite_id: 24453
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 454
+  item_id: 10454
+  name: Pamphlet
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10454.png
+  world_sprite: sprites/mm9wi0454.png
+  object_id: 20454
+  sprite_id: 24454
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 455
+  item_id: 10455
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10455.png
+  world_sprite: sprites/mm9wi0455.png
+  object_id: 20455
+  sprite_id: 24455
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 456
+  item_id: 10456
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10456.png
+  world_sprite: sprites/mm9wi0456.png
+  object_id: 20456
+  sprite_id: 24456
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 457
+  item_id: 10457
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10457.png
+  world_sprite: sprites/mm9wi0457.png
+  object_id: 20457
+  sprite_id: 24457
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 458
+  item_id: 10458
+  name: The Study of Poltergeist
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10458.png
+  world_sprite: sprites/mm9wi0458.png
+  object_id: 20458
+  sprite_id: 24458
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 459
+  item_id: 10459
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10459.png
+  world_sprite: sprites/mm9wi0459.png
+  object_id: 20459
+  sprite_id: 24459
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 460
+  item_id: 10460
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10460.png
+  world_sprite: sprites/mm9wi0460.png
+  object_id: 20460
+  sprite_id: 24460
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 461
+  item_id: 10461
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10461.png
+  world_sprite: sprites/mm9wi0461.png
+  object_id: 20461
+  sprite_id: 24461
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 462
+  item_id: 10462
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10462.png
+  world_sprite: sprites/mm9wi0462.png
+  object_id: 20462
+  sprite_id: 24462
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 463
+  item_id: 10463
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10463.png
+  world_sprite: sprites/mm9wi0463.png
+  object_id: 20463
+  sprite_id: 24463
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 464
+  item_id: 10464
+  name: Poem
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10464.png
+  world_sprite: sprites/mm9wi0464.png
+  object_id: 20464
+  sprite_id: 24464
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 465
+  item_id: 10465
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10465.png
+  world_sprite: sprites/mm9wi0465.png
+  object_id: 20465
+  sprite_id: 24465
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 466
+  item_id: 10466
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10466.png
+  world_sprite: sprites/mm9wi0466.png
+  object_id: 20466
+  sprite_id: 24466
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 467
+  item_id: 10467
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10467.png
+  world_sprite: sprites/mm9wi0467.png
+  object_id: 20467
+  sprite_id: 24467
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 468
+  item_id: 10468
+  name: Invoice
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10468.png
+  world_sprite: sprites/mm9wi0468.png
+  object_id: 20468
+  sprite_id: 24468
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 469
+  item_id: 10469
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10469.png
+  world_sprite: sprites/mm9wi0469.png
+  object_id: 20469
+  sprite_id: 24469
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 470
+  item_id: 10470
+  name: Prayer
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10470.png
+  world_sprite: sprites/mm9wi0470.png
+  object_id: 20470
+  sprite_id: 24470
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 471
+  item_id: 10471
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10471.png
+  world_sprite: sprites/mm9wi0471.png
+  object_id: 20471
+  sprite_id: 24471
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 472
+  item_id: 10472
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10472.png
+  world_sprite: sprites/mm9wi0472.png
+  object_id: 20472
+  sprite_id: 24472
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 473
+  item_id: 10473
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10473.png
+  world_sprite: sprites/mm9wi0473.png
+  object_id: 20473
+  sprite_id: 24473
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 474
+  item_id: 10474
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10474.png
+  world_sprite: sprites/mm9wi0474.png
+  object_id: 20474
+  sprite_id: 24474
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 475
+  item_id: 10475
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10475.png
+  world_sprite: sprites/mm9wi0475.png
+  object_id: 20475
+  sprite_id: 24475
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 476
+  item_id: 10476
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10476.png
+  world_sprite: sprites/mm9wi0476.png
+  object_id: 20476
+  sprite_id: 24476
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 477
+  item_id: 10477
+  name: Invoice
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10477.png
+  world_sprite: sprites/mm9wi0477.png
+  object_id: 20477
+  sprite_id: 24477
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 478
+  item_id: 10478
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10478.png
+  world_sprite: sprites/mm9wi0478.png
+  object_id: 20478
+  sprite_id: 24478
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 479
+  item_id: 10479
+  name: Bill of Sale
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10479.png
+  world_sprite: sprites/mm9wi0479.png
+  object_id: 20479
+  sprite_id: 24479
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 480
+  item_id: 10480
+  name: Bill of Sale
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10480.png
+  world_sprite: sprites/mm9wi0480.png
+  object_id: 20480
+  sprite_id: 24480
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 481
+  item_id: 10481
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10481.png
+  world_sprite: sprites/mm9wi0481.png
+  object_id: 20481
+  sprite_id: 24481
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 482
+  item_id: 10482
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10482.png
+  world_sprite: sprites/mm9wi0482.png
+  object_id: 20482
+  sprite_id: 24482
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 483
+  item_id: 10483
+  name: Scrap of Book
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10483.png
+  world_sprite: sprites/mm9wi0483.png
+  object_id: 20483
+  sprite_id: 24483
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 484
+  item_id: 10484
+  name: Scrap of Diary
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10484.png
+  world_sprite: sprites/mm9wi0484.png
+  object_id: 20484
+  sprite_id: 24484
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 485
+  item_id: 10485
+  name: Scrap of Diary
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10485.png
+  world_sprite: sprites/mm9wi0485.png
+  object_id: 20485
+  sprite_id: 24485
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 486
+  item_id: 10486
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10486.png
+  world_sprite: sprites/mm9wi0486.png
+  object_id: 20486
+  sprite_id: 24486
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 487
+  item_id: 10487
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10487.png
+  world_sprite: sprites/mm9wi0487.png
+  object_id: 20487
+  sprite_id: 24487
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 488
+  item_id: 10488
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10488.png
+  world_sprite: sprites/mm9wi0488.png
+  object_id: 20488
+  sprite_id: 24488
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 489
+  item_id: 10489
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10489.png
+  world_sprite: sprites/mm9wi0489.png
+  object_id: 20489
+  sprite_id: 24489
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 490
+  item_id: 10490
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10490.png
+  world_sprite: sprites/mm9wi0490.png
+  object_id: 20490
+  sprite_id: 24490
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 491
+  item_id: 10491
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10491.png
+  world_sprite: sprites/mm9wi0491.png
+  object_id: 20491
+  sprite_id: 24491
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 492
+  item_id: 10492
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10492.png
+  world_sprite: sprites/mm9wi0492.png
+  object_id: 20492
+  sprite_id: 24492
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 493
+  item_id: 10493
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10493.png
+  world_sprite: sprites/mm9wi0493.png
+  object_id: 20493
+  sprite_id: 24493
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 494
+  item_id: 10494
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10494.png
+  world_sprite: sprites/mm9wi0494.png
+  object_id: 20494
+  sprite_id: 24494
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 495
+  item_id: 10495
+  name: Book
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10495.png
+  world_sprite: sprites/mm9wi0495.png
+  object_id: 20495
+  sprite_id: 24495
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 496
+  item_id: 10496
+  name: Machine Instructions
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10496.png
+  world_sprite: sprites/mm9wi0496.png
+  object_id: 20496
+  sprite_id: 24496
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 497
+  item_id: 10497
+  name: Scrap of Diary
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10497.png
+  world_sprite: sprites/mm9wi0497.png
+  object_id: 20497
+  sprite_id: 24497
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 498
+  item_id: 10498
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10498.png
+  world_sprite: sprites/mm9wi0498.png
+  object_id: 20498
+  sprite_id: 24498
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 499
+  item_id: 10499
+  name: Letter
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10499.png
+  world_sprite: sprites/mm9wi0499.png
+  object_id: 20499
+  sprite_id: 24499
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 500
+  item_id: 10500
+  name: Invoice
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10500.png
+  world_sprite: sprites/mm9wi0500.png
+  object_id: 20500
+  sprite_id: 24500
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 501
+  item_id: 10501
+  name: Scrap of Paper
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10501.png
+  world_sprite: sprites/mm9wi0501.png
+  object_id: 20501
+  sprite_id: 24501
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 502
+  item_id: 10502
+  name: Book Fragment
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10502.png
+  world_sprite: sprites/mm9wi0502.png
+  object_id: 20502
+  sprite_id: 24502
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 503
+  item_id: 10503
+  name: Scrap of Diary
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10503.png
+  world_sprite: sprites/mm9wi0503.png
+  object_id: 20503
+  sprite_id: 24503
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 557
+  item_id: 10557
+  name: Game Ticket
+  source_category: Items
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10557.png
+  world_sprite: sprites/mm9wi0557.png
+  object_id: 20557
+  sprite_id: 24557
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 558
+  item_id: 10558
+  name: Nurtigan's Potion
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: potion_nutty
+  source_visual_family: potion_nutty
+  inventory_icon: icons_x2/mm9_item_10558.png
+  world_sprite: sprites/mm9wi0558.png
+  object_id: 20558
+  sprite_id: 24558
+  width: 36
+  height: 43
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 559
+  item_id: 10559
+  name: Key to Study
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10559.png
+  world_sprite: sprites/mm9wi0559.png
+  object_id: 20559
+  sprite_id: 24559
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 560
+  item_id: 10560
+  name: Verhoffin's Book
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: GreatBookReal
+  source_visual_family: greatbookreal
+  inventory_icon: icons_x2/mm9_item_10560.png
+  world_sprite: sprites/mm9wi0560.png
+  object_id: 20560
+  sprite_id: 24560
+  width: 72
+  height: 58
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 561
+  item_id: 10561
+  name: Elixir Fluid
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: potion_nutty
+  source_visual_family: potion_nutty
+  inventory_icon: icons_x2/mm9_item_10561.png
+  world_sprite: sprites/mm9wi0561.png
+  object_id: 20561
+  sprite_id: 24561
+  width: 36
+  height: 43
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 562
+  item_id: 10562
+  name: Fjordor's Boat Schedule
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: GreatBookReal
+  source_visual_family: greatbookreal
+  inventory_icon: icons_x2/mm9_item_10562.png
+  world_sprite: sprites/mm9wi0562.png
+  object_id: 20562
+  sprite_id: 24562
+  width: 72
+  height: 58
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 563
+  item_id: 10563
+  name: Sven's Sword
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: longsword
+  source_visual_family: longsword
+  inventory_icon: icons_x2/mm9_item_10563.png
+  world_sprite: sprites/mm9wi0563.png
+  object_id: 20563
+  sprite_id: 24563
+  width: 36
+  height: 158
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 564
+  item_id: 10564
+  name: Bjarni's Sword
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: longsword
+  source_visual_family: longsword
+  inventory_icon: icons_x2/mm9_item_10564.png
+  world_sprite: sprites/mm9wi0564.png
+  object_id: 20564
+  sprite_id: 24564
+  width: 36
+  height: 158
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 565
+  item_id: 10565
+  name: Sigmund's Sword
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: longsword
+  source_visual_family: longsword
+  inventory_icon: icons_x2/mm9_item_10565.png
+  world_sprite: sprites/mm9wi0565.png
+  object_id: 20565
+  sprite_id: 24565
+  width: 36
+  height: 158
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 566
+  item_id: 10566
+  name: Tryygva's Sword
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: longsword
+  source_visual_family: longsword
+  inventory_icon: icons_x2/mm9_item_10566.png
+  world_sprite: sprites/mm9wi0566.png
+  object_id: 20566
+  sprite_id: 24566
+  width: 36
+  height: 158
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 567
+  item_id: 10567
+  name: Kira's Sword
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: longsword
+  source_visual_family: longsword
+  inventory_icon: icons_x2/mm9_item_10567.png
+  world_sprite: sprites/mm9wi0567.png
+  object_id: 20567
+  sprite_id: 24567
+  width: 36
+  height: 158
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 568
+  item_id: 10568
+  name: Turret Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10568.png
+  world_sprite: sprites/mm9wi0568.png
+  object_id: 20568
+  sprite_id: 24568
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 569
+  item_id: 10569
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10569.png
+  world_sprite: sprites/mm9wi0569.png
+  object_id: 20569
+  sprite_id: 24569
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 570
+  item_id: 10570
+  name: Yanmir's Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10570.png
+  world_sprite: sprites/mm9wi0570.png
+  object_id: 20570
+  sprite_id: 24570
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 571
+  item_id: 10571
+  name: East Mine
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10571.png
+  world_sprite: sprites/mm9wi0571.png
+  object_id: 20571
+  sprite_id: 24571
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 572
+  item_id: 10572
+  name: West Mine and Refinery
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10572.png
+  world_sprite: sprites/mm9wi0572.png
+  object_id: 20572
+  sprite_id: 24572
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 573
+  item_id: 10573
+  name: West Mine
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10573.png
+  world_sprite: sprites/mm9wi0573.png
+  object_id: 20573
+  sprite_id: 24573
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 574
+  item_id: 10574
+  name: Refinery
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10574.png
+  world_sprite: sprites/mm9wi0574.png
+  object_id: 20574
+  sprite_id: 24574
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 575
+  item_id: 10575
+  name: Njam's Struggle
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10575.png
+  world_sprite: sprites/mm9wi0575.png
+  object_id: 20575
+  sprite_id: 24575
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 576
+  item_id: 10576
+  name: Njam's Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10576.png
+  world_sprite: sprites/mm9wi0576.png
+  object_id: 20576
+  sprite_id: 24576
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 577
+  item_id: 10577
+  name: Super Guber Award
+  source_category: Quest Item
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10577.png
+  world_sprite: sprites/mm9wi0577.png
+  object_id: 20577
+  sprite_id: 24577
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 578
+  item_id: 10578
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10578.png
+  world_sprite: sprites/mm9wi0578.png
+  object_id: 20578
+  sprite_id: 24578
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 579
+  item_id: 10579
+  name: Interface I
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10579.png
+  world_sprite: sprites/mm9wi0579.png
+  object_id: 20579
+  sprite_id: 24579
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 580
+  item_id: 10580
+  name: Interface II
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10580.png
+  world_sprite: sprites/mm9wi0580.png
+  object_id: 20580
+  sprite_id: 24580
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 581
+  item_id: 10581
+  name: Spells
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10581.png
+  world_sprite: sprites/mm9wi0581.png
+  object_id: 20581
+  sprite_id: 24581
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 582
+  item_id: 10582
+  name: Skills
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10582.png
+  world_sprite: sprites/mm9wi0582.png
+  object_id: 20582
+  sprite_id: 24582
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 583
+  item_id: 10583
+  name: Classes
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10583.png
+  world_sprite: sprites/mm9wi0583.png
+  object_id: 20583
+  sprite_id: 24583
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 584
+  item_id: 10584
+  name: Notes
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10584.png
+  world_sprite: sprites/mm9wi0584.png
+  object_id: 20584
+  sprite_id: 24584
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 585
+  item_id: 10585
+  name: Shopkeepers
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10585.png
+  world_sprite: sprites/mm9wi0585.png
+  object_id: 20585
+  sprite_id: 24585
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 586
+  item_id: 10586
+  name: Movement I
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10586.png
+  world_sprite: sprites/mm9wi0586.png
+  object_id: 20586
+  sprite_id: 24586
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 587
+  item_id: 10587
+  name: Movement II
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10587.png
+  world_sprite: sprites/mm9wi0587.png
+  object_id: 20587
+  sprite_id: 24587
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 588
+  item_id: 10588
+  name: Combat
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10588.png
+  world_sprite: sprites/mm9wi0588.png
+  object_id: 20588
+  sprite_id: 24588
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 589
+  item_id: 10589
+  name: Strategy Tips
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10589.png
+  world_sprite: sprites/mm9wi0589.png
+  object_id: 20589
+  sprite_id: 24589
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 591
+  item_id: 10591
+  name: King Basilisk Skin
+  source_category: Items
+  source_marker: '5'
+  source_icon_stem: BasSkin2
+  source_visual_family: basskin2
+  inventory_icon: icons_x2/mm9_item_10591.png
+  world_sprite: sprites/mm9wi0591.png
+  object_id: 20591
+  sprite_id: 24591
+  width: 61
+  height: 64
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 592
+  item_id: 10592
+  name: Post
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10592.png
+  world_sprite: sprites/mm9wi0592.png
+  object_id: 20592
+  sprite_id: 24592
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 593
+  item_id: 10593
+  name: Scrap of Paper
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10593.png
+  world_sprite: sprites/mm9wi0593.png
+  object_id: 20593
+  sprite_id: 24593
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 594
+  item_id: 10594
+  name: Game Instructions
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10594.png
+  world_sprite: sprites/mm9wi0594.png
+  object_id: 20594
+  sprite_id: 24594
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 595
+  item_id: 10595
+  name: Sage Diary
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10595.png
+  world_sprite: sprites/mm9wi0595.png
+  object_id: 20595
+  sprite_id: 24595
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 596
+  item_id: 10596
+  name: Trap Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10596.png
+  world_sprite: sprites/mm9wi0596.png
+  object_id: 20596
+  sprite_id: 24596
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 597
+  item_id: 10597
+  name: Ramnivar Diary
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10597.png
+  world_sprite: sprites/mm9wi0597.png
+  object_id: 20597
+  sprite_id: 24597
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 598
+  item_id: 10598
+  name: Note
+  source_category: Letter
+  source_marker: Quest Item
+  source_icon_stem: scroll
+  source_visual_family: scroll
+  inventory_icon: icons_x2/mm9_item_10598.png
+  world_sprite: sprites/mm9wi0598.png
+  object_id: 20598
+  sprite_id: 24598
+  width: 70
+  height: 35
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 599
+  item_id: 10599
+  name: Maze Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10599.png
+  world_sprite: sprites/mm9wi0599.png
+  object_id: 20599
+  sprite_id: 24599
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art
+- raw_mm9_id: 600
+  item_id: 10600
+  name: Stairs Key
+  source_category: Quest item
+  source_marker: Quest Item
+  source_icon_stem: Key1
+  source_visual_family: key1
+  inventory_icon: icons_x2/mm9_item_10600.png
+  world_sprite: sprites/mm9wi0600.png
+  object_id: 20600
+  sprite_id: 24600
+  width: 17
+  height: 62
+  art_method: inventory_sprite_reuse
+  visual_source: generated_inventory_art

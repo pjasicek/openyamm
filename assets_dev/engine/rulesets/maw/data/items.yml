@@ -1,0 +1,590 @@
+# Item data of the MAW ruleset (MAW ef23ee17), generated from devdocs/maw/data/legendary_affixes.yml, loot.yml and
+# devdocs/maw/data/artifacts.yml. legendary_affixes: the tooltip text of each affix by MAW id (11-35).
+# artifacts: the artifacts a drop can turn into, with their drop weight (list slots), base model
+# (weapon: a top-rung weapon at the party's level; armor: printed AC + reference AC x power / 40; flat: printed AC),
+# and stat budget in units of one perfect Epic enchant at the party's level (see ITEMS.md section 4.2).
+# guard: a weapon artifact's flat damage as Staff, Sword and Spear guard by it, its printed Mod2 after MAW's artifact
+# upscaler (x2 for artWeap1h, x3 for artWeap2h, zzMaw-Items.lua:2330-2346; audit FITM-2-2).
+
+legendary_affixes:
+  11: "Killing a monster with a single-target attack halves the recovery time"
+  12: "Might and accuracy enchantments give 40% bonus to intellect and personality. Intellect and personality enchantments give 40% bonus to might and accuracy"
+  13: "Immunity to all status effects from monsters"
+  14: "Crit chance increased by 10% and crit chance over 100% increases total damage"
+  15: "Divine protection (instead of dying you go back to 25% HP, once every 5 minutes)"
+  16: "Increase the effect of resistances base enchants by 50%"
+  17: "Your hits deal 2% of current monster HP as physical damage (1% for AoE, multi-hit spells and arrows). Damage is increased by weapon base attack speed or Ascensions for spells."
+  18: "Reduce all damage taken by 10%"
+  19: "Increases damage from weapon enchants by 50%"
+  20: "Meditation restores 1% more mana for each 1% of your mana reserved by buffs"
+  21: "Increase melee damage by 5% for each enemy in the nearbies"
+  22: "Reduces damage by 3% for each enemy in the nearbies"
+  23: "Successfully covering an ally restores 3% of your HP"
+  24: "Killing a Monster restores 10% of Health and 5% of Mana, counted on the pool left after buffs reserve theirs"
+  25: "Increases Ascension Skill level by 10"
+  26: "Your weapon enchants can deal critical damage"
+  27: "Leech overhealing heals the most injured party member instead"
+  28: "AC gained from armors is increased by 50%"
+  29: "Each attack makes the monster take 1% more damage of any kind, stacking until it dies"
+  30: "Threshold HP to determine death/eradication is the higher of HP and SP, multiplied by mana shield efficiency"
+  31: "Leech also restores Mana, but its effect is halved"
+  32: "Buffs reserve Hit Points instead of Mana and Hit Point coefficient is used instead. Enlightenment bonus still apply."
+  33: "Increase Melee weapon skill by 10"
+  34: "Overhealing refunds mana"
+  35: "Overhealing reduces recovery time equal to half overhealing amount"
+
+artifacts:
+  500: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {Accuracy: 3}, on_hit: {kind: Light, damage: 1}}  # Elsenrail
+  501: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {Might: 3}, on_hit: {kind: Dark, damage: 1}}  # Glomenthal
+  502: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {AirResistance: 1.76}, skills: {Armsmaster: 1.24}}  # Terminus
+  503: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Endurance: 1.5, Luck: 1.5}, on_hit: {kind: Physical, damage: 0.8, versus: {Ogre: 2}}}  # Judicious Measure
+  504: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 32, stats: {Might: 3}, on_hit: {kind: Water, damage: 0.6}, attack_delay: 0.9}  # Elderaxe
+  505: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 57, stats: {FireResistance: 3}, on_hit: {kind: Fire, damage: 1}}  # Volcano
+  506: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 34, stats: {Endurance: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}, attack_delay: 0.9}  # Wyrm Spitter
+  507: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 36, stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}, on_hit: {kind: Body, damage: 1}}  # Guardian
+  508: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 24, on_hit: {kind: Body, damage: 0.5}}  # Foulfang
+  509: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Personality: 3}}  # Scepter of Kings
+  510: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 24, stats: {Might: 1.5, Endurance: 1.5}, on_hit: {kind: Body, damage: 1}}  # Breaker
+  511: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 33}  # Staff of the Swamp
+  512: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 28, stats: {Accuracy: 1.67}, skills: {Bow: 1.33}, attack_delay: 0.9}  # Longseeker
+  513: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 36, reference_ac: 36, stats: {Endurance: 3}}  # Serendine's Preservation
+  514: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 50, reference_ac: 50, stats: {Might: 0.23, Intellect: 0.23, Personality: 0.23, Speed: 0.23, Accuracy: 0.23, Endurance: 0.23, Luck: 0.23, FireResistance: 0.23, AirResistance: 0.23, WaterResistance: 0.23, EarthResistance: 0.23, MindResistance: 0.23, BodyResistance: 0.23}}  # Glomenmail
+  515: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 80, reference_ac: 80, stats: {Speed: 1.5, Accuracy: 1.5}, attack_delay: 0.9}  # Supreme Plate
+  517: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 3, reference_ac: 3, skills: {DisarmTraps: 1, Bow: 1, Armsmaster: 1}}  # Fleetfingers
+  518: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Speed: 3}, attack_delay: 0.9}  # Herald's Boots
+  519: {drop: 1, base: flat, slot_mult: 0.75, stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75}}  # Ring of Planes
+  520: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, stats: {Personality: 1.5, Intellect: 1.5}}  # Drogg's Helm
+  521: {drop: 1, base: flat, slot_mult: 1.875, stats: {Intellect: 3}, spell_bonus: [DarkMagic]}  # Crown of Final Dominion
+  522: {drop: 1, base: armor, slot_mult: 1, printed_ac: 12, reference_ac: 12, stats: {Intellect: 1.2, FireResistance: 0.3, AirResistance: 0.3, WaterResistance: 0.3, EarthResistance: 0.3, MindResistance: 0.3, BodyResistance: 0.3}}  # Archangel Wings
+  523: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30, stats: {Speed: 3, WaterResistance: -1.5, Personality: -0.45}, on_hit: {kind: Physical, damage: 0, slow: true}}  # Snake
+  524: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 36, stats: {Speed: 1.5, Accuracy: 1.5, ArmorClass: -0.43}}  # Havoc
+  525: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 57, stats: {Accuracy: 3, Speed: -0.5}, on_hit: {kind: Fire, damage: 1, slow: true}}  # Finality
+  526: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 28, stats: {Might: 1.5, Accuracy: 1.5, Personality: -1.07, Intellect: -1.07}}  # Hell's Cleaver
+  527: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 32, stats: {Might: 3, Luck: -1.5}, on_hit: {kind: Physical, damage: 0}}  # Spiritslayer
+  528: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {WaterResistance: 3, FireResistance: -0.86}}  # Trident of Rulership
+  529: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 30, stats: {Might: 1.5, Accuracy: 1.5}, on_hit: {kind: Air, damage: 0.5}}  # Blade of Mercy
+  530: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, guard: 12, stats: {ArmorClass: -1.2}, spell_bonus: [FireMagic, AirMagic, WaterMagic, EarthMagic]}  # Staff of Elements
+  531: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 14, rung: 3.5, stats: {Accuracy: 2.14, ArmorClass: -0.43}, skills: {Bow: 0.86}}  # Tournament Bow
+  533: {drop: 2, base: armor, slot_mult: 1.5, printed_ac: 21, reference_ac: 21, stats: {Intellect: 1.5, Personality: 1.5, MindResistance: -1.07, BodyResistance: -1.07}}  # Last Stage Cuirass
+  534: {drop: 1, base: armor, slot_mult: 1, printed_ac: 16, reference_ac: 16, stats: {Endurance: 3, Luck: -0.9}}  # Herondale's Lost Shield
+  535: {drop: 1, base: flat, slot_mult: 0.75, stats: {Intellect: 1.64, Endurance: -0.55}, skills: {Alchemy: 1.36}, spell_bonus: [WaterMagic]}  # Ring of Fusion
+  536: {drop: 1, base: flat, slot_mult: 1.875, stats: {Luck: 3, Personality: -1.5}}  # Lucky Hat
+  537: {drop: 1, base: flat, slot_mult: 1, stats: {Might: 3, Accuracy: -0.75, ArmorClass: -0.38}}  # Berserker Belt
+  542: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 24, on_hit: {kind: Physical, damage: 1}}  # Noblebone Bow
+  1302: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {Speed: 3}, attack_delay: 0.9}  # Puck
+  1303: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 28, stats: {Might: 3}, on_hit: {kind: Air, damage: 1.2}}  # Iron Feather
+  1304: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30, stats: {Personality: 0.86}, skills: {Armsmaster: 2.14}}  # Wallace
+  1305: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Luck: 1.33}, skills: {DisarmTraps: 1.67}}  # Corsair
+  1306: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 42, reference_ac: 0, stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}}  # Governor's Armor
+  1307: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 70, reference_ac: 0, stats: {Endurance: 3}}  # Yoruba
+  1308: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 26, flat: {FireResistance: 65000}, on_hit: {kind: Fire, damage: 0.7}}  # Splitter
+  1309: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 1, guard: 90, on_hit: {kind: Fire, damage: 1, versus: {Undead: 2}}}  # Ghoulsbane
+  1310: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 60, on_hit: {kind: Fire, damage: 0.9, versus: {Undead: 2, Dragon: 2, Demon: 2}}}  # Gibbet
+  1311: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 60}  # Charele
+  1312: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 28, stats: {Accuracy: 3}, on_hit: {kind: Water, damage: 1.2}}  # Ullyses
+  1313: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 0, skills: {Unarmed: 1.5, Dodging: 1.5}}  # Hands of the Master
+  1314: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 18, reference_ac: 0, stats: {Speed: 3}, spell_bonus: [WaterMagic]}  # Seven League Boots
+  1315: {drop: 1, base: flat, slot_mult: 0.75, spell_bonus: [MindMagic, DarkMagic]}  # Ruler's Ring
+  1316: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 30, stats: {Might: 3, Intellect: -0.8, Personality: -0.8, Speed: -0.8}}  # Mash
+  1317: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, guard: 11, rung: 1.357, skills: {Meditation: 3}, spell_bonus: [DarkMagic]}  # Ethric's Staff
+  1318: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 32, reference_ac: 17, stats: {Luck: 1.5, FireResistance: -0.3, AirResistance: -0.3, WaterResistance: -0.3, EarthResistance: -0.3, MindResistance: -0.3, BodyResistance: -0.3}, skills: {Dagger: 0.75, Unarmed: 0.75}}  # Hareck's Leather
+  1319: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 20, skills: {DisarmTraps: 3}, on_hit: {kind: Water, damage: 1.1, versus: {Elf: 2}}}  # Old Nick
+  1320: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 45, stats: {Might: 1.5, Endurance: 1.5, ArmorClass: -0.23}}  # Amuck
+  1321: {drop: 1, base: armor, slot_mult: 1, printed_ac: 27, reference_ac: 17, stats: {BodyResistance: -1.2, MindResistance: -1.2}, skills: {Shield: 3}, spell_bonus: [SpiritMagic]}  # Glory Shield
+  1322: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 17, stats: {Endurance: 3, EarthResistance: -1.8}}  # Kelebrim
+  1323: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 17, reference_ac: 17, stats: {Might: 1.5, Personality: 1.5, Luck: -1.33}, spell_bonus: [LightMagic]}  # Taledon's Helm
+  1324: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 2, reference_ac: 17, stats: {Endurance: -1}, skills: {Learning: 3}}  # Scholar's Cap
+  1325: {drop: 1, base: flat, slot_mult: 1.875, stats: {Personality: 0.69, WaterResistance: 2.31, ArmorClass: -0.46}, spell_bonus: [FireMagic]}  # Phynaxian Crown
+  1326: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 17, stats: {Might: 3, Speed: -1.04}}  # Titan's Belt
+  1327: {drop: 1, base: armor, slot_mult: 1, printed_ac: 15, reference_ac: 17, stats: {Speed: 1.5, Luck: 1.5, FireResistance: -0.9, AirResistance: -0.9, WaterResistance: -0.9, EarthResistance: -0.9, MindResistance: -0.9, BodyResistance: -0.9}}  # Twilight
+  1328: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 24, stats: {Accuracy: 2.25, ArmorClass: -0.38}, skills: {Bow: 0.75}}  # Ania Selving
+  1329: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 48, stats: {Speed: -1.2}, on_hit: {kind: Physical, damage: 0.8, versus: {Undead: 2}}, spell_bonus: [MindMagic, BodyMagic]}  # Justice
+  1330: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 30, stats: {Might: 3, AirResistance: -4}, spell_bonus: [SpiritMagic]}  # Mekorig's Hammer
+  1331: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 23, reference_ac: 23, stats: {Speed: 1.2, Accuracy: 0.6, AirResistance: 1.2}}  # Hermes' Sandals
+  1332: {drop: 1, base: armor, slot_mult: 1, printed_ac: 12, reference_ac: 12, stats: {Intellect: -0.6, Personality: -0.6}}  # Cloak of the Sheep
+  1333: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 28, stats: {Speed: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Elf: 2}}}  # Elfbane
+  1334: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Intellect: 1.5, Personality: 1.5}}  # Mind's Eye
+  1335: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 33, reference_ac: 33, stats: {Speed: 1.5, Accuracy: 1.5}}  # Elven Chainmail
+  1336: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Might: 0.75, Endurance: 0.75, FireResistance: 1.5}}  # Forge Gauntlets
+  1337: {drop: 1, base: armor, slot_mult: 1, printed_ac: 25, reference_ac: 25, stats: {Might: 1.13}, skills: {Armsmaster: 1.88}}  # Hero's Belt
+  1338: {drop: 1, base: flat, slot_mult: 0.75, stats: {FireResistance: 0.5, AirResistance: 0.5, WaterResistance: 0.5, EarthResistance: 0.5, MindResistance: 0.5, BodyResistance: 0.5}}  # Lady's Escort
+  2021: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 28, stats: {Might: 3}, on_hit: {kind: Physical, damage: 0.7}}  # Thor
+  2022: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 42, stats: {Accuracy: 3}, on_hit: {kind: Physical, damage: 0.9, versus: {Dragon: 2, Demon: 2}}}  # Conan
+  2023: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30, stats: {Might: 3}, on_hit: {kind: Physical, damage: 1, versus: {Dragon: 2}}}  # Excalibur
+  2024: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, guard: 30, stats: {Intellect: 0.82, Personality: 0.82, SP: 1.36}, attack_delay: 0.9}  # Merlin
+  2025: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 26, stats: {Speed: 3}, on_hit: {kind: Fire, damage: 0.6}, attack_delay: 0.9}  # Percival
+  2026: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 44, reference_ac: 3, stats: {Endurance: 3}}  # Galahad
+  2027: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 66, reference_ac: 3, stats: {Endurance: 3}}  # Pellinore
+  2028: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 3, stats: {Accuracy: 3}}  # Valeria
+  2029: {drop: 1, base: flat, slot_mult: 1.25, printed_ac: 5, stats: {Might: 0.25, Intellect: 0.25, Personality: 0.25, Endurance: 0.25, Accuracy: 0.25, Speed: 0.25, Luck: 0.25, SP: 1.25}}  # Arthur
+  2030: {drop: 1, base: armor, slot_mult: 1, printed_ac: 13, reference_ac: 3, stats: {Luck: 0.86}, skills: {Dagger: 0.71, DisarmTraps: 1.43}}  # Pendragon
+  2031: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 17, reference_ac: 3, stats: {Speed: 3}}  # Lucius
+  2032: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 2, stats: {SP: 3}, spell_bonus: [LightMagic, DarkMagic]}  # Guinevere
+  2033: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 2, stats: {SP: 3}, spell_bonus: [SpiritMagic, BodyMagic, MindMagic]}  # Igraine
+  2034: {drop: 1, base: flat, slot_mult: 1, printed_ac: 3, stats: {SP: 3}, spell_bonus: [FireMagic, AirMagic, WaterMagic, EarthMagic]}  # Morgan
+  2035: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 36, stats: {Luck: 1.13}, skills: {DisarmTraps: 1.88}, on_hit: {kind: Water, damage: 2}}  # Hades
+  2036: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {FireResistance: 3}, on_hit: {kind: Fire, damage: 1.4}}  # Ares
+  2037: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 38, stats: {Might: 1, Endurance: 1, Accuracy: 1, Speed: -0.25, ArmorClass: -0.25}}  # Poseidon
+  2038: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 32, stats: {Endurance: 3, Luck: -1.5}}  # Cronos
+  2039: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 48, stats: {Might: 1.88, Endurance: 1.13, Intellect: -0.56}}  # Hercules
+  2040: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 30, stats: {FireResistance: -0.6, AirResistance: -0.6, WaterResistance: -0.6, EarthResistance: -0.6}, on_hit: {kind: Air, damage: 1.2}}  # Artemis
+  2041: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 52, reference_ac: 6, stats: {FireResistance: 0.46, AirResistance: 0.46, WaterResistance: 0.46, EarthResistance: 0.46, MindResistance: 0.46, BodyResistance: 0.46, Luck: 0.23, Endurance: -0.35}}  # Apollo
+  2042: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 74, reference_ac: 6, stats: {Endurance: 1, Personality: 1, Luck: 1, Intellect: -1}}  # Zeus
+  2043: {drop: 1, base: armor, slot_mult: 1, printed_ac: 32, reference_ac: 6, stats: {Luck: 3, Speed: -0.6}}  # Aegis
+  2044: {drop: 1, base: flat, slot_mult: 1.25, printed_ac: 10, stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75, Speed: -0.5}}  # Odin
+  2045: {drop: 1, base: armor, slot_mult: 1, printed_ac: 18, reference_ac: 6, stats: {Might: 3, Speed: -1}}  # Atlas
+  2046: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 20, reference_ac: 6, stats: {Speed: 3, Accuracy: -0.86}}  # Hermes
+  2047: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 4, stats: {Personality: 3, Luck: -1.2}}  # Aphrodite
+  2048: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 4, stats: {Intellect: 3, Might: -1.2}}  # Athena
+  2049: {drop: 1, base: flat, slot_mult: 1, printed_ac: 6, stats: {HP: 1.2, SP: 1.2, Luck: 0.6, Personality: -0.6}}  # Hera
+
+# Base items MAW rolls: id: [ladder rung, dice count, two-handed, base AC, reference AC]. The rung is the item's
+# place in its family (contiguous rows with one unidentified name, 1-6); weapon damage and armour class follow
+# the item power from these (loot.yml weapon_damage, armour_ac).
+  # Artifacts that never drop (quest, placed and shop items): they scale like the rest (IT:2679-2700) but no drop
+  # turns into them (drop: 0).
+  516: {drop: 0, base: armor, slot_mult: 1, printed_ac: 24, reference_ac: 24, spell_bonus: [SpiritMagic, BodyMagic, MindMagic]}  # Eclipse
+  532: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 15, rung: 3.5, stats: {Might: 1.5, Speed: 1.5}, attack_delay: 0.9}  # Lightning Crossbow
+  538: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 18, on_hit: {kind: Physical, damage: 0.8, versus: {Elemental: 2}}}  # Mace of the Sun
+  539: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 26, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Ebonest
+  540: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 36, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Sword of Whistlebone
+  541: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 57, on_hit: {kind: Water, damage: 1}}  # Axe of Balthazar
+  543: {drop: 0, base: flat, slot_mult: 0.75, stats: {Endurance: 3}}  # Cycle of Life
+  1341: {drop: 0, base: flat, slot_mult: 1}  # Medusa's Mirror
+  1347: {drop: 0, base: flat, slot_mult: 0.75, spell_bonus: [SpiritMagic]}  # Ghost Ring
+  1348: {drop: 0, base: flat, slot_mult: 0.75, spell_bonus: [AirMagic]}  # Faerie Ring
+  2020: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 30, on_hit: {kind: Physical, damage: 0}}  # Mordred
+  1340: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 20}  # Lieutenant's Cutlass
+  1342: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 8}  # Lady Carmine's Dagger
+  1343: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30}  # Villain's Blade
+  1344: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 12}  # The Perfect Bow
+  1345: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 30}  # The Perfect Bow
+  1346: {drop: 0, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12}  # Shadow's Mask
+  1349: {drop: 0, base: armor, slot_mult: 1, printed_ac: 11, reference_ac: 11}  # Sun Cloak
+  1350: {drop: 0, base: armor, slot_mult: 1, printed_ac: 11, reference_ac: 11}  # Moon Cloak
+  1351: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 51}  # Zokarr's Axe
+  1352: {drop: 0, base: armor, slot_mult: 1, printed_ac: 11, reference_ac: 11}  # Vampire's Cape
+  1353: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 28}  # Minotaur's Axe
+  1354: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 12}  # Grognard's Cutlass
+  2118: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 18}  # Snergle's Axe
+  866: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 16}  # Blaster
+  867: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5, guard: 36}  # Blaster Rifle
+  1666: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 16}  # Blaster
+  1667: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5, guard: 36}  # Blaster Rifle
+
+bases:
+  1: [1, 2, 0, 0, 0]
+  2: [2.25, 3, 0, 0, 0]
+  3: [3.5, 3, 0, 0, 0]
+  4: [4.75, 3, 0, 0, 0]
+  5: [6, 3, 0, 0, 0]
+  6: [1, 4, 1, 0, 0]
+  7: [2.25, 4, 1, 0, 0]
+  8: [3.5, 4, 1, 0, 0]
+  9: [4.75, 4, 1, 0, 0]
+  10: [6, 4, 1, 0, 0]
+  11: [1, 3, 0, 0, 0]
+  12: [2.25, 3, 0, 0, 0]
+  13: [3.5, 3, 0, 0, 0]
+  14: [4.75, 3, 0, 0, 0]
+  15: [6, 3, 0, 0, 0]
+  16: [1, 2, 0, 0, 0]
+  17: [2.25, 2, 0, 0, 0]
+  18: [3.5, 2, 0, 0, 0]
+  19: [4.75, 2, 0, 0, 0]
+  20: [6, 2, 0, 0, 0]
+  21: [1, 2, 0, 0, 0]
+  22: [2.25, 2, 0, 0, 0]
+  23: [3.5, 2, 0, 0, 0]
+  24: [4.75, 1, 0, 0, 0]
+  25: [6, 2, 0, 0, 0]
+  26: [1, 2, 0, 0, 0]
+  27: [2.25, 2, 0, 0, 0]
+  28: [3.5, 2, 0, 0, 0]
+  29: [4.75, 2, 0, 0, 0]
+  30: [6, 2, 0, 0, 0]
+  31: [1, 3, 0, 0, 0]
+  32: [2.25, 4, 0, 0, 0]
+  33: [3.5, 4, 0, 0, 0]
+  34: [4.75, 3, 0, 0, 0]
+  35: [6, 4, 0, 0, 0]
+  36: [1, 3, 1, 0, 0]
+  37: [2.25, 3, 1, 0, 0]
+  38: [3.5, 3, 1, 0, 0]
+  39: [4.75, 3, 1, 0, 0]
+  40: [6, 3, 1, 0, 0]
+  41: [1, 1, 0, 0, 0]
+  42: [2.25, 1, 0, 0, 0]
+  43: [3.5, 1, 0, 0, 0]
+  44: [4.75, 1, 0, 0, 0]
+  45: [6, 1, 0, 0, 0]
+  46: [1, 3, 1, 0, 0]
+  47: [2.25, 3, 1, 0, 0]
+  48: [3.5, 3, 1, 0, 0]
+  49: [4.75, 3, 1, 0, 0]
+  50: [6, 3, 1, 0, 0]
+  51: [1, 2, 0, 0, 0]
+  52: [2.25, 2, 0, 0, 0]
+  53: [3.5, 2, 0, 0, 0]
+  54: [4.75, 2, 0, 0, 0]
+  55: [6, 2, 0, 0, 0]
+  56: [1, 5, 0, 0, 0]
+  57: [2.25, 5, 0, 0, 0]
+  58: [3.5, 4, 0, 0, 0]
+  59: [4.75, 5, 0, 0, 0]
+  60: [6, 5, 0, 0, 0]
+  61: [1, 3, 0, 0, 0]
+  62: [2.25, 3, 0, 0, 0]
+  63: [3.5, 4, 0, 0, 0]
+  64: [4.75, 4, 0, 0, 0]
+  65: [6, 4, 0, 0, 0]
+  66: [1, 2, 0, 0, 0]
+  67: [2.25, 2, 0, 0, 0]
+  68: [3.5, 2, 0, 0, 0]
+  69: [4.75, 2, 0, 0, 0]
+  70: [6, 2, 0, 0, 0]
+  71: [1, 2, 0, 0, 0]
+  72: [2.25, 2, 0, 0, 0]
+  73: [3.5, 2, 0, 0, 0]
+  74: [4.75, 2, 0, 0, 0]
+  75: [6, 2, 0, 0, 0]
+  76: [1, 1, 0, 0, 0]
+  77: [3.5, 1, 0, 0, 0]
+  78: [6, 3, 0, 0, 0]
+  79: [1, 2, 1, 0, 0]
+  80: [2.25, 2, 1, 0, 0]
+  81: [3.5, 2, 1, 0, 0]
+  82: [4.75, 2, 1, 0, 0]
+  83: [6, 2, 1, 0, 0]
+  84: [1, 0, 0, 8, 32]
+  85: [2.25, 0, 0, 12, 32]
+  86: [3.5, 0, 0, 16, 32]
+  87: [4.75, 0, 0, 23, 32]
+  88: [6, 0, 0, 32, 32]
+  89: [1, 0, 0, 12, 48]
+  90: [2.25, 0, 0, 20, 48]
+  91: [3.5, 0, 0, 30, 48]
+  92: [4.75, 0, 0, 40, 48]
+  93: [6, 0, 0, 48, 48]
+  94: [1, 0, 0, 18, 64]
+  95: [2.25, 0, 0, 28, 64]
+  96: [3.5, 0, 0, 38, 64]
+  97: [4.75, 0, 0, 50, 64]
+  98: [6, 0, 0, 64, 64]
+  99: [1, 0, 0, 10, 44]
+  100: [2.25, 0, 0, 16, 44]
+  101: [3.5, 0, 0, 24, 44]
+  102: [4.75, 0, 0, 30, 44]
+  103: [6, 0, 0, 44, 44]
+  104: [1, 0, 0, 8, 34]
+  105: [2.25, 0, 0, 14, 34]
+  106: [3.5, 0, 0, 20, 34]
+  107: [4.75, 0, 0, 28, 34]
+  108: [6, 0, 0, 34, 34]
+  109: [1, 0, 0, 3, 14]
+  110: [2.25, 0, 0, 6, 14]
+  111: [3.5, 0, 0, 8, 14]
+  112: [4.75, 0, 0, 12, 14]
+  113: [6, 0, 0, 14, 14]
+  114: [1, 0, 0, 0, 0]
+  115: [3.5, 0, 0, 0, 0]
+  116: [6, 0, 0, 0, 0]
+  117: [1, 0, 0, 1, 12]
+  118: [2.25, 0, 0, 3, 12]
+  119: [3.5, 0, 0, 6, 12]
+  120: [4.75, 0, 0, 9, 12]
+  121: [6, 0, 0, 12, 12]
+  122: [1, 0, 0, 1, 10]
+  123: [2.25, 0, 0, 3, 10]
+  124: [3.5, 0, 0, 5, 10]
+  125: [4.75, 0, 0, 6, 10]
+  126: [6, 0, 0, 10, 10]
+  127: [1, 0, 0, 1, 14]
+  128: [2.25, 0, 0, 4, 14]
+  129: [3.5, 0, 0, 8, 14]
+  130: [4.75, 0, 0, 11, 14]
+  131: [6, 0, 0, 14, 14]
+  132: [1, 0, 0, 3, 14]
+  133: [2.25, 0, 0, 4, 14]
+  134: [3.5, 0, 0, 8, 14]
+  135: [4.75, 0, 0, 10, 14]
+  136: [6, 0, 0, 14, 14]
+  137: [1, 0, 0, 0, 0]
+  138: [1.55556, 0, 0, 0, 0]
+  139: [2.11111, 0, 0, 0, 0]
+  140: [2.66667, 0, 0, 0, 0]
+  141: [3.22222, 0, 0, 0, 0]
+  142: [3.77778, 0, 0, 0, 0]
+  143: [4.33333, 0, 0, 0, 0]
+  144: [4.88889, 0, 0, 0, 0]
+  145: [5.44444, 0, 0, 0, 0]
+  146: [6, 0, 0, 0, 0]
+  147: [1, 0, 0, 0, 0]
+  148: [2.25, 0, 0, 0, 0]
+  149: [3.5, 0, 0, 0, 0]
+  150: [4.75, 0, 0, 0, 0]
+  151: [6, 0, 0, 0, 0]
+  803: [1, 3, 0, 0, 0]
+  804: [2.25, 3, 0, 0, 0]
+  805: [3.5, 3, 0, 0, 0]
+  806: [4.75, 3, 0, 0, 0]
+  807: [6, 3, 0, 0, 0]
+  808: [1, 4, 1, 0, 0]
+  809: [3.5, 4, 1, 0, 0]
+  810: [6, 4, 1, 0, 0]
+  811: [1, 3, 0, 0, 0]
+  812: [3.5, 3, 0, 0, 0]
+  813: [6, 3, 0, 0, 0]
+  814: [1, 2, 0, 0, 0]
+  815: [3.5, 2, 0, 0, 0]
+  816: [6, 2, 0, 0, 0]
+  817: [1, 1, 0, 0, 0]
+  818: [2.25, 1, 0, 0, 0]
+  819: [3.5, 1, 0, 0, 0]
+  820: [4.75, 2, 0, 0, 0]
+  821: [6, 2, 0, 0, 0]
+  822: [1, 2, 0, 0, 0]
+  823: [3.5, 2, 0, 0, 0]
+  824: [6, 2, 0, 0, 0]
+  825: [1, 4, 0, 0, 0]
+  826: [2.25, 4, 0, 0, 0]
+  827: [3.5, 4, 0, 0, 0]
+  828: [4.75, 4, 0, 0, 0]
+  829: [6, 4, 0, 0, 0]
+  830: [1, 3, 1, 0, 0]
+  831: [3.5, 3, 1, 0, 0]
+  832: [6, 3, 1, 0, 0]
+  833: [1, 1, 0, 0, 0]
+  834: [2.25, 1, 0, 0, 0]
+  835: [3.5, 1, 0, 0, 0]
+  836: [4.75, 1, 0, 0, 0]
+  837: [6, 1, 0, 0, 0]
+  838: [1, 3, 1, 0, 0]
+  839: [3.5, 3, 1, 0, 0]
+  840: [6, 3, 1, 0, 0]
+  841: [1, 2, 0, 0, 0]
+  842: [3.5, 2, 0, 0, 0]
+  843: [6, 2, 0, 0, 0]
+  844: [1, 4, 0, 0, 0]
+  845: [2.25, 5, 0, 0, 0]
+  846: [3.5, 5, 0, 0, 0]
+  847: [4.75, 4, 0, 0, 0]
+  848: [6, 4, 0, 0, 0]
+  849: [1, 3, 0, 0, 0]
+  850: [3.5, 4, 0, 0, 0]
+  851: [6, 3, 0, 0, 0]
+  852: [1, 2, 0, 0, 0]
+  853: [2.25, 2, 0, 0, 0]
+  854: [3.5, 2, 0, 0, 0]
+  855: [4.75, 2, 0, 0, 0]
+  856: [6, 2, 0, 0, 0]
+  857: [1, 2, 0, 0, 0]
+  858: [3.5, 2, 0, 0, 0]
+  859: [6, 2, 0, 0, 0]
+  860: [1, 1, 0, 0, 0]
+  861: [3.5, 1, 0, 0, 0]
+  862: [6, 1, 0, 0, 0]
+  863: [1, 2, 1, 0, 0]
+  864: [3.5, 2, 1, 0, 0]
+  865: [6, 2, 1, 0, 0]
+  868: [1, 0, 0, 9, 30]
+  869: [2.25, 0, 0, 11, 30]
+  870: [3.5, 0, 0, 14, 30]
+  871: [4.75, 0, 0, 20, 30]
+  872: [6, 0, 0, 30, 30]
+  873: [1, 0, 0, 12, 46]
+  874: [2.25, 0, 0, 18, 46]
+  875: [3.5, 0, 0, 28, 46]
+  876: [4.75, 0, 0, 38, 46]
+  877: [6, 0, 0, 46, 46]
+  878: [1, 0, 0, 26, 58]
+  879: [3.5, 0, 0, 42, 58]
+  880: [6, 0, 0, 58, 58]
+  881: [1, 0, 0, 8, 40]
+  882: [2.25, 0, 0, 18, 40]
+  883: [3.5, 0, 0, 22, 40]
+  884: [4.75, 0, 0, 32, 40]
+  885: [6, 0, 0, 40, 40]
+  886: [1, 0, 0, 6, 36]
+  887: [2.25, 0, 0, 12, 36]
+  888: [3.5, 0, 0, 18, 36]
+  889: [4.75, 0, 0, 26, 36]
+  890: [6, 0, 0, 36, 36]
+  891: [1, 0, 0, 1, 13]
+  892: [2.25, 0, 0, 4, 13]
+  893: [3.5, 0, 0, 7, 13]
+  894: [4.75, 0, 0, 10, 13]
+  895: [6, 0, 0, 13, 13]
+  896: [1, 0, 0, 0, 0]
+  897: [3.5, 0, 0, 0, 0]
+  898: [6, 0, 0, 0, 0]
+  899: [1, 0, 0, 0, 0]
+  900: [3.5, 0, 0, 0, 0]
+  901: [6, 0, 0, 0, 0]
+  902: [1, 0, 0, 1, 12]
+  903: [2.25, 0, 0, 3, 12]
+  904: [3.5, 0, 0, 6, 12]
+  905: [4.75, 0, 0, 9, 12]
+  906: [6, 0, 0, 12, 12]
+  907: [1, 0, 0, 2, 11]
+  908: [2.25, 0, 0, 3, 11]
+  909: [3.5, 0, 0, 4, 11]
+  910: [4.75, 0, 0, 8, 11]
+  911: [6, 0, 0, 11, 11]
+  912: [1, 0, 0, 2, 13]
+  913: [2.25, 0, 0, 5, 13]
+  914: [3.5, 0, 0, 7, 13]
+  915: [4.75, 0, 0, 10, 13]
+  916: [6, 0, 0, 13, 13]
+  917: [1, 0, 0, 2, 15]
+  918: [2.25, 0, 0, 5, 15]
+  919: [3.5, 0, 0, 7, 15]
+  920: [4.75, 0, 0, 12, 15]
+  921: [6, 0, 0, 15, 15]
+  922: [1, 0, 0, 0, 0]
+  923: [1.55556, 0, 0, 0, 0]
+  924: [2.11111, 0, 0, 0, 0]
+  925: [2.66667, 0, 0, 0, 0]
+  926: [3.22222, 0, 0, 0, 0]
+  927: [3.77778, 0, 0, 0, 0]
+  928: [4.33333, 0, 0, 0, 0]
+  929: [4.88889, 0, 0, 0, 0]
+  930: [5.44444, 0, 0, 0, 0]
+  931: [6, 0, 0, 0, 0]
+  932: [1, 0, 0, 0, 0]
+  933: [2.25, 0, 0, 0, 0]
+  934: [3.5, 0, 0, 0, 0]
+  935: [4.75, 0, 0, 0, 0]
+  936: [6, 0, 0, 0, 0]
+  1603: [1, 3, 0, 0, 0]
+  1604: [2.25, 3, 0, 0, 0]
+  1605: [3.5, 3, 0, 0, 0]
+  1606: [4.75, 3, 0, 0, 0]
+  1607: [6, 3, 0, 0, 0]
+  1608: [1, 4, 1, 0, 0]
+  1609: [3.5, 4, 1, 0, 0]
+  1610: [6, 4, 1, 0, 0]
+  1611: [1, 3, 0, 0, 0]
+  1612: [3.5, 3, 0, 0, 0]
+  1613: [6, 3, 0, 0, 0]
+  1614: [1, 2, 0, 0, 0]
+  1615: [3.5, 2, 0, 0, 0]
+  1616: [6, 2, 0, 0, 0]
+  1617: [1, 2, 0, 0, 0]
+  1618: [2.25, 2, 0, 0, 0]
+  1619: [3.5, 2, 0, 0, 0]
+  1620: [4.75, 2, 0, 0, 0]
+  1621: [6, 2, 0, 0, 0]
+  1622: [1, 2, 0, 0, 0]
+  1623: [3.5, 2, 0, 0, 0]
+  1624: [6, 2, 0, 0, 0]
+  1625: [1, 4, 0, 0, 0]
+  1626: [2.25, 3, 0, 0, 0]
+  1627: [3.5, 3, 0, 0, 0]
+  1628: [4.75, 4, 0, 0, 0]
+  1629: [6, 3, 0, 0, 0]
+  1630: [1, 3, 1, 0, 0]
+  1631: [3.5, 3, 1, 0, 0]
+  1632: [6, 3, 1, 0, 0]
+  1633: [1, 1, 0, 0, 0]
+  1634: [2.25, 1, 0, 0, 0]
+  1635: [3.5, 1, 0, 0, 0]
+  1636: [4.75, 1, 0, 0, 0]
+  1637: [6, 1, 0, 0, 0]
+  1638: [1, 3, 1, 0, 0]
+  1639: [3.5, 3, 1, 0, 0]
+  1640: [6, 3, 1, 0, 0]
+  1641: [1, 2, 0, 0, 0]
+  1642: [3.5, 2, 0, 0, 0]
+  1643: [6, 2, 0, 0, 0]
+  1644: [1, 5, 0, 0, 0]
+  1645: [2.25, 4, 0, 0, 0]
+  1646: [3.5, 5, 0, 0, 0]
+  1647: [4.75, 5, 0, 0, 0]
+  1648: [6, 6, 0, 0, 0]
+  1649: [1, 4, 0, 0, 0]
+  1650: [3.5, 4, 0, 0, 0]
+  1651: [6, 4, 0, 0, 0]
+  1652: [1, 2, 0, 0, 0]
+  1653: [2.25, 2, 0, 0, 0]
+  1654: [3.5, 2, 0, 0, 0]
+  1655: [4.75, 2, 0, 0, 0]
+  1656: [6, 2, 0, 0, 0]
+  1657: [1, 2, 0, 0, 0]
+  1658: [3.5, 2, 0, 0, 0]
+  1659: [6, 2, 0, 0, 0]
+  1660: [1, 1, 0, 0, 0]
+  1661: [3.5, 1, 0, 0, 0]
+  1662: [6, 1, 0, 0, 0]
+  1663: [1, 2, 1, 0, 0]
+  1664: [3.5, 2, 1, 0, 0]
+  1665: [6, 2, 1, 0, 0]
+  1668: [1, 0, 0, 6, 28]
+  1669: [2.25, 0, 0, 10, 28]
+  1670: [3.5, 0, 0, 13, 28]
+  1671: [4.75, 0, 0, 19, 28]
+  1672: [6, 0, 0, 28, 28]
+  1673: [1, 0, 0, 10, 44]
+  1674: [2.25, 0, 0, 16, 44]
+  1675: [3.5, 0, 0, 26, 44]
+  1676: [4.75, 0, 0, 36, 44]
+  1677: [6, 0, 0, 44, 44]
+  1678: [1, 0, 0, 18, 54]
+  1679: [3.5, 0, 0, 34, 54]
+  1680: [6, 0, 0, 54, 54]
+  1681: [1, 0, 0, 12, 36]
+  1682: [2.25, 0, 0, 14, 36]
+  1683: [3.5, 0, 0, 20, 36]
+  1684: [4.75, 0, 0, 28, 36]
+  1685: [6, 0, 0, 36, 36]
+  1686: [1, 0, 0, 4, 32]
+  1687: [2.25, 0, 0, 10, 32]
+  1688: [3.5, 0, 0, 16, 32]
+  1689: [4.75, 0, 0, 24, 32]
+  1690: [6, 0, 0, 32, 32]
+  1691: [1, 0, 0, 2, 15]
+  1692: [2.25, 0, 0, 5, 15]
+  1693: [3.5, 0, 0, 9, 15]
+  1694: [4.75, 0, 0, 11, 15]
+  1695: [6, 0, 0, 15, 15]
+  1696: [1, 0, 0, 0, 0]
+  1697: [3.5, 0, 0, 0, 0]
+  1698: [6, 0, 0, 0, 0]
+  1699: [1, 0, 0, 0, 0]
+  1700: [3.5, 0, 0, 0, 0]
+  1701: [6, 0, 0, 0, 0]
+  1702: [1, 0, 0, 1, 12]
+  1703: [2.25, 0, 0, 3, 12]
+  1704: [3.5, 0, 0, 6, 12]
+  1705: [4.75, 0, 0, 9, 12]
+  1706: [6, 0, 0, 12, 12]
+  1707: [1, 0, 0, 1, 9]
+  1708: [2.25, 0, 0, 2, 9]
+  1709: [3.5, 0, 0, 4, 9]
+  1710: [4.75, 0, 0, 7, 9]
+  1711: [6, 0, 0, 9, 9]
+  1712: [1, 0, 0, 3, 15]
+  1713: [2.25, 0, 0, 6, 15]
+  1714: [3.5, 0, 0, 9, 15]
+  1715: [4.75, 0, 0, 12, 15]
+  1716: [6, 0, 0, 15, 15]
+  1717: [1, 0, 0, 1, 13]
+  1718: [2.25, 0, 0, 6, 13]
+  1719: [3.5, 0, 0, 9, 13]
+  1720: [4.75, 0, 0, 11, 13]
+  1721: [6, 0, 0, 13, 13]
+  1722: [1, 0, 0, 0, 0]
+  1723: [1.55556, 0, 0, 0, 0]
+  1724: [2.11111, 0, 0, 0, 0]
+  1725: [2.66667, 0, 0, 0, 0]
+  1726: [3.22222, 0, 0, 0, 0]
+  1727: [3.77778, 0, 0, 0, 0]
+  1728: [4.33333, 0, 0, 0, 0]
+  1729: [4.88889, 0, 0, 0, 0]
+  1730: [5.44444, 0, 0, 0, 0]
+  1731: [6, 0, 0, 0, 0]
+  1732: [1, 0, 0, 0, 0]
+  1733: [2.25, 0, 0, 0, 0]
+  1734: [3.5, 0, 0, 0, 0]
+  1735: [4.75, 0, 0, 0, 0]
+  1736: [6, 0, 0, 0, 0]

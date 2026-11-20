@@ -1,0 +1,55 @@
+id: rulesets.maw_solo_talent_battle_order
+title: "Ruleset - solo run: a battle order uses a talent when it is ready, the next order or the weapon otherwise"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Talent battle orders (devdocs/BATTLE_ORDERS.md "Talent orders"). The archer's only order is Power Shot (rank 1:
+        135 %, cooldown 6 s) with the weapon as fallback. The first Attack fires Power Shot and starts its cooldown;
+        the next, with Power Shot cooling down, shoots an ordinary arrow and leaves the cooldown running. The order
+        survives a save and load (save version 189), and once the cooldown is over Attack fires Power Shot again.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ariel
+            class: Archer
+            level: 20
+            accuracy: 500
+            skills:
+              - {name: Bow, level: 8, mastery: 2}
+            equipment: {}
+            battle_orders:
+              fallback: weapon
+              orders:
+                - {talent: power_shot}
+  - grant_item: {item_id: 56, equip: bow}
+  - console: {line: "talent power_shot 1", expect_contains: "power_shot"}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - clear_hostiles: {radius: 6000}
+  - spawn_actor: {monster_id: 195, x: -9028, y: -11319, z: 200}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      recovering_members: 0
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}
+  - console: {line: "talent list", expect_contains: "power_shot=1 (cooldown 6 s)"}
+  - advance_runtime: {seconds: 2.5}
+  - assert:
+      recovering_members: 0
+  # Power Shot cools down: the order is passed over and the fallback shoots; the cooldown keeps running.
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}
+  - console: {line: "talent list", expect_contains: "power_shot=1 (cooldown 3."}
+  - save_game: talent_order
+  - load_game: talent_order
+  - advance_runtime: {seconds: 4.0}
+  - press_action: {action: attack}
+  - console: {line: "talent list", expect_contains: "power_shot=1 (cooldown 6 s)"}

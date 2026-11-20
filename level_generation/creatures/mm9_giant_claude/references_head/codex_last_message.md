@@ -1,0 +1,3 @@
+Saved [00_geometry.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_giant_claude/references_head/00_geometry.png) using built-in image generation, with true transparency. Raw returns, prompts and input hashes are preserved alongside it.
+
+Limitation: both returns were 1254×1254 despite requesting 1024×1024. Preserved unresized; stopped after the one permitted correction. No builds or Meshy runs.

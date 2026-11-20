@@ -1,0 +1,24 @@
+id: levelgen.brackenford.bridge_geometry
+title: Unpopulated geometry-stage bridge crossing; not town safety evidence
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg01.odm
+- movement_segment:
+    start:
+      map: lg01.odm
+      x: 2560
+      y: 256
+      z: 640
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg01.odm
+      x: 8192
+      y: 256
+      z: 640
+      yaw: 0
+      pitch: 0
+    seconds: 7.333333333333333
+    input: forward

@@ -1,0 +1,1036 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_lobber.glb",
+  "components": 45,
+  "body": 3,
+  "size": 1.5668515544384718,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "0": {
+    "joint": "XApivot01",
+    "where": "above, -x side",
+    "triangles": 340,
+    "extent": 0.669,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00976,
+    "worst": {
+     "gap": 0.02047,
+     "to_body_cluster": 0.02047,
+     "clip": "Hit",
+     "frame": 20,
+     "time": 0.6667,
+     "part_point": [
+      0.14895,
+      0.70805,
+      -0.41873
+     ],
+     "attached_point": [
+      0.1652,
+      0.71981,
+      -0.43278
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 36,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.0102,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 7
+     },
+     "Cast": {
+      "max_gap": 0.0102,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 7
+     },
+     "Fidget": {
+      "max_gap": 0.01621,
+      "frame": 24,
+      "time": 0.8,
+      "frames": 14
+     },
+     "Hit": {
+      "max_gap": 0.02047,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 8
+     }
+    },
+    "shallowest": {
+     "depth": -0.00153,
+     "on": "Xheadpiv",
+     "clip": "Hit",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part0.png"
+   },
+   "1": {
+    "joint": "XBarm01",
+    "where": "above, -x side",
+    "triangles": 299,
+    "extent": 0.5682,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.031,
+    "worst": {
+     "gap": 0.02413,
+     "to_body_cluster": 0.02413,
+     "clip": "AttackRanged",
+     "frame": 5,
+     "time": 0.1667,
+     "part_point": [
+      -0.05235,
+      0.74299,
+      -0.39266
+     ],
+     "attached_point": [
+      -0.03163,
+      0.74619,
+      -0.38878
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 50,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.02413,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 9
+     },
+     "Cast": {
+      "max_gap": 0.02412,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 9
+     },
+     "Death": {
+      "max_gap": 0.02402,
+      "frame": 17,
+      "time": 0.5667,
+      "frames": 15
+     },
+     "Hit": {
+      "max_gap": 0.02172,
+      "frame": 13,
+      "time": 0.4333,
+      "frames": 17
+     }
+    },
+    "shallowest": {
+     "depth": -0.003,
+     "on": "Xpodbase",
+     "clip": "Death",
+     "frame": 26,
+     "time": 0.8667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part1.png"
+   },
+   "2": {
+    "joint": "XCarm01",
+    "where": "above, -x side, +z",
+    "triangles": 182,
+    "extent": 0.484,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02106,
+    "worst": {
+     "gap": 0.06044,
+     "to_body_cluster": 0.06044,
+     "clip": "Death",
+     "frame": 26,
+     "time": 0.8667,
+     "part_point": [
+      -0.02737,
+      1.07867,
+      -0.1677
+     ],
+     "attached_point": [
+      -0.07286,
+      1.0453,
+      -0.18856
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 155,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.02026,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 8
+     },
+     "Cast": {
+      "max_gap": 0.02026,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 9
+     },
+     "Dead": {
+      "max_gap": 0.05799,
+      "frame": 30,
+      "time": 1.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.06044,
+      "frame": 26,
+      "time": 0.8667,
+      "frames": 57
+     },
+     "Fidget": {
+      "max_gap": 0.01674,
+      "frame": 23,
+      "time": 0.7667,
+      "frames": 25
+     },
+     "Hit": {
+      "max_gap": 0.03449,
+      "frame": 13,
+      "time": 0.4333,
+      "frames": 20
+     },
+     "Standing": {
+      "max_gap": 0.00807,
+      "frame": 22,
+      "time": 0.7333,
+      "frames": 5
+     }
+    },
+    "shallowest": {
+     "depth": 0.0203,
+     "on": "Xheadpiv",
+     "clip": "Fidget",
+     "frame": 34,
+     "time": 1.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part2.png"
+   },
+   "9": {
+    "joint": "Xheadmid",
+    "where": "above, +z",
+    "triangles": 60,
+    "extent": 0.2255,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01222,
+    "worst": {
+     "gap": 0.00861,
+     "to_body_cluster": 0.00861,
+     "clip": "Cast",
+     "frame": 15,
+     "time": 0.5,
+     "part_point": [
+      -0.00817,
+      0.77271,
+      0.58837
+     ],
+     "attached_point": [
+      -0.01543,
+      0.77527,
+      0.58453
+     ],
+     "kind": "floating",
+     "against": "Xchin"
+    },
+    "detached_poses": 13,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.00471,
+      "frame": 19,
+      "time": 0.6333,
+      "frames": 1
+     },
+     "Cast": {
+      "max_gap": 0.00861,
+      "frame": 15,
+      "time": 0.5,
+      "frames": 1
+     },
+     "Fidget": {
+      "max_gap": 0.00833,
+      "frame": 29,
+      "time": 0.9667,
+      "frames": 7
+     },
+     "Hit": {
+      "max_gap": 0.00804,
+      "frame": 16,
+      "time": 0.5333,
+      "frames": 4
+     }
+    },
+    "shallowest": {
+     "depth": -0.00371,
+     "on": "Xhead",
+     "clip": "Hit",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "concealed_poses": 15,
+    "worst_concealed": {
+     "gap": 0.01014,
+     "clip": "AttackRanged",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part9.png"
+   },
+   "14": {
+    "joint": "Xheadpiv",
+    "where": "above, +z",
+    "triangles": 62,
+    "extent": 0.1952,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00441,
+    "worst": {
+     "gap": 0.01596,
+     "to_body_cluster": 0.01596,
+     "clip": "Cast",
+     "frame": 11,
+     "time": 0.3667,
+     "part_point": [
+      -0.04938,
+      0.64912,
+      0.38353
+     ],
+     "attached_point": [
+      -0.05162,
+      0.63614,
+      0.39255
+     ],
+     "kind": "floating",
+     "against": "Xhead"
+    },
+    "detached_poses": 14,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01596,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 10
+     },
+     "Cast": {
+      "max_gap": 0.01596,
+      "frame": 11,
+      "time": 0.3667,
+      "frames": 4
+     }
+    },
+    "shallowest": {
+     "depth": -0.00374,
+     "on": "Xheadmid",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part14.png"
+   },
+   "29": {
+    "joint": "Xheadmid",
+    "where": "above, +z",
+    "triangles": 56,
+    "extent": 0.2274,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00929,
+    "worst": {
+     "gap": 0.01034,
+     "to_body_cluster": 0.01034,
+     "clip": "AttackRanged",
+     "frame": 18,
+     "time": 0.6,
+     "part_point": [
+      0.02766,
+      0.97003,
+      0.26246
+     ],
+     "attached_point": [
+      0.01743,
+      0.96877,
+      0.26166
+     ],
+     "kind": "floating",
+     "against": "Xheadmid"
+    },
+    "detached_poses": 19,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01034,
+      "frame": 18,
+      "time": 0.6,
+      "frames": 7
+     },
+     "Cast": {
+      "max_gap": 0.01031,
+      "frame": 15,
+      "time": 0.5,
+      "frames": 5
+     },
+     "Fidget": {
+      "max_gap": 0.0098,
+      "frame": 28,
+      "time": 0.9333,
+      "frames": 7
+     }
+    },
+    "shallowest": {
+     "depth": -0.00395,
+     "on": "Xjawpiv",
+     "clip": "Fidget",
+     "frame": 38,
+     "time": 1.2667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 3,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part29.png"
+   },
+   "37": {
+    "joint": "Xheadmid",
+    "where": "above, +z",
+    "triangles": 10,
+    "extent": 0.0275,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00261,
+    "worst": {
+     "gap": 0.00493,
+     "to_body_cluster": 0.00493,
+     "clip": "AttackRanged",
+     "frame": 11,
+     "time": 0.3667,
+     "part_point": [
+      0.08162,
+      0.96043,
+      0.26168
+     ],
+     "attached_point": [
+      0.08438,
+      0.95779,
+      0.2648
+     ],
+     "kind": "floating",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 6,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.00493,
+      "frame": 11,
+      "time": 0.3667,
+      "frames": 4
+     },
+     "Cast": {
+      "max_gap": 0.00488,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": -0.0039,
+     "on": "Xheadpiv",
+     "clip": "Cast",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part37.png"
+   },
+   "40": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 14,
+    "extent": 0.0698,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01001,
+    "worst": {
+     "gap": 0.01307,
+     "to_body_cluster": 0.01307,
+     "clip": "AttackRanged",
+     "frame": 11,
+     "time": 0.3667,
+     "part_point": [
+      0.09652,
+      0.92505,
+      0.23707
+     ],
+     "attached_point": [
+      0.09479,
+      0.92013,
+      0.25166
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 12,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01307,
+      "frame": 11,
+      "time": 0.3667,
+      "frames": 6
+     },
+     "Cast": {
+      "max_gap": 0.01301,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 4
+     },
+     "Hit": {
+      "max_gap": 0.00834,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": -0.00244,
+     "on": "Xheadmid",
+     "clip": "AttackRanged",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part40.png"
+   },
+   "41": {
+    "joint": "XBpiv",
+    "where": "above, +x side",
+    "triangles": 297,
+    "extent": 0.563,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02967,
+    "worst": {
+     "gap": 0.03471,
+     "to_body_cluster": 0.03471,
+     "clip": "Death",
+     "frame": 14,
+     "time": 0.4667,
+     "part_point": [
+      -0.01837,
+      0.95167,
+      0.07697
+     ],
+     "attached_point": [
+      -0.03302,
+      0.96422,
+      0.04962
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 54,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.02209,
+      "frame": 8,
+      "time": 0.2667,
+      "frames": 11
+     },
+     "Cast": {
+      "max_gap": 0.02206,
+      "frame": 8,
+      "time": 0.2667,
+      "frames": 10
+     },
+     "Death": {
+      "max_gap": 0.03471,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 24
+     },
+     "Hit": {
+      "max_gap": 0.01644,
+      "frame": 13,
+      "time": 0.4333,
+      "frames": 9
+     }
+    },
+    "shallowest": {
+     "depth": 0.02425,
+     "on": "Xheadpiv",
+     "clip": "Death",
+     "frame": 62,
+     "time": 2.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part41.png"
+   },
+   "42": {
+    "joint": "XApivot",
+    "where": "above, +x side",
+    "triangles": 356,
+    "extent": 0.672,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01279,
+    "worst": {
+     "gap": 0.01848,
+     "to_body_cluster": 0.01848,
+     "clip": "Fidget",
+     "frame": 23,
+     "time": 0.7667,
+     "part_point": [
+      0.11598,
+      0.87603,
+      -0.25353
+     ],
+     "attached_point": [
+      0.10319,
+      0.89247,
+      -0.2555
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 26,
+    "poses": 268,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01012,
+      "frame": 8,
+      "time": 0.2667,
+      "frames": 4
+     },
+     "Cast": {
+      "max_gap": 0.01012,
+      "frame": 8,
+      "time": 0.2667,
+      "frames": 7
+     },
+     "Fidget": {
+      "max_gap": 0.01848,
+      "frame": 23,
+      "time": 0.7667,
+      "frames": 15
+     }
+    },
+    "shallowest": {
+     "depth": 0.00058,
+     "on": "Xheadpiv",
+     "clip": "AttackRanged",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobber_part42.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 45,
+   "attached_in_every_pose": 34
+  },
+  "concealed": {},
+  "shallow": {
+   "4": {
+    "joint": "Xheadpiv",
+    "where": "above, +z",
+    "triangles": 1922,
+    "extent": 0.9636,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00389,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Xheadmid",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "5": {
+    "joint": "Xroot",
+    "where": "central",
+    "triangles": 89,
+    "extent": 0.3727,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00214,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00214,
+     "on": "Xroot",
+     "clip": "Standing",
+     "frame": 45,
+     "time": 1.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "8": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 36,
+    "extent": 0.1915,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00339,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00257,
+     "on": "Xheadpiv",
+     "clip": "Hit",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "11": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 26,
+    "extent": 0.1257,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00505,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00157,
+     "on": "Xheadpiv",
+     "clip": "Standing",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "12": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 26,
+    "extent": 0.1108,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0007,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0005,
+     "on": "Xheadpiv",
+     "clip": "Standing",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "16": {
+    "joint": "Xchin",
+    "where": "above, +z",
+    "triangles": 26,
+    "extent": 0.1208,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00681,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00234,
+     "on": "Xheadpiv",
+     "clip": "AttackRanged",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "19": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 42,
+    "extent": 0.1533,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00251,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "Xpodbase",
+     "clip": "Death",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "21": {
+    "joint": "Xpodbase",
+    "where": "above",
+    "triangles": 264,
+    "extent": 0.8375,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02681,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00203,
+     "on": "Xroot",
+     "clip": "Hit",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "22": {
+    "joint": "Xheadmid",
+    "where": "above, +z",
+    "triangles": 60,
+    "extent": 0.3072,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01242,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00392,
+     "on": "Xheadpiv",
+     "clip": "Fidget",
+     "frame": 36,
+     "time": 1.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "23": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 107,
+    "extent": 0.337,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01284,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00395,
+     "on": "Xheadpiv",
+     "clip": "Hit",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "25": {
+    "joint": "Xheadpiv",
+    "where": "above, +z",
+    "triangles": 56,
+    "extent": 0.3012,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00403,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "Xpodbase",
+     "clip": "Hit",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "26": {
+    "joint": "Xchin",
+    "where": "above, +z",
+    "triangles": 22,
+    "extent": 0.1165,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00557,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00254,
+     "on": "Xheadpiv",
+     "clip": "Death",
+     "frame": 62,
+     "time": 2.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "27": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 42,
+    "extent": 0.1926,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00065,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0013,
+     "on": "Xheadpiv",
+     "clip": "AttackRanged",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "30": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 30,
+    "extent": 0.1277,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0041,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00262,
+     "on": "Xheadpiv",
+     "clip": "Standing",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "31": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 26,
+    "extent": 0.1114,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00085,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00121,
+     "on": "Xheadpiv",
+     "clip": "AttackRanged",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "32": {
+    "joint": "Xjawpiv",
+    "where": "above, +z",
+    "triangles": 61,
+    "extent": 0.1944,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00553,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00444,
+     "on": "Xheadpiv",
+     "clip": "Hit",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "33": {
+    "joint": "Xheadpiv",
+    "where": "above, +z",
+    "triangles": 40,
+    "extent": 0.1547,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00538,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 268,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0028,
+     "on": "Xheadpiv",
+     "clip": "Cast",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   }
+  }
+ }
+]

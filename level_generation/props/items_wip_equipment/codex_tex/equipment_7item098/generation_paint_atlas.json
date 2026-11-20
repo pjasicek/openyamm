@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Noble Crown (7item098). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Open gold circlet crown with ornate filigree band, pink faceted jewels, and one tall central winged fleur-de-lis ornament. Exact material boundaries: All gold circlet, filigree and crest RED. Pink faceted gems BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item098/inputs/guide_paint.png",
+  "input_guide_sha256": "fb46fdadbb6f26d59072a5c2aaac63b2dc186c711ccc273de94116e427d7271c",
+  "revision": 1,
+  "input_icon": "7item098",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-db380224-a75a-46f3-95d7-7716a38b5e8e.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "0e9ff8fad2298c5ff72d33ce253e1d59fa94bdc2b524ec2f945ef5005002c2be",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item098.png",
+  "input_icon_sha256": "24a00686ac8272f491337fd3761505ffda483756ccc9a8b849b2cdece5f1ece9",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

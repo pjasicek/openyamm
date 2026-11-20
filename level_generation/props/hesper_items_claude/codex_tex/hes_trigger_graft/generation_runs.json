@@ -1,0 +1,687 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "output_policy": "Raw tool-return PNGs copied byte-for-byte. No resizing, cropping, alpha masking or image postprocessing.",
+  "corrective_regenerations_per_view": 1,
+  "status": "All five requested filenames generated and saved; strict silhouette and flat-albedo acceptance not achieved within the permitted two attempts per view.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: albedo texture projection source, hes_trigger_graft, FRONT view.\nEdit input image 1 (guide_front.png) in place. Input image 2 (design_reference.png) is ONLY the material/colour/detail authority.\nReturn ONE 1024 x 1024 PNG with real transparent background. Keep exactly the entire square canvas of image 1, including its large empty margins. Preserve every pixel of its silhouette and alpha boundary, its orthographic camera, scale, position, low horizontal profile, all contours, existing part boundaries, socket openings and overlaps. Object bounding box is x=98..925, y=414..609 on the 1024 square. Do not enlarge, rotate, reframe, redesign, fill openings, add parts or copy the reference pose. No contact prongs outside the guide silhouette.\nPaint ONLY the existing guide surfaces with the reference item's materials: subtly worn warm ivory-white ceramic shell plates, thin smoothly curved brushed-gold inlaid seams and edging, gold collars, fine parallel gold conductor lines along the curved arm surfaces, and the small warm amber/orange glass inset only where exposed on the existing central housing. Render end shell interiors with plausible matching ivory and muted gold. Continue unseen surfaces plausibly using this same design, avoiding invented decoration. Match the actual reference palette; no new blue, purple, cloth, leather or other materials absent from this object.\nLIGHTING: flat unlit base-colour/albedo painting, even frontal shadowless illumination everywhere, including recesses and lower surfaces. Ignore the guide's grey shading and the reference's dramatic lighting. Gold is its medium warm ochre-gold base colour, only a faint sheen; ceramic has subtle fine wear but no illumination gradient. Amber is bright orange-gold without bloom or white glints. No cast shadows, no ambient occlusion, no darkened crevices, no strong specular highlights, no reflections, no rim light. Do not make a beauty render. No background, floor, text, letters, labels or watermark. Preserve guide alpha and geometry exactly; colour/detail is the only change.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_front.png",
+          "sha256": "1878630133a0f8b03b46524c0684a40eea6e5b70eae7fd8eb20b3969680230d3"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+          "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-433829c2-437f-4ba7-af08-2b427c800b05.png",
+      "selected": false,
+      "reason": "Superseded: strong metallic highlights and shading, altered part edges. Tool returned 1254x1254; preserved unresized.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "99c967571de6522ef85224a34c9c9de017d87bd07cff6cfcb055f19a4ee9ee5c",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          29,
+          1240,
+          1230
+        ],
+        "opaque_bbox": [
+          124,
+          521,
+          1159,
+          745
+        ],
+        "guide_alpha_bbox": [
+          98,
+          414,
+          926,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 7633,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.898814,
+        "normalized_opaque_pixels_outside_guide": 4079,
+        "normalized_guide_pixels_missing": 13723,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Visible metallic and amber highlights, cavity darkening and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint the neutral 3D model render in input image 2 in place as an ALBEDO TEXTURE SOURCE.\nINPUT 1 design_reference.png: approved material and decorative-line reference ONLY. INPUT 2 GUIDE: exact geometry, silhouette, alpha mask and entire 1024x1024 canvas that must be preserved.\nOutput ONE PNG, 1024x1024 pixels, with true transparency. Edit INPUT 2, never input 1. Copy input 2's alpha boundary exactly. Preserve its canvas dimensions, large transparent margins, orthographic camera, pose, scale, position, every contour, socket, collar, part edge and occlusion. No recentering, resizing, rotation, perspective or beautified shape. Do not add the reference's protruding prongs, which are absent in the guide.\nPaint the guide surfaces as warm off-white ceramic with delicate fine wear, matte brushed golden metal collars and edges, elegant narrow curved gold seam inlays following the design reference, and fine gold conductor stripes running along existing curved connecting arms. Keep the ceramic dominant. Continue hidden/unseen surfaces using the same material family. Only the amber inset of the actual design is orange-gold; don't invent additional gems. Only use materials present in this specific reference.\nCRITICAL LIGHTING: UNLIT DIFFUSE BASE COLOUR. Absolutely uniform shadowless frontal illumination. REMOVE ALL grey lighting and facet shading of the guide; DO NOT transfer the reference's lighting. Solid base colours with subtle microtexture and decorative lines only. Gold is muted ochre gold with at most faint satin sheen, NOT bright yellow highlights or dark brown shading; no highlights along rims or conductors. Ivory is an even warm ivory surface, never a shaded grey underside. Recess interiors remain evenly lit material colours. No specular reflections, cast shadow, contact shadow, ambient occlusion, rim light, dark cavity gradients, volumetric shading, bloom, white glints or baked lighting. Amber has flat luminous orange-gold colour, no white highlights. This is texture paint for subsequent lighting, not a shaded product render.\nKeep full alpha transparency outside the exact guide silhouette. NO background, floor, letters, numbers, text, labels or watermarks.\nFRONT VIEW: use guide_front.png (input 2). Low horizontal silhouette with the left arm overlapping the centre and the open end socket facing up-left at the right end. Bounding box [98,414,926,610] on the 1024 square. Preserve the exact internal edges. This is the one corrective regeneration: prior output was too glossy and altered geometry; preserve guide size and edges and use flat base colour.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+          "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_front.png",
+          "sha256": "1878630133a0f8b03b46524c0684a40eea6e5b70eae7fd8eb20b3969680230d3"
+        }
+      ],
+      "output": "paint_front.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-21d2e890-8799-4b35-a5ca-d8740c9d137f.png",
+      "selected": true,
+      "reason": "Selected corrective return within the two-attempt limit; closer materials, but remaining shading and silhouette differences require disclosure. Saved unresized at the returned resolution. Not accepted as a pixel-exact, fully unlit texture source.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3bc6b90d9c6e88bdc87baf9fa2b72bae29d1ec07bbc23df0f1ccf9912ba350d4",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          53,
+          1210,
+          1168
+        ],
+        "opaque_bbox": [
+          118,
+          515,
+          1136,
+          750
+        ],
+        "guide_alpha_bbox": [
+          98,
+          414,
+          926,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 8207,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.925367,
+        "normalized_opaque_pixels_outside_guide": 4688,
+        "normalized_guide_pixels_missing": 8488,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Visible metallic and amber highlights, cavity darkening and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the neutral 3D model render in input image 2 in place as an ALBEDO TEXTURE SOURCE.\nINPUT 1 design_reference.png: approved material and decorative-line reference ONLY. INPUT 2 GUIDE: exact geometry, silhouette, alpha mask and entire 1024x1024 canvas that must be preserved.\nOutput ONE PNG, 1024x1024 pixels, with true transparency. Edit INPUT 2, never input 1. Copy input 2's alpha boundary exactly. Preserve its canvas dimensions, large transparent margins, orthographic camera, pose, scale, position, every contour, socket, collar, part edge and occlusion. No recentering, resizing, rotation, perspective or beautified shape. Do not add the reference's protruding prongs, which are absent in the guide.\nPaint the guide surfaces as warm off-white ceramic with delicate fine wear, matte brushed golden metal collars and edges, elegant narrow curved gold seam inlays following the design reference, and fine gold conductor stripes running along existing curved connecting arms. Keep the ceramic dominant. Continue hidden/unseen surfaces using the same material family. Only the amber inset of the actual design is orange-gold; don't invent additional gems. Only use materials present in this specific reference.\nCRITICAL LIGHTING: UNLIT DIFFUSE BASE COLOUR. Absolutely uniform shadowless frontal illumination. REMOVE ALL grey lighting and facet shading of the guide; DO NOT transfer the reference's lighting. Solid base colours with subtle microtexture and decorative lines only. Gold is muted ochre gold with at most faint satin sheen, NOT bright yellow highlights or dark brown shading; no highlights along rims or conductors. Ivory is an even warm ivory surface, never a shaded grey underside. Recess interiors remain evenly lit material colours. No specular reflections, cast shadow, contact shadow, ambient occlusion, rim light, dark cavity gradients, volumetric shading, bloom, white glints or baked lighting. Amber has flat luminous orange-gold colour, no white highlights. This is texture paint for subsequent lighting, not a shaded product render.\nKeep full alpha transparency outside the exact guide silhouette. NO background, floor, letters, numbers, text, labels or watermarks.\nBACK VIEW: use guide_back.png (input 2). Low horizontal silhouette with a short left branch rising behind the main arm at upper left and a curved right arm overlapping the central housing. Bounding box [98,414,926,610]. Keep the back surface plausible ivory panels edged in gold; do not duplicate the top-face amber inset on a hidden back surface.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+          "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_back.png",
+          "sha256": "b054fd3b5d5f10cc2c50862316ed24d9691a7880e8e96ae6cb939c3528819d83"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-35d906b0-2f1c-4b6e-b966-df464c05d170.png",
+      "selected": true,
+      "reason": "Selected the first return because normalized silhouette overlap is 0.930006 versus 0.774719 for the flatter corrective return. Guide geometry takes priority. Residual lighting, edge drift and alpha fringe remain; not fully accepted against the brief. Saved byte-for-byte at 1254x1254.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "13acd9fbfa934a420ab1eecc7320897aee2c3f372973d04a9eb2498c952f9314",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          39,
+          1226,
+          1212
+        ],
+        "opaque_bbox": [
+          110,
+          511,
+          1148,
+          749
+        ],
+        "guide_alpha_bbox": [
+          98,
+          414,
+          926,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 9239,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.930006,
+        "normalized_opaque_pixels_outside_guide": 8349,
+        "normalized_guide_pixels_missing": 4265,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Visible metallic and amber highlights, cavity darkening and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the neutral 3D model render in input image 2 in place as an ALBEDO TEXTURE SOURCE.\nINPUT 1 design_reference.png: approved material and decorative-line reference ONLY. INPUT 2 GUIDE: exact geometry, silhouette, alpha mask and entire 1024x1024 canvas that must be preserved.\nOutput ONE PNG, 1024x1024 pixels, with true transparency. Edit INPUT 2, never input 1. Copy input 2's alpha boundary exactly. Preserve its canvas dimensions, large transparent margins, orthographic camera, pose, scale, position, every contour, socket, collar, part edge and occlusion. No recentering, resizing, rotation, perspective or beautified shape. Do not add the reference's protruding prongs, which are absent in the guide.\nPaint the guide surfaces as warm off-white ceramic with delicate fine wear, matte brushed golden metal collars and edges, elegant narrow curved gold seam inlays following the design reference, and fine gold conductor stripes running along existing curved connecting arms. Keep the ceramic dominant. Continue hidden/unseen surfaces using the same material family. Only the amber inset of the actual design is orange-gold; don't invent additional gems. Only use materials present in this specific reference.\nCRITICAL LIGHTING: UNLIT DIFFUSE BASE COLOUR. Absolutely uniform shadowless frontal illumination. REMOVE ALL grey lighting and facet shading of the guide; DO NOT transfer the reference's lighting. Solid base colours with subtle microtexture and decorative lines only. Gold is muted ochre gold with at most faint satin sheen, NOT bright yellow highlights or dark brown shading; no highlights along rims or conductors. Ivory is an even warm ivory surface, never a shaded grey underside. Recess interiors remain evenly lit material colours. No specular reflections, cast shadow, contact shadow, ambient occlusion, rim light, dark cavity gradients, volumetric shading, bloom, white glints or baked lighting. Amber has flat luminous orange-gold colour, no white highlights. This is texture paint for subsequent lighting, not a shaded product render.\nKeep full alpha transparency outside the exact guide silhouette. NO background, floor, letters, numbers, text, labels or watermarks.\nLEFT VIEW: use guide_left.png (input 2). Low horizontal silhouette, both end sockets visible from the mouth side, broad central housing and a third branch peeking behind the upper-right centre. Bounding box [66,414,958,610]. Preserve both socket mouths exactly; use evenly lit ivory and gold interior surfaces without filling the openings or adding pins. No large front-facing invented gem.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+          "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_left.png",
+          "sha256": "293cd84e812e6f994aeb97bc6e079f0ee9299c6d53c3dcaadffededb0175a219"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-fc05832e-1e5b-4e54-a069-f0920cb629fc.png",
+      "selected": false,
+      "reason": "First return retained; corrective pass needed for silhouette drift and specular shading.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "bd4ba3f193cefac88fd123ee33cc38f9e6cae5bd52878c92375734a61feda55a",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          47,
+          1214,
+          1222
+        ],
+        "opaque_bbox": [
+          80,
+          507,
+          1173,
+          747
+        ],
+        "guide_alpha_bbox": [
+          66,
+          414,
+          958,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 8532,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.981327,
+        "normalized_opaque_pixels_outside_guide": 1891,
+        "normalized_guide_pixels_missing": 1645,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Visible metallic and amber highlights, cavity darkening and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the neutral 3D model render in input image 2 in place as an ALBEDO TEXTURE SOURCE.\nINPUT 1 design_reference.png: approved material and decorative-line reference ONLY. INPUT 2 GUIDE: exact geometry, silhouette, alpha mask and entire 1024x1024 canvas that must be preserved.\nOutput ONE PNG, 1024x1024 pixels, with true transparency. Edit INPUT 2, never input 1. Copy input 2's alpha boundary exactly. Preserve its canvas dimensions, large transparent margins, orthographic camera, pose, scale, position, every contour, socket, collar, part edge and occlusion. No recentering, resizing, rotation, perspective or beautified shape. Do not add the reference's protruding prongs, which are absent in the guide.\nPaint the guide surfaces as warm off-white ceramic with delicate fine wear, matte brushed golden metal collars and edges, elegant narrow curved gold seam inlays following the design reference, and fine gold conductor stripes running along existing curved connecting arms. Keep the ceramic dominant. Continue hidden/unseen surfaces using the same material family. Only the amber inset of the actual design is orange-gold; don't invent additional gems. Only use materials present in this specific reference.\nCRITICAL LIGHTING: UNLIT DIFFUSE BASE COLOUR. Absolutely uniform shadowless frontal illumination. REMOVE ALL grey lighting and facet shading of the guide; DO NOT transfer the reference's lighting. Solid base colours with subtle microtexture and decorative lines only. Gold is muted ochre gold with at most faint satin sheen, NOT bright yellow highlights or dark brown shading; no highlights along rims or conductors. Ivory is an even warm ivory surface, never a shaded grey underside. Recess interiors remain evenly lit material colours. No specular reflections, cast shadow, contact shadow, ambient occlusion, rim light, dark cavity gradients, volumetric shading, bloom, white glints or baked lighting. Amber has flat luminous orange-gold colour, no white highlights. This is texture paint for subsequent lighting, not a shaded product render.\nKeep full alpha transparency outside the exact guide silhouette. NO background, floor, letters, numbers, text, labels or watermarks.\nRIGHT VIEW: use guide_right.png (input 2). Low horizontal silhouette with a thick foreground arm across the lower central body, its cuff and terminal pointing upper left, and the other two ends behind it. Bounding box [66,414,958,610]. Preserve every overlapping part and its exact edge. Plausible ivory and gold continuation on the reverse surfaces; no invented front-facing gem.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+          "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_right.png",
+          "sha256": "7b5cf7407050c0bb86a95cdae73443472f8c5d08150d10d23a24d8a8c2556673"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-6a1bb748-a8c5-464f-8ebc-b0e49da4c739.png",
+      "selected": false,
+      "reason": "First return retained; corrective pass needed for silhouette drift and specular shading.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "53d209a5d2e06f7631d8734aeb94d45985666108730e3656ea976bf860aeb1d7",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          37,
+          1234,
+          1214
+        ],
+        "opaque_bbox": [
+          85,
+          512,
+          1174,
+          744
+        ],
+        "guide_alpha_bbox": [
+          66,
+          414,
+          958,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 9448,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.935468,
+        "normalized_opaque_pixels_outside_guide": 325,
+        "normalized_guide_pixels_missing": 11793,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Visible metallic and amber highlights, cavity darkening and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the neutral 3D model render in input image 2 in place as an ALBEDO TEXTURE SOURCE.\nINPUT 1 design_reference.png: approved material and decorative-line reference ONLY. INPUT 2 GUIDE: exact geometry, silhouette, alpha mask and entire 1024x1024 canvas that must be preserved.\nOutput ONE PNG, 1024x1024 pixels, with true transparency. Edit INPUT 2, never input 1. Copy input 2's alpha boundary exactly. Preserve its canvas dimensions, large transparent margins, orthographic camera, pose, scale, position, every contour, socket, collar, part edge and occlusion. No recentering, resizing, rotation, perspective or beautified shape. Do not add the reference's protruding prongs, which are absent in the guide.\nPaint the guide surfaces as warm off-white ceramic with delicate fine wear, matte brushed golden metal collars and edges, elegant narrow curved gold seam inlays following the design reference, and fine gold conductor stripes running along existing curved connecting arms. Keep the ceramic dominant. Continue hidden/unseen surfaces using the same material family. Only the amber inset of the actual design is orange-gold; don't invent additional gems. Only use materials present in this specific reference.\nCRITICAL LIGHTING: UNLIT DIFFUSE BASE COLOUR. Absolutely uniform shadowless frontal illumination. REMOVE ALL grey lighting and facet shading of the guide; DO NOT transfer the reference's lighting. Solid base colours with subtle microtexture and decorative lines only. Gold is muted ochre gold with at most faint satin sheen, NOT bright yellow highlights or dark brown shading; no highlights along rims or conductors. Ivory is an even warm ivory surface, never a shaded grey underside. Recess interiors remain evenly lit material colours. No specular reflections, cast shadow, contact shadow, ambient occlusion, rim light, dark cavity gradients, volumetric shading, bloom, white glints or baked lighting. Amber has flat luminous orange-gold colour, no white highlights. This is texture paint for subsequent lighting, not a shaded product render.\nKeep full alpha transparency outside the exact guide silhouette. NO background, floor, letters, numbers, text, labels or watermarks.\nTOP VIEW: use guide_top.png (input 2), directly above. Three-lobed Y-shaped housing with three curved arms ending upper left, lower left and lower right; exact box [98,66,926,958]. Main warm amber-orange oval inset lies on the upper-facing central housing as in the design, surrounded by gold inlays; keep it a painted surface inside the unchanged silhouette. Preserve all three terminal shells without adding protruding prongs. Maintain all negative spaces and shell openings precisely.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+          "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_top.png",
+          "sha256": "d989201a928ab1ae15276d3afd587312586cb784ee3debeac59071ecf66e81ba"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-eb84a6b3-57f0-4231-9660-34b29cf77ec2.png",
+      "selected": false,
+      "reason": "First return retained; corrective pass needed for silhouette drift and specular shading.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9eb75c4c8e7e2bf5254596916c594b95e7f415308f98e531b39d66728639a62f",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1234,
+          1254
+        ],
+        "opaque_bbox": [
+          126,
+          79,
+          1143,
+          1172
+        ],
+        "guide_alpha_bbox": [
+          98,
+          66,
+          926,
+          958
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 14589,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.932619,
+        "normalized_opaque_pixels_outside_guide": 11813,
+        "normalized_guide_pixels_missing": 8842,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Visible metallic and amber highlights, cavity darkening and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit the attached guide IN PLACE, as a flat diffuse/albedo texture painting. Return a single 1024 by 1024 PNG with real transparency. This is the one corrective attempt for this view.\nThe input guide is an immutable geometry stencil. Keep EXACTLY its alpha mask, pixel outline, every internal part edge, camera, position, dimensions, pose and large empty margins. Do not smooth out its silhouette, inflate the shape, add projecting parts, or rearrange existing pieces.\nMaterial design, derived from the approved hes_trigger_graft artwork: elegant sci-fi nerve graft made of smooth warm ivory-white ceramic with very fine pale wear, narrow flowing gold inlays separating curved ceramic panels, broad brushed-gold collars, and thin parallel gold conductor strips painted along existing curved connecting arms. Terminals are ivory shells with gold edging. Continue those same materials on hidden faces. Reference hues are warm ivory, muted yellow-ochre gold, and a single orange-amber inset on the top face of the main body where visible. No silver, blue, purple, leather, text or additional decorative motifs. Keep ceramic dominant.\nCRITICAL CORRECTION: FLAT MATERIAL COLOURS ONLY. Treat this as a technical base-colour paint layer, not a lit 3D illustration. Gold base colour is uniform muted golden ochre, ceramic base colour is uniform ivory. Fine material grain and fine engraved seam lines are permitted. No bright gold stripe highlights, white highlights, glossy reflections, dark bevels, cast shadows, ambient occlusion, shaded recesses, dark lower edges, lighting gradients, directional light or rim light. A curved surface stays exactly the same brightness throughout. Interior and underside surfaces have the same material brightness as exterior surfaces. Remove all guide lighting. Amber is flat orange-gold without a specular glint or bloom.\nAll pixels outside the exact guide mask stay transparent, including faint fringe pixels: no dust, translucent leftovers or scattered specks. No background, floor, text, letters, labels, watermark. Output the full unchanged square guide canvas, never crop to the object.\nBACK orthographic view. Exact guide bounding box [98,414,926,610]. Central back housing is continuous ivory plates with gold flowing seams. Keep the guide's raised rear-left end and foreground-right arm overlap exactly. No amber gem on the back.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_back.png",
+          "sha256": "b054fd3b5d5f10cc2c50862316ed24d9691a7880e8e96ae6cb939c3528819d83"
+        }
+      ],
+      "design_authority": {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+        "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c",
+        "usage": "Visually inspected original and first generation; material specification retained in corrective prompt."
+      },
+      "output": "paint_back_attempt2.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-7443014b-6c23-4e38-804a-7bafa6dfeccf.png",
+      "selected": false,
+      "reason": "Rejected corrective return: flatter colours, but significantly worse silhouette alignment (normalized IoU 0.774719 versus 0.930006 for attempt 1). Kept raw and unresized.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3902b03bf18ae45f2c6b5d99c6da2e8cd415311b04734109d6fef0a323e8186c",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1210,
+          1147
+        ],
+        "opaque_bbox": [
+          100,
+          522,
+          1181,
+          764
+        ],
+        "guide_alpha_bbox": [
+          98,
+          414,
+          926,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 9452,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.774719,
+        "normalized_opaque_pixels_outside_guide": 30161,
+        "normalized_guide_pixels_missing": 15352,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Reduced highlights in corrective return, but residual collar sheen and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit the attached guide IN PLACE, as a flat diffuse/albedo texture painting. Return a single 1024 by 1024 PNG with real transparency. This is the one corrective attempt for this view.\nThe input guide is an immutable geometry stencil. Keep EXACTLY its alpha mask, pixel outline, every internal part edge, camera, position, dimensions, pose and large empty margins. Do not smooth out its silhouette, inflate the shape, add projecting parts, or rearrange existing pieces.\nMaterial design, derived from the approved hes_trigger_graft artwork: elegant sci-fi nerve graft made of smooth warm ivory-white ceramic with very fine pale wear, narrow flowing gold inlays separating curved ceramic panels, broad brushed-gold collars, and thin parallel gold conductor strips painted along existing curved connecting arms. Terminals are ivory shells with gold edging. Continue those same materials on hidden faces. Reference hues are warm ivory, muted yellow-ochre gold, and a single orange-amber inset on the top face of the main body where visible. No silver, blue, purple, leather, text or additional decorative motifs. Keep ceramic dominant.\nCRITICAL CORRECTION: FLAT MATERIAL COLOURS ONLY. Treat this as a technical base-colour paint layer, not a lit 3D illustration. Gold base colour is uniform muted golden ochre, ceramic base colour is uniform ivory. Fine material grain and fine engraved seam lines are permitted. No bright gold stripe highlights, white highlights, glossy reflections, dark bevels, cast shadows, ambient occlusion, shaded recesses, dark lower edges, lighting gradients, directional light or rim light. A curved surface stays exactly the same brightness throughout. Interior and underside surfaces have the same material brightness as exterior surfaces. Remove all guide lighting. Amber is flat orange-gold without a specular glint or bloom.\nAll pixels outside the exact guide mask stay transparent, including faint fringe pixels: no dust, translucent leftovers or scattered specks. No background, floor, text, letters, labels, watermark. Output the full unchanged square guide canvas, never crop to the object.\nLEFT orthographic view. Exact guide bounding box [66,414,958,610]. Keep both terminal mouths and the partially hidden upper-right branch exactly as the guide. Socket interiors are evenly coloured ivory with thin gold edges; preserve their shape. Main side body has ivory panels and flowing narrow gold seams. No new gem on this face.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_left.png",
+          "sha256": "293cd84e812e6f994aeb97bc6e079f0ee9299c6d53c3dcaadffededb0175a219"
+        }
+      ],
+      "design_authority": {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+        "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c",
+        "usage": "Visually inspected original and first generation; material specification retained in corrective prompt."
+      },
+      "output": "paint_left.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-e6edc04b-b086-41c1-b3e2-75c4025e1bb3.png",
+      "selected": true,
+      "reason": "Selected the single corrective return for materially flatter lighting and fewer specular highlights. Remaining geometry, alpha-fringe and shading failures are recorded below; selection is not full brief acceptance. Saved unresized at the returned resolution. Not accepted as a pixel-exact, fully unlit texture source.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "a2d57609b614d8f2ff4b064e0552bebf32aeea27abebb10aea8b04434f20c459",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1242,
+          1254
+        ],
+        "opaque_bbox": [
+          81,
+          509,
+          1172,
+          742
+        ],
+        "guide_alpha_bbox": [
+          66,
+          414,
+          958,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 8095,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.961917,
+        "normalized_opaque_pixels_outside_guide": 383,
+        "normalized_guide_pixels_missing": 6771,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Reduced highlights in corrective return, but residual collar sheen and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit the attached guide IN PLACE, as a flat diffuse/albedo texture painting. Return a single 1024 by 1024 PNG with real transparency. This is the one corrective attempt for this view.\nThe input guide is an immutable geometry stencil. Keep EXACTLY its alpha mask, pixel outline, every internal part edge, camera, position, dimensions, pose and large empty margins. Do not smooth out its silhouette, inflate the shape, add projecting parts, or rearrange existing pieces.\nMaterial design, derived from the approved hes_trigger_graft artwork: elegant sci-fi nerve graft made of smooth warm ivory-white ceramic with very fine pale wear, narrow flowing gold inlays separating curved ceramic panels, broad brushed-gold collars, and thin parallel gold conductor strips painted along existing curved connecting arms. Terminals are ivory shells with gold edging. Continue those same materials on hidden faces. Reference hues are warm ivory, muted yellow-ochre gold, and a single orange-amber inset on the top face of the main body where visible. No silver, blue, purple, leather, text or additional decorative motifs. Keep ceramic dominant.\nCRITICAL CORRECTION: FLAT MATERIAL COLOURS ONLY. Treat this as a technical base-colour paint layer, not a lit 3D illustration. Gold base colour is uniform muted golden ochre, ceramic base colour is uniform ivory. Fine material grain and fine engraved seam lines are permitted. No bright gold stripe highlights, white highlights, glossy reflections, dark bevels, cast shadows, ambient occlusion, shaded recesses, dark lower edges, lighting gradients, directional light or rim light. A curved surface stays exactly the same brightness throughout. Interior and underside surfaces have the same material brightness as exterior surfaces. Remove all guide lighting. Amber is flat orange-gold without a specular glint or bloom.\nAll pixels outside the exact guide mask stay transparent, including faint fringe pixels: no dust, translucent leftovers or scattered specks. No background, floor, text, letters, labels, watermark. Output the full unchanged square guide canvas, never crop to the object.\nRIGHT orthographic view. Exact guide bounding box [66,414,958,610]. Retain the curved foreground arm, its collar, the angled terminal at upper-left centre and all overlapping edges exactly. The other branches stay behind the foreground arm. Ivory panels, gold collars and fine gold seams; no new prominent gem on the side.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_right.png",
+          "sha256": "7b5cf7407050c0bb86a95cdae73443472f8c5d08150d10d23a24d8a8c2556673"
+        }
+      ],
+      "design_authority": {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+        "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c",
+        "usage": "Visually inspected original and first generation; material specification retained in corrective prompt."
+      },
+      "output": "paint_right.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-712feedc-e4ca-44c3-9e12-898d4cb4be8a.png",
+      "selected": true,
+      "reason": "Selected the single corrective return for materially flatter lighting and fewer specular highlights. Remaining geometry, alpha-fringe and shading failures are recorded below; selection is not full brief acceptance. Saved unresized at the returned resolution. Not accepted as a pixel-exact, fully unlit texture source.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "0fd28d1af43e9b1f99855d94a6358a9f2b1c0805f5269769de7a7d0d81526373",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          49,
+          69,
+          1200,
+          1206
+        ],
+        "opaque_bbox": [
+          81,
+          511,
+          1173,
+          743
+        ],
+        "guide_alpha_bbox": [
+          66,
+          414,
+          958,
+          610
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 8293,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.979471,
+        "normalized_opaque_pixels_outside_guide": 816,
+        "normalized_guide_pixels_missing": 3049,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Reduced highlights in corrective return, but residual collar sheen and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Edit the attached guide IN PLACE, as a flat diffuse/albedo texture painting. Return a single 1024 by 1024 PNG with real transparency. This is the one corrective attempt for this view.\nThe input guide is an immutable geometry stencil. Keep EXACTLY its alpha mask, pixel outline, every internal part edge, camera, position, dimensions, pose and large empty margins. Do not smooth out its silhouette, inflate the shape, add projecting parts, or rearrange existing pieces.\nMaterial design, derived from the approved hes_trigger_graft artwork: elegant sci-fi nerve graft made of smooth warm ivory-white ceramic with very fine pale wear, narrow flowing gold inlays separating curved ceramic panels, broad brushed-gold collars, and thin parallel gold conductor strips painted along existing curved connecting arms. Terminals are ivory shells with gold edging. Continue those same materials on hidden faces. Reference hues are warm ivory, muted yellow-ochre gold, and a single orange-amber inset on the top face of the main body where visible. No silver, blue, purple, leather, text or additional decorative motifs. Keep ceramic dominant.\nCRITICAL CORRECTION: FLAT MATERIAL COLOURS ONLY. Treat this as a technical base-colour paint layer, not a lit 3D illustration. Gold base colour is uniform muted golden ochre, ceramic base colour is uniform ivory. Fine material grain and fine engraved seam lines are permitted. No bright gold stripe highlights, white highlights, glossy reflections, dark bevels, cast shadows, ambient occlusion, shaded recesses, dark lower edges, lighting gradients, directional light or rim light. A curved surface stays exactly the same brightness throughout. Interior and underside surfaces have the same material brightness as exterior surfaces. Remove all guide lighting. Amber is flat orange-gold without a specular glint or bloom.\nAll pixels outside the exact guide mask stay transparent, including faint fringe pixels: no dust, translucent leftovers or scattered specks. No background, floor, text, letters, labels, watermark. Output the full unchanged square guide canvas, never crop to the object.\nTOP orthographic view directly overhead. Exact guide bounding box [98,66,926,958]. Keep the exact Y-shaped silhouette with three bent arms and three hollow terminal shells. At the central housing paint one modest oval amber-orange inset in a thin concentric gold surround near [552,455], conforming to the plane of the existing top surface and entirely inside it; do not change geometry. Flowing narrow gold seam lines separate ivory shell panels around it. Parallel gold conductor strips follow the existing curved arms between the gold collars. No prongs, pins or new silhouettes.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/guide_top.png",
+          "sha256": "d989201a928ab1ae15276d3afd587312586cb784ee3debeac59071ecf66e81ba"
+        }
+      ],
+      "design_authority": {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_trigger_graft/design_reference.png",
+        "sha256": "78950dd65a34e7c5d3d96c842a37ab0b4beda8329b1cdc86f26afd7c4c27e91c",
+        "usage": "Visually inspected original and first generation; material specification retained in corrective prompt."
+      },
+      "output": "paint_top.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e67-8383-7a32-a233-093e6becaa90/exec-92734014-17cd-46bc-bc3d-7a57792801bc.png",
+      "selected": true,
+      "reason": "Selected the single corrective return for materially flatter lighting and fewer specular highlights. Remaining geometry, alpha-fringe and shading failures are recorded below; selection is not full brief acceptance. Saved unresized at the returned resolution. Not accepted as a pixel-exact, fully unlit texture source.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "60d712dfdf02d4db91f8817279e5e2e92eaf3333c71cb35077143be3caf0f377",
+      "checks": {
+        "unresized_raw_output": true,
+        "image_mode": "RGBA",
+        "requested_dimensions_met": false,
+        "nonstandard_size_preserved_as_required": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          65,
+          19,
+          1218,
+          1228
+        ],
+        "opaque_bbox": [
+          120,
+          80,
+          1138,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          98,
+          66,
+          926,
+          958
+        ],
+        "transparent_background_present": true,
+        "faint_alpha_pixels_1_to_15": 17429,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.966205,
+        "normalized_opaque_pixels_outside_guide": 3217,
+        "normalized_guide_pixels_missing": 6852,
+        "material_palette_visual": "Warm ivory ceramic and gold match the reference palette; amber used on visible central housing. Decorative line placement varies between views.",
+        "flat_shadowless_lighting_pass": false,
+        "lighting_visual": "Reduced highlights in corrective return, but residual collar sheen and surface gradients remain.",
+        "no_text_or_letters_visual": true,
+        "strict_brief_acceptance": false
+      }
+    }
+  ]
+}

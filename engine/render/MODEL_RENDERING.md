@@ -1,8 +1,8 @@
 # 3D model rendering: what we stand on
 
-State of 2026-10-08. This document covers glTF creatures (skinned actors), their carried items, and static
-decoration models: the asset contract, the build post-processes, how `ModelRenderer` draws them, and how to make a
-variant such as a boss. Keep it in step with the code. If a statement here disagrees with the code, the code wins;
+State of 2026-10-08 (emission and creature bloom: 2026-10-22). This document covers glTF creatures (skinned actors),
+their carried items, and static decoration models: the asset contract, the build post-processes, how `ModelRenderer`
+draws them, and how to make a variant such as a boss. Keep it in step with the code. If a statement here disagrees with the code, the code wins;
 fix this file in the same change.
 
 Code: `engine/models/` (loading, `ModelInstanceSystem`, poses) and `engine/render/ModelRenderer.{h,cpp}` (drawing).
@@ -16,6 +16,7 @@ Shaders: `game/shaders/vs_model*.sc`, `fs_model.sc`, `model_skin.sh`, `model_sta
 |---|---|
 | Colour LODs | Base mesh `extras.openyamm_lods`: up to 3 coarser mesh indices, coarsest last, decreasing triangles. Shadow-only chains go in `openyamm_shadow_lods` (up to 4). Static models get these from `tools/link_static_model_lods.py`; creatures from `tools/build_actor_lods.py`. |
 | Colour variants (tiers) | `KHR_materials_variants`. Tiers share one skin: a region mask (`extras.openyamm_region_mask`, up to four RGBA channels) and per-tier `openyamm_region_ramps` (16 linear stops over a luminance range per region), written by `level_generation/creatures/claude_shared/region_variants.py`. `actors.yml` picks a tier with `skin:`. |
+| Emission | glTF `emissiveFactor` (times `KHR_materials_emissive_strength`, up to 16) and `emissiveTexture` (sRGB, UV0; cooked as a colour map), per material and so per tier variant; `extras.openyamm_bloom` and `openyamm_pulse` on creatures. See "Emission and bloom" in section 4. |
 | Specular | `extras.openyamm_specular` (0..1; 0 skips sky reflection and specular lobes). `extras.openyamm_specular_mask: true` multiplies it per texel by the metallic-roughness texture's red channel, which glTF leaves unused. It lets a matte head and glossy armour share one material. |
 | Normal maps | glTF convention: +x along +u, +y up the image (against +v), tangent space from screen derivatives (no TANGENT attribute needed; the frame's sign is divided out, so OpenGL and Vulkan agree). Meshy's retexture returns +y-down maps: `tools/normal_map_convention.py` measures each map (slope integrability) and inverts green, run by `tools/prepare_actor_glb.py` and `tools/link_static_model_lods.py`; `--check` audits installed GLBs. |
 | Static decoration extras | `openyamm_wind`, `openyamm_billboard`, `openyamm_translucency`, `openyamm_uv_scroll`, `openyamm_flipbook`, `openyamm_flutter`; COLOR_0 multiplies the base colour (`engine/models/ModelAsset.h` documents each). |
@@ -71,6 +72,11 @@ per creature, which is what instancing (section 4) batches.
   held time on the first corpse: every mesh node with its colour and shadow LOD chains skinned and morphed into
   asset space on identity nodes, with the source's materials and images (so GPU textures are shared). A baked node
   must carry an identity `matrix`, because poses read `node.matrix`, not the TRS.
+  An optional third argument, `minimumPixels`, hides the stand-in in colour views wherever its projected bounds are
+  smaller than that on screen. Ground items use 8: in a dump of every item (save ITEMS_1, about 900 items in view to
+  the horizon), it took 1407 draws to 1039 and 300 to about 410 FPS at 1600x900, losing only part of the band of
+  items along the horizon under the fog. Their models have no LOD chain, so the items that remain drawn still cost
+  full detail. Corpses, satchels and projectiles draw at every size.
 - **Loot satchels (always on).** Once a slain creature's body is at rest (model: its baked
   stand-in is shown; sprite: its dead frame), `WorldFxSystem::syncCorpseSatchels` waits 0.1 s, then the body dissolves
   (`ModelInstanceSystem::setCoverage`, screen-door dither on the stand-in and attachment placements) while it sinks by
@@ -106,6 +112,14 @@ per creature, which is what instancing (section 4) batches.
   (`ActorPortraitView`, ordered before the HUD view), without sun shadows, hover outlines or a change of the world's sky
   environment and LOD state. The copy is released on the first frame after the popup closes; actors without a model
   keep their sprite.
+- **Ambient particle effects.** An actor binding can set `ambient_effect: {id: mm8:fx/wisp_stars, radius: 48}`.
+  The named effect follows the model origin at the tier's relative scale while alive, visible and within 4096 world
+  units. It repeats its emission cycle while the previous cycle's particles drain; death, hiding and removal stop
+  emission, and teleporting clears the active cycle. The radius is the full particle extent in reference-tier world
+  units for portrait framing. Inspect portraits simulate the same effect on their own clock and draw it into their
+  target, separately from world particles. Additive stars sharing a texture batch across creatures in `EffectRenderer`;
+  each star is a camera-facing quad, with an additional glow pass when bloom is active. Wisp's bounded-count, pause,
+  repeat, hidden/death drain and portrait coverage is in `mm8_wisp_actor_models_keep_sizes_effects_and_empty_corpse`.
 
 ```yaml
 - descriptor: Necromancer A                # monster table name
@@ -128,21 +142,34 @@ per creature, which is what instancing (section 4) batches.
       cast: {impact: 0.75, glow: [staff_head], color: [176, 70, 255]}   # colour instead of the projectile's
       attack_melee: {impact: 0.70}
     look: {nodes: [neck, Head], max_yaw_degrees: 60, max_pitch_degrees: 35}   # optional head turn, see below
-    # also: cast, run, stride_length, upper_body_root, eye_color (sockets eye_left/eye_right)
+    # also: cast, run, stride_length, run_stride_length, sprint + sprint_stride_length (optional faster gait),
+    # gait_rate, upper_body_root, eye_color (sockets eye_left/eye_right); gaits: CREATURE_POSTPROCESS.md step 3
   clips: {standing: …, walking: …, attack_melee: …, attack_ranged: …, hit: …, dying: …, dead: …, fidget: …}
 ```
 
-**Action timing (`animation.events`).** Gameplay timing never follows a model: an attack or cast lasts the native
-sprite action, and the game applies it (the melee hit lands, the missile or spell is released) when the sprite's
-authored contact frame appears (`engine/rendering/sprite_attack_timing.yml`), or when the whole sprite animation has
-played for a sprite without one, as MM8 does (`re_mm8/ACTOR_ATTACK_TIMING.md`). The monster table's recovery runs from
-the action's start, exactly as for the sprite. A model clip may keep its own, longer timing (a mocap or library clip at
+**Aim height.** The party aims at 60 % of a monster's collision height, or 60 % up its bound model when the model is
+shorter (MM8's Bone Dragon: 450 tall, its model about 166), so shots meet the body rather than the air above it
+(`actorTargetHeight`, `GameplayRuntimeActorState::targetHeight`). The model's height is its bind pose from the file's
+JSON (`Engine::readGltfModelSummary`), with the binding's `scale`, `scale_reference` and `z_offset` and the actor's
+own scale; hits still test the collision cylinder.
+
+**Action timing (`animation.events`).** Gameplay never follows a posed model, but it reads the bindings' data
+(`resolveActorAttackTiming`, `ActorModelManifest::attackClips`): an attack or cast lasts the native sprite action, and
+the game applies it (the melee hit lands, the missile or spell is released) when the sprite's authored contact frame
+appears (`engine/rendering/sprite_attack_timing.yml`); for a sprite without one, at the binding's `impact` key when it
+falls within the action, else when the whole sprite animation has played, as MM8 does (`re_mm8/ACTOR_ATTACK_TIMING.md`).
+A manifest whose clips are its monsters' native timing (MM9's: top-level `attack_timing: clip`) instead lasts the
+clip and applies at its key, over any stand-in sprite (lengths read from the model file's JSON,
+`Engine::readGltfModelSummary`). The monster table's recovery runs from the action's start, exactly as for the
+sprite (MM9's loops from the clip's end). A model clip may keep its own, longer timing (a mocap or library clip at
 its intended speed): its event `impact` is the clip time of the moment the game acts (the blow lands, the staff or bow
 releases). `WorldFxSystem` fits the clip's wind-up `[0, impact]` to the native time until that moment, so that frame
 plays exactly when the game acts (`GameplayRuntimeActorState::attackImpactLeadSeconds` is the action time still to
 run). The rest of the clip plays at its own speed: through the rest of the action (whole body), then as
 follow-through: the whole body while the actor stands, the upper body over the gait while it walks (needs
-`upper_body_root`). A hit, death, script or the next attack cuts it with the usual blend. Author the wind-up close to
+`upper_body_root`; a binding without one attacks with its whole body, moving or not, as MM9's plain animator). A hit,
+death (a 0.1 s blend unless `death_blend_seconds` says otherwise), script or the next attack cuts it with the usual
+blend. Author the wind-up close to
 that native time (stretching beyond about ±20 % shows) and keep the follow-through within the monster's recovery
 (MM6 cleric: 0.75 s action, 1.33-1.5 s recovery). Without a marker, a clip runs on the action clock and is cut when
 the action ends. The contact frames and markers are picked in `level_generation/creatures/timing_review/`.
@@ -157,7 +184,10 @@ body origin. The charge colour comes from the projectile the action releases:
 - a missile token through `monster_projectiles.txt` and its object (an Energy robot's blaster);
 - with the enhanced projectile style, the flight light of that monster's projectile binding.
 
-`color` overrides it, and `glow_scale` sizes the glow. A physical missile (arrow, rock) charges only when it has a
+`color` overrides it, and `glow_scale` sizes the glow. A melee attack event may also name `glow` sockets (with
+`glow_scale`; no `release`): the blow charges there during its wind-up and goes out with sparks as it lands. It launches
+nothing, so its glow is drawn only in its own `color`, which the loader requires (`attack_melee: {impact: 0.7,
+glow: [fist], color: [255, 120, 40]}`). A physical missile (arrow, rock) charges only when it has a
 `color`. On a ranged attack, `effects` maps a missile element to a named effect drawn at the glow sockets instead of the
 glow. The sockets are placed in `level_generation/creatures/timing_review/`. Regressions:
 `mm6_cleric_actor_marked_attack_fits_the_action_and_follows_through`,
@@ -200,6 +230,8 @@ their prepass, and that variant skips the normal map and the sky reflection: on 
 fill much of a forest view. Measured in the dense out07 view (frozen, desktop), the frame went 0.83 -> 0.80 ms; there
 the leaves cost about 0.34 ms (depth prepass about 0.12, shading about 0.22), and dropping the prepass would add about
 0.25 ms.
+
+**Blended skins** sort by where the primitive's main joint (`anchorJoint`, most vertex weight) carries its centre this frame, so a swinging limb or a flying head keeps the right layer.
 
 **Static blended order** (`ModelRenderer::renderStatic`). Blended primitives (flames, glows) write no depth, so they
 are shaded in a second pass after every opaque and alpha-tested primitive of the static decorations. Before that,
@@ -286,6 +318,14 @@ uniforms persist between draws. The emission colour is linear: fire orange is ab
 After the burn completes, picking uses only visible attachment bounds (for example, Wyrm charred remains),
 or the loot satchel when present; the vanished body is no longer pickable.
 
+**Energy shield shells** (`ModelShieldShell`, `ModelInstanceSystem::setShieldShell`, `submitShieldShell`; game side:
+`devdocs/ENERGY_SHIELDS_AND_RELATIONS.md`). An instance with a shell draws each skinned or CPU-deformed draw once more
+after the scene's blended parts, with `vs_model_shield`/`fs_model_shield`: pushed out along the normals, additive,
+both faces, depth-tested without depth writes, and again into the glow view at 45 % when bloom runs; also in the
+inspect portrait. The program loads on the first shielded draw; without shells nothing is submitted and the existing
+programs are unchanged (all shader binaries compared identical, 2026-10-23). Creatures stay instanced: the shell is
+an extra single draw.
+
 **Attachments** become static placements (`collectAttachments`): one `ModelStaticGroup` per item model and
 variant, with each placement at its carrier's node matrix. A placement takes the carrier's colour LOD level, its
 ambient light and sun visibility, its point lights folded into undirected light at the item, and its hover
@@ -337,8 +377,49 @@ billboard's sector, and carried items their carrier's.
 (`BGFX_DISCARD_NONE`), the alpha-tested program and an additive state over the world depth: blended flame and glow
 cards (additive, unlit or flipbook materials) with their display colour times a weight (0.45 for additive cards,
 whose flipbooks already include a halo; 0.8 for blended flames), other emissive materials with their emission and
-pulse. `fs_model` returns the glow right after the fog, so cards still fade in fog and so does their bloom. Creatures
-do not glow yet (their instanced paths would need the same second submission).
+pulse. `fs_model` returns the glow right after the fog, so cards still fade in fog and so does their bloom. Creature
+materials glow only when they opt in (below).
+
+**Emission and bloom** (2026-10-22, opt-in from data; Hesper's energy parts). How it works:
+- *Emission.* `ModelMaterial::emissive` is the glTF `emissiveFactor` times `KHR_materials_emissive_strength`; the
+  loader reads both for every material, static or skinned. `fs_model` adds it unlit after the lighting, the edge
+  darkening and before the SDR shoulder and fog (`u_modelSurface.xyz`, times `v_flowInfo.a`: a static placement's
+  `openyamm_pulse`/`openyamm_flicker` from `vs_model_instanced`, 1 for creatures). The contour shell emits nothing.
+  This was already so for factor-only emission on creatures (the MM6 robot's eye, `mm6_rob1`: the only emitting
+  creature material of MM6-MM8) and static models (196 materials: satchel gems, braziers, crystals).
+- *Emissive texture* (`emissiveImageIndex`, new). Desktop and Android share the shader source: `fs_model.sc` compiled
+  with `MODEL_EMISSIVE_MAP=1` is `fs_model_emissive.bin` (every shader profile: glsl, essl, spirv), which multiplies the
+  emission by `s_modelEmissive` (stage 7). `ModelRenderer` draws a material with that program (single draws,
+  instanced creatures, static placements, the glow pass) only when the material has an emissive texture, and binds
+  stage 7 only then. The three programs load the first time a model with an emissive texture is prepared
+  (`setEmissiveProgramLoader`, set by the indoor and outdoor renderers); a renderer without a loader (terrain
+  bushes) gives such a texture no emission rather than lighting the whole material. Every other draw keeps its
+  program, bindings and uniforms: `fs_model.bin`, `fs_model_prepassed.bin` and `fs_model_coverage.bin` compile to
+  the same bytes as before (checked for glsl and essl: the default variant preprocesses to the same source). An
+  emissive alpha-tested static material shades with the emissive program after its depth prepass (alpha test
+  repeated at equal depth, normal map and sky reflection kept).
+- *Bloom* (`video.bloom`; `CinematicGrading::glowView`). Static emitters glow whenever they emit, as before. A
+  creature (skinned) material draws into the glow view only with `ModelMaterial::bloom`: true with an emissive
+  texture, otherwise only with the extra `openyamm_bloom: true` (false opts a textured one out), so `mm6_rob1`'s eye
+  keeps its unbloomed look. The glow is a second submission of the same colour draw (`BGFX_DISCARD_NONE`,
+  `submitCreatureGlow`): single draws and instanced runs alike, before the contour shell; not in reflections or
+  inspect portraits (the portrait shows the emission without bloom). Burning emitters glow with their burn too. With
+  bloom off, or no emitter in view, nothing is submitted and the bloom chain is skipped (`glowDrawn`).
+- *Tiers.* Each `KHR_materials_variants` material carries its own factor (and may name its own texture), so tiers
+  share one mask and glow in different colours. Corpses (`bakeStaticModelPose`) and split attachments are static
+  models with the same materials: they glow as statics do.
+- *Pulse on creatures.* `openyamm_pulse` / `openyamm_flicker` scale a creature material's emission on the CPU
+  (`modelCreaturePulse` in `ModelAsset.h`, the static shader's formula at phase 0, on the creature clock), in the
+  factor uploaded per draw: every creature of a material pulses in step, instanced or not.
+- *Cook.* `tools/cook_models.py` cooks an `emissiveTexture` as an sRGB colour map of the model's quality (desktop
+  BC1/BC7, Android ETC2; flat maps shrink like colour maps); before it rejected the slot. Models without one plan
+  and cook exactly as before (all 1,657 source models compared, 2026-10-22).
+- *In use* (Hesper stage only): the acid crawlers (`hes_crawler_claude`: grey acid mask, one factor per tier, pulse)
+  and the Landfall turrets (`hes_turrets_claude`: the `_Energy` material's own base colour map as its emissive
+  texture, so the glow costs no extra texture; the cook shares the cooked map).
+- *Authoring:* `level_generation/creatures/CLAUDE_CREATURE_TEXTURES.md` ("Emission") and
+  `level_generation/creatures/claude_shared/emission.py`. The three.js review viewers show emissive maps as they are
+  (MeshStandardMaterial), without bloom.
 
 **Highlights on static models** (`pointSpecularOnly`, 2026-10-16). Indoors, a decoration placement's light is the
 light its sprite would receive, which already includes the nearby torches' diffuse share, and the sky reflection is
@@ -364,8 +445,10 @@ A variant needs no new mesh: give it a tier ramp, a scale and attachments, plus 
    the bone axis, the crystal centred on `Socket_Staff_Head`), link its LODs, install it.
 3. Bind it in `actors.yml` (example above). Items of the same model batch across all carriers; a different item
    adds one draw per LOD in view.
-4. Test: `actor spawn 307 1 <x> <y> <z>` (Necromancer A, not placed on any MM6 map) with
-   `debug.actor_models=true debug.immortal=true`. Regression: `mm6_pmn2_actor_models_bind_free_haven_mages` checks
+4. Test: spawn the bound descriptor with `actor spawn <id> 1 <x> <y> <z>` and
+   `debug.actor_models=true debug.immortal=true`. The boss mage demo above (Necromancer A, 307) was unbound on
+   2026-10-21: that descriptor is MM7's own Necromancer, and the tier, artifact staff and `bosses/necro_mage`
+   behaviour are kept for a future boss. Regression: `mm6_pmn2_actor_models_bind_free_haven_mages` checks
    the four tiers of one skin and that every mage carries its staff on the Staff bone.
 
 ## 6. Profiling switches and measured state
@@ -455,6 +538,11 @@ indoor maps have no bake. A binding without `maps` applies to every map of its k
   lists them with positions).
 - `swing: [degrees, seconds]` swings the model about the asset x axis through the top of its bounds,
   `DecorationModelSet::animate` on the CPU, each placement out of step.
+- `turn_in: [degrees, seconds]` makes a switched-to model turn into its pose: when an event's `SetSprite` moves a
+  placed decoration to this binding during play, `DecorationModelSet::animate` turns it from `-degrees` back to its
+  own pose about the asset z axis (its front axis: a valve wheel's axle) through the centre of its bounds, easing in
+  and out. A decoration placed at load, or switched before the first update (a map's load event restoring its state),
+  stands in the pose at once. Hesper's valves use it (`hes_valve_wheel_turned`).
 - `still: true` records that a natively animated sprite is drawn by a still model. The regression
   `mm6_decoration_models_keep_native_animation` fails for an animated sprite whose model has no flipbook, uv scroll,
   flutter, wind, pulse or swing.
@@ -486,8 +574,8 @@ glossy props such as the iron torches, so it stays faint until indoor models get
 The billboard pass skips sprites a model draws. Water reflections draw the models too.
 
 **Picking.** Indoors and outdoors, `DecorationModelSet::raycast` tests a model's LOD1 triangles. Camera-facing
-cards are turned toward the ray origin first (`facingCardCorner`, the same turn as `modelStaticPosition`), so a
-flame picks where it is drawn. Indoors, the coarse entity box is skipped for entities drawn by a model.
+cards are turned toward the ray origin first (`facingCardCorner`, the same turn as `modelStaticPosition`, about the
+same pivot: the model origin, or a `"card"` billboard's own centre), so a flame picks where it is drawn. Indoors, the coarse entity box is skipped for entities drawn by a model.
 
 **Animated materials.** `openyamm_flipbook` (fire), `openyamm_uv_scroll` (water, foam), `openyamm_flutter` (flags),
 `openyamm_wind` (foliage) and `openyamm_pulse: [amplitude, period]` (glow; the emission scaled by

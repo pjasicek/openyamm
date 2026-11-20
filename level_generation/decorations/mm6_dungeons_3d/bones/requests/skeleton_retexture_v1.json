@@ -1,0 +1,14 @@
+{
+  "model_url": "@file:texturing/skeleton_upload.glb",
+  "ai_model": "meshy-7",
+  "enable_original_uv": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "target_formats": ["glb"],
+  "multiview_image_urls": [
+    "@file:skeleton/references_hd/01_front.png",
+    "@file:skeleton/references_hd/03_left.png",
+    "@file:skeleton/references_hd/02_back.png",
+    "@file:skeleton/references_hd/04_right.png"
+  ]
+}

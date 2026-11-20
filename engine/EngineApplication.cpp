@@ -6,11 +6,13 @@
 
 #include <algorithm>
 #include <atomic>
+#include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace OpenYAMM::Engine
@@ -40,7 +42,7 @@ constexpr Sint64 AndroidInputTypeTextFlagNoSuggestions = 0x00080000;
 
 bool startManagedTextInput(SDL_Window *pWindow)
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     SDL_PropertiesID properties = SDL_CreateProperties();
 
     if (properties == 0)
@@ -48,12 +50,17 @@ bool startManagedTextInput(SDL_Window *pWindow)
         return SDL_StartTextInput(pWindow);
     }
 
+#if defined(__ANDROID__)
     const Sint64 inputType =
         AndroidInputTypeClassText
         | AndroidInputTypeTextVariationVisiblePassword
         | AndroidInputTypeTextFlagNoSuggestions;
 
     SDL_SetNumberProperty(properties, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, inputType);
+#else
+    // Answers and names are typed as entered, without automatic capitals.
+    SDL_SetNumberProperty(properties, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER, SDL_CAPITALIZE_NONE);
+#endif
     SDL_SetBooleanProperty(properties, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, false);
     SDL_SetBooleanProperty(properties, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
 
@@ -178,6 +185,17 @@ void enforceMinimumWindowAspect(SDL_Window *pWindow)
     }
 }
 
+// Agent test runs set OPENYAMM_START_MINIMIZED=1 so the window renders without covering the desktop.
+bool startMinimizedRequested()
+{
+#if defined(__ANDROID__)
+    return false;
+#else
+    const char *pValue = std::getenv("OPENYAMM_START_MINIMIZED");
+    return pValue != nullptr && std::string_view(pValue) != "0" && std::string_view(pValue) != "false";
+#endif
+}
+
 uint64_t initialWindowFlagsForMode(WindowMode mode)
 {
     uint64_t flags = 0;
@@ -187,12 +205,23 @@ uint64_t initialWindowFlagsForMode(WindowMode mode)
         flags |= SDL_WINDOW_RESIZABLE;
     }
 
+#if defined(OPENYAMM_IOS)
+    // Render in device pixels, as on Android. In UIKit points an iPhone screen is only about 400 high, too small for
+    // the 480-unit HUD canvases and their bitmap fonts.
+    flags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
+#endif
+
     return flags;
 }
 
 SDL_Window *createApplicationWindow(const ApplicationConfig &config)
 {
-    const uint64_t flags = initialWindowFlagsForMode(config.windowMode);
+    uint64_t flags = initialWindowFlagsForMode(config.windowMode);
+
+    if (startMinimizedRequested())
+    {
+        flags |= SDL_WINDOW_MINIMIZED;
+    }
 
 #if defined(__ANDROID__)
     const SDL_PropertiesID properties = SDL_CreateProperties();
@@ -218,6 +247,16 @@ SDL_Window *createApplicationWindow(const ApplicationConfig &config)
         config.windowHeight,
         flags);
 #endif
+}
+
+// Exclusive fullscreen accepts only a mode the display lists, so a saved size picks the display's closest mode.
+bool setExclusiveFullscreenMode(SDL_Window *pWindow, int width, int height)
+{
+    SDL_DisplayMode displayMode = {};
+
+    return SDL_GetClosestFullscreenDisplayMode(
+               SDL_GetDisplayForWindow(pWindow), width, height, 0.0f, true, &displayMode)
+        && SDL_SetWindowFullscreenMode(pWindow, &displayMode);
 }
 
 bool applyWindowMode(SDL_Window *pWindow, const ApplicationConfig &config)
@@ -249,24 +288,15 @@ bool applyWindowMode(SDL_Window *pWindow, const ApplicationConfig &config)
 
     case WindowMode::Fullscreen:
     {
-        const SDL_DisplayID displayId = SDL_GetPrimaryDisplay();
-        const SDL_DisplayMode requestedMode = {
-            .displayID = displayId,
-            .format = SDL_PIXELFORMAT_UNKNOWN,
-            .w = config.windowWidth,
-            .h = config.windowHeight,
-            .pixel_density = 0.0f,
-            .refresh_rate = 0.0f,
-            .refresh_rate_numerator = 0,
-            .refresh_rate_denominator = 0,
-            .internal = nullptr
-        };
-
-        if (!SDL_SetWindowFullscreenMode(pWindow, &requestedMode))
+#if !defined(OPENYAMM_IOS)
+        // iOS owns its display mode; a desktop resolution is not a valid UIKit mode.
+        // A display without that mode (another monitor, Gamescope) starts at desktop resolution instead of quitting.
+        if (!setExclusiveFullscreenMode(pWindow, config.windowWidth, config.windowHeight))
         {
-            std::cerr << "SDL_SetWindowFullscreenMode failed: " << SDL_GetError() << '\n';
-            return false;
+            std::cerr << "No " << config.windowWidth << "x" << config.windowHeight
+                      << " fullscreen mode (" << SDL_GetError() << "), using the desktop resolution\n";
         }
+#endif
 
         if (!SDL_SetWindowFullscreen(pWindow, true))
         {
@@ -333,7 +363,7 @@ int EngineApplication::run() const
         return 1;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
 #endif
 
@@ -374,7 +404,8 @@ int EngineApplication::run() const
     }
 
     std::unique_ptr<SDL_Window, SdlWindowDeleter> pWindow(pRawWindow);
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(__APPLE__)
+    // Apple app bundles carry their own icon; a window icon would replace it in the Dock.
     const std::optional<std::vector<uint8_t>> iconBytes =
         assetFileSystem.readBinaryFile("engine/branding/app_icon.png");
     std::optional<ImagePixelsBgra> icon = iconBytes
@@ -400,6 +431,11 @@ int EngineApplication::run() const
     if (m_config.windowMode == WindowMode::Windowed)
     {
         enforceMinimumWindowAspect(pWindow.get());
+    }
+    else if (startMinimizedRequested())
+    {
+        // Entering fullscreen can restore a window created minimized.
+        SDL_MinimizeWindow(pWindow.get());
     }
 
     BgfxContext bgfxContext;
@@ -474,7 +510,8 @@ int EngineApplication::run() const
     uint64_t fpsBgfxFrameNanoseconds = 0;
     std::vector<uint64_t> cpuFrameTimes;
     std::vector<uint64_t> gpuFrameTimes;
-    uint32_t lastGpuFrameNumber = UINT32_MAX;
+    int64_t lastGpuTimeBegin = -1;
+    int64_t lastGpuTimeEnd = -1;
     const auto syncManagedTextInput = [this, &pWindow]()
     {
         if (!m_textInputActiveCallback)
@@ -555,6 +592,11 @@ int EngineApplication::run() const
             deltaSeconds = 1.0f / 60.0f;
             lastFrameTickCount = SDL_GetTicksNS();
             refreshRenderWindow = true;
+        }
+
+        if (m_fixedFrameSeconds > 0.0f)
+        {
+            deltaSeconds = m_fixedFrameSeconds;
         }
 
         uint64_t frameEventNanoseconds = 0;
@@ -643,12 +685,15 @@ int EngineApplication::run() const
                 fpsLoopNanoseconds += frameLoopNanoseconds;
                 cpuFrameTimes.push_back(frameLoopNanoseconds);
                 const bgfx::Stats *pStats = bgfx::getStats();
+                // GPU results arrive asynchronously. Metal leaves gpuFrameNum at zero, so count each completed
+                // timestamp pair once.
                 if (pStats != nullptr && pStats->gpuTimerFreq > 0 && pStats->gpuTimeEnd > pStats->gpuTimeBegin
-                    && pStats->gpuFrameNum != lastGpuFrameNumber)
+                    && (pStats->gpuTimeBegin != lastGpuTimeBegin || pStats->gpuTimeEnd != lastGpuTimeEnd))
                 {
                     gpuFrameTimes.push_back(uint64_t(double(pStats->gpuTimeEnd - pStats->gpuTimeBegin)
                         / double(pStats->gpuTimerFreq) * 1000000000.0));
-                    lastGpuFrameNumber = pStats->gpuFrameNum;
+                    lastGpuTimeBegin = pStats->gpuTimeBegin;
+                    lastGpuTimeEnd = pStats->gpuTimeEnd;
                 }
             }
 
@@ -776,6 +821,19 @@ bool EngineApplication::applyDisplaySettings(WindowMode mode, int width, int hei
         error = "The display is not initialized.";
         return false;
     }
+#if defined(OPENYAMM_IOS)
+    // iOS windows always fill the screen; only the presentation settings apply.
+    static_cast<void>(mode);
+    static_cast<void>(width);
+    static_cast<void>(height);
+    m_config.verticalSync = verticalSync;
+    int pixelWidth = 0;
+    int pixelHeight = 0;
+    SDL_GetWindowSizeInPixels(m_pRunningWindow, &pixelWidth, &pixelHeight);
+    m_pRunningContext->setVerticalSync(verticalSync);
+    m_pRunningContext->resize(m_pRunningWindow, pixelWidth, pixelHeight);
+    return true;
+#else
     if (!SDL_SetWindowFullscreen(m_pRunningWindow, false) || !SDL_SetWindowFullscreenMode(m_pRunningWindow, nullptr) ||
         !SDL_SetWindowBordered(m_pRunningWindow, mode != WindowMode::WindowedFullscreen))
     {
@@ -789,10 +847,7 @@ bool EngineApplication::applyDisplaySettings(WindowMode mode, int width, int hei
     }
     else if (mode == WindowMode::Fullscreen)
     {
-        SDL_DisplayMode displayMode = {};
-        success = SDL_GetClosestFullscreenDisplayMode(SDL_GetDisplayForWindow(m_pRunningWindow), width, height, 0, true,
-                                                      &displayMode) &&
-                  SDL_SetWindowFullscreenMode(m_pRunningWindow, &displayMode) &&
+        success = setExclusiveFullscreenMode(m_pRunningWindow, width, height) &&
                   SDL_SetWindowFullscreen(m_pRunningWindow, true);
     }
     else
@@ -813,6 +868,12 @@ bool EngineApplication::applyDisplaySettings(WindowMode mode, int width, int hei
     m_pRunningContext->setVerticalSync(verticalSync);
     m_pRunningContext->resize(m_pRunningWindow, pixelWidth, pixelHeight);
     return true;
+#endif
+}
+
+void EngineApplication::setFixedFrameSeconds(float seconds)
+{
+    m_fixedFrameSeconds = std::max(0.0f, seconds);
 }
 
 void EngineApplication::setMaxAnisotropy(uint8_t level)
@@ -872,6 +933,7 @@ bool EngineApplication::initializeAssetFileSystem(AssetFileSystem &assetFileSyst
         m_config.assetRoot,
         m_config.assetScaleTier,
         m_config.assetScaleProfile,
-        m_config.activeWorldId);
+        m_config.activeWorldId,
+        m_config.installedContent);
 }
 }

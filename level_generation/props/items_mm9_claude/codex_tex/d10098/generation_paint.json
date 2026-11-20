@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit the first input image paint_mask_guide.png precisely, using design_reference.png (second image) as material/detail reference and icon_x8.png (third image) as colour reference only, ignoring its magenta background.\nOutput ONE transparent PNG at 1536x2048, 3:4 canvas, preserving the guide's exact three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five grey orthographic renders FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve actual guide orientations even where these view names seem unexpected. Every object must stay in exactly the same position, size and outline as its grey guide. Paint grey objects only; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour of a short-sleeved tunic of dark iron-grey chain mail with an overlapping wrap front crossing diagonally to the hip, a plain round neck and a skirt split at the front; dull dark iron, no trim. Closely detailed interlocking iron chain rings follow approved design reference, scaled to each view. Facets, engravings, scrollwork and inner swirls, where present, follow reference. No added decorations. Unlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: fill same five silhouettes with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass). Pure green #00FF00 every leather part (straps, padding, hide, suede) and fur. Pure blue #0000FF every cloth part (tabards, quilting, linings, cords, ribbons) and hair. Pure black #000000 every gemstone, crystal, glass, pearl, enamel or liquid through glass. This item is entirely iron chain mail, so all five bottom silhouettes must be solid pure red #FF0000 throughout, including visible inner surfaces. Every silhouette pixel exactly one material colour, nothing outside.\nKeep every gap and opening exactly as guide and fully transparent. Empty cells column 3 row 2 and row 4 remain entirely transparent. Preserve alpha background, no checkerboard painted into image.\nCRITICAL CORRECTION: output canvas must be 3:4 portrait, NOT a tall narrow canvas. Match the original guide 1536 wide x 2048 high exactly. Preserve the original guide alpha silhouettes precisely. Clean hard solid red material silhouettes with zero stray speckles, zero red pixels outside guide objects. Do not add bottom padding or shrink the layout. All four rows fill the canvas exactly as original guide.",
+  "initial_prompt": "Edit the first input image paint_mask_guide.png precisely, using design_reference.png (second image) as material/detail reference and icon_x8.png (third image) as colour reference only, ignoring its magenta background.\nOutput ONE transparent PNG at 1536x2048, 3:4 canvas, preserving the guide's exact three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five grey orthographic renders FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve actual guide orientations even where these view names seem unexpected. Every object must stay in exactly the same position, size and outline as its grey guide. Paint grey objects only; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour of a short-sleeved tunic of dark iron-grey chain mail with an overlapping wrap front crossing diagonally to the hip, a plain round neck and a skirt split at the front; dull dark iron, no trim. Closely detailed interlocking iron chain rings follow approved design reference, scaled to each view. Facets, engravings, scrollwork and inner swirls, where present, follow reference. No added decorations. Unlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: fill same five silhouettes with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass). Pure green #00FF00 every leather part (straps, padding, hide, suede) and fur. Pure blue #0000FF every cloth part (tabards, quilting, linings, cords, ribbons) and hair. Pure black #000000 every gemstone, crystal, glass, pearl, enamel or liquid through glass. This item is entirely iron chain mail, so all five bottom silhouettes must be solid pure red #FF0000 throughout, including visible inner surfaces. Every silhouette pixel exactly one material colour, nothing outside.\nKeep every gap and opening exactly as guide and fully transparent. Empty cells column 3 row 2 and row 4 remain entirely transparent. Preserve alpha background, no checkerboard painted into image.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acaa-826d-72a0-af15-f787dbe9d8e9/exec-efd70b14-3280-4834-b7c8-0e911a6c2205.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10098/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": [
+    "Corrective output retains stray red pixels outside material silhouettes and does not fully satisfy exact mask requirements. Saved raw tool output without editing, per brief."
+  ],
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10098/paint_mask_guide.png",
+      "sha256": "eca168d3cc6104464075fb4d0f361ce62b901a1a771f7415bafbf7f3ebaeeeb4"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10098/design_reference.png",
+      "sha256": "0ab7462fc4ff00184b6f48d66117c9ff6de8493a69b807da0ffbbafc4b81ed46"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10098/icon_x8.png",
+      "sha256": "03012abbd239e4f9975dcc830eddb79c7eb6416fb1a60dd63d0c8f86dd1c7d5a"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

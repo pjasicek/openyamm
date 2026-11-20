@@ -56,6 +56,7 @@ def main():
             groups[(vertex.index + offset) % 12].add([vertex.index], .25, 'REPLACE')
     body.modifiers.new('Skin', 'ARMATURE').object = rig
     body.parent = rig
+    protected = [tuple(body.data.vertices[index].co) for index in (11, 33, 99)]
     bpy.ops.object.select_all(action='DESELECT')
     body.select_set(True)
     rig.select_set(True)
@@ -63,7 +64,9 @@ def main():
         source, result = Path(directory) / 'source.glb', Path(directory) / 'result.glb'
         bpy.ops.export_scene.gltf(filepath=str(source), use_selection=True, export_animations=False)
         bpy.ops.wm.read_factory_settings(use_empty=True)
-        generate(source, result, 'SeamFixture')
+        material_ratios = (.4, .16, .06)
+        generate(source, result, 'SeamFixture', ratios=(.8, .5, .3), protected_points=protected,
+                 material_ratios={'FixtureMaterial': material_ratios})
         document, binary = read_glb(result)
         levels = [0] + document['meshes'][0]['extras']['openyamm_lods']
         for level in levels:
@@ -77,8 +80,24 @@ def main():
                 assert all(weight >= 0 for weight in weights) and abs(sum(weights) - 1) < 1e-5
             positions = list(struct.iter_unpack('<3f', accessor_bytes(
                 document, binary, primitive['attributes']['POSITION'])))
+            joint_sets = [list(struct.iter_unpack(
+                '<4H' if document['accessors'][index]['componentType'] == 5123 else '<4B',
+                accessor_bytes(document, binary, index)))
+                for name, index in attributes.items() if name.startswith('JOINTS_')]
+            joint_names = [document['nodes'][i]['name'] for i in document['skins'][0]['joints']]
+            for source_index, (x, y, z) in zip((11, 33, 99), protected):
+                distances = [sum((a-b)**2 for a, b in zip(position, (x, z, -y))) for position in positions]
+                vertex = min(range(len(distances)), key=distances.__getitem__)
+                assert distances[vertex] < 1e-10, f'LOD {level} moved a protected contact'
+                actual = {joint_names[j]: w for joints, weights in zip(joint_sets, weight_sets)
+                          for j, w in zip(joints[vertex], weights[vertex]) if w > 1e-6}
+                expected = {f'Joint{(source_index+offset)%12}': .25 for offset in range(4)}
+                assert actual.keys() == expected.keys() and all(abs(actual[k]-v) < 1e-5
+                       for k, v in expected.items()), f'LOD {level} changed protected skin weights'
             vertices = [tuple(round(value, 5) for value in position) for position in positions]
             accessor = document['accessors'][primitive['indices']]
+            if level:
+                assert accessor['count'] // 3 <= 960 * material_ratios[level - 1], 'Material budget was ignored'
             code = {5123: 'H', 5125: 'I'}[accessor['componentType']]
             indices = [row[0] for row in struct.iter_unpack('<' + code, accessor_bytes(
                 document, binary, primitive['indices']))]

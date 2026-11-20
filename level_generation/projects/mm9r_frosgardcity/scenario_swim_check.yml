@@ -1,0 +1,57 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.frosgardcity_swim_check
+title: 'Frosgard City (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: frosgardcity.blv
+- note:
+    text: 'BlueWater0: on the harbour bed at LT (6000, -1800), -1352, 986 under its top -366.1 (open water inside the fence; swim_check.py picked the far sea, which has no bed)'
+- set_pose:
+    map: frosgardcity.blv
+    x: 15360
+    y: -4608
+    z: -1351
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -1339.7
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 3.1
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: frosgardcity.blv
+      x: 15360
+      y: -4608
+      z: -1351
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: frosgardcity.blv
+      x: 15360
+      y: -4608
+      z: -499
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99

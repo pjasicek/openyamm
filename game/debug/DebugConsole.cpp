@@ -432,6 +432,11 @@ void DebugConsole::executeLine(const std::string &line)
     }
 }
 
+void DebugConsole::setCommandObserver(CommandObserver observer)
+{
+    m_commandObserver = std::move(observer);
+}
+
 bool DebugConsole::dispatchCommand(const std::string &commandLine, bool reportSuccess)
 {
     const std::vector<std::string> tokens = tokenize(commandLine);
@@ -452,6 +457,14 @@ bool DebugConsole::dispatchCommand(const std::string &commandLine, bool reportSu
     CommandContext context = {};
     context.args.assign(tokens.begin() + 1, tokens.end());
     const CommandResult result = commandIt->second.callback(context);
+
+    const CommandDefinition &command = commandIt->second;
+    const bool readOnly = command.readOnly || (command.readOnlyWith && command.readOnlyWith(context.args));
+
+    if (result.success && !readOnly && m_commandObserver)
+    {
+        m_commandObserver(command);
+    }
 
     if (!result.message.empty() && (reportSuccess || !result.success))
     {
@@ -783,7 +796,7 @@ int DebugConsole::mapOptionSearchScore(const MapOption &map, const std::string &
 
 void DebugConsole::renderConsoleWindow(int width, int height)
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     renderMobileConsoleWindow(width, height);
     return;
 #endif

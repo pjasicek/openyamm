@@ -1,0 +1,201 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "status": "Generated and saved unresized candidate returns; exact brief requirements not achieved.",
+  "postprocessing": "None. PNG files copied byte-for-byte from built-in generator output.",
+  "correction_limit_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic 3D prop albedo texture-source painting, 1024 x 1024 PNG with genuine transparent background. Edit the FIRST input guide only: it is the exact geometry template, NOT a loose reference. Preserve pixel-for-pixel silhouette, framing, scale, position, camera, all polygon shape edges, all negative-space openings, every rubble piece and its boundaries. No added geometry or omitted pieces, no recentering, no cropping, no perspective. Second input design_reference.png is the approved material/color authority only; third input concept_crop.png is secondary original concept reference only. Transfer their weathered white-and-bone ceramic stone, chipped patches, fine restrained brown-grey cracks, thin tarnished gold trim on the robe hem and sash, muted grey-violet ash in folds and on the plinth onto the first image's existing surfaces. Keep the same headless broken-neck founder statue and broken arm. Preserve the guide's low-poly geometry without importing shapes or rubble arrangement from the design reference. LIGHTING: pure albedo under even flat shadowless light from viewer, no cast shadows, no ambient-occlusion darkening, no directional shading, no bright specular highlights, reflections, rim light, background or floor. Gold is a flat muted ochre tarnished material, not shiny illumination. No invented glowing features, no lettering, no labels, no watermark. Background and every existing opening remain truly transparent. Return only this one 1024x1024 painting, no guide or comparison panel.\nVIEW: FRONT. Paint directly over guide_front.png, matching its frontal orthographic pose: broken neck near (530,245), shoulders near y300, waist near y460, skirt down to y805, left diagonal arm and tall diagonal rubble slab on image left, broken right arm on image right, rubble strip from x65 to x960 near y820. Do not enlarge to fill the frame. Follow exactly the existing curved sash from waist center-left across skirt to lower right; existing belt at waist. Do not add a new hand, head, feet, pedestal, or ground.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/guide_front.png",
+          "sha256": "7b6897a3105812a74e6b512bc660ae7813bdb7e8f6fab4786ab11c5f052ed95b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/design_reference.png",
+          "sha256": "d02cdc88197846aeb51a16ee4fa69322a11fa20ae602ce7dff0d7c6d4bc99ff2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/concept_crop.png",
+          "sha256": "e9d006b1bf8e606f17ba7406dd966e506b615bec12e93fb718b8dbc24f0f5312"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/paint_front_attempt_1.png",
+      "output_sha256": "2a984ee21b628bad49823af24cb8a2af66143ce142d5f9e4dce983c7220beee4",
+      "selected": false,
+      "reason": "Retained initial raw return for provenance; rejected due to incorrect native dimensions, silhouette drift and baked shading. One corrective generation requested.",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "rgba": true,
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          15,
+          1240,
+          1254
+        ],
+        "transparent_pixels": 1126258,
+        "fully_opaque_pixels": 214,
+        "silhouette_identical": false,
+        "materials_and_colours": "Bone-white weathered ceramic stone and tarnished gold broadly follow the design reference; grey-violet ash is subdued.",
+        "flat_even_light": false,
+        "visual_notes": "Front framing broadly follows guide but extra reference-derived sculpted folds, jewellery, trim and fracture details were introduced; side faces and recesses remain shaded."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic 3D prop albedo texture-source painting, 1024 x 1024 PNG with genuine transparent background. Edit the FIRST input guide only: it is the exact geometry template, NOT a loose reference. Preserve pixel-for-pixel silhouette, framing, scale, position, camera, all polygon shape edges, all negative-space openings, every rubble piece and its boundaries. No added geometry or omitted pieces, no recentering, no cropping, no perspective. Second input design_reference.png is the approved material/color authority only; third input concept_crop.png is secondary original concept reference only. Transfer their weathered white-and-bone ceramic stone, chipped patches, fine restrained brown-grey cracks, thin tarnished gold trim on the robe hem and sash, muted grey-violet ash in folds and on the plinth onto the first image's existing surfaces. Keep the same headless broken-neck founder statue and broken arm. Preserve the guide's low-poly geometry without importing shapes or rubble arrangement from the design reference. LIGHTING: pure albedo under even flat shadowless light from viewer, no cast shadows, no ambient-occlusion darkening, no directional shading, no bright specular highlights, reflections, rim light, background or floor. Gold is a flat muted ochre tarnished material, not shiny illumination. No invented glowing features, no lettering, no labels, no watermark. Background and every existing opening remain truly transparent. Return only this one 1024x1024 painting, no guide or comparison panel.\nCORRECTIVE FRONT GENERATION, final allowed attempt. Output MUST be natively 1024 x 1024 pixels, not 1254 x 1254 or any other size. Do not resize the canvas or artwork. FIRST IMAGE guide_front.png is the edit target: paint its surface without moving a single contour. Its alpha bounding box is x66..957, y181..842 on a 1024-square canvas. The statue's neck starts y181, rubble ends y842. Keep those exact positions and the existing silhouette/alpha including all small rubble. Preserve all internal polygon boundaries. SECOND IMAGE is ONLY a color swatch/material reference; reject its lighting and extra sculpted details. THIRD image is only concept context. Use a flat matte bone-white base with restrained chipped stone speckles and hairline cracks; thin dull ochre gold on the existing belt and curved sash and hem. Grey-violet ash is painted pigment only. All planes equally illuminated including undersides and crevices; do not darken side faces or recesses, no shading gradients, no light/shadow modelling, no speculars, no AO. This is an unlit albedo projection to be baked onto the actual model, not a beauty render. Actual transparent background and holes, no floor or shadows. Return only one native 1024x1024 PNG.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/guide_front.png",
+          "sha256": "7b6897a3105812a74e6b512bc660ae7813bdb7e8f6fab4786ab11c5f052ed95b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/design_reference.png",
+          "sha256": "d02cdc88197846aeb51a16ee4fa69322a11fa20ae602ce7dff0d7c6d4bc99ff2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/concept_crop.png",
+          "sha256": "e9d006b1bf8e606f17ba7406dd966e506b615bec12e93fb718b8dbc24f0f5312"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/paint_front.png",
+      "output_sha256": "6b2232a1af539085b80645cccf883887923119799f81da678d71b2572ee5da57",
+      "selected": true,
+      "reason": "Selected as the best available unresized return after the single permitted correction; NOT accepted as brief-compliant. The tool returned 1254x1254 despite explicit 1024x1024 instructions. Geometry/silhouette drifts from the guide and shading remains. No resizing, masking, or other postprocessing performed.",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "rgba": true,
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          17,
+          19,
+          1238,
+          1254
+        ],
+        "transparent_pixels": 1126109,
+        "fully_opaque_pixels": 215,
+        "silhouette_identical": false,
+        "materials_and_colours": "Bone-white weathered ceramic stone and tarnished gold broadly follow the design reference; grey-violet ash is subdued.",
+        "flat_even_light": false,
+        "visual_notes": "Front framing broadly follows guide but extra reference-derived sculpted folds, jewellery, trim and fracture details were introduced; side faces and recesses remain shaded."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic 3D prop albedo texture-source painting, 1024 x 1024 PNG with genuine transparent background. Edit the FIRST input guide only: it is the exact geometry template, NOT a loose reference. Preserve pixel-for-pixel silhouette, framing, scale, position, camera, all polygon shape edges, all negative-space openings, every rubble piece and its boundaries. No added geometry or omitted pieces, no recentering, no cropping, no perspective. Second input design_reference.png is the approved material/color authority only; third input concept_crop.png is secondary original concept reference only. Transfer their weathered white-and-bone ceramic stone, chipped patches, fine restrained brown-grey cracks, thin tarnished gold trim on the robe hem and sash, muted grey-violet ash in folds and on the plinth onto the first image's existing surfaces. Keep the same headless broken-neck founder statue and broken arm. Preserve the guide's low-poly geometry without importing shapes or rubble arrangement from the design reference. LIGHTING: pure albedo under even flat shadowless light from viewer, no cast shadows, no ambient-occlusion darkening, no directional shading, no bright specular highlights, reflections, rim light, background or floor. Gold is a flat muted ochre tarnished material, not shiny illumination. No invented glowing features, no lettering, no labels, no watermark. Background and every existing opening remain truly transparent. Return only this one 1024x1024 painting, no guide or comparison panel.\nVIEW: TOP, vertically straight downward orthographic overhead view, exactly guide_top.png. FIRST input guide_top.png must remain the exact overhead layout, never turn it into a front view or perspective view. Paint its current surfaces in place. Statue broken neck is a small irregular polygon near (535,540), collar around it, shoulders across center, low-poly robe and rubble radiating outward exactly as the guide. Outer rubble extends approximately x65..960, y73..950. Keep every scattered separate stone, transparent gap, long rectangular block at lower right, all angular slabs, and all internal shape edges precisely fixed. Only the top surfaces of this model visible in the guide can appear. Output MUST be natively 1024 x 1024 pixels matching the input guide, no other size, no resizing, no framing change. FLAT ALBEDO: equal bone-white material brightness on all surfaces; no AO/shadow darkening between rubble or in folds, no shiny gold. Materials and colors from design reference but absolutely none of its lighting, reflections or camera. Sparse tarnished gold only where the existing robe trim is visible from overhead, grey-violet ash as subtle surface pigment. Actual transparent background and all guide openings.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/guide_top.png",
+          "sha256": "bd03136ac735ce60462bdd6a7cfa08ba7a04dabf95ecbe008fb48c5fb63ae0d7"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/design_reference.png",
+          "sha256": "d02cdc88197846aeb51a16ee4fa69322a11fa20ae602ce7dff0d7c6d4bc99ff2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/concept_crop.png",
+          "sha256": "e9d006b1bf8e606f17ba7406dd966e506b615bec12e93fb718b8dbc24f0f5312"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/paint_top_attempt_1.png",
+      "output_sha256": "248c2bba3b3ff476678ec4aa5402fd4d77c27c40aa263a498f7c7ee70a4014ed",
+      "selected": false,
+      "reason": "Retained initial raw return for provenance; rejected due to incorrect native dimensions, silhouette drift and baked shading. One corrective generation requested.",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "rgba": true,
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          9,
+          1248,
+          1254
+        ],
+        "transparent_pixels": 700169,
+        "fully_opaque_pixels": 1084,
+        "silhouette_identical": false,
+        "materials_and_colours": "Bone-white weathered ceramic stone and tarnished gold broadly follow the design reference; grey-violet ash is subdued.",
+        "flat_even_light": false,
+        "visual_notes": "Overhead arrangement broadly follows guide but neck, rubble contours and openings are not identical; planes and recesses remain shaded."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic 3D prop albedo texture-source painting, 1024 x 1024 PNG with genuine transparent background. Edit the FIRST input guide only: it is the exact geometry template, NOT a loose reference. Preserve pixel-for-pixel silhouette, framing, scale, position, camera, all polygon shape edges, all negative-space openings, every rubble piece and its boundaries. No added geometry or omitted pieces, no recentering, no cropping, no perspective. Second input design_reference.png is the approved material/color authority only; third input concept_crop.png is secondary original concept reference only. Transfer their weathered white-and-bone ceramic stone, chipped patches, fine restrained brown-grey cracks, thin tarnished gold trim on the robe hem and sash, muted grey-violet ash in folds and on the plinth onto the first image's existing surfaces. Keep the same headless broken-neck founder statue and broken arm. Preserve the guide's low-poly geometry without importing shapes or rubble arrangement from the design reference. LIGHTING: pure albedo under even flat shadowless light from viewer, no cast shadows, no ambient-occlusion darkening, no directional shading, no bright specular highlights, reflections, rim light, background or floor. Gold is a flat muted ochre tarnished material, not shiny illumination. No invented glowing features, no lettering, no labels, no watermark. Background and every existing opening remain truly transparent. Return only this one 1024x1024 painting, no guide or comparison panel.\nVIEW: TOP, vertically straight downward orthographic overhead view, exactly guide_top.png. FIRST input guide_top.png must remain the exact overhead layout, never turn it into a front view or perspective view. Paint its current surfaces in place. Statue broken neck is a small irregular polygon near (535,540), collar around it, shoulders across center, low-poly robe and rubble radiating outward exactly as the guide. Outer rubble extends approximately x65..960, y73..950. Keep every scattered separate stone, transparent gap, long rectangular block at lower right, all angular slabs, and all internal shape edges precisely fixed. Only the top surfaces of this model visible in the guide can appear. Output MUST be natively 1024 x 1024 pixels matching the input guide, no other size, no resizing, no framing change. FLAT ALBEDO: equal bone-white material brightness on all surfaces; no AO/shadow darkening between rubble or in folds, no shiny gold. Materials and colors from design reference but absolutely none of its lighting, reflections or camera. Sparse tarnished gold only where the existing robe trim is visible from overhead, grey-violet ash as subtle surface pigment. Actual transparent background and all guide openings.\nCORRECTION, FINAL ALLOWED ATTEMPT: Native output size must be precisely 1024x1024. The geometry guide's silhouette and holes must match exactly at original pixel coordinates. Remove ALL baked lighting: do not darken any side plane, the neck break, gaps within material, fold valleys or undersides. Instead paint every visible polygon with equal-value matte bone-white ceramic albedo with sparse grey-violet ash pigment and fine weathering marks. Pale neutral chips, subdued shallow cracks, no black cracks or dark holes inside the stone. Gold must be matte dull ochre, no bright lines, no reflected highlight. Preserve the shape of the central neck cross-section exactly from the guide, flat polygon, no invented jagged neck debris. Preserve all existing rubble shape boundaries, spacing and original guide transparency. Use the approved reference solely to choose bone stone and tarnished gold hues, NEVER its shadows, neck shape or three-quarter perspective. This should look like a flat unlit material-color pass, not photoreal studio lighting.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/guide_top.png",
+          "sha256": "bd03136ac735ce60462bdd6a7cfa08ba7a04dabf95ecbe008fb48c5fb63ae0d7"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/design_reference.png",
+          "sha256": "d02cdc88197846aeb51a16ee4fa69322a11fa20ae602ce7dff0d7c6d4bc99ff2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/concept_crop.png",
+          "sha256": "e9d006b1bf8e606f17ba7406dd966e506b615bec12e93fb718b8dbc24f0f5312"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_founder_statue/paint_top.png",
+      "output_sha256": "98b3387a078a8284ff81d71af806e6dd842c3c169c1070601ced766a566e03c1",
+      "selected": true,
+      "reason": "Selected as the best available unresized return after the single permitted correction; NOT accepted as brief-compliant. The tool returned 1254x1254 despite explicit 1024x1024 instructions. Geometry/silhouette drifts from the guide and shading remains. No resizing, masking, or other postprocessing performed.",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "rgba": true,
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1234,
+          1254
+        ],
+        "transparent_pixels": 715267,
+        "fully_opaque_pixels": 785,
+        "silhouette_identical": false,
+        "materials_and_colours": "Bone-white weathered ceramic stone and tarnished gold broadly follow the design reference; grey-violet ash is subdued.",
+        "flat_even_light": false,
+        "visual_notes": "Overhead arrangement broadly follows guide but neck, rubble contours and openings are not identical; planes and recesses remain shaded."
+      }
+    }
+  ]
+}

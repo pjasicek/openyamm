@@ -1,0 +1,156 @@
+# Vreth's relic pair (2026-10-24, the Harrower warglaives): Huntmaster Vreth killed in the Blooding Ring drops his
+# Mantle and both glaives (monster_death_drops, death_drop: true); the pair worn in both hands by a Master of Sword
+# (the off hand needs Master Sword). One glaive gives no set bonus and both give the Huntmaster's Flurry (item_sets),
+# each checked after a save and a load, with 200 real blows of each for the numbers. The scenario's equip step wears
+# granted copies (it has no step that moves an item from the ground or the pack to a hand); the drops stay on the
+# ground.
+id: hesper.stage.vreth_relic_pair
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out4.odm
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 200
+        skills:
+        - name: Sword
+          level: 10
+          mastery: 3
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 200
+        equipment: {}
+        skills: []
+      - name: Cyra
+        class: Knight
+        level: 200
+        equipment: {}
+        skills: []
+      - name: Dana
+        class: Knight
+        level: 200
+        equipment: {}
+        skills: []
+- note:
+    text: 'Inside the Blooding Ring, facing the dais (crown_ring.yml)'
+- set_pose:
+    map: hes_out4.odm
+    x: 16700
+    y: 9400
+    z: 1088
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 47
+      monster_id: 10147
+      dead: false
+- damage_actor:
+    actor_index: 47
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 47
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    actor_visible:
+      actor_index: 47
+      dead: true
+- note:
+    text: 'His three guaranteed drops: the Mantle, the First Cut and the Last Cut'
+- assert:
+    world_item_state:
+      item_id: 11435
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11438
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11439
+      present: true
+- note:
+    text: 'One glaive, the First Cut in the main hand: no Huntmaster''s Flurry, also after a save and a load'
+- grant_item:
+    item_id: 11438
+    member_index: 0
+    equip: MainHand
+- assert:
+    item_set_bonus:
+      member_index: 0
+      set_id: hesper:set/vreths_glaives
+      active: false
+- save_game: vreth_relic_one
+- load_game: vreth_relic_one
+- assert:
+    item_set_bonus:
+      member_index: 0
+      set_id: hesper:set/vreths_glaives
+      active: false
+- spawn_actor:
+    monster_id: 10000
+    near_party: true
+- party_attack:
+    actor_index: last
+    member_index: 0
+    count: 200
+    record: one_glaive
+    report: true
+- note:
+    text: 'Both glaives, the Last Cut in the off hand: the Huntmaster''s Flurry, also after a save and a load'
+- grant_item:
+    item_id: 11439
+    member_index: 0
+    equip: OffHand
+- assert:
+    equipped_item:
+    - item_id: 11438
+      member_index: 0
+      slot: MainHand
+    - item_id: 11439
+      member_index: 0
+      slot: OffHand
+- assert:
+    item_set_bonus:
+      member_index: 0
+      set_id: hesper:set/vreths_glaives
+      active: true
+- party_attack:
+    actor_index: last
+    member_index: 0
+    count: 200
+    ratio_to: one_glaive
+    report: true
+- save_game: vreth_relic_pair
+- load_game: vreth_relic_pair
+- assert:
+    item_set_bonus:
+      member_index: 0
+      set_id: hesper:set/vreths_glaives
+      active: true
+- assert:
+    map: hes_out4.odm
+- assert:
+    equipped_item:
+    - item_id: 11438
+      member_index: 0
+      slot: MainHand
+    - item_id: 11439
+      member_index: 0
+      slot: OffHand
+- assert:
+    world_item_state:
+      item_id: 11438
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11439
+      present: true

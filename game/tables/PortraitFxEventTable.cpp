@@ -62,6 +62,11 @@ PortraitFxEventKind parsePortraitFxEventKind(const std::string &value)
         return PortraitFxEventKind::MonsterSpecial;
     }
 
+    if (normalized == "cover")
+    {
+        return PortraitFxEventKind::Cover;
+    }
+
     return PortraitFxEventKind::None;
 }
 }

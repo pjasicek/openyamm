@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m398_claude/references_hd/00_three_quarter.png) using built-in image generation: 1024 × 1536 RGBA, unresized.
+
+Both raw returns, exact prompts, input hashes and selection notes are in [generation_runs.json](level_generation/creatures/mm7_m398_claude/references_hd/generation_runs.json). Remaining framing and pose deviations are documented there.

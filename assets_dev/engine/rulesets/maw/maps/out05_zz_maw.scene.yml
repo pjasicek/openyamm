@@ -1,0 +1,9 @@
+# MAW (devdocs/maw/MAPS_CONTENT.md §2.3): the Dragon Hunter's pet dragons in Garrote Gorge are smaller, and one stands
+# elsewhere. MAW's lower health (1667 -> 800) is left to its monster rules.
+format_version: 1
+kind: outdoor_scene_overlay
+initial_state:
+  actor_overrides:
+    - {actor_index: 0, radius: 200}
+    - {actor_index: 1, radius: 200, position: [-6001, -8685, 586]}
+    - {actor_index: 2, radius: 200}

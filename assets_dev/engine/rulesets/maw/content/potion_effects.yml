@@ -1,0 +1,272 @@
+# What drinking or applying each potion does under MAW (devdocs/maw/CLASSES_SPELLS_SPEC.md §7.4, drafted in
+# devdocs/maw/data/potion_effects.yml with MAW's sources). Replaces engine/data_tables/potion_effects.yml, whose header
+# documents the format; MAW adds:
+#
+# rules:
+#   power_cap: N                      potion power is clamped to N before any effect
+#   duration: {hours: H, gm_alchemy_minutes_per_skill: M, solo_hours: S}   timed effects last H game hours (S in a
+#                                     solo run), plus M game minutes per Alchemy point of the party's best Grandmaster
+#                                     alchemist
+#   combat_recovery: {value: N, only_when_enemies_near: true}   a drink needs a ready member: the drinker if ready,
+#                                     else the active member, else the first ready one; near monsters it costs them N
+#                                     recovery ticks; in turn-based combat it always costs the ready member N ticks
+#                                     and the turn
+#   all_recipes_known: true           the recipe book lists every recipe from the start
+#
+# potions: <item id>:
+#   min_power: N                      refused (and kept) below this power
+#   charges: N                        drinks per bottle (the item's charges count down; 0 is a full bottle)
+#   rechargeable: true                the Endless Potion adds drinks to it
+#   effects:
+#     immunity: [conditions]          blocks them for the duration (Disease and Poison name all three stages)
+#     aura_buff: {spell: N}           the drinker's own copy of a buff aura at the potion's strength; the stronger of
+#                                     it and the party's aura counts, never both
+#     skill_bonus: {skill, amount}    timed extra skill levels
+#     regeneration: {skill: EXPR}     timed regeneration; the stronger of it and the Regeneration aura heals
+#     skill_points: {amount, limit}
+#     permanent_stat / permanent_resistance / skill_points with limit: best_step   only the gain over the strongest
+#                                     of this potion the character drank counts; a potion that does not beat it is
+#                                     refused and kept
+#     age: {set_years: N}             sets the drinker's age
+#   item: {action: crafting}          poured on an item on the Workbench (rulesets/maw/data/crafting_items.yml)
+#
+# EXPR adds {step: {per, value}} floor(P/per)*value, {step_quadratic: {per, a, b}} a*s^2 + b*s with s = floor(P/per),
+# {sqrt_ceil: {div, add}} ceil(sqrt(P)/div) + add, {half_floor: true} floor(P/2) and
+# {pool_share: {pool, flat, share}} flat + share x the HP or SP a character of level P is expected to have.
+#
+# Not here, so not drinkable: 221 Catalyst (MAW wastes it with no effect) and 264-290 (removed in MAW).
+
+rules:
+  power_cap: 500
+  duration: {hours: 6, gm_alchemy_minutes_per_skill: 6, solo_hours: 24}
+  combat_recovery: {value: 60, only_when_enemies_near: true}
+  all_recipes_known: true
+
+potions:
+  222:
+    name: Cure Wounds
+    effects:
+      - restore: {pool: hp, amount: {pool_share: {pool: hp, flat: 20, share: 0.25}}}
+  223:
+    name: Magic Potion
+    effects:
+      - restore: {pool: sp, amount: {pool_share: {pool: sp, flat: 10, share: 0.25}}}
+  224:
+    name: Energy Potion
+    effects:
+      - cure: [Weak, Asleep]
+      - immunity: [Weak, Asleep]
+  225:
+    name: Antidote
+    effects:
+      - cure: [DiseaseWeak, DiseaseMedium, DiseaseSevere, PoisonWeak, PoisonMedium, PoisonSevere]
+      - immunity: [Disease, Poison]
+  226:
+    name: Hexbane
+    effects:
+      - cure: [Cursed, Paralyzed]
+      - immunity: [Cursed, Paralyzed]
+  227:
+    name: Lucidity
+    effects:
+      - cure: [Fear, Insane]
+      - immunity: [Fear, Insane]
+  # Aura potions: attack and spell speed (Haste), melee damage (Heroism), attack and hit chance (Bless).
+  228:
+    name: Haste
+    charges: 5
+    effects:
+      - aura_buff: {spell: 5}
+  229:
+    name: Heroism
+    charges: 5
+    effects:
+      - aura_buff: {spell: 51}
+  230:
+    name: Bless
+    charges: 5
+    effects:
+      - aura_buff: {spell: 46}
+  231:
+    name: Protection
+    min_power: 20
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 17}
+      - aura_buff: {spell: 50}
+  232:
+    name: Meditation
+    charges: 5
+    rechargeable: true
+    effects:
+      - skill_bonus: {skill: Meditation, amount: {sqrt_ceil: {div: 1.5, add: 1}}}
+  233:
+    name: Regeneration
+    charges: 5
+    rechargeable: true
+    effects:
+      - regeneration: {skill: {half_floor: true}}
+  234:
+    name: Stone Skin
+    charges: 5
+    effects:
+      - aura_buff: {spell: 38}
+  235:
+    name: Water Breathing
+    min_power: 20
+    charges: 5
+    effects:
+      - buff: {id: WaterBreathing, strength: 5}
+  236:
+    name: Harden Item
+    item: {action: harden}
+  # Protection from Magic for the whole party while it lasts, recharged like the aura; the drinker cannot be knocked
+  # unconscious.
+  237:
+    name: Magic Protection
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 75}
+      - immunity: [Unconscious]
+  238:
+    name: Enchant Item
+    item: {action: crafting}
+  239:
+    name: Stone to Flesh
+    min_power: 20
+    effects:
+      - cure: [Petrified]
+      - immunity: [Petrified]
+  # MAW's own code sets only the buff timers; these give what its tooltip promises, 10 + power (DEVIATIONS.md).
+  240:
+    name: Power Boost
+    charges: 5
+    effects:
+      - buff: {id: TempMight, strength: {linear: [10, 1]}}
+      - buff: {id: TempAccuracy, strength: {linear: [10, 1]}}
+  241:
+    name: Wisdom Boost
+    charges: 5
+    effects:
+      - buff: {id: TempIntellect, strength: {linear: [10, 1]}}
+      - buff: {id: TempPersonality, strength: {linear: [10, 1]}}
+  242:
+    name: Resilience Boost
+    charges: 5
+    effects:
+      - buff: {id: TempEndurance, strength: {linear: [10, 1]}}
+      - buff: {id: TempSpeed, strength: {linear: [10, 1]}}
+      - buff: {id: TempLuck, strength: {linear: [10, 1]}}
+  243:
+    name: Lesser Element
+    min_power: 40
+    item: {action: crafting}
+  244:
+    name: Swiftness
+    min_power: 40
+    item: {action: crafting}
+  245:
+    name: Champion's Potion
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 5}
+      - aura_buff: {spell: 51}
+      - aura_buff: {spell: 46}
+  246:
+    name: Divine Restoration
+    min_power: 40
+    effects:
+      - cure: [Weak, Asleep, DiseaseWeak, DiseaseMedium, DiseaseSevere, PoisonWeak, PoisonMedium, PoisonSevere,
+               Cursed, Paralyzed, Fear, Insane, Petrified, Unconscious]
+      - immunity: [Weak, Asleep, Disease, Poison, Cursed, Paralyzed, Fear, Insane, Petrified, Unconscious]
+  247:
+    name: Divine Cure
+    charges: 5
+    effects:
+      - restore: {pool: hp, amount: {pool_share: {pool: hp, flat: 50, share: 0.35}}}
+  248:
+    name: Divine Magic
+    charges: 5
+    effects:
+      - restore: {pool: sp, amount: {pool_share: {pool: sp, flat: 50, share: 0.35}}}
+  249:
+    name: Elemental Resistance
+    charges: 5
+    effects:
+      - aura_buff: {spell: 3}
+      - aura_buff: {spell: 14}
+      - aura_buff: {spell: 25}
+      - aura_buff: {spell: 36}
+  250:
+    name: Self Resistance
+    charges: 5
+    effects:
+      - aura_buff: {spell: 58}
+      - aura_buff: {spell: 69}
+  251:
+    name: Paladin's Potion
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 17}
+      - aura_buff: {spell: 38}
+      - aura_buff: {spell: 50}
+  # Black potions: one step per 50 power, up to step 10 at the 500 cap.
+  252:
+    name: Pure Power
+    effects:
+      - permanent_stat: {stats: [might, accuracy], amount: {step: {per: 50, value: 20}}, into: bonus, limit: best_step}
+  253:
+    name: Pure Wisdom
+    effects:
+      - permanent_stat: {stats: [intellect, personality], amount: {step: {per: 50, value: 20}}, into: bonus,
+                         limit: best_step}
+  254:
+    name: Pure Resilience
+    effects:
+      - permanent_stat: {stats: [endurance, speed, luck], amount: {step: {per: 50, value: 20}}, into: bonus,
+                         limit: best_step}
+  255:
+    name: Greater Element
+    min_power: 55
+    item: {action: crafting}
+  256:
+    name: Darkness
+    min_power: 100
+    item: {action: crafting}
+  257:
+    name: Divine Blessing
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 83}
+  258:
+    name: Twilight
+    effects:
+      - age: {set_years: 60}
+  259:
+    name: Transcendence
+    effects:
+      - skill_points: {amount: {step_quadratic: {per: 50, a: 5, b: 15}}, limit: best_step}
+  260:
+    name: Dawn
+    effects:
+      - age: {set_years: 20}
+  261:
+    name: Pure Elemental Resistance
+    effects:
+      - permanent_resistance: {resistances: [fire, air, water, earth], amount: {step: {per: 50, value: 30}},
+                               limit: best_step}
+  262:
+    name: Pure Self Resistance
+    effects:
+      - permanent_resistance: {resistances: [mind, body], amount: {step: {per: 50, value: 30}}, limit: best_step}
+  263:
+    name: Divine Resistance
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 85}

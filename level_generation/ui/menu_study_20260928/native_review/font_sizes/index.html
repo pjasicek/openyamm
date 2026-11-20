@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenYAMM · Menu font rendering</title>
+<style>
+  :root { color-scheme: dark; font: 16px/1.5 system-ui, sans-serif; background: #101819; color: #e6dec7; }
+  body { margin: 24px; }
+  h1 { font-size: 26px; margin-bottom: 8px; }
+  p { max-width: 85ch; }
+  a { color: #dfc791; }
+  nav { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 20px 0; }
+  button, select { font: inherit; padding: 7px 14px; border: 1px solid #667367; background: #192829; color: inherit; }
+  button[aria-pressed="true"] { background: #41482f; border-color: #dfc791; }
+  #viewport { overflow: auto; max-width: 100%; border: 1px solid #667367; }
+  #shot { display: block; max-width: none; }
+</style>
+<h1>Menu text at 1280×720</h1>
+<p>Native game captures before and after rendering the TTF glyphs at their display size.
+The image stays at its original dimensions: scroll on smaller windows, and compare at 100% browser zoom.</p>
+<nav aria-label="Screenshot comparison">
+  <label>Screen <select id="screen">
+    <option value="01-main-menu">Main menu</option>
+    <option value="party">Create Your Party</option>
+    <option value="settings-keyboard">Keyboard settings</option>
+  </select></label>
+  <button id="before" type="button" aria-pressed="false">Before</button>
+  <button id="after" type="button" aria-pressed="true">After</button>
+  <a id="original" href="after/01-main-menu.png">Open PNG</a>
+</nav>
+<div id="viewport"><img id="shot" src="after/01-main-menu.png" width="1280" height="720"
+  alt="Main menu after the font rendering correction"></div>
+<p>More native captures:
+  <a href="pause-1280x720/pause.png">Pause at 720p</a> ·
+  <a href="pause-1280x720/save-created.png">Save Game at 720p</a> ·
+  <a href="after-1600x900/party.png">Party at 1600×900</a> ·
+  <a href="resize/resolution-preview.png">800×600 preview</a> ·
+  <a href="resize/borderless-preview.png">3440×1440 preview</a></p>
+<p><a href="validation.json">Validation details</a> · <a href="../index.html">Native menu gallery</a></p>
+<script>
+  const screen = document.getElementById('screen');
+  const shot = document.getElementById('shot');
+  const original = document.getElementById('original');
+  let selected = 'after';
+  function update() {
+    shot.src = selected + '/' + screen.value + '.png';
+    shot.alt = screen.selectedOptions[0].text + ' — ' + selected;
+    original.href = shot.src;
+    for (const side of ['before', 'after']) {
+      document.getElementById(side).setAttribute('aria-pressed', String(side === selected));
+    }
+  }
+  for (const side of ['before', 'after']) {
+    document.getElementById(side).addEventListener('click', () => { selected = side; update(); });
+  }
+  screen.addEventListener('change', update);
+</script>
+</html>

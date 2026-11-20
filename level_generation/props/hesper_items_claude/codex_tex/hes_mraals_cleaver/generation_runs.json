@@ -1,0 +1,533 @@
+{
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nFRONT VIEW: obey guide_front.png exactly. This is an extremely foreshortened end-on view, a SMALL horizontal silhouette only from x=331 to 692 and y=469 to 554 on the 1024-square canvas. Preserve the pointed tapered blade to the left and thicker irregular housing at the right; the long handle is occluded by this camera. Paint the visible end-on thickness only. Do not reveal a full axe or a side-on weapon. Preserve the almost empty canvas exactly.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "72ecc32642b0c32b4f3e7f097c99fbca4dc2dbbc9e86db10dd6a74d52ecc3f87"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two permitted raw returns; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-a894e439-f6e0-4d5b-ad6d-ad2745b36122.png",
+      "output_sha256": "14652333cf9c115f7e0b295ecaf7ab0ae881e1f1e8a731f314ffd38f7e082dce",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          57,
+          20,
+          1176,
+          1198
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9826110957769804,
+        "normalized_extra_pixels": 203,
+        "normalized_missing_pixels": 112,
+        "normalized_nonzero_alpha_outside_guide": 1518,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the ivory, black-violet and orange palette and end-on orientation; resin retains reflective ridges and lower-face shading."
+      },
+      "retained_attempt_output": "paint_front_attempt1.png",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nBACK VIEW: obey guide_back.png exactly. This is an extremely foreshortened reverse end-on view, a SMALL horizontal silhouette only from x=331 to 692 and y=469 to 554 on the 1024-square canvas. Preserve the thicker irregular housing at the left and tapered blade point at the right; the long handle is occluded by this camera. Continue the design onto the hidden reverse surfaces. Do not reveal a full axe or a side-on weapon. Preserve the almost empty canvas exactly.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "f659de766809cd05c0a583c30afeab95d76b5249754b2cb95709fc4b586f23fb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two permitted raw returns; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-8747f88b-7d24-440e-9092-8fab2716bd86.png",
+      "output_sha256": "13bfe677d40271dd10e3b5e7c65644293f456782b86bbae3b7a02b95b7e92ad0",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          312,
+          246,
+          1224,
+          987
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9815530763282889,
+        "normalized_extra_pixels": 192,
+        "normalized_missing_pixels": 142,
+        "normalized_nonzero_alpha_outside_guide": 1174,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the palette and reverse end-on orientation; retains resin highlights, ceramic shading and bright emission edging."
+      },
+      "retained_attempt_output": "paint_back_attempt1.png",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nLEFT VIEW: obey guide_left.png exactly. This is a very THIN horizontal EDGE-ON view extending x=66 through 957, y=469 through 554 on a 1024-square canvas. The axe head occupies the left portion, tapering to the left tip, and the shaft extends right through small collars into the pommel at the far right. Paint only the narrow thickness visible from this exact camera. Do not reveal the broad face of the axe, increase its thickness or rotate it upright. Keep all large transparent margins.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "c045438976ca602974ad56ac4c59e6cbee99ea5a88b41f75a2615f3782ba5669"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two permitted raw returns; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-d4ac9757-27fe-47c6-9610-cdbcdd8b158a.png",
+      "output_sha256": "800a3238adfcdaa20902a4ede7dcc2d7f885e7612ef6e3a9b3e8c5a4b99c3472",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          46,
+          1232,
+          1220
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9705714895736958,
+        "normalized_extra_pixels": 666,
+        "normalized_missing_pixels": 161,
+        "normalized_nonzero_alpha_outside_guide": 5737,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the palette and thin edge-on orientation; resin and gold show highlights and shaded areas."
+      },
+      "retained_attempt_output": "paint_left_attempt1.png",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nRIGHT VIEW: obey guide_right.png exactly. This is a very THIN horizontal EDGE-ON view extending x=66 through 957, y=469 through 554 on a 1024-square canvas. The pommel is at the far left, the narrow shaft extends right through small collars into the head on the right, tapering to the far-right tip. Paint only the narrow thickness visible from this exact camera. Do not reveal the broad face of the axe, increase its thickness or rotate it upright. Keep all large transparent margins.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "7238319802073de5db39737792bab92d0038d6ab96f41669252af4be445c772a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the other attempt preserves the silhouette more closely; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-b139ff8e-2672-41a7-8f43-c8638a6ed50f.png",
+      "output_sha256": "e4020deee5b38889eb20f247706e2cf9c7272dea7e688eeb0c9dc2679f477a23",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          25,
+          39,
+          1238,
+          1214
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9175129044229277,
+        "normalized_extra_pixels": 2209,
+        "normalized_missing_pixels": 236,
+        "normalized_nonzero_alpha_outside_guide": 6006,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the palette and edge-on orientation; widened collars deviate from the guide, with shaded lower surfaces."
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nTOP VIEW: obey guide_top.png exactly. This camera sees the broad face of the cleaver, upright on the canvas with the complete silhouette bounded by x=330 through 693 and y=66 through 957. Keep the exact crescent head upper-left, projecting beak upper-right, all rib holes and white guide's actual rib count, narrow shaft down the right half and hooked pommel at bottom. The guide's proportions differ from the concept; keep the guide's proportions and all contours exactly. Paint the crescent bevel warm worn ivory with a thin bright orange/yellow-white edge INSIDE its contour; black-violet resin head and shaft; ivory ribs, beak plates, grip bands and pommel facing with restrained thin old gold trim and narrow orange channels, distributed as in the design reference.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "1146eb1f90d04b5081e1e40ced40066b128e58a22f6235adaa8fd63d4acbf4b9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the other attempt preserves the silhouette more closely; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-92ee49ac-2e34-464c-888b-37589f11ec52.png",
+      "output_sha256": "86b779049f5170ba70f074f44b4fdedd9f48173de6760fb8d0aba0694fa71416",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          49,
+          47,
+          1208,
+          1230
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.8974729083970301,
+        "normalized_extra_pixels": 7918,
+        "normalized_missing_pixels": 1458,
+        "normalized_nonzero_alpha_outside_guide": 13535,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the main design materials and broad-face orientation; glossy resin ridges and shaded ribs, with head, rib and shaft contour drift."
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "CORRECTIVE PASS, final allowed attempt for this view.\nThe earlier return drifted outside the guide silhouette, introduced faint alpha specks in empty areas, and copied glossy lighting from the concept. Correct these defects.\nUse the original FIRST image as the immutable image-edit canvas, with original 1024 x 1024 dimensions. Keep its exact per-pixel alpha mask and every contour. Empty areas must have alpha exactly zero: no noise, glow, specks, shadow or haze. Do not replace the object with a new rendering. Surface repaint only within the original guide mask. All geometry remains fixed, including its faceted contour and proportions.\nCrucially, output FLAT BASE COLOUR / DIFFUSE ALBEDO, with no physically lit material rendering: no shiny ridges, bright reflective streaks, specular spots, dark shaded undersides, black contact shadows or ambient occlusion. Purple-black resin should be an EVEN charcoal-violet base colour with subtle fine surface wear; ivory a uniform warm bone-ceramic base colour with fine restrained scratches. Orange light is a FLAT orange/cream stripe, without bloom or orange illumination on adjacent surfaces. Gold has muted ochre base colour only. The second image is for pattern locations and hues, NOT for light and shadow.\nUse case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nFRONT VIEW: obey guide_front.png exactly. This is an extremely foreshortened end-on view, a SMALL horizontal silhouette only from x=331 to 692 and y=469 to 554 on the 1024-square canvas. Preserve the pointed tapered blade to the left and thicker irregular housing at the right; the long handle is occluded by this camera. Paint the visible end-on thickness only. Do not reveal a full axe or a side-on weapon. Preserve the almost empty canvas exactly.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "72ecc32642b0c32b4f3e7f097c99fbca4dc2dbbc9e86db10dd6a74d52ecc3f87"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: the other attempt preserves the silhouette more closely; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-9fd23399-12c1-4345-b997-a2fa6618705f.png",
+      "output_sha256": "458e30de14ceb511a52ac5d4cbf712ee6ffb20685167b04118b4dc53a99c4d9d",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          29,
+          1208,
+          1166
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9729847494553376,
+        "normalized_extra_pixels": 448,
+        "normalized_missing_pixels": 48,
+        "normalized_nonzero_alpha_outside_guide": 1890,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the palette; narrower light stripe, but resin shading and bright surface ridges remain. More silhouette drift than attempt 1."
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "CORRECTIVE PASS, final allowed attempt for this view.\nThe earlier return drifted outside the guide silhouette, introduced faint alpha specks in empty areas, and copied glossy lighting from the concept. Correct these defects.\nUse the original FIRST image as the immutable image-edit canvas, with original 1024 x 1024 dimensions. Keep its exact per-pixel alpha mask and every contour. Empty areas must have alpha exactly zero: no noise, glow, specks, shadow or haze. Do not replace the object with a new rendering. Surface repaint only within the original guide mask. All geometry remains fixed, including its faceted contour and proportions.\nCrucially, output FLAT BASE COLOUR / DIFFUSE ALBEDO, with no physically lit material rendering: no shiny ridges, bright reflective streaks, specular spots, dark shaded undersides, black contact shadows or ambient occlusion. Purple-black resin should be an EVEN charcoal-violet base colour with subtle fine surface wear; ivory a uniform warm bone-ceramic base colour with fine restrained scratches. Orange light is a FLAT orange/cream stripe, without bloom or orange illumination on adjacent surfaces. Gold has muted ochre base colour only. The second image is for pattern locations and hues, NOT for light and shadow.\nUse case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nBACK VIEW: obey guide_back.png exactly. This is an extremely foreshortened reverse end-on view, a SMALL horizontal silhouette only from x=331 to 692 and y=469 to 554 on the 1024-square canvas. Preserve the thicker irregular housing at the left and tapered blade point at the right; the long handle is occluded by this camera. Continue the design onto the hidden reverse surfaces. Do not reveal a full axe or a side-on weapon. Preserve the almost empty canvas exactly.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "f659de766809cd05c0a583c30afeab95d76b5249754b2cb95709fc4b586f23fb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: the other attempt preserves the silhouette more closely; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-711ea6a2-f33e-46d0-b4ca-30036ad3caaa.png",
+      "output_sha256": "c0d3aa33fed25b7c1098d465c0a2fcf6fae1a0b11eb208d8a7038f034ff5a047",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          65,
+          23,
+          1218,
+          1150
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9789971409720695,
+        "normalized_extra_pixels": 274,
+        "normalized_missing_pixels": 108,
+        "normalized_nonzero_alpha_outside_guide": 1478,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the palette and orientation; some reduction of emission intensity, but shaded resin and reflective ridges remain. More silhouette drift than attempt 1."
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "CORRECTIVE PASS, final allowed attempt for this view.\nThe earlier return drifted outside the guide silhouette, introduced faint alpha specks in empty areas, and copied glossy lighting from the concept. Correct these defects.\nUse the original FIRST image as the immutable image-edit canvas, with original 1024 x 1024 dimensions. Keep its exact per-pixel alpha mask and every contour. Empty areas must have alpha exactly zero: no noise, glow, specks, shadow or haze. Do not replace the object with a new rendering. Surface repaint only within the original guide mask. All geometry remains fixed, including its faceted contour and proportions.\nCrucially, output FLAT BASE COLOUR / DIFFUSE ALBEDO, with no physically lit material rendering: no shiny ridges, bright reflective streaks, specular spots, dark shaded undersides, black contact shadows or ambient occlusion. Purple-black resin should be an EVEN charcoal-violet base colour with subtle fine surface wear; ivory a uniform warm bone-ceramic base colour with fine restrained scratches. Orange light is a FLAT orange/cream stripe, without bloom or orange illumination on adjacent surfaces. Gold has muted ochre base colour only. The second image is for pattern locations and hues, NOT for light and shadow.\nUse case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nLEFT VIEW: obey guide_left.png exactly. This is a very THIN horizontal EDGE-ON view extending x=66 through 957, y=469 through 554 on a 1024-square canvas. The axe head occupies the left portion, tapering to the left tip, and the shaft extends right through small collars into the pommel at the far right. Paint only the narrow thickness visible from this exact camera. Do not reveal the broad face of the axe, increase its thickness or rotate it upright. Keep all large transparent margins.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "c045438976ca602974ad56ac4c59e6cbee99ea5a88b41f75a2615f3782ba5669"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: the other attempt preserves the silhouette more closely; Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-c8f73886-936b-4a8f-b9e2-27feffb4c6bd.png",
+      "output_sha256": "1288b5c696175dbb66b31e32fb661ff3cd5d084ec85f5e83ecd2393ef2ff44dc",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          79,
+          78,
+          1176,
+          1156
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9591506714476552,
+        "normalized_extra_pixels": 1010,
+        "normalized_missing_pixels": 152,
+        "normalized_nonzero_alpha_outside_guide": 5225,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the palette and edge-on orientation; surface shading remains, with visible fringe artifacts. More silhouette drift than attempt 1."
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "CORRECTIVE PASS, final allowed attempt for this view.\nThe earlier return drifted outside the guide silhouette, introduced faint alpha specks in empty areas, and copied glossy lighting from the concept. Correct these defects.\nUse the original FIRST image as the immutable image-edit canvas, with original 1024 x 1024 dimensions. Keep its exact per-pixel alpha mask and every contour. Empty areas must have alpha exactly zero: no noise, glow, specks, shadow or haze. Do not replace the object with a new rendering. Surface repaint only within the original guide mask. All geometry remains fixed, including its faceted contour and proportions.\nCrucially, output FLAT BASE COLOUR / DIFFUSE ALBEDO, with no physically lit material rendering: no shiny ridges, bright reflective streaks, specular spots, dark shaded undersides, black contact shadows or ambient occlusion. Purple-black resin should be an EVEN charcoal-violet base colour with subtle fine surface wear; ivory a uniform warm bone-ceramic base colour with fine restrained scratches. Orange light is a FLAT orange/cream stripe, without bloom or orange illumination on adjacent surfaces. Gold has muted ochre base colour only. The second image is for pattern locations and hues, NOT for light and shadow.\nUse case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nRIGHT VIEW: obey guide_right.png exactly. This is a very THIN horizontal EDGE-ON view extending x=66 through 957, y=469 through 554 on a 1024-square canvas. The pommel is at the far left, the narrow shaft extends right through small collars into the head on the right, tapering to the far-right tip. Paint only the narrow thickness visible from this exact camera. Do not reveal the broad face of the axe, increase its thickness or rotate it upright. Keep all large transparent margins.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "7238319802073de5db39737792bab92d0038d6ab96f41669252af4be445c772a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two permitted raw returns; corrective pass also improves surface flatness. Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-1d70324f-2502-406e-a352-76c84991ab32.png",
+      "output_sha256": "93c88f233af87163cd9bf0e297901998403007442d4a89d5090cc3cf24bd3251",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          57,
+          433,
+          1176,
+          1100
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9482009816037569,
+        "normalized_extra_pixels": 889,
+        "normalized_missing_pixels": 578,
+        "normalized_nonzero_alpha_outside_guide": 4987,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the palette and edge-on orientation; improved collar silhouette and flatter ivory, but residual shading and edge artifacts remain."
+      },
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "CORRECTIVE PASS, final allowed attempt for this view.\nThe earlier return drifted outside the guide silhouette, introduced faint alpha specks in empty areas, and copied glossy lighting from the concept. Correct these defects.\nUse the original FIRST image as the immutable image-edit canvas, with original 1024 x 1024 dimensions. Keep its exact per-pixel alpha mask and every contour. Empty areas must have alpha exactly zero: no noise, glow, specks, shadow or haze. Do not replace the object with a new rendering. Surface repaint only within the original guide mask. All geometry remains fixed, including its faceted contour and proportions.\nCrucially, output FLAT BASE COLOUR / DIFFUSE ALBEDO, with no physically lit material rendering: no shiny ridges, bright reflective streaks, specular spots, dark shaded undersides, black contact shadows or ambient occlusion. Purple-black resin should be an EVEN charcoal-violet base colour with subtle fine surface wear; ivory a uniform warm bone-ceramic base colour with fine restrained scratches. Orange light is a FLAT orange/cream stripe, without bloom or orange illumination on adjacent surfaces. Gold has muted ochre base colour only. The second image is for pattern locations and hues, NOT for light and shadow.\nUse case: precise-object-edit.\nPaint the first input image, the 1024 x 1024 orthographic white model guide, using the second input image solely as the design, colour and material reference for Lord Mraal's phase cleaver. Produce ONE 1024 x 1024 RGBA PNG with a truly transparent background.\nABSOLUTE GEOMETRY LOCK: the first input is the edit canvas. Preserve its alpha silhouette pixel for pixel, all empty margins, exact position, exact size, camera angle, part boundaries, holes and every edge. Change only RGB surface colour inside its existing opaque silhouette. Do not enlarge, recenter, rotate, redraw or add geometry. Keep all transparent pixels transparent. The large empty space is intentional for texture projection.\nMaterial authority: second image. Match worn warm ivory/white ceramic bone-like plates and rib bands with fine restrained scratches; near-black violet resin/chitin with subtle purple mottling, fine etched seams; muted brushed antique gold only on thin existing trim; orange to pale warm yellow-white light within the existing blade edge and small recessed channels. Do not add blue, extra parts, text or letters. Continue these same materials plausibly on hidden surfaces.\nLIGHTING: flat diffuse albedo texture source, shadowless even illumination from the viewer. Paint material base colours with only faint sheen. No cast shadow, no ambient occlusion darkening, no directional shading, no strong specular highlights, no reflection, no rim light, no floor, no background. Bright orange channels are solid bright light colours confined inside the geometry with no glow halo or light cast onto other parts. Fine surface marks only, no inscriptions.\n\nTOP VIEW: obey guide_top.png exactly. This camera sees the broad face of the cleaver, upright on the canvas with the complete silhouette bounded by x=330 through 693 and y=66 through 957. Keep the exact crescent head upper-left, projecting beak upper-right, all rib holes and white guide's actual rib count, narrow shaft down the right half and hooked pommel at bottom. The guide's proportions differ from the concept; keep the guide's proportions and all contours exactly. Paint the crescent bevel warm worn ivory with a thin bright orange/yellow-white edge INSIDE its contour; black-violet resin head and shaft; ivory ribs, beak plates, grip bands and pommel facing with restrained thin old gold trim and narrow orange channels, distributed as in the design reference.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "1146eb1f90d04b5081e1e40ced40066b128e58a22f6235adaa8fd63d4acbf4b9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a93a31593562ca3c998d449a01d2da2929593546f92187ab0ca1265e709150b"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two permitted raw returns; corrective pass also improves surface flatness. Exact silhouette/alpha and fully flat-light requirements remain unmet. Original 1254 x 1254 return retained without resizing or pixel editing.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16edb-df96-7432-a022-10bdfddd152a/exec-16636404-e05a-48ab-83bf-e919313b6eec.png",
+      "output_sha256": "632a50007f3d8cb08ee1fe557ee1a70e0fd889ab6f8f7b3a118adfe9c232c9cb",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          55,
+          1226,
+          1182
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9185478710865148,
+        "normalized_extra_pixels": 5552,
+        "normalized_missing_pixels": 1704,
+        "normalized_nonzero_alpha_outside_guide": 12163,
+        "normalization_note": "Read-only nearest-pixel sampling onto guide coordinates for comparison; saved PNG was not resized or edited.",
+        "colours_and_materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "no_crop": true,
+        "visual_review": "Matches the design materials and broad-face orientation; flatter head surfaces and improved overall outline, but rib shading, reflective seams and contour drift remain."
+      },
+      "meets_all_brief_checks": false
+    }
+  ],
+  "status": "Five raw image selections saved; exact silhouette and flat-albedo checks failed after the maximum permitted corrective pass.",
+  "tool": "Built-in image_gen.imagegen; no API/CLI fallback.",
+  "selection_policy": "Selected means best retained candidate, not acceptance against all brief requirements.",
+  "size_exception": "Every return is 1254 x 1254; preserved unresized as directed by CODEX_BRIEF.md.",
+  "attempts_per_view": 2,
+  "postprocessing": "None. Image files copied byte-for-byte from built-in tool output."
+}

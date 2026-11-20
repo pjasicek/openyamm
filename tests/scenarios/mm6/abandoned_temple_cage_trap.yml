@@ -1,0 +1,24 @@
+id: mm6.abandoned_temple_cage_trap
+title: "Abandoned Temple: looting a middle bone cage fires the corridor fireball at the party"
+world: mm6
+mode: faithful
+tags: [mm6, content]
+steps:
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d02.blv}
+  # Events 22/23 cast Fireball from the corridor south of door 6 (7808,8960,-1768) at the party. With door 6 shut the
+  # fireball bursts on the door (y 9568), 800 units from the cages, out of its 512-unit reach (as in the original).
+  - set_pose: {map: 6d02.blv, x: 7872, y: 10300, z: -1880, yaw_degrees: 90}
+  - execute_event: {id: 23}
+  - advance_runtime: {milliseconds: 420}
+  - assert:
+      party_health: {full: true}
+  # Through the open door it reaches the party. The cage is looted the live way, by the interact key. The check comes
+  # right after the hit: the party regenerates.
+  - execute_event: {id: 6}
+  - advance_runtime: {seconds: 3}
+  - press_interact:
+      pose: {map: 6d02.blv, x: 7744, y: 10300, z: -1880, yaw_degrees: 90, pitch_degrees: -20}
+  - advance_runtime: {milliseconds: 420}
+  - assert:
+      party_health: {full: false}

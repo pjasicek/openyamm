@@ -1,0 +1,742 @@
+[
+  {
+    "view": "front",
+    "prompt": "Use case: precise-object-edit.\nAsset type: game-model albedo texture source for Lord Vhorrax's plasma saber.\nInput image 1 is the edit target, an exact orthographic white model guide. Input image 2 is design_reference.png, the authority ONLY for surface design, colours and materials. Paint directly over input image 1. Output one 1024 x 1024 RGBA PNG with genuinely transparent background.\nCRITICAL: preserve the edit target's entire alpha silhouette EXACTLY pixel for pixel, its size, position, orientation, every part boundary and cutout. The large transparent margins are intentional and must stay unchanged. Do not auto-crop, enlarge, recenter, rotate, change the camera, change proportions, add geometry, or show a different view. Keep every pixel outside its original outline transparent.\nPaint the existing surfaces with the approved reference's warm ivory-white ceramic with fine wear, muted brushed antique gold, black-violet resin with flowing seams and incised lines, and orange/amber light with pale warm-white cores. Use the actual reference's material placements as the geometry allows; do not invent unrelated blue lights, fabric, paper or writing. Continue hidden surfaces plausibly in the same materials.\nThis is ALBEDO, not a beauty render: even flat shadowless viewer lighting, no ambient occlusion, no cast shadows, no directional shading, no hot specular highlights, no reflections, no rim light. Gold is base gold colour with only faint sheen. Luminous parts are painted bright colours confined to the silhouette: no bloom, no halo, no light spill. No background, floor, text, letters, labels, watermark or extra objects.\nView-specific constraint: FRONT, looking straight down the long axis of the saber. The target is deliberately only a tiny horizontally pointed end-on shape centered at (511,512), with nontransparent bounds x=446..576 and y=479..544 on the 1024-square canvas. It must remain this 131-by-66 pixel shape, including the irregular left point, raised upper middle and thin right point. Colour that exact foreshortened guard/end geometry. Do not turn this into a full-length sword image; nearly the whole canvas remains transparent.",
+    "inputs": [
+      {
+        "file": "guide_front.png",
+        "sha256": "d87e3b9766015b22e317d11cbaff9bb0b633899ded855326bd32574810ae9696"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_front_attempt1.png",
+    "attempt": 1,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-d2dedc79-0c7e-43bb-b44d-ba862056405e.png",
+    "selected": false,
+    "reason": "Rejected: front object substantially enlarged, outline redesigned, and strong metallic shading.",
+    "tool": "built-in image_gen",
+    "output_sha256": "5e9fc481d5835799c663bff9f17a9bd42d5666880252f7bc78305e795a72124b",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          81,
+          311,
+          1134,
+          941
+        ],
+        "16": [
+          471,
+          557,
+          783,
+          698
+        ],
+        "127": [
+          472,
+          558,
+          782,
+          697
+        ],
+        "254": [
+          503,
+          559,
+          736,
+          696
+        ]
+      },
+      "guide_alpha_bounds": [
+        446,
+        479,
+        577,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.3075021192427239,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "front",
+    "prompt": "Edit image 1 by recolouring its existing white pixels ONLY. Image 1 is guide_front.png and is the immutable layout/alpha mask. Image 2 supplies the palette of ivory ceramic, dull gold, black-violet resin, and orange light, but do NOT copy its lighting or presentation.\nRequired result: a 1024 by 1024 transparent PNG. Preserve image 1's exact existing alpha channel, pixel positions, silhouette and interior surface boundaries. Keep the tiny central end-on shape only 131 pixels wide and 66 pixels tall, bounded by x=446..576, y=479..544. Its width is just 12.8% of the canvas. There is no long blade visible. Do not enlarge the object to show more detail. The large empty margins must stay empty and unchanged.\nCORRECTION: The previous attempt expanded the tiny object and changed its outline and camera, and used highlights and shadows. This attempt must simply colour the original guide's existing surfaces in place. Keep its lopsided left protrusion, raised domed center, thin right protrusion, and broad curved bottom exactly. Use muted ivory ceramic and gold on the guard, deep violet-black resin in existing recesses, restrained flat orange accents on visible light apertures; continue these materials plausibly on end-on surfaces. Flat albedo paint, diffuse base colours only. No metallic shine, no specular highlights, no shadows or ambient occlusion, no bloom, no reflection, no text, no added objects, no background. No crop, zoom, reframe, rotation or shape redesign. Copy the guide's outline without alteration.",
+    "inputs": [
+      {
+        "file": "guide_front.png",
+        "sha256": "d87e3b9766015b22e317d11cbaff9bb0b633899ded855326bd32574810ae9696"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_front.png",
+    "attempt": 2,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-dfe94d06-7d42-44d9-9999-2a122a10936b.png",
+    "selected": true,
+    "reason": "Selected for much closer guide framing after the only permitted correction. Palette matches, but exact silhouette fails, subtle shading and alpha speckles remain, and raw dimensions are 1254x1254.",
+    "tool": "built-in image_gen",
+    "output_sha256": "8be6bd551fd40db649c686cc1954489aebe11228d4e28c1f0c6dbffdf184d73a",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          130,
+          93,
+          1144,
+          747
+        ],
+        "16": [
+          547,
+          586,
+          707,
+          667
+        ],
+        "127": [
+          548,
+          587,
+          706,
+          666
+        ],
+        "254": [
+          564,
+          589,
+          662,
+          665
+        ]
+      },
+      "guide_alpha_bounds": [
+        446,
+        479,
+        577,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.9578900709219859,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: precise-object-edit. Paint only the existing white model in image 1 (guide_back.png). Image 2 is the approved design palette and material reference, not a layout to copy. Create a single 1024 x 1024 RGBA transparent albedo texture source.\nThe entire composition and alpha outline of image 1 are IMMUTABLE. The very small central shape is an end-on BACK view down the axis of a plasma saber, just 132 pixels across and 66 pixels tall at x=446..577, y=479..544. Its size is only 12.9% of the canvas width. Preserve this small footprint and the huge empty margins. Preserve the fine left point, broader rounded underside, upper dome and right tip, with every part edge in its original position. Do not reveal the long sword or change the viewpoint; do not enlarge it to make details visible.\nApply flat colour only inside those existing pixels: warm ivory-white worn ceramic on the crossing guard, muted brushed antique gold fittings, flowing black-violet resin in the exposed body, small orange/amber energy apertures. This is the reverse side unseen in the design, so continue its materials plausibly. Keep warm off-white ceramic distinct from dull gold and deep purple-black. No new openings or protrusions. Copy image 1's exact silhouette and transparent alpha, not image 2's.\nEven flat shadowless viewer light, no cast shadows, no ambient occlusion, no strong highlights, no reflections, no shine or rim light. Gold is its muted base colour with a faint sheen only. Luminous inserts are flat bright amber/cream, no bloom, no glow outside the object. No background, floor, text, letters, markings resembling writing, labels, watermark or additional objects. No crop, scale, recenter, camera change, geometry change or redesign.",
+    "inputs": [
+      {
+        "file": "guide_back.png",
+        "sha256": "6896051968025eae6d1e4ebb8e8701365759da3708968933b6c666ac9e84f1a8"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_back.png",
+    "attempt": 1,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-88ab76d8-de0f-4ee1-89cb-1a33cc6c36f2.png",
+    "selected": true,
+    "reason": "Selected because it preserves guide framing better than the corrective attempt. Palette matches; highlights and recessed shading remain. Exact silhouette fails.",
+    "tool": "built-in image_gen",
+    "output_sha256": "10e9cdd0eb4b613428738de5d93de7cbf3a21f0b16b94b68f7cfa3970d586d91",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          35,
+          448,
+          1168,
+          1180
+        ],
+        "16": [
+          545,
+          587,
+          709,
+          668
+        ],
+        "127": [
+          546,
+          588,
+          708,
+          667
+        ],
+        "254": [
+          634,
+          592,
+          678,
+          666
+        ]
+      },
+      "guide_alpha_bounds": [
+        446,
+        479,
+        578,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.9394463667820069,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: precise-object-edit. Paint only the existing white model in image 1 (guide_back.png). Image 2 is the approved design palette and material reference, not a layout to copy. Create a single 1024 x 1024 RGBA transparent albedo texture source.\nThe entire composition and alpha outline of image 1 are IMMUTABLE. The very small central shape is an end-on BACK view down the axis of a plasma saber, just 132 pixels across and 66 pixels tall at x=446..577, y=479..544. Its size is only 12.9% of the canvas width. Preserve this small footprint and the huge empty margins. Preserve the fine left point, broader rounded underside, upper dome and right tip, with every part edge in its original position. Do not reveal the long sword or change the viewpoint; do not enlarge it to make details visible.\nApply flat colour only inside those existing pixels: warm ivory-white worn ceramic on the crossing guard, muted brushed antique gold fittings, flowing black-violet resin in the exposed body, small orange/amber energy apertures. This is the reverse side unseen in the design, so continue its materials plausibly. Keep warm off-white ceramic distinct from dull gold and deep purple-black. No new openings or protrusions. Copy image 1's exact silhouette and transparent alpha, not image 2's.\nEven flat shadowless viewer light, no cast shadows, no ambient occlusion, no strong highlights, no reflections, no shine or rim light. Gold is its muted base colour with a faint sheen only. Luminous inserts are flat bright amber/cream, no bloom, no glow outside the object. No background, floor, text, letters, markings resembling writing, labels, watermark or additional objects. No crop, scale, recenter, camera change, geometry change or redesign.\nCorrective regeneration, one final attempt: make the finish genuinely flat albedo. The previous attempt used shiny gold and black shadowed pockets. Remove directional lighting, gradients caused by illumination, white metallic highlights and dark occlusion. Ceramic should be plain warm ivory, gold plain muted ochre gold, resin uniform deep violet with subtle engraved colour lines, and apertures flat amber. Preserve the original guide's outline exactly, not the previous generated interpretation. Output at 1024x1024; do not upscale it.",
+    "inputs": [
+      {
+        "file": "guide_back.png",
+        "sha256": "6896051968025eae6d1e4ebb8e8701365759da3708968933b6c666ac9e84f1a8"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_back_attempt2.png",
+    "attempt": 2,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-10511fec-6675-4f3e-97dc-e2cbbb8d3d11.png",
+    "selected": false,
+    "reason": "Reduced highlights but enlarged the end-on silhouette compared with attempt 1.",
+    "tool": "built-in image_gen",
+    "output_sha256": "93b39b470ad79e60ebab4d41c17d23756d3ccb41463a1c3a59949fd965fba8e5",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          162,
+          99,
+          1204,
+          1174
+        ],
+        "16": [
+          535,
+          584,
+          723,
+          673
+        ],
+        "127": [
+          536,
+          585,
+          722,
+          672
+        ],
+        "254": [
+          581,
+          586,
+          720,
+          670
+        ]
+      },
+      "guide_alpha_bounds": [
+        446,
+        479,
+        578,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.7460589444825223,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "left",
+    "prompt": "Use case: precise-object-edit.\nAsset type: game-model albedo texture source for Lord Vhorrax's plasma saber.\nInput image 1 is the edit target, an exact orthographic white model guide. Input image 2 is design_reference.png, the authority ONLY for surface design, colours and materials. Paint directly over input image 1. Output one 1024 x 1024 RGBA PNG with genuinely transparent background.\nCRITICAL: preserve the edit target's entire alpha silhouette EXACTLY pixel for pixel, its size, position, orientation, every part boundary and cutout. The large transparent margins are intentional and must stay unchanged. Do not auto-crop, enlarge, recenter, rotate, change the camera, change proportions, add geometry, or show a different view. Keep every pixel outside its original outline transparent.\nPaint the existing surfaces with the approved reference's warm ivory-white ceramic with fine wear, muted brushed antique gold, black-violet resin with flowing seams and incised lines, and orange/amber light with pale warm-white cores. Use the actual reference's material placements as the geometry allows; do not invent unrelated blue lights, fabric, paper or writing. Continue hidden surfaces plausibly in the same materials.\nThis is ALBEDO, not a beauty render: even flat shadowless viewer lighting, no ambient occlusion, no cast shadows, no directional shading, no hot specular highlights, no reflections, no rim light. Gold is base gold colour with only faint sheen. Luminous parts are painted bright colours confined to the silhouette: no bloom, no halo, no light spill. No background, floor, text, letters, labels, watermark or extra objects.\nView-specific constraint: LEFT edge-on view. Preserve the precise thin HORIZONTAL silhouette of guide_left.png. On the requested 1024 x 1024 canvas the bounding rectangle is x=66..957, y=479..544. The object spans 87.1% of the canvas width but only 6.45% of its height, centered at y=512. The razor-thin blade extends from the far LEFT point (66,512) to the guard near (650,512), and the narrow handle/pommel extends to the RIGHT endpoint (957,512). The bulging guard occupies only the existing central-right white geometry around x=620..700. Keep this very thin orthographic side profile, including every taper, bump and notch.\nMap warm ivory ceramic over the existing side of the guard and pommel, muted gold edging, black-violet resin over the grip and blade spine, and tiny orange seams. The plasma blade is seen edge-on, so its orange and pale core must fit the existing thin blade strip; do not widen it or add a glow halo. Preserve large transparent upper/lower margins. Do not turn the blade broadside, rotate it vertically, exaggerate guard width, or make it a spear. Recolour the supplied white mesh silhouette in place only, with no reconstruction.",
+    "inputs": [
+      {
+        "file": "guide_left.png",
+        "sha256": "4ca007f39c4f3e061916dde08714fa79a2ad50fad3dca2945d7aedd632259b37"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_left_attempt1.png",
+    "attempt": 1,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-44ce544f-1133-4a69-9709-808fe2254679.png",
+    "selected": false,
+    "reason": "Rejected: landscape return cropped the intended square framing, blade is thicker and energy spills outside its outline.",
+    "tool": "built-in image_gen",
+    "output_sha256": "102038b214bb319de459e243f2d844a0ae7b7d31f2b3f306a0715888deee44bb",
+    "output_size": [
+      1774,
+      887
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          98,
+          168,
+          1678,
+          798
+        ],
+        "16": [
+          98,
+          384,
+          1675,
+          498
+        ],
+        "127": [
+          99,
+          385,
+          1674,
+          498
+        ],
+        "254": [
+          130,
+          419,
+          1661,
+          496
+        ]
+      },
+      "guide_alpha_bounds": [
+        66,
+        479,
+        958,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.3901024277064116,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "left",
+    "prompt": "EDIT the FIRST INPUT IMAGE IN PLACE. Preserve its SQUARE 1:1 CANVAS, 1024 pixels wide and 1024 pixels high. Output a SQUARE TRANSPARENT PNG, not a landscape composition. Do not crop away any of the empty space above or below. This is a colourization of a fixed guide, not a new sword illustration.\nInput 1: guide_left.png is the authoritative layout, silhouette, size, location, geometry, camera and transparency. Input 2: design_reference.png supplies ONLY colours and surface materials.\nRetain the guide's existing alpha mask and edges exactly. The horizontal sword lies along the exact vertical middle of the SQUARE canvas: blade tip left, pommel right. It is only 6.45% of the square image's height at its thickest point, and extends from 6.45% to 93.55% across its width. Empty transparent space above and below occupies almost the entire square. The blade is razor thin, not broadside. Follow every contour, surface boundary, swell and narrowing in the guide without adding or moving parts.\nCorrection of prior attempt: DO NOT use a wide canvas, enlarge the sword thickness, put a broadside glowing canister on the edge of the guard, or create flame/halo outside the silhouette. Recolour only the original model. Ivory ceramic on guard curves and pommel edging, muted brushed-gold fittings, violet-black resin on grip and blade spine, and a thin orange/cream line of plasma constrained entirely within the blade. Continue the reference's materials plausibly on these narrow side surfaces.\nStrict flat ALBEDO colour: no specular highlights, no cast or contact shadows, no dark ambient occlusion, no reflections, no rim light, no bloom or light spill. Metals are muted base colours. Fine seams and gentle material wear only. No background, floor, text, letters, labels or watermark. Keep the original guide's square canvas and exact framing.",
+    "inputs": [
+      {
+        "file": "guide_left.png",
+        "sha256": "4ca007f39c4f3e061916dde08714fa79a2ad50fad3dca2945d7aedd632259b37"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_left.png",
+    "attempt": 2,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-81e61401-b856-486f-bfba-c7e3fb3e05a4.png",
+    "selected": true,
+    "reason": "Selected correction restores square canvas and narrow edge-on framing. Exact guide alpha is not preserved; some shading and coloured edge spill remain.",
+    "tool": "built-in image_gen",
+    "output_sha256": "067deec4b1e9e5b375849a11dbb179acf4008d2bbb1bcc6a1618bb7c68effb30",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          78,
+          175,
+          1198,
+          1195
+        ],
+        "16": [
+          81,
+          586,
+          1174,
+          666
+        ],
+        "127": [
+          85,
+          586,
+          1171,
+          665
+        ],
+        "254": [
+          634,
+          588,
+          909,
+          662
+        ]
+      },
+      "guide_alpha_bounds": [
+        66,
+        479,
+        958,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.7818889405204461,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "right",
+    "prompt": "EDIT the FIRST INPUT IMAGE IN PLACE. Preserve its SQUARE 1:1 CANVAS, 1024 pixels wide and 1024 pixels high. Output one SQUARE RGBA PNG with genuinely transparent background. Do not crop away any empty space. This is colourization of a fixed white model guide for an ALBEDO texture source.\nInput 1: guide_right.png is the absolute authority for layout, silhouette, size, position, camera, geometry, alpha and every part boundary. Input 2: design_reference.png is ONLY the authority for colours and materials.\nKeep the original guide's exact alpha mask and every edge. This is a razor-thin RIGHT EDGE-ON view of Lord Vhorrax's saber; pommel on LEFT, blade point on RIGHT. The object runs horizontally along y=512, from x=66 to x=957. Its thickest point is only 66 pixels tall (6.45% of the square canvas height) between y=479 and y=544. The raised guard is near x=370; grip/pommel extend left of it, and the thin blade extends right of it. Almost the entire square above and below stays transparent. Do not reveal the broad sword face, enlarge details, change angle, reframe, recenter, rotate or redraw the outline.\nPaint the original surfaces in place: warm off-white ceramic with fine wear on guard curves and pommel trim, dull muted gold fittings, flowing violet-black resin on the grip and blade body, restrained amber seams and a thin orange/cream plasma line ONLY within the existing blade strip. Continue the design materials plausibly on the narrow reverse-side geometry. No added openings, tubes, protrusions or extra details outside the guide.\nStrict flat ALBEDO paint, evenly lit from the viewer, no directional shading, shadows, dark ambient occlusion, metallic highlights, reflections, rim light, bloom, halo or light spill. Gold has only faint base-colour sheen. Orange energy is a flat bright colour. Surface seams and fine wear are colour details, not cast shadows. No background, floor, letters, text, labels, watermark or other objects. Preserve the entire square canvas.",
+    "inputs": [
+      {
+        "file": "guide_right.png",
+        "sha256": "986851751d9184347b5ebbdeef30f3e11fa0851f4d7f0e0762c637f626020d5c"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_right.png",
+    "attempt": 1,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-0b6630d7-9c44-4df5-91f8-d6e3de2e8207.png",
+    "selected": true,
+    "reason": "Selected first return for closer normalized silhouette (0.934 versus 0.861 on correction). Warm reference palette retained, but halo, highlights and recessed shading fail strict albedo and alpha requirements.",
+    "tool": "built-in image_gen",
+    "output_sha256": "1c827667b5f0fb5f70b6745de6f8077930a3bd1d1f92fb94c4fad9ddb6ac171e",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          47,
+          53,
+          1206,
+          1214
+        ],
+        "16": [
+          82,
+          587,
+          1173,
+          667
+        ],
+        "127": [
+          87,
+          588,
+          1169,
+          666
+        ],
+        "254": [
+          230,
+          589,
+          620,
+          665
+        ]
+      },
+      "guide_alpha_bounds": [
+        66,
+        479,
+        958,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.9337716262975778,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "right",
+    "prompt": "Make one SQUARE 1024 x 1024 transparent PNG by recolouring input image 1, guide_right.png. Keep its exact alpha silhouette, geometry, part edges, orthographic RIGHT camera, position and scale. Input image 2 is a material palette reference only.\nCORRECTION PRIORITY: The plasma must be MATTE ORANGE PAINT, without any glow effect. No yellow/red fog, no edge halo, no fire, no bloom, no light spill, no transparent wisps anywhere. No pixel may extend outside image 1's original white silhouette. Even the thinnest blade section must keep exactly the guide's width. Do not copy the orange halo or dramatic lighting of image 2.\nPreserve the square canvas with enormous empty margins above and below. Saber horizontal at y=512; left endpoint x=66, right endpoint x=957; bounds y=479..544. Grip and pommel LEFT, guard near x=370, blade to RIGHT. It is an edge-on view, never broadside. Do not crop, zoom, rotate, redesign or enlarge.\nPaint existing guard and pommel ceramic a flat warm ivory with very fine wear. Paint metal trims muted ochre gold with almost no sheen. Resin is deep muted violet-black with fine flowing seam colours. The blade's very narrow energy strip is flat orange with a thin pale cream centre, contained entirely within its original outline. Visible small light inserts are solid amber. Continue the same materials around hidden side surfaces.\nALBEDO ONLY: no shadows, no ambient occlusion, no highlights, reflections, lighting gradients or rim lighting. No text, letters, floor, background, labels, watermark or added parts. No energy FX. Preserve the original alpha mask and square framing.",
+    "inputs": [
+      {
+        "file": "guide_right.png",
+        "sha256": "986851751d9184347b5ebbdeef30f3e11fa0851f4d7f0e0762c637f626020d5c"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_right_attempt2.png",
+    "attempt": 2,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-5042189c-0f22-48e3-8900-f970d4b49a0f.png",
+    "selected": false,
+    "reason": "Correction makes the energy less white but worsens silhouette overlap and still has substantial coloured edge spill.",
+    "tool": "built-in image_gen",
+    "output_sha256": "51bbcb20f67e3ee559f4f9e9510dc681260cb22ea2e81e29045ca260cebc65db",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          57,
+          36,
+          1176,
+          1101
+        ],
+        "16": [
+          79,
+          587,
+          1175,
+          667
+        ],
+        "127": [
+          81,
+          588,
+          1171,
+          666
+        ],
+        "254": [
+          234,
+          591,
+          553,
+          659
+        ]
+      },
+      "guide_alpha_bounds": [
+        66,
+        479,
+        958,
+        545
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.8611591418507845,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "top",
+    "prompt": "EDIT INPUT IMAGE 1 IN PLACE on its original SQUARE 1024 x 1024 canvas. Produce one 1024-by-1024 RGBA PNG with genuinely transparent background. This is a painted ALBEDO source for a 3D model, not a new concept illustration.\nInput 1 is guide_top.png: absolute authority for every pixel of the silhouette, alpha, shape, position, size, geometry, part boundaries and camera. Input 2 is design_reference.png: authority for the saber's surface materials, colours and decorative patterns only.\nPaint the EXACT existing white saber silhouette of input 1. It is seen directly from ABOVE, vertical within a square canvas, point UP, pommel DOWN. Keep its narrow bounding rectangle x=446..577, y=66..957: width only 12.9% of canvas, height 87.1%. Preserve all large transparent margins, every asymmetrical notch along the left blade spine, the gently bowed right cutting edge, the delicate hooked guard, the narrow grip, pommel hook and internal holes exactly. Do not copy image 2's proportions or framing, do not enlarge it to show detail. Do not crop, resize, recenter, rotate, change camera or add geometry.\nTransfer the design's flowing black-violet resin onto the blade spine and ribbed grip, with its fine seams and restrained orange fissures. Paint the cutting strip along the blade's right edge bright orange with a narrow pale-cream core, all constrained INSIDE the guide silhouette. Paint the hooked guard's crossing ceramic ribs and the pommel's curved ceramic trim warm ivory-white with fine wear. Fittings are muted brushed antique gold. The central guard capsule has an ivory upper cap and small orange/cream vertical apertures in a gold setting, positioned within the existing guide geometry. The pommel inset is amber. Preserve reference material relationships and continue them plausibly wherever the guide differs.\nFlat even viewer lighting, unlit diffuse ALBEDO colour. No cast shadows, ambient occlusion, directional shading, bright metallic highlights, reflections, rim lighting or light spill. Gold is dull base colour with only a faint sheen. Energy areas are painted bright colours; NO bloom, no halo, no flame, no glow extending beyond the alpha edge. No background, floor, text, letters, labels, watermark or added parts. Keep the exact original square canvas and alpha silhouette.",
+    "inputs": [
+      {
+        "file": "guide_top.png",
+        "sha256": "647af0e69e133cc12bd18ef28ff42fe00e71be33bf4265d059d6ceb5d1260bfe"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_top_attempt1.png",
+    "attempt": 1,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-7abf9b39-32a8-4ae8-bf65-0ea48f87f2b3.png",
+    "selected": false,
+    "reason": "Top view preserves reference design but has bright energy fringe, specular shading and silhouette drift.",
+    "tool": "built-in image_gen",
+    "output_sha256": "4a8a7431889f2cc9c16c9b66408012c1696cfd9f6fde520024a06d11c8b48083",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          33,
+          66,
+          1140,
+          1230
+        ],
+        "16": [
+          546,
+          69,
+          713,
+          1191
+        ],
+        "127": [
+          547,
+          70,
+          712,
+          1190
+        ],
+        "254": [
+          548,
+          72,
+          710,
+          1139
+        ]
+      },
+      "guide_alpha_bounds": [
+        446,
+        66,
+        578,
+        958
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.8438947018342756,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  },
+  {
+    "view": "top",
+    "prompt": "Colourize ONLY the existing white surfaces in INPUT IMAGE 1, guide_top.png. Keep its existing transparent alpha mask and SQUARE 1024x1024 canvas. This exact guide is the shape and camera authority. INPUT IMAGE 2 is a palette/material reference, never a replacement silhouette.\nFinal corrective pass: remove the painted lighting and external energy haze. Make a flat diffuse ALBEDO texture source. The first attempt copied the reference's strong highlights and emissive fringe and changed the outline. Do not do that here. No bloom, halo, fire, haze, glow outside the silhouette, shadows, ambient occlusion, bright highlights, reflection or rim light. Materials must have their own base colours with almost no lighting gradients.\nKeep the white model's narrow vertical contour pixel for pixel: bounds x=446..577, y=66..957 in the square image. Tip at top, pommel at bottom. Preserve the exact stepped notches along the left spine, the right blade's subtle curve, all irregular guard hooks and small holes, existing grip thickness, and pommel curve. Do not change any part edge. Do not enlarge, crop, rotate, recenter or reframe. Large margins remain completely transparent.\nPaint the right blade strip matte orange with a thin pale cream centre entirely INSIDE the existing blade. Paint the blade spine and spiral grip a flat deep black-violet resin, with subtle colour-only flowing seams and small orange slits. Paint the existing sweeping guard ribs and pommel trim worn warm white ceramic. Gold surrounds and trims use plain muted antique gold with faint sheen only. The existing guard inset is an ivory capped orange-lit capsule in a gold frame; the pommel inset is amber. Continue the approved reference's materials without invented ornaments or changed anatomy.\nNo text, letters, labels, watermarks, background, floor or additional objects. Deliver a genuinely transparent square PNG at 1024x1024, with the guide's alpha and framing untouched.",
+    "inputs": [
+      {
+        "file": "guide_top.png",
+        "sha256": "647af0e69e133cc12bd18ef28ff42fe00e71be33bf4265d059d6ceb5d1260bfe"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "cb3ecda2db9a815054924df2adcf29e582acd08d0dfba525090f2b5798df8364"
+      }
+    ],
+    "output": "paint_top.png",
+    "attempt": 2,
+    "source_path": "/home/pjasicek/.codex/generated_images/01a16ed1-04d1-7f42-8272-f8c18b298a05/exec-c117a848-0845-4570-b21c-16a36441750a.png",
+    "selected": true,
+    "reason": "Selected corrective return for reduced blade bloom and slightly better normalized silhouette overlap (0.851 versus 0.844). Palette and broad design match; exact outline, highlights, recess shading and some edge spill remain outside brief requirements.",
+    "tool": "built-in image_gen",
+    "output_sha256": "f6bf5b2bd70da77ba3aceb467922cbb135c72cc284b52b5f203d531e44451e29",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "checks": {
+      "mode": "RGBA",
+      "has_transparency": true,
+      "alpha_bounds_by_threshold": {
+        "0": [
+          312,
+          77,
+          1188,
+          1254
+        ],
+        "16": [
+          549,
+          79,
+          711,
+          1174
+        ],
+        "127": [
+          550,
+          80,
+          710,
+          1173
+        ],
+        "254": [
+          551,
+          92,
+          704,
+          1131
+        ]
+      },
+      "guide_alpha_bounds": [
+        446,
+        66,
+        578,
+        958
+      ],
+      "exact_alpha_match": false,
+      "exact_silhouette_at_alpha_128": false,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_requested": false,
+      "normalized_silhouette_iou_diagnostic_only": 0.8507182689589597,
+      "flat_albedo_visual": "Some shading/highlights remain; not strict flat albedo.",
+      "materials_visual": "Ivory ceramic, muted gold, violet-black resin and orange energy present.",
+      "text_or_letters_visible": false
+    },
+    "meets_all_brief_checks": false
+  }
+]

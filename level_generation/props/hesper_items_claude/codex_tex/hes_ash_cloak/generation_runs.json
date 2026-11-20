@@ -1,0 +1,532 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "silhouette_metric_note": "Normalized IoU compares alpha >=128 at the same normalized canvas coordinates for diagnostics only; saved PNGs are byte-identical unresized tool returns. Exact silhouette requires matching dimensions and alpha values.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture projection source for the existing Hesper ash cloak 3D model.\nImage 1 is the EDIT TARGET: the plain orthographic guide. Image 2 is a MATERIAL AND COLOUR reference only: the approved cloak design. Paint image 1 in place, replacing its white/gray surfaces with the approved material colours and details. Output one 1024 x 1024 PNG with true transparent alpha background.\nSTRICT GEOMETRY LOCK: retain the guide's exact alpha silhouette, pixel position, scale, camera, aspect, every fold boundary, opening, notch, protrusion and part edge. Keep all empty margins unchanged. The model is a low, broadly spread crumpled cloak, NOT the upright tall cloak pose of the design reference. Do not rearrange or smooth its geometry, change the drape, expand the outline with fibres, add pieces, crop, rotate or zoom. Treat the guide as a locked stencil and paint only its existing surfaces.\nMATERIAL AUTHORITY: weathered ash gray / dusty taupe-brown coarse woven cloth, muted smoky plum-brown cloth patches and layered scarf folds, near-black brown quilted lining with warm tan diamond stitches, dark aged leather border strips, uneven tan hand stitching and frayed seams, tarnished dull bronze / iron hem reinforcement plates and shoulder clasp with aged brass edging and small rivets. Transfer the reference's palette and realistic small material details, continuing unseen surfaces plausibly. Place metal only on the existing clasp and appropriate hem surfaces, without changing geometry. The white guide is untextured, NOT white material. This reference shows NO ceramic, no crystals, no glowing elements, no magic effects; do not invent them.\nLIGHTING: completely flat, even, shadowless albedo/base-colour from the viewer, evenly visible even in recesses. Remove the gray guide's baked lighting and shadows. Do not copy dramatic shadows or highlights from the design. No cast shadows, no ambient occlusion, no blackened fold creases from lighting, no directional shading, no specular hotspots, no reflections, no rim light. Metal is its dull base colour with only the faintest sheen. Use true material colour differences and painted seams to distinguish parts.\nTransparent background; no floor, no backdrop, no checkerboard painted into pixels, no text, no letters, no labels, no watermark. Return this one painted guide, not a collage.\nVIEW: FRONT. Edit guide_front.png exactly. Keep the raised open collar at the top centered around x470,y240 and the same broad spread of angular hanging cloth folds below. Preserve the 892-by-549-pixel object footprint approximately x66..957,y237..785 within the 1024-square canvas. The material must follow the guide's front-facing facets; do not borrow the design reference's upright silhouette.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6ae7edfc51f44839cdf8237b7c47c83d7cec241ce4e3753ab5b82aaf6121ec8d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-2373c7b8-64a1-4ccc-bd8b-c019885b6784.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial return follows the broad pose and materials, but changes silhouette and fold edges, adds a large clasp, and retains fold shading and metallic highlights. Corrective regeneration required.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "204722f74daff37ee1b3ef4c337c748734b68f67db63107faac61e2de8a692c7",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          22,
+          1212,
+          1230
+        ],
+        "opaque_bbox": [
+          50,
+          262,
+          1209,
+          965
+        ],
+        "normalized_silhouette_iou": 0.907971,
+        "visual_materials": "Ash-brown woven cloth, muted plum patches, tan stitches, quilted dark lining and worn bronze/iron follow the reference material family; detail placement varies.",
+        "visual_lighting": "Residual fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE FRONT ALBEDO PAINTOVER.\nInput 1 (design_reference.png) is ONLY a colour/material swatch reference.\nInput 2 (guide_front.png) is the EXACT 1024 x 1024 IMAGE TO EDIT. Return the edited input 2 at its original 1024 x 1024 dimensions, not the reference's 1254 x 1254 dimensions.\n\nPaint directly inside input 2's existing alpha mask. Retain input 2's silhouette, pixel-for-pixel placement, internal edges, sharp polygonal fold boundaries, part sizes, occlusions and every angular protrusion. Treat it as a frozen stencil, not an inspiration for a new object. The object stays within x66..957, y237..785, with the same large empty top and bottom margins. Do not expand, shrink, center anew or alter the outline. Retain the low spread cloak pile exactly as the white guide. There is no large clasp on the right shoulder of this guide: do not add the reference's right-side buckle. Match only hardware already visible in the target.\n\nREPLACE WHITE WITH BASE COLOUR ONLY: the reference's ashen gray-brown woven linen, muted desaturated plum-brown cloth patches, dark brown leather edging, small tan repair stitches, charcoal-brown quilted inner lining, and dull tarnished bronze/iron reinforcement in appropriate existing hem surfaces. Paint fine weave, mottled wear, seam stitches and scuffs in place without moving any surface edge. Everything remains within the guide's silhouette, including fraying.\n\nTHIS IS AN UNLIT ALBEDO PASS, NOT A SHADED RENDER. Every surface's base colour is fully visible and even. Remove all guide illumination gradients. Recesses get their material's base colour, never an added occlusion shadow. Cloth must not become dark in folds due to lighting. Metal is matte brown-gray base colour with faint mottled wear and no white glints or bright rim. No shadows of any kind, no ambient occlusion, no directional lighting, no reflections, no specular highlights.\nTrue RGBA transparency outside the original guide mask. No background, floor, text, labels, letters, watermark, extra objects, fire, crystals, or glow. Output only this single painted FRONT guide. The geometry and alpha of input 2 outrank all shape cues in input 1.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "6ae7edfc51f44839cdf8237b7c47c83d7cec241ce4e3753ab5b82aaf6121ec8d"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-f9e298e2-ee55-43f7-a747-11a243246083.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: removes the invented large clasp and improves guide framing. Best of two attempts; exact alpha/edge registration and fully shadowless albedo are still not achieved.",
+      "checks": {
+        "visual_materials": "Reference cloth, plum patches, stitching and aged metal represented.",
+        "visual_lighting": "Residual fold shading and small metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          23,
+          1230,
+          1254
+        ],
+        "opaque_bbox": [
+          73,
+          292,
+          1182,
+          963
+        ],
+        "normalized_silhouette_iou": 0.991517,
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "73208105ff420d43f41bbf1ed30864b4f2073596d98bbc0aef1aaf8af4e34fdf"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Albedo texture-source paintover of a fixed 3D model guide.\nInput 1, design_reference.png, supplies ONLY colours and materials. Input 2 is the exact 1024 x 1024 white orthographic guide to edit. Paint input 2 directly. Return one 1024 x 1024 RGBA PNG with transparent background.\nFREEZE ALL GEOMETRY: copy input 2's original alpha silhouette, exact frame placement, scale, camera, polygon edges, every cloth fold, notch, opening and protrusion. Retain every margin. Do not recompose, round off folds, add pieces, change the drape, enlarge or crop. The cloak is low and widely spread exactly like the guide. Do not use the upright shape of input 1.\nONLY ADD BASE COLOUR AND SURFACE DETAIL: ashen taupe-gray / dusty brown coarse cloth, desaturated smoky plum-brown cloth patches and scarf, dark brown leather hem borders, warm tan coarse hand-sewn repair seams, charcoal-brown quilted inner lining with thin tan diamond stitching. Existing hardware gets matte worn brown-gray iron and dull aged bronze edging and rivets, no new hardware added to the shape. Continue unseen cloth surfaces plausibly with these same materials. Fine weave, wear, stitch lines and seams follow the fixed guide facets. No invented ceramic, crystal, glass, glowing parts, fire or magic.\nUNLIT ALBEDO ONLY. Completely flat shadowless viewer illumination. No lighting gradients across folds. No cast shadow, ambient occlusion, darkened crevices, directional shading, bright rim, highlights or reflections. Recessed surfaces show their actual material base colour with the same illumination as exposed surfaces. Metal has only its dull base colour and at most a faint sheen. No photographed or rendered lighting.\nTrue alpha transparency; no floor or backdrop, no text/letters/labels/watermarks. Paint inside the exact guide mask without adding fibres beyond the contour. The guide shape outranks all reference shapes.\nVIEW: BACK. Input 2 is guide_back.png. Preserve its upper closed collar/back fold and the long rolled cloth fingers radiating down and outward, the two broad folded flaps across the middle, and the exact wide bottom outline. The back has no visible shoulder clasp, so add none. Expected guide footprint x66..957,y237..785. Keep the lower facets as cloth and lining with subdued hem reinforcement only where appropriate. Paint the back of the same reference cloak; do not turn it around.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "6b8289b547e2c440cd85c2608a6918b23519f79f78670df60e086c33d2baa4b7"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-d711a70b-6b8d-49ea-b0ae-f61e91e2b504.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected first return: closer guide silhouette and rolled-cloth layout than correction. Best of two attempts, but exact edge registration and fully shadowless lighting are not achieved.",
+      "checks": {
+        "visual_materials": "Ash-brown cloth, plum folds, warm stitches, quilted lining and aged metal match the reference palette.",
+        "visual_lighting": "Fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          21,
+          1238,
+          1238
+        ],
+        "opaque_bbox": [
+          62,
+          282,
+          1194,
+          959
+        ],
+        "normalized_silhouette_iou": 0.966532,
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "983a33126a62cf63e3ec6a200c12b80fad5b10da79a3dd76164641b1c12aa9a7"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE EDIT: paint guide_back.png as a strictly UNLIT BASE-COLOUR texture source.\nInput 1 is the approved material reference only. Input 2 is the fixed 1024 x 1024 back guide: edit input 2 IN PLACE.\nPrecisely preserve the complete alpha silhouette and ALL polygon edges of input 2. Same original camera, frame, pixel placement, margins and folded cloth geometry. Object stays x66..957,y237..785. NO smoother or rounder outline, no resizing or repositioning, no additional hanging hems, no new holes, no extended fraying, no extra hardware. The sharp edges in the guide are fixed geometry. Output the target's 1024 x 1024 canvas, not the 1254-square design image.\n\nChange ONLY the guide's white surface pixels to the reference's worn ash-taupe gray-brown woven cloth, muted plum-brown patch fabric, brown leather border strips, tan repair stitching, dark brown quilted lining and subdued brown-gray iron/bronze hem fittings. The back has NO clasp. Continue reference materials plausibly on the back; do not copy its front-facing composition. Fine cloth weave, weathering and small seam details, all contained within the guide mask.\n\nCRITICAL CORRECTION: do not shade the cloth into a 3D illustration. Produce a flat unlit albedo/base colour pass. Adjacent facets of the same cloth have the SAME average brightness regardless of their orientation or depth. Folds are indicated only by their guide boundaries, seam lines and changes of material, not darkness. No black crevices, no shadows or AO, no bright crease edges, no glossy metal or white highlights, no reflections. Treat every surface as equally self-illuminated base colour. The reference's photographic lighting must be removed, leaving just pigment and material wear.\nTransparent alpha outside the exact original guide. No text, letters, watermark, floor, background, glow or extra objects. One painted BACK view only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "6b8289b547e2c440cd85c2608a6918b23519f79f78670df60e086c33d2baa4b7"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-aafc4208-2edb-4bce-a1b6-bbca57da2b24.png",
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: extends the lower drape and moves existing folds away from the guide despite flatter broad cloth colour. First return preserves geometry better.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "2b104e11379c836382fd59211c734843df9335078af053f54e7f187e91f86a04",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          23,
+          1216,
+          1254
+        ],
+        "opaque_bbox": [
+          76,
+          276,
+          1179,
+          1068
+        ],
+        "normalized_silhouette_iou": 0.86947,
+        "visual_materials": "Ash-brown woven cloth, muted plum patches, tan stitches, quilted dark lining and worn bronze/iron follow the reference material family; detail placement varies.",
+        "visual_lighting": "Residual fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Albedo texture-source paintover of a fixed 3D model guide.\nInput 1, design_reference.png, supplies ONLY colours and materials. Input 2 is the exact 1024 x 1024 white orthographic guide to edit. Paint input 2 directly. Return one 1024 x 1024 RGBA PNG with transparent background.\nFREEZE ALL GEOMETRY: copy input 2's original alpha silhouette, exact frame placement, scale, camera, polygon edges, every cloth fold, notch, opening and protrusion. Retain every margin. Do not recompose, round off folds, add pieces, change the drape, enlarge or crop. The cloak is low and widely spread exactly like the guide. Do not use the upright shape of input 1.\nONLY ADD BASE COLOUR AND SURFACE DETAIL: ashen taupe-gray / dusty brown coarse cloth, desaturated smoky plum-brown cloth patches and scarf, dark brown leather hem borders, warm tan coarse hand-sewn repair seams, charcoal-brown quilted inner lining with thin tan diamond stitching. Existing hardware gets matte worn brown-gray iron and dull aged bronze edging and rivets, no new hardware added to the shape. Continue unseen cloth surfaces plausibly with these same materials. Fine weave, wear, stitch lines and seams follow the fixed guide facets. No invented ceramic, crystal, glass, glowing parts, fire or magic.\nUNLIT ALBEDO ONLY. Completely flat shadowless viewer illumination. No lighting gradients across folds. No cast shadow, ambient occlusion, darkened crevices, directional shading, bright rim, highlights or reflections. Recessed surfaces show their actual material base colour with the same illumination as exposed surfaces. Metal has only its dull base colour and at most a faint sheen. No photographed or rendered lighting.\nTrue alpha transparency; no floor or backdrop, no text/letters/labels/watermarks. Paint inside the exact guide mask without adding fibres beyond the contour. The guide shape outranks all reference shapes.\nVIEW: LEFT. Input 2 is guide_left.png. Preserve the open collar, exactly placed round clasp at x514,y501, all rolled cloth folds and angular ends, and especially the large transparent arch beneath the middle of the cloak. The guide footprint stays x67..956,y238..785; every notch stays exactly where it is. The ring-like clasp is dull weathered bronze/iron in the existing shape. No added shoulder brooch elsewhere. Match the cloth, stitched patchwork and hem fittings of the reference only as surface paint within the frozen geometry. Paint the same left profile, not a front or three-quarter pose.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "9d22c09f6dd1abc9d5b128574ec6275b5d969237b797c76eaf47c9557e4e873c"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-ec02422e-a0ae-4181-8629-935d02fc602a.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected first return: substantially closer silhouette and collar placement than correction (normalized silhouette IoU 0.935352 versus 0.774177). The clasp is broader than the guide and fold shading remains; not an exact stencil match.",
+      "checks": {
+        "visual_materials": "Reference ash-brown/plum cloth, stitches, lining and worn metal represented.",
+        "visual_lighting": "Fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          32,
+          1214,
+          1162
+        ],
+        "opaque_bbox": [
+          82,
+          286,
+          1183,
+          968
+        ],
+        "normalized_silhouette_iou": 0.935352,
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "6fd211fe06531b44bdd87191c6d8a018a217011e15d596d329f53dea6c8ec352"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Albedo texture-source paintover of a fixed 3D model guide.\nInput 1, design_reference.png, supplies ONLY colours and materials. Input 2 is the exact 1024 x 1024 white orthographic guide to edit. Paint input 2 directly. Return one 1024 x 1024 RGBA PNG with transparent background.\nFREEZE ALL GEOMETRY: copy input 2's original alpha silhouette, exact frame placement, scale, camera, polygon edges, every cloth fold, notch, opening and protrusion. Retain every margin. Do not recompose, round off folds, add pieces, change the drape, enlarge or crop. The cloak is low and widely spread exactly like the guide. Do not use the upright shape of input 1.\nONLY ADD BASE COLOUR AND SURFACE DETAIL: ashen taupe-gray / dusty brown coarse cloth, desaturated smoky plum-brown cloth patches and scarf, dark brown leather hem borders, warm tan coarse hand-sewn repair seams, charcoal-brown quilted inner lining with thin tan diamond stitching. Existing hardware gets matte worn brown-gray iron and dull aged bronze edging and rivets, no new hardware added to the shape. Continue unseen cloth surfaces plausibly with these same materials. Fine weave, wear, stitch lines and seams follow the fixed guide facets. No invented ceramic, crystal, glass, glowing parts, fire or magic.\nUNLIT ALBEDO ONLY. Completely flat shadowless viewer illumination. No lighting gradients across folds. No cast shadow, ambient occlusion, darkened crevices, directional shading, bright rim, highlights or reflections. Recessed surfaces show their actual material base colour with the same illumination as exposed surfaces. Metal has only its dull base colour and at most a faint sheen. No photographed or rendered lighting.\nTrue alpha transparency; no floor or backdrop, no text/letters/labels/watermarks. Paint inside the exact guide mask without adding fibres beyond the contour. The guide shape outranks all reference shapes.\nVIEW: RIGHT. Input 2 is guide_right.png. Preserve this exact right profile: slanted open neck collar at top, broad angular draped scarf layers, rolled cloth ends, and the large transparent arch cutout rising underneath the lower-right middle. Keep x67..956,y238..785 footprint on the 1024-square canvas. The shoulder clasp is on the far side and is not visible here: do not add one. All lower tubular-looking parts are rolled fabric, never sleeves or limbs. Geometry must stay pixel-registered to the guide. Paint seams, fabric weave, wear, lining and subdued metal hem fittings as base colours only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "35cb9a9263dda07e1c1a96fbd0459539ce9dcc5fcc3e61a18676c5d772c25f51"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-d0e22abd-2401-43ca-81e4-17e383c883d8.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favor of correction, which has better silhouette agreement and less frayed/rounded edge drift.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c2f3b13578145ee5753878ae5f8e42b3af359b65eaf36c8f8d2f64528ed4f6ca",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          21,
+          23,
+          1210,
+          1216
+        ],
+        "opaque_bbox": [
+          78,
+          285,
+          1175,
+          965
+        ],
+        "normalized_silhouette_iou": 0.979232,
+        "visual_materials": "Ash-brown woven cloth, muted plum patches, tan stitches, quilted dark lining and worn bronze/iron follow the reference material family; detail placement varies.",
+        "visual_lighting": "Residual fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Albedo texture-source paintover of a fixed 3D model guide.\nInput 1, design_reference.png, supplies ONLY colours and materials. Input 2 is the exact 1024 x 1024 white orthographic guide to edit. Paint input 2 directly. Return one 1024 x 1024 RGBA PNG with transparent background.\nFREEZE ALL GEOMETRY: copy input 2's original alpha silhouette, exact frame placement, scale, camera, polygon edges, every cloth fold, notch, opening and protrusion. Retain every margin. Do not recompose, round off folds, add pieces, change the drape, enlarge or crop. The cloak is low and widely spread exactly like the guide. Do not use the upright shape of input 1.\nONLY ADD BASE COLOUR AND SURFACE DETAIL: ashen taupe-gray / dusty brown coarse cloth, desaturated smoky plum-brown cloth patches and scarf, dark brown leather hem borders, warm tan coarse hand-sewn repair seams, charcoal-brown quilted inner lining with thin tan diamond stitching. Existing hardware gets matte worn brown-gray iron and dull aged bronze edging and rivets, no new hardware added to the shape. Continue unseen cloth surfaces plausibly with these same materials. Fine weave, wear, stitch lines and seams follow the fixed guide facets. No invented ceramic, crystal, glass, glowing parts, fire or magic.\nUNLIT ALBEDO ONLY. Completely flat shadowless viewer illumination. No lighting gradients across folds. No cast shadow, ambient occlusion, darkened crevices, directional shading, bright rim, highlights or reflections. Recessed surfaces show their actual material base colour with the same illumination as exposed surfaces. Metal has only its dull base colour and at most a faint sheen. No photographed or rendered lighting.\nTrue alpha transparency; no floor or backdrop, no text/letters/labels/watermarks. Paint inside the exact guide mask without adding fibres beyond the contour. The guide shape outranks all reference shapes.\nVIEW: TOP, looking DIRECTLY DOWN. Input 2 is guide_top.png. Trace and preserve its irregular roughly circular silhouette with radial rolled-cloth lobes, every jagged protrusion, and the exact layered cloth boundaries. The collar opening is in the lower-middle of this top projection, NOT vertically centered anew; its interior is an existing opaque surface and must remain painted, not cut out. The small existing round clasp is at left-middle around x268,y515 and is muted tarnished bronze; never enlarge it or introduce a second clasp. Maintain x66..957,y67..956 object footprint, all original margins, and the exact overhead orthographic view. Ash-brown cloth with subdued plum scarf wraps, tan stitching, brown leather edging and mottled dull iron/bronze on existing hem pieces. Preserve every surface, including the irregular upper and bottom lobes. Absolutely no perspective tilt. Colour must be evenly illuminated unlit albedo, including the collar interior.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "1707f00384cf6eb476f035d80f12963dff8f4b3074b8bd25c71005298b17e956"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-8f6259fa-9496-4e2a-bac8-c377ba3c06b5.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected first return: closer overhead silhouette and collar placement than correction (normalized IoU 0.923977 versus 0.878595). Materials follow reference; perimeter, internal edges and lighting still fail strict requirements.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "218a4e8b1e2b6779aad50509701570bcabdda245d1d290a4120fbfe4e442222f",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          9,
+          1236,
+          1236
+        ],
+        "opaque_bbox": [
+          56,
+          44,
+          1199,
+          1179
+        ],
+        "normalized_silhouette_iou": 0.923977,
+        "visual_materials": "Ash-brown woven cloth, muted plum patches, tan stitches, quilted dark lining and worn bronze/iron follow the reference material family; detail placement varies.",
+        "visual_lighting": "Residual fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE LEFT VIEW albedo.\nInput 1 is approved material design only. Input 2, guide_left.png, is the 1024x1024 image to paint in place. The final canvas is 1024x1024. Copy its alpha outline and fixed geometric edges exactly: same positions, dimensions, fold intersections, blunt angular ends, collar, small circular clasp, every notch and transparent cutout. Object footprint x67..956,y238..785. Do not shift or stretch any piece. In particular preserve the transparent under-arch and the lower-right angular stepped folds. Do not round their ends or add hanging tatters. The small existing circular clasp is ONLY the circle and tiny supports shown in the guide, not an extended wing-shaped brooch.\n\nPaint the reference's materials into this geometry: ashy taupe-gray/brown coarse woven fabric, subdued plum-brown scarf and patch fabric, tan hand stitching, dark brown leather edging and charcoal-brown quilted lining, dull worn bronze/gray iron on the existing clasp and selected existing hem surfaces. Paint small wear, seam and patch details without changing the contour. Do not turn this into the upright reference cloak.\n\nCritical: UNLIT BASE-COLOUR ONLY. Every surface receives exactly the same even light, independent of face angle or depth; remove the guide's gray shading and do not reproduce the reference's lighting. Broad fabric areas have constant base colour plus fine weave and pigment wear. No folds darkened by occlusion, no directional gradients, no shadows, no highlights, no bright ridges, no reflections or metal glints. Boundaries are read through geometry, seams and pigment differences, not light and shade. Metal is a flat matte tarnished base colour.\nTrue transparent alpha outside the original guide; no background or floor, no letters/text, no extra objects or emissive effects. Single exact LEFT guide paintover.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "9d22c09f6dd1abc9d5b128574ec6275b5d969237b797c76eaf47c9557e4e873c"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-bcdf013f-c578-4be9-a35b-1b03356a7ddb.png",
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: more circular clasp, but much poorer overall silhouette/placement (normalized IoU 0.774177) and altered collar and folds.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e69166cfbaf17d81b7b95819af16a6b1034e1066fc29ba32d60cbcedc2da9aeb",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          35,
+          1234,
+          1228
+        ],
+        "opaque_bbox": [
+          66,
+          255,
+          1201,
+          933
+        ],
+        "normalized_silhouette_iou": 0.774177,
+        "visual_materials": "Ash-brown woven cloth, muted plum patches, tan stitches, quilted dark lining and worn bronze/iron follow the reference material family; detail placement varies.",
+        "visual_lighting": "Residual fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective image edit: colourize IMAGE 2 (guide_right.png). IMAGE 1 is a reference for fabric colours and surface details only.\nEdit image 2 IN PLACE at 1024x1024. Keep its alpha mask, silhouette, exact polygon contours, empty spaces, camera, size and location unchanged. Every part remains exactly where the white guide has it. Do not redraw the geometry. Preserve the large lower arch and all angular cloth-roll ends. Do not add tears, projections, a clasp or further folds.\nApply the approved ash cloak materials: ashen taupe-gray brown woven outer cloth, subdued smoky plum-brown scarf and patches, tan repair stitching, charcoal-brown quilted lining, brown leather hem strips with worn matte iron/bronze plates. Place details only on existing surfaces. The target is the right view of a low spread cloak, not the tall design-reference pose.\nRender pigment only, a flat unlit ALBEDO pass. No depth shading, cast shadows, ambient occlusion, edge lights, specular highlights or reflections. All facets of one material have equal average brightness, including the recessed facets; only material colour, weave, seams and weathering vary. Metal has a dull matte base colour. Do not inherit illumination from either input.\nTrue transparent background matching image 2's original mask. No text or letters. Output just the same 1024-square guide with new surface colour, no resizing, reframing or scene.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "35cb9a9263dda07e1c1a96fbd0459539ce9dcc5fcc3e61a18676c5d772c25f51"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-13215faf-62be-4bb7-8aa9-9bd7fe5692f2.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: improved silhouette agreement (normalized IoU 0.987136 versus 0.979232), more angular folds and less fraying. Exact edge registration and fully shadowless lighting still fail.",
+      "checks": {
+        "visual_materials": "Reference cloth palette, plum panels, stitching, lining and aged hem metal represented.",
+        "visual_lighting": "Residual fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          23,
+          1234,
+          1230
+        ],
+        "opaque_bbox": [
+          81,
+          290,
+          1174,
+          961
+        ],
+        "normalized_silhouette_iou": 0.987136,
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "f1f02e9a207d06d6dcba56b93be041267ef696c5ba33d87163db003b8797fad7"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective edit: paint IMAGE 2, guide_top.png, directly in place. IMAGE 1 provides the approved material palette only. Output 1024x1024, the same size as image 2.\nPreserve image 2's EXACT alpha silhouette and internal boundaries, pixel for pixel. Keep every irregular radial cloth lobe, jagged point, notch, overlap, and collar contour. Do not expand or shrink the perimeter, round the polygonal edges, simplify or rearrange folds, rotate, zoom or reframe. The object occupies x66..957,y67..956; preserve all transparent margins. The collar remains in the guide's lower-middle position, with its visible opaque inside painted too. Preserve the small round clasp at the exact left-middle position; do not enlarge it or add another. View stays perfectly orthographic from directly above.\n\nChange only the white surfaces to the approved cloak colours and materials: ash gray/taupe-brown woven cloth, muted smoky plum-brown patchwork and scarf, dark brown leather trims, tan hand stitches, charcoal-brown quilted lining. Existing hem fittings and the small clasp use worn matte brown-gray iron and aged bronze. Paint cloth weave, seam stitches, patina and small wear marks INSIDE the unchanged polygons. No new torn edges or holes.\n\nThis must be flat ALBEDO/base-colour, not a shaded illustration. Paint equally illuminated pigments, with NO directional gradients, ambient occlusion, black crease shadows, cast shadows, bright ridges, shiny metal highlights or reflections. Same material stays the same brightness inside collar, under folds and on exposed surfaces. Keep all texture detail but remove lighting effects. True alpha transparency outside the original guide; no floor, backdrop, text, letters, glow or other objects. Return only the painted top guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ac7106b7c482de10b086c382824df4fd7f1f4dba7132a44ee408571eb8a3b411"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "1707f00384cf6eb476f035d80f12963dff8f4b3074b8bd25c71005298b17e956"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16ee4-12ed-7ae0-9b4b-d64eec987e8e/exec-7434a3bb-823e-437b-b0d0-c964bb9eeade.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: worse silhouette agreement (normalized IoU 0.878595), shifted collar and perimeter, and added metal detail near clasp. First return follows guide better.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "409fe544e45ee824bd9b128ca24f3587a679acbc9f1412ef97e352bd90053948",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "size_matches_requested": false,
+        "unmodified_tool_return": true,
+        "silhouette_identical": false,
+        "alpha_bbox": [
+          0,
+          23,
+          1230,
+          1233
+        ],
+        "opaque_bbox": [
+          48,
+          59,
+          1212,
+          1217
+        ],
+        "normalized_silhouette_iou": 0.878595,
+        "visual_materials": "Ash-brown woven cloth, muted plum patches, tan stitches, quilted dark lining and worn bronze/iron follow the reference material family; detail placement varies.",
+        "visual_lighting": "Residual fold shading and metal highlights remain; strict flat albedo check fails.",
+        "visual_text": "No visible text or letters.",
+        "flat_shadowless_albedo": false,
+        "exact_part_edges": false,
+        "strict_brief_visual_pass": false,
+        "size_exception_recorded": true
+      }
+    }
+  ],
+  "status": "All requested files saved; strict visual requirements not fully achieved within the one-correction-per-view limit.",
+  "limitations": [
+    "All tool returns are 1254 x 1254 instead of requested 1024 x 1024; saved without resizing or other pixel edits as directed.",
+    "No selected return preserves the exact guide alpha silhouette and every part edge. Normalized silhouette IoU is diagnostic and is not a pass for pixel identity.",
+    "Residual fold shading and small metallic highlights prevent strict shadowless albedo compliance.",
+    "Texture bake and runtime integration were outside this image-only task; no builds run."
+  ],
+  "selection_policy": "Selected the closer guide geometry from each pair after visual review and normalized alpha comparison; selected does not imply acceptance against all brief checks.",
+  "input_integrity_verified": true,
+  "run_count": 10,
+  "selected_count": 5
+}

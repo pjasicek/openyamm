@@ -1,0 +1,167 @@
+# Hostility check of Darzog's Tower (XD-12) (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+id: xeen.xd12.l4.hostility
+title: 'Darzog''s Tower (XD-12): foes hostile to the party, no fights among them'
+world: mm7
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd12.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 33
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 33
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 33
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 33
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 277
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 278
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 279
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 211
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 212
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 213
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 293
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 294
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 278
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 293
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 211
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 294
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 292
+      hostile: true
+      max: 0
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 292
+    x: 2200
+    y: -1500
+    z: 0
+- spawn_actor:
+    monster_id: 278
+    x: 2296
+    y: -1500
+    z: 0
+- spawn_actor:
+    monster_id: 211
+    x: 2392
+    y: -1500
+    z: 0
+- spawn_actor:
+    monster_id: 293
+    x: 2488
+    y: -1500
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 292
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 278
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 211
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 293
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 292
+      hurt: true
+      max: 0

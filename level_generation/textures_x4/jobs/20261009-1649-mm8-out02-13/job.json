@@ -1,0 +1,1718 @@
+{
+ "id": "20261009-1649-mm8-out02-13",
+ "world": "mm8",
+ "maps": [
+  "out02.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t14c04a",
+  "mm8/t14b06",
+  "mm8/t14a07",
+  "mm8/t14d01",
+  "mm8/t14c01b",
+  "mm8/t14c01",
+  "mm8/t14d04a",
+  "mm8/t14b07",
+  "mm8/t14a04a",
+  "mm8/t14a04c",
+  "mm8/t14a04b",
+  "mm8/t14d06",
+  "mm8/t14b04a",
+  "mm8/t14a06",
+  "mm8/t14d04b",
+  "mm8/t14c06",
+  "mm8/t14b04c",
+  "mm8/t14a01",
+  "mm8/t14d04c",
+  "mm8/t14c12c",
+  "mm8/t14c04b",
+  "mm8/t14b12c",
+  "mm8/t14b04b",
+  "mm8/cr_w128a"
+ ],
+ "requests": {
+  "mm8/t14c04a": {
+   "name": "t14c04a",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c12ba"
+     ],
+     "fraction": 0.218
+    }
+   }
+  },
+  "mm8/t14b06": {
+   "name": "t14b06",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under dark brown wooden shingles, beside a dark wooden corner post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01"
+     ],
+     "fraction": 0.301
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b12c",
+      "mm8/t14b03"
+     ],
+     "fraction": 0.314
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b01"
+     ],
+     "fraction": 0.282
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "bottom": "mm8/t14a05",
+     "left": "mm8/t14b01",
+     "right": "mm8/t14b01"
+    }
+   }
+  },
+  "mm8/t14a07": {
+   "name": "t14a07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, beside a dark wooden corner post",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t14abcd11",
+     "left": "mm8/t14a03",
+     "right": "mm8/t14a03"
+    },
+    "3": {
+     "bottom": "mm8/t14abcd11",
+     "left": "mm8/t14a03",
+     "right": "mm8/t14a03"
+    }
+   }
+  },
+  "mm8/t14d01": {
+   "name": "t14d01",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a07",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.217
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a07",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.217
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a07",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.217
+    },
+    "4": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a07",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.217
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "4": {
+     "right": "mm8/t14c01"
+    }
+   }
+  },
+  "mm8/t14c01b": {
+   "name": "t14c01b",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall, rounded stones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c04a",
+      "mm8/t14c12ba"
+     ],
+     "fraction": 0.303
+    }
+   }
+  },
+  "mm8/t14c01": {
+   "name": "t14c01",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall, rounded stones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c01b",
+      "mm8/t14c04a",
+      "mm8/t14c12ba",
+      "mm8/t14c04c"
+     ],
+     "fraction": 0.4
+    }
+   }
+  },
+  "mm8/t14d04a": {
+   "name": "t14d04a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14d01",
+      "mm8/t14b06",
+      "mm8/t14b01",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.284
+    },
+    "2": {
+     "sources": [
+      "mm8/t14d01",
+      "mm8/t14b06",
+      "mm8/t14b01",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.278
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/t14b07": {
+   "name": "t14b07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under dark brown wooden shingles, beside a dark wooden corner post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.286
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14b12c",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.294
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.281
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "bottom": "mm8/t14a05",
+     "right": "mm8/t14b01"
+    }
+   }
+  },
+  "mm8/t14a04a": {
+   "name": "t14a04a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "9": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.275
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.275
+    },
+    "3": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.267
+    },
+    "4": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.267
+    },
+    "5": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.267
+    },
+    "6": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.267
+    },
+    "7": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.267
+    },
+    "8": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.267
+    },
+    "9": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.267
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     92
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a03"
+    },
+    "4": {
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a03"
+    },
+    "5": {
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a03"
+    },
+    "6": {
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a03"
+    },
+    "7": {
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a03"
+    },
+    "8": {
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a03"
+    },
+    "9": {
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a03"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ],
+    "9": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t14a04c": {
+   "name": "t14a04c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.324
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.324
+    },
+    "3": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07"
+     ],
+     "fraction": 0.324
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t14a07",
+     "right": "mm8/t14a03"
+    },
+    "2": {
+     "left": "mm8/t14a07",
+     "right": "mm8/t14a03",
+     "bottom": "mm8/t14a04a",
+     "top": "mm8/t14b05"
+    },
+    "3": {
+     "left": "mm8/t14a07",
+     "right": "mm8/t14a03",
+     "bottom": "mm8/t14a04a"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t14a04b": {
+   "name": "t14a04b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, with a small arched green-paned window above a carved wooden flower box",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.348
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.349
+    },
+    "3": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.349
+    },
+    "4": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.348
+    },
+    "5": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.348
+    },
+    "6": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.349
+    },
+    "7": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.349
+    },
+    "8": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.348
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t14a03",
+     "right": "mm8/t14a03"
+    },
+    "2": {
+     "left": "mm8/t14a03",
+     "right": "mm8/t14a03"
+    },
+    "3": {
+     "left": "mm8/t14a03",
+     "right": "mm8/t14a03"
+    },
+    "4": {
+     "left": "mm8/t14a03",
+     "top": "mm8/t14a05",
+     "right": "mm8/t14a03"
+    },
+    "5": {
+     "left": "mm8/t14a03",
+     "top": "mm8/t14a05",
+     "right": "mm8/t14a03"
+    },
+    "6": {
+     "left": "mm8/t14a03",
+     "top": "mm8/t14a05",
+     "right": "mm8/t14a03"
+    },
+    "7": {
+     "left": "mm8/t14a03",
+     "top": "mm8/t14a05",
+     "right": "mm8/t14a03"
+    },
+    "8": {
+     "left": "mm8/t14a03",
+     "top": "mm8/t14a05",
+     "right": "mm8/t14a03"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     76
+    ]
+   },
+   "pad": {
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t14d06": {
+   "name": "t14d06",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, beside a dark wooden corner post",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14d01",
+      "mm8/t14b06",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.27
+    },
+    "2": {
+     "sources": [
+      "mm8/t14d01",
+      "mm8/t14b06",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.27
+    },
+    "3": {
+     "sources": [
+      "mm8/t14d01",
+      "mm8/t14b06",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.27
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t14d01"
+    },
+    "3": {
+     "left": "mm8/t14d01"
+    }
+   }
+  },
+  "mm8/t14b04a": {
+   "name": "t14b04a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough tan-brown fieldstone wall under dark brown wooden shingles, with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b06",
+      "mm8/t14b12c",
+      "mm8/t14b07",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.307
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b06",
+      "mm8/t14b12c",
+      "mm8/t14b07",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.301
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b06",
+      "mm8/t14b12c",
+      "mm8/t14b07",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.301
+    },
+    "4": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b06",
+      "mm8/t14b12c",
+      "mm8/t14a04c",
+      "mm8/t14b07",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.305
+    },
+    "5": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b06",
+      "mm8/t14b12c",
+      "mm8/t14a04c",
+      "mm8/t14b07",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.305
+    },
+    "6": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b06",
+      "mm8/t14b07",
+      "mm8/t14d04a"
+     ],
+     "fraction": 0.299
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "3": [
+     0,
+     86
+    ],
+    "5": [
+     0,
+     86
+    ]
+   }
+  },
+  "mm8/t14a06": {
+   "name": "t14a06",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, beside a dark wooden corner post",
+   "notes": {
+    "4": "the thick brown straw thatch eave fills the top 40 percent of the texture exactly as in the reference, its lower edge at the same height as in the finished neighbours; fieldstone only below it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14d06",
+      "mm8/t14a04a"
+     ],
+     "fraction": 0.309
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14d06",
+      "mm8/t14a04a"
+     ],
+     "fraction": 0.309
+    },
+    "3": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14d06",
+      "mm8/t14a04a"
+     ],
+     "fraction": 0.309
+    },
+    "4": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14d06",
+      "mm8/t14a04a"
+     ],
+     "fraction": 0.309
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t14a04a",
+     "right": "mm8/t14a07"
+    },
+    "2": {
+     "left": "mm8/t14a04a",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a07",
+     "top": "mm8/t14b05"
+    },
+    "3": {
+     "left": "mm8/t14a04a",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a07"
+    },
+    "4": {
+     "left": "mm8/t14a04a",
+     "bottom": "mm8/t14abcd11",
+     "right": "mm8/t14a07"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t14d04b": {
+   "name": "t14d04b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, with a small arched green-paned window above a carved wooden flower box",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14a04b"
+     ],
+     "fraction": 0.252
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14a04b"
+     ],
+     "fraction": 0.249
+    },
+    "3": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14a04b"
+     ],
+     "fraction": 0.249
+    },
+    "4": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14a04b"
+     ],
+     "fraction": 0.249
+    },
+    "5": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14a04b"
+     ],
+     "fraction": 0.249
+    },
+    "6": {
+     "sources": [
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14d01",
+      "mm8/t14a04b"
+     ],
+     "fraction": 0.249
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm8/t14d06",
+     "left": "mm8/t14d07"
+    },
+    "2": {
+     "right": "mm8/t14d06",
+     "left": "mm8/t14d07"
+    },
+    "3": {
+     "right": "mm8/t14d06",
+     "left": "mm8/t14d07"
+    },
+    "4": {
+     "right": "mm8/t14d06",
+     "left": "mm8/t14d07"
+    },
+    "5": {
+     "right": "mm8/t14d06",
+     "left": "mm8/t14d07"
+    },
+    "6": {
+     "right": "mm8/t14d06"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ]
+   },
+   "roll": {
+    "3": [
+     0,
+     130
+    ],
+    "5": [
+     0,
+     130
+    ]
+   }
+  },
+  "mm8/t14c06": {
+   "name": "t14c06",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "rough tan-brown fieldstone wall beside a dark wooden corner post",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c01",
+      "mm8/t14c04a",
+      "mm8/t14c04b",
+      "mm8/t14c01b",
+      "mm8/t14c12ba",
+      "mm8/t14d06"
+     ],
+     "fraction": 0.362
+    },
+    "2": {
+     "sources": [
+      "mm8/t14c01",
+      "mm8/t14c04a",
+      "mm8/t14c04b",
+      "mm8/t14c01b",
+      "mm8/t14c12ba",
+      "mm8/t14d06"
+     ],
+     "fraction": 0.362
+    },
+    "3": {
+     "sources": [
+      "mm8/t14c01",
+      "mm8/t14c04a",
+      "mm8/t14c04b",
+      "mm8/t14c01b",
+      "mm8/t14c12ba",
+      "mm8/t14d06"
+     ],
+     "fraction": 0.362
+    },
+    "4": {
+     "sources": [
+      "mm8/t14c01",
+      "mm8/t14c04a",
+      "mm8/t14c04b",
+      "mm8/t14c01b",
+      "mm8/t14c12ba",
+      "mm8/t14d06"
+     ],
+     "fraction": 0.362
+    },
+    "5": {
+     "sources": [
+      "mm8/t14c01",
+      "mm8/t14c04a",
+      "mm8/t14c04b",
+      "mm8/t14c01b",
+      "mm8/t14c12ba",
+      "mm8/t14d06"
+     ],
+     "fraction": 0.354
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t14c01",
+     "right": "mm8/t14c07"
+    },
+    "2": {
+     "left": "mm8/t14c01",
+     "right": "mm8/t14c07"
+    },
+    "3": {
+     "left": "mm8/t14c01",
+     "right": "mm8/t14c07"
+    },
+    "4": {
+     "left": "mm8/t14c01",
+     "right": "mm8/t14c07"
+    },
+    "5": {
+     "left": "mm8/t14c01",
+     "top": "mm8/t14abcd11",
+     "bottom": "mm8/t14a05",
+     "right": "mm8/t14c07"
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t14b04c": {
+   "name": "t14b04c",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough tan-brown fieldstone wall under dark brown wooden shingles, with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b12c",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.251
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b12c",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.25
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b12c",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.25
+    },
+    "4": {
+     "sources": [
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b12c",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.25
+    },
+    "5": {
+     "sources": [
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b12c",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.25
+    },
+    "6": {
+     "sources": [
+      "mm8/t14b04a",
+      "mm8/t14a04c",
+      "mm8/t14b01",
+      "mm8/t14a04a",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.246
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm8/t14b06",
+     "left": "mm8/t14b12c"
+    },
+    "2": {
+     "right": "mm8/t14b06",
+     "left": "mm8/t14b12c"
+    },
+    "3": {
+     "right": "mm8/t14b06",
+     "left": "mm8/t14b12c"
+    },
+    "4": {
+     "right": "mm8/t14b06",
+     "left": "mm8/t14b12c"
+    },
+    "5": {
+     "right": "mm8/t14b06",
+     "left": "mm8/t14b12c"
+    },
+    "6": {
+     "right": "mm8/t14b06"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ]
+   },
+   "roll": {
+    "3": [
+     0,
+     91
+    ],
+    "5": [
+     0,
+     91
+    ]
+   }
+  },
+  "mm8/t14a01": {
+   "name": "t14a01",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14a06",
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14a04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.286
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a06",
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14a04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.286
+    },
+    "3": {
+     "sources": [
+      "mm8/t14a06",
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14a04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.286
+    },
+    "4": {
+     "sources": [
+      "mm8/t14a06",
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14a04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.286
+    },
+    "5": {
+     "sources": [
+      "mm8/t14a06",
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14a04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.286
+    },
+    "6": {
+     "sources": [
+      "mm8/t14a06",
+      "mm8/t14a07",
+      "mm8/t14a04b",
+      "mm8/t14a04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.286
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t14a07",
+     "right": "mm8/t14a04a"
+    },
+    "2": {
+     "right": "mm8/t14a06",
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14a04a",
+     "top": "mm8/t14a05"
+    },
+    "3": {
+     "right": "mm8/t14a06",
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14a04a",
+     "top": "mm8/t14a05"
+    },
+    "4": {
+     "right": "mm8/t14a06",
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14a04a",
+     "top": "mm8/t14a05"
+    },
+    "5": {
+     "right": "mm8/t14a06",
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14a04a",
+     "top": "mm8/t14a05"
+    },
+    "6": {
+     "right": "mm8/t14a06",
+     "left": "mm8/t14a07",
+     "bottom": "mm8/t14a04a",
+     "top": "mm8/t14a05"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t14d04c": {
+   "name": "t14d04c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14a04c",
+      "mm8/t14b04c",
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.227
+    },
+    "2": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14a04c",
+      "mm8/t14b04c",
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.227
+    },
+    "3": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14a04c",
+      "mm8/t14b04c",
+      "mm8/t14a04a",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.227
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t14d07",
+     "right": "mm8/t14d06"
+    },
+    "2": {
+     "left": "mm8/t14d07",
+     "right": "mm8/t14d06",
+     "bottom": "mm8/t14d01"
+    },
+    "3": {
+     "right": "mm8/t14d06",
+     "left": "mm8/t14d03",
+     "bottom": "mm8/t14d01"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t14c12c": {
+   "name": "t14c12c",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall with a small dark wooden window with carved shutters, green ivy climbing up the wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c04a"
+     ],
+     "fraction": 0.397
+    }
+   }
+  },
+  "mm8/t14c04b": {
+   "name": "t14c04b",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall with a small arched green-paned window above a carved wooden flower box",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c01",
+      "mm8/t14c04a",
+      "mm8/t14c12ba",
+      "mm8/t14c01b"
+     ],
+     "fraction": 0.335
+    }
+   }
+  },
+  "mm8/t14b12c": {
+   "name": "t14b12c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough tan-brown fieldstone wall under dark brown wooden shingles, green ivy climbing up the wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14b07",
+      "mm8/t14b03"
+     ],
+     "fraction": 0.302
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14b07",
+      "mm8/t14b04a",
+      "mm8/t14b03"
+     ],
+     "fraction": 0.309
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t14b04c"
+    }
+   }
+  },
+  "mm8/t14b04b": {
+   "name": "t14b04b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under dark brown wooden shingles, with a small arched green-paned window above a carved wooden flower box",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14b07",
+      "mm8/t14b04a",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.248
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14b07",
+      "mm8/t14b04a",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.248
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06",
+      "mm8/t14b07",
+      "mm8/t14b04a",
+      "mm8/t14d04a",
+      "mm8/t14d01"
+     ],
+     "fraction": 0.248
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm8/t14b01"
+    },
+    "2": {
+     "bottom": "mm8/t14a05",
+     "left": "mm8/t14b07",
+     "right": "mm8/t14b01"
+    },
+    "3": {
+     "bottom": "mm8/t14a05",
+     "left": "mm8/t14b07",
+     "right": "mm8/t14b01"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/cr_w128a": {
+   "name": "cr_w128a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "light pine wooden crate side of horizontal planks in a plank frame with corner nails and a small painted cream label with red lettering in the lower right, copy the label exactly",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

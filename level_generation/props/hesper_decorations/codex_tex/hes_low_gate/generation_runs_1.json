@@ -1,0 +1,224 @@
+{
+  "tool": "built-in image_gen",
+  "status": "generated_with_unresolved_brief_failures",
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nCreate paint_front.png, a 1024 x 1024 transparent RGBA albedo texture-source painting.\nInput image 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority. Input image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY, never composition or lighting.\nPaint directly on the exact grey front orthographic guide, keeping its silhouette, every opening, every shape edge, every detail, object size and position EXACTLY unchanged. Do not reinterpret, rotate, reshape or recenter the object. Keep the original 1024x1024 canvas. Object occupies x=66..957, y=276..747, with the large existing transparent margins intact. Preserve the precise arch, paired towers, all spikes, rails, supports, door leaves and small central hanging lantern exactly where the guide puts them. All transparent areas and holes remain transparent; add nothing outside the guide's silhouette.\nTransfer the approved design's chipped white ceramic plates and gold edges onto the towers and arch, rust-brown and grey riveted steel onto supports, spikes and gate leaves, and warm amber colour onto the tiny existing lantern. Texture seams and rivets are surface painting, not added geometry. Retain the exact visible front-facing surfaces of the guide.\nLIGHTING: pure albedo, flat even shadowless illumination from viewer. No cast shadows, no ambient occlusion or cavity darkening, no specular highlights or reflections, no directional shading, no rim light. Paint luminous parts at their orange/amber colour without light cast onto neighbouring surfaces. Do not copy the reference's dramatic lighting.\nNo background, floor, shadow, labels, text or watermark. True transparent background. Return only the single 1024x1024 painted front view, not a collage.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/guide_front.png",
+          "sha256": "b0736a872e6f193ff7b27d79adac195576edf2f053970f31dd44c4813d19fcbf"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d8e-bcbc-7952-9606-844e97a9b6d4/exec-6576b8d5-4cb5-4c0f-940c-c2cc6b8e3b4f.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d8e-bcbc-7952-9606-844e97a9b6d4/exec-6576b8d5-4cb5-4c0f-940c-c2cc6b8e3b4f.png",
+      "selected": false,
+      "reason": "Superseded by correction: enlarged lantern, altered geometry, baked shading and wrong output dimensions.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          31,
+          17,
+          1232,
+          1239
+        ],
+        "solid_alpha_bbox": [
+          74,
+          338,
+          1181,
+          915
+        ],
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Chipped ivory ceramic, gold trim and rusty grey steel match reference palette.",
+        "flat_even_light": "Not fully met; some baked shading/highlights remain.",
+        "alpha_quality": "Low-opacity stray pixels extend beyond the main object.",
+        "resized": false
+      },
+      "output_sha256": "b2c53913f3703dcd7cca4d1d5173d95b3571627445d91abb6b89b2d9e7313b29"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer.\nCreate paint_front.png, a 1024 x 1024 transparent RGBA albedo texture-source painting.\nInput image 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority. Input image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY, never composition or lighting.\nPaint directly on the exact grey front orthographic guide, keeping its silhouette, every opening, every shape edge, every detail, object size and position EXACTLY unchanged. Do not reinterpret, rotate, reshape or recenter the object. Keep the original 1024x1024 canvas. Object occupies x=66..957, y=276..747, with the large existing transparent margins intact. Preserve the precise arch, paired towers, all spikes, rails, supports, door leaves and small central hanging lantern exactly where the guide puts them. All transparent areas and holes remain transparent; add nothing outside the guide's silhouette.\nTransfer the approved design's chipped white ceramic plates and gold edges onto the towers and arch, rust-brown and grey riveted steel onto supports, spikes and gate leaves, and warm amber colour onto the tiny existing lantern. Texture seams and rivets are surface painting, not added geometry. Retain the exact visible front-facing surfaces of the guide.\nLIGHTING: pure albedo, flat even shadowless illumination from viewer. No cast shadows, no ambient occlusion or cavity darkening, no specular highlights or reflections, no directional shading, no rim light. Paint luminous parts at their orange/amber colour without light cast onto neighbouring surfaces. Do not copy the reference's dramatic lighting.\nNo background, floor, shadow, labels, text or watermark. True transparent background. Return only the single 1024x1024 painted front view, not a collage.\nCORRECTIVE ATTEMPT (the sole permitted correction): The previous generation failed by returning 1254x1254 instead of 1024x1024, changing guide edges, enlarging the hanging lantern and applying shaded/highlighted surfaces. Generate EXACTLY 1024x1024 native pixels, without rescaling the grey guide, and paint within its original alpha mask. Prioritize literal tracing of input 1 over decorative detail. The small hanging ornament/lantern must retain the exact tiny pointed guide shape and size, not become the larger reference lantern. Preserve simple guide edges and rail/opening locations exactly. Paint matte gold, medium-grey rusty steel and white ceramic using flat local colour without baked shading, dark cavities or highlights. Do not change any shape to match reference geometry.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/guide_front.png",
+          "sha256": "b0736a872e6f193ff7b27d79adac195576edf2f053970f31dd44c4813d19fcbf"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d8e-bcbc-7952-9606-844e97a9b6d4/exec-0e958d1e-9090-4777-8b47-3d872b14511e.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/paint_front.png",
+      "selected": true,
+      "reason": "Best permitted front return: smaller lantern closer to guide. Selected for preservation only, not compliant approval; dimensions, exact silhouette and flat-lighting requirements still fail.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          17,
+          1224,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          79,
+          337,
+          1175,
+          916
+        ],
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Chipped ivory ceramic, gold trim and rusty grey steel match reference palette.",
+        "flat_even_light": "Not fully met; some baked shading/highlights remain.",
+        "alpha_quality": "Low-opacity stray pixels extend beyond the main object.",
+        "resized": false
+      },
+      "output_sha256": "ad7524d5bf6007ca613fab3febdd01793d31aa34c39690959921f3f97e7a658b"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nDeliverable paint_top.png: exactly 1024 x 1024 pixels with transparent background, an unlit albedo texture source.\nInput 1 guide_top.png is the edit target, a TOP-DOWN ORTHOGRAPHIC rendering of the exact 3D model. Preserve every pixel of its geometry: exact outer silhouette, internal holes, visible edges, size, orientation, position and canvas margins. Its occupied bounds are x=66..957 and y=390..633 on the 1024 square canvas. Do not enlarge to fill the frame. Input 2 design_reference.png supplies only approved surface colours and materials, NEVER its camera, silhouette, shapes or illumination.\nPaint the existing grey surfaces of the top guide. The arch runs horizontally through the centre; circular hollow tower tops remain precisely circular hollow tower tops as seen from directly above. Keep the existing top-view support bases, beams, spikes, door edges, and all openings without adding, removing or reorienting anything.\nMaterials: chipped ivory-white ceramic plates with worn gold trim on arch and tower cladding; rust-brown and medium-grey riveted steel on structural supports, spikes, bases and gate leaves. Apply material texture only within the exact guide silhouette; the guide remains completely authoritative over the design image. Visible recesses receive local material colours, not black shadows.\nLIGHTING: pure base colour/albedo. Flat, even, shadowless viewer illumination. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim lighting. Luminous surfaces, if visible in the guide, are warm amber local colour with no glow spilling over nearby surfaces. Do not copy cinematic lighting from the design reference.\nTrue alpha transparent background and holes. No floor, environment, text, watermark or collage. Only one top-view image. The output MUST be 1024x1024, preserving guide placement.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/guide_top.png",
+          "sha256": "a01a94b71aab0adf873c843c5d0ef2c428df32a3f5862720a1eefcb5a1b912b8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d8e-bcbc-7952-9606-844e97a9b6d4/exec-8001316a-bf13-42b6-b514-1e5b9f1ad5f2.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d8e-bcbc-7952-9606-844e97a9b6d4/exec-8001316a-bf13-42b6-b514-1e5b9f1ad5f2.png",
+      "selected": false,
+      "reason": "Superseded by correction: dark recessed centres and baked highlights; wrong dimensions and altered geometry.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          57,
+          55,
+          1194,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          80,
+          479,
+          1175,
+          776
+        ],
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Chipped ivory ceramic, gold trim and rusty grey steel match reference palette.",
+        "flat_even_light": "Not fully met; some baked shading/highlights remain.",
+        "alpha_quality": "Low-opacity stray pixels extend beyond the main object.",
+        "resized": false
+      },
+      "output_sha256": "a01ddbcb2884cfaf617aaefef0b5e31e31f6a15914d32387fa134c5be1ca738f"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer.\nDeliverable paint_top.png: exactly 1024 x 1024 pixels with transparent background, an unlit albedo texture source.\nInput 1 guide_top.png is the edit target, a TOP-DOWN ORTHOGRAPHIC rendering of the exact 3D model. Preserve every pixel of its geometry: exact outer silhouette, internal holes, visible edges, size, orientation, position and canvas margins. Its occupied bounds are x=66..957 and y=390..633 on the 1024 square canvas. Do not enlarge to fill the frame. Input 2 design_reference.png supplies only approved surface colours and materials, NEVER its camera, silhouette, shapes or illumination.\nPaint the existing grey surfaces of the top guide. The arch runs horizontally through the centre; circular hollow tower tops remain precisely circular hollow tower tops as seen from directly above. Keep the existing top-view support bases, beams, spikes, door edges, and all openings without adding, removing or reorienting anything.\nMaterials: chipped ivory-white ceramic plates with worn gold trim on arch and tower cladding; rust-brown and medium-grey riveted steel on structural supports, spikes, bases and gate leaves. Apply material texture only within the exact guide silhouette; the guide remains completely authoritative over the design image. Visible recesses receive local material colours, not black shadows.\nLIGHTING: pure base colour/albedo. Flat, even, shadowless viewer illumination. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim lighting. Luminous surfaces, if visible in the guide, are warm amber local colour with no glow spilling over nearby surfaces. Do not copy cinematic lighting from the design reference.\nTrue alpha transparent background and holes. No floor, environment, text, watermark or collage. Only one top-view image. The output MUST be 1024x1024, preserving guide placement.\nCORRECTIVE ATTEMPT, sole permitted correction: Native output dimensions must be exactly 1024x1024, matching input 1, not 1254x1254. Do not enlarge, rescale, or reframe the guide. Preserve its alpha footprint exactly including small beams and topmost upward projecting supports. Remove all painted lighting: the recessed circular tower centres must be evenly coloured medium grey steel, not nearly black, and support junctions must have no ambient occlusion. White ceramic and matte ochre gold with grey and rust-brown steel, painted flat without shiny edges. Geometry and flat albedo take priority over decorative detail. Preserve every existing shape and opening from the top guide, using reference solely for material colours.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/guide_top.png",
+          "sha256": "a01a94b71aab0adf873c843c5d0ef2c428df32a3f5862720a1eefcb5a1b912b8"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d8e-bcbc-7952-9606-844e97a9b6d4/exec-ad225d9f-24f6-491d-9033-9d499da60891.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_gate/paint_top.png",
+      "selected": true,
+      "reason": "Best permitted top return: flatter colour and lighter tower centres. Selected for preservation only, not compliant approval; dimensions, exact silhouette and fully flat lighting still fail.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          65,
+          21,
+          1216,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          80,
+          478,
+          1181,
+          776
+        ],
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours": "Chipped ivory ceramic, gold trim and rusty grey steel match reference palette.",
+        "flat_even_light": "Not fully met; some baked shading/highlights remain.",
+        "alpha_quality": "Low-opacity stray pixels extend beyond the main object.",
+        "resized": false
+      },
+      "output_sha256": "19f31b0ce00293b61d4521088cd704f68d75e362bd1955d0525fe655e2710dd0"
+    }
+  ]
+}

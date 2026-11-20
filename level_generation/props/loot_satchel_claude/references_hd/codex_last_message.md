@@ -1,0 +1,3 @@
+Saved sixteen transparent views in [references_hd](/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd), plus the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/selected_views_review.png) and [prompts and SHA-256 records](/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/generation_runs.json).
+
+No builds or Meshy calls. **Size requirement unmet:** the built-in tool returned 1254×1254 throughout; I preserved the files unresized.

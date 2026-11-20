@@ -1,0 +1,483 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "postprocessing": "None. Files copied byte-for-byte from the built-in tool; no resizing, alpha masking, cropping or painting outside image_gen.",
+  "brief_compliance": "Five requested paintings delivered. Exact guide silhouette/alpha requirement not met; size variations and remaining visual limitations are recorded below. One corrective regeneration used per view, with no further generation.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture-source painting for the Hesper quest item hes_aster_shard_3, a piece of Aster's memory.\nInput image 1 is the EDIT TARGET: the orthographic guide for this view, at 1024 x 1024. Its silhouette, alpha coverage, framing, position, scale, camera and EVERY material-part boundary are immutable. Input image 2 is the approved design_reference.png, the authority ONLY for material appearance, colours and painted surface details, NOT for shape or camera.\nPaint ONLY the existing guide surfaces. Preserve the guide's exact outer silhouette and part locations pixel for pixel; retain its transparent outside pixels. Do not copy the reference's three-quarter crescent silhouette into an edge-view guide. Do not rotate, thicken, curve, crop, enlarge or recenter the guide.\nMaterial transfer: on the guide's pale blue crystal region, paint the reference's rich cool blue glassy crystal with subtle icy cloudy microstructure, delicate internal fracture/facet lines, and fine branching blue-white luminous memory veins. Paint the luminous veins as light colour, with no bloom or spill beyond the silhouette. On the guide's pale gold region, if present, paint worn brushed warm gold base colour, a faint sheen, fine wear and restrained engraved border lines that stay inside the existing part. Guide tints identify materials and are not the finished colours. There are only crystal and gold parts in these guides: do not invent extra ceramic panels, sockets, jewels, resin, straps or geometry. The reference's unseen faces continue these same materials plausibly.\nLIGHTING IS FLAT ALBEDO: even, shadowless light from the viewer, uniform exposure across the object. No cast shadows, no ambient occlusion, no directional shading, no darkened lower edge, no hot specular highlights or reflected light, no rim light, no floor, no background. Only material-colour variation and painted light-coloured veins. No text, letters, numbers, logo or watermark.\nReturn a single 1024 x 1024 PNG with real transparent background, not a checkerboard painted into pixels. Preserve the generous transparent margins from the guide.\nVIEW-SPECIFIC CONSTRAINTS: FRONT view. This is a thin horizontal edge view, an almost rectangular strip occupying x=66 through 957 and y=436 through 587 on the 1024 square canvas. Do not turn it into a full crescent. Keep the long gold inset in the lower portion, approximately x=106..713 and y=522..583, and the existing narrow vertical boundary at x=714..732. All other visible surface is crystal. Keep the flat horizontal top and bottom edges and flat ends exactly aligned to the guide.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "60d8544467f49703f101393e3e97086d4dc1faa487b21fbac72b5311600bec5b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "953cc2eba14445d9473dfd7c9a4b81285061c36afcdf6732a55f593bdf8bfe2f"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-c2752a84-f6d4-42d4-9257-699e77bc2a81.png",
+      "output": "paint_front_run1.png",
+      "selected": false,
+      "reason": "Not selected: displaced and thinner than the guide, extra gold vertical divider, pronounced bevel shading and alpha fringe.",
+      "output_sha256": "f444bb33ee9f56d76358823dac9a34c25a568b322caa66f4987483c5526d25bf",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1379079,
+        "alpha_bbox": [
+          0,
+          21,
+          1224,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          91,
+          573,
+          1163,
+          739
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.7063174093130775,
+        "normalized_nonzero_alpha_outside_guide_pixels": 19414,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Reflection-like facet contrast and/or gold highlights; superseded by corrective return.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nCORRECTIVE PAINT-OVER, FRONT VIEW. Edit the attached 1024 x 1024 orthographic guide IN PLACE. It is the sole edit target and the immutable canvas. Return that same 1024 x 1024 canvas and EXACTLY THE SAME alpha channel and edge locations. Change ONLY RGB colours within the already opaque object. Do not regenerate its shape, recompose it or change the camera. Everything outside the guide's existing silhouette remains fully transparent (alpha 0), with no coloured fringe, glow spill or stray pixels.\nThe finished image is an UNLIT ALBEDO TEXTURE SOURCE for a blue crystalline piece of Aster's memory. Apply the approved design's materials: medium cool sapphire/icy-blue crystal, delicate cloudy mineral grain, fine internal hairline fractures and a delicate branching tree-like network of pale blue-white memory veins; existing gold parts get brushed ochre-gold base colour and subtle fine wear. The gold's colour is warm muted golden ochre, never yellow-white specular highlights. Match these materials to the approved reference described here, but preserve the attached guide absolutely. No added ceramic, resin, frame, jewels, text or parts.\nCRITICAL CORRECTION: Previous returns altered the canvas size, had scattered edge pixels and baked shiny lighting. This return must be 1024 x 1024, with the guide's unaltered silhouette/alpha mask and flat albedo only. Every face has the same even brightness; remove the guide's lighting gradients too. Medium blue crystal base, subtle low-contrast cloudy texture, fine blue-white veins as painted colour, fine fracture lines. No illuminated bevels, glitter, rim light, bloom, specular streaks, reflections, shadows, ambient occlusion, dark bottom edge, light-direction gradient or dramatic bright facets. Gold should have nearly uniform base colour with only fine brushing and wear. Do not draw gold on blue material: any thin blue vertical boundary stays blue. No black background, white background, floor, checkerboard pattern, text, letters or watermark.\nEXACT VIEW GEOMETRY: FRONT view. This is a thin horizontal edge view, an almost rectangular strip occupying x=66 through 957 and y=436 through 587 on the 1024 square canvas. Do not turn it into a full crescent. Keep the long gold inset in the lower portion, approximately x=106..713 and y=522..583, and the existing narrow vertical boundary at x=714..732. All other visible surface is crystal. Keep the flat horizontal top and bottom edges and flat ends exactly aligned to the guide.\nTreat the alpha mask and part boundaries as locked. Texture only, at exactly the original size and pixel position.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "60d8544467f49703f101393e3e97086d4dc1faa487b21fbac72b5311600bec5b"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-ce775122-09dd-4291-84ea-c24ab1351908.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: substantially closer guide placement, blue vertical divider restored and flatter material colour. Residual bevel shading and imperfect alpha remain.",
+      "output_sha256": "50fc3af354368ce3a751a3f143b7d57ae4e9495a572d4d45b0c6386336dbbd55",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1354065,
+        "alpha_bbox": [
+          0,
+          33,
+          1220,
+          1222
+        ],
+        "solid_alpha_bbox": [
+          79,
+          532,
+          1176,
+          720
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.974509460406447,
+        "normalized_nonzero_alpha_outside_guide_pixels": 9912,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Flatter than first return; residual gold-bevel shading remains.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture-source painting for the Hesper quest item hes_aster_shard_3, a piece of Aster's memory.\nInput image 2 is the EDIT TARGET: the orthographic guide for this view, at 1024 x 1024. Its silhouette, alpha coverage, framing, position, scale, camera and EVERY material-part boundary are immutable. Input image 1 is the approved design_reference.png, the authority ONLY for material appearance, colours and painted surface details, NOT for shape or camera.\nPaint ONLY the existing guide surfaces. Preserve the guide's exact outer silhouette and part locations pixel for pixel; retain its transparent outside pixels. Do not copy the reference's three-quarter crescent silhouette into an edge-view guide. Do not rotate, thicken, curve, crop, enlarge or recenter the guide.\nMaterial transfer: on the guide's pale blue crystal region, paint the reference's rich cool blue glassy crystal with subtle icy cloudy microstructure, delicate internal fracture/facet lines, and fine branching blue-white luminous memory veins. Paint the luminous veins as light colour, with no bloom or spill beyond the silhouette. On the guide's pale gold region, if present, paint worn brushed warm gold base colour, a faint sheen, fine wear and restrained engraved border lines that stay inside the existing part. Guide tints identify materials and are not the finished colours. There are only crystal and gold parts in these guides: do not invent extra ceramic panels, sockets, jewels, resin, straps or geometry. The reference's unseen faces continue these same materials plausibly.\nLIGHTING IS FLAT ALBEDO: even, shadowless light from the viewer, uniform exposure across the object. No cast shadows, no ambient occlusion, no directional shading, no darkened lower edge, no hot specular highlights or reflected light, no rim light, no floor, no background. Only material-colour variation and painted light-coloured veins. No text, letters, numbers, logo or watermark.\nReturn a single 1024 x 1024 PNG with real transparent background, not a checkerboard painted into pixels. Preserve the generous transparent margins from the guide.\nVIEW-SPECIFIC CONSTRAINTS: BACK view. This is an all-crystal thin horizontal edge view: the rectangular strip occupies x=66 through 957 and y=436 through 587 on the 1024 square canvas. This guide has no visible gold part: do not add gold. Keep the perfectly straight horizontal top and bottom edges and vertical ends exactly. Continue the blue crystal texture and fine luminous branching memory veins plausibly on this back face without copying the reference silhouette.\nPaint-over discipline: image 2 is the canvas to return. Match its resolution and exact alpha mask. Material texture must stay flat and matte, even on crystal and gold: do not reproduce the design reference's light reflections, shiny bevel highlights, glow halo or dramatic contrast. The image must look like an unlit game albedo map.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "953cc2eba14445d9473dfd7c9a4b81285061c36afcdf6732a55f593bdf8bfe2f"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "30c38c37d8ddeff14db9d2e52397554d3b759373ab9cdd543fb856619695ae84"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-683a8f81-ada0-4ae4-9ee0-9a4f879823da.png",
+      "output": "paint_back_run1.png",
+      "selected": false,
+      "reason": "Not selected: stronger reflection-like facet contrasts and luminous highlights than the corrective return.",
+      "output_sha256": "11dbeaf524b1359939a4cb83f4ecf78a2b1eaf99bf6e5f85a24abab92ade8e69",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1353360,
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1240
+        ],
+        "solid_alpha_bbox": [
+          80,
+          532,
+          1174,
+          719
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.9783452246839405,
+        "normalized_nonzero_alpha_outside_guide_pixels": 10607,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Reflection-like facet contrast and/or gold highlights; superseded by corrective return.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nCORRECTIVE PAINT-OVER, BACK VIEW. Edit the attached 1024 x 1024 orthographic guide IN PLACE. It is the sole edit target and the immutable canvas. Return that same 1024 x 1024 canvas and EXACTLY THE SAME alpha channel and edge locations. Change ONLY RGB colours within the already opaque object. Do not regenerate its shape, recompose it or change the camera. Everything outside the guide's existing silhouette remains fully transparent (alpha 0), with no coloured fringe, glow spill or stray pixels.\nThe finished image is an UNLIT ALBEDO TEXTURE SOURCE for a blue crystalline piece of Aster's memory. Apply the approved design's materials: medium cool sapphire/icy-blue crystal, delicate cloudy mineral grain, fine internal hairline fractures and a delicate branching tree-like network of pale blue-white memory veins; existing gold parts get brushed ochre-gold base colour and subtle fine wear. The gold's colour is warm muted golden ochre, never yellow-white specular highlights. Match these materials to the approved reference described here, but preserve the attached guide absolutely. No added ceramic, resin, frame, jewels, text or parts.\nCRITICAL CORRECTION: Previous returns altered the canvas size, had scattered edge pixels and baked shiny lighting. This return must be 1024 x 1024, with the guide's unaltered silhouette/alpha mask and flat albedo only. Every face has the same even brightness; remove the guide's lighting gradients too. Medium blue crystal base, subtle low-contrast cloudy texture, fine blue-white veins as painted colour, fine fracture lines. No illuminated bevels, glitter, rim light, bloom, specular streaks, reflections, shadows, ambient occlusion, dark bottom edge, light-direction gradient or dramatic bright facets. Gold should have nearly uniform base colour with only fine brushing and wear. Do not draw gold on blue material: any thin blue vertical boundary stays blue. No black background, white background, floor, checkerboard pattern, text, letters or watermark.\nEXACT VIEW GEOMETRY: BACK view. This is an all-crystal thin horizontal edge view: the rectangular strip occupies x=66 through 957 and y=436 through 587 on the 1024 square canvas. This guide has no visible gold part: do not add gold. Keep the perfectly straight horizontal top and bottom edges and vertical ends exactly. Continue the blue crystal texture and fine luminous branching memory veins plausibly on this back face without copying the reference silhouette.\nTreat the alpha mask and part boundaries as locked. Texture only, at exactly the original size and pixel position.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "30c38c37d8ddeff14db9d2e52397554d3b759373ab9cdd543fb856619695ae84"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-2767f84c-6b56-4937-a571-ed748bef5adc.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: flat blue crystal continuation with fine white-blue memory branches and no invented gold. Imperfect alpha remains.",
+      "output_sha256": "a59f2f2aac9f35c1bf4ca574046bbc8a739fb8096748d44c88b018e660a75242",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1347427,
+        "alpha_bbox": [
+          0,
+          0,
+          1242,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          80,
+          534,
+          1174,
+          720
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.9825062372586972,
+        "normalized_nonzero_alpha_outside_guide_pixels": 14025,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Flat overall colour; cloudy and faceted material variation remains.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture-source painting for the Hesper quest item hes_aster_shard_3, a piece of Aster's memory.\nInput image 2 is the EDIT TARGET: the orthographic guide for this view, at 1024 x 1024. Its silhouette, alpha coverage, framing, position, scale, camera and EVERY material-part boundary are immutable. Input image 1 is the approved design_reference.png, the authority ONLY for material appearance, colours and painted surface details, NOT for shape or camera.\nPaint ONLY the existing guide surfaces. Preserve the guide's exact outer silhouette and part locations pixel for pixel; retain its transparent outside pixels. Do not copy the reference's three-quarter crescent silhouette into an edge-view guide. Do not rotate, thicken, curve, crop, enlarge or recenter the guide.\nMaterial transfer: on the guide's pale blue crystal region, paint the reference's rich cool blue glassy crystal with subtle icy cloudy microstructure, delicate internal fracture/facet lines, and fine branching blue-white luminous memory veins. Paint the luminous veins as light colour, with no bloom or spill beyond the silhouette. On the guide's pale gold region, if present, paint worn brushed warm gold base colour, a faint sheen, fine wear and restrained engraved border lines that stay inside the existing part. Guide tints identify materials and are not the finished colours. There are only crystal and gold parts in these guides: do not invent extra ceramic panels, sockets, jewels, resin, straps or geometry. The reference's unseen faces continue these same materials plausibly.\nLIGHTING IS FLAT ALBEDO: even, shadowless light from the viewer, uniform exposure across the object. No cast shadows, no ambient occlusion, no directional shading, no darkened lower edge, no hot specular highlights or reflected light, no rim light, no floor, no background. Only material-colour variation and painted light-coloured veins. No text, letters, numbers, logo or watermark.\nReturn a single 1024 x 1024 PNG with real transparent background, not a checkerboard painted into pixels. Preserve the generous transparent margins from the guide.\nVIEW-SPECIFIC CONSTRAINTS: LEFT view. This is a thin horizontal edge view, a rectangular strip occupying x=93 through 930 and y=436 through 587 on the 1024 square canvas. Do not turn it into a full crescent. Keep the existing narrow vertical boundary near x=463..468 and the long gold inset in the lower right portion, approximately x=469..893 and y=523..583. All other visible surface is crystal. Keep all straight silhouette edges and both endpoints exactly as the guide.\nPaint-over discipline: image 2 is the canvas to return. Match its resolution and exact alpha mask. Material texture must stay flat and matte, even on crystal and gold: do not reproduce the design reference's light reflections, shiny bevel highlights, glow halo or dramatic contrast. The image must look like an unlit game albedo map.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "953cc2eba14445d9473dfd7c9a4b81285061c36afcdf6732a55f593bdf8bfe2f"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "d9a2a4a6154b0fc2dd2ca2e1db8b2c842bcf7f444221f9ea9de1a661bf30b65a"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-a3ee9696-e203-4b7f-96f4-597909067e6a.png",
+      "output": "paint_left_run1.png",
+      "selected": false,
+      "reason": "Not selected: extra gold vertical divider and stronger gold bevel lighting than the corrective return.",
+      "output_sha256": "836551831ceb0e8efff324b5de015e0320fad7e6bd9435cc6502468c28a1cb87",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1370734,
+        "alpha_bbox": [
+          19,
+          39,
+          1240,
+          1237
+        ],
+        "solid_alpha_bbox": [
+          113,
+          534,
+          1141,
+          718
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.9805888905567363,
+        "normalized_nonzero_alpha_outside_guide_pixels": 6750,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Reflection-like facet contrast and/or gold highlights; superseded by corrective return.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nCORRECTIVE PAINT-OVER, LEFT VIEW. Edit the attached 1024 x 1024 orthographic guide IN PLACE. It is the sole edit target and the immutable canvas. Return that same 1024 x 1024 canvas and EXACTLY THE SAME alpha channel and edge locations. Change ONLY RGB colours within the already opaque object. Do not regenerate its shape, recompose it or change the camera. Everything outside the guide's existing silhouette remains fully transparent (alpha 0), with no coloured fringe, glow spill or stray pixels.\nThe finished image is an UNLIT ALBEDO TEXTURE SOURCE for a blue crystalline piece of Aster's memory. Apply the approved design's materials: medium cool sapphire/icy-blue crystal, delicate cloudy mineral grain, fine internal hairline fractures and a delicate branching tree-like network of pale blue-white memory veins; existing gold parts get brushed ochre-gold base colour and subtle fine wear. The gold's colour is warm muted golden ochre, never yellow-white specular highlights. Match these materials to the approved reference described here, but preserve the attached guide absolutely. No added ceramic, resin, frame, jewels, text or parts.\nCRITICAL CORRECTION: Previous returns altered the canvas size, had scattered edge pixels and baked shiny lighting. This return must be 1024 x 1024, with the guide's unaltered silhouette/alpha mask and flat albedo only. Every face has the same even brightness; remove the guide's lighting gradients too. Medium blue crystal base, subtle low-contrast cloudy texture, fine blue-white veins as painted colour, fine fracture lines. No illuminated bevels, glitter, rim light, bloom, specular streaks, reflections, shadows, ambient occlusion, dark bottom edge, light-direction gradient or dramatic bright facets. Gold should have nearly uniform base colour with only fine brushing and wear. Do not draw gold on blue material: any thin blue vertical boundary stays blue. No black background, white background, floor, checkerboard pattern, text, letters or watermark.\nEXACT VIEW GEOMETRY: LEFT view. This is a thin horizontal edge view, a rectangular strip occupying x=93 through 930 and y=436 through 587 on the 1024 square canvas. Do not turn it into a full crescent. Keep the existing narrow vertical boundary near x=463..468 and the long gold inset in the lower right portion, approximately x=469..893 and y=523..583. All other visible surface is crystal. Keep all straight silhouette edges and both endpoints exactly as the guide.\nTreat the alpha mask and part boundaries as locked. Texture only, at exactly the original size and pixel position.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "d9a2a4a6154b0fc2dd2ca2e1db8b2c842bcf7f444221f9ea9de1a661bf30b65a"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-9f1a8f2c-c621-4987-99bf-40f7176ba082.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return: blue divider restored, gold retained at lower right and reduced shiny highlights. Residual bevel shading and imperfect alpha remain.",
+      "output_sha256": "ac41845ba0e130c1e32c768ffa4e4f9d24acd9f4bb71bf6d8eb91f32e8999739",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1366920,
+        "alpha_bbox": [
+          0,
+          21,
+          1218,
+          1204
+        ],
+        "solid_alpha_bbox": [
+          113,
+          532,
+          1142,
+          721
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.9657397829208417,
+        "normalized_nonzero_alpha_outside_guide_pixels": 10345,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Flatter than first return; residual gold-bevel shading remains.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture-source painting for the Hesper quest item hes_aster_shard_3, a piece of Aster's memory.\nInput image 2 is the EDIT TARGET: the orthographic guide for this view, at 1024 x 1024. Its silhouette, alpha coverage, framing, position, scale, camera and EVERY material-part boundary are immutable. Input image 1 is the approved design_reference.png, the authority ONLY for material appearance, colours and painted surface details, NOT for shape or camera.\nPaint ONLY the existing guide surfaces. Preserve the guide's exact outer silhouette and part locations pixel for pixel; retain its transparent outside pixels. Do not copy the reference's three-quarter crescent silhouette into an edge-view guide. Do not rotate, thicken, curve, crop, enlarge or recenter the guide.\nMaterial transfer: on the guide's pale blue crystal region, paint the reference's rich cool blue glassy crystal with subtle icy cloudy microstructure, delicate internal fracture/facet lines, and fine branching blue-white luminous memory veins. Paint the luminous veins as light colour, with no bloom or spill beyond the silhouette. On the guide's pale gold region, if present, paint worn brushed warm gold base colour, a faint sheen, fine wear and restrained engraved border lines that stay inside the existing part. Guide tints identify materials and are not the finished colours. There are only crystal and gold parts in these guides: do not invent extra ceramic panels, sockets, jewels, resin, straps or geometry. The reference's unseen faces continue these same materials plausibly.\nLIGHTING IS FLAT ALBEDO: even, shadowless light from the viewer, uniform exposure across the object. No cast shadows, no ambient occlusion, no directional shading, no darkened lower edge, no hot specular highlights or reflected light, no rim light, no floor, no background. Only material-colour variation and painted light-coloured veins. No text, letters, numbers, logo or watermark.\nReturn a single 1024 x 1024 PNG with real transparent background, not a checkerboard painted into pixels. Preserve the generous transparent margins from the guide.\nVIEW-SPECIFIC CONSTRAINTS: RIGHT view. This is an all-crystal thin horizontal edge view: the rectangular strip occupies x=93 through 930 and y=436 through 587 on the 1024 square canvas. This guide has no visible gold part: do not add gold. Keep the perfectly straight horizontal top and bottom edges and vertical ends exactly. Continue the blue crystal texture and fine luminous branching memory veins plausibly on this right face without copying the reference silhouette.\nPaint-over discipline: image 2 is the canvas to return. Match its resolution and exact alpha mask. Material texture must stay flat and matte, even on crystal and gold: do not reproduce the design reference's light reflections, shiny bevel highlights, glow halo or dramatic contrast. The image must look like an unlit game albedo map.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "953cc2eba14445d9473dfd7c9a4b81285061c36afcdf6732a55f593bdf8bfe2f"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "42a164c80bc549e5b6b1416e4504157e9efc68c9b2febb25e1484bce620c75af"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-38bd63b1-11e4-4657-9baf-85a8122875f3.png",
+      "output": "paint_right_run1.png",
+      "selected": false,
+      "reason": "Not selected: stronger reflection-like facet contrasts and luminous highlights than the corrective return.",
+      "output_sha256": "e430d46d39526f993c6c125cb4fb48308a1e962941d8aa78cead977abe74cab1",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1367982,
+        "alpha_bbox": [
+          0,
+          21,
+          1238,
+          1214
+        ],
+        "solid_alpha_bbox": [
+          113,
+          533,
+          1141,
+          719
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.9861264385937254,
+        "normalized_nonzero_alpha_outside_guide_pixels": 9512,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Reflection-like facet contrast and/or gold highlights; superseded by corrective return.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nCORRECTIVE PAINT-OVER, RIGHT VIEW. Edit the attached 1024 x 1024 orthographic guide IN PLACE. It is the sole edit target and the immutable canvas. Return that same 1024 x 1024 canvas and EXACTLY THE SAME alpha channel and edge locations. Change ONLY RGB colours within the already opaque object. Do not regenerate its shape, recompose it or change the camera. Everything outside the guide's existing silhouette remains fully transparent (alpha 0), with no coloured fringe, glow spill or stray pixels.\nThe finished image is an UNLIT ALBEDO TEXTURE SOURCE for a blue crystalline piece of Aster's memory. Apply the approved design's materials: medium cool sapphire/icy-blue crystal, delicate cloudy mineral grain, fine internal hairline fractures and a delicate branching tree-like network of pale blue-white memory veins; existing gold parts get brushed ochre-gold base colour and subtle fine wear. The gold's colour is warm muted golden ochre, never yellow-white specular highlights. Match these materials to the approved reference described here, but preserve the attached guide absolutely. No added ceramic, resin, frame, jewels, text or parts.\nCRITICAL CORRECTION: Previous returns altered the canvas size, had scattered edge pixels and baked shiny lighting. This return must be 1024 x 1024, with the guide's unaltered silhouette/alpha mask and flat albedo only. Every face has the same even brightness; remove the guide's lighting gradients too. Medium blue crystal base, subtle low-contrast cloudy texture, fine blue-white veins as painted colour, fine fracture lines. No illuminated bevels, glitter, rim light, bloom, specular streaks, reflections, shadows, ambient occlusion, dark bottom edge, light-direction gradient or dramatic bright facets. Gold should have nearly uniform base colour with only fine brushing and wear. Do not draw gold on blue material: any thin blue vertical boundary stays blue. No black background, white background, floor, checkerboard pattern, text, letters or watermark.\nEXACT VIEW GEOMETRY: RIGHT view. This is an all-crystal thin horizontal edge view: the rectangular strip occupies x=93 through 930 and y=436 through 587 on the 1024 square canvas. This guide has no visible gold part: do not add gold. Keep the perfectly straight horizontal top and bottom edges and vertical ends exactly. Continue the blue crystal texture and fine luminous branching memory veins plausibly on this right face without copying the reference silhouette.\nTreat the alpha mask and part boundaries as locked. Texture only, at exactly the original size and pixel position.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "42a164c80bc549e5b6b1416e4504157e9efc68c9b2febb25e1484bce620c75af"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-99aca713-3731-4244-abc5-31f56e421a07.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: evenly coloured blue crystal with fine branching veins and no invented gold. Imperfect alpha remains.",
+      "output_sha256": "59be3fda58a4fcb786bb9a1500f443d49d224b139914a191c5bf28f7363da147",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1371409,
+        "alpha_bbox": [
+          0,
+          37,
+          1236,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          114,
+          534,
+          1140,
+          720
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.9821316417535485,
+        "normalized_nonzero_alpha_outside_guide_pixels": 6123,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Flat overall colour; cloudy and faceted material variation remains.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture-source painting for the Hesper quest item hes_aster_shard_3, a piece of Aster's memory.\nInput image 2 is the EDIT TARGET: the orthographic guide for this view, at 1024 x 1024. Its silhouette, alpha coverage, framing, position, scale, camera and EVERY material-part boundary are immutable. Input image 1 is the approved design_reference.png, the authority ONLY for material appearance, colours and painted surface details, NOT for shape or camera.\nPaint ONLY the existing guide surfaces. Preserve the guide's exact outer silhouette and part locations pixel for pixel; retain its transparent outside pixels. Do not copy the reference's three-quarter crescent silhouette into an edge-view guide. Do not rotate, thicken, curve, crop, enlarge or recenter the guide.\nMaterial transfer: on the guide's pale blue crystal region, paint the reference's rich cool blue glassy crystal with subtle icy cloudy microstructure, delicate internal fracture/facet lines, and fine branching blue-white luminous memory veins. Paint the luminous veins as light colour, with no bloom or spill beyond the silhouette. On the guide's pale gold region, if present, paint worn brushed warm gold base colour, a faint sheen, fine wear and restrained engraved border lines that stay inside the existing part. Guide tints identify materials and are not the finished colours. There are only crystal and gold parts in these guides: do not invent extra ceramic panels, sockets, jewels, resin, straps or geometry. The reference's unseen faces continue these same materials plausibly.\nLIGHTING IS FLAT ALBEDO: even, shadowless light from the viewer, uniform exposure across the object. No cast shadows, no ambient occlusion, no directional shading, no darkened lower edge, no hot specular highlights or reflected light, no rim light, no floor, no background. Only material-colour variation and painted light-coloured veins. No text, letters, numbers, logo or watermark.\nReturn a single 1024 x 1024 PNG with real transparent background, not a checkerboard painted into pixels. Preserve the generous transparent margins from the guide.\nVIEW-SPECIFIC CONSTRAINTS: TOP view, directly above. Preserve exactly the guide's broad polygonal crescent/horseshoe footprint, open toward the lower left, its faceted outer outline and its concave inner opening. Its overall bounds are x=66..957 and y=93..929. Preserve the existing tips at the left near (66,465)..(132,490) and lower right near (685,878)..(733,930); do not round the polygonal edges, change the opening or reorient it. The broad pale outer crescent is blue crystal; the existing narrow mid-tone strip along the concave inside edge is brushed gold. Keep that gold strip precisely within its guide boundaries, without widening it or adding an external frame. Follow the curved crystal band with delicate branching blue-white memory veins as in the reference, all confined inside the footprint.\nPaint-over discipline: image 2 is the canvas to return. Match its resolution and exact alpha mask. Material texture must stay flat and matte, even on crystal and gold: do not reproduce the design reference's light reflections, shiny bevel highlights, glow halo or dramatic contrast. The image must look like an unlit game albedo map.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "953cc2eba14445d9473dfd7c9a4b81285061c36afcdf6732a55f593bdf8bfe2f"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "4bcaa6ffc3e3dd4089b221234df37343e0318facaf05f3fa5745149e260a3f66"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-ca1e8dc6-63a6-4c26-aff3-adf8b8608fd4.png",
+      "output": "paint_top_run1.png",
+      "selected": false,
+      "reason": "Not selected: bright polished-gold edge highlights and stronger luminous bloom than the corrective return.",
+      "output_sha256": "a35b3ccff6fde1a60f6d1f2313b710da1f0b5daddcb530873495c2a52b0b3312",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1130563,
+        "alpha_bbox": [
+          0,
+          29,
+          1232,
+          1198
+        ],
+        "solid_alpha_bbox": [
+          85,
+          113,
+          1173,
+          1139
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.9760216484289566,
+        "normalized_nonzero_alpha_outside_guide_pixels": 8879,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Reflection-like facet contrast and/or gold highlights; superseded by corrective return.",
+        "exact_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nCORRECTIVE PAINT-OVER, TOP VIEW. Edit the attached 1024 x 1024 orthographic guide IN PLACE. It is the sole edit target and the immutable canvas. Return that same 1024 x 1024 canvas and EXACTLY THE SAME alpha channel and edge locations. Change ONLY RGB colours within the already opaque object. Do not regenerate its shape, recompose it or change the camera. Everything outside the guide's existing silhouette remains fully transparent (alpha 0), with no coloured fringe, glow spill or stray pixels.\nThe finished image is an UNLIT ALBEDO TEXTURE SOURCE for a blue crystalline piece of Aster's memory. Apply the approved design's materials: medium cool sapphire/icy-blue crystal, delicate cloudy mineral grain, fine internal hairline fractures and a delicate branching tree-like network of pale blue-white memory veins; existing gold parts get brushed ochre-gold base colour and subtle fine wear. The gold's colour is warm muted golden ochre, never yellow-white specular highlights. Match these materials to the approved reference described here, but preserve the attached guide absolutely. No added ceramic, resin, frame, jewels, text or parts.\nCRITICAL CORRECTION: Previous returns altered the canvas size, had scattered edge pixels and baked shiny lighting. This return must be 1024 x 1024, with the guide's unaltered silhouette/alpha mask and flat albedo only. Every face has the same even brightness; remove the guide's lighting gradients too. Medium blue crystal base, subtle low-contrast cloudy texture, fine blue-white veins as painted colour, fine fracture lines. No illuminated bevels, glitter, rim light, bloom, specular streaks, reflections, shadows, ambient occlusion, dark bottom edge, light-direction gradient or dramatic bright facets. Gold should have nearly uniform base colour with only fine brushing and wear. Do not draw gold on blue material: any thin blue vertical boundary stays blue. No black background, white background, floor, checkerboard pattern, text, letters or watermark.\nEXACT VIEW GEOMETRY: TOP view, directly above. Preserve exactly the guide's broad polygonal crescent/horseshoe footprint, open toward the lower left, its faceted outer outline and its concave inner opening. Its overall bounds are x=66..957 and y=93..929. Preserve the existing tips at the left near (66,465)..(132,490) and lower right near (685,878)..(733,930); do not round the polygonal edges, change the opening or reorient it. The broad pale outer crescent is blue crystal; the existing narrow mid-tone strip along the concave inside edge is brushed gold. Keep that gold strip precisely within its guide boundaries, without widening it or adding an external frame. Follow the curved crystal band with delicate branching blue-white memory veins as in the reference, all confined inside the footprint.\nTreat the alpha mask and part boundaries as locked. Texture only, at exactly the original size and pixel position.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "4bcaa6ffc3e3dd4089b221234df37343e0318facaf05f3fa5745149e260a3f66"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d9f-6907-7963-985f-8f5dc4ca3fe4/exec-0c48392b-614e-4d2e-ad95-7a1ac39cf3bd.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return: preserved overall crescent orientation and inner gold band with flatter gold and crystal colour. Imperfect alpha remains.",
+      "output_sha256": "52e58362c6e920ab45437041626e9698c4479ee8535cced19b7a85d18058baac",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba": true,
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1125386,
+        "alpha_bbox": [
+          37,
+          35,
+          1208,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          81,
+          114,
+          1174,
+          1139
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold128": 0.989304850142323,
+        "normalized_nonzero_alpha_outside_guide_pixels": 11065,
+        "no_text_or_letters_visual_check": true,
+        "material_colours_visual_check": "Cool blue crystal, blue-white memory veins; warm gold only on views with a guide gold part.",
+        "lighting_visual_check": "Flat overall colour; cloudy and faceted material variation remains.",
+        "exact_brief_checks_pass": false
+      }
+    }
+  ],
+  "measurement_note": "Normalized silhouette diagnostics sample output alpha at guide pixel centres without modifying or resizing any saved image. IoU uses alpha >= 128. Nonzero alpha outside the guide includes faint fringe and stray background pixels. All selected images fail exact silhouette equality."
+}

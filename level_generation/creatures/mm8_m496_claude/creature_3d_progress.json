@@ -1,0 +1,289 @@
+{
+  "creature_3d_identity": "mm8:m496",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "scope": "complete_production",
+  "stage": "runtime_delivery",
+  "status": "awaiting_user_review",
+  "substep": "Revised flight with steady leading left hand approved by user; finished appearance remains pending.",
+  "user_direction": "Preserve approved floating upper-body and Djinn casting motion. MM6 Fire Elemental is the effects reference; its finished appearance is not approved. Native MM8 full figure and ash retained. User correction: travel is flight, leaning/crouched forward with left hand reaching, right hand trailing, right knee tucked and left leg pumping vertically. Follow-up: the left hand should not rotate during flight.",
+  "required_components": [
+    {
+      "id": "full_figure",
+      "required": true,
+      "artifact_role": "model",
+      "source": "Native red muscular humanoid including legs and pale eyes",
+      "attachment": "Body weighted to full figure rig",
+      "selected_revision": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de",
+      "assembly_review": "complete"
+    },
+    {
+      "id": "flame_shell_and_crown",
+      "required": true,
+      "artifact_role": "model",
+      "source": "MM6 Fire effect tile and restored MM8 crown",
+      "attachment": "Flame and Tongues follow body joints",
+      "selected_revision": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de",
+      "assembly_review": "complete"
+    },
+    {
+      "id": "palm_plume",
+      "required": true,
+      "artifact_role": "model",
+      "source": "Native m496ad0 attack plume and selected Djinn cast",
+      "attachment": "Burst follows both palms",
+      "selected_revision": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de",
+      "assembly_review": "complete"
+    },
+    {
+      "id": "ash_remains",
+      "required": true,
+      "artifact_role": "model",
+      "source": "Native m496xa0 corpse",
+      "attachment": "AshRoot appears in Death/Dead; standard runtime satchel transition remains",
+      "selected_revision": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de",
+      "assembly_review": "complete"
+    }
+  ],
+  "next_action": {
+    "owner": "user",
+    "action": "Review finished appearance; flight correction is approved."
+  },
+  "acceptance": {
+    "technical": "complete",
+    "agent_visual": "complete_with_recorded_limits",
+    "user_artistic": "pending",
+    "approved_prior_direction": [
+      "floating upper body",
+      "Djinn casting motion",
+      "revised flight with steady leading left hand"
+    ],
+    "not_assumed_approved": [
+      "MM6 Fire finished appearance",
+      "new MM8 Fire appearance"
+    ]
+  },
+  "reference_projects": {
+    "fire": "../mm6_fie1_claude/README.md",
+    "motion": "../mm6_djn_claude/README.md",
+    "effect_torso": "../mm6_fie1_claude/README.md"
+  },
+  "creature": "MM8 Fire Elemental m496, descriptors 73/74/75",
+  "updated_at": "2026-10-18T18:15:01.823407+00:00",
+  "source": {
+    "identity": "mm8:m496",
+    "native_inventory": "native/inventory.json",
+    "native_frames": 160,
+    "orphan_frames": 0,
+    "descriptor_ids": [
+      73,
+      74,
+      75
+    ],
+    "palette": 496,
+    "native_frame_scales": [
+      1.299988,
+      1.75,
+      2.0
+    ],
+    "restored_frames": "../mm8_packed_outline_collection_20261002/families/mm8_m496/aligned_2x"
+  },
+  "route": {
+    "method": "MPFB full figure, fitted local Djinn upper-body rotations, MM6 Fire procedural effect-body route",
+    "meshy_credits_used": 0,
+    "image_generation_used": false,
+    "references": {
+      "torso": "../mm8_m508_claude/scripts/build_figure.py",
+      "motion": "../mm6_djn_claude/export/mm6_djn.glb",
+      "fire_effect": "../mm6_fie1_claude/textures/fie1_flame.png"
+    },
+    "provenance": "textures/provenance.json",
+    "motion_receipt": "work/djinn_motion.json"
+  },
+  "selected_artifacts": [
+    {
+      "role": "model",
+      "path": "export/mm8_m496.glb",
+      "sha256": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de"
+    },
+    {
+      "role": "editable_master",
+      "path": "export/mm8_m496.blend",
+      "sha256": "75241956d23b54195db6f0f7018ee58e18db6fe330dbd3a43c1b393c823d1b29"
+    },
+    {
+      "role": "body_texture",
+      "path": "textures/m496_body.png",
+      "sha256": "a51e645bb4b9863bd3d9cbf131a07d4938390dc7c1808151497d42fb52c80f6b"
+    },
+    {
+      "role": "flame_texture",
+      "path": "textures/m496_flame.png",
+      "sha256": "f1575fdbfd9aefd53bb2523b5460885cdc9adc0ad55e7dcdb0b16cfcd2e98f57"
+    },
+    {
+      "role": "fx_atlas",
+      "path": "textures/m496_burst.png",
+      "sha256": "ecd4fcd365e1450767711034c206888b626c1b069daf9e04cdd24c48232538a1"
+    },
+    {
+      "role": "ash_texture",
+      "path": "textures/m496_ash.png",
+      "sha256": "372500cadad62cddcf5dc68b410217cd48f6cfd79c8440502436c469f56ced9f"
+    }
+  ],
+  "installed_artifacts": [
+    {
+      "path": "assets_source/worlds/mm8/models/mm8_m496.glb",
+      "sha256": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/models/mm8_m496.glb",
+      "sha256": "7d1bc33dac6ae63aefcbbd3361a96d49f1c69e184c1bc7b05b339cd41bade975"
+    }
+  ],
+  "runtime": {
+    "binding": "assets_dev/worlds/mm8/models/actors.yml (Fire Elemental A/B/C)",
+    "calibration": "work/calibration.json",
+    "triangles": [
+      9304,
+      4710,
+      2366,
+      1034
+    ],
+    "clips": [
+      "Standing",
+      "Walking",
+      "Running",
+      "Attack",
+      "Cast",
+      "Hit",
+      "Fidget",
+      "Death",
+      "Dead"
+    ],
+    "impact_seconds": 0.78,
+    "death_seconds": 0.7333333333333333,
+    "materials": "shared unlit skin/effects; no tier recolours because every native tier uses palette 496",
+    "renderer_changes": false,
+    "travel": {
+      "Walking": {
+        "display_label": "Flying",
+        "duration_seconds": 1.0
+      },
+      "Running": {
+        "display_label": "Fast flight",
+        "duration_seconds": 0.8
+      },
+      "source": "Original m496W, eight poses at 125 ms, native front/side/back views",
+      "pose": "Forward crouch; left fist leads, right arm trails beside the rear hip; right knee folded, left leg moves vertically; no ground-contact gait. Leading left arm keeps a constant world orientation through the cycle."
+    }
+  },
+  "verification": {
+    "model_sha256": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de",
+    "build": "Existing build reused; animation-only follow-up, no engine code changes.",
+    "gates": {
+      "report": "work/gates.json",
+      "passed": 674,
+      "failed": 0
+    },
+    "independent_reimport": {
+      "report": "work/reimport_parity.json",
+      "max_error_m": 9.39654503718978e-07,
+      "samples": 27
+    },
+    "viewer": {
+      "switched": 27,
+      "console_errors": [],
+      "failed": []
+    },
+    "playback": "review/playback/playback.json",
+    "regression": "mm8_fire_elemental_actor_models_keep_native_sizes_cast_and_ash: PASS after steady-hand model install",
+    "game_renderer": "OpenGL 3.3, NVIDIA 0x10de, Wayland, minimized visual captures",
+    "game_review": [
+      "review/ingame/outdoor_models",
+      "review/ingame/outdoor_native",
+      "review/ingame/indoor_models",
+      "review/ingame/indoor_native",
+      "review/ingame/indoor_combat",
+      "review/ingame/indoor_wide_models",
+      "review/ingame/indoor_wide_native"
+    ],
+    "not_tested": [
+      "Native indoor/outdoor visual rerun for the hand follow-up",
+      "Full playback recordings for the hand follow-up",
+      "Android",
+      "Vulkan",
+      "performance measurements",
+      "unrelated full actor suite"
+    ],
+    "playback_review": "Current revision: quarter-view arm captures at 0 and .25 s and side full-body capture at .75 s inspected. Previous normal/half-speed recordings predate the steady-hand correction. Rotation sampled at 48 Hz in the gates; hand range below .00003 degrees in both flight clips.",
+    "viewer_report": "review/viewer_check.json",
+    "preservation": "work/flight_preservation.json",
+    "game_review_current_revision": [],
+    "previous_game_review_note": "All existing native indoor/outdoor captures and full playback recordings predate this hand correction. No native game captures rerun for this scoped animation change."
+  },
+  "known_limits": [
+    "Flames use scrolling alpha-blended envelopes and radial cards, with visible card structure close up; no additive particle glow.",
+    "Native large tiers fill the low Agar room and may pass out of close camera framing during flight; wider static captures and the viewer cover the full figure.",
+    "Dead has the native ash mound. Existing shared corpse presentation subsequently replaces rolled loot with a satchel."
+  ],
+  "agent_visual_review": {
+    "status": "complete_with_recorded_limits",
+    "selected_model_sha256": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de",
+    "evidence": [
+      "review/shots/steady_hand_start.png",
+      "review/shots/steady_hand_middle.png",
+      "review/shots/steady_hand_side.png"
+    ]
+  },
+  "flight_revision": {
+    "previous_sha256": "433a37f4d0c0ad400b8cdcbbc46f05745a77f7636fe8eedd8c359ef710863e22",
+    "selected_sha256": "899daffaa528adca194e82e31692751c682a147c3dbedb1cbe7528c85d506bc9",
+    "preserved_checkpoint": "archive/pre_native_flight",
+    "changed_clips": [
+      "Walking",
+      "Running"
+    ],
+    "unchanged_clips": [
+      "Attack",
+      "Cast",
+      "Dead",
+      "Death",
+      "Fidget",
+      "Hit",
+      "Standing"
+    ],
+    "non_travel_max_error": 0.0,
+    "geometry_skin_weights_maps": "identical",
+    "native_reference": "review/native_walk.png",
+    "review": "review/native_flight"
+  },
+  "steady_left_hand_revision": {
+    "previous_sha256": "899daffaa528adca194e82e31692751c682a147c3dbedb1cbe7528c85d506bc9",
+    "selected_sha256": "23a27b801224e392b82259f7ba2d2786e9a73aac67e0928a81ee7a15c07277de",
+    "preserved_checkpoint": "archive/pre_steady_left_hand",
+    "changed_clips": [
+      "Walking",
+      "Running"
+    ],
+    "correction": "Cancel inherited body pitch at the left shoulder and keep the leading arm aim fixed; no wrist countertwist.",
+    "hand_world_rotation_max_deg": 2.8700004636030034e-05,
+    "other_body_joints_max_pose_error": 0.0,
+    "geometry_skin_weights_maps": "identical",
+    "non_travel_max_error": 0.0,
+    "evidence": [
+      "review/shots/steady_hand_start.png",
+      "review/shots/steady_hand_middle.png",
+      "review/shots/steady_hand_side.png"
+    ],
+    "user_approval": {
+      "status": "approved",
+      "quote": "OK good",
+      "at": "2026-10-18T18:15:01.823407+00:00",
+      "scope": "Revised flight with steady left hand; no appearance approval inferred."
+    }
+  }
+}

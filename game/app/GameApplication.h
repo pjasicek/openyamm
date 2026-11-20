@@ -2,9 +2,12 @@
 
 #include "game/app/AppMode.h"
 #include "game/render/ActorModelPreview.h"
+#include "game/render/FirstPersonViewModel.h"
 #include "game/render/CinematicGrading.h"
 #include "game/app/GameInputSystem.h"
 #include "game/app/GameSettings.h"
+#include "game/app/GameUpdater.h"
+#include "game/app/NewGameOptions.h"
 #include "game/app/GameSession.h"
 #include "engine/ApplicationConfig.h"
 #include "engine/EngineApplication.h"
@@ -13,6 +16,7 @@
 #include "game/data/GameDataRepository.h"
 #include "game/data/GameDataLoader.h"
 #include "game/audio/GameAudioSystem.h"
+#include "game/audio/WorldAmbientSounds.h"
 #include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorRenderer.h"
 #include "game/indoor/IndoorGameView.h"
@@ -20,17 +24,23 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/app/ScreenManager.h"
+#include "game/content/CompletionCertificates.h"
 #include "game/content/ContentManifest.h"
+#include "game/content/NamedMods.h"
+#include "game/debug/AiArena.h"
 #include "game/debug/DebugConsole.h"
 #include "game/debug/GameImGuiBgfxRenderer.h"
 #include "game/debug/ScreenshotCaptureService.h"
+#include "game/debug/VideoCapture.h"
 #include "game/debug/ScreenshotTour.h"
 #include "game/debug/MenuInputTour.h"
 #include "game/maps/SaveGame.h"
 #include "game/scene/IMapSceneRuntime.h"
+#include "game/ui/screens/LoadGameScreen.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
 #include "game/ui/GameplayHeldItemCursor.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
@@ -38,14 +48,15 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
 class HeadlessGameplayDiagnostics;
+struct MawTestPartyCatalog;
 struct ScenarioGameApplicationAccess;
 struct GameApplicationTestAccess;
-struct WinGameCertificate;
 
 class GameApplication
 {
@@ -56,6 +67,8 @@ public:
 
 private:
   MenuInputTour m_menuInputTour;
+  // The menu tour's clock: the frames' summed time steps (unscaled), so its waits follow a video capture's fixed step.
+  uint64_t m_menuInputTourClockNanoseconds = 0;
   std::vector<uint8_t> m_menuSavePreviewBmp;
   struct DebugMapJumpStart
   {
@@ -162,15 +175,27 @@ private:
 
     bool loadGameData(Engine::AssetFileSystem &assetFileSystem);
     bool ensureCommonGameDataLoaded();
+    // Loads the common data under this ruleset's tables when they are not the loaded ones. Tear the session down
+    // first: the reload replaces the tables that runtimes and screens point into.
+    bool activateRuleset(const std::string &rulesetId, std::string &error);
+    // The pause menu's Rules tab: what the ruleset lets change mid-game.
+    bool applyRulesetOptions(const RulesetOptions &options, std::string &error);
     void updateDeferredStartupLoads();
     // The active scene's (outdoor or indoor) effects and actor models.
     WorldFxSystem &activeWorldFxSystem();
     // Builds the active map's actor model bindings on first use and poses the actor models for this frame; false
     // (application quitting) when a model the map needs fails to load.
     bool syncActorModels(IGameplayWorldRuntime &world, float deltaSeconds, float liveDeltaSeconds);
+    // The prototype first-person view model over the rendered world ([debug] view_model_path); nothing without one.
+    void renderFirstPersonViewModel(IGameplayWorldRuntime &world, int width, int height, float deltaSeconds);
+    // The view model the active member shows: a dragon's forelegs, else the arms (the debug console's `viewmodel`).
+    FirstPersonViewModel &activeViewModel();
     void updateDeferredMainMenuChildWarmup();
     void shutdownApplication();
     bool initializeSelectedMapRuntime(bool initializeView);
+    bool buildSelectedMapRuntime(bool initializeView);
+    // The map's <stem>.cinematics.yml, parsed (none: no file, or an invalid one, logged).
+    std::optional<CinematicLibrary> loadMapCinematics(const MapAssetInfo &map) const;
     const ActorBehaviorCatalog *reloadActorBehaviorCatalog();
     bool initializeRenderer();
     bool initializeDebugConsoleRenderer();
@@ -180,29 +205,54 @@ private:
     void updateDebugConsoleDataOptions();
     void beginDebugConsoleFrame();
     void renderDebugConsoleFrame(int width, int height);
+    // The indoor portal debug view (console `portals`): its per-second averages, the readout and the sector labels in
+    // the ImGui pass, and the `[PortalView]` log line. Returns whether it drew anything.
+    bool renderIndoorPortalDebugReadout(int width, int height);
+    void applyIndoorPortalDebugSettings(const IndoorPortalDebugSettings &settings);
     bool processPendingDebugMapJump();
+    // The debug console's `testparty`: a new MAW game with a test party (game/debug/MawTestParties.h).
+    bool processPendingTestParty();
+    bool loadMawTestPartyCatalog(MawTestPartyCatalog &catalog, std::string &error) const;
     void shutdownRenderer();
     Party &ensureSessionPartyState();
-    void bindPartyDependencies(Party &party) const;
+    void bindPartyDependencies(Party &party);
+    std::string worldIdOfMap(const std::string &mapFileName);
+    static std::string statisticsDifficulty(const RulesetSelection &ruleset);
+    // The playthrough statistics' frame: the place, new members, the map entered and the real time played.
+    void updatePlaythroughStatistics(float realDeltaSeconds, bool gameplayLoaded);
     void synchronizeSessionFromRuntime();
     void synchronizeActiveReputationToParty();
     bool loadCurrentSessionMap(
+        bool initializeView,
+        const std::function<void(int)> &progressCallback = {});
+    // loadCurrentSessionMap for the same game going on (a map move, the defeat's respawn): the item on the cursor
+    // belongs to the party and stays on it, as in the originals; the map's views clear the UI state on the way.
+    bool loadCurrentSessionMapKeepingHeldItem(
         bool initializeView,
         const std::function<void(int)> &progressCallback = {});
     bool activateWorldForMap(const MapStatsEntry &map);
     bool activateWorldForMapFileName(const std::string &mapFileName);
     bool applyCurrentSessionToRuntime(bool initializeView);
     bool processPendingMapMove();
-    bool processPendingWinGame();
+    // Requests an autosave, written once a frame has rendered its preview; never in headless (Noop renderer) runs.
+    bool requestAutosave();
+    // The map's world writes its autosave on arrival (world.yml autosave: arrival) rather than on departure.
+    bool worldAutosavesOnArrival(const std::string &mapFileName) const;
+    bool activeViewSavePreviewCapturePending() const;
+    bool processPendingCompletionCertificate();
     bool processPendingEventMovie();
     bool processPendingReturnToMainMenu();
     bool processPendingDimensionDoorOverlay();
     bool executeCurrentMapOnLeaveEvents();
+    // What the party's rules do as it leaves the current map (MonsterRules::leaveMap).
+    void applyRulesMapLeave();
     bool processPendingPartyDefeat();
     void handleCompletedPartyDefeatScreen();
+    void finishPartyDefeat();
     void handleCompletedEventMovieScreen();
     void handleCompletedWinGameScreen();
-    WinGameCertificate buildWinGameCertificate() const;
+    void saveCompletionCertificateImage(
+        const std::string &certificateId, const ScreenshotCaptureService::Region &region);
     bool shouldTriggerPartyDefeat() const;
     MapStartDestination resolveStartupDestination() const;
     std::optional<MapStartDestination> resolveContinentStartDestination(uint32_t continentId) const;
@@ -211,13 +261,17 @@ private:
     std::string resolvePartyDefeatRespawnMapFileName() const;
     MapStartDestination resolvePartyDefeatRespawnDestination() const;
     std::string resolvePartyDefeatCutsceneStem() const;
+    bool worldPartyDeathApplies() const;
+    // world.yml partyDeath `when`: no condition holds, so the defeat is lost (MM9: LoseGame, then the autosave).
+    bool partyDefeatIsLost() const;
+    std::string partyDefeatContinentMapFileName() const;
     void applyPartyDefeatConsequences();
     bool respawnPartyAfterDefeat(bool initializeView);
     void captureCurrentSceneState();
     void restoreSavedOutdoorWorldStateForSelectedMap();
     void updateQuickSaveInput();
     void updateDoubleSpeedInput();
-    float gameplayDeltaSeconds(float deltaSeconds) const;
+    float gameplaySpeed() const;
     void updateGameplayTraceSnapshotHotkeys();
     bool processPendingQuickSaveInput();
     bool quickSave();
@@ -227,6 +281,8 @@ private:
         const std::string &saveName = "",
         const std::vector<uint8_t> &previewBmp = {});
     bool quickLoadFromPath(const std::filesystem::path &path, bool initializeView);
+    // What saving costs in food at the party's place now (MAW from Nightmare), zero without a party.
+    SaveFoodCost saveFoodCost();
     void openMainMenuScreen();
     void openMenuScreen(bool paused);
     void openPauseMenuScreen();
@@ -243,8 +299,7 @@ private:
     bool startNewSessionFromCharacterCreation(const std::vector<Character> &characters, bool initializeView = true);
     bool startNewSessionFromCharacterCreation(
         const std::vector<Character> &characters,
-        uint32_t continentId,
-        bool preserveDebugLoadout,
+        const NewGameOptions &options,
         bool initializeView);
     bool loadSessionFromPath(const std::filesystem::path &path);
     void beginLoadingOverlay(
@@ -255,13 +310,19 @@ private:
     void pumpLoadingOverlayAnimation();
     void completeLoadingOverlay();
     void cancelLoadingOverlay();
-    void closeTransientGameplayUiForMapMove();
+    void closeTransientGameplayUiForMapMove(bool keepLootView);
     std::filesystem::path settingsFilePath() const;
+    bool saveSettings(const GameSettings &settings, std::string &error) const;
     void loadOrCreateSettings();
     void applyCurrentSettingsToActiveRuntime();
+    // Whether the party stands in MM9's formation: the world turns it on (world.yml formations) or the player does
+    // everywhere (GameSettings::formationsEverywhere).
+    bool formationsActive() const;
     void applyStartupDebugSettingsToActiveRuntime();
     void requestApplicationQuit() const;
     void reportQuickSaveStatus(const std::string &status);
+    // Writes the next rendered frame to screenshots/<local date and time>.png.
+    void requestScreenshotFile();
     void handleSdlEvent(const SDL_Event &event);
     bool handlePendingInputPromptSdlEvent(const SDL_Event &event);
     bool pendingInputPromptActive() const;
@@ -275,6 +336,15 @@ private:
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void updateScreenshotCaptureFrame();
     bool applyScreenshotTourShotPose(const ScreenshotTourShot &shot);
+    // Sets up an AI arena on the current map (game/debug/AiArena.h): its map must be loaded. logPath: where the trace
+    // log goes (empty: none).
+    bool applyAiArena(const AiArena &arena, const std::filesystem::path &logPath, std::string &error);
+    bool loadAndApplyAiArena(const std::filesystem::path &arenaPath, std::string &message);
+    // The launch directive debug.startup_console_file: its commands run once the first map has loaded.
+    bool runStartupConsoleFile(const std::filesystem::path &path, std::string &message);
+    // The launch directive debug.exit_pose_path: where the party stands, written when the game closes.
+    bool writeExitPoseFile(const std::filesystem::path &path, std::string &message);
+    void runTourConsoleLine(const std::string &line, std::string_view logPrefix);
     bool advanceDebugGameMinutes(float minutes);
     bool setDebugClockMinute(int targetMinute);
     void advanceScreenshotTourAfterCapture(size_t shotIndex, bool success);
@@ -285,13 +355,28 @@ private:
     Engine::EngineApplication m_engineApplication;
     CinematicGrading m_cinematicGrading;
     ActorModelPreview m_actorModelPreview;
+    ActorModelPreview m_actorTalkPortrait{ActorPortraitKind::Talk};
+    FirstPersonViewModel m_firstPersonViewModel;
+    // A dragon member's clawed forelegs (devdocs/solo_action/DRAGON.md), and whether they were the last shown (none:
+    // nothing shown yet).
+    FirstPersonViewModel m_dragonViewModel;
+    std::optional<bool> m_dragonViewModelShown;
     GameDataLoader m_gameDataLoader;
     GameDataRepository m_gameDataRepository;
     WorldManifest m_activeWorldManifest;
+    // The mods folder as read at the start and the named mods that are on (the `mods` console command).
+    NamedModCatalog m_namedModCatalog;
+    std::string m_playthroughStatisticsMap;
+    uint64_t m_playthroughStatisticsRoster = 0;
+    uint64_t m_lastPlayerInputTicks = 0;
     ActorBehaviorCatalog m_actorBehaviorCatalog;
     GameAudioSystem m_gameAudioSystem;
+    WorldAmbientSoundRuntime m_worldAmbientSounds;
     GameSession m_gameSession;
     GameInputSystem m_gameInputSystem;
+    // The gameplay HUD's screen when the last frame's input was read: a window that opened from play since then is
+    // given the click guard (GameInputSystem::guardClicksAfterWindowOpened).
+    GameplayHudScreenState m_previousHudScreenStateForInput = GameplayHudScreenState::Gameplay;
     SpriteAtlasCache m_spriteAtlasCache;
     NativeSpriteTextureCache m_nativeSpriteCache;
     IndoorRenderer m_indoorRenderer;
@@ -304,15 +389,30 @@ private:
     std::unique_ptr<OutdoorWorldRuntime> m_pOutdoorWorldRuntime;
     std::unique_ptr<IMapSceneRuntime> m_pMapSceneRuntime;
     Engine::AssetFileSystem *m_pAssetFileSystem;
-    bool m_quickSaveLatch = false;
     // Console `render` profiling switches: decoration-model foliage, and a frozen world (no actor/time updates) so a
     // view stays identical while layers are measured. Without the HUD, gameplay draws only the world (clean captures).
     bool m_renderFoliage = true;
     bool m_renderHud = true;
     bool m_renderInstancing = true;
     bool m_renderFreezeWorld = false;
-    bool m_quickLoadLatch = false;
-    bool m_doubleSpeedActive = false;
+    // The portal debug view's timings averaged over the last second, and the running sums of the current one.
+    struct PortalDebugAverages
+    {
+        uint32_t frames = 0;
+        std::array<uint64_t, 8> cpuNanoseconds = {};
+        // GPU microseconds per bgfx view id, with the view names.
+        std::vector<std::pair<std::string, uint64_t>> gpuViews;
+        uint64_t gpuFrameMicroseconds = 0;
+        uint64_t drawCalls = 0;
+        uint64_t triangles = 0;
+    };
+    PortalDebugAverages m_portalDebugShown;
+    PortalDebugAverages m_portalDebugSums;
+    std::vector<uint64_t> m_portalDebugGpuSums;
+    std::vector<std::string> m_portalDebugGpuNames;
+    uint64_t m_portalDebugWindowStartTicks = 0;
+    // Fast mode, which the Fast Mode key turns on and off: the game runs at the settings' fast mode speed.
+    bool m_fastMode = false;
     bool m_advanceTimeLatch = false;
     bool m_traceSnapshotStartLatch = false;
     bool m_traceSnapshotEndLatch = false;
@@ -322,6 +422,9 @@ private:
     GameplayTraceMovementCapture m_traceMovementCapture = {};
     bool m_pendingQuickSave = false;
     bool m_pendingQuickLoad = false;
+    // When quick load last stopped to warn what loading costs now (MAW's pending Beyond Madness death); a second
+    // press soon after loads.
+    std::optional<uint64_t> m_quickLoadWarnedTicks;
     bool m_pendingAdvanceTime = false;
     bool m_bootSeededDwiOnNextRendererInit = false;
     bool m_commonGameDataLoaded = false;
@@ -330,6 +433,18 @@ private:
     uint32_t m_mainMenuRenderedFrameCount = 0;
     uint8_t m_deferredMainMenuChildWarmupStage = 0;
     std::unique_ptr<LoadingOverlayScreen> m_pLoadingOverlayScreen;
+    // Monsters' own sounds (MonsterModifierSet::sounds): the loops while they move and the one-shot when they notice the
+    // party, by actor id, for the world runtime they belong to.
+    void syncActorSounds(IGameplayWorldRuntime &world);
+    const IGameplayWorldRuntime *m_pActorSoundWorld = nullptr;
+    std::unordered_map<uint32_t, uint64_t> m_actorLoopSounds;
+    std::unordered_map<uint32_t, bool> m_actorAwareStates;
+    // The map's ambience bed and music areas (world.yml ambience, musicAreas) and the track playing for its area.
+    void startMapAmbienceAndMusic(const std::string &mapFileName, int mapMusicTrack);
+    void updateMusicArea(float partyX, float partyY);
+    const std::vector<WorldManifest::MusicArea> *m_mapMusicAreas = nullptr;
+    int m_mapMusicTrack = 0;
+    int m_areaMusicTrack = 0;
     std::string m_loadingOverlayBackgroundTextureName;
     LoadingOverlayScreen::Presentation m_loadingOverlayPresentation = LoadingOverlayScreen::Presentation::Fullscreen;
     bool m_loadingOverlayActive = false;
@@ -337,17 +452,30 @@ private:
     int m_loadingOverlayCurrentProgressPercent = 0;
     uint64_t m_loadingOverlayNextAnimationFrameTick = 0;
     bool m_mainMenuChildScreensPrepared = false;
+    // The Settings section the menu last showed; kept for the session only.
+    std::string m_settingsMenuSection = "gameplay";
+    // Null where the game does not update itself (development runs).
+    std::unique_ptr<GameUpdater> m_pUpdater;
     int m_lastFrameWidth = 640;
     int m_lastFrameHeight = 480;
     std::optional<std::string> m_pendingPartyDefeatRespawnMapFileName;
     std::optional<DebugMapJumpStart> m_pendingPartyDefeatRespawnStart;
-    bool m_pendingWinGameCertificateAfterMovie = false;
+    // A lost defeat (world.yml partyDeath `otherwise`): its movie, then the autosave.
+    bool m_pendingPartyDefeatReloadAutosave = false;
+    std::vector<CompletionCertificateDefinition> m_completionCertificates;
+    bool m_completionCertificatesLoaded = false;
+    // Certificates earned at once (a world and the grand one), shown one after another.
+    std::vector<std::string> m_pendingCompletionCertificateIds;
     std::string m_pendingInputText;
     std::string m_pendingInputStatusText;
     bool m_pendingInputTextActive = false;
     bool m_skipGameplayUpdateUntilPromptSubmitKeysReleased = false;
     bool m_loadingSavedGameRuntime = false;
+    // The status notice of a map whose saved state was reset when it was entered (resetSavedMapStateOfAnotherLayout),
+    // shown once its view is up: building the view clears the status bar.
+    std::string m_mapStateResetNotice;
     FramePerformanceDiagnostics m_framePerformanceDiagnostics;
+    GameplayUiRuntime::HudDrawListStats m_loggedHudDrawListStats;
     uint32_t m_lastFramePerformanceLogTick = 0;
     DebugConsole m_debugConsole;
     GameplayHeldItemCursor m_heldItemCursor;
@@ -356,9 +484,14 @@ private:
     bool m_debugConsoleFrameBegun = false;
     bool m_debugConsoleCommandsRegistered = false;
     std::optional<PendingDebugMapJump> m_pendingDebugMapJump;
+    // The arguments of a `testparty` that starts a new game, run at the start of the next frame.
+    std::optional<std::vector<std::string>> m_pendingTestParty;
+    // A map move held for a few frames while the leaving map's autosave captures its preview.
+    std::optional<EventRuntimeState::PendingMapMove> m_mapMoveAwaitingAutosave;
     std::vector<EffectHandle> m_debugEffectHandles;
     std::vector<Engine::ModelInstanceHandle> m_debugModelHandles;
     ScreenshotCaptureService m_screenshotCaptureService;
+    VideoCapture m_videoCapture;
     std::optional<ScreenshotTour> m_screenshotTour;
     ScreenshotTourStage m_screenshotTourStage = ScreenshotTourStage::NotStarted;
     size_t m_screenshotTourShotIndex = 0;
@@ -368,7 +501,15 @@ private:
     bool m_debugLaunchEffectStatsLogged = false;
     bool m_debugLaunchModelSpawned = false;
     bool m_debugLaunchActorsSpawned = false;
-    bool m_screenshotScheduledCaptureFired = false;
+    bool m_debugLaunchAiArenaApplied = false;
+    bool m_debugLaunchStartupConsoleRun = false;
+    // The AI arena in play (console `arena`, debug.ai_arena_path, scenario ai_arena) and its decision trace, which the
+    // active world runtime is bound to.
+    std::optional<AiArena> m_aiArena;
+    std::vector<size_t> m_aiArenaActorIndices;
+    ActorAiTrace m_aiArenaTrace;
+    // Delayed captures requested so far (debug.screenshot_path, screenshot_burst_count).
+    uint32_t m_screenshotScheduledCaptures = 0;
     bool m_screenshotGameplayStartTicksValid = false;
     uint64_t m_screenshotGameplayStartTicks = 0;
 };

@@ -5,6 +5,7 @@
 #include "game/ui/GameplayUiController.h"
 
 #include <cstdint>
+#include <optional>
 #include <string>
 
 namespace OpenYAMM::Game
@@ -55,8 +56,14 @@ public:
     {
         float castRepeatCooldownSeconds = 0.0f;
         bool castLatch = false;
+        // The held key has passed its first-repeat delay and repeats at the short interval.
+        bool castRepeating = false;
         bool readyMemberAvailableWhileHeld = false;
         bool attackFallbackRequested = false;
+        // The extra quick spell slot whose key began the held cast (Quick Spell 1-4); none for the quick spell.
+        std::optional<size_t> extraSlot;
+        // A solo run's action bar spell whose key began the held cast; empty otherwise.
+        std::string barSpellName;
 
         void clear();
     };
@@ -64,12 +71,21 @@ public:
     struct AttackActionState
     {
         bool inspectLatch = false;
+        // The held key has passed its first-repeat delay and repeats at the short interval.
+        bool inspectRepeating = false;
         bool readyMemberAvailableWhileHeld = false;
         bool suppressAttackUntilRelease = false;
         float inspectRepeatCooldownSeconds = 0.0f;
 
         bool blocksAttackInput(bool attackPressed);
         void clear();
+    };
+
+    // The Upkeep key's hold (GameplayActionController::updateUpkeepAction).
+    struct UpkeepActionState
+    {
+        bool latch = false;
+        float repeatCooldownSeconds = 0.0f;
     };
 
     struct WorldInteractionInputState
@@ -80,6 +96,16 @@ public:
         uint64_t inspectKeyboardActivateNextRepeatTickNanoseconds = 0;
         bool heldInventoryDropLatch = false;
         bool inspectMouseActivateLatch = false;
+        // A Ctrl click held after the steal: the left button is the attack too, and must not attack until released.
+        bool stealClickLatch = false;
+        // The smart left click's choice for this press, kept until the button is released.
+        enum class SmartClick : uint8_t
+        {
+            None,
+            Use,
+            Attack
+        };
+        SmartClick smartClick = SmartClick::None;
         GameplayWorldHit pressedWorldHit;
 
         void clear();
@@ -89,7 +115,11 @@ public:
     {
         bool mouseLookActive = false;
         bool cursorModeActive = false;
+        // The Free Cursor key's mode (KeyboardAction::CursorMode): no mouse look under the modern controls until the
+        // key is pressed again. Kept across screens, dialogues and maps; a new game starts without it.
+        bool freeCursorToggled = false;
 
+        // Clears the frame's mouse look, keeping the Free Cursor mode.
         void clear();
     };
 
@@ -152,6 +182,8 @@ public:
     AttackActionState &attackActionState();
     const AttackActionState &attackActionState() const;
 
+    UpkeepActionState &upkeepActionState();
+
     WorldInteractionInputState &worldInteractionInputState();
     const WorldInteractionInputState &worldInteractionInputState() const;
 
@@ -168,6 +200,7 @@ private:
     PendingSpellTargetState m_pendingSpellTarget = {};
     QuickSpellState m_quickSpellState = {};
     AttackActionState m_attackActionState = {};
+    UpkeepActionState m_upkeepActionState = {};
     WorldInteractionInputState m_worldInteractionInputState = {};
     GameplayMouseLookState m_gameplayMouseLookState = {};
     bool m_pendingOpenNewGameScreen = false;

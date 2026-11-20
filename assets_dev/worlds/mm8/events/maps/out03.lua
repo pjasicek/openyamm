@@ -57,7 +57,7 @@ SetMapMetadata({
     [63] = { kind = "enter_house", source = "opcode", houseId = 535, targetName = "House of Brandy" },
     [65] = { kind = "enter_house", source = "opcode", houseId = 536, targetName = "Bowes Residence" },
     [67] = { kind = "enter_house", source = "opcode", houseId = 537, targetName = "Breman Residence" },
-    [69] = { kind = "enter_house", source = "opcode", houseId = 547, targetName = " Home of Rihansi " },
+    [69] = { kind = "enter_house", source = "opcode", houseId = 547, targetName = "Home of Rihansi" },
     [71] = { kind = "enter_house", source = "opcode", houseId = 548, targetName = "Bombah Hall" },
     [73] = { kind = "enter_house", source = "opcode", houseId = 549, targetName = "Keldon's Cottage" },
     [75] = { kind = "enter_house", source = "opcode", houseId = 552, targetName = "Featherwind's House" },
@@ -103,7 +103,7 @@ SetMapMetadata({
     [197] = { kind = "enter_house", source = "opcode", houseId = 773, targetName = "Merchant Guildhouse" },
     [199] = { kind = "enter_house", source = "opcode", houseId = 183, targetName = "Elemental Guild" },
     [451] = { kind = "enter_house", source = "opcode", houseId = 902, targetName = "House Memoria" },
-    [453] = { kind = "enter_house", source = "opcode", houseId = 903, targetName = "House of Hawthorne " },
+    [453] = { kind = "enter_house", source = "opcode", houseId = 903, targetName = "House of Hawthorne" },
     [455] = { kind = "enter_house", source = "opcode", houseId = 904, targetName = "Lott's Family Home" },
     [457] = { kind = "enter_house", source = "opcode", houseId = 905, targetName = "House of Nosewort" },
     [459] = { kind = "enter_house", source = "opcode", houseId = 909, targetName = "Dotes Family Hovel" },
@@ -115,6 +115,10 @@ SetMapMetadata({
     [502] = { kind = "enter_dungeon", source = "opcode", targetMap = "d12.blv", targetName = "Ogre Fortress" },
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "d41.blv", targetName = "Dark Dwarf Compound" },
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "d11.blv", targetName = "Wasp Nest" },
+    },
+    learnedEffect = {
+    [101] = { autonote = 212, effect = "Personality +25 (Temporary)" },
+    [102] = { autonote = 213, effect = "Might +2 (Permanent)" },
     },
     textureNames = {},
     spriteNames = {},
@@ -316,11 +320,11 @@ end, "Breman Residence")
 
 RegisterEvent(68, "Breman Residence", nil, "Breman Residence")
 
-RegisterEvent(69, " Home of Rihansi ", function()
-    evt.EnterHouse(547) --  Home of Rihansi
-end, " Home of Rihansi ")
+RegisterEvent(69, "Home of Rihansi", function()
+    evt.EnterHouse(547) -- Home of Rihansi
+end, "Home of Rihansi")
 
-RegisterEvent(70, " Home of Rihansi ", nil, " Home of Rihansi ")
+RegisterEvent(70, "Home of Rihansi", nil, "Home of Rihansi")
 
 RegisterEvent(71, "Bombah Hall", function()
     evt.EnterHouse(548) -- Bombah Hall
@@ -577,7 +581,7 @@ RegisterEvent(197, "Merchant Guildhouse", function()
             evt.ForPlayer(Players.All)
             AddValue(Experience, 10000)
             SetAward(Award(5)) -- Found a witness to the cataclysm in the Ironsand Desert.
-            AddValue(History(8), 0)
+            AddValue(History(6), 0)
             evt.ForPlayer(Players.Current)
             ClearQBit(QBit(25)) -- Find a witness to the lake of fire's formation. Bring him back to the merchant guild in Alvar. - Given and taken by Bastian Lourdrin (area 3).
             SetQBit(QBit(13)) -- Form an alliance among the major factions of Jadame. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Checked as each alliance is formed. Taken when three are formed.
@@ -624,11 +628,11 @@ end, "House Memoria")
 
 RegisterEvent(452, "House Memoria", nil, "House Memoria")
 
-RegisterEvent(453, "House of Hawthorne ", function()
+RegisterEvent(453, "House of Hawthorne", function()
     evt.EnterHouse(903) -- House of Hawthorne
-end, "House of Hawthorne ")
+end, "House of Hawthorne")
 
-RegisterEvent(454, "House of Hawthorne ", nil, "House of Hawthorne ")
+RegisterEvent(454, "House of Hawthorne", nil, "House of Hawthorne")
 
 RegisterEvent(455, "Lott's Family Home", function()
     evt.EnterHouse(904) -- Lott's Family Home
@@ -698,13 +702,13 @@ RegisterEvent(495, "Pine tree", function()
     if not IsAtLeast(DisarmTrapSkill, 5) then return end
     local randomStep = PickRandomOption(495, 4, {5, 7, 9, 11})
     if randomStep == 5 then
-        evt.SummonItem(2138, 14624, -160, 3296, 1000, 1, true) -- Diary Page
+        evt.SummonRandomItem(2, 138, 14624, -160, 3296, 1000, 1, true) -- random item of the Gold Ring's kind
     elseif randomStep == 7 then
-        evt.SummonItem(2139, 14624, -160, 3296, 1000, 1, true) -- Page from Agar's Journal
+        evt.SummonRandomItem(2, 139, 14624, -160, 3296, 1000, 1, true) -- random item of the Pearl Ring's kind
     elseif randomStep == 9 then
-        evt.SummonItem(2140, 14624, -160, 3296, 1000, 1, true) -- Remains of a Journal
+        evt.SummonRandomItem(2, 140, 14624, -160, 3296, 1000, 1, true) -- random item of the Gemstone Ring's kind
     elseif randomStep == 11 then
-        evt.SummonItem(2141, 14624, -160, 3296, 1000, 1, true) -- Letter from the Dragon Riders
+        evt.SummonRandomItem(2, 141, 14624, -160, 3296, 1000, 1, true) -- random item of the Amethyst Ring's kind
     end
     SetQBit(QBit(276)) -- Reagant spout area 3
 end, "Pine tree")

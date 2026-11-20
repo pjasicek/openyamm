@@ -16,6 +16,11 @@ $input v_texcoord0, v_worldNormal, v_worldPosition, v_color0, v_texcoord1, v_flo
 #ifndef ALPHA_TO_COVERAGE
 #define ALPHA_TO_COVERAGE 0
 #endif
+// MODEL_EMISSIVE_MAP (fs_model_emissive): the emission is the material's emissive factor times its emissive texture
+// (s_modelEmissive, sRGB), only for materials that have one (ModelRenderer picks this program for them).
+#ifndef MODEL_EMISSIVE_MAP
+#define MODEL_EMISSIVE_MAP 0
+#endif
 
 SAMPLER2D(s_modelTexture, 0);
 SAMPLER2D(s_modelNormal, 1);
@@ -25,6 +30,12 @@ SAMPLER2D(s_modelEnvironmentBrdf, 4);
 SAMPLER2D(s_modelRegionMask, 8);
 SAMPLER2D(s_modelRegionRamp, 9);
 SAMPLER2D(s_modelBurn, 10);
+#if MODEL_EMISSIVE_MAP
+SAMPLER2D(s_modelEmissive, 7);
+#define MODEL_EMISSION u_modelSurface.xyz * v_flowInfo.a * texture2D(s_modelEmissive, v_texcoord0).rgb
+#else
+#define MODEL_EMISSION u_modelSurface.xyz * v_flowInfo.a
+#endif
 uniform vec4 u_modelEnvironment;
 uniform vec4 u_modelSurface;
 uniform vec4 u_modelPbr;
@@ -102,18 +113,35 @@ void modelPointLight(vec4 positionRadius, vec4 colorIntensity, vec3 worldPositio
     vec3 delta = positionRadius.xyz - worldPosition;
     float radius = max(positionRadius.w, 0.0001);
     float attenuation = max(1.0 - dot(delta, delta) / (radius * radius), 0.0);
-    vec3 point = colorIntensity.rgb * colorIntensity.w * attenuation * attenuation;
+    // "point" is a reserved word in the HLSL front end the Metal shader build goes through.
+    vec3 pointLight = colorIntensity.rgb * colorIntensity.w * attenuation * attenuation;
     if (specularOnly)
     {
         if (specularScale > 0.0)
         {
             highlights += modelSpecular(normal, view, modelNormalize(delta), base, metallic, roughness, specularScale)
-                * point;
+                * pointLight;
         }
         return;
     }
-    shaded += modelBrdf(normal, view, modelNormalize(delta), base, metallic, roughness, specularScale) * point;
-    lightLevel += point;
+    shaded += modelBrdf(normal, view, modelNormalize(delta), base, metallic, roughness, specularScale) * pointLight;
+    lightLevel += pointLight;
+}
+
+vec3 modelDecodeSrgb(vec3 value)
+{
+    value = max(value, vec3_splat(0.0));
+    return mix(value / 12.92, pow((value + 0.055) / 1.055, vec3_splat(2.4)), step(vec3_splat(0.04045), value));
+}
+
+// One point light of MM9's fixed-function model lighting (u_modelLighting[1].w = 2): colour x intensity x scale x
+// (1 - d^2/r^2) x max(0, N.L).
+vec3 modelFixedPointLight(vec4 positionRadius, vec4 colorIntensity, vec3 worldPosition, vec3 normal, float scale)
+{
+    vec3 delta = positionRadius.xyz - worldPosition;
+    float radius = max(positionRadius.w, 0.0001);
+    float falloff = max(1.0 - dot(delta, delta) / (radius * radius), 0.0);
+    return colorIntensity.rgb * (colorIntensity.w * scale * falloff * max(dot(normal, modelNormalize(delta)), 0.0));
 }
 
 // Ordered 4x4 dither threshold in [0, 1) for screen-door LOD crossfades.
@@ -177,6 +205,8 @@ void main()
         float hue = max(max(u_modelBurn[1].r, u_modelBurn[1].g), max(u_modelBurn[1].b, 0.0001));
         float level = clamp(amount * hue * 0.45, 0.0, 0.8);
         vec3 fire = u_modelBurn[1].rgb / hue * level + vec3(0.0, 0.3, 0.06) * level * level;
+        // Fire is light: the map's mist (mist.sh) fades it as the fog does.
+        fireFog = 1.0 - (1.0 - fireFog) * mistClear(v_worldPosition);
         float cover = clamp(level * 1.3, 0.0, 0.9) * (1.0 - fireFog);
         gl_FragColor = vec4(modelEncodeSrgb(fire) * (1.0 - fireFog), cover);
         return;
@@ -242,7 +272,7 @@ void main()
 #endif
     if (u_modelOutline.w > 1.5 && u_modelOutline.w < 2.5)
     {
-        // Creature depth prepass: depth and the alpha test above are all it needs.
+        // Depth prepass (creatures, static foliage): depth and the alpha test above are all it needs.
         gl_FragColor = vec4_splat(0.0);
         return;
     }
@@ -274,6 +304,54 @@ void main()
     if (contour)
     {
         shaded *= u_modelOutline.x * clamp(u_modelLighting[2].rgb * u_modelLighting[2].w * v_color0.rgb, 0.0, 1.0);
+    }
+    else if (u_modelMaterial[1].z < 0.5 && u_modelLighting[1].w > 1.5)
+    {
+        // MM9's fixed-function model lighting (indoor scene model_lighting, devdocs/INDOOR_MODEL_LIGHTING.md): the
+        // display texel times min(1, light), light = the ambient (MM9's ambient and ModelAdd in the placement or
+        // instance light) + every grid light over the fragment (no room test: MM9 has no occlusion) at
+        // u_modelLighting[0].w of its strength, with MM9's 1 - d^2/r^2 and N.L on the mesh normal. No key light,
+        // specular, reflection, sun or edge darkening.
+        vec3 normal = modelNormalize(v_worldNormal);
+        if (u_modelMaterial[1].w > 0.5 && dot(normal, u_modelCamera.xyz - v_worldPosition) < 0.0)
+        {
+            normal = -normal;
+        }
+        vec3 level = u_modelLighting[2].rgb * u_modelLighting[2].w * v_color0.rgb + v_texcoord1.rgb;
+        float pointScale = u_modelLighting[0].w;
+        if (lightGridMode() > 0.5)
+        {
+            vec2 range = lightGridCellRange(v_worldPosition);
+            int first = int(range.x + 0.5);
+            int count = int(range.y + 0.5);
+            for (int i = 0; i < LIGHT_GRID_MAX_CELL_LIGHTS; ++i)
+            {
+                if (i >= count)
+                {
+                    break;
+                }
+                // No room test: MM9 lights its models without occlusion.
+                int index = lightGridLightIndex(first + i);
+                vec4 positionRadius;
+                vec4 colorIntensity;
+                lightGridLight(index, positionRadius, colorIntensity);
+                level += modelFixedPointLight(positionRadius, colorIntensity, v_worldPosition, normal, pointScale);
+            }
+        }
+        else
+        {
+            int pointCount = int(abs(u_modelLighting[3].w));
+            for (int i = 0; i < 12; ++i)
+            {
+                if (i >= pointCount)
+                {
+                    break;
+                }
+                level += modelFixedPointLight(u_modelPointPositions[i], u_modelPointColors[i], v_worldPosition, normal,
+                    pointScale);
+            }
+        }
+        shaded = modelDecodeSrgb(modelEncodeSrgb(color.rgb) * clamp(level, 0.0, 1.0));
     }
     else if (u_modelMaterial[1].z < 0.5)
     {
@@ -434,12 +512,13 @@ void main()
             shaded *= 1.0 - u_modelEdge.x * (1.0 - smoothstep(0.0, band, facing));
         }
     }
-    // v_flowInfo.a scales the emission: a static material's pulse, 1 otherwise.
-    shaded += contour ? vec3_splat(0.0) : u_modelSurface.xyz * v_flowInfo.a + burnGlow;
+    // v_flowInfo.a scales the emission: a static material's pulse, 1 otherwise (a creature's pulse is in its factor).
+    shaded += contour ? vec3_splat(0.0) : MODEL_EMISSION + burnGlow;
     // An SDR shoulder preserves sub-0.8 values and hue while compressing specular peaks smoothly.
     float peak = max(max(shaded.r, shaded.g), shaded.b);
     float compressed = 0.8 + 0.2 * (1.0 - exp(-max(peak - 0.8, 0.0) / 0.2));
-    if (u_modelMaterial[1].z < 0.5 && peak > 0.8)
+    // Not on fixed-function (MM9) lighting, which shows the texel times its light as MM9 does.
+    if (u_modelMaterial[1].z < 0.5 && u_modelLighting[1].w < 1.5 && peak > 0.8)
     {
         shaded *= compressed / peak;
     }
@@ -464,11 +543,12 @@ void main()
         // space, fading with the fog like an additive card. Cards (y = their weight) glow with their whole colour;
         // other surfaces with their emission (the material's, pulsed, and a burn's).
         vec3 emitted = u_modelGlow.y > 0.0 ? displayColor * u_modelGlow.y
-            : modelEncodeSrgb(u_modelSurface.xyz * v_flowInfo.a + burnGlow);
-        gl_FragColor = vec4(emitted * (1.0 - fog) * u_modelGlow.x, color.a);
+            : modelEncodeSrgb(MODEL_EMISSION + burnGlow);
+        gl_FragColor = vec4(emitted * (1.0 - fog) * mistClear(v_worldPosition) * u_modelGlow.x, color.a);
         return;
     }
-    // Additive glow (outline flag -1, static decorations): the fog fades it out instead of mixing in its colour.
-    gl_FragColor = u_modelOutline.w < -0.5 ? vec4(displayColor * (1.0 - fog), color.a)
-        : vec4(mix(displayColor, fogColor, fog), color.a);
+    // Additive glow (outline flag -1, static decorations): the fog and the map's mist fade it out instead of mixing
+    // in their colour.
+    gl_FragColor = u_modelOutline.w < -0.5 ? vec4(displayColor * (1.0 - fog) * mistClear(v_worldPosition), color.a)
+        : vec4(mistApply(mix(displayColor, fogColor, fog), v_worldPosition), color.a);
 }

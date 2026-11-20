@@ -1,0 +1,159 @@
+id: hesper.d01.power_and_exit
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d01.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Bram
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Cyra
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Dana
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Eli
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- setup_shortcut:
+    kind: set_qbit
+    id: 100202
+    reason: M2 given (the Warden)
+- set_pose:
+    map: hes_d01.blv
+    x: 8228
+    y: 1900
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 8
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 7
+        state: open
+- set_pose:
+    map: hes_d01.blv
+    x: 4100
+    y: 2950
+    z: -768
+    yaw: 1.5707963
+    pitch: 0
+- press_interact: {}
+- set_pose:
+    map: hes_d01.blv
+    x: 4900
+    y: 2950
+    z: -768
+    yaw: 1.5707963
+    pitch: 0
+- press_interact: {}
+- set_pose:
+    map: hes_d01.blv
+    x: 3300
+    y: 2950
+    z: -768
+    yaw: 1.5707963
+    pitch: 0
+- press_interact: {}
+- press_action:
+    action: cancel_dialog
+- wait_until:
+    timeout_runtime_seconds: 20
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 5
+        state: open
+- damage_actor:
+    actor_index: 41
+    amount: 100000
+    tier: classic_blaster
+- damage_actor:
+    actor_index: 41
+    amount: 100000
+    tier: physical
+- advance_runtime:
+    seconds: 4
+- assert:
+    actor_visible:
+      actor_index: 41
+      dead: true
+      hp: 0
+- set_pose:
+    map: hes_d01.blv
+    x: 1100
+    y: 3450
+    z: -768
+    yaw: 1.5707963
+    pitch: 0
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 100002
+    qbit_clear:
+    - 100202
+- press_action:
+    action: cancel_dialog
+- note:
+    text: Aster speaks through the relay post in the vestibule and gives M3.
+- set_pose:
+    map: hes_d01.blv
+    x: 700
+    y: 3600
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 100203
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d01.blv
+    x: 250
+    y: 4100
+    z: 0
+    yaw: 3.14159265
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: hes_out1.odm
+- set_pose:
+    map: hes_out1.odm
+    x: -14730
+    y: -16200
+    z: 1478
+    yaw: 3.141593
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_undervault.blv

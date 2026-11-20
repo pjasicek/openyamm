@@ -1,0 +1,93 @@
+/* The plan's section view (S5b2): a button at the plan's foot, and the panel it opens over the lower part of the plan. */
+.toggle
+{
+    position: absolute;
+    left: var(--space-3);
+    bottom: var(--space-3);
+    height: 24px;
+    padding: 0 var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: var(--size-s);
+    cursor: pointer;
+    z-index: 3;
+}
+
+.panel
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 42%;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    background: var(--canvas);
+    border-top: 2px solid var(--line);
+    z-index: 3;
+}
+
+.bar
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: 28px;
+    padding: 0 var(--space-3);
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    font-size: var(--size-s);
+    white-space: nowrap;
+    flex: none;
+}
+
+.label
+{
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+}
+
+.button, .on
+{
+    height: 22px;
+    padding: 0 var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.on
+{
+    border-color: #d29a49;
+    color: #f2c14e;
+}
+
+.button:disabled
+{
+    opacity: 0.5;
+    cursor: default;
+}
+
+.spacer
+{
+    flex: 1;
+}
+
+.dim
+{
+    color: var(--text-dim);
+}
+
+.canvas
+{
+    flex: 1;
+    min-height: 0;
+    position: relative;
+}

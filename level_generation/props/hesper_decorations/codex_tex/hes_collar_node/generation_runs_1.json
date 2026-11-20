@@ -1,0 +1,239 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "transparent_background_requested": true,
+  "unresized_returns": true,
+  "correction_limit_per_view": 1,
+  "fully_compliant": false,
+  "status": "Generation and bounded corrections finished. Saved best available raw returns; resolution, exact geometry and strict flat-albedo requirements remain unmet.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic FRONT albedo texture-source painting for the Hesper Kreegan work camp collar-node 3D decoration.\n\nInput 1, guide_front.png, is the EDIT TARGET and absolute geometry authority. Edit its surface colours only. Input 2, design_reference.png, is the approved colour/material authority only; do not borrow its three-quarter camera or geometry. Input 3, concept_crop.png, is supporting original concept reference only; do not include its surroundings.\n\nProduce exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background, at the original guide resolution. Preserve guide_front.png's exact pixel registration: same silhouette, size, position, every polygon shape edge, opening, cable path, overlap, armour plate, stone and fragment. The guide's full nontransparent bounds are x=66..957, y=66..957. Preserve its angular mesh shapes; do not smooth, expand, remodel, recenter, rescale, rotate or crop anything. Paint directly over the grey guide, not a new interpretation of the object. Transparent holes remain transparent; nothing outside its silhouette.\n\nPaint the guide surfaces using the approved design materials: black-violet resin cables with dark red veins, white ceramic armour plates with brushed gold borders and fittings, violet-red magenta oval lens surfaces, cracked pale grey stone plinth and matching stone rubble. Locate ceramic plates and central lens housing on the existing shapes in the front guide; surface painted details may describe the design but must not move any shape edge. Gold is muted brushed gold. Resin should be visibly dark violet-black with subtle mottled veins. Emissive lenses/seams and any orange sacs are painted saturated intrinsic glowing colours only.\n\nLIGHTING: pure base-colour / albedo texture source under even flat shadowless illumination from the viewer. Remove the guide's grey lighting and ambient occlusion. No cast shadows, no contact shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no directional light falloff. Glossy resin is the material identity but do NOT bake gloss highlights into this albedo. Glow is confined to its own surface with no bloom or light cast onto adjacent material. Every surface including recesses remains readable in uniform lighting. No scene, background, floor, pedestal beyond the guide, text, border or watermark. Preserve the exact guide silhouette and all internal geometry edges.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "f335565df2b2f7216f3a3d731ad0ff4edb8bc52856c0c65bd9b53eefd99cee3f",
+          "role": "edit_target"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828",
+          "role": "material_authority"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5",
+          "role": "concept_reference"
+        }
+      ],
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254 instead of 1024x1024; shape edges differ and metallic highlights are stronger than flat albedo.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2073-7e82-9105-e08aceb7402a/exec-6b2cbdf8-a440-4799-b95c-d286cf6c89e1.png",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match_request": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "opaque_bbox_alpha_threshold_128": [
+          81,
+          79,
+          1174,
+          1175
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_diagnostic_only": 0.9795074528665744,
+        "normalized_diagnostic_note": "Read-only normalized coordinate sampling for comparison; saved pixels and alpha were not resized or modified.",
+        "byte_identical_to_tool_return": true
+      },
+      "visual_checks": {
+        "materials_match_reference": "Broad palette matches; material assignment and shape interpretation vary.",
+        "exact_internal_shape_edges": false,
+        "flat_even_albedo": "Partial: highlights and recess shading remain.",
+        "exact_silhouette": false
+      },
+      "output_sha256": "4abf2dd929f916282272153895f7da113160951eb8db30a6fa33c8345acecacb"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective surface-colour edit. Deliver ONE PNG at native 1024 x 1024 pixels with transparent alpha. Keep the 1024 x 1024 edit-target canvas dimensions unchanged. Do not return 1254 x 1254 or resize the image.\n\nInput 1 guide_front.png: edit target and EXACT pixel geometry.\nInput 2 design_reference.png: material and colour reference only.\nInput 3 concept_crop.png: supporting concept only.\n\nPaint ONLY the existing nontransparent pixels of Input 1. Copy its alpha silhouette, transparent holes, exact angular outlines and every interior shape edge without moving a single edge. Retain its original orthographic FRONT camera, cable overlaps, plate positions, rubble, size and framing. Object bounds remain x66..957, y66..957 on the 1024 x 1024 canvas. Do not reconstruct the reference's mesh or camera. Treat this as colouring the existing grey polygon drawing.\n\nUse black-violet resin and dark red veins for cables; muted brushed gold fittings and borders; white ceramic on existing armour plates; violet-red magenta lenses painted within the central housing; cracked pale grey stone for the plinth and rubble. Match the approved reference's material assignments. No new geometry, ornaments, plates, cables, rocks, openings or silhouette extensions.\n\nCorrection focus: exact original 1024px guide registration and flat ALBEDO. Uniform surface base colours and fine intrinsic texture ONLY. Completely shadowless, evenly lit from the viewer, no AO, no gradients suggesting directional lighting, no specular reflections, no bright bevel highlights or rim light. Glossy resin and metal identity comes from their colour and fine texture only. Emissive lens/seam/orange-sac colours remain bright in their own surfaces, with zero bloom or illumination of neighboring surfaces. Remove all grey-guide shadows. No background, floor, text, watermark. Preserve every edge of Input 1 and actual transparent alpha. Output resolution 1024x1024.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "f335565df2b2f7216f3a3d731ad0ff4edb8bc52856c0c65bd9b53eefd99cee3f",
+          "role": "edit_target"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828",
+          "role": "material_authority"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5",
+          "role": "concept_reference"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available front return within the one-correction limit; closer silhouette than attempt 1 and more faithful three-lens housing. NOT fully compliant: 1254x1254, imperfect silhouette/internal edges and residual material shading. Preserved as returned without resizing or alpha replacement.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2073-7e82-9105-e08aceb7402a/exec-469d7179-489a-43a0-9443-8e0e199cb2b6.png",
+      "visual_checks": {
+        "materials_match_reference": "Mostly: black-violet resin, red veins, white ceramic, gold fittings, magenta emissive seams/lenses and pale stone; exact assignment is approximate.",
+        "exact_internal_shape_edges": false,
+        "flat_even_albedo": "Partial: highlights and recess shading remain.",
+        "exact_silhouette": false
+      },
+      "output_sha256": "f4b8cce16eea7d600cc301a6a086b9554fd56bdc2a9d02354a1b3b01b9efc4fe",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match_request": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "opaque_bbox_alpha_threshold_128": [
+          81,
+          79,
+          1175,
+          1175
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_diagnostic_only": 0.985501498073905,
+        "normalized_diagnostic_note": "Read-only normalized coordinate sampling for comparison; saved pixels and alpha were not resized or modified.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an orthographic TOP albedo texture-source image of the Hesper Kreegan work camp collar-node decoration.\n\nInput 1 guide_top.png is the 1024x1024 EDIT TARGET and absolute geometry authority.\nInput 2 design_reference.png is the approved colour/material authority only, not a camera or layout reference.\nInput 3 concept_crop.png is supporting original concept only.\n\nREQUIRED OUTPUT: one native 1024 x 1024 RGBA PNG. Keep the edit target canvas unchanged at 1024 pixels square, with genuinely transparent background. Colour the existing grey model surfaces directly in place. Copy the target's alpha and every outline and interior shape edge EXACTLY. All existing shapes, holes, faceted rubble stones, thin cable paths, overlaps and armour positions are fixed. Full guide bounds are x66..957 and y66..957. No geometry changes, smoothing, added parts, cropping, resizing, reframing or perspective.\n\nRetain the guide's true straight-down orthographic TOP view: a square pale stone plinth with scattered angular stones around its perimeter, radial resin cables running across the plinth and the dense tangled crown of the pillar near the centre. Preserve the exact complex top-view occlusions from the grey guide; do not turn it into a three-quarter or front view. Do not invent a top-facing lens panel.\n\nPaint material surfaces using the reference: dark black-violet resin with dark red veins; white ceramic armour plates; muted brushed gold fittings and armour borders; saturated violet-red magenta lens/seam colours wherever visible; cracked pale grey stone plinth and pale grey rubble. All colour detail must remain within the guide's existing shapes.\n\nThis is PURE ALBEDO: flat even shadowless light from the viewer, NO baked shadows or ambient occlusion, NO strong specular highlights, reflections, rim light or directional gradients. Remove the large grey shadow across the lower-left part of the guide's plinth: that stone must have the same pale grey base colour as the other exposed stone. Deep recesses have their actual material colour, not black lighting. Glossy resin and brushed metal are material identities, conveyed by colour and fine texture without lighting highlights. Glowing seams, lenses and orange sacs use their intrinsic bright colour with no bloom or light spill onto other materials. No background, ground plane, text or watermark. Exact guide registration at 1024 x 1024.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "e6388d5bd45de3d2efa75fc695979ce6591ba10ce07ce67e81aace272d801366",
+          "role": "edit_target"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828",
+          "role": "material_authority"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5",
+          "role": "concept_reference"
+        }
+      ],
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254; perimeter and internal edges differ; excess ceramic material on cable shapes and baked highlights/shading. Use the one allowed correction.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2073-7e82-9105-e08aceb7402a/exec-b9d34475-6787-4f3b-bf75-ce32d745fd30.png",
+      "visual_checks": {
+        "materials_match_reference": "Broad palette matches; material assignment and shape interpretation vary.",
+        "exact_internal_shape_edges": false,
+        "flat_even_albedo": "Partial: highlights and recess shading remain.",
+        "exact_silhouette": false
+      },
+      "output_sha256": "30e9cd49dd52bfcabfe49277dd1579f6413542b421d83e6d6dc27771a6aa0ee7",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match_request": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "opaque_bbox_alpha_threshold_128": [
+          81,
+          81,
+          1173,
+          1176
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_diagnostic_only": 0.9839534887408062,
+        "normalized_diagnostic_note": "Read-only normalized coordinate sampling for comparison; saved pixels and alpha were not resized or modified.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Precise-object-edit, corrective generation for a game texture-source painting.\nOUTPUT: one transparent PNG, native resolution exactly 1024x1024 pixels. The input edit-target is 1024x1024; do not change this resolution. No enlargement to 1254x1254.\n\nImage 1 guide_top.png is the exact image to colour. Image 2 design_reference.png supplies material identity and palette only. Image 3 concept_crop.png is supporting design context only.\n\nKeep Image 1's exact TOP-DOWN orthographic projection, alpha silhouette, polygon outlines, cable intersections, central crown, individual perimeter stones, holes and square plinth edges in their original pixels. Paint inside the shapes already present. Preserve the angular low-poly geometry and every interior edge. Do not reconstruct geometry from the other images. Original bounds x=66..957 and y=66..957, unchanged framing and scale. No invented surfaces or outline extensions.\n\nMaterial assignment correction: the numerous long narrow curving and angular strips are BLACK-VIOLET RESIN CABLES, with subtle DARK RED veins. Keep these cables dark resin; do not turn long radial cables into white ceramic strips. Existing broad armour plates only are WHITE CERAMIC with restrained muted BRUSHED GOLD borders; narrow gold collars may be painted on cables without altering their outline. Stone square base and perimeter rubble are cracked PALE GREY stone with fine mineral grain. Existing visible seams/lenses may carry saturated violet-red magenta, and orange sacs their intrinsic orange. The top view does not show the front lens stack; do not invent a central top-facing lens.\n\nAlbedo correction: completely FLAT EVEN SHADOWLESS base colour, no glossy glints, no specular highlights, no bright bevels, no reflection, no directional gradients, no cast or contact shadow, no ambient occlusion darkening. Remove the grey guide's big lower-left shadow entirely. Exposed stone is uniformly pale in every quadrant. Resin cable colour is readable throughout, even in the centre. Preserve surface detail by pigment texture and veins, not light-and-shadow rendering. Emissive colour is confined inside its own shapes with zero bloom, halo or light cast on other surfaces.\n\nUse the exact same silhouette and every shape edge as Image 1. Transparent areas stay transparent. No background/floor, text or watermark. A raw 1024x1024 transparent albedo painting directly over the guide.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "e6388d5bd45de3d2efa75fc695979ce6591ba10ce07ce67e81aace272d801366",
+          "role": "edit_target"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828",
+          "role": "material_authority"
+        },
+        {
+          "file": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5",
+          "role": "concept_reference"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available top return within the one-correction limit; flatter resin and stone, and fewer ceramic cable surfaces than attempt 1. NOT fully compliant: native return is 1254x1254, silhouette/internal edges differ and some contact shading remains. Preserved unresized with original generated alpha.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2073-7e82-9105-e08aceb7402a/exec-f31b44c9-e71f-40ce-97f5-9243dd85d89d.png",
+      "visual_checks": {
+        "materials_match_reference": "Mostly: black-violet resin, red veins, white ceramic, gold fittings, magenta emissive seams/lenses and pale stone; exact assignment is approximate.",
+        "exact_internal_shape_edges": false,
+        "flat_even_albedo": "Improved; residual contact shading remains.",
+        "exact_silhouette": false
+      },
+      "output_sha256": "61639ea0ec6c4345bace034503541a93d80968497786372ac952ae381b836016",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match_request": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "opaque_bbox_alpha_threshold_128": [
+          82,
+          80,
+          1174,
+          1175
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou_diagnostic_only": 0.9826479176393318,
+        "normalized_diagnostic_note": "Read-only normalized coordinate sampling for comparison; saved pixels and alpha were not resized or modified.",
+        "byte_identical_to_tool_return": true
+      }
+    }
+  ]
+}

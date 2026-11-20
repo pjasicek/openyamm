@@ -1,0 +1,119 @@
+# Planning schema for agents, not an existing runtime/importer schema.
+id: myworld:dragon_cave
+kind: indoor
+target_world_or_mod: myworld
+native_version: 8
+reference_maps: [mm8:d48]
+intent: A small irregular dragon cave with two distinct house entrances and a guarded reward.
+assumptions:
+  - House entrances open dialogue interfaces; the exterior exit is separate.
+  - Reuse available reference texture keys; create original geometry.
+experience:
+  party_level: null # Choose from driver intent and reference balance; record decision.
+  traversal_minutes: null
+  mandatory_route: [arrival, main_cavern, reward, exterior_exit]
+  optional_routes: []
+art:
+  palette: [GCav1wal, GCav1flr]
+  shape: Irregular floor and sloping wall bands; no uniform vertical tube.
+  decorations: Sparse, purposefully placed.
+  prototype_catalogue_ids: [] # Approve a few measured textured prototypes before town-wide duplication.
+  house_variety: null # Record reference/generated ordinary-house instances, recurring forms and service assemblies.
+  door_size_units: null # For a Ravenshore house facade start at [128, 256]; cave mouths need their own reference.
+  window_policy: Use matched facade window panels; no crate textures.
+  chimneys: false # Driver’s requested Ravenshore vocabulary.
+  lighting: Inspect sector ambient and native lights in game with party torch off and on.
+houses:
+  - id: resident_a
+    dialogue_brief: null
+  - id: resident_b
+    dialogue_brief: null
+chests:
+  - id: guarded_reward
+    requested_quality: null
+    template_policy: null
+    trap_policy: null
+    refill_policy: null
+map_stats:
+  treasure_level: null
+  perception_difficulty: null
+  disarm_difficulty: null
+  trap_d20: null
+  refill_days: null
+  encounter_slots: []
+encounters: [] # Family/variant, placement, group/count and hostility.
+party_start:
+  anchor: party_default
+  position: null # Resolve in game units; do not silently use the origin.
+  facing_degrees: null
+arrival_anchors: [] # One per distinct incoming connection/local teleport; position, facing, clearance and owner.
+scripted_spawn_anchors: [] # Event-owned locations; summon count, activation and repeat/refill policy.
+loose_items: [] # Placed item/template markers; distinct from chest inventory and actor drops.
+unique_monsters: [] # Separate canonical definition, name, strength delta, unique item, persistence.
+mechanisms: [] # Moving geometry, controls, state graph, collision and save/load tests.
+secrets_and_traps: [] # Activation, discovery/highlight, effects, reset policy.
+travel: [] # Destination world/map, arrival/facing, return and boundary/local classification.
+regional_exit_scenery: [] # Per outdoor exit: travel trigger, terrain extent, continuing road, traversable floor, style (open straight/rolling or screened pass); screening optional.
+# Review the normal-game prompt view; continue to the final rendered terrain cell, with no terminal road cap.
+outdoor: # Fill only for outdoor projects.
+  calibration: level_generation/OUTDOOR_CALIBRATION.md
+  reference_district_type: null # Market, village lanes, rural cluster, compound; choose a comparable subset.
+  landform: null
+  sightline_screening: [] # Ridges, bends or buildings; inspect at eye height without changing draw distance.
+  intentional_open_spaces: [] # Court/forecourt/garden/working yard/countryside and the reason to keep it open.
+  wilderness_reference_population: null # Fixed actors / spawn markers + count range / conditional summons separately.
+  encounter_areas: [] # Family, variants/count, extent/orientation, purpose, quiet gaps and source of placement.
+  quiet_areas: [] # Town buffer, departure routes, exploration clearings, selected landmark/dungeon approaches.
+  entrance_guarding: [] # Guarded / nearby roaming / quiet; optional chest; active face and approach clearance.
+  scenery_coverage_samples: [] # Comparable usable land, local count/spacing and deliberate bare regions.
+  ponds: [] # Optional native-cell basin, local water level, supported shore/dirt collar, role and access.
+  bridges: [] # Whole-span terrain clearance, cross-sections, deck/rails/supports, bank landings and onward grades.
+  cave_terrain_contacts: [] # Cleft/flanks/collar, exposed active mouth, grounded arrival and optional nearby reward.
+  decoration_groups: [] # Role, biome palette, extent, seed, requested/accepted count, exclusions and ground source.
+  decoration_reference_patches: [] # World/map + entity indices/extent; local material, use, palette and comparable density.
+  local_scenery_palettes: [] # By subregion: native descriptor keys, appearance/scale, large/low/prop layers and exclusions.
+  deliberate_open_spaces: [] # Extent + purpose (view, pasture, combat, square, dune, clearing); what supplies visual interest.
+  scenery_route_views: [] # Arrival, town/country edge, optional site and return; identify the layer missing in bland patches.
+  ground_detail_variants: [] # Native lookup, verified artwork/corners, sparse frequency by material/district.
+  soil_patches: [] # Purpose and broad shape; distinct from fine embedded-stone texture detail.
+  scenery_heatmaps: [] # Common kernel/scale, explicit town membership, land mask and size/palette caveats.
+  buff_pedestals: [] # Usually 1-2 if fitting; native appearance/effect/light and clear standing area.
+  stat_challenges: [] # Optional 0-2; tier/stat rule, per-character reward and shared/native versus custom completion.
+  humanoid_camp_settings: [] # Fire/cauldron/supplies; native interactive behavior; preserve combat/loot space.
+  rough_town_pockets: [] # Occasional rocks/refuse near appropriate back/service plots, never all streets.
+  terrain_banks: []
+  roads: []
+  settlements: []
+  sketch_reference: null # Record color meanings, landmark relationships, road graph and intended open spaces.
+  raised_sites: [] # Pad elevation, building orientation, approach grade and adjacent rewards.
+  settlement_density: null # Reference district/membership, physical assemblies, gap percentiles, coverage,
+                           # opposing frontages and intentional open pockets; see SETTLEMENT_DENSITY.md.
+  road_exclusion_mask: null # Full well/fountain/prop footprint plus clearance stays outside the through-route.
+  building_service_doors: [] # Distinct logical door/event per service, even in a shared building.
+  water_and_hazards: []
+  quantization_error_budget: null
+acceptance:
+  - Every requested interaction has native bindings and an implemented Lua handler.
+  - Visual reference match at measured scale, plus clear planned mandatory routes and arrivals.
+  - One quick native readback and static face-event-target wiring summary.
+  - No manual edits to compiled BLV/ODM are needed.
+  - All applicable review gates pass with recorded evidence.
+
+validation:
+  default: visual_first_with_quick_wiring
+  outdoor_scenarios: false # Enable only for new runtime behavior, observed failure or driver request.
+  extended_balance_refill_performance_audits: false
+
+# Calibrate in addition to footprint density: see FRONTAGE_AND_TILE_CALIBRATION.md.
+street_frontage_review: # Outdoor only; values are project choices, not native importer fields.
+  ordinary_approach: street_frontage # no automatic paved spur for every home
+  dedicated_lane_sites: [] # align final native road segment with transformed door normal
+  setback_measurement: null # Painted edge, continuous centerline or nearest cell center: state which.
+  door_to_street_center_units: [] # choose from reference district and driver feedback
+  dedicated_lane_lateral_error_max_units: 64
+  terrain_corner_art_verified: false # actual bitmap corners, not lookup dictionary assertions
+  incompatible_material_dirt_collars: true # e.g. rock/water and rock/road in MM8 grassland bank
+  intended_court_infill_sites: []
+  intended_local_garden_sites: [] # inspect accepted placements, not only global totals
+
+road_purpose_policy: Connect inhabited/built destinations and regional routes where appropriate; natural caves, monster camps and treasure normally remain off-road.

@@ -1,0 +1,32 @@
+output_dir: ../review/final
+settle_seconds: 2
+exit: true
+shots:
+  - name: dock_approach
+    position: [-1300, -10208, 160]
+    yaw: 0.0
+    pitch: 0.13
+  - name: ship_and_pier
+    position: [-900, -13200, 1650]
+    yaw: 0.8
+    pitch: -0.25
+  - name: hull_detail
+    position: [1400, -10208, 160]
+    yaw: 0.0
+    pitch: 0.0
+  - name: offshore
+    position: [5200, -11700, 1100]
+    yaw: 2.62
+    pitch: -0.12
+  - name: boarding_from_pier
+    position: [1470, -10208, 160]
+    yaw: 0.0
+    pitch: -0.20
+  - name: return_to_pier
+    position: [2016, -10208, 89]
+    yaw: 3.14159265
+    pitch: -0.10
+  - name: cabin_door
+    position: [2168, -10432, 89]
+    yaw: -1.57079633
+    pitch: 0.0

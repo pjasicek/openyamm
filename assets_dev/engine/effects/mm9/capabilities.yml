@@ -7,7 +7,7 @@ scope:
   spawnMode: one_shot
   looping: unsupported
   visibleDeformingModels: unsupported
-  actorBodyAnchors: unsupported
+  actorBodyAnchors: origin_fallback
   knownGlobalDifferences:
   - Native continuous-key loop behavior remains unresolved.
   - Legacy texture-stage state and source mip upload are approximated by PNG and generated
@@ -17,11 +17,10 @@ summary:
   recipes: 48
   componentKeys: 176
   statuses:
-    supported_one_shot: 36
-    unsupported: 12
+    supported_one_shot: 42
+    unsupported: 6
   blockers:
     missing_source_asset: 2
-    needs_body_anchors: 6
     needs_mesh_deformation: 6
 effects:
 - id: mm9:sparklies
@@ -58,7 +57,7 @@ effects:
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:skullcurse
   sourceName: spell-skullcurse
-  status: unsupported
+  status: supported_one_shot
   componentCount: 3
   componentTypes:
   - Model
@@ -68,16 +67,14 @@ effects:
   - model
   - sound
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
-  unpackagedResources:
-  - models/spells/headtwirl.abc
-  - sounds/spells/curse.wav
+  unpackagedResources: []
   bodyAnchors:
   - componentId: 23
     mode: 8
     anchor: tail_or_user_node_8
+  anchorFallback: origin
   models:
   - componentId: 22
     legacy: models/spells/headtwirl.abc
@@ -633,14 +630,13 @@ effects:
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:dragon_smoke
   sourceName: dragon smoke
-  status: unsupported
+  status: supported_one_shot
   componentCount: 2
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
@@ -650,18 +646,18 @@ effects:
   - componentId: 3
     mode: 9
     anchor: tail_or_user_node_9
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:redyeldots
   sourceName: redyeldots
-  status: unsupported
+  status: supported_one_shot
   componentCount: 2
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
@@ -671,18 +667,18 @@ effects:
   - componentId: 1
     mode: 3
     anchor: right_hand
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:greenyeldots
   sourceName: greenyeldots
-  status: unsupported
+  status: supported_one_shot
   componentCount: 2
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
@@ -692,18 +688,18 @@ effects:
   - componentId: 1
     mode: 3
     anchor: right_hand
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:bluedots
   sourceName: bluedots
-  status: unsupported
+  status: supported_one_shot
   componentCount: 2
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
@@ -713,6 +709,7 @@ effects:
   - componentId: 1
     mode: 3
     anchor: right_hand
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:smoke
@@ -855,20 +852,20 @@ effects:
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:LichKingRes
   sourceName: LichKingRes
-  status: unsupported
+  status: supported_one_shot
   componentCount: 1
   componentTypes:
   - SpriteSystem
   capabilities:
   - sprite_emitter
-  blockers:
-  - needs_body_anchors
+  blockers: []
   missingResources: []
   unpackagedResources: []
   bodyAnchors:
   - componentId: 0
     mode: 8
     anchor: tail_or_user_node_8
+  anchorFallback: origin
   models: []
   looping: unsupported_until_native_continuous_key_semantics_are_implemented
 - id: mm9:redpops

@@ -1,0 +1,3 @@
+Saved run 1’s selected image as [00_three_quarter.png](level_generation/creatures/mm9_bjarni_claude/references_hd/00_three_quarter.png), unresized at 1536×1024. Both built-in generation returns are in `raw/`; prompts, input hashes and review notes are in `generation_runs.json`.
+
+Stopped before run 2. The allowed correction still left a translucent halo and tight margins, so the result does not fully meet the brief.

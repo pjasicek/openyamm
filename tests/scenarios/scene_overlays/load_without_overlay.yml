@@ -1,0 +1,27 @@
+# Saves and scene overlays, part 3 of 3 (no mount): the save of part 2, made with the overlay, resets the Abandoned
+# Temple again without it (map variable 41 from 5 back to 0, no overlay actor), the party kept. The control: part 1's
+# save, made and loaded without the overlay, keeps the map's state exactly (map variable 41 still 9).
+id: scene_overlays.load_without_overlay
+title: A save made with an overlay resets that map without it; one made without it is kept
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - load_game: {name: with_overlay, path: output/scene_overlays/with_overlay.oysav}
+  - assert:
+      map: 6d02.blv
+  - assert:
+      state_dump_map_var: {index: 41, value: 0}
+  - assert: {gold: 4321}
+  - assert: {qbit_set: [10001]}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {near: [-29280, -10496, 64], max: 0}
+  - load_game: {name: before_overlay, path: output/scene_overlays/before_overlay.oysav}
+  - assert:
+      map: 6d02.blv
+  - assert:
+      state_dump_map_var: {index: 41, value: 9}
+  - assert:
+      party_position: {x: -23900, y: -7552, radius: 64}

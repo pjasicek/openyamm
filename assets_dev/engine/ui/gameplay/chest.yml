@@ -51,6 +51,139 @@ elements:
       z_index: 190
       interactive: true
       notes: 14 x 9 nested inventory grid.
+    - id: ChestInventoryBag1
+      anchor: top_left
+      offset_x: 200
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '1'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only), in a shop or chest: opens bag 1 of the active
+        member in the grid below; the open bag is selected. As CharacterInventoryBag1.'
+    - id: ChestInventoryBag2
+      anchor: top_left
+      offset_x: 226
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '2'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only), in a shop or chest: opens bag 2 of the active
+        member in the grid below; the open bag is selected. As CharacterInventoryBag2.'
+    - id: ChestInventoryBag3
+      anchor: top_left
+      offset_x: 252
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '3'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only), in a shop or chest: opens bag 3 of the active
+        member in the grid below; the open bag is selected. As CharacterInventoryBag3.'
+    - id: ChestInventoryBag4
+      anchor: top_left
+      offset_x: 278
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: '4'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only), in a shop or chest: opens bag 4 of the active
+        member in the grid below; the open bag is selected. As CharacterInventoryBag4.'
+    - id: ChestInventoryCraftingPouch
+      anchor: top_left
+      offset_x: 310
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'Rulesets with pouches (ItemRules::hasPouches, MAW), over a shop''s or chest''s party inventory: shows the
+        party''s crafting materials in the grid below, one scrolling grid; again, the bags. As
+        CharacterInventoryCraftingTag; the hammer icon is drawn by the renderer.'
+    - id: ChestInventoryAlchemyPouch
+      anchor: top_left
+      offset_x: 336
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The same for the party''s potions, bottles and reagents; the potion icon is drawn by the renderer.'
+    - id: ChestInventoryQuestPouch
+      anchor: top_left
+      offset_x: 362
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The same for the party''s quest items (what is worth nothing and is no gear); the key icon is drawn by the
+        renderer.'
   - id: ChestTopBar
     anchor: top_center
     width: 640
@@ -161,6 +294,47 @@ elements:
     notes: Moves every chest item that fits into the party inventories, active member first; the rest stays.
     text:
       value: Take All
+      font: Fondamento
+      align_x: center
+      align_y: middle
+      color: '#e8d1a4'
+      scale: 0.41666665625
+  - id: ChestTakeGoldButton
+    anchor: top_right
+    offset_x: -42
+    offset_y: 220
+    width: 83
+    height: 30
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_close_normal
+      highlighted: obsidian_button_close_hover
+      pressed: obsidian_button_close_pressed
+    notes: Takes only the chest's gold; items stay.
+    text:
+      value: Take Gold
+      font: Fondamento
+      align_x: center
+      align_y: middle
+      color: '#e8d1a4'
+      scale: 0.41666665625
+  - id: ChestInventoryButton
+    anchor: top_right
+    offset_x: -42
+    offset_y: 258
+    width: 83
+    height: 30
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_close_normal
+      highlighted: obsidian_button_close_hover
+      pressed: obsidian_button_close_pressed
+    notes: Shows the party's packs in place of the chest, to put items in (the inventory key's ChestTransfer page);
+      reads Chest while they show and switches back. The renderer sets the label.
+    text:
+      value: Inventory
       font: Fondamento
       align_x: center
       align_y: middle

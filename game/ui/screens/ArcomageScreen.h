@@ -83,7 +83,7 @@ private:
         uint32_t colorAbgr = 0xffffffffu,
         float scale = 1.0f);
     void updateHumanInput(const LogicalLayout &layout, const std::vector<HandCardPlacement> &handPlacements);
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     void updateAndroidHumanInput(
         const LogicalLayout &layout,
         const std::vector<HandCardPlacement> &handPlacements);
@@ -92,6 +92,7 @@ private:
     void updateResultDelay(float deltaSeconds);
     void updateCardAnimation(float deltaSeconds);
     void updateFinishInput();
+    bool updateResignInput();
     bool hasCardAnimation() const;
     bool startCardAnimation(CardAnimationKind kind, size_t handIndex, const Rect &originRect);
     bool startTurnIfNeeded();
@@ -115,10 +116,12 @@ private:
     ArcomageAi m_ai;
     ArcomageState m_state = {};
     mutable std::optional<size_t> m_hoveredHandIndex;
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     std::optional<size_t> m_androidPressedHandIndex;
 #endif
     bool m_escapeLatch = false;
+    // Escape asked to resign; a second Escape confirms.
+    bool m_resignPrompt = false;
     bool m_shouldClose = false;
     std::optional<CardAnimation> m_cardAnimation;
     float m_aiDecisionDelaySeconds = 0.0f;

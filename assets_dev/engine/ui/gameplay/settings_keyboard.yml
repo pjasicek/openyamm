@@ -139,10 +139,31 @@ elements:
       scale: 0.43333
       pad_x: 8.5333
     notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardTabInterface
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0502
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Interface
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
   - id: SettingsKeyboardTabVideo
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 164.0501
+    offset_y: 203.5169
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -163,7 +184,7 @@ elements:
   - id: SettingsKeyboardTabAudio
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 203.5168
+    offset_y: 242.9836
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -184,9 +205,9 @@ elements:
   - id: SettingsKeyboardTabControls
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 242.9835
+    offset_y: 282.4503
     width: 97.6
-    height: 53.3333
+    height: 34.1333
     z_index: 10
     visible: true
     interactive: true
@@ -194,7 +215,7 @@ elements:
       default: hud_x2/menus/omenu_tab.png
       selected: hud_x2/menus/omenu_tab_selected.png
     text:
-      value: Mouse & Controls
+      value: Controls
       font: fondamento
       color: '#bfc1b2'
       align_x: left
@@ -205,7 +226,7 @@ elements:
   - id: SettingsKeyboardTabKeyboard
     anchor: top_left
     offset_x: 91.7333
-    offset_y: 301.6501
+    offset_y: 321.917
     width: 97.6
     height: 34.1333
     z_index: 10
@@ -218,6 +239,48 @@ elements:
       value: Keyboard
       font: fondamento
       color: '#f5dfae'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardTabGame
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Rules
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardTabUpdates
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 361.3837
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Updates
+      font: fondamento
+      color: '#bfc1b2'
       align_x: left
       align_y: middle
       scale: 0.43333
@@ -1814,7 +1877,7 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Toggle double speed
+        value: Toggle fast mode
         font: menu_arrus
         color: '#eadfc6'
         align_x: left

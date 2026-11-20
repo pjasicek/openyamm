@@ -1,0 +1,3189 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-09-26T17:31:13.831539+00:00",
+  "run_blockers": [],
+  "resolved_run_blockers": [
+    {
+      "kind": "workspace_capacity",
+      "observed_utc": "2026-09-13T09:20:30.215624+00:00",
+      "free_bytes": 35139239936,
+      "detail": "Workspace free space fell to approximately 220 MB; generation and exports paused to preserve checkpoints.",
+      "resume": "Free sufficient capacity on this filesystem, then follow MM7_RESUME.md and mm7_m250/README.md. Preserve all raw artwork and accepted checkpoints.",
+      "resolved_utc": "2026-09-13T09:21:18.275000+00:00",
+      "resolution": "Filesystem free capacity recovered to 33 GB; resumed generation."
+    }
+  ],
+  "scope": "All 72 MM7 native monster, peasant, animal and special actor families; staged only.",
+  "status_definitions": {
+    "pending": "No restoration checkpoint yet.",
+    "partial": "Work exists, completion gates not passed.",
+    "validated": "Complete coverage and package checks, with retained visual review.",
+    "blocked": "Concrete unresolved prerequisite or demonstrated defect; see blocker and resume."
+  },
+  "summary": {
+    "validated": 67,
+    "blocked": 5
+  },
+  "families": {
+    "mm7_m150": {
+      "label": "Angel A",
+      "project": "mm7_m150",
+      "descriptors": [
+        {
+          "id": 199,
+          "label": "Angel A"
+        },
+        {
+          "id": 200,
+          "label": "Angel B"
+        },
+        {
+          "id": 201,
+          "label": "Angel C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        151,
+        152,
+        153
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m150/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m154": {
+      "label": "Archer A",
+      "project": "mm7_m154",
+      "descriptors": [
+        {
+          "id": 202,
+          "label": "Archer A"
+        },
+        {
+          "id": 203,
+          "label": "Archer B"
+        },
+        {
+          "id": 204,
+          "label": "Archer C"
+        }
+      ],
+      "expected_referenced_frames": 105,
+      "native_palettes": [
+        155,
+        156,
+        157
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [
+        "m154ag0",
+        "m154ag1",
+        "m154ag2",
+        "m154ag3",
+        "m154ag4",
+        "m154ah0",
+        "m154ah1",
+        "m154ah2",
+        "m154ah3",
+        "m154ah4",
+        "m154fa0",
+        "m154fb0",
+        "m154fc0",
+        "m154fd0",
+        "m154fe0"
+      ],
+      "package": "level_generation/creatures/mm7_m154/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m158": {
+      "label": "Bat A",
+      "project": "mm7_m158",
+      "descriptors": [
+        {
+          "id": 205,
+          "label": "Bat A"
+        },
+        {
+          "id": 206,
+          "label": "Bat B"
+        },
+        {
+          "id": 207,
+          "label": "Bat C"
+        }
+      ],
+      "expected_referenced_frames": 116,
+      "native_palettes": [
+        159,
+        160,
+        161
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 116,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m158/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m162": {
+      "label": "Behemoth A",
+      "project": "mm7_m162",
+      "descriptors": [
+        {
+          "id": 208,
+          "label": "Behemoth A"
+        },
+        {
+          "id": 209,
+          "label": "Behemoth B"
+        },
+        {
+          "id": 210,
+          "label": "Behemoth C"
+        }
+      ],
+      "expected_referenced_frames": 115,
+      "native_palettes": [
+        163,
+        164,
+        165
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "package": "level_generation/creatures/mm7_m162/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [
+        "m162ne0",
+        "m162ne1",
+        "m162ne2",
+        "m162ne3",
+        "m162ne4"
+      ],
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m166": {
+      "label": "Beholder A",
+      "project": "mm7_m166",
+      "descriptors": [
+        {
+          "id": 211,
+          "label": "Beholder A"
+        },
+        {
+          "id": 212,
+          "label": "Beholder B"
+        },
+        {
+          "id": 213,
+          "label": "Beholder C"
+        }
+      ],
+      "expected_referenced_frames": 90,
+      "native_palettes": [
+        167,
+        168,
+        169
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [
+        "m166af0",
+        "m166af1",
+        "m166af2",
+        "m166af3",
+        "m166af4",
+        "m166ag0",
+        "m166ag1",
+        "m166ag2",
+        "m166ag3",
+        "m166ag4",
+        "m166ah0",
+        "m166ah1",
+        "m166ah2",
+        "m166ah3",
+        "m166ah4",
+        "m166ai0",
+        "m166ai1",
+        "m166ai2",
+        "m166ai3",
+        "m166ai4",
+        "m166fa0",
+        "m166fb0",
+        "m166fc0",
+        "m166fd0",
+        "m166ne0",
+        "m166ne1",
+        "m166ne2",
+        "m166ne3",
+        "m166ne4",
+        "m166nf0",
+        "m166nf1",
+        "m166nf2",
+        "m166nf3",
+        "m166nf4"
+      ],
+      "package": "level_generation/creatures/mm7_m166/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m170": {
+      "label": "Cleric Moon A",
+      "project": "mm7_m170",
+      "descriptors": [
+        {
+          "id": 214,
+          "label": "Cleric Moon A"
+        },
+        {
+          "id": 215,
+          "label": "Cleric Moon B"
+        },
+        {
+          "id": 216,
+          "label": "Cleric Moon C"
+        }
+      ],
+      "expected_referenced_frames": 109,
+      "native_palettes": [
+        37,
+        38,
+        39
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 109,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m170/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m174": {
+      "label": "Cleric Sun A",
+      "project": "mm7_m174",
+      "descriptors": [
+        {
+          "id": 217,
+          "label": "Cleric Sun A"
+        },
+        {
+          "id": 218,
+          "label": "Cleric Sun B"
+        },
+        {
+          "id": 219,
+          "label": "Cleric Sun C"
+        }
+      ],
+      "expected_referenced_frames": 114,
+      "native_palettes": [
+        40,
+        41,
+        42
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [
+        "m174dd0",
+        "m174we0",
+        "m174we1",
+        "m174we2",
+        "m174we3",
+        "m174we4"
+      ],
+      "package": "level_generation/creatures/mm7_m174/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m178": {
+      "label": "Devil A",
+      "project": "mm7_m178",
+      "descriptors": [
+        {
+          "id": 220,
+          "label": "Devil A"
+        },
+        {
+          "id": 221,
+          "label": "Devil B"
+        },
+        {
+          "id": 222,
+          "label": "Devil C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        44,
+        45,
+        46
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m178/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m182": {
+      "label": "ADragon A",
+      "project": "mm7_m182",
+      "descriptors": [
+        {
+          "id": 223,
+          "label": "ADragon A"
+        },
+        {
+          "id": 224,
+          "label": "ADragon B"
+        },
+        {
+          "id": 225,
+          "label": "ADragon C"
+        }
+      ],
+      "expected_referenced_frames": 100,
+      "native_palettes": [
+        183,
+        184,
+        185
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 107,
+      "unreferenced_native_frames": [
+        "m182fa0",
+        "m182fb0",
+        "m182fc0",
+        "m182fd0",
+        "m182fe0",
+        "m182ff0",
+        "m182fg0"
+      ],
+      "package": "level_generation/creatures/mm7_m182/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m186": {
+      "label": "Dragonfly A",
+      "project": "mm7_m186",
+      "descriptors": [
+        {
+          "id": 226,
+          "label": "Dragonfly A"
+        },
+        {
+          "id": 227,
+          "label": "Dragonfly B"
+        },
+        {
+          "id": 228,
+          "label": "Dragonfly C"
+        }
+      ],
+      "expected_referenced_frames": 117,
+      "native_palettes": [
+        187,
+        188,
+        189
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 125,
+      "unreferenced_native_frames": [
+        "m186ah0",
+        "m186ah4",
+        "m186dg0",
+        "m186nh0",
+        "m186nh1",
+        "m186nh2",
+        "m186nh3",
+        "m186nh4"
+      ],
+      "package": "level_generation/creatures/mm7_m186/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m190": {
+      "label": "Dwarf A",
+      "project": "mm7_m190",
+      "descriptors": [
+        {
+          "id": 229,
+          "label": "Dwarf A"
+        },
+        {
+          "id": 230,
+          "label": "Dwarf B"
+        },
+        {
+          "id": 231,
+          "label": "Dwarf C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        191,
+        192,
+        193
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m190/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m508": {
+      "label": "Elemental Air A",
+      "project": "mm7_m508",
+      "descriptors": [
+        {
+          "id": 232,
+          "label": "Elemental Air A"
+        },
+        {
+          "id": 233,
+          "label": "Elemental Air B"
+        },
+        {
+          "id": 234,
+          "label": "Elemental Air C"
+        }
+      ],
+      "expected_referenced_frames": 116,
+      "native_palettes": [
+        508
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 136,
+      "unreferenced_native_frames": [
+        "m508da1",
+        "m508da2",
+        "m508da3",
+        "m508da4",
+        "m508db1",
+        "m508db2",
+        "m508db3",
+        "m508db4",
+        "m508dc1",
+        "m508dc2",
+        "m508dc3",
+        "m508dc4",
+        "m508dd1",
+        "m508dd2",
+        "m508dd3",
+        "m508dd4",
+        "m508de1",
+        "m508de2",
+        "m508de3",
+        "m508de4"
+      ],
+      "package": "level_generation/creatures/mm7_m508/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m198": {
+      "label": "Elemental Earth A",
+      "project": "mm7_m198",
+      "descriptors": [
+        {
+          "id": 235,
+          "label": "Elemental Earth A"
+        },
+        {
+          "id": 236,
+          "label": "Elemental Earth B"
+        },
+        {
+          "id": 237,
+          "label": "Elemental Earth C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        504
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "sampling_repair_completed_frames": 35,
+      "sampling_repair_remaining_frames": [],
+      "sampling_repair_checkpoint": "review/sampling_repair_acceptance.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "package": "level_generation/creatures/mm7_m198/manifest.json"
+    },
+    "mm7_m202": {
+      "label": "Elemental Fire A",
+      "project": "mm7_m202",
+      "descriptors": [
+        {
+          "id": 238,
+          "label": "Elemental Fire A"
+        },
+        {
+          "id": 239,
+          "label": "Elemental Fire B"
+        },
+        {
+          "id": 240,
+          "label": "Elemental Fire C"
+        }
+      ],
+      "expected_referenced_frames": 108,
+      "native_palettes": [
+        496
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 108,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m202/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m206": {
+      "label": "Elemental Light A",
+      "project": "mm7_m206",
+      "descriptors": [
+        {
+          "id": 241,
+          "label": "Elemental Light A"
+        },
+        {
+          "id": 242,
+          "label": "Elemental Light B"
+        },
+        {
+          "id": 243,
+          "label": "Elemental Light C"
+        }
+      ],
+      "expected_referenced_frames": 33,
+      "native_palettes": [
+        528
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 56,
+      "unreferenced_native_frames": [
+        "m206ab0",
+        "m206ah0",
+        "m206aj0",
+        "m206al0",
+        "m206an0",
+        "m206ar0",
+        "m206at0",
+        "m206db0",
+        "m206df0",
+        "m206dh0",
+        "m206dj0",
+        "m206dl0",
+        "m206dn0",
+        "m206dp0",
+        "m206wb0",
+        "m206wd0",
+        "m206wf0",
+        "m206wh0",
+        "m206wj0",
+        "m206wl0",
+        "m206wn0",
+        "m206wp0",
+        "m206wr0"
+      ],
+      "package": "level_generation/creatures/mm7_m206/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m210": {
+      "label": "Elemental Water A",
+      "project": "mm7_m210",
+      "descriptors": [
+        {
+          "id": 244,
+          "label": "Elemental Water A"
+        },
+        {
+          "id": 245,
+          "label": "Elemental Water B"
+        },
+        {
+          "id": 246,
+          "label": "Elemental Water C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        501,
+        502,
+        503
+      ],
+      "missing_sources": [],
+      "status": "blocked",
+      "resume": "Resolve image-service rejection; submit preserved standing_v2.txt with references/standing.png and raw/standing_v1.png. Review corrected dark underside fin and plain chest scales, record accepted v2. Reuse native preparation and continue 17 missing base batches, enhanced masks for three native palettes, processing/export/viewer/full review.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "blocker": "Identity correction rejected twice by image service: HTTP400 output moderation sexual. Native anatomy restoration is nonsexual; current top-middle tail fin has demonstrated wrong bright color. See generation.json request IDs.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m214": {
+      "label": "Elf Archer A",
+      "project": "mm7_m214",
+      "descriptors": [
+        {
+          "id": 247,
+          "label": "Elf Archer A"
+        },
+        {
+          "id": 248,
+          "label": "Elf Archer B"
+        },
+        {
+          "id": 249,
+          "label": "Elf Archer C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        215,
+        216,
+        217
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m214/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m218": {
+      "label": "Elf Spearman A",
+      "project": "mm7_m218",
+      "descriptors": [
+        {
+          "id": 250,
+          "label": "Elf Spearman A"
+        },
+        {
+          "id": 251,
+          "label": "Elf Spearman B"
+        },
+        {
+          "id": 252,
+          "label": "Elf Spearman C"
+        }
+      ],
+      "expected_referenced_frames": 119,
+      "native_palettes": [
+        50,
+        220,
+        221
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 119,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m218/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m222": {
+      "label": "Fighter Chain A",
+      "project": "mm7_m222",
+      "descriptors": [
+        {
+          "id": 253,
+          "label": "Fighter Chain A"
+        },
+        {
+          "id": 254,
+          "label": "Fighter Chain B"
+        },
+        {
+          "id": 255,
+          "label": "Fighter Chain C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        223,
+        224,
+        225
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "sampling_repair_completed_frames": 16,
+      "sampling_repair_remaining_frames": [],
+      "sampling_repair_checkpoint": "review/sampling_repair_acceptance.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "package": "level_generation/creatures/mm7_m222/manifest.json"
+    },
+    "mm7_m226": {
+      "label": "Fighter Leather A",
+      "project": "mm7_m226",
+      "descriptors": [
+        {
+          "id": 256,
+          "label": "Fighter Leather A"
+        },
+        {
+          "id": 257,
+          "label": "Fighter Leather B"
+        },
+        {
+          "id": 258,
+          "label": "Fighter Leather C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        52,
+        228,
+        229
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m226/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m230": {
+      "label": "Fighter Plate A",
+      "project": "mm7_m230",
+      "descriptors": [
+        {
+          "id": 259,
+          "label": "Fighter Plate A"
+        },
+        {
+          "id": 260,
+          "label": "Fighter Plate B"
+        },
+        {
+          "id": 261,
+          "label": "Fighter Plate C"
+        }
+      ],
+      "expected_referenced_frames": 114,
+      "native_palettes": [
+        54,
+        55,
+        233
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "package": "level_generation/creatures/mm7_m230/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 114,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m234": {
+      "label": "Gargoyle A",
+      "project": "mm7_m234",
+      "descriptors": [
+        {
+          "id": 262,
+          "label": "Gargoyle A"
+        },
+        {
+          "id": 263,
+          "label": "Gargoyle B"
+        },
+        {
+          "id": 264,
+          "label": "Gargoyle C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        235,
+        236,
+        237
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m234/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m238": {
+      "label": "Genie A",
+      "project": "mm7_m238",
+      "descriptors": [
+        {
+          "id": 265,
+          "label": "Genie A"
+        },
+        {
+          "id": 266,
+          "label": "Genie B"
+        },
+        {
+          "id": 267,
+          "label": "Genie C"
+        }
+      ],
+      "expected_referenced_frames": 107,
+      "native_palettes": [
+        239,
+        240,
+        241
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 112,
+      "unreferenced_native_frames": [
+        "m238wf0",
+        "m238wf1",
+        "m238wf2",
+        "m238wf3",
+        "m238wf4"
+      ],
+      "package": "level_generation/creatures/mm7_m238/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m242": {
+      "label": "Ghost A",
+      "project": "mm7_m242",
+      "descriptors": [
+        {
+          "id": 268,
+          "label": "Ghost A"
+        },
+        {
+          "id": 269,
+          "label": "Ghost B"
+        },
+        {
+          "id": 270,
+          "label": "Ghost C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        243,
+        244,
+        245
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m242/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m246": {
+      "label": "Goblin A",
+      "project": "mm7_m246",
+      "descriptors": [
+        {
+          "id": 271,
+          "label": "Goblin A"
+        },
+        {
+          "id": 272,
+          "label": "Goblin B"
+        },
+        {
+          "id": 273,
+          "label": "Goblin C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        247,
+        248,
+        249
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m246/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m250": {
+      "label": "AGog A",
+      "project": "mm7_m250",
+      "descriptors": [
+        {
+          "id": 274,
+          "label": "AGog A"
+        },
+        {
+          "id": 275,
+          "label": "AGog B"
+        },
+        {
+          "id": 276,
+          "label": "AGog C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        613,
+        614,
+        615
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "package": "level_generation/creatures/mm7_m250/manifest.json"
+    },
+    "mm7_m254": {
+      "label": "Golem A",
+      "project": "mm7_m254",
+      "descriptors": [
+        {
+          "id": 277,
+          "label": "Golem A"
+        },
+        {
+          "id": 278,
+          "label": "Golem B"
+        },
+        {
+          "id": 279,
+          "label": "Golem C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        255,
+        256,
+        257
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m254/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m258": {
+      "label": "Griffin A",
+      "project": "mm7_m258",
+      "descriptors": [
+        {
+          "id": 280,
+          "label": "Griffin A"
+        },
+        {
+          "id": 281,
+          "label": "Griffin B"
+        },
+        {
+          "id": 282,
+          "label": "Griffin C"
+        }
+      ],
+      "expected_referenced_frames": 110,
+      "native_palettes": [
+        259,
+        260,
+        261
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 135,
+      "unreferenced_native_frames": [
+        "m258da1",
+        "m258da2",
+        "m258da3",
+        "m258da4",
+        "m258db1",
+        "m258db2",
+        "m258db3",
+        "m258db4",
+        "m258dc1",
+        "m258dc2",
+        "m258dc3",
+        "m258dc4",
+        "m258dd1",
+        "m258dd2",
+        "m258dd3",
+        "m258dd4",
+        "m258sa0",
+        "m258sa1",
+        "m258sa2",
+        "m258sa3",
+        "m258sa4",
+        "m258xa1",
+        "m258xa2",
+        "m258xa3",
+        "m258xa4"
+      ],
+      "package": "level_generation/creatures/mm7_m258/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m262": {
+      "label": "Harpy A",
+      "project": "mm7_m262",
+      "descriptors": [
+        {
+          "id": 283,
+          "label": "Harpy A"
+        },
+        {
+          "id": 284,
+          "label": "Harpy B"
+        },
+        {
+          "id": 285,
+          "label": "Harpy C"
+        }
+      ],
+      "expected_referenced_frames": 128,
+      "native_palettes": [
+        56,
+        263,
+        264
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 128,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m262/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m266": {
+      "label": "Hydra A",
+      "project": "mm7_m266",
+      "descriptors": [
+        {
+          "id": 286,
+          "label": "Hydra A"
+        },
+        {
+          "id": 287,
+          "label": "Hydra B"
+        },
+        {
+          "id": 288,
+          "label": "Hydra C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        57,
+        267,
+        269
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m266/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m270": {
+      "label": "Lich A",
+      "project": "mm7_m270",
+      "descriptors": [
+        {
+          "id": 289,
+          "label": "Lich A"
+        },
+        {
+          "id": 290,
+          "label": "Lich B"
+        },
+        {
+          "id": 291,
+          "label": "Lich C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        271,
+        272,
+        273
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m270/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m274": {
+      "label": "Mage A",
+      "project": "mm7_m274",
+      "descriptors": [
+        {
+          "id": 292,
+          "label": "Mage A"
+        },
+        {
+          "id": 293,
+          "label": "Mage B"
+        },
+        {
+          "id": 294,
+          "label": "Mage C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        275,
+        276,
+        277
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m274/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m278": {
+      "label": "Manticore A",
+      "project": "mm7_m278",
+      "descriptors": [
+        {
+          "id": 295,
+          "label": "Manticore A"
+        },
+        {
+          "id": 296,
+          "label": "Manticore B"
+        },
+        {
+          "id": 297,
+          "label": "Manticore C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        279,
+        280,
+        281
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m278/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m282": {
+      "label": "Medusa A",
+      "project": "mm7_m282",
+      "descriptors": [
+        {
+          "id": 298,
+          "label": "Medusa A"
+        },
+        {
+          "id": 299,
+          "label": "Medusa B"
+        },
+        {
+          "id": 300,
+          "label": "Medusa C"
+        }
+      ],
+      "expected_referenced_frames": 116,
+      "native_palettes": [
+        283,
+        284,
+        285
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [
+        "m282sa1",
+        "m282sa2",
+        "m282sa3",
+        "m282sa4"
+      ],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m282/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m286": {
+      "label": "AMinotaur A",
+      "project": "mm7_m286",
+      "descriptors": [
+        {
+          "id": 301,
+          "label": "AMinotaur A"
+        },
+        {
+          "id": 302,
+          "label": "AMinotaur B"
+        },
+        {
+          "id": 303,
+          "label": "AMinotaur C"
+        }
+      ],
+      "expected_referenced_frames": 116,
+      "native_palettes": [
+        287,
+        288,
+        289
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 116,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m286/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m290": {
+      "label": "Monk A",
+      "project": "mm7_m290",
+      "descriptors": [
+        {
+          "id": 304,
+          "label": "Monk A"
+        },
+        {
+          "id": 305,
+          "label": "Monk B"
+        },
+        {
+          "id": 306,
+          "label": "Monk C"
+        }
+      ],
+      "expected_referenced_frames": 119,
+      "native_palettes": [
+        291,
+        292,
+        293
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 119,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m290/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m294": {
+      "label": "Necromancer A",
+      "project": "mm7_m294",
+      "descriptors": [
+        {
+          "id": 307,
+          "label": "Necromancer A"
+        },
+        {
+          "id": 308,
+          "label": "Necromancer B"
+        },
+        {
+          "id": 309,
+          "label": "Necromancer C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        295,
+        296,
+        297
+      ],
+      "missing_sources": [],
+      "status": "blocked",
+      "resume": "Resolve descriptor actions and all family-owned native frames, compare palettes, prepare and inspect a compact identity sheet, then use built-in imagegen.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "blocker": "Image service rejected front-walk w_0_0 and w_0_1 at output moderation; exact prompts and request IDs retained in generation.json. Two new side-walk sheets retained."
+    },
+    "mm7_m298": {
+      "label": "Ooze A",
+      "project": "mm7_m298",
+      "descriptors": [
+        {
+          "id": 310,
+          "label": "Ooze A"
+        },
+        {
+          "id": 311,
+          "label": "Ooze B"
+        },
+        {
+          "id": 312,
+          "label": "Ooze C"
+        }
+      ],
+      "expected_referenced_frames": 111,
+      "native_palettes": [
+        299,
+        300,
+        301
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 121,
+      "unreferenced_native_frames": [
+        "m298wg0",
+        "m298wg1",
+        "m298wg2",
+        "m298wg3",
+        "m298wg4",
+        "m298wh0",
+        "m298wh1",
+        "m298wh2",
+        "m298wh3",
+        "m298wh4"
+      ],
+      "package": "level_generation/creatures/mm7_m298/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m312": {
+      "label": "Peasant Dwarf FemaleA A",
+      "project": "mm7_m312",
+      "descriptors": [
+        {
+          "id": 313,
+          "label": "Peasant Dwarf FemaleA A"
+        },
+        {
+          "id": 314,
+          "label": "Peasant Dwarf FemaleA B"
+        },
+        {
+          "id": 315,
+          "label": "Peasant Dwarf FemaleA C"
+        },
+        {
+          "id": 316,
+          "label": "Peasant Dwarf FemaleB A"
+        },
+        {
+          "id": 317,
+          "label": "Peasant Dwarf FemaleB B"
+        },
+        {
+          "id": 318,
+          "label": "Peasant Dwarf FemaleB C"
+        },
+        {
+          "id": 319,
+          "label": "Peasant Dwarf FemaleC A"
+        },
+        {
+          "id": 320,
+          "label": "Peasant Dwarf FemaleC B"
+        },
+        {
+          "id": 321,
+          "label": "Peasant Dwarf FemaleC C"
+        }
+      ],
+      "expected_referenced_frames": 84,
+      "native_palettes": [
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [
+        "m312aa0",
+        "m312aa1",
+        "m312aa2",
+        "m312aa3",
+        "m312aa4",
+        "m312ab0",
+        "m312ab1",
+        "m312ab2",
+        "m312ab3",
+        "m312ab4",
+        "m312ac0",
+        "m312ac1",
+        "m312ac2",
+        "m312ac3",
+        "m312ac4",
+        "m312ad0",
+        "m312ad1",
+        "m312ad2",
+        "m312ad3",
+        "m312ad4",
+        "m312ae0",
+        "m312ae1",
+        "m312ae2",
+        "m312ae3",
+        "m312ae4",
+        "m312af0",
+        "m312af1",
+        "m312af2",
+        "m312af3",
+        "m312af4",
+        "m312ag0",
+        "m312ag1",
+        "m312ag2",
+        "m312ag3",
+        "m312ag4",
+        "m312ah0",
+        "m312ah1",
+        "m312ah2",
+        "m312ah3",
+        "m312ah4"
+      ],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m312/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m302": {
+      "label": "Peasant Dwarf MaleA A",
+      "project": "mm7_m302",
+      "descriptors": [
+        {
+          "id": 322,
+          "label": "Peasant Dwarf MaleA A"
+        },
+        {
+          "id": 323,
+          "label": "Peasant Dwarf MaleA B"
+        },
+        {
+          "id": 324,
+          "label": "Peasant Dwarf MaleA C"
+        },
+        {
+          "id": 325,
+          "label": "Peasant Dwarf MaleB A"
+        },
+        {
+          "id": 326,
+          "label": "Peasant Dwarf MaleB B"
+        },
+        {
+          "id": 327,
+          "label": "Peasant Dwarf MaleB C"
+        },
+        {
+          "id": 328,
+          "label": "Peasant Dwarf MaleC A"
+        },
+        {
+          "id": 329,
+          "label": "Peasant Dwarf MaleC B"
+        },
+        {
+          "id": 330,
+          "label": "Peasant Dwarf MaleC C"
+        }
+      ],
+      "expected_referenced_frames": 80,
+      "native_palettes": [
+        58,
+        303,
+        304,
+        305,
+        307,
+        308,
+        309,
+        310,
+        311
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 84,
+      "unreferenced_native_frames": [
+        "m302nf1",
+        "m302nf2",
+        "m302nf3",
+        "m302nf4"
+      ],
+      "package": "level_generation/creatures/mm7_m302/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m322": {
+      "label": "Peasant Elf FemaleA A",
+      "project": "mm7_m322",
+      "descriptors": [
+        {
+          "id": 331,
+          "label": "Peasant Elf FemaleA A"
+        },
+        {
+          "id": 332,
+          "label": "Peasant Elf FemaleA B"
+        },
+        {
+          "id": 333,
+          "label": "Peasant Elf FemaleA C"
+        },
+        {
+          "id": 334,
+          "label": "Peasant Elf FemaleB A"
+        },
+        {
+          "id": 335,
+          "label": "Peasant Elf FemaleB B"
+        },
+        {
+          "id": 336,
+          "label": "Peasant Elf FemaleB C"
+        },
+        {
+          "id": 337,
+          "label": "Peasant Elf FemaleC A"
+        },
+        {
+          "id": 338,
+          "label": "Peasant Elf FemaleC B"
+        },
+        {
+          "id": 339,
+          "label": "Peasant Elf FemaleC C"
+        }
+      ],
+      "expected_referenced_frames": 79,
+      "native_palettes": [
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 84,
+      "unreferenced_native_frames": [
+        "m322nf0",
+        "m322nf1",
+        "m322nf2",
+        "m322nf3",
+        "m322nf4"
+      ],
+      "package": "level_generation/creatures/mm7_m322/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m332": {
+      "label": "Peasant Elf MaleA A",
+      "project": "mm7_m332",
+      "descriptors": [
+        {
+          "id": 340,
+          "label": "Peasant Elf MaleA A"
+        },
+        {
+          "id": 341,
+          "label": "Peasant Elf MaleA B"
+        },
+        {
+          "id": 342,
+          "label": "Peasant Elf MaleA C"
+        },
+        {
+          "id": 343,
+          "label": "Peasant Elf MaleB A"
+        },
+        {
+          "id": 344,
+          "label": "Peasant Elf MaleB B"
+        },
+        {
+          "id": 345,
+          "label": "Peasant Elf MaleB C"
+        },
+        {
+          "id": 346,
+          "label": "Peasant Elf MaleC A"
+        },
+        {
+          "id": 347,
+          "label": "Peasant Elf MaleC B"
+        },
+        {
+          "id": 348,
+          "label": "Peasant Elf MaleC C"
+        }
+      ],
+      "expected_referenced_frames": 79,
+      "native_palettes": [
+        59,
+        60,
+        61,
+        62,
+        333,
+        334,
+        339,
+        340,
+        341
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 84,
+      "unreferenced_native_frames": [
+        "m332nf0",
+        "m332nf1",
+        "m332nf2",
+        "m332nf3",
+        "m332nf4"
+      ],
+      "package": "level_generation/creatures/mm7_m332/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m342": {
+      "label": "Peasant Human1 FemaleA A",
+      "project": "mm7_m342",
+      "descriptors": [
+        {
+          "id": 349,
+          "label": "Peasant Human1 FemaleA A"
+        },
+        {
+          "id": 350,
+          "label": "Peasant Human1 FemaleA B"
+        },
+        {
+          "id": 351,
+          "label": "Peasant Human1 FemaleA C"
+        },
+        {
+          "id": 352,
+          "label": "Peasant Human1 FemaleB A"
+        },
+        {
+          "id": 353,
+          "label": "Peasant Human1 FemaleB B"
+        },
+        {
+          "id": 354,
+          "label": "Peasant Human1 FemaleB C"
+        },
+        {
+          "id": 355,
+          "label": "Peasant Human1 FemaleC A"
+        },
+        {
+          "id": 356,
+          "label": "Peasant Human1 FemaleC B"
+        },
+        {
+          "id": 357,
+          "label": "Peasant Human1 FemaleC C"
+        }
+      ],
+      "expected_referenced_frames": 84,
+      "native_palettes": [
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 84,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m342/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m352": {
+      "label": "Peasant Human1 MaleA A",
+      "project": "mm7_m352",
+      "descriptors": [
+        {
+          "id": 358,
+          "label": "Peasant Human1 MaleA A"
+        },
+        {
+          "id": 359,
+          "label": "Peasant Human1 MaleA B"
+        },
+        {
+          "id": 360,
+          "label": "Peasant Human1 MaleA C"
+        },
+        {
+          "id": 361,
+          "label": "Peasant Human1 MaleB A"
+        },
+        {
+          "id": 362,
+          "label": "Peasant Human1 MaleB B"
+        },
+        {
+          "id": 363,
+          "label": "Peasant Human1 MaleB C"
+        },
+        {
+          "id": 364,
+          "label": "Peasant Human1 MaleC A"
+        },
+        {
+          "id": 365,
+          "label": "Peasant Human1 MaleC B"
+        },
+        {
+          "id": 366,
+          "label": "Peasant Human1 MaleC C"
+        }
+      ],
+      "expected_referenced_frames": 83,
+      "native_palettes": [
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359,
+        360,
+        361
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 83,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m352/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m362": {
+      "label": "Peasant Human2 MaleA A",
+      "project": "mm7_m362",
+      "descriptors": [
+        {
+          "id": 367,
+          "label": "Peasant Human2 MaleA A"
+        },
+        {
+          "id": 368,
+          "label": "Peasant Human2 MaleA B"
+        },
+        {
+          "id": 369,
+          "label": "Peasant Human2 MaleA C"
+        },
+        {
+          "id": 370,
+          "label": "Peasant Human2 MaleB A"
+        },
+        {
+          "id": 371,
+          "label": "Peasant Human2 MaleB B"
+        },
+        {
+          "id": 372,
+          "label": "Peasant Human2 MaleB C"
+        },
+        {
+          "id": 373,
+          "label": "Peasant Human2 MaleC A"
+        },
+        {
+          "id": 374,
+          "label": "Peasant Human2 MaleC B"
+        },
+        {
+          "id": 375,
+          "label": "Peasant Human2 MaleC C"
+        }
+      ],
+      "expected_referenced_frames": 83,
+      "native_palettes": [
+        363,
+        364,
+        365,
+        366,
+        367,
+        368,
+        369,
+        370,
+        371
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 84,
+      "unreferenced_native_frames": [
+        "m362dd0"
+      ],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m362/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m372": {
+      "label": "Peasant Human2 FemaleA A",
+      "project": "mm7_m372",
+      "descriptors": [
+        {
+          "id": 376,
+          "label": "Peasant Human2 FemaleA A"
+        },
+        {
+          "id": 377,
+          "label": "Peasant Human2 FemaleA B"
+        },
+        {
+          "id": 378,
+          "label": "Peasant Human2 FemaleA C"
+        },
+        {
+          "id": 379,
+          "label": "Peasant Human2 FemaleB A"
+        },
+        {
+          "id": 380,
+          "label": "Peasant Human2 FemaleB B"
+        },
+        {
+          "id": 381,
+          "label": "Peasant Human2 FemaleB C"
+        },
+        {
+          "id": 382,
+          "label": "Peasant Human2 FemaleC A"
+        },
+        {
+          "id": 383,
+          "label": "Peasant Human2 FemaleC B"
+        },
+        {
+          "id": 384,
+          "label": "Peasant Human2 FemaleC C"
+        }
+      ],
+      "expected_referenced_frames": 85,
+      "native_palettes": [
+        373,
+        374,
+        375,
+        376,
+        377,
+        378
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 88,
+      "unreferenced_native_frames": [
+        "m372fa0",
+        "m372fb0",
+        "m372fc0"
+      ],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m372/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m382": {
+      "label": "Rat A",
+      "project": "mm7_m382",
+      "descriptors": [
+        {
+          "id": 385,
+          "label": "Rat A"
+        },
+        {
+          "id": 386,
+          "label": "Rat B"
+        },
+        {
+          "id": 387,
+          "label": "Rat C"
+        }
+      ],
+      "expected_referenced_frames": 119,
+      "native_palettes": [
+        383,
+        384,
+        385
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [
+        "m382ah0",
+        "m382ah1",
+        "m382ah2",
+        "m382ah3",
+        "m382ah4"
+      ],
+      "package": "level_generation/creatures/mm7_m382/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m386": {
+      "label": "Robot A",
+      "project": "mm7_m386",
+      "descriptors": [
+        {
+          "id": 388,
+          "label": "Robot A"
+        },
+        {
+          "id": 389,
+          "label": "Robot B"
+        },
+        {
+          "id": 390,
+          "label": "Robot C"
+        }
+      ],
+      "expected_referenced_frames": 136,
+      "native_palettes": [
+        386
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 180,
+      "unreferenced_native_frames": [
+        "m386da1",
+        "m386da2",
+        "m386da3",
+        "m386da4",
+        "m386db1",
+        "m386db2",
+        "m386db3",
+        "m386db4",
+        "m386dc1",
+        "m386dc2",
+        "m386dc3",
+        "m386dc4",
+        "m386dd1",
+        "m386dd2",
+        "m386dd3",
+        "m386dd4",
+        "m386fa1",
+        "m386fa2",
+        "m386fa3",
+        "m386fa4",
+        "m386fb1",
+        "m386fb2",
+        "m386fb3",
+        "m386fb4",
+        "m386fc1",
+        "m386fc2",
+        "m386fc3",
+        "m386fc4",
+        "m386fd1",
+        "m386fd2",
+        "m386fd3",
+        "m386fd4",
+        "m386fe1",
+        "m386fe2",
+        "m386fe3",
+        "m386fe4",
+        "m386ff1",
+        "m386ff2",
+        "m386ff3",
+        "m386ff4",
+        "m386xa1",
+        "m386xa2",
+        "m386xa3",
+        "m386xa4"
+      ],
+      "package": "level_generation/creatures/mm7_m386/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m390": {
+      "label": "Roc A",
+      "project": "mm7_m390",
+      "descriptors": [
+        {
+          "id": 391,
+          "label": "Roc A"
+        },
+        {
+          "id": 392,
+          "label": "Roc B"
+        },
+        {
+          "id": 393,
+          "label": "Roc C"
+        }
+      ],
+      "expected_referenced_frames": 108,
+      "native_palettes": [
+        553,
+        554,
+        555
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 125,
+      "unreferenced_native_frames": [
+        "m390da1",
+        "m390da2",
+        "m390da3",
+        "m390da4",
+        "m390db1",
+        "m390db2",
+        "m390db3",
+        "m390db4",
+        "m390ng0",
+        "m390ng1",
+        "m390ng2",
+        "m390ng3",
+        "m390ng4",
+        "m390xa1",
+        "m390xa2",
+        "m390xa3",
+        "m390xa4"
+      ],
+      "package": "level_generation/creatures/mm7_m390/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m394": {
+      "label": "Sea Monster A",
+      "project": "mm7_m394",
+      "descriptors": [
+        {
+          "id": 394,
+          "label": "Sea Monster A"
+        },
+        {
+          "id": 395,
+          "label": "Sea Monster B"
+        },
+        {
+          "id": 396,
+          "label": "Sea Monster C"
+        }
+      ],
+      "expected_referenced_frames": 149,
+      "native_palettes": [
+        395,
+        396,
+        397
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 158,
+      "unreferenced_native_frames": [
+        "m394ne0",
+        "m394ne1",
+        "m394ne2",
+        "m394ne3",
+        "m394ne4",
+        "m394sa1",
+        "m394sa2",
+        "m394sa3",
+        "m394sa4"
+      ],
+      "package": "level_generation/creatures/mm7_m394/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m398": {
+      "label": "Skeleton Warrior A",
+      "project": "mm7_m398",
+      "descriptors": [
+        {
+          "id": 397,
+          "label": "Skeleton Warrior A"
+        },
+        {
+          "id": 398,
+          "label": "Skeleton Warrior B"
+        },
+        {
+          "id": 399,
+          "label": "Skeleton Warrior C"
+        }
+      ],
+      "expected_referenced_frames": 114,
+      "native_palettes": [
+        63,
+        64,
+        399
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [
+        "m398ag0",
+        "m398ag1",
+        "m398ag2",
+        "m398ag3",
+        "m398ag4",
+        "m398ah0",
+        "m398ah1",
+        "m398ah2",
+        "m398ah3",
+        "m398ah4"
+      ],
+      "package": "level_generation/creatures/mm7_m398/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m402": {
+      "label": "Spider A",
+      "project": "mm7_m402",
+      "descriptors": [
+        {
+          "id": 400,
+          "label": "Spider A"
+        },
+        {
+          "id": 401,
+          "label": "Spider B"
+        },
+        {
+          "id": 402,
+          "label": "Spider C"
+        }
+      ],
+      "expected_referenced_frames": 114,
+      "native_palettes": [
+        66,
+        67,
+        68
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [
+        "m402ag0",
+        "m402ag1",
+        "m402ag2",
+        "m402ag3",
+        "m402ag4",
+        "m402ah0",
+        "m402ah1",
+        "m402ah2",
+        "m402ah3",
+        "m402ah4"
+      ],
+      "package": "level_generation/creatures/mm7_m402/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m406": {
+      "label": "Swordsman A",
+      "project": "mm7_m406",
+      "descriptors": [
+        {
+          "id": 403,
+          "label": "Swordsman A"
+        },
+        {
+          "id": 404,
+          "label": "Swordsman B"
+        },
+        {
+          "id": 405,
+          "label": "Swordsman C"
+        }
+      ],
+      "expected_referenced_frames": 115,
+      "native_palettes": [
+        70,
+        74,
+        409
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 116,
+      "unreferenced_native_frames": [
+        "m406ff0"
+      ],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m406/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m410": {
+      "label": "Thief A",
+      "project": "mm7_m410",
+      "descriptors": [
+        {
+          "id": 406,
+          "label": "Thief A"
+        },
+        {
+          "id": 407,
+          "label": "Thief B"
+        },
+        {
+          "id": 408,
+          "label": "Thief C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        84,
+        85,
+        86
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m410/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m414": {
+      "label": "Titan A",
+      "project": "mm7_m414",
+      "descriptors": [
+        {
+          "id": 409,
+          "label": "Titan A"
+        },
+        {
+          "id": 410,
+          "label": "Titan B"
+        },
+        {
+          "id": 411,
+          "label": "Titan C"
+        }
+      ],
+      "expected_referenced_frames": 116,
+      "native_palettes": [
+        91,
+        92,
+        93
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 116,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m414/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m418": {
+      "label": "Troglodyte A",
+      "project": "mm7_m418",
+      "descriptors": [
+        {
+          "id": 412,
+          "label": "Troglodyte A"
+        },
+        {
+          "id": 413,
+          "label": "Troglodyte B"
+        },
+        {
+          "id": 414,
+          "label": "Troglodyte C"
+        }
+      ],
+      "expected_referenced_frames": 112,
+      "native_palettes": [
+        95,
+        96,
+        97
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 116,
+      "unreferenced_native_frames": [
+        "m418nb1",
+        "m418nb2",
+        "m418nb3",
+        "m418nb4"
+      ],
+      "package": "level_generation/creatures/mm7_m418/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m422": {
+      "label": "Vampire A",
+      "project": "mm7_m422",
+      "descriptors": [
+        {
+          "id": 415,
+          "label": "Vampire A"
+        },
+        {
+          "id": 416,
+          "label": "Vampire B"
+        },
+        {
+          "id": 417,
+          "label": "Vampire C"
+        }
+      ],
+      "expected_referenced_frames": 118,
+      "native_palettes": [
+        99,
+        104,
+        105
+      ],
+      "missing_sources": [],
+      "status": "blocked",
+      "resume": "Preserve identity, masks and walking outputs. Do not bypass service rejections. Complete remaining work only after blocker resolved.",
+      "expected_all_native_frames": 150,
+      "unreferenced_native_frames": [
+        "m422da1",
+        "m422da2",
+        "m422da3",
+        "m422da4",
+        "m422db1",
+        "m422db2",
+        "m422db3",
+        "m422db4",
+        "m422dc1",
+        "m422dc2",
+        "m422dc3",
+        "m422dc4",
+        "m422fa1",
+        "m422fa2",
+        "m422fa3",
+        "m422fa4",
+        "m422fb1",
+        "m422fb2",
+        "m422fb3",
+        "m422fb4",
+        "m422fc1",
+        "m422fc2",
+        "m422fc3",
+        "m422fc4",
+        "m422fd1",
+        "m422fd2",
+        "m422fd3",
+        "m422fd4",
+        "m422xa1",
+        "m422xa2",
+        "m422xa3",
+        "m422xa4"
+      ],
+      "sampling_batches_to_replace": [],
+      "blocker": "Rear walking sheets w_3_0, w_3_1, w_4 rejected by image-service output moderation. Five selected sheets / 27 native poses retained; full family gate incomplete."
+    },
+    "mm7_m426": {
+      "label": "Warlock A",
+      "project": "mm7_m426",
+      "descriptors": [
+        {
+          "id": 418,
+          "label": "Warlock A"
+        },
+        {
+          "id": 419,
+          "label": "Warlock B"
+        },
+        {
+          "id": 420,
+          "label": "Warlock C"
+        }
+      ],
+      "expected_referenced_frames": 114,
+      "native_palettes": [
+        107,
+        108,
+        109
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 117,
+      "unreferenced_native_frames": [
+        "m426wh1",
+        "m426wh2",
+        "m426wh4"
+      ],
+      "sampling_batches_to_replace": [],
+      "package": "level_generation/creatures/mm7_m426/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation."
+    },
+    "mm7_m430": {
+      "label": "Wight A",
+      "project": "mm7_m430",
+      "descriptors": [
+        {
+          "id": 421,
+          "label": "Wight A"
+        },
+        {
+          "id": 422,
+          "label": "Wight B"
+        },
+        {
+          "id": 423,
+          "label": "Wight C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        111,
+        112,
+        113
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "package": "level_generation/creatures/mm7_m430/manifest.json"
+    },
+    "mm7_m434": {
+      "label": "AWyvern A",
+      "project": "mm7_m434",
+      "descriptors": [
+        {
+          "id": 424,
+          "label": "AWyvern A"
+        },
+        {
+          "id": 425,
+          "label": "AWyvern B"
+        },
+        {
+          "id": 426,
+          "label": "AWyvern C"
+        }
+      ],
+      "expected_referenced_frames": 115,
+      "native_palettes": [
+        114,
+        115,
+        116
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 115,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m434/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m438": {
+      "label": "Zombie A",
+      "project": "mm7_m438",
+      "descriptors": [
+        {
+          "id": 427,
+          "label": "Zombie A"
+        },
+        {
+          "id": 428,
+          "label": "Zombie B"
+        },
+        {
+          "id": 429,
+          "label": "Zombie C"
+        }
+      ],
+      "expected_referenced_frames": 120,
+      "native_palettes": [
+        118,
+        119,
+        123
+      ],
+      "missing_sources": [],
+      "status": "blocked",
+      "resume": "Retain 25 selected poses and exact prompts. Full pose, mask, edge and package acceptance gates remain incomplete. Resolve rejected batch before family completion.",
+      "expected_all_native_frames": 120,
+      "unreferenced_native_frames": [],
+      "blocker": "Image-service output moderation rejected w_1_1; no retry or bypass.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m442": {
+      "label": "Peasant Goblin female A A",
+      "project": "mm7_m442",
+      "descriptors": [
+        {
+          "id": 430,
+          "label": "Peasant Goblin female A A"
+        },
+        {
+          "id": 431,
+          "label": "Peasant Goblin female A B"
+        },
+        {
+          "id": 432,
+          "label": "Peasant Goblin female A C"
+        },
+        {
+          "id": 433,
+          "label": "Peasant Goblin female B A"
+        },
+        {
+          "id": 434,
+          "label": "Peasant Goblin female B B"
+        },
+        {
+          "id": 435,
+          "label": "Peasant Goblin female B C"
+        },
+        {
+          "id": 436,
+          "label": "Peasant Goblin female C A"
+        },
+        {
+          "id": 437,
+          "label": "Peasant Goblin female C B"
+        },
+        {
+          "id": 438,
+          "label": "Peasant Goblin female C C"
+        }
+      ],
+      "expected_referenced_frames": 84,
+      "native_palettes": [
+        139,
+        141,
+        145,
+        146,
+        147,
+        148,
+        149,
+        390,
+        391
+      ],
+      "missing_sources": [],
+      "status": "blocked",
+      "resume": "Reuse standing_v2 and w_1_0_v1; generation blocked by service. No bypass retry.",
+      "expected_all_native_frames": 84,
+      "unreferenced_native_frames": [],
+      "sampling_batches_to_replace": [],
+      "blocker": "Image-service output moderation rejected w_0_0,w_0_1,w_1_1. See generation.json. Corrected sickle identity and six oblique walking poses retained."
+    },
+    "mm7_7m452": {
+      "label": "Peasant Goblin Male A A",
+      "project": "mm7_7m452",
+      "descriptors": [
+        {
+          "id": 439,
+          "label": "Peasant Goblin Male A A"
+        },
+        {
+          "id": 440,
+          "label": "Peasant Goblin Male A B"
+        },
+        {
+          "id": 441,
+          "label": "Peasant Goblin Male A C"
+        },
+        {
+          "id": 442,
+          "label": "Peasant Goblin Male B A"
+        },
+        {
+          "id": 443,
+          "label": "Peasant Goblin Male B B"
+        },
+        {
+          "id": 444,
+          "label": "Peasant Goblin Male B C"
+        },
+        {
+          "id": 445,
+          "label": "Peasant Goblin Male C A"
+        },
+        {
+          "id": 446,
+          "label": "Peasant Goblin Male C B"
+        },
+        {
+          "id": 447,
+          "label": "Peasant Goblin Male C C"
+        }
+      ],
+      "expected_referenced_frames": 86,
+      "native_palettes": [
+        393,
+        453,
+        454,
+        455,
+        493,
+        494,
+        495,
+        497,
+        498
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 86,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_7m452/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m461": {
+      "label": "ATroll A",
+      "project": "mm7_m461",
+      "descriptors": [
+        {
+          "id": 448,
+          "label": "ATroll A"
+        },
+        {
+          "id": 449,
+          "label": "ATroll B"
+        },
+        {
+          "id": 450,
+          "label": "ATroll C"
+        }
+      ],
+      "expected_referenced_frames": 115,
+      "native_palettes": [
+        499,
+        505,
+        509
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 255,
+      "unreferenced_native_frames": [
+        "m461da1",
+        "m461da2",
+        "m461da3",
+        "m461da4",
+        "m461db1",
+        "m461db2",
+        "m461db3",
+        "m461db4",
+        "m461dc1",
+        "m461dc2",
+        "m461dc3",
+        "m461dc4",
+        "m461dd1",
+        "m461dd2",
+        "m461dd3",
+        "m461dd4",
+        "m461fa1",
+        "m461fa2",
+        "m461fa3",
+        "m461fa4",
+        "m461fb1",
+        "m461fb2",
+        "m461fb3",
+        "m461fb4",
+        "m461fc1",
+        "m461fc2",
+        "m461fc3",
+        "m461fc4",
+        "m461fd1",
+        "m461fd2",
+        "m461fd3",
+        "m461fd4",
+        "m461fe1",
+        "m461fe2",
+        "m461fe3",
+        "m461fe4",
+        "m461we0",
+        "m461we1",
+        "m461we2",
+        "m461we3",
+        "m461we4",
+        "m461xa1",
+        "m461xa2",
+        "m461xa3",
+        "m461xa4",
+        "m462aa0",
+        "m462aa1",
+        "m462aa2",
+        "m462aa3",
+        "m462aa4",
+        "m462ab0",
+        "m462ab1",
+        "m462ab2",
+        "m462ab3",
+        "m462ab4",
+        "m462ac0",
+        "m462ac1",
+        "m462ac2",
+        "m462ac3",
+        "m462ac4",
+        "m462ad0",
+        "m462ad1",
+        "m462ad2",
+        "m462ad3",
+        "m462ad4",
+        "m462ae0",
+        "m462ae1",
+        "m462ae2",
+        "m462ae3",
+        "m462ae4",
+        "m462af0",
+        "m462af1",
+        "m462af2",
+        "m462af3",
+        "m462af4",
+        "m462ag0",
+        "m462ag1",
+        "m462ag2",
+        "m462ag3",
+        "m462ag4",
+        "m462ah0",
+        "m462ah1",
+        "m462ah2",
+        "m462ah3",
+        "m462ah4",
+        "m462da0",
+        "m462db0",
+        "m462dc0",
+        "m462dd0",
+        "m462fa0",
+        "m462fb0",
+        "m462fc0",
+        "m462fd0",
+        "m462fe0",
+        "m462sa0",
+        "m462sa1",
+        "m462sa2",
+        "m462sa3",
+        "m462sa4",
+        "m462wa0",
+        "m462wa1",
+        "m462wa2",
+        "m462wa3",
+        "m462wa4",
+        "m462wb0",
+        "m462wb1",
+        "m462wb2",
+        "m462wb3",
+        "m462wb4",
+        "m462wc0",
+        "m462wc1",
+        "m462wc2",
+        "m462wc3",
+        "m462wc4",
+        "m462wd0",
+        "m462wd1",
+        "m462wd2",
+        "m462wd3",
+        "m462wd4",
+        "m462we0",
+        "m462we1",
+        "m462we2",
+        "m462we3",
+        "m462we4",
+        "m462wf0",
+        "m462wf1",
+        "m462wf2",
+        "m462wf3",
+        "m462wf4",
+        "m462wg0",
+        "m462wg1",
+        "m462wg2",
+        "m462wg3",
+        "m462wg4",
+        "m462wh0",
+        "m462wh1",
+        "m462wh2",
+        "m462wh3",
+        "m462wh4",
+        "m462xa0"
+      ],
+      "package": "level_generation/creatures/mm7_m461/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m479": {
+      "label": "Treant A",
+      "project": "mm7_m479",
+      "descriptors": [
+        {
+          "id": 451,
+          "label": "Treant A"
+        },
+        {
+          "id": 452,
+          "label": "Treant B"
+        },
+        {
+          "id": 453,
+          "label": "Treant C"
+        }
+      ],
+      "expected_referenced_frames": 31,
+      "native_palettes": [
+        530
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 33,
+      "unreferenced_native_frames": [
+        "m479de0",
+        "m479df0"
+      ],
+      "package": "level_generation/creatures/mm7_m479/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m470": {
+      "label": "Ghoul A",
+      "project": "mm7_m470",
+      "descriptors": [
+        {
+          "id": 454,
+          "label": "Ghoul A"
+        },
+        {
+          "id": 455,
+          "label": "Ghoul B"
+        },
+        {
+          "id": 456,
+          "label": "Ghoul C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        511,
+        517,
+        525
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 160,
+      "unreferenced_native_frames": [
+        "m470da1",
+        "m470da2",
+        "m470da3",
+        "m470da4",
+        "m470db1",
+        "m470db2",
+        "m470db3",
+        "m470db4",
+        "m470dc1",
+        "m470dc2",
+        "m470dc3",
+        "m470dc4",
+        "m470dd1",
+        "m470dd2",
+        "m470dd3",
+        "m470dd4",
+        "m470fa1",
+        "m470fa2",
+        "m470fa3",
+        "m470fa4",
+        "m470fb1",
+        "m470fb2",
+        "m470fb3",
+        "m470fb4",
+        "m470fc1",
+        "m470fc2",
+        "m470fc3",
+        "m470fc4",
+        "m470fd1",
+        "m470fd2",
+        "m470fd3",
+        "m470fd4",
+        "m470xa1",
+        "m470xa2",
+        "m470xa3",
+        "m470xa4"
+      ],
+      "package": "level_generation/creatures/mm7_m470/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m475": {
+      "label": "zBlasterGuy A",
+      "project": "mm7_m475",
+      "descriptors": [
+        {
+          "id": 457,
+          "label": "zBlasterGuy A"
+        },
+        {
+          "id": 458,
+          "label": "zBlasterGuy B"
+        },
+        {
+          "id": 459,
+          "label": "zBlasterGuy C"
+        }
+      ],
+      "expected_referenced_frames": 124,
+      "native_palettes": [
+        527
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 124,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m475/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_7m480": {
+      "label": "zUltra Dragon A",
+      "project": "mm7_7m480",
+      "descriptors": [
+        {
+          "id": 460,
+          "label": "zUltra Dragon A"
+        },
+        {
+          "id": 461,
+          "label": "zUltra Dragon B"
+        },
+        {
+          "id": 462,
+          "label": "zUltra Dragon C"
+        }
+      ],
+      "expected_referenced_frames": 172,
+      "native_palettes": [
+        531
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 172,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_7m480/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_7m500": {
+      "label": "zcat a",
+      "project": "mm7_7m500",
+      "descriptors": [
+        {
+          "id": 463,
+          "label": "zcat a"
+        },
+        {
+          "id": 464,
+          "label": "zcat b"
+        },
+        {
+          "id": 465,
+          "label": "zcat c"
+        }
+      ],
+      "expected_referenced_frames": 46,
+      "native_palettes": [
+        545
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 51,
+      "unreferenced_native_frames": [
+        "7m500we0",
+        "7m500we1",
+        "7m500we2",
+        "7m500we3",
+        "7m500we4"
+      ],
+      "package": "level_generation/creatures/mm7_7m500/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_7m504": {
+      "label": "zchicken a",
+      "project": "mm7_7m504",
+      "descriptors": [
+        {
+          "id": 466,
+          "label": "zchicken a"
+        },
+        {
+          "id": 467,
+          "label": "zchicken b"
+        },
+        {
+          "id": 468,
+          "label": "zchicken c"
+        }
+      ],
+      "expected_referenced_frames": 44,
+      "native_palettes": [
+        545
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 49,
+      "unreferenced_native_frames": [
+        "7m504we0",
+        "7m504we1",
+        "7m504we2",
+        "7m504we3",
+        "7m504we4"
+      ],
+      "package": "level_generation/creatures/mm7_7m504/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m509": {
+      "label": "zdog a",
+      "project": "mm7_m509",
+      "descriptors": [
+        {
+          "id": 469,
+          "label": "zdog a"
+        },
+        {
+          "id": 470,
+          "label": "zdog b"
+        },
+        {
+          "id": 471,
+          "label": "zdog c"
+        }
+      ],
+      "expected_referenced_frames": 45,
+      "native_palettes": [
+        545
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 50,
+      "unreferenced_native_frames": [
+        "m509we0",
+        "m509we1",
+        "m509we2",
+        "m509we3",
+        "m509we4"
+      ],
+      "package": "level_generation/creatures/mm7_m509/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    },
+    "mm7_m514": {
+      "label": "zrat a",
+      "project": "mm7_m514",
+      "descriptors": [
+        {
+          "id": 472,
+          "label": "zrat a"
+        },
+        {
+          "id": 473,
+          "label": "zrat b"
+        },
+        {
+          "id": 474,
+          "label": "zrat c"
+        }
+      ],
+      "expected_referenced_frames": 29,
+      "native_palettes": [
+        545
+      ],
+      "missing_sources": [],
+      "status": "validated",
+      "resume": "Reuse accepted package; rerun only stages affected by a demonstrated defect.",
+      "expected_all_native_frames": 29,
+      "unreferenced_native_frames": [],
+      "package": "level_generation/creatures/mm7_m514/manifest.json",
+      "evidence": "Existing package: full referenced frame coverage, current source hashes, atlas files, validation checks and retained visual-review evidence verified by inventory. See the project acceptance record or historical review documentation.",
+      "sampling_batches_to_replace": []
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+ "id": "20261009-2149-mm7-7out05-00",
+ "world": "mm7",
+ "maps": [
+  "7out05.odm"
+ ],
+ "created": "2026-10-09T19:49:13+00:00",
+ "textures": [
+  "mm7/hnp1er"
+ ],
+ "requests": {
+  "mm7/hnp1er": {
+   "name": "hnp1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, under a band of dark rough rubble stone along the top, with a column of dark rough rubble stone along the right edge; one even plaster tone with no square patches; the plaster shades softly and evenly toward the rubble post",
+   "notes": {
+    "2": "the left edge continues the neighbouring plaster wall seamlessly: the plaster is at full pale brightness right up to the first pixel column, with no shadow, vignette, groove or darkening along the left edge; it darkens only softly next to the right rubble post",
+    "3": "this picture is cut out of the middle of one long plaster wall: the plaster on the left continues straight on from the sharp plaster shown in the left margin with the same pale tone, so there is no line, groove, crack, shadow or border at the left edge at all",
+    "4": "one continuous mottled cream plaster face with no vertical lines, cracks or seams anywhere; it darkens only softly next to the right rubble post",
+    "5": "copy the composition exactly: a narrow column of dark rough rubble stone runs down the right edge and a band of rubble along the top; the cream plaster fills the rest as one continuous face with soft shading, with no lines or seams inside the plaster",
+    "6": "this picture is cut out of the middle of one long plaster wall: the plaster on the left continues straight on from the sharp plaster shown in the left margin with the same pale tone, so there is no line, groove, crack, shadow or border at the left edge at all"
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnp1b"
+    },
+    "2": {
+     "left": "mm7/hnp1b"
+    },
+    "3": {
+     "left": "mm7/hnp1b"
+    },
+    "4": {},
+    "5": {},
+    "6": {
+     "left": "mm7/hnp1b"
+    }
+   },
+   "ref_blur": {
+    "3": 2.0,
+    "6": 2.0
+   },
+   "roll": {
+    "4": [
+     94,
+     0
+    ],
+    "5": [
+     94,
+     0
+    ]
+   },
+   "pad": {
+    "6": [
+     32,
+     16
+    ]
+   },
+   "joint_tone": true
+  }
+ }
+}

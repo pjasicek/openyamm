@@ -13,6 +13,10 @@ namespace OpenYAMM::Game
 // Every bgfx view id the game uses outside 0 (sky or indoor world), 1 (outdoor world) and 2 (HUD) is declared here,
 // so a new view cannot silently share an id: the check below fails the build on a duplicate. A shared id merges
 // two passes (the pause menu drawn into the bloom target, 2026-10-16).
+// The indoor portal view's per-pass GPU timing (`portals gpu`, IndoorDebugPass): decorations, actors, open sky and
+// translucent, each in its own view right after the world view 0; unused (no draws) otherwise.
+constexpr uint16_t FirstIndoorDebugPassView = 220;
+constexpr size_t IndoorDebugPassViews = 4;
 // Bloom (lighting plan, phase 7): emitters drawn again into a glow target, then reduced and blurred.
 constexpr uint16_t WorldGlowView = 227;
 constexpr uint16_t BloomDownsampleView = 228;
@@ -27,14 +31,23 @@ constexpr size_t MaxWaterReflections = 2;
 constexpr uint16_t SkyImageView = 238;
 // Offscreen actor inspect portrait (ActorModelPreview), rendered before the HUD view that draws it.
 constexpr uint16_t ActorPortraitView = 239;
+// The second actor portrait: a speaking MM9 actor's head and shoulders (ActorModelPreview, ActorPortraitKind::Talk).
+constexpr uint16_t ActorTalkPortraitView = 243;
 // MenuDesignScreen menus (pause, settings, save and load), drawn after the world and the HUD.
 constexpr uint16_t MenuDesignView = 240;
+// Screen-space reflections of surface materials: the finished world's colour and positions at half resolution, which
+// the next frame's smooth faces trace (CinematicGrading, devdocs/SURFACE_MATERIALS_PLAN.md).
+constexpr uint16_t ReflectionHistoryColorView = 241;
+constexpr uint16_t ReflectionHistoryPositionView = 242;
 constexpr uint16_t AmbientOcclusionDepthView = 244;
 constexpr uint16_t AmbientOcclusionView = 245;
 constexpr uint16_t AmbientOcclusionBlurView = 246;
 constexpr uint16_t AmbientOcclusionCompositeView = 247;
 constexpr uint16_t WorldTransparentView = 248;
 constexpr uint16_t WorldGradingView = 249;
+// The prototype first-person view model (FirstPersonViewModel): drawn into the finished world target with its own
+// depth and projection, after every world pass (AO, bloom, reflections) and before the grading.
+constexpr uint16_t FirstPersonViewModelView = 251;
 // The debug ImGui overlay, the loading screen's completion readback and the loading screen itself.
 constexpr uint16_t DebugImGuiView = 250;
 constexpr uint16_t LoadingReadbackView = 253;
@@ -56,9 +69,14 @@ constexpr bool uniqueGameViewIds()
     {
         views[count++] = view;
     }
-    for (uint16_t view : {SkyImageView, ActorPortraitView, MenuDesignView, AmbientOcclusionDepthView,
+    for (uint16_t view = FirstIndoorDebugPassView; view < FirstIndoorDebugPassView + IndoorDebugPassViews; ++view)
+    {
+        views[count++] = view;
+    }
+    for (uint16_t view : {SkyImageView, ActorPortraitView, ActorTalkPortraitView, MenuDesignView,
+             ReflectionHistoryColorView, ReflectionHistoryPositionView, AmbientOcclusionDepthView,
              AmbientOcclusionView, AmbientOcclusionBlurView, AmbientOcclusionCompositeView, WorldTransparentView,
-             WorldGradingView, DebugImGuiView, LoadingReadbackView, LoadingOverlayView})
+             WorldGradingView, FirstPersonViewModelView, DebugImGuiView, LoadingReadbackView, LoadingOverlayView})
     {
         views[count++] = view;
     }
@@ -209,10 +227,10 @@ inline WaterReflectionScissor waterReflectionScissor(const float *pViewProjectio
     return {uint16_t(left), uint16_t(top), uint16_t(right - left), uint16_t(bottom - top)};
 }
 
-constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool grading, bool ambientOcclusion = false,
-    bool bloom = false)
+constexpr std::array<uint16_t, FirstPersonViewModelView + 1> worldRenderViewOrder(bool grading, bool ambientOcclusion = false,
+    bool bloom = false, bool reflections = false)
 {
-    std::array<uint16_t, WorldGradingView + 1> order = {};
+    std::array<uint16_t, FirstPersonViewModelView + 1> order = {};
     size_t index = 0;
     for (uint16_t view = FirstSunShadowView; view < FirstSunShadowView + SunShadowViews; ++view)
     {
@@ -224,7 +242,12 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
     }
     order[index++] = SkyImageView;
     order[index++] = ActorPortraitView;
+    order[index++] = ActorTalkPortraitView;
     order[index++] = 0;
+    for (uint16_t view = FirstIndoorDebugPassView; view < FirstIndoorDebugPassView + IndoorDebugPassViews; ++view)
+    {
+        order[index++] = view;
+    }
     order[index++] = 1;
     if (ambientOcclusion)
     {
@@ -240,19 +263,30 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
             order[index++] = view;
         }
     }
+    // Before the presentation: the backbuffer stays the last bound target (bgfx's OpenGL screenshots read it).
+    if (reflections)
+    {
+        order[index++] = ReflectionHistoryColorView;
+        order[index++] = ReflectionHistoryPositionView;
+    }
+    order[index++] = FirstPersonViewModelView;
     if (grading)
     {
         order[index++] = WorldGradingView;
     }
-    for (uint16_t view = 2; view <= WorldGradingView; ++view)
+    for (uint16_t view = 2; view <= FirstPersonViewModelView; ++view)
     {
         if ((view < FirstSunShadowView || view >= FirstSunShadowView + SunShadowViews)
             && (view < FirstWaterReflectionView || view >= FirstWaterReflectionView + MaxWaterReflections * 2)
             && view != SkyImageView
             && view != ActorPortraitView
+            && view != ActorTalkPortraitView
+            && view != FirstPersonViewModelView
+            && (view < FirstIndoorDebugPassView || view >= FirstIndoorDebugPassView + IndoorDebugPassViews)
             && (!grading || view != WorldGradingView)
             && (!ambientOcclusion || view < AmbientOcclusionDepthView || view > WorldTransparentView)
-            && (!bloom || view < WorldGlowView || view > BloomBlurVerticalView))
+            && (!bloom || view < WorldGlowView || view > BloomBlurVerticalView)
+            && (!reflections || (view != ReflectionHistoryColorView && view != ReflectionHistoryPositionView)))
         {
             order[index++] = view;
         }

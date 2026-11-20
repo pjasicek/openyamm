@@ -1,0 +1,12 @@
+output_dir: ../review/interaction
+exit: true
+steps:
+  - wait: 2
+  - capture: before_use
+  - action: use
+  - wait: 1.5
+  - capture: odyssey_dialogue
+  - key: Escape
+  - wait: 0.5
+  - expect: gameplay
+  - capture: returned_to_deck

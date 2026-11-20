@@ -1,0 +1,314 @@
+{
+  "assignment": "level_generation/props/items_claude/weapons_parallel_20261018/02_daggers_axes.txt",
+  "status": "complete_isolated_wip",
+  "replacements": [
+    "6ldagger4",
+    "7item015",
+    "7item016",
+    "7item017",
+    "7item018",
+    "7item019",
+    "7item020",
+    "7item021",
+    "7item022",
+    "7item221",
+    "7item289",
+    "dagger1",
+    "dagger2",
+    "dagger3",
+    "dagger4",
+    "dagger5",
+    "item021",
+    "item022",
+    "item023",
+    "item024",
+    "item025",
+    "item026",
+    "item027",
+    "item028",
+    "item029",
+    "item030",
+    "item238",
+    "item239",
+    "ldagger1",
+    "ldagger2",
+    "ldagger3",
+    "2haxe1",
+    "2haxe2",
+    "2haxe3",
+    "62haxe4",
+    "6axe7",
+    "6axe8",
+    "7item023",
+    "7item024",
+    "7item025",
+    "7item026",
+    "7item027",
+    "7item028",
+    "7item029",
+    "7item030",
+    "7item223",
+    "7item224",
+    "7item226",
+    "7item304",
+    "7item305",
+    "axe1",
+    "axe2",
+    "axe3",
+    "axe4",
+    "axe5",
+    "item031",
+    "item032",
+    "item033",
+    "item034",
+    "item035",
+    "item036",
+    "item037",
+    "item038",
+    "item039",
+    "item040",
+    "item240",
+    "item241",
+    "item248",
+    "item343"
+  ],
+  "count": 69,
+  "families": {
+    "daggers": 31,
+    "axes": 38
+  },
+  "routes": {
+    "blender_icons": 48,
+    "sculptural_meshy_icons": 21,
+    "meshy_designs": 17,
+    "hybrid_repairs": [
+      "7item017: closed continuous grip/collars",
+      "7item224: crescent head, socket and fork with sculptural handle/poll"
+    ]
+  },
+  "distinct_icon_designs": 61,
+  "reused_variants": [
+    [
+      "6ldagger4",
+      "ldagger3"
+    ],
+    [
+      "7item019",
+      "7item289"
+    ],
+    [
+      "2haxe3",
+      "62haxe4"
+    ],
+    [
+      "6axe7",
+      "axe5"
+    ],
+    [
+      "6axe8",
+      "axe4"
+    ],
+    [
+      "7item027",
+      "7item305"
+    ],
+    [
+      "7item030",
+      "7item304"
+    ],
+    [
+      "item040",
+      "item343"
+    ]
+  ],
+  "variant_basis": "Exact RGBA pixel identity and image dimensions.",
+  "meshy_jobs": {
+    "w02_6ldagger4_st_v1": {
+      "task_id": "01a14e9a-fde5-72fa-b9dd-c2f669cb5df7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item017_st_v1": {
+      "task_id": "01a14e9b-087b-73bb-8696-7b2c889502dc",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item018_st_v1": {
+      "task_id": "01a14e9b-11f6-748d-97b7-a13265b46695",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item019_st_v1": {
+      "task_id": "01a14e9b-1cad-7724-8b0a-d39426835c14",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item221_st_v1": {
+      "task_id": "01a14ea6-67b7-752a-9d19-842a3a6e9c06",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item025_st_v1": {
+      "task_id": "01a14ea6-7703-7201-8cd4-7f5addcfaaff",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item029_st_v1": {
+      "task_id": "01a14ea6-859e-752a-8c28-441cbd2cf579",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item030_st_v1": {
+      "task_id": "01a14ea6-9267-771b-9528-4c77e8969d6a",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item238_st_v1": {
+      "task_id": "01a14eb2-f877-7662-9a5f-59d4c0115159",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_6axe8_st_v1": {
+      "task_id": "01a14eb3-0066-7015-88ec-c3ce707508a9",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item239_st_v1": {
+      "task_id": "01a14eb3-528e-7191-bb40-23520ab02cab",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_6axe7_st_v1": {
+      "task_id": "01a14eb3-5cc7-7737-b034-4b2a06d6aef7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item223_st_v1": {
+      "task_id": "01a14eb9-95a5-701e-9b0e-4ee91c2fcb75",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item224_st_v1": {
+      "task_id": "01a14eb9-a317-7715-810c-b02aed329b25",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item226_st_v1": {
+      "task_id": "01a14eb9-b1a2-776d-9c0a-8a616ae1707c",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item248_st_v1": {
+      "task_id": "01a14eb9-c3e1-7410-a152-a4dd3b3d103d",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item028_st_v1": {
+      "task_id": "01a14ebe-4c44-71f5-9fa5-3e07a017160a",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    }
+  },
+  "meshy_credits_consumed": 85,
+  "triangles": {
+    "sum_lod0_per_icon": 159728,
+    "sum_all_lods_per_icon": 238520,
+    "min_lod0": 276,
+    "max_lod0": 5500,
+    "includes_matching_variants": true
+  },
+  "textures": {
+    "unique_texture_count": 55,
+    "unique_png_bytes": 27359735,
+    "unique_texture_pixels": 56688640
+  },
+  "lods": "17 sculptural designs / 21 icons: ~50% and ~25% static LODs, closed and grounded. 48 simple Blender icons retain one small base mesh.",
+  "validation": {
+    "geometry": "review/validation.json",
+    "authoring_geometry": "review/geometry_audit.json",
+    "pbr": "review/material_validation.json",
+    "normal_orientation": "review/normal_convention.log",
+    "cook": "review/cook_verification.json",
+    "install_receipts": "install_receipts.json",
+    "geometry_pass": 69,
+    "desktop_cook_pass": 69,
+    "normal_maps": "+Y; every measured correlation positive.",
+    "bindings_preserved": 69
+  },
+  "captures": {
+    "clay_and_pbr": [
+      "review/contact_01.png",
+      "review/contact_02.png",
+      "review/contact_03.png",
+      "review/contact_04.png",
+      "review/contact_05.png",
+      "review/contact_06.png",
+      "review/contact_07.png",
+      "review/contact_08.png",
+      "review/contact_09.png"
+    ],
+    "baseline": "review/baseline",
+    "outdoor": "review/native_final",
+    "outdoor_count": 86,
+    "outdoor_contact_sheets": [
+      "review/native_final_contact_01.jpg",
+      "review/native_final_contact_02.jpg",
+      "review/native_final_contact_03.jpg",
+      "review/native_final_contact_04.jpg",
+      "review/native_final_contact_05.jpg",
+      "review/native_final_contact_06.jpg",
+      "review/native_final_contact_07.jpg",
+      "review/native_final_contact_08.jpg"
+    ],
+    "indoor_ordinary": "review/native_indoor_final_ordinary/settled_weapons.png",
+    "indoor_low": "review/native_indoor_final_low/settled_weapons.png",
+    "lods": "review/lod_contact_final.jpg",
+    "logs": "review/native_runs"
+  },
+  "material_policy": "Binary mixed metal/dielectric masks; roughness by physical class independent of brightness; +Y micro-normal; texture RGB 30..243. Faceted gems use dielectric factors; stone roughness .83.",
+  "engine_driven_material_adjustments": [],
+  "paint_projection_coverage": {
+    "w02_6ldagger4": 0.9451285777468882,
+    "w02_7item017": 0.9304139979969196,
+    "w02_7item018": 0.9550966572343306,
+    "w02_7item019": 0.9878706512498664,
+    "w02_7item221": 0.7272683685281205,
+    "w02_item025": 0.9791731454025431,
+    "w02_item028": 0.8007030763361576,
+    "w02_item029": 0.9842942217930146,
+    "w02_item030": 0.9522468552464123,
+    "w02_item238": 0.8872714303351212,
+    "w02_item239": 0.7654726201973698,
+    "w02_6axe7": 0.8394931929458352,
+    "w02_6axe8": 0.860189863801883,
+    "w02_7item223": 0.9269553763753857,
+    "w02_7item224": 0.8183624488511174,
+    "w02_7item226": 0.8345923078766057,
+    "w02_item248": 0.6180771746239372
+  },
+  "projection_limit": "Six-view coverage 61.8\u201398.8%; occluded interiors receive nearest covered material texels. Every final above, three-quarter, low, back and underside render inspected.",
+  "suggested_binding_changes": [],
+  "failures": [],
+  "scope": "Owned GLBs, generated texture payloads and authoring project only. Shared bindings, engine/game, tables and settings unchanged. No release promotion.",
+  "not_checked": [
+    "Android/Vulkan rendering and release packaging; no engine build requested."
+  ],
+  "ownership_claim": "Own Meshy workspace claim released after final verification."
+}

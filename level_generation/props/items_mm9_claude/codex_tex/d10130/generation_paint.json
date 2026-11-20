@@ -1,0 +1,26 @@
+{
+  "prompt": "# Steel Boots: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10130/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: Ankle boots of polished steel plates over the foot and ankle, a riveted steel strap across the instep, and a soft reddish-brown leather rim at the top..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: Ankle boots of polished steel plates over the foot and ankle, a riveted steel strap across the instep, and a soft reddish-brown leather rim at the top.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10130/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nUse case: precise-object-edit. Input 1 is the exact edit target paint_mask_guide.png; input 2 design_reference.png is material/detail reference only; input 3 icon_x8.png is colour reference only. Preserve input 1 layout and orthographic silhouettes precisely. Output only the painted atlas, 1536x2048 transparent PNG. No labels. Lower half is categorical pure-colour mask, never a shaded render.\nCORRECTION: Exact guide silhouettes are critical. No scattered pixels, spray, noise, coloured speckles or fringe outside any object. Lower-half material masks must have clean hard boundaries and completely solid #FF0000 metal and #00FF00 leather, with NO dark seam lines, outlines, shading, grain or highlights. Keep open boot holes transparent in BOTH halves. Upper paint must be UNLIT diffuse albedo: grey steel colour with restrained surface detail, absolutely no white reflections or specular highlights. Preserve the original guide positions, sizes, contours and 3:4 sheet layout. Do not fill the transparent background.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10130/paint_mask_guide.png",
+      "sha256": "23bbd57f8d01ee5da082529c5d4e177e590e5e5caa354aec16b026c9260403a8"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10130/design_reference.png",
+      "sha256": "a7022a5eab0a04a372b612129d14f017553049c73f47f953491ffffa2b5b8547"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10130/icon_x8.png",
+      "sha256": "16b3d16b2bdf65c2cf49375274e2d6a666e13d8303d0b89548beda80857d8bc3"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-99b2-7812-924e-992e273c9585/exec-473e5582-d615-497a-bdba-9d6e7419a05a.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10130/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual review: mask contains stray pixels, seam shading and filled openings; does not fully meet brief. Raw tool output preserved."
+}

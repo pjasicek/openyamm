@@ -1,0 +1,2356 @@
+{
+  "status": "Reviewable design proposal",
+  "references": [
+    {
+      "path": "assets_dev/worlds/mm8/maps/out05.odm",
+      "sha256": "a57bb57f8afdf75d72077013161979e3aa13811bd187b9aeef6e95a28543c40c"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out05.scene.yml",
+      "sha256": "2a9e21fbb4aa9e6a33289bbb3bf5c040d0f942ca875b79acde4ae689e48b7a22"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/out05.lua",
+      "sha256": "4ef77e797cfc15f8e3352a36460f32be73f3ae014fab7369a54e378355746755"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/out05_mmmerge.lua",
+      "sha256": "f3fb7cf21e5152b08e2e6bb4e934b95aca86ad4a6b0ef9672c8bbdcf3e753c5f"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/house_data.txt",
+      "sha256": "03a2057bd9baa19e68931de61d16ff7bfe67bb4e5f6b0cce4d4cd279d1d6eb45"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/npc.txt",
+      "sha256": "1432a20271baa15e3d93ce5ad9909b8dbfc29ee50f8a9fc8a89b41df7dc258fa"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/npc_topic.txt",
+      "sha256": "a05d420c23b5b6c8775d4ed0c14f85e3329827745f054080cf2d7800faa34448"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/d16.lua",
+      "sha256": "31de85dbb63c0f223e2add569b280dcec6d0cbcb088b5ec3f568423cb4c81cc0"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/d17.lua",
+      "sha256": "9854c591d419a0a0a82e55c7ab5260f8f0a6b450871fa969af5cb219a9e4c102"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/d18.lua",
+      "sha256": "9482759c8b78894c35e75fc2732496205349c2a44822dfac9c91c9ba50c90512"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/d44.lua",
+      "sha256": "2024241edeed1b330a9fdba85c116861c1c5fc3765c15ddc0760fb47222c4148"
+    }
+  ],
+  "palette": {
+    "wall": [
+      "t18a01a",
+      "t18a02a",
+      "t18a02b"
+    ],
+    "dressed_wall": [
+      "t18b01"
+    ],
+    "corners": [
+      "t18a06",
+      "t18a07",
+      "t18b06",
+      "t18b07"
+    ],
+    "roof": [
+      "t18a05"
+    ],
+    "windows": [
+      "t18a04a",
+      "t18a04b",
+      "t18a04c",
+      "t18a04d",
+      "t18b04a",
+      "t18b04b",
+      "t18b04c"
+    ],
+    "doors": [
+      "t18a03c",
+      "t18b03c"
+    ],
+    "paired_barred_arch": [
+      "t18a03a",
+      "t18a03b",
+      "t18b03a",
+      "t18b03b"
+    ],
+    "trim": [
+      "t18a11a",
+      "t18a11b",
+      "t18a11c"
+    ],
+    "timber_canopies": [
+      "t68a10a",
+      "t68a11",
+      "t68a13mm"
+    ]
+  },
+  "townWalls": {
+    "referenceModels": [
+      9,
+      10,
+      11,
+      12
+    ],
+    "referenceHeight": 1280,
+    "wallHeight": 1024,
+    "towerTop": 1792,
+    "thickness": 256,
+    "towerOuterDiameter": 768,
+    "gateClearOpening": [
+      768,
+      768
+    ],
+    "pedestrianDoor": [
+      128,
+      256
+    ],
+    "purpose": "New irregular curtain following the proposed town perimeter; exposed outward faces, walkable/access-controlled gate and solid return corners.",
+    "status": "Sizing targets; wall strips, tower pads and gate collision must be checked in native blockout.",
+    "modules": [
+      "straight curtain in several lengths",
+      "angled join",
+      "polygonal corner tower",
+      "gatehouse with real open passage",
+      "terminal/terrain footing",
+      "covered prison connection"
+    ]
+  },
+  "buildings": [
+    {
+      "id": "guild",
+      "title": "Ol’ Black Magic",
+      "district": "Castleview",
+      "envelope": [
+        1280,
+        1100
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 16,
+          "assembly": "magic",
+          "nativeSize": [
+            790.0,
+            640.0,
+            464.0
+          ]
+        },
+        {
+          "model": 41,
+          "assembly": "slayer",
+          "nativeSize": [
+            896.0,
+            768.0,
+            448.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 640,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Small dressed guild hall plus a subordinate membership wing; keep Nool in the forecourt.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "maintained",
+      "people": [
+        {
+          "id": "mm5:source/29/3/27/service",
+          "name": "Guild",
+          "venue": "guild",
+          "placement": "house/service dialogue",
+          "role": "original Guild service"
+        },
+        {
+          "id": "mm5:source/29/4/28/npc",
+          "name": "Nool the Doomsayer",
+          "venue": "guild",
+          "placement": "public exterior contact",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/5/28/npc",
+          "name": "Metla the Rosterkeeper",
+          "venue": "guild",
+          "placement": "house/service dialogue",
+          "role": "guild membership (50 gold)"
+        }
+      ]
+    },
+    {
+      "id": "forge",
+      "title": "Ogre Foundry",
+      "district": "Castleview",
+      "envelope": [
+        1536,
+        1000
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 19,
+          "assembly": "weapon",
+          "nativeSize": [
+            928.0,
+            592.0,
+            384.0
+          ]
+        },
+        {
+          "model": 20,
+          "assembly": "armor",
+          "nativeSize": [
+            832.0,
+            768.0,
+            480.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 640,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "One forge hall, lean-to stock bay and working yard; combine construction details, not two MM8 shops.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/9/22/service",
+          "name": "Blacksmith",
+          "venue": "forge",
+          "placement": "house/service dialogue",
+          "role": "original Blacksmith service"
+        }
+      ]
+    },
+    {
+      "id": "training",
+      "title": "Tog’s Training / swimming annex",
+      "district": "Castleview",
+      "envelope": [
+        1536,
+        1000
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 54,
+          "assembly": "training",
+          "nativeSize": [
+            1536.0,
+            1408.0,
+            832.0
+          ]
+        },
+        {
+          "model": 55,
+          "assembly": "training",
+          "nativeSize": [
+            1536.0,
+            1408.0,
+            832.0
+          ]
+        },
+        {
+          "model": 25,
+          "assembly": "foestryke",
+          "nativeSize": [
+            832.0,
+            704.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 704,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New shorter training hall and separate lesson annex; its reserved envelope is smaller than the original Godric assembly.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/7/19/npc",
+          "name": "Ordana the Swimming Instructor",
+          "venue": "training:swimming",
+          "placement": "house/service dialogue",
+          "role": "teacher: Swimming (250 gold)"
+        },
+        {
+          "id": "mm5:source/29/8/17/service",
+          "name": "Training",
+          "venue": "training",
+          "placement": "house/service dialogue",
+          "role": "original Training service"
+        }
+      ]
+    },
+    {
+      "id": "jail",
+      "title": "Castleview Jail",
+      "district": "Castleview",
+      "envelope": [
+        1088,
+        1536
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 9,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            2880.0,
+            1152.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 13,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            2560.0,
+            960.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 768,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Low covered prison wing with slit windows and barred threshold; borrow masonry and guard-room details, not the whole keep.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "fortified",
+      "people": [
+        {
+          "id": "mm5:source/29/1/20/npc",
+          "name": "Jasper",
+          "venue": "jail",
+          "placement": "restricted interior",
+          "role": "prisoner / rescue target"
+        }
+      ]
+    },
+    {
+      "id": "monks_n",
+      "title": "First Drawkcab chapterhouse",
+      "district": "Castleview",
+      "envelope": [
+        1280,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 46,
+          "assembly": "stormlance",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        },
+        {
+          "model": 31,
+          "assembly": "morningstar",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Long modest masonry chapterhouse; two study stations inside one venue, no duplicated front doors.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/29/13/23/npc",
+          "name": "Tinit First Drawkcab Monk",
+          "venue": "monks_n",
+          "placement": "house/service dialogue",
+          "role": "Drawkcab lessons / award"
+        },
+        {
+          "id": "mm5:source/29/16/23/npc",
+          "name": "Bob the Drawkcab Monk",
+          "venue": "monks_n",
+          "placement": "house/service dialogue",
+          "role": "Drawkcab lesson"
+        }
+      ]
+    },
+    {
+      "id": "monks_s",
+      "title": "Drawkcab study house",
+      "district": "Castleview",
+      "envelope": [
+        1152,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 43,
+          "assembly": "jeni",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        },
+        {
+          "model": 29,
+          "assembly": "kern",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Shorter companion chapterhouse with offset roof/entrance and a garden-facing side; avoid mirrored twins.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/29/13/15/npc",
+          "name": "Pip the Drawkcab Monk",
+          "venue": "monks_s",
+          "placement": "house/service dialogue",
+          "role": "Drawkcab lesson"
+        },
+        {
+          "id": "mm5:source/29/16/15/npc",
+          "name": "Otto the Drawkcab Monk",
+          "venue": "monks_s",
+          "placement": "house/service dialogue",
+          "role": "Drawkcab lesson"
+        }
+      ]
+    },
+    {
+      "id": "bank",
+      "title": "Milken Savings / accounts",
+      "district": "Castleview",
+      "envelope": [
+        1408,
+        832
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 41,
+          "assembly": "slayer",
+          "nativeSize": [
+            896.0,
+            768.0,
+            448.0
+          ]
+        },
+        {
+          "model": 37,
+          "assembly": "arin",
+          "nativeSize": [
+            896.0,
+            1088.0,
+            464.0
+          ]
+        },
+        {
+          "model": 38,
+          "assembly": "arin",
+          "nativeSize": [
+            1152.0,
+            1024.0,
+            464.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 576,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Dressed public banking room with a lower accounts wing and two identifiable doors.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "maintained",
+      "people": [
+        {
+          "id": "mm5:source/29/21/16/service",
+          "name": "Bank",
+          "venue": "bank",
+          "placement": "house/service dialogue",
+          "role": "original Bank service"
+        },
+        {
+          "id": "mm5:source/29/27/25/npc",
+          "name": "Rex the Accountant",
+          "venue": "bank:accounts",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        }
+      ]
+    },
+    {
+      "id": "tavern",
+      "title": "Blacksmoke Tavern",
+      "district": "Castleview",
+      "envelope": [
+        1664,
+        1280
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 21,
+          "assembly": "inn",
+          "nativeSize": [
+            1152.0,
+            1408.0,
+            544.0
+          ]
+        },
+        {
+          "model": 22,
+          "assembly": "inn",
+          "nativeSize": [
+            1152.0,
+            1408.0,
+            672.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 704,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Unequal common-room and lodging wings around a service court; reserve Tanya and Gloria seats without inventing household ties.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/18/20/npc",
+          "name": "Tanya the Floozy",
+          "venue": "tavern",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/20/23/npc",
+          "name": "Gloria the Dreamer",
+          "venue": "tavern",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/20/25/service",
+          "name": "Tavern",
+          "venue": "tavern",
+          "placement": "house/service dialogue",
+          "role": "original Tavern service"
+        }
+      ]
+    },
+    {
+      "id": "lodging",
+      "title": "Adventurers’ lodging",
+      "district": "Castleview",
+      "envelope": [
+        1152,
+        768
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 24,
+          "assembly": "ironfist",
+          "nativeSize": [
+            640.0,
+            960.0,
+            704.0
+          ]
+        },
+        {
+          "model": 46,
+          "assembly": "stormlance",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 640,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Long boarding house with a raised end; two rented rooms behind one dialogue destination.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/20/21/npc",
+          "name": "Esteban the Adventurer",
+          "venue": "lodging",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/20/22/npc",
+          "name": "Bleys the Burglar",
+          "venue": "lodging",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        }
+      ]
+    },
+    {
+      "id": "maps",
+      "title": "Mapmakers’ court",
+      "district": "Castleview",
+      "envelope": [
+        1664,
+        1088
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 35,
+          "assembly": "otterton",
+          "nativeSize": [
+            1088.0,
+            896.0,
+            464.0
+          ]
+        },
+        {
+          "model": 36,
+          "assembly": "otterton",
+          "nativeSize": [
+            1024.0,
+            1152.0,
+            464.0
+          ]
+        },
+        {
+          "model": 28,
+          "assembly": "maker",
+          "nativeSize": [
+            960.0,
+            640.0,
+            704.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 640,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New three-door L-shaped workshop court: Jethro household, Lydia lessons, Miles examinations; native paired wings are compositional evidence.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "maintained",
+      "people": [
+        {
+          "id": "mm5:source/29/22/24/npc",
+          "name": "Jethro the Mapmaker",
+          "venue": "maps:jethro",
+          "placement": "house/service dialogue",
+          "role": "rescue quest and genuine treasure map"
+        },
+        {
+          "id": "mm5:source/29/30/20/npc",
+          "name": "Miles the Cartographer",
+          "venue": "maps:miles",
+          "placement": "house/service dialogue",
+          "role": "challenge: Cartographer’s test; not a skill teacher"
+        },
+        {
+          "id": "mm5:source/29/30/23/npc",
+          "name": "Lydia the Mapmaker",
+          "venue": "maps:lydia",
+          "placement": "house/service dialogue",
+          "role": "teacher: Cartography (10 gold)"
+        }
+      ]
+    },
+    {
+      "id": "mayor",
+      "title": "Mayor’s office and editorial room",
+      "district": "Castleview",
+      "envelope": [
+        1664,
+        1088
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 37,
+          "assembly": "arin",
+          "nativeSize": [
+            896.0,
+            1088.0,
+            464.0
+          ]
+        },
+        {
+          "model": 38,
+          "assembly": "arin",
+          "nativeSize": [
+            1152.0,
+            1024.0,
+            464.0
+          ]
+        },
+        {
+          "model": 41,
+          "assembly": "slayer",
+          "nativeSize": [
+            896.0,
+            768.0,
+            448.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 704,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Civic hall and smaller editorial wing; public forecourt, restrained dressed trim, no palace-scale office.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "civic",
+      "people": [
+        {
+          "id": "mm5:source/29/16/30/npc",
+          "name": "Majot the Editor",
+          "venue": "mayor:editorial",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/23/27/npc",
+          "name": "Mayor Snarfblad",
+          "venue": "mayor",
+          "placement": "house/service dialogue",
+          "role": "Gremlin quest giver"
+        }
+      ]
+    },
+    {
+      "id": "workyard",
+      "title": "Taskmaster’s hiring office",
+      "district": "Castleview",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 25,
+          "assembly": "foestryke",
+          "nativeSize": [
+            832.0,
+            704.0,
+            384.0
+          ]
+        },
+        {
+          "model": 18,
+          "assembly": "stables",
+          "nativeSize": [
+            1056.0,
+            640.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Compact hiring office with an open timber work canopy; yard does the work of a larger building.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/25/30/npc",
+          "name": "Jojosh the Taskmaster",
+          "venue": "workyard",
+          "placement": "house/service dialogue",
+          "role": "paid work (50 gold/week)"
+        }
+      ]
+    },
+    {
+      "id": "joe",
+      "title": "Joe’s map stall",
+      "district": "Castleview",
+      "envelope": [
+        512,
+        512
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 7,
+          "assembly": "tents_b",
+          "nativeSize": [
+            992.0,
+            624.0,
+            432.0
+          ]
+        },
+        {
+          "model": 18,
+          "assembly": "stables",
+          "nativeSize": [
+            1056.0,
+            640.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 304,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New lightweight roofed stall; borrow timber/canopy construction only, not a complete tent or stable.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "makeshift",
+      "people": [
+        {
+          "id": "mm5:source/29/28/30/npc",
+          "name": "Joe the Mapmaker",
+          "venue": "joe",
+          "placement": "house/service dialogue",
+          "role": "fraudulent treasure-map seller"
+        }
+      ]
+    },
+    {
+      "id": "ranger",
+      "title": "Goldur’s lodge",
+      "district": "Castleview",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 29,
+          "assembly": "kern",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        },
+        {
+          "model": 27,
+          "assembly": "calandril",
+          "nativeSize": [
+            704.0,
+            832.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Modest masonry lodge, low roof, outdoor woodcraft practice; occupation does not imply wealth.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/29/29/27/npc",
+          "name": "Goldur the Ranger",
+          "venue": "ranger",
+          "placement": "house/service dialogue",
+          "role": "teacher: Pathfinder (1500 gold)"
+        }
+      ]
+    },
+    {
+      "id": "herbalist",
+      "title": "Zelda’s house and drying shed",
+      "district": "Castleview",
+      "envelope": [
+        1088,
+        768
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 31,
+          "assembly": "morningstar",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        },
+        {
+          "model": 25,
+          "assembly": "foestryke",
+          "nativeSize": [
+            832.0,
+            704.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Compact house and lower drying shed inside the envelope; herbs and stock establish its role.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/29/25/21/npc",
+          "name": "Zelda the Herbalist",
+          "venue": "herbalist",
+          "placement": "house/service dialogue",
+          "role": "orb quest handover"
+        }
+      ]
+    },
+    {
+      "id": "nadia",
+      "title": "Nadia’s house",
+      "district": "Castleview",
+      "envelope": [
+        896,
+        768
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 29,
+          "assembly": "kern",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        },
+        {
+          "model": 43,
+          "assembly": "jeni",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Small worn masonry house with packed storage; reserve the remainder of the envelope for lean-to/roof clearance.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "worn",
+      "people": [
+        {
+          "id": "mm5:source/29/27/19/npc",
+          "name": "Nadia the Hoarder",
+          "venue": "nadia",
+          "placement": "house/service dialogue",
+          "role": "necklace quest giver"
+        }
+      ]
+    },
+    {
+      "id": "diviners",
+      "title": "Oorla’s house / Troyanna’s room",
+      "district": "Castleview",
+      "envelope": [
+        1280,
+        832
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 46,
+          "assembly": "stormlance",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        },
+        {
+          "model": 41,
+          "assembly": "slayer",
+          "nativeSize": [
+            896.0,
+            768.0,
+            448.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 512,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Shared long house with a quiet discussion room and two distinct speakers; modest trim, no invented wizard palace.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/29/17/10/npc",
+          "name": "Madame Oorla the Gypsy",
+          "venue": "diviners",
+          "placement": "house/service dialogue",
+          "role": "orb guidance"
+        },
+        {
+          "id": "mm5:source/29/20/20/npc",
+          "name": "Troyanna the Mindreader",
+          "venue": "diviners",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        }
+      ]
+    },
+    {
+      "id": "king",
+      "title": "Gremlin court",
+      "district": "Castleview",
+      "envelope": [
+        1536,
+        1664
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 13,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            2560.0,
+            960.0
+          ]
+        },
+        {
+          "model": 15,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            1280.0,
+            960.0
+          ]
+        },
+        {
+          "model": 9,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            2880.0,
+            1152.0,
+            1280.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 896,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Covered fortified audience annex, discrete roof and controlled BLV entry; hostile use of the local kit does not define the town faction.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "fortified",
+      "people": [
+        {
+          "id": "mm5:source/29/29/13/npc",
+          "name": "Gettlewaithe the Gremlin King",
+          "venue": "king",
+          "placement": "restricted interior",
+          "role": "conditional antagonist / negotiation quest"
+        }
+      ]
+    },
+    {
+      "id": "tower",
+      "title": "Ellinger’s Tower",
+      "district": "Castleview",
+      "envelope": [
+        1536,
+        1536
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 9,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            2880.0,
+            1152.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 13,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            2560.0,
+            960.0
+          ]
+        },
+        {
+          "model": 16,
+          "assembly": "magic",
+          "nativeSize": [
+            790.0,
+            640.0,
+            464.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 3072,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Entirely new octagonal arcane tower; local stone base, vertical window rhythm and restrained roof detail. No camp tower mesh reuse.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "arcane",
+      "people": []
+    },
+    {
+      "id": "temple",
+      "title": "Temple of Mok",
+      "district": "Castleview",
+      "envelope": [
+        1664,
+        1280
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 17,
+          "assembly": "temple",
+          "nativeSize": [
+            1024.0,
+            896.0,
+            640.0
+          ]
+        },
+        {
+          "model": 13,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            2560.0,
+            960.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 1024,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New apsed hall with a higher nave and lower service/contact wing; Mok symbols replace MM8 religious identity.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "civic",
+      "people": [
+        {
+          "id": "mm5:source/29/15/1/service",
+          "name": "Temple",
+          "venue": "temple",
+          "placement": "house/service dialogue",
+          "role": "original Temple service"
+        },
+        {
+          "id": "mm5:source/29/16/2/npc",
+          "name": "Ben the Benchman",
+          "venue": "temple",
+          "placement": "public exterior contact",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/18/22/npc",
+          "name": "Imble the Monk",
+          "venue": "temple",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        }
+      ]
+    },
+    {
+      "id": "crafts",
+      "title": "Tailor and cobbler row",
+      "district": "Castleview",
+      "envelope": [
+        1792,
+        768
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 43,
+          "assembly": "jeni",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        },
+        {
+          "model": 46,
+          "assembly": "stormlance",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        },
+        {
+          "model": 19,
+          "assembly": "weapon",
+          "nativeSize": [
+            928.0,
+            592.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 512,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Two work bays under an unequal roofline with independent tailor and cobbler doors; domestic/service details at normal scale.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/16/3/npc",
+          "name": "Gromlug the Tailor",
+          "venue": "crafts:gromlug",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/30/30/npc",
+          "name": "Sojo the Cobbler",
+          "venue": "crafts:sojo",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        }
+      ]
+    },
+    {
+      "id": "workers",
+      "title": "Workers’ shared house",
+      "district": "Castleview",
+      "envelope": [
+        1024,
+        512
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 46,
+          "assembly": "stormlance",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        },
+        {
+          "model": 31,
+          "assembly": "morningstar",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "One modest long shared house. Morningstar demonstrates that two residents need no estate; maintain a low roof and restrained trim.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "worn",
+      "people": [
+        {
+          "id": "mm5:source/29/14/4/npc",
+          "name": "Daron the Efficient",
+          "venue": "workers",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/16/5/npc",
+          "name": "Tolberti the chimney sweep",
+          "venue": "workers",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        }
+      ]
+    },
+    {
+      "id": "keeper",
+      "title": "Keeper’s cottage and kennel",
+      "district": "Castleview",
+      "envelope": [
+        896,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 31,
+          "assembly": "morningstar",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        },
+        {
+          "model": 25,
+          "assembly": "foestryke",
+          "nativeSize": [
+            832.0,
+            704.0,
+            384.0
+          ]
+        },
+        {
+          "model": 18,
+          "assembly": "stables",
+          "nativeSize": [
+            1056.0,
+            640.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Small shared cottage with a lower kennel canopy; keep most of the household volume modest.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/9/18/npc",
+          "name": "Sinbolas the Dog Catcher",
+          "venue": "keeper",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        },
+        {
+          "id": "mm5:source/29/10/16/npc",
+          "name": "Raymond the Direct",
+          "venue": "keeper",
+          "placement": "house/service dialogue",
+          "role": "resident / information contact"
+        }
+      ]
+    },
+    {
+      "id": "puzzle",
+      "title": "Dyson’s public storehouse",
+      "district": "Castleview",
+      "envelope": [
+        2176,
+        1792
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 54,
+          "assembly": "training",
+          "nativeSize": [
+            1536.0,
+            1408.0,
+            832.0
+          ]
+        },
+        {
+          "model": 55,
+          "assembly": "training",
+          "nativeSize": [
+            1536.0,
+            1408.0,
+            832.0
+          ]
+        },
+        {
+          "model": 18,
+          "assembly": "stables",
+          "nativeSize": [
+            1056.0,
+            640.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 704,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New broad low storehouse, two nine-chest bays plus moving-treasure bay and Dyson desk. Larger footprint is functional, not personal status.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/29/8/5/npc",
+          "name": "Dyson the Puzzlemaster",
+          "venue": "puzzle",
+          "placement": "house/service dialogue",
+          "role": "chest-puzzle clue"
+        }
+      ]
+    },
+    {
+      "id": "dreyfus",
+      "title": "Dreyfus’s refuge",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 7,
+          "assembly": "tents_b",
+          "nativeSize": [
+            992.0,
+            624.0,
+            432.0
+          ]
+        },
+        {
+          "model": 17,
+          "assembly": "temple",
+          "nativeSize": [
+            1024.0,
+            896.0,
+            640.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Temporary shelter with a small Mok shrine; no permanent copy of Sacred Steel.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/3/8/10/npc",
+          "name": "Dreyfus High Priest of Mok",
+          "venue": "dreyfus",
+          "placement": "house/service dialogue",
+          "role": "Western Tower access quest / displaced priest"
+        }
+      ]
+    },
+    {
+      "id": "ruby",
+      "title": "Linus’s ruby workshop",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 19,
+          "assembly": "weapon",
+          "nativeSize": [
+            928.0,
+            592.0,
+            384.0
+          ]
+        },
+        {
+          "model": 29,
+          "assembly": "kern",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Compact workshop with covered sorting bench; ruby identity comes from stock/signage.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/3/12/14/npc",
+          "name": "Linus the Ruby Gemsmith",
+          "venue": "ruby",
+          "placement": "house/service dialogue",
+          "role": "Ruby crafting (5 stones + 100 gems)"
+        }
+      ]
+    },
+    {
+      "id": "emerald",
+      "title": "Simon’s emerald workshop",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 20,
+          "assembly": "armor",
+          "nativeSize": [
+            832.0,
+            768.0,
+            480.0
+          ]
+        },
+        {
+          "model": 31,
+          "assembly": "morningstar",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Sibling workshop with a different yard opening and emerald stock; independent recipe.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/3/13/12/npc",
+          "name": "Simon the Emerald Gemsmith",
+          "venue": "emerald",
+          "placement": "house/service dialogue",
+          "role": "Emerald crafting (5 stones + 200 gems)"
+        }
+      ]
+    },
+    {
+      "id": "sapphire",
+      "title": "Toby’s sapphire workshop",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 19,
+          "assembly": "weapon",
+          "nativeSize": [
+            928.0,
+            592.0,
+            384.0
+          ]
+        },
+        {
+          "model": 27,
+          "assembly": "calandril",
+          "nativeSize": [
+            704.0,
+            832.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 448,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Third workshop with a side loading canopy; independent sapphire recipe.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/3/15/11/npc",
+          "name": "Toby the Sapphire Gemsmith",
+          "venue": "sapphire",
+          "placement": "house/service dialogue",
+          "role": "Sapphire crafting (5 stones + 400 gems)"
+        }
+      ]
+    },
+    {
+      "id": "diamond",
+      "title": "Hector’s diamond workshop",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 41,
+          "assembly": "slayer",
+          "nativeSize": [
+            896.0,
+            768.0,
+            448.0
+          ]
+        },
+        {
+          "model": 20,
+          "assembly": "armor",
+          "nativeSize": [
+            832.0,
+            768.0,
+            480.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 512,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Maintained workshop within the same small envelope; diamond cost is not evidence for a mansion.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "maintained",
+      "people": [
+        {
+          "id": "mm5:source/7/1/12/npc",
+          "name": "Hector the Diamond Gemsmith",
+          "venue": "diamond",
+          "placement": "house/service dialogue",
+          "role": "Diamond crafting (5 stones + 1000 gems)"
+        }
+      ]
+    },
+    {
+      "id": "reger",
+      "title": "Brother Reger’s hermitage",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 29,
+          "assembly": "kern",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Simple secluded stone hermitage with small study recess.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/4/1/4/npc",
+          "name": "Brother Reger the Monk",
+          "venue": "reger",
+          "placement": "house/service dialogue",
+          "role": "Drawkcab final challenge"
+        }
+      ]
+    },
+    {
+      "id": "falista",
+      "title": "Falista’s sanctuary",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [],
+      "proposedTopAbovePad": 0,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Natural sanctuary; no fabricated house for a unicorn.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "natural",
+      "people": [
+        {
+          "id": "mm5:source/4/7/1/npc",
+          "name": "Falista The Unicorn",
+          "venue": "falista",
+          "placement": "house/service dialogue",
+          "role": "conditional rescued unicorn / magic restoration"
+        }
+      ]
+    },
+    {
+      "id": "luna",
+      "title": "Luna’s animal sanctuary",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 31,
+          "assembly": "morningstar",
+          "nativeSize": [
+            576.0,
+            448.0,
+            384.0
+          ]
+        },
+        {
+          "model": 25,
+          "assembly": "foestryke",
+          "nativeSize": [
+            832.0,
+            704.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Small stone shelter beside animal-care clearing and three-place altar; keep landscape larger than hut.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "plain",
+      "people": [
+        {
+          "id": "mm5:source/4/13/15/npc",
+          "name": "Luna The Druid",
+          "venue": "luna",
+          "placement": "house/service dialogue",
+          "role": "three-statuette quest / animal healer"
+        }
+      ]
+    },
+    {
+      "id": "justine",
+      "title": "Justine’s gate-side shelter",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 7,
+          "assembly": "tents_b",
+          "nativeSize": [
+            992.0,
+            624.0,
+            432.0
+          ]
+        },
+        {
+          "model": 18,
+          "assembly": "stables",
+          "nativeSize": [
+            1056.0,
+            640.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 256,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New small canopy outside the pass gate; accessible before buying a pass.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "makeshift",
+      "people": [
+        {
+          "id": "mm5:source/4/15/12/npc",
+          "name": "Justine The Thief",
+          "venue": "justine",
+          "placement": "house/service dialogue",
+          "role": "Castleview pass seller (1000 gold)"
+        }
+      ]
+    },
+    {
+      "id": "yog",
+      "title": "Yog’s Sardaj camp",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 6,
+          "assembly": "tents_a",
+          "nativeSize": [
+            1312.0,
+            1416.0,
+            304.0
+          ]
+        },
+        {
+          "model": 7,
+          "assembly": "tents_b",
+          "nativeSize": [
+            992.0,
+            624.0,
+            432.0
+          ]
+        },
+        {
+          "model": 8,
+          "assembly": "tents_c",
+          "nativeSize": [
+            1992.0,
+            2024.0,
+            432.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 432,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Reference canvas construction only; new faction-specific camp grouping and negotiable audience space.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "makeshift",
+      "people": [
+        {
+          "id": "mm5:source/7/6/12/npc",
+          "name": "Yog The Barbarian",
+          "venue": "yog",
+          "placement": "house/service dialogue",
+          "role": "conditional tribal negotiation / food reward"
+        }
+      ]
+    },
+    {
+      "id": "vespar",
+      "title": "Vespar’s retreat",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 42,
+          "assembly": "nelix",
+          "nativeSize": [
+            768.0,
+            896.0,
+            448.0
+          ]
+        },
+        {
+          "model": 16,
+          "assembly": "magic",
+          "nativeSize": [
+            790.0,
+            640.0,
+            464.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 512,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Compact maintained retreat with restrained arcane details; no new guild service.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "maintained",
+      "people": [
+        {
+          "id": "mm5:source/7/7/1/npc",
+          "name": "Vespar The Wizard",
+          "venue": "vespar",
+          "placement": "house/service dialogue",
+          "role": "staff-handle quest / Sandcaster pass"
+        }
+      ]
+    },
+    {
+      "id": "kramer",
+      "title": "Kramer’s caravan yard",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 18,
+          "assembly": "stables",
+          "nativeSize": [
+            1056.0,
+            640.0,
+            384.0
+          ]
+        },
+        {
+          "model": 25,
+          "assembly": "foestryke",
+          "nativeSize": [
+            832.0,
+            704.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Small office and repair canopy; wagons/loading lie in the separately reserved caravan yard.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": [
+        {
+          "id": "mm5:source/7/11/4/npc",
+          "name": "Kramer The Caravan Owner",
+          "venue": "kramer",
+          "placement": "house/service dialogue",
+          "role": "Ogre Pass caravan quest"
+        }
+      ]
+    },
+    {
+      "id": "nibbler",
+      "title": "Nibbler’s clearing",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [],
+      "proposedTopAbovePad": 0,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Natural shelter and quest-gated growing area, no human house.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "natural",
+      "people": [
+        {
+          "id": "mm5:source/8/3/12/npc",
+          "name": "Nibbler The Monkeydog",
+          "venue": "nibbler",
+          "placement": "house/service dialogue",
+          "role": "Monga Melons / Bark key quest"
+        }
+      ]
+    },
+    {
+      "id": "kalindra",
+      "title": "Castle Kalindra",
+      "district": "Countryside",
+      "envelope": [
+        4096,
+        3072
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 9,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            2880.0,
+            1152.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 10,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            1960.0,
+            6784.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 11,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            7354.0,
+            1658.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 12,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            3200.0,
+            5176.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 13,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            2560.0,
+            960.0
+          ]
+        },
+        {
+          "model": 14,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            1408.0,
+            2560.0,
+            960.0
+          ]
+        },
+        {
+          "model": 15,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            1280.0,
+            960.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 3584,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New royal composition: keep roof 2560, principal tower parapets 3584, lower wings 1024–1280; entry doors remain normal scale.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "royal",
+      "people": []
+    },
+    {
+      "id": "western",
+      "title": "Great Western Tower",
+      "district": "Countryside",
+      "envelope": [
+        1536,
+        1536
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 9,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            2880.0,
+            1152.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 13,
+          "assembly": "camp_keep",
+          "nativeSize": [
+            2816.0,
+            2560.0,
+            960.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 2816,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New tower with accessible roof transition and distinct locked ground route; source quest controls access, not a copied camp gate.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "fortified",
+      "people": []
+    },
+    {
+      "id": "mine",
+      "title": "Gemstone Mine entrance",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 0,
+          "assembly": "dragon_cave",
+          "nativeSize": [
+            992.0,
+            704.0,
+            512.0
+          ]
+        },
+        {
+          "model": 1,
+          "assembly": "dragon_cave",
+          "nativeSize": [
+            992.0,
+            1120.0,
+            512.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New geology-led portal; cave reference is limited to recess and threshold treatment, not dragon architecture.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "natural",
+      "people": []
+    },
+    {
+      "id": "troll_a",
+      "title": "Troll Hole west",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [],
+      "proposedTopAbovePad": 0,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Terrain hole with an authored rim and safe trigger/return treatment.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "natural",
+      "people": []
+    },
+    {
+      "id": "troll_b",
+      "title": "Troll Hole east",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [],
+      "proposedTopAbovePad": 0,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Separate terrain hole; retain its separate interior pocket.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "natural",
+      "people": []
+    },
+    {
+      "id": "troll_c",
+      "title": "Troll Hole south",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [],
+      "proposedTopAbovePad": 0,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Separate terrain hole; preserve fall and voluntary entry behavior.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "natural",
+      "people": []
+    },
+    {
+      "id": "sewer_out",
+      "title": "Riverside sewer outfall",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [
+        {
+          "model": 9,
+          "assembly": "camp_walls",
+          "nativeSize": [
+            2880.0,
+            1152.0,
+            1280.0
+          ]
+        },
+        {
+          "model": 43,
+          "assembly": "jeni",
+          "nativeSize": [
+            960.0,
+            512.0,
+            384.0
+          ]
+        }
+      ],
+      "proposedTopAbovePad": 384,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "New low masonry drain with barred arch detail, fit to the actual riverbank.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "working",
+      "people": []
+    },
+    {
+      "id": "skyrope",
+      "title": "Dark Grove Skyroad rope",
+      "district": "Countryside",
+      "envelope": [
+        832,
+        640
+      ],
+      "referenceMap": "mm8/out05.odm",
+      "referenceModels": [],
+      "proposedTopAbovePad": 0,
+      "status": "design proposal; native geometry not authored",
+      "newComposition": "Rope and anchoring rock/tree structure; no new building.",
+      "referenceOnly": true,
+      "doorSize": [
+        128,
+        256
+      ],
+      "quality": "arcane",
+      "people": []
+    }
+  ]
+}

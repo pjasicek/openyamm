@@ -1,0 +1,541 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "scope": "Image generation only; original unresized returns retained.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper induction ring.\nInput 1 is the EDIT TARGET: the named 1024x1024 orthographic guide. Input 2 is the DESIGN/MATERIAL REFERENCE ONLY: design_reference.png. Paint only the surfaces inside Input 1's existing alpha silhouette; preserve Input 1's camera, outline, scale, position, ring-hole transparency, all part boundaries and faceted geometry EXACTLY. Do not adopt the pose, geometry or lighting of Input 2. Output ONE 1024x1024 RGBA PNG with genuine transparent background.\nTransfer the approved material appearance: warm antique brushed gold with fine understated scratches and wear; off-white ceramic with tiny sparse warm wear flecks and subtle hairlines; very thin dark charcoal-violet resin joins only along existing material boundaries; the existing induction window, if visible in the guide, has blue-white light and subtle branching pale energy detail inside blue glass. Tinted guide colours only identify materials and must be replaced. Preserve the exact amount of visible ceramic and gold; do not add new parts.\nLighting: strictly flat, even, shadowless viewer-facing albedo. Gold has uniform mid-value warm golden base colour and only a faint sheen, not yellow-white illumination. Ceramic is evenly off-white. All inward-facing gold remains the same base brightness as outward-facing gold. No cast shadows, ambient occlusion, directional shading, hot specular highlights, reflections, rim light, bloom outside the existing object, floor, background, text, letters, watermark or diagrams. Unseen faces continue the same materials plausibly. Keep every edge and all transparent areas exactly as the guide.\nView FRONT: use guide_front.png as the immutable geometry. This view shows a continuous ceramic exterior band across the foreground, thin gold edges above and below it, a broad gold inner wall in the upper part, and a narrow horizontally oval open transparent hole near the center. No blue window is visible in this guide; do not invent one. The overall object bounding box is x=66..957, y=175..848 on the 1024 canvas. Preserve the guide's exact polygonal edge contours. Paint the broad inner wall gold without darkening it.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit target",
+          "sha256": "cb1814f85b649f5d613ee1e94b85cf6f794d84ef0be0e9f0b0529edc9a73fa7c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material reference",
+          "sha256": "58e3b9554cdb110c9d33994d5e8af4573f64ada83f00c273a2c507d24d70b6c6"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-f38749b7-92cf-4926-8834-59884c2c3509.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by corrective pass: directional metallic highlights and silhouette drift.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c3fac15da9e4a9f8d71677b642f5369331737b1bd0b1b0faa9a1d5c315e24fb8",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.937043,
+        "normalized_excess_pixels": 7194,
+        "normalized_missing_pixels": 21690,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          91,
+          208,
+          1164,
+          1030
+        ],
+        "transparent_pixel_fraction": 0.568304,
+        "review_note": "Superseded by corrective pass: directional metallic highlights and silhouette drift."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper induction ring.\nInput 1 is the DESIGN/MATERIAL REFERENCE ONLY: design_reference.png. Input 2 is the EDIT TARGET: the named 1024x1024 orthographic guide. Paint only the surfaces inside Input 2's existing alpha silhouette; preserve Input 2's camera, outline, scale, position, ring-hole transparency, all part boundaries and faceted geometry EXACTLY. Do not adopt the pose, geometry or lighting of Input 1. Output ONE 1024x1024 RGBA PNG with genuine transparent background.\nTransfer the approved material appearance: warm antique brushed gold with fine understated scratches and wear; off-white ceramic with tiny sparse warm wear flecks and subtle hairlines; very thin dark charcoal-violet resin joins only along existing material boundaries; the existing induction window, if visible in the guide, has blue-white light and subtle branching pale energy detail inside blue glass. Tinted guide colours only identify materials and must be replaced. Preserve the exact amount of visible ceramic and gold; do not add new parts.\nLighting: strictly flat, even, shadowless viewer-facing albedo. Gold has uniform mid-value warm golden base colour and only a faint sheen, not yellow-white illumination. Ceramic is evenly off-white. All inward-facing gold remains the same base brightness as outward-facing gold. No cast shadows, ambient occlusion, directional shading, hot specular highlights, reflections, rim light, bloom outside the existing object, floor, background, text, letters, watermark or diagrams. Unseen faces continue the same materials plausibly. Keep every edge and all transparent areas exactly as the guide.\nCORRECTIVE FRONT PASS: the output canvas must be the second input guide's exact 1024x1024 canvas, NOT the design-reference canvas. Trace and retain the second input's existing alpha boundary pixel for pixel, including low-poly facets and the exact narrow central open hole. The object stays at x=66..957, y=175..848. All original transparent pixels stay transparent. Do not enlarge, recenter, smooth or round the silhouette. Continuous ceramic foreground band; gold upper/lower rims and broad inner upper wall; NO visible induction window. Change surface colour/detail only. Remove the reference's shiny directional reflections: mid-value ochre-gold base colour uniformly across inner wall and both bevels, faint fine brush scratches, subtle dispersed wear. Even white ceramic. No yellow-white gold highlights, dark inner wall, bright rim, black contour shadow or metallic reflections. This is unlit diffuse colour for projection onto a mesh, not a shaded product rendering.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material reference",
+          "sha256": "58e3b9554cdb110c9d33994d5e8af4573f64ada83f00c273a2c507d24d70b6c6"
+        },
+        {
+          "path": "guide_front.png",
+          "role": "edit target",
+          "sha256": "cb1814f85b649f5d613ee1e94b85cf6f794d84ef0be0e9f0b0529edc9a73fa7c"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-7a06db20-d067-405e-94b9-323bbf7b6f89.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Preferred corrective return with more even inner gold. Materials and composition match broadly; exact silhouette and perfectly unlit albedo were not achieved. Kept unresized as required.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7421580445784715b1a938e19cb1f987a9fe36c175afdf4a3277e3f5696fc8ea",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.964071,
+        "normalized_excess_pixels": 212,
+        "normalized_missing_pixels": 16021,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          89,
+          215,
+          1165,
+          1039
+        ],
+        "transparent_pixel_fraction": 0.570221,
+        "review_note": "Preferred corrective return with more even inner gold. Materials and composition match broadly; exact silhouette and perfectly unlit albedo were not achieved. Kept unresized as required."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint an UNLIT ALBEDO texture-source image. Input 1 design_reference.png supplies material colours and fine wear ONLY. Input 2 guide_back.png is the exact geometry/canvas/alpha mask to paint over. Return one 1024x1024 PNG with true alpha transparency, matching Input 2 without moving any pixel boundary or changing the camera.\nKeep the guide's silhouette, position, scale, every part edge, and its narrow central transparent ring hole exactly. Gold band, white ceramic panels on left and right, ONE square blue-white induction window at upper center exactly where the guide puts it. Broad lower inner wall remains gold. Do not make the hole larger, move the window, round the mesh corners or invent geometry.\nApply the reference's warm worn brushed gold, off-white subtly worn ceramic, thin dark charcoal-violet resin joins at material seams, and blue glass window containing subtle pale branching energy. Treat all gold as matte diffuse base colour: flat mid-value ochre gold of equal brightness everywhere, including the inner wall and bevels. Ceramic stays evenly off-white. Window painted light blue-white with blue edges; no glow spill. Tiny scratches and sparse wear belong to albedo; shadows/reflections do not.\nSTRICT FLAT LIGHTING: no directional illumination, no metallic reflections, bright edges, specular hotspots, inner-wall darkening, ambient occlusion, cast shadows, gradient shading or rim light. This is a texture to bake, not a product rendering. No floor/background/text/letters/watermark. Preserve input 2's transparent exterior and exact transparent central hole. Object bounds x66..957 y175..848.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material reference",
+          "sha256": "58e3b9554cdb110c9d33994d5e8af4573f64ada83f00c273a2c507d24d70b6c6"
+        },
+        {
+          "path": "guide_back.png",
+          "role": "edit target",
+          "sha256": "1bf6d4ad67aa8bd03a205bb74cb740627d4c4b3b4f131f30a6223c2e597fa723"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-1411cd91-13b7-4690-a1b5-8757be6336a0.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected because ceramic panel boundaries moved inward and wide resin dividers were invented; metallic highlights remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "058e8e7cf6ab9d579bf6abe2074a44491ed181df2c86b048ae3a5f1c16fc1ea2",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.984391,
+        "normalized_excess_pixels": 6095,
+        "normalized_missing_pixels": 1049,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          79,
+          212,
+          1175,
+          1045
+        ],
+        "transparent_pixel_fraction": 0.55122,
+        "review_note": "Rejected because ceramic panel boundaries moved inward and wide resin dividers were invented; metallic highlights remain."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective texture-source painting of the attached guide_back.png. This image is the EXACT mesh geometry and the ONLY shape authority. Keep this exact 1024x1024 canvas and preserve the alpha mask and every material boundary, without adding ANY geometry or changing a single silhouette edge. Paint directly over the existing surfaces.\nReplace pale yellow surfaces with medium warm antique ochre-gold albedo, with fine brushed scratches and scattered tiny darker wear specks. Replace light-grey ceramic surfaces with off-white ivory ceramic with fine subtle hairline wear and sparse warm flecks. Keep the wide central gold panel exactly its existing width: ceramic inner boundaries are at x306 and x718, do NOT move them inward. Keep the square induction window exactly x441..582, y217..354: paint it soft luminous blue-white with blue glass edges and delicate white branching energy inside it. Thin charcoal-violet resin line only within existing material boundaries; do not add broad dividers or a new bezel. The entire lower gold inner wall must remain equally bright medium gold, with no directional shine or shadow.\nThe required material design is a worn colonial-engineered gold ring with white ceramic inlays and a blue-white induction window. Paint FLAT DIFFUSE ALBEDO, with identical mid-gold brightness on every gold face, matte only, no metallic highlights/reflections/shadows/AO, no bevel shine, no gradient lighting, no hard black outlines. Realistic material microtexture is allowed, lighting variation is not.\nThe exact guide silhouette bounds are x66..957 y175..848. Preserve the same low-poly contours, narrow central hole and transparency. PNG, true transparent background, no text or letters, no floor, 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; materials described from previously inspected design reference",
+          "sha256": "1bf6d4ad67aa8bd03a205bb74cb740627d4c4b3b4f131f30a6223c2e597fa723"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-530b3298-9d4c-442a-896b-007fae05cf05.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected for much closer panel and window placement and less reflective gold. Residual bevel/inner-wall shading and alpha silhouette differences remain; corrective limit reached.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "87367c22cabc26a65aeba4ca9c5c50edb1426e80fbb54817caa7b2d1133a7663",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.993525,
+        "normalized_excess_pixels": 1192,
+        "normalized_missing_pixels": 1740,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          80,
+          215,
+          1174,
+          1038
+        ],
+        "transparent_pixel_fraction": 0.554372,
+        "review_note": "Selected for much closer panel and window placement and less reflective gold. Residual bevel/inner-wall shading and alpha silhouette differences remain; corrective limit reached."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / material painting. Input 1 design_reference.png is ONLY the colour/material reference. Input 2 guide_left.png is the immutable shape to paint. Return ONE transparent PNG, 1024x1024, exactly matching the second input guide's alpha mask, position, scale, camera, faceted outline, part boundaries and orientation.\nThis LEFT orthographic view is an almost edge-on diagonal strip descending from upper-left to lower-right, NOT a visible open circular ring. Preserve this exact odd mesh view: the ceramic is one long diagonal panel, bordered by gold on its long sides, with one small blue glass protrusion at upper-left. Do NOT turn it into a ring-shaped three-quarter product shot or add a ring hole not visible in the guide. Do not alter the strip tilt or shorten it. Bounds x94..929 y175..848.\nTransfer the design's off-white ivory ceramic with fine subtle scratches/hairlines and sparse warm flecks; warm antique brushed gold with faint wear scratches; very narrow charcoal-violet resin only along existing seams; the small window at upper-left painted pale blue-white glass with understated energy filaments, without exterior glow.\nSTRICTLY UNLIT DIFFUSE ALBEDO: uniform medium ochre-gold base colour on every gold surface, evenly off-white ceramic, no directional shading, reflections, highlights, shadows, ambient occlusion, bright bevels or rim lighting. Only fine low-contrast material texture, with a faint sheen at most. Keep the entire silhouette and each component boundary EXACTLY as guide_left.png. No text, letters, symbols, floor or backdrop; retain true transparency.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "role": "material reference",
+          "sha256": "58e3b9554cdb110c9d33994d5e8af4573f64ada83f00c273a2c507d24d70b6c6"
+        },
+        {
+          "path": "guide_left.png",
+          "role": "edit target",
+          "sha256": "ea1cdfc08e59e17aab9f5d238d6e7f7ee3340b0d6eed305dd67bb274a22169d2"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-8f1c354e-419c-46e9-9fe6-547939d68ac3.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: added gold bezel to edge-on window and stretched lower/right end of silhouette.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "2bb39cf6f3c73b0d58c41a3101a76abbc905611cea81dfe069c6825a6b2075b6",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.904321,
+        "normalized_excess_pixels": 15644,
+        "normalized_missing_pixels": 10690,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          116,
+          215,
+          1139,
+          1083
+        ],
+        "transparent_pixel_fraction": 0.740381,
+        "review_note": "Rejected: added gold bezel to edge-on window and stretched lower/right end of silhouette."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint this exact guide_left.png directly, preserving its 1024x1024 canvas and alpha mask pixel for pixel. Change surface colours and add fine material texture only. NO changes to silhouette, geometry, perspective, part boundaries, length, width, angle, object position or scale.\nThis is the left-side mesh view of a gold and white ceramic induction ring, a diagonal band from upper-left to lower-right with a little blue-white window seen edge-on at the upper-left. The ring hole is not visible in this view; do not invent one.\nGold surfaces: medium antique warm ochre-gold, evenly coloured, matte diffuse albedo with fine brushed wear scratches and sparse tiny darker flecks. Ceramic surface: warm off-white, subtle hairline wear and tiny warm specks, keep its exact panel polygon. Blue piece: preserve its slim edge-on slab silhouette and exact dimensions, colour pale luminous blue-white with restrained pale blue edges. Do not add a gold frame/bezel around it, do not rotate it to face the camera. Tiny dark charcoal-violet seam where the ceramic meets gold; keep it hairline thin and entirely inside existing surfaces.\nFlat even shadowless illumination, NO reflections, specular streaks, cast shadows, AO, shaded bevels, bright edges, gradient shading or glow spill. Material microtexture only; no text, letters, floor, backdrop.\nExact silhouette anchors: upper tip (265,175), right tip (929,590), right lower ceramic corner (895,749), bottom tip (765,848), left body corner (102,436); small window upper-left x94..204,y215..353. Preserve the guide's entire outline, don't stretch its right/lower end. Transparent PNG. Requested output 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit target; materials described from previously inspected design reference",
+          "sha256": "ea1cdfc08e59e17aab9f5d238d6e7f7ee3340b0d6eed305dd67bb274a22169d2"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-d66a3241-40ca-4327-ad9e-3b901176e585.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected: restored edge-on blue window without invented bezel, closer guide shape and flatter material values. Residual directional shading and outline drift remain; corrective limit reached.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "39cbc12010206b5ba921056e8dcf7824e52a59332b1801fe6f50da1bc328a0c9",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.964709,
+        "normalized_excess_pixels": 7817,
+        "normalized_missing_pixels": 1620,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          115,
+          215,
+          1140,
+          1054
+        ],
+        "transparent_pixel_fraction": 0.740445,
+        "review_note": "Selected: restored edge-on blue window without invented bezel, closer guide shape and flatter material values. Residual directional shading and outline drift remain; corrective limit reached."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / albedo material painting. Paint directly onto guide_right.png, the attached immutable orthographic mesh guide. The approved design_reference.png already supplied in the conversation defines the materials: worn brushed warm gold, finely worn ivory-white ceramic, tiny charcoal-violet resin joins, blue-white induction glass. Apply these materials to the guide's corresponding parts, without transferring the design reference's perspective or lighting.\nRetain the guide's exact 1024x1024 canvas, alpha mask, all silhouette edges, every part boundary, size and position. This RIGHT view is a nearly edge-on diagonal band rising from lower-left to upper-right, with a small pale blue window protruding at upper-right. The ring hole is hidden in this view: do not invent an open ring. Preserve exact contour including faceted corners. Keep the small blue window as its existing slim edge-on slab; no new gold bezel or face-on gem.\nGold: medium antique ochre-gold base colour, faint fine brushed scratches and tiny sparse darker wear flecks. Ceramic: evenly off-white with fine subtle hairlines and sparse warm specks. Hairline-thin dark charcoal-violet joins only at existing material seams. Blue piece: very pale blue-white glass with restrained cyan edges and subtle pale energy detail, no outward glow.\nSTRICT flat unlit diffuse albedo, uniformly even shadowless light from viewer. No directional gradients, cast shadows, ambient occlusion, specular highlights, reflections, white edge shine or rim lighting. All gold faces share the same mid-tone base colour. No background/floor/text/letters/watermark. Genuine alpha transparency.\nGuide anchors: top (758,175), left upper corner (95,590), left lower corner (127,743), bottom (257,848), right body (922,436); existing blue window near x819..929,y215..353. No stretching, rounding, cropping, resizing or repositioning; preserve every guide edge. Return one 1024x1024 PNG.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit target; materials described from previously inspected design reference",
+          "sha256": "68f6a86df8ebfee7305913a74f38ca7b8d7b2e0c7164a5e6fb1b795bafefc637"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-fef63a4a-6cb6-43d7-a525-93e178345bf3.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: enlarged silhouette extended beyond guide framing at both ends.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "243e748e3d0ac929f60fe09c231be50b752460bc05fccd2bdf9c3b1893e6ccd3",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.78219,
+        "normalized_excess_pixels": 54066,
+        "normalized_missing_pixels": 14249,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          101,
+          215,
+          1185,
+          1106
+        ],
+        "transparent_pixel_fraction": 0.707689,
+        "review_note": "Rejected: enlarged silhouette extended beyond guide framing at both ends."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Paint colours and fine worn material texture over this exact guide_right.png. Preserve the guide's exact alpha silhouette, low-poly contours, ceramic panel shape, window position, camera, size and placement. Output 1024x1024 transparent PNG. Do not reconstruct or recompose the ring. Do not enlarge the object: on this 1024-square canvas it must remain within x94..929 and y175..848, including the small blue window. The diagonal band slopes upward to the right exactly as supplied.\nApply the approved induction-ring materials: medium warm antique brushed gold, ivory-white ceramic with sparse tiny warm wear flecks and fine hairlines, hairline-thin charcoal-violet seams at existing boundaries, pale blue-white glass on the existing edge-on window. No added bezel or part. The gold should be matte base colour with fine scratches, not shiny metal.\nCorrective priorities: keep exact outline and framing of the guide without extending the lower-left end or moving the right end outward. Every part stays within its original pixel boundary. Strictly flat shadowless albedo light: no speculars, reflections, directional gradients, AO, rim light or bevel highlights. No text, letters, backdrop or floor. Transparent pixels, including around the item, remain transparent.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit target; materials described from previously inspected design reference",
+          "sha256": "68f6a86df8ebfee7305913a74f38ca7b8d7b2e0c7164a5e6fb1b795bafefc637"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-6db92acf-a1d7-4d7f-8838-4e37f27e668c.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected for closer silhouette framing and correct edge-on window. Gold still has directional shading and outline is not pixel-identical; corrective limit reached.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9e5586a4df08256719b13045f5fbfa21a3aa61bcb89f7ebac1a96864ce7c62ad",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.976652,
+        "normalized_excess_pixels": 4507,
+        "normalized_missing_pixels": 1659,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          123,
+          214,
+          1139,
+          1044
+        ],
+        "transparent_pixel_fraction": 0.743103,
+        "review_note": "Selected for closer silhouette framing and correct edge-on window. Gold still has directional shading and outline is not pixel-identical; corrective limit reached."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / texture-source painting. Paint over this exact guide_top.png. The approved induction-ring design reference supplied earlier defines warm antique brushed gold, off-white ceramic with fine wear, minute dark charcoal-violet resin joins and a blue-white induction window. Transfer these materials onto the guide, retaining the guide's geometry.\nOne 1024x1024 transparent PNG. Preserve the exact guide alpha silhouette, every faceted contour, all component boundaries, the large central transparent ring hole, camera, scale, position and proportions. This TOP view has a large open center, gold rims and broad lower inner gold wall, ceramic panels at left and right, and one blue-white window at the very top center. No new bezel or silhouette parts.\nMedium warm ochre-gold base colour with fine brushed scratches and sparse tiny darker wear flecks. Off-white ceramic with sparse warm freckles and fine hairlines. Hairline charcoal-violet material seams. Existing top-center window is pale blue-white with restrained cyan borders and subtle fine branching energy inside it. Preserve the existing dimensions and raised slab silhouette of the window.\nSTRICTLY FLAT SHADOWLESS ALBEDO, not a product render. Uniform base colour on all gold faces, inward and outward, with only low-contrast microtexture and a faint sheen. No highlights, bright gold edges, reflections, cast shadows, AO, directional shading, dark inner wall, lighting gradients, rim light or glow spill. No background, floor, text, letters or watermark.\nExact guide object bounds x66..957, y94..929; top-center window x441..582,y94..204. Central open hole has top near (512,322), widest points (202,516) and (821,516), bottom near (512,709). Keep every edge and all transparent areas pixel-identical to the guide.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit target; materials described from previously inspected design reference",
+          "sha256": "f150cb8e49b8d80f21adb38e771b30a15f2a41d3535c1d3d066b699eb5a42694"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-d0338b25-84cb-4d5c-bd08-32729d0b90ea.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favor of corrective pass: metallic sheen and brighter top/bottom surfaces baked into colour.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "60849e98e6acbf0b6e0ee38d66ff9dff0dff92b2c27d4dd406260731d075a430",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.989185,
+        "normalized_excess_pixels": 4281,
+        "normalized_missing_pixels": 25,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          79,
+          115,
+          1174,
+          1139
+        ],
+        "transparent_pixel_fraction": 0.607177,
+        "review_note": "Rejected in favor of corrective pass: metallic sheen and brighter top/bottom surfaces baked into colour."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective albedo painting of this exact guide_top.png. Keep its exact silhouette, all internal material edges, size, position, camera, polygon corners and transparent central hole. One 1024x1024 RGBA image; preserve the guide's alpha mask without changing a single edge. No new geometry.\nPaint its gold surfaces uniformly medium warm antique gold (approximately #B28B48), its ceramic surfaces evenly warm white (#EEE9DE), its small top-center window luminous pale blue-white with subtle cyan edges and fine white energy filaments. Add restrained tiny brushed gold scratches and sparse minute worn flecks, delicate hairlines and warm specks in the ceramic, hairline dark charcoal-violet material seams. Follow the worn gold / white ceramic / blue-white induction glass design reference from the conversation, but with diffuse colour only.\nCritical correction: ELIMINATE ALL BAKED LIGHTING. Every gold face, including lower inner wall and inner bevel, has the SAME medium base brightness and hue. No bright upper gold, no dark bevels, no rim highlights, no directional reflection stripe, no shadows or ambient occlusion, no glow outside window. Do not shade the geometry to show depth: the supplied geometry remains unchanged and the texture will later receive lighting in the game.\nDo not change the open hole or the top-center window's shape. Bounds of whole guide: x66..957 y94..929. No text, letters, backdrop or floor. True transparency outside the ring and inside the hole. Return only the painted image.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit target; materials described from previously inspected design reference",
+          "sha256": "f150cb8e49b8d80f21adb38e771b30a15f2a41d3535c1d3d066b699eb5a42694"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dcf-5a98-7e03-a5d4-5d3ad3414a26/exec-e57a7bc3-c66e-4ca8-8919-6f60267a9ee0.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected for substantially flatter gold base colour while retaining material placement and the open ring hole. Small edge highlights and silhouette/alpha drift remain; corrective limit reached.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "007936b9d23525077a0b11eb479a07f0019e1bdc1492315c5409e17f19cdbf70",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical_to_guide": false,
+        "colours_materials_match": true,
+        "flat_even_light_no_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "normalized_alpha128_silhouette_iou": 0.987957,
+        "normalized_excess_pixels": 4620,
+        "normalized_missing_pixels": 179,
+        "normalized_comparison_canvas": [
+          1024,
+          1024
+        ],
+        "file_byte_identical_to_tool_return": true,
+        "alpha128_bbox": [
+          78,
+          115,
+          1173,
+          1140
+        ],
+        "transparent_pixel_fraction": 0.601483,
+        "review_note": "Selected for substantially flatter gold base colour while retaining material placement and the open ring hole. Small edge highlights and silhouette/alpha drift remain; corrective limit reached."
+      }
+    }
+  ],
+  "design_authority": {
+    "path": "design_reference.png",
+    "sha256": "58e3b9554cdb110c9d33994d5e8af4573f64ada83f00c273a2c507d24d70b6c6",
+    "usage": "Inspected visually before generation; attached directly in runs listing it as input, otherwise described in the prompt from that inspection."
+  },
+  "verification_method": "Read-only image inspection and alpha-mask comparison. Normalized silhouette metrics sample returned alpha at guide pixel centers; no image files were resized, warped, masked or repainted after generation.",
+  "limitations": [
+    "All native tool returns are 1254x1254 instead of requested 1024x1024; retained byte-for-byte as requested for alternate sizes.",
+    "Selected means preferred among the two permitted attempts, not full acceptance against the brief.",
+    "Exact silhouette/alpha preservation was not achieved. Some directional shading or edge highlights remain, most visibly in the front view."
+  ]
+}

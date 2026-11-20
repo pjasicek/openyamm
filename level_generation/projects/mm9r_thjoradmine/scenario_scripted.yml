@@ -1,0 +1,693 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjoradmine_scripted
+title: Thjorad Mine (native BLV) - letters, NPC dialogues, spikes, the hard rock and Ebora, the cave-in, the gnolls, the spawns,
+  the slag extractor
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjoradmine.blv
+- note:
+    text: 'Sign0: the letter (BookLetter.scr DoLetter 572) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 3101
+    y: -1480
+    z: -900
+    yaw: 3.1416
+    pitch: -0.4915
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Sign1: the letter (BookLetter.scr DoLetter 571) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 3272
+    y: -2101
+    z: -890
+    yaw: -1.5708
+    pitch: -0.5758
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Sign2: the letter (BookLetter.scr DoLetter 574) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 2496
+    y: 95
+    z: -982
+    yaw: 0.7854
+    pitch: -0.1895
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Sign3: the letter (BookLetter.scr DoLetter 573) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 2944
+    y: 315
+    z: -982
+    yaw: -1.5708
+    pitch: -0.1895
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Sign4: the letter (BookLetter.scr DoLetter 573) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 2921
+    y: 159
+    z: -982
+    yaw: 0.0
+    pitch: -0.1895
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Sign5: the letter (BookLetter.scr DoLetter 426) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 5056
+    y: 978
+    z: -1310
+    yaw: 3.1416
+    pitch: -0.7831
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Sign6: the letter (BookLetter.scr DoLetter 486) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 4908
+    y: 978
+    z: -1310
+    yaw: 3.1416
+    pitch: -0.7831
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Sign7: the letter (BookLetter.scr DoLetter 487) on a click.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 5174
+    y: 978
+    z: -1310
+    yaw: 3.1416
+    pitch: -0.7831
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'CommonerDwarfMaleB2: a click opens MM9''s dialogue 11.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 826
+    y: -123
+    z: -654
+    yaw: 3.1416
+    pitch: -0.4292
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 11
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'CommonerDwarfMaleB0: a click opens MM9''s dialogue 9.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 4895
+    y: -2415
+    z: -982
+    yaw: 3.1416
+    pitch: -0.4309
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 9
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'CommonerDwarfMaleB1: a click opens MM9''s dialogue 8.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 2833
+    y: 123
+    z: -982
+    yaw: 3.1416
+    pitch: -0.4309
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 8
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'DwarvenMiner1: a click opens MM9''s dialogue 428.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 3263
+    y: 1802
+    z: -982
+    yaw: 3.1416
+    pitch: -0.4309
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 428
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'BarWall1 (SpikeDoorA.scr): locked; each of its six BoardSpikes goes on a click, the sixth opens it.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 110
+    y: 3912
+    z: 1
+    yaw: 3.1416
+    pitch: 0.9902
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 3
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: -170
+    y: 3951
+    z: 1
+    yaw: 3.1416
+    pitch: 1.121
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike6
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 320
+    y: 4053
+    z: 1
+    yaw: -1.9635
+    pitch: -0.2506
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike7
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 320
+    y: 4053
+    z: 1
+    yaw: -1.9635
+    pitch: 0.774
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike8
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 320
+    y: 4053
+    z: 1
+    yaw: -1.9635
+    pitch: 1.121
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike9
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: -173
+    y: 3951
+    z: 1
+    yaw: 3.1416
+    pitch: -0.1387
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike10
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: -173
+    y: 3951
+    z: 1
+    yaw: 3.1416
+    pitch: 0.7858
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Spike11
+      current: 1
+- note:
+    text: 'The barricade falls toward the party: step back while it swings.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 0
+    y: 4812
+    z: 1
+    yaw: -1.5708
+    pitch: 0.1842
+- advance_runtime:
+    seconds: 4
+- assert:
+    named_map_var_changed:
+      name: BarWall1Open
+      current: 1
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- note:
+    text: 'The hard rock (tm_hardrock.scr ''10 36 5000''): ten blocks broken by clicks give key 36; Ebora (EboraMines.scr
+      FreeAtLast) taunts and vanishes in a column of fire.'
+- assert:
+    actor_visible:
+      actor_index: 46
+      hidden: false
+- note:
+    text: 'db21: a weapon''s blow (1 damage, its 1 hit point) breaks it; the others by clicks.'
+- console:
+    line: destructible 9 damage 1
+    expect_contains: damage
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db21
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1188
+    z: -1402
+    yaw: 3.1416
+    pitch: -0.291
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db18
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1075
+    z: -1412
+    yaw: 3.1416
+    pitch: -0.218
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db23
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1444
+    z: -1379
+    yaw: 3.1416
+    pitch: -0.3364
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db20
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1270
+    z: -1395
+    yaw: 3.1416
+    pitch: -0.1305
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db13
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1413
+    z: -1382
+    yaw: 3.1416
+    pitch: -0.0631
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db17
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1208
+    z: -1400
+    yaw: 3.1416
+    pitch: 0.1644
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db22
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1341
+    z: -1388
+    yaw: 3.1416
+    pitch: 0.2702
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db14
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1116
+    z: -1409
+    yaw: 3.1416
+    pitch: 0.4425
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db15
+      current: 1
+- set_pose:
+    map: thjoradmine.blv
+    x: 24467
+    y: -1393
+    z: -1383
+    yaw: 3.1416
+    pitch: 0.5503
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    named_map_var_changed:
+      name: db12
+      current: 1
+- assert:
+    qbit_set:
+    - 90036
+- assert:
+    named_map_var_changed:
+      name: EboraFree
+      current: 1
+- advance_runtime:
+    seconds: 14
+- assert:
+    named_map_var_changed:
+      name: EboraFree
+      current: 4
+- assert:
+    actor_visible:
+      actor_index: 46
+      hidden: true
+- note:
+    text: 'Trigger7: the party in its box fires event 140.'
+- load_map:
+    map: thjoradmine.blv
+- set_pose:
+    map: thjoradmine.blv
+    x: 7332
+    y: 2499
+    z: -1223
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    named_map_var_changed:
+      name: FiredTrigger7
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: CaveIn
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BrokenCaveIn
+      current: 1
+- assert:
+    qbit_set:
+    - 90035
+- note:
+    text: 'TriggerHardRock: the party in its box fires event 141.'
+- load_map:
+    map: thjoradmine.blv
+- set_pose:
+    map: thjoradmine.blv
+    x: 26583
+    y: -4792
+    z: -1186
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    named_map_var_changed:
+      name: FiredTriggerHardRock
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BustOut
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BrokenBustOutBrush0
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BrokenBustOutBrush1
+      current: 1
+- assert:
+    named_map_var_changed:
+      name: BrokenBustOutBrush2
+      current: 1
+- assert:
+    actor_visible:
+      actor_index: 9
+      hostile_to_party: true
+- note:
+    text: 'TriggerLocation0 (SpawnMgr.scr, SpawnLoc.scr): three troglodytes appear at SpawnMarker0 and hunt the party.'
+- load_map:
+    map: thjoradmine.blv
+- assert:
+    actor_visible:
+      actor_index: 73
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 74
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 75
+      hidden: true
+- set_pose:
+    map: thjoradmine.blv
+    x: 6385
+    y: -3287
+    z: -982
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    named_map_var_changed:
+      name: FiredTriggerLocation0
+      current: 1
+- assert:
+    actor_visible:
+      actor_index: 73
+      hidden: false
+      hostile_to_party: true
+- assert:
+    actor_visible:
+      actor_index: 74
+      hidden: false
+      hostile_to_party: true
+- assert:
+    actor_visible:
+      actor_index: 75
+      hidden: false
+      hostile_to_party: true
+- note:
+    text: 'The slag extractor: the hatch (RotatingDoor0) opens on a click; the broken part (SlagExtractor.scr OnUse) comes
+      to the hand with key 9512.'
+- load_map:
+    map: thjoradmine.blv
+- set_pose:
+    map: thjoradmine.blv
+    x: -2593
+    y: 978
+    z: 1
+    yaw: 3.1416
+    pitch: -0.6173
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- set_pose:
+    map: thjoradmine.blv
+    x: -2323
+    y: 978
+    z: 1
+    yaw: 3.1416
+    pitch: -0.2027
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 10
+      state: open
+- note:
+    text: 'Headless picking does not follow the hatch''s swing (playbook gotcha): the broken part and the base are clicked
+      by their events here; GiveItem hands nothing over headless, the key shows the grant (the desktop run checks the hand).'
+- execute_event:
+    id: 130
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    qbit_set:
+    - 99512
+- note:
+    text: 'With the replacement (item 399) a click on the machine''s base installs it (SlagBase.scr, SlagExtractor.scr OnShow):
+      key 37 and the item taken.'
+- grant_item:
+    item_id: 10399
+    member_index: 0
+- execute_event:
+    id: 131
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    qbit_set:
+    - 90037

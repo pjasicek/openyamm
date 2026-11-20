@@ -1,0 +1,142 @@
+# MM9 playthrough, segment 36: Yanmir's Sky Fort (guide: Chapter I, "Defeat Yanmir the Frost Giant"). Frosgard City out
+# to the region and the teleporter on the shore below the fort (outdoors the party is moved); the fort is walked. Its
+# west door wakes Yanmir right beside it and he blocks the doorway for good (he cannot be hurt), so the party goes
+# north: the stair room, the upper corridor (SquishTrigger1 at DPortal12 wakes him far below), Yanmir's Key in the
+# key room, the east wing and the long curved corridor round to the wedge room south of the trap hall. The bookcase
+# (secret wall) opens onto the spiral stair; in the basement the six supports are broken, the two nearest the stair
+# last; back up at once (with the trap armed, Yanmir in the hall would drop the floor onto a party below). Then round
+# by the east corridor into the feast hall: a loop until Yanmir comes at the party, and south through the trap hall
+# without stopping: he follows and the floor gives way (key 69, 8 000 experience). Out by the west gate.
+# Doors are clicked from in front of them (walk_to's own click-ahead works but waits ~6 s at each).
+# Routes and risks: prep/35_50_frosgard_thronheim_council.md (segment 36).
+#   python3 tests/playthrough/mm9/run.py 36
+id: mm9.playthrough.36_yanmirs_fort
+title: "MM9 playthrough 36: Yanmir's Sky Fort walked, the supports broken, Yanmir lured onto the rotten floor"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/35_frosgard_ice.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgardcity.blv, qbit_set: [90068], qbit_clear: [90069, 90173, 97001]}
+
+  # Out of the city to the region, to the teleporter (TPS1) on the shore below the fort.
+  - set_pose: {map: frosgardcity.blv, x: 11983, y: 7700, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11983, y: 8400, z: 0, z_tolerance: 700, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgard.blv}
+  - set_pose: {map: frosgard.blv, x: -21900, y: -7156, z: 2611, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - walk_to: {x: -21900, y: -7600, z: 2700, z_tolerance: 400, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yanmirsfort.blv}
+
+  # North: DPortal18, DPortal10 into the stair room, up to the upper corridor, DPortal12 (Yanmir wakes below).
+  - walk_to: {via: [[-5079, -2458, 0]], x: -5079, y: -400, z: 0, radius: 60, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(111); wait(2.0)'}
+  - walk_to: {x: -5079, y: 500, z: 0, plan: false, radius: 80, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: -5300, y: 1065, z: 0, radius: 60, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(103); wait(2.0)'}
+  - walk_to: {x: -6200, y: 1065, z: 0, plan: false, radius: 80, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {via: [[-7400, 1100, 0], [-7400, 2000, 512], [-7400, 2700, 655], [-4000, 3500, 655]], x: -1700, y: 3441, z: 655, radius: 60, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(105); wait(2.0)'}
+  - walk_to: {via: [[-1000, 3441, 655], [500, 3500, 655]], x: 2000, y: 3441, z: 655, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(104); wait(2.0); if mapvar("YanmirAwake") ~= 1 then log("ISSUE Yanmir still asleep after DPortal12") end'}
+  # The key room (DPortal14): Yanmir's Key lies there (a world item: key 7001, item 10570).
+  - walk_to: {x: 3850, y: 3441, z: 328, plan: false, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(107); wait(2.0)'}
+  - walk_to: {via: [[4600, 3441, 328]], x: 5150, y: 2600, z: 328, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10570, reach: 450}
+  - assert: {qbit_set: [97001]}
+  # The east wing (DPortal15), down to the east corridor (DPortal16), the long curved corridor (DPortal24), Portal4,
+  # Portal12 into the wedge room.
+  - walk_to: {x: 5950, y: 5079, z: 328, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(108); wait(2.0)'}
+  - walk_to: {via: [[6700, 5079, 328], [7700, 4300, 328], [7700, 1500, 0]], x: 7864, y: -1500, z: 0, radius: 60, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: 'click(109); wait(2.0)'}
+  - walk_to: {via: [[7864, -2458, 0]], x: 8900, y: -2458, z: 0, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(117); wait(2.0)'}
+  - walk_to: {via: [[9700, -2458, 0], [10200, -4000, 0], [8900, -7000, 0], [8000, -9500, 0]], x: 7537, y: -10750, z: 0, radius: 60, timeout_seconds: 200, clear_hostiles: 1500}
+  - play_lua: {source: 'click(127); wait(2.0)'}
+  - walk_to: {via: [[7537, -11500, 0], [5900, -13400, 0]], x: 5200, y: -13763, z: 0, radius: 100, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(125); wait(2.0)'}
+  - walk_to: {via: [[4400, -13763, 0]], x: 2900, y: -14582, z: -41, radius: 60, timeout_seconds: 120, clear_hostiles: 1500}
+
+  # The bookcase on the wedge room's west wall: the secret wall opens for good.
+  - play_lua:
+      source: |
+        click(210); wait(2)
+        if mapvar("SecretOpen") ~= 1 then error("the bookcase did not open") end
+  # West along the passage's south half (the open leaf takes the north half), down the spiral stair.
+  - walk_to: {via: [[2900, -14700, -41], [2300, -14700, -96], [1500, -14650, -188], [700, -14650, -292], [420, -14560, -328], [292, -14523, -350], [189, -14571, -420], [123, -14665, -490], [113, -14778, -560], [161, -14881, -630], [255, -14947, -700], [368, -14957, -770], [471, -14909, -850], [537, -14815, -930], [549, -14721, -983], [500, -14450, -983]], x: 500, y: -13300, z: -983, plan: false, radius: 50, z_tolerance: 400, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 492, y: -11700, z: -962, radius: 100, z_tolerance: 300, timeout_seconds: 120, clear_hostiles: 1500}
+
+  # The six supports, each clicked (a weapon blow breaks it too), the far ones first.
+  - walk_to: {x: 205, y: -7738, z: -962, radius: 60, z_tolerance: 300, timeout_seconds: 60}
+  - play_lua: {source: 'click(38763); wait(0.5)'}
+  - walk_to: {x: 778, y: -7738, z: -962, radius: 60, z_tolerance: 300, timeout_seconds: 60}
+  - play_lua: {source: 'click(38764); wait(0.5)'}
+  - walk_to: {x: 205, y: -9048, z: -962, radius: 60, z_tolerance: 300, timeout_seconds: 60}
+  - play_lua: {source: 'click(38761); wait(0.5)'}
+  - walk_to: {x: 778, y: -9048, z: -962, radius: 60, z_tolerance: 300, timeout_seconds: 60}
+  - play_lua: {source: 'click(38762); wait(0.5)'}
+  - walk_to: {x: 778, y: -10039, z: -962, radius: 60, z_tolerance: 300, timeout_seconds: 60}
+  - play_lua: {source: 'click(38760); wait(0.5)'}
+  - walk_to: {x: 205, y: -10039, z: -962, radius: 60, z_tolerance: 300, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(38759); wait(0.5)
+        local broken = 0
+        for k = 0, 5 do broken = broken + mapvar("Support" .. k) end
+        if broken ~= 6 or mapvar("TrapArmed") ~= 1 then error("supports broken: " .. broken) end
+        log("all six supports broken: the trap is armed")
+  # Straight back up the spiral to the wedge room.
+  - walk_to: {via: [[492, -11700, -962], [500, -13300, -983], [500, -14450, -983], [549, -14721, -983], [537, -14815, -930], [471, -14909, -850], [368, -14957, -770], [255, -14947, -700], [161, -14881, -630], [113, -14778, -560], [123, -14665, -490], [189, -14571, -420], [292, -14523, -350], [420, -14560, -328], [700, -14650, -292], [1500, -14650, -188], [2300, -14700, -96]], x: 2900, y: -14700, z: -41, plan: false, radius: 50, z_tolerance: 400, timeout_seconds: 120, clear_hostiles: 1500}
+  - assert: {state_dump_named_map_var: {name: TrapFired, value: 0}}
+
+  # Round by the east corridor into the feast hall (DPortal23).
+  - walk_to: {via: [[4400, -13763, 0]], x: 5200, y: -13763, z: 0, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(125); wait(2.0)'}
+  - walk_to: {via: [[6200, -13600, 0], [6900, -12800, 0]], x: 7537, y: -11500, z: 0, radius: 120, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(127); wait(2.0)'}
+  - walk_to: {via: [[7537, -10750, 0], [8000, -9500, 0], [8900, -7000, 0], [10200, -4000, 0]], x: 9700, y: -2458, z: 0, radius: 60, timeout_seconds: 200, clear_hostiles: 1500}
+  - play_lua: {source: 'click(117); wait(2.0)'}
+  - walk_to: {x: 5300, y: -2458, z: 0, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(116); wait(2.0)'}
+  # The lure: a loop through the hall until Yanmir comes at the party, ending at the hall's north side so that he
+  # follows from far behind: he is half as fast as the party, and the whole rotten floor (to y -10516) must be behind
+  # the party before he steps onto it. Then south through DPortal19, the trap hall and DPortal20 without stopping.
+  - walk_to: {via: [[2500, -2500, 0], [1500, -4800, 0], [-1500, -4800, 0], [-3000, -2500, 0], [-1500, -800, 0]], x: 492, y: -700, z: 0, radius: 150, timeout_seconds: 120, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 4}
+  - walk_to: {x: 492, y: -5300, z: 0, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(112); wait(1.5)'}
+  - walk_to: {x: 492, y: -10900, z: 0, plan: false, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(113); wait(2.0)'}
+  - walk_to: {x: 492, y: -11900, z: 0, plan: false, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      max_seconds: 150
+      source: |
+        for i = 1, 45 do
+          if mapvar("YanmirGone") == 1 then break end
+          wait(3)
+        end
+        if mapvar("TrapFired") ~= 1 or mapvar("YanmirGone") ~= 1 then error("Yanmir never fell") end
+        log("Yanmir fell through the rotten floor: " .. status())
+  - assert: {qbit_set: [90069], qbit_clear: [90173]}
+
+  # Out by the west gate, round by the curved corridor and the feast hall (never over the fallen floor).
+  - walk_to: {via: [[2000, -11700, 0], [4000, -11100, 0], [6000, -10200, 0], [8000, -9500, 0], [8900, -7000, 0], [10200, -4000, 0]], x: 9700, y: -2458, z: 0, radius: 100, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: 'click(117); wait(2.0)'}
+  - walk_to: {x: 5300, y: -2458, z: 0, radius: 60, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(116); wait(2.0)'}
+  - walk_to: {via: [[4500, -2458, 0], [0, -2458, 0]], x: -3600, y: -2458, z: 0, radius: 60, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'click(115); wait(2.0)'}
+  - walk_to: {x: -7500, y: -2458, z: 0, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -8900, y: -2458, z: 0, radius: 10, plan: false, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgard.blv, qbit_set: [90069, 97001]}
+  - save_game: {name: "36 Yanmir fallen", path: output/playthrough/mm9/checkpoints/36_yanmirs_fort.oysav}

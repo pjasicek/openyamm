@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/industrial_sewer6
+settle_seconds: 2.0
+exit: true
+shots:
+- name: sewer_s82
+  position:
+  - -1896
+  - 6017
+  - 1
+  yaw: 5.301
+  pitch: -0.15
+- name: sewer_s82_b
+  position:
+  - -155
+  - 1382
+  - 1
+  yaw: 1.571
+  pitch: -0.15

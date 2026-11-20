@@ -1,0 +1,109 @@
+# D0 Hangar Nine's mechanics, headless (run from output/hesper_stage/scenario_run): the room doors, the practice
+# terminal (refused without Hacking), the range lever, the two reactor breakers restoring the power
+# (which opens Hangar Control's seal), the fuel depot door, the lander's cockpit socket and coil housing answering
+# their clicks, the Pilot aboard (event 19 and his topics) and the cell charger (event 70). Door ids:
+# author_d00_blender.py DOORS
+# (1 office, 2 Parts Store, 3 Militia Post, 4 range shutter, 5 reactor, 6 fuel depot, 7 Hangar Control).
+id: hesper.d00.mechanisms
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d00.blv
+# The office door, clicked on its leaf from the aisle (event 40).
+- set_pose: {map: hes_d00.blv, x: 4800, y: 1760, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.5
+    assert: {mechanism: {kind: indoor_door, id: 1, state: open}}
+# The practice terminal refuses a party without Hacking (event 25; the runner cannot grant a skill, so its open path
+# is checked by hand: the console's `skill` command).
+- set_pose: {map: hes_d00.blv, x: 5100, y: 1240, z: 0, yaw: -1.5707963, pitch: -0.2}
+- press_interact: {}
+- assert:
+    mechanism: {kind: indoor_door, id: 2, state: closed}
+# The Militia Post door (event 41) and the range lever on its east wall (event 26).
+- set_pose: {map: hes_d00.blv, x: 6600, y: 1760, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.5
+    assert: {mechanism: {kind: indoor_door, id: 3, state: open}}
+- set_pose: {map: hes_d00.blv, x: 7000, y: 2550, z: 0, yaw: 0, pitch: -0.1}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 3.5
+    assert: {mechanism: {kind: indoor_door, id: 4, state: open}}
+# The reactor door from the bay (event 42), then both breakers on the reactor's west wall (events 27, 28): the power
+# comes on and Hangar Control's seal opens.
+- set_pose: {map: hes_d00.blv, x: 160, y: 1500, z: 0, yaw: 3.1415927, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.5
+    assert: {mechanism: {kind: indoor_door, id: 5, state: open}}
+- set_pose: {map: hes_d00.blv, x: -2080, y: 1700, z: 0, yaw: 3.1415927, pitch: 0}
+- press_interact: {}
+- set_pose: {map: hes_d00.blv, x: -2080, y: 2300, z: 0, yaw: 3.1415927, pitch: 0}
+- press_interact: {}
+- press_action: {action: cancel_dialog}
+- wait_until:
+    timeout_runtime_seconds: 4
+    assert: {mechanism: {kind: indoor_door, id: 7, state: open}}
+# The fuel depot door (event 43).
+- set_pose: {map: hes_d00.blv, x: 1800, y: 160, z: 0, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.5
+    assert: {mechanism: {kind: indoor_door, id: 6, state: open}}
+# The sockets. The headless runner's granted items are not visible to the map's Lua (HasItem stays false), so the
+# fitting itself is checked in the game (review_tour_01.yml, the console's `item add` and `event 20`); here: the
+# cockpit socket is the decoration of event 20 (cog 31), and an empty-handed click fits nothing.
+- set_pose: {map: hes_d00.blv, x: 1800, y: 1560, z: 96, yaw: 1.5707963, pitch: -0.47}
+- press_interact:
+    expect: {kind: event_target, target_kind: 2, name: "20"}
+- assert:
+    qbit_clear: [100004]
+# The coil housing on the east drive pod (event 21) answers too, and stays empty without the core in.
+- set_pose: {map: hes_d00.blv, x: 2600, y: 860, z: 32, yaw: 3.1415927, pitch: 0}
+- press_interact:
+    expect: {kind: event_target, target_kind: 2, name: "21"}
+- assert:
+    qbit_clear: [100040]
+# The Pilot aboard (CR-P4-15): from M4 done (100004) the flight deck's side console (event 19) opens his talk, and his
+# topics past the sixth slot (stage.py's extra slots: The Harvester, 9008) are there; The Harvester gives M8 (100208).
+- setup_shortcut: {kind: set_qbit, id: 100004, reason: M4 done (the Pilot's core in the cockpit)}
+- set_pose: {map: hes_d00.blv, x: 1700, y: 1600, z: 64, yaw: 3.1415927, pitch: -0.2}
+- press_interact:
+    expect: {kind: event_target, name: "Lander console"}
+- assert:
+    dialog: {active: true, source_id: 9001}
+- select_topic: {kind: npc_topic, action_id: 9008}
+- assert:
+    qbit_set: [100208]
+- press_action: {action: cancel_dialog}
+# The Pilot aboard after M4 (follow-up 32, P4's R3 fix 1): the wreck's topics stop on two bits, so with M1 done
+# (100001), his core fitted (100004) and 100204 cleared by the cockpit socket, neither Planetfall (9001) nor Below the
+# rim (9006, which gave the Pilot's Core) is offered; Black box (never asked), The stash, The repair list, The
+# Harvester and Re-entry are: five.
+- setup_shortcut: {kind: set_qbit, id: 100001, reason: M1 done}
+- set_pose: {map: hes_d00.blv, x: 1700, y: 1600, z: 64, yaw: 3.1415927, pitch: -0.2}
+- press_interact:
+    expect: {kind: event_target, name: "Lander console"}
+- assert:
+    qbit_clear: [100204]
+    dialog:
+      active: true
+      source_id: 9001
+      action_count: 5
+      actions: [{id: 9002}, {id: 9003}, {id: 9007}, {id: 9008}, {id: 9009}]
+- press_action: {action: cancel_dialog}
+# The cell charger (event 70) on the flight deck's south wall: dark before the black box; from 100233 (and 100004) a
+# Shield Cell (11300) per character. A map event's item gift does not reach the headless party (as the sockets'
+# Engram), so the cells and the day's "Charging." are checked in the game (README, Look and test).
+- set_pose: {map: hes_d00.blv, x: 1930, y: 1470, z: 64, yaw: -1.5707963, pitch: -0.15}
+- press_interact:
+    expect: {kind: event_target, name: "Cell charger"}
+- assert:
+    qbit_clear: [100233]
+- setup_shortcut: {kind: set_qbit, id: 100233, reason: the black box handed in}
+- press_interact:
+    expect: {kind: event_target, name: "Cell charger"}

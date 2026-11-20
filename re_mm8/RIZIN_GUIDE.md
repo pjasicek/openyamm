@@ -7,6 +7,9 @@ restrictions still apply.
 
 This guide records hands-on checks on **2026-09-10**, using Rizin **0.10.0**, commit
 `c329b50b1ce87e32168f46e8a29d019b747c4117`, installed under `~/.local` from `third_party/rizin/`.
+After a system move it was restored on 2026-10-31 from the old disk (`~/.local/bin/rizin`, `librz_*` in
+`~/.local/lib/x86_64-linux-gnu`, rz-ghidra in `.../rizin/plugins`; `pdg` works). If `command -v rizin` fails again, the
+in-tree build `third_party/rizin/build/binrz/rizin/rizin` (tools beside it in `build/binrz/`) runs without installing.
 Commands below run from the **OpenYAMM repository root**, unless explicitly described as interactive commands.
 Generated projects and large exports belong in ignored `re_mm8/work/`; preserve useful conclusions as small,
 reviewable Markdown notes and annotation scripts next to this guide.
@@ -64,6 +67,16 @@ when the whole attack sprite animation has elapsed, not on a drawn contact frame
 [Party target selection](PARTY_TARGET_SELECTION.md) checks default monster targeting, party-slot probabilities,
 condition exclusions and melee/projectile callers in original MM8, with a separately fingerprinted MM7 comparison.
 Its [MM8 annotations](mm8_rel_5326d564_party_targeting.rz) target the same original executable.
+
+[Monsters hit by the party from far away](PARTY_HIT_AGGRO.md) traces what a party hit sets on a monster, why the
+outdoor full-AI list ignores it beyond 5632 units, and how far party projectiles fly (lifetime, speed units).
+Its [annotations](mm8_rel_5326d564_party_hit_aggro.rz) target the same original executable.
+
+[Party slope climbing](PARTY_SLOPE_CLIMBING.md) traces the party's outdoor and indoor slope rules (terrain slide,
+model-face and dungeon-slope responses), GrayFace's `ClimbBetter` byte patch, and the gaps in OpenEnroth and OpenYAMM.
+
+[Potion power](POTION_POWER.md) traces where a potion's power comes from (random treasure, map placement, monster
+loot, shops) and how each drink effect uses it, with the MMerge overrides.
 
 [Chest opening and closing sounds](CHEST_AUDIO.md) verifies the original MM8 request for sound 141
 (`openchest0101`), the separate trap-explosion path and silent close-button/Escape exit. Its

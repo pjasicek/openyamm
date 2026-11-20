@@ -1,0 +1,189 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_med.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_med.glb",
+ "assignments": [
+  {
+   "match": "=Medusa_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_med_claude/textures/med_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_med_claude/textures/med_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "med_body_metal_rough_1k_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Medusa_A",
+    "Medusa_B",
+    "Medusa_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 258103,
+     "uv_covered_without_class": 0.0221,
+     "uv_covered_without_class_far": 0.0018,
+     "class_texels_outside_uv": 0.0585,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_med_claude/textures/med_body_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.8044,
+      "cloth": 0.0841,
+      "metal": 0.1115
+     }
+    },
+    "head": {
+     "uv_covered_texels": 330639,
+     "uv_covered_without_class": 0.0542,
+     "uv_covered_without_class_far": 0.0014,
+     "class_texels_outside_uv": 0.07,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_med_claude/textures/med_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.8439,
+      "eye": 0.0243,
+      "mouth": 0.0038,
+      "metal": 0.128
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.8266,
+    "eye": 0.0136,
+    "mouth": 0.0021,
+    "cloth": 0.0369,
+    "metal": 0.1208
+   },
+   "kept_classes": [
+    "skin",
+    "cloth"
+   ],
+   "kept_texels": 508369,
+   "old_specular_mean_by_class": {
+    "skin": 0.278,
+    "eye": 0.651,
+    "mouth": 0.349,
+    "cloth": 0.349,
+    "metal": 0.8
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.278,
+    "eye": 1.0,
+    "mouth": 0.5,
+    "cloth": 0.349,
+    "metal": 1.0
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.648,
+    "eye": 0.15,
+    "mouth": 0.45,
+    "cloth": 0.611,
+    "metal": 0.38
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Medusa_A": {
+     "median_srgb": [
+      214,
+      161,
+      59
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      125,
+      170,
+      205
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.0054,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Medusa_B": {
+     "median_srgb": [
+      213,
+      160,
+      61
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      123,
+      169,
+      205
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.006,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Medusa_C": {
+     "median_srgb": [
+      213,
+      160,
+      59
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      123,
+      169,
+      205
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.0054,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 71,
+     "max": 255,
+     "mean": 95.7
+    },
+    "G": {
+     "min": 38,
+     "max": 192,
+     "mean": 155.0
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 29.1
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

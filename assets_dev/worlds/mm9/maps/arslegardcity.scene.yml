@@ -1,0 +1,8331 @@
+{
+ "format_version": 1,
+ "kind": "indoor_scene",
+ "source": {
+  "geometry_file": "arslegardcity.blv"
+ },
+ "environment": {
+  "sky_texture": "",
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "ceiling": 1024,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 4096,
+   "strong_distance": 8192
+  }
+ },
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "visible_outlines": {
+   "bitset_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "face_attribute_overrides": [
+   {
+    "face_index": 0,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 2,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 11,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 12,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 13,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 402,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 403,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 404,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 405,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 406,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 407,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 408,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 409,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 410,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 411,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 412,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 413,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 414,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 415,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 416,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 417,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 418,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 419,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 420,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 421,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 422,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 423,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 431,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 432,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 520,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 521,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 522,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 523,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 524,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 525,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 526,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 527,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 528,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 529,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 530,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 531,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 532,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1885,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1886,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1887,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1888,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1889,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1890,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1891,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1892,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1893,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1894,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1895,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1896,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1897,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1898,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1899,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1900,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1901,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1902,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1903,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1904,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1905,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1906,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1907,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1908,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1909,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1910,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1911,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1912,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1913,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1914,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1915,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1916,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1917,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1918,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1919,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1920,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1921,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1922,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1923,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1924,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 1925,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3349,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3350,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3874,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3875,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3876,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3877,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3878,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3883,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3884,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3885,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3886,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3887,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3888,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3889,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3890,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3891,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3892,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3893,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3894,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3895,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3896,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3897,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3898,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3899,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3900,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3901,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3902,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3909,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3910,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3911,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3912,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3913,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3914,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3915,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3916,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3917,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3918,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3919,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3920,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3921,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3922,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3923,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4126,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4127,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4128,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4129,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4130,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4131,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4132,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4133,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4134,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4135,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4136,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4137,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 4138,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5135,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5136,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5137,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5138,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5139,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5140,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5141,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5142,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5143,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5144,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5145,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5146,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5147,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5148,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5149,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5150,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5151,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5152,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5153,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5154,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5155,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5156,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5157,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5158,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5159,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5160,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5161,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5162,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5163,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5164,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5165,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5166,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5167,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5168,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5169,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5170,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5171,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5172,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5173,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5174,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5175,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5176,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5177,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5178,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5179,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5180,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5181,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5182,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 5183,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6073,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6084,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6085,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6086,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6087,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6088,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6089,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6090,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6091,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6092,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6093,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6094,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6095,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 6096,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7791,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7792,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7793,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7794,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7795,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7796,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7797,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7798,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7799,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7800,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7801,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7802,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7803,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7804,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7805,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7806,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7807,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7808,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7809,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7810,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7811,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7812,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7813,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7814,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7815,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7816,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7817,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7818,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7819,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7820,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7821,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7822,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7823,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7824,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7825,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7826,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7827,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7828,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7829,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7830,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7831,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7832,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7833,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7834,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7835,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7836,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7837,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7838,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7839,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7840,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7841,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7842,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7843,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7844,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7845,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7846,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7847,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7848,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7849,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7850,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7851,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7852,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7853,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7854,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7855,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7856,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7857,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7858,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7859,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7860,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7861,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7862,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7863,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7864,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7865,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7866,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7867,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7868,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7869,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7870,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7871,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7872,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7873,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7874,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7875,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7876,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7877,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7878,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7879,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7880,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7881,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7882,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7883,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7884,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7885,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7886,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7887,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7888,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7889,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7890,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7891,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7892,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7893,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7894,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7895,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7896,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7897,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7898,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7899,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7900,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7901,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7902,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7903,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7904,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7905,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7906,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7907,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7908,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7909,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7910,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7911,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7912,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7913,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7914,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7915,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7916,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7917,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7918,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7919,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7920,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7921,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7922,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7923,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7924,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7925,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7926,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7927,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7928,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7929,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7930,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7931,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7932,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7933,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7934,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7935,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7936,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7937,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7938,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7939,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7940,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7941,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7942,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7943,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7944,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7945,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7965,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7966,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7967,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7968,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7969,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 7970,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8183,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8184,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8732,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8733,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8734,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8735,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8736,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 8737,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9392,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9393,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9394,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9395,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9396,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9397,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9398,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9399,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9418,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9419,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9420,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9421,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9422,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9423,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9424,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9425,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9426,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9427,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9428,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9429,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9430,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9431,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9432,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9433,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9434,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9435,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9436,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9437,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9438,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9439,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9440,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9441,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9442,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9443,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9444,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9445,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9446,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9447,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9448,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9449,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9450,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9451,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9452,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9453,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9454,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9455,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9456,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9457,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9458,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9459,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9460,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9461,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9462,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9463,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9464,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9465,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9466,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9467,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9468,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9469,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9470,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9471,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 9472,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10587,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10588,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10589,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10590,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10591,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10592,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10593,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10594,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10595,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10596,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10601,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10602,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10603,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10604,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10605,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 10607,
+    "legacy_attributes": 4194304
+   },
+   {
+    "face_index": 3967,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3968,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3969,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3970,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3971,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3972,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3973,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3974,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3975,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 3976,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4010,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4011,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4012,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4018,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4019,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4020,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4021,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 4022,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6168,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6169,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6170,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6171,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6172,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6173,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6174,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6175,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6176,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6177,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6178,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6179,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6180,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6238,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6239,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6240,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6241,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6242,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6243,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6244,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6245,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6246,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6247,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6248,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6265,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6266,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6267,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6268,
+    "texture_name": "lqw115mm9"
+   },
+   {
+    "face_index": 6269,
+    "texture_name": "lqw115mm9"
+   }
+  ],
+  "decoration_flags": [],
+  "actors": [
+   {
+    "actor_index": 0,
+    "name": "Jokull the Ugly",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9054,
+    "monster_id": 9054,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 16179,
+     "y": -1504,
+     "z": -491
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 104,
+    "mm9_rude_id": 339
+   },
+   {
+    "actor_index": 1,
+    "name": "Hedin the Swyndlr",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9054,
+    "monster_id": 9054,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 7741,
+     "y": 1363,
+     "z": -491
+    },
+    "initial_yaw_units": 1538,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 45,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 105,
+    "mm9_rude_id": 346
+   },
+   {
+    "actor_index": 2,
+    "name": "Thuridr the Able",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9040,
+    "monster_id": 9040,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 7782,
+     "y": -1750,
+     "z": -491
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 39,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 106,
+    "mm9_rude_id": 343
+   },
+   {
+    "actor_index": 3,
+    "name": "Sigmund Halfhands",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9047,
+    "monster_id": 9047,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": -328,
+     "y": -398,
+     "z": 288
+    },
+    "initial_yaw_units": 2045,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 41,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 107,
+    "mm9_rude_id": 348
+   },
+   {
+    "actor_index": 4,
+    "name": "Hjordisa Alfgeirdotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9040,
+    "monster_id": 9040,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 5489,
+     "y": -5887,
+     "z": -491
+    },
+    "initial_yaw_units": 1033,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 25,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 108,
+    "mm9_rude_id": 350
+   },
+   {
+    "actor_index": 5,
+    "name": "Fenja Adilsdotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9040,
+    "monster_id": 9040,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13107,
+     "y": -8058,
+     "z": -491
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 19,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 109,
+    "mm9_rude_id": 349
+   },
+   {
+    "actor_index": 6,
+    "name": "Grim Olfassen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 9421,
+     "y": -7238,
+     "z": -491
+    },
+    "initial_yaw_units": 2045,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 20,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 110,
+    "mm9_rude_id": 341
+   },
+   {
+    "actor_index": 7,
+    "name": "Talik the Fist",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11141,
+     "y": -5395,
+     "z": -491
+    },
+    "initial_yaw_units": 317,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 33,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 111,
+    "mm9_rude_id": 340
+   },
+   {
+    "actor_index": 8,
+    "name": "Stu Grimssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 9,
+    "hostility_type": 0,
+    "monster_info_id": 9055,
+    "monster_id": 9055,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 18022,
+     "y": -5928,
+     "z": -491
+    },
+    "initial_yaw_units": 1015,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 26,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 112,
+    "mm9_rude_id": 351
+   },
+   {
+    "actor_index": 9,
+    "name": "Hanndl",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9260,
+    "monster_id": 9260,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14090,
+     "y": 2674,
+     "z": -491
+    },
+    "initial_yaw_units": 2036,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 56,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc334.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 113,
+    "mm9_rude_id": 334
+   },
+   {
+    "actor_index": 10,
+    "name": "Eirik Thorvaldssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9043,
+    "monster_id": 9043,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15360,
+     "y": -1176,
+     "z": -491
+    },
+    "initial_yaw_units": 1254,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 114,
+    "mm9_rude_id": 352
+   },
+   {
+    "actor_index": 11,
+    "name": "Falki Bergfinnssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9008,
+    "monster_id": 9008,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15237,
+     "y": -1299,
+     "z": -491
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 115,
+    "mm9_rude_id": 353
+   },
+   {
+    "actor_index": 12,
+    "name": "Mjoll Erikdotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9030,
+    "monster_id": 9030,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15565,
+     "y": -1545,
+     "z": -491
+    },
+    "initial_yaw_units": 1680,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 116,
+    "mm9_rude_id": 356
+   },
+   {
+    "actor_index": 13,
+    "name": "Fedelmid A'Lyrae",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9023,
+    "monster_id": 9023,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15729,
+     "y": -1463,
+     "z": -491
+    },
+    "initial_yaw_units": 1680,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 117,
+    "mm9_rude_id": 357
+   },
+   {
+    "actor_index": 14,
+    "name": "Rurik Moyol",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9057,
+    "monster_id": 9057,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15892,
+     "y": -972,
+     "z": -491
+    },
+    "initial_yaw_units": 1245,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 118,
+    "mm9_rude_id": 358
+   },
+   {
+    "actor_index": 15,
+    "name": "Onund Thordssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15647,
+     "y": -1135,
+     "z": -491
+    },
+    "initial_yaw_units": 281,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 119,
+    "mm9_rude_id": 359
+   },
+   {
+    "actor_index": 16,
+    "name": "Kolskegg Skulissen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9051,
+    "monster_id": 9051,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15606,
+     "y": -1012,
+     "z": -491
+    },
+    "initial_yaw_units": 1787,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 44,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 120,
+    "mm9_rude_id": 360
+   },
+   {
+    "actor_index": 17,
+    "name": "Beowulf Ingssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9051,
+    "monster_id": 9051,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12083,
+     "y": -480,
+     "z": -517
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 37,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 121,
+    "mm9_rude_id": 354
+   },
+   {
+    "actor_index": 18,
+    "name": "Gymir Afissen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 6308,
+     "y": -316,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 122,
+    "mm9_rude_id": 363
+   },
+   {
+    "actor_index": 19,
+    "name": "Aso Darbyssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 4710,
+     "y": -3921,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 123,
+    "mm9_rude_id": 364
+   },
+   {
+    "actor_index": 20,
+    "name": "Dain Kolskeggssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11674,
+     "y": -3511,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 37,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 124,
+    "mm9_rude_id": 365
+   },
+   {
+    "actor_index": 21,
+    "name": "Dagny Daindotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9037,
+    "monster_id": 9037,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 13722,
+     "y": -4699,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 31,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 125,
+    "mm9_rude_id": 366
+   },
+   {
+    "actor_index": 22,
+    "name": "Tepil Ahura",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9057,
+    "monster_id": 9057,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12288,
+     "y": -3593,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 37,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 126,
+    "mm9_rude_id": 368
+   },
+   {
+    "actor_index": 23,
+    "name": "Val Tonlan",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9061,
+    "monster_id": 9061,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 6226,
+     "y": -10679,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 127,
+    "mm9_rude_id": 369
+   },
+   {
+    "actor_index": 24,
+    "name": "Ateed Haji",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9061,
+    "monster_id": 9061,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 12943,
+     "y": -10925,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 16,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 128,
+    "mm9_rude_id": 370
+   },
+   {
+    "actor_index": 25,
+    "name": "Sechnassach A'Washadi",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9022,
+    "monster_id": 9022,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 4219,
+     "y": -7607,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 23,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 129,
+    "mm9_rude_id": 371
+   },
+   {
+    "actor_index": 26,
+    "name": "Orabilia A'Dlinn",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9016,
+    "monster_id": 9016,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 17285,
+     "y": -8631,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 16,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 130,
+    "mm9_rude_id": 373
+   },
+   {
+    "actor_index": 27,
+    "name": "Eilinoir A'Endlar",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9016,
+    "monster_id": 9016,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14008,
+     "y": -1832,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 37,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 131,
+    "mm9_rude_id": 374
+   },
+   {
+    "actor_index": 28,
+    "name": "Unn Canutedotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9001,
+    "monster_id": 9001,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14131,
+     "y": -5477,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 31,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 132,
+    "mm9_rude_id": 376
+   },
+   {
+    "actor_index": 29,
+    "name": "Bjarni Eirikssen",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9008,
+    "monster_id": 9008,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14705,
+     "y": -4945,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 31,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 133,
+    "mm9_rude_id": 375
+   },
+   {
+    "actor_index": 30,
+    "name": "Gote Tjorvidotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9036,
+    "monster_id": 9036,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 11960,
+     "y": -275,
+     "z": -528
+    },
+    "initial_yaw_units": 1787,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 37,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 134,
+    "mm9_rude_id": 355
+   },
+   {
+    "actor_index": 31,
+    "name": "Osk Thorgrimdotir",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9036,
+    "monster_id": 9036,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 9994,
+     "y": -8303,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 37,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 135,
+    "mm9_rude_id": 367
+   },
+   {
+    "actor_index": 32,
+    "name": "Angus A'Mor",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9050,
+    "monster_id": 9050,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 17285,
+     "y": -8877,
+     "z": -491
+    },
+    "initial_yaw_units": 766,
+    "immobile": false,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 16,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 1,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "wander": "aimless",
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 136,
+    "mm9_rude_id": 372
+   },
+   {
+    "actor_index": 33,
+    "name": "Sven Forkbeard",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 1300,
+    "hostility_type": 0,
+    "monster_info_id": 9249,
+    "monster_id": 9249,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 15073,
+     "y": -11138,
+     "z": 1
+    },
+    "initial_yaw_units": 1592,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 16,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 3,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "profile": {
+      "passive": true
+     },
+     "script": "npc3.scr",
+     "script_params": "Arslegard"
+    },
+    "mm9_civilian": true,
+    "mm9_can_receive_damage": false,
+    "mm9_source_object_index": 152,
+    "mm9_rude_id": 3
+   },
+   {
+    "actor_index": 34,
+    "name": "Njam the Meddler",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 6600,
+    "hostility_type": 4,
+    "monster_info_id": 9261,
+    "monster_id": 9261,
+    "radius": 62,
+    "height": 154,
+    "move_speed": 512,
+    "position": {
+     "x": 8315,
+     "y": -8406,
+     "z": -491
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 17,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 4,
+    "ally": 0,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 3379,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "boss": true,
+     "profile": {
+      "ranged": "none"
+     },
+     "script": "njamchase.scr"
+    },
+    "mm9_source_object_index": 154
+   },
+   {
+    "actor_index": 35,
+    "name": "Hanndl",
+    "npc_id": 0,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9260,
+    "monster_id": 9260,
+    "radius": 31,
+    "height": 174,
+    "move_speed": 0,
+    "position": {
+     "x": 14479,
+     "y": 3421,
+     "z": -491
+    },
+    "initial_yaw_units": 512,
+    "immobile": true,
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 56,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 2,
+    "ally": 118,
+    "unique_name_index": 0,
+    "draw_scale": 1.0,
+    "mm9_ai": {
+     "sight": 4608,
+     "hearing": 922,
+     "runaway_chance": 0.25,
+     "can_be_resurrected": true,
+     "profile": {
+      "passive": true
+     },
+     "script": "hanndl.scr"
+    },
+    "mm9_civilian": true,
+    "mm9_source_object_index": 639,
+    "mm9_rude_id": 334
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "doors": [
+   {
+    "door_index": 0,
+    "legacy_attributes": 0,
+    "door_id": 1,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17292,
+     17293,
+     17294,
+     17295,
+     17296,
+     17297,
+     17298,
+     17299
+    ],
+    "face_ids": [
+     13602,
+     13603,
+     13604,
+     13605,
+     13606,
+     13607
+    ],
+    "sector_ids": [
+     20,
+     37
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     9892,
+     9912,
+     10056,
+     10035,
+     9892,
+     9912,
+     10056,
+     10035
+    ],
+    "y_offsets": [
+     -7996,
+     -8017,
+     -7873,
+     -7853,
+     -7996,
+     -8017,
+     -7873,
+     -7853
+    ],
+    "z_offsets": [
+     -164,
+     -164,
+     -164,
+     -164,
+     -492,
+     -492,
+     -492,
+     -492
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       9912.32,
+       -7996.16,
+       -327.68
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 1,
+    "legacy_attributes": 0,
+    "door_id": 2,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17300,
+     17301,
+     17302,
+     17303,
+     17304,
+     17305,
+     17306,
+     17307
+    ],
+    "face_ids": [
+     13608,
+     13609,
+     13610,
+     13611,
+     13612,
+     13613
+    ],
+    "sector_ids": [
+     37,
+     20
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     10199,
+     10179,
+     10035,
+     10056,
+     10199,
+     10179,
+     10035,
+     10056
+    ],
+    "y_offsets": [
+     -7730,
+     -7709,
+     -7853,
+     -7873,
+     -7730,
+     -7709,
+     -7853,
+     -7873
+    ],
+    "z_offsets": [
+     -164,
+     -164,
+     -164,
+     -164,
+     -492,
+     -492,
+     -492,
+     -492
+    ],
+    "ai_open": [
+     1,
+     2
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       10178.56,
+       -7729.92,
+       -327.68
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 2,
+    "legacy_attributes": 0,
+    "door_id": 3,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17308,
+     17309,
+     17310,
+     17311,
+     17312,
+     17313,
+     17314,
+     17315
+    ],
+    "face_ids": [
+     13614,
+     13615,
+     13616,
+     13617,
+     13618,
+     13619
+    ],
+    "sector_ids": [
+     45,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7537,
+     7393,
+     7393,
+     7537,
+     7537,
+     7393,
+     7537,
+     7393
+    ],
+    "y_offsets": [
+     380,
+     380,
+     380,
+     380,
+     360,
+     360,
+     360,
+     360
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -205,
+     -205,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7403.52,
+       369.92,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 3,
+    "legacy_attributes": 0,
+    "door_id": 4,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17316,
+     17317,
+     17318,
+     17319,
+     17320,
+     17321,
+     17322,
+     17323
+    ],
+    "face_ids": [
+     13620,
+     13621,
+     13622,
+     13623,
+     13624,
+     13625
+    ],
+    "sector_ids": [
+     45,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7537,
+     7680,
+     7680,
+     7537,
+     7680,
+     7537,
+     7680,
+     7537
+    ],
+    "y_offsets": [
+     380,
+     380,
+     380,
+     380,
+     360,
+     360,
+     360,
+     360
+    ],
+    "z_offsets": [
+     -205,
+     -205,
+     -492,
+     -492,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     3,
+     4
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7669.76,
+       369.92,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 4,
+    "legacy_attributes": 0,
+    "door_id": 5,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 350,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     17324,
+     17325,
+     17326,
+     17327,
+     17328,
+     17329,
+     17330,
+     17331
+    ],
+    "face_ids": [
+     13626,
+     13627,
+     13628,
+     13629,
+     13630,
+     13631
+    ],
+    "sector_ids": [
+     22,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -932,
+     -932,
+     -932,
+     -932,
+     -942,
+     -942,
+     -942,
+     -942
+    ],
+    "y_offsets": [
+     -6604,
+     -6501,
+     -6501,
+     -6604,
+     -6501,
+     -6604,
+     -6501,
+     -6604
+    ],
+    "z_offsets": [
+     -420,
+     -420,
+     -174,
+     -174,
+     -420,
+     -420,
+     -174,
+     -174
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -936.96,
+       -6598.4,
+       -337.92
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 5,
+    "legacy_attributes": 0,
+    "door_id": 6,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 350,
+    "close_speed": 350,
+    "state": 2,
+    "vertex_ids": [
+     17332,
+     17333,
+     17334,
+     17335,
+     17336,
+     17337,
+     17338,
+     17339
+    ],
+    "face_ids": [
+     13632,
+     13633,
+     13634,
+     13635,
+     13636,
+     13637
+    ],
+    "sector_ids": [
+     22,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     -932,
+     -932,
+     -932,
+     -932,
+     -942,
+     -942,
+     -942,
+     -942
+    ],
+    "y_offsets": [
+     -6501,
+     -6399,
+     -6399,
+     -6501,
+     -6399,
+     -6501,
+     -6399,
+     -6501
+    ],
+    "z_offsets": [
+     -420,
+     -420,
+     -174,
+     -174,
+     -420,
+     -420,
+     -174,
+     -174
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       -936.96,
+       -6403.84,
+       -337.92
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 6,
+    "legacy_attributes": 0,
+    "door_id": 7,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 1000,
+    "close_speed": 1000,
+    "state": 2,
+    "vertex_ids": [
+     17340,
+     17341,
+     17342,
+     17343,
+     17344,
+     17345,
+     17346,
+     17347
+    ],
+    "face_ids": [
+     13638,
+     13639,
+     13640,
+     13641,
+     13642,
+     13643
+    ],
+    "sector_ids": [
+     25
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     5747,
+     5747,
+     5624,
+     5624,
+     5747,
+     5747,
+     5624,
+     5624
+    ],
+    "y_offsets": [
+     -6337,
+     -6214,
+     -6214,
+     -6337,
+     -6214,
+     -6337,
+     -6214,
+     -6337
+    ],
+    "z_offsets": [
+     -369,
+     -369,
+     -369,
+     -369,
+     -379,
+     -379,
+     -379,
+     -379
+    ],
+    "ai_open": [
+     7
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       5742.08,
+       -6275.84,
+       -373.76
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "sine",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 7,
+    "legacy_attributes": 0,
+    "door_id": 8,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     -65536,
+     0,
+     0
+    ],
+    "move_length": 31,
+    "open_speed": 51,
+    "close_speed": 128,
+    "state": 2,
+    "vertex_ids": [
+     17348,
+     17349,
+     17350,
+     17351,
+     17352,
+     17353,
+     17354,
+     17355
+    ],
+    "face_ids": [
+     13644,
+     13645,
+     13646,
+     13647,
+     13648,
+     13649
+    ],
+    "sector_ids": [
+     56
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14487,
+     14487,
+     14533,
+     14533,
+     14533,
+     14533,
+     14487,
+     14487
+    ],
+    "y_offsets": [
+     3483,
+     3483,
+     3483,
+     3483,
+     3473,
+     3473,
+     3473,
+     3473
+    ],
+    "z_offsets": [
+     -330,
+     -315,
+     -315,
+     -330,
+     -330,
+     -315,
+     -315,
+     -330
+    ],
+    "ai_open": [
+     8
+    ],
+    "sounds": {}
+   },
+   {
+    "door_index": 8,
+    "legacy_attributes": 0,
+    "door_id": 9,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17356,
+     17357,
+     17358,
+     17359,
+     17360,
+     17361,
+     17362,
+     17363
+    ],
+    "face_ids": [
+     13650,
+     13651,
+     13652,
+     13653,
+     13654,
+     13655
+    ],
+    "sector_ids": [
+     31,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14213,
+     14070,
+     14070,
+     14213,
+     14213,
+     14070,
+     14070,
+     14213
+    ],
+    "y_offsets": [
+     -6491,
+     -6491,
+     -6491,
+     -6491,
+     -6511,
+     -6511,
+     -6511,
+     -6511
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -205,
+     -205,
+     -205,
+     -205,
+     -492,
+     -492
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       14080.0,
+       -6501.12,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 9,
+    "legacy_attributes": 0,
+    "door_id": 10,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17364,
+     17365,
+     17366,
+     17367,
+     17368,
+     17369,
+     17370,
+     17371
+    ],
+    "face_ids": [
+     13656,
+     13657,
+     13658,
+     13659,
+     13660,
+     13661
+    ],
+    "sector_ids": [
+     31,
+     19
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14213,
+     14213,
+     14356,
+     14356,
+     14356,
+     14356,
+     14213,
+     14213
+    ],
+    "y_offsets": [
+     -6491,
+     -6491,
+     -6491,
+     -6491,
+     -6511,
+     -6511,
+     -6511,
+     -6511
+    ],
+    "z_offsets": [
+     -492,
+     -205,
+     -205,
+     -492,
+     -492,
+     -205,
+     -205,
+     -492
+    ],
+    "ai_open": [
+     9,
+     10
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       14346.24,
+       -6501.12,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 10,
+    "legacy_attributes": 0,
+    "door_id": 11,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17372,
+     17373,
+     17374,
+     17375,
+     17376,
+     17377,
+     17378,
+     17379
+    ],
+    "face_ids": [
+     13662,
+     13663,
+     13664,
+     13665,
+     13666,
+     13667
+    ],
+    "sector_ids": [
+     19,
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     11592,
+     11735,
+     11735,
+     11592,
+     11735,
+     11735,
+     11592,
+     11592
+    ],
+    "y_offsets": [
+     -9798,
+     -9798,
+     -9798,
+     -9798,
+     -9778,
+     -9778,
+     -9778,
+     -9778
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -205,
+     -205,
+     -492,
+     -205,
+     -205,
+     -492
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       11724.8,
+       -9788.16,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 11,
+    "legacy_attributes": 0,
+    "door_id": 12,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17380,
+     17381,
+     17382,
+     17383,
+     17384,
+     17385,
+     17386,
+     17387
+    ],
+    "face_ids": [
+     13668,
+     13669,
+     13670,
+     13671,
+     13672,
+     13673
+    ],
+    "sector_ids": [
+     19,
+     16
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     11592,
+     11592,
+     11448,
+     11448,
+     11592,
+     11448,
+     11448,
+     11592
+    ],
+    "y_offsets": [
+     -9798,
+     -9798,
+     -9798,
+     -9798,
+     -9778,
+     -9778,
+     -9778,
+     -9778
+    ],
+    "z_offsets": [
+     -492,
+     -205,
+     -205,
+     -492,
+     -205,
+     -205,
+     -492,
+     -492
+    ],
+    "ai_open": [
+     11,
+     12
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       11458.56,
+       -9788.16,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 12,
+    "legacy_attributes": 0,
+    "door_id": 13,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17388,
+     17389,
+     17390,
+     17391,
+     17392,
+     17393,
+     17394,
+     17395
+    ],
+    "face_ids": [
+     13674,
+     13675,
+     13676,
+     13677,
+     13678,
+     13679
+    ],
+    "sector_ids": [
+     25,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4751,
+     4751,
+     4751,
+     4751,
+     4772,
+     4772,
+     4772,
+     4772
+    ],
+    "y_offsets": [
+     -5887,
+     -5743,
+     -5743,
+     -5887,
+     -5743,
+     -5887,
+     -5743,
+     -5887
+    ],
+    "z_offsets": [
+     -205,
+     -205,
+     -492,
+     -492,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       4761.6,
+       -5753.6,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 13,
+    "legacy_attributes": 0,
+    "door_id": 14,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17396,
+     17397,
+     17398,
+     17399,
+     17400,
+     17401,
+     17402,
+     17403
+    ],
+    "face_ids": [
+     13680,
+     13681,
+     13682,
+     13683,
+     13684,
+     13685
+    ],
+    "sector_ids": [
+     25,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     4751,
+     4751,
+     4751,
+     4751,
+     4772,
+     4772,
+     4772,
+     4772
+    ],
+    "y_offsets": [
+     -5887,
+     -6030,
+     -6030,
+     -5887,
+     -5887,
+     -6030,
+     -6030,
+     -5887
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -205,
+     -205,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     13,
+     14
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       4761.6,
+       -6019.84,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 14,
+    "legacy_attributes": 0,
+    "door_id": 15,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17404,
+     17405,
+     17406,
+     17407,
+     17408,
+     17409,
+     17410,
+     17411
+    ],
+    "face_ids": [
+     13686,
+     13687,
+     13688,
+     13689,
+     13690,
+     13691
+    ],
+    "sector_ids": [
+     39,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7782,
+     7619,
+     7619,
+     7782,
+     7782,
+     7619,
+     7619,
+     7782
+    ],
+    "y_offsets": [
+     -1115,
+     -1115,
+     -1115,
+     -1115,
+     -1094,
+     -1094,
+     -1094,
+     -1094
+    ],
+    "z_offsets": [
+     -205,
+     -205,
+     -492,
+     -492,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     15,
+     16
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7628.8,
+       -1104.64,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 15,
+    "legacy_attributes": 0,
+    "door_id": 16,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17412,
+     17413,
+     17414,
+     17415,
+     17416,
+     17417,
+     17418,
+     17419
+    ],
+    "face_ids": [
+     13692,
+     13693,
+     13694,
+     13695,
+     13696,
+     13697
+    ],
+    "sector_ids": [
+     39,
+     23
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7782,
+     7946,
+     7946,
+     7782,
+     7782,
+     7946,
+     7946,
+     7782
+    ],
+    "y_offsets": [
+     -1115,
+     -1115,
+     -1115,
+     -1115,
+     -1094,
+     -1094,
+     -1094,
+     -1094
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -205,
+     -205,
+     -205,
+     -205,
+     -492,
+     -492
+    ],
+    "ai_open": [
+     15,
+     16
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7936.0,
+       -1104.64,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 16,
+    "legacy_attributes": 0,
+    "door_id": 17,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17420,
+     17421,
+     17422,
+     17423,
+     17424,
+     17425,
+     17426,
+     17427
+    ],
+    "face_ids": [
+     13698,
+     13699,
+     13700,
+     13701,
+     13702,
+     13703
+    ],
+    "sector_ids": [
+     17,
+     21
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     8253,
+     8253,
+     8069,
+     8069,
+     8069,
+     8069,
+     8253,
+     8253
+    ],
+    "y_offsets": [
+     -7484,
+     -7484,
+     -7484,
+     -7484,
+     -7505,
+     -7505,
+     -7505,
+     -7505
+    ],
+    "z_offsets": [
+     -205,
+     -492,
+     -492,
+     -205,
+     -205,
+     -492,
+     -492,
+     -205
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       8243.2,
+       -7494.4,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 17,
+    "legacy_attributes": 0,
+    "door_id": 18,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17428,
+     17429,
+     17430,
+     17431,
+     17432,
+     17433,
+     17434,
+     17435
+    ],
+    "face_ids": [
+     13704,
+     13705,
+     13706,
+     13707,
+     13708,
+     13709
+    ],
+    "sector_ids": [
+     17,
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7670,
+     7526,
+     7526,
+     7670,
+     7670,
+     7526,
+     7526,
+     7670
+    ],
+    "y_offsets": [
+     -10085,
+     -10085,
+     -10085,
+     -10085,
+     -10106,
+     -10106,
+     -10106,
+     -10106
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -123,
+     -123,
+     -123,
+     -123,
+     -492,
+     -492
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7536.64,
+       -10095.36,
+       0.0
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 18,
+    "legacy_attributes": 0,
+    "door_id": 19,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17436,
+     17437,
+     17438,
+     17439,
+     17440,
+     17441,
+     17442,
+     17443
+    ],
+    "face_ids": [
+     13710,
+     13711,
+     13712,
+     13713,
+     13714,
+     13715
+    ],
+    "sector_ids": [
+     17,
+     14
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     7670,
+     7813,
+     7813,
+     7670,
+     7670,
+     7813,
+     7813,
+     7670
+    ],
+    "y_offsets": [
+     -10085,
+     -10085,
+     -10085,
+     -10085,
+     -10106,
+     -10106,
+     -10106,
+     -10106
+    ],
+    "z_offsets": [
+     -123,
+     -123,
+     -492,
+     -492,
+     -492,
+     -492,
+     -123,
+     -123
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       7802.88,
+       -10095.36,
+       0.0
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 19,
+    "legacy_attributes": 0,
+    "door_id": 20,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17444,
+     17445,
+     17446,
+     17447,
+     17448,
+     17449,
+     17450,
+     17451
+    ],
+    "face_ids": [
+     13716,
+     13717,
+     13718,
+     13719,
+     13720,
+     13721
+    ],
+    "sector_ids": [
+     17
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     8123,
+     8123,
+     8287,
+     8287,
+     8302,
+     8138,
+     8138,
+     8302
+    ],
+    "y_offsets": [
+     -8413,
+     -8413,
+     -8577,
+     -8577,
+     -8562,
+     -8398,
+     -8398,
+     -8562
+    ],
+    "z_offsets": [
+     -123,
+     -492,
+     -492,
+     -123,
+     -492,
+     -492,
+     -123,
+     -123
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       8130.56,
+       -8405.76,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav",
+     "jiggle": "Door/locked_door02.wav"
+    }
+   },
+   {
+    "door_index": 20,
+    "legacy_attributes": 0,
+    "door_id": 21,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 50,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17452,
+     17453,
+     17454,
+     17455,
+     17456,
+     17457,
+     17458,
+     17459,
+     17460,
+     17461,
+     17462,
+     17463,
+     17464,
+     17465,
+     17466,
+     17467,
+     17468,
+     17469,
+     17470,
+     17471,
+     17472,
+     17473,
+     17474,
+     17475,
+     17476,
+     17477,
+     17478,
+     17479,
+     17480,
+     17481,
+     17482,
+     17483,
+     17484,
+     17485,
+     17486,
+     17487,
+     17488,
+     17489,
+     17490,
+     17491,
+     17492,
+     17493,
+     17494,
+     17495,
+     17496,
+     17497,
+     17498,
+     17499,
+     17500,
+     17501,
+     17502,
+     17503,
+     17504,
+     17505,
+     17506
+    ],
+    "face_ids": [
+     13722,
+     13723,
+     13724,
+     13725,
+     13726,
+     13727,
+     13728,
+     13729,
+     13730,
+     13731,
+     13732,
+     13733,
+     13734,
+     13735,
+     13736,
+     13737,
+     13738,
+     13739,
+     13740,
+     13741,
+     13742,
+     13743,
+     13744,
+     13745,
+     13746,
+     13747,
+     13748,
+     13749,
+     13750,
+     13751,
+     13752,
+     13753,
+     13754,
+     13755,
+     13756,
+     13757
+    ],
+    "sector_ids": [
+     56,
+     62
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14787,
+     14787,
+     14520,
+     14436,
+     14418,
+     14418,
+     14541,
+     14705,
+     14705,
+     14541,
+     14787,
+     14787,
+     14418,
+     14520,
+     14418,
+     14418,
+     14787,
+     14520,
+     14520,
+     14520,
+     14787,
+     14520,
+     14520,
+     14520,
+     14436,
+     14418,
+     14436,
+     14436,
+     14436,
+     14418,
+     14436,
+     14436,
+     14436,
+     14502,
+     14456,
+     14444,
+     14520,
+     14444,
+     14456,
+     14502,
+     14444,
+     14456,
+     14502,
+     14520,
+     14502,
+     14456,
+     14444,
+     14502,
+     14502,
+     14502,
+     14502,
+     14456,
+     14456,
+     14456,
+     14456
+    ],
+    "y_offsets": [
+     3493,
+     3493,
+     3493,
+     3493,
+     3493,
+     3493,
+     3493,
+     3493,
+     3452,
+     3452,
+     3452,
+     3452,
+     3452,
+     3452,
+     3452,
+     3473,
+     3493,
+     3493,
+     3493,
+     3493,
+     3452,
+     3452,
+     3473,
+     3473,
+     3493,
+     3493,
+     3493,
+     3493,
+     3473,
+     3473,
+     3473,
+     3473,
+     3473,
+     3493,
+     3493,
+     3493,
+     3473,
+     3473,
+     3473,
+     3473,
+     3493,
+     3493,
+     3493,
+     3473,
+     3473,
+     3473,
+     3473,
+     3493,
+     3493,
+     3473,
+     3473,
+     3493,
+     3473,
+     3493,
+     3473
+    ],
+    "z_offsets": [
+     369,
+     -246,
+     -246,
+     -246,
+     -246,
+     942,
+     860,
+     614,
+     614,
+     860,
+     369,
+     -246,
+     942,
+     -246,
+     -246,
+     -246,
+     -492,
+     -492,
+     -340,
+     -305,
+     -492,
+     -492,
+     -492,
+     -246,
+     -492,
+     -492,
+     -305,
+     -340,
+     -492,
+     -492,
+     -246,
+     -340,
+     -305,
+     -305,
+     -305,
+     -305,
+     -305,
+     -305,
+     -305,
+     -305,
+     -340,
+     -340,
+     -340,
+     -340,
+     -340,
+     -340,
+     -340,
+     -330,
+     -315,
+     -315,
+     -330,
+     -315,
+     -315,
+     -330,
+     -330
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       14786.56,
+       3493.12,
+       245.76
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 1.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 21,
+    "legacy_attributes": 0,
+    "door_id": 22,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 50,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17507,
+     17508,
+     17509,
+     17510,
+     17511,
+     17512,
+     17513,
+     17514,
+     17515,
+     17516,
+     17517,
+     17518
+    ],
+    "face_ids": [
+     13758,
+     13759,
+     13760,
+     13761,
+     13762,
+     13763,
+     13764,
+     13765
+    ],
+    "sector_ids": [
+     56,
+     34
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     14418,
+     14418,
+     14049,
+     14049,
+     14131,
+     14295,
+     14049,
+     14049,
+     14131,
+     14295,
+     14418,
+     14418
+    ],
+    "y_offsets": [
+     3493,
+     3493,
+     3493,
+     3493,
+     3493,
+     3493,
+     3452,
+     3452,
+     3452,
+     3452,
+     3452,
+     3452
+    ],
+    "z_offsets": [
+     942,
+     -492,
+     -492,
+     369,
+     614,
+     860,
+     -492,
+     369,
+     614,
+     860,
+     942,
+     -492
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       14049.28,
+       3493.12,
+       245.76
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": 90.0,
+      "open_away": false
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 1.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 22,
+    "legacy_attributes": 0,
+    "door_id": 23,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17519,
+     17520,
+     17521,
+     17522,
+     17523,
+     17524,
+     17525,
+     17526
+    ],
+    "face_ids": [
+     13766,
+     13767,
+     13768,
+     13769,
+     13770,
+     13771
+    ],
+    "sector_ids": [
+     44,
+     37
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     13732,
+     13732,
+     13732,
+     13732,
+     13752,
+     13752,
+     13752,
+     13752
+    ],
+    "y_offsets": [
+     -398,
+     -234,
+     -234,
+     -398,
+     -234,
+     -398,
+     -234,
+     -398
+    ],
+    "z_offsets": [
+     -205,
+     -205,
+     -492,
+     -492,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     23,
+     24
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       13742.08,
+       -244.48,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 23,
+    "legacy_attributes": 0,
+    "door_id": 24,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17527,
+     17528,
+     17529,
+     17530,
+     17531,
+     17532,
+     17533,
+     17534
+    ],
+    "face_ids": [
+     13772,
+     13773,
+     13774,
+     13775,
+     13776,
+     13777
+    ],
+    "sector_ids": [
+     44,
+     37
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     13732,
+     13732,
+     13732,
+     13732,
+     13752,
+     13752,
+     13752,
+     13752
+    ],
+    "y_offsets": [
+     -398,
+     -562,
+     -562,
+     -398,
+     -398,
+     -562,
+     -398,
+     -562
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -205,
+     -205,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     23,
+     24
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       13742.08,
+       -551.68,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 24,
+    "legacy_attributes": 0,
+    "door_id": 25,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17535,
+     17536,
+     17537,
+     17538,
+     17539,
+     17540,
+     17541,
+     17542
+    ],
+    "face_ids": [
+     13778,
+     13779,
+     13780,
+     13781,
+     13782,
+     13783
+    ],
+    "sector_ids": [
+     23,
+     41
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2857,
+     2857,
+     2857,
+     2857,
+     2877,
+     2877,
+     2877,
+     2877
+    ],
+    "y_offsets": [
+     -398,
+     -562,
+     -562,
+     -398,
+     -562,
+     -398,
+     -562,
+     -398
+    ],
+    "z_offsets": [
+     82,
+     82,
+     410,
+     410,
+     410,
+     410,
+     82,
+     82
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       2867.2,
+       -551.68,
+       245.76
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 25,
+    "legacy_attributes": 0,
+    "door_id": 26,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17543,
+     17544,
+     17545,
+     17546,
+     17547,
+     17548,
+     17549,
+     17550
+    ],
+    "face_ids": [
+     13784,
+     13785,
+     13786,
+     13787,
+     13788,
+     13789
+    ],
+    "sector_ids": [
+     23,
+     41
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     2857,
+     2857,
+     2857,
+     2857,
+     2877,
+     2877,
+     2877,
+     2877
+    ],
+    "y_offsets": [
+     -398,
+     -398,
+     -234,
+     -234,
+     -234,
+     -234,
+     -398,
+     -398
+    ],
+    "z_offsets": [
+     82,
+     410,
+     410,
+     82,
+     82,
+     410,
+     410,
+     82
+    ],
+    "ai_open": [
+     25,
+     26
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       2867.2,
+       -244.48,
+       245.76
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 26,
+    "legacy_attributes": 0,
+    "door_id": 27,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17551,
+     17552,
+     17553,
+     17554,
+     17555,
+     17556,
+     17557,
+     17558
+    ],
+    "face_ids": [
+     13790,
+     13791,
+     13792,
+     13793,
+     13794,
+     13795
+    ],
+    "sector_ids": [
+     26,
+     37
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     16640,
+     16660,
+     16660,
+     16640,
+     16640,
+     16660,
+     16660,
+     16640
+    ],
+    "y_offsets": [
+     -6030,
+     -6030,
+     -5887,
+     -5887,
+     -5887,
+     -5887,
+     -6030,
+     -6030
+    ],
+    "z_offsets": [
+     -184,
+     -184,
+     -184,
+     -184,
+     -471,
+     -471,
+     -471,
+     -471
+    ],
+    "ai_open": [
+     27,
+     28
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       16650.24,
+       -6019.84,
+       -327.68
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 27,
+    "legacy_attributes": 0,
+    "door_id": 28,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17559,
+     17560,
+     17561,
+     17562,
+     17563,
+     17564,
+     17565,
+     17566
+    ],
+    "face_ids": [
+     13796,
+     13797,
+     13798,
+     13799,
+     13800,
+     13801
+    ],
+    "sector_ids": [
+     26,
+     37
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     16640,
+     16660,
+     16660,
+     16640,
+     16640,
+     16660,
+     16660,
+     16640
+    ],
+    "y_offsets": [
+     -5887,
+     -5887,
+     -5743,
+     -5743,
+     -5743,
+     -5743,
+     -5887,
+     -5887
+    ],
+    "z_offsets": [
+     -184,
+     -184,
+     -184,
+     -184,
+     -471,
+     -471,
+     -471,
+     -471
+    ],
+    "ai_open": [
+     27,
+     28
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       16650.24,
+       -5753.6,
+       -327.68
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 28,
+    "legacy_attributes": 0,
+    "door_id": 29,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17567,
+     17568,
+     17569,
+     17570,
+     17571,
+     17572,
+     17573,
+     17574
+    ],
+    "face_ids": [
+     13802,
+     13803,
+     13804,
+     13805,
+     13806,
+     13807
+    ],
+    "sector_ids": [
+     33,
+     37
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     11735,
+     11735,
+     11735,
+     11735,
+     11756,
+     11756,
+     11756,
+     11756
+    ],
+    "y_offsets": [
+     -4596,
+     -4740,
+     -4740,
+     -4596,
+     -4596,
+     -4740,
+     -4596,
+     -4740
+    ],
+    "z_offsets": [
+     -492,
+     -492,
+     -205,
+     -205,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     29,
+     30
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       11745.28,
+       -4729.6,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   },
+   {
+    "door_index": 29,
+    "legacy_attributes": 0,
+    "door_id": 30,
+    "time_since_triggered_ms": 0,
+    "direction": [
+     0,
+     0,
+     0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500,
+    "state": 2,
+    "vertex_ids": [
+     17575,
+     17576,
+     17577,
+     17578,
+     17579,
+     17580,
+     17581,
+     17582
+    ],
+    "face_ids": [
+     13808,
+     13809,
+     13810,
+     13811,
+     13812,
+     13813
+    ],
+    "sector_ids": [
+     33,
+     37
+    ],
+    "delta_us": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "delta_vs": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "x_offsets": [
+     11735,
+     11735,
+     11735,
+     11735,
+     11756,
+     11756,
+     11756,
+     11756
+    ],
+    "y_offsets": [
+     -4596,
+     -4453,
+     -4453,
+     -4596,
+     -4453,
+     -4596,
+     -4453,
+     -4596
+    ],
+    "z_offsets": [
+     -205,
+     -205,
+     -492,
+     -492,
+     -492,
+     -492,
+     -205,
+     -205
+    ],
+    "ai_open": [
+     29,
+     30
+    ],
+    "mover": {
+     "rotation": {
+      "pivot": [
+       11745.28,
+       -4463.36,
+       -348.16
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "open_degrees": -90.0,
+      "open_away": true
+     },
+     "easing": "linear",
+     "bodies": "reverse",
+     "carry": false,
+     "auto_close_seconds": 5.0
+    },
+    "sounds": {
+     "open_start": "Door/door01open.wav",
+     "close_start": "Door/door01creak.wav",
+     "close_stop": "Door/door01close.wav"
+    }
+   }
+  ],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "party_start_points": [
+  {
+   "start_index": 0,
+   "source_name": "StartPoint0",
+   "position": [
+    5161,
+    -13116,
+    -460
+   ],
+   "direction_degrees": 90
+  },
+  {
+   "start_index": 1,
+   "source_name": "StartPoint0",
+   "position": [
+    14400,
+    2525,
+    -491
+   ],
+   "direction_degrees": 269
+  },
+  {
+   "start_index": 2,
+   "source_name": "HallOfTheGodsExit",
+   "position": [
+    19999,
+    -11703,
+    493
+   ],
+   "direction_degrees": 181
+  },
+  {
+   "start_index": 3,
+   "source_name": "1000TerrorsExit",
+   "position": [
+    -614,
+    -6542,
+    -424
+   ],
+   "direction_degrees": 316
+  }
+ ],
+ "ladders": [
+  {
+   "id": "Ladder6",
+   "bottom": [
+    2979.84,
+    -1457.92,
+    450.56
+   ],
+   "top": [
+    2979.84,
+    -1457.92,
+    808.96
+   ],
+   "facing_degrees": 0.0,
+   "width": 92.16,
+   "reach": 48.0,
+   "top_exit": [
+    2759.68,
+    -1457.92,
+    737.28
+   ]
+  },
+  {
+   "id": "Ladder7",
+   "bottom": [
+    2979.84,
+    661.76,
+    450.56
+   ],
+   "top": [
+    2979.84,
+    661.76,
+    808.96
+   ],
+   "facing_degrees": 0.0,
+   "width": 92.16,
+   "reach": 48.0,
+   "top_exit": [
+    2759.68,
+    661.76,
+    737.28
+   ]
+  }
+ ],
+ "loot_containers": [],
+ "static_lights": {
+  "sides": "front"
+ },
+ "actor_barriers": {
+  "faces": [
+   10970,
+   10971,
+   10972,
+   10973,
+   10974,
+   10975,
+   10976,
+   10977,
+   10978,
+   10979,
+   11019,
+   11020,
+   11113,
+   11114,
+   11115,
+   11116,
+   13023,
+   13024,
+   13025,
+   13026,
+   13027,
+   13028,
+   13029,
+   13030,
+   13031,
+   13032,
+   13033,
+   13034,
+   13035,
+   13036,
+   13037,
+   13038
+  ]
+ },
+ "actor_movement": {
+  "drops": "follow"
+ },
+ "portal_visibility": {
+  "near_reach": 96
+ },
+ "water_volumes": [
+  {
+   "id": "BlueWater0",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       19210.2,
+       -12358.4
+      ],
+      [
+       19210.2,
+       -12153.6
+      ],
+      [
+       19763.2,
+       -12153.6
+      ],
+      [
+       19763.2,
+       -12358.4
+      ]
+     ],
+     "bottom": 491.5,
+     "top": 553.0
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater1",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       19374.1,
+       -12358.4
+      ],
+      [
+       19374.1,
+       -12276.5
+      ],
+      [
+       19599.4,
+       -12276.5
+      ],
+      [
+       19599.4,
+       -12358.4
+      ]
+     ],
+     "bottom": 491.5,
+     "top": 583.7
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater2",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       19210.2,
+       -11252.5
+      ],
+      [
+       19210.2,
+       -11047.7
+      ],
+      [
+       19763.2,
+       -11047.7
+      ],
+      [
+       19763.2,
+       -11252.5
+      ]
+     ],
+     "bottom": 491.5,
+     "top": 553.0
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "BlueWater3",
+   "liquid": "water",
+   "pieces": [
+    {
+     "polygon": [
+      [
+       19374.1,
+       -11129.6
+      ],
+      [
+       19374.1,
+       -11047.7
+      ],
+      [
+       19599.4,
+       -11047.7
+      ],
+      [
+       19599.4,
+       -11129.6
+      ]
+     ],
+     "bottom": 491.5,
+     "top": 583.7
+    }
+   ],
+   "tint": [
+    0.0,
+    0.5,
+    0.7
+   ]
+  }
+ ],
+ "world_items": [
+  {
+   "source_id": "arslegardcity:Prop8",
+   "source_object_index": 449,
+   "source_name": "Prop8",
+   "position": {
+    "x": 7352,
+    "y": -9681,
+    "z": -399
+   },
+   "item_id": 10575,
+   "random_item_pool": [],
+   "required_qbits": [],
+   "forbidden_qbits": [],
+   "pickup_qbits": [],
+   "set_qbits": [],
+   "pickup_event": 0
+  }
+ ],
+ "ambient_sounds": [
+  {
+   "key": 612,
+   "sound": "ambient/birds/birds01.wav",
+   "position": [
+    -287,
+    -12481,
+    492
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    10.0,
+    30.0
+   ]
+  },
+  {
+   "key": 613,
+   "sound": "ambient/birds/birds02.wav",
+   "position": [
+    2335,
+    -9778,
+    492
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    10.0,
+    30.0
+   ]
+  },
+  {
+   "key": 614,
+   "sound": "ambient/water/fountain05.wav",
+   "position": [
+    13087,
+    -5231,
+    -41
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 615,
+   "sound": "ambient/birds/birds01.wav",
+   "position": [
+    20,
+    -7648,
+    655
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    10.0,
+    30.0
+   ]
+  },
+  {
+   "key": 616,
+   "sound": "ambient/birds/birds02.wav",
+   "position": [
+    1434,
+    -5088,
+    655
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    10.0,
+    30.0
+   ]
+  },
+  {
+   "key": 617,
+   "sound": "ambient/birds/birds01.wav",
+   "position": [
+    4526,
+    -2487,
+    655
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    10.0,
+    30.0
+   ]
+  },
+  {
+   "key": 618,
+   "sound": "ambient/bell.wav",
+   "position": [
+    2744,
+    -1320,
+    1311
+   ],
+   "inner_radius": 768,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ]
+  },
+  {
+   "key": 619,
+   "sound": "ambient/bell.wav",
+   "position": [
+    2744,
+    524,
+    1311
+   ],
+   "inner_radius": 768,
+   "outer_radius": 5120,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    30.0,
+    120.0
+   ]
+  },
+  {
+   "key": 620,
+   "sound": "ambient/people/tavernambience.wav",
+   "position": [
+    15729,
+    -972,
+    -164
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1536,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 621,
+   "sound": "ambient/hammer hitting anvil.wav",
+   "position": [
+    9093,
+    -6870,
+    -328
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    2.0,
+    10.0
+   ]
+  },
+  {
+   "key": 622,
+   "sound": "ambient/hammer hitting anvil 02.wav",
+   "position": [
+    10732,
+    -4822,
+    -328
+   ],
+   "inner_radius": 256,
+   "outer_radius": 1280,
+   "volume": 0.525,
+   "loop": true,
+   "wait": [
+    2.0,
+    10.0
+   ]
+  },
+  {
+   "key": 623,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    1311,
+    -10802,
+    0
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 624,
+   "sound": "ambient/wind/wind_trees.wav",
+   "position": [
+    1311,
+    -5559,
+    0
+   ],
+   "inner_radius": 640,
+   "outer_radius": 2560,
+   "volume": 0.262,
+   "loop": true
+  },
+  {
+   "key": 625,
+   "sound": "ambient/wind/windlarge.wav",
+   "position": [
+    10486,
+    -398,
+    -655
+   ],
+   "inner_radius": 640,
+   "outer_radius": 1536,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 626,
+   "sound": "ambient/wind/windlarge.wav",
+   "position": [
+    11469,
+    -2938,
+    -655
+   ],
+   "inner_radius": 256,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 627,
+   "sound": "ambient/wind/windlarge.wav",
+   "position": [
+    7700,
+    -6706,
+    -655
+   ],
+   "inner_radius": 256,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 628,
+   "sound": "ambient/wind/windlarge.wav",
+   "position": [
+    9093,
+    -10802,
+    -655
+   ],
+   "inner_radius": 640,
+   "outer_radius": 1536,
+   "volume": 0.315,
+   "loop": true
+  },
+  {
+   "key": 629,
+   "sound": "ambient/wind/windlarge.wav",
+   "position": [
+    9339,
+    -9000,
+    -655
+   ],
+   "inner_radius": 256,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 40,
+   "sound": "ambient/fire/fireplaceloop01.wav",
+   "position": [
+    17818,
+    -8692,
+    -456
+   ],
+   "inner_radius": 192,
+   "outer_radius": 768,
+   "volume": 0.525,
+   "loop": true
+  },
+  {
+   "key": 518,
+   "sound": "ambient/fire/fireplaceloop02.wav",
+   "position": [
+    7414,
+    -8140,
+    -471
+   ],
+   "inner_radius": 128,
+   "outer_radius": 512,
+   "volume": 0.525,
+   "loop": true
+  }
+ ],
+ "sky": {
+  "mode": "open",
+  "view": "outdoor",
+  "view_distance_scale": 0.5,
+  "weather": "rain"
+ },
+ "daylight": {
+  "ambient_rgb": [
+   90,
+   90,
+   90
+  ],
+  "sun_rgb": [
+   255,
+   255,
+   255
+  ],
+  "day_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "night_scale_rgb": [
+   255,
+   255,
+   255
+  ],
+  "sun_gain": 4.0,
+  "sun_direction": [
+   0.4946,
+   0.573,
+   0.6534
+  ]
+ },
+ "footstep_sounds": [
+  {
+   "texture_names": [
+    "tape1b0xy7"
+   ],
+   "walk_sound_id": 89,
+   "run_sound_id": 50
+  },
+  {
+   "texture_names": [
+    "cobb88lwbz",
+    "stret8gdi0"
+   ],
+   "walk_sound_id": 92,
+   "run_sound_id": 53
+  },
+  {
+   "texture_names": [
+    "abndst2nts"
+   ],
+   "walk_sound_id": 93,
+   "run_sound_id": 54
+  },
+  {
+   "texture_names": [
+    "amazr3thbz",
+    "blok1l7cgj",
+    "blokumns8d",
+    "bric3n6w9u",
+    "bric5nzae2",
+    "briccyidcs",
+    "bricn6pcio",
+    "brkwdn2hg6",
+    "broo2y0cia",
+    "bwalb3b2td",
+    "carvdgjksd",
+    "ceilivn1tp",
+    "chatdood7j",
+    "chatonqhf0",
+    "cobbemb9q1",
+    "colu5youyo",
+    "darkjhjfi9",
+    "darkr1g5nm",
+    "darkrh5ob3",
+    "dblafxc8wg",
+    "dook04z2c8",
+    "dung4m50hb",
+    "flooa5b8nb",
+    "floonv1js4",
+    "floouz41lm",
+    "glypo5p25n",
+    "goldfsv4d0",
+    "grchjzo7z3",
+    "honktmoe68",
+    "invizvjn7n",
+    "karh3v44vq",
+    "karha5r44e",
+    "karhhct6fu",
+    "karslxvxnk",
+    "lighh9hiw1",
+    "oldpqpujbe",
+    "outelsyn49",
+    "pill37pwlv",
+    "pillx0v9xm",
+    "plasl5hg3s",
+    "ps6trcfk7q",
+    "roofhijrv5",
+    "roofiwgh3x",
+    "roofmqfcvw",
+    "sandsizmo1",
+    "sky04",
+    "slimdbv7ng",
+    "stagdgzu9y",
+    "ston6favlb",
+    "stonnbwioi",
+    "stonwclsu3",
+    "stuc947nff",
+    "stucqqjvm2",
+    "sturqn29ol",
+    "thjoe5db76"
+   ],
+   "walk_sound_id": 98,
+   "run_sound_id": 59
+  },
+  {
+   "texture_names": [
+    "wate715qva",
+    "watezwecun"
+   ],
+   "walk_sound_id": 101,
+   "run_sound_id": 62
+  },
+  {
+   "texture_names": [
+    "abndjb2u80",
+    "benc25qrwi",
+    "clan4m4wu2",
+    "clangrmjhg",
+    "darktbtf2z",
+    "grbrfhshi0",
+    "stur8fpuii",
+    "thjo4ak6bc",
+    "thjoxaa44b",
+    "thjoxnrgri",
+    "wood5emx5q",
+    "wood7ehu0b",
+    "wood9zi2qf",
+    "woodh8w4vv",
+    "woodokospj",
+    "woodqa002d",
+    "wooduucmpq",
+    "woodv944p9",
+    "woodxqjuim"
+   ],
+   "walk_sound_id": 103,
+   "run_sound_id": 64
+  }
+ ],
+ "translucent_faces": [
+  {
+   "faces": [
+    13286,
+    13287,
+    13288,
+    13289,
+    13290,
+    13291,
+    13292,
+    13293,
+    13294,
+    13295,
+    13296,
+    13297,
+    13298,
+    13299,
+    13300,
+    13301,
+    13302,
+    13303,
+    13304,
+    13305,
+    13306,
+    13307,
+    13308,
+    13309
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  },
+  {
+   "faces": [
+    12598
+   ],
+   "opacity": 1.0,
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "two_sided": true
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+from pathlib import Path
+import bpy,sys,numpy as np,json
+P=Path(__file__).resolve().parents[1];sys.path.insert(0,str(P.parent/'mm6_natm_claude/scripts'));import common
+bpy.ops.wm.open_mainfile(filepath=str(P/'work/full_actions.blend'));rig=bpy.data.objects['Rig'];body=bpy.data.objects['Body'];a=bpy.data.actions['Death'];rig.animation_data.action=a;rig.animation_data.action_slot=a.slots[0];names=[g.name for g in body.vertex_groups];rest=np.array([tuple(v.co) for v in body.data.vertices]);torso=(abs(rest[:,0])<.36)&(rest[:,1]>-.15)&(rest[:,2]>.6)&(rest[:,2]<1.5);scene=bpy.context.scene;common.workbench_clay(scene);bpy.ops.mesh.primitive_plane_add(size=8,location=(0,0,-.005));plane=bpy.context.object;mat=bpy.data.materials.new('Floor');mat.diffuse_color=(.15,.18,.2,1);plane.data.materials.append(mat);out=P/'review/full_actions';rows=[]
+for f in (0,10,20,29,39):
+ scene.frame_set(f);ev=body.evaluated_get(bpy.context.evaluated_depsgraph_get());me=ev.to_mesh();c=np.array([tuple(body.matrix_world@v.co) for v in me.vertices]);ev.to_mesh_clear();rows.append({'frame':f,'bounds':[c.min(0).tolist(),c.max(0).tolist()],'torso_min_z':float(c[torso,2].min()),'pelvis':list(rig.pose.bones['B_Pelvis'].head)});common.render_views(str(out/f'death_floor_{f}'),.65,4,views=('left','three_quarter'),resolution=(800,800),target=(0,.4))
+(out/'death_floor.json').write_text(json.dumps(rows,indent=2)+'\n');print('DEATH_FLOOR',rows,flush=True)

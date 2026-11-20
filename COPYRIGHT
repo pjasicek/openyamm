@@ -25,7 +25,11 @@ Other contributors retain copyright in their contributions. Existing copyright
 and license notices must be preserved as required by the applicable licenses.
 
 Third-party libraries, tools, and reference checkouts retain their own copyright
-notices and licenses. This declaration does not relicense them.
+notices and licenses. This declaration does not relicense them. cgltf
+(third_party/cgltf, MIT, Copyright (c) 2018 Johannes Kuhlmann) carries its license
+in third_party/cgltf/LICENSE. Map Studio's musl math routines
+(openyamm-studio/third_party/musl_math, MIT, Copyright (c) 2005-2020 Rich Felker, et al.)
+carry theirs in openyamm-studio/third_party/musl_math/COPYRIGHT.
 
 Game assets and imported game data are not licensed by this declaration. This
 includes original Might and Magic content, extracted or converted game scripts,

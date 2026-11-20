@@ -1,0 +1,61 @@
+id: rulesets.maw_challenge_modes
+title: "Ruleset - each MAW challenge mode starts (Doom's 5000 gold), fights, and keeps its mode through save and load"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  # doom
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, challenge_mode: doom, friendly_fire: true}
+  - assert:
+      ruleset: {id: maw, challenge_mode: doom}
+      gold: 5000
+  - combat_loot: {actor_index: 0}
+  - combat_loot: {actor_index: 1}
+  - save_game: maw_doom
+  - load_game: maw_doom
+  - assert:
+      map: oute3.odm
+      ruleset: {id: maw, challenge_mode: doom, difficulty: nightmare}
+  # road_to_insanity
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, challenge_mode: road_to_insanity, friendly_fire: true}
+  - assert:
+      ruleset: {id: maw, challenge_mode: road_to_insanity}
+      gold: 5000
+  - combat_loot: {actor_index: 0}
+  - combat_loot: {actor_index: 1}
+  - save_game: maw_road_to_insanity
+  - load_game: maw_road_to_insanity
+  - assert:
+      map: oute3.odm
+      ruleset: {id: maw, challenge_mode: road_to_insanity, difficulty: nightmare}
+  # beyond_madness
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, challenge_mode: beyond_madness, friendly_fire: true}
+  - assert:
+      ruleset: {id: maw, challenge_mode: beyond_madness}
+      gold: 5000
+  - combat_loot: {actor_index: 0}
+  - combat_loot: {actor_index: 1}
+  - save_game: maw_beyond_madness
+  - load_game: maw_beyond_madness
+  - assert:
+      map: oute3.odm
+      ruleset: {id: maw, challenge_mode: beyond_madness, difficulty: nightmare}
+  # austerity
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, challenge_mode: austerity, friendly_fire: true}
+  - assert:
+      ruleset: {id: maw, challenge_mode: austerity}
+  - combat_loot: {actor_index: 0}
+  - combat_loot: {actor_index: 1}
+  - save_game: maw_austerity
+  - load_game: maw_austerity
+  - assert:
+      map: oute3.odm
+      ruleset: {id: maw, challenge_mode: austerity}

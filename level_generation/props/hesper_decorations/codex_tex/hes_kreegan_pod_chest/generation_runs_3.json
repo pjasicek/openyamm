@@ -1,0 +1,257 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "generation_attempts_complete_but_outputs_fail_strict_brief_checks",
+  "selected_meaning": "Best preserved unmodified attempt for each requested output filename; selection does not mean approval or compliance.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "postprocessing": "None. Copied raw tool-return PNG bytes without resizing, alpha repair or painting.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic albedo texture-source painting for the LEFT view of a closed Kreegan pod chest.\nINPUT ROLES: Image 1 guide_left.png is the edit target and absolute geometry/composition authority. Image 2 design_reference.png is the approved colour and material authority only. Image 3 concept_crop.png is supporting appearance reference only.\nEDIT IMAGE 1 IN PLACE. Return exactly 1024 x 1024 RGBA with a genuinely transparent background, at its original resolution, UNRESIZED. Keep the exact guide alpha silhouette, outer outline, size, position, every edge, opening and geometric detail. Do not zoom, recenter, rotate, mirror, reinterpret or change perspective. The object occupies x=236..786 and y=363..660 on the 1024 square, with large transparent margins. Keep the left-view asymmetry, including the tall ridge at x~453 y~364. Trace the existing guide shapes one for one; the design reference must NOT replace their arrangement with its three-quarter-view geometry.\nPaint only existing surfaces with the reference's black-violet chitin, subtle purple material colour variation, finely weathered chitin grain and hairline orange seams. Preserve all existing spiny plate edges and openings. Orange sacs/seams and small vent slits use saturated orange emissive COLOUR, without casting light. Keep the chest CLOSED.\nLIGHTING: this is ALBEDO for texture projection, NOT a beauty render. Flat, even, shadowless illumination directly from viewer. No cast shadows, no ambient-occlusion darkening in recesses, no strong specular highlights or reflections, no rim light, no directional light gradients. Represent the glossy chitin material through intrinsic dark violet colour and subtle purple painted variation, not white shine. All faces equally readable. Glowing orange is painted colour only, no bloom or light spill.\nNo background, no floor, no text, no watermark, no added objects, no added protrusions. Preserve the original transparent canvas and exact guide silhouette including bottom notches.",
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564e-5dab-7842-b851-043c9d1a5e92/exec-d17f2f7e-3d85-4e1c-b45a-d6787b465d9b.png",
+      "selected": true,
+      "reason": "Closest retained left-view attempt to the guide's relative position and scale. Selected for preservation only; NOT accepted as brief-compliant: wrong native dimensions, silhouette and internal edges differ, and baked shading/specular edges remain.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit target; geometry and composition authority",
+          "sha256": "7c1d5d619e5c2a2d5f00cc70fa7026ab6796c988ad14c04f86f4aacc2bfe8490"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "colour and material authority",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting appearance reference",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810"
+        }
+      ],
+      "output_sha256": "092e6c8c8dec1aa601b5df5d40076712162af6fb308b1b77b43a4cfc10f67e83",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          65,
+          29,
+          1200,
+          1222
+        ],
+        "alpha_over_127_bbox": [
+          288,
+          441,
+          966,
+          811
+        ],
+        "transparent_alpha_present": true,
+        "exact_guide_silhouette_pass": false,
+        "materials_and_colours": "Black-violet/purple chitin and orange seams broadly match; geometry differs.",
+        "flat_even_shadowless_light_pass": false,
+        "lighting_notes": "Visible baked cavity darkening and bright edge highlights remain.",
+        "background_notes": "RGBA transparency present; low-alpha stray pixels outside the visible object remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic albedo texture-source painting for the LEFT view of a closed Kreegan pod chest.\nINPUT ROLES: Image 1 guide_left.png is the edit target and absolute geometry/composition authority. Image 2 design_reference.png is the approved colour and material authority only. Image 3 concept_crop.png is supporting appearance reference only.\nEDIT IMAGE 1 IN PLACE. Return exactly 1024 x 1024 RGBA with a genuinely transparent background, at its original resolution, UNRESIZED. Keep the exact guide alpha silhouette, outer outline, size, position, every edge, opening and geometric detail. Do not zoom, recenter, rotate, mirror, reinterpret or change perspective. The object occupies x=236..786 and y=363..660 on the 1024 square, with large transparent margins. Keep the left-view asymmetry, including the tall ridge at x~453 y~364. Trace the existing guide shapes one for one; the design reference must NOT replace their arrangement with its three-quarter-view geometry.\nPaint only existing surfaces with the reference's black-violet chitin, subtle purple material colour variation, finely weathered chitin grain and hairline orange seams. Preserve all existing spiny plate edges and openings. Orange sacs/seams and small vent slits use saturated orange emissive COLOUR, without casting light. Keep the chest CLOSED.\nLIGHTING: this is ALBEDO for texture projection, NOT a beauty render. Flat, even, shadowless illumination directly from viewer. No cast shadows, no ambient-occlusion darkening in recesses, no strong specular highlights or reflections, no rim light, no directional light gradients. Represent the glossy chitin material through intrinsic dark violet colour and subtle purple painted variation, not white shine. All faces equally readable. Glowing orange is painted colour only, no bloom or light spill.\nNo background, no floor, no text, no watermark, no added objects, no added protrusions. Preserve the original transparent canvas and exact guide silhouette including bottom notches.\nCORRECTIVE GENERATION (the single allowed correction): the previous return was incorrectly 1254 x 1254 and altered the plate edges. Produce NATIVE 1024 x 1024 pixels, not 1254, 1536 or any other size; do not resize a larger image. Use guide_left.png as the actual image to recolour. Copy its exact silhouette and ALL geometry, including the central top point at (453,364), lower edge at y660 and left/right limits x236 and x786. Do not invent extra plates or holes. Preserve the guide's alpha including transparent margins; EVERY pixel outside the guide's alpha must remain fully transparent, with no stray opaque pixels anywhere. Only recolour the grey surface. Reduce the reference's baked lighting to flat albedo: NO dark occlusion cavities, NO bright white/pink edge shine, NO orange light spill. Keep orange seams narrow and clearly orange.",
+      "output": "paint_left_attempt2.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564e-5dab-7842-b851-043c9d1a5e92/exec-8cd70e70-7d9b-464f-8c53-27ce6ae922d3.png",
+      "selected": false,
+      "reason": "The single corrective regeneration still returned the wrong native dimensions and enlarged/reinterpreted the guide's silhouette and plates; no further left regeneration permitted.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit target; geometry and composition authority",
+          "sha256": "7c1d5d619e5c2a2d5f00cc70fa7026ab6796c988ad14c04f86f4aacc2bfe8490"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "colour and material authority",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting appearance reference",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810"
+        }
+      ],
+      "output_sha256": "68d153fd2633154a0c10bf29b7e4e53b99ff6983564f0959a9434315667fa251",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          130,
+          19,
+          1073,
+          997
+        ],
+        "alpha_over_127_bbox": [
+          271,
+          434,
+          987,
+          827
+        ],
+        "transparent_alpha_present": true,
+        "exact_guide_silhouette_pass": false,
+        "materials_and_colours": "Black-violet/purple chitin and orange seams broadly match; geometry differs.",
+        "flat_even_shadowless_light_pass": false,
+        "lighting_notes": "Visible baked cavity darkening and bright edge highlights remain.",
+        "background_notes": "RGBA transparency present; low-alpha stray pixels outside the visible object remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic albedo texture-source painting for the RIGHT view of a closed Kreegan pod chest.\nINPUT ROLES: Image 1 guide_right.png is the edit target and absolute geometry/composition authority. Image 2 design_reference.png is the approved colour and material authority only. Image 3 concept_crop.png is supporting appearance reference only.\nEDIT IMAGE 1 IN PLACE. Return exactly 1024 x 1024 RGBA with a genuinely transparent background, at its original resolution, UNRESIZED. Keep the exact guide alpha silhouette, outer outline, size, position, every edge, opening and geometric detail. Do not zoom, recenter, rotate, mirror, reinterpret or change perspective. The object occupies x=237..787 and y=363..660 on the 1024 square, with large transparent margins. Keep the right-view asymmetry, including the tall ridge at x~571 y~364. Trace the existing guide shapes one for one; the design reference must NOT replace their arrangement with its three-quarter-view geometry.\nPaint only existing surfaces with the reference's black-violet chitin, subtle purple material colour variation, finely weathered chitin grain and hairline orange seams. Preserve all existing spiny plate edges and openings. Orange sacs/seams and small vent slits use saturated orange emissive COLOUR, without casting light. Keep the chest CLOSED.\nLIGHTING: this is ALBEDO for texture projection, NOT a beauty render. Flat, even, shadowless illumination directly from viewer. No cast shadows, no ambient-occlusion darkening in recesses, no strong specular highlights or reflections, no rim light, no directional light gradients. Represent the glossy chitin material through intrinsic dark violet colour and subtle purple painted variation, not white shine. All faces equally readable. Glowing orange is painted colour only, no bloom or light spill.\nNo background, no floor, no text, no watermark, no added objects, no added protrusions. Preserve the original transparent canvas and exact guide silhouette including bottom notches.\nThe output image canvas must be NATIVE 1024x1024 (one thousand twenty-four by one thousand twenty-four pixels), never 1254 or 1536. This is a strict surface-recolour edit of the supplied grey right view; retain its identical contour and plate-edge arrangement, including its two broad downward central points, side arches and existing small thorns. Do not add new layers, ridges, holes or spikes. Surface colours should be mostly muted dark aubergine with narrow orange slits, free of white or pink specular edge lighting and free of black baked occlusion. The black display outside the guide represents zero alpha: all those pixels must be fully transparent.",
+      "output": "paint_right_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564e-5dab-7842-b851-043c9d1a5e92/exec-51758111-bb8a-4569-b057-dddc67a1eb22.png",
+      "selected": false,
+      "reason": "Wrong native dimensions, enlarged object, altered silhouette/plate geometry and residual baked shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit target; geometry and composition authority",
+          "sha256": "b80b523c675c402a9ba6340eaa7abf27ac174d39bed0a28b76224d2965e1492e"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "colour and material authority",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting appearance reference",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810"
+        }
+      ],
+      "output_sha256": "82ad7802b962dde72e9d650c8b3f091944117e4a995226cbf071bea5d7319c84",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          111,
+          101,
+          1168,
+          1232
+        ],
+        "alpha_over_127_bbox": [
+          231,
+          440,
+          1034,
+          871
+        ],
+        "transparent_alpha_present": true,
+        "exact_guide_silhouette_pass": false,
+        "materials_and_colours": "Black-violet/purple chitin and orange seams broadly match; geometry differs.",
+        "flat_even_shadowless_light_pass": false,
+        "lighting_notes": "Visible baked cavity darkening and bright edge highlights remain.",
+        "background_notes": "RGBA transparency present; low-alpha stray pixels outside the visible object remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset: orthographic albedo texture-source painting for the RIGHT view of a closed Kreegan pod chest.\nINPUT ROLES: Image 1 guide_right.png is the edit target and absolute geometry/composition authority. Image 2 design_reference.png is the approved colour and material authority only. Image 3 concept_crop.png is supporting appearance reference only.\nEDIT IMAGE 1 IN PLACE. Return exactly 1024 x 1024 RGBA with a genuinely transparent background, at its original resolution, UNRESIZED. Keep the exact guide alpha silhouette, outer outline, size, position, every edge, opening and geometric detail. Do not zoom, recenter, rotate, mirror, reinterpret or change perspective. The object occupies x=237..787 and y=363..660 on the 1024 square, with large transparent margins. Keep the right-view asymmetry, including the tall ridge at x~571 y~364. Trace the existing guide shapes one for one; the design reference must NOT replace their arrangement with its three-quarter-view geometry.\nPaint only existing surfaces with the reference's black-violet chitin, subtle purple material colour variation, finely weathered chitin grain and hairline orange seams. Preserve all existing spiny plate edges and openings. Orange sacs/seams and small vent slits use saturated orange emissive COLOUR, without casting light. Keep the chest CLOSED.\nLIGHTING: this is ALBEDO for texture projection, NOT a beauty render. Flat, even, shadowless illumination directly from viewer. No cast shadows, no ambient-occlusion darkening in recesses, no strong specular highlights or reflections, no rim light, no directional light gradients. Represent the glossy chitin material through intrinsic dark violet colour and subtle purple painted variation, not white shine. All faces equally readable. Glowing orange is painted colour only, no bloom or light spill.\nNo background, no floor, no text, no watermark, no added objects, no added protrusions. Preserve the original transparent canvas and exact guide silhouette including bottom notches.\nThe output image canvas must be NATIVE 1024x1024 (one thousand twenty-four by one thousand twenty-four pixels), never 1254 or 1536. This is a strict surface-recolour edit of the supplied grey right view; retain its identical contour and plate-edge arrangement, including its two broad downward central points, side arches and existing small thorns. Do not add new layers, ridges, holes or spikes. Surface colours should be mostly muted dark aubergine with narrow orange slits, free of white or pink specular edge lighting and free of black baked occlusion. The black display outside the guide represents zero alpha: all those pixels must be fully transparent.\nSINGLE CORRECTIVE PASS: Previous output enlarged and redrew the object and returned a 1254-square canvas. Correct those failures. Work directly over the supplied guide_right.png at ITS NATIVE 1024x1024 resolution. Treat its complete grey object and alpha mask as LOCKED pixel positions. The painted object must occupy only x237 through787, y363 through660; preserve all its details exactly. Do not invent any outline edge or rearrange plates. Do not increase object size. Keep every grey shape boundary in its existing location. Recolour grey into flat black-purple and orange albedo without adding baked shadows. No specular white or pink edging. Return 1024x1024 with clean true transparency, preserving every source alpha pixel.",
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a1564e-5dab-7842-b851-043c9d1a5e92/exec-e64a2d46-abfa-42e8-8b24-d52929b6b33d.png",
+      "selected": true,
+      "reason": "Improves relative framing over the first right attempt. Selected for preservation only; NOT accepted as brief-compliant: wrong native dimensions, silhouette and internal edges differ, and baked shading/specular edges remain. Single allowed correction exhausted.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit target; geometry and composition authority",
+          "sha256": "b80b523c675c402a9ba6340eaa7abf27ac174d39bed0a28b76224d2965e1492e"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "colour and material authority",
+          "sha256": "16a366d752a855b0e17aa217572765b4c19dcfba4dd2ace8c26f7cd1077e5541"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting appearance reference",
+          "sha256": "df3f47a7e340a91d512335b764f7dd04e9e75bb61acf493c2d3d066a178c8810"
+        }
+      ],
+      "output_sha256": "89d31acf6d3521b9181e7bf7ac4fcb44d136f5a05301d2165be0fb76cc9dc8ec",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          33,
+          23,
+          1192,
+          1198
+        ],
+        "alpha_over_127_bbox": [
+          289,
+          444,
+          965,
+          810
+        ],
+        "transparent_alpha_present": true,
+        "exact_guide_silhouette_pass": false,
+        "materials_and_colours": "Black-violet/purple chitin and orange seams broadly match; geometry differs.",
+        "flat_even_shadowless_light_pass": false,
+        "lighting_notes": "Visible baked cavity darkening and bright edge highlights remain.",
+        "background_notes": "RGBA transparency present; low-alpha stray pixels outside the visible object remain.",
+        "accepted_as_brief_compliant": false
+      }
+    }
+  ]
+}

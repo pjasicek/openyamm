@@ -1,0 +1,484 @@
+{
+ "id": "20261009-1628-mm6-outb1-29",
+ "world": "mm6",
+ "maps": [
+  "outb1.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/cedhwal",
+  "mm6/dkwrf",
+  "mm6/magicrch",
+  "mm6/sdknkrf",
+  "mm6/sdkwdr",
+  "mm6/sdkwle",
+  "mm6/sdkwre",
+  "mm6/sdkwwn",
+  "mm6/stables",
+  "mm6/tavmid",
+  "mm6/tewd",
+  "mm6/tewrd",
+  "mm6/tewsw",
+  "mm6/vh1ctr",
+  "mm6/vh1dor",
+  "mm6/vh1re",
+  "mm6/vh1roof",
+  "mm6/vh1winlg",
+  "mm6/vh2door",
+  "mm6/vh2roof2",
+  "mm6/vh2trima",
+  "mm6/vh2trimb",
+  "mm6/vh2winlg",
+  "mm6/vh3ctr"
+ ],
+ "requests": {
+  "mm6/cedhwal": {
+   "name": "cedhwal",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown cedar wooden planks laid horizontally with visible grain, knots and dark seams",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge.",
+    "3": "No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference. Keep the bottom plank edge as light as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/dkwrf": {
+   "name": "dkwrf",
+   "versions": [
+    1
+   ],
+   "material": "overlapping orange-brown wooden clapboard roof planks laid horizontally with dark shadow gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/magicrch": {
+   "name": "magicrch",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a bright orange board in a riveted brown frame showing a rolled parchment scroll crossed with a jewelled magic wand, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdknkrf": {
+   "name": "sdknkrf",
+   "versions": [
+    1
+   ],
+   "material": "snow-covered roof of overlapping red-brown wooden planks with white snow drifts lying along each plank edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkwdr": {
+   "name": "sdkwdr",
+   "versions": [
+    1
+   ],
+   "material": "snowy house front of dark weathered brown vertical planks and timber frame with hanging icicles and snow drifts on the beams, with a red-brown plank door with an iron latch; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkwle": {
+   "name": "sdkwle",
+   "versions": [
+    1
+   ],
+   "material": "snowy house wall of dark weathered brown vertical planks with green-tinged grain, a horizontal timber rail and a timber corner post on the left edge, icicles hanging from the beams and snow drifts on the ledges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkwre": {
+   "name": "sdkwre",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "snowy house wall of dark weathered brown vertical planks with green-tinged grain, a horizontal timber rail and a timber corner post on the right edge, icicles hanging from the beams and snow drifts on the ledges",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkwwn": {
+   "name": "sdkwwn",
+   "versions": [
+    1
+   ],
+   "material": "snowy house wall of dark weathered brown vertical planks with a horizontal timber rail, icicles and snow drifts, with a small window of glowing amber diamond leaded glass in a timber frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/stables": {
+   "name": "stables",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a pale bleached wooden plank board in a riveted blue-grey iron frame showing a brown horse in side view, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavmid": {
+   "name": "tavmid",
+   "versions": [
+    1
+   ],
+   "material": "tavern sign of a blue-grey wooden plank board in a riveted iron frame showing two orange-brown wooden beer tankards, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tewd": {
+   "name": "tewd",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey rough fieldstone wall of rounded irregular stones with deep black joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tewrd": {
+   "name": "tewrd",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey rough fieldstone wall of rounded irregular stones with deep black joints, with a raised stone pilaster of smaller stones along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tewsw": {
+   "name": "tewsw",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey rough fieldstone wall with a tall gothic arched stained-glass window in a grey stone frame showing a blue dragon on a blue hexagon background; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh1ctr": {
+   "name": "vh1ctr",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark brown timber framing with dark charcoal rough stone infill, a horizontal mid rail and an inverted V brace in the lower panel, roof shingle ends along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh1dor": {
+   "name": "vh1dor",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "arched dark olive-brown wooden plank door with Z-shaped battens and black iron strap hinges and latch, set in a dark brown timber frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/vh1le",
+     "right": "mm6/vh1ctr"
+    }
+   }
+  },
+  "mm6/vh1re": {
+   "name": "vh1re",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark brown timber framing with dark charcoal rough stone infill, a horizontal mid rail and a diagonal brace, with a timber corner post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh1roof": {
+   "name": "vh1roof",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown wooden shingle roof of overlapping rectangular shakes in staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh1winlg": {
+   "name": "vh1winlg",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark brown timber framing with dark charcoal rough stone infill, two small lit amber barred windows in the upper panels and diagonal braces below; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh2door": {
+   "name": "vh2door",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red-brown varnished vertical plank door with black wrought-iron scroll hinges and a ring handle, below a horizontal plank transom in a timber frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/vh2winle",
+     "right": "mm6/vh2ctr",
+     "bottom": "mm6/tews"
+    }
+   }
+  },
+  "mm6/vh2roof2": {
+   "name": "vh2roof2",
+   "versions": [
+    1
+   ],
+   "material": "red-brown wooden shingle roof of overlapping rectangular shakes in staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh2trima": {
+   "name": "vh2trima",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "plain red-brown wooden beam strip with horizontal grain",
+   "notes": {
+    "3": "Keep the wood grain but reproduce the reference rows: a bright lip at the very top with a dark groove just below it, a bright bevel highlight at about 72-78% of the height, and a near-black shadow band across the full width over the bottom fifth.",
+    "4": "A bright lip on the very top row with a dark groove just below it, a strong bright bevel at 72-78% of the height, and a near-black band over the bottom fifth that stays black down to the last row.",
+    "5": "Soften the top lip to the reference's dark red-brown; keep the bevel at 72-78% of the height; the bottom fifth is near-black all the way to the last row, with no bright line at the bottom.",
+    "6": "The bottom fifth is near-black all the way down to and including the very last row; no brown or bright line at the bottom edge. Keep the top lip and the bevel as now."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm6/vh4le",
+     "bottom": "mm6/vh1ctr"
+    },
+    "3": {
+     "top": "mm6/vh4le",
+     "bottom": "mm6/vh1ctr"
+    },
+    "4": {
+     "top": "mm6/vh4le",
+     "bottom": "mm6/vh1ctr"
+    },
+    "5": {
+     "top": "mm6/vh4le",
+     "bottom": "mm6/vh1ctr"
+    },
+    "6": {
+     "top": "mm6/vh4le",
+     "bottom": "mm6/vh1ctr"
+    }
+   },
+   "ref_blur": {
+    "4": 0.6,
+    "5": 0.6,
+    "6": 0.6
+   }
+  },
+  "mm6/vh2trimb": {
+   "name": "vh2trimb",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey brick wall of small rough bricks with black mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh2winlg": {
+   "name": "vh2winlg",
+   "versions": [
+    1
+   ],
+   "material": "house facade of red-brown varnished timber framing with dark charcoal brick infill and two windows of green diamond leaded glass with open orange wooden shutters; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh3ctr": {
+   "name": "vh3ctr",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown timber framing with tan mud-plastered brick infill panels and a horizontal mid rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

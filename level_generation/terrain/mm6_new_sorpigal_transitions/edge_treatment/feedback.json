@@ -1,0 +1,66 @@
+{
+  "request": "Restore the baked dark bleed/contact transitions visible in test_img/1264.png",
+  "base": "composites/v4; grassv1, cobblesv1, volcanov2, dirtv6",
+  "invariants": [
+    "accepted masters",
+    "coverage topology",
+    "road openings",
+    "opaque256px runtime",
+    "water excluded"
+  ],
+  "events": [
+    {
+      "case": "6drsrew/6drsrn_e/6drsrecap",
+      "finding": "Coverage-only composite cuts through perimeter stones without their dark outer sides",
+      "action": "Imagegen paints local bevel and contact shading; bake keeps only boundary band",
+      "review": "256px pilot sheet and saved overview/cobbles views show more natural stone endings"
+    },
+    {
+      "case": "6drsrew_s",
+      "severity": "reject",
+      "finding": "Third straight-road style reference caused AI to erase the downward branch",
+      "rejected": "raw/rejected/6drsrew_s_straight_reference.png",
+      "action": "Remove third reference; require all three openings explicitly",
+      "result": "Retry preserves T junction"
+    },
+    {
+      "case": "6grdrtxse",
+      "finding": "Image service HTTP500, request676760ab-9b4b-4094-b235-c67984a33827",
+      "action": "Retry same built-in imagegen edit",
+      "result": "Retry succeeded"
+    },
+    {
+      "case": "voldrtn",
+      "finding": "Image service HTTP500, request9f0ef58e-3781-420c-ae11-56e89d2e5535",
+      "action": "Retry same built-in imagegen edit"
+    },
+    {
+      "case": "v5_roads",
+      "finding": "Eight grass joins fail because only two grass tiles were painted; all road joins pass",
+      "action": "Complete grass family before qualification",
+      "result": "v5_grass has211 passing RGB joins"
+    },
+    {
+      "case": "v5_grass",
+      "review": "Native island/hole captures and flat mosaic inspected. Boundary blends are continuous. Accepted grass master still shows its repeated diagonal texture; no master edits authorized in this pass."
+    },
+    {
+      "case": "voldrtn",
+      "finding": "Second HTTP500 request6ceedccb-fc8c-4823-8265-7abe919aaeb3",
+      "action": "Simplify prompt and use current composite as sole edit target",
+      "result": "Succeeded; runtime pilot reviewed with subtle speckled edge at65% blend strength"
+    },
+    {
+      "case": "voldrts",
+      "finding": "HTTP500 request34ba4d98-03ef-48e9-a25b-5c14a5cf0eb7",
+      "action": "Retry the same single-target built-in edit",
+      "result": "Succeeded"
+    },
+    {
+      "case": "capture executable",
+      "finding": "Workspace binary changed from1190297... to3300fd48... during independent work",
+      "action": "Freeze /tmp/openyamm-sorpigal-edge-review-v5 and recapture original/before-edge/final views with it",
+      "invariant": "Same frozen executable for final comparison"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+# MM9 promotion playthrough 72, block E: the first crusade, save Jarl Sven (guide: side_b.yml
+# stop-jarl-sven-s-assassination, find-harris-willington; side_c.yml find-harris-willington). Lindisfarne to Thjorgard
+# by sea, the city's west gate. Sven Forkbeard (actor 50, RUDE 3) is home again since Krohn's task (key 108; from the
+# war council, key 40, until then he is away and this crusade cannot be done). Shown the letter, he sends his
+# stand-in to the Arena (key 230). In the Arena the double door (event 100) brings the stand-in and his guards into
+# the box and Byri the Scarred out of the east pen; talked down (never attacked: no clear_hostiles here), Byri names
+# Harris Willington and runs (key 231). Sven hears the name (key 479); Harris, the accountant in Hreidmar's Stuff
+# (actor 2, RUDE 416), gives himself away (key 232); Sven, told, pays the lifesaver's reward when the talk closes
+# (key 234 -> 235: 5 000 experience to each member, 10 000 gold), checked as gains against the values before.
+# Research: prep/E_paladin_druid.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 72
+id: mm9.promotions.72_thjorgard_sven_assassin
+title: "MM9 promotions 72: Sven reads the letter, Byri the Scarred in the Arena, Harris Willington unmasked"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/70_lindisfarne_grehgknak.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: lindisfarne.blv, qbit_set: [90108, 90229], qbit_clear: [90230, 90231, 90232, 90234, 90235]}
+  - play_lua: {source: 'if not has_item(10419) then error("no letter") end'}
+
+  # The Sea's Fang to Thjorgard; the city's west gate.
+  - travel: {map: thjorgard.blv, days: 4}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # Sven in his castle (visible again: key 108): the letter.
+  - set_pose: {map: thjorgardcity.blv, x: 82, y: 20480, z: 3608, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 50}
+  - assert: {dialog: {active: true, source_id: 3, action_label_present: "We have found a disturbing letter that you need to read."}}
+  - select_topic: {match_label: "We have found a disturbing letter that you need to read."}
+  - select_topic: {match_label: "How so?"}
+  - select_topic: {match_label: "Sounds like a plan."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90230]}
+
+  # The Arena's entrance on the city's east side.
+  - set_pose: {map: thjorgardcity.blv, x: 9585, y: 11141, z: -19, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9912, y: 11141, z: -19, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thearena.blv}
+
+  # Up the hall to the arena's double door: opened, it brings Sven's stand-in into the box and Byri out of the east
+  # pen to the middle. The party steps through onto the sand to meet him.
+  - walk_to: {x: 0, y: -1700, z: 1, z_tolerance: 200, timeout_seconds: 60}
+  - play_lua: {source: 'click(100); wait(1.5); log("the arena door: " .. door_state(1) .. ", " .. door_state(2))'}
+  - walk_to: {x: 0, y: -500, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 20}
+  - play_lua:
+      source: |
+        wait(6)
+        if mapvar("SvenWalked") ~= 1 then error("Sven's stand-in did not come") end
+        log("Sven's stand-in and his guards take the box; Byri the Scarred walks out of the east pen")
+  - interact_actor: {actor_index: 4}
+  - select_topic: {match_label: "We're not going to allow you to murder Sven."}
+  - select_topic: {match_label: "This letter."}
+  - select_topic: {match_label: "A dying messenger."}
+  - select_topic: {match_label: "I'm sure we could come to an arrangement."}
+  - select_topic: {match_label: "Who put you up to this?"}
+  - select_topic: {match_label: "Why did he want Sven dead?"}
+  - select_topic: {match_label: "Sven is going to find out about this."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90231]}
+  - play_lua: {source: 'wait(5) log("Byri runs off")'}
+
+  # Back out of the Arena.
+  - walk_to: {x: 0, y: -3891, z: 1, z_tolerance: 300, timeout_seconds: 60, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # Sven hears the name.
+  - set_pose: {map: thjorgardcity.blv, x: 82, y: 20480, z: 3608, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 50}
+  - select_topic: {match_label: "The assassin fingered a man named Harris Willington."}
+  - select_topic: {match_label: "Very well."}
+  - advance_runtime: {seconds: 0.5}
+
+  # Harris Willington in Hreidmar's Stuff.
+  - set_pose: {map: thjorgardcity.blv, x: 1925, y: 8250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 2}
+  - select_topic: {match_label: "Seen this letter before?"}
+  - select_topic: {match_label: "Unfortunately, Sven survived."}
+  - select_topic: {match_label: "Not you.  You're going to jail."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90232]}
+
+  # Sven again: the report and his reward when the talk closes (gains checked against the values before it).
+  - set_pose: {map: thjorgardcity.blv, x: 82, y: 20480, z: 3608, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local c = classes()
+        local n = 0 for _ in c:gmatch("%S+") do n = n + 1 end
+        remember("gold", gold()) remember("classes", c) remember("members", n)
+        for i = 0, n - 1 do remember("xp" .. i, experience(i)) end
+        log("CLASSES before: " .. c .. "; gold " .. gold())
+  - interact_actor: {actor_index: 50}
+  - select_topic: {match_label: "Harris Willington is the accountant at the General Store."}
+  - select_topic: {match_label: "Thank you.  Farewell."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90234, 90235]}
+  - play_lua:
+      source: |
+        local GOLD, XP = 10000, 5000
+        local c = classes()
+        log("CLASSES after: " .. c .. "; gold " .. gold())
+        if gold() - recall("gold") ~= GOLD then error("gold rose by " .. (gold() - recall("gold")) .. ", not " .. GOLD) end
+        for i = 0, recall("members") - 1 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= XP then error("member " .. i .. "'s experience rose by " .. xp .. ", not " .. XP) end
+        end
+        if c ~= recall("classes") then error("classes changed: " .. recall("classes") .. " -> " .. c) end
+  - play_lua: {source: 'log("Sven paid 10 000 gold and 5 000 experience to each member; CLASSES " .. classes())'}
+  - save_game: {name: "P72 Sven saved", path: output/playthrough/mm9/promotions/checkpoints/72_thjorgard_sven_assassin.oysav}

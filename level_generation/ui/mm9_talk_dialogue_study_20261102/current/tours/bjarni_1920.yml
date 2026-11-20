@@ -1,0 +1,25 @@
+# Menu input tour (debug.menu_input_tour_path): Bjarni Thorvaldssen (RUDE 45, Sturmford City prop event 308).
+# Coordinates are in the 1600x900 reference space; run at 1920x1080 (canvas scale 1.8); pointer coordinates still use the 1600x900 reference.
+output_dir: ../shots_1920
+exit: true
+steps:
+  - wait: 3
+  - console: player add Knight Aslaug
+  - console: player add Cleric Hrafn
+  - console: player add Sorcerer Sigrun
+  - console: qbit set 90020 90196 90023 90039 90084 90089
+  - console: event 308
+  - wait: 1.5
+  - capture: 01_bjarni_entry_eight_choices
+  - pointer_move: [560, 746]
+  - wait: 0.5
+  - capture: 02_bjarni_entry_hover_first
+  - click: [560, 746]
+  - wait: 1.0
+  - capture: 03_bjarni_node18
+  - click: [560, 746]
+  - wait: 1.0
+  - pointer_move: [1500, 200]
+  - wait: 0.5
+  - capture: 04_bjarni_long_response_228
+  - wait: 1

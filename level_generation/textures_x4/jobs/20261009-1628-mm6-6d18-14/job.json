@@ -1,0 +1,589 @@
+{
+ "id": "20261009-1628-mm6-6d18-14",
+ "world": "mm6",
+ "maps": [
+  "6d18.blv",
+  "6d09.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/vlctrm3",
+  "mm6/bemh16c",
+  "mm6/ctceil3",
+  "mm6/ctflor2",
+  "mm6/cttrim2",
+  "mm6/ctwl2le",
+  "mm6/vlcdorc",
+  "mm6/vlcflorc",
+  "mm6/vlcflore",
+  "mm6/vlcgnrc1",
+  "mm6/vlcgnrc2",
+  "mm6/vlcgnrc3",
+  "mm6/vlcwl1a",
+  "mm6/vlcwl3a",
+  "mm6/d7spclb",
+  "mm6/d7spclc",
+  "mm6/d7wl1le",
+  "mm6/d7wl1re",
+  "mm6/d7wl4le",
+  "mm6/d7wl2le",
+  "mm6/d7wl2re",
+  "mm6/d7trim8",
+  "mm6/d7ceil2",
+  "mm6/d7ceil3"
+ ],
+ "requests": {
+  "mm6/vlctrm3": {
+   "name": "vlctrm3",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark grey carved stone square panel with a bevelled frame and three rows of raised weathered runic glyphs; copy the composition exactly",
+   "notes": {
+    "2": "Keep the bevelled frame exactly as in the reference: the outermost bottom bevel is a bright lit edge, not a dark rim; no dark outline or shadow along any outer edge.",
+    "3": "The bevelled stone frame fills the panel out to all four edges; the bottom-most rows of pixels are the lit grey stone bevel at the same brightness as the reference, never black, a shadow gap or a dark outline.",
+    "4": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     63,
+     44
+    ]
+   }
+  },
+  "mm6/bemh16c": {
+   "name": "bemh16c",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow horizontal red-brown wooden strip with fine grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctceil3": {
+   "name": "ctceil3",
+   "versions": [
+    1
+   ],
+   "material": "red lacquered wooden ceiling panel with a carved dark floral border and a central square medallion with white key-fret lattice; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctflor2": {
+   "name": "ctflor2",
+   "versions": [
+    1
+   ],
+   "material": "glazed ceramic floor tile in a geometric Moorish star pattern of blue, cream, red-orange and gold, with dark star rosettes; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cttrim2": {
+   "name": "cttrim2",
+   "versions": [
+    1
+   ],
+   "material": "carved tan wooden pilaster with stacked relief panels, ornamental rosettes and a plain panelled base; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctwl2le": {
+   "name": "ctwl2le",
+   "versions": [
+    1
+   ],
+   "material": "worn tan sandstone block wall, with an orange fluted stone column with an ornate Corinthian capital on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcdorc": {
+   "name": "vlcdorc",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved wooden totem door with a large dark tribal demon mask with red eyes and mouth in the centre, flanked by orange carved totem faces; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/vlcflorc": {
+   "name": "vlcflorc",
+   "versions": [
+    1
+   ],
+   "material": "tan worn flagstones separated by glowing red-orange lava cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcflore": {
+   "name": "vlcflore",
+   "versions": [
+    1
+   ],
+   "material": "grey-green crushed volcanic stone gravel with dark gaps",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcgnrc1": {
+   "name": "vlcgnrc1",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown rough volcanic rock with fine pitting",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcgnrc2": {
+   "name": "vlcgnrc2",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-grey rough volcanic rock with fine pitting",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcgnrc3": {
+   "name": "vlcgnrc3",
+   "versions": [
+    1
+   ],
+   "material": "near-black grey rough volcanic rock with fine pale specks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcwl1a": {
+   "name": "vlcwl1a",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-olive rough swirled lava rock wall with fibrous flow lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcwl3a": {
+   "name": "vlcwl3a",
+   "versions": [
+    1
+   ],
+   "material": "black volcanic rock with dense silvery-white crystalline glitter flecks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7spclb": {
+   "name": "d7spclb",
+   "versions": [
+    1
+   ],
+   "material": "carved orange sandstone arched alcove with ornate frieze holding a stone gargoyle figure covering its face with its hands, on a sandstone block ledge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7spclc": {
+   "name": "d7spclc",
+   "versions": [
+    1
+   ],
+   "material": "carved orange sandstone arched alcove with ornate frieze holding a crouching winged stone gargoyle lion, on a sandstone block ledge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7spclb"
+     ],
+     "fraction": 0.735
+    }
+   }
+  },
+  "mm6/d7wl1le": {
+   "name": "d7wl1le",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "worn tan sandstone block wall with a carved orange stone pilaster on the left edge topped by a grimacing demon head capital, with a round carved boss on the pilaster",
+   "notes": {
+    "2": "No dark outline, mortar line or shadow along the right edge: the outermost columns keep the same brightness as the stone beside them.",
+    "3": "No dark outline, mortar line or shadow along the right edge: the outermost columns keep the same brightness as the stone beside them.",
+    "4": "Run the carved pillar right to the left edge with no dark or shadow line along the left edge; keep the brick course at the bottom edge consistent with the top so it tiles vertically.",
+    "5": "The pillar stone continues evenly to the left edge with no dark rim; the top edge is the reference's dark band above the cornice with no bright highlight row."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.374
+    },
+    "2": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.374
+    },
+    "3": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.368
+    },
+    "4": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.368
+    },
+    "5": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.368
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm6/d7wl1ctr",
+     "top": "mm6/gset04",
+     "left": "mm6/d7dor1"
+    },
+    "4": {
+     "right": "mm6/d7wl1ctr",
+     "top": "mm6/gset04",
+     "left": "mm6/d7dor1"
+    },
+    "5": {
+     "right": "mm6/d7wl1ctr",
+     "top": "mm6/gset04",
+     "left": "mm6/d7dor1"
+    }
+   }
+  },
+  "mm6/d7wl1re": {
+   "name": "d7wl1re",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "worn tan sandstone block wall with a carved orange stone pilaster on the right edge topped by a grimacing demon head capital, with a round carved boss on the pilaster",
+   "notes": {
+    "2": "No dark outline, mortar line or shadow along the top or bottom edge: the outermost rows keep the same brightness as the interior stone.",
+    "3": "No dark outline, mortar line or shadow along the top or bottom edge: the outermost rows keep the same brightness as the interior stone.",
+    "4": "Restore the reference lighting: a deep near-black shadow band under the lintel, a wide dark shadow strip left of the pillar, the pillar lighter than the wall and a terracotta-red gargoyle; no bright line on the top edge and no dark line on the bottom edge.",
+    "5": "No bright line along the top edge and no dark band along the bottom edge: the lintel top and the wall bottom keep the reference tone right to the edge; keep the shadows under the lintel and left of the pillar."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.327
+    },
+    "2": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.327
+    },
+    "3": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.322
+    },
+    "4": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.322
+    },
+    "5": {
+     "sources": [
+      "mm6/d7wl1ctr"
+     ],
+     "fraction": 0.322
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm6/d7wl1le",
+     "top": "mm6/gset04",
+     "right": "mm6/d7dor1"
+    },
+    "4": {
+     "left": "mm6/d7wl1le",
+     "top": "mm6/gset04",
+     "right": "mm6/d7dor1"
+    },
+    "5": {
+     "left": "mm6/d7wl1le",
+     "top": "mm6/gset04",
+     "right": "mm6/d7dor1"
+    }
+   }
+  },
+  "mm6/d7wl4le": {
+   "name": "d7wl4le",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "smooth weathered tan sandstone wall panel with an orange fluted column on the left edge topped by a carved face capital under a stone lintel",
+   "notes": {
+    "3": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "4": "No light or dark hairline on the right edge: the material of the last few pixels continues exactly to the right border, as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7wl4ctr"
+     ],
+     "fraction": 0.184
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {
+     "right": "mm6/d7wl4re"
+    }
+   }
+  },
+  "mm6/d7wl2le": {
+   "name": "d7wl2le",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn tan sandstone block wall around a tall dark doorway recess in the centre; above the recess, a bronze-green carved horned foliate face boss at the top left and an identical one at the top right; the recess has crumbling rusty-brown mottled stone inside and a dark lower opening; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm6/d7wl2ctr"
+     ],
+     "fraction": 0.145
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/d7wl2re": {
+   "name": "d7wl2re",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn tan sandstone block wall with a bronze-green carved foliate face boss at the top on the right side and a dark recess at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7trim8": {
+   "name": "d7trim8",
+   "versions": [
+    1
+   ],
+   "material": "plain strip of worn tan sandstone blocks with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7ceil2": {
+   "name": "d7ceil2",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-tan stone ceiling panel with dark wrought-iron scroll ornament and etched geometric patterns, beside vertical grooved orange wooden beams; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7ceil3": {
+   "name": "d7ceil3",
+   "versions": [
+    1
+   ],
+   "material": "rough weathered orange-brown wooden ceiling with a vertical plank on the left and horizontal planks on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

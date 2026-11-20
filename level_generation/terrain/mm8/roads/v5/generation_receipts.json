@@ -1,0 +1,78 @@
+[
+  {
+    "name": "drsrne1",
+    "tool": "built-in imagegen",
+    "prompt": "prompts/drsrne1.txt",
+    "prompt_sha256": "23c7f453e0f5724a4cb3f9e3c05bb294c12721e1747fa8cfd7ec09872fba725d",
+    "raw": "raw/drsrne1.png",
+    "raw_sha256": "bd9fa67bcbe24fea1d4b91fd745f119bfc3964cf1041ec62f0c54881aa0cdb8a",
+    "inputs": {
+      "../v4/authoring/drsrne1.png": "b89f422155785fb4d1a4544f897b24b34c9e2fe4be6224755523c8b825a27040",
+      "../../references/drsrne1.png": "8edc9f5c498dab1d49fc81d8c70ed0a9ce9d6db4c9206ef6b16744a4667916d1"
+    },
+    "status": "retained_iteration"
+  },
+  {
+    "name": "drsrne2_attempt1",
+    "tool": "built-in imagegen",
+    "prompt": "prompts/drsrne2_attempt1.txt",
+    "prompt_sha256": "0391569301aef0aa78c1ae4e8cf5862634eb1e2b32ea0187ecf3d2d56e09f220",
+    "raw": "raw/drsrne2_attempt1.png",
+    "raw_sha256": "9edf57895e4b989c7e77de3cde324783d228441a6dcfc048892a63167c6854ce",
+    "inputs": {
+      "../v4/authoring/drsrne2.png": "89aa07e9dfad815cfa7c206cfc9a3d258804e8484a6b981e6d584da9932b29e4",
+      "../../references/drsrne2.png": "b33b1c5af7c91e716fd90293909e7a9bfa48d625c1e2da1aa6225fd3c101d261"
+    },
+    "status": "retained_iteration"
+  },
+  {
+    "name": "drsrne2_attempt2",
+    "tool": "built-in imagegen",
+    "prompt": "prompts/drsrne2_attempt2.txt",
+    "prompt_sha256": "e602b004bdc2d2193a54061deafac5cc959d2daaa555d0eb104c85a8c8b600c1",
+    "raw": "raw/drsrne2_attempt2.png",
+    "raw_sha256": "7e0fa01bfa06484ec7015900e45989c3a04376380e02686d268a15fd1dc3a26e",
+    "inputs": {
+      "../v4/authoring/drsrne2.png": "89aa07e9dfad815cfa7c206cfc9a3d258804e8484a6b981e6d584da9932b29e4",
+      "../../references/drsrne2.png": "b33b1c5af7c91e716fd90293909e7a9bfa48d625c1e2da1aa6225fd3c101d261"
+    },
+    "status": "retained_iteration"
+  },
+  {
+    "name": "drsrne2",
+    "tool": "built-in imagegen",
+    "prompt": "prompts/drsrne2.txt",
+    "prompt_sha256": "034a75a9d3969e39acc21ba98cde0abc71bc3839b7d4dedc71802226eb6c5e77",
+    "raw": "raw/drsrne2.png",
+    "raw_sha256": "11bed4b2e46a13c8f04614392a7bcd8e49032865879e325716d6319b792fa58f",
+    "inputs": {
+      "authoring_attempt2/drsrne2.png": "c99112fecb4c27cb66010ffaf60d3b19885d8341b9fce88803e52d053cdaea30",
+      "inputs/drsrne2_marker.png": "2024cc5364a6f81981ec28e6c09bbdb7efc746af62eed4e603220e0849e63ce9"
+    },
+    "status": "retained_iteration"
+  },
+  {
+    "name": "drsrne2_rejected_wrong_stone",
+    "tool": "built-in imagegen",
+    "prompt": "prompts/drsrne2_rejected_wrong_stone.txt",
+    "prompt_sha256": "5aee03f4166de7b6946fa78fbbfd25d0d9312f2ffe783dfccc98804d688f05f9",
+    "raw": "raw/drsrne2_rejected_wrong_stone.png",
+    "raw_sha256": "e8f9fe8763a525494e45dfe549f1461f60f1cd4e170b1a7c8e74480a54c3396f",
+    "inputs": {
+      "authoring_attempt3/drsrne2.png": "49163d90eff48f9b694af28d7e9c57a73a0a55f06a7c4bf361b15c718885814e"
+    },
+    "status": "rejected_wrong_stone"
+  },
+  {
+    "name": "drsrne2_tip_crop",
+    "tool": "built-in imagegen",
+    "prompt": "prompts/drsrne2_tip_crop.txt",
+    "prompt_sha256": "ab35b6ec7c684b1dd497716c6a8c794bb0d1370e6147b461ecacaf5b061dad13",
+    "raw": "raw/drsrne2_tip_crop.png",
+    "raw_sha256": "6f0685c5b1896505fbce9988968c0303ac52c387cc078de2faca58b4c83f6fc4",
+    "inputs": {
+      "inputs/drsrne2_tip_crop.png": "4a09adf5a6ae6eedecd8f741bfd8045b21e14e97023a31b7517d32682d6c92ab"
+    },
+    "status": "retained_iteration"
+  }
+]

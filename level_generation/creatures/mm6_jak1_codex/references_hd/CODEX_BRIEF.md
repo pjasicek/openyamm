@@ -1,0 +1,3 @@
+# Jackalman HD reference brief
+
+Built-in imagegen; native `../mm6_jak1/references/standing.png` and `attack.png` are identity and motion authority. No restore output is a Meshy input. Generate unresized transparent 1024x1536 body masters: `00_three_quarter.png`, `01_front.png`, `02_back.png`, `03_left.png`, `04_right.png`. Freeze primary identity and A-pose for subsequent views. Side left looks toward image left, side right toward image right. Check ears=2, digits=5 per hand, dark skin, native clothing, no tail, no weapon, no cropping. Separate native hooked-staff side/three-quarter design and detailed head turnaround required. Hidden seams and open hands are modelling inferences. All generation and output hashes go into generation_runs.json.

@@ -1,0 +1,30 @@
+id: turn_based.maw_poison_per_turn
+title: Turn-based - MAW's poison runs by each turn's game time, not by actor AI time
+world: mm8
+mode: faithful
+tags: [turn_based, rulesets, maw, regression]
+steps:
+  - note:
+      text: >-
+        TB-16 in devdocs/TURN_BASED_COMBAT_AUDIT.md. MAW's timers follow Game.Time (zzMaw-Timers.lua), which turn-based
+        play advances 213 ticks (1.664 s) per completed turn. OpenYAMM ran them (poison, monster regeneration and
+        auras, solo talents, the party's auras) on actor AI time, which passes only in the monsters' wait stage and
+        actions: about 0.5 s a turn beside a paralysed monster. A severe poison lasts 20 of its one-second ticks, so
+        it must outlast thirty seconds of the party's turn and be gone after sixteen turns (26.6 s; 8 s before).
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - set_pose: {map: out01.odm, x: 12296, y: 8216, z: 736, yaw_degrees: -78}
+  - spawn_actor: {monster_id: 195, count: 1, near_party: true}
+  - advance_runtime: {seconds: 0.1}
+  - cast_spell: {member_index: 0, spell_id: 81, skill: 10, mastery: 2, actor_index: last, scroll: true}
+  - press_action: combat
+  - advance_runtime: {seconds: 1}
+  - assert: {turn_based: {active: true, report: true}}
+  - setup_shortcut: {kind: set_condition, member_index: 0, condition: poison_severe}
+  - advance_runtime: {seconds: 30}
+  - assert:
+      condition: {name: poison_severe, present: true, member_index: 0}
+  - turn_based_turns: {count: 16}
+  - assert:
+      condition: {name: poison_severe, present: false, member_index: 0}

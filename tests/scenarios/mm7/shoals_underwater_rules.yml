@@ -1,0 +1,20 @@
+id: mm7.shoals_underwater_rules
+title: MM7 - in the Shoals nobody casts from memory and the party swims up and down without Fly (OY-350)
+world: mm7
+mode: faithful
+tags: [mm7, spells, regression]
+steps:
+  - new_game_flow:
+      start_map: 7out15.odm
+  - cast_spell: {member_index: 0, spell_id: 1, skill: 5, mastery: 1, expect: refused}
+  # A scroll still works there.
+  - cast_spell: {member_index: 0, spell_id: 1, skill: 5, mastery: 1, scroll: true}
+  # The party swims: up without Fly, held where it stops instead of falling back (no fall damage).
+  - movement_segment:
+      input: none
+      fly_up: true
+      seconds: 1.0
+      start: {map: 7out15.odm, x: 0, y: 0, z: 641, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: 7out15.odm, x: 0, y: 0, z: 2165, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_z: 200

@@ -1,0 +1,260 @@
+# MM9 side quest "Get the Orbs of Linking" (guide: Side quests, Thronheim; tools/mm9_site/story/side_c.yml, quest
+# get-the-orbs-of-linking). Brynhildr the Money-wise (RUDE 243, Thronheim City's bank) wants Orbs of Linking (item
+# 10252) in the six town banks. The Inventa Storca is walked: six of its seven orbs (world items, picked up with the
+# use key), three on the upper floor (the far west hall's is left) and three on the lower library's, which the
+# trapdoor over Ladder5 leads to. Each banker, clicked with an orb in the packs, offers the install row (key 330); the
+# talk's exit takes the orb and sets the bank's key (BankOrb.scr). The sixth pays: key 337, 12 500 experience (MM9's
+# 20 000 balanced) and 15 000 gold. Towns are reached by `travel` and their gates walked into; the party stands beside
+# each banker. Played per tests/playthrough/PLAYBOOK.md §2. Research: prep/D_inventa_storca_arslegard.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py get_the_orbs_of_linking [--repeat 2] [--reload]
+id: mm9.side_quests.get_the_orbs_of_linking
+title: "MM9 side quest: six Orbs of Linking from the Inventa Storca into the six town banks"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  # A party of the classes Chedian offers. No story key is needed: Brynhildr's rows require none, and Thronheim and
+  # the five other towns are open from Chapter I (Frosgard is walked to, its harbour being frozen until then).
+  - new_game_flow:
+      start_map: thronheimcity.blv
+      party:
+        gold: 0
+        food: 60
+        members:
+          - {name: Ragnar, class: Knight, level: 28, skills: [{name: Sword, level: 10, mastery: 2}, {name: Shield, level: 6, mastery: 2}, {name: ChainArmor, level: 6, mastery: 2}], equipment: {main_hand: 1, off_hand: 99}}
+          - {name: Hrothgar, class: Cleric, level: 28, skills: [{name: Mace, level: 8, mastery: 2}, {name: BodyMagic, level: 8, mastery: 2}, {name: SpiritMagic, level: 8, mastery: 2}], equipment: {main_hand: 66}}
+          - {name: Grisha, class: Thief, level: 28, skills: [{name: Dagger, level: 8, mastery: 2}, {name: DisarmTraps, level: 8, mastery: 3}, {name: Perception, level: 8, mastery: 3}, {name: Bow, level: 6, mastery: 2}], equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, skills: [{name: Staff, level: 6, mastery: 2}, {name: FireMagic, level: 8, mastery: 2}, {name: AirMagic, level: 8, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  - assert: {map: thronheimcity.blv, qbit_clear: [90322, 90330, 90331, 90332, 90333, 90334, 90335, 90336, 90337]}
+
+  # Brynhildr at the bank's counter (actor 4): the quest (key 322).
+  - set_pose: {map: thronheimcity.blv, x: 16234, y: 3809, z: 3114, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 4}
+  - select_topic: {match_label: "What can we help you with?"}
+  - select_topic: {match_label: "So what's the problem?"}
+  - select_topic: {match_label: "Sounds easy.  Where are these Orbs of Linking?"}
+  - select_topic: {match_label: "We will find these orbs for you."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90322]}
+
+  # Out by the land gate east of the bank (ExitTrigger1), then the Inventa Storca's door at the Thronheim map's east
+  # edge (ExitTrigger5), walked into from its arrival point.
+  - set_pose: {map: thronheimcity.blv, x: 14500, y: 82, z: 3093, yaw: 0, pitch: 0}
+  - walk_to: {x: 14950, y: 82, z: 3093, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - set_pose: {map: thronheim.blv, x: -22416, y: -6100, z: 2573, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -22416, y: -6538, z: 2724, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: inventastorca.blv}
+
+  # The upper floor, every double door clicked (they shut about 7 s after opening). DoubleDoor13 and 14 west from the
+  # entrance hall into the pillared hall: the first orb at its north end.
+  - walk_to: {x: -1560, y: 246, z: -891, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(11); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(11) == "closed" then click(105); wait(1.5) end; log("DoubleDoor13: " .. door_state(11))'}
+  - walk_to: {x: -2390, y: 471, z: -891, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(13); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(13) == "closed" then click(106); wait(1.5) end; log("DoubleDoor14: " .. door_state(13))'}
+  - walk_to: {x: -4301, y: 950, z: -870, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10252}
+  - play_lua: {source: 'if item_count(10252) ~= 1 then error("expected 1 orbs, have " .. item_count(10252)) end; log("Orb of Linking 1: the north end of the pillared hall")'}
+  # DoubleDoor10 and 9 west through the reading room (DoubleDoor9 also wakes the Lich King who finishes off the dying
+  # adventurer, IS_KillingLich.scr), the long west hall south, DoubleDoor11 east into the map room.
+  - walk_to: {x: -4480, y: 0, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(5); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(5) == "closed" then click(102); wait(1.5) end; log("DoubleDoor10: " .. door_state(5))'}
+  - walk_to: {x: -6400, y: 328, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(29); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(29) == "closed" then click(120); wait(1.5) end; log("DoubleDoor9: " .. door_state(29))'}
+  - walk_to: {via: [[-6700, 328, -860], [-8500, 300, -860], [-8500, -600, -860]], x: -6780, y: -3523, z: -860, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(7); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(7) == "closed" then click(103); wait(1.5) end; log("DoubleDoor11: " .. door_state(7))'}
+  # A cracked wall (DestructableBrush2, Perception shows it) closes the way east into the spiral stair's room; the party
+  # breaks it (its click deals the killing blow). The second orb lies beside the spiral stair.
+  - walk_to: {via: [[-6400, -3523, -860]], x: -5600, y: -3480, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(38420); wait(1); if mapvar("Broken2") ~= 1 then error("the cracked wall stands") end; log("the cracked wall to the spiral stair broken")'}
+  - walk_to: {via: [[-4950, -3480, -860]], x: -4250, y: -4250, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10252}
+  - play_lua: {source: 'if item_count(10252) ~= 2 then error("expected 2 orbs, have " .. item_count(10252)) end; log("Orb of Linking 2: beside the spiral stair in the middle")'}
+  # Back west through the map room, DoubleDoor11, the west hall south, east along the south corridor, DoubleDoor6 into
+  # the south room: the third orb on its table (a pad on the table drops a Lich and two Skeletons through the ceiling
+  # when the party brushes it, KingKong.scr; they die).
+  - walk_to: {via: [[-4950, -3480, -860], [-5600, -3480, -860]], x: -6450, y: -3523, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(7); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(7) == "closed" then click(103); wait(1.5) end; log("DoubleDoor11: " .. door_state(7))'}
+  - walk_to: {via: [[-7000, -3523, -860], [-8500, -3523, -860], [-8500, -6800, -860]], x: -5450, y: -6799, z: -860, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(23); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(23) == "closed" then click(111); wait(1.5) end; log("DoubleDoor6: " .. door_state(23))'}
+  - walk_to: {via: [[-5100, -6799, -860]], x: -3932, y: -7150, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 2500}
+  - pick_up: {item_id: 10252}
+  - play_lua: {source: 'if item_count(10252) ~= 3 then error("expected 3 orbs, have " .. item_count(10252)) end; log("Orb of Linking 3: the table in the south room")'}
+  - play_lua: {source: 'log("the south room ceiling broken: " .. mapvar("BustOut1"))'}
+  - clear_hostiles: {radius: 2500}
+  # DoubleDoor5 east into the small south-east room: the trapdoor (LadderDoor, event 156; Perception shows it) over
+  # Ladder5's shaft. The party climbs down the ladder from its top exit on the south side of the hole (grab_at_top).
+  - walk_to: {x: -3400, y: -7209, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(21); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(21) == "closed" then click(110); wait(1.5) end; log("DoubleDoor5: " .. door_state(21))'}
+  - walk_to: {via: [[-3100, -7209, -860]], x: -2300, y: -7180, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(156); wait(2); log("the trapdoor: " .. door_state(76))'}
+  - climb: {ladder: Ladder5, down: true}
+  - advance_runtime: {seconds: 1}
+
+  # The lower library: DoubleDoor4 north out of the ladder room, up the red room's steps into the hall, DoubleDoor3
+  # south into the book room: the fourth orb at its south end, past the bookcases (none of their books is touched).
+  - walk_to: {x: -1843, y: -6100, z: -1472, timeout_seconds: 30, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(19); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(19) == "closed" then click(109); wait(1.5) end; log("DoubleDoor4: " .. door_state(19))'}
+  - walk_to: {via: [[-1950, -5000, -1500], [-1950, -4150, -1638], [-1500, -3800, -1638]], x: -614, y: -3800, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(17); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(17) == "closed" then click(108); wait(1.5) end; log("DoubleDoor3: " .. door_state(17))'}
+  - walk_to: {via: [[-614, -4060, -1638], [-200, -4300, -1638]], x: -205, y: -5600, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10252}
+  - play_lua: {source: 'if item_count(10252) ~= 4 then error("expected 4 orbs, have " .. item_count(10252)) end; log("Orb of Linking 4: the south end of the book room")'}
+  # Back north through DoubleDoor3, DoubleDoor2 east into the east room: the fifth orb.
+  - walk_to: {via: [[-200, -4300, -1638]], x: -450, y: -4060, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(17); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(17) == "closed" then click(108); wait(1.5) end; log("DoubleDoor3: " .. door_state(17))'}
+  - walk_to: {via: [[-614, -3800, -1638]], x: -100, y: -3318, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(15); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(15) == "closed" then click(107); wait(1.5) end; log("DoubleDoor2: " .. door_state(15))'}
+  - walk_to: {x: 799, y: -3550, z: -1536, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10252}
+  - play_lua: {source: 'if item_count(10252) ~= 5 then error("expected 5 orbs, have " .. item_count(10252)) end; log("Orb of Linking 5: the east room")'}
+  # DoubleDoor1 north into the pillared north room; a cracked wall (DestructableBrush1) at its north end closes the cave
+  # under the entrance: broken, and the sixth orb lies inside.
+  - walk_to: {via: [[-100, -3318, -1638]], x: -614, y: -2800, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(3); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(3) == "closed" then click(101); wait(1.5) end; log("DoubleDoor1: " .. door_state(3))'}
+  - walk_to: {via: [[-614, -2400, -1638]], x: -440, y: -1450, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'click(38421); wait(1); if mapvar("Broken1") ~= 1 then error("the cracked wall stands") end; log("the cracked wall to the cave broken")'}
+  - walk_to: {via: [[-440, -1250, -1638]], x: -150, y: -1150, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10252}
+  - play_lua: {source: 'if item_count(10252) ~= 6 then error("expected 6 orbs, have " .. item_count(10252)) end; log("Orb of Linking 6: the cave under the entrance")'}
+  # Back through the north room, DoubleDoor1, the hall, the red room, DoubleDoor4, and up Ladder5 through the trapdoor.
+  - walk_to: {via: [[-440, -1250, -1638], [-440, -1450, -1638]], x: -614, y: -2500, z: -1638, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(3); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(3) == "closed" then click(101); wait(1.5) end; log("DoubleDoor1: " .. door_state(3))'}
+  - walk_to: {via: [[-614, -2800, -1638], [-1500, -3800, -1638], [-1950, -4150, -1638]], x: -1843, y: -5800, z: -1472, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(19); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(19) == "closed" then click(109); wait(1.5) end; log("DoubleDoor4: " .. door_state(19))'}
+  - play_lua: {source: 'if door_state(76) ~= "open" then click(156); wait(2) end; log("the trapdoor: " .. door_state(76))'}
+  - climb: {ladder: Ladder5}
+
+  # The upper floor back the way the party came, to the exit on the entrance's spiral stair: west from the ladder's top
+  # exit (walking from it toward the open shaft takes the ladder down again).
+  - walk_to: {via: [[-2900, -7209, -860]], x: -3100, y: -7209, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(21); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(21) == "closed" then click(110); wait(1.5) end; log("DoubleDoor5: " .. door_state(21))'}
+  - walk_to: {via: [[-3400, -7209, -860]], x: -5200, y: -6799, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(23); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(23) == "closed" then click(111); wait(1.5) end; log("DoubleDoor6: " .. door_state(23))'}
+  - walk_to: {via: [[-5450, -6799, -860], [-8500, -6800, -860], [-8500, 300, -860]], x: -6680, y: 328, z: -860, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(29); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(29) == "closed" then click(120); wait(1.5) end; log("DoubleDoor9: " .. door_state(29))'}
+  - walk_to: {via: [[-6400, 328, -860]], x: -4730, y: 0, z: -860, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(5); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(5) == "closed" then click(102); wait(1.5) end; log("DoubleDoor10: " .. door_state(5))'}
+  - walk_to: {via: [[-4480, 0, -860]], x: -2580, y: 471, z: -891, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(13); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(13) == "closed" then click(106); wait(1.5) end; log("DoubleDoor14: " .. door_state(13))'}
+  - walk_to: {via: [[-2390, 471, -891]], x: -1780, y: 246, z: -891, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(11); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(11) == "closed" then click(105); wait(1.5) end; log("DoubleDoor13: " .. door_state(11))'}
+  - walk_to: {via: [[-1560, 246, -891]], x: 451, y: -676, z: -732, timeout_seconds: 60, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - play_lua: {source: 'if item_count(10252) ~= 6 then error("six orbs expected") end; log("out with six Orbs of Linking")'}
+
+  # Bank 1, Thronheim: back in by the land gate; Brynhildr. A click with an orb gives key 330 (the install row); the
+  # talk's exit takes the orb: keys 331 (this bank) and 328.
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+  - set_pose: {map: thronheimcity.blv, x: 16234, y: 3809, z: 3114, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 4}
+  - select_topic: {match_label: "We'd like to install an Orb of Linking."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90331, 90328], qbit_clear: [90330, 90337]}
+  - play_lua: {source: 'if item_count(10252) ~= 5 then error("Brynhildr did not take the orb") end; log("orb 1 installed: Thronheim")'}
+
+  # Bank 2, Thjorgard: Ragnar Gjalpssen (actor 3): keys 335 and 323.
+  - travel: {map: thjorgard.blv, days: 2}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+  - set_pose: {map: thjorgardcity.blv, x: -5079, y: 11728, z: 206, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 3}
+  - select_topic: {match_label: "We're here to install an Orb of Linking into your bank."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90335, 90323], qbit_clear: [90330, 90337]}
+  - play_lua: {source: 'if item_count(10252) ~= 4 then error("Ragnar did not take the orb") end; log("orb 2 installed: Thjorgard")'}
+
+  # Bank 3, Sturmford: Herdis the Stout (actor 28): keys 336 and 324.
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+  - set_pose: {map: sturmfordcity.blv, x: 9462, y: 8014, z: 19846, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 28}
+  - select_topic: {match_label: "We've come to install an Orb of Linking."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90336, 90324], qbit_clear: [90330, 90337]}
+  - play_lua: {source: 'if item_count(10252) ~= 3 then error("Herdis did not take the orb") end; log("orb 3 installed: Sturmford")'}
+
+  # Bank 4, Drangheim: Hlif Ingimundssen (actor 15): keys 334 and 325.
+  - travel: {map: drangheim.blv, days: 2}
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 757, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12032, y: -4164, z: 963, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+  - set_pose: {map: drangheimcity.blv, x: 21293, y: -2570, z: 370, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 15}
+  - select_topic: {match_label: "We'd like to install an Orb of Linking."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90334, 90325], qbit_clear: [90330, 90337]}
+  - play_lua: {source: 'if item_count(10252) ~= 2 then error("Hlif did not take the orb") end; log("orb 4 installed: Drangheim")'}
+
+  # Bank 5, Guberland: Ottar Gizurssen (actor 12): keys 332 and 326.
+  - travel: {map: guberland.blv, days: 4}
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+  - set_pose: {map: guberlandcity.blv, x: 1570, y: -4424, z: 1, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 12}
+  - select_topic: {match_label: "We have an Orb of Linking we'd like to install."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90332, 90326], qbit_clear: [90330, 90337]}
+  - play_lua: {source: 'if item_count(10252) ~= 1 then error("Ottar did not take the orb") end; log("orb 5 installed: Guberland")'}
+
+  # Bank 6, Frosgard (walked to: its harbour is frozen until Chapter I frees it): the bank's counter hatch (event 231)
+  # opens and Fiachna A'Lanth (actor 7) speaks through it; keys 333 and 327, and the sixth bank's reward.
+  - travel: {map: frosgard.blv, days: 8}
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv}
+  - set_pose: {map: frosgardcity.blv, x: 2703, y: 5354, z: 4, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'click(231); wait(0.5); log("the bank hatch opens: " .. mapvar("BankOpen"))'}
+  - assert: {dialog: {active: true, source_id: 206}}
+  - select_topic: {match_label: "We have an Orb of Linking."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90333, 90327, 90337], qbit_clear: [90330], gold: 15000}
+  - play_lua: {source: 'if item_count(10252) ~= 0 then error("Fiachna did not take the orb") end; log("orb 6 installed: Frosgard; the reward: 15 000 gold, experience " .. experience(0))'}

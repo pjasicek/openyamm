@@ -1,0 +1,1075 @@
+{
+ "map": "anskramkeep.blv",
+ "stats": {
+  "source_polygons": 6554,
+  "merged_polygons": 6432,
+  "collinear_vertices_removed": 122,
+  "air_components_seeded": 2,
+  "air_voxels": 520989,
+  "leaked_to_border": 0,
+  "rooms": 47,
+  "portals_without_two_rooms": 0,
+  "face_splits_at_walls": 105,
+  "faces_without_air_dropped": 218,
+  "faces_mixed_without_portal": 224,
+  "faces_mixed_without_portal_minority_over_20pct": 172,
+  "face_splits": 399,
+  "faces": 6716,
+  "triangulated_polygons": 557,
+  "native_polygons": 7170
+ },
+ "native": {
+  "faces": 8946,
+  "vertices": 12669,
+  "sectors": 48,
+  "portal_faces": 61,
+  "doors": 99,
+  "lights": 112,
+  "faces_per_sector_max": 701,
+  "faces_per_sector_median": 164
+ },
+ "portals": [
+  {
+   "name": "RoundDoorPortal2",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r42",
+    "room_r41"
+   ],
+   "centre_native": [
+    2130,
+    11631,
+    -348
+   ],
+   "width": 328,
+   "height": 287,
+   "faces": 1
+  },
+  {
+   "name": "RoundDoorPortal1",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r42",
+    "room_r40"
+   ],
+   "centre_native": [
+    -2130,
+    11652,
+    -348
+   ],
+   "width": 328,
+   "height": 287,
+   "faces": 1
+  },
+  {
+   "name": "RoundDoorPortal0",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r36",
+    "room_r35"
+   ],
+   "centre_native": [
+    -2797,
+    9011,
+    -348
+   ],
+   "width": 328,
+   "height": 287,
+   "faces": 1
+  },
+  {
+   "name": "RoundDoorPortal3",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r38",
+    "room_r37"
+   ],
+   "centre_native": [
+    2774,
+    9011,
+    -348
+   ],
+   "width": 328,
+   "height": 287,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal1",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r30",
+    "room_r34"
+   ],
+   "centre_native": [
+    -4763,
+    9011,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal2",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r09",
+    "room_r07"
+   ],
+   "centre_native": [
+    4740,
+    1802,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal3",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r21",
+    "room_r15"
+   ],
+   "centre_native": [
+    4740,
+    4096,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal4",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r21",
+    "room_r25"
+   ],
+   "centre_native": [
+    4740,
+    6062,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal5",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r26",
+    "room_r21"
+   ],
+   "centre_native": [
+    6051,
+    6062,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal8",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r29",
+    "room_r25"
+   ],
+   "centre_native": [
+    4740,
+    6717,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal9",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r25",
+    "room_r15"
+   ],
+   "centre_native": [
+    4424,
+    5723,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal10",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r33",
+    "room_r25"
+   ],
+   "centre_native": [
+    4424,
+    7034,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal15",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r03",
+    "room_r01"
+   ],
+   "centre_native": [
+    0,
+    480,
+    -369
+   ],
+   "width": 410,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal16",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r29",
+    "room_r33"
+   ],
+   "centre_native": [
+    4740,
+    8684,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal17",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r25",
+    "room_r20"
+   ],
+   "centre_native": [
+    3113,
+    6051,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal18",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r35",
+    "room_r30"
+   ],
+   "centre_native": [
+    -4108,
+    9011,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal19",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r25",
+    "room_r22"
+   ],
+   "centre_native": [
+    2118,
+    6390,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal20",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r22",
+    "room_r24"
+   ],
+   "centre_native": [
+    -2141,
+    6390,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal21",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r06",
+    "room_r10"
+   ],
+   "centre_native": [
+    -4763,
+    2130,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal22",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r18",
+    "room_r10"
+   ],
+   "centre_native": [
+    -4763,
+    4096,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal23",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r18",
+    "room_r16"
+   ],
+   "centre_native": [
+    -6074,
+    4751,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal24",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r18",
+    "room_r23"
+   ],
+   "centre_native": [
+    -4763,
+    5407,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal25",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r30",
+    "room_r23"
+   ],
+   "centre_native": [
+    -4763,
+    7373,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal26",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r33",
+    "room_r38"
+   ],
+   "centre_native": [
+    4084,
+    9011,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal27",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r33",
+    "room_r28"
+   ],
+   "centre_native": [
+    4084,
+    7373,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal28",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r27",
+    "room_r24"
+   ],
+   "centre_native": [
+    -2785,
+    6706,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "Outerdoorportal",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r39",
+    "room_r32"
+   ],
+   "centre_native": [
+    0,
+    9706,
+    -246
+   ],
+   "width": 1311,
+   "height": 492,
+   "faces": 1
+  },
+  {
+   "name": "Innerdoorportal",
+   "kind": "user_portal",
+   "rooms": [
+    "room_r42",
+    "room_r39"
+   ],
+   "centre_native": [
+    0,
+    10525,
+    -246
+   ],
+   "width": 1311,
+   "height": 492,
+   "faces": 1
+  },
+  {
+   "name": "CritterBreakOut0",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r15",
+    "room_r17"
+   ],
+   "centre_native": [
+    4217,
+    4823,
+    -410
+   ],
+   "width": 266,
+   "height": 164,
+   "faces": 1
+  },
+  {
+   "name": "CritterBreakOut1",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r13",
+    "room_r11"
+   ],
+   "centre_native": [
+    -2830,
+    3312,
+    -205
+   ],
+   "width": 304,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal11",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r08",
+    "room_r14"
+   ],
+   "centre_native": [
+    2142,
+    3780,
+    -369
+   ],
+   "width": 348,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal12",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r13",
+    "room_r22"
+   ],
+   "centre_native": [
+    -1300,
+    5254,
+    -369
+   ],
+   "width": 348,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal13",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r19",
+    "room_r13"
+   ],
+   "centre_native": [
+    -2610,
+    4576,
+    -369
+   ],
+   "width": 348,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal14",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r08",
+    "room_r13"
+   ],
+   "centre_native": [
+    -2143,
+    3781,
+    -369
+   ],
+   "width": 348,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal6",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r29",
+    "room_r26"
+   ],
+   "centre_native": [
+    6074,
+    6717,
+    -369
+   ],
+   "width": 246,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "DoubleDoorPortal7",
+   "kind": "door_leaves",
+   "rooms": [
+    "room_r14",
+    "room_r22"
+   ],
+   "centre_native": [
+    1300,
+    5254,
+    -369
+   ],
+   "width": 348,
+   "height": 246,
+   "faces": 1
+  },
+  {
+   "name": "north_hall_5140_1",
+   "kind": "archway",
+   "rooms": [
+    "room_r44",
+    "room_r42"
+   ],
+   "centre_native": [
+    -2109,
+    13169,
+    -225
+   ],
+   "width": 942,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "north_hall_5140_2",
+   "kind": "archway",
+   "rooms": [
+    "room_r45",
+    "room_r42"
+   ],
+   "centre_native": [
+    20,
+    13169,
+    -225
+   ],
+   "width": 2580,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "north_hall_5140_3",
+   "kind": "archway",
+   "rooms": [
+    "room_r46",
+    "room_r42"
+   ],
+   "centre_native": [
+    2150,
+    13169,
+    -225
+   ],
+   "width": 942,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "north_hall_5650_1",
+   "kind": "archway",
+   "rooms": [
+    "room_r47",
+    "room_r44"
+   ],
+   "centre_native": [
+    -1577,
+    14479,
+    -225
+   ],
+   "width": 614,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "north_hall_5650_2",
+   "kind": "archway",
+   "rooms": [
+    "room_r47",
+    "room_r45"
+   ],
+   "centre_native": [
+    20,
+    14479,
+    -246
+   ],
+   "width": 614,
+   "height": 410,
+   "faces": 1
+  },
+  {
+   "name": "north_hall_5650_3",
+   "kind": "archway",
+   "rooms": [
+    "room_r47",
+    "room_r46"
+   ],
+   "centre_native": [
+    1577,
+    14479,
+    -225
+   ],
+   "width": 614,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "central_hall_2700",
+   "kind": "archway",
+   "rooms": [
+    "room_r32",
+    "room_r22"
+   ],
+   "centre_native": [
+    20,
+    6902,
+    -225
+   ],
+   "width": 3154,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "south_hall_600",
+   "kind": "archway",
+   "rooms": [
+    "room_r08",
+    "room_r03"
+   ],
+   "centre_native": [
+    0,
+    1536,
+    -225
+   ],
+   "width": 2376,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "hall_south_passage",
+   "kind": "archway",
+   "rooms": [
+    "room_r22",
+    "room_r08"
+   ],
+   "centre_native": [
+    0,
+    4116,
+    -225
+   ],
+   "width": 983,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "west_corridor_north",
+   "kind": "archway",
+   "rooms": [
+    "room_r30",
+    "room_r18"
+   ],
+   "centre_native": [
+    -4260,
+    6902,
+    -225
+   ],
+   "width": 573,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "west_corridor_hall",
+   "kind": "archway",
+   "rooms": [
+    "room_r24",
+    "room_r18"
+   ],
+   "centre_native": [
+    -3256,
+    6410,
+    -225
+   ],
+   "width": 287,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "west_corridor_south",
+   "kind": "archway",
+   "rooms": [
+    "room_r18",
+    "room_r06"
+   ],
+   "centre_native": [
+    -4403,
+    2929,
+    -225
+   ],
+   "width": 287,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "west_diagonal",
+   "kind": "archway",
+   "rooms": [
+    "room_r13",
+    "room_r06"
+   ],
+   "centre_native": [
+    -3830,
+    2765,
+    61
+   ],
+   "width": 532,
+   "height": 1024,
+   "faces": 1
+  },
+  {
+   "name": "south_corridor_west",
+   "kind": "archway",
+   "rooms": [
+    "room_r02",
+    "room_r06"
+   ],
+   "centre_native": [
+    -3338,
+    1823,
+    -225
+   ],
+   "width": 287,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "south_vestibule_west",
+   "kind": "archway",
+   "rooms": [
+    "room_r01",
+    "room_r02"
+   ],
+   "centre_native": [
+    -840,
+    225,
+    -225
+   ],
+   "width": 369,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "south_vestibule_east",
+   "kind": "archway",
+   "rooms": [
+    "room_r04",
+    "room_r01"
+   ],
+   "centre_native": [
+    840,
+    225,
+    -225
+   ],
+   "width": 369,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "south_corridor_east",
+   "kind": "archway",
+   "rooms": [
+    "room_r07",
+    "room_r04"
+   ],
+   "centre_native": [
+    3011,
+    1823,
+    -225
+   ],
+   "width": 287,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "east_diagonal",
+   "kind": "archway",
+   "rooms": [
+    "room_r07",
+    "room_r14"
+   ],
+   "centre_native": [
+    3830,
+    2765,
+    -225
+   ],
+   "width": 532,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "east_corridor_south",
+   "kind": "archway",
+   "rooms": [
+    "room_r15",
+    "room_r07"
+   ],
+   "centre_native": [
+    4444,
+    2929,
+    -225
+   ],
+   "width": 287,
+   "height": 451,
+   "faces": 1
+  },
+  {
+   "name": "TrapPit1",
+   "kind": "rectangle",
+   "rooms": [
+    "room_r07",
+    "room_r05"
+   ],
+   "centre_native": [
+    3441,
+    1628,
+    -502
+   ],
+   "width": 369,
+   "height": 676,
+   "faces": 1
+  },
+  {
+   "name": "TrapPit2",
+   "kind": "rectangle",
+   "rooms": [
+    "room_r18",
+    "room_r12"
+   ],
+   "centre_native": [
+    -4250,
+    3430,
+    -502
+   ],
+   "width": 676,
+   "height": 369,
+   "faces": 1
+  },
+  {
+   "name": "TrapPit3",
+   "kind": "rectangle",
+   "rooms": [
+    "room_r30",
+    "room_r31"
+   ],
+   "centre_native": [
+    -4250,
+    8238,
+    -502
+   ],
+   "width": 676,
+   "height": 369,
+   "faces": 1
+  },
+  {
+   "name": "TrapHatch1",
+   "kind": "rectangle",
+   "rooms": [
+    "room_r07",
+    "room_r05"
+   ],
+   "centre_native": [
+    3174,
+    1802,
+    -502
+   ],
+   "width": 164,
+   "height": 164,
+   "faces": 1
+  },
+  {
+   "name": "TrapHatch2",
+   "kind": "rectangle",
+   "rooms": [
+    "room_r18",
+    "room_r12"
+   ],
+   "centre_native": [
+    -4424,
+    3164,
+    -502
+   ],
+   "width": 164,
+   "height": 164,
+   "faces": 1
+  },
+  {
+   "name": "TrapHatch3",
+   "kind": "rectangle",
+   "rooms": [
+    "room_r30",
+    "room_r31"
+   ],
+   "centre_native": [
+    -4424,
+    7972,
+    -502
+   ],
+   "width": 164,
+   "height": 164,
+   "faces": 1
+  }
+ ],
+ "transitions": [
+  {
+   "id": "mm9:transition/anskramkeep/987",
+   "source": "anskramkeep.blv",
+   "name": "Abandonedfortexit",
+   "destination": "sturmford.odm",
+   "arrival": [
+    "12616",
+    "16712",
+    "1270"
+   ]
+  },
+  {
+   "id": "mm9:transition/anskramkeep/988",
+   "source": "anskramkeep.blv",
+   "name": "Sturmfordexit",
+   "destination": "sturmford.odm",
+   "arrival": [
+    "15729",
+    "16712",
+    "2212"
+   ]
+  },
+  {
+   "id": "mm9:transition/sturmford/23",
+   "source": "sturmford.odm",
+   "name": "ExitTrigger2",
+   "destination": "anskramkeep.blv",
+   "arrival": [
+    "0",
+    "15647",
+    "-491"
+   ]
+  },
+  {
+   "id": "mm9:transition/sturmford/198",
+   "source": "sturmford.odm",
+   "name": "Anskramkeepback",
+   "destination": "anskramkeep.blv",
+   "arrival": [
+    "0",
+    "41",
+    "-491"
+   ]
+  }
+ ],
+ "starts": [
+  {
+   "name": "Anskramkeepback",
+   "position": [
+    0,
+    41,
+    -491
+   ],
+   "direction_degrees": 0
+  },
+  {
+   "name": "Anskramkeepfront",
+   "position": [
+    0,
+    15647,
+    -491
+   ],
+   "direction_degrees": 180
+  }
+ ]
+}

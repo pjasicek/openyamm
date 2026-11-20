@@ -1,0 +1,6140 @@
+{
+  "schema_version": 1,
+  "creature": "mm5:troll_grunt",
+  "installed": false,
+  "schema_status": "staged authored adaptation; offline contract, not a runtime registration",
+  "pixels_per_logical_pixel": 2,
+  "logical_canvas": [
+    384.0,
+    320.0
+  ],
+  "logical_pivot": [
+    192.0,
+    270.0
+  ],
+  "coordinate_rule": "x=(crop_x+u)/2-pivot_x; up=pivot_y-(crop_y+v)/2",
+  "direction_labels": [
+    "front",
+    "front-left",
+    "left",
+    "rear-left",
+    "back",
+    "rear-right (mirrored)",
+    "right (mirrored)",
+    "front-right (mirrored)"
+  ],
+  "pages": [
+    {
+      "base": "atlas/base_0.png",
+      "mask": "atlas/mask_0.png",
+      "size": [
+        1895,
+        1746
+      ],
+      "base_format": "RGBA8 sRGB",
+      "mask_format": "R8 linear",
+      "decoded_bytes": 16543350
+    },
+    {
+      "base": "atlas/base_1.png",
+      "mask": "atlas/mask_1.png",
+      "size": [
+        1971,
+        1953
+      ],
+      "base_format": "RGBA8 sRGB",
+      "mask_format": "R8 linear",
+      "decoded_bytes": 19246815
+    },
+    {
+      "base": "atlas/base_2.png",
+      "mask": "atlas/mask_2.png",
+      "size": [
+        2045,
+        1823
+      ],
+      "base_format": "RGBA8 sRGB",
+      "mask_format": "R8 linear",
+      "decoded_bytes": 18640175
+    },
+    {
+      "base": "atlas/base_3.png",
+      "mask": "atlas/mask_3.png",
+      "size": [
+        1959,
+        1754
+      ],
+      "base_format": "RGBA8 sRGB",
+      "mask_format": "R8 linear",
+      "decoded_bytes": 17180430
+    },
+    {
+      "base": "atlas/base_4.png",
+      "mask": "atlas/mask_4.png",
+      "size": [
+        2016,
+        1887
+      ],
+      "base_format": "RGBA8 sRGB",
+      "mask_format": "R8 linear",
+      "decoded_bytes": 19020960
+    },
+    {
+      "base": "atlas/base_5.png",
+      "mask": "atlas/mask_5.png",
+      "size": [
+        1946,
+        678
+      ],
+      "base_format": "RGBA8 sRGB",
+      "mask_format": "R8 linear",
+      "decoded_bytes": 6596940
+    }
+  ],
+  "frames": {
+    "m476sa0": {
+      "batch": "identity",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476sa0",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        1,
+        -11
+      ],
+      "contact_landmark_before_translation": [
+        383.0,
+        551
+      ],
+      "crop_origin_px": [
+        242,
+        195
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        662,
+        8,
+        281,
+        352
+      ]
+    },
+    "m476sa1": {
+      "batch": "identity",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476sa1",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -8,
+        -14
+      ],
+      "contact_landmark_before_translation": [
+        392.5,
+        554
+      ],
+      "crop_origin_px": [
+        219,
+        187
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        920,
+        1586,
+        287,
+        356
+      ]
+    },
+    "m476sa2": {
+      "batch": "identity",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476sa2",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -14,
+        -11
+      ],
+      "contact_landmark_before_translation": [
+        398.0,
+        551
+      ],
+      "crop_origin_px": [
+        258,
+        203
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        886,
+        1471,
+        206,
+        343
+      ]
+    },
+    "m476sa3": {
+      "batch": "identity",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476sa3",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -10,
+        -1
+      ],
+      "contact_landmark_before_translation": [
+        393.5,
+        541
+      ],
+      "crop_origin_px": [
+        230,
+        193
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        8,
+        378,
+        278,
+        351
+      ]
+    },
+    "m476sa4": {
+      "batch": "identity",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476sa4",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        4,
+        -6
+      ],
+      "contact_landmark_before_translation": [
+        380.5,
+        546
+      ],
+      "crop_origin_px": [
+        244,
+        189
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1223,
+        1586,
+        261,
+        356
+      ]
+    },
+    "m476aa0": {
+      "batch": "native_a_v0",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476aa0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -68,
+        -122
+      ],
+      "contact_landmark_before_translation": [
+        452.5,
+        662
+      ],
+      "crop_origin_px": [
+        223,
+        179
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        314,
+        1202,
+        326,
+        365
+      ]
+    },
+    "m476ab0": {
+      "batch": "native_a_v0",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ab0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -64,
+        -122
+      ],
+      "contact_landmark_before_translation": [
+        447.5,
+        662
+      ],
+      "crop_origin_px": [
+        197,
+        135
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1536,
+        469,
+        351,
+        410
+      ]
+    },
+    "m476ac0": {
+      "batch": "native_a_v0",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ac0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -52,
+        -124
+      ],
+      "contact_landmark_before_translation": [
+        436.0,
+        664
+      ],
+      "crop_origin_px": [
+        243,
+        117
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1432,
+        8,
+        317,
+        426
+      ]
+    },
+    "m476ad0": {
+      "batch": "native_a_v0",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ad0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -66,
+        -104
+      ],
+      "contact_landmark_before_translation": [
+        450.5,
+        644
+      ],
+      "crop_origin_px": [
+        252,
+        165
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        658,
+        414,
+        314,
+        381
+      ]
+    },
+    "m476ae0": {
+      "batch": "native_a_v0",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ae0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -62,
+        -103
+      ],
+      "contact_landmark_before_translation": [
+        446.5,
+        643
+      ],
+      "crop_origin_px": [
+        242,
+        261
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        983,
+        994,
+        302,
+        288
+      ]
+    },
+    "m476af0": {
+      "batch": "native_a_v0",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476af0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -38,
+        -102
+      ],
+      "contact_landmark_before_translation": [
+        422.5,
+        642
+      ],
+      "crop_origin_px": [
+        251,
+        249
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        570,
+        677,
+        315,
+        299
+      ]
+    },
+    "m476ag0": {
+      "batch": "native_a_v0",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ag0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -69,
+        -75
+      ],
+      "contact_landmark_before_translation": [
+        453.0,
+        615
+      ],
+      "crop_origin_px": [
+        218,
+        173
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1298,
+        813,
+        333,
+        372
+      ]
+    },
+    "m476ah0": {
+      "batch": "native_a_v0",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ah0",
+      "registration_scale": 0.9417157824504622,
+      "registration_translation_px": [
+        -70,
+        -75
+      ],
+      "contact_landmark_before_translation": [
+        453.5,
+        615
+      ],
+      "crop_origin_px": [
+        217,
+        184
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1260,
+        1202,
+        317,
+        363
+      ]
+    },
+    "m476aa1": {
+      "batch": "native_a_v1",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476aa1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -92,
+        -128
+      ],
+      "contact_landmark_before_translation": [
+        476.5,
+        668
+      ],
+      "crop_origin_px": [
+        181,
+        199
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        8,
+        1110,
+        340,
+        345
+      ]
+    },
+    "m476ab1": {
+      "batch": "native_a_v1",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ab1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -94,
+        -128
+      ],
+      "contact_landmark_before_translation": [
+        478.0,
+        668
+      ],
+      "crop_origin_px": [
+        200,
+        135
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        8,
+        908,
+        332,
+        410
+      ]
+    },
+    "m476ac1": {
+      "batch": "native_a_v1",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ac1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -93,
+        -129
+      ],
+      "contact_landmark_before_translation": [
+        477.0,
+        669
+      ],
+      "crop_origin_px": [
+        222,
+        114
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        776,
+        8,
+        310,
+        430
+      ]
+    },
+    "m476ad1": {
+      "batch": "native_a_v1",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ad1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -113,
+        -108
+      ],
+      "contact_landmark_before_translation": [
+        497.0,
+        648
+      ],
+      "crop_origin_px": [
+        165,
+        233
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1465,
+        8,
+        374,
+        315
+      ]
+    },
+    "m476ae1": {
+      "batch": "native_a_v1",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ae1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -96,
+        -107
+      ],
+      "contact_landmark_before_translation": [
+        480.0,
+        647
+      ],
+      "crop_origin_px": [
+        245,
+        252
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1701,
+        677,
+        307,
+        297
+      ]
+    },
+    "m476af1": {
+      "batch": "native_a_v1",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476af1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -120,
+        -107
+      ],
+      "contact_landmark_before_translation": [
+        504.5,
+        647
+      ],
+      "crop_origin_px": [
+        152,
+        239
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        931,
+        346,
+        355,
+        310
+      ]
+    },
+    "m476ag1": {
+      "batch": "native_a_v1",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ag1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -103,
+        -86
+      ],
+      "contact_landmark_before_translation": [
+        487.0,
+        626
+      ],
+      "crop_origin_px": [
+        202,
+        172
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1647,
+        813,
+        316,
+        372
+      ]
+    },
+    "m476ah1": {
+      "batch": "native_a_v1",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ah1",
+      "registration_scale": 0.9508628649239808,
+      "registration_translation_px": [
+        -96,
+        -86
+      ],
+      "contact_landmark_before_translation": [
+        480.5,
+        626
+      ],
+      "crop_origin_px": [
+        224,
+        176
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        8,
+        1202,
+        290,
+        368
+      ]
+    },
+    "m476aa2": {
+      "batch": "native_a_v2",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476aa2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -64,
+        -64
+      ],
+      "contact_landmark_before_translation": [
+        447.5,
+        604
+      ],
+      "crop_origin_px": [
+        203,
+        248
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        901,
+        677,
+        298,
+        298
+      ]
+    },
+    "m476ab2": {
+      "batch": "native_a_v2",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ab2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -35,
+        -65
+      ],
+      "contact_landmark_before_translation": [
+        419.0,
+        605
+      ],
+      "crop_origin_px": [
+        197,
+        215
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1454,
+        723,
+        317,
+        328
+      ]
+    },
+    "m476ac2": {
+      "batch": "native_a_v2",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ac2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -33,
+        -64
+      ],
+      "contact_landmark_before_translation": [
+        417.0,
+        604
+      ],
+      "crop_origin_px": [
+        232,
+        170
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        8,
+        813,
+        285,
+        373
+      ]
+    },
+    "m476ad2": {
+      "batch": "native_a_v2",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ad2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -66,
+        -41
+      ],
+      "contact_landmark_before_translation": [
+        450.5,
+        581
+      ],
+      "crop_origin_px": [
+        187,
+        236
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        594,
+        346,
+        321,
+        311
+      ]
+    },
+    "m476ae2": {
+      "batch": "native_a_v2",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ae2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -70,
+        -41
+      ],
+      "contact_landmark_before_translation": [
+        454.5,
+        581
+      ],
+      "crop_origin_px": [
+        154,
+        293
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1118,
+        1603,
+        350,
+        255
+      ]
+    },
+    "m476af2": {
+      "batch": "native_a_v2",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476af2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -39,
+        -41
+      ],
+      "contact_landmark_before_translation": [
+        423.0,
+        581
+      ],
+      "crop_origin_px": [
+        154,
+        272
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        8,
+        1603,
+        368,
+        276
+      ]
+    },
+    "m476ag2": {
+      "batch": "native_a_v2",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ag2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -68,
+        -19
+      ],
+      "contact_landmark_before_translation": [
+        451.5,
+        559
+      ],
+      "crop_origin_px": [
+        197,
+        219
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        329,
+        1420,
+        309,
+        325
+      ]
+    },
+    "m476ah2": {
+      "batch": "native_a_v2",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ah2",
+      "registration_scale": 0.874516330678933,
+      "registration_translation_px": [
+        -63,
+        -19
+      ],
+      "contact_landmark_before_translation": [
+        447.0,
+        559
+      ],
+      "crop_origin_px": [
+        204,
+        243
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        247,
+        677,
+        307,
+        300
+      ]
+    },
+    "m476aa3": {
+      "batch": "native_a_v3",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476aa3",
+      "registration_scale": 0.9193691153237579,
+      "registration_translation_px": [
+        -48,
+        -84
+      ],
+      "contact_landmark_before_translation": [
+        432.0,
+        624
+      ],
+      "crop_origin_px": [
+        230,
+        225
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1369,
+        1420,
+        290,
+        322
+      ]
+    },
+    "m476ab3": {
+      "batch": "native_a_v3",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ab3",
+      "registration_scale": 0.9193691153237579,
+      "registration_translation_px": [
+        -76,
+        -85
+      ],
+      "contact_landmark_before_translation": [
+        459.5,
+        625
+      ],
+      "crop_origin_px": [
+        188,
+        176
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        573,
+        813,
+        332,
+        372
+      ]
+    },
+    "m476ac3": {
+      "batch": "native_a_v3",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ac3",
+      "registration_scale": 0.9193691153237579,
+      "registration_translation_px": [
+        -100,
+        -90
+      ],
+      "contact_landmark_before_translation": [
+        483.5,
+        630
+      ],
+      "crop_origin_px": [
+        195,
+        154
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        8,
+        8,
+        305,
+        390
+      ]
+    },
+    "m476ad3": {
+      "batch": "native_a_v3",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ad3",
+      "registration_scale": 0.9193691153237579,
+      "registration_translation_px": [
+        -68,
+        -83
+      ],
+      "contact_landmark_before_translation": [
+        452.0,
+        623
+      ],
+      "crop_origin_px": [
+        181,
+        190
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        585,
+        1586,
+        319,
+        356
+      ]
+    },
+    "m476ae3": {
+      "batch": "native_a_v3",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ae3",
+      "registration_scale": 0.9193691153237579,
+      "registration_translation_px": [
+        -96,
+        -82
+      ],
+      "contact_landmark_before_translation": [
+        480.0,
+        622
+      ],
+      "crop_origin_px": [
+        139,
+        269
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1061,
+        1305,
+        364,
+        276
+      ]
+    },
+    "m476af3": {
+      "batch": "native_a_v3",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476af3",
+      "registration_scale": 0.9193691153237579,
+      "registration_translation_px": [
+        -111,
+        -82
+      ],
+      "contact_landmark_before_translation": [
+        495.0,
+        622
+      ],
+      "crop_origin_px": [
+        138,
+        257
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1301,
+        994,
+        361,
+        288
+      ]
+    },
+    "m476ag3": {
+      "batch": "native_a_v3",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ag3",
+      "registration_scale": 0.44037189254016934,
+      "registration_translation_px": [
+        -24,
+        -10
+      ],
+      "contact_landmark_before_translation": [
+        408.5,
+        550
+      ],
+      "crop_origin_px": [
+        221,
+        227
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        875,
+        8,
+        300,
+        317
+      ]
+    },
+    "m476ah3": {
+      "batch": "native_a_v3",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ah3",
+      "registration_scale": 0.9193691153237579,
+      "registration_translation_px": [
+        -65,
+        -47
+      ],
+      "contact_landmark_before_translation": [
+        449.0,
+        587
+      ],
+      "crop_origin_px": [
+        228,
+        224
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        274,
+        8,
+        287,
+        320
+      ]
+    },
+    "m476aa4": {
+      "batch": "native_a_v4",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476aa4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -68,
+        -125
+      ],
+      "contact_landmark_before_translation": [
+        452.5,
+        665
+      ],
+      "crop_origin_px": [
+        256,
+        199
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        570,
+        745,
+        315,
+        347
+      ]
+    },
+    "m476ab4": {
+      "batch": "native_a_v4",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ab4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -74,
+        -126
+      ],
+      "contact_landmark_before_translation": [
+        457.5,
+        666
+      ],
+      "crop_origin_px": [
+        218,
+        129
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        842,
+        469,
+        304,
+        416
+      ]
+    },
+    "m476ac4": {
+      "batch": "native_a_v4",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ac4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -76,
+        -125
+      ],
+      "contact_landmark_before_translation": [
+        460.0,
+        665
+      ],
+      "crop_origin_px": [
+        211,
+        119
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1102,
+        8,
+        314,
+        427
+      ]
+    },
+    "m476ad4": {
+      "batch": "native_a_v4",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ad4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -98,
+        -114
+      ],
+      "contact_landmark_before_translation": [
+        482.5,
+        654
+      ],
+      "crop_origin_px": [
+        199,
+        172
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        921,
+        813,
+        361,
+        372
+      ]
+    },
+    "m476ae4": {
+      "batch": "native_a_v4",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ae4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -88,
+        -116
+      ],
+      "contact_landmark_before_translation": [
+        472.0,
+        656
+      ],
+      "crop_origin_px": [
+        228,
+        267
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1441,
+        1305,
+        339,
+        276
+      ]
+    },
+    "m476af4": {
+      "batch": "native_a_v4",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476af4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -80,
+        -118
+      ],
+      "contact_landmark_before_translation": [
+        463.5,
+        658
+      ],
+      "crop_origin_px": [
+        234,
+        262
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        8,
+        1305,
+        319,
+        282
+      ]
+    },
+    "m476ag4": {
+      "batch": "native_a_v4",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ag4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -75,
+        -69
+      ],
+      "contact_landmark_before_translation": [
+        459.0,
+        609
+      ],
+      "crop_origin_px": [
+        202,
+        221
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        955,
+        1420,
+        398,
+        323
+      ]
+    },
+    "m476ah4": {
+      "batch": "native_a_v4",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ah4",
+      "registration_scale": 0.95,
+      "registration_translation_px": [
+        -74,
+        -72
+      ],
+      "contact_landmark_before_translation": [
+        458.0,
+        612
+      ],
+      "crop_origin_px": [
+        243,
+        203
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        587,
+        8,
+        329,
+        341
+      ]
+    },
+    "m476da0": {
+      "batch": "native_d_v0",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476da0",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        35,
+        -35
+      ],
+      "contact_landmark_before_translation": [
+        349.0,
+        575
+      ],
+      "crop_origin_px": [
+        224,
+        192
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        591,
+        378,
+        307,
+        350
+      ]
+    },
+    "m476db0": {
+      "batch": "native_d_v0",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476db0",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        54,
+        -14
+      ],
+      "contact_landmark_before_translation": [
+        330.0,
+        554
+      ],
+      "crop_origin_px": [
+        228,
+        263
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        679,
+        1305,
+        366,
+        280
+      ]
+    },
+    "m476dc0": {
+      "batch": "native_d_v0",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dc0",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        34,
+        -15
+      ],
+      "contact_landmark_before_translation": [
+        350.0,
+        555
+      ],
+      "crop_origin_px": [
+        237,
+        300
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        8,
+        8,
+        355,
+        243
+      ]
+    },
+    "m476dd0": {
+      "batch": "native_d_v0",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dd0",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        36,
+        57
+      ],
+      "contact_landmark_before_translation": [
+        348.0,
+        483
+      ],
+      "crop_origin_px": [
+        225,
+        340
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        796,
+        267,
+        378,
+        204
+      ]
+    },
+    "m476xa0": {
+      "batch": "native_d_v0",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476xa0",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        3,
+        14
+      ],
+      "contact_landmark_before_translation": [
+        381.0,
+        526
+      ],
+      "crop_origin_px": [
+        201,
+        379
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        1563,
+        267,
+        375,
+        167
+      ]
+    },
+    "m476da1": {
+      "batch": "native_d_v1",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476da1",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        20,
+        2
+      ],
+      "contact_landmark_before_translation": [
+        363.5,
+        538
+      ],
+      "crop_origin_px": [
+        257,
+        202
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        288,
+        8,
+        283,
+        342
+      ]
+    },
+    "m476db1": {
+      "batch": "native_d_v1",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476db1",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        9,
+        -13
+      ],
+      "contact_landmark_before_translation": [
+        375.0,
+        553
+      ],
+      "crop_origin_px": [
+        248,
+        237
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1302,
+        346,
+        296,
+        307
+      ]
+    },
+    "m476dc1": {
+      "batch": "native_d_v1",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dc1",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -2,
+        -2
+      ],
+      "contact_landmark_before_translation": [
+        386.5,
+        542
+      ],
+      "crop_origin_px": [
+        220,
+        305
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        765,
+        8,
+        323,
+        239
+      ]
+    },
+    "m476dd1": {
+      "batch": "native_d_v1",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dd1",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        10,
+        24
+      ],
+      "contact_landmark_before_translation": [
+        374.5,
+        516
+      ],
+      "crop_origin_px": [
+        220,
+        309
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        1104,
+        8,
+        310,
+        237
+      ]
+    },
+    "m476xa1": {
+      "batch": "native_d_v1",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476xa1",
+      "registration_scale": 0.46,
+      "registration_translation_px": [
+        47,
+        105
+      ],
+      "contact_landmark_before_translation": [
+        337.0,
+        435
+      ],
+      "crop_origin_px": [
+        211,
+        399
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        446,
+        514,
+        328,
+        144
+      ]
+    },
+    "m476da2": {
+      "batch": "native_d_v2",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476da2",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -13,
+        -70
+      ],
+      "contact_landmark_before_translation": [
+        397.0,
+        610
+      ],
+      "crop_origin_px": [
+        202,
+        160
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        8,
+        414,
+        293,
+        383
+      ]
+    },
+    "m476db2": {
+      "batch": "native_d_v2",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476db2",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        15,
+        -23
+      ],
+      "contact_landmark_before_translation": [
+        369.0,
+        563
+      ],
+      "crop_origin_px": [
+        216,
+        262
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        343,
+        1305,
+        320,
+        282
+      ]
+    },
+    "m476dc2": {
+      "batch": "native_d_v2",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dc2",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -3,
+        -44
+      ],
+      "contact_landmark_before_translation": [
+        387.0,
+        584
+      ],
+      "crop_origin_px": [
+        198,
+        273
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        392,
+        1603,
+        333,
+        274
+      ]
+    },
+    "m476dd2": {
+      "batch": "native_d_v2",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dd2",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -37,
+        18
+      ],
+      "contact_landmark_before_translation": [
+        421.0,
+        522
+      ],
+      "crop_origin_px": [
+        182,
+        312
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        404,
+        267,
+        376,
+        230
+      ]
+    },
+    "m476xa2": {
+      "batch": "native_d_v2",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476xa2",
+      "registration_scale": 0.49,
+      "registration_translation_px": [
+        23,
+        89
+      ],
+      "contact_landmark_before_translation": [
+        361.0,
+        451
+      ],
+      "crop_origin_px": [
+        185,
+        422
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        790,
+        514,
+        378,
+        121
+      ]
+    },
+    "m476da3": {
+      "batch": "native_d_v3",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476da3",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        59,
+        -21
+      ],
+      "contact_landmark_before_translation": [
+        325.0,
+        561
+      ],
+      "crop_origin_px": [
+        279,
+        181
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        656,
+        1202,
+        312,
+        364
+      ]
+    },
+    "m476db3": {
+      "batch": "native_d_v3",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476db3",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        20,
+        -7
+      ],
+      "contact_landmark_before_translation": [
+        364.0,
+        547
+      ],
+      "crop_origin_px": [
+        244,
+        290
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1484,
+        1603,
+        339,
+        254
+      ]
+    },
+    "m476dc3": {
+      "batch": "native_d_v3",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dc3",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        47,
+        -9
+      ],
+      "contact_landmark_before_translation": [
+        337.0,
+        549
+      ],
+      "crop_origin_px": [
+        251,
+        357
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        1190,
+        267,
+        357,
+        186
+      ]
+    },
+    "m476dd3": {
+      "batch": "native_d_v3",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dd3",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        42,
+        44
+      ],
+      "contact_landmark_before_translation": [
+        342.0,
+        496
+      ],
+      "crop_origin_px": [
+        252,
+        308
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        1430,
+        8,
+        363,
+        235
+      ]
+    },
+    "m476xa3": {
+      "batch": "native_d_v3",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476xa3",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        16,
+        38
+      ],
+      "contact_landmark_before_translation": [
+        368.5,
+        502
+      ],
+      "crop_origin_px": [
+        215,
+        426
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        1184,
+        514,
+        453,
+        120
+      ]
+    },
+    "m476da4": {
+      "batch": "native_d_v4",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476da4",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -27,
+        -64
+      ],
+      "contact_landmark_before_translation": [
+        411.0,
+        604
+      ],
+      "crop_origin_px": [
+        222,
+        137
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1093,
+        908,
+        310,
+        404
+      ]
+    },
+    "m476db4": {
+      "batch": "native_d_v4",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476db4",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -18,
+        -36
+      ],
+      "contact_landmark_before_translation": [
+        402.0,
+        576
+      ],
+      "crop_origin_px": [
+        175,
+        273
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        741,
+        1603,
+        361,
+        271
+      ]
+    },
+    "m476dc4": {
+      "batch": "native_d_v4",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dc4",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -27,
+        -55
+      ],
+      "contact_landmark_before_translation": [
+        411.0,
+        595
+      ],
+      "crop_origin_px": [
+        165,
+        304
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        379,
+        8,
+        370,
+        241
+      ]
+    },
+    "m476dd4": {
+      "batch": "native_d_v4",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476dd4",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -32,
+        6
+      ],
+      "contact_landmark_before_translation": [
+        416.0,
+        534
+      ],
+      "crop_origin_px": [
+        169,
+        312
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        8,
+        267,
+        380,
+        231
+      ]
+    },
+    "m476xa4": {
+      "batch": "native_d_v4",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476xa4",
+      "registration_scale": 0.74,
+      "registration_translation_px": [
+        -16,
+        13
+      ],
+      "contact_landmark_before_translation": [
+        400.0,
+        527
+      ],
+      "crop_origin_px": [
+        184,
+        390
+      ],
+      "page": 5,
+      "atlas_xywh": [
+        8,
+        514,
+        422,
+        156
+      ]
+    },
+    "m476fa0": {
+      "batch": "native_f_v0",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fa0",
+      "registration_scale": 0.6495490980820006,
+      "registration_translation_px": [
+        46,
+        46
+      ],
+      "contact_landmark_before_translation": [
+        337.5,
+        494
+      ],
+      "crop_origin_px": [
+        245,
+        219
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1167,
+        1076,
+        280,
+        326
+      ]
+    },
+    "m476fb0": {
+      "batch": "native_f_v0",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fb0",
+      "registration_scale": 0.6495490980820006,
+      "registration_translation_px": [
+        53,
+        46
+      ],
+      "contact_landmark_before_translation": [
+        331.0,
+        494
+      ],
+      "crop_origin_px": [
+        251,
+        223
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1675,
+        1420,
+        276,
+        322
+      ]
+    },
+    "m476fc0": {
+      "batch": "native_f_v0",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fc0",
+      "registration_scale": 0.6495490980820006,
+      "registration_translation_px": [
+        46,
+        46
+      ],
+      "contact_landmark_before_translation": [
+        338.5,
+        494
+      ],
+      "crop_origin_px": [
+        243,
+        223
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        8,
+        8,
+        250,
+        322
+      ]
+    },
+    "m476fd0": {
+      "batch": "native_f_v0",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fd0",
+      "registration_scale": 0.6495490980820006,
+      "registration_translation_px": [
+        44,
+        60
+      ],
+      "contact_landmark_before_translation": [
+        340.5,
+        480
+      ],
+      "crop_origin_px": [
+        243,
+        239
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1614,
+        346,
+        273,
+        304
+      ]
+    },
+    "m476fe0": {
+      "batch": "native_f_v0",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fe0",
+      "registration_scale": 0.6495490980820006,
+      "registration_translation_px": [
+        49,
+        59
+      ],
+      "contact_landmark_before_translation": [
+        335.0,
+        481
+      ],
+      "crop_origin_px": [
+        247,
+        227
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        577,
+        8,
+        282,
+        319
+      ]
+    },
+    "m476fa1": {
+      "batch": "native_f_v1",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fa1",
+      "registration_scale": 0.668944411567113,
+      "registration_translation_px": [
+        16,
+        24
+      ],
+      "contact_landmark_before_translation": [
+        367.5,
+        516
+      ],
+      "crop_origin_px": [
+        231,
+        199
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        657,
+        1110,
+        285,
+        344
+      ]
+    },
+    "m476fb1": {
+      "batch": "native_f_v1",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fb1",
+      "registration_scale": 0.668944411567113,
+      "registration_translation_px": [
+        16,
+        24
+      ],
+      "contact_landmark_before_translation": [
+        367.5,
+        516
+      ],
+      "crop_origin_px": [
+        228,
+        200
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        298,
+        1471,
+        291,
+        343
+      ]
+    },
+    "m476fc1": {
+      "batch": "native_f_v1",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fc1",
+      "registration_scale": 0.668944411567113,
+      "registration_translation_px": [
+        12,
+        26
+      ],
+      "contact_landmark_before_translation": [
+        371.5,
+        514
+      ],
+      "crop_origin_px": [
+        237,
+        226
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1191,
+        8,
+        258,
+        317
+      ]
+    },
+    "m476fd1": {
+      "batch": "native_f_v1",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fd1",
+      "registration_scale": 0.668944411567113,
+      "registration_translation_px": [
+        15,
+        44
+      ],
+      "contact_landmark_before_translation": [
+        369.0,
+        496
+      ],
+      "crop_origin_px": [
+        231,
+        217
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        297,
+        1076,
+        292,
+        327
+      ]
+    },
+    "m476fe1": {
+      "batch": "native_f_v1",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fe1",
+      "registration_scale": 0.668944411567113,
+      "registration_translation_px": [
+        16,
+        44
+      ],
+      "contact_landmark_before_translation": [
+        368.0,
+        496
+      ],
+      "crop_origin_px": [
+        243,
+        215
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        8,
+        1076,
+        273,
+        328
+      ]
+    },
+    "m476fa2": {
+      "batch": "native_f_v2",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fa2",
+      "registration_scale": 0.6978502581385658,
+      "registration_translation_px": [
+        -4,
+        10
+      ],
+      "contact_landmark_before_translation": [
+        388.0,
+        530
+      ],
+      "crop_origin_px": [
+        220,
+        198
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        298,
+        745,
+        256,
+        348
+      ]
+    },
+    "m476fb2": {
+      "batch": "native_f_v2",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fb2",
+      "registration_scale": 0.6978502581385658,
+      "registration_translation_px": [
+        -13,
+        10
+      ],
+      "contact_landmark_before_translation": [
+        397.0,
+        530
+      ],
+      "crop_origin_px": [
+        201,
+        208
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1525,
+        367,
+        271,
+        337
+      ]
+    },
+    "m476fc2": {
+      "batch": "native_f_v2",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fc2",
+      "registration_scale": 0.6978502581385658,
+      "registration_translation_px": [
+        -14,
+        10
+      ],
+      "contact_landmark_before_translation": [
+        398.0,
+        530
+      ],
+      "crop_origin_px": [
+        206,
+        231
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        8,
+        346,
+        268,
+        315
+      ]
+    },
+    "m476fd2": {
+      "batch": "native_f_v2",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fd2",
+      "registration_scale": 0.6978502581385658,
+      "registration_translation_px": [
+        -15,
+        21
+      ],
+      "contact_landmark_before_translation": [
+        399.0,
+        519
+      ],
+      "crop_origin_px": [
+        210,
+        203
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        605,
+        1471,
+        265,
+        343
+      ]
+    },
+    "m476fe2": {
+      "batch": "native_f_v2",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fe2",
+      "registration_scale": 0.6978502581385658,
+      "registration_translation_px": [
+        -12,
+        21
+      ],
+      "contact_landmark_before_translation": [
+        396.5,
+        519
+      ],
+      "crop_origin_px": [
+        223,
+        200
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1181,
+        745,
+        257,
+        346
+      ]
+    },
+    "m476fa3": {
+      "batch": "native_f_v3",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fa3",
+      "registration_scale": 0.751420007093552,
+      "registration_translation_px": [
+        -22,
+        -25
+      ],
+      "contact_landmark_before_translation": [
+        406.5,
+        565
+      ],
+      "crop_origin_px": [
+        220,
+        180
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1593,
+        1202,
+        277,
+        363
+      ]
+    },
+    "m476fb3": {
+      "batch": "native_f_v3",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fb3",
+      "registration_scale": 0.751420007093552,
+      "registration_translation_px": [
+        0,
+        -25
+      ],
+      "contact_landmark_before_translation": [
+        384.5,
+        565
+      ],
+      "crop_origin_px": [
+        242,
+        179
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        984,
+        1202,
+        260,
+        364
+      ]
+    },
+    "m476fc3": {
+      "batch": "native_f_v3",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fc3",
+      "registration_scale": 0.751420007093552,
+      "registration_translation_px": [
+        -15,
+        -25
+      ],
+      "contact_landmark_before_translation": [
+        399.0,
+        565
+      ],
+      "crop_origin_px": [
+        223,
+        219
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        654,
+        1420,
+        285,
+        324
+      ]
+    },
+    "m476fd3": {
+      "batch": "native_f_v3",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fd3",
+      "registration_scale": 0.751420007093552,
+      "registration_translation_px": [
+        -30,
+        -16
+      ],
+      "contact_landmark_before_translation": [
+        413.5,
+        556
+      ],
+      "crop_origin_px": [
+        224,
+        220
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1463,
+        1076,
+        288,
+        326
+      ]
+    },
+    "m476fe3": {
+      "batch": "native_f_v3",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fe3",
+      "registration_scale": 0.751420007093552,
+      "registration_translation_px": [
+        -18,
+        -16
+      ],
+      "contact_landmark_before_translation": [
+        401.5,
+        556
+      ],
+      "crop_origin_px": [
+        231,
+        188
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        295,
+        1586,
+        274,
+        358
+      ]
+    },
+    "m476fa4": {
+      "batch": "native_f_v4",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fa4",
+      "registration_scale": 0.81555817580918,
+      "registration_translation_px": [
+        -50,
+        -82
+      ],
+      "contact_landmark_before_translation": [
+        434.0,
+        622
+      ],
+      "crop_origin_px": [
+        221,
+        141
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1419,
+        908,
+        316,
+        404
+      ]
+    },
+    "m476fb4": {
+      "batch": "native_f_v4",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fb4",
+      "registration_scale": 0.81555817580918,
+      "registration_translation_px": [
+        -38,
+        -83
+      ],
+      "contact_landmark_before_translation": [
+        422.5,
+        623
+      ],
+      "crop_origin_px": [
+        206,
+        139
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        8,
+        1334,
+        329,
+        404
+      ]
+    },
+    "m476fc4": {
+      "batch": "native_f_v4",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fc4",
+      "registration_scale": 0.81555817580918,
+      "registration_translation_px": [
+        -34,
+        -83
+      ],
+      "contact_landmark_before_translation": [
+        418.5,
+        623
+      ],
+      "crop_origin_px": [
+        215,
+        141
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        353,
+        1334,
+        311,
+        403
+      ]
+    },
+    "m476fd4": {
+      "batch": "native_f_v4",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fd4",
+      "registration_scale": 0.81555817580918,
+      "registration_translation_px": [
+        -52,
+        -61
+      ],
+      "contact_landmark_before_translation": [
+        436.0,
+        601
+      ],
+      "crop_origin_px": [
+        234,
+        158
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        735,
+        8,
+        292,
+        386
+      ]
+    },
+    "m476fe4": {
+      "batch": "native_f_v4",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476fe4",
+      "registration_scale": 0.81555817580918,
+      "registration_translation_px": [
+        -43,
+        -60
+      ],
+      "contact_landmark_before_translation": [
+        427.0,
+        600
+      ],
+      "crop_origin_px": [
+        218,
+        160
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        317,
+        414,
+        325,
+        383
+      ]
+    },
+    "m476na0": {
+      "batch": "native_n_v0",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476na0",
+      "registration_scale": 0.8387343567321824,
+      "registration_translation_px": [
+        -100,
+        -105
+      ],
+      "contact_landmark_before_translation": [
+        484.0,
+        645
+      ],
+      "crop_origin_px": [
+        140,
+        159
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1043,
+        8,
+        371,
+        384
+      ]
+    },
+    "m476nb0": {
+      "batch": "native_n_v0",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nb0",
+      "registration_scale": 0.8387343567321824,
+      "registration_translation_px": [
+        -96,
+        -99
+      ],
+      "contact_landmark_before_translation": [
+        480.0,
+        639
+      ],
+      "crop_origin_px": [
+        104,
+        153
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1370,
+        1334,
+        419,
+        394
+      ]
+    },
+    "m476nc0": {
+      "batch": "native_n_v0",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nc0",
+      "registration_scale": 0.8387343567321824,
+      "registration_translation_px": [
+        -116,
+        -102
+      ],
+      "contact_landmark_before_translation": [
+        500.0,
+        642
+      ],
+      "crop_origin_px": [
+        86,
+        171
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1360,
+        414,
+        431,
+        374
+      ]
+    },
+    "m476nd0": {
+      "batch": "native_n_v0",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nd0",
+      "registration_scale": 0.8387343567321824,
+      "registration_translation_px": [
+        -62,
+        -70
+      ],
+      "contact_landmark_before_translation": [
+        446.0,
+        610
+      ],
+      "crop_origin_px": [
+        194,
+        208
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        300,
+        367,
+        351,
+        339
+      ]
+    },
+    "m476ne0": {
+      "batch": "native_n_v0",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ne0",
+      "registration_scale": 0.8387343567321824,
+      "registration_translation_px": [
+        -48,
+        -69
+      ],
+      "contact_landmark_before_translation": [
+        432.5,
+        609
+      ],
+      "crop_origin_px": [
+        210,
+        153
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1020,
+        1334,
+        334,
+        395
+      ]
+    },
+    "m476na1": {
+      "batch": "native_n_v1",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476na1",
+      "registration_scale": 0.8803443622667919,
+      "registration_translation_px": [
+        -70,
+        -129
+      ],
+      "contact_landmark_before_translation": [
+        453.5,
+        669
+      ],
+      "crop_origin_px": [
+        226,
+        102
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        8,
+        8,
+        323,
+        445
+      ]
+    },
+    "m476nb1": {
+      "batch": "native_n_v1",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nb1",
+      "registration_scale": 0.8803443622667919,
+      "registration_translation_px": [
+        -53,
+        -128
+      ],
+      "contact_landmark_before_translation": [
+        437.0,
+        668
+      ],
+      "crop_origin_px": [
+        200,
+        117
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        347,
+        8,
+        413,
+        431
+      ]
+    },
+    "m476nc1": {
+      "batch": "native_n_v1",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nc1",
+      "registration_scale": 0.8803443622667919,
+      "registration_translation_px": [
+        -174,
+        -130
+      ],
+      "contact_landmark_before_translation": [
+        557.5,
+        670
+      ],
+      "crop_origin_px": [
+        91,
+        123
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        8,
+        469,
+        403,
+        423
+      ]
+    },
+    "m476nd1": {
+      "batch": "native_n_v1",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nd1",
+      "registration_scale": 0.8803443622667919,
+      "registration_translation_px": [
+        -108,
+        -100
+      ],
+      "contact_landmark_before_translation": [
+        491.5,
+        640
+      ],
+      "crop_origin_px": [
+        174,
+        138
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        735,
+        908,
+        342,
+        410
+      ]
+    },
+    "m476ne1": {
+      "batch": "native_n_v1",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ne1",
+      "registration_scale": 0.8803443622667919,
+      "registration_translation_px": [
+        -78,
+        -106
+      ],
+      "contact_landmark_before_translation": [
+        462.5,
+        646
+      ],
+      "crop_origin_px": [
+        203,
+        132
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        1162,
+        469,
+        358,
+        412
+      ]
+    },
+    "m476na2": {
+      "batch": "native_n_v2",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476na2",
+      "registration_scale": 0.7772155051385039,
+      "registration_translation_px": [
+        -20,
+        -50
+      ],
+      "contact_landmark_before_translation": [
+        403.5,
+        590
+      ],
+      "crop_origin_px": [
+        241,
+        174
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        309,
+        813,
+        248,
+        373
+      ]
+    },
+    "m476nb2": {
+      "batch": "native_n_v2",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nb2",
+      "registration_scale": 0.7772155051385039,
+      "registration_translation_px": [
+        -6,
+        -50
+      ],
+      "contact_landmark_before_translation": [
+        390.0,
+        590
+      ],
+      "crop_origin_px": [
+        272,
+        187
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        8,
+        1586,
+        271,
+        359
+      ]
+    },
+    "m476nc2": {
+      "batch": "native_n_v2",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nc2",
+      "registration_scale": 0.7772155051385039,
+      "registration_translation_px": [
+        32,
+        -43
+      ],
+      "contact_landmark_before_translation": [
+        352.0,
+        583
+      ],
+      "crop_origin_px": [
+        274,
+        197
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1454,
+        745,
+        329,
+        346
+      ]
+    },
+    "m476nd2": {
+      "batch": "native_n_v2",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nd2",
+      "registration_scale": 0.7772155051385039,
+      "registration_translation_px": [
+        -79,
+        -24
+      ],
+      "contact_landmark_before_translation": [
+        463.0,
+        564
+      ],
+      "crop_origin_px": [
+        206,
+        232
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        292,
+        346,
+        286,
+        313
+      ]
+    },
+    "m476ne2": {
+      "batch": "native_n_v2",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ne2",
+      "registration_scale": 0.7772155051385039,
+      "registration_translation_px": [
+        -54,
+        -26
+      ],
+      "contact_landmark_before_translation": [
+        438.0,
+        566
+      ],
+      "crop_origin_px": [
+        220,
+        206
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        932,
+        8,
+        271,
+        341
+      ]
+    },
+    "m476na3": {
+      "batch": "native_n_v3",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476na3",
+      "registration_scale": 0.7940302829747593,
+      "registration_translation_px": [
+        -36,
+        -62
+      ],
+      "contact_landmark_before_translation": [
+        420.5,
+        602
+      ],
+      "crop_origin_px": [
+        230,
+        193
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        8,
+        8,
+        325,
+        354
+      ]
+    },
+    "m476nb3": {
+      "batch": "native_n_v3",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nb3",
+      "registration_scale": 0.7940302829747593,
+      "registration_translation_px": [
+        2,
+        -64
+      ],
+      "contact_landmark_before_translation": [
+        382.0,
+        604
+      ],
+      "crop_origin_px": [
+        265,
+        192
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1500,
+        1586,
+        310,
+        355
+      ]
+    },
+    "m476nc3": {
+      "batch": "native_n_v3",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nc3",
+      "registration_scale": 0.7940302829747593,
+      "registration_translation_px": [
+        23,
+        -66
+      ],
+      "contact_landmark_before_translation": [
+        361.0,
+        606
+      ],
+      "crop_origin_px": [
+        267,
+        161
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        1430,
+        8,
+        337,
+        384
+      ]
+    },
+    "m476nd3": {
+      "batch": "native_n_v3",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nd3",
+      "registration_scale": 0.7940302829747593,
+      "registration_translation_px": [
+        -70,
+        -30
+      ],
+      "contact_landmark_before_translation": [
+        454.0,
+        570
+      ],
+      "crop_origin_px": [
+        181,
+        203
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1507,
+        8,
+        321,
+        340
+      ]
+    },
+    "m476ne3": {
+      "batch": "native_n_v3",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ne3",
+      "registration_scale": 0.7940302829747593,
+      "registration_translation_px": [
+        -60,
+        -31
+      ],
+      "contact_landmark_before_translation": [
+        444.5,
+        571
+      ],
+      "crop_origin_px": [
+        206,
+        217
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        8,
+        1420,
+        305,
+        326
+      ]
+    },
+    "m476na4": {
+      "batch": "native_n_v4",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476na4",
+      "registration_scale": 0.8744540057469228,
+      "registration_translation_px": [
+        -50,
+        -130
+      ],
+      "contact_landmark_before_translation": [
+        434.5,
+        670
+      ],
+      "crop_origin_px": [
+        234,
+        134
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        356,
+        908,
+        363,
+        410
+      ]
+    },
+    "m476nb4": {
+      "batch": "native_n_v4",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nb4",
+      "registration_scale": 0.8744540057469228,
+      "registration_translation_px": [
+        -28,
+        -130
+      ],
+      "contact_landmark_before_translation": [
+        412.0,
+        670
+      ],
+      "crop_origin_px": [
+        253,
+        157
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        329,
+        8,
+        390,
+        387
+      ]
+    },
+    "m476nc4": {
+      "batch": "native_n_v4",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nc4",
+      "registration_scale": 0.8744540057469228,
+      "registration_translation_px": [
+        6,
+        -129
+      ],
+      "contact_landmark_before_translation": [
+        378.0,
+        669
+      ],
+      "crop_origin_px": [
+        249,
+        122
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        427,
+        469,
+        399,
+        421
+      ]
+    },
+    "m476nd4": {
+      "batch": "native_n_v4",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476nd4",
+      "registration_scale": 0.8744540057469228,
+      "registration_translation_px": [
+        -72,
+        -91
+      ],
+      "contact_landmark_before_translation": [
+        456.5,
+        631
+      ],
+      "crop_origin_px": [
+        220,
+        163
+      ],
+      "page": 1,
+      "atlas_xywh": [
+        988,
+        414,
+        356,
+        380
+      ]
+    },
+    "m476ne4": {
+      "batch": "native_n_v4",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476ne4",
+      "registration_scale": 0.8744540057469228,
+      "registration_translation_px": [
+        -85,
+        -95
+      ],
+      "contact_landmark_before_translation": [
+        469.0,
+        635
+      ],
+      "crop_origin_px": [
+        209,
+        144
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        680,
+        1334,
+        324,
+        403
+      ]
+    },
+    "m476wa0": {
+      "batch": "native_w_v0",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wa0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        3,
+        -7
+      ],
+      "contact_landmark_before_translation": [
+        381.25,
+        547
+      ],
+      "crop_origin_px": [
+        251,
+        201
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1219,
+        8,
+        272,
+        341
+      ]
+    },
+    "m476wb0": {
+      "batch": "native_w_v0",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wb0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        11,
+        -7
+      ],
+      "contact_landmark_before_translation": [
+        373.0,
+        547
+      ],
+      "crop_origin_px": [
+        251,
+        207
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        8,
+        723,
+        270,
+        337
+      ]
+    },
+    "m476wc0": {
+      "batch": "native_w_v0",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wc0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        -4,
+        -8
+      ],
+      "contact_landmark_before_translation": [
+        388.25,
+        548
+      ],
+      "crop_origin_px": [
+        258,
+        201
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1799,
+        745,
+        238,
+        346
+      ]
+    },
+    "m476wd0": {
+      "batch": "native_w_v0",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wd0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        6,
+        -8
+      ],
+      "contact_landmark_before_translation": [
+        378.0,
+        548
+      ],
+      "crop_origin_px": [
+        256,
+        201
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1252,
+        1110,
+        271,
+        344
+      ]
+    },
+    "m476we0": {
+      "batch": "native_w_v0",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476we0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        6,
+        0
+      ],
+      "contact_landmark_before_translation": [
+        377.5,
+        540
+      ],
+      "crop_origin_px": [
+        250,
+        215
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        599,
+        723,
+        279,
+        333
+      ]
+    },
+    "m476wf0": {
+      "batch": "native_w_v0",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wf0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        -15,
+        4
+      ],
+      "contact_landmark_before_translation": [
+        399.0,
+        536
+      ],
+      "crop_origin_px": [
+        247,
+        216
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        605,
+        1076,
+        249,
+        327
+      ]
+    },
+    "m476wg0": {
+      "batch": "native_w_v0",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wg0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        0,
+        5
+      ],
+      "contact_landmark_before_translation": [
+        384.5,
+        535
+      ],
+      "crop_origin_px": [
+        249,
+        214
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1174,
+        723,
+        264,
+        330
+      ]
+    },
+    "m476wh0": {
+      "batch": "native_w_v0",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wh0",
+      "registration_scale": 0.8145647258604092,
+      "registration_translation_px": [
+        4,
+        4
+      ],
+      "contact_landmark_before_translation": [
+        380.5,
+        536
+      ],
+      "crop_origin_px": [
+        251,
+        213
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        894,
+        723,
+        264,
+        331
+      ]
+    },
+    "m476wa1": {
+      "batch": "native_w_v1",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wa1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -44,
+        -24
+      ],
+      "contact_landmark_before_translation": [
+        428.5,
+        564
+      ],
+      "crop_origin_px": [
+        238,
+        196
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        914,
+        378,
+        287,
+        350
+      ]
+    },
+    "m476wb1": {
+      "batch": "native_w_v1",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wb1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -40,
+        -25
+      ],
+      "contact_landmark_before_translation": [
+        424.5,
+        565
+      ],
+      "crop_origin_px": [
+        216,
+        204
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1384,
+        1471,
+        284,
+        343
+      ]
+    },
+    "m476wc1": {
+      "batch": "native_w_v1",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wc1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -12,
+        -28
+      ],
+      "contact_landmark_before_translation": [
+        396.0,
+        568
+      ],
+      "crop_origin_px": [
+        245,
+        204
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        8,
+        367,
+        276,
+        340
+      ]
+    },
+    "m476wd1": {
+      "batch": "native_w_v1",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wd1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -42,
+        -26
+      ],
+      "contact_landmark_before_translation": [
+        426.0,
+        566
+      ],
+      "crop_origin_px": [
+        229,
+        193
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        349,
+        8,
+        297,
+        353
+      ]
+    },
+    "m476we1": {
+      "batch": "native_w_v1",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476we1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -30,
+        -26
+      ],
+      "contact_landmark_before_translation": [
+        414.0,
+        566
+      ],
+      "crop_origin_px": [
+        227,
+        193
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1515,
+        378,
+        289,
+        350
+      ]
+    },
+    "m476wf1": {
+      "batch": "native_w_v1",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wf1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -33,
+        -22
+      ],
+      "contact_landmark_before_translation": [
+        417.0,
+        562
+      ],
+      "crop_origin_px": [
+        223,
+        202
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1539,
+        1110,
+        272,
+        344
+      ]
+    },
+    "m476wg1": {
+      "batch": "native_w_v1",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wg1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -40,
+        -4
+      ],
+      "contact_landmark_before_translation": [
+        424.0,
+        544
+      ],
+      "crop_origin_px": [
+        239,
+        213
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        294,
+        723,
+        289,
+        334
+      ]
+    },
+    "m476wh1": {
+      "batch": "native_w_v1",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wh1",
+      "registration_scale": 0.8430954330423113,
+      "registration_translation_px": [
+        -34,
+        -12
+      ],
+      "contact_landmark_before_translation": [
+        418.5,
+        552
+      ],
+      "crop_origin_px": [
+        232,
+        216
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        870,
+        1076,
+        281,
+        327
+      ]
+    },
+    "m476wa2": {
+      "batch": "native_w_v2",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wa2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -44,
+        -44
+      ],
+      "contact_landmark_before_translation": [
+        428.0,
+        584
+      ],
+      "crop_origin_px": [
+        212,
+        193
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1217,
+        378,
+        282,
+        350
+      ]
+    },
+    "m476wb2": {
+      "batch": "native_w_v2",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wb2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -48,
+        -44
+      ],
+      "contact_landmark_before_translation": [
+        432.0,
+        584
+      ],
+      "crop_origin_px": [
+        213,
+        192
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        959,
+        8,
+        284,
+        352
+      ]
+    },
+    "m476wc2": {
+      "batch": "native_w_v2",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wc2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -74,
+        -45
+      ],
+      "contact_landmark_before_translation": [
+        457.5,
+        585
+      ],
+      "crop_origin_px": [
+        205,
+        192
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1259,
+        8,
+        280,
+        352
+      ]
+    },
+    "m476wd2": {
+      "batch": "native_w_v2",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wd2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -64,
+        -32
+      ],
+      "contact_landmark_before_translation": [
+        448.0,
+        572
+      ],
+      "crop_origin_px": [
+        211,
+        194
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        8,
+        745,
+        274,
+        349
+      ]
+    },
+    "m476we2": {
+      "batch": "native_w_v2",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476we2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -66,
+        -31
+      ],
+      "contact_landmark_before_translation": [
+        450.0,
+        571
+      ],
+      "crop_origin_px": [
+        202,
+        201
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        8,
+        8,
+        264,
+        343
+      ]
+    },
+    "m476wf2": {
+      "batch": "native_w_v2",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wf2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -52,
+        -31
+      ],
+      "contact_landmark_before_translation": [
+        436.5,
+        571
+      ],
+      "crop_origin_px": [
+        222,
+        199
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        364,
+        1110,
+        277,
+        345
+      ]
+    },
+    "m476wg2": {
+      "batch": "native_w_v2",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wg2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -54,
+        -23
+      ],
+      "contact_landmark_before_translation": [
+        438.5,
+        563
+      ],
+      "crop_origin_px": [
+        215,
+        197
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        302,
+        378,
+        273,
+        351
+      ]
+    },
+    "m476wh2": {
+      "batch": "native_w_v2",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wh2",
+      "registration_scale": 0.8678147746039578,
+      "registration_translation_px": [
+        -52,
+        -24
+      ],
+      "contact_landmark_before_translation": [
+        436.5,
+        564
+      ],
+      "crop_origin_px": [
+        214,
+        196
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1555,
+        8,
+        289,
+        352
+      ]
+    },
+    "m476wa3": {
+      "batch": "native_w_v3",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wa3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        27,
+        56
+      ],
+      "contact_landmark_before_translation": [
+        357.0,
+        484
+      ],
+      "crop_origin_px": [
+        261,
+        246
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1215,
+        677,
+        220,
+        298
+      ]
+    },
+    "m476wb3": {
+      "batch": "native_w_v3",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wb3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        26,
+        54
+      ],
+      "contact_landmark_before_translation": [
+        358.0,
+        486
+      ],
+      "crop_origin_px": [
+        258,
+        248
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        8,
+        994,
+        222,
+        295
+      ]
+    },
+    "m476wc3": {
+      "batch": "native_w_v3",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wc3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        28,
+        54
+      ],
+      "contact_landmark_before_translation": [
+        356.0,
+        486
+      ],
+      "crop_origin_px": [
+        256,
+        248
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1451,
+        677,
+        234,
+        298
+      ]
+    },
+    "m476wd3": {
+      "batch": "native_w_v3",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wd3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        32,
+        55
+      ],
+      "contact_landmark_before_translation": [
+        352.5,
+        485
+      ],
+      "crop_origin_px": [
+        253,
+        251
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        496,
+        994,
+        233,
+        293
+      ]
+    },
+    "m476we3": {
+      "batch": "native_w_v3",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476we3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        32,
+        57
+      ],
+      "contact_landmark_before_translation": [
+        352.0,
+        483
+      ],
+      "crop_origin_px": [
+        252,
+        252
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        246,
+        994,
+        234,
+        294
+      ]
+    },
+    "m476wf3": {
+      "batch": "native_w_v3",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wf3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        29,
+        56
+      ],
+      "contact_landmark_before_translation": [
+        355.0,
+        484
+      ],
+      "crop_origin_px": [
+        259,
+        245
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        8,
+        677,
+        223,
+        301
+      ]
+    },
+    "m476wg3": {
+      "batch": "native_w_v3",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wg3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        26,
+        57
+      ],
+      "contact_landmark_before_translation": [
+        358.0,
+        483
+      ],
+      "crop_origin_px": [
+        257,
+        254
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        745,
+        994,
+        222,
+        292
+      ]
+    },
+    "m476wh3": {
+      "batch": "native_w_v3",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wh3",
+      "registration_scale": 0.7259626555812836,
+      "registration_translation_px": [
+        36,
+        62
+      ],
+      "contact_landmark_before_translation": [
+        348.0,
+        478
+      ],
+      "crop_origin_px": [
+        267,
+        256
+      ],
+      "page": 4,
+      "atlas_xywh": [
+        1678,
+        994,
+        223,
+        287
+      ]
+    },
+    "m476wa4": {
+      "batch": "native_w_v4",
+      "raw_cell": 0,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wa4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -26,
+        -29
+      ],
+      "contact_landmark_before_translation": [
+        410.0,
+        569
+      ],
+      "crop_origin_px": [
+        253,
+        204
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1108,
+        1471,
+        260,
+        343
+      ]
+    },
+    "m476wb4": {
+      "batch": "native_w_v4",
+      "raw_cell": 1,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wb4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -22,
+        -29
+      ],
+      "contact_landmark_before_translation": [
+        405.5,
+        569
+      ],
+      "crop_origin_px": [
+        238,
+        204
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        958,
+        1110,
+        278,
+        344
+      ]
+    },
+    "m476wc4": {
+      "batch": "native_w_v4",
+      "raw_cell": 2,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wc4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -15,
+        -29
+      ],
+      "contact_landmark_before_translation": [
+        399.0,
+        569
+      ],
+      "crop_origin_px": [
+        244,
+        205
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        1684,
+        1471,
+        277,
+        343
+      ]
+    },
+    "m476wd4": {
+      "batch": "native_w_v4",
+      "raw_cell": 3,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wd4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -30,
+        -23
+      ],
+      "contact_landmark_before_translation": [
+        414.5,
+        563
+      ],
+      "crop_origin_px": [
+        243,
+        204
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        667,
+        367,
+        269,
+        339
+      ]
+    },
+    "m476we4": {
+      "batch": "native_w_v4",
+      "raw_cell": 4,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476we4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -19,
+        -26
+      ],
+      "contact_landmark_before_translation": [
+        403.0,
+        566
+      ],
+      "crop_origin_px": [
+        245,
+        205
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        952,
+        367,
+        272,
+        339
+      ]
+    },
+    "m476wf4": {
+      "batch": "native_w_v4",
+      "raw_cell": 5,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wf4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -22,
+        -27
+      ],
+      "contact_landmark_before_translation": [
+        405.5,
+        567
+      ],
+      "crop_origin_px": [
+        241,
+        204
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        8,
+        1471,
+        274,
+        344
+      ]
+    },
+    "m476wg4": {
+      "batch": "native_w_v4",
+      "raw_cell": 6,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wg4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -26,
+        -20
+      ],
+      "contact_landmark_before_translation": [
+        409.5,
+        560
+      ],
+      "crop_origin_px": [
+        253,
+        197
+      ],
+      "page": 2,
+      "atlas_xywh": [
+        901,
+        745,
+        264,
+        347
+      ]
+    },
+    "m476wh4": {
+      "batch": "native_w_v4",
+      "raw_cell": 7,
+      "source_kind": "new authored MM5 adaptation",
+      "motion_reference": "m476wh4",
+      "registration_scale": 0.8565560267623211,
+      "registration_translation_px": [
+        -22,
+        -14
+      ],
+      "contact_landmark_before_translation": [
+        405.5,
+        554
+      ],
+      "crop_origin_px": [
+        251,
+        210
+      ],
+      "page": 3,
+      "atlas_xywh": [
+        1240,
+        367,
+        269,
+        338
+      ]
+    }
+  },
+  "animations": {
+    "standing": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476sa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476sa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476sa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476sa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476sa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476sa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476sa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476sa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "loop",
+      "adapted_from_group": "m477s"
+    },
+    "walk": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476wa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476we0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wf0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wg0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wh0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476wa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wb1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wc1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wd1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476we1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wf1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wg1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wh1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476wa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wb2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wc2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wd2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476we2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wf2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wg2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wh2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476wa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wb3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wc3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wd3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476we3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wf3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wg3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wh3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476wa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wb4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wc4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wd4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476we4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wf4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wg4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476wh4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476wa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wb3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wc3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wd3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476we3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wf3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wg3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wh3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476wa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wb2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wc2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wd2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476we2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wf2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wg2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wh2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476wa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wb1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wc1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wd1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476we1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wf1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wg1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476wh1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "loop",
+      "adapted_from_group": "m477w"
+    },
+    "attack": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476aa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476aa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476aa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476aa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476aa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476aa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ab3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ac3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ad3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ae3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476af3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ag3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ah3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476aa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ab2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ac2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ad2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ae2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476af2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ag2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ah2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476aa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ab1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ac1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ad1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ae1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476af1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ag1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ah1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "once",
+      "adapted_from_group": "m477a"
+    },
+    "attack2": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476aa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476aa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476aa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476aa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476aa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ab4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ac4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ad4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ae4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476af4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ag4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ah4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476aa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ab3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ac3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ad3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ae3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476af3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ag3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ah3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476aa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ab2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ac2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ad2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ae2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476af2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ag2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ah2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476aa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ab1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ac1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ad1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ae1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476af1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ag1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ah1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "once",
+      "adapted_from_group": "m477a"
+    },
+    "hit": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ne0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476na1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nc1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nd1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ne1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476na2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nc2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nd2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ne2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476na3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nc3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nd3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ne3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476na4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nc4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nd4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476ne4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476na3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nb3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nc3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nd3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ne3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476na2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nb2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nc2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nd2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ne2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476na1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nb1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nc1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nd1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476ne1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "once",
+      "adapted_from_group": "m477n"
+    },
+    "death": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476na0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476da0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476db0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476na1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476da1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476db1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dc1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dd1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476na2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476da2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476db2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dc2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dd2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476na3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476da3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476db3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dc3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dd3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476na4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476nb4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476da4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476db4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dc4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476dd4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476na3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nb3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476da3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476db3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476dc3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476dd3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476na2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nb2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476da2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476db2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476dc2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476dd2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476na1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476nb1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476da1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476db1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476dc1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476dd1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "once",
+      "adapted_from_group": "m477d"
+    },
+    "corpse": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476xa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476xa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476xa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476xa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476xa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476xa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476xa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476xa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "hold",
+      "adapted_from_group": "m477x"
+    },
+    "fidget": {
+      "views": {
+        "0": [
+          {
+            "frame": "m476fa0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fb0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fc0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fd0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fe0",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "1": [
+          {
+            "frame": "m476fa1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fb1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fc1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fd1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fe1",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "2": [
+          {
+            "frame": "m476fa2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fb2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fc2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fd2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fe2",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "3": [
+          {
+            "frame": "m476fa3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fb3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fc3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fd3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fe3",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "4": [
+          {
+            "frame": "m476fa4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fb4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fc4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fd4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          },
+          {
+            "frame": "m476fe4",
+            "duration_ms": 125.0,
+            "mirrored": false
+          }
+        ],
+        "5": [
+          {
+            "frame": "m476fa3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fb3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fc3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fd3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fe3",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "6": [
+          {
+            "frame": "m476fa2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fb2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fc2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fd2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fe2",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ],
+        "7": [
+          {
+            "frame": "m476fa1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fb1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fc1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fd1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          },
+          {
+            "frame": "m476fe1",
+            "duration_ms": 125.0,
+            "mirrored": true
+          }
+        ]
+      },
+      "playback": "once",
+      "adapted_from_group": "m477f"
+    }
+  },
+  "masks": [
+    {
+      "channel": "R",
+      "region": "blue vest",
+      "operation": "soft coverage; base preset is exact bypass"
+    }
+  ],
+  "variants": {
+    "base": {
+      "operation": "exact bypass",
+      "label": "Troll Grunt / shared native appearance"
+    }
+  },
+  "decoded_memory_bytes": 97228670,
+  "atlas_padding_px": 8,
+  "mipmaps": "not generated; offline review pages use base level",
+  "coverage": {
+    "expected": 160,
+    "exported": 160,
+    "missing_batches": []
+  },
+  "limitations": [
+    "MM5 hidden views and motion are newly authored, not native recovered frames.",
+    "Mirror aliases use the MM7/MM8 convention and reflect equipment handedness.",
+    "Single decoded MM5 appearance; no unsupported native palette variants invented."
+  ]
+}

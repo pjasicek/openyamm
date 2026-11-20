@@ -25,7 +25,9 @@
 #include <optional>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 namespace
@@ -109,7 +111,7 @@ bool voiceSpeechResolves(
 
     for (uint32_t soundId : soundIds)
     {
-        const std::optional<std::string> virtualPath = soundCatalog.buildVirtualPath(soundId);
+        const std::optional<std::string> virtualPath = soundCatalog.buildVirtualPathAnyScope(soundId);
 
         if (virtualPath && assetFileSystem.exists(*virtualPath))
         {
@@ -278,8 +280,15 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(classExtraTable.entries()[10].kind, 4u);
 
     CHECK_EQ(characterSelectionTable.raceCount(), 11u);
-    REQUIRE_EQ(characterSelectionTable.continents().size(), 4u);
+    REQUIRE_EQ(characterSelectionTable.continents().size(), 5u);
     CHECK_EQ(characterSelectionTable.continents()[0].name, "Jadam");
+    // MM9's Chedian: every base class but the Necromancer (44), no undead start.
+    const OpenYAMM::Game::MergedCharacterSelectionContinent &chedian = characterSelectionTable.continents()[4];
+    CHECK_EQ(chedian.key, "chedian");
+    CHECK(std::find(chedian.availableClassIds.begin(), chedian.availableClassIds.end(), 44u)
+          == chedian.availableClassIds.end());
+    CHECK(std::find(chedian.availableRaceIds.begin(), chedian.availableRaceIds.end(), 6u)
+          == chedian.availableRaceIds.end());
 
     REQUIRE_EQ(raceSkillTable.overrideCount(), 19u);
     CHECK_EQ(raceSkillTable.overrides()[0].race, "Human");
@@ -394,8 +403,15 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(pTravelersCloak->points[5].y, 0);
     CHECK(complexItemPictureTable.get(999999u) == nullptr);
 
-    REQUIRE_EQ(continentSettingTable.entries().size(), 4u);
+    REQUIRE_EQ(continentSettingTable.entries().size(), 5u);
     CHECK_EQ(continentSettingTable.entries()[0].note, "Jadam");
+    // A new MM9 game starts in Ravensford's training camp, at its StartPoint0.
+    const OpenYAMM::Game::MergedContinentSettingEntry *pChedianContinent = continentSettingTable.findById(5u);
+    REQUIRE(pChedianContinent != nullptr);
+    CHECK_EQ(pChedianContinent->note, "Chedian");
+    CHECK_EQ(pChedianContinent->deathMap1, "bootcamp.blv");
+    CHECK_EQ(pChedianContinent->deathMap1X, 323);
+    CHECK_EQ(pChedianContinent->deathMap1Direction, 1530);
     const OpenYAMM::Game::MergedContinentSettingEntry *pAntagarichContinent =
         continentSettingTable.findById(2u);
     REQUIRE(pAntagarichContinent != nullptr);
@@ -481,13 +497,15 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
         });
     REQUIRE(dimensionDoorGroup != townPortalSwitchTable.groups().end());
     CHECK_EQ(dimensionDoorGroup->topicId, 309u);
-    REQUIRE_EQ(dimensionDoorGroup->destinations.size(), 6u);
+    REQUIRE_EQ(dimensionDoorGroup->destinations.size(), 7u);
     CHECK_EQ(dimensionDoorGroup->destinations[0].description, "Jadame");
-    CHECK_EQ(dimensionDoorGroup->destinations[0].iconName, "TPJadam1");
+    CHECK_EQ(dimensionDoorGroup->destinations[0].iconName, "TPJadame4");
     CHECK_EQ(dimensionDoorGroup->destinations[2].description, "Antagarich");
-    CHECK_EQ(dimensionDoorGroup->destinations[2].iconName, "TPAntag1");
+    CHECK_EQ(dimensionDoorGroup->destinations[2].iconName, "TPAntagarich4");
     CHECK_EQ(dimensionDoorGroup->destinations[4].description, "Enroth");
-    CHECK_EQ(dimensionDoorGroup->destinations[4].iconName, "TPEnroth1");
+    CHECK_EQ(dimensionDoorGroup->destinations[4].iconName, "TPEnroth4");
+    CHECK_EQ(dimensionDoorGroup->destinations[6].description, "Chedian");
+    CHECK_EQ(dimensionDoorGroup->destinations[6].iconName, "TPChedian4");
 
     CHECK_GE(transportIndexTable.entries().size(), 20u);
     CHECK_EQ(transportIndexTable.entries()[0].houseEventId, 54u);
@@ -773,6 +791,47 @@ TEST_CASE("merged character speech face animations have concrete expression mapp
     CHECK_GT(checkedAnimations, 40u);
 }
 
+TEST_CASE("merged house greetings resolve to their own world's voice lines")
+{
+    OpenYAMM::Game::SoundCatalog soundCatalog;
+    std::string soundCatalogError;
+    REQUIRE(soundCatalog.loadFromScopedRows(loadRows("sounds.txt"), {}, soundCatalogError));
+
+    std::unordered_map<uint32_t, uint32_t> soundBaseByHouseId;
+
+    for (const std::vector<std::string> &row : loadRows("house_animations.txt"))
+    {
+        if (row.size() > 7 && !row[0].empty() && std::isdigit(static_cast<unsigned char>(row[0][0]))
+            && !row[7].empty())
+        {
+            soundBaseByHouseId[static_cast<uint32_t>(std::stoul(row[0]))] =
+                static_cast<uint32_t>(std::stoul(row[7]));
+        }
+    }
+
+    // MMerge places MM6/MM7 house sounds at 30000 + 10 * group, where MM8's own house sounds already live.
+    const std::array<std::pair<uint32_t, const char *>, 8> expectedGreetings = {{
+        {3, "event14_01a"},
+        {470, "11_01"},
+        {261, "21_01"},
+        {450, "01_01"},
+        {224, "61_01"},
+        {485, "human boat 01"},
+        {158, "mind guild 01"},
+        {206, "wizard town hall"},
+    }};
+
+    for (const auto &[houseId, expectedName] : expectedGreetings)
+    {
+        CAPTURE(houseId);
+        const auto baseIt = soundBaseByHouseId.find(houseId);
+        REQUIRE(baseIt != soundBaseByHouseId.end());
+        const OpenYAMM::Game::SoundCatalogEntry *pEntry = soundCatalog.findById(baseIt->second + 1);
+        REQUIRE(pEntry != nullptr);
+        CHECK_EQ(pEntry->name, expectedName);
+    }
+}
+
 TEST_CASE("merged startable character voices resolve core speech sounds")
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
@@ -780,9 +839,13 @@ TEST_CASE("merged startable character voices resolve core speech sounds")
     const std::filesystem::path assetsRoot = sourceRoot / "assets_dev";
     REQUIRE(assetFileSystem.initialize(sourceRoot, assetsRoot, OpenYAMM::Engine::AssetScaleTier::X1));
 
+    // The worlds' sounds too: MM9's portraits speak with MM9's own voices (worlds/mm9 pc_voice_sounds.txt).
     OpenYAMM::Game::SoundCatalog soundCatalog;
     std::string soundCatalogError;
-    REQUIRE(soundCatalog.loadFromScopedRows(loadRows("sounds.txt"), {}, soundCatalogError));
+    const std::vector<std::vector<std::string>> engineSoundRows = loadRows("sounds.txt");
+    std::vector<std::vector<std::string>> worldSoundRows;
+    REQUIRE(OpenYAMM::Game::loadWorldSoundRows(assetFileSystem, engineSoundRows, worldSoundRows, soundCatalogError));
+    REQUIRE(soundCatalog.loadFromScopedRows(engineSoundRows, worldSoundRows, soundCatalogError));
     soundCatalog.initializeVirtualPathIndex(assetFileSystem);
 
     OpenYAMM::Game::MergedCharacterVoiceTable voiceTable;
@@ -790,6 +853,30 @@ TEST_CASE("merged startable character voices resolve core speech sounds")
 
     OpenYAMM::Game::SpeechReactionTable speechReactionTable;
     REQUIRE(speechReactionTable.loadFromRows(loadRows("character_speech_events.txt")));
+
+    // MM9's 18 voice sets (generate_mm9_pc_voices.py): columns 79-96 in MM9's getPCVoice order, named, of MM9, by sex.
+    const std::vector<uint32_t> mm9Voices = voiceTable.voiceSetsOfWorld("mm9");
+    REQUIRE_EQ(mm9Voices.size(), 18u);
+    CHECK_EQ(mm9Voices.front(), 79u);
+    CHECK_EQ(mm9Voices.back(), 96u);
+    CHECK_EQ(voiceTable.voiceSetProperty(79, "Name"), "Angry");
+    CHECK_EQ(voiceTable.voiceSetProperty(79, "Woman"), "x");
+    CHECK_EQ(voiceTable.voiceSetProperty(87, "Undead Woman"), "x");
+    CHECK_EQ(voiceTable.voiceSetProperty(94, "Name"), "Sarcastic");
+    CHECK_EQ(voiceTable.voiceSetProperty(94, "Man"), "x");
+    CHECK(voiceTable.voiceSetProperty(4, "Name").empty());
+    CHECK(voiceTable.voiceSetsOfWorld("mm8").empty());
+    // An MM6-MM8 voice keeps its sounds; an MM9 voice has its third takes too (the store is closed: three takes).
+    CHECK_EQ(voiceTable.soundIdsForTypes(0, {"Closed1", "Closed2"}), std::vector<uint32_t>{5002, 5003});
+    CHECK_EQ(voiceTable.soundIdsForTypes(79, {"FailedDisarm1", "FailedDisarm2"}).size(), 3u);
+    for (uint32_t voiceId : mm9Voices)
+    {
+        CAPTURE(voiceId);
+        CHECK(voiceSpeechResolves(voiceTable, speechReactionTable, soundCatalog, assetFileSystem, voiceId,
+            OpenYAMM::Game::SpeechId::SelectCharacter));
+        CHECK(voiceSpeechResolves(voiceTable, speechReactionTable, soundCatalog, assetFileSystem, voiceId,
+            OpenYAMM::Game::SpeechId::DamageMinor));
+    }
 
     const std::array<OpenYAMM::Game::SpeechId, 10> checkedSpeechIds = {{
         OpenYAMM::Game::SpeechId::SelectCharacter,
@@ -830,14 +917,41 @@ TEST_CASE("merged startable character voices resolve core speech sounds")
     CHECK_GT(checkedVoiceIds.size(), 50u);
 }
 
+TEST_CASE("merged character reactions use the original voice pools")
+{
+    OpenYAMM::Game::SpeechReactionTable speechReactionTable;
+    REQUIRE(speechReactionTable.loadFromRows(loadRows("character_speech_events.txt")));
+
+    // Voice pools follow the original StandardFaceAnimations table. The "WeakMonster"/"BigMonster" slots are the
+    // Identify Monster remarks ("Maybe we should reconsider"); the "Win!" and "Heh" slots follow a kill.
+    const std::array<std::pair<OpenYAMM::Game::SpeechId, std::vector<std::string>>, 8> expectedSoundTypes = {{
+        {OpenYAMM::Game::SpeechId::KillStrongEnemy, {"Win!1", "Win!2"}},
+        {OpenYAMM::Game::SpeechId::KillWeakEnemy, {"Heh1", "Heh2"}},
+        {OpenYAMM::Game::SpeechId::IdentifyMonsterBig, {"BigMonster1", "BigMonster2"}},
+        {OpenYAMM::Game::SpeechId::IdentifyMonsterWeak, {"WeakMonster1", "WeakMonster2"}},
+        {OpenYAMM::Game::SpeechId::HelloDay, {"Hello1", "Hello2", "Hello3", "Hello4"}},
+        {OpenYAMM::Game::SpeechId::HelloEvening, {"Hello5", "Hello6"}},
+        {OpenYAMM::Game::SpeechId::HelloHouse, {"Hello1", "Hello2", "Hello3", "Hello4"}},
+        {OpenYAMM::Game::SpeechId::DeathBlow, {"Dying1", "Dying2"}},
+    }};
+
+    for (const auto &[speechId, soundTypes] : expectedSoundTypes)
+    {
+        const OpenYAMM::Game::SpeechReactionEntry *pReaction = speechReactionTable.find(speechId);
+        REQUIRE(pReaction != nullptr);
+        CHECK(pReaction->soundTypes == soundTypes);
+    }
+}
+
 TEST_CASE("merged character presentation-only reactions have no speech sounds")
 {
     OpenYAMM::Game::SpeechReactionTable speechReactionTable;
     REQUIRE(speechReactionTable.loadFromRows(loadRows("character_speech_events.txt")));
 
     // The merged voice table's "Thanks" slot holds "no" for most MM7/MM8 voices, and the original games play
-    // no voice for these service and progress reactions.
-    const std::array<OpenYAMM::Game::SpeechId, 23> portraitOnlySpeechIds = {{
+    // no voice for these service and progress reactions. Training-hall level up only changes the portrait; the
+    // "Win!" slot it used to borrow is the original strong-kill voice pool.
+    const std::array<OpenYAMM::Game::SpeechId, 43> portraitOnlySpeechIds = {{
         OpenYAMM::Game::SpeechId::Shoot,
         OpenYAMM::Game::SpeechId::AttackHit,
         OpenYAMM::Game::SpeechId::AttackMiss,
@@ -861,6 +975,26 @@ TEST_CASE("merged character presentation-only reactions have no speech sounds")
         OpenYAMM::Game::SpeechId::SkillLearned,
         OpenYAMM::Game::SpeechId::SkillMasteryIncreased,
         OpenYAMM::Game::SpeechId::JoinedGuild,
+        OpenYAMM::Game::SpeechId::LevelUp,
+        OpenYAMM::Game::SpeechId::Yes,
+        OpenYAMM::Game::SpeechId::DamagedParty,
+        OpenYAMM::Game::SpeechId::ShopIdentify,
+        OpenYAMM::Game::SpeechId::ShopRepair,
+        OpenYAMM::Game::SpeechId::AlreadyIdentified,
+        OpenYAMM::Game::SpeechId::WrongShop,
+        OpenYAMM::Game::SpeechId::BegFail,
+        OpenYAMM::Game::SpeechId::Threat,
+        OpenYAMM::Game::SpeechId::ThreatFail,
+        OpenYAMM::Game::SpeechId::BribeFail,
+        OpenYAMM::Game::SpeechId::NpcDontTalk,
+        OpenYAMM::Game::SpeechId::TavernPacksFull,
+        OpenYAMM::Game::SpeechId::TavernDrink,
+        OpenYAMM::Game::SpeechId::TavernGotDrunk,
+        OpenYAMM::Game::SpeechId::CheatedDeath,
+        OpenYAMM::Game::SpeechId::InPrison,
+        OpenYAMM::Game::SpeechId::Awaken,
+        OpenYAMM::Game::SpeechId::DrinkPotion,
+        OpenYAMM::Game::SpeechId::Tired,
     }};
 
     for (OpenYAMM::Game::SpeechId speechId : portraitOnlySpeechIds)

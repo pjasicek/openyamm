@@ -1,0 +1,3 @@
+Saved all four images in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m226_claude/references_head): front, three-quarter, right profile and back.
+
+Generated with the built-in tool; verified native 1254 × 1254 RGBA with true transparency, without resizing. Raw returns, prompts, input hashes and selection records are saved. Minor alpha-edge artifacts are documented.

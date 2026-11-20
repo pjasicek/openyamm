@@ -1,0 +1,136 @@
+# MM9 side quest "Convince the Dook to leave Guberland" (guide: Side quests, Guberland side quests,
+# convince-the-dook-to-leave-guberland; tools/mm9_site/story/side_b.yml). Played from a new game in Guberland City:
+# no story state is needed (Markel's "Is there anything we can do for you?" only forbids keys 64 and 40, the council).
+# Markel the Great (actor 13, RUDE 127) in his palace gives the errand (key 64). The party leaves the city by its gate
+# (placed beside it), is placed by Dook's Castle's gate in the Guberland region, enters, and walks the castle (a
+# dungeon) up the central corridor and the west corridor into the throne room: the Dook's militia is friendly and
+# stands still, so the route weaves round each guard (none is hurt; the alarm's map variable Hostile stays 0). The
+# Dook (actor 16, RUDE 415) is threatened ("Well there's always the sword.", "Yes.", "Then leave."; key 65). The
+# party walks back out, returns to Markel ("The Dook is finished.", "We.."; key 66) and his talk's close pays
+# (key 168: 12 500 experience, 3 000 gold; guberlandcity.lua handler 50815). Research: prep/B_guberland_frosgard_honk.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py convince_the_dook
+id: mm9.side_quests.convince_the_dook_to_leave_guberland
+title: "MM9 side quest: Convince the Dook to leave Guberland (Markel the Great, the Dook)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: guberlandcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - assert: {map: guberlandcity.blv, gold: 10000, qbit_clear: [90064, 90065, 90066, 90138, 90168]}
+
+  # Markel the Great in the hall in the middle of the city.
+  - set_pose: {map: guberlandcity.blv, x: -2722, y: -9175, z: 23, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "Is there anything we can do for you?"}
+  - select_topic: {match_label: "What would you have us do?"}
+  - select_topic: {match_label: "We shall get rid of him for you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90064], qbit_clear: [90065, 90066]}
+
+  # Out of the city by its gate (ExitTrigger0, north end), then to Dook's Castle's gate in the region (ExitTrigger0).
+  - set_pose: {map: guberlandcity.blv, x: -655, y: -600, z: -9, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -655, y: -41, z: -9, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberland.blv}
+  - set_pose: {map: guberland.blv, x: -13341, y: 16700, z: 121, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -13341, y: 17189, z: 121, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: dookscastle.blv}
+
+  # The castle walked: up the gate hall's flights into the central corridor (planned), then round the guards (2 at
+  # (0, 4588), 1 at (-41, 5366), the sleepers by the walls at x +-205, 12 at the crossing, 10 before the throne room's
+  # door, 13 and 0 in its aisle) to the Dook at the apse. The guards wander (MM9's aimless wander) but none is hurt.
+  # The walk opens the throne room's double door itself when it stops at it (event 105, "it reacted").
+  - walk_to:
+      x: -2400
+      y: 9950
+      z: 513
+      radius: 120
+      z_tolerance: 200
+      timeout_seconds: 180
+      via: [[-10, 4000, 410], [-160, 4250, 410], [-160, 5520, 410], [0, 5640, 410], [0, 6750, 410],
+            [-2470, 6750, 410], [-2470, 8400, 410], [-2250, 8800, 410], [-2250, 9700, 410]]
+  - play_lua:
+      source: |
+        if mapvar("Hostile") ~= 0 then error("the Dook's guards turned hostile on the way in") end
+        log("the throne room reached; the guards are still friendly")
+
+  # The Dook: Markel's message, then the threat of the sword.
+  - interact_actor: {actor_index: 16}
+  - select_topic: {match_label: "We've been sent by Markel the Great."}
+  - select_topic: {match_label: "He wants you to leave."}
+  - select_topic: {match_label: "Well there's always the sword."}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "Then leave."}
+  - select_topic: {match_label: "Make it quick."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90064, 90065], qbit_clear: [90066, 90138]}
+
+  # Back out to the gate (ExitTrigger0, just south of the arrival point). The throne room's double door has shut
+  # behind the party (3 s): the party faces it, opens it with the use key (event 105) and passes, then threads the
+  # central corridor between guard 1 and the woken sleepers 43-46. A wandering guard that walks into the party stays
+  # against it (MM9's wander turns only 15-90 degrees after an obstacle); walk_to goes round a friendly actor in its
+  # way, waits for it or backs off, as a player would (2026-11-09; a hand-tuned 10 s wait here before that).
+  - walk_to: {x: -2620, y: 8260, z: 410, radius: 40, timeout_seconds: 60, via: [[-2250, 9700, 410], [-2250, 8800, 410], [-2620, 8600, 410]]}
+  - advance_runtime: {seconds: 1}
+  - press_interact: {}
+  - advance_runtime: {seconds: 1.5}
+  - walk_to:
+      x: 0
+      y: 1100
+      z: 0
+      timeout_seconds: 180
+      expect: dialog
+      via: [[-2600, 7400, 410], [-2560, 6750, 410], [40, 6750, 410], [40, 5500, 410], [100, 4200, 410]]
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberland.blv}
+
+  # Back into Guberland City (ExitTriggerGuberland) and to Markel.
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+  - set_pose: {map: guberlandcity.blv, x: -2722, y: -9175, z: 23, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "The Dook is finished."}
+  - select_topic: {match_label: "We.."}
+  - select_topic: {match_label: "Thanks."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  # The close pays: key 168, 12 500 experience (MM9's 40 000 on the rework's profile), 3 000 gold.
+  - assert:
+      qbit_set: [90065, 90066, 90168]
+      gold: 13000
+      runtime_event_variable: {id: 13, member_index: 0, value: 12500}
+  - interact_actor: {actor_index: 13}
+  - assert: {dialog: {active: true, source_id: 127, action_label_absent: "The Dook is finished."}}
+  - press_action: {action: cancel_dialog}

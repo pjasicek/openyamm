@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png (image 3), using design_reference.png (image 1) as material/detail reference and icon_x8.png (image 2) as colour reference only; magenta is background. Output ONE transparent PNG 1536x2048, 3:4. Preserve exactly the guide's object positions, sizes, outlines, gaps and openings. Three columns by FOUR rows of 512x512 cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat the same five views. Paint grey objects only; never redraw, enlarge, move or redesign. Object is the rolled parchment Lich Instructions scroll shown in references, warm aged cream parchment with orange-brown binding around its middle. Rows 1-2 PAINT: unlit base colour, detailed parchment fibres, creases and rolled paper inner swirls following the design reference scaled to each orthographic view. Binding follows reference. No text. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground or outlines. Rows 3-4 MATERIAL MASK: identical silhouettes filled only with flat pure colours, no shading, texture, outlines or antialiased colour blends inside. Pure yellow #FFFF00 for matte non-metal solids including parchment/paper and matte solid binding; pure blue #0000FF for any cloth, cords, ribbons or hair; pure red #FF0000 for any metal. Every silhouette pixel gets exactly one of these colours. Do not invent metal or cloth details. Everything outside silhouettes and every original gap/opening stays fully transparent. Column 3 rows 2 and 4 remain empty. This is a precisely aligned texture projection atlas, not a presentation illustration. Preserve guide geometry, including its narrow protruding paper edges and end views.\nCRITICAL CORRECTION: The previous attempt had scattered yellow/red pixels outside the objects and enlarged end silhouettes. Start from the original guide again. Absolutely no scattered paint or edge debris. Copy its alpha silhouette exactly. Bottom two rows must be perfectly solid uniform #FFFF00 silhouettes (all this scroll is matte non-metal solid), with NO internal lines, circles, binding outlines, gradients or texture. Keep the circular end faces exactly the guide diameter and preserve the thin paper tails. The upper colour views must also remain strictly clipped to the original guide silhouettes.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0e-4fdf-7400-8b53-6cf23fba4452/exec-0bf0dcf8-c4a6-4f7d-a6c0-5f44d5211266.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10245/design_reference.png",
+      "sha256": "29d1211c921ac96f3afdea7cadbc0c597117aa97469f5095b02fdbbe1e33bb28"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10245/icon_x8.png",
+      "sha256": "31d917fca62e9de551235c136d44562b16c26fa743ef4d8fcf97209467d2e9cd"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10245/paint_mask_guide.png",
+      "sha256": "842a288c04656d9d012ff4b5c107db20cf9247c5448d87d856403d6005f70183"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10245/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: layout retained, but stray edge pixels and non-flat mask remain; raw output preserved without modification."
+}

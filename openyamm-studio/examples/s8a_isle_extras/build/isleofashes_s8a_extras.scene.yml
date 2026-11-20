@@ -1,0 +1,70 @@
+format_version: 1
+kind: indoor_scene_overlay
+source:
+  geometry_file: isleofashes.blv
+  notes: "Written by oymap build from the Map Studio project \"s8a_extras\". Change the project, not this file."
+ladders:
+  - id: s8a_wall
+    bottom: [1324, 3310, 656]
+    top: [1324, 3310, 998]
+    facing_degrees: 90
+    width: 96
+    reach: 48
+    top_exit: [1324, 3440, 998]
+    grab_at_top: true
+authored_content:
+  actors:
+    - name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 11
+      hostility_type: 0
+      monster_info_id: 9183
+      monster_id: 59
+      radius: 19
+      height: 90
+      move_speed: 192
+      position:
+        x: 1800
+        y: 3500
+        z: 987
+      initial_yaw_units: 1024
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 0
+      ally: 0
+      unique_name_index: 0
+  sprite_objects:
+    - sprite_id: 2
+      object_description_id: 1
+      position:
+        x: 1450
+        y: 3450
+        z: 995
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 1
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: 1450
+        y: 3450
+        z: 995
+      raw_containing_item_hex: "010000000000000000000000000000000000000000000000000000000000000000000000"

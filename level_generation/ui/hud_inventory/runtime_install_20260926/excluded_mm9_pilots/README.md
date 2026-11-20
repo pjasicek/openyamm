@@ -1,0 +1,1 @@
+Intermediate copies from the interrupted consolidation preflight. Explicit earlier MM9 exclusion takes precedence; these are NOT accepted by this transaction and were NEVER installed. Preserved for audit only.

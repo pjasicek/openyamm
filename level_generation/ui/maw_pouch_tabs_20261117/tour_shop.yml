@@ -1,0 +1,24 @@
+output_dir: captures
+exit: true
+steps:
+- wait: 3
+- console: item give 222 40 20
+- console: item give 200 14
+- console: lua evt.EnterHouse(110)
+- wait: 2.5
+- click: [1237, 490]
+- wait: 1.0
+- click: [852, 22]
+- wait: 0.6
+- click: [1237, 413]
+- wait: 0.8
+- pointer_move: [344, 95]
+- wait: 0.6
+- capture: s05-sell-hover
+- click: [344, 95]
+- wait: 0.6
+- click: [373, 95]
+- wait: 0.6
+- pointer_move: [700, 400]
+- wait: 0.4
+- capture: s06-sold-two

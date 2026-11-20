@@ -39,9 +39,25 @@ public:
         const std::filesystem::path &basePath,
         const std::string &mapFileName
     ) const;
+    // Builds every actor model binding of the active world's actors.yml (or of every mounted world's with all) with the
+    // game's own loader and binding rules, prints each refusal and returns 1 when one fails: headless scenarios load no
+    // models, so a refused GLB passes them and breaks maps only on the desktop.
+    int runValidateActorModels(
+        const std::filesystem::path &basePath,
+        bool allWorlds
+    ) const;
     int runDumpOutdoorNavigation(
         const std::filesystem::path &basePath,
         const std::string &mapFileName
+    ) const;
+    // Plans a walking monster's path between point pairs on an indoor map's monster path map (barriers included) and
+    // writes each pair's plan status: a converter's check that the path map joins what MM9's AI rails join. The pairs
+    // file: {object: {radius, height}, pairs: [{id, from: [x, y, z], to: [x, y, z]}]}, feet positions.
+    int runCheckIndoorReachability(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        const std::filesystem::path &pairsPath,
+        const std::filesystem::path &outputPath
     ) const;
     // Writes the map's 3D decoration placements as the game places them (decorations.yml), for the lighting bake:
     // per model its asset path, and per placement the decoration entity index and the asset-to-world matrix.

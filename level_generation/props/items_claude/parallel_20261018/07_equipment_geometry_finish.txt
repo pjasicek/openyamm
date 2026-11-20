@@ -1,0 +1,60 @@
+Finish the 13 deferred equipment geometry items
+
+This is the geometry half of a two-session finish. Worker: equipment_geometry_finish.
+Project: level_generation/props/items_wip_equipment_geometry_finish
+Ownership: level_generation/props/items_wip_equipment_geometry_finish/ownership.json
+
+This document supersedes the 95-icon scope in 01_equipment.txt for THIS worker. Do not rerun the original full assignment. You own exactly the 13 icons below. The original equipment session owns the nine paint/bake failures and final integration.
+
+Read AGENTS.md, GROUND_ITEMS_3D_PLAN.md, level_generation/props/items_claude/GROUND_ITEM_3D_PLAYBOOK.md and level_generation/GAME_ASSET_MODELLING_GUIDELINES.md. Read the imagegen skill before any image generation. Honor the current playbook and authentic inventory-icon materials.
+
+Current state and starting evidence
+
+The previous pass already produced 83 HD masters/Meshy shapes and painted guides for all 95 icons. Exactly 415/415 approved Meshy credits were consumed. No additional paid Meshy generation or retries are authorized. Repair the existing meshes locally first; a new paid job requires a concrete additional budget approval. Do not repeat generation just because a model was deferred.
+
+The prior project is level_generation/props/items_wip_equipment. Treat that entire project as READ-ONLY: its ledger, scripts, manifests, scenes, generated artwork, receipts and Meshy progress are owned by the coordinator. Read its README.md, ledger.json, review/visual_decisions.json and the per-icon review/codex_tex/equipment_<icon>_{above,three_quarter,low,front,back}.png images. Every entry in your ownership.json gives the original scene, painted-view folder, geometry source, failure and baseline hashes.
+
+Prepared scenes are work/codex_tex/equipment_<icon>.blend in that prior project. Source HD masters are meshy/<source_geometry_design>/references_hd/00_three_quarter.png. Original untextured meshes are meshy/meshy/<source_geometry_design>_st_v1/model_urls_glb.glb. Inventory icons under assets_dev/engine/icons_x2/<icon>.png and the canonical merged item descriptions are authoritative references.
+
+Copy only your needed scenes, references, art and script helpers into your own project before editing. All new outputs and receipts belong there, with unique export names such as geometryfinish_<icon>_export.glb. Do not copy the entire 1.6GB project or modify the original shared equipment scripts. Own copies may be adapted; document fixes the coordinator should carry back. The reusable tools/run_creature_blender.sh already supports props/items_wip_* scripts and arguments. Use your own workspace claim/lease and isolated background processes; never reuse or change another project's claim/token.
+
+Assigned defects
+
+- 6boots1 (Old Leather Boots): Visible triangular punctures across toe leather and open one-sided cuff panels under verified back-face culling.
+- 6boots5 (Ultimate Boots): Both shafts are filled by flat leather caps near the cuff instead of deep open boot interiors; silhouette/material painting cannot fix this geometry.
+- 6boots6 (Lucius): Canonical shared boot geometry has flat caps filling both shafts near the cuff instead of deep open interiors.
+- 6boots7 (Hermes): Canonical shared boot geometry has flat caps filling both shafts near the cuff instead of deep open interiors.
+- 7item348 (Moon Cloak): The defining raised crescent-moon clasp is missing from the mesh; a painted mark cannot replace its real brooch geometry.
+- item124 (Alvar Cloak): Folded cloak becomes a tall hollow hood/tunnel with a broad flat inner patch rather than the low leather fold stack in the source.
+- item125 (Necromancer Cloak): Rolled fold remains a stiff open tunnel of angular overlapping sheet walls; the source depicts soft low leather folds and strapped buckles.
+- 6crown1 (Wreath Crown): Foliage forms a near-planar partial arc instead of a complete volumetric wreath; missing rear band/leaf volume remains after painting.
+- 6hat1 (Cloth Hat): Crown/fold rises as stiff pointed fins and the brim/band has broad open gaps; it does not reproduce the soft folded feather cap.
+- 6hat3 (Wizard Cap): Tall straight conical source becomes a strongly slouched cone; small triangular fabric punctures remain beside the hatband under culling.
+- 7item095 (Traveller's Hat): The beret has transparent triangular tears beside the crown/button and rim under verified culling.
+- 7item096 (Fancy Hat): Large transparent triangular tears break the turban crown and gathered fabric; baseline retained.
+- 7item344 (Shadow's Mask): One eye opening is capped by leather while the other is open, and strap sections disappear under culling; eye-mask topology remains incomplete.
+
+6boots5/6boots6/6boots7 have identical original icon pixels and genuinely share equipment_6boots5 geometry. Repair their shaft interiors once, then export each owned icon with its original binding length. Do not extend reuse merely because two items occupy the same slot. The 13 icons represent 11 geometry sources.
+
+Finish requirements
+
+Deliver complete repaired, textured models for these 13 icons, not only grey meshes. Preserve faithful silhouettes, physical thickness, smooth plausible leather/fabric folds, deep open boot shafts and a footprint-centred resting pose with the lowest point at zero. The Moon Cloak needs real crescent clasp geometry; painting a crescent onto a flat fold does not satisfy it. Restore the wreath's full ring and leaf volume. Repair the mask's two actual eye openings and continuous strap surfaces.
+
+Changing geometry invalidates its old exact-guide registration. Generate new guides/UVs where needed, then repaint and bake onto those exact guides. Reuse old paintings only after demonstrating correct registration. Preserve original generated image bytes and provenance. Metal, leather, cloth, horn/wood and gems need correct separate masks/materials; do not use one metallic value across mixed equipment or conceal holes with double-sided rendering. Interior surfaces must receive appropriate albedo and material classes.
+
+Review every result beside its icon, from above and low three-quarter, plus front/back views with verified back-face culling. The previous equipment review helper uses an explicit Geometry.Backfacing/Transparent shader because Cycles ignores material.use_backface_culling alone. Its check_review_culling.py and material/bake self-checks are useful references. Inspect actual PBR exports, winding, finite attributes, UVs, embedded texture references and triangle counts. Use silhouette-appropriate budgets, normally 1,500–3,200 triangles for complex equipment, lower for simple pieces. Keep representative native indoor/outdoor evidence; no engine changes or builds are part of this repair job.
+
+Installation and strict separation
+
+Only after acceptance, install an assigned icon individually:
+python3 tools/install_model.py <your-unprocessed-export.glb> --world-items --name item_<icon>.glb
+
+The installer serializes shared cooking. Preserve existing binding lengths. First verify that the current source/runtime model matches the baseline hashes in your ownership.json; if another session changed it, preserve that work and report the collision rather than overwriting it. Keep the baseline installed until a replacement passes. Do not install a family or run a global cook. Never copy cooked runtime GLBs back into assets_source.
+
+Do not edit shared assets_dev/engine/world_items/items.yml, item tables, engine code, package rules, settings, the old equipment project, or another worker's files. Record recommended final bounds and any scale concerns in YOUR handoff.json for the coordinator. No staging, commits, stashes, resets, release promotion or subagents.
+
+The coordinator exclusively owns these OTHER icons: 7item347, item260, 6helm4, 6helm5, 7item098, 7item241, item115, item256, 7item119. All 18 gauntlets belong to the concurrent amulets/gauntlets job and must remain untouched. All already accepted models and the original six KEEP designs remain untouched.
+
+Deliverables: your own per-icon ledger, source/runtime/export hashes, repaired .blend scenes, exact guides, original paint/mask outputs and receipts, reviewed unprocessed exports, icon/above/low comparisons, native captures, and handoff.json with final decisions and bounds recommendations. If an item still cannot pass after a reasonable local repair, retain its baseline and give a concrete unresolved reason. Report your results to the user; the original equipment session aggregates them. Do not edit its aggregate ledger yourself.
+
+Coordinator baker correction (2026-10-18): current items_wip_equipment/scripts/codex_texture.py restricts UV barycentric samples to >= -1e-8. The older -0.02 tolerance projected gutter points outside the actual mesh and caused false material-mask coverage failures. Carry this correction into an older local script copy; gutters are filled separately. The coordinator also added optional reviewed per-face material classes and a regression in check_mask_bake.py. Keep all edits in your own project.

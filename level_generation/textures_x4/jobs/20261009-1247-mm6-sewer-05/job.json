@@ -1,0 +1,630 @@
+{
+ "id": "20261009-1247-mm6-sewer-05",
+ "world": "mm6",
+ "maps": [
+  "sewer.blv"
+ ],
+ "created": "2026-10-09T10:48:30+00:00",
+ "textures": [
+  "mm6/swprrf3",
+  "mm6/d1wcntr",
+  "mm6/d7flor4",
+  "mm6/d1wle",
+  "mm6/hvflora",
+  "mm6/swpcnr3",
+  "mm6/swpend2a",
+  "mm6/swcirc2",
+  "mm6/d1smbw",
+  "mm6/hvwl5a",
+  "mm6/swall5",
+  "mm6/swpend3a",
+  "mm6/d1lggrt",
+  "mm6/d1wlbre1",
+  "mm6/d1wlble1",
+  "mm6/hvceila",
+  "mm6/bd1rail",
+  "mm6/cbedsqr",
+  "mm6/d1trimre",
+  "mm6/swpcnr2",
+  "mm6/qtextle1",
+  "mm6/bd1ftbrsd",
+  "mm6/d8dora",
+  "mm6/d5dorsma"
+ ],
+ "requests": {
+  "mm6/swprrf3": {
+   "name": "swprrf3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark wet mossy green-black sewer stone with slimy algae patches",
+   "notes": {}
+  },
+  "mm6/d1wcntr": {
+   "name": "d1wcntr",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-ochre stacked sandstone bricks with dark mortar",
+   "notes": {}
+  },
+  "mm6/d7flor4": {
+   "name": "d7flor4",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rust-brown terracotta floor tiles each stamped with a dark triangular rune emblem",
+   "notes": {}
+  },
+  "mm6/d1wle": {
+   "name": "d1wle",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-ochre stacked sandstone bricks with dark mortar",
+   "notes": {}
+  },
+  "mm6/hvflora": {
+   "name": "hvflora",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey and copper hexagonal stone floor tiles with orange rust patina",
+   "notes": {}
+  },
+  "mm6/swpcnr3": {
+   "name": "swpcnr3",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "rough dark brown earth wall inside a weathered grey timber frame with iron brackets",
+   "notes": {}
+  },
+  "mm6/swpend2a": {
+   "name": "swpend2a",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark mossy brown rock and roots overgrown with green slime inside a weathered timber frame",
+   "notes": {}
+  },
+  "mm6/swcirc2": {
+   "name": "swcirc2",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "green-grey stone floor with four blue slate quarter-circle panels meeting at a central cross of pale grooves",
+   "notes": {
+    "3": "Fine new stone texture; keep the exact geometry of circles and grooves."
+   },
+   "ref_blur": {
+    "3": 1.6
+   }
+  },
+  "mm6/d1smbw": {
+   "name": "d1smbw",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-ochre sandstone bricks with dark mortar",
+   "notes": {}
+  },
+  "mm6/hvwl5a": {
+   "name": "hvwl5a",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "glossy purple and violet organic veined membrane like twisted crystal tendrils",
+   "notes": {}
+  },
+  "mm6/swall5": {
+   "name": "swall5",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark teal-blue stone bricks with fine dark mortar",
+   "notes": {}
+  },
+  "mm6/swpend3a": {
+   "name": "swpend3a",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough dark brown earth wall in two bays framed by weathered grey timber posts with iron brackets",
+   "notes": {}
+  },
+  "mm6/d1lggrt": {
+   "name": "d1lggrt",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "round black iron sewer grate set in a ring of brown stone bricks with green slime below",
+   "notes": {}
+  },
+  "mm6/d1wlbre1": {
+   "name": "d1wlbre1",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brown-ochre stacked sandstone brick wall with a stone pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d1wlbct1"
+     ],
+     "fraction": 0.671
+    }
+   }
+  },
+  "mm6/d1wlble1": {
+   "name": "d1wlble1",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     640,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brown-ochre stacked sandstone brick wall with a stone pilaster on the left edge",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d1wlbct1"
+     ],
+     "fraction": 0.709
+    }
+   }
+  },
+  "mm6/hvceila": {
+   "name": "hvceila",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "glossy teal and pale silver-blue organic veined membrane like twisted crystal tendrils",
+   "notes": {}
+  },
+  "mm6/bd1rail": {
+   "name": "bd1rail",
+   "reference": {
+    "pad": [
+     16,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     512
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "carved red-brown wooden bed rail with dark ornamental relief panels",
+   "notes": {}
+  },
+  "mm6/cbedsqr": {
+   "name": "cbedsqr",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "polished orange-brown pine wood planks with straight grain and small knots",
+   "notes": {
+    "4": "No dark line along the left edge; the plank tone changes there without any seam line."
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/d1trimre": {
+   "name": "d1trimre",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small brown-ochre sandstone trim block",
+   "notes": {}
+  },
+  "mm6/swpcnr2": {
+   "name": "swpcnr2",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark mossy brown rock and roots overgrown with green slime",
+   "notes": {}
+  },
+  "mm6/qtextle1": {
+   "name": "qtextle1",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red and yellow woven textile with a small diamond pattern",
+   "notes": {}
+  },
+  "mm6/bd1ftbrsd": {
+   "name": "bd1ftbrsd",
+   "reference": {
+    "pad": [
+     19,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     691,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark carved red-brown wooden bedpost with a deeply cut twisting double-helix rope relief on a near-black recessed background",
+   "notes": {
+    "2": "Keep it dark like the reference; no berries, leaves or added ornament.",
+    "3": "Keep it dark like the reference; no berries, leaves or added ornament."
+   }
+  },
+  "mm6/d8dora": {
+   "name": "d8dora",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "heavy grey carved stone door slab with a recessed relief border and a small barred square window",
+   "notes": {}
+  },
+  "mm6/d5dorsma": {
+   "name": "d5dorsma",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark green lacquered door with a diamond lattice of brass rivets and a brass-studded frame",
+   "notes": {}
+  }
+ }
+}

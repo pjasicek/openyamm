@@ -1,0 +1,3 @@
+Saved all five views, raw returns, [contact sheet](level_generation/creatures/mm7_m430_claude/references_head/selected_views_review.png), and [generation records with prompts](level_generation/creatures/mm7_m430_claude/references_head/generation_runs.json) using built-in image generation.
+
+The brief is not fully met: despite one correction per view, outputs are **1254 × 1254**, preserved unresized with true transparency. Slight profile obliqueness and edge artefacts are documented.

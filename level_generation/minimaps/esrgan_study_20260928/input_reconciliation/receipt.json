@@ -1,0 +1,173 @@
+{
+  "schema": "openyamm-icon-input-reconciliation-v1",
+  "frozen_manifest_sha256": "556cb53d1cf2f884caac46a02682957c0890ad99263ddaf3066537f397929285",
+  "previous_reconciliation": {
+    "path": "level_generation/ui/hud_inventory/hud_facemask_removal_20260927/input_reconciliation.json",
+    "sha256": "aa73b16e2a8377ccef626b93abc0fd84bc8a1d79c2e0752f6939470d385e9667"
+  },
+  "inputs": {
+    "assets_dev/engine/data_tables/chest_data.txt": {
+      "frozen_sha256": "58b2b6a694a253bd5c18c245a8fbe65be96962e5fd4d679b0bfee9ccb3d12f85",
+      "current_sha256": "ca552e695589f345d9069ece484219dc92001695a94118d578166fbac06f3cb7",
+      "before_snapshot": "level_generation/ui/hud_inventory/input_reconciliation_20260927/before/chest_data.txt",
+      "current_snapshot": "level_generation/ui/hud_inventory/input_reconciliation_20260927/current/chest_data.txt",
+      "changes": [
+        {
+          "row": "1",
+          "field": "GridOffsetX",
+          "before": 18,
+          "after": 42
+        },
+        {
+          "row": "2",
+          "field": "GridOffsetX",
+          "before": 18,
+          "after": 42
+        }
+      ]
+    },
+    "assets_dev/engine/ui/gameplay/character.yml": {
+      "frozen_sha256": "3d1a8109d2865e666dddabf6018fe34b2b8a7647fd4125dcaec0f66ebf159c31",
+      "current_sha256": "1e1b92dd61de67853197046fa54004970dbe003b5dc3e578ce59c230fe8dc341",
+      "before_snapshot": "level_generation/ui/hud_inventory/input_reconciliation_20260927/before/character.yml",
+      "current_snapshot": "level_generation/ui/hud_inventory/input_reconciliation_20260927/current/character.yml",
+      "changes": [
+        {
+          "element": "CharacterInventoryGrid",
+          "field": "offset_x",
+          "before": 5,
+          "after": 7
+        },
+        {
+          "element": "CharacterInventoryGrid",
+          "field": "offset_y",
+          "before": 6,
+          "after": 8
+        }
+      ]
+    },
+    "assets_dev/engine/ui/gameplay/chest.yml": {
+      "frozen_sha256": "7b0b102505b860a8c37b263bc5b28771b8388fecd50359b87e92a8c840ddf68a",
+      "current_sha256": "131ec7d7ae1c01fd1920aee63c3bed13aa4392b08a7cb26beaab3d32ab6a6ea2",
+      "before_snapshot": "level_generation/ui/hud_inventory/input_reconciliation_20260927/before/chest.yml",
+      "current_snapshot": "level_generation/ui/hud_inventory/input_reconciliation_20260927/current/chest.yml",
+      "changes": [
+        {
+          "element": "ChestNestedInventoryGrid",
+          "field": "offset_x",
+          "before": 5,
+          "after": 7
+        },
+        {
+          "element": "ChestNestedInventoryGrid",
+          "field": "offset_y",
+          "before": 6,
+          "after": 8
+        }
+      ]
+    },
+    "assets_dev/engine/ui/gameplay/gameplay.yml": {
+      "frozen_sha256": "286143cf4da7b8ff768e9980593e5ab4a55d0526cb96cda364d330b494815b46",
+      "current_sha256": "877ccf760126d7f52c2501a3ef15255eed793613f5f34910310de902aaa5a6fe",
+      "before_snapshot": "level_generation/ui/hud_inventory/hud_facemask_removal_20260927/before/gameplay.yml",
+      "current_snapshot": "level_generation/ui/hud_inventory/hud_facemask_removal_20260927/current/gameplay.yml",
+      "changes": [
+        {
+          "element": "OutdoorPartyStrip",
+          "field": "asset.default",
+          "before": "FACEMASK",
+          "after": null
+        },
+        {
+          "element": "OutdoorStandardPartyStrip",
+          "field": "asset.default",
+          "before": "FACEMASK",
+          "after": null
+        },
+        {
+          "element": "OutdoorGameplayPartyStrip",
+          "field": "asset.default",
+          "before": "FACEMASK",
+          "after": null
+        }
+      ]
+    },
+    "assets_dev/engine/ui/gameplay/character_creation.yml": {
+      "frozen_sha256": "1374690555f756f10762c0292a060bfb1bcf11a0921cf45ba09a89c6dc240c6f",
+      "current_sha256": "b8ca6ee84ca23a495d13f5681215c0c5a2d0924dcc288a3f3568996614015d76",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/ui/gameplay/character_creation.yml",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/ui/gameplay/character_creation.yml",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/ui/gameplay/continent_selection.yml": {
+      "frozen_sha256": "138d7a03747517209f43110d63ba3db5df521c7aea584db5267f1f8530e160e7",
+      "current_sha256": "6193ce7f43abd0d619a227510c63fa5437f1e0325759209713cb0cd0f18d482a",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/ui/gameplay/continent_selection.yml",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/ui/gameplay/continent_selection.yml",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/ui/gameplay/load_game.yml": {
+      "frozen_sha256": "2612250209baf1c111385e692d057e2f7e1875ccea58366fde879fa39feacde8",
+      "current_sha256": "939ce383bb3970e5ecf37d3c62ebf575cd192a8042cf88a1d5b0310e5242f977",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/ui/gameplay/load_game.yml",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/ui/gameplay/load_game.yml",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/ui/gameplay/menu.yml": {
+      "frozen_sha256": "d6fd500c85d39c7c37ad7ff76370446cfa196adcec8abe66a419890dfbd56dfd",
+      "current_sha256": "1e1021daec4db1eaf8ff61b0e37989dc63fc9ea16e20bc18f6be0cde25a86bb4",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/ui/gameplay/menu.yml",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/ui/gameplay/menu.yml",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/ui/gameplay/save_game.yml": {
+      "frozen_sha256": "e617713d195c27c4d96ec5d558d29fe109e4a1a38f0740ad0afa68fb4d79efa7",
+      "current_sha256": "805b4b1faa039b283eeaf90d87b93cf5286423c9585bad5693db16c1580afe7f",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/ui/gameplay/save_game.yml",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/ui/gameplay/save_game.yml",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/ui/menu/main_menu.yml": {
+      "frozen_sha256": "02c0157db363427d9bafb2afe29296b80021f6a570d0f67b3a982e208a0aab21",
+      "current_sha256": "5ad761e42994e42fc2f29b07bfda997480cf7cc1dcefbddb1caf5d28a66583bf",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/ui/menu/main_menu.yml",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/ui/menu/main_menu.yml",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf": {
+      "frozen_sha256": "73f50d3b00d604b0060d46e3c60b9539a9b44798ccbdd3f3d0515f26b34627e4",
+      "current_sha256": "bf70aef3b49e183b902056f8fc1892494d7222faf9666094fe0b6969440d2dab",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/fonts/truetype/openyamm_create_faithful.ttf": {
+      "frozen_sha256": "ea5e9604f527b4d3b7e951e102d4db842607c17827f508bd97c1ad198961d75c",
+      "current_sha256": "390f660984742c323cd7f33499b4bc1482cb0644b5dd80ed9c1c6f4658ed3f52",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/fonts/truetype/openyamm_create_faithful.ttf",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/fonts/truetype/openyamm_create_faithful.ttf",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    },
+    "assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf": {
+      "frozen_sha256": "013271e7d9ba0eccb1009054494bef1f8f0643fa30e0175e6f1e5a39a0f49c21",
+      "current_sha256": "e393c76771c3050bf5cc76d9b4e0901f6786db908264f035d18cad84456f8369",
+      "before_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/before/assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf",
+      "current_snapshot": "level_generation/minimaps/esrgan_study_20260928/input_reconciliation/current/assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf",
+      "changes": "Independent menu/font revision retained; historical icon artwork remains accepted."
+    }
+  },
+  "instruction": "ok then remove it from the hud",
+  "reason": "Explicitly record independently updated Obsidian menu layouts and recreated fonts; retain frozen icon art catalog.",
+  "audit": "Six menu YAMLs now bind hud_x2/menus assets; three existing faithful-font files changed. These presentation inputs do not alter native minimap pixels, icon target canvases, equipment offsets or current accepted image bytes. No runtime inputs were edited by this reconciliation.",
+  "newly_reconciled_inputs": [
+    "assets_dev/engine/ui/gameplay/character_creation.yml",
+    "assets_dev/engine/ui/gameplay/continent_selection.yml",
+    "assets_dev/engine/ui/gameplay/load_game.yml",
+    "assets_dev/engine/ui/gameplay/menu.yml",
+    "assets_dev/engine/ui/gameplay/save_game.yml",
+    "assets_dev/engine/ui/menu/main_menu.yml",
+    "assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf",
+    "assets_dev/engine/fonts/truetype/openyamm_create_faithful.ttf",
+    "assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf"
+  ]
+}

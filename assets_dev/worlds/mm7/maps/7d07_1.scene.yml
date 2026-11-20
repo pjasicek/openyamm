@@ -1,0 +1,26 @@
+# Thunderfist Mountain: half of the lava floors killed the whole party on each step (event 451); the other half
+# already had the Lava flag.
+# They are now native lava, as in MM8: the overrides below add the Lava flag (0x40000000) and drop the step
+# trigger (0x04000000), so the floors burn every second like any lava and Levitate protects. The event stays
+# bound; a save that already holds this map keeps its saved face flags, and so the scripted lava, until the map
+# resets.
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "7d07.blv"
+initial_state:
+  face_attribute_overrides:
+    - face_index: 2754
+      legacy_attributes: 0xc0000110
+    - face_index: 2755
+      legacy_attributes: 0xc0000110
+    - face_index: 2756
+      legacy_attributes: 0xc0000110
+    - face_index: 2757
+      legacy_attributes: 0xc0000110
+    - face_index: 2758
+      legacy_attributes: 0xc0000110
+    - face_index: 2759
+      legacy_attributes: 0xc0000110
+    - face_index: 2760
+      legacy_attributes: 0xc0000110

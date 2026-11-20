@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_ghost_claude/references_hd/00_three_quarter.png), unresized at 1024×1536, using built-in image generation. Both raw returns, prompts, and input hashes are recorded in [generation_runs.json](level_generation/creatures/mm9_ghost_claude/references_hd/generation_runs.json).
+
+Stopped after run 1. The allowed correction failed to remove the halo and partial opacity; selected the better first return and documented these residual faults.

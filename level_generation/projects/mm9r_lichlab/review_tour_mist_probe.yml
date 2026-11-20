@@ -1,0 +1,60 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_lichlab/review/mist_probe_farclip
+settle_seconds: 1.5
+exit: true
+shots:
+- name: u10_atrium_windows
+  position:
+  - -5094
+  - 6226
+  - 1312
+  yaw: 0.0
+  pitch: -0.2094
+- name: u16_ring_atrium
+  position:
+  - -5094
+  - 4096
+  - 1312
+  yaw: 0.0
+  pitch: 0.0
+- name: t01_kitchen
+  position:
+  - 154
+  - 3328
+  - 1
+  yaw: 0.9237
+  pitch: 0.0
+- name: t02_engine_crown
+  position:
+  - -4352
+  - 6226
+  - 2377
+  yaw: 0.0
+  pitch: 0.0
+- name: g01_cross_hall
+  position:
+  - -1720
+  - 3712
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: g02_cross_hall_east
+  position:
+  - 768
+  - 6226
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: b01_engine_hall
+  position:
+  - -3840
+  - 3584
+  - -654
+  yaw: 0.8946
+  pitch: 0.0
+- name: b02_engine_pods
+  position:
+  - -2816
+  - 5120
+  - -654
+  yaw: 0.79
+  pitch: 0.0

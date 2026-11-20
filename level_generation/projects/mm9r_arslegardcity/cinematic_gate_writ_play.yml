@@ -1,0 +1,31 @@
+# gate_writ (WritMan.scr) played through from its real trigger: an arrival with the Writ shown (key 100) after the
+# fate scene (key 98) starts it at the third arrival poll; key 9515 at once, the peephole opens (13.7 s) and shuts
+# (18.9 s), at FadeOut2 (20.9 s) Hanndl is removed and the Great Gate (RotatingDoor0/1, movers 22/21) opens; the
+# party's view is back after 27.9 s. README "Cinematics".
+id: mm9r.arslegardcity.cinematic_gate_writ_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: arslegardcity.blv}
+- setup_shortcut: {kind: set_qbit, id: 90098}
+- setup_shortcut: {kind: set_qbit, id: 90100}
+- console: {line: cinematic list, expect_contains: gate_writ}
+- advance_runtime: {seconds: 4}
+- console: {line: cinematic list, expect_contains: playing gate_writ}
+- assert: {qbit_set: [90098, 90100, 99515]}
+- assert: {mechanism: {id: 22, state: closed}}
+- assert: {actor_visible: {actor_index: 35, hidden: false}}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 14}
+- note: {text: "Scene3 (13.7 s): the peephole opened; the gate still shut"}
+- assert: {mechanism: {id: 8, state: open}}
+- assert: {mechanism: {id: 22, state: closed}}
+- advance_runtime: {seconds: 7}
+- note: {text: "FadeOut2 (20.9 s): Hanndl removed, the gate opening; the peephole shut (Close, 18.9 s)"}
+- assert: {mechanism: {id: 8, state: closed}}
+- assert: {mechanism: {id: 22, state: opening}}
+- assert: {actor_visible: {actor_index: 35, hidden: true}}
+- console: {line: cinematic list, expect_contains: playing gate_writ}
+- advance_runtime: {seconds: 8}
+- note: {text: "after 27.9 s the party's view is back"}
+- console: {line: cinematic list, expect_contains: gate_writ}

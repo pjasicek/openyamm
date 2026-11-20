@@ -1,0 +1,74 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/review/fix01
+settle_seconds: 2.5
+exit: true
+shots:
+- name: 01_the_pass
+  position:
+  - 288
+  - -22400
+  - 1280
+  yaw: 1.57
+  pitch: 0.0873
+- name: 02_the_saddle
+  position:
+  - 288
+  - -19900
+  - 1670
+  yaw: 1.57
+  pitch: 0.0
+- name: 05_hale
+  position:
+  - -300
+  - -1900
+  - 1460
+  yaw: 2.4
+  pitch: -0.1745
+- name: 06_the_relay_spire
+  position:
+  - -9000
+  - -12384
+  - 1660
+  yaw: 3.14
+  pitch: 0.2618
+- name: 11_the_causeway
+  position:
+  - -2100
+  - 1500
+  - 1110
+  yaw: 1.57
+  pitch: 0.0
+- name: 14_aerial
+  position:
+  - 0
+  - -16000
+  - 6500
+  yaw: 1.57
+  pitch: -0.4887
+- name: 17_d05_door
+  position:
+  - -10300
+  - -12200
+  - 1768
+  yaw: -2.9869
+  pitch: 0.1117
+- name: 21_s10_nest
+  position:
+  - -6000
+  - -4300
+  - 1352
+  yaw: -2.5067
+  pitch: -0.2944
+- name: 22_egg_field_e2
+  position:
+  - 1400
+  - 13300
+  - 1608
+  yaw: 0.7453
+  pitch: -0.3586
+- name: 23_acid_lake_shore
+  position:
+  - 900
+  - -2600
+  - 968
+  yaw: 0.8535
+  pitch: -0.0487

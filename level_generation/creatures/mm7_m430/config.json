@@ -1,0 +1,611 @@
+{
+  "label": "Wight A",
+  "creature": "wight",
+  "base_palette": 111,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "true_alpha": true,
+  "preserve_delivered_rgb": true,
+  "material_edge_hue_repair": false,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m430sa0",
+    "m430sa1",
+    "m430sa2",
+    "m430sa3",
+    "m430sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original undead wight: tall thin humanoid with pale desaturated gray-green skin, gaunt skull-like bald forehead and face, black empty eye sockets, narrow nose and small closed mouth. Long straight thin silver-gray hair hangs from the sides and back of the otherwise bald head to the shoulders. Long bony pale gray-green hands with very thin fingers, no gloves. Worn dark earth-brown full-length cloth robe with broad crossed V neckline exposing only the native neck and upper chest, loose long flared sleeves with long pointed torn strips at the wrists, narrow dark brown waist cord with hanging ends, and a widely spread ragged lower hem with native holes and sharply torn points. No visible feet. Native robe has deeply shaded umber folds, muted brown-gray highlights and coarse worn fabric. Right hand holds one short straight silver dagger pointing downward in standing poses, black-brown hilt with small crossguard, and a red-stained lower blade exactly as the native artwork. Preserve the native grip, dagger length, orientation and red area without enlarging it or adding blood anywhere else. Left hand is empty, bent forward with long curled fingers in standing views. Preserve native small head, slender proportions, hair silhouette, all torn cloth strips, pale hands and dark tonal weight. Base robe MUST stay dark brown; palette variants handled offline. No hood over head, crown, armor, boots, scythe, additional weapon, added wounds, glow, smoke, effects or redesign.",
+  "materials": {
+    "regions": [
+      {
+        "name": "brown_robe",
+        "selector": "burgundy",
+        "thresholds": [
+          0.08,
+          0.15
+        ],
+        "minimum_green_over_blue": [
+          0.035,
+          0.09
+        ],
+        "palette_indices": [
+          60,
+          61,
+          62,
+          65,
+          66,
+          68,
+          69,
+          70,
+          71,
+          72,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          224,
+          225,
+          226,
+          230
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5,
+        "native_palette_spatial_support": [
+          60,
+          61,
+          62,
+          65,
+          66,
+          68,
+          69,
+          70,
+          71,
+          72,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          224,
+          225,
+          226,
+          230
+        ],
+        "support_padding": 8,
+        "minimum_warm_chroma": [
+          0.22,
+          0.3
+        ],
+        "support_enhanced_component": true,
+        "support_enhanced_components_min_pixels": 500
+      }
+    ],
+    "limitation": "Brown robe coverage approximates native cloth; dark near-neutral folds and faded highlights may only partly recolor. Skin, hair and dagger remain protected."
+  },
+  "reviewed_placement_translation_px": {
+    "m430sa0": [
+      -48,
+      0
+    ],
+    "m430sa1": [
+      -8,
+      0
+    ],
+    "m430sa2": [
+      48,
+      0
+    ],
+    "m430sa3": [
+      -48,
+      0
+    ],
+    "m430aa0": [
+      -20,
+      0
+    ],
+    "m430ab0": [
+      -28,
+      0
+    ],
+    "m430ac0": [
+      -28,
+      0
+    ],
+    "m430ad0": [
+      -24,
+      0
+    ],
+    "m430aa1": [
+      -20,
+      0
+    ],
+    "m430ab1": [
+      -36,
+      0
+    ],
+    "m430ac1": [
+      -24,
+      0
+    ],
+    "m430na0": [
+      -12,
+      0
+    ],
+    "m430nb0": [
+      -20,
+      0
+    ],
+    "m430nc0": [
+      -16,
+      0
+    ],
+    "m430nb1": [
+      -28,
+      0
+    ],
+    "m430nc1": [
+      -20,
+      0
+    ],
+    "m430nb3": [
+      -16,
+      0
+    ],
+    "m430aa3": [
+      -24,
+      0
+    ],
+    "m430ab3": [
+      -28,
+      0
+    ],
+    "m430ac3": [
+      -40,
+      0
+    ],
+    "m430ad3": [
+      -32,
+      0
+    ]
+  },
+  "clear_alpha1_border_batches": [
+    "a_4_1",
+    "n_0_0",
+    "n_0_1",
+    "n_1_0",
+    "n_1_1",
+    "n_2_0",
+    "n_2_1",
+    "n_3_0",
+    "n_3_1",
+    "n_4_0",
+    "n_4_1",
+    "fidget",
+    "death_corpse"
+  ],
+  "content_overrides": {
+    "a_3_0": {
+      "user_requested": "Restore red blade stain to match the native art and neighboring animation frames; supersedes clean-blade instruction.",
+      "frames": [
+        "m430aa3",
+        "m430ab3",
+        "m430ac3",
+        "m430ad3"
+      ],
+      "selected": "raw/a_3_0_v3.png",
+      "clean_checkpoint": "raw/a_3_0_v2.png"
+    }
+  },
+  "frame_material_recolors": {
+    "m430aa3": {
+      "selector": "red",
+      "thresholds": [
+        0.7,
+        0.85
+      ],
+      "rgb_matrix": [
+        [
+          1.55,
+          0,
+          0
+        ],
+        [
+          0,
+          0.65,
+          0
+        ],
+        [
+          0,
+          0,
+          0.65
+        ]
+      ],
+      "bounds_px": [
+        336,
+        195,
+        415,
+        254
+      ],
+      "reason": "Match neighboring a_3_1 blade-stain tone; confined to delivered blade region, preserving alpha and geometry."
+    },
+    "m430ab3": {
+      "selector": "red",
+      "thresholds": [
+        0.7,
+        0.85
+      ],
+      "rgb_matrix": [
+        [
+          1.55,
+          0,
+          0
+        ],
+        [
+          0,
+          0.65,
+          0
+        ],
+        [
+          0,
+          0,
+          0.65
+        ]
+      ],
+      "bounds_px": [
+        170,
+        30,
+        216,
+        78
+      ],
+      "reason": "Match neighboring a_3_1 blade-stain tone; confined to delivered blade region, preserving alpha and geometry."
+    },
+    "m430ac3": {
+      "selector": "red",
+      "thresholds": [
+        0.7,
+        0.85
+      ],
+      "rgb_matrix": [
+        [
+          1.55,
+          0,
+          0
+        ],
+        [
+          0,
+          0.65,
+          0
+        ],
+        [
+          0,
+          0,
+          0.65
+        ]
+      ],
+      "bounds_px": [
+        5,
+        7,
+        52,
+        74
+      ],
+      "reason": "Match neighboring a_3_1 blade-stain tone; confined to delivered blade region, preserving alpha and geometry."
+    },
+    "m430ad3": {
+      "selector": "red",
+      "thresholds": [
+        0.7,
+        0.85
+      ],
+      "rgb_matrix": [
+        [
+          1.55,
+          0,
+          0
+        ],
+        [
+          0,
+          0.65,
+          0
+        ],
+        [
+          0,
+          0,
+          0.65
+        ]
+      ],
+      "bounds_px": [
+        308,
+        7,
+        370,
+        71
+      ],
+      "reason": "Match neighboring a_3_1 blade-stain tone; confined to delivered blade region, preserving alpha and geometry."
+    }
+  }
+}

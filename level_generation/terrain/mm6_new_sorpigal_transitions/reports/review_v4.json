@@ -1,0 +1,50 @@
+{
+  "status": "prepared_and_reviewed",
+  "iteration": "connected_v4",
+  "dirt_master": "v6",
+  "user_artistic_approval": "not yet requested or assumed for the new dirt; prepared for comparison",
+  "user_reference": "test_img/1263.png",
+  "scope": "36 non-water land tiles at256px;33 masks at512px",
+  "structural": {
+    "mask_checks_512_and_256": 398,
+    "unique_rgb_joins": 211,
+    "placed_rgb_joins": 8524,
+    "failures": 0,
+    "reports": [
+      "mask_check_v4.json",
+      "rgb_join_check_v4.json"
+    ]
+  },
+  "visual_review": {
+    "reviewer": "Codex visual inspection",
+    "material_repeat": "New dirt is darker muted brown with much weaker broad repeating bands; other three materials unchanged",
+    "families": "All33 composites reviewed in family sheets; masks identical to connected_v3",
+    "pairs_and_corners": "All199 compatible source pair types and280 source2x2 cases inspected in v3;10 invalid source2x2 configurations flagged. Dirt-only revision preserves masks; all joins recomputed and family/layout/game views rechecked",
+    "native_flat": "Six legal layouts plus allfour oblique directions at near/far distances reviewed",
+    "map": "Four requested New Sorpigal viewpoints plusfour corrected-land contexts; original/new comparison generated",
+    "sampling": "Anisotropic8x and bilinear reviewed; nine sampled forward-motion screenshots in each mode; no boundary jumps seen in these samples",
+    "limits": [
+      "Fine texture still mathematically repeats from one master",
+      "No full-frame-rate temporal shimmer certification or GPU benchmark",
+      "Water and shoreline are excluded; their original seams remain visible",
+      "Some actual-map screenshots contain active actors and spell effects; flat image contexts and native fixture provide unobscured land coverage"
+    ]
+  },
+  "map_correction": {
+    "changed_cells": 7,
+    "original_asset_modified": false,
+    "patch": "../map_corrections/patch.json"
+  },
+  "regression_invariants": {
+    "unchanged_masks_since_v3": 33,
+    "unchanged_other_materials": [
+      "grass",
+      "cobbles",
+      "volcano"
+    ],
+    "original_map_sha256": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4"
+  },
+  "captures": "capture_manifest_v4.json",
+  "iteration_feedback": "iteration_feedback.json",
+  "production_installation": "none; isolated trial stages and portable overlay prepared"
+}

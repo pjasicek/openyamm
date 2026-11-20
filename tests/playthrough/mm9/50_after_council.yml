@@ -1,0 +1,46 @@
+# MM9 playthrough, segment 50: the war council and Yrsa's errand (guide: Chapter II, "Peace between Sturmford and
+# Drangheim", "Yrsa's errand: the Thing"). Drangheim to Thronheim (three days; outdoors the party is moved), the land
+# gate, Kira's hall: its double doors open on a click and, both Jarls having agreed, the council convenes (cinematic
+# council_argument, 167 s): the treaty is signed (taken; keys 184, 40, 85, 93, 12 500 experience), Forad Darre leaves
+# the party and Kira kills Markel. Ten seconds after it Yrsa the Troll appears and speaks: the party must win her
+# daughter a prize at the Thing (499, 93); she vanishes when the talk closes (185). This is the state of the user's
+# save 00_after_council.oysav, from which segment 51 goes on.
+#   python3 tests/playthrough/mm9/run.py 50
+id: mm9.playthrough.50_after_council
+title: "MM9 playthrough 50: the war council in Kira's hall; Yrsa claims her favour"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/44_signatures.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheimcity.blv, qbit_set: [90089, 90090, 90091], qbit_clear: [90040, 90085, 90093, 90184]}
+
+  - travel: {map: thronheim.blv, days: 3}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # Kira's hall: the double doors (KiraDoor1/2) open and the council convenes.
+  - set_pose: {map: thronheimcity.blv, x: -11264, y: 15200, z: 3278, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'click(232); wait(1); if mapvar("Cinema.council_argument.started") ~= 1 then error("the council did not start") end'}
+  - advance_runtime: {seconds: 170}
+  - assert: {qbit_set: [90040, 90184, 90085, 90093]}
+  - play_lua: {source: 'if has_item(10401) then error("the treaty was not taken") end; log("the treaty is signed")'}
+
+  # Yrsa the Troll appears and talks.
+  - advance_runtime: {seconds: 12, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Yrsa?  What do you want?"}
+  - select_topic: {match_label: "What?  We're a little busy right now."}
+  - select_topic: {match_label: "Alright, what do you need done?"}
+  - select_topic: {match_label: "What?  You're interrupting us so we can go win some prize?!"}
+  - select_topic: {match_label: "Alright.  We will get this prize for you."}
+  - select_topic: {match_label: "Goodbye"}
+  - advance_runtime: {seconds: 1}
+  - assert: {map: thronheimcity.blv, qbit_set: [90093, 90185, 90499, 90040, 90184, 90083, 90084], qbit_clear: [90094, 90095, 90186]}
+  - console: {line: "qbit dump active"}
+  - save_game: {name: "50 After the council", path: output/playthrough/mm9/checkpoints/50_after_council.oysav}

@@ -1,0 +1,24 @@
+{
+  "label": "Cleric Moon A",
+  "creature": "moon_cleric",
+  "base_palette": 37,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m170sa0",
+    "m170sa1",
+    "m170sa2",
+    "m170sa3",
+    "m170sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The original tall slender moon cleric: gaunt pale gray adult male face, narrow dark eyes and long gray fingers with dark joints, black shoulder-length hair visible under a small ornate gold crown with a domed center and short pointed side peaks. A heavy black neck collar has narrow radial gold bars and a gold pendant. Long rich dark leaf-green robe with loose sleeves, draped folds across the chest, thin gold hem and side trim, and a thin gold waist cord tied in front with two hanging ends. Feet remain hidden by the floor-length robe. Behind the shoulders is the distinctive high crescent-shaped engraved gold ceremonial collar, its two tips rising well above the head; long near-black olive-green fabric panels hang vertically from the tips to the waist, edged above by thin gold cords and small turquoise triangular tassels. These are hanging fabric panels, not feathered wings. Preserve exact native collar geometry, panel folds, hand gestures, slender body, gray complexion and dark tonal weight. Hands are empty; retain only the native small golden spell particles in action cells that contain them. No staff, weapon, shield, new symbols, added aura or costume redesign. Native robe and hanging-panel palette variants will be derived offline; protect gold ornament, turquoise tassels, hair, gray face and hands, and golden spell particles."
+}

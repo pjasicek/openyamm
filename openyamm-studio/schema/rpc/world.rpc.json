@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: worlds",
+  "description": "The world view (S5_BROWSER_EDITOR.md 6.3, deferred to S6; devdocs/map_studio/S6_PLAN.md 2.9): projects grouped by world, each a map, linked where their map cards' `neighbours` lead.",
+  "x-group": "world",
+  "methods": {
+    "view": {
+      "summary": "The maps of projects by world and the links between them: every project is a map of its world (its own file; an overlay's base), every neighbour of its map card (an exit, a map edge, a boat, a fall ...) a link to another project's map or to a shipped map. A rebuild (map_stats.reference) or an overlay (base) stands for its original: a link naming the original reaches it (`via_original`). Each link lists the objects that use the neighbour (an exit naming it, a building whose way in names its map); ways out the card does not declare are links of kind `undeclared`. Read from the files, without a build; with an asset root the shipped maps carry their names from map_stats.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "optional",
+      "errors": [],
+      "params": {
+        "type": "object",
+        "required": [
+          "projects"
+        ],
+        "properties": {
+          "projects": {
+            "description": "The projects (the host passes its own: host.projects).",
+            "type": "array",
+            "maxItems": 4096,
+            "items": {
+              "$ref": "common.rpc.json#/$defs/project_path"
+            }
+          },
+          "world": {
+            "description": "Only this world's maps.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "worlds",
+          "skipped"
+        ],
+        "properties": {
+          "worlds": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "world",
+                "maps",
+                "links"
+              ],
+              "properties": {
+                "world": {
+                  "type": "string"
+                },
+                "maps": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "map",
+                      "kind",
+                      "role",
+                      "name"
+                    ],
+                    "properties": {
+                      "map": {
+                        "description": "The map's file (a project's own; an overlay's base; a shipped map as the links name it).",
+                        "type": "string"
+                      },
+                      "kind": {
+                        "enum": [
+                          "indoor",
+                          "outdoor",
+                          "unknown"
+                        ]
+                      },
+                      "role": {
+                        "description": "new (a map of its own), rebuild (of a shipped map), overlay (changes a shipped map), shipped (a map no project makes).",
+                        "enum": [
+                          "new",
+                          "rebuild",
+                          "overlay",
+                          "shipped"
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "project": {
+                        "description": "The project's index in `projects`.",
+                        "type": "integer"
+                      },
+                      "stands_for": {
+                        "description": "A rebuild's original or an overlay's base.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "links": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "from",
+                      "to",
+                      "id",
+                      "kind",
+                      "target",
+                      "via_original",
+                      "exits"
+                    ],
+                    "properties": {
+                      "from": {
+                        "description": "Its map's index in `maps`.",
+                        "type": "integer"
+                      },
+                      "to": {
+                        "type": "integer"
+                      },
+                      "id": {
+                        "description": "The neighbour's id in the map card (empty for an undeclared way out).",
+                        "type": "string"
+                      },
+                      "kind": {
+                        "description": "edge, door, boat, stable, teleport, fall, roof, pyramid, mirror, scripted, empty (the card gives none), or undeclared (a way out the files name, by `map:`, that no neighbour of the card names).",
+                        "type": "string"
+                      },
+                      "side": {
+                        "enum": [
+                          "north",
+                          "south",
+                          "east",
+                          "west"
+                        ]
+                      },
+                      "days": {
+                        "type": "integer"
+                      },
+                      "target": {
+                        "description": "The map the card names.",
+                        "type": "string"
+                      },
+                      "via_original": {
+                        "type": "boolean"
+                      },
+                      "exits": {
+                        "description": "The ids of the objects that use the neighbour.",
+                        "$ref": "common.rpc.json#/$defs/strings"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "skipped": {
+            "description": "Projects left out, and why.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "project",
+                "reason"
+              ],
+              "properties": {
+                "project": {
+                  "type": "integer"
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

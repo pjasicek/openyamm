@@ -1,0 +1,22 @@
+{
+  "family": "dru1",
+  "title": "MM6 Druidess",
+  "descriptor_ids": [
+    517,
+    518,
+    519
+  ],
+  "base_palette": 722,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original adult MM6 druidess: long dark brown hair, pale natural skin, stern face, deep forest-green full-length hooded cloak, sleeveless dark brown small gold-studded leather bodice and pointed central skirt panel, wide ornate gold belt with central round motif, gold upper-arm band, dark brown wrist bracer and brown pointed mid-calf boots. Preserve exact native outfit coverage and open cloak, proportions, uncovered arms/legs, hair, small features and long narrow silhouette. No new jewelry, weapons, staff, accessories, anatomy exaggeration or redesign.",
+  "regions": "Only green hood and cloak change to muted rose 723 and blue 194. Protect natural skin, brown hair, studded leather, gold belt/band, bracer and boots.",
+  "variant_names": {
+    "722": "Druidess A / green",
+    "723": "Druidess B / rose",
+    "194": "Druidess C / blue"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 1
+}

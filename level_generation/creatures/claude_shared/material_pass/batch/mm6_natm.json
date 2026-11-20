@@ -1,0 +1,199 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_natm.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_natm.glb",
+ "assignments": [
+  {
+   "match": "=Natm_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natm_reduce_claude/textures/natm_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natm_claude/textures/natm_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "natm_metal_rough_1k_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Natm_A",
+    "Natm_B",
+    "Natm_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 1177,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 608071,
+     "uv_covered_without_class": 0.0258,
+     "uv_covered_without_class_far": 0.0001,
+     "class_texels_outside_uv": 0.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natm_reduce_claude/textures/natm_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.3098,
+      "fur": 0.5843,
+      "tooth": 0.0589,
+      "cloth": 0.0397,
+      "metal": 0.0073
+     }
+    },
+    "head": {
+     "uv_covered_texels": 79643,
+     "uv_covered_without_class": 0.006,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.8679,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natm_claude/textures/natm_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.9755,
+      "eye": 0.0243,
+      "other": 0.0002
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.3869,
+    "fur": 0.5166,
+    "tooth": 0.0521,
+    "eye": 0.0028,
+    "cloth": 0.0351,
+    "metal": 0.0064,
+    "other": 0.0
+   },
+   "kept_classes": [
+    "skin",
+    "fur",
+    "cloth"
+   ],
+   "kept_texels": 645497,
+   "old_specular_mean_by_class": {
+    "skin": 0.451,
+    "fur": 0.122,
+    "tooth": 0.549,
+    "eye": 0.902,
+    "cloth": 0.251,
+    "metal": 1.0,
+    "other": 0.302
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.451,
+    "fur": 0.122,
+    "tooth": 1.0,
+    "eye": 1.0,
+    "cloth": 0.251,
+    "metal": 1.0,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.564,
+    "fur": 0.899,
+    "tooth": 0.35,
+    "eye": 0.15,
+    "cloth": 0.85,
+    "metal": 0.379,
+    "other": 0.7
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Natm_A": {
+     "median_srgb": [
+      117,
+      89,
+      47
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      70,
+      94,
+      149
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.4237,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Natm_B": {
+     "median_srgb": [
+      117,
+      89,
+      47
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      70,
+      94,
+      149
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.4237,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Natm_C": {
+     "median_srgb": [
+      117,
+      89,
+      47
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      70,
+      94,
+      149
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.4237,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 31,
+     "max": 255,
+     "mean": 97.2
+    },
+    "G": {
+     "min": 38,
+     "max": 242,
+     "mean": 164.4
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 1.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

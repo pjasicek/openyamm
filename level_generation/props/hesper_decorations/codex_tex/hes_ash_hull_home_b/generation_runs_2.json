@@ -1,0 +1,102 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: sketch-to-render. Paint guide_back.png as a 1024 x 1024 transparent RGBA albedo texture-source image. Input 1 guide_back.png is the EXACT geometry, silhouette, edge positions, orthographic back camera, scale and placement authority; input 2 design_reference.png is ONLY the approved material and color authority, never its camera or lighting.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Preserve all empty transparent gaps. The object occupies x=220..802 and y=264..759 of the 1024 square: retain this scale and all surrounding transparent padding. Do not enlarge or reframe.\nPaint the surfaces with chipped off-white ceramic shell with gold seams and rings, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables, and warm lantern color only on any existing lantern shape. The large circular closed rear end stays closed, its existing concentric geometry and small central protrusion are preserved. Do not transplant the front doorway, curtain or hanging lantern from the three-quarter reference to the back. Paint existing chimney as weathered rust-brown metal with metal bands; existing side awning fabric faded red-brown; support feet and base rusted steel.\nLIGHTING: TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint material color and wear only. Any glowing parts painted at their glowing color without light cast on surroundings. No decorative additions or geometry changes. Return one 1024 x 1024 image with true transparent background, unresized.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "e1fead48d2ab79b654764ad70687a73f49cb0609c436fc716aa954a4f1bde1c0"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8d-190c-7413-bb18-0b02a49f32d8/exec-c8439c06-058e-4cfe-af87-21a1d38d1966.png",
+      "output": "paint_back_run1.png",
+      "selected": false,
+      "reason": "Rejected: enlarged/reframed guide geometry, incorrect output dimensions and shaded metallic lighting.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1232,
+          1254
+        ],
+        "opaque_bbox": [
+          195,
+          250,
+          1125,
+          1041
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colors": "White ceramic, gold, rusted metal, red-brown tarp and black cables match the reference palette.",
+        "flat_even_light": false,
+        "unresized_return": true
+      },
+      "output_sha256": "323abe10138b8bff8438b0e25e2315e20bdf895983a9a3fe59942ba9726cd26f"
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: sketch-to-render. Paint guide_back.png as a 1024 x 1024 transparent RGBA albedo texture-source image. Input 1 guide_back.png is the EXACT geometry, silhouette, edge positions, orthographic back camera, scale and placement authority; input 2 design_reference.png is ONLY the approved material and color authority, never its camera or lighting.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing cropped. Preserve all empty transparent gaps. The object occupies x=220..802 and y=264..759 of the 1024 square: retain this scale and all surrounding transparent padding. Do not enlarge or reframe.\nPaint the surfaces with chipped off-white ceramic shell with gold seams and rings, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables, and warm lantern color only on any existing lantern shape. The large circular closed rear end stays closed, its existing concentric geometry and small central protrusion are preserved. Do not transplant the front doorway, curtain or hanging lantern from the three-quarter reference to the back. Paint existing chimney as weathered rust-brown metal with metal bands; existing side awning fabric faded red-brown; support feet and base rusted steel.\nLIGHTING: TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint material color and wear only. Any glowing parts painted at their glowing color without light cast on surroundings. No decorative additions or geometry changes. Return one 1024 x 1024 image with true transparent background, unresized.\nCORRECTIVE GENERATION (only permitted retry): The previous attempt enlarged and reframed the object and returned 1254x1254. This must be an in-place surface repaint of the supplied 1024x1024 guide, keeping its original canvas dimensions and alpha silhouette. OUTPUT SIZE MUST BE 1024 x 1024. The entire object must remain inside rectangle x220,y264 to x803,y760; approximately 57% of canvas width and 48% of canvas height. Preserve the large transparent margins exactly. Do not fit the object to the image, zoom, recenter, or use a new composition. COPY the guide's shape, edges and negative spaces, only replace gray surface colors with the approved chipped white/gold/rust/red-brown/black material colors. Remove all shaded rims, contact shadows, metallic shine and directional lighting: unlit diffuse base color only.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "e1fead48d2ab79b654764ad70687a73f49cb0609c436fc716aa954a4f1bde1c0"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8d-190c-7413-bb18-0b02a49f32d8/exec-64b806ef-b0b1-4a1c-83ec-8796c6ebd657.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the closer of the two raw returns, but NOT compliant: guide silhouette/framing and requested dimensions were not preserved; residual shading remains. One corrective regeneration used; no further generation or resizing permitted.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          57,
+          1234,
+          1254
+        ],
+        "opaque_bbox": [
+          226,
+          303,
+          1083,
+          1013
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colors": "White ceramic, gold, rusted metal, red-brown tarp and black cables match the reference palette.",
+        "flat_even_light": false,
+        "unresized_return": true
+      },
+      "output_sha256": "a6318fa58becaca04db1feccfafb616be0c9254d122e20447bdcce3da234d001"
+    }
+  ]
+}

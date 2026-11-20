@@ -1,0 +1,18 @@
+# MM9's boss and set-piece behaviours (devdocs/mm9_rework/MM9_MONSTER_AI_PLAN.md "Phase 5"): hand-written Lua over
+# the MM9 loops (devdocs/ACTOR_SCRIPTING_INVESTIGATION.md). Each one reads its placement's MM9 script (the scene's
+# mm9_ai script) and keeps the plain loop where that script is not its own.
+schema: openyamm.actorBehaviors.v1
+behaviors:
+  mm9/dragon_king: worlds/mm9/behaviors/dragon_king.lua
+  mm9/njam: worlds/mm9/behaviors/njam.lua
+  mm9/ebora: worlds/mm9/behaviors/ebora.lua
+  mm9/concubine: worlds/mm9/behaviors/concubine.lua
+  mm9/yanmir: worlds/mm9/behaviors/yanmir.lua
+  mm9/summoner: worlds/mm9/behaviors/summoner.lua
+monsters:
+  9212: mm9/dragon_king      # Dragon King (Dragon.scr)
+  9261: mm9/njam             # Njam the Meddler (Njam1000.scr, NjamChase.scr, NjamFreeze.scr, NjamTaunt.scr)
+  9301: mm9/ebora            # Ebora (EboraBath.scr, EboraMines.scr)
+  9302: mm9/concubine        # Concubine (EboraConcubine.scr)
+  9206: mm9/yanmir           # Yanmir (YanmirBase.scr)
+  9208: mm9/summoner         # Power Lich (Summoner.scr in the Lich Lab)

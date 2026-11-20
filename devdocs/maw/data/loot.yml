@@ -1,0 +1,959 @@
+# draft extracted from MAW ef23ee17
+#
+# MAW (Might and Magic Merge mod, /home/pjasicek/github/Maw-Mod-MMMerge) loot and item rules as data, for a future
+# OpenYAMM "maw" ruleset. Every value is copied from the code; `source:` gives the file:line (paths relative to the
+# MAW Scripts/ folder). Nothing here is read by the engine yet. Field names are proposals.
+#
+# Conventions used below:
+#   rarity ids   Common=1 Uncommon=2 Rare=3 Epic=4 Ancient=5 Primordial=6 Legendary=7 Celestial=8
+#                (const.Rarity, zzMaw-Items.lua:574-583)
+#   difficulty   GetDifficulty() (zzMaw-Stats.lua:1507-1530): 1 bolster<70 (Easy), 2 bolster 70 (Normal),
+#                3 bolster 100 (MAW), 4 bolster 150 (Hard), 5 bolster 200 (Hell), 6 bolster >=300 (Nightmare),
+#                7 Doom (vars.Mode==2), 8 Road to Insanity (vars.insanityMode), 9 Beyond Madness (vars.madnessMode).
+#                Checked in the order 9, 8, 7, then bolster.
+#   equip_stat   ItemsTxt EquipStat: 0 1H weapon (incl. Weapon1or2 spears), 1 2H weapon, 2 missile, 3 body armour,
+#                4 shield, 5 helm, 6 belt, 7 cloak, 8 gauntlets, 9 boots, 10 ring, 11 amulet, 12 wand.
+#                Halberds 46-50, 507, 838-840, 1638-1640 are forced to 1 at init (zzMaw-Items.lua:1412-1415).
+#   item power   the MaxCharges byte ("Item Bonus Power"); item level = 5 x power (ItemLevel.lua:5).
+#   enchant ids  standard (base) enchant types 1-24 = STDITEMS rows: 1 Might 2 Intellect 3 Personality 4 Endurance
+#                5 Accuracy 6 Speed 7 Luck 8 HP 9 SP 10 AC 11-16 Fire/Air/Water/Earth/Mind/Body resistance,
+#                17 Alchemy 18 Repair (STDITEMS says Stealing; MAW maps 18 to Repair, zzMaw-Items.lua:2642-2651)
+#                19 Disarm 20 ID Item 21 ID Monster 22 Armsmaster 23 Dodge 24 Unarmed.
+
+loot_tier:
+  description: >-
+    The master number of a drop. Drives rarity bands, upgrade multipliers and enchant strength.
+  formula: >-
+    lootTier = grade + floor(dropLevel / tier_levels) + enchantTierBonus + boss + omnipotent
+    + (1 with probability (dropLevel mod 15) / 15)
+  tier_levels: 15                                 # TIER_LEVELS, zzMaw-Items.lua:889; GetTier :891-893
+  grade: "t.Strength, the engine treasure level 1..6 (7 is clamped to 6 in events.GenerateItem, :27-29)"
+  boss_bonus: 1                                   # :1135-1137
+  omnipotent_bonus: 1                             # :1138-1140
+  enchant_tier_bonus:                             # GetEnchantTierBonus, :563-572
+    dimension_map: "floor(max((mapAffixes.Power - 30 + 2) / 2, 0))"
+    arena_d42: 20                                 # Map.Name == "d42.blv"
+  source: "General/zzMaw-Items.lua:1129-1143"
+  drop_level:                                     # what "dropLevel" is, per source of the item
+    corpse: >-
+      getMonsterLevel(mon): totalLevel[Id] (bolstered) / uniqueMonsterLevel / bossData level
+      (zzMaw-Monsters.lua:1884-1895)
+    chest_or_ground: "MawMapDropLevel() (zzMaw-Monsters.lua:1926-1935)"
+    shop: "getTotalLevel() * 0.75 (SHOP_LEVEL_SHARE, zzMaw-Items.lua:502, :1109-1111)"
+    map_drop_level: >-
+      median native monster level of the map (totalLevel of currentMapMonsters[ceil(n/2)]) when the monster table is
+      built for this map; else staticMapDropLevel (zzMaw-Monsters.lua:1897-1924) = ItemLevel.ForDrop(nil, P, M) =
+      P*7/8 + M/8 with: map declares monsters (mapLevels.Low ~= 0): P = Low+Mid+High (the SUM), M = 0;
+      horizontal progression: P = getPartyLevel(4)*0.75, M = Low+Mid+High; free progression: P = getPartyLevel()
+      + reset bonus + min((MMLVL[world] + reset bonus)/2, 54), M = 0 (reset bonus = 20 per dungeon reset);
+      Beyond Madness: P = madnessMapLevels[name] or ((Low+Mid+High)/3)^1.5, M = 0; dimension map:
+      P = mapAffixes.Power*10 + 20.
+    stored: "bits 9-19 of BonusExpireTime (0-2047), SetStoredDropLevel at generation (:1127)"
+    legacy_reconstruction: >-
+      GetItemDropLevel (:531-547): stored value if > 0, else MaxCharges*5 after undoing rarity inflation:
+      Primordial floor(min(c/1.2, c-4)), Ancient floor(min(c/1.1, c-2)).
+
+rarity:
+  band_roll:                                      # GetEnchantChance / GetEnchantBands, :624-653
+    thresholds:                                   # percent; threshold = min(Base + PerTier*lootTier, Cap)
+      epic:     {base: 5,   per_tier: 0.75, cap: 20}
+      rare:     {base: 20,  per_tier: 2,    cap: 60}
+      uncommon: {base: 60,  per_tier: 1,    cap: 80}
+      common:   {base: 100, per_tier: 0,    cap: 100}
+    band_widths: "Epic = E, Rare = R-E, Uncommon = U-R, Common = 100-U, each x band_mult, renormalised to 100"
+    band_mult_by_difficulty:                      # rarityBandMult, :655-665 (missing entries = 1)
+      1: {epic: 1, rare: 1, uncommon: 1}
+      2: {epic: 1, rare: 1, uncommon: 1}
+      3: {epic: 1, rare: 1, uncommon: 1}
+      4: {epic: 1.5, rare: 1.4, uncommon: 1.4}
+      5: {epic: 2,   rare: 1.8, uncommon: 1.6}
+      6: {epic: 2.5, rare: 2.2, uncommon: 1.8}
+      7: {epic: 3,   rare: 2.6, uncommon: 2}
+      8: {epic: 4,   rare: 3,   uncommon: 2.2}
+      9: {epic: 5.5, rare: 3.4, uncommon: 2.4}
+    roll: "one uniform roll in [0,100), walked Epic -> Rare -> Uncommon -> Common (:1144-1159)"
+    boss_roll_divisor: 4                          # BOSS_ROLL_DIVISOR, :601; roll = random()/4 for bosses
+  upgrade_cascade:                                # RollItemRarity, :782-820; only when the band roll gave Epic
+    order: [celestial, legendary, primordial, ancient]   # first success wins
+    base_chance: {celestial: 0.002, legendary: 0.03, primordial: 0.04, ancient: 0.12}   # rarityUpgradeChance :585
+    chance: "pity_chance(base, counter) * mult (Ancient has no pity counter)"
+    mult: >-
+      rarityDifficultyMult[d] * min(60 + lootTier, 80)/80 * sqrt(lootMultiplier) * (2 if boss)
+      * (1 + (mapPower*nAffixes + 20*nAffixes)/400 on dimension maps)   (GetRarityMultiplier :757-780)
+    difficulty_mult: {1: 1, 2: 1, 3: 1, 4: 1.1, 5: 1.2, 6: 1.4, 7: 1.6, 8: 1.8, 9: 2}   # :604-614
+    boss_mult: 2                                  # BOSS_RARITY_MULT, :602
+    loot_multiplier: "LootContext.multiplier: never set by any caller, always 1 (dead parameter)"
+    pity:
+      function: "pity_chance(c, n) = 1 if c >= 1 else c ^ (1.38 - c*n*0.5)"   # :4467-4478
+      exponent: 1.38
+      counters: {primordial: vars.primordialPityCounter, legendary: vars.legendaryPityCounter,
+                 celestial: vars.celestialPityCounter}
+      reset: "set to 0 when that rarity is rolled"
+      growth: >-
+        after the cascade every rarity above the result that was not blocked gains +mult (:810-818);
+        blocked = shop and no redirect, or noLegendary and rarity >= Legendary
+    no_legendary: "Austerity mode or a shop: Legendary and Celestial base chance 0 (:1160)"
+    shop_redirect:                                # shopRarityRedirect, :592-597
+      celestial: blocked
+      legendary: blocked
+      primordial: blocked
+      ancient: "rolls at the Primordial base chance 0.04, no pity"
+    omnipotent: "forces Celestial after the cascade (:1164-1166)"
+  analytic_distribution: "GetRarityDistribution (:835-851); not repeated here, see RANDOMS.md"
+  stored_as: >-
+    not stored; derived by MawItemRarity (:691-715): celestial bit > legendary affix > tier bits (2 Primordial,
+    1 Ancient) > enchant count (3 Epic, 2 Rare, 1 Uncommon, 0 Common)
+
+enchants:
+  count_by_rarity: {common: 0, uncommon: 1, rare: 2, epic: 3, ancient: 3, primordial: 3, legendary: 3,
+                    celestial: 3}               # enchantCountByRarity, :676-685
+  slots:
+    base_enchant_1: "rarity >= Uncommon (:1171-1183)"
+    base_enchant_2: "rarity >= Rare (:1185-1195); stored in Charges bits (enc2), type 0-63, strength 0-65535"
+    special_enchant: "rarity >= Epic and EquipStat < 12 (:1206-1223)"
+    promote: "if enchant 1 is empty and enchant 2 exists, enchant 2 moves to slot 1 (:1197-1200)"
+  type_roll:                                      # RollEnchantType, :880-887
+    rings: "uniform 1..16 (EquipStat 10, the six resistances included)"
+    other_slots: "uniform 1..10"
+    second_enchant: "excludes the first enchant's type"
+    skill_enchant:
+      chance: 0.1                                 # math.random(1,10)==10, first enchant only (:1174-1182)
+      types: "uniform 17..24, replaces the type, keeps the rolled strength"
+      swaps:
+        - "Dodge (23) on Chain or Plate body armour (Skill 10/11) becomes Armsmaster (22)"
+        - "Unarmed (24) on weapons with Skill 1..7 becomes Armsmaster (22); staves (Skill 0) keep Unarmed"
+      second_enchant_skill: "disabled (commented out, :1189-1194)"
+    resistance_cleanup:
+      - "enchant 1 resistance (11-16) on a non-ring is re-rolled to 1..10 (:1304-1306; unreachable, see notes)"
+      - "enchant 2 resistance is always re-rolled to 1..10, rings included (:1307-1310)"
+    duplicate_cleanup: >-
+      if enchant 1 and enchant 2 have the same type (both <= 16), enchant 1 is re-rolled in 1..10 (or 11..16 if it
+      was a resistance) until different (:1312-1322)
+    per_slot_weights: "none: uniform. equipSlotWeights (:4375-4388) is defined but never read"
+    stditems_slot_chances: "ignored; MAW never uses the STDITEMS per-slot columns"
+  strength:
+    encStrUp:                                     # :444-458
+      normal: "1 + 2*tier for tier <= 12; 25 + min((tier-12)*3, 75) above (max 100 at tier 37)"
+      austerity: "tier + 2 for tier <= 30; 32 + (tier-30)*2 above (no cap)"
+    roll: >-
+      rarities with a range entry (Legendary, Ancient, Primordial, Celestial):
+      round(ceil(encStrUp(lootTier)*diffPower) * random(Min, Max) / 20);
+      Common..Epic: ceil(round(encStrUp(lootTier) * random(8, 20) / 20) * diffPower)   (rollEnchantStrength :466-475)
+    ranges_per_20:                                # enchantStrengthRange / ENCHANT_STRENGTH_DEFAULT, :667-674
+      common_to_epic: [8, 20]                     # 40-100 %
+      legendary: [16, 20]                         # 80-100 %
+      ancient: [20, 25]                           # 100-125 %
+      primordial: [25, 25]                        # 125 %
+      celestial: [25, 25]
+    divisor: 20
+    both_base_enchants_roll_independently: true   # enc2 rolls its own strength (:1186)
+    sync: "if |enc2 - enc1| <= 1 after slot multiplier, enc2 = enc1 (:1296-1299)"
+    primordial_max: "round(ceil(encStrUpNormal(inf)*diffPower) * 25/20) = 125 at diffPower 1 (:477-480)"
+  difficulty_power:                               # GetDifficultyExtraPower, :552-561; first match wins
+    insanity_or_madness: 1.2                      # vars.insanityMode (also set in Beyond Madness)
+    doom: 1.1                                     # vars.Mode == 2
+    true_nightmare: 1.05                          # vars.trueNightmare
+    default: 1
+  skill_enchant_transform: >-
+    ceil(max(sqrt(x), x/10)) applied to enchant 1 before the slot multiplier (:1256-1258, Formulas.lua:21-23)
+  slot_multiplier:                                # slotMult, :1405; applied to both base enchants at generation
+    by_equip_stat: {0: 1, 1: 2, 2: 1.25, 3: 1.5, 4: 1, 5: 1.25, 6: 1, 7: 1, 8: 1.25, 9: 1.25, 10: 0.75, 11: 1}
+    rounding: "enchant 1 ceil(s*mult); enchant 2 s*mult clamped to 65535 and floored by the encoder (:1260-1266)"
+    two_handed_axes: "items with Skill 3 and EquipStat 1 count as EquipStat 1 (GetItemEquipStat :4390-4404)"
+    no_ac_helm: >-
+      GetSlotMult (:4407-4425) adds x1.5 for helms with Mod2 == 0 (hats, crowns); it is applied on READ
+      (collectEnchant :2728-2730, tooltip Tooltip.lua:261-263, 282-284), not at generation
+  read_transforms:                                # applied when stats are computed, not stored
+    hp_sp: "round(p * (1 + min(p/50/slotMult, 5)))  (Formulas.vitalityEnchantPower, Formulas.lua:25-30; :2724-2726)"
+    resistance: >-
+      enchant 1: p + 10; enchant 2: p (no +10); rings: value*100/200 (half); the result is kept as the max per
+      element over all items (vars.normalEnchantResistance, :2743-2750) and applied as damage x 1/(1 + r/100)
+      (Formulas.enchantResistanceDamageTaken); legendary 16 multiplies it by 1.5 (zzMaw-Stats.lua:1120-1123)
+    skill: >-
+      only from enchant 1; added to the skill (slot skill+50); for skills 0-38 the total (base + items) is capped
+      at 2x the base skill level, so an untrained skill (0) gets nothing from items (:2605-2611)
+    dragon_race: "all item stats 1-16 and slots 82/83 x3 for Dragon portraits (applyDragonMult :3003-3015)"
+    legendary_12_echo: >-
+      Might/Accuracy enchants add 40% to Int and Pers; Int/Pers enchants add 40% to Might and Acc (:2733-2742)
+  special_enchant_pick: "see special_enchants.yml (pools by grade, melee/caster swap, legendary 19 swap)"
+
+item_power:
+  field: "MaxCharges (u8); item level = 5 * power"
+  power_for_level: "min(floor(max(level, 0)/5), 100)  (ItemLevel.PowerFor, ItemLevel.lua:18-21)"
+  power_cap: 100                                  # POWER_CAP: the damage model never reads more
+  hard_cap: 255                                   # POWER_HARD_CAP (u8); GetMaxItemCharges / GetItemChargesCap
+  roll:                                           # rollTierCharges, zzMaw-Items.lua:512-525; c = PowerFor(dropLevel)
+    common_to_epic: "round(c * random(12, 20)/20)"
+    legendary: "round(c * random(16, 20)/20)"
+    ancient: "max(round(c * random(20, 24)/20), c + 2)"
+    primordial: "max(round(c * 1.2), c + 4)"
+    celestial: "max(round(c * 1.2), c + 4)"
+    cap: 255
+  every_drop_rolls: true                          # :1168-1169, after rarity is known
+  doom_start_items: >-
+    starting enchantable items with MaxCharges 0 get 2 (4 in insanity), item 2020 excluded (:4537-4552)
+  new_game_reset: >-
+    MaxCharges, Charges and BonusExpireTime of starting inventory zeroed; Bonus > 24 cleared (:2421-2441)
+  moon_cloak: "items 1349 and 1350 have MaxCharges forced to 0 on every stat refresh (:3397-3400)"
+  what_it_drives:
+    - "weapon damage (weapon_damage model below, capped at power 100)"
+    - "armour AC (armour_ac model below, NOT capped at 100)"
+    - "special-enchant scaling (chargesStatMult, school and meditation skill, damage specials)"
+    - "attack speed of weapons (attack_speed below)"
+    - "value (value below)"
+    - "level requirement only through the legacy reconstruction (stored drop level is used when present)"
+
+weapon_damage:
+  description: >-
+    Base weapon damage ignores the table's dice sides and Mod2. Only the dice COUNT is read from ITEMS.txt.
+    Artifacts use ladder rung 6, the party total level as item level, and their base multiplier.
+  model:                                          # getWeaponDamageForLevel, Modules/MawCore/Estimates.lua:98-139
+    base_dice_damage: 8                           # WEAPON_BASE_DICE_DAMAGE
+    tier_flat_damage: 16                          # WEAPON_TIER_FLAT_DAMAGE
+    flat_per_power: 2                             # WEAPON_FLAT_PER_POWER (even points)
+    dice_per_power: 2                             # WEAPON_DICE_PER_POWER (odd points)
+    power: "min(PowerFor(itemLevel), 255) -> effectively min(floor(level/5), 100)"
+    flat_power: "floor(power/2)"
+    dice_budget: "8*2 + 2*2*(power - flatPower)"
+    flat: "16*(rung-1)/5 + 2*flatPower"
+    one_handed: "dice budget and flat halved (everything except EquipStat 1 and two-handed axes)"
+    rows: >-
+      GetWeaponDamageRows (zzMaw-Items.lua:4585-4593): attack/flat bonus = flat; sides = dice budget / dice count;
+      both x artifact base multiplier x cube quality (1 + q/100)
+    shown_range: >-
+      GetWeaponDamageMinMax (:4598-4603): bonus = round(flat), sides = round(sides), min = count + bonus,
+      max = count*sides + bonus; the tooltip prints "Attack: +bonus  Damage: min-max"
+    skill_multiplier: "added later in addWeaponRows (:2812-2947): x(1 + skill*skillDamage[skill]/100), see COMBAT.md"
+  ladder:                                         # ItemLevel.LadderTier, ItemLevel.lua:23-52
+    description: >-
+      Contiguous runs of the same NotIdentifiedName in ItemsTxt form a family. Member k of a run of n+1 sits on rung
+      1 + k/n*5 (1..6); a family with one member sits on 3.5. Item 67 is renamed "Mace" and 804 "Longsword" before
+      the ladder is built (zzMaw-Items.lua:406-407).
+    tier_levels: "TierLevels = (rung-1)*3 extra levels for the level requirement (ItemLevel.lua:54-59)"
+  init_rewrites:            # zzMaw-Items.lua:1410-1436; they change the table text only, not MAW damage
+    weapons: >-
+      ids 1-83, 803-865, 1603-1665: Mod1DiceSides = ceil(goal*2/diceCount), Mod2 = round(flat) with goal 8 and
+      flat = tier flat, both halved unless the unidentified name is Two-Handed Axe/Sword/Halberd or Skill 0
+    shields: "Skill 8 items outside those ranges: Mod2 = Mod2*2 + Mod1DiceCount"
+    halberds_two_handed: [46, 47, 48, 49, 50, 507, 838, 839, 840, 1638, 1639, 1640]
+
+armour_ac:
+  formula: >-
+    AC = (Mod1DiceCount + Mod2) + round(referenceAC * MaxCharges/40), only when MaxCharges > 0, x cube quality,
+    x1.5 with legendary 28 (collectArmorAC, zzMaw-Items.lua:2692-2717; Formulas.chargesArmorAC Formulas.lua:291-294)
+  reference_ac: >-
+    Mod2 + Mod1DiceCount of the LAST item in the contiguous NotIdentifiedName run (the top rung), computed after the
+    shield doubling (:2614-2640)
+  applies_to: "Skill 8-11 (shield, leather, chain, plate) and Skill 40 (misc) with EquipStat != 12"
+  artifacts: "AC = ac + round(referenceAC * PowerFor(partyTotalLevel)/40), then ceil(x baseStatMultiplier)"
+  not_capped: "MaxCharges is used directly: Primordial drops (120) and crafted items keep growing past power 100"
+  skill_scaling: "armour/shield skill multiplies the summed item AC (addArmorSkillAC :2963-3000), see COMBAT.md"
+
+attack_speed:
+  base_recovery: {dagger: 60, sword: 80, mace: 100, bow: 100, staff: 120, spear: 120, axe: 140, blaster: 40}
+  source: "General/zzMAW-Skills.lua:25-35"
+  item_recovery: >-
+    round10(base * (0.75 + min(itemLevel, 600)/500)); EquipStat 1 then round10(x*1.25)
+    (getItemRecovery, zzMAW-Skills.lua:424-440). Axes (Skill 3) use the axe row. Clubs (Skill 39) and other
+    skills: 100, no level scaling. round10(v) = round(v/10)*10.
+  item_level_cap: 600                             # ITEM_RECOVERY_LEVEL_CAP
+  damage_compensation: >-
+    final delay = base * speed multipliers; melee/ranged damage multiplier = totalSpeed/speedBefore, i.e.
+    base/100, so a slow weapon hits proportionally harder (zzMAW-Skills.lua:596-608). Dual wield averages the bases.
+  swiftness_specials: >-
+    41 Darkness and 59 Swift: swiftness +0.3 on a 2H weapon or bow, +0.15 per one-handed weapon, added up;
+    attack delay is divided by the sum (zzMAW-Skills.lua:448, :463-465, :492-498, :567)
+  tooltip: "Attack Speed: <recovery/100> appended to the type line (Tooltip.lua:716-723)"
+
+level_requirement:
+  formula: >-
+    L = storedDropLevel + TierLevels(rung); req = L - (10 + 0.09*L); -6 if bolster >= 300; -3 Doom (vars.Mode==2);
+    -3 insanity; floor; min 1 (GetLevelRquirement zzMaw-Items.lua:4351-4373, ItemLevel.WearLevel ItemLevel.lua:70-75)
+  guard_margin: 10
+  margin_per_level: 0.09
+  exceptions:
+    non_equipment: "EquipStat > 11: 0"
+    celestial: 1
+    artifacts: "none: CanWearItem only checks IsEnchantableItem (base items)"
+  enforced: "events.CanWearItem (:4130-4142) against the wearer's LevelBase (not LevelBonus)"
+  doom_unidentified: "Doom: unidentified items cannot be worn (:4132-4134)"
+  also_required_by: "gems and Pandora's Cube (crafting, see CRAFTING.md)"
+
+celestial:
+  definition: "Primordial tier + legendary affix + celestial bit (:1228-1254)"
+  rescale_on_read: >-
+    updateCelestialItem (:1622-1661): lvl = min(wearer LevelBase, 1.2*getTotalLevel()); tier = lvl/11 + 5
+    (madness: min(lvl, 500)/11 + 5); strength = math.round(ceil(encStrUp(tier)*diffPower) * mult * slotMult),
+    mult 1.25 when the item is Primordial (always true for a rolled Celestial); enchant 1 = strength (skill
+    enchants round(strength/10)); enchant 2 = min(strength, 65535); MaxCharges = GetPrimordialCharges(lvl)
+  writes_the_item: "yes: called from itemStats and the tooltip, so the stored fields change (do not copy)"
+  tooltip_cap_text: "scales to level 600 (1000 in madness) (Tooltip.lua:706-711)"
+  level_requirement: 1
+
+boss_rules:
+  boss_definition: "NameId > 220 (and <= 300) or NameId == 160 (zzMaw-Items.lua:268); seeding uses 220..299 (:166)"
+  drop_chance: 100
+  broodling_variants: {strong: 30, mid: 10, weak: 4}   # Id % 3 == 0 / 2 / 1, PlaceMon skill "Broodling" (:270-279)
+  grade: "lvl/20 + 2, fraction rolled as a chance, clamped 2..6; lvl = max(base level, map Low) or uniqueMonsterLevel"
+  loot_tier_bonus: 1
+  band_roll_divisor: 4
+  rarity_mult: 2
+  special_pool_max_grade: 6                       # non-bosses stop at 5 (:1209)
+  non_enchantable_drop: "re-rolled with Item:Randomize(t.Strength, 0) through the same handler (:978-986)"
+  omnipotent: {loot_tier_bonus: 1, forced_rarity: celestial}   # PlaceMon skill "Omnipotent" (:295-298)
+  resurrected: "NameId > 300: drop % / 4 (rounded), gold dice sides / 4 (min 1) (:265-267)"
+  chest_artifacts: >-
+    chest items in mawArtifacts with MaxCharges 0, ItemsTxt Value >= 20000 and BonusStrength 0 are re-rolled as
+    boss loot at strength 6 every AfterLoadMap (:4523-4536); mawArtifactsKeep is entirely commented out
+    (:4489-4521), so quest artifacts in chests are replaced too
+
+monster_drops:
+  source: "events.PickCorpse, zzMaw-Items.lua:161-327"
+  variant_tier: "Id % 3: 1 weak (tier 1), 2 mid (tier 2), 0 strong (tier 3)"
+  regular:                                        # Item == 0 and not a boss (:231-261)
+    drop_percent: "ceil(sqrt(mon.Level) * (1 + tier) * 0.5 + min(origPercent, 50) * 0.3)"
+    doom: "x0.5 (rounded)"
+    bolster_300: "x0.75 (rounded); not combined with Doom (elseif)"
+    grade: >-
+      itemTier = (max(base level of the mid variant, mapLevels.Low) + 10*tier)/20, fraction rolled as a chance,
+      floor, clamp 1..6 -> TreasureItemLevel; if itemTier <= 0 the drop % is multiplied by 2^(itemTier-1)
+    any_type_chance: 0.7                          # TreasureItemType = 0 (any item kind)
+  monster_level_for_loot: "getMonsterLevel(mon) (LootContext.set, :304-308)"
+
+gold:
+  monster_dice:                                   # :210-228
+    target: "(bolsterLevel2 + lvl) * 7.5; x0.5 weak, x2 strong; lvl = BLevel[Id] or mon.Level"
+    rule: >-
+      only when the monster already had gold and target > current average: DiceCount = DiceSides = min(sqrt(target),
+      255)
+  chest_gold:                                     # once per map, mapvars.chestGoldFix (:903-928)
+    item_ids: [187, 188, 189, 197, 198, 199, 999, 1000, 1001, 1799, 1800, 1801]
+    amount: "10 * (mapLevel + bolsterLevel) * {1, 2, 4} * (0.66 + random()*0.66)"
+    map_level: "(Low + Mid + High)/3 of mapLevels"
+    bolster_level: "madnessMapLevels[name] in madness; mapAffixes.Power*10 + 20 on dimension maps"
+    size_by_id: "(index in the list - 1) % 3 + 1 -> 1, 2, 3 where 3 counts as 4"
+  loot_filter_gold: "0.4 x item value (see loot_filter)"
+
+value:
+  source: "getItemValue, zzMaw-Items.lua:1920-2009 (events.CalcItemValue :1897-1918)"
+  applies_to: "enchantable base items; reagents, skill books 971-979 and shop crafting prices have own rules"
+  formula:
+    base: "ItemsTxt.Value"
+    enchant_1: >-
+      BonusStrength*100; HP/SP (8, 9): 5*(sqrt(2*s + 100) - 10)*100; AC (10): x2; skills (17-24): s^2*100
+    enchant_2: >-
+      s*100; HP/SP: 5*(sqrt(2*(s*100) + 100) - 10) (no *100, and fed the already multiplied value: bug); AC: x2;
+      no skill branch
+    power_mult: "MaxCharges/20"
+    base_price_bonus: "ItemsTxt.Value * MaxCharges/20"
+    special: >-
+      v = SPCITEMS Value (x MaxCharges/20 when the special has a bonusEffects entry); v < 11 -> basePriceBonus *= v
+      (and x2.5 more when v == 10); else basePriceBonus += v. Only when 0 < Bonus2 <= SpcItemsTxt.high and the
+      item carries rarity data or BonusExpireTime < Game.Time
+    total: "Value + basePriceBonus + enchant_1 + enchant_2; x2.5 with a legendary affix"
+  shop_buy: >-
+    HouseScreen 2 or 95: value^(1 + 0.08*count), count = enchants present + max(ancient tier, 2) when the item has
+    an ancient tier (Ancient counts as 2, Primordial 2)
+  elsewhere: "value * 0.4 (sell price base, loot filter, tooltip Value)"
+  rounding: {above_200000: 1000, above_50000: 500, above_1000: 100, above_100: 10}
+  reagents: "value = round(base*((Bonus*0.75)/20 + 1) + Bonus*0.75)*10, shown as 'Power: N' (:1901-1905)"
+  skill_books_971_979: "value of the contained book ItemsTxt[BonusStrength].Value (:1909-1911)"
+
+shops:
+  stock_generation: "same ItemGenerated path; dropLevel = getTotalLevel()*0.75; no artifact substitution (:1007)"
+  rarity: >-
+    no Legendary/Celestial/Primordial; Ancient at the Primordial base 0.04 without pity; shop Ancient priced as tier 2
+  crafting_materials:                             # :1036-1095, misc shops (house id <= 110), not in Austerity
+    trigger: "stock item with EquipStat >= 12 at 30 % chance, or EquipStat 19 always"
+    special_item_chance: "min((PartyGold/20000000)^0.7, 1)"
+    special_item_weights: {1061: 7, 1062: 7, 1063: 15, 1064: 2, 1065: 5, 1066: 7, 1067: 3, 1070: 15}
+    gem_fallback: >-
+      1041 + min(floor(getPartyLevel(4)/25) (+2 at 5 %, +1 at 25 %), 15)  (GEM_DROP_MAX_TIER 16, zzAlchemy.lua:713)
+  reroll:                                         # refreshItems, :3922-3984; key R (82) in HouseScreen 2/95
+    houses: "house id < 110 (isRedone remap +2 above 35 and +2 above 75)"
+    party_level: "getPartyLevel(4) - min(MMLVL[world]/2, 54)"
+    strength: "min(floor(MMLVL[world]/18) + 2, 5)"
+    cost: "(floor(partyLevel/15) + strength)^2 * 250 gold; nothing happens if the party cannot pay"
+    per_slot: >-
+      12 slots; before each slot, if random(1,18) < MMLVL[world] % 18 then strength = min(strength+1, 5)
+      (cumulative across slots); armour/shield slots Randomize(strength, random of const.ItemType {31 Leather,
+      32 Chain, 33 Plate, 34 Shield_, 5 Shield}) (shopArmors :3929), other slots
+      Randomize(strength, random of vars.shopType[house]); every rerolled item is identified
+    shop_kinds: >-
+      vars.shopType[house] = distinct EquipStat+1 of current stock except armour, shield, EquipStat 19 (:3999-4046)
+    stale_message: "'Press R to refresh new items (20000 gold)' shown on every shop open; the price is wrong (:4012)"
+  merchant_overflow_fix: >-
+    any member with Merchant > 15 or mastery >= GM: House.Val = 1 and merchant skill result 100 (:3992-4010)
+  doom_services: "identify price IdRepSt^2, repair House.Val 5 (:4188-4202)"
+  spell_books: >-
+    MM7/MM8 tiers 1-11: 100, 200, 300, 500, 1000, 2000, 4000, 6000, 8000, 10000, 15000; MM6 tiers 1-13: 100, 200,
+    300, 300, 500, 500, 1000, 2000, 4000, 6000, 8000, 10000, 15000; items 477-498 x2; selected books 20000-100000;
+    insanity shops x5 (tiers 5-7), x10 (8-10), x20 (11) (:2194-2325)
+  crafting_buy_prices: {1041: 1000, 1042: 2000, 1043: 4000, 1044: 7000, 1045: 12000, 1046: 20000, 1047: 30000,
+    1048: 40000, 1049: 50000, 1050: 60000, 1051: 80000, 1052: 100000, 1053: 120000, 1054: 140000, 1055: 160000,
+    1056: 180000, 1057: 200000, 1058: 230000, 1059: 260000, 1060: 300000, 1061: 1250000, 1062: 750000,
+    1063: 325000, 1064: 6668999, 1065: 2000000, 1066: 1000000, 1067: 3000000, 1070: 250000}   # reagentPrices :2011
+  crafting_base_values: >-
+    gem tier i: i*1000; 1061 30000, 1062 20000, 1063 15000, 1064 100000, 1065 60000, 1066 25000, 1067 80000, 1068
+    200000 (:2233-2243)
+  special_items:                                  # Modules/MawCore/SpecialItems.lua
+    always_identify_and_repair: true
+    sell_when: "ItemsTxt Value > 0, and for Material 3 or quest-bound items only after the quest is done"
+    quest_bound: {516: "QBit 128", 539: "QBits 1540/1541", 540: "QBits 1543/1544", 541: "QBit 1545 or award 29",
+                  1342: "QBits 1564/1565", 1344: "QBits 1586-1589", 2118: "award 79", 2119: "award 57"}
+    prices_for_zero_value: {516: 20000, 539: 20000, 540: 20000, 541: 20000, 1439: 2500, 2118: 2500, 2119: 2500,
+                            2199: 2500}
+    sell_once: "516, 539 (seer bit 199), 540 (200), 541 (201), 1439, 2118, 2119, 2199; the seer bit is cleared on sale"
+
+loot_filter:
+  setting: >-
+    MAW SETTINGS 'Loot Filter': OFF, Common, Uncom., Rare, Epic, Ancient, Primordial (zz_Maw-initialize.lua:569)
+  item_power: "1 + number of enchants (1..4); Ancient 5, Primordial 6, Legendary 7, Celestial 8 (:1324-1343)"
+  threshold: "filter index (Common 1 .. Primordial 6, OFF 0); an item with power <= index is filtered"
+  monster_drops: >-
+    only drops from a corpse (lootFromMonster): the item is deleted (Number = 0) and getItemValue(it)*0.4 gold is
+    added next tick with "You found N gold! (<tier> <unidentified name> filtered)" (:1345-1364)
+  chests: >-
+    once per map (mapvars.lootFiltered, :930-970): filtered base items become gold items
+    {1799, 999, 187, 1800, 1000, 188, 1801, 1001, 189}[min(power*2 - random(0,1), 9)] holding the 0.4x value
+  never_filtered: "Legendary and Celestial (no setting reaches 7)"
+
+other_loot_hooks:
+  ground_and_chest_potions: >-
+    potions 264-289 in chests and on the ground become a random 252-263 on LoadMap (:4450-4465)
+  isRedone_chests: >-
+    when the 'Redone' map pack is present: chest and ground base items with MaxCharges 0 are Randomize(clamp(
+    floor(mapLevel/20) + 1, 2, 6), EquipStat+1) once per map (:4321-4348)
+  reagents: "reagent drops get Bonus = round(min(dropLevel, totalLevel)/3), /8 in Austerity (:1115-1123)"
+  artifact_substitution: "0.5 % with pity; see artifacts.yml"
+  telepathy: "CastTelepathy sets the same seeds, so it previews the real drop (:329-356)"
+
+seeding:
+  save_seed: "vars.seed = os.time() on first use"
+  monster_seed: >-
+    per map: mapSeed = vars.seed + sum(byte(name,i)*i*13) + MapStatsIndex*47; monster i: Game.RandSeed advanced
+    from mapSeed + i*97 by 50 + (i % 20) Rand() calls (:357-403); the advanced seed is stored back after looting
+    (:319-325)
+  insanity_seed: "per monster type: start vars.seed + Id*1009, LCG a=1664525 c=1013904223 m=2^32 per kill (:33-61)"
+  boss_seed: >-
+    abs(vars.seed + sum(byte*i*31) + MapStatsIndex*97 + index*1337 + Id*2003 + BossSeed[index]) % 2147483647 (:64-91)
+  per_item_number: >-
+    vars.SeedList[0..2500] = i*1e9 + random(0, 999999999); math.randomseed(SeedList[id]) per generated item, then
+    replaced (:987-996)
+
+# ---------------------------------------------------------------------------------------------------------------
+# Tables computed by running MAW's own functions (ItemLevel.lua, Formulas.lua, Estimates.lua:98-143,
+# zzMaw-Items.lua:444-475 and :4555-4603, zzMAW-Skills.lua:424-440) under Lua 5.4 against MAW's ITEMS.txt
+# (zMaw.T.lod), with the init-time edits of zzMaw-Items.lua:406-407, :1412-1435 and :2614-2640 applied.
+# Base items only (ids 1-151, 803-936, 1603-1736, without the blasters 866, 867, 1666, 1667).
+# ---------------------------------------------------------------------------------------------------------------
+enchant_strength_by_tier:
+  # raw rolled strength before skill transform, slot multiplier and read transforms; difficulty power 1
+  # except the last column (x1.2 = Road to Insanity / Beyond Madness). Computed with zzMaw-Items.lua:444-475.
+  columns: [tier, encStrUp, encStrUp_austerity, common_to_epic_min, common_to_epic_max, legendary_min,
+            legendary_max, ancient_min, ancient_max, primordial_celestial, primordial_celestial_x1_2]
+  rows:
+    - [0, 1, 2, 0, 1, 1, 1, 1, 1, 1, 3]
+    - [1, 3, 3, 1, 3, 2, 3, 3, 4, 4, 5]
+    - [2, 5, 4, 2, 5, 4, 5, 5, 6, 6, 8]
+    - [3, 7, 5, 3, 7, 6, 7, 7, 9, 9, 11]
+    - [4, 9, 6, 4, 9, 7, 9, 9, 11, 11, 14]
+    - [5, 11, 7, 4, 11, 9, 11, 11, 14, 14, 18]
+    - [6, 13, 8, 5, 13, 10, 13, 13, 16, 16, 20]
+    - [7, 15, 9, 6, 15, 12, 15, 15, 19, 19, 23]
+    - [8, 17, 10, 7, 17, 14, 17, 17, 21, 21, 26]
+    - [9, 19, 11, 8, 19, 15, 19, 19, 24, 24, 29]
+    - [10, 21, 12, 8, 21, 17, 21, 21, 26, 26, 33]
+    - [11, 23, 13, 9, 23, 18, 23, 23, 29, 29, 35]
+    - [12, 25, 14, 10, 25, 20, 25, 25, 31, 31, 38]
+    - [13, 28, 15, 11, 28, 22, 28, 28, 35, 35, 43]
+    - [14, 31, 16, 12, 31, 25, 31, 31, 39, 39, 48]
+    - [15, 34, 17, 14, 34, 27, 34, 34, 43, 43, 51]
+    - [16, 37, 18, 15, 37, 30, 37, 37, 46, 46, 56]
+    - [17, 40, 19, 16, 40, 32, 40, 40, 50, 50, 60]
+    - [18, 43, 20, 17, 43, 34, 43, 43, 54, 54, 65]
+    - [19, 46, 21, 18, 46, 37, 46, 46, 58, 58, 70]
+    - [20, 49, 22, 20, 49, 39, 49, 49, 61, 61, 74]
+    - [21, 52, 23, 21, 52, 42, 52, 52, 65, 65, 79]
+    - [22, 55, 24, 22, 55, 44, 55, 55, 69, 69, 83]
+    - [23, 58, 25, 23, 58, 46, 58, 58, 73, 73, 88]
+    - [24, 61, 26, 24, 61, 49, 61, 61, 76, 76, 93]
+    - [25, 64, 27, 26, 64, 51, 64, 64, 80, 80, 96]
+    - [26, 67, 28, 27, 67, 54, 67, 67, 84, 84, 101]
+    - [27, 70, 29, 28, 70, 56, 70, 70, 88, 88, 105]
+    - [28, 73, 30, 29, 73, 58, 73, 73, 91, 91, 110]
+    - [29, 76, 31, 30, 76, 61, 76, 76, 95, 95, 115]
+    - [30, 79, 32, 32, 79, 63, 79, 79, 99, 99, 119]
+    - [31, 82, 34, 33, 82, 66, 82, 82, 103, 103, 124]
+    - [32, 85, 36, 34, 85, 68, 85, 85, 106, 106, 128]
+    - [33, 88, 38, 35, 88, 70, 88, 88, 110, 110, 133]
+    - [34, 91, 40, 36, 91, 73, 91, 91, 114, 114, 138]
+    - [35, 94, 42, 38, 94, 75, 94, 94, 118, 118, 141]
+    - [36, 97, 44, 39, 97, 78, 97, 97, 121, 121, 146]
+    - [37, 100, 46, 40, 100, 80, 100, 100, 125, 125, 150]
+    - [38, 100, 48, 40, 100, 80, 100, 100, 125, 125, 150]
+    - [39, 100, 50, 40, 100, 80, 100, 100, 125, 125, 150]
+    - [40, 100, 52, 40, 100, 80, 100, 100, 125, 125, 150]
+level_requirement_by_drop_level:
+  # GetLevelRquirement (zzMaw-Items.lua:4350, MAW 8967ae88) for stored drop level D and ladder rung r: WearLevel =
+  # min(L - (10 + 0.09 L), 0.8 D) with L = D + TierLevels, TierLevels = (r-1)*3.
+  # night = -6 (Game.BolsterAmount >= 300); night_doom = -6 and -3 (vars.Mode == 2); Road to Insanity /
+  # Beyond Madness (vars.insanityMode) also subtract 3, the same as Doom.
+  columns: [drop_level, item_power, rung1, rung2_25, rung3_5, rung4_75, rung6, rung1_night, rung6_night,
+            rung6_night_doom]
+  rows:
+    - [0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+    - [5, 1, 1, 1, 1, 4, 4, 1, 1, 1]
+    - [10, 2, 1, 2, 5, 8, 8, 1, 2, 1]
+    - [15, 3, 3, 7, 10, 12, 12, 1, 6, 3]
+    - [20, 4, 8, 11, 15, 16, 16, 2, 10, 7]
+    - [25, 5, 12, 16, 19, 20, 20, 6, 14, 11]
+    - [30, 6, 17, 20, 24, 24, 24, 11, 18, 15]
+    - [40, 8, 26, 29, 32, 32, 32, 20, 26, 23]
+    - [50, 10, 35, 38, 40, 40, 40, 29, 34, 31]
+    - [60, 12, 44, 48, 48, 48, 48, 38, 42, 39]
+    - [75, 15, 58, 60, 60, 60, 60, 52, 54, 51]
+    - [90, 18, 71, 72, 72, 72, 72, 65, 66, 63]
+    - [100, 20, 80, 80, 80, 80, 80, 74, 74, 71]
+    - [120, 24, 96, 96, 96, 96, 96, 90, 90, 87]
+    - [150, 30, 120, 120, 120, 120, 120, 114, 114, 111]
+    - [175, 35, 140, 140, 140, 140, 140, 134, 134, 131]
+    - [200, 40, 160, 160, 160, 160, 160, 154, 154, 151]
+    - [250, 50, 200, 200, 200, 200, 200, 194, 194, 191]
+    - [300, 60, 240, 240, 240, 240, 240, 234, 234, 231]
+    - [350, 70, 280, 280, 280, 280, 280, 274, 274, 271]
+    - [400, 80, 320, 320, 320, 320, 320, 314, 314, 311]
+    - [450, 90, 360, 360, 360, 360, 360, 354, 354, 351]
+    - [500, 100, 400, 400, 400, 400, 400, 394, 394, 391]
+    - [600, 100, 480, 480, 480, 480, 480, 474, 474, 471]
+    - [750, 100, 600, 600, 600, 600, 600, 594, 594, 591]
+    - [1000, 100, 800, 800, 800, 800, 800, 794, 794, 791]
+
+weapon_bases:  # id: [name, family, skill, hands, ladder rung, dice count]
+  1: ["Iron Longsword", "Longsword", sword, 1H, 1.00, 2]
+  2: ["Trollish War Sword", "Longsword", sword, 1H, 2.25, 3]
+  3: ["Dark Elven Longsword", "Longsword", sword, 1H, 3.50, 3]
+  4: ["Templar's Sword", "Longsword", sword, 1H, 4.75, 3]
+  5: ["Champion's Sword", "Longsword", sword, 1H, 6.00, 3]
+  6: ["Iron Two-Handed Sword", "Two-Handed Sword", sword, 2H, 1.00, 4]
+  7: ["Dark Elven Bastard Sword", "Two-Handed Sword", sword, 2H, 2.25, 4]
+  8: ["Minotaur Battlesword", "Two-Handed Sword", sword, 2H, 3.50, 4]
+  9: ["Dragonning Blade", "Two-Handed Sword", sword, 2H, 4.75, 4]
+  10: ["Headsman's Reaver", "Two-Handed Sword", sword, 2H, 6.00, 4]
+  11: ["Iron Broadsword", "Broadsword", sword, 1H, 1.00, 3]
+  12: ["Trollish Claymore", "Broadsword", sword, 1H, 2.25, 3]
+  13: ["Lizardman Broadsword", "Broadsword", sword, 1H, 3.50, 3]
+  14: ["Knightly Broadsword", "Broadsword", sword, 1H, 4.75, 3]
+  15: ["Archangel Broadsword", "Broadsword", sword, 1H, 6.00, 3]
+  16: ["Rusty Cutlass", "Cutlass", sword, 1H, 1.00, 2]
+  17: ["Goblin Scimitar", "Cutlass", sword, 1H, 2.25, 2]
+  18: ["Regnan Cutlass", "Cutlass", sword, 1H, 3.50, 2]
+  19: ["Regnan Falchion", "Cutlass", sword, 1H, 4.75, 2]
+  20: ["Captain's Cutlass", "Cutlass", sword, 1H, 6.00, 2]
+  21: ["Crude Dagger", "Dagger", dagger, 1H, 1.00, 2]
+  22: ["Crystal Dagger", "Dagger", dagger, 1H, 2.25, 2]
+  23: ["Merchantman's Dagger", "Dagger", dagger, 1H, 3.50, 2]
+  24: ["Master's Dagger", "Dagger", dagger, 1H, 4.75, 1]
+  25: ["Fanged Blade", "Dagger", dagger, 1H, 6.00, 2]
+  26: ["Long Dagger", "Long Dagger", dagger, 1H, 1.00, 2]
+  27: ["Alvarian Poignard", "Long Dagger", dagger, 1H, 2.25, 2]
+  28: ["Regnan Fighting Knife", "Long Dagger", dagger, 1H, 3.50, 2]
+  29: ["Twilight Kris", "Long Dagger", dagger, 1H, 4.75, 2]
+  30: ["Dueling Long Dagger", "Long Dagger", dagger, 1H, 6.00, 2]
+  31: ["Stone Axe", "Axe", axe, 1H, 1.00, 3]
+  32: ["Battle Hatchet", "Axe", axe, 1H, 2.25, 4]
+  33: ["Battleaxe", "Axe", axe, 1H, 3.50, 4]
+  34: ["Dwarven Battleaxe", "Axe", axe, 1H, 4.75, 3]
+  35: ["Minotaur Battleaxe", "Axe", axe, 1H, 6.00, 4]
+  36: ["Two-Handed Axe", "Two-Handed Axe", axe, 2H, 1.00, 3]
+  37: ["Footman's Axe", "Two-Handed Axe", axe, 2H, 2.25, 3]
+  38: ["Minotaur War Axe", "Two-Handed Axe", axe, 2H, 3.50, 3]
+  39: ["Elite Minotaur Axe", "Two-Handed Axe", axe, 2H, 4.75, 3]
+  40: ["Minotaur Herdsman Axe", "Two-Handed Axe", axe, 2H, 6.00, 3]
+  41: ["Ogre Fighting Stick", "Spear", spear, 1H, 1.00, 1]
+  42: ["Steel Spear", "Spear", spear, 1H, 2.25, 1]
+  43: ["Elven Long Spear", "Spear", spear, 1H, 3.50, 1]
+  44: ["War Spear", "Spear", spear, 1H, 4.75, 1]
+  45: ["Dragon Harpoon", "Spear", spear, 1H, 6.00, 1]
+  46: ["Improvised Voulge", "Halberd", spear, 2H, 1.00, 3]
+  47: ["Halberd", "Halberd", spear, 2H, 2.25, 3]
+  48: ["Beaked Halberd", "Halberd", spear, 2H, 3.50, 3]
+  49: ["Minotaur Campaign Pole-axe", "Halberd", spear, 2H, 4.75, 3]
+  50: ["Labyrinth Grapple", "Halberd", spear, 2H, 6.00, 3]
+  51: ["Hayfork", "Trident", spear, 1H, 1.00, 2]
+  52: ["Infantry Fork", "Trident", spear, 1H, 2.25, 2]
+  53: ["Lizardman Trident", "Trident", spear, 1H, 3.50, 2]
+  54: ["Regnan Trident", "Trident", spear, 1H, 4.75, 2]
+  55: ["Triton Trident", "Trident", spear, 1H, 6.00, 2]
+  56: ["Hunting Bow", "Bow", bow, 1H, 1.00, 5]
+  57: ["Recurve Bow", "Bow", bow, 1H, 2.25, 5]
+  58: ["Snakewood Bow", "Bow", bow, 1H, 3.50, 4]
+  59: ["Elven Warbow", "Bow", bow, 1H, 4.75, 5]
+  60: ["Devilbone Bow", "Bow", bow, 1H, 6.00, 5]
+  61: ["Light Crossbow", "Crossbow", bow, 1H, 1.00, 3]
+  62: ["Blood Drop Crossbow", "Crossbow", bow, 1H, 2.25, 3]
+  63: ["Hunting Crossbow", "Crossbow", bow, 1H, 3.50, 4]
+  64: ["Caravaner's Crossbow", "Crossbow", bow, 1H, 4.75, 4]
+  65: ["Regnan Crossbow", "Crossbow", bow, 1H, 6.00, 4]
+  66: ["Sturdy Mace", "Mace", mace, 1H, 1.00, 2]
+  67: ["Flail", "Mace", mace, 1H, 2.25, 2]
+  68: ["Temple Mace", "Mace", mace, 1H, 3.50, 2]
+  69: ["Reverend Sceptre", "Mace", mace, 1H, 4.75, 2]
+  70: ["Trollish War Mace", "Mace", mace, 1H, 6.00, 2]
+  71: ["Sledgehammer", "Hammer", mace, 1H, 1.00, 2]
+  72: ["Field Hammer", "Hammer", mace, 1H, 2.25, 2]
+  73: ["Warhammer", "Hammer", mace, 1H, 3.50, 2]
+  74: ["Sun Hammer", "Hammer", mace, 1H, 4.75, 2]
+  75: ["Trollish Maul", "Hammer", mace, 1H, 6.00, 2]
+  76: ["Barbed Club", "Club", club, 1H, 1.00, 1]
+  77: ["Thornbark Club", "Club", club, 1H, 3.50, 1]
+  78: ["Overlord's Club", "Club", mace, 1H, 6.00, 3]
+  79: ["Journey Staff", "Staff", staff, 2H, 1.00, 2]
+  80: ["Orb Staff", "Staff", staff, 2H, 2.25, 2]
+  81: ["Priestly Staff", "Staff", staff, 2H, 3.50, 2]
+  82: ["Serpent Staff", "Staff", staff, 2H, 4.75, 2]
+  83: ["Bone Staff", "Staff", staff, 2H, 6.00, 2]
+  803: ["Crude Longsword", "Longsword", sword, 1H, 1.00, 3]
+  804: ["Elven Saber", "Longsword", sword, 1H, 2.25, 3]
+  805: ["Keen Longsword", "Longsword", sword, 1H, 3.50, 3]
+  806: ["Graceful Sword", "Longsword", sword, 1H, 4.75, 3]
+  807: ["Duelist Blade", "Longsword", sword, 1H, 6.00, 3]
+  808: ["Two-Handed Sword", "Two-Handed Sword", sword, 2H, 1.00, 4]
+  809: ["Great Sword", "Two-Handed Sword", sword, 2H, 3.50, 4]
+  810: ["Heroic Sword", "Two-Handed Sword", sword, 2H, 6.00, 4]
+  811: ["Broadsword", "Broadsword", sword, 1H, 1.00, 3]
+  812: ["Steel Broadsword", "Broadsword", sword, 1H, 3.50, 3]
+  813: ["Master Broadsword", "Broadsword", sword, 1H, 6.00, 3]
+  814: ["Cutlass", "Cutlass", sword, 1H, 1.00, 2]
+  815: ["Goblin Cutlass", "Cutlass", sword, 1H, 3.50, 2]
+  816: ["Exquisite Cutlass", "Cutlass", sword, 1H, 6.00, 2]
+  817: ["Improvised Dagger", "Dagger", dagger, 1H, 1.00, 1]
+  818: ["Dwarven Dagger", "Dagger", dagger, 1H, 2.25, 1]
+  819: ["Sharktooth Dagger", "Dagger", dagger, 1H, 3.50, 1]
+  820: ["Assassin's Dagger", "Dagger", dagger, 1H, 4.75, 2]
+  821: ["Wonder Dagger", "Dagger", dagger, 1H, 6.00, 2]
+  822: ["Shoddy Long Dagger", "Long Dagger", dagger, 1H, 1.00, 2]
+  823: ["Erathian Long Dagger", "Long Dagger", dagger, 1H, 3.50, 2]
+  824: ["Exquisite Long Dagger", "Long Dagger", dagger, 1H, 6.00, 2]
+  825: ["Crude Axe", "Axe", axe, 1H, 1.00, 4]
+  826: ["Battle Axe", "Axe", axe, 1H, 2.25, 4]
+  827: ["Dwarven Axe", "Axe", axe, 1H, 3.50, 4]
+  828: ["Steel Axe", "Axe", axe, 1H, 4.75, 4]
+  829: ["Minotaur Axe", "Axe", axe, 1H, 6.00, 4]
+  830: ["Poleaxe", "Two-Handed Axe", axe, 2H, 1.00, 3]
+  831: ["Warrior's Poleaxe", "Two-Handed Axe", axe, 2H, 3.50, 3]
+  832: ["Headsman's Poleaxe", "Two-Handed Axe", axe, 2H, 6.00, 3]
+  833: ["Crude Spear", "Spear", spear, 1H, 1.00, 1]
+  834: ["Soldier's spear", "Spear", spear, 1H, 2.25, 1]
+  835: ["Elven Spear", "Spear", spear, 1H, 3.50, 1]
+  836: ["Cruel Spear", "Spear", spear, 1H, 4.75, 1]
+  837: ["Sublime Spear", "Spear", spear, 1H, 6.00, 1]
+  838: ["Old Halberd", "Halberd", spear, 2H, 1.00, 3]
+  839: ["Weighted Halberd", "Halberd", spear, 2H, 3.50, 3]
+  840: ["Mighty Halberd", "Halberd", spear, 2H, 6.00, 3]
+  841: ["Crude Trident", "Trident", spear, 1H, 1.00, 2]
+  842: ["Barbed Trident", "Trident", spear, 1H, 3.50, 2]
+  843: ["War Trident", "Trident", spear, 1H, 6.00, 2]
+  844: ["Crude Bow", "Longbow", bow, 1H, 1.00, 4]
+  845: ["Longbow", "Longbow", bow, 1H, 2.25, 5]
+  846: ["Elven Longbow", "Longbow", bow, 1H, 3.50, 5]
+  847: ["Composite Bow", "Longbow", bow, 1H, 4.75, 4]
+  848: ["Griffin Bow", "Longbow", bow, 1H, 6.00, 4]
+  849: ["Crude Crossbow", "Crossbow", bow, 1H, 1.00, 3]
+  850: ["Heavy Crossbow", "Crossbow", bow, 1H, 3.50, 4]
+  851: ["Ideal Crossbow", "Crossbow", bow, 1H, 6.00, 3]
+  852: ["Crude Mace", "Mace", mace, 1H, 1.00, 2]
+  853: ["Spiked Mace", "Mace", mace, 1H, 2.25, 2]
+  854: ["Zealot Mace", "Mace", mace, 1H, 3.50, 2]
+  855: ["Dwarven Morningstar", "Mace", mace, 1H, 4.75, 2]
+  856: ["Supreme Flail", "Mace", mace, 1H, 6.00, 2]
+  857: ["Makeshift Hammer", "Hammer", mace, 1H, 1.00, 2]
+  858: ["Battle Hammer", "Hammer", mace, 1H, 3.50, 2]
+  859: ["Dwarven Hammer", "Hammer", mace, 1H, 6.00, 2]
+  860: ["Primitive Club", "Club", club, 1H, 1.00, 1]
+  861: ["Thorned Club", "Club", club, 1H, 3.50, 1]
+  862: ["Steel Club", "Club", club, 1H, 6.00, 1]
+  863: ["Simple Staff", "Staff", staff, 2H, 1.00, 2]
+  864: ["Iron Core Staff", "Staff", staff, 2H, 3.50, 2]
+  865: ["Wizard Staff", "Staff", staff, 2H, 6.00, 2]
+  1603: ["Longsword", "Longsword", sword, 1H, 1.00, 3]
+  1604: ["Warrior Sword", "Longsword", sword, 1H, 2.25, 3]
+  1605: ["Crusader Sword", "Longsword", sword, 1H, 3.50, 3]
+  1606: ["Conqueror Sword", "Longsword", sword, 1H, 4.75, 3]
+  1607: ["Lionheart Sword", "Longsword", sword, 1H, 6.00, 3]
+  1608: ["Claymore", "Two-Handed Sword", sword, 2H, 1.00, 4]
+  1609: ["Barbarian Flamberge", "Two-Handed Sword", sword, 2H, 3.50, 4]
+  1610: ["Vanquisher Sword", "Two-Handed Sword", sword, 2H, 6.00, 4]
+  1611: ["Fine Broadsword", "Broadsword", sword, 1H, 1.00, 3]
+  1612: ["Massive Steel Broadsword", "Broadsword", sword, 1H, 3.50, 3]
+  1613: ["Mighty Broadsword", "Broadsword", sword, 1H, 6.00, 3]
+  1614: ["Cutlass", "Cutlass", sword, 1H, 1.00, 2]
+  1615: ["Pirate Cutlass", "Cutlass", sword, 1H, 3.50, 2]
+  1616: ["Master Cutlass", "Cutlass", sword, 1H, 6.00, 2]
+  1617: ["Dagger", "Dagger", dagger, 1H, 1.00, 2]
+  1618: ["Blood Dagger", "Dagger", dagger, 1H, 2.25, 2]
+  1619: ["Shadow Dagger", "Dagger", dagger, 1H, 3.50, 2]
+  1620: ["Mage Dagger", "Dagger", dagger, 1H, 4.75, 2]
+  1621: ["Jeweled Dagger", "Dagger", dagger, 1H, 6.00, 2]
+  1622: ["Fine Long Dagger", "Long Dagger", dagger, 1H, 1.00, 2]
+  1623: ["Piercing Dagger", "Long Dagger", dagger, 1H, 3.50, 2]
+  1624: ["Divine Dagger", "Long Dagger", dagger, 1H, 6.00, 2]
+  1625: ["Hand Axe", "Axe", axe, 1H, 1.00, 4]
+  1626: ["Barbarian Axe", "Axe", axe, 1H, 2.25, 3]
+  1627: ["War Axe", "Axe", axe, 1H, 3.50, 3]
+  1628: ["Dwarven Noble Axe", "Axe", axe, 1H, 4.75, 4]
+  1629: ["Supreme Axe", "Axe", axe, 1H, 6.00, 3]
+  1630: ["Light Poleaxe", "Two-Handed Axe", axe, 2H, 1.00, 3]
+  1631: ["Heavy Poleaxe", "Two-Handed Axe", axe, 2H, 3.50, 3]
+  1632: ["Grand Poleaxe", "Two-Handed Axe", axe, 2H, 6.00, 3]
+  1633: ["Spear", "Spear", spear, 1H, 1.00, 1]
+  1634: ["Stout Spear", "Spear", spear, 1H, 2.25, 1]
+  1635: ["Serpent Spear", "Spear", spear, 1H, 3.50, 1]
+  1636: ["Savage Spear", "Spear", spear, 1H, 4.75, 1]
+  1637: ["Sacred Spear", "Spear", spear, 1H, 6.00, 1]
+  1638: ["Common Halberd", "Halberd", spear, 2H, 1.00, 3]
+  1639: ["Massive Halberd", "Halberd", spear, 2H, 3.50, 3]
+  1640: ["Elite Halberd", "Halberd", spear, 2H, 6.00, 3]
+  1641: ["Trident", "Trident", spear, 1H, 1.00, 2]
+  1642: ["Ornate Trident", "Trident", spear, 1H, 3.50, 2]
+  1643: ["Titanic Trident", "Trident", spear, 1H, 6.00, 2]
+  1644: ["Crude Longbow", "Longbow", bow, 1H, 1.00, 5]
+  1645: ["Elven Bow", "Longbow", bow, 1H, 2.25, 4]
+  1646: ["Precision Bow", "Longbow", bow, 1H, 3.50, 5]
+  1647: ["Magic Bow", "Longbow", bow, 1H, 4.75, 5]
+  1648: ["Stellar Bow", "Longbow", bow, 1H, 6.00, 6]
+  1649: ["Crossbow", "Crossbow", bow, 1H, 1.00, 4]
+  1650: ["Accurate Crossbow", "Crossbow", bow, 1H, 3.50, 4]
+  1651: ["True Crossbow", "Crossbow", bow, 1H, 6.00, 4]
+  1652: ["Simple Mace", "Mace", mace, 1H, 1.00, 2]
+  1653: ["Wicked Mace", "Mace", mace, 1H, 2.25, 2]
+  1654: ["Thunder Mace", "Mace", mace, 1H, 3.50, 2]
+  1655: ["Wonder Mace", "Mace", mace, 1H, 4.75, 2]
+  1656: ["Death Mace", "Mace", mace, 1H, 6.00, 2]
+  1657: ["Massive Hammer", "Hammer", mace, 1H, 1.00, 2]
+  1658: ["Dark Hammer", "Hammer", mace, 1H, 3.50, 2]
+  1659: ["Holy Hammer", "Hammer", mace, 1H, 6.00, 2]
+  1660: ["Root Club", "Club", club, 1H, 1.00, 1]
+  1661: ["Spiked Club", "Club", club, 1H, 3.50, 1]
+  1662: ["Killer Club", "Club", club, 1H, 6.00, 1]
+  1663: ["Staff", "Staff", staff, 2H, 1.00, 2]
+  1664: ["Emerald Staff", "Staff", staff, 2H, 3.50, 2]
+  1665: ["Power Staff", "Staff", staff, 2H, 6.00, 2]
+weapon_damage_by_power:  # "hands rung dice": attack bonus and damage range at item power P (level 5P)
+  columns: [P0, P10, P20, P40, P60, P80, P100]  # P100 = cap; P120 prints the same as P100
+  "1H r1.00 d1": ["+0 1-8", "+5 6-23", "+10 11-38", "+20 21-68", "+30 31-98", "+40 41-128", "+50 51-158"]
+  "1H r1.00 d2": ["+0 2-8", "+5 7-23", "+10 12-38", "+20 22-68", "+30 32-98", "+40 42-128", "+50 52-158"]
+  "1H r1.00 d3": ["+0 3-9", "+5 8-23", "+10 13-37", "+20 23-68", "+30 33-99", "+40 43-127", "+50 53-158"]
+  "1H r1.00 d4": ["+0 4-8", "+5 9-25", "+10 14-38", "+20 24-68", "+30 34-98", "+40 44-128", "+50 54-158"]
+  "1H r1.00 d5": ["+0 5-10", "+5 10-25", "+10 15-40", "+20 25-70", "+30 35-100", "+40 45-130", "+50 55-160"]
+  "1H r2.25 d1": ["+2 3-10", "+7 8-25", "+12 13-40", "+22 23-70", "+32 33-100", "+42 43-130", "+52 53-160"]
+  "1H r2.25 d2": ["+2 4-10", "+7 9-25", "+12 14-40", "+22 24-70", "+32 34-100", "+42 44-130", "+52 54-160"]
+  "1H r2.25 d3": ["+2 5-11", "+7 10-25", "+12 15-39", "+22 25-70", "+32 35-101", "+42 45-129", "+52 55-160"]
+  "1H r2.25 d4": ["+2 6-10", "+7 11-27", "+12 16-40", "+22 26-70", "+32 36-100", "+42 46-130", "+52 56-160"]
+  "1H r2.25 d5": ["+2 7-12", "+7 12-27", "+12 17-42", "+22 27-72", "+32 37-102", "+42 47-132", "+52 57-162"]
+  "1H r3.50 d1": ["+4 5-12", "+9 10-27", "+14 15-42", "+24 25-72", "+34 35-102", "+44 45-132", "+54 55-162"]
+  "1H r3.50 d2": ["+4 6-12", "+9 11-27", "+14 16-42", "+24 26-72", "+34 36-102", "+44 46-132", "+54 56-162"]
+  "1H r3.50 d3": ["+4 7-13", "+9 12-27", "+14 17-41", "+24 27-72", "+34 37-103", "+44 47-131", "+54 57-162"]
+  "1H r3.50 d4": ["+4 8-12", "+9 13-29", "+14 18-42", "+24 28-72", "+34 38-102", "+44 48-132", "+54 58-162"]
+  "1H r3.50 d5": ["+4 9-14", "+9 14-29", "+14 19-44", "+24 29-74", "+34 39-104", "+44 49-134", "+54 59-164"]
+  "1H r4.75 d1": ["+6 7-14", "+11 12-29", "+16 17-44", "+26 27-74", "+36 37-104", "+46 47-134", "+56 57-164"]
+  "1H r4.75 d2": ["+6 8-14", "+11 13-29", "+16 18-44", "+26 28-74", "+36 38-104", "+46 48-134", "+56 58-164"]
+  "1H r4.75 d3": ["+6 9-15", "+11 14-29", "+16 19-43", "+26 29-74", "+36 39-105", "+46 49-133", "+56 59-164"]
+  "1H r4.75 d4": ["+6 10-14", "+11 15-31", "+16 20-44", "+26 30-74", "+36 40-104", "+46 50-134", "+56 60-164"]
+  "1H r4.75 d5": ["+6 11-16", "+11 16-31", "+16 21-46", "+26 31-76", "+36 41-106", "+46 51-136", "+56 61-166"]
+  "1H r6.00 d1": ["+8 9-16", "+13 14-31", "+18 19-46", "+28 29-76", "+38 39-106", "+48 49-136", "+58 59-166"]
+  "1H r6.00 d2": ["+8 10-16", "+13 15-31", "+18 20-46", "+28 30-76", "+38 40-106", "+48 50-136", "+58 60-166"]
+  "1H r6.00 d3": ["+8 11-17", "+13 16-31", "+18 21-45", "+28 31-76", "+38 41-107", "+48 51-135", "+58 61-166"]
+  "1H r6.00 d4": ["+8 12-16", "+13 17-33", "+18 22-46", "+28 32-76", "+38 42-106", "+48 52-136", "+58 62-166"]
+  "1H r6.00 d5": ["+8 13-18", "+13 18-33", "+18 23-48", "+28 33-78", "+38 43-108", "+48 53-138", "+58 63-168"]
+  "1H r6.00 d6": ["+8 14-14", "+13 19-31", "+18 24-48", "+28 34-76", "+38 44-104", "+48 54-138", "+58 64-166"]
+  "2H r1.00 d2": ["+0 2-16", "+10 12-46", "+20 22-76", "+40 42-136", "+60 62-196", "+80 82-256", "+100 102-316"]
+  "2H r1.00 d3": ["+0 3-15", "+10 13-46", "+20 23-77", "+40 43-136", "+60 63-195", "+80 83-257", "+100 103-316"]
+  "2H r1.00 d4": ["+0 4-16", "+10 14-46", "+20 24-76", "+40 44-136", "+60 64-196", "+80 84-256", "+100 104-316"]
+  "2H r2.25 d2": ["+4 6-20", "+14 16-50", "+24 26-80", "+44 46-140", "+64 66-200", "+84 86-260", "+104 106-320"]
+  "2H r2.25 d3": ["+4 7-19", "+14 17-50", "+24 27-81", "+44 47-140", "+64 67-199", "+84 87-261", "+104 107-320"]
+  "2H r2.25 d4": ["+4 8-20", "+14 18-50", "+24 28-80", "+44 48-140", "+64 68-200", "+84 88-260", "+104 108-320"]
+  "2H r3.50 d2": ["+8 10-24", "+18 20-54", "+28 30-84", "+48 50-144", "+68 70-204", "+88 90-264", "+108 110-324"]
+  "2H r3.50 d3": ["+8 11-23", "+18 21-54", "+28 31-85", "+48 51-144", "+68 71-203", "+88 91-265", "+108 111-324"]
+  "2H r3.50 d4": ["+8 12-24", "+18 22-54", "+28 32-84", "+48 52-144", "+68 72-204", "+88 92-264", "+108 112-324"]
+  "2H r4.75 d2": ["+12 14-28", "+22 24-58", "+32 34-88", "+52 54-148", "+72 74-208", "+92 94-268", "+112 114-328"]
+  "2H r4.75 d3": ["+12 15-27", "+22 25-58", "+32 35-89", "+52 55-148", "+72 75-207", "+92 95-269", "+112 115-328"]
+  "2H r4.75 d4": ["+12 16-28", "+22 26-58", "+32 36-88", "+52 56-148", "+72 76-208", "+92 96-268", "+112 116-328"]
+  "2H r6.00 d2": ["+16 18-32", "+26 28-62", "+36 38-92", "+56 58-152", "+76 78-212", "+96 98-272", "+116 118-332"]
+  "2H r6.00 d3": ["+16 19-31", "+26 29-62", "+36 39-93", "+56 59-152", "+76 79-211", "+96 99-273", "+116 119-332"]
+  "2H r6.00 d4": ["+16 20-32", "+26 30-62", "+36 40-92", "+56 60-152", "+76 80-212", "+96 100-272", "+116 120-332"]
+armor_bases:  # id: [name, family, slot, base AC, reference AC, AC at P0, P20, P40, P60, P80, P100, P120]
+  84: ["Leather Jerkin", "Leather Armor", armor, 8, 32, 8, 24, 40, 56, 72, 88, 104]
+  85: ["Hardened Leather Vest", "Leather Armor", armor, 12, 32, 12, 28, 44, 60, 76, 92, 108]
+  86: ["Caravaner's Leather", "Leather Armor", armor, 16, 32, 16, 32, 48, 64, 80, 96, 112]
+  87: ["Regnan Leather", "Leather Armor", armor, 23, 32, 23, 39, 55, 71, 87, 103, 119]
+  88: ["Alvarian Leather", "Leather Armor", armor, 32, 32, 32, 48, 64, 80, 96, 112, 128]
+  89: ["Rusty Mail Vest", "Chainmail", armor, 12, 48, 12, 36, 60, 84, 108, 132, 156]
+  90: ["Steel Chainmail", "Chainmail", armor, 20, 48, 20, 44, 68, 92, 116, 140, 164]
+  91: ["Minotaur Chainmail", "Chainmail", armor, 30, 48, 30, 54, 78, 102, 126, 150, 174]
+  92: ["Siertal Chainmail", "Chainmail", armor, 40, 48, 40, 64, 88, 112, 136, 160, 184]
+  93: ["Erudine Chainmail", "Chainmail", armor, 48, 48, 48, 72, 96, 120, 144, 168, 192]
+  94: ["Rusty Breastplate", "Plate Armor", armor, 18, 64, 18, 50, 82, 114, 146, 178, 210]
+  95: ["Banded Plate", "Plate Armor", armor, 28, 64, 28, 60, 92, 124, 156, 188, 220]
+  96: ["Minotaur Plate", "Plate Armor", armor, 38, 64, 38, 70, 102, 134, 166, 198, 230]
+  97: ["Dark Knight Plate", "Plate Armor", armor, 50, 64, 50, 82, 114, 146, 178, 210, 242]
+  98: ["Dragoning Plate", "Plate Armor", armor, 64, 64, 64, 96, 128, 160, 192, 224, 256]
+  99: ["Trollish Shield", "Large Shield", shield, 10, 44, 10, 32, 54, 76, 98, 120, 142]
+  100: ["Thornbark Shield", "Large Shield", shield, 16, 44, 16, 38, 60, 82, 104, 126, 148]
+  101: ["Regnan Tournament Shield", "Large Shield", shield, 24, 44, 24, 46, 68, 90, 112, 134, 156]
+  102: ["Veteran Shield", "Large Shield", shield, 30, 44, 30, 52, 74, 96, 118, 140, 162]
+  103: ["Dragon Hunter's Shield", "Large Shield", shield, 44, 44, 44, 66, 88, 110, 132, 154, 176]
+  104: ["Wooden Buckler", "Small Shield", shield, 8, 34, 8, 25, 42, 59, 76, 93, 110]
+  105: ["Caravaner's Small Shield", "Small Shield", shield, 14, 34, 14, 31, 48, 65, 82, 99, 116]
+  106: ["Calvary Shield", "Small Shield", shield, 20, 34, 20, 37, 54, 71, 88, 105, 122]
+  107: ["Death Head Shield", "Small Shield", shield, 28, 34, 28, 45, 62, 79, 96, 113, 130]
+  108: ["Eldritch Shield", "Small Shield", shield, 34, 34, 34, 51, 68, 85, 102, 119, 136]
+  109: ["Helm", "Helm", helm, 3, 14, 3, 10, 17, 24, 31, 38, 45]
+  110: ["Lizardman Helm", "Helm", helm, 6, 14, 6, 13, 20, 27, 34, 41, 48]
+  111: ["Full Helm", "Helm", helm, 8, 14, 8, 15, 22, 29, 36, 43, 50]
+  112: ["Battle Helm", "Helm", helm, 12, 14, 12, 19, 26, 33, 40, 47, 54]
+  113: ["Dragon Helm", "Helm", helm, 14, 14, 14, 21, 28, 35, 42, 49, 56]
+  114: ["Citizen Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  115: ["Festival Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  116: ["Merchantman's Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  117: ["Studded Leather Belt", "Belt", belt, 1, 12, 1, 7, 13, 19, 25, 31, 37]
+  118: ["Sturdy Belt", "Belt", belt, 3, 12, 3, 9, 15, 21, 27, 33, 39]
+  119: ["Wyvern Leather Belt", "Belt", belt, 6, 12, 6, 12, 18, 24, 30, 36, 42]
+  120: ["Steel Belt", "Belt", belt, 9, 12, 9, 15, 21, 27, 33, 39, 45]
+  121: ["Artificer's Belt", "Belt", belt, 12, 12, 12, 18, 24, 30, 36, 42, 48]
+  122: ["Traveler's Cloak", "Cloak", cloak, 1, 10, 1, 6, 11, 16, 21, 26, 31]
+  123: ["Moon Temple Cloak", "Cloak", cloak, 3, 10, 3, 8, 13, 18, 23, 28, 33]
+  124: ["Alvar Cloak", "Cloak", cloak, 5, 10, 5, 10, 15, 20, 25, 30, 35]
+  125: ["Necromancer Cloak", "Cloak", cloak, 6, 10, 6, 11, 16, 21, 26, 31, 36]
+  126: ["Vampire Cloak", "Cloak", cloak, 10, 10, 10, 15, 20, 25, 30, 35, 40]
+  127: ["Leather Gloves", "Gauntlets", gauntlets, 1, 14, 1, 8, 15, 22, 29, 36, 43]
+  128: ["Troll Gauntlets", "Gauntlets", gauntlets, 4, 14, 4, 11, 18, 25, 32, 39, 46]
+  129: ["Steel Gauntlets", "Gauntlets", gauntlets, 8, 14, 8, 15, 22, 29, 36, 43, 50]
+  130: ["Minotaur Gauntlets", "Gauntlets", gauntlets, 11, 14, 11, 18, 25, 32, 39, 46, 53]
+  131: ["Crusader's Gauntlets", "Gauntlets", gauntlets, 14, 14, 14, 21, 28, 35, 42, 49, 56]
+  132: ["Walking Boots", "Boots", boots, 3, 14, 3, 10, 17, 24, 31, 38, 45]
+  133: ["Hardened Leather Boots", "Boots", boots, 4, 14, 4, 11, 18, 25, 32, 39, 46]
+  134: ["Regnan Boots", "Boots", boots, 8, 14, 8, 15, 22, 29, 36, 43, 50]
+  135: ["Alvarian Boots", "Boots", boots, 10, 14, 10, 17, 24, 31, 38, 45, 52]
+  136: ["Dragonning Boots", "Boots", boots, 14, 14, 14, 21, 28, 35, 42, 49, 56]
+  868: ["Crude Leather Armor", "Leather Armor", armor, 9, 30, 9, 24, 39, 54, 69, 84, 99]
+  869: ["Studded Leather", "Leather Armor", armor, 11, 30, 11, 26, 41, 56, 71, 86, 101]
+  870: ["Officer's Leather", "Leather Armor", armor, 14, 30, 14, 29, 44, 59, 74, 89, 104]
+  871: ["Light Dragon Leather", "Leather Armor", armor, 20, 30, 20, 35, 50, 65, 80, 95, 110]
+  872: ["Royal Leather", "Leather Armor", armor, 30, 30, 30, 45, 60, 75, 90, 105, 120]
+  873: ["Disheveled Chain Mail", "Chain Mail", armor, 12, 46, 12, 35, 58, 81, 104, 127, 150]
+  874: ["Quality Steel Chain Mail", "Chain Mail", armor, 18, 46, 18, 41, 64, 87, 110, 133, 156]
+  875: ["Fine Chain Mail", "Chain Mail", armor, 28, 46, 28, 51, 74, 97, 120, 143, 166]
+  876: ["Resplendent Chain Mail", "Chain Mail", armor, 38, 46, 38, 61, 84, 107, 130, 153, 176]
+  877: ["Golden Chain Mail", "Chain Mail", armor, 46, 46, 46, 69, 92, 115, 138, 161, 184]
+  878: ["Plate Armor", "Plate Armor", armor, 26, 58, 26, 55, 84, 113, 142, 171, 200]
+  879: ["Splendid Plate Armor", "Plate Armor", armor, 42, 58, 42, 71, 100, 129, 158, 187, 216]
+  880: ["Noble Plate Armor", "Plate Armor", armor, 58, 58, 58, 87, 116, 145, 174, 203, 232]
+  881: ["Goblin Shield", "Large Shield", shield, 8, 40, 8, 28, 48, 68, 88, 108, 128]
+  882: ["Wooden Shield", "Large Shield", shield, 18, 40, 18, 38, 58, 78, 98, 118, 138]
+  883: ["Horseman's Shield", "Large Shield", shield, 22, 40, 22, 42, 62, 82, 102, 122, 142]
+  884: ["Sterling Shield", "Large Shield", shield, 32, 40, 32, 52, 72, 92, 112, 132, 152]
+  885: ["Phynaxian Shield", "Large Shield", shield, 40, 40, 40, 60, 80, 100, 120, 140, 160]
+  886: ["Crude Buckler", "Small Shield", shield, 6, 36, 6, 24, 42, 60, 78, 96, 114]
+  887: ["Bronze Shield", "Small Shield", shield, 12, 36, 12, 30, 48, 66, 84, 102, 120]
+  888: ["Metal Shield", "Small Shield", shield, 18, 36, 18, 36, 54, 72, 90, 108, 126]
+  889: ["Alloyed Shield", "Small Shield", shield, 26, 36, 26, 44, 62, 80, 98, 116, 134]
+  890: ["Majestic Shield", "Small Shield", shield, 36, 36, 36, 54, 72, 90, 108, 126, 144]
+  891: ["Horned Helm", "Helm", helm, 1, 13, 1, 8, 14, 21, 27, 34, 40]
+  892: ["Conscript's Helm", "Helm", helm, 4, 13, 4, 11, 17, 24, 30, 37, 43]
+  893: ["Elven Helm", "Helm", helm, 7, 13, 7, 14, 20, 27, 33, 40, 46]
+  894: ["Phynaxian Helm", "Helm", helm, 10, 13, 10, 17, 23, 30, 36, 43, 49]
+  895: ["Mogred Helm", "Helm", helm, 13, 13, 13, 20, 26, 33, 39, 46, 52]
+  896: ["Peasant Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  897: ["Traveller's Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  898: ["Fancy Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  899: ["Crown", "Crown", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  900: ["Noble Crown", "Crown", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  901: ["Royal Crown", "Crown", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  902: ["Leather Belt", "Belt", belt, 1, 12, 1, 7, 13, 19, 25, 31, 37]
+  903: ["Fine Belt", "Belt", belt, 3, 12, 3, 9, 15, 21, 27, 33, 39]
+  904: ["Strong Belt", "Belt", belt, 6, 12, 6, 12, 18, 24, 30, 36, 42]
+  905: ["Silver Belt", "Belt", belt, 9, 12, 9, 15, 21, 27, 33, 39, 45]
+  906: ["Gilded Belt", "Belt", belt, 12, 12, 12, 18, 24, 30, 36, 42, 48]
+  907: ["Fine Leather Cloak", "Cloak", cloak, 2, 11, 2, 8, 13, 19, 24, 30, 35]
+  908: ["Huntsman's Cloak", "Cloak", cloak, 3, 11, 3, 9, 14, 20, 25, 31, 36]
+  909: ["Ranger's Cloak", "Cloak", cloak, 4, 11, 4, 10, 15, 21, 26, 32, 37]
+  910: ["Elegant Cloak", "Cloak", cloak, 8, 11, 8, 14, 19, 25, 30, 36, 41]
+  911: ["Glorious Cloak", "Cloak", cloak, 11, 11, 11, 17, 22, 28, 33, 39, 44]
+  912: ["Pinched Gauntlets", "Gauntlets", gauntlets, 2, 13, 2, 9, 15, 22, 28, 35, 41]
+  913: ["Steel Gauntlets", "Gauntlets", gauntlets, 5, 13, 5, 12, 18, 25, 31, 38, 44]
+  914: ["Silver Mesh Gauntlets", "Gauntlets", gauntlets, 7, 13, 7, 14, 20, 27, 33, 40, 46]
+  915: ["Dragon Hide Gauntlets", "Gauntlets", gauntlets, 10, 13, 10, 17, 23, 30, 36, 43, 49]
+  916: ["Mogred Gauntlets", "Gauntlets", gauntlets, 13, 13, 13, 20, 26, 33, 39, 46, 52]
+  917: ["Leather Boots", "Boots", boots, 2, 15, 2, 10, 17, 25, 32, 40, 47]
+  918: ["Steel Plated Boots", "Boots", boots, 5, 15, 5, 13, 20, 28, 35, 43, 50]
+  919: ["Ranger Boots", "Boots", boots, 7, 15, 7, 15, 22, 30, 37, 45, 52]
+  920: ["Knight's Boots", "Boots", boots, 12, 15, 12, 20, 27, 35, 42, 50, 57]
+  921: ["Paladin Boots", "Boots", boots, 15, 15, 15, 23, 30, 38, 45, 53, 60]
+  1668: ["Leather Armor", "Leather Armor", armor, 6, 28, 6, 20, 34, 48, 62, 76, 90]
+  1669: ["Reinforced Leather", "Leather Armor", armor, 10, 28, 10, 24, 38, 52, 66, 80, 94]
+  1670: ["Enchanted Leather", "Leather Armor", armor, 13, 28, 13, 27, 41, 55, 69, 83, 97]
+  1671: ["Dragon Leather", "Leather Armor", armor, 19, 28, 19, 33, 47, 61, 75, 89, 103]
+  1672: ["Imperial Leather", "Leather Armor", armor, 28, 28, 28, 42, 56, 70, 84, 98, 112]
+  1673: ["Chain Mail", "Chain Mail", armor, 10, 44, 10, 32, 54, 76, 98, 120, 142]
+  1674: ["Basic Steel Chain Mail", "Chain Mail", armor, 16, 44, 16, 38, 60, 82, 104, 126, 148]
+  1675: ["Noble Chain Mail", "Chain Mail", armor, 26, 44, 26, 48, 70, 92, 114, 136, 158]
+  1676: ["Royal Chain Mail", "Chain Mail", armor, 36, 44, 36, 58, 80, 102, 124, 146, 168]
+  1677: ["Majestic Chain Mail", "Chain Mail", armor, 44, 44, 44, 66, 88, 110, 132, 154, 176]
+  1678: ["Plate Mail", "Plate Armor", armor, 18, 54, 18, 45, 72, 99, 126, 153, 180]
+  1679: ["Steel Plate Mail", "Plate Armor", armor, 34, 54, 34, 61, 88, 115, 142, 169, 196]
+  1680: ["Golden Plate Mail", "Plate Armor", armor, 54, 54, 54, 81, 108, 135, 162, 189, 216]
+  1681: ["Kite Shield", "Large Shield", shield, 12, 36, 12, 30, 48, 66, 84, 102, 120]
+  1682: ["Tower Shield", "Large Shield", shield, 14, 36, 14, 32, 50, 68, 86, 104, 122]
+  1683: ["Castle Shield", "Large Shield", shield, 20, 36, 20, 38, 56, 74, 92, 110, 128]
+  1684: ["Celestial Shield", "Large Shield", shield, 28, 36, 28, 46, 64, 82, 100, 118, 136]
+  1685: ["Olympian Shield", "Large Shield", shield, 36, 36, 36, 54, 72, 90, 108, 126, 144]
+  1686: ["Splintery Buckler", "Small Shield", shield, 4, 32, 4, 20, 36, 52, 68, 84, 100]
+  1687: ["Rusty Bronze Shield", "Small Shield", shield, 10, 32, 10, 26, 42, 58, 74, 90, 106]
+  1688: ["Steel Shield", "Small Shield", shield, 16, 32, 16, 32, 48, 64, 80, 96, 112]
+  1689: ["Spirit Shield", "Small Shield", shield, 24, 32, 24, 40, 56, 72, 88, 104, 120]
+  1690: ["Astral Shield", "Small Shield", shield, 32, 32, 32, 48, 64, 80, 96, 112, 128]
+  1691: ["Wooden Helm", "Helm", helm, 2, 15, 2, 10, 17, 25, 32, 40, 47]
+  1692: ["Steel Helm", "Helm", helm, 5, 15, 5, 13, 20, 28, 35, 43, 50]
+  1693: ["Guardian Helm", "Helm", helm, 9, 15, 9, 17, 24, 32, 39, 47, 54]
+  1694: ["Defender Helm", "Helm", helm, 11, 15, 11, 19, 26, 34, 41, 49, 56]
+  1695: ["Angelic Helm", "Helm", helm, 15, 15, 15, 23, 30, 38, 45, 53, 60]
+  1696: ["Cloth Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  1697: ["Dandy Hat", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  1698: ["Wizard Cap", "Hat", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  1699: ["Wreath Crown", "Crown", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  1700: ["Regal Crown", "Crown", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  1701: ["Almighty Crown", "Crown", helm, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  1702: ["Crude Leather Belt", "Belt", belt, 1, 12, 1, 7, 13, 19, 25, 31, 37]
+  1703: ["Mercenary Belt", "Belt", belt, 3, 12, 3, 9, 15, 21, 27, 33, 39]
+  1704: ["Vanguard Belt", "Belt", belt, 6, 12, 6, 12, 18, 24, 30, 36, 42]
+  1705: ["Warlord Belt", "Belt", belt, 9, 12, 9, 15, 21, 27, 33, 39, 45]
+  1706: ["Sovereign Belt", "Belt", belt, 12, 12, 12, 18, 24, 30, 36, 42, 48]
+  1707: ["Leather Cloak", "Cloak", cloak, 1, 9, 1, 6, 10, 15, 19, 24, 28]
+  1708: ["Phantom Cloak", "Cloak", cloak, 2, 9, 2, 7, 11, 16, 20, 25, 29]
+  1709: ["Elven Cloak", "Cloak", cloak, 4, 9, 4, 9, 13, 18, 22, 27, 31]
+  1710: ["Cardinal Cloak", "Cloak", cloak, 7, 9, 7, 12, 16, 21, 25, 30, 34]
+  1711: ["Doom's Day Cloak", "Cloak", cloak, 9, 9, 9, 14, 18, 23, 27, 32, 36]
+  1712: ["Gauntlets", "Gauntlets", gauntlets, 3, 15, 3, 11, 18, 26, 33, 41, 48]
+  1713: ["Knight Gauntlets", "Gauntlets", gauntlets, 6, 15, 6, 14, 21, 29, 36, 44, 51]
+  1714: ["Paladin Gauntlets", "Gauntlets", gauntlets, 9, 15, 9, 17, 24, 32, 39, 47, 54]
+  1715: ["Cavalier Gauntlets", "Gauntlets", gauntlets, 12, 15, 12, 20, 27, 35, 42, 50, 57]
+  1716: ["Ultimate Gauntlets", "Gauntlets", gauntlets, 15, 15, 15, 23, 30, 38, 45, 53, 60]
+  1717: ["Old Leather Boots", "Boots", boots, 1, 13, 1, 8, 14, 21, 27, 34, 40]
+  1718: ["Steel Boots", "Boots", boots, 6, 13, 6, 13, 19, 26, 32, 39, 45]
+  1719: ["Armored Boots", "Boots", boots, 9, 13, 9, 16, 22, 29, 35, 42, 48]
+  1720: ["Sterling Boots", "Boots", boots, 11, 13, 11, 18, 24, 31, 37, 44, 50]
+  1721: ["Ultimate Boots", "Boots", boots, 13, 13, 13, 20, 26, 33, 39, 46, 52]
+attack_speed_by_item_level:  # base recovery / 100 as the tooltip prints it; columns are item levels
+  columns: [L0, L50, L100, L200, L300, L400, L500, L600]
+  dagger_1h: [0.5, 0.5, 0.6, 0.7, 0.8, 0.9, 1.1, 1.2]
+  sword_1h: [0.6, 0.7, 0.8, 0.9, 1.1, 1.2, 1.4, 1.6]
+  sword_2h: [0.8, 0.9, 1, 1.1, 1.4, 1.5, 1.8, 2]
+  mace_1h: [0.8, 0.9, 1, 1.1, 1.4, 1.6, 1.8, 2]
+  bow_1h: [0.8, 0.9, 1, 1.1, 1.4, 1.6, 1.8, 2]
+  staff_2h: [1.1, 1.3, 1.4, 1.8, 2, 2.4, 2.6, 2.9]
+  spear_1h: [0.9, 1, 1.1, 1.4, 1.6, 1.9, 2.1, 2.3]
+  spear_2h: [1.1, 1.3, 1.4, 1.8, 2, 2.4, 2.6, 2.9]
+  axe_1h: [1.1, 1.2, 1.3, 1.6, 1.9, 2.2, 2.5, 2.7]
+  axe_2h: [1.4, 1.5, 1.6, 2, 2.4, 2.8, 3.1, 3.4]
+  blaster_1h: [0.3, 0.3, 0.4, 0.5, 0.5, 0.6, 0.7, 0.8]

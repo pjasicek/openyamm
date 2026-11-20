@@ -1,0 +1,453 @@
+format: 0
+level: L3
+pitch: "Start pocket. A walled river town in green meadows; the east edge is the world rim, where the creek falls off the world. The Witch Tower is visible from town from day one. Orcs hold the northern hills round the dwarves' mines and their own caves; toads and snakes the marsh of Toad Meadow; the dead walk in the south-west forest."
+purpose: "The first map: full services, five Act I dungeons, d1 fights, wells and shrines."
+mood: "Bright, green and homely; a hint of menace in the hills, the marsh and the dead wood."
+datum: water:sky
+spaces:
+  - id: district:vertigo_core
+    name: Vertigo (walled core)
+    kind: district
+    part_of: town:vertigo
+    floor: 640
+    purpose: "The start: the square, the shops, the town hall, the tavern, the inn and the temple inside the walls."
+    safe: true
+    keep_clear: [spawns]
+    theme: "Harmondale's house kits (MM7 home town), stone town wall."
+    buildings:
+      - {id: building:weapon_shop, type: house, service: Norman's Ironworks, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:armour_shop, type: house, service: Vertigo Armoury, count: 1, doors: 1, footprint_cells: [[1, 1.5]]}
+      - {id: building:town_hall, type: house, service: Vertigo Town Hall, count: 1, doors: 1, footprint_cells: [[2.5, 2]]}
+      - {id: building:magic_shop, type: house, service: Gilbert's Hexes, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:tavern, type: house, service: Lady Geraldine's Tavern, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:bank, type: house, service: Bank of Vertigo, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:core_houses, type: house, service: residence, count: 9, doors: 1, footprint_cells: [[1, 1], [1, 1], [1, 1], [1, 1.5], [1.5, 1.5], [1, 1], [1, 1], [1, 1], [1, 1.5]]}
+      - {id: building:inn, type: house, service: The Adventurer's Inn, count: 1, doors: 1, footprint_cells: [[2.5, 2]]}
+      - {id: building:alchemist, type: house, service: Philters of Vertigo, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:temple, type: house, service: Temple of Vertigo, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]]}
+    population:
+      - {id: pop:townsfolk, actor: Peasant, groups: 12, placed: true, hostile: false}
+  - id: district:vertigo_east
+    name: Vertigo (outside the east gate)
+    kind: district
+    part_of: town:vertigo
+    floor: 640
+    purpose: The stables and a few houses by the east gate.
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:stables, type: house, service: Vertigo Stables, count: 1, doors: 1, footprint_cells: [[3, 2]]}
+      - {id: building:east_houses, type: house, service: residence, count: 3, doors: 1, footprint_cells: [[1.5, 1.5], [1.5, 1.5], [1, 1]]}
+  - id: district:vertigo_outer
+    name: Vertigo (outside the gates)
+    kind: district
+    part_of: town:vertigo
+    floor: 640
+    purpose: "Training by the west gate, the stables by the east gate, a few houses."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:training, type: house, service: Thylon's Training, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:west_houses, type: house, service: residence, count: 3, doors: 1, footprint_cells: [[1, 1], [1, 1], [1.5, 1]]}
+  - id: district:vertigo_south
+    name: Vertigo (south bank)
+    kind: district
+    part_of: town:vertigo
+    floor: 640
+    purpose: "The guild row and Joe's yard across the bridge, between the creek and the meadow."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:guild_fire, type: house, service: Fire Guild of Vertigo, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:guild_air, type: house, service: Air Guild of Vertigo, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:guild_water, type: house, service: Water Guild of Vertigo, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:guild_earth, type: house, service: Earth Guild of Vertigo, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:joes_shop, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:bank_houses, type: house, service: residence, count: 3, doors: 1, footprint_cells: [[1, 1], [1.5, 1.5], [1, 1]]}
+      - {id: building:fringe_vertigo_south, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1, 1.5]]}
+  - id: edge:north_end
+    name: North edge
+    kind: road
+    part_of: zone:north_hills
+    purpose: Where the north road leaves for X7.
+  - id: edge:west_end
+    name: West edge
+    kind: road
+    part_of: zone:meadows
+    purpose: Where the west road leaves for X3.
+  - id: junction:east_gate
+    name: East Gate
+    kind: junction
+    part_of: zone:meadows
+    purpose: A road junction.
+    signpost: false
+  - id: junction:hill_fork
+    name: Hill Fork
+    kind: junction
+    part_of: zone:meadows
+    purpose: A road junction.
+    signpost: true
+  - id: junction:north_gate
+    name: North Gate
+    kind: junction
+    part_of: zone:meadows
+    purpose: A road junction.
+    signpost: false
+  - id: junction:south_fork
+    name: South Fork
+    kind: junction
+    part_of: zone:meadows
+    purpose: A road junction.
+    signpost: true
+  - id: junction:south_gate
+    name: South Gate
+    kind: junction
+    part_of: zone:meadows
+    purpose: A road junction.
+    signpost: false
+  - id: junction:west_gate
+    name: West Gate
+    kind: junction
+    part_of: zone:meadows
+    purpose: A road junction.
+    signpost: false
+  - id: town:toad_meadow
+    name: Toad Meadow
+    kind: town
+    floor: 600
+    purpose: "The hamlet: Myra the Herbalist and Old Valia's cottage."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:myra_hut, type: house, service: Myra the Herbalist, count: 1, doors: 1, footprint_cells: [[1, 1]]}
+      - {id: building:valia_cottage, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1.5, 1]]}
+      - {id: building:hamlet_houses, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1, 1]]}
+  - id: town:vertigo
+    name: Vertigo
+    kind: town
+    floor: 640
+    purpose: "The start town with full services, on the creek, walled."
+    safe: true
+  - id: water:creek
+    name: Pitchfork Creek
+    kind: water
+    purpose: The creek through Vertigo to the delta and over the rim.
+  - id: water:delta
+    name: The delta pond
+    kind: water
+    purpose: Orothin's isles with their statues.
+  - id: water:sky
+    name: Below the rim
+    kind: water
+    purpose: "Stand-in for the stars below the world rim: water far below."
+  - id: zone:dead_forest
+    name: Forest of the Walking Dead
+    kind: wild
+    floor: [700, 900]
+    purpose: "The dead wood in the south-west: skeletons and zombies, Celia's hut, the sealed Temple of Yak."
+    density: dense
+    population:
+      - {id: pop:dead, slot: 3, groups: 14, per_marker: [2, 5], levels: [3, 6]}
+  - id: zone:meadows
+    name: Vertigo Meadows
+    kind: wild
+    floor: 640
+    purpose: "The open green meadow round the town: the first fights, the huts, the wells and the shrines."
+    density: sparse
+    buildings:
+      - {id: building:fringe_meadows, type: house, service: residence, count: 6, doors: 1, footprint_cells: [[1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5]]}
+      - {id: building:oslo_hut, type: house, service: Oslo's Hut, count: 1, doors: 1, footprint_cells: [[1, 1]]}
+      - {id: building:celia_hut, type: house, service: Celia's Hut, count: 1, doors: 1, footprint_cells: [[1, 1]]}
+    population:
+      - {id: pop:meadow_orcs, slot: 1, groups: 10, per_marker: [2, 4], levels: [2, 4], notes: "Orc bands at their camps (pass five, by habitat): the west camp, the south goblin camp, the old campfire; the town and 4,500 round every door kept clear (pass three, TOWN_FEEL 5)."}
+      - {id: pop:creek_flies, slot: 2, groups: 6, per_marker: [2, 4], levels: [2, 3], notes: "Dragonflies over the outflow and the delta pond (pass five, by habitat)."}
+  - id: zone:mine_head
+    name: Mine Head
+    kind: zone
+    part_of: zone:north_hills
+    purpose: A dungeon entrance.
+  - id: zone:north_hills
+    name: The northern hills
+    kind: wild
+    floor: [1200, 2400]
+    relief: uneven
+    purpose: "The Red Dwarf Mines, the orc caves, the Clan King's shaft head and two orc outposts."
+    density: sparse
+    population:
+      - {id: pop:hill_orcs, slot: 1, groups: 16, per_marker: [2, 4], levels: [2, 4], notes: "Round the outposts, by the mine, the shaft head and the cave mouth, two by the hill cache."}
+      - {id: pop:outpost_orcs, actor: Goblin, groups: 14, placed: true, hostile: true, notes: "Four, six and four at the orc outposts (pass six)."}
+  - id: zone:orc_mouth
+    name: Orc Mouth
+    kind: zone
+    part_of: zone:north_hills
+    purpose: A dungeon entrance.
+  - id: zone:orchard
+    name: The orchard road
+    kind: zone
+    floor: [700, 1024]
+    purpose: "The signature view: the orchard road east of Vertigo ending at the rim, the stars below."
+    safe: true
+    keep_clear: [spawns]
+    density: sparse
+  - id: zone:pyramid_knoll
+    name: Pyramid knoll
+    kind: zone
+    floor: 1100
+    purpose: The travel pyramid to Castleview (sealed until M7).
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "The white cliffs where the world ends, the water far below."
+    empty: true
+  - id: zone:shaft_head
+    name: Shaft Head
+    kind: zone
+    part_of: zone:north_hills
+    purpose: A dungeon entrance.
+  - id: zone:square
+    name: Vertigo Square
+    kind: zone
+    part_of: district:vertigo_core
+    floor: 640
+    purpose: "Where the party starts: the money tree and the fountain."
+    empty: true
+    safe: true
+  - id: zone:toad_marsh
+    name: Toad Meadow marsh
+    kind: wild
+    floor: 600
+    purpose: "Wet ground round the hamlet; the witch tower beyond."
+    density: medium
+    population:
+      - {id: pop:toads, slot: 2, groups: 11, per_marker: [2, 4], levels: [2, 3], notes: Giant toads and snakes (Dragonflies as stand-ins).}
+  - id: zone:warehouse_yard
+    name: Joe's yard
+    kind: zone
+    part_of: district:vertigo_south
+    purpose: Joe's warehouse door and the rain barrel.
+  - id: zone:witch_rise
+    name: The witch rise
+    kind: zone
+    floor: 900
+    purpose: "The Witch Tower, visible from town."
+    population:
+      - {id: pop:tower_flies, slot: 2, groups: 2, per_marker: [2, 4], levels: [2, 3], notes: "Pass five: dragonflies over the swamp round the tower (were goblins)."}
+  - id: zone:yak_glade
+    name: Yak Glade
+    kind: zone
+    part_of: zone:dead_forest
+    purpose: A dungeon entrance.
+links:
+  - id: link:bank_lane
+    from: link:main_street
+    to: district:vertigo_core
+    kind: road
+    notes: "Pass three: the lane by the bank up to the upper town, cobbled."
+  - id: link:forest_path
+    from: junction:south_fork
+    to: zone:yak_glade
+    kind: path
+  - id: link:guild_lane
+    from: district:vertigo_south
+    to: zone:warehouse_yard
+    kind: road
+  - id: link:inn_lane
+    from: link:main_street
+    to: district:vertigo_core
+    kind: road
+    notes: "Pass three: the lane by the inn to the homes by the south wall, cobbled."
+  - id: link:main_street
+    from: junction:west_gate
+    to: junction:east_gate
+    kind: road
+  - id: link:mine_lane
+    from: junction:hill_fork
+    to: zone:mine_head
+    kind: path
+  - id: link:north_road
+    from: junction:north_gate
+    to: edge:north_end
+    kind: road
+  - id: link:north_street
+    from: zone:square
+    to: junction:north_gate
+    kind: road
+  - id: link:orc_lane
+    from: junction:hill_fork
+    to: zone:orc_mouth
+    kind: path
+  - id: link:orchard_road
+    from: junction:east_gate
+    to: zone:pyramid_knoll
+    kind: road
+  - id: link:rim_path
+    from: zone:pyramid_knoll
+    to: zone:rim
+    kind: path
+  - id: link:smith_lane
+    from: link:main_street
+    to: district:vertigo_core
+    kind: road
+    notes: "Pass three: the lane behind the ironworks up to the upper town, cobbled."
+  - id: link:south_road
+    from: district:vertigo_south
+    to: junction:south_fork
+    kind: road
+  - id: link:south_street
+    from: zone:square
+    to: junction:south_gate
+    kind: road
+  - id: link:toad_lane
+    from: junction:south_fork
+    to: town:toad_meadow
+    kind: road
+  - id: link:tower_path
+    from: town:toad_meadow
+    to: zone:witch_rise
+    kind: path
+  - id: link:town_bridge
+    from: junction:south_gate
+    to: district:vertigo_south
+    kind: bridge
+    crosses: [water:creek]
+  - id: link:west_road
+    from: junction:west_gate
+    to: edge:west_end
+    kind: road
+entrances:
+  - id: entrance:north_road
+    space: edge:north_end
+    kind: both
+    neighbour: edge:north
+  - id: entrance:party_start
+    space: zone:square
+    kind: arrival
+    how: The new game start.
+  - id: entrance:pyramid
+    space: zone:pyramid_knoll
+    kind: exit
+    neighbour: pyramid:castleview
+    condition: {qbit: m7_sigil}
+  - id: entrance:stable_yard
+    space: district:vertigo_outer
+    kind: arrival
+    neighbour: stable:rivercity
+  - id: entrance:west_road
+    space: edge:west_end
+    kind: both
+    neighbour: edge:west
+  - id: entrance:xd01_culvert
+    space: district:vertigo_south
+    kind: both
+    neighbour: door:xd01_culvert
+    condition: {qbit: culvert_grate_open}
+  - id: entrance:xd01_warehouse
+    space: zone:warehouse_yard
+    kind: both
+    neighbour: door:xd01
+  - id: entrance:xd02_portal
+    space: zone:mine_head
+    kind: both
+    neighbour: door:xd02
+  - id: entrance:xd03_shaft
+    space: zone:shaft_head
+    kind: both
+    neighbour: door:xd03
+    condition: {qbit: escape_shaft_open}
+  - id: entrance:xd04_tower
+    space: zone:witch_rise
+    kind: both
+    neighbour: door:xd04
+    condition: {item: crystal_key}
+  - id: entrance:xd05_mouth
+    space: zone:orc_mouth
+    kind: both
+    neighbour: door:xd05
+points_of_interest:
+  - id: poi:derek_camp
+    space: zone:dead_forest
+    kind: camp
+    behaviour: "Derek's camp: a fire and a crate."
+  - id: poi:druid_grove
+    space: zone:meadows
+    kind: grove
+    behaviour: "The Spring Druid's ring of stones: a word of advice (message)."
+  - id: poi:fountain_ability
+    space: zone:meadows
+    kind: fountain
+    behaviour: "+2 Luck, permanent, once per character (here: once per party, a map variable)."
+  - id: poi:gunther_notice
+    space: zone:square
+    kind: sign
+    behaviour: "Mayor Gunther's notice: the pest errand (M1) and Joe's warehouse (M2)."
+  - id: poi:money_tree
+    space: zone:square
+    kind: tree
+    behaviour: "Shake it once: 50 gold."
+  - id: poi:obelisk
+    space: zone:north_hills
+    kind: obelisk
+    behaviour: "One word of the Cloudside obelisk riddle (an autonote stand-in: a message)."
+  - id: poi:orc_outposts
+    space: zone:north_hills
+    count: 3
+    kind: camp
+    behaviour: "Orc camps with a fire, a crate and three orcs each."
+  - id: poi:orothin_statues
+    space: water:delta
+    count: 2
+    kind: statue
+    behaviour: "Orothin's statues on the isles: a readable line each."
+  - id: poi:rain_barrel
+    space: zone:warehouse_yard
+    kind: barrel
+    behaviour: "Joe's warehouse key lies under it (M2), once."
+  - id: poi:shrine_poison
+    space: zone:dead_forest
+    kind: shrine
+    behaviour: "+5 Body resistance, permanent, once."
+  - id: poi:signs
+    space: zone:meadows
+    count: 3
+    kind: sign
+    behaviour: Signposts at forks.
+  - id: poi:water_reflector
+    space: zone:rim
+    kind: story_device
+    behaviour: "The Water Reflector (M37): a dark mirror that says it waits for a later day."
+  - id: poi:waters_of_power
+    space: zone:orchard
+    kind: well
+    behaviour: Temporary hit points (+25 HP).
+  - id: poi:wishing_well
+    space: zone:toad_marsh
+    kind: well
+    behaviour: "Throw a coin: 1 gold for a wish; a small chance of a small gift."
+landmarks:
+  - id: landmark:pyramid
+    space: zone:pyramid_knoll
+    what: The travel pyramid on its knoll
+  - id: landmark:rim
+    space: zone:rim
+    what: The white cliffs of the world rim
+  - id: landmark:temple_spire
+    space: district:vertigo_core
+    what: The temple's spire over the walls
+  - id: landmark:witch_tower
+    space: zone:witch_rise
+    what: The crooked Witch Tower
+    seen_from: [zone:square, zone:orchard]
+height_bands:
+  - id: band:below_rim
+    range: [0, 64]
+    spaces: [zone:rim]
+  - id: band:hills
+    range: [1100, 2600]
+    spaces: [zone:north_hills]
+  - id: band:meadow
+    range: [560, 1100]
+    spaces: [zone:meadows, town:vertigo, zone:orchard, town:toad_meadow]
+atmosphere: "Fair sky, light rain by the world chances; MM7 home-town music (19) as a stand-in."
+sketch: {file: sketch.yml, grid: 512}
+notes: Written by output/studio_cal/x1/tools/gen.py from MAPS.md X1.

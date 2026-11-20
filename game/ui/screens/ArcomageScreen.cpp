@@ -1,4 +1,5 @@
 #include "game/ui/screens/ArcomageScreen.h"
+#include "engine/Localization.h"
 
 #include "game/audio/GameAudioSystem.h"
 
@@ -27,7 +28,7 @@ constexpr float PlayCardMoveToTableSeconds = 7.0f * AnimationTickSeconds;
 constexpr float DiscardCardAnimationSeconds = 14.0f * AnimationTickSeconds;
 constexpr float AiTurnDelaySeconds = 0.75f;
 constexpr float ResultAutoCloseSeconds = 1.0f;
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
 constexpr float AndroidDiscardSwipeDistance = 40.0f;
 #endif
 constexpr uint32_t GrayTintColorAbgr = 0xff9c9c9cu;
@@ -62,19 +63,19 @@ std::string resourceTypeName(ArcomageResourceType resourceType)
     switch (resourceType)
     {
         case ArcomageResourceType::Bricks:
-            return "Bricks";
+            return Engine::tr("Bricks");
 
         case ArcomageResourceType::Gems:
-            return "Gems";
+            return Engine::tr("Gems");
 
         case ArcomageResourceType::Recruits:
-            return "Recruits";
+            return Engine::tr("Recruits");
 
         case ArcomageResourceType::None:
             break;
     }
 
-    return "Free";
+    return Engine::tr("Free");
 }
 
 float clamp01(float value)
@@ -178,6 +179,13 @@ void ArcomageScreen::drawScreen(float deltaSeconds)
     const std::vector<HandCardPlacement> handPlacements = drawCurrentHand(layout);
     drawAnimatedCard(layout);
 
+    const bool resignInputHandled = !m_state.result.finished && updateResignInput();
+
+    if (m_shouldClose)
+    {
+        return;
+    }
+
     if (hasCardAnimation())
     {
         updateCardAnimation(deltaSeconds);
@@ -192,7 +200,14 @@ void ArcomageScreen::drawScreen(float deltaSeconds)
     }
     else if (m_state.currentPlayerIndex == 0)
     {
-        updateHumanInput(layout, handPlacements);
+        if (resignInputHandled || m_resignPrompt)
+        {
+            m_hoveredHandIndex.reset();
+        }
+        else
+        {
+            updateHumanInput(layout, handPlacements);
+        }
     }
     else
     {
@@ -206,10 +221,16 @@ void ArcomageScreen::drawScreen(float deltaSeconds)
         drawScreenText(layout, ArrusFontName, hoverText, LogicalWidth * 0.5f, 458.0f, true);
     }
 
-#if !defined(__ANDROID__)
+    if (m_resignPrompt)
+    {
+        drawScreenText(layout, ArrusFontName, Engine::tr("Are you sure you want to resign?"), LogicalWidth * 0.5f, 196.0f, true);
+        drawScreenText(layout, ArrusFontName, Engine::tr("Press ESC again to confirm."), LogicalWidth * 0.5f, 216.0f, true);
+    }
+
+#if !defined(__ANDROID__) && !defined(OPENYAMM_IOS)
     if (m_state.mustDiscard)
     {
-        drawScreenText(layout, ArrusFontName, "Right-click a card to discard.", LogicalWidth * 0.5f, 306.0f, true);
+        drawScreenText(layout, ArrusFontName, Engine::tr("Right-click a card to discard."), LogicalWidth * 0.5f, 306.0f, true);
     }
 #endif
 }
@@ -702,24 +723,15 @@ void ArcomageScreen::updateHumanInput(
         }
     }
 
-    const bool escapeDown = isScancodeHeld(SDL_SCANCODE_ESCAPE);
-
-    if (escapeDown && !m_escapeLatch)
-    {
-        m_rules.resign(0, m_state);
-    }
-
-    m_escapeLatch = escapeDown;
-
     if (!m_hoveredHandIndex.has_value() || m_pLibrary == nullptr)
     {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
         updateAndroidHumanInput(layout, handPlacements);
 #endif
         return;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     updateAndroidHumanInput(layout, handPlacements);
 #else
     if (leftMouseJustPressed())
@@ -752,7 +764,7 @@ void ArcomageScreen::updateHumanInput(
     }
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
 void ArcomageScreen::updateAndroidHumanInput(
     const LogicalLayout &layout,
     const std::vector<HandCardPlacement> &handPlacements)
@@ -823,7 +835,6 @@ void ArcomageScreen::updateAndroidHumanInput(
 void ArcomageScreen::updateAiTurn(float deltaSeconds)
 {
     m_hoveredHandIndex.reset();
-    m_escapeLatch = false;
 
     if (m_state.result.finished || m_pLibrary == nullptr)
     {
@@ -916,6 +927,39 @@ void ArcomageScreen::updateFinishInput()
     }
 
     m_escapeLatch = escapeDown;
+}
+
+// As in the original: Escape asks to resign at any point of the match, a second Escape resigns and leaves for the
+// tavern, and a click takes the question back. True when this frame's input was spent on it.
+bool ArcomageScreen::updateResignInput()
+{
+    const bool escapeDown = isScancodeHeld(SDL_SCANCODE_ESCAPE);
+    const bool escapePressed = escapeDown && !m_escapeLatch;
+    m_escapeLatch = escapeDown;
+
+    if (escapePressed)
+    {
+        if (m_resignPrompt)
+        {
+            m_resignPrompt = false;
+            m_rules.resign(0, m_state);
+            m_shouldClose = true;
+        }
+        else
+        {
+            m_resignPrompt = true;
+        }
+
+        return true;
+    }
+
+    if (m_resignPrompt && (leftMouseJustPressed() || rightMouseJustPressed()))
+    {
+        m_resignPrompt = false;
+        return true;
+    }
+
+    return false;
 }
 
 bool ArcomageScreen::hasCardAnimation() const
@@ -1243,15 +1287,15 @@ std::string ArcomageScreen::resultText() const
 
     if (!m_state.result.winnerIndex.has_value())
     {
-        return "Arcomage ended in a draw.";
+        return Engine::tr("Arcomage ended in a draw.");
     }
 
     if (*m_state.result.winnerIndex == 0)
     {
-        return "You have won " + std::to_string(m_winGoldReward) + " gold!";
+        return Engine::tr("You have won {gold} gold!", {{"gold", int64_t(m_winGoldReward)}});
     }
 
-    return "You lost the Arcomage match.";
+    return Engine::tr("You lost the Arcomage match.");
 }
 
 std::string ArcomageScreen::hoveredCardText() const
@@ -1298,7 +1342,10 @@ std::string ArcomageScreen::hoveredCardText() const
             break;
     }
 
-    return pCard->name + "  " + std::to_string(cost) + " " + resourceTypeName(pCard->resourceType);
+    return Engine::tr("{card}  {cost} {resource}",
+                      {{"card", Engine::localize(pCard->name)},
+                       {"cost", cost},
+                       {"resource", resourceTypeName(pCard->resourceType)}});
 }
 
 int ArcomageScreen::currentHandCount() const

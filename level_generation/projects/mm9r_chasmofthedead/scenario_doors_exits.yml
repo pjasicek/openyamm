@@ -1,0 +1,182 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.chasmofthedead_doors_exits
+title: Chasm of the Dead (native BLV) - the exit to Drangheim and tomb doors
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: chasmofthedead.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 1114): the entrance to Drangheim, just north of the start.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: -13189
+      y: 28303
+      z: 1578
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: -13189
+      y: 28603
+      z: 1578
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 1114
+- load_map:
+    map: chasmofthedead.blv
+- note:
+    text: Door15 (door 15, event 106) is shut.
+- assert:
+    mechanism:
+      id: 15
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: -13189
+      y: 24115
+      z: 1209
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: -13189
+      y: 23592
+      z: 1209
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 90
+    tolerance_z: 70
+- execute_event:
+    id: 106
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    mechanism:
+      id: 15
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: -13189
+      y: 24115
+      z: 1209
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: -13189
+      y: 22784
+      z: 1209
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 400
+- note:
+    text: Door35 (door 37, event 128) is shut.
+- assert:
+    mechanism:
+      id: 37
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: 6963
+      y: 13967
+      z: -3931
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: 7497
+      y: 13967
+      z: -3931
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 90
+    tolerance_z: 70
+- execute_event:
+    id: 128
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    mechanism:
+      id: 37
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: 6963
+      y: 13967
+      z: -3931
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: 7987
+      y: 13967
+      z: -3931
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 400
+- note:
+    text: The long stair from the plate passage up to the first hall.
+- movement_segment:
+    input: forward
+    seconds: 2.6
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: chasmofthedead.blv
+      x: -10445
+      y: 12826
+      z: 370
+      yaw_degrees: 168.7
+      pitch: 0
+    expect_stop:
+      map: chasmofthedead.blv
+      x: -12237
+      y: 13184
+      z: 595
+      yaw_degrees: 168.7
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 40

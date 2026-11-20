@@ -1,0 +1,22 @@
+{
+  "family": "seas",
+  "title": "MM6 Sea Serpent",
+  "descriptor_ids": [
+    625,
+    626,
+    627
+  ],
+  "base_palette": 813,
+  "mask_kind": "blue",
+  "description": "MM6 olive-gold sea serpent: only the long upright curved neck and broad angular reptile head are visible, truncated at the original waterline, with no added body or water. Rough large olive-gold scales, dorsal row of thin brown triangular spines, pale gray-green segmented belly, broad flattened brow, small eyes and very long curved ivory needle teeth around the open dark mouth. Match native neck bend, head angles and exact teeth placement; no extra fins or redesign.",
+  "regions": "Olive-gold head/neck scales, brown dorsal crest and pale segmented belly are separate native palette regions; teeth and mouth stay protected.",
+  "variant_names": {
+    "813": "MM6 Sea Serpent 1",
+    "814": "MM6 Sea Serpent 2",
+    "815": "MM6 Sea Serpent 3"
+  },
+  "material_mask_channels": 4,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py"
+}

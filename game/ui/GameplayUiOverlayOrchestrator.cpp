@@ -1,4 +1,8 @@
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
+#include "game/ui/GameplaySoloTalentsPage.h"
+#include "game/ui/GameplayLootSummaryRenderer.h"
+#include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplaySoloBarSelector.h"
 
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -7,6 +11,7 @@
 #include "game/ui/GameplayAlchemyBenchRenderer.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayTransportSchedule.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudRenderer.h"
@@ -35,7 +40,8 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
         config.canToggleJournal,
         config.mapShortcutPressed,
         config.storyShortcutPressed,
-        config.notesShortcutPressed,
+        config.questsShortcutPressed,
+        config.progressShortcutPressed,
         config.zoomInPressed,
         config.zoomOutPressed,
         config.mouseWheelDelta);
@@ -141,6 +147,8 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
 
     overlayContext.beginRenderedInspectableHudFrame();
     recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::beginInspectableFrameNanoseconds);
+    // The character screen's two passes share what it works out for the frame.
+    std::shared_ptr<CharacterOverlayFrameData> characterFrameData;
 
     if (config.canRenderHudOverlays)
     {
@@ -177,7 +185,8 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
 
         if (config.renderCharacterBelowHud)
         {
-            GameplayPartyOverlayRenderer::renderCharacterOverlay(overlayContext, width, height, false);
+            GameplayPartyOverlayRenderer::renderCharacterOverlay(
+                overlayContext, width, height, false, characterFrameData);
         }
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::characterBelowNanoseconds);
 
@@ -200,7 +209,9 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
 
         if (config.renderCharacterAboveHud)
         {
-            GameplayPartyOverlayRenderer::renderCharacterOverlay(overlayContext, width, height, true);
+            GameplayPartyOverlayRenderer::renderCharacterOverlay(
+                overlayContext, width, height, true, characterFrameData);
+            GameplaySoloTalentsPage::render(overlayContext, width, height);
             GameplayAlchemyBenchRenderer::render(overlayContext, width, height);
         }
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::characterAboveNanoseconds);
@@ -209,6 +220,8 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         {
             GameplayDialogueRenderer::renderDialogueOverlay(overlayContext, width, height, true);
         }
+
+        GameplayTransportSchedule::render(overlayContext, width, height);
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::dialogueAboveNanoseconds);
 
         GameplayPartyOverlayRenderer::renderRestOverlay(overlayContext, width, height);
@@ -231,6 +244,10 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::quickReferenceNanoseconds);
         GameplayPartyOverlayRenderer::renderSpellbookOverlay(overlayContext, width, height);
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::spellbookNanoseconds);
+        // Under the held item and the item popup, so its items can be inspected.
+        GameplayLootSummaryRenderer::render(overlayContext, width, height);
+        GameplayFormationBuilder::render(overlayContext, width, height);
+        GameplaySoloBarSelector::render(overlayContext, width, height);
         GameplayPartyOverlayRenderer::renderHeldInventoryItem(overlayContext, width, height);
         GameplayUiRenderer::renderMobileInspectButton(overlayContext, width, height);
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::heldItemNanoseconds);

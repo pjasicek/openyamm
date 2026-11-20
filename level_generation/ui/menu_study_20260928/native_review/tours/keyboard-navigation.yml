@@ -1,0 +1,47 @@
+output_dir: ../replay/keyboard-navigation
+exit: true
+steps:
+- click:
+  - 327.0
+  - 669.9999374999999
+- click:
+  - 263.4999375
+  - 597.59390625
+- click:
+  - 620
+  - 430
+- wheel: -50
+- capture: keyboard-all-actions
+- wheel: 50
+- &id001
+  key: Tab
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- *id001
+- capture: keyboard-focus-scroll

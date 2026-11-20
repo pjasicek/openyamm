@@ -1,0 +1,19 @@
+id: rulesets.follower_keys
+title: "Follower keys - MMMerge's keys speak with the hired followers by their order (NPCFollowers.lua:345-351)"
+world: mm6
+mode: faithful
+tags: [rulesets, followers]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - setup_shortcut: {kind: hire_follower, id: 798}
+  # Follower 2's key (7) does nothing with one follower; follower 1's (6) speaks with Nicolai.
+  - press_action: {action: follower_2}
+  - assert:
+      dialog: {active: false}
+  - press_action: {action: follower_1}
+  - assert:
+      dialog: {active: true, title: "Nicolai Ironfist"}
+  - press_action: {action: cancel_dialog}
+  - assert:
+      dialog: {active: false}

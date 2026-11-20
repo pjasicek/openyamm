@@ -1,0 +1,60 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/control_center
+settle_seconds: 2.0
+exit: true
+shots:
+- name: huge_s5
+  position:
+  - -2451
+  - -710
+  - 1185
+  yaw: 0.115
+  pitch: -0.2
+- name: hall_s1
+  position:
+  - -963
+  - -539
+  - 1
+  yaw: 1.636
+  pitch: -0.12
+- name: storage_s34
+  position:
+  - -2950
+  - -4950
+  - 394
+  yaw: 0.184
+  pitch: -0.12
+- name: pipes_s23
+  position:
+  - -7364
+  - 849
+  - 197
+  yaw: 4.797
+  pitch: -0.12
+- name: corridor_s11
+  position:
+  - 4948
+  - -4047
+  - 1185
+  yaw: 1.61
+  pitch: -0.12
+- name: console_room_s18
+  position:
+  - 2490
+  - 3250
+  - 1185
+  yaw: 1.84
+  pitch: -0.12
+- name: room_s49
+  position:
+  - 8235
+  - -621
+  - -392
+  yaw: 3.14
+  pitch: -0.12
+- name: screen_face2918
+  position:
+  - 3614
+  - -2899
+  - 1185
+  yaw: 3.142
+  pitch: 0.007

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · full spell effect sequences</title>
+  <style>
+    body{margin:0;background:#101419;color:#f0eee7;font:15px/1.4 system-ui,sans-serif}
+    header{padding:20px 28px;border-bottom:1px solid #40525a}
+    h1{margin:0 0 5px;font-size:28px}
+    p{margin:0;color:#bbcacd}
+    a{color:#84d5bd}
+    main{padding:20px 28px;display:grid;gap:20px}
+    section{background:#1a232c;border:1px solid #43535d;border-radius:10px;overflow:hidden}
+    .bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 15px;background:#25323b}
+    .bar h2{margin:0 auto 0 0;font-size:19px}
+    button,select{font:inherit;padding:5px 9px;border:1px solid #69818a;border-radius:5px;background:#dfe7e4;color:#18252a}
+    input[type=range]{width:175px}
+    .frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;background:#43535d}
+    figure{margin:0;min-height:330px;background:#303c40;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px}
+    figcaption{align-self:stretch;margin-bottom:12px;color:#e0e8e5;text-align:center}
+    .art{position:relative;width:236px;height:316px}
+    figure img{display:block;width:236px;height:316px;object-fit:contain}
+    figure img.original{image-rendering:pixelated}
+    .guide .art::after{content:"";position:absolute;inset:4px;border:1px dashed #ffdc67;border-radius:50%;pointer-events:none}
+    .guide .art::before{content:"";position:absolute;left:calc(50% - 4px);top:calc(50% - 4px);
+      width:8px;height:8px;border:1px solid #ffdc67;border-radius:50%;box-sizing:border-box;pointer-events:none}
+    @media(max-width:760px){.frames{grid-template-columns:1fr}figure{min-height:260px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Full effect sequences</h1>
+    <p>Original, earlier mixed restoration, and new eight-frame restoration. These 32 new frames are staged for review.
+      <a href="../../index.html?sequences=1">Review individual frames</a> ·
+      <a href="../../pc_effect_sequences/index.html">Play all PC effect sequences</a>.</p>
+  </header>
+  <main id="sequences"></main>
+  <script src="preview.js"></script>
+  <script>
+    const root = '../../';
+    const groups = window.SEQUENCE_PREVIEW;
+    const main = document.querySelector('#sequences');
+    const section = (name, frames) => {
+      const element = document.createElement('section');
+      element.innerHTML = `<div class="bar"><h2>${name}</h2><button type="button">Pause</button>
+        <button type="button" class="guide-toggle" aria-pressed="false">Show oval guide</button>
+        <label>Frame <input type="range" min="1" max="8" value="1"></label>
+        <span class="current">1 / 8</span><label>Speed <select><option value="4">4 fps</option>
+        <option value="8" selected>8 fps</option><option value="12">12 fps</option></select></label></div>
+        <div class="frames"><figure><figcaption>Native original</figcaption><div class="art"><img class="original"></div></figure>
+        <figure><figcaption>Earlier mixed candidates</figcaption><div class="art"><img class="previous"></div></figure>
+        <figure><figcaption>New complete sequence</figcaption><div class="art"><img class="new"></div></figure></div>`;
+      const slider = element.querySelector('input');
+      const button = element.querySelector('button');
+      const speed = element.querySelector('select');
+      let frame = 0;
+      let playing = true;
+      const show = () => {
+        const item = frames[frame];
+        for (const type of ['original', 'previous', 'new'])
+          element.querySelector('img.' + type).src = root + item[type];
+        slider.value = String(frame + 1);
+        element.querySelector('.current').textContent = `${frame + 1} / 8 · ${item.name}`;
+      };
+      button.onclick = () => { playing = !playing; button.textContent = playing ? 'Pause' : 'Play'; };
+      const guide = element.querySelector('.guide-toggle');
+      guide.onclick = () => {
+        const visible = element.classList.toggle('guide');
+        guide.setAttribute('aria-pressed', String(visible));
+        guide.textContent = visible ? 'Hide oval guide' : 'Show oval guide';
+      };
+      slider.oninput = () => { frame = Number(slider.value) - 1; show(); };
+      let ticks = 0;
+      setInterval(() => {
+        if (!playing) return;
+        ticks += Number(speed.value);
+        if (ticks >= 12) { ticks -= 12; frame = (frame + 1) % 8; show(); }
+      }, 1000 / 12);
+      show();
+      return element;
+    };
+    for (const [name, frames] of Object.entries(groups)) main.append(section(name, frames));
+  </script>
+</body>
+</html>

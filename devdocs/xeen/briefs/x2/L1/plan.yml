@@ -1,0 +1,322 @@
+format: 0
+level: L1
+pitch: "The hub of Cloudside. Rivercity spans the Great River: two terraced halves over stone quays, joined by a great arched bridge, a busy, crooked, crime-ridden town with every service, the boat and the skill row; the robbers keep their den under the bridge. West lies Lake Darzog, its wooded island crowned by the sealed dark tower of the King's vanished sorcerer, three dragons circling it. North is farmland where evil rangers camp; north-west the ogres hold the river crossings. South the fairy woods, where crazed sprites attack anyone, darken toward the Temple of Yak and the world rim."
+purpose: "Act II hub (party 7 to 11): full services, four dungeon doors (XD-21, XD-27, XD-06, XD-12), the road from Vertigo, Medin, Barok, Danulf, Tito, Ligono and Nystor's errands."
+mood: "River light and bustle in town; open fields north; green and then gloomy woods south; the tower menacing."
+datum: water:sky
+spaces:
+  - id: district:north_bank
+    name: "Rivercity, north bank"
+    kind: district
+    part_of: town:rivercity
+    purpose: "Bridge Square, the main street of shops (smith, armoury, tavern, bank, magic, alchemist), the training hall, the stables by the north road; the riverfront houses over the north quay."
+    population:
+      - {id: pop:townsfolk, actor: Peasant, groups: 16, placed: true, hostile: false}
+      - {id: pop:guards, actor: Guard, groups: 8, placed: true, hostile: false}
+  - id: district:south_bank
+    name: "Rivercity, south bank"
+    kind: district
+    part_of: town:rivercity
+    purpose: "The South Square, the guild row (Body, Mind, Spirit), the skill row (Arnold's Gym, Martial Training, Lindon's Temps), Pray N Pay; the dock and the robbers' door on the south quay."
+  - id: edge:east_end
+    name: East edge
+    kind: road
+    part_of: zone:x2
+    purpose: Where the river road leaves for Vertigo (X1).
+  - id: edge:north_end
+    name: North edge
+    kind: road
+    part_of: zone:farmland
+    purpose: Where the north road leaves for X4.
+  - id: edge:west_end
+    name: West edge
+    kind: road
+    part_of: zone:x2
+    purpose: Where the west road leaves for X3.
+  - id: junction:east_entry
+    name: East entry
+    kind: junction
+    part_of: zone:x2
+    purpose: A road junction.
+  - id: junction:east_fork
+    name: East fork
+    kind: junction
+    part_of: zone:x2
+    purpose: A road junction.
+  - id: junction:far_bank
+    name: The ogres' bank
+    kind: junction
+    part_of: zone:x2
+    purpose: A road junction.
+  - id: junction:north_fork
+    name: North fork
+    kind: junction
+    part_of: zone:x2
+    purpose: A road junction.
+  - id: junction:west_end
+    name: West end of the main street
+    kind: junction
+    part_of: zone:x2
+    purpose: A road junction.
+  - id: junction:west_fork
+    name: West fork by the ogre bridge
+    kind: junction
+    part_of: zone:x2
+    purpose: A road junction.
+  - id: junction:woods_fork
+    name: Woods fork
+    kind: junction
+    part_of: zone:x2
+    purpose: A road junction.
+  - id: town:rivercity
+    name: Rivercity
+    kind: town
+    purpose: "The hub: a bridge city across the Great River, its two halves on terraces over stone quays, joined by the great bridge. Full services, the boat, the skill row; the robbers under the bridge."
+  - id: water:lake
+    name: Lake Darzog
+    kind: water
+    purpose: "The lake west of town with the wooded island; three dragons circle it."
+    population:
+      - {id: pop:lake_dragons, actor: Young Dragon, groups: 3, placed: true, hostile: true, notes: "Medin's lake beasts (Q-C13): three named water dragons, level 60, a trap for a party of 7-11. Young Dragons (60) as stand-ins, flying over the water round the island."}
+  - id: water:north_river
+    name: The north river
+    kind: water
+    purpose: Down from X4 through the ogres' hills into the lake.
+  - id: water:river
+    name: The Great River
+    kind: water
+    purpose: From Lake Darzog through Rivercity east to Vertigo.
+  - id: water:sky
+    name: Below the rim
+    kind: water
+    purpose: "Stand-in for the stars below the world rim: water far below."
+  - id: zone:bridge_square
+    name: Bridge Square
+    kind: zone
+    part_of: district:north_bank
+    purpose: "Where the party starts: a paved court at the bridge's head with the fountain, the mirror, the market stalls and the ads, the bank, the alchemist and the tavern round it."
+  - id: zone:dark_end
+    name: The woods' dark south end
+    kind: wild
+    purpose: "A hollow of dead trees and bog before the rim: the Temple of Yak (XD-06), a fouled well, a burial cairn."
+    population:
+      - {id: pop:dark_sprites, slot: 1, groups: 3, per_marker: [2, 3], levels: [15, 15]}
+      - {id: pop:temple_wisps, actor: Wisp, groups: 2, placed: true, hostile: true, notes: "Wisps (23) before the temple: the band's C tier."}
+  - id: zone:den_door
+    name: The robbers' door
+    kind: zone
+    part_of: zone:quays
+    purpose: A way in or a crossing.
+  - id: zone:dock
+    name: Captain Nystor's dock
+    kind: zone
+    part_of: zone:quays
+    purpose: A way in or a crossing.
+  - id: zone:fairy_woods
+    name: The fairy woods
+    kind: wild
+    purpose: "South of the town: Danulf the Faery King's ring of stones, Tito's chapel, the Sage's Fountain, the sprites' egg hollow. Crazed killer sprites attack anyone in the forest (Q-C17)."
+    population:
+      - {id: pop:sprites, slot: 1, groups: 20, per_marker: [2, 4], levels: [15, 15], notes: "Killer sprites (MM7's Dancing Lights as stand-ins) in clusters through the woods, two by each place."}
+  - id: zone:farmland
+    name: The northern farmland
+    kind: wild
+    purpose: "Hedged fields, farmsteads and orchards on the plateau north of the town; evil rangers camp on its edges."
+    population:
+      - {id: pop:rangers, slot: 2, groups: 11, per_marker: [2, 3], levels: [9, 9], notes: Evil rangers (MM7 Archers as stand-ins) round their two camps and on the farm lanes.}
+      - {id: pop:ranger_camps, actor: Archer, groups: 10, placed: true, hostile: true, notes: "Five at each camp: three Archers and two Bowmen (19)."}
+      - {id: pop:road_rangers, slot: 2, groups: 2, per_marker: [2, 3], levels: [9, 9], notes: "The first fight on the river road in from Vertigo, about 5,000 from the east arrival."}
+  - id: zone:island
+    name: Darzog's island
+    kind: zone
+    purpose: "The wooded island; Darzog's Tower (XD-12) and its jetty."
+  - id: zone:lair_mouth
+    name: The Ogre Lair
+    kind: zone
+    part_of: zone:ogre_hills
+    purpose: A way in or a crossing.
+  - id: zone:lake_shore
+    name: The lake shore
+    kind: wild
+    purpose: "Medin's hut and jetty, Crodo's bottle, the shore ruin, the obelisk on the south-west shore."
+    population:
+      - {id: pop:west_shore, slot: 2, groups: 3, per_marker: [2, 3], levels: [9, 9], notes: Rangers by the obelisk and the shore ruin.}
+  - id: zone:medin_jetty
+    name: Medin's jetty
+    kind: zone
+    part_of: zone:lake_shore
+    purpose: A way in or a crossing.
+  - id: zone:ogre_hills
+    name: The ogres' hills
+    kind: wild
+    purpose: "The north-west: the north river's gorge through the hills, the ogres' crossings, the Ogre Lair."
+    population:
+      - {id: pop:ogres, slot: 3, groups: 8, per_marker: [2, 3], levels: [20, 20], notes: "Ogres at the river crossings only: the west road's bridge, the boulders below the lair, the north crossing (MAPS: \"river crossings only\")."}
+      - {id: pop:lair_ogres, actor: Ogre, groups: 3, placed: true, hostile: true, notes: "At the lair mouth: an Ogre Chieftain (28) and two Ogre Raiders."}
+  - id: zone:quays
+    name: The quays
+    kind: zone
+    part_of: town:rivercity
+    purpose: "Stone quays under the terraces on both banks; the dock; the robbers' door."
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    purpose: "The cliff where the world ends along the south; Ligono in the surf."
+  - id: zone:south_square
+    name: South Square
+    kind: zone
+    part_of: district:south_bank
+    purpose: The south head of the great bridge.
+  - id: zone:tower_door
+    name: Darzog's door
+    kind: zone
+    part_of: zone:island
+    purpose: A way in or a crossing.
+  - id: zone:x2
+    name: Rivercity and Lake Darzog
+    kind: wild
+    purpose: "The open land round the town: farmland north, the lake west, the fairy woods south, the rim beyond."
+  - id: zone:yak_front
+    name: The Temple of Yak
+    kind: zone
+    part_of: zone:dark_end
+    purpose: A way in or a crossing.
+links:
+  - id: link:chapel_path
+    from: junction:woods_fork
+    to: zone:fairy_woods
+    kind: path
+  - id: link:east_road
+    from: junction:east_entry
+    to: edge:east_end
+    kind: road
+  - id: link:farm_lane_e
+    from: junction:north_fork
+    to: zone:farmland
+    kind: path
+  - id: link:farm_lane_w
+    from: junction:north_fork
+    to: zone:farmland
+    kind: path
+  - id: link:great_bridge
+    from: zone:bridge_square
+    to: zone:south_square
+    kind: bridge
+    crosses: [water:river]
+  - id: link:lair_path
+    from: junction:far_bank
+    to: zone:lair_mouth
+    kind: path
+  - id: link:lake_path
+    from: district:south_bank
+    to: zone:medin_jetty
+    kind: path
+  - id: link:lane_e
+    from: link:main_street
+    to: district:north_bank
+    kind: road
+    notes: "The lane by the smithy, from the main street to the promenade and the quay steps."
+  - id: link:lane_se
+    from: link:south_street_e
+    to: district:south_bank
+    kind: road
+    notes: The lane past Lindon's Temps to the back lane.
+  - id: link:lane_w
+    from: link:main_street_w
+    to: district:north_bank
+    kind: road
+    notes: "The lane west of Bridge Square, from the main street to the promenade and the quay steps."
+  - id: link:main_street
+    from: junction:east_entry
+    to: zone:bridge_square
+    kind: road
+  - id: link:main_street_w
+    from: zone:bridge_square
+    to: junction:west_end
+    kind: road
+  - id: link:medin_boat
+    from: zone:medin_jetty
+    to: zone:island
+    kind: water
+    notes: "Medin's boat, once the lake dragons are dead (a teleport both ways)."
+  - id: link:north_road
+    from: zone:bridge_square
+    to: edge:north_end
+    kind: road
+  - id: link:ogre_bridge
+    from: junction:west_fork
+    to: junction:far_bank
+    kind: bridge
+    crosses: [water:north_river]
+  - id: link:quay_stairs
+    from: town:rivercity
+    to: zone:quays
+    kind: stairs
+  - id: link:shrine_path
+    from: junction:east_fork
+    to: zone:farmland
+    kind: path
+  - id: link:south_road
+    from: zone:south_square
+    to: junction:woods_fork
+    kind: road
+  - id: link:south_street
+    from: zone:south_square
+    to: district:south_bank
+    kind: road
+  - id: link:south_street_e
+    from: zone:south_square
+    to: district:south_bank
+    kind: road
+  - id: link:west_road
+    from: junction:west_end
+    to: junction:west_fork
+    kind: road
+  - id: link:west_road2
+    from: junction:far_bank
+    to: edge:west_end
+    kind: road
+  - id: link:woods_path
+    from: junction:woods_fork
+    to: zone:yak_front
+    kind: path
+entrances:
+  - id: entrance:dock
+    space: zone:dock
+    kind: both
+    neighbour: boat:vertigo
+  - id: entrance:east_road
+    space: edge:east_end
+    kind: both
+    neighbour: edge:east
+  - id: entrance:north_road
+    space: edge:north_end
+    kind: both
+    neighbour: edge:north
+  - id: entrance:party_start
+    space: zone:bridge_square
+    kind: arrival
+    how: "A new game here (tests), the respawn and the Town Portal anchor."
+  - id: entrance:west_road
+    space: edge:west_end
+    kind: both
+    neighbour: edge:west
+  - id: entrance:xd06_yak
+    space: zone:yak_front
+    kind: both
+    neighbour: door:xd06
+    condition: {qbit: yak_stone}
+  - id: entrance:xd12_tower
+    space: zone:tower_door
+    kind: both
+    neighbour: door:xd12
+    condition: {item: skeleton_key}
+  - id: entrance:xd21_den
+    space: zone:den_door
+    kind: both
+    neighbour: door:xd21
+  - id: entrance:xd27_lair
+    space: zone:lair_mouth
+    kind: both
+    neighbour: door:xd27
+diagram: {text: " N   ogres' hills ^^^ [OGRE LAIR]      farmland  ranger camp *     ranger camp *        X4 north road\n     north river |    boulders         fields, farmsteads, orchards     Shrine of Electricity o\n X3 ==west road==|=ogre bridge=====[ RIVERCITY north bank: tavern, smith, bank, magic ]===river road==> X1\n     Lake Darzog  ~~~ (island: DARZOG'S TOWER) ~~~~~~~ GREAT RIVER under the GREAT BRIDGE ~~~~~~~~~~~~~>\n     Medin's jetty, Crodo's bottle   [ south bank: guilds, skill row, temple; dock; ROBBERS' DEN under the bridge ]\n     obelisk, shore ruin        fairy woods: Danulf's ring, Tito's chapel, Sage's Fountain, sprite eggs\n                                dark south end: [TEMPLE OF YAK], fouled well, cairn\n S   ===================== the world rim (cliff); Ligono in the surf; his skull to the east =================\n"}

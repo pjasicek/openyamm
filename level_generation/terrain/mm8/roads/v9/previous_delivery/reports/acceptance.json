@@ -1,0 +1,43 @@
+{
+  "status": "reviewed_for_installation",
+  "manifest_sha256": "0f8b8d6dcd686f4537f65e5fcce3dcc75ddd76b08af9c7fbae8d428f55406f89",
+  "evidence": {
+    "effective_inventory.json": "33863a0e1c7b10752b48d442ecf47acae7c091a9c164fb84fa37ea27a3e0ddb3",
+    "effective_grids.json": "0907ac48a0556d6be4c79a0e4f8508f4df74a0a56d20240f846345d5f5a1c61a",
+    "reports/complete_validation.json": "2b615880c670b16958bee40715ef7d8620d9ec1b82dd428061411c9dcea71ed1",
+    "reports/native_join_audit.json": "3ac18c4ceea9cd2e4271d966b08561f5e7611e57da9fc94cc4290f87156426b6",
+    "reports/native_contexts/visual_review.json": "ab994b40423fb3dbf4ff59e804843f20436bbdf2458b5aba7471a64938cbb668",
+    "reports/native_pilot_review.json": "76cced915f5d5b9e612dbd4ebc8a94b8bb763b47f8a4073fc7fbc6d5dc27f4c7",
+    "reports/native_road_pilot_review.json": "da289fe42a82c92d251e1ad129ff683f7071b21d14597642dfef9cf38c8ecd00",
+    "fixtures/land_v1/review/visual_review.json": "ecae3f898006d35e33aa7605cd0411bcfb3f7f8f7f27c28e6217890260656b2e",
+    "fixtures/banks_v2/review/motion.json": "7a6e1b931c9df12eca39cb3fe9fe8eaa5485a78fdb4be97904c80a42a413d3dc",
+    "fixtures/banks_v2/review/visual_review.json": "0da1af19b234e20d1481070edbf4a42d9ce762862990bd61e3a409cdb42dbf35",
+    "fixtures/banks_extra_v1/review/motion.json": "834a473699a4a60dd7226d67c6e768a395038833e2b200d42915a66b60e9703b",
+    "fixtures/banks_extra_v1/review/visual_review.json": "9619448ff7ec0db00a653da6081069c97964fd40fab8383582b54000eb0c4cb9",
+    "fixtures/roads_v1/review/visual_review.json": "d2a0ca3d7b2588fafdcc27b69ef6c5508c108efeb0d4d5daae5e8cfa324ee3de",
+    "fixtures/roads_v1/review/stepping_visual_review.json": "46c2b3fdb519dd69a7c38a13e444b7e7898e36001f8daa702b23949c614658df",
+    "fixtures/roads_v1/review/loop_diagonal_review.json": "66c46ab65c4712db239ecca1aba1bad3551555955c217b32cf9ed36fceab170f",
+    "reports/stepping_camera_audit.json": "bdbfa19aad95b4921c5dd72fb6f05e2934a4a14954143af8654fa0d3e9dad7e6",
+    "roads/stepping_v1/validation.json": "09a6e55e8e5d97e84f9e95a39daadd4d3c0dcb657d7549c483b7476687d291b7",
+    "liquids/banks_v2/validation.json": "b7bb32343d47b81c96ad72935d2e123e6dcc02a874ee62971f1f6873e9a42046",
+    "variants/volcano_v2/build.json": "6bac413eb2eba6c00565e0de69c78b00beb375abdc7adb5af6337489a2353820",
+    "roads/v4/visual_review.json": "31f8c5b74d6cdc3a232da9cad65e7bcf63580e81838017fa51428aa171b970e3",
+    "roads/v4/validation.json": "006ade42c7d45885d3ddca94968d9b705ecf42d68717753642c230471b0a2597",
+    "roads/v5/visual_review.json": "2e8425449b13e0bf80db4b1595dacf0e4d7b1d8f563182a59eac34d06d66b2e1",
+    "roads/v5/validation.json": "61e79932e0e2dfca8e8cbb0344d695eec5d5d0557fdab338f5cf8d323ff2d10a",
+    "roads/v6/visual_review.json": "68c219e2aa9edcf6b0b5411c7ad08fe5db7f05a770f061e3b22d1e686d969a32",
+    "roads/v6/validation.json": "aa4f7dfaf457a5e7224f808ae23e4a53719e6ee030362cab92750d25eb00f191",
+    "roads/v7/visual_review.json": "3a2fd6b8df8637d2cd3e3f6df2bee3c879f051cdb696116d4f0f2f27f865306d",
+    "roads/v7/validation.json": "ffbb04c32bd964fdc43571974c7f4e927ac610e7f1a1bcd65127120b1f8a9145",
+    "roads/v8/visual_review.json": "89aebab5c29b5cdb7c08911d9e52ce347a5371a0c61ffc26640017f867c0a099",
+    "roads/v8/validation.json": "2d95e4289bcfc91496c1e01d6e98949ba1d93bcd17c4922daa7a4f4718a5cfb9"
+  },
+  "coverage": "All197 used static names and42 animation frames across14 effective MM8 outdoor grids. Ten masters, land variants,36 cobble roads,12 intentionally separate stepping paths,57 RGBA banks, three14-frame liquid cycles plus fallbacks.",
+  "acceptance_basis": "Actual visual review of original/enhanced native pilots, flat layouts, grounded road motion and animation samples, complemented by exact-export compatible joins and original-context placement triage.",
+  "limits": [
+    "Existing incompatible native tile placements are preserved, not silently repaired.",
+    "Xvfb review validates content appearance, not hardware GPU performance.",
+    "Representative captures do not imply every map cell/view/mip was visually inspected."
+  ],
+  "road_edge_revision": "v8: eight diagonal textures rebuilt from native footprints and stone structure, with bounded generated detail. Shared native endpoint colour correction on36 roads. Both supplied views, walking and Alvar reviewed. Current evidence: roads/v8/visual_review.json."
+}

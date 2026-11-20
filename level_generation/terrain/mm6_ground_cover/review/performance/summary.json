@@ -1,0 +1,74 @@
+{
+  "disabled": {
+    "samples": 8,
+    "median": {
+      "phase": 0.0,
+      "frames": 2252.0,
+      "cpu_us": 0.0289219,
+      "draws": 0.0,
+      "instances": 0.0,
+      "gpu_frame_us": 317.788,
+      "driver_cpu_us": 369.231,
+      "total_draws": 333.555,
+      "wait_render_us": 122.0875,
+      "camera_x": -9728.0,
+      "camera_y": -11319.0,
+      "camera_z": 337.0,
+      "forward_x": 0.0449143,
+      "forward_y": -0.992997,
+      "forward_z": -0.109265
+    },
+    "fps_range": [
+      1928.0,
+      2350.0
+    ]
+  },
+  "original": {
+    "samples": 12,
+    "median": {
+      "phase": 1.0,
+      "frames": 1777.5,
+      "cpu_us": 91.3902,
+      "draws": 148.0,
+      "instances": 8714.0,
+      "gpu_frame_us": 436.84299999999996,
+      "driver_cpu_us": 483.1165,
+      "total_draws": 481.8825,
+      "wait_render_us": 165.607,
+      "camera_x": -9728.0,
+      "camera_y": -11319.0,
+      "camera_z": 337.0,
+      "forward_x": 0.0449143,
+      "forward_y": -0.992997,
+      "forward_z": -0.109265
+    },
+    "fps_range": [
+      1457.0,
+      1863.0
+    ]
+  },
+  "batched": {
+    "samples": 12,
+    "median": {
+      "phase": 2.0,
+      "frames": 2217.5,
+      "cpu_us": 46.17675,
+      "draws": 14.0,
+      "instances": 8714.0,
+      "gpu_frame_us": 330.8535,
+      "driver_cpu_us": 373.421,
+      "total_draws": 348.69,
+      "wait_render_us": 94.264,
+      "camera_x": -9728.0,
+      "camera_y": -11319.0,
+      "camera_z": 337.0,
+      "forward_x": 0.0449143,
+      "forward_y": -0.992997,
+      "forward_z": -0.109265
+    },
+    "fps_range": [
+      1978.0,
+      2274.0
+    ]
+  }
+}

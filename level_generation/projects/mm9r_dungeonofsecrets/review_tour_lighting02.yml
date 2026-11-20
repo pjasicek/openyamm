@@ -1,0 +1,95 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dungeonofsecrets/review/lighting02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: h01_arrival
+  position:
+  - 5376
+  - -1065
+  - -40
+  yaw: 3.1416
+  pitch: 0.0
+- name: h03_hub_chadwick
+  position:
+  - 4736
+  - -1536
+  - -40
+  yaw: 2.5221
+  pitch: 0.0
+- name: s10_room
+  position:
+  - 3891
+  - -384
+  - -40
+  yaw: 3.1416
+  pitch: 0.0
+- name: s09_room
+  position:
+  - 2944
+  - -896
+  - -40
+  yaw: 2.8198
+  pitch: 0.0
+- name: p01_pool_room
+  position:
+  - 1229
+  - 768
+  - -60
+  yaw: 2.813
+  pitch: 0.0
+- name: s01_plate_room_mid
+  position:
+  - -2202
+  - 2304
+  - 1
+  yaw: 1.6581
+  pitch: -0.2094
+- name: s02_corridor
+  position:
+  - -2304
+  - 4813
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: s02_stairs
+  position:
+  - -742
+  - 2560
+  - 1
+  yaw: 1.5708
+  pitch: 0.2618
+- name: s03_lever_room
+  position:
+  - 1536
+  - 3840
+  - 656
+  yaw: -2.2143
+  pitch: 0.0
+- name: s04_double_axe
+  position:
+  - 1024
+  - 1254
+  - 656
+  yaw: 3.1416
+  pitch: 0.0
+- name: s05_octagon
+  position:
+  - -1434
+  - 1024
+  - 656
+  yaw: -1.7837
+  pitch: 0.0
+- name: s06_gauntlet_mid
+  position:
+  - -256
+  - -1741
+  - -81
+  yaw: 0.0
+  pitch: 0.0
+- name: e01_exit_gate
+  position:
+  - 2816
+  - -1766
+  - -40
+  yaw: 0.0
+  pitch: 0.0

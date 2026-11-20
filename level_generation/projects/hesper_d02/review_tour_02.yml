@@ -1,0 +1,107 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d02/review/lights01",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "gate",
+   "position": [
+    200,
+    1900,
+    0
+   ],
+   "yaw": 0.4,
+   "pitch": 0.05
+  },
+  {
+   "name": "gallery_w",
+   "position": [
+    1150,
+    900,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.05
+  },
+  {
+   "name": "cistern_full",
+   "position": [
+    1150,
+    2200,
+    0
+   ],
+   "yaw": 0.0,
+   "pitch": -0.45
+  },
+  {
+   "name": "gallery_n",
+   "position": [
+    1700,
+    3650,
+    0
+   ],
+   "yaw": 0,
+   "pitch": 0.0
+  },
+  {
+   "name": "stair_top",
+   "position": [
+    1528,
+    3600,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.5
+  },
+  {
+   "name": "pump_steps",
+   "position": [
+    5350,
+    2150,
+    0
+   ],
+   "yaw": 0,
+   "pitch": -0.15
+  },
+  {
+   "name": "pump_hall",
+   "position": [
+    6300,
+    1000,
+    -256
+   ],
+   "yaw": 0.9,
+   "pitch": 0.1
+  },
+  {
+   "name": "filters",
+   "position": [
+    8500,
+    2200,
+    -256
+   ],
+   "yaw": 0,
+   "pitch": 0.05
+  },
+  {
+   "name": "works",
+   "position": [
+    6850,
+    600,
+    -256
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "valve_1",
+   "position": [
+    1100,
+    3150,
+    0
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.0
+  }
+ ]
+}

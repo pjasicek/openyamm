@@ -1,0 +1,2389 @@
+[
+  {
+    "id": "cedfncdk_v1",
+    "texture": "cedfncdk",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/cedfncdk_coarse_layout.png",
+      "references/layout/cedfncdk_palette_only.png"
+    ],
+    "prompt": "prompts/cedfncdk_v1.txt",
+    "prompt_sha256": "717d3fd5d4e71a469657e7a889862d77ad12da655aca6618657dd3a3cce8a4bc",
+    "raw": "generated/cedfncdk_v1.png",
+    "raw_sha256": "195a94d0652dddb39162f1e1d2c2c7b122597430ad7fefb7f92fa79979325e48",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 62.093,
+    "status": "candidate",
+    "reason": "Finish, source budget, seams and native lighting remain independent checks"
+  },
+  {
+    "id": "cedfncdk_wrap_v1",
+    "texture": "cedfncdk",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/cedfncdk_offset_v1.png"
+    ],
+    "prompt": "prompts/cedfncdk_wrap_v1.txt",
+    "prompt_sha256": "3e989a805665d937ee9b0ba8226c366615b23fe91419e01300d4adc79f8e1329",
+    "raw": "generated/cedfncdk_wrap_v1.png",
+    "raw_sha256": "4725079570454aa7cdf17240f4689f4552bdc4be9beb843e085d79ce614aec84",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 63.993,
+    "status": "rejected",
+    "reason": "Native amber/red plank-to-plank colour variation was flattened. The sampled mapped surface is also roughly 8% brighter than the frozen ESRGAN baseline under normal and Torch Light. Do not promote this candidate."
+  },
+  {
+    "id": "d2ceil4_v1",
+    "texture": "d2ceil4",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/native/d2ceil4.png"
+    ],
+    "prompt": "prompts/d2ceil4_v1.txt",
+    "prompt_sha256": "ca959b39d6441e34efbdc8cbfcd90cd0e551ec59f9424109d0b033050000b169",
+    "raw": "generated/d2ceil4_v1.png",
+    "raw_sha256": "b113a7fc97a68f70ef3339792acef7d77f047c12c00804d2dd653ac575b6ab30",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      1024,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 48.652,
+    "status": "rejected",
+    "reason": "Too bright versus the current material"
+  },
+  {
+    "id": "d2ceil4_v2",
+    "texture": "d2ceil4",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/d2ceil4_v1.png",
+      "assets_dev/worlds/mm6/textures_x2/d2ceil4.png"
+    ],
+    "prompt": "prompts/d2ceil4_v2.txt",
+    "prompt_sha256": "6a3faad10d3b89b9337ebb87f6a56b6b59d9ce2bedd8ad0f6b5ba61c35489603",
+    "raw": "generated/d2ceil4_v2.png",
+    "raw_sha256": "3e41c37212f7c9a600b9dbda0357f7271f1f84ba782306762784d6360448de09",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      1024,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 43.517,
+    "status": "rejected",
+    "reason": "Darker but 1:1 detail acquired smeared cellular ridges"
+  },
+  {
+    "id": "d2ceil4_v3",
+    "texture": "d2ceil4",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d2ceil4_coarse_layout.png",
+      "references/layout/d2ceil4_palette_only.png"
+    ],
+    "prompt": "prompts/d2ceil4_v3.txt",
+    "prompt_sha256": "114a12a9f95234266d3a8ae3f34fce3f0c02e9fc8b6a8d2061b45ee4d660563b",
+    "raw": "generated/d2ceil4_v3.png",
+    "raw_sha256": "fb2de3872f160bbd1f474daedbbef23f291e626f14147a9ff47462cab20926c7",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      1024,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 44.358,
+    "status": "superseded",
+    "reason": "Use exact native/ESRGAN duplicate d2ceil3 master; native Goblinwatch comparison passed."
+  },
+  {
+    "id": "d2ceil4_wrap_v1",
+    "texture": "d2ceil4",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d2ceil4_offset_v3.png"
+    ],
+    "prompt": "prompts/d2ceil4_wrap_v1.txt",
+    "prompt_sha256": "f0d2887a0070fde50e077cfcec73d02b987b5cd0fa43164447df624f39b67351",
+    "raw": "generated/d2ceil4_wrap_v1.png",
+    "raw_sha256": "0677ae41674ede58ebe37a7a19901aa4a2dd62190dbbc44af18517b5be94e5d3",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      1024,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 48.341,
+    "status": "superseded",
+    "reason": "Use exact native/ESRGAN duplicate d2ceil3 master; native Goblinwatch comparison passed."
+  },
+  {
+    "id": "d6flora_v1",
+    "texture": "d6flora",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/native/d6flora.png"
+    ],
+    "prompt": "prompts/d6flora_v1.txt",
+    "prompt_sha256": "1b5ed00cd8826c6849df04ade18209de07a83cff8f7f5e0202e2ca3b6b028ad8",
+    "raw": "generated/d6flora_v1.png",
+    "raw_sha256": "c752a059ac2c807aa43c0ce2f1b66c2fda59946fbcc1267dd194c0273c692a01",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 23.856,
+    "status": "rejected",
+    "reason": "Too bright versus the current material"
+  },
+  {
+    "id": "d6flora_v2",
+    "texture": "d6flora",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/d6flora_v1.png",
+      "assets_dev/worlds/mm6/textures_x2/d6flora.png"
+    ],
+    "prompt": "prompts/d6flora_v2.txt",
+    "prompt_sha256": "35193a815e15ed019fe422b86c8875e9e6fcb0d8fd9d9f1ec7e40b88b04a05a6",
+    "raw": "generated/d6flora_v2.png",
+    "raw_sha256": "3fd7dd2f9b4c09f0734b1a61ee39197f15d272df358c33c542783d1049ff99b7",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 15.271,
+    "status": "rejected",
+    "reason": "Darker but 1:1 detail acquired smeared cellular ridges"
+  },
+  {
+    "id": "d6flora_v3",
+    "texture": "d6flora",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d6flora_coarse_layout.png",
+      "references/layout/d6flora_palette_only.png"
+    ],
+    "prompt": "prompts/d6flora_v3.txt",
+    "prompt_sha256": "1ccf83dfcb4d075036617ce218254b09dd11b5637cfbfac886dd4d958876efcd",
+    "raw": "generated/d6flora_v3.png",
+    "raw_sha256": "b911c5b60578cb1f22fec8d093a812d3dad3973dbeaedb0a50f2c71d29b07d34",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 24.858,
+    "status": "rejected",
+    "reason": "Fine detail improved, but floor material remained 84% too bright"
+  },
+  {
+    "id": "d6flora_v4",
+    "texture": "d6flora",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d6flora_dark_coarse_layout.png",
+      "references/layout/d6flora_palette_only.png"
+    ],
+    "prompt": "prompts/d6flora_v4.txt",
+    "prompt_sha256": "e023257d28adbf4e625205fc56b4da1c65d147a10ba8a86bedc46b2d11dd483a",
+    "raw": "generated/d6flora_v4.png",
+    "raw_sha256": "162d4e2fd5890bb0863c80b1f0c65c49d099b33a3ac555d23f61ce8b621e40c1",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 15.994,
+    "status": "candidate",
+    "reason": "Finish, source budget, seams and native lighting remain independent checks"
+  },
+  {
+    "id": "d6wlactr_v1",
+    "texture": "d6wlactr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/native/d6wlactr.png"
+    ],
+    "prompt": "prompts/d6wlactr_v1.txt",
+    "prompt_sha256": "4cad1197a9125e03f2dff0d5d96f6e14fa15d60e30bdbf1199c9b36c8199b527",
+    "raw": "generated/d6wlactr_v1.png",
+    "raw_sha256": "27418e384071c9893f924f076c95fb008e32780b0f2e8a72de910cd65ca1c8e0",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 35.932,
+    "status": "rejected",
+    "reason": "Too bright versus the current material"
+  },
+  {
+    "id": "d6wlactr_v2",
+    "texture": "d6wlactr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/d6wlactr_v1.png",
+      "assets_dev/worlds/mm6/textures_x2/d6wlactr.png"
+    ],
+    "prompt": "prompts/d6wlactr_v2.txt",
+    "prompt_sha256": "3ba149f7ec6c7c81240c76711df310f018601bd6d06711b8046a644b14b473eb",
+    "raw": "generated/d6wlactr_v2.png",
+    "raw_sha256": "9c807379a61e1e46eaacd5fea0f763ed39e315606146ae1209245bcfa34f986d",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 27.328,
+    "status": "rejected",
+    "reason": "Darker but 1:1 detail acquired smeared cellular ridges"
+  },
+  {
+    "id": "d6wlactr_v3",
+    "texture": "d6wlactr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d6wlactr_coarse_layout.png",
+      "references/layout/d6wlactr_palette_only.png"
+    ],
+    "prompt": "prompts/d6wlactr_v3.txt",
+    "prompt_sha256": "8a2d5e05f12c8b507763ec415dbbe885c03ffbbe2997d70071e01f4d9a95c4f9",
+    "raw": "generated/d6wlactr_v3.png",
+    "raw_sha256": "64f06462ec0b79bc19410ca61c7fcbbf55df690194a1d5ce103fa3015bc925de",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 31.949,
+    "status": "selected_body_original_map_passed",
+    "reason": "Fresh body selected with exact separate imagegen centre-cross repairs; direct reduction. Original 6d13 normal/Torch Light, source budget and fine finish passed."
+  },
+  {
+    "id": "d6wlactr_wrap_v1",
+    "texture": "d6wlactr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d6wlactr_offset_v3.png"
+    ],
+    "prompt": "prompts/d6wlactr_wrap_v1.txt",
+    "prompt_sha256": "fd1cd04680aaa91665dba8d5664d4596d366261786ea3082225a783b2a8081a4",
+    "raw": "generated/d6wlactr_wrap_v1.png",
+    "raw_sha256": "dd580403aacc54ffc8b7fd372560df729b3f417cb5ae249daed42ebb94e2aa07",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "mean_display_luma": 33.924,
+    "status": "candidate_wrap_repair",
+    "reason": "Requires selected-crop finish and repeat review; complete return not automatically accepted"
+  },
+  {
+    "id": "cedfncdk_v2",
+    "texture": "cedfncdk",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/cedfncdk_calibrated_layout_v2.png",
+      "references/layout/cedfncdk_palette_only.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/cedfncdk_calibrated_layout_v2.png",
+        "sha256": "321546599e0026b79509c9a1d87307adbef38d07784a17733037c17eb639686d",
+        "role": "layout/reference; not accepted artwork"
+      },
+      {
+        "file": "references/layout/cedfncdk_palette_only.png",
+        "sha256": "d7a0f645de4cac62d950cd3a6f31847ccfd710d18af33bd7578b227f884b6fa3",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/cedfncdk_v2.txt",
+    "prompt_sha256": "eed6ec86b0ee996f2bccf9da0ef76cbaf9028d975a640f952e54f6e9d98d438c",
+    "tool_prompt_sha256": "b1d06e863e72a9bdbc6961fa4794751388b811d8117a600ccaed9129b0a92013",
+    "raw": "generated/cedfncdk_v2.png",
+    "raw_sha256": "0804068f87112fa56d08f230a154538e4c20aa48412490eb5bc3b4dc9e29b7fd",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 52.809,
+    "status": "body_for_wrap",
+    "reason": "Restored native four-plank colour variation; selected for finish, wrap repair reviewed separately."
+  },
+  {
+    "id": "d2ceil4_v4",
+    "texture": "d2ceil4",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d2ceil4_calibrated_layout_v2.png",
+      "references/layout/d2ceil4_palette_only.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/d2ceil4_calibrated_layout_v2.png",
+        "sha256": "8cb25d188a55d62c3dfd2c80e6357025ea1276e1354479e092f0eefcdc4c61a8",
+        "role": "layout/reference; not accepted artwork"
+      },
+      {
+        "file": "references/layout/d2ceil4_palette_only.png",
+        "sha256": "b004437bf552cd79c25518433da8cb81dbfa3c8c7a231432f1cf373d01fc6b0e",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/d2ceil4_v4.txt",
+    "prompt_sha256": "11ae0047ccfe2d6ff217d1950f591548c4ca9cfe11561b7bea694c66398dccf8",
+    "tool_prompt_sha256": "3d545feb4076e9b87fa02a49d990a83780654c3959b18447b98059475f92d55f",
+    "raw": "generated/d2ceil4_v4.png",
+    "raw_sha256": "938a9ca460d78c180972348f477a9bcd7c10254be350af334a23b301f455c5a7",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      1024,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 33.111,
+    "status": "superseded",
+    "reason": "Use exact native/ESRGAN duplicate d2ceil3 master; native Goblinwatch comparison passed."
+  },
+  {
+    "id": "d6flora_v5",
+    "texture": "d6flora",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d6flora_calibrated_layout_v2.png",
+      "references/layout/d6flora_palette_only.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/d6flora_calibrated_layout_v2.png",
+        "sha256": "4a4fa56055af60be7fdc50fab1229ecf4b3e7c8e38746fe259ab3bf3b3269033",
+        "role": "layout/reference; not accepted artwork"
+      },
+      {
+        "file": "references/layout/d6flora_palette_only.png",
+        "sha256": "d47c8eec5925dbe99e1a73dfab6551cba8674b6a5f14dac9873a4022f04dfa5a",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/d6flora_v5.txt",
+    "prompt_sha256": "996212b1336aa3b38c9a8e5d4008bce75ab59983a654ab7252fe7f45d1692430",
+    "tool_prompt_sha256": "ca981e101fc4c1ef43a8a39f6477b3001e71a2d97a592912a679ba2e31dd333e",
+    "raw": "generated/d6flora_v5.png",
+    "raw_sha256": "94153b3849677a0d6f6eae7c3fcdcb3cfd1991f1016e723c8e592a7b29b864ce",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 13.298,
+    "status": "selected_body_original_map_passed",
+    "reason": "Fresh body selected with exact separate imagegen centre-cross repairs; direct reduction. Original 6d13 normal/Torch Light, source budget and fine finish passed."
+  },
+  {
+    "id": "d6wlactr_wrap_v2",
+    "texture": "d6wlactr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d6wlactr_offset_v3.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/d6wlactr_offset_v3.png",
+        "sha256": "29e3f6ddeac1707ee704aa45f7047ab78ec9507e5a273681fa2d67fd51c045f4",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/d6wlactr_wrap_v2.txt",
+    "prompt_sha256": "45d07998c3cd14e4bf52f989648b1587fd1bf2ba66890da644c0a9002e1bdd60",
+    "tool_prompt_sha256": "b8ad1969d3ed2d4ceb189e0bc2a64aea9ddf12e13227e49e148598a803c43f71",
+    "raw": "generated/d6wlactr_wrap_v2.png",
+    "raw_sha256": "19bc118ee064c61e5f9d4b63d61f9040a3cf45a2f134947c230a0001a87285be",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 32.498,
+    "status": "selected_repair_original_map_passed",
+    "reason": "Only the recorded exact centre-cross strips are selected; whole repair return unused. Original 6d13 normal/Torch Light, hard patch boundaries and x4 repeats passed."
+  },
+  {
+    "id": "d6wlasp1_grille_alpha_v1",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/native/d6wlasp1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/native/d6wlasp1.png",
+        "sha256": "581b889f4c8467a5578fb8eb2825fa89f962833db724f9df7d4f5c33c60dc1a1",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_grille_alpha_v1.txt",
+    "prompt_sha256": "112b36fbb603c3d4fc1a47431ffd5c1754718e79d8d96e5f603449d0afd2d34d",
+    "tool_prompt_sha256": "6487697b312fdeaf88c74d09bf5c61024187c10c9f83889071fa373c60aa0c85",
+    "raw": "generated/d6wlasp1_grille_alpha_v1.png",
+    "raw_sha256": "97df752b9322bb356f08ef2c419d5b730396d104d2851f2d2a58f8700bab7bad",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.5074062399509894,
+    "mean_display_luma": 13.59,
+    "status": "rejected",
+    "reason": "True alpha is present but frame is shifted upward and vines extend too far. Native frame y=44..179; cannot accept a recentered return. First prompt also incorrectly stated y=13; corrected second prompt retained a misleading prior composition reference."
+  },
+  {
+    "id": "d6wlalg_roots_alpha_v1",
+    "texture": "d6wlalg",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/native/d6wlalg.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/native/d6wlalg.png",
+        "sha256": "019f95a60a2645be05177b7cb95b80d04073745be63ca535e219a6101cb2cc32",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/d6wlalg_roots_alpha_v1.txt",
+    "prompt_sha256": "f78aeb2baf981d26c9305b38eb7928bdf58c1ca6affe22a1657437a4bcae20dd",
+    "tool_prompt_sha256": "9e07a409b329aad243a7a5e7ffc76c354eb429f84dacb53713cf6570095f4ece",
+    "raw": "generated/d6wlalg_roots_alpha_v1.png",
+    "raw_sha256": "6159a54bcb5237fccd97ec44af569c10cad9c7acd5c6875e298dc13f5901da27",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      1024,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.8067307423263101,
+    "mean_display_luma": 3.838,
+    "status": "candidate",
+    "reason": "Source budget and finish do not establish registration, joins or native lighting acceptance."
+  },
+  {
+    "id": "cedfncdk_wrap_v2",
+    "texture": "cedfncdk",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/cedfncdk_offset_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/cedfncdk_offset_v2.png",
+        "sha256": "96e4c01783cb80ac9b02fc7e20f80b6ecda4f10d8da280380d57b2dd6d51ef38",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/cedfncdk_wrap_v2.txt",
+    "prompt_sha256": "9655ee0cfa5da3ecdcd56db5fbd789384c3b8e5277e1e1e03e4107e8dc1f064d",
+    "tool_prompt_sha256": "a403cc65bf0417ef44fd4d1ff0601fd7d0c738bbd2f4fc0e67fecdb1b2f49631",
+    "raw": "generated/cedfncdk_wrap_v2.png",
+    "raw_sha256": "32f899d412261cf76ed40a7f88e947283ed73b44648f3dea254e1636d1961e43",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 55.288,
+    "status": "selected",
+    "reason": "Fine grain, native four-plank colour variation, wraps, source budget and fixed normal/Torch Light Goblinwatch captures passed."
+  },
+  {
+    "id": "d6flora_wrap_v1",
+    "texture": "d6flora",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d6flora_offset_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/d6flora_offset_v2.png",
+        "sha256": "852930b6fcfb972d47cce5c74a4e9c741df33440ec0ce2bfc2c8a5e2db12e0bd",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/d6flora_wrap_v1.txt",
+    "prompt_sha256": "351937a2d582aa675730930afe086c651b361d1c1969d18e881594adacf44104",
+    "tool_prompt_sha256": "f0ba976a7e090010b793732b95075cc9be3e0f69022c851947ca0f30589cccd8",
+    "raw": "generated/d6flora_wrap_v1.png",
+    "raw_sha256": "5d237743e41cd86d0ff884f67d66d03cc0679cab94b6c6a4194f5e5413778574",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 15.847,
+    "status": "selected_repair_original_map_passed",
+    "reason": "Only the recorded exact centre-cross strips are selected; whole repair return unused. Original 6d13 normal/Torch Light, hard patch boundaries and x4 repeats passed."
+  },
+  {
+    "id": "d2ceil4_wrap_v2",
+    "texture": "d2ceil4",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/d2ceil4_offset_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/d2ceil4_offset_v2.png",
+        "sha256": "7c4303da1cd410b28aaf8c8761a418880c99a892b79dda571c9f740f0ef7b454",
+        "role": "layout/reference; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/d2ceil4_wrap_v2.txt",
+    "prompt_sha256": "becd14fe695676701d9fbbf520cdb18813fe3b75b9a39b5464657cf354609f38",
+    "tool_prompt_sha256": "1a16a0ba6ee9bdff0cd4728d28e80d524b96a9c49349d48950d7ce1e01a7e723",
+    "raw": "generated/d2ceil4_wrap_v2.png",
+    "raw_sha256": "18506ef1470c708007832fa45bbd5243f8d90904dcb485aa373678bb2caa9583",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      1024,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 37.051,
+    "status": "superseded",
+    "reason": "Use exact native/ESRGAN duplicate d2ceil3 master; native Goblinwatch comparison passed."
+  },
+  {
+    "id": "d6wlasp1_grille_alpha_v2",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/native/d6wlasp1.png",
+      "generated/d6wlasp1_grille_alpha_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/native/d6wlasp1.png",
+        "sha256": "581b889f4c8467a5578fb8eb2825fa89f962833db724f9df7d4f5c33c60dc1a1",
+        "role": "layout/reference; not accepted artwork"
+      },
+      {
+        "file": "generated/d6wlasp1_grille_alpha_v1.png",
+        "sha256": "97df752b9322bb356f08ef2c419d5b730396d104d2851f2d2a58f8700bab7bad",
+        "role": "fresh material / foreground edit input"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_grille_alpha_v2.txt",
+    "prompt_sha256": "0715a969d1d8f47262b71a84e369af34cb9df199e5feda78d6040f7b76f0ce5d",
+    "tool_prompt_sha256": "7be7718f84da00d6a3533b5a1161edb0e9204cdb349d917a6f3cc23e9f9422c1",
+    "raw": "generated/d6wlasp1_grille_alpha_v2.png",
+    "raw_sha256": "5d7eac7161299fb8648df241082bb1ff91779ba979ab8aae87b9662bffd72cc4",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.5141852309890197,
+    "mean_display_luma": 15.932,
+    "status": "rejected",
+    "reason": "True alpha is present but frame is shifted upward and vines extend too far. Native frame y=44..179; cannot accept a recentered return. First prompt also incorrectly stated y=13; corrected second prompt retained a misleading prior composition reference."
+  },
+  {
+    "id": "d6wlasp1_grille_alpha_v3",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/native/d6wlasp1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/native/d6wlasp1.png",
+        "sha256": "581b889f4c8467a5578fb8eb2825fa89f962833db724f9df7d4f5c33c60dc1a1",
+        "role": "authoritative native layout/palette reference only"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_grille_alpha_v3.txt",
+    "prompt_sha256": "07129170a780a0fb87366caf8168f0960b0a6efc75ee50f5ea291f857c0d3d74",
+    "tool_prompt_sha256": "a4f6954eb8acb6fa15de7f7f737bc12cee166daf39688f7419aefdae6123ffce",
+    "raw": "generated/d6wlasp1_grille_alpha_v3.png",
+    "raw_sha256": "c29b9ef317d8b27f76a07fbf792d6a043d9feb894579f98bfd8a26577fb2b0aa",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "target_x4_size": [
+      512,
+      1024
+    ],
+    "crop": [
+      0,
+      0,
+      887,
+      1774
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.6075334691631216,
+    "mean_display_luma": 8.923,
+    "status": "rejected",
+    "reason": "Frame moved nearer the native top margin but narrowed by about 15% and shortened; true alpha does not establish registration. Split the rigid panel from organic vines and register component cuts deterministically rather than trusting a full-canvas redraw."
+  },
+  {
+    "id": "oflr_v1",
+    "texture": "oflr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr_coarse_v1.png",
+      "references/layout/oflr_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr_coarse_v1.png",
+        "sha256": "bd29ef9823d61ef8c5b7c054ab087340088ffe96ce0d6e8620edf412a83c8a4a",
+        "role": "placement/colour reference only; not accepted artwork"
+      },
+      {
+        "file": "references/layout/oflr_palette_v1.png",
+        "sha256": "6981c0967c6b94fd9a4bca6c2775ed96153274c7742d04669fe987bf695baf1c",
+        "role": "placement/colour reference only; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/oflr_v1.txt",
+    "prompt_sha256": "b66e33e3b61c5e39ba9ae1a90c54927a676db321e0c0cc1cbb72f914480e8059",
+    "tool_prompt_sha256": "0caca79f2d83dcb6ab3ae585601d8144232932adbb6cee7680455947c90bb5e1",
+    "raw": "generated/oflr_v1.png",
+    "raw_sha256": "9a63f0df6ae236125831f0ca3795afcf3c478f5626fc3c102fb71844cd4a5c00",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 102.399,
+    "status": "body_requires_brightness_retry",
+    "reason": "Fresh fine stone and correct diagonal phase; roughly 9% too bright and repeat edges remain separate checks."
+  },
+  {
+    "id": "t1c2_v1",
+    "texture": "t1c2",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/t1c2_coarse_v1.png",
+      "references/layout/t1c2_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/t1c2_coarse_v1.png",
+        "sha256": "e17f89a27b27d60b65659215c75ccb6233998487041225ea913993e761f0cf8f",
+        "role": "placement/colour reference only; not accepted artwork"
+      },
+      {
+        "file": "references/layout/t1c2_palette_v1.png",
+        "sha256": "6e8f050b38fc4ca052a5b016d3b7eb03384768292d81794e627edc44c07c48b3",
+        "role": "placement/colour reference only; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/t1c2_v1.txt",
+    "prompt_sha256": "7da1d004f58239cb7ada0cd0dd0424fab144ebe305ee7954decfca18d392f4f6",
+    "tool_prompt_sha256": "084da93b62353096fad0701b6de3dfb6309ceb9ab9e5ebbd51f9304220a01609",
+    "raw": "generated/t1c2_v1.png",
+    "raw_sha256": "be57ca6467a2f9984567ad2cb59a1538af0147eb6289023468a6bfa061704e08",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      256,
+      256
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 88.916,
+    "status": "rejected",
+    "reason": "About 19% too bright and coarse aggregate-like mineral chips at 1:1; regenerate from native coarse layout."
+  },
+  {
+    "id": "orceil_v1",
+    "texture": "orceil",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/orceil_coarse_v1.png",
+      "references/layout/orceil_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/orceil_coarse_v1.png",
+        "sha256": "89dfcb6ea8b6effd245b4ea752b48d96561d74bc1b6aad0dfa3ffbe0e36300f8",
+        "role": "placement/colour reference only; not accepted artwork"
+      },
+      {
+        "file": "references/layout/orceil_palette_v1.png",
+        "sha256": "60ee2ea54643a2e8e9229a8c5b0aa8820f2c217df04731b6f83709e53b0f9f6b",
+        "role": "placement/colour reference only; not accepted artwork"
+      }
+    ],
+    "prompt": "prompts/orceil_v1.txt",
+    "prompt_sha256": "9cd32839399a52b6dd82d081cea480ee77fd132416b7fa77e777365f2670227b",
+    "tool_prompt_sha256": "89d8ad5510c83b325dcd2b372235759742ea067faf4759148aa46e06bccabd18",
+    "raw": "generated/orceil_v1.png",
+    "raw_sha256": "547bce688df63dcc8484654ff236f50faef61dca6c412aa5afb5fa05aa05e843",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 219.813,
+    "status": "body_for_wrap",
+    "reason": "Fresh fine marble and baseline brightness passed 1:1; vein continuity requires offset repair."
+  },
+  {
+    "id": "oflr_v2",
+    "texture": "oflr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr_coarse_v2.png",
+      "references/layout/oflr_palette_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr_coarse_v2.png",
+        "sha256": "42a0f962b6bd6762d8e150a369d3e433a45726d00a04eaad6e91e1e1fb70ec51",
+        "role": "registered placement/material reference; not accepted export"
+      },
+      {
+        "file": "references/layout/oflr_palette_v2.png",
+        "sha256": "1f79a039c719e066ab6d06b1780fedc6366ee51f06f7c4dbba5b3b4d3252bcf3",
+        "role": "registered placement/material reference; not accepted export"
+      }
+    ],
+    "prompt": "prompts/oflr_v2.txt",
+    "prompt_sha256": "bd9866649745ff09c826a92c6d31980d721bb4b84a9e8277191161f61e5cb6e7",
+    "tool_prompt_sha256": "ef1dedb8903041157789f3d626bda8ec2d086b45b09c006a6f2b56bcc118966e",
+    "raw": "generated/oflr_v2.png",
+    "raw_sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 94.451,
+    "status": "selected_native_review_passed",
+    "reason": "Use only the recorded complete diamond cuts. Fine finish, original tone and finite-tile grout joins pass; full raw repeat is not selected."
+  },
+  {
+    "id": "t1c2_v2",
+    "texture": "t1c2",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/t1c2_coarse_v2.png",
+      "references/layout/t1c2_palette_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/t1c2_coarse_v2.png",
+        "sha256": "ac79c9ebf6c3a89fb252f3cfd34e72c366f27f0b44575598c036a26b25901948",
+        "role": "registered placement/material reference; not accepted export"
+      },
+      {
+        "file": "references/layout/t1c2_palette_v2.png",
+        "sha256": "da4af28c6d566ddb9cc4db9c18837a8c8dc0cfee57c84204c5ae9c9cab8c0467",
+        "role": "registered placement/material reference; not accepted export"
+      }
+    ],
+    "prompt": "prompts/t1c2_v2.txt",
+    "prompt_sha256": "bc79d15400aa2cf481aec065dc4f5a5f63b7480273947a71d816bd00200e140b",
+    "tool_prompt_sha256": "ff973317ead7723f4d30bbb212e83a1f2521a36ada69af4ced59d22020f5e1e5",
+    "raw": "generated/t1c2_v2.png",
+    "raw_sha256": "12d2644566db7a4e32b449c1e79d455a169d3b63e2dc2028708115a7feb802c6",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      256,
+      256
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 66.101,
+    "status": "candidate",
+    "reason": "Regenerated fine finish or wrap repair; repeat and native comparisons pending."
+  },
+  {
+    "id": "orceil_wrap_v1",
+    "texture": "orceil",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/orceil_offset_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/orceil_offset_v1.png",
+        "sha256": "688f064bffe9985950b2c04555ce02fa4a791f6e2c52dcbd67f902a637973007",
+        "role": "registered placement/material reference; not accepted export"
+      }
+    ],
+    "prompt": "prompts/orceil_wrap_v1.txt",
+    "prompt_sha256": "f418b216f03efb5ff40acac8883c23fa21ab40f2579e47b961a8bdd4ed1b8ae1",
+    "tool_prompt_sha256": "a34ed91f62471111d02e36d15d8971334f8cdd83b3db35501ff9b729a695a906",
+    "raw": "generated/orceil_wrap_v1.png",
+    "raw_sha256": "2eb67daed149b11780ca67afef3d25015e0377965dc115252d7f783e595336ac",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 216.961,
+    "status": "selected_native_review_passed",
+    "reason": "Fine finish, baseline brightness and full-repeat vein continuity passed; native small wall and larger shared-map appearance checks remain."
+  },
+  {
+    "id": "oflr_wrap_v1",
+    "texture": "oflr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr_offset_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr_offset_v2.png",
+        "sha256": "9ac740d52d1a800d6ee57debfe1017e77f051d9e3d2114727dba0e25d44d62b1",
+        "role": "registered reference only"
+      }
+    ],
+    "prompt": "prompts/oflr_wrap_v1.txt",
+    "prompt_sha256": "2497f319275662d6ff0b39fefa31f09e50bfc3204483556fcf31ba673c5d1507",
+    "tool_prompt_sha256": "2cecf1f6e65a4459bfad499f520813690e6628d892d6745e1214ddae901e8ff8",
+    "raw": "generated/oflr_wrap_v1.png",
+    "raw_sha256": "1f691ff6625622f74f2546bfce1b09473af4a966c57a0932e71351c73322457d",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 99.793,
+    "status": "rejected",
+    "reason": "Wrap repair changed fine granite into smeared cellular relief; do not use the full return or its patch as approved material."
+  },
+  {
+    "id": "t1c2_v3",
+    "texture": "t1c2",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/t1c2_coarse_v1.png",
+      "references/layout/t1c2_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/t1c2_coarse_v1.png",
+        "sha256": "e17f89a27b27d60b65659215c75ccb6233998487041225ea913993e761f0cf8f",
+        "role": "registered reference only"
+      },
+      {
+        "file": "references/layout/t1c2_palette_v1.png",
+        "sha256": "6e8f050b38fc4ca052a5b016d3b7eb03384768292d81794e627edc44c07c48b3",
+        "role": "registered reference only"
+      }
+    ],
+    "prompt": "prompts/t1c2_v3.txt",
+    "prompt_sha256": "111e0e25ef1d6a9725488cee3e21bf94bcdf65515ee26d5810d7d6cd02d8c474",
+    "tool_prompt_sha256": "f3dbe6a9a9d64904cd174009e6777b4782672098cacdccdf973ccb836bdd71ea",
+    "raw": "generated/t1c2_v3.png",
+    "raw_sha256": "738d5549f904041ecdf0d2784c8bea27c473477b0618393cb94783bce9009e29",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      256,
+      256
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 77.902,
+    "status": "body_reference_not_selected",
+    "reason": "Fine body passed, but the flat-rim construction omitted the native two-pixel bevel. Used only as fine material reference for the complete panel correction."
+  },
+  {
+    "id": "oflr_context_v3",
+    "texture": "oflr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr_context_v3.png",
+      "references/layout/oflr_palette_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr_context_v3.png",
+        "sha256": "8e9b8c6427e3e7cdd13564f4fd5689b17839352aa6667916f512c17e3a603fc1",
+        "role": "context/colour reference only"
+      },
+      {
+        "file": "references/layout/oflr_palette_v2.png",
+        "sha256": "1f79a039c719e066ab6d06b1780fedc6366ee51f06f7c4dbba5b3b4d3252bcf3",
+        "role": "context/colour reference only"
+      }
+    ],
+    "prompt": "prompts/oflr_context_v3.txt",
+    "prompt_sha256": "6200742f6ed9e61e356bda95638e297c8a9431505805cb35dcdba730448d8d91",
+    "tool_prompt_sha256": "9039a2fded456ba12f40995546d1a129ccfe11fd7a06cf10d4a69970ee5b929e",
+    "raw": "generated/oflr_context_v3.png",
+    "raw_sha256": "25ebdd2ec9e73560b4db51f192a53b02c9c9037ff3244b9e65c1336af0408e4f",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      313,
+      313,
+      940,
+      940
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 95.128,
+    "status": "rejected",
+    "reason": "Larger context preserved guide bands instead of reconnecting them. Central crop cannot establish seam acceptance."
+  },
+  {
+    "id": "t1c2_context_v4",
+    "texture": "t1c2",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/t1c2_context_v4.png",
+      "references/layout/t1c2_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/t1c2_context_v4.png",
+        "sha256": "99e1b8a7cff5da7864c41d17372e2454dd7cf20aa2a362492f43c728e66737a6",
+        "role": "context/colour reference only"
+      },
+      {
+        "file": "references/layout/t1c2_palette_v1.png",
+        "sha256": "6e8f050b38fc4ca052a5b016d3b7eb03384768292d81794e627edc44c07c48b3",
+        "role": "context/colour reference only"
+      }
+    ],
+    "prompt": "prompts/t1c2_context_v4.txt",
+    "prompt_sha256": "12657c9c1acf2122f38191629d0326a29cc1e5381718ce1de7799cd0fbf1685a",
+    "tool_prompt_sha256": "46b463d289d970d6809e7cd87350b879cbca307358c3552adc358d0677753b4b",
+    "raw": "generated/t1c2_context_v4.png",
+    "raw_sha256": "b3d9c639411f079056875b8bcf8af91980cb0160568163c8def3b1867e809a79",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      256,
+      256
+    ],
+    "crop": [
+      418,
+      418,
+      836,
+      836
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 75.496,
+    "status": "rejected",
+    "reason": "Larger context preserved guide bands instead of reconnecting them. Central crop cannot establish seam acceptance."
+  },
+  {
+    "id": "oflr_diamond_pair_v4",
+    "texture": "oflr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr_diamond_pair_v4.png",
+      "generated/oflr_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr_diamond_pair_v4.png",
+        "sha256": "7f536051730ea8c5d3a61acaaed086cb91070604633053bc1d64225e1847c153",
+        "role": "explicit layout/material/colour reference only"
+      },
+      {
+        "file": "generated/oflr_v2.png",
+        "sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+        "role": "explicit layout/material/colour reference only"
+      }
+    ],
+    "prompt": "prompts/oflr_diamond_pair_v4.txt",
+    "prompt_sha256": "825f9d361c60c6f8b7f3ba05af45d9a47741ad12b3e3c13c320a4a8f22e31efa",
+    "tool_prompt_sha256": "1083e94d64d0011cc6138aa351e6576e92b7f510421840767d945c01b5d76b69",
+    "raw": "generated/oflr_diamond_pair_v4.png",
+    "raw_sha256": "dd2bdede4e1ad1591edbc469a7b391948a3068a21892f678fb51b81555d1391f",
+    "raw_size": [
+      1774,
+      887
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1774,
+      887
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.4876723663489538,
+    "mean_display_luma": 52.402,
+    "status": "rejected",
+    "reason": "Regular stippled microgrid/relief in the stone. True alpha alone is not art acceptance."
+  },
+  {
+    "id": "oflr_diamond_pair_v5",
+    "texture": "oflr",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr_diamond_pair_v4.png",
+      "references/layout/oflr_palette_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr_diamond_pair_v4.png",
+        "sha256": "7f536051730ea8c5d3a61acaaed086cb91070604633053bc1d64225e1847c153",
+        "role": "explicit layout/material/colour reference only"
+      },
+      {
+        "file": "references/layout/oflr_palette_v2.png",
+        "sha256": "1f79a039c719e066ab6d06b1780fedc6366ee51f06f7c4dbba5b3b4d3252bcf3",
+        "role": "explicit layout/material/colour reference only"
+      }
+    ],
+    "prompt": "prompts/oflr_diamond_pair_v5.txt",
+    "prompt_sha256": "a353aafa2cd13586f98d62e13cafe9440126597aa61766228ffdfcc87839eb9c",
+    "tool_prompt_sha256": "76811bfca77d8138c4f55fbf272772430fe7530ca8aaaad9d87f93dc507eaffd",
+    "raw": "generated/oflr_diamond_pair_v5.png",
+    "raw_sha256": "df8b58f425e2ca360620673d68126ff380c8766b7c029b340ab790d158882057",
+    "raw_size": [
+      1774,
+      887
+    ],
+    "target_x4_size": [
+      512,
+      512
+    ],
+    "crop": [
+      0,
+      0,
+      1774,
+      887
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.48822780256975046,
+    "mean_display_luma": 50.336,
+    "status": "rejected",
+    "reason": "Blurred body and regular microgrid; do not use this alpha pair for floor artwork."
+  },
+  {
+    "id": "t1c2_v5",
+    "texture": "t1c2",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/t1c2_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/t1c2_palette_v1.png",
+        "sha256": "6e8f050b38fc4ca052a5b016d3b7eb03384768292d81794e627edc44c07c48b3",
+        "role": "explicit layout/material/colour reference only"
+      }
+    ],
+    "prompt": "prompts/t1c2_v5.txt",
+    "prompt_sha256": "a534109c3002898cfae515e07c28d057f7df03a1572d8c57cae029199bb5911a",
+    "tool_prompt_sha256": "ab7c32ee1877663da88097dfc634f832d83279472d559ee5acec8b158e1c4cb0",
+    "raw": "generated/t1c2_v5.png",
+    "raw_sha256": "d4a8611f1d62b504ef727412a660bc26ef8f8d683949d989228b631b6ad66be2",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      256,
+      256
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 76.544,
+    "status": "alternative_not_selected",
+    "reason": "Fresh fine granite but lacks the native broad cloudy mottling. Framed v3 body is the closer original layout."
+  },
+  {
+    "id": "t1c2_panel_v6",
+    "texture": "t1c2",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/t1c2_panel_geometry_v6.png",
+      "generated/t1c2_v3.png",
+      "references/layout/t1c2_palette_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/t1c2_panel_geometry_v6.png",
+        "sha256": "e83875c81e3e591a7beb63a2d573179ffa36370c817786017d5028d4f8247e0a",
+        "role": "Authoritative finite-panel bevel geometry guide only"
+      },
+      {
+        "file": "generated/t1c2_v3.png",
+        "sha256": "738d5549f904041ecdf0d2784c8bea27c473477b0618393cb94783bce9009e29",
+        "role": "Fresh stone body finish and coarse mottling reference"
+      },
+      {
+        "file": "references/layout/t1c2_palette_v2.png",
+        "sha256": "da4af28c6d566ddb9cc4db9c18837a8c8dc0cfee57c84204c5ae9c9cab8c0467",
+        "role": "Native broad colour chips only"
+      }
+    ],
+    "prompt": "prompts/t1c2_panel_v6.txt",
+    "prompt_sha256": "c113a1b71abf74b3178514648bef91e55a8cdbf3eb5a34044c34f2d1c04c735b",
+    "tool_prompt_sha256": "1b67b8de70dbf523b9fb989d40766f5657a78ee672a702f0d234f2a3ce89ea06",
+    "raw": "generated/t1c2_panel_v6.png",
+    "raw_sha256": "e93ac6990dd24e8dffb30b2d0300b8ca72fb52d51dd0bcb40b8308bb5c4c4239",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "target_x4_size": [
+      256,
+      256
+    ],
+    "crop": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_budget_pass": true,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "transparent_fraction": 0.0,
+    "mean_display_luma": 73.12764897781645,
+    "status": "selected_native_review_passed",
+    "reason": "Restores the native mitered bevel omitted by the flat-rim v3 candidate; continuous fine stone finish and matched original dark palette."
+  },
+  {
+    "id": "granite_variants_board_v1",
+    "textures": [
+      "oflrd32",
+      "oflrl32",
+      "oflr1l32",
+      "orflr32b"
+    ],
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/granite_variants_board_v1.png",
+      "generated/t1c2_panel_v6.png",
+      "references/layout/granite_variants_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/granite_variants_board_v1.png",
+        "sha256": "8ada47a82d2621ff77a4afef2175eb1b9843ea401f0448cf4f42d785986bfd96",
+        "role": "explicit registered geometry, coarse tone or fresh material-finish reference only"
+      },
+      {
+        "file": "generated/t1c2_panel_v6.png",
+        "sha256": "e93ac6990dd24e8dffb30b2d0300b8ca72fb52d51dd0bcb40b8308bb5c4c4239",
+        "role": "explicit registered geometry, coarse tone or fresh material-finish reference only"
+      },
+      {
+        "file": "references/layout/granite_variants_palette_v1.png",
+        "sha256": "3183ef3cbd82822ca840ff435430e56e19a5faf3bbbb33833e9303c545e94bbe",
+        "role": "explicit registered geometry, coarse tone or fresh material-finish reference only"
+      }
+    ],
+    "prompt": "prompts/granite_variants_board_v1.txt",
+    "prompt_sha256": "982c82c7b0a1f644f3b437882ea90a7322cdb25fe303dd62363a32d606117d80",
+    "tool_prompt_sha256": "1e2199d71990155c65029cb4053a98ebd03ed1b8762aac676f6512f213d5c694",
+    "raw": "generated/granite_variants_board_v1.png",
+    "raw_sha256": "0719001625cb9c4f2c80b839198898498244d2cb84e49ba8ad9816b9ac9a0fab",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "selected_components_native_sampler_passed",
+    "reason": "Select only recorded top-right, bottom-left and bottom-right body crops with corrected native joint width. Top-left remains about 14% too bright after joint assembly; use the darker v2 body instead. No blanket acceptance of the full return.",
+    "selected_textures": [
+      "oflrl32",
+      "oflr1l32",
+      "orflr32b"
+    ],
+    "rejected_textures": [
+      "oflrd32"
+    ]
+  },
+  {
+    "id": "granite_dark_pair_v2",
+    "textures": [
+      "oflrd32",
+      "orflr32b"
+    ],
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/granite_dark_pair_geometry_v2.png",
+      "references/layout/granite_dark_pair_style_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/granite_dark_pair_geometry_v2.png",
+        "sha256": "7ada438df58ed93bc40ef1dd0c2a1ce73e366b3039e6666dbc864b6c5207cf4f",
+        "role": "explicit registered geometry, coarse tone or fresh material-finish reference only"
+      },
+      {
+        "file": "references/layout/granite_dark_pair_style_v2.png",
+        "sha256": "cfae59fdfc58228f1843bc6955c63d3314e61e0987dedc8020fbfe774db91cf9",
+        "role": "explicit registered geometry, coarse tone or fresh material-finish reference only"
+      }
+    ],
+    "prompt": "prompts/granite_dark_pair_v2.txt",
+    "prompt_sha256": "3f09874c4a8d42edf5b7342e6c5d9ad5ae1077323a1a0e45a5a89613d06f9dbe",
+    "tool_prompt_sha256": "94cf9af2179acad9503c76f6a1ed7602bf6c55a7ffbd35e867083553b79ba33e",
+    "raw": "generated/granite_dark_pair_v2.png",
+    "raw_sha256": "e8a5a1df75d1989b73412a7a66ab34f9573f7a083827f02eacb4e4f40fffa686",
+    "raw_size": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "selected_components_native_sampler_passed",
+    "reason": "Select only the left body crop; right body with the native joint is about 17% too dark and unused. Final brick-red body uses the v1 bottom-right crop with the proper joint width.",
+    "selected_textures": [
+      "oflrd32"
+    ],
+    "rejected_textures": [
+      "orflr32b"
+    ]
+  },
+  {
+    "id": "oflr1d32_panel_v1",
+    "texture": "oflr1d32",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr1d32_panel_geometry_v1.png",
+      "references/layout/oflr1d32_palette_v1.png",
+      "generated/t1c2_panel_v6.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr1d32_panel_geometry_v1.png",
+        "sha256": "d5386e4f5961b3ff96329de73baa9012ed89802da2ee370ff69a1f63d4e79999",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "references/layout/oflr1d32_palette_v1.png",
+        "sha256": "4798234ccebc2c5801512b51478a1db9a7e19fa35c52b57332898408653acc73",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "generated/t1c2_panel_v6.png",
+        "sha256": "e93ac6990dd24e8dffb30b2d0300b8ca72fb52d51dd0bcb40b8308bb5c4c4239",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/oflr1d32_panel_v1.txt",
+    "prompt_sha256": "b620420978fef94bff28901d681037cf4dff13eaaaa5ce5461266880d6e22de1",
+    "tool_prompt_sha256": "896e785cb2c48654f91fbbb8ac3b86f71b897f29ddd272d1567cb000294c6737",
+    "raw": "generated/oflr1d32_panel_v1.png",
+    "raw_sha256": "38f3ffab2c633ad416c3642f8153c0543c27b749f4097feda01b0146cdf08d53",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "selected_native_sampler_passed",
+    "reason": "Fresh fine charcoal blue-green/rose granite keeps subdued native contrast and finite panel period. V1 is closer than the overly bright v3 edit; sampled render is about 8% darker than ESRGAN, visually retaining the dark material."
+  },
+  {
+    "id": "oflr1l64_panel_v1",
+    "texture": "oflr1l64",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr1l64_panel_geometry_v1.png",
+      "references/layout/oflr1l64_palette_v1.png",
+      "generated/t1c2_panel_v6.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr1l64_panel_geometry_v1.png",
+        "sha256": "1806c8a059b128a5f98498e0c758e9b3e352f642abe44d7f17e93b5f15d82bc3",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "references/layout/oflr1l64_palette_v1.png",
+        "sha256": "aa619416e554d856035777cf16b71639a910fc2dbddeb2a8c24b6eb8e8d90ff5",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "generated/t1c2_panel_v6.png",
+        "sha256": "e93ac6990dd24e8dffb30b2d0300b8ca72fb52d51dd0bcb40b8308bb5c4c4239",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/oflr1l64_panel_v1.txt",
+    "prompt_sha256": "d1c21c3ce2184a5fb24e50b7062fcd11605121e7ac957efa741ac0be39d1b00b",
+    "tool_prompt_sha256": "076e6156384bb8a6ec4969b2076860efa416072167d04977ad976dcb01239cc9",
+    "raw": "generated/oflr1l64_panel_v1.png",
+    "raw_sha256": "258bc14b258d8b3e6d9ed5c58db5d37d03a6c87372c3dd2f750e619bdffd7112",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "rejected",
+    "reason": "Full-panel style reference overrode the pale native material: framed candidate is 21.2% too dark and introduces broad dark teal regions."
+  },
+  {
+    "id": "oflrd48_panel_v1",
+    "texture": "oflrd48",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflrd48_panel_geometry_v1.png",
+      "references/layout/oflrd48_palette_v1.png",
+      "generated/t1c2_panel_v6.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflrd48_panel_geometry_v1.png",
+        "sha256": "4160c928f05a2f0fa113fc06f079230f290ae12294644e1fa67a8da4e74d7829",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "references/layout/oflrd48_palette_v1.png",
+        "sha256": "8bb86cb88663f3ec432964649634a118cdb3eabdf219517ab029be4914409e75",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "generated/t1c2_panel_v6.png",
+        "sha256": "e93ac6990dd24e8dffb30b2d0300b8ca72fb52d51dd0bcb40b8308bb5c4c4239",
+        "role": "geometry/coarse colour or fresh stone finish reference only, as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/oflrd48_panel_v1.txt",
+    "prompt_sha256": "fd1aa276601530e0019e109cb3be7d163dc76dae37133ce2c93e2a086d538b64",
+    "tool_prompt_sha256": "cd9dd60e57472d94dc909704a563c2ae0d808c71afdd20b96c7acd4a4499719e",
+    "raw": "generated/oflrd48_panel_v1.png",
+    "raw_sha256": "3c554bfe10c797b51f06ef0f03e3775515bf3b1d818831015856696f15cfb5ad",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "rejected",
+    "reason": "Full-panel style reference overrode native darkness and bevel colour: framed candidate is 43.6% too bright with an incorrect silver top/right bevel."
+  },
+  {
+    "id": "oflr1l64_panel_v2",
+    "texture": "oflr1l64",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflr1l64_panel_geometry_v1.png",
+      "references/layout/oflr1l64_palette_v1.png",
+      "references/layout/oflr1l64_fine_style_v2.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflr1l64_panel_geometry_v1.png",
+        "sha256": "1806c8a059b128a5f98498e0c758e9b3e352f642abe44d7f17e93b5f15d82bc3",
+        "role": "authoritative geometry/coarse colour or optional unframed fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "references/layout/oflr1l64_palette_v1.png",
+        "sha256": "aa619416e554d856035777cf16b71639a910fc2dbddeb2a8c24b6eb8e8d90ff5",
+        "role": "authoritative geometry/coarse colour or optional unframed fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "references/layout/oflr1l64_fine_style_v2.png",
+        "sha256": "9798ce6fcd13742ad9c1a8657ea8a64e10dfa34ac7c363e0bc5da5bf98516829",
+        "role": "authoritative geometry/coarse colour or optional unframed fresh stone finish reference only, as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/oflr1l64_panel_v2.txt",
+    "prompt_sha256": "2277032542f882617c20c5cab022c582a4a8cdf1c9a2b6ac870d96c1e9f9ac43",
+    "tool_prompt_sha256": "6be9ba3038bd9657a319a669f6c361bd1fabe0651a4007a058972ecbe5e18c0a",
+    "raw": "generated/oflr1l64_panel_v2.png",
+    "raw_sha256": "73e8265d48b7bb53e25f4262257454f350526e3d96aa78d6cc69e114f120bd7b",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "calibration_source_unselected",
+    "reason": "Pale material identity restored, but candidate body is 12.1% too bright. Reducing diffuse body colour before runtime checks."
+  },
+  {
+    "id": "oflrd48_panel_v2",
+    "texture": "oflrd48",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "references/layout/oflrd48_panel_geometry_v1.png",
+      "references/layout/oflrd48_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "references/layout/oflrd48_panel_geometry_v1.png",
+        "sha256": "4160c928f05a2f0fa113fc06f079230f290ae12294644e1fa67a8da4e74d7829",
+        "role": "authoritative geometry/coarse colour or optional unframed fresh stone finish reference only, as specified in exact prompt"
+      },
+      {
+        "file": "references/layout/oflrd48_palette_v1.png",
+        "sha256": "8bb86cb88663f3ec432964649634a118cdb3eabdf219517ab029be4914409e75",
+        "role": "authoritative geometry/coarse colour or optional unframed fresh stone finish reference only, as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/oflrd48_panel_v2.txt",
+    "prompt_sha256": "324f134eab05abe23f538e3cabb15725330a24a0636f5c01c9953ea208edeaaa",
+    "tool_prompt_sha256": "4acefc8000616b596b45ed1b41581954b437c2cbca997fe24abafe16d701ad80",
+    "raw": "generated/oflrd48_panel_v2.png",
+    "raw_sha256": "b10f537634d8f0ddf731415480a0150ed3c6c73be2dc0cd79b6396a9ba1d37cb",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "calibration_source_unselected",
+    "reason": "Correct dark brown bevel and fresh fine finish restored, but candidate body is 21.7% too dark. Raising diffuse body colour before runtime checks."
+  },
+  {
+    "id": "oflr1d32_panel_v3",
+    "texture": "oflr1d32",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/oflr1d32_panel_v1.png",
+      "references/layout/oflr1d32_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "generated/oflr1d32_panel_v1.png",
+        "sha256": "38f3ffab2c633ad416c3642f8153c0543c27b749f4097feda01b0146cdf08d53",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in prompt"
+      },
+      {
+        "file": "references/layout/oflr1d32_palette_v1.png",
+        "sha256": "4798234ccebc2c5801512b51478a1db9a7e19fa35c52b57332898408653acc73",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in prompt"
+      }
+    ],
+    "prompt": "prompts/oflr1d32_panel_v3.txt",
+    "prompt_sha256": "be2c5c22ef0bc33afbb30afd6c94c92544b1802ea7322c0f5c7284452602c71a",
+    "tool_prompt_sha256": "5a42d1420c39dd1fa1810e5aa225cc8e3430cc9c8af46323b4e4655ad38b533a",
+    "raw": "generated/oflr1d32_panel_v3.png",
+    "raw_sha256": "a8bf0269d0a32ae70ab4ee8d383d4be21f5e9f0bd29537b435d0a3a6fbd60e55",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "framed_candidate_luma": 84.57038916015625,
+    "framed_brightness_delta_percent": 23.67080018995189,
+    "status": "rejected",
+    "reason": "Requested modest body lift overshot: native joint assembly is 23.7% brighter than ESRGAN. V1 preserves the closer palette."
+  },
+  {
+    "id": "oflr1l64_panel_v3",
+    "texture": "oflr1l64",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/oflr1l64_panel_v2.png",
+      "references/layout/oflr1l64_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "generated/oflr1l64_panel_v2.png",
+        "sha256": "73e8265d48b7bb53e25f4262257454f350526e3d96aa78d6cc69e114f120bd7b",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in prompt"
+      },
+      {
+        "file": "references/layout/oflr1l64_palette_v1.png",
+        "sha256": "aa619416e554d856035777cf16b71639a910fc2dbddeb2a8c24b6eb8e8d90ff5",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in prompt"
+      }
+    ],
+    "prompt": "prompts/oflr1l64_panel_v3.txt",
+    "prompt_sha256": "68262cc9f43cd0823386fb48f7fb037d1ac850f966ce31af95f0295238c523a4",
+    "tool_prompt_sha256": "df619020b9698a98180a6050022ca1bf1fc1240c345b81a8ad7d17ad43bdd41e",
+    "raw": "generated/oflr1l64_panel_v3.png",
+    "raw_sha256": "53c4ed35e1a607ec68b81be4f3b067010d926d15702325cebae2a2eea12141a5",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "framed_candidate_luma": 117.71547525329589,
+    "framed_brightness_delta_percent": -2.1402629162725173,
+    "status": "selected_native_sampler_passed",
+    "reason": "Unframed fresh material reference and calibrated v3 restore the light grey/blush stone identity. Earlier broad dark-teal return rejected. Fine honed finish and sampled brightness within 2% of ESRGAN."
+  },
+  {
+    "id": "oflrd48_panel_v3",
+    "texture": "oflrd48",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/oflrd48_panel_v2.png",
+      "references/layout/oflrd48_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "generated/oflrd48_panel_v2.png",
+        "sha256": "b10f537634d8f0ddf731415480a0150ed3c6c73be2dc0cd79b6396a9ba1d37cb",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in prompt"
+      },
+      {
+        "file": "references/layout/oflrd48_palette_v1.png",
+        "sha256": "8bb86cb88663f3ec432964649634a118cdb3eabdf219517ab029be4914409e75",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in prompt"
+      }
+    ],
+    "prompt": "prompts/oflrd48_panel_v3.txt",
+    "prompt_sha256": "ef34d6e76d05d441b930907b3b3667eb62c4079d5a00958b2917a2d58608b9e4",
+    "tool_prompt_sha256": "85dafa90f7d83119c2a774c4adba2614dcf1769ada4a1092db86fd32e4889c6a",
+    "raw": "generated/oflrd48_panel_v3.png",
+    "raw_sha256": "8594733464530b651da5898896e8f7335d2aaa158d5e193402918dbc602dc0ca",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "framed_candidate_luma": 36.496105126953125,
+    "framed_brightness_delta_percent": 24.1432652546862,
+    "status": "rejected",
+    "reason": "Requested dark-body lift overshot: native joint assembly is 24.1% brighter than ESRGAN. V4 corrects this."
+  },
+  {
+    "id": "oflrd48_panel_v4",
+    "texture": "oflrd48",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/oflrd48_panel_v3.png",
+      "references/layout/oflrd48_palette_v1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "generated/oflrd48_panel_v3.png",
+        "sha256": "8594733464530b651da5898896e8f7335d2aaa158d5e193402918dbc602dc0ca",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in exact prompt"
+      },
+      {
+        "file": "references/layout/oflrd48_palette_v1.png",
+        "sha256": "8bb86cb88663f3ec432964649634a118cdb3eabdf219517ab029be4914409e75",
+        "role": "fresh fine artwork colour-calibration target or averaged palette reference, as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/oflrd48_panel_v4.txt",
+    "prompt_sha256": "123a3f5eda90c561975f53e7f1271bfd1e10b642fec679e932ad7d63a913feec",
+    "tool_prompt_sha256": "c5ea6b25aa3a9149642df379e586ae12fbf0bc4d3120a279ab4a74e0b4ec8303",
+    "raw": "generated/oflrd48_panel_v4.png",
+    "raw_sha256": "26b84b1cee78f3aaf4e1deb08073c7b1bddc10e2a99846663b5f799b03aa0c18",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "transparent_background_requested": false,
+    "status": "selected_native_sampler_passed",
+    "reason": "Fresh dark chocolate/rust mineral body and dim brown bevel. Incorrect silver-bevel and brighter edits rejected. Final render remains dark with modest fine grain; sampled brightness is about 9% darker, without the old coarse black/brown raster cells."
+  },
+  {
+    "id": "d6wlasp1_rigid_grille_v4",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "review/seventh_batch/grille_structure_guide.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "review/seventh_batch/grille_structure_guide.png",
+        "sha256": "fd2b72a9eb942b27d55d521bde49808ff95fa2729a57809e00d2d9d92a99d4d7",
+        "role": "Geometry/palette reference as specified in exact prompt; not accepted fine artwork"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_rigid_grille_v4.txt",
+    "prompt_sha256": "9345ebd049d1e4f6528cb35c348cb1792cd4cbd80cd640b386ef4622b92683c5",
+    "tool_prompt_sha256": "e36d6be5741dec970b008a5f37a32f2cfeccd6bfcc47e27681b885d302f3d66c",
+    "raw": "generated/d6wlasp1_rigid_grille_v4.png",
+    "raw_sha256": "d73e49491f25c3c6ab8b081eead131f033edd0822671c2ede412d930a71c7da9",
+    "raw_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.06822967529296875,
+    "status": "rejected_calibration_source",
+    "reason": "Complete assembly has oversized bright iron rim and wrong stepped recess construction. Source crop adequate and true outside alpha present, but panel average29.4 vs12.0 current x2; use fine finish only for registered darker redraw."
+  },
+  {
+    "id": "d6wlasp1_vines_alpha_v4",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "review/seventh_batch/vines_placement_guide.png",
+      "references/native/d6wlasp1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "review/seventh_batch/vines_placement_guide.png",
+        "sha256": "899312410bf78173345d61edd705c8623420d4c67ddc5e4e3f2f668606589f71",
+        "role": "Geometry/palette reference as specified in exact prompt; not accepted fine artwork"
+      },
+      {
+        "file": "references/native/d6wlasp1.png",
+        "sha256": "581b889f4c8467a5578fb8eb2825fa89f962833db724f9df7d4f5c33c60dc1a1",
+        "role": "Geometry/palette reference as specified in exact prompt; not accepted fine artwork"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_vines_alpha_v4.txt",
+    "prompt_sha256": "0b9e4120efe5ea711e3b9bebfdaa3713bf08c39bd55e01f500dfa04f7b4e0c64",
+    "tool_prompt_sha256": "39e27a7a263f4e200080bf46f179448b7a37143fd883044860b7b91bfa0ab8c7",
+    "raw": "generated/d6wlasp1_vines_alpha_v4.png",
+    "raw_sha256": "3c05d9f20c57772d320ed2f3a02917047543efa9a8a874b20c1b8a2c1258e95a",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.8702312877096072,
+    "status": "rejected_calibration_source",
+    "reason": "True alpha and fine fresh plants, but hanging clusters too sparse relative to original, exposing too much background; retain only as fine-material and anchor reference."
+  },
+  {
+    "id": "d6wlasp1_rigid_grille_v5",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "review/seventh_batch/grille_dark_recess_guide_v5.png",
+      "generated/d6wlasp1_rigid_grille_v4.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "review/seventh_batch/grille_dark_recess_guide_v5.png",
+        "sha256": "70bce3cc40393569a37119424c49a8623959ba877b539b01dc264be9d4dfd376",
+        "role": "Geometry, palette or rejected-candidate fine-finish reference as specified in exact prompt"
+      },
+      {
+        "file": "generated/d6wlasp1_rigid_grille_v4.png",
+        "sha256": "d73e49491f25c3c6ab8b081eead131f033edd0822671c2ede412d930a71c7da9",
+        "role": "Geometry, palette or rejected-candidate fine-finish reference as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_rigid_grille_v5.txt",
+    "prompt_sha256": "5115c1f57b9c99442fe50cf170398fe5f566527ddb7b0391b62ed0991e975ee8",
+    "tool_prompt_sha256": "90f425c9cdca63943425c05791441ad1dab273939558a6b491ccaad0a5f26573",
+    "raw": "generated/d6wlasp1_rigid_grille_v5.png",
+    "raw_sha256": "93fa02b0e842b7aa738b7d9b6d0f23fe4cc751fe93c571885fc7a372f19bb0dd",
+    "raw_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.17583783467610678,
+    "status": "rejected_calibration_source",
+    "reason": "Geometry/source budget are usable, but the assembled panel remains too bright (21.9 mean vs12.0 current x2); correct foreground diffuse brightness through imagegen, preserving shared base unchanged."
+  },
+  {
+    "id": "d6wlasp1_vines_alpha_v5",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/d6wlasp1_vines_alpha_v4.png",
+      "references/native/d6wlasp1.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "generated/d6wlasp1_vines_alpha_v4.png",
+        "sha256": "3c05d9f20c57772d320ed2f3a02917047543efa9a8a874b20c1b8a2c1258e95a",
+        "role": "Geometry, palette or rejected-candidate fine-finish reference as specified in exact prompt"
+      },
+      {
+        "file": "references/native/d6wlasp1.png",
+        "sha256": "581b889f4c8467a5578fb8eb2825fa89f962833db724f9df7d4f5c33c60dc1a1",
+        "role": "Geometry, palette or rejected-candidate fine-finish reference as specified in exact prompt"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_vines_alpha_v5.txt",
+    "prompt_sha256": "9b16c8dc5bd4fc475a0ce444eb0f901373db20cefab2ea66d47908ea6a83f1ae",
+    "tool_prompt_sha256": "7058052d23da4baddd62708c17ef8d2899639eb0c3143c068a070d3b02ec19f2",
+    "raw": "generated/d6wlasp1_vines_alpha_v5.png",
+    "raw_sha256": "b86bba8ca53b4c6d39bf370a318766e65731cc87b99b59ec243adcaf0049e70c",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.7689448872540733,
+    "status": "rejected_calibration_source",
+    "reason": "Geometry/source budget are usable, but the assembled panel remains too bright (21.9 mean vs12.0 current x2); correct foreground diffuse brightness through imagegen, preserving shared base unchanged."
+  },
+  {
+    "id": "d6wlasp1_rigid_grille_v6",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/d6wlasp1_rigid_grille_v5.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "generated/d6wlasp1_rigid_grille_v5.png",
+        "sha256": "93fa02b0e842b7aa738b7d9b6d0f23fe4cc751fe93c571885fc7a372f19bb0dd",
+        "role": "Fresh foreground colour-edit input; not a legacy upscale"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_rigid_grille_v6.txt",
+    "prompt_sha256": "7a55d4a6307f4f433aba1cffbd355fd0c917f148a0ddc0b426ff62bf9ea1e8b8",
+    "tool_prompt_sha256": "d6b33508916abd6ed0ee6752d38940b407b539bb0839108e39fb3247d9c587e8",
+    "raw": "generated/d6wlasp1_rigid_grille_v6.png",
+    "raw_sha256": "fd4969fcfc28de1e85854787a2b6b0a17c96583f0f360ad1f539a260099fac4c",
+    "raw_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.17354265848795572,
+    "status": "rejected",
+    "reason": "Brightness edit reduced value but removed native red/rust iron identity, returning neutral charcoal. Source size and alpha do not compensate palette drift. Rebuild from clean dark guide without bright complete-panel finish reference."
+  },
+  {
+    "id": "d6wlasp1_vines_alpha_v6",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "generated/d6wlasp1_vines_alpha_v5.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "generated/d6wlasp1_vines_alpha_v5.png",
+        "sha256": "b86bba8ca53b4c6d39bf370a318766e65731cc87b99b59ec243adcaf0049e70c",
+        "role": "Fresh foreground colour-edit input; not a legacy upscale"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_vines_alpha_v6.txt",
+    "prompt_sha256": "ee7fef9fceb486971bd5e44369c230454f8dabb1f0d662db546b5ec8de7bda94",
+    "tool_prompt_sha256": "483ff6ff438192f6012dadd55ac9c9b925c56ed8c4b1aa7d58bc26c39670c5c7",
+    "raw": "generated/d6wlasp1_vines_alpha_v6.png",
+    "raw_sha256": "28d2f9992f5e28d60ded84cd6956d16300dd6eeda32987aabcd15728c41cc1f4",
+    "raw_size": [
+      887,
+      1774
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.8006047518394853,
+    "status": "candidate",
+    "reason": "Colour correction returned; actual export brightness and native acceptance pending."
+  },
+  {
+    "id": "d6wlasp1_rigid_grille_v7",
+    "texture": "d6wlasp1",
+    "provider": "built-in imagegen",
+    "inputs": [
+      "review/seventh_batch/grille_dark_recess_guide_v5.png"
+    ],
+    "input_proofs": [
+      {
+        "file": "review/seventh_batch/grille_dark_recess_guide_v5.png",
+        "sha256": "70bce3cc40393569a37119424c49a8623959ba877b539b01dc264be9d4dfd376",
+        "role": "Authoritative clean dark geometry/palette only; no prior bright material reference"
+      }
+    ],
+    "prompt": "prompts/d6wlasp1_rigid_grille_v7.txt",
+    "prompt_sha256": "928cfcecd1d1fe48ac26c9e61533102c05b4a72165b91066852f736df237a4a7",
+    "tool_prompt_sha256": "89d06ca3a098a9ccdcb845a69808413be425810ee0a3445349a9cb2c2d103741",
+    "raw": "generated/d6wlasp1_rigid_grille_v7.png",
+    "raw_sha256": "5b1b91658c5b1128cff43c5f957dc1ede03c2d95c70513dd82f7045adb86b5ad",
+    "raw_size": [
+      1024,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "transparent_background_requested": true,
+    "transparent_fraction": 0.10415585835774739,
+    "status": "candidate",
+    "reason": "Dark rust identity restored; source budget, assembly and native views remain separate gates."
+  }
+]

@@ -1,0 +1,1025 @@
+{
+  "status": "complete",
+  "assigned_icons": 38,
+  "replaced": 38,
+  "deferred": 0,
+  "families": {
+    "amulets": {
+      "models": 20,
+      "triangles": 50990,
+      "minimum": 664,
+      "maximum": 4576,
+      "runtime_triangles": 50990,
+      "models_with_lod": 8
+    },
+    "gauntlets": {
+      "models": 18,
+      "triangles": 72174,
+      "minimum": 2438,
+      "maximum": 5040,
+      "runtime_triangles": 72174,
+      "models_with_lod": 16
+    }
+  },
+  "all_materials": "Imagegen albedo, physical class PBR, tangent normal textures",
+  "new_meshy_credits": 0,
+  "reused_meshy_shapes": 17,
+  "historical_reused_shape_credits": 85,
+  "shared_bindings_modified": false,
+  "binding_length_changes": [],
+  "bounds_proposals": [
+    {
+      "icon": "6amulet6",
+      "model": "engine/world_items/models/item_6amulet6.glb",
+      "length": 54.0,
+      "current_bounds": [
+        -12.6,
+        -27,
+        0,
+        12.6,
+        27,
+        2.2
+      ],
+      "proposed_bounds": [
+        -10.7,
+        -27.0,
+        0.0,
+        10.7,
+        27.0,
+        4.4
+      ],
+      "source_sha256": "ba409ea792f25814a82ea8e7fd0d04b5a2f5896b215b101347e1b1c3efe9cb18",
+      "runtime_sha256": "f430726d2e09967d3dd60291117cd2b3fcd8bb19e2dd26af206fb31b99cb93a0"
+    },
+    {
+      "icon": "6amulet7",
+      "model": "engine/world_items/models/item_6amulet7.glb",
+      "length": 54.0,
+      "current_bounds": [
+        -12.6,
+        -27,
+        0,
+        12.6,
+        27,
+        2.2
+      ],
+      "proposed_bounds": [
+        -10.7,
+        -27.0,
+        0.0,
+        10.7,
+        27.0,
+        4.4
+      ],
+      "source_sha256": "f68258005f5a932a5c8fa602b72b14fa91474dddac1912a595c84b66291cbcbe",
+      "runtime_sha256": "3c60046d578e5a7c4d050ad0f3a40654d5c8ddfd1d1823211ea844b4e8200c37"
+    },
+    {
+      "icon": "6amulet8",
+      "model": "engine/world_items/models/item_6amulet8.glb",
+      "length": 54.0,
+      "current_bounds": [
+        -12.6,
+        -27,
+        0,
+        12.6,
+        27,
+        2.2
+      ],
+      "proposed_bounds": [
+        -10.7,
+        -27.0,
+        0.0,
+        10.7,
+        27.0,
+        4.4
+      ],
+      "source_sha256": "acfd3d83a164d87060024c80ca698e2121fd31d37c7eabcc58a2c54173e37a37",
+      "runtime_sha256": "b337c1b1c0d9a0a7e746ea948821008becbdda5318534fddf198c88c0a2e7d95"
+    },
+    {
+      "icon": "7item130",
+      "model": "engine/world_items/models/item_7item130.glb",
+      "length": 45.4,
+      "current_bounds": [
+        -7.9,
+        -22.7,
+        0,
+        7.9,
+        22.7,
+        2.4
+      ],
+      "proposed_bounds": [
+        -8.2,
+        -22.7,
+        0.0,
+        8.2,
+        22.7,
+        16.7
+      ],
+      "source_sha256": "8fcc64dfbbe87807fc83fb54cd43eadc962db19b58bb9f1ce3792789fda19799",
+      "runtime_sha256": "8526f515c3fd8e428033e7e4e3a4feec6ed8046d17c4b6f462b0acaf928c8dd4"
+    },
+    {
+      "icon": "7item131",
+      "model": "engine/world_items/models/item_7item131.glb",
+      "length": 23.0,
+      "current_bounds": [
+        -11.1,
+        -11.5,
+        0,
+        11.1,
+        11.5,
+        2.5
+      ],
+      "proposed_bounds": [
+        -11.1,
+        -11.5,
+        0.0,
+        11.1,
+        11.5,
+        5.3
+      ],
+      "source_sha256": "29c6d9c175a73b85715930764a591383c4244770e52f8eb94c5b7a4c6bdb237b",
+      "runtime_sha256": "3e866cd41e4490afd96f65f2d4ac46ba542c0287315046e084217d269e0d6140"
+    },
+    {
+      "icon": "7item132",
+      "model": "engine/world_items/models/item_7item132.glb",
+      "length": 38.9,
+      "current_bounds": [
+        -7.2,
+        -19.4,
+        0,
+        7.2,
+        19.4,
+        2.4
+      ],
+      "proposed_bounds": [
+        -8.0,
+        -19.4,
+        0.0,
+        8.0,
+        19.4,
+        5.1
+      ],
+      "source_sha256": "3adf6ebbe7b212021a43c2cc9f37344873b54f36d45afa6aa9164da09d98a62a",
+      "runtime_sha256": "6b0d63fd38f33ce281d2c963b95bc77e04d1c5f88410be5ffad85b73e43e72ef"
+    },
+    {
+      "icon": "7item133",
+      "model": "engine/world_items/models/item_7item133.glb",
+      "length": 23.0,
+      "current_bounds": [
+        -9.8,
+        -11.5,
+        0,
+        9.8,
+        11.5,
+        2.7
+      ],
+      "proposed_bounds": [
+        -9.8,
+        -11.5,
+        0.0,
+        9.8,
+        11.5,
+        5.7
+      ],
+      "source_sha256": "3fa89dc8782458d5b7ab8308fc2fdfb6dcb915f979efd104cdfed7a4181c5c4f",
+      "runtime_sha256": "0bbd19e899f571feddda0d7fe04cb9914eb24c1290060c3ba95257acc5f16f24"
+    },
+    {
+      "icon": "7item134",
+      "model": "engine/world_items/models/item_7item134.glb",
+      "length": 24.5,
+      "current_bounds": [
+        -11.7,
+        -12.2,
+        0,
+        11.7,
+        12.2,
+        2.3
+      ],
+      "proposed_bounds": [
+        -10.5,
+        -12.2,
+        0.0,
+        10.5,
+        12.2,
+        3.2
+      ],
+      "source_sha256": "073869cc4fc95e159af5ac53832f3601ccdae1b7650579f1d703fa7f5c32c36b",
+      "runtime_sha256": "c4799dfc43b9300fa8c134203d0ee908659c1a97946f5b63b8674e61789522b1"
+    },
+    {
+      "icon": "7item285",
+      "model": "engine/world_items/models/item_7item285.glb",
+      "length": 24.5,
+      "current_bounds": [
+        -11.7,
+        -12.2,
+        0,
+        11.7,
+        12.2,
+        2.3
+      ],
+      "proposed_bounds": [
+        -10.5,
+        -12.2,
+        0.0,
+        10.5,
+        12.2,
+        3.2
+      ],
+      "source_sha256": "4da89c0bad7be7cac64b1fe0ccfb62c24b769c6c6828c6a87c0bca74c1103046",
+      "runtime_sha256": "e23c61f9f94317deddaa623ff59d8367672c5ad0af476ac14d1d1db6528a0666"
+    },
+    {
+      "icon": "7item287",
+      "model": "engine/world_items/models/item_7item287.glb",
+      "length": 23.0,
+      "current_bounds": [
+        -9.8,
+        -11.5,
+        0,
+        9.8,
+        11.5,
+        2.7
+      ],
+      "proposed_bounds": [
+        -9.8,
+        -11.5,
+        0.0,
+        9.8,
+        11.5,
+        5.7
+      ],
+      "source_sha256": "9c0c30292f22bcd8dea82eae36dc18aa4d1c952a36fc0a7b57575ed61bf39c19",
+      "runtime_sha256": "907914fd8ac3a0da2954a1eaab53bb1ab1f51e0bf92dc01c0d6b2ce1b2b58657"
+    },
+    {
+      "icon": "amulet1",
+      "model": "engine/world_items/models/item_amulet1.glb",
+      "length": 54.0,
+      "current_bounds": [
+        -13,
+        -27,
+        0,
+        13,
+        27,
+        2.7
+      ],
+      "proposed_bounds": [
+        -9.3,
+        -27.0,
+        0.0,
+        9.3,
+        27.0,
+        5.6
+      ],
+      "source_sha256": "2ecaad1ff5c8cbb005adf5bef14193f1bda7ee1d95cfdef8c1a0b1030bdc243a",
+      "runtime_sha256": "f6c01f840fd448b47b0f05f27299d6fcffa1c4f70cb32a53778d61c93cee9c16"
+    },
+    {
+      "icon": "amulet2",
+      "model": "engine/world_items/models/item_amulet2.glb",
+      "length": 57.6,
+      "current_bounds": [
+        -12.6,
+        -28.8,
+        0,
+        12.6,
+        28.8,
+        2.3
+      ],
+      "proposed_bounds": [
+        -11.0,
+        -28.8,
+        0.0,
+        11.0,
+        28.8,
+        5.7
+      ],
+      "source_sha256": "e6530100c3d673a17b8de2e511ec063f723c199f73b6d35ce54671928ebb2331",
+      "runtime_sha256": "4b966981ac6d0cf26425abf255358c50198196b410bfb49dfaa696788fde5906"
+    },
+    {
+      "icon": "amulet3",
+      "model": "engine/world_items/models/item_amulet3.glb",
+      "length": 50.4,
+      "current_bounds": [
+        -12.2,
+        -25.2,
+        0,
+        12.2,
+        25.2,
+        2.4
+      ],
+      "proposed_bounds": [
+        -8.5,
+        -25.2,
+        0.0,
+        8.5,
+        25.2,
+        5.8
+      ],
+      "source_sha256": "c8f28e0442d10c5820c4e5c0d120b4205c0f0cdf32f88244485d3b3bd73ebc37",
+      "runtime_sha256": "f48cb9a3d3fb27aecad238155072a260856216c3c06e9ff064e33274a29f97cd"
+    },
+    {
+      "icon": "amulet4",
+      "model": "engine/world_items/models/item_amulet4.glb",
+      "length": 51.8,
+      "current_bounds": [
+        -14.4,
+        -25.9,
+        0,
+        14.4,
+        25.9,
+        2.4
+      ],
+      "proposed_bounds": [
+        -11.0,
+        -25.9,
+        0.0,
+        11.0,
+        25.9,
+        3.9
+      ],
+      "source_sha256": "c5877df75c077dff40c0abe15f82bedc0b25b8b78cbde3f124f83675cb2e87a8",
+      "runtime_sha256": "024ee6af37e1231f505238988a2cdaa4d255d89e6f9acab81614e50be0a74e81"
+    },
+    {
+      "icon": "amulet5",
+      "model": "engine/world_items/models/item_amulet5.glb",
+      "length": 54.0,
+      "current_bounds": [
+        -12.6,
+        -27,
+        0,
+        12.6,
+        27,
+        2.2
+      ],
+      "proposed_bounds": [
+        -10.7,
+        -27.0,
+        0.0,
+        10.7,
+        27.0,
+        4.4
+      ],
+      "source_sha256": "a1a9a6fdbb240e4df29bdaec1cfd774953173394ef6c391779b927f87b61d3d4",
+      "runtime_sha256": "4cc5d9a58972e6230aa76a16b883628d3703bf767462c62bf8731543202cdec2"
+    },
+    {
+      "icon": "item147",
+      "model": "engine/world_items/models/item_item147.glb",
+      "length": 36.7,
+      "current_bounds": [
+        -13,
+        -18.4,
+        0,
+        13,
+        18.4,
+        2.9
+      ],
+      "proposed_bounds": [
+        -14.6,
+        -18.4,
+        0.0,
+        14.6,
+        18.4,
+        12.0
+      ],
+      "source_sha256": "36c4184f3506c6dcdd8ec211e68b78cd64c1058fb21d96eaaacfbd60c0028190",
+      "runtime_sha256": "d2c2fc5684f4dd95c9c8e5744cc946c44ca7240e163855b7ad210a503ff005bd"
+    },
+    {
+      "icon": "item148",
+      "model": "engine/world_items/models/item_item148.glb",
+      "length": 34.6,
+      "current_bounds": [
+        -12.3,
+        -17.3,
+        0,
+        12.3,
+        17.3,
+        3
+      ],
+      "proposed_bounds": [
+        -11.6,
+        -17.3,
+        0.0,
+        11.6,
+        17.3,
+        7.8
+      ],
+      "source_sha256": "117c089ba57e52df7e6f76b97aa51a31fff342c509f6016ccd32140ac3ce7ec3",
+      "runtime_sha256": "e16ff601c6b18dfb9bdb355d06429694dda116224817c30532c59c44b3d11b84"
+    },
+    {
+      "icon": "item149",
+      "model": "engine/world_items/models/item_item149.glb",
+      "length": 35.6,
+      "current_bounds": [
+        -11.1,
+        -17.8,
+        0,
+        11.1,
+        17.8,
+        2.2
+      ],
+      "proposed_bounds": [
+        -10.9,
+        -17.8,
+        0.0,
+        10.9,
+        17.8,
+        4.0
+      ],
+      "source_sha256": "04246f24b98904a37cd1eb94aac199c2b706873091d5f811f191e0f8b429843f",
+      "runtime_sha256": "9dcb26aa114d6c0995078e95849ebe40e45711757f0bf68af35fa8b1a54f1130"
+    },
+    {
+      "icon": "item150",
+      "model": "engine/world_items/models/item_item150.glb",
+      "length": 37.4,
+      "current_bounds": [
+        -11.9,
+        -18.7,
+        0,
+        11.9,
+        18.7,
+        2.7
+      ],
+      "proposed_bounds": [
+        -11.3,
+        -18.7,
+        0.0,
+        11.3,
+        18.7,
+        5.2
+      ],
+      "source_sha256": "b3cde26b17fcd07e11149fe66150814c5ba74f7e4fff402dffb921d6d8545d2d",
+      "runtime_sha256": "feab7e0121daf2319660c0cac5818c5cd575a283250c4e4e15119517bd7f9190"
+    },
+    {
+      "icon": "item151",
+      "model": "engine/world_items/models/item_item151.glb",
+      "length": 35.6,
+      "current_bounds": [
+        -12.8,
+        -17.8,
+        0,
+        12.8,
+        17.8,
+        2.3
+      ],
+      "proposed_bounds": [
+        -12.9,
+        -17.8,
+        0.0,
+        12.9,
+        17.8,
+        7.4
+      ],
+      "source_sha256": "a7c243163a7cb498786341a994c9baa6b53a4b52e2b129dfa6928089b6e7e4ea",
+      "runtime_sha256": "b7d1258f3d01ec7d69b187dc77a3b6e4f760125b2083b91c259266350117a3aa"
+    },
+    {
+      "icon": "7item110",
+      "model": "engine/world_items/models/item_7item110.glb",
+      "length": 56.7,
+      "current_bounds": [
+        -10.8,
+        -28.4,
+        0,
+        10.8,
+        28.4,
+        5.8
+      ],
+      "proposed_bounds": [
+        -12.3,
+        -28.4,
+        0.0,
+        12.3,
+        28.4,
+        21.4
+      ],
+      "source_sha256": "282deb5369c974ad9eaf92c0f807069c984bccce102c72e339a91d13d4132b21",
+      "runtime_sha256": "451ffa0d0e577a67636a979e557b03006520a79f654676cf65cec459997babea"
+    },
+    {
+      "icon": "7item111",
+      "model": "engine/world_items/models/item_7item111.glb",
+      "length": 56.2,
+      "current_bounds": [
+        -10.6,
+        -28.1,
+        0,
+        10.6,
+        28.1,
+        5.5
+      ],
+      "proposed_bounds": [
+        -13.6,
+        -28.1,
+        0.0,
+        13.6,
+        28.1,
+        23.2
+      ],
+      "source_sha256": "e5f9697c1afc4a78d79192321da506d21b5043cba1d27f132e9ee6a053a906ef",
+      "runtime_sha256": "0662af1638e3108dea0b46243088ea3811cc304c7a9e211444c852e804435f17"
+    },
+    {
+      "icon": "7item112",
+      "model": "engine/world_items/models/item_7item112.glb",
+      "length": 55.4,
+      "current_bounds": [
+        -10.3,
+        -27.7,
+        0,
+        10.3,
+        27.7,
+        5.9
+      ],
+      "proposed_bounds": [
+        -15.5,
+        -27.7,
+        0.0,
+        15.5,
+        27.7,
+        24.1
+      ],
+      "source_sha256": "d0b432ec586d6a4239af8295d89493a4653c97efc48c1ab406a1309226b169cb",
+      "runtime_sha256": "b4f21210d3a1f5a3d3a812364a99ed45238058b6792fe38d8958f085272df97a"
+    },
+    {
+      "icon": "7item113",
+      "model": "engine/world_items/models/item_7item113.glb",
+      "length": 55.8,
+      "current_bounds": [
+        -14.4,
+        -27.9,
+        0,
+        14.4,
+        27.9,
+        6.2
+      ],
+      "proposed_bounds": [
+        -14.3,
+        -27.9,
+        0.0,
+        14.3,
+        27.9,
+        28.0
+      ],
+      "source_sha256": "f1945fe170e3ebda7970ee81bab039e7712330ce0ed85feea5c001531f718083",
+      "runtime_sha256": "d45829dc6c66fdb21f8a2f7fd1f898fb94392aed7e7c1c8a5885e53155479ca5"
+    },
+    {
+      "icon": "7item114",
+      "model": "engine/world_items/models/item_7item114.glb",
+      "length": 54.9,
+      "current_bounds": [
+        -11.3,
+        -27.4,
+        0,
+        11.3,
+        27.4,
+        6.1
+      ],
+      "proposed_bounds": [
+        -12.7,
+        -27.4,
+        0.0,
+        12.7,
+        27.5,
+        20.3
+      ],
+      "source_sha256": "f17e2fec461712988f3db0a713534d8f7550e534d08be22f43ce0df205a1bc03",
+      "runtime_sha256": "dde563c166f142793dca072ae021dd868b0e5a148bb8d4a5645dfec0f72380ed"
+    },
+    {
+      "icon": "7item244",
+      "model": "engine/world_items/models/item_7item244.glb",
+      "length": 54.9,
+      "current_bounds": [
+        -15.7,
+        -27.4,
+        0,
+        15.7,
+        27.4,
+        5.9
+      ],
+      "proposed_bounds": [
+        -15.8,
+        -27.4,
+        0.0,
+        15.8,
+        27.4,
+        23.1
+      ],
+      "source_sha256": "a36d2f971ff2a366eeb443c6fc37f557b5a2d03120c5019c1990e4bf75262242",
+      "runtime_sha256": "cd9767e86edf3913332441943a8b980d0a53eb80753b3dd18c470ae0939ff8cb"
+    },
+    {
+      "icon": "7item248",
+      "model": "engine/world_items/models/item_7item248.glb",
+      "length": 55.8,
+      "current_bounds": [
+        -14.4,
+        -27.9,
+        0,
+        14.4,
+        27.9,
+        6.2
+      ],
+      "proposed_bounds": [
+        -14.3,
+        -27.9,
+        0.0,
+        14.3,
+        27.9,
+        28.0
+      ],
+      "source_sha256": "f1945fe170e3ebda7970ee81bab039e7712330ce0ed85feea5c001531f718083",
+      "runtime_sha256": "7127c0b66973d24fbb4c09a78fdb05b052620e1c7f70705e3f2544009d1cddd4"
+    },
+    {
+      "icon": "gontlet1",
+      "model": "engine/world_items/models/item_gontlet1.glb",
+      "length": 73.8,
+      "current_bounds": [
+        -17.1,
+        -36.9,
+        0,
+        17.1,
+        36.9,
+        7.6
+      ],
+      "proposed_bounds": [
+        -19.6,
+        -36.9,
+        0.0,
+        19.6,
+        36.9,
+        33.5
+      ],
+      "source_sha256": "1102dbdcafaa76897d6a599f2dacc4bf215737ddd98bf59523525b7e9751e3ec",
+      "runtime_sha256": "6a0fe28860435b899da215e74da19dadf8d3b9aa123c184978f4f2d1e5043448"
+    },
+    {
+      "icon": "gontlet2",
+      "model": "engine/world_items/models/item_gontlet2.glb",
+      "length": 74.7,
+      "current_bounds": [
+        -17,
+        -37.4,
+        0,
+        17,
+        37.4,
+        7.5
+      ],
+      "proposed_bounds": [
+        -18.0,
+        -37.3,
+        0.0,
+        18.0,
+        37.4,
+        32.4
+      ],
+      "source_sha256": "61f685ed036e776ec33a36ef742f7a122021a9e32940bdf1cd30c474fa349f03",
+      "runtime_sha256": "3e73fd5033c424e27026f4da6a1cb5dcae785f0f3e405ab61c9c55e67298292a"
+    },
+    {
+      "icon": "gontlet3",
+      "model": "engine/world_items/models/item_gontlet3.glb",
+      "length": 72.9,
+      "current_bounds": [
+        -16.6,
+        -36.4,
+        0,
+        16.6,
+        36.4,
+        7.7
+      ],
+      "proposed_bounds": [
+        -22.9,
+        -36.4,
+        0.0,
+        22.9,
+        36.4,
+        32.4
+      ],
+      "source_sha256": "ae9524779b088f9a885d05d0b8462833ad76d7086e063af4f895040372863a58",
+      "runtime_sha256": "5f40a622a29188ff85f4720ffc0b43c5794c98f2f1bd24c35109686fdc54fc84"
+    },
+    {
+      "icon": "gontlet4",
+      "model": "engine/world_items/models/item_gontlet4.glb",
+      "length": 75.6,
+      "current_bounds": [
+        -16.6,
+        -37.8,
+        0,
+        16.6,
+        37.8,
+        7.5
+      ],
+      "proposed_bounds": [
+        -23.8,
+        -37.8,
+        0.0,
+        23.8,
+        37.8,
+        29.8
+      ],
+      "source_sha256": "0fee763e6068f9a04bac306984e7b6dbd5ea2574fc06276954f38a34d2a08aa4",
+      "runtime_sha256": "ffea3aafd1e1f1ec9b0b8559d934be7421bc91461c05ba97f2b404f1218f4646"
+    },
+    {
+      "icon": "gontlet5",
+      "model": "engine/world_items/models/item_gontlet5.glb",
+      "length": 72.9,
+      "current_bounds": [
+        -15.3,
+        -36.4,
+        0,
+        15.3,
+        36.4,
+        7.3
+      ],
+      "proposed_bounds": [
+        -18.6,
+        -36.4,
+        0.0,
+        18.6,
+        36.4,
+        28.6
+      ],
+      "source_sha256": "675924aab02b1b2f4ed8c59a071024ff1e79f4f0cb3e80f063576cb10e5a9c74",
+      "runtime_sha256": "f77b106fc838afa497d69b5c45f1d234ba8e1a8491668ef24dd9211a145839d5"
+    },
+    {
+      "icon": "item127",
+      "model": "engine/world_items/models/item_item127.glb",
+      "length": 54.9,
+      "current_bounds": [
+        -13.5,
+        -27.4,
+        0,
+        13.5,
+        27.4,
+        7.4
+      ],
+      "proposed_bounds": [
+        -17.8,
+        -27.4,
+        0.0,
+        17.8,
+        27.5,
+        19.8
+      ],
+      "source_sha256": "1f0a028fe555000478cd9fa937b871d2bf1dbdaeb509788aac488d02e67235d7",
+      "runtime_sha256": "f3d2dae91120781fa43af96f5535619aca54a68475a83ee1abe014b797c95ea1"
+    },
+    {
+      "icon": "item128",
+      "model": "engine/world_items/models/item_item128.glb",
+      "length": 63.9,
+      "current_bounds": [
+        -29.3,
+        -32,
+        0.1,
+        24.1,
+        31.9,
+        47.8
+      ],
+      "proposed_bounds": [
+        -23.6,
+        -32.0,
+        0.0,
+        23.6,
+        32.0,
+        28.3
+      ],
+      "source_sha256": "83655b3f457f7b95436d2aa67d6e3dba8ceed60bcfc8bdcb5fd6e872281b44fd",
+      "runtime_sha256": "5555d7fb72a9718742db4821d8db27ae9514d4a2392456610d0a33c57fa02003"
+    },
+    {
+      "icon": "item129",
+      "model": "engine/world_items/models/item_item129.glb",
+      "length": 63.9,
+      "current_bounds": [
+        -15.3,
+        -32,
+        0,
+        15.3,
+        32,
+        5.6
+      ],
+      "proposed_bounds": [
+        -14.9,
+        -32.0,
+        0.0,
+        14.9,
+        32.0,
+        25.2
+      ],
+      "source_sha256": "fa996b29365d3e156e8df16f4513332e69b71a2ec7ef90544c3b176cfd583aa1",
+      "runtime_sha256": "4ae5152462bac02df630ac98cf4f7dfe785297370299393e5b9a2672ee512492"
+    },
+    {
+      "icon": "item130",
+      "model": "engine/world_items/models/item_item130.glb",
+      "length": 63.9,
+      "current_bounds": [
+        -14.4,
+        -32,
+        0,
+        14.4,
+        32,
+        6.4
+      ],
+      "proposed_bounds": [
+        -18.1,
+        -32.0,
+        0.0,
+        18.1,
+        32.0,
+        22.6
+      ],
+      "source_sha256": "2deeb2a83d2f903c54a28c4a8e0777708ef4f752c58eee38c317d9d1643cc21a",
+      "runtime_sha256": "bec5faa7f733e6558fbae370e6b44cb73cb301fb74efd5711b50a6b4f8daa6d1"
+    },
+    {
+      "icon": "item131",
+      "model": "engine/world_items/models/item_item131.glb",
+      "length": 63.9,
+      "current_bounds": [
+        -13.9,
+        -32,
+        0,
+        13.9,
+        32,
+        6.6
+      ],
+      "proposed_bounds": [
+        -17.2,
+        -32.0,
+        0.0,
+        17.2,
+        32.0,
+        23.5
+      ],
+      "source_sha256": "4d66aa288b5f9043bc9d7e7b67db17d6fdaec096d38002c1fe843982c1f7d711",
+      "runtime_sha256": "d56512374103729a8557bde0cd001b0380409f5aafc0351ff6eaf911f9cb908e"
+    },
+    {
+      "icon": "item261",
+      "model": "engine/world_items/models/item_item261.glb",
+      "length": 63.9,
+      "current_bounds": [
+        -11.2,
+        -31.9,
+        0,
+        11.2,
+        31.9,
+        6.2
+      ],
+      "proposed_bounds": [
+        -21.7,
+        -32.0,
+        0.0,
+        21.7,
+        32.0,
+        24.8
+      ],
+      "source_sha256": "8eb9316bbce7bad0fce672836b516795ea4f41c7e138721b7be58774cd0e6ebb",
+      "runtime_sha256": "0d677104a8101819e096363970ec27e3e1be5a0d7344c26fbf5a424643aee22d"
+    }
+  ],
+  "manifest_sha256_at_report": "4acd7437ff148b7148c8e60dd93af24e6cd311caed4cd48d3732d3dea89409e8",
+  "equipment_scope_followup": [
+    "7item110",
+    "7item111",
+    "7item112",
+    "7item113",
+    "7item114",
+    "7item244",
+    "7item248",
+    "gontlet1",
+    "gontlet2",
+    "gontlet3",
+    "gontlet4",
+    "gontlet5",
+    "item127",
+    "item128",
+    "item129",
+    "item130",
+    "item131",
+    "item261"
+  ],
+  "ownership_authority": "Explicit user follow-up; equipment project and Meshy claim left untouched",
+  "original_all_items_save_sha256": "795fffeb87a7d95962e0e4e5af72b166ca9b6986400f43ad96c0d95edbe2fffa",
+  "checks": [
+    "38 source exports: finite attributes, closed parts, outward winding, UV range, grounding",
+    "All materials have base color, packed metallic/roughness and tangent normal textures",
+    "Albedo channels 30\u2013243; binary metalness; physical roughness values",
+    "Per-icon scoped desktop cooking and verification",
+    "Four culling-enabled Blender views per icon"
+  ],
+  "release": "Development world_items WIP only; release and Android promotion remain separate",
+  "native_review": {
+    "status": "passed",
+    "cases": [
+      {
+        "scene": "outdoor_a",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/outdoor_a/run.json",
+        "screenshot": "review/native_outdoor_a/outdoor_a.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "outdoor_b",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/outdoor_b/run.json",
+        "screenshot": "review/native_outdoor_b/outdoor_b.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "outdoor_c",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/outdoor_c/run.json",
+        "screenshot": "review/native_outdoor_c/outdoor_c.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "indoor_a",
+        "map": "6d19.blv",
+        "run": "receipts/native_runs/indoor_a/run.json",
+        "screenshot": "review/native_indoor_a/indoor_a.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "indoor_b",
+        "map": "6d19.blv",
+        "run": "receipts/native_runs/indoor_b/run.json",
+        "screenshot": "review/native_indoor_b/indoor_b.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "gauntlet_outdoor_a",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/gauntlet_outdoor_a/run.json",
+        "screenshot": "review/native_gauntlet_outdoor_a/gauntlet_outdoor_a.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "gauntlet_outdoor_b",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/gauntlet_outdoor_b/run.json",
+        "screenshot": "review/native_gauntlet_outdoor_b/gauntlet_outdoor_b.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "gauntlet_indoor_a",
+        "map": "6d19.blv",
+        "run": "receipts/native_runs/gauntlet_indoor_a/run.json",
+        "screenshot": "review/native_gauntlet_indoor_a/gauntlet_indoor_a.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      },
+      {
+        "scene": "amulets_final",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/amulets_final/run.json",
+        "screenshot": "review/native_amulets_final/amulets_final.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "model_load_errors": 0,
+        "visual_review": "passed"
+      }
+    ],
+    "performance_claim": false,
+    "recovered_startup_failures": "Two attempts failed to create an EGL surface before asset loading. Fresh isolated retries succeeded; originals retained in native_failures/."
+  }
+}

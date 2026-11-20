@@ -1,0 +1,10 @@
+dofile(arg[1] .. "/shim.lua")
+local S = "/home/pjasicek/github/Maw-Mod-MMMerge/Scripts/"
+loadChunk(S .. "General/zz_Maw-initialize.lua")
+loadChunk(S .. "Modules/MawCore/Formulas.lua")
+loadChunk(S .. "Modules/MawCore/ItemLevel.lua")
+loadChunk(S .. "General/zMaw_ItemBits.lua")
+loadChunk(S .. "General/zzMaw-Items.lua")
+loadChunk(S .. "General/zzAlchemy.lua")
+print(type(round), type(GetGemCap), type(GetPrimordialMaxEnchantStrength), type(pity_chance), type(slotMult), type(GetCraftingCubeCap))
+print(GetPrimordialMaxEnchantStrength())

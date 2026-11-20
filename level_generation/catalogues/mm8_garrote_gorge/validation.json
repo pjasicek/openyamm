@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "parts": 56,
+  "physicalAssemblies": 40,
+  "renderedViews": 68,
+  "houses": 24,
+  "npcRows": 21,
+  "serviceProprietors": 7,
+  "textures": 72,
+  "localLinks": 144,
+  "limitations": [
+    "Static initial merged-base assignments; no quest-state simulation.",
+    "Reference images use original meshes and UVs, independent framing and neutral lighting.",
+    "New MM5 architecture mapping is a proposal; geometry and runtime behavior are not generated."
+  ]
+}

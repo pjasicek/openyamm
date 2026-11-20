@@ -4,7 +4,9 @@
 #include "game/render/CombatActorHealthBarPolicy.h"
 #include "game/tables/ChestTable.h"
 #include "game/events/EventDialogContent.h"
+#include "game/gameplay/CombatLog.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
+#include "game/ui/GameplayCombatLogPanel.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayTouchControl.h"
 #include "game/ui/GameplayOverlayAdapters.h"
@@ -30,6 +32,7 @@
 namespace OpenYAMM::Game
 {
 class GameSession;
+class PlaythroughStatistics;
 class GameAudioSystem;
 class GameplayFxService;
 class TurnBasedCombatRuntime;
@@ -39,7 +42,11 @@ class GameplaySpellService;
 class AwardTable;
 class ItemTable;
 class MergedComplexItemPictureTable;
+class MonsterProjectileTable;
+class MapStats;
 class MonsterTable;
+class Mm9HirelingTable;
+class Mm9TransportRouteTable;
 class MergedPotionSettingTable;
 class PotionMixingTable;
 class PotionNoteTable;
@@ -85,6 +92,7 @@ public:
     using SaveGameExecutor = std::function<bool(const PreparedSaveGameRequest &request)>;
 
     explicit GameplayScreenRuntime(GameSession &session);
+    ~GameplayScreenRuntime();
 
     void bindAudioSystem(GameAudioSystem *pAudioSystem);
     void bindSettings(GameSettings *pSettings);
@@ -108,6 +116,15 @@ public:
     float partyFootZ() const;
     GameAudioSystem *audioSystem() const;
     const ItemTable *itemTable() const;
+    // The active ruleset's player's guide address, empty for none.
+    const std::string &rulesetGuideUrl() const;
+    // The augmented solo run (RulesetOptions::soloRun, chosen at new game): the one flag the solo presentation, the
+    // solo HUD and (later) the talents read. It changes no rule.
+    bool soloRun() const;
+    // Whether the solo HUD replaces the party frame: a solo run, or the [debug] solo_hud preview on any game.
+    bool soloHud() const;
+    // The talents' gate: a solo run under MAW (devdocs/solo_action/TALENTS.md).
+    bool soloTalents() const;
     const StandardItemEnchantTable *standardItemEnchantTable() const;
     const SpecialItemEnchantTable *specialItemEnchantTable() const;
     const ClassSkillTable *classSkillTable() const;
@@ -123,9 +140,14 @@ public:
     const MergedComplexItemPictureTable *mergedComplexItemPictureTable() const;
     const SpellTable *spellTable() const;
     const HouseTable *houseTable() const;
+    const Mm9TransportRouteTable *mm9TransportRouteTable() const;
+    const MapStats &mapStats() const;
     const ChestTable *chestTable() const;
     const NpcDialogTable *npcDialogTable() const;
     const MonsterTable *monsterTable() const;
+    const MonsterProjectileTable *monsterProjectileTable() const;
+    // The MM9 world's hirelings (empty elsewhere).
+    const Mm9HirelingTable *mm9HirelingTable() const;
 
     GameplayUiController::CharacterScreenState &characterScreen() const;
     GameplayUiController::HeldInventoryItemState &heldInventoryItem() const;
@@ -136,10 +158,12 @@ public:
     GameplayUiController::ActorInspectOverlayState &actorInspectOverlay() const;
     GameplayUiController::SpellInspectOverlayState &spellInspectOverlay() const;
     GameplayUiController::ReadableScrollOverlayState &readableScrollOverlay() const;
+    GameplayUiController::LootSummaryOverlayState &lootSummaryOverlay() const;
     GameplayUiController::SpellbookState &spellbook() const;
     GameplayUiController::UtilitySpellOverlayState &utilitySpellOverlay() const;
     GameplayUiController::InventoryNestedOverlayState &inventoryNestedOverlay() const;
     GameplayUiController::HouseShopOverlayState &houseShopOverlay() const;
+    GameplayUiController::TransportScheduleState &transportSchedule() const;
     GameplayUiController::HouseShopVisitState &houseShopVisit() const;
     GameplayUiController::HouseBankState &houseBankState() const;
     GameplayUiController::JournalScreenState &journalScreenState() const;
@@ -159,6 +183,7 @@ public:
     const GameplayUiController::ActorInspectOverlayState &actorInspectOverlayReadOnly() const;
     const GameplayUiController::SpellInspectOverlayState &spellInspectOverlayReadOnly() const;
     const GameplayUiController::ReadableScrollOverlayState &readableScrollOverlayReadOnly() const;
+    const GameplayUiController::LootSummaryOverlayState &lootSummaryOverlayReadOnly() const;
     const GameplayUiController::SpellbookState &spellbookReadOnly() const;
     const GameplayUiController::UtilitySpellOverlayState &utilitySpellOverlayReadOnly() const;
     const GameplayUiController::JournalScreenState &journalScreenStateReadOnly() const;
@@ -168,6 +193,8 @@ public:
     const JournalQuestTable *journalQuestTable() const;
     const JournalHistoryTable *journalHistoryTable() const;
     uint32_t activeHistoryContinentId() const;
+    // The map's display name, or its file name when the map has no stats entry.
+    std::string mapDisplayName(const std::string &mapFileName) const;
     const JournalAutonoteTable *journalAutonoteTable() const;
     const std::string &currentMapFileName() const;
     float gameplayCameraYawRadians() const;
@@ -182,6 +209,12 @@ public:
     void updateStatusBarEvent(float deltaSeconds) const;
     void setStatusBarHoverText(const std::string &text) const;
     void clearStatusBarHoverText() const;
+    // The world's hover text, which the world clears again without touching an overlay's.
+    void setWorldStatusBarHoverText(const std::string &text) const;
+    void clearWorldStatusBarHoverText() const;
+    // The hovered ground item's name above the pointer (cleared with the hover text); an empty text clears it.
+    void setWorldItemHoverLabel(const std::string &text, uint32_t colorAbgr, float screenX, float screenY) const;
+    const GameplayUiController::StatusBarState &statusBarState() const;
     GameplayContextActionState &contextActionState() const;
     const GameplayContextActionState &contextActionStateReadOnly() const;
     void clearContextActionState() const;
@@ -197,6 +230,8 @@ public:
     bool isReadOnlyAdventurersInnCharacterViewActive() const;
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
+    // Turns the open spellbook to the school's page and remembers it as the active member's page.
+    void setSpellbookSchool(GameplayUiController::SpellbookSchool school);
     void setStatusBarEvent(
         const std::string &text,
         float durationSeconds = 2.0f,
@@ -205,6 +240,7 @@ public:
     void openRestOverlay(bool enforceWorldRestrictions = true);
     void beginRestAction(GameplayUiController::RestMode mode, float minutes, bool consumeFood, bool innRest);
     void startRestAction(GameplayUiController::RestMode mode, float minutes);
+    void startInnRest(uint32_t houseId);
     void openSpellbookOverlay();
     void openChestTransferInventoryOverlay();
     void toggleCharacterInventoryScreen();
@@ -214,6 +250,10 @@ public:
     void handleDialogueCloseRequest();
     void closeRestOverlay();
     void completeRestAction(bool closeRestScreenAfterCompletion);
+    // A script's rest alarm (evt.SetRestAlarm) within the next `minutes` of game time: the minutes up to it.
+    std::optional<float> minutesToRestAlarm(float minutes) const;
+    // Ends the rest or wait at the alarm: no healing, the rest screen closes.
+    void interruptRestAction();
     void openMenuOverlay();
     void closeMenuOverlay();
     void openControlsOverlay();
@@ -230,12 +270,18 @@ public:
     void requestOpenLoadGameScreen();
     void openJournalOverlay();
     void closeJournalOverlay();
-    void openQuickReferenceOverlay();
+    void openQuickReferenceOverlay(
+        GameplayUiController::QuickReferencePage page = GameplayUiController::QuickReferencePage::Party);
     void closeQuickReferenceOverlay();
+    // The playthrough statistics the Statistics page shows (GameSession owns them).
+    const PlaythroughStatistics &playthroughStatistics() const;
     void closeHouseShopOverlay();
+    void closeTransportSchedule();
     void markHouseShopTransactionPerformed(uint32_t houseId);
     void openFollowerNpcDialogue(size_t followerSlotIndex);
     void openFollowerNpcDialogueByIndex(size_t followerIndex);
+    // The MM9 hireling's own RUDE dialogue at its root (its -15 service and dismissal behind the hire key).
+    void openHirelingDialogue(uint32_t rudeId);
     void presentActiveEventDialog();
     void ensurePendingEventDialogPresented(bool allowNpcFallbackContent = true);
     bool hasPendingEventDialog() const;
@@ -259,7 +305,11 @@ public:
         const ActiveDialogContextBuilder &contextBuilder,
         const ActiveDialogActionCallback &beforeCloseContinuation = {},
         const DialogueCloseCallback &closeActiveDialog = {},
+        const ActiveDialogActionCallback &afterCloseContinuation = {},
         const PendingEventDialogPresenter &presentPendingEventDialogCallback = {});
+    // Executes an action offered by a popup over the active dialogue (a trip chosen in a stable's schedule) the way
+    // a clicked topic is executed.
+    void executeDialogAction(const EventDialogAction &action);
     void refreshHouseBankInputDialog();
     void confirmHouseBankInput();
     void closeInventoryNestedOverlay();
@@ -270,7 +320,11 @@ public:
         size_t casterMemberIndex,
         bool lloydRecallMode = false);
     void closeUtilitySpellOverlayAfterSpellResolution(uint32_t spellId);
+    // A message in the open dialog of the house (an Arcomage match's result in its tavern).
+    void showHouseServiceMessage(uint32_t houseId, const std::string &message);
     bool tryAutoPlaceHeldInventoryItemOnPartyMember(size_t memberIndex, bool showFailureStatus);
+    // The held item into the active member's pack, else the next member's with room (as a pickup goes).
+    bool tryStowHeldInventoryItemInParty();
     GameplayItemService &itemService() const;
     GameplayFxService &fxService() const;
     GameplaySpellService &spellService() const;
@@ -287,6 +341,7 @@ public:
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
+    bool isMemberSpeechPlaying(size_t memberIndex, SpeechId speechId) const;
     void playCantRestHereReaction();
     void queueDelayedSpeechReaction(size_t memberIndex, SpeechId speechId, float delaySeconds);
     void updateDelayedSpeechReactions(float deltaSeconds);
@@ -317,6 +372,9 @@ public:
     CombatActorHealthBarRuntime &enemyHealthBars() const;
     void updateEnemyHealthBars(float seconds, std::span<const GameplayCombatFeedbackEvent> events) const;
     const GameSettings &settingsSnapshot() const;
+    // Whether the combat log's button and panel show and the log records: the combat_log setting On, or Auto in a
+    // ruleset other than Standard in a world that shows it (world.yml combatLog; MM9 does not).
+    bool combatLogShown() const;
     GameplayUiRuntime &gameplayUiRuntime() const;
     SharedUiBootstrapResult initializeSharedUiRuntime(const SharedUiBootstrapConfig &config);
     void bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem);
@@ -325,13 +383,18 @@ public:
     void preloadReferencedAssets();
     bool ensurePortraitRuntimeLoaded();
     void resetPortraitFxStates(size_t memberCount);
-    void resetOverlayInteractionState(bool followerPanelOpen = false);
+    // Opens the follower panel on a map load when the party has followers and the player left it open.
+    void resetOverlayInteractionState(bool hasFollowers = false);
+    // The panel button and key: the choice is remembered in the settings.
+    void toggleFollowerPanel();
     bool initializeHouseVideoPlayer();
     void shutdownHouseVideoPlayer();
     void stopHouseVideoPlayback();
     bool playHouseVideo(const std::string &videoStem);
     bool playHouseVideo(const std::string &videoStem, const std::string &videoDirectory);
     void updateHouseVideoPlayback(float deltaSeconds);
+    void updateHouseDialoguePresentation(float deltaSeconds);
+    void resetHouseEntryAudio();
     bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const;
     bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const;
     void clearHudLayoutRuntimeHeightOverrides();
@@ -358,7 +421,15 @@ public:
         float fallbackWidth,
         float fallbackHeight) const;
     std::optional<ResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex) const;
+    // How far a tab under the minimap moves from its layout place (OutdoorFollowerToggle, Mm9FormationButton,
+    // CombatLogToggle): the shown ones line up from the right edge without gaps; none for any other element.
+    std::optional<float> minimapTabShift(const std::string &layoutId, int screenWidth, int screenHeight) const;
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y) const;
+    // The MM9 hireling rail's slot (Mm9Hireling1-3 in gameplay.yml) of the hireling at its index in
+    // Party::hirelings(); none past the hirelings or on the screens over the HUD (inventory, dialogues...).
+    std::optional<ResolvedHudLayoutElement> resolveHirelingSlotRect(int width, int height, size_t hirelingIndex) const;
+    // The combatant (Party::combatant) whose face is under the point: a party portrait, else a hireling's slot.
+    std::optional<size_t> resolveCombatantPortraitIndexAtPoint(int width, int height, float x, float y) const;
     float characterSkillRowHeight() const;
     float characterSkillsContentHeight(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
@@ -380,7 +451,6 @@ public:
         float y,
         float quadWidth,
         float quadHeight) const;
-    std::string localizeHudText(const std::string &text) const;
     void renderLayoutLabel(
         const HudLayoutElement &layout,
         const ResolvedHudLayoutElement &resolved,
@@ -388,6 +458,8 @@ public:
         bool applyButtonState = true,
         const ResolvedHudLayoutElement *pClip = nullptr) const;
     std::optional<HudFontHandle> findHudFont(const std::string &fontName) const;
+    // An independent outline face rasterized at pixelHeight (GameplayUiRuntime::findHudFont).
+    std::optional<HudFontHandle> findHudFont(const std::string &fontName, int pixelHeight) const;
     float measureHudTextWidth(const HudFontHandle &font, const std::string &text) const;
     std::vector<std::string> wrapHudTextToWidth(
         const HudFontHandle &font,
@@ -406,6 +478,12 @@ public:
     void clearHudRenderBackend();
     void releaseHudGpuResources(bool destroyBgfxResources);
     void clearSharedUiRuntime();
+    // The combat log the damage rules and the hit wording feed while the combat_log setting is on; cleared with the
+    // shared UI (a new game or a load).
+    CombatLog &combatLog();
+    const CombatLog &combatLog() const;
+    // The docked log's view: open, scrolled, the line opened, and its laid-out text.
+    GameplayCombatLogPanel &combatLogPanel();
     bool hasHudRenderResources() const;
     void prepareHudView(int width, int height) const;
     void submitHudQuadBatch(const std::vector<GameplayHudBatchQuad> &quads) const;
@@ -428,13 +506,11 @@ public:
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const;
     bool ensureTownPortalDestinationsLoaded();
     bool ensureDimensionDoorDestinationsLoaded();
-    bool shouldTownPortalCastOpenDimensionDoor() const;
-    bool openDimensionDoorOverlay(
-        size_t casterMemberIndex,
-        uint32_t spellId,
-        const std::string &statusText = "Choose Dimension Door destination");
     const std::string &townPortalBackgroundTextureName() const;
     const std::vector<GameplayTownPortalDestination> &townPortalDestinations() const;
+    const std::vector<GameplayTownPortalContinent> &townPortalContinents() const;
+    size_t townPortalContinentIndex() const;
+    void selectTownPortalContinent(size_t continentIndex);
     std::string resolveMapLocationName(const std::string &mapFileName) const;
     float measureHudTextWidth(const std::string &fontName, const std::string &text) const;
     int hudFontHeight(const std::string &fontName) const;
@@ -448,6 +524,12 @@ public:
         const std::string &text,
         float textX,
         float textY,
+        float fontScale) const;
+    // Lines of one font, colour and scale drawn together: their shadows in one draw, then the lines in one.
+    void renderHudTextRuns(
+        const std::string &fontName,
+        uint32_t colorAbgr,
+        std::span<const GameplayHudTextRun> runs,
         float fontScale) const;
 
     void resetHudTransientState() const;
@@ -490,9 +572,80 @@ public:
         float quadHeight) const;
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const;
 
-private:
-    void startInnRest(uint32_t houseId);
+    // The prototype first-person view model's link with gameplay (FirstPersonViewModel). While the view model shows a
+    // melee weapon (meleeSwings, set by it each frame), a melee attack first swings and lands only at the swing's
+    // blow: gameplay starts the swing (swingSerial, swingWaiting), the view model sets blowReleased when its blade
+    // reaches the clip's Hit key, and the attack then runs against whatever is in reach. Other attack actions and
+    // casts are shown when they happen (actionSerial).
+    enum class ViewModelAction
+    {
+        Melee,
+        Shot,
+        Cast,
+    };
+    struct ViewModelLink
+    {
+        bool meleeSwings = false;
+        uint32_t swingSerial = 0;
+        bool swingWaiting = false;
+        // A solo run's weapon cycling (KeyboardAction::NextWeapon and PreviousWeapon, the action bar's swap slot): the
+        // bow is drawn instead of the melee weapon and Attack shoots, even at melee range. Transient: a loaded game
+        // starts with the melee weapon. The tick of the last change keeps one turn of the wheel to one change.
+        bool bowSelected = false;
+        uint64_t weaponCycleTickNanoseconds = 0;
+        // Game time since the swing started (the view model's clock, slow motion included) and the active member's
+        // melee recovery when it started: the swing is played to fit that recovery, which counts from the press.
+        float swingWaitSeconds = 0.0f;
+        float swingRecoverySeconds = 0.0f;
+        bool blowReleased = false;
+        // The blade's direction across the screen at the blow (right, up), unit length; none without one.
+        std::optional<std::array<float, 2>> blowDirection;
+        uint32_t actionSerial = 0;
+        ViewModelAction action = ViewModelAction::Melee;
+        // A solo run's talent the arms show (cleave, whirlwind, charge, blink ...): FirstPersonViewModel plays its clip.
+        uint32_t talentSerial = 0;
+        std::string talentClip;
+        // A talent whose strike waits for its clip's blow as a swing does (swingWaiting): Cleave lands mid-swing, at
+        // the blow's release (GameplayInteractionController).
+        std::optional<uint32_t> talentAtBlow;
+        // The waited action is a cast (an Attack whose battle orders hold a spell, or a quick or action-bar spell):
+        // the arms play a cast clip fitted to the spell's recovery and the spell leaves at its release key. castSelf
+        // picks the self clip (heals, buffs); castSchool colours the hand.
+        bool waitIsCast = false;
+        bool castSelf = false;
+        std::string castSchool;
+        // A quick or action-bar cast waiting for that release, and which spell it casts then (GameplayInputController).
+        bool quickCastWaiting = false;
+        std::optional<size_t> quickCastExtraSlot;
+        std::string quickCastBarSpell;
+        // The swinging weapon's strongest element (MeleeWeaponElement), tinting the weapon trail.
+        uint8_t weaponElement = 0;
+        // The last casting palm on screen (FirstPersonViewModel::Output::castHandScreen): the active member's spell
+        // missiles start there (PartySpellCastRequest::handScreenPoint). None without arms.
+        std::optional<std::array<float, 2>> castHandScreen;
+    };
+    ViewModelLink &viewModelLink()
+    {
+        return m_viewModelLink;
+    }
+    void noteViewModelTalent(const std::string &clip)
+    {
+        m_viewModelLink.talentClip = clip;
+        ++m_viewModelLink.talentSerial;
+    }
+    void noteViewModelAction(ViewModelAction action)
+    {
+        ++m_viewModelLink.actionSerial;
+        m_viewModelLink.action = action;
+    }
 
+private:
+    void rememberGameplayMinimapZoom();
+    // The screens that show the party's portraits on the fullscreen frame (ObsidianOverlayPc) and no hireling rail.
+    bool portraitsOnLimitedOverlayHud() const;
+
+    CombatLog m_combatLog;
+    GameplayCombatLogPanel m_combatLogPanel;
     struct DelayedSpeechReaction
     {
         size_t memberIndex = 0;
@@ -508,13 +661,16 @@ private:
     void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks);
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
     void returnToHouseBankMainDialogShared();
+    void leaveHouseEntryAudio(bool playDoorSound);
 
     mutable CombatActorHealthBarRuntime m_enemyHealthBars;
     GameSession &m_session;
     GameAudioSystem *m_pAudioSystem = nullptr;
+    uint32_t m_activeHouseAudioHostId = 0;
     GameSettings *m_pSettings = nullptr;
     IGameplayOverlaySceneAdapter *m_pSceneAdapter = nullptr;
     DialogueCloseCallback m_pendingMapMoveDialogClose;
+    std::optional<EventDialogAction> m_dialogActionOverride;
     std::optional<DelayedSpeechReaction> m_delayedSpeechReaction;
     uint64_t m_lastSpellFailSoundTicks = 0;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
@@ -526,5 +682,6 @@ private:
     mutable std::vector<GameplayMinimapLineState> m_cachedMinimapLines;
     mutable std::vector<GameplayMinimapMarkerState> m_cachedMinimapMarkers;
     std::unordered_map<uint64_t, uint64_t> m_keyedAudioInstances;
+    ViewModelLink m_viewModelLink;
 };
 } // namespace OpenYAMM::Game

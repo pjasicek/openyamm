@@ -1,0 +1,490 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_yrsa.glb",
+  "components": 49,
+  "body": 2,
+  "size": 1.6924834251403809,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 49,
+   "attached_in_every_pose": 48
+  },
+  "concealed": {},
+  "shallow": {
+   "1": {
+    "joint": "FHP L Forearm",
+    "where": "above",
+    "triangles": 1107,
+    "extent": 1.3538,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00145,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00083,
+     "on": "xbk_rt2",
+     "clip": "Death",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03188,
+     "on": "xbk_rt2",
+     "clip": "Hit",
+     "frame": 21,
+     "time": 0.7
+    }
+   },
+   "3": {
+    "joint": "FHP L Foot",
+    "where": "below",
+    "triangles": 174,
+    "extent": 1.1305,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00203,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00327,
+     "on": "FHP L Forearm",
+     "clip": "Fidget",
+     "frame": 52,
+     "time": 1.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "4": {
+    "joint": "FHP Head",
+    "where": "above, +z",
+    "triangles": 2609,
+    "extent": 0.8674,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00887,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00751,
+     "on": "FHP L Forearm",
+     "clip": "Fidget",
+     "frame": 74,
+     "time": 2.4667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01672,
+     "on": "FHP L Forearm",
+     "clip": "Hit",
+     "frame": 17,
+     "time": 0.5667
+    }
+   },
+   "5": {
+    "joint": "FHP Spine2",
+    "where": "above",
+    "triangles": 151,
+    "extent": 0.4102,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00935,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00778,
+     "on": "xbk_rt2",
+     "clip": "Hit",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01444,
+     "on": "FHP L Forearm",
+     "clip": "Hit",
+     "frame": 11,
+     "time": 0.3667
+    }
+   },
+   "6": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 71,
+    "extent": 0.1243,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00444,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00153,
+     "on": "FHP Head",
+     "clip": "Hit",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "7": {
+    "joint": "FHP Head",
+    "where": "above, +z",
+    "triangles": 209,
+    "extent": 0.3044,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02052,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00127,
+     "on": "FHP L Forearm",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "8": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 99,
+    "extent": 0.2161,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00059,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00012,
+     "on": "FHP L Forearm",
+     "clip": "Death",
+     "frame": 15,
+     "time": 0.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "9": {
+    "joint": "FHP Spine3",
+    "where": "above",
+    "triangles": 84,
+    "extent": 0.2111,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0039,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0033,
+     "on": "FHP L Forearm",
+     "clip": "Walking",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "11": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 37,
+    "extent": 0.1293,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00395,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 6e-05,
+     "on": "FHP L Forearm",
+     "clip": "Death",
+     "frame": 20,
+     "time": 0.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "38": {
+    "joint": "FHP R Foot",
+    "where": "below",
+    "triangles": 163,
+    "extent": 1.1334,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00276,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00196,
+     "on": "xbk_rt2",
+     "clip": "Hit",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "46": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 82,
+    "extent": 0.1245,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00537,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00297,
+     "on": "FHP L Forearm",
+     "clip": "Running",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "48": {
+    "joint": "FHP R Forearm",
+    "where": "above, +x side",
+    "triangles": 3,
+    "extent": 0.1191,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.003,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.003,
+     "on": "FHP L Forearm",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   }
+  },
+  "root_lift": {
+   "0": {
+    "joint": "FHP L Forearm",
+    "where": "above, -x side",
+    "triangles": 834,
+    "extent": 0.3955,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02432,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.02427,
+     "on": "FHP L Forearm",
+     "clip": "Fidget",
+     "frame": 48,
+     "time": 1.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00909,
+     "on": "FHP L Forearm",
+     "clip": "Walking",
+     "frame": 33,
+     "time": 1.1
+    }
+   },
+   "1": {
+    "joint": "FHP L Forearm",
+    "where": "above",
+    "triangles": 1107,
+    "extent": 1.3538,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00145,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00083,
+     "on": "xbk_rt2",
+     "clip": "Death",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03188,
+     "on": "xbk_rt2",
+     "clip": "Hit",
+     "frame": 21,
+     "time": 0.7
+    }
+   },
+   "4": {
+    "joint": "FHP Head",
+    "where": "above, +z",
+    "triangles": 2609,
+    "extent": 0.8674,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00887,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00751,
+     "on": "FHP L Forearm",
+     "clip": "Fidget",
+     "frame": 74,
+     "time": 2.4667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01672,
+     "on": "FHP L Forearm",
+     "clip": "Hit",
+     "frame": 17,
+     "time": 0.5667
+    }
+   },
+   "5": {
+    "joint": "FHP Spine2",
+    "where": "above",
+    "triangles": 151,
+    "extent": 0.4102,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00935,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00778,
+     "on": "xbk_rt2",
+     "clip": "Hit",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01444,
+     "on": "FHP L Forearm",
+     "clip": "Hit",
+     "frame": 11,
+     "time": 0.3667
+    }
+   },
+   "27": {
+    "joint": "FHP Spine1",
+    "where": "above",
+    "triangles": 23,
+    "extent": 0.0363,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00385,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00325,
+     "on": "FHP Spine2",
+     "clip": "Hit",
+     "frame": 23,
+     "time": 0.7667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.05966,
+     "on": "xbk_rt2",
+     "clip": "Hit",
+     "frame": 9,
+     "time": 0.3
+    }
+   },
+   "45": {
+    "joint": "FHP Spine3",
+    "where": "above, +z",
+    "triangles": 14,
+    "extent": 0.04,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00169,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "FHP L Forearm",
+     "clip": "Fidget",
+     "frame": 69,
+     "time": 2.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03431,
+     "on": "FHP L Forearm",
+     "clip": "Hit",
+     "frame": 19,
+     "time": 0.6333
+    }
+   }
+  }
+ }
+]

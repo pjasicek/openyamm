@@ -1,0 +1,6 @@
+format: 0
+daily_fog:
+  small: {chance: 20, weak_distance: 4096, strong_distance: 8192}
+  average: {chance: 10, weak_distance: 0, strong_distance: 4096}
+  dense: {chance: 5, weak_distance: 0, strong_distance: 2048}
+notes: "As the original (out02.scene.yml with its overlay out02_1.scene.yml): no sky texture of its own (the game's sky for the hour and the weather), no fixed fog, no fog tint, and fog by the day: small on 20 days in a hundred from 4096 to 8192, average on 10 from 0 to 4096, dense on 5 from 0 to 2048. The original's rain (the world's chance, about one day in five before the month multiplier) comes from its row in engine/data_tables/bolster_maps.txt, keyed by the map's number; this project's map has its own number and no row, and atmosphere.yml has no word for weather by chance: `precipitation: rain` would make every bad-weather day rain, so it is left out."

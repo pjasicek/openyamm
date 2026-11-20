@@ -1,0 +1,59 @@
+metric                                            rebuilt     original  ratio  reading
+structure.sectors                                      43           30   1.43  near
+structure.links                                        44           29   1.52  near
+structure.components                                    1            1   1.00  in
+structure.loops                                         2            0      -  out
+scale.floor_area_millions                           37.39        37.44   1.00  in
+scale.sector_floor_area.count                          43           30   1.43  near
+scale.sector_floor_area.min                        131072         8192  16.00  out
+scale.sector_floor_area.q1                         270336       269184   1.00  in
+scale.sector_floor_area.median                     622592       851968   0.73  near
+scale.sector_floor_area.q3                    1.32915e+06  1.73261e+06   0.77  in
+scale.sector_floor_area.max                   4.11898e+06  4.72883e+06   0.87  in
+scale.sector_height.count                              43           30   1.43  near
+scale.sector_height.min                               352          265   1.33  in
+scale.sector_height.q1                                384          394   0.97  in
+scale.sector_height.median                            448          522   0.86  in
+scale.sector_height.q3                                608          714   0.85  in
+scale.sector_height.max                              1024         1098   0.93  in
+scale.doorway_width.count                              44           28   1.57  near
+scale.doorway_width.min                               256          256   1.00  in
+scale.doorway_width.q1                                384          321   1.20  in
+scale.doorway_width.median                            512          512   1.00  in
+scale.doorway_width.q3                                672          640   1.05  in
+scale.doorway_width.max                              1280         1280   1.00  in
+scale.doorway_height.count                             44           28   1.57  near
+scale.doorway_height.min                              256          255   1.00  in
+scale.doorway_height.q1                               384          352   1.09  in
+scale.doorway_height.median                           448          384   1.17  in
+scale.doorway_height.q3                               480          448   1.07  in
+scale.doorway_height.max                              544          552   0.99  in
+mechanisms.doors                                        0            7   0.00  out (not counted)
+mechanisms.bound_events                                 0           26   0.00  out (not counted)
+mechanisms.door_events                                  0            3   0.00  out (not counted)
+mechanisms.trap_events                                  0            0      -  in (not counted)
+mechanisms.local_teleports                              0            0      -  in (not counted)
+mechanisms.exits                                        0            1   0.00  out (not counted)
+mechanisms.summon_events                                0            0      -  in (not counted)
+mechanisms.chest_events                                 0            7   0.00  out (not counted)
+mechanisms.text_events                                  0            0      -  in (not counted)
+mechanisms.secret_faces                                 0            4   0.00  out (not counted)
+mechanisms.pressure_plates                              0            0      -  in (not counted)
+mechanisms.clickable_faces                              0           51   0.00  out (not counted)
+density.spawn_points                                    0           17   0.00  out (not counted)
+density.fixed_actors                                    0            4   0.00  out (not counted)
+density.unique_actors                                   0            0      -  in (not counted)
+density.lights                                          0            4   0.00  out (not counted)
+density.decorations                                     0           22   0.00  out (not counted)
+density.spawn_points_per_area                           0         0.45   0.00  out (not counted)
+density.lights_per_area                                 0         0.11   0.00  out (not counted)
+density.decorations_per_area                            0         0.59   0.00  out (not counted)
+palette.textures                                       13           41   0.32  out (not counted)
+play.sectors_with_floor                                43           30   1.43  near
+play.reached_at_start                                  43           22   1.95  near
+play.reached_doors_clear                               43           29   1.48  near
+play.walkable_area_millions                         33.71        32.72   1.03  in
+play.unreached_spawn_points                             0            0      -  in
+scale.floor_level.spread                             1344         1344   1.00  in
+
+counted (structure, scale, play): 23 in, 10 near, 2 out

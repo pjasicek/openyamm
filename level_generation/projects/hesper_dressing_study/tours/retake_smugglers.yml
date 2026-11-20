@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/retake_smugglers
+settle_seconds: 2.0
+exit: true
+shots:
+- name: cavern_s9
+  position:
+  - 8833
+  - -8823
+  - 129
+  yaw: 0.0
+  pitch: -0.15
+- name: cavern_s14
+  position:
+  - 2433
+  - -109
+  - 129
+  yaw: 1.178
+  pitch: -0.15
+- name: cavern_s16_b
+  position:
+  - 5191
+  - -9866
+  - 129
+  yaw: 5.105
+  pitch: -0.12

@@ -1,0 +1,23 @@
+# MM6.exe SHA-256 fe3adb9ed62cb300f979ef337a9c093a0115d656ebf9ed758408532699ebf4d7 ONLY.
+# Target: reference/Misc-MM8Patch-2.5.7/MMPatches/Install/MM6patch/Files/MM6.exe.
+# Patch-distribution disk code, NOT authenticated vanilla MM6 and NOT runtime DLL-hook analysis.
+# Do not load into an MM8 project. Labels are research descriptions, not recovered original names.
+# Evidence and limits: INDOOR_EXPLORATION_AND_ACTIVATION.md, Goblinwatch entrance parity audit.
+f+ research.mm6disk.DrawHudMinimap @ 0x437220
+f+ research.mm6disk.ProjectAndClipIndoorFace @ 0x491990
+f+ research.mm6disk.IntersectFaceScanlineWindow @ 0x4924b0
+f+ research.mm6disk.RenderIndoorWaterFace @ 0x492a10
+f+ research.mm6disk.RenderIndoorFace @ 0x494ef0
+f+ research.mm6disk.IndoorOutlineBlockPointer @ 0x5f7d50
+f+ research.mm6disk.IndoorDiscoveredOutlineBits @ 0x5f7dac
+CC "Both outline-adjacent faces must lack Invisible 0x2000." @ 0x437347
+CC "Remembered outline or either adjacent face SeenByParty 0x80 admits map line." @ 0x437373
+CC "Latch outline flag 1, then MSB-first packed outline discovery bit." @ 0x437385
+CC "Back-facing nonportal face returns zero before ordinary face discovery." @ 0x491a0b
+CC "Intersect projected face window with supplied current view window." @ 0x492878
+CC "Ordinary face projection/facing must succeed before SeenByParty is written." @ 0x494f53
+CC "Ordinary face scanline-window intersection must also succeed before discovery." @ 0x494f6f
+CC "Reject failed face/window intersection before discovery bit write." @ 0x494f76
+CC "OR SeenByParty 0x80 after projection, window intersection and texture checks; unlike MM8 early write." @ 0x494feb
+CC "Store updated face attributes containing SeenByParty." @ 0x494ff0
+CC "Executable entry loads MM6patch.dll; disk inspection alone does not establish runtime hook behavior." @ 0x4b8ddf

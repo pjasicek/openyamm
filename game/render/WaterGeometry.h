@@ -130,7 +130,8 @@ inline std::vector<WaterVertex> buildSpriteWaterGeometry(const BillboardQuad &qu
 }
 
 // Partition horizontal levels so a waterfall or a stepped pool cannot acquire an incorrect planar reflection, and
-// liquids so each draws as its own kind.
+// liquids so each draws as its own kind, opaque ones with the solid scene and see-through ones (a tint alpha below
+// 255: liquids.yml opacity) blended after it.
 inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const WaterVertex> vertices,
     int16_t sectorId, int16_t backSectorId)
 {
@@ -149,10 +150,11 @@ inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const 
         const bool planar = normal.z > 0.0f && std::abs(a.z - b.z) < 0.01f && std::abs(a.z - c.z) < 0.01f;
         const float height = a.z;
         const LiquidKind liquid = liquidFromShaderValue(a.liquid);
+        const bool seeThrough = (a.colorAbgr >> 24) != 0xffu;
         std::vector<WaterSurfaceGeometry>::iterator found = std::find_if(geometry.begin(), geometry.end(),
             [&](const WaterSurfaceGeometry &surface)
             {
-                return surface.planar == planar && surface.liquid == liquid
+                return surface.planar == planar && surface.liquid == liquid && surface.seeThrough == seeThrough
                     && (!planar || std::abs(surface.height - height) < 0.01f);
             });
         if (found == geometry.end())
@@ -161,6 +163,7 @@ inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const 
             surface.height = height;
             surface.planar = planar;
             surface.liquid = liquid;
+            surface.seeThrough = seeThrough;
             surface.sectorId = sectorId;
             surface.backSectorId = backSectorId;
             surface.patches.push_back({bx::Vec3{a.x, a.y, a.z}, bx::Vec3{a.x, a.y, a.z}});

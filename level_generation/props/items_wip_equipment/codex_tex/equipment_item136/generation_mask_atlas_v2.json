@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Dragonning Boots (item136). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of black and silver tall boots, domed black knee pieces, gold cuff rims, long black shin inset and bright silver plated feet. Exact material boundaries: Black leather lower shafts, joints, backs and lining GREEN; silver knee/shin plates, toe caps, gold trim and fittings RED. CORRECTION: the exact grey mesh guide is authoritative for every outline and every hole. The inventory icon supplies colour and materials only. Do not widen or shrink the object, fingers, horns or cloth. Every solid grey surface stays opaque, including inner faces, chainmail panels and tiny fingers. Never make new openings or transparent pattern cutouts. Black gemstones must be opaque black, alpha 255. All five views retain exact guide framing. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item136/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "2ea5766f1f6515b35460041f9dd9d96918ce683fc07dab2303bb48a6ce495ba9",
+  "revision": 2,
+  "input_icon": "item136",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-bfabc77f-53a0-48a7-b3ef-4f12cbfcef94.png",
+  "output": "mask_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "84f1109bceba1370e7b0cb7daf6153a8682a3b2e61d7952aabc115802151a018",
+  "input_icon_path": "assets_dev/engine/icons_x2/item136.png",
+  "input_icon_sha256": "422cfc497bd31b3f3c8c63363d291d8089d6264d747d3e48c19a631cb3bbd7de",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

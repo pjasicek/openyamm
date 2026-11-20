@@ -1,6 +1,7 @@
 include_guard(GLOBAL)
 
 include(FetchContent)
+include(${CMAKE_CURRENT_LIST_DIR}/SdlCocoaClipboard.cmake)
 
 if (POLICY CMP0169)
     cmake_policy(SET CMP0169 OLD)
@@ -25,7 +26,11 @@ set(OPENYAMM_FMT_VERSION "12.1.0")
 set(OPENYAMM_FFMPEG_VERSION "n8.0.1")
 set(OPENYAMM_YAML_CPP_VERSION "0.8.0")
 set(OPENYAMM_LUA_VERSION "5.4.8")
-set(OPENYAMM_LUA_URL "https://www.lua.org/ftp/lua-${OPENYAMM_LUA_VERSION}.tar.gz")
+# lua.org, then its official PUC-Rio mirror (the same tarball; FetchContent tries each URL in turn under the hash).
+set(OPENYAMM_LUA_URL
+    "https://www.lua.org/ftp/lua-${OPENYAMM_LUA_VERSION}.tar.gz"
+    "https://www.tecgraf.puc-rio.br/lua/ftp/lua-${OPENYAMM_LUA_VERSION}.tar.gz"
+)
 set(OPENYAMM_LUA_URL_HASH "SHA256=4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae")
 
 function(openyamm_populate_dependency dependencyName outputSourceDirVariable)
@@ -64,6 +69,7 @@ function(openyamm_configure_sdl3)
 
     if (DEFINED OPENYAMM_SDL3_SOURCE_DIR AND IS_DIRECTORY "${OPENYAMM_SDL3_SOURCE_DIR}")
         add_subdirectory("${OPENYAMM_SDL3_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/sdl3")
+        openyamm_patch_sdl3_cocoa_clipboard()
         return()
     endif()
 
@@ -73,6 +79,30 @@ function(openyamm_configure_sdl3)
         URL_HASH ${OPENYAMM_SDL3_URL_HASH}
     )
     FetchContent_MakeAvailable(sdl3)
+    openyamm_patch_sdl3_cocoa_clipboard()
+endfunction()
+
+# Monocypher (BSD-2-Clause or CC0): Ed25519 checks of the updater's signed release manifests.
+function(openyamm_configure_monocypher)
+    if (TARGET openyamm_monocypher)
+        return()
+    endif()
+
+    FetchContent_Declare(
+        monocypher
+        URL https://codeload.github.com/LoupVaillant/Monocypher/tar.gz/refs/tags/4.0.2
+        URL_HASH SHA256=bc1ca30b1b2654e4e7daf2492c0d204200e55137f23fda6b7142fd7d523bd6b4
+    )
+    openyamm_populate_dependency(monocypher monocypherSourceDir)
+    add_library(openyamm_monocypher STATIC
+        ${monocypherSourceDir}/src/monocypher.c
+        ${monocypherSourceDir}/src/optional/monocypher-ed25519.c
+    )
+    target_include_directories(openyamm_monocypher
+        PUBLIC
+            ${monocypherSourceDir}/src
+            ${monocypherSourceDir}/src/optional
+    )
 endfunction()
 
 function(openyamm_configure_lua)
@@ -128,6 +158,10 @@ function(openyamm_configure_lua)
         )
 
         target_compile_features(openyamm_lua PUBLIC c_std_99)
+
+        if (IOS)
+            target_compile_definitions(openyamm_lua PRIVATE LUA_USE_IOS)
+        endif()
 
         if (UNIX)
             target_link_libraries(openyamm_lua PUBLIC m)
@@ -292,8 +326,12 @@ function(openyamm_fetch_bgfx_stack)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-gl-uniform-cache)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-gles-unpack-row-length)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-d3d11-compressed-updates)
+    openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-metal-compressed-updates)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-anisotropy-level)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-gl-msaa-depth-resolve)
+    openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-gles-occlusion-query-result)
+    openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-egl-opaque-window)
+    openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-metal-ios-depth-format)
 
     if (NOT TARGET openyamm_bgfx_headers)
         add_library(openyamm_bgfx_headers INTERFACE)

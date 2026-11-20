@@ -1,0 +1,187 @@
+# APPROVED VISUAL DESIGN / RUNTIME DRAFT. Not mounted. See staging/INTEGRATION.md.
+# Keep existing IDs, actions and dynamic content. New bindings are explicitly noted.
+screen: ItemInspect
+elements:
+- id: ItemInspectRoot
+  anchor: top_left
+  width: 385
+  height: 256
+  z_index: 500
+  visible: false
+  asset:
+    default: obsidian_reading_surface
+  notes: "Shared item inspect popup root. Final position and height should be computed in code from hovered item rect\
+    \ and viewport fit rules, while this file owns the internal composition and spacing.\n Approved r03 skin draft.\
+    \ Surface must be sampled/cropped at fixed scale and inset 8.533333 logical units; do not stretch this texture.\
+    \ Frame edges repeat, with a clipped final tile. Dynamic height remains runtime-owned. See design/frame.yml."
+  children:
+  - id: ItemInspectPreviewImage
+    anchor: left
+    offset_x: 28
+    offset_y: 0
+    width: 100
+    height: 144
+    notes: 'Left-centered item preview image region. The runtime should fit the hovered item''s icon within this area
+      while keeping aspect ratio.
+
+      '
+  - id: ItemInspectName
+    anchor: top_center
+    offset_x: 0
+    offset_y: 12.8
+    width: 346.6
+    height: 22
+    text:
+      value: '{item_name}'
+      font: Arrus
+      color: '#e4c793'
+      align_x: center
+      align_y: middle
+    notes: Centred Arrus item name; type/detail/value remain Comic, description remains Smallnum.
+  - id: ItemInspectType
+    anchor: top_left
+    offset_x: 115
+    offset_y: 42
+    width: 238
+    height: 16
+    text:
+      value: 'Type: {item_type}'
+      font: Comic
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+    notes: Combined type line.
+  - id: ItemInspectDetailRow
+    anchor: top_left
+    offset_x: 115
+    offset_y: 62
+    width: 238
+    height: 18
+    notes: 'Optional single dynamic detail line under Type, for example "Armor: +34". Runtime can hide this whole
+      row when not applicable.
+
+      '
+    children:
+    - id: ItemInspectDetailValue
+      anchor: top_left
+      width: 238
+      height: 18
+      text:
+        value: '{item_detail}'
+        font: Comic
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+      notes: Dynamic item-specific secondary detail line.
+  - id: ItemInspectDescription
+    anchor: top_left
+    offset_x: 115
+    offset_y: 86
+    width: 250
+    height: 58
+    text:
+      value: '{item_description}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+    notes: Dynamic multi-line item description body, left-aligned.
+  - id: ItemInspectValue
+    anchor: bottom_left
+    offset_x: 115
+    offset_y: -16
+    width: 250.8
+    height: 19
+    text:
+      value: 'Value: {item_value}'
+      font: Comic
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+    notes: 'Pinned footer outside the scrollable description; retain literal Value: and the live value.'
+  - id: ItemInspectCorner_UR
+    anchor: top_right
+    offset_x: 0
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    asset:
+      default: obsidian_frame_tr
+    offset_y: 0
+  - id: ItemInspectCorner_UL
+    anchor: top_left
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    asset:
+      default: obsidian_frame_tl
+    offset_x: 0
+    offset_y: 0
+  - id: ItemInspectCorner_LR
+    anchor: bottom_right
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    offset_x: 0
+    offset_y: 0
+    asset:
+      default: obsidian_frame_br
+  - id: ItemInspectCorner_LL
+    anchor: bottom_left
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    offset_y: 0
+    asset:
+      default: obsidian_frame_bl
+    offset_x: 0
+  - id: ItemInspectCorner_TopEdge
+    anchor: top_left
+    width: 323.133333
+    height: 30.933333
+    z_index: 570
+    asset:
+      default: obsidian_frame_top
+    offset_x: 30.933333
+    offset_y: 0
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: ItemInspectCorner_BottomEdge
+    anchor: bottom_left
+    offset_y: 0
+    width: 323.133333
+    height: 30.933333
+    z_index: 570
+    asset:
+      default: obsidian_frame_bottom
+    offset_x: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: ItemInspectCorner_LeftEdge
+    anchor: top_left
+    width: 30.933333
+    height: 194.133333
+    z_index: 570
+    asset:
+      default: obsidian_frame_left
+    offset_x: 0
+    offset_y: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: ItemInspectCorner_RightEdge
+    anchor: top_right
+    offset_x: 0
+    width: 30.933333
+    height: 194.133333
+    z_index: 570
+    asset:
+      default: obsidian_frame_right
+    offset_y: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: ItemInspectValueDivider
+    anchor: bottom_left
+    offset_x: 115
+    offset_y: -42
+    width: 250.8
+    height: 0.5333333333333333
+    z_index: 560
+    asset:
+      default: obsidian_value_divider
+    notes: Resize width only. Footer and divider never scroll with body.

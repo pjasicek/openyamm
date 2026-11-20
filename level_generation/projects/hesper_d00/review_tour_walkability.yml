@@ -1,0 +1,272 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d00/review/walkability/capture
+settle_seconds: 1.5
+exit: true
+shots:
+- name: arrival
+  position:
+  - 7600
+  - 3650
+  - 470
+  yaw: -1.5708
+  pitch: -0.12
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: ramp_foot
+  position:
+  - 7850
+  - 1500
+  - 0
+  yaw: 3.1416
+  pitch: 0.0
+- name: aisle
+  position:
+  - 7000
+  - 1500
+  - 0
+  yaw: 3.1416
+  pitch: 0.0
+- name: tech_office
+  position:
+  - 4450
+  - 2100
+  - 0
+  yaw: 0.8
+  pitch: 0.0
+- name: militia_post
+  position:
+  - 6150
+  - 2150
+  - 0
+  yaw: 0.3
+  pitch: 0.0
+- name: firing_range
+  position:
+  - 5750
+  - 520
+  - 0
+  yaw: 0.0
+  pitch: 0.0
+- name: parts_store
+  position:
+  - 4500
+  - 850
+  - 0
+  yaw: -0.6
+  pitch: -0.1
+- name: bay_from_cargo_doors
+  position:
+  - 3450
+  - 1300
+  - 0
+  yaw: 2.95
+  pitch: 0.12
+- name: bay_lander_broadside
+  position:
+  - 3100
+  - 500
+  - 0
+  yaw: 2.5
+  pitch: 0.1
+- name: lander_stern
+  position:
+  - 1800
+  - 230
+  - 0
+  yaw: 1.5708
+  pitch: 0.05
+- name: lander_nose
+  position:
+  - 2150
+  - 3000
+  - 0
+  yaw: -2.05
+  pitch: 0.0
+- name: coil_housing
+  position:
+  - 2650
+  - 860
+  - 32
+  yaw: 3.1416
+  pitch: 0.0
+- name: shield_ring
+  position:
+  - 1150
+  - 1650
+  - 32
+  yaw: 0.0
+  pitch: -0.15
+- name: flight_deck
+  position:
+  - 1800
+  - 1400
+  - 64
+  yaw: 1.5708
+  pitch: -0.15
+- name: reactor_from_door
+  position:
+  - -250
+  - 1500
+  - 0
+  yaw: 3.3916
+  pitch: 0.05
+- name: reactor_breakers
+  position:
+  - -1750
+  - 2000
+  - 0
+  yaw: 3.1416
+  pitch: 0.0
+- name: reactor_nest
+  position:
+  - -1200
+  - 1450
+  - 0
+  yaw: -1.5708
+  pitch: -0.15
+- name: control_stair
+  position:
+  - -1300
+  - 3380
+  - 0
+  yaw: 0.0
+  pitch: 0.25
+- name: fuel_depot
+  position:
+  - 1800
+  - -200
+  - 0
+  yaw: -1.5708
+  pitch: -0.05
+- name: fuel_leak
+  position:
+  - 1300
+  - -1050
+  - 0
+  yaw: 3.1416
+  pitch: -0.15
+- name: power_bay
+  position:
+  - 3450
+  - 1300
+  - 0
+  yaw: 2.95
+  pitch: 0.12
+  commands:
+  - mapvar set 1 1
+  - event 1
+- name: power_reactor
+  position:
+  - -250
+  - 1500
+  - 0
+  yaw: 3.3916
+  pitch: 0.05
+- name: power_lander_stern
+  position:
+  - 1800
+  - 230
+  - 0
+  yaw: 1.5708
+  pitch: 0.05
+- name: control_gallery
+  position:
+  - 500
+  - 3400
+  - 640
+  yaw: 0.0
+  pitch: 0.0
+- name: control_over_bay
+  position:
+  - 1650
+  - 3085
+  - 640
+  yaw: -1.5708
+  pitch: -0.5
+- name: core_fitted
+  position:
+  - 1800
+  - 1400
+  - 64
+  yaw: 1.5708
+  pitch: -0.15
+  commands:
+  - qbit set 100004
+  - event 1
+- name: flight_deck_lit
+  position:
+  - 1950
+  - 1500
+  - 64
+  yaw: 2.4
+  pitch: -0.15
+- name: all_parts
+  position:
+  - 3100
+  - 500
+  - 0
+  yaw: 2.5
+  pitch: 0.1
+  commands:
+  - qbit set 100040
+  - qbit set 100041
+  - qbit set 100042
+  - qbit set 100043
+  - event 1
+- name: all_parts_nose
+  position:
+  - 2150
+  - 3000
+  - 0
+  yaw: -2.05
+  pitch: 0.0
+- name: fit_coil_message
+  position:
+  - 2650
+  - 860
+  - 32
+  yaw: 3.1416
+  pitch: 0.0
+  commands:
+  - qbit clear 100040
+  - event 1
+  - item add 11474
+  - event 21
+- name: reactor_plinth
+  # Screenshot tours accept console commands, not keys; reload closes the fitting dialog and retains map state.
+  commands:
+  - reload map
+  position:
+  - -794
+  - 2600
+  - 0
+  yaw: -1.6506263125071339
+  pitch: 0.15
+- name: pilot_seat
+  position:
+  - 2550
+  - 1570
+  - 0
+  yaw: 3.141592653589793
+  pitch: 0.15
+- name: control_stair
+  position:
+  - 800
+  - 3382
+  - 640
+  yaw: 3.141592653589793
+  pitch: 0.15
+- name: stair_soffit
+  position:
+  - -700
+  - 3382
+  - 176
+  yaw: 0
+  pitch: 0.2
+- name: bay_chamfers
+  position:
+  - 3000
+  - 500
+  - 0
+  yaw: 2.3
+  pitch: 0.2
